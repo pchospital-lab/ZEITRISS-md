@@ -2798,7 +2798,7 @@ function merge_wallet_sets(hostWallets, incomingWallets, noteConflict){
         source: { balance: incomingBalance, name: incomingName },
         target: { balance: hostBalance, name: hostName },
         mode: 'merge',
-        note: `Wallet union: Host-Werte bevorzugt (${id})`
+        note: `Wallet union: Session-Anker-Werte bevorzugt (${id})`
       });
     }
   }
@@ -9484,7 +9484,7 @@ function load_deep(raw){
           source: incomingValue,
           target: hostValue,
           mode: 'merge',
-          note: `Host-Kampagnenzähler behalten (${key})`
+          note: `Session-Anker-Kampagnenzähler behalten (${key})`
         });
         migrated.campaign[key] = hostValue;
       }
@@ -9505,7 +9505,7 @@ function load_deep(raw){
           source: incomingValue,
           target: hostValue,
           mode: 'merge',
-          note: `Host-Kampagnenmodus behalten (${key})`
+          note: `Session-Anker-Kampagnenmodus behalten (${key})`
         });
         migrated.campaign[key] = hostValue;
       }
@@ -9533,7 +9533,7 @@ function load_deep(raw){
           mode: 'merge',
           note: overflowCount
             ? `Rift-Pool gekappt (${mergeResult.cap}) – Überschuss an ITI-NPC-Teams`
-            : 'Host-Seeds priorisiert',
+            : 'Session-Anker-Seeds priorisiert',
           kept: mergeResult.kept_open.map((seed) => seed.id),
           overflow: mergeResult.overflow.map((seed) => seed.id),
           selection_rule: mergeResult.selection_rule,
@@ -9582,7 +9582,7 @@ function load_deep(raw){
   }
   migrated.economy = incomingEconomy;
   const incomingUi = prepare_save_ui(migrated.ui);
-  const uiHostOverrides = [];
+  const uiSessionAnchorOverrides = [];
   if (hostUi){
     const uiKeys = ['gm_style', 'contrast', 'badge_density', 'output_pace'];
     uiKeys.forEach((key) => {
@@ -9593,7 +9593,7 @@ function load_deep(raw){
         && hostValue !== incomingValue;
       if (!differs) return;
       incomingUi[key] = hostValue;
-      uiHostOverrides.push({
+      uiSessionAnchorOverrides.push({
         key,
         host: hostValue,
         incoming: incomingValue
@@ -9777,11 +9777,11 @@ function load_deep(raw){
       conflict_fields: conflictFields
     });
   }
-  if (uiHostOverrides.length){
+  if (uiSessionAnchorOverrides.length){
     record_trace('ui_session_anchor_override', {
       channel: 'LOAD',
-      keys: uiHostOverrides.map((entry) => entry.key),
-      overrides: uiHostOverrides
+      keys: uiSessionAnchorOverrides.map((entry) => entry.key),
+      overrides: uiSessionAnchorOverrides
     });
   }
   return { status: 'ok', state, hud };
