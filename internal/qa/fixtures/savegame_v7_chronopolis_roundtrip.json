@@ -1,0 +1,30 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 10,
+    "mission": 0,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "chronopolis",
+    "rift_seeds": []
+  },
+  "characters": [
+    { "id": "AGENT-CITY", "wallet": 5100 }
+  ],
+  "economy": { "hq_pool": 19800 },
+  "logs": {
+    "trace": [
+      { "event": "chronopolis_enter" },
+      { "event": "chronopolis_return_hq" },
+      { "event": "save_hq" }
+    ],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
+  }
+}

@@ -984,7 +984,7 @@ HQ-Pool`).
   Charakter-Wallets (`characters[].wallet`) akzeptieren numerische Strings wie `"1500"`
   und wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
   Werte fallen auf `0` zurück.
-- **High-Level-Ökonomie:** Modul 15 enthält eine Tabelle für Level 100/400/1000
+- **High-Level-Ökonomie:** Modul 15 enthält die kanonischen Economy-Bänder 120/512/900+
   (Belohnung vs. Sink). Hazard-Pay und `seed_multi` folgen der gleichen Formel,
   Wallet-Split und Rundungslogik bleiben unverändert.
 

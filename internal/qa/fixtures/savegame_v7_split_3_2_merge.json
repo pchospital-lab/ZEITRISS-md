@@ -1,0 +1,36 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-MERGE-3-2",
+  "parent_save_id": "SAVE-EP-END-77",
+  "merge_id": "MERGE-RIFT-77",
+  "branch_id": "HOST-HQ-ALPHA",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 7,
+    "mission": 0,
+    "px": 1,
+    "px_state": "pending_reset",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "characters": [
+    { "id": "AGENT-1", "wallet": 2800 },
+    { "id": "AGENT-2", "wallet": 2600 },
+    { "id": "AGENT-3", "wallet": 2500 },
+    { "id": "AGENT-4", "wallet": 2400 },
+    { "id": "AGENT-5", "wallet": 2450 }
+  ],
+  "economy": { "hq_pool": 18300 },
+  "logs": {
+    "flags": {
+      "imported_saves": [
+        { "save_id": "SAVE-RIFT-A", "branch_id": "RIFT-A-3ER", "status": "merged" },
+        { "save_id": "SAVE-RIFT-B", "branch_id": "RIFT-B-2ER", "status": "merged" }
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
+  }
+}

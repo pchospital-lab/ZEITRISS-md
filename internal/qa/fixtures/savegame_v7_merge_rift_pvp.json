@@ -1,0 +1,32 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-MERGE-RIFT-PVP-01",
+  "branch_id": "HOST-HQ-GAMMA",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 9,
+    "mission": 0,
+    "px": 2,
+    "px_state": "consumed",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "arena": { "active": false, "queue_state": "completed", "phase": "completed" },
+  "characters": [
+    { "id": "AGENT-R", "wallet": 4200 },
+    { "id": "AGENT-P", "wallet": 3900 }
+  ],
+  "economy": { "hq_pool": 22600 },
+  "logs": {
+    "flags": {
+      "imported_saves": [
+        { "save_id": "SAVE-RIFT-DELTA", "branch_id": "RIFT-DELTA", "status": "merged" },
+        { "save_id": "SAVE-PVP-OMEGA", "branch_id": "PVP-OMEGA", "status": "merged" }
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 12,
+    "mission": 10,
+    "px": 3,
+    "px_state": "stable",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "characters": [
+    { "id": "AGENT-A", "name": "Astra", "lvl": 912, "wallet": 7200 },
+    { "id": "AGENT-B", "name": "Blitz", "lvl": 905, "wallet": 6900 },
+    { "id": "AGENT-C", "name": "Cipher", "lvl": 933, "wallet": 8100 },
+    { "id": "AGENT-D", "name": "Dusk", "lvl": 918, "wallet": 7600 },
+    { "id": "AGENT-E", "name": "Echo", "lvl": 901, "wallet": 7050 }
+  ],
+  "economy": { "hq_pool": 53200 },
+  "logs": {
+    "trace": [{ "event": "economy_audit", "target_range": { "level_band": "900+" } }],
+    "artifact_log": [],
+    "market": [],
+    "notes": [],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": ["KAIROS-Gegenoffensive", "Chronopolis-Embargo"]
+  }
+}
