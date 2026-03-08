@@ -258,7 +258,7 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
   - **solo / npc-team:** Der Zähler gehört zu eurem Run (Agentenlauf) und wird
     im HUD als Fortschrittsbalken angezeigt.
   - **gruppe:** Die Kampagne nutzt einen gemeinsamen Px-Wert
-    (`campaign.px`/Host-Save als führende Quelle).
+    (`campaign.px`/Session-Anker als Einstiegspunkt, persönliche Fortschritte pro Charakter-ID).
 - **Gruppen-TEMP (SSOT):** In `gruppe` wird für Px-ETA, Fahrzeug-Verfügbarkeit
   und TEMP-basierte Runtime-Frequenzen ein gemeinsamer Teamwert verwendet:
   `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`. Fehlt ein
@@ -468,10 +468,11 @@ Spiel starten (gruppe schnell)
 > **HQ-Kurzintro** → **Briefing** (3 Ziele) → **Szene 1**.
 > "Führung festlegen? (optional)"
 
-**Host-Regel:** Der zuerst gepostete Save bestimmt `campaign` (Episode,
-Mission, Mode, Seeds), `economy` (HQ-Pool) und globale `logs`. Weitere Saves
-liefern nur Charaktere und deren Wallets;
-abweichende Kampagnenfelder werden ignoriert. Details im
+**Session-Anker-Regel:** Der zuerst gepostete Save setzt den Einstiegspunkt der
+laufenden Runde (`campaign`/Mission/HQ). Weitere Saves liefern pro
+`characters[].id` den neuesten persönlichen Stand (z. B. Level, Wallet, Gear)
+und Kontinuität (`continuity`), während der Kampagnenrahmen weiter vom
+Session-Anker geführt wird. Details im
 [Speicher-Modul](../systems/gameflow/speicher-fortsetzung.md#cross-mode-import).
 
 ### Fahrzeuglogik (Nullzeit ↔ Einsatzzeit) {#fahrzeuglogik-nullzeit-einsatzzeit}
@@ -494,8 +495,8 @@ abweichende Kampagnenfelder werden ignoriert. Details im
   Einsatzzeitraum, aber das passende Chassis steht als Oldtimer im Museum und
   muss erst als Hobbybastler-Route aktiviert werden).
 - **Gruppenlogik:** In Gruppeneinsätzen bleibt pro Charakter der eigene
-  Fahrzeugslot erhalten; der Host-Save bleibt führend für Kampagnenkontext und
-  Konfliktauflösung.
+  Fahrzeugslot erhalten; der Session-Anker setzt den Kampagnenkontext,
+  persönliche Werte/Kontinuität werden pro Charakter sauber nachgeführt.
 - **Tech-IV-Ausnahme (Chronopolis-Legenden):** Nur legendäre temporale
   Schiffe aus Chronopolis (Tech IV/temporale Klasse) dürfen den Zeitriss
   physisch und eigenständig durchfliegen. Das bleibt ein Ausnahmefall auf
@@ -814,7 +815,7 @@ Episoden** gespielt - während einer laufenden Episode sind sie gesperrt.
 Teams können Seeds bewusst "offen halten" und über Episoden hinweg akkumulieren,
 um später mehr Loot abzugreifen und den Schwierigkeitsgrad selbst zu bestimmen
 (mehr offene Seeds = höhere SG-Schwelle, aber auch höherer CU-Multiplikator).
-Im **Gruppenspiel** bestimmt der **Host** die Seed-Epoche.
+Im **Gruppenspiel** bestimmt der **Session-Anker** die Seed-Epoche.
 
 **Raumzeitkarte & Urban-Legends-Logik:** Die auf der Raumzeitkarte sichtbaren
 Risse sind keine offenen Löcher im Gefüge, sondern **Marker für gescheiterte oder
