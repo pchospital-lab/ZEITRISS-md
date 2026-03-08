@@ -41,6 +41,15 @@ anschlussfähig dokumentieren.
    Pflicht-Smoke und wird bei neuen Textmodulen bei Bedarf um präzise
    Negativ-/Positivmuster ergänzt.
 
+## Monitoring-Rhythmus (ZR-018)
+
+- **Trigger:** Bei Änderungen an Onboarding-, Kampagnen-, Charakter- oder
+  Generatortexten mit Ruf/Tier/Mystery-Bezug.
+- **Pflicht:** Watchguard-Muster auf neue/angepasste Formulierungen prüfen und
+  bei Bedarf erweitern.
+- **Nachweis:** Jeder Anschlusslauf erhält Plan + Log + Eintrag in dieser
+  Statusmatrix inkl. Verlinkung im Prozessanker `known-issues.md`.
+
 
 ## Follow-up-Hinweis
 
@@ -106,6 +115,12 @@ anschlussfähig dokumentieren.
   explizit ergänzt; Watchguard in `tools/test_ruf_alien_watchguard.js`
   um Positiv-Check für das Handbuch-Debrief-Format erweitert.
 
+- **Durchlauf 69 (2026-03-08):** Monitoring-Standard explizit ergänzt und
+  Guard-Abdeckung verbreitert: `tools/test_ruf_alien_watchguard.js` prüft nun
+  zusätzlich den Reveal-Pfad im Kernmodul (`es gibt keine Aliens, nur ...`)
+  sowie den kanonischen `Greys - posthumane Fernzukunfts-Menschen`-Eintrag in
+  `gameplay/kreative-generatoren-begegnungen.md`.
+
 
 ## Verknüpfung
 
@@ -137,3 +152,6 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Rang-Mapping Handbuch): `internal/qa/plans/issue-pack-durchlauf-68-ruf-alien-rangmapping-handbuch.md`
 - Log (Rang-Mapping Handbuch): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-68-ruf-alien-rangmapping-handbuch.md`
+
+- Fahrplan (Monitoring + Guard-Härtung): `internal/qa/plans/issue-pack-durchlauf-69-ruf-alien-monitoring-guard.md`
+- Log (Monitoring + Guard-Härtung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-69-ruf-alien-monitoring-guard.md`
