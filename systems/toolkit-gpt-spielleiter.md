@@ -1210,7 +1210,8 @@ Gruppendynamik zu erleben.
 macro StartGroupMode(players = [], keep_scene = false):
   hud_tag("GRP · Linking …")
   state.campaign.px = 0
-  state.open_seeds = []
+  state.campaign.rift_seeds = []
+  state.arc.open_seeds = []  // Legacy-/Dashboard-Spiegel
   normalize_wallets(players)
   if keep_scene:
     // Mid-Session-Beitritt: Timer/Clocks bleiben stehen, Szene kurz einfrieren

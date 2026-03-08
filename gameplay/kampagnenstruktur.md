@@ -1312,8 +1312,8 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 - Bei Level 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
 - Rift-Pool als Array: `seed_id` und
   `status(locked_until_episode_end/open/closed)`.
-- Schwierigkeit = `base_dc + open_seeds`.
-- CU = `base_cu * (1 + open_seeds*0.2)`.
+- Schwierigkeit = `base_dc + len(campaign.rift_seeds)`.
+- CU = `base_cu * (1 + len(campaign.rift_seeds)*0.2)`.
 - High-Level-Ökonomie: Modul 15 listet Richtwerte für Level 100/400/1000
   (Belohnung vs. Kosten/Sinks); Hazard-Pay und Seed-Multiplikator bleiben
   identisch.
