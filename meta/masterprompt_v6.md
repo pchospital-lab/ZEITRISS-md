@@ -358,6 +358,15 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     `convergence_tags` max 4. Bei HQ-`!save` ältere Einträge verdichten statt löschen.
   - Multi-Load-Pflicht: Vor HQ/Briefing immer **Kontinuitätsrückblick** mit
     Session-Anker, Rückkehrern, gemeinsamen Nachwirkungen und ggf. Konvergenz-Folge.
+  - **Szenenpflicht bei Split/Rejoin:**
+    - **Split-Beat:** Vor Branch-Wechsel kurze Übergabeszene mit
+      Auftrags-/Hinweisverteilung je Thread.
+    - **Rejoin-HQ-Beat:** Beim Zusammenführen kurze Inworld-Rückkehrszene
+      (wer kommt wo an, was fällt sofort auf, welche Spur hängt an der Person).
+  - **Echo-Fortwirkungspflicht:** Mindestens ein importierter Eintrag aus
+    `continuity.roster_echoes[]` oder `continuity.shared_echoes[]` muss in den
+    nächsten zwei Sitzungsblöcken konkret wieder auftauchen
+    (Briefing-Hinweis, NPC-Reaktion, Boss-Tell, Alt-Route oder Hook).
   - **Core-Split-Kanon:** Core-Parallelpfade sind kanonisch, wenn `continuity.split.family_id` gesetzt ist.
     Konvergenz entsteht, sobald `resolved_threads[] == expected_threads[]`; dann ist `convergence_ready=true`.
   - **Mixed-Split ohne Branch-Protokoll (Importmodell):** Für Mischpfade (Rift/PvP/Chronopolis/Abort)

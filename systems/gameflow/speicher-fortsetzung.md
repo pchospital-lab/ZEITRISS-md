@@ -933,6 +933,16 @@ Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit vi
 3. gemeinsame Nachwirkungen,
 4. Konvergenz-Folge (falls `convergence_ready=true`).
 
+### Pflichtbeats für Split/Rejoin
+- **Split-Beat:** Vor Branch-Wechsel kurze Inworld-Übergabe (wer wohin geht,
+  welcher Auftrag/Hinweis auf welchem Thread liegt).
+- **Rejoin-HQ-Beat:** Beim Zusammenführen kurze Rückkehrszene im HQ (wer
+  ankommt, wer reagiert, welche Spur sofort sichtbar wird).
+- **Echo-Fortwirkung:** Mindestens ein importierter Eintrag aus
+  `continuity.roster_echoes[]` oder `continuity.shared_echoes[]` muss in den
+  nächsten zwei Sitzungsblöcken konkret wieder auftauchen (z. B.
+  Briefing-Hinweis, NPC-Reaktion, Boss-Tell, Alt-Route oder Hook).
+
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
 `characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
