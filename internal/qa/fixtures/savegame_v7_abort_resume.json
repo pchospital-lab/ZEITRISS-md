@@ -49,7 +49,7 @@
       "duplicate_character_detected": false
     },
     "notes": [
-      "Abort-Branch als nicht-kanonischer Import markiert; Kampagnenblock bleibt Host-geführt."
+      "Abort-Branch als nicht-kanonischer Import markiert; Kampagnenblock bleibt Session-Anker-geführt."
     ]
   },
   "continuity": {

@@ -100,3 +100,10 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Continuity-Fixtures + Guard-Härtung): `internal/qa/plans/issue-pack-durchlauf-84-continuity-fixtures-guards.md`
 - Log (Continuity-Fixtures + Guard-Härtung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-84-continuity-fixtures-guards.md`
+
+
+- **Durchlauf 85 (2026-03-08):** Anschlusslauf zur Terminologie-Drift in der QA-Fixture-Schicht abgeschlossen: `internal/qa/fixtures/savegame_v7_split_3_2_merge.json` nutzt nun `ANCHOR-HQ-ALPHA` statt `HOST-HQ-ALPHA`; die Hinweistexte in `internal/qa/fixtures/savegame_v7_merge_rift_pvp.json` und `internal/qa/fixtures/savegame_v7_abort_resume.json` wurden auf Session-Anker-/Allowlist-Semantik harmonisiert. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Continuity-Fixture-Wording Session-Anker): `internal/qa/plans/issue-pack-durchlauf-85-continuity-fixture-wording-anchor.md`
+- Log (Continuity-Fixture-Wording Session-Anker): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-85-continuity-fixture-wording-anchor.md`
+
