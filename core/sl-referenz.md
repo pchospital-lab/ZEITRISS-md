@@ -1114,6 +1114,7 @@ characters: [{                          // Array, Host = Index 0
 }]
 economy: { hq_pool }
 logs: { trace:[], market:[], artifact_log:[], notes:[], flags:{} }
+summaries: { summary_last_episode, summary_last_rift, summary_active_arcs }
 arc: { factions:{}, questions:[], hooks:[] }
 ui: { gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile }
 arena?: { wins, losses, tier }          // nur wenn Arena genutzt
@@ -1122,6 +1123,11 @@ arena?: { wins, losses, tier }          // nur wenn Arena genutzt
 > **Laufzeit-State** (location, phase, scene, exfil, cooldowns, SYS_runtime,
 > SYS_used, psi_buffer) wird NICHT gespeichert — nur zur Laufzeit gesetzt.
 > v6-Saves werden beim Laden via `save_version: 6` erkannt und migriert.
+> **Save-Budget (chat-only/OpenWebUI):** `logs.trace` max 64, `logs.market` max 24,
+> `logs.artifact_log` max 32, `logs.notes` max 24, `arc.questions` max 18,
+> `arc.hooks` max 18, `history.milestones` max 20 pro Charakter.
+> Beim HQ-Save werden ältere Details in `summaries.*` verdichtet
+> (`summary_last_episode`, `summary_last_rift`, `summary_active_arcs`).
 fr_intervention: "ruhig"|"beobachter"|"aktiv"
 comms: { jammed:boolean, relays:number, rangeMod:number }
 ```
