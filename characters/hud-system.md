@@ -580,7 +580,7 @@ die Einstellung `settings.ascii_only`.
 Setze `settings.ascii_only = true`, um die ASCII-Variante des Menüs zu
 erzwingen. Ohne Flag wird die Standard-Ansicht verwendet.
 
-Beim Start oder nach `load` blendet das HUD über dem Menü eine kurze
+Beim Start oder nach einem Load blendet das HUD über dem Menü eine kurze
 Statuszeile ein:
 
 `Modi aktiv: Mission-Fokus, Transparenz`
@@ -595,10 +595,7 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 | `hud`       | Zeigt aktuelle Werte: Lebenspunkte, SYS-Belastung, aktive Filter   |
 | `log`       | Gibt den Missionsverlauf wieder                                    |
 | `save`      | Speichert Spielzustand / Missionsfortschritt - nur im HQ           |
-| `load`      | Lädt letzten Deepsave - nur im HQ                          |
-| `suspend`   | Legt einen flüchtigen Szenen-Snapshot für eine Pause an              |
-| `resume`    | Setzt den letzten Suspend-Snapshot fort, löscht ihn danach           |
-| `autosave hq` | Schaltet Auto-Save im HQ um                              |
+| `Spiel laden` | Optionales Startsignal; Laden selbst erfolgt per JSON-Copy-Paste |
 | `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
 | `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
 | `modus`     | Erzählstil wählen, siehe [Spielmodi](../core/sl-referenz.md#spielmodi) |
@@ -608,6 +605,10 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 | `faq [x]`   | Schickt ein Stichwort an den Kodex und zeigt eine Kurzantwort      |
 | `kodex [x]` | Fragt Weltwissen oder Regeln ab - abhängig von Kodex-Verfügbarkeit |
 | `kodex suche tags` | Filtert Kodex-Einträge nach Epoche, Technikstufe oder Gegnertyp |
+
+> Hinweis: Kanonischer Save/Load-Pfad ist `!save` im HQ + JSON-Copy-Paste
+> (optional `Spiel laden` als Startsignal). Weitere Snapshot-/AutoSave-Befehle
+> sind nicht Teil des Spielbetriebs.
 
 ### SG-Konverter (HUD-Macro)
 

@@ -305,6 +305,7 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 | Befehl | Wirkung |
 |--------|---------|
 | `!save` | Speicherstand erzeugen (nur HQ) |
+| `!bogen` | Lesbarer Charakterbogen (kein JSON-Export) |
 | `!sf off` / `!sf on` | Self-Reflection aus/an |
 | `!kampagnenmodus` | Pool wechseln (preserve/trigger) |
 | `!offline` | Kodex-Offline-FAQ (1×/Min) |
@@ -322,6 +323,10 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
   posten oder Rolle nennen
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
+
+> **OpenWebUI-Hinweis:** Im reinen Chatbetrieb ist der Standardpfad `!save` im HQ,
+> JSON-Copy-Paste und optional `Spiel laden` als Startsignal. Weitere
+> Snapshot-/AutoSave-Kommandos gehören nicht zum kanonischen Spielbetrieb.
 
 Chronopolis bleibt bis Level 10 gesperrt. Beim Erreichen von Level 10 schaltet
 Kodex den **Chronopolis-Schlüssel** frei. Chronopolis ist die **gescheiterte
