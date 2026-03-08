@@ -199,6 +199,8 @@ getrennt erleben, mergen, nächste Episode.
 
 **Betriebsstandard (chat-only):** ZEITRISS läuft im Spielbetrieb über den HQ-DeepSave (`!save`) und JSON-Copy-Paste; `Spiel laden` bleibt optionales Startsignal. Zusätzliche Snapshot-/AutoSave-Befehle sind nicht Teil des kanonischen Spielpfads.
 
+**Save-Budget (OpenWebUI):** Für stabile JSON-Loads nutzt v7 Rolling-Caps (u. a. `logs.trace` 64, `logs.market` 24, `logs.artifact_log` 32, `logs.notes` 24). Ältere Verlaufsdetails werden im Save in kompakten `summaries`-Feldern fortgeschrieben statt unkontrolliert weiterzuwachsen.
+
 ## Markenhinweis / Inspiration
 
 - Vergleiche mit bekannten Franchises dienen nur der stilistischen Einordnung.

@@ -299,6 +299,11 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
       "duplicate_character_detected": false
     }
   },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
+  },
   "arc": { "factions": {}, "questions": [], "hooks": [] },
   "ui": { "gm_style": "verbose", "suggest_mode": false,
     "contrast": "standard", "badge_density": "standard",
@@ -317,6 +322,14 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - Lineage-Metadaten sind Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
   - Merge-Guard: Bei doppeltem `save_id` im selben Importlauf Merge abbrechen und Hinweis geben (`duplicate_branch_detected=true`).
   - Charakter-Dedupe: Doppelte `characters[].id` werden nicht still zusammengeführt; Konflikt melden (`duplicate_character_detected=true`) und Klärung verlangen.
+  - Save-Budget (OpenWebUI): `logs.trace` max 64, `logs.market` max 24,
+    `logs.artifact_log` max 32, `logs.notes` max 24,
+    `arc.questions` max 18, `arc.hooks` max 18,
+    `characters[].history.milestones` max 20 (pro Charakter).
+  - Prune-Regel bei HQ-`!save`: Neueste Einträge behalten,
+    ältere Detaildaten als Fließtext in
+    `summaries.summary_last_episode`, `summaries.summary_last_rift`,
+    `summaries.summary_active_arcs` verdichten.
   - **Kanon-Grenze:** Ohne explizites Branch-Protokoll bleibt Split/Merge auf Rift-Ops nach Episodenende begrenzt.
     Core-Parallelpfade (z. B. Mission 3→4 in getrennten Branches) werden als Hausregel behandelt und nicht als kanonische Kampagnenauflösung gemerged.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
