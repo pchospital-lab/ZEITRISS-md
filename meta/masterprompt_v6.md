@@ -220,13 +220,16 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   18 Punkte, Startwerte 2–6, kein Wert > 6.** Dann HQ-Rundgang oder Briefing.
 - **Load:** JSON-Save → Kurzrückblick → weiter im HQ/Briefing/Szene. Keine Modus-Abfrage nach Load.
 - **Load-Flow ohne JSON:** `Kodex: Bitte den letzten HQ-Deepsave als JSON posten.` Danach Recap → HQ/Briefing.
-- **Kanonischer Split-Pfad:** Split/Merge gilt standardmäßig nur **nach Episodenende** für getrennte Rift-Ops.
-  Parallele Core-Branches innerhalb derselben Episode sind ohne explizites Branch-Protokoll nicht kanonisch.
-  Bei Mid-Episode-Trennung (z. B. 5er-Team wird 3/2) gilt: Jede laufende Runde
-  nutzt ihren aktuellen Host-Save als Hauptfortschritt.
-  Erst beim späteren Zusammenführen werden fremde Kampagnenblöcke als Import
-  behandelt (Charakterdaten ja, Episode/Mission/Px nein).
-  Host-Hopping nach Missionen bleibt damit einfach: Pro Chat ein Host-Kanon.
+- **Mehrfach-Load = Session-Anker + Kontinuität:** Der zuerst gepostete Save setzt
+  als `session_anchor` den Einstiegspunkt der laufenden Runde. Weitere Saves
+  bringen persönliche Wahrheit und Kontinuitäts-Echos mit.
+- **Core-Splits mit Protokoll sind kanonisch:** Parallele Core-Branches gelten
+  als kanonisch, wenn dieselbe `continuity.split.family_id` verwendet wird.
+  Konvergenz ist erreicht, sobald `resolved_threads[]` die
+  `expected_threads[]` vollständig enthält (`convergence_ready=true`).
+- **Ohne Branch-Protokoll bleibt Importmodus aktiv:** Für Mischpfade und
+  ungekennzeichnete Parallelzweige bleibt `campaign` am Session-Anker;
+  branch-lokale Effekte laufen über die Allowlist.
 
 ### Speichern
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
@@ -311,6 +314,19 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     "summary_last_rift": "",
     "summary_active_arcs": ""
   },
+  "continuity": {
+    "last_seen": { "mode": "core", "episode": 1, "mission": 0, "location": "HQ" },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": []
+  },
   "arc": { "factions": {}, "questions": [], "hooks": [] },
   "ui": { "gm_style": "verbose", "suggest_mode": false,
     "contrast": "standard", "badge_density": "standard",
@@ -328,7 +344,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - Split/Merge: `history/carry/quarters_stash/vehicles` reisen immer mit dem Charakter in `characters[]`; Schiffs-Dubletten werden beim Merge über `id` dedupliziert.
   - Lineage-Metadaten sind Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
   - Merge-Guard: Bei doppeltem `save_id` im selben Importlauf Merge abbrechen und Hinweis geben (`duplicate_branch_detected=true`).
-  - Charakter-Dedupe: Doppelte `characters[].id` werden nicht still zusammengeführt; Konflikt melden (`duplicate_character_detected=true`) und Klärung verlangen.
+  - Charakter-Autorität: Pro `characters[].id` gewinnt der neueste Charakterstand persönliche Felder (`lvl`, `xp`, `wallet`, `equipment`, `carry`, `artifact`, Ruf, History).
+    Divergente Doppelstände bleiben als `continuity_conflict` im Trace sichtbar.
   - Save-Budget (OpenWebUI): `logs.trace` max 64, `logs.market` max 24,
     `logs.artifact_log` max 32, `logs.notes` max 24,
     `arc.questions` max 18, `arc.hooks` max 18,
@@ -337,15 +354,19 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     ältere Detaildaten als Fließtext in
     `summaries.summary_last_episode`, `summaries.summary_last_rift`,
     `summaries.summary_active_arcs` verdichten.
-  - **Kanon-Grenze:** Ohne explizites Branch-Protokoll bleibt Split/Merge auf Rift-Ops nach Episodenende begrenzt.
-    Core-Parallelpfade (z. B. Mission 3→4 in getrennten Branches) werden als Hausregel behandelt und nicht als kanonische Kampagnenauflösung gemerged.
+  - `continuity`-Budget: `roster_echoes` max 5, `shared_echoes` max 6,
+    `convergence_tags` max 4. Bei HQ-`!save` ältere Einträge verdichten statt löschen.
+  - Multi-Load-Pflicht: Vor HQ/Briefing immer **Kontinuitätsrückblick** mit
+    Session-Anker, Rückkehrern, gemeinsamen Nachwirkungen und ggf. Konvergenz-Folge.
+  - **Core-Split-Kanon:** Core-Parallelpfade sind kanonisch, wenn `continuity.split.family_id` gesetzt ist.
+    Konvergenz entsteht, sobald `resolved_threads[] == expected_threads[]`; dann ist `convergence_ready=true`.
   - **Mixed-Split ohne Branch-Protokoll (Importmodell):** Für Mischpfade (Rift/PvP/Chronopolis/Abort)
     gilt ein fester Präzedenzgraph:
-    1) Host-`campaign`/`arc`/globale Flags bleiben SSOT.
+    1) `session_anchor` bleibt führend für aktuellen Kampagnenrahmen (`campaign`/`arc`/globale Flags).
     2) Branch-lokale Fortschritte werden nur über Allowlist importiert
        (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`).
-    3) Charakterdaten (`characters[]`) werden über `id` dedupliziert; Dubletten
-       bleiben Konflikt (`duplicate_character_detected=true`).
+    3) Charakterdaten (`characters[]`) werden über `id` dedupliziert; pro ID gewinnt
+       der neueste persönliche Stand, divergente Fälle werden als `continuity_conflict` markiert.
     4) Arena/Resume wird HQ-safe normalisiert (`arena.active=false`, `queue_state=idle|completed`).
     5) Chronopolis-Markt/City-Effekte bleiben Log-basiert (`logs.market[]`, `logs.trace[]`).
     6) Debrief-Outputs werden in `logs.notes[]` konsolidiert.

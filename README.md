@@ -166,39 +166,33 @@ und die Runtime-Referenz.
 - Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
 - Im HQ speichert ihr mit `!save` — der JSON enthält alle Charaktere.
 - `!bogen` zeigt den aktuellen Charakterbogen als lesbare Übersicht (kein JSON-Export).
-- **Merge-Schutz (Dedupe):** Bei Merge/Import gelten `save_id` + `branch_id`
-  als Lineage-Guard; doppelte Save-IDs oder doppelte Charakter-IDs werden nicht
-  still geschluckt, sondern als Konflikt markiert.
-- **Kanonischer Split:** Split/Merge ist standardmäßig nur **nach Episodenende**
-  für getrennte Rift-Ops vorgesehen (z.B. 3er + 2er in separaten Chatfenstern).
-- **Kanonischer Merge:** Nach abgeschlossenen Rifts werden die HQ-Saves wieder
-  zusammengeführt — transparentes Protokoll zeigt, wie CU, Seeds und Px
-  konsolidiert wurden. Px nutzt dafür `campaign.px_state` mit
-  Priorität `consumed > pending_reset > stable` (keine Px-Reanimation).
-- **Nicht-kanonisch ohne Branch-Protokoll:** Parallele Core-Missions-Branches
-  innerhalb derselben Episode sowie Misch-Splits (Rift/PvP/Chronopolis)
-  gelten als Hausregel und dürfen nicht stillschweigend als kanonischer
-  Kampagnenfortschritt übernommen werden.
-- **Mixed-Split-Präzedenz (Importmodell):** Falls dennoch gemischte Branches
-  (z. B. Rift + PvP + Chronopolis + Abort) im HQ zusammengeführt werden,
-  gilt strikt: (1) Host-`campaign`/`arc`/globale Flags bleiben führend,
-  (2) branch-lokale Outcomes werden nur über Allowlist importiert
-  (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`),
-  (3) Charakterdaten werden dedupliziert über `characters[].id`,
-  (4) Arena/Resume wird auf HQ-safe normalisiert,
-  (5) Chronopolis/Market verbleibt als Log-Nachweis in `logs.market[]`,
-  (6) Debrief-Ausgaben landen in `logs.notes[]`.
-- **Klarfall 5er→3/2 mitten in der Episode:** Beide Gruppen können legitim
-  weiterspielen. Für jede Runde ist immer der eigene aktuelle Host-Save der
-  Hauptfortschritt. Erst wenn später gemerged wird, zählt fremder Verlauf als
-  Import (Charakterdaten/Wallet/Loadout statt Kampagnenfortschritt).
-- **Hopper-Betrieb (OpenWebUI-Realität):** Wer nach jeder Mission Hosts
-  wechselt, spielt im Lobby-Modell. Einfachregel: Pro Chat gilt genau ein
-  Host-Kanon; mitgebrachte Saves ergänzen Charakterdaten, nicht automatisch
-  Episode/Mission/Px aus anderen Linien.
-- **Leaver/Rejoin im HQ:** Leaver können nach jeder Mission im HQ einsteigen,
-  wenn sie den aktuellen Host-Stand laden. Sie setzen keine neue Episode frei,
-  sondern übernehmen den Missionsstand des Hosts.
+- **Merge-Schutz (Lineage):** Bei Merge/Import gelten `save_id` + `branch_id`
+  als Dedupe-Guard. Doppelte `save_id` im selben Lauf bleiben blockiert;
+  doppelte `characters[].id` werden als Rejoin-Fall mit Charakter-Autorität
+  oder als `continuity_conflict` behandelt (kein stilles Verwerfen).
+- **Session-Anker statt Host-SSOT:** Der zuerst gepostete Save setzt den
+  Einstiegspunkt der laufenden Runde (`session_anchor`: HQ/Briefing/Mission).
+  Er überschreibt nicht pauschal die persönliche Vergangenheit aller Joiner.
+- **Persönliche Wahrheit pro Figur:** Für jede `characters[].id` gewinnt der
+  neueste Charakterstand persönliche Felder (z. B. Level, XP, Wallet, Gear,
+  Artefakte, Ruf, History). So bleiben Rückkehrer in späteren Chats spielbar.
+- **Kontinuitätskapsel (`continuity`):** Mehrfach-Loads führen kompakte Echos
+  zusammen (`roster_echoes[]`, `shared_echoes[]`, `convergence_tags[]`) statt
+  nur technische Importdeltas zu schreiben.
+- **Kanonische Core-Splits via `continuity.split.family_id`:** Parallele
+  Core-Pfade derselben Familie gelten als kanonisch. Bei vollständiger
+  Thread-Auflösung (`resolved_threads == expected_threads`) wird
+  `convergence_ready=true` und beide Pfade laufen sichtbar zusammen.
+- **Mixed-Split-Präzedenz bleibt stabil:** Für Mischpfade
+  (Rift/PvP/Chronopolis/Abort) bleibt die Kampagne am Session-Anker. Branch-
+  lokale Outcomes laufen weiter über die Allowlist
+  (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`).
+- **Kontinuitätsrückblick (Pflicht bei Mehrfach-Load):** Vor HQ/Briefing
+  liefert die KI-SL immer kurz: (1) Session-Anker, (2) Rückkehrer,
+  (3) gemeinsame Nachwirkungen, (4) Konvergenz-Folge (falls aktiv).
+- **Split/Rejoin als Szene:** Split-Beat und Rejoin-HQ-Beat sind Pflicht.
+  Mindestens ein importierter Echo-Eintrag muss in den nächsten zwei
+  Sitzungsblöcken wieder auftauchen.
 - Danach kann jede Person den Gruppenstand weiter nutzen oder einen eigenen
   Solo-Stand daraus starten.
 

@@ -239,6 +239,7 @@ Orientiere dich an SaveGuard + folgendem Pfadbaum:
 - `economy.{hq_pool}`
 - `logs.{trace[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
+- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[]}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
 - `ui.{gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile}`
 - `arena?` (nur wenn Arena genutzt: `{wins, losses, tier}`)
@@ -384,9 +385,9 @@ Import-ID. `parent_save_id` zeigt auf den direkten Vorgänger, `merge_id` markie
 gezielte Zusammenführungen und `branch_id` beschreibt den Branch-Kontext (z. B.
 `HOST-main`, `RIFT-A`). Bei JSON-Mehrfachimport gilt: doppeltes `save_id` im selben
 Load-Lauf wird als Branch-Duplikat verworfen (`logs.flags.duplicate_branch_detected=true`),
-doppelte `characters[].id` lösen einen Merge-Konflikt aus
-(`logs.flags.duplicate_character_detected=true`) und verlangen eine aktive
-Klärung statt stiller Überschreibung. Jeder verworfene oder konflikthafte Import
+doppelte `characters[].id` werden als Rejoin-Konflikt markiert
+(`logs.flags.duplicate_character_detected=true`) und als `continuity_conflict`
+transparent geführt, statt stiller Überschreibung. Jeder verworfene oder konflikthafte Import
 läuft zusätzlich in `logs.flags.imported_saves[]` ein (mindestens `save_id`,
 `branch_id`, `status`, `reason`).
 
@@ -703,10 +704,10 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
 4. **Zurück nach HQ.** Nach Arena-Exit bleibt `campaign.px` unverändert;
    Rewards laufen über `economy.hq_pool` sowie optionale Wallet-Splits.
 
-**Host-Priorität (SSOT):** Bei Merge/Import bleibt der Host führend für
-`campaign`, `economy.hq_pool`, `arc` und globale `logs.flags`. Gaststände
-liefern nur erlaubte Charakter-/Loadout-Anteile. Konflikte werden in
-`logs.flags.merge_conflicts[]` dokumentiert.
+**Session-Anker-Priorität (SSOT):** Bei Merge/Import bleibt der Session-Anker
+führend für `campaign`, `economy.hq_pool`, `arc` und globale `logs.flags`.
+Gaststände liefern persönliche Wahrheit plus erlaubte Branch-Anteile. Konflikte
+werden in `logs.flags.merge_conflicts[]` dokumentiert.
 
 ### Cross-Mode-Transfer-Matrix (Testrun 3, #003) {#cross-mode-transfer}
 
@@ -717,8 +718,8 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 | Richtung | Übernommene Felder | Verworfene/Zurückgesetzte Felder | Besonderheiten |
 | --- | --- | --- | --- |
-| **Solo → Koop** | Host-Save bestimmt `campaign` komplett (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern nur `character` + `loadout` + `wallet` innerhalb von `characters[]`. | Gast-`campaign`, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts) | Host-Kampagnenblock hat Vorrang. |
-| **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt Host-geführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
+| **Solo → Koop** | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts) | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
+| **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | - | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
 | **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
 
@@ -882,32 +883,54 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 > lokale Runs und wird nicht in produktive Wissensspeicher geladen.
 
 **Multi-Save-Import (Gruppenschnellstart):** Werden vor einem neuen Briefing
-mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe schnell)`), gilt
-der **zuerst gepostete Save als Host**. Sein Kampagnenblock (`episode`,
-`mission`, `mode`, `seed_source`, `rift_seeds[]`, `px`) gewinnt bei Konflikten;
-weitere Saves liefern ausschließlich Charaktere, Loadouts und Wallets.
-Abweichende Seeds, Episoden- oder Missionszähler landen in
-`logs.flags.merge_conflicts[]` und werden als Host-Wert beibehalten. Der HQ-
-Pool (`economy.hq_pool`) bleibt Host-priorisiert; Import-Wallets ergänzen per
-Union-by-id.
+mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe schnell)`), setzt
+der **zuerst gepostete Save den Session-Anker** (aktueller Einstiegspunkt mit
+`episode`, `mission`, `mode`, `rift_seeds[]`, `px`). Weitere Saves liefern
+zusätzlich persönliche Wahrheit pro `characters[].id` und Kontinuitäts-Echos.
+Abweichende Kampagnenwerte außerhalb des Session-Ankers landen weiterhin in
+`logs.flags.merge_conflicts[]`. Der HQ-Pool (`economy.hq_pool`) bleibt
+ankergeführt; Wallets/Loadouts/History der Rückkehrer werden pro Charakter
+aktualisiert (neuester Stand gewinnt persönliche Felder).
 
 #### OpenWebUI-Lobbybetrieb (Hopper/Leaver)
 
-Für private OpenWebUI-Instanzen mit häufigen Gruppenwechseln gilt derselbe
-Host-SSOT ohne Sonderpfad:
+Für private OpenWebUI-Instanzen mit häufigen Gruppenwechseln gilt ein
+Session-Anker-Modell ohne Sonderpfad:
 
-1. **Pro Chat genau ein kanonischer Host:** Der zuerst gepostete Save setzt
-   `campaign` (`episode`, `mission`, `px`, Seeds).
-2. **Joiner als Datenimport:** Nachrücker/Hopper bringen `characters[]`, Wallet
-   und Loadouts mit. Für den aktuellen Chat zählt dennoch nur der Host-
-   Kampagnenblock (`episode`/`mission`/`px`).
-3. **Leaver-Regel:** Wer den Chat verlässt und später zurückkommt, lädt den
-   aktuellen Host-Save und steigt auf dessen Episodenstand ein.
-4. **Kein impliziter Episodenwechsel:** Weder Hopper noch Leaver starten
-   automatisch eine neue Episode; Episode wechselt nur über regulären
-   Debrief-/Kampagnenfluss des Host-Runs.
-5. **Empfohlener Hinweistext der Spielleitung:** _"Lobby-Import erkannt:
-   Host-Kampagne bleibt führend; Charakterdaten der Joiner wurden übernommen."_
+1. **Pro Chat genau ein Session-Anker:** Der zuerst gepostete Save setzt
+   den Einstieg (`campaign` mit `episode`, `mission`, `px`, Seeds).
+2. **Joiner mit persönlicher Wahrheit:** Nachrücker/Hopper bringen `characters[]`,
+   Wallet, Loadouts und persönliche History mit; pro `characters[].id` zählt der
+   neueste persönliche Stand.
+3. **Leaver-Regel:** Rückkehrer steigen am aktuellen Session-Anker ein, behalten
+   aber ihren neuesten persönlichen Charakterstand.
+4. **Kein impliziter Episodenwechsel:** Episode wechselt weiterhin nur über
+   regulären Debrief-/Kampagnenfluss der laufenden Runde.
+5. **Empfohlener Hinweistext der Spielleitung:** _"Kontinuitäts-Import erkannt:
+   Session-Anker gesetzt, Rückkehrerstände und Echos wurden integriert."_
+
+
+## Kontinuitätsmodell (Session-Anker statt Host-SSOT)
+
+ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als **Kontinuitätssynthese**.
+
+### Goldregel
+- **Erster geposteter Save = Session-Anker.** Er setzt den Einstiegspunkt der laufenden Runde (HQ, Briefing, Mission, Kampagnenrahmen).
+- **Neuester Charakterstand pro `characters[].id` = persönliche Wahrheit.** Level, XP, Wallet, Gear, Carry, Artefakte, Ruf und persönliche Geschichte werden nicht auf den Anker zurückgedrückt.
+- **Importierte Kontinuität = Weltmaterial.** Rückblicke, Gerüchte, offene Fäden, Branch-Ergebnisse und Rejoin-Kontext werden erzählerisch mitgeführt.
+
+### `continuity`-Kapsel (v7)
+- `last_seen`: letzter bekannter Einsatzkontext.
+- `split`: `{family_id, thread_id, expected_threads[], resolved_threads[], convergence_ready}` für kanonische Core-Splits.
+- `roster_echoes[]` (max 5), `shared_echoes[]` (max 6), `convergence_tags[]` (max 4).
+- Bei HQ-`!save` werden ältere Echos verdichtet (Prune), nicht unkontrolliert gestapelt.
+
+### Pflichtausgabe beim Mehrfach-Load
+Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit vier Blöcken:
+1. Session-Anker,
+2. Rückkehrer/Joiner,
+3. gemeinsame Nachwirkungen,
+4. Konvergenz-Folge (falls `convergence_ready=true`).
 
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
@@ -1071,21 +1094,22 @@ Nach separaten Rift-Ops werden die Saves im HQ wieder zusammengeführt:
 
 ### Nicht-kanonische Branches ohne Protokoll
 
-Parallele Core-Missions-Branches innerhalb derselben Episode und gemischte
-Split-Pfade (z. B. Rift + PvP + Chronopolis + Abort) sind ohne explizites
-Branch-Protokoll **nicht kanonisch**. In diesen Fällen gilt der folgende
-Merge-Präzedenzgraph (deterministisch, Host-SSOT):
+Parallele Core-Missions-Branches innerhalb derselben Episode sind **kanonisch**,
+wenn sie dieselbe `continuity.split.family_id` tragen. Gemischte Split-Pfade
+(z. B. Rift + PvP + Chronopolis + Abort) bleiben ohne Branch-Protokoll im
+Importmodus. Es gilt folgender Präzedenzgraph (deterministisch, Session-Anker):
 
-1. **Globale Kampagne:** Host bleibt führend für `campaign`, `arc` und globale
+1. **Globale Kampagne:** Session-Anker bleibt führend für `campaign`, `arc` und globale
    `logs.flags`.
 2. **Branch-lokale Progression:** Import nur über Allowlist-Felder
    `wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`.
-3. **Charakterdaten:** `characters[]` wird über `id` dedupliziert;
-   Dubletten bleiben Konflikt (`duplicate_character_detected=true`).
+3. **Charakterdaten:** `characters[]` wird über `id` dedupliziert; pro ID
+   gewinnt der neueste persönliche Stand. Divergenzen werden als
+   `continuity_conflict` protokolliert.
 4. **Arena/Resume-Zustand:** Vor HQ-Save immer auf HQ-safe normalisieren
    (`arena.active=false`, `queue_state=idle|completed`, `previous_mode` bereinigt).
 5. **Chronopolis-Markt/City-Logs:** bleiben als Nachweis in `logs.market[]`
-   und `logs.trace[]`, ohne Host-Kampagnenfortschritt zu überschreiben.
+   und `logs.trace[]`, ohne den Session-Anker-Kampagnenfortschritt zu überschreiben.
 6. **Debrief-Outputs:** Konsolidierung in `logs.notes[]` mit Merge-Hinweis.
 
 Zusatzregeln:
@@ -1094,19 +1118,19 @@ Zusatzregeln:
   verbrauchter Px-5-Stand (`consumed`) darf durch Alt-Branches nicht
   wieder als offener Px-5-Cluster erscheinen.
 - Die SL muss den Hinweistext ausgeben: _"Nicht-kanonischer Branch-Import:
-  Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden
+  Kampagnenfortschritt bleibt beim Session-Anker; persönliche Rückkehrerstände wurden
   übernommen."_
 - `logs.flags.imported_saves[]` muss pro Branch den `status` und `reason`
   (`non_canonical_branch`) dokumentieren.
 
 #### Mischpfad-Beispiele (Dokustandard)
 
-- **Rift + PvP → Merge:** Host-Kampagne bleibt, Rift-Seeds/Wallets werden
+- **Rift + PvP → Merge:** Session-Anker-Kampagne bleibt, Rift-Seeds/Wallets werden
   importiert, Arena wird auf `idle|completed` normalisiert.
 - **Abort + HQ-Rückkehr → Save → Merge:** Abort-Branch liefert nur
   `abort_marker` + Charakterzustand; kein Episoden-/Missionssprung.
 - **Chronopolis-Run + HQ-Branch → Merge:** Chronopolis-Ausgaben/Markt bleiben
-  als Log-Nachweis, Kampagnenfortschritt folgt weiterhin dem Host.
+  als Log-Nachweis, Kampagnenfortschritt folgt weiterhin dem Session-Anker.
 
 #### Klarstellung: Mid-Episode-Trennung (5er → 3/2)
 
@@ -1115,15 +1139,15 @@ Wenn sich ein Team nach Mission 1-2 innerhalb derselben Episode trennt und die
 
 1. **Beide Pfade sind spielbar:** 3er- und 2er-Gruppe können jeweils normal
    weiterspielen.
-2. **Kanon pro aktiver Runde:** In jedem Chat ist der dort aktive Host-Save
-   der Hauptfortschritt.
+2. **Kanon pro aktiver Runde:** In jedem Chat ist der dort aktive Session-Anker
+   der Einstiegspunkt.
 3. **Rejoin/Merge:** Treffen die Gruppen später wieder zusammen (HQ), bleibt der
-   Merge host-priorisiert für `campaign`; importiert werden vor allem
-   Charakter-/Wallet-/Loadout-Daten.
+   Kampagnenrahmen am Session-Anker; persönliche Rückkehrerstände und
+   Kontinuitäts-Echos werden übernommen.
 4. **Kein verdeckter Episoden-Sprung:** Solist:innen starten nicht automatisch
-   eine neue Episode; sie folgen dem aktiven Host-Stand ihres Chats.
-5. **Mission-zu-Mission-Hopper:** Häufige Host-Wechsel sind erlaubt; die
-   Einfachregel bleibt: pro Chat ein Host-Kanon, andere Saves sind Imports.
+   eine neue Episode; sie folgen dem aktiven Session-Anker ihres Chats.
+5. **Mission-zu-Mission-Hopper:** Häufige Anker-Wechsel sind erlaubt; pro Chat
+   gilt ein Session-Anker plus Import persönlicher Wahrheit.
 
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
 
