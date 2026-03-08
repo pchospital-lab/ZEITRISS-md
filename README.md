@@ -173,7 +173,8 @@ und die Runtime-Referenz.
   für getrennte Rift-Ops vorgesehen (z.B. 3er + 2er in separaten Chatfenstern).
 - **Kanonischer Merge:** Nach abgeschlossenen Rifts werden die HQ-Saves wieder
   zusammengeführt — transparentes Protokoll zeigt, wie CU, Seeds und Px
-  konsolidiert wurden.
+  konsolidiert wurden. Px nutzt dafür `campaign.px_state` mit
+  Priorität `consumed > pending_reset > stable` (keine Px-Reanimation).
 - **Nicht-kanonisch ohne Branch-Protokoll:** Parallele Core-Missions-Branches
   innerhalb derselben Episode sowie Misch-Splits (Rift/PvP/Chronopolis)
   gelten als Hausregel und dürfen nicht stillschweigend als kanonischer

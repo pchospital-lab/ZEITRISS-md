@@ -318,7 +318,8 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Mid-Episode-Splits (z. B. 5er-Team trennt sich in 3/2): Jede Gruppe spielt
   mit eigenem Host-Save als Hauptfortschritt weiter.
   Beim späteren Merge gilt weiter Host-SSOT: Episode/Mission/Px kommen vom
-  aktiven Host, Joiner importieren primär Charakterdaten.
+  aktiven Host, Joiner importieren primär Charakterdaten. Für Px gilt
+  zusätzlich der Zustands-Guard `consumed > pending_reset > stable`.
 - `!accessibility` - öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
   Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
   `output_pace=normal|fast|slow` im Save; der Toast "Accessibility aktualisiert …"
@@ -1090,7 +1091,8 @@ wieder einschalten. Siehe auch
 
 ```text
 v: 7, zr: "4.2.6"
-campaign: { episode, mission, px:0..5, mode:"mixed"|"preserve"|"trigger"|"rift",
+campaign: { episode, mission, px:0..5, px_state:"stable"|"pending_reset"|"consumed",
+  mode:"mixed"|"preserve"|"trigger"|"rift",
   rift_seeds:[{id, epoch, label, status, tier}] }
 characters: [{                          // Array, Host = Index 0
   id, name, callsign, rank, lvl, xp,
@@ -1137,7 +1139,10 @@ comms: { jammed:boolean, relays:number, rangeMod:number }
 `campaign.px` bleibt die einzige Quelle für Paradoxon-Stand und Progression.
 Rifts führen kein separates `rift_px`; Importpfade verwerfen abweichende Felder.
 Px 0–4 erzeugt keine Maluswerte, Px 5 triggert `ClusterCreate()` und setzt
-nach der Rift-Op auf 0 zurück.
+nach der Rift-Op auf 0 zurück. `campaign.px_state` läuft deterministisch
+über `stable -> pending_reset -> consumed`; Merge priorisiert
+`consumed > pending_reset > stable`, damit ein verbrauchter Px-Stand
+nicht aus Alt-Branches wieder auftaucht.
 
 ## Generator-Utilities
 
