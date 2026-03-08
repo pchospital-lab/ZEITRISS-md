@@ -770,25 +770,24 @@ Chrononauten mit spannenden Funden zu belohnen.
 
 ## Shop-Tiers & Gating
 
-**Tier 1 (Lv 1–5):** Basis-Militärgear, leichte Optiken/Rüstungen
-- Waffenmods: Standard-Optik (+1–2 Präzision), Match-Lauf (+1 DMG/+1 Präzision)
-- Rüstung: Leichte Weste (+1), Low-Vis Tarnmantel
-- Drohnen: Scout (IR/Optik), Reichweiten-Booster
-- Preisrange: 100–300 CU/Modul
+**SSOT-Hinweis:** Formale Shop-Freigaben laufen über **ITI-Ruf** (`reputation.iti`) und
+**Lizenz-Tier** (siehe Tabelle oben). **Level** ist Build-Fortschritt, nicht der formale
+Lizenzschlüssel.
 
-**Tier 2 (Lv 6–10):** Fortgeschrittene Systeme
-- Waffen: Präzisionsgewehre (DMG+), Stabilisatoren (kein Bewegungsmalus)
-- Rüstung: Modularer Plattenträger (+2), taktische Helme (HUD-Visier)
-- Drohnen: Spotter-AI mk2 (Auto-Markierung), Multi-Sensor-Suite
-- Cyber/Bio (falls SYS frei): Neural-Reflex (+2 Init), Stabilisierungsgelenke
-- Preisrange: 250–600 CU
+**Tier I–II (früher Build):** Basis- bis fortgeschrittene Standardausrüstung
+- Waffenmods: Standard-Optik, Match-Lauf, Stabilisatoren
+- Rüstung: Leichte Weste, modularer Träger, taktische Helme
+- Drohnen: Scout/Spotter, Sensor-Upgrades
+- Preisrange: ca. 100–600 CU
 
-**Tier 3 (Lv 11+):** High-End/Prototypen (Fraktionsruf/Rift-Beute)
-- Adaptiv-Tarnung (kurz aktiv), Smart-Optiken (Auto-Range, Wind-Komp)
-- Rüstung: Leichtgewicht-Komposite (+2, ohne Malus), Spezialhelme
-- Drohnen: Kampfdrohne light, ECM-Pods (lokales Jammer-Fenster)
-- Gating:
-  - Level 11+
-  - Fraktionsruf Preserve/Trigger: 3+/6+ Erfolge
-  - Rift-Beute als Blaupause/Prototyp
-- Preisrange: 500–1200+ CU
+**Tier III–IV (fortgeschrittener Build):** High-End-Systeme, Spezialmodule, Prototypen
+- Adaptiv-Tarnung, Smart-Optiken, ECM-Module
+- Leichtgewicht-Komposite, spezialisierte Helm-/HUD-Pakete
+- Preisrange: ca. 500–3.000+ CU
+
+**Tier V (Endgame-Lizenzpfad):** regulär kaufbar bei **Ruf +5** und erworbener
+Tier-V-Lizenz; Begrenzung primär über **CU**, Verfügbarkeit, Storyfreigaben und
+Objekt-/Projektbedingungen.
+
+**Fraktionsruf** beeinflusst weiterhin politisches Standing, Verhandlungslagen,
+Rabatte/Aufschläge und narrativen Zugang, ersetzt aber keine formale ITI-Lizenzstufe.
