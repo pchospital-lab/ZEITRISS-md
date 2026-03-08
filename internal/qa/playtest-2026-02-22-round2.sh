@@ -57,7 +57,7 @@ api_chat "zeitriss-v426-uncut-deepseek" "$MSGS_GLAD" "03-gladiator-deepseek"
 # ═══════════════════════════════════════════════════════════════
 MSGS_SPLIT='[
   {"role":"user","content":"Spiel starten (solo schnell)"},
-  {"role":"assistant","content":"Gruppe aktiv: Nova (Host, Level 8, Ghost) + Viper (Level 6, Analyst). Koop-Mission EP2 MS3 abgeschlossen. Alle Ziele erreicht. Stress Nova 2, Viper 1. Px 3/5. CU: Nova 3500, Viper 2200. Beide im HQ."},
+  {"role":"assistant","content":"Gruppe aktiv: Nova (Session-Anker, Level 8, Ghost) + Viper (Level 6, Analyst). Koop-Mission EP2 MS3 abgeschlossen. Alle Ziele erreicht. Stress Nova 2, Viper 1. Px 3/5. CU: Nova 3500, Viper 2200. Beide im HQ."},
   {"role":"user","content":"Viper verlässt die Gruppe. Splittet die Saves — ich will meinen Solo-Save für Nova und einen separaten für Viper. Beide als JSON."}
 ]'
 api_chat "zeitriss-v426-uncut-sonnet" "$MSGS_SPLIT" "04-group-split-sonnet"
