@@ -35,6 +35,8 @@ anschlussfähig dokumentieren.
    nicht als globales Tier-V-Verbot.
 4. **Onboarding-Ton halten:** Frühe Spielertexte bei UFO/Greys stets als Spur,
    Dossier oder Feldjargon formulieren.
+5. **Debrief/HQ-SSOT halten:** In Ablauftexten und Tabellen immer `ITI-Ruf-Update`
+   sowie den formalen `reputation.iti`-Pfad für Freigaben verwenden.
 
 
 ## Follow-up-Hinweis
@@ -65,6 +67,11 @@ anschlussfähig dokumentieren.
   externen Zeitmanipulator-Fraktionen korrigiert; flankierend in
   `gameplay/kampagnenuebersicht.md` die Gegnerklarheit (`ITI` vs. externe
   Zeitmanipulatoren) explizit gehalten.
+- **Durchlauf 63 (2026-03-08):** Restdrift in
+  `gameplay/kampagnenstruktur.md` geschlossen: Debrief-Autoscreen auf
+  `ITI-Ruf-Update` vereinheitlicht und HQ-/Lizenzfreigaben klar als formalen
+  `reputation.iti`-Pfad getrennt von Fraktionsruf (politisches Signal)
+  dokumentiert.
 
 ## Verknüpfung
 
@@ -80,4 +87,6 @@ anschlussfähig dokumentieren.
 - Log (Watchpoints II): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-61-ruf-alien-watchpoints-ii.md`
 - Fahrplan (Greys/Feindbild): `internal/qa/plans/issue-pack-durchlauf-62-ruf-alien-greys-feindbild.md`
 - Log (Greys/Feindbild): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-62-ruf-alien-greys-feindbild.md`
+- Fahrplan (Debrief/HQ-SSOT): `internal/qa/plans/issue-pack-durchlauf-63-ruf-alien-debrief-hq-ssot.md`
+- Log (Debrief/HQ-SSOT): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-63-ruf-alien-debrief-hq-ssot.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
