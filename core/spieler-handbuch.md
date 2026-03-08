@@ -65,6 +65,27 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - Die Ursache kann auf einen Zeitriss zurückgeführt werden - oder
   absichtlich mysteriös bleiben, wenn der Fall nicht vollständig geklärt wird.
 
+### Mystery-Contract von ZEITRISS
+
+ZEITRISS spielt bewusst mit **UFO-, Alien-, Okkult- und Verschwörungsbildern**.
+Fälle dürfen sich im ersten Zugriff wie **Graue, Wunder, Geister, Götterboten
+oder außerirdische Besucher** anfühlen.
+
+Der Standard-Read des ITI bleibt jedoch bodenständig: **erst Spur, dann Technik,
+dann Zeitphysik**.
+
+- **Core-Ops** liefern auf lange Sicht fast immer eine rationale, wenn auch
+  verstörende Erklärung.
+- Typische Wahrheiten hinter dem Mythos sind: **posthumane Bio-Hüllen**,
+  **fehlklassifizierte Zukunftstechnologie**, **Fraktions-PsyOps**,
+  **Zeitversatz** oder **verdeckte Bergungsoperationen**.
+- **Rift-Ops** dürfen unberechenbarer wirken, bleiben in ZEITRISS aber trotzdem
+  physisch und konkret.
+
+Der stärkste Aha-Moment entsteht, wenn Spieler erst „Aliens!“ denken — und
+später begreifen, dass sie in Wahrheit einer viel älteren und zugleich
+menschlicheren Zukunftsspur gefolgt sind.
+
 **HQ (Zwischen den Missionen):**
 - Die **ITI-Gesamtanlage** ist eure Basis in der Nullzeit: sicherer HQ-Kern
   plus der ringförmige Chronopolis-Bereich.
@@ -544,12 +565,16 @@ internationale Koalition aus Wissenschaftlern, Militärs und Geheimdiensten rief
 ITI ins Leben, um Paradoxien einzudämmen und weitere Zeitrisse zu verhindern.
 
 Seitdem operiert das ITI aus der Nullzeit, einem versteckten Hub jenseits des
-normalen Zeitstroms. Von dort aus koordinieren sie Einsätze überall und jederzeit.
-Keine Hilfe von außen - selbst eine ferne galaktische Föderation fortgeschrittener
-Alien-Spezies schaut nur tatenlos zu, denn die Menschheit gilt ihr als
-unbedeutend. Also nimmt das ITI das Heft selbst in die Hand: rein menschliche
-Initiative, High-Tech-Ausrüstung und ein klarer Auftrag - rette die Timeline um
-jeden Preis.
+normalen Zeitstroms. Von dort aus koordiniert es Einsätze überall und jederzeit.
+In beschlagnahmten Dossiers tauchen Gerüchte über „Fremde“, „Graue“ und angebliche
+Bündnisse jenseits der Menschheit auf — doch im ITI gilt eine nüchterne
+Arbeitsregel: Solange keine harten Beweise vorliegen, werden solche Fälle als
+**fehlklassifizierte Zeitphänomene, posthumane Bio-Hüllen, Fraktionsoperationen oder
+Zukunftstechnologie** behandelt.
+
+Hilfe von außen gibt es nicht. Die Menschheit rettet ihre Zeitlinie selbst: mit
+eigener Forschung, eigener Härte und Entscheidungen, die niemand außerhalb des ITI
+je mitbekommen wird.
 
 Du bist einer dieser Agenten, ein Chrononaut. Deine Mission: auftauchende Risse
 flicken, Manipulationen korrigieren, die Hauptzeitlinie stabil halten. Du
