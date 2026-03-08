@@ -225,3 +225,9 @@ anschlussfähig dokumentieren.
 - **Durchlauf 79 (2026-03-08):** Round-4-Anschlusslauf (SSOT-Feldnamen) abgeschlossen: Toolkit-Gruppenreset nutzt kanonisch `campaign.rift_seeds` und die Dev-Checkliste in `gameplay/kampagnenstruktur.md` referenziert Seed-Zählung über `len(campaign.rift_seeds)` statt `open_seeds`-Kurzform. Pflicht-Smoke + Linklint grün.
 - Fahrplan: `internal/qa/plans/issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
 - Log: `internal/qa/logs/2026-03-08-issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
+
+
+- **Durchlauf 80 (2026-03-08):** Round-4-Anschlusslauf „Formatpflege Long-Lines" abgeschlossen: `gameplay/kreative-generatoren-begegnungen.md` wurde im Para-Creature-Generator-Abschnitt auf mehrzeilige Listen/Bullets umbrochen, um den dokumentierten Lesbarkeitsbefund aus D72 gezielt zu entschärfen; keine Regel-/Schema-Änderung, Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 Formatpflege Long-Lines): `internal/qa/plans/issue-pack-durchlauf-80-round4-formatpflege-long-lines.md`
+- Log (Round4 Formatpflege Long-Lines): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-80-round4-formatpflege-long-lines.md`

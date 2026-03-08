@@ -586,35 +586,98 @@ birgt unendliche Überraschungen.**
 <a id="para-creature-generator"></a>
 ## Para-Creature-Generator: Rift Casefile Edition {#para-creature-generator}
 
-Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles. Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein** Zeitphänomen, **ein** Anchor (Ort/Person), **drei bis fünf** sichtbare Tells und **eine** Schwäche. Keine zweite Anomalie, keine "es war nur Tech"-Auflösung in Rifts; zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
+Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles.
+Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein** Zeitphänomen,
+**ein** Anchor (Ort/Person), **drei bis fünf** sichtbare Tells und **eine**
+Schwäche.
+Keine zweite Anomalie, keine "es war nur Tech"-Auflösung in Rifts;
+zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
 
 ### Guard & Struktur
 
-- Nutze `register_anomaly()` nur für das eine Zeitphänomen (Echo, Loop, Stutter, Anker-Zeitversatz). HUD-Overlay: `MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1`.
-- Jede Kreatur bindet einen **Zeitmarker** (Echo/Loop/Stutter/Static/Slip/Anchor-Tether). Der Marker erklärt, warum das Wesen im Strom sichtbar bleibt.
-- Der Anchor ist eine reale Person, ein Ort oder ein Artefakt, das als "Zeuge" oder "Bollwerk" fungiert. Wird der Anchor befreit/zerstört, löst sich die Anomalie.
-- **Tells:** 3-5 wiedererkennbare Signale (Geruch, Geräusch, Schatten, Temperatur, EM-Spitzen).
-- **Weakness:** eine eindeutige Abschaltbedingung (Material, Frequenz, Ritual, spezifisches Werkzeug). Ohne Weakness kein Abschluss.
+- Nutze `register_anomaly()` nur für das eine Zeitphänomen
+  (Echo, Loop, Stutter, Anker-Zeitversatz).
+  HUD-Overlay: `MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1`.
+- Jede Kreatur bindet einen **Zeitmarker**
+  (Echo/Loop/Stutter/Static/Slip/Anchor-Tether).
+  Der Marker erklärt, warum das Wesen im Strom sichtbar bleibt.
+- Der Anchor ist eine reale Person, ein Ort oder ein Artefakt,
+  das als "Zeuge" oder "Bollwerk" fungiert.
+  Wird der Anchor befreit/zerstört, löst sich die Anomalie.
+- **Tells:** 3-5 wiedererkennbare Signale
+  (Geruch, Geräusch, Schatten, Temperatur, EM-Spitzen).
+- **Weakness:** eine eindeutige Abschaltbedingung
+  (Material, Frequenz, Ritual, spezifisches Werkzeug).
+  Ohne Weakness kein Abschluss.
 
 ### Schrittfolge
 
-1. **Epoche (W6)** - 1 Frühe Neuzeit, 2 Industrialisierung, 3 Weltkriege, 4 Kalter Krieg, 5 Digitale Anfänge, 6 Near-Future.
-2. **Zeitmarker (W6)** - 1 Echo-Schleife (verzögerte Schatten), 2 Loop 30 Sek., 3 Stutter (Zeitsprünge in Frames), 4 Static (verrauschte Wahrnehmung), 5 Slip (Kreatur fällt kurz aus Phase), 6 Anchor-Tether (Kreatur an einen Zeugen gebunden).
-3. **Anchor (W6)** - 1 Erstzeuge, 2 Tatort mit Einschlag, 3 Opfer mit Zeitbrand, 4 Artefakt/Container, 5 Familienlinie/Blutanker, 6 Forschungslog/Blackbox.
-4. **Tells (3-5 aus W10 wiederholen, keine Duplikate)** - 1 Frosthauch, 2 verzerrter Funk, 3 bläulicher Schleier, 4 Geruch nach Ozon/Metall, 5 scharfe Schatten gegen die Lichtquelle, 6 Tierpanik, 7 Uhren laufen rückwärts, 8 Audiospur mit Flüstern, 9 zweiter Nachhall jeder Bewegung, 10 kurzes "Bildflackern" im HUD.
-5. **Weakness (W6)** - 1 bestimmte Frequenz (z. B. 18 Hz Infraschall), 2 geheiligtes Material (Salz/Quecksilber), 3 Anchor neutralisieren (Zeuge befreien, Container öffnen), 4 Zeitsiegel (Ritualkreis + Sensor), 5 Schockfrost/Hitze, 6 Psi-Signatur spiegeln (Mind-Wurf gegen Psi-Sig).
-6. **Stat-Block** nach Risikostufe (S/M/L/XL) und die Fähigkeitspalette um den Zeitmarker herum bauen (Teleport = Stutter, Versteinerung = Static etc.).
+1. **Epoche (W6)**
+   - 1 Frühe Neuzeit
+   - 2 Industrialisierung
+   - 3 Weltkriege
+   - 4 Kalter Krieg
+   - 5 Digitale Anfänge
+   - 6 Near-Future
+2. **Zeitmarker (W6)**
+   - 1 Echo-Schleife (verzögerte Schatten)
+   - 2 Loop 30 Sek.
+   - 3 Stutter (Zeitsprünge in Frames)
+   - 4 Static (verrauschte Wahrnehmung)
+   - 5 Slip (Kreatur fällt kurz aus Phase)
+   - 6 Anchor-Tether (Kreatur an einen Zeugen gebunden)
+3. **Anchor (W6)**
+   - 1 Erstzeuge
+   - 2 Tatort mit Einschlag
+   - 3 Opfer mit Zeitbrand
+   - 4 Artefakt/Container
+   - 5 Familienlinie/Blutanker
+   - 6 Forschungslog/Blackbox
+4. **Tells (3-5 aus W10 wiederholen, keine Duplikate)**
+   - 1 Frosthauch
+   - 2 verzerrter Funk
+   - 3 bläulicher Schleier
+   - 4 Geruch nach Ozon/Metall
+   - 5 scharfe Schatten gegen die Lichtquelle
+   - 6 Tierpanik
+   - 7 Uhren laufen rückwärts
+   - 8 Audiospur mit Flüstern
+   - 9 zweiter Nachhall jeder Bewegung
+   - 10 kurzes "Bildflackern" im HUD
+5. **Weakness (W6)**
+   - 1 bestimmte Frequenz (z. B. 18 Hz Infraschall)
+   - 2 geheiligtes Material (Salz/Quecksilber)
+   - 3 Anchor neutralisieren (Zeuge befreien, Container öffnen)
+   - 4 Zeitsiegel (Ritualkreis + Sensor)
+   - 5 Schockfrost/Hitze
+   - 6 Psi-Signatur spiegeln (Mind-Wurf gegen Psi-Sig)
+6. **Stat-Block**
+   - Nach Risikostufe (S/M/L/XL) bauen.
+   - Fähigkeitspalette um den Zeitmarker herum bauen
+     (Teleport = Stutter, Versteinerung = Static etc.).
 
 ### Casefile-Schablone
 
 - **CASE:** `RIFT-<ID> | Epoche | Seed-Tier (low/mid/high)`
-- **VISUAL HOOK:** 1 Satz mit Anchor + Zeitmarker (`"Echoender Schatten hinter jedem Zeugen"`).
-- **BRIEFING PUBLIC (max. 5 Bulletpoints):** Witness-Reports, Schauplatz, Gefahrenhinweis.
-- **OBJECTIVES:** `Secure Anchor`, `Identify Time Marker`, `Neutralize Weakness`, optional `Recover Sample`.
-- **CASE OVERLAY:** HUD-Tag `CASEFILE <ID> · HOOK <Label> · TIME <Marker>` + `WEIRD 1/1` Toast.
-- **TRUTH:** kurzer Absatz mit Ursache (Para-Kreatur) und warum der Zeitmarker aktiv bleibt.
-- **LEADS PRIVATE:** 3 Hinweise mit Würfelbezug (z. B. Investigation 12, Medicine 10, Tech 11) und Verknüpfung zum Anchor.
-- **BOSS PRIVATE:** Mini-Statblock + Zeitfähigkeit (nur **eine** Weirdness). Wenn Urban-Myth-Generator genutzt wird, liegt hier die echte Para-Kreatur, der Mythos ist nur ein Deckmantel.
+- **VISUAL HOOK:** 1 Satz mit Anchor + Zeitmarker
+  (`"Echoender Schatten hinter jedem Zeugen"`).
+- **BRIEFING PUBLIC (max. 5 Bulletpoints):**
+  Witness-Reports, Schauplatz, Gefahrenhinweis.
+- **OBJECTIVES:**
+  `Secure Anchor`, `Identify Time Marker`, `Neutralize Weakness`,
+  optional `Recover Sample`.
+- **CASE OVERLAY:**
+  HUD-Tag `CASEFILE <ID> · HOOK <Label> · TIME <Marker>` + `WEIRD 1/1` Toast.
+- **TRUTH:**
+  kurzer Absatz mit Ursache (Para-Kreatur) und
+  warum der Zeitmarker aktiv bleibt.
+- **LEADS PRIVATE:**
+  3 Hinweise mit Würfelbezug (z. B. Investigation 12, Medicine 10, Tech 11)
+  und Verknüpfung zum Anchor.
+- **BOSS PRIVATE:**
+  Mini-Statblock + Zeitfähigkeit (nur **eine** Weirdness).
+  Wenn Urban-Myth-Generator genutzt wird, liegt hier die echte Para-Kreatur,
+  der Mythos ist nur ein Deckmantel.
 
 ### Zwei einsatzbereite Casefiles
 
