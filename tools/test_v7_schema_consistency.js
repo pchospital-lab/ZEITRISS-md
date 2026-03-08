@@ -30,6 +30,17 @@ function checkFixture(relPath){
   assert.strictEqual(typeof save.zr, 'string', `${label}: zr fehlt.`);
   assert.ok(Array.isArray(save.characters) && save.characters.length > 0, `${label}: characters[] fehlt.`);
   assert.ok(save.campaign && typeof save.campaign === 'object', `${label}: campaign fehlt.`);
+  assert.ok(save.continuity && typeof save.continuity === 'object', `${label}: continuity fehlt.`);
+
+  const continuity = save.continuity;
+  assert.ok(continuity.last_seen && typeof continuity.last_seen === 'object', `${label}: continuity.last_seen fehlt.`);
+  assert.ok(continuity.split && typeof continuity.split === 'object', `${label}: continuity.split fehlt.`);
+  assert.ok(Array.isArray(continuity.roster_echoes), `${label}: continuity.roster_echoes[] fehlt.`);
+  assert.ok(Array.isArray(continuity.shared_echoes), `${label}: continuity.shared_echoes[] fehlt.`);
+  assert.ok(Array.isArray(continuity.convergence_tags), `${label}: continuity.convergence_tags[] fehlt.`);
+  assert.ok(continuity.roster_echoes.length <= 5, `${label}: continuity.roster_echoes überschreitet Budget (max 5).`);
+  assert.ok(continuity.shared_echoes.length <= 6, `${label}: continuity.shared_echoes überschreitet Budget (max 6).`);
+  assert.ok(continuity.convergence_tags.length <= 4, `${label}: continuity.convergence_tags überschreitet Budget (max 4).`);
 
   forbiddenRoot.forEach((key) => {
     assert.ok(!(key in save), `${label}: Legacy-Rootfeld '${key}' darf im v7-Export nicht gesetzt sein.`);

@@ -68,5 +68,23 @@
     "notes": [
       "Nicht-kanonischer Branch-Import: Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden übernommen."
     ]
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 9,
+      "mission": 0,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": []
   }
 }

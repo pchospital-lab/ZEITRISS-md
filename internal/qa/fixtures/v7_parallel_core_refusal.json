@@ -1,6 +1,6 @@
 {
   "scenario": "parallel_core_branch",
-  "supported": false,
-  "reason": "Nicht-kanonisch ohne Branch-Protokoll",
-  "refusal_text": "Parallele Core-Missions-Branches innerhalb derselben Episode gelten ohne Branch-Protokoll als Hausregel und werden nicht als kanonischer Kampagnenfortschritt gemerged."
+  "supported": true,
+  "reason": "Kanonisch mit Branch-Protokoll",
+  "acceptance_text": "Parallele Core-Missions-Branches gelten als kanonisch, wenn dieselbe continuity.split.family_id gesetzt ist und die Konvergenz über expected_threads/resolved_threads aufgelöst wird."
 }
