@@ -284,8 +284,10 @@ loggt zusätzlich `logs.trace[]` mit `reason: hq_only`.
 Arena-Matchmaking (`queue_state=searching|matched|staging|active`) zählt als
 aktiver Modus. `save_deep()` liest den Queue-Status aus, setzt `arena.active`
 und `arena.phase` im Serializer auf `active` und blockiert den HQ-Save mit
-"SaveGuard: Arena aktiv - HQ-Save gesperrt.", bis `queue_state` wieder `idle`
-erreicht (auch `completed` bleibt gespeichert, aber blockiert den Save).
+"SaveGuard: Arena aktiv - HQ-Save gesperrt.", solange Matchmaking/Run aktiv
+ist. Ein HQ-Save ist nach PvP explizit wieder erlaubt, sobald der Arena-Block
+auf Abschlusszustand normalisiert ist (`queue_state=idle|completed` bei
+`arena.active=false` und `arena.phase=idle|completed`).
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
