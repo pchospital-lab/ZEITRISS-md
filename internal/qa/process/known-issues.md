@@ -112,3 +112,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (WS-Session-Anker-Restdrift): `internal/qa/plans/issue-pack-durchlauf-86-ws-session-anchor-restdrift.md`
 - Log (WS-Session-Anker-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-86-ws-session-anchor-restdrift.md`
 
+
+- **Durchlauf 87 (2026-03-08):** Anschlusslauf zur Strukturhärtung des Continuity-Dedupe-Pfads abgeschlossen: `systems/gameflow/saveGame.v7.schema.json` führt jetzt `logs.flags.continuity_conflicts[]` als strukturiertes Konfliktarray; `meta/masterprompt_v6.md`, `systems/gameflow/speicher-fortsetzung.md` und `core/sl-referenz.md` referenzieren denselben Pfad konsistent (inkl. Lineage-Beispiel `ANCHOR-main`), und alle `internal/qa/fixtures/savegame_v7_*.json` plus Guards (`tools/test_v7_schema_consistency.js`, `tools/test_v7_issue_pack.js`) prüfen das Pflichtfeld. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Continuity-Conflict Struktur + Lineage-Restdrift): `internal/qa/plans/issue-pack-durchlauf-87-continuity-conflict-structure.md`
+- Log (Continuity-Conflict Struktur + Lineage-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-87-continuity-conflict-structure.md`

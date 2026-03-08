@@ -244,7 +244,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Doppelte `save_id` im selben Merge-Lauf werden als Branch-Duplikat blockiert
   (`logs.flags.duplicate_branch_detected=true`). Doppelte `characters[].id`
   werden als Rejoin-Fall behandelt: neuester persönlicher Stand gewinnt,
-  divergente Pfade werden als `continuity_conflict` im Trace markiert.
+  divergente Pfade werden als `logs.flags.continuity_conflicts[]` markiert.
   Die vollständige Doku steht in `systems/gameflow/speicher-fortsetzung.md`.
   Neue Saves benutzen ausschließlich v7 mit `characters[]` als einzigem
   Roster-Container (Session-Anker = Index 0).
