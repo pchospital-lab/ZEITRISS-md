@@ -253,9 +253,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `team.members[]`) wird in `characters[]` zusammengeführt; Legacy-Pool
   `economy.cu` wird auf `economy.hq_pool` normalisiert.
 - `character.id`, `character.attributes.SYS_max`,
-  `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
-  `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
-  `character.cooldowns` sind immer Teil des HQ-Deepsaves.
+  `character.attributes.SYS_installed`, `character.stress`, `character.psi_heat`
+  sind Teil des HQ-Deepsaves. Laufzeitwerte (`SYS_runtime`, `SYS_used`,
+  `cooldowns`) werden nicht persistiert und beim Laden neu gesetzt.
 - `campaign.px`, `economy.hq_pool`, `characters[].wallet`, `characters[].history`,
   `characters[].carry`, `characters[].quarters_stash`, `characters[].vehicles`, `logs` (inklusive
   `hud`, `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,

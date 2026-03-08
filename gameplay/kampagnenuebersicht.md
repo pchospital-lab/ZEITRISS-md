@@ -139,7 +139,8 @@ Sie verbindet das sichere HQ mit der künftigen Stadtsphäre und vermittelt, wel
 
 _Hinweis:_ Dieses Hintergrundmodell ist optional und beeinflusst die Missionen
 nicht direkt. Greife es nur auf, wenn die Spieler nach einer Erklärung für die
-Nullzeit fragen.
+Nullzeit fragen. ITI-intern gilt „Absolut" nicht als Glaube, sondern als
+Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik.
 
 In ZEITRISS existieren drei Ebenen: das individuelle Bewusstsein, das 2D-Feld reiner Information
 - das **Absolut** - und die gemeinsame Realität. Das Absolut bildet den Kern des

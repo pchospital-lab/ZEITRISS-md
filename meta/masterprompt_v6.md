@@ -314,7 +314,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   "arc": { "factions": {}, "questions": [], "hooks": [] },
   "ui": { "gm_style": "verbose", "suggest_mode": false,
     "contrast": "standard", "badge_density": "standard",
-    "output_pace": "normal", "voice_profile": "gm_third_person" }
+    "output_pace": "normal", "voice_profile": "gm_second_person" }
 }
 ```
   **Schema v7 Regeln:**

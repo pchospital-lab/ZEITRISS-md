@@ -276,7 +276,7 @@ das Klartext-Profil als maßgebliche Struktur.
 
 Der Serializer befüllt `arc` vor dem SaveGuard automatisch mit
 leeren Arrays/Objekten und setzt fehlende Arc-Blöcke nicht stillschweigend
-zurück: Pflichtpfade (`open_seeds`, `factions`, `questions`, `timeline`) lösen
+zurück: Pflichtpfade (`factions`, `questions`, `hooks`) lösen
 einen SaveGuard-Fehler aus, falls sie fehlen oder `null` sind.
 
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
@@ -416,9 +416,10 @@ Schema nur die vier erlaubten Tokens akzeptiert.
 **Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
 (`ui.gm_style`, `ui.suggest_mode`, `ui.action_mode`) und ergänzen fehlende
 Felder für `contrast`, `badge_density`, `output_pace` und `voice_profile` mit
-Defaults (`standard`/`standard`/`normal`/`gm_third_person` plus
-`action_mode=uncut`). `voice_profile` erlaubt ausschließlich `gm_third_person`
-oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
+Defaults (`standard`/`standard`/`normal`/`gm_second_person` plus
+`action_mode=uncut`). `voice_profile` erlaubt `gm_second_person` (Default),
+`gm_third_person` oder `gm_observer`; unbekannte Werte fallen auf das Default
+zurück.
 `action_mode` ist immer `uncut` (18+ Tech-Noir). Legacy-Werte wie
 `konform|frei|safe|pg-13` werden beim Laden auf `uncut` normalisiert.
 
@@ -441,6 +442,10 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
 > bricht andernfalls ab.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
+
+> **Legacy-/Import-Hinweis:** Der folgende Block dient als Bridge-Referenz für
+> Migration und QA. Kanonische Exporte folgen dem v7-Zielmodell
+> (`v`, `zr`, `characters[]`, `attr`, `economy.hq_pool`, `arc.questions/hooks`).
 
 > Referenz-HQ-Block mit Quartier, Timeline, Squad und Feldnotizen. Alle
 > Pflichtfelder bleiben erhalten; optionale Blöcke sind knapp, aber vollständig
@@ -584,7 +589,7 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
-    "voice_profile": "gm_third_person"
+    "voice_profile": "gm_second_person"
   },
   "arena": {"active": false, "phase": "idle", "mode": "single", "tier": 1}
 }
@@ -801,7 +806,7 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
     "contrast": "high",
     "badge_density": "compact",
     "output_pace": "slow",
-    "voice_profile": "gm_third_person"
+    "voice_profile": "gm_second_person"
   },
   "arena": {
     "active": false,
@@ -1414,7 +1419,7 @@ Es ist kein zweites, paralleles Format erlaubt.
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
-    "voice_profile": "gm_third_person"
+    "voice_profile": "gm_second_person"
   }
 }
 ```

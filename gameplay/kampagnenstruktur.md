@@ -436,13 +436,16 @@ Jeder Seed steht für ein offenes Pararift.
 Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon-Index auf 0.
 Die neu sichtbaren Seeds landen anschließend im Array `rift_seeds`.
 Der Reset greift erst nach einer Runde, damit dramatische Szenen ausklingen können.
-Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn im HQ.
-Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
-zusammengeführt oder getrennt bleiben.
+Bei parallelen Einsätzen bleibt die Merge-Logik strikt deterministisch: Der
+Paradoxon-Status folgt dem SSOT-Präzedenzgraphen
+`consumed > pending_reset > stable`, danach wird `campaign.px` normalisiert
+(`consumed => 0`, `pending_reset => 5`, sonst max 0-4). Es gibt keine
+optionalen Merge-Schalter.
 
 **Single Source:** `campaign.rift_seeds[]` bleibt die führende Liste offener Risse;
-`arc.open_seeds[]` spiegelt sie nur. Merges respektieren immer den
-Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wallets.
+`arc.open_seeds[]` spiegelt sie nur als Legacy-/Dashboard-Bridge. Kanonische
+Runtime-Quelle bleibt `campaign.rift_seeds[]`; Merges respektieren den
+Host-Save und ergänzen nur erlaubte Importfelder.
 
 #### Level-Hinweise & Rift-Tier-System {#rift-tier-system}
 
@@ -505,9 +508,9 @@ gestartet werden darf.
   (z. B. `1W6 → 6` = seltenes Artefakt). Stoppuhr-Artefakte bleiben als Plot-
   Schwachstellen möglich, ersetzen aber den Boss-Loot nicht. Relikte bleiben
   Core-exklusiv.
-- **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
-  zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradoxon-Subsystem
-  steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
+- **Keine Sonderzählung:** Auch Kurzmissionen folgen derselben
+  TEMP-Progresstabelle wie reguläre Missionen (kein Halbzähler, kein
+  Alternieren).
 
 #### Boss-Rhythmus pro Episode
 
@@ -552,6 +555,37 @@ Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
 *Hinweis:* Boss erscheint weiterhin Core: **M5/M10**, Rift: **Szene 10**.
 
 
+#### Signaturtell (Boss-/Rift-Payoff)
+
+Vor jedem Mini-, Episoden- oder Rift-Boss existiert genau **ein verwertbarer
+Signaturtell** (z. B. Bewegungsmuster, Materialreaktion, Taktfehler,
+Zeitmarker-Trigger).
+
+Wird dieser Tell **vor Szene 10** über Foreshadow, Intel oder Forensik korrekt
+identifiziert und im Spiel benannt, erhält das Team in der Boss-Szene
+**einmalig** einen taktischen Vorteil. Mögliche Effekte:
+
+- Boss-Signaturfähigkeit startet eine Runde später, **oder**
+- erstes Defensivfenster entfällt, **oder**
+- Team erhält +1 auf den Eröffnungszug, **oder**
+- ein Boss-DR-/Overflow-Effekt wird für genau einen Treffer ignoriert.
+
+Der Signaturtell ersetzt keine Boss-Mechanik; er macht Vorbereitung spürbar.
+
+#### Forensik-Dreieck (Rift-Casefiles)
+
+Rift-Casefiles führen drei Beweisachsen: **Bio**, **Material**, **Temporal**.
+Sichert das Team mindestens **2 von 3** Achsen sauber, gilt der Fall als
+klassifiziert und die Spielleitung gibt den Kern klar frei.
+
+Payoff bei 2/3 oder 3/3:
+
+- Boss-Signaturtell wird offengelegt, **oder**
+- +1 Schritt auf Debrief-/Research-Qualität, **oder**
+- sauberer Exfil-Bonus / reduzierter Heat, **oder**
+- zusätzlicher Kodex-Hinweis für den Aha-Moment.
+
+
 #### Paradoxon-Subsystem
 
 Weitere Details stehen im
@@ -565,8 +599,8 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 
 Der Index wird kampagnenweit verfolgt. Bei Px 5 macht `ClusterCreate()` 1-2 neue
 Rift-Seeds sichtbar.
-Optional kann ein leichter ±1-Jitter aktiv sein, damit die Schwelle nicht exakt
-vorhersehbar bleibt.
+Die Schwelle bleibt deterministisch gemäß TEMP-Progresstabelle; es gibt
+keinen Zufallsjitter.
 
 #### Cluster-Erzeugung
 
@@ -2339,19 +2373,18 @@ _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenz
 - **Konsequenzen statt Detailprozeduren:** Noise, Stress, Heat oder enge Zeitfenster
   spiegeln Risiken und Eskalation.
 
-### 7 | Cutscene & UI-Flow
+### 7 | Einstieg-Flow ohne UI-Dialoge
 
-1. **Warn-Popup (einmalig)**
+1. **Warnhinweis (einmalig, In-World-Ansage)**
    "Chronopolis entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein."
-   Buttons: _Abbrechen_ / _Eintreten_
-2. **5-s Establishing Shot** über ringförmige Skyline → Fade to Player Spawn-Point "Paradoxon Plaza".
-3. **UI-Banner**: "Bewohner wechseln mit jedem Besuch - halte Ausschau nach seltenen Händlern!"
+2. **Establishing Shot** über ringförmige Skyline → Fade auf Spawn-Point "Paradoxon Plaza".
+3. **HUD-Hinweis**: "Bewohner wechseln mit jedem Besuch - halte Ausschau nach seltenen Händlern!"
 
 _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 
 ### 8 | Beispiel-Run (Spieler Level 11)
 
-1. Spieler klickt "Chronopolis betreten".
+1. Crew kündigt narrativ an: "Wir betreten Chronopolis".
 2. Engine ruft KI-SL-Stub mit Seed `2025-06-18-T19:15:00Z`.
 3. Stadt lädt, 8 Händler & 15 NPC erscheinen.
 4. Händler "Temporal Shipwright Novara" bietet **Chronoglider MK II** an.
