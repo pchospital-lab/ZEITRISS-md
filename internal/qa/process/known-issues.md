@@ -107,3 +107,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Continuity-Fixture-Wording Session-Anker): `internal/qa/plans/issue-pack-durchlauf-85-continuity-fixture-wording-anchor.md`
 - Log (Continuity-Fixture-Wording Session-Anker): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-85-continuity-fixture-wording-anchor.md`
 
+- **Durchlauf 86 (2026-03-08):** Anschlusslauf zur WS-Restdrift nach dem Kontinuitäts-Redesign abgeschlossen: `core/spieler-handbuch.md` und `core/zeitriss-core.md` nutzen jetzt in Gruppen-/Save-Abschnitten konsistent Session-Anker-Semantik statt Host-SSOT-Wording (u. a. Gruppen-Px, Seed-Epoche, `characters[]` Index-0-Erklärung, Multi-Load-Regeltext). Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (WS-Session-Anker-Restdrift): `internal/qa/plans/issue-pack-durchlauf-86-ws-session-anchor-restdrift.md`
+- Log (WS-Session-Anker-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-86-ws-session-anchor-restdrift.md`
+

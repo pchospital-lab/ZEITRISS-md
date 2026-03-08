@@ -689,7 +689,7 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v7, gekürzt):
 
 _Erläuterung:_ Das v7-Schema ist das Characterdatenblatt — wie ein P&P-Bogen, den
 man zum nächsten Spielleiter mitnimmt. `characters[]` enthält alle Agenten
-(Solo = 1 Eintrag, Gruppe = Array, Host = Index 0). Keine Laufzeit-Daten im Save
+(Solo = 1 Eintrag, Gruppe = Array, Session-Anker = Index 0). Keine Laufzeit-Daten im Save
 (Exfil, Cooldowns, SYS_runtime sind Session-State). Details zur Vollstruktur
 im Modul **Speicherstand & Fortsetzung**.
 
@@ -698,9 +698,11 @@ den Save nach dem Schema im Masterprompt. Vor der nächsten Session kopiert man
 den JSON in den neuen Chat-Kontext. Die KI liest den Speicherstand ein und hat
 sofort alle Fakten — Attribute, Equipment, Reputation, Story-Hooks.
 
-**Gruppen-Spielstände:** Alle Charaktere stehen in `characters[]`. Der Host
-(erster Eintrag) führt die `campaign`-Werte. Beim Split/Merge werden Characters
-einzeln aus dem Array entnommen oder zusammengeführt:
+**Gruppen-Spielstände:** Alle Charaktere stehen in `characters[]`. Der
+Session-Anker (erster Eintrag) setzt den Einstiegspunkt der Runde
+(`campaign`/Mission/HQ), während pro `characters[].id` der neueste persönliche
+Stand gilt. Beim Split/Merge werden Characters einzeln aus dem Array entnommen
+oder zusammengeführt:
 
 ```json
 {
