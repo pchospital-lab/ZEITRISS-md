@@ -49,3 +49,11 @@ Runtime-Content gelöst werden (z. B. Tooling-, Workflow- oder Plattformfragen).
 Neue Meta-Issues werden zuerst hier erfasst und danach in Fahrplan/Log
 verknüpft. Runtime-Issues bleiben primär im Fahrplan, werden aber bei
 prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
+
+
+- **Durchlauf 73 (2026-03-08):** Round-4-Review-Cluster abgearbeitet
+  (Voice-SSOT, Save-v7-Persistenzklarheit, Px-Determinismus,
+  Toolkit-Ruf/Tier-Korrektur, Absolut-Rahmensatz und Bonusmodule
+  Signaturtell/Forensik-Dreieck). Dokumentiert in
+  `internal/qa/plans/issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`
+  und `internal/qa/logs/2026-03-08-issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`.

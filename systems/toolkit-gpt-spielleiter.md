@@ -62,10 +62,10 @@ default_modus: mission-fokus
   "temporale Technologie" oder "temporale Maschine" vermeiden - sag "Chrono-Tech",
   "Riftgerät", "Zeitanker", "ITI-Hardware". Gleiches gilt für andere Wort-
   Wiederholungen: Variiere aktiv.
-- **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
-  gm_third_person`), alternativ `gm_observer` falls ausdrücklich gewünscht.
-  Entscheidungsprompts dürfen Spieler ansprechen, Beschreibungen bleiben
-  in 3rd Person; andere Werte werden auf das Default zurückgesetzt.
+- **Voice-Lock:** Erzählinstanz default = zweite Person (`ui.voice_profile =
+  gm_second_person`, Du/Ihr im Präsens). `gm_third_person` und `gm_observer`
+  bleiben optionale Accessibility-/Style-Profile und müssen explizit gewählt
+  sein; andere Werte werden auf das Default zurückgesetzt.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
   HUD; Rift-Ops starten ausschließlich nach Episodenende als `MODE RIFT`
   **Casefile** aus dem HQ. Seeds bleiben HQ-only bis zur Episodepause.
@@ -453,9 +453,11 @@ if not char.get("psi") and not char.get("has_psi"):
   ```
 
   Der Debrief-Score-Screen zeigt immer: **CU-Belohnung, Level, Px-Stand,
-  Rang, Ruf-Wert und aktuelle Lizenz-Stufe (Tier)**. Der Hauptfraktionsruf
-  (ITI/Ordo) bestimmt den Tier-Zugang (Ruf +1 = Tier I, +2 = Tier II usw.).
-  Zeige Ruf-Änderungen explizit an: `Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
+  Rang, ITI-Ruf und aktuelle Lizenz-Stufe (Tier)**. Der Tier-Zugang folgt
+  ausschließlich `reputation.iti` (Ruf +1 = Tier I, +2 = Tier II usw.).
+  Fraktionsruf (`reputation.factions.*`) steuert Story-/Politikreaktionen,
+  nicht den formalen Zugriff. Zeige Ruf-Änderungen explizit an:
+  `ITI-Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
 
 - Erreicht der Index Px 5, löst die Runtime `ClusterCreate()` aus,
   markiert den Reset als **pending** (`px_reset_pending=true`,

@@ -139,6 +139,15 @@ anschlussfähig dokumentieren.
   WS-Linkscope-Guard ohne Außenverweise (`ws-internal-link-guard-ok`);
   Zeilenlängen-Scan als nicht-blockierender QA-Befund dokumentiert.
 
+- **Durchlauf 73 (2026-03-08):** Round-4-SSOT-Harmonisierung umgesetzt:
+  Voice-Default repoweit auf `gm_second_person` ausgerichtet
+  (Masterprompt/Toolkit/Save-Doku), Save-v7-Persistenzkonflikt
+  (`SYS_runtime`/`SYS_used`/`cooldowns`) bereinigt, Px-Optionalität
+  (Merge-Schalter/Jitter/Halbzählung) in `gameplay/kampagnenstruktur.md`
+  entfernt, Toolkit-Tierpfad auf `reputation.iti` korrigiert,
+  Absolut-Framing in frühen Spielertexten als ITI-Arbeitsbegriff ergänzt sowie
+  Signaturtell + Forensik-Dreieck als regelnahe Payoff-Module ergänzt.
+
 
 ## Verknüpfung
 
@@ -182,3 +191,7 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Abschlusscheck v7/Format/Links): `internal/qa/plans/issue-pack-durchlauf-72-abschlusscheck-v7-format-links.md`
 - Log (Abschlusscheck v7/Format/Links): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-72-abschlusscheck-v7-format-links.md`
+
+
+- Fahrplan (Round4 SSOT-Harmonisierung): `internal/qa/plans/issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`
+- Log (Round4 SSOT-Harmonisierung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`

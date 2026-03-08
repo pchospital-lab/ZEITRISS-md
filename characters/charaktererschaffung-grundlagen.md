@@ -24,7 +24,8 @@ regelleicht gehalten, sodass der Spielfluss im Vordergrund steht. Für zusätzli
 Start-Archetypen und Team-Varianten siehe
 [Charakteroptionen & Archetypen](charaktererschaffung-optionen.md).
 Nach dem fatalen Ende eures früheren Lebens extrahierte das ITI euer Bewusstsein aus dem Absolut.
-Die Charaktererschaffung findet im **Nullzeit-Puffer** statt, über Holo-Interfaces und Labor-
+ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute
+unvollständig verstandene Grenzphysik. Die Charaktererschaffung findet im **Nullzeit-Puffer** statt, über Holo-Interfaces und Labor-
 Displays. Erst wenn der Prozess abgeschlossen ist, baut das HQ die passende Bio-Hülle - auf
 Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Bewusstsein hinein.
 ### Kurz-Checkliste Charaktererstellung
