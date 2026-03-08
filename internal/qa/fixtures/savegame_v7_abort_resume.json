@@ -1,0 +1,30 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 8,
+    "mission": 4,
+    "px": 1,
+    "px_state": "stable",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "characters": [
+    { "id": "AGENT-ABORT", "wallet": 2300 }
+  ],
+  "economy": { "hq_pool": 11100 },
+  "logs": {
+    "trace": [
+      { "event": "abort_to_hq" },
+      { "event": "save_hq" },
+      { "event": "resume_planned" }
+    ],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
+  }
+}
