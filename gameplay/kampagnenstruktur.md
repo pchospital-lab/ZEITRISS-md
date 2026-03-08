@@ -357,7 +357,7 @@ die Agenten bringen moderne Technik mit. Die Spannung entsteht aus dem Kontrast
 Chrononaut vs. Zeitepoche — nicht aus Zeiteffekten.
 
 **Rift-Ops** drehen sich um offene Zeitrisse. Sie werden aus dem
-[Rift Seed Catalogue](gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
+[Rift Seed Catalogue](kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
 enthalten immer eine Anomalie mit Para-Wesen. Sie nutzen den regulären Gear-Loot-Pool
 der Core-Ops; Relikte bleiben Core-exklusiv. Ein Artefaktwurf erfolgt ausschließlich
 nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar).

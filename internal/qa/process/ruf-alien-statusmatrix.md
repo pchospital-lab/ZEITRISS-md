@@ -121,6 +121,19 @@ anschlussfähig dokumentieren.
   sowie den kanonischen `Greys - posthumane Fernzukunfts-Menschen`-Eintrag in
   `gameplay/kreative-generatoren-begegnungen.md`.
 
+- **Durchlauf 70 (2026-03-08):** Abschlusscheck auf v7-SSOT +
+  Wissensspeicher-Linkhygiene durchgeführt: Pflicht-Smoke erneut grün,
+  lokale Außenverweise aus WS-Texten entfernt (`core/sl-referenz.md`,
+  `core/spieler-handbuch.md`, `systems/gameflow/speicher-fortsetzung.md`)
+  und ein fehlerhafter relativer Modul-Link in
+  `gameplay/kampagnenstruktur.md` korrigiert.
+
+- **Durchlauf 71 (2026-03-08):** Follow-up auf den Abschlusscheck: die
+  V6→V7-Migrationsreferenz wurde direkt im Wissensspeicher verankert
+  (`systems/gameflow/speicher-fortsetzung.md`, neuer Anker
+  `#v6-v7-migrationsbeispiel-im-wissensspeicher`) und die
+  `core/sl-referenz.md` auf diesen internen WS-Pfad umgestellt.
+
 
 ## Verknüpfung
 
@@ -155,3 +168,9 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Monitoring + Guard-Härtung): `internal/qa/plans/issue-pack-durchlauf-69-ruf-alien-monitoring-guard.md`
 - Log (Monitoring + Guard-Härtung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-69-ruf-alien-monitoring-guard.md`
+
+- Fahrplan (Abschlusscheck v7 + Linkhygiene): `internal/qa/plans/issue-pack-durchlauf-70-abschlusscheck-v7-links.md`
+- Log (Abschlusscheck v7 + Linkhygiene): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-70-abschlusscheck-v7-links.md`
+
+- Fahrplan (V6-Migrationsreferenz im Wissensspeicher): `internal/qa/plans/issue-pack-durchlauf-71-v6-migrationsreferenz-ws.md`
+- Log (V6-Migrationsreferenz im Wissensspeicher): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-71-v6-migrationsreferenz-ws.md`

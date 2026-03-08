@@ -197,7 +197,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Kilometer (`range_km`) und normalisiert Werte automatisch. Jammer ohne Kabel/
   Relais blockieren den Kontakt.
 - **Fallback:** Scheitert der Check, meldet der Kodex `CommsCheck failed …` und
-  verweist auf das Offline-FAQ. Details siehe [Runtime-Helfer](../doc.md#comms-check).
+  verweist auf das Offline-FAQ im Spieler-Handbuch.
 - **Offline-Fallback:** `!offline` gibt höchstens einmal pro Minute das Kodex Offline-FAQ aus.
   Es erinnert Schritt für Schritt daran, wie die Crew den Uplink erneut herstellt:
   - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen - bis
@@ -236,9 +236,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 
 **Save v7 – Pflichtfelder & Kompatibilität**
 
-- _Referenz-Fixture:_ Ein vollständig ausgefüllter v6-Teststand (für
-  Rückwärtskompatibilität) liegt unter
-  [`internal/qa/fixtures/savegame_v6_test.json`](../internal/qa/fixtures/savegame_v6_test.json).
+- _Migrationsreferenz (KI-SL):_ Das kanonische V6→V7-Beispiel steht direkt im
+  Wissensspeicher unter
+  [`speicher-fortsetzung.md#v6-v7-migrationsbeispiel-im-wissensspeicher`](../systems/gameflow/speicher-fortsetzung.md#v6-v7-migrationsbeispiel-im-wissensspeicher).
 - _Single Source:_ Das Schema-Template steht im **Masterprompt** (v7).
 - v7-Lineage ist Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
   Doppelte `save_id` im selben Merge-Lauf werden als Branch-Duplikat blockiert
