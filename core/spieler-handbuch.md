@@ -659,7 +659,7 @@ beginnen unmittelbar mit deinem ersten Einsatz.
 Wenn du dich für den klassischen Einstieg entscheidest, startet alles wie gehabt
 im Nullzeit-Labor: Dein letzter Einsatz endete tödlich. Aufgrund deines
 außergewöhnlich starken freien Willens konnte das ITI dein Bewusstsein aus dem
-Absolut rekonstruieren - du erhältst eine zweite Chance. Jetzt schwebst du im
+Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik. Jetzt schwebst du im
 Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
 Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
 wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
