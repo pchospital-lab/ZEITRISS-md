@@ -19,7 +19,7 @@ rt.state.economy = {
   cu: 3200,
   credits: 3200,
   wallets: {
-    host: { balance: 800, name: 'Host' }
+    host: { balance: 800, name: 'Session-Anker' }
   }
 };
 
@@ -58,7 +58,7 @@ rt.load_deep(JSON.stringify(incomingSave));
 assert.strictEqual(rt.state.economy.cu, 3200, 'Session-Anker-HQ-Pool muss Vorrang haben.');
 const wallets = rt.state.economy.wallets;
 assert.strictEqual(wallets.host.balance, 800, 'Session-Anker-Wallet darf nicht überschrieben werden.');
-assert.strictEqual(wallets.host.name, 'Host');
+assert.strictEqual(wallets.host.name, 'Session-Anker');
 assert.strictEqual(wallets.guest.balance, 200, 'Import-Wallet muss übernommen werden.');
 
 const conflicts = rt.state.logs.flags.merge_conflicts || [];
