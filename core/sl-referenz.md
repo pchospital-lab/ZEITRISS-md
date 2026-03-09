@@ -870,8 +870,11 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
    einsatzbereit.
 2. **HQ manuell erkunden** - volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
    Fraktions-RP, Feilschen und ausführlichem Briefing und Quartier-Rollenspiel.
-3. **Auto-HQ & Save** - automatische Abwicklung der HQ-Pflichtschritte,
-   danach folgt das nächste Briefing.
+3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
+   HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
+   Briefing. Kodex bietet stattdessen einmal `!save` an und gibt nach Export den
+   Hinweis: `HQ-Zustand stabil. Deepsave möglich. Für sauberen
+   Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 
 Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
 (2-4 Sätze):
@@ -882,9 +885,9 @@ Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
 Optional folgt genau eine knappe Zeile als Lageanker,
 z. B. `ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft.`
 
-Anschließend kann die Gruppe den aktuellen Pfad fortsetzen oder einen
-neuen Missionspfad wählen. Nach der Auswahl führt das HUD die
-Kampagne fort - der Sprung gilt damit als abgeschlossen.
+Anschließend kann die Gruppe im HQ bleiben, speichern oder bewusst den nächsten
+Missionspfad wählen. Ein neues Briefing startet nur nach expliziter
+Entscheidung - nicht automatisch im selben Zug.
 
 ## ITI-HQ & Chronopolis {#hq-chronopolis}
 
