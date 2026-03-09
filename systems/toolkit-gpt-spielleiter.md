@@ -1061,9 +1061,11 @@ einzusetzen, um den Spielern Informationen oder Stimmungsimpulse zu geben. Diese
 Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gestaltet sein:
 
 - **Visueller Stil & Signalwirkung:** Beschreibt HUD-Elemente mit ihren Farben, Symbolen und
-  Effekten. ZEITRISS-HUDs sind vermutlich futuristisch, holografisch und kontextsensitiv.
-  Meist projiziert der Kodex die Anzeigen direkt ins Sichtfeld -
-  eine leichte Retina-Linse, die nur Agenten sehen.
+  Effekten. ZEITRISS-HUDs sind futuristisch und kontextsensitiv, aber im
+  Regelfall **linsengebunden** statt frei im Raum schwebend. Der Kodex projiziert
+  Anzeigen primär direkt ins Sichtfeld (Retina-Linse, nur für Agenten sichtbar);
+  feste Inworld-Projektionen nutzt ihr nur, wenn die Szene ein benanntes
+  Gerät/eine klare Fläche hat (z. B. HQ-Briefingglas).
   Beispiel:
   _"Ein rot pulsierendes Dreieck-Icon erscheint am rechten oberen Rand eures Sichtfelds."_ Oder: *"Das
   HUD flimmert kurz, w*ä*hrend neue Daten eingeblendet werden."* Solche visuellen Hinweise verstärken
