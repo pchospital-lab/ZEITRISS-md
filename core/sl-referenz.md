@@ -620,8 +620,9 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 - **Kausalabfang-Marker (ITI-Standardmodul):** Stark reglementiertes
   Nahbereichsmodul für **0-LP-Hostiles** nach Konfliktende. Voraussetzung:
   **Nahdistanz + eindeutige Identitätsfassung + Kodex-Uplink**. Bei Freigabe
-  veranlasst das ITI eine eng begrenzte retrospektive Festnahme kurz vor
-  Einsatzkontakt. Der Marker ist **kein Kampf-Gadget**, nicht shopbar und
+  veranlasst das ITI eine eng begrenzte retrospektive Festnahme im Fenster
+  **Sekunden bis wenige Minuten** vor Einsatzkontakt. Der Marker ist
+  **kein Kampf-Gadget**, nicht shopbar und
   nicht als Pflicht-Inventar zu führen; Boss-/Mini-Boss-Ziele, Chrononauten,
   Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis sind gesperrt.
 - Riss-Tracker (temporaler Resonator) - warnt vor Resonanz, siehe
