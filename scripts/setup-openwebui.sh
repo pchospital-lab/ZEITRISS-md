@@ -314,9 +314,9 @@ payload = {
         'capabilities': {'vision': False, 'usage': False},
         'knowledge': [{'id': kb_id, 'name': 'ZEITRISS 4.2.6 Regelwerk'}],
         'suggestion_prompts': [
-            {'content': 'Spiel starten (solo schnell)'},
             {'content': 'Spiel starten (solo klassisch)'},
-            {'content': 'Spiel laden'}
+            {'content': 'Spiel laden'},
+            {'content': 'Ich will solo neu anfangen und meinen Charakter generieren.'}
         ]
     },
     'params': {
@@ -398,7 +398,8 @@ echo -e "  ${BOLD}So geht's weiter:${NC}"
 echo -e "  1. Öffne ${CYAN}$OPENWEBUI_URL${NC} im Browser"
 echo -e "  2. Starte einen ${BOLD}neuen Chat${NC}"
 echo -e "  3. Wähle das Modell ${BOLD}\"ZEITRISS v4.2.6 Uncut\"${NC}"
-echo -e "  4. Tippe: ${GREEN}Spiel starten (solo schnell)${NC}"
+echo -e "  4. Tippe: ${GREEN}Spiel starten (solo klassisch)${NC}"
+echo -e "     (oder formuliere natürlich, dass du neu starten willst)"
 echo ""
 echo -e "  ${YELLOW}Viel Spaß, Chrononaut. Die Nullzeit wartet.${NC}"
 echo ""
