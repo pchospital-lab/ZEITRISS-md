@@ -14,25 +14,36 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
 
 ```json
 {
-  "Gatehall": {
-    "aliases": ["gate", "atrium", "hub"],
+  "Quarzatrium": {
+    "aliases": ["atrium", "gatehall", "hub", "empfang"],
     "sub": {
-      "briefing": "Mission-Briefing-Pod"
+      "briefing": "Briefing-Pod"
     }
   },
-  "Mission-Briefing-Pod": {
-    "aliases": ["briefing", "pod"],
-    "parent": "Gatehall"
+  "Briefing-Pod": {
+    "aliases": ["mission-briefing-pod", "pod", "briefing"],
+    "parent": "Quarzatrium"
   },
-  "Research-Wing": {
-    "aliases": ["research", "labs"],
+
+  "Kodex-Archiv": {
+    "aliases": ["kodex", "archiv", "research-wing"],
     "sub": {
-      "lab-alpha": "Lab-Alpha",
-      "workshop": "Workshop-Beta"
+      "akten": "Aktenkapseln",
+      "ordo": "Ordo-Schalter"
     }
   },
-  "Lab-Alpha": { "aliases": ["alpha"], "parent": "Research-Wing" },
-  "Workshop-Beta": { "aliases": ["beta"], "parent": "Research-Wing" },
+  "Aktenkapseln": { "aliases": ["kapseln"], "parent": "Kodex-Archiv" },
+  "Ordo-Schalter": { "aliases": ["ordo"], "parent": "Kodex-Archiv" },
+
+  "Med-Lab": {
+    "aliases": ["med", "klinik", "diagnostik", "research-wing"],
+    "sub": {
+      "triage": "Triage-Bucht",
+      "op": "OP-Kern"
+    }
+  },
+  "Triage-Bucht": { "aliases": ["triage"], "parent": "Med-Lab" },
+  "OP-Kern": { "aliases": ["op"], "parent": "Med-Lab" },
 
   "Operations-Deck": {
     "aliases": ["ops", "operations"],
@@ -44,15 +55,15 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
   "Time-Shard-Vault": { "aliases": ["vault"], "parent": "Operations-Deck" },
   "Seed-Scanner": { "aliases": ["scanner"], "parent": "Operations-Deck" },
 
-  "Crew-Quarters": {
-    "aliases": ["crew", "quarters"],
+  "Quartiere": {
+    "aliases": ["crew-quarters", "crew", "quarters"],
     "sub": {
       "common": "Common-Room",
       "sleep": "Sleep-Capsules"
     }
   },
-  "Common-Room": { "aliases": ["common"], "parent": "Crew-Quarters" },
-  "Sleep-Capsules": { "aliases": ["sleep"], "parent": "Crew-Quarters" },
+  "Common-Room": { "aliases": ["common"], "parent": "Quartiere" },
+  "Sleep-Capsules": { "aliases": ["sleep"], "parent": "Quartiere" },
 
   "Hangar-Axis": {
     "aliases": ["hangar"],
@@ -62,11 +73,23 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
     }
   },
   "Jump-Pads": { "aliases": ["jump"], "parent": "Hangar-Axis" },
-  "Maintenance-Bay": { "aliases": ["maint"], "parent": "Hangar-Axis" }
+  "Maintenance-Bay": { "aliases": ["maint"], "parent": "Hangar-Axis" },
+
+  "Zero Time Lounge": {
+    "aliases": ["lounge", "bar"],
+    "sub": {
+      "tresen": "Lounge-Tresen"
+    }
+  },
+  "Lounge-Tresen": { "aliases": ["tresen"], "parent": "Zero Time Lounge" },
+
+  "Pre-City-Hub": {
+    "aliases": ["pre-city", "schleuse", "chronopolis-hub"]
+  }
 }
 ```
 
-> **Router-Call (pseudo)** > `resolveCommand("> go research") ➜ "Research-Wing"`
+> **Router-Call (pseudo)** > `resolveCommand("> go research") ➜ "Kodex-Archiv"`
 
 ---
 
@@ -75,7 +98,7 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
 ```typescript
 interface PopulationRequest {
   seed: number; // epoch-secs or cryptographic RNG
-  room_id: string; // canonical (e.g. "Research-Wing")
+  room_id: string; // canonical (e.g. "Kodex-Archiv")
   player_rank: number;
   flags?: string[]; // optional campaign flags
 }
