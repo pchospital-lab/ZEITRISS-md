@@ -175,3 +175,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (SL-Referenz NPC-Schema-Alignment): `internal/qa/plans/issue-pack-durchlauf-98-sl-referenz-npc-schema-alignment.md`
 - Log (SL-Referenz NPC-Schema-Alignment): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-98-sl-referenz-npc-schema-alignment.md`
+
+
+- **Durchlauf 99 (2026-03-09):** Anschlusslauf zur Verhaltensschicht des NPC-Kontinuitätsmodells abgeschlossen: `meta/masterprompt_v6.md` enthält jetzt explizit die Join/Leave-Guard-Regel (`personal` folgt `owner_id`, `session` bleibt beim Session-Anker, `iti` Hintergrundstatus; Scope-Wechsel nur als sichtbarer Transfer-Beat) plus Cross-Pollination-Hinweis für kompakte Offscreen-Rückkehr. `systems/gameflow/speicher-fortsetzung.md` ergänzt den Pflichtbeat `NPC-Cross-Pollination` (max. 1 Hook), `core/sl-referenz.md` zieht denselben Guard im Save-v7-Hinweisblock nach. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (NPC-Kontinuität Cross-Pollination-Guard): `internal/qa/plans/issue-pack-durchlauf-99-npc-continuity-cross-pollination-guard.md`
+- Log (NPC-Kontinuität Cross-Pollination-Guard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-99-npc-continuity-cross-pollination-guard.md`

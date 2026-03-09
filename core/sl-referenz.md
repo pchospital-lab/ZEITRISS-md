@@ -1164,6 +1164,11 @@ arena?: { wins, losses, tier }          // nur wenn Arena genutzt
 > `convergence_tags` max 4, `npc_roster` max 6, `active_npc_ids` max 4.
 > NPC-Scope bleibt `personal|session|iti`, NPC-Status
 > `attached|hq|assigned|recovering|missing|rival`.
+> Join/Leave-Guard: `personal` folgt `owner_id`, `session` bleibt am
+> Session-Anker, `iti` fällt auf Hintergrundstatus; Scope-Wechsel nur als
+> sichtbarer Inworld-Transfer.
+> Offscreen-Rückkehr pro NPC mit genau einer kompakten Fortschreibung
+> (Auftrag + Veränderung + Hook).
 > Beim HQ-Save werden ältere Details in `summaries.*` verdichtet
 > (`summary_last_episode`, `summary_last_rift`, `summary_active_arcs`).
 > **Mischgruppen-Slotregel:** Menschen zählen immer zuerst gegen Teamgröße 5;
