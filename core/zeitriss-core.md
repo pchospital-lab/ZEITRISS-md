@@ -875,28 +875,24 @@ Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
 1. **Ankunft im HQ**
    - Ein kurzer Luftzug begrüßt das Team, während sich der Riss hinter ihnen schließt.
 
-2. **Entscheidungspunkt**
+2. **Verpflichtender HQ-Beat (Downtime)**
 
-   - **HQ-Stopp (Downtime):**
-
-     - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.
-     - Danach wählen die Spieler einen von **zwei Sprungpfaden**:
-      1. **Pfad fortsetzen** - die Kampagne bleibt im gleichen Verlauf
-         (nächste Mission derselben Episode).
-      2. **Neuen Pfad wählen** - sie legen ein anderes Zielzeit-Koordinatenset fest
-         **(neue Mission / Kampagne)**.
-      - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.
-      - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**;
-        ein Zurückkehren ist nicht möglich.
-       - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
-      - Laufende Einsätze werden nicht aus dem HQ heraus wieder aufgenommen.
-
-   - **Direkt weiterspringen (ohne HQ-Stop)**
-       - Der Riss führt die Gruppe sofort an den zuletzt gewählten Zielzeitpunkt.
-     - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
-      - Rücksprünge gelingen nur während eines kurzen Raumzeitfensters.
-        Verpasst das Team dieses Zeitfenster, muss es auf den nächsten
-        temporalen Peak warten und so lange in der Epoche improvisieren.
+   - Nach jeder Mission folgt die Rückkehr ins ITI-HQ als fester Heimkehr-Beat.
+     Die Szene darf kompakt als Montage ausgespielt werden, wird aber nicht
+     übersprungen.
+   - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben,
+     Missions-Debriefing.
+   - Danach wählen die Spieler einen von **zwei Sprungpfaden**:
+     1. **Pfad fortsetzen** - die Kampagne bleibt im gleichen Verlauf
+        (nächste Mission derselben Episode).
+     2. **Neuen Pfad wählen** - sie legen ein anderes Zielzeit-Koordinatenset fest
+        **(neue Mission / Kampagne)**.
+   - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der
+     alte endgültig**.
+   - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**;
+     ein Zurückkehren ist nicht möglich.
+   - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
+   - Laufende Einsätze werden nicht aus dem HQ heraus wieder aufgenommen.
 
 > Bei Paradoxon-Index 5 legt das HQ trotzdem 1-2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
   3. **Notfall-Rückholung**
