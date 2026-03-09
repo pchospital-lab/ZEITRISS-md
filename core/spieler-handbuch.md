@@ -121,9 +121,10 @@ menschlicheren Zukunftsspur gefolgt sind.
 
 Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](sl-referenz.md#chat-kurzbefehle).
 
-Nach Einleitung (Compliance-Hook entfällt) fragt das System nach
-_"klassischer Einstieg"_ oder _"Schnelleinstieg"_ - es sei denn, der Startbefehl
-enthält den Modus bereits.
+Nach Einleitung (Compliance-Hook entfällt) akzeptiert die KI-SL klare
+Startwünsche in natürlicher Sprache und normalisiert intern auf denselben
+Startpfad; die kanonischen Startbefehle bleiben als Kurzform gültig.
+Ohne expliziten Modus gilt **klassisch** als Standard.
 Bei **klassisch** folgt die volle Charaktererschaffung.
 Vor den Werten steht der Origin-Block (Epoche/Beruf/Tod), auf Wunsch mit
 `generate` oder `custom generate`, plus Echo-Talent aus dem früheren Leben.
@@ -136,17 +137,19 @@ ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
 
 Die ersten Schritte in unter zwei Minuten:
 
-1. **Einstieg wählen** — klassisch (volle Charaktererschaffung) oder schnell (Rolle + Kurzprofil).
-2. **HQ oder Briefing** — nach der Erstellung: HQ-Rundgang mit Kodex oder direkt ins Briefing.
-3. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
+1. **Startwunsch äußern** — neu starten oder Save laden (natürlichsprachlich oder per Kurzbefehl).
+2. **Bei Neustart:** solo / npc-team / gruppe wählen; Default ist klassisch.
+3. **Charakterweg wählen** — `generate`, `custom generate` oder selbst bauen.
+4. **HQ oder Briefing** — nach der Erstellung: HQ-Rundgang mit Kodex oder direkt ins Briefing.
+5. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
    W6 normal, W10 ab Attribut 11, Heldenwürfel ab 14. Exploding bei Maximum (Burst-Cap 1).
-4. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift). Boss in Szene 10.
+6. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift). Boss in Szene 10.
    Mini-Boss in Mission 5 der Episode, Episoden-Boss in Mission 10.
-5. **Paradoxon** — steigt nach jeder Mission (TEMP-Staffel). Bei Px 5 → `ClusterCreate()` →
+7. **Paradoxon** — steigt nach jeder Mission (TEMP-Staffel). Bei Px 5 → `ClusterCreate()` →
    1-2 Rift-Seeds. Das ist der Belohnungsmoment.
-6. **Debrief** — nach jeder Mission automatisch: Score-Screen mit CU, XP, Level-Up,
+8. **Debrief** — nach jeder Mission automatisch: Score-Screen mit CU, XP, Level-Up,
    **ITI-Ruf** + Lizenz-Tier. Danach HQ (Heilen, Shoppen, Speichern).
-7. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
+9. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
 
 Weiterführend:
 - [Mini-Walkthrough "Mauerbau 1961"](../gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961)
@@ -366,7 +369,7 @@ ohne Tier V global zu sperren.
 
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
 
-**Startbefehle (Klammern Pflicht):**
+**Startpfad (natürliche Sprache oder Kurzbefehle):**
 
 - `Spiel starten (solo [klassisch|schnell])` - Erschaffung → HQ-Intro → Briefing →
   Szene 1 · _schnell_: Rolle + Defaults → Briefing
@@ -376,6 +379,16 @@ ohne Tier V global zu sperren.
   posten oder Rolle nennen
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
+
+Wenn die Absicht klar ist, reichen auch Formulierungen wie
+„Ich will alleine neu anfangen“, „Wir laden unsere Saves“ oder
+„Solo klassisch, bitte generieren“. Syntaxhinweise sind nur bei echter
+Mehrdeutigkeit nötig.
+
+**Praxisfall Gruppenstart:** In einem neuen Chat dürfen mehrere Save-JSONs
+direkt hintereinander in der ersten Nachricht stehen (ohne `Spiel laden`).
+Die KI-SL verarbeitet das als Mehrfach-Import: Der zuerst erkannte JSON setzt
+den Session-Anker, weitere JSONs ergänzen persönliche Stände und Kontinuität.
 
 **NPC-Kontinuität bei `npc-team`/Gruppen-Join:**
 
@@ -421,8 +434,8 @@ beim Ordo Mnemonika im Mischpool). Der fokussierte Modus (`preserve` oder `trigg
 ist erst nach einem **Fraktionsübertritt** relevant - vorher bleibt `mixed` aktiv.
 Der Modus wird im Save gespeichert und bleibt zwischen Sessions erhalten.
 
-**Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo`
-nicht.
+Die Klammer-Syntax bleibt die kanonische Kurzform. Bei klarer natürlicher
+Sprache startet die KI-SL dennoch denselben Pfad.
 **Rollen-Kurzformen erlaubt:** `infil`, `tech`, `face`, `cqb`, `psi`.
 
 **Regeln:**
@@ -563,6 +576,9 @@ Der beste Workflow: Mission abschließen → im HQ alles erledigen (Debrief, Sho
 Upgrades, Level-Up) → Speichern → **neuen Chat öffnen** → `Spiel laden` mit dem
 Speicherstand. So startet die nächste Mission mit vollem Regelzugriff und frischem
 Kontext. Innerhalb einer Mission einfach weiterspielen.
+Nach Debrief + Heimkehr kann die KI-SL zusätzlich ein kurzes Split-Angebot
+geben (z. B. als Gruppe weiter, splitten/speichern für neue Gruppe, solo
+weiter), damit Gruppenwechsel sauber im HQ vorbereitet werden.
 
 **Warum nur HQ-Saves?**
 Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nicht
@@ -580,8 +596,10 @@ im Default **keinen Px-Abzug** nach sich; stattdessen verschärfen sie die Lage
 expliziten Hardcore-Variante bei vorsätzlichen Extrem-Paradoxien einen
 einmaligen Px-Abzug nutzen.
 
-**Warum Klammern Pflicht?**
-Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
+**Warum stehen die Klammern weiter im Handbuch?**
+Sie sind die stabile, kanonische Kurzform für Startkommandos. Im Spielbetrieb
+versteht die KI-SL zusätzlich natürliche Sprache und normalisiert intern auf
+denselben Dispatcher-Pfad.
 
 #### Spieler-relevante Chat-Kurzbefehle
 

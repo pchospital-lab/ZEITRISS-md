@@ -23,7 +23,8 @@ Masterprompt-Namen bleiben auf `v4.2.6` harmonisiert.
    entpacken und in den Repo-Ordner wechseln.
 3. **Script-Setup ausführen:** `./scripts/setup-openwebui.sh`.
 4. **Start-Checks:** Masterprompt im Systemfeld + 20 Wissensslots geprüft,
-   dann `Spiel starten (solo klassisch)`.
+   dann `Spiel starten (solo klassisch)` oder natürlich formulieren, dass du
+   solo neu starten willst.
 
 Dieser Ablauf ist der Referenzpfad für ZEITRISS im KI-Chatbetrieb und bleibt
 zwischen README und Setup-Guide synchron.
@@ -57,8 +58,9 @@ hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Scrip
 welches Base-Modell genutzt werden soll: Standard ist
 `deepseek/deepseek-chat-v3-0324`, alternativ kannst du eine Model-ID manuell
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
-„ZEITRISS v4.2.6 Uncut" (aktueller Preset-Name) wählen, dann möglichst
-`Spiel starten (solo klassisch)` tippen.
+„ZEITRISS v4.2.6 Uncut" (aktueller Preset-Name) wählen, dann
+`Spiel starten (solo klassisch)` tippen oder den Neustart natürlich
+formulieren.
 
 Hinweis für laufenden Betrieb: Das erneute Ausführen des Scripts ist der
 bevorzugte Update-Weg, damit Preset, Masterprompt-Feld und Wissensspeicher auf
@@ -88,10 +90,13 @@ dem neuesten Repo-Stand bleiben.
      - Max Tokens: `64000`
    - **Capabilities:** Vision und Usage **aus**
    - **Tools/Filter:** Keine nötig
-   - **Vorschläge:** `Spiel starten (solo schnell)`, `Spiel starten (solo klassisch)`, `Spiel laden`
+   - **Vorschläge:** `Spiel starten (solo klassisch)`, `Spiel laden`, `Spiel starten (solo schnell)`
 4. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
    alle 20 Wissensmodule (Spieler-Handbuch + 19 Runtime-Module) weiterhin geladen sind.
-5. **Spielen:** Neuen Chat öffnen → Preset wählen → `Spiel starten (solo schnell)` tippen.
+5. **Spielen:** Neuen Chat öffnen → Preset wählen →
+   `Spiel starten (solo klassisch)` tippen oder natürlich sagen, dass du
+   solo neu starten willst. `solo schnell` bleibt als Fast-Lane für
+   Kurzrunden verfügbar.
 
 ### Runtime-Module im Wissensspeicher
 

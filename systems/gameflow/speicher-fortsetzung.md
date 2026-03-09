@@ -900,6 +900,8 @@ Session-Anker-Modell ohne Sonderpfad:
 
 1. **Pro Chat genau ein Session-Anker:** Der zuerst gepostete Save setzt
    den Einstieg (`campaign` mit `episode`, `mission`, `px`, Seeds).
+   Das gilt auch, wenn mehrere Save-JSONs direkt in der ersten Nachricht ohne
+   `Spiel laden` gepostet werden.
 2. **Joiner mit persönlicher Wahrheit:** Nachrücker/Hopper bringen `characters[]`,
    Wallet, Loadouts und persönliche History mit; pro `characters[].id` zählt der
    neueste persönliche Stand.
@@ -909,6 +911,9 @@ Session-Anker-Modell ohne Sonderpfad:
    regulären Debrief-/Kampagnenfluss der laufenden Runde.
 5. **Empfohlener Hinweistext der Spielleitung:** _"Kontinuitäts-Import erkannt:
    Session-Anker gesetzt, Rückkehrerstände und Echos wurden integriert."_
+6. **Nach Debrief im HQ (Koop):** Kurz Split-Option anbieten
+   (zusammen bleiben / speichern+splitten / solo weiter), damit Gruppenwechsel
+   als geordneter HQ-Schritt statt als stiller Chatbruch laufen.
 
 
 ## Kontinuitätsmodell (Session-Anker statt Host-SSOT)
