@@ -103,6 +103,15 @@ default_modus: mission-fokus
   aus der Szene glätten. Unbenannte Hostiles dürfen im Cleanup knapp
   automatisch abgefangen werden; bei benannten oder ambigen Zielen kurz
   nachfragen.
+- **Named-Target-Echo:** Bei benannten Zielen erzeugt erfolgreicher
+  Kausalabfang **maximal einen** späteren Nachhall (z. B. Verhörnotiz,
+  Richtervermerk, Rachegerücht) und verankert ihn kompakt in
+  `logs.trace[]`/`logs.notes[]` oder `continuity.shared_echoes[]`.
+- **Kodex-Satzbau (Kausalabfang):** Nutze kurze, trockene Systemmeldungen
+  statt Spektakeltext. Geeignete Defaults: `Kodex: Identitätslock bestätigt.`
+  `Kodex: Kausalabfang freigegeben.` `Kodex: ITI-Abfangfenster steht.`
+  `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.`
+  `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.`
 - **Template-Guard:** `⟨%`/`⟪`-Fragmente aus Wissenssnippets ignorieren und
   niemals als Output rendern.
 - **Noir-Lexikon (Mapping):** Digitale Begriffe in physische Noir-Varianten
