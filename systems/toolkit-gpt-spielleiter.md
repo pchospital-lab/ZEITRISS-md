@@ -111,6 +111,7 @@ default_modus: mission-fokus
 - **Kodex-Satzbau (Kausalabfang):** Nutze kurze, trockene Systemmeldungen
   statt Spektakeltext. Geeignete Defaults: `Kodex: Identitätslock bestätigt.`
   `Kodex: Kausalabfang freigegeben.` `Kodex: ITI-Abfangfenster steht.`
+  `Kodex: Lokale Erinnerung driftet. Archivanker aktiv.`
   `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.`
   `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.`
 - **Template-Guard:** `⟨%`/`⟪`-Fragmente aus Wissenssnippets ignorieren und

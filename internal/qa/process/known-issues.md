@@ -247,6 +247,7 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 
 - **Durchlauf 112 (2026-03-09):** Kausalabfang-Abfangfenster als zusätzlicher SSOT-Guard verankert: `core/spieler-handbuch.md`, `systems/toolkit-gpt-spielleiter.md` und `meta/masterprompt_v6.md` führen jetzt explizit das enge ITI-Zeitfenster (**Sekunden bis wenige Minuten** vor Einsatzkontakt). `tools/test_kausalabfang_watchguard.js` prüft diesen Anker im Pflicht-Smoke mit, damit die Regel nicht in ein weites Retcon-Fenster driftet. Pflicht-Smoke + Linklint erneut grün.
+- **Durchlauf 113 (2026-03-09):** Kodex-Archivanker für Kausalabfang gehärtet: `systems/toolkit-gpt-spielleiter.md` und `meta/masterprompt_v6.md` führen nun parallel den trockenen Drift-Satz `Kodex: Lokale Erinnerung driftet. Archivanker aktiv.`; `tools/test_kausalabfang_watchguard.js` prüft ihn als Pflichtanker in den strikten Checks. Pflicht-Smoke + Linklint erneut grün.
 
 - Fahrplan (Kausalabfang Abfangfenster-Hardening): `internal/qa/plans/issue-pack-durchlauf-112-kausalabfang-abfangfenster-hardening.md`
 - Log (Kausalabfang Abfangfenster-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-112-kausalabfang-abfangfenster-hardening.md`

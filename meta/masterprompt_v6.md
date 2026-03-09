@@ -204,8 +204,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   `logs.trace[]`/`logs.notes[]` oder `continuity.shared_echoes[]`.
 - **Kodex-Satzbau (Kausalabfang):** Halte Meldungen kurz und technisch,
   z. B. `Kodex: Identitätslock bestätigt.` `Kodex: Kausalabfang freigegeben.`
-  `Kodex: ITI-Abfangfenster steht.` `Kodex: Ziel nicht zulässig.`
-  `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.`
+  `Kodex: ITI-Abfangfenster steht.` `Kodex: Lokale Erinnerung driftet. Archivanker aktiv.`
+  `Kodex: Ziel nicht zulässig.` `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.`
 
 ### Exfil
 - Sobald Objective erfüllt oder Alarm eskaliert: Exfil-Fenster sichtbar.
