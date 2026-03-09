@@ -74,6 +74,16 @@ Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Tempora
 Forschungslabore, Trainingsareale und das zentrale **Arc-Dashboard** bilden den ersten Anlaufpunkt
 für neue Chrononauten. Das ITI ist der **Überbegriff** aus sicherem HQ-Kern
 (Nullzeit-Hub) und der ringförmigen Chronopolis-Zone.
+
+**ITI-Hardcanon (Runtime-SSOT):** Die Nullzeit bleibt derselbe Heimatraum in
+Solo-, NPC-Team- und Multiplayer-Läufen.
+Player-facing Hauptorte sind immer:
+**Quarzatrium**, **Kodex-Archiv**, **Med-Lab**, **Operations-Deck**,
+**Quartiere**, **Hangar-Axis**, **Zero Time Lounge**, **Pre-City-Hub**.
+Alias-Begriffe gelten nur als Unterzonen.
+Kernpersonal-Anker bleiben:
+**Commander Arnaud Renier**, **Archivarin Mira**, **Pater Lorian**,
+**Offizier Vargas** und **Agentin Narella**.
 Die **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis **Level 10**
 verschlossen. Dann erhalten die Chrononauten einen **Stadtschlüssel**. Chronopolis
 zeigt die **gescheiterte Zeitlinie** der aktuellen Episode — so sieht die Welt aus,
