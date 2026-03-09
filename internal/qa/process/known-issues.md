@@ -272,3 +272,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Kausalabfang Anti-Retcon-Wording-Hardening): `internal/qa/plans/issue-pack-durchlauf-117-kausalabfang-anti-retcon-wording-hardening.md`
 - Log (Kausalabfang Anti-Retcon-Wording-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-117-kausalabfang-anti-retcon-wording-hardening.md`
 
+- **Durchlauf 118 (2026-03-09):** Kausalabfang-Motiv-/Lagefenster explizit gehärtet: `core/spieler-handbuch.md`, `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`, `meta/masterprompt_v6.md` und `characters/ausruestung-cyberware.md` verankern nun parallel, dass Abfang nur gilt, solange **Tatmotivation und Einsatzlage** des Ziels erkennbar gleich bleiben. `tools/test_kausalabfang_watchguard.js` prüft den neuen Doppelanker (`Tatmotivation` + `Einsatzlage`) als Pflichtregex über alle Kernmodule. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Motiv-/Lagefenster-Hardening): `internal/qa/plans/issue-pack-durchlauf-118-kausalabfang-motivlage-window-hardening.md`
+- Log (Kausalabfang Motiv-/Lagefenster-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-118-kausalabfang-motivlage-window-hardening.md`
+
