@@ -87,6 +87,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 24. ITI-Hauskanon stabil halten: Hauptorte (`Quarzatrium`, `Kodex-Archiv`, `Med-Lab`, `Operations-Deck`, `Quartiere`, `Hangar-Axis`, `Zero Time Lounge`, `Pre-City-Hub`) und Kernpersonal (Renier, Mira, Lorian, Vargas, Narella) in Toolkit + Masterprompt + Kernmodulen parallel führen; keine Rückkehr zu gleichwertigen Alias-Hauptorten oder HQ-Ausbau-Stufen.
 25. Currency-Slot auf ITI-Hardcanon halten: keine Sink-Formulierungen zu `HQ-Ausbau`; High-Level-Ökonomie nutzt stattdessen Freigaben-/Lizenzsprache (`HQ-Zugangsfreigaben/Lizenzen`) als Fortschrittsbild.
 26. Lore-Core ebenfalls auf ITI-Hardcanon halten: keine Formulierungen zu HQ-`Ausbau`/`Stufen` als Fortschrittsmodell; Fortschritt in `core/zeitriss-core.md` bleibt bei Zugang/Lizenz/Freigaben.
+27. HQ-Heimkehr-Rhythmus im Lore-Core hart halten: kein Optionalpfad zum Überspringen der Rückkehr (`Direkt weiterspringen ohne HQ-Stop`); Missionsende bleibt mit verpflichtendem HQ-Beat formuliert.
 
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf
