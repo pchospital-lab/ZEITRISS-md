@@ -363,6 +363,16 @@ Paradoxon. Beispiele für taktische Gadgets:
   auflösen – ideal, um aus Gefangenschaft zu entkommen oder Barrieren zu umgehen. _Einschränkung:_
   Sehr limitiert (max. 1–2 Nutzungen pro Mission, da die Energiezelle sich dann entlädt und Neuladen
   nur im HQ möglich ist). _Kosten:_ 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich). _(tier: 2)_
+- **Kausalabfang-Marker ("Never happened")** *(ITI-Standardmodul, nicht shopbar):*
+  Unsichtbares Nahbereichs-Protokoll für die Einsatznachbereitung. Der Marker
+  darf nur auf **bereits kampfunfähige 0-LP-Hostiles** gesetzt werden und
+  benötigt eine belastbare Identitätsfassung auf Armeslänge plus aktiven
+  Kodex-Uplink. Vollzug = retrospektive ITI-Festnahme kurz vor Einsatzkontakt,
+  kein Zeitzauber und kein Retcon-Werkzeug. Reihenfolge: **Loot sichern →
+  optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute bleibt,
+  ungesicherte personengebundene Spuren dürfen glätten. Gesperrt für
+  Chrononauten, Squadmates, Zivilisten, Boss-/Mini-Boss-Ziele, Para-Wesen,
+  Arena/PvP und Chronopolis.
 - **Tarnfeld-Generator:** Ein gürtelschnallen- oder clipgroßes Gerät, das ein lokales **Aktiv-
   Tarnfeld** projiziert. Für bis zu 1 Minute wird der Träger unsichtbar im sichtbaren Lichtspektrum
   (leichter Schimmer bei genauerem Hinsehen, im Infrarot weiterhin erkennbar). Perfekt für

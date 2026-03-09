@@ -222,3 +222,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Physicality-Watchguard-Automation): `internal/qa/plans/issue-pack-durchlauf-107-physicality-watchguard-automation.md`
 - Log (Physicality-Watchguard-Automation): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-107-physicality-watchguard-automation.md`
+
+- **Durchlauf 108 (2026-03-09):** Upload-Paket `ZEITRISS_never_happened_gadget_pack.md` integriert: `core/spieler-handbuch.md`, `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`, `meta/masterprompt_v6.md` und `characters/ausruestung-cyberware.md` verankern nun konsistent den Kausalabfang-Marker ("Never happened") als strikt begrenztes ITI-Cleanup-Protokoll **nach 0 LP**. Reihenfolge und Guard sind harmonisiert (`Loot sichern → optional Kausalabfang → Cleanup/Exfil`), inklusive Sperren für Boss-/Mini-Boss-Ziele, Chrononauten/Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis. Prozessdoku + QA-Artefakte für Lauf 108 ergänzt. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang-Integration): `internal/qa/plans/issue-pack-durchlauf-108-never-happened-kausalabfang-integration.md`
+- Log (Kausalabfang-Integration): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-108-never-happened-kausalabfang-integration.md`
