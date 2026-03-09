@@ -15,18 +15,20 @@ tags: [core, reference, gm]
 ### Dispatcher-Starts & Speicherpfade
 
 - **Spielstart-Varianten.** `Spiel starten` akzeptiert `solo`, `npc-team` und
-  `gruppe` plus die Zusätze `klassisch` oder `schnell`. `npc-team` verlangt eine
+  `gruppe` plus die Zusätze `klassisch` oder `schnell`; dieselben Pfade dürfen
+  auch über klare natürliche Sprache angesteuert werden. `npc-team` verlangt eine
   Zahl `0-4` (NPC-Begleiter; Team gesamt 1-5), `gruppe` ignoriert Zahlen.
   Ungültige Kombinationen liefern die passenden Fehltexte.
 - **Zentrale Strings.** Start-/Fehlertexte liegen in
   `dispatcher_strings` (Runtime-Export).
-- **Syntax-Hinweis.** Startbefehle ohne Klammern oder mit fehlerhaftem Muster
-  antworten mit "Startsyntax: Spiel starten (solo|npc-team [0-4]|gruppe
-  [klassisch|schnell]). Klammern sind Pflicht." und schreiben höchstens einmal
-  pro Session einen Trace-Eintrag `dispatch_hint`.
-- **Briefing & Schnellstart.** Ohne Modus fragt der Dispatcher einmalig nach
-  "klassisch oder schnell?". `klassisch` blendet Auswahlmenüs ein, `schnell`
-  überspringt sie. Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
+- **Syntax-Hinweis.** Bei echter Mehrdeutigkeit oder fehlerhaftem Muster
+  antwortet der Dispatcher mit "Startsyntax: Spiel starten (solo|npc-team [0-4]|gruppe
+  [klassisch|schnell]). Klammern sind die kanonische Kurzform." und schreibt
+  höchstens einmal pro Session einen Trace-Eintrag `dispatch_hint`.
+- **Briefing & Schnellstart.** Ohne Modus nutzt der Dispatcher standardmäßig
+  `klassisch` und fragt im Standardpfad zuerst nach `generate`, `custom generate`
+  oder manuellem Bau. `schnell` bleibt als Fast-Lane bei explizitem Wunsch.
+  Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
 - **HQ-Intro (Runtime).** Volles HQ-Intro 1:1 ausspielen - keine Kürzungen, die
@@ -39,6 +41,10 @@ tags: [core, reference, gm]
   serialisiert und dient nur dem aktiven Run. UI-/Accessibility-Overrides aus
   dem Session-Anker bleiben erwartetes Verhalten und werden als Trace
   `ui_session_anchor_override` protokolliert.
+- **JSON-First im Chatbetrieb.** Ein oder mehrere gepostete Save-JSON-Blöcke
+  starten den Load-Flow auch ohne den Befehl `Spiel laden`. Bei Mehrfach-Import
+  setzt der zuerst erkannte JSON-Block den Session-Anker; weitere JSONs werden
+  als Join-/Merge-Import verarbeitet.
 - **Speichern.** *(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz.)*
   Einsätze lassen kein Speichern zu; der Dispatcher meldet
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt." und hält die Mission

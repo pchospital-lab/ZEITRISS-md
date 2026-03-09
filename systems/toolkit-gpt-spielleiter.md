@@ -855,7 +855,11 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
 ### KI-SL-Start-Dispatcher (ohne externe Runtime)
 
 **Parsingregel (case-insensitive, natürliche Sprache):**
-1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
+1. Enthält die Eingabe einen oder mehrere gültige Save-JSON-Blöcke
+   (auch ohne `Spiel laden`) → **Load-Flow**.
+   - Bei mehreren Save-JSONs in derselben ersten Nachricht gilt strikt:
+     **Der zuerst erkannte JSON-Block setzt den Session-Anker.**
+     Nachfolgende Blöcke werden als Join-/Merge-Import verarbeitet.
    - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr` mit `ZR_VERSION`
      übereinstimmt (Legacy-Importe mit `zr_version` werden vorher normalisiert);
      Patch-Level wird ignoriert.
@@ -863,22 +867,27 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
      HQ-Migration veranlassen."
    - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing.
      Keine Nachfrage "klassisch/schnell".
-2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.
+2. Enthält einen klaren Neustart-Wunsch (natürliche Sprache oder `Spiel starten (...)`) → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.
    - `schnell|fast` erwähnt → Schnelleinstieg.
+   - Fehlt ein Modus beim Neustart, gilt **klassisch als Standardpfad**.
+   - Im klassischen Standardpfad zuerst fragen:
+     `generate`, `custom generate` oder `selbst bauen`.
    - Kampagnenmodus wird vor dem Start im HQ gesetzt:
      `!kampagnenmodus mixed|preserve|trigger`. Default ist `mixed`.
    - Legacy-Start mit `preserve|trigger` in den Klammern → Hinweis, dass der
      Modus separat im HQ gesetzt wird.
-   - Fehlen die Klammern oder passt die Startsyntax nicht → Hinweis
+   - Nur bei echter Mehrdeutigkeit oder widersprüchlichem Wunsch einen
+     Syntax-Hinweis geben:
      "Startsyntax: Spiel starten (solo|npc-team [0-4]|gruppe
-     [klassisch|schnell]). Klammern sind Pflicht." ausgeben und einmalig pro
-     Session `record_trace('dispatch_hint', …)` mit `reason='start_syntax'`
-     schreiben.
+     [klassisch|schnell]). Klammern sind die kanonische Kurzform."
+     und einmalig pro Session `record_trace('dispatch_hint', …)` mit
+     `reason='start_syntax'` schreiben.
    - Start-/Fehlertexte liegen zentral in `dispatcher_strings` (Runtime) und
      werden als Fixture `internal/qa/fixtures/dispatcher_strings.json`
      gespiegelt, damit Dispatcher-Referenz und Toolkit dieselbe Quelle nutzen.
-   - Fehlt Modus → einmalig fragen: "klassisch oder schnell?"
+   - `schnell` bleibt verfügbar, wird aber nur bei explizitem Wunsch aktiv
+     angeboten (Fast-Lane/Demo-Modus).
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
    - `npc-team`: NPC-Begleiter 0-4 (Team gesamt 1-5); bei Fehler →
      "NPC-Begleiter: 0-4 (Team gesamt 1-5). Bitte erneut eingeben (z. B. npc-team 3)."
@@ -1269,7 +1278,7 @@ spontan ersetzt. Spieler navigieren frei per natürlichsprachlicher Eingabe
 Nach jeder Mission zeigt die SL den Debrief-Score-Screen (automatisch),
 danach öffnet sich das HQ-Menü:
 1. Rückkehr ins HQ (Quarzatrium-Szene).
-2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ & Save (HQ-Pflichtschritte werden dabei automatisch erledigt).
+2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ (mit Save-Angebot; HQ-Pflichtschritte werden dabei automatisch erledigt).
 3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
    NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
 4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
@@ -1279,6 +1288,14 @@ danach öffnet sich das HQ-Menü:
    (Ankunftsort, sichtbares Dienstpersonal, kleine Lageveränderung) plus
    eine ITI-Dienstlage-Zeile, z. B.:
    _"ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft."_
+8. Sobald ein savebarer HQ-Zustand erreicht ist, gibt Kodex genau einmal den
+   Hinweis: `Kodex: HQ-Zustand stabil. Deepsave möglich.` und
+   `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+   Danach **kein automatischer Sprung** ins nächste Briefing; Briefing startet
+   nur als bewusste Spielerentscheidung.
+9. Direkt nach Debrief + HQ-Heimkehr wird bei Gruppen/Koop optional ein
+   kurzer **Split-Angebot-Block** gezeigt (z. B. "als Gruppe weiterspielen",
+   "für neue Gruppe speichern/splitten", "solo weiter").
 
 #### Pre-City-Hub Transit (Optional)
 
