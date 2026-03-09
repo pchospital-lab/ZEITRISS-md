@@ -54,7 +54,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
-| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108 | `uploads/ZEITRISS_never_happened_gadget_pack.md` |
+| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109 | `tools/test_kausalabfang_watchguard.js` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -69,3 +69,5 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 9. Spielernahe Startdoku (`core/spieler-handbuch.md`) bei `npc-team`-Textänderungen auf den NPC-Persistenzkanon prüfen (Menschen-vor-NPC, HQ/Offscreen-Fortbestand, kompakte Offscreen-Fortschreibung).
 10. Physicality-Guard im Pflicht-Smoke halten: `tools/test_physicality_watchguard.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
 11. Kausalabfang-Minimalregel bei Loot/Cleanup-Änderungen mitprüfen: Reihenfolge bleibt `Loot sichern → optional Kausalabfang → Cleanup/Exfil`; Sperren (Boss/Chrononauten/Zivilisten/Para/Arena-PvP/Chronopolis) dürfen nicht aufweichen.
+
+12. Kausalabfang-Watchguard im Pflicht-Smoke halten: `tools/test_kausalabfang_watchguard.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
