@@ -217,3 +217,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Cinematic-Start Physicality Final Pass): `internal/qa/plans/issue-pack-durchlauf-106-cinematic-physicality-wording-final-pass.md`
 - Log (Cinematic-Start Physicality Final Pass): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-106-cinematic-physicality-wording-final-pass.md`
+
+- **Durchlauf 107 (2026-03-09):** Physicality-Guard-Automation abgeschlossen: `tools/test_physicality_watchguard.js` prüft jetzt in `systems/toolkit-gpt-spielleiter.md`, `systems/gameflow/cinematic-start.md` und `core/zeitriss-core.md` die Pflichtanker der Linse/HUD-vs.-Inworld-Projektions-Trennung und blockt bekannte Driftmuster (`Hologramm-Begleiter`, alte freischwebende Display-Defaults). `scripts/smoke.sh` enthält den Check fest mit Erfolgstoken `physicality-watchguard-ok`. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Physicality-Watchguard-Automation): `internal/qa/plans/issue-pack-durchlauf-107-physicality-watchguard-automation.md`
+- Log (Physicality-Watchguard-Automation): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-107-physicality-watchguard-automation.md`

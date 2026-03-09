@@ -49,7 +49,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | Toolkit: temporären Solo-NPC-Pfad + Reset-Makro entfernen | verifiziert | 94 | `systems/toolkit-gpt-spielleiter.md` |
 | Save v7: `continuity.npc_roster[]` + `active_npc_ids[]` | verifiziert | 94, 104 | `tools/test_npc_continuity_consistency.js` |
 | Mischgruppen-Slotlogik Mensch-vor-NPC + NPC-Lagebild beim Rejoin | verifiziert | 94 | `systems/gameflow/speicher-fortsetzung.md` |
-| Physicality-Wording (Hologramm ↔ Linse/Comlink/HQ-Projektion) | verifiziert | 94, 95, 96, 101, 102, 103, 106 | `systems/gameflow/cinematic-start.md` |
+| Physicality-Wording (Hologramm ↔ Linse/Comlink/HQ-Projektion) | verifiziert | 94, 95, 96, 101, 102, 103, 106, 107 | `tools/test_physicality_watchguard.js` |
 | Kampagnenstruktur: Solo-/NPC-Squad-Wording auf Persistenzkanon | verifiziert | 97 | `gameplay/kampagnenstruktur.md` |
 | SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
@@ -66,3 +66,4 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 
 8. Lore-Core (`core/zeitriss-core.md`) bei HQ-/Trainingswörtern gegen den Physicality-Guard mitprüfen (keine freischwebenden Hologramm-Defaults).
 9. Spielernahe Startdoku (`core/spieler-handbuch.md`) bei `npc-team`-Textänderungen auf den NPC-Persistenzkanon prüfen (Menschen-vor-NPC, HQ/Offscreen-Fortbestand, kompakte Offscreen-Fortschreibung).
+10. Physicality-Guard im Pflicht-Smoke halten: `tools/test_physicality_watchguard.js` darf nicht aus `scripts/smoke.sh` entfernt werden.

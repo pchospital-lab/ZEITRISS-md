@@ -110,6 +110,10 @@ grep "continuity-output-contract-ok" out/continuity_output_contract.log
 node tools/test_npc_continuity_consistency.js > out/npc_continuity_consistency.log
 grep "npc-continuity-consistency-ok" out/npc_continuity_consistency.log
 
+# Physicality-Watchguard (Linse/HUD vs. verankerte HQ-Projektion)
+node tools/test_physicality_watchguard.js > out/physicality_watchguard.log
+grep "physicality-watchguard-ok" out/physicality_watchguard.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
