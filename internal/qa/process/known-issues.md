@@ -233,3 +233,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang-Watchguard-Automation): `internal/qa/plans/issue-pack-durchlauf-109-kausalabfang-watchguard-automation.md`
 - Log (Kausalabfang-Watchguard-Automation): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-109-kausalabfang-watchguard-automation.md`
+
+- **Durchlauf 110 (2026-03-09):** Anschluss-Hardening zum Kausalabfang abgeschlossen: `systems/toolkit-gpt-spielleiter.md` und `meta/masterprompt_v6.md` enthalten jetzt zusätzlich den **Named-Target-Echo** (maximal ein späterer Nachhall bei benannten Zielen) sowie den trockenen **Kodex-Satzbau** für Vollzug/Blockfälle (`Identitätslock bestätigt`, `Kausalabfang freigegeben`, `ITI-Abfangfenster`, Uplink-/Zulässigkeitsblock). `tools/test_kausalabfang_watchguard.js` wurde um diese Anker erweitert, damit nicht nur 0-LP-Gate/Reihenfolge/Sperren, sondern auch Echo-/Kommunikationskonsistenz im Pflicht-Smoke stabil bleibt. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Echo-/Kodex-Hardening): `internal/qa/plans/issue-pack-durchlauf-110-kausalabfang-echo-kodex-hardening.md`
+- Log (Kausalabfang Echo-/Kodex-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-110-kausalabfang-echo-kodex-hardening.md`

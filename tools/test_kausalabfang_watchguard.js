@@ -19,6 +19,12 @@ const mustHaveRegex = [
   /Chronopolis/i
 ];
 
+const hardeningRegex = [
+  /Named-Target-Echo|maximal\s+einen\s+Nachhall/i,
+  /Kodex:\s*Identitätslock\s+bestätigt/i,
+  /Kodex:\s*Kausalabfang\s+freigegeben/i
+];
+
 const checks = [
   'core/spieler-handbuch.md',
   'core/sl-referenz.md',
@@ -36,6 +42,18 @@ for (const relPath of checks) {
   }
 
   assert.ok(!/universell(?:es|er)?\s+Retcon/i.test(text), `${relPath}: driftiges Retcon-Wording gefunden.`);
+}
+
+const strictChecks = [
+  'systems/toolkit-gpt-spielleiter.md',
+  'meta/masterprompt_v6.md'
+];
+
+for (const relPath of strictChecks) {
+  const text = readText(relPath);
+  for (const rx of hardeningRegex) {
+    assert.ok(rx.test(text), `${relPath}: Echo-/Kodex-Hardening fehlt (${rx}).`);
+  }
 }
 
 console.log('kausalabfang-watchguard-ok');
