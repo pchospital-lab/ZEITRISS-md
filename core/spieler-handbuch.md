@@ -226,7 +226,9 @@ Weiterführend:
   **kein universelles Retcon-Werkzeug**,
   sondern ein enges ITI-Festnahmefenster nach Identitätsfassung auf
   Nahdistanz + aktivem Kodex-Uplink. Das Fenster reicht nur **Sekunden bis
-  wenige Minuten** vor Einsatzkontakt, nicht weiter zurück. Reihenfolge im Einsatz:
+  wenige Minuten** vor Einsatzkontakt, nicht weiter zurück; Abfang gilt nur,
+  solange **Tatmotivation und Einsatzlage** des Ziels noch erkennbar dieselben
+  bleiben. Reihenfolge im Einsatz:
   **Loot sichern → optionaler Kausalabfang → Cleanup/Exfil**.
   Bereits gesicherte Beute, Umweltschäden und sonstige Folgen bleiben
   bestehen; nur ungesicherte personengebundene Spuren dürfen aus der Szene

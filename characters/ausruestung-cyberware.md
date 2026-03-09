@@ -368,7 +368,7 @@ Paradoxon. Beispiele für taktische Gadgets:
   darf nur auf **bereits kampfunfähige 0-LP-Hostiles** gesetzt werden und
   benötigt eine belastbare Identitätsfassung auf Armeslänge plus aktiven
   Kodex-Uplink. Vollzug = retrospektive ITI-Festnahme im Fenster
-  **Sekunden bis wenige Minuten** vor Einsatzkontakt, kein Zeitzauber,
+  **Sekunden bis wenige Minuten** vor Einsatzkontakt und nur bei erkennbar gleicher **Tatmotivation und Einsatzlage**, kein Zeitzauber,
   kein universelles Retcon-Werkzeug und kein Kampfwerkzeug. Reihenfolge: **Loot sichern →
   optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute bleibt,
   ungesicherte personengebundene Spuren dürfen glätten. Gesperrt für
