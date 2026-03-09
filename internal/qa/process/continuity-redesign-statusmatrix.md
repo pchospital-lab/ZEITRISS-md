@@ -49,9 +49,10 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | Toolkit: temporären Solo-NPC-Pfad + Reset-Makro entfernen | verifiziert | 94 | `systems/toolkit-gpt-spielleiter.md` |
 | Save v7: `continuity.npc_roster[]` + `active_npc_ids[]` | verifiziert | 94 | `meta/masterprompt_v6.md` |
 | Mischgruppen-Slotlogik Mensch-vor-NPC + NPC-Lagebild beim Rejoin | verifiziert | 94 | `systems/gameflow/speicher-fortsetzung.md` |
-| Physicality-Wording (Hologramm → Linse/Comlink/Lichtbild) | verifiziert | 94 | `systems/gameflow/cinematic-start.md` |
+| Physicality-Wording (Hologramm ↔ Linse/Comlink/HQ-Projektion) | verifiziert | 94, 95, 96 | `systems/gameflow/cinematic-start.md` |
 
 **Neue Watchpoints:**
 1. Bei künftigen Save-v7-Änderungen immer `continuity.npc_roster[]`/`active_npc_ids[]` gegen Masterprompt und Speichermodul parallel prüfen.
 2. Bei Start-/Merge-Pseudocode keine stillen Resets von `campaign.px`, `campaign.rift_seeds` oder `arc.open_seeds` einführen.
 3. Mehrfach-Load-Rückblick darf das NPC-Lagebild nicht verlieren (5-Block-Ausgabe bleibt Pflicht).
+4. Cinematic-Start-Wording muss Linse-HUD und HQ-Projektionsflächen semantisch trennen (keine hybriden Default-Begriffe).
