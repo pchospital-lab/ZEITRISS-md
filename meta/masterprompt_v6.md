@@ -203,7 +203,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Named-Target-Echo:** Bei benannten Zielen erzeugt erfolgreicher
   Kausalabfang **maximal einen** Nachhall (z. B. Verhörnotiz,
   Richtervermerk, Rachegerücht) und schreibt ihn kompakt in
-  `logs.trace[]`/`logs.notes[]` oder `continuity.shared_echoes[]`.
+  `logs.trace[]`/`logs.notes[]` oder `continuity.roster_echoes[]` /
+  `continuity.shared_echoes[]`.
 - **TEMP-Recall-Blur (Flavor, kein Subsystem):** Nach erfolgreichem
   Kausalabfang bleibt die Erinnerungsdrift knapp: TEMP 1–2 kurzer Recall-Blur,
   TEMP 3–5 kurzes Déjà-vu, TEMP 6+ fast stabil. Keine Zusatzwürfe, keine

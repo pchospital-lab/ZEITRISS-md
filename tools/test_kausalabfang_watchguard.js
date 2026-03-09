@@ -27,6 +27,10 @@ const mustHaveRegex = [
 
 const hardeningRegex = [
   /Named-Target-Echo|maximal\s+einen\s+Nachhall/i,
+  /logs\.trace\[\]/i,
+  /logs\.notes\[\]/i,
+  /continuity\.roster_echoes\[\]/i,
+  /continuity\.shared_echoes\[\]/i,
   /Kodex:\s*Identitätslock\s+bestätigt/i,
   /Kodex:\s*Kausalabfang\s+freigegeben/i,
   /Kodex:\s*Lokale\s+Erinnerung\s+driftet\.\s*Archivanker\s+aktiv/i,
