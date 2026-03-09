@@ -165,3 +165,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Cinematic-Physicality-Restdrift): `internal/qa/plans/issue-pack-durchlauf-96-cinematic-physicality-restdrift.md`
 - Log (Cinematic-Physicality-Restdrift): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-96-cinematic-physicality-restdrift.md`
+
+- **Durchlauf 97 (2026-03-09):** Restdrift im Kampagnenstruktur-Modul abgeschlossen: `gameplay/kampagnenstruktur.md` spiegelt den Solo-Start wieder auf `npc-team 0-4` (Drohne nur Fallback ohne Feld-NPC) und hebt den NPC-Squad-Kodex von „temporären Verbündeten“ auf wiederkehrende Kontinuitätsakteure mit HQ-/Offscreen-Fortbestand. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (NPC-Squad-Persistenzabgleich): `internal/qa/plans/issue-pack-durchlauf-97-npc-squad-persistence-alignment.md`
+- Log (NPC-Squad-Persistenzabgleich): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-97-npc-squad-persistence-alignment.md`
