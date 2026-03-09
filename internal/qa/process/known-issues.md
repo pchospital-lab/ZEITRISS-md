@@ -261,3 +261,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang TEMP-Recall-Blur-Hardening): `internal/qa/plans/issue-pack-durchlauf-115-kausalabfang-temp-recall-blur-hardening.md`
 - Log (Kausalabfang TEMP-Recall-Blur-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-115-kausalabfang-temp-recall-blur-hardening.md`
+
+- **Durchlauf 116 (2026-03-09):** Kausalabfang-Named-Target-Echo um den fehlenden `roster_echoes`-Anker ergänzt: `systems/toolkit-gpt-spielleiter.md` und `meta/masterprompt_v6.md` schreiben den Nachhall benannter Ziele jetzt konsistent in `logs.trace[]`/`logs.notes[]` oder `continuity.roster_echoes[]` / `continuity.shared_echoes[]`. `tools/test_kausalabfang_watchguard.js` erzwingt diesen Storage-Anker per zusätzlichem Strict-Regex in Toolkit + Masterprompt. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Roster-Echo-Anker-Hardening): `internal/qa/plans/issue-pack-durchlauf-116-kausalabfang-roster-echo-anchor-hardening.md`
+- Log (Kausalabfang Roster-Echo-Anker-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-116-kausalabfang-roster-echo-anchor-hardening.md`
+
