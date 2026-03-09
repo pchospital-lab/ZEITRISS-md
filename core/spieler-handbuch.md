@@ -362,6 +362,15 @@ ohne Tier V global zu sperren.
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
+**NPC-Kontinuität bei `npc-team`/Gruppen-Join:**
+
+- Bekannte NPC-Chrononauten bleiben als Kontinuitätsakteure erhalten und werden
+  nicht still gelöscht, wenn sie gerade nicht im Feld sind (HQ/Funk/Offscreen).
+- Bei gemischten Teams zählen **Menschen zuerst** gegen Teamgröße 5; NPCs
+  füllen nur freie Plätze.
+- Beim Wiedersehen liefern abwesende NPCs eine **kurze Offscreen-Fortschreibung**
+  (Auftrag + Veränderung + Hook), damit der Run als fortlaufende Welt wirkt.
+
 > **OpenWebUI-Hinweis:** Im reinen Chatbetrieb ist der Standardpfad `!save` im HQ,
 > JSON-Copy-Paste und optional `Spiel laden` als Startsignal. Weitere
 > Snapshot-/AutoSave-Kommandos gehören nicht zum kanonischen Spielbetrieb.
