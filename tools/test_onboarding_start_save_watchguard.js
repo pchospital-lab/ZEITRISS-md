@@ -71,4 +71,22 @@ assert.ok(saveHintHits >= 2, `HQ-Save-Hinweisdrift: 'Deepsave möglich' nur ${sa
 assert.ok(noAutoBriefingHits >= 2, `HQ-Flow-Drift: 'kein Auto-Briefing' nur ${noAutoBriefingHits}/4 Treffer.`);
 assert.ok(newChatHintHits >= 2, `Chatwechsel-Hinweisdrift: 'neuer Chat empfohlen' nur ${newChatHintHits}/4 Treffer.`);
 
+const charsOptionsText = readText('characters/charaktererschaffung-optionen.md');
+assert.ok(
+  /nicht[\s\S]{0,40}bevorzugte?r?\s+runtime-pfad/i.test(charsOptionsText),
+  'Archetypen-Drift: chars-options muss Archetypen/Pregens explizit als nicht-bevorzugten Runtime-Pfad markieren.'
+);
+assert.ok(
+  /generate[\s\S]{0,160}custom\s+generate[\s\S]{0,160}(?:manuell|manuellen\s+bau)/i.test(charsOptionsText),
+  'Archetypen-Drift: chars-options muss den Kampagnen-Standard generate/custom generate/manuell hervorheben.'
+);
+
+const masterIndex = JSON.parse(readText('master-index.json'));
+const charsOptionsModule = masterIndex.modules.find((m) => m.slug === 'chars-options');
+assert.ok(charsOptionsModule, 'Archetypen-Drift: master-index enthält kein chars-options Modul.');
+assert.ok(
+  /(inspiration|fallback)/i.test(charsOptionsModule.title || ''),
+  'Archetypen-Drift: master-index Titel für chars-options muss Inspirations-/Fallback-Charakter tragen.'
+);
+
 console.log('onboarding-start-save-watchguard-ok');
