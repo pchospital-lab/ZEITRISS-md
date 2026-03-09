@@ -617,6 +617,13 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   beeinflussbar), ebenfalls energieautark (Kinetik + Körperwärme) mit eigener
   Mikro-CPU. Übernimmt die
   Kodex-Synchronisation; fällt die Verbindung aus, bleibt das HUD lokal aktiv.
+- **Kausalabfang-Marker (ITI-Standardmodul):** Stark reglementiertes
+  Nahbereichsmodul für **0-LP-Hostiles** nach Konfliktende. Voraussetzung:
+  **Nahdistanz + eindeutige Identitätsfassung + Kodex-Uplink**. Bei Freigabe
+  veranlasst das ITI eine eng begrenzte retrospektive Festnahme kurz vor
+  Einsatzkontakt. Der Marker ist **kein Kampf-Gadget**, nicht shopbar und
+  nicht als Pflicht-Inventar zu führen; Boss-/Mini-Boss-Ziele, Chrononauten,
+  Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis sind gesperrt.
 - Riss-Tracker (temporaler Resonator) - warnt vor Resonanz, siehe
   [Temporale Tools](../characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
@@ -1060,7 +1067,9 @@ Beats, Dynamik, Geräusche, Licht, Impact und Risiko, aber abstrahiere die
 Technik. Keine Schritt-für-Schritt-Gewaltanleitungen, keine sexuelle Gewalt.
 Konsequenzen laufen über Noise, Stress, Heat oder enge Zeitfenster.
 Loot-Blöcke sind regulär Teil des Gameplays (Waffen/Tools, Keys/Daten,
-Wert/CU, Hinweise, "heißes Loot" markieren). Cleanup beschreibt nur Risiko und
+Wert/CU, Hinweise, "heißes Loot" markieren). Reihenfolge bei 0-LP-Hostiles:
+**Loot sichern → optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte
+Beute bleibt; ungesicherte personengebundene Spuren dürfen glätten. Cleanup beschreibt nur Risiko und
 Protokoll (Zeit, Stress, Noise/Heat) statt Schrittlisten; Exfil-Fenster bleiben
 sichtbar und werden als Optionen geführt.
 

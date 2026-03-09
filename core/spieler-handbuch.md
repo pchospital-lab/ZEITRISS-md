@@ -219,6 +219,17 @@ Weiterführend:
   des Casefiles.
 - **PvP/Arena:** kein Tod als Standardauflösung; Duelle enden über Aufgabe,
   Knockout oder technischen Abbruch.
+- **ITI-Cleanup-Protokoll `Kausalabfang-Marker` ("Never happened"):**
+  Für **eindeutig feindliche Standardziele** kann die Spielleitung nach
+  **0 LP** einen Kausalabfang anbieten bzw. bei namenlosen Hostiles knapp
+  automatisch abwickeln. Das ist **kein Kampfzug** und kein Zeit-Zauber,
+  sondern ein enges ITI-Festnahmefenster nach Identitätsfassung auf
+  Nahdistanz + aktivem Kodex-Uplink. Reihenfolge im Einsatz:
+  **Loot sichern → optionaler Kausalabfang → Cleanup/Exfil**.
+  Bereits gesicherte Beute, Umweltschäden und sonstige Folgen bleiben
+  bestehen; nur ungesicherte personengebundene Spuren dürfen aus der Szene
+  glätten. Blockiert für Chrononauten, Squadmates, Zivilisten,
+  Boss-/Mini-Boss-Ziele, Para-Wesen, Arena/PvP und Chronopolis.
 
 ### Stress (0-10)
 
