@@ -212,3 +212,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Spielerhandbuch NPC-Kontinuitätsklarstellung): `internal/qa/plans/issue-pack-durchlauf-105-spielerhandbuch-npc-kontinuitaet-clarification.md`
 - Log (Spielerhandbuch NPC-Kontinuitätsklarstellung): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-105-spielerhandbuch-npc-kontinuitaet-clarification.md`
+
+- **Durchlauf 106 (2026-03-09):** Finaler Restdrift-Fix im Startmodul abgeschlossen: `systems/gameflow/cinematic-start.md` ersetzt verbleibende Hologramm-Defaults im HQ-Einstieg und in den Cine-Tipps durch Physicality-konforme Formulierungen (`linsengebundene HUD-Lichtbilder` im Sichtfeld, sichtbare Briefingflächen/Lichtbild-Anzeigen für Inworld-Projektionen). Damit bleibt die Trennung Linse-HUD vs. verankerte HQ-Projektionen in allen Starttexten stabil. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Cinematic-Start Physicality Final Pass): `internal/qa/plans/issue-pack-durchlauf-106-cinematic-physicality-wording-final-pass.md`
+- Log (Cinematic-Start Physicality Final Pass): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-106-cinematic-physicality-wording-final-pass.md`
