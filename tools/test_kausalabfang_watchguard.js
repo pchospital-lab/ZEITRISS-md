@@ -11,6 +11,10 @@ function readText(relPath) {
 const mustHaveRegex = [
   /0\s*-?LP/i,
   /Loot\s+sichern\s*→\s*optional(?:er)?\s+Kausalabfang\s*→\s*Cleanup\/Exfil/i,
+  /kein\s+Kampf(?:-?Gadget|werkzeug|zug)|nicht\s+als\s+Kampf(?:-?Gadget|werkzeug|zug)|nie\s+als\s+Kampf(?:aktion|zug)?/i,
+  /Nahdistanz|Nahbereich/i,
+  /Identitätsfassung|Identitätslock/i,
+  /Kodex\s*-?Uplink|Uplink/i,
   /Chrononauten/i,
   /Boss[^\n]{0,20}Mini-?Boss/i,
   /Zivilisten/i,
@@ -42,6 +46,17 @@ for (const relPath of checks) {
   }
 
   assert.ok(!/universell(?:es|er)?\s+Retcon/i.test(text), `${relPath}: driftiges Retcon-Wording gefunden.`);
+}
+
+const infraChecks = [
+  'core/sl-referenz.md',
+  'characters/ausruestung-cyberware.md'
+];
+
+for (const relPath of infraChecks) {
+  const text = readText(relPath);
+  assert.ok(/nicht\s+shopbar|kein\s+Kaufgegenstand/i.test(text), `${relPath}: Shop-Sperre für Marker fehlt.`);
+  assert.ok(/nicht\s+als\s+Pflicht-Inventar|kein\s+Inventar-Ballast|nicht\s+als\s+eigenes\s+Inventarstück/i.test(text), `${relPath}: Inventar-Guard für Marker fehlt.`);
 }
 
 const strictChecks = [

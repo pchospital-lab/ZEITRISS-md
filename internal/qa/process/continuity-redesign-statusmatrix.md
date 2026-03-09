@@ -54,7 +54,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
-| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110 | `tools/test_kausalabfang_watchguard.js` |
+| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111 | `tools/test_kausalabfang_watchguard.js` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -72,3 +72,4 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 
 12. Kausalabfang-Watchguard im Pflicht-Smoke halten: `tools/test_kausalabfang_watchguard.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
 13. Bei Kausalabfang-Textänderungen Echo-/Kodex-Hardening mitprüfen: `Named-Target-Echo` (max. 1 Nachhall) und kurze Kodex-Phrasen (`Identitätslock bestätigt`, `Kausalabfang freigegeben`) in Toolkit + Masterprompt parallel halten.
+14. Kausalabfang als ITI-Infra halten: Anti-Kampfanker (kein Kampfwerkzeug), Nahdistanz/Identitätsfassung/Kodex-Uplink sowie Nicht-Shop-/Nicht-Pflichtinventar-Setzung (`core/sl-referenz.md`, `characters/ausruestung-cyberware.md`) bei Textänderungen mitprüfen.
