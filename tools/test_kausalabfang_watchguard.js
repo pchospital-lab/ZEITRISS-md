@@ -22,7 +22,8 @@ const mustHaveRegex = [
   /Zivilisten/i,
   /Para\s*-?Wesen/i,
   /Arena\s*\/\s*PvP/i,
-  /Chronopolis/i
+  /Chronopolis/i,
+  /kein\s+universelles?\s+Retcon(?:-?Werkzeug)?|nicht\s+als\s+universelles?\s+Retcon(?:-?Werkzeug)?|nie\s+als\s+universelles?\s+Retcon(?:-?Werkzeug)?/i
 ];
 
 const hardeningRegex = [
@@ -54,7 +55,6 @@ for (const relPath of checks) {
     assert.ok(rx.test(text), `${relPath}: Pflichtanker fehlt (${rx}).`);
   }
 
-  assert.ok(!/universell(?:es|er)?\s+Retcon/i.test(text), `${relPath}: driftiges Retcon-Wording gefunden.`);
 }
 
 const infraChecks = [

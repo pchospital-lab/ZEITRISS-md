@@ -92,7 +92,7 @@ default_modus: mission-fokus
 - **Kausalabfang-Guard ("Never happened"):** Ausschließlich als
   **ITI-Cleanup-Protokoll nach 0 LP** für eindeutig feindliche
   Standardziele nutzen; nie als Kampfaktion, Fernlösung, Masseneffekt,
-  Plot-Retcon oder Kameradenrettung.
+  kein universelles Retcon-Werkzeug, Plot-Retcon oder Kameradenrettung.
 - **Kausalabfang-Voraussetzungen:** Nahdistanz, belastbare
   Identitätsfassung und aktiver Kodex-Uplink sind Pflicht. Das
   ITI-Abfangfenster reicht nur **Sekunden bis wenige Minuten** vor
