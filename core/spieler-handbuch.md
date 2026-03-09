@@ -222,7 +222,8 @@ Weiterführend:
 - **ITI-Cleanup-Protokoll `Kausalabfang-Marker` ("Never happened"):**
   Für **eindeutig feindliche Standardziele** kann die Spielleitung nach
   **0 LP** einen Kausalabfang anbieten bzw. bei namenlosen Hostiles knapp
-  automatisch abwickeln. Das ist **kein Kampfzug** und kein Zeit-Zauber,
+  automatisch abwickeln. Das ist **kein Kampfzug**, kein Zeit-Zauber und
+  **kein universelles Retcon-Werkzeug**,
   sondern ein enges ITI-Festnahmefenster nach Identitätsfassung auf
   Nahdistanz + aktivem Kodex-Uplink. Das Fenster reicht nur **Sekunden bis
   wenige Minuten** vor Einsatzkontakt, nicht weiter zurück. Reihenfolge im Einsatz:

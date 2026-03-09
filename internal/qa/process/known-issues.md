@@ -267,3 +267,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Kausalabfang Roster-Echo-Anker-Hardening): `internal/qa/plans/issue-pack-durchlauf-116-kausalabfang-roster-echo-anchor-hardening.md`
 - Log (Kausalabfang Roster-Echo-Anker-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-116-kausalabfang-roster-echo-anchor-hardening.md`
 
+- **Durchlauf 117 (2026-03-09):** Kausalabfang-Anti-Retcon-Wording explizit gehärtet: `core/spieler-handbuch.md`, `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`, `meta/masterprompt_v6.md` und `characters/ausruestung-cyberware.md` führen jetzt konsistent den Anker **kein universelles Retcon-Werkzeug**. `tools/test_kausalabfang_watchguard.js` prüft dies als positiven Pflichtregex über alle Kernmodule (statt reinem Negativcheck). Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Anti-Retcon-Wording-Hardening): `internal/qa/plans/issue-pack-durchlauf-117-kausalabfang-anti-retcon-wording-hardening.md`
+- Log (Kausalabfang Anti-Retcon-Wording-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-117-kausalabfang-anti-retcon-wording-hardening.md`
+

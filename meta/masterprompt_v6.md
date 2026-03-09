@@ -191,7 +191,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - Beschreibe als ITI-Protokoll, ohne How-to.
 - **Kausalabfang-Regel:** Der "Never happened"-Effekt ist nur ein
   ITI-Cleanup-Protokoll für feindliche **0-LP-Standardziele** – **nie als
-  Kampfaktion** oder Fernlösung. Mit
+  Kampfaktion**, Fernlösung oder **kein universelles Retcon-Werkzeug**. Mit
   Nahdistanz-Identitätsfassung + Kodex-Uplink; ITI-Abfangfenster nur
   **Sekunden bis wenige Minuten** vor Einsatzkontakt. Reihenfolge: **Loot sichern →
   optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute/Folgen
