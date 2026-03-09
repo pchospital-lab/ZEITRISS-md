@@ -150,3 +150,13 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Continuity Closure + QA-Aufräumen): `internal/qa/plans/issue-pack-durchlauf-93-continuity-closure-matrix-cleanup.md`
 - Log (Continuity Closure + QA-Aufräumen): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-93-continuity-closure-matrix-cleanup.md`
+
+- **Durchlauf 94 (2026-03-09):** NPC/MMO-Anschlusslauf abgeschlossen: `systems/toolkit-gpt-spielleiter.md` ersetzt den Altblock „Solo-Modus mit temporärem NPC-Team“ durch persistente NPC-Chrononauten (Scope/Status, Join/Leave-Regeln, Offscreen-Fortschreibung) und entfernt den Progress-Reset-Pseudopfad zugunsten von `StartGroupContinuity(...)` ohne Px-/Seed-Reset. `meta/masterprompt_v6.md` und `systems/gameflow/speicher-fortsetzung.md` wurden auf denselben v7-Vertrag erweitert (`continuity.npc_roster[]`, `active_npc_ids[]`, Mensch-vor-NPC-Slotregel, 5-Block-Kontinuitätsrückblick inkl. NPC-Lagebild). `systems/gameflow/cinematic-start.md` harmonisiert Solo-Begleiter-Wording auf Physicality-konforme Begriffe (Linsen-Lichtbild/Comlink statt Hologramm). `internal/qa/process/continuity-redesign-statusmatrix.md` dokumentiert den NPC/MMO-Follow-up-Block und neue Watchpoints. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (NPC-Kontinuität & MMO-Immersion-Hardening): `internal/qa/plans/issue-pack-durchlauf-94-npc-continuity-mmo-hardening.md`
+- Log (NPC-Kontinuität & MMO-Immersion-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-94-npc-continuity-mmo-hardening.md`
+
+- **Durchlauf 95 (2026-03-09):** Anschlusslauf zur Hologramm-/Physicality-Nuancierung abgeschlossen: `systems/toolkit-gpt-spielleiter.md` erlaubt feste Inworld-Projektionen im HQ (Wand/Tisch/Briefing-Glas) bei expliziter Gerätebenennung, hält aber den Guard gegen losgelöste VR-Räume und Handgelenk-Projektor-Defaults aufrecht. `core/sl-referenz.md` harmonisiert das Hardwareprinzip entsprechend; `systems/gameflow/cinematic-start.md` nutzt wieder technoir-kompatibles Wording (`Lichtbilder/HUD-Hologramme`, `Hologramm-Projektionen`) ohne den Linse/Comlink-Kern zu verlieren. Pflicht-Smoke erneut grün.
+
+- Fahrplan (Hologramm/Physicality-Harmonisierung): `internal/qa/plans/issue-pack-durchlauf-95-hologramm-physicality-harmonisierung.md`
+- Log (Hologramm/Physicality-Harmonisierung): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-95-hologramm-physicality-harmonisierung.md`

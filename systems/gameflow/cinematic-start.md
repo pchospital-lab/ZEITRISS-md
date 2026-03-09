@@ -280,7 +280,7 @@ Bedürfnisse anpasst:
 - **Einzelspieler vs. Gruppe:** Spielt ihr mit **einer einzelnen Hauptfigur**,
   könnt ihr den Einstieg sehr persönlich halten – der Charakter steht
   allein im Zentrum der Kamera. In einem Solo-Einstieg lohnt es sich, Nebenfiguren
-  (Mentoren wie Commander Renier, KI-Assistenten, Hologramm-Begleiter etc.)
+  (Mentoren wie Commander Renier, KI-Assistenten, Linsen-Lichtbilder/HUD-Hologramme oder Comlink-Begleiter etc.)
   stärker einzusetzen, damit der Spieler genug Interaktion hat.
   Beispielsweise könnte ein Alleinreisender vom Commander persönlich herumgeführt
   werden oder erhält einen **KI-Begleiter** an die Seite, der kommentiert (eine
@@ -313,7 +313,7 @@ Bedürfnisse anpasst:
   es, **unterschiedliche Epochen aufeinander treffen** zu lassen. Nutzt das auch
   in der Einstiegsszene. Wenn die Gruppe gemischt aus verschiedenen Zeiten
   stammt, könnt ihr kleine **Kulturkollisionen** einbauen: Vielleicht wundert
-  sich der Ritter über die seltsamen Hologramme im HQ, während der
+  sich der Ritter über die seltsamen Lichtbilder/Hologramm-Projektionen im HQ, während der
   Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit
   Tastaturen gearbeitet wurde. Solche Momente lockern die Stimmung und verankern
   gleich die Vielfalt der Hintergründe. Fragt die Spieler, was man ihren
