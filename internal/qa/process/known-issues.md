@@ -160,3 +160,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Hologramm/Physicality-Harmonisierung): `internal/qa/plans/issue-pack-durchlauf-95-hologramm-physicality-harmonisierung.md`
 - Log (Hologramm/Physicality-Harmonisierung): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-95-hologramm-physicality-harmonisierung.md`
+
+- **Durchlauf 96 (2026-03-09):** Restdrift-Fix im Startmodul abgeschlossen: `systems/gameflow/cinematic-start.md` trennt verbliebene Hybrid-Begriffe jetzt klar in linsegebundenes HUD-Wording („Linsen-Lichtbilder im HUD“) und HQ-gebundene Inworld-Flächen („Lichtbilder auf den HQ-Briefingflächen“). Damit bleibt die in Durchlauf 95 etablierte Physicality-Nuance stabil, ohne neue Default-Implikationen für Hologramm-HUDs zu öffnen. Pflicht-Smoke erneut grün.
+
+- Fahrplan (Cinematic-Physicality-Restdrift): `internal/qa/plans/issue-pack-durchlauf-96-cinematic-physicality-restdrift.md`
+- Log (Cinematic-Physicality-Restdrift): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-96-cinematic-physicality-restdrift.md`
