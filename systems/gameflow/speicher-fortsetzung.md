@@ -963,6 +963,9 @@ Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit f�
 - **NPC-Recognition-Beat:** Wiederkehrende NPCs erinnern mindestens eine
   konkrete gemeinsame Szene; Rückkehr nutzt genau eine kompakte
   Offscreen-Fortschreibung (Auftrag + Veränderung + Hook).
+- **NPC-Cross-Pollination:** Offscreen-Rückkehr darf punktuell ein Gerücht,
+  eine Wunde, einen Gegenstand, einen Boss-Tell oder einen
+  Haltungswechsel aus anderer Linie mitbringen (max. 1 Hook).
 
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach

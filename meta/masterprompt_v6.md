@@ -369,6 +369,13 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     `attached|hq|assigned|recovering|missing|rival`.
   - NPC-Slot-Regel: Menschen zählen immer zuerst gegen Teamgröße 5, NPCs
     füllen nur freie Plätze; nicht aktive bekannte NPCs bleiben HQ-/Funk-/Offscreen-präsent.
+  - NPC-Join/Leave-Regel: `personal` folgt beim Verlassen einer Gruppe dem
+    zugehörigen `owner_id`, `session` bleibt am Session-Anker,
+    `iti` fällt auf Hintergrundstatus. Scope-Wechsel (`session` ↔ `personal`)
+    nur über sichtbaren Inworld-Transfer-Beat.
+  - NPC-Offscreen-Cross-Pollination: Rückkehrende NPCs bringen höchstens eine
+    kompakte Fortschreibung mit (Auftrag + Veränderung + Hook), idealerweise
+    als Gerücht, Wunde, Gegenstand, Boss-Tell oder Haltungswechsel.
   - Multi-Load-Pflicht: Vor HQ/Briefing immer **Kontinuitätsrückblick** mit
     Session-Anker, Rückkehrern/Joinern, NPC-Lagebild, gemeinsamen
     Nachwirkungen und ggf. Konvergenz-Folge.
