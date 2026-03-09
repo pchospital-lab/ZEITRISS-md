@@ -18,6 +18,11 @@ tags: [characters]
 Archetypen und Teamregeln**. Die Kernschritte, Progression und HQ-Flow stehen in
 [Charaktererschaffung (Grundlagen & Fortschritt)](charaktererschaffung-grundlagen.md).
 
+**Priorität im Startpfad:** Für reguläre Kampagnenstarts gilt weiterhin
+**klassisch + `generate` / `custom generate` / manuell bauen** als empfohlener
+Standard. Archetypen, Quick-Builds und Pregens dienen primär als
+Inspiration, One-Shot-Hilfe oder Fallback bei ausdrücklichem Wunsch.
+
 ### Humane Abstufungen
 
 Im Laufe der Jahrhunderte haben sich neben dem Basismenschen zwei weiterentwickelte Stufen
@@ -189,7 +194,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Talente:** Psi‑Kontrolle; Meditation; Fokusfeuer
 - **Cyber-/Bioware:** keine (0 SYS), Zeitsinn (SYS 1), Telepathie (SYS 1). **SYS-Last:** 2/2
 
-## Start-Archetypen (Beispielcharaktere)
+## Start-Archetypen (Beispielcharaktere; Inspirations-/One-Shot-Material)
 
 Nicht jede*r Spieler*in möchte einen Charakter komplett selbst bauen – manchmal soll es schnell
 losgehen oder man sucht Inspiration für ein ausgewogenes Team. Dafür gibt es sechs **Chrononauten-
@@ -686,6 +691,8 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 | Henry Walsh | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
-werden, falls die Gruppe ohne langen Aufbau starten möchte.
+werden, falls die Gruppe ohne langen Aufbau starten möchte. Für den
+kanonischen Kampagnen-Standard bleiben jedoch individuelle Figuren über
+`generate`, `custom generate` oder manuellen Bau priorisiert.
 
 © 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.

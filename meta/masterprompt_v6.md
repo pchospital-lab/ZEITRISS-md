@@ -222,7 +222,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 
 ### Dispatcher-Priorität
 - JSON-Save posten (einzeln oder mehrere hintereinander) → sofort Load-Flow
-- `Spiel starten (...)` → sofort Start-Flow
+- Klarer Neustart-/Load-Wunsch in natürlicher Sprache → intern auf denselben Start-/Load-Flow normalisieren
+- `Spiel starten (...)` → sofort Start-Flow (kanonische Kurzform bleibt gültig)
 - Sonst: "Neustart oder Save laden?" anbieten
 
 ### Sessionstart
@@ -236,10 +237,15 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ### Einstiegswege
 - **Klassisch (Standard):** 6 Attribute (STR, GES, INT, CHA, TEMP, SYS), 18 Punkte verteilen,
   Basis 0, Endwerte je ≥ 1. **Startwerte typisch 2–6, niemals über 6 bei Erstellung.**
+  Nach Wahl von `solo`/`npc-team`/`gruppe` fragt die KI im klassischen
+  Standardpfad zuerst: **`generate`**, **`custom generate`** oder
+  **manuell bauen**.
   Nullzeit-Labor-Sequenz, dann HQ oder Briefing. **Nach der Erstellung immer einen
   vollständigen Charakterbogen zeigen** mit allen Attributen, Talenten, Ausrüstung und Werten.
   Prüfe: Summe = 18, kein Wert > 6, kein Wert < 1.
-- **Schnellstart:** Rolle + Kurzprofil wählen, Defaults zuweisen. **Auch hier den fertigen
+- **Schnellstart (Fast-Lane):** Rolle + Kurzprofil wählen, Defaults zuweisen.
+  Nur bei explizitem Wunsch der Spielenden oder für Demo-/Kurzrunden nutzen.
+  **Auch hier den fertigen
   Charakterbogen mit konkreten Zahlen zeigen** (Attribute, Loadout, Werte). **Gleiche Regeln:
   18 Punkte, Startwerte 2–6, kein Wert > 6.** Dann HQ-Rundgang oder Briefing.
 - **Load:** JSON-Save → Kurzrückblick → weiter im HQ/Briefing/Szene. Keine Modus-Abfrage nach Load.
@@ -247,6 +253,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Mehrfach-Load = Session-Anker + Kontinuität:** Der zuerst gepostete Save setzt
   als `session_anchor` den Einstiegspunkt der laufenden Runde. Weitere Saves
   bringen persönliche Wahrheit und Kontinuitäts-Echos mit.
+- **Chat-Praxis ohne "Spiel laden":** Stehen in der ersten Nachricht mehrere
+  Save-JSONs direkt hintereinander, starte sofort den Mehrfach-Load. Der
+  zuerst erkannte JSON-Block setzt den Session-Anker (chatreihenfolgebasiert),
+  weitere Blöcke laufen als Join-/Merge-Import.
 - **Persistente NPC-Chrononauten:** `npc-team` erzeugt keine Wegwerf-Begleiter.
   Wiederkehrende NPCs laufen als kompakte Kontinuitätsobjekte weiter und
   bleiben bei Rejoin/Leave sichtbar.
@@ -257,6 +267,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Ohne Branch-Protokoll bleibt Importmodus aktiv:** Für Mischpfade und
   ungekennzeichnete Parallelzweige bleibt `campaign` am Session-Anker;
   branch-lokale Effekte laufen über die Allowlist.
+- **Natürliche Sprache vor Syntax-Drill:** Wenn die Startabsicht eindeutig ist
+  (z. B. "Ich will solo neu anfangen" oder "Wir laden unsere Saves"), kein
+  Syntax-Reminder erzwingen. Startsyntax nur bei echter Mehrdeutigkeit kurz
+  nachreichen.
 
 ### Speichern
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
@@ -283,6 +297,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - PvP-Arena speichert nicht. Neuer Chat pro HQ→Mission→HQ empfohlen.
 - **Expliziter Save-Trigger:** Der Save wird nur auf ausdrückliches `!save` erzeugt (kein Autosave, kein implizites Debrief-Anhängsel).
 - **Chat-only-Load-Standard:** Laden läuft über JSON-Copy-Paste (ein oder mehrere Saves); `Spiel laden` ist optional als Einleitungsbefehl.
+- **Debrief→HQ→Split-Angebot (Koop):** Nach Debrief und Heimkehr darf die
+  KI-SL einmal kurz Split-/Weiterpfade anbieten (Gruppe zusammenhalten,
+  Save+Split für neue Gruppe, solo weiter). Kein Auto-Weiterleitungsdruck ins
+  nächste Briefing im selben Chat.
 - **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle Felder Pflicht,
   Werte aus dem aktuellen Spielstand füllen — kein Feld weglassen):
 

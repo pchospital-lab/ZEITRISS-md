@@ -2,12 +2,16 @@
 
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
-> **Kurzfassung:** ZEITRISS® schickt euch als operative Chrononauten in ein
-> Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und
-> JSON-Charakterbögen.
+> **ZEITRISS®** ist ein KI-geführtes Zeitreise-RPG im Chat: Ihr spielt
+> Chrononauten des ITI in einer persistenten Einsatzwelt über Missionen,
+> Gruppenwechsel und neue Chats hinweg.
+> **MMO ohne Server:** Euer JSON-Save ist euer Charakter — mitnehmbar,
+> teilbar, mergebar, ohne Account-Zwang.
+> **Wichtig:** Ihr müsst vor dem ersten Run nicht das komplette Regelwerk lesen:
+> OpenWebUI einrichten, Preset wählen, mit der KI-SL sprechen.
 > **Hinweis (18+):** Die Inhalte richten sich ausschließlich an Erwachsene.
-> **Wichtig:** ZEITRISS ist für KI-Spielleitung gebaut; klassischer Start ist
-> als empfohlener Modus die Referenz.
+> **Startstandard:** `Spiel starten (solo klassisch)` oder natürlich sagen,
+> dass ihr neu beginnen wollt. `solo schnell` bleibt als Fast-Lane.
 
 → [Spieler-Handbuch (Regeln, Einleitung, Schnellstart)](core/spieler-handbuch.md)
 → [Setup-Guide (lokales Hosting)](docs/setup-guide.md)
@@ -39,7 +43,8 @@ Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer mit echtem Charakter-Besitz.
 4. **Vor dem Spiel kurz prüfen:**
    - Masterprompt ist im Systemfeld gesetzt,
    - Wissensspeicher ist sauber verknüpft (20 Slots),
-   - dann mit `Spiel starten (solo klassisch)` starten.
+   - dann mit `Spiel starten (solo klassisch)` starten oder den
+     Neustart natürlich formulieren.
 
 **Falls die Plattform kein eigenes Systemfeld anbietet:**
 `meta/masterprompt_v6.md` als **erste Chatnachricht** senden und erst danach
@@ -57,7 +62,7 @@ ZEITRISS-Stand im üblichen Workflow.
 - Verknüpfung nach jeder Änderung prüfen (Slots + Preset).
 - Details: [Setup-Guide → Manuelles Setup](docs/setup-guide.md#wissensspeicher--plattform-setup).
 
-_(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
+_(Fast-Lane bleibt möglich: `Spiel starten (solo schnell)`.)_
 
 ### Modell-Empfehlung
 
