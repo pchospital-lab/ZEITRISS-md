@@ -192,3 +192,13 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Toolkit Physicality-Wording-Guard): `internal/qa/plans/issue-pack-durchlauf-101-toolkit-physicality-wording-guard.md`
 - Log (Toolkit Physicality-Wording-Guard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-101-toolkit-physicality-wording-guard.md`
 
+
+- **Durchlauf 102 (2026-03-09):** Core-Restdrift zur Physicality-Terminologie abgeschlossen: `core/zeitriss-core.md` ersetzt verbliebene Altbegriffe (`holografische Anzeigen`, `Hologramm-Module`, `Holosuites`) in HQ-/Trainingspassagen durch Physicality-konsistente Formulierungen (`Lichtbild-Anzeigen auf den Briefingflächen`, `Simulationsräume`, `Simulationsmodule mit fest verbauten Lichtbildflächen`). Damit bleibt der in den Durchläufen 94–101 etablierte Guard auch im Lore-Core stabil. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Core Physicality-Terminologieabgleich): `internal/qa/plans/issue-pack-durchlauf-102-core-physicality-terminology-alignment.md`
+- Log (Core Physicality-Terminologieabgleich): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-102-core-physicality-terminology-alignment.md`
+
+- **Durchlauf 103 (2026-03-09):** Präzisierungslauf nach Feedback: `core/zeitriss-core.md` wurde semantisch auf den etablierten Physicality-Kanon zurückgeführt. Hologramm-/Lichtbild-Begriffe bleiben zulässig, sofern an sichtbare Inworld-Infrastruktur gebunden (Holosuite/Briefingglas/Tischprojektor); ausgeschlossen bleibt nur das mobile Handgelenk-HUD als Default. Damit ist die Trennung aus 94–101 (`Retina-HUD` vs. verankerte Projektion) auch im Core wieder eindeutig. Pflicht-Smoke erneut grün.
+
+- Fahrplan (Core Physicality-Klarstellung): `internal/qa/plans/issue-pack-durchlauf-103-core-physicality-clarification.md`
+- Log (Core Physicality-Klarstellung): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-103-core-physicality-clarification.md`

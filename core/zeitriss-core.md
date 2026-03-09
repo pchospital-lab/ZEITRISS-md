@@ -745,8 +745,9 @@ Außenwelt Zeit vergeht.
 #### Einrichtungen und Bereiche
 
 - **Quarzatrium:** Sprungkammer und Briefingraum in einem. Ankommende Agenten
-  werden von Laserscannern erfasst, während holografische Displays die Zielzeit
-  anzeigen. Hier öffnen sich die kontrollierten Zeitrisse für den Absprung.
+  werden von Laserscannern erfasst, während holografische Lichtbild-Anzeigen
+  auf den Briefingflächen die Zielzeit anzeigen. Hier öffnen sich die kontrollierten
+  Zeitrisse für den Absprung.
   Commander _Renier_ übernimmt die erste Einweisung und übergibt die
   laufenden Briefings/Debriefs danach an die zuständigen Fraktions-Liaisons.
 - **Unterkünfte:** Persönliche Quartiere, in denen Erinnerungsstücke früherer
@@ -755,8 +756,8 @@ Außenwelt Zeit vergeht.
   von Archivaren, die das wachsende Wissen über alle Epochen sammeln.
 - **Kliniken & Laboratorien:** Medbay und Werkstatt für Cyber- oder Bioware; hier
   werden Wunden versorgt und Upgrades durchgeführt.
-- **Trainingsareale:** Schießstände, Kampfarenen und Holosuites für ein sicheres
-  Übungsumfeld.
+- **Trainingsareale:** Schießstände, Kampfarenen und Holosuites als
+  fest verankerte Simulationsräume für ein sicheres Übungsumfeld.
 - **Werkstätten & Arsenal:** Lager für Ausrüstung und Chrono-Units-Konten (siehe
   Modul _Chrono Units_).
 - **Zero Time Lounge:** Eine Bar, in der die Zeit minimal verlangsamt ist und ein
@@ -1002,8 +1003,9 @@ sind unter anderem:
 - **Missionskontrolle & Briefingraum:** Ein zentraler Saal - oft _Quarzatrium_ genannt - in dem sich
   die kontrollierten Zeitrisse geöffnet werden. Hier erhalten die Chrononauten
   ihre Einsatzbesprechungen vom Missionsleiter. Meist führt Kodex oder ein
-  erfahrener Offizier des ITI die Briefings durch. Holografische Anzeigen
-  zeigen die Zielzeit und Missionsdetails an. Von diesem Raum aus treten die
+  erfahrener Offizier des ITI die Briefings durch. Holografische
+  Lichtbild-Anzeigen auf den Briefingflächen zeigen die Zielzeit und
+  Missionsdetails an. Von diesem Raum aus treten die
   Agenten durch einen kontrollierten Zeitriss ihre Reise an. (Rückholungen
   nutzen denselben Mechanismus — ein neuer Riss öffnet sich am Einsatzort.)
 - **Kliniken & Laboratorien:** Medizinische Abteilungen, in denen Verletzungen versorgt und
@@ -1024,13 +1026,18 @@ sind unter anderem:
   Ergebnisse der Abenteuer: wichtige Ereignisse, Personen, Veränderungen der Zeitlinie und neue
   Erkenntnisse, sodass ein Gedächtnis der Kampagne entsteht.
 - **Trainingsareale & Übungsräume:** Weitläufige Hallen, Schießstände und spezialisierte
-  Hologramm-Module stehen bereit, damit die Chrononauten sich unter realen Bedingungen verbessern
-  können. Moderne **Holosuites** unterstützen vor allem Hacker-Trainings und taktische
-  Planungsübungen, während körperliches Training stets mit echtem Einsatz erfolgt. Für psionisch
+  Hologramm-Module in fest installierten Holosuites stehen bereit, damit die
+  Chrononauten sich unter realen Bedingungen verbessern können. Die Holosuites
+  unterstützen vor allem Hacker-Trainings und taktische Planungsübungen,
+  während körperliches Training stets mit echtem Einsatz erfolgt. Für psionisch
   begabte Agenten existieren abgeschirmte Meditationszellen, in denen sie ihre temporalen
   Fähigkeiten gefahrlos vertiefen. Neue Rekruten absolvieren hier häufig eine kurze **Tutorial-
   Mission** - ein echter Probeeinsatz mit begrenztem Risiko, der ihnen die wichtigsten Regeln
   beibringt und zugleich Konsequenzen besitzt.
+
+  Die Projektionen sind dabei immer an sichtbare ITI-Infrastruktur gebunden
+  (Holosuite, Briefingglas, Tischprojektor) und nicht an mobile
+  Handgelenk-HUDs.
 - **Werkstätten & Arsenal:** Werkstätten zur Wartung, Reparatur und Anpassung von Ausrüstung sowie
   ein zentrales Arsenal, in dem die Chrononauten ihre Ausrüstung lagern und neue Gegenstände
   beschaffen können. Das ITI hat hierfür eine einheitliche epochenübergreifende Währung eingeführt -
