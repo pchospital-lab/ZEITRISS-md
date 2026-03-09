@@ -202,3 +202,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Core Physicality-Klarstellung): `internal/qa/plans/issue-pack-durchlauf-103-core-physicality-clarification.md`
 - Log (Core Physicality-Klarstellung): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-103-core-physicality-clarification.md`
+
+- **Durchlauf 104 (2026-03-09):** Guard-Automation für den NPC-Kontinuitätsstrang abgeschlossen: `tools/test_npc_continuity_consistency.js` prüft jetzt als Pflicht-Smoke die SSOT-Anker in `meta/masterprompt_v6.md`, `systems/gameflow/speicher-fortsetzung.md` und `core/sl-referenz.md` (inkl. `continuity.npc_roster[]`, `active_npc_ids[]`, Scope-Guard `personal|session|iti`, Mensch-vor-NPC-Slotregel) und validiert das neue Fixture `internal/qa/fixtures/npc_continuity_output_contract.json` (Budgets/Status/Leave/Cross-Pollination). `scripts/smoke.sh` enthält den Check fest; Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (NPC-Continuity-Guard-Automation): `internal/qa/plans/issue-pack-durchlauf-104-npc-continuity-guard-automation.md`
+- Log (NPC-Continuity-Guard-Automation): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-104-npc-continuity-guard-automation.md`

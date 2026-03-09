@@ -106,6 +106,10 @@ grep "v7-issue-pack-ok" out/v7_issue_pack.log
 node tools/test_continuity_output_contract.js > out/continuity_output_contract.log
 grep "continuity-output-contract-ok" out/continuity_output_contract.log
 
+# NPC-Kontinuität: SSOT-Feldanker + Fixture-Contract
+node tools/test_npc_continuity_consistency.js > out/npc_continuity_consistency.log
+grep "npc-continuity-consistency-ok" out/npc_continuity_consistency.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
