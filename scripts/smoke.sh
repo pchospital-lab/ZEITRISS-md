@@ -122,6 +122,10 @@ grep "physicality-watchguard-ok" out/physicality_watchguard.log
 node tools/test_kausalabfang_watchguard.js > out/kausalabfang_watchguard.log
 grep "kausalabfang-watchguard-ok" out/kausalabfang_watchguard.log
 
+# Start-/HQ-Onboarding-Watchguard (NLP-Startvertrag + Save->neuer-Chat)
+node tools/test_onboarding_start_save_watchguard.js > out/onboarding_start_save_watchguard.log
+grep "onboarding-start-save-watchguard-ok" out/onboarding_start_save_watchguard.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
