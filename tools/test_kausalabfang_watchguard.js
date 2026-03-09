@@ -27,7 +27,8 @@ const mustHaveRegex = [
 const hardeningRegex = [
   /Named-Target-Echo|maximal\s+einen\s+Nachhall/i,
   /Kodex:\s*Identitätslock\s+bestätigt/i,
-  /Kodex:\s*Kausalabfang\s+freigegeben/i
+  /Kodex:\s*Kausalabfang\s+freigegeben/i,
+  /Kodex:\s*Lokale\s+Erinnerung\s+driftet\.\s*Archivanker\s+aktiv/i
 ];
 
 const checks = [
