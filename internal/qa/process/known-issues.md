@@ -187,3 +187,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Masterprompt NPC-Beat-Guard): `internal/qa/plans/issue-pack-durchlauf-100-masterprompt-npc-beat-guard.md`
 - Log (Masterprompt NPC-Beat-Guard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-100-masterprompt-npc-beat-guard.md`
 
+- **Durchlauf 101 (2026-03-09):** Toolkit-Restdrift zur Physicality-Formulierung abgeschlossen: `systems/toolkit-gpt-spielleiter.md` präzisiert im HUD-Stilabschnitt den linsengebundenen Default (Retina-Linse im Sichtfeld) und erlaubt freie Projektionen nur noch als explizit benannte Inworld-Fläche/Geräteschnittstelle (z. B. HQ-Briefingglas). Damit bleibt der in 94–100 etablierte Guard auch in den KI-Erzählhinweisen stabil. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Toolkit Physicality-Wording-Guard): `internal/qa/plans/issue-pack-durchlauf-101-toolkit-physicality-wording-guard.md`
+- Log (Toolkit Physicality-Wording-Guard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-101-toolkit-physicality-wording-guard.md`
+
