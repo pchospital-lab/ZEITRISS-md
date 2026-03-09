@@ -15,7 +15,7 @@ tags: [characters]
 - Baseline-Kit & HQ-Einstieg
 
 **Einleitung:** In _ZEITRISS 4.2.6_ erschafft ihr einen _Chrononauten_, einen Zeitreise-Agenten im
-Dienst des ITI (Institut für Temporale Interventionen), der Missionen quer durch die Epochen
+Dienst des ITI (Institut für Temporale Intervention), der Missionen quer durch die Epochen
 erlebt. Dieses Modul liefert euch eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
 erklärt, wie eure Figur im Verlauf des Spiels **fortschreitet** - vom Level-Aufstieg über das
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
@@ -257,7 +257,7 @@ die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
    **Fraktionsübertritt** ist jederzeit im Spielverlauf möglich — aber
    endgültig. Es gibt keinen Weg zurück zum Ordo und keinen Wechsel
    zwischen Preserve und Trigger. Wer übertritt, erhält fortan nur noch
-   Seeds der gewählten Haltung. Ruf und HQ-Ausbaustufen bleiben erhalten.
+   Seeds der gewählten Haltung. Ruf, ITI-Lizenz-Tier und bestehende Zugangsfreigaben bleiben erhalten.
    Wer bewusst neutral bleibt, kann beim Ordo Mnemonika aufsteigen und
    weiterhin den Mischpool spielen.
 
@@ -327,20 +327,18 @@ Gegen Fremdfraktionen kämpfen alle gemeinsam. → Vollständige Tabelle:
 
 **Fraktionsübertritt:** Jederzeit im Spielverlauf möglich, aber endgültig —
 kein Weg zurück zum Ordo und kein Wechsel zwischen Preserve und Trigger.
-ITI-Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
+ITI-Rufpunkte, Lizenz-Tier und bereits freigeschaltete **Zugangsfreigaben** bleiben erhalten.
 Wer bewusst neutral bleibt, kann beim Ordo Mnemonika aufsteigen und
 weiterhin den Mischpool spielen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann (rein
-narrativ — keine mechanischen Boni). Später kauft ihr euch zusätzliche
-Zugangs-**Stufen** im Fraktionskomplex des ITI. Ein eigener Stützpunkt
-außerhalb der Nullzeit ist nicht vorgesehen. Details zum dreistufigen
-HQ-System (ITI-HQ, Quartier, Fuhrpark) und die Ausbautabelle findet ihr in
-[HQ-Verwaltung und Ausbau](../gameplay/kampagnenstruktur.md#hq-verwaltung-und-ausbau).
-Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
-Wunden versorgt und der nächste Auftrag vorbereitet - die Heimkehr ist also ein
-regelmäßiges, aber freiwilliges Element des Spielablaufs.
+narrativ — keine mechanischen Boni). Später schaltet ihr über Ruf, Lizenzen und operative Freigaben
+zusätzliche ITI-Bereiche frei. Ein eigener Stützpunkt außerhalb der Nullzeit
+ist nicht vorgesehen. Details zur Zugangs-/Lizenzlogik findet ihr in
+[HQ-Betrieb und Zugangsfreigaben](../gameplay/kampagnenstruktur.md#hq-betrieb-und-zugangsfreigaben).
+Nach jeder Mission folgt die Rückkehr ins ITI für Debrief, Versorgung und
+Lageabgleich — als fester Heimkehr-Beat des Spielrhythmus.
 
 Am Ende des Rundgangs legt **Commander Renier** den Rahmen fest und übergibt an
 die zuständige Fraktionskontaktperson, die das konkrete Briefing übernimmt. Drei

@@ -378,7 +378,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
-  Sie erhalten dadurch weitreichende Befugnisse - ein spürbarer Höhepunkt im HQ-Ausbau.
+  Sie erhalten dadurch weitreichende Befugnisse - ein spürbarer Höhepunkt ihrer Zugangs- und Lizenzfreigaben im ITI.
 - **Level 100 → Interner Legendenstatus:** Nur wenige erreichen diesen Rang. Im ITI gelten sie als
   herausragende Koryphäen, bleiben in den Epochen jedoch namenlos.
 
@@ -977,7 +977,7 @@ die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren
 Temporale Intervention (ITI)** dient zu Beginn als Heimatbasis der Agenten, und zahlreiche andere
 Kräfte wirken - teils sichtbar, teils im Verborgenen - über die Zeitlinie hinweg. Im Folgenden
 werden das **HQ des ITI** sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben.
-Später schaltet die Gruppe nach und nach weitere Zugangs-**Stufen** in ihrem Fraktionskomplex im ITI frei;
+Später schaltet die Gruppe nach und nach weitere operative Zugänge, Lizenzen und Freigaben im ITI frei;
 ein separates Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
 Das ITI-Hauptquartier existiert in der sogenannten **Nullzeit** - einem Bereich _außerhalb_ des
@@ -989,7 +989,7 @@ sind unter anderem:
 
 - **Unterkünfte & Quartiere:** Die persönlichen Zimmer oder Wohnbereiche der Agenten.
   Hier können sie sich ausruhen und persönliche Gegenstände lagern. Die Quartiere sind fester
-  Bestandteil des ITI und wachsen mit den freigeschalteten Fraktions-Ausbaustufen.
+  Bestandteil des ITI und bleiben als konstanter Heimatraum erhalten.
   Sie bieten Gelegenheit für Charakterszenen, etwa wenn ein Agent ein Souvenir der letzten
   Mission betrachtet oder zwei Teammitglieder im Gemeinschaftsraum über mysteriöse Zeitphänomene
   diskutieren.
@@ -1060,9 +1060,9 @@ Spielercharaktere nach Belieben agieren** - ihre Figuren ausspielen, mit NSCs pl
 Ausrüstung anschaffen oder vorhandene verbessern, oder einfach ausspannen. Alle **wichtigen**
 Veränderungen am Charakter (neue Implantate, Ausrüstungswechsel, Missionsvorbereitungen) finden hier
 im HQ statt - es fungiert als **sicherer Hafen** zum Planen und Verbessern, bevor es wieder ins
-Ungewisse der nächsten Zeitreise geht. Der Aufenthalt im HQ ist freiwillig und kann auf Wunsch
-übersprungen werden, aber diese _Downtime_-Phase bietet viel Atmosphäre und Charakterspiel, um die
-Welt **jenseits der Missionen** zu erkunden.
+Ungewisse der nächsten Zeitreise geht. Die Rückkehr ins HQ folgt nach Missionen als fester Heimkehr-Beat; die
+Ausgestaltung kann kompakt oder ausführlich erfolgen. Diese _Downtime_-Phase bietet viel Atmosphäre
+und Charakterspiel, um die Welt **jenseits der Missionen** zu erkunden.
 
 ### Wichtige Fraktionen
 

@@ -863,7 +863,7 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 1. **Schnell-HQ** - Heilen + Shoppen in wenigen Klicks, schnell wieder
    einsatzbereit.
 2. **HQ manuell erkunden** - volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
-   Fraktions-RP, Feilschen und ausführlichem Briefing/Quartierausbau.
+   Fraktions-RP, Feilschen und ausführlichem Briefing und Quartier-Rollenspiel.
 3. **Auto-HQ & Save** - automatische Abwicklung der HQ-Pflichtschritte,
    danach folgt das nächste Briefing.
 
