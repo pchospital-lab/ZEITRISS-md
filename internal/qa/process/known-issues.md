@@ -238,3 +238,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang Echo-/Kodex-Hardening): `internal/qa/plans/issue-pack-durchlauf-110-kausalabfang-echo-kodex-hardening.md`
 - Log (Kausalabfang Echo-/Kodex-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-110-kausalabfang-echo-kodex-hardening.md`
+
+
+- **Durchlauf 111 (2026-03-09):** Kausalabfang-Guard um Infra-Hardening erweitert: `tools/test_kausalabfang_watchguard.js` prüft jetzt zusätzlich über alle Kernmodule die Anker **kein Kampfwerkzeug**, **Nahdistanz/Nahbereich**, **Identitätsfassung/Identitätslock** und **Kodex-Uplink/Uplink**. Zusätzlich sichern dateispezifische Checks in `core/sl-referenz.md` und `characters/ausruestung-cyberware.md`, dass der Marker **nicht shopbar/kein Kaufgegenstand** und **kein Pflicht-Inventarstück** bleibt. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Watchguard Hardening / Infra): `internal/qa/plans/issue-pack-durchlauf-111-kausalabfang-watchguard-hardening-infra.md`
+- Log (Kausalabfang Watchguard Hardening / Infra): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-111-kausalabfang-watchguard-hardening-infra.md`
