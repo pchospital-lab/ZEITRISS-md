@@ -164,9 +164,11 @@ default_modus: mission-fokus
   `require_hack_device()` setzen, Comms laufen über `must_comms()` - alle drei
   loggen Hardware als `HARDWARE`-Toast (`logs.physicality[]`).
 - Geräte nennen (Linse, Sensor, Kabel, Relay, Terminal) **plus spürbares
-  Feedback** (Vibration, Knistern, Hitze der Linse). Holo-Overlays kommen aus
-  der Linse (Mixed-Reality im Sichtfeld), keine externen VR-Räume oder
-  Projektor-UIs.
+  Feedback** (Vibration, Knistern, Hitze der Linse). Holo-Overlays kommen
+  primär aus der Linse (Mixed-Reality im Sichtfeld). Feste Inworld-
+  Projektionen im HQ (z. B. Wand-/Tischprojektor, Briefing-Glas) sind erlaubt,
+  wenn das Gerät benannt wird; keine losgelösten VR-Räume oder
+  Handgelenk-Projektor-UIs als Default.
 - `require_physical_device(action, { device, sensory?, detail?, toast? })` steht
   für Spezialfälle bereit (z. B. paralleler Hardware-Check bei Ritual-Scans).
 
@@ -222,8 +224,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
   blockierbar durch Gelände/Jammer; mit Edge-Compute → Kodex-Sync läuft über das Comlink.
 - Relais/Kabel heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
-- Armbänder sind erlaubt, projizieren aber kein HUD; keine externen Projektoren,
-  keine Batterien.
+- Armbänder sind erlaubt, projizieren aber kein HUD; keine mobilen
+  Handgelenk-Projektoren als HUD-Quelle, keine Batterien.
 - **Kein Handgelenk-Default:** HUD bleibt Linse/Comlink/Terminal, keine Projektionen vom Handgelenk.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
@@ -1104,138 +1106,94 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   accomplished"). Indem ihr solche **diegetischen** Mittel nutzt, bleibt alles in-world und verstärkt
   dennoch das Spielerlebnis.
 
-## Solo-Modus mit temporärem NPC-Team
+## Solo- und Gruppenkontinuität mit NPC-Chrononauten
 
-## Inhalt
+NPC-Chrononauten sind in ZEITRISS keine Wegwerf-Begleiter, sondern persistente
+Offscreen-Agenten des ITI. Sie bleiben Teil der Welt, auch wenn sie nicht
+aktiv im Einsatzbild sind.
 
-- Einleitung
-- Teamzusammenstellung für Solo-Spieler
-- Beispielhafte Persönlichkeiten & Dialoge
-- Integration in Briefings und Missionen
-- Verweise auf Gruppenstart & Missionsstruktur
-- Fazit
+### Goldregel
 
-## Einleitung
+- Chrononauten verschwinden nicht aus der Welt, wenn die Kamera sie verlässt.
+- `npc-team` erzeugt keinen temporären Sondermodus, sondern nutzt denselben
+  Kontinuitätskern wie Solo, Rejoin und Gruppen-Load.
+- Kein Gruppenstart darf Kampagnenfortschritt still zurücksetzen
+  (`campaign.px`, `campaign.rift_seeds`, `arc.open_seeds` bleiben erhalten).
 
-Manchmal möchte ein einzelner Spieler die Dynamik eines Teams erleben. Dieses Modul
-beschreibt, wie KI-SL kurzfristig ein **NPC-Team** zusammenstellt, wenn der Spieler
-"im Solo-Modus" eine Gruppenmission wünscht. Die Regeln für filmische
-Gruppenstarts (siehe _Modul 13 - Cinematic Start_, Abschnitt
-"Gruppenstart-Varianten") bleiben
-massgeblich: Die Charaktere werden dramaturgisch eingeführt, sodass der Solo-Agent
-sich sofort eingebunden fühlt. Gleichzeitig orientiert sich der Missionsablauf an
-der Struktur aus den Regelkapiteln zu Kampagnen und Missionen.
+### Kompaktmodell für NPC-Kontinuität
 
-## Teamzusammenstellung für Solo-Spieler
+Bekannte NPC-Chrononauten liegen in `continuity.npc_roster[]` als kompakte
+Kontinuitätsobjekte (kein Vollcharakterbau):
 
-- **Schnelle Auswahl:** KI-SL wählt zwei bis drei passende NSCs aus dem ITI-Umfeld
-  oder erfindet sie spontan. Sie sollen das Missionsziel ergänzen und klar
-  voneinander unterscheidbar sein.
-- **Rollen & Fähigkeiten:** Jede Figur erhält eine kurze Beschreibung ihrer
-  Spezialgebiete (z.B. Technik, Diplomatie, Nahkampf). So ist sofort ersichtlich,
-  wie sie zur Mission beitragen kann.
-- **Einfache Speicherlogik:** Das temporäre Team wird wie in den
-  Gruppenregeln des Speicher- und Fortsetzungssystems gehandhabt - es existiert
-  nur für diese Mission, sofern der Spieler nicht anders entscheidet.
+- Pflichtfelder: `id,name,callsign,role,trait,scope,owner_id,bond,status,last_seen,offscreen,hook`
+- `scope`: `personal|session|iti`
+- `status`: `attached|hq|assigned|recovering|missing|rival`
+- Caps: `npc_roster[]` max 6, `active_npc_ids[]` max 4, `offscreen` max 1 Satz
 
-## Beispielhafte Persönlichkeiten & Dialoge
+### Slot-Regel in gemischten Teams
 
-Um das Zusammenspiel lebendig zu gestalten, erhalten die NSCs markante Züge und
-kurze Dialogeinleitungen:
+- Menschen zählen immer zuerst gegen Teamgröße 5.
+- NPCs füllen nur freie Plätze.
+- Jeder geladene Save darf NPC-Kontinuität mitbringen.
+- Nicht ausgewählte bekannte NPCs bleiben als HQ-/Funk-/Offscreen-Präsenz
+  sichtbar, statt still zu verschwinden.
 
-- **Der stoische Veteran** - schweigsam, erfahren, loyal.
-  - _"Wir gehen rein, erledigen den Auftrag und halten den Zeitplan. Keine
-    Diskussion."_
-- **Die aufgeweckte Tübingen-Historikerin** - quirlig, wissbegierig, voller
-  Referenzen aus der Epoche.
-  - _"Schon verrückt, dass wir gleich ins Jahr 1520 springen. Stellt euch den
-    Duft der Druckerschwärze vor!"_
-- **Der zwielichtige Tech-Schmuggler** - charmant, aber mit geheimen Agenden.
-  - _"Keine Sorge, ich kenn' ein paar Tricks, wie wir an den Wachen vorbei
-    kommen. Frag besser nicht, woher."_
+**Auswahlpriorität (auto, falls keine Inworld-Rückfrage nötig):**
+1. `session + attached`
+2. `personal + attached`
+3. `session + hq`
+4. `personal + hq`
+5. `iti + (hq|assigned)`
 
-Solche Eigenheiten sorgen für sofortige Wiedererkennung und erleichtern dem
-Solo-Spieler die Interaktion.
+Tie-Break: Rollenfit → höherer Bond → jüngere `last_seen`.
 
-### Briefing-Vorlage (Layered)
+### Join/Leave-Regeln
 
-Eine Einsatzakte liefert zunächst nur Minimalinformationen:
+- **Join in Gruppe:** Session-Anker bleibt führend, persönliche NPC-Kontinuität
+  wird dedupliziert nach `npc.id` eingeblendet.
+- **Leave aus Gruppe:**
+  - `personal` folgt dem zugehörigen `owner_id`.
+  - `session` bleibt beim Session-Anker.
+  - `iti` fällt auf Hintergrundstatus, sofern nicht narrativ aufgewertet.
+- Scope-Wechsel (`session` ↔ `personal`) nur mit sichtbarer Inworld-Szene.
 
-- **Ziel**
-- **Ort + Jahr**
-- **Risikostufe**
-- **Primäre Anomalie**
-- **Kontakt**
+### Pflichtbeats für NPC-Kontinuität
 
-_Regel:_ Fasse das erste Briefing auf **maximal fünf Kerninfos** zusammen und präsentiere einen
-prägnanten visuellen Hook (z. B. ikonisches Bild oder Symbol). Weitere Details folgen im Einsatz.
+1. **NPC-Rejoin-Beat:** Beim Mehrfach-Load kurz zeigen: wer physisch da ist,
+   wer nur als HQ/Funk-Spur präsent ist, wer fehlt und was sich verändert hat.
+2. **NPC-Departure-Beat:** Verlassen eines NPC nie stumm; 1–2 Sätze Inworld.
+3. **NPC-Recognition-Beat:** Wiederauftauchende NPCs referenzieren mindestens
+   eine konkrete gemeinsame Vergangenheit.
+4. **NPC-Offscreen-Fortschreibung:** Pro Rückkehrfenster maximal ein Satz nach
+   Muster _Auftrag + Veränderung + Hook_; keine Parallelkampagne.
 
-Weitere Details - Zielpersonen, genaue Aufgaben oder versteckte Gefahren -
-werden erst im Verlauf der Mission über HUD-Nachrichten oder optionale Kodex-Links nachgereicht. Die KI kann
-diese Informationen Stück für Stück einblenden, sobald die Agenten vor Ort neue
-Hinweise entdecken. So bleibt das Briefing schlank und die Spieler decken das
-wahre Problem selbst auf.
-
-## Integration in Briefings und Missionen
-
-Beim Missionsbriefing stellt KI-SL die NSCs gemeinsam mit dem Spielercharakter vor
-- ein kurzer, filmreifer Schnitt wie im Gruppenstart-Modul. Anschließend folgt
-der gewohnte Missionsablauf:
-
-1. **Briefing im HQ oder vor Ort** - die NSCs kommentieren das Ziel mit ein bis
-   zwei Sätzen.
-2. **Einsatzphase** - KI-SL verteilt Spotlight-Momente, orientiert an der
-   bekannten Missionsstruktur aus den Kampagnenregeln.
-3. **Debriefing oder Auflösung** - je nach Erfolg können die NSCs für weitere
-   Einsätze aufgehoben oder verabschiedet werden.
-
-Diese Abfolge lehnt sich an die in den Regelmodulen beschriebene
-Missionsdramaturgie an und erleichtert es, auch im Solo-Modus echte
-Gruppendynamik zu erleben.
-
-## Verweise auf Gruppenstart & Missionsstruktur
-
-- **Gruppenstart-Regeln:** Haltet euch an die Tipps aus _Modul 13 - Cinematic Start_,
-  insbesondere "Gruppenstart-Varianten", um die NSCs stilvoll einzuführen.
-- **Speicher- und Fortsetzungssystem:** Bei Bedarf wird das Team wie ein
-  Gruppenspeicherstand behandelt. Die Daten verbleiben jedoch im Hintergrund,
-  sofern der Spieler keine dauerhafte Gruppe wünscht.
-- **Kampagnen- und Missionsaufbau:** Nutze die Struktur aus dem Modul zur
-  Kampagnenplanung (Episoden, Briefing, Einsatz, Debriefing), damit auch
-  improvisierte Gruppenmissionen rund wirken.
-
-### Toolkit-Pseudocode: Gruppen-Reset & Mid-Session-Merge
+### Toolkit-Pseudocode: Kontinuitäts-Merge ohne Progress-Reset
 
 ```pseudo
-macro StartGroupMode(players = [], keep_scene = false):
+macro StartGroupContinuity(players = [], keep_scene = false):
   hud_tag("GRP · Linking …")
-  state.campaign.px = 0
-  state.campaign.rift_seeds = []
-  state.arc.open_seeds = []  // Legacy-/Dashboard-Spiegel
   normalize_wallets(players)
+  map_players_to_party(players)
+  merge_npc_continuity(players)      // dedupe by npc.id, clamp budgets
+  select_active_npcs(team_cap = 5)   // humans first, NPCs fill free slots
+  trigger_continuity_recap(include_npc_sitrep = true)
+
   if keep_scene:
-    // Mid-Session-Beitritt: Timer/Clocks bleiben stehen, Szene kurz einfrieren
-    map_players_to_party(players)
     toast("Crew erweitert - Mission läuft weiter.")
     return
-  // HQ-Start: Standard-Gruppenreset
-  map_players_to_party(players)
-  scene_reset_to_hq()
-  toast("Gruppenmodus aktiv. Paradoxon-Index zurückgesetzt.")
+
+  scene_reset_to_hq_or_briefing_anchor()
+  toast("Gruppenkontinuität aktiv. Session-Anker übernommen.")
 ```
 
-Nutze `keep_scene=true`, wenn Spieler mitten in einer Mission dazukommen: Du stoppst kurz die
-Action, fügst die neuen Charaktere ein und setzt die laufenden Timer ohne Neustart fort. Im HQ-Start
-läuft derselbe Makro ohne Flag und räumt Paradoxon-Index sowie offene Seeds für einen sauberen Beginn
-ab.
+Nutze `keep_scene=true` nur für Mid-Session-Beitritte. Der laufende Einsatz
+bleibt dann intakt; es gibt weder Px-Reset noch Seed-Verlust.
 
 ## Fazit
 
-Mit dieser Methode kann ein Solo-Spieler jederzeit ein kurzlebiges, aber
-plastisches Team erhalten. KI-SL nutzt die etablierten Regeln für Gruppenstarts und
-Missionen, gibt jeder Figur eine eigene Stimme und führt sie durch Briefings und
-Einsätze. So entsteht das Gefühl eines vollwertigen Gruppenabenteuers - auch wenn
-nur ein Spieler beteiligt ist.
+Solo, `npc-team` und Gruppenbetrieb nutzen denselben Kontinuitätskern.
+NPC-Chrononauten bleiben als wiederkehrende Mitagenten spürbar und verankern
+ZEITRISS als lebende ITI-Dienstwelt statt als Missions-Instanz mit Wegwerf-Cast.
 
 ## ITI-HQ — Bereiche & HQ-Phase
 

@@ -223,6 +223,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Mehrfach-Load = Session-Anker + Kontinuität:** Der zuerst gepostete Save setzt
   als `session_anchor` den Einstiegspunkt der laufenden Runde. Weitere Saves
   bringen persönliche Wahrheit und Kontinuitäts-Echos mit.
+- **Persistente NPC-Chrononauten:** `npc-team` erzeugt keine Wegwerf-Begleiter.
+  Wiederkehrende NPCs laufen als kompakte Kontinuitätsobjekte weiter und
+  bleiben bei Rejoin/Leave sichtbar.
 - **Core-Splits mit Protokoll sind kanonisch:** Parallele Core-Branches gelten
   als kanonisch, wenn dieselbe `continuity.split.family_id` verwendet wird.
   Konvergenz ist erreicht, sobald `resolved_threads[]` die
@@ -326,7 +329,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     },
     "roster_echoes": [],
     "shared_echoes": [],
-    "convergence_tags": []
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
   },
   "arc": { "factions": {}, "questions": [], "hooks": [] },
   "ui": { "gm_style": "verbose", "suggest_mode": false,
@@ -356,9 +361,17 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     `summaries.summary_last_episode`, `summaries.summary_last_rift`,
     `summaries.summary_active_arcs` verdichten.
   - `continuity`-Budget: `roster_echoes` max 5, `shared_echoes` max 6,
-    `convergence_tags` max 4. Bei HQ-`!save` ältere Einträge verdichten statt löschen.
+    `convergence_tags` max 4, `npc_roster` max 6, `active_npc_ids` max 4.
+    Bei HQ-`!save` ältere Einträge verdichten statt löschen.
+  - Persistente NPC-Chrononauten: `continuity.npc_roster[]` speichert nur
+    kompakte Kontinuitätsfelder (`id,name,callsign,role,trait,scope,owner_id,bond,status,last_seen,offscreen,hook`).
+    `scope` ist `personal|session|iti`, `status` ist
+    `attached|hq|assigned|recovering|missing|rival`.
+  - NPC-Slot-Regel: Menschen zählen immer zuerst gegen Teamgröße 5, NPCs
+    füllen nur freie Plätze; nicht aktive bekannte NPCs bleiben HQ-/Funk-/Offscreen-präsent.
   - Multi-Load-Pflicht: Vor HQ/Briefing immer **Kontinuitätsrückblick** mit
-    Session-Anker, Rückkehrern, gemeinsamen Nachwirkungen und ggf. Konvergenz-Folge.
+    Session-Anker, Rückkehrern/Joinern, NPC-Lagebild, gemeinsamen
+    Nachwirkungen und ggf. Konvergenz-Folge.
   - **Szenenpflicht bei Split/Rejoin:**
     - **Split-Beat:** Vor Branch-Wechsel kurze Übergabeszene mit
       Auftrags-/Hinweisverteilung je Thread.

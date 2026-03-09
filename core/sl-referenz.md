@@ -628,8 +628,10 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
 > (Kontaktlinse/Comlink/Kabel/Relais). Armbänder sind erlaubt, projizieren aber
-> kein HUD; externe Projektoren gibt es nicht. **Keine Batterien oder
-> Ladezyklen** - die Geräte speisen sich aus Bewegung und Körperwärme.
+> kein HUD; **mobile Handgelenk-Projektoren sind kein HUD-Default**. Feste
+> Inworld-Projektoren (z. B. Briefing-Tisch/Wandglas im HQ) sind erlaubt, wenn
+> die Spielleitung das Gerät sichtbar verankert. **Keine Batterien oder
+> Ladezyklen** - die Kerngeräte speisen sich aus Bewegung und Körperwärme.
 > **Kein Handgelenk-Default:** HUD bleibt Retina-Linse/Comlink/Terminal, keine
 > Projektionen vom Handgelenk.
 
