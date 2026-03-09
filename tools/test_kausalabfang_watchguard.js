@@ -15,6 +15,7 @@ const mustHaveRegex = [
   /Nahdistanz|Nahbereich/i,
   /Identitätsfassung|Identitätslock/i,
   /Kodex\s*-?Uplink|Uplink/i,
+  /Sekunden\s+bis\s+wenige\s+Minuten|wenige\s+Minuten/i,
   /Chrononauten/i,
   /Boss[^\n]{0,20}Mini-?Boss/i,
   /Zivilisten/i,

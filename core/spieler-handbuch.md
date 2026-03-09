@@ -224,7 +224,8 @@ Weiterführend:
   **0 LP** einen Kausalabfang anbieten bzw. bei namenlosen Hostiles knapp
   automatisch abwickeln. Das ist **kein Kampfzug** und kein Zeit-Zauber,
   sondern ein enges ITI-Festnahmefenster nach Identitätsfassung auf
-  Nahdistanz + aktivem Kodex-Uplink. Reihenfolge im Einsatz:
+  Nahdistanz + aktivem Kodex-Uplink. Das Fenster reicht nur **Sekunden bis
+  wenige Minuten** vor Einsatzkontakt, nicht weiter zurück. Reihenfolge im Einsatz:
   **Loot sichern → optionaler Kausalabfang → Cleanup/Exfil**.
   Bereits gesicherte Beute, Umweltschäden und sonstige Folgen bleiben
   bestehen; nur ungesicherte personengebundene Spuren dürfen aus der Szene
