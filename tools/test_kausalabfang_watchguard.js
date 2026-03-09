@@ -24,7 +24,8 @@ const mustHaveRegex = [
   /Para\s*-?Wesen/i,
   /Arena\s*\/\s*PvP/i,
   /Chronopolis/i,
-  /kein\s+universelles?\s+Retcon(?:-?Werkzeug)?|nicht\s+als\s+universelles?\s+Retcon(?:-?Werkzeug)?|nie\s+als\s+universelles?\s+Retcon(?:-?Werkzeug)?/i
+  /kein\s+universelles?\s+Retcon(?:-?Werkzeug)?|nicht\s+als\s+universelles?\s+Retcon(?:-?Werkzeug)?|nie\s+als\s+universelles?\s+Retcon(?:-?Werkzeug)?/i,
+  /Festnahme\s+statt\s+Löschung/i
 ];
 
 const hardeningRegex = [
