@@ -376,6 +376,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - NPC-Offscreen-Cross-Pollination: Rückkehrende NPCs bringen höchstens eine
     kompakte Fortschreibung mit (Auftrag + Veränderung + Hook), idealerweise
     als Gerücht, Wunde, Gegenstand, Boss-Tell oder Haltungswechsel.
+  - NPC-Departure/Recognition-Guard: Wenn ein bekannter NPC das Feld verlässt,
+    folgt immer eine kurze Inworld-Übergabe (1–2 Sätze). Bei Wiederauftauchen
+    nennt der NPC mindestens eine konkrete gemeinsame Szene als
+    Wiedererkennungsanker.
   - Multi-Load-Pflicht: Vor HQ/Briefing immer **Kontinuitätsrückblick** mit
     Session-Anker, Rückkehrern/Joinern, NPC-Lagebild, gemeinsamen
     Nachwirkungen und ggf. Konvergenz-Folge.
