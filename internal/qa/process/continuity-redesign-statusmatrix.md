@@ -85,6 +85,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 
 23. Kodex-Blocksatz beim Kausalabfang stabil halten: in Toolkit + Masterprompt müssen die Defaults `Kodex: ITI-Abfangfenster steht.`, `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.` und `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.` parallel erhalten bleiben; Watchguard-Hardening aus Durchlauf 121 nicht entfernen.
 24. ITI-Hauskanon stabil halten: Hauptorte (`Quarzatrium`, `Kodex-Archiv`, `Med-Lab`, `Operations-Deck`, `Quartiere`, `Hangar-Axis`, `Zero Time Lounge`, `Pre-City-Hub`) und Kernpersonal (Renier, Mira, Lorian, Vargas, Narella) in Toolkit + Masterprompt + Kernmodulen parallel führen; keine Rückkehr zu gleichwertigen Alias-Hauptorten oder HQ-Ausbau-Stufen.
+25. Currency-Slot auf ITI-Hardcanon halten: keine Sink-Formulierungen zu `HQ-Ausbau`; High-Level-Ökonomie nutzt stattdessen Freigaben-/Lizenzsprache (`HQ-Zugangsfreigaben/Lizenzen`) als Fortschrittsbild.
 
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf

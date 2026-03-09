@@ -172,7 +172,7 @@ Hazard-Pay sowie `seed_multi = min(1,6; 1 + 0,2 × offene Seeds)`.
 | Level-Band | Richtwert Belohnung* | Typische Kosten/Sinks |
 | --- | --- | --- |
 | 120 | 450-850 CU (Low-High) | Implantate 300-900 CU; Chronopolis 150-400 CU |
-| 512 | 1,8k-2,8k CU (Seed-Multi-Cap 1,6) | HQ-Ausbau, Loadouts 2-4k CU, Research 700+ CU |
+| 512 | 1,8k-2,8k CU (Seed-Multi-Cap 1,6) | HQ-Zugangsfreigaben/Lizenzen, Loadouts 2-4k CU, Research 700+ CU |
 | 900+ | 4,2k-6,2k CU (High-Risk, Seed-Multi-Cap 1,6) | Fraktionsprojekte/Legendary Gear 5k+ CU |
 
 *Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
