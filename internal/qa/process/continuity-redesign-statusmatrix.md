@@ -64,22 +64,26 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 5. `gameplay/kampagnenstruktur.md` bei Solo-/NPC-Textänderungen gegen den Persistenzkanon halten (`npc-team` als regulärer Startpfad, Drohne nur Fallback).
 6. Join/Leave-Logik (`personal|session|iti`) und Offscreen-Cross-Pollination (max. 1 Hook) in Masterprompt, Speichermodul und SL-Referenz parallel halten.
 7. NPC-Departure/NPC-Recognition als explizite Pflichtbeats auch im Masterprompt erhalten (Abgang nicht stumm, Wiederkehr mit konkretem Wiedererkennungsanker).
-
 8. Lore-Core (`core/zeitriss-core.md`) bei HQ-/Trainingswörtern gegen den Physicality-Guard mitprüfen (keine freischwebenden Hologramm-Defaults).
 9. Spielernahe Startdoku (`core/spieler-handbuch.md`) bei `npc-team`-Textänderungen auf den NPC-Persistenzkanon prüfen (Menschen-vor-NPC, HQ/Offscreen-Fortbestand, kompakte Offscreen-Fortschreibung).
 10. Physicality-Guard im Pflicht-Smoke halten: `tools/test_physicality_watchguard.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
 11. Kausalabfang-Minimalregel bei Loot/Cleanup-Änderungen mitprüfen: Reihenfolge bleibt `Loot sichern → optional Kausalabfang → Cleanup/Exfil`; Sperren (Boss/Chrononauten/Zivilisten/Para/Arena-PvP/Chronopolis) dürfen nicht aufweichen.
-
 12. Kausalabfang-Watchguard im Pflicht-Smoke halten: `tools/test_kausalabfang_watchguard.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
 13. Bei Kausalabfang-Textänderungen Echo-/Kodex-Hardening mitprüfen: `Named-Target-Echo` (max. 1 Nachhall) und kurze Kodex-Phrasen (`Identitätslock bestätigt`, `Kausalabfang freigegeben`) in Toolkit + Masterprompt parallel halten.
 14. Kausalabfang als ITI-Infra halten: Anti-Kampfanker (kein Kampfwerkzeug), Nahdistanz/Identitätsfassung/Kodex-Uplink sowie Nicht-Shop-/Nicht-Pflichtinventar-Setzung (`core/sl-referenz.md`, `characters/ausruestung-cyberware.md`) bei Textänderungen mitprüfen.
-
 15. Kausalabfang-Abfangfenster eng halten: Formulierung **Sekunden bis wenige Minuten** (vor Einsatzkontakt) in Spieler-Handbuch, Toolkit und Masterprompt parallel halten; keine Ausweitung auf lange Retcon-Zeiträume.
 
 16. Kodex-Archivanker beim Kausalabfang stabil halten: `Kodex: Lokale Erinnerung driftet. Archivanker aktiv.` in Toolkit + Masterprompt parallel führen (kein Spektakel-Wording).
-
 17. Named-vs.-Unnamed-Cleanup-Flow beim Kausalabfang stabil halten: in Toolkit + Masterprompt muss `unbenannte Hostiles automatisch, benannte Ziele nachfragen` explizit erhalten bleiben (Watchguard-Regex aus Durchlauf 114).
 18. TEMP-Recall-Blur beim Kausalabfang als reiner Flavor halten: TEMP-Staffelung (`1–2 Blur`, `3–5 Déjà-vu`, `6+ fast stabil`) in Toolkit + Masterprompt parallel führen, ohne Zusatzwürfe/Strafmechanik (Watchguard-Regex aus Durchlauf 115).
 19. Named-Target-Echo-Storage beim Kausalabfang dual halten: In Toolkit + Masterprompt muss der Nachhall benannter Ziele weiter auf `logs.trace[]`/`logs.notes[]` **oder** `continuity.roster_echoes[]` / `continuity.shared_echoes[]` verankert bleiben (Watchguard-Regex aus Durchlauf 116).
 20. Kausalabfang explizit anti-retcon halten: in allen fünf Kernmodulen muss der Anker „kein universelles Retcon-Werkzeug“ (oder äquivalentes Wording) erhalten bleiben; Watchguard-Pflichtregex aus Durchlauf 117 nicht auf Negativprüfung zurückbauen.
 21. Kausalabfang-Motiv-/Lagefenster stabil halten: in allen fünf Kernmodulen muss der Anker **Tatmotivation und Einsatzlage bleiben gleich** erhalten bleiben; Watchguard-Pflichtregex aus Durchlauf 118 nicht entfernen.
+
+
+## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf
+
+1. Pflichtcheck ausführen: `bash scripts/smoke.sh` (inkl. Tokens `physicality-watchguard-ok` und `kausalabfang-watchguard-ok`).
+2. Nur bei Prozessdateien: `python3 tools/lint_links.py internal/qa/plans internal/qa/logs internal/qa/process`.
+3. Bei Regeltext-Änderungen immer SSOT-parallel in den fünf Kernmodulen prüfen (Spieler-Handbuch, SL-Referenz, Toolkit, Masterprompt, Ausrüstung).
+4. Neue Durchläufe in **Plan + Log + known-issues + Statusmatrix** synchron nachziehen, damit Anschlussläufe ohne Kontextverlust starten können.
