@@ -196,6 +196,14 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   bleiben, nur ungesicherte personengebundene Spuren dürfen glätten.
   Gesperrt für Chrononauten, Squadmates, Zivilisten, Boss-/Mini-Boss-Ziele,
   Para-Wesen, Arena/PvP und Chronopolis.
+- **Named-Target-Echo:** Bei benannten Zielen erzeugt erfolgreicher
+  Kausalabfang **maximal einen** Nachhall (z. B. Verhörnotiz,
+  Richtervermerk, Rachegerücht) und schreibt ihn kompakt in
+  `logs.trace[]`/`logs.notes[]` oder `continuity.shared_echoes[]`.
+- **Kodex-Satzbau (Kausalabfang):** Halte Meldungen kurz und technisch,
+  z. B. `Kodex: Identitätslock bestätigt.` `Kodex: Kausalabfang freigegeben.`
+  `Kodex: ITI-Abfangfenster steht.` `Kodex: Ziel nicht zulässig.`
+  `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.`
 
 ### Exfil
 - Sobald Objective erfüllt oder Alarm eskaliert: Exfil-Fenster sichtbar.
