@@ -1,0 +1,63 @@
+{
+  "scenario_id": "NPC-CONTINUITY-CONTRACT-01",
+  "loaded_saves": [
+    {
+      "save_id": "SAVE-ANCHOR-EP11-M4",
+      "char_id": "CHR-VALE",
+      "role": "host"
+    },
+    {
+      "save_id": "SAVE-REJOIN-EP11-M4",
+      "char_id": "CHR-NYX",
+      "role": "joiner"
+    }
+  ],
+  "continuity": {
+    "npc_roster": [
+      {
+        "id": "NPC-LATCH",
+        "name": "Mara Voss",
+        "scope": "personal",
+        "owner_id": "CHR-VALE",
+        "status": "attached",
+        "offscreen": "War mit Team Orpheus in Alexandria und brachte einen Wartungsring C-12 zurück.",
+        "hook": "Wartungsschacht C-12",
+        "last_seen": {
+          "episode": 11,
+          "mission": 3,
+          "location": "HQ"
+        }
+      },
+      {
+        "id": "NPC-SOLBERG",
+        "name": "Elias Solberg",
+        "scope": "session",
+        "status": "hq",
+        "offscreen": "Blieb am Session-Anker und koordinierte die Chronopolis-Schichtübergabe.",
+        "hook": "Schichtprotokoll Delta-7",
+        "last_seen": {
+          "episode": 11,
+          "mission": 4,
+          "location": "HQ"
+        }
+      }
+    ],
+    "active_npc_ids": ["NPC-LATCH"]
+  },
+  "output_contract": {
+    "slot_resolution": {
+      "team_cap": 5,
+      "human_slots": 4,
+      "npc_slots": 1,
+      "selected_npc_ids": ["NPC-LATCH"],
+      "deferred_npc_ids": ["NPC-SOLBERG"]
+    },
+    "leave_resolution": {
+      "personal_return_with_owner_ids": ["NPC-LATCH"],
+      "session_remain_with_anchor_ids": ["NPC-SOLBERG"]
+    },
+    "cross_pollination": {
+      "beat": "Solberg meldet aus der HQ-Schicht eine neue Sperrmarke im Ringlauf und verknüpft sie mit Latchs Wartungsring C-12."
+    }
+  }
+}
