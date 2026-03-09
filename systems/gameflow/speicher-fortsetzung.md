@@ -239,7 +239,7 @@ Orientiere dich an SaveGuard + folgendem Pfadbaum:
 - `economy.{hq_pool}`
 - `logs.{trace[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
-- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[]}`
+- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
 - `ui.{gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile}`
 - `arena?` (nur wenn Arena genutzt: `{wins, losses, tier}`)
@@ -924,14 +924,30 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
 - `last_seen`: letzter bekannter Einsatzkontext.
 - `split`: `{family_id, thread_id, expected_threads[], resolved_threads[], convergence_ready}` für kanonische Core-Splits.
 - `roster_echoes[]` (max 5), `shared_echoes[]` (max 6), `convergence_tags[]` (max 4).
+- **Persistente NPC-Chrononauten:**
+  - `npc_roster[]` (max 6) mit kompakten Feldern
+    `id,name,callsign,role,trait,scope,owner_id,bond,status,last_seen,offscreen,hook`
+  - `active_npc_ids[]` (max 4) als aktive Feldbegleitung
+  - `scope`: `personal|session|iti`
+  - `status`: `attached|hq|assigned|recovering|missing|rival`
+  - `offscreen`: max 1 Satz pro NPC und Rückkehrfenster
 - Bei HQ-`!save` werden ältere Echos verdichtet (Prune), nicht unkontrolliert gestapelt.
 
+### Slot-Regel für Mensch/NPC-Mischgruppen
+- Menschen belegen Feldplätze zuerst (Teamcap 5).
+- NPCs füllen nur freie Plätze.
+- Jeder geladene Save darf NPC-Kontinuität mitbringen; Auswahl dedupliziert über `npc.id`.
+- Priorität: `session+attached` → `personal+attached` → `session+hq` → `personal+hq` → `iti`.
+- Tie-Break: Rollenfit → Bond → Recency (`last_seen`).
+- Nicht aktive bekannte NPCs bleiben als HQ-/Funk-/Offscreen-Präsenz sichtbar.
+
 ### Pflichtausgabe beim Mehrfach-Load
-Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit vier Blöcken:
+Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit fünf Blöcken:
 1. Session-Anker,
 2. Rückkehrer/Joiner,
-3. gemeinsame Nachwirkungen,
-4. Konvergenz-Folge (falls `convergence_ready=true`).
+3. NPC-Lagebild (anwesend, offscreen, verändert, fehlend),
+4. gemeinsame Nachwirkungen,
+5. Konvergenz-Folge (falls `convergence_ready=true`).
 
 ### Pflichtbeats für Split/Rejoin
 - **Split-Beat:** Vor Branch-Wechsel kurze Inworld-Übergabe (wer wohin geht,
@@ -942,6 +958,11 @@ Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit vi
   `continuity.roster_echoes[]` oder `continuity.shared_echoes[]` muss in den
   nächsten zwei Sitzungsblöcken konkret wieder auftauchen (z. B.
   Briefing-Hinweis, NPC-Reaktion, Boss-Tell, Alt-Route oder Hook).
+- **NPC-Departure-Beat:** Wenn ein bekannter NPC das Feld verlässt, immer 1–2
+  Sätze Inworld-Übergabe statt stiller Entfernung.
+- **NPC-Recognition-Beat:** Wiederkehrende NPCs erinnern mindestens eine
+  konkrete gemeinsame Szene; Rückkehr nutzt genau eine kompakte
+  Offscreen-Fortschreibung (Auftrag + Veränderung + Hook).
 
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
