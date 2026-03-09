@@ -54,7 +54,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
-| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118 | `tools/test_kausalabfang_watchguard.js` |
+| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 120 | `tools/test_kausalabfang_watchguard.js` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -79,6 +79,8 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 19. Named-Target-Echo-Storage beim Kausalabfang dual halten: In Toolkit + Masterprompt muss der Nachhall benannter Ziele weiter auf `logs.trace[]`/`logs.notes[]` **oder** `continuity.roster_echoes[]` / `continuity.shared_echoes[]` verankert bleiben (Watchguard-Regex aus Durchlauf 116).
 20. Kausalabfang explizit anti-retcon halten: in allen fünf Kernmodulen muss der Anker „kein universelles Retcon-Werkzeug“ (oder äquivalentes Wording) erhalten bleiben; Watchguard-Pflichtregex aus Durchlauf 117 nicht auf Negativprüfung zurückbauen.
 21. Kausalabfang-Motiv-/Lagefenster stabil halten: in allen fünf Kernmodulen muss der Anker **Tatmotivation und Einsatzlage bleiben gleich** erhalten bleiben; Watchguard-Pflichtregex aus Durchlauf 118 nicht entfernen.
+
+22. Kausalabfang-Leitmotiv sprachlich stabil halten: in allen fünf Kernmodulen muss der Positivanker **Festnahme statt Löschung** erhalten bleiben; Watchguard-Pflichtregex aus Durchlauf 120 nicht entfernen.
 
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf

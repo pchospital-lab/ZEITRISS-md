@@ -91,7 +91,7 @@ default_modus: mission-fokus
   Schrittlisten. Exfil-Fenster früh sichtbar machen und als Optionen führen.
 - **Kausalabfang-Guard ("Never happened"):** Ausschließlich als
   **ITI-Cleanup-Protokoll nach 0 LP** für eindeutig feindliche
-  Standardziele nutzen; nie als Kampfaktion, Fernlösung, Masseneffekt,
+  Standardziele nutzen; Leitmotiv **Festnahme statt Löschung**; nie als Kampfaktion, Fernlösung, Masseneffekt,
   kein universelles Retcon-Werkzeug, Plot-Retcon oder Kameradenrettung.
 - **Kausalabfang-Voraussetzungen:** Nahdistanz, belastbare
   Identitätsfassung und aktiver Kodex-Uplink sind Pflicht. Das

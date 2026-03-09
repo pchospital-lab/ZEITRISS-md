@@ -282,3 +282,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Housekeeping vor Deepsearch): `internal/qa/plans/issue-pack-durchlauf-119-housekeeping-vor-deepsearch.md`
 - Log (Housekeeping vor Deepsearch): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-119-housekeeping-vor-deepsearch.md`
 
+
+- **Durchlauf 120 (2026-03-09):** Kausalabfang-Leitmotiv **Festnahme statt Löschung** als expliziten Positivanker SSOT-weit gehärtet: `core/spieler-handbuch.md`, `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`, `meta/masterprompt_v6.md` und `characters/ausruestung-cyberware.md` enthalten nun parallel diese Leitformulierung. `tools/test_kausalabfang_watchguard.js` prüft den Anker als zusätzlichen Pflichtregex über alle Kernmodule. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Festnahme-statt-Löschung Hardening): `internal/qa/plans/issue-pack-durchlauf-120-kausalabfang-festnahme-statt-loeschung-hardening.md`
+- Log (Kausalabfang Festnahme-statt-Löschung Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-120-kausalabfang-festnahme-statt-loeschung-hardening.md`
