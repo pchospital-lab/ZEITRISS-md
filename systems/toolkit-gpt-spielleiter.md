@@ -1431,7 +1431,7 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 ### Dispatcher-Starts & Speicherpfade (1-9)
 
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
-2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
+2. `Spiel starten (solo schnell)` (Fast-Lane, optional) → Rolle → Defaults → Briefing/SC 1
 3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs → Briefing
 4. `Spiel starten (npc-team 5)` → Fehlertext (0-4 erlaubt)
 5. `Spiel starten (gruppe schnell)` → Session-Anker-Save + weitere → Briefing

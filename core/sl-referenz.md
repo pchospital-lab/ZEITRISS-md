@@ -726,7 +726,7 @@ Quickrefs und Unterabschnitte sind zur schnellen Orientierung mit aufgeführt.
 | [core/wuerfelmechanik.md](wuerfelmechanik.md)                                              | Würfelsystem & Proben                         |
 | [Quickref](wuerfelmechanik.md#schwierigkeits-benchmark-tabelle)                            | Psi- & Konflikt-Quickref                      |
 | [characters/charaktererschaffung-grundlagen.md](../characters/charaktererschaffung-grundlagen.md)  | Charaktererschaffung (Grundlagen)             |
-| [characters/charaktererschaffung-optionen.md](../characters/charaktererschaffung-optionen.md)      | Optionen, Archetypen & Teamrollen             |
+| [characters/charaktererschaffung-optionen.md](../characters/charaktererschaffung-optionen.md)      | Optionen, Inspiration/Fallback-Archetypen & Teamrollen             |
 | [characters/ausruestung-cyberware.md](../characters/ausruestung-cyberware.md)                      | Ausrüstung, Waffen & Implantate               |
 | [characters/zustaende.md](../characters/zustaende.md)                                              | Zustände, Paradoxon & Statusregeln            |
 | [characters/hud-system.md](../characters/hud-system.md)                                            | HUD-Interface & Anzeige-Logik                 |
