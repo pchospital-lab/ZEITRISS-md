@@ -1684,7 +1684,9 @@ gekoppelt und liefern **echte Mechanik**, nicht nur Flavor.
 | 12 | **Sturmbrecher** | Teamgröße 4+ | 1×/Mission: das Team ignoriert eine feindliche **Fraktionsintervention** komplett (Würfelwurf entfällt). |
 ### Solo Ops {#solo-ops}
 
-Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes Template:
+Solo-Spieler können den Run mit `npc-team 0-4` als echte Teamkonstellation
+starten. Ist kein Feld-NPC aktiv, liefert eine taktische Begleitdrohne
+weiterhin die minimale Wingman-Interaktion. Nutze dafür folgendes Template:
 - **NPC Tac-Drone** - Robustheit 1, kleine Schwebdrohne; +1 auf Wahrnehmungs- und Zielerfassungswürfe.
 
 Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**.
@@ -1692,9 +1694,13 @@ Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative
 
 ### NPC-Squad-Kodex {#npc-squad-kodex}
 
-Begleit-NPCs (Squad-Mitglieder, Kontakte, temporäre Verbündete) sind **Unterstützer,
+Begleit-NPCs (Squad-Mitglieder, Kontakte, wiederkehrende Verbündete) sind **Unterstützer,
 nicht Protagonisten**. Die folgenden Regeln sichern die Spieler-Agency und verhindern,
 dass NPCs Konflikte dominieren.
+
+Bekannte NPC-Chrononauten bleiben als Kontinuitätsakteure erhalten, auch wenn
+sie gerade nicht im Feld sind: Sie wechseln in HQ-/Offscreen-Status statt
+still zu verschwinden und können mit neuer Spur wieder auftauchen.
 
 1. **Mali auf alle Proben:** NPCs würfeln mit **-1** auf sämtliche Proben
    (Kampf, Social, Tech, Psi). Sie sind Begleiter, nicht Helden.
@@ -1729,7 +1735,7 @@ dass NPCs Konflikte dominieren.
 
 ### Nicht-temporale Beobachterinstanzen {#beobachterinstanzen}
 
-Ab Kampagnenstufe 3-5 treten Gruppen auf, die Zeitphaenomene untersuchen, ohne selbst springen zu koennen.
+Ab Kampagnenstufe 3-5 treten Gruppen auf, die Zeitphaenomene untersuchen, ohne selbst springen zu können.
 Sie misstrauen ungewoehnlichen Ereignissen und stoeren mit Ermittlungen.
 
 - **Abwehrstab Tempus (Berlin 1943)** - vermutet Spionage durch nicht registrierte Kraefte
