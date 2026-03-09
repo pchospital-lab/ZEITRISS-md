@@ -287,3 +287,11 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang Festnahme-statt-Löschung Hardening): `internal/qa/plans/issue-pack-durchlauf-120-kausalabfang-festnahme-statt-loeschung-hardening.md`
 - Log (Kausalabfang Festnahme-statt-Löschung Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-120-kausalabfang-festnahme-statt-loeschung-hardening.md`
+
+
+- **Durchlauf 121 (2026-03-09):** Kodex-Blocksatz beim Kausalabfang vollständig harmonisiert: `meta/masterprompt_v6.md` nutzt nun parallel zum Toolkit die volle Sperr-Meldung `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.`. `tools/test_kausalabfang_watchguard.js` wurde in den strikten Checks um zusätzliche Kodex-Pflichtregex erweitert (`ITI-Abfangfenster steht`, `Ziel nicht zulässig ...`, `Uplink fehlt ... Marker bleibt ohne Vollzug`), damit dieser Satzbau nicht mehr still driften kann. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Kodex-Blocksatz Watchguard-Hardening): `internal/qa/plans/issue-pack-durchlauf-121-kausalabfang-kodex-blocksatz-watchguard-hardening.md`
+- Log (Kausalabfang Kodex-Blocksatz Watchguard-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-121-kausalabfang-kodex-blocksatz-watchguard-hardening.md`
+
+
