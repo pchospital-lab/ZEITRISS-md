@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen & Archetypen"
+title: "ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen, Inspiration & Fallback-Archetypen"
 version: 4.2.6
 tags: [characters]
 ---
 
-# ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen & Archetypen
+# ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen, Inspiration & Fallback-Archetypen
 
 ## Inhalt
 
@@ -18,10 +18,11 @@ tags: [characters]
 Archetypen und Teamregeln**. Die Kernschritte, Progression und HQ-Flow stehen in
 [Charaktererschaffung (Grundlagen & Fortschritt)](charaktererschaffung-grundlagen.md).
 
-**Priorität im Startpfad:** Für reguläre Kampagnenstarts gilt weiterhin
-**klassisch + `generate` / `custom generate` / manuell bauen** als empfohlener
-Standard. Archetypen, Quick-Builds und Pregens dienen primär als
-Inspiration, One-Shot-Hilfe oder Fallback bei ausdrücklichem Wunsch.
+**Priorität im Startpfad (SSOT):** Für reguläre Kampagnenstarts gilt
+**klassisch + `generate` / `custom generate` / manuell bauen** als
+empfohlener Standard. Archetypen, Quick-Builds und Pregens sind
+**nicht** der bevorzugte Runtime-Pfad, sondern dienen als Inspiration,
+One-Shot-Hilfe oder Fallback bei ausdrücklichem Wunsch.
 
 ### Humane Abstufungen
 
@@ -691,8 +692,10 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 | Henry Walsh | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
-werden, falls die Gruppe ohne langen Aufbau starten möchte. Für den
-kanonischen Kampagnen-Standard bleiben jedoch individuelle Figuren über
-`generate`, `custom generate` oder manuellen Bau priorisiert.
+werden, falls die Gruppe ohne langen Aufbau starten möchte.
+
+> **Runtime-Hinweis:** Pregens sind optionales Fallback-Material. Im
+> kanonischen Kampagnen-Standard priorisiert die KI-SL zuerst individuelle
+> Figuren über `generate`, `custom generate` oder manuellen Bau.
 
 © 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.
