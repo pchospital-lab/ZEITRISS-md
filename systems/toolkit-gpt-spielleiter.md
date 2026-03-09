@@ -1161,6 +1161,12 @@ Kontinuitätsobjekte (kein Vollcharakterbau):
 - `scope`: `personal|session|iti`
 - `status`: `attached|hq|assigned|recovering|missing|rival`
 - Caps: `npc_roster[]` max 6, `active_npc_ids[]` max 4, `offscreen` max 1 Satz
+- ITI-Kernrollen bevorzugen feste IDs als Kontinuitätsanker: `ITI-RENIER`, `ITI-MIRA`,
+  `ITI-LORIAN`, `ITI-VARGAS`, `ITI-NARELLA` (optional Service-Anker:
+  `ITI-HALDEN`, `ITI-NOX`, `ITI-JUNO`, `ITI-CASS`).
+- Diese IDs brauchen keinen Pflicht-Eintrag im Save; `npc_roster[]`/Echo nur bei
+  relevanter offener Bindung, Schuld, Gefälligkeit oder Aufgabe.
+- Echo-Kurzform für ITI-Kontakte: `ITI-ID :: Status/Hook`.
 
 ### Slot-Regel in gemischten Teams
 
