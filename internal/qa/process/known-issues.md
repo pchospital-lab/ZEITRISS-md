@@ -181,3 +181,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (NPC-Kontinuität Cross-Pollination-Guard): `internal/qa/plans/issue-pack-durchlauf-99-npc-continuity-cross-pollination-guard.md`
 - Log (NPC-Kontinuität Cross-Pollination-Guard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-99-npc-continuity-cross-pollination-guard.md`
+
+- **Durchlauf 100 (2026-03-09):** SSOT-Feinschliff im Masterprompt abgeschlossen: `meta/masterprompt_v6.md` ergänzt jetzt explizit den `NPC-Departure/Recognition-Guard` (Abgang nie stumm, Wiederauftauchen mit konkretem Wiedererkennungsanker). Damit sind die NPC-Pflichtbeats zwischen Masterprompt, Speichermodul, Toolkit und SL-Referenz vollständig synchron. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Masterprompt NPC-Beat-Guard): `internal/qa/plans/issue-pack-durchlauf-100-masterprompt-npc-beat-guard.md`
+- Log (Masterprompt NPC-Beat-Guard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-100-masterprompt-npc-beat-guard.md`
+
