@@ -114,6 +114,10 @@ grep "npc-continuity-consistency-ok" out/npc_continuity_consistency.log
 node tools/test_physicality_watchguard.js > out/physicality_watchguard.log
 grep "physicality-watchguard-ok" out/physicality_watchguard.log
 
+# Kausalabfang-Watchguard (Never happened als Cleanup-Protokoll)
+node tools/test_kausalabfang_watchguard.js > out/kausalabfang_watchguard.log
+grep "kausalabfang-watchguard-ok" out/kausalabfang_watchguard.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"

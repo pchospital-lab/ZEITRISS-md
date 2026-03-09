@@ -227,3 +227,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang-Integration): `internal/qa/plans/issue-pack-durchlauf-108-never-happened-kausalabfang-integration.md`
 - Log (Kausalabfang-Integration): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-108-never-happened-kausalabfang-integration.md`
+
+
+- **Durchlauf 109 (2026-03-09):** Kausalabfang-Guard-Automation abgeschlossen: `tools/test_kausalabfang_watchguard.js` prüft als Pflicht-Smoke über `core/spieler-handbuch.md`, `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`, `meta/masterprompt_v6.md` und `characters/ausruestung-cyberware.md` die 0-LP-Grenze, die Reihenfolge `Loot sichern → optional(er) Kausalabfang → Cleanup/Exfil` sowie die Verbotsmatrix (Chrononauten, Boss/Mini-Boss, Zivilisten, Para-Wesen, Arena/PvP, Chronopolis). `scripts/smoke.sh` enthält den Check fest mit Erfolgstoken `kausalabfang-watchguard-ok`. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang-Watchguard-Automation): `internal/qa/plans/issue-pack-durchlauf-109-kausalabfang-watchguard-automation.md`
+- Log (Kausalabfang-Watchguard-Automation): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-109-kausalabfang-watchguard-automation.md`
