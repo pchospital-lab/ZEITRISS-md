@@ -189,6 +189,13 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - Risiko-Management, keine Prozedur.
 - Kosten: Zeit, Stress, Noise/Heat, Materialverbrauch, Komplikationschance.
 - Beschreibe als ITI-Protokoll, ohne How-to.
+- **Kausalabfang-Regel:** Der "Never happened"-Effekt ist nur ein
+  ITI-Cleanup-Protokoll für feindliche **0-LP-Standardziele** mit
+  Nahdistanz-Identitätsfassung + Kodex-Uplink. Reihenfolge: **Loot sichern →
+  optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute/Folgen
+  bleiben, nur ungesicherte personengebundene Spuren dürfen glätten.
+  Gesperrt für Chrononauten, Squadmates, Zivilisten, Boss-/Mini-Boss-Ziele,
+  Para-Wesen, Arena/PvP und Chronopolis.
 
 ### Exfil
 - Sobald Objective erfüllt oder Alarm eskaliert: Exfil-Fenster sichtbar.
