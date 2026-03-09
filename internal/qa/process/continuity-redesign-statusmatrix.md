@@ -52,7 +52,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | Physicality-Wording (Hologramm ↔ Linse/Comlink/HQ-Projektion) | verifiziert | 94, 95, 96 | `systems/gameflow/cinematic-start.md` |
 | Kampagnenstruktur: Solo-/NPC-Squad-Wording auf Persistenzkanon | verifiziert | 97 | `gameplay/kampagnenstruktur.md` |
 | SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
-| NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99 | `meta/masterprompt_v6.md` |
+| NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100 | `meta/masterprompt_v6.md` |
 
 **Neue Watchpoints:**
 1. Bei künftigen Save-v7-Änderungen immer `continuity.npc_roster[]`/`active_npc_ids[]` gegen Masterprompt und Speichermodul parallel prüfen.
@@ -61,3 +61,4 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 4. Cinematic-Start-Wording muss Linse-HUD und HQ-Projektionsflächen semantisch trennen (keine hybriden Default-Begriffe).
 5. `gameplay/kampagnenstruktur.md` bei Solo-/NPC-Textänderungen gegen den Persistenzkanon halten (`npc-team` als regulärer Startpfad, Drohne nur Fallback).
 6. Join/Leave-Logik (`personal|session|iti`) und Offscreen-Cross-Pollination (max. 1 Hook) in Masterprompt, Speichermodul und SL-Referenz parallel halten.
+7. NPC-Departure/NPC-Recognition als explizite Pflichtbeats auch im Masterprompt erhalten (Abgang nicht stumm, Wiederkehr mit konkretem Wiedererkennungsanker).
