@@ -30,6 +30,8 @@ tags: [system]
 > - **Laden:** JSON-Block (oder mehrere JSON-Blöcke) in den Chat einfügen; `Spiel laden` ist optional.
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
 > - **Neuer Chat pro Mission** empfohlen: Mission abschließen → HQ → Save → neuer Chat → Laden.
+> - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Zustand stabil. Deepsave möglich.`
+> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 >
 > *Technische Details für die KI-Spielleitung folgen unten.*
 
