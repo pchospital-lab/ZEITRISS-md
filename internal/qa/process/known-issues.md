@@ -251,3 +251,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang Abfangfenster-Hardening): `internal/qa/plans/issue-pack-durchlauf-112-kausalabfang-abfangfenster-hardening.md`
 - Log (Kausalabfang Abfangfenster-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-112-kausalabfang-abfangfenster-hardening.md`
+
+- **Durchlauf 114 (2026-03-09):** Kausalabfang-Watchguard um verbleibende Ablauf-/Sperrenanker ergänzt: `tools/test_kausalabfang_watchguard.js` prüft jetzt `Squadmates` als expliziten Pflichtanker über alle Kernmodule und erzwingt in den strikten Dateien (`systems/toolkit-gpt-spielleiter.md`, `meta/masterprompt_v6.md`) zusätzlich die KI-Regel **unbenannte Hostiles automatisch, benannte Ziele nachfragen**. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang Squadmates/Auto-Nachfrage-Watchguard): `internal/qa/plans/issue-pack-durchlauf-114-kausalabfang-squadmates-auto-nachfrage-watchguard.md`
+- Log (Kausalabfang Squadmates/Auto-Nachfrage-Watchguard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-114-kausalabfang-squadmates-auto-nachfrage-watchguard.md`
