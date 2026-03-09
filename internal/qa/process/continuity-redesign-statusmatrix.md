@@ -88,6 +88,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 25. Currency-Slot auf ITI-Hardcanon halten: keine Sink-Formulierungen zu `HQ-Ausbau`; High-Level-Ökonomie nutzt stattdessen Freigaben-/Lizenzsprache (`HQ-Zugangsfreigaben/Lizenzen`) als Fortschrittsbild.
 26. Lore-Core ebenfalls auf ITI-Hardcanon halten: keine Formulierungen zu HQ-`Ausbau`/`Stufen` als Fortschrittsmodell; Fortschritt in `core/zeitriss-core.md` bleibt bei Zugang/Lizenz/Freigaben.
 27. HQ-Heimkehr-Rhythmus im Lore-Core hart halten: kein Optionalpfad zum Überspringen der Rückkehr (`Direkt weiterspringen ohne HQ-Stop`); Missionsende bleibt mit verpflichtendem HQ-Beat formuliert.
+28. SL-Referenz + Kampagnenübersicht als sichtbare ITI-Hauskanon-Anker mitführen: Pflicht-Heimkehr-Beat inkl. optionaler `ITI-Lage` in `core/sl-referenz.md` erhalten und den kompakten Atlas/Kernpersonal-Block in `gameplay/kampagnenuebersicht.md` nicht aufweichen.
 
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf

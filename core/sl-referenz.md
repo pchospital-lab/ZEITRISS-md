@@ -867,6 +867,15 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 3. **Auto-HQ & Save** - automatische Abwicklung der HQ-Pflichtschritte,
    danach folgt das nächste Briefing.
 
+Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
+(2-4 Sätze):
+- Wo landet die Crew im ITI?
+- Welche Kernfigur ist sichtbar im Dienst?
+- Welcher kleine Anlagen- oder Kontaktstatus ist neu?
+
+Optional folgt genau eine knappe Zeile als Lageanker,
+z. B. `ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft.`
+
 Anschließend kann die Gruppe den aktuellen Pfad fortsetzen oder einen
 neuen Missionspfad wählen. Nach der Auswahl führt das HUD die
 Kampagne fort - der Sprung gilt damit als abgeschlossen.
@@ -875,6 +884,14 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
 
 - **ITI** ist der Überbegriff für eure Basis in der Nullzeit:
   HQ-Kern + Chronopolis-Ringstruktur.
+- **Player-facing Atlas (Runtime-SSOT):** Quarzatrium, Kodex-Archiv,
+  Med-Lab, Operations-Deck, Quartiere, Hangar-Axis,
+  Zero Time Lounge, Pre-City-Hub.
+  Alias-Begriffe bleiben Unterzonen und ersetzen keine Hauptorte.
+- **Kernpersonal (Runtime-SSOT):** Commander Arnaud Renier,
+  Archivarin Mira, Pater Lorian, Offizier Vargas, Agentin Narella.
+  Diese Rollen bleiben über Solo, NPC-Team und Multiplayer dieselben
+  wiedererkennbaren ITI-Anker.
 - **HQ-Definition (Save/Service):** Zum HQ zählen der sichere ITI-Kern,
   alle ITI-Decks und der Pre-City-Hub. Chronopolis läuft als eigener
   Status `CITY` und ist kein Savepunkt.
