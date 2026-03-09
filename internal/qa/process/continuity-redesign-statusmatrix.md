@@ -55,7 +55,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
 | Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 120, 121 | `tools/test_kausalabfang_watchguard.js` |
-| ITI/MMO-Hauskanon: Atlas, Kernpersonal, Heimkehr-Beat, Ausbau-Drift + feste ITI-ID-Echo-Konvention | verifiziert | 122, 123 | `internal/qa/logs/2026-03-09-issue-pack-durchlauf-122-iti-mmo-hardcanon-ssot-harmonisierung.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-123-iti-kernrollen-id-echo-konvention.md` |
+| ITI/MMO-Hauskanon: Atlas, Kernpersonal, Heimkehr-Beat, Ausbau-Drift + feste ITI-ID-Echo-Konvention | verifiziert | 122, 123, 124, 125 | `internal/qa/logs/2026-03-09-issue-pack-durchlauf-122-iti-mmo-hardcanon-ssot-harmonisierung.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-123-iti-kernrollen-id-echo-konvention.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-124-iti-hq-ausbau-restdrift-currency.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-125-iti-hq-ausbau-restdrift-core.md` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -86,6 +86,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 23. Kodex-Blocksatz beim Kausalabfang stabil halten: in Toolkit + Masterprompt müssen die Defaults `Kodex: ITI-Abfangfenster steht.`, `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.` und `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.` parallel erhalten bleiben; Watchguard-Hardening aus Durchlauf 121 nicht entfernen.
 24. ITI-Hauskanon stabil halten: Hauptorte (`Quarzatrium`, `Kodex-Archiv`, `Med-Lab`, `Operations-Deck`, `Quartiere`, `Hangar-Axis`, `Zero Time Lounge`, `Pre-City-Hub`) und Kernpersonal (Renier, Mira, Lorian, Vargas, Narella) in Toolkit + Masterprompt + Kernmodulen parallel führen; keine Rückkehr zu gleichwertigen Alias-Hauptorten oder HQ-Ausbau-Stufen.
 25. Currency-Slot auf ITI-Hardcanon halten: keine Sink-Formulierungen zu `HQ-Ausbau`; High-Level-Ökonomie nutzt stattdessen Freigaben-/Lizenzsprache (`HQ-Zugangsfreigaben/Lizenzen`) als Fortschrittsbild.
+26. Lore-Core ebenfalls auf ITI-Hardcanon halten: keine Formulierungen zu HQ-`Ausbau`/`Stufen` als Fortschrittsmodell; Fortschritt in `core/zeitriss-core.md` bleibt bei Zugang/Lizenz/Freigaben.
 
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf
