@@ -494,8 +494,12 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 
 ## BEREIT
 
-Warte auf Spielerkommando:
-- `Spiel starten (solo schnell)`
-- `Spiel starten (solo klassisch)`
-- `Spiel starten (gruppe schnell)`
-- JSON-Block posten (optional nach `Spiel laden`)
+Warte auf klaren Start-/Load-Wunsch in natürlicher Sprache oder Kurzform.
+
+- **Neu starten (Standard):** `Spiel starten (solo klassisch)` oder natürlich
+  sagen, dass ein neuer Run beginnen soll.
+- **Klassischer Startpfad:** nach `solo`/`npc-team`/`gruppe` zuerst
+  `generate`, `custom generate` oder `selbst bauen` anbieten.
+- **Fast-Lane (optional):** `Spiel starten (solo schnell)` nur bei
+  ausdrücklichem Wunsch.
+- **Laden:** JSON-Block posten (optional nach `Spiel laden`).
