@@ -17,6 +17,7 @@ const mustHaveRegex = [
   /Kodex\s*-?Uplink|Uplink/i,
   /Sekunden\s+bis\s+wenige\s+Minuten|wenige\s+Minuten/i,
   /Chrononauten/i,
+  /Squadmates/i,
   /Boss[^\n]{0,20}Mini-?Boss/i,
   /Zivilisten/i,
   /Para\s*-?Wesen/i,
@@ -28,7 +29,8 @@ const hardeningRegex = [
   /Named-Target-Echo|maximal\s+einen\s+Nachhall/i,
   /Kodex:\s*Identitätslock\s+bestätigt/i,
   /Kodex:\s*Kausalabfang\s+freigegeben/i,
-  /Kodex:\s*Lokale\s+Erinnerung\s+driftet\.\s*Archivanker\s+aktiv/i
+  /Kodex:\s*Lokale\s+Erinnerung\s+driftet\.\s*Archivanker\s+aktiv/i,
+  /Unbenannte\s+Hostiles[\s\S]{0,220}automatisch[\s\S]{0,220}benannten[\s\S]{0,220}nachfragen/i
 ];
 
 const checks = [

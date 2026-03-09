@@ -196,8 +196,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   **Sekunden bis wenige Minuten** vor Einsatzkontakt. Reihenfolge: **Loot sichern →
   optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute/Folgen
   bleiben, nur ungesicherte personengebundene Spuren dürfen glätten.
-  Gesperrt für Chrononauten, Squadmates, Zivilisten, Boss-/Mini-Boss-Ziele,
-  Para-Wesen, Arena/PvP und Chronopolis.
+  Unbenannte Hostiles dürfen im Cleanup knapp automatisch abgefangen werden;
+  bei benannten oder ambigen Zielen kurz nachfragen. Gesperrt für
+  Chrononauten, Squadmates, Zivilisten, Boss-/Mini-Boss-Ziele, Para-Wesen,
+  Arena/PvP und Chronopolis.
 - **Named-Target-Echo:** Bei benannten Zielen erzeugt erfolgreicher
   Kausalabfang **maximal einen** Nachhall (z. B. Verhörnotiz,
   Richtervermerk, Rachegerücht) und schreibt ihn kompakt in
