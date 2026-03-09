@@ -110,6 +110,10 @@ grep "continuity-output-contract-ok" out/continuity_output_contract.log
 node tools/test_npc_continuity_consistency.js > out/npc_continuity_consistency.log
 grep "npc-continuity-consistency-ok" out/npc_continuity_consistency.log
 
+# ITI-Hardcanon-Watchguard (Atlas/Kernpersonal/Driftbegriffe)
+node tools/test_iti_hardcanon_watchguard.js > out/iti_hardcanon_watchguard.log
+grep "iti-hardcanon-watchguard-ok" out/iti_hardcanon_watchguard.log
+
 # Physicality-Watchguard (Linse/HUD vs. verankerte HQ-Projektion)
 node tools/test_physicality_watchguard.js > out/physicality_watchguard.log
 grep "physicality-watchguard-ok" out/physicality_watchguard.log

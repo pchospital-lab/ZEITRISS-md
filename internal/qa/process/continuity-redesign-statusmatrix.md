@@ -55,7 +55,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
 | Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 120, 121 | `tools/test_kausalabfang_watchguard.js` |
-| ITI/MMO-Hauskanon: Atlas, Kernpersonal, Heimkehr-Beat, Ausbau-Drift + feste ITI-ID-Echo-Konvention | verifiziert | 122, 123, 124, 125 | `internal/qa/logs/2026-03-09-issue-pack-durchlauf-122-iti-mmo-hardcanon-ssot-harmonisierung.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-123-iti-kernrollen-id-echo-konvention.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-124-iti-hq-ausbau-restdrift-currency.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-125-iti-hq-ausbau-restdrift-core.md` |
+| ITI/MMO-Hauskanon: Atlas, Kernpersonal, Heimkehr-Beat, Ausbau-Drift + feste ITI-ID-Echo-Konvention | verifiziert | 122, 123, 124, 125, 129 | `internal/qa/logs/2026-03-09-issue-pack-durchlauf-122-iti-mmo-hardcanon-ssot-harmonisierung.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-123-iti-kernrollen-id-echo-konvention.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-124-iti-hq-ausbau-restdrift-currency.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-125-iti-hq-ausbau-restdrift-core.md`, `internal/qa/logs/2026-03-09-issue-pack-durchlauf-129-iti-hardcanon-watchguard-automation.md` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -91,7 +91,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 28. SL-Referenz + Kampagnenübersicht als sichtbare ITI-Hauskanon-Anker mitführen: Pflicht-Heimkehr-Beat inkl. optionaler `ITI-Lage` in `core/sl-referenz.md` erhalten und den kompakten Atlas/Kernpersonal-Block in `gameplay/kampagnenuebersicht.md` nicht aufweichen.
 
 29. Interne Runtime-Stubs ebenfalls auf ITI-Hauskanon halten: in `internal/runtime/runtime-stub-routing-layer.md` nur kanonische Hauptorte als `room_id`-Ziele führen; Legacy-Begriffe (`Gatehall`, `Research-Wing`, `Mission-Briefing-Pod`) bleiben ausschließlich Alias-Bridge.
-
+30. ITI-Hardcanon-Watchguard im Pflicht-Smoke halten: `tools/test_iti_hardcanon_watchguard.js` und Token `iti-hardcanon-watchguard-ok` dürfen nicht aus `scripts/smoke.sh` entfernt werden.
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf
 
