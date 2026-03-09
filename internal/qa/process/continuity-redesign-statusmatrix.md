@@ -51,6 +51,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | Mischgruppen-Slotlogik Mensch-vor-NPC + NPC-Lagebild beim Rejoin | verifiziert | 94 | `systems/gameflow/speicher-fortsetzung.md` |
 | Physicality-Wording (Hologramm ↔ Linse/Comlink/HQ-Projektion) | verifiziert | 94, 95, 96 | `systems/gameflow/cinematic-start.md` |
 | Kampagnenstruktur: Solo-/NPC-Squad-Wording auf Persistenzkanon | verifiziert | 97 | `gameplay/kampagnenstruktur.md` |
+| SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
 
 **Neue Watchpoints:**
 1. Bei künftigen Save-v7-Änderungen immer `continuity.npc_roster[]`/`active_npc_ids[]` gegen Masterprompt und Speichermodul parallel prüfen.

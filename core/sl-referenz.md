@@ -1142,6 +1142,13 @@ characters: [{                          // Array, Session-Anker = Index 0
 economy: { hq_pool }
 logs: { trace:[], market:[], artifact_log:[], notes:[], flags:{} }
 summaries: { summary_last_episode, summary_last_rift, summary_active_arcs }
+continuity: {
+  last_seen:{mode, episode, mission, location},
+  split:{family_id, thread_id, expected_threads:[], resolved_threads:[], convergence_ready},
+  roster_echoes:[], shared_echoes:[], convergence_tags:[],
+  npc_roster:[{id,name,callsign,role,trait,scope,owner_id,bond,status,last_seen,offscreen,hook}],
+  active_npc_ids:[]
+}
 arc: { factions:{}, questions:[], hooks:[] }
 ui: { gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile }
 arena?: { wins, losses, tier }          // nur wenn Arena genutzt
@@ -1153,8 +1160,15 @@ arena?: { wins, losses, tier }          // nur wenn Arena genutzt
 > **Save-Budget (chat-only/OpenWebUI):** `logs.trace` max 64, `logs.market` max 24,
 > `logs.artifact_log` max 32, `logs.notes` max 24, `arc.questions` max 18,
 > `arc.hooks` max 18, `history.milestones` max 20 pro Charakter.
+> **Kontinuitäts-Budget:** `roster_echoes` max 5, `shared_echoes` max 6,
+> `convergence_tags` max 4, `npc_roster` max 6, `active_npc_ids` max 4.
+> NPC-Scope bleibt `personal|session|iti`, NPC-Status
+> `attached|hq|assigned|recovering|missing|rival`.
 > Beim HQ-Save werden ältere Details in `summaries.*` verdichtet
 > (`summary_last_episode`, `summary_last_rift`, `summary_active_arcs`).
+> **Mischgruppen-Slotregel:** Menschen zählen immer zuerst gegen Teamgröße 5;
+> NPCs füllen nur freie Plätze. Beim Mehrfach-Load bleibt das NPC-Lagebild
+> Pflichtbestandteil des Kontinuitätsrückblicks.
 fr_intervention: "ruhig"|"beobachter"|"aktiv"
 comms: { jammed:boolean, relays:number, rangeMod:number }
 ```
