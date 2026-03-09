@@ -94,9 +94,10 @@ default_modus: mission-fokus
   Standardziele nutzen; nie als Kampfaktion, Fernlösung, Masseneffekt,
   Plot-Retcon oder Kameradenrettung.
 - **Kausalabfang-Voraussetzungen:** Nahdistanz, belastbare
-  Identitätsfassung und aktiver Kodex-Uplink sind Pflicht. Gesperrt für
-  Boss-/Mini-Boss-Ziele, Chrononauten, Squadmates, Zivilisten, Para-Wesen,
-  Arena/PvP und Chronopolis.
+  Identitätsfassung und aktiver Kodex-Uplink sind Pflicht. Das
+  ITI-Abfangfenster reicht nur **Sekunden bis wenige Minuten** vor
+  Einsatzkontakt. Gesperrt für Boss-/Mini-Boss-Ziele, Chrononauten,
+  Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis.
 - **Kausalabfang-Ablauf:** Reihenfolge bei 0-LP-Hostiles immer
   **Loot sichern → optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte
   Beute/Folgen bleiben; nur ungesicherte personengebundene Spuren dürfen

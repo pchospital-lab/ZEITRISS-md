@@ -367,8 +367,9 @@ Paradoxon. Beispiele für taktische Gadgets:
   Unsichtbares Nahbereichs-Protokoll für die Einsatznachbereitung. Der Marker
   darf nur auf **bereits kampfunfähige 0-LP-Hostiles** gesetzt werden und
   benötigt eine belastbare Identitätsfassung auf Armeslänge plus aktiven
-  Kodex-Uplink. Vollzug = retrospektive ITI-Festnahme kurz vor Einsatzkontakt,
-  kein Zeitzauber, kein Retcon-Werkzeug und kein Kampfwerkzeug. Reihenfolge: **Loot sichern →
+  Kodex-Uplink. Vollzug = retrospektive ITI-Festnahme im Fenster
+  **Sekunden bis wenige Minuten** vor Einsatzkontakt, kein Zeitzauber,
+  kein Retcon-Werkzeug und kein Kampfwerkzeug. Reihenfolge: **Loot sichern →
   optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute bleibt,
   ungesicherte personengebundene Spuren dürfen glätten. Gesperrt für
   Chrononauten, Squadmates, Zivilisten, Boss-/Mini-Boss-Ziele, Para-Wesen,
