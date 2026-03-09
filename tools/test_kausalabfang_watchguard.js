@@ -16,6 +16,7 @@ const mustHaveRegex = [
   /Identitätsfassung|Identitätslock/i,
   /Kodex\s*-?Uplink|Uplink/i,
   /Sekunden\s+bis\s+wenige\s+Minuten|wenige\s+Minuten/i,
+  /Tatmotivation[\s\S]{0,80}Einsatzlage|Einsatzlage[\s\S]{0,80}Tatmotivation/i,
   /Chrononauten/i,
   /Squadmates/i,
   /Boss[^\n]{0,20}Mini-?Boss/i,

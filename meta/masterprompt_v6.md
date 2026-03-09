@@ -193,7 +193,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   ITI-Cleanup-Protokoll für feindliche **0-LP-Standardziele** – **nie als
   Kampfaktion**, Fernlösung oder **kein universelles Retcon-Werkzeug**. Mit
   Nahdistanz-Identitätsfassung + Kodex-Uplink; ITI-Abfangfenster nur
-  **Sekunden bis wenige Minuten** vor Einsatzkontakt. Reihenfolge: **Loot sichern →
+  **Sekunden bis wenige Minuten** vor Einsatzkontakt; Abfang nur, solange **Tatmotivation und Einsatzlage** des Ziels erkennbar dieselben bleiben. Reihenfolge: **Loot sichern →
   optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte Beute/Folgen
   bleiben, nur ungesicherte personengebundene Spuren dürfen glätten.
   Unbenannte Hostiles dürfen im Cleanup knapp automatisch abgefangen werden;
