@@ -1229,31 +1229,50 @@ ZEITRISS als lebende ITI-Dienstwelt statt als Missions-Instanz mit Wegwerf-Cast.
 
 ## ITI-HQ — Bereiche & HQ-Phase
 
-Das Nullzeit-HQ hat sechs Hauptbereiche. Spieler navigieren frei per
-natürlichsprachlicher Eingabe ("Ich gehe ins Forschungslabor", "Kodex, was
-liegt an?"). Die SL beschreibt jeden Bereich filmisch mit
-Atmosphäre-Hook und aktiven NSCs.
+Die Nullzeit ist ein **konstanter Heimatraum**. Kernorte und Kernpersonal des
+ITI werden nicht pro Chat neu benannt, nicht funktional ausgetauscht und nicht
+spontan ersetzt. Spieler navigieren frei per natürlichsprachlicher Eingabe
+("Ich gehe ins Med-Lab", "Kodex, was liegt im Archiv an?").
 
-**Bereiche:**
+**Kanonische Hauptorte (player-facing):**
 
-- **Gatehall** — Empfangsbereich, Sicherheitscheck, Zugang zum Briefing-Pod.
-- **Research-Wing** — Labore und Werkstätten. Upgrades, Analysen, Artefakt-Scans.
-- **Operations-Deck** — Seed-Scanner, Paradoxon-Anzeige, Missionsplanung.
-- **Crew-Quarters** — Ruhebereich. Stress-Reset, persönliche Quartiere.
-- **Hangar-Axis** — Sprungplattformen, Fahrzeugwartung, Rift-Starts.
-- **Mission-Briefing-Pod** — Einsatz-Briefings, Dispatcher-Konsole.
+1. **Quarzatrium** — Ankunft, Sicherheitsrahmen, Großbriefings, Transfer
+2. **Kodex-Archiv** — Recherche, Akten, Theorien, Ordo-Zugang
+3. **Med-Lab** — Klinik, Diagnostik, Bioware/Cyberware
+4. **Operations-Deck** — Missionsplanung, Seed-/Rift-Scanner, Px-Lage
+5. **Quartiere** — persönliche Zimmer, Stash, Ruhe
+6. **Hangar-Axis** — Fahrzeugdeck, Wartung, Sprungplattformen
+7. **Zero Time Lounge** — sozialer Treffpunkt, informelle Gespräche
+8. **Pre-City-Hub** — Übergang zur Chronopolis-Schleuse
+
+**Alias-Regel (nur als Unterzone/Dev-Hilfe, nicht als eigener Hauptort):**
+
+- `Gatehall` = Empfangszone des **Quarzatriums**
+- `Mission-Briefing-Pod` = Briefing-Pod **im Quarzatrium**
+- `Research-Wing` = Sammelbegriff für **Kodex-Archiv + Med-Lab + Werkstattzonen**
+- `Crew-Quarters` = englischer Alias für **Quartiere**
+
+**Kernpersonal (feste Runtime-Rollen):**
+
+- **Commander Arnaud Renier** — Erstkontakt, Eskalationen, fraktionsübergreifende Einsätze
+- **Archivarin Mira** — Standard-Betreuung für Neulinge, Mischpool, Kodex-nahe Anliegen
+- **Pater Lorian / Offizier Vargas / Agentin Narella** — Fraktionsbriefings nach Übertritt
 
 ### HQ-Phase Workflow
 
 Nach jeder Mission zeigt die SL den Debrief-Score-Screen (automatisch),
 danach öffnet sich das HQ-Menü:
-1. Rückkehr ins HQ (Gatehall-Szene).
+1. Rückkehr ins HQ (Quarzatrium-Szene).
 2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ & Save (HQ-Pflichtschritte werden dabei automatisch erledigt).
 3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
    NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
 4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
 5. Im Hangar startet auf Wunsch eine Rift-Op (nach Episodenende).
-6. Ruhe in den Crew-Quarters setzt Stress zurück.
+6. Ruhe in den Quartieren setzt Stress zurück.
+7. **Pflicht-Heimkehr-Beat:** Nach Load oder Mission 2-4 Sätze Heimatraum
+   (Ankunftsort, sichtbares Dienstpersonal, kleine Lageveränderung) plus
+   eine ITI-Dienstlage-Zeile, z. B.:
+   _"ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft."_
 
 #### Pre-City-Hub Transit (Optional)
 

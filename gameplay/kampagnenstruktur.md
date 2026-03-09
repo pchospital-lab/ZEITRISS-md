@@ -10,7 +10,7 @@ tags: [gameplay, core]
 
 - Einführung
 - Kampagnenplanung im ZEITRISS-Stil
-- HQ-Verwaltung und Ausbau
+- HQ-Betrieb und Zugangsfreigaben
 - Beziehungen zu NSCs, Fraktionen und Mitagenten
 - Mechaniken für langfristige Entwicklungen
 - Erzählpausen, Freizeit und Alltag im HQ
@@ -767,7 +767,7 @@ Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
 1. **Schnell-HQ** — Heilen + Shoppen in wenigen Klicks, schnell
    wieder einsatzbereit.
 2. **HQ manuell erkunden** — volle HQ-Szenen mit Shopbesuchen,
-   Kodex-Begleitung, Fraktions-RP, Feilschen und Quartierausbau.
+   Kodex-Begleitung, Fraktions-RP, Feilschen und Quartier-Rollenspiel.
 3. **Auto-HQ & Save** — automatische Abwicklung der HQ-Pflichtschritte; danach startet das nächste Briefing.
 
 
@@ -1380,195 +1380,52 @@ Fähigkeiten dort glänzen. Beispiele:
 | **erhöht** | Offene Höhenlagen, ideal für Scharfschützen                  |
 | **überfüllt** | Zivilistenströme erschweren Feuergefechte, fördern Social Play |
 
-## HQ-Verwaltung und Ausbau
+## HQ-Betrieb und Zugangsfreigaben
 
-Das **Hauptquartier (HQ)** der Agenten ist in ZEITRISS mehr als nur ein Aufenthaltsort - es wird im
-Verlauf der Kampagne zu einem Spiegel der Erfolge der Gruppe und einem zentralen **Dreh- und
-Angelpunkt der Geschichte**. Ein ausgebautes HQ verleiht den Spielercharakteren neue Möglichkeiten,
-Ressourcen und Szenen für Rollenspiel. Um das HQ fühlbar wachsen zu lassen, bietet dieses Modul ein
-**Ausbau- und Verwaltungssystem**:
+Das **Hauptquartier (HQ)** des ITI ist eine feste Anlage in der Nullzeit —
+kein Bauprojekt. Fortschritt entsteht nicht über Basisbau, sondern über
+**Zugänge, Lizenzen, Freigaben, Beziehungen und Sonderrechte**.
 
-Nach jedem Auftrag bietet die Spielleitung an, ins sichere ITI-Hauptquartier zurückzukehren. Dort
-finden Debriefing, Heilung und Planung der nächsten Schritte statt. Diese Rückkehr ist fester
-Bestandteil des Spielrhythmus und damit verpflichtend. Die Rückkehr kann erzählerisch als
-Kurzmontage abgehandelt werden, die HQ-Schritte bleiben jedoch verbindlich.
+Nach jedem Auftrag folgt die Rückkehr ins sichere ITI-HQ. Dort laufen
+Debriefing, Versorgung und Missionsplanung. Diese Rückkehr ist fester
+Bestandteil des Spielrhythmus und damit verpflichtend; sie kann als kompakte
+Montage ausgespielt werden.
 
-### Ausbaustufen und Einrichtungen
+### Freigabe-Logik statt Ausbau
 
-Das HQ-System gliedert sich in **drei Ebenen**:
+- **Konstante Struktur:** Das ITI bleibt als Ort gleich; neue Hauptquartiere
+  werden nicht gebaut.
+- **Operativer Fortschritt:** Höhere Ruf-/Lizenzstufen schalten sensible
+  Bereiche, Services und Prioritätszugriffe frei.
+- **Persönliche Quartiere:** rein narrativ/kosmetisch (Rückzugsort + Stash),
+  ohne mechanische Ausbauwerte.
+- **Fahrzeuge:** bleiben charaktergebunden und folgen den bestehenden Besitz-
+  und Epochenregeln.
+- **Sondermissionen:** können Freigaben oder Nutzungsrechte begründen, aber
+  kein separates Bau- oder Ausbau-Minispiel.
 
-#### Ebene 1: ITI-HQ (Team-Ebene)
+### ITI-Hauptorte (Hauskanon)
 
-Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.
-Im Laufe der Kampagne erwerben sie Zugangs-**Stufen** innerhalb ihres Fraktionskomplexes im ITI.
-Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
-Durch Erfolge und Ressourcen können sie diese Stufen **freikaufen**.
-So erhalten sie Zugang zu bereits bestehenden Einrichtungen oder erweitern diese.
-Jede Freischaltung gilt als Investition in die eigene Fraktion.
+1. **Quarzatrium** — Ankunft, Sicherheitsrahmen, Briefings
+2. **Kodex-Archiv** — Akten, Recherche, Theorien
+3. **Med-Lab** — Klinik, Diagnostik, Implantat-/Bioware-Routine
+4. **Operations-Deck** — Missionsplanung, Seed-/Rift-Lage
+5. **Quartiere** — persönliche Zimmer, Ruhe, Stash
+6. **Hangar-Axis** — Fahrzeugdeck, Wartung, Sprungplattformen
+7. **Zero Time Lounge** — sozialer Treffpunkt
+8. **Pre-City-Hub** — Übergang zur Chronopolis-Schleuse
 
-**HQ-Ausbau nach Rufstufe:**
+Alias-Begriffe wie `Gatehall`, `Mission-Briefing-Pod` oder `Research-Wing`
+gelten nur als Unterzonen/Dev-Bezeichnungen und ersetzen keine Hauptorte.
 
-| Rufstufe | Freischaltung | CU-Kosten |
-|----------|---------------|-----------|
-| 0 (Start) | Kommandozentrale (Basis), Quartiere (Basis), Fuhrpark (1 Slot) | — |
-| +1 | Werkstatt Stufe 1, Klinik Stufe 1 | 500 CU |
-| +2 | Labor, Arena, Archiv (sensible Bereiche) | 1.000 CU |
-| +3 | Alle Stufe 2, Fuhrpark erweitert | 2.000 CU |
-| +4 | Alle Stufe 3, Spezialeinrichtungen | 4.000 CU |
+### Fortschrittsanker im HQ
 
-#### Ebene 2: Persönliches Quartier (Charakter-Ebene)
+- **ITI-Ruf (`reputation.iti`)** steuert operative Anerkennung.
+- **Lizenz-Tier (0-V)** steuert formale Ausrüstungs- und Servicefreigaben.
+- **Fraktionsruf** steuert Zugriff auf fraktionsspezifische Inhalte.
 
-Jeder Chrononaut hat ein **eigenes Quartier** im HQ. Dieses ist rein
-**narrativ/kosmetisch** — es liefert keine mechanischen Boni. Upgrades
-erfolgen über CU, aber nur als Flavor: Einrichtung, Dekoration,
-persönlicher Stash. Alles im HQ ist schnell erreichbar — das Quartier
-ist ein Rückzugsort, keine separate Basis.
-
-#### Ebene 3: Fuhrpark (HQ-Facility) {#fuhrpark}
-
-Der Fuhrpark ist **Teil des HQ**. Chrononauten können keine Fahrzeuge
-durch Zeitrisse mitnehmen — futuristische Technik in vergangenen Epochen
-würde den Zeitstrom massiv stören. Stattdessen nutzt das ITI **subtile
-Kausalitätsmanipulation**: Kleine Eingriffe in der Vergangenheit sorgen
-dafür, dass ein passendes Fahrzeug "natürlich" in der Zielepoche
-existiert. Eine Schraube hier, ein Bauteil dort — und 70 Jahre später
-hat ein Hobbybastler genau das richtige Auto in seiner Garage nahe dem
-Einsatzort. In der Zukunft steht das Fahrzeug vielleicht gerade zur
-Verladung im Museum oder wartet in einem Depot.
-
-**TEMP bestimmt die Verfügbarkeit** (analog zur Px-Füllung):
-
-Im Modus `gruppe` gilt dafür ein gemeinsamer Teamwert:
-`TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`. Dieser
-aufgerundete Durchschnitt steuert die Frequenz identisch für die gesamte
-Gruppe (Host-Save führend).
-
-| TEMP | Fahrzeug verfügbar | Exaktheit |
-|-----:|-------------------|-----------|
-| 1–2 | Alle 4 Missionen | Ungefähr passend, improvisiert |
-| 3–5 | Alle 3 Missionen | Überwiegend passend |
-| 6–8 | Alle 2 Missionen | Gute Übereinstimmung |
-| ab 9 | Jede Mission | Exakt das gewünschte Fahrzeug |
-
-> SSOT: Die kanonische Fahrzeug-TEMP-Tabelle steht in
-> [fahrzeuge-konflikte.md](../gameplay/fahrzeuge-konflikte.md#ssot-besitz-zeitriss-epochenform).
-
-**Grundregeln:**
-- **Vergangenheit:** Nur epochen-passende Fahrzeuge. Ein Oldtimer in die
-  Zukunft ist möglich (fällt aber auf), ein Zukunftsauto in die
-  Vergangenheit nie.
-- **Rift-Ops: Keine Fahrzeuge.** Casefile-Ermittlungen laufen zu Fuß.
-- Das Fahrzeug muss nicht exakt dem HQ-Modell entsprechen — je höher
-  TEMP, desto besser die Übereinstimmung.
-- Spieler können im HQ ein **Wunschfahrzeug konfigurieren** (CU-Kosten
-  für Basis + Mods), das ITI versucht es in der Zielepoche bereitzustellen.
-
-**Fahrzeug-Konfiguration (Richtwerte):**
-
-| Fahrzeug-Typ | CU-Kosten | Beispiele |
-|-------------|-----------|-----------|
-| Einfach | 100 CU | Pferd, Kutsche, Fahrrad |
-| Standard | 500 CU | Motorrad, Jeep, Limousine |
-| Schwer | 1.500 CU | Gepanzertes Fahrzeug, Truck |
-| High-Tech | 4.000 CU | Hover-Gleiter, Zukunftsmodell |
-
-Details zu Fahrzeug-Mechaniken und Verfolgungsjagden:
-[Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).
-
-#### Einrichtungen im Detail
-
-Beispiele für Bereiche, zu denen Stufen erworben werden können, sind im
-HQ:
-
-- **Kommandozentrale:** Das Herz des HQ, von wo aus Zeitreisen koordiniert werden. Ausbau ermöglicht
-  bessere Überwachung der Zeitlinien, schnellere Kommunikation mit Agenten in verschiedenen Epochen
-  und Zugriff auf historische Daten. Mit einer erweiterten Kommandozentrale könnten z. B. neue
-  Missionen früher erkannt oder Gefahren in der Timeline prognostiziert werden.
-- **Labor für temporale Forschung:** Hier untersuchen Wissenschaftler\*innen und Agenten
-  zeitverzerrte Artefakte, Paradoxon-Energien und neue Technologien. Ein Labor-Ausbau erhöht die
-  Chancen, **technologische Upgrades** oder hilfreiche Gadgets zu entwickeln. Im Spiel kann dies
-  bedeuten, dass die Gruppe zwischen Missionen neue Ausrüstung freischaltet oder bessere Methoden
-  erhält, Anomalien zu analysieren.
-- **Werkstatt & Maschinenraum:** Die Werkstatt erlaubt es, Ausrüstung zu reparieren, maßzuschneidern
-  oder sogar Zeitreise-Geräte zu modifizieren. Je besser ausgestattet die Werkstatt, desto effizienter
-  können z. B. beschädigte Zeitgeräte wiederhergestellt oder epochen-spezifische
-  Ausrüstung (Chrono-Anzug, Tarnvorrichtungen etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
-  Agenten dank guter Ausrüstung weniger improvisieren müssen.
-- **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI-Arena** zur Verfügung.
-  Projektionsmodule ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. Die SL übernimmt fehlende
-  Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
-  Im Solo-Modus stammen diese Platzhalter aus eurer gewählten Fraktion. In Mehrspielerpartien
-  wählt Kodex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
-  **Kodex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
-  neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
-- **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
-  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet — ein eigener
-  Stützpunkt außerhalb des ITI ist nicht vorgesehen.
-  Quartier-Upgrades bleiben **primär narrativ/kosmetisch** und liefern keine Würfelboni.
-  Für Save-Konsistenz gilt jedoch ein kleiner Mechanik-Kern: persönlicher Stash pro Charakter
-  (`quarters_stash[]`) mit fester Obergrenze, damit Split/Merge stabil bleibt.
-  Erinnerungsstücke an vergangene Missionen lassen das HQ zum Tagebuch der Gruppe werden.
-  Investitionen in CU bringen Flavor: bessere Einrichtung, Dekoration, persönlicher Stash —
-  ohne Kampfvorteil. Das Quartier ist ein Rückzugsort, keine separate Basis.
-  Siehe [Ebene 2: Persönliches Quartier](#ebene-2-persönliches-quartier-charakter-ebene) oben.
-- **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
-  Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der
-  Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte
-  Beschwerden** (z. B. Alterungseffekte durch Zeitsprünge oder Paradoxon-Erkrankungen) hier behandelt
-  werden, was dem Team erlaubt, nach riskanten Missionen schneller wieder einsatzbereit zu sein.
-- **Archive & Kodex:** Eine umfangreiche Bibliothek bzw. Datenbank, in der Wissen aus allen Epochen
-  gesammelt wird. Im ZEITRISS-Universum könnte dies der **Kodex** sein - eine KI-gestützte Sammlung
-  aller bekannten Fakten und Berichte. Durch Ausbau der Archive erhält der Kodex mehr Rechenleistung
-  oder Zugang zu geheimen Datenbanken, was bedeutet, dass die Agenten komplexe historische Rätsel
-  leichter lösen können. Außerdem dient der Kodex als Erzählinstrument (siehe unten bei
-  **Zwischensequenzen**). Ein ausgebautes Archiv könnte auch **Story-Boni** geben: z. B. einen Hinweis
-  auf die Schwachstelle eines kommenden Gegners oder eine Prophezeiung, die im richtigen Moment
-  auftaucht.
-
-Jede dieser Einrichtungen kann in **Stufen** ausgebaut werden. Man kann dies narrativ handhaben
-("Nach dem erfolgreichen Abschluss von Arc 1 kommt Unterstützung vom Zeitrat und das HQ erhält ein
-Upgrade…") oder mit einfachen Regeln versehen (etwa dass die Spieler pro großem Erfolg oder pro
-ausgegebener Ressource einen Ausbaupunkt erhalten, den sie investieren können). Wichtig ist, dass
-die Spieler _spüren_, wie ihr HQ wächst: Beschreibt neue Räume filmisch, betont den Stolz und die
-verbesserte Moral der dortigen Crew, und lasst neue spielerische Optionen entstehen.
-
-Einige höhere Ausbaustufen verlangen darüber hinaus einen passenden **Fraktionsrufwert**
-für politische oder narrative Zugänge innerhalb eines Fraktionskomplexes.
-Formale ITI-Freigaben folgen dagegen dem **ITI-Ruf** (`reputation.iti`):
-Sensible ITI-Bereiche öffnen sich in der Regel ab etwa **ITI-Ruf +2**.
-Der Ausrüstungsshop nutzt denselben formalen Pfad: **ITI-Ruf +1** gewährt Tier-1-
-Lizenzen, **ITI-Ruf +2** schaltet Tier 2 frei usw., sobald die Kosten beglichen sind.
-Fraktionswechsel verändert daher nicht automatisch den formalen ITI-Ruf; Fraktionsruf
-bleibt ein politischer Modifikator für Beziehungen, Preise, Zugang und Misstrauen.
-
-### Ressourcenmanagement
-
-Der HQ-Ausbau geht Hand in Hand mit **Ressourcenverwaltung**. In einer Langzeitkampagne sammeln die
-Spieler vor allem **CU (Chrono-Units)**, um Upgrades zu bezahlen. Hin und wieder verlangen
-bestimmte Projekte einzigartige Komponenten als Missionsziel.
-
-- **Finanzielle Mittel (CU):** Alle Stufen des HQ und jede Ausrüstung lassen sich ausschließlich mit
-  CUs erwerben. Beispiel: Verstärkung der Zeitreaktoren in der Kommandozentrale.
-- **Spezialbauteile & Relikte:** Manche Ausbaustufen benötigen ein seltenes Material oder ein
-  besonderes Relikt. Core-Ops liefern diese Relikte und Bauteile. Rift-Bosskämpfe werfen
-  hingegen seltene Artefakte ab (ggf. Stoppuhr-gebunden), die als außergewöhnliche
-  Ressourcen zählen; außerhalb des Boss-Drops tauchen sie nicht als Loot auf. Diese
-  Komponenten werden meist in eigenen Missionen erbeutet.
-- **Personal & Kontakte:** Neue Verbündete oder Experten, die im Laufe der Kampagne dazukommen,
-  kann man ebenfalls als Ressource sehen. Ein brillanter Wissenschaftler NSC im Labor verbessert
-  dessen Leistungsfähigkeit. Ein Veteran-Agent als Ausbilder steigert die Effekte der
-  Trainingshalle. Solche **personellen Ressourcen** können als Belohnung für bestimmte Missionen
-  vergeben werden ("Prof. X schließt sich eurem Team an und leitet nun die temporale Forschung -
-  Laborstufe steigt um 1").
-
-Die Spielleitung sollte den Spielern klare Gelegenheiten geben, Ressourcen zu verdienen - z. B. als
-Missionsbelohnung, durch das Lösen von Nebenquests oder durch Handel mit Fraktionen. Ebenso wichtig:
-Entscheidungen beim Ausgeben dieser Ressourcen. **Priorisierung** ist ein spannender Teil des Spiels
-- das Team muss vielleicht wählen, ob es zuerst die Verteidigung des HQ stärkt oder lieber bessere
-Analysewerkzeuge beschafft. Diese Entscheidungen wirken sich dann auf kommende Abenteuer aus. Ein
-ausgebautes HQ kann außerdem selbst zum Plotpunkt werden, etwa wenn Feinde versuchen, es
-anzugreifen, oder wenn ein Experiment im Labor unerwartete Folgen hat. So bleibt das Hauptquartier
-stets im Zentrum der Erzählung und wächst organisch mit der Geschichte mit.
+Die Spielleitung setzt sichtbar um, **welcher Zugang neu offen ist**, statt ein
+Gebäudelevel zu erhöhen (z. B. „Med-Lab: erweiterte Diagnostik freigegeben“).
 
 ## Beziehungen zu NSCs, Fraktionen und Mitagenten
 
@@ -1647,7 +1504,7 @@ nachdem. Das Modul regt an, die **Teamdynamik** aktiv zu gestalten:
   funktionieren reibungsloser). Das muss nicht mechanisch komplex sein, kann aber die Spieler
   belohnen, wenn sie als Team agieren.
 - **Gemeinsame Entscheidungen:** Lasst die Spieler auch abseits der Missionen gemeinsam
-  Entscheidungen über ihr Vorgehen treffen (z. B. welchen HQ-Ausbau priorisieren wir, welcher Fraktion
+  Entscheidungen über ihr Vorgehen treffen (z. B. welche Zugangsfreigabe priorisieren wir, welcher Fraktion
   trauen wir mehr?). Diese **Strategie-Besprechungen** im HQ können als Rollenspielszene stattfinden
   und fördern die Gruppendynamik. Hier zeigt sich, wer das Sagen hat, wer vermittelt - wie in einer
   Serie, in der sich das Team um den Kartentisch schart und diskutiert.
@@ -2111,7 +1968,7 @@ Reset auf `preserve` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
-`arena_episode_stamp` hängt im HQ in der Gatehall aus; sobald Kodex es setzt,
+`arena_episode_stamp` hängt im HQ im Quarzatrium aus; sobald Kodex es setzt,
 weiß die Gruppe, dass für die laufende Episode kein weiterer Px-Bonus mehr
 wartet.
 

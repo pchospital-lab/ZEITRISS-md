@@ -55,6 +55,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
 | Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 120, 121 | `tools/test_kausalabfang_watchguard.js` |
+| ITI/MMO-Hauskanon: Atlas, Kernpersonal, Heimkehr-Beat, Ausbau-Drift | verifiziert | 122 | `internal/qa/logs/2026-03-09-issue-pack-durchlauf-122-iti-mmo-hardcanon-ssot-harmonisierung.md` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -83,6 +84,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 22. Kausalabfang-Leitmotiv sprachlich stabil halten: in allen fünf Kernmodulen muss der Positivanker **Festnahme statt Löschung** erhalten bleiben; Watchguard-Pflichtregex aus Durchlauf 120 nicht entfernen.
 
 23. Kodex-Blocksatz beim Kausalabfang stabil halten: in Toolkit + Masterprompt müssen die Defaults `Kodex: ITI-Abfangfenster steht.`, `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.` und `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.` parallel erhalten bleiben; Watchguard-Hardening aus Durchlauf 121 nicht entfernen.
+24. ITI-Hauskanon stabil halten: Hauptorte (`Quarzatrium`, `Kodex-Archiv`, `Med-Lab`, `Operations-Deck`, `Quartiere`, `Hangar-Axis`, `Zero Time Lounge`, `Pre-City-Hub`) und Kernpersonal (Renier, Mira, Lorian, Vargas, Narella) in Toolkit + Masterprompt + Kernmodulen parallel führen; keine Rückkehr zu gleichwertigen Alias-Hauptorten oder HQ-Ausbau-Stufen.
 
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf
