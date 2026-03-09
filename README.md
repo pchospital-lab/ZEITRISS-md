@@ -6,12 +6,14 @@
 > Chrononauten des ITI in einer persistenten Einsatzwelt über Missionen,
 > Gruppenwechsel und neue Chats hinweg.
 > **MMO ohne Server:** Euer JSON-Save ist euer Charakter — mitnehmbar,
-> teilbar, mergebar, ohne Account-Zwang.
-> **Wichtig:** Ihr müsst vor dem ersten Run nicht das komplette Regelwerk lesen:
-> OpenWebUI einrichten, Preset wählen, mit der KI-SL sprechen.
-> **Hinweis (18+):** Die Inhalte richten sich ausschließlich an Erwachsene.
+> teilbar, mergebar, ohne Account-Zwang und ohne zentrale Datenbank.
+> **Save = Charakter:** Ihr nehmt denselben Stand zwischen Gruppen, Hosts und
+> neuen Chats mit; Kontinuität entsteht über den Save, nicht über Serverkonten.
+> **Wichtig:** Ihr müsst vor dem ersten Run nicht das Regelwerk lesen:
+> OpenWebUI einrichten, ZEITRISS-Preset wählen, direkt mit der KI-SL sprechen.
 > **Startstandard:** `Spiel starten (solo klassisch)` oder natürlich sagen,
-> dass ihr neu beginnen wollt. `solo schnell` bleibt als Fast-Lane.
+> dass ihr neu beginnen wollt. `solo schnell` bleibt als optionale Fast-Lane.
+> **Hinweis (18+):** Die Inhalte richten sich ausschließlich an Erwachsene.
 
 → [Spieler-Handbuch (Regeln, Einleitung, Schnellstart)](core/spieler-handbuch.md)
 → [Setup-Guide (lokales Hosting)](docs/setup-guide.md)
@@ -29,7 +31,7 @@ Characterdatenblatt beim klassischen Pen & Paper.
 
 Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer mit echtem Charakter-Besitz.
 
-## In 5 Minuten starten
+## In 3-5 Minuten starten
 
 ### Standardpfad (empfohlen): Script-Setup in OpenWebUI
 
@@ -155,8 +157,8 @@ und die Runtime-Referenz.
   meist zu fordernd; empfohlen sind starke Remote-Modelle.
 - **Setup-Option:** Für lokale Installationen steht
   [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
-  (provider-neutral mit expliziter Modellwahl; DeepSeek V3 als empfohlener
-  Preis-Leistungs-Default).
+  (provider-neutral mit expliziter Modellwahl; Referenzmodell ist
+  `anthropic/claude-sonnet-4.6`, Fast-Lane-Alternativen bleiben optional).
 - **Multiplayer-Hinweis:** Lokal oder online mit Gruppe möglich; Save-Stand und
   Chatlog können zwischen Sessions geteilt werden.
 - **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
