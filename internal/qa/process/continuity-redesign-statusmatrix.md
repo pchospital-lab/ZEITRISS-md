@@ -54,7 +54,7 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 | SL-Referenz: Save-v7-Kurzschema um NPC-Kontinuitätsblock ergänzt | verifiziert | 98 | `core/sl-referenz.md` |
 | NPC-Verhaltensguard: Join/Leave + Cross-Pollination in SSOT-Kerntexten | verifiziert | 99, 100, 104 | `internal/qa/fixtures/npc_continuity_output_contract.json` |
 | Spieler-Handbuch: `npc-team`-Persistenz im Player-Startpfad sichtbar | verifiziert | 105 | `core/spieler-handbuch.md` |
-| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114 | `tools/test_kausalabfang_watchguard.js` |
+| Kausalabfang ("Never happened") als Cleanup-SSOT über WS-Module | verifiziert | 108, 109, 110, 111, 112, 113, 114, 115 | `tools/test_kausalabfang_watchguard.js` |
 
 **Neue Watchpoints:**
 1. NPC-v7-Feldanker über Pflicht-Smoke halten: `tools/test_npc_continuity_consistency.js` darf nicht aus `scripts/smoke.sh` entfernt werden.
@@ -79,3 +79,4 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 16. Kodex-Archivanker beim Kausalabfang stabil halten: `Kodex: Lokale Erinnerung driftet. Archivanker aktiv.` in Toolkit + Masterprompt parallel führen (kein Spektakel-Wording).
 
 17. Named-vs.-Unnamed-Cleanup-Flow beim Kausalabfang stabil halten: in Toolkit + Masterprompt muss `unbenannte Hostiles automatisch, benannte Ziele nachfragen` explizit erhalten bleiben (Watchguard-Regex aus Durchlauf 114).
+18. TEMP-Recall-Blur beim Kausalabfang als reiner Flavor halten: TEMP-Staffelung (`1–2 Blur`, `3–5 Déjà-vu`, `6+ fast stabil`) in Toolkit + Masterprompt parallel führen, ohne Zusatzwürfe/Strafmechanik (Watchguard-Regex aus Durchlauf 115).

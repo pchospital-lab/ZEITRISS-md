@@ -256,3 +256,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kausalabfang Squadmates/Auto-Nachfrage-Watchguard): `internal/qa/plans/issue-pack-durchlauf-114-kausalabfang-squadmates-auto-nachfrage-watchguard.md`
 - Log (Kausalabfang Squadmates/Auto-Nachfrage-Watchguard): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-114-kausalabfang-squadmates-auto-nachfrage-watchguard.md`
+
+- **Durchlauf 115 (2026-03-09):** Kausalabfang um den verbleibenden TEMP-Flavor-Anker gehärtet: `systems/toolkit-gpt-spielleiter.md` und `meta/masterprompt_v6.md` führen nun parallel den knappen **TEMP-Recall-Blur** (TEMP 1–2 kurzer Blur, 3–5 Déjà-vu, 6+ fast stabil) ausdrücklich ohne Zusatzwürfe/Strafmechanik. `tools/test_kausalabfang_watchguard.js` prüft diese Staffelung als strikten Hardening-Regex in Toolkit + Masterprompt mit. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kausalabfang TEMP-Recall-Blur-Hardening): `internal/qa/plans/issue-pack-durchlauf-115-kausalabfang-temp-recall-blur-hardening.md`
+- Log (Kausalabfang TEMP-Recall-Blur-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-115-kausalabfang-temp-recall-blur-hardening.md`
