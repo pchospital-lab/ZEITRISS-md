@@ -56,7 +56,7 @@ cd ZEITRISS-md
 Das Script erstellt die Knowledge Base, lädt das Spieler-Handbuch + 19 Runtime-Module
 hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
 welches Base-Modell genutzt werden soll: Standard ist
-`deepseek/deepseek-chat-v3-0324`, alternativ kannst du eine Model-ID manuell
+`anthropic/claude-sonnet-4.6`, alternativ kannst du eine Model-ID manuell
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 „ZEITRISS v4.2.6 Uncut" (aktueller Preset-Name) wählen, dann
 `Spiel starten (solo klassisch)` tippen oder den Neustart natürlich
@@ -90,7 +90,7 @@ dem neuesten Repo-Stand bleiben.
      - Max Tokens: `64000`
    - **Capabilities:** Vision und Usage **aus**
    - **Tools/Filter:** Keine nötig
-   - **Vorschläge:** `Spiel starten (solo klassisch)`, `Spiel laden`, `Spiel starten (solo schnell)`
+   - **Vorschläge:** `Spiel starten (solo klassisch)`, `Spiel laden`, `Ich will solo neu anfangen und meinen Charakter generieren.`
 4. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
    alle 20 Wissensmodule (Spieler-Handbuch + 19 Runtime-Module) weiterhin geladen sind.
 5. **Spielen:** Neuen Chat öffnen → Preset wählen →
