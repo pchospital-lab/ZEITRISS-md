@@ -37,6 +37,9 @@ const hardeningRegex = [
   /Kodex:\s*Identitätslock\s+bestätigt/i,
   /Kodex:\s*Kausalabfang\s+freigegeben/i,
   /Kodex:\s*Lokale\s+Erinnerung\s+driftet\.\s*Archivanker\s+aktiv/i,
+  /Kodex:\s*ITI-Abfangfenster\s+steht/i,
+  /Kodex:\s*Ziel\s+nicht\s+zulässig(?:\.\s*Boss-\/ITI-\/Zivilstatus\s+blockiert\.)?/i,
+  /Kodex:\s*Uplink\s+fehlt\.\s*Marker\s+bleibt\s+ohne\s+Vollzug/i,
   /Unbenannte\s+Hostiles[\s\S]{0,220}automatisch[\s\S]{0,220}benannten[\s\S]{0,220}nachfragen/i,
   /TEMP\s*1\s*[–-]\s*2[\s\S]{0,120}Recall-Blur[\s\S]{0,140}TEMP\s*3\s*[–-]\s*5[\s\S]{0,120}Déjà-vu|Deja-vu[\s\S]{0,140}TEMP\s*6\+?[\s\S]{0,120}stabil/i
 ];
