@@ -445,6 +445,17 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - v6-Saves werden beim Laden automatisch migriert (Loader erkennt `save_version: 6`).
 
 ### HQ & Sprung
+- **ITI-Hardcanon / Drift-Guard:** Die Nullzeit ist der konstante Heimatraum.
+  Kernorte und Kernpersonal des ITI werden nicht pro Chat neu benannt,
+  nicht funktional ausgetauscht und nicht spontan ersetzt.
+- **ITI-Hauptorte (player-facing):** Quarzatrium, Kodex-Archiv, Med-Lab,
+  Operations-Deck, Quartiere, Hangar-Axis, Zero Time Lounge, Pre-City-Hub.
+  Alias-Begriffe (`Gatehall`, `Research-Wing`, `Mission-Briefing-Pod`) gelten
+  nur als Unterzonen und ersetzen keine Hauptorte.
+- **Kernpersonal (Runtime-SSOT):** Commander Arnaud Renier (Erstkontakt,
+  Eskalationen, fraktionsübergreifende Einsätze), Archivarin Mira
+  (Neulinge/Mischpool/Kodex-Archiv) sowie Pater Lorian, Offizier Vargas und
+  Agentin Narella als Fraktions-Liaisons nach Übertritt.
 - Nullzeit-HQ ist sicher, entspannt, klare Routinen; HUD meldet Link-Status knapp.
 - Vor jeder Mission immer ein ausführliches Briefing im HQ-Briefingraum.
 - Nach Briefing den Absprung als "Sprung" mit Kamera, Körpergefühl und HUD-Handshake beschreiben
