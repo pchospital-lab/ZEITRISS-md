@@ -170,3 +170,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (NPC-Squad-Persistenzabgleich): `internal/qa/plans/issue-pack-durchlauf-97-npc-squad-persistence-alignment.md`
 - Log (NPC-Squad-Persistenzabgleich): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-97-npc-squad-persistence-alignment.md`
+
+- **Durchlauf 98 (2026-03-09):** SSOT-Anschlusslauf zur technischen SL-Referenz abgeschlossen: `core/sl-referenz.md` führt im Save-v7-Block jetzt explizit den `continuity`-Abschnitt mit `npc_roster[]`/`active_npc_ids[]`, ergänzt Kontinuitäts-Budgets sowie NPC-Scope/Status-Enums und verankert die Mensch-vor-NPC-Slotregel inkl. NPC-Lagebild-Pflicht im Mehrfach-Load-Rückblick. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (SL-Referenz NPC-Schema-Alignment): `internal/qa/plans/issue-pack-durchlauf-98-sl-referenz-npc-schema-alignment.md`
+- Log (SL-Referenz NPC-Schema-Alignment): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-98-sl-referenz-npc-schema-alignment.md`
