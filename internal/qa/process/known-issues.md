@@ -207,3 +207,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (NPC-Continuity-Guard-Automation): `internal/qa/plans/issue-pack-durchlauf-104-npc-continuity-guard-automation.md`
 - Log (NPC-Continuity-Guard-Automation): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-104-npc-continuity-guard-automation.md`
+
+- **Durchlauf 105 (2026-03-09):** Spielerpfad-Klarstellung im NPC/MMO-Strang abgeschlossen: `core/spieler-handbuch.md` ergänzt im Mini-Einsatzhandbuch eine explizite Notiz zur NPC-Kontinuität (`npc-team` als persistenter Pfad, Menschen-vor-NPC-Slotregel, HQ/Funk/Offscreen-Fortbestand, kompakte Offscreen-Fortschreibung). Damit ist der bereits in 94–104 verankerte SSOT-Kern auch im spieler-sichtigen Startpfad direkt sichtbar. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Spielerhandbuch NPC-Kontinuitätsklarstellung): `internal/qa/plans/issue-pack-durchlauf-105-spielerhandbuch-npc-kontinuitaet-clarification.md`
+- Log (Spielerhandbuch NPC-Kontinuitätsklarstellung): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-105-spielerhandbuch-npc-kontinuitaet-clarification.md`
