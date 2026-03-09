@@ -277,3 +277,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Kausalabfang Motiv-/Lagefenster-Hardening): `internal/qa/plans/issue-pack-durchlauf-118-kausalabfang-motivlage-window-hardening.md`
 - Log (Kausalabfang Motiv-/Lagefenster-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-118-kausalabfang-motivlage-window-hardening.md`
 
+- **Durchlauf 119 (2026-03-09):** Prozess-Housekeeping vor dem nächsten Deepsearch-Lauf abgeschlossen: `internal/qa/process/continuity-redesign-statusmatrix.md` wurde um eine explizite **Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf** ergänzt (Pflicht-Smoke, optionaler Linklint für Prozessdateien, SSOT-Parallellauf und Synchronpflicht für Plan/Log/known-issues/Statusmatrix). Zusätzlich wurde die Watchpoint-Liste im Follow-up-Bereich auf fortlaufende Nummerierung ohne Leerlaufblöcke bereinigt, damit Anschlussläufe reproduzierbar bleiben.
+
+- Fahrplan (Housekeeping vor Deepsearch): `internal/qa/plans/issue-pack-durchlauf-119-housekeeping-vor-deepsearch.md`
+- Log (Housekeeping vor Deepsearch): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-119-housekeeping-vor-deepsearch.md`
+
