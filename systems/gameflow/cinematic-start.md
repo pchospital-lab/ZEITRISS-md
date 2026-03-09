@@ -63,9 +63,9 @@ Dann greift der Sog. Nacheinander — oder als enger Teamblock — werden die
 jenen neutralen Zwischenraum außerhalb aller Epochen. Für einen Herzschlag
 lang hält alles inne: Ohren unter Druck, Magen im Aufstand, ein grelles
 Flackern im Sichtfeld. Dann erwachen die Sinneseindrücke: klinisch reine,
-unbewegte Luft ohne jeden Windhauch; holografische Anzeigen, die am Rande des
-Sichtfelds flüchtige Daten zu Ankunftskoordinaten, Vitalwerten und temporalen
-Stabilitätswerten aufleuchten lassen. Ein automatisch ablaufendes
+unbewegte Luft ohne jeden Windhauch; linsengebundene HUD-Lichtbilder, die am
+Rande des Sichtfelds flüchtige Daten zu Ankunftskoordinaten, Vitalwerten und
+temporalen Stabilitätswerten aufleuchten lassen. Ein automatisch ablaufendes
 Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlicht,
 scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **sicher in der Nullzeit** angekommen sind. Ein sanfter Ton erklingt im
@@ -478,8 +478,9 @@ hier als sicherer **Hub**, um Fragen zu klären und das Bedienkonzept kennenzule
 eignet sich besonders gut, um eine **neue Gruppe** abzuholen und ins Spiel zu geleiten.
 
 **Cineastische Tipps:** Nutzt einen ausführlichen Establishing Shot des HQ (architektonisch
-beeindruckende Halle, schwebende holografische Displays, Wachen und Techniker als Statisten im
-Hintergrund). Lasst gerne die **Besonderheiten der Nullzeit** hervortreten (keine natürlichen
+beeindruckende Halle, aktiv bespielte Briefingflächen und sichtbare Lichtbild-Anzeigen an
+Tischprojektoren, Wachen und Techniker als Statisten im Hintergrund). Lasst gerne die
+**Besonderheiten der Nullzeit** hervortreten (keine natürlichen
 Geräusche, Fenster blicken ins Nichts der Zeitlosigkeit etc.), um Staunen auszulösen. Für jeden
 besuchten Bereich kann eine eigene **kleine Szene** inszeniert werden – etwa in der Kantine ein
 kurzer Dialog mit einem kauzigen Barkeeper aus der Zukunft, im Labor eine Demonstration eines High-
