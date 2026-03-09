@@ -1101,8 +1101,9 @@ Angriffe dann leichter ab.
 
 Im HQ des ITI gilt dennoch absolute Waffenruhe.
 Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitglieder betreten dürfen.
-Ausbauten des HQ stellen Freikäufe zusätzlicher Zugangs-**Stufen** zu diesen Fraktionsbereichen dar;
-ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
+Fortschritt im HQ bedeutet hier keine Ausbau-Mechanik: Er läuft über
+Zugangsfreigaben, Lizenzen und Vertrauen innerhalb der bestehenden ITI-Infrastruktur.
+Ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
 Dieser Waffenstillstand hat historische Gründe. Nachdem frühe Zeitreiseprogramme beinahe in
 offenen Konflikten endeten, erklärten die Gründer des ITI die Nullzeit zur neutralen Zone. Keine
