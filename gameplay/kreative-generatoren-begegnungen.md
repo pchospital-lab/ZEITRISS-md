@@ -245,8 +245,8 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | **Panzerung** | Titanfaser 3                           | <2 ignoriert, 3-4 halbiert     |
 | **Sensor**    | 60 m 360° LIDAR                        | Tarnwürfe -2                   |
 | **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung    | Reichweite 20 m                |
-| **Systeme**   | Autorepair 1 HP/Runde                  | deaktiv bei EMP                |
-| **Trigger**   | Selbstzerstörung bei ≤ 1 HP (1W6, R=3 m)| historisch → Px -1      |
+| **Systeme**   | Autorepair 1 LP/Runde                  | deaktiv bei EMP                |
+| **Trigger**   | Selbstzerstörung bei ≤ 1 LP (1W6, R=3 m)| historisch → Px -1      |
 | **Rolle**     | Patrouille, Alarmmultiplikator         | verdoppelt "Gefahr im Anflug"  |
 
 ### 2 · Konzern-Psychiker - Stufe B (Elite)
@@ -256,7 +256,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | Körper 3 | -    | Pistolen 3, Nahkampf 2                           | Nanofaser-Suit SR 2   |
 | Geist 4  | -    | Telepathische Überwältigung 4, Precog-Dodge      | Plasmapistole 1W6+1   |
 | Psi-Kern 5 | -  | **Spezial:** Psi-Spike (2 PP, CD 2)              | Mind-Screen (-2)      |
-| Stress 12 | -   | kämpft bis HP ≤ -4 (Corporate Loyalty)           | -                     |
+| Stress 12 | -   | kämpft bis LP ≤ -4 (Corporate Loyalty)           | -                     |
 
 ### 3 · Zeit-Operative - Stufe A (Transhuman)
 

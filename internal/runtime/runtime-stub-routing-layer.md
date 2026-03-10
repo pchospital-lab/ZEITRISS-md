@@ -900,7 +900,7 @@ function cmdRest() {
   state.player.hp = MAX_HP;
   state.player.stress = 0;
   autoSave(); // JSON dump to disk / DB
-  writeLine("You feel refreshed. HP & Stress reset.");
+  writeLine("You feel refreshed. LP & Stress reset.");
 }
 ```
 

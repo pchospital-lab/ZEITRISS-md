@@ -286,49 +286,56 @@ Vielleicht müssen die Helden eine misstrauische mittelalterliche Königin umsti
 Unschuld verteidigen oder eine aufgebrachte Meute von Aufständischen beruhigen – hier kommt es auf
 Worte, Haltung und Persönlichkeit an.
 
-**Mechanik:** Soziale Duelle werden wie ein **Wortgefecht** inszeniert. Beide Seiten – die
-Spielercharaktere und ihr Gegenüber – verfolgen jeweils ein **Ziel**. (Beispiel: _“Überzeuge den
-Stadtrat, dir Truppen zur Unterstützung zu geben”_ vs. _“Lehne als Stadtrat die Bitte ab”_.) Anstatt
-mit Lebenspunkten oder Trefferpunkten operieren wir mit einer **Leiste an Überzeugungspunkten** oder
-einem abstrakten Wert, der die Einstellung/Entschlossenheit der Gegenseite widerspiegelt. Jede
-gekonnte Argumentation, jedes überzeugende Manöver im Dialog oder eine passende Fertigkeitsprobe
-(z.B. _Überreden, Lügen, Einschüchtern, Empathie_) fügt der gegnerischen Haltung **“sozialen
-Schaden”** zu – sprich, es verringert die Überzeugungspunkte des Kontrahenten. Man kann sich das
-vorstellen wie geistige Hitpoints, die das Selbstvertrauen oder die Standfestigkeit des Gegenübers
-repräsentieren. Erreicht der Wert 0, ist eine Seite argumentativ besiegt oder überzeugt.
+**Mechanik (SSOT-konform):** Soziale Duelle bleiben **CHA-basiert**, aber wie im
+Pen-&-Paper üblich gilt: **Erst würfeln, wenn der Ausgang durch das Ausspielen
+nicht bereits klar ist** (ungewiss, risikoreich oder aktiv umkämpft).
+Beide Seiten – die Spielercharaktere und ihr Gegenüber – verfolgen jeweils ein
+**Ziel** (z.B. _„Überzeuge den Stadtrat, dir Truppen zur Unterstützung zu geben“_
+vs. _„Lehne als Stadtrat die Bitte ab“_).
 
+- Ist ein Beitrag in der Szene bereits schlüssig überzeugend oder die Lage klar,
+  entscheidet die KI-SL direkt über die Reaktion des Gegenübers (ohne Pflichtwurf).
+- Bei **normalen NSCs/Mengen** und unklarem Ausgang folgt eine
+  **SG-Probe** (typisch 8–12 je Lage).
+- Bei **benannten Gegenspielern (Named NPCs)** und aktivem Widerstand folgt ein
+  **Oppositionswurf**: Probe der Spielerfigur gegen den relevanten Gegenwert des
+  Ziels (meist CHA als Attribut für Überzeugung und Willenskraft, je nach Taktik
+  auch ein anderes passendes Attribut).
+- Social-Flavor (Rede, Drohung, Empathie, Täuschung, Auftreten) bestimmt Ansatz,
+  Konsequenz und situative Boni/Mali; Charisma kann starke Präsenz tragen, auch
+  wenn die Wortwahl schlicht ist – und umgekehrt.
+
+Optional darf die Spielleitung die Dynamik als „Wortgefecht in Runden“
+darstellen (mit Fortschrittspunkten als Visualisierung). Das bleibt ein
+Erzähl-Overlay; gewürfelt wird nur, wenn die Szene es wirklich braucht.
 - **Würfel & Rollenspiel Hand in Hand:** Die Spieler sollten aktiv ausspielen, _was_ ihre Figur sagt
   – platte Zahlenwürfe allein überzeugen keinen NSC. Der SL (bzw. KI-SL als KI-Spielleiter) kann für
   besonders treffende oder kreative Argumente situative **Boni oder Mali** auf die
   Überreden-/Überzeugen-Proben vergeben. So fließt das Rollenspiel in die Mechanik ein.
 
-- **Beispiel – Rededuell:** Ein Chrononaut hält auf dem Marktplatz eine flammende Rede gegen den
-  Anführer einer Bürgerwehr, um den wütenden Mob zu beschwichtigen. Beide liefern sich ein hitziges
-  Wortgefecht vor Publikum. **Runde 1:** Der Spieler formuliert leidenschaftlich, warum blinder
-  Aktionismus die Stadt ins Unglück stürzen wird, und würfelt auf _Überreden_ – Erfolg! Der Gegner
-  verliert 2 Punkte Entschlossenheit; einige Zuhörer wirken bereits unsicher. **Runde 2:** Der
-  Gegner kontert mit einem höhnischen Appell (Probe auf _Einschüchtern_) und schwächt damit die
-  Autorität des Helden – die Überzeugungspunkte des Helden sinken um 1. **Weiterer Verlauf:** So
-  geht es hin und her. Zwischendurch nutzt der Spieler eine _Menschenkenntnis_-Probe, um die
-  Schwäche des Gegners herauszufinden (er erkennt z.B. die Eitelkeit des Opponenten) – dieser
-  Erkenntnisgewinn gibt einen Bonus auf das nächste Argument. Schließlich sinkt die “Willenskraft-
-  Leiste” des Wortführers der Bürgerwehr auf 0 – er bricht seinen Appell verunsichert ab. Die Menge,
-  eben noch aufgewiegelt, wird still und einige rufen zustimmend den Chrononauten zu. **Erfolg!**
-  Durch geschickte Worte wurde die Situation entschärft, **soziale Victory** ohne Blutvergießen.
+- **Beispiel – Rededuell:** Ein Chrononaut hält auf dem Marktplatz eine Rede gegen den
+  Anführer einer Bürgerwehr. **Runde 1:** Die Ansprache trifft Ton und Moment so gut,
+  dass die KI-SL die Menge bereits ohne Wurf sichtbar beruhigen lässt.
+  **Runde 2:** Der benannte Wortführer steigt aktiv ein und kontert – jetzt ist der
+  Ausgang offen, daher Oppositionswurf (_Einschüchtern_ vs. CHA-Probe). Der Gegner
+  gewinnt knapp, der Mob schwankt wieder. **Weiterer Verlauf:** Mit
+  _Menschenkenntnis_ erkennt der Spieler die Eitelkeit des Wortführers und erhält
+  einen situativen Bonus auf den nächsten CHA-Wurf. Dieser Wurf gelingt, der
+  Wortführer verliert Rückhalt, und die Lage kippt endgültig zugunsten der Crew.
 
 - **Langzeit-Einfluss:** Über einzelne Szenen hinaus können die Taten der Spieler in einer Epoche
   einen **Ruf** oder Einfluss repräsentieren. Der SL kann einen einfachen _Rufwert_ einführen, der
   durch diplomatische Siege oder gute Taten steigt (und durch Lügen/Skandale sinkt). Hoher Ruf bei
-  einer Fraktion oder in einer Stadt kann den Helden Bonuswürfel oder automatische Erfolge in
-  passenden Situationen verschaffen – etwa stellt eine Gilde Ressourcen bereit oder ein dankbarer
-  Baron gewährt Gefallen, ohne dass die Helden groß würfeln müssen. Andererseits kann ein schlechter
-  Ruf Türen schließen: Wenn die Chrononauten als “Zeitfrevler” verschrien sind, begegnet man ihnen
-  mit Misstrauen oder schlimmer.
+  einer Fraktion oder in einer Stadt kann den Helden Bonuswürfel bzw. SG-Erleichterungen in
+  passenden Situationen geben – etwa stellt eine Gilde Ressourcen bereit oder ein dankbarer Baron
+  gewährt einen situativen Vorteil auf die nächste Probe. Andererseits kann ein schlechter Ruf Türen
+  schließen: Wenn die Chrononauten als “Zeitfrevler” verschrien sind, begegnet man ihnen mit
+  Misstrauen oder schlimmer.
   - **Spielleiter-Tipp:** Macht **Ruf greifbar** durch bestimmte NPCs. Beispiel: Ein Senator, der
     den Helden anfangs misstraut, steht sinnbildlich für ihren Einfluss im römischen Senat. Gewinnen
     sie sein Vertrauen durch kluge Diplomatie oder Hilfeleistungen, könnte er später in der Kampagne
-    bei einer Abstimmung automatisch auf ihrer Seite sein (_Gratis-Erfolg_ in einer kritischen
-    Abstimmung, weil der Senator ihnen den Rücken stärkt). Solche _Beziehungs-Indikatoren_ machen
+    bei einer Abstimmung klar für sie Stellung beziehen (starker Bonus oder reduzierte SG in einer
+    kritischen Abstimmung, weil der Senator ihnen den Rücken stärkt). Solche _Beziehungs-Indikatoren_ machen
     abstrakten Einfluss lebendig und belohnen rollenspielerische Bindungen.
 
 ### Heimlichkeit & Sabotage – Konflikte aus den Schatten
