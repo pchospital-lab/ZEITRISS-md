@@ -1,21 +1,23 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const root = path.resolve(__dirname, '..');
+const { readMarkdown } = createDocTextLoader({
+  root,
+  scopeLabel: 'Chronopolis-Watchguard'
+});
 
 const macroFingerprints = [
   /macro\s+chrono_grant_key_if_lvl10\(\)/,
   /macro\s+chrono_launch_rift\(seed_id\)/
 ];
 
-const { file: macroFile, text, source } = resolveUniqueMarkdownTarget({
-  root,
-  preferredRelPaths: ['internal/runtime/toolkit-runtime-makros.md'],
-  candidatePathRegex: /runtime|toolkit|makro|macro/i,
-  contentPredicates: macroFingerprints,
-  label: 'Chronopolis-Watchguard'
-});
+const { file: macroFile, text, source } = readMarkdown(
+  'internal/runtime/toolkit-runtime-makros.md',
+  macroFingerprints,
+  'Chronopolis-Watchguard'
+);
 
 function must(regex, message) {
   assert.match(text, regex, message);

@@ -1,16 +1,18 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const root = path.resolve(__dirname, '..');
-
-const { file, text, source } = resolveUniqueMarkdownTarget({
+const { readMarkdown } = createDocTextLoader({
   root,
-  preferredRelPaths: ['uploads/hard-final-review.md'],
-  candidatePathRegex: /uploads[\\/].*hard-final-review.*\.md$/i,
-  contentPredicates: [/Hard Final Review/i],
-  label: 'Upload-Snapshot-Watchguard'
+  scopeLabel: 'Upload-Snapshot-Watchguard'
 });
+
+const { file, text, source } = readMarkdown(
+  'uploads/hard-final-review.md',
+  [/Hard Final Review/i],
+  'Upload-Snapshot-Watchguard'
+);
 
 assert.ok(
   /historischer Snapshot/i.test(text),

@@ -1,17 +1,19 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
+const { readMarkdown } = createDocTextLoader({
+  root: ROOT,
+  scopeLabel: 'Ruf/Alien-Watchguard'
+});
 
 function resolveText(preferredRelPath, contentPredicates) {
-  const { file, text } = resolveUniqueMarkdownTarget({
-    root: ROOT,
-    preferredRelPaths: [preferredRelPath],
-    candidatePathRegex: new RegExp(`${preferredRelPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'),
-    contentPredicates,
-    label: 'Ruf/Alien-Watchguard'
-  });
+  const { file, text } = readMarkdown(
+    preferredRelPath,
+    contentPredicates && contentPredicates.length ? contentPredicates : [/./s],
+    `Ruf/Alien-Watchguard (${preferredRelPath})`
+  );
   return { relPath: path.relative(ROOT, file), text };
 }
 
@@ -37,8 +39,6 @@ expectIncludes(
   'ITI-Ruf-Update',
   'Kampagnenablauf soll ITI-Ruf-Update explizit benennen.'
 );
-
-
 
 expectIncludes(
   'core/spieler-handbuch.md',

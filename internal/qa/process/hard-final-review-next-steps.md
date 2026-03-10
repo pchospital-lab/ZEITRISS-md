@@ -55,13 +55,14 @@ nächsten Anschlusslauf.
   - Durchlauf 172: `onboarding-start-save-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (weiterer Abbau lokaler Resolver-/Cache-Duplikate).
   - Durchlauf 173: `director-layer-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Duplikatlogik entfernt, fachliche Regie-Checks unverändert).
   - Durchlauf 174: `process-compactness-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Einstieg vereinheitlicht, fachliche Kompaktheits-Checks unverändert).
+  - Durchlauf 175: verbleibende Hard-Final-Review-Restguards (`chronopolis-gate`, `default-slot-dependency`, `hard-final-review`, `kausalabfang`, `physicality`, `ruf-alien`, `upload-snapshot`) auf den zentralen `watchguard_doc_loader` umgestellt (fachliche Assertions unverändert, Resolver-Duplikatlogik entfernt).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
-1. **Resolver-Rollout bei neuen/angepassten Guards fortführen**
+1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
    - Bei jeder künftigen Guard-Neuanlage standardmäßig
-     `resolveUniqueMarkdownTarget` nutzen und keine Einzellösungen mehr
-     einführen.
+     `createDocTextLoader` (inkl. `readMarkdown`/`getDocText`) nutzen und
+     keine Einzellösungen mehr einführen.
 2. **Prozessseiten weiter schlank halten**
    - Der neue `process-compactness-watchguard` schützt Grundanker + Zeilenbudget;
      lange Durchlaufprosa weiterhin nur in Archive/Statusmatrizen führen.
