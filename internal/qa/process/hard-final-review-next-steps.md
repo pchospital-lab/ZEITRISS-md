@@ -45,6 +45,10 @@ nächsten Anschlusslauf.
 - Durchlauf 185 härtet die Label-Kohärenz weiter: `scopeLabel` muss jetzt
   semantisch zum jeweiligen Guard-Dateinamen passen (Token-Vergleich im
   Meta-Guard), damit Diagnosebezüge in Smoke/CI eindeutig bleiben.
+- Durchlauf 186 ergänzt ein Neuanlage-Playbook für künftige Guards:
+  `tools/templates/watchguard.template.js` als Startpunkt plus
+  `internal/qa/process/watchguard-neuanlage-checkliste.md` als
+  Maintainer-Checkliste.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -52,6 +56,9 @@ nächsten Anschlusslauf.
    - Bei jeder künftigen Guard-Neuanlage standardmäßig
      `createDocTextLoader` (inkl. `readMarkdown`/`getDocText`) nutzen und
      keine Einzellösungen mehr einführen.
+   - Für Neuanlagen die Checkliste
+     `internal/qa/process/watchguard-neuanlage-checkliste.md` und das
+     Template `tools/templates/watchguard.template.js` als Startpunkt nutzen.
 2. **Prozessseiten weiter schlank halten**
    - Der `process-compactness-watchguard` schützt Grundanker + Zeilenbudget;
      lange Durchlaufprosa weiterhin nur in Archive/Statusmatrizen führen.
@@ -74,5 +81,6 @@ nächsten Anschlusslauf.
 - Prozessstatus: `internal/qa/process/known-issues.md`
 - Historischer Review-Snapshot: `uploads/hard-final-review.md`
 - Archiv 157–179: `internal/qa/process/archive/hard-final-review-durchlaufhistorie-157-179.md`
+- Neuanlage-Checkliste: `internal/qa/process/watchguard-neuanlage-checkliste.md`
 
 ---
