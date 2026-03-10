@@ -79,6 +79,8 @@ nächsten Anschlusslauf.
 
 - Durchlauf 199 schließt die verbleibende LP-Restdrift in einem aktiven QA-Playtestskript: `internal/qa/playtest-2026-02-22-round2.sh` nutzt in der Gladiator-Startnachricht nun `LP 12/12` statt `HP 12/12`, damit die Terminologie auch in Round2-Evidenzpfaden konsistent bleibt.
 
+- Durchlauf 200 verankert einen dauerhaften LP-Terminologie-Watchguard im Pflicht-Smoke: `tools/test_lp_terminology_watchguard.js` scannt aktive Runtime-/QA-Pfade fail-fast auf `\bHP\b|Hitpoints`, und `scripts/smoke.sh` grept auf `lp-terminology-watchguard-ok`.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
