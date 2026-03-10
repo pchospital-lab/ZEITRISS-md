@@ -33,6 +33,9 @@ nächsten Anschlusslauf.
 - Durchlauf 181 härtet den Meta-Guard weiter: `watchguard-loader-consistency`
   erzwingt jetzt zusätzlich den `scopeLabel` im `createDocTextLoader(...)`
   aller Watchguards.
+- Durchlauf 182 bereinigt den Onboarding-Watchguard technisch auf direkte
+  Loader-Nutzung (`readText`/`getDocText` aus `createDocTextLoader(...)`)
+  und entfernt lokale Wrapper-/Direktlese-Helfer.
 
 ## Offene Anschluss-Tasks (priorisiert)
 

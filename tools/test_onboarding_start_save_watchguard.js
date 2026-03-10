@@ -1,19 +1,10 @@
-const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
 
-function readText(relPath) {
-  return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
-}
-
-function getDocText(relPath) {
-  return docLoaderGetDocText(relPath);
-}
-
-const { getDocText: docLoaderGetDocText } = createDocTextLoader({
+const { readText, getDocText } = createDocTextLoader({
   root: ROOT,
   scopeLabel: 'Onboarding-Start-Save-Watchguard'
 });
