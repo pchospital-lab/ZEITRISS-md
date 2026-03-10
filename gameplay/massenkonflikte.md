@@ -518,7 +518,7 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhalt
 Für größere Teams skaliert der LP-Pool der Gegner:
 
 ```pseudo
-effektive_HP = HP_Pool × ceil(team_size / 2)
+effektive_LP = LP_Pool × ceil(team_size / 2)
 ```
 
 ```pseudo

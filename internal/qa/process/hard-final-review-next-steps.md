@@ -75,6 +75,8 @@ nächsten Anschlusslauf.
 
 - Durchlauf 197 schließt einen verbliebenen LP-Restdrift im QA-Evidenzpfad: `internal/qa/playtest-2026-02-22-deep.sh` nutzt in der statischen Assistant-Nachricht nun `LP` statt `HP`, damit auch Playtest-Skripte die kanonische Spielerterminologie konsistent abbilden.
 
+- Durchlauf 198 schließt eine verbleibende LP-Restdrift im aktiven Gameplay-Regeltext: Der Teamgrößen-Pseudocode in `gameplay/massenkonflikte.md` nutzt jetzt `effektive_LP = LP_Pool × ceil(team_size / 2)` statt `effektive_HP = HP_Pool × ...`, damit die Terminologie auch in Regel-Formeln konsistent bleibt.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
