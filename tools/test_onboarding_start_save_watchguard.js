@@ -15,6 +15,16 @@ const startDocs = [
   'core/spieler-handbuch.md'
 ];
 
+function assertPerDocRule(docList, rule) {
+  for (const relPath of docList) {
+    const text = readText(relPath);
+    assert.ok(
+      rule.regex.test(text),
+      `Drift in ${relPath}: Pflichtanker '${rule.label}' fehlt.`
+    );
+  }
+}
+
 const startContractRules = [
   {
     label: 'natürliche-sprache-anker',
@@ -45,6 +55,25 @@ for (const rule of startContractRules) {
   );
 }
 
+const startPerDocRules = [
+  {
+    label: 'natürliche-sprache-pro-ssot-datei',
+    regex: /natürliche(?:r|n)?\s+sprache/i
+  },
+  {
+    label: 'klassisch-standard-pro-ssot-datei',
+    regex: /klassisch[^\n]{0,200}(?:als\s+standard|standardpfad|standard)/i
+  },
+  {
+    label: 'generate-custom-manuell-pro-ssot-datei',
+    regex: /generate[\s\S]{0,300}custom\s+generate[\s\S]{0,300}(?:manuell|manuellem\s+bau|manuellen\s+bau|selbst\s+bauen)/i
+  }
+];
+
+for (const rule of startPerDocRules) {
+  assertPerDocRule(startDocs, rule);
+}
+
 const hqDocs = [
   'meta/masterprompt_v6.md',
   'systems/toolkit-gpt-spielleiter.md',
@@ -70,6 +99,36 @@ for (const relPath of hqDocs) {
 assert.ok(saveHintHits >= 2, `HQ-Save-Hinweisdrift: 'Deepsave möglich' nur ${saveHintHits}/4 Treffer.`);
 assert.ok(noAutoBriefingHits >= 2, `HQ-Flow-Drift: 'kein Auto-Briefing' nur ${noAutoBriefingHits}/4 Treffer.`);
 assert.ok(newChatHintHits >= 2, `Chatwechsel-Hinweisdrift: 'neuer Chat empfohlen' nur ${newChatHintHits}/4 Treffer.`);
+
+const hqPerDocRuleMatrix = [
+  {
+    label: 'hq-deepsave-anker',
+    regex: /deepsave\s+möglich/i,
+    docs: [
+      'systems/toolkit-gpt-spielleiter.md',
+      'core/sl-referenz.md',
+      'systems/gameflow/speicher-fortsetzung.md'
+    ]
+  },
+  {
+    label: 'hq-kein-auto-briefing-anker',
+    regex: /(?:kein\s+automatisches?[\s\S]{0,140}briefing|kein\s+auto-weiterleitungsdruck[\s\S]{0,140}briefing|nicht\s+automatisch[\s\S]{0,140}briefing|kein[\s\S]{0,140}automatischer[\s\S]{0,140}sprung[\s\S]{0,140}briefing)/i,
+    docs: [
+      'systems/toolkit-gpt-spielleiter.md',
+      'core/sl-referenz.md',
+      'systems/gameflow/speicher-fortsetzung.md'
+    ]
+  },
+  {
+    label: 'hq-neuer-chat-empfohlen-anker',
+    regex: /(?:neuen\s+chat[^\n.]*empfohlen|neuer\s+chat[^\n.]*empfohlen)/i,
+    docs: hqDocs
+  }
+];
+
+for (const rule of hqPerDocRuleMatrix) {
+  assertPerDocRule(rule.docs, rule);
+}
 
 
 const spielerHandbuchText = readText('core/spieler-handbuch.md');
