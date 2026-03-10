@@ -18,7 +18,7 @@ tags: [system]
   `economy.credits` als Legacy-Fallback via Synchronisierung).
 - **SOLL:** Neuer Chat pro Mission wird als empfohlener Stabilitätspfad geführt,
   ohne als harte Regel formuliert zu werden.
-- **KANN:** Optionale QA-/Trace-Felder dürfen ergänzt werden, sofern sie keine
+- **KANN:** Optionale Trace-Felder dürfen ergänzt werden, sofern sie keine
   Kernregeln (SaveGuard, Px-Flow, Belohnungslogik) verändern.
 
 ## Speichern & Laden - Kurzreferenz
@@ -41,7 +41,7 @@ tags: [system]
 > Einziger Save-Typ: Deepsave (HQ-only).
 
 **Referenzstand (Legacy-v6):** Für Migrationen wird ein vollständig
-ausgefüllter v6-Teststand mit Pflichtfeldern und Cross-Mode-Pfaden
+ausgefüllter v6-Referenzstand mit Pflichtfeldern und Cross-Mode-Pfaden
 (`characters[].wallet`, `logs.psi[]`, `arc.open_seeds`,
 `arena.phase_strike_tax`) genutzt. Er dient ausschließlich der
 Import-Validierung; der kanonische Exportpfad bleibt v7.
@@ -201,8 +201,7 @@ inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace
 mit `reason`, `location` und `phase` (Fallback auf `state.phase`, falls
 `campaign.phase` fehlt), damit Reihenfolge und Auslöser in Snapshots
-transparent bleiben. Der QA-Test `test_saveguard_order.js` prüft die Kette
-offline → Arena → HQ-only/Chronopolis inklusive Trace-Payload.
+transparent bleiben.
 
 | Priorität | Guard | Trace-Reason | Hinweis |
 | --- | --- | --- | --- |
