@@ -39,6 +39,9 @@ nächsten Anschlusslauf.
 - Durchlauf 183 härtet den Meta-Guard gegen Kommentar-Drift und erzwingt,
   dass Loader-Lese-APIs (`readMarkdown`/`getDocText`/`readText`) direkt aus
   `createDocTextLoader(...)` gebunden werden.
+- Durchlauf 184 normiert die `scopeLabel`-Diagnostik im Meta-Guard:
+  `scopeLabel` muss auf `Watchguard` enden und darf keine Slash-Zeichen
+  enthalten.
 
 ## Offene Anschluss-Tasks (priorisiert)
 

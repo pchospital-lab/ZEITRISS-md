@@ -24,6 +24,11 @@ function hasScopeLabelOnLoader(text) {
   return /createDocTextLoader\s*\(\s*\{[\s\S]{0,260}scopeLabel\s*:\s*['"`][^'"`]+['"`]/m.test(text);
 }
 
+function getScopeLabelValue(text) {
+  const match = text.match(/createDocTextLoader\s*\(\s*\{[\s\S]{0,260}scopeLabel\s*:\s*['"`]([^'"`]+)['"`]/m);
+  return match ? match[1].trim() : '';
+}
+
 function stripJsComments(text) {
   return text
     .replace(/\/\*[\s\S]*?\*\//g, '')
@@ -66,6 +71,16 @@ for (const file of listWatchguardTests()) {
 
   if (hasScopeLabelOnLoader(codeText) === false) {
     violations.push(`${file}: setzt keinen scopeLabel beim createDocTextLoader(...) (Pflicht für nachvollziehbare Fehlermeldungen).`);
+  }
+
+  const scopeLabel = getScopeLabelValue(codeText);
+  if (scopeLabel) {
+    if (/Watchguard$/i.test(scopeLabel) === false) {
+      violations.push(`${file}: scopeLabel muss mit "Watchguard" enden (einheitliche Guard-Diagnostik).`);
+    }
+    if (/[/\\]/.test(scopeLabel)) {
+      violations.push(`${file}: scopeLabel darf keine Slash-Zeichen enthalten (nur Klartext-Label für Logs).`);
+    }
   }
 
   if (hasDirectMarkdownReadFileSync(codeText)) {
