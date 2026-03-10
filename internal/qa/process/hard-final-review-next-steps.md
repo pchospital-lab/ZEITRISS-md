@@ -28,15 +28,18 @@ nächsten Anschlusslauf.
     Detailstände liegen in den jeweiligen Statusmatrizen/Archivdateien.
   - Durchlauf 159: `chronopolis-gate-watchguard` auf robuste
     Zielpfad-Ermittlung gehärtet (weniger manuelle Pflege bei Makro-Umzügen).
+  - Durchlauf 160: gemeinsame Resolver-Utility für robuste
+    Watchguard-Zielpfadauflösung in `tools/` eingeführt und im
+    `chronopolis-gate-watchguard` produktiv genutzt.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
-1. **Watchguard-Fundlogik bei neuen Guards direkt robust bauen**
-   - Neue Runtime-Watchguards standardmäßig mit eindeutiger
-     Zielpfad-Ermittlung auslegen (statt starrer Einzelpfad-Annahme).
+1. **Weitere Runtime-Watchguards auf die Resolver-Utility umziehen**
+   - Bestehende Guards bei nächster inhaltlicher Berührung auf die gemeinsame
+     Zielpfad-Auflösung standardisieren, um Insellösungen zu vermeiden.
 2. **Upload-Kontext klar markieren**
-   - Historische Upload-Reviews weiterhin als Snapshot
-     kennzeichnen, damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
+   - Historische Upload-Reviews weiterhin als Snapshot kennzeichnen,
+     damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
 3. **Prozessseiten weiter schlank halten**
    - Lange Durchlaufprosa nur in Archive/Statusmatrizen führen,
      aktive Seiten auf Triage-/Anschlussinformationen begrenzen.
@@ -53,3 +56,5 @@ nächsten Anschlusslauf.
 
 - Prozessstatus: `internal/qa/process/known-issues.md`
 - Historischer Review-Snapshot: `uploads/hard-final-review.md`
+
+---
