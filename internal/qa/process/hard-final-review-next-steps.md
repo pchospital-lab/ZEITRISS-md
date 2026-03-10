@@ -71,6 +71,7 @@ nächsten Anschlusslauf.
 - Durchlauf 193 führt die Sozialkonflikt-Formulierung in Modul 7 zurück auf den Wurfkern (CHA/SG bei Normalo-NSCs, Oppositionswurf bei Named-NPCs) und markiert Wortgefecht-Leisten nur noch als optionales Erzähl-Overlay.
 - Durchlauf 194 präzisiert die Terminologie in Modul 7: kein separates Willenskraft-Attribut, sondern CHA (Charisma) als Attribut, das u. a. Willenskraft abbildet.
 - Durchlauf 195 präzisiert den Sozialkonflikt-Flow im Sinne des Pen-&-Paper-Spiels: erst Ausspielen/SL-Bewertung, dann nur bei unklarem oder aktiv umkämpftem Ausgang SG-/Oppositionswurf.
+- Durchlauf 196 schärft die Save-Doku semantisch nach: zwei weiterhin vorhandene Legacy-Bridge-Beispiele in `speicher-fortsetzung.md` sind jetzt explizit als Legacy markiert (`Legacy-Bridge`, `v: 6`, Klarhinweis zu `location`/`phase` als reine Migrationsfelder), damit kein zweiter v7-Exportpfad suggeriert wird.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
