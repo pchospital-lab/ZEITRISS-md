@@ -1,11 +1,38 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 
 const ROOT = path.join(__dirname, '..');
 
 function readText(relPath) {
   return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+}
+
+function resolveMarkdownText(relPath, anchorRegexes, label) {
+  const { text } = resolveUniqueMarkdownTarget({
+    root: ROOT,
+    preferredRelPaths: [relPath],
+    candidatePathRegex: new RegExp(`${path.basename(relPath).replace('.', '\\.')}$`, 'i'),
+    contentPredicates: anchorRegexes,
+    label
+  });
+  return text;
+}
+
+const markdownDocCache = new Map();
+
+function getDocText(relPath) {
+  if (relPath.endsWith('.md')) {
+    if (!markdownDocCache.has(relPath)) {
+      markdownDocCache.set(
+        relPath,
+        resolveMarkdownText(relPath, [/./s], `Onboarding-Start-Save-Watchguard (${relPath})`)
+      );
+    }
+    return markdownDocCache.get(relPath);
+  }
+  return readText(relPath);
 }
 
 const startDocs = [
@@ -17,7 +44,7 @@ const startDocs = [
 
 function assertPerDocRule(docList, rule) {
   for (const relPath of docList) {
-    const text = readText(relPath);
+    const text = getDocText(relPath);
     assert.ok(
       rule.regex.test(text),
       `Drift in ${relPath}: Pflichtanker '${rule.label}' fehlt.`
@@ -46,7 +73,7 @@ const startContractRules = [
 for (const rule of startContractRules) {
   let hits = 0;
   for (const relPath of startDocs) {
-    const text = readText(relPath);
+    const text = getDocText(relPath);
     if (rule.regex.test(text)) hits += 1;
   }
   assert.ok(
@@ -86,7 +113,7 @@ let noAutoBriefingHits = 0;
 let newChatHintHits = 0;
 
 for (const relPath of hqDocs) {
-  const text = readText(relPath);
+  const text = getDocText(relPath);
   if (/deepsave\s+möglich/i.test(text)) saveHintHits += 1;
   if (/(?:kein\s+automatisches?[^\n.]*briefing|kein\s+auto-weiterleitungsdruck[^\n.]*briefing|nicht\s+automatisch[^\n.]*briefing)/i.test(text)) {
     noAutoBriefingHits += 1;
@@ -130,8 +157,7 @@ for (const rule of hqPerDocRuleMatrix) {
   assertPerDocRule(rule.docs, rule);
 }
 
-
-const spielerHandbuchText = readText('core/spieler-handbuch.md');
+const spielerHandbuchText = getDocText('core/spieler-handbuch.md');
 assert.ok(
   /standard\s*\(empfohlen\)[\s\S]{0,220}spiel\s+starten\s*\(solo\s+klassisch\)/i.test(spielerHandbuchText),
   'Spielerhandbuch-Drift: Mini-Einsatzhandbuch muss `solo klassisch` als Standard (empfohlen) ausweisen.'
@@ -149,7 +175,7 @@ assert.ok(
   'Spielerhandbuch-Drift: Solo-Schnelleinstieg muss als optionale Fast-Lane gekennzeichnet bleiben.'
 );
 
-const charsOptionsText = readText('characters/charaktererschaffung-optionen.md');
+const charsOptionsText = getDocText('characters/charaktererschaffung-optionen.md');
 assert.ok(
   /nicht[\s\S]{0,40}bevorzugte?r?\s+runtime-pfad/i.test(charsOptionsText),
   'Archetypen-Drift: chars-options muss Archetypen/Pregens explizit als nicht-bevorzugten Runtime-Pfad markieren.'
@@ -199,7 +225,7 @@ const entryRules = [
 for (const rule of entryRules) {
   let hits = 0;
   for (const relPath of entryLayerDocs) {
-    const text = readText(relPath);
+    const text = getDocText(relPath);
     if (rule.regex.test(text)) hits += 1;
   }
   assert.ok(
@@ -208,8 +234,8 @@ for (const rule of entryRules) {
   );
 }
 
-const readmeText = readText('README.md');
-const setupGuideText = readText('docs/setup-guide.md');
+const readmeText = getDocText('README.md');
+const setupGuideText = getDocText('docs/setup-guide.md');
 
 assert.ok(
   /mmo\s+ohne\s+server/i.test(readmeText),

@@ -34,13 +34,17 @@ nächsten Anschlusslauf.
   - Durchlauf 161: Resolver-Rollout auf
     `default-slot-dependency-watchguard` und
     `hard-final-review-watchguard` erweitert.
+  - Durchlauf 162: Resolver-Rollout auf
+    `director-layer-watchguard`,
+    `onboarding-start-save-watchguard` und
+    `iti-hardcanon-watchguard` erweitert.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
-1. **Weitere Runtime-Watchguards auf die Resolver-Utility umziehen**
-   - Restliche Guards (z. B. Director-/Onboarding-/ITI-Guards) bei nächster
-     inhaltlicher Berührung auf die gemeinsame Zielpfad-Auflösung
-     standardisieren.
+1. **Resolver-Rollout bei neuen/angepassten Guards fortführen**
+   - Bei jeder künftigen Guard-Neuanlage standardmäßig
+     `resolveUniqueMarkdownTarget` nutzen und keine Einzellösungen mehr
+     einführen.
 2. **Upload-Kontext klar markieren**
    - Historische Upload-Reviews weiterhin als Snapshot kennzeichnen,
      damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
