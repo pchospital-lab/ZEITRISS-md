@@ -42,6 +42,9 @@ nächsten Anschlusslauf.
 - Durchlauf 184 normiert die `scopeLabel`-Diagnostik im Meta-Guard:
   `scopeLabel` muss auf `Watchguard` enden und darf keine Slash-Zeichen
   enthalten.
+- Durchlauf 185 härtet die Label-Kohärenz weiter: `scopeLabel` muss jetzt
+  semantisch zum jeweiligen Guard-Dateinamen passen (Token-Vergleich im
+  Meta-Guard), damit Diagnosebezüge in Smoke/CI eindeutig bleiben.
 
 ## Offene Anschluss-Tasks (priorisiert)
 

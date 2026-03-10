@@ -35,6 +35,14 @@ function stripJsComments(text) {
     .replace(/(^|[^:])\/\/.*$/gm, '$1');
 }
 
+function normalizeLabelToken(text) {
+  return (text || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function expectedScopeLabelTokenFromFilename(file) {
+  return normalizeLabelToken(file.replace(/^test_/, '').replace(/\.js$/, ''));
+}
+
 function hasLoaderApiBinding(text) {
   return /const\s*\{[^}]*\b(readMarkdown|getDocText|readText)\b[^}]*\}\s*=\s*createDocTextLoader\s*\(/m.test(text);
 }
@@ -80,6 +88,12 @@ for (const file of listWatchguardTests()) {
     }
     if (/[/\\]/.test(scopeLabel)) {
       violations.push(`${file}: scopeLabel darf keine Slash-Zeichen enthalten (nur Klartext-Label für Logs).`);
+    }
+
+    const expectedToken = expectedScopeLabelTokenFromFilename(file);
+    const scopeToken = normalizeLabelToken(scopeLabel);
+    if (scopeToken !== expectedToken) {
+      violations.push(`${file}: scopeLabel muss semantisch zum Dateinamen passen (erwartet Token: ${expectedToken}, gefunden: ${scopeToken}).`);
     }
   }
 
