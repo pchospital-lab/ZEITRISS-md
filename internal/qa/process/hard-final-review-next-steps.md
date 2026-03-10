@@ -73,6 +73,8 @@ nächsten Anschlusslauf.
 - Durchlauf 195 präzisiert den Sozialkonflikt-Flow im Sinne des Pen-&-Paper-Spiels: erst Ausspielen/SL-Bewertung, dann nur bei unklarem oder aktiv umkämpftem Ausgang SG-/Oppositionswurf.
 - Durchlauf 196 schärft die Save-Doku semantisch nach: zwei weiterhin vorhandene Legacy-Bridge-Beispiele in `speicher-fortsetzung.md` sind jetzt explizit als Legacy markiert (`Legacy-Bridge`, `v: 6`, Klarhinweis zu `location`/`phase` als reine Migrationsfelder), damit kein zweiter v7-Exportpfad suggeriert wird.
 
+- Durchlauf 197 schließt einen verbliebenen LP-Restdrift im QA-Evidenzpfad: `internal/qa/playtest-2026-02-22-deep.sh` nutzt in der statischen Assistant-Nachricht nun `LP` statt `HP`, damit auch Playtest-Skripte die kanonische Spielerterminologie konsistent abbilden.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
