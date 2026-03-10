@@ -31,12 +31,16 @@ nächsten Anschlusslauf.
   - Durchlauf 160: gemeinsame Resolver-Utility für robuste
     Watchguard-Zielpfadauflösung in `tools/` eingeführt und im
     `chronopolis-gate-watchguard` produktiv genutzt.
+  - Durchlauf 161: Resolver-Rollout auf
+    `default-slot-dependency-watchguard` und
+    `hard-final-review-watchguard` erweitert.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Weitere Runtime-Watchguards auf die Resolver-Utility umziehen**
-   - Bestehende Guards bei nächster inhaltlicher Berührung auf die gemeinsame
-     Zielpfad-Auflösung standardisieren, um Insellösungen zu vermeiden.
+   - Restliche Guards (z. B. Director-/Onboarding-/ITI-Guards) bei nächster
+     inhaltlicher Berührung auf die gemeinsame Zielpfad-Auflösung
+     standardisieren.
 2. **Upload-Kontext klar markieren**
    - Historische Upload-Reviews weiterhin als Snapshot kennzeichnen,
      damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
