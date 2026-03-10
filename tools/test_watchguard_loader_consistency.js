@@ -16,6 +16,10 @@ function readFile(relPath) {
   return fs.readFileSync(path.join(TOOLS_DIR, relPath), 'utf8');
 }
 
+function hasDirectMarkdownReadFileSync(text) {
+  return /readFileSync\s*\([\s\S]{0,220}\.md(?:["'`]|\s*[,)])/m.test(text);
+}
+
 const violations = [];
 
 for (const file of listWatchguardTests()) {
@@ -33,7 +37,11 @@ for (const file of listWatchguardTests()) {
     violations.push(`${file}: bindet createDocTextLoader nicht ein.`);
   }
 
-  if (/readFileSync\([^\n\r)]*\.md['"]/m.test(text)) {
+  if (/readMarkdown\s*\(/.test(text) === false && /getDocText\s*\(/.test(text) === false) {
+    violations.push(`${file}: nutzt weder readMarkdown(...) noch getDocText(...) aus dem zentralen Loader.`);
+  }
+
+  if (hasDirectMarkdownReadFileSync(text)) {
     violations.push(`${file}: liest .md-Dateien direkt per readFileSync statt Loader.`);
   }
 }
