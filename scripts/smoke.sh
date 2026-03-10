@@ -138,12 +138,10 @@ grep "director-layer-watchguard-ok" out/director_layer_watchguard.log
 node tools/test_hard_final_review_watchguard.js > out/hard_final_review_watchguard.log
 grep "hard-final-review-watchguard-ok" out/hard_final_review_watchguard.log
 
-echo ""
-echo "Manual Chronopolis Gate Smoke (60–90s):"
-echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
-echo " 2) In CITY: fr_contact(...) -> BLOCK; im HQ -> OK"
-echo " 3) chrono_launch_rift in CITY -> BLOCK; im HQ + episode_completed=true -> OK"
-echo " 4) chrono_launch_rift ohne chrono.epoch -> nutzt campaign.epoch (Fallback)"
-echo " 5) In CITY: Save -> BLOCK; im HQ: Save -> OK"
+
+# Chronopolis-Gate-Watchguard (automatisiert den früheren Manual-Check)
+node tools/test_chronopolis_gate_watchguard.js > out/chronopolis_gate_watchguard.log
+grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log
+
 echo ""
 echo "All smoke checks passed."

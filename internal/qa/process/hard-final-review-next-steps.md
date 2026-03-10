@@ -20,6 +20,7 @@ nächsten Anschlusslauf.
   - `default-slot-dependency-watchguard-ok`
   - `director-layer-watchguard-ok`
   - `hard-final-review-watchguard-ok`
+  - `chronopolis-gate-watchguard-ok`
 - Pflicht-Smoke bleibt der zentrale Merge-Gate-Check.
 
 ## Offene Anschluss-Tasks (priorisiert)
@@ -27,11 +28,11 @@ nächsten Anschlusslauf.
 1. **QA-Übersicht weiter entrümpeln**
    - Historische Langläufe in Prozessdokumenten perspektivisch in Archive
      verschieben; aktive Übersichten kurz halten.
-2. **Manuelle Smoke-Reste automatisieren**
-   - Den Bereich „Manual Chronopolis Gate Smoke" in `scripts/smoke.sh`
-     mittelfristig in einen automatisierten Guard überführen.
+2. **Watchguard-Zielpfade stabil halten**
+   - Bei künftigen Makro-Umzügen den neuen
+     `chronopolis-gate-watchguard` auf den gültigen Runtime-Pfad nachziehen.
 3. **Upload-Kontext klar markieren**
-   - Historische Upload-Reviews (z. B. Hard Final Review) als Snapshot
+   - Historische Upload-Reviews weiterhin als Snapshot
      kennzeichnen, damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
 
 ## Operativer Ablauf für nächste Durchläufe
