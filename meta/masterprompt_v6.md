@@ -163,6 +163,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   **Regie-Layer Pflichtbeat (nach Heimkehr):** Genau eine ITI-Bulletin-
   Mikronachricht aus der Dienstwelt (z. B. Hangar, Archiv, anderes Team,
   Fraktionslage, Chronopolis-Vorschau).
+  **Weltstatus-Pflichtsatz (Arc-Rückkopplung):** Genau eine kompakte
+  Weltstatus-Zeile pro Missionszyklus (entweder vor Briefing oder direkt nach
+  Heimkehr), die auf `arc.factions`, `arc.questions` oder `arc.hooks` basiert
+  und eine sichtbare Folge für die nächste Einsatzlage markiert.
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
   **ITI-Ruf-SSOT:** `reputation.iti` ist operativer Institutsruf (Rang/Lizenzpfad),
   `reputation.factions.*` bleibt politisches/narratives Standing. Kein Hard-Link

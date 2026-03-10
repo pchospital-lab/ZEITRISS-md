@@ -47,6 +47,7 @@ nächsten Anschlusslauf.
     `kausalabfang-watchguard` erweitert.
   - Durchlauf 165: Prozess-Kompaktheit per neuem Pflicht-Guard `process-compactness-watchguard-ok` automatisiert (known-issues/Anschlussübersicht bleiben smoke-validiert schlank).
   - Durchlauf 166: SSOT-Restdrift in Save-/SL-Referenz bereinigt (`characters[]` als einziger v7-Roster-Exportpfad, keine `arc.timeline`-Persistenzwahrheit) und Chronopolis-Runtime-Abschnitt von Implementierungsballast auf Leitplanken reduziert.
+  - Durchlauf 167: Arc-Makrokontinuität als Pflicht-Regiebeat ergänzt (genau eine Weltstatus-Zeile pro Missionszyklus aus `arc.factions/questions/hooks`) und per `director-layer-watchguard` regressionssicher im Smoke verankert.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -57,10 +58,10 @@ nächsten Anschlusslauf.
 2. **Prozessseiten weiter schlank halten**
    - Der neue `process-compactness-watchguard` schützt Grundanker + Zeilenbudget;
      lange Durchlaufprosa weiterhin nur in Archive/Statusmatrizen führen.
-3. **Weltstatus-Rückkopplung aus `arc` prüfen**
-   - Anschlusslauf evaluieren, ob ein kompakter Pflichtsatz aus
-     `arc.factions/questions/hooks` vor Briefing oder nach Heimkehr als
-     weiterer Runtime-Vertrag sinnvoll ergänzt werden soll.
+3. **Weltstatus-Rückkopplung stabil halten**
+   - Neuer Pflichtsatz ist gesetzt; bei künftigen Textanpassungen die Formel
+     „genau eine Weltstatus-Zeile pro Missionszyklus aus `arc.factions/questions/hooks`
+     mit Folgewirkung“ in allen Runtime-SSOT-Referenzen synchron halten.
 
 ## Operativer Ablauf für nächste Durchläufe
 
