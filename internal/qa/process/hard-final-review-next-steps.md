@@ -48,6 +48,7 @@ nächsten Anschlusslauf.
   - Durchlauf 165: Prozess-Kompaktheit per neuem Pflicht-Guard `process-compactness-watchguard-ok` automatisiert (known-issues/Anschlussübersicht bleiben smoke-validiert schlank).
   - Durchlauf 166: SSOT-Restdrift in Save-/SL-Referenz bereinigt (`characters[]` als einziger v7-Roster-Exportpfad, keine `arc.timeline`-Persistenzwahrheit) und Chronopolis-Runtime-Abschnitt von Implementierungsballast auf Leitplanken reduziert.
   - Durchlauf 167: Arc-Makrokontinuität als Pflicht-Regiebeat ergänzt (genau eine Weltstatus-Zeile pro Missionszyklus aus `arc.factions/questions/hooks`) und per `director-layer-watchguard` regressionssicher im Smoke verankert.
+  - Durchlauf 168: Chronopolis-Runtime weiter entdevifiziert (Static-Blueprint/Spawn-/Kamerafahrt-Ballast aus dem geladenen Wissensspeicher entfernt, ersetzt durch kompaktes Stadtbild-Pattern + Maintainer-Verweis).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
