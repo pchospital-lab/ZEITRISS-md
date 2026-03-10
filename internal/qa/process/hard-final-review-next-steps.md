@@ -21,6 +21,7 @@ nächsten Anschlusslauf.
   - `director-layer-watchguard-ok`
   - `hard-final-review-watchguard-ok`
   - `chronopolis-gate-watchguard-ok`
+  - `upload-snapshot-watchguard-ok`
 - Pflicht-Smoke bleibt der zentrale Merge-Gate-Check.
 - Die Prozessseiten sind auf operativen Einstieg getrimmt:
   - Durchlauf 157: Historie 73–156 aus `known-issues.md` archiviert.
@@ -38,6 +39,8 @@ nächsten Anschlusslauf.
     `director-layer-watchguard`,
     `onboarding-start-save-watchguard` und
     `iti-hardcanon-watchguard` erweitert.
+  - Durchlauf 163: Upload-Kontext (`uploads/hard-final-review.md`) per
+    Pflicht-Watchguard abgesichert (`upload-snapshot-watchguard-ok`).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -45,10 +48,7 @@ nächsten Anschlusslauf.
    - Bei jeder künftigen Guard-Neuanlage standardmäßig
      `resolveUniqueMarkdownTarget` nutzen und keine Einzellösungen mehr
      einführen.
-2. **Upload-Kontext klar markieren**
-   - Historische Upload-Reviews weiterhin als Snapshot kennzeichnen,
-     damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
-3. **Prozessseiten weiter schlank halten**
+2. **Prozessseiten weiter schlank halten**
    - Lange Durchlaufprosa nur in Archive/Statusmatrizen führen,
      aktive Seiten auf Triage-/Anschlussinformationen begrenzen.
 
