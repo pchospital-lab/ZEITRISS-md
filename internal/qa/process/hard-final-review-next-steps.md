@@ -67,6 +67,10 @@ nächsten Anschlusslauf.
 - Durchlauf 190 schließt den offenen v7-SSOT-Feinschliff: Save-Doku, Schema, Fixtures und v7-Guards wurden auf einen einheitlich schlanken HQ-Exportvertrag gehärtet (ohne Root-`location`/`phase`, mit verpflichtender Lineage + Root-Blöcken), plus Sync-Fixes für Auto-HQ-Flow und 19-Module-Setuptext.
 
 - Durchlauf 191 zieht einen verbleibenden Slot-Count-Unsync nach: `docs/maintainer-ops.md` ist jetzt ebenfalls auf den 19er-Defaultpfad (Spieler-Handbuch + 18 Runtime-Module) synchronisiert.
+- Durchlauf 192 bereinigt verbleibende LP-Terminologie-Drift in spielnahen aktiven Texten (Ablösung von „HP/Hitpoints“ durch „LP“ in Gameplay- und Runtime-Stub-Ausgaben), ohne Regeländerung.
+- Durchlauf 193 führt die Sozialkonflikt-Formulierung in Modul 7 zurück auf den Wurfkern (CHA/SG bei Normalo-NSCs, Oppositionswurf bei Named-NPCs) und markiert Wortgefecht-Leisten nur noch als optionales Erzähl-Overlay.
+- Durchlauf 194 präzisiert die Terminologie in Modul 7: kein separates Willenskraft-Attribut, sondern CHA (Charisma) als Attribut, das u. a. Willenskraft abbildet.
+- Durchlauf 195 präzisiert den Sozialkonflikt-Flow im Sinne des Pen-&-Paper-Spiels: erst Ausspielen/SL-Bewertung, dann nur bei unklarem oder aktiv umkämpftem Ausgang SG-/Oppositionswurf.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
