@@ -1,27 +1,16 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
 
-const { readText, getDocText } = createDocTextLoader({
+const { readText, getDocText, readMarkdown } = createDocTextLoader({
   root: ROOT,
   scopeLabel: 'ITI-Hardcanon-Watchguard'
 });
 
 function readJson(relPath){
   return JSON.parse(readText(relPath));
-}
-
-function resolveMarkdownTarget(relPath, anchors, label) {
-  return resolveUniqueMarkdownTarget({
-    root: ROOT,
-    preferredRelPaths: [relPath],
-    candidatePathRegex: new RegExp(`${path.basename(relPath).replace('.', '\\.')}$`, 'i'),
-    contentPredicates: anchors,
-    label
-  });
 }
 
 const atlas = [
@@ -44,7 +33,11 @@ const ssotAtlasDocs = [
 ];
 
 for (const relPath of ssotAtlasDocs) {
-  const { text, file } = resolveMarkdownTarget(relPath, ['Quarzatrium', 'Pre-City-Hub'].map((x) => new RegExp(x, 'i')), `ITI-Hardcanon-Watchguard (Atlas: ${relPath})`);
+  const { text, file } = readMarkdown(
+    relPath,
+    ['Quarzatrium', 'Pre-City-Hub'].map((x) => new RegExp(x, 'i')),
+    `ITI-Hardcanon-Watchguard (Atlas: ${relPath})`
+  );
   const resolvedRelPath = path.relative(ROOT, file);
   for (const token of atlas) {
     assert.ok(text.includes(token), `${resolvedRelPath}: ITI-Atlasanker '${token}' fehlt.`);
@@ -60,7 +53,11 @@ const personnelDocs = [
 ];
 
 for (const relPath of personnelDocs) {
-  const { text, file } = resolveMarkdownTarget(relPath, [/Renier/i, /Mira/i], `ITI-Hardcanon-Watchguard (Personal: ${relPath})`);
+  const { text, file } = readMarkdown(
+    relPath,
+    [/Renier/i, /Mira/i],
+    `ITI-Hardcanon-Watchguard (Personal: ${relPath})`
+  );
   const resolvedRelPath = path.relative(ROOT, file);
   for (const token of requiredPersonnel) {
     assert.ok(text.includes(token), `${resolvedRelPath}: Kernpersonal-Anker '${token}' fehlt.`);
