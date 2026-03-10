@@ -11,7 +11,7 @@ tags: [system]
 - Anpassung an Gruppe, Epoche und Tonalität
 - Stil: harter Agenten-Thriller mit historisch fundierten Verschwörungen
 - Rifts bringen Mystery-Casefile-artigen Para-Horror, keine Gadget-MacGuffins
-- Varianten für den Beginn des ersten Abenteuers
+- Kanonischer Produkt-Startpfad + optionale Varianten
 - Mögliche Einstiegsmissionen (Skizzen)
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
 
@@ -23,6 +23,10 @@ Finaleszenen. Das HQ zeigt beim Sprung stets den Transfer-Frame; anschließend
 folgt ein Establishing Shot der Zielrealität.
 
 ## Ablauf zu Beginn
+
+**Runtime-Default (kanonisch):** natürlicher Neustart oder Kurzform, dann
+`klassisch` als Standard; Charakterwahl über `generate`, `custom generate`
+oder manuell. Erst danach HQ-Rundgang **oder** Briefing.
 
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
 Danach wählt die Gruppe: **HQ-Rundgang mit Kodex** (Tour, Sicherheit, HUD,
