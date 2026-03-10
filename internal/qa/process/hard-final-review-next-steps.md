@@ -24,6 +24,7 @@ nächsten Anschlusslauf.
   - `upload-snapshot-watchguard-ok`
   - `process-compactness-watchguard-ok`
   - `watchguard-loader-consistency-ok`
+  - `watchguard-smoke-coverage-ok`
 - Pflicht-Smoke bleibt der zentrale Merge-Gate-Check.
 - Durchlaufhistorie wurde zur Anschlussfähigkeit kompakt gehalten:
   - Historie 73–156: `internal/qa/process/archive/known-issues-durchlaufhistorie-73-156.md`
@@ -54,6 +55,10 @@ nächsten Anschlusslauf.
   auch das erwartete Ergebnis-Token (`<dateiname-normalisiert>-ok`) via
   `console.log(...)`; die Neuanlage-Checkliste enthält dazu jetzt eine
   explizite Dateiname→Token-Regel.
+- Durchlauf 188 ergänzt einen strukturellen Coverage-Guard:
+  `test_watchguard_smoke_coverage.js` erzwingt, dass alle
+  `test_*watchguard.js` in `scripts/smoke.sh` enthalten sind und keine
+  stale/doppelten Referenzen bestehen.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
