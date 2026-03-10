@@ -49,6 +49,7 @@ nächsten Anschlusslauf.
   - Durchlauf 166: SSOT-Restdrift in Save-/SL-Referenz bereinigt (`characters[]` als einziger v7-Roster-Exportpfad, keine `arc.timeline`-Persistenzwahrheit) und Chronopolis-Runtime-Abschnitt von Implementierungsballast auf Leitplanken reduziert.
   - Durchlauf 167: Arc-Makrokontinuität als Pflicht-Regiebeat ergänzt (genau eine Weltstatus-Zeile pro Missionszyklus aus `arc.factions/questions/hooks`) und per `director-layer-watchguard` regressionssicher im Smoke verankert.
   - Durchlauf 168: Chronopolis-Runtime weiter entdevifiziert (Static-Blueprint/Spawn-/Kamerafahrt-Ballast aus dem geladenen Wissensspeicher entfernt, ersetzt durch kompaktes Stadtbild-Pattern + Maintainer-Verweis).
+  - Durchlauf 169: `iti-hardcanon-watchguard` im Slot-Scan auf resolver-basierte Markdown-Zielauflösung gehärtet (weniger Drift bei Markdown-Pfad-/Dateiumzügen).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
