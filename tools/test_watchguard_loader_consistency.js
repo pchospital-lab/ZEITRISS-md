@@ -20,6 +20,10 @@ function hasDirectMarkdownReadFileSync(text) {
   return /readFileSync\s*\([\s\S]{0,220}\.md(?:["'`]|\s*[,)])/m.test(text);
 }
 
+function hasScopeLabelOnLoader(text) {
+  return /createDocTextLoader\s*\(\s*\{[\s\S]{0,260}scopeLabel\s*:\s*['"`][^'"`]+['"`]/m.test(text);
+}
+
 const violations = [];
 
 for (const file of listWatchguardTests()) {
@@ -39,6 +43,10 @@ for (const file of listWatchguardTests()) {
 
   if (/readMarkdown\s*\(/.test(text) === false && /getDocText\s*\(/.test(text) === false) {
     violations.push(`${file}: nutzt weder readMarkdown(...) noch getDocText(...) aus dem zentralen Loader.`);
+  }
+
+  if (hasScopeLabelOnLoader(text) === false) {
+    violations.push(`${file}: setzt keinen scopeLabel beim createDocTextLoader(...) (Pflicht für nachvollziehbare Fehlermeldungen).`);
   }
 
   if (hasDirectMarkdownReadFileSync(text)) {
