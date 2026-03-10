@@ -1,7 +1,11 @@
 const path = require('path');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const root = path.resolve(__dirname, '..');
+const { readMarkdown } = createDocTextLoader({
+  root,
+  scopeLabel: 'Process-Compactness-Watchguard',
+});
 
 function assert(condition, message) {
   if (!condition) {
@@ -14,25 +18,23 @@ function lineCount(text) {
   return text.split(/\r?\n/).length;
 }
 
-const knownIssues = resolveUniqueMarkdownTarget({
-  root,
-  preferredRelPaths: ['internal/qa/process/known-issues.md'],
-  candidatePathRegex: /known-issues\.md$/i,
-  contentPredicates: [
+const knownIssues = readMarkdown(
+  'internal/qa/process/known-issues.md',
+  [
     /Known Issues & Triage-Prozess/i,
     /internal\/qa\/process\/archive\/known-issues-durchlaufhistorie-73-156\.md/i,
   ],
-});
+  'known-issues Prozesskompaktheit',
+);
 
-const nextSteps = resolveUniqueMarkdownTarget({
-  root,
-  preferredRelPaths: ['internal/qa/process/hard-final-review-next-steps.md'],
-  candidatePathRegex: /hard-final-review-next-steps\.md$/i,
-  contentPredicates: [
+const nextSteps = readMarkdown(
+  'internal/qa/process/hard-final-review-next-steps.md',
+  [
     /Hard-Final-Review\s*–\s*Anschlussübersicht/i,
     /Offene Anschluss-Tasks/i,
   ],
-});
+  'hard-final-review-next-steps Prozesskompaktheit',
+);
 
 const knownIssuesLines = lineCount(knownIssues.text);
 const nextStepsLines = lineCount(nextSteps.text);

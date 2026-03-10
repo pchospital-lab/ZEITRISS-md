@@ -54,6 +54,7 @@ nächsten Anschlusslauf.
   - Durchlauf 171: gemeinsames Watchguard-Loader-Utility (`watchguard_doc_loader`) eingeführt und im `iti-hardcanon-watchguard` sowie `npc-continuity-consistency` produktiv ausgerollt (Resolver-/Cache-Standard ohne Helferduplikate).
   - Durchlauf 172: `onboarding-start-save-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (weiterer Abbau lokaler Resolver-/Cache-Duplikate).
   - Durchlauf 173: `director-layer-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Duplikatlogik entfernt, fachliche Regie-Checks unverändert).
+  - Durchlauf 174: `process-compactness-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Einstieg vereinheitlicht, fachliche Kompaktheits-Checks unverändert).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
