@@ -30,6 +30,9 @@ nächsten Anschlusslauf.
   - Historie 157–179: `internal/qa/process/archive/hard-final-review-durchlaufhistorie-157-179.md`
 - Durchlauf 180 fokussiert auf Prozesspflege: Anschlussübersicht entschlackt
   und Detailhistorie 157–179 ins Archiv ausgelagert.
+- Durchlauf 181 härtet den Meta-Guard weiter: `watchguard-loader-consistency`
+  erzwingt jetzt zusätzlich den `scopeLabel` im `createDocTextLoader(...)`
+  aller Watchguards.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
