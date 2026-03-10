@@ -1,18 +1,12 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
-
-function resolveDocTarget(preferredRelPath, anchorRegexes, label) {
-  return resolveUniqueMarkdownTarget({
-    root: ROOT,
-    preferredRelPaths: [preferredRelPath],
-    candidatePathRegex: new RegExp(`${path.basename(preferredRelPath).replace('.', '\\.')}$`, 'i'),
-    contentPredicates: anchorRegexes,
-    label
-  });
-}
+const { readMarkdown } = createDocTextLoader({
+  root: ROOT,
+  scopeLabel: 'Director-Layer-Watchguard'
+});
 
 const docs = [
   'meta/masterprompt_v6.md',
@@ -21,7 +15,7 @@ const docs = [
 ];
 
 for (const relPath of docs) {
-  const { text, file } = resolveDocTarget(
+  const { text, file } = readMarkdown(
     relPath,
     [/Briefing/i, /Relevanzsatz/i, /ITI-Bulletin/i, /Weltstatus|arc\.(?:factions|questions|hooks)/i],
     `Director-Layer-Watchguard (${relPath})`
