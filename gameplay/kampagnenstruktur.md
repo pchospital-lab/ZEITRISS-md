@@ -885,7 +885,7 @@ Rift-Ops automatisch auf den gemeinsamen Px-Stand.
 
 ```text
 Name / Epoche
-Tier: Minor | Std | Major   HP: W6×Tier   DEF-Schwelle: 4-6
+Tier: Minor | Std | Major   LP: W6×Tier   DEF-Schwelle: 4-6
 Signature-Power: <eine>    Weak Spot: <Skill DC>
 CU-Bonus: Spielerlevel × 10
 ```
