@@ -22,7 +22,7 @@ bleiben.
    - passt semantisch zum Dateinamen.
 4. Markdown ausschließlich über Loader lesen (`readMarkdown` / `getDocText`),
    keine `.md`-Direktlese via `fs.readFileSync`.
-5. Ergebnis-Token mit `...-ok` ausgeben.
+5. Ergebnis-Token mit `...-ok` ausgeben und semantisch am Dateinamen ausrichten (z. B. `test_mein_guard_watchguard.js` → `mein-guard-watchguard-ok`).
 6. Neuen Guard in `scripts/smoke.sh` aufnehmen (Pflichtcheck, falls
    Hard-Final-Review-relevant).
 
