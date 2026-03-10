@@ -139,6 +139,10 @@ node tools/test_hard_final_review_watchguard.js > out/hard_final_review_watchgua
 grep "hard-final-review-watchguard-ok" out/hard_final_review_watchguard.log
 
 
+# LP-Terminologie-Watchguard (keine HP/Hitpoints-Restdrift in aktiven Pfaden)
+node tools/test_lp_terminology_watchguard.js > out/lp_terminology_watchguard.log
+grep "lp-terminology-watchguard-ok" out/lp_terminology_watchguard.log
+
 # Upload-Snapshot-Watchguard (historische Uploads klar vom aktiven SSOT getrennt)
 node tools/test_upload_snapshot_watchguard.js > out/upload_snapshot_watchguard.log
 grep "upload-snapshot-watchguard-ok" out/upload_snapshot_watchguard.log
