@@ -450,7 +450,7 @@ zurück.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
-> **Legacy-/Import-Hinweis:** Der folgende Block dient als Bridge-Referenz für
+> **Legacy-/Import-Hinweis (Legacy-Bridge):** Der folgende Block dient als Bridge-Referenz für
 > Migrationen aus älteren Ständen. **Nicht als kanonischen Neu-Export verwenden.**
 > Kanonische Exporte folgen dem v7-Zielmodell
 > (`v`, `zr`, `characters[]`, `attr`, `economy.hq_pool`, `arc.questions/hooks`).
@@ -459,6 +459,10 @@ zurück.
 > Pflichtfelder bleiben erhalten; optionale Blöcke sind knapp, aber vollständig
 > ausgefüllt, damit jede Spielleitung sofort den gesamten Charakterbogen
 > nachvollziehen kann.
+
+> **Legacy-Feldhinweis:** `location` und `phase` in den folgenden Beispielen sind
+> reine Migrationsfelder für Altstände. Im kanonischen v7-Neu-Export sind beide
+> Root-Felder ausgeschlossen (siehe Abschnitt **Kanonisches Save-Exportformat**).
 
 ```json
 {
@@ -764,9 +768,12 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
+> **Legacy-/Import-Hinweis (Legacy-Bridge):** Zweites Altstands-Muster für
+> Migrationsfälle; kein kanonischer v7-Neu-Export.
+
 ```json
 {
-  "v": 7,
+  "v": 6,
   "zr_version": "4.2.6",
   "location": "HQ",
   "phase": "core",
