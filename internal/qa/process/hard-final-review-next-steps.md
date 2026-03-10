@@ -59,6 +59,10 @@ nächsten Anschlusslauf.
   `test_watchguard_smoke_coverage.js` erzwingt, dass alle
   `test_*watchguard.js` in `scripts/smoke.sh` enthalten sind und keine
   stale/doppelten Referenzen bestehen.
+- Durchlauf 189 härtet den Coverage-Guard auf Dateinamen-Varianten:
+  `test_watchguard_smoke_coverage.js` erfasst jetzt auch
+  `test_*watchguard_*.js`, damit Meta-Watchguards mit Zusatzsuffix nicht
+  aus der Abdeckungsprüfung fallen.
 
 ## Offene Anschluss-Tasks (priorisiert)
 

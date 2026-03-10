@@ -8,12 +8,12 @@ const SMOKE_FILE = path.join(ROOT, 'scripts', 'smoke.sh');
 function listWatchguardTests() {
   return fs
     .readdirSync(TOOLS_DIR)
-    .filter((file) => /^test_.*watchguard\.js$/.test(file))
+    .filter((file) => /^test_.*watchguard(?:_.*)?\.js$/.test(file))
     .sort();
 }
 
 function listWatchguardsFromSmoke(text) {
-  const matches = [...text.matchAll(/node\s+tools\/(test_[a-z0-9_]*watchguard\.js)\b/g)];
+  const matches = [...text.matchAll(/node\s+tools\/(test_[a-z0-9_]*watchguard(?:_[a-z0-9_]+)?\.js)\b/g)];
   return matches.map((m) => m[1]);
 }
 
