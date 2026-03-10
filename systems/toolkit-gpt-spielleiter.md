@@ -884,8 +884,8 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
      und einmalig pro Session `record_trace('dispatch_hint', …)` mit
      `reason='start_syntax'` schreiben.
    - Start-/Fehlertexte liegen zentral in `dispatcher_strings` (Runtime) und
-     werden als Fixture `internal/qa/fixtures/dispatcher_strings.json`
-     gespiegelt, damit Dispatcher-Referenz und Toolkit dieselbe Quelle nutzen.
+     bleiben in allen Referenzmodulen wortgleich, damit Dispatcher-Verhalten
+     deterministisch bleibt.
    - `schnell` bleibt verfügbar, wird aber nur bei explizitem Wunsch aktiv
      angeboten (Fast-Lane/Demo-Modus).
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
@@ -900,9 +900,7 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
      Waffen sowie Bio-/Cyberware stehen, baut das HQ die Bio-Hülle final und
      lädt das Bewusstsein hinein. Danach folgt der HQ-Einstieg.
    - **HQ-Intro:** vollständiges HQ-Intro unverändert abspielen, inklusive
-     Schlusszeile; keine Kürzungen oder Umschreibungen. Das Langzitat liegt als
-     Referenz in `internal/qa/transcripts/start-transcripts.md` und spiegelt die
-     QA-Fixtures.
+     Schlusszeile; keine Kürzungen oder Umschreibungen.
     - **HQ-Kurzintro (schnell):** Stimme = Kodex; HUD-Banner konsequent als
       Inline-Code ausgeben.
 
@@ -912,6 +910,14 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
   Gate-Missionen (5/10) und spielt bei Bedarf den Boss-Toast (`BOSS`).
 - Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header
   EP·MS·SC/total·Mode·Objective setzen.
+- Vor jedem Briefing genau **ein** personalisierter Relevanzsatz aus
+  Kontinuitätsdaten (`history.milestones`, `reputation`,
+  `continuity.roster_echoes`, `continuity.shared_echoes`,
+  `continuity.npc_roster`, letzter Debrief), der sichtbar macht, warum genau
+  diese Crew diesen Auftrag erhält.
+- Nach Debrief/HQ-Heimkehr genau **eine** ITI-Bulletin-Mikronachricht aus der
+  Dienstwelt einblenden (z. B. anderes Team zurück, Archiv gesperrt,
+  Hangar-Kalibrierung, Chronopolis-Vorschau, Fraktionsbewegung).
 
 **Quick-Hilfe:** `!help start` - gibt die vier Start-/Load-Befehle mit Kurzbeschreibung aus.
 **Offline-Notfall:** `!offline` - Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink
