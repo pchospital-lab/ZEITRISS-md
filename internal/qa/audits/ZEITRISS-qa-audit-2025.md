@@ -253,7 +253,8 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
   `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke. Die
   komplette Antwort wird unverändert an Codex übergeben, der die Ergebnisse in
   Repo-Tasks und Dokumentationen überführt. Gleichzeitig prüft die Maintainer-
-  Rolle, ob alle 20 Wissensspeicher-Module geladen sind und ob Laufzeitänderungen
+  Rolle, ob alle 19 Wissensspeicher-Module geladen sind (Spieler-Handbuch +
+  18 Runtime-Module) und ob Laufzeitänderungen
   als Regel-/Pseudocode-Spiegel in den Runtime-Dokumenten hinterlegt wurden.
 - **Codex (Repo-Agent)** überträgt beschlossene Maßnahmen in Branches, Commits
   und QA-Protokolle. Änderungen an Runtime-Content und Dev-Dokumentation bleiben

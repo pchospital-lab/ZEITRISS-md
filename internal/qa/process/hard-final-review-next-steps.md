@@ -81,6 +81,8 @@ nächsten Anschlusslauf.
 
 - Durchlauf 200 verankert einen dauerhaften LP-Terminologie-Watchguard im Pflicht-Smoke: `tools/test_lp_terminology_watchguard.js` scannt aktive Runtime-/QA-Pfade fail-fast auf `\bHP\b|Hitpoints`, und `scripts/smoke.sh` grept auf `lp-terminology-watchguard-ok`.
 
+- Durchlauf 201 schließt eine verbleibende aktive Slot-Count-Restdrift im QA-Audit: `internal/qa/audits/ZEITRISS-qa-audit-2025.md` verwendet nun konsistent den kanonischen 19er-Defaultpfad (Spieler-Handbuch + 18 Runtime-Module) statt einer veralteten 20er-Formulierung.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
