@@ -66,6 +66,8 @@ nächsten Anschlusslauf.
 
 - Durchlauf 190 schließt den offenen v7-SSOT-Feinschliff: Save-Doku, Schema, Fixtures und v7-Guards wurden auf einen einheitlich schlanken HQ-Exportvertrag gehärtet (ohne Root-`location`/`phase`, mit verpflichtender Lineage + Root-Blöcken), plus Sync-Fixes für Auto-HQ-Flow und 19-Module-Setuptext.
 
+- Durchlauf 191 zieht einen verbleibenden Slot-Count-Unsync nach: `docs/maintainer-ops.md` ist jetzt ebenfalls auf den 19er-Defaultpfad (Spieler-Handbuch + 18 Runtime-Module) synchronisiert.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
