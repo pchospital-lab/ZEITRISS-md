@@ -24,32 +24,51 @@ function hasScopeLabelOnLoader(text) {
   return /createDocTextLoader\s*\(\s*\{[\s\S]{0,260}scopeLabel\s*:\s*['"`][^'"`]+['"`]/m.test(text);
 }
 
+function stripJsComments(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+}
+
+function hasLoaderApiBinding(text) {
+  return /const\s*\{[^}]*\b(readMarkdown|getDocText|readText)\b[^}]*\}\s*=\s*createDocTextLoader\s*\(/m.test(text);
+}
+
+function hasLoaderApiUsage(text) {
+  return /\b(readMarkdown|getDocText|readText)\s*\(/.test(text);
+}
+
 const violations = [];
 
 for (const file of listWatchguardTests()) {
   const text = readFile(file);
+  const codeText = stripJsComments(text);
 
-  if (/watchguard_file_resolver/.test(text)) {
+  if (/watchguard_file_resolver/.test(codeText)) {
     violations.push(`${file}: nutzt weiterhin watchguard_file_resolver direkt.`);
   }
 
-  if (/resolveUniqueMarkdownTarget\s*\(/.test(text)) {
+  if (/resolveUniqueMarkdownTarget\s*\(/.test(codeText)) {
     violations.push(`${file}: ruft resolveUniqueMarkdownTarget(...) direkt auf.`);
   }
 
-  if (/createDocTextLoader/.test(text) === false) {
+  if (/createDocTextLoader/.test(codeText) === false) {
     violations.push(`${file}: bindet createDocTextLoader nicht ein.`);
   }
 
-  if (/readMarkdown\s*\(/.test(text) === false && /getDocText\s*\(/.test(text) === false) {
-    violations.push(`${file}: nutzt weder readMarkdown(...) noch getDocText(...) aus dem zentralen Loader.`);
+  if (hasLoaderApiBinding(codeText) === false) {
+    violations.push(`${file}: bindet keine Loader-Lese-API (readMarkdown/getDocText/readText) direkt aus createDocTextLoader(...) ein.`);
   }
 
-  if (hasScopeLabelOnLoader(text) === false) {
+  if (hasLoaderApiUsage(codeText) === false) {
+    violations.push(`${file}: nutzt keine Loader-Lese-API (readMarkdown/getDocText/readText) im Guard-Code.`);
+  }
+
+  if (hasScopeLabelOnLoader(codeText) === false) {
     violations.push(`${file}: setzt keinen scopeLabel beim createDocTextLoader(...) (Pflicht für nachvollziehbare Fehlermeldungen).`);
   }
 
-  if (hasDirectMarkdownReadFileSync(text)) {
+  if (hasDirectMarkdownReadFileSync(codeText)) {
     violations.push(`${file}: liest .md-Dateien direkt per readFileSync statt Loader.`);
   }
 }
