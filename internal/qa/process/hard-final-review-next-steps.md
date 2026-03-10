@@ -53,6 +53,7 @@ nächsten Anschlusslauf.
   - Durchlauf 170: `npc-continuity-consistency` im SSOT-Slot-Scan auf resolver-basierte Markdown-Zielauflösung gehärtet (schließt den letzten Direktlese-Rest in diesem Guard).
   - Durchlauf 171: gemeinsames Watchguard-Loader-Utility (`watchguard_doc_loader`) eingeführt und im `iti-hardcanon-watchguard` sowie `npc-continuity-consistency` produktiv ausgerollt (Resolver-/Cache-Standard ohne Helferduplikate).
   - Durchlauf 172: `onboarding-start-save-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (weiterer Abbau lokaler Resolver-/Cache-Duplikate).
+  - Durchlauf 173: `director-layer-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Duplikatlogik entfernt, fachliche Regie-Checks unverändert).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
