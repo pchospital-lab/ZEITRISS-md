@@ -371,12 +371,17 @@ ohne Tier V global zu sperren.
 
 **Startpfad (natürliche Sprache oder Kurzbefehle):**
 
-- `Spiel starten (solo [klassisch|schnell])` - Erschaffung → HQ-Intro → Briefing →
-  Szene 1 · _schnell_: Rolle + Defaults → Briefing
-- `Spiel starten (npc-team [0-4] [klassisch|schnell])` - PC bauen + NPC-Begleiter
-  (Team gesamt 1-5) · _schnell_: Rolle + NPC-Begleiter
-- `Spiel starten (gruppe [klassisch|schnell])` - alle bauen · _schnell_: Saves
-  posten oder Rolle nennen
+- **Standard (empfohlen):** `Spiel starten (solo klassisch)` oder natürlicher
+  Neustart-Wunsch - Erschaffung (`generate` / `custom generate` / manuell) →
+  HQ-Intro → Briefing → Szene 1
+- `Spiel starten (npc-team [0-4] klassisch)` - PC bauen + NPC-Begleiter
+  (Team gesamt 1-5), danach dieselbe Charakterwahl
+  (`generate` / `custom generate` / manuell)
+- `Spiel starten (gruppe klassisch)` - alle bauen mit
+  `generate` / `custom generate` / manuell; Saves können danach im Lobby-Flow
+  gepostet werden
+- **Fast-Lane (optional):** `Spiel starten (solo schnell)` oder
+  `Spiel starten (npc-team [0-4] schnell)` für Kurzrunden mit Rollen-Defaults
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
