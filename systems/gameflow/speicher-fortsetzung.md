@@ -426,7 +426,7 @@ zurück.
 `action_mode` ist immer `uncut` (18+ Tech-Noir). Legacy-Werte wie
 `konform|frei|safe|pg-13` werden beim Laden auf `uncut` normalisiert.
 
-> **UI-Persistenz-Regel (Testrun 3, #008):** Die vier Felder `ui.suggest_mode`,
+> **UI-Persistenz-Regel:** Die vier Felder `ui.suggest_mode`,
 > `ui.contrast`, `ui.badge_density` und `ui.output_pace` sind **persistent**.
 > Beim Speichern schreibt der Serializer sie IMMER explizit in den Save-Block.
 > Beim Laden restauriert `load_deep()` sie IMMER 1:1 aus dem Save - kein
@@ -447,7 +447,7 @@ zurück.
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
 > **Legacy-/Import-Hinweis:** Der folgende Block dient als Bridge-Referenz für
-> Migration und QA. **Nicht als kanonischen Neu-Export verwenden.**
+> Migrationen aus älteren Ständen. **Nicht als kanonischen Neu-Export verwenden.**
 > Kanonische Exporte folgen dem v7-Zielmodell
 > (`v`, `zr`, `characters[]`, `attr`, `economy.hq_pool`, `arc.questions/hooks`).
 
@@ -709,7 +709,7 @@ führend für `campaign`, `economy.hq_pool`, `arc` und globale `logs.flags`.
 Gaststände liefern persönliche Wahrheit plus erlaubte Branch-Anteile. Konflikte
 werden in `logs.flags.merge_conflicts[]` dokumentiert.
 
-### Cross-Mode-Transfer-Matrix (Testrun 3, #003) {#cross-mode-transfer}
+### Cross-Mode-Transfer-Matrix {#cross-mode-transfer}
 
 Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 übernommen, verworfen oder zusammengeführt werden.
@@ -850,8 +850,7 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 1. **JSON posten.** HQ-Deepsave als JSON einfügen (ein Save für Solo, mehrere Saves für Split/Merge). Optional kann davor `Spiel laden` gesendet werden.
 2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
    migriert Legacy-Felder in die v7-Zielstruktur, prüft Pflichtblöcke und setzt
-   `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
-   diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
+   `state.location='HQ'`.
 3. **UI-Felder restaurieren.** Beim Laden werden `ui.suggest_mode`,
    `ui.contrast`, `ui.badge_density` und `ui.output_pace` **IMMER** aus dem
    Save restauriert - kein Fallback auf Defaults. Die gespeicherten Werte
@@ -879,8 +878,8 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 {# LINT:FS_RESET_OK #}
 
 > **Laufzeitabgleich:** Dieses Modul ist maßgeblich für KI-basierte
-> Spielleitungen. Die beigelegte `runtime.js` dient nur als Test-Spiegel für
-> lokale Runs und wird nicht in produktive Wissensspeicher geladen.
+> Spielleitungen. Runtime-Implementierungen müssen die hier definierten
+> Regeln spiegeln, dürfen aber keinen eigenen Spielkanon einführen.
 
 **Multi-Save-Import (Gruppenschnellstart):** Werden vor einem neuen Briefing
 mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe schnell)`), setzt
@@ -1089,8 +1088,8 @@ verpflichtend und wird im Debrief sichtbar dokumentiert:
 4. **Freeplay-Anker** - explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
    plus **1 Gerücht** (kurzer Hook) anbieten.
 
-Optional für QA: `logs.flags.hq_freeplay_prompted=true` setzen, sobald Schritt 4
-gespielt wurde.
+Der Freeplay-Anker wird sichtbar ausgespielt und als normaler HQ-Fortschritt im
+Debrief dokumentiert.
 
 ### Gruppenregel bei Todesfällen (Core/Rift/Chronopolis)
 
