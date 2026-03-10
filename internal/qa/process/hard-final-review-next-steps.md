@@ -26,12 +26,14 @@ nächsten Anschlusslauf.
   - Durchlauf 157: Historie 73–156 aus `known-issues.md` archiviert.
   - Durchlauf 158: `known-issues.md` auf kompakte Triage-Notizen reduziert;
     Detailstände liegen in den jeweiligen Statusmatrizen/Archivdateien.
+  - Durchlauf 159: `chronopolis-gate-watchguard` auf robuste
+    Zielpfad-Ermittlung gehärtet (weniger manuelle Pflege bei Makro-Umzügen).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
-1. **Watchguard-Zielpfade stabil halten**
-   - Bei künftigen Makro-Umzügen den
-     `chronopolis-gate-watchguard` auf den gültigen Runtime-Pfad nachziehen.
+1. **Watchguard-Fundlogik bei neuen Guards direkt robust bauen**
+   - Neue Runtime-Watchguards standardmäßig mit eindeutiger
+     Zielpfad-Ermittlung auslegen (statt starrer Einzelpfad-Annahme).
 2. **Upload-Kontext klar markieren**
    - Historische Upload-Reviews weiterhin als Snapshot
      kennzeichnen, damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
