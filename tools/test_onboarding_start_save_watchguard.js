@@ -81,6 +81,14 @@ assert.ok(
   /fast-lane\s*\(optional\)[\s\S]{0,220}solo\s+schnell/i.test(spielerHandbuchText),
   'Spielerhandbuch-Drift: Mini-Einsatzhandbuch muss `solo schnell` als optionale Fast-Lane markieren.'
 );
+assert.ok(
+  /kampagnenstart[\s\S]{0,120}standard[\s\S]{0,120}klassisch\s*\+\s*generate/i.test(spielerHandbuchText),
+  'Spielerhandbuch-Drift: Start-Transkripte müssen einen klassischen Kampagnenstart als Standard hervorheben.'
+);
+assert.ok(
+  /solo\s*-\s*schnelleinstieg\s*\(fast-lane,\s*optional\)/i.test(spielerHandbuchText),
+  'Spielerhandbuch-Drift: Solo-Schnelleinstieg muss als optionale Fast-Lane gekennzeichnet bleiben.'
+);
 
 const charsOptionsText = readText('characters/charaktererschaffung-optionen.md');
 assert.ok(

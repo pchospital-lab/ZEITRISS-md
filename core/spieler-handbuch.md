@@ -473,7 +473,21 @@ Siehe auch:
 
 ## Start-Transkripte (Kurz) {#start-transkripte}
 
-<details><summary>Solo - Schnelleinstieg (Happy Path)</summary>
+<details><summary>Solo - Kampagnenstart (Standard: klassisch + generate)</summary>
+
+**Spieler:**
+`Ich will solo neu anfangen, klassisch, bitte generate.`
+
+**SL (KI-SL):**
+
+> **Verstanden.** Wir starten im klassischen Standardpfad.
+> **Charakterweg bestätigt:** `generate` (volle KI-Erschaffung).
+> **HQ-Intro** mit Kodex-Anker, danach **Briefing** für Mission 1.
+> _Dann:_ "Szene 1 - Zugangspunkt?"
+
+</details>
+
+<details><summary>Solo - Schnelleinstieg (Fast-Lane, optional)</summary>
 
 **Spieler:**
 `Spiel starten (solo schnell) - Rolle: Sniper Alleingänger`
@@ -490,7 +504,7 @@ Siehe auch:
 
 </details>
 
-<details><summary>Gruppe - Schnelleinstieg (gemischt, 2 Saves + 1 Rolle)</summary>
+<details><summary>Gruppe - Schnelleinstieg (Fast-Lane, optional; gemischt, 2 Saves + 1 Rolle)</summary>
 
 **Spieler:**
 
