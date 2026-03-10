@@ -1141,12 +1141,13 @@ Beim Rejoin im HQ werden die Branch-Saves wieder zusammengeführt:
 7. **Transparentes Protokoll:** Die SL zeigt eine Merge-Tabelle, die jede
    Entscheidung nachvollziehbar macht.
 
-### Nicht-kanonische Branches ohne Protokoll
+### Branch-Importe ohne Split-Protokoll
 
-Parallele Core-Missions-Branches innerhalb derselben Episode sind **kanonisch**,
-wenn sie dieselbe `continuity.split.family_id` tragen. Gemischte Split-Pfade
-(z. B. Rift + PvP + Chronopolis + Abort) bleiben ohne Branch-Protokoll im
-Importmodus. Es gilt folgender Präzedenzgraph (deterministisch, Session-Anker):
+Parallele Core-Missions-Branches innerhalb derselben Episode bleiben
+**kanonisch**, wenn sie dieselbe `continuity.split.family_id` tragen.
+Gemischte Split-Pfade ohne gemeinsames Split-Protokoll (z. B. Rift + PvP +
+Chronopolis + Abort) laufen als Branch-Import. Es gilt folgender
+Präzedenzgraph (deterministisch, Session-Anker):
 
 1. **Globale Kampagne:** Session-Anker bleibt führend für `campaign`, `arc` und globale
    `logs.flags`.
