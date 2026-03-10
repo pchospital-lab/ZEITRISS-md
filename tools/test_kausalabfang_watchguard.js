@@ -1,17 +1,19 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
+const { readMarkdown } = createDocTextLoader({
+  root: ROOT,
+  scopeLabel: 'Kausalabfang-Watchguard'
+});
 
 function readText(relPath, anchorRegex) {
-  const { file, text } = resolveUniqueMarkdownTarget({
-    root: ROOT,
-    preferredRelPaths: [relPath],
-    candidatePathRegex: new RegExp(`${relPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'),
-    contentPredicates: anchorRegex ? [anchorRegex] : [],
-    label: 'Kausalabfang-Watchguard'
-  });
+  const { file, text } = readMarkdown(
+    relPath,
+    anchorRegex ? [anchorRegex] : [/./s],
+    `Kausalabfang-Watchguard (${relPath})`
+  );
   return { relPath: path.relative(ROOT, file), text };
 }
 
