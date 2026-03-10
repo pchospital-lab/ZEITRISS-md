@@ -8,13 +8,18 @@ const { readMarkdown } = createDocTextLoader({
   scopeLabel: 'Director-Layer-Watchguard'
 });
 
-const docs = [
+const fullDirectorLayerDocs = [
   'meta/masterprompt_v6.md',
   'systems/toolkit-gpt-spielleiter.md',
   'core/sl-referenz.md'
 ];
 
-for (const relPath of docs) {
+const worldstatusDocs = [
+  ...fullDirectorLayerDocs,
+  'gameplay/kampagnenstruktur.md'
+];
+
+for (const relPath of fullDirectorLayerDocs) {
   const { text, file } = readMarkdown(
     relPath,
     [/Briefing/i, /Relevanzsatz/i, /ITI-Bulletin/i, /Weltstatus|arc\.(?:factions|questions|hooks)/i],
@@ -41,8 +46,29 @@ for (const relPath of docs) {
       /genau[\s\S]{0,120}ein(?:e)?[\s\S]{0,120}weltstatus/i.test(text)) ||
       (/weltstatus[\s\S]{0,120}pro[\s\S]{0,60}missionszyklus/i.test(text) &&
         /genau[\s\S]{0,120}ein(?:e)?/i.test(text))) &&
-      /arc\.(?:factions|questions|hooks)/i.test(text),
+      /arc\.(?:factions|questions|hooks)/i.test(text) &&
+      /folge(?:wirkung)?/i.test(text),
     `Regie-Layer-Drift in ${resolvedRelPath}: Pflichtanker 'genau eine Weltstatus-Zeile aus arc.factions/questions/hooks pro Missionszyklus' fehlt.`
+  );
+}
+
+for (const relPath of worldstatusDocs) {
+  const { text, file } = readMarkdown(
+    relPath,
+    [/Weltstatus|arc\.(?:factions|questions|hooks)/i],
+    `Director-Layer-Watchguard (Worldstatus ${relPath})`
+  );
+
+  const resolvedRelPath = path.relative(ROOT, file);
+
+  assert.ok(
+    ((/pro[\s\S]{0,120}missionszyklus/i.test(text) &&
+      /genau[\s\S]{0,120}ein(?:e)?[\s\S]{0,120}weltstatus/i.test(text)) ||
+      (/weltstatus[\s\S]{0,120}pro[\s\S]{0,60}missionszyklus/i.test(text) &&
+        /genau[\s\S]{0,120}ein(?:e)?/i.test(text))) &&
+      /arc\.(?:factions|questions|hooks)/i.test(text) &&
+      /folge(?:wirkung)?/i.test(text),
+    `Weltstatus-Drift in ${resolvedRelPath}: Pflichtanker 'genau eine Weltstatus-Zeile aus arc.factions/questions/hooks pro Missionszyklus mit Folgewirkung' fehlt.`
   );
 }
 
