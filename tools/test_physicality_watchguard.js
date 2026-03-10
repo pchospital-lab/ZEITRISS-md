@@ -1,11 +1,18 @@
-const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 
 const ROOT = path.join(__dirname, '..');
 
-function readText(relPath) {
-  return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+function readText(relPath, anchorRegex) {
+  const { file, text } = resolveUniqueMarkdownTarget({
+    root: ROOT,
+    preferredRelPaths: [relPath],
+    candidatePathRegex: new RegExp(`${relPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'),
+    contentPredicates: anchorRegex ? [anchorRegex] : [],
+    label: 'Physicality-Watchguard'
+  });
+  return { relPath: path.relative(ROOT, file), text };
 }
 
 const checks = [
@@ -38,12 +45,12 @@ const checks = [
 ];
 
 for (const check of checks) {
-  const text = readText(check.relPath);
+  const { relPath, text } = readText(check.relPath, check.mustHave[0]);
   for (const rx of check.mustHave) {
-    assert.ok(rx.test(text), `${check.relPath}: Pflichtanker fehlt (${rx}).`);
+    assert.ok(rx.test(text), `${relPath}: Pflichtanker fehlt (${rx}).`);
   }
   for (const rx of check.mustNotHave) {
-    assert.ok(!rx.test(text), `${check.relPath}: Verbotenes Driftmuster gefunden (${rx}).`);
+    assert.ok(!rx.test(text), `${relPath}: Verbotenes Driftmuster gefunden (${rx}).`);
   }
 }
 
