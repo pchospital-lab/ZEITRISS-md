@@ -68,7 +68,7 @@ api_chat "zeitriss-v426-uncut-deepseek" "$MSGS_ARENA" "02-5er-arena-deepseek"
 # ═══════════════════════════════════════════════════════════════
 MSGS_DS_SAVE='[
   {"role":"user","content":"Spiel starten (solo schnell)"},
-  {"role":"assistant","content":"Breacher Callsign: Sledge. Level 3. STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 3. HP 12. Sturmkarabiner (30/30), Sprengladung x2, Schutzweste. Mission: Berlin 1961, Mauerbau. EP1 MS3 Debrief. Alle Ziele erreicht. Im HQ."},
+  {"role":"assistant","content":"Breacher Callsign: Sledge. Level 3. STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 3. LP 12. Sturmkarabiner (30/30), Sprengladung x2, Schutzweste. Mission: Berlin 1961, Mauerbau. EP1 MS3 Debrief. Alle Ziele erreicht. Im HQ."},
   {"role":"user","content":"!save"}
 ]'
 api_chat "zeitriss-v426-uncut-deepseek" "$MSGS_DS_SAVE" "03a-cross-save-deepseek"
