@@ -130,4 +130,32 @@ for (const rule of entryRules) {
   );
 }
 
+const readmeText = readText('README.md');
+const setupGuideText = readText('docs/setup-guide.md');
+
+assert.ok(
+  /mmo\s+ohne\s+server/i.test(readmeText),
+  'Entry-Layer-Drift: README muss das Produktversprechen "MMO ohne Server" sichtbar tragen.'
+);
+assert.ok(
+  /save\s*=\s*charakter/i.test(readmeText),
+  'Entry-Layer-Drift: README muss den Anker "Save = Charakter" sichtbar tragen.'
+);
+assert.ok(
+  /müsst[^\n]{0,80}nicht[^\n]{0,80}regelwerk\s+lesen/i.test(readmeText),
+  'Entry-Layer-Drift: README muss den Niedrigschwellen-Anker (Regelwerk nicht vorab lesen) enthalten.'
+);
+assert.ok(
+  /19\s+slots\s+im\s+default|19\s+wissensmodule/i.test(readmeText),
+  'Entry-Layer-Drift: README muss den Default-Ladepfad (19 Slots/Module) referenzieren.'
+);
+assert.ok(
+  /19\s+default(?:-modulen|-wissensslots)|19\s+wissensmodule/i.test(setupGuideText),
+  'Entry-Layer-Drift: Setup-Guide muss den 19-Module-Default klar benennen.'
+);
+assert.ok(
+  /nicht\s+mehr\s+in\s+den\s+default-ladepfad|nicht\s+im\s+default-slotset/i.test(setupGuideText),
+  'Entry-Layer-Drift: Setup-Guide muss chars-options als optionales Nicht-Default-Modul markieren.'
+);
+
 console.log('onboarding-start-save-watchguard-ok');
