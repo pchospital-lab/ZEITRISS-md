@@ -59,6 +59,7 @@ nächsten Anschlusslauf.
   - Durchlauf 176: `iti-hardcanon-watchguard` vollständig auf den zentralen `watchguard_doc_loader` konsolidiert (lokaler Resolver-Resthelfer entfernt; fachliche Assertions unverändert).
   - Durchlauf 177: neuer Meta-Guard `watchguard-loader-consistency-watchguard-ok` ergänzt und im Pflicht-Smoke verankert; erzwingt für alle `test_*watchguard.js` den zentralen Loader-Standard (kein direkter `watchguard_file_resolver`-/`resolveUniqueMarkdownTarget`-Zugriff, keine direkte `.md`-Direktlese per `readFileSync`).
   - Durchlauf 178: `director-layer-watchguard` für den Weltstatus-Pflichtsatz gehärtet (zusätzlicher Check auf `gameplay/kampagnenstruktur.md` sowie verpflichtender Folgewirkungsanker für die Weltstatus-Zeile aus `arc.factions/questions/hooks`).
+  - Durchlauf 179: `watchguard-loader-consistency` gehärtet (multiline-sichere Erkennung direkter `.md`-Direktlese via `readFileSync` und Pflicht zur realen Loader-API-Nutzung über `readMarkdown` oder `getDocText`).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
