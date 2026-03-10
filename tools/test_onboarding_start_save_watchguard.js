@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -9,31 +9,14 @@ function readText(relPath) {
   return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
 }
 
-function resolveMarkdownText(relPath, anchorRegexes, label) {
-  const { text } = resolveUniqueMarkdownTarget({
-    root: ROOT,
-    preferredRelPaths: [relPath],
-    candidatePathRegex: new RegExp(`${path.basename(relPath).replace('.', '\\.')}$`, 'i'),
-    contentPredicates: anchorRegexes,
-    label
-  });
-  return text;
-}
-
-const markdownDocCache = new Map();
-
 function getDocText(relPath) {
-  if (relPath.endsWith('.md')) {
-    if (!markdownDocCache.has(relPath)) {
-      markdownDocCache.set(
-        relPath,
-        resolveMarkdownText(relPath, [/./s], `Onboarding-Start-Save-Watchguard (${relPath})`)
-      );
-    }
-    return markdownDocCache.get(relPath);
-  }
-  return readText(relPath);
+  return docLoaderGetDocText(relPath);
 }
+
+const { getDocText: docLoaderGetDocText } = createDocTextLoader({
+  root: ROOT,
+  scopeLabel: 'Onboarding-Start-Save-Watchguard'
+});
 
 const startDocs = [
   'meta/masterprompt_v6.md',
