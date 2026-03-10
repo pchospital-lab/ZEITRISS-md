@@ -58,6 +58,7 @@ nächsten Anschlusslauf.
   - Durchlauf 175: verbleibende Hard-Final-Review-Restguards (`chronopolis-gate`, `default-slot-dependency`, `hard-final-review`, `kausalabfang`, `physicality`, `ruf-alien`, `upload-snapshot`) auf den zentralen `watchguard_doc_loader` umgestellt (fachliche Assertions unverändert, Resolver-Duplikatlogik entfernt).
   - Durchlauf 176: `iti-hardcanon-watchguard` vollständig auf den zentralen `watchguard_doc_loader` konsolidiert (lokaler Resolver-Resthelfer entfernt; fachliche Assertions unverändert).
   - Durchlauf 177: neuer Meta-Guard `watchguard-loader-consistency-watchguard-ok` ergänzt und im Pflicht-Smoke verankert; erzwingt für alle `test_*watchguard.js` den zentralen Loader-Standard (kein direkter `watchguard_file_resolver`-/`resolveUniqueMarkdownTarget`-Zugriff, keine direkte `.md`-Direktlese per `readFileSync`).
+  - Durchlauf 178: `director-layer-watchguard` für den Weltstatus-Pflichtsatz gehärtet (zusätzlicher Check auf `gameplay/kampagnenstruktur.md` sowie verpflichtender Folgewirkungsanker für die Weltstatus-Zeile aus `arc.factions/questions/hooks`).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
