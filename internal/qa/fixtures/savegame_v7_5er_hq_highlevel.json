@@ -1,8 +1,6 @@
 {
   "v": 7,
   "zr": "4.2.6",
-  "location": "HQ",
-  "phase": "core",
   "campaign": {
     "episode": 12,
     "mission": 10,
@@ -68,10 +66,7 @@
   "summaries": {
     "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
     "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
-    "summary_active_arcs": [
-      "KAIROS-Gegenoffensive",
-      "Chronopolis-Embargo"
-    ]
+    "summary_active_arcs": "KAIROS-Gegenoffensive; Chronopolis-Embargo"
   },
   "continuity": {
     "last_seen": {
@@ -89,6 +84,25 @@
     },
     "roster_echoes": [],
     "shared_echoes": [],
-    "convergence_tags": []
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "save_id": "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
   }
 }

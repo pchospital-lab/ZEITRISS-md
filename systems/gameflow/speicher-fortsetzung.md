@@ -216,7 +216,11 @@ transparent bleiben.
 ### Kompakt-Profil (Save v7)
 
 Das kanonische Schema-Template steht im **Masterprompt** (`meta/masterprompt_v6.md`).
-Orientiere dich an SaveGuard + folgendem Pfadbaum:
+Orientiere dich an SaveGuard + folgendem Pfadbaum.
+
+**Wichtig zur Struktur:** `characters[]` ist nur der Charakterblock. `economy`,
+`logs`, `summaries`, `continuity`, `arc`, `ui` und optional `arena` liegen
+immer auf **Root-Ebene** (nicht unter einem Charakter).
 
 - `v`, `zr` (Schema- und ZEITRISS-Version)
 - `save_id`, `parent_save_id`, `merge_id`, `branch_id` (Lineage + Dedupe-Guards)

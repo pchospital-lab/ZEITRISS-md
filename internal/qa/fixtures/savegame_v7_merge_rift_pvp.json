@@ -3,8 +3,6 @@
   "zr": "4.2.6",
   "save_id": "SAVE-MERGE-RIFT-PVP-01",
   "branch_id": "ANCHOR-HQ-GAMMA",
-  "location": "HQ",
-  "phase": "core",
   "campaign": {
     "episode": 9,
     "mission": 0,
@@ -86,6 +84,28 @@
     },
     "roster_echoes": [],
     "shared_echoes": [],
-    "convergence_tags": []
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "parent_save_id": null,
+  "merge_id": null,
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
   }
 }

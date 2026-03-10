@@ -10,7 +10,7 @@ tags: [meta]
 
 - **OpenWebUI + OpenRouter** (empfohlen)
 - Modell: `anthropic/claude-sonnet-4.6` (einziges Modell mit voller Regeltreue)
-- Setup: `./scripts/setup-openwebui.sh` → Preset + 20 WS-Module + Masterprompt
+- Setup: `./scripts/setup-openwebui.sh` → Preset + 19 WS-Module + Masterprompt
 
 ## Testmatrix
 

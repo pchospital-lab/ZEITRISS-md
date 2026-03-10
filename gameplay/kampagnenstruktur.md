@@ -769,7 +769,7 @@ Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
    wieder einsatzbereit.
 2. **HQ manuell erkunden** — volle HQ-Szenen mit Shopbesuchen,
    Kodex-Begleitung, Fraktions-RP, Feilschen und Quartier-Rollenspiel.
-3. **Auto-HQ & Save** — automatische Abwicklung der HQ-Pflichtschritte; danach startet das nächste Briefing.
+3. **Auto-HQ & Save** — automatische Abwicklung der HQ-Pflichtschritte; danach folgt **kein** automatischer Sprung ins nächste Briefing.
 
 
 #### Gameflow-Spickzettel (Core vs Rift) {#gameflow-spickzettel}

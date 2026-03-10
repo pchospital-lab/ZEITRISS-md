@@ -64,6 +64,8 @@ nächsten Anschlusslauf.
   `test_*watchguard_*.js`, damit Meta-Watchguards mit Zusatzsuffix nicht
   aus der Abdeckungsprüfung fallen.
 
+- Durchlauf 190 schließt den offenen v7-SSOT-Feinschliff: Save-Doku, Schema, Fixtures und v7-Guards wurden auf einen einheitlich schlanken HQ-Exportvertrag gehärtet (ohne Root-`location`/`phase`, mit verpflichtender Lineage + Root-Blöcken), plus Sync-Fixes für Auto-HQ-Flow und 19-Module-Setuptext.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
