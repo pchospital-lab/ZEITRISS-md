@@ -9,6 +9,27 @@ function readText(relPath){
   return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
 }
 
+function readMarkdown(relPath, anchors, label) {
+  return resolveUniqueMarkdownTarget({
+    root: ROOT,
+    preferredRelPaths: [relPath],
+    candidatePathRegex: new RegExp(`${path.basename(relPath).replace('.', '\\.')}$`, 'i'),
+    contentPredicates: anchors,
+    label
+  });
+}
+
+const markdownDocCache = new Map();
+
+function getDocText(relPath, anchors = [/./s], label = `ITI-Hardcanon-Watchguard (${relPath})`) {
+  if (!relPath.endsWith('.md')) return readText(relPath);
+  if (!markdownDocCache.has(relPath)) {
+    const { text } = readMarkdown(relPath, anchors, label);
+    markdownDocCache.set(relPath, text);
+  }
+  return markdownDocCache.get(relPath);
+}
+
 function readJson(relPath){
   return JSON.parse(readText(relPath));
 }
@@ -77,7 +98,7 @@ const forbiddenRegexes = [
 ];
 
 for (const relPath of slotPaths) {
-  const text = readText(relPath);
+  const text = getDocText(relPath);
   for (const rule of forbiddenRegexes) {
     assert.ok(!rule.regex.test(text), `${relPath}: verbotener Driftbegriff '${rule.label}' gefunden.`);
   }
@@ -91,7 +112,7 @@ const aliasAllowlist = new Set([
 ]);
 
 for (const relPath of slotPaths) {
-  const text = readText(relPath);
+  const text = getDocText(relPath);
   if (aliasAllowlist.has(relPath)) continue;
   for (const alias of aliasTerms) {
     assert.ok(!text.includes(alias), `${relPath}: Legacy-Alias '${alias}' außerhalb der Alias-Bridge gefunden.`);
