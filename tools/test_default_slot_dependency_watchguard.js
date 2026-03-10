@@ -1,16 +1,18 @@
 const path = require('path');
 const assert = require('assert');
-const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
+const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
-
-const { file: targetFile, text } = resolveUniqueMarkdownTarget({
+const { readMarkdown } = createDocTextLoader({
   root: ROOT,
-  preferredRelPaths: ['characters/charaktererschaffung-grundlagen.md'],
-  candidatePathRegex: /charaktererschaffung-grundlagen\.md$/i,
-  contentPredicates: [/Ordo\s+Mnemonika/i, /Retina-Linse/i],
-  label: 'Default-Slot-Dependency-Watchguard'
+  scopeLabel: 'Default-Slot-Dependency-Watchguard'
 });
+
+const { file: targetFile, text } = readMarkdown(
+  'characters/charaktererschaffung-grundlagen.md',
+  [/Ordo\s+Mnemonika/i, /Retina-Linse/i],
+  'Default-Slot-Dependency-Watchguard'
+);
 
 assert.ok(
   !/charaktererschaffung-optionen\.md/i.test(text),
