@@ -6,10 +6,10 @@
 ## Grundprinzipien
 
 - **Sprache:** Deutsch. Technische Keys/IDs dürfen englisch sein.
-- **Runtime vs. Dev:** Spielinhalte (20 WS-Dateien + Masterprompt) strikt von
+- **Runtime vs. Dev:** Spielinhalte (19 WS-Dateien + Masterprompt) strikt von
   Dev-Dokumentation (`docs/`, `internal/`, `meta/archive/`, `runtime.js`, `tools/`) trennen.
 - **Jede Regeländerung in den WS-Dateien verankern.** Die KI-SL sieht nur die
-  20 Wissensspeicher-Module + Masterprompt. Was nicht dort steht, existiert
+  19 Wissensspeicher-Module + Masterprompt. Was nicht dort steht, existiert
   im Spiel nicht.
 - **runtime.js = CI-Tests, nicht Spiellogik.** Änderungen dort müssen parallel
   in den WS-Dateien gespiegelt werden.
@@ -35,7 +35,7 @@
 
 ## Wissensspeicher-Architektur
 
-- **20 Slots** (Spieler-Handbuch + 19 Runtime-Module) + **Masterprompt** separat als System-Prompt.
+- **19 Slots** (Spieler-Handbuch + 18 Runtime-Module) + **Masterprompt** separat als System-Prompt.
 - README = GitHub-Landingpage, wird **nicht** in den WS geladen.
 - `master-index.json` = Steuerungsdatei für das Setup-Script.
 - `speicher-fortsetzung.md` = SSOT-Doku für Save-System (enthält v6-Beispiele als Migrations-Referenz).
