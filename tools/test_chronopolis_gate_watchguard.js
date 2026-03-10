@@ -1,44 +1,21 @@
-const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 
 const root = path.resolve(__dirname, '..');
 
-function walk(dir) {
-  const out = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith('.git')) continue;
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...walk(full));
-    else out.push(full);
-  }
-  return out;
-}
+const macroFingerprints = [
+  /macro\s+chrono_grant_key_if_lvl10\(\)/,
+  /macro\s+chrono_launch_rift\(seed_id\)/
+];
 
-function findRuntimeMacroFile() {
-  const preferred = path.join(root, 'internal', 'runtime', 'toolkit-runtime-makros.md');
-  if (fs.existsSync(preferred)) {
-    const txt = fs.readFileSync(preferred, 'utf8');
-    if (/macro\s+chrono_grant_key_if_lvl10\(\)/.test(txt) && /macro\s+chrono_launch_rift\(seed_id\)/.test(txt)) {
-      return { file: preferred, text: txt };
-    }
-  }
-
-  const candidates = walk(root)
-    .filter((p) => p.endsWith('.md'))
-    .filter((p) => /runtime|toolkit|makro|macro/i.test(p));
-
-  const hits = candidates
-    .map((file) => ({ file, text: fs.readFileSync(file, 'utf8') }))
-    .filter(({ text }) => /macro\s+chrono_grant_key_if_lvl10\(\)/.test(text) && /macro\s+chrono_launch_rift\(seed_id\)/.test(text));
-
-  assert.ok(hits.length > 0, 'Chronopolis-Watchguard: Kein Runtime-Makrofile mit chrono_* Makros gefunden.');
-  assert.ok(hits.length === 1, `Chronopolis-Watchguard: Mehrdeutige Zielpfade gefunden (${hits.map((h) => path.relative(root, h.file)).join(', ')}).`);
-
-  return hits[0];
-}
-
-const { file: macroFile, text } = findRuntimeMacroFile();
+const { file: macroFile, text, source } = resolveUniqueMarkdownTarget({
+  root,
+  preferredRelPaths: ['internal/runtime/toolkit-runtime-makros.md'],
+  candidatePathRegex: /runtime|toolkit|makro|macro/i,
+  contentPredicates: macroFingerprints,
+  label: 'Chronopolis-Watchguard'
+});
 
 function must(regex, message) {
   assert.match(text, regex, message);
@@ -62,5 +39,5 @@ must(/macro\s+chrono_launch_rift\(seed_id\)[\s\S]*set\s+ep_use\s*=\s*\(chrono\s+
 // 5) Chronopolis bleibt CITY (kein HQ-Savepunkt)
 must(/Chronopolis\s+selbst\s+ist\s+`CITY`\s+und\s+zählt\s+\*\*nicht\*\*\s+als\s+HQ/, 'CITY-vs-HQ-Anker für Chronopolis fehlt.');
 
-console.log(`Chronopolis-Watchguard Zielpfad: ${path.relative(root, macroFile)}`);
+console.log(`Chronopolis-Watchguard Zielpfad: ${path.relative(root, macroFile)} (${source})`);
 console.log('chronopolis-gate-watchguard-ok');
