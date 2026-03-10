@@ -77,6 +77,8 @@ nächsten Anschlusslauf.
 
 - Durchlauf 198 schließt eine verbleibende LP-Restdrift im aktiven Gameplay-Regeltext: Der Teamgrößen-Pseudocode in `gameplay/massenkonflikte.md` nutzt jetzt `effektive_LP = LP_Pool × ceil(team_size / 2)` statt `effektive_HP = HP_Pool × ...`, damit die Terminologie auch in Regel-Formeln konsistent bleibt.
 
+- Durchlauf 199 schließt die verbleibende LP-Restdrift in einem aktiven QA-Playtestskript: `internal/qa/playtest-2026-02-22-round2.sh` nutzt in der Gladiator-Startnachricht nun `LP 12/12` statt `HP 12/12`, damit die Terminologie auch in Round2-Evidenzpfaden konsistent bleibt.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
