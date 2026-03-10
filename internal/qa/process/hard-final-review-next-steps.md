@@ -41,6 +41,10 @@ nächsten Anschlusslauf.
     `iti-hardcanon-watchguard` erweitert.
   - Durchlauf 163: Upload-Kontext (`uploads/hard-final-review.md`) per
     Pflicht-Watchguard abgesichert (`upload-snapshot-watchguard-ok`).
+  - Durchlauf 164: Resolver-Rollout auf
+    `ruf-alien-watchguard`,
+    `physicality-watchguard` und
+    `kausalabfang-watchguard` erweitert.
 
 ## Offene Anschluss-Tasks (priorisiert)
 

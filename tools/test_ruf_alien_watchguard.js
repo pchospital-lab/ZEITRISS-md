@@ -1,21 +1,28 @@
-const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 
 const ROOT = path.join(__dirname, '..');
 
-function read(relPath) {
-  return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+function resolveText(preferredRelPath, contentPredicates) {
+  const { file, text } = resolveUniqueMarkdownTarget({
+    root: ROOT,
+    preferredRelPaths: [preferredRelPath],
+    candidatePathRegex: new RegExp(`${preferredRelPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'),
+    contentPredicates,
+    label: 'Ruf/Alien-Watchguard'
+  });
+  return { relPath: path.relative(ROOT, file), text };
 }
 
 function expectIncludes(relPath, needle, message) {
-  const text = read(relPath);
-  assert.ok(text.includes(needle), `${relPath}: ${message}`);
+  const { relPath: resolvedRelPath, text } = resolveText(relPath, [new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i')]);
+  assert.ok(text.includes(needle), `${resolvedRelPath}: ${message}`);
 }
 
 function expectNotMatch(relPath, pattern, message) {
-  const text = read(relPath);
-  assert.ok(!pattern.test(text), `${relPath}: ${message}`);
+  const { relPath: resolvedRelPath, text } = resolveText(relPath, []);
+  assert.ok(!pattern.test(text), `${resolvedRelPath}: ${message}`);
 }
 
 // Debrief-/Ruf-Disziplin: zentraler Ablauf muss explizit ITI-Ruf führen.

@@ -1,11 +1,18 @@
-const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 
 const ROOT = path.join(__dirname, '..');
 
-function readText(relPath) {
-  return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+function readText(relPath, anchorRegex) {
+  const { file, text } = resolveUniqueMarkdownTarget({
+    root: ROOT,
+    preferredRelPaths: [relPath],
+    candidatePathRegex: new RegExp(`${relPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i'),
+    contentPredicates: anchorRegex ? [anchorRegex] : [],
+    label: 'Kausalabfang-Watchguard'
+  });
+  return { relPath: path.relative(ROOT, file), text };
 }
 
 const mustHaveRegex = [
@@ -53,11 +60,11 @@ const checks = [
 ];
 
 for (const relPath of checks) {
-  const text = readText(relPath);
-  assert.ok(/Kausalabfang|Never happened/i.test(text), `${relPath}: Kausalabfang/Never-happened-Anker fehlt.`);
+  const { relPath: resolvedRelPath, text } = readText(relPath, /Kausalabfang|Never happened/i);
+  assert.ok(/Kausalabfang|Never happened/i.test(text), `${resolvedRelPath}: Kausalabfang/Never-happened-Anker fehlt.`);
 
   for (const rx of mustHaveRegex) {
-    assert.ok(rx.test(text), `${relPath}: Pflichtanker fehlt (${rx}).`);
+    assert.ok(rx.test(text), `${resolvedRelPath}: Pflichtanker fehlt (${rx}).`);
   }
 
 }
@@ -68,9 +75,9 @@ const infraChecks = [
 ];
 
 for (const relPath of infraChecks) {
-  const text = readText(relPath);
-  assert.ok(/nicht\s+shopbar|kein\s+Kaufgegenstand/i.test(text), `${relPath}: Shop-Sperre für Marker fehlt.`);
-  assert.ok(/nicht\s+als\s+Pflicht-Inventar|kein\s+Inventar-Ballast|nicht\s+als\s+eigenes\s+Inventarstück/i.test(text), `${relPath}: Inventar-Guard für Marker fehlt.`);
+  const { relPath: resolvedRelPath, text } = readText(relPath, /nicht\s+shopbar|kein\s+Kaufgegenstand/i);
+  assert.ok(/nicht\s+shopbar|kein\s+Kaufgegenstand/i.test(text), `${resolvedRelPath}: Shop-Sperre für Marker fehlt.`);
+  assert.ok(/nicht\s+als\s+Pflicht-Inventar|kein\s+Inventar-Ballast|nicht\s+als\s+eigenes\s+Inventarstück/i.test(text), `${resolvedRelPath}: Inventar-Guard für Marker fehlt.`);
 }
 
 const strictChecks = [
@@ -79,9 +86,9 @@ const strictChecks = [
 ];
 
 for (const relPath of strictChecks) {
-  const text = readText(relPath);
+  const { relPath: resolvedRelPath, text } = readText(relPath, /logs\.trace\[\]|Kodex:/i);
   for (const rx of hardeningRegex) {
-    assert.ok(rx.test(text), `${relPath}: Echo-/Kodex-Hardening fehlt (${rx}).`);
+    assert.ok(rx.test(text), `${resolvedRelPath}: Echo-/Kodex-Hardening fehlt (${rx}).`);
   }
 }
 
