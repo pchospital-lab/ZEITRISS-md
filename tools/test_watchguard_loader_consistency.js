@@ -51,6 +51,15 @@ function hasLoaderApiUsage(text) {
   return /\b(readMarkdown|getDocText|readText)\s*\(/.test(text);
 }
 
+function expectedOkTokenFromFilename(file) {
+  return file.replace(/^test_/, '').replace(/\.js$/, '').replace(/_/g, '-') + '-ok';
+}
+
+function hasExpectedOkToken(text, expectedToken) {
+  const matches = [...text.matchAll(/console\.log\(\s*['"`]([^'"`]+)['"`]\s*\)/g)];
+  return matches.some((m) => m[1] === expectedToken);
+}
+
 const violations = [];
 
 for (const file of listWatchguardTests()) {
@@ -100,6 +109,12 @@ for (const file of listWatchguardTests()) {
   if (hasDirectMarkdownReadFileSync(codeText)) {
     violations.push(`${file}: liest .md-Dateien direkt per readFileSync statt Loader.`);
   }
+
+  const expectedOkToken = expectedOkTokenFromFilename(file);
+  if (hasExpectedOkToken(codeText, expectedOkToken) === false) {
+    violations.push(`${file}: muss das erwartete Ergebnis-Token "${expectedOkToken}" per console.log(...) ausgeben (Smoke-Grep-Kohärenz).`);
+  }
+
 }
 
 if (violations.length > 0) {
