@@ -301,3 +301,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Hard Final Review Runtime-Rest-Entdevifizierung): `internal/qa/plans/issue-pack-durchlauf-151-hard-final-review-runtime-rest-entdevifizierung.md`
 - Log (Hard Final Review Runtime-Rest-Entdevifizierung): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-151-hard-final-review-runtime-rest-entdevifizierung.md`
+
+- **Durchlauf 152 (2026-03-10):** Hard-Final-Review-Anschluss zur Split-/Merge-Klarstellung abgeschlossen: `systems/gameflow/speicher-fortsetzung.md` beseitigt den letzten semantischen Restdrift zwischen Überschrift und Kanontext. Der Abschnitt heißt nun `Branch-Importe ohne Split-Protokoll`; gleichzeitig bleibt explizit festgehalten, dass Core-Parallelpfade mit identischer `continuity.split.family_id` kanonisch sind und nur gemischte Pfade ohne Split-Protokoll als Branch-Import laufen. Pflicht-Smoke erneut grün.
+
+- Fahrplan (Hard Final Review Split-/Branch-Import-Klarstellung): `internal/qa/plans/issue-pack-durchlauf-152-hard-final-review-split-branch-import-klarstellung.md`
+- Log (Hard Final Review Split-/Branch-Import-Klarstellung): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-152-hard-final-review-split-branch-import-klarstellung.md`
