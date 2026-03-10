@@ -447,11 +447,15 @@ nur Orientierung geben, ohne externe Tools, Meta-Referenzen oder zusätzliche
 Pflichtausgaben einzuführen. Der Kern bleibt die Szene am Tisch: Entscheidungen,
 Konsequenzen, Debrief.
 
-## Varianten für den Beginn des ersten Abenteuers
+## Optionale Varianten für den Beginn des ersten Abenteuers (Inspiration, nicht Default)
 
-Es gibt viele Wege, eine Zeitreise-Kampagne zu beginnen. Hier sind einige **Struktur-Ideen** für
-Einstiegssequenzen, die ihr als Bauformen nutzen oder kombinieren könnt. Jede Variante lässt sich
-mit den oben beschriebenen filmischen Techniken ausschmücken:
+Der kanonische Produktpfad bleibt: natürlicher Neustart oder Kurzform,
+`klassisch` als Standard, dann `generate` / `custom generate` / manuell und
+anschließend HQ oder Briefing.
+
+Die folgenden Varianten sind **optionales Inspirationsmaterial** für Gruppen,
+die bewusst mit einem anderen Erzählrhythmus starten wollen. Jede Variante
+lässt sich mit den oben beschriebenen filmischen Techniken ausschmücken:
 
 ### Gruppenstart-Varianten
 
@@ -469,8 +473,9 @@ ITI begrüßt. Diese Variante ist klassisch, da sie den gemeinsamen **Startpunkt
 markiert. Die Szene aus dem Modul-Einstieg oben ist ein Beispiel dafür: Ankunft im Quarzatrium,
 Begrüßung durch Commander Renier, erste Orientierung. Danach startet ein **geführter HQ‑Rundgang**
 (Quarzatrium → Med‑Lab → Chrono‑Riss) inklusive kurzer HUD‑Tutorial‑Hinweise zu Würfelmechanik
-und System-Slots. Sobald die Fraktionswahl steht, übernehmen die jeweiligen
-Fraktionskontaktpersonen die regulären Briefings und Debriefs.
+und System-Slots. Neue Chrononauten starten neutral beim **Ordo Mnemonika**;
+Fraktionskontaktpersonen werden erst relevant, wenn später im Spiel ein
+verbindlicher Übertritt erfolgt.
 Diese Einführungsmission ist bewusst nicht scheiterbar und führt linear durch die
 wichtigsten Bereiche, bevor es zur ersten Trainingsmission oder direkt zum Einsatz geht.
 Das HQ dient
