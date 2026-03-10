@@ -273,8 +273,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
   `flags`, `flags.merge_conflicts`) sowie `ui`, `arena` und `arc` werden vom
   Serializer garantiert. `logs.field_notes[]` ist optional; fehlt der Block,
-  legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
-  Profil-Infos mitgespeichert; `arc.timeline` hält Kampagnenereignisse fest.
+  legt der Serializer ein leeres Array an. HQ-/Profil-Infos liegen im
+  v7-Zielmodell bei `characters[].quarters_stash`; Weltkontinuität läuft über
+  `arc.factions`, `arc.questions`, `arc.hooks` plus `summaries.*`.
 - Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
   `zone=safe|combat`, `match_policy=sim|lore` und klemmt Teamgrößen hart auf
   1-5. Der SaveGuard wertet `queue_state` mit und blockiert HQ-Deepsaves,
