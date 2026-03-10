@@ -118,7 +118,7 @@ def check_sl_reference_save_contract(text: str, fails: list[str]) -> None:
     req(r"v:\s*7", section, "SL-Referenz benennt Save-Zielversion v7", fails)
     req(r"characters\[\]\s*\.wallet|characters\[\]\s*`?\.wallet`?", section, "SL-Referenz nutzt Charakter-Wallets als Zielmodell", fails)
     req(r"economy\.hq_pool", section, "SL-Referenz nutzt economy.hq_pool als HQ-Pool", fails)
-    req(r"\barc\.timeline\b", section, "SL-Referenz nutzt Arc-v7-Pfad", fails)
+    req(r"arc\.(factions|questions|hooks)", section, "SL-Referenz nutzt Arc-v7-Pfad", fails)
 
     legacy_hard_fails: tuple[str, ...] = (
         r"erzwingen\s+`?save_version:\s*6`?",

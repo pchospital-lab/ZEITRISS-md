@@ -614,12 +614,11 @@ bleibt unterstützt; beide Formen können gemischt werden.
 Die Felder `tag` und `bonus` sind optional, helfen aber beim automatischen
 Routen zu passenden Proben.
 
-**Timeline-Notizen:** `arc.timeline[]` speichert bedeutende Einsätze
-mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
-`campaign.px`. Legacy-Importe aus `arc_dashboard.timeline[]` werden beim Laden
-auf `arc.timeline[]` gemappt. Die Runtime normalisiert Einträge auf Objekte mit
-`{id, epoch, label}`, entfernt leere/ungültige Datensätze und setzt fehlende
-Timeline-Listen automatisch auf `[]`.
+**Arc-Notizen (v7):** Laufende Weltfäden werden im kanonischen Export über
+`arc.factions`, `arc.questions`, `arc.hooks` und die `summaries.*`-Blöcke
+geführt. Legacy-Importe aus `arc_dashboard.timeline[]` bleiben reine
+Migrationsquellen und werden beim Laden in diese v7-Pfade verdichtet, statt als
+`arc.timeline[]` weitergeführt.
 
 **Mission 5/10 Auto-Reset (Self-Reflection-Beispiel)**
 
@@ -665,18 +664,18 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   Abbruch, setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück und
   füllt deterministisch `self_reflection_auto_reset_*` plus History-Eintrag.
 
-- Pflichtfelder: `v`, `zr`, `campaign.px`,
-  `character` (als aktiver Snapshot), `characters[]` (kanonischer Charakterbogen
-  inkl. `wallet`, `history`, `carry`, `quarters_stash`, `vehicles`),
-  `economy.hq_pool`, `arc`, `logs`, `ui` und optional `arena`.
+- Pflichtfelder (v7-Export): `v`, `zr`, `campaign.px`, `characters[]`
+  (kanonischer Charakterbogen inkl. `wallet`, `history`, `carry`,
+  `quarters_stash`, `vehicles`), `economy.hq_pool`, `arc`, `logs`, `ui`
+  und optional `arena`.
 - **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
   abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
 - Optionales Feld: `modes` - Liste aktivierter Erzählmodi.
-- Im HQ beschreibt `character` nur den aktiven Einsatz-Snapshot
-  (SYS-/Stress-/Heat-Stand), während der vollständige Charakterbogen in
-  `characters[]` liegt. Bei Solo gilt `character.id = characters[0].id`; in
-  Gruppen bleibt `characters[]` die einzige Roster-Quelle für Split/Merge.
+- Root-`character` bleibt ein reiner Legacy-Importpfad. Beim Neu-Export
+  schreibt die KI-SL ausschließlich `characters[]` (Session-Anker = Index 0);
+  SYS-/Stress-/Heat-Status werden pro Charakter geführt und Laufzeitwerte beim
+  Laden neu gesetzt.
 - Die KI-SL darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.hq_pool = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).

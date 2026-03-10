@@ -2142,118 +2142,47 @@ Reihenfolge:
 5. **Reset & Stabilisierung:** Stress/Psi-Heat/SYS auf HQ-Basis.
 6. **HQ-Menü:** Schnell-HQ, manuell oder Auto-HQ & Save.
 
-### 2 | Freischalt-Logik
+### 2 | Freischalt-Logik (Runtime-Kanon)
 
-| Flag            | Wert                                                              |
-| --------------- | ----------------------------------------------------------------- |
-| **Level-Gate**  | `PLAYER_LEVEL ≥ 10` _(änderbar in Config)_          |
-| **Key-Item**    | `itm_quant_key` (Erhalt beim Level-Up 10)              |
-| **Entry-Event** | `evt_enter_chronopolis()` _(wie zuvor, Level-Check auf 10 anpassen)_ |
+| Flag            | Wert |
+| --------------- | ---- |
+| **Level-Gate**  | `PLAYER_LEVEL ≥ 10` |
+| **Key-Item**    | `itm_quant_key` (Freischaltung via Level-Up 10) |
+| **Entry-Event** | `evt_enter_chronopolis()` |
 
-**Event-Definition `evt_enter_chronopolis()`** - Beim ersten Betreten von Chronopolis
-wird überprüft, ob Level ≥ 10 und das Key-Item vorhanden sind. Bei Erfolg löst das
-Event den einmaligen In-World-Warnhinweis aus (siehe Abschnitt 7) und startet anschließend die
-Instanzierungs-Pipeline.
+Beim ersten Zutritt prüft `evt_enter_chronopolis()` nur diese drei Bedingungen,
+spielt den Inworld-Warnhinweis aus und wechselt danach in den City-Run.
+Technische Implementierungsdetails (Pipelines, API-Stubs, Cache/Spawn-
+Parameter) sind Maintainer-Tooling und gehören nicht in den Runtime-
+Wissensspeicher.
 
-### 3 | Instanzierungs-Pipeline
+### 3 | Runtime-Leitplanken für Chronopolis
 
-```mermaid
-graph TD
-    A[Player betreten Zone] --> B[Load static city geometry];
-    B --> C[Seed RNG = UTC Timestamp];
-    C --> D["KI-SL-Stub - getChronopolisPopulation(seed)"];
-    D --> E["NPC / Vendor Pool in RAM"];
-```
+- **Instanz-Identität:** Jeder Eintritt liefert eine neue, erzählerisch frische
+  City-Ausprägung derselben gescheiterten Episodenzeitlinie.
+- **Save-Guard:** In Chronopolis wird nicht gespeichert; DeepSave bleibt HQ-only.
+- **Risikologik:** Kein Sonder-Respawn; Tod folgt den Core-/Rift-Regeln.
+- **Traversal:** Entry am Pre-City-Hub, Traversal durch den Ring, Exit auf der
+  Gegenseite.
+- **Belohnungen:** Mitgebrachte Funde bleiben nur erhalten, wenn die Crew den
+  Run lebend verlässt.
 
-#### 3.1 KI-SL-Stub-Signature
+### 4 | Regie-Output (kompakt und verpflichtend)
 
-```json
-POST /gpt/getChronopolisPopulation
-{
-  "seed": 1696851200,
-  "player_rank": 52,
-  "flags": ["temporal_ship_unlocked"]
-}
-```
+1. **Beim Eintritt:** genau ein Warnsatz zur Konsequenz des City-Runs.
+2. **Im Lauf:** ein kurzer Zustandsimpuls pro Abschnitt (Bedrohung, Gelegenheit
+   oder Verlustsignal).
+3. **Beim Exit:** Chronopolis-Debrief in der festgelegten Reihenfolge
+   (Status → Asset-Check → Trace → Highlight → Reset → HQ-Menü).
 
-**Response** - Beispiel
+### 5 | Beispiel-Beat (spieler-sichtbar)
 
-```json
-{
-  "vendors": [
-    {
-      "id": "vend_neoark",
-      "type": "Temporal Shipwright",
-      "inventory": ["timesloop_schooner", "chronoglider_mk2"],
-      "greeting": "Sturm der Äonen, Captain?"
-    },
-    ...
-  ],
-  "npcs": [
-    {"id":"npc_oracle", "role":"Rumormonger", "hook":"Seed about 1883 Krakatoa Rift"},
-    ...
-  ]
-}
-```
-
-_→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
-
-### 4 | Leitplanken für dynamische Bevölkerung
-
-
-| Kategorie | Mindest-Pool | Beispiele | Regel-Notizen |
-| --- | --- | --- | --- |
-| **Händler** | 6 | Temp. Shipwright, Antikythera Arch., Dieselpunk Shop | 3-5 Items, 1 Prototyp |
-| **Quest-Giver** | 3 | Rift Cartographer, Lost-Era Agent, Flux-Smuggler | Seeds, Gerüchte oder Side-Ops |
-| **Atmosphäre NPC** | 10 | Sprawl-Pilger, Android Poet, Retro-Cyber Monk | Kein Handel; nur Flavor |
-| **Event-NPC** | 1 | Random Duelist, Street-Race Announcer | 10 % Spawn-Chance; Mini-Game |
-### 5 | Item- & Service-Matrix in Chronopolis
-
-| Kategorie             | Nutzen                                   | Preis    | Paradoxon-Risiko           |
-| --------------------- | ---------------------------------------- | -------- | -------------------------- |
-| **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | Stress +1 bei riskanter Nutzung (Default) |
-| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | Heat +1 bei öffentl. Nutzung (Default) |
-| **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
-
-_Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
-
-#### 5.1 Rotation & Gates
-
-- **Rang & Research:** Jede Zeile vermerkt ein Mindest-Rank-Label sowie ein Research-Level. Das HUD blendet verschlossene Einträge mit 🔒 und der geforderten Stufe ein.
-- **Daily Stamp:** `!chrono stock` würfelt pro Nullzeit-Tag ein filmisches Angebot; ein Reset löscht den Cache und zieht frische Händler auf die Bühne.
-- **Slot-Matrix:** Pro Tageswurf erscheinen 1 Temporal Ship, 3 Never-Was Gadgets
-  und 4 Era-Skins; `log_market_purchase()` übernimmt die gleiche Verteilung
-  für Save- und Debrief-Logs.
-- **City-Tick:** Episodenabschluss triggert automatisch einen Reset. Optional rotiert das Angebot alle drei Missionen (`!chrono tick` → `off` oder `3`).
-
-### 6 | No-Go-Zonen (Style-Compliance)
-
-- **Keine Meta-Reveals** über Realität / Bewusstsein.
-- **Keine Variablen Stadtgeometrie** - Gebäude bleiben identisch, nur Personen wechseln.
-- **Keine Auto-Paradoxon-Explosion** beim Betreten; Chronopolis ist _zeitverankert_.
-- **Keine Schritt-für-Schritt-Gewalt** oder Body-Handling; Konflikte laufen als
-  Actionfilm-Beat (Setup → Moment → Konsequenz) mit filmischen, aber abstrakten
-  Details.
-- **Konsequenzen statt Detailprozeduren:** Noise, Stress, Heat oder enge Zeitfenster
-  spiegeln Risiken und Eskalation.
-
-### 7 | Einstieg-Flow ohne UI-Dialoge
-
-1. **Warnhinweis (einmalig, In-World-Ansage)**
-   "Chronopolis entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein."
-2. **Establishing Shot** über ringförmige Skyline → Fade auf Spawn-Point "Paradoxon Plaza".
-3. **HUD-Hinweis**: "Bewohner wechseln mit jedem Besuch - halte Ausschau nach seltenen Händlern!"
-
-_(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
-
-### 8 | Beispiel-Run (Spieler Level 11)
-
-1. Crew kündigt narrativ an: "Wir betreten Chronopolis".
-2. Engine ruft KI-SL-Stub mit Seed `2025-06-18-T19:15:00Z`.
-3. Stadt lädt, 8 Händler & 15 NPC erscheinen.
-4. Händler "Temporal Shipwright Novara" bietet **Chronoglider MK II** an.
-5. Spieler kauft Item → -1 Paradoxon-Punkt erst beim ersten Einsatz außerhalb Chronopolis.
-6. Verlassen → Instanz-Cache gelöscht. Nächster Eintritt ⇒ komplette Neu-Population.
+1. Crew kündigt narrativ den Schleuseneintritt an.
+2. Kodex prüft Gate + Schlüssel und bestätigt den Zugang.
+3. Die Stadt wirkt vertraut, aber verschoben: neue Gesichter, neue Deals,
+   neue Risiken.
+4. Ein zentraler Fund wird gesichert; der Rückweg bleibt umkämpft.
+5. Nach Exit folgt der kompakte Chronopolis-Debrief im HQ.
 
 ### Chronopolis Static Map Blueprint
 
