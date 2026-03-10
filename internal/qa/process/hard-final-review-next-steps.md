@@ -52,6 +52,7 @@ nächsten Anschlusslauf.
   - Durchlauf 169: `iti-hardcanon-watchguard` im Slot-Scan auf resolver-basierte Markdown-Zielauflösung gehärtet (weniger Drift bei Markdown-Pfad-/Dateiumzügen).
   - Durchlauf 170: `npc-continuity-consistency` im SSOT-Slot-Scan auf resolver-basierte Markdown-Zielauflösung gehärtet (schließt den letzten Direktlese-Rest in diesem Guard).
   - Durchlauf 171: gemeinsames Watchguard-Loader-Utility (`watchguard_doc_loader`) eingeführt und im `iti-hardcanon-watchguard` sowie `npc-continuity-consistency` produktiv ausgerollt (Resolver-/Cache-Standard ohne Helferduplikate).
+  - Durchlauf 172: `onboarding-start-save-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (weiterer Abbau lokaler Resolver-/Cache-Duplikate).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
