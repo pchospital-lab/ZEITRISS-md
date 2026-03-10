@@ -88,5 +88,46 @@ assert.ok(
   /(inspiration|fallback)/i.test(charsOptionsModule.title || ''),
   'Archetypen-Drift: master-index Titel für chars-options muss Inspirations-/Fallback-Charakter tragen.'
 );
+assert.strictEqual(
+  charsOptionsModule.slot,
+  false,
+  'Archetypen-Drift: chars-options muss im master-index als optionaler Nicht-Default-Slot (slot:false) geführt werden.'
+);
+
+const entryLayerDocs = [
+  'README.md',
+  'docs/setup-guide.md',
+  'scripts/setup-openwebui.sh'
+];
+
+const entryRules = [
+  {
+    label: 'entry-klassisch-default',
+    regex: /spiel\s+starten\s*\(solo\s+klassisch\)/i,
+    minHits: 3
+  },
+  {
+    label: 'entry-fastlane-optional',
+    regex: /solo\s+schnell[^\n]{0,120}(?:fast-lane|optional)/i,
+    minHits: 2
+  },
+  {
+    label: 'entry-natuerliche-sprache',
+    regex: /natürliche(?:r|n)?\s+sprache|natürlich\w*\s+(?:sagen|formulier\w*|neu\s+starten)/i,
+    minHits: 3
+  }
+];
+
+for (const rule of entryRules) {
+  let hits = 0;
+  for (const relPath of entryLayerDocs) {
+    const text = readText(relPath);
+    if (rule.regex.test(text)) hits += 1;
+  }
+  assert.ok(
+    hits >= rule.minHits,
+    `Entry-Layer-Drift: Regel '${rule.label}' nur in ${hits}/${entryLayerDocs.length} Dokumenten gefunden (mind. ${rule.minHits}).`
+  );
+}
 
 console.log('onboarding-start-save-watchguard-ok');

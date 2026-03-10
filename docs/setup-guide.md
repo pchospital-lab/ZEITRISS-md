@@ -22,7 +22,7 @@ Masterprompt-Namen bleiben auf `v4.2.6` harmonisiert.
 2. **Aktuelles Repo bereitstellen:** Git-Clone oder GitHub-ZIP herunterladen,
    entpacken und in den Repo-Ordner wechseln.
 3. **Script-Setup ausführen:** `./scripts/setup-openwebui.sh`.
-4. **Start-Checks:** Masterprompt im Systemfeld + 20 Wissensslots geprüft,
+4. **Start-Checks:** Masterprompt im Systemfeld + 19 Default-Wissensslots geprüft,
    dann `Spiel starten (solo klassisch)` oder natürlich formulieren, dass du
    solo neu starten willst.
 
@@ -34,7 +34,7 @@ zwischen README und Setup-Guide synchron.
 - Neuesten Repo-Stand ziehen (`git pull`) oder frischen ZIP-Stand entpacken.
 - Setup-Script erneut starten (`./scripts/setup-openwebui.sh`).
 - In OpenWebUI prüfen: Preset aktiv, Masterprompt gesetzt, Wissensspeicher mit
-  20 Modulen verknüpft.
+  19 Default-Modulen verknüpft (plus optionale Zusatzmodule nach Bedarf).
 
 Die komplette Operator-Checkliste liegt repo-intern vor. Dort findet ihr die
 Plattform-Workflows, Upload-Notizen sowie die Rollenaufteilung zwischen
@@ -53,7 +53,7 @@ cd ZEITRISS-md
 ./scripts/setup-openwebui.sh
 ```
 
-Das Script erstellt die Knowledge Base, lädt das Spieler-Handbuch + 19 Runtime-Module
+Das Script erstellt die Knowledge Base, lädt das Spieler-Handbuch + 18 Runtime-Module
 hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
 welches Base-Modell genutzt werden soll: Standard ist
 `anthropic/claude-sonnet-4.6`, alternativ kannst du eine Model-ID manuell
@@ -70,7 +70,7 @@ dem neuesten Repo-Stand bleiben.
 
 1. **Knowledge Base erstellen:** In OpenWebUI unter Wissensspeicher →
    „Neue Wissensbasis" → Name: `ZEITRISS 4.2.6 Regelwerk`.
-2. **20 Dateien hochladen:** `core/spieler-handbuch.md` plus alle 19
+2. **19 Dateien hochladen:** `core/spieler-handbuch.md` plus alle 18
    Runtime-Module aus der Tabelle unten in diese Knowledge Base laden.
    **NICHT** in den Wissensspeicher gehören: `README.md` (GitHub-Landingpage),
    `master-index.json` (Steuerungsdatei),
@@ -92,7 +92,9 @@ dem neuesten Repo-Stand bleiben.
    - **Tools/Filter:** Keine nötig
    - **Vorschläge:** `Spiel starten (solo klassisch)`, `Spiel laden`, `Ich will solo neu anfangen und meinen Charakter generieren.`
 4. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
-   alle 20 Wissensmodule (Spieler-Handbuch + 19 Runtime-Module) weiterhin geladen sind.
+   alle 19 Wissensmodule (Spieler-Handbuch + 18 Runtime-Module) weiterhin geladen sind.
+   `characters/charaktererschaffung-optionen.md` ist bewusst **optional** (Inspiration/Fallback)
+   und gehört nicht mehr in den Default-Ladepfad.
 5. **Spielen:** Neuen Chat öffnen → Preset wählen →
    `Spiel starten (solo klassisch)` tippen oder natürlich sagen, dass du
    solo neu starten willst. `solo schnell` bleibt als Fast-Lane für
@@ -108,7 +110,6 @@ dem neuesten Repo-Stand bleiben.
 |                | `core/sl-referenz.md` *(Dispatcher, Regeln, Tabellen)* |
 | **characters** | `characters/ausruestung-cyberware.md`           |
 |                | `characters/charaktererschaffung-grundlagen.md` |
-|                | `characters/charaktererschaffung-optionen.md`   |
 |                | `characters/zustaende.md`                       |
 |                | `characters/hud-system.md`                      |
 | **gameplay**   | `gameplay/fahrzeuge-konflikte.md`               |
@@ -123,8 +124,12 @@ dem neuesten Repo-Stand bleiben.
 |                | `systems/kp-kraefte-psi.md`                     |
 |                | `systems/toolkit-gpt-spielleiter.md`            |
 
+**Optional zuschaltbar (nicht im Default-Slotset):**
+
+- `characters/charaktererschaffung-optionen.md` *(Inspiration/Fallback-Archetypen für One-Shots oder expliziten Wunsch)*
+
 **Slot-Kennzeichnung:** In `master-index.json` sind das Spieler-Handbuch und die
-19 Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
+18 Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
 `"slot": false` und zählen nicht als Wissensspeicher-Slot.
 
 ### Plattform-Setup
