@@ -45,6 +45,7 @@ nächsten Anschlusslauf.
     `ruf-alien-watchguard`,
     `physicality-watchguard` und
     `kausalabfang-watchguard` erweitert.
+  - Durchlauf 165: Prozess-Kompaktheit per neuem Pflicht-Guard `process-compactness-watchguard-ok` automatisiert (known-issues/Anschlussübersicht bleiben smoke-validiert schlank).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -53,8 +54,8 @@ nächsten Anschlusslauf.
      `resolveUniqueMarkdownTarget` nutzen und keine Einzellösungen mehr
      einführen.
 2. **Prozessseiten weiter schlank halten**
-   - Lange Durchlaufprosa nur in Archive/Statusmatrizen führen,
-     aktive Seiten auf Triage-/Anschlussinformationen begrenzen.
+   - Der neue `process-compactness-watchguard` schützt Grundanker + Zeilenbudget;
+     lange Durchlaufprosa weiterhin nur in Archive/Statusmatrizen führen.
 
 ## Operativer Ablauf für nächste Durchläufe
 
