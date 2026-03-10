@@ -23,7 +23,7 @@ const docs = [
 for (const relPath of docs) {
   const { text, file } = resolveDocTarget(
     relPath,
-    [/Briefing/i, /Relevanzsatz/i, /ITI-Bulletin/i],
+    [/Briefing/i, /Relevanzsatz/i, /ITI-Bulletin/i, /Weltstatus|arc\.(?:factions|questions|hooks)/i],
     `Director-Layer-Watchguard (${relPath})`
   );
 
@@ -39,6 +39,16 @@ for (const relPath of docs) {
     /nach[\s\S]{0,140}(?:heimkehr|debrief)/i.test(text) &&
       /genau[\s\S]{0,16}ein(?:e)?[\s\S]{0,140}iti-bulletin/i.test(text),
     `Regie-Layer-Drift in ${resolvedRelPath}: Pflichtanker 'genau eine ITI-Bulletin-Mikronachricht nach Heimkehr' fehlt.`
+  );
+
+
+  assert.ok(
+    ((/pro[\s\S]{0,120}missionszyklus/i.test(text) &&
+      /genau[\s\S]{0,120}ein(?:e)?[\s\S]{0,120}weltstatus/i.test(text)) ||
+      (/weltstatus[\s\S]{0,120}pro[\s\S]{0,60}missionszyklus/i.test(text) &&
+        /genau[\s\S]{0,120}ein(?:e)?/i.test(text))) &&
+      /arc\.(?:factions|questions|hooks)/i.test(text),
+    `Regie-Layer-Drift in ${resolvedRelPath}: Pflichtanker 'genau eine Weltstatus-Zeile aus arc.factions/questions/hooks pro Missionszyklus' fehlt.`
   );
 }
 

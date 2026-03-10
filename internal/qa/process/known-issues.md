@@ -42,7 +42,7 @@ Runtime-Content gelöst werden (z. B. Tooling-, Workflow- oder Plattformfragen).
 | ZR-016 | Externer Codex-Issue-Pack in iterative Fahrplan-Cluster überführen | `uploads/ZEITRISS_codex_issue_pack.md` | P0 | Runtime/QA | abgeschlossen | Primärindex: `internal/qa/process/issue-pack-statusmatrix.md`; Durchläufe bis 38 abgeschlossen. |
 | ZR-017 | Save/Load v7 und OpenWebUI-Standardpfad aus dem neuen Issue-Pack nachziehen | `uploads/ZEITRISS_v7_save_load_issue_pack.md` | P0 | Runtime/QA | abgeschlossen | Detail- und Anschlussstand in `internal/qa/process/v7-save-load-statusmatrix.md`. |
 | ZR-018 | Ruf/Tier-Progress und Alien/Mystery-Onboarding als SSOT nachziehen | `uploads/ZEITRISS_ruf_alien_review.md` | P0 | Runtime/QA | abgeschlossen | Detailstand in `internal/qa/process/ruf-alien-statusmatrix.md`. |
-| ZR-021 | Post-139 Onboarding-Hardening fortführen | `uploads/ZEITRISS_start_mmo_onboarding_review.md` | P1 | Runtime/QA + Meta/Prozess | abgeschlossen | Hard-Final-Review-Anschlussdurchläufe 140–166 erledigt; Durchlauf 166 schließt die letzten SSOT-Restdrifts (Schema + Chronopolis-Runtime-Cleanup). Operativer Folgestand in `internal/qa/process/hard-final-review-next-steps.md`. |
+| ZR-021 | Post-139 Onboarding-Hardening fortführen | `uploads/ZEITRISS_start_mmo_onboarding_review.md` | P1 | Runtime/QA + Meta/Prozess | abgeschlossen | Hard-Final-Review-Anschlussdurchläufe 140–167 erledigt; Durchlauf 167 verankert die Arc-Weltstatus-Rückkopplung als Runtime-Vertrag + Smoke-Watchguard. Operativer Folgestand in `internal/qa/process/hard-final-review-next-steps.md`. |
 
 ## Pflegehinweis
 

@@ -2174,6 +2174,9 @@ Wissensspeicher.
    oder Verlustsignal).
 3. **Beim Exit:** Chronopolis-Debrief in der festgelegten Reihenfolge
    (Status → Asset-Check → Trace → Highlight → Reset → HQ-Menü).
+4. **Weltstatus-Rückkopplung:** pro Missionszyklus genau eine kompakte
+   Weltstatus-Zeile aus `arc.factions`, `arc.questions` oder `arc.hooks`
+   (vor Briefing **oder** nach Heimkehr) mit klarer Folgewirkung.
 
 ### 5 | Beispiel-Beat (spieler-sichtbar)
 

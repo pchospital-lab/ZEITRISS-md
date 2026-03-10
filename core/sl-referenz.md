@@ -892,6 +892,10 @@ z. B. `ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibr
   oder letzter Debrief).
 - Nach Debrief/HQ-Heimkehr genau **eine** ITI-Bulletin-Mikronachricht aus der
   lebenden Dienstwelt (Hangar/Archiv/Fraktionslage/anderes Team/Chronopolis).
+- Pro Missionszyklus genau **eine** kompakte Weltstatus-Zeile aus
+  `arc.factions`, `arc.questions` oder `arc.hooks` platzieren (vor Briefing
+  **oder** nach Heimkehr) und dabei eine konkrete Folge für den nächsten
+  Einsatzrahmen benennen.
 
 Anschließend kann die Gruppe im HQ bleiben, speichern oder bewusst den nächsten
 Missionspfad wählen. Ein neues Briefing startet nur nach expliziter
