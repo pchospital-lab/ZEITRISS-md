@@ -296,3 +296,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Kausalabfang Kodex-Blocksatz Watchguard-Hardening): `internal/qa/plans/issue-pack-durchlauf-121-kausalabfang-kodex-blocksatz-watchguard-hardening.md`
 - Log (Kausalabfang Kodex-Blocksatz Watchguard-Hardening): `internal/qa/logs/2026-03-09-issue-pack-durchlauf-121-kausalabfang-kodex-blocksatz-watchguard-hardening.md`
 
+
+- **Durchlauf 151 (2026-03-10):** Hard-Final-Review-Anschluss zur Runtime-Rest-Entdevifizierung abgeschlossen: `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md` und `gameplay/kampagnenstruktur.md` wurden an verbleibenden QA-/Testrun-Formulierungen neutralisiert, ohne Regelkern zu verändern (u. a. UI-/Cross-Mode-Überschriften, Load-Hinweise, HUD-/SUG-Hinweistext, Seed-Lock-Label). Pflicht-Smoke erneut grün.
+
+- Fahrplan (Hard Final Review Runtime-Rest-Entdevifizierung): `internal/qa/plans/issue-pack-durchlauf-151-hard-final-review-runtime-rest-entdevifizierung.md`
+- Log (Hard Final Review Runtime-Rest-Entdevifizierung): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-151-hard-final-review-runtime-rest-entdevifizierung.md`

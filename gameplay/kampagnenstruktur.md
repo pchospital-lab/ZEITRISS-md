@@ -613,7 +613,7 @@ Jeder Eintrag enthält mindestens `id`, `epoch`, `label` und
 automatisch aus `campaign.rift_seeds[]` synchronisiert und darf
 nie manuell editiert werden.
 
-> **Seed-Sperre bis Episodenende (Testrun 3, #002):**
+> **Seed-Sperre bis Episodenende:**
 > `ClusterCreate()` erzeugt Seeds und speichert sie in
 > `campaign.rift_seeds[]`. Seeds sind **GESPERRT** bis zum
 > Episodenende. Die Spielleitung darf Seeds vor Episodenende

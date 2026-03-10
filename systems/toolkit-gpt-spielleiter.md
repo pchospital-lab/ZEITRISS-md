@@ -319,7 +319,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   liegt bei 2 Toasts pro Szene; Gate/FS/Boss/Arena-Toasts verbrauchen kein Budget
   und dürfen das Cap übersteuern, während Low-Priority-Meldungen bei Bedarf
   zusammengefasst/unterdrückt werden. Jede Unterdrückung schreibt
-  `toast_suppressed` mit Snapshot von `logs.flags.hud_scene_usage` und `qa_mode`.
+  `toast_suppressed` mit Snapshot von `logs.flags.hud_scene_usage` und aktuellem Laufzeitkontext.
   Unterdrückte Meldungen landen zusätzlich in `logs.hud[]` mit
   `suppressed:true` und `reason:"budget"`.
 - **Ask↔Suggest.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`, Overlay `· SUG`).
@@ -329,9 +329,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   die regulären 3 + frei-Ideen nach einer Szene um spontane, nummerierte
   Mikro-Tipps auf Abruf. Self-Reflection hat keinen Einfluss auf `SUG`; das
   Badge bleibt unabhängig von `SF-ON`/`SF-OFF` sichtbar. Der Overlay-Suffix
-  `· SUG` bleibt auch nach Load/Resume deterministisch erhalten; Snapshot-
-  Runner prüfen den exakten String ohne Varianten, damit Acceptance 8 stabil
-  bleibt.
+  bleibt exakt `· SUG` und bleibt auch nach Load/Resume deterministisch erhalten,
+  damit Anzeige und Persistenz eindeutig bleiben.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
   Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events, setzen fehlende
@@ -1432,4 +1431,4 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 > **Runtime-Makros:** Die technischen Makro- und Pseudocode-Definitionen für die
 > KI-Spielleitung befinden sich in einer separaten Datei
 > (`internal/runtime/toolkit-runtime-makros.md`). Sie enthalten keine Spielregeln und
-> dienen ausschließlich der internen Runtime- und QA-Verifikation.
+> dienen ausschließlich der internen Runtime-Verifikation.
