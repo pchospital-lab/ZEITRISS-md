@@ -1,0 +1,49 @@
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.resolve(__dirname, '..');
+const TOOLS_DIR = path.join(ROOT, 'tools');
+
+function listWatchguardTests() {
+  return fs
+    .readdirSync(TOOLS_DIR)
+    .filter((file) => /^test_.*watchguard\.js$/.test(file))
+    .filter((file) => file !== 'test_watchguard_loader_consistency.js')
+    .sort();
+}
+
+function readFile(relPath) {
+  return fs.readFileSync(path.join(TOOLS_DIR, relPath), 'utf8');
+}
+
+const violations = [];
+
+for (const file of listWatchguardTests()) {
+  const text = readFile(file);
+
+  if (/watchguard_file_resolver/.test(text)) {
+    violations.push(`${file}: nutzt weiterhin watchguard_file_resolver direkt.`);
+  }
+
+  if (/resolveUniqueMarkdownTarget\s*\(/.test(text)) {
+    violations.push(`${file}: ruft resolveUniqueMarkdownTarget(...) direkt auf.`);
+  }
+
+  if (/createDocTextLoader/.test(text) === false) {
+    violations.push(`${file}: bindet createDocTextLoader nicht ein.`);
+  }
+
+  if (/readFileSync\([^\n\r)]*\.md['"]/m.test(text)) {
+    violations.push(`${file}: liest .md-Dateien direkt per readFileSync statt Loader.`);
+  }
+}
+
+if (violations.length > 0) {
+  console.error('watchguard-loader-consistency-fail');
+  for (const line of violations) {
+    console.error(`- ${line}`);
+  }
+  process.exit(1);
+}
+
+console.log('watchguard-loader-consistency-ok');

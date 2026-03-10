@@ -148,6 +148,10 @@ grep "upload-snapshot-watchguard-ok" out/upload_snapshot_watchguard.log
 node tools/test_process_compactness_watchguard.js > out/process_compactness_watchguard.log
 grep "process-compactness-watchguard-ok" out/process_compactness_watchguard.log
 
+# Watchguard-Loader-Consistency (keine lokalen Resolver-Resthelfer)
+node tools/test_watchguard_loader_consistency.js > out/watchguard_loader_consistency.log
+grep "watchguard-loader-consistency-ok" out/watchguard_loader_consistency.log
+
 # Chronopolis-Gate-Watchguard (automatisiert den früheren Manual-Check)
 node tools/test_chronopolis_gate_watchguard.js > out/chronopolis_gate_watchguard.log
 grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log

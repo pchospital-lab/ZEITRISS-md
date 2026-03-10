@@ -57,6 +57,7 @@ nächsten Anschlusslauf.
   - Durchlauf 174: `process-compactness-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Einstieg vereinheitlicht, fachliche Kompaktheits-Checks unverändert).
   - Durchlauf 175: verbleibende Hard-Final-Review-Restguards (`chronopolis-gate`, `default-slot-dependency`, `hard-final-review`, `kausalabfang`, `physicality`, `ruf-alien`, `upload-snapshot`) auf den zentralen `watchguard_doc_loader` umgestellt (fachliche Assertions unverändert, Resolver-Duplikatlogik entfernt).
   - Durchlauf 176: `iti-hardcanon-watchguard` vollständig auf den zentralen `watchguard_doc_loader` konsolidiert (lokaler Resolver-Resthelfer entfernt; fachliche Assertions unverändert).
+  - Durchlauf 177: neuer Meta-Guard `watchguard-loader-consistency-watchguard-ok` ergänzt und im Pflicht-Smoke verankert; erzwingt für alle `test_*watchguard.js` den zentralen Loader-Standard (kein direkter `watchguard_file_resolver`-/`resolveUniqueMarkdownTarget`-Zugriff, keine direkte `.md`-Direktlese per `readFileSync`).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
