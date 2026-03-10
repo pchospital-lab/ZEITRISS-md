@@ -916,6 +916,10 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
 - Nach Debrief/HQ-Heimkehr genau **eine** ITI-Bulletin-Mikronachricht aus der
   Dienstwelt einblenden (z. B. anderes Team zurück, Archiv gesperrt,
   Hangar-Kalibrierung, Chronopolis-Vorschau, Fraktionsbewegung).
+- Genau **eine** kompakte Weltstatus-Zeile pro Missionszyklus platzieren
+  (vor Briefing **oder** nach Heimkehr), abgeleitet aus
+  `arc.factions`, `arc.questions` oder `arc.hooks`, inklusive konkreter
+  Folge für den nächsten Einsatzrahmen.
 
 **Quick-Hilfe:** `!help start` - gibt die vier Start-/Load-Befehle mit Kurzbeschreibung aus.
 **Offline-Notfall:** `!offline` - Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink
