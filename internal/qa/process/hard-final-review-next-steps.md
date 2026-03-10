@@ -36,6 +36,9 @@ nächsten Anschlusslauf.
 - Durchlauf 182 bereinigt den Onboarding-Watchguard technisch auf direkte
   Loader-Nutzung (`readText`/`getDocText` aus `createDocTextLoader(...)`)
   und entfernt lokale Wrapper-/Direktlese-Helfer.
+- Durchlauf 183 härtet den Meta-Guard gegen Kommentar-Drift und erzwingt,
+  dass Loader-Lese-APIs (`readMarkdown`/`getDocText`/`readText`) direkt aus
+  `createDocTextLoader(...)` gebunden werden.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
