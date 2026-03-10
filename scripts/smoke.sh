@@ -134,6 +134,10 @@ grep "default-slot-dependency-watchguard-ok" out/default_slot_dependency_watchgu
 node tools/test_director_layer_watchguard.js > out/director_layer_watchguard.log
 grep "director-layer-watchguard-ok" out/director_layer_watchguard.log
 
+# Hard-Final-Review-Watchguard (Split-Kanon/Einstieg/HQ-Kernbereich)
+node tools/test_hard_final_review_watchguard.js > out/hard_final_review_watchguard.log
+grep "hard-final-review-watchguard-ok" out/hard_final_review_watchguard.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"

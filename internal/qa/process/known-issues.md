@@ -311,3 +311,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Hard Final Review Default-Slot-Watchguard & Statusaudit): `internal/qa/plans/issue-pack-durchlauf-153-hard-final-review-default-slot-watchguard-und-statusaudit.md`
 - Log (Hard Final Review Default-Slot-Watchguard & Statusaudit): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-153-hard-final-review-default-slot-watchguard-und-statusaudit.md`
+
+- **Durchlauf 154 (2026-03-10):** Hard-Final-Review-Regressionspaket als Pflicht-Watchguard ergänzt: `tools/test_hard_final_review_watchguard.js` sichert jetzt gemeinsam Split-/Merge-Kanon (Core-Parallelpfade + separate Rift-Ops, Pflichtanker `continuity.split.family_id`, ohne Legacy-Rift-only-Satz), Einstiegskanon-Altspur in `cinematic-start.md` sowie HQ-Kernbereichs-Wording in `kampagnenstruktur.md`. Der Guard ist in `scripts/smoke.sh` integriert und liefert `hard-final-review-watchguard-ok`. Pflicht-Smoke erneut grün.
+
+- Fahrplan (Hard Final Review Regression-Watchguard-Pack): `internal/qa/plans/issue-pack-durchlauf-154-hard-final-review-regression-watchguard-pack.md`
+- Log (Hard Final Review Regression-Watchguard-Pack): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-154-hard-final-review-regression-watchguard-pack.md`
