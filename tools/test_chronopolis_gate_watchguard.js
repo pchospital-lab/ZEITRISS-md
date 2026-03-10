@@ -5,7 +5,7 @@ const { createDocTextLoader } = require('./watchguard_doc_loader');
 const root = path.resolve(__dirname, '..');
 const { readMarkdown } = createDocTextLoader({
   root,
-  scopeLabel: 'Chronopolis-Watchguard'
+  scopeLabel: 'Chronopolis-Gate-Watchguard'
 });
 
 const macroFingerprints = [
@@ -16,7 +16,7 @@ const macroFingerprints = [
 const { file: macroFile, text, source } = readMarkdown(
   'internal/runtime/toolkit-runtime-makros.md',
   macroFingerprints,
-  'Chronopolis-Watchguard'
+  'Chronopolis-Gate-Watchguard'
 );
 
 function must(regex, message) {
