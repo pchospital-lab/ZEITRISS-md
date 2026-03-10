@@ -24,7 +24,8 @@ bleiben.
    keine `.md`-Direktlese via `fs.readFileSync`.
 5. Ergebnis-Token mit `...-ok` ausgeben und semantisch am Dateinamen ausrichten (z. B. `test_mein_guard_watchguard.js` → `mein-guard-watchguard-ok`).
 6. Neuen Guard in `scripts/smoke.sh` aufnehmen (Pflichtcheck, falls
-   Hard-Final-Review-relevant).
+   Hard-Final-Review-relevant); der Coverage-Guard
+   `tools/test_watchguard_smoke_coverage.js` prüft diese Einbindung automatisch.
 
 ## Mindeststruktur (Kurzreferenz)
 

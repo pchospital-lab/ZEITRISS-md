@@ -152,6 +152,10 @@ grep "process-compactness-watchguard-ok" out/process_compactness_watchguard.log
 node tools/test_watchguard_loader_consistency.js > out/watchguard_loader_consistency.log
 grep "watchguard-loader-consistency-ok" out/watchguard_loader_consistency.log
 
+# Watchguard-Smoke-Coverage (alle Watchguards in smoke.sh verankert)
+node tools/test_watchguard_smoke_coverage.js > out/watchguard_smoke_coverage.log
+grep "watchguard-smoke-coverage-ok" out/watchguard_smoke_coverage.log
+
 # Chronopolis-Gate-Watchguard (automatisiert den früheren Manual-Check)
 node tools/test_chronopolis_gate_watchguard.js > out/chronopolis_gate_watchguard.log
 grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log
