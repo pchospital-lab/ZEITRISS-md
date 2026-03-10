@@ -51,6 +51,7 @@ nächsten Anschlusslauf.
   - Durchlauf 168: Chronopolis-Runtime weiter entdevifiziert (Static-Blueprint/Spawn-/Kamerafahrt-Ballast aus dem geladenen Wissensspeicher entfernt, ersetzt durch kompaktes Stadtbild-Pattern + Maintainer-Verweis).
   - Durchlauf 169: `iti-hardcanon-watchguard` im Slot-Scan auf resolver-basierte Markdown-Zielauflösung gehärtet (weniger Drift bei Markdown-Pfad-/Dateiumzügen).
   - Durchlauf 170: `npc-continuity-consistency` im SSOT-Slot-Scan auf resolver-basierte Markdown-Zielauflösung gehärtet (schließt den letzten Direktlese-Rest in diesem Guard).
+  - Durchlauf 171: gemeinsames Watchguard-Loader-Utility (`watchguard_doc_loader`) eingeführt und im `iti-hardcanon-watchguard` sowie `npc-continuity-consistency` produktiv ausgerollt (Resolver-/Cache-Standard ohne Helferduplikate).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
