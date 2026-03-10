@@ -56,6 +56,7 @@ nächsten Anschlusslauf.
   - Durchlauf 173: `director-layer-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Duplikatlogik entfernt, fachliche Regie-Checks unverändert).
   - Durchlauf 174: `process-compactness-watchguard` auf den zentralen `watchguard_doc_loader` umgestellt (Resolver-Einstieg vereinheitlicht, fachliche Kompaktheits-Checks unverändert).
   - Durchlauf 175: verbleibende Hard-Final-Review-Restguards (`chronopolis-gate`, `default-slot-dependency`, `hard-final-review`, `kausalabfang`, `physicality`, `ruf-alien`, `upload-snapshot`) auf den zentralen `watchguard_doc_loader` umgestellt (fachliche Assertions unverändert, Resolver-Duplikatlogik entfernt).
+  - Durchlauf 176: `iti-hardcanon-watchguard` vollständig auf den zentralen `watchguard_doc_loader` konsolidiert (lokaler Resolver-Resthelfer entfernt; fachliche Assertions unverändert).
 
 ## Offene Anschluss-Tasks (priorisiert)
 
