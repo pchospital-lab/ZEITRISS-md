@@ -1,5 +1,11 @@
 # ZEITRISS – Hard Final Review
 
+> [!HINWEIS]
+> Dieses Dokument ist ein **historischer Snapshot** des Hard-Final-Reviews (Stand der Erstellung).
+> Mehrere darin genannte Restpunkte wurden in den Durchläufen 145–154 bereits umgesetzt.
+> Der aktuelle Prozessstand liegt in `internal/qa/process/known-issues.md` und
+> `internal/qa/process/hard-final-review-next-steps.md`.
+
 ## Gesamturteil
 
 ZEITRISS läuft jetzt rund. Nicht im Sinn von „jede KI macht nie einen Fehler“, sondern im entscheidenden Sinn: Das Repo verhält sich inzwischen wie ein eigenes Produkt mit klarem Betriebsmodell. README, Spieler-Handbuch, SL-Referenz, Save-System, Masterprompt und Toolkit erzählen weitgehend dieselbe Betriebswahrheit: **MMO ohne Server**, **Save = Charakter**, natürlicher Neustart oder Kurzform, `klassisch` als Default, `generate` / `custom generate` / manuell, HQ-DeepSave, Session-Anker, persönliche Wahrheit, Kontinuitätsrückblick, NPC-Kontinuität und kein automatischer Sprung ins nächste Briefing nach dem Save. ([GitHub][1])
