@@ -4,24 +4,77 @@
   "title": "ZEITRISS Save v7 (kanonischer Export)",
   "type": "object",
   "additionalProperties": true,
-  "required": ["v", "zr", "campaign", "characters", "economy", "logs"],
+  "required": [
+    "v",
+    "zr",
+    "save_id",
+    "parent_save_id",
+    "merge_id",
+    "branch_id",
+    "campaign",
+    "characters",
+    "economy",
+    "logs",
+    "summaries",
+    "continuity",
+    "arc",
+    "ui"
+  ],
   "properties": {
-    "v": { "type": "integer", "const": 7 },
-    "zr": { "type": "string" },
-    "save_id": { "type": "string" },
-    "parent_save_id": { "type": ["string", "null"] },
-    "merge_id": { "type": ["string", "null"] },
-    "branch_id": { "type": "string" },
-    "location": { "type": "string", "const": "HQ" },
+    "v": {
+      "type": "integer",
+      "const": 7
+    },
+    "zr": {
+      "type": "string"
+    },
+    "save_id": {
+      "type": "string"
+    },
+    "parent_save_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "merge_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "branch_id": {
+      "type": "string"
+    },
     "campaign": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["episode", "mission", "px", "px_state"],
+      "required": [
+        "episode",
+        "mission",
+        "px",
+        "px_state"
+      ],
       "properties": {
-        "episode": { "type": "integer" },
-        "mission": { "type": "integer" },
-        "px": { "type": "integer", "minimum": 0, "maximum": 5 },
-        "px_state": { "type": "string", "enum": ["stable", "pending_reset", "consumed"] }
+        "episode": {
+          "type": "integer"
+        },
+        "mission": {
+          "type": "integer"
+        },
+        "px": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "px_state": {
+          "type": "string",
+          "enum": [
+            "stable",
+            "pending_reset",
+            "consumed"
+          ]
+        }
       }
     },
     "characters": {
@@ -30,49 +83,97 @@
       "items": {
         "type": "object",
         "additionalProperties": true,
-        "required": ["id", "wallet"],
+        "required": [
+          "id",
+          "wallet"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "wallet": { "type": "number" }
+          "id": {
+            "type": "string"
+          },
+          "wallet": {
+            "type": "number"
+          }
         }
       }
     },
     "economy": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["hq_pool"],
+      "required": [
+        "hq_pool"
+      ],
       "properties": {
-        "hq_pool": { "type": "number" }
+        "hq_pool": {
+          "type": "number"
+        }
       }
     },
     "logs": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["trace", "notes", "artifact_log", "market", "flags"],
+      "required": [
+        "trace",
+        "notes",
+        "artifact_log",
+        "market",
+        "flags"
+      ],
       "properties": {
         "flags": {
           "type": "object",
           "additionalProperties": true,
           "properties": {
-            "runtime_version": { "type": "string" },
-            "chronopolis_unlocked": { "type": "boolean" },
+            "runtime_version": {
+              "type": "string"
+            },
+            "chronopolis_unlocked": {
+              "type": "boolean"
+            },
             "imported_saves": {
               "type": "array",
-              "items": { "type": "object", "additionalProperties": true }
+              "items": {
+                "type": "object",
+                "additionalProperties": true
+              }
             },
-            "duplicate_branch_detected": { "type": "boolean" },
-            "duplicate_character_detected": { "type": "boolean" },
+            "duplicate_branch_detected": {
+              "type": "boolean"
+            },
+            "duplicate_character_detected": {
+              "type": "boolean"
+            },
             "continuity_conflicts": {
               "type": "array",
               "items": {
                 "type": "object",
                 "additionalProperties": true,
                 "properties": {
-                  "char_id": { "type": "string" },
-                  "anchor_save_id": { "type": ["string", "null"] },
-                  "incoming_save_id": { "type": ["string", "null"] },
-                  "resolution": { "type": "string", "enum": ["anchor_kept_echo_imported", "newer_personal_state_applied"] },
-                  "note": { "type": "string" }
+                  "char_id": {
+                    "type": "string"
+                  },
+                  "anchor_save_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "incoming_save_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": [
+                      "anchor_kept_echo_imported",
+                      "newer_personal_state_applied"
+                    ]
+                  },
+                  "note": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -83,13 +184,50 @@
     "arc": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["factions", "questions", "hooks"]
+      "required": [
+        "factions",
+        "questions",
+        "hooks"
+      ]
     },
-    "ui": { "type": "object" },
-    "arena": { "type": "object" },
-    "loadout": { "type": "object" },
-    "summaries": { "type": "object", "additionalProperties": true }
-    ,
+    "ui": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "gm_style",
+        "suggest_mode",
+        "contrast",
+        "badge_density",
+        "output_pace",
+        "voice_profile"
+      ]
+    },
+    "arena": {
+      "type": "object"
+    },
+    "loadout": {
+      "type": "object"
+    },
+    "summaries": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "summary_last_episode",
+        "summary_last_rift",
+        "summary_active_arcs"
+      ],
+      "properties": {
+        "summary_last_episode": {
+          "type": "string"
+        },
+        "summary_last_rift": {
+          "type": "string"
+        },
+        "summary_active_arcs": {
+          "type": "string"
+        }
+      }
+    },
     "continuity": {
       "type": "object",
       "additionalProperties": true,
@@ -98,27 +236,51 @@
           "type": "object",
           "additionalProperties": true,
           "properties": {
-            "mode": { "type": "string" },
-            "episode": { "type": "integer" },
-            "mission": { "type": "integer" },
-            "location": { "type": "string" }
+            "mode": {
+              "type": "string"
+            },
+            "episode": {
+              "type": "integer"
+            },
+            "mission": {
+              "type": "integer"
+            },
+            "location": {
+              "type": "string"
+            }
           }
         },
         "split": {
           "type": "object",
           "additionalProperties": true,
           "properties": {
-            "family_id": { "type": ["string", "null"] },
-            "thread_id": { "type": ["string", "null"] },
+            "family_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "thread_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "expected_threads": {
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
             "resolved_threads": {
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             },
-            "convergence_ready": { "type": "boolean" }
+            "convergence_ready": {
+              "type": "boolean"
+            }
           }
         },
         "roster_echoes": {
@@ -128,9 +290,15 @@
             "type": "object",
             "additionalProperties": true,
             "properties": {
-              "char_id": { "type": "string" },
-              "tone": { "type": "string" },
-              "text": { "type": "string" }
+              "char_id": {
+                "type": "string"
+              },
+              "tone": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
             }
           }
         },
@@ -141,18 +309,56 @@
             "type": "object",
             "additionalProperties": true,
             "properties": {
-              "tag": { "type": "string" },
-              "scope": { "type": "string", "enum": ["shared", "rumor", "campaign", "personal"] },
-              "text": { "type": "string" }
+              "tag": {
+                "type": "string"
+              },
+              "scope": {
+                "type": "string",
+                "enum": [
+                  "shared",
+                  "rumor",
+                  "campaign",
+                  "personal"
+                ]
+              },
+              "text": {
+                "type": "string"
+              }
             }
           }
         },
         "convergence_tags": {
           "type": "array",
           "maxItems": 4,
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
+        },
+        "npc_roster": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "active_npc_ids": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "string"
+          }
         }
-      }
+      },
+      "required": [
+        "last_seen",
+        "split",
+        "roster_echoes",
+        "shared_echoes",
+        "convergence_tags",
+        "npc_roster",
+        "active_npc_ids"
+      ]
     }
   }
 }

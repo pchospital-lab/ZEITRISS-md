@@ -10,11 +10,17 @@ function readJson(relPath){
 function assertBaseV7(save, label){
   assert.strictEqual(save.v, 7, `${label}: v muss 7 sein.`);
   assert.strictEqual(typeof save.zr, 'string', `${label}: zr fehlt.`);
-  assert.strictEqual(save.location, 'HQ', `${label}: nur HQ-Saves sind kanonisch.`);
+  assert.strictEqual(typeof save.save_id, 'string', `${label}: save_id fehlt.`);
+  assert.ok(Object.prototype.hasOwnProperty.call(save, 'parent_save_id'), `${label}: parent_save_id fehlt.`);
+  assert.ok(Object.prototype.hasOwnProperty.call(save, 'merge_id'), `${label}: merge_id fehlt.`);
+  assert.strictEqual(typeof save.branch_id, 'string', `${label}: branch_id fehlt.`);
   assert.ok(Array.isArray(save.characters), `${label}: characters[] fehlt.`);
   assert.ok(save.economy && Number.isFinite(save.economy.hq_pool), `${label}: economy.hq_pool fehlt.`);
   assert.ok(save.campaign && typeof save.campaign.px_state === 'string', `${label}: campaign.px_state fehlt.`);
   assert.ok(save.logs && save.logs.flags && Array.isArray(save.logs.flags.continuity_conflicts), `${label}: logs.flags.continuity_conflicts[] fehlt.`);
+  assert.ok(save.summaries && typeof save.summaries.summary_active_arcs === 'string', `${label}: summaries.summary_active_arcs muss String sein.`);
+  assert.ok(save.arc && Array.isArray(save.arc.questions) && Array.isArray(save.arc.hooks), `${label}: arc-Block ist unvollständig.`);
+  assert.ok(save.ui && typeof save.ui.gm_style === 'string', `${label}: ui.gm_style fehlt.`);
 }
 
 const highLevel = readJson('internal/qa/fixtures/savegame_v7_5er_hq_highlevel.json');

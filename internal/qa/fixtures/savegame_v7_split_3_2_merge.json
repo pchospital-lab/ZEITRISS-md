@@ -5,8 +5,6 @@
   "parent_save_id": "SAVE-EP-END-77",
   "merge_id": "MERGE-RIFT-77",
   "branch_id": "ANCHOR-HQ-ALPHA",
-  "location": "HQ",
-  "phase": "core",
   "campaign": {
     "episode": 7,
     "mission": 0,
@@ -89,6 +87,26 @@
     ],
     "convergence_tags": [
       "boss_tell:morgenrot"
-    ]
+    ],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
   }
 }
