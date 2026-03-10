@@ -1,11 +1,33 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { resolveUniqueMarkdownTarget } = require('./watchguard_file_resolver');
 
 const ROOT = path.join(__dirname, '..');
 
 function readText(relPath){
   return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+}
+
+function readMarkdown(relPath, anchors, label) {
+  return resolveUniqueMarkdownTarget({
+    root: ROOT,
+    preferredRelPaths: [relPath],
+    candidatePathRegex: new RegExp(`${path.basename(relPath).replace('.', '\\.')}$`, 'i'),
+    contentPredicates: anchors,
+    label
+  });
+}
+
+const markdownDocCache = new Map();
+
+function getDocText(relPath, anchors = [/./s], label = `NPC-Continuity-Watchguard (${relPath})`) {
+  if (!relPath.endsWith('.md')) return readText(relPath);
+  if (!markdownDocCache.has(relPath)) {
+    const { text } = readMarkdown(relPath, anchors, label);
+    markdownDocCache.set(relPath, text);
+  }
+  return markdownDocCache.get(relPath);
 }
 
 function readJson(relPath){
@@ -34,7 +56,7 @@ const slotRuleMatchers = [
 
 let slotRuleHits = 0;
 for (const relPath of ssotDocs) {
-  const text = readText(relPath);
+  const text = getDocText(relPath);
   for (const token of requiredTokens) {
     assert.ok(text.includes(token), `${relPath}: Pflichtanker '${token}' fehlt.`);
   }
