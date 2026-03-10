@@ -59,7 +59,7 @@
       "path": "characters/charaktererschaffung-optionen.md",
       "title": "ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen, Inspiration & Fallback-Archetypen",
       "category": "Characters",
-      "slot": true,
+      "slot": false,
       "level": "soll"
     },
     {

@@ -44,7 +44,7 @@ Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer mit echtem Charakter-Besitz.
    (legt Preset + Wissensspeicher an und synchronisiert den aktuellen Stand).
 4. **Vor dem Spiel kurz prüfen:**
    - Masterprompt ist im Systemfeld gesetzt,
-   - Wissensspeicher ist sauber verknüpft (20 Slots),
+   - Wissensspeicher ist sauber verknüpft (19 Slots im Default),
    - dann mit `Spiel starten (solo klassisch)` starten oder den
      Neustart natürlich formulieren.
 
@@ -58,11 +58,12 @@ ZEITRISS-Stand im üblichen Workflow.
 
 ### Manuelle Alternative (wenn ohne Script gearbeitet wird)
 
-- 20 Wissensmodule laden (`core/spieler-handbuch.md` + 19 Runtime-Module).
+- 19 Wissensmodule laden (`core/spieler-handbuch.md` + 18 Runtime-Module).
 - `meta/masterprompt_v6.md` nur als Systemprompt setzen (nicht als Wissensdatei).
 - **Parameter setzen:** Temperature `0.8` · Top-P `0.9` · Frequency Penalty `0.3` · Max Tokens `64000`.
 - Verknüpfung nach jeder Änderung prüfen (Slots + Preset).
 - Details: [Setup-Guide → Manuelles Setup](docs/setup-guide.md#wissensspeicher--plattform-setup).
+- `characters/charaktererschaffung-optionen.md` ist optionales Inspirations-/Fallback-Material und nicht Teil des Default-Wissensspeichers.
 
 _(Fast-Lane bleibt möglich: `Spiel starten (solo schnell)`.)_
 
