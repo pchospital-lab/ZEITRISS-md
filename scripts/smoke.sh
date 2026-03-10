@@ -139,6 +139,10 @@ node tools/test_hard_final_review_watchguard.js > out/hard_final_review_watchgua
 grep "hard-final-review-watchguard-ok" out/hard_final_review_watchguard.log
 
 
+# Upload-Snapshot-Watchguard (historische Uploads klar vom aktiven SSOT getrennt)
+node tools/test_upload_snapshot_watchguard.js > out/upload_snapshot_watchguard.log
+grep "upload-snapshot-watchguard-ok" out/upload_snapshot_watchguard.log
+
 # Chronopolis-Gate-Watchguard (automatisiert den früheren Manual-Check)
 node tools/test_chronopolis_gate_watchguard.js > out/chronopolis_gate_watchguard.log
 grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log
