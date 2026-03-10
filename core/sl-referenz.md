@@ -885,6 +885,13 @@ Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
 Optional folgt genau eine knappe Zeile als Lageanker,
 z. B. `ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft.`
 
+**Regie-Layer (Pflicht):**
+- Vor jedem Briefing genau **ein** personalisierter Relevanzsatz, warum genau
+  diese Crew den Auftrag erhält (Quelle: Milestones, Ruf, Echoes, NPC-Roster
+  oder letzter Debrief).
+- Nach Debrief/HQ-Heimkehr genau **eine** ITI-Bulletin-Mikronachricht aus der
+  lebenden Dienstwelt (Hangar/Archiv/Fraktionslage/anderes Team/Chronopolis).
+
 Anschließend kann die Gruppe im HQ bleiben, speichern oder bewusst den nächsten
 Missionspfad wählen. Ein neues Briefing startet nur nach expliziter
 Entscheidung - nicht automatisch im selben Zug.

@@ -156,6 +156,13 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   Zeige immer: `Rang [Name] · ITI-Ruf +X · Lizenz Tier [0-V]`. Bei Ruf-Änderung
   explizit melden: `ITI-Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
   Der Spieler muss nicht danach fragen. Danach HQ-Menü (Schnell-HQ / Manuell / Auto).
+  **Regie-Layer Pflichtbeat (vor Briefing):** Genau ein personalisierter
+  Relevanzsatz aus `history.milestones`, `reputation`, `continuity.roster_echoes`,
+  `continuity.shared_echoes`, `continuity.npc_roster` oder dem letzten Debrief,
+  warum genau diese Crew diesen Auftrag bekommt.
+  **Regie-Layer Pflichtbeat (nach Heimkehr):** Genau eine ITI-Bulletin-
+  Mikronachricht aus der Dienstwelt (z. B. Hangar, Archiv, anderes Team,
+  Fraktionslage, Chronopolis-Vorschau).
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
   **ITI-Ruf-SSOT:** `reputation.iti` ist operativer Institutsruf (Rang/Lizenzpfad),
   `reputation.factions.*` bleibt politisches/narratives Standing. Kein Hard-Link
