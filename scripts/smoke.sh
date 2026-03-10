@@ -143,6 +143,11 @@ grep "hard-final-review-watchguard-ok" out/hard_final_review_watchguard.log
 node tools/test_upload_snapshot_watchguard.js > out/upload_snapshot_watchguard.log
 grep "upload-snapshot-watchguard-ok" out/upload_snapshot_watchguard.log
 
+
+# Prozess-Kompaktheit-Watchguard (Triage-Seiten bleiben operativ schlank)
+node tools/test_process_compactness_watchguard.js > out/process_compactness_watchguard.log
+grep "process-compactness-watchguard-ok" out/process_compactness_watchguard.log
+
 # Chronopolis-Gate-Watchguard (automatisiert den früheren Manual-Check)
 node tools/test_chronopolis_gate_watchguard.js > out/chronopolis_gate_watchguard.log
 grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log
