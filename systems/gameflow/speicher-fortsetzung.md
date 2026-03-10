@@ -40,13 +40,11 @@ tags: [system]
 > Chat-Befehle im reinen Chatbetrieb: `!save` und `!bogen` (Alias `!charakterbogen`). Laden erfolgt über JSON-Paste im Chat; `Spiel laden` bleibt optionaler Prompt.
 > Einziger Save-Typ: Deepsave (HQ-only).
 
-**Referenz-Fixture (Test-Save v6):** Ein vollständig ausgefüllter Teststand mit
-allen Pflichtfeldern inklusive Cross-Mode-Pfaden (`characters[].wallet`,
-`logs.psi[]`, `arc.open_seeds`, `arena.phase_strike_tax`) liegt als
-kanonisches Fixture unter
-`savegame_v6_test.json` im internen QA-Fixture-Ordner.
-Acceptance-Smoke-Prüfpunkte 4 (HQ-Save-Guard) und 10 (Cross-Mode-Saves) nutzen
-diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
+**Referenzstand (Legacy-v6):** Für Migrationen wird ein vollständig
+ausgefüllter v6-Teststand mit Pflichtfeldern und Cross-Mode-Pfaden
+(`characters[].wallet`, `logs.psi[]`, `arc.open_seeds`,
+`arena.phase_strike_tax`) genutzt. Er dient ausschließlich der
+Import-Validierung; der kanonische Exportpfad bleibt v7.
 
 ## Save-Prompts im HQ-Flow
 - **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
@@ -1112,8 +1110,10 @@ Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.
 
 ### Kanonischer Split-Standard
 
-Split/Merge ist standardmäßig nur **nach Episodenende** für getrennte
-Rift-Ops kanonisch. Die SL erstellt pro Teilgruppe einen eigenständigen Save:
+Split/Merge ist kanonisch für **Core-Parallelpfade** und **separate Rift-Ops**,
+sofern pro Branch ein eigenständiger Save geführt wird. Bei
+Core-Parallelpfaden ist `continuity.split.family_id` Pflicht. Die SL erstellt
+pro Teilgruppe einen eigenen Save:
 
 1. **Characters aufteilen:** Jede Teilgruppe bekommt ihre `characters[]`.
    Session-Anker des neuen Saves = erster Character im Array.
@@ -1126,9 +1126,9 @@ Rift-Ops kanonisch. Die SL erstellt pro Teilgruppe einen eigenständigen Save:
 5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
 6. **campaign.px + px_state:** Px und `px_state` werden in beide Saves kopiert (nicht aufgeteilt).
 
-### Kanonischer Merge (Rift-only)
+### Kanonischer Merge (Core + Rift)
 
-Nach separaten Rift-Ops werden die Saves im HQ wieder zusammengeführt:
+Beim Rejoin im HQ werden die Branch-Saves wieder zusammengeführt:
 
 1. **Characters mergen:** Alle `characters[]` in ein Array.
    Session-Anker-Charakter = Index 0 (aus dem Save des ursprünglichen

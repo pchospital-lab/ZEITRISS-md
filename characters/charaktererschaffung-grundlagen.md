@@ -20,9 +20,9 @@ erlebt. Dieses Modul liefert euch eine **Schritt-für-Schritt-Anleitung** zur Ch
 erklärt, wie eure Figur im Verlauf des Spiels **fortschreitet** - vom Level-Aufstieg über das
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
-regelleicht gehalten, sodass der Spielfluss im Vordergrund steht. Für zusätzliche Optionen,
-Start-Archetypen und Team-Varianten siehe
-[Charakteroptionen & Archetypen](charaktererschaffung-optionen.md).
+regelleicht gehalten, sodass der Spielfluss im Vordergrund steht. Der
+Default-Startpfad ist vollständig in diesem Modul enthalten und benötigt keine
+zusätzlichen Charakterdateien.
 Nach dem fatalen Ende eures früheren Lebens extrahierte das ITI euer Bewusstsein aus dem Absolut.
 ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute
 unvollständig verstandene Grenzphysik. Die Charaktererschaffung findet im **Nullzeit-Puffer** statt, über Holo-Interfaces und Labor-
@@ -32,8 +32,7 @@ Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Be
 
 1. Konzeptidee festlegen
 2. Spezies oder Bio-Hülle wählen - Basis-Mensch, humane Abstufung (T-Stufe/N-Typ) oder historischer
-   Hominin. Siehe [Humane Abstufungen](charaktererschaffung-optionen.md#humane-abstufungen) und
-   [Historische Homininen](charaktererschaffung-optionen.md#historische-homininen-bio-sheaths).
+   Hominin.
 3. Attribute verteilen (18 Punkte von Basis 0, Endwerte ≥ 1)
 4. Drei Talente wählen (2 frei + 1 Echo aus dem früheren Leben)
 5. Startausrüstung notieren
@@ -41,8 +40,7 @@ Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Be
 7. Werte in das HUD übernehmen
    Weitere Hinweise und Symboltabellen findet ihr im Abschnitt
    [Cinematisches HUD-Overlay](hud-system.md#cinematisches-hud-overlay).
-8. Teamrolle festlegen (optional, siehe
-   [Team-Zusammenstellung](charaktererschaffung-optionen.md#team-zusammenstellung-rollenverteilung-optional))
+8. Teamrolle festlegen (optional)
 9. Dossier skizzieren (Lebenslauf, Tod, Anker, Hook)
 10. Erste Mission planen
 
@@ -71,12 +69,8 @@ freigeschaltet.
     Eckdaten nennen, der Kodex baut den Rest). Erst danach legt ihr die **Chrononaut-Rolle** fest:
     kampferprobter Zeit-Soldat, brillante Historikerin, futuristischer Tech-Operative oder etwas ganz
     Anderes. Eure Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist - z.B.
-    Diplomatie, Kampf, Technik, Medizin oder Infiltration. Ihr könnt entweder einen der vordefinierten
-    **Archetypen** wählen (siehe
-    [Charakteroptionen & Archetypen](charaktererschaffung-optionen.md#start-archetypen-beispielcharaktere))
-    oder ein eigenes Konzept ausarbeiten. Wenn ihr einen Archetypen
-    übernehmt, habt ihr sofort einen spielbereiten Helden mit stimmigem Hintergrund und ausbalancierten
-    Werten. Entscheidet ihr euch für ein eigenes Konzept, hilft es, sich kurz ein **Background-
+    Diplomatie, Kampf, Technik, Medizin oder Infiltration. Ihr könnt ein eigenes Konzept ausarbeiten. Entscheidet ihr euch dafür, hilft
+    es, sich kurz ein **Background-
     Storyboard** vorzustellen: Aus welcher Epoche stammt euer Agent? Wie wurde er vom ITI rekrutiert?
     Warum eignet er sich besonders für Zeitreisen? - Diese Fragen geben euch Ansatzpunkte für Attribute
     und Talente. (Cineastischer Tipp: Stellt euch eine kurze Filmszene vor, die euren Charakter in Aktion
@@ -106,7 +100,7 @@ freigeschaltet.
     mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Achtet
     darauf, dass die Summe bis zum Abschluss **18** ergibt.
     Kein Startwert darf über **6** liegen oder unter **1** fallen. Die Beispiel-
-    Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
+    Charaktere haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
     vergleichbarem Power-Niveau starten. \*(Beispiel: Der **_Temporal-Soldat_** Nikolai fokussiert auf
     STR 5 und GES 4, während z.B. CHA 2 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber
     hingegen hat INT 5 und CHA 4 als Stärken, dafür nur STR 1.)_ Nachdem ihr die Zahlen verteilt habt,
@@ -126,9 +120,8 @@ freigeschaltet.
     jedes Talent dem Charakter **im Spiel einen Vorteil** verschafft, der aber thematisch begrenzt ist.
     Wählt am besten Talente, die eure wichtigsten Rollen unterstreichen. Eine Diplomatin könnte z.B.
     _Überreden_ als Talent nehmen, ein Tech-Operative _Systemanalyst_, ein Arzt _Heilkundiger_, etc. -
-    Anregungen liefert die Archetypen-Liste im Modul
-    [Charakteroptionen & Archetypen](charaktererschaffung-optionen.md#start-archetypen-beispielcharaktere),
-    wo bei jedem Charakter drei beispielhafte Talente
+    Anregungen liefert eine kurze Rollenliste pro Figur; dort sind je Charakter
+    drei beispielhafte Talente
     aufgeführt sind. Die KI-Spielleitung kann beim Erstellen Vorschläge machen: _"Mira hätte als
     Tech-Operative wohl Talente wie Drohnensteuerung oder Techno-Mancer im Repertoire. Möchtet ihr
     etwas in der Art wählen?"_ - Auf diese Weise integriert sich die Charaktererschaffung nahtlos ins
@@ -173,9 +166,10 @@ freigeschaltet.
     die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier-Implantat im Auge haben, ein Agent
     aus der Zukunft vielleicht einen Datenlink. Beispiele: Dr. Weber trägt einen **Neuro-Translator**
     (Sprachchip, Kosten 1) sowie ein **kognitives Enhancement** (Gedächtnischip, Kosten 1) und nutzt
-    damit 2 von ihren 2 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface und eine AR-
-    Kontaktlinse (je 1 SYS, zusammen 2 von 2 Punkten). Ihr könnt Implantate aus den Archetypen
-    übernehmen oder eigene erfinden - stimmt euch mit der SL ab, was plausibel ist. Die Installation
+    damit 2 von ihren 2 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface
+    (SYS 1); Retina-Linse und Comlink zählen zur Standardausrüstung und kosten
+    **kein SYS**. Ihr könnt passende Implantate
+    frei festlegen - stimmt euch mit der SL ab, was plausibel ist. Die Installation
     dieser Mods kann Teil eurer Hintergrundstory sein (_"In Miras Zeit sind Neuro-Links Standard, daher
     startet sie damit"_) oder wird vom ITI vor der ersten Mission vorgenommen (cineastisch etwa als
     kurze Klinik-Szene im HQ). Notiz: Implantate bieten Vorteile, kommen aber selten ohne kleine
@@ -226,6 +220,7 @@ Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit integrierter
 energieautark, mit eigener Mikro-CPU für den Offline-Betrieb, ein paar
 **persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die
 keinen großen mechanischen Einfluss haben, aber Flair geben.
+Retina-Linse und Comlink sind Basistechnik und belegen keine SYS-Slots.
 
 _Immersive Note:_ Die KI-Spielleitung kann die Ausrüstungswahl ins Spiel einbinden. Etwa durch eine
 **Briefing-Szene** im Rüstungsdepot: _"Im gedämpften Neonlicht der Waffenkammer legt der

@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 - Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
+title: "ZEITRISS 4.2.6 - Modul 6: Kampagnenstruktur für langfristige Einsätze"
 version: 4.2.6
 tags: [gameplay, core]
 ---
 
-# ZEITRISS 4.2.6 - Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
+# ZEITRISS 4.2.6 - Modul 6: Kampagnenstruktur für langfristige Einsätze
 
 ## Gameplay-Index
 
@@ -24,8 +24,9 @@ Diese Modulnummer führt die Hauptreihe nach Modul 5 fort und bindet nahtlos an 
 
 **ZEITRISS 4.2.6** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
 Spieler hilft, epische **Langzeit-Abenteuer** zu gestalten. Dieses Modul bietet strukturierte
-Werkzeuge für die Planung mehrteiliger Handlungsbögen, die Weiterentwicklung eines gemeinsamen
-Hauptquartiers (HQ) und die Pflege von Beziehungen im Verlauf der Kampagne. Alle Elemente sind
+Werkzeuge für die Planung mehrteiliger Handlungsbögen, die Weiterentwicklung von
+Zugängen/Freigaben im festen HQ-Kernbereich und die Pflege von Beziehungen im
+Verlauf der Kampagne. Alle Elemente sind
 **klar strukturiert** und **modular anwendbar**, sodass sie je nach Bedarf der Gruppe eingesetzt
 werden können. Im Fokus steht stets das besondere **ZEITRISS-Flair** - temporeiche Einsätze durch
 Raum und Zeit, dramatische Entscheidungen mit Folgen für die Geschichte und intime Charaktermomente
@@ -2311,11 +2312,11 @@ benötigen.
 
 ## Fazit
 
-**ZEITRISS 4.2.6** bietet mit diesem Regel- und Inspirationsmodul einen umfangreichen Werkzeugkasten,
+**ZEITRISS 4.2.6** bietet mit diesem Kampagnenmodul einen umfangreichen Werkzeugkasten,
 um aus einer Kampagne ein filmreifes Epos zu machen. Durch die **Arc-Struktur** mit verzweigten
-Zeitlinien bleibt die Handlung flexibel und doch fokussiert. Das ausbaubare **Hauptquartier**
-verwandelt sich von einer simplen Basis zu einem lebendigen Mittelpunkt, an dem Fortschritt und
-Erinnerungen der Gruppe sichtbar werden. **Beziehungsnetzwerke** zu NSCs, Fraktionen und innerhalb
+Zeitlinien bleibt die Handlung flexibel und doch fokussiert. Der feste **HQ-Kernbereich**
+bleibt als lebendiger Mittelpunkt konstant, während Fortschritt über Zugänge,
+Freigaben und Beziehungen sichtbar wird. **Beziehungsnetzwerke** zu NSCs, Fraktionen und innerhalb
 des Teams verweben persönliche Geschichten mit der großen Zeitchronik, sodass jeder Sieg und jede
 Niederlage auf mehreren Ebenen Bedeutung trägt. Langfristige **Entwicklungen** wie Ruf,
 Einflussgebiete und die Paradoxonmechanik stellen sicher, dass die Taten der Agenten konsequenzenreich
