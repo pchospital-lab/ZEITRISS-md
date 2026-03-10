@@ -22,22 +22,22 @@ nächsten Anschlusslauf.
   - `hard-final-review-watchguard-ok`
   - `chronopolis-gate-watchguard-ok`
 - Pflicht-Smoke bleibt der zentrale Merge-Gate-Check.
-- Die Prozessseite `known-issues.md` wurde im Durchlauf 157 als operativer
-  Einstieg entrümpelt; die Detailchronik 73–156 liegt jetzt im Archiv unter
-  `internal/qa/process/archive/known-issues-durchlaufhistorie-73-156.md`.
+- Die Prozessseiten sind auf operativen Einstieg getrimmt:
+  - Durchlauf 157: Historie 73–156 aus `known-issues.md` archiviert.
+  - Durchlauf 158: `known-issues.md` auf kompakte Triage-Notizen reduziert;
+    Detailstände liegen in den jeweiligen Statusmatrizen/Archivdateien.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
-1. **QA-Übersicht weiter entrümpeln**
-   - ✅ `known-issues.md` wurde auf Triage-Fokus gekürzt (Durchlauf 157).
-   - Nächster Schritt: bei Bedarf weitere Langläufe aus anderen
-     Prozessseiten in `internal/qa/process/archive/` spiegeln.
-2. **Watchguard-Zielpfade stabil halten**
-   - Bei künftigen Makro-Umzügen den neuen
+1. **Watchguard-Zielpfade stabil halten**
+   - Bei künftigen Makro-Umzügen den
      `chronopolis-gate-watchguard` auf den gültigen Runtime-Pfad nachziehen.
-3. **Upload-Kontext klar markieren**
+2. **Upload-Kontext klar markieren**
    - Historische Upload-Reviews weiterhin als Snapshot
      kennzeichnen, damit sie nicht mit aktuellem SSOT-Status verwechselt werden.
+3. **Prozessseiten weiter schlank halten**
+   - Lange Durchlaufprosa nur in Archive/Statusmatrizen führen,
+     aktive Seiten auf Triage-/Anschlussinformationen begrenzen.
 
 ## Operativer Ablauf für nächste Durchläufe
 
