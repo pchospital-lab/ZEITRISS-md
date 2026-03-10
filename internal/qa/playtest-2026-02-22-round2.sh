@@ -46,7 +46,7 @@ api_chat "zeitriss-v426-uncut-deepseek" "$MSGS_LOAD" "02-load-roundtrip-deepseek
 # ═══════════════════════════════════════════════════════════════
 MSGS_GLAD='[
   {"role":"user","content":"Spiel starten (solo schnell)"},
-  {"role":"assistant","content":"Breacher Callsign: Titan. Level 3. STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 3. HP 12/12. Monofaser-Schwert, Kevlar unter Tunika. Mission: Rom 80 n.Chr., Kolosseum. Undercover als Gladiator. Anomalie im Untergeschoss. Briefing abgeschlossen, du stehst im Tunnel unter der Arena."},
+  {"role":"assistant","content":"Breacher Callsign: Titan. Level 3. STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 3. LP 12/12. Monofaser-Schwert, Kevlar unter Tunika. Mission: Rom 80 n.Chr., Kolosseum. Undercover als Gladiator. Anomalie im Untergeschoss. Briefing abgeschlossen, du stehst im Tunnel unter der Arena."},
   {"role":"user","content":"Die Falltür über mir öffnet sich. Licht flutet rein. Das Publikum brüllt. Gegenüber steht ein Gladiator mit Netz und Dreizack — ein echter Retiarius. Ich ziehe mein Monofaser-Schwert (getarnt als Gladius) und gehe in Kampfstellung. LOS."}
 ]'
 api_chat "zeitriss-v426-uncut-sonnet" "$MSGS_GLAD" "03-gladiator-sonnet"
