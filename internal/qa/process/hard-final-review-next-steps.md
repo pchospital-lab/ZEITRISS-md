@@ -49,6 +49,11 @@ nächsten Anschlusslauf.
   `tools/templates/watchguard.template.js` als Startpunkt plus
   `internal/qa/process/watchguard-neuanlage-checkliste.md` als
   Maintainer-Checkliste.
+- Durchlauf 187 härtet den Meta-Guard weiter auf Smoke-Output-Kohärenz:
+  `watchguard-loader-consistency` erzwingt nun pro `test_*watchguard.js`
+  auch das erwartete Ergebnis-Token (`<dateiname-normalisiert>-ok`) via
+  `console.log(...)`; die Neuanlage-Checkliste enthält dazu jetzt eine
+  explizite Dateiname→Token-Regel.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
