@@ -71,6 +71,17 @@ assert.ok(saveHintHits >= 2, `HQ-Save-Hinweisdrift: 'Deepsave möglich' nur ${sa
 assert.ok(noAutoBriefingHits >= 2, `HQ-Flow-Drift: 'kein Auto-Briefing' nur ${noAutoBriefingHits}/4 Treffer.`);
 assert.ok(newChatHintHits >= 2, `Chatwechsel-Hinweisdrift: 'neuer Chat empfohlen' nur ${newChatHintHits}/4 Treffer.`);
 
+
+const spielerHandbuchText = readText('core/spieler-handbuch.md');
+assert.ok(
+  /standard\s*\(empfohlen\)[\s\S]{0,220}spiel\s+starten\s*\(solo\s+klassisch\)/i.test(spielerHandbuchText),
+  'Spielerhandbuch-Drift: Mini-Einsatzhandbuch muss `solo klassisch` als Standard (empfohlen) ausweisen.'
+);
+assert.ok(
+  /fast-lane\s*\(optional\)[\s\S]{0,220}solo\s+schnell/i.test(spielerHandbuchText),
+  'Spielerhandbuch-Drift: Mini-Einsatzhandbuch muss `solo schnell` als optionale Fast-Lane markieren.'
+);
+
 const charsOptionsText = readText('characters/charaktererschaffung-optionen.md');
 assert.ok(
   /nicht[\s\S]{0,40}bevorzugte?r?\s+runtime-pfad/i.test(charsOptionsText),
