@@ -5,14 +5,14 @@ const { createDocTextLoader } = require('./watchguard_doc_loader');
 const ROOT = path.join(__dirname, '..');
 const { readMarkdown } = createDocTextLoader({
   root: ROOT,
-  scopeLabel: 'Ruf/Alien-Watchguard'
+  scopeLabel: 'Ruf-Alien-Watchguard'
 });
 
 function resolveText(preferredRelPath, contentPredicates) {
   const { file, text } = readMarkdown(
     preferredRelPath,
     contentPredicates && contentPredicates.length ? contentPredicates : [/./s],
-    `Ruf/Alien-Watchguard (${preferredRelPath})`
+    `Ruf-Alien-Watchguard (${preferredRelPath})`
   );
   return { relPath: path.relative(ROOT, file), text };
 }
