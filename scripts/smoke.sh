@@ -126,6 +126,10 @@ grep "kausalabfang-watchguard-ok" out/kausalabfang_watchguard.log
 node tools/test_onboarding_start_save_watchguard.js > out/onboarding_start_save_watchguard.log
 grep "onboarding-start-save-watchguard-ok" out/onboarding_start_save_watchguard.log
 
+# Default-Slot-Dependency-Watchguard (keine Runtime-Abhängigkeit auf optionales Modul)
+node tools/test_default_slot_dependency_watchguard.js > out/default_slot_dependency_watchguard.log
+grep "default-slot-dependency-watchguard-ok" out/default_slot_dependency_watchguard.log
+
 # Director-Layer-Watchguard (Relevanzsatz + ITI-Bulletin Pflichtbeat)
 node tools/test_director_layer_watchguard.js > out/director_layer_watchguard.log
 grep "director-layer-watchguard-ok" out/director_layer_watchguard.log

@@ -306,3 +306,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Hard Final Review Split-/Branch-Import-Klarstellung): `internal/qa/plans/issue-pack-durchlauf-152-hard-final-review-split-branch-import-klarstellung.md`
 - Log (Hard Final Review Split-/Branch-Import-Klarstellung): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-152-hard-final-review-split-branch-import-klarstellung.md`
+
+- **Durchlauf 153 (2026-03-10):** Hard-Final-Review-Anschluss als Pipeline-Guard abgesichert: `tools/test_default_slot_dependency_watchguard.js` prüft nun verpflichtend, dass `characters/charaktererschaffung-grundlagen.md` keine implizite Runtime-Abhängigkeit auf das optionale Modul `charaktererschaffung-optionen.md` enthält. Der Check ist in `scripts/smoke.sh` integriert und läuft im Pflicht-Smoke mit. Pflicht-Smoke erneut grün.
+
+- Fahrplan (Hard Final Review Default-Slot-Watchguard & Statusaudit): `internal/qa/plans/issue-pack-durchlauf-153-hard-final-review-default-slot-watchguard-und-statusaudit.md`
+- Log (Hard Final Review Default-Slot-Watchguard & Statusaudit): `internal/qa/logs/2026-03-10-issue-pack-durchlauf-153-hard-final-review-default-slot-watchguard-und-statusaudit.md`
