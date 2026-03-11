@@ -1272,4 +1272,11 @@ dem Team und der restlichen Zeitlinie.
 > ein paar Sätze eines nervösen Forschers im Labor reichen. Kein
 > philosophischer Monolog.
 
+**Chronopolis-Zusatz (Anhang `ABSOLUT-7/CITY`):** Interne ITI-Notizen führen
+Chronopolis explizit als *Anwendungsfall* von Absolut-7, nicht als eigenes
+zweites Modell. Leseregel für die Spielleitung: Wenn in anderen Modulen
+`ABSOLUT-7` im Kontext `CITY` auftaucht, ist immer dieser Anhang gemeint —
+kodex-instanziierter, physisch wirksamer Resonanzraum der gescheiterten
+Episodenzeitlinie, kein Matrix-/VR-/Digitalraum-Gameplay.
+
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

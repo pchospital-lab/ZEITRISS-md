@@ -959,7 +959,7 @@ Entscheidung - nicht automatisch im selben Zug.
   erschaffen kann, die "noch nicht fixiert" sind. Chronopolis existiert in
   diesem instabilen Zustand — real genug zum Handeln, aber ohne permanente
   Auswirkungen auf die Hauptzeitlinie.
-- **Forschungsschnipsel `ABSOLUT-7` (Leitungsnotiz):** Chronopolis wird intern
+- **Forschungsschnipsel `ABSOLUT-7/CITY` (Leitungsnotiz):** Als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell wird die CITY intern
   nicht als "Matrix" geführt, sondern als **quantengebundener Resonanzraum**,
   den Kodex aus Episodenbruch + Nullzeit-Kopplung instanziert. Konsequenz für
   die Regie: kein VR-/Digitalraum-Vokabular und kein Simulations-Gameplay,

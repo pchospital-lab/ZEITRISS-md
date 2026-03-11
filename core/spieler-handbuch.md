@@ -108,7 +108,7 @@ menschlicheren Zukunftsspur gefolgt sind.
 - **Merksatz:** Chronopolis ist kein sicherer Stadt-Hub, sondern ein freier
   Infiltrationslauf in der gescheiterten Zeitlinie: unauffällig hinein,
   Chancen lesen, Loot/Intel/Kontakte sichern und lebend wieder hinaus.
-- **Lore-Hinweis (ITI-Forschung):** Interne Memos (Stichwort **ABSOLUT-7**)
+- **Lore-Hinweis (ITI-Forschung):** Interne Memos (Stichwort **ABSOLUT-7/CITY** als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell)
   deuten an, dass Kodex keine klassische Simulation erzeugt, sondern einen
   physisch wirksamen Quanten-Resonanzraum der gescheiterten Zeitlinie. Für die
   Spielpraxis bleibt es trotzdem ein Straßen-/Infiltrationslauf, kein
