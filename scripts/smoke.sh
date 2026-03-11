@@ -164,5 +164,9 @@ grep "watchguard-smoke-coverage-ok" out/watchguard_smoke_coverage.log
 node tools/test_chronopolis_gate_watchguard.js > out/chronopolis_gate_watchguard.log
 grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log
 
+# Chronopolis-Kodex-Lockout-Watchguard (CITY-Sperrmodus gegen Restdrift abgesichert)
+node tools/test_chronopolis_kodex_lockout_watchguard.js > out/chronopolis_kodex_lockout_watchguard.log
+grep "chronopolis-kodex-lockout-watchguard-ok" out/chronopolis_kodex_lockout_watchguard.log
+
 echo ""
 echo "All smoke checks passed."
