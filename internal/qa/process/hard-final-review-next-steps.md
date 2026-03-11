@@ -94,6 +94,7 @@ nächsten Anschlusslauf.
 - Durchlauf 210 schärft das Wording nach Review-Feedback: SaveGuard-Re-Sync in `core/sl-referenz.md` ist jetzt klar auf reguläre Offline-Missionen außerhalb Chronopolis begrenzt (HQ-Kern wieder online), und die Sperrmodus-Begründung benennt explizit das Echo-Kollapsrisiko der von Kodex instanzierten CITY-Zeitlinie (HUD + Masterprompt).
 - Durchlauf 211 verankert einen Lore-Guard `ABSOLUT-7` in den Runtime-SSOTs (Spieler-Handbuch, SL-Referenz, Masterprompt, Kampagnenstruktur, Toolkit): Chronopolis darf als kodex-instanziierter Resonanzraum angedeutet werden, bleibt spielpraktisch aber strikt physischer Infiltrationsraum statt Matrix-/Digitalraum-Modus.
 - Durchlauf 212 führt die Doppel-Lesbarkeit um `ABSOLUT-7` zusammen: `systems/kp-kraefte-psi.md` enthält jetzt den expliziten Chronopolis-Anhang `ABSOLUT-7/CITY`, und die Runtime-SSOTs verwenden denselben Marker als Zusatzfall des Absolut-7-Projektionsmodells statt als separates zweites Konstrukt.
+- Durchlauf 213 schließt verbleibende Mikro-Restdrift im Chronopolis-Kodex-Contract: kompakte HUD-/FAQ-/Befehlsformulierungen in `characters/hud-system.md`, `core/sl-referenz.md` und `core/spieler-handbuch.md` markieren Vollzugriff nun explizit als **außerhalb `CITY`** und kennzeichnen `kodex [thema]` im Spieler-Handbuch eindeutig als **in `CITY` gesperrt**.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -123,6 +124,8 @@ nächsten Anschlusslauf.
    - Bei Änderungen an Comms/Kodex/HUD den CITY-Contract parallel prüfen:
      _Kodex dunkel, HUD lebendig_, keine freien Kodex-Abfragen in Chronopolis,
      `!offline` mit eigener Sperrmodus-Antwort.
+   - Auch kurze FAQ-/Menütexte auf `CITY`-Scope prüfen (keine unqualifizierten
+     „Vollzugriff“-Formulierungen ohne den Zusatz außerhalb `CITY`).
 
 ## Operativer Ablauf für nächste Durchläufe
 
