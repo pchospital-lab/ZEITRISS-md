@@ -464,6 +464,10 @@ zurück.
 > reine Migrationsfelder für Altstände. Im kanonischen v7-Neu-Export sind beide
 > Root-Felder ausgeschlossen (siehe Abschnitt **Kanonisches Save-Exportformat**).
 
+> **Leseregel für dieses Legacy-Muster:** Trotz `v: 7` im Beispiel bleibt dieser
+> Block eine reine Import-/Migrations-Bridge. Für Neu-Exporte gilt ausschließlich
+> das kanonische v7-Zielmodell im Abschnitt **Kanonisches Save-Exportformat**.
+
 ```json
 {
   "v": 7,

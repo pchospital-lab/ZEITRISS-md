@@ -83,6 +83,8 @@ nächsten Anschlusslauf.
 
 - Durchlauf 201 schließt eine verbleibende aktive Slot-Count-Restdrift im QA-Audit: `internal/qa/audits/ZEITRISS-qa-audit-2025.md` verwendet nun konsistent den kanonischen 19er-Defaultpfad (Spieler-Handbuch + 18 Runtime-Module) statt einer veralteten 20er-Formulierung.
 
+- Durchlauf 202 schärft die Lesesicherheit im Legacy-Bridge-Bereich von `systems/gameflow/speicher-fortsetzung.md`: Eine explizite Leseregel stellt direkt am großen HQ-Beispiel klar, dass `v: 7` dort ausschließlich als Import-/Migrations-Bridge zu lesen ist und kein kanonischer v7-Neu-Exportpfad entsteht.
+
 ## Offene Anschluss-Tasks (priorisiert)
 
 1. **Resolver-/Loader-Standard bei neuen/angepassten Guards fortführen**
