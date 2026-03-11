@@ -33,7 +33,8 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 **Zugriffsmatrix Kodex ↔ HUD**
-- **HQ/ITI (Kernbereich):** Vollzugriff, Kodex aktiv (volles ITI-Archiv), HUD läuft parallel.
+- **HQ/ITI (Kernbereich, außerhalb `CITY`):** Vollzugriff, Kodex aktiv
+  (volles ITI-Archiv), HUD läuft parallel.
 - **Chronopolis (`CITY`):** **Sperrmodus** trotz erreichter Schleuse: _Kodex dunkel, HUD lebendig_.
   Lokale HUD-Daten/Logs/Warnungen bleiben aktiv, freie Kodex-Abfragen sind blockiert,
   damit Kodex die instanzierte Zeitlinie nicht über den Live-Kanal destabilisiert – Echo könnte die Instanz kollabieren lassen, inklusive Crew im Run.
