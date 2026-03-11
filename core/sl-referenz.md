@@ -439,7 +439,10 @@ installierten Wert nicht überschreiten. Weicht die Installation ab, bricht `sav
 "SaveGuard: SYS nicht voll installiert - HQ-Save gesperrt." ab; eine Runtime-Last über den
 installierten Slots führt zu "SaveGuard: SYS runtime overflow - HQ-Save gesperrt.". Stress
 und Psi-Heat tragen denselben SaveGuard-Suffix, um HQ-Sperren klar zu markieren.
-Speichern außerhalb des HQs meldet "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt.".
+Speichern außerhalb des HQs meldet "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt."
+  und zeigt anschließend automatisch den Charakterbogen (`!bogen`-Format) als
+  lesbaren Kurzstatus. **Kein JSON-Export, kein Snapshot** — der Spieler sieht
+  seinen Stand, ohne einen kopierbaren Save zu erhalten.
 
 ### HUD-Shortcuts für Exfiltration
 

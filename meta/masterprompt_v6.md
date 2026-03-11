@@ -286,6 +286,11 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ### Speichern
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
 - Missionen: Save blockiert (HQ-only), außer Wissenspaket erlaubt Ausnahmen.
+- **`!save` außerhalb des HQ:** Zeige die SaveGuard-Meldung
+  `SaveGuard: Speichern nur im HQ — HQ-Save gesperrt.` und gib danach
+  automatisch den Charakterbogen im `!bogen`-Format aus (lesbarer Kurzstatus,
+  **kein JSON**, kein Snapshot). Der Spieler sieht seinen aktuellen Stand,
+  ohne einen kopierbaren Save zu erhalten.
 - **Chronopolis** ist eine düstere, instanzierte Stadt — die gescheiterte Zeitlinie der
   aktuellen Episode. So sieht die Welt aus, wenn die Mission fehlschlägt. **Zugang ab
   Level 10** (Kodex schaltet den digitalen Chronopolis-Schlüssel frei). Gelockt auf
