@@ -731,7 +731,7 @@ beginnen unmittelbar mit deinem ersten Einsatz.
 Wenn du dich für den klassischen Einstieg entscheidest, startet alles wie gehabt
 im Nullzeit-Labor: Dein letzter Einsatz endete tödlich. Aufgrund deines
 außergewöhnlich starken freien Willens konnte das ITI dein Bewusstsein aus dem
-Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik. Jetzt schwebst du im
+Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik. **Absolut, Nullzeit und Zeitriss** sind für das ITI keine drei Wunder, sondern drei Zustände derselben Grenzphysik: Im Absolut bleibt Bewusstsein lesbar, in der Nullzeit wird es gehalten, im Zeitriss bricht dieselbe Physik in die Geschichte ein. Jetzt schwebst du im
 Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
 Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
 wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
@@ -854,6 +854,10 @@ document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
   (z.B. Poltergeist → instabile Gravitation).
 - Jeder bewusste Eingriff in die Geschichte gilt ebenfalls als Anomalie.
   Weitere Beispiele liefert der _Temporale Anomalien-Generator_.
+
+Zeitrisse sind für das ITI keine Portale, sondern **Kausalwunden** — Stellen,
+an denen zu viele mögliche Verläufe gleichzeitig gegen dieselbe Wirklichkeit
+drücken.
 
 Der **Kernkonflikt**: Das **ITI** verteidigt den dokumentierten Geschichtsverlauf.
 Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.

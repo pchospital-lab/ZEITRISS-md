@@ -955,15 +955,20 @@ Entscheidung - nicht automatisch im selben Zug.
   Chronopolis als freien Infiltrationslauf: unauffällig hinein, Chancen nutzen,
   Spuren klein halten, lebend wieder hinaus.
 - **Kodex-Lore:** ITI-Forscher vermuten, dass Kodex durch das riesige Archiv
-  ein Verständnis des Zeitstroms erlangt hat und temporäre Parallelrealitäten
-  erschaffen kann, die "noch nicht fixiert" sind. Chronopolis existiert in
-  diesem instabilen Zustand — real genug zum Handeln, aber ohne permanente
-  Auswirkungen auf die Hauptzeitlinie.
+  ein Verständnis des Zeitstroms erlangt hat und bereits offene
+  Bruchmöglichkeiten einer Episode an die Nullzeit koppeln kann. Kodex
+  erfindet Chronopolis nicht aus dem Nichts, sondern hält diese Bruchlinie
+  gerade lange genug stabil, dass Chrononauten sie betreten können.
 - **Forschungsschnipsel `ABSOLUT-7/CITY` (Leitungsnotiz):** Als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell wird die CITY intern
   nicht als "Matrix" geführt, sondern als **quantengebundener Resonanzraum**,
   den Kodex aus Episodenbruch + Nullzeit-Kopplung instanziert. Konsequenz für
   die Regie: kein VR-/Digitalraum-Vokabular und kein Simulations-Gameplay,
   sondern physischer Straßenraum mit Materialität, Trägheit, Lärm und Risiko.
+> **Merksatz:** Chronopolis ist weder Simulation noch Prophezeiung, sondern der
+> begehbare Preis des Scheiterns — eine Linie, die nur dann Gewicht bekommt,
+> wenn niemand rechtzeitig eingreift.
+>
+> **ITI-Forschungston:** `ABSOLUT-7 liest keine Zukunft. Es macht Bruchlinien lesbar.`
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
   aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier
   Infiltrationslauf mit Reaktionsdruck statt als sicherer Freizeit-Hub.

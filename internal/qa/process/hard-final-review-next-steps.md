@@ -96,6 +96,7 @@ nächsten Anschlusslauf.
 - Durchlauf 212 führt die Doppel-Lesbarkeit um `ABSOLUT-7` zusammen: `systems/kp-kraefte-psi.md` enthält jetzt den expliziten Chronopolis-Anhang `ABSOLUT-7/CITY`, und die Runtime-SSOTs verwenden denselben Marker als Zusatzfall des Absolut-7-Projektionsmodells statt als separates zweites Konstrukt.
 - Durchlauf 213 schließt verbleibende Mikro-Restdrift im Chronopolis-Kodex-Contract: kompakte HUD-/FAQ-/Befehlsformulierungen in `characters/hud-system.md`, `core/sl-referenz.md` und `core/spieler-handbuch.md` markieren Vollzugriff nun explizit als **außerhalb `CITY`** und kennzeichnen `kodex [thema]` im Spieler-Handbuch eindeutig als **in `CITY` gesperrt**.
 - Durchlauf 214 ergänzt den dauerhaften Runtime-Guard für diesen Contract: `tools/test_chronopolis_kodex_lockout_watchguard.js` prüft im Pflicht-Smoke (`scripts/smoke.sh`) die Crossfile-Anker für Chronopolis-Sperrmodus (`Kodex dunkel, HUD lebendig`), `!offline`-Sonderantwort in `CITY`, `kodex [thema]`-Sperre in `CITY` und HQ-Vollzugriff explizit außerhalb `CITY`.
+- Durchlauf 215 ergänzt die Lore-Klammer für Langzeitspiel in den Runtime-SSOTs (`core/spieler-handbuch.md`, `core/sl-referenz.md`): Zeitriss als Kausalwunde, Absolut/Nullzeit/Zeitriss als Zustände derselben Grenzphysik, Kodex als Bruchlinien-Koppler (nicht Realitäts-"Erschaffer") sowie der Merksatz `ABSOLUT-7 liest keine Zukunft. Es macht Bruchlinien lesbar.`
 
 ## Offene Anschluss-Tasks (priorisiert)
 
