@@ -90,6 +90,9 @@ nächsten Anschlusslauf.
 - Durchlauf 206 synchronisiert die verbliebene Dev-Doku-Lesedrift in `docs/dev/chronopolis-map-blueprint.md`: Der Abschluss verweist nun auf den Chronopolis-Spielmodus als freier Infiltrationslauf statt auf die Altbenennung „Endgame-Hub“.
 - Durchlauf 207 ergänzt einen kompakten Playtest-Go/No-Go-Gate in `internal/qa/process/playtest-readiness-gate.md`, damit Setup, Pflicht-Smoke, Invarianten-Kurzcheck und Evidence-Ablage vor neuen Testrunden verbindlich abgeprüft werden.
 - Durchlauf 208 verankert die Gate-Nutzung zusätzlich im Pre-Test-Workflow: `docs/qa/tester-playtest-briefing.md` und die Deepsearch-Anschlusscheckliste in `internal/qa/process/continuity-redesign-statusmatrix.md` verweisen jetzt explizit auf das verpflichtende Vorab-Abarbeiten des Playtest-Gates.
+- Durchlauf 209 synchronisiert den Chronopolis-Kodex-Sperrmodus in den Runtime-SSOT-Dateien (Spieler-Handbuch, SL-Referenz, HUD-System, Masterprompt, Kampagnenstruktur, Toolkit): In `CITY` gilt jetzt eindeutig „Kodex dunkel, HUD lebendig“ inkl. `!offline`-Sonderantwort statt Re-Sync-Rezept.
+- Durchlauf 210 schärft das Wording nach Review-Feedback: SaveGuard-Re-Sync in `core/sl-referenz.md` ist jetzt klar auf reguläre Offline-Missionen außerhalb Chronopolis begrenzt (HQ-Kern wieder online), und die Sperrmodus-Begründung benennt explizit das Echo-Kollapsrisiko der von Kodex instanzierten CITY-Zeitlinie (HUD + Masterprompt).
+- Durchlauf 211 verankert einen Lore-Guard `ABSOLUT-7` in den Runtime-SSOTs (Spieler-Handbuch, SL-Referenz, Masterprompt, Kampagnenstruktur, Toolkit): Chronopolis darf als kodex-instanziierter Resonanzraum angedeutet werden, bleibt spielpraktisch aber strikt physischer Infiltrationsraum statt Matrix-/Digitalraum-Modus.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -115,6 +118,10 @@ nächsten Anschlusslauf.
    - Diese Reihenfolge auch in den operativen Vordokumenten halten:
      `docs/qa/tester-playtest-briefing.md` und
      `internal/qa/process/continuity-redesign-statusmatrix.md`.
+5. **Chronopolis-Sperrmodus stabil halten**
+   - Bei Änderungen an Comms/Kodex/HUD den CITY-Contract parallel prüfen:
+     _Kodex dunkel, HUD lebendig_, keine freien Kodex-Abfragen in Chronopolis,
+     `!offline` mit eigener Sperrmodus-Antwort.
 
 ## Operativer Ablauf für nächste Durchläufe
 
