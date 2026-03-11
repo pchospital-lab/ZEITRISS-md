@@ -312,7 +312,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     instanzierte Zeitlinie nicht durch Echo kollabiert. Lokale HUD-Daten,
     Logs und Warnbanner bleiben verfügbar; freie `kodex`-/FAQ-Abfragen sind
     bis zur Rückkehr in den HQ-Kern blockiert.
-  - **Lore-Guard `ABSOLUT-7`:** Chronopolis ist als kodex-instanziierter,
+  - **Lore-Guard `ABSOLUT-7/CITY`:** Als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell ist die Stadt kodex-instanziierter,
     physisch wirksamer Resonanzraum zu erzählen (Straßenraum/Materialität),
     nicht als VR/Matrix/Holodeck-Session. Das Mysterium bleibt als Subtext,
     der Spielmodus bleibt Infiltration im real wirkenden Gefahrenraum.
