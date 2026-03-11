@@ -33,7 +33,10 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 **Zugriffsmatrix Kodex ↔ HUD**
-- **HQ/ITI:** Vollzugriff, Kodex aktiv (volles ITI-Archiv), HUD läuft parallel.
+- **HQ/ITI (Kernbereich):** Vollzugriff, Kodex aktiv (volles ITI-Archiv), HUD läuft parallel.
+- **Chronopolis (`CITY`):** **Sperrmodus** trotz erreichter Schleuse: _Kodex dunkel, HUD lebendig_.
+  Lokale HUD-Daten/Logs/Warnungen bleiben aktiv, freie Kodex-Abfragen sind blockiert,
+  damit Kodex die instanzierte Zeitlinie nicht über den Live-Kanal destabilisiert – Echo könnte die Instanz kollabieren lassen, inklusive Crew im Run.
 - **Funkepochen:** Kodex aktiv innerhalb einer **ca. 2 km Bubble ab Einstiegspunkt**; Relais/Kabel
   erweitern den Radius. Jammer/Gelände können den Link kappen.
 - **Funklose Ären (z.B. Mittelalter) oder gejammt:** Nur lokales HUD ("edge-mode").
@@ -54,12 +57,15 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 | `EAR:overload` | `hud_vocab('ear_overload')` | zu lauter Pegel | kurze Taubheit, Verzögerung |
 
 
-`!offline` ruft bei `HUD:offline` höchstens einmal pro Minute das Kodex Offline-FAQ auf. Die
-Hinweise sind identisch mit der Runtime und helfen der Crew, den Uplink wiederherzustellen:
-- Terminal oder benannte Schnittstelle (Port/Buchse/Relais/Konsole)
-  lokalisieren, Signalpfad über Hardline/Relais/Funk aufbauen und
-  Jammer-Override prüfen - bis dahin bleibt der Kodex stumm.
-- Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis zum HQ-Resync gesperrt.
+`!offline` ruft bei `HUD:offline` höchstens einmal pro Minute das Kodex-Feldprotokoll auf.
+- **Standard (außerhalb Chronopolis):** Terminal oder benannte Schnittstelle
+  (Port/Buchse/Relais/Konsole) lokalisieren, Signalpfad über Hardline/Relais/Funk
+  aufbauen und Jammer-Override prüfen - bis dahin bleibt der Kodex stumm.
+- **Chronopolis (`CITY`):** eigene Sperrmodus-Antwort statt Re-Sync-Rezept:
+  Live-Kanal bleibt absichtlich aus, HUD/Logs laufen lokal weiter;
+  Exit/Schleuse priorisieren.
+- Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis
+  zum HQ-Resync gesperrt.
 - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und auf
   Bestätigung warten.
 
@@ -544,9 +550,9 @@ die Einstellung `settings.ascii_only`.
 | 4) Save      - Speichern     |
 | 5) Modus     - Stil wählen   |
 | 6) Hilfe     - Befehle       |
-| 7) FAQ       - Kodex fragen  |
+| 7) FAQ       - Kodex fragen (falls Link aktiv) |
 |------------------------------|
-| Kodex-Zugriff: kodex [thema] |
+| Kodex-Zugriff: kodex [thema] (nicht in CITY) |
 +------------------------------+
 ```
 
@@ -566,9 +572,9 @@ die Einstellung `settings.ascii_only`.
 ║ 4) Save            - Speicherstand erzeugen          ║
 ║ 5) Modus           - Stil: siehe README             ║
 ║ 6) Hilfe           - Übersicht aller Befehle         ║
-║ 7) FAQ            - Stichwort an Kodex senden        ║
+║ 7) FAQ            - Stichwort an Kodex (falls aktiv) ║
 ║                                                      ║
-║ Kodex-Zugriff: `kodex [thema]`                        ║
+║ Kodex-Zugriff: `kodex [thema]` (nicht in `CITY`)      ║
 ║ Beispiel: `kodex psi`, `kodex cyberware`, `kodex HQ`  ║
 ╠══════════════════════════════════════════════════════╣
 ║ Hinweis: Dieses Interface bleibt auch bei Kodex-      ║

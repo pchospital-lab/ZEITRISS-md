@@ -261,11 +261,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   **HUD-Offline-Modus** aktiv.
 - Fällt der Kodex-Uplink aus (Reichweite, Jammer, Strom), ruft `!offline`
   für das Feldprotokoll auf. Mission läuft weiter mit HUD-Lokaldaten;
-  der Befehl ist auf einen Aufruf pro Minute gedrosselt und gibt immer
-  dieselben Schritte aus:
-  - Terminal oder benannte Schnittstelle lokalisieren, Signalpfad
-    (Hardline/Relais/Funk) aufbauen und Jammer-Override prüfen - bis dahin
-    bleibt der Kodex stumm.
+  der Befehl ist auf einen Aufruf pro Minute gedrosselt.
+  - **Standard (außerhalb Chronopolis):** Terminal oder benannte Schnittstelle
+    lokalisieren, Signalpfad (Hardline/Relais/Funk) aufbauen und Jammer-Override
+    prüfen - bis dahin bleibt der Kodex stumm.
+  - **Chronopolis (`CITY`):** eigener Sperrmodus statt Re-Sync-Rezept: Live-
+    Kanal bleibt absichtlich aus (_Kodex dunkel, HUD lebendig_), HUD/Logs
+    laufen lokal weiter; Exit/Schleuse priorisieren.
   - Mission normal fortsetzen: HUD liefert lokale Logs, Deepsaves/Cloud-Sync
     laufen erst wieder zurück im HQ.
   - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und
@@ -275,6 +277,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Einträge, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
+- **Chronopolis-Lore-Geländer (`ABSOLUT-7`):** Chronopolis darf als
+  kodex-instanziierter Resonanzraum angedeutet werden ("Was sagt das über die
+  Welt?"). In der Szene bleibt die Darstellung jedoch physisch-konkreter
+  Straßenraum; keine Matrix-/VR-/Holodeck-Sprache und kein Digitalraum-Gameplay.
 - **Rift-Interface-Contract (Pflicht in Rift-Ops):**
   - Nenne pro Szene genau **einen** Zeitmarker (`Echo`/`Loop`/`Phasenverschiebung`).
   - Trenne IA/RW-Anker (Einsatzfenster) von Fallankern (Objekt/Ort/Person).

@@ -108,11 +108,18 @@ menschlicheren Zukunftsspur gefolgt sind.
 - **Merksatz:** Chronopolis ist kein sicherer Stadt-Hub, sondern ein freier
   Infiltrationslauf in der gescheiterten Zeitlinie: unauffällig hinein,
   Chancen lesen, Loot/Intel/Kontakte sichern und lebend wieder hinaus.
+- **Lore-Hinweis (ITI-Forschung):** Interne Memos (Stichwort **ABSOLUT-7**)
+  deuten an, dass Kodex keine klassische Simulation erzeugt, sondern einen
+  physisch wirksamen Quanten-Resonanzraum der gescheiterten Zeitlinie. Für die
+  Spielpraxis bleibt es trotzdem ein Straßen-/Infiltrationslauf, kein
+  Digitalraum-Modus.
 
 **Kodex (Eure KI):**
 - Immer dabei als AR-Overlay (wie ein taktischer Bordassistent).
 - Gibt Infos, zeigt HUD, protokolliert alles.
-- Fällt nur bei Jammer/Störung aus.
+- Fällt bei Jammer/Störung aus - und in **Chronopolis bewusst im Sperrmodus**:
+  _Kodex dunkel, HUD lebendig_. Innerhalb von `CITY` bleiben lokale HUD-Daten,
+  Logs und Warnhinweise aktiv, aber keine freien Kodex-Abfragen.
 
 ## Schnellstart-Spickzettel {#schnellstart-spickzettel}
 
@@ -367,7 +374,7 @@ ohne Tier V global zu sperren.
 | `!bogen` | Lesbarer Charakterbogen (kein JSON-Export) |
 | `!sf off` / `!sf on` | Self-Reflection aus/an |
 | `!kampagnenmodus` | Pool wechseln (preserve/trigger) |
-| `!offline` | Kodex-Offline-FAQ (1×/Min) |
+| `!offline` | Kodex-Feldprotokoll (1×/Min; in Chronopolis eigene Sperrmodus-Antwort) |
 | `kodex [thema]` | Weltwissen/Regeln abfragen |
 
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}

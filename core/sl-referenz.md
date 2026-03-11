@@ -204,10 +204,12 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Relais blockieren den Kontakt.
 - **Fallback:** Scheitert der Check, meldet der Kodex `CommsCheck failed …` und
   verweist auf das Offline-FAQ im Spieler-Handbuch.
-- **Offline-Fallback:** `!offline` gibt höchstens einmal pro Minute das Kodex Offline-FAQ aus.
-  Es erinnert Schritt für Schritt daran, wie die Crew den Uplink erneut herstellt:
-  - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen - bis
-    dahin bleibt der Kodex stumm.
+- **Offline-Fallback:** `!offline` gibt höchstens einmal pro Minute das Kodex-Feldprotokoll aus.
+  - **Standard (außerhalb Chronopolis):** Schrittfolge zum Uplink-Re-Sync
+    (Terminal/Hardline suchen, Relay koppeln, Jammer-Override prüfen).
+  - **Chronopolis (`CITY`):** eigene Sperrmodus-Antwort statt Re-Sync-Flow:
+    Live-Kanal bleibt absichtlich blockiert; HUD/Logs laufen lokal weiter,
+    Exit/Schleuse priorisieren.
   - Mission normal fortsetzen: HUD liefert lokale Logs. HQ-Deepsaves/Cloud-Sync
     laufen erst nach der Rückkehr ins HQ (HQ-only, keine Save-Sperre).
   - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und auf
@@ -665,13 +667,15 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
   [Toolkit](../systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf;
   `comms_check()` zählt sie als `relays=true`.
-- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI = Vollzugriff**
-  (Offline gilt nur im Einsatz). In Funkepochen gilt eine **ca. 2 km Bubble ab
-  Einstiegspunkt**, erweiterbar per Relais/Kabel; Jammer oder funklose Ären
-  (z.B. Mittelalter) schalten den Kodex stumm → nur HUD/Logs laufen. `!offline`
-  höchstens **1×/Minute** triggert das Offline-FAQ, bis der Hardware-Link wieder
-  steht. Endet eine Mission offline, blockt der SaveGuard jeden HQ-Deepsave,
-  bis der Re-Sync erfolgt.
+- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI-Kern = Vollzugriff**.
+  In Funkepochen gilt eine **ca. 2 km Bubble ab Einstiegspunkt**, erweiterbar
+  per Relais/Kabel; Jammer oder funklose Ären (z.B. Mittelalter) schalten den
+  Kodex stumm → nur HUD/Logs laufen. **Chronopolis (`CITY`) ist ein eigener
+  Sperrmodus:** Live-Kanal bleibt dort trotz erreichter Schleuse absichtlich
+  stumm (_Kodex dunkel, HUD lebendig_). `!offline` gibt in `CITY` daher eine
+  Sperrmodus-Antwort statt Re-Sync-Rezept. Der SaveGuard-Re-Sync-Block gilt
+  für reguläre Offline-Missionen außerhalb Chronopolis; im HQ-Kern ist Kodex
+  wieder aktiv.
 
 HUD-Zustände erscheinen als Backticks. Alle Icons sind **kontextsensitiv** und
 werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt:
@@ -955,6 +959,11 @@ Entscheidung - nicht automatisch im selben Zug.
   erschaffen kann, die "noch nicht fixiert" sind. Chronopolis existiert in
   diesem instabilen Zustand — real genug zum Handeln, aber ohne permanente
   Auswirkungen auf die Hauptzeitlinie.
+- **Forschungsschnipsel `ABSOLUT-7` (Leitungsnotiz):** Chronopolis wird intern
+  nicht als "Matrix" geführt, sondern als **quantengebundener Resonanzraum**,
+  den Kodex aus Episodenbruch + Nullzeit-Kopplung instanziert. Konsequenz für
+  die Regie: kein VR-/Digitalraum-Vokabular und kein Simulations-Gameplay,
+  sondern physischer Straßenraum mit Materialität, Trägheit, Lärm und Risiko.
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
   aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier
   Infiltrationslauf mit Reaktionsdruck statt als sicherer Freizeit-Hub.

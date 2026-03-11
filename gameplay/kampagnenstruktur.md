@@ -2165,6 +2165,12 @@ den Runtime-Wissensspeicher.
   Gegenseite.
 - **Belohnungen:** Mitgebrachte Funde bleiben nur erhalten, wenn die Crew den
   Run lebend verlässt.
+- **Kodex-Kanal:** In `CITY` gilt Sperrmodus (_Kodex dunkel, HUD lebendig_).
+  Lokale HUD-Daten/Logs bleiben aktiv, freie `kodex`-/FAQ-Abfragen sind bis
+  zum Exit in den HQ-Kern blockiert.
+- **Lore-Rail (`ABSOLUT-7`):** Chronopolis ist als physisch wirksamer
+  Resonanzraum zu spielen — nicht als Matrix-Simulation. Das "Was bedeutet das
+  für die Welt?" bleibt ein später Erkenntnis-Beat, nicht der Szenenmodus.
 
 ### 4 | Regie-Output (kompakt und verpflichtend)
 
