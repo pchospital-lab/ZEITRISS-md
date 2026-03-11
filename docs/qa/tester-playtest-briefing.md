@@ -6,6 +6,10 @@ tags: [meta]
 
 # Tester-Playtest-Briefing
 
+> Pflicht vor jedem externen Testlauf: den
+> `internal/qa/process/playtest-readiness-gate.md` vollständig als
+> Go/No-Go-Gate abarbeiten.
+
 ## Plattform
 
 - **OpenWebUI + OpenRouter** (empfohlen)
@@ -60,6 +64,11 @@ Prüfe bei jedem Save:
 
 Playtest-Ergebnisse als Markdown unter `internal/qa/evidence/playtest-YYYY-MM-DD/`.
 Pro Test eine Datei mit Modell, Szenario, Ergebnis und ggf. JSON-Save.
+
+Vor dem ersten Testfall eines neuen Laufs immer zusätzlich den
+Playtest-Readiness-Gate ausführen:
+
+- `internal/qa/process/playtest-readiness-gate.md`
 
 ## CI-Smoke
 
