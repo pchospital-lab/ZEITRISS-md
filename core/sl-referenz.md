@@ -667,7 +667,7 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
   [Toolkit](../systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf;
   `comms_check()` zählt sie als `relays=true`.
-- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI-Kern = Vollzugriff**.
+- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI-Kern außerhalb `CITY` = Vollzugriff**.
   In Funkepochen gilt eine **ca. 2 km Bubble ab Einstiegspunkt**, erweiterbar
   per Relais/Kabel; Jammer oder funklose Ären (z.B. Mittelalter) schalten den
   Kodex stumm → nur HUD/Logs laufen. **Chronopolis (`CITY`) ist ein eigener
