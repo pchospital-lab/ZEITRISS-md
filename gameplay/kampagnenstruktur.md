@@ -15,7 +15,7 @@ tags: [gameplay, core]
 - Mechaniken für langfristige Entwicklungen
 - Erzählpausen, Freizeit und Alltag im HQ
 - Arena-Modus: PvP-Kämpfe
-- Chronopolis - Endgame-Hub
+- Chronopolis - Freier Infiltrationslauf
 - Fazit
 
 Diese Modulnummer führt die Hauptreihe nach Modul 5 fort und bindet nahtlos an Modul 7 (Fahrzeuge, Konfliktsystem & Kreative Generatoren) an.
@@ -2078,7 +2078,7 @@ abgeschlossene Tiers in `arena.first_wins[tier]` (Zähler 0-3).
 > 50-%-Malus - selbst wenn der Tier-Bonus noch verfügbar wäre.
 > First-Win-Bonus hat **Vorrang**, solange der Zähler unter 3 liegt.
 
-## Chronopolis - Endgame-Hub
+## Chronopolis - Freier Infiltrationslauf
 
 _Runtime-Leitfaden für die KI-SL (spieler-sichtbar, ohne Dev-Tooling)_
 

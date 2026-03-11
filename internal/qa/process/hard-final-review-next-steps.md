@@ -85,6 +85,7 @@ nächsten Anschlusslauf.
 
 - Durchlauf 202 schärft die Lesesicherheit im Legacy-Bridge-Bereich von `systems/gameflow/speicher-fortsetzung.md`: Eine explizite Leseregel stellt direkt am großen HQ-Beispiel klar, dass `v: 7` dort ausschließlich als Import-/Migrations-Bridge zu lesen ist und kein kanonischer v7-Neu-Exportpfad entsteht.
 - Durchlauf 203 schärft den Chronopolis-Play-Contract über drei SSOT-Ebenen: `core/spieler-handbuch.md` ergänzt den Spieler-Merksatz „freier Infiltrationslauf“, `meta/masterprompt_v6.md` verankert Spielmodus + Reaktionslogik (genau ein Beat pro bedeutsamer Aktion), und `gameplay/kampagnenstruktur.md` ergänzt die Leitplanken 4A/4B/4C inklusive seltener Apex-Bedrohung bevorzugt auf Rückweg/Exit.
+- Durchlauf 204 synchronisiert die sichtbare Modul-6-Kapitelbenennung auf den gehärteten Chronopolis-Contract: Indexeintrag + Kapitelüberschrift in `gameplay/kampagnenstruktur.md` führen Chronopolis nun explizit als „Freier Infiltrationslauf“ statt „Endgame-Hub“.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
