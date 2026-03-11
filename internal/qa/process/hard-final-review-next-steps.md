@@ -87,6 +87,7 @@ nächsten Anschlusslauf.
 - Durchlauf 203 schärft den Chronopolis-Play-Contract über drei SSOT-Ebenen: `core/spieler-handbuch.md` ergänzt den Spieler-Merksatz „freier Infiltrationslauf“, `meta/masterprompt_v6.md` verankert Spielmodus + Reaktionslogik (genau ein Beat pro bedeutsamer Aktion), und `gameplay/kampagnenstruktur.md` ergänzt die Leitplanken 4A/4B/4C inklusive seltener Apex-Bedrohung bevorzugt auf Rückweg/Exit.
 - Durchlauf 204 synchronisiert die sichtbare Modul-6-Kapitelbenennung auf den gehärteten Chronopolis-Contract: Indexeintrag + Kapitelüberschrift in `gameplay/kampagnenstruktur.md` führen Chronopolis nun explizit als „Freier Infiltrationslauf“ statt „Endgame-Hub“.
 - Durchlauf 205 synchronisiert verbleibende Chronopolis-Lesedrift in `core/sl-referenz.md`: Die Formulierungen „ohne Missionsdruck“/Hub-Lesart wurden auf den gehärteten Runtime-Contract (freier Infiltrationslauf mit Reaktionsdruck) nachgezogen.
+- Durchlauf 206 synchronisiert die verbliebene Dev-Doku-Lesedrift in `docs/dev/chronopolis-map-blueprint.md`: Der Abschluss verweist nun auf den Chronopolis-Spielmodus als freier Infiltrationslauf statt auf die Altbenennung „Endgame-Hub“.
 
 ## Offene Anschluss-Tasks (priorisiert)
 

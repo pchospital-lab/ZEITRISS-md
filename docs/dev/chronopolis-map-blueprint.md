@@ -120,5 +120,5 @@ _Gesamtlänge 5 s bei 60 fps._
 | 5     | Ambience, LOD-1/2, Kollisionen.                    |
 | 6     | GPT-Socket-Test und Performance-Sweep.             |
 
-**Eine Map, unendliches Replay** – dieser Blueprint bildet die Grundlage für das Endgame-Hub
-Chronopolis.
+**Eine Map, unendliches Replay** – dieser Blueprint bildet die Grundlage für den
+Chronopolis-Spielmodus als **freier Infiltrationslauf**.
