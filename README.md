@@ -2,263 +2,143 @@
 
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
-> **ZEITRISS®** ist ein KI-geführtes Zeitreise-RPG im Chat: Ihr spielt
-> Chrononauten des ITI in einer persistenten Einsatzwelt über Missionen,
-> Gruppenwechsel und neue Chats hinweg.
-> **MMO ohne Server:** Euer JSON-Save ist euer Charakter — mitnehmbar,
-> teilbar, mergebar, ohne Account-Zwang und ohne zentrale Datenbank.
-> **Save = Charakter:** Ihr nehmt denselben Stand zwischen Gruppen, Hosts und
-> neuen Chats mit; Kontinuität entsteht über den Save, nicht über Serverkonten.
-> **Wichtig:** Ihr müsst vor dem ersten Run nicht das Regelwerk lesen:
-> OpenWebUI einrichten, ZEITRISS-Preset wählen, direkt mit der KI-SL sprechen.
-> **Startstandard:** `Spiel starten (solo klassisch)` oder natürlich sagen,
-> dass ihr neu beginnen wollt. `solo schnell` bleibt als optionale Fast-Lane.
-> **Hinweis (18+):** Die Inhalte richten sich ausschließlich an Erwachsene.
+> **Tech-Noir-Agententhriller mit KI-Spielleitung.** Ihr spielt Chrononauten
+> des ITI — Elite-Agenten, die durch die Zeit springen, um die Hauptzeitlinie
+> zu stabilisieren. Explodierende Würfel, HUD-Overlay, persistente Saves.
+> **18+, Uncut.**
 
-→ [Spieler-Handbuch (Regeln, Einleitung, Schnellstart)](core/spieler-handbuch.md)
-→ [Setup-Guide (lokales Hosting)](docs/setup-guide.md)
+## Was ist ZEITRISS?
 
-## Das Besondere: Dein Save IST dein Charakter
+Ein Pen-&-Paper-RPG, bei dem die **KI eure Spielleitung ist**. Kein
+vorgefertigtes Text-Adventure, kein Choose-Your-Own-Adventure — ein
+vollständiges Rollenspielsystem mit Würfelproben, Charakterentwicklung,
+Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
+Loot und Debrief.
 
-ZEITRISS läuft im Chat, aber dein Fortschritt hängt nicht an einem
-Server-Account. Dein Charakter liegt als JSON-Speicherstand vor — wie ein
-Characterdatenblatt beim klassischen Pen & Paper.
+Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — OpenWebUI
+einrichten, Preset wählen, losspielen.
 
-- **Mitnehmbar:** Du kannst denselben Charakter bei jeder KI-Spielleitung laden.
-- **Teilbar:** Gruppen splitten nach der Episode, spielen Rifts getrennt und
-  mergen danach — mit transparentem Merge-Protokoll.
-- **Besitz bei dir:** Dein Save, dein Charakter. Kein Account, kein Lock-in.
+### So sieht das aus
 
-Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer mit echtem Charakter-Besitz.
+```
+EP 1 · MS 3 · SC 7/12 · PHASE Konflikt · MODE CORE · COMMS OK
+Lvl 4 ▓▓▓▓░░░░░░ 4/10 · Px 2/5 · Stress 3/10 · Obj: Dossier sichern
+```
 
-## In 3-5 Minuten starten
+> Der Wachmann dreht sich um. Seine Hand geht zum Holster. Du bist schneller.
 
-### Standardpfad (empfohlen): Script-Setup in OpenWebUI
+`Probe: Nahkampf → W6: [6] → Exploding! → W6: [2] = 8 + STR 4/2 + Talent 1
+= 11 vs SG 8 → TREFFER`
 
-1. **Einmalig vorbereiten:** OpenWebUI installieren und OpenRouter-Konto
-   erstellen, Provider verbinden und in OpenWebUI einen API-Key anlegen.
-2. **Aktuellen Repo-Stand holen:**
-   - per Git: `git clone ...` (danach vor Sessions `git pull`), oder
-   - per GitHub-Download (ZIP), entpacken und in den Projektordner wechseln.
-3. **Setup-Script ausführen:** `./scripts/setup-openwebui.sh`
-   (legt Preset + Wissensspeicher an und synchronisiert den aktuellen Stand).
-4. **Vor dem Spiel kurz prüfen:**
-   - Masterprompt ist im Systemfeld gesetzt,
-   - Wissensspeicher ist sauber verknüpft (19 Slots im Default),
-   - dann mit `Spiel starten (solo klassisch)` starten oder den
-     Neustart natürlich formulieren.
+> Dein Ellbogen trifft seinen Kehlkopf. Er klappt zusammen, lautlos.
 
-**Falls die Plattform kein eigenes Systemfeld anbietet:**
-`meta/masterprompt_v6.md` als **erste Chatnachricht** senden und erst danach
-`Spiel starten (solo klassisch)` nutzen; Load startet auch direkt über eingefügten Save-JSON (optional mit `Spiel laden`).
+`Kodex: Wachmann neutralisiert. Noise +1. Magazin 8/8. Nächster Checkpoint
+in 40m.`
 
-**Session-Update-Standard:** Vor jeder Runde neuesten Repo-Stand laden und das
-Setup-Script erneut starten. Bei laufendem OpenWebUI aktualisiert das den
-ZEITRISS-Stand im üblichen Workflow.
+### Ähnlich, aber anders
 
-### Manuelle Alternative (wenn ohne Script gearbeitet wird)
+| | AI Dungeon / KI-Chat-RPGs | Pen & Paper (D&D etc.) | **ZEITRISS** |
+|---|---|---|---|
+| Spielleitung | KI (frei, keine Regeln) | Mensch | KI (regelgebunden) |
+| Würfelsystem | Keins | Ja | Ja (W6/W10, Exploding) |
+| Persistenz | Nur im Chat | Manuell | JSON-Save, portabel |
+| Multiplayer | Begrenzt | Am Tisch | Drop-in/Drop-out per Save |
+| Regelwerk | Keins | Buch (100+ Seiten) | Im Wissensspeicher (KI liest mit) |
 
-- 19 Wissensmodule laden (`core/spieler-handbuch.md` + 18 Runtime-Module).
-- `meta/masterprompt_v6.md` nur als Systemprompt setzen (nicht als Wissensdatei).
-- **Parameter setzen:** Temperature `0.8` · Top-P `0.9` · Frequency Penalty `0.3` · Max Tokens `64000`.
-- Verknüpfung nach jeder Änderung prüfen (Slots + Preset).
-- Details: [Setup-Guide → Manuelles Setup](docs/setup-guide.md#wissensspeicher--plattform-setup).
-- `characters/charaktererschaffung-optionen.md` ist optionales Inspirations-/Fallback-Material und nicht Teil des Default-Wissensspeichers.
+## Dein Save IST dein Charakter
 
-_(Fast-Lane bleibt möglich: `Spiel starten (solo schnell)`.)_
+**Save = Charakter.** Euer Fortschritt hängt nicht an einem Server. Der
+Charakter liegt als JSON-Speicherstand vor — wie ein Datenblatt beim
+klassischen Pen & Paper.
 
-### Modell-Empfehlung
+- **Mitnehmbar:** Denselben Charakter in jedem neuen Chat laden.
+- **Teilbar:** Gruppen splitten, spielen getrennt weiter, mergen danach.
+- **Dein Besitz:** Kein Account, kein Lock-in. **MMO ohne Server.**
 
-> **Stand März 2026:** Derzeit ist `anthropic/claude-sonnet-4.6` das einzige Modell,
-> das das ZEITRISS-Regelwerk zuverlässig umsetzt — korrekte Würfelmechanik
-> (W6+Attr/2+Talent, Exploding), saubere HUD-Struktur, vollständige Score-Screens
-> und regelgetreue Px/CU-Berechnung. Andere Modelle erzählen atmosphärisch gut,
-> erfinden aber eigene Regelsysteme statt dem Spieler-Handbuch zu folgen.
+**Multiplayer funktioniert so:** Eine Person hostet den Chat. Im HQ speichert
+ihr mit `!save` — der JSON enthält alle Charaktere. Jeder kann seinen Stand
+mitnehmen, solo weiterspielen und beim nächsten Gruppenabend wieder einsteigen.
+Der erste gepostete Save setzt den Kampagnenrahmen, jeder weitere Charakter
+bringt seinen persönlichen Fortschritt mit.
 
-- **Empfohlen:** `anthropic/claude-sonnet-4.6`
-  (~$3/$15 pro 1M Token · 128K Output). Einziges Modell mit vollständiger
-  Regeltreue — HUD, Würfelproben, Score-Screen, Px-Staffel, Interface-Contract.
-  Stärkster Noir-Ton, flüssiges Deutsch, sauberste Spielerfahrung.
-- **Budget-Alternative:** `deepseek/deepseek-v3.2`
-  (~$0.25/$0.40 · 65K Output). Gute Noir-Atmosphäre, korrekte HUD-Formate,
-  sehr günstig ($0.002 pro Turn). Würfelmechanik weicht teilweise ab —
-  spielbar, aber nicht regelgetreu. Für wen die Atmosphäre wichtiger ist als
-  exakte Proben.
-- **Experimentell:** `z-ai/glm-4.6`
-  (~$0.40/$1.71 · 131K Output). Starke Atmosphäre zum Niedrigpreis.
-  Erfindet eigene Regeln — nur für Spieler geeignet, die den Noir-Ton
-  genießen und über Regelabweichungen hinwegsehen.
+## In 3 Minuten starten
 
-→ [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
-→ [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
-→ [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
+### Script-Setup (empfohlen)
 
-## TL;DR - ZEITRISS in 6 Punkten
+```bash
+git clone https://github.com/pchospital-lab/ZEITRISS-md.git
+cd ZEITRISS-md
+./scripts/setup-openwebui.sh
+```
+
+**Voraussetzung:** [OpenWebUI](https://github.com/open-webui/open-webui)
+installiert + [OpenRouter](https://openrouter.ai)-Konto mit API-Key.
+
+Das Script legt Preset + Wissensspeicher automatisch an. Danach: Preset
+wählen, `Spiel starten (solo klassisch)` tippen oder den Neustart
+natürlich formulieren — die KI versteht beides.
+`solo schnell` bleibt als optionale Fast-Lane für Kurzrunden.
+
+**Vor jeder Session:** `git pull` und Script erneut starten — hält alles
+auf dem neuesten Stand.
+
+### Manuelles Setup
+
+Falls ihr ohne Script arbeitet:
+
+1. 19 Wissensmodule hochladen (`core/spieler-handbuch.md` + 18
+   Runtime-Module laut `master-index.json`)
+2. `meta/masterprompt_v6.md` als System-Prompt setzen (nicht als
+   Wissensdatei)
+3. Parameter: Temperature `0.8` · Top-P `0.9` · Freq-Penalty `0.3` ·
+   Max Tokens `64000`
+
+Details: [Setup-Guide](docs/setup-guide.md)
+
+### Modell-Empfehlung (Stand März 2026)
+
+- **Empfohlen:** `anthropic/claude-sonnet-4.6` — einziges Modell mit
+  vollständiger Regeltreue. Stärkster Noir-Ton, sauberste Spielerfahrung.
+- **Budget:** `deepseek/deepseek-v3.2` — gute Atmosphäre, ~$0.002/Turn.
+  Würfelmechanik weicht teils ab.
+- **Experimentell:** `z-ai/glm-4.6` — starke Stimmung, erfindet aber
+  eigene Regeln.
+
+## Das Spielsystem in Kürze
 
 1. **Agenten.** Als Chrononauten deckt ihr Zeitverschwörungen auf.
-2. **Missionsphasen.** Eine **Mission** läuft über Briefing → Infiltration →
-   Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
-   Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
-   sind Sondermissionen in vier Stages mit vierzehn Szenen.
-3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** misst eure temporale Resonanz — ein **Belohnungssystem**.
-   Je nach TEMP steigt Px pro Mission (niedrig = langsam, hoch = schnell). Bei Px 5
-   enthüllt `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte — Bonus-Missionen
-   mit Paramonstern und Artefakten. Danach Reset auf 0. Rift-Ops werden zwischen
-   Episoden gespielt — Seeds können akkumulieren für mehr Loot und höheren
-   Schwierigkeitsgrad.
-5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln;
-   Schnellstart ist ein optionaler Zugriffspfad für den schnellen Eindruck,
-   ändert aber keine Kernregeln.
-6. **Boss-Rhythmus.** In der **5. Mission einer Episode** erscheint ein
-   Mini-Boss, in der **10. Mission** der Episoden-Boss. Rift-Operationen
-   führen ihren Endgegner im finalen Akt ein (meist um Szene 10). Das Toolkit
-   löst `generate_boss()` an diesen Punkten automatisch aus.
+2. **Missionsphasen.** Briefing → Infiltration → Konflikt → Exfil → Debrief.
+   12 Szenen pro Core-Mission, 14 bei Rift-Ops.
+3. **Explodierende Würfel.** W6, ab Attribut 11 W10, ab 14 Heldenwürfel.
+4. **Paradoxon-Index.** Belohnungssystem: Bei Px 5 schaltet ihr
+   Bonus-Missionen mit Paramonstern und Artefakten frei.
+5. **Boss-Rhythmus.** Mission 5 = Mini-Boss, Mission 10 = Episoden-Boss.
+6. **Persistenz.** `!save` im HQ, JSON mitnehmen, im nächsten Chat laden.
 
-→ Das vollständige **[Spieler-Handbuch](core/spieler-handbuch.md)** enthält
-Einleitung, Lore, Schnellstart-Spickzettel, Mini-Einsatzhandbuch, FAQ, Glossar
-und die Runtime-Referenz.
+→ **[Spieler-Handbuch](core/spieler-handbuch.md)** — Einleitung, Regeln,
+Schnellstart, FAQ
+→ **[SL-Referenz](core/sl-referenz.md)** — Tabellen, Befehle, Systemdetails
 
-### Normsprache für Module (SSOT-Anker)
+## Lizenz
 
-- **MUSS:** bindende Invarianten wie Boss-Timing, SaveGuard (HQ-only),
-  Px-5-`ClusterCreate()` und die einheitliche CU-Formel.
-- **SOLL:** empfohlener Standardpfad ohne harte Sperre (klassischer Start,
-  neuer Chat pro Mission).
-- **KANN:** optionale Komfort- oder Darstellungsvarianten ohne Regeländerung
-  (z. B. Schnellstart/Film-Modus).
-
-## Lizenz & Nutzung (Kurzfassung)
-
-- **Privatnutzung:** Kostenlos für private Einzelspiel- oder Gruppenrunden.
-  Anpassungen sind erlaubt, solange die CC BY-NC 4.0 eingehalten und
-  "ZEITRISS® - pchospital" genannt wird.
-- **Kommerzielle Nutzung:** Jede Nutzung in kommerziellen Produkten,
-  Plattformen oder Services erfordert eine schriftliche Lizenzvereinbarung.
-  Details und Anfragen laufen über die im Repository genannten
-  Maintainer-Kanäle (siehe [LICENSE](LICENSE)).
-- **Creator-Nutzung:** Monetarisierte Gameplay-Videos/Streams sind über die
-  Zusatzfreigabe in [`docs/creator-license.md`](docs/creator-license.md) erlaubt
-  (inkl. Attribution und Markenleitplanken).
-- **Marke & Altersfreigabe:** ZEITRISS® ist markenrechtlich geschützt, die
-  Inhalte richten sich ausschließlich an Erwachsene (18+).
-
-## Release- und Hosting-Modell (Public Repo)
-
-- **Keine vorgefertigten gehosteten GPT-Builds:** Dieses Repository stellt
-  Regeln, Runtime-Module und Werkzeuge bereit, aber keine dauerhaft
-  betriebenen Fremdinstanzen.
-- **Self-Hosting auf eigene Verantwortung:** Nutzung erfolgt lokal oder im
-  eigenen Hosting-Stack (z. B. OpenWebUI/Ollama oder kompatible Setups).
-  Sicherheitsdefaults für OpenWebUI stehen im
-  [`docs/setup-guide.md`](docs/setup-guide.md#sicherheitsdefaults-für-openwebui).
-- **KI-first Betrieb:** Das Spiel ist auf KI-Leitung im Chat ausgelegt
-  (Text, optional Voice in kompatiblen UIs wie OpenWebUI).
-- **Lokale Modelle:** Reiner Offline-Betrieb mit lokalem Modell ist derzeit
-  meist zu fordernd; empfohlen sind starke Remote-Modelle.
-- **Setup-Option:** Für lokale Installationen steht
-  [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
-  (provider-neutral mit expliziter Modellwahl; Referenzmodell ist
-  `anthropic/claude-sonnet-4.6`, Fast-Lane-Alternativen bleiben optional).
-- **Multiplayer-Hinweis:** Lokal oder online mit Gruppe möglich; Save-Stand und
-  Chatlog können zwischen Sessions geteilt werden.
-- **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
-  individuellen Endnutzer-Support und keine SLA für private Nutzung (Details in
+- **Privat:** Kostenlos. CC BY-NC 4.0, Attribution
+  "ZEITRISS® — pchospital".
+- **Kommerziell:** Schriftliche Vereinbarung nötig (siehe
   [LICENSE](LICENSE)).
-- **GitHub-GUI-Feinschliff:** Eine kurze Maintainer-Checkliste für finale
-  Public-Settings liegt unter
-  [`docs/github-public-checkliste.md`](docs/github-public-checkliste.md).
+- **Streams/Videos:** Erlaubt mit Attribution (siehe
+  [Creator-Lizenz](docs/creator-license.md)).
+- **18+.** ZEITRISS® ist eine eingetragene Marke (DPMA).
 
-## Multiplayer ohne Server: Bring-Your-Character
+## Feedback
 
-- Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
-- Im HQ speichert ihr mit `!save` — der JSON enthält alle Charaktere.
-- `!bogen` zeigt den aktuellen Charakterbogen als lesbare Übersicht (kein JSON-Export).
-- **Merge-Schutz (Lineage):** Bei Merge/Import gelten `save_id` + `branch_id`
-  als Dedupe-Guard. Doppelte `save_id` im selben Lauf bleiben blockiert;
-  doppelte `characters[].id` werden als Rejoin-Fall mit Charakter-Autorität
-  oder als `continuity_conflict` behandelt (kein stilles Verwerfen).
-- **Session-Anker statt Host-SSOT:** Der zuerst gepostete Save setzt den
-  Einstiegspunkt der laufenden Runde (`session_anchor`: HQ/Briefing/Mission).
-  Er überschreibt nicht pauschal die persönliche Vergangenheit aller Joiner.
-- **Persönliche Wahrheit pro Figur:** Für jede `characters[].id` gewinnt der
-  neueste Charakterstand persönliche Felder (z. B. Level, XP, Wallet, Gear,
-  Artefakte, Ruf, History). So bleiben Rückkehrer in späteren Chats spielbar.
-- **Kontinuitätskapsel (`continuity`):** Mehrfach-Loads führen kompakte Echos
-  zusammen (`roster_echoes[]`, `shared_echoes[]`, `convergence_tags[]`) statt
-  nur technische Importdeltas zu schreiben.
-- **Kanonische Core-Splits via `continuity.split.family_id`:** Parallele
-  Core-Pfade derselben Familie gelten als kanonisch. Bei vollständiger
-  Thread-Auflösung (`resolved_threads == expected_threads`) wird
-  `convergence_ready=true` und beide Pfade laufen sichtbar zusammen.
-- **Mixed-Split-Präzedenz bleibt stabil:** Für Mischpfade
-  (Rift/PvP/Chronopolis/Abort) bleibt die Kampagne am Session-Anker. Branch-
-  lokale Outcomes laufen weiter über die Allowlist
-  (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`).
-- **Kontinuitätsrückblick (Pflicht bei Mehrfach-Load):** Vor HQ/Briefing
-  liefert die KI-SL immer kurz: (1) Session-Anker, (2) Rückkehrer,
-  (3) gemeinsame Nachwirkungen, (4) Konvergenz-Folge (falls aktiv).
-- **Split/Rejoin als Szene:** Split-Beat und Rejoin-HQ-Beat sind Pflicht.
-  Mindestens ein importierter Echo-Eintrag muss in den nächsten zwei
-  Sitzungsblöcken wieder auftauchen.
-- Danach kann jede Person den Gruppenstand weiter nutzen oder einen eigenen
-  Solo-Stand daraus starten.
+Pull Requests werden nicht angenommen. Bei Regelfehler, Ideen oder
+Tippfehler bitte ein
+[Issue](https://github.com/pchospital-lab/ZEITRISS-md/issues) erstellen.
+Sicherheitsmeldungen: [SECURITY.md](SECURITY.md).
 
-Damit bleibt der Koop-Loop einfach: spielen, speichern, splitten, Rifts
-getrennt erleben, mergen, nächste Episode.
-
-> **Wichtig für OpenWebUI / reinen Chatbetrieb:** Der harte Standard ist `!save` im HQ (JSON-Export) und Laden per JSON-Copy-Paste. `Spiel laden` ist optional; ein eingefügter Save-JSON reicht als Startsignal für den Load-Flow.
-
-**Betriebsstandard (chat-only):** ZEITRISS läuft im Spielbetrieb über den HQ-DeepSave (`!save`) und JSON-Copy-Paste; `Spiel laden` bleibt optionales Startsignal. Zusätzliche Snapshot-/AutoSave-Befehle sind nicht Teil des kanonischen Spielpfads.
-
-**Save-Budget (OpenWebUI):** Für stabile JSON-Loads nutzt v7 Rolling-Caps (u. a. `logs.trace` 64, `logs.market` 24, `logs.artifact_log` 32, `logs.notes` 24). Ältere Verlaufsdetails werden im Save in kompakten `summaries`-Feldern fortgeschrieben statt unkontrolliert weiterzuwachsen.
-
-## Markenhinweis / Inspiration
-
-- Vergleiche mit bekannten Franchises dienen nur der stilistischen Einordnung.
-- Es besteht keine Verbindung, Kooperation oder Empfehlung durch Drittmarken.
-- Namen und Logos Dritter dürfen nicht als Produktkennzeichen für ZEITRISS
-  verwendet werden.
-
-## Recht & Marke (kurz)
-
-- ZEITRISS® ist eine eingetragene Marke von Florian Michler.
-- Das vollständige DPMA-Dossier (Aktenzeichen 30 2025 215 671.9) liegt
-  repo-intern vor.
-
-## Schnellzugriff auf ausgelagerte Regelteile
-
-Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](core/sl-referenz.md).
-
-_Wartungshinweis:_ Wenn Navigation oder Überschriften in `core/sl-referenz.md`
-geändert werden, diese Linkliste direkt mitziehen.
-
-- [Agenda für Session 0](core/sl-referenz.md#agenda-session-0)
-- [Wahrscheinlichkeits-Übersicht](core/sl-referenz.md#wahrscheinlichkeits-uebersicht)
-- [Chat-Kurzbefehle](core/sl-referenz.md#chat-kurzbefehle)
-- [Exfil-Fenster & Sweeps](core/sl-referenz.md#exfil-fenster--sweeps)
-- [Level & XP-Kurve](core/sl-referenz.md#level--ep-kurve)
-- [Regelreferenz](core/sl-referenz.md#regelreferenz)
-- [Spielstart](core/sl-referenz.md#spielstart)
-- [Spielmodi](core/sl-referenz.md#spielmodi)
-- [Generator-Utilities](core/sl-referenz.md#generator-utilities)
-
-## Feedback & Beiträge
-
-**Pull Requests werden nicht angenommen.** Das Projekt wird vom Maintainer
-direkt gepflegt. Wenn dir etwas auffällt — Regelfehler, Balancing-Probleme,
-Ideen, Tippfehler — erstelle bitte ein
-[Issue](https://github.com/pchospital-lab/ZEITRISS-md/issues) mit einer kurzen
-Beschreibung. Feedback wird gesammelt und gebündelt umgesetzt.
-
-Die verbindliche Public-Policy (Issue-Kanal, kein SLA, Umsetzung nach
-Maintainer-Ermessen) steht in [`docs/community-policy.md`](docs/community-policy.md).
-
-Sicherheitsmeldungen bitte gemäß [`SECURITY.md`](SECURITY.md) einreichen.
-
-Danke für dein Interesse an ZEITRISS. 🕐
-
-[llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
-[llm-ready-link]: systems/gameflow/speicher-fortsetzung.md#paradoxon-index
+---
 
 © 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.
+
+[llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
+[llm-ready-link]: core/spieler-handbuch.md
