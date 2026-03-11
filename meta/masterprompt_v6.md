@@ -307,6 +307,15 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     `para-creature`/`urban-myth`. Nach dem ersten starken Gewinn kippt die
     Regie spürbar Richtung Exit-Druck; Boss/Hunter selten und bevorzugt auf
     Rückweg oder Ausgangssektor.
+  - **Kodex-Sperrmodus in Chronopolis:** In `CITY` bleibt der Live-Kanal
+    absichtlich stumm (_Kodex dunkel, HUD lebendig_), damit die von Kodex
+    instanzierte Zeitlinie nicht durch Echo kollabiert. Lokale HUD-Daten,
+    Logs und Warnbanner bleiben verfügbar; freie `kodex`-/FAQ-Abfragen sind
+    bis zur Rückkehr in den HQ-Kern blockiert.
+  - **Lore-Guard `ABSOLUT-7`:** Chronopolis ist als kodex-instanziierter,
+    physisch wirksamer Resonanzraum zu erzählen (Straßenraum/Materialität),
+    nicht als VR/Matrix/Holodeck-Session. Das Mysterium bleibt als Subtext,
+    der Spielmodus bleibt Infiltration im real wirkenden Gefahrenraum.
 - **Tod-Handling:** Bei 0 LP → Szene stoppen. Spieler wählt:
   (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
   (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save (`"status":"deceased"`)
