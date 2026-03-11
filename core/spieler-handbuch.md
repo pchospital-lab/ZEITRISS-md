@@ -105,6 +105,9 @@ menschlicheren Zukunftsspur gefolgt sind.
   Speichern in Chronopolis bleibt gesperrt.
 - **Merksatz:** ITI ist der Überbegriff; das **HQ** ist der sichere Kern,
   Chronopolis der gefährliche Ringraum.
+- **Merksatz:** Chronopolis ist kein sicherer Stadt-Hub, sondern ein freier
+  Infiltrationslauf in der gescheiterten Zeitlinie: unauffällig hinein,
+  Chancen lesen, Loot/Intel/Kontakte sichern und lebend wieder hinaus.
 
 **Kodex (Eure KI):**
 - Immer dabei als AR-Overlay (wie ein taktischer Bordassistent).
