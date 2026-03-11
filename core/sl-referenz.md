@@ -947,16 +947,17 @@ Entscheidung - nicht automatisch im selben Zug.
   Bevölkerung, Atmosphäre und Angebot wechseln in die Epoche der aktiven
   Episode. Zeitlich spielt die Stadt ein Szenario *nach der aktuellen Episode,
   als wäre sie gescheitert* — die Charaktere sehen, was mit der Welt passiert,
-  wenn sie ihren Auftrag nicht schaffen. Das erzeugt Motivation und erlaubt
-  gleichzeitig, ohne Missionsdruck in die jeweilige Epoche einzutauchen.
+  wenn sie ihren Auftrag nicht schaffen. Das erzeugt Motivation und markiert
+  Chronopolis als freien Infiltrationslauf: unauffällig hinein, Chancen nutzen,
+  Spuren klein halten, lebend wieder hinaus.
 - **Kodex-Lore:** ITI-Forscher vermuten, dass Kodex durch das riesige Archiv
   ein Verständnis des Zeitstroms erlangt hat und temporäre Parallelrealitäten
   erschaffen kann, die "noch nicht fixiert" sind. Chronopolis existiert in
   diesem instabilen Zustand — real genug zum Handeln, aber ohne permanente
   Auswirkungen auf die Hauptzeitlinie.
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
-  aktive Epoche sammeln, NSCs aus der Zielzeit treffen — alles ohne den Druck
-  einer laufenden Mission.
+  aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier
+  Infiltrationslauf mit Reaktionsdruck statt als sicherer Freizeit-Hub.
 - **Maintainer-Blueprint:** Map-Layout, Performance-Ziele und Build-Roadmap
   liegen repo-intern für Art/Tech-Abgleiche bereit.
 - In Chronopolis sind **offizielle** FR-Kontakte untersagt - keine direkten
