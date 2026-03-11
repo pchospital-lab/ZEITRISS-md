@@ -900,6 +900,9 @@ z. B. `ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibr
   `arc.factions`, `arc.questions` oder `arc.hooks` platzieren (vor Briefing
   **oder** nach Heimkehr) und dabei eine konkrete Folge für den nächsten
   Einsatzrahmen benennen.
+  Leitformel: `Jeder gelöste Einsatz stabilisiert nicht nur die Hauptlinie;
+  er verhindert auch, dass Bruchwelten genug Dichte gewinnen, um als Riss,
+  Echo oder Kreatur in die Wirklichkeit zurückzudrücken.`
 
 Anschließend kann die Gruppe im HQ bleiben, speichern oder bewusst den nächsten
 Missionspfad wählen. Ein neues Briefing startet nur nach expliziter
