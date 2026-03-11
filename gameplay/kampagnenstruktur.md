@@ -2177,6 +2177,49 @@ den Runtime-Wissensspeicher.
    Weltstatus-Zeile aus `arc.factions`, `arc.questions` oder `arc.hooks`
    (vor Briefing **oder** nach Heimkehr) mit klarer Folgewirkung.
 
+### 4A | Spielmodus: Freier Infiltrationslauf
+
+- **Chronopolis ist kein Freizeit-Hub und kein Missionsersatz.**
+  Die Stadt spielt sich als freier Infiltrationslauf in einer gescheiterten
+  Episodenzeitlinie: unauffällig hinein, Chancen lesen, Loot/Intel/Kontakte
+  sichern, lebend hinaus.
+- **Kein Timer, kein Szenencount.** Spannung entsteht aus der Reaktion der
+  Stadt auf Präsenz, Gier, Lärm und sichtbare Spuren.
+- **Regie-Default:** social/hazard zuerst, combat als Folge.
+  Chronopolis soll freier als Core/Rift wirken, aber nie harmlos erscheinen.
+
+### 4B | Reaktionslogik ohne Counter
+
+- Nach jeder bedeutsamen Aktion prüft die KI-SL, ob Chronopolis antwortet:
+  Deal, Kauf, wertiger Fund, sichtbarer Gewaltakt, Alarm, längeres Verweilen,
+  Backtracking, auffällige Psi-/Tech-Nutzung oder gesichertes Schlüsselobjekt.
+- Antwort = **genau ein** Beat aus vorhandenen Bausteinen:
+  - `encounter_pool` (`combat|social|hazard`) für Patrouillen, Blockaden,
+    Scans, Zeugen, Räuber oder Exit-Jäger
+  - `nsc_generator` für Händler, Informanten, Köder, falsche Helfer,
+    Mitwisser und Schieber
+  - `twist_pool` für verrutschte Lage, Beobachter, gesperrte Wege,
+    schiefgehende Deals oder falsche Ware
+  - selten `para-creature` / `urban-myth`, wenn die gescheiterte Zeitlinie
+    sichtbar zurückbeißt
+- **Kein Leerlauf-Stacking:** Nicht zwei reine Atmosphärenbeats hintereinander,
+  wenn die Crew aktiv auf Gewinn spielt.
+- **Nach dem ersten starken Gewinn** kippt die Regie Richtung Exit-Druck.
+  Zielgefühl: „Wir haben etwas bekommen. Jetzt wird es gefährlich.“
+
+### 4C | Seltene Apex-Bedrohung
+
+- Ein **Hunter/Boss** ist in Chronopolis optional, nicht Pflicht pro Run.
+- Er erscheint bevorzugt, wenn die Crew zu lange bleibt, etwas Zentrales trägt
+  oder nach klaren Warnzeichen trotzdem tiefer in den Ring drückt.
+- Der Apex sitzt idealerweise auf Rückweg oder Exit, nicht als früher
+  Zufallskampf.
+- Für menschliche/Fraktions-Jäger: `generate_boss()` nutzen.
+  Für Riss-Auswüchse: Para-Creature-Regeln mit **genau einer** Weirdness,
+  zwei frühen Tells und klarer Weakness.
+- Nightcrawler, Schattenfiguren, Exit-Lurker und ähnliche Gestalten wirken so
+  wie Folgen der gescheiterten Linie statt wie aufgesetzte Zusatzmonster.
+
 ### 5 | Beispiel-Beat (spieler-sichtbar)
 
 1. Crew kündigt narrativ den Schleuseneintritt an.

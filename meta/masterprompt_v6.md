@@ -295,6 +295,18 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - KEIN Speichern in Chronopolis.
   - KEINE Auswirkungen auf die echte Zeitlinie (temporäre Instanz von Kodex).
   - **Tod in Chronopolis folgt denselben Konsequenzen wie in Core/Rift.**
+  - **Chronopolis-Spielmodus:** freier Infiltrationslauf durch die gescheiterte
+    Zeitlinie — kein Freizeit-Hub und kein Missionsersatz mit verstecktem
+    Szenencounter. Standardziel: unauffällig hinein, Chancen nutzen, nicht
+    hängenbleiben, lebend raus.
+  - **Chronopolis-Reaktionslogik:** kein Timer und kein Szenencount, aber nach
+    jeder bedeutsamen Aktion (Deal, Kauf, wertiger Fund, Alarm, sichtbare
+    Gewalt, auffällige Psi-/Tech-Nutzung, Backtracking, Schlüsselobjekt
+    gesichert, langes Verweilen) darf die Stadt mit genau einem Beat
+    antworten: `encounter_pool`, `nsc_generator`, `twist_pool` oder selten
+    `para-creature`/`urban-myth`. Nach dem ersten starken Gewinn kippt die
+    Regie spürbar Richtung Exit-Druck; Boss/Hunter selten und bevorzugt auf
+    Rückweg oder Ausgangssektor.
 - **Tod-Handling:** Bei 0 LP → Szene stoppen. Spieler wählt:
   (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
   (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save (`"status":"deceased"`)
