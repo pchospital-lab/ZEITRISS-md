@@ -27,7 +27,7 @@ Sicherheitsmeldungen: siehe [SECURITY.md](SECURITY.md).
 
 | Inhalt | Ort | Im Wissensspeicher? |
 |--------|-----|:-------------------:|
-| Spielregeln, Mechaniken, Lore | `core/`, `characters/`, `gameplay/`, `systems/` | ✅ Ja (20 Slots) |
+| Spielregeln, Mechaniken, Lore | `core/`, `characters/`, `gameplay/`, `systems/` | ✅ Ja (19 Slots) |
 | System-Prompt für die KI-SL | `meta/masterprompt_v6.md` | Separat als System-Prompt |
 | GitHub-Landingpage | `README.md` | ❌ Nein |
 | Setup-Anleitung | `docs/setup-guide.md` | ❌ Nein |

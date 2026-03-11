@@ -421,6 +421,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
      gesperrt." plus Trace `reason: arena_active` inklusive Queue/Phase/Zone.
   3. HQ-only-Check (`location != HQ`, inkl. CITY) nutzt denselben SaveGuard-Text
      und trägt `reason: hq_only|chronopolis` in `logs.trace[]` ein.
+     Nach der Meldung gibt die SL automatisch den Charakterbogen
+     (`!bogen`-Format) aus — lesbarer Kurzstatus, **kein JSON/Snapshot**.
   4. Danach folgen Exfil, SYS-, Stress- und Psi-Heat-Guards mit identischen
      Strings. Tooling nutzt dieselben Texte, damit Goldenfiles stabil bleiben.
      `resume_token.previous_mode` plus `merge_conflicts`-Eintrag
