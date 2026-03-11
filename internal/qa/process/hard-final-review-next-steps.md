@@ -89,6 +89,7 @@ nächsten Anschlusslauf.
 - Durchlauf 205 synchronisiert verbleibende Chronopolis-Lesedrift in `core/sl-referenz.md`: Die Formulierungen „ohne Missionsdruck“/Hub-Lesart wurden auf den gehärteten Runtime-Contract (freier Infiltrationslauf mit Reaktionsdruck) nachgezogen.
 - Durchlauf 206 synchronisiert die verbliebene Dev-Doku-Lesedrift in `docs/dev/chronopolis-map-blueprint.md`: Der Abschluss verweist nun auf den Chronopolis-Spielmodus als freier Infiltrationslauf statt auf die Altbenennung „Endgame-Hub“.
 - Durchlauf 207 ergänzt einen kompakten Playtest-Go/No-Go-Gate in `internal/qa/process/playtest-readiness-gate.md`, damit Setup, Pflicht-Smoke, Invarianten-Kurzcheck und Evidence-Ablage vor neuen Testrunden verbindlich abgeprüft werden.
+- Durchlauf 208 verankert die Gate-Nutzung zusätzlich im Pre-Test-Workflow: `docs/qa/tester-playtest-briefing.md` und die Deepsearch-Anschlusscheckliste in `internal/qa/process/continuity-redesign-statusmatrix.md` verweisen jetzt explizit auf das verpflichtende Vorab-Abarbeiten des Playtest-Gates.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -111,6 +112,9 @@ nächsten Anschlusslauf.
    - Vor jedem neuen Playtest-Lauf die Checkliste
      `internal/qa/process/playtest-readiness-gate.md` vollständig durchgehen
      (inkl. Pflicht-Smoke und Evidence-Pfad).
+   - Diese Reihenfolge auch in den operativen Vordokumenten halten:
+     `docs/qa/tester-playtest-briefing.md` und
+     `internal/qa/process/continuity-redesign-statusmatrix.md`.
 
 ## Operativer Ablauf für nächste Durchläufe
 

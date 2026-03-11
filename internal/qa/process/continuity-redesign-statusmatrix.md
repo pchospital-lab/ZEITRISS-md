@@ -95,7 +95,8 @@ Quelle: `uploads/ZEITRISS_npc_mmo_immersion_review.md`
 
 ## Anschluss-Checkliste vor dem nächsten Deepsearch-Lauf
 
-1. Pflichtcheck ausführen: `bash scripts/smoke.sh` (inkl. Tokens `physicality-watchguard-ok` und `kausalabfang-watchguard-ok`).
-2. Nur bei Prozessdateien: `python3 tools/lint_links.py internal/qa/plans internal/qa/logs internal/qa/process`.
-3. Bei Regeltext-Änderungen immer SSOT-parallel in den fünf Kernmodulen prüfen (Spieler-Handbuch, SL-Referenz, Toolkit, Masterprompt, Ausrüstung).
-4. Neue Durchläufe in **Plan + Log + known-issues + Statusmatrix** synchron nachziehen, damit Anschlussläufe ohne Kontextverlust starten können.
+1. Vor jedem externen Testlauf den Playtest-Go/No-Go-Gate vollständig abarbeiten: `internal/qa/process/playtest-readiness-gate.md`.
+2. Pflichtcheck ausführen: `bash scripts/smoke.sh` (inkl. Tokens `physicality-watchguard-ok` und `kausalabfang-watchguard-ok`).
+3. Nur bei Prozessdateien: `python3 tools/lint_links.py internal/qa/plans internal/qa/logs internal/qa/process`.
+4. Bei Regeltext-Änderungen immer SSOT-parallel in den fünf Kernmodulen prüfen (Spieler-Handbuch, SL-Referenz, Toolkit, Masterprompt, Ausrüstung).
+5. Neue Durchläufe in **Plan + Log + known-issues + Statusmatrix** synchron nachziehen, damit Anschlussläufe ohne Kontextverlust starten können.
