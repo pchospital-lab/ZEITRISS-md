@@ -97,6 +97,7 @@ nächsten Anschlusslauf.
 - Durchlauf 213 schließt verbleibende Mikro-Restdrift im Chronopolis-Kodex-Contract: kompakte HUD-/FAQ-/Befehlsformulierungen in `characters/hud-system.md`, `core/sl-referenz.md` und `core/spieler-handbuch.md` markieren Vollzugriff nun explizit als **außerhalb `CITY`** und kennzeichnen `kodex [thema]` im Spieler-Handbuch eindeutig als **in `CITY` gesperrt**.
 - Durchlauf 214 ergänzt den dauerhaften Runtime-Guard für diesen Contract: `tools/test_chronopolis_kodex_lockout_watchguard.js` prüft im Pflicht-Smoke (`scripts/smoke.sh`) die Crossfile-Anker für Chronopolis-Sperrmodus (`Kodex dunkel, HUD lebendig`), `!offline`-Sonderantwort in `CITY`, `kodex [thema]`-Sperre in `CITY` und HQ-Vollzugriff explizit außerhalb `CITY`.
 - Durchlauf 215 ergänzt die Lore-Klammer für Langzeitspiel in den Runtime-SSOTs (`core/spieler-handbuch.md`, `core/sl-referenz.md`): Zeitriss als Kausalwunde, Absolut/Nullzeit/Zeitriss als Zustände derselben Grenzphysik, Kodex als Bruchlinien-Koppler (nicht Realitäts-"Erschaffer") sowie der Merksatz `ABSOLUT-7 liest keine Zukunft. Es macht Bruchlinien lesbar.`
+- Durchlauf 216 ergänzt in `core/sl-referenz.md` direkt am Weltstatus-Pflichtsatz eine Leitformel für Langzeitspiel: Jeder gelöste Einsatz stabilisiert die Hauptlinie und verhindert, dass Bruchwelten als Riss/Echo/Kreatur in die Wirklichkeit zurückdrücken.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
