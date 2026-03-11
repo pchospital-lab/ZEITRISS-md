@@ -88,6 +88,7 @@ nächsten Anschlusslauf.
 - Durchlauf 204 synchronisiert die sichtbare Modul-6-Kapitelbenennung auf den gehärteten Chronopolis-Contract: Indexeintrag + Kapitelüberschrift in `gameplay/kampagnenstruktur.md` führen Chronopolis nun explizit als „Freier Infiltrationslauf“ statt „Endgame-Hub“.
 - Durchlauf 205 synchronisiert verbleibende Chronopolis-Lesedrift in `core/sl-referenz.md`: Die Formulierungen „ohne Missionsdruck“/Hub-Lesart wurden auf den gehärteten Runtime-Contract (freier Infiltrationslauf mit Reaktionsdruck) nachgezogen.
 - Durchlauf 206 synchronisiert die verbliebene Dev-Doku-Lesedrift in `docs/dev/chronopolis-map-blueprint.md`: Der Abschluss verweist nun auf den Chronopolis-Spielmodus als freier Infiltrationslauf statt auf die Altbenennung „Endgame-Hub“.
+- Durchlauf 207 ergänzt einen kompakten Playtest-Go/No-Go-Gate in `internal/qa/process/playtest-readiness-gate.md`, damit Setup, Pflicht-Smoke, Invarianten-Kurzcheck und Evidence-Ablage vor neuen Testrunden verbindlich abgeprüft werden.
 
 ## Offene Anschluss-Tasks (priorisiert)
 
@@ -106,6 +107,10 @@ nächsten Anschlusslauf.
      „genau eine Weltstatus-Zeile pro Missionszyklus aus
      `arc.factions/questions/hooks` mit Folgewirkung“ in allen
      Runtime-SSOT-Referenzen synchron halten.
+4. **Playtest-Gate vor externen Testrunden anwenden**
+   - Vor jedem neuen Playtest-Lauf die Checkliste
+     `internal/qa/process/playtest-readiness-gate.md` vollständig durchgehen
+     (inkl. Pflicht-Smoke und Evidence-Pfad).
 
 ## Operativer Ablauf für nächste Durchläufe
 
@@ -121,5 +126,6 @@ nächsten Anschlusslauf.
 - Historischer Review-Snapshot: `uploads/hard-final-review.md`
 - Archiv 157–179: `internal/qa/process/archive/hard-final-review-durchlaufhistorie-157-179.md`
 - Neuanlage-Checkliste: `internal/qa/process/watchguard-neuanlage-checkliste.md`
+- Playtest-Gate: `internal/qa/process/playtest-readiness-gate.md`
 
 ---
