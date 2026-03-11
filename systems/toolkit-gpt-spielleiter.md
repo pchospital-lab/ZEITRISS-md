@@ -277,7 +277,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Einträge, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
-- **Chronopolis-Lore-Geländer (`ABSOLUT-7`):** Chronopolis darf als
+- **Chronopolis-Lore-Geländer (`ABSOLUT-7/CITY`):** Als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell darf die Stadt als
   kodex-instanziierter Resonanzraum angedeutet werden ("Was sagt das über die
   Welt?"). In der Szene bleibt die Darstellung jedoch physisch-konkreter
   Straßenraum; keine Matrix-/VR-/Holodeck-Sprache und kein Digitalraum-Gameplay.
