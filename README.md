@@ -93,7 +93,7 @@ Falls ihr ohne Script arbeitet:
 3. Parameter: Temperature `0.8` · Top-P `0.9` · Freq-Penalty `0.3` ·
    Max Tokens `64000`
 
-Details: [Setup-Guide](docs/setup-guide.md)
+Details: [Setup-Guide](docs/setup-guide.md) · [Lumo-Setup](docs/setup-lumo.md)
 
 ### Modell-Empfehlung (Stand März 2026)
 
