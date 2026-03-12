@@ -66,7 +66,13 @@ Hinweis für laufenden Betrieb: Das erneute Ausführen des Scripts ist der
 bevorzugte Update-Weg, damit Preset, Masterprompt-Feld und Wissensspeicher auf
 dem neuesten Repo-Stand bleiben.
 
+Für manuelle Uploads auf anderen Plattformen kann ein kuratiertes Paket per
+`./scripts/export-knowledge-pack.sh` erzeugt werden.
+
 **Manuell (OpenWebUI ohne Script, andere Plattformen):**
+
+Für Proton Lumo gibt es eine eigene, schlanke Plattform-Anleitung:
+[`docs/setup-lumo.md`](setup-lumo.md).
 
 1. **Knowledge Base erstellen:** In OpenWebUI unter Wissensspeicher →
    „Neue Wissensbasis" → Name: `ZEITRISS 4.2.6 Regelwerk`.
