@@ -433,12 +433,15 @@ Die Runtime spiegelt das Fenster parallel nach
 Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deepsave mit
 "SaveGuard: Exfil aktiv - HQ-Save gesperrt.". Nach der Rückkehr ins HQ setzt `campaign.exfil`
 alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben Felder als Referenz.
-HQ-Saves akzeptieren ausschließlich vollständig installierte Systeme:
-`character.attributes.SYS_installed` muss `SYS_max` entsprechen, die Runtime-Last darf den
-installierten Wert nicht überschreiten. Weicht die Installation ab, bricht `save_deep()` mit
-"SaveGuard: SYS nicht voll installiert - HQ-Save gesperrt." ab; eine Runtime-Last über den
-installierten Slots führt zu "SaveGuard: SYS runtime overflow - HQ-Save gesperrt.". Stress
-und Psi-Heat tragen denselben SaveGuard-Suffix, um HQ-Sperren klar zu markieren.
+HQ-Saves prüfen die SYS-Installation im Charaktersystem als
+`sys_installed ≤ attr.SYS`; freie SYS-Slots sind ein gültiger Zustand und
+sperren keinen Save. Eine Runtime-Last über den installierten Slots führt
+weiterhin zu "SaveGuard: SYS runtime overflow - HQ-Save gesperrt.".
+Liegt `location="HQ"` vor und es ist kein aktiver Einsatz mehr offen
+(insb. kein Arena-/Exfil-/Transfer-/Queue-State), normalisiert der
+HQ-Serializer transiente Werte vor dem Export auf HQ-Basis
+(`stress`, `psi_heat`, `sys_runtime/sys_used`, `cooldowns`, Timer-Reste),
+statt den Save zu blocken.
 Speichern außerhalb des HQs meldet "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt."
   und zeigt anschließend automatisch den Charakterbogen (`!bogen`-Format) als
   lesbaren Kurzstatus. **Kein JSON-Export, kein Snapshot** — der Spieler sieht
@@ -819,8 +822,22 @@ Beispiel: `🟢 ZEITRISS 4.2.6 - Einsatz für dich gestartet` (Solo) bzw. `... f
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](../systems/gameflow/cinematic-start.md)).
-- JSON einfügen (optional nach `Spiel laden`) → Save einlesen → Rückblick → Mission fortsetzen
+- JSON einfügen (optional nach `Spiel laden`) → Save einlesen → Rückblick → HQ-Load-Router
   ([speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md)).
+
+**HQ-Load-Standard:** Ein HQ-DeepSave lädt immer in einen freien HQ-Zustand,
+nicht in eine laufende Mission. Nach dem Recap folgt ein kurzer Router:
+**Schnell-HQ**, **HQ manuell**, **Briefing anfordern**, **Chronopolis** (falls frei),
+**Rift-Board** (falls frei), **Arena-Router** (falls relevant). Eine Mission gilt nach
+Debrief/HQ-Rückkehr als abgeschlossen und wird nach Load nicht halb offen
+fortgesetzt.
+
+**Arena-Router (Load):**
+- Mit `arena.resume_token` und Abschlusszustand (`queue_state=idle|completed`):
+  Option `!arena resume` ohne neue Gebühr anbieten.
+- Bei aktivem Arena-Run/Matchmaking (`queue_state=searching|matched|staging|active`):
+  kein HQ-Resume anbieten; zuerst HQ-Normalisierung/Exit abschließen.
+- Ohne Resume-Token: Arena nur als regulären HQ-Abzweig (neuer Start) anzeigen.
 
 Wird ohne JSON gespeichertes Material weitergespielt, fordert die SL den Spielstand an
 und setzt nicht aus dem Nichts fort.
@@ -919,10 +936,16 @@ Entscheidung - nicht automatisch im selben Zug.
   Med-Lab, Operations-Deck, Quartiere, Hangar-Axis,
   Zero Time Lounge, Pre-City-Hub.
   Alias-Begriffe bleiben Unterzonen und ersetzen keine Hauptorte.
-- **Kernpersonal (Runtime-SSOT):** Commander Arnaud Renier,
+  `Nullzeitbar|Bar` bleibt Alias der Zero Time Lounge (HQ, savebar);
+  `Werkstatt` bleibt Tech-/Werkstattbereich der ITI-Servicezonen.
+- **Kernpersonal (Runtime-SSOT):** Commander Arnaud Renier
+  (strategische Leitung, Eskalationen, seltene persönliche Audienzen),
   Archivarin Mira, Pater Lorian, Offizier Vargas, Agentin Narella.
   Diese Rollen bleiben über Solo, NPC-Team und Multiplayer dieselben
   wiedererkennbaren ITI-Anker.
+- **Dienstweg-Guard:** Erstkontakt für Rekruten/Feldagenten läuft im Alltag
+  über Dienstpersonal, Duty-Desk, Med-Techs, Quartiermeisterei oder
+  Hangar-Dispo; Renier ist kein Standard-Erstkontakt.
 - **HQ-Definition (Save/Service):** Zum HQ zählen der sichere ITI-Kern,
   alle ITI-Decks und der Pre-City-Hub. Chronopolis läuft als eigener
   Status `CITY` und ist kein Savepunkt.
