@@ -1125,14 +1125,14 @@ const HQ_CLASSIC_INTRO_LINES = [
   'Sobald Rolle, Waffen und Implantate fix sind, finalisiert das ITI die Hülle – erst dann koppelt es dein Bewusstsein an.',
   'Wenn die Drucktanks verstummen, entlädt sich der Transferblitz; Sensoren flackern, dein Bewusstsein fährt in den Körper.',
   'Die Schleusen öffnen sich; du trittst ins Quarzatrium. Das Nullzeit-HQ ist der gigantische ITI-Kern; Chronopolis bleibt bis zum Stadtschlüssel (Level 10+) versiegelt.',
-  'Commander Renier bietet HQ-Rundgang (Quarzatrium → Med-Lab → Chrono-Portal) oder direktes Briefing an.',
+  'Ein Duty-Officer bietet HQ-Rundgang (Quarzatrium → Med-Lab → Chrono-Portal) oder direktes Briefing an.',
   'Die Nullzeit kennt keinen Countdown. Das ITI schon.'
 ];
 
 const HQ_QUICK_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer koppelt dich an deine Hülle.',
   'Die Kodex-Stimme gleitet wie Regenlicht über die Decks.',
-  'Commander Renier: „Briefingraum in drei Minuten. Rollen wählen, Fokus halten.“',
+  'Duty-Officer: „Briefingraum in drei Minuten. Rollen wählen, Fokus halten.“',
   'Die Nullzeit kennt keinen Countdown. Das ITI schon.'
 ];
 
