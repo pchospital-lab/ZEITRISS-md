@@ -303,9 +303,10 @@ Spannung** bis zum Schluss erhalten bleibt.
 | 10 | 40.8 | 100 % | 100 % | 100 % |
 ### Quick-Fight Walkthrough
 
-1. **Initiative:** Jeder wirft `1W6 + GES` (voller Attributswert, **keine
-   Halbierung** — Initiative ist kein Check, sondern eine Reaktionsmessung).
+1. **Initiative:** Jeder wirft `1W6 + max(GES, TEMP)` (voller Reaktionswert,
+   **keine Halbierung** — Initiative ist kein Check, sondern eine Reaktionsmessung).
    Boni aus Talenten oder Cyberware addieren; der höchste Wert beginnt.
+   Gleichstand: höherer TEMP, dann höherer GES, dann Stichwurf.
 2. **Angriffswurf:** Beispiel: 6 auf dem W6 + STR 3 = 9 gegen SG 8.
 3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).

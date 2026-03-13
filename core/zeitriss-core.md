@@ -135,9 +135,10 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   waffenlosen Nahkampf.
 - **Geschicklichkeit (GES):** Behändigkeit, Schnelligkeit und Fingerfertigkeit. Wichtig für
   Klettern, Balancieren, Schleichen, Schlösser knacken, Taschendiebstahl oder geschicktes Ausweichen
-  im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen und die **Initiative** in
-  kämpferischen Situationen. _Wichtig:_ Initiative nutzt den **vollen GES-Wert**
-  (`1W6 + GES`), keine Halbierung — Initiative ist kein Check, sondern eine Reaktionsmessung.
+  im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen. Die **Initiative** in
+  kämpferischen Situationen nutzt den höheren Wert aus GES und TEMP. _Wichtig:_
+  Initiative nutzt den **vollen Reaktionswert** (`1W6 + max(GES, TEMP)`), keine
+  Halbierung — Initiative ist kein Check, sondern eine Reaktionsmessung.
   Normale Proben verwenden dagegen `1W6 + ⌊Attribut / 2⌋`.
 - **Intelligenz (INT):** Geistige Fähigkeiten wie Logik, Bildung, Erinnerungsvermögen und
   analytisches Denken. Benötigt zum Lösen von Rätseln, Entziffern alter Schriften, Planen komplexer
@@ -573,8 +574,9 @@ Not-Rückholung liegt in [Zustände & erweiterte Systeme](../characters/zustaend
 Ein Kampf in ZEITRISS folgt sechs Schritten. Dieser Abschnitt fasst den
 kompletten Ablauf zusammen — Details stecken in den verlinkten Modulen.
 
-1. **Initiative:** `1W6 + GES` (voller Wert, keine Halbierung). Höchster Wert
-   beginnt. Bei Gleichstand entscheidet TEMP, dann ein Stichwurf.
+1. **Initiative:** `1W6 + max(GES, TEMP)` (voller Wert, keine Halbierung).
+   Höchster Wert beginnt. Bei Gleichstand entscheiden höherer TEMP, dann höherer
+   GES, dann ein Stichwurf.
    → Details: [Initiative-Systeme](../characters/zustaende.md#initiative-systeme)
 
 2. **Angriffswurf:** Standard-Probenformel `1W6 + ⌊Attribut/2⌋ + Talent + Gear ≥ SG`.

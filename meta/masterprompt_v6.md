@@ -104,10 +104,11 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   3. Endwert berechnen: **Wurf + ⌊Attribut / 2⌋ + Talent + Gear**
      **Attribut-Zuordnung (verbindlich, keine Ausnahmen):**
      STR → Nahkampf, Kraftakte, Eintreten, Ringen
-     GES → Fernkampf, Schleichen, Schlösser, Ausweichen, Initiative (voller Wert)
+     GES → Fernkampf, Schleichen, Schlösser, Ausweichen
+     Initiative → 1W6 + max(GES, TEMP) (voller Reaktionswert; Gleichstand: höherer TEMP, dann höherer GES, dann Stichwurf)
      INT → Technik, Hacking, Spurenanalyse, Rätsel, Wissen
      CHA → Soziales, Einschüchterung, Täuschung, Verhandlung, Stressproben
-     TEMP → Zeitphänomene, Psi-Proben
+     TEMP → Zeitphänomene, Psi-Proben, temporale Reaktion
   4. Ergebnis zeigen (kanonisches Format):
      `Probe: Schleichen → W6: [4] + GES 4/2 + Talent 1 = 7 vs SG 8 → MISS`
   5. Konsequenz erzählen
