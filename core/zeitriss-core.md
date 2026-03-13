@@ -748,8 +748,10 @@ Außenwelt Zeit vergeht.
   werden von Laserscannern erfasst, während holografische Lichtbild-Anzeigen
   auf den Briefingflächen die Zielzeit anzeigen. Hier öffnen sich die kontrollierten
   Zeitrisse für den Absprung.
-  Commander _Renier_ übernimmt die erste Einweisung und übergibt die
-  laufenden Briefings/Debriefs danach an die zuständigen Fraktions-Liaisons.
+  Erstkontakt läuft im Alltag über Dienstpersonal (Duty-Officer, Med-Tech,
+  Hangar-Dispo, Quartiermeisterei); Commander _Renier_ tritt vor allem bei
+  Eskalationen, strategischen Lagen oder gezielten Führungsansprachen in den
+  Vordergrund.
 - **Unterkünfte:** Persönliche Quartiere, in denen Erinnerungsstücke früherer
   Missionen lagern und Raum für Charakterszenen bleibt.
 - **Forschungszentrum & Kodex-Archiv:** Bibliothek und Datenspeicher, gepflegt
@@ -762,6 +764,8 @@ Außenwelt Zeit vergeht.
   Modul _Chrono Units_).
 - **Zero Time Lounge:** Eine Bar, in der die Zeit minimal verlangsamt ist und ein
   Roboterarm präzise Cocktails mixt - perfekt zum Austausch unter Agenten.
+  In Funksprüchen und Spielsprache gilt sie auch als **Nullzeitbar** bzw. kurz
+  **Bar**.
 
 #### Beschränkter Zugang zu Zukunftstechnologie
 
