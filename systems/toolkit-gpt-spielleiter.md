@@ -89,6 +89,11 @@ default_modus: mission-fokus
   Keys/Daten, Wert/CU sowie Hinweise und markieren "heißes Loot" klar.
   Cleanup beschreibt Risiko/Protokoll (Zeit, Stress, Noise/Heat) statt
   Schrittlisten. Exfil-Fenster früh sichtbar machen und als Optionen führen.
+- **Anti-Loop-Guard:** Wiederhole keinen Druck-/Hindernis-Beat zweimal
+  hintereinander ohne neue Lageänderung (Ort, Fraktion, Ressourcenverlust,
+  Verletzung, Info oder klares Exfil-Fenster). Wenn das Primärziel erfüllt ist
+  und kein bewusster Umweg erzwungen wird, kippt die Regie zügig in
+  Cleanup/Exfil/Heimkehr statt in denselben Stakes-Vollkreis.
 - **Kausalabfang-Guard ("Never happened"):** Ausschließlich als
   **ITI-Cleanup-Protokoll nach 0 LP** für eindeutig feindliche
   Standardziele nutzen; Leitmotiv **Festnahme statt Löschung**; nie als Kampfaktion, Fernlösung, Masseneffekt,
@@ -402,12 +407,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
   (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
   Szenario, Policy (`arena.match_policy`) und Px-Status aus. HQ-DeepSaves
-  verlangen vollständig installierte
-  Systeme (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb der
-  installierten Slots, sonst meldet die Runtime "SaveGuard: SYS nicht voll
-  installiert - HQ-Save gesperrt." bzw. "SaveGuard: SYS runtime overflow -
-  HQ-Save gesperrt." und blockiert den Save. Stress/Psi-Heat tragen denselben
-  SaveGuard-Suffix. Arena-Matchmaking (`queue_state` ≠ `idle`) zählt
+  prüfen den Charakterzustand als `sys_installed <= attr.SYS`; freie
+  SYS-Slots sind zulässig. Nur eine Runtime-Last über installierten Slots
+  meldet weiterhin "SaveGuard: SYS runtime overflow - HQ-Save gesperrt.".
+  Liegt `location='HQ'` vor und es ist kein aktiver Einsatz mehr offen,
+  normalisiert der Serializer vor dem Export transiente Werte
+  (`stress`, `psi_heat`, `sys_runtime/sys_used`, `cooldowns`, Timer-Reste),
+  statt den HQ-Save zu blocken. Arena-Matchmaking (`queue_state` ≠ `idle`) zählt
   dabei als aktiv und sperrt HQ-Saves selbst dann, wenn externe Tools das
   `active`-Flag vergessen; setzt den Queue-State bei PvP-Handshakes daher
   explizit.
@@ -798,7 +804,16 @@ Erst nach dieser Gruppenentscheidung wird die Erzählung fortgesetzt.
 - Nach einem erfolgreichen **Load**:
   - `SkipEntryChoice()` setzen, bevor der Recap startet.
   - `Recap()` abspielen.
-  - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
+  - **HQ-Load-Standard:** HQ-Saves landen immer im freien HQ-Zustand, nie in
+    einer halb offenen Missionsfortsetzung.
+  - Danach kurzer Router: **Schnell-HQ**, **HQ manuell**, **Briefing
+    anfordern**, **Chronopolis** (falls frei), **Rift-Board** (falls frei),
+    **Arena-Router** (falls relevant).
+    - Mit `arena.resume_token` + `queue_state=idle|completed`: `!arena resume`
+      anbieten (ohne neue Gebühr).
+    - Mit `queue_state=searching|matched|staging|active`: kein Arena-Resume;
+      erst HQ-Normalisierung/Exit abschließen.
+    - Ohne Token: Arena nur als normaler HQ-Neustartpfad.
   - **Keine** Nachfrage "klassischer Einstieg/Schnelleinstieg".
     - Standard-Flags prüfen: Falls `character.psi_buffer`, `team.psi_buffer`
       oder `characters[].psi_buffer` fehlen, setze sie auf `true`, damit
@@ -810,7 +825,7 @@ LoadSave(json):
   hydrate_state(json)
   SkipEntryChoice()
   Recap()
-  # HQ-Dialog oder Briefing starten
+  # HQ-Load-Router starten (inkl. Arena-Router: resume_token + queue_state prüfen)
 ```
 
 #### HQ-Moments - Buff-Icons ⟨#hq-moments}
@@ -1280,14 +1295,33 @@ spontan ersetzt. Spieler navigieren frei per natürlichsprachlicher Eingabe
 
 - `Gatehall` = Empfangszone des **Quarzatriums**
 - `Mission-Briefing-Pod` = Briefing-Pod **im Quarzatrium**
+- `Nullzeitbar` = **Zero Time Lounge** (HQ, savebar)
+- `Bar` = **Zero Time Lounge**
+- `Werkstatt` = Tech-/Werkstattzone im **Research-Wing** bzw. ITI-Servicezonen
 - `Research-Wing` = Sammelbegriff für **Kodex-Archiv + Med-Lab + Werkstattzonen**
 - `Crew-Quarters` = englischer Alias für **Quartiere**
 
 **Kernpersonal (feste Runtime-Rollen):**
 
-- **Commander Arnaud Renier** — Erstkontakt, Eskalationen, fraktionsübergreifende Einsätze
+- **Commander Arnaud Renier** — strategische Leitung, Eskalationen, seltene persönliche Audienzen
 - **Archivarin Mira** — Standard-Betreuung für Neulinge, Mischpool, Kodex-nahe Anliegen
 - **Pater Lorian / Offizier Vargas / Agentin Narella** — Fraktionsbriefings nach Übertritt
+- **ITI-HALDEN** — Wachoffizier / Duty Desk
+- **ITI-NOX** — Quartiermeisterei / Beschaffung
+- **ITI-JUNO** — Med-Tech / Implantatroutine
+- **ITI-CASS** — Hangar-Dispo / Fahrzeugfreigaben
+
+**Dienstweg-Guard:** Rekruten und Feldagenten sprechen im Alltag zuerst mit
+Dienstpersonal, Archivpersonal, Med-Techs, Quartiermeisterei, Hangar-Dispo
+oder Wachoffizieren. Renier ist kein Standard-Erstkontakt, sondern primär für
+Eskalationen, strategische Weichenstellungen und außergewöhnliche Lagen da.
+
+**Gegnerbild-Default:** Core-Ops richten sich standardmäßig gegen
+Fremdfraktionen, externe Zeitverschwörungen, Chrono-Kartelle, staatsnahe
+Schattennetze oder historische Machtblöcke. ITI-interne Korruption/Verrat sind
+seltene Ausnahmen und kein Standardtwist. Preserve und Trigger bleiben im
+Grundsatz ITI-interne Verbündete gegen äußere Bedrohungen.
+
 
 ### HQ-Phase Workflow
 

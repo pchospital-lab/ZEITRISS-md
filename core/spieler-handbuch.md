@@ -392,8 +392,10 @@ ohne Tier V global zu sperren.
   gepostet werden
 - **Fast-Lane (optional):** `Spiel starten (solo schnell)` oder
   `Spiel starten (npc-team [0-4] schnell)` für Kurzrunden mit Rollen-Defaults
-- `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
-  `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
+- `Spiel laden` - Deepsave → Kodex-Recap → freier HQ-Zustand mit Router
+  (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei /
+  Arena-Router mit Resume-Check), EntryChoice übersprungen
+  (`campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
 Wenn die Absicht klar ist, reichen auch Formulierungen wie
 „Ich will alleine neu anfangen“, „Wir laden unsere Saves“ oder
@@ -605,6 +607,16 @@ Der beste Workflow: Mission abschließen → im HQ alles erledigen (Debrief, Sho
 Upgrades, Level-Up) → Speichern → **neuen Chat öffnen** → `Spiel laden` mit dem
 Speicherstand. So startet die nächste Mission mit vollem Regelzugriff und frischem
 Kontext. Innerhalb einer Mission einfach weiterspielen.
+
+**Empfohlener Stabilitätspfad:**
+1. **Debrief / Score-Screen** abschließen.
+2. **Level-Up jetzt abschließen** (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`).
+3. Danach **HQ wählen**: Schnell-HQ, manuell oder Auto-HQ.
+4. **Speichern**, sobald ihr frei im HQ steht.
+5. Für den nächsten Einsatz oder längere HQ-Phase: **neuen Chat** mit Load.
+
+Kodex-Kurzsatz nach Debrief:
+`Kodex: Einsatz abgeschlossen. Upgrade jetzt möglich. Danach HQ-Freiraum oder Deepsave.`
 Nach Debrief + Heimkehr kann die KI-SL zusätzlich ein kurzes Split-Angebot
 geben (z. B. als Gruppe weiter, splitten/speichern für neue Gruppe, solo
 weiter), damit Gruppenwechsel sauber im HQ vorbereitet werden.
