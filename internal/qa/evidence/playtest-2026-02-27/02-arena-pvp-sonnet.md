@@ -115,7 +115,7 @@ Optionen:
 | Arena aktiviert | ✅ | Mode PvP korrekt erkannt |
 | Schadensdämpfer | ✅ | Explizit erwähnt ("damage_dampener: true" aus Save) |
 | Tier 3 | ✅ | Korrekt aus Save übernommen |
-| Initiative-Formel | ⚠️ | `W6 + GES/2 + Reflex-Boost` — aber laut Regelwerk ist Initiative `W6 + GES` (voller Wert, **keine Halbierung**!). Das Modell halbiert GES bei Initiative, was **falsch** ist. Regeltext: "Initiative: Jeder wirft 1W6 + GES (voller Attributswert, keine Halbierung)" |
+| Initiative-Formel | ⚠️ | `W6 + GES/2 + Reflex-Boost` — laut **damaligem** Regelstand war Initiative `W6 + GES` (voller Wert, **keine Halbierung**). Der Lauf war damit regelwidrig. **Hinweis (heutiger Stand):** Seit Minipatch gilt `1W6 + max(GES, TEMP)`; die Diagnose bleibt inhaltlich gleich (fälschliche Halbierung des Reaktionswerts). |
 | Würfeltyp | ✅ | W6 bei TEMP 6 (nicht W10) — korrekt, da Attribut < 11 |
 | Proben-Formel | ✅ | `W6 + ⌊Attribut/2⌋ + Talent` korrekt für Kampfproben |
 | HUD Arena-spezifisch | ✅ | Angepasstes HUD mit Arena-relevanten Feldern |
@@ -229,7 +229,7 @@ Cipher: W6 [1] + GES 5/2 = 4
 | **Exploding-Dämpfer** | ⚠️ 3/5 | Nicht explizit gezeigt, aber auch kein extremer Overflow aufgetreten |
 | **SYS-Tracking** | ⚠️ 2/5 | SYS-Max falsch (zeigt /5 statt /6), falsche SYS-Kosten verzerren Budget |
 | **Psi-Heat-Tracking** | ✅ 4/5 | Korrekt inkrementiert pro Aktion, Heat-Level im Blick |
-| **Initiative-Formel** | ❌ 1/5 | Halbiert GES bei Initiative statt vollem Wert |
+| **Initiative-Formel** | ❌ 1/5 | Halbiert den Reaktionswert bei Initiative (damals gegen `W6 + GES`, heute gegen `W6 + max(GES, TEMP)`) |
 | **Schadensberechnung** | ❌ 2/5 | Phase-Strike soll AR ignorieren, subtrahiert AR trotzdem |
 | **NPC-Attribut-Treue** | ❌ 2/5 | Cipher INT als 4 statt 7 behandelt |
 | **Atmosphäre** | ✅ 5/5 | Starke Narrative, cineastische Beschreibungen, immersiv |
