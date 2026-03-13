@@ -97,10 +97,12 @@ bevor ihr in eine Stadt tretet, die sich anfühlt wie euer Scheitern.
 assert state.location == "HQ", (
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt."
 )
-assert state.character.attributes.SYS_installed == state.character.attributes.SYS_max
-assert state.character.attributes.SYS_runtime <= state.character.attributes.SYS_installed
-assert state.character.stress == 0 und state.character.psi_heat == 0
-assert not state.get('timer') und not state.get('exfil_active') und not campaign.exfil.active
+assert state.character.sys_installed <= state.character.attr.SYS
+assert state.character.attributes.SYS_runtime <= state.character.sys_installed
+assert not state.get('city_active') und not state.get('arena_active')
+assert not state.get('exfil_active') und not state.get('transfer_active')
+assert not campaign.exfil.active
+normalize_hq_transients()  # stress/psi_heat/sys_runtime/sys_used/cooldowns/timer
 required = [
   "character.id",
   "character.attributes.SYS_max",
@@ -146,6 +148,17 @@ for field in ui_persistent:
   )
 ```
 
+
+**HQ-Save-Normalisierung:** Liegt `location="HQ"` vor und es ist kein aktiver
+Einsatz mehr offen (`CITY`, Arena, aktives Exfil-, Transfer- oder Queue-State
+ausgenommen), normalisiert der HQ-Save vor dem Export alle transienten Felder
+auf HQ-Basis (`stress`, `psi_heat`, `SYS_runtime`, `SYS_used`, `cooldowns`,
+Exfil-/Timer-Reste). Diese Felder blockieren den HQ-Save nicht, solange die
+Crew wieder frei im ITI steht.
+
+**SYS-Guard-Korrektur:** `sys_installed` folgt dem Charaktersystem und prüft
+`sys_installed ≤ attr.SYS`, nicht Gleichheit. Freie SYS-Slots sind gültig und
+dürfen keinen HQ-Save sperren.
 > **Regel: UI-Felder sind persistent.** Was der Spieler einstellt, bleibt.
 > Die Felder `ui.suggest_mode`, `ui.contrast`, `ui.badge_density` und
 > `ui.output_pace` werden beim Speichern **IMMER** geschrieben - kein
@@ -883,8 +896,11 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
    prüft ob `suggest_mode` bereits aus dem Save stammt → wenn ja, beibehalten.
 4. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
    HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
-   aus. Die Runde springt ohne Nachfrage direkt zum HQ- beziehungsweise
-   Briefing-Einstieg.
+   aus. Die Runde springt ohne Nachfrage in den HQ-Load-Router
+   (Schnell-HQ/HQ manuell/Briefing/Chronopolis/Rift/Arena-Router).
+   Arena-Router-Regel: `!arena resume` nur mit `arena.resume_token` und
+   `queue_state=idle|completed`; aktive Queue-Stati (`searching|matched|staging|active`)
+   bleiben vor Resume blockiert.
 5. **Compliance-Hinweis entfällt.** Loads laufen ohne Compliance-Toast oder
    Flag-Setzung; `ShowComplianceOnce()` bleibt nur als leerer
    Kompatibilitäts-Hook bestehen.
