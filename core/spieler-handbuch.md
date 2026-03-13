@@ -187,20 +187,20 @@ Weiterführend:
 | Kürzel | Name | Einsatz |
 |--------|------|---------|
 | STR | Stärke | Nahkampf, Kraftakte |
-| GES | Geschicklichkeit | Fernkampf, Schleichen, Initiative |
+| GES | Geschicklichkeit | Fernkampf, Schleichen, Schlösser, Ausweichen |
 | INT | Intelligenz | Rätsel, Technik, Wissen |
 | CHA | Charisma | Soziales, Willenskraft, Stressproben |
-| TEMP | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP) |
+| TEMP | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP), temporale Reaktion |
 | SYS | Systemlast | Cyber-/Bioware-Kapazität |
 
 - **Start:** 2-6 pro Attribut, Summe = 18, Minimum 1
 - **Reguläres Cap:** 10 · **Prestige-Cap:** 14
 
 ### Initiative
-`1W6 + GES` (voller Wert, **keine** Halbierung) · Gleichstand → TEMP, dann Stichwurf
+`1W6 + max(GES, TEMP)` (voller Wert, **keine** Halbierung) · Gleichstand → höherer TEMP, dann höherer GES, dann Stichwurf
 
 ### Kampf-Kurzablauf
-1. **Initiative** - `1W6 + GES`, höchster Wert beginnt
+1. **Initiative** - `1W6 + max(GES, TEMP)`, höchster Wert beginnt
 2. **Angriff** - Probenformel (STR Nah / GES Fern) ≥ SG oder Oppositionswurf
 3. **Schaden** - Waffenwert - Rüstungs-DR = LP-Verlust
 4. **Verletzung** - LP-Stand bestimmt Stufe & Malus (siehe unten)
