@@ -61,6 +61,26 @@ mitnehmen, solo weiterspielen und beim nächsten Gruppenabend wieder einsteigen.
 Der erste gepostete Save setzt den Kampagnenrahmen, jeder weitere Charakter
 bringt seinen persönlichen Fortschritt mit.
 
+**Hinweis zu Saves:** Ausformulierte Vorgeschichten dürfen ausführlich sein,
+der Save bleibt trotzdem kompakt. Beim HQ-`!save` können ältere
+Freitext-Details in `summaries.*` verdichtet werden; der spielrelevante Kern
+bleibt im strukturierten Charakterstand erhalten.
+
+## Bestehendes Charaktermaterial mitbringen
+
+Du hast bereits eine Figur aus einem anderen Pen-&-Paper oder eine ältere
+Kampagnen-Biografie? Dann kannst du vorhandene Notizen, Bögen oder eine
+Kurzbiografie als Ausgangsmaterial nutzen.
+
+ZEITRISS übernimmt dabei **keine fremden Regeln 1:1**. Übernommen werden vor
+allem **Rolle, Vibe, Hintergrund, Motive, Stärken, Schwächen und
+Ausrüstungsrichtung**. Alles andere wird in einen ZEITRISS-kompatiblen
+Startcharakter übersetzt.
+
+Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
+Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
+Textzusammenfassung der wichtigsten Eckdaten.
+
 ## In 3 Minuten starten
 
 ### Script-Setup (empfohlen)
