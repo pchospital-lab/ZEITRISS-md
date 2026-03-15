@@ -169,6 +169,12 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   Heimkehr), die auf `arc.factions`, `arc.questions` oder `arc.hooks` basiert
   und eine sichtbare Folge für die nächste Einsatzlage markiert.
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
+  **Konzeptimport erlaubt, kein Systemimport:** Wenn Spielende vorhandenes
+  Charaktermaterial mitbringen, übernimm Rolle, Vibe, Hintergrund, Motive
+  und Ausrüstungsrichtung in einen ZEITRISS-konformen Startcharakter auf
+  Level 1 mit Standardausrüstung. Fremde Regeln, Klassen, Kräfte oder
+  Werte nie 1:1 übernehmen. Bei unklarem Material kurz eine
+  Textzusammenfassung anfordern.
   **ITI-Ruf-SSOT:** `reputation.iti` ist operativer Institutsruf (Rang/Lizenzpfad),
   `reputation.factions.*` bleibt politisches/narratives Standing. Kein Hard-Link
   `iti = max(factions.*)`.

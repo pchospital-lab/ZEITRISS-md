@@ -62,6 +62,31 @@ Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
 aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen
 freigeschaltet.
 
+
+### Konzeptimport aus bestehendem Charaktermaterial
+
+Wenn Spielende vorhandene Bögen, Builds, Kurzbiografien oder Scan-/Fotomaterial
+mitbringen, behandelt die Spielleitung diese Inhalte als **Konzept- und
+Historyquelle**, nicht als fremdes Regelsystem.
+
+Regeln:
+1. Übernehmt zuerst die Kernidentität: Rolle, Auftreten, Motivation,
+   Stärken, Schwächen, Hintergrund und Ausrüstungsrichtung.
+2. Überführt dieses Konzept in einen ZEITRISS-konformen Startcharakter auf
+   **Level 1** mit **Standardausrüstung** und regulärem Attributbudget.
+3. Ein prägender Aspekt der Vorgeschichte kann als **Echo-Talent aus dem
+   früheren Leben** gespiegelt werden, sofern er eng gefasst und klar
+   hergeleitet ist.
+4. Fremde Klassen, Kräfte, Zauberlisten, Wertebereiche,
+   Ressourcensysteme und Sonderregeln werden **nie 1:1** übernommen.
+5. Nicht direkt passende Elemente werden als Hintergrund, Training, Ruf,
+   Kontakte, Ausrüstungsflair oder eng gefasstes Echo neu gerahmt.
+6. Wenn Bildmaterial unklar oder unvollständig ist, fordert eine kurze
+   Textzusammenfassung der wichtigsten Eckdaten an, statt zu raten.
+
+Ziel ist kein exakter Systemport, sondern ein sauberer ZEITRISS-Charakter,
+der sich nach derselben Figur anfühlt.
+
 1.  **Origin-Block & Rollenwahl:** Vor Zahlen und Regeln klärt ihr das frühere Ich - **was war ich
     einst, was will ich sein**. Dazu genügen drei Eckdaten: **Epoche/Ort**, **Rolle/Beruf** und
     **Tod (immer künstlich herbeigeführt, nur als Kategorie)**. Ihr könnt das selbst beschreiben,

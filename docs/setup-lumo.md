@@ -62,6 +62,13 @@ Das stärkste ZEITRISS-Erlebnis entsteht aktuell mit den stärksten Modellen.
 5. Websuche im Spielbetrieb deaktivieren.
 6. Neuen Chat starten mit `Spiel starten (solo klassisch)` oder `Spiel laden`.
 
+## Bestehendes Charaktermaterial auf Lumo
+
+Bestehendes Charaktermaterial kann übernommen werden. Wenn dein Setup keinen
+zuverlässigen Bildinput bietet, nutze den Textweg mit den Kernangaben:
+Rolle, Hintergrund, Stärken, Schwächen, prägendes Talent und
+Ausrüstungsrichtung.
+
 ## Sicherheit & Stil
 
 Der Action-Contract bleibt plattformübergreifend gleich:
