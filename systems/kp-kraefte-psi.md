@@ -161,6 +161,77 @@ sollte an die Kampagne angepasst werden.)_
   _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.
 - **Präkognition:** Sekundenkurzer Blick auf drohende Gefahr.
   _Kosten:_ 2 PP (mittel) / 2 SYS; einmal pro Sitzung Probe wiederholen.
+
+### Präkognitive Manifestation {#praekognitive-manifestation}
+
+Aktives Psi-Talent als fortgeschrittene Form der Präkognition.
+
+Der Chrononaut fixiert keinen "Wunsch", sondern einen bereits plausiblen günstigen
+Nah-Zukunftszweig und erhöht dessen Eintrittswahrscheinlichkeit. Das ist keine
+Wunscherfüllung, kein Retcon und kein Plot-Skip.
+
+**Voraussetzungen:**
+- `has_psi: true`
+- Talent **Psioniker**
+- **Präkognition II**
+- Talentstufe der Manifestation darf nie höher sein als `TEMP`
+
+**Einsatzfenster:**
+- nur im unmittelbaren Szenenraum oder direkt angrenzend
+- nur für den nächsten Beat bzw. ungefähr die nächsten 30-90 Sekunden
+- nie für HQ, Debrief, Shops, Ökonomie, Ruf oder Meta-Fortschritt
+
+**Ansage:**
+- Der Spieler formuliert genau **eine** günstige, plausible lokale Änderung.
+
+_Beispiel:_
+"Ich manifestiere ein kurzes Fenster, in dem eine der beiden Wachen den Raum
+verlässt und ich an das Kästchen komme."
+
+**Probe, Kosten, Heat und Cooldown:**
+- **Stufe 1-2 (Low):** `TEMP-Probe`, SG 11, Kosten **1 PP / 1 SYS**, Cooldown 1 Runde,
+  **Psi-Heat +1**
+- **Stufe 3-4 (Medium):** `TEMP-Probe`, SG 13, Kosten **2 PP / 2 SYS**, Cooldown 2 Runden,
+  **Psi-Heat +1**
+- **Stufe 5 (High):** `TEMP-Probe`, SG 15, Kosten **3 PP / 3 SYS**, Cooldown 3 Runden,
+  **Psi-Heat +1**
+
+**Erfolg:**
+- **Low:** Mikro-Vorteil im nächsten Beat
+  (z. B. Blick wendet sich ab, Sensor glitched kurz, Deckung öffnet sich).
+- **Medium:** Ein einzelner lokaler Ablauf kippt günstig
+  (z. B. eine Wache verlässt kurz den Posten, Patrouille verzögert sich,
+  Tür ist nicht ganz eingerastet).
+- **High:** Kurze günstige Kausalkette von maximal zwei Beats im selben Szenencluster.
+  Das öffnet ein Fenster, erfüllt aber nie direkt das Missionsziel.
+  Für Diebstahl, Hack, Angriff oder Exfil bleiben normale Proben Pflicht.
+
+**Fehlschlag:**
+- Manifestation kippt spiegelbildlich oder unvollständig.
+- Statt freiem Fenster entsteht eine plausible Komplikation.
+- Bei kritischem Patzer gilt die bestehende Backlash-Tabelle.
+- Berührt die Manifestation einen festen Kernverlauf, Boss-Beat oder klar historisch
+  verankertes Ereignis, ist zusätzlich ein Resonanz-Check fällig.
+
+**Nicht erlaubt:**
+- keine rückwirkende Faktenänderung
+- keine Erschaffung neuer NPCs, Gegenstände, Codes oder Ausgänge
+- keine direkte Zielerfüllung
+- keine Umschreibung von Boss-Phasen
+- keine Veränderung von Ruf, Loottabellen, Shops, Saves oder Meta-Systemen
+- keine direkte Überschreibung fremder Spielerhandlungen im PvP
+- keine Anwendung der Squad-Scaling-Regel; der Effekt ist immer eine einzelne lokale
+  Kausalverschiebung
+
+**Stacking:**
+- nicht im selben Beat mit dem Reroll-Effekt der klassischen **Präkognition** stapeln
+
+**Arena/PvP:**
+- In Arena oder direktem PvP wird Präkognitive Manifestation nicht als
+  Szenenmanipulation ausgespielt.
+- Dort fällt die Fähigkeit automatisch auf klassische Präkognition zurück:
+  Warnung, kurzer Vorsprung, taktischer Mikro-Beat.
+
 - **Zeit verlangsamen:** Verlangsamt Umgebung kurzzeitig.
   _Kosten:_ 2 PP (mittel) / 2 SYS; eine Zusatzaktion.
 - **Temporaler Waffenimpuls:** Friert Umgebung kurz ein; Projektil trifft extrem schnell.
@@ -975,6 +1046,8 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
   Gedankenfetzen und Emotionen zu empfangen. Mit _"Telepathie II"_ kann er gezielt kurze Nachrichten
   mental übermitteln. _"Präkognition I"_ gibt gelegentlich intuitive Warnungen, _"Präkognition II"_
   erweitert dies zu klareren Vorahnungsträumen. Solche Talentbäume ermöglichen es, dass ein Charakter
+  mit **Präkognitiver Manifestation I-V** einen fortgeschrittenen Branch derselben Psi-Linie wählen
+  kann, der nur lokale, plausible Nah-Zukunftsfenster beeinflusst.
   langsam vom sensitiven Anfänger zum erfahrenen Psi-Adept aufsteigen kann. Im Regelmodul könnten für
   jede Fähigkeit 3 Stufen definiert sein (Basis, Fortgeschritten, Experte), eventuell mit einer
   Voraussetzung an Charakterlevel oder Attributswerten. Zudem kann es **generische Psi- Talente**
