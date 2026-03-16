@@ -159,78 +159,74 @@ sollte an die Kampagne angepasst werden.)_
 
 - **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels.
   _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.
-- **Präkognition:** Sekundenkurzer Blick auf drohende Gefahr.
-  _Kosten:_ 2 PP (mittel) / 2 SYS; einmal pro Sitzung Probe wiederholen.
+- **Präkognition (Talentlinie):** Sekundenkurzer Blick in einen wahrscheinlichen
+  Nah-Zukunftszweig. _Grundkosten:_ **2 PP (mittel) / 2 SYS**, **Psi-Heat +1**, Cooldown 2 Runden.
+  Hard-Sci-Fi-Leitplanke: nur der nächste Beat bzw. ca. 30-90 Sekunden, keine freie
+  Zukunftsprophetie.
+  - **Präkognition I - Gefahrenschatten:** Bei Erfolg benennt die SL eine unmittelbare Gefahr,
+    einen Trigger oder einen drohenden Nachteil.
+  - **Präkognition II - Wahrscheinlicher Verlauf:** Bei Erfolg benennt die SL den
+    wahrscheinlichsten Ausgang des nächsten Beats und eine konkrete Chance oder Komplikation.
+  - **Präkognition III - Ankerpunkt:** Wie II, zusätzlich markiert die SL genau **einen**
+    lokalen, plausiblen Ankerpunkt der Nah-Zukunft, der prinzipiell beeinflussbar ist.
+  - **Hinweis:** Der bestehende Präkognitions-Reroll bleibt für reine Präkognition erhalten.
+    Wird im selben Beat `Präkognitive Manifestation` ausgelöst, entfällt dieser Reroll für diese
+    Aktivierung.
 
 ### Präkognitive Manifestation {#praekognitive-manifestation}
 
-Aktives Psi-Talent als fortgeschrittene Form der Präkognition.
-
-Der Chrononaut fixiert keinen "Wunsch", sondern einen bereits plausiblen günstigen
-Nah-Zukunftszweig und erhöht dessen Eintrittswahrscheinlichkeit. Das ist keine
-Wunscherfüllung, kein Retcon und kein Plot-Skip.
+Optionaler Fortgeschrittenen-Branch der Präkognition.
+Keine Wunscherfüllung, kein Retcon, kein Plot-Skip.
+Der Chrononaut verstärkt nur einen bereits per `Präkognition III` gesehenen,
+plausiblen Nah-Zukunftszweig.
 
 **Voraussetzungen:**
 - `has_psi: true`
 - Talent **Psioniker**
-- **Präkognition II**
-- Talentstufe der Manifestation darf nie höher sein als `TEMP`
+- **Präkognition III**
 
-**Einsatzfenster:**
-- nur im unmittelbaren Szenenraum oder direkt angrenzend
-- nur für den nächsten Beat bzw. ungefähr die nächsten 30-90 Sekunden
-- nie für HQ, Debrief, Shops, Ökonomie, Ruf oder Meta-Fortschritt
+**Ablauf:**
+- Erst `Präkognition III` würfeln.
+- Nur bei Erfolg darf unmittelbar danach `Präkognitive Manifestation` auf denselben
+  Ankerpunkt gewirkt werden.
 
 **Ansage:**
-- Der Spieler formuliert genau **eine** günstige, plausible lokale Änderung.
+- Der Spieler formuliert genau **eine** günstige lokale Änderung relativ zum
+  offenbarten Ankerpunkt.
 
-_Beispiel:_
-"Ich manifestiere ein kurzes Fenster, in dem eine der beiden Wachen den Raum
-verlässt und ich an das Kästchen komme."
+**Manifestation I (Low):**
+- `TEMP-Probe`, SG 11, **+1 PP / +0 SYS**, Cooldown 1, **Psi-Heat +1**
+- Erfolg: Mikro-Vorteil unter 1 Sekunde.
+- Beispiele: Blick wendet sich ab, Sensor glitched kurz, Griff liegt frei.
+- Fehlschlag: kleines Spiegelbild der Absicht.
 
-**Probe, Kosten, Heat und Cooldown:**
-- **Stufe 1-2 (Low):** `TEMP-Probe`, SG 11, Kosten **1 PP / 1 SYS**, Cooldown 1 Runde,
-  **Psi-Heat +1**
-- **Stufe 3-4 (Medium):** `TEMP-Probe`, SG 13, Kosten **2 PP / 2 SYS**, Cooldown 2 Runden,
-  **Psi-Heat +1**
-- **Stufe 5 (High):** `TEMP-Probe`, SG 15, Kosten **3 PP / 3 SYS**, Cooldown 3 Runden,
-  **Psi-Heat +1**
+**Manifestation II (Medium):**
+- `TEMP-Probe`, SG 13, **+2 PP / +1 SYS**, Cooldown 2, **Psi-Heat +1**
+- Erfolg: ein lokaler Ablauf kippt günstig für bis zu 1 Runde.
+- Beispiele: Wache verlässt kurz den Posten, Tür rastet nicht ganz ein,
+  Patrouille verzögert sich.
+- Fehlschlag: plausible Komplikation im selben Szenenraum.
 
-**Erfolg:**
-- **Low:** Mikro-Vorteil im nächsten Beat
-  (z. B. Blick wendet sich ab, Sensor glitched kurz, Deckung öffnet sich).
-- **Medium:** Ein einzelner lokaler Ablauf kippt günstig
-  (z. B. eine Wache verlässt kurz den Posten, Patrouille verzögert sich,
-  Tür ist nicht ganz eingerastet).
-- **High:** Kurze günstige Kausalkette von maximal zwei Beats im selben Szenencluster.
-  Das öffnet ein Fenster, erfüllt aber nie direkt das Missionsziel.
-  Für Diebstahl, Hack, Angriff oder Exfil bleiben normale Proben Pflicht.
-
-**Fehlschlag:**
-- Manifestation kippt spiegelbildlich oder unvollständig.
-- Statt freiem Fenster entsteht eine plausible Komplikation.
-- Bei kritischem Patzer gilt die bestehende Backlash-Tabelle.
-- Berührt die Manifestation einen festen Kernverlauf, Boss-Beat oder klar historisch
-  verankertes Ereignis, ist zusätzlich ein Resonanz-Check fällig.
+**Manifestation III (High):**
+- `TEMP-Probe`, SG 15, **+3 PP / +2 SYS**, Cooldown 3, **Psi-Heat +1**
+- Erfolg: kurzes günstiges Kausalfenster über maximal zwei Beats im selben
+  Szenencluster.
+- Es öffnet nur ein Fenster; Diebstahl, Hack, Angriff oder Exfil bleiben normale
+  Proben.
+- Berührt der Effekt einen festen Kernverlauf oder historisch verankerten Ablauf,
+  ist zusätzlich ein Resonanz-Check fällig.
 
 **Nicht erlaubt:**
 - keine rückwirkende Faktenänderung
 - keine Erschaffung neuer NPCs, Gegenstände, Codes oder Ausgänge
 - keine direkte Zielerfüllung
 - keine Umschreibung von Boss-Phasen
-- keine Veränderung von Ruf, Loottabellen, Shops, Saves oder Meta-Systemen
-- keine direkte Überschreibung fremder Spielerhandlungen im PvP
-- keine Anwendung der Squad-Scaling-Regel; der Effekt ist immer eine einzelne lokale
-  Kausalverschiebung
-
-**Stacking:**
-- nicht im selben Beat mit dem Reroll-Effekt der klassischen **Präkognition** stapeln
+- keine Änderung von Ruf, Loot, Shops, Saves oder Meta-Systemen
 
 **Arena/PvP:**
-- In Arena oder direktem PvP wird Präkognitive Manifestation nicht als
-  Szenenmanipulation ausgespielt.
-- Dort fällt die Fähigkeit automatisch auf klassische Präkognition zurück:
-  Warnung, kurzer Vorsprung, taktischer Mikro-Beat.
+- Keine Szenenumschreibung.
+- In Arena oder direktem PvP fällt der Effekt auf klassische Präkognition zurück:
+  Warnung, Timing-Fenster, taktischer Mikro-Vorteil.
 
 - **Zeit verlangsamen:** Verlangsamt Umgebung kurzzeitig.
   _Kosten:_ 2 PP (mittel) / 2 SYS; eine Zusatzaktion.
@@ -1044,11 +1040,13 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
   spezielle **Psi-Talente** wählen. Diese fungieren wie Feats oder Perks, die eine bestimmte Facette
   der Psi-Nutzung verbessern. Beispiele: _"Telepathie I"_ erlaubt dem Charakter, grundlegende
   Gedankenfetzen und Emotionen zu empfangen. Mit _"Telepathie II"_ kann er gezielt kurze Nachrichten
-  mental übermitteln. _"Präkognition I"_ gibt gelegentlich intuitive Warnungen, _"Präkognition II"_
-  erweitert dies zu klareren Vorahnungsträumen. Solche Talentbäume ermöglichen es, dass ein Charakter
-  mit **Präkognitiver Manifestation I-V** einen fortgeschrittenen Branch derselben Psi-Linie wählen
-  kann, der nur lokale, plausible Nah-Zukunftsfenster beeinflusst.
-  langsam vom sensitiven Anfänger zum erfahrenen Psi-Adept aufsteigen kann. Im Regelmodul könnten für
+  mental übermitteln. _"Präkognition I"_ gibt intuitive Warnungen, _"Präkognition II"_ zeigt den
+  wahrscheinlichsten unmittelbaren Verlauf, _"Präkognition III"_ markiert einen manipulierbaren
+  Ankerpunkt der Nah-Zukunft. Darauf aufbauend kann ein Charakter mit **Präkognitiver Manifestation
+  I-III** einen fortgeschrittenen Branch derselben Linie wählen, der nur bereits gesehene, lokale und
+  plausible Nah-Zukunftsfenster beeinflusst. So bleibt der Kern in drei Stufen organisiert: Basis,
+  Fortgeschritten, Experte - und die Manifestation ist eine Spezialisierung statt eines zweiten freien
+  Subsystems. Im Regelmodul könnten für
   jede Fähigkeit 3 Stufen definiert sein (Basis, Fortgeschritten, Experte), eventuell mit einer
   Voraussetzung an Charakterlevel oder Attributswerten. Zudem kann es **generische Psi- Talente**
   geben wie _"Starke Psyche"_ (reduziert Systemlast-Kosten von Psi um 1) oder _"Schnellmeditation"_
