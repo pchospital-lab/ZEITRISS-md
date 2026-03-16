@@ -429,10 +429,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - `characters[]`: Solo = 1 Eintrag. Gruppe = Array, Session-Anker-Charakter = Index 0.
   - `attr.SYS` = SYS_max. Nur `sys_installed` als Zusatzfeld (permanent belegte Slots).
   - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
-  - `Präkognitive Manifestation` erzeugt nur lokale, plausible Kausalfenster
-    im unmittelbaren Szenenraum; sie löst nie Missionsziele direkt,
-    retcont keine Fakten und fällt in Arena/PvP auf klassische
-    `Präkognition` zurück.
+  - `Präkognitive Manifestation` ist nur nach erfolgreicher `Präkognition III` zulässig, beeinflusst nur den dabei offenbarten lokalen Nah-Zukunftsanker, löst nie Missionsziele direkt und fällt in Arena/PvP auf klassische `Präkognition` zurück.
   - Artefakt: `"artifact": {"name":"...", "tier":1, "effect":"..."}` — max 1, nur wenn vorhanden.
   - Equipment einheitlich: `{"name":"...", "type":"weapon|armor|gadget|consumable", "tier":1}`. Namen dürfen frei/generativ sein, wenn Wirkung und Tier plausibel bleiben.
   - Charakterbogen-Minimum (persistiert): `history{background,milestones[]}`, `carry[]` (max 6), `quarters_stash[]` (max 24) und `vehicles{epoch_vehicle,availability,legendary_temporal_ship?}`.
