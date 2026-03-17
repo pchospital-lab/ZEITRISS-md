@@ -1267,6 +1267,20 @@ macro StartGroupContinuity(players = [], keep_scene = false):
 Nutze `keep_scene=true` nur für Mid-Session-Beitritte. Der laufende Einsatz
 bleibt dann intakt; es gibt weder Px-Reset noch Seed-Verlust.
 
+## Mixed-Split Importmodell (Präzedenzgraph)
+
+Für Mischpfade ohne Branch-Protokoll (Rift/PvP/Chronopolis/Abort) gilt:
+
+1. `session_anchor` bleibt führend für den aktuellen Kampagnenrahmen (`campaign`/`arc`/globale Flags).
+2. Branch-lokale Fortschritte werden nur über Allowlist importiert
+   (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`).
+3. Charakterdaten (`characters[]`) werden über `id` dedupliziert; pro ID gewinnt
+   der neueste persönliche Stand. Divergente Doppelstände werden als strukturierte
+   Einträge in `logs.flags.continuity_conflicts[]` markiert.
+4. Arena/Resume wird HQ-safe normalisiert (`arena.active=false`, `queue_state=idle|completed`).
+5. Chronopolis-Markt/City-Effekte bleiben Log-basiert (`logs.market[]`, `logs.trace[]`).
+6. Debrief-Outputs werden in `logs.notes[]` konsolidiert.
+
 ## Fazit
 
 Solo, `npc-team` und Gruppenbetrieb nutzen denselben Kontinuitätskern.
