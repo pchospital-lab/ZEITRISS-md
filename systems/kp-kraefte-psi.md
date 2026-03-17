@@ -154,8 +154,10 @@ Stress, SYS und Psi-Heat auf die gespeicherten Basiswerte zurück. HQ-Saves erzw
 setzen **keinen** Paradoxon-Reset: `campaign.px` bleibt unverändert, der Reset folgt nur auf
 Px 5 + Debrief/HQ.
 
-**Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
-sollte an die Kampagne angepasst werden.)_
+**Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind Anker, kein geschlossener
+Katalog. Die SL darf neue Psi-Kräfte generieren — Name und Flavor frei,
+aber PP-Kosten, SYS-Last, Cooldowns und Psi-Heat MÜSSEN dem bestehenden
+Kostensystem folgen. Keine neuen Ressourcen oder Mechaniken erfinden.)_
 
 - **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels.
   _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.
