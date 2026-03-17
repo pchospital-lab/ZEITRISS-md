@@ -119,10 +119,15 @@ Details: [Setup-Guide](docs/setup-guide.md) · [Lumo-Setup](docs/setup-lumo.md)
 
 - **Empfohlen:** `anthropic/claude-sonnet-4.6` — einziges Modell mit
   vollständiger Regeltreue. Stärkster Noir-Ton, sauberste Spielerfahrung.
-- **Budget:** `deepseek/deepseek-v3.2` — gute Atmosphäre, ~$0.002/Turn.
-  Würfelmechanik weicht teils ab.
-- **Experimentell:** `z-ai/glm-4.6` — starke Stimmung, erfindet aber
-  eigene Regeln.
+- **Budget:** `z-ai/glm-5-turbo` — 7× günstiger als Sonnet, erkennt
+  Regelgates und Load-Router. Bestes Preis-Leistungs-Verhältnis.
+- **Ultra-Budget:** `deepseek/deepseek-v3.2` — ~$0.002/Turn, gute
+  Atmosphäre, aber ignoriert teils neue Mechaniken (Load-Router, Psi-Gates).
+- **Experimentell:** `z-ai/glm-5` — gute Atmosphäre, halluziniert aber
+  gelegentlich Regeln.
+
+> Ergebnisse aus dem [Modellvergleich 2026-03-17](internal/qa/evidence/playtest-2026-03-17/AUSWERTUNG.md)
+> (5 Szenarien × 4 Modelle, Scorecard-Methodik).
 
 ## Das Spielsystem in Kürze
 
