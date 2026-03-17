@@ -998,6 +998,14 @@ Entscheidung - nicht automatisch im selben Zug.
 > wenn niemand rechtzeitig eingreift.
 >
 > **ITI-Forschungston:** `ABSOLUT-7 liest keine Zukunft. Es macht Bruchlinien lesbar.`
+- **Chronopolis-Reaktionslogik:** Kein Timer und kein Szenencount, aber nach
+  jeder bedeutsamen Aktion (Deal, Kauf, wertiger Fund, Alarm, sichtbare
+  Gewalt, auffällige Psi-/Tech-Nutzung, Backtracking, Schlüsselobjekt
+  gesichert, langes Verweilen) darf die Stadt mit genau einem Beat
+  antworten: `encounter_pool`, `nsc_generator`, `twist_pool` oder selten
+  `para-creature`/`urban-myth`. Nach dem ersten starken Gewinn kippt die
+  Regie spürbar Richtung Exit-Druck; Boss/Hunter selten und bevorzugt auf
+  Rückweg oder Ausgangssektor.
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
   aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier
   Infiltrationslauf mit Reaktionsdruck statt als sicherer Freizeit-Hub.
