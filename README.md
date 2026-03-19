@@ -37,13 +37,13 @@ in 40m.`
 
 ### Ähnlich, aber anders
 
-| | AI Dungeon / KI-Chat-RPGs | Pen & Paper (D&D etc.) | **ZEITRISS** |
-|---|---|---|---|
-| Spielleitung | KI (frei, keine Regeln) | Mensch | KI (regelgebunden) |
-| Würfelsystem | Keins | Ja | Ja (W6/W10, Exploding) |
-| Persistenz | Nur im Chat | Manuell | JSON-Save, portabel |
-| Multiplayer | Begrenzt | Am Tisch | Drop-in/Drop-out per Save |
-| Regelwerk | Keins | Buch (100+ Seiten) | Im Wissensspeicher (KI liest mit) |
+|              | AI Dungeon / KI-Chat-RPGs | Pen & Paper (D&D etc.) | **ZEITRISS**                      |
+| ------------ | ------------------------- | ---------------------- | --------------------------------- |
+| Spielleitung | KI (frei, keine Regeln)   | Mensch                 | KI (regelgebunden)                |
+| Würfelsystem | Keins                     | Ja                     | Ja (W6/W10, Exploding)            |
+| Persistenz   | Nur im Chat               | Manuell                | JSON-Save, portabel               |
+| Multiplayer  | Begrenzt                  | Am Tisch               | Drop-in/Drop-out per Save         |
+| Regelwerk    | Keins                     | Buch (100+ Seiten)     | Im Wissensspeicher (KI liest mit) |
 
 ## Dein Save IST dein Charakter
 

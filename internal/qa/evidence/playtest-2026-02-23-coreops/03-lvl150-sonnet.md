@@ -1,4 +1,5 @@
 # 03-lvl150-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.05577
 - **Tokens:** in:6580 out:2402
@@ -42,11 +43,11 @@ Die Holotafel zeigt die Stadt. Theodosianische Mauern im Westen, das Goldene Hor
 
 **Das Problem:** Der Angriff soll so laufen, wie er historisch gelaufen ist. Konstantinopel fällt. Das ist die Zeitlinie. Das ITI schützt sie.
 
-**Das eigentliche Problem:** Der Ordo Mnemonika hat drei Berater in Mehmeds engstem Kreis platziert. Ihre Aufgabe ist nicht, den Fall der Stadt zu verhindern — sie wollen ihn *beschleunigen und umlenken*. Spezifisch: Sie wollen sicherstellen, dass das **Kaiserliche Archiv von Blachernae** nicht in osmanische Hände fällt, sondern *vernichtet* wird.
+**Das eigentliche Problem:** Der Ordo Mnemonika hat drei Berater in Mehmeds engstem Kreis platziert. Ihre Aufgabe ist nicht, den Fall der Stadt zu verhindern — sie wollen ihn _beschleunigen und umlenken_. Spezifisch: Sie wollen sicherstellen, dass das **Kaiserliche Archiv von Blachernae** nicht in osmanische Hände fällt, sondern _vernichtet_ wird.
 
 `Kodex: Das Archiv enthält Dokumente, die in der gesicherten Zeitlinie ins Osmanische Reich übergehen und dort zwei Jahrhunderte lang Wissenschaft und Diplomatie beeinflussen. Vernichtung = Kaskadenschaden über 14 nachgelagerte Ereignisse. Px-Relevanz: hoch.`
 
-**Der Ordo** ist eine Fraktion, die seit EP 9 auf deinem Radar ist. Keine Zeitreisende — sie nutzen *Kuriere*: Menschen in historischen Epochen, die durch Konditionierung und Vorabwissen gesteuert werden. Ihre drei Berater hier heißen intern:
+**Der Ordo** ist eine Fraktion, die seit EP 9 auf deinem Radar ist. Keine Zeitreisende — sie nutzen _Kuriere_: Menschen in historischen Epochen, die durch Konditionierung und Vorabwissen gesteuert werden. Ihre drei Berater hier heißen intern:
 
 - **FALKE** — Identität unbekannt. Vermutlich direkter Zugang zu Mehmed.
 - **ANKER** — Logistics-Spezialist. Wahrscheinlich im Versorgungslager, westlich der Mauern.
@@ -108,4 +109,4 @@ Absprung-Fenster öffnet sich in 4 Minuten Nullzeit. Zielpunkt: Außenbezirk Kon
 2. **Ordo-Akte** — Was weiß das ITI-Archiv über den Ordo Mnemonika? Bisherige Muster, Schwachstellen, bekannte Gesichter.
 3. **Sprung ausführen** — Direkt rein. Du hast 35 Rifts hinter dir. Du weißt, was dich erwartet.
 
-*Freie Aktion — oder etwas anderes?*
+_Freie Aktion — oder etwas anderes?_

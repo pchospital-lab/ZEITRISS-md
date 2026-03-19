@@ -1,4 +1,5 @@
 # 04-dienstweg-glm5
+
 - **Model:** zeitriss-v426-uncut-glm5
 - **Tokens:** in:10769 out:1295 cost:$0.00511056
 - **Date:** 2026-03-17T11:10:28+01:00
@@ -22,6 +23,7 @@ Sie mustert dich kurz. „Noch nie gesprungen, oder? Die ersten Male sind immer 
 ---
 
 **Ausrüstung erhalten:**
+
 - Standard-Kampfanzug (Leicht, Tier 1)
 - Sturmgewehr SG-7 (Tier 1, 20 Schuss/Magazin, 3 Magazine)
 - Kampfmesser (Tier 1)
@@ -33,7 +35,7 @@ Sie mustert dich kurz. „Noch nie gesprungen, oder? Die ersten Male sind immer 
 
 Du nimmst das Kit und folgst den Markierungen zur **Zero Time Lounge**. Der Raum liegt tiefer im Komplex, abseits der Operationsrouten. Die Tür gleitet auf – und der Geräuschpegel schlägt dir entgegen.
 
-Die Lounge ist ein Ort zum Vergessen. Tiefe Sessel, gedimmtes Licht, ein Barkeeper, der Drinks mixt, die nach Benzin schmecken. An den Wänden holen sich Agenten ihre Dosen – manche lachen, manche starren ins Leere. Ein Paar in der Ecke diskutiert leise über eine Mission, die schiefging. Das Wort *Rift* fällt.
+Die Lounge ist ein Ort zum Vergessen. Tiefe Sessel, gedimmtes Licht, ein Barkeeper, der Drinks mixt, die nach Benzin schmecken. An den Wänden holen sich Agenten ihre Dosen – manche lachen, manche starren ins Leere. Ein Paar in der Ecke diskutiert leise über eine Mission, die schiefging. Das Wort _Rift_ fällt.
 
 Am Tresen sitzt **Jace**, ein Agent mit kahlem Kopf und einer Narbe, die von der Schläfe bis zum Kiefer reicht. Er dreht ein Glas zwischen den Fingern. Neben ihm lehnt **Mira** – nicht die Archivarin, sondern eine Feldagentin mit kurzem, grauem Haar und einem Implantat, das wie ein kleiner Spinnennetz-Aufsatz an ihrer Schläfe klebt.
 
@@ -42,6 +44,7 @@ Jace sieht dich kommen. „Frischfleisch." Er klingt nicht feindselig, nur müde
 ---
 
 **Intel / Risiken / Zeitfenster:**
+
 - Du bist offiziell im Pre-Briefing-Status
 - Keine aktive Mission, keine Zeitdruck
 - Jace und Mira sind potenzielle Informationsquellen

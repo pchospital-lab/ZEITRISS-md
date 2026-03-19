@@ -1,4 +1,5 @@
 # 02-manifestation-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek-v32
 - **Tokens:** in:11430 out:737 cost:$0.00178754
 - **Date:** 2026-03-17T10:56:19+01:00
@@ -24,6 +25,7 @@ Ein Ruck geht durch die Realität. Das Geräusch ist nicht laut, sondern tief, e
 Der Wachposten stutzt. Sein Blick springt zur Tür. Er hebt die Waffe. Sein Mund öffnet sich zu einem Ruf.
 
 **Intel / Risiken / Zeitfenster**
+
 - Alarmstufe ist noch gelb, aber der Wächter wird gleich schreien.
 - Die Tür ist jetzt ein unnatürliches Warnschild. Jeder, der vorbeikommt, wird sie sehen.
 - Im Labor dahinter sind Stimmen zu hören – zwei, vielleicht drei Personen.
@@ -34,6 +36,7 @@ Kodex: PP 5/9. Psi-Heat 6/10. Manifestation erfolgreich. Tür geöffnet – aber
 ```
 
 **Was machst du?**
+
 1. **Sturm.** Durch die Tür, den Wächter im Vorbeigehen mit dem Phasen-Dolch ausschalten, Überraschungsmoment nutzen.
 2. **Täuschung.** Den Wächter mit Telepathie II ablenken oder betäuben, dann leise ins Labor.
 3. **Verstecken.** Abwarten, bis der Wächter näher kommt, ihn dann aus dem Hinterhalt nehmen, die Leiche verstecken, dann ins Labor.

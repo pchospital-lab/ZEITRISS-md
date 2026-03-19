@@ -1,4 +1,5 @@
 # 05-pvp-arena-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek
 - **Cost:** $0.00182243
 - **Tokens:** in:4285 out:507
@@ -26,6 +27,7 @@ Die Peitsche trifft deine Schulter, ein stechender Schmerz durchzieht deinen Arm
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Shadows Psi-Peitsche ist gefährlich im Nahkampf.
 - Reflex-Armor absorbiert einen Großteil des physischen Schadens.
 - Psi-Energie kann Stress erhöhen.
@@ -33,6 +35,7 @@ Die Peitsche trifft deine Schulter, ein stechender Schmerz durchzieht deinen Arm
 ---
 
 **Optionen**
+
 1. Weiter angreifen, Schwerthiebe kombinieren.
 2. Defensiv bleiben, auf eine Öffnung warten.
 3. Spezialfähigkeit einsetzen: Psi-Sturm.

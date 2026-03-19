@@ -9,15 +9,15 @@
 
 ## Runs
 
-| Run | Szenario | Modell | Output |
-|-----|----------|--------|--------|
-| 1a | Klassischer Start + 1. Mission | Sonnet 4 | 4.574 Zeichen |
-| 1b | Klassischer Start + 1. Mission | Opus 4.6 | 2.199 Zeichen |
-| 2 | Mid-Game Mission 5 Boss-Gate (Save Load) | Sonnet 4 | 2.866 Zeichen |
-| 3 | High-Level Rift-Op + Chronopolis (Save Load) | Sonnet 4 | 1.670 Zeichen |
-| 4 | PvP Arena (Save Load) | Sonnet 4 | 1.652 Zeichen |
-| 5a | Gruppenspiel — 2 Spieler Charakter-Erstellung | Sonnet 4 | 3.410 Zeichen |
-| 5b | Gruppenspiel — Spieler B übernimmt via Save | Sonnet 4 | 1.884 Zeichen |
+| Run | Szenario                                      | Modell   | Output        |
+| --- | --------------------------------------------- | -------- | ------------- |
+| 1a  | Klassischer Start + 1. Mission                | Sonnet 4 | 4.574 Zeichen |
+| 1b  | Klassischer Start + 1. Mission                | Opus 4.6 | 2.199 Zeichen |
+| 2   | Mid-Game Mission 5 Boss-Gate (Save Load)      | Sonnet 4 | 2.866 Zeichen |
+| 3   | High-Level Rift-Op + Chronopolis (Save Load)  | Sonnet 4 | 1.670 Zeichen |
+| 4   | PvP Arena (Save Load)                         | Sonnet 4 | 1.652 Zeichen |
+| 5a  | Gruppenspiel — 2 Spieler Charakter-Erstellung | Sonnet 4 | 3.410 Zeichen |
+| 5b  | Gruppenspiel — Spieler B übernimmt via Save   | Sonnet 4 | 1.884 Zeichen |
 
 ## Ergebnisse
 
@@ -54,14 +54,14 @@
 
 ### Sonnet vs Opus (Direktvergleich Run 1)
 
-| Kriterium | Sonnet 4 | Opus 4.6 |
-|-----------|----------|----------|
-| Output-Länge | 4.574 Zeichen | 2.199 Zeichen |
-| Atmosphäre | Gut, professionell | Dichter, filmischer, emotionaler |
-| Regeltreue | Mittel (erfindet Items) | Schwach (erfindet Organisation) |
-| Charakterbogen | Vollständig gezeigt | Nicht generiert |
-| HUD-Format | Korrekt | Korrekt |
-| Einleitung | Paraphrasiert (nicht zitiert) | Paraphrasiert (nicht zitiert) |
+| Kriterium      | Sonnet 4                      | Opus 4.6                         |
+| -------------- | ----------------------------- | -------------------------------- |
+| Output-Länge   | 4.574 Zeichen                 | 2.199 Zeichen                    |
+| Atmosphäre     | Gut, professionell            | Dichter, filmischer, emotionaler |
+| Regeltreue     | Mittel (erfindet Items)       | Schwach (erfindet Organisation)  |
+| Charakterbogen | Vollständig gezeigt           | Nicht generiert                  |
+| HUD-Format     | Korrekt                       | Korrekt                          |
+| Einleitung     | Paraphrasiert (nicht zitiert) | Paraphrasiert (nicht zitiert)    |
 
 **Fazit:** Sonnet liefert mehr Content und ist regeltreuer. Opus ist atmosphärisch stärker aber kürzer und halluziniert fundamentaler (falsche Organisation). Für Spielsessions ist Sonnet der bessere Default.
 

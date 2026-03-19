@@ -1,4 +1,5 @@
 # 01-klassisch-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.031908
 - **Tokens:** in:5586 out:1010
@@ -9,7 +10,7 @@
 
 ---
 
-> *Aus dem Spieler-Handbuch, Kapitel 1 — Einleitung:*
+> _Aus dem Spieler-Handbuch, Kapitel 1 — Einleitung:_
 >
 > **Die Vergangenheit ist kein Museum.**
 >
@@ -35,14 +36,14 @@ Bevor wir ins Nullzeit-Labor gehen, brauche ich dich.
 
 ### DIE ATTRIBUTE
 
-| Kürzel | Attribut | Wofür |
-|--------|----------|-------|
-| **STR** | Stärke | Nahkampf, Tragen, Durchbrechen, körperliche Ausdauer |
-| **GES** | Geschick | Schleichen, Schießen, Klettern, Feinmotorik, Ausweichen |
-| **INT** | Intelligenz | Analyse, Planung, Medizin, Erkennen von Mustern und Fallen |
-| **CHA** | Charisma | Täuschung, Verhör, Verhandlung, Undercover-Arbeit |
-| **TEMP** | Temporale Affinität | Sprung-Toleranz, Px-Resistenz, Zeitinstinkt |
-| **SYS** | Systemkompetenz | Hacking, Elektronik, Geräte-Interface, Tech-Improvisation |
+| Kürzel   | Attribut            | Wofür                                                      |
+| -------- | ------------------- | ---------------------------------------------------------- |
+| **STR**  | Stärke              | Nahkampf, Tragen, Durchbrechen, körperliche Ausdauer       |
+| **GES**  | Geschick            | Schleichen, Schießen, Klettern, Feinmotorik, Ausweichen    |
+| **INT**  | Intelligenz         | Analyse, Planung, Medizin, Erkennen von Mustern und Fallen |
+| **CHA**  | Charisma            | Täuschung, Verhör, Verhandlung, Undercover-Arbeit          |
+| **TEMP** | Temporale Affinität | Sprung-Toleranz, Px-Resistenz, Zeitinstinkt                |
+| **SYS**  | Systemkompetenz     | Hacking, Elektronik, Geräte-Interface, Tech-Improvisation  |
 
 ---
 
@@ -50,14 +51,14 @@ Bevor wir ins Nullzeit-Labor gehen, brauche ich dich.
 
 Bevor du Punkte verteilst — drei kurze Fragen. Deine Antworten formen den Bogen und geben dir **2 Starttalente** und ein **Loadout-Paket.**
 
-**1. Hintergrund:** Wer warst du *vor* dem ITI?
-*(Beispiele: Militär / Geheimdienst / Forensik / Journalismus / Medizin / Kriminell / Wissenschaft / etwas anderes)*
+**1. Hintergrund:** Wer warst du _vor_ dem ITI?
+_(Beispiele: Militär / Geheimdienst / Forensik / Journalismus / Medizin / Kriminell / Wissenschaft / etwas anderes)_
 
 **2. Methode:** Wie löst du Probleme?
-*(Hart durch / Leise vorbei / Mit Worten / Mit Köpfchen)*
+_(Hart durch / Leise vorbei / Mit Worten / Mit Köpfchen)_
 
 **3. Wunde:** Was hat das ITI dir genommen — oder gegeben?
-*(Optional, aber prägt Stressor-Schwelle und einen Geheimtrigger in der Kampagne)*
+_(Optional, aber prägt Stressor-Schwelle und einen Geheimtrigger in der Kampagne)_
 
 ---
 

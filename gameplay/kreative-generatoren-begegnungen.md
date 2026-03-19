@@ -35,7 +35,6 @@ euch im Schnellverfahren einen Nichtspielercharakter mit Persönlichkeit, indem 
 Wählt oder würfelt je eine Option aus jeder Kategorie:
 
 - **Rolle/Archetyp:**
-
   1. Herrscher/Adlige
   2. Gelehrter/Erfinder
   3. Krieger/Soldat
@@ -44,7 +43,6 @@ Wählt oder würfelt je eine Option aus jeder Kategorie:
   6. Bürgerlich/Alltagsmensch
 
 - **Persönlichkeit:**
-
   1. stoisch und ehrenhaft
   2. exzentrisch und vergesslich
   3. listig und verschlagen
@@ -53,7 +51,6 @@ Wählt oder würfelt je eine Option aus jeder Kategorie:
   6. weltgewandt und humorvoll
 
 - **Besonderheit/Geheimnis:**
-
   1. Kennt die Zukunft (behauptet es zumindest - optional über Träume)
   2. Ist selbst ein Zeitreisender incognito
   3. Hat einen unerwarteten Alliierten (z. B. ein zahmes Zeitwesen)
@@ -84,12 +81,12 @@ Risikostufe. Ein W6-Wurf bestimmt den Pool, ein optionales Twist-Deck liefert
 zusätzliche Komplikationen. Jeder gezogene Eintrag geht anschließend für drei
 Sitzungen in **Cooldown** und wird erst danach wieder in den Pool gemischt.
 
-| Stufe | Beispiel-Gegner                     | Twist                          |
-| ---- | ----------------------------------- | ------------------------------ |
-| **S**  | 2-3 einfache Wachposten            | Kurze Ablenkung lenkt sie ab   |
-| **M**  | Sicherheitsteam mit Spürhund       | Gelände bietet Deckung (-1 SG) |
-| **L**  | Elite-Söldner samt Drohne          | Verstärkung nach 2 Runden      |
-| **XL** | Paramilitär und leichter Mech      | Zeitriss droht aufzubrechen    |
+| Stufe  | Beispiel-Gegner               | Twist                          |
+| ------ | ----------------------------- | ------------------------------ |
+| **S**  | 2-3 einfache Wachposten       | Kurze Ablenkung lenkt sie ab   |
+| **M**  | Sicherheitsteam mit Spürhund  | Gelände bietet Deckung (-1 SG) |
+| **L**  | Elite-Söldner samt Drohne     | Verstärkung nach 2 Runden      |
+| **XL** | Paramilitär und leichter Mech | Zeitriss droht aufzubrechen    |
 
 Die Twist-Karten können auf laminierten Karten notiert werden - ein schneller
 Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
@@ -238,34 +235,34 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 
 ### 1 · Orbital-Wachdrohne - Sentry-Klasse
 
-| Merkmal       | Wert                                   | Notizen                        |
-| ------------- | -------------------------------------- | ------------------------------ |
-| **Typ**       | Drohne (S)                             | unbemannt, KI-gestützt         |
-| **Speed**     | 8/16 (Flug)                            | Schwebe-Impulsoren             |
-| **Panzerung** | Titanfaser 3                           | <2 ignoriert, 3-4 halbiert     |
-| **Sensor**    | 60 m 360° LIDAR                        | Tarnwürfe -2                   |
-| **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung    | Reichweite 20 m                |
-| **Systeme**   | Autorepair 1 LP/Runde                  | deaktiv bei EMP                |
-| **Trigger**   | Selbstzerstörung bei ≤ 1 LP (1W6, R=3 m)| historisch → Px -1      |
-| **Rolle**     | Patrouille, Alarmmultiplikator         | verdoppelt "Gefahr im Anflug"  |
+| Merkmal       | Wert                                     | Notizen                       |
+| ------------- | ---------------------------------------- | ----------------------------- |
+| **Typ**       | Drohne (S)                               | unbemannt, KI-gestützt        |
+| **Speed**     | 8/16 (Flug)                              | Schwebe-Impulsoren            |
+| **Panzerung** | Titanfaser 3                             | <2 ignoriert, 3-4 halbiert    |
+| **Sensor**    | 60 m 360° LIDAR                          | Tarnwürfe -2                  |
+| **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung      | Reichweite 20 m               |
+| **Systeme**   | Autorepair 1 LP/Runde                    | deaktiv bei EMP               |
+| **Trigger**   | Selbstzerstörung bei ≤ 1 LP (1W6, R=3 m) | historisch → Px -1            |
+| **Rolle**     | Patrouille, Alarmmultiplikator           | verdoppelt "Gefahr im Anflug" |
 
 ### 2 · Konzern-Psychiker - Stufe B (Elite)
 
-| Attribut | Wert | Fertigkeiten                                    | Ausrüstung            |
-| -------- | ---- | ------------------------------------------------ | --------------------- |
-| Körper 3 | -    | Pistolen 3, Nahkampf 2                           | Nanofaser-Suit SR 2   |
-| Geist 4  | -    | Telepathische Überwältigung 4, Precog-Dodge      | Plasmapistole 1W6+1   |
-| Psi-Kern 5 | -  | **Spezial:** Psi-Spike (2 PP, CD 2)              | Mind-Screen (-2)      |
-| Stress 12 | -   | kämpft bis LP ≤ -4 (Corporate Loyalty)           | -                     |
+| Attribut   | Wert | Fertigkeiten                                | Ausrüstung          |
+| ---------- | ---- | ------------------------------------------- | ------------------- |
+| Körper 3   | -    | Pistolen 3, Nahkampf 2                      | Nanofaser-Suit SR 2 |
+| Geist 4    | -    | Telepathische Überwältigung 4, Precog-Dodge | Plasmapistole 1W6+1 |
+| Psi-Kern 5 | -    | **Spezial:** Psi-Spike (2 PP, CD 2)         | Mind-Screen (-2)    |
+| Stress 12  | -    | kämpft bis LP ≤ -4 (Corporate Loyalty)      | -                   |
 
 ### 3 · Zeit-Operative - Stufe A (Transhuman)
 
-| Attribut | Wert | Fertigkeiten                            | Gear                  |
-| -------- | ---- | --------------------------------------- | --------------------- |
-| Körper 2 | -    | Infowar 5, Athletik 2                   | Inline-Chrono-Tap     |
-| Tech 5   | -    | Chrono-Exploit 5, Sabotage 3            | Smart-Gloves (+2)      |
-| Psi-Rest 2 | -  | **Spezial:** Timing-Gefühl             | -                     |
-| Stress 10 | -   | LP 8                                    |                       |
+| Attribut   | Wert | Fertigkeiten                 | Gear              |
+| ---------- | ---- | ---------------------------- | ----------------- |
+| Körper 2   | -    | Infowar 5, Athletik 2        | Inline-Chrono-Tap |
+| Tech 5     | -    | Chrono-Exploit 5, Sabotage 3 | Smart-Gloves (+2) |
+| Psi-Rest 2 | -    | **Spezial:** Timing-Gefühl   | -                 |
+| Stress 10  | -    | LP 8                         |                   |
 
 _Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Px -1 bei Erfolg ≥ 2.
 _Timing-Gefühl:_ Du spürst, wann eine Routine bricht - Türzyklen, Patrouillen, Blickrichtungen.
@@ -292,20 +289,20 @@ Kurze Begegnungen, inspiriert von Spionagekrimis der 1960er Jahre.
 
 ### 1 · Grenzposten am 38. Breitengrad
 
-| Merkmal | Wert | Notizen |
-| --- | --- | --- |
+| Merkmal | Wert           | Notizen                 |
+| ------- | -------------- | ----------------------- |
 | **Typ** | Infanterie (S) | Soldaten mit Karabinern |
 
 ### 2 · Agentin "Jade"
 
-| Attribut | Wert | Fertigkeiten | Ausrüstung |
-| --- | --- | --- | --- |
-| Geist 4 | - | Verkleidung 4, Nahkampf 3 | Mini-Kamera, Giftspritze |
+| Attribut | Wert | Fertigkeiten              | Ausrüstung               |
+| -------- | ---- | ------------------------- | ------------------------ |
+| Geist 4  | -    | Verkleidung 4, Nahkampf 3 | Mini-Kamera, Giftspritze |
 
 ### 3 · Schwarzhändler auf dem Nachtmarkt
 
-| Merkmal | Wert | Notizen |
-| --- | --- | --- |
+| Merkmal | Wert              | Notizen                         |
+| ------- | ----------------- | ------------------------------- |
 | **Typ** | Kontaktperson (M) | Beschafft Alttech gegen Devisen |
 
 ## Encounter-Paket "Orbitalstation 2030+" {#orbital-nearfuture}
@@ -314,20 +311,20 @@ Szenarien in einer nahen Zukunft - Forschungsstationen und Weltraumhotels.
 
 ### 1 · Wartungstrupp EVA
 
-| Merkmal | Wert | Notizen |
-| --- | --- | --- |
+| Merkmal | Wert          | Notizen                  |
+| ------- | ------------- | ------------------------ |
 | **Typ** | Techniker (S) | Jetpacks, Reparaturtools |
 
 ### 2 · Sicherheitsdrohne
 
-| Merkmal | Wert | Notizen |
-| --- | --- | --- |
+| Merkmal | Wert       | Notizen                 |
+| ------- | ---------- | ----------------------- |
 | **Typ** | Drohne (M) | Laserpointer 1W6, Alarm |
 
 ### 3 · Schmuggler-Pod
 
-| Merkmal | Wert | Notizen |
-| --- | --- | --- |
+| Merkmal | Wert                | Notizen                       |
+| ------- | ------------------- | ----------------------------- |
 | **Typ** | Transportkapsel (L) | Schleust verbotene Fracht ein |
 
 ### Twist-Seeds (d30) {#twist-seeds}
@@ -410,34 +407,34 @@ Zeitperiode stärker zu betonen.
 
 ### Lore-Seed Pool (d12) {#lore-seed-pool}
 
-| W12 | Seed | Tag |
-| --- | ---- | --- |
-| 1 | Hafenarbeiter streiken; Zugang blockiert. | social |
-| 2 | Untergrundkult plant Ritual - Opfer droht. | social |
-| 3 | Flutwelle nähert sich, Evakuierung nötig. | physical |
-| 4 | Adelshof spinnt Intrige gegen Auftraggeber. | social |
-| 5 | Erdrutsch verschüttet Zugangsstraße. | physical |
-| 6 | Bürgeraufstand eskaliert vor Ort. | social |
-| 7 | Giftgasleck in Fabrik erzwingt Schutzmasken. | physical |
-| 8 | Geiseltausch unter Medienaugen. | social |
-| 9 | Orkan legt Kommunikationslinien lahm. | physical |
-| 10 | Saboteure legen Feuer im Lagerhaus. | physical |
-| 11 | Pilgerprozession blockiert die Route. | social |
-| 12 | Korruptes Wachteam verlangt Bestechung. | social |
+| W12 | Seed                                         | Tag      |
+| --- | -------------------------------------------- | -------- |
+| 1   | Hafenarbeiter streiken; Zugang blockiert.    | social   |
+| 2   | Untergrundkult plant Ritual - Opfer droht.   | social   |
+| 3   | Flutwelle nähert sich, Evakuierung nötig.    | physical |
+| 4   | Adelshof spinnt Intrige gegen Auftraggeber.  | social   |
+| 5   | Erdrutsch verschüttet Zugangsstraße.         | physical |
+| 6   | Bürgeraufstand eskaliert vor Ort.            | social   |
+| 7   | Giftgasleck in Fabrik erzwingt Schutzmasken. | physical |
+| 8   | Geiseltausch unter Medienaugen.              | social   |
+| 9   | Orkan legt Kommunikationslinien lahm.        | physical |
+| 10  | Saboteure legen Feuer im Lagerhaus.          | physical |
+| 11  | Pilgerprozession blockiert die Route.        | social   |
+| 12  | Korruptes Wachteam verlangt Bestechung.      | social   |
 
 ### Kurzereignisse (d6) {#kurzereignisse}
 
 Spontane Zwischenfälle lockern eine Mission auf. Würfle 1W6 oder nutze das
 Kurzschema `rand_event`.
 
-| W6 | Zwischenfall |
-| -- | ------------------------------------------- |
-| 1 | **Funkstörung** - Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
-| 2 | **Technik-Glitch** - Gadget spinnt, z. B. leeres Scanfenster. *Per Freihandlung behebar.* |
-| 3 | **Wetter kippt** - Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht -1, "Heimlichkeit" +1. |
-| 4 | **Zivilkontakt** - Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort. |
-| 5 | **Spur auftaucht** - Mikrofilm, USB oder Hülse liegt offen sichtbar. Wer greift zuerst zu? |
-| 6 | **Feindaktivität in Sichtweite** - Sicherungsteam oder Drohne wird früh entdeckt. Vorstoß oder Ausweichen? |
+| W6  | Zwischenfall                                                                                                  |
+| --- | ------------------------------------------------------------------------------------------------------------- |
+| 1   | **Funkstörung** - Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
+| 2   | **Technik-Glitch** - Gadget spinnt, z. B. leeres Scanfenster. _Per Freihandlung behebar._                     |
+| 3   | **Wetter kippt** - Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht -1, "Heimlichkeit" +1.         |
+| 4   | **Zivilkontakt** - Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort.          |
+| 5   | **Spur auftaucht** - Mikrofilm, USB oder Hülse liegt offen sichtbar. Wer greift zuerst zu?                    |
+| 6   | **Feindaktivität in Sichtweite** - Sicherungsteam oder Drohne wird früh entdeckt. Vorstoß oder Ausweichen?    |
 
 ```text
 Funktion rand_event:
@@ -584,6 +581,7 @@ können solche Kreaturen dafür sorgen, dass selbst erfahrene Chrononauten nie v
 birgt unendliche Überraschungen.**
 
 <a id="para-creature-generator"></a>
+
 ## Para-Creature-Generator: Rift Casefile Edition {#para-creature-generator}
 
 Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles.
@@ -682,20 +680,23 @@ zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
 ### Zwei einsatzbereite Casefiles
 
 **Chrono Butcher - "Blutspur im Nullzeit-Korridor" (Seed-Tier mid)**
+
 - **Epoche/Marker:** 1997, Digitale Anfänge · **Stutter** (Tatort-Sequenzen brechen in Frame-Sprüngen ab).
 - **Anchor:** Ermittlungsakte mit blutgetränkter Taschenuhr des ersten Opfers (Zeitbrand hält Stutter offen).
 - **Tells:** Blutlachen fließen kurz rückwärts, Funksprüche knacken mit Opferstimme, Schatten reißen versetzt.
 - **Weakness:** Anchor-Uhr auf 00:13:17 stellen und im Stutter-Fenster zerstören (gleichzeitiger Psi-Impuls Mind 12).
-- **Boss Private:** **LP 11 | Armor 1 | STR 6 | GES 8 | INT 6 | TEMP 6** - *Frame Lunge* (GES-Save SG 12, sonst 3 LP, verursacht Panik), *Cut In/Out* (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
+- **Boss Private:** **LP 11 | Armor 1 | STR 6 | GES 8 | INT 6 | TEMP 6** - _Frame Lunge_ (GES-Save SG 12, sonst 3 LP, verursacht Panik), _Cut In/Out_ (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
 
 **Jersey Devil - "Flügelschlag im Pine Barren" (Seed-Tier low)**
+
 - **Epoche/Marker:** 1909, Industrialisierung · **Loop** (30-Sek-Flugbahn wiederholt sich an Bäumen).
 - **Anchor:** Verkohlte Überreste der "13th Child"-Legende in einer Wurzelhöhle (Familienfluch hält Loop stabil).
 - **Tells:** Schwefelgeruch, schreiender Wind, Kratzspuren spiralförmig, Tiere fliehen den Pfad.
 - **Weakness:** Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11, dann Loop kollabiert).
-- **Boss Private:** **LP 8 | Armor 1 | STR 6 | GES 8 | INT 4 | TEMP 4** – *Dive Bomb* (GES-Save SG 11, sonst 2 LP), *Loop Reset* (setzt Initiative zurück, wenn Anchor unberührt).
+- **Boss Private:** **LP 8 | Armor 1 | STR 6 | GES 8 | INT 4 | TEMP 4** – _Dive Bomb_ (GES-Save SG 11, sonst 2 LP), _Loop Reset_ (setzt Initiative zurück, wenn Anchor unberührt).
 
 <a id="urban-myth-generator"></a>
+
 ## Urban-Myth-Generator (False Lead)
 
 Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleichen HUD-Rahmen (MODE/CASE/HOOK) und respektiert den One-Weird-Thing-Guard: die Mythos-Erklärung darf **nicht** zur zweiten Anomalie werden. Sobald klar ist, dass nur Tech/Manipulation dahintersteckt, muss das eigentliche Para-Phänomen aus der Rift-Casefile-Edition sichtbar werden.
@@ -738,12 +739,12 @@ Die Attributwerte der Kreatur sind **feste Werte** und nutzen dasselbe System
 wie Spielercharaktere: `1W6 + ⌊Attr/2⌋`. Die SL würfelt für die Kreatur oder
 nutzt den Wert als SG für Spielerproben (z.B. Ausweichen gegen Kreatur-Agi).
 
-| Gefahr | **STR** | **GES** | **INT** | **TEMP** | **Armor** | **LP** | Specials |
-| ------ | ------: | ------: | -------: | -------: | --------- | -----: | -------- |
-| **S**  |       4 |       6 |        4 |        2 | 0         |      6 | 1 Fähigkeit |
-| **M**  |       6 |       8 |        6 |        4 | 1         |      8 | 2 Fähigkeiten |
-| **L**  |       8 |      10 |        6 |        6 | 2         |     10 | 3 Fähigkeiten |
-| **XL** |      10 |      12 |        8 |        8 | 3         |     14 | 4+ Fähigkeiten |
+| Gefahr | **STR** | **GES** | **INT** | **TEMP** | **Armor** | **LP** | Specials       |
+| ------ | ------: | ------: | ------: | -------: | --------- | -----: | -------------- |
+| **S**  |       4 |       6 |       4 |        2 | 0         |      6 | 1 Fähigkeit    |
+| **M**  |       6 |       8 |       6 |        4 | 1         |      8 | 2 Fähigkeiten  |
+| **L**  |       8 |      10 |       6 |        6 | 2         |     10 | 3 Fähigkeiten  |
+| **XL** |      10 |      12 |       8 |        8 | 3         |     14 | 4+ Fähigkeiten |
 
 > **Armor** reduziert Schaden pro Treffer.
 > **LP** ist die Wundschwelle (W = 3 LP).
@@ -783,6 +784,7 @@ Erzeugt skalierte Gegner je nach Missionsphase. Mini-Bosse treten in Core-Missio
 Episoden-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
 
 **Endzustand-Policy (filmisch):**
+
 - Core-Mini-/Episodenbosse gelten bei **0 LP** als besiegt, schwer verletzt und
   festsetzbar (standardmäßig ITI-Gewahrsam statt sofortigem Tod).
 - Tod bleibt Ausnahme für klar ausgespielte Schlüsselmomente.
@@ -831,11 +833,11 @@ loggt ihn im HUD.
 ### core_mini_pool
 
 ```yaml
--52   : ["Zenturio", "Gallischer Tribun"]
-1410  : ["Deutsch Ordens-Ritter", "Litauischer Hetman"]
-1880  : ["Pinkerton-Scharfschütze", "Meiji-Shinsengumi"]
-1977  : ["KGB-Spionschmuggler", "RAF-Zellenchef"]
-2025  : ["GSG9-Truppführer", "Triaden-Taktiker"]
+-52: ["Zenturio", "Gallischer Tribun"]
+1410: ["Deutsch Ordens-Ritter", "Litauischer Hetman"]
+1880: ["Pinkerton-Scharfschütze", "Meiji-Shinsengumi"]
+1977: ["KGB-Spionschmuggler", "RAF-Zellenchef"]
+2025: ["GSG9-Truppführer", "Triaden-Taktiker"]
 ```
 
 ### core_arc_boss_pool
@@ -903,24 +905,24 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 von 15-16 erreichen die **Mythic**-Stufe — seltene Artefakte, die über
 normalen Legendarys stehen. Der Bonus gilt für den 1W14-Wurf, nicht den Gate-Wurf.
 
-| Wurf | Tier | Name | Effekt | Risiko / Cooldown |
-|----:|:-----|------|--------|-------------------|
-| 1 | Legendary | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | R2: Blend 1 Sz, Px -1 bei Fehlwurf |
-| 2 | Legendary | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | R4: Selbststich SYS -1, Px -1 |
-| 3 | Legendary | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | R3: Bruch → Item weg, Px -1 |
-| 4 | Legendary | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | R2: Erwacht Heat +1, Px -1 |
-| 5 | Legendary | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini -2 | R2: Leck Stress +1, Px -1 |
-| 6 | Legendary | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | R2: Entlädt, Px -1 |
-| 7 | Legendary | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | R2: Fehlversatz Px -1 |
-| 8 | Legendary | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | R2: Puls Heat +1, Px -1 |
-| 9 | Legendary | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | R3: Feuer zerstört, Px -1 |
-|10 | Legendary | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | R2: Blutkontakt Stress +1, Px -1 |
-|11 | Legendary | **Temporaler Knochenzahn** | SG -2 auf Fossil-Analysen | R1: Signal-Ping, Px -1 |
-|12 | Legendary | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | R2: Fehlschuss Ally Blend, Px -1 |
-|13 | Legendary | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px -1 |
-|14 | Legendary | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px -1 |
-|15 | **Mythic** | **Chrono-Herz** | +1 auf alle Attribute permanent, 1×/Episode Reroll eines beliebigen Wurfs | R3: Herzstillstand 1 Rd (CHA-Save SG 12), Px -1 |
-|16 | **Mythic** | **Nullzeit-Auge** | Sieht 10 Sek in die Zukunft (1×/Mission), alle Proben +2 für 1 Szene | R4: Zeitblindheit 1 Mission (Wahrnehmung -2), Px -1 |
+| Wurf | Tier       | Name                        | Effekt                                                                    | Risiko / Cooldown                                   |
+| ---: | :--------- | --------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------- |
+|    1 | Legendary  | **Mothman-Auge**            | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1                                 | R2: Blend 1 Sz, Px -1 bei Fehlwurf                  |
+|    2 | Legendary  | **Rift-Skorpion-Stachel**   | +2 DMG & **Doppelschlag 20 %** (Nahkampf)                                 | R4: Selbststich SYS -1, Px -1                       |
+|    3 | Legendary  | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m                                         | R3: Bruch → Item weg, Px -1                         |
+|    4 | Legendary  | **Nullzeit-Larve**          | 1×/Mission Gadget-Reload                                                  | R2: Erwacht Heat +1, Px -1                          |
+|    5 | Legendary  | **Ektoplasma-Drüse**        | Flächen-Stun, Gegner Ini -2                                               | R2: Leck Stress +1, Px -1                           |
+|    6 | Legendary  | **Phase-Raptor-Zahnrad**    | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG                                 | R2: Entlädt, Px -1                                  |
+|    7 | Legendary  | **Zeitfalter-Kokon**        | 1×/Sz Mini-Sprung ±5 Sek.                                                 | R2: Fehlversatz Px -1                               |
+|    8 | Legendary  | **Krakenherz-Fragment**     | Bioscan 30 m durch Wände                                                  | R2: Puls Heat +1, Px -1                             |
+|    9 | Legendary  | **Bernstein-Rabenflügel**   | Lautlos eine Szene & Gleiten 10 m                                         | R3: Feuer zerstört, Px -1                           |
+|   10 | Legendary  | **Silberne Lupus-Klaue**    | +1 DMG & **Doppelschlag 15 %**                                            | R2: Blutkontakt Stress +1, Px -1                    |
+|   11 | Legendary  | **Temporaler Knochenzahn**  | SG -2 auf Fossil-Analysen                                                 | R1: Signal-Ping, Px -1                              |
+|   12 | Legendary  | **Mantis-Oculus**           | Fernkampf +1 Hit, Blend-Immun                                             | R2: Fehlschuss Ally Blend, Px -1                    |
+|   13 | Legendary  | **Rift-Spinnenseide**       | 30 m Seil, 1 t, Rüstung ignoriert                                         | R3: Löst sich bei Px 4, Px -1                       |
+|   14 | Legendary  | **Doppel-Pupille**          | Angst-Immun & Blend-Frei                                                  | R2: Vision-Flash Stress +1, Px -1                   |
+|   15 | **Mythic** | **Chrono-Herz**             | +1 auf alle Attribute permanent, 1×/Episode Reroll eines beliebigen Wurfs | R3: Herzstillstand 1 Rd (CHA-Save SG 12), Px -1     |
+|   16 | **Mythic** | **Nullzeit-Auge**           | Sieht 10 Sek in die Zukunft (1×/Mission), alle Proben +2 für 1 Szene      | R4: Zeitblindheit 1 Mission (Wahrnehmung -2), Px -1 |
 
 > **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko kostet Px -1 (Fortschritt Richtung ClusterCreate geht verloren, Px wird NICHT erhöht).
 > **Mythic:** Nur erreichbar mit TEMP ≥ 14 (+2 auf Artefaktwurf). Mythic-Artefakte sind der Endgame-Reward für maximale temporale Affinität.
@@ -949,65 +951,107 @@ Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
 ```json
 {
   "artifact_pool_v3": [
-    { "id": "A01", "name": "Mothman-Auge",
+    {
+      "id": "A01",
+      "name": "Mothman-Auge",
       "effect": "NightVision30m; Perception+1",
-      "risk": "R2: Flashblind 1Sz; Stress+1 fail" },
-    { "id": "A02", "name": "Rift-Skorpion-Stachel",
+      "risk": "R2: Flashblind 1Sz; Stress+1 fail"
+    },
+    {
+      "id": "A02",
+      "name": "Rift-Skorpion-Stachel",
       "effect": "+2DMG; 20% Double-Strike",
-      "risk": "R4: SYS-1 selfhit; Stress+1" },
-    { "id": "A03", "name": "Heuschrecken-Exo-Platte",
+      "risk": "R4: SYS-1 selfhit; Stress+1"
+    },
+    {
+      "id": "A03",
+      "name": "Heuschrecken-Exo-Platte",
       "effect": "Armor+1; Reflex-Dash3m 1/Sz",
-      "risk": "R3: Break → item lost; Noise+1" },
-    { "id": "A04", "name": "Nullzeit-Larve",
+      "risk": "R3: Break → item lost; Noise+1"
+    },
+    {
+      "id": "A04",
+      "name": "Nullzeit-Larve",
       "effect": "Reload all gadgets 1/mission",
-      "risk": "R2: Awakens Heat+1; Noise+1" },
-    { "id": "A05", "name": "Ektoplasma-Drüse",
+      "risk": "R2: Awakens Heat+1; Noise+1"
+    },
+    {
+      "id": "A05",
+      "name": "Ektoplasma-Drüse",
       "effect": "AoE stun; Foes Init-2",
-      "risk": "R2: Leak Stress+1; Heat+1" },
-    { "id": "A06", "name": "Phase-Raptor-Zahnrad",
+      "risk": "R2: Leak Stress+1; Heat+1"
+    },
+    {
+      "id": "A06",
+      "name": "Phase-Raptor-Zahnrad",
       "effect": "Ignore cover 2r; +1DMG melee",
-      "risk": "R2: Discharge → empty; Cooldown 1Sz" },
-    { "id": "A07", "name": "Zeitfalter-Kokon",
+      "risk": "R2: Discharge → empty; Cooldown 1Sz"
+    },
+    {
+      "id": "A07",
+      "name": "Zeitfalter-Kokon",
       "effect": "Mini-jump ±5s 1/Sz",
-      "risk": "R2: Misjump Stress+2" },
-    { "id": "A08", "name": "Krakenherz-Fragment",
+      "risk": "R2: Misjump Stress+2"
+    },
+    {
+      "id": "A08",
+      "name": "Krakenherz-Fragment",
       "effect": "Bioscan 30m",
-      "risk": "R2: Pulse Heat+1; Noise+1" },
-    { "id": "A09", "name": "Bernstein-Rabenflügel",
+      "risk": "R2: Pulse Heat+1; Noise+1"
+    },
+    {
+      "id": "A09",
+      "name": "Bernstein-Rabenflügel",
       "effect": "Silent move 1Sz; Glide10m",
-      "risk": "R3: Fire destroys; Stress+1" },
-    { "id": "A10", "name": "Silberne Lupus-Klaue",
+      "risk": "R3: Fire destroys; Stress+1"
+    },
+    {
+      "id": "A10",
+      "name": "Silberne Lupus-Klaue",
       "effect": "+1DMG; 15% Double-Strike",
-      "risk": "R2: Blood Stress+1; Heat+1" },
-    { "id": "A11", "name": "Temporaler Knochenzahn",
+      "risk": "R2: Blood Stress+1; Heat+1"
+    },
+    {
+      "id": "A11",
+      "name": "Temporaler Knochenzahn",
       "effect": "Fossil scans DC-2",
-      "risk": "R1: Ping risk; Noise+1" },
-    { "id": "A12", "name": "Mantis-Oculus",
+      "risk": "R1: Ping risk; Noise+1"
+    },
+    {
+      "id": "A12",
+      "name": "Mantis-Oculus",
       "effect": "Ranged+1 hit; Flash immune",
-      "risk": "R2: Fail → ally flash; Stress+1" },
-    { "id": "A13", "name": "Rift-Spinnenseide",
+      "risk": "R2: Fail → ally flash; Stress+1"
+    },
+    {
+      "id": "A13",
+      "name": "Rift-Spinnenseide",
       "effect": "30m rope 1t; bypass armor",
-      "risk": "R3: Dissolves at high Stress; Cooldown 2Sz" },
-    { "id": "A14", "name": "Doppel-Pupille des Nachtvolks",
+      "risk": "R3: Dissolves at high Stress; Cooldown 2Sz"
+    },
+    {
+      "id": "A14",
+      "name": "Doppel-Pupille des Nachtvolks",
       "effect": "Fear & Flash immune",
-      "risk": "R2: Vision flash Stress+1; Heat+1" }
+      "risk": "R2: Vision flash Stress+1; Heat+1"
+    }
   ]
 }
 ```
 
 ## Para-Artefakt-On-The-Fly (1W6 Körperteil × Buff-Matrix)
 
-| W6 | Körperteil       | Basiseffekt (vor Matrix) |
-|---:|------------------|--------------------------|
-| 1  | Klaue / Stachel  | +2 DMG Nahkampf          |
-| 2  | Zahn / Horn      | Durchdringung +1         |
-| 3  | Auge / Pupille   | Perception +1            |
-| 4  | Drüse / Beutel   | 1× Spezialladung         |
-| 5  | Chitin / Platte  | Rüstung +1               |
-| 6  | Organ / Kern     | Einmaliger Power-Burst   |
+|  W6 | Körperteil      | Basiseffekt (vor Matrix) |
+| --: | --------------- | ------------------------ |
+|   1 | Klaue / Stachel | +2 DMG Nahkampf          |
+|   2 | Zahn / Horn     | Durchdringung +1         |
+|   3 | Auge / Pupille  | Perception +1            |
+|   4 | Drüse / Beutel  | 1× Spezialladung         |
+|   5 | Chitin / Platte | Rüstung +1               |
+|   6 | Organ / Kern    | Einmaliger Power-Burst   |
 
 > **Matrix-Aufwertung**: Kombiniere mit Kreatur-`type`.
-> *Beispiel* - **Psi-Raptor (M)** rollt **3 = Auge**
+> _Beispiel_ - **Psi-Raptor (M)** rollt **3 = Auge**
 > → Grund: _Perception +1_ → Psi-Matrix upgrade: _Telepath-Reichweite ×2_ →
 > Größe M = 2 Nutzungen / Mission.
 
@@ -1015,14 +1059,14 @@ Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
 
 #### Tabelle B - Nebeneffekte (d6)
 
-| d6 | Nebenwirkung              |
-|----|---------------------------|
-| 1  | Stress +1                |
-| 2  | Heat +1                  |
-| 3  | SYS -1 (Selbstschaden)   |
-| 4  | Blend 1 Szene            |
-| 5  | Item defekt; aufwändige HQ-Werkstattreparatur (relativ teuer) |
-| 6  | Gegner erhält +1 INI     |
+| d6  | Nebenwirkung                                                  |
+| --- | ------------------------------------------------------------- |
+| 1   | Stress +1                                                     |
+| 2   | Heat +1                                                       |
+| 3   | SYS -1 (Selbstschaden)                                        |
+| 4   | Blend 1 Szene                                                 |
+| 5   | Item defekt; aufwändige HQ-Werkstattreparatur (relativ teuer) |
+| 6   | Gegner erhält +1 INI                                          |
 
 > Legendary-Limit: 1 Artefakt / Agent (unverändert).
 
@@ -1038,7 +1082,6 @@ Fest oder so?"_ oder wenn ihr einfach Atmosphäre schaffen wollt.
 Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
 
 - **Festliche Anlässe:**
-
   1. Ein großes Volksfest findet statt (Erntedank, Siegesfeier o. Ä.).
   2. Religiöse Prozession oder ein hoher Feiertag prägt den Tag.
   3. Eine Krönung oder Hochzeit eines Herrschers sorgt für Aufruhr.
@@ -1048,7 +1091,6 @@ Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
   6. Ein spontaner Karneval (oder Aufruhr) tobt auf den Straßen.
 
 - **Sitten und Aberglaube:**
-
   1. Alle Leute tragen ein bestimmtes Symbol bei sich, um Unglück abzuwehren.
   2. Bestimmte Worte oder Namen werden nie ausgesprochen - sie gelten als Tabu.
   3. Es gibt einen ungewöhnlichen Begrüßungsritus, den Außenstehende seltsam finden.
@@ -1059,7 +1101,6 @@ Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
   6. Jeder Fremde muss erst **eine Prüfung** oder Aufgabe erledigen, um akzeptiert zu werden.
 
 - **Mode und Technik-Spleens:**
-
   1. Eine auffällige Modefarbe dominiert - alle tragen etwas in dieser Farbe (z. B. Rot, zur
      Erinnerung an einen alten Krieg).
   2. Ein Modeaccessoire mit kurioser **Funktion** ist der letzte Schrei (z. B. in einer Steampunk-
@@ -1074,7 +1115,6 @@ Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
      keine zweite Chance).
 
 - **Gesellschaft & Gesetz:**
-
   1. Es herrscht strikte **Ausgangssperre** ab einer bestimmten Stunde (vielleicht aus temporalen
      Gründen - man will Geister oder Zeitdiebe fernhalten?).
   2. Ein **Kasten- oder Gildensystem** prägt das Miteinander; Fremde werden automatisch als
@@ -1103,7 +1143,6 @@ einfaches Gespräch sofort eine interessante kulturelle Note!
   Techniker im HQ murmelt über Produkte, die "vor der Korrektur" anders waren. Die
   SL streut diese Momente organisch ein, **ohne sie zu erklären**. Wer aufmerksam
   ist, bemerkt das Muster. Wer lange genug spielt, versteht die Implikation.
-
   1. Ein HQ-Techniker erwähnt beiläufig ein Produkt, das sich verändert hat
      ("Fruit Loops hieß doch mal Froot Loops - oder war das vor dem
      Casablanca-Job?").
@@ -1140,18 +1179,18 @@ Ein schneller W6-Wurf erzeugt ein stimmungsvolles Detail für die aktuelle Szene
 Kurze Ideen für Rätsel- oder Hindernisszenen. Die Schwierigkeits-Icons lauten
 ⌖ für leicht, ✱ für mittel und ⚠ für schwer.
 
-| Nr. | Beschreibung | Tag |
-|----|-------------|-----|
-| 1 | Geheimtür über Schallfrequenz öffnen | ⌖ |
-| 2 | Mechanisches Schloss mit rotierendem Zahlenring | ⌖ |
-| 3 | Verschlüsseltes Tagebuch in historischem Dialekt | ⚠ |
-| 4 | Laserlabyrinth, das nur bei Schatten sichtbar wird | ⚠ |
-| 5 | Bildfragment muss wie ein Puzzle zusammengesetzt werden | ⌖ |
-| 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | ⚠ |
-| 7 | Mehrstufiges Klangrätsel löst geheime Tür | ✱ |
-| 8 | Subtile chemische Reaktion verrät den Code | ✱ |
-| 9 | Zeitscheiben-Schalter koordiniert drei 5s-Fenster - Soft Fail Alarm 1 | ✱ |
-| 10 | Karbid-Kryptograph - Kryokammer öffnen via Magnetfeldanalyse, Telekinese oder Überreden | ⚠ |
+| Nr. | Beschreibung                                                                            | Tag |
+| --- | --------------------------------------------------------------------------------------- | --- |
+| 1   | Geheimtür über Schallfrequenz öffnen                                                    | ⌖   |
+| 2   | Mechanisches Schloss mit rotierendem Zahlenring                                         | ⌖   |
+| 3   | Verschlüsseltes Tagebuch in historischem Dialekt                                        | ⚠   |
+| 4   | Laserlabyrinth, das nur bei Schatten sichtbar wird                                      | ⚠   |
+| 5   | Bildfragment muss wie ein Puzzle zusammengesetzt werden                                 | ⌖   |
+| 6   | Mathematischer Code, der Fibonacci-Reihen nutzt                                         | ⚠   |
+| 7   | Mehrstufiges Klangrätsel löst geheime Tür                                               | ✱   |
+| 8   | Subtile chemische Reaktion verrät den Code                                              | ✱   |
+| 9   | Zeitscheiben-Schalter koordiniert drei 5s-Fenster - Soft Fail Alarm 1                   | ✱   |
+| 10  | Karbid-Kryptograph - Kryokammer öffnen via Magnetfeldanalyse, Telekinese oder Überreden | ⚠   |
 
 Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
 schnelle Orientierung im Mission-Generator.
@@ -1193,16 +1232,17 @@ einen Eintrag, um das Ereignis einzubauen.
 
 Temporale Anomalien sind seltene, aber eindrucksvolle Ereignisse. Setzt sie
 sparsam ein, um Spannung, Staunen oder Dringlichkeit zu erzeugen.
+
 ## Minor-Anomalien (d6) {#minor-anomalien}
 
-| Wurf | Effekt (1 min) |
-| ---- | -------------- |
-| 1 | Rostpartikel fliegen rückwärts an Metall. |
-| 2 | Uhrenschläge doppelt so schnell. |
-| 3 | Haare der Agenten stellen sich elektrostatisch auf. |
-| 4 | Gravitation lokal -5 %. |
-| 5 | Starker Kupfergeruch. |
-| 6 | Zwei Sekunden absolute Stille. |
+| Wurf | Effekt (1 min)                                      |
+| ---- | --------------------------------------------------- |
+| 1    | Rostpartikel fliegen rückwärts an Metall.           |
+| 2    | Uhrenschläge doppelt so schnell.                    |
+| 3    | Haare der Agenten stellen sich elektrostatisch auf. |
+| 4    | Gravitation lokal -5 %.                             |
+| 5    | Starker Kupfergeruch.                               |
+| 6    | Zwei Sekunden absolute Stille.                      |
 
 ## Historische Anomalien-Generator {#anomalie_realhistory}
 
@@ -1302,15 +1342,15 @@ phase: core
 Vollständige Rätsel für bestimmte Epochen. Die Spalte "Reward" beschreibt den
 vorgesehenen Erfolgsbonus.
 
-| id | jahr | ort | puzzle | solution | reward |
-| -- | ---- | --- | ------ | -------- | ------ |
-| 7  | 1888 | London | 5 Drähte, 3 Enden -> Morsecode. | B-G-R-G-S = "SEAL" | Schaltschrank offen, +1 Info |
-| 8  | 1906 | Istanbul | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress -2 |
-| 9  | 1911 | Agadir | Drei falsche Schiffsrouten ergeben ein Dreieck. | 30°25′N 09°36′W | Feindliches Depot entdeckt |
-| 10 | 1983 | Moskau | XOR-Lochkarten-Uhrzeiten. | Karte 17 -> 101100 | Countdown gestoppt, Paradoxon -1 |
-| 11 | Frühmittelalter | Runen-Stele | Ringstein mit 16 Runen | Sternkarte richten, Fach öffnet | Fehler: Pfeilfalle |
-| 12 | Spätantike | Hydr.Orgel | V/W-Kammern | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer |
-| 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
-| 14 | Near-Future | QC-Archivkammer | Lichtzahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
+| id  | jahr            | ort             | puzzle                                             | solution                               | reward                           |
+| --- | --------------- | --------------- | -------------------------------------------------- | -------------------------------------- | -------------------------------- |
+| 7   | 1888            | London          | 5 Drähte, 3 Enden -> Morsecode.                    | B-G-R-G-S = "SEAL"                     | Schaltschrank offen, +1 Info     |
+| 8   | 1906            | Istanbul        | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358                                   | Artefakt-Zugang, Stress -2       |
+| 9   | 1911            | Agadir          | Drei falsche Schiffsrouten ergeben ein Dreieck.    | 30°25′N 09°36′W                        | Feindliches Depot entdeckt       |
+| 10  | 1983            | Moskau          | XOR-Lochkarten-Uhrzeiten.                          | Karte 17 -> 101100                     | Countdown gestoppt, Paradoxon -1 |
+| 11  | Frühmittelalter | Runen-Stele     | Ringstein mit 16 Runen                             | Sternkarte richten, Fach öffnet        | Fehler: Pfeilfalle               |
+| 12  | Spätantike      | Hydr.Orgel      | V/W-Kammern                                        | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer          |
+| 13  | Viktorianisch   | Zahnrad-Panel   | 12 Messingräder, verschieden                       | Fibo-Reihenfolge                       | Kurzschluss: Dunkel 10 Min       |
+| 14  | Near-Future     | QC-Archivkammer | Lichtzahlen in Superpos.                           | Seq. kollabieren, Primzahlen bleiben   | Fehler: EMP-Burst                |
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

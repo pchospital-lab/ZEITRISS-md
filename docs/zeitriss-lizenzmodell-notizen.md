@@ -18,7 +18,7 @@ lizenzieren.
 
 ## Modellübersicht (private Nutzung vs. kommerzielle Partner)
 
-- **Private Nutzung (Endanwender:innen):** Einzelspieler:innen oder private
+- **Private Nutzung (Endanwender):** Einzelspieler oder private
   Gruppen dürfen ZEITRISS kostenlos nutzen. Das Regelwerk (Texte, Module,
   Illustrationen) steht unter CC BY-NC 4.0, d. h. es darf für nicht
   kommerzielle Zwecke frei geteilt und angepasst werden. Eine Nennung von
@@ -64,7 +64,7 @@ Spieler bis zum Tech-Konzern – auf einen Blick weiß, was erlaubt ist.
 
 #### Private Nutzung – frei für die Community
 
-Für Privatanwender:innen und nicht-kommerzielle Runden ist ZEITRISS frei
+Für Privatanwender und nicht-kommerzielle Runden ist ZEITRISS frei
 verfügbar. Einzelspieler oder private Gruppen können das Spiel kostenlos
 nutzen – sei es für gelegentliche Solo-Missionen oder regelmäßige Runden im
 Freundeskreis. Das gesamte Regelwerk (Texte, Module, Illustrationen) steht
@@ -265,7 +265,7 @@ Nutzungslizenz zu beantragen:
 - Rechnungsadresse: …
 
 - [ ] Ich habe die **AGB** sowie die **Lizenzbedingungen** gelesen und
-  akzeptiere diese.
+      akzeptiere diese.
 
 **Hinweis:** Dieser Antrag ist verbindlich. Nach positiver Prüfung Ihrer
 Anfrage stellen wir eine Rechnung aus; die gewerbliche Nutzung von
@@ -293,10 +293,10 @@ selbst, was es heißt, wenn der Spielleiter ein Programm ist.
   Produkt). Diese deckt Markenrechte, Support und Updates ab.
 - **Nutzungsabhängige Gebühr:** Falls ZEITRISS als laufender Dienst mit
   Endnutzerzugriff angeboten wird (z. B. auf einer Plattform mit vielen
-  Spieler:innen), wird eine Richtgebühr von ca. 2 € pro aktivem Spieler und
+  Spieler), wird eine Richtgebühr von ca. 2 € pro aktivem Spieler und
   Monat als Orientierung angesetzt.
 - **Beispielkalkulation:** Ein Plattformanbieter mit ~100 aktiven
-  Spieler:innen monatlich würde ca. 200 € pro Monat an Nutzungsgebühr
+  Spieler monatlich würde ca. 200 € pro Monat an Nutzungsgebühr
   entrichten, zuzüglich einer ggf. einmaligen Integrationsgebühr.
 - **Hinweis:** Diese Gebühren sind transparent gehalten, damit interessierte
   Partner frühzeitig die Größenordnung abschätzen können. Kleine
@@ -315,7 +315,7 @@ selbst, was es heißt, wenn der Spielleiter ein Programm ist.
   Wissenspakets. Intern ist ein Prozess nötig, um neue Versionen
   (Regeländerungen, Bugfixes) zeitnah an Lizenznehmer weiterzugeben.
 - **Community vs. Kommerz:** Die freie Community-Nutzung bleibt unberührt.
-  Kommerzielle Partner sollen ihre Nutzer:innen klar über die Lizenz
+  Kommerzielle Partner sollen ihre Nutzer klar über die Lizenz
   informieren (z. B. „Powered by ZEITRISS® – used under license“), um
   Transparenz zu schaffen.
 
@@ -338,7 +338,7 @@ selbst, was es heißt, wenn der Spielleiter ein Programm ist.
 ## Gründe für das Modell
 
 - **Freier Zugang & Verbreitung:** Durch kostenlose Privatnutzung verbreitet
-  sich ZEITRISS rasch unter Enthusiast:innen. Das steigert Bekanntheit und
+  sich ZEITRISS rasch unter Enthusiasten. Das steigert Bekanntheit und
   gewährleistet breite Tests und Feedback – ohne Schranken für die Community.
 - **Faire Kompensation bei Kommerz:** Wird mit ZEITRISS Geld verdient (direkt
   oder indirekt), soll der Entwickler angemessen beteiligt werden. Das Modell
@@ -393,6 +393,6 @@ Beratungsdienst. Alle Inhalte sind fiktional – das System bietet keine echten
 historischen Vorhersagen, keine Rechts- oder Lebensberatung. Zudem ersetzt es
 keinen menschlichen Spielleiter, wenn persönliche Betreuung nötig ist. Keine
 Zeitreise oder ähnliche fantastische Dienste werden durch ZEITRISS
-ermöglicht – es handelt sich rein um ein Rollenspiel. Nutzer:innen müssen
+ermöglicht – es handelt sich rein um ein Rollenspiel. Nutzer müssen
 volljährig sein, um etwaige Risiken (intensive Thematiken, Gewalt in der
 Handlung) selbst einschätzen zu können.

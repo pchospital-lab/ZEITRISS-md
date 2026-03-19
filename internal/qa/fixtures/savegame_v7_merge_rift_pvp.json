@@ -37,21 +37,14 @@
           "branch_id": "RIFT-DELTA",
           "status": "merged",
           "reason": "non_canonical_branch",
-          "allowed_fields": [
-            "wallet",
-            "rift_merge",
-            "arena_resume"
-          ]
+          "allowed_fields": ["wallet", "rift_merge", "arena_resume"]
         },
         {
           "save_id": "SAVE-PVP-OMEGA",
           "branch_id": "PVP-OMEGA",
           "status": "merged",
           "reason": "non_canonical_branch",
-          "allowed_fields": [
-            "wallet",
-            "arena_resume"
-          ]
+          "allowed_fields": ["wallet", "arena_resume"]
         }
       ],
       "duplicate_branch_detected": false,

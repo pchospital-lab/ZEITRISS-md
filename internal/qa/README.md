@@ -7,8 +7,8 @@ tags: [meta, qa]
 # QA-Index
 
 Diese Übersicht bündelt alle qualitätssichernden Artefakte. Sie dient als
-Einstiegspunkt für Maintainer:innen und den Repo-Agenten, wenn neue
-Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
+Einstiegspunkt für Maintainer und den Repo-Agenten, wenn neue
+Playtests, Beta-KI-Durchläufe oder Deepchecks anstehen.
 
 ## Verzeichnisstruktur
 
@@ -17,10 +17,10 @@ Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
   - Zweck: Bewertet abgeschlossene Testreihen und dokumentiert den Maßnahmenstatus.
 - `plans/`
   - Inhalt: `ZEITRISS-qa-fahrplan-2025.md`
-  - Zweck: Priorisierte Aufgabenliste inklusive Übergaben an Codex und Maintainer:innen.
+  - Zweck: Priorisierte Aufgabenliste inklusive Übergaben an Codex und Maintainer.
 - `evidence/`
   - Inhalt: `README.md`, `2025-beta-gpt-evidenz.md`
-  - Zweck: Ablage für HUD-/Save-/Dispatcher-Nachweise zu den Beta-GPT-Läufen.
+  - Zweck: Ablage für HUD-/Save-/Dispatcher-Nachweise zu den Beta-KI-Läufen.
 - `transcripts/`
   - Inhalt: `start-transcripts.md`
   - Zweck: Referenztranskripte für Startszenarien (Solo, Gruppe, NPC-Team).
@@ -32,14 +32,14 @@ Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
   - Zweck: Triage-Workflow für Meta-/Prozess-Funde inkl. Statusführung.
 - `../docs/qa/`
   - Inhalt: `tester-playtest-briefing.md`
-  - Zweck: Copy-&-Paste-Auftrag inkl. Acceptance-Smoke-Checkliste für Beta-GPT/MyGPT.
+  - Zweck: Copy-&-Paste-Auftrag inkl. Acceptance-Smoke-Checkliste für Beta-KI/KI-Spielleitung.
 
 ## Workflow-Knoten
 
 1. **Deepcheck oder manueller Review** → Erkenntnisse aus Live-Sessions mit
    Codex unmittelbar im Fahrplan (`plans/…`) unter "Deepcheck-Aufgaben"
    ergänzen und bei Bedarf als Nachtrag im Audit (`audits/…`) verlinken.
-2. **Beta-GPT-Testlauf** → Auftrag aus `../docs/qa/tester-playtest-briefing.md`
+2. **Beta-KI-Testlauf** → Auftrag aus `../docs/qa/tester-playtest-briefing.md`
    nutzen, Ergebnis unverändert in `logs/` ablegen und anschließend Fahrplan/Audit
    synchronisieren.
 3. **Smoke- oder Regressionstest** → Acceptance-Smoke-Abschnitt im
@@ -50,5 +50,5 @@ Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
    Pfade verweisen.
 
 So bleibt der QA-Strom aus Findings, Priorisierung und Umsetzung zentral
-sichtbar, unabhängig davon, ob Ergebnisse aus automatisierten GPT-Läufen
+sichtbar, unabhängig davon, ob Ergebnisse aus automatisierten KI-Läufen
 oder manuellen Sessions stammen.

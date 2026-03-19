@@ -20,7 +20,7 @@ Verbindliche Nachverfolgung:
 
 ## Executive Summary
 
-Im aktuellen Repo-Stand existieren mehrere, leicht auseinanderdriftende Darstellungen des Übergangs **Nullzeit ↔ Realität** (Sprung/Return) und eine funktionale, aber noch nicht „in die Magengrube gehende“ Beschreibung des **Chronopolis-Zugangs**. Besonders auffällig sind (a) ein Ton-Mismatch („vorsichtig durchtasten“ vs. gewünschter „unangenehmer Sog“), (b) Bildsprache, die stellenweise wieder Richtung „Portal“ kippt, und (c) fehlende Textbausteine, die den Moment **vor** dem Öffnen der Chronopolis-Tore und den **Erlösungsmoment** beim Rückzug in die Schleuse als *epische* Beats zuverlässig reproduzierbar machen. Evidenzpunkte liegen vor allem in `core/zeitriss-core.md` (Abschnitt zur Nullzeit und Zeitriss-Logik), `systems/gameflow/cinematic-start.md` (HQ-Ankunft/Startästhetik), `core/sl-referenz.md` (Transfer-HUD-Frames + Save-Taktung), `systems/gameflow/speicher-fortsetzung.md` (Chronopolis-Schleusen-Savepflicht) und `gameplay/kampagnenstruktur.md` (Chronopolis-Package + Cutscene/Flow).  
+Im aktuellen Repo-Stand existieren mehrere, leicht auseinanderdriftende Darstellungen des Übergangs **Nullzeit ↔ Realität** (Sprung/Return) und eine funktionale, aber noch nicht „in die Magengrube gehende“ Beschreibung des **Chronopolis-Zugangs**. Besonders auffällig sind (a) ein Ton-Mismatch („vorsichtig durchtasten“ vs. gewünschter „unangenehmer Sog“), (b) Bildsprache, die stellenweise wieder Richtung „Portal“ kippt, und (c) fehlende Textbausteine, die den Moment **vor** dem Öffnen der Chronopolis-Tore und den **Erlösungsmoment** beim Rückzug in die Schleuse als _epische_ Beats zuverlässig reproduzierbar machen. Evidenzpunkte liegen vor allem in `core/zeitriss-core.md` (Abschnitt zur Nullzeit und Zeitriss-Logik), `systems/gameflow/cinematic-start.md` (HQ-Ankunft/Startästhetik), `core/sl-referenz.md` (Transfer-HUD-Frames + Save-Taktung), `systems/gameflow/speicher-fortsetzung.md` (Chronopolis-Schleusen-Savepflicht) und `gameplay/kampagnenstruktur.md` (Chronopolis-Package + Cutscene/Flow).
 
 Die untenstehenden Issues und Ersatztexte sind so geschrieben, dass sie ohne neue Regeln arbeiten: **TEMP** wird nur als „Feeling-Regler“ für die Spielleitung benannt, nicht als Mechanik; der „Riss“ bleibt **kein Portal**, sondern ein „Schnitt“/„Riss“ mit **Sog**, **Schlag**, **ungewöhnlichem Austrittswinkel**, **sofortigem Verschluss** und einem kurzen **Sortiermoment** danach. Für Chronopolis kommt ein klarer, dramaturgisch verlässlicher Schleusen-Beat plus ein leicht abgewandelter **Schleusen-Debrief** dazu.
 
@@ -28,16 +28,16 @@ Die untenstehenden Issues und Ersatztexte sind so geschrieben, dass sie ohne neu
 
 Die für diese Überarbeitung relevanten Stellen (als SSOT-orientierte Anker) sind:
 
-- `core/zeitriss-core.md`  
+- `core/zeitriss-core.md`
   - Abschnitt zur Nullzeit und zum Zeitriss (derzeit mit „Riss in der Tapete“-Bildsprache, aber auch mit dem unerwünschten „DURCHTASTEN“-Motiv und einer teils veralteten Optionslogik für den Loop).
-- `systems/gameflow/cinematic-start.md`  
+- `systems/gameflow/cinematic-start.md`
   - `HQ-Empfang & Sync` (bildstark, aber an einer Stelle wieder „Scheibe/Portal“-Vibe statt „Riss“; außerdem ist die Körperlichkeit des Übergangs noch zu „sauber“).
-- `core/sl-referenz.md`  
+- `core/sl-referenz.md`
   - Transfer-Frames (`Nullzeit-Puffer · Transfer 3…2…1 …` / Return-Frame) und Save-Taktung („vor Chronopolis-Schleuseneintritt“ / „nach Chronopolis-Rückkehr“), aber ohne den gewünschten epischen Schleusen-Beat als Textbaustein.
-- `systems/gameflow/speicher-fortsetzung.md`  
+- `systems/gameflow/speicher-fortsetzung.md`
   - Chronopolis-spezifische Save-/Warnlogik („Kodex fragt verpflichtend …“) ist vorhanden, aber der **Erzähltext** kann stärker „Schleusenangst“ + „Erlösung bei der Rückkehr“ transportieren.
-- `gameplay/kampagnenstruktur.md`  
-  - Chronopolis-Package (High-Level-Pitch, UI-Flow, Map-Blueprint). Der Flow ist klar, aber die Schleuse als *psychologischer Engpass* (und als „Tore öffnen sich gleich“-Moment) ist noch nicht als Copy-Paste-Beat ausgearbeitet.
+- `gameplay/kampagnenstruktur.md`
+  - Chronopolis-Package (High-Level-Pitch, UI-Flow, Map-Blueprint). Der Flow ist klar, aber die Schleuse als _psychologischer Engpass_ (und als „Tore öffnen sich gleich“-Moment) ist noch nicht als Copy-Paste-Beat ausgearbeitet.
 
 ## Designziele und Invarianten
 
@@ -45,32 +45,37 @@ Diese Änderungen zielen ausdrücklich auf **Immersion, Konsistenz und Spielleit
 
 - Der Zeitriss ist **kein Portal**: keine „Tür“, kein „Tunnel“, kein gemütliches Durchschreiten. Er ist ein **Riss** (Schnitt) mit **Sog** und **Schlag**.
 - Der Sprung ist **unangenehm**, kurz, kompromisslos: Riss reißt auf → zieht → Auswurf in „falschem Winkel“ → sofort zu → Sortieren.
-- **Team-Cohesion** wird als *In-World-Logik* betont (zusammenstehen, anfassen, sichern), ohne ein zusätzliches Regelmodul zu erzeugen.
-- **TEMP** ist ein *Erzählregler*: hohe TEMP-Werte „sehen cooler aus“ (bessere Landung, weniger Übelkeit), niedrige TEMP-Werte wirken „ruppiger“ – ohne neue Würfelmechanik.
+- **Team-Cohesion** wird als _In-World-Logik_ betont (zusammenstehen, anfassen, sichern), ohne ein zusätzliches Regelmodul zu erzeugen.
+- **TEMP** ist ein _Erzählregler_: hohe TEMP-Werte „sehen cooler aus“ (bessere Landung, weniger Übelkeit), niedrige TEMP-Werte wirken „ruppiger“ – ohne neue Würfelmechanik.
 - **Nicht-Zeitreisende** werden nicht „adressiert“: allein ist ein Durchkommen fast unmöglich; als **Passagiere** können sie in direktem Kontakt von Chrononauten „mitgerissen“ werden.
-- Chronopolis bekommt zwei klare, wiederverwendbare Beats:  
-  - **Eintreten** = Angst vor dem, was hinter dem Tor ist (Stimmung/Instanz unklar).  
+- Chronopolis bekommt zwei klare, wiederverwendbare Beats:
+  - **Eintreten** = Angst vor dem, was hinter dem Tor ist (Stimmung/Instanz unklar).
   - **Rückkehr** = Erlösung, wenn die Schleuse hinter einem zufällt, gefolgt von einem **Schleusen-Debrief** (leicht abgewandelt vom Missions-Debrief).
 
 ## Befunde und Issues
 
 ### ZR-TRF-001 — Zeitriss wirkt stellenweise noch „zu portalig“ oder „zu vorsichtig“
+
 **Befund:** In `core/zeitriss-core.md` wird der Riss zwar als „Riss in der Tapete“ beschrieben, aber das Motiv „Erfahrene Chrononauten tasten den Riss ab“ läuft direkt gegen den gewünschten Ton („unangenehm, Sog, ratz“). In `systems/gameflow/cinematic-start.md` kippt die Bildsprache an einer Stelle in Richtung „schwebende Scheibe“, was wieder Portal-Assoziationen triggert.  
 **Risiko:** Uneinheitliches Kopfkino: Neue Spieler lesen „Tapete-Riss“, erleben aber „Portal-Scheibe“, SL liest „tasten“, du willst „Sog“. Das ist genau die Sorte Standarddrift, die später überall kleine Inkonsistenzen erzeugt.
 
 ### ZR-TRF-002 — Der „Sortiermoment“ nach dem Sprung ist noch nicht als SSOT-Beat formuliert
+
 **Befund:** Mehrere Module erwähnen Transfer-Frames oder HQ-Cuts, aber der **verlässliche** Textbeat „Auswurf im Winkel → sofort zu → kurz orientieren → weiter“ fehlt als Copy-Paste-Block für SL/Runtime.  
 **Risiko:** Jede Leitung improvisiert anders; der eigentliche Immersionsanker (Sprunggefühl) wird zum Zufallsprodukt.
 
 ### ZR-TRF-003 — Passagiere/Nicht-Zeitreisende sind nicht klar als In-World-Regel (ohne Mechanik) formuliert
+
 **Befund:** Das Setting hat Extraction-Ziele, VIPs und das Motiv „jemanden da rausziehen“ ist hochgradig spielrelevant. Ohne klare Formulierung entstehen Rückfragen oder ungewollte „Zivilist geht allein durch“-Szenen.  
 **Risiko:** Entweder wird es zu permissiv (Zeitlinie/Nullzeit-Logik verwässert) oder unnötig hart (VIP-Extraction fühlt sich „verboten“ an).
 
 ### ZR-CHR-001 — Chronopolis-Zugang ist funktional, aber narrativ noch nicht „Schleusenangst“-fest
+
 **Befund:** Es gibt Warn-UI, Savepflicht und die Instanzlogik. Was fehlt, ist die **Schleuse als psychologischer Schraubstock**: bevor das Tor aufgeht, sollen Spieler dieses „Wir wissen nicht, in welcher Version der Stadt wir landen“ spüren.  
 **Risiko:** Chronopolis wird zu einer Menüoption statt zu einem Ereignis.
 
 ### ZR-CHR-002 — Rückkehr aus Chronopolis braucht einen eigenen „Erlösungsbeat“ + Schleusen-Debrief
+
 **Befund:** Save-Taktung nennt den Rückkehrpunkt, aber es fehlt der „endlich fällt die Tür zu“-Moment plus eine Debrief-Variante, die sich wie „nach Hause geschafft“ anfühlt und trotzdem strukturell dem bekannten Debrief-Screen ähnelt.  
 **Risiko:** Der emotional wichtigste Moment (Rettung/Escape) verpufft, obwohl er eigentlich die Szene trägt.
 
@@ -78,27 +83,32 @@ Diese Änderungen zielen ausdrücklich auf **Immersion, Konsistenz und Spielleit
 
 ```md
 ### [ISSUE] ZR-TRF-001 — Zeitriss-Transfer: Bildsprache konsolidieren (Riss, nicht Portal; kein „DURCHTASTEN“)
+
 **Scope:** core/zeitriss-core.md, systems/gameflow/cinematic-start.md (optional: core/spieler-handbuch.md)
 **Problem:** Uneinheitliche Bildsprache (Riss vs. Portal-Scheibe) + unerwünschter „vorsichtig durchtasten“-Ton.
 **Ziel:** Ein konsistenter, unangenehmer Transfer-Beat: Riss reißt auf → Sog → Auswurf im Winkel → sofort zu → Sortieren.
 **Keine neuen Regeln:** TEMP nur als Erzählschalter/Vibe.
 
 ### [ISSUE] ZR-TRF-002 — Transfer-Beat als SSOT-Textbaustein (Nullzeit→Realität und Realität→Nullzeit)
+
 **Scope:** core/zeitriss-core.md (SSOT), core/sl-referenz.md (SL-Notiz/Template), systems/gameflow/cinematic-start.md (Startvariante)
 **Problem:** Transfer-HUD ist da, aber kein wiederverwendbarer Erzähltext.
 **Ziel:** Copy-Paste-Block (Solo/Gruppe), inkl. Sortiermoment und TEMP-Vibe.
 
 ### [ISSUE] ZR-TRF-003 — Passagiere/Nicht-Zeitreisende: In-World-Logik klarziehen
+
 **Scope:** core/zeitriss-core.md (+ optional core/spieler-handbuch.md)
 **Problem:** Unklar, ob/warum Zivilisten allein durchkommen könnten; VIP-Extraction braucht klare Logik ohne neue Mechanik.
 **Ziel:** „Nicht adressiert“ alleine; „als Passagier“ nur in direktem Griff/Harness mit Chrononauten.
 
 ### [ISSUE] ZR-CHR-001 — Chronopolis-Schleuse: Eintrittsbeat schreiben (Angst vor Toröffnung)
+
 **Scope:** gameplay/kampagnenstruktur.md (Chronopolis-Package), systems/gameflow/speicher-fortsetzung.md (Savepflicht + Textbaustein), core/sl-referenz.md (Kurzscript)
 **Problem:** Der Zugang ist systemisch klar, aber der Schleusenmoment ist nicht episch/angstvoll genug ausgearbeitet.
 **Ziel:** Wiederverwendbarer Schleusen-Text (Eintreten), inkl. Signatur-Dechiffrierung, Ungewissheit, Toröffnung.
 
 ### [ISSUE] ZR-CHR-002 — Chronopolis-Rückkehr: Erlösungsbeat + Schleusen-Debrief (leicht abgewandelt)
+
 **Scope:** gameplay/kampagnenstruktur.md, systems/gameflow/speicher-fortsetzung.md, core/sl-referenz.md
 **Problem:** Rückkehr ist im Flow erwähnt, aber ohne „Tür fällt zu“-Katharsis + ohne eigenen Debrief-Screen.
 **Ziel:** Mini-Debrief: Status/Contraband/Marktlog/„geborgenes Asset“ + Reset + HQ-Menü.
@@ -115,8 +125,8 @@ Diese Änderungen zielen ausdrücklich auf **Immersion, Konsistenz und Spielleit
 
 Ein Zeitriss ist kein Portal im klassischen Sinne — kein Tunnel, kein Tor,
 kein „Durchgehen“. Er wirkt wie ein Schnitt in die Tapete der Realität:
-ein schmaler, schimmernder Spalt, der die andere Epoche nicht *zeigt*,
-sondern *andockt*.
+ein schmaler, schimmernder Spalt, der die andere Epoche nicht _zeigt_,
+sondern _andockt_.
 
 Der Riss sieht nie zweimal gleich aus. Mal ist er ein gezackter, vibrierender
 Strich im Raum, mal ein flirrendes Haarline-Glühen, das die Luft „aufreißt“.
@@ -130,7 +140,7 @@ Ein kurzer, roher Zug an allem, was in dir Resonanz trägt — als würde die
 Realität dich packen und gleichzeitig die Nullzeit dich zurückfordern.
 
 Du spürst Druck auf den Ohren, Kälte im Rachen, und dann diesen halben Herzschlag,
-in dem dein Magen das Kommando übernimmt: *falsch herum*.
+in dem dein Magen das Kommando übernimmt: _falsch herum_.
 
 Spielleitung: Lass diesen Moment kurz, konkret und körperlich sein.
 Nicht lang erklären — lieber drei starke Sinneseindrücke.
@@ -158,6 +168,7 @@ Der Riss schließt sich sofort hinter euch. Kein Nachschauen. Kein Zögern.
 Eine Sekunde später ist da nur noch Luft — und das Geräusch eures eigenen Atems.
 
 Spielleitung (TEMP-Vibe, keine Regel):
+
 - Hohe TEMP: „schneller gefangen“, bessere Landung, Blick schon oben, Hand schon am Comlink.
 - Niedrige TEMP: härterer Schlag, kurze Übelkeit, Hände suchen Halt, Orientierung kostet Sekunden.
 
@@ -166,7 +177,7 @@ Spielleitung (TEMP-Vibe, keine Regel):
 Der Rücksprung fühlt sich nicht wie Heimkehr an. Erst wie eine Flucht.
 
 Der Zeitriss reißt nur kurz auf — ein Return Window, ein Zugriffskorridor,
-ein Moment, der sich wie *jetzt oder nie* anfühlt.
+ein Moment, der sich wie _jetzt oder nie_ anfühlt.
 
 Das HUD bestätigt den Frame:
 
@@ -208,10 +219,11 @@ Für sie ist es ein Trauma.
 
 ### Patch für `systems/gameflow/cinematic-start.md`
 
-**Anweisung:** Passe die Bildsprache in **„HQ-Empfang & Sync“** so an, dass der Riss nicht als „Scheibe/Portal“ wirkt, sondern als *Schnitt/Riss* mit Sog. Außerdem ergänze nach dem Transfer-Frame im Abschnitt „Ablauf zu Beginn“ einen kurzen, harten Sprung-Beat.
+**Anweisung:** Passe die Bildsprache in **„HQ-Empfang & Sync“** so an, dass der Riss nicht als „Scheibe/Portal“ wirkt, sondern als _Schnitt/Riss_ mit Sog. Außerdem ergänze nach dem Transfer-Frame im Abschnitt „Ablauf zu Beginn“ einen kurzen, harten Sprung-Beat.
 
 ```md
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
+
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
 ITI-Hauptquartiers ein schmaler, schimmernder Riss auftut — kein Tor, kein Tunnel,
 sondern ein Schnitt in der Luft, zu präzise und zu falsch, um „natürlich“ zu sein.
@@ -275,6 +287,7 @@ Wichtig im Team: Steht beim Sprung eng beieinander. Der Riss wartet nicht.
 
 ```md
 **Spielleitung – Transfer-Beat (SSOT, ohne Zusatzregeln):**
+
 - Riss reißt auf (Schnitt in der Luft), nicht „Portal“.
 - Er zieht: kurzer Sog, Ohrendruck, Kälte, Magen kippt.
 - Auswurf in schiefem Winkel, Riss sofort zu, 1 Atemzug Sortieren.
@@ -351,12 +364,13 @@ Er ist strukturell wie der Missions-Debrief, aber thematisch auf „lebt ihr noc
 und „was habt ihr rausgebracht?“ fokussiert.
 
 Reihenfolge (kompakt):
-1) **Status:** „Zurück in der Nullzeit“ (Team vollständig? verletzt? Schock?)
-2) **Contraband/Asset-Check:** Was ist physisch dabei, was ist als Erwerb geloggt?
-3) **Chronopolis-Trace:** Käufe/Services (letzte Einträge), inklusive Kosten/Notizen
-4) **Geborgenes Highlight:** z.B. „Temporal Ship / Never-Was Gadget / Era-Skin gesichert“
-5) **Reset & Stabilisierung:** Stress/Psi-Heat/SYS-Auslastung zurück auf HQ-Base (wie SSOT)
-6) **HQ-Menü:** Schnell-HQ / Manuell / Auto-HQ & Save
+
+1. **Status:** „Zurück in der Nullzeit“ (Team vollständig? verletzt? Schock?)
+2. **Contraband/Asset-Check:** Was ist physisch dabei, was ist als Erwerb geloggt?
+3. **Chronopolis-Trace:** Käufe/Services (letzte Einträge), inklusive Kosten/Notizen
+4. **Geborgenes Highlight:** z.B. „Temporal Ship / Never-Was Gadget / Era-Skin gesichert“
+5. **Reset & Stabilisierung:** Stress/Psi-Heat/SYS-Auslastung zurück auf HQ-Base (wie SSOT)
+6. **HQ-Menü:** Schnell-HQ / Manuell / Auto-HQ & Save
 
 Spielleitung: Wenn ein „legendäres Fahrzeug“ (Temporal Ship) ergattert wurde,
 inszeniere den Moment nach dem Screen kurz:
@@ -396,11 +410,11 @@ bevor ihr in eine Stadt tretet, die sich anfühlt wie euer Scheitern.
 
 ```md
 PATCH ORDER (empfohlen):
-1) core/zeitriss-core.md — SSOT-Transferblock ersetzen (entfernt „DURCHTASTEN“, entfernt Portal-Vibe, setzt Sog/Sortieren/Passagiere).
-2) systems/gameflow/cinematic-start.md — HQ-Empfang & erster Sprung: Bildsprache auf „Riss“ + Körperlichkeit nachziehen.
-3) core/spieler-handbuch.md — kurzer, spielerfreundlicher Transfer-Absatz (Vorbereitung/Immersion).
-4) core/sl-referenz.md — Transfer-Beat als SL-Notiz direkt bei den HUD-Frames.
-5) gameplay/kampagnenstruktur.md — Chronopolis-Schleuse + Schleusen-Debrief hinzufügen (Eintritt/Return/Erlösung).
-6) systems/gameflow/speicher-fortsetzung.md — Savepflicht in Schleusenmoment dramaturgisch aufladen (Textbaustein).
-```
 
+1. core/zeitriss-core.md — SSOT-Transferblock ersetzen (entfernt „DURCHTASTEN“, entfernt Portal-Vibe, setzt Sog/Sortieren/Passagiere).
+2. systems/gameflow/cinematic-start.md — HQ-Empfang & erster Sprung: Bildsprache auf „Riss“ + Körperlichkeit nachziehen.
+3. core/spieler-handbuch.md — kurzer, spielerfreundlicher Transfer-Absatz (Vorbereitung/Immersion).
+4. core/sl-referenz.md — Transfer-Beat als SL-Notiz direkt bei den HUD-Frames.
+5. gameplay/kampagnenstruktur.md — Chronopolis-Schleuse + Schleusen-Debrief hinzufügen (Eintritt/Return/Erlösung).
+6. systems/gameflow/speicher-fortsetzung.md — Savepflicht in Schleusenmoment dramaturgisch aufladen (Textbaustein).
+```

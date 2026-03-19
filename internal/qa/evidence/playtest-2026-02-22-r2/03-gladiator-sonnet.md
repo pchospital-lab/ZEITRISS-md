@@ -1,4 +1,5 @@
 # 03-gladiator-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.027927
 - **Tokens:** in:5804 out:701

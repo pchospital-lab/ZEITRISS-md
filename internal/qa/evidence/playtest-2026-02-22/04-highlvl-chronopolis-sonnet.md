@@ -1,4 +1,5 @@
 # 04-highlvl-chronopolis-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.03072
 - **Tokens:** in:5405 out:967
@@ -25,12 +26,12 @@ Der Marktbereich erstreckt sich über drei Ebenen verbundener Laufstege. Händle
 
 **Verfügbare Händler (Auswahl, Tier-5-Zugang):**
 
-| # | Händler | Spezialisierung | Preisklasse |
-|---|---------|-----------------|-------------|
-| 1 | **Mira "Splitter" Vasek** | Waffen, Modifikationen, Artefakt-Upgrades | 8.000–40.000 CU |
-| 2 | **Das Archiv** (Stimme, kein Körper) | Implantate, Bioware, Synaptik | 12.000–60.000 CU |
-| 3 | **Korrigan & Sohn** | Gadgets, Granaten, Taktik-Gear | 2.000–15.000 CU |
-| 4 | **Schwarze Lampe** | Infos, Gerüchte, Ziel-Profile (Arena-Gegner) | 500–5.000 CU |
+| #   | Händler                              | Spezialisierung                              | Preisklasse      |
+| --- | ------------------------------------ | -------------------------------------------- | ---------------- |
+| 1   | **Mira "Splitter" Vasek**            | Waffen, Modifikationen, Artefakt-Upgrades    | 8.000–40.000 CU  |
+| 2   | **Das Archiv** (Stimme, kein Körper) | Implantate, Bioware, Synaptik                | 12.000–60.000 CU |
+| 3   | **Korrigan & Sohn**                  | Gadgets, Granaten, Taktik-Gear               | 2.000–15.000 CU  |
+| 4   | **Schwarze Lampe**                   | Infos, Gerüchte, Ziel-Profile (Arena-Gegner) | 500–5.000 CU     |
 
 `Kontostand: 45.000 CU`
 
@@ -43,4 +44,4 @@ Der Marktbereich erstreckt sich über drei Ebenen verbundener Laufstege. Händle
 3. **Korrigan & Sohn** — Verbrauchsmaterial auffüllen, Gadgets
 4. **Schwarze Lampe** — Ziel-Profil für den nächsten Tier-5-Gegner kaufen — Vorteil in der Arena
 
-*Freie Aktion: Du kannst auch direkt zur Arena, mehrere Händler nacheinander besuchen oder nach etwas Spezifischem fragen.*
+_Freie Aktion: Du kannst auch direkt zur Arena, mehrere Händler nacheinander besuchen oder nach etwas Spezifischem fragen._

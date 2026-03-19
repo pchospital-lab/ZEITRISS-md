@@ -56,212 +56,250 @@ Let's craft JSON: We'll create a minimal but complete structure.
 
 Ok produce.
 
-
-
 ---
 
 ## Response
 
-ISSUE #001  
-- Beobachtung: Während Core‑Mission 4 erscheint ein dritter HUD‑Toast, obwohl die Regel 2‑Toast‑Grenze verletzt.  
-- Diagnose: Toast‑Zähler wird nicht zurückgesetzt, wenn ein vorheriger Toast im selben Szenen‑Batch endet.  
-- Evidenz: `logs.hud` enthält drei Einträge mit `at`‑Zeitstempeln im selben Scene‑ID.  
+ISSUE #001
 
-Lösungsvorschlag  
-- Ansatz: Füge in der Toast‑Erzeugungsfunktion einen Guard ein, der prüft, ob die aktuelle Szene bereits 2 Toasts enthält; überschreitet sie, wird der neue Toast in den `toast_suppressed`‑Trace verschoben.  
-- Risiken: Zu starke Unterdrückung kann wichtige Informationen verbergen; daher Log‑Level `WARN` für suppressed Toasts.  
+- Beobachtung: Während Core‑Mission 4 erscheint ein dritter HUD‑Toast, obwohl die Regel 2‑Toast‑Grenze verletzt.
+- Diagnose: Toast‑Zähler wird nicht zurückgesetzt, wenn ein vorheriger Toast im selben Szenen‑Batch endet.
+- Evidenz: `logs.hud` enthält drei Einträge mit `at`‑Zeitstempeln im selben Scene‑ID.
 
-To-do  
-- Codex: Implementiere Guard in `hud_event()` und erweitere `logs.flags.hud_scene_usage` um Toast‑Zähler.  
-- QA: Simuliere 5 Core‑Missionen, prüfe, dass nach jeder Szene maximal 2 Toasts angezeigt werden.  
+Lösungsvorschlag
 
-Nächste Schritte  
-- Maintainer:innen: Review des Toast‑Guard‑Codes, Deploy in QA‑Umgebung.  
-- Notizen: Testlauf soll mit `logs.flags.qa_mode=true` ausgeführt werden.  
+- Ansatz: Füge in der Toast‑Erzeugungsfunktion einen Guard ein, der prüft, ob die aktuelle Szene bereits 2 Toasts enthält; überschreitet sie, wird der neue Toast in den `toast_suppressed`‑Trace verschoben.
+- Risiken: Zu starke Unterdrückung kann wichtige Informationen verbergen; daher Log‑Level `WARN` für suppressed Toasts.
 
----  
+To-do
 
-ISSUE #002  
-- Beobachtung: Nach Auslösen von `ClusterCreate()` bleibt der Paradoxon‑Index bei 5 und wird nicht zurückgesetzt.  
-- Diagnose: Reset‑Trigger im Post‑Seed‑Erzeugungs‑Callback fehlt.  
-- Evidenz: `logs.trace` zeigt `ClusterCreate` ohne nachfolgendes `PxReset`‑Event.  
+- Codex: Implementiere Guard in `hud_event()` und erweitere `logs.flags.hud_scene_usage` um Toast‑Zähler.
+- QA: Simuliere 5 Core‑Missionen, prüfe, dass nach jeder Szene maximal 2 Toasts angezeigt werden.
 
-Lösungsvorschlag  
-- Ansatz: Ergänze `ClusterCreate()` um einen `PxReset`‑Aufruf, der `campaign.px = 0` setzt, bevor neue Seeds generiert werden.  
-- Risiken: Risiko von ungewolltem Px‑Verlust bei Missionen, die nicht auf Seed‑Erzeugung abzielen.  
+Nächste Schritte
 
-To-do  
-- Codex: Patch `ClusterCreate()` und ergänze Unit‑Test für Px‑Reset.  
-- QA: Führe Mission 5 mit Seed‑Erzeugung durch, verifiziere Px‑Reset im Trace.  
+- Maintainer: Review des Toast‑Guard‑Codes, Deploy in QA‑Umgebung.
+- Notizen: Testlauf soll mit `logs.flags.qa_mode=true` ausgeführt werden.
 
-Nächste Schritte  
-- Maintainer:innen: Merge‑Request prüfen, Regression‑Tests für Mission 5 ausführen.  
+---
 
----  
+ISSUE #002
 
-ISSUE #003  
-- Beobachtung: Beim Versuch, im Core‑Missionen‑Modus zu speichern, erscheint ein Save‑Guard‑Fehler.  
-- Diagnose: Guard‑Logik misinterpretiert `phase` als `core`, obwohl in Mission.  
-- Evidenz: `logs.trace` enthält `SaveGuard: Speichern nur im HQ – HQ‑Save gesperrt.` trotz `campaign.phase="core"`.  
+- Beobachtung: Nach Auslösen von `ClusterCreate()` bleibt der Paradoxon‑Index bei 5 und wird nicht zurückgesetzt.
+- Diagnose: Reset‑Trigger im Post‑Seed‑Erzeugungs‑Callback fehlt.
+- Evidenz: `logs.trace` zeigt `ClusterCreate` ohne nachfolgendes `PxReset`‑Event.
 
-Lösungsvorschlag  
-- Ansatz: Korrigiere Guard‑Bedingung: erlauben, wenn `campaign.mode=="preserve"` und `phase=="core"`.  
-- Risiken: Fehlende Restriktion könnte zu Inkonsistenzen führen, wenn Spieler unabsichtlich in Missionen speichert.  
+Lösungsvorschlag
 
-To-do  
-- Codex: Update `save_guard_check()` und teste mit Cross‑Mode‑Save.  
-- QA: Simuliere Save während Mission 3, verifiziere Guard‑Ausnahme.  
+- Ansatz: Ergänze `ClusterCreate()` um einen `PxReset`‑Aufruf, der `campaign.px = 0` setzt, bevor neue Seeds generiert werden.
+- Risiken: Risiko von ungewolltem Px‑Verlust bei Missionen, die nicht auf Seed‑Erzeugung abzielen.
 
-Nächste Schritte  
-- Maintainer:innen: Review Guard‑Patch, Deploy.  
+To-do
 
----  
+- Codex: Patch `ClusterCreate()` und ergänze Unit‑Test für Px‑Reset.
+- QA: Führe Mission 5 mit Seed‑Erzeugung durch, verifiziere Px‑Reset im Trace.
 
-ISSUE #004  
-- Beobachtung: NPC‑Squad-Mitglieder erhalten keine Briefing‑Daten.  
-- Diagnose: Broadcast‑Funktion ignoriert NPC‑Typen beim Senden.  
-- Evidenz: `logs.trace` zeigt keine `BriefingBroadcast`‑Einträge für NPC‑IDs.  
+Nächste Schritte
 
-Lösungsvorschlag  
-- Ansatz: Erweitere Broadcast‑Logik, um NPC‑IDs ebenfalls zu adressieren; füge `is_npc`‑Flag im Target‑Filter.  
-- Risiken: Broadcast‑Overhead könnte bei großen Squads steigen.  
+- Maintainer: Merge‑Request prüfen, Regression‑Tests für Mission 5 ausführen.
 
-To-do  
-- Codex: Patch `broadcast_briefing()`; füge Unit‑Test für NPC‑Briefing.  
-- QA: Starte `npc-team 3`‑Start, prüfe Briefing im HUD‑Log.  
+---
 
-Nächste Schritte  
-- Maintainer:innen: Merge‑Request prüfen, Regression testen.  
+ISSUE #003
 
----  
+- Beobachtung: Beim Versuch, im Core‑Missionen‑Modus zu speichern, erscheint ein Save‑Guard‑Fehler.
+- Diagnose: Guard‑Logik misinterpretiert `phase` als `core`, obwohl in Mission.
+- Evidenz: `logs.trace` enthält `SaveGuard: Speichern nur im HQ – HQ‑Save gesperrt.` trotz `campaign.phase="core"`.
 
-ISSUE #005  
-- Beobachtung: In PvP‑Match‑Setup werden die Spieler falsch als „Neutral“ markiert.  
-- Diagnose: Faction‑Mapping‑Routine enthält Hard‑Codierung, die bei PvP nicht aktualisiert wird.  
-- Evidenz: `logs.trace` zeigt `PvPParticipant{role: attacker, faction: neutral}`.  
+Lösungsvorschlag
 
-Lösungsvorschlag  
-- Ansatz: Beim Match‑Setup die `faction` aus `player.profile.faction` übernehmen und in `match.faction_map` speichern.  
-- Risiken: Legacy‑Matches könnten falsche Faction‑IDs erhalten.  
+- Ansatz: Korrigiere Guard‑Bedingung: erlauben, wenn `campaign.mode=="preserve"` und `phase=="core"`.
+- Risiken: Fehlende Restriktion könnte zu Inkonsistenzen führen, wenn Spieler unabsichtlich in Missionen speichert.
 
-To-do  
-- Codex: Aktualisiere `init_pvp_match()`; erstelle Testfall für zwei Fraktionen.  
-- QA: Starte PvP‑Match mit Fraktion A vs. Fraktion B, verifiziere korrekte Tags.  
+To-do
 
-Nächste Schritte  
-- Maintainer:innen: Code‑Review, Deploy.  
+- Codex: Update `save_guard_check()` und teste mit Cross‑Mode‑Save.
+- QA: Simuliere Save während Mission 3, verifiziere Guard‑Ausnahme.
 
----  
+Nächste Schritte
 
-ISSUE #006  
-- Beobachtung: Nach Ende eines Episoden‑Rift‑Loops bleiben Seeds in `campaign.rift_seeds`.  
-- Diagnose: Reset‑Logik in `end_of_episode()` ignoriert `rift_seeds`.  
-- Evidenz: `logs.trace` enthält `end_of_episode` ohne `clear_rift_seeds`.  
+- Maintainer: Review Guard‑Patch, Deploy.
 
-Lösungsvorschlag  
-- Ansatz: Ergänze `end_of_episode()` um Aufruf `campaign.rift_seeds = []`.  
-- Risiken: Seeds könnten vorzeitig gelöscht werden, wenn sie noch für Artefakt‑Gewinn benötigt werden.  
+---
 
-To-do  
-- Codex: Patch `end_of_episode()`; ergänze Unit‑Test.  
-- QA: Führe Rift‑Loop bis Episode 10, prüfe Seed‑Liste.  
+ISSUE #004
 
-Nächste Schritte  
-- Maintainer:innen: Merge‑Request prüfen.  
+- Beobachtung: NPC‑Squad-Mitglieder erhalten keine Briefing‑Daten.
+- Diagnose: Broadcast‑Funktion ignoriert NPC‑Typen beim Senden.
+- Evidenz: `logs.trace` zeigt keine `BriefingBroadcast`‑Einträge für NPC‑IDs.
 
----  
+Lösungsvorschlag
 
-ISSUE #007  
-- Beobachtung: Nach Abschluss einer Mission bleibt der Psi‑Heat‑Wert im HUD bei 1.  
-- Diagnose: Heat‑Reset wird nicht ausgelöst, da `mission_end` keine `reset_psi_heat()`-Call enthält.  
-- Evidenz: `logs.hud` zeigt `Psi-Heat 1` nach `mission_end`.  
+- Ansatz: Erweitere Broadcast‑Logik, um NPC‑IDs ebenfalls zu adressieren; füge `is_npc`‑Flag im Target‑Filter.
+- Risiken: Broadcast‑Overhead könnte bei großen Squads steigen.
 
-Lösungsvorschlag  
-- Ansatz: Füge `reset_psi_heat()` in `mission_end()` ein.  
-- Risiken: Übermäßige Resets könnten Gameplay‑Balancing beeinträchtigen.  
+To-do
 
-To-do  
-- Codex: Patch `mission_end()`.  
-- QA: Simuliere Psi‑Akte, prüfe Heat‑Reset.  
+- Codex: Patch `broadcast_briefing()`; füge Unit‑Test für NPC‑Briefing.
+- QA: Starte `npc-team 3`‑Start, prüfe Briefing im HUD‑Log.
 
-Nächste Schritte  
-- Maintainer:innen: Review, Deploy.  
+Nächste Schritte
 
----  
+- Maintainer: Merge‑Request prüfen, Regression testen.
 
-ISSUE #008  
-- Beobachtung: Accessibility‑Einstellungen werden nach einem Reload zurückgesetzt.  
-- Diagnose: Persistenz‑Schlüssel in `ui`-Section fehlt.  
-- Evidenz: `logs.flags.accessibility_persist` nicht gesetzt, `ui.contrast` revertiert zu default.  
+---
 
-Lösungsvorschlag  
-- Ansatz: Speichere Accessibility‑Flags in `save_game()` unter `ui.accessibility`.  
-- Risiken: Speichergröße leicht erhöht.  
+ISSUE #005
 
-To-do  
-- Codex: Update `save_game()` und `load_game()`.  
-- QA: Setze Accessibility, speichere, lade, verifiziere.  
+- Beobachtung: In PvP‑Match‑Setup werden die Spieler falsch als „Neutral“ markiert.
+- Diagnose: Faction‑Mapping‑Routine enthält Hard‑Codierung, die bei PvP nicht aktualisiert wird.
+- Evidenz: `logs.trace` zeigt `PvPParticipant{role: attacker, faction: neutral}`.
 
-Nächste Schritte  
-- Maintainer:innen: Merge‑Request prüfen.  
+Lösungsvorschlag
 
----  
+- Ansatz: Beim Match‑Setup die `faction` aus `player.profile.faction` übernehmen und in `match.faction_map` speichern.
+- Risiken: Legacy‑Matches könnten falsche Faction‑IDs erhalten.
 
-ISSUE #009  
-- Beobachtung: Mission 5 Badge `SF-ON` bleibt nicht zurückgesetzt, wenn Mission abgebrochen wird.  
-- Diagnose: `self_reflection_reset()` nicht ausgelöst bei Abbruch.  
-- Evidenz: `logs.flags.self_reflection_auto_reset_*` fehlt.  
+To-do
 
-Lösungsvorschlag  
-- Ansatz: Ergänze `abort_mission()` um Aufruf `self_reflection_reset()`.  
-- Risiken: Unintended resets bei schnellen Abbrüchen.  
+- Codex: Aktualisiere `init_pvp_match()`; erstelle Testfall für zwei Fraktionen.
+- QA: Starte PvP‑Match mit Fraktion A vs. Fraktion B, verifiziere korrekte Tags.
 
-To-do  
-- Codex: Patch `abort_mission()`.  
-- QA: Simuliere Mission 5 Abbruch, prüfe Badge‑Reset.  
+Nächste Schritte
 
-Nächste Schritte  
-- Maintainer:innen: Review, Regression.  
+- Maintainer: Code‑Review, Deploy.
 
----  
+---
 
-ISSUE #010  
-- Beobachtung: Cross‑Mode‑Load von Solo‑Save in Koop‑Session führt zu `merge_conflict`‑Fehlern.  
-- Diagnose: `load_game()` ignoriert `campaign.mode` bei Merge, führt zu widersprüchlichen Werten.  
-- Evidenz: `logs.trace` enthält `merge_conflicts.rift_merge`.  
+ISSUE #006
 
-Lösungsvorschlag  
-- Ansatz: Beim Merge die `campaign.mode` aus dem zu ladenden Save übernehmen, nicht überschreiben.  
-- Risiken: Risiko von Inkonsistenzen bei dynamischen Mode‑Wechsel.  
+- Beobachtung: Nach Ende eines Episoden‑Rift‑Loops bleiben Seeds in `campaign.rift_seeds`.
+- Diagnose: Reset‑Logik in `end_of_episode()` ignoriert `rift_seeds`.
+- Evidenz: `logs.trace` enthält `end_of_episode` ohne `clear_rift_seeds`.
 
-To-do  
-- Codex: Update `load_game()` Merge‑Logik.  
-- QA: Lade Solo‑Save in Koop‑Session, verifiziere keine Konflikte.  
+Lösungsvorschlag
 
-Nächste Schritte  
-- Maintainer:innen: Merge‑Request prüfen, Deploy.  
+- Ansatz: Ergänze `end_of_episode()` um Aufruf `campaign.rift_seeds = []`.
+- Risiken: Seeds könnten vorzeitig gelöscht werden, wenn sie noch für Artefakt‑Gewinn benötigt werden.
 
----  
+To-do
 
-| Schritt | Beschreibung | Status | Evidenz |
-|---------|-------------|--------|---------|
-| 1 | Solo klassisch Start | PASS | dispatch_hint trace |
-| 2 | Solo schnell Start | PASS | dispatch_hint trace |
-| 3 | NPC Team 3 Schnell | PASS | npc brief trace |
-| 4 | NPC Team 5 Fehler | PASS | error trace |
-| 5 | Gruppe Schnell | PASS | group start trace |
-| 6 | Gruppe 3 Fehler | PASS | error trace |
-| 7 | Spiel Laden | PASS | load trace |
-| 8 | Speichern in Mission | FAIL | SaveGuard trace |
-| 9 | Px 5 Trigger | FAIL | Px reset trace |
-| 10 | Boss Gate 2/2 | PASS | boss status trace |
-| 11 | Mission 5 Start | PASS | gate toast trace |
-| 12 | Psi Heat Reset | PASS | psi heat trace |
-| 13 | Accessibility Persist | FAIL | ui contrast trace |
-| 14 | Offline Load | PASS | offline trace |
-| 15 | Chronopolis Unlock | PASS | chronopolis unlock trace |
+- Codex: Patch `end_of_episode()`; ergänze Unit‑Test.
+- QA: Führe Rift‑Loop bis Episode 10, prüfe Seed‑Liste.
 
----  
+Nächste Schritte
+
+- Maintainer: Merge‑Request prüfen.
+
+---
+
+ISSUE #007
+
+- Beobachtung: Nach Abschluss einer Mission bleibt der Psi‑Heat‑Wert im HUD bei 1.
+- Diagnose: Heat‑Reset wird nicht ausgelöst, da `mission_end` keine `reset_psi_heat()`-Call enthält.
+- Evidenz: `logs.hud` zeigt `Psi-Heat 1` nach `mission_end`.
+
+Lösungsvorschlag
+
+- Ansatz: Füge `reset_psi_heat()` in `mission_end()` ein.
+- Risiken: Übermäßige Resets könnten Gameplay‑Balancing beeinträchtigen.
+
+To-do
+
+- Codex: Patch `mission_end()`.
+- QA: Simuliere Psi‑Akte, prüfe Heat‑Reset.
+
+Nächste Schritte
+
+- Maintainer: Review, Deploy.
+
+---
+
+ISSUE #008
+
+- Beobachtung: Accessibility‑Einstellungen werden nach einem Reload zurückgesetzt.
+- Diagnose: Persistenz‑Schlüssel in `ui`-Section fehlt.
+- Evidenz: `logs.flags.accessibility_persist` nicht gesetzt, `ui.contrast` revertiert zu default.
+
+Lösungsvorschlag
+
+- Ansatz: Speichere Accessibility‑Flags in `save_game()` unter `ui.accessibility`.
+- Risiken: Speichergröße leicht erhöht.
+
+To-do
+
+- Codex: Update `save_game()` und `load_game()`.
+- QA: Setze Accessibility, speichere, lade, verifiziere.
+
+Nächste Schritte
+
+- Maintainer: Merge‑Request prüfen.
+
+---
+
+ISSUE #009
+
+- Beobachtung: Mission 5 Badge `SF-ON` bleibt nicht zurückgesetzt, wenn Mission abgebrochen wird.
+- Diagnose: `self_reflection_reset()` nicht ausgelöst bei Abbruch.
+- Evidenz: `logs.flags.self_reflection_auto_reset_*` fehlt.
+
+Lösungsvorschlag
+
+- Ansatz: Ergänze `abort_mission()` um Aufruf `self_reflection_reset()`.
+- Risiken: Unintended resets bei schnellen Abbrüchen.
+
+To-do
+
+- Codex: Patch `abort_mission()`.
+- QA: Simuliere Mission 5 Abbruch, prüfe Badge‑Reset.
+
+Nächste Schritte
+
+- Maintainer: Review, Regression.
+
+---
+
+ISSUE #010
+
+- Beobachtung: Cross‑Mode‑Load von Solo‑Save in Koop‑Session führt zu `merge_conflict`‑Fehlern.
+- Diagnose: `load_game()` ignoriert `campaign.mode` bei Merge, führt zu widersprüchlichen Werten.
+- Evidenz: `logs.trace` enthält `merge_conflicts.rift_merge`.
+
+Lösungsvorschlag
+
+- Ansatz: Beim Merge die `campaign.mode` aus dem zu ladenden Save übernehmen, nicht überschreiben.
+- Risiken: Risiko von Inkonsistenzen bei dynamischen Mode‑Wechsel.
+
+To-do
+
+- Codex: Update `load_game()` Merge‑Logik.
+- QA: Lade Solo‑Save in Koop‑Session, verifiziere keine Konflikte.
+
+Nächste Schritte
+
+- Maintainer: Merge‑Request prüfen, Deploy.
+
+---
+
+| Schritt | Beschreibung          | Status | Evidenz                  |
+| ------- | --------------------- | ------ | ------------------------ |
+| 1       | Solo klassisch Start  | PASS   | dispatch_hint trace      |
+| 2       | Solo schnell Start    | PASS   | dispatch_hint trace      |
+| 3       | NPC Team 3 Schnell    | PASS   | npc brief trace          |
+| 4       | NPC Team 5 Fehler     | PASS   | error trace              |
+| 5       | Gruppe Schnell        | PASS   | group start trace        |
+| 6       | Gruppe 3 Fehler       | PASS   | error trace              |
+| 7       | Spiel Laden           | PASS   | load trace               |
+| 8       | Speichern in Mission  | FAIL   | SaveGuard trace          |
+| 9       | Px 5 Trigger          | FAIL   | Px reset trace           |
+| 10      | Boss Gate 2/2         | PASS   | boss status trace        |
+| 11      | Mission 5 Start       | PASS   | gate toast trace         |
+| 12      | Psi Heat Reset        | PASS   | psi heat trace           |
+| 13      | Accessibility Persist | FAIL   | ui contrast trace        |
+| 14      | Offline Load          | PASS   | offline trace            |
+| 15      | Chronopolis Unlock    | PASS   | chronopolis unlock trace |
+
+---
 
 ```json
 {
@@ -344,66 +382,66 @@ Nächste Schritte
     "psi": [],
     "arena_psi": [],
     "trace": [
-      {"event":"ClusterCreate","at":"2025-10-01T12:00:00Z"},
-      {"event":"PxReset","at":"2025-10-01T12:00:01Z"},
-      {"event":"BriefingBroadcast","target":"NPC","at":"2025-10-01T12:00:02Z"},
-      {"event":"PvPMatchInit","faction":"Alpha","at":"2025-10-01T12:00:03Z"}
+      { "event": "ClusterCreate", "at": "2025-10-01T12:00:00Z" },
+      { "event": "PxReset", "at": "2025-10-01T12:00:01Z" },
+      { "event": "BriefingBroadcast", "target": "NPC", "at": "2025-10-01T12:00:02Z" },
+      { "event": "PvPMatchInit", "faction": "Alpha", "at": "2025-10-01T12:00:03Z" }
     ],
     "hud": [
-      {"toast":"Boss-Encounter in Szene 10","at":"2025-10-01T12:00:04Z"},
-      {"toast":"GATE 2/2","at":"2025-10-01T12:00:05Z"},
-      {"toast":"SF-OFF","at":"2025-10-01T12:00:06Z"},
-      {"toast":"SF-ON","at":"2025-10-01T12:00:07Z"}
+      { "toast": "Boss-Encounter in Szene 10", "at": "2025-10-01T12:00:04Z" },
+      { "toast": "GATE 2/2", "at": "2025-10-01T12:00:05Z" },
+      { "toast": "SF-OFF", "at": "2025-10-01T12:00:06Z" },
+      { "toast": "SF-ON", "at": "2025-10-01T12:00:07Z" }
     ],
     "flags": {
       "atmosphere_contract_capture": {
         "lines": 12,
-        "banned_terms": {"status":"PASS","hits":[]},
+        "banned_terms": { "status": "PASS", "hits": [] },
         "howto_hits": [],
-        "rewrite_suggestion":"",
+        "rewrite_suggestion": "",
         "hud_toasts": 2
       },
       "qa_mode": true,
-      "hud_scene_usage": {"scene_id":4,"toast_count":2},
+      "hud_scene_usage": { "scene_id": 4, "toast_count": 2 },
       "self_reflection_auto_reset": true,
       "chronopolis_unlocked": false
     },
     "ui": {
-      "gm_style":"verbose",
-      "intro_seen":true,
-      "suggest_mode":false,
-      "action_mode":"uncut",
-      "contrast":"high",
-      "badge_density":"dense",
-      "output_pace":"slow"
+      "gm_style": "verbose",
+      "intro_seen": true,
+      "suggest_mode": false,
+      "action_mode": "uncut",
+      "contrast": "high",
+      "badge_density": "dense",
+      "output_pace": "slow"
     },
     "arena": {
       "active": false,
-      "phase":"idle",
-      "mode":"single",
-      "match_policy":"sim",
-      "previous_mode":null,
-      "wins_player":0,
-      "wins_opponent":0,
-      "tier":1,
-      "proc_budget":0,
-      "artifact_limit":0,
-      "loadout_budget":0,
-      "phase_strike_tax":0,
-      "damage_dampener":true,
-      "team_size":1,
-      "fee":0,
-      "scenario":null,
-      "started_episode":null,
-      "last_reward_episode":null,
-      "policy_players":[],
-      "audit":[]
+      "phase": "idle",
+      "mode": "single",
+      "match_policy": "sim",
+      "previous_mode": null,
+      "wins_player": 0,
+      "wins_opponent": 0,
+      "tier": 1,
+      "proc_budget": 0,
+      "artifact_limit": 0,
+      "loadout_budget": 0,
+      "phase_strike_tax": 0,
+      "damage_dampener": true,
+      "team_size": 1,
+      "fee": 0,
+      "scenario": null,
+      "started_episode": null,
+      "last_reward_episode": null,
+      "policy_players": [],
+      "audit": []
     },
     "arc_dashboard": {
-      "offene_seeds":[],
-      "fraktionen":{},
-      "fragen":[],
-      "timeline":[]
+      "offene_seeds": [],
+      "fraktionen": {},
+      "fragen": [],
+      "timeline": []
     }
   }
 }
@@ -411,4 +449,4 @@ Nächste Schritte
 
 ---
 
-*Report generiert: 2026-03-01 01:00 CET*
+_Report generiert: 2026-03-01 01:00 CET_

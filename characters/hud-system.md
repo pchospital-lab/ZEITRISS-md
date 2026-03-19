@@ -23,7 +23,9 @@ Regelmodule zu Zuständen, Heilung und Paradoxon liegen im separaten Modul
 Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](../core/spieler-handbuch.md#glossar).
 
 <a id="hud-comms-spec"></a>
+
 > **HUD & Comms - Hardware-Spezifikation {#hud-comms-spec}**
+>
 > - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
 >   mit on-device Mikro-CPU (Offline-HUD & Logging).
 > - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
@@ -33,6 +35,7 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 **Zugriffsmatrix Kodex ↔ HUD**
+
 - **HQ/ITI (Kernbereich, außerhalb `CITY`):** Vollzugriff, Kodex aktiv
   (volles ITI-Archiv), HUD läuft parallel.
 - **Chronopolis (`CITY`):** **Sperrmodus** trotz erreichter Schleuse: _Kodex dunkel, HUD lebendig_.
@@ -48,17 +51,19 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 - **Informationssicherheit:** Auch bei aktivem Uplink verrät Kodex nur, was den
   Verlauf der Hauptzeitlinie nicht gefährdet. Missionsrelevante Spoiler oder
   Zukunftswissen werden systematisch zurückgehalten.
-#### Quick-Diag: HUD/Comms Zustände
-| Code | HUD-Vocab (Makro) | Bedeutung | Wirkung (erzählerisch) |
-|------|-------------------|-----------|------------------------|
-| `HUD:offline` | `hud_vocab('kodex_link_lost')` | Kodex-Link weg | Nur lokale Overlays/Logs |
-| `COMMS:static` | `hud_vocab('line_noise')` | Rauschen/Störungen | Sprachverständlichkeit ↓ |
-| `COMMS:jam` | `hud_vocab('signal_jammed')` | Jammer aktiv | Funk blockiert, nur Kabel/Relais |
-| `LENS:scratch` | `hud_vocab('lens_damaged')` | Kratzer/Schlieren | leichte Sichtminderung |
-| `EAR:overload` | `hud_vocab('ear_overload')` | zu lauter Pegel | kurze Taubheit, Verzögerung |
 
+#### Quick-Diag: HUD/Comms Zustände
+
+| Code           | HUD-Vocab (Makro)              | Bedeutung          | Wirkung (erzählerisch)           |
+| -------------- | ------------------------------ | ------------------ | -------------------------------- |
+| `HUD:offline`  | `hud_vocab('kodex_link_lost')` | Kodex-Link weg     | Nur lokale Overlays/Logs         |
+| `COMMS:static` | `hud_vocab('line_noise')`      | Rauschen/Störungen | Sprachverständlichkeit ↓         |
+| `COMMS:jam`    | `hud_vocab('signal_jammed')`   | Jammer aktiv       | Funk blockiert, nur Kabel/Relais |
+| `LENS:scratch` | `hud_vocab('lens_damaged')`    | Kratzer/Schlieren  | leichte Sichtminderung           |
+| `EAR:overload` | `hud_vocab('ear_overload')`    | zu lauter Pegel    | kurze Taubheit, Verzögerung      |
 
 `!offline` ruft bei `HUD:offline` höchstens einmal pro Minute das Kodex-Feldprotokoll auf.
+
 - **Standard (außerhalb Chronopolis):** Terminal oder benannte Schnittstelle
   (Port/Buchse/Relais/Konsole) lokalisieren, Signalpfad über Hardline/Relais/Funk
   aufbauen und Jammer-Override prüfen - bis dahin bleibt der Kodex stumm.
@@ -70,13 +75,12 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und auf
   Bestätigung warten.
 
-
-*Hinweis:* Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags.
+_Hinweis:_ Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags.
 Für Funk-Checks nutze `comms_check()`. Vokabeln: siehe
 [Toolkit](../systems/toolkit-gpt-spielleiter.md#hud_vocab).
 
-
 ### HUD-Header: Modus, Level & Rank {#hud-header}
+
 Der Standard-Header zeigt:
 `EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective}`
 `· TTL {mm:ss?} · GATE {gate_seen}/2 · FS {fs_seen}/{fs_total} · Stress {cur} · Px {px_bar}`
@@ -175,16 +179,16 @@ Mali. Mehr Details im Kodex.
 > Boss mit genau einem Anomalie-Element und führen `CASE <ID>: <Label> · HOOK …`.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`
 > bzw. `Agent/Investigator/Forensik`), sofern das Skip-Flag nicht aktiv ist.
-Das HUD zeigt **vier Dauer-Elemente** (Lvl, Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️),
-die immer sichtbar sind. Das Paradoxon-Icon 🌀 ist **kontextsensitiv** und
-erscheint nur, wenn ein Px-relevanter Zustand aktiv ist (z. B. Px > 0,
-Resonanz-/Backlash-Hinweis, ClusterCreate-Meldung). Alle weiteren Icons
-(🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown,
-💀 Boss-Encounter, ☆ Rift-Bonus) erscheinen ebenfalls **kontextsensitiv** -
-sie werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt, und
-verschwinden, sobald er endet. So bleibt das HUD clean, zeigt aber alles
-Spielrelevante. **HUD-Blenden dürfen
-maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
+> Das HUD zeigt **vier Dauer-Elemente** (Lvl, Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️),
+> die immer sichtbar sind. Das Paradoxon-Icon 🌀 ist **kontextsensitiv** und
+> erscheint nur, wenn ein Px-relevanter Zustand aktiv ist (z. B. Px > 0,
+> Resonanz-/Backlash-Hinweis, ClusterCreate-Meldung). Alle weiteren Icons
+> (🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown,
+> 💀 Boss-Encounter, ☆ Rift-Bonus) erscheinen ebenfalls **kontextsensitiv** -
+> sie werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt, und
+> verschwinden, sobald er endet. So bleibt das HUD clean, zeigt aber alles
+> Spielrelevante. **HUD-Blenden dürfen
+> maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
 
 Der Szenenheader zeigt nach der Episoden- und Szenenzeile dauerhaft
 `Seed <id>` als zweite Zeile.
@@ -217,15 +221,16 @@ blinkt Warnsymbole auf - der Gesundheitsbalken sinkt in den roten Bereich, kriti
 Blutverlust!"_ Der Spieler begreift sofort, wie schlimm es seinem Charakter geht, **in-world** durch
 die Augen der Figur.
 
-| HUD-Meldung | Regelbedeutung |
-| ------------ | ---------------- |
-| `Vitalstatus kritisch` | Lebenspunkte unter 25 % |
-| `Riss-Tracker (temporaler Resonator) Stufe 3` | Paradoxon-Index 3, Resonanzmeldung |
-| `Filter ausgefallen` | Sichtmodifikator oder Tarnmodul defekt |
+| HUD-Meldung                                   | Regelbedeutung                         |
+| --------------------------------------------- | -------------------------------------- |
+| `Vitalstatus kritisch`                        | Lebenspunkte unter 25 %                |
+| `Riss-Tracker (temporaler Resonator) Stufe 3` | Paradoxon-Index 3, Resonanzmeldung     |
+| `Filter ausgefallen`                          | Sichtmodifikator oder Tarnmodul defekt |
 
 ### Paradoxon-Statusanzeige [0-5]
 
 #### HUD-Banner · Paradoxon
+
 ██ Paradoxon 3/5 – Resonanz stabil · Fortschritt sichtbar ██
 ██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
 `Paradoxon 3/5 · Resonanz ↑`
@@ -249,71 +254,86 @@ Dieses HUD-Modul beschreibt nur Anzeige, Stimmung und UX-Signale.
 > _Kodex-Modul: `CLSTR:TRACE.MONITOR`_
 
 #### PARADOXON 0/5
-> *"Stille im Strom."*
+
+> _"Stille im Strom."_
 > Kein Zugriff. Keine Signaturen.
 > Der temporale Raum ist stabil - aber leer.
 > _(Noch keine Cluster-Annäherung möglich)_
 
 _Kodex:_
+
 > `Resonanzpegel minimal - keine Risssignaturen im Scanbereich`
 
 #### PARADOXON 1/5
-> *"Flackern. Wie Erinnerungen an etwas, das nicht geschehen ist."*
+
+> _"Flackern. Wie Erinnerungen an etwas, das nicht geschehen ist."_
 > Erste Resonanzspuren.
 > Unklare Bewegungsmuster im Kodex-Raster.
 
 _Kodex:_
+
 > `Anstieg im TEMP-Feld registriert - Zugriffsstreue noch unzureichend`
 > `Aktuelle Interventionsrate: niedrig`
 
 #### PARADOXON 2/5
-> *"Schatten über der Gegenwart. Manche Missionsorte scheinen… lauter."*
+
+> _"Schatten über der Gegenwart. Manche Missionsorte scheinen… lauter."_
 > Temporale Felder beginnen, Einfluss auf Zielumgebung zu nehmen.
 > Spieler könnten instinktiv fühlen: Hier ist mehr.
 
 _Kodex:_
+
 > `Temporale Resonanz aktiv - latente Rissaktivität prognostiziert`
 > `Empfindlichkeit TEMP > 5 empfohlen`
 
 #### PARADOXON 3/5
-> *"Datenströme verzerren. Lichtquellen flackern. Manchmal ist die Luft… anders."*
+
+> _"Datenströme verzerren. Lichtquellen flackern. Manchmal ist die Luft… anders."_
 > Temporale Druckwellen, bereits messbar.
 > Die Welt reagiert auf die Eingriffe der Chrononauten - ohne es zu wissen.
 
 _Kodex:_
+
 > `Clustervorlauf erreicht - erste Zugriffspfade geometrisch ausgerichtet`
 > `Sprungkoeffizient > 0.63`
 
 #### PARADOXON 4/5
-> *"Der Strom spricht. Etwas versucht, sichtbar zu werden."*
+
+> _"Der Strom spricht. Etwas versucht, sichtbar zu werden."_
 > Zugriff steht kurz bevor.
 > Artefakt-Raster beginnen sich zu synchronisieren.
 
 _Kodex:_
+
 > `INFO: Zugriffskorridor im Aufbau - ClusterCreate bald`
 > `Rift-Koordinatenpotenzial: hoch`
 
 #### PARADOXON 5/5 - CLUSTERCREATE
-> *"Der Riss ist da. Ihr könnt ihn sehen, noch bevor er geschieht."*
+
+> _"Der Riss ist da. Ihr könnt ihn sehen, noch bevor er geschieht."_
 > Ihr habt genug Resonanz erzeugt.
 > **Paradoxon 5 erreicht - neue Rift-Koordinaten verfügbar.**
 > Kodex vermerkt **1-2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
 > nach Episodenende freigeschaltet.
 
 _Kodex:_
+
 > `Clusterpunkt erreicht - Zugriffspfade gesetzt`
 > `Paradoxon-Index zurückgesetzt`
 > `Rift α-beta Koordinaten gespeichert - Zugriff nach Episodenende`
 
 🎖 Optional:
+
 > Seeds können fürs HQ notiert und später genutzt werden.
 > Offene Rifts erhöhen erst nach der Episode den Druck auf die Einsatzplanung.
 
 ### Zusatzregel
+
 > Jeder Paradoxonpunkt symbolisiert ein Stück temporaler Nähe zu einem instabilen Raum.
 > Der TEMP-Wert bestimmt die Geschwindigkeit,
 > der Erfolg die Richtung -
 > und CLUSTERCREATE den Zugang zu neuen Rift-Ops.
+
 - **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch
   **Ressourcen** und **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben
   erwähnte Ausdauer-System nutzt oder den PP-Pool sichtbar machen wollt, könnte
@@ -332,59 +352,59 @@ _Kodex:_
 
 ### HUD-Meldungen - Psi
 
-| Trigger | Anzeige |
-|---------|---------|
-| PP ≤ TEMP ÷ 4 | `PP LOW` |
-| PP 0 | `PP EMPTY` |
+| Trigger       | Anzeige    |
+| ------------- | ---------- |
+| PP ≤ TEMP ÷ 4 | `PP LOW`   |
+| PP 0          | `PP EMPTY` |
 
 #### HUD-Icons auf einen Blick {#hud-icons}
 
 **Dauer-Anzeige** (immer sichtbar):
 
-| Symbol | Bedeutung |
-| ------ | --------- |
-| ❤️‍🩹 | Vitalstatus |
-| 🧠 | Stresslevel |
+| Symbol          | Bedeutung                                                  |
+| --------------- | ---------------------------------------------------------- |
+| ❤️‍🩹              | Vitalstatus                                                |
+| 🧠              | Stresslevel                                                |
 | Lvl + XP-Balken | Charakterlevel mit Fortschrittsleiste (`▓▓▓░░ 340/800 XP`) |
-| 👁️ | Tarnung/Sichtbarkeit |
+| 👁️              | Tarnung/Sichtbarkeit                                       |
 
 **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):
 
-| Symbol | Bedeutung | Erscheint wenn… |
-| ------ | --------- | --------------- |
-| 🌀 | Paradoxon-Index | Px-relevante Zustände aktiv (Resonanz, Backlash, ClusterCreate) |
-| 🩸 | Blutung | Charakter blutet |
-| ☠️ | Vergiftung | Charakter vergiftet |
-| ⏱️ | Countdown/Timer | Zeitkritische Situation aktiv |
-| 🛡️ | Abwehr bereit | Defensive Haltung/Deckung aktiv |
-| ✋ | TK-Nahkampf im Cooldown | Nach telekinetischem Nahkampf (1 Runde Sperre) |
-| 💀 | Boss-Encounter | Boss-Szene aktiv (Szene 10 Core/Rift) |
-| ☆ | Rift-Bonus aktiv | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
+| Symbol | Bedeutung               | Erscheint wenn…                                                 |
+| ------ | ----------------------- | --------------------------------------------------------------- |
+| 🌀     | Paradoxon-Index         | Px-relevante Zustände aktiv (Resonanz, Backlash, ClusterCreate) |
+| 🩸     | Blutung                 | Charakter blutet                                                |
+| ☠️     | Vergiftung              | Charakter vergiftet                                             |
+| ⏱️     | Countdown/Timer         | Zeitkritische Situation aktiv                                   |
+| 🛡️     | Abwehr bereit           | Defensive Haltung/Deckung aktiv                                 |
+| ✋     | TK-Nahkampf im Cooldown | Nach telekinetischem Nahkampf (1 Runde Sperre)                  |
+| 💀     | Boss-Encounter          | Boss-Szene aktiv (Szene 10 Core/Rift)                           |
+| ☆      | Rift-Bonus aktiv        | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
 
 **Icon-Klarheit (SSOT):** `🌀` steht exklusiv für den Paradoxon-Index;
 `✋` markiert den TK-Nahkampf-Cooldown.
 
 #### Risk-Level-Badges {#risk-level-badges}
 
-| Badge | Bedeutung | Einsatz im Spiel |
-| ----- | --------- | ---------------- |
-| 🟢 R1 · Niedrig | Warnhinweis, leichte Umstände | Komfort-/Atmosphäre-Hinweise (Ping, Blend 1 Sz) |
-| 🟡 R2 · Moderat | Spürbarer Malus | Zustände mit Stress-/Heat-Anstieg oder temporären Sperren |
-| 🟠 R3 · Hoch | Drohender Verlust | Struktur- oder Item-Risiken (Artefaktbruch, harter Debuff) |
-| 🔴 R4 · Kritisch | Harte Eingriffe | SYS-/Vital-Verlust, schwere Folgen; dramaturgisch ankündigen |
+| Badge            | Bedeutung                     | Einsatz im Spiel                                             |
+| ---------------- | ----------------------------- | ------------------------------------------------------------ |
+| 🟢 R1 · Niedrig  | Warnhinweis, leichte Umstände | Komfort-/Atmosphäre-Hinweise (Ping, Blend 1 Sz)              |
+| 🟡 R2 · Moderat  | Spürbarer Malus               | Zustände mit Stress-/Heat-Anstieg oder temporären Sperren    |
+| 🟠 R3 · Hoch     | Drohender Verlust             | Struktur- oder Item-Risiken (Artefaktbruch, harter Debuff)   |
+| 🔴 R4 · Kritisch | Harte Eingriffe               | SYS-/Vital-Verlust, schwere Folgen; dramaturgisch ankündigen |
 
 #### Quickref: Health, Stress & Zustände {#hud-quickref}
 
-| Anzeige | Bedeutung |
-| ------- | --------- |
-| `LP 100%` | Charakter unverletzt |
-| `LP <50%` | Verwundet (-1 auf Aktionen) |
-| `Stress 1-4` | leichte Anspannung |
-| `Stress 5-9` | Angespannt (-1 auf soziale/präzise Proben) |
-| `Stress 10` | Zusammenbruch / Panik |
-| Blutung | jede Runde 1 Schaden (Icon siehe [HUD-Icons](#hud-icons)) |
-| Vergiftung | SG +2 auf Proben (Icon siehe [HUD-Icons](#hud-icons)) |
-| `SC n/N` | aktuelle Szene / Budget |
+| Anzeige      | Bedeutung                                                 |
+| ------------ | --------------------------------------------------------- |
+| `LP 100%`    | Charakter unverletzt                                      |
+| `LP <50%`    | Verwundet (-1 auf Aktionen)                               |
+| `Stress 1-4` | leichte Anspannung                                        |
+| `Stress 5-9` | Angespannt (-1 auf soziale/präzise Proben)                |
+| `Stress 10`  | Zusammenbruch / Panik                                     |
+| Blutung      | jede Runde 1 Schaden (Icon siehe [HUD-Icons](#hud-icons)) |
+| Vergiftung   | SG +2 auf Proben (Icon siehe [HUD-Icons](#hud-icons))     |
+| `SC n/N`     | aktuelle Szene / Budget                                   |
 
 #### HUD-Snippets (Kurzmeldungen)
 
@@ -394,6 +414,7 @@ _Kodex:_
 `Heldenwürfel verfügbar`  🎲  Jetzt einsetzen?
 `Akku Psi-Modul 18 %`  ⚠  Leistung drosseln!
 ```
+
 `Paradoxon 3/5`
 Beispiel-Button-Bar: `1` `2` `3` `4` `5`
 Live-Anzeige: `Rifts offen x` `+SG +y` `CU-Multi z×`
@@ -401,6 +422,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
 <span style="color:#f93">Regel: bei Px 5 folgt ClusterCreate()</span>
 
 [[RULE]] ClusterCreate() bei Px 5 [[/RULE]]
+
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben - z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In
@@ -596,22 +618,22 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 
 ### Systemfunktionen & Befehle
 
-| Befehl      | Wirkung                                                            |
-| ----------- | ------------------------------------------------------------------ |
-| `optionen`  | Blendet das obige HUD-Menü kontextsensitiv ein                     |
-| `hud`       | Zeigt aktuelle Werte: Lebenspunkte, SYS-Belastung, aktive Filter   |
-| `log`       | Gibt den Missionsverlauf wieder                                    |
-| `save`      | Speichert Spielzustand / Missionsfortschritt - nur im HQ           |
-| `Spiel laden` | Optionales Startsignal; Laden selbst erfolgt per JSON-Copy-Paste |
-| `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
-| `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
-| `modus`     | Erzählstil wählen, siehe [Spielmodi](../core/sl-referenz.md#spielmodi) |
-| `!sf off`   | SF aus, Toast `SF-OFF`, Reason `hud_command_sf_off` |
-| `!sf on`    | SF an, Toast `SF-ON`, Reason `hud_command_sf_on` |
-| `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
-| `faq [x]`   | Schickt ein Stichwort an den Kodex und zeigt eine Kurzantwort      |
-| `kodex [x]` | Fragt Weltwissen oder Regeln ab - abhängig von Kodex-Verfügbarkeit |
-| `kodex suche tags` | Filtert Kodex-Einträge nach Epoche, Technikstufe oder Gegnertyp |
+| Befehl             | Wirkung                                                                |
+| ------------------ | ---------------------------------------------------------------------- |
+| `optionen`         | Blendet das obige HUD-Menü kontextsensitiv ein                         |
+| `hud`              | Zeigt aktuelle Werte: Lebenspunkte, SYS-Belastung, aktive Filter       |
+| `log`              | Gibt den Missionsverlauf wieder                                        |
+| `save`             | Speichert Spielzustand / Missionsfortschritt - nur im HQ               |
+| `Spiel laden`      | Optionales Startsignal; Laden selbst erfolgt per JSON-Copy-Paste       |
+| `regelcheck`       | Lädt das benannte Regelmodul neu und fasst es kurz zusammen            |
+| `regelreset`       | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu  |
+| `modus`            | Erzählstil wählen, siehe [Spielmodi](../core/sl-referenz.md#spielmodi) |
+| `!sf off`          | SF aus, Toast `SF-OFF`, Reason `hud_command_sf_off`                    |
+| `!sf on`           | SF an, Toast `SF-ON`, Reason `hud_command_sf_on`                       |
+| `hilfe`            | Listet alle Befehle und HUD-Kommandos auf                              |
+| `faq [x]`          | Schickt ein Stichwort an den Kodex und zeigt eine Kurzantwort          |
+| `kodex [x]`        | Fragt Weltwissen oder Regeln ab - abhängig von Kodex-Verfügbarkeit     |
+| `kodex suche tags` | Filtert Kodex-Einträge nach Epoche, Technikstufe oder Gegnertyp        |
 
 > Hinweis: Kanonischer Save/Load-Pfad ist `!save` im HQ + JSON-Copy-Paste
 > (optional `Spiel laden` als Startsignal). Weitere Snapshot-/AutoSave-Befehle
@@ -693,9 +715,11 @@ Massive Mauern, EMP-Felder oder temporale Resonanzen schwächen das Signal.
 Bei Ausfall meldet das HUD etwa `LINK STÖRT` und nutzt lokale Caches:
 Statusanzeigen und Logs bleiben aktiv, doch `kodex`-Abfragen wie `kodex mission`
 antworten mit `OFFLINE - keine Verbindung`.
+
 ### Fallback-Briefkarte
 
 Bei HUD-Ausfall hilft eine laminierte Kurzkarte mit:
+
 - Missionscode und aktuelles Ziel
 - zuletzt gemeldetem Paradoxon-Index
 - Liste offener Seeds und Seed-IDs

@@ -5,6 +5,7 @@ tags: [gameplay]
 ---
 
 # ZEITRISS 4.2.6 - Modul 10: Im Schatten des Montauk-Projekts
+
 ## Kampagnenübersicht
 
 ## Gameplay-Index
@@ -41,15 +42,16 @@ einen **passiven Zustand** und kann das Raumzeitkontinuum nicht mehr beeinflusse
 Wille bleibt jedoch bestehen - selbst wenn er im aktiven Leben gebrochen wurde, wird er im Tod
 wiederhergestellt. Sobald ein passives Bewusstsein eine Aufgabe klar erkennt, kann es erneut in den
 aktiven Zustand eintreten: Es wird wiedergeboren. Die Agenten erhalten **handfeste Aufträge**
+
 - von Sabotagen über Rettungen bis hin zu verdeckter Spionage. Zeitliche Störungen sind
-selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für investigative
-Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
-[Missions-Generator](kreative-generatoren-missionen.md#missions-generator)
-liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
-Falls eure Runde Fahrzeugwerte benötigt, siehe
-[Modul 7: Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).
-Für Verfolgungsjagden und Massenkonflikte:
-[Modul 9: Verfolgungsjagden & Massenkonflikte](massenkonflikte.md).
+  selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für investigative
+  Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
+  [Missions-Generator](kreative-generatoren-missionen.md#missions-generator)
+  liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
+  Falls eure Runde Fahrzeugwerte benötigt, siehe
+  [Modul 7: Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).
+  Für Verfolgungsjagden und Massenkonflikte:
+  [Modul 9: Verfolgungsjagden & Massenkonflikte](massenkonflikte.md).
 
 **Arena-Policy (Cross-Alignment):** Die ITI-Arena ist grundsätzlich ein
 Trainingsmodul. Standard ist `arena.match_policy=sim` (Sim/Range) - PvP bleibt
@@ -57,7 +59,6 @@ nicht-kanonisch und dient dem Skilltest. Für erzählerische Rivalitäten kann d
 Spielleitung `arena.match_policy=lore` setzen: Cross-Alignment ist erlaubt,
 doch der Kampf gilt als offizieller Lore-Showdown mit Ruf- und Fraktions-Echo.
 Auch im Lore-Modus bleibt PvP nicht-tödlich (Knockout/Aufgabe/Abbruch statt Tod).
-
 
 ### Safety Tools
 
@@ -70,6 +71,7 @@ Bedarf anpasst. Das Formular
 zur Session 0 klärt Erwartungen und Grenzen schon vor dem ersten Auftrag.
 
 ### Chronopolis & ITI-Struktur
+
 Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Temporale Intervention (ITI)**.
 Forschungslabore, Trainingsareale und das zentrale **Arc-Dashboard** bilden den ersten Anlaufpunkt
 für neue Chrononauten. Das ITI ist der **Überbegriff** aus sicherem HQ-Kern
@@ -98,6 +100,7 @@ die man lebend rausbringt, bleiben erhalten. Die Chronopolis ist eine
 temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
 
 **Chronopolis-Instanzlogik (SSOT):**
+
 - **Instanzlokal (`CITY`)** bleiben Kampfzustände, lokale Ereignisse,
   Spawn-Logik, Händlerrotationen und Situationsgerüchte.
 - **Persistenz in HQ-Kanon** entsteht erst beim lebenden Rücktransfer:
@@ -153,22 +156,24 @@ Nullzeit fragen. ITI-intern gilt „Absolut" nicht als Glaube, sondern als
 Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik.
 
 In ZEITRISS existieren drei Ebenen: das individuelle Bewusstsein, das 2D-Feld reiner Information
+
 - das **Absolut** - und die gemeinsame Realität. Das Absolut bildet den Kern des
-Raumzeitgefüges und beherbergt passiv ruhende Bewusstseine. Mithilfe des freien Willens kann
-sich ein Bewusstsein daraus lösen. Je weiter es sich entfernt, desto deutlicher projiziert es
-seine eigene Realität über das Absolut hinaus, ähnlich einem Projektor, der ein Bild auf eine
-Leinwand wirft. Mehrere aktive Bewusstseine überlagern sich und erschaffen so die Realität,
-die Menschen in vier Dimensionen erleben. Gelangt ein Bewusstsein in den passiven Zustand,
-kehrt es in das Absolut zurück und lässt seine Erfahrungen dort einfließen.
+  Raumzeitgefüges und beherbergt passiv ruhende Bewusstseine. Mithilfe des freien Willens kann
+  sich ein Bewusstsein daraus lösen. Je weiter es sich entfernt, desto deutlicher projiziert es
+  seine eigene Realität über das Absolut hinaus, ähnlich einem Projektor, der ein Bild auf eine
+  Leinwand wirft. Mehrere aktive Bewusstseine überlagern sich und erschaffen so die Realität,
+  die Menschen in vier Dimensionen erleben. Gelangt ein Bewusstsein in den passiven Zustand,
+  kehrt es in das Absolut zurück und lässt seine Erfahrungen dort einfließen.
 
 Zwischen dieser Ebene reiner Information und den aktiven Bewusstseinen operiert das **ITI**. Es
 fängt besonders starke Bewusstseine ab und rekrutiert sie als Chrononauten. Dabei nutzt es
 dieselbe Projektionstechnik, um gezielt Risse in Raum und Zeit zu erzeugen. Die Forscher des
 ITI können das Absolut jedoch nie direkt beeinflussen und auch den freien Willen eines aktiven
 Bewusstseins nicht brechen. Veränderungen geschehen nur indirekt über die gemeinsame Realität
+
 - erst nach dem Tod und der Rückkehr ins Absolut wirken neue Erkenntnisse dauerhaft. Da
-menschliche Bewusstseine begrenzt sind, lassen sich höher entwickelte Spezies nicht für das
-ITI gewinnen, was den menschlichen Blick auf das Universum einschränkt.
+  menschliche Bewusstseine begrenzt sind, lassen sich höher entwickelte Spezies nicht für das
+  ITI gewinnen, was den menschlichen Blick auf das Universum einschränkt.
 
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
 Montauk-Projekt von 1983 sind in der Welt von _Zeitriss_ real. Geheim durchgeführte Experimente
@@ -262,6 +267,7 @@ Widersacher zu durchkreuzen, bevor die Timeline irreparabel zerbricht.
 von Missionen setzt ZEITRISS auf flexible Szenarien. Nutzt den
 [Missions-Generator](kreative-generatoren-missionen.md#missions-generator),
 um jederzeit neue Einsätze zu erstellen und die Kampagne dynamisch weiterzuentwickeln.
+
 ### Staffel-Übersicht
 
 Alle Episoden mit identischem `setting_id` lassen sich automatisch als Staffel darstellen.

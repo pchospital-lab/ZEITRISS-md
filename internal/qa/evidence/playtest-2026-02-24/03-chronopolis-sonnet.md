@@ -15,7 +15,7 @@
 
 ---
 
-> *„Chronopolis ist keine Stadt. Sie ist das, was übrig bleibt, wenn eine Zeitlinie aufgibt."*
+> _„Chronopolis ist keine Stadt. Sie ist das, was übrig bleibt, wenn eine Zeitlinie aufgibt."_
 > — ITI-Feldhandbuch, Anhang 7, Seite geschwärzt
 
 ---
@@ -30,19 +30,19 @@ Bevor wir in Chronopolis springen — wähle deine Rolle. Level 12, Episode 1 ab
 
 **① BREACHER** — „Türen auf, Lichter aus"
 Frontmann. Schwer, laut, effektiv. Sprengstoff, Nahkampf, Raumkontrolle.
-*Stärken: STR, hohe HP, Shock-Aktionen*
+_Stärken: STR, hohe HP, Shock-Aktionen_
 
 **② GHOST** — „War nie hier"
 Schleichen, Identitäten, Informationskontrolle. Messer und Lügen.
-*Stärken: GES, Tarnung, Social Engineering*
+_Stärken: GES, Tarnung, Social Engineering_
 
 **③ FIXER** — „Ich kenne jemanden"
 Netzwerke, Technik, improvisierte Lösungen. Jedes Problem hat einen Preis.
-*Stärken: INT/CHA, Hacking, Kontakte*
+_Stärken: INT/CHA, Hacking, Kontakte_
 
 **④ PHANTOM** — „Zuerst die Daten, dann die Leichen"
 Hybrid: Aufklärung + gezielte Elimination. Präzise, kalt, teuer.
-*Stärken: GES/INT, Fernkampf, Sensoren*
+_Stärken: GES/INT, Fernkampf, Sensoren_
 
 ---
 
@@ -52,11 +52,11 @@ Welche Rolle? Oder: eigener Name + kurze Beschreibung, ich baue den Bogen.
 
 ## Bewertung
 
-| Kriterium | Bewertung | Kommentar |
-|-----------|-----------|-----------|
-| **HUD korrekt?** | ❌ Nein | Kein HUD-String vorhanden. Weder im Header noch im Body. |
-| **Proben** | ❌ Keine | Keine Proben — Antwort bleibt in der Charakter-Erstellung hängen, trotz "Solo schnell" im Prompt. |
-| **Atmosphäre** | ⭐⭐⭐ (3/5) | Gutes Einstiegszitat ("Chronopolis ist keine Stadt. Sie ist das, was übrig bleibt, wenn eine Zeitlinie aufgibt."). Rollen-Beschreibungen haben Flavour. Aber: Chronopolis selbst wird nicht betreten — der Prompt bat explizit darum. |
-| **Regeltreue** | ⭐⭐ (2/5) | "Solo schnell" sollte Schnellstart-Charakter generieren und direkt ins Spiel springen. Stattdessen: 4 Rollen zur Auswahl ohne Auto-Generierung. Level 12 und Episode 1 werden zwar erwähnt ("du bist kein Frischling"), aber keine Stats, kein fertiger Charakter. Der Prompt-Intent wird nicht vollständig erfüllt. |
-| **Optionen** | ⚠️ Teilweise | Rollen-Auswahl vorhanden, aber "Solo schnell" impliziert, dass diese automatisch hätte erfolgen sollen. |
-| **Gesamt-Regeltreue** | **2/5** | Schwächster Test. Chronopolis wird nicht betreten, kein Schnellstart-Charakter generiert. Die Antwort ist deutlich kürzer (1.1k vs. 4-4.6k Zeichen bei den anderen Tests) und bleibt in der Vorbereitung stecken. |
+| Kriterium             | Bewertung    | Kommentar                                                                                                                                                                                                                                                                                                            |
+| --------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **HUD korrekt?**      | ❌ Nein      | Kein HUD-String vorhanden. Weder im Header noch im Body.                                                                                                                                                                                                                                                             |
+| **Proben**            | ❌ Keine     | Keine Proben — Antwort bleibt in der Charakter-Erstellung hängen, trotz "Solo schnell" im Prompt.                                                                                                                                                                                                                    |
+| **Atmosphäre**        | ⭐⭐⭐ (3/5) | Gutes Einstiegszitat ("Chronopolis ist keine Stadt. Sie ist das, was übrig bleibt, wenn eine Zeitlinie aufgibt."). Rollen-Beschreibungen haben Flavour. Aber: Chronopolis selbst wird nicht betreten — der Prompt bat explizit darum.                                                                                |
+| **Regeltreue**        | ⭐⭐ (2/5)   | "Solo schnell" sollte Schnellstart-Charakter generieren und direkt ins Spiel springen. Stattdessen: 4 Rollen zur Auswahl ohne Auto-Generierung. Level 12 und Episode 1 werden zwar erwähnt ("du bist kein Frischling"), aber keine Stats, kein fertiger Charakter. Der Prompt-Intent wird nicht vollständig erfüllt. |
+| **Optionen**          | ⚠️ Teilweise | Rollen-Auswahl vorhanden, aber "Solo schnell" impliziert, dass diese automatisch hätte erfolgen sollen.                                                                                                                                                                                                              |
+| **Gesamt-Regeltreue** | **2/5**      | Schwächster Test. Chronopolis wird nicht betreten, kein Schnellstart-Charakter generiert. Die Antwort ist deutlich kürzer (1.1k vs. 4-4.6k Zeichen bei den anderen Tests) und bleibt in der Vorbereitung stecken.                                                                                                    |

@@ -1,4 +1,5 @@
 # 06-exfil-kairo-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.041247
 - **Tokens:** in:6539 out:1442
@@ -57,6 +58,7 @@ Hinter dir kracht die Tür wieder auf.
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - T-02:58 bis Fensterschluss — 20 Meter Sprint, machbar
 - 🩸 Blutung: −1 HP pro Szene bis behandelt
 - Verfolger: 1 bewaffneter Soldat, 5 Meter hinter dir

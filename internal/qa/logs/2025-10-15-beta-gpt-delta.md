@@ -1,12 +1,12 @@
 ---
-title: "Beta-GPT Lauf 2025-10-15 – Rohprotokoll"
+title: "Beta-KI Lauf 2025-10-15 – Rohprotokoll"
 version: 1.0.0
 tags: [meta, qa-log]
 ---
 
-# Beta-GPT Lauf 2025-10-15 – Rohprotokoll
+# Beta-KI Lauf 2025-10-15 – Rohprotokoll
 
-Dieses Dokument archiviert den vollständigen Beta-GPT-Testprompt samt Befundliste.
+Dieses Dokument archiviert den vollständigen Beta-KI-Testprompt samt Befundliste.
 Ergänzende Auswertung und Maßnahmen stehen im [Beta-QA-Log 2025](2025-beta-qa-log.md).
 
 ```text
@@ -39,7 +39,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README‑Update in `main`; QA‑Briefing synchronisieren.
+* Maintainer: README‑Update in `main`; QA‑Briefing synchronisieren.
 * Notizen: Prüfen, ob `docs/qa/tester-playtest-briefing.md` bereits 15 führt
   (Anker in README zeigt dorthin).
 
@@ -74,7 +74,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Beispiel‑JSONs in Doku auf v6 bringen; 4.1.5‑Snippet als
+* Maintainer: Beispiel‑JSONs in Doku auf v6 bringen; 4.1.5‑Snippet als
   „Legacy“ kennzeichnen.
 * Notizen: Core‑Modul verweist ebenfalls auf Gruppen‑Saves – dort synchron
   updaten.
@@ -105,7 +105,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Toolkit‑Makro patchen; Changelog notieren.
+* Maintainer: Toolkit‑Makro patchen; Changelog notieren.
 * Notizen: `ShowComplianceOnce()`‑Notiz erwähnt fehlende Impl. von
   `skip_entry_choice`‑Mirror – hier gleich mitfixen.
 
@@ -136,7 +136,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Toolkit‑Hook ergänzen.
+* Maintainer: Toolkit‑Hook ergänzen.
 * Notizen: README‑Hinweis zu `!sf off` (Acceptance‑Schritt 12) beibehalten.
 
 ISSUE #5
@@ -166,7 +166,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Doku‑Update + Toolkit‑Overlay prüfen.
+* Maintainer: Doku‑Update + Toolkit‑Overlay prüfen.
 * Notizen: Kampagnenstruktur bestätigt M5/M10 Rhythmus (Referenz).
 
 ISSUE #6
@@ -196,7 +196,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Schema‑Patch + README‑Hinweis „Arena‑Persistenz“.
+* Maintainer: Schema‑Patch + README‑Hinweis „Arena‑Persistenz“.
 * Notizen: Kampagnenmodul nennt Arena‑Modus, sollte auf Schema verweisen.
 
 ISSUE #7
@@ -225,7 +225,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Schema‑Note in `speicher-fortsetzung.md`.
+* Maintainer: Schema‑Note in `speicher-fortsetzung.md`.
 * Notizen: Psi‑Modul referenzieren (Phase‑Strike‑Arena‑Klausel).
 
 ISSUE #8
@@ -252,7 +252,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Preset‑Barks in Toolkit‑Appendix.
+* Maintainer: Preset‑Barks in Toolkit‑Appendix.
 * Notizen: Cinematic‑Start/HUD‑Specs verlinken für Stilkonstanz.
 
 ISSUE #9
@@ -281,7 +281,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Beispiel‑Save (v6) mit `chronopolis_warn_seen:true`.
+* Maintainer: Beispiel‑Save (v6) mit `chronopolis_warn_seen:true`.
 * Notizen: README‑Glossar verweist auf HUD/Comms‑Spec (Kohärenz) .
 
 ISSUE #10
@@ -311,7 +311,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README/Currency‑Hinweis „Auszahlungsreihenfolge“
+* Maintainer: README/Currency‑Hinweis „Auszahlungsreihenfolge“
   ergänzen.
 * Notizen: Werte‑Beispiele in Currency‑Tabelle (CU≈€20) bleiben unverändert.
 
@@ -337,7 +337,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Toolkit‑Patch & Test.
+* Maintainer: Toolkit‑Patch & Test.
 * Notizen: Boss‑Foreshadow‑Checklist bleibt unverändert (Core M4/M9, Rift
   Sz. 9).
 
@@ -365,7 +365,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: `speicher-fortsetzung.md` updaten.
+* Maintainer: `speicher-fortsetzung.md` updaten.
 * Notizen: `!boss status` spiegelt Saisonstand weiterhin im HUD‑Text.
 
 ISSUE #13
@@ -394,7 +394,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README‑Kurzbefehlsliste ergänzen („!accessibility“).
+* Maintainer: README‑Kurzbefehlsliste ergänzen („!accessibility“).
 * Notizen: HUD‑Spec referenzieren für Badges/Layouts.
 
 ISSUE #14
@@ -420,7 +420,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README Start‑Transkripte erweitern.
+* Maintainer: README Start‑Transkripte erweitern.
 * Notizen: Gate‑/Boss‑Logik unverändert (M5/M10) .
 
 ISSUE #15
@@ -444,6 +444,6 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Toolkit‑Patch.
+* Maintainer: Toolkit‑Patch.
 * Notizen: Glossar/Start‑Doku im README verlinkt .
 ```

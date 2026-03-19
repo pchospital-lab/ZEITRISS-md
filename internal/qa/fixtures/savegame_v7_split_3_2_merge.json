@@ -67,14 +67,8 @@
     "split": {
       "family_id": "EP7-RIFT-FORK-01",
       "thread_id": "HQ-MERGE",
-      "expected_threads": [
-        "RIFT-A-3ER",
-        "RIFT-B-2ER"
-      ],
-      "resolved_threads": [
-        "RIFT-A-3ER",
-        "RIFT-B-2ER"
-      ],
+      "expected_threads": ["RIFT-A-3ER", "RIFT-B-2ER"],
+      "resolved_threads": ["RIFT-A-3ER", "RIFT-B-2ER"],
       "convergence_ready": true
     },
     "roster_echoes": [],
@@ -85,9 +79,7 @@
         "text": "Beide Threads bestätigten dasselbe Codewort in getrennten Zeitfenstern."
       }
     ],
-    "convergence_tags": [
-      "boss_tell:morgenrot"
-    ],
+    "convergence_tags": ["boss_tell:morgenrot"],
     "npc_roster": [],
     "active_npc_ids": []
   },

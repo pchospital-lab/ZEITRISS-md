@@ -183,22 +183,25 @@ Verfügbar alle 4 Missionen (TEMP 2). Nächste Verfügbarkeit: Mission 1.
 ## VOLLSTÄNDIGER CHARAKTERBOGEN
 
 ```
+
 ╔══════════════════════════════════════════════╗
-║  YARA VOSS · "SABLE" · Rekrut               ║
-║  Berlin 1987 · Infiltratorin/Analystin       ║
+║ YARA VOSS · "SABLE" · Rekrut ║
+║ Berlin 1987 · Infiltratorin/Analystin ║
 ╠══════════════════════════════════════════════╣
-║  STR 2 · GES 5 · INT 4 · CHA 4             ║
-║  TEMP 2 · SYS 1 (1 belegt)                 ║
+║ STR 2 · GES 5 · INT 4 · CHA 4 ║
+║ TEMP 2 · SYS 1 (1 belegt) ║
 ╠══════════════════════════════════════════════╣
-║  HP 10/10 · Stress 0/8 · Wallet 100 CU     ║
-║  Px 0/5 · ITI-Ruf 0 · Lizenz Tier 0        ║
+║ HP 10/10 · Stress 0/8 · Wallet 100 CU ║
+║ Px 0/5 · ITI-Ruf 0 · Lizenz Tier 0 ║
 ╠══════════════════════════════════════════════╣
-║  TALENTE               
+║ TALENTE
+
 ```
 
 ### Turn 3
 
 ```
+
 `EP 1 · MS 1 · SC 1/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 1/10 · Px 0/5 · Stress 0/8 · Obj: Ausstehend · Exfil: -`
 
 ---
@@ -248,12 +251,14 @@ Eine letzte Folie: Grundriss des Landhauses. Zwei Etagen, Keller unbekannt.
 
 ---
 
-`Kodex: Sprungkoordinaten berechnet. Ziel-Epoche 14.03.1962, 19:45 Uhr Lokalzeit. Südfrankreich, 8km von Villa Cereste. Legende: "Isabelle Renard", Kunsthändlerin, Paris. Einladung digital gefälscht — physische Kopie 
+`Kodex: Sprungkoordinaten berechnet. Ziel-Epoche 14.03.1962, 19:45 Uhr Lokalzeit. Südfrankreich, 8km von Villa Cereste. Legende: "Isabelle Renard", Kunsthändlerin, Paris. Einladung digital gefälscht — physische Kopie
+
 ```
 
 ### Turn 4
 
 ```
+
 `EP 1 · MS 1 · SC 1/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 1/10 · Px 0/5 · Stress 0/8 · Obj: Ausstehend · Exfil: -`
 
 ---
@@ -270,16 +275,18 @@ Er tippt die Akte auf den Tisch.
 
 Das Briefing ist noch offen. Du bist im **ITI, Nullzeit** — sicher, kein Feindkontakt.
 
-**1 — Sprung vorbereiten** *(Ausrüstung, Legende, letzte Fragen)*
-**2 — Sofort springen** *(19:45 Uhr, 8km vor Villa Cereste)*
-**3 — Renier befragen** *(Mehr Intel vor dem Absprung)*
+**1 — Sprung vorbereiten** _(Ausrüstung, Legende, letzte Fragen)_
+**2 — Sofort springen** _(19:45 Uhr, 8km vor Villa Cereste)_
+**3 — Renier befragen** _(Mehr Intel vor dem Absprung)_
 
 **Freie Aktion:** Was tust du?
+
 ```
 
 ### Turn 5
 
 ```
+
 `Kodex: HQ-Savepoint angefordert. Exportiere Agentenprofil SABLE...`
 
 ---
@@ -385,7 +392,7 @@ Er meint es ernst. Die Frage steht im Raum.
 
 ### Turn 7
 
-```
+````
 `Kodex: Savepoint angefordert. Standort: ITI HQ, Briefingraum. Keine Zustandsänderung seit letztem Save.`
 
 ---
@@ -450,5 +457,4 @@ Wenn du dennoch einen neuen Export willst, hier der aktualisierte Block:
     "vehicles": {
       "epoch_vehicle": {
         "id": "VEH-SABLE-001", "name": "BMW R80 (1984, schwarz)", "type": "vehicle",
-```
-
+````

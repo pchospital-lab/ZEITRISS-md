@@ -25,6 +25,7 @@ Das Save-System soll in allen WS-Dateien, Save-Beispielen und Runtime-relevanten
 **Problem**
 
 Der aktuelle Runtime-Kanon spricht gleichzeitig mehrere Save-Dialekte:
+
 - v7 mit `characters[]`, `wallet` pro Charakter, `economy.hq_pool`, `arc`
 - v6/Legacy mit `party.characters[]`, `team.members[]`, `economy.cu`, `economy.wallets`, `arc_dashboard`
 - zusätzliche Mischformen mit alten Feldnamen, alten Hilfscontainern und teils widersprüchlichen Migrationsaussagen
@@ -74,6 +75,7 @@ Ein eindeutiges Ökonomie-Modell für Solo, Koop, Split und Merge.
 **Problem**
 
 Aktuell existieren mindestens zwei konkurrierende Modelle:
+
 - Charakterzentriert: `character.wallet`
 - Root-zentriert: `economy.wallets{}` plus `economy.cu`/`economy.hq_pool`
 
@@ -82,6 +84,7 @@ Solange beides parallel öffentlich dokumentiert wird, bleiben Split/Merge, Debr
 **Empfehlung**
 
 Kanonisiere **ein** öffentliches Modell:
+
 - pro Charakter: `wallet`
 - global: `economy.hq_pool`
 
@@ -123,6 +126,7 @@ Eine einzige, überall identische Würfelregel.
 **Problem**
 
 Der aktuelle Kanon kollidiert an drei Stellen:
+
 - Burst-Cap wird mal klar definiert, mal gar nicht erwähnt.
 - W10 ab Attribut 11 ist an mehreren Stellen Pflicht, an anderer Stelle aber als optionale Regel beschrieben.
 - Heldenwürfel und Exploding sind nicht überall mit denselben Formulierungen verankert.
@@ -130,6 +134,7 @@ Der aktuelle Kanon kollidiert an drei Stellen:
 **Empfehlung**
 
 Wenn du den aktuellen Spielerfluss erhalten willst, nimm als SSOT:
+
 - W6 Standard
 - W10 ab Attribut 11
 - Heldenwürfel ab Attribut 14
@@ -170,6 +175,7 @@ Px soll wieder genau das sein, was das Projekt verspricht: ein klarer, lesbarer,
 **Problem**
 
 Mehrere Texte behaupten gleichzeitig:
+
 - Px sei strikt TEMP-gebunden und missionbasiert.
 - Px 5 löse `ClusterCreate()` aus und resette danach.
 - Der Reset passiere nach Debrief / via HQ-Bestätigung / zu Beginn der nächsten Mission.
@@ -180,6 +186,7 @@ Damit ist die zentrale Progressionslogik nicht mehr glasklar.
 **Empfehlung**
 
 Kanonisiere:
+
 - **Nur reguläre Missionen** verändern `campaign.px`.
 - Arena gibt **kein Px**, sondern CU, Ruf, Trainings- oder Arena-spezifische Rewards.
 - Sobald Px 5 erreicht: `ClusterCreate()` im Debrief, Seeds sichtbar, Reset im selben Flow dokumentiert.
@@ -220,6 +227,7 @@ Keine toten Flags, keine widersprüchlichen Enums, keine halb entfernten Legacy-
 **Problem**
 
 Es gibt sichtbare Drift bei:
+
 - Versionsstrings
 - Rangbezeichnungen (`Recruit` vs. `Rekrut`)
 - Compliance-Mechanik (angeblich entfernt, aber an anderen Stellen noch als Flag/Hook/Notice vorhanden)
@@ -273,6 +281,7 @@ Das Repo hat bereits Smoke-/Lint-Checks. Trotzdem sind offensichtliche Drift-Pro
 **Akzeptanzkriterien**
 
 CI schlägt fehl, wenn in geladenen WS-Dateien zum Beispiel:
+
 - `save_version: 6`
 - `party.characters[]`
 - `team.members[]`
@@ -280,7 +289,7 @@ CI schlägt fehl, wenn in geladenen WS-Dateien zum Beispiel:
 - `GPT`
 - alte Compliance-Flags
 - widersprüchliche Würfelformulierungen
-auftauchen.
+  auftauchen.
 
 **Betroffene Dateien**
 
@@ -305,6 +314,7 @@ Die KI-SL soll in den geladenen 20 Modulen vor allem Regeln, Prioritäten und kl
 **Problem**
 
 Mehrere geladene WS-Dateien enthalten zwar gutes Material, aber nicht alles ist gleich runtime-tauglich:
+
 - Soundtrack-/Playlist-Ratschläge
 - Regie-/Kamera-Metaphern
 - längere GM-Essays
@@ -348,6 +358,7 @@ Das Setting soll nicht „alles auf einmal“ sein, sondern bewusst skalieren.
 **Problem**
 
 ZEITRISS verspricht an seinen stärksten Stellen einen erwachsenen, bodenständigen, historisch geerdeten Agenten-Thriller. Gleichzeitig existieren im geladenen Kanon aber auch:
+
 - Absolut-Kosmologie
 - ferne Föderations-/Alien-Spuren
 - historische und transhumane Extrem-Optionen
@@ -359,6 +370,7 @@ Dadurch verwischt die Identität: Ist ZEITRISS primär Technoir-Conspiracy, X-Fi
 **Empfehlung**
 
 Definiere drei Ebenen:
+
 1. **Core-Ops Default:** grounded chrono-conspiracy thriller, rational lesbar, operativ, historisch geerdet
 2. **Rift-Ops Default:** genau ein echtes Anomalie-Element pro Fall, investigativ, dunkler, aber nicht beliebig fantastisch
 3. **Mythic-/Lore-Optional:** Absolut, Alien-Legenden, extreme Paracreatures, stärkere metaphysische Offenlegung
@@ -405,6 +417,7 @@ Das erzeugt Weltlogik-Reibung.
 **Empfehlung**
 
 Bevorzugt für ZEITRISS-Stärke:
+
 - **Psi bleibt optional und selten.**
 - Default-Schutzsysteme werden neutraler beschrieben (`Neuro-Puffer`, `Anomalie-Puffer`, `Resonanzfilter`) statt als allgegenwärtige Psi-Infrastruktur.
 - Wenn Psi aktiv ist, werden die erweiterten Begriffe und Regeln zugeschaltet.
@@ -443,6 +456,7 @@ Chronopolis soll als einer der coolsten Orte des Spiels **mehr** Kraft bekommen,
 **Problem**
 
 Aktuell ist Chronopolis zugleich:
+
 - gescheiterte Episoden-Zeitlinie
 - Kodex-instanzierte Gefahrenzone
 - nicht Teil der echten Zeitlinie
@@ -453,6 +467,7 @@ Das ist atmosphärisch stark, aber ontologisch unscharf.
 **Empfehlung**
 
 Definiere explizit:
+
 - Was ist **instanzlokal**?
 - Was wird beim Verlassen in HQ-Kanon überführt?
 - Wie funktionieren Händler, Käufe, Kontakte und Intel?
@@ -494,6 +509,7 @@ ZEITRISS soll auch in realen Chat-Sessions elegant spielbar bleiben, ohne seine 
 **Problem**
 
 Der Kanon verlangt aktuell u. a.:
+
 - 12 Szenen pro Core-Mission
 - 14 pro Rift-Op
 - meist mindestens 3 Absätze pro Szene
@@ -505,11 +521,13 @@ Das ist atmosphärisch stark, kann aber im laufenden Chat extrem lang, teuer und
 **Empfehlung**
 
 Baue offizielle Presets ein:
+
 - `compact` – 1–2 Absätze pro Szene, harte Verdichtung, ideal für Chat-Realität
 - `standard` – aktueller Mittelweg
 - `cinematic` – volle Wucht für Highlight-Sessions
 
 Optional zusätzlich:
+
 - 6-Szenen-Demo
 - 8-Szenen-Standard-Mission
 - 12-Szenen-Langform
@@ -587,6 +605,7 @@ Der Kanon fordert bereits ein einheitliches Exportformat wie `{name, type, tier}
 **Empfehlung**
 
 Lege eine kanonische Registry an:
+
 - `id`
 - `display_name`
 - `type`
@@ -673,4 +692,3 @@ Alle geladenen Wissensspeicher-Module, Save-Beispiele, Debrief-Texte und Merge-R
 11. Issue 11 – Pacing
 12. Issue 12 – Terminologie-Sweep
 13. Issue 13 – Item-Registry
-

@@ -15,6 +15,7 @@
 
 **Problem:**
 Aktuell vermischen mehrere Texte operativen ITI-Ruf, Fraktionsruf und Tier-Freischaltung. Für den neuen Boss-basierten Progress muss klar sein:
+
 - `reputation.iti` = formaler Institutsruf
 - `reputation.factions.*` = politisches / erzählerisches Standing
 - Tier-/Lizenzzugang hängt an `reputation.iti`, nicht am besten Fraktionswert
@@ -23,6 +24,7 @@ Aktuell vermischen mehrere Texte operativen ITI-Ruf, Fraktionsruf und Tier-Freis
 Sonst kollidiert der neue deterministische Boss-Progress mit Wahl-/Fraktionsspiel und erzeugt Drift in Debrief, Shop, Save und Rank-Anzeige.
 
 **To-do:**
+
 1. In `characters/charaktererschaffung-grundlagen.md` alle Stellen ersetzen, die ITI-Ruf aus Fraktionsruf ableiten.
 2. In allen spielrelevanten Modulen festhalten:
    - `reputation.iti` steuert **Rang, Lizenz-Tier, Freigaben**
@@ -53,6 +55,7 @@ Damit gilt: Ein Chrononaut kann beim ITI als zuverlässig gelten, ohne von jeder
 Das alte Rufmodell mit groben Missionsmengen passt nicht mehr zur heutigen Missionslänge, Bossdramaturgie und zum Serienrhythmus.
 
 **Zielbild:**
+
 - Start: Ruf 0
 - Nach erster erfolgreich abgeschlossener **Core-Mission**: Ruf 1
 - Danach: **+1 ITI-Ruf bei jedem erfolgreich abgeschlossenen Core-Boss**
@@ -64,11 +67,13 @@ Das alte Rufmodell mit groben Missionsmengen passt nicht mehr zur heutigen Missi
 - Fehlschlag/Abort gibt **keinen** automatischen Rufgewinn
 
 **Warum:**
+
 - Früh spürbare Belohnung nach der ersten vollen Folge
 - Dramatische Progression synchron zu Mini-Boss / Episoden-Boss
 - Tier-Aufstiege fühlen sich wie Staffelhöhepunkte an
 
 **To-do:**
+
 1. Altes Ruf-Tabellenmodell aus `characters/charaktererschaffung-grundlagen.md` entfernen.
 2. In `meta/masterprompt_v6.md` Debrief-Logik konkretisieren.
 3. In `core/sl-referenz.md` oder `core/zeitriss-core.md` einen kleinen SSOT-Kasten ergänzen.
@@ -90,6 +95,7 @@ Der formale **ITI-Ruf** (`reputation.iti`) wächst im Standardmodus **determinis
   - **Mission 20:** Episoden-Boss → +1
 
 Damit ergibt sich im Normalfall:
+
 - nach Mission 1 → **Ruf 1**
 - nach Mission 5 → **Ruf 2**
 - nach Mission 10 → **Ruf 3**
@@ -97,6 +103,7 @@ Damit ergibt sich im Normalfall:
 - nach Mission 20 → **Ruf 5**
 
 **Wichtig:**
+
 - Nur **erfolgreich abgeschlossene Core-Missionen/Bossabschlüsse** zählen für diesen Pfad.
 - **Rift-Ops, Arena, Chronopolis, HQ-Freeruns und Training** verleihen standardmäßig **keinen automatischen ITI-Ruf**.
 - **Fehlschläge oder Abbrüche** geben keinen Rufgewinn; Fraktionsruf und Storyfolgen können sich trotzdem verändern.
@@ -113,6 +120,7 @@ Damit ergibt sich im Normalfall:
 Der neue Wunsch lautet: Bei Ruf 5 sollen alle Möglichkeiten grundsätzlich offenstehen, harte Begrenzung läuft dann über CU und HQ-Sinks. Aktuell blockiert Tier V als Quest-only diesen Loop.
 
 **To-do:**
+
 1. `characters/ausruestung-cyberware.md` anpassen.
 2. In allen Shop-/Freigabetexten Tier V als kaufbare Lizenz behandeln.
 3. Optional: Sonderobjekte weiterhin separat über Quest, aber nicht das gesamte Tier.
@@ -123,7 +131,7 @@ Der neue Wunsch lautet: Bei Ruf 5 sollen alle Möglichkeiten grundsätzlich offe
 **Tier-Lizenzen — Preistabelle:**
 
 | Tier | Ruf-Anforderung | Lizenzkosten |
-|------|-----------------|--------------|
+| ---- | --------------- | ------------ |
 | 0    | —               | Frei         |
 | I    | Ruf +1          | 200 CU       |
 | II   | Ruf +2          | 500 CU       |
@@ -147,6 +155,7 @@ Wenn einzelne Artefakte, Schiffe oder Sondermodule trotzdem exklusiv bleiben sol
 Der Save speichert `rank`, der Debrief zeigt Rangnamen, aber die Begriffe driften noch.
 
 **To-do:**
+
 1. Ein einziges Mapping definieren.
 2. Beispiele in Save-Schema, Handbuch und Debrief auf dieses Mapping ziehen.
 3. Keine alternierenden Begriffe mehr für denselben Rufwert.
@@ -156,14 +165,14 @@ Der Save speichert `rank`, der Debrief zeigt Rangnamen, aber die Begriffe drifte
 ```md
 ### Rang-Mapping (SSOT)
 
-| ITI-Ruf | Rang |
-|--------:|------|
-| 0 | Rekrut |
-| 1 | Operator I |
-| 2 | Feldagent |
-| 3 | Senior-Feldagent |
-| 4 | Elitechrononaut |
-| 5 | Apex-Agent |
+| ITI-Ruf | Rang             |
+| ------: | ---------------- |
+|       0 | Rekrut           |
+|       1 | Operator I       |
+|       2 | Feldagent        |
+|       3 | Senior-Feldagent |
+|       4 | Elitechrononaut  |
+|       5 | Apex-Agent       |
 ```
 
 **Debrief-Format:**
@@ -182,6 +191,7 @@ Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II
 Aktuell klingt es teilweise so, als würde Level 10 bereits breiteren Gear-Zugang freischalten. Das kollidiert mit dem gewünschten Ruf-/Tierpfad.
 
 **Empfehlung:**
+
 - **Level 10** = Vertrauen, Chronopolis-Schlüssel, größere Verantwortung, ggf. narrative Sonderrechte
 - **Ruf/Tier** = formaler Shop-/Lizenzzugang
 
@@ -205,6 +215,7 @@ Level-Meilensteine und Ruf-Tiers dürfen sich dramaturgisch überschneiden, erse
 Der Mystery-Kern funktioniert am stärksten, wenn früh **Alien-Ikonographie** da ist, aber noch **nicht** als harte Welt-Tatsache bestätigt wird. Genau das wird im Player-Onboarding aktuell unterlaufen, sobald dort wörtlich von einer fortgeschrittenen Alien-Föderation gesprochen wird.
 
 **Ziel:**
+
 - Unheimlich bleiben
 - Spieler sollen UFO/Grey/Galactic-Vibes spüren
 - aber nicht den Eindruck bekommen, dass ZEITRISS schlicht „Aliens sind real“ als Baseline setzt
@@ -260,6 +271,7 @@ Einerseits gibt es „Die Grauen“ als offene Fremdfraktion, andererseits „Gr
 **Die Grauen / Greys** ist im ITI kein sauberer Speziesbegriff, sondern ein **Arbeits- und Deckname** für Vorfälle mit wiederkehrender Ikonographie: kleine, glatte Körper, übergroße Augen, sterile Fremdwirkung, medizinische oder beobachtende Signaturen.
 
 Je nach Fall verbergen sich dahinter:
+
 - posthumane Bio-Hüllen,
 - speziell verzerrende Skinsuits,
 - fehlklassifizierte Bergungsteams,

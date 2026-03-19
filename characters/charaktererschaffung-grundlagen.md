@@ -28,6 +28,7 @@ ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für ei
 unvollständig verstandene Grenzphysik. Die Charaktererschaffung findet im **Nullzeit-Puffer** statt, über Holo-Interfaces und Labor-
 Displays. Erst wenn der Prozess abgeschlossen ist, baut das HQ die passende Bio-Hülle - auf
 Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Bewusstsein hinein.
+
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
@@ -62,7 +63,6 @@ Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
 aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen
 freigeschaltet.
 
-
 ### Konzeptimport aus bestehendem Charaktermaterial
 
 Wenn Spielende vorhandene Bögen, Builds, Kurzbiografien oder Scan-/Fotomaterial
@@ -70,6 +70,7 @@ mitbringen, behandelt die Spielleitung diese Inhalte als **Konzept- und
 Historyquelle**, nicht als fremdes Regelsystem.
 
 Regeln:
+
 1. Übernehmt zuerst die Kernidentität: Rolle, Auftreten, Motivation,
    Stärken, Schwächen, Hintergrund und Ausrüstungsrichtung.
 2. Überführt dieses Konzept in einen ZEITRISS-konformen Startcharakter auf
@@ -101,16 +102,15 @@ der sich nach derselben Figur anfühlt.
     und Talente. (Cineastischer Tipp: Stellt euch eine kurze Filmszene vor, die euren Charakter in Aktion
     zeigt, um sein Wesen zu verdeutlichen.)
 
-     Vor der Attributvergabe prüft
-     `enforce_identity_before_stats(char)`, ob **Konzept**,
-     **Callsign**, **Name** und **Grundform/Hülle** gesetzt sind.
-     Fehlt etwas, blockt das System den nächsten Schritt.
+    Vor der Attributvergabe prüft
+    `enforce_identity_before_stats(char)`, ob **Konzept**,
+    **Callsign**, **Name** und **Grundform/Hülle** gesetzt sind.
+    Fehlt etwas, blockt das System den nächsten Schritt.
 
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
     Affinität) und **SYS** (Systemkapazität für Implantate). Ihr startet mit einem Budget von
     **18 Attributspunkten**. Geht bei der Verteilung konsequent so vor:
-
     1. Setzt **alle Attribute auf 0** und wendet sofort die **Rassen-Boni/-Mali** an. Dadurch können
        auch **0- oder negative Zwischenwerte** entstehen.
     2. Verteilt nun die **18 Punkte** auf die so modifizierten Werte. Jeder Punkt erhöht einen Wert um
@@ -155,19 +155,19 @@ der sich nach derselben Figur anfühlt.
 
     **Kurzreferenz - häufige Talente**
 
-    | Talent                 | Typ     | Effekt (Richtwert)                 |
-    |------------------------|---------|------------------------------------|
-    | Schusswaffenexperte    | passiv  | +2 auf Fernkampf-Proben            |
-    | CQB-Spezialist         | passiv  | +2 auf Nahkampf / Close Quarters   |
-    | Menschenkenntnis       | passiv  | +2 auf Verhören/Überreden          |
-    | Spurensucher           | aktiv   | 1×/Szene +1 auf Analyse/Spuren     |
-    | Med-Tech               | aktiv   | 1×/Szene automatischer Stabilize   |
-    | Techno-Mancer          | passiv  | +2 auf Systemzugriff/Analyse       |
-    | Drohnensteuerung       | passiv  | +2 auf Drohnen-/Fahrzeugsteuerung  |
-    | Polyglott              | passiv  | Auto-Erfolg bei einfachen Sprachen |
-    | Schleichprofi          | passiv  | +2 auf Schleichen/Diebstahl        |
-    | Taktische Analyse      | aktiv   | 1×/Mission +2 auf Initiativwurf    |
-    | Psi-Fokus (nur `has_psi`) | aktiv | 1×/Szene +1 Bonus auf Psi-Probe    |
+    | Talent                    | Typ    | Effekt (Richtwert)                 |
+    | ------------------------- | ------ | ---------------------------------- |
+    | Schusswaffenexperte       | passiv | +2 auf Fernkampf-Proben            |
+    | CQB-Spezialist            | passiv | +2 auf Nahkampf / Close Quarters   |
+    | Menschenkenntnis          | passiv | +2 auf Verhören/Überreden          |
+    | Spurensucher              | aktiv  | 1×/Szene +1 auf Analyse/Spuren     |
+    | Med-Tech                  | aktiv  | 1×/Szene automatischer Stabilize   |
+    | Techno-Mancer             | passiv | +2 auf Systemzugriff/Analyse       |
+    | Drohnensteuerung          | passiv | +2 auf Drohnen-/Fahrzeugsteuerung  |
+    | Polyglott                 | passiv | Auto-Erfolg bei einfachen Sprachen |
+    | Schleichprofi             | passiv | +2 auf Schleichen/Diebstahl        |
+    | Taktische Analyse         | aktiv  | 1×/Mission +2 auf Initiativwurf    |
+    | Psi-Fokus (nur `has_psi`) | aktiv  | 1×/Szene +1 Bonus auf Psi-Probe    |
 
     Nutzt die Tabelle als Vorlage und passt Werte/Begrenzungen ans Szenario an. Talente dürfen gern
     erzählerisch gefärbt sein - solange klar bleibt, welche Probe sie typischerweise beeinflussen.
@@ -179,27 +179,27 @@ der sich nach derselben Figur anfühlt.
     - **SYS** (im Save: `attr.SYS`) = euer Attributswert — das Gesamtbudget (= SYS_max).
     - **sys_installed** = permanent belegte Slots (Cyber-/Bioware/Psi).
     - **Faustregel:** `installed ≤ SYS`. Wenn temporäre Last > SYS → Überlastung.
-    Das HUD zeigt `SYS installed/max (free X)`. Laufzeitwerte (runtime, used)
-    werden nicht gespeichert — sie werden im Spiel dynamisch berechnet.
-    Save-Schema-Details und technische Interna gehören in die
-    [SL-Referenz](../core/sl-referenz.md). Viele Chrononauten besitzen bereits
-    zu Missionsbeginn ein oder zwei Implantate - technische Verbesserungen, die besondere Fähigkeiten
-    verleihen. Nun entscheidet ihr, ob und welche **Implantate** euer Charakter erhält. Jedes Implantat
-    hat einen **SYS-Kostenwert**, der eure verfügbare Systemkapazität entsprechend belegt. Die Summe
-    der Kosten darf eure SYS-Punkte nicht überschreiten. Anfänger-Agenten starten oft mit **einem
-    kleineren Implantat** (Kosten 1-2) und behalten etwas Puffer für spätere Upgrades. Wählt Implantate,
-    die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier-Implantat im Auge haben, ein Agent
-    aus der Zukunft vielleicht einen Datenlink. Beispiele: Dr. Weber trägt einen **Neuro-Translator**
-    (Sprachchip, Kosten 1) sowie ein **kognitives Enhancement** (Gedächtnischip, Kosten 1) und nutzt
-    damit 2 von ihren 2 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface
-    (SYS 1); Retina-Linse und Comlink zählen zur Standardausrüstung und kosten
-    **kein SYS**. Ihr könnt passende Implantate
-    frei festlegen - stimmt euch mit der SL ab, was plausibel ist. Die Installation
-    dieser Mods kann Teil eurer Hintergrundstory sein (_"In Miras Zeit sind Neuro-Links Standard, daher
-    startet sie damit"_) oder wird vom ITI vor der ersten Mission vorgenommen (cineastisch etwa als
-    kurze Klinik-Szene im HQ). Notiz: Implantate bieten Vorteile, kommen aber selten ohne kleine
-    Nachteile - diese können erzählerischer Natur sein (z.B. Wartung nötig, Aufsehen erregend) und
-    werden von der SL im Blick gehalten.
+      Das HUD zeigt `SYS installed/max (free X)`. Laufzeitwerte (runtime, used)
+      werden nicht gespeichert — sie werden im Spiel dynamisch berechnet.
+      Save-Schema-Details und technische Interna gehören in die
+      [SL-Referenz](../core/sl-referenz.md). Viele Chrononauten besitzen bereits
+      zu Missionsbeginn ein oder zwei Implantate - technische Verbesserungen, die besondere Fähigkeiten
+      verleihen. Nun entscheidet ihr, ob und welche **Implantate** euer Charakter erhält. Jedes Implantat
+      hat einen **SYS-Kostenwert**, der eure verfügbare Systemkapazität entsprechend belegt. Die Summe
+      der Kosten darf eure SYS-Punkte nicht überschreiten. Anfänger-Agenten starten oft mit **einem
+      kleineren Implantat** (Kosten 1-2) und behalten etwas Puffer für spätere Upgrades. Wählt Implantate,
+      die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier-Implantat im Auge haben, ein Agent
+      aus der Zukunft vielleicht einen Datenlink. Beispiele: Dr. Weber trägt einen **Neuro-Translator**
+      (Sprachchip, Kosten 1) sowie ein **kognitives Enhancement** (Gedächtnischip, Kosten 1) und nutzt
+      damit 2 von ihren 2 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface
+      (SYS 1); Retina-Linse und Comlink zählen zur Standardausrüstung und kosten
+      **kein SYS**. Ihr könnt passende Implantate
+      frei festlegen - stimmt euch mit der SL ab, was plausibel ist. Die Installation
+      dieser Mods kann Teil eurer Hintergrundstory sein (_"In Miras Zeit sind Neuro-Links Standard, daher
+      startet sie damit"_) oder wird vom ITI vor der ersten Mission vorgenommen (cineastisch etwa als
+      kurze Klinik-Szene im HQ). Notiz: Implantate bieten Vorteile, kommen aber selten ohne kleine
+      Nachteile - diese können erzählerischer Natur sein (z.B. Wartung nötig, Aufsehen erregend) und
+      werden von der SL im Blick gehalten.
 
 5.  **Startausrüstung festlegen:** Zuletzt bekommt euer Charakter seine **Ausrüstung**. Standardmäßig
     erhält jede*r Chrononaut*in einen **Einsatzanzug** der ITI - einen modernen Zeitreise-Overall, der
@@ -238,6 +238,7 @@ der sich nach derselben Figur anfühlt.
     starten.
 
 ### Basis-Kit {#baseline-kit}
+
 Das ITI stellt zu Beginn die **Standardausrüstung** bereit: siehe
 [README - Standardausrüstung](../core/sl-referenz.md#standardausruestung).
 Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit integrierter
@@ -311,6 +312,7 @@ per `modus paradoxon off` deaktivieren und bei Bedarf identisch wieder
 einschalten.
 
 Im HQ stellt euch das ITI vier Fraktionskontakte vor:
+
 - **Archivarin Mira** (Ordo Mnemonika) — Homo floresiensis
 - Pater Lorian (Chrono-Symmetriker) — Homo heidelbergensis
 - Offizier Vargas (Kausalklingen) — Homo erectus (spät)
@@ -324,6 +326,7 @@ fokussierten Missionspool frei. Alle vier halten zudem optionale Spezialaufträg
 ihrer Fraktion bereit. Commander Renier bleibt der **Gesamtkoordinator**
 und tritt vor allem bei fraktionsübergreifenden Einsätzen, Eskalationen oder
 Schlüsselmeilensteinen auf.
+
 ### Haltung, Teams und Missionspools
 
 Alle neuen Chrononauten starten als **Neutrale** beim Ordo Mnemonika und spielen
@@ -335,6 +338,7 @@ Gegen Fremdfraktionen kämpfen alle gemeinsam. → Vollständige Tabelle:
 [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
 **Missionspools:**
+
 - **Mischpool (Standard):** Neutrale erhalten Missionen aus beiden Pools —
   Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
   Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
@@ -389,6 +393,7 @@ zeigen:
 5. **Ausrüstung:** Standard-Zeitreiseanzug, leichte Pistole, 1 Medkit.
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
 - **Rassenmods:** keine
 - **Finale Attribute:** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
@@ -529,14 +534,14 @@ Damit ergibt sich im Normalfall:
 
 ### Rang-Mapping (SSOT)
 
-| ITI-Ruf | Rang |
-|--------:|------|
-| 0 | Rekrut |
-| 1 | Operator I |
-| 2 | Feldagent |
-| 3 | Senior-Feldagent |
-| 4 | Elitechrononaut |
-| 5 | Apex-Agent |
+| ITI-Ruf | Rang             |
+| ------: | ---------------- |
+|       0 | Rekrut           |
+|       1 | Operator I       |
+|       2 | Feldagent        |
+|       3 | Senior-Feldagent |
+|       4 | Elitechrononaut  |
+|       5 | Apex-Agent       |
 
 **Debrief-Format:** `Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II`
 

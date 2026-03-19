@@ -1,4 +1,5 @@
 # 03-loadrouter-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek-v32
 - **Tokens:** in:12012 out:1047 cost:$0.00848568
 - **Date:** 2026-03-17T11:00:33+01:00
@@ -34,6 +35,7 @@ Sie steht auf. „Fragen?“
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - **Ziel:** Werkstatt Omega, Krasnojarsk 1993. Kausalklingen entwickeln Chrononauten-Tracker.
 - **Primärobjektive:** Technologie-Status klären, Prototyp/Daten sichern oder zerstören.
 - **Kontakt:** Informant „Kormoran“ in Bar „Poljarnaja Zvezda“.

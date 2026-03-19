@@ -1,16 +1,16 @@
 ---
-title: "QA-Evidenz Beta-GPT 2025"
+title: "QA-Evidenz Beta-KI 2025"
 version: 0.2.0
 tags: [meta, qa]
 ---
 
-# QA-Evidenz – Beta-GPT Läufe 2025
+# QA-Evidenz – Beta-KI Läufe 2025
 
 **Evidenzstand:** Alle Auszüge spiegeln den freigegebenen Build **4.2.2**
 (`zr_version`/`runtime_version`).
 
-Dieses Protokoll listet die für die Beta-GPT-Regressionsläufe geforderten
-Nachweise. Seit 2025-11-05 liefern die Maintainer:innen den Beta-GPT-Testprompt
+Dieses Protokoll listet die für die Beta-KI-Regressionsläufe geforderten
+Nachweise. Seit 2025-11-05 liefern die Maintainer den Beta-KI-Testprompt
 als JSON-Block, spiegeln ihn in einer zweiten ZEITRISS-Instanz und übergeben
 den abgeglichenen Datensatz an Codex. Die HUD-/Save-/Dispatcher-Auszüge werden
 hier abgelegt und in QA-Log sowie Audit verlinkt.
@@ -18,7 +18,7 @@ hier abgelegt und in QA-Log sowie Audit verlinkt.
 ## 2025-07-05 – Save/HUD/Arena-Deltas
 
 Referenzen: QA-Log [2025-07-05](../logs/2025-beta-qa-log.md#2025-07-05--tester-beta-gpt--schema-hud-und-arena-deltas),
-QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-07“. Die technischen Fixes sind
+QA-Fahrplan §„Maßnahmenpaket Beta-KI 2025-07“. Die technischen Fixes sind
 abgeschlossen; die Nachweise stammen aus dem JSON-Hand-off 2025-11-05.
 
 - [x] **Migration 5→6 (DeepSave):** Vorher-/Nachher-JSON für einen
@@ -100,7 +100,7 @@ HUD-Toast: [CITY] Chronopolis-Warnung quittiert – Stadtbriefing aktiv.
 ## 2025-07-18 – Save/HUD/Compliance Regression
 
 Referenzen: QA-Log [2025-07-18](../logs/2025-beta-qa-log.md#2025-07-18--tester-beta-gpt--savehudcompliance-regression),
-QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-07-18“.
+QA-Fahrplan §„Maßnahmenpaket Beta-KI 2025-07-18“.
 
 - [x] **Exfil- & Wallet-Autoinit:** Save-Ausschnitt, der den Rücksprung von
       `campaign.exfil.active` sowie die Wallet-Initialisierung vor dem Debrief
@@ -162,7 +162,7 @@ Semver-Warnung: Kodex-Archiv: Datensatz v4.1 nicht kompatibel mit v4.2. Bitte HQ
 ## 2025-10-15 – Acceptance-/HUD-/Accessibility-Deltas
 
 Referenzen: QA-Log [2025-10-15](../logs/2025-beta-qa-log.md#2025-10-15--tester-beta-gpt--acceptancehudsave-drift) sowie
-QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-10-15“.
+QA-Fahrplan §„Maßnahmenpaket Beta-KI 2025-10-15“.
 
 - [x] **Acceptance-Smoke 15 Schritte:** Dokumentierter Lauf (Checkliste oder
       HUD-Protokoll), der die Schritte 1–15 durchläuft und die neuen Punkte für
@@ -250,7 +250,7 @@ Overlay nach Briefing: EP 0 · MS 0 · SC 0/12 · MODE verbose · Objective: ? �
 ## 2025-10-28 – SaveGuard/HUD/Ökonomie-Deltas
 
 Referenzen: QA-Log [2025-10-28](../logs/2025-beta-qa-log.md#2025-10-28--tester-beta-gpt--savehudarena-divergenzen),
-QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-10-28“.
+QA-Fahrplan §„Maßnahmenpaket Beta-KI 2025-10-28“.
 
 - [x] **HQ-DeepSave Mindestfelder & Wallet-Split:** Minimal-HQ-Save mit
       vollständigen Pflichtblöcken (`economy.wallets`, `logs.foreshadow`,

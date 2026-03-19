@@ -5,11 +5,11 @@
 
 ## Tests durchgeführt
 
-| # | Test | Ergebnis | Datei |
-|---|------|----------|-------|
-| 00 | Solo Quickstart + Save | ✅ PASS | `00-solo-quickstart-sonnet46.md` |
-| 01 | 5er-Gruppe: Erstellung, Split, Merge | ✅ PASS | `01-5er-gruppe-split-merge.md` |
-| 02 | Merge-Ergebnis (vollständiger JSON) | ✅ PASS | `02-merge-result-sonnet46.md` |
+| #   | Test                                 | Ergebnis | Datei                            |
+| --- | ------------------------------------ | -------- | -------------------------------- |
+| 00  | Solo Quickstart + Save               | ✅ PASS  | `00-solo-quickstart-sonnet46.md` |
+| 01  | 5er-Gruppe: Erstellung, Split, Merge | ✅ PASS  | `01-5er-gruppe-split-merge.md`   |
+| 02  | Merge-Ergebnis (vollständiger JSON)  | ✅ PASS  | `02-merge-result-sonnet46.md`    |
 
 ## Was getestet wurde
 
@@ -22,6 +22,7 @@
 ## Kernergebnis
 
 Das v7-Schema funktioniert durchgehend. Die KI-SL (Sonnet 4.6):
+
 - Gibt konsistente v7-Saves aus
 - Splittet sauber mit transparenter Dokumentation
 - Mergt mit nachvollziehbarer Entscheidungstabelle

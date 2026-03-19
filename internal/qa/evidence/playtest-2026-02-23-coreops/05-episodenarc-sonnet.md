@@ -1,4 +1,5 @@
 # 05-episodenarc-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.049098
 - **Tokens:** in:6561 out:1961
@@ -18,13 +19,13 @@
 ## OFFENE FÄDEN
 
 **Faden 1 — Die Erdbebenmaschine**
-Jemand hat das Kantō-Erdbeben 1923 nicht nur vorhergesehen — er hat es *geplant*. Die Seismik-Signaturen in den ITI-Archiven zeigen künstliche Resonanzmuster, die drei Tage vor dem 1. September einsetzen. Kein Naturereignis. Ein Werkzeug. Wer hat die Technologie, eine Verwerfungslinie von innen zu triggern — und warum Tokio, warum 1923?
+Jemand hat das Kantō-Erdbeben 1923 nicht nur vorhergesehen — er hat es _geplant_. Die Seismik-Signaturen in den ITI-Archiven zeigen künstliche Resonanzmuster, die drei Tage vor dem 1. September einsetzen. Kein Naturereignis. Ein Werkzeug. Wer hat die Technologie, eine Verwerfungslinie von innen zu triggern — und warum Tokio, warum 1923?
 
 **Faden 2 — Ordo Mnemonika (Ruf: -3 / Feindlich)**
-Die Ordo operiert seit Episode 2 aktiv gegen ITI-Interessen in der Asien-Pazifik-Region. Ihr letzter bekannter Kontaktpunkt: ein Lagerhaus in Yokohama, zwei Wochen vor dem Beben. Ihre Methoden sind erinnerungsbasiert — sie löschen Zeugen nicht, sie *überschreiben* sie. Was wollen sie in der Asche von Tokio finden?
+Die Ordo operiert seit Episode 2 aktiv gegen ITI-Interessen in der Asien-Pazifik-Region. Ihr letzter bekannter Kontaktpunkt: ein Lagerhaus in Yokohama, zwei Wochen vor dem Beben. Ihre Methoden sind erinnerungsbasiert — sie löschen Zeugen nicht, sie _überschreiben_ sie. Was wollen sie in der Asche von Tokio finden?
 
 **Faden 3 — Das Artefakt im Schutt**
-Rift-Seed Alpha-7 (offen seit EP 2, MS 8): Ein Objekt unbekannter Herkunft wurde im Trümmerfeld des Kaiserpalasts geortet. Chrono-Signatur: nicht-linear, möglicherweise aus einer bereits geschlossenen Zeitlinie importiert. Das Artefakt *gehört nicht in 1923*. Es gehört nicht in *irgendein* bekanntes Datum.
+Rift-Seed Alpha-7 (offen seit EP 2, MS 8): Ein Objekt unbekannter Herkunft wurde im Trümmerfeld des Kaiserpalasts geortet. Chrono-Signatur: nicht-linear, möglicherweise aus einer bereits geschlossenen Zeitlinie importiert. Das Artefakt _gehört nicht in 1923_. Es gehört nicht in _irgendein_ bekanntes Datum.
 
 **Faden 4 — Wer operiert in Asien?**
 Neben der Ordo gibt es eine zweite Fraktion — unidentifiziert, kein Codename, kein Gesicht. Nur Spuren: tote Informanten, gelöschte Kontologs, ein Codewort das immer wieder auftaucht. **"Murasaki."** Lila. Kein weiterer Kontext im Archiv.
@@ -50,7 +51,7 @@ ERDBEBENMASCHINE
                      warum 1923 überhaupt das Zieldatum ist
 ```
 
-**Arbeitshypothese ITI:** Das Erdbeben ist kein Angriff auf Tokio. Es ist ein *Bergungsvorgang*. Jemand braucht das Chaos, um Alpha-7 unbemerkt zu extrahieren. 140.000 Tote als Deckmantel.
+**Arbeitshypothese ITI:** Das Erdbeben ist kein Angriff auf Tokio. Es ist ein _Bergungsvorgang_. Jemand braucht das Chaos, um Alpha-7 unbemerkt zu extrahieren. 140.000 Tote als Deckmantel.
 
 `Kodex: Hypothese — Konfidenz 61%. Datenlage dünn.`
 
@@ -58,18 +59,18 @@ ERDBEBENMASCHINE
 
 ## DIE NÄCHSTEN 10 MISSIONEN — ERWARTETE STRUKTUR
 
-| MS | Fokus | Was dich erwartet |
-|----|-------|-------------------|
-| **1** | Infiltration / Ankunft | Tokio, 30. August 1923. Zwei Tage vor dem Beben. Tarnung aufbauen, Lage sondieren, ersten Kontakt zu lokalem ITI-Asset herstellen. |
-| **2** | Intel / Yokohama | Lagerhaus der Ordo. Dokumente, Zeugen, erste direkte Konfrontation möglich. |
-| **3** | Verfolgung | Ein Ordo-Kurier bewegt sich durch Tokio. Ziel unbekannt. Festhalten oder folgen? |
-| **4** | Soziales Terrain | Zugang zur Oberschicht — Diplomat, Kaufmann, Militär. Jemand weiß etwas. Jemand verkauft Informationen. |
-| **5** | **GATE / Mini-Boss** | Erste direkte Konfrontation mit Ordo-Führung oder "Murasaki"-Kontakt. Kein freundliches Gespräch. |
-| **6** | 1. September — Das Beben | Es passiert. Mitten in der Mission. Chaos, Feuer, Tsunami. Prioritäten neu setzen. |
-| **7** | Trümmer / Alpha-7 | Suche im Kaiserpalast-Bereich. Zeitdruck: andere suchen auch. |
-| **8** | Verrat | Jemand aus dem lokalen Netz ist umgedreht. Wer? |
-| **9** | Eskalation | Beide Fraktionen konvergieren auf dasselbe Ziel. Nova ist im Kreuzfeuer. |
-| **10** | **EPISODENBOSS** | Endkonfrontation. Alpha-7 entscheiden. "Murasaki" bekommt ein Gesicht. Konsequenzen. |
+| MS     | Fokus                    | Was dich erwartet                                                                                                                  |
+| ------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **1**  | Infiltration / Ankunft   | Tokio, 30. August 1923. Zwei Tage vor dem Beben. Tarnung aufbauen, Lage sondieren, ersten Kontakt zu lokalem ITI-Asset herstellen. |
+| **2**  | Intel / Yokohama         | Lagerhaus der Ordo. Dokumente, Zeugen, erste direkte Konfrontation möglich.                                                        |
+| **3**  | Verfolgung               | Ein Ordo-Kurier bewegt sich durch Tokio. Ziel unbekannt. Festhalten oder folgen?                                                   |
+| **4**  | Soziales Terrain         | Zugang zur Oberschicht — Diplomat, Kaufmann, Militär. Jemand weiß etwas. Jemand verkauft Informationen.                            |
+| **5**  | **GATE / Mini-Boss**     | Erste direkte Konfrontation mit Ordo-Führung oder "Murasaki"-Kontakt. Kein freundliches Gespräch.                                  |
+| **6**  | 1. September — Das Beben | Es passiert. Mitten in der Mission. Chaos, Feuer, Tsunami. Prioritäten neu setzen.                                                 |
+| **7**  | Trümmer / Alpha-7        | Suche im Kaiserpalast-Bereich. Zeitdruck: andere suchen auch.                                                                      |
+| **8**  | Verrat                   | Jemand aus dem lokalen Netz ist umgedreht. Wer?                                                                                    |
+| **9**  | Eskalation               | Beide Fraktionen konvergieren auf dasselbe Ziel. Nova ist im Kreuzfeuer.                                                           |
+| **10** | **EPISODENBOSS**         | Endkonfrontation. Alpha-7 entscheiden. "Murasaki" bekommt ein Gesicht. Konsequenzen.                                               |
 
 ---
 
@@ -86,7 +87,7 @@ ERDBEBENMASCHINE
 
 Die Karte von Tokio 1923 liegt flach auf dem Leuchttisch. Straßen, Kanäle, Papiergebäude — alles was in drei Tagen brennen wird. Deine Kontaktlinse markiert vier Zonen in stummem Rot.
 
-*Du kennst die Zahlen. 140.000. Du hast zwei Tage.*
+_Du kennst die Zahlen. 140.000. Du hast zwei Tage._
 
 ---
 

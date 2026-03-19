@@ -33,6 +33,7 @@ sind. Lumo funktioniert, ist aber bewusst einfacher gehalten.
 ## 1. Was auf Lumo wohin gehört
 
 ### Projekt-Anweisungen
+
 Hier gehört der komplette Inhalt von:
 
 - `meta/masterprompt_v6.md`
@@ -40,11 +41,13 @@ Hier gehört der komplette Inhalt von:
 hinein.
 
 **Wichtig:**
+
 - Der ZEITRISS-Masterprompt gehört auf Lumo **in die Projekt-Anweisungen**.
 - Er gehört **nicht** in die Personalisierung.
 - Er gehört **nicht** ins Projektwissen.
 
 ### Projektwissen
+
 Hier gehören **nur die 19 Default-Module** hinein:
 
 1. `core/spieler-handbuch.md`
@@ -68,6 +71,7 @@ Hier gehören **nur die 19 Default-Module** hinein:
 19. `systems/toolkit-gpt-spielleiter.md`
 
 ### Nicht in Projektwissen laden
+
 - `README.md`
 - `master-index.json`
 - `meta/masterprompt_v6.md`
@@ -87,6 +91,7 @@ weil sie global wirkt und mit Projekten kollidieren kann.
 `Antworte standardmäßig auf Deutsch. Sei direkt, klar und kritisch.`
 
 **Nicht empfohlen:**
+
 - ZEITRISS-Masterprompt dort einfügen
 - Rollenspielregeln dort doppeln
 - Save-/HUD-/Kodex-Logik dort erneut beschreiben
@@ -142,6 +147,7 @@ Plane deshalb so:
 - **„Länger nachdenken“** = manueller Qualitätshebel bei kritischen Zügen
 
 Typische Momente für den Button:
+
 - Save laden / Merge / Rejoin
 - HQ-DeepSave
 - Boss-/Rift-Szenen
@@ -154,6 +160,7 @@ Typische Momente für den Button:
 Lumo ist für ZEITRISS **spielbar**, aber nicht die Referenzplattform.
 
 Das bedeutet praktisch:
+
 - weniger kontrollierbar als OpenWebUI
 - keine dokumentierten OpenWebUI-Äquivalente für Temperature/Top-P/Systemfeld
 - deshalb mehr Gewicht auf saubere Projekt-Anweisungen und ein kuratiertes Projektwissen
@@ -163,6 +170,7 @@ Das bedeutet praktisch:
 ZEITRISS bleibt auch auf Lumo ein **filmischer Agenten-Thriller**.
 
 Die Spielleitung soll:
+
 - illegalen Real-World-How-to-Stil vermeiden
 - Hacking, Gewalt und Infiltration **in-world und outcome-basiert** halten
 - keine Schritt-für-Schritt-Anleitungen für echte Rechtsverstöße geben

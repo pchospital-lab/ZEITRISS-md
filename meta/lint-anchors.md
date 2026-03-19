@@ -9,6 +9,7 @@ tags: [meta, lint]
 List of documented `LINT:` anchors grouped by feature.
 
 ## Arena
+
 - `LINT:ARENA_MODULE`
 - `LINT:ARENA_GUARDS`
 - `LINT:ARENA_NO_SEEDS`
@@ -32,6 +33,7 @@ List of documented `LINT:` anchors grouped by feature.
 - `LINT:ARENA_MODE_ELIMINATION`
 
 ## Chronopolis
+
 - `LINT:CHRONO_KEY_GATE`
 - `LINT:CHRONO_MODULE`
 - `LINT:CHRONO_KEY_HQ_HOOK`
@@ -49,17 +51,22 @@ List of documented `LINT:` anchors grouped by feature.
 - `LINT:CHRONO_SIGNAL_GUARD`
 
 ## Boss Rhythm
+
 - `LINT:CORE_BOSS_M05_M10`
 - `LINT:BOSS_SCENE10_RIFT`
 
 ## Px HUD
+
 - `LINT:PX5_SEED_GATE`
 
 ## Seeds / Artefacts
+
 - `LINT:RIFT_ARTIFACT_11_13_D6`
 
 ## FR Intervention
+
 - `LINT:FR_INTERVENTION`
 
 ## Save Guards
+
 - `LINT:HQ_ONLY_SAVE`

@@ -17,6 +17,7 @@ Spiel starten (solo schnell)
 Mein Chrononaut: **"WREN"** — Infiltratorin. STR 3, GES 5, INT 4, CHA 4, TEMP 2, SYS 0. Talente: Schlösserknacker +3, Verkleidung +2, Akrobatik +1.
 
 Setup:
+
 - Episode 1, Mission 5 — der Core-Op Episodenboss steht an. Px 2/5.
 - Modus: Solo mit 2 NPC-Begleitern (npc-team 2). Gib ihnen Persönlichkeit.
 - Kampagnenmodus: mixed
@@ -58,8 +59,9 @@ Der Handler tippt auf die Konsole Das Panorama verwandelt sich in ein scharfes S
 Er deutet auf dich „Wren deine Aufgabe ist die Infiltration Finde heraus was gehandelt wird und neutralisiere den Eingriff Subtilität hat Priorität Wir wollen keine Paradoxe erzeugen Nur saubere Chirurgie“
 
 Du nimmst deine Ausrüstung entgegen:
-* **Mikro‑Entkoppler** — dein Werkzeug für jedes Schloss (+3 auf Schlösserknacken)
-* **Hologramm‑Medaille** — projiziert überzeugende Uniformabzeichen oder Accessoires (+2 auf Verkleidung)
+
+- **Mikro‑Entkoppler** — dein Werkzeug für jedes Schloss (+3 auf Schlösserknacken)
+- **Hologramm‑Medaille** — projiziert überzeugende Uniformabzeichen oder Accessoires (+2 auf Verkleidung)
 
 „Physicality Gate check“ sagt der Handler mechanisch „Juno dein Chronos‑Kompass Kai dein Kinetic‑Absorber unter dem Mantel Beide sind synchronisiert Bereit“
 
@@ -92,10 +94,10 @@ Du schulterst dein Notizbuch ab und kletterst geschickt an einem Regenrocker hoc
 > Schwierigkeit: Diebstahlsicherung hoher Qualität → DN 18
 > Dein Pool: GES (5d6) + Talent (+3)
 >
-> Gewürfelt:
-> ---
-> 🎲🎲🎲🎲🎲 → `[4] [5] [2] [6] [3]`
-> ---
+> ## Gewürfelt:
+>
+> ## 🎲🎲🎲🎲🎲 → `[4] [5] [2] [6] [3]`
+>
 > Summe = `20`
 >
 > Eine Sechs! Exploding-Dice → 🎲 `[5]`
@@ -131,10 +133,10 @@ Ein unsichtbarer Schlag trifft dich gegen die Brust Dir wird schwindelig für de
 > Schwierigkeit : Direkter mentaler Angriff → DN 14
 > Dein Pool : TEMP (2d6)
 >
-> Gewürfelt:
-> ---
-> 🎲🎲 → `[4] [2]`
-> ---
+> ## Gewürfelt:
+>
+> ## 🎲🎲 → `[4] [2]`
+>
 > Summe : **6**
 >
 > Ergebnis : Misserfolg! Der Stress trifft dich voll!
@@ -166,17 +168,17 @@ Du handelst schnell Subtilität war gestern jetzt geht es ums Überleben Du nutz
 > Schwierigkeit : Flinke Manöver im Kampf → DN 15
 > Dein Pool : GES (5d6) + Talent Akrobatik (+1)
 >
-> Gewürfelt:
-> ---
-> 🎲🎲🎲🎲🎲 → `[6] [3] [5] [1] [4]`
-> ---
+> ## Gewürfelt:
+>
+> ## 🎲🎲🎲🎲🎲 → `[6] [3] [5] [1] [4]`
+>
 > Summe = `19`
 >
 > Eine Sechs! Exploding-Dice → 🎲 `[2]`
 >
 > Endsumme vor Bonus = `21`
 >
- Ergebnis mit Talent (+1): **22**
+> Ergebnis mit Talent (+1): **22**
 
 Du landest perfekt Die temporale Energie schlägt dort ein wo du gerade warst und lässt Marmorstücke wie Hagel vom Boden spritzen Gleichzeitig hört du Jundos Stimme über Funk „Wren ich analysiere ihr Energiefeld Sie zieht Power aus ihrer direkten Umgebung Wenn ich ihren Kreislauf unterbrechen kann wird sie geschwächt Ich brauche nur zehn Sekunden!“
 
@@ -209,6 +211,7 @@ Zurück im HQ fühlt sich der Erfolg fahl an Der Stress des Temporal-Angriffs si
 Er tippt abschließend auf seine Konsole Euer Score erscheint projected into the void before you:
 
 ---
+
 ### ⚙️ MISSION COMPLETE ⚙️ ---
 
 **AGENT:** WREN & TEAM JUNO/KAI  
@@ -216,36 +219,40 @@ Er tippt abschließend auf seine Konsole Euer Score erscheint projected into the
 **MISSION:** #05 'DIE MASKE VON WIEN'
 
 ---
+
 #### PERFORMANCE SCORE:
 
-| METRIK            | PUNKTE              |
-|-------------------|---------------------|
-| Primärziel       | ✅ ERREICHT (+30 XP) |
-| Sekundärziel     | ✅ ARTEFAKT SICHER (+15 XP) |
-| Subtilität       | ⚠️ PARTIELL (-10 XP) |
-| Team-Koordination| ✅ EXZELLENT (+20 XP) |
-| Zeitbonus         | ✅ SCHNELL (+15 XP) |
+| METRIK            | PUNKTE                         |
+| ----------------- | ------------------------------ |
+| Primärziel        | ✅ ERREICHT (+30 XP)           |
+| Sekundärziel      | ✅ ARTEFAKT SICHER (+15 XP)    |
+| Subtilität        | ⚠️ PARTIELL (-10 XP)           |
+| Team-Koordination | ✅ EXZELLENT (+20 XP)          |
+| Zeitbonus         | ✅ SCHNELL (+15 XP)            |
 | Strafe            | ❌ TEMPORALER SCHADEN (-15 XP) |
 
 ---
+
 #### ERGEBNIS:
 
 **XP GEWINN:** +55  
 **CU GEWINN:** +1200  
 **PX AKTUELL:** ⬆️ von 4/5 -> NEUER STAND BESTÄTIGT  
 **STRESS CHANGE:** -1 SC  
-**LOOT GETTET:** *[ZEIT-SPLITTER FRAGMENT]* - Forschungsobjekt wertvoll für Tech-Abteilung  
+**LOOT GETTET:** _[ZEIT-SPLITTER FRAGMENT]_ - Forschungsobjekt wertvoll für Tech-Abteilung
 
 ---
+
 #### AKTUELLE STATUS:
 
-| STAT      | ALT     -> NEU      |
-|-----------|---------------------|
-| TEMP      |      ->         |
-| MS         |      ->         |
-| SC         |     ->          |
+| STAT | ALT -> NEU |
+| ---- | ---------- |
+| TEMP | ->         |
+| MS   | ->         |
+| SC   | ->         |
 
 ---
+
 Der Blick des Handlers ruht kurz auf dir dann nickt er langsam „Erholt euch Wien war nur der Anfang Der Walzer geht weiter“
 
-Der Bildschirm flackert und erlischt Wien bleibt zurück als Erinnerung an Regen Walzerkalte Stahlstimmen Und eines leeren Auges Blick Immer noch spürbar tief in deinem Bewusstsein ***[SPIELENDE]**
+Der Bildschirm flackert und erlischt Wien bleibt zurück als Erinnerung an Regen Walzerkalte Stahlstimmen Und eines leeren Auges Blick Immer noch spürbar tief in deinem Bewusstsein **\*[SPIELENDE]**

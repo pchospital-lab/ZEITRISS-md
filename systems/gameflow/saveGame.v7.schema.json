@@ -32,16 +32,10 @@
       "type": "string"
     },
     "parent_save_id": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "merge_id": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "branch_id": {
       "type": "string"
@@ -49,12 +43,7 @@
     "campaign": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "episode",
-        "mission",
-        "px",
-        "px_state"
-      ],
+      "required": ["episode", "mission", "px", "px_state"],
       "properties": {
         "episode": {
           "type": "integer"
@@ -69,11 +58,7 @@
         },
         "px_state": {
           "type": "string",
-          "enum": [
-            "stable",
-            "pending_reset",
-            "consumed"
-          ]
+          "enum": ["stable", "pending_reset", "consumed"]
         }
       }
     },
@@ -83,10 +68,7 @@
       "items": {
         "type": "object",
         "additionalProperties": true,
-        "required": [
-          "id",
-          "wallet"
-        ],
+        "required": ["id", "wallet"],
         "properties": {
           "id": {
             "type": "string"
@@ -100,9 +82,7 @@
     "economy": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "hq_pool"
-      ],
+      "required": ["hq_pool"],
       "properties": {
         "hq_pool": {
           "type": "number"
@@ -112,13 +92,7 @@
     "logs": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "trace",
-        "notes",
-        "artifact_log",
-        "market",
-        "flags"
-      ],
+      "required": ["trace", "notes", "artifact_log", "market", "flags"],
       "properties": {
         "flags": {
           "type": "object",
@@ -153,23 +127,14 @@
                     "type": "string"
                   },
                   "anchor_save_id": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": ["string", "null"]
                   },
                   "incoming_save_id": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": ["string", "null"]
                   },
                   "resolution": {
                     "type": "string",
-                    "enum": [
-                      "anchor_kept_echo_imported",
-                      "newer_personal_state_applied"
-                    ]
+                    "enum": ["anchor_kept_echo_imported", "newer_personal_state_applied"]
                   },
                   "note": {
                     "type": "string"
@@ -184,11 +149,7 @@
     "arc": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "factions",
-        "questions",
-        "hooks"
-      ]
+      "required": ["factions", "questions", "hooks"]
     },
     "ui": {
       "type": "object",
@@ -211,11 +172,7 @@
     "summaries": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "summary_last_episode",
-        "summary_last_rift",
-        "summary_active_arcs"
-      ],
+      "required": ["summary_last_episode", "summary_last_rift", "summary_active_arcs"],
       "properties": {
         "summary_last_episode": {
           "type": "string"
@@ -255,16 +212,10 @@
           "additionalProperties": true,
           "properties": {
             "family_id": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "thread_id": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "expected_threads": {
               "type": "array",
@@ -314,12 +265,7 @@
               },
               "scope": {
                 "type": "string",
-                "enum": [
-                  "shared",
-                  "rumor",
-                  "campaign",
-                  "personal"
-                ]
+                "enum": ["shared", "rumor", "campaign", "personal"]
               },
               "text": {
                 "type": "string"

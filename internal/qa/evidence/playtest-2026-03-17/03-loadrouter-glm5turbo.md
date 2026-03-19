@@ -1,4 +1,5 @@
 # 03-loadrouter-glm5turbo
+
 - **Model:** zeitriss-v426-uncut-glm5-turbo
 - **Tokens:** in:11323 out:1532 cost:$0.007576384
 - **Date:** 2026-03-17T11:01:07+01:00
@@ -23,4 +24,4 @@ Die Dienstschicht läuft. Unten im Atrium bewegen sich Techniker und Analytiker 
 2. **HQ manuell** — Quarzatrium, Kodex-Archiv, Operations-Deck, Hangar-Axis, Zero Time Lounge — eigener Rundgang.
 3. **Briefing starten** — Direkt zum Operations-Deck, Mission 4 anfordern.
 
-*Freie Aktion*
+_Freie Aktion_

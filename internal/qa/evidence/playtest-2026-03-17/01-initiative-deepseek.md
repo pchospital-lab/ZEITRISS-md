@@ -1,4 +1,5 @@
 # 01-initiative-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek-v32
 - **Tokens:** in:11374 out:572 cost:$0.00316628
 - **Date:** 2026-03-17T10:53:33+01:00
@@ -8,12 +9,14 @@
 `HUD: EP 1 · MS 1 · SC 1/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 5 ▓▓▓▓▓░░░░░ 5/10 · Px 0/5 · Stress 0/10 · Obj Eliminieren · Exfil -`
 
 **Initiativeberechnung:**
+
 - **Agent Kira:** W6: [5] + max(GES 4, TEMP 6) = 5 + 6 = **11**
 - **Gegner 1:** W6: [3] + GES 3 = **6**
 - **Gegner 2:** W6: [1] + GES 3 = **4**
 - **Gegner 3:** W6: [4] + GES 3 = **7**
 
 **Reihenfolge:**
+
 1. **Agent Kira** (11)
 2. **Gegner 3** (7)
 3. **Gegner 1** (6)
@@ -32,6 +35,7 @@ Du bist schneller.
 ---
 
 **Du bist am Zug.**
+
 1. **Nahkampf:** Monofaser-Schwert ziehen und auf den nächsten Gegner stürmen.
 2. **Fernkampf:** Kompaktpistole ziehen und auf den mittleren Gegner feuern.
 3. **Manoeuvre:** Deckung suchen (Müllcontainer) und die Lage neu einschätzen.

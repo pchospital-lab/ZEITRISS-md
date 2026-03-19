@@ -1,12 +1,12 @@
 ---
-title: "Beta-GPT Lauf 2025-07-05 – Rohprotokoll"
+title: "Beta-KI Lauf 2025-07-05 – Rohprotokoll"
 version: 1.0.0
 tags: [meta, qa-log]
 ---
 
-# Beta-GPT Lauf 2025-07-05 – Rohprotokoll
+# Beta-KI Lauf 2025-07-05 – Rohprotokoll
 
-Dieses Dokument archiviert den vollständigen Beta-GPT-Testprompt samt Befundliste.
+Dieses Dokument archiviert den vollständigen Beta-KI-Testprompt samt Befundliste.
 Ergänzende Auswertung und Maßnahmen stehen im [Beta-QA-Log 2025](2025-beta-qa-log.md).
 
 ```text
@@ -34,7 +34,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Wissensbasis & Runtime-Skripte in einem Commit angleichen; PR mit QA-Log
+* Maintainer: Wissensbasis & Runtime-Skripte in einem Commit angleichen; PR mit QA-Log
   verlinken.
 * Notizen: Cross-Mode-Tests mit gemischten Saves (Solo/Koop) ebenfalls gegen v6 fahren.
 
@@ -61,7 +61,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README/Toolkit-Text konsolidieren (Gate vs. Total).
+* Maintainer: README/Toolkit-Text konsolidieren (Gate vs. Total).
 * Notizen: Kein Regelwandel – nur Darstellung/Statusausgabe.
 
 ISSUE #3
@@ -90,7 +90,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Doku-PR (Toolkit + README) bündeln.
+* Maintainer: Doku-PR (Toolkit + README) bündeln.
 * Notizen: Linter-Tag für FS‑Reset hinzufügen (z. B. `LINT:FS_RESET_OK`).
 
 ISSUE #4
@@ -117,7 +117,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: QA-Fahrplan-/README-Formulierung synchen.
+* Maintainer: QA-Fahrplan-/README-Formulierung synchen.
 * Notizen: Badge-Reset im HUD-Counter (Toast) beibehalten.
 
 ISSUE #5
@@ -146,7 +146,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Toolkit-PR (Arena-API + Save-Guard-Hook).
+* Maintainer: Toolkit-PR (Arena-API + Save-Guard-Hook).
 * Notizen: Arena-`save_guard()` bereits vorbereitet (Speichern blockiert).
 
 ISSUE #6
@@ -172,7 +172,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README+Toolkit konsolidieren; HUD-Vokabeln referenzieren.
+* Maintainer: README+Toolkit konsolidieren; HUD-Vokabeln referenzieren.
 * Notizen: Accessibility: `ascii_only`-Fallback in HUD-Menü ist vorhanden.
 
 ISSUE #7
@@ -186,7 +186,7 @@ ISSUE #7
 
 Lösungsvorschlag
 
-* Ansatz: Kanonisch `party.characters[]` für spielende Agent:innen; `team` nur
+* Ansatz: Kanonisch `party.characters[]` für spielende Agenten; `team` nur
   für NSC-Zelle/Flavor (optional). Serializer-Dedupe-Regel: `party` → primär,
   `team.members` → ignorieren oder in `party` migrieren.
 * Risiken: Altsaves mit `team`-Zählung; Migration nötig.
@@ -199,7 +199,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Schemahinweis in README/Speicher-Modul präzisieren.
+* Maintainer: Schemahinweis in README/Speicher-Modul präzisieren.
 * Notizen: Wallets referenzieren `party.characters[].id` – validieren.
 
 ISSUE #8
@@ -220,7 +220,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Minor edit mergen.
+* Maintainer: Minor edit mergen.
 * Notizen: Arc-Dashboard-Snapshot bleibt QA‑Evidenz.
 
 ISSUE #9
@@ -245,7 +245,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README‑Acceptance-Block updaten.
+* Maintainer: README‑Acceptance-Block updaten.
 * Notizen: Keine Engine-Änderung nötig.
 
 ISSUE #10
@@ -274,7 +274,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Dokuzeile in Speicher‑Modul ergänzen.
+* Maintainer: Dokuzeile in Speicher‑Modul ergänzen.
 * Notizen: Debrief-Linien `Wallet-Split (n×)`/`HQ-Pool …` bereits spezifiziert.
 
 ISSUE #11
@@ -302,7 +302,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: QA‑Fahrplan aktualisieren.
+* Maintainer: QA‑Fahrplan aktualisieren.
 * Notizen: `Ask→Suggest`-Badge/Overlay ebenfalls als Accessibility‑Hilfsmodus referenzieren.
 
 ISSUE #12
@@ -331,7 +331,7 @@ To-do (abgeschlossen)
 
 Nächste Schritte
 
-* Maintainer:innen: README-PR.
+* Maintainer: README-PR.
 * Notizen: Keine Engine‑Änderung.
 
 ISSUE #13
@@ -357,7 +357,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Doku-/Logschema synchronisieren.
+* Maintainer: Doku-/Logschema synchronisieren.
 * Notizen: Einheitliche Tag‑Kennzeichnung `Foreshadow`/`FS-Reset` nutzen.
 
 ISSUE #14
@@ -381,7 +381,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README-Update.
+* Maintainer: README-Update.
 * Notizen: HQ‑only bleibt unverändert.
 
 ISSUE #15
@@ -407,8 +407,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Task im QA‑Fahrplan hinzufügen.
+* Maintainer: Task im QA‑Fahrplan hinzufügen.
 * Notizen: Chronopolis‑Logs gehen in `logs.market[]`; Debrief fasst als `Chronopolis-Trace (n×)`
   zusammen.
 ```
-

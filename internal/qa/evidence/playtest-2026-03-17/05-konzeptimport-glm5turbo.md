@@ -1,4 +1,5 @@
 # 05-konzeptimport-glm5turbo
+
 - **Model:** zeitriss-v426-uncut-glm5-turbo
 - **Tokens:** in:10802 out:1480 cost:$0.006906752
 - **Date:** 2026-03-17T11:13:28+01:00
@@ -19,14 +20,14 @@ Klar. Hier die Konvertionslogik:
 
 **Charakterbogen — Elara**
 
-| Attribut | Wert |
-|----------|------|
-| STR | 2 |
-| GES | 3 |
-| INT | 5 |
-| CHA | 3 |
-| TEMP | 2 |
-| SYS | 3 |
+| Attribut  | Wert   |
+| --------- | ------ |
+| STR       | 2      |
+| GES       | 3      |
+| INT       | 5      |
+| CHA       | 3      |
+| TEMP      | 2      |
+| SYS       | 3      |
 | **Summe** | **18** |
 
 **Rang:** Rekrut · **Lvl 1** ▓░░░░░░░░░ 0/1
@@ -41,9 +42,11 @@ Klar. Hier die Konvertionslogik:
 **Hintergrund:** Archivarin an der Universitätsbibliothek Leipzig, Spezialgebiet historische Textanalyse. ITI-Rekrutierung nach einer Publikation über anomale Datenspitzen in mittelalterlichen Chroniken — die niemand sonst sah.
 
 **Talente:**
+
 - Spurenanalyse (INT): +1 auf Probe bei forensischer oder analytischer Untersuchung
 
 **Ausrüstung:**
+
 - ITI-Standardkommunikator (Comlink, verschlüsselt)
 - Kodex-Handterminal (Laptop-Äquivalent, ITI-Netzzugang)
 - Leichte Schutzweste (Tier 1, +1 auf physische Verteidigung)

@@ -33,9 +33,10 @@ tags: [system]
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Zustand stabil. Deepsave möglich.`
 > - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 >
-> *Technische Details für die KI-Spielleitung folgen unten.*
+> _Technische Details für die KI-Spielleitung folgen unten._
 
 ## HQ-JSON-Save {#json-schluesselfelder}
+
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
 > Chat-Befehle im reinen Chatbetrieb: `!save` und `!bogen` (Alias `!charakterbogen`). Laden erfolgt über JSON-Paste im Chat; `Spiel laden` bleibt optionaler Prompt.
 > Einziger Save-Typ: Deepsave (HQ-only).
@@ -47,6 +48,7 @@ ausgefüllter v6-Referenzstand mit Pflichtfeldern und Cross-Mode-Pfaden
 Import-Validierung; der kanonische Exportpfad bleibt v7.
 
 ## Save-Prompts im HQ-Flow
+
 - **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
   Missionen, Arenawarteschlangen oder Chronopolis.
 - **Verbindliche Trigger (chronologisch):**
@@ -87,12 +89,13 @@ bevor ihr in eine Stadt tretet, die sich anfühlt wie euer Scheitern.
 
 **SaveGuard (Pseudocode)**
 
-> *Die folgenden Strings und Codeblöcke sind KI-Spielleiter-Referenz und nicht
+> _Die folgenden Strings und Codeblöcke sind KI-Spielleiter-Referenz und nicht
 > für Spieler gedacht. Der Block arbeitet auf der internen Runtime-/Import-Bridge
-> (inkl. Legacy-Feldern wie `character.attributes.*`/`cooldowns`) vor der
-> v7-Normalisierung und beschreibt **keinen** kanonischen Neu-Export.*
+> (inkl. Legacy-Feldern wie `character.attributes._`/`cooldowns`) vor der
+> v7-Normalisierung und beschreibt **keinen** kanonischen Neu-Export.\*
 
 {# LINT:HQ_ONLY_SAVE #}
+
 ```pseudo
 assert state.location == "HQ", (
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt."
@@ -148,7 +151,6 @@ for field in ui_persistent:
   )
 ```
 
-
 **HQ-Save-Normalisierung:** Liegt `location="HQ"` vor und es ist kein aktiver
 Einsatz mehr offen (`CITY`, Arena, aktives Exfil-, Transfer- oder Queue-State
 ausgenommen), normalisiert der HQ-Save vor dem Export alle transienten Felder
@@ -159,6 +161,7 @@ Crew wieder frei im ITI steht.
 **SYS-Guard-Korrektur:** `sys_installed` folgt dem Charaktersystem und prüft
 `sys_installed ≤ attr.SYS`, nicht Gleichheit. Freie SYS-Slots sind gültig und
 dürfen keinen HQ-Save sperren.
+
 > **Regel: UI-Felder sind persistent.** Was der Spieler einstellt, bleibt.
 > Die Felder `ui.suggest_mode`, `ui.contrast`, `ui.badge_density` und
 > `ui.output_pace` werden beim Speichern **IMMER** geschrieben - kein
@@ -207,7 +210,7 @@ Der Befehl `!offline` ist
 auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
 noch füllen sie das Protokoll.
 
-**SaveGuard-Reihenfolge** *(KI-Spielleiter-Referenz)*: Offline blockiert exklusiv und schreibt
+**SaveGuard-Reihenfolge** _(KI-Spielleiter-Referenz)_: Offline blockiert exklusiv und schreibt
 `reason: offline`. Danach greift der Arena-Blocker (`reason: arena_active`
 inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 `chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,
@@ -216,15 +219,15 @@ mit `reason`, `location` und `phase` (Fallback auf `state.phase`, falls
 `campaign.phase` fehlt), damit Reihenfolge und Auslöser in Snapshots
 transparent bleiben.
 
-| Priorität | Guard | Trace-Reason | Hinweis |
-| --- | --- | --- | --- |
-| 1 | Offline | `offline` | Exklusiv; kein weiterer Guard danach. |
-| 2 | Arena aktiv | `arena_active` | `queue_state`/`phase`/`zone` im Trace. |
-| 3 | HQ-only/Chronopolis | `hq_only`/`chronopolis` | Pre-City-Hub zählt als HQ. |
-| 4 | Exfil aktiv | `exfil_active` | Blockt HQ-Save bis Rückkehr. |
-| 5 | SYS-Checks | `sys_not_full`/`sys_overflow`/`sys_runtime_overflow` | Vollinstallation + Runtime-Limit. |
-| 6 | Stress aktiv | `stress_active` | Blockt bis Stress 0. |
-| 7 | Psi-Heat aktiv | `psi_heat_active` | Blockt bis Psi-Heat 0. |
+| Priorität | Guard               | Trace-Reason                                         | Hinweis                                |
+| --------- | ------------------- | ---------------------------------------------------- | -------------------------------------- |
+| 1         | Offline             | `offline`                                            | Exklusiv; kein weiterer Guard danach.  |
+| 2         | Arena aktiv         | `arena_active`                                       | `queue_state`/`phase`/`zone` im Trace. |
+| 3         | HQ-only/Chronopolis | `hq_only`/`chronopolis`                              | Pre-City-Hub zählt als HQ.             |
+| 4         | Exfil aktiv         | `exfil_active`                                       | Blockt HQ-Save bis Rückkehr.           |
+| 5         | SYS-Checks          | `sys_not_full`/`sys_overflow`/`sys_runtime_overflow` | Vollinstallation + Runtime-Limit.      |
+| 6         | Stress aktiv        | `stress_active`                                      | Blockt bis Stress 0.                   |
+| 7         | Psi-Heat aktiv      | `psi_heat_active`                                    | Blockt bis Psi-Heat 0.                 |
 
 ### Kompakt-Profil (Save v7)
 
@@ -332,14 +335,13 @@ Installation (`sys_installed ≤ attr.SYS`).
 > Im Runtime-Kanon gilt beim Export ausschließlich das v7-Format mit `v`,
 > `characters[]`, `characters[].wallet`, `economy.hq_pool` und `arc`.
 
-
-
 ### V6→V7-Migrationsbeispiel im Wissensspeicher {#v6-v7-migrationsbeispiel-im-wissensspeicher}
 
 Dieses Beispiel ist absichtlich kompakt, damit die **KI-SL ohne externe
 Repo-Dateien** alte Stände sicher umheben kann.
 
 **Legacy-Eingabe (v6, schematisch):**
+
 - `save_version = 6`
 - `zr_version = 4.2.6`
 - `party.characters = [agent-nova(wallet=320)]`
@@ -349,6 +351,7 @@ Repo-Dateien** alte Stände sicher umheben kann.
 - `campaign.mission_in_episode = 5`
 
 **Ziel nach Migration (v7, kanonisch):**
+
 - `v = 7`, `zr = 4.2.6`
 - `characters = [agent-nova(wallet=320), agent-rook(wallet=280)]`
 - `economy.hq_pool = 540`
@@ -357,6 +360,7 @@ Repo-Dateien** alte Stände sicher umheben kann.
 - `arc = {questions[], hooks[], factions{}}`
 
 **Merke (SSOT):**
+
 - `save_version`/`zr_version` sind reine Importmarker.
 - `party.characters[]` und `team.members[]` werden in `characters[]` zusammengeführt.
 - `economy.cu` wird auf `economy.hq_pool` gehoben.
@@ -450,12 +454,12 @@ zurück.
 > Fallback auf Defaults für vorhandene Werte. Nur bei fehlenden Feldern in
 > alten Saves (Legacy/pre-v6) setzt der Normalizer folgende Defaults ein:
 >
-> | Feld | Default für alte Saves |
-> | --- | --- |
-> | `suggest_mode` | `false` |
-> | `contrast` | `"standard"` |
-> | `badge_density` | `"standard"` |
-> | `output_pace` | `"normal"` |
+> | Feld            | Default für alte Saves |
+> | --------------- | ---------------------- |
+> | `suggest_mode`  | `false`                |
+> | `contrast`      | `"standard"`           |
+> | `badge_density` | `"standard"`           |
+> | `output_pace`   | `"normal"`             |
 >
 > Diese Defaults gelten ausschließlich als Auffangnetz für Migrationsfälle.
 > Aktuelle Saves (v7) müssen alle vier Felder enthalten - der SaveGuard
@@ -541,30 +545,36 @@ zurück.
       "sys_installed": 2,
       "talents": ["Schleichprofi", "Pistolenschütze", "Reaktionsschnell"],
       "equipment": [
-        {"name": "CQB-Kampfpistole (SD)", "type": "weapon", "tier": 1},
-        {"name": "Kevlar-Weste Stufe II", "type": "armor", "tier": 1},
-        {"name": "Multi-Tool Wraith", "type": "tool", "tier": 1}
+        { "name": "CQB-Kampfpistole (SD)", "type": "weapon", "tier": 1 },
+        { "name": "Kevlar-Weste Stufe II", "type": "armor", "tier": 1 },
+        { "name": "Multi-Tool Wraith", "type": "tool", "tier": 1 }
       ],
       "implants": [
-        {"name": "Reflex-Boost Microline", "sys_cost": 1, "effect": "+1 Initiative"},
-        {"name": "Taktisches Ohrimplantat Mk I", "sys_cost": 1, "effect": "+1 Gehör"}
+        { "name": "Reflex-Boost Microline", "sys_cost": 1, "effect": "+1 Initiative" },
+        { "name": "Taktisches Ohrimplantat Mk I", "sys_cost": 1, "effect": "+1 Gehör" }
       ],
       "history": {
         "background": "Schallgedämmte CQB-Zelle mit Analysten-Setup",
         "milestones": ["Olympia 2000 stabilisiert", "Apollo-15-Sabotage verhindert"]
       },
       "carry": [
-        {"name": "Rauchgranate Mk I", "type": "consumable", "tier": 1},
-        {"name": "Med-Patch", "type": "consumable", "tier": 1},
-        {"name": "Notfall-Transponder", "type": "gadget", "tier": 1}
+        { "name": "Rauchgranate Mk I", "type": "consumable", "tier": 1 },
+        { "name": "Med-Patch", "type": "consumable", "tier": 1 },
+        { "name": "Notfall-Transponder", "type": "gadget", "tier": 1 }
       ],
       "quarters_stash": [
-        {"name": "Ersatzmagazin", "type": "consumable", "tier": 1},
-        {"name": "Faseroptik-Kabelkamera", "type": "tool", "tier": 1}
+        { "name": "Ersatzmagazin", "type": "consumable", "tier": 1 },
+        { "name": "Faseroptik-Kabelkamera", "type": "tool", "tier": 1 }
       ],
       "vehicles": {
-        "epoch_vehicle": {"id": "VEH-0001", "name": "Brough Superior SS100", "type": "vehicle", "tier": 1, "upgrades": []},
-        "availability": {"ready_every_missions": 4, "next_ready_in": 0},
+        "epoch_vehicle": {
+          "id": "VEH-0001",
+          "name": "Brough Superior SS100",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": { "ready_every_missions": 4, "next_ready_in": 0 },
         "legendary_temporal_ship": null
       },
       "wallet": 1650
@@ -578,7 +588,7 @@ zurück.
       "gear": ["Multi-Tool Wraith", "Faseroptik-Kabelkamera", "Rauchgranate Mk I", "Micro-Breacher"]
     }
   },
-  "economy": {"hq_pool": 1650},
+  "economy": { "hq_pool": 1650 },
   "logs": {
     "trace": [],
     "artifact_log": [],
@@ -604,10 +614,14 @@ zurück.
   },
   "arc": {
     "open_seeds": [],
-    "factions": {"ITI": 0, "Ordo Mnemonika": 0, "Kausalklingen": 0},
+    "factions": { "ITI": 0, "Ordo Mnemonika": 0, "Kausalklingen": 0 },
     "open_questions": [],
     "timeline": [
-      {"id": "TL-OLYMPICS-2000", "epoch": "2000", "label": "Kontaminationsalarm bei Olympia 2000 stabilisiert"}
+      {
+        "id": "TL-OLYMPICS-2000",
+        "epoch": "2000",
+        "label": "Kontaminationsalarm bei Olympia 2000 stabilisiert"
+      }
     ]
   },
   "ui": {
@@ -620,7 +634,7 @@ zurück.
     "output_pace": "normal",
     "voice_profile": "gm_second_person"
   },
-  "arena": {"active": false, "phase": "idle", "mode": "single", "tier": 1}
+  "arena": { "active": false, "phase": "idle", "mode": "single", "tier": 1 }
 }
 ```
 
@@ -652,8 +666,8 @@ Migrationsquellen und werden beim Laden in diese v7-Pfade verdichtet, statt als
   "logs": {
     "hud": ["SF-OFF (Mission 5)", "GATE 2/2", "SF-ON (post-M5 reset)"],
     "self_reflection_history": [
-      {"mission_ref": "EP04-MS05", "reason": "mission5_end", "ts": "2025-11-26T22:10:00Z"},
-      {"mission_ref": "EP04-MS10", "reason": "mission10_end", "ts": "2025-11-27T22:10:00Z"}
+      { "mission_ref": "EP04-MS05", "reason": "mission5_end", "ts": "2025-11-26T22:10:00Z" },
+      { "mission_ref": "EP04-MS10", "reason": "mission10_end", "ts": "2025-11-27T22:10:00Z" }
     ],
     "flags": {
       "foreshadow_gate_m5_seen": true,
@@ -665,8 +679,8 @@ Migrationsquellen und werden beim Laden in diese v7-Pfade verdichtet, statt als
       "last_mission_end_reason": "aborted"
     }
   },
-  "character": {"self_reflection": true},
-"ui": {"suggest_mode": false, "action_mode": "uncut"}
+  "character": { "self_reflection": true },
+  "ui": { "suggest_mode": false, "action_mode": "uncut" }
 }
 ```
 
@@ -678,6 +692,7 @@ Debrief ist der Charakterwert maßgeblich (`self_reflection=true`), Log-Flags
 spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 
 **Self-Reflection-Priorität & Helper**
+
 - Runtime und HUD lesen ausschließlich `character.self_reflection`; Log-Flags
   spiegeln den Charakterwert, ersetzen ihn aber nie.
 - `set_self_reflection(enabled:boolean, reason?: string)` ist die einzige
@@ -740,12 +755,12 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 #### Transferregeln pro Richtung
 
-| Richtung | Übernommene Felder | Verworfene/Zurückgesetzte Felder | Besonderheiten |
-| --- | --- | --- | --- |
-| **Solo → Koop** | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts) | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
-| **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
-| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | - | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
-| **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
+| Richtung              | Übernommene Felder                                                                                                                                                                                                  | Verworfene/Zurückgesetzte Felder                                                                                                                | Besonderheiten                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
+| **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
+| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`.                                                                                | -                                                                                                                                               | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`.     |
+| **PvP → zurück**      | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`.                                     |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
 
@@ -801,14 +816,12 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
     "stress": 0,
     "psi_heat": 0,
     "cooldowns": {},
-    "attributes": {"SYS_max": 6, "SYS_installed": 6, "SYS_runtime": 6, "SYS_used": 6}
+    "attributes": { "SYS_max": 6, "SYS_installed": 6, "SYS_runtime": 6, "SYS_used": 6 }
   },
-  "campaign": {"episode": 12, "scene": 0, "px": 2},
-  "characters": [
-    {"id": "CHR-7777", "name": "Jade", "wallet": 1200, "loadout": []}
-  ],
-  "economy": {"hq_pool": 1200},
-  "arc": {"open_seeds": [], "factions": {}, "questions": [], "timeline": []},
+  "campaign": { "episode": 12, "scene": 0, "px": 2 },
+  "characters": [{ "id": "CHR-7777", "name": "Jade", "wallet": 1200, "loadout": [] }],
+  "economy": { "hq_pool": 1200 },
+  "arc": { "open_seeds": [], "factions": {}, "questions": [], "timeline": [] },
   "logs": {
     "artifact_log": [],
     "market": [],
@@ -826,7 +839,7 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
       "offline_help_count": 1,
       "offline_help_last_scene": "HQ:4",
       "offline_help_last": "HQ:4",
-      "platform_action_contract": {"action_mode": "uncut"}
+      "platform_action_contract": { "action_mode": "uncut" }
     }
   },
   "ui": {
@@ -868,7 +881,6 @@ Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer sie im HQ
 zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
-
 
 ## Laden & HQ-Rückkehr {#load-flow}
 
@@ -943,17 +955,18 @@ Session-Anker-Modell ohne Sonderpfad:
    (zusammen bleiben / speichern+splitten / solo weiter), damit Gruppenwechsel
    als geordneter HQ-Schritt statt als stiller Chatbruch laufen.
 
-
 ## Kontinuitätsmodell (Session-Anker statt Host-SSOT)
 
 ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als **Kontinuitätssynthese**.
 
 ### Goldregel
+
 - **Erster geposteter Save = Session-Anker.** Er setzt den Einstiegspunkt der laufenden Runde (HQ, Briefing, Mission, Kampagnenrahmen).
 - **Neuester Charakterstand pro `characters[].id` = persönliche Wahrheit.** Level, XP, Wallet, Gear, Carry, Artefakte, Ruf und persönliche Geschichte werden nicht auf den Anker zurückgedrückt.
 - **Importierte Kontinuität = Weltmaterial.** Rückblicke, Gerüchte, offene Fäden, Branch-Ergebnisse und Rejoin-Kontext werden erzählerisch mitgeführt.
 
 ### `continuity`-Kapsel (v7)
+
 - `last_seen`: letzter bekannter Einsatzkontext.
 - `split`: `{family_id, thread_id, expected_threads[], resolved_threads[], convergence_ready}` für kanonische Core-Splits.
 - `roster_echoes[]` (max 5), `shared_echoes[]` (max 6), `convergence_tags[]` (max 4).
@@ -972,6 +985,7 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
 - Bei HQ-`!save` werden ältere Echos verdichtet (Prune), nicht unkontrolliert gestapelt.
 
 ### Slot-Regel für Mensch/NPC-Mischgruppen
+
 - Menschen belegen Feldplätze zuerst (Teamcap 5).
 - NPCs füllen nur freie Plätze.
 - Jeder geladene Save darf NPC-Kontinuität mitbringen; Auswahl dedupliziert über `npc.id`.
@@ -980,7 +994,9 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
 - Nicht aktive bekannte NPCs bleiben als HQ-/Funk-/Offscreen-Präsenz sichtbar.
 
 ### Pflichtausgabe beim Mehrfach-Load
+
 Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit fünf Blöcken:
+
 1. Session-Anker,
 2. Rückkehrer/Joiner,
 3. NPC-Lagebild (anwesend, offscreen, verändert, fehlend),
@@ -988,6 +1004,7 @@ Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit f�
 5. Konvergenz-Folge (falls `convergence_ready=true`).
 
 ### Pflichtbeats für Split/Rejoin
+
 - **Split-Beat:** Vor Branch-Wechsel kurze Inworld-Übergabe (wer wohin geht,
   welcher Auftrag/Hinweis auf welchem Thread liegt).
 - **Rejoin-HQ-Beat:** Beim Zusammenführen kurze Rückkehrszene im HQ (wer
@@ -998,7 +1015,7 @@ Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit f�
   Briefing-Hinweis, NPC-Reaktion, Boss-Tell, Alt-Route oder Hook).
 - **ITI-Echo-Format:** Für feste ITI-Kontakte bevorzugt kompakt als
   `ITI-ID :: Status/Hook` (z. B. `ITI-MIRA :: hält Petrow-Akte zurück, bis der
-  Datenkristall geprüft ist.`).
+Datenkristall geprüft ist.`).
 - **NPC-Departure-Beat:** Wenn ein bekannter NPC das Feld verlässt, immer 1–2
   Sätze Inworld-Übergabe statt stiller Entfernung.
 - **NPC-Recognition-Beat:** Wiederkehrende NPCs erinnern mindestens eine
@@ -1019,7 +1036,7 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 - Semver-Toleranz: Lädt, wenn `major.minor` der gespeicherten `zr` dem
   aktuellen `ZR_VERSION` entspricht (Legacy-Importe mit `zr_version` werden vorher normalisiert); Patch-Level sind egal.
 - Version-Mismatch liefert `Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit
-  vA.B. Bitte HQ-Migration veranlassen.`
+vA.B. Bitte HQ-Migration veranlassen.`
 - `campaign.exfil.active` oder `state.exfil.active` blockieren den HQ-Save mit
   "SaveGuard: Exfil aktiv - HQ-Save gesperrt."
 - Pflichtblöcke dürfen nicht geschätzt werden; der Serializer ersetzt fehlende
@@ -1089,7 +1106,7 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
      `arena.previous_mode` / `resume_token.previous_mode`, setzt
      `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
      fällt der Reset auf `'preserve'` zurück.
-  Arena ist **kein** dauerhaft eigener Kampagnenmodus - PvP gilt nur temporär.
+     Arena ist **kein** dauerhaft eigener Kampagnenmodus - PvP gilt nur temporär.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt ("Arena-Zustand auf HQ
@@ -1224,7 +1241,7 @@ Wenn sich ein Team nach Mission 1-2 innerhalb derselben Episode trennt und die
 3. **Rejoin/Merge:** Treffen die Gruppen später wieder zusammen (HQ), bleibt der
    Kampagnenrahmen am Session-Anker; persönliche Rückkehrerstände und
    Kontinuitäts-Echos werden übernommen.
-4. **Kein verdeckter Episoden-Sprung:** Solist:innen starten nicht automatisch
+4. **Kein verdeckter Episoden-Sprung:** Solisten starten nicht automatisch
    eine neue Episode; sie folgen dem aktiven Session-Anker ihres Chats.
 5. **Mission-zu-Mission-Hopper:** Häufige Anker-Wechsel sind erlaubt; pro Chat
    gilt ein Session-Anker plus Import persönlicher Wahrheit.
@@ -1239,7 +1256,7 @@ die Debrief-Zeilen.
 
 - Enthält `outcome` ein `hazard_pay`-Feld (oder `economy.hazard_pay`), bucht die
   Runtime den Betrag zuerst auf `economy.hq_pool` und loggt `Hazard-Pay: … CU
-  priorisiert`.
+priorisiert`.
 - Anschließend meldet `apply_wallet_split()` den HQ-Stand als
   `HQ-Pool: <Betrag> CU verfügbar`. Restbeträge erscheinen in Klammern
   (`Rest 150 CU im HQ-Pool`).
@@ -1307,9 +1324,9 @@ Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
 
 ```json
 {
-  "ui": {"suggest_mode": true, "gm_style": "verbose", "action_mode": "uncut"},
-  "character": {"modes": ["klassik", "mission_focus", "covert_ops_technoir", "suggest"]},
-  "logs": {"hud": ["· SUG", "Mission-Fokus"]}
+  "ui": { "suggest_mode": true, "gm_style": "verbose", "action_mode": "uncut" },
+  "character": { "modes": ["klassik", "mission_focus", "covert_ops_technoir", "suggest"] },
+  "logs": { "hud": ["· SUG", "Mission-Fokus"] }
 }
 ```
 
@@ -1361,15 +1378,16 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 
 **Px-Anstieg (fix gekoppelt an TEMP):**
 
-| TEMP | Px-Zuwachs |
-|-----:|:--------------------------------------|
-| 1–2 | +1 Px alle 2 Missionen |
-| 3–5 | +1 Px pro Mission |
-| 6–8 | +2 Px pro Mission |
-| 9–11 | +2 Px pro Mission |
-| 12–14 | +3 Px pro Mission |
+|  TEMP | Px-Zuwachs             |
+| ----: | :--------------------- |
+|   1–2 | +1 Px alle 2 Missionen |
+|   3–5 | +1 Px pro Mission      |
+|   6–8 | +2 Px pro Mission      |
+|  9–11 | +2 Px pro Mission      |
+| 12–14 | +3 Px pro Mission      |
 
 Der Scope ist modusabhängig und nutzt immer `campaign.px` als Quelle:
+
 - **solo / npc-team:** Der Px-Wert gehört zum jeweiligen Run.
 - **gruppe:** Der Px-Wert ist kampagnenweit gemeinsam und folgt dem
   Session-Anker-Save.
@@ -1438,8 +1456,8 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 - Unbekannte oder veraltete Felder: still ignorieren oder als Archivnotiz kennzeichnen.
 - Semver-Mismatch: "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
   HQ-Migration veranlassen."
-- Ambige Saves: "Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil*
-  oder *Teamprofil* geladen werden?"
+- Ambige Saves: "Kodex-Archiv: Profilpluralität erkannt. Sollen _Einzelprofil_
+  oder _Teamprofil_ geladen werden?"
 
 ### Kanonisches Save-Exportformat (v7, einziges Format)
 
@@ -1475,7 +1493,11 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
       "rank": "Rekrut",
       "lvl": 1,
       "xp": 0,
-      "origin": { "epoch": "ITI-Nullzeit", "hominin": "Homo sapiens sapiens", "role": "Aufklärung" },
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Aufklärung"
+      },
       "attr": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS": 4 },
       "hp": 10,
       "hp_max": 10,
@@ -1489,7 +1511,13 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
       "carry": [],
       "quarters_stash": [],
       "vehicles": {
-        "epoch_vehicle": { "id": "VEH-0001", "name": "Nachtfalter", "type": "vehicle", "tier": 1, "upgrades": [] },
+        "epoch_vehicle": {
+          "id": "VEH-0001",
+          "name": "Nachtfalter",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
         "availability": { "ready_every_missions": 3, "next_ready_in": 0 },
         "legendary_temporal_ship": null
       },
@@ -1539,7 +1567,6 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
 ```
 
 > Gruppen- und Solo-Saves nutzen dieselbe Roster-Quelle: `characters[]`.
-
 
 > **Vollständigkeitshinweis:** `talents[]`, `history`, `carry`, `quarters_stash` und `vehicles` gehören im v7-Kanon in jeden Charaktereintrag (`characters[]`). Epochenfahrzeuge werden als `vehicles.epoch_vehicle` persistiert und folgen im Einsatz der TEMP-Tabelle; `legendary_temporal_ship` bleibt optionaler Zusatzslot.
 

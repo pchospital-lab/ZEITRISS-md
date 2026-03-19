@@ -49,7 +49,7 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
 - **Attributs-Skalierung & Heldenwürfel:** Attribute verleihen nun einen additiven Bonus.
   Ab **11** ersetzt ein W10 den W6 (Exploding 10). Erst bei **14** kommt ein Heldenwürfel
   für einen einmaligen Reroll hinzu. So bleibt jeder Punkt spürbar, ohne die Balance zu kippen.
- - **Erweitertes Speichersystem:** Spielstände (JSON-Daten) erhalten ab sofort ein
+- **Erweitertes Speichersystem:** Spielstände (JSON-Daten) erhalten ab sofort ein
   **Versionskennzeichen**, um die Kompatibilität mit zukünftigen Regelupdates sicherzustellen. Wir
   zeigen Beispiele, wie **versionskompatible** Speicherstände aussehen und wie das Spiel mit
   unterschiedlichen Versionen umgeht, damit eure Kampagnen-Logs auch nach Updates nahtlos
@@ -90,10 +90,13 @@ Talentboni sind nach dem Attributsbonus auf **+5** begrenzt.
 W6 explodiert bei 6, W10 bei 10.
 Ein Heldenwürfel (ab 14) gewährt einen einmaligen Reroll.
 Die **Exploding**-Regel lässt sich auf beide Würfel übertragen (_Exploding 6/10_).
+
 ### Transparenz-Log (optional)
+
 Bei Remote-Runden können Würfe als JSON-Log geteilt werden.
+
 ```json
-{"roll":"2d6","result":[5,6],"timestamp":"2024-01-01T12:00:00Z"}
+{ "roll": "2d6", "result": [5, 6], "timestamp": "2024-01-01T12:00:00Z" }
 ```
 
 Spannungsbreite; die Burst-Cap-Regel gilt dabei für **beide** Würfeltypen
@@ -130,6 +133,7 @@ Countdown-Timer ein, um den Druck sichtbar zu machen.
 > **Optionale Hausvarianten (nicht Standard):**
 > Gruppen, die den Würfelswing weiter anpassen wollen, können folgende Alternativen ausprobieren.
 > Diese sind **nicht Teil der Standardregeln** und nur für erfahrene Runden gedacht:
+>
 > - **Soft Explode:** Zusatzwürfel liefern höchstens 1-3 Punkte statt des vollen Ergebnisses.
 > - **Gatekeep:** Ein W6 explodiert nur, wenn der Attributsbonus mindestens +1 beträgt.
 > - **Heroic Gate:** Heldenwürfel dürfen erst eingesetzt werden, wenn ein Würfel explodiert ist.
@@ -160,25 +164,25 @@ wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
 ## Schwierigkeits-Benchmark (Tabelle) {#schwierigkeits-benchmark-tabelle}
 
-| Schwierigkeit | Zielwert | Beschreibung | Beispiele |
-|---------------|---------:|--------------|-----------|
-| Leicht        | **5** | Routineeinsatz ohne großen Druck | Tür öffnen, triviales Hacken |
-| Mittel        | **8-9** | Übliche Operative-Checks | Schloss knacken, Überwachung umgehen |
-| Schwer        | **12** | Hohes Risiko, Spezialist:innen nötig | High-Security-Alarm umgehen |
-| Extrem        | **15+** | Nur mit Boosts oder Exploding-Glück | Laserfeld im Sprint passieren |
+| Schwierigkeit | Zielwert | Beschreibung                        | Beispiele                            |
+| ------------- | -------: | ----------------------------------- | ------------------------------------ |
+| Leicht        |    **5** | Routineeinsatz ohne großen Druck    | Tür öffnen, triviales Hacken         |
+| Mittel        |  **8-9** | Übliche Operative-Checks            | Schloss knacken, Überwachung umgehen |
+| Schwer        |   **12** | Hohes Risiko, Spezialisten nötig    | High-Security-Alarm umgehen          |
+| Extrem        |  **15+** | Nur mit Boosts oder Exploding-Glück | Laserfeld im Sprint passieren        |
 
 ### Referenz-Bogen {#reference-sheet}
 
-| SG  | Würfelgröße | Schwierigkeitsgrad |
-|----:|-------------|-------------------|
-| 5   | W6          | Leicht            |
-| 8-9 | W6/W10      | Mittel            |
-| 12  | W6/W10      | Schwer            |
-| 15+ | W6/W10      | Extrem            |
-| Attribut | Würfelgröße |
-|---------:|-------------|
-| 1-10     | W6 |
-| 11+      | W10 |
+|         SG | Würfelgröße   | Schwierigkeitsgrad |
+| ---------: | ------------- | ------------------ |
+|          5 | W6            | Leicht             |
+|        8-9 | W6/W10        | Mittel             |
+|         12 | W6/W10        | Schwer             |
+|        15+ | W6/W10        | Extrem             |
+|   Attribut | Würfelgröße   |
+| ---------: | ------------- |
+|       1-10 | W6            |
+|        11+ | W10           |
 
 Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgrößen schnell nachzuschlagen.
 
@@ -189,11 +193,13 @@ Das HUD blendet Hinweise bei <25 % Vitalstatus ein und sobald der Paradoxon-Inde
 Setzt optional `alertCooldown` in eurer config.json, um Spam zu vermeiden.
 Weitere Details stehen im Modul
 [Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
+
 ```json
 {
   "alertCooldown": 1
 }
 ```
+
 ## Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 
 ZEITRISS 4.2.6 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1-10) aus.
@@ -218,9 +224,9 @@ Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen.
 Die Stufen im Überblick:
 
 | Attribut | Würfelgröße |
-|---------:|-------------|
-| 1-10     | W6 |
-| 11+      | W10 |
+| -------: | ----------- |
+|     1-10 | W6          |
+|      11+ | W10         |
 
 Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen Reroll (besseres Ergebnis zählt).
 
@@ -229,17 +235,17 @@ Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen Reroll (besseres Erge
 Formel: `1W6 + ⌊Attribut / 2⌋` ≥ 8 (Burst-Cap Exploding berücksichtigt).
 Talente und Gear erhöhen die Chancen weiter, sind hier aber nicht eingerechnet.
 
-| Attribut | ⌊A/2⌋ | Benötigt Wurf ≥ | Erfolg (W6) | Hinweis |
-|---------:|------:|-----------:|----------:|---------|
-| 1 | 0 | 8 | 13,9 % | Nur via Exploding |
-| 2–3 | 1 | 7 | 16,7 % | Nur via Exploding |
-| 4–5 | 2 | 6 | 16,7 % | Nur via Exploding (benötigt 6+x) |
-| 6–7 | 3 | 5 | 33,3 % | Ab 5 direkt möglich |
-| 8–9 | 4 | 4 | 50,0 % | Coin-Flip |
-| 10 | 5 | 3 | 66,7 % | Menschliches Maximum |
-| 11 | 5 | 3 | 66,7 % | W10 aktiv (→ bessere Chancen bei höheren SG) |
-| 12–13 | 6 | 2 | 83,3 % | Fast sicher |
-| 14 | 7 | 1 | 100 % | Heldenwürfel + Auto-Erfolg |
+| Attribut | ⌊A/2⌋ | Benötigt Wurf ≥ | Erfolg (W6) | Hinweis                                      |
+| -------: | ----: | --------------: | ----------: | -------------------------------------------- |
+|        1 |     0 |               8 |      13,9 % | Nur via Exploding                            |
+|      2–3 |     1 |               7 |      16,7 % | Nur via Exploding                            |
+|      4–5 |     2 |               6 |      16,7 % | Nur via Exploding (benötigt 6+x)             |
+|      6–7 |     3 |               5 |      33,3 % | Ab 5 direkt möglich                          |
+|      8–9 |     4 |               4 |      50,0 % | Coin-Flip                                    |
+|       10 |     5 |               3 |      66,7 % | Menschliches Maximum                         |
+|       11 |     5 |               3 |      66,7 % | W10 aktiv (→ bessere Chancen bei höheren SG) |
+|    12–13 |     6 |               2 |      83,3 % | Fast sicher                                  |
+|       14 |     7 |               1 |       100 % | Heldenwürfel + Auto-Erfolg                   |
 
 Sobald ein Attribut den Wert 11 erreicht, blendet das HUD **"`W10 aktiv`"** ein.
 Ab 14 weist es zusätzlich auf den Heldenwürfel hin. Dieser erlaubt einen
@@ -272,35 +278,35 @@ ihrer Macht gefordert bleiben. Kurz gesagt: Der _Heldenwürfel_-Mechanismus gibt
 befriedigende Gefühl echten Heldentums, während durch umsichtiges Balancing die **dramatische
 Spannung** bis zum Schluss erhalten bleibt.
 
-
 #### W6 vs. W10 - Erfolgswahrscheinlichkeit {#w6-vs-w10}
 
-| TN | Erfolg W6 | Erfolg W10 |
-|----|---------:|----------:|
-| 2  | 83% | 90% |
-| 3  | 67% | 80% |
-| 4  | 50% | 70% |
-| 5  | 33% | 60% |
-| 6  | 17% | 50% |
-| 7  | 17% | 40% |
-| 8  | 14% | 30% |
-| 9  | 11% | 20% |
-| 10 | 8% | 10% |
+| TN  | Erfolg W6 | Erfolg W10 |
+| --- | --------: | ---------: |
+| 2   |       83% |        90% |
+| 3   |       67% |        80% |
+| 4   |       50% |        70% |
+| 5   |       33% |        60% |
+| 6   |       17% |        50% |
+| 7   |       17% |        40% |
+| 8   |       14% |        30% |
+| 9   |       11% |        20% |
+| 10  |        8% |        10% |
 
 #### Wahrscheinlichkeiten (1-10 W6, Burst-Cap)
 
-| W6 | Ø Summe | ≥ 10 | ≥ 15 | ≥ 20 |
-| --:| ------: | ---:| ---:| ---:|
-| 1 | 4.1 | 8 % | 0 % | 0 % |
-| 2 | 8.2 | 31 % | 8 % | 1 % |
-| 3 | 12.3 | 66 % | 30 % | 8 % |
-| 4 | 16.3 | 91 % | 58 % | 27 % |
-| 5 | 20.4 | 98 % | 82 % | 52 % |
-| 6 | 24.5 | 100 % | 95 % | 74 % |
-| 7 | 28.6 | 100 % | 99 % | 90 % |
-| 8 | 32.7 | 100 % | 100 % | 97 % |
-| 9 | 36.7 | 100 % | 100 % | 99 % |
-| 10 | 40.8 | 100 % | 100 % | 100 % |
+|  W6 | Ø Summe |  ≥ 10 |  ≥ 15 |  ≥ 20 |
+| --: | ------: | ----: | ----: | ----: |
+|   1 |     4.1 |   8 % |   0 % |   0 % |
+|   2 |     8.2 |  31 % |   8 % |   1 % |
+|   3 |    12.3 |  66 % |  30 % |   8 % |
+|   4 |    16.3 |  91 % |  58 % |  27 % |
+|   5 |    20.4 |  98 % |  82 % |  52 % |
+|   6 |    24.5 | 100 % |  95 % |  74 % |
+|   7 |    28.6 | 100 % |  99 % |  90 % |
+|   8 |    32.7 | 100 % | 100 % |  97 % |
+|   9 |    36.7 | 100 % | 100 % |  99 % |
+|  10 |    40.8 | 100 % | 100 % | 100 % |
+
 ### Quick-Fight Walkthrough
 
 1. **Initiative:** Jeder wirft `1W6 + max(GES, TEMP)` (voller Reaktionswert,
@@ -312,7 +318,6 @@ Spannung** bis zum Schluss erhalten bleibt.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
    Kritische Treffer mit Nahkampf-Mods gewähren **+2 DMG** extra.
 5. **HUD:** Das Ziel sieht `Vitalstatus 70%` aufblinken.
-
 
 ## Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
 
@@ -330,12 +335,13 @@ oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf _4.1.4_ für 
 Update). Die Kodex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
 **automatisch** erkennen, ob der Spielstand aus einer älteren Version stammt. Stimmen
 Hauptversionsnummern überein (z. B. 4.1 zu 4.1.4), sind die meisten Änderungen **vorwärtskompatibel**
+
 - d.h. der Kodex lädt den Stand und **aktualisiert im Hintergrund** die nötigen Datenstrukturen.
-Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
-das Einfügen neuer Felder mit Standardwerten. Ergänzend speichert der Kodex seit
-_4.1.4_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstellige
-Hexwert wird beim Speichern aus den wichtigsten Daten berechnet und verhindert,
-dass versehentlich ältere Spielstände überschrieben werden.
+  Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
+  das Einfügen neuer Felder mit Standardwerten. Ergänzend speichert der Kodex seit
+  _4.1.4_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstellige
+  Hexwert wird beim Speichern aus den wichtigsten Daten berechnet und verhindert,
+  dass versehentlich ältere Spielstände überschrieben werden.
 
 **Hypothetisches Beispiel - versionskompatibler Spielstand:** \*Angenommen, in einer zukünftigen Version wird ein neues Attribut
 **_"Mentalstabilität"_** (fiktives Beispiel) eingeführt, das in der Vorgängerversion noch nicht existiert. Ihr habt einen Kampagnen-
@@ -377,9 +383,10 @@ Beide Seiten beginnen in der Regel ausgeglichen oder gemäß der Story-Vorgabe l
 Seite. Durch ihre **Schlüsselaktionen** können die Spielercharaktere nun das Gewicht zu Gunsten von
 A oder B verschieben. Jede erfolgreiche **Helden-Aktion** legt sprichwörtlich ein Gewicht auf die
 Waagschale von Seite A (Erfolgspunkt für die Heldenseite). Gelingt den Gegnern ein bedeutender Coup
+
 - oder versäumen die Helden eine wichtige Gelegenheit - erhält Seite B einen Erfolgspunkt (oder ein
-bereits erzielter Punkt für A wird neutralisiert). Am Ende des Konflikts werden die
-**Erfolgspunkte** beider Seiten verglichen:
+  bereits erzielter Punkt für A wird neutralisiert). Am Ende des Konflikts werden die
+  **Erfolgspunkte** beider Seiten verglichen:
 
 - **A \> B:** Die Heldenseite überwiegt - die Schlacht wird **gewonnen**. Positive Konsequenzen
   treten ein (der Feind zieht sich zurück, die Mission der Helden gelingt, etc.).
@@ -504,14 +511,14 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 ### Paradoxon-Index (Belohnungssystem)
 
-*Siehe auch das*
-*[Paradoxon-Subsystem](../characters/zustaende.md#paradox-subsystem)*
-*für eine ausführliche Beschreibung.*
+_Siehe auch das_
+_[Paradoxon-Subsystem](../characters/zustaende.md#paradox-subsystem)_
+_für eine ausführliche Beschreibung._
 
-| Stufe | Effekt | Bedeutung |
-| ----- | ------ | --------- |
+| Stufe | Effekt                             | Bedeutung                           |
+| ----- | ---------------------------------- | ----------------------------------- |
 | 0-4   | Stabil, keine mechanischen Effekte | Fortschritt über HUD-Farbe sichtbar |
-| **5** | **ClusterCreate()** | 1-2 Rift-Seeds enthüllt, Px → 0 |
+| **5** | **ClusterCreate()**                | 1-2 Rift-Seeds enthüllt, Px → 0     |
 
 **So funktioniert's:** Stilvolles, professionelles Vorgehen lässt den Index steigen.
 Bei Px 5 schaltet ihr Bonus-Missionen (Rift-Ops) frei - Mystery-Casefile-Abenteuer mit
@@ -523,8 +530,8 @@ Paramonstern und Artefakt-Loot. Der Index ist ein Fortschrittsbalken, keine Gefa
 Missionsabbruch oder Scheitern = kein Px-Zuwachs, aber auch kein Abzug.
 
 > **Paradoxon-Pro-Tip:**
-> *Der Px-Anstieg ist fix an TEMP gekoppelt — jede erfolgreiche Mission zählt.*
-> *Grobe Paradoxa drücken den Index ausnahmsweise um 1.*
+> _Der Px-Anstieg ist fix an TEMP gekoppelt — jede erfolgreiche Mission zählt._
+> _Grobe Paradoxa drücken den Index ausnahmsweise um 1._
 > Höherer TEMP-Wert = schnellerer Px-Aufbau = mehr Rift-Seeds pro Episode.
 
 ### Seed-Counter im HUD
@@ -588,9 +595,9 @@ heranstürmende Sicherheitskraft abzuwehren.
 
 ### Farbcode der Würfeltabelle
 
-| Farbe   | Attribut         |
-| ------- | ---------------- |
-| **Rot** | Stärke           |
+| Farbe    | Attribut         |
+| -------- | ---------------- |
+| **Rot**  | Stärke           |
 | **Blau** | Geschicklichkeit |
 | **Grün** | Intelligenz      |
 | **Gelb** | Charisma         |
@@ -612,6 +619,7 @@ Dieses Beispiel zeigt, wie flüssig die Kernmechanik abläuft und wie
 Exploding-Würfel filmische Spitzen erzeugen, ohne den Spielfluss zu bremsen.
 
 **Exfiltration-Hürden:**
+
 - Engpässe sichern und Alarme überwachen.
 - Gegnerische Verstärkung trifft nach `1W6` Runden ein, falls ein Alarm
   ausgelöst wird.
@@ -634,23 +642,24 @@ beide Seiten begünstigen können.
 Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 **Dieses Quick-Sheet dient als zentrale Kurzreferenz und lässt sich im HUD über `/help` aufrufen.**
 
-| Ergebnis | SG-Richtwert | Exploding-Beispiel | PP-Regel |
-|---------|-------------|-------------------|---------|
-| **Fail** | < SG | 4 auf W6 → Misserfolg | - |
-| **Success** | ≥ SG | 6 explodiert, dann 5 → 11 | pro 3 TEMP 1 PP (CHA als Willenskraft vs 2×Psi-Heat) |
-| **Critical** | ≥ SG + 5 | 10 → 10 → 3 = 23 | PP-Pool voll nach Kampf |
+| Ergebnis     | SG-Richtwert | Exploding-Beispiel        | PP-Regel                                             |
+| ------------ | ------------ | ------------------------- | ---------------------------------------------------- |
+| **Fail**     | < SG         | 4 auf W6 → Misserfolg     | -                                                    |
+| **Success**  | ≥ SG         | 6 explodiert, dann 5 → 11 | pro 3 TEMP 1 PP (CHA als Willenskraft vs 2×Psi-Heat) |
+| **Critical** | ≥ SG + 5     | 10 → 10 → 3 = 23          | PP-Pool voll nach Kampf                              |
 
 ### Quick Reference (2 Seiten)
 
-| Situation   | Standard                                | High-Attribut (≥ 11) |
-|-----------|----------------------------------------|----------------------|
-| Würfeltyp | W6 (Attribut 1-10)                     | W10 |
-| Bonus     | –                                      | Heldenwürfel ab 14 (Reroll, besseres zählt) |
-| Exploding | Burst-Cap: 6 bzw. 10 explodiert einmal  |                      |
-| SG-Beispiele | Leicht 5 · Mittel 8-9 · Schwer 12 · Extrem 15+ | |
-| HUD-Alerts | Kurz halten, max. 6 Wörter             | |
+| Situation    | Standard                                       | High-Attribut (≥ 11)                        |
+| ------------ | ---------------------------------------------- | ------------------------------------------- |
+| Würfeltyp    | W6 (Attribut 1-10)                             | W10                                         |
+| Bonus        | –                                              | Heldenwürfel ab 14 (Reroll, besseres zählt) |
+| Exploding    | Burst-Cap: 6 bzw. 10 explodiert einmal         |                                             |
+| SG-Beispiele | Leicht 5 · Mittel 8-9 · Schwer 12 · Extrem 15+ |                                             |
+| HUD-Alerts   | Kurz halten, max. 6 Wörter                     |                                             |
 
 ### Bonus-Stacking
+
 Pro Wurf zählt maximal **ein** starker Bonus (z.B. Psi-Impuls, Bluff-Push, Fokusnetz) plus
 **ein** situativer +1 durch Umgebung oder Hilfe. Weitere Boni verfallen.
 
@@ -659,7 +668,6 @@ und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +0,1-0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
 **Psi-Heat-Track** - 0 Pristine, 1-2 Warm, 3-4 Hot (-1 Ini), 5 Overload (SG +4 auf alle Proben),
 6 Reboot → Runde aussetzen & Psi-Heat 0
-
 
 **Psi-Effekte auf einen Blick**
 
@@ -689,32 +697,32 @@ _Orientierung:_ Richtwerte für benötigte Erfolgspunkte → siehe
 ### Quickref: Rift-Überblick
 
 | Seeds offen | Probe-Schwelle + | CU-Multi |
-|-------------|-----------------|---------|
-| 0 | 0 | 1.0 |
-| 1 | +1 | 1.2 |
-| 2 | +2 | 1.4 |
+| ----------- | ---------------- | -------- |
+| 0           | 0                | 1.0      |
+| 1           | +1               | 1.2      |
+| 2           | +2               | 1.4      |
 
 Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Belohnungen beeinflussen.
-*Boni gelten erst nach Abschluss der aktuellen Episode.*
+_Boni gelten erst nach Abschluss der aktuellen Episode._
 
 ### Timeline-Konfliktresistenz {#konfliktresistenz}
 
-| Situation | Modifikator |
-|-----------|-------------|
-| Eigene Epoche, bekannte Abläufe | 0 |
+| Situation                                 | Modifikator             |
+| ----------------------------------------- | ----------------------- |
+| Eigene Epoche, bekannte Abläufe           | 0                       |
 | Leichte Abweichung in naher Vergangenheit | -1 auf Stabilitätswürfe |
-| Massive Zeitmanipulation oder fremde Ära | -2 auf Stabilitätswürfe |
+| Massive Zeitmanipulation oder fremde Ära  | -2 auf Stabilitätswürfe |
 
 Nutzt diese Tabelle auf dem Quick-Reference-Sheet, um schnell abzuschätzen, wie anfällig eine Szene
 für Paradoxon-Effekte ist.
 
 ### Rift-Kreaturen auf die Schnelle {#rift-quickbuild}
 
-| Schritt | Vorgehen |
-| ------- | -------- |
-| 1 | Basistier oder NSC-Vorlage wählen |
-| 2 | 1-3 Anomalien hinzufügen (z.B. Zeitsprung, Psi, Mutation) |
-| 3 | **Threat** = 1 + Anzahl der Anomalien (max. 5 💀) |
+| Schritt | Vorgehen                                                  |
+| ------- | --------------------------------------------------------- |
+| 1       | Basistier oder NSC-Vorlage wählen                         |
+| 2       | 1-3 Anomalien hinzufügen (z.B. Zeitsprung, Psi, Mutation) |
+| 3       | **Threat** = 1 + Anzahl der Anomalien (max. 5 💀)         |
 
 Mit dieser Kurzformel kann die SL jederzeit eine improvisierte Rift-Kreatur bauen.
 Weitere Details stehen im
@@ -732,11 +740,11 @@ Kurzanleitung für Missionen ohne funktionierenden Kodex oder HUD.
 
 #### Wichtige Befehle
 
-| Kommando | Wirkung |
-| -------- | ------- |
-| `scan` | Einfacher Umgebungsscan |
-| `lock` | Schloss knacken/hacken |
-| `status` | Eigenen Zustand prüfen |
+| Kommando | Wirkung                 |
+| -------- | ----------------------- |
+| `scan`   | Einfacher Umgebungsscan |
+| `lock`   | Schloss knacken/hacken  |
+| `status` | Eigenen Zustand prüfen  |
 
 Diese Liste kann ausgedruckt werden, um den Spielablauf bei Funkstille zu erleichtern.
 
@@ -758,10 +766,10 @@ kleinen Einsatzteams.
 
 ### Würfel-Cheat-Sheet
 
-| Attribut | Würfel | Besonderheiten |
-|---------:|-------|----------------|
-| 1-10 | 1×W6 | Exploding 6, Burst-Cap 1 pro Würfel |
-| 11+  | 1×W10 | 10 explodiert einmal |
+| Attribut | Würfel | Besonderheiten                      |
+| -------: | ------ | ----------------------------------- |
+|     1-10 | 1×W6   | Exploding 6, Burst-Cap 1 pro Würfel |
+|      11+ | 1×W10  | 10 explodiert einmal                |
 
 **Erfolgsschwelle**
 Standardziel 5. Der W10 ändert die Schwelle nicht.
@@ -776,7 +784,7 @@ Reroll bei Attribut 14+ (besseres Ergebnis zählt).
 3. **Paradoxon-Index:** steigt deterministisch pro erfolgreicher Mission (TEMP-Staffel); bei 5 löst `ClusterCreate()` aus.
    Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach Episodenende zugänglich.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
-HQ-Phase.
+   HQ-Phase.
 5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.
 
 Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.

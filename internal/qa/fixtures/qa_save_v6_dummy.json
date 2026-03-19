@@ -14,9 +14,7 @@
     "seed_source": "preserve",
     "seed_id": "P-0002",
     "objective": "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust.",
-    "hq_moments_used": [
-      "BASTION"
-    ],
+    "hq_moments_used": ["BASTION"],
     "hq_moment_last": "BASTION",
     "rift_seeds": [
       {
@@ -71,21 +69,12 @@
       "hp": 11,
       "hp_max": 11
     },
-    "modes": [
-      "mission_focus",
-      "covert_ops_technoir"
-    ],
+    "modes": ["mission_focus", "covert_ops_technoir"],
     "self_reflection": false,
     "has_psi": false,
     "psi_buffer": true,
-    "talents": [
-      "Schleichprofi",
-      "Pistolenschütze"
-    ],
-    "skills": [
-      "Infiltration",
-      "Taktische Analyse"
-    ],
+    "talents": ["Schleichprofi", "Pistolenschütze"],
+    "skills": ["Infiltration", "Taktische Analyse"],
     "implants": [
       {
         "name": "Retina-HUD-Kontaktlinse",
@@ -104,33 +93,21 @@
       }
     ],
     "inventory": {
-      "weapons": [
-        "CQB-Kampfpistole (SD)",
-        "Tactical Fighting Knife"
-      ],
-      "armor": [
-        "Kevlar-Weste Stufe II"
-      ],
+      "weapons": ["CQB-Kampfpistole (SD)", "Tactical Fighting Knife"],
+      "armor": ["Kevlar-Weste Stufe II"],
       "gadgets": [
         "Multi-Tool Wraith",
         "Faseroptik-Kabelkamera",
         "Rauchgranate Mk I",
         "Micro-Breacher"
       ],
-      "consumables": [
-        "Med-Patch"
-      ],
-      "special": [
-        "Notfall-Transponder"
-      ]
+      "consumables": ["Med-Patch"],
+      "special": ["Notfall-Transponder"]
     },
     "quarters": {
       "id": "QTR-T01",
       "preset": "custom",
-      "layout_tags": [
-        "stealth",
-        "urban_ghost"
-      ],
+      "layout_tags": ["stealth", "urban_ghost"],
       "deck": "HQ-A",
       "notes": "Kleines Einzelquartier mit schallgedämmter Tür."
     },
@@ -321,10 +298,7 @@
           "index": 0,
           "total": 12
         },
-        "seed_ids": [
-          "RIFT-011",
-          "RIFT-015"
-        ],
+        "seed_ids": ["RIFT-011", "RIFT-015"],
         "px_before": 5,
         "px_after": 3,
         "open_seeds_count": 2,
@@ -381,10 +355,7 @@
           "index": 0,
           "total": 12
         },
-        "kept": [
-          "RIFT-011",
-          "RIFT-015"
-        ],
+        "kept": ["RIFT-011", "RIFT-015"],
         "overflow": [],
         "handoff_to": [],
         "note": "Merge-Cap geprüft (12 Slots bleiben frei)",
@@ -537,21 +508,12 @@
       "atmosphere_contract": {
         "voice_profile": "gm_third_person",
         "physicality_guard": true,
-        "default_modes": [
-          "mission_focus",
-          "covert_ops_technoir"
-        ],
+        "default_modes": ["mission_focus", "covert_ops_technoir"],
         "hud_limit": {
           "per_scene": 5,
           "narrative_ratio": "80/20"
         },
-        "banned_terms": [
-          "cyberspace",
-          "virtueller raum",
-          "digitalraum",
-          "matrix",
-          "holodeck"
-        ]
+        "banned_terms": ["cyberspace", "virtueller raum", "digitalraum", "matrix", "holodeck"]
       },
       "atmosphere_contract_capture": {
         "core": {
@@ -654,9 +616,7 @@
         "label": "Chronopolis-Schlüssel initiiert"
       }
     ],
-    "fragen": [
-      "Wie sichern wir Arc Brunsbüttel?"
-    ]
+    "fragen": ["Wie sichern wir Arc Brunsbüttel?"]
   },
   "ui": {
     "gm_style": "verbose",

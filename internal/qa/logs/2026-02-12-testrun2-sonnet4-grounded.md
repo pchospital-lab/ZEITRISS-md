@@ -141,54 +141,66 @@ Die Loop-Mechanik ist perfekt eingespielt. Jeder Durchlauf bringt bessere Ausrü
 ---
 
 ## ISSUE #1
+
 - Beobachtung: Save/Load-Schema vollständig validiert, alle Pflichtfelder vorhanden
 - Diagnose: Speicher-Modul korrekt implementiert, Cross-Mode-Import funktioniert
 - Evidenz: JSON-Save mit allen Containern (campaign, character, economy, logs) erfolgreich geladen
 
 Lösungsvorschlag
+
 - Ansatz: Schema-Validierung ist stabil, keine Änderungen erforderlich
 - Risiken: Keine erkannt
 
 To-do
+
 - Codex: Schema-Dokumentation in saveGame.v6.schema.json beibehalten
 - QA: Regression-Tests für Cross-Mode-Saves fortführen
 
 Nächste Schritte
-- Maintainer:innen: Aktuelles Schema als golden reference markieren
+
+- Maintainer: Aktuelles Schema als golden reference markieren
 - Notizen: Save-Struktur ist produktionsreif
 
 ## ISSUE #2
+
 - Beobachtung: HUD-Budget-Overflow korrekt implementiert, Toast-Unterdrückung funktioniert
 - Diagnose: QA-Mode aktiviert automatisch Budget-Tracking und Trace-Logging
 - Evidenz: `toast_suppressed`-Trace mit `hud_scene_usage`-Snapshot dokumentiert
 
 Lösungsvorschlag
+
 - Ansatz: HUD-Budget-System ist funktional und gut dokumentiert
 - Risiken: Keine
 
 To-do
+
 - Codex: HUD-Budget-Dokumentation aktuell halten
 - QA: Overflow-Tests in Acceptance-Suite integrieren
 
 Nächste Schritte
-- Maintainer:innen: HUD-Budget als Feature-komplett markieren
+
+- Maintainer: HUD-Budget als Feature-komplett markieren
 - Notizen: System verhindert erfolgreich HUD-Spam
 
 ## ISSUE #3
+
 - Beobachtung: Boss-Gate-System funktioniert präzise, Mission 5 Badge-Check bestanden
 - Diagnose: Foreshadow-System und Boss-DR korrekt implementiert
 - Evidenz: `Gate 2/2`, `SF-OFF`/`SF-ON`-Toggle, Boss-DR-Aktivierung dokumentiert
 
 Lösungsvorschlag
+
 - Ansatz: Boss-System ist stabil und spielerfreundlich
 - Risiken: Keine
 
 To-do
+
 - Codex: Boss-Dokumentation in kampagnenstruktur.md pflegen
 - QA: Mission 5/10 Badge-Tests automatisieren
 
 Nächste Schritte
-- Maintainer:innen: Boss-System als core feature bestätigen
+
+- Maintainer: Boss-System als core feature bestätigen
 - Notizen: Gate-Rhythmus verbessert Spielerfahrung messbar
 
 ## Test-Save (JSON)
@@ -207,9 +219,9 @@ Nächste Schritte
     "seed_source": "preserve",
     "entry_choice_skipped": true,
     "rift_seeds": [
-      {"id": "alexandria_48bc", "tier": "low", "level_range": "1-25", "status": "open"},
-      {"id": "tesla_lab_1899", "tier": "mid", "level_range": "80-150", "status": "completed"},
-      {"id": "quantum_nexus_2387", "tier": "high", "level_range": "400-1000", "status": "locked"}
+      { "id": "alexandria_48bc", "tier": "low", "level_range": "1-25", "status": "open" },
+      { "id": "tesla_lab_1899", "tier": "mid", "level_range": "80-150", "status": "completed" },
+      { "id": "quantum_nexus_2387", "tier": "high", "level_range": "400-1000", "status": "locked" }
     ]
   },
   "character": {
@@ -217,11 +229,18 @@ Nächste Schritte
     "role": "Infiltrator",
     "level": 120,
     "attributes": {
-      "str": 8, "ges": 12, "int": 14, "cha": 10, "temp": 16, "sys": 11
+      "str": 8,
+      "ges": 12,
+      "int": 14,
+      "cha": 10,
+      "temp": 16,
+      "sys": 11
     },
-    "health": 15, "stress": 8, "max_stress": 20,
+    "health": 15,
+    "stress": 8,
+    "max_stress": 20,
     "gear": ["Temporal-Scanner Mk VII", "Quantum-Störer", "Rift-Versiegeler"],
-    "skills": {"infiltration": 15, "tech": 12, "combat": 8}
+    "skills": { "infiltration": 15, "tech": 12, "combat": 8 }
   },
   "economy": {
     "cu": 15240,
@@ -234,38 +253,44 @@ Nächste Schritte
   },
   "logs": {
     "artifact_log": [
-      {"name": "Temporale Essenz", "source": "rift_boss", "value": 500, "acquired": "2025-01-15"}
+      { "name": "Temporale Essenz", "source": "rift_boss", "value": 500, "acquired": "2025-01-15" }
     ],
-    "market": [
-      {"item": "Temporal-Anker Stufe IX", "cost": 12000, "available": true}
-    ],
+    "market": [{ "item": "Temporal-Anker Stufe IX", "cost": 12000, "available": true }],
     "offline": [],
     "kodex": [
-      {"timestamp": "2025-01-15T14:30:00Z", "message": "Rift-Loop Iteration 12 initialisiert"}
+      { "timestamp": "2025-01-15T14:30:00Z", "message": "Rift-Loop Iteration 12 initialisiert" }
     ],
     "alias_trace": [],
     "squad_radio": [
-      {"speaker": "Martinez", "message": "Scanner zeigen Anomalie Level 9", "timestamp": "2025-01-15T14:25:00Z"}
+      {
+        "speaker": "Martinez",
+        "message": "Scanner zeigen Anomalie Level 9",
+        "timestamp": "2025-01-15T14:25:00Z"
+      }
     ],
-    "foreshadow": {"current": 2, "max": 4, "gate_status": "2/2"},
+    "foreshadow": { "current": 2, "max": 4, "gate_status": "2/2" },
     "fr_interventions": [],
     "psi": [
-      {"event": "psi_heat", "value": 1, "reset": true, "timestamp": "2025-01-15T14:20:00Z"}
+      { "event": "psi_heat", "value": 1, "reset": true, "timestamp": "2025-01-15T14:20:00Z" }
     ],
     "arena_psi": [],
     "trace": [
-      {"event": "boss_encounter", "type": "rift", "dr": 3, "timestamp": "2025-01-15T14:35:00Z"},
-      {"event": "save_blocked", "reason": "mission_active", "timestamp": "2025-01-15T14:25:00Z"}
+      { "event": "boss_encounter", "type": "rift", "dr": 3, "timestamp": "2025-01-15T14:35:00Z" },
+      { "event": "save_blocked", "reason": "mission_active", "timestamp": "2025-01-15T14:25:00Z" }
     ],
     "hud": [
-      {"event": "gate_notification", "content": "Gate 2/2", "timestamp": "2025-01-15T14:30:00Z"},
-      {"event": "boss_dr_active", "content": "Boss-DR aktiviert – -3 Schaden", "timestamp": "2025-01-15T14:35:00Z"}
+      { "event": "gate_notification", "content": "Gate 2/2", "timestamp": "2025-01-15T14:30:00Z" },
+      {
+        "event": "boss_dr_active",
+        "content": "Boss-DR aktiviert – -3 Schaden",
+        "timestamp": "2025-01-15T14:35:00Z"
+      }
     ],
     "flags": {
       "qa_mode": true,
       "atmosphere_contract_capture": {
         "lines": ["Die Luft reißt auf. Eine schimmernde Kreatur schwebt über dem Forum."],
-        "banned_terms": {"status": "PASS", "hits": []},
+        "banned_terms": { "status": "PASS", "hits": [] },
         "howto_hits": [],
         "hud_toasts": 2
       },
@@ -273,10 +298,8 @@ Nächste Schritte
       "chronopolis_unlocked": true,
       "chronopolis_unlock_level": 10,
       "self_reflection_auto_reset_mission5": true,
-      "toast_suppressed": [
-        {"scene": 8, "reason": "budget_overflow", "count": 1}
-      ],
-      "hud_scene_usage": {"scene_8": {"toasts": 3, "budget": 2}}
+      "toast_suppressed": [{ "scene": 8, "reason": "budget_overflow", "count": 1 }],
+      "hud_scene_usage": { "scene_8": { "toasts": 3, "budget": 2 } }
     }
   },
   "ui": {

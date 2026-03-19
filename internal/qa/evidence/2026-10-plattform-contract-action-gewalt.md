@@ -10,7 +10,7 @@ tags: [meta, qa]
 
 - Quelle: OpenAI Plattformrichtlinien (Action & Gewalt)
 - Stand: 2026-10-30
-- Kanal: Maintainer:innen-Notiz / interne Zusammenfassung
+- Kanal: Maintainer-Notiz / interne Zusammenfassung
 - Scope: Runtime-Output (In-World, keine Policy-Sprache)
 
 ## Kernaussagen

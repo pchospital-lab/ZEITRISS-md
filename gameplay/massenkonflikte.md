@@ -161,6 +161,7 @@ gelten grundsätzlich die normalen Kampfregeln, doch einige Sonderaspekte kommen
 
   _Beispiel:_ Ein Motorrad rammt einen Transporter (Klein vs. Groß) und kassiert
   2W6 Schaden, während der Transporter nur wenig abgelenkt wird.
+
 - **Kämpfe auf Fahrzeugen:** Springt ein Held (oder Gegner) von Fahrzeug zu Fahrzeug oder klettert
   während voller Fahrt auf dem eigenen Vehikel herum, werden die Aktionen riskanter. Balance-Proben
   können nötig sein, um nicht abzustürzen, besonders wenn der Fahrer ausweicht. Ein Kampf auf dem Dach
@@ -221,17 +222,18 @@ inszeniert wird. **Balance-Tipp:** Falls ein exotisches Transportmittel übermä
 ein gezähmter Drache in einer Schlacht), führt Komplikationen ein: Der Drache will eigenwillig einen Schatz jagen,
 das Besenartefakt hat begrenzte Ladung etc.
 So bleiben auch ausgefallene Lösungen spannend und herausfordernd.
+
 ### Brückenphase: Infiltration → Massenschlacht
 
 Häufig kippt eine Mission plötzlich vom verdeckten Einsatz in einen offenen Großkonflikt.
 Damit bestehende Werte nicht verloren gehen, überführt folgende Tabelle individuelle Zustände in Schlachten-Boni:
 
-| Infiltrationswert | Auswirkung in der Schlacht |
-|------------------|----------------------------|
-| Stress           | wird zu Moralmalus        |
-| Deckung          | zählt als Terrainbonus    |
-| Versteckte Wunden| erschweren Befehle (&#x2212;1 auf Kommandos) |
-| Aktives HUD      | liefert +1 Aufklärungspunkt |
+| Infiltrationswert | Auswirkung in der Schlacht                   |
+| ----------------- | -------------------------------------------- |
+| Stress            | wird zu Moralmalus                           |
+| Deckung           | zählt als Terrainbonus                       |
+| Versteckte Wunden | erschweren Befehle (&#x2212;1 auf Kommandos) |
+| Aktives HUD       | liefert +1 Aufklärungspunkt                  |
 
 So lässt sich nahtlos an einen Massenkampf anschließen, ohne dass die Vorarbeit der Spieler verpufft.
 
@@ -315,11 +317,11 @@ einer Massenschlacht zu sein.
 
 **Typische SGs im Massenkampf**
 
-| Schwierigkeit | SG | Beispiel                           |
-|--------------:|---:|-----------------------------------|
-| Leicht        | 8  | Versorgung sichern                |
-| Mittel        | 12 | Engpass halten                    |
-| Schwer        | 15 | Befestigte Stellung stürmen       |
+| Schwierigkeit |  SG | Beispiel                    |
+| ------------: | --: | --------------------------- |
+|        Leicht |   8 | Versorgung sichern          |
+|        Mittel |  12 | Engpass halten              |
+|        Schwer |  15 | Befestigte Stellung stürmen |
 
 ### Spezialfall: Revolutionen & soziale Umwälzungen
 
@@ -439,8 +441,9 @@ Passagiere oder Ladung. Die **Besonderheiten** fassen erzählerische Vor- und Na
 Werte wie Schaden, Panzerung etc. können je nach Regelsystem zugewiesen werden (z. B. Robustheit
 einer Kutsche gering, eines Panzers extrem hoch). Behaltet im Blick, dass Fahrzeuge in ZEITRISS vor
 allem erzählerisch glänzen sollen - ein knackiger Bonus oder Malus hier und da reicht, statt jeden
-Aspekt in Zahlen zu gießen. Im Zweifel orientiert euch am Grundprinzip: **cooler Nutzen, coole Szene
-- Regelbalancing pragmatisch halten**.
+Aspekt in Zahlen zu gießen. Im Zweifel orientiert euch am Grundprinzip: \*\*cooler Nutzen, coole Szene
+
+- Regelbalancing pragmatisch halten\*\*.
 
 ### Richtwerte für Massenkonflikte
 
@@ -468,12 +471,12 @@ Schlüsselmoment, der Rest wird narrativ entschieden). |
 
 #### Kurzreferenz A5 {#mass-kurz}
 
-| Größe | Erfolgspunkte | Beispiel |
-| ----- | ------------- | -------- |
-| Klein | 1-2 | Dorfskirmish |
-| Mittel | 3-5 | Belagerung |
-| Groß | 5-8 | Feldschlacht |
-| Episch | 8+ | Zeitkrieg |
+| Größe  | Erfolgspunkte | Beispiel     |
+| ------ | ------------- | ------------ |
+| Klein  | 1-2           | Dorfskirmish |
+| Mittel | 3-5           | Belagerung   |
+| Groß   | 5-8           | Feldschlacht |
+| Episch | 8+            | Zeitkrieg    |
 
 Diese Kurzform passt auf ein A5-Handout und hält den Überblick knapp.
 Dies sind Richtwerte - der SL passt sie an die konkrete Story an. In einer Revolution etwa sind eher
@@ -482,20 +485,20 @@ dominieren. Wichtig ist, dass **jede Stufe herausfordernd aber machbar** bleibt:
 das Gefühl haben, **durch kluges Handeln das Ruder herumreißen** zu können, egal wie groß das Chaos
 um sie ist.
 
-*Per-5-Einheiten-Tracker:* Zählt Truppen in Fünferblöcken und streicht jeweils einen Marker, wenn
+_Per-5-Einheiten-Tracker:_ Zählt Truppen in Fünferblöcken und streicht jeweils einen Marker, wenn
 eine Gruppe ausgeschaltet wird. Je 5 verlorene Einheiten reduziert ihr die Erfolgspunkte dieser Seite
 um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhaltung zu betreiben.
 
 #### Kommandopunkte pro Truppenstärke
 
-| Einheiten (≈ Soldaten) | Grund-KP | Anmerkung |
-|------------------------|---------:|-----------|
-| 1 - 9                  | 0        | Skirmish, nur Taktik-Würfe |
-| **10 - 19**            | **1 KP** | Standard-Trupp |
-| 20 - 29                | 2 KP     | Zug |
-| 30 - 39                | 3 KP     | Verstärkter Zug |
-| 40 - 49                | 4 KP     | Kompaniekerne |
-| 50 +                   | 5 KP     | Volle Kompanie / Bataillon |
+| Einheiten (≈ Soldaten) | Grund-KP | Anmerkung                  |
+| ---------------------- | -------: | -------------------------- |
+| 1 - 9                  |        0 | Skirmish, nur Taktik-Würfe |
+| **10 - 19**            | **1 KP** | Standard-Trupp             |
+| 20 - 29                |     2 KP | Zug                        |
+| 30 - 39                |     3 KP | Verstärkter Zug            |
+| 40 - 49                |     4 KP | Kompaniekerne              |
+| 50 +                   |     5 KP | Volle Kompanie / Bataillon |
 
 > **Regeltext:** Ein Befehl kostet 1 KP, sofern nicht anders angegeben. KP werden zu Beginn jeder
 > Gefechts-Runde neu berechnet. Zusätzliche KP aus Talenten oder Artefakten werden **nach** der
@@ -504,16 +507,16 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhalt
 > **Flankierungs-Kappung**
 > Bei Massenkonflikten darf der Flankierungsbonus **maximal +2 Würfel** betragen - unabhängig davon,
 > wie viele Einheiten an der Umfassung beteiligt sind.
-> *Beispiel:* Drei befreundete Züge flankieren gemeinsam → es würden rechnerisch +3 Würfel anfallen,
+> _Beispiel:_ Drei befreundete Züge flankieren gemeinsam → es würden rechnerisch +3 Würfel anfallen,
 > aber der Bonus wird bei +2 gedeckelt.
 
 ## Rift-Kreaturen (Stat-Blocks) {#rift-kreaturen-stat-blocks}
 
-| Typ | Kraft Pool | Init | Schaden | Resilienz | Besonderheit |
-|-----|-----------:|-----:|--------:|----------:|--------------|
-| **Shard-Imp** (klein) | 2 | +1 | W6 | 4 | Phase Shift (-2 Treffer) |
-| **Chrono-Hound** (mittel) | 5 | +2 | **W10** | 8 | Time-Scent (spürt Agenten 30 m) |
-| **Paradoxon Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (RR +2 pro Treffer) |
+| Typ                        | Kraft Pool | Init | Schaden | Resilienz | Besonderheit                     |
+| -------------------------- | ---------: | ---: | ------: | --------: | -------------------------------- |
+| **Shard-Imp** (klein)      |          2 |   +1 |      W6 |         4 | Phase Shift (-2 Treffer)         |
+| **Chrono-Hound** (mittel)  |          5 |   +2 | **W10** |         8 | Time-Scent (spürt Agenten 30 m)  |
+| **Paradoxon Titan** (groß) |         10 |    0 |   W12×2 |        15 | Reality Rend (RR +2 pro Treffer) |
 
 Für größere Teams skaliert der LP-Pool der Gegner:
 

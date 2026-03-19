@@ -11,9 +11,10 @@ Aus den ersten 4 Playtest-Runs (jeweils Timeout nach 10 Min, aber mit Erkenntnis
 **Problem:** SL würfelt W10 für TEMP 6. Laut Regelwerk wechselt der Würfel erst ab **Attribut 11** auf W10. TEMP 6 = W6.  
 **Ursache:** Die SL verwechselt vermutlich TEMP mit dem Attributswert-Threshold. Im Masterprompt steht "ab 11 → W10", aber die SL wendet es auf TEMP als Sonderwert an.  
 **Betroffene Stellen im Regelwerk:**
+
 - `core/wuerfelmechanik.md`: "Ab Attribut 11 wechselt der Würfel auf W10"
 - `meta/masterprompt_v6.md` Abschnitt E: "ab Attr 11 W10"
-**Fix-Vorschlag:** Im Masterprompt expliziter machen: "W10 ab Attribut ≥ 11 (gilt für STR/GES/INT/CHA/TEMP/SYS gleichermaßen — TEMP 6 = W6, TEMP 11 = W10)"
+  **Fix-Vorschlag:** Im Masterprompt expliziter machen: "W10 ab Attribut ≥ 11 (gilt für STR/GES/INT/CHA/TEMP/SYS gleichermaßen — TEMP 6 = W6, TEMP 11 = W10)"
 
 ---
 

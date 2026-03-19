@@ -27,7 +27,7 @@ Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.6** wird in Modul 1
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
-durch neue Funktionen erweitert. Entwickler:innen erhalten damit ein robustes, transparentes und
+durch neue Funktionen erweitert. Entwickler erhalten damit ein robustes, transparentes und
 flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung.
 
 **Wichtige Schwerpunkte der Überarbeitung sind unter anderem:**
@@ -71,6 +71,7 @@ Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erlä
 Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
 Beim Laden ladet ihr zuerst euren aktuellen Speicherstand.
 Danach folgt, falls nötig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
+
 - Nach dem Laden zwingend `StartMission()` ausführen; Details siehe Abschnitt „Load-Pipeline“.
 
 Speichern ist ausschließlich im **HQ** erlaubt. `cmdSave()` setzt dabei das
@@ -216,18 +217,18 @@ verwirrt zu werden.
 abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
 
 _{
-  "Name": "Alex",
-  "Epoche": "Gegenwart (2025)",
-  "Level": 2,
-  "Erfahrung": 15,
-  "zr_version": "4.1.5",
-  "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
-  "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
-  "Talente": ["Pistolenschütze", "Kryptographie"],
-  "Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
-  "Kodex": ["Schlacht von Aquitanien 1356", "Chronomant Moros"],
-  "Errungenschaften": ["Retter von Aquitanien"]
+"Name": "Alex",
+"Epoche": "Gegenwart (2025)",
+"Level": 2,
+"Erfahrung": 15,
+"zr_version": "4.1.5",
+"version_hash": "4.1",
+"arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
+"Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
+"Talente": ["Pistolenschütze", "Kryptographie"],
+"Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
+"Kodex": ["Schlacht von Aquitanien 1356", "Chronomant Moros"],
+"Errungenschaften": ["Retter von Aquitanien"]
 _}
 
 _Erläuterung:_ In diesem Speicherblock sind alle zentralen Daten von Alex nach
@@ -295,14 +296,14 @@ speichern. Ein Gruppen-Spielstand im JSON-Format könnte so aussehen:
 _{_
 
 {
-  "Gruppe": "Team Chronos",
-  "zr_version": "4.1.5",
-  "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
-  "Charaktere": [
-    { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 2 },
-    { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 1 }
-  ]
+"Gruppe": "Team Chronos",
+"zr_version": "4.1.5",
+"version_hash": "4.1",
+"arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
+"Charaktere": [
+{ "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 2 },
+{ "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 1 }
+]
 }
 
 Hier besteht das Agenten-Team **“Team Chronos”** aus zwei Mitgliedern: Alex und Mia. Jeder Charakter
@@ -379,7 +380,7 @@ hinzukommt. So werden Duplikate vermieden:
   signalisiert GPT, welcher bestehende Gruppencharakter aktualisiert werden muss.
 - **Ohne ID:** Versucht GPT, Charaktere anhand von Name + Epoche o. ä. zu unterscheiden. Das kann in
   vielen Fällen funktionieren, ist aber fehleranfälliger (z.B. könnten zwei Spieler zufällig beide
-einen Charakter namens „Alex“ spielen, oder ein Charakter ändert seinen Decknamen zwischenzeitlich).
+  einen Charakter namens „Alex“ spielen, oder ein Charakter ändert seinen Decknamen zwischenzeitlich).
 
 #### Konfliktfall ohne ID
 
@@ -400,7 +401,7 @@ Speichern bleibt strikt HQ-only. **Gruppen-Merges** dürfen aber auch mitten in 
 laufenden Mission passieren: Spielende posten ihre letzten HQ-Saves in den Chat,
 GPT liest die Charakterblöcke ein und fügt sie ohne Timer- oder Szenen-Reset in
 die aktive Gruppe ein. Der laufende Einsatz bleibt eingefroren, bis die neuen
-Agent:innen eingegliedert sind. **Je nach Situation passiert Folgendes:**
+Agenten eingegliedert sind. **Je nach Situation passiert Folgendes:**
 
 - **Solo-Spielstand laden (ein Charakter):** Wird ein einzelner Charakter-Speicherstand
   im HQ geladen (Format wie Alex im Beispiel oben), verfährt die Spielleitung wie
@@ -518,22 +519,26 @@ niemand wird dupliziert.
 `StartMission()` automatisch initialisieren.
 
 ### Autoload & Intents
-- Erkennt *automatisch* gepostete JSON-Saves (Heuristik: `zr_version` plus Felder wie
+
+- Erkennt _automatisch_ gepostete JSON-Saves (Heuristik: `zr_version` plus Felder wie
   `character`, `Charaktere`, `team` oder `campaign`).
 - Befehle: `!load`, „Spiel laden“, „Spielstand laden“, „Load“. Ohne JSON → Prompt:
   `Kodex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe).`
   `"Fertig" startet den Merge.`
 
 ### Multi-JSON Collector
+
 - Akzeptiert mehrere JSON-Blöcke in **einer** oder **mehreren** Nachrichten.
 - Sammelphase endet auf **„Fertig“** – oder bei Autoload sofort, wenn genau **ein** Save erkannt
   wurde.
 
 ### Validierung & Migration
+
 - Wende `migrate_save()` auf jeden Block an (`save_version` hochsetzen, Defaults ergänzen).
 - **Fortsetzung** erzwingen: `location = "HQ"` (Load-Guard; Speichern bleibt HQ-only).
 
 ### Merge-Regeln (Gruppe)
+
 - Primärschlüssel: `character.id` → Update statt Duplikat.
 - Fallback: `(name, epoche)` → Kollision: `Kodex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
 - **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
@@ -559,6 +564,7 @@ niemand wird dupliziert.
   ```
 
 ### Recap & Start
+
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
 - **Compliance-Hinweis entfällt:** Der Hook bleibt leer. `load_deep()` markiert weiterhin
   `campaign.entry_choice_skipped=true` und setzt `ui.intro_seen=true`, damit der Einstieg
@@ -585,3 +591,4 @@ flowchart TD
   G -->|Schnell| I[Transfer-HUD → NextScene]
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+```

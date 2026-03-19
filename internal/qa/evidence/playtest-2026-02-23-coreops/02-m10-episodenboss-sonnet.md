@@ -1,4 +1,5 @@
 # 02-m10-episodenboss-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.037158
 - **Tokens:** in:6561 out:1165
@@ -13,7 +14,7 @@ Der Schneesturm peitscht horizontal über das Dach des Wachturms. Drei Meter Bet
 
 Du ziehst das Monofaser-Katana. Die Klinge fängt den Scheinwerferbogen auf, wirft einen Lidschlag lang Licht gegen die Wolken. Kessler steht am anderen Ende des Dachs, den Rücken zur Brüstung, die Arme locker an den Seiten. Ostdeutsche Uniform, aber die Schulterstreifen stimmen nicht — zu neu, zu sauber für einen Mann, der behauptet, 1962 hier stationiert worden zu sein. An seinem linken Handgelenk pulsiert etwas Blaues. Kausalklingen-Implantat. Du kennst das Modell.
 
-„Wraith." Seine Stimme trägt trotz Sturm. Ruhig. Fast enttäuscht. „Ich habe drei Zeitzweige berechnet, in denen du heute Nacht stirbst. Das hier ist der vierte." Er hebt die Hand — und die Luft zwischen euch *schneidet*, ein horizontaler Riss, kaum breiter als ein Papierblatt, der sofort wieder zuklappt. Warnung. Demonstration. „Geh nach Hause."
+„Wraith." Seine Stimme trägt trotz Sturm. Ruhig. Fast enttäuscht. „Ich habe drei Zeitzweige berechnet, in denen du heute Nacht stirbst. Das hier ist der vierte." Er hebt die Hand — und die Luft zwischen euch _schneidet_, ein horizontaler Riss, kaum breiter als ein Papierblatt, der sofort wieder zuklappt. Warnung. Demonstration. „Geh nach Hause."
 
 Du gehst nicht nach Hause.
 
@@ -35,6 +36,7 @@ Kessler flucht auf Russisch.
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Kesslers Phasenschnitt braucht Zielsicht — Dunkelheit ist dein Vorteil
 - Exfil-Fenster: **T-08:40** und läuft. Jede Runde kostet ~45 Sekunden
 - Noise: Kampfgeräusche auf dem Dach — Patrouille unten in ~4 Runden alarmierbar

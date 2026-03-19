@@ -6,139 +6,171 @@ tags: [qa, testrun, automated, final]
 ---
 
 ISSUE #001
+
 - Beobachtung: Solo-Klassisch-Start führt korrekt durch Charaktererstellung, HQ-Intro und Briefing
 - Diagnose: Dispatcher erkennt Startsyntax ordnungsgemäß, lädt Masterprompt und führt vollständigen Flow durch
 - Evidenz: `logs.trace[].dispatch_hint` bei korrekter Klammer-Syntax, HQ-Intro vollständig zitiert, Briefing startet automatisch
 
 Lösungsvorschlag
+
 - Ansatz: Flow bestätigt - keine Anpassung erforderlich
 - Risiken: Keine
 
 To-do
+
 - Codex: Dispatcher-Flow dokumentiert - keine Änderungen nötig
 - QA: PASS - Solo-klassisch funktioniert wie spezifiziert
 
 Nächste Schritte
-- Maintainer:innen: Keine Aktion erforderlich
+
+- Maintainer: Keine Aktion erforderlich
 - Notizen: Baseline-Flow stabil
 
 ISSUE #002
+
 - Beobachtung: NPC-Team-Erstellung (3 Begleiter) generiert korrekt ausbalancierte Squad-Mitglieder mit komplementären Rollen
 - Diagnose: Autogen-Algorithmus folgt Teamsize-Vorgaben und erstellt diverse Skillsets
 - Evidenz: Squad mit Infiltrator, Techie und Kampfunterstützung; `campaign.mode=preserve` korrekt gesetzt
 
 Lösungsvorschlag
+
 - Ansatz: Mechanik funktioniert ordnungsgemäß
 - Risiken: Keine
 
 To-do
+
 - Codex: NPC-Generation bestätigt funktional
 - QA: PASS - Team-Balance stimmt
 
 Nächste Schritte
-- Maintainer:innen: Flow dokumentiert
+
+- Maintainer: Flow dokumentiert
 - Notizen: Squad-KI reagiert angemessen auf Taktikbefehle
 
 ISSUE #003
+
 - Beobachtung: Fehlende explizite Paradoxon-Index-Eskalation in Midgame-Phase
 - Diagnose: Px-Mechanik wird zu subtil dargestellt, Spieler verstehen Konsequenzen nicht vollständig
 - Evidenz: Px steigt auf Stufe 3-4 ohne klare Warnung vor ClusterCreate() bei Stufe 5
 
 Lösungsvorschlag
+
 - Ansatz: Kodex sollte bei Px 4 explizite Warnung vor Seed-Erzeugung aussenden
 - Risiken: Könnte Immersion durchbrechen, aber Klarheit ist wichtiger
 
 To-do
+
 - Codex: Warnsystem für Px 4 implementieren ("Paradoxon-Index kritisch - weitere Eingriffe erzeugen Rift-Seeds")
 - QA: Px-Warnung bei Stufe 4 testen
 
 Nächste Schritte
-- Maintainer:innen: Kodex-Warnsystem in nächstem Update
+
+- Maintainer: Kodex-Warnsystem in nächstem Update
 - Notizen: Balancing zwischen Subtilität und Verständlichkeit
 
 ISSUE #004
+
 - Beobachtung: HUD-Toast-Budget wird in komplexen Szenen überschritten
 - Diagnose: 2-Toast-Limit pro Szene zu restriktiv für actionreiche Sequenzen mit mehreren Systemupdates
 - Evidenz: Verfolgungsjagd mit Stress, Damage und Kodex-Update überschreitet Budget, wichtige Infos gehen unter
 
 Lösungsvorschlag
+
 - Ansatz: Dynamisches Toast-Budget basierend auf Szenentyp (Standard: 2, Action: 3-4, Boss: unbegrenzt)
 - Risiken: Könnte HUD überlasten
 
 To-do
+
 - Codex: Szenen-spezifisches Toast-Budget implementieren
 - QA: Budget-Overflow in verschiedenen Szenentypen testen
 
 Nächste Schritte
-- Maintainer:innen: HUD-Budget-Algorithmus überarbeiten
+
+- Maintainer: HUD-Budget-Algorithmus überarbeiten
 - Notizen: Prioritätssystem für Toast-Kategorien entwickeln
 
 ISSUE #005
+
 - Beobachtung: Cross-Mode-Save-Import (Solo→Koop) überschreibt UI-Einstellungen ohne Merge-Konflikt-Warnung
 - Diagnose: Host-UI-Override funktioniert korrekt, aber Transparenz fehlt für Spieler
 - Evidenz: `ui_host_override` trace vorhanden, aber kein User-facing Hinweis
 
 Lösungsvorschlag
+
 - Ansatz: Toast-Benachrichtigung bei UI-Override ("Host-UI-Einstellungen übernommen")
 - Risiken: Minimaler UX-Overhead
 
 To-do
+
 - Codex: UI-Override-Toast implementieren
 - QA: Cross-Mode-Import mit UI-Unterschieden testen
 
 Nächste Schritte
-- Maintainer:innen: Toast-System erweitern
+
+- Maintainer: Toast-System erweitern
 - Notizen: Merge-Transparenz verbessern
 
 ISSUE #006
+
 - Beobachtung: Riftloop-Reset bei Level 400+ führt zu unausgewogenen Belohnungen
 - Diagnose: Hochlevel-Skalierung überkompensiert, macht frühe Loop-Phasen zu trivial
 - Evidenz: Level 512 Charakter dominiert Level 50-100 Rift-Content ohne Herausforderung
 
 Lösungsvorschlag
+
 - Ansatz: Rift-interne Level-Caps oder Scaling-Dämpfer für Overlevel-Charaktere
 - Risiken: Könnte Progression-Gefühl beeinträchtigen
 
 To-do
+
 - Codex: Rift-Scaling-Algorithmus für Hochlevel-Charaktere anpassen
 - QA: Level-Cap-Mechanik in verschiedenen Rift-Tiers testen
 
 Nächste Schritte
-- Maintainer:innen: Endgame-Balance-Pass einplanen
+
+- Maintainer: Endgame-Balance-Pass einplanen
 - Notizen: Community-Feedback zu Rift-Schwierigkeit einholen
 
 ISSUE #007
+
 - Beobachtung: PvP-Arena-Save-Blocker funktioniert korrekt, aber Resume-Mechanik ist unklar
 - Diagnose: Arena-Status wird beim Load verworfen, aber Spieler verstehen nicht, wie sie Arena-Sessions fortsetzen können
 - Evidenz: `arena.previous_mode` wird korrekt wiederhergestellt, aber User-Guidance fehlt
 
 Lösungsvorschlag
+
 - Ansatz: Expliziter Arena-Resume-Hinweis im HUD nach Arena-Save-Verwurf
 - Risiken: Könnte PvP-Flow unterbrechen
 
 To-do
+
 - Codex: Arena-Resume-Guidance implementieren
 - QA: Arena-Unterbrechung und Resume testen
 
 Nächste Schritte
-- Maintainer:innen: PvP-UX-Flow dokumentieren
+
+- Maintainer: PvP-UX-Flow dokumentieren
 - Notizen: Arena-Tutorial erwägen
 
 ISSUE #008
+
 - Beobachtung: Stadt-Services-Freischaltung ab Level 10 erfolgt abrupt ohne Einführung
 - Diagnose: Chronopolis-Unlock ist mechanisch korrekt, aber narrativ zu hart
 - Evidenz: `chronopolis_unlocked=true` bei Level 10, aber keine Vorbereitung oder Erklärung
 
 Lösungsvorschlag
+
 - Ansatz: Gestaffelte Stadt-Einführung mit Kodex-Briefing vor Freischaltung
 - Risiken: Könnte Pacing verlangsamen
 
 To-do
+
 - Codex: Chronopolis-Intro-Sequenz implementieren
 - QA: Stadt-Unlock-Flow mit Einführung testen
 
 Nächste Schritte
-- Maintainer:innen: Narrative Brücke zu Stadtinhalten entwickeln
+
+- Maintainer: Narrative Brücke zu Stadtinhalten entwickeln
 - Notizen: Fraktions-Erstkontakt überarbeiten
 
 ```json
@@ -180,12 +212,7 @@ Nächste Schritte
     "health": 85,
     "stress": 15,
     "max_stress": 100,
-    "gear": [
-      "Comlink (verschlüsselt)",
-      "Shock-Pistole",
-      "Multitool",
-      "Tarnanzug"
-    ]
+    "gear": ["Comlink (verschlüsselt)", "Shock-Pistole", "Multitool", "Tarnanzug"]
   },
   "economy": {
     "cu": 2840,
@@ -296,20 +323,20 @@ Nächste Schritte
 
 ## Acceptance-Smoke-Checkliste
 
-| Schritt | Beschreibung | Status | Evidenz |
-|---------|-------------|--------|---------|
-| 1 | Solo klassisch Start | PASS | dispatch_hint trace, vollständiger HQ-Flow |
-| 2 | Solo schnell Start | PASS | Rolle→Default→Briefing ohne Verzögerung |
-| 3 | NPC-Team Erstellung | PASS | 3er-Squad generiert, Rollen komplementär |
-| 4 | Gruppe schnell (2 Saves) | PASS | Host-Save + Mitspieler-Save korrekt |
-| 5 | Gruppe Zahlen-Fehler | PASS | "Bei gruppe keine Zahl angeben" angezeigt |
-| 6 | Spiel laden | PASS | HQ-Recap-Overlay, skip_entry_choice=true |
-| 7 | Mission Save-Blocker | PASS | "SaveGuard: Speichern nur im HQ" |
-| 8 | Px 5 Seed-Hinweis | PASS | "Seeds nach Episodenende spielbar" |
-| 9 | Boss-Helper nach M4 | PASS | Gate blockiert Toast, FS 0/4 angezeigt |
-| 10 | Mission 5 Gate-Start | PASS | GATE 2/2, Boss-Encounter Szene 10 |
-| 11 | Boss-DR in Szene 10 | PASS | "Boss-DR aktiviert – −X Schaden" |
-| 12 | Psi-Heat Reset | PASS | +1 im Konflikt, Auto-Reset auf 0 |
-| 13 | Accessibility Dialog | PASS | UI-Optionen persistiert, Toast bestätigt |
-| 14 | UI-Persistenz Load | PASS | Einstellungen nach Save/Load erhalten |
-| 15 | Offline-Mode | PASS | offline_help() funktional, Save-Blocker aktiv |
+| Schritt | Beschreibung             | Status | Evidenz                                       |
+| ------- | ------------------------ | ------ | --------------------------------------------- |
+| 1       | Solo klassisch Start     | PASS   | dispatch_hint trace, vollständiger HQ-Flow    |
+| 2       | Solo schnell Start       | PASS   | Rolle→Default→Briefing ohne Verzögerung       |
+| 3       | NPC-Team Erstellung      | PASS   | 3er-Squad generiert, Rollen komplementär      |
+| 4       | Gruppe schnell (2 Saves) | PASS   | Host-Save + Mitspieler-Save korrekt           |
+| 5       | Gruppe Zahlen-Fehler     | PASS   | "Bei gruppe keine Zahl angeben" angezeigt     |
+| 6       | Spiel laden              | PASS   | HQ-Recap-Overlay, skip_entry_choice=true      |
+| 7       | Mission Save-Blocker     | PASS   | "SaveGuard: Speichern nur im HQ"              |
+| 8       | Px 5 Seed-Hinweis        | PASS   | "Seeds nach Episodenende spielbar"            |
+| 9       | Boss-Helper nach M4      | PASS   | Gate blockiert Toast, FS 0/4 angezeigt        |
+| 10      | Mission 5 Gate-Start     | PASS   | GATE 2/2, Boss-Encounter Szene 10             |
+| 11      | Boss-DR in Szene 10      | PASS   | "Boss-DR aktiviert – −X Schaden"              |
+| 12      | Psi-Heat Reset           | PASS   | +1 im Konflikt, Auto-Reset auf 0              |
+| 13      | Accessibility Dialog     | PASS   | UI-Optionen persistiert, Toast bestätigt      |
+| 14      | UI-Persistenz Load       | PASS   | Einstellungen nach Save/Load erhalten         |
+| 15      | Offline-Mode             | PASS   | offline_help() funktional, Save-Blocker aktiv |

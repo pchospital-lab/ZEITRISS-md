@@ -1,4 +1,5 @@
 # 03-loadrouter-sonnet
+
 - **Model:** zeitriss-v426-uncut
 - **Tokens:** in:14500 out:946 cost:$0.05769
 - **Date:** 2026-03-17T10:59:07+01:00
@@ -11,16 +12,16 @@
 
 **LOAD BESTÄTIGT — Session-Anker gesetzt**
 
-| Feld | Wert |
-|---|---|
-| Agent | Nova „Phantom" · Feldagent Lvl 8 |
-| Episode / Mission | Ep. 2 · Mission 3 (abgeschlossen) |
-| Letzter Standort | HQ · Nullzeit |
-| Paradoxon-Index | Px 3/5 · stabil |
-| Rift-Seeds | RIFT-077 (spielbar nach Episodenende) |
-| Wallet | 2.500 CU |
-| ITI-Ruf | 2 · Lizenz Tier II |
-| Fraktionen | Ordo Mnemonika +2 · Kausalklingen +1 |
+| Feld              | Wert                                  |
+| ----------------- | ------------------------------------- |
+| Agent             | Nova „Phantom" · Feldagent Lvl 8      |
+| Episode / Mission | Ep. 2 · Mission 3 (abgeschlossen)     |
+| Letzter Standort  | HQ · Nullzeit                         |
+| Paradoxon-Index   | Px 3/5 · stabil                       |
+| Rift-Seeds        | RIFT-077 (spielbar nach Episodenende) |
+| Wallet            | 2.500 CU                              |
+| ITI-Ruf           | 2 · Lizenz Tier II                    |
+| Fraktionen        | Ordo Mnemonika +2 · Kausalklingen +1  |
 
 ---
 

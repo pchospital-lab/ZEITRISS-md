@@ -8,7 +8,7 @@ tags: [qa, process]
 
 Diese Checkliste ist der kurze Vorlauf vor einem neuen Playtest-Durchgang.
 Sie ergänzt das `docs/qa/tester-playtest-briefing.md` um einen kompakten,
-operativen Gate für Maintainer:innen.
+operativen Gate für Maintainer.
 
 ## 1) Setup-Gate
 

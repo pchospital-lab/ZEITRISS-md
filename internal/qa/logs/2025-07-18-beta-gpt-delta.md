@@ -1,12 +1,12 @@
 ---
-title: "Beta-GPT Lauf 2025-07-18 – Rohprotokoll"
+title: "Beta-KI Lauf 2025-07-18 – Rohprotokoll"
 version: 1.0.0
 tags: [meta, qa-log]
 ---
 
-# Beta-GPT Lauf 2025-07-18 – Rohprotokoll
+# Beta-KI Lauf 2025-07-18 – Rohprotokoll
 
-Dieses Dokument archiviert den vollständigen Beta-GPT-Testprompt samt Befundliste.
+Dieses Dokument archiviert den vollständigen Beta-KI-Testprompt samt Befundliste.
 Ergänzende Auswertung und Maßnahmen stehen im [Beta-QA-Log 2025](2025-beta-qa-log.md).
 
 ```text
@@ -39,7 +39,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Runtime-Mirror im Wissensspeicher aktualisieren (Toolkit & Save‑Modul),
+* Maintainer: Runtime-Mirror im Wissensspeicher aktualisieren (Toolkit & Save‑Modul),
   anschließend Smoketest exportieren.
 * Notizen: Prüfen, ob `exfil.ttl`/`armed` ebenfalls hart zurückgesetzt werden müssen, um HUD‑Ghosts
   zu vermeiden.
@@ -70,7 +70,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: HUD‑Spezifikation in `characters/hud-system.md`
+* Maintainer: HUD‑Spezifikation in `characters/hud-system.md`
   referenzieren; README‑Hinweis „Boss‑Gates & HUD‑Badges“ aktualisieren.
 * Notizen: Boss‑Auto‑Foreshadows in Szene 4/9 prüfen (Auto‑Hints im Toolkit).
 
@@ -100,7 +100,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README Acceptance‑Hinweis beibehalten; Spezifizierung des
+* Maintainer: README Acceptance‑Hinweis beibehalten; Spezifizierung des
   Flags im Save‑Schema ergänzen.
 * Notizen: `ui.intro_seen`‑ähnlicher Guard als Vorbild für Persistenzfelder.
 
@@ -131,7 +131,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Readme‑Abschnitt „Koop‑Debrief & Wallet‑Split“
+* Maintainer: Readme‑Abschnitt „Koop‑Debrief & Wallet‑Split“
   unverändert; Changelog vermerken.
 * Notizen: `economy.cu` als HQ‑Pool sichtbar halten.
 
@@ -160,7 +160,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Psi‑Modul‑Mirror in Wissensbasis bestätigen.
+* Maintainer: Psi‑Modul‑Mirror in Wissensbasis bestätigen.
 * Notizen: `psi_buffer`‑Guard im PvP zusätzlich verifizieren.
 
 ISSUE #6
@@ -190,7 +190,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Docs‑Hinweis „Mirror‑Pflicht“ bleibt bestehen; QA‑Journal aktualisieren.
+* Maintainer: Docs‑Hinweis „Mirror‑Pflicht“ bleibt bestehen; QA‑Journal aktualisieren.
 * Notizen: „Chronopolis‑Warnung“ auf ähnliches Doppelflag prüfen.
 
 ISSUE #7
@@ -218,7 +218,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Keine Doc‑Änderung; nur Implementierung angleichen.
+* Maintainer: Keine Doc‑Änderung; nur Implementierung angleichen.
 * Notizen: Debrief-Feld „Offline-Protokoll (n×)“ sollte n=12 deckelklar
   anzeigen.
 
@@ -248,7 +248,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: HUD‑Spec (Badges) in `characters/hud-system.md` nachziehen.
+* Maintainer: HUD‑Spec (Badges) in `characters/hud-system.md` nachziehen.
   (Glossar verweist bereits auf Badges.)
 * Notizen: Auch für Rift‑Gate (2/2 in Szene 10) verwenden.
 
@@ -276,7 +276,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README‑Starttranskripte ggf. erweitern.
+* Maintainer: README‑Starttranskripte ggf. erweitern.
 * Notizen: Debrief weiterhin zusammenfassend korrekt.
 
 ISSUE #10
@@ -304,7 +304,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: README KPI‑Beispielwerte aktualisieren.
+* Maintainer: README KPI‑Beispielwerte aktualisieren.
 * Notizen: Keine.
 
 ISSUE #11
@@ -331,7 +331,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Keine Doc‑Änderung nötig.
+* Maintainer: Keine Doc‑Änderung nötig.
 * Notizen: Add Unit‑Test in Toolkit‑Spec.
 
 ISSUE #12
@@ -353,6 +353,6 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: Docs angleichen; Translator‑Keys einführen.
+* Maintainer: Docs angleichen; Translator‑Keys einführen.
 * Notizen: Keine.
 ```

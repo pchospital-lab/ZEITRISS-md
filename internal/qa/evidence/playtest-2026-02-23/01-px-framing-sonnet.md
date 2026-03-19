@@ -1,4 +1,5 @@
 # 01-px-framing-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.041148
 - **Tokens:** in:6461 out:1451
@@ -21,13 +22,13 @@ Auf dem Tisch: ein dampfender Becher, den jemand schon vor deiner Ankunft hinges
 
 ## ═══ SCORE-SCREEN · MISSION 8 ═══
 
-| Kategorie | Ergebnis |
-|---|---|
-| Primärziel | ✅ Erfüllt |
-| Sekundärziel | ✅ Erfüllt |
-| Kollateralschäden | Minimal |
-| Tarnung gehalten | Ja |
-| Zeitlinie stabil | Stabil |
+| Kategorie          | Ergebnis      |
+| ------------------ | ------------- |
+| Primärziel         | ✅ Erfüllt    |
+| Sekundärziel       | ✅ Erfüllt    |
+| Kollateralschäden  | Minimal       |
+| Tarnung gehalten   | Ja            |
+| Zeitlinie stabil   | Stabil        |
 | Stressor-Belastung | Mittel (3/10) |
 
 **Bewertung: GHOST-KLASSE** ⬛⬛⬛⬛⬜
@@ -45,13 +46,13 @@ Auf dem Tisch: ein dampfender Becher, den jemand schon vor deiner Ankunft hinges
 
 ## CU-AUSZAHLUNG
 
-| Posten | Betrag |
-|---|---|
-| Basis-Honorar | 1.400 CU |
-| Ghost-Bonus | +350 CU |
-| Sekundärziel | +200 CU |
-| Ausrüstungsschäden | −80 CU |
-| **Gesamt** | **1.870 CU** |
+| Posten             | Betrag       |
+| ------------------ | ------------ |
+| Basis-Honorar      | 1.400 CU     |
+| Ghost-Bonus        | +350 CU      |
+| Sekundärziel       | +200 CU      |
+| Ausrüstungsschäden | −80 CU       |
+| **Gesamt**         | **1.870 CU** |
 
 ---
 
@@ -96,15 +97,15 @@ Die Daten landen still im Archiv — zwei Anomalie-Cluster, die irgendwo in der 
 
 > ☆ **SEED A — "MERIDIAN"**
 > Epoche unbekannt. Koordinaten: fragmentiert. Klassifikation: Klasse-II-Verwerfung.
-> *Erstes Signal: ein Kinderlachen auf einer Frequenz, die es nicht geben sollte.*
+> _Erstes Signal: ein Kinderlachen auf einer Frequenz, die es nicht geben sollte._
 
 > ☆ **SEED B — "SCHWARZE STUNDE"**
 > Epoche: Kalter Krieg, Ostblock, ca. 1962. Koordinaten: stabil.
-> *Zweites Signal: ein toter Mann sendet noch. Seit drei Tagen.*
+> _Zweites Signal: ein toter Mann sendet noch. Seit drei Tagen._
 
 ---
 
-*Du trinkst den Becher leer. Irgendjemand hat gewusst, dass du Schwarz trinkst.*
+_Du trinkst den Becher leer. Irgendjemand hat gewusst, dass du Schwarz trinkst._
 
 ---
 
@@ -112,8 +113,8 @@ Die Daten landen still im Archiv — zwei Anomalie-Cluster, die irgendwo in der 
 
 ---
 
-**1 — HQ-Rundgang** *(Ausrüstung, Upgrades, Markt)*
+**1 — HQ-Rundgang** _(Ausrüstung, Upgrades, Markt)_
 **2 — Direkt ins Briefing: Mission 9**
-**3 — Rift-Seeds ansehen** *(gesperrt — Ep. 1 läuft noch)*
+**3 — Rift-Seeds ansehen** _(gesperrt — Ep. 1 läuft noch)_
 
 **Freie Aktion:** Was tust du?

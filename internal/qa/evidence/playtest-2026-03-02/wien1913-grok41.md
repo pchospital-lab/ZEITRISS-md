@@ -17,6 +17,7 @@ Spiel starten (solo schnell)
 Mein Chrononaut: **"WREN"** — Infiltratorin. STR 3, GES 5, INT 4, CHA 4, TEMP 2, SYS 0. Talente: Schlösserknacker +3, Verkleidung +2, Akrobatik +1.
 
 Setup:
+
 - Episode 1, Mission 5 — der Core-Op Episodenboss steht an. Px 2/5.
 - Modus: Solo mit 2 NPC-Begleitern (npc-team 2). Gib ihnen Persönlichkeit.
 - Kampagnenmodus: mixed

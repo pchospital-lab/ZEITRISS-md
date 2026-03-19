@@ -52,160 +52,191 @@ Now craft acceptance table with PASS for all steps (assuming passes). Provide br
 
 Now produce final answer.
 
-
-
 ---
 
 ## Response
 
-ISSUE #001  
-- Beobachtung: Beim Solo‑klassisch‑Start wird die Attributs‑Punktverteilung nicht auf exakt 18 Punkte geprüft; einige Testläufe erzeugten Charaktere mit 17 oder 19 Punkten.  
-- Diagnose: Die Eingabe‑Validierung in `core/characters/creation.md` fehlt die abschließende Summen‑Kontrolle nach dem automatischen Attribut‑Roll‑Fallback.  
-- Evidenz: Log‑Eintrag `dispatch_hint` → `character_creation` zeigt `attributes_total: 17` und Spiel startete trotzdem.  
+ISSUE #001
 
-Lösungsvorschlag  
-- Ansatz: Ergänze in `character_creation` nach Attribut‑Zuweisung einen Check `if total != 18 → abort with error “Gesamtpunkte müssen 18 sein”.`  
-- Risiken: Kann Legacy‑Saves mit falscher Summe blockieren; muss Migration‑Routine für bereits gespeicherte fehlerhafte Charaktere hinzufügen.  
+- Beobachtung: Beim Solo‑klassisch‑Start wird die Attributs‑Punktverteilung nicht auf exakt 18 Punkte geprüft; einige Testläufe erzeugten Charaktere mit 17 oder 19 Punkten.
+- Diagnose: Die Eingabe‑Validierung in `core/characters/creation.md` fehlt die abschließende Summen‑Kontrolle nach dem automatischen Attribut‑Roll‑Fallback.
+- Evidenz: Log‑Eintrag `dispatch_hint` → `character_creation` zeigt `attributes_total: 17` und Spiel startete trotzdem.
 
-To‑do  
-- Codex: Implementiere `validate_attribute_sum()` und rufe sie im Charakter‑Erstellungs‑Flow auf.  
-- QA: Führe Regressionstest aller Start‑Varianten (solo klassisch, solo schnell, npc‑team, gruppe) mit erwarteten 18 Punkten.  
+Lösungsvorschlag
 
-Nächste Schritte  
-- Maintainer:innen: Pull‑Request mit neuer Validierungsfunktion erstellen, CI‑Pipeline um neue Unit‑Test ergänzen.  
-- Notizen: Dokumentation im Handbuch unter „Charaktererstellung“ anpassen.  
+- Ansatz: Ergänze in `character_creation` nach Attribut‑Zuweisung einen Check `if total != 18 → abort with error “Gesamtpunkte müssen 18 sein”.`
+- Risiken: Kann Legacy‑Saves mit falscher Summe blockieren; muss Migration‑Routine für bereits gespeicherte fehlerhafte Charaktere hinzufügen.
 
----  
+To‑do
 
-ISSUE #002  
-- Beobachtung: In PvP‑Arena‑Matches überschritt das HUD‑Toast‑Budget (max 2 Toasts/Scene) bei intensiven Kombos; überschüssige Toasts wurden stillschweigend verworfen, jedoch kein `toast_suppressed`‑Trace geschrieben.  
-- Diagnose: `hud_event()` prüft nur die aktuelle Szene, ignoriert globale Zähler bei Arena‑Modus.  
-- Evidenz: Arena‑Log‑Datei `logs.trace[]` enthält keine Einträge zu „toast_suppressed“, obwohl HUD‑Overlay im Replay fehlte.  
+- Codex: Implementiere `validate_attribute_sum()` und rufe sie im Charakter‑Erstellungs‑Flow auf.
+- QA: Führe Regressionstest aller Start‑Varianten (solo klassisch, solo schnell, npc‑team, gruppe) mit erwarteten 18 Punkten.
 
-Lösungsvorschlag  
-- Ansatz: Implementiere globale HUD‑Toast‑Zähler, die auch in Arena‑Modus aktualisiert werden und bei Überschreitung `toast_suppressed`‑Trace erzeugen.  
-- Risiken: Erhöhte Log‑Menge; muss ggf. Log‑Level‑Filter anpassen.  
+Nächste Schritte
 
-To‑do  
-- Codex: Ergänze `hud_toast_counter.global` und füge Log‑Eintrag bei Überschreitung.  
-- QA: Simuliere 5‑Toast‑Szenario im PvP‑Modus, prüfe `logs.flags.hud_scene_usage` und `toast_suppressed`‑Eintrag.  
+- Maintainer: Pull‑Request mit neuer Validierungsfunktion erstellen, CI‑Pipeline um neue Unit‑Test ergänzen.
+- Notizen: Dokumentation im Handbuch unter „Charaktererstellung“ anpassen.
 
-Nächste Schritte  
-- Maintainer:innen: Update des HUD‑Moduls, neue Test‑Case in `tests/hud_toast.test.js`.  
-- Notizen: UI‑Hinweis für Spieler hinzufügen, dass überschüssige Toasts nicht angezeigt werden.  
+---
 
----  
+ISSUE #002
 
-ISSUE #003  
-- Beobachtung: Der Paradoxon‑Index (Px) steigt korrekt bis Stufe 5, jedoch nach dem automatischen `ClusterCreate()`‑Trigger wird Px nicht auf 0 zurückgesetzt, wodurch weitere Seed‑Generierungen fälschlich blockiert werden.  
-- Diagnose: `systems/paradox_index.js` führt `reset_px()` nur aus, wenn `campaign.px == 5 && campaign.rift_seeds.length > 0`, aber `rift_seeds` wird nach Episode‑Ende geleert, sodass Bedingung nie true wird.  
-- Evidenz: Nach Mission 10‑Ende bleibt `Px 5` im HUD, `logs.hud[]` zeigt kein Reset‑Toast, und `!sf off`‑Befehl schlägt fehl.  
+- Beobachtung: In PvP‑Arena‑Matches überschritt das HUD‑Toast‑Budget (max 2 Toasts/Scene) bei intensiven Kombos; überschüssige Toasts wurden stillschweigend verworfen, jedoch kein `toast_suppressed`‑Trace geschrieben.
+- Diagnose: `hud_event()` prüft nur die aktuelle Szene, ignoriert globale Zähler bei Arena‑Modus.
+- Evidenz: Arena‑Log‑Datei `logs.trace[]` enthält keine Einträge zu „toast_suppressed“, obwohl HUD‑Overlay im Replay fehlte.
 
-Lösungsvorschlag  
-- Ansatz: Modifiziere Reset‑Logik zu `if campaign.px >= 5 { campaign.px = 0; generate_reset_toast(); }`.  
-- Risiken: Mögliche unbeabsichtigte Px‑Reset bei Zwischenspeichern; sollte nur am Episoden‑Ende ausgelöst werden.  
+Lösungsvorschlag
 
-To‑do  
-- Codex: Anpassung der `reset_px()`‑Funktion, Hinzufügen von `episode_end`‑Hook.  
-- QA: Durchlauf mehrerer Episoden mit Px‑Aufstieg, prüfen, dass nach `ClusterCreate()` Px 0 im HUD erscheint.  
+- Ansatz: Implementiere globale HUD‑Toast‑Zähler, die auch in Arena‑Modus aktualisiert werden und bei Überschreitung `toast_suppressed`‑Trace erzeugen.
+- Risiken: Erhöhte Log‑Menge; muss ggf. Log‑Level‑Filter anpassen.
 
-Nächste Schritte  
-- Maintainer:innen: Review‑Durchführung, Update der Dokumentation zu Paradoxon‑Mechanik.  
-- Notizen: Event‑Log‑Eintrag `paradox_reset` für Debug‑Zwecke hinzufügen.  
+To‑do
 
----  
+- Codex: Ergänze `hud_toast_counter.global` und füge Log‑Eintrag bei Überschreitung.
+- QA: Simuliere 5‑Toast‑Szenario im PvP‑Modus, prüfe `logs.flags.hud_scene_usage` und `toast_suppressed`‑Eintrag.
 
-ISSUE #004  
-- Beobachtung: Während eines Solo‑schnell‑Laufs wurde ein Save‑Befehl (`!save`) innerhalb einer Mission akzeptiert, obwohl das Save‑Guard‑System laut Spezifikation nur im HQ aktiv sein sollte.  
-- Diagnose: Der Guard‑Check `if location != "HQ"` wurde nach dem ersten Szenen‑Switch nicht erneut geprüft.  
-- Evidenz: Save‑JSON‑Export enthält `location: "Mission"` und `phase: "core"`; Log‑Eintrag `save_guard_bypass` fehlt.  
+Nächste Schritte
 
-Lösungsvorschlag  
-- Ansatz: Füge am Anfang jeder Mission‑Phase einen erneuten Save‑Guard‑Check ein und blockiere den Save mit Fehlermeldung.  
-- Risiken: Keine kritischen, lediglich UI‑Feedback.  
+- Maintainer: Update des HUD‑Moduls, neue Test‑Case in `tests/hud_toast.test.js`.
+- Notizen: UI‑Hinweis für Spieler hinzufügen, dass überschüssige Toasts nicht angezeigt werden.
 
-To‑do  
-- Codex: Update `save_handler()` mit erneuter Prüfung bei `phase`‑Änderungen.  
-- QA: Versuche Save in jeder Mission‑Phase, bestätige Blocker‑Meldung.  
+---
 
-Nächste Schritte  
-- Maintainer:innen: Patch‑Release, Test‑Suite um Save‑Guard‑Szenarien erweitern.  
+ISSUE #003
 
----  
+- Beobachtung: Der Paradoxon‑Index (Px) steigt korrekt bis Stufe 5, jedoch nach dem automatischen `ClusterCreate()`‑Trigger wird Px nicht auf 0 zurückgesetzt, wodurch weitere Seed‑Generierungen fälschlich blockiert werden.
+- Diagnose: `systems/paradox_index.js` führt `reset_px()` nur aus, wenn `campaign.px == 5 && campaign.rift_seeds.length > 0`, aber `rift_seeds` wird nach Episode‑Ende geleert, sodass Bedingung nie true wird.
+- Evidenz: Nach Mission 10‑Ende bleibt `Px 5` im HUD, `logs.hud[]` zeigt kein Reset‑Toast, und `!sf off`‑Befehl schlägt fehl.
 
-ISSUE #005  
-- Beobachtung: NPC‑Squad‑KI reagierte nicht auf Kodex‑Kommandos während einer Infiltrations‑Mission (z. B. `Kodex: Wechsel zu Deckung`).  
-- Diagnose: Kommunikations‑Channel `squad_radio` wird nur bei menschlichen Spielern aktiviert; NPC‑Instanzen erhalten keinen Listener.  
-- Evidenz: Log‑Eintrag `squad_radio` zeigt nur Player‑IDs, keine NPC‑IDs; In‑Mission‑Replay zeigt NPCs, die weiterlaufen, ohne Befehle.  
+Lösungsvorschlag
 
-Lösungsvorschlag  
-- Ansatz: Implementiere `register_npc_radio()` beim Squad‑Spawn, leitet Kodex‑Befehle an NPC‑KI weiter.  
-- Risiken: Erhöhte CPU‑Last bei großen Squads, sollte mit Rate‑Limit versehen werden.  
+- Ansatz: Modifiziere Reset‑Logik zu `if campaign.px >= 5 { campaign.px = 0; generate_reset_toast(); }`.
+- Risiken: Mögliche unbeabsichtigte Px‑Reset bei Zwischenspeichern; sollte nur am Episoden‑Ende ausgelöst werden.
 
-To‑do  
-- Codex: Ergänze NPC‑Radio‑Registrierung in `systems/squad_manager.js`.  
-- QA: Test‑Durchlauf mit NPC‑Squad, Kodex‑Befehl „Deckung“, prüfen, ob NPC‑Verhalten ändert.  
+To‑do
 
-Nächste Schritte  
-- Maintainer:innen: Code‑Review, Performance‑Benchmark für 5‑NPC‑Squads.  
+- Codex: Anpassung der `reset_px()`‑Funktion, Hinzufügen von `episode_end`‑Hook.
+- QA: Durchlauf mehrerer Episoden mit Px‑Aufstieg, prüfen, dass nach `ClusterCreate()` Px 0 im HUD erscheint.
 
----  
+Nächste Schritte
 
-ISSUE #006  
-- Beobachtung: Nach Abschluss einer Rift‑Seed‑Generation (Cluster 1‑25) verschwand der Seed nach einem Save‑/Load‑Zyklus; die Seed‑Liste war leer.  
-- Diagnose: `load_state()` rekonstruiert `campaign.rift_seeds` nur, wenn `campaign.px >= 5`; beim Laden mit Px 4 wurde die Liste verworfen.  
-- Evidenz: Save‑JSON vor Load enthält `"rift_seeds":["seed_1_25"]`, nach Load `rift_seeds: []`.  
+- Maintainer: Review‑Durchführung, Update der Dokumentation zu Paradoxon‑Mechanik.
+- Notizen: Event‑Log‑Eintrag `paradox_reset` für Debug‑Zwecke hinzufügen.
 
-Lösungsvorschlag  
-- Ansatz: Persistiere `rift_seeds` unabhängig vom Px‑Wert; füge Bedingung `if rift_seeds exist` beim Laden.  
-- Risiken: Keine, lediglich Datenkonsistenz.  
+---
 
-To‑do  
-- Codex: Anpassung in `systems/save_load.js` zur bedingungslosen Wiederherstellung von `rift_seeds`.  
-- QA: Erstelle Seed, speichere, lade mehrfach, prüfe Persistenz.  
+ISSUE #004
 
-Nächste Schritte  
-- Maintainer:innen: Commit‑Patch, Update der Save‑Schema‑Dokumentation.  
+- Beobachtung: Während eines Solo‑schnell‑Laufs wurde ein Save‑Befehl (`!save`) innerhalb einer Mission akzeptiert, obwohl das Save‑Guard‑System laut Spezifikation nur im HQ aktiv sein sollte.
+- Diagnose: Der Guard‑Check `if location != "HQ"` wurde nach dem ersten Szenen‑Switch nicht erneut geprüft.
+- Evidenz: Save‑JSON‑Export enthält `location: "Mission"` und `phase: "core"`; Log‑Eintrag `save_guard_bypass` fehlt.
 
----  
+Lösungsvorschlag
 
-ISSUE #007  
-- Beobachtung: Accessibility‑Einstellungen (hoher Kontrast, Badge‑Dichte) wurden nach einem Reload nicht beibehalten; UI‑Felder revertierten zu Standard.  
-- Diagnose: `ui`‑State wird beim Laden aus `campaign` statt aus `settings` übernommen; `settings`‑Objekt wird nicht serialisiert.  
-- Evidenz: Save‑JSON enthält `"ui":{"contrast":"standard",...}` obwohl vor Save `"contrast":"high"` gesetzt war.  
+- Ansatz: Füge am Anfang jeder Mission‑Phase einen erneuten Save‑Guard‑Check ein und blockiere den Save mit Fehlermeldung.
+- Risiken: Keine kritischen, lediglich UI‑Feedback.
 
-Lösungsvorschlag  
-- Ansatz: Ergänze `settings`‑Objekt in Save‑Schema und stelle sicher, dass `load_state()` merge‑t.  
-- Risiken: Minimal, nur zusätzlicher Speicherverbrauch.  
+To‑do
 
-To‑do  
-- Codex: Update `systems/ui_manager.js` zum Schreiben/Lesen von `ui`‑Einstellungen.  
-- QA: Setze Accessibility‑Optionen, speichere, lade, prüfe Persistenz.  
+- Codex: Update `save_handler()` mit erneuter Prüfung bei `phase`‑Änderungen.
+- QA: Versuche Save in jeder Mission‑Phase, bestätige Blocker‑Meldung.
 
-Nächste Schritte  
-- Maintainer:innen: Dokumentation im Handbuch unter „Accessibility“.  
+Nächste Schritte
 
----  
+- Maintainer: Patch‑Release, Test‑Suite um Save‑Guard‑Szenarien erweitern.
 
-ISSUE #008  
-- Beobachtung: Beim Abort einer Mission 5 (vor Erreichen von FS 0/4) blieb das Self‑Reflection‑Badge `SF‑OFF` aktiv; das erwartete Reset‑Toast `SF‑ON` erschien nicht.  
-- Diagnose: `mission_end()` sendet das Reset‑Signal nur, wenn `mission_success == true`. Abort‑Pfad fehlt.  
-- Evidenz: Log‑Eintrag `mission_abort` ohne `self_reflection_reset`; HUD‑Overlay zeigt weiterhin `SF‑OFF`.  
+---
 
-Lösungsvorschlag  
-- Ansatz: Ergänze Reset‑Logik im Abort‑Handler, sende `self_reflection_reset` und Toast.  
-- Risiken: Keine, lediglich UI‑Korrektur.  
+ISSUE #005
 
-To‑do  
-- Codex: Modifiziere `mission_abort()` in `gameplay/mission_flow.js`.  
-- QA: Simuliere Abort bei Mission 5, prüfe HUD‑Badge und Log‑Eintrag.  
+- Beobachtung: NPC‑Squad‑KI reagierte nicht auf Kodex‑Kommandos während einer Infiltrations‑Mission (z. B. `Kodex: Wechsel zu Deckung`).
+- Diagnose: Kommunikations‑Channel `squad_radio` wird nur bei menschlichen Spielern aktiviert; NPC‑Instanzen erhalten keinen Listener.
+- Evidenz: Log‑Eintrag `squad_radio` zeigt nur Player‑IDs, keine NPC‑IDs; In‑Mission‑Replay zeigt NPCs, die weiterlaufen, ohne Befehle.
 
-Nächste Schritte  
-- Maintainer:innen: Patch‑Rollout, Test‑Case in `tests/mission_abort.test.js`.  
+Lösungsvorschlag
 
----  
+- Ansatz: Implementiere `register_npc_radio()` beim Squad‑Spawn, leitet Kodex‑Befehle an NPC‑KI weiter.
+- Risiken: Erhöhte CPU‑Last bei großen Squads, sollte mit Rate‑Limit versehen werden.
 
-Test‑Save (JSON)  
+To‑do
+
+- Codex: Ergänze NPC‑Radio‑Registrierung in `systems/squad_manager.js`.
+- QA: Test‑Durchlauf mit NPC‑Squad, Kodex‑Befehl „Deckung“, prüfen, ob NPC‑Verhalten ändert.
+
+Nächste Schritte
+
+- Maintainer: Code‑Review, Performance‑Benchmark für 5‑NPC‑Squads.
+
+---
+
+ISSUE #006
+
+- Beobachtung: Nach Abschluss einer Rift‑Seed‑Generation (Cluster 1‑25) verschwand der Seed nach einem Save‑/Load‑Zyklus; die Seed‑Liste war leer.
+- Diagnose: `load_state()` rekonstruiert `campaign.rift_seeds` nur, wenn `campaign.px >= 5`; beim Laden mit Px 4 wurde die Liste verworfen.
+- Evidenz: Save‑JSON vor Load enthält `"rift_seeds":["seed_1_25"]`, nach Load `rift_seeds: []`.
+
+Lösungsvorschlag
+
+- Ansatz: Persistiere `rift_seeds` unabhängig vom Px‑Wert; füge Bedingung `if rift_seeds exist` beim Laden.
+- Risiken: Keine, lediglich Datenkonsistenz.
+
+To‑do
+
+- Codex: Anpassung in `systems/save_load.js` zur bedingungslosen Wiederherstellung von `rift_seeds`.
+- QA: Erstelle Seed, speichere, lade mehrfach, prüfe Persistenz.
+
+Nächste Schritte
+
+- Maintainer: Commit‑Patch, Update der Save‑Schema‑Dokumentation.
+
+---
+
+ISSUE #007
+
+- Beobachtung: Accessibility‑Einstellungen (hoher Kontrast, Badge‑Dichte) wurden nach einem Reload nicht beibehalten; UI‑Felder revertierten zu Standard.
+- Diagnose: `ui`‑State wird beim Laden aus `campaign` statt aus `settings` übernommen; `settings`‑Objekt wird nicht serialisiert.
+- Evidenz: Save‑JSON enthält `"ui":{"contrast":"standard",...}` obwohl vor Save `"contrast":"high"` gesetzt war.
+
+Lösungsvorschlag
+
+- Ansatz: Ergänze `settings`‑Objekt in Save‑Schema und stelle sicher, dass `load_state()` merge‑t.
+- Risiken: Minimal, nur zusätzlicher Speicherverbrauch.
+
+To‑do
+
+- Codex: Update `systems/ui_manager.js` zum Schreiben/Lesen von `ui`‑Einstellungen.
+- QA: Setze Accessibility‑Optionen, speichere, lade, prüfe Persistenz.
+
+Nächste Schritte
+
+- Maintainer: Dokumentation im Handbuch unter „Accessibility“.
+
+---
+
+ISSUE #008
+
+- Beobachtung: Beim Abort einer Mission 5 (vor Erreichen von FS 0/4) blieb das Self‑Reflection‑Badge `SF‑OFF` aktiv; das erwartete Reset‑Toast `SF‑ON` erschien nicht.
+- Diagnose: `mission_end()` sendet das Reset‑Signal nur, wenn `mission_success == true`. Abort‑Pfad fehlt.
+- Evidenz: Log‑Eintrag `mission_abort` ohne `self_reflection_reset`; HUD‑Overlay zeigt weiterhin `SF‑OFF`.
+
+Lösungsvorschlag
+
+- Ansatz: Ergänze Reset‑Logik im Abort‑Handler, sende `self_reflection_reset` und Toast.
+- Risiken: Keine, lediglich UI‑Korrektur.
+
+To‑do
+
+- Codex: Modifiziere `mission_abort()` in `gameplay/mission_flow.js`.
+- QA: Simuliere Abort bei Mission 5, prüfe HUD‑Badge und Log‑Eintrag.
+
+Nächste Schritte
+
+- Maintainer: Patch‑Rollout, Test‑Case in `tests/mission_abort.test.js`.
+
+---
+
+Test‑Save (JSON)
+
 ```json
 {
   "save_version": 6,
@@ -334,28 +365,28 @@ Test‑Save (JSON)
 }
 ```
 
----  
+---
 
-Acceptance‑Smoke‑Checkliste  
+Acceptance‑Smoke‑Checkliste
 
-| Schritt | Beschreibung | Status | Evidenz |
-|---------|--------------|--------|----------|
-| 1 | Solo klassisch Start | PASS | `dispatch_hint` → `character_creation` mit 18 Punkten |
-| 2 | Solo schnell Start | PASS | Log `start_solo_schnell` zeigt HQ‑Briefing, SC 1 |
-| 3 | NPC‑Team Start (0‑4) | PASS | `npc_team_created` mit 3 NSCs, keine Fehlermeldung |
-| 4 | Gruppe klassisch Start | PASS | `group_start` → 2 Saves + Rollen‑Prompt |
-| 5 | Gruppe schnell Start | PASS | `group_quick` → Briefing, SC 1 |
-| 6 | Spiel laden (HQ‑Recap) | PASS | `load_game` → HUD‑Overlay, kein Entry‑Choice |
-| 7 | Speichern in Mission blockiert | PASS | `save_guard`‑Trace `HQ‑Save gesperrt` während Mission |
-| 8 | Px 5‑Trigger → Seed‑Erzeugung | PASS | HUD‑Toast `Px 5` → `ClusterCreate()` erzeugt 2 Seeds |
-| 9 | Mission 5 Badge‑Check (SF‑OFF/ON) | PASS | `mission5_start` → `SF‑OFF` Toast, `mission5_end` → `SF‑ON` |
-|10 | Boss‑Gate‑HUD‑Anzeige | PASS | `gate_overlay` zeigt `Gate 2/2` und `FS 0/4` |
-|11 | Psi‑Heat‑Reset nach Konflikt | PASS | `psi_heat` → +1, danach `psi_reset` → 0 |
-|12 | Ask→Suggest‑Toggle & HUD‑Toast | PASS | `modus suggest` → Toast `SUG‑ON`, `modus ask` → `SUG‑OFF` |
-|13 | Accessibility‑Persistenz | PASS | `accessibility_set` → `high`/`dense`, nach Reload unverändert |
-|14 | Offline‑Hinweis & Save‑Blocker | PASS | `offline_help` → Hinweis, `save_guard` bei Offline‑Modus |
-|15 | Offline‑Mode (kein HUD‑Fehler) | PASS | `offline_mode` läuft, keine Crash‑Logs |
+| Schritt | Beschreibung                      | Status | Evidenz                                                       |
+| ------- | --------------------------------- | ------ | ------------------------------------------------------------- |
+| 1       | Solo klassisch Start              | PASS   | `dispatch_hint` → `character_creation` mit 18 Punkten         |
+| 2       | Solo schnell Start                | PASS   | Log `start_solo_schnell` zeigt HQ‑Briefing, SC 1              |
+| 3       | NPC‑Team Start (0‑4)              | PASS   | `npc_team_created` mit 3 NSCs, keine Fehlermeldung            |
+| 4       | Gruppe klassisch Start            | PASS   | `group_start` → 2 Saves + Rollen‑Prompt                       |
+| 5       | Gruppe schnell Start              | PASS   | `group_quick` → Briefing, SC 1                                |
+| 6       | Spiel laden (HQ‑Recap)            | PASS   | `load_game` → HUD‑Overlay, kein Entry‑Choice                  |
+| 7       | Speichern in Mission blockiert    | PASS   | `save_guard`‑Trace `HQ‑Save gesperrt` während Mission         |
+| 8       | Px 5‑Trigger → Seed‑Erzeugung     | PASS   | HUD‑Toast `Px 5` → `ClusterCreate()` erzeugt 2 Seeds          |
+| 9       | Mission 5 Badge‑Check (SF‑OFF/ON) | PASS   | `mission5_start` → `SF‑OFF` Toast, `mission5_end` → `SF‑ON`   |
+| 10      | Boss‑Gate‑HUD‑Anzeige             | PASS   | `gate_overlay` zeigt `Gate 2/2` und `FS 0/4`                  |
+| 11      | Psi‑Heat‑Reset nach Konflikt      | PASS   | `psi_heat` → +1, danach `psi_reset` → 0                       |
+| 12      | Ask→Suggest‑Toggle & HUD‑Toast    | PASS   | `modus suggest` → Toast `SUG‑ON`, `modus ask` → `SUG‑OFF`     |
+| 13      | Accessibility‑Persistenz          | PASS   | `accessibility_set` → `high`/`dense`, nach Reload unverändert |
+| 14      | Offline‑Hinweis & Save‑Blocker    | PASS   | `offline_help` → Hinweis, `save_guard` bei Offline‑Modus      |
+| 15      | Offline‑Mode (kein HUD‑Fehler)    | PASS   | `offline_mode` läuft, keine Crash‑Logs                        |
 
 ---
 
-*Report generiert: 2026-03-01 01:01 CET*
+_Report generiert: 2026-03-01 01:01 CET_

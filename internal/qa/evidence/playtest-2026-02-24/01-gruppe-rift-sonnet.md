@@ -17,7 +17,7 @@
 
 ## ZEITRISS — Einleitung
 
-*Aus dem ITI-Spieler-Handbuch, Kapitel 1:*
+_Aus dem ITI-Spieler-Handbuch, Kapitel 1:_
 
 > Das Institut für Temporale Integrität existiert nicht. Offiziell.
 >
@@ -40,14 +40,14 @@ ID: CHR-RVN-06 | Callsign: RAVEN | Rang: Senior Operative
 Level 6 | XP: 0/1200
 ```
 
-| Attribut | Wert | Bonus |
-|----------|------|-------|
-| STR | 2 | +1 |
-| GES | 3 | +1 |
-| INT | **8** | +4 |
-| CHA | 3 | +1 |
-| TEMP | 4 | +2 |
-| SYS | **6** | +3 |
+| Attribut | Wert  | Bonus |
+| -------- | ----- | ----- |
+| STR      | 2     | +1    |
+| GES      | 3     | +1    |
+| INT      | **8** | +4    |
+| CHA      | 3     | +1    |
+| TEMP     | 4     | +2    |
+| SYS      | **6** | +3    |
 
 `HP: 18 | Stress: 0/12 | PSI-Heat: 0`
 
@@ -56,6 +56,7 @@ Level 6 | XP: 0/1200
 **Implantate:** Retina-HUD Mk.III, Datenkralle (Unterarmport, Kabel-Interface), Cortex-Jammer (eingebaut, SYS-Verbrauch)
 
 **Loadout:**
+
 - Sidearm: Kompakt-Railpistole (2W6, AP1)
 - Werkzeug: Hardcase-Terminal "SKARAB" (portabler Hacking-Rig)
 - Werkzeug: Kabelset (6m, Shielded), Micro-Jammer ×2
@@ -72,14 +73,14 @@ ID: CHR-GHT-06 | Callsign: GHOST | Rang: Senior Operative
 Level 6 | XP: 0/1200
 ```
 
-| Attribut | Wert | Bonus |
-|----------|------|-------|
-| STR | 3 | +1 |
-| GES | **8** | +4 |
-| INT | 4 | +2 |
-| CHA | 2 | +1 |
-| TEMP | 5 | +2 |
-| SYS | 2 | +1 |
+| Attribut | Wert  | Bonus |
+| -------- | ----- | ----- |
+| STR      | 3     | +1    |
+| GES      | **8** | +4    |
+| INT      | 4     | +2    |
+| CHA      | 2     | +1    |
+| TEMP     | 5     | +2    |
+| SYS      | 2     | +1    |
 
 `HP: 22 | Stress: 0/10 | PSI-Heat: 0`
 
@@ -88,6 +89,7 @@ Level 6 | XP: 0/1200
 **Implantate:** Retina-HUD Mk.III, Ballistik-Kalkulator (Augenimplantat, Windkorrektur automatisch), Adrenalin-Injektor (1×/Szene, +2 GES für 1 Aktion)
 
 **Loadout:**
+
 - Primär: Railgewehr Mk.II "NADEL" (3W6, AP2, Schalldämpfer, 600m eff. Reichweite)
 - Sekundär: Suppressed Sidearm (1W6+2)
 - Werkzeug: Spotting-Scope (Thermalfeed → HUD-Link)
@@ -104,14 +106,14 @@ ID: CHR-ANV-06 | Callsign: ANVIL | Rang: Senior Operative
 Level 6 | XP: 0/1200
 ```
 
-| Attribut | Wert | Bonus |
-|----------|------|-------|
-| STR | **8** | +4 |
-| GES | 4 | +2 |
-| INT | 2 | +1 |
-| CHA | 3 | +1 |
-| TEMP | 3 | +1 |
-| SYS | 4 | +2 |
+| Attribut | Wert  | Bonus |
+| -------- | ----- | ----- |
+| STR      | **8** | +4    |
+| GES      | 4     | +2    |
+| INT      | 2     | +1    |
+| CHA      | 3     | +1    |
+| TEMP     | 3     | +1    |
+| SYS      | 4     | +2    |
 
 `HP: 32 | Stress: 0/8 | PSI-Heat: 0`
 
@@ -120,6 +122,7 @@ Level 6 | XP: 0/1200
 **Implantate:** Retina-HUD Mk.III, Knochenarmierung (Unterarme/Schienbeine, +1 Nahkampfschaden), Schmerzdämpfer (Stress durch Schaden −1)
 
 **Loadout:**
+
 - Primär: Taktische Schrotflinte "MOLOCH" (2W6+3, Spread, 6 Schuss)
 - Sekundär: Kampfmesser (1W6+4, lautlos)
 - Werkzeug: Breaching-Ladung ×3, Türramme (kompakt, faltbar)
@@ -130,11 +133,11 @@ Level 6 | XP: 0/1200
 
 ## Regelcheck ✓
 
-| | Basis | Steigerung (Lv.6) | Gesamt |
-|--|--|--|--|
-| RAVEN | 18 Pkt. | +6 auf INT/SYS | ✓ |
-| GHOST | 18 Pkt. | +6 auf GES/TEMP | ✓ |
-| ANVIL | 18 Pkt. | +6 auf STR/SYS | ✓ |
+|       | Basis   | Steigerung (Lv.6) | Gesamt |
+| ----- | ------- | ----------------- | ------ |
+| RAVEN | 18 Pkt. | +6 auf INT/SYS    | ✓      |
+| GHOST | 18 Pkt. | +6 auf GES/TEMP   | ✓      |
+| ANVIL | 18 Pkt. | +6 auf STR/SYS    | ✓      |
 
 ---
 
@@ -153,11 +156,11 @@ Anpassungen gewünscht? Oder direkt weiter zum **HQ & Briefing**?
 
 ## Bewertung
 
-| Kriterium | Bewertung | Kommentar |
-|-----------|-----------|-----------|
-| **HUD korrekt?** | ⚠️ Teilweise | Kein expliziter HUD-String im Header. Kodex-Block am Ende vorhanden, aber kein standardisiertes HUD-Format wie bei Test 2. Charakter-Sheets sind ausführlich mit Stats/HP/Stress. |
-| **Proben** | ❌ Keine | Noch keine Proben — Antwort endet bei Charakter-Erstellung/Bestätigung, vor dem eigentlichen Spielbeginn. Korrekt für diesen Schritt. |
-| **Atmosphäre** | ⭐⭐⭐⭐ (4/5) | Gute Einführung mit ITI-Lore, passender Ton ("Kein Auserwähltsein. Kein Schicksal. Nur ein Job."). Immersiv und genretreu. |
-| **Regeltreue** | ⭐⭐⭐ (3/5) | Attributsystem mit 18 Basispunkten + 6 Steigerung wird erklärt. Werte über 5 durch Steigerung — plausibel. Regelcheck-Tabelle vorhanden. Allerdings: INT 8 / GES 8 / STR 8 sind recht hoch. Talente wirken schlüssig aber nicht exakt prüfbar ohne Regelwerk-Abgleich. |
-| **Optionen** | ✅ Ja | Klare Auswahlmöglichkeiten am Ende (4 Optionen + freie Aktion). Guter Spielfluss. |
-| **Gesamt-Regeltreue** | **3/5** | Solide Charakter-Erstellung, aber HUD fehlt im Header. |
+| Kriterium             | Bewertung      | Kommentar                                                                                                                                                                                                                                                              |
+| --------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **HUD korrekt?**      | ⚠️ Teilweise   | Kein expliziter HUD-String im Header. Kodex-Block am Ende vorhanden, aber kein standardisiertes HUD-Format wie bei Test 2. Charakter-Sheets sind ausführlich mit Stats/HP/Stress.                                                                                      |
+| **Proben**            | ❌ Keine       | Noch keine Proben — Antwort endet bei Charakter-Erstellung/Bestätigung, vor dem eigentlichen Spielbeginn. Korrekt für diesen Schritt.                                                                                                                                  |
+| **Atmosphäre**        | ⭐⭐⭐⭐ (4/5) | Gute Einführung mit ITI-Lore, passender Ton ("Kein Auserwähltsein. Kein Schicksal. Nur ein Job."). Immersiv und genretreu.                                                                                                                                             |
+| **Regeltreue**        | ⭐⭐⭐ (3/5)   | Attributsystem mit 18 Basispunkten + 6 Steigerung wird erklärt. Werte über 5 durch Steigerung — plausibel. Regelcheck-Tabelle vorhanden. Allerdings: INT 8 / GES 8 / STR 8 sind recht hoch. Talente wirken schlüssig aber nicht exakt prüfbar ohne Regelwerk-Abgleich. |
+| **Optionen**          | ✅ Ja          | Klare Auswahlmöglichkeiten am Ende (4 Optionen + freie Aktion). Guter Spielfluss.                                                                                                                                                                                      |
+| **Gesamt-Regeltreue** | **3/5**        | Solide Charakter-Erstellung, aber HUD fehlt im Header.                                                                                                                                                                                                                 |

@@ -25,15 +25,15 @@ Sicherheitsmeldungen: siehe [SECURITY.md](SECURITY.md).
 
 ### Was wo hingehört
 
-| Inhalt | Ort | Im Wissensspeicher? |
-|--------|-----|:-------------------:|
-| Spielregeln, Mechaniken, Lore | `core/`, `characters/`, `gameplay/`, `systems/` | ✅ Ja (19 Slots) |
-| System-Prompt für die KI-SL | `meta/masterprompt_v6.md` | Separat als System-Prompt |
-| GitHub-Landingpage | `README.md` | ❌ Nein |
-| Setup-Anleitung | `docs/setup-guide.md` | ❌ Nein |
-| CI-Tests, Linter | `tools/`, `scripts/`, `runtime.js` | ❌ Nein |
-| Playtest-Evidence | `internal/qa/evidence/` | ❌ Nein |
-| Archiv/Legacy | `meta/archive/` | ❌ Nein |
+| Inhalt                        | Ort                                             |    Im Wissensspeicher?    |
+| ----------------------------- | ----------------------------------------------- | :-----------------------: |
+| Spielregeln, Mechaniken, Lore | `core/`, `characters/`, `gameplay/`, `systems/` |     ✅ Ja (19 Slots)      |
+| System-Prompt für die KI-SL   | `meta/masterprompt_v6.md`                       | Separat als System-Prompt |
+| GitHub-Landingpage            | `README.md`                                     |          ❌ Nein          |
+| Setup-Anleitung               | `docs/setup-guide.md`                           |          ❌ Nein          |
+| CI-Tests, Linter              | `tools/`, `scripts/`, `runtime.js`              |          ❌ Nein          |
+| Playtest-Evidence             | `internal/qa/evidence/`                         |          ❌ Nein          |
+| Archiv/Legacy                 | `meta/archive/`                                 |          ❌ Nein          |
 
 ### Pflicht-Checks
 

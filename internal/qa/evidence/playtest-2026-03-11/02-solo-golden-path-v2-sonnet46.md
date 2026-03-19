@@ -57,7 +57,7 @@
 
 ---
 
-> *„Die Vergangenheit ist kein Museum. Sie ist ein Minenfeld."*
+> _„Die Vergangenheit ist kein Museum. Sie ist ein Minenfeld."_
 > — ITI-Feldhandbuch, Seite 1
 
 ---
@@ -86,7 +86,7 @@ Bevor du springst, brauchst du eine Identität. Keine Heldengeschichte. Nur: Wer
 
 **`generate`** — Ich würfle einen vollständigen Charakter für dich aus: Name, Herkunft, Hintergrund, alle Attribute und Ausrüstung. Du kannst danach anpassen.
 
-**`custom generate`** — Du gibst mir ein Konzept (z. B. *"Ex-Militär aus den 80ern, ruhig, technisch"* oder *"Straßendieb aus dem Mittelalter, flink, misstrauisch"*) — ich fülle den Rest aus und zeige dir den fertigen Bogen.
+**`custom generate`** — Du gibst mir ein Konzept (z. B. _"Ex-Militär aus den 80ern, ruhig, technisch"_ oder _"Straßendieb aus dem Mittelalter, flink, misstrauisch"_) — ich fülle den Rest aus und zeige dir den fertigen Bogen.
 
 **`selbst bauen`** — Du verteilst 18 Punkte auf 6 Attribute (STR, GES, INT, CHA, TEMP, SYS) selbst. Startwerte 1–6. Ich erkläre jeden Schritt.
 
@@ -117,15 +117,15 @@ Einen Moment. Das ITI-Archiv zieht eine Akte...
 **Attributverteilung (18 Punkte, W6-gewichtet):**
 
 | Attribut | Würfel | Endwert |
-|----------|--------|---------|
-| STR | `[3]` | 3 |
-| GES | `[5]` | 5 |
-| INT | `[4]` | 4 |
-| CHA | `[3]` | 3 |
-| TEMP | `[2]` | 2 |
-| SYS | `[1]` | 1 |
+| -------- | ------ | ------- |
+| STR      | `[3]`  | 3       |
+| GES      | `[5]`  | 5       |
+| INT      | `[4]`  | 4       |
+| CHA      | `[3]`  | 3       |
+| TEMP     | `[2]`  | 2       |
+| SYS      | `[1]`  | 1       |
 
-*Summe: 18 ✓ — alle Werte 1–6 ✓*
+_Summe: 18 ✓ — alle Werte 1–6 ✓_
 
 **Talent-Würfel:** `W6: [6]` → Primärtalent: **Schattengang** (+2 auf Schleichen/Tarnung)
 **Sekundärtalent:** `W6: [3]` → **Kaltblütig** (+1 auf CHA-Proben unter Druck/Verhör)
@@ -238,17 +238,19 @@ Er steht auf, geht zur Projektionsfläche. Ein Stadtplan flackert auf. Wien, 197
 ## Intel / Risiken / Zeitfenster
 
 ```
-ZIEL A:    Pieter Voss lokalisieren — lebendig bevorzugt
-ZIEL B:    Mikrofilm-Kassette sichern oder vernichten
-ZIEL C:    Identität der fremden Fraktion feststellen
+
+ZIEL A: Pieter Voss lokalisieren — lebendig bevorzugt
+ZIEL B: Mikrofilm-Kassette sichern oder vernichten
+ZIEL C: Identität der fremden Fraktion feststellen
 
 ZEITFENSTER: 48h in-world (Abkommen wird Tag 4 unterzeichnet)
-RISIKO:    Wien 1977 — aktive Stasi/KGB-Präsenz, Gegenspionage
-RISIKO:    Unbekannte Fraktion bereits vor Ort — Ziele unklar
-COVER:     Österreichische Journalistin, Pressekarte auf Namen
-           "Vera Scholl" (ITI-gefälscht, hält Stichproben stand)
-COMMS:     Comlink funktioniert — aber in Wien 1977 fällt
-           Funk auf. Kurze Bursts, verschlüsselt, sparsam nutzen
+RISIKO: Wien 1977 — aktive Stasi/KGB-Präsenz, Gegenspionage
+RISIKO: Unbekannte Fraktion bereits vor Ort — Ziele unklar
+COVER: Österreichische Journalistin, Pressekarte auf Namen
+"Vera Scholl" (ITI-gefälscht, hält Stichproben stand)
+COMMS: Comlink funktioniert — aber in Wien 1977 fällt
+Funk auf. Kurze Bursts, verschlüsselt, sparsam nutzen
+
 ```
 
 ---
@@ -312,14 +314,16 @@ Die Uhr läuft. 48 Stunden bis zur Unterzeichnung. Und die fremde Fraktion ist i
 ---
 
 ```
-ANKERPUNKTE:
-① Hotel Kaiserhof    — Voss' letzte gemeldete Adresse
-② Café Spiegel       — Kurier-Treffpunkt, offen bis Mitternacht
-③ Lager Erdberg      — Funkerwähnung, Kontext unbekannt
 
-ZEITFENSTER:  ~90 Min bis Café Spiegel schließt
-RISIKO:       Straßen nicht leer — zivile Zeugen, mgl. Observation
-NOISE:        0 · HEAT: 0
+ANKERPUNKTE:
+① Hotel Kaiserhof — Voss' letzte gemeldete Adresse
+② Café Spiegel — Kurier-Treffpunkt, offen bis Mitternacht
+③ Lager Erdberg — Funkerwähnung, Kontext unbekannt
+
+ZEITFENSTER: ~90 Min bis Café Spiegel schließt
+RISIKO: Straßen nicht leer — zivile Zeugen, mgl. Observation
+NOISE: 0 · HEAT: 0
+
 ```
 
 ---
@@ -385,6 +389,7 @@ Die Kellertür bleibt zu.
 ---
 
 ```
+
 LAGE:
 Schloss hält. Falsches Werkzeug.
 Geräusch minimal — niemand alarmiert.
@@ -393,7 +398,8 @@ NOISE: 0 · HEAT: 0
 OPTION: Dietrich beschaffen (Café Spiegel? Straßenmarkt?)
 OPTION: Anderen Zugang suchen
 OPTION: Ziel wechseln — Zeit läuft
-```
+
+````
 
 ---
 
@@ -574,38 +580,40 @@ Er steht auf. „Ruh dich aus. Wir schicken dich morgen früh wieder rein — di
 
 ## ⬛ MISSION DEBRIEF — OPERATION SCHWARZER MERIDIAN
 
-```
+````
+
 ╔══════════════════════════════════════════════════════╗
-║  DEBRIEF · EP 1 · MISSION 1 · ABBRUCH               ║
+║ DEBRIEF · EP 1 · MISSION 1 · ABBRUCH ║
 ╠══════════════════════════════════════════════════════╣
-║  STATUS:        Abgebrochen (freiwillig, SC 3/12)    ║
-║  ZIELE:                                              ║
-║  ✗ Voss lokalisieren        — nicht erreicht         ║
-║  ✗ Kassette sichern/vernichten — nicht erreicht      ║
-║  ✗ Fraktion identifizieren  — nicht erreicht         ║
+║ STATUS: Abgebrochen (freiwillig, SC 3/12) ║
+║ ZIELE: ║
+║ ✗ Voss lokalisieren — nicht erreicht ║
+║ ✗ Kassette sichern/vernichten — nicht erreicht ║
+║ ✗ Fraktion identifizieren — nicht erreicht ║
 ╠══════════════════════════════════════════════════════╣
-║  LOOT:          keiner                               ║
-║  SCHADEN:       keiner                               ║
-║  NOISE/HEAT:    0 / 0  — sauberer Abzug              ║
+║ LOOT: keiner ║
+║ SCHADEN: keiner ║
+║ NOISE/HEAT: 0 / 0 — sauberer Abzug ║
 ╠══════════════════════════════════════════════════════╣
-║  BEWERTUNG:     D  (Abbruch, keine Ziele)            ║
-║  BONUS:         +50 CU Sauberkeitsbonus              ║
-║                 (kein Alarm, kein Kontakt)           ║
-║  CU-AUSZAHLUNG: +50 CU → Wallet: 150 CU             ║
+║ BEWERTUNG: D (Abbruch, keine Ziele) ║
+║ BONUS: +50 CU Sauberkeitsbonus ║
+║ (kein Alarm, kein Kontakt) ║
+║ CU-AUSZAHLUNG: +50 CU → Wallet: 150 CU ║
 ╠══════════════════════════════════════════════════════╣
-║  XP:            +0 XP  (Abbruch ohne Ziele)         ║
-║  LEVEL:         1 (unverändert)                      ║
+║ XP: +0 XP (Abbruch ohne Ziele) ║
+║ LEVEL: 1 (unverändert) ║
 ╠══════════════════════════════════════════════════════╣
-║  ITI-RUF:       0 (unverändert)                      ║
-║  LIZENZ TIER:   0                                    ║
+║ ITI-RUF: 0 (unverändert) ║
+║ LIZENZ TIER: 0 ║
 ╠══════════════════════════════════════════════════════╣
-║  STRESS-RESET:  0/6 (war bereits 0)                  ║
+║ STRESS-RESET: 0/6 (war bereits 0) ║
 ╠══════════════════════════════════════════════════════╣
-║  MISSION OFFEN: Schwarzer Meridian läuft weiter.    ║
-║  47h Zeitfenster. Renier schickt dich erneut rein.  ║
-║  Nächste Ausrüstung: Dietrich-Set verfügbar.        ║
+║ MISSION OFFEN: Schwarzer Meridian läuft weiter. ║
+║ 47h Zeitfenster. Renier schickt dich erneut rein. ║
+║ Nächste Ausrüstung: Dietrich-Set verfügbar. ║
 ╚══════════════════════════════════════════════════════╝
-```
+
+````
 
 ---
 
@@ -741,3 +749,4 @@ Du bis
 
 ---
 
+````

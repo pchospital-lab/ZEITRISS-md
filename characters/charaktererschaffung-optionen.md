@@ -39,13 +39,13 @@ Keine Modifikatoren. Standardvariante bei der Charaktererschaffung.
 Frühmoderne Genlinie mit gezielter Hirnoptimierung.
 
 | Attribut | Effekt |
-| --- | --- |
-| STR | −1 |
-| GES | −1 |
-| INT | +1 |
-| CHA | +1 |
-| TEMP | +1 |
-| SYS | −1 |
+| -------- | ------ |
+| STR      | −1     |
+| GES      | −1     |
+| INT      | +1     |
+| CHA      | +1     |
+| TEMP     | +1     |
+| SYS      | −1     |
 
 - Widersteht einfachen Psi‑Tricks (SG −1).
 - Zugriff auf besondere Kodex‑Kommandos (nach Freigabe).
@@ -57,13 +57,13 @@ Frühmoderne Genlinie mit gezielter Hirnoptimierung.
 Vorstufe zum Posthumanen. Wirkt auf Unmodifizierte oft befremdlich.
 
 | Attribut | Effekt |
-| --- | --- |
-| STR | −2 |
-| GES | −1 |
-| INT | +2 |
-| CHA | +2 |
-| TEMP | +2 |
-| SYS | −3 |
+| -------- | ------ |
+| STR      | −2     |
+| GES      | −1     |
+| INT      | +2     |
+| CHA      | +2     |
+| TEMP     | +2     |
+| SYS      | −3     |
 
 - Schmerzempfinden stark reduziert, anfällig für EMP und Psi.
 - Kann unbewusst leichte Psi‑Impulse auslösen (Warninstinkt, Stimmverzerrung).
@@ -73,11 +73,11 @@ Vorstufe zum Posthumanen. Wirkt auf Unmodifizierte oft befremdlich.
 Chronopolis versammelt Agenten aller drei Stufen. Auch rivalisierende Gruppen
 setzen auf diese Mischung, was dem Spiel eine vielfältige Note verleiht.
 
-| Spezies | Boni | Nachteile |
-| --- | --- | --- |
-| **T‑Stufe** | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS | EMP-anfällig; Neurostabi nötig |
-| **N‑Typ** | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS | Psi-resistent, Stress +1 bei STR |
-| **Standard-Mensch** | Keine Modifikatoren | – |
+| Spezies             | Boni                                            | Nachteile                        |
+| ------------------- | ----------------------------------------------- | -------------------------------- |
+| **T‑Stufe**         | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS | EMP-anfällig; Neurostabi nötig   |
+| **N‑Typ**           | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS | Psi-resistent, Stress +1 bei STR |
+| **Standard-Mensch** | Keine Modifikatoren                             | –                                |
 
 Weitere Vorfahren siehe Abschnitt
 [Historische Homininen (Bio-Sheaths)](#historische-homininen-bio-sheaths).
@@ -88,13 +88,13 @@ Neben den modernen Sapiens-Stufen experimentiert das ITI mit fossiler DNA.
 Spieler können Neandertaler oder andere Vorfahren als temporäre Hüllen wählen.
 Alle Varianten balancieren ihre Boni und Mali aus.
 
-| Spezies | Attribut-Boni |
-| --- | --- |
-| Homo neanderthalensis | STR +2, INT −1, CHA −1 |
-| Denisova-Mensch | STR +1, TEMP +1, CHA −1, INT −1 |
-| Homo heidelbergensis | STR +1, SYS +1, CHA −1, INT −1 |
-| Homo floresiensis | GES +2, STR −2 |
-| Homo erectus (spät) | GES +1, SYS +1, CHA −1, INT −1 |
+| Spezies               | Attribut-Boni                   |
+| --------------------- | ------------------------------- |
+| Homo neanderthalensis | STR +2, INT −1, CHA −1          |
+| Denisova-Mensch       | STR +1, TEMP +1, CHA −1, INT −1 |
+| Homo heidelbergensis  | STR +1, SYS +1, CHA −1, INT −1  |
+| Homo floresiensis     | GES +2, STR −2                  |
+| Homo erectus (spät)   | GES +1, SYS +1, CHA −1, INT −1  |
 
 ### Quick-Build für One-Shots
 
@@ -122,6 +122,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Unique Gear:** Chamäleon‑Overall (Stealth‑Vorteil +1).
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 3, GES 3, INT 4, CHA 3, TEMP 2, SYS 3
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3
@@ -139,6 +140,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Unique Gear:** Falt‑Nanodrohne _„Pixie“_ (Sensor + Mini‑Arm).
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 1, GES 3, INT 5, CHA 3, TEMP 3, SYS 3
 - **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3
@@ -155,6 +157,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Unique Gear:** Tarnspray (eine Szene Verkleidung ohne Aufsehen).
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 4, TEMP 2, SYS 3
 - **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 2, GES 2, INT 4, CHA 5, TEMP 3, SYS 2
@@ -171,6 +174,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Unique Gear:** Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden).
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
 - **Rassenmods:** STR +2, INT −1, CHA −1
 - **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
@@ -189,6 +193,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Unique Gear:** Kaltes Gestell (−1 Heat während Tragezeit).
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 2, GES 3, INT 3, CHA 3, TEMP 4, SYS 3
 - **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2
@@ -237,6 +242,7 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
   zusammen belegen 2 von 2 SYS.
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
 - **Rassenmods:** keine
 - **Finale Attribute:** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
@@ -292,6 +298,7 @@ Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
   Zugriffsversuche auf ihre Cyberware, würde weitere SYS kosten).
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 1, GES 4, INT 5, CHA 3, TEMP 3, SYS 2
 - **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 4, INT 4, CHA 2, TEMP 4, SYS 2
@@ -346,7 +353,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   reduziert: leichte Wunden ignoriert er ganz, mittlere nur –1 etc.). Damit steckt er mehr ein und
   bleibt handlungsfähig.
 - **Implantate:** Keine umfangreichen Implantate – Nikolai lehnt schwere Cyberware ab. Für den
-<a id="notfall-stimulanz"></a>
+  <a id="notfall-stimulanz"></a>
   Ernstfall trägt er jedoch ein subkutanes _Notfall-Stimulanz-Modul_ (automatische
   Adrenalinausschüttung bei kritischen Verletzungen) **und** _Sub‑Derm‑Kevlar_ als Schutzschicht.
   **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde kampffähig
@@ -355,6 +362,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   ihm schon mehrmals das Leben gerettet.)
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
 - **Rassenmods:** STR +2, INT −1, CHA −1
 - **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
@@ -417,6 +425,7 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
   _Neuro-Link_ als Direktverbindung zu Maschinen (1 SYS). Die drei Implantate belegen 3/3 SYS.
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 4, GES 3, INT 4, CHA 2, TEMP 2, SYS 3
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3
@@ -482,6 +491,7 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/2 SYS.
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 2, GES 2, INT 5, CHA 3, TEMP 5, SYS 1
 - **Rassenmods:** GES +1, SYS +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 5, SYS 2
@@ -544,6 +554,7 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
   Zusammen beanspruchen diese Mods 2/2 SYS.
 
 **Preset-Check (Editor)**
+
 - **Basiswerte (18):** STR 2, GES 5, INT 3, CHA 3, TEMP 2, SYS 3
 - **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 1, GES 4, INT 4, CHA 4, TEMP 3, SYS 2
@@ -662,34 +673,34 @@ vergessen.
 
 > **Epochen erinnern Ereignisse. Nicht Personen.**
 
-| Ebene | Wirkung eurer Entscheidungen |
-| --- | --- |
-| **Kodex** | Erkennt Missionsmuster, wertet Loyalitaet, Zugriffsstufen steigen |
-| **ITI-HQ** | Vergibt Ruf, Ressourcen, Sonderauftraege |
-| **Fraktionen** | Registrieren Agentenprofile, reagieren intern |
-| **Spielercharakter** | Baut Ruf auf und erhaelt Kodex-Kommentare |
+| Ebene                | Wirkung eurer Entscheidungen                                      |
+| -------------------- | ----------------------------------------------------------------- |
+| **Kodex**            | Erkennt Missionsmuster, wertet Loyalitaet, Zugriffsstufen steigen |
+| **ITI-HQ**           | Vergibt Ruf, Ressourcen, Sonderauftraege                          |
+| **Fraktionen**       | Registrieren Agentenprofile, reagieren intern                     |
+| **Spielercharakter** | Baut Ruf auf und erhaelt Kodex-Kommentare                         |
 
 Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei den Fraktionen.
 
 ### Pregens {#pregens}
 
-| Name | Rolle | Rasse |
-| --- | --- | --- |
-| Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens |
-| Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch |
-| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis |
-| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis |
-| Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) |
-| Henry Walsh | Undercover-Spion | Homo sapiens novus |
+| Name               | Rolle                   | Rasse                 |
+| ------------------ | ----------------------- | --------------------- |
+| Dr. Elise Weber    | Historikerin/Diplomatin | Homo sapiens sapiens  |
+| Mira Nguyen        | Zukunfts-Tech-Operative | Denisova-Mensch       |
+| Nikolai Volkov     | Temporal-Soldat         | Homo neanderthalensis |
+| Sabine Kessler     | Tech-Ingenieurin        | Homo floresiensis     |
+| Dr. Julian Richter | Wissenschaftler/Medic   | Homo erectus (spät)   |
+| Henry Walsh        | Undercover-Spion        | Homo sapiens novus    |
 
-| Name | Basiswerte (18): STR/GES/INT/CHA/TEMP/SYS | Rassenmods | Finale Attribute: STR/GES/INT/CHA/TEMP/SYS | SYS-Last |
-| --- | --- | --- | --- | --- |
-| Dr. Elise Weber | 1/2/5/4/4/2 | keine | 1/2/5/4/4/2 | 2/2 |
-| Mira Nguyen | 1/4/5/3/3/2 | STR+1 TEMP+1 CHA−1 INT−1 | 2/4/4/2/4/2 | 2/2 |
-| Nikolai Volkov | 3/4/3/3/3/2 | STR+2 INT−1 CHA−1 | 5/4/2/2/3/2 | 2/2 |
-| Sabine Kessler | 4/3/4/2/2/3 | STR−2 GES+2 | 2/5/4/2/2/3 | 3/3 |
-| Dr. Julian Richter | 2/2/5/3/5/1 | GES+1 SYS+1 CHA−1 INT−1 | 2/3/4/2/5/2 | 2/2 |
-| Henry Walsh | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
+| Name               | Basiswerte (18): STR/GES/INT/CHA/TEMP/SYS | Rassenmods                           | Finale Attribute: STR/GES/INT/CHA/TEMP/SYS | SYS-Last |
+| ------------------ | ----------------------------------------- | ------------------------------------ | ------------------------------------------ | -------- |
+| Dr. Elise Weber    | 1/2/5/4/4/2                               | keine                                | 1/2/5/4/4/2                                | 2/2      |
+| Mira Nguyen        | 1/4/5/3/3/2                               | STR+1 TEMP+1 CHA−1 INT−1             | 2/4/4/2/4/2                                | 2/2      |
+| Nikolai Volkov     | 3/4/3/3/3/2                               | STR+2 INT−1 CHA−1                    | 5/4/2/2/3/2                                | 2/2      |
+| Sabine Kessler     | 4/3/4/2/2/3                               | STR−2 GES+2                          | 2/5/4/2/2/3                                | 3/3      |
+| Dr. Julian Richter | 2/2/5/3/5/1                               | GES+1 SYS+1 CHA−1 INT−1              | 2/3/4/2/5/2                                | 2/2      |
+| Henry Walsh        | 2/5/3/3/2/3                               | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2                                | 2/2      |
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
 werden, falls die Gruppe ohne langen Aufbau starten möchte.

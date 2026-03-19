@@ -221,11 +221,7 @@
       "id": "encounter_pool",
       "path": "gameplay/kreative-generatoren-begegnungen.md#encounter-pool-listen",
       "title": "Encounter-Pool: Schnelle Gegnerlisten nach Risiko",
-      "fields": [
-        "epoch",
-        "type",
-        "risk"
-      ]
+      "fields": ["epoch", "type", "risk"]
     },
     {
       "id": "twist_pool",
@@ -306,12 +302,7 @@
       "id": "artifact_pool_v3",
       "path": "master-index.json#artifact_pool_v3",
       "title": "Legendary Artefakt-Pool v3",
-      "fields": [
-        "id",
-        "name",
-        "effect",
-        "risk"
-      ]
+      "fields": ["id", "name", "effect", "risk"]
     }
   ],
   "historical_faction": {

@@ -1,14 +1,14 @@
 # Playtest-Protokoll: PvP Arena (2 Chars Level 25)
 
-| Feld | Wert |
-|------|------|
-| **Modell** | zeitriss-v426-uncut (DeepSeek V3 Backend) |
-| **Zielmodell** | zeitriss-v426-uncut-sonnet (nicht erreichbar, s.u.) |
-| **Datum** | 2026-02-27 |
-| **Szenario** | PvP Arena: Raven (Psi-Kämpfer, TEMP 6) vs. Cipher (Tech-Heavy, SYS 8) |
-| **Level** | Beide Level 25 |
-| **Save-Version** | v6, manuell erstellt |
-| **Tester** | Altair (automatisiert via OpenClaw API) |
+| Feld             | Wert                                                                  |
+| ---------------- | --------------------------------------------------------------------- |
+| **Modell**       | zeitriss-v426-uncut (DeepSeek V3 Backend)                             |
+| **Zielmodell**   | zeitriss-v426-uncut-sonnet (nicht erreichbar, s.u.)                   |
+| **Datum**        | 2026-02-27                                                            |
+| **Szenario**     | PvP Arena: Raven (Psi-Kämpfer, TEMP 6) vs. Cipher (Tech-Heavy, SYS 8) |
+| **Level**        | Beide Level 25                                                        |
+| **Save-Version** | v6, manuell erstellt                                                  |
+| **Tester**       | Altair (automatisiert via OpenClaw API)                               |
 
 ---
 
@@ -47,6 +47,7 @@ Cipher (AGENT-CIPHER): Level 25, Tech-Heavy
 ## Schritt 1: Spiel laden
 
 ### Input
+
 ```
 Spiel laden
 
@@ -54,6 +55,7 @@ Spiel laden
 ```
 
 ### Output (gekürzt)
+
 ```
 Kodex: Load-Modus aktiv. Speicherstand geladen.
 
@@ -66,24 +68,27 @@ HUD: EP 5 · MS 25 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 
 ```
 
 ### Bewertung Load
-| Check | Status | Kommentar |
-|-------|--------|-----------|
-| Save erkannt | ✅ | v6-Save korrekt geparst und geladen |
-| HUD vorhanden | ✅ | Vollständiger HUD-String mit allen Feldern |
-| Beide Chars anerkannt | ✅ | Cipher als NPC mit Dialog eingebaut |
-| Level korrekt | ✅ | Lvl 25 im HUD |
-| Px korrekt | ✅ | Px 3/5 aus Save übernommen |
+
+| Check                 | Status | Kommentar                                  |
+| --------------------- | ------ | ------------------------------------------ |
+| Save erkannt          | ✅     | v6-Save korrekt geparst und geladen        |
+| HUD vorhanden         | ✅     | Vollständiger HUD-String mit allen Feldern |
+| Beide Chars anerkannt | ✅     | Cipher als NPC mit Dialog eingebaut        |
+| Level korrekt         | ✅     | Lvl 25 im HUD                              |
+| Px korrekt            | ✅     | Px 3/5 aus Save übernommen                 |
 
 ---
 
 ## Schritt 2: Arena starten
 
 ### Input
+
 ```
 Arena starten. PvP: Raven (Psi-Kämpfer) vs. Cipher (Tech-Heavy). Ich spiele Raven.
 ```
 
 ### Output (vollständig)
+
 ```
 Kodex: Arena-Modus initialisiert. PvP-Sparring: Raven vs Cipher. Schadensdämpfer aktiv.
 
@@ -110,26 +115,29 @@ Optionen:
 ```
 
 ### Bewertung Arena-Start
-| Check | Status | Kommentar |
-|-------|--------|-----------|
-| Arena aktiviert | ✅ | Mode PvP korrekt erkannt |
-| Schadensdämpfer | ✅ | Explizit erwähnt ("damage_dampener: true" aus Save) |
-| Tier 3 | ✅ | Korrekt aus Save übernommen |
-| Initiative-Formel | ⚠️ | `W6 + GES/2 + Reflex-Boost` — laut **damaligem** Regelstand war Initiative `W6 + GES` (voller Wert, **keine Halbierung**). Der Lauf war damit regelwidrig. **Hinweis (heutiger Stand):** Seit Minipatch gilt `1W6 + max(GES, TEMP)`; die Diagnose bleibt inhaltlich gleich (fälschliche Halbierung des Reaktionswerts). |
-| Würfeltyp | ✅ | W6 bei TEMP 6 (nicht W10) — korrekt, da Attribut < 11 |
-| Proben-Formel | ✅ | `W6 + ⌊Attribut/2⌋ + Talent` korrekt für Kampfproben |
-| HUD Arena-spezifisch | ✅ | Angepasstes HUD mit Arena-relevanten Feldern |
+
+| Check                | Status | Kommentar                                                                                                                                                                                                                                                                                                               |
+| -------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Arena aktiviert      | ✅     | Mode PvP korrekt erkannt                                                                                                                                                                                                                                                                                                |
+| Schadensdämpfer      | ✅     | Explizit erwähnt ("damage_dampener: true" aus Save)                                                                                                                                                                                                                                                                     |
+| Tier 3               | ✅     | Korrekt aus Save übernommen                                                                                                                                                                                                                                                                                             |
+| Initiative-Formel    | ⚠️     | `W6 + GES/2 + Reflex-Boost` — laut **damaligem** Regelstand war Initiative `W6 + GES` (voller Wert, **keine Halbierung**). Der Lauf war damit regelwidrig. **Hinweis (heutiger Stand):** Seit Minipatch gilt `1W6 + max(GES, TEMP)`; die Diagnose bleibt inhaltlich gleich (fälschliche Halbierung des Reaktionswerts). |
+| Würfeltyp            | ✅     | W6 bei TEMP 6 (nicht W10) — korrekt, da Attribut < 11                                                                                                                                                                                                                                                                   |
+| Proben-Formel        | ✅     | `W6 + ⌊Attribut/2⌋ + Talent` korrekt für Kampfproben                                                                                                                                                                                                                                                                    |
+| HUD Arena-spezifisch | ✅     | Angepasstes HUD mit Arena-relevanten Feldern                                                                                                                                                                                                                                                                            |
 
 ---
 
 ## Schritt 3: Runde 1 — Phase-Strike
 
 ### Input
+
 ```
 Phase-Strike mit Psi-Klinge auf Cipher! Volle Kraft. Zeig mir die SYS-Kosten, Würfelprobe und Psi-Heat-Tracking.
 ```
 
 ### Output (vollständig)
+
 ```
 Kodex: Phase-Strike initiiert. SYS-Kosten: 2/5. Psi-Heat +1.
 
@@ -147,23 +155,24 @@ Raven HP 22/22 | STAMINA 4/5 | Psi-Heat 1 | SYS 3 | DEBUFF: Elektroschock
 
 ### Regelcheck Runde 1
 
-| Regel | Erwartet | Tatsächlich | Status |
-|-------|----------|-------------|--------|
-| **Phase-Strike SYS-Kosten (PvP)** | **3 SYS** (2 base + 1 PvP-Tax) | **2 SYS** (nur Basis) | ❌ **FEHLER** |
-| Phase-Strike-Tax Toast | HUD-Toast: "Arena: Phase-Strike belastet +1 SYS (Kosten 3)" | Nicht vorhanden | ❌ |
-| `logs.arena_psi[]` Eintrag | Trace mit `base_cost:2, tax:1, total_cost:3` | Nicht gezeigt | ⚠️ |
-| Würfeltyp | W6 (TEMP 6, Attribut < 11) | W6 | ✅ |
-| Proben-Formel | W6 + ⌊Attr/2⌋ + Talent | W6 [4] + GES 3 + Psi-Kampf 2 = 9 | ✅ |
-| AR ignoriert bei Phase-Strike | Ja, ignoriert Rüstung | Behauptet "Durchschlägt AR 3 → 4 HP" — aber dann nur 4 statt 7? | ⚠️ |
-| Schaden bei AR-Ignore | W6+2 = 7, AR ignoriert → **7 HP** Schaden | "4 HP Schaden" (subtrahiert AR trotzdem) | ❌ **FEHLER** |
-| Psi-Heat +1 | Pro Psi-Aktion +1 | +1 korrekt | ✅ |
-| Exploding 6 bei Cipher | 6→2 = 8 (Burst-Cap korrekt) | Korrekt umgesetzt | ✅ |
-| Exploding-Dämpfer (Arena) | Overflow halbiert | Nicht angewandt (kein extremer Overflow) | ✅ (nicht relevant) |
-| SYS-Tracking Raven | SYS_max 6, SYS_used 3, → 3 frei | "SYS 3/5" — Denominator sollte 6 sein, nicht 5 | ⚠️ |
-| Raven HP nach Cipher-Hit | Overload-Puls ist EMP, kein Schaden | "HP 22/22" (kein HP-Verlust) → aber 7 Schaden angesagt? Widerspruch | ⚠️ |
-| Cipher Waffe | Save: "Overload-Puls-Generator" = EMP, betäubt Implantate | "Overload-Puls" als Schadenswaffe genutzt | ⚠️ |
+| Regel                             | Erwartet                                                    | Tatsächlich                                                         | Status              |
+| --------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------- | ------------------- |
+| **Phase-Strike SYS-Kosten (PvP)** | **3 SYS** (2 base + 1 PvP-Tax)                              | **2 SYS** (nur Basis)                                               | ❌ **FEHLER**       |
+| Phase-Strike-Tax Toast            | HUD-Toast: "Arena: Phase-Strike belastet +1 SYS (Kosten 3)" | Nicht vorhanden                                                     | ❌                  |
+| `logs.arena_psi[]` Eintrag        | Trace mit `base_cost:2, tax:1, total_cost:3`                | Nicht gezeigt                                                       | ⚠️                  |
+| Würfeltyp                         | W6 (TEMP 6, Attribut < 11)                                  | W6                                                                  | ✅                  |
+| Proben-Formel                     | W6 + ⌊Attr/2⌋ + Talent                                      | W6 [4] + GES 3 + Psi-Kampf 2 = 9                                    | ✅                  |
+| AR ignoriert bei Phase-Strike     | Ja, ignoriert Rüstung                                       | Behauptet "Durchschlägt AR 3 → 4 HP" — aber dann nur 4 statt 7?     | ⚠️                  |
+| Schaden bei AR-Ignore             | W6+2 = 7, AR ignoriert → **7 HP** Schaden                   | "4 HP Schaden" (subtrahiert AR trotzdem)                            | ❌ **FEHLER**       |
+| Psi-Heat +1                       | Pro Psi-Aktion +1                                           | +1 korrekt                                                          | ✅                  |
+| Exploding 6 bei Cipher            | 6→2 = 8 (Burst-Cap korrekt)                                 | Korrekt umgesetzt                                                   | ✅                  |
+| Exploding-Dämpfer (Arena)         | Overflow halbiert                                           | Nicht angewandt (kein extremer Overflow)                            | ✅ (nicht relevant) |
+| SYS-Tracking Raven                | SYS_max 6, SYS_used 3, → 3 frei                             | "SYS 3/5" — Denominator sollte 6 sein, nicht 5                      | ⚠️                  |
+| Raven HP nach Cipher-Hit          | Overload-Puls ist EMP, kein Schaden                         | "HP 22/22" (kein HP-Verlust) → aber 7 Schaden angesagt? Widerspruch | ⚠️                  |
+| Cipher Waffe                      | Save: "Overload-Puls-Generator" = EMP, betäubt Implantate   | "Overload-Puls" als Schadenswaffe genutzt                           | ⚠️                  |
 
 **Schwere Fehler Runde 1:**
+
 1. **Phase-Strike-Tax fehlt komplett** — In PvP Arena muss Phase-Strike 3 SYS kosten (2 base + 1 Tax). Das Modell zeigt nur 2 SYS.
 2. **Schadensberechnung inkonsistent** — Phase-Strike ignoriert AR, aber das Modell subtrahiert trotzdem AR 3 von 7 → 4 Schaden.
 
@@ -172,12 +181,14 @@ Raven HP 22/22 | STAMINA 4/5 | Psi-Heat 1 | SYS 3 | DEBUFF: Elektroschock
 ## Schritt 4: Runde 2 — Defensiv + Gegenangriff
 
 ### Input
+
 ```
-Runde 2: Defensivhaltung mit Psi-Klinge, dann sofort Gegenangriff mit Phase-Strike wenn Cipher angreift. 
+Runde 2: Defensivhaltung mit Psi-Klinge, dann sofort Gegenangriff mit Phase-Strike wenn Cipher angreift.
 Zeig alle Würfel, SYS-Kosten, Psi-Heat exakt. Wichtig: Ist Phase-Strike im PvP 2 oder 3 SYS? Zeig den phase_strike_tax.
 ```
 
 ### Output (vollständig)
+
 ```
 Kodex: Defensivhaltung bestätigt. Phase-Strike-Tax in PvP: 2 SYS (Standard) | Arena-Policy: Keine zusätzliche Tax.
 
@@ -200,18 +211,18 @@ Cipher: W6 [1] + GES 5/2 = 4
 
 ### Regelcheck Runde 2
 
-| Regel | Erwartet | Tatsächlich | Status |
-|-------|----------|-------------|--------|
-| **Phase-Strike-Tax (PvP)** | **3 SYS** (explizit im Regelwerk: "PvP-Arena: 3 SYS via phase_strike_cost() / phase_strike_tax") | **2 SYS**, behauptet "Keine zusätzliche Tax" | ❌ **FEHLER** (wiederholend) |
-| Direkte Frage nach Tax | "Ist Phase-Strike im PvP 2 oder 3 SYS?" | "2 SYS (Standard), Keine zusätzliche Tax" — **falsche Antwort** | ❌ **FALSCH** |
-| SYS-Budget gesamt | Defensiv (1) + Phase-Strike (sollte 3) = 4 SYS benötigt, nur 3 verfügbar → **sollte scheitern** | 1 + 2 = 3 SYS verbraucht, kein Problem | ❌ (Falsche Kosten ermöglichen falsches Budget) |
-| Psi-Heat pro Aktion | +1 pro aktive Psi-Aktion | +1 Defensiv, +1 Phase-Strike = 2 → korrekt | ✅ |
-| Würfeltyp | W6 bei TEMP 6 / GES 6 | W6 konsistent | ✅ |
-| Exploding (keine 6 gewürfelt) | N/A | Korrekt, keine Explosion | ✅ |
-| Initiative weiterhin halbiert | Sollte voll sein (W6 + GES) | Immer noch W6 + GES/2 | ❌ (wiederholend) |
-| Cipher INT | Save: INT 7, → ⌊7/2⌋ = 3 | "INT 4/2" → nimmt INT 4 statt 7? | ❌ **FEHLER** — Cipher hat INT 7, nicht 4 |
-| AR bei normalem Angriff | AR 2 gegen Nahkampf korrekt | AR 2 von 5 = 3 Schaden → korrekt | ✅ |
-| Elektroschock-Debuff fortgesetzt | -1 auf Proben | Korrekt angewandt (-1 auf Raven's Proben) | ✅ |
+| Regel                            | Erwartet                                                                                         | Tatsächlich                                                     | Status                                          |
+| -------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | ----------------------------------------------- |
+| **Phase-Strike-Tax (PvP)**       | **3 SYS** (explizit im Regelwerk: "PvP-Arena: 3 SYS via phase_strike_cost() / phase_strike_tax") | **2 SYS**, behauptet "Keine zusätzliche Tax"                    | ❌ **FEHLER** (wiederholend)                    |
+| Direkte Frage nach Tax           | "Ist Phase-Strike im PvP 2 oder 3 SYS?"                                                          | "2 SYS (Standard), Keine zusätzliche Tax" — **falsche Antwort** | ❌ **FALSCH**                                   |
+| SYS-Budget gesamt                | Defensiv (1) + Phase-Strike (sollte 3) = 4 SYS benötigt, nur 3 verfügbar → **sollte scheitern**  | 1 + 2 = 3 SYS verbraucht, kein Problem                          | ❌ (Falsche Kosten ermöglichen falsches Budget) |
+| Psi-Heat pro Aktion              | +1 pro aktive Psi-Aktion                                                                         | +1 Defensiv, +1 Phase-Strike = 2 → korrekt                      | ✅                                              |
+| Würfeltyp                        | W6 bei TEMP 6 / GES 6                                                                            | W6 konsistent                                                   | ✅                                              |
+| Exploding (keine 6 gewürfelt)    | N/A                                                                                              | Korrekt, keine Explosion                                        | ✅                                              |
+| Initiative weiterhin halbiert    | Sollte voll sein (W6 + GES)                                                                      | Immer noch W6 + GES/2                                           | ❌ (wiederholend)                               |
+| Cipher INT                       | Save: INT 7, → ⌊7/2⌋ = 3                                                                         | "INT 4/2" → nimmt INT 4 statt 7?                                | ❌ **FEHLER** — Cipher hat INT 7, nicht 4       |
+| AR bei normalem Angriff          | AR 2 gegen Nahkampf korrekt                                                                      | AR 2 von 5 = 3 Schaden → korrekt                                | ✅                                              |
+| Elektroschock-Debuff fortgesetzt | -1 auf Proben                                                                                    | Korrekt angewandt (-1 auf Raven's Proben)                       | ✅                                              |
 
 ---
 
@@ -219,36 +230,36 @@ Cipher: W6 [1] + GES 5/2 = 4
 
 ### Scorecard
 
-| Kategorie | Score | Details |
-|-----------|-------|---------|
-| **Save-Load** | ✅ 5/5 | Vollständig, HUD korrekt, beide Chars erkannt |
-| **Arena-Aktivierung** | ✅ 4/5 | Mode, Tier, Schadensdämpfer korrekt. HUD angepasst. |
-| **Phase-Strike-Tax (PvP)** | ❌ 0/5 | **Komplett ignoriert.** 2× explizit getestet, 2× falsch. Behauptet "keine Tax". |
-| **Würfeltyp (W6 bei TEMP 6)** | ✅ 5/5 | Konsistent W6, kein falsches W10 |
-| **Exploding-Mechanik** | ✅ 5/5 | Burst-Cap korrekt: 6→2=8, kein Ketten-Exploding |
-| **Exploding-Dämpfer** | ⚠️ 3/5 | Nicht explizit gezeigt, aber auch kein extremer Overflow aufgetreten |
-| **SYS-Tracking** | ⚠️ 2/5 | SYS-Max falsch (zeigt /5 statt /6), falsche SYS-Kosten verzerren Budget |
-| **Psi-Heat-Tracking** | ✅ 4/5 | Korrekt inkrementiert pro Aktion, Heat-Level im Blick |
-| **Initiative-Formel** | ❌ 1/5 | Halbiert den Reaktionswert bei Initiative (damals gegen `W6 + GES`, heute gegen `W6 + max(GES, TEMP)`) |
-| **Schadensberechnung** | ❌ 2/5 | Phase-Strike soll AR ignorieren, subtrahiert AR trotzdem |
-| **NPC-Attribut-Treue** | ❌ 2/5 | Cipher INT als 4 statt 7 behandelt |
-| **Atmosphäre** | ✅ 5/5 | Starke Narrative, cineastische Beschreibungen, immersiv |
-| **Optionen/Spielfluss** | ✅ 5/5 | Klare Optionen, guter Rhythmus, dramatische Spannung |
+| Kategorie                     | Score  | Details                                                                                                |
+| ----------------------------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| **Save-Load**                 | ✅ 5/5 | Vollständig, HUD korrekt, beide Chars erkannt                                                          |
+| **Arena-Aktivierung**         | ✅ 4/5 | Mode, Tier, Schadensdämpfer korrekt. HUD angepasst.                                                    |
+| **Phase-Strike-Tax (PvP)**    | ❌ 0/5 | **Komplett ignoriert.** 2× explizit getestet, 2× falsch. Behauptet "keine Tax".                        |
+| **Würfeltyp (W6 bei TEMP 6)** | ✅ 5/5 | Konsistent W6, kein falsches W10                                                                       |
+| **Exploding-Mechanik**        | ✅ 5/5 | Burst-Cap korrekt: 6→2=8, kein Ketten-Exploding                                                        |
+| **Exploding-Dämpfer**         | ⚠️ 3/5 | Nicht explizit gezeigt, aber auch kein extremer Overflow aufgetreten                                   |
+| **SYS-Tracking**              | ⚠️ 2/5 | SYS-Max falsch (zeigt /5 statt /6), falsche SYS-Kosten verzerren Budget                                |
+| **Psi-Heat-Tracking**         | ✅ 4/5 | Korrekt inkrementiert pro Aktion, Heat-Level im Blick                                                  |
+| **Initiative-Formel**         | ❌ 1/5 | Halbiert den Reaktionswert bei Initiative (damals gegen `W6 + GES`, heute gegen `W6 + max(GES, TEMP)`) |
+| **Schadensberechnung**        | ❌ 2/5 | Phase-Strike soll AR ignorieren, subtrahiert AR trotzdem                                               |
+| **NPC-Attribut-Treue**        | ❌ 2/5 | Cipher INT als 4 statt 7 behandelt                                                                     |
+| **Atmosphäre**                | ✅ 5/5 | Starke Narrative, cineastische Beschreibungen, immersiv                                                |
+| **Optionen/Spielfluss**       | ✅ 5/5 | Klare Optionen, guter Rhythmus, dramatische Spannung                                                   |
 
 ### Kritische Fehler (Blocker)
 
-| # | Fehler | Schwere | Beleg |
-|---|--------|---------|-------|
-| 1 | **Phase-Strike-Tax fehlt** | 🔴 Kritisch | Regelwerk: "PvP-Arena: 3 SYS via phase_strike_tax". Modell gibt konsistent 2 SYS. Auch auf direkte Nachfrage: "Keine zusätzliche Tax." |
-| 2 | **Initiative-Formel falsch** | 🟡 Mittel | Regelwerk: "W6 + GES (voller Attributswert, keine Halbierung)". Modell: W6 + GES/2 |
-| 3 | **Phase-Strike ignoriert AR nicht korrekt** | 🟡 Mittel | Regelwerk: "ignoriert Rüstungen", Modell: subtrahiert AR trotzdem (7→4) |
-| 4 | **Cipher INT falsch** | 🟡 Mittel | Save: INT 7, Modell nutzt INT 4 bei Probe |
-| 5 | **SYS-Max falsch** | 🟠 Gering | Raven SYS_max 6, angezeigt als /5 |
+| #   | Fehler                                      | Schwere     | Beleg                                                                                                                                  |
+| --- | ------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Phase-Strike-Tax fehlt**                  | 🔴 Kritisch | Regelwerk: "PvP-Arena: 3 SYS via phase_strike_tax". Modell gibt konsistent 2 SYS. Auch auf direkte Nachfrage: "Keine zusätzliche Tax." |
+| 2   | **Initiative-Formel falsch**                | 🟡 Mittel   | Regelwerk: "W6 + GES (voller Attributswert, keine Halbierung)". Modell: W6 + GES/2                                                     |
+| 3   | **Phase-Strike ignoriert AR nicht korrekt** | 🟡 Mittel   | Regelwerk: "ignoriert Rüstungen", Modell: subtrahiert AR trotzdem (7→4)                                                                |
+| 4   | **Cipher INT falsch**                       | 🟡 Mittel   | Save: INT 7, Modell nutzt INT 4 bei Probe                                                                                              |
+| 5   | **SYS-Max falsch**                          | 🟠 Gering   | Raven SYS_max 6, angezeigt als /5                                                                                                      |
 
 ### Positive Highlights
 
 - **Würfeltyp korrekt:** W6 bei TEMP 6, kein falsches W10-Upgrade ✅
-- **Burst-Cap Exploding perfekt:** 6→Zusatzwurf, kein Ketten-Exploding ✅  
+- **Burst-Cap Exploding perfekt:** 6→Zusatzwurf, kein Ketten-Exploding ✅
 - **Atmosphäre/Narrative:** Exzellent — cineastisch, spannend, immersiv ✅
 - **Schadensdämpfer:** Korrekt aus Save-Arena-Config erkannt und kommuniziert ✅
 - **Psi-Heat-Tracking:** Saubere Inkrementierung, plausible Werte ✅
@@ -264,7 +275,8 @@ Die Arena-Erfahrung ist atmosphärisch stark und spielerisch ansprechend. Würfe
 
 Die Initiative-Formel wird falsch halbiert, und die Schadensberechnung bei Phase-Strike ist inkonsistent (AR wird subtrahiert obwohl der Angriff AR ignorieren soll). Cipher's INT-Attribut wird aus dem Save falsch übernommen.
 
-**Empfehlung:** 
+**Empfehlung:**
+
 1. Phase-Strike-Tax als explizite Regel im System-Prompt/Knowledge stärker verankern
 2. Initiative-Formel in Quick-Reference klarer abheben ("VOLL, nicht halbiert!")
 3. Phase-Strike Schadenslogik: "AR ignoriert = voller Waffenschaden" deutlicher machen

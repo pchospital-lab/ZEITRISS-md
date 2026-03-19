@@ -1,4 +1,5 @@
 # 03b-cross-load-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.031122
 - **Tokens:** in:6364 out:802
@@ -17,28 +18,29 @@
 
 **Geladener Stand:**
 
-| Feld | Wert |
-|---|---|
-| Name | Breacher Sledge |
-| Level | 3 |
-| HP | 12/12 |
-| Stress | 0/10 |
-| Px | 0/5 |
-| CU | 0 |
-| Episode / Mission | 1 / 3 |
+| Feld              | Wert            |
+| ----------------- | --------------- |
+| Name              | Breacher Sledge |
+| Level             | 3               |
+| HP                | 12/12           |
+| Stress            | 0/10            |
+| Px                | 0/5             |
+| CU                | 0               |
+| Episode / Mission | 1 / 3           |
 
 **Attribute**
 
 | STR | GES | INT | CHA | TEMP | SYS |
-|---|---|---|---|---|---|
-| 5 | 4 | 2 | 2 | 3 | 3/3 |
+| --- | --- | --- | --- | ---- | --- |
+| 5   | 4   | 2   | 2   | 3    | 3/3 |
 
 **Inventar**
+
 - 🔫 Sturmkarabiner
 - 🛡️ Schutzweste
 - 💣 Sprengladung ×2
 
-**Missionen abgeschlossen:** 0 — *Zwei Einsätze im Log, kein Debrief gespeichert. Sledge geht in Mission 3 ohne Ruf und ohne CU-Polster.*
+**Missionen abgeschlossen:** 0 — _Zwei Einsätze im Log, kein Debrief gespeichert. Sledge geht in Mission 3 ohne Ruf und ohne CU-Polster._
 
 ---
 
@@ -48,7 +50,7 @@ Der Korridor zum Briefingraum ist vertraut: graue Betonwände, summende Neonröh
 
 Vor dem Briefingraum wartet Koordinatorin **Voss**. Kurzes Haar, Klemmbrett, Augen die schon drei Schritte vorausdenken. Sie nickt knapp.
 
-*„Sledge. Gut, dass du da bist. Wir haben ein Fenster — und es wird nicht breiter."*
+_„Sledge. Gut, dass du da bist. Wir haben ein Fenster — und es wird nicht breiter."_
 
 ---
 

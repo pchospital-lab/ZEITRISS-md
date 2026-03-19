@@ -258,17 +258,20 @@ README-Topblock stärker so:
 Spieler dürfen ZEITRISS natürlichsprachlich starten. Kanonische Kommandos bleiben erhalten, aber sind nicht mehr der einzige player-facing Pfad.
 
 **Umsetzen in:**
+
 - `core/sl-referenz.md`
 - `systems/toolkit-gpt-spielleiter.md`
 - `core/spieler-handbuch.md`
 - `meta/masterprompt_v6.md`
 
 **Regel:**
+
 - Wenn die Absicht klar ist, akzeptiere natürliche Sprache.
 - Nutze den Syntax-Hinweis nur bei echter Mehrdeutigkeit.
 - Intern weiter auf denselben Dispatcher mappen.
 
 **Beispiele, die funktionieren sollen:**
+
 - „Ich will alleine neu anfangen.“
 - „Wir sind zu zweit und laden unsere Saves.“
 - „Ich will solo klassisch, aber bitte generieren.“
@@ -287,6 +290,7 @@ Die kanonischen Kommandos bleiben dokumentiert, aber nicht mehr als harter Immer
 Der Standard-Neustart soll nicht mehr primär „klassisch oder schnell?“ fragen, sondern auf KI-native Charaktererschaffung zielen.
 
 **Neue Startlogik:**
+
 1. Neu oder Laden?
 2. solo / npc-team / gruppe?
 3. Default = klassisch
@@ -294,6 +298,7 @@ Der Standard-Neustart soll nicht mehr primär „klassisch oder schnell?“ frag
 5. `schnell` nur bei explizitem Wunsch
 
 **Umsetzen in:**
+
 - `meta/masterprompt_v6.md`
 - `core/sl-referenz.md`
 - `core/spieler-handbuch.md`
@@ -323,11 +328,13 @@ Im Abschnitt `I) Start, Charaktere, Save/Load` des Masterprompts ergänzen:
 Archetypen bleiben als Inspiration erhalten, sollen aber die KI beim Standardstart nicht dominieren.
 
 **Empfohlene Varianten:**
+
 - Entweder `characters/charaktererschaffung-optionen.md` in einen stärkeren Inspirations-/Appendix-Rahmen setzen,
 - oder Pregens/Start-Archetypen in eine eigene nicht-geladene Datei auslagern,
 - oder klar markieren: **nicht bevorzugter Startpfad**.
 
 **SSOT-Satz:**
+
 > Archetypen sind Inspirations- und One-Shot-Material. Der empfohlene Standardstart erfolgt über klassisch + `generate` / `custom generate` oder manuelle Erschaffung.
 
 ---
@@ -343,11 +350,13 @@ Das HQ-Menü darf den empfohlenen Save→neuer Chat-Rhythmus nicht unterlaufen.
 `Auto-HQ & Save` führt zu stark Richtung „gleich weiter zum nächsten Briefing im selben Chat“.
 
 **Neue Regel:**
+
 - Nach jedem savebaren HQ-Zustand bietet Kodex genau einmal kurz `!save` an.
 - Nach erfolgreichem `!save` folgt ein klarer Hinweis auf den empfohlenen neuen Chat.
 - Kein automatischer Sprung ins nächste Briefing nach Auto-HQ.
 
 **Neuer Kodex-Satz:**
+
 > `Kodex: HQ-Zustand stabil. Deepsave möglich. Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 
 ---
@@ -360,6 +369,7 @@ Das HQ-Menü darf den empfohlenen Save→neuer Chat-Rhythmus nicht unterlaufen.
 Keine widersprüchlichen Erstempfehlungen mehr.
 
 **Sollzustand:**
+
 - erster echter Run = OpenWebUI-Setup + Preset + `solo klassisch`
 - `solo schnell` = optionaler Fast-Lane-Modus
 - Sonnet 4.6 = Referenzmodell in allen Einstiegstexten konsistent
@@ -374,14 +384,16 @@ Keine widersprüchlichen Erstempfehlungen mehr.
 Die erste Bildschirmhöhe auf GitHub soll die Produktfantasie verkaufen.
 
 **Pflichtbotschaften ganz oben:**
+
 - ZEITRISS ist ein KI-geführtes Zeitreise-RPG.
 - Es fühlt sich wie ein MMO an, braucht aber keinen Server.
 - Dein Save ist dein Charakter.
 - Nach dem OpenWebUI-Setup sprichst du einfach direkt mit der KI-SL.
 
 **Details verschieben:**
+
 - Preistabelle
-n- längere Modellvergleiche
+  n- längere Modellvergleiche
 - Teile der Hosting-/Lizenztexte
 
 ---
@@ -402,6 +414,7 @@ n- längere Modellvergleiche
 
 ```md
 ## In 3-5 Minuten ins Spiel
+
 1. OpenWebUI + Provider einrichten.
 2. `./scripts/setup-openwebui.sh` ausführen.
 3. Preset wählen.

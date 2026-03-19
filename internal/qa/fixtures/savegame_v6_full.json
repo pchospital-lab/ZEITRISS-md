@@ -68,9 +68,7 @@
       },
       "team": {
         "name": "Solo",
-        "members": [
-          { "id": "AGENT-L07", "role": "Lead" }
-        ]
+        "members": [{ "id": "AGENT-L07", "role": "Lead" }]
       },
       "party": { "characters": [{ "id": "AGENT-L07", "callsign": "Vektor" }] },
       "loadout": {
@@ -210,13 +208,7 @@
             "physicality_guard": true,
             "default_modes": ["mission_focus", "covert_ops_technoir"],
             "hud_limit": { "per_scene": 2, "narrative_ratio": "80/20" },
-            "banned_terms": [
-              "cyberspace",
-              "virtueller raum",
-              "digitalraum",
-              "matrix",
-              "holodeck"
-            ]
+            "banned_terms": ["cyberspace", "virtueller raum", "digitalraum", "matrix", "holodeck"]
           },
           "atmosphere_contract_capture": {
             "core": {
@@ -302,9 +294,7 @@
         "audit": []
       },
       "arc_dashboard": {
-        "offene_seeds": [
-          { "id": "R-015", "seed_tier": "early" }
-        ],
+        "offene_seeds": [{ "id": "R-015", "seed_tier": "early" }],
         "fraktionen": { "ITI": 1, "Kartell": -1 }
       }
     },
@@ -454,13 +444,9 @@
         "alias_trace": [
           { "ts": "2025-12-14T10:00:00Z", "alias": "Echo", "message": "Alias gesetzt" }
         ],
-        "squad_radio": [
-          { "ts": "2025-12-14T10:02:00Z", "message": "Squad ready" }
-        ],
+        "squad_radio": [{ "ts": "2025-12-14T10:02:00Z", "message": "Squad ready" }],
         "field_notes": [],
-        "foreshadow": [
-          { "scene": 10, "label": "Boss-Toast", "mission_ref": "EP06-MS12" }
-        ],
+        "foreshadow": [{ "scene": 10, "label": "Boss-Toast", "mission_ref": "EP06-MS12" }],
         "fr_interventions": [],
         "arena_psi": [
           {
@@ -471,9 +457,7 @@
             "note": "Phase-Strike-Tax angewendet"
           }
         ],
-        "psi": [
-          { "ts": "2025-12-14T10:18:00Z", "mode_previous": "preserve", "note": "Arena-Run" }
-        ],
+        "psi": [{ "ts": "2025-12-14T10:18:00Z", "mode_previous": "preserve", "note": "Arena-Run" }],
         "flags": {
           "runtime_version": "4.2.6",
           "compliance_shown_today": true,
@@ -484,13 +468,7 @@
             "physicality_guard": true,
             "default_modes": ["mission_focus", "covert_ops_technoir"],
             "hud_limit": { "per_scene": 2, "narrative_ratio": "80/20" },
-            "banned_terms": [
-              "cyberspace",
-              "virtueller raum",
-              "digitalraum",
-              "matrix",
-              "holodeck"
-            ]
+            "banned_terms": ["cyberspace", "virtueller raum", "digitalraum", "matrix", "holodeck"]
           },
           "atmosphere_contract_capture": {
             "core": {
@@ -566,9 +544,7 @@
         "scenario": "Chronopolis Patrol",
         "phase_strike_tax": 1,
         "damage_dampener": true,
-        "audit": [
-          { "ts": "2025-12-14T10:20:00Z", "event": "arenaStart", "fee": 400 }
-        ]
+        "audit": [{ "ts": "2025-12-14T10:20:00Z", "event": "arenaStart", "fee": 400 }]
       },
       "arc_dashboard": {
         "offene_seeds": [
@@ -809,13 +785,7 @@
             "physicality_guard": true,
             "default_modes": ["mission_focus", "covert_ops_technoir"],
             "hud_limit": { "per_scene": 2, "narrative_ratio": "80/20" },
-            "banned_terms": [
-              "cyberspace",
-              "virtueller raum",
-              "digitalraum",
-              "matrix",
-              "holodeck"
-            ]
+            "banned_terms": ["cyberspace", "virtueller raum", "digitalraum", "matrix", "holodeck"]
           },
           "atmosphere_contract_capture": {
             "core": {
@@ -890,9 +860,7 @@
         "fee": 0,
         "scenario": "Rift Strike",
         "phase_strike_tax": 2,
-        "audit": [
-          { "ts": "2025-12-14T11:45:00Z", "event": "arenaReset", "reason": "Rift" }
-        ]
+        "audit": [{ "ts": "2025-12-14T11:45:00Z", "event": "arenaReset", "reason": "Rift" }]
       },
       "arc_dashboard": {
         "offene_seeds": [

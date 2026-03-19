@@ -1,4 +1,5 @@
 # 02-manifestation-glm5
+
 - **Model:** zeitriss-v426-uncut-glm5
 - **Tokens:** in:10839 out:2660 cost:$0.00866096
 - **Date:** 2026-03-17T10:58:41+01:00
@@ -6,6 +7,7 @@
 ## Output
 
 ## HUD
+
 `EP 1 · MS 1 · SC 1/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 12 ▓▓░░░ 1/2 XP · Px 0/5 · Stress 0/5 · Obj Labor infiltrieren · Exfil -`
 
 ---
@@ -14,7 +16,7 @@
 
 Der Korridor riecht nach Desinfektionsmittel und altem Ozon. Neonröhren flackern in unregelmäßigem Takt über Lyra's Kopf, während sie sich an die Betonwand drückt. Fünfzehn Meter entfernt steht der Wachposten — eine konische Silhouette in korrodierter Kampfmontur, das Visier auf das Display an der Wand gerichtet. Die gesicherte Stahltür zu ihrer Rechten trägt das Emblem eines biotechnischen Forschungskonzerns. Elektronischer Riegel. Kein mechanisches Schloss.
 
-Lyra schließt die Augen. Der Psi-Verstärker Mk II summt gegen ihre Schläfe, ein leises Pochen, das mit ihrem Herzschlag synchronisiert ist. Sie atmet ein. Die Zeit verlangsamt sich nicht — das ist ein Klischee — aber ihre Wahrnehmung dehnt sich, greift nach dem *nächsten Moment*, der noch nicht existiert.
+Lyra schließt die Augen. Der Psi-Verstärker Mk II summt gegen ihre Schläfe, ein leises Pochen, das mit ihrem Herzschlag synchronisiert ist. Sie atmet ein. Die Zeit verlangsamt sich nicht — das ist ein Klischee — aber ihre Wahrnehmung dehnt sich, greift nach dem _nächsten Moment_, der noch nicht existiert.
 
 **Probe: Präkognition III (Zukunft sehen)**
 
@@ -24,7 +26,7 @@ Lyra schließt die Augen. Der Psi-Verstärker Mk II summt gegen ihre Schläfe, e
 
 Die Vision trifft sie wie kaltes Wasser: In genau 47 Sekunden öffnet sich die Tür. Sie sieht den elektronischen Riegel zurückgleiten, das Panel von Rot auf Grün springen. Sie sieht sich selbst, wie sie durch den Spalt gleitet. Der Wachposten dreht sich nicht um. Er murmelt etwas über Schichtende. Der Zeitpunkt ist präzise, der Ablauf klar.
 
-Lyra reißt die Augen auf. Ihre Hand hebt sich, Finger spreizen sich dem Panel zugleich — nicht um es zu hacken, sondern um die *Vision zu erfüllen*. Die Manifestation verlangt Körper und Geist, den gesehenen Moment in die Gegenwart zu zwingen, bevor die Zeit ihn von selbst erreicht.
+Lyra reißt die Augen auf. Ihre Hand hebt sich, Finger spreizen sich dem Panel zugleich — nicht um es zu hacken, sondern um die _Vision zu erfüllen_. Die Manifestation verlangt Körper und Geist, den gesehenen Moment in die Gegenwart zu zwingen, bevor die Zeit ihn von selbst erreicht.
 
 **Probe: Präkognitive Manifestation I (Vision real werden lassen)**
 
@@ -32,7 +34,7 @@ Lyra reißt die Augen auf. Ihre Hand hebt sich, Finger spreizen sich dem Panel z
 
 `Kodex: Manifestation vollzogen. PP 4/9. Psi-Heat +1 → 2.`
 
-Das Panel flackert. Grün. Der Riegel zieht sich mit einem leisen *Schnappen* zurück. Die Tür gleitet auf — nicht weil Lyra das System überlistet hat, sondern weil sie die Zukunft *vorweggenommen* hat. Die Zeitlinie biegt sich, lässt das Endergebnis vor dem natürlichen Ablauf Wirklichkeit werden.
+Das Panel flackert. Grün. Der Riegel zieht sich mit einem leisen _Schnappen_ zurück. Die Tür gleitet auf — nicht weil Lyra das System überlistet hat, sondern weil sie die Zukunft _vorweggenommen_ hat. Die Zeitlinie biegt sich, lässt das Endergebnis vor dem natürlichen Ablauf Wirklichkeit werden.
 
 Der Korridor dahinter liegt dunkel und still. Der Wachposten murmelt: „...immer diese Sensoren..." Er dreht sich nicht um. Die 47 Sekunden sind passé — die Manifestation hat sie übersprungen.
 
@@ -40,11 +42,11 @@ Der Korridor dahinter liegt dunkel und still. Der Wachposten murmelt: „...imme
 
 ## Kostenübersicht
 
-| Fähigkeit | PP-Kosten | Kumulativ | Psi-Heat |
-|-----------|-----------|-----------|----------|
-| Präkognition III | 3 PP | 6/9 übrig | +1 |
-| Präkognitive Manifestation I | 2 PP | 4/9 übrig | +1 |
-| **Gesamt** | **5 PP** | **4/9** | **Heat 2/9** |
+| Fähigkeit                    | PP-Kosten | Kumulativ | Psi-Heat     |
+| ---------------------------- | --------- | --------- | ------------ |
+| Präkognition III             | 3 PP      | 6/9 übrig | +1           |
+| Präkognitive Manifestation I | 2 PP      | 4/9 übrig | +1           |
+| **Gesamt**                   | **5 PP**  | **4/9**   | **Heat 2/9** |
 
 **Backlash-Schwelle:** Bei Psi-Heat > TEMP (9) tritt Backlash ein. Aktuell sicher.
 

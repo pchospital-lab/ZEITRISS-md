@@ -51,12 +51,14 @@ Einstiegshilfe.
 Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefiles.
 
 **Core-Ops (Standard-Missionen):**
+
 - Historische Heists, Sabotage, Infiltration.
 - Ihr springt in eine Epoche, erledigt den Auftrag, springt zurück.
 - Keine Zeitschwurbelei - Zeit ist euer Setting, nicht euer Puzzle.
 - Beispiel: Bankjob während eines echten historischen Überfalls.
 
 **Rift-Ops (Bonus-Missionen):**
+
 - Freigeschaltet durch Px 5 (gutes Spielen → Belohnung).
 - Paramonster jagen, Artefakte looten.
 - Mystery-Casefile-Atmosphäre in historischem Setting.
@@ -87,6 +89,7 @@ später begreifen, dass sie in Wahrheit einer viel älteren und zugleich
 menschlicheren Zukunftsspur gefolgt sind.
 
 **HQ (Zwischen den Missionen):**
+
 - Die **ITI-Gesamtanlage** ist eure Basis in der Nullzeit: sicherer HQ-Kern
   plus der ringförmige Chronopolis-Bereich.
 - **HQ-Kernbereich** = sicherer Hafen für Ausrüsten, Feilschen, Upgrades,
@@ -115,6 +118,7 @@ menschlicheren Zukunftsspur gefolgt sind.
   Digitalraum-Modus.
 
 **Kodex (Eure KI):**
+
 - Immer dabei als AR-Overlay (wie ein taktischer Bordassistent).
 - Gibt Infos, zeigt HUD, protokolliert alles.
 - Fällt bei Jammer/Störung aus - und in **Chronopolis bewusst im Sperrmodus**:
@@ -162,6 +166,7 @@ Die ersten Schritte in unter zwei Minuten:
 9. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
 
 Weiterführend:
+
 - [Mini-Walkthrough "Mauerbau 1961"](../gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961)
 - [Cinematic Start](../systems/gameflow/cinematic-start.md)
 - [Demo-Mission "Feuerkette 1410"](../gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410)
@@ -169,37 +174,41 @@ Weiterführend:
 ## Cheatsheet - Alle Kernregeln auf einen Blick {#cheatsheet}
 
 ### Probenformel
+
 `Endwert = 1W6 + ⌊Attribut / 2⌋ + Talent + Gear ≥ SG`
+
 - **Exploding:** Jeder Würfel darf bei 6 genau einmal explodieren (Burst-Cap 1 pro Würfel)
 - **Ab Attribut 11:** W10 statt W6 (Exploding bei 10)
 - **Ab Attribut 14:** Heldenwürfel (1× Reroll pro Szene, besseres zählt)
 - **Talentbonus-Cap:** max. +5 nach Attributsbonus
 
-| SG | Schwierigkeit | Beispiel |
-|---:|---------------|----------|
-| 5 | Leicht | Tür eintreten, triviales Hacken |
-| 8-9 | Mittel | Schloss knacken, Überwachung umgehen |
-| 12 | Schwer | High-Security-Alarm umgehen |
-| 15+ | Extrem | Laserfeld im Sprint passieren |
+|  SG | Schwierigkeit | Beispiel                             |
+| --: | ------------- | ------------------------------------ |
+|   5 | Leicht        | Tür eintreten, triviales Hacken      |
+| 8-9 | Mittel        | Schloss knacken, Überwachung umgehen |
+|  12 | Schwer        | High-Security-Alarm umgehen          |
+| 15+ | Extrem        | Laserfeld im Sprint passieren        |
 
 ### Attribute (6 Stück, Budget 18 Punkte)
 
-| Kürzel | Name | Einsatz |
-|--------|------|---------|
-| STR | Stärke | Nahkampf, Kraftakte |
-| GES | Geschicklichkeit | Fernkampf, Schleichen, Schlösser, Ausweichen |
-| INT | Intelligenz | Rätsel, Technik, Wissen |
-| CHA | Charisma | Soziales, Willenskraft, Stressproben |
-| TEMP | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP), temporale Reaktion |
-| SYS | Systemlast | Cyber-/Bioware-Kapazität |
+| Kürzel | Name                | Einsatz                                                 |
+| ------ | ------------------- | ------------------------------------------------------- |
+| STR    | Stärke              | Nahkampf, Kraftakte                                     |
+| GES    | Geschicklichkeit    | Fernkampf, Schleichen, Schlösser, Ausweichen            |
+| INT    | Intelligenz         | Rätsel, Technik, Wissen                                 |
+| CHA    | Charisma            | Soziales, Willenskraft, Stressproben                    |
+| TEMP   | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP), temporale Reaktion |
+| SYS    | Systemlast          | Cyber-/Bioware-Kapazität                                |
 
 - **Start:** 2-6 pro Attribut, Summe = 18, Minimum 1
 - **Reguläres Cap:** 10 · **Prestige-Cap:** 14
 
 ### Initiative
+
 `1W6 + max(GES, TEMP)` (voller Wert, **keine** Halbierung) · Gleichstand → höherer TEMP, dann höherer GES, dann Stichwurf
 
 ### Kampf-Kurzablauf
+
 1. **Initiative** - `1W6 + max(GES, TEMP)`, höchster Wert beginnt
 2. **Angriff** - Probenformel (STR Nah / GES Fern) ≥ SG oder Oppositionswurf
 3. **Schaden** - Waffenwert - Rüstungs-DR = LP-Verlust
@@ -209,13 +218,13 @@ Weiterführend:
 
 ### LP & Verletzungsstufen (10 LP)
 
-| LP | Stufe | Malus |
-|---:|-------|------:|
-| 10 | Unverletzt | 0 |
-| 7-9 | Leicht verletzt | -1 |
-| 4-6 | Mittel verletzt | -2 |
-| 1-3 | Schwer verletzt | -3 |
-| 0 | Kritisch (Not-Rückholung) | - |
+|  LP | Stufe                     | Malus |
+| --: | ------------------------- | ----: |
+|  10 | Unverletzt                |     0 |
+| 7-9 | Leicht verletzt           |    -1 |
+| 4-6 | Mittel verletzt           |    -2 |
+| 1-3 | Schwer verletzt           |    -3 |
+|   0 | Kritisch (Not-Rückholung) |     - |
 
 ### Einsatzgewalt & Endzustände (Filmstandard)
 
@@ -250,15 +259,16 @@ Weiterführend:
 
 ### Stress (0-10)
 
-| Stress | Effekt |
-|-------:|--------|
-| 0-4 | Keine Mali |
-| 5-9 | -1 auf soziale & präzise Proben |
-| 10 | Panik / Zusammenbruch |
+| Stress | Effekt                          |
+| -----: | ------------------------------- |
+|    0-4 | Keine Mali                      |
+|    5-9 | -1 auf soziale & präzise Proben |
+|     10 | Panik / Zusammenbruch           |
 
 Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 
 ### Psi (Kurzversion)
+
 - **PP-Pool** = TEMP-Wert · Kosten: stark 3 / mittel 2 / gering 1 PP
 - **Cooldown:** 3 / 2 / 1 Runden · **Regen:** nach Konflikt → Pool voll
 - **Psi-Heat:** 0 Pristine · 1-2 Warm · 3-4 Hot (-1 Ini) · 5 Overload (SG +4) · 6 Reboot (Runde aus, Heat → 0)
@@ -266,20 +276,20 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 
 ### Paradoxon-Index (Px) - Belohnungssystem
 
-| Px | Effekt |
-|---:|--------|
-| 0-4 | Fortschritt über HUD-Balken und -Farbe sichtbar |
+|    Px | Effekt                                                |
+| ----: | ----------------------------------------------------- |
+|   0-4 | Fortschritt über HUD-Balken und -Farbe sichtbar       |
 | **5** | **ClusterCreate()** → 1-2 Rift-Seeds enthüllt, Px → 0 |
 
 **Px-Anstieg (fix gekoppelt an TEMP):**
 
-| TEMP | Px-Zuwachs |
-|-----:|:--------------------------------------|
-| 1-2 | +1 Px alle 2 Missionen |
-| 3-5 | +1 Px pro Mission |
-| 6-8 | +2 Px pro Mission |
-| 9-11 | +2 Px pro Mission |
-| 12-14 | +3 Px pro Mission |
+|  TEMP | Px-Zuwachs             |
+| ----: | :--------------------- |
+|   1-2 | +1 Px alle 2 Missionen |
+|   3-5 | +1 Px pro Mission      |
+|   6-8 | +2 Px pro Mission      |
+|  9-11 | +2 Px pro Mission      |
+| 12-14 | +3 Px pro Mission      |
 
 - **Px-Anstieg**: Jede **erfolgreich abgeschlossene Mission** gibt
   sofort Px gemäß obiger TEMP-Staffel.
@@ -309,25 +319,26 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
   auslösen. Diese Option ist nicht Teil des Standardmodus.
 
 ### CU-Belohnung
+
 `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
 
-| Faktor | Werte |
-|--------|-------|
-| Basiswert | Low 400 · Mid 500 · High 600 CU |
-| Ergebnis | Fail 0,3 · Partial 0,6 · Success 1,0 · Bonus 1,2 |
-| Seed-Multi | `min(1,6; 1 + 0,2 × offene Seeds)` |
-| Hazard-Pay | Solo/Buddy (<3 Agenten) → ×1,5 |
+| Faktor     | Werte                                            |
+| ---------- | ------------------------------------------------ |
+| Basiswert  | Low 400 · Mid 500 · High 600 CU                  |
+| Ergebnis   | Fail 0,3 · Partial 0,6 · Success 1,0 · Bonus 1,2 |
+| Seed-Multi | `min(1,6; 1 + 0,2 × offene Seeds)`               |
+| Hazard-Pay | Solo/Buddy (<3 Agenten) → ×1,5                   |
 
 ### Tier-Lizenzen (Ausrüstungszugang)
 
 | Tier | Ruf | Lizenzkosten |
-|------|----:|--------------|
-| 0 | - | Frei |
-| I | +1 | 200 CU |
-| II | +2 | 500 CU |
-| III | +3 | 1.500 CU |
-| IV | +4 | 3.000 CU |
-| V | +5 | 5.000 CU |
+| ---- | --: | ------------ |
+| 0    |   - | Frei         |
+| I    |  +1 | 200 CU       |
+| II   |  +2 | 500 CU       |
+| III  |  +3 | 1.500 CU     |
+| IV   |  +4 | 3.000 CU     |
+| V    |  +5 | 5.000 CU     |
 
 Ab **Ruf +5** sind alle regulären ITI-Lizenzpfade grundsätzlich kaufbar.
 Sonderfälle bleiben als objektbezogene Story- oder Projektfreigaben möglich,
@@ -335,26 +346,26 @@ ohne Tier V global zu sperren.
 
 ### ITI-Rang-Mapping (SSOT)
 
-| ITI-Ruf | Rang |
-|--------:|------|
-| 0 | Rekrut |
-| 1 | Operator I |
-| 2 | Feldagent |
-| 3 | Senior-Feldagent |
-| 4 | Elitechrononaut |
-| 5 | Apex-Agent |
+| ITI-Ruf | Rang             |
+| ------: | ---------------- |
+|       0 | Rekrut           |
+|       1 | Operator I       |
+|       2 | Feldagent        |
+|       3 | Senior-Feldagent |
+|       4 | Elitechrononaut  |
+|       5 | Apex-Agent       |
 
 **Debrief-Format:** `Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II`
 
 ### XP-Kurve
 
-| Level | XP pro Level | Kumulativ |
-|------:|-------------:|----------:|
-| 1-10 | 1 XP (= 1 Mission = auto Level-Up) | 10 XP |
-| 11-20 | 2 XP | 30 XP |
-| 21-30 | 3 XP | 60 XP |
-| 31-50 | 4 XP | 140 XP |
-| 51-100 | 5 XP | 390 XP |
+|  Level |                       XP pro Level | Kumulativ |
+| -----: | ---------------------------------: | --------: |
+|   1-10 | 1 XP (= 1 Mission = auto Level-Up) |     10 XP |
+|  11-20 |                               2 XP |     30 XP |
+|  21-30 |                               3 XP |     60 XP |
+|  31-50 |                               4 XP |    140 XP |
+| 51-100 |                               5 XP |    390 XP |
 
 > **XP = abgeschlossene Missionen.** Level 1-10: Jede Mission = Level-Up (kein XP-Balken nötig).
 > Ab Level 11: XP-Balken zeigt `aktuell/schwelle` (z.B. `Lvl 14 ▓▓░░░ 1/2 XP`).
@@ -368,14 +379,14 @@ ohne Tier V global zu sperren.
 
 ### Wichtige Befehle
 
-| Befehl | Wirkung |
-|--------|---------|
-| `!save` | Speicherstand erzeugen (nur HQ) |
-| `!bogen` | Lesbarer Charakterbogen (kein JSON-Export) |
-| `!sf off` / `!sf on` | Self-Reflection aus/an |
-| `!kampagnenmodus` | Pool wechseln (preserve/trigger) |
-| `!offline` | Kodex-Feldprotokoll (1×/Min; in Chronopolis eigene Sperrmodus-Antwort) |
-| `kodex [thema]` | Weltwissen/Regeln abfragen (in `CITY` gesperrt) |
+| Befehl               | Wirkung                                                                |
+| -------------------- | ---------------------------------------------------------------------- |
+| `!save`              | Speicherstand erzeugen (nur HQ)                                        |
+| `!bogen`             | Lesbarer Charakterbogen (kein JSON-Export)                             |
+| `!sf off` / `!sf on` | Self-Reflection aus/an                                                 |
+| `!kampagnenmodus`    | Pool wechseln (preserve/trigger)                                       |
+| `!offline`           | Kodex-Feldprotokoll (1×/Min; in Chronopolis eigene Sperrmodus-Antwort) |
+| `kodex [thema]`      | Weltwissen/Regeln abfragen (in `CITY` gesperrt)                        |
 
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
 
@@ -430,6 +441,7 @@ bleiben erhalten.
 
 **Solo-Tod:**
 Die SL stoppt die Szene und bietet zwei Wege an:
+
 1. **Respawn:** Letzten Save in einem neuen Chat laden und weiterspielen.
    Der Tod ist nicht passiert — der Charakter lebt ab dem letzten HQ-Save weiter.
 2. **Heroischer Tod:** Der Charakter stirbt als Teil der Geschichte. Die SL
@@ -440,6 +452,7 @@ Die SL stoppt die Szene und bietet zwei Wege an:
 
 **Gruppenregel bei Tod (Core/Rift/Chronopolis):**
 Im Gruppenchat stoppt Kodex die Szene und fragt die Gruppe verbindlich:
+
 1. **Tod bleibt Kanon:** Der Charakter ist tot. Final-Save + Abschlussbericht.
    Die Gruppe spielt weiter, der Spieler kann einen neuen Agenten erstellen.
 2. **Neuladen:** Letzten Gruppen-DeepSave in neuem Chat laden.
@@ -511,8 +524,8 @@ Siehe auch:
 > **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.
 > **Legende:** ziviler Gutachter.
 > **Fraktionslage:** ruhig.
-> -
-> _Kurzes Briefing_ (3 Ziele). _Dann:_ "Szene 1 - Zugangspunkt?"
+>
+> - _Kurzes Briefing_ (3 Ziele). _Dann:_ "Szene 1 - Zugangspunkt?"
 
 </details>
 
@@ -609,6 +622,7 @@ Speicherstand. So startet die nächste Mission mit vollem Regelzugriff und frisc
 Kontext. Innerhalb einer Mission einfach weiterspielen.
 
 **Empfohlener Stabilitätspfad:**
+
 1. **Debrief / Score-Screen** abschließen.
 2. **Level-Up jetzt abschließen** (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`).
 3. Danach **HQ wählen**: Schnell-HQ, manuell oder Auto-HQ.
@@ -747,7 +761,7 @@ Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Abs
 Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
 Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
 wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
- Synth-Gel eine neue Bio-Hülle - auf Wunsch in einer Hominin-Variante. Wenn die
+Synth-Gel eine neue Bio-Hülle - auf Wunsch in einer Hominin-Variante. Wenn die
 Drucktanks verstummen, wartet die unfertige Hülle. Erst wenn Rolle, Waffen sowie
 Bio- und Cyberware feststehen, schließt das ITI den Körper; dann folgt der
 Transferblitz, Sensoren flackern auf und dein Bewusstsein fährt hinein. Erst jetzt
@@ -767,8 +781,6 @@ Nach Einleitung (Compliance-Hook entfällt) wählst du zwischen
 - _Schnell:_ Wähle eine Rolle (Infiltration, Tech, Face, Sniper …) und ein
   Kurzprofil. Anschließend kannst du ebenfalls zwischen HQ-Einstieg und sofortigem
   Briefing wählen.
-
-
 
 ## Grundidee
 
@@ -888,13 +900,13 @@ Kern-Anker) flackert das HUD als Warnung - eskaliert die Situation weiter →
 
 Der **TEMP-Wert (Temporale Affinität)** bestimmt den Px-Zuwachs:
 
-| TEMP | Px-Zuwachs |
-|-----:|:--------------------------------------|
-| 1-2 | +1 Px alle 2 Missionen |
-| 3-5 | +1 Px pro Mission |
-| 6-8 | +2 Px pro Mission |
-| 9-11 | +2 Px pro Mission |
-| 12-14 | +3 Px pro Mission |
+|  TEMP | Px-Zuwachs             |
+| ----: | :--------------------- |
+|   1-2 | +1 Px alle 2 Missionen |
+|   3-5 | +1 Px pro Mission      |
+|   6-8 | +2 Px pro Mission      |
+|  9-11 | +2 Px pro Mission      |
+| 12-14 | +3 Px pro Mission      |
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Rift-Ops werden **ausschließlich zwischen
@@ -933,7 +945,6 @@ dass die Realität nicht so stabil ist, wie sie scheint.
 
 Dieses Fortschrittssystem bildet den standardisierten Hintergrund für alle
 Regelmodule - **es belohnt Kontrolle, nicht Chaos.**
-
 
 ## Glossar
 

@@ -19,8 +19,20 @@
         "mode": "preserve",
         "phase": "core",
         "rift_seeds": [
-          {"id": "R-010", "epoch": "1955", "label": "Echo-Train", "status": "open", "seed_tier": "early"},
-          {"id": "R-022", "epoch": "1989", "label": "Lost Signal", "status": "open", "seed_tier": "early"}
+          {
+            "id": "R-010",
+            "epoch": "1955",
+            "label": "Echo-Train",
+            "status": "open",
+            "seed_tier": "early"
+          },
+          {
+            "id": "R-022",
+            "epoch": "1989",
+            "label": "Lost Signal",
+            "status": "open",
+            "seed_tier": "early"
+          }
         ]
       },
       "character": {
@@ -31,15 +43,26 @@
         "stress": 0,
         "psi_heat": 0,
         "cooldowns": {},
-        "attributes": {"SYS_max": 5, "SYS_installed": 5, "SYS_runtime": 5, "SYS_used": 5}
+        "attributes": { "SYS_max": 5, "SYS_installed": 5, "SYS_runtime": 5, "SYS_used": 5 }
       },
-      "team": {"members": []},
-      "party": {"characters": []},
+      "team": { "members": [] },
+      "party": { "characters": [] },
       "loadout": {},
-      "economy": {"cu": 1200, "wallets": {}},
-      "logs": {"hud": [], "trace": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {"merge_conflicts": []}},
-      "arc_dashboard": {"offene_seeds": [{"id": "R-010", "seed_tier": "early"}], "fraktionen": {}},
-      "ui": {"gm_style": "verbose", "suggest_mode": false}
+      "economy": { "cu": 1200, "wallets": {} },
+      "logs": {
+        "hud": [],
+        "trace": [],
+        "foreshadow": [],
+        "fr_interventions": [],
+        "arena_psi": [],
+        "psi": [],
+        "flags": { "merge_conflicts": [] }
+      },
+      "arc_dashboard": {
+        "offene_seeds": [{ "id": "R-010", "seed_tier": "early" }],
+        "fraktionen": {}
+      },
+      "ui": { "gm_style": "verbose", "suggest_mode": false }
     },
     {
       "save_version": 6,
@@ -54,8 +77,20 @@
         "mode": "trigger",
         "phase": "core",
         "rift_seeds": [
-          {"id": "R-085", "epoch": "1997", "label": "Chrono Butcher", "status": "open", "seed_tier": "mid"},
-          {"id": "R-111", "epoch": "2130", "label": "Psi Bloom", "status": "open", "seed_tier": "mid"}
+          {
+            "id": "R-085",
+            "epoch": "1997",
+            "label": "Chrono Butcher",
+            "status": "open",
+            "seed_tier": "mid"
+          },
+          {
+            "id": "R-111",
+            "epoch": "2130",
+            "label": "Psi Bloom",
+            "status": "open",
+            "seed_tier": "mid"
+          }
         ]
       },
       "character": {
@@ -66,15 +101,32 @@
         "stress": 0,
         "psi_heat": 0,
         "cooldowns": {},
-        "attributes": {"SYS_max": 8, "SYS_installed": 8, "SYS_runtime": 8, "SYS_used": 8}
+        "attributes": { "SYS_max": 8, "SYS_installed": 8, "SYS_runtime": 8, "SYS_used": 8 }
       },
-      "team": {"members": [{"id": "NPC-01", "role": "Funk"}]},
-      "party": {"characters": []},
+      "team": { "members": [{ "id": "NPC-01", "role": "Funk" }] },
+      "party": { "characters": [] },
       "loadout": {},
-      "economy": {"cu": 8800, "wallets": {}},
-      "logs": {"hud": [], "trace": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {"merge_conflicts": []}},
-      "arc_dashboard": {"offene_seeds": [{"id": "R-085", "seed_tier": "mid"}], "fraktionen": {}},
-      "ui": {"gm_style": "precision", "suggest_mode": true, "contrast": "high", "badge_density": "dense", "output_pace": "slow"}
+      "economy": { "cu": 8800, "wallets": {} },
+      "logs": {
+        "hud": [],
+        "trace": [],
+        "foreshadow": [],
+        "fr_interventions": [],
+        "arena_psi": [],
+        "psi": [],
+        "flags": { "merge_conflicts": [] }
+      },
+      "arc_dashboard": {
+        "offene_seeds": [{ "id": "R-085", "seed_tier": "mid" }],
+        "fraktionen": {}
+      },
+      "ui": {
+        "gm_style": "precision",
+        "suggest_mode": true,
+        "contrast": "high",
+        "badge_density": "dense",
+        "output_pace": "slow"
+      }
     },
     {
       "save_version": 6,
@@ -89,8 +141,20 @@
         "mode": "trigger",
         "phase": "core",
         "rift_seeds": [
-          {"id": "R-404", "epoch": "4021", "label": "Black Sun", "status": "open", "seed_tier": "late"},
-          {"id": "R-777", "epoch": "???", "label": "Omega Spiral", "status": "open", "seed_tier": "late"}
+          {
+            "id": "R-404",
+            "epoch": "4021",
+            "label": "Black Sun",
+            "status": "open",
+            "seed_tier": "late"
+          },
+          {
+            "id": "R-777",
+            "epoch": "???",
+            "label": "Omega Spiral",
+            "status": "open",
+            "seed_tier": "late"
+          }
         ]
       },
       "character": {
@@ -101,15 +165,26 @@
         "stress": 0,
         "psi_heat": 0,
         "cooldowns": {},
-        "attributes": {"SYS_max": 10, "SYS_installed": 10, "SYS_runtime": 10, "SYS_used": 10}
+        "attributes": { "SYS_max": 10, "SYS_installed": 10, "SYS_runtime": 10, "SYS_used": 10 }
       },
-      "team": {"members": []},
-      "party": {"characters": []},
+      "team": { "members": [] },
+      "party": { "characters": [] },
       "loadout": {},
-      "economy": {"cu": 25000, "wallets": {}},
-      "logs": {"hud": [], "trace": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {"merge_conflicts": []}},
-      "arc_dashboard": {"offene_seeds": [{"id": "R-404", "seed_tier": "late"}], "fraktionen": {}},
-      "ui": {"gm_style": "verbose", "suggest_mode": true}
+      "economy": { "cu": 25000, "wallets": {} },
+      "logs": {
+        "hud": [],
+        "trace": [],
+        "foreshadow": [],
+        "fr_interventions": [],
+        "arena_psi": [],
+        "psi": [],
+        "flags": { "merge_conflicts": [] }
+      },
+      "arc_dashboard": {
+        "offene_seeds": [{ "id": "R-404", "seed_tier": "late" }],
+        "fraktionen": {}
+      },
+      "ui": { "gm_style": "verbose", "suggest_mode": true }
     }
   ]
 }

@@ -108,31 +108,31 @@ Für Proton Lumo gibt es eine eigene, schlanke Plattform-Anleitung:
 
 ### Runtime-Module im Wissensspeicher
 
-| Kategorie      | Datei                                           |
-| -------------- | ----------------------------------------------- |
-| **core**       | `core/spieler-handbuch.md` *(Einleitung, Lore, Schnellstart, FAQ, Glossar)* |
-| **core**       | `core/zeitriss-core.md`                         |
-|                | `core/wuerfelmechanik.md`                       |
-|                | `core/sl-referenz.md` *(Dispatcher, Regeln, Tabellen)* |
-| **characters** | `characters/ausruestung-cyberware.md`           |
-|                | `characters/charaktererschaffung-grundlagen.md` |
-|                | `characters/zustaende.md`                       |
-|                | `characters/hud-system.md`                      |
-| **gameplay**   | `gameplay/fahrzeuge-konflikte.md`               |
-|                | `gameplay/kampagnenstruktur.md`                 |
-|                | `gameplay/kampagnenuebersicht.md`               |
-|                | `gameplay/kreative-generatoren-begegnungen.md`  |
-|                | `gameplay/kreative-generatoren-missionen.md`    |
-|                | `gameplay/massenkonflikte.md`                   |
-| **systems**    | `systems/currency/cu-waehrungssystem.md`        |
-|                | `systems/gameflow/cinematic-start.md`           |
-|                | `systems/gameflow/speicher-fortsetzung.md`      |
-|                | `systems/kp-kraefte-psi.md`                     |
-|                | `systems/toolkit-gpt-spielleiter.md`            |
+| Kategorie      | Datei                                                                       |
+| -------------- | --------------------------------------------------------------------------- |
+| **core**       | `core/spieler-handbuch.md` _(Einleitung, Lore, Schnellstart, FAQ, Glossar)_ |
+| **core**       | `core/zeitriss-core.md`                                                     |
+|                | `core/wuerfelmechanik.md`                                                   |
+|                | `core/sl-referenz.md` _(Dispatcher, Regeln, Tabellen)_                      |
+| **characters** | `characters/ausruestung-cyberware.md`                                       |
+|                | `characters/charaktererschaffung-grundlagen.md`                             |
+|                | `characters/zustaende.md`                                                   |
+|                | `characters/hud-system.md`                                                  |
+| **gameplay**   | `gameplay/fahrzeuge-konflikte.md`                                           |
+|                | `gameplay/kampagnenstruktur.md`                                             |
+|                | `gameplay/kampagnenuebersicht.md`                                           |
+|                | `gameplay/kreative-generatoren-begegnungen.md`                              |
+|                | `gameplay/kreative-generatoren-missionen.md`                                |
+|                | `gameplay/massenkonflikte.md`                                               |
+| **systems**    | `systems/currency/cu-waehrungssystem.md`                                    |
+|                | `systems/gameflow/cinematic-start.md`                                       |
+|                | `systems/gameflow/speicher-fortsetzung.md`                                  |
+|                | `systems/kp-kraefte-psi.md`                                                 |
+|                | `systems/toolkit-gpt-spielleiter.md`                                        |
 
 **Optional zuschaltbar (nicht im Default-Slotset):**
 
-- `characters/charaktererschaffung-optionen.md` *(Inspiration/Fallback-Archetypen für One-Shots oder expliziten Wunsch)*
+- `characters/charaktererschaffung-optionen.md` _(Inspiration/Fallback-Archetypen für One-Shots oder expliziten Wunsch)_
 
 **Slot-Kennzeichnung:** In `master-index.json` sind das Spieler-Handbuch und die
 18 Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
@@ -150,32 +150,31 @@ Für Proton Lumo gibt es eine eigene, schlanke Plattform-Anleitung:
   > Derzeit ist **Sonnet 4.6 das einzige Modell mit vollständiger Regeltreue.**
   > Budget-Modelle erzählen atmosphärisch, erfinden aber eigene Würfelsysteme.
 
-  | Modell | Typ | Preis/1M Token | Output | Stärke |
-  |--------|-----|----------------|--------|--------|
-  | `anthropic/claude-sonnet-4.6` | **Empfohlen** | ~$3/$15 | 128K | Einziges Modell mit korrekter Würfelmechanik, HUD, Score-Screen und Px-Berechnung |
-  | `deepseek/deepseek-v3.2` | **Budget** | ~$0.25/$0.40 | 65K | Gute Atmosphäre, sehr günstig (~$0.002/Turn), Regeln teilweise abweichend |
-  | `z-ai/glm-4.6` | **Experimentell** | ~$0.40/$1.71 | 131K | Starker Noir-Ton, erfindet eigene Regeln — für Atmosphäre-Spieler |
+  | Modell                        | Typ               | Preis/1M Token | Output | Stärke                                                                            |
+  | ----------------------------- | ----------------- | -------------- | ------ | --------------------------------------------------------------------------------- |
+  | `anthropic/claude-sonnet-4.6` | **Empfohlen**     | ~$3/$15        | 128K   | Einziges Modell mit korrekter Würfelmechanik, HUD, Score-Screen und Px-Berechnung |
+  | `deepseek/deepseek-v3.2`      | **Budget**        | ~$0.25/$0.40   | 65K    | Gute Atmosphäre, sehr günstig (~$0.002/Turn), Regeln teilweise abweichend         |
+  | `z-ai/glm-4.6`                | **Experimentell** | ~$0.40/$1.71   | 131K   | Starker Noir-Ton, erfindet eigene Regeln — für Atmosphäre-Spieler                 |
 
   **Optimale Parameter (für alle Modelle):**
 
-  | Parameter | Wert | Warum |
-  |-----------|------|-------|
-  | Temperature | **0.8** | Guter Sweet-Spot: kreativ genug für Noir-Atmosphäre, stabil genug für Regeltreue |
-  | Top-P | **0.9** | Schneidet die unwahrscheinlichsten Tokens ab, reduziert Halluzinationen |
-  | Frequency Penalty | **0.3** | Verhindert Wiederholungen in langen Sessions |
-  | Max Tokens | **64000** | Sonnet 4.6 unterstützt bis 128K Output — 64K reicht für 5er-Gruppen-Saves + Debrief ohne Abschneiden |
+  | Parameter         | Wert      | Warum                                                                                                |
+  | ----------------- | --------- | ---------------------------------------------------------------------------------------------------- |
+  | Temperature       | **0.8**   | Guter Sweet-Spot: kreativ genug für Noir-Atmosphäre, stabil genug für Regeltreue                     |
+  | Top-P             | **0.9**   | Schneidet die unwahrscheinlichsten Tokens ab, reduziert Halluzinationen                              |
+  | Frequency Penalty | **0.3**   | Verhindert Wiederholungen in langen Sessions                                                         |
+  | Max Tokens        | **64000** | Sonnet 4.6 unterstützt bis 128K Output — 64K reicht für 5er-Gruppen-Saves + Debrief ohne Abschneiden |
 
   Das Setup-Script setzt diese Parameter automatisch. Bei manuellem Setup
   die Werte unter Modelle → Bearbeiten → Erweiterte Parameter eintragen.
-- **OpenAI-GPTs (optional): Funktionell derzeit nicht als Primärpfad empfohlen,
+
+- \*\*OpenAI-GPTs (optional): Funktionell derzeit nicht als Primärpfad empfohlen,
   weil Content-Filter häufiger eingreifen (`redacted`) und große Masterprompts in
   der Praxis limitieren können.
 - **Lokale Modelle (Offline):** Perspektivisch interessant, aktuell für ZEITRISS oft
   noch zu leistungslimitiert. Für stabile Runs besser starke Remote-Modelle nutzen.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
-
-
 
 ### Sicherheitsdefaults für OpenWebUI {#sicherheitsdefaults-fur-openwebui}
 
@@ -241,7 +240,7 @@ ZEITRISS-md/
   Lizenzanfragen.
 - **Hintergrund- & Strategie-Notizen (repo-intern)** - Lizenz-,
   Hosting- und Entwicklungsnotizen, nicht für den Wissensspeicher gedacht.
-- **Masterprompts (repo-intern) – Laufzeit-Briefings für die KI-SL; enthalten
+- \*\*Masterprompts (repo-intern) – Laufzeit-Briefings für die KI-SL; enthalten
   keine Dev-Vorgaben wie Agentenregeln.
 
 ## Wie du beitragen kannst

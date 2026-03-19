@@ -21,12 +21,7 @@
       }
     },
     {
-      "files": [
-        "core/**/*.md",
-        "systems/**/*.md",
-        "gameplay/**/*.md",
-        "characters/**/*.md"
-      ],
+      "files": ["core/**/*.md", "systems/**/*.md", "gameplay/**/*.md", "characters/**/*.md"],
       "options": {
         "proseWrap": "preserve"
       }

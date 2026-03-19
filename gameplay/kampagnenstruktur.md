@@ -22,7 +22,7 @@ Diese Modulnummer führt die Hauptreihe nach Modul 5 fort und bindet nahtlos an 
 
 ## Einführung
 
-**ZEITRISS 4.2.6** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
+**ZEITRISS 4.2.6** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter\*innen und
 Spieler hilft, epische **Langzeit-Abenteuer** zu gestalten. Dieses Modul bietet strukturierte
 Werkzeuge für die Planung mehrteiliger Handlungsbögen, die Weiterentwicklung von
 Zugängen/Freigaben im festen HQ-Kernbereich und die Pflege von Beziehungen im
@@ -88,17 +88,18 @@ Ereignisse zeigen und gemeinsam den Arc vorantreiben. Die vier Arc-Phasen erstre
   **Zwischensequenzen** oder Ruhephasen im HQ an, um die Veränderungen durch den letzten Arc zu
   verarbeiten.
 
-| Arc-Phase               | Typische Episoden | Zweck                     |
-| ----------------------- | ----------------- | ------------------------ |
-| **Einleitung**          | Episoden 1-2      | Setup & Exposition       |
-| **Konflikt & Entwicklung** | Episoden 3-7   | Ermittlungen & Eskalation|
-| **Klimax**              | Episoden 8-9      | Finale Konfrontation     |
-| **Übergang**            | Episode 10        | Abschluss & Ausblick     |
+| Arc-Phase                  | Typische Episoden | Zweck                     |
+| -------------------------- | ----------------- | ------------------------- |
+| **Einleitung**             | Episoden 1-2      | Setup & Exposition        |
+| **Konflikt & Entwicklung** | Episoden 3-7      | Ermittlungen & Eskalation |
+| **Klimax**                 | Episoden 8-9      | Finale Konfrontation      |
+| **Übergang**               | Episode 10        | Abschluss & Ausblick      |
 
 Durch diese episodische Struktur erhalten die Spieler regelmäßig Erfolgserlebnisse und die Kampagne
 bleibt **übersichtlich gegliedert**, ohne an epischer Gesamterzählung einzubüßen. Der **Arc-
 Baukasten** erlaubt es der Spielleitung außerdem, bei Bedarf flexibel Episoden einzuschieben oder
 Handlungsbögen zu verlängern, falls die Spieler z. B. unerwartete Nebenwege einschlagen.
+
 ```yaml
 episode:
   min_scenes: 120
@@ -107,6 +108,7 @@ episode:
   arc_generator_default: true
   sg_rift_bonus: 1
 ```
+
 Eine Episode fasst rund **zehn Missionen** derselben Epoche zusammen. Da jede Mission
 auf **12-14 Szenen** abzielt und das Szenen-Gate erst nach **6-7** vollwertigen Einträgen öffnet,
 ergibt sich die Zielspanne von **120-140 Szenen pro Episode**. Das Gate sichert das Mindesttempo
@@ -161,8 +163,6 @@ Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
 
 ### Fraktionsdynamik und -Konflikte
 
-
-
 Ein zentrales Element im ZEITRISS-Flair sind mächtige **Fraktionen**, die im Verborgenen über die
 Zeit hinweg agieren. Jede Fraktion - ob verbündete Zeitagenten-Orden, feindliche Chrono-Kartelle
 oder unabhängige historische Gruppierungen - verfolgt eigene Ziele. Um die Kampagne dynamisch und
@@ -193,7 +193,7 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
   bevor die Spielenden freie Aktionen haben.
 - Nach der Mission die Konsequenzen im Kampagnenlog notieren und ggf. Fraktionswerte anpassen.
 - Nach der Szene `log_intervention({'result': status, 'faction': fraktion,
-  'impact': konsequenz})` aufrufen. Das Makro erzeugt das HUD-Tag automatisch und
+'impact': konsequenz})` aufrufen. Das Makro erzeugt das HUD-Tag automatisch und
   speichert Status, Fraktion, Szene, Mission und optionale Felder wie
   `observer: true` (still beobachtend) oder `escalated: true` (offener Eingriff)
   im Save sowie im Arc-Dashboard.
@@ -206,6 +206,7 @@ Alle neuen Chrononauten starten als **Neutrale** beim Ordo Mnemonika und spielen
 den **Mischpool** — Preserve- und Trigger-Seeds rotieren frei.
 
 **Team-Kompatibilität:**
+
 - **Neutral + Preserve** = erlaubt (der Neutrale spielt im Preserve-Team mit)
 - **Neutral + Trigger** = erlaubt (der Neutrale spielt im Trigger-Team mit)
 - **Neutral + Neutral** = erlaubt (Mischpool)
@@ -223,6 +224,7 @@ Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
 **Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
 
 **Missionspools:**
+
 - **Mischpool-Modus (Standard):** Neutrale erhalten Missionen aus beiden Pools —
   Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
   Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
@@ -257,6 +259,7 @@ Bei Preserve will eine Fremdfraktion die Katastrophe auslösen, bei Trigger
 will eine Fremdfraktion sie verhindern. Preserve und Trigger kämpfen zusammen
 gegen diese äußeren Bedrohungen — sie sind Verbündete, keine Rivalen.
 Eine kurze Zusammenfassung der Abläufe bietet das Spieler-Handbuch.
+
 > **Hinweis:** In **Trigger-Missionen** müssen die dokumentierten Tragödien
 > historisch korrekt eintreten; ihre Verhinderung würde eine deutlich schlimmere
 > Katastrophe auslösen. Dieses Framing hält die Entscheidungen der Agenten
@@ -288,7 +291,9 @@ Eine kurze Zusammenfassung der Abläufe bietet das Spieler-Handbuch.
    passende Complications und NSC-Haltungen (Preserve defensiv, Trigger konfrontativ).
 5. **Debrief:** Beim Auswertungsschritt ruft die SL den passenden Call des aktiven
    Seeds auf — `history_ok_preserve()` oder `history_ok_trigger()`.
+
 #### Missionsablauf auf einen Blick {#mission-chart}
+
 ```mermaid
 flowchart LR
     A(Briefing) --> B(Infiltration)
@@ -297,7 +302,6 @@ flowchart LR
     D --> E(Exfiltration)
     E --> F(Debrief)
 ```
-
 
 ##### Trigger-Beispiel Titanic 1912 {#trigger-beispiel-titanic-1912}
 
@@ -327,7 +331,6 @@ Kriege.
 10. Konflikt - Gegner versucht weiterhin, Passagiere zu retten.
 11. Exfiltration - Via Zeitriss oder Rettungsboot entkommen.
 12. Debrief - Titanic sinkt, Zeitlinie stabil.
-
 
 ### Core- & Rift-Loop
 
@@ -390,7 +393,7 @@ gilt für Briefing, Szenenleitung und Tech-Aktionen dieser Contract:
 - **Anker-Begriffe trennen:**
   - **IA/RW-Anker** = Einsatzfenster (Insertion Anchor/Return Window).
   - **Fallanker** = konkreter Bezug im Fall (Objekt, Ort oder Person).
-  Die Szene nennt immer explizit, welche Ankerart gemeint ist.
+    Die Szene nennt immer explizit, welche Ankerart gemeint ist.
 - **Node nur physisch:** „Node" ist kein abstrakter Zugriffspunkt,
   sondern ein benennbares Objekt im Raum (z. B. Konsole, Relaiskasten,
   Funkmast, Deckerbuchse, Wartungspanel).
@@ -454,13 +457,13 @@ Das Rift-Tier-System unterteilt die Endgame-Progression in **fünf Stufen** mit
 klar definierten Levelspannen. Jeder Tier-Übergang bringt neue Mechaniken und
 Herausforderungen — nicht nur steigende Zahlenwerte.
 
-| Tier | Levelbreich | Seed-Tag   | Neue Mechaniken & Herausforderungen |
-| ---- | ----------- | ---------- | ----------------------------------- |
-| **1** | 1–24       | `early`    | Basis-Paramonster, einfache Anomalien; Fokus auf Erkundung und erste Rift-Erfahrung. |
-| **2** | 25–79      | `early-mid`| **Zwischenstufe:** Paramonster mit Phasen-Mechaniken (Enrage, Phasenwechsel); Umgebungseffekte (Zeitregen, Schwerkraft-Flimmern) als permanente Szenen-Modifier. Erste Cluster-Events möglich. |
-| **3** | 80–199     | `mid`      | Multi-Phase-Bosse mit Schwachstellen-Rotation; Rift-Instabilitäten erzwingen taktische Repositionierung; Seed-Kombinationen (zwei Seeds interagieren). |
-| **4** | 200–499    | `mid-late` | **Zwischenstufe:** Bosse nutzen eingeschränkte Chrono-Tricks (Zeitschleife einer Runde, Echo-Doppelgänger); Para-Fauna als permanente Begleittruppen; Cluster-Rifts mit parallelen Zielen (Containment + Neutralisierung). |
-| **5** | 500–1000   | `late`     | Apex-Paramonster mit voller Chrono-Suite; Seed-Ketten (Abschluss eines Seeds öffnet den nächsten); Rift-Kern-Zerstörung als Multi-Szenen-Showdown mit eigener Foreshadow-Sequenz. |
+| Tier  | Levelbreich | Seed-Tag    | Neue Mechaniken & Herausforderungen                                                                                                                                                                                        |
+| ----- | ----------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1** | 1–24        | `early`     | Basis-Paramonster, einfache Anomalien; Fokus auf Erkundung und erste Rift-Erfahrung.                                                                                                                                       |
+| **2** | 25–79       | `early-mid` | **Zwischenstufe:** Paramonster mit Phasen-Mechaniken (Enrage, Phasenwechsel); Umgebungseffekte (Zeitregen, Schwerkraft-Flimmern) als permanente Szenen-Modifier. Erste Cluster-Events möglich.                             |
+| **3** | 80–199      | `mid`       | Multi-Phase-Bosse mit Schwachstellen-Rotation; Rift-Instabilitäten erzwingen taktische Repositionierung; Seed-Kombinationen (zwei Seeds interagieren).                                                                     |
+| **4** | 200–499     | `mid-late`  | **Zwischenstufe:** Bosse nutzen eingeschränkte Chrono-Tricks (Zeitschleife einer Runde, Echo-Doppelgänger); Para-Fauna als permanente Begleittruppen; Cluster-Rifts mit parallelen Zielen (Containment + Neutralisierung). |
+| **5** | 500–1000    | `late`      | Apex-Paramonster mit voller Chrono-Suite; Seed-Ketten (Abschluss eines Seeds öffnet den nächsten); Rift-Kern-Zerstörung als Multi-Szenen-Showdown mit eigener Foreshadow-Sequenz.                                          |
 
 ##### Tier-Übergangs-Regeln
 
@@ -519,11 +522,11 @@ Der 5/10-Rhythmus zählt **Missionen** innerhalb einer Episode, nicht Szenen. Er
 fünften Mission tritt ein Mini-Boss auf, in der zehnten der Episoden-Boss. Rift-Operationen
 bilden eine Ausnahme: Ihr Boss erscheint in Szene 10.
 
-| Mission | Gegnertyp |
-| ------- | --------------------------------------------- |
-| 5       | Mini-Boss der aktuellen Epoche |
-| 10      | Episoden-Boss einer Zeitreise-Fraktion |
-| Rift Sz. 10 | Rift-Boss aus dem Para-Pool |
+| Mission     | Gegnertyp                              |
+| ----------- | -------------------------------------- |
+| 5           | Mini-Boss der aktuellen Epoche         |
+| 10          | Episoden-Boss einer Zeitreise-Fraktion |
+| Rift Sz. 10 | Rift-Boss aus dem Para-Pool            |
 
 Mini-Bosse nutzen keine Zeittricks. Episoden-Bosse dürfen genau einen kurzen Chrono-Effekt einbringen.
 
@@ -547,14 +550,14 @@ Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
 übermäßig zu strecken.
 
 ### Boss-Foreshadow Checklist (Szenen unverändert) {#boss-foreshadow}
+
 - Core-Ops:
   - Szene 4: **zwei** Foreshadows (z. B. Signatur-Waffe, Fluchtweg).
   - Szene 9: **zwei** Foreshadows (z. B. Gegnerdoktrin, Umgebungsrisiko).
 - Rift-Ops:
   - Szene 9: **zwei** Foreshadows (z. B. Sensor-Anomalie, Boss-Schwächehinweis).
 
-*Hinweis:* Boss erscheint weiterhin Core: **M5/M10**, Rift: **Szene 10**.
-
+_Hinweis:_ Boss erscheint weiterhin Core: **M5/M10**, Rift: **Szene 10**.
 
 #### Signaturtell (Boss-/Rift-Payoff)
 
@@ -586,17 +589,16 @@ Payoff bei 2/3 oder 3/3:
 - sauberer Exfil-Bonus / reduzierter Heat, **oder**
 - zusätzlicher Kodex-Hinweis für den Aha-Moment.
 
-
 #### Paradoxon-Subsystem
 
 Weitere Details stehen im
 [Paradoxon-Subsystem](../characters/zustaende.md#paradox-subsystem).
 Dieses Kapitel fasst die Effekte kurz zusammen:
 
-| Stufe | In-Mission-Effekt                       | HQ-Effekt                                    |
-| ----- | --------------------------------------- | -------------------------------------------- |
-| 0-4   | Stabil — keine mechanischen Effekte     | Fortschritt über HUD-Farbe sichtbar          |
-| **5** | Resonanzpeak erreicht                    | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
+| Stufe | In-Mission-Effekt                   | HQ-Effekt                                      |
+| ----- | ----------------------------------- | ---------------------------------------------- |
+| 0-4   | Stabil — keine mechanischen Effekte | Fortschritt über HUD-Farbe sichtbar            |
+| **5** | Resonanzpeak erreicht               | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
 
 Der Index wird kampagnenweit verfolgt. Bei Px 5 macht `ClusterCreate()` 1-2 neue
 Rift-Seeds sichtbar.
@@ -657,17 +659,17 @@ if episode_completed:
 
 #### Mission-Schema
 
-| Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
-| --------------------- | ------------ | ------------------ | ------------------------------- | --------------------- |
-| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | - | Spionage-Thriller    | `[CORE MISSION - …]`  |
+| Schiene      | Generator                         | Artefakte?                                              | Stil                 | HUD                   |
+| ------------ | --------------------------------- | ------------------------------------------------------- | -------------------- | --------------------- |
+| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | -                                                       | Spionage-Thriller    | `[CORE MISSION - …]`  |
 | **Rift-Ops** | RiftSeedTable d24                 | Artefaktwurf Boss Sz. 10 (Katalog/Generator, handelbar) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
 
 #### Missionsdauer vs. Soll-Szenen {#missionsdauer}
 
-| Format | Dauer IRL | Soll-Szenen | Beschreibung |
-| --------------------- | ------------ | ------------------ | ------------------------------- |
-| **Mission (Core-Op)** | 60-75 min | **12 Szenen** | "Netflix-Folge" - Cliffhanger, Level-Up |
-| **Rift-Op (X-File)**  | 90-120 min   | **14 Szenen**      | Action-Thriller - zwei Peaks,<br>Twist und Finale |
+| Format                | Dauer IRL  | Soll-Szenen   | Beschreibung                                      |
+| --------------------- | ---------- | ------------- | ------------------------------------------------- |
+| **Mission (Core-Op)** | 60-75 min  | **12 Szenen** | "Netflix-Folge" - Cliffhanger, Level-Up           |
+| **Rift-Op (X-File)**  | 90-120 min | **14 Szenen** | Action-Thriller - zwei Peaks,<br>Twist und Finale |
 
 #### Aktaufteilung pro Missionstyp
 
@@ -719,14 +721,14 @@ Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
 
 ### Staffel-Skeleton "Glanzlicht"
 
-| Ep | Phase | Arbeitstitel             | Kernmechanik                                     |
-| -- | ----- | ------------------------ | ------------------------------------------------ |
-| 1  | Core  | Lieferung aus dem Nichts | Phantom-Stahllieferung (Logistik vs. Sabotage)   |
-| 2  | Core  | Planer unter Zeitdruck   | Social-Heist im Baubüro                          |
-| 3  | Core  | Kanal unter dem Palast   | Understreet-Einbruch                             |
-| 4  | Core  | Der Schatten der Zukunft | Verfolgung / Gefecht mit Fremdfraktion           |
-| 5  | Core  | Die Nacht der Bauprobe   | Sicherung oder Einbau letzter Zukunfts-Bauteile  |
-| 6  | Core  | Bauabnahme               | Staffel-Finale: Showdown Bewahren vs. Auslösen   |
+| Ep  | Phase | Arbeitstitel             | Kernmechanik                                    |
+| --- | ----- | ------------------------ | ----------------------------------------------- |
+| 1   | Core  | Lieferung aus dem Nichts | Phantom-Stahllieferung (Logistik vs. Sabotage)  |
+| 2   | Core  | Planer unter Zeitdruck   | Social-Heist im Baubüro                         |
+| 3   | Core  | Kanal unter dem Palast   | Understreet-Einbruch                            |
+| 4   | Core  | Der Schatten der Zukunft | Verfolgung / Gefecht mit Fremdfraktion          |
+| 5   | Core  | Die Nacht der Bauprobe   | Sicherung oder Einbau letzter Zukunfts-Bauteile |
+| 6   | Core  | Bauabnahme               | Staffel-Finale: Showdown Bewahren vs. Auslösen  |
 
 Im Finale treffen beide Philosophien direkt aufeinander: Die Chrononauten wollen
 das Ereignis bewahren, die gegnerische Fraktion versucht es auszulösen (oder
@@ -771,7 +773,6 @@ Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
    Kodex-Begleitung, Fraktions-RP, Feilschen und Quartier-Rollenspiel.
 3. **Auto-HQ & Save** — automatische Abwicklung der HQ-Pflichtschritte; danach folgt **kein** automatischer Sprung ins nächste Briefing.
 
-
 #### Gameflow-Spickzettel (Core vs Rift) {#gameflow-spickzettel}
 
 ```mermaid
@@ -791,21 +792,23 @@ flowchart TD
     reset --> next
 ```
 
-| Element                  | **Core-Ops**                                            | **Rift-Ops**                                                  |
-| ------------------------ | ------------------------------------------------------- | ------------------------------------------------------------ |
-| Zielkorridor Szenen      | 12 (Gate öffnet nach 6-7)                               | 14 (Gate öffnet nach 6-7)                                    |
-| Foreshadow-Gate          | 4 eindeutige Marker vor Boss                            | 2 eindeutige Marker vor Boss                                 |
-| Boss-Rhythmus            | Mini-Boss Mission 5, Episoden-Boss Mission 10           | Boss in Szene 10 jeder Rift-Op                               |
-| Loot/Belohnungen         | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU| Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief    |
-| Paradoxon & Seeds        | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen   |
-| HQ-Pflichtschritte       | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → ITI-Ruf-Update (optional Fraktionssignal); dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
+| Element             | **Core-Ops**                                                                                                                                        | **Rift-Ops**                                               |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Zielkorridor Szenen | 12 (Gate öffnet nach 6-7)                                                                                                                           | 14 (Gate öffnet nach 6-7)                                  |
+| Foreshadow-Gate     | 4 eindeutige Marker vor Boss                                                                                                                        | 2 eindeutige Marker vor Boss                               |
+| Boss-Rhythmus       | Mini-Boss Mission 5, Episoden-Boss Mission 10                                                                                                       | Boss in Szene 10 jeder Rift-Op                             |
+| Loot/Belohnungen    | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU                                                                                            | Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief  |
+| Paradoxon & Seeds   | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende                                                                                          | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen |
+| HQ-Pflichtschritte  | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → ITI-Ruf-Update (optional Fraktionssignal); dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts erst nach Episodenende              |
 
 **HQ-Kurzcheck nach jeder Mission:**
+
 - Auto-Screen zeigen (Bewertung → Loot → CU → XP/Level-Up → ITI-Ruf-Update) — **immer automatisch**.
 - Offene Seeds und Paradoxon-Index anzeigen; Seed-Multi fürs Episodenende im Blick behalten.
 - HQ-Menü anbieten: Schnell-HQ (schnell wieder raus), Manuell (volle Szenen) oder Auto & Save.
 
 #### Offene Rifts
+
 In der HQ-Phase, nach Abschluss der Episode, entscheidet das Team pro Seed,
 ob es eindringt und ihn versiegelt oder bis später warten will.
 Der Bonus auf Probe-Schwelle und CU-Belohnung durch offene Rifts greift erst nach Beendigung der Episode.
@@ -844,10 +847,10 @@ werden nach jedem Entfernen neu verrechnet, sodass der Schwierigkeitsgrad stets
 aktuell bleibt. Bis zu zwei Seeds dürfen offen bleiben, um sie später selbst als
 Rift-Op zu spielen oder für künftige Plots zu parken.
 
-> **Beispiel** - *Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
+> **Beispiel** - _Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
 > einmal miterleben zu müssen, aber das ist nun mal der Lauf der Dinge. Dafür
 > haben wir den Mothman dingfest gemacht; der wird der Zeitlinie keinen Ärger
-> mehr bereiten. Leider hat sich Sarah W. verletzt, das kostet euch 3 CU."*
+> mehr bereiten. Leider hat sich Sarah W. verletzt, das kostet euch 3 CU."_
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
@@ -891,16 +894,17 @@ CU-Bonus: Spielerlevel × 10
 ```
 
 ##### Rift-Op Film-Template {#rift-op-film-template}
+
 Eine ausgedehnte Rift-Operation spielt sich wie ein Action-Thriller und nutzt
 ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt-Schema:
 
-| Akt | Kernszenen |
-| --- | --------- |
-| **A** | Einstieg, erste Spur, kleiner Konflikt |
+| Akt   | Kernszenen                                  |
+| ----- | ------------------------------------------- |
+| **A** | Einstieg, erste Spur, kleiner Konflikt      |
 | **B** | Nachforschungen, Mid-Twist, großer Showdown |
 
 | **C** | Finale, Aufräumen, Exit-Cliffhanger |
-*`NextScene()` nach jeder Szene*
+_`NextScene()` nach jeder Szene_
 
 Beispielaufruf:
 `StartMission(total=14, seed_id=13, objective="Signal-Leuchtturm sabotieren")`
@@ -929,6 +933,7 @@ enden im Showdown gegen ein Paramonster. Die Szenen im Überblick:
     kein Epilog-Wurf).
 
 Stilhinweise:
+
 - Tonalität mischt Mystery-Investigation und Thriller-Action.
 - Nur ein übernatürliches Phänomen; alles andere bleibt realistisch.
 - Paramonster bildet den Kern der Handlung.
@@ -944,7 +949,7 @@ Stilhinweise:
   wie Alltag und Betroffene wieder ins Lot kommen.
 - **Physicality-/Voice-Lock:** Auch Rift-Ops verlangen greifbare Hardware für Scans/Hacks/Comms
   (Linse, Sensor, Kabel/Relais, Terminal) und bleiben strikt in 3rd-Person-Erzählung
-  ohne VR/Disembodied-UIs. Chrononaut:innen führen dennoch permanent ihr Retina-MR-HUD
+  ohne VR/Disembodied-UIs. Chrononauten führen dennoch permanent ihr Retina-MR-HUD
   (Terminator-Stil), das alle Tags und Toasts zeigt.
 - **HUD-Schlankheit:** `MODE RIFT` zeigt die Seed-ID samt Risiko/Hook, Toast-Limit 2 pro Szene;
   Foreshadow-Status und Boss-Gate bleiben unverändert im Overlay.
@@ -958,7 +963,7 @@ Stilhinweise:
 - **Urban-Legend-Hook:** Seeds bevorzugen bodenständige, greifbare Motive (verlassene Fabrik,
   Stadtrand-Wald, U-Bahn-Station) und eine Legende, die sich auf ein einzelnes Wesen zurückführt
   - Zeitreisender Psychopath, Echo-Kreatur, parasitäres Tier. Das Wesen hat meist eine Zeit- oder
-  Raum-Signatur (Freeze, Rewind, Phasen-Sprung), die im Kampf ausgespielt werden kann.
+    Raum-Signatur (Freeze, Rewind, Phasen-Sprung), die im Kampf ausgespielt werden kann.
 - **Twist verdeckt halten:** Ziehe aus dem Rift-Seed (oder dem Mid-Twist-Pool) einen verborgenen
   Wendepunkt und notiere ihn als SL-Flag; erst Szene 8 legt den Twist offen.
 - **Fraktionsbeat loggen:** Lege beim Briefing einen Fraktions-Hook (z. B. Kartell, Archiv, Tempest)
@@ -967,6 +972,7 @@ Stilhinweise:
   im Log erscheinen Seed-ID, Risiko und Hook.
 
 Beispiel-Seed-Zeile (Rift):
+
 ```
 Seed #R-118  ·  Anchor: stillgelegte U-Bahn "Neonfurt"  ·  Auftrag: neutralize  ·  Twist: Täter ist ein
 zeitversetzter Serienmörder (para) mit gestohlener Stoppuhr als Artefakt-Katalysator  ·  Fraktionsbeat: Archiv will Opferlisten sichern
@@ -996,19 +1002,19 @@ Risiko: R3  ·  Hook: kalter Atem in leeren Zügen
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
-
 ##### Mini-Walkthrough London-Arc - Endgültige Fassung {#mini-walkthrough-london-arc}
 
 ```yaml
 # gameplay/kampagnenstruktur.md - Abschnitt Mini-Walkthrough London-Arc
 title: "Mini-Walkthrough London-Arc"
 id: EX-PRES-1851-LON
-type: core_op            # wichtig: nicht rift_op
+type: core_op # wichtig: nicht rift_op
 preserve_only: true
 version: 4.2.6
 ```
 
 **Mission 1 - Chrono Heist**
+
 1. Briefing - Auftrag: Brand im Crystal Palace verhindern.
 2. Infiltration - Lieferkutsche schmuggelt Team aufs Gelände.
 3. Kontakt - Bestechung eines Wachmanns öffnet Seitentor.
@@ -1025,6 +1031,7 @@ version: 4.2.6
 **HQ-Phase 1** - Paradoxon < 5, kein ClusterCreate().
 
 **Mission 2 - Gasleitung stoppen**
+
 1. Briefing - Seed R-089 droht Explosion am Ausstellungstag.
 2. Infiltration - Abwasserkanal führt unter das Gelände.
 3. Kontakt - Arbeiter melden unregelmäßige Lieferung.
@@ -1041,6 +1048,7 @@ version: 4.2.6
 **HQ-Phase 2** - Seed bleibt offen; Schwelle +1, CU ×1.2.
 
 **Mission 3 - ARGOS-Venture zerschlagen**
+
 1. Briefing - Letzte Hinweise auf ARGOS-Führer.
 2. Infiltration - Nachtmarkt um den Palast.
 3. Kontakt - Informant liefert Standortcode.
@@ -1055,17 +1063,19 @@ version: 4.2.6
 12. Debrief - Crystal Palace intakt, Arc abgeschlossen.
 
 **Epilog** - Seed R-089 weiter offen für spätere Rift-Op.
+
 ##### Mini-Walkthrough Mauerbau 1961 {#mini-walkthrough-mauerbau-1961}
 
 ```yaml
 # gameplay/kampagnenstruktur.md - Abschnitt Mini-Walkthrough Mauerbau 1961
 title: "Mini-Walkthrough Mauerbau 1961"
 id: EX-TRIG-1961-BER
-trigger_only: true  # eindeutiger Modus
+trigger_only: true # eindeutiger Modus
 version: 4.2.6
 ```
 
 **Mission 1 - Erste Kontakte**
+
 1. Briefing - Ost-Berlin wird abgeriegelt, Schleuserwege kartieren.
 2. Infiltration - Kontrollposten beobachten und Umwege testen.
 3. Kontakt - Schleusernetz ansprechen, Papiere besorgen.
@@ -1080,6 +1090,7 @@ version: 4.2.6
 12. Debrief - Index 1/5, Lage weiter gespannt.
 
 **Mission 2 - Pläne sichern**
+
 1. Briefing - Bauleitung überwacht Materialzugänge.
 2. Infiltration - Archiv im Verwaltungsbau infiltrieren.
 3. Kontakt - Stasi-Logistiker bietet Hilfe gegen Schutzgeld.
@@ -1094,6 +1105,7 @@ version: 4.2.6
 12. Debrief - Seed offen, Index 3/5.
 
 **Mission 3 - Aufruhr entfachen**
+
 1. Briefing - Unruhen sollen Mauerbau erzwingen.
 2. Infiltration - Versammlungen koordinieren.
 3. Kontakt - Oppositionelle Gruppen zusammentrommeln.
@@ -1108,6 +1120,7 @@ version: 4.2.6
 12. Debrief - Mauerbau beschleunigt, Zeitlinie stabil.
 
 **Epilog** - Grenzanlagen entstehen 12./13. August, Fluchtwege reißen ab.
+
 ##### Preserve-Arc Salamis 480 v. Chr. {#preserve-arc-salamis-480}
 
 ```yaml
@@ -1135,28 +1148,28 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 > **Chrompunk-Flair:** Chrom-Söldner im Linothorax-Kevlar,
 > Projektionshelme mit Hoplit-Kamm, "Bronze"-Smartguns und Wachstafel-Cyberdecks.
 
-| # | Datum/Phase 480u202f v.u202f Chr. | Codename | Schauplatz | Preserve | ARGOS-Hook |
-| -- | ---------------------- | -------- | ---------- | -------- | ---------- |
-| 1 | 26. Aug. - Morgengrauen | **Dry Dock** | Korinthische Werft | Brandpfeile sabotieren, Schiffsrumpf beschädigen. |
-|   |   |   |   | 3 Bruiser + Urwolf eskortieren Waffen → Nachtkampf auf Triremen |
-| 2 | 27. Aug. Mittag | **Copper Quill** | Delphi-Amphiktyonie | Orakelrolle fälschen: 'Seemauern retten Hellas.' |
-|   |   |   |   | Face + Hack-Monk säen Panik → Nahkampf im Adyton |
-| 3 | 31. Aug. | **Phalanx Key** | Sparta, Gerusia | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee). |
-|   |   |   |   | Silver-Tongue besticht Rat → Rededuell, dann Hoplit-Gunfight im Hof |
-| 4 | 2. Sept. | **Aegis-Schaltpunkt** | Ägina-Signalfeuer | Bewahre Feuerkette - falsches Signal ändert Flottenorden. |
-|   |   |   |   | Drohnen-Rigger zündet Kupfer-Ornithopter-Fackel → Felsenklippen-Duell |
-| 5 | 10. Sept. | **Iron Marble** | Piräus-Lager | Persische Skorpion-Ballista-Vorräte zerstören. |
-|   |   |   |   | Merc-Squad infiltriert als 'Bauern' → Lagerbrand, Kurzfeuergefechte |
-| 6 | 18. Sept. | **Owl Cipher** | Akropolis-Krypta | Geheime Seekriegs-Kodexe von Themistokles sichern. |
-|   |   |   |   | Bruiser, Urwolf, Sniper stürmen Höhle → CQB in Karyatiden-Gängen |
-| 7 | 20. Sept. | **Channel Ghost** | Meerenge von Salamis | Seil-Boom stören, die Engpass blockieren soll. |
-|   |   |   |   | Combat-Divers legen Minen → Unterwasser-Fight an Bronze-Ketten |
-| 8 | 21. Sept. Vor-Dämmerung | **Red Keel** | Vorhut-Reede | ARGOS-Dronen von Xerxes' Flaggschiff entfernen. |
-|   |   |   |   | Samurai-Bodyguard + Rigger → Stealth-Katana vs. Smart-Kopis |
-| 9 | 22. Sept. Schlacht | **Mist Spear** | Deck der Athená Nicé | Admiralsflagge sichern - Signal fürs Gegenrammen. |
-|   |   |   |   | Sniper auf Nebelschiff, Urwolf an Kette → Mastkletter-Schusswechsel |
-| 10 | 22. Sept. Ende | **Azure Break** | Xerxes' Thron | Xerxes nicht evakuieren - er muss Rückzug befehlen. |
-|    |   |   |   | Elite-Handler + Heavy-Merc-Schilde decken Xerxes → Finale Strand-Schlacht (Samurai Gorō hilft) |
+| #   | Datum/Phase 480u202f v.u202f Chr. | Codename              | Schauplatz           | Preserve                                                                                       | ARGOS-Hook |
+| --- | --------------------------------- | --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- | ---------- |
+| 1   | 26. Aug. - Morgengrauen           | **Dry Dock**          | Korinthische Werft   | Brandpfeile sabotieren, Schiffsrumpf beschädigen.                                              |
+|     |                                   |                       |                      | 3 Bruiser + Urwolf eskortieren Waffen → Nachtkampf auf Triremen                                |
+| 2   | 27. Aug. Mittag                   | **Copper Quill**      | Delphi-Amphiktyonie  | Orakelrolle fälschen: 'Seemauern retten Hellas.'                                               |
+|     |                                   |                       |                      | Face + Hack-Monk säen Panik → Nahkampf im Adyton                                               |
+| 3   | 31. Aug.                          | **Phalanx Key**       | Sparta, Gerusia      | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee).                                  |
+|     |                                   |                       |                      | Silver-Tongue besticht Rat → Rededuell, dann Hoplit-Gunfight im Hof                            |
+| 4   | 2. Sept.                          | **Aegis-Schaltpunkt** | Ägina-Signalfeuer    | Bewahre Feuerkette - falsches Signal ändert Flottenorden.                                      |
+|     |                                   |                       |                      | Drohnen-Rigger zündet Kupfer-Ornithopter-Fackel → Felsenklippen-Duell                          |
+| 5   | 10. Sept.                         | **Iron Marble**       | Piräus-Lager         | Persische Skorpion-Ballista-Vorräte zerstören.                                                 |
+|     |                                   |                       |                      | Merc-Squad infiltriert als 'Bauern' → Lagerbrand, Kurzfeuergefechte                            |
+| 6   | 18. Sept.                         | **Owl Cipher**        | Akropolis-Krypta     | Geheime Seekriegs-Kodexe von Themistokles sichern.                                             |
+|     |                                   |                       |                      | Bruiser, Urwolf, Sniper stürmen Höhle → CQB in Karyatiden-Gängen                               |
+| 7   | 20. Sept.                         | **Channel Ghost**     | Meerenge von Salamis | Seil-Boom stören, die Engpass blockieren soll.                                                 |
+|     |                                   |                       |                      | Combat-Divers legen Minen → Unterwasser-Fight an Bronze-Ketten                                 |
+| 8   | 21. Sept. Vor-Dämmerung           | **Red Keel**          | Vorhut-Reede         | ARGOS-Dronen von Xerxes' Flaggschiff entfernen.                                                |
+|     |                                   |                       |                      | Samurai-Bodyguard + Rigger → Stealth-Katana vs. Smart-Kopis                                    |
+| 9   | 22. Sept. Schlacht                | **Mist Spear**        | Deck der Athená Nicé | Admiralsflagge sichern - Signal fürs Gegenrammen.                                              |
+|     |                                   |                       |                      | Sniper auf Nebelschiff, Urwolf an Kette → Mastkletter-Schusswechsel                            |
+| 10  | 22. Sept. Ende                    | **Azure Break**       | Xerxes' Thron        | Xerxes nicht evakuieren - er muss Rückzug befehlen.                                            |
+|     |                                   |                       |                      | Elite-Handler + Heavy-Merc-Schilde decken Xerxes → Finale Strand-Schlacht (Samurai Gorō hilft) |
 
 ### Gegner-Roster (kompakt)
 
@@ -1187,7 +1200,7 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
 
-*45-Minuten-Demo, Tannenberg/Grunwald - kompaktes 12-Szenen-Format zur Einführung*
+_45-Minuten-Demo, Tannenberg/Grunwald - kompaktes 12-Szenen-Format zur Einführung_
 
 > **ZEITPUNKT** 15. Juli 1410 - Vorabend der Schlacht von Tannenberg
 > **ORT** Hügelkuppe "Witold-Höhe", 2 km südwestlich des Heerlagers der Ordensritter
@@ -1204,7 +1217,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 
 ###### Szenenübersicht
 
-*`NextScene()` nach Szene 12.*
+_`NextScene()` nach Szene 12._
 | # | Ort | Konflikt | Ziel | Spur | SG |
 |---|----|---------|-----|-----|----|
 | 1 | Nullzeit-Bunker | Zeitdruck, Lauscher | Einsatzplan schmieden | Orden spioniert | 5 |
@@ -1219,26 +1232,29 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 | 10 | Hofpassage | Ritter greifen an | Zeitriss erreichen | Pferde scheuen | 8 |
 | 11 | Waldrand | Verfolger abschütteln | Rücksprungpunkt erreichen | Turm brennt nicht | 6 |
 | 12 | Debrief im HQ | - | Bericht abliefern | Orden sucht Täter | - |
+
 ##### Kurzabenteuer "Operation GLASLÄUFER" {#operation-glaslaeufer}
 
-*10-Seiten-Outline, Berlin 1961*
+_10-Seiten-Outline, Berlin 1961_
 
-| # | Ort | Konflikt | Ziel | Spur | SG |
-|---|----|---------|-----|-----|----|
-| 1 | HQ-Briefing | straffer Zeitplan | Auftrag besprechen | Funkmast-Foto | 5 |
-| 2 | Checkpoint Charlie | misstrauische Grenzer | Einreise sichern | Baukolonne im Hintergrund | 6 |
-| 3 | Straßenmarkt | neugieriger Informant | Stasi-Ingenieur finden | Gerücht Funkstörung | 6 |
-| 4 | Baucontainer | versteckte Mikrofone | Pläne kopieren | abgenutztes Siegel | 7 |
-| 5 | Funkmast-Basis | Patrouille prüft Ausweise | Zugang zum Mast | Aktentasche voller Skizzen | 8 |
-| 6 | Wartungsgang | Reparaturtrupp taucht auf | Abhörgerät platzieren | Dröhnen setzt ein | 8 |
-| 7 | Versorgungsraum | Zeitsoldaten erscheinen | Kampf vermeiden | Index steigt auf 1 | 9 |
-| 8 | Container-Hack | Alarm ausgelöst | Steuerung sichern | Peilsender piept | 9 |
-| 9 | Flucht zur Spree | Scheinwerfer suchen | Dampfer erreichen | Hund bellt am Kai | 7 |
-| 10 | Dampferdeck | Verfolger feuern | Abfahrt erzwingen | Funkspruch "Ziel flieht" | 8 |
-| 11 | Spree-Ufer | Motorboot jagt | Abstand gewinnen | Wasserpegel steigt | 7 |
-| 12 | HQ-Debrief | - | Einsatz bewerten | Zeitsoldaten aktiv | - |
-*`NextScene()` nach Szene 12.*
-*Start in 60 Sek.*
+| #   | Ort                | Konflikt                  | Ziel                   | Spur                       | SG  |
+| --- | ------------------ | ------------------------- | ---------------------- | -------------------------- | --- |
+| 1   | HQ-Briefing        | straffer Zeitplan         | Auftrag besprechen     | Funkmast-Foto              | 5   |
+| 2   | Checkpoint Charlie | misstrauische Grenzer     | Einreise sichern       | Baukolonne im Hintergrund  | 6   |
+| 3   | Straßenmarkt       | neugieriger Informant     | Stasi-Ingenieur finden | Gerücht Funkstörung        | 6   |
+| 4   | Baucontainer       | versteckte Mikrofone      | Pläne kopieren         | abgenutztes Siegel         | 7   |
+| 5   | Funkmast-Basis     | Patrouille prüft Ausweise | Zugang zum Mast        | Aktentasche voller Skizzen | 8   |
+| 6   | Wartungsgang       | Reparaturtrupp taucht auf | Abhörgerät platzieren  | Dröhnen setzt ein          | 8   |
+| 7   | Versorgungsraum    | Zeitsoldaten erscheinen   | Kampf vermeiden        | Index steigt auf 1         | 9   |
+| 8   | Container-Hack     | Alarm ausgelöst           | Steuerung sichern      | Peilsender piept           | 9   |
+| 9   | Flucht zur Spree   | Scheinwerfer suchen       | Dampfer erreichen      | Hund bellt am Kai          | 7   |
+| 10  | Dampferdeck        | Verfolger feuern          | Abfahrt erzwingen      | Funkspruch "Ziel flieht"   | 8   |
+| 11  | Spree-Ufer         | Motorboot jagt            | Abstand gewinnen       | Wasserpegel steigt         | 7   |
+| 12  | HQ-Debrief         | -                         | Einsatz bewerten       | Zeitsoldaten aktiv         | -   |
+
+_`NextScene()` nach Szene 12._
+_Start in 60 Sek._
+
 1. Wählt Pre-Gen-Operative.
 2. Das ITI stellt ein Standard-Loadout kostenlos bereit; Zusatzgear kostet
    CUs (siehe Modul 15).
@@ -1246,10 +1262,11 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 
 ##### Beispiel-Episoden & Rift-Op {#beispiel-episoden}
 
-*Hinweis:* Die folgenden Listen zeigen einzelne Missionen.
+_Hinweis:_ Die folgenden Listen zeigen einzelne Missionen.
 Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem Fall.
 
 **Episode 1 - OKO FALSE-ALARM**
+
 1. Briefing in Nullzeit-Atrium - Petrow retten, Atomkrieg verhindern.
 2. Moskau-Vorstadt: Schwarzmarkt-Kontakt für Uniform.
 3. LKW-Kontrolle: falsche Papiere überzeugen.
@@ -1264,6 +1281,7 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 12. Debrief - 300 CU + Lizenz-Shop.
 
 **Episode 4 - FALKENSTEIN NACHTJAGD**
+
 1. Briefing - Burggraf verkauft Zukunfts-Tech.
 2. Dorf-Schankstube: Gerücht, Geheimgang entdecken.
 3. Nacht-Wald, Armbrust-Patrouille.
@@ -1278,6 +1296,7 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 12. Debrief - 450 CU.
 
 **Episode 9 - TITAN DRIFT**
+
 1. Briefing - Kolonisten 99 % tot, Anomalie stoppen.
 2. Dock-Schleuse: Vereiste Panels, Energie 3 %.
 3. Dunkel-Korridor, Leichensäcke treiben.
@@ -1292,6 +1311,7 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 12. Debrief - 700 CU, möglicher T3-Kauf.
 
 **Rift-Op Mothman Bridge**
+
 1. Briefing - Sturzregen über Virginias Highway; flackernde Lichter und gesperrte Brücken beunruhigen die Polizei.
 2. Anreise bei Sturm, Brückenbauwerk gesperrt.
 3. Local Witness - verängstigter Trucker berichtet von roten Augen.
@@ -1367,6 +1387,7 @@ Motivation enorm steigert.
 ### Erweiterte Zeitreise-Regeln
 
 #### Selbstbegegnung - "Zeit-Double"
+
 - Ein Agent kann sich nie bewusst selbst begegnen - mehrere Ichs würden die Realität zerreißen.
 - Bereits der Versuch ruft die Kausalklingen auf den Plan und erzwingt einen sofortigen Notfallrücksprung.
 
@@ -1375,10 +1396,10 @@ Motivation enorm steigert.
 Kennzeichne Missionen mit ein bis zwei kurzen Tags, um zu zeigen, welche
 Fähigkeiten dort glänzen. Beispiele:
 
-| Tag        | Effekt                                                        |
-|-----------|---------------------------------------------------------------|
-| **dicht** | Viele Deckungen, kurze Sicht - Infiltratoren im Vorteil       |
-| **erhöht** | Offene Höhenlagen, ideal für Scharfschützen                  |
+| Tag           | Effekt                                                         |
+| ------------- | -------------------------------------------------------------- |
+| **dicht**     | Viele Deckungen, kurze Sicht - Infiltratoren im Vorteil        |
+| **erhöht**    | Offene Höhenlagen, ideal für Scharfschützen                    |
 | **überfüllt** | Zivilistenströme erschweren Feuergefechte, fördern Social Play |
 
 ## HQ-Betrieb und Zugangsfreigaben
@@ -1440,9 +1461,10 @@ das den Spielern noch mehr Investition in die Handlung gibt.
 ### Beziehungen zu NSCs aufbauen
 
 NSCs (Nicht-Spieler-Charaktere) - ob historische Persönlichkeiten, Zeitreisende oder Kollegen im HQ
+
 - sollten in einer langen Kampagne wiederkehrend auftreten und Profil gewinnen. Um die Beziehungen
-zu diesen Figuren greifbar zu machen, kann die Spielleitung ein **Beziehungswert** oder zumindest
-einen notierten Status für wichtige NSCs einführen.
+  zu diesen Figuren greifbar zu machen, kann die Spielleitung ein **Beziehungswert** oder zumindest
+  einen notierten Status für wichtige NSCs einführen.
 
 - **Beziehungsstufen:** Legt für Schlüsselfiguren fest, wie eng das Verhältnis zu den Agenten ist.
   Zum Beispiel: 0 = Feindselig, 1 = Neutral, 2 = Verbündet, 3 = Vertraut, 4 = Eng befreundet. Die
@@ -1522,29 +1544,32 @@ werden im HQ erworben. Sie sind an Teamzusammensetzung und Archetypen-Kombinatio
 gekoppelt und liefern **echte Mechanik**, nicht nur Flavor.
 
 **Regeln:**
+
 - Ein Team hat **maximal 2 aktive Perks** gleichzeitig.
 - Ein Perk kostet **500 CU** und erfordert mindestens **3 gemeinsame Missionen**.
 - Perks können im HQ gewechselt werden (Kosten: 200 CU Umschulung).
 
-| # | Perk | Voraussetzung | Mechanik |
-|---|------|---------------|----------|
-| 1 | **Diplomatenteam** | Mind. 1 Face-Archetyp | 1×/Begegnung: eine Sozialprobe erhält **Vorteil** (besserer von 2 Würfen zählt). |
-| 2 | **Datenverbund** | Mind. 1 Tech-Archetyp | Dauerhafte Vernetzung: **+1** auf koordinierte Aktionen (Tandem-Proben). |
-| 3 | **Kampfverbund** | Mind. 2 Kampf-Archetypen | **+1** auf Angriff und Abwehr; 1×/Kampf dürfen zwei Agenten einen Gegner mit kombiniertem Angriff ausschalten (kein separater SG). |
-| 4 | **Fahrzeug-Crew** | Mind. 1 Agent mit Drohnensteuerung/Fahrzeug-Talent | **+2** auf Fahrzeugwürfe, solange ein Mitglied aktiv unterstützt. |
-| 5 | **Feldklinik** | Mind. 1 Medic-Archetyp | Nach jedem Gefecht regeneriert jeder Agent **+1 LP** automatisch. |
-| 6 | **Geistertruppe** | Mind. 2 Infiltrations-Archetypen | **Vorteil** auf die erste Infiltrations- oder Sabotage-Probe pro Szene. |
-| 7 | **Ballistische Optik 2.0** | Mind. 1 Sniper-Archetyp | 1×/Mission: **+2** auf einen Fernkampfwurf von vorbereiteter Position. |
-| 8 | **Ricochet Tag** | Mind. 1 CQB + 1 Fernkämpfer | Markiert ein Ziel per Abpraller-Schuss; der nächste Angriff gegen das Ziel ignoriert **1 Punkt Deckung/DR**. |
-| 9 | **Psi-Resonanzfeld** | Mind. 2 Agenten mit `has_psi` | 1×/Mission: alle Psi-Proben in einer Szene erhalten **+1**; danach +1 Psi-Heat für alle Beteiligten. |
-| 10 | **Temporale Synergie** | Mind. 1 Agent mit TEMP ≥ 8 | 1×/Episode: ein Agent darf eine **misslungene TEMP-Probe** wiederholen (Reroll, besseres zählt). |
-| 11 | **Sprachgitter** | Mind. 1 Polyglott-Talent im Team | Das Team erhält automatisch Basis-Übersetzung für die aktuelle Epoche — keine Probe nötig für einfache Verständigung. |
-| 12 | **Sturmbrecher** | Teamgröße 4+ | 1×/Mission: das Team ignoriert eine feindliche **Fraktionsintervention** komplett (Würfelwurf entfällt). |
+| #   | Perk                       | Voraussetzung                                      | Mechanik                                                                                                                           |
+| --- | -------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Diplomatenteam**         | Mind. 1 Face-Archetyp                              | 1×/Begegnung: eine Sozialprobe erhält **Vorteil** (besserer von 2 Würfen zählt).                                                   |
+| 2   | **Datenverbund**           | Mind. 1 Tech-Archetyp                              | Dauerhafte Vernetzung: **+1** auf koordinierte Aktionen (Tandem-Proben).                                                           |
+| 3   | **Kampfverbund**           | Mind. 2 Kampf-Archetypen                           | **+1** auf Angriff und Abwehr; 1×/Kampf dürfen zwei Agenten einen Gegner mit kombiniertem Angriff ausschalten (kein separater SG). |
+| 4   | **Fahrzeug-Crew**          | Mind. 1 Agent mit Drohnensteuerung/Fahrzeug-Talent | **+2** auf Fahrzeugwürfe, solange ein Mitglied aktiv unterstützt.                                                                  |
+| 5   | **Feldklinik**             | Mind. 1 Medic-Archetyp                             | Nach jedem Gefecht regeneriert jeder Agent **+1 LP** automatisch.                                                                  |
+| 6   | **Geistertruppe**          | Mind. 2 Infiltrations-Archetypen                   | **Vorteil** auf die erste Infiltrations- oder Sabotage-Probe pro Szene.                                                            |
+| 7   | **Ballistische Optik 2.0** | Mind. 1 Sniper-Archetyp                            | 1×/Mission: **+2** auf einen Fernkampfwurf von vorbereiteter Position.                                                             |
+| 8   | **Ricochet Tag**           | Mind. 1 CQB + 1 Fernkämpfer                        | Markiert ein Ziel per Abpraller-Schuss; der nächste Angriff gegen das Ziel ignoriert **1 Punkt Deckung/DR**.                       |
+| 9   | **Psi-Resonanzfeld**       | Mind. 2 Agenten mit `has_psi`                      | 1×/Mission: alle Psi-Proben in einer Szene erhalten **+1**; danach +1 Psi-Heat für alle Beteiligten.                               |
+| 10  | **Temporale Synergie**     | Mind. 1 Agent mit TEMP ≥ 8                         | 1×/Episode: ein Agent darf eine **misslungene TEMP-Probe** wiederholen (Reroll, besseres zählt).                                   |
+| 11  | **Sprachgitter**           | Mind. 1 Polyglott-Talent im Team                   | Das Team erhält automatisch Basis-Übersetzung für die aktuelle Epoche — keine Probe nötig für einfache Verständigung.              |
+| 12  | **Sturmbrecher**           | Teamgröße 4+                                       | 1×/Mission: das Team ignoriert eine feindliche **Fraktionsintervention** komplett (Würfelwurf entfällt).                           |
+
 ### Solo Ops {#solo-ops}
 
 Solo-Spieler können den Run mit `npc-team 0-4` als echte Teamkonstellation
 starten. Ist kein Feld-NPC aktiv, liefert eine taktische Begleitdrohne
 weiterhin die minimale Wingman-Interaktion. Nutze dafür folgendes Template:
+
 - **NPC Tac-Drone** - Robustheit 1, kleine Schwebdrohne; +1 auf Wahrnehmungs- und Zielerfassungswürfe.
 
 Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**.
@@ -1578,7 +1603,7 @@ still zu verschwinden und können mit neuer Spur wieder auftauchen.
 4. **Spotlight-Verstärker:** Die Spielleitung nutzt NPCs, um den Spotlight
    auf die Spielercharaktere zu lenken - nicht, um ihn ihnen zu nehmen.
    Beispiele:
-   - Ein NPC ruft: *"Die Schaltung ist zu komplex - das schaffst nur du, Alex!"*
+   - Ein NPC ruft: _"Die Schaltung ist zu komplex - das schaffst nur du, Alex!"_
    - Ein NPC hält den Feind hin, damit der Spielercharakter den
      entscheidenden Hack durchführen kann.
    - Ein NPC liefert den Hinweis, aber die Spieler treffen die Entscheidung.
@@ -1588,8 +1613,8 @@ still zu verschwinden und können mit neuer Spur wieder auftauchen.
    an die Spieler weiter**, statt selbst zu handeln.
 
 > **Spielleitung-Kurzregel:** Wenn du dir unsicher bist, ob ein NPC zu viel tut,
-> stell dir die Frage: *Würde diese Aktion in einer Serie dem Nebendarsteller
-> oder dem Hauptcharakter gehören?* Wenn Hauptcharakter → Spieler machen lassen.
+> stell dir die Frage: _Würde diese Aktion in einer Serie dem Nebendarsteller
+> oder dem Hauptcharakter gehören?_ Wenn Hauptcharakter → Spieler machen lassen.
 
 ### Nicht-temporale Beobachterinstanzen {#beobachterinstanzen}
 
@@ -1602,64 +1627,63 @@ Sie misstrauen ungewoehnlichen Ereignissen und stoeren mit Ermittlungen.
 
 Diese Beobachter helfen den Agenten nicht, sondern erzeugen Reibung, ohne als Fraktion aufzutreten.
 
-
 ### Encounter-Pools außerhalb des HQ {#encounter-pools-ausser-hq}
 
 #### 1 Einsatzkategorien & Nutzung
 
-| Kategorie | Phase | Typischer Einsatz | Wurf-Empfehlung |
-| --------- | ----- | ----------------- | --------------- |
-| **CORE OPS** | Aufklärung → Zugriff → Exfiltration | Standardmissionen (Sabotage, Sicherung, Extraction) | 1W12 |
-| **RIFT OPS** | Bei Paradoxon ≥ 2 oder Cluster-Events | Umgang mit Zeitrissen & Anomalien | 1W10 |
-| **FIELD DOWNTIME** | Reiseabschnitt, Low-Signal-Momente | Kurze Verschnaufpausen fernab des HQ | 1W8 |
+| Kategorie          | Phase                                 | Typischer Einsatz                                   | Wurf-Empfehlung |
+| ------------------ | ------------------------------------- | --------------------------------------------------- | --------------- |
+| **CORE OPS**       | Aufklärung → Zugriff → Exfiltration   | Standardmissionen (Sabotage, Sicherung, Extraction) | 1W12            |
+| **RIFT OPS**       | Bei Paradoxon ≥ 2 oder Cluster-Events | Umgang mit Zeitrissen & Anomalien                   | 1W10            |
+| **FIELD DOWNTIME** | Reiseabschnitt, Low-Signal-Momente    | Kurze Verschnaufpausen fernab des HQ                | 1W8             |
 
 _Regel: Würfle bei Szenenübergang oder dramaturgischer Flaute; Ergebnisse dürfen frei interpretiert
 oder logisch ersetzt werden._
 
 #### 2 CORE OPS-Pool (1W12)
 
-| Wurf | Kodex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
-| ---- | -------- | ----------------------- | -------- | -------- | --------- |
-| 1 | **EC-CORE-001** | *Grenzposten 1985*: Soldaten filzen Waggon; Team versteckt Gear. | Stealth / Social | 9 | 0 |
-| 2 | **EC-CORE-002** | *Hochhaus-Abseilroute 2072*: Plattform-Einstieg, Sturm. | Infiltration / Klettern | 11 | 0 |
-| 3 | **EC-CORE-003** | *Stromausfall 1999*: Notstrom, Fenster 10 Min. | Tech / Sabotage | 10 | +1 bei Verzögerung |
-| 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf Relikt; Rivalen anwesend. | Social / Bluff | 8 | 0-1 |
-| 5 | **EC-CORE-005** | *Konvoi-Hinterhalt*: Drohne meldet Routen-Split. | Kampf / Fahrzeug | 12 | 0 |
-| 6 | **EC-CORE-006** | *Fabrikloft-Labor 2025*: Bio-Schleuse, Chefin da. | Hack / Psi | 10 | +1 bei Psi-Einsatz |
-| 7 | **EC-CORE-007** | *Flusskanal-Zufahrt 1643*: Tor öffnet nur heute bei Vollmond. | Survival / Timing | 9 | 0 |
-| 8 | **EC-CORE-008** | *Mediensturm*: Kameras rollen. | Social / Disguise | 10 | -1 (Px) bei Live-Übertragung |
-| 9 | **EC-CORE-009** | *Cipher-Server NB-II*: Admin anwesend, kennt Logs. | Tech / Social | 11 | 0 |
-| 10 | **EC-CORE-010** | *U-Bahn-Flucht*: Zielperson springt in Zug, Notbremse deaktiviert. | Chase | 10 | 0 |
-| 11 | **EC-CORE-011** | *Magnetbahn-Deraillieren 2334*: Schiene sabotiert, Chaos. | Infiltration / Repair | 12 | +1 |
-| 12 | **EC-CORE-012** | *Orbital-Relais Beta*: Außenbord-Hatch klemmt, Mikro-Meteoriten. | EVA / Tech | 13 | 0 |
+| Wurf | Kodex-ID        | Encounter & Kurzbriefing                                           | Konflikt                | Basis-DC | Paradoxon                    |
+| ---- | --------------- | ------------------------------------------------------------------ | ----------------------- | -------- | ---------------------------- |
+| 1    | **EC-CORE-001** | _Grenzposten 1985_: Soldaten filzen Waggon; Team versteckt Gear.   | Stealth / Social        | 9        | 0                            |
+| 2    | **EC-CORE-002** | _Hochhaus-Abseilroute 2072_: Plattform-Einstieg, Sturm.            | Infiltration / Klettern | 11       | 0                            |
+| 3    | **EC-CORE-003** | _Stromausfall 1999_: Notstrom, Fenster 10 Min.                     | Tech / Sabotage         | 10       | +1 bei Verzögerung           |
+| 4    | **EC-CORE-004** | _Undercover-Auktion 1928_: Bieten auf Relikt; Rivalen anwesend.    | Social / Bluff          | 8        | 0-1                          |
+| 5    | **EC-CORE-005** | _Konvoi-Hinterhalt_: Drohne meldet Routen-Split.                   | Kampf / Fahrzeug        | 12       | 0                            |
+| 6    | **EC-CORE-006** | _Fabrikloft-Labor 2025_: Bio-Schleuse, Chefin da.                  | Hack / Psi              | 10       | +1 bei Psi-Einsatz           |
+| 7    | **EC-CORE-007** | _Flusskanal-Zufahrt 1643_: Tor öffnet nur heute bei Vollmond.      | Survival / Timing       | 9        | 0                            |
+| 8    | **EC-CORE-008** | _Mediensturm_: Kameras rollen.                                     | Social / Disguise       | 10       | -1 (Px) bei Live-Übertragung |
+| 9    | **EC-CORE-009** | _Cipher-Server NB-II_: Admin anwesend, kennt Logs.                 | Tech / Social           | 11       | 0                            |
+| 10   | **EC-CORE-010** | _U-Bahn-Flucht_: Zielperson springt in Zug, Notbremse deaktiviert. | Chase                   | 10       | 0                            |
+| 11   | **EC-CORE-011** | _Magnetbahn-Deraillieren 2334_: Schiene sabotiert, Chaos.          | Infiltration / Repair   | 12       | +1                           |
+| 12   | **EC-CORE-012** | _Orbital-Relais Beta_: Außenbord-Hatch klemmt, Mikro-Meteoriten.   | EVA / Tech              | 13       | 0                            |
 
 #### 3 RIFT OPS-Pool (1W10)
 
-| Wurf | Kodex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
-| ---- | -------- | ----------------------- | -------- | -------- | --------- |
-| 1 | **EC-RIFT-001** | *Zeit-Doppel*: Kopie des Teams (5 Min Versatz). | Social / Identity | 11 | +2 wenn ignoriert |
-| 2 | **EC-RIFT-002** | *Schwerkraft-Flimmern*: Lokal 0.7 g, Equipment-Checks erschwert. | Survival | 9 | +1 |
-| 3 | **EC-RIFT-003** | *Zeitregen*: Regen prasselt rückwärts, Sichtverhältnisse verzerrt. | Stealth / Psi | 10 | +1 |
-| 4 | **EC-RIFT-004** | *Cluster-Market*: Schwarzhandel mit Out-of-Era-Tech. | Social / Tech | 10 | +1-2 bei Käufen |
-| 5 | **EC-RIFT-005** | *Chrono-Fauna*: Raubtier mit Phasen-Sprung-Muster greift Patrouille an. | Kampf | 12 | 0 |
-| 6 | **EC-RIFT-006** | *Looper-Schall*: Geräuschfetzen aus Zukunft warnen vor Wache. | Infiltration | 9 | 0 |
-| 7 | **EC-RIFT-007** | *Parallax-Treppe*: Flur mit drei Offsets; nur einer passt. | Rätsel | 11 | +1 je Fehlversuch |
-| 8 | **EC-RIFT-008** | *Cluster-Repair-Droid*: Flickt Riss, fordert "Pfand": Ausrüstung. | Verhandeln | 10 | 0 |
-| 9 | **EC-RIFT-009** | *De-Sync Pulse*: Elektronik rebootet zufällig; Psi-Module glitch. | Tech / Psi | 12 | +1 |
-| 10 | **EC-RIFT-010** | *Rift-Seed-Bloom*: 1-3 Mini-Rifts; Gegner nach Wahl. | Kampf / Containment | 13 | +2 |
+| Wurf | Kodex-ID        | Encounter & Kurzbriefing                                                | Konflikt            | Basis-DC | Paradoxon         |
+| ---- | --------------- | ----------------------------------------------------------------------- | ------------------- | -------- | ----------------- |
+| 1    | **EC-RIFT-001** | _Zeit-Doppel_: Kopie des Teams (5 Min Versatz).                         | Social / Identity   | 11       | +2 wenn ignoriert |
+| 2    | **EC-RIFT-002** | _Schwerkraft-Flimmern_: Lokal 0.7 g, Equipment-Checks erschwert.        | Survival            | 9        | +1                |
+| 3    | **EC-RIFT-003** | _Zeitregen_: Regen prasselt rückwärts, Sichtverhältnisse verzerrt.      | Stealth / Psi       | 10       | +1                |
+| 4    | **EC-RIFT-004** | _Cluster-Market_: Schwarzhandel mit Out-of-Era-Tech.                    | Social / Tech       | 10       | +1-2 bei Käufen   |
+| 5    | **EC-RIFT-005** | _Chrono-Fauna_: Raubtier mit Phasen-Sprung-Muster greift Patrouille an. | Kampf               | 12       | 0                 |
+| 6    | **EC-RIFT-006** | _Looper-Schall_: Geräuschfetzen aus Zukunft warnen vor Wache.           | Infiltration        | 9        | 0                 |
+| 7    | **EC-RIFT-007** | _Parallax-Treppe_: Flur mit drei Offsets; nur einer passt.              | Rätsel              | 11       | +1 je Fehlversuch |
+| 8    | **EC-RIFT-008** | _Cluster-Repair-Droid_: Flickt Riss, fordert "Pfand": Ausrüstung.       | Verhandeln          | 10       | 0                 |
+| 9    | **EC-RIFT-009** | _De-Sync Pulse_: Elektronik rebootet zufällig; Psi-Module glitch.       | Tech / Psi          | 12       | +1                |
+| 10   | **EC-RIFT-010** | _Rift-Seed-Bloom_: 1-3 Mini-Rifts; Gegner nach Wahl.                    | Kampf / Containment | 13       | +2                |
 
 #### 4 FIELD DOWNTIME-Pool (1W8)
 
-| Wurf | Kodex-ID | Szene | Nutzen | Hinweis |
-| ---- | -------- | ----- | ------ | ------- |
-| 1 | **EC-FD-001** | Straßen-Garküche Bangkok 1981 - Gerüchte zum Zielort. | Info-Snack (+1 Kontakt) | Paradoxon 0 |
-| 2 | **EC-FD-002** | Nachtzug-Liegewagen - Journalist im Abteil. | Social-Probe, Stress-Abbau | Risiko → Info-Leak |
-| 3 | **EC-FD-003** | Kirchplatz-Flohmarkt Prag 1896 - antikes Gadget könnte Schlüssel sein. | Recherche | |
-| 4 | **EC-FD-004** | Tankstopp Route 66 1955 - Sheriff nähert sich, Nummernschild falsch. | Bluff | |
-| 5 | **EC-FD-005** | Flughafen-Warteschleife 2090 - Drohnenstreik, Flug nur gegen Bestechung. | Ressourcen-Tausch | |
-| 6 | **EC-FD-006** | Regnerische Seitenstraße - kleiner Taschendieb stiehlt Datenstick. | Mini-Chase | |
-| 7 | **EC-FD-007** | Impro-Jazz-Bar Paris 1937 - Saxophonist bietet Hideout gegen Gefallen. | Social | |
-| 8 | **EC-FD-008** | Autonome Werkstatt - Gratis-Repair, aber KI speichert Seriennummern. | Tech | Paradoxon 0 |
+| Wurf | Kodex-ID      | Szene                                                                    | Nutzen                     | Hinweis            |
+| ---- | ------------- | ------------------------------------------------------------------------ | -------------------------- | ------------------ |
+| 1    | **EC-FD-001** | Straßen-Garküche Bangkok 1981 - Gerüchte zum Zielort.                    | Info-Snack (+1 Kontakt)    | Paradoxon 0        |
+| 2    | **EC-FD-002** | Nachtzug-Liegewagen - Journalist im Abteil.                              | Social-Probe, Stress-Abbau | Risiko → Info-Leak |
+| 3    | **EC-FD-003** | Kirchplatz-Flohmarkt Prag 1896 - antikes Gadget könnte Schlüssel sein.   | Recherche                  |                    |
+| 4    | **EC-FD-004** | Tankstopp Route 66 1955 - Sheriff nähert sich, Nummernschild falsch.     | Bluff                      |                    |
+| 5    | **EC-FD-005** | Flughafen-Warteschleife 2090 - Drohnenstreik, Flug nur gegen Bestechung. | Ressourcen-Tausch          |                    |
+| 6    | **EC-FD-006** | Regnerische Seitenstraße - kleiner Taschendieb stiehlt Datenstick.       | Mini-Chase                 |                    |
+| 7    | **EC-FD-007** | Impro-Jazz-Bar Paris 1937 - Saxophonist bietet Hideout gegen Gefallen.   | Social                     |                    |
+| 8    | **EC-FD-008** | Autonome Werkstatt - Gratis-Repair, aber KI speichert Seriennummern.     | Tech                       | Paradoxon 0        |
 
 #### 5 Mini-Generator »Encounter Composer« (optional)
 
@@ -1688,7 +1712,7 @@ erzeugt Paradoxon +1. Teil-Erfolg kostet Bestechung, Misserfolg löst Alarm
 aus und verkürzt das Zugriffsfenster.
 
 **SC-07 »Corpo Backdoor«** - Osaka 2072. Compliance-Officer Kaito Morii
-hadert mit Loyalität und Moral. Ein Ethik-Duell (*Face* vs. Morii **W10+2**)
+hadert mit Loyalität und Moral. Ein Ethik-Duell (_Face_ vs. Morii **W10+2**)
 sammelt bis zu drei Vertrauenspunkte. Bei voller Punktzahl gewährt er
 temporären Netzwerkzugang. Scheitert der Versuch, alarmiert er die
 Sicherheitsabteilung (Stealth DC +3). Optional verrät eine Psi-Empathie-Probe
@@ -1696,11 +1720,11 @@ seine Sorge um die Tochter - Paradoxon +1.
 
 #### Encounter-Pool Kurzliste {#encounter-pool-worksheet}
 
-| Kategorie | Gegner-Beispiele | Risiko |
-| --------- | ---------------- | ------ |
-| CORE OPS | Wachen, Konzern-Söldner, autonome Drohnen | SG dynamisch (Seed-Bonus) |
-| RIFT OPS | Parakreaturen, Zeitanomalien, Cluster-Söldner | SG dynamisch (Seed-Bonus) |
-| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz | SG dynamisch (Seed-Bonus) |
+| Kategorie      | Gegner-Beispiele                              | Risiko                    |
+| -------------- | --------------------------------------------- | ------------------------- |
+| CORE OPS       | Wachen, Konzern-Söldner, autonome Drohnen     | SG dynamisch (Seed-Bonus) |
+| RIFT OPS       | Parakreaturen, Zeitanomalien, Cluster-Söldner | SG dynamisch (Seed-Bonus) |
+| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz          | SG dynamisch (Seed-Bonus) |
 
 Diese Tabelle kann ausgedruckt werden und bietet der SL einen schnellen Überblick.
 Die genauen SG-Werte setzt das System erst zur Laufzeit anhand offener Rifts ein.
@@ -1731,7 +1755,7 @@ So könnt ihr den Kodex gezielt einsetzen:
   sich an wie Szenen in einem Film, in denen Hintergrundwissen oder neue Gefahren offenbart werden -
   z. B. eine holografische Aufnahme, in der der Antagonist seinen Plan erläutert (und die Agenten
   heimlich zuhören).
- - **Charaktermomente im Kodex:** Der Kodex kann auch Erinnerungen oder Projektions-Rekonstruktionen von Charakteren
+- **Charaktermomente im Kodex:** Der Kodex kann auch Erinnerungen oder Projektions-Rekonstruktionen von Charakteren
   darstellen. Beispielsweise erlebt ein Agent in einer Zwischensequenz einen Traum oder eine Vision,
   die eigentlich vom Kodex induziert wird - etwa um auf einen bevorstehenden Riss hinzuweisen,
   erscheinen Bilder einer zerstörten Zukunft. Solche Sequenzen geben der Spielleitung die Möglichkeit,
@@ -1880,7 +1904,6 @@ zeigen konnten. Im ZEITRISS-Kontext verstärken solche Pausen das Flair, weil si
 Natur des HQ betonen: Während draußen Jahrzehnte in Sekunden verrinnen, sitzen drinnen Freunde
 beisammen und spielen Karten, als gäbe es kein Morgen - ein kleiner **surrealer Realismus** im
 Herzen des Sci-Fi-Abenteuers.
-
 
 ## Arena-Modus: PvP-Showdowns
 
@@ -2042,8 +2065,8 @@ Die Basis-CU richten sich nach dem Durchschnittslevel der Spielenden
 
 Pro Episode sind maximal **3 Arena-Matches** erlaubt. Kodex führt einen
 Zähler in `arena.matches_this_episode` und verweigert den Eintritt nach
-dem dritten Lauf mit dem HUD-Toast: *"Arena-Kontingent erschöpft - nächste
-Episode freigegeben."*
+dem dritten Lauf mit dem HUD-Toast: _"Arena-Kontingent erschöpft - nächste
+Episode freigegeben."_
 
 #### Diminishing Returns
 
@@ -2067,10 +2090,10 @@ Die **ersten 3 Arena-Siege pro Gegner-Tier** gewähren einen einmaligen
 Bonus von **+50 % CU** auf die reguläre Belohnung. Kodex speichert
 abgeschlossene Tiers in `arena.first_wins[tier]` (Zähler 0-3).
 
-| Sieg Nr. (pro Tier) | Bonus     |
-| -------------------- | --------- |
-| 1-3                  | +50 % CU  |
-| 4+                   | kein Bonus|
+| Sieg Nr. (pro Tier) | Bonus      |
+| ------------------- | ---------- |
+| 1-3                 | +50 % CU   |
+| 4+                  | kein Bonus |
 
 > **Zusammenspiel:** Diminishing Returns und First-Win-Bonus schließen sich
 > nicht gegenseitig aus. Ist es der erste Sieg gegen einen Tier, greift der
@@ -2144,11 +2167,11 @@ Reihenfolge:
 
 ### 2 | Freischalt-Logik (Runtime-Kanon)
 
-| Flag            | Wert |
-| --------------- | ---- |
-| **Level-Gate**  | `PLAYER_LEVEL ≥ 10` |
+| Flag            | Wert                                            |
+| --------------- | ----------------------------------------------- |
+| **Level-Gate**  | `PLAYER_LEVEL ≥ 10`                             |
 | **Key-Item**    | `itm_quant_key` (Freischaltung via Level-Up 10) |
-| **Entry-Event** | `evt_enter_chronopolis()` |
+| **Entry-Event** | `evt_enter_chronopolis()`                       |
 
 Beim ersten Zutritt prüft `evt_enter_chronopolis()` nur diese drei Bedingungen,
 spielt den Inworld-Warnhinweis aus und wechselt danach in den City-Run.
@@ -2264,7 +2287,7 @@ nachhallen. Und schließlich füllen **Erzählpausen im HQ** die Lücken zwische
 Leben, Humor und Herz.
 
 All diese Elemente sind modular - Spielrunden können jene Teile herausgreifen, die zu ihrem Stil
- passen. Wer mehr Action möchte, fokussiert auf Missionen und Paradoxon-Effekte; wer Drama liebt,
+passen. Wer mehr Action möchte, fokussiert auf Missionen und Paradoxon-Effekte; wer Drama liebt,
 vertieft Beziehungen und Alltagssequenzen. Die **klare Struktur** hilft der Spielleitung, den
 Überblick zu bewahren, während die Spieler sich im dichten Geflecht der Story verlieren können. So
 entsteht das typische **ZEITRISS-Flair**: eine Kampagne, die sich anfühlt wie eine mitreißende

@@ -56,14 +56,17 @@ So wirkt das System symmetrisch und erwachsen, statt nach Sonderregel.
 ## Harte Leitplanken (MUSS)
 
 ### 1) Nur nach 0 LP
+
 Der Marker ist **nie** ein Kampf- oder Alpha-Strike-Werkzeug.
 Er greift **erst**, wenn das Ziel bereits bei **0 LP** ist und in der Szene als **kampfunfähig** gilt.
 
 ### 2) Nur auf kurze Distanz
+
 Der Chrononaut muss auf **Armeslänge / Nahdistanz** heran, um eine **exakte Identitätsfassung** zu machen.
 Keine Fernmarkierung, keine Drohnenmarkierung, kein Massentagging über Wände.
 
 ### 3) Nur mit eindeutiger Identität
+
 Erforderlich sind mindestens sinngemäß:
 
 - Gesichts-/Iris-Scan **oder**
@@ -73,10 +76,12 @@ Erforderlich sind mindestens sinngemäß:
 Ohne sichere Identität: **kein Kausalabfang**.
 
 ### 4) Nur mit Kodex-Uplink
+
 Ohne Kodex-Leitung / Relais / PZT-Verbindung **keine Freigabe**.
 Offline kann das Gerät höchstens lokal markieren, aber **nicht** vollziehen.
 
 ### 5) Keine Rücknahme „zu weit davor"
+
 Der ITI-Abfang erfolgt **nur im engen Zuständigkeitsfenster** vor dem Einsatzkontakt.
 Faustregel:
 
@@ -86,20 +91,25 @@ Faustregel:
 Damit vermeidest du das „Dann hätte er sich halt ganz anders entschieden“-Loch.
 
 ### 6) Nicht auf Chrononauten
+
 Funktioniert **nicht** auf ITI-agentengebundene Personen, Chrononauten, Bio-Sheaths mit Nullzeit-Anker, Squadmates oder spielbare Charaktere.
 
 ### 7) Nicht auf Boss-/Mini-Boss-Ziele als Standard
+
 Boss-Gegner bleiben **lebendige Hochwert-Ziele** für Vorführung, Verhör, Verhandlung, Prozess, spätere Rückkehr.
 Der Marker ist für **Cleanup**, nicht für das Wegbügeln narrativer Schlüsselfiguren.
 
 ### 8) Nicht auf Zivilisten / Zeugen / Schutzpersonen
+
 Der Marker ist **kein Memory-Wipe-Tool** und **kein Missbrauchswerkzeug** gegen Unbeteiligte.
 
 ### 9) Nicht auf Para-Kreaturen / Rift-Wesen
+
 Para-Wesen folgen weiterhin **Rift-Logik**: bannen, neutralisieren, brechen, schließen, binden.
 Der Marker ist ein **ITI-Jurisdiktionswerkzeug für Personen**, kein Monster-Pokeball.
 
 ### 10) Kein Save- oder JSON-Ballast als Ausrüstungsobjekt
+
 Das Gerät sollte **Standard-ITI-Ausrüstung** sein, **kein shopbares Einzelitem** und **kein Pflicht-Eintrag** in jeder Equipment-Liste.
 Es reicht, die Nutzung über `logs.trace[]` / `logs.notes[]` oder bei wichtigen Fällen über Kontinuitäts-Echos mitzuschreiben.
 
@@ -108,6 +118,7 @@ Es reicht, die Nutzung über `logs.trace[]` / `logs.notes[]` oder bei wichtigen 
 ## SOLL-Regeln für gutes Spielgefühl
 
 ### Loot zuerst, Marker danach
+
 Die saubere Reihenfolge ist:
 
 1. Gegner fällt auf 0 LP.
@@ -116,6 +127,7 @@ Die saubere Reihenfolge ist:
 4. Danach optional / standardmäßig **Kausalabfang**.
 
 ### Was beim Flackern bleibt?
+
 - **Bereits gesichertes Loot** bleibt.
 - **Bereits getrennte Gegenstände** bleiben.
 - **Laufende Konsequenzen** bleiben.
@@ -124,6 +136,7 @@ Die saubere Reihenfolge ist:
 So bleibt das Ganze spielbar und paradoxiefest genug.
 
 ### Unnamed Mooks = automatisch, Named Targets = nachfragen
+
 Für die KI-Leitbarkeit ist das Gold wert:
 
 - **Namenlose, klar feindliche 0-LP-Hostiles:** KI darf das im Cleanup **automatisch** abwickeln.
@@ -132,6 +145,7 @@ Für die KI-Leitbarkeit ist das Gold wert:
 So entsteht Magie, ohne dass Named NPCs versehentlich weggefiltert werden.
 
 ### Niedrige TEMP = kurzer Recall-Blur, hohe TEMP = stabiler
+
 Kleiner Flavor, kaum Mechanik:
 
 - **TEMP 1–2:** kurzer Erinnerungsknick; Kodex muss die Festnahme trocken rückverankern.
@@ -144,14 +158,14 @@ Keine schwere Strafmechanik draus bauen.
 
 ## Dinge, die du NICHT tun solltest
 
-- Kein „Der Gegner war nie geboren“.  
-- Kein „Damit kann man jeden Plotgegner löschen“.  
-- Kein „Damit kann man gescheiterte Szenen rückgängig machen“.  
-- Kein „Damit kann man Kameraden retten“.  
-- Kein „Damit kann man Leichenfledderei plus Voll-Loot plus völlige Spurfreiheit gratis bekommen“.  
-- Kein „Damit kann man Zeugen oder Zivilisten elegant wegmachen“.  
-- Kein „Damit kann man para-normale Rift-Wesen einsacken“.  
-- Kein „Damit kann man in Chronopolis die Gefahr entschärfen“.  
+- Kein „Der Gegner war nie geboren“.
+- Kein „Damit kann man jeden Plotgegner löschen“.
+- Kein „Damit kann man gescheiterte Szenen rückgängig machen“.
+- Kein „Damit kann man Kameraden retten“.
+- Kein „Damit kann man Leichenfledderei plus Voll-Loot plus völlige Spurfreiheit gratis bekommen“.
+- Kein „Damit kann man Zeugen oder Zivilisten elegant wegmachen“.
+- Kein „Damit kann man para-normale Rift-Wesen einsacken“.
+- Kein „Damit kann man in Chronopolis die Gefahr entschärfen“.
 
 Wenn einer dieser Sätze implizit mitschwingt, wird die Mechanik sofort zu weich oder zu mächtig.
 
@@ -274,6 +288,7 @@ Nicht mehr. Kein Subsystem mit 12 Ausnahmen.
 Das Ding wird noch stärker, wenn du **benannte Zielpersonen** nicht einfach wegmachst, sondern später wieder als Welt-Echo nutzt.
 
 ### Regel
+
 Bei **named targets** erzeugt ein erfolgreicher Kausalabfang **maximal einen** späteren Nachhall:
 
 - Verhörinfo im Debrief

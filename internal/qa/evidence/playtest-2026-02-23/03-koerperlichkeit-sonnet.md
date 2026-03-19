@@ -1,4 +1,5 @@
 # 03-koerperlichkeit-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.036087
 - **Tokens:** in:6499 out:1106
@@ -12,13 +13,13 @@
 
 Brennen. Nicht das scharfe Stechen einer sauberen Klinge — das ist das dumpfe, heiße Pochen von Metall das sich durch Stoff und Fleisch gefressen hat. Der Splitter hat die rechte Schulter erwischt, irgendwo zwischen Deltamuskel und Trapez. Du kannst den Arm noch heben, aber jede Bewegung kostet.
 
-Das Reflex-Boost-Implantat meldet sich als warmes Kribbeln im Nacken — ein subkutaner Druckpuls, der dein Nervensystem kurz übertaktet. Die Schmerzwahrnehmung wird nicht ausgeschaltet, nur nach hinten geschoben. Wie ein Vorhang der zugezogen wird. Du weißt dass die Schulter brennt. Du *fühlst* es nur gerade nicht vollständig. Das Implantat ist kein Wundermittel — es kauft dir Sekunden.
+Das Reflex-Boost-Implantat meldet sich als warmes Kribbeln im Nacken — ein subkutaner Druckpuls, der dein Nervensystem kurz übertaktet. Die Schmerzwahrnehmung wird nicht ausgeschaltet, nur nach hinten geschoben. Wie ein Vorhang der zugezogen wird. Du weißt dass die Schulter brennt. Du _fühlst_ es nur gerade nicht vollständig. Das Implantat ist kein Wundermittel — es kauft dir Sekunden.
 
 `Kodex: Reflex-Boost aktiv. +1 auf GES-Proben, 2 Szenen verbleibend. Wunde: leicht, kein Handlungsmalus. Splitter sitzt noch drin — Extraktion nötig vor längerer Exfil.`
 
 Dann: Stiefelgeräusch auf Beton. Nah. Die Trümmer der ausgebombten Fabrikhalle werfen lange Schatten im Schein eines Feuers irgendwo draußen. Roter Widerschein auf zersplitterten Balken. Staub rieselt von der Decke bei jedem fernen Einschlag.
 
-Ein Rotarmist-Soldat — nein, kein Soldat. Uniformjacke, aber die Augen stimmen nicht. Zu ruhig. Zu fokussiert. Er bewegt sich zwischen den Trümmern wie jemand der *weiß* wo du bist. Rechte Hand am Seitengewehr, linke Hand hält etwas Kleines. Eine Karte? Nein — ein Lesegerät. Anachronistisch. Falsch für 1943.
+Ein Rotarmist-Soldat — nein, kein Soldat. Uniformjacke, aber die Augen stimmen nicht. Zu ruhig. Zu fokussiert. Er bewegt sich zwischen den Trümmern wie jemand der _weiß_ wo du bist. Rechte Hand am Seitengewehr, linke Hand hält etwas Kleines. Eine Karte? Nein — ein Lesegerät. Anachronistisch. Falsch für 1943.
 
 **Kein Einheimischer.**
 
@@ -27,6 +28,7 @@ Ein Rotarmist-Soldat — nein, kein Soldat. Uniformjacke, aber die Augen stimmen
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Exfil-Fenster: **T-08:30** — läuft weiter
 - Schusswechsel erhöht Noise massiv (Wehrmacht-Patrouille 200m südlich)
 - Reflex-Boost: noch **2 Szenen** aktiv — jetzt nutzen

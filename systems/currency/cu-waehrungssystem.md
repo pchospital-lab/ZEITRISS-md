@@ -38,13 +38,14 @@ Aus **Spieler- und Charakterperspektive** fühlt sich eine Chrono Unit an wie ei
 für erfüllte Aufträge und Prämienpunkten für besondere Verdienste. CUs sind digital in der zentralen
 Datenbank des HQ verankert und jederzeit abrufbar. Benötigt ein Chrononaut in einer bestimmten
 Epoche Bargeld, wandelt das ITI die entsprechenden Chrono Units automatisch in die lokale Währung um
+
 - und umgekehrt. _Beispiel:_ Ein Agent, der im antiken Rom unterwegs ist, erhält vom ITI auf Wunsch
-den Gegenwert seiner CUs in Form von Sesterzen ausgezahlt. Bringt er am Ende der Mission römische
-Denare mit zurück, werden diese im HQ erfasst und zum festen Kurs in Chrono Units zurückgetauscht.
-Auf diese Weise behalten Einsätze über Zeit und Raum hinweg finanzielle Konsistenz, ohne dass die
-Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig verhindert das System,
-dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
-aus dem Gleichgewicht bringen - das ITI reguliert streng den Geldfluss.
+  den Gegenwert seiner CUs in Form von Sesterzen ausgezahlt. Bringt er am Ende der Mission römische
+  Denare mit zurück, werden diese im HQ erfasst und zum festen Kurs in Chrono Units zurückgetauscht.
+  Auf diese Weise behalten Einsätze über Zeit und Raum hinweg finanzielle Konsistenz, ohne dass die
+  Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig verhindert das System,
+  dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
+  aus dem Gleichgewicht bringen - das ITI reguliert streng den Geldfluss.
 
 ### HQ-Pool & Wallet-SSOT
 
@@ -74,18 +75,19 @@ Weitere Ausrüstung wird über CU abgerechnet.
 >
 > 1 Chrono-Unit (CU) ≈ **20 € (2025-Äquivalent)**
 
-| Epoche                 | 1 CU entspricht etwa | Beispielkauf |
-|------------------------|---------------------:|--------------|
-| Mittelalter (ca. 1250) | ½ Silber-Dirham      | Ein gutes Kurzschwert |
-| Renaissance (ca. 1500) | 1 Florin            | 1 Woche Gasthof für 2 Personen |
-| Industrialisierung (ca. 1880) | 2 US-$/Goldstandard | 1 maßgeschneiderter Anzug |
-| Kalter Krieg (1970)    | 7 US-$              | Einfache Handfeuerwaffe |
-| Gegenwart (2025)       | 20 €                | Tagesration High-Tech-Feldverpflegung |
-| Lunar-Kolonie (2142)   | 0.04 Luna-Credit     | 10 Min O2-Nachfüllung |
+| Epoche                        | 1 CU entspricht etwa | Beispielkauf                          |
+| ----------------------------- | -------------------: | ------------------------------------- |
+| Mittelalter (ca. 1250)        |      ½ Silber-Dirham | Ein gutes Kurzschwert                 |
+| Renaissance (ca. 1500)        |             1 Florin | 1 Woche Gasthof für 2 Personen        |
+| Industrialisierung (ca. 1880) |  2 US-$/Goldstandard | 1 maßgeschneiderter Anzug             |
+| Kalter Krieg (1970)           |               7 US-$ | Einfache Handfeuerwaffe               |
+| Gegenwart (2025)              |                 20 € | Tagesration High-Tech-Feldverpflegung |
+| Lunar-Kolonie (2142)          |     0.04 Luna-Credit | 10 Min O2-Nachfüllung                 |
 
-*Hinweis:* Für alles jenseits dieser Richtwerte gilt: **Preis (lokal) / 20 ≈ CU**.
+_Hinweis:_ Für alles jenseits dieser Richtwerte gilt: **Preis (lokal) / 20 ≈ CU**.
 
 **Beispiele für Belohnungen:**
+
 - **10 CU** - einfache Munition oder ein Tag Unterkunft
 - **20 CU** - Spezialwerkzeug oder mehrere Rationen
 - **50 CU** - moderne Handfeuerwaffe oder hochwertiges Schutzgear
@@ -115,21 +117,23 @@ dynamische Formel (Core **und** Rift):
 ### Core-Ops Belohnungen {#core-ops-belohnungen}
 
 Basisprämie nach Missionsrisiko:
+
 - Low: 400 CU
 - Mid: 500 CU
 - High: 600 CU
 
 Multiplikatoren nach Missionsausgang:
+
 - Teil-Erfolg: × 0,6
 - Erfolg: × 1,0
 - Erfolg mit Bonuszielen: × 1,2
 
 Boni (kumulativ):
+
 - Ziel lebend gesichert: +150 CU
 - Keine Zivilverluste: +100 CU
 - Gerätesicherung/Beweis: +100-150 CU
 - Alarmfreiheit/Low-Profile: +50-100 CU
-
 
 - **Erfüllung der Missionsziele:** Wird das Hauptziel einer Mission erreicht, erhält jeder
   beteiligte Agent eine Grundprämie an Chrono Units. Selbst Teilerfolge oder kreative Umwege, die
@@ -169,13 +173,13 @@ Die Save-v7-Ökonomie skaliert auch im Endgame. Nutze die Tabelle, um Belohnunge
 und Ausgaben pro Missionsband zu planen; Werte referenzieren Solo/Buddy mit
 Hazard-Pay sowie `seed_multi = min(1,6; 1 + 0,2 × offene Seeds)`.
 
-| Level-Band | Richtwert Belohnung* | Typische Kosten/Sinks |
-| --- | --- | --- |
-| 120 | 450-850 CU (Low-High) | Implantate 300-900 CU; Chronopolis 150-400 CU |
-| 512 | 1,8k-2,8k CU (Seed-Multi-Cap 1,6) | HQ-Zugangsfreigaben/Lizenzen, Loadouts 2-4k CU, Research 700+ CU |
-| 900+ | 4,2k-6,2k CU (High-Risk, Seed-Multi-Cap 1,6) | Fraktionsprojekte/Legendary Gear 5k+ CU |
+| Level-Band | Richtwert Belohnung\*                        | Typische Kosten/Sinks                                            |
+| ---------- | -------------------------------------------- | ---------------------------------------------------------------- |
+| 120        | 450-850 CU (Low-High)                        | Implantate 300-900 CU; Chronopolis 150-400 CU                    |
+| 512        | 1,8k-2,8k CU (Seed-Multi-Cap 1,6)            | HQ-Zugangsfreigaben/Lizenzen, Loadouts 2-4k CU, Research 700+ CU |
+| 900+       | 4,2k-6,2k CU (High-Risk, Seed-Multi-Cap 1,6) | Fraktionsprojekte/Legendary Gear 5k+ CU                          |
 
-*Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
+\*Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
 Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).
 
 - **Sinks fixieren:** Levelabhängige Wartung (Transport/Logistik) oder Archiv-
@@ -255,11 +259,11 @@ verbleiben kann**:
   aktiven Wirtschaft und tauchen höchstens als Story-Token wieder auf.
 - **Tausch unter Kollegen:** Das Leben im HQ pulsiert vor lauter Agenten aus allen möglichen Zeiten
   - da kommt es vor, dass auch untereinander gehandelt wird. Ein Chrononaut kann einen Fund direkt
-  einem Kollegen anbieten - vielleicht möchte jemand im Team unbedingt jenes antike Schwert aus der
-  letzten Mission haben und bietet dafür entweder eine gewisse Summe CUs oder einen anderen wertvollen
-  Gegenstand aus seinem Besitz. Solche spontanen Deals finden meistens inoffiziell in der Kantine oder
-  den Wohnquartieren statt und beleben das HQ-Rollenspiel. So entsteht der Eindruck eines echten
-  Basars unter Zeitreisenden, fernab von offiziellen Listen.
+    einem Kollegen anbieten - vielleicht möchte jemand im Team unbedingt jenes antike Schwert aus der
+    letzten Mission haben und bietet dafür entweder eine gewisse Summe CUs oder einen anderen wertvollen
+    Gegenstand aus seinem Besitz. Solche spontanen Deals finden meistens inoffiziell in der Kantine oder
+    den Wohnquartieren statt und beleben das HQ-Rollenspiel. So entsteht der Eindruck eines echten
+    Basars unter Zeitreisenden, fernab von offiziellen Listen.
 
 ##### Artefaktrollen im Spiel
 
@@ -360,16 +364,16 @@ nehmen. Hier ein Überblick der **Waren- und Diensteklassen**, die den Chrononau
 Um das Gesagte greifbarer zu machen, hier eine **Beispiel-Preisliste** mit typischen Angeboten im
 ITI-Hauptquartier:
 
-| Gegenstand | Kategorie | Kosten (CU) |
-| --- | --- | --- |
-| Standard-Handfeuerwaffe (21. Jh.) | Waffe (modern) | 50 CUs |
-| Römisches Kurzschwert _Gladius_ | Waffe (antik) | 50 CUs |
-| Taktische Kevlar-Weste | Rüstung (modern) | 120 CUs |
-| Leichtes Cyber-Augenimplantat | Implantat | 300 CUs |
-| Temporaler Riss-Stabilisator (einmalig) | Gadget (High-Tech) | 200 CUs |
-| Detaillierter Epoche-Report (Kodex-Archiv) | Information (Spende) | 100 CUs |
-| Bestechung eines Informanten (Schwarzmarkt) | Information | ~30-100 CUs |
-| Komfort-Upgrade fürs Quartier (Deko/Möbel) | Luxus | 200 CUs |
+| Gegenstand                                  | Kategorie            | Kosten (CU) |
+| ------------------------------------------- | -------------------- | ----------- |
+| Standard-Handfeuerwaffe (21. Jh.)           | Waffe (modern)       | 50 CUs      |
+| Römisches Kurzschwert _Gladius_             | Waffe (antik)        | 50 CUs      |
+| Taktische Kevlar-Weste                      | Rüstung (modern)     | 120 CUs     |
+| Leichtes Cyber-Augenimplantat               | Implantat            | 300 CUs     |
+| Temporaler Riss-Stabilisator (einmalig)     | Gadget (High-Tech)   | 200 CUs     |
+| Detaillierter Epoche-Report (Kodex-Archiv)  | Information (Spende) | 100 CUs     |
+| Bestechung eines Informanten (Schwarzmarkt) | Information          | ~30-100 CUs |
+| Komfort-Upgrade fürs Quartier (Deko/Möbel)  | Luxus                | 200 CUs     |
 
 _Hinweis:_ Die Kosten für inoffizielle Informationen (z.B. Bestechungen) können je nach Quelle und
 Risiko stark schwanken.
@@ -383,6 +387,7 @@ unter den kostspieligen Fahrzeug- oder Artefaktupgrades liegen. Implantate über
 All diese Einkaufsmöglichkeiten tragen dazu bei, dass verdiente CUs wieder ins Spiel zurückfließen
 und den Charakteren greifbare Vorteile oder schlicht Vergnügen verschaffen. **Wichtig:** Selbst die
 beste Ausrüstung will **verdient** sein. Das ITI stellt nie einfach alles uneingeschränkt ins Regal
+
 - es gibt Beschränkungen, wer wann auf welche Güter zugreifen darf.
 
 ### HQ-Basar & Chronopolis-Log
@@ -392,11 +397,11 @@ Runtime-Helper `log_market_purchase()` flankiert. Immer wenn Agenten Ware ordern
 Toolkit diesen Helper auf. Er sorgt dafür, dass jeder Einkauf als strukturierter Datensatz in
 `logs.market[]` landet und so dauerhaft im Kampagnen-Save erhalten bleibt. Ein Markt-Eintrag enthält:
 
-| Feld | Bedeutung |
-| --- | --- |
-| `timestamp` | ISO-Zeitstempel des Kaufs (Nullzeit). |
-| `item` | Kurzbezeichnung des gekauften Artikels oder Dienstes. |
-| `cost_cu` | Abgerechnete Kosten in Chrono Units. |
+| Feld        | Bedeutung                                                              |
+| ----------- | ---------------------------------------------------------------------- |
+| `timestamp` | ISO-Zeitstempel des Kaufs (Nullzeit).                                  |
+| `item`      | Kurzbezeichnung des gekauften Artikels oder Dienstes.                  |
+| `cost_cu`   | Abgerechnete Kosten in Chrono Units.                                   |
 | `px_clause` | Optionaler Hinweis, ob Px-Klauseln oder Sonderrabatte gegriffen haben. |
 
 Die Runtime hält die letzten **24** Einkäufe im Log und schneidet ältere Einträge automatisch ab -
@@ -640,10 +645,10 @@ allesentscheidend sind:
   Kreditlimit pro Agent festlegen, etwa 250 000 CU. Alles darüber fließt in
   Fraktionsfonds oder Wartungskosten, um Vermögensinflation zu bremsen.
   - plötzlich sind ihre ersparten 100.000 CUs gar nicht mehr so beeindruckend, weil der Konflikt
-  anders gelöst werden muss als durch den Einkauf von noch mehr Ausrüstung. Die Einsicht, dass Geld
-  nicht jede Problemlösung kaufen kann, wird dramaturgisch vermittelt. Die Story selbst setzt also ein
-  **weiches Limit**, indem sie neue Herausforderungen schafft, die nicht allein mit Credits bewältigt
-  werden können.
+    anders gelöst werden muss als durch den Einkauf von noch mehr Ausrüstung. Die Einsicht, dass Geld
+    nicht jede Problemlösung kaufen kann, wird dramaturgisch vermittelt. Die Story selbst setzt also ein
+    **weiches Limit**, indem sie neue Herausforderungen schafft, die nicht allein mit Credits bewältigt
+    werden können.
 
 All diese Elemente halten die Endgame-Ökonomie **interessant und im Gleichgewicht**. Die Spieler
 sollen zwar die Früchte ihrer Arbeit genießen können - etwa in Form eines top-ausgerüsteten Teams -
