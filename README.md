@@ -20,30 +20,37 @@ einrichten, Preset wählen, losspielen.
 
 ### So sieht das aus
 
+```text
+EP 1 · MS 3 · SC 7/12
+PHASE Konflikt · MODE CORE
+Lvl 4 ▓▓▓▓░░░░░░ 4/10
+Px 2/5 · Stress 3/10
+Obj: Dossier sichern
 ```
-EP 1 · MS 3 · SC 7/12 · PHASE Konflikt · MODE CORE · COMMS OK
-Lvl 4 ▓▓▓▓░░░░░░ 4/10 · Px 2/5 · Stress 3/10 · Obj: Dossier sichern
-```
 
-> Der Wachmann dreht sich um. Seine Hand geht zum Holster. Du bist schneller.
+> Der Wachmann dreht sich um. Seine Hand geht zum
+> Holster. Du bist schneller.
 
-`Probe: Nahkampf → W6: [6] → Exploding! → W6: [2] = 8 + STR 4/2 + Talent 1
-= 11 vs SG 8 → TREFFER`
+`Probe: Nahkampf → W6: [6]`\
+`→ Exploding! → W6: [2] = 8`\
+`+ STR 4/2 + Talent 1 = 11`\
+`vs SG 8 → TREFFER`
 
-> Dein Ellbogen trifft seinen Kehlkopf. Er klappt zusammen, lautlos.
+> Dein Ellbogen trifft seinen Kehlkopf. Er klappt
+> zusammen, lautlos.
 
-`Kodex: Wachmann neutralisiert. Noise +1. Magazin 8/8. Nächster Checkpoint
-in 40m.`
+`Kodex: Wachmann neutralisiert.`\
+`Noise +1 · Mag 8/8 · Checkpoint 40m`
 
 ### Ähnlich, aber anders
 
-|              | AI Dungeon / KI-Chat-RPGs | Pen & Paper (D&D etc.) | **ZEITRISS**                      |
-| ------------ | ------------------------- | ---------------------- | --------------------------------- |
-| Spielleitung | KI (frei, keine Regeln)   | Mensch                 | KI (regelgebunden)                |
-| Würfelsystem | Keins                     | Ja                     | Ja (W6/W10, Exploding)            |
-| Persistenz   | Nur im Chat               | Manuell                | JSON-Save, portabel               |
-| Multiplayer  | Begrenzt                  | Am Tisch               | Drop-in/Drop-out per Save         |
-| Regelwerk    | Keins                     | Buch (100+ Seiten)     | Im Wissensspeicher (KI liest mit) |
+|              | KI-Chat-RPGs     | Pen & Paper    | **ZEITRISS**         |
+| ------------ | ---------------- | -------------- | -------------------- |
+| Spielleitung | KI, keine Regeln | Mensch         | KI, regelgebunden    |
+| Würfel       | Keine            | Ja             | W6/W10, Exploding    |
+| Persistenz   | Nur im Chat      | Manuell        | JSON-Save, portabel  |
+| Multiplayer  | Begrenzt         | Am Tisch       | Drop-in/out per Save |
+| Regelwerk    | Keins            | Buch (100+ S.) | Im Wissensspeicher   |
 
 ## Dein Save IST dein Charakter
 
