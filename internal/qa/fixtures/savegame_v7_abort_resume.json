@@ -37,10 +37,7 @@
           "branch_id": "ABORT-BRANCH",
           "status": "imported",
           "reason": "non_canonical_branch",
-          "allowed_fields": [
-            "wallet",
-            "abort_marker"
-          ]
+          "allowed_fields": ["wallet", "abort_marker"]
         }
       ],
       "duplicate_branch_detected": false,

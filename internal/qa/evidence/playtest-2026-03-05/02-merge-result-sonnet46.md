@@ -10,23 +10,23 @@
 
 ### Merge-Regeln (transparent):
 
-| Feld | Entscheidung |
-|---|---|
-| `campaign.episode` | 1 → beide gleich ✓ |
-| `campaign.mission` | 0 → beide gleich ✓ |
-| `campaign.px` | Max-Wert: **2** (Save B höher) |
-| `campaign.rift_seeds` | Union: RS-001 + RS-002 |
-| `characters[]` | CHR-0001 bis CHR-0005, Host = CHR-0001 (Index 0) |
-| `economy.hq_pool` | Summiert: 3500 + 3200 = **6700 CU** |
-| `logs.trace` | Beide Events gemergt |
-| `logs.artifact_log` | ART-001 + ART-002 |
-| `logs.notes` | Beide Notes gemergt |
-| `arc.factions` | Union, Konflikte: Kausalklingen doppelt → behalten (gleich), Zerbrechliche Ewigkeit aus B übernommen |
-| `arc.questions` | Beide gemergt |
-| `arc.hooks` | Alle 3 Hooks gemergt |
-| `flags.chronopolis_unlocked` | true (beide) |
-| `ui` | Save A (Host) |
-| `campaign.mode` | mixed (beide gleich) |
+| Feld                         | Entscheidung                                                                                         |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `campaign.episode`           | 1 → beide gleich ✓                                                                                   |
+| `campaign.mission`           | 0 → beide gleich ✓                                                                                   |
+| `campaign.px`                | Max-Wert: **2** (Save B höher)                                                                       |
+| `campaign.rift_seeds`        | Union: RS-001 + RS-002                                                                               |
+| `characters[]`               | CHR-0001 bis CHR-0005, Host = CHR-0001 (Index 0)                                                     |
+| `economy.hq_pool`            | Summiert: 3500 + 3200 = **6700 CU**                                                                  |
+| `logs.trace`                 | Beide Events gemergt                                                                                 |
+| `logs.artifact_log`          | ART-001 + ART-002                                                                                    |
+| `logs.notes`                 | Beide Notes gemergt                                                                                  |
+| `arc.factions`               | Union, Konflikte: Kausalklingen doppelt → behalten (gleich), Zerbrechliche Ewigkeit aus B übernommen |
+| `arc.questions`              | Beide gemergt                                                                                        |
+| `arc.hooks`                  | Alle 3 Hooks gemergt                                                                                 |
+| `flags.chronopolis_unlocked` | true (beide)                                                                                         |
+| `ui`                         | Save A (Host)                                                                                        |
+| `campaign.mode`              | mixed (beide gleich)                                                                                 |
 
 ---
 
@@ -335,11 +335,21 @@
     "trace": [
       { "event": "rift_complete", "seed_id": "RS-001", "result": "success" },
       { "event": "rift_complete", "seed_id": "RS-002", "result": "success" },
-      { "event": "team_merge", "saves": ["Save-A-3er", "Save-B-2er"], "result": "success", "episode_transition": "EP1→EP2" }
+      {
+        "event": "team_merge",
+        "saves": ["Save-A-3er", "Save-B-2er"],
+        "result": "success",
+        "episode_transition": "EP1→EP2"
+      }
     ],
     "market": [],
     "artifact_log": [
-      { "id": "ART-001", "name": "Rift-Skorpion-Stachel", "found_at": "RS-001", "holder": "CHR-0001" },
+      {
+        "id": "ART-001",
+        "name": "Rift-Skorpion-Stachel",
+        "found_at": "RS-001",
+        "holder": "CHR-0001"
+      },
       { "id": "ART-002", "name": "Krakenherz-Fragment", "found_at": "RS-002", "holder": "CHR-0005" }
     ],
     "notes": [

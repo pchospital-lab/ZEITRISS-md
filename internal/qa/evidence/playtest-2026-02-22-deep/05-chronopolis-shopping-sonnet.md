@@ -1,4 +1,5 @@
 # 05-chronopolis-shopping-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.0453
 - **Tokens:** in:7875 out:1445
@@ -32,24 +33,24 @@ Archivar Senne    Seltene Artefakte, zertif.    ★★★★★ (teuer)
 
 **RESONANZ-SNIPER Mk IV → Upgrade-Optionen bei Torchka-7:**
 
-| Upgrade | Effekt | Kosten |
-|---|---|---|
-| **Resonanz-Kern V** | Schaden +2 (→ 2W10+6), Reichweite +20% | 3.500 CU |
-| **Phasen-Lauf** | Ignoriert Rüstung ≤ 3, -1 Noise | 2.800 CU |
-| **Adaptive Optik** | +2 auf Scharfschützen-Proben, Thermalsicht integriert | 2.200 CU |
-| **Kern V + Phasen-Lauf (Bundle)** | Kombiniert, leichter Rabatt | 5.900 CU |
+| Upgrade                           | Effekt                                                | Kosten   |
+| --------------------------------- | ----------------------------------------------------- | -------- |
+| **Resonanz-Kern V**               | Schaden +2 (→ 2W10+6), Reichweite +20%                | 3.500 CU |
+| **Phasen-Lauf**                   | Ignoriert Rüstung ≤ 3, -1 Noise                       | 2.800 CU |
+| **Adaptive Optik**                | +2 auf Scharfschützen-Proben, Thermalsicht integriert | 2.200 CU |
+| **Kern V + Phasen-Lauf (Bundle)** | Kombiniert, leichter Rabatt                           | 5.900 CU |
 
 ---
 
 **TIER-4-ARTEFAKTE — verfügbar:**
 
-| Artefakt | Effekt | Quelle | Kosten | Heat |
-|---|---|---|---|---|
-| **Kausalsplitter** | 1×/Mission: Reroll beliebige Probe, kein Px-Anstieg | Archivar Senne | 4.200 CU | kalt |
-| **Echoklinge** | Monofaser-Katana +2 Schaden, 1×/Kampf unsichtbar | Null-Brokerage | 3.100 CU | warm ⚠️ |
-| **Zeitanker-Disk** | Px-Schutz: nächster Px-Anstieg ignoriert | Archivar Senne | 3.800 CU | kalt |
-| **Neuro-Dampfer** | Stress-Eingang -1 (passiv, permanent) | Torchka-7 | 2.600 CU | kalt |
-| **Fraktur-Linse** | Upgrade zur Zeitstrom-Linse (bereits equipped) | Archivar Senne | 4.500 CU | kalt |
+| Artefakt           | Effekt                                              | Quelle         | Kosten   | Heat    |
+| ------------------ | --------------------------------------------------- | -------------- | -------- | ------- |
+| **Kausalsplitter** | 1×/Mission: Reroll beliebige Probe, kein Px-Anstieg | Archivar Senne | 4.200 CU | kalt    |
+| **Echoklinge**     | Monofaser-Katana +2 Schaden, 1×/Kampf unsichtbar    | Null-Brokerage | 3.100 CU | warm ⚠️ |
+| **Zeitanker-Disk** | Px-Schutz: nächster Px-Anstieg ignoriert            | Archivar Senne | 3.800 CU | kalt    |
+| **Neuro-Dampfer**  | Stress-Eingang -1 (passiv, permanent)               | Torchka-7      | 2.600 CU | kalt    |
+| **Fraktur-Linse**  | Upgrade zur Zeitstrom-Linse (bereits equipped)      | Archivar Senne | 4.500 CU | kalt    |
 
 ---
 

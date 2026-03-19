@@ -1,4 +1,5 @@
 # 06-exfil-kairo-deepseek
+
 - **Model:** deepseek
 - **Cost:** $0.0027375
 - **Tokens:** in:5287 out:479
@@ -9,7 +10,7 @@
 
 Die Hitze flirrt über dem Asphalt des Kairoer Hinterhofs. Drei Wehrmachtssoldaten blockieren den Sprungpunkt – ein rostiges Stahlportal zwischen den Ruinen eines Kolonialgebäudes. Ihre MP40 hängen locker, aber ihre Augen scannen systematisch jeden Schatten. Einer zündet sich eine Zigarette an – das Streichholz beleuchtet sein scharfes Profil für einen Moment.
 
-Dein Karabiner vibriert leicht in deinen schweißnassen Händen – 4 Schuss übrig für den gesamten Rückweg zum ITI-HQ durch die Kriegszeitlinie. Der Countdown im HUD blinkt rot: 
+Dein Karabiner vibriert leicht in deinen schweißnassen Händen – 4 Schuss übrig für den gesamten Rückweg zum ITI-HQ durch die Kriegszeitlinie. Der Countdown im HUD blinkt rot:
 
 `⏱️ EXFIL WINDOW: T-03:59`
 
@@ -22,18 +23,18 @@ Dein Karabiner vibriert leicht in deinen schweißnassen Händen – 4 Schuss üb
 
 **Option #1 – Sturmangriff**  
 Geradeaus durch sie hindurch – das Portal ist nur 15 Meter entfernt  
-→ SG12: GES+Waffe vs. ihre Reaktionszeit  
+→ SG12: GES+Waffe vs. ihre Reaktionszeit
 
 **Option #2 – Ablenkungsmanöver**  
 Letzte Rauchgranate werfen & Sprint durch die Verwirrung  
-→ SG8 INT+Tarnung vs deren Disziplin  
+→ SG8 INT+Tarnung vs deren Disziplin
 
 **Option #3 – Nahkampf-Eskalation**  
 Messer ziehen & lautlos eliminieren – aber Blut bringt Verfolger  
-→ SG10 STR+Messer vs deren Nahkampftraining  
+→ SG10 STR+Messer vs deren Nahkampftraining
 
-*(Freie Aktion)*  
+_(Freie Aktion)_
 
---- 
+---
 
 Der Raucher wirft das Streichholz weg – es zischt im Sand aus während sein Blick langsam zu deinem Versteck wandert...

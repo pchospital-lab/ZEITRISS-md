@@ -167,12 +167,7 @@
     },
     "ui": {
       "type": "object",
-      "required": [
-        "gm_style",
-        "intro_seen",
-        "suggest_mode",
-        "action_mode"
-      ],
+      "required": ["gm_style", "intro_seen", "suggest_mode", "action_mode"],
       "properties": {
         "gm_style": { "type": "string" },
         "intro_seen": { "type": "boolean" },

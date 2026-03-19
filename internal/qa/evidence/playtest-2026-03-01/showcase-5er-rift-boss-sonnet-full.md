@@ -8,13 +8,14 @@
 
 ## Szene 1 — Briefing
 
-*[Spieler-Input:]*
+_[Spieler-Input:]_
 
 Spiel starten (solo schnell)
 
 Ich will eine **5er-Gruppe Rift-Op, Level 8-9, Episodenboss-Konfrontation**.
 
 Setup:
+
 - Mein Charakter: Der Taktiker. STR 2, GES 4, INT 5, CHA 3, TEMP 3, SYS 1. Talente: Spurenanalyse +3, Täuschung +2.
 - 4 NPCs im Squad: Eine Scharfschützin, ein Nahkämpfer, eine Hackerin, ein Sanitäter. Gib ihnen Namen und Persönlichkeit.
 - Setting: Rift-Op in eine Epoche deiner Wahl — überrasch mich. Etwas Unerwartetes, kein Standard-Mittelalter.
@@ -28,11 +29,11 @@ Spiel ALLE Rollen — SL, Kodex, NPCs. Ich gebe dir meine Entscheidungen inline:
 
 Mach es filmisch. Mach es hart. Zeig den Leuten, warum ZEITRISS anders ist.
 
-*[SL-Antwort:]*
+_[SL-Antwort:]_
 
 # ZEITRISS — EINLEITUNG
 
-*"Die Vergangenheit ist nicht vergangen. Sie wartet."*
+_"Die Vergangenheit ist nicht vergangen. Sie wartet."_
 
 Das ITI — das **Institut für Temporale Integrität** — operiert außerhalb der Zeitlinie, verankert in der Nullzeit. Ihr seid Chrononauten: Agenten, die in kritische Epochen einspringen, um Zeitverzerrungen zu neutralisieren, Fraktionen zu neutralisieren, Schäden zu kontrollieren. Keine Helden. Werkzeuge. Präzise, belastbar, entbehrlich.
 
@@ -49,19 +50,20 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Taktiker | Level 8 | CHR-0847**
 
 | Attribut | Wert | Würfel |
-|----------|------|--------|
-| STR | 2 | W6 |
-| GES | 4 | W6 |
-| INT | 5 | W6 |
-| CHA | 3 | W6 |
-| TEMP | 3 | W6 |
-| SYS | 1 | W6 |
+| -------- | ---- | ------ |
+| STR      | 2    | W6     |
+| GES      | 4    | W6     |
+| INT      | 5    | W6     |
+| CHA      | 3    | W6     |
+| TEMP     | 3    | W6     |
+| SYS      | 1    | W6     |
 
 **HP:** 14/14 · **Stress:** 0/12 · **Psi-Heat:** 0
 
 **Talente:** Spurenanalyse +3 · Täuschung +2
 
 **Loadout (Epoche-adaptiert):**
+
 - Seitenwaffe: Makarov PM (Epoche-konform, schalldämpft)
 - Backup: Stilett
 - Gear: Kontaktlinsen-HUD · Mikro-Recorder · Identitäts-Kit (3 Legenden) · Kodex-Comlink (verborgen)
@@ -77,7 +79,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Anya Voss.** Weißrussisch. Kurze, aschblonde Haare, Narbe durch die linke Augenbraue. Spricht wenig. Wenn sie spricht, hat sie recht. Sitzt auf Dächern wie andere Menschen auf Sofas. Hasst Erklärungen. Liebt Winkel.
 
 | STR 2 · GES 6 · INT 4 · CHA 1 · TEMP 2 · SYS 1 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 12/12 · **Stress:** 0/10
 **Waffe:** Epoche-adaptiertes Scharfschützengewehr (Dragunov SVD, modifiziert) · Messer
@@ -90,7 +92,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Felix Brück.** Österreichisch. Groß, breit, Hände wie Schaufeln. Lacht zu viel für jemanden in seinem Job. Trägt keine Schutzweste — "verlangsamt mich". Hat noch nie einen Nahkampf verloren. Hat schon zwei verloren.
 
 | STR 7 · GES 4 · INT 2 · CHA 3 · TEMP 2 · SYS 1 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 18/18 · **Stress:** 0/9
 **Waffe:** Epoche-adaptiert: Schlagstock + Messer · Backup: Revolver
@@ -103,7 +105,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Suki Fenn.** Japanisch-britisch. Klein, ruhig, immer leicht abwesend wirkend — denkt drei Schritte voraus. Fingernägel kurz und sauber. Spricht mit Maschinen besser als mit Menschen. Hat ein Tick: zählt leise, wenn sie unter Druck steht.
 
 | STR 1 · GES 3 · INT 6 · CHA 2 · TEMP 2 · SYS 4 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 10/10 · **Stress:** 0/10
 **Waffe:** Kompakte Pistole · Taser
@@ -118,7 +120,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Marcus Carver.** Nigerianisch-amerikanisch. Mitte vierzig. Graue Schläfen, ruhige Hände. War Chirurg, bevor das ITI ihn rekrutierte. Stellt keine Fragen über Wunden, nur über Blutgruppen. Trinkt zu viel Kaffee. Lächelt nur bei wirklich schlechten Witzen.
 
 | STR 3 · GES 3 · INT 5 · CHA 4 · TEMP 2 · SYS 1 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 13/13 · **Stress:** 0/11
 **Waffe:** Kompakte Pistole · Skalpell-Set (Nahkampf-Notfall)
@@ -150,13 +152,13 @@ Keine Karte, die du erkennst.
 
 ---
 
-*"Episode Zwei, Mission Acht. Codename: EISBLUME. Zielzeitraum —"* er macht eine Pause, als würde er selbst noch nicht ganz daran glauben *"— Stalingrad. November 1942."*
+_"Episode Zwei, Mission Acht. Codename: EISBLUME. Zielzeitraum —"_ er macht eine Pause, als würde er selbst noch nicht ganz daran glauben _"— Stalingrad. November 1942."_
 
 Stille.
 
 Brück hört auf zu grinsen.
 
-*"Mitten in der Kesselschlacht. Temperatur minus zwanzig. Beide Seiten beschießen alles, was sich bewegt. Ihr springt rein als sowjetische Zivilinformanten — Legende bereits vorbereitet. Deckname: WINTERVÖGEL. Ihr habt ein Fenster von achtzehn Stunden vor dem nächsten großen Artilleriebeschuss, der das Zielgebiet in Schutt legt."*
+_"Mitten in der Kesselschlacht. Temperatur minus zwanzig. Beide Seiten beschießen alles, was sich bewegt. Ihr springt rein als sowjetische Zivilinformanten — Legende bereits vorbereitet. Deckname: WINTERVÖGEL. Ihr habt ein Fenster von achtzehn Stunden vor dem nächsten großen Artilleriebeschuss, der das Zielgebiet in Schutt legt."_
 
 Die Karte zoomt. Ein Fabrikgebäude am Wolga-Ufer. Ruinen, Ruinen, mehr Ruinen. Und inmitten davon — ein Hitzesignal, das nicht von 1942 sein kann.
 
@@ -166,37 +168,37 @@ Die Karte zoomt. Ein Fabrikgebäude am Wolga-Ufer. Ruinen, Ruinen, mehr Ruinen. 
 
 ---
 
-*"Das Hitzesignal ist euer Primärziel: Fraktion OUROBOROS hat einen temporalen Anker in den Fabrikruinen installiert. Wir wissen nicht, wie lange er läuft. Wir wissen, wer ihn bewacht."*
+_"Das Hitzesignal ist euer Primärziel: Fraktion OUROBOROS hat einen temporalen Anker in den Fabrikruinen installiert. Wir wissen nicht, wie lange er läuft. Wir wissen, wer ihn bewacht."_
 
 Haas wechselt das Bild.
 
 Ein Gesicht. Männlich, Anfang fünfzig, kalt wie der Fluss nebenan. Hohe Wangenknochen, Augen wie Knöpfe.
 
-*"Codename: PHARAO. Echter Name unbekannt. Zugehörigkeit: OUROBOROS-Fraktion, Rang Episodenboss. Er hat in den letzten zwei Missionen drei ITI-Agenten neutralisiert — permanent. Er ist nicht allein. Seine Leibgarde, 'Die Sieben Siegel', sind sechs Personen: zwei Scharfschützen auf den Ruinen, zwei Nahkämpfer im Inneren, ein Techniker am Anker, und ein Koordinator, den wir bisher nicht lokalisieren konnten."*
+_"Codename: PHARAO. Echter Name unbekannt. Zugehörigkeit: OUROBOROS-Fraktion, Rang Episodenboss. Er hat in den letzten zwei Missionen drei ITI-Agenten neutralisiert — permanent. Er ist nicht allein. Seine Leibgarde, 'Die Sieben Siegel', sind sechs Personen: zwei Scharfschützen auf den Ruinen, zwei Nahkämpfer im Inneren, ein Techniker am Anker, und ein Koordinator, den wir bisher nicht lokalisieren konnten."_
 
 Fenn hört auf zu tippen. Carver setzt seinen Kaffee ab.
 
-*"Primärziel: Anker deaktivieren. Sekundärziel: PHARAO neutralisieren — tot oder lebendig, aber der Anker hat Priorität. Tertiärziel: OUROBOROS-Datenspeicher sichern, falls vorhanden. Rücksprung-Fenster: achtzehn Stunden, Anker im HQ-Relais. Exfil-Point: Wolga-Ufer, 300m nördlich der Fabrik."*
+_"Primärziel: Anker deaktivieren. Sekundärziel: PHARAO neutralisieren — tot oder lebendig, aber der Anker hat Priorität. Tertiärziel: OUROBOROS-Datenspeicher sichern, falls vorhanden. Rücksprung-Fenster: achtzehn Stunden, Anker im HQ-Relais. Exfil-Point: Wolga-Ufer, 300m nördlich der Fabrik."_
 
 Er macht eine Pause. Sieht euch der Reihe nach an.
 
-*"Stalingrad 1942 ist eine der am stärksten überwachten Zeitlinien, die wir kennen. Jede Abweichung zählt. Minimaler Footprint. Kodex ist auf Notfall-Only gesetzt — zu viel Funk-Traffic zieht OUROBOROS-Scanner an. Ihr kommuniziert über Zeichen und Kurzcode."*
+_"Stalingrad 1942 ist eine der am stärksten überwachten Zeitlinien, die wir kennen. Jede Abweichung zählt. Minimaler Footprint. Kodex ist auf Notfall-Only gesetzt — zu viel Funk-Traffic zieht OUROBOROS-Scanner an. Ihr kommuniziert über Zeichen und Kurzcode."_
 
 ---
 
-Voss löst sich von der Wand. *"Kälteausrüstung?"*
+Voss löst sich von der Wand. _"Kälteausrüstung?"_
 
-*"Epoche-konform. Sowjetische Wintermäntel, Filzstiefel, Waffen der Zeit. Keine Anachronismen im Äußeren."*
+_"Epoche-konform. Sowjetische Wintermäntel, Filzstiefel, Waffen der Zeit. Keine Anachronismen im Äußeren."_
 
-Brück: *"Wie kalt ist minus zwanzig?"*
+Brück: _"Wie kalt ist minus zwanzig?"_
 
-Carver, ohne aufzublicken: *"Kalt genug, dass dein Schweiß gefriert, bevor er den Boden erreicht."*
+Carver, ohne aufzublicken: _"Kalt genug, dass dein Schweiß gefriert, bevor er den Boden erreicht."_
 
-Brück nickt langsam. *"Schön."*
+Brück nickt langsam. _"Schön."_
 
-Fenn tippt wieder. *"Der Techniker am Anker — wenn der die Sicherung aktiviert, bevor wir rankommen?"*
+Fenn tippt wieder. _"Der Techniker am Anker — wenn der die Sicherung aktiviert, bevor wir rankommen?"_
 
-*"Dann habt ihr ein Problem."* Haas klappt die Tafel zu. *"Fragen?"*
+_"Dann habt ihr ein Problem."_ Haas klappt die Tafel zu. _"Fragen?"_
 
 ---
 
@@ -221,7 +223,7 @@ Fenn tippt wieder. *"Der Techniker am Anker — wenn der die Sicherung aktiviert
 
 **Voss** ist bereits verschwunden — steht wahrscheinlich schon in der Sprungkammer.
 
-**Fenn** schließt ihr Terminal, steckt es ein. Sieht dich an. *"Ich hab den Anker-Typ schon analysiert. Wenn wir ihn unter Druck setzen, bevor er die Sicherung aktiviert — zwei Minuten Fenster, maximal. Danach ist der Anker heiß."*
+**Fenn** schließt ihr Terminal, steckt es ein. Sieht dich an. _"Ich hab den Anker-Typ schon analysiert. Wenn wir ihn unter Druck setzen, bevor er die Sicherung aktiviert — zwei Minuten Fenster, maximal. Danach ist der Anker heiß."_
 
 Du hast das letzte Wort vor dem Sprung.
 
@@ -235,12 +237,11 @@ Du hast das letzte Wort vor dem Sprung.
 
 **Freie Aktion:** Andere Taktik oder Vorbereitung im HQ vor dem Sprung?
 
-
 ---
 
 ## Szene 2
 
-*[Spieler-Input:]*
+_[Spieler-Input:]_
 
 Option 1 — Nacht-Infil. Wir springen 2 Stunden vor Morgengrauen. Voss positioniert sich sofort auf den Ruinen östlich der Fabrik für Überblick. Fenn und ich infiltrieren von Norden, Brück und Carver von Westen. Funkstille, Kurzcode.
 
@@ -250,7 +251,7 @@ Dann: Sobald wir die Positionen kennen, eliminiert Voss einen Scharfschützen la
 
 Zeitmesser läuft. Go.
 
-*[SL-Antwort (106.7s, $0.1008):]*
+_[SL-Antwort (106.7s, $0.1008):]_
 
 `EP 2 · MS 8 · SC 2/14 · PHASE Infil · MODE RIFT · COMMS NOTFALL-ONLY · Lvl 8 ▓▓▓▓▓▓▓▓░░ 8/10 · Px 3/5 · Stress 0/12 · Obj: Anker lokalisieren / PHARAO · Exfil: T-18:00:00`
 
@@ -278,15 +279,15 @@ Ihr steht in einer Ruine.
 
 Drei Wände, keine Decke. Irgendwann war das ein Wohnzimmer — ein Stuhl liegt auf der Seite, eingefroren in einer Pfütze die vor Wochen Blut war. Die vierte Wand fehlt komplett, gibt den Blick frei auf ein Panorama aus Trümmern, das sich bis zum Horizont zieht. Stalingrad bei Nacht ist kein Ort. Es ist ein Zustand.
 
-Kein Mond. Nur der diffuse Schein von Bränden, irgendwo westlich, und der entfernte rhythmische Donnern der Artillerie — *wumm, wumm, wumm* — wie ein schlechter Herzschlag. Die Wolga ist nicht zu sehen, aber zu riechen: Eiswasser und verbranntes Holz.
+Kein Mond. Nur der diffuse Schein von Bränden, irgendwo westlich, und der entfernte rhythmische Donnern der Artillerie — _wumm, wumm, wumm_ — wie ein schlechter Herzschlag. Die Wolga ist nicht zu sehen, aber zu riechen: Eiswasser und verbranntes Holz.
 
 Voss ist bereits weg. Du hast nicht gesehen, wann sie sich bewegt hat.
 
 `Kodex: Sprung bestätigt. Zielkoordinaten ±12m. Lokale Zeit: 04:17. Artillerie-Intervall: letzter Einschlag vor 23 Minuten. Nächstes Fenster: unbekannt. Funk-Traffic: minimal. Kein OUROBOROS-Signal in Reichweite — noch nicht.`
 
-Brück zieht die Schultern hoch, atmet durch die Nase. Sein Atem gefriert sofort. Er sieht aus wie ein Stier kurz vor dem Angriff. Er tippt zweimal auf seine Schulter — *bereit* — und nickt Carver zu. Carver hat bereits eine Hand auf dem Medbag, die andere in der Manteltasche. Nickt zurück.
+Brück zieht die Schultern hoch, atmet durch die Nase. Sein Atem gefriert sofort. Er sieht aus wie ein Stier kurz vor dem Angriff. Er tippt zweimal auf seine Schulter — _bereit_ — und nickt Carver zu. Carver hat bereits eine Hand auf dem Medbag, die andere in der Manteltasche. Nickt zurück.
 
-Fenn ist neben dir. Ihr Blick geht sofort nach oben, tastet die Ruinen-Silhouetten ab. Sie zieht ein dünnes Kabelende aus dem Mantelärmel — ihr Frequenz-Scanner, epoche-konform versteckt in einem modifizierten Feldtelefon-Gehäuse. Flüstert, kaum hörbar: *„Ich brauche zwei Minuten."*
+Fenn ist neben dir. Ihr Blick geht sofort nach oben, tastet die Ruinen-Silhouetten ab. Sie zieht ein dünnes Kabelende aus dem Mantelärmel — ihr Frequenz-Scanner, epoche-konform versteckt in einem modifizierten Feldtelefon-Gehäuse. Flüstert, kaum hörbar: _„Ich brauche zwei Minuten."_
 
 Du hast eine Minute, bevor Brück und Carver ihre Route nehmen.
 
@@ -294,7 +295,7 @@ Du hast eine Minute, bevor Brück und Carver ihre Route nehmen.
 
 ## PROBE 1: SPURENANALYSE — SCHARFSCHÜTZEN-POSITIONEN
 
-*Du scannst die Ruinen. Deine Augen arbeiten die Silhouetten ab — Dächer, Fensterhöhlen, Trümmerhalden. Wo würdest du sitzen, wenn du OUROBOROS-Scharfschütze wärst?*
+_Du scannst die Ruinen. Deine Augen arbeiten die Silhouetten ab — Dächer, Fensterhöhlen, Trümmerhalden. Wo würdest du sitzen, wenn du OUROBOROS-Scharfschütze wärst?_
 
 **SG 9** — Nacht, keine Sicht-Hilfsmittel, zwei Positionen, Gelände unbekannt.
 
@@ -306,7 +307,7 @@ Dein Blick hängt drei Sekunden an einem Punkt fest — dann noch einer.
 
 **Position Alpha:** Ruinenturm, nordöstlich. Dritter Stock, keine Decke mehr, aber eine Betonplatte die als Schießscharte funktioniert. Jemand hat dort eine dunkle Plane aufgehängt — zu ordentlich für Zufall, falsche Richtung für Windschutz. Darunter: eine Silhouette, reglos, auf die Fabrik gerichtet.
 
-**Position Beta:** Schwieriger. Westlich, niedriger — ein ausgebrannter Fabrikschlot, noch stehend. Kein direktes Sichtfeld auf die Fabrik, aber perfekter Überblick über die Nordroute. *Deine* Route. Dort sitzt jemand der nicht die Fabrik bewacht — der den Zugang bewacht.
+**Position Beta:** Schwieriger. Westlich, niedriger — ein ausgebrannter Fabrikschlot, noch stehend. Kein direktes Sichtfeld auf die Fabrik, aber perfekter Überblick über die Nordroute. _Deine_ Route. Dort sitzt jemand der nicht die Fabrik bewacht — der den Zugang bewacht.
 
 Du tippst zweimal kurz auf Fenns Schulter. Zeigst mit zwei Fingern — Nord, dann West. Sie sieht sofort, was du meinst. Nickt einmal.
 
@@ -314,7 +315,7 @@ Du tippst zweimal kurz auf Fenns Schulter. Zeigst mit zwei Fingern — Nord, dan
 
 ## PROBE 2: FENN — ANKER-FUNK LOKALISIEREN
 
-*Fenn hält ihr modifiziertes Feldtelefon-Gehäuse gegen die Ruinenwand, Kabel in den Riss geschoben. Zählt leise. Drei, zwei, eins.*
+_Fenn hält ihr modifiziertes Feldtelefon-Gehäuse gegen die Ruinenwand, Kabel in den Riss geschoben. Zählt leise. Drei, zwei, eins._
 
 **SG 10** — OUROBOROS-Signal ist verschlüsselt und schwach, Störungen durch Artillerie-Funk.
 
@@ -326,15 +327,15 @@ Fenn hört auf zu zählen.
 
 Sie dreht sich zu dir, Augen leicht geweitet — die einzige Emotion die du je bei ihr siehst. Zeigt mit dem Kabelende: Südost. Dann hält sie drei Finger hoch. Drei Meter unter dem Boden.
 
-*Unterirdisch.* Der Anker ist in einem Bunker oder Keller unter der Fabrik vergraben. Das erklärt das Hitzesignal — und warum OUROBOROS die Oberfläche bewacht statt den Anker selbst zu verstecken. Sie haben ihn eingegraben und die Scharfschützen als Perimeter gesetzt.
+_Unterirdisch._ Der Anker ist in einem Bunker oder Keller unter der Fabrik vergraben. Das erklärt das Hitzesignal — und warum OUROBOROS die Oberfläche bewacht statt den Anker selbst zu verstecken. Sie haben ihn eingegraben und die Scharfschützen als Perimeter gesetzt.
 
-Sie tippt auf ihr Feldtelefon-Gehäuse, dann auf ihre Uhr. Zwei Finger. *Zwei Stunden Batterielaufzeit, dann ist der Scanner tot.*
+Sie tippt auf ihr Feldtelefon-Gehäuse, dann auf ihre Uhr. Zwei Finger. _Zwei Stunden Batterielaufzeit, dann ist der Scanner tot._
 
 `Kodex: Signal-Triangulation bestätigt. Anker-Standort: Keller, Fabrikgebäude Sektor 9-C, Tiefe geschätzt 4–6m. Techniker-Funk aktiv — Intervall 8 Minuten. Nächste Übertragung: in 6 Minuten.`
 
 ---
 
-Brück lehnt sich zu dir. Flüstert — für Brück-Verhältnisse, also immer noch zu laut: *„Sag mir wann."*
+Brück lehnt sich zu dir. Flüstert — für Brück-Verhältnisse, also immer noch zu laut: _„Sag mir wann."_
 
 Du hast die Positionen. Du hast den Anker. Jetzt braucht ihr einen Korridor.
 
@@ -372,7 +373,7 @@ Voss: **[✓]**
 
 ## PROBE 3: BRÜCK + CARVER — WESTROUTE, SCHLOT-SCHARFSCHÜTZE
 
-*Jetzt seid ihr dran. Brück und Carver bewegen sich zur Westflanke. Der Scharfschütze am Schlot hat die Nordroute im Visier — aber nicht die Westroute, noch nicht. Brück muss nah genug rankommen, bevor der Mann dreht.*
+_Jetzt seid ihr dran. Brück und Carver bewegen sich zur Westflanke. Der Scharfschütze am Schlot hat die Nordroute im Visier — aber nicht die Westroute, noch nicht. Brück muss nah genug rankommen, bevor der Mann dreht._
 
 **SG 8** — Nacht, Trümmergelände, Scharfschütze mit Blick auf Bewegung.
 
@@ -388,7 +389,7 @@ Du siehst es durch die Ruinenwand — eine Bewegung, ein Drehen, das Gewehr das 
 
 `Kodex: Kontakt. Schlot-Position aktiv. Reaktionszeit: 3 Sekunden.`
 
-**Brück entscheidet in einem Herzschlag.** Er wirft sich nicht hin — zu laut, Eis. Er *fällt* seitwärts, hinter einen Betonbrocken, lässt sich fallen wie ein Sack, kontrolliert, lautlos. Carver, einen Schritt hinter ihm, sieht es und friert sofort ein — lehnt sich gegen die Wand, atmet nicht.
+**Brück entscheidet in einem Herzschlag.** Er wirft sich nicht hin — zu laut, Eis. Er _fällt_ seitwärts, hinter einen Betonbrocken, lässt sich fallen wie ein Sack, kontrolliert, lautlos. Carver, einen Schritt hinter ihm, sieht es und friert sofort ein — lehnt sich gegen die Wand, atmet nicht.
 
 Die Silhouette am Schlot hält. Dreht langsam. Sucht.
 
@@ -396,13 +397,13 @@ Fünf Sekunden.
 
 Zehn.
 
-*Wumm.* Artillerie, westlich. Der Boden zittert leicht. Der Scharfschütze dreht sich zurück — Reflex, alle drehen sich zum Einschlag. Brück sieht es. Carver sieht es.
+_Wumm._ Artillerie, westlich. Der Boden zittert leicht. Der Scharfschütze dreht sich zurück — Reflex, alle drehen sich zum Einschlag. Brück sieht es. Carver sieht es.
 
 ---
 
 ## PROBE 4: BRÜCK — NAHKAMPF, SCHLOT-SCHARFSCHÜTZE
 
-*Brück hat ein Fenster von vier Sekunden während der Scharfschütze abgelenkt ist. Er ist zwölf Meter entfernt. Trümmer dazwischen.*
+_Brück hat ein Fenster von vier Sekunden während der Scharfschütze abgelenkt ist. Er ist zwölf Meter entfernt. Trümmer dazwischen._
 
 **SG 10** — Distanz, Zeitdruck, keine Geräusche.
 
@@ -416,7 +417,7 @@ Zwölf Meter in vier Sekunden über gefrorenem Schutt — er setzt die Füße au
 
 Brücks linke Hand schließt sich um den Gewehrlauf. Drückt ihn runter. Die rechte Hand kommt gleichzeitig — Handballen an die Schläfe, nicht die Faust, kein Knacken, kein Schrei. Der Scharfschütze sackt. Brück fängt ihn auf, bevor er den Schlot trifft, hält ihn einen Moment wie ein Kind, legt ihn dann langsam auf den Beton.
 
-Sieht zu Carver. Tippt auf seine eigene Schläfe. *Ohnmächtig, nicht tot.*
+Sieht zu Carver. Tippt auf seine eigene Schläfe. _Ohnmächtig, nicht tot._
 
 Carver kniet bereits daneben. Prüft Puls. Hebt einen Daumen.
 
@@ -454,7 +455,7 @@ Du stehst jetzt am Fabrikzaun. Was noch von ihm übrig ist — drei Pfosten und 
 
 Und PHARAO.
 
-Fenns Hand liegt auf deinem Arm. Kurzer Druck. Sie zeigt nach unten — den Kellerzugang, den sie durch den Scanner erspürt hat. Dann zeigt sie auf sich. *Ich kann den Anker sabotieren.* Dann zeigt sie auf die Fabrik-Ruine allgemein. *Aber da drin ist noch jemand.*
+Fenns Hand liegt auf deinem Arm. Kurzer Druck. Sie zeigt nach unten — den Kellerzugang, den sie durch den Scanner erspürt hat. Dann zeigt sie auf sich. _Ich kann den Anker sabotieren._ Dann zeigt sie auf die Fabrik-Ruine allgemein. _Aber da drin ist noch jemand._
 
 Brück und Carver sind hinter euch. Brück hat den Tokarev eingesteckt.
 
@@ -474,7 +475,7 @@ Brück und Carver sind hinter euch. Brück hat den Tokarev eingesteckt.
 
 ## Szene 3
 
-*[Spieler-Input:]*
+_[Spieler-Input:]_
 
 Wir drücken durch zur Fabrikhalle. Ich schicke Brück vor — er soll den Nahkämpfer am Eingang binden. Fenn hackt den Anker-Techniker aus dem System, bevor er die Sicherung aktiviert. Ich decke Fenn. Carver bleibt im Rücken und sichert unseren Rückzug.
 
@@ -484,7 +485,7 @@ Wenn der Techniker die Sicherung trotzdem aktiviert, improvisieren wir. Ich hab 
 
 Volle Action. Jede Probe zeigen.
 
-*[SL-Antwort (85.5s, $0.1125):]*
+_[SL-Antwort (85.5s, $0.1125):]_
 
 `EP 2 · MS 8 · SC 4/14 · PHASE Konflikt · MODE RIFT · COMMS NOTFALL-ONLY · Lvl 8 ▓▓▓▓▓▓▓▓░░ 8/10 · Px 3/5 · Stress 1/12 · Obj: Anker sichern / PHARAO · Exfil: T-17:44:00 · ⏱️ Scharfschütze wach: 7 Min`
 
@@ -510,7 +511,7 @@ Brück sieht dich an. Du nickst.
 
 ## PROBE 5: BRÜCK — ANSCHLEICHEN AN NAHKÄMPFER 1
 
-*Dreißig Meter offenes Gelände, Trümmer als Deckung, Feuerschein der Schatten wirft aber auch Licht streut. Der Mann ist groß und wahrscheinlich trainiert.*
+_Dreißig Meter offenes Gelände, Trümmer als Deckung, Feuerschein der Schatten wirft aber auch Licht streut. Der Mann ist groß und wahrscheinlich trainiert._
 
 **SG 9** — Feuerschein, unbekannte Aufmerksamkeit, Trümmergelände.
 
@@ -520,7 +521,7 @@ Brück sieht dich an. Du nickst.
 
 Brück bewegt sich anders als draußen.
 
-Draußen war er schnell. Hier ist er *klein* — zieht die Schultern ein, macht sich schmal, setzt jeden Schritt mit der Außenkante des Fußes, rollt ab. Du verlierst ihn nach acht Metern in den Schatten. Siehst nur noch die Öltrommel, den Mann, das Feuer.
+Draußen war er schnell. Hier ist er _klein_ — zieht die Schultern ein, macht sich schmal, setzt jeden Schritt mit der Außenkante des Fußes, rollt ab. Du verlierst ihn nach acht Metern in den Schatten. Siehst nur noch die Öltrommel, den Mann, das Feuer.
 
 Fünfzehn Sekunden.
 
@@ -546,7 +547,7 @@ Aber dann: **Stimmen.**
 
 Nicht Russisch. Nicht Deutsch. Etwas dazwischen — eine Sprache die du nicht einordnen kannst, rhythmisch, kurze Sätze. Aus der Falltür. Zwei Stimmen. Eine ruhig, eine angespannt.
 
-Fenn hält drei Finger hoch. *Drei Minuten bis zur nächsten Funk-Übertragung des Technikers.*
+Fenn hält drei Finger hoch. _Drei Minuten bis zur nächsten Funk-Übertragung des Technikers._
 
 Du positionierst dich neben der Falltür, Rücken zur Wand, Seitenwaffe gezogen. Fenn kniet daneben, ihr Terminal-Kit ausgepackt — ein modifiziertes Feldtelefon-Gehäuse mit Kabelverbindung, das sie jetzt in den Spalt der Falltür schiebt.
 
@@ -556,7 +557,7 @@ Carver hat die Halle im Rücken. Du hörst ihn nicht. Das ist gut.
 
 ## PROBE 6: FENN — ANKER-FUNK ABFANGEN, SICHERUNG BLOCKIEREN
 
-*Fenn muss den Techniker-Funk abfangen und ein Loop-Signal einspeisen, bevor der Techniker seine 8-Minuten-Übertragung sendet. Sie hat das Kabel im Spalt, aber der Keller hat Abschirmung — Beton und Erde.*
+_Fenn muss den Techniker-Funk abfangen und ein Loop-Signal einspeisen, bevor der Techniker seine 8-Minuten-Übertragung sendet. Sie hat das Kabel im Spalt, aber der Keller hat Abschirmung — Beton und Erde._
 
 **SG 12** — Abschirmung, Zeitdruck, epoche-fremde Tech versteckt in Epoche-konformem Gehäuse.
 
@@ -564,19 +565,19 @@ Carver hat die Halle im Rücken. Du hörst ihn nicht. Das ist gut.
 
 ---
 
-Fenn zählt. *Drei. Zwei. Eins.*
+Fenn zählt. _Drei. Zwei. Eins._
 
 Nichts.
 
 Sie zieht das Kabel raus, prüft den Kontakt, schiebt es tiefer in den Spalt. Diesmal mit einem zweiten Kabel parallel — breitere Frequenz. Zählt wieder.
 
-*Drei. Zwei —*
+_Drei. Zwei —_
 
 Aus der Tiefe: ein Knacken. Dann eine Stimme, klar und nah: der Techniker, direkt unter der Falltür, seine Übertragung läuft an. Kurze Sätze, rhythmisch. Statusmeldung. Fenn erkennt das Muster — sie hat es, aber eine Sekunde zu spät.
 
 Die Übertragung ist raus.
 
-Fenn sieht dich an. Drei Wörter, lautlos geformt: *Er weiß Bescheid.*
+Fenn sieht dich an. Drei Wörter, lautlos geformt: _Er weiß Bescheid._
 
 `Kodex: Anker-Sicherung: Status unbekannt. Techniker-Funk gesendet. Empfänger: PHARAO. Geschätzte Reaktionszeit: 90 Sekunden.`
 
@@ -592,7 +593,7 @@ Jemand kommt.
 
 ## PROBE 7: PRISM — SPURENANALYSE, KOORDINATOR IDENTIFIZIEREN
 
-*Du hörst die Schritte, analysierst Rhythmus, Gewicht, Richtung. Wer ist das — der zweite Nahkämpfer, oder der Koordinator?*
+_Du hörst die Schritte, analysierst Rhythmus, Gewicht, Richtung. Wer ist das — der zweite Nahkämpfer, oder der Koordinator?_
 
 **SG 8** — Dunkelheit, Distanz, ein einzelner akustischer Datenpunkt.
 
@@ -600,7 +601,7 @@ Jemand kommt.
 
 ---
 
-Gleichmäßig. Zu gleichmäßig für jemanden der patrouilliert. Kein Zögern an Ecken, keine Reaktion auf Geräusche — dieser Mann *weiß* wo er hingeht. Und die Schritte sind leicht für die Stiefelgröße, Gewicht vorne auf dem Ballen, nicht der Ferse.
+Gleichmäßig. Zu gleichmäßig für jemanden der patrouilliert. Kein Zögern an Ecken, keine Reaktion auf Geräusche — dieser Mann _weiß_ wo er hingeht. Und die Schritte sind leicht für die Stiefelgröße, Gewicht vorne auf dem Ballen, nicht der Ferse.
 
 Kein Kämpfer. Jemand der denkt während er läuft.
 
@@ -628,7 +629,7 @@ Dein Täuschungs-Talent. Jetzt oder nie.
 
 ## PROBE 8: PRISM — TÄUSCHUNG, KOORDINATOR ABLENKEN
 
-*Du trittst aus dem Schatten. Sowjetischer Wintermantel, kyrillische Erkennungsmarke vom gesicherten Scharfschützen um den Hals. Du spielst einen verirrten Rotarmisten — erschöpft, desorientiert, auf der Suche nach seiner Einheit. Jede Sekunde die du den Koordinator hältst, ist eine Sekunde die Fenn braucht.*
+_Du trittst aus dem Schatten. Sowjetischer Wintermantel, kyrillische Erkennungsmarke vom gesicherten Scharfschützen um den Hals. Du spielst einen verirrten Rotarmisten — erschöpft, desorientiert, auf der Suche nach seiner Einheit. Jede Sekunde die du den Koordinator hältst, ist eine Sekunde die Fenn braucht._
 
 **SG 11** — Koordinator ist trainiert, angespannt, erwartet Bedrohung, schlechtes Licht ist dein Vorteil.
 
@@ -638,9 +639,9 @@ Dein Täuschungs-Talent. Jetzt oder nie.
 
 Du taumelst aus dem Schatten.
 
-Nicht gespielt — du lässt dich *fallen*, fängst dich an der Wand ab, lässt den Arm zittern. Minus zweiundzwanzig Grad helfen: dein Gesicht ist wirklich blass, deine Lippen wirklich blau, dein Atem wirklich flach. Du brauchst nicht viel zu spielen.
+Nicht gespielt — du lässt dich _fallen_, fängst dich an der Wand ab, lässt den Arm zittern. Minus zweiundzwanzig Grad helfen: dein Gesicht ist wirklich blass, deine Lippen wirklich blau, dein Atem wirklich flach. Du brauchst nicht viel zu spielen.
 
-*„Помогите — помогите, пожалуйста —"* Hilfst du mir — bitte hilf mir.
+_„Помогите — помогите, пожалуйста —"_ Hilfst du mir — bitte hilf mir.
 
 Der Koordinator stoppt.
 
@@ -648,13 +649,13 @@ Er ist Mitte vierzig, schmal, Brille — Brille, in Stalingrad, das ist entweder
 
 Drei Sekunden Kalkulation hinter diesen Brillengläsern.
 
-Dann macht er einen Schritt auf dich zu. *„Welche Einheit?"*
+Dann macht er einen Schritt auf dich zu. _„Welche Einheit?"_
 
 Russisch. Akzent — aber welcher Akzent? Nicht Moskau. Nicht Stalingrad. Dein Hirn arbeitet. Osteuropäisch. Rumänisch vielleicht. Oder —
 
 Egal. Er kommt näher. Das ist alles was zählt.
 
-Du taumelst weiter, weg von der Falltür, zieht ihn mit. *„Sechste Armee — nein, neunte — ich weiß nicht mehr, ich weiß es nicht mehr —"* Lass ihn glauben du bist im Schock.
+Du taumelst weiter, weg von der Falltür, zieht ihn mit. _„Sechste Armee — nein, neunte — ich weiß nicht mehr, ich weiß es nicht mehr —"_ Lass ihn glauben du bist im Schock.
 
 Hinter ihm: Fenn. Kabel wieder im Spalt. Zählt.
 
@@ -662,7 +663,7 @@ Hinter ihm: Fenn. Kabel wieder im Spalt. Zählt.
 
 ## PROBE 9: FENN — ZWEITER VERSUCH, SICHERUNG BLOCKIEREN
 
-*Fenn hat dreißig Sekunden während du den Koordinator hältst. Diesmal weiß sie wo der Kontaktpunkt ist.*
+_Fenn hat dreißig Sekunden während du den Koordinator hältst. Diesmal weiß sie wo der Kontaktpunkt ist._
 
 **SG 10** — Bekannte Abschirmung, bessere Position, Zeitdruck aber keine Überraschung mehr.
 
@@ -676,11 +677,11 @@ Ihr Gesicht verändert sich nicht — aber ihre Hand, die das Kabelende hält, e
 
 Sie hat nicht nur die Sicherung blockiert.
 
-Sie hat den Techniker-Funk übernommen. Das Loop-Signal läuft — der Techniker glaubt er kommuniziert mit PHARAO. Er wartet auf Bestätigung. Er *wartet*.
+Sie hat den Techniker-Funk übernommen. Das Loop-Signal läuft — der Techniker glaubt er kommuniziert mit PHARAO. Er wartet auf Bestätigung. Er _wartet_.
 
 Fenn zieht das zweite Kabel aus dem Spalt, hält es hoch. Zeigt auf die Falltür. Zeigt auf sich. Zeigt nach unten.
 
-*Ich kann rein. Jetzt.*
+_Ich kann rein. Jetzt._
 
 `Kodex: Anker-Sicherung: BLOCKIERT. Techniker-Loop aktiv. Stabilität: 4 Minuten, dann Signal-Drift erkennbar. Fenster: läuft.`
 
@@ -692,7 +693,7 @@ Er hat aufgehört, auf dich zuzukommen. Steht drei Meter entfernt, Kopf leicht g
 
 Zu ruhig. Zu kontrolliert für Schockzustand. Die Erkennungsmarke sitzt zu gerade.
 
-*„Du bist nicht von der Neunten."* Kein Russisch mehr. Englisch, leise, präzise. *„Wer hat dich geschickt?"*
+_„Du bist nicht von der Neunten."_ Kein Russisch mehr. Englisch, leise, präzise. _„Wer hat dich geschickt?"_
 
 Seine Hand bewegt sich zum Mantel.
 
@@ -716,15 +717,15 @@ Seine Hand bewegt sich zum Mantel.
 
 ## Szene 4
 
-*[Spieler-Input:]*
+_[Spieler-Input:]_
 
-PHARAO stellt sich uns. Voller Boss-Kampf. Alle fünf gegen ihn und was von seinen Leuten noch übrig ist. 
+PHARAO stellt sich uns. Voller Boss-Kampf. Alle fünf gegen ihn und was von seinen Leuten noch übrig ist.
 
 Ich koordiniere das Team: Voss fernkampf, Brück nahkampf als Tank, Fenn support/hacking, Carver heilt wer's braucht. Ich selbst bleibe taktisch — Spurenanalyse um seine Schwächen zu finden, Täuschung um ihn in Position zu bringen wo Voss den Kill-Shot hat.
 
 Zeig mir den vollen Kampf mit allen Proben, dann Debrief und Score-Screen. Mach es episch.
 
-*[SL-Antwort (165.3s, $0.1841):]*
+_[SL-Antwort (165.3s, $0.1841):]_
 
 `EP 2 · MS 8 · SC 5/14 · PHASE Konflikt · MODE RIFT · COMMS NOTFALL-ONLY · Lvl 8 ▓▓▓▓▓▓▓▓░░ 8/10 · Px 3/5 · Stress 2/12 · Obj: PHARAO neutralisieren · Exfil: T-17:31:00 · 💀 BOSS-ENCOUNTER · ⏱️ Loop: 3 Min`
 
@@ -746,23 +747,23 @@ Nicht breit. Nicht warm. Das Lächeln eines Mannes der eine Rechnung aufgestellt
 
 Er sieht dich an.
 
-*„Der Taktiker."* Deutsch, ohne Akzent. *„Wir haben auf euch gewartet."*
+_„Der Taktiker."_ Deutsch, ohne Akzent. _„Wir haben auf euch gewartet."_
 
 Hinter ihm: der zweite Nahkämpfer klettert aus der Falltür. Dann der Techniker — Hände leer, aber Augen wach. Drei gegen fünf, aber PHARAO zählt als mehr als einer, das weißt du bereits.
 
-Und dann — Brücks Stimme, von irgendwo in den Trümmern, laut und fröhlich wie immer: *„Oi. Chef. Wir fangen an?"*
+Und dann — Brücks Stimme, von irgendwo in den Trümmern, laut und fröhlich wie immer: _„Oi. Chef. Wir fangen an?"_
 
 ---
 
 PHARAO dreht sich nicht zu Brück. Sieht weiter dich an.
 
-*„Euer Anker-Loop läuft seit drei Minuten und siebenunddreißig Sekunden. Ich habe ihn selbst programmiert. Ich weiß wann er driftet."* Eine Pause. *„Noch neunzig Sekunden."*
+_„Euer Anker-Loop läuft seit drei Minuten und siebenunddreißig Sekunden. Ich habe ihn selbst programmiert. Ich weiß wann er driftet."_ Eine Pause. _„Noch neunzig Sekunden."_
 
 `Kodex: Loop-Drift bestätigt. Fenster: 87 Sekunden. Anker-Sicherung reaktiviert sich automatisch bei Drift. Techniker steht 4m vom Anker-Zugang.`
 
 Fenn hört das. Ihre Hand bewegt sich zum Kabelset.
 
-PHARAO sieht es. *„Ich würde das nicht —"*
+PHARAO sieht es. _„Ich würde das nicht —"_
 
 **Du gibst das Zeichen.**
 
@@ -774,6 +775,7 @@ PHARAO sieht es. *„Ich würde das nicht —"*
 HP: 45/45 · Panzerung: Leicht (−1 Schaden) · Phasen: 3
 
 **Leibgarde (Rest):**
+
 - Nahkämpfer 2: HP 14/14
 - Techniker: HP 8/8 (nicht-kämpfend, aber Anker-Zugang)
 - Koordinator: HP 11/11
@@ -782,7 +784,7 @@ HP: 45/45 · Panzerung: Leicht (−1 Schaden) · Phasen: 3
 
 ## ⚔️ RUNDE 1 — INITIATIVE
 
-*Wer handelt zuerst? Du hast die Lage analysiert. Das zählt.*
+_Wer handelt zuerst? Du hast die Lage analysiert. Das zählt._
 
 **SG 7** — Initiative-Probe, Überraschungsmoment nutzen.
 
@@ -794,7 +796,7 @@ HP: 45/45 · Panzerung: Leicht (−1 Schaden) · Phasen: 3
 
 ### PRISM — SPURENANALYSE: PHARAOS SCHWÄCHEN LESEN
 
-*Bevor du irgendwas tust: du liest ihn. Drei Sekunden. Bewegungsmuster, Gewichtsverteilung, wo seine Augen hingehen.*
+_Bevor du irgendwas tust: du liest ihn. Drei Sekunden. Bewegungsmuster, Gewichtsverteilung, wo seine Augen hingehen._
 
 **SG 10** — Episodenboss, trainiert, weiß dass du ihn analysierst.
 
@@ -804,7 +806,7 @@ HP: 45/45 · Panzerung: Leicht (−1 Schaden) · Phasen: 3
 
 Zu wenig Zeit. Er gibt dir nichts — steht wie eine Wand, gleichmäßig, keine Schwäche die du lesen kannst. Aber eine Sache: er sieht zweimal zur Falltür. Kurz. Reflex.
 
-*Er will den Anker schützen. Das ist sein Anker, nicht nur ein Werkzeug.*
+_Er will den Anker schützen. Das ist sein Anker, nicht nur ein Werkzeug._
 
 Nicht genug für einen Bonus. Aber genug für einen Plan.
 
@@ -812,7 +814,7 @@ Nicht genug für einen Bonus. Aber genug für einen Plan.
 
 ### VOSS — PRÄZISIONSSCHUSS: KOORDINATOR
 
-*Voss hat von ihrem Posten Sichtlinie durch ein eingeschlagenes Fenster. Koordinator steht frei.*
+_Voss hat von ihrem Posten Sichtlinie durch ein eingeschlagenes Fenster. Koordinator steht frei._
 
 **SG 9** — Distanz ~80m, Feuerschein, bewegtes Ziel.
 
@@ -822,7 +824,7 @@ Nicht genug für einen Bonus. Aber genug für einen Plan.
 
 ---
 
-Der Schuss kommt durch das Fenster wie ein Gedanke — kein Knall, nur ein scharfes *Fft* und der Koordinator dreht sich halb um, als hätte ihn jemand an der Schulter berührt. Dann sackt er.
+Der Schuss kommt durch das Fenster wie ein Gedanke — kein Knall, nur ein scharfes _Fft_ und der Koordinator dreht sich halb um, als hätte ihn jemand an der Schulter berührt. Dann sackt er.
 
 Nicht tot. Schulter, rechts. Er fällt hinter einen Betonbrocken, weg aus Voss' Sichtlinie.
 
@@ -836,7 +838,7 @@ PHARAO registriert es. Das Lächeln verschwindet nicht. Wird schmaler.
 
 ### BRÜCK — NAHKAMPF: NAHKÄMPFER 2
 
-*Brück kommt aus den Trümmern wie ein Zug ohne Bremsen. Nahkämpfer 2 dreht sich zu spät.*
+_Brück kommt aus den Trümmern wie ein Zug ohne Bremsen. Nahkämpfer 2 dreht sich zu spät._
 
 **SG 10** — Gegner ist vorbereitet, hat Messer gezogen.
 
@@ -846,17 +848,17 @@ PHARAO registriert es. Das Lächeln verschwindet nicht. Wird schmaler.
 
 ---
 
-Brück trifft den Nahkämpfer mit der Schulter — kein Schlag, ein *Rammen*, volles Körpergewicht, und der Mann fliegt rückwärts gegen die Betonwand. Das Messer landet irgendwo im Dunkel. Brück folgt nach, zwei kurze Schläge, Rippen, dann Kinn. Knochen knacken. Der Nahkämpfer rutscht an der Wand runter.
+Brück trifft den Nahkämpfer mit der Schulter — kein Schlag, ein _Rammen_, volles Körpergewicht, und der Mann fliegt rückwärts gegen die Betonwand. Das Messer landet irgendwo im Dunkel. Brück folgt nach, zwei kurze Schläge, Rippen, dann Kinn. Knochen knacken. Der Nahkämpfer rutscht an der Wand runter.
 
 **Nahkämpfer 2: HP 3/14. Kampfunfähig.**
 
-Brück schüttelt die Hand. Grinst. *„Nächster."*
+Brück schüttelt die Hand. Grinst. _„Nächster."_
 
 ---
 
 ### FENN — TECHNIKER BINDEN, ANKER SICHERN
 
-*Fenn muss den Techniker vom Anker-Zugang weghalten und gleichzeitig den Loop stabilisieren. Zwei Aktionen, eine Person.*
+_Fenn muss den Techniker vom Anker-Zugang weghalten und gleichzeitig den Loop stabilisieren. Zwei Aktionen, eine Person._
 
 **SG 11** — Zeitdruck, Techniker ist kein Kämpfer aber körperlich nah am Zugang.
 
@@ -864,7 +866,7 @@ Brück schüttelt die Hand. Grinst. *„Nächster."*
 
 ---
 
-Fenn schiebt das Kabel in den Spalt — aber der Techniker ist schneller als erwartet. Kein Kämpfer, aber er kennt seine Aufgabe: er tritt das Kabel weg, tritt *Fenn* weg, ein flacher Stoß mit dem Ellbogen der sie einen Schritt zurückwirft.
+Fenn schiebt das Kabel in den Spalt — aber der Techniker ist schneller als erwartet. Kein Kämpfer, aber er kennt seine Aufgabe: er tritt das Kabel weg, tritt _Fenn_ weg, ein flacher Stoß mit dem Ellbogen der sie einen Schritt zurückwirft.
 
 Sie verliert das Kabel nicht. Aber sie verliert die Position.
 
@@ -894,13 +896,13 @@ Er ist schnell — nicht übernatürlich, aber die Art von schnell die aus tause
 
 ---
 
-Die Klinge findet deinen Unterarm — nicht tief, aber sie *findet* ihn. Du reißt den Arm zurück, der Schnitt läuft von Handgelenk bis Ellbogen, und für eine Sekunde ist es nur Kälte, und dann ist es Feuer.
+Die Klinge findet deinen Unterarm — nicht tief, aber sie _findet_ ihn. Du reißt den Arm zurück, der Schnitt läuft von Handgelenk bis Ellbogen, und für eine Sekunde ist es nur Kälte, und dann ist es Feuer.
 
 Du taumelst einen Schritt zurück. Blut auf dem Beton, gefriert fast sofort.
 
 PHARAO steht vor dir. Drei Meter. Die Klinge hängt an seiner Seite.
 
-*„Interessant,"* sagt er. *„Du hast nicht geschrien."*
+_„Interessant,"_ sagt er. _„Du hast nicht geschrien."_
 
 **PRISM: HP 10/14. 🩸 Blutung (−1 HP/Runde bis behandelt)**
 
@@ -916,7 +918,7 @@ PHARAO steht vor dir. Drei Meter. Die Klinge hängt an seiner Seite.
 
 ### CARVER — STABILISIERUNG PRISM
 
-*Carver ist in drei Schritten bei dir. Kein Zögern.*
+_Carver ist in drei Schritten bei dir. Kein Zögern._
 
 **SG 7** — Feldmedizin unter Druck, aber Carver kennt seinen Job.
 
@@ -926,7 +928,7 @@ PHARAO steht vor dir. Drei Meter. Die Klinge hängt an seiner Seite.
 
 Carvers Hände sind bereits am Arm bevor du sagst dass du Hilfe brauchst. Druckverband, dreißig Sekunden, Knoten mit den Zähnen gezogen. Er sieht dir in die Augen dabei — nicht um dich zu beruhigen, sondern um deinen Fokus zu prüfen.
 
-*„Bewegt sich."* Nickt zu PHARAO. *„Bleib zwischen ihm und mir."*
+_„Bewegt sich."_ Nickt zu PHARAO. _„Bleib zwischen ihm und mir."_
 
 **🩸 Blutung gestoppt. PRISM: HP 9/14.**
 
@@ -936,7 +938,7 @@ Carvers Hände sind bereits am Arm bevor du sagst dass du Hilfe brauchst. Druckv
 
 ### PRISM — TÄUSCHUNG: PHARAO IN POSITION BRINGEN
 
-*Jetzt. Du weißt was er schützen will: den Anker. Du spielst es aus — taumelst absichtlich in Richtung Falltür, als wärst du schwerer verletzt als du bist. Wenn er folgt, hat Voss Sichtlinie.*
+_Jetzt. Du weißt was er schützen will: den Anker. Du spielst es aus — taumelst absichtlich in Richtung Falltür, als wärst du schwerer verletzt als du bist. Wenn er folgt, hat Voss Sichtlinie._
 
 **SG 12** — Er hat dich bereits einmal durchschaut. Er ist angespannt. Aber sein Anker-Reflex ist real.
 
@@ -948,7 +950,7 @@ Du lässt das linke Knie nachgeben. Nicht viel — nur genug. Taumelst einen hal
 
 PHARAO sieht es.
 
-Und er macht den Schritt. Nicht weil er dir glaubt — er glaubt dir nicht. Aber die Falltür ist hinter dir, und er *kann* nicht riskieren dass du drauftrittst, drüber fällst, in den Keller kollabierst. Der Anker ist sein.
+Und er macht den Schritt. Nicht weil er dir glaubt — er glaubt dir nicht. Aber die Falltür ist hinter dir, und er _kann_ nicht riskieren dass du drauftrittst, drüber fällst, in den Keller kollabierst. Der Anker ist sein.
 
 Er kommt zwei Meter näher. Steht jetzt im Feuerschein der Öltrommel, Rücken zum Nordfenster.
 
@@ -960,7 +962,7 @@ Du tippst zweimal auf deine Schulter. Kurzcode: **Freies Feuer.**
 
 ### VOSS — PRÄZISIONSSCHUSS: PHARAO, TORSO
 
-*Voss hat die Linie. PHARAO steht im Feuerschein, Rücken zum Fenster. Dreißig Meter. Perfekte Position.*
+_Voss hat die Linie. PHARAO steht im Feuerschein, Rücken zum Fenster. Dreißig Meter. Perfekte Position._
 
 **SG 12** — Episodenboss, Bewegungsmuster, Feuerschein-Kontrast. Voss ist Level 9. Das ist ihr Moment.
 
@@ -974,7 +976,7 @@ Der Schuss kommt.
 
 PHARAO hört ihn nicht — niemand hört Voss' Schüsse bis sie bereits gelandet sind. Er dreht sich einen halben Schritt, Reflex, und das rettet ihm das Leben: statt Brustmitte trifft die Kugel rechte Schulter, geht durch, Mantelstoff explodiert nach innen. Er dreht sich mit dem Aufprall, fällt einen Schritt zur Seite, bleibt stehen.
 
-Bleibt *stehen.*
+Bleibt _stehen._
 
 Rechte Hand hängt. Die Klinge fällt. Er hebt sie mit links auf.
 
@@ -988,7 +990,7 @@ Sieht zum Fenster. Sieht zurück zu dir. Und jetzt — jetzt ist das Lächeln we
 
 ### FENN — ZWEITER VERSUCH: TECHNIKER ÜBERWÄLTIGEN
 
-*Fenn gibt den Kabel-Kampf auf. Sie geht körperlich vor — Taser, direkt.*
+_Fenn gibt den Kabel-Kampf auf. Sie geht körperlich vor — Taser, direkt._
 
 **SG 8** — Techniker ist kein Kämpfer. Fenn ist klein aber schnell.
 
@@ -996,13 +998,13 @@ Sieht zum Fenster. Sieht zurück zu dir. Und jetzt — jetzt ist das Lächeln we
 
 ---
 
-Der Techniker sieht den Taser kommen. Weicht zurück, stolpert über Trümmer, fällt — aber fällt *weg* von Fenn, und seine Hand hat noch den Override-Schalter.
+Der Techniker sieht den Taser kommen. Weicht zurück, stolpert über Trümmer, fällt — aber fällt _weg_ von Fenn, und seine Hand hat noch den Override-Schalter.
 
 Fenn landet auf einem Knie. Sieht ihn an. Er sieht sie an.
 
 Zwei Meter zwischen ihnen.
 
-*„Vier,"* zählt Fenn leise. *„Drei. Zwei."*
+_„Vier,"_ zählt Fenn leise. _„Drei. Zwei."_
 
 `Kodex: Anker-Loop: DRIFT. Override-Aktivierung in 15 Sekunden.`
 
@@ -1024,7 +1026,7 @@ Er kommt auf Brück zu.
 
 ### BRÜCK — PHARAO ABFANGEN, NAHKAMPF
 
-*Brück stellt sich zwischen PHARAO und den Rest des Teams. Das ist sein Job. Er weiß es. Er grinst dabei.*
+_Brück stellt sich zwischen PHARAO und den Rest des Teams. Das ist sein Job. Er weiß es. Er grinst dabei._
 
 **SG 13** — Episodenboss Phase 2, verletzt aber gefährlicher, Linkshand-Vorteil.
 
@@ -1048,7 +1050,7 @@ Dann kommt die linke Klinge.
 
 Brück pariert mit dem Unterarm — falsche Entscheidung. Die Klinge läuft über den Unterarmknochen, Mantel und Haut, und Brück tritt einen Schritt zurück, Blut auf der Klinge, aber er steht noch. Schüttelt den Arm. Sieht ihn an.
 
-*„Okay,"* sagt Brück. *„Das war gut."*
+_„Okay,"_ sagt Brück. _„Das war gut."_
 
 **PHARAO: HP 27/45.**
 **BRÜCK: HP 11/18. 🩸 Blutung (−1 HP/Runde)**
@@ -1059,7 +1061,7 @@ Brück pariert mit dem Unterarm — falsche Entscheidung. Die Klinge läuft übe
 
 ### FENN — ANKER, LETZTER VERSUCH
 
-*Fenn lässt den Taser fallen. Zieht stattdessen das Kabelset — direkt in den Anker-Zugang, bypasses den Techniker komplett. Rohe Systemgewalt.*
+_Fenn lässt den Taser fallen. Zieht stattdessen das Kabelset — direkt in den Anker-Zugang, bypasses den Techniker komplett. Rohe Systemgewalt._
 
 **SG 13** — Direktzugang, kein Loop, kein Umweg. Aber der Techniker ist zwei Meter entfernt und der Override läuft.
 
@@ -1067,13 +1069,13 @@ Brück pariert mit dem Unterarm — falsche Entscheidung. Die Klinge läuft übe
 
 ---
 
-Fenn springt nicht. Sie *fällt* — vorwärts, kontrolliert, landet auf Händen und Knien direkt vor der Falltür, schiebt das Kabel in den Zugang bevor der Techniker reagieren kann. Ihre Finger arbeiten blind, nach Gefühl, zählen die Kontaktpunkte.
+Fenn springt nicht. Sie _fällt_ — vorwärts, kontrolliert, landet auf Händen und Knien direkt vor der Falltür, schiebt das Kabel in den Zugang bevor der Techniker reagieren kann. Ihre Finger arbeiten blind, nach Gefühl, zählen die Kontaktpunkte.
 
-*„Eins. Zwei. Drei."*
+_„Eins. Zwei. Drei."_
 
 Der Techniker greift nach ihr. Erwischt ihren Mantelkragen.
 
-*„Vier."*
+_„Vier."_
 
 Ein Klicken. Kein großes. Kein dramatisches. Nur ein kleines mechanisches Klicken aus der Tiefe.
 
@@ -1081,7 +1083,7 @@ Ein Klicken. Kein großes. Kein dramatisches. Nur ein kleines mechanisches Klick
 
 Der Techniker lässt Fenns Kragen los. Sieht auf seine Hand. Dann auf Fenn.
 
-Sie sieht ihn an. *„Du kannst aufhören."*
+Sie sieht ihn an. _„Du kannst aufhören."_
 
 Er setzt sich auf den Boden. Hände hoch.
 
@@ -1093,7 +1095,7 @@ Er setzt sich auf den Boden. Hände hoch.
 
 ### PRISM — TÄUSCHUNG, LETZTE PHASE: PHARAO EXPONIEREN
 
-*PHARAO weiß jetzt dass der Anker verloren ist. Das ist der Moment — wenn ein Mann verliert was er schützen wollte, macht er Fehler. Du nutzt es.*
+_PHARAO weiß jetzt dass der Anker verloren ist. Das ist der Moment — wenn ein Mann verliert was er schützen wollte, macht er Fehler. Du nutzt es._
 
 **SG 11** — Er ist verletzt, wütend, aber nicht dumm.
 
@@ -1105,7 +1107,7 @@ Du öffnest den Mund — willst ihm sagen dass OUROBOROS ihn abgeschrieben hat, 
 
 Er sieht dich an. Und du weißt, dass er es weiß.
 
-*„Schöner Versuch."*
+_„Schöner Versuch."_
 
 Er dreht sich von Brück weg. Geht auf dich zu. Verletzter Arm, aber die linke Klinge ist stabil. Er hat aufgehört, den Anker zu schützen. Jetzt schützt er nur noch sich.
 
@@ -1137,7 +1139,7 @@ Carver ist bei Brück in zwei Schritten. Druckverband, Unterarm, zwanzig Sekunde
 
 ### VOSS — PHARAO, KILL-SHOT VORBEREITUNG
 
-*Pharao bewegt sich auf PRISM zu — weg von Brück, weg von der Wand. Voss hat keine Sichtlinie mehr durch das Nordfenster. Sie muss repositionieren.*
+_Pharao bewegt sich auf PRISM zu — weg von Brück, weg von der Wand. Voss hat keine Sichtlinie mehr durch das Nordfenster. Sie muss repositionieren._
 
 **SG 9** — Reposition in zerstörter Umgebung, Zeitdruck.
 
@@ -1149,7 +1151,7 @@ Carver ist bei Brück in zwei Schritten. Druckverband, Unterarm, zwanzig Sekunde
 
 ### BRÜCK — PHARAO FESTHALTEN
 
-*Brück wirft sich auf PHARAO — nicht um zu schlagen. Um ihn zu halten. Damit Voss schießen kann.*
+_Brück wirft sich auf PHARAO — nicht um zu schlagen. Um ihn zu halten. Damit Voss schießen kann._
 
 **SG 12** — PHARAO ist verletzt aber stark, erwartet Brück.
 
@@ -1159,13 +1161,13 @@ Carver ist bei Brück in zwei Schritten. Druckverband, Unterarm, zwanzig Sekunde
 
 Brück lässt die Fäuste fallen.
 
-Er *umarmt* PHARAO.
+Er _umarmt_ PHARAO.
 
 Beide Arme, von hinten, unter den Achseln durch, Hände hinter PHARAOs Kopf verschränkt — Full Nelson, Körpergewicht nach hinten, Füße breit. PHARAO ist gut, aber Brück ist ein Schrank aus Muskeln und er hat sich entschieden, nicht loszulassen.
 
 PHARAO sticht mit der Klinge nach hinten — einmal, zweimal. Trifft Brücks Oberschenkel. Brück atmet scharf ein. Hält.
 
-*„Schieß jetzt,"* sagt Brück, laut und klar in die Fabrikhalle. *„Oder ich falle gleich um."*
+_„Schieß jetzt,"_ sagt Brück, laut und klar in die Fabrikhalle. _„Oder ich falle gleich um."_
 
 **BRÜCK: HP 6/18. 🩸 Blutung (Oberschenkel, schwer)**
 
@@ -1173,7 +1175,7 @@ PHARAO sticht mit der Klinge nach hinten — einmal, zweimal. Trifft Brücks Obe
 
 ### VOSS — KILL-SHOT
 
-*Voss hat die Linie. PHARAO steht, von Brück gehalten, Brust frei, Feuerschein von vorne.*
+_Voss hat die Linie. PHARAO steht, von Brück gehalten, Brust frei, Feuerschein von vorne._
 
 **SG 14** — Episodenboss, Brück im Weg wenn sie zittert, ein Schuss.
 
@@ -1185,7 +1187,7 @@ PHARAO sticht mit der Klinge nach hinten — einmal, zweimal. Trifft Brücks Obe
 
 ---
 
-Die Kugel trifft ihn links, unterhalb der Rippen. PHARAO macht ein Geräusch — kein Schrei, ein *Laut*, unkontrolliert, das erste unkontrollierte Geräusch das du von ihm gehört hast. Seine Knie geben nach.
+Die Kugel trifft ihn links, unterhalb der Rippen. PHARAO macht ein Geräusch — kein Schrei, ein _Laut_, unkontrolliert, das erste unkontrollierte Geräusch das du von ihm gehört hast. Seine Knie geben nach.
 
 Brück lässt ihn fallen. Tritt zurück. Sieht auf seinen Oberschenkel — Blut, aber er steht noch.
 
@@ -1205,7 +1207,7 @@ Langsam. Wie etwas das nicht weiß, dass es aufgehört haben sollte. Blut läuft
 
 Nur Kalkulation.
 
-*„Ihr seid gut,"* sagt er. Kein Vorwurf. Sachlich. *„Aber ihr habt noch nicht gewonnen."*
+_„Ihr seid gut,"_ sagt er. Kein Vorwurf. Sachlich. _„Aber ihr habt noch nicht gewonnen."_
 
 Er zieht etwas aus dem Mantel. Kein Messer. Eine kleine Metallscheibe, silbern, mit einem Druckknopf.
 
@@ -1225,7 +1227,7 @@ Du siehst es sofort. Die Scheibe hat keine Antenne. Keinen Sender. Es ist kein K
 
 Es ist ein **Notfall-Rücksprung**. Einmaliger Chrono-Anker, persönlich kalibriert. Er hat immer einen Fluchtweg gehabt.
 
-Wenn er den Knopf drückt, ist er weg. Nicht tot. *Weg.*
+Wenn er den Knopf drückt, ist er weg. Nicht tot. _Weg._
 
 Du hast drei Sekunden.
 
@@ -1233,7 +1235,7 @@ Du hast drei Sekunden.
 
 ### PRISM — TÄUSCHUNG: LETZTER ZUG
 
-*Du wirfst die Erkennungsmarke des Koordinators auf den Boden zwischen euch. Laut, metallisch. Er sieht drauf.*
+_Du wirfst die Erkennungsmarke des Koordinators auf den Boden zwischen euch. Laut, metallisch. Er sieht drauf._
 
 **SG 10.**
 
@@ -1243,7 +1245,7 @@ Du hast drei Sekunden.
 
 Er sieht auf die Marke. Eine halbe Sekunde.
 
-Dann sieht er wieder hoch. *„Nein."*
+Dann sieht er wieder hoch. _„Nein."_
 
 Daumen auf dem Knopf
 
@@ -1251,4 +1253,4 @@ Daumen auf dem Knopf
 
 **Gesamtkosten:** $0.4761
 
-*Session generiert: 2026-03-01 01:31 CET*
+_Session generiert: 2026-03-01 01:31 CET_

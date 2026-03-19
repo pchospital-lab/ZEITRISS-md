@@ -1,4 +1,5 @@
 # 07-lvl1000-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.031608
 - **Tokens:** in:6551 out:797

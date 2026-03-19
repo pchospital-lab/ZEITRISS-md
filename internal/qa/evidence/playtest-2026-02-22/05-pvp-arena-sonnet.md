@@ -1,4 +1,5 @@
 # 05-pvp-arena-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.024678
 - **Tokens:** in:5316 out:582
@@ -29,13 +30,13 @@ Lass uns das sauber aufsetzen. Für **Solo Schnellstart** wählst du eine Rolle,
 
 ### Verfügbare Rollen
 
-| # | Rolle | Profil | Stärken |
-|---|-------|--------|---------|
-| **1** | **Infiltrator** | Schleichen, Täuschung, urbane Operationen | GES, CHA |
-| **2** | **Enforcer** | Nahkampf, Feuerdruck, Objektsicherung | STR, GES |
-| **3** | **Analyst** | Hacking, Sigint, Planung | INT, SYS |
-| **4** | **Fixer** | Netzwerke, Beschaffung, Social Engineering | CHA, INT |
-| **5** | **Chrono-Spezialist** | Paradoxon-Kontrolle, Zeitnavigation | TEMP, INT |
+| #     | Rolle                 | Profil                                     | Stärken   |
+| ----- | --------------------- | ------------------------------------------ | --------- |
+| **1** | **Infiltrator**       | Schleichen, Täuschung, urbane Operationen  | GES, CHA  |
+| **2** | **Enforcer**          | Nahkampf, Feuerdruck, Objektsicherung      | STR, GES  |
+| **3** | **Analyst**           | Hacking, Sigint, Planung                   | INT, SYS  |
+| **4** | **Fixer**             | Netzwerke, Beschaffung, Social Engineering | CHA, INT  |
+| **5** | **Chrono-Spezialist** | Paradoxon-Kontrolle, Zeitnavigation        | TEMP, INT |
 
 ---
 

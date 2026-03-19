@@ -15,7 +15,7 @@ tags: [meta, qa]
 - Ergebnis: keine neuen Befunde, keine Drift zwischen Runtime-Content,
   Wissensmodulen und QA-Layern festgestellt.
 - Playtest-Freigabe aus Repo-Sicht unverändert grün; Follow-up erst bei neuen
-  Tester:innen-Logs erforderlich.
+  Tester-Logs erforderlich.
 
 ## Audit-Update 2026-02-26 – Fahrzeugfenster-Closure verifiziert
 
@@ -111,7 +111,6 @@ tags: [meta, qa]
 - Stoppuhr-Artefakte bleiben als Plot-Element zulässig, ohne den Boss-Drop zu
   ersetzen.
 
-
 ## Update 2027-03-18 – SSOT-Pipeline Durchlauf 3 abgeschlossen (Gameplay-Pass)
 
 - `gameplay/kampagnenuebersicht.md` führt den Quickstart jetzt explizit als
@@ -121,7 +120,6 @@ tags: [meta, qa]
   CU-Formel als Invarianten direkt im Gameplay-Loop markiert.
 - Der Restpunkt bleibt auf „in Umsetzung", da der Systems-Pass und die
   abschließende Konfliktprüfung/Closure noch ausstehen.
-
 
 ## Update 2027-03-17 – SSOT-Pipeline Durchlauf 2 abgeschlossen (Anker-Sync README/Core)
 
@@ -136,7 +134,6 @@ tags: [meta, qa]
 - Der Restpunkt verbleibt auf „in Umsetzung", bis Gameplay- und Systems-Pass
   plus Closure-Gate abgeschlossen sind.
 
-
 ## Update 2027-03-16 – SSOT-Pipeline Durchlauf 1 abgeschlossen (Kanon-Extraktion)
 
 - Der erste Durchlauf der SSOT-Pipeline ist durchgeführt und als Kanon-Mini-Glossar im
@@ -146,7 +143,6 @@ tags: [meta, qa]
   Begriffe harmonisiert.
 - Der Restpunkt bleibt bewusst auf "in Umsetzung", bis die nachgelagerten Sync-Pässe
   inklusive Closure-Gate und Pflichttestpaket abgeschlossen sind.
-
 
 ## Update 2027-03-15 – Onboarding-Entkopplung abgeschlossen
 
@@ -170,7 +166,6 @@ tags: [meta, qa]
   Restpunkt darf erst auf „abgeschlossen" wechseln, wenn Restkatalog, Fahrplan,
   Audit und QA-Log synchron aktualisiert sind und das Pflichttestpaket grün ist.
 
-
 ## Update 2027-03-14 – KI-First-Onboarding & Economy-/Scaling-Checkliste
 
 - README und Setup-Guide führen den KI-First-Onboardingfluss
@@ -192,7 +187,7 @@ tags: [meta, qa]
 - `core/zeitriss-core.md` korrigiert in der Einführung den Epochenbezug auf
   „jede Episode", damit Missions-/Episodenhierarchie konsistent bleibt.
 
-## Update 2026-01-14 – Beta-GPT Playtest 2026-01-14 übernommen
+## Update 2026-01-14 – Beta-KI Playtest 2026-01-14 übernommen
 
 - QA-Log 0.4.31 archiviert das vollständige Playtest-Protokoll inkl. Test-Save
   v6, HUD/Trace-Belegen und dem HQ-Abgleich nach Import.
@@ -237,6 +232,7 @@ tags: [meta, qa]
   Compliance- oder Format-Themen bestehen nicht.
 
 ## Kontext und Auftrag
+
 Die QA-Crew hat den Systemtest zu **ZEITRISS 4.2.2** mit Schwerpunkt auf
 Systemkohärenz, Balance, HQ-Abläufe und urbane Interaktionen dokumentiert. Dieses
 Audit bündelt die Erkenntnisse, bewertet den aktuellen Umsetzungsstand und
@@ -244,11 +240,12 @@ priorisiert die nächsten Entwicklungsschritte. Grundlage sind die aufgeführten
 Testbeobachtungen sowie der Repositorystand `c9a4da2`.
 
 ## Rollen & Artefakte
-- **Tester:innen** führen Playthroughs in den vorgesehenen GPT-Instanzen durch
+
+- **Tester** führen Playthroughs in den vorgesehenen KI-Instanzen durch
   und kopieren das Ergebnis unverändert in das QA-Log unter
   `internal/qa/logs/2025-beta-qa-log.md`.
-- **Maintainer:in (Solo-Setup 2025)** führt alle Beta-GPT-Tests durch,
-  indem der vorbereitete Testprompt in den Beta-Klon geladen wird. Der GPT
+- **Maintainer:in (Solo-Setup 2025)** führt alle Beta-KI-Tests durch,
+  indem der vorbereitete Testprompt in den Beta-Klon geladen wird. Die KI
   spielt den vollständigen QA-Lauf autonom durch und liefert strukturierte
   `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke. Die
   komplette Antwort wird unverändert an Codex übergeben, der die Ergebnisse in
@@ -264,6 +261,7 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
   `internal/qa/`.
 
 ## Methodik
+
 - Analyse der gelieferten Testnotizen (Solo bis Großgruppe, Level 3–100) mit
   Schwerpunkt auf PvP-Arena, HQ-Progression und urbanen Szenarien.
 - Stichprobenhafte Abgleiche im Repository (z. B. Modul 6 Kampagnenstruktur,
@@ -271,10 +269,11 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
 - Priorisierung nach Auswirkung auf Spielbalance, UX und technische Konsistenz.
 
 ## Gesamtbewertung
+
 Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere
 Kernsysteme inkonsistent benannt oder nur teilweise abgesichert sind. Besonders
 kritisch sind widersprüchliche Modulnummern, farmbare Paradoxon-Belohnungen in
-der Arena und das uneinheitliche „Heat“-Vokabular, das Spieler:innen wie Tools
+der Arena und das uneinheitliche „Heat“-Vokabular, das Spieler wie Tools
 verwirrt. Ohne Korrektur gefährden diese Punkte die Anschlussfähigkeit von
 Regelreferenzen, die Progressionsökonomie und das Balancing in
 Hochstufen-Spielrunden.
@@ -297,7 +296,7 @@ Hochstufen-Spielrunden.
 
 ## Update 2025-11-05 – QA-Evidenz-JSON-Handshake
 
-- Maintainer:innen liefern den Beta-GPT-Testprompt jetzt als JSON-Block, prüfen
+- Maintainer liefern den Beta-KI-Testprompt jetzt als JSON-Block, prüfen
   ihn in einer zweiten ZEITRISS-Instanz und stellen den abgeglichenen Datensatz
   bereit; Codex übernimmt die Artefakte unverändert.
 - Evidenzprotokoll `internal/qa/evidence/2025-beta-gpt-evidenz.md` Version 0.2.0
@@ -387,7 +386,7 @@ Hochstufen-Spielrunden.
 - README und Modul 12 stellen klar, dass fehlende Accessibility-Felder durch
   Migration/Serializer auf Defaults normalisiert werden.
 - QA-Log 2025-12-19 dokumentiert den Pflicht-Testlauf und den UI-Block-Check.
-- QA-Fahrplan 1.13.17 markiert Issue #5 im Beta-GPT-12-Plan als erledigt.
+- QA-Fahrplan 1.13.17 markiert Issue #5 im Beta-KI-12-Plan als erledigt.
 
 ## Update 2026-04 – Tester-Playtest-Fortschritt
 
@@ -444,11 +443,11 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan 1.13.16 markiert Issue #12 des Tester-Playtest-Pakets 2025-12-18
   als abgeschlossen; QA-Log dokumentiert den Lauf vom 2026-05-09.
 
-## Update 2026-05-10 – High-Level-Regression & Beta-GPT-12 Abschluss
+## Update 2026-05-10 – High-Level-Regression & Beta-KI-12 Abschluss
 
 - README referenziert die High-Level-Fixture (`savegame_v6_highlevel.json`) als
   Regressionanker für Rift-/Endgame-Saves mit Seed-Tiers.
-- QA-Fahrplan 1.13.18 markiert das Beta-GPT-12-Maßnahmenpaket (Issues #1–#9)
+- QA-Fahrplan 1.13.18 markiert das Beta-KI-12-Maßnahmenpaket (Issues #1–#9)
   als abgeschlossen; QA-Log dokumentiert den Abgleich.
 
 ## Update 2026-07-02 – Chrononauten-Presets 2026-07
@@ -477,123 +476,124 @@ Hochstufen-Spielrunden.
   abgeschlossen; QA-Log dokumentiert den Lauf vom 2026-08-15.
 
 ## Maßnahmenkatalog (Priorisiert)
+
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
-   Modul 7 führen. Status: *erledigt* – Modul 6, Modul 7, Kampagnenübersicht und
+   Modul 7 führen. Status: _erledigt_ – Modul 6, Modul 7, Kampagnenübersicht und
    README benennen die Sequenz nun konsistent.
 2. **Paradoxon-Farm in der PvP-Arena unterbinden.** Arena-Belohnungssystem an
-   Episoden- oder Rufmarker koppeln. Status: *erledigt* – Px-Bonus wird nur noch
+   Episoden- oder Rufmarker koppeln. Status: _erledigt_ – Px-Bonus wird nur noch
    einmal pro Episode vergeben; `arena_episode_stamp` markiert den konsumierten
    Lauf.
 3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar
-   benennen; Save-Schema migrieren. Status: *erledigt* – Psi-Heat wird nun
+   benennen; Save-Schema migrieren. Status: _erledigt_ – Psi-Heat wird nun
    explizit geführt (`psi_heat`), Save-Version 5 migriert Altstände automatisch,
    HUD/Toolkits zeigen Psi-Heat getrennt von Stress & Tech-Heat.
 4. **Exploding-DMG-Spitzen begrenzen.** Arena/Boss-Dämpfer als Pflicht setzen
-   und Boss-DR automatisieren. Status: *erledigt* – Arena-HUD halbiert
+   und Boss-DR automatisieren. Status: _erledigt_ – Arena-HUD halbiert
    Exploding-Overflow automatisch, Boss-Spawn vergibt DR 2/3 inkl. HUD-Hinweis.
 5. **High-Level-Progression auf Prestige-Perks umstellen.** Attribute nicht
-   weiter erhöhen, stattdessen qualitative Boni verankern. Status: *erledigt* –
+   weiter erhöhen, stattdessen qualitative Boni verankern. Status: _erledigt_ –
    Core-Regelwerk setzt ab Prestige-Level auf erzählerische Perks und ersetzt
    den Standard-Attributsbonus durch Legendenpfade.
 6. **Psi vs. Non-Psi balancieren.** Phase-Strike-Kosten in PvP anheben,
-   Anti-Psi-Grundschutz verbreitern. Status: *erledigt* – Arena setzt
+   Anti-Psi-Grundschutz verbreitern. Status: _erledigt_ – Arena setzt
    `phase_strike_tax = +1 SYS`, Kernanzüge tragen `psi_buffer` (+2 SG,
    neutralisiert Bonus-Schaden).
 7. **Tech-Dominanz-Check auf kleine Teams ausweiten.** `tech_heat` früher
-   triggern und Gerätezwang durchsetzen. Status: *erledigt* – Solo- und
+   triggern und Gerätezwang durchsetzen. Status: _erledigt_ – Solo- und
    Duo-Teams feuern `tech_solution()` nun bei niedrigeren Limits und die
    Toolkit-Makros sperren Tech-Ketten, bis `confirm_device_slot()` ein Field Kit
    bestätigt.
 8. **Suspend-Snapshot als Komfortfunktion implementieren.** HQ-Save-Pflicht
-   erhalten, aber Session-Pause erlauben. Status: *erledigt* – `!suspend` legt
+   erhalten, aber Session-Pause erlauben. Status: _erledigt_ – `!suspend` legt
    einen 24h-Snapshot an, `!resume` setzt ihn einmalig fort und respektiert den
    HQ-Deepsave.
 9. **Exfil-Kommunikation im HUD verstärken.** Auto-Toasts für Arming/Alt-Anchor
-   und RW-Ticks. Status: *erledigt* – `!exfil arm/alt/tick/status` triggern
+   und RW-Ticks. Status: _erledigt_ – `!exfil arm/alt/tick/status` triggern
    automatische HUD-Toasts, aktualisieren Anchor/ALT und spiegeln den Timer im
    Overlay.
 10. **Arena-Matchmaking mit Tier-Loadouts absichern.** Artefakt-Spitzen kappen,
-    Proc-Budget limitieren. Status: *erledigt* – Runtime-Stub erzwingt
+    Proc-Budget limitieren. Status: _erledigt_ – Runtime-Stub erzwingt
     Tier-Gates, kappt Artefakt-Überhänge und bremst Proc-Ketten mit pro Tier
     gesetztem Budget.
 11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise
-    geliefert sind. Status: *erledigt* – `NextScene()` hält Szene 9, bis vier
+    geliefert sind. Status: _erledigt_ – `NextScene()` hält Szene 9, bis vier
     (Core) bzw. zwei (Rift) Foreshadows über Makros registriert sind und meldet
-    den Gate im HUD. Nachweis: Commit `b245bef` (*Boss-Foreshadow-Gate aktiviert*)
+    den Gate im HUD. Nachweis: Commit `b245bef` (_Boss-Foreshadow-Gate aktiviert_)
     und QA-Log 2025-03-19 (Acceptance-Smoke-Abgleich).
 12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch
-    prüfen. Status: *erledigt* – `scripts/lint_mission_generator.py` prüft die
+    prüfen. Status: _erledigt_ – `scripts/lint_mission_generator.py` prüft die
     Pools und stellt d24-Abdeckung sicher. Nachweis: Commit `5a3fbb3`
-    (*Add mission generator lint*); automatisierte Prüfung läuft über
+    (_Add mission generator lint_); automatisierte Prüfung läuft über
     `scripts/tests/test_lint_mission_generator.py`.
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates
-    und Daily Stock versehen. Status: *erledigt* – Runtime koppelt das
+    und Daily Stock versehen. Status: _erledigt_ – Runtime koppelt das
     Tagesangebot an Dienstgrad und Research-Level, der Pool rotiert filmisch pro
-    HQ-Zyklus. Nachweis: Commit `7d91e53` (*Implement Chronopolis stock gating*);
+    HQ-Zyklus. Nachweis: Commit `7d91e53` (_Implement Chronopolis stock gating_);
     QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen
-    bereinigen, `comms_check()` erzwingen. Status: *erledigt* – Arena-Makro
+    bereinigen, `comms_check()` erzwingen. Status: _erledigt_ – Arena-Makro
     zwingt `must_comms`, Ausrüstungshinweis verankert Hardwarepflicht.
-    Nachweis: Commit `8fe8de2` (*Sichere Remote-Hacks über comms_check*);
+    Nachweis: Commit `8fe8de2` (_Sichere Remote-Hacks über comms_check_);
     QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in
-    `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade,
+    `/help` bündeln. Status: _erledigt_ – `/help urban` liefert Deckungsgrade,
     Distanzstufen und HUD-Tags; README verankert die Schnellhilfe. Nachweis:
-    Commit `52d1ba5` (*Add HUD quick-help cards for urban ops and SG benchmarks*);
+    Commit `52d1ba5` (_Add HUD quick-help cards for urban ops and SG benchmarks_);
     QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen.
-    Status: *erledigt* – Toolkit listet HQ-Buffs als HUD-Icons inkl.
+    Status: _erledigt_ – Toolkit listet HQ-Buffs als HUD-Icons inkl.
     Makro-Snippet, Dopplungen werden per Kampagnenflag geblockt. Nachweis:
-    Commit `9a1675d` (*Intro-Guard und HQ-Moments nachziehen*); QA-Log 2025-11-06
+    Commit `9a1675d` (_Intro-Guard und HQ-Moments nachziehen_); QA-Log 2025-11-06
     (Regressionsevidenz Maßnahmen #13–#20).
 17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren.
-    Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README
+    Status: _erledigt_ – Toolkit-Default wurde auf `true` gesetzt und README
     dokumentiert das neue Standardverhalten. Nachweis: Commit `8208170`
-    (*feat: add transfer frames and debug roll output*) sowie QA-Log 2025-03-19
+    (_feat: add transfer frames and debug roll output_) sowie QA-Log 2025-03-19
     (Acceptance-Smoke-Abgleich – JSON-Log aktiv).
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()`
-    für Loot-Erinnerung. Status: *erledigt* – neues Makro setzt den Boss-Flag,
+    für Loot-Erinnerung. Status: _erledigt_ – neues Makro setzt den Boss-Flag,
     stößt das para-Loot an und markiert den Legendary-Wurf im Log. Nachweis:
-    Commit `22d3c33` (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log
+    Commit `22d3c33` (_Automatisiere Rift-Boss-Loot und Arena-Takt_); QA-Log
     2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis
-    ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10
+    ergänzen. Status: _erledigt_ – Charaktererschaffung betont das Cap bei 10
     und verweist auf Prestige-Aufstiege für höhere Werte. Nachweis:
-    Commit `1be6f57` (*Sichert Attributbudget bei der Charaktererschaffung*);
+    Commit `1be6f57` (_Sichert Attributbudget bei der Charaktererschaffung_);
     QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im
-    HUD. Status: *erledigt* – Arena initialisiert nun Großteam-Zyklen, trackt
+    HUD. Status: _erledigt_ – Arena initialisiert nun Großteam-Zyklen, trackt
     Moves und blendet Timer sowie Limit im HUD ein. Nachweis: Commit `22d3c33`
-    (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log 2025-11-06
+    (_Automatisiere Rift-Boss-Loot und Arena-Takt_); QA-Log 2025-11-06
     (Regressionsevidenz Maßnahmen #13–#20).
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für
-    Druck-Set-Auswahl. Status: *erledigt* – Toolkit setzt eine
+    Druck-Set-Auswahl. Status: _erledigt_ – Toolkit setzt eine
     Zweifach-Cooldown-Liste ein, bevor Druck-Sets wieder freigegeben
     werden.
 22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen.
-    Status: *erledigt* – Runtime blendet das Badge ein, wenn `self_reflection:
-    false` aktiv ist; `!sf on/off` steuern das Flag und loggen den Status.
+    Status: _erledigt_ – Runtime blendet das Badge ein, wenn `self_reflection:
+false` aktiv ist; `!sf on/off` steuern das Flag und loggen den Status.
 23. **Intro-Guard beim Laden aktivieren.** Einleitung nur bei Erststart zeigen.
-    Status: *erledigt* – Runtime speichert `intro_seen` im UI-State und spielt
+    Status: _erledigt_ – Runtime speichert `intro_seen` im UI-State und spielt
     das HQ-Kurzintro nur beim Erststart aus.
 24. **DelayConflict für Heist/Street justieren.** Mission-Tags reduzieren
-    Verzögerung. Status: *erledigt* – `StartMission()` normalisiert Mission-Tags
+    Verzögerung. Status: _erledigt_ – `StartMission()` normalisiert Mission-Tags
     und `DelayConflict` senkt bei `heist`/`street` automatisch die Schwelle.
 25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status:
-    *erledigt* – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch,
+    _erledigt_ – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch,
     `briefing_with_stars()` zieht den SG-Zuschlag konsistent nach.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status:
-    *erledigt* – Runtime blendet `TK🌀` nach `!tk melee` ein und `!tk ready`
+    _erledigt_ – Runtime blendet `TK🌀` nach `!tk melee` ein und `!tk ready`
     entfernt die Sperre nach der Cooldown-Runde.
 
-## Beta-GPT 2025-07 – Save/HUD/Arena-Deltas (Update: 2025-10-20)
+## Beta-KI 2025-07 – Save/HUD/Arena-Deltas (Update: 2025-10-20)
 
 - **Status:** Alle Issues #1–#15 sind laut QA-Fahrplan 1.8.2 (fortgeschrieben
   aus 1.8.0) und
   Beta-QA-Log 2025-07-20 abgeschlossen; README, Toolkit und HUD-Modul spiegeln
   Gate-/Badge-/City-Flows.
-- **Fahrplan:** Abschnitt „Maßnahmenpaket Beta-GPT 2025-07“ führt sämtliche
+- **Fahrplan:** Abschnitt „Maßnahmenpaket Beta-KI 2025-07“ führt sämtliche
   Punkte als ✅ und verweist auf die Runtime- und Wissensmodule.
 - **QA-Log:** Eintrag 2025-07-20 bestätigt die Umsetzung und die
   Pflichttest-Läufe.
@@ -601,37 +601,37 @@ Hochstufen-Spielrunden.
   [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
   (§2025-07-05).
 
-## Beta-GPT 2025-07-18 – Save/HUD/Compliance-Regression (Update: 2025-10-20)
+## Beta-KI 2025-07-18 – Save/HUD/Compliance-Regression (Update: 2025-10-20)
 
 - **Status:** Maßnahmen #1–#12 sind laut QA-Fahrplan 1.8.2 umgesetzt; HUD-Badges
   (`SF-OFF`, `GATE 2/2`), Psi-Logs und Dispatcher-Hinweise wurden in Runtime,
   README, Toolkit und HUD-Modul gespiegelt.
-- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-07-18“ markiert alle
+- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-KI 2025-07-18“ markiert alle
   Punkte als ✅ und verlinkt auf die betroffenen Module.
 - **QA-Log:** Eintrag 2025-07-20 dokumentiert die Pflichttestläufe sowie die
   Doku-Synchronisation.
 - **Evidenz:** Exfil-/Wallet-Traces sowie Psi-/HUD-Logs liegen über den JSON-
-    Hand-off 2025-11-05 in
-    [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
-    (§2025-07-18) vor.
+  Hand-off 2025-11-05 in
+  [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
+  (§2025-07-18) vor.
 
-## Beta-GPT 2025-10-15 – Acceptance-/HUD-/Accessibility-Deltas (Update: 2025-10-20)
+## Beta-KI 2025-10-15 – Acceptance-/HUD-/Accessibility-Deltas (Update: 2025-10-20)
 
 - **Status:** Alle 15 Maßnahmen sind in QA-Fahrplan 1.8.2 als ✅ vermerkt; die
   Acceptance-Smoke umfasst wieder 15 Prüfschritte, das Save-Schema erzwingt
   `logs.foreshadow[]` und Arena-Phase-Marker, HUD & Dispatcher spiegeln den
   Auto-Reset von `SF-OFF`, Cinematic-Header und Accessibility-Dialog.
-- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-10-15“ listet die
+- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-KI 2025-10-15“ listet die
   aktualisierten Referenzen auf Runtime, README, Toolkit, HUD-Modul und
   Tester-Briefing.
 - **QA-Log:** Eintrag 2025-10-20 bestätigt den grünen Pflichttest-Stack und
   verweist seit 2025-11-05 auf die abgeschlossene QA-Evidenz.
 - **Evidenz:** Acceptance-Checkliste, HUD-Dumps und Dispatcher-Transkripte sind
-    über den JSON-Hand-off 2025-11-05 im
-    [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
-    (§2025-10-15) dokumentiert.
+  über den JSON-Hand-off 2025-11-05 im
+  [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
+  (§2025-10-15) dokumentiert.
 
-## Beta-GPT 2025-10-28 – SaveGuard/HUD/Ökonomie-Deltas (Update: 2025-10-28)
+## Beta-KI 2025-10-28 – SaveGuard/HUD/Ökonomie-Deltas (Update: 2025-10-28)
 
 - **Status:** Alle 13 Maßnahmen sind laut QA-Fahrplan 1.8.2 als ✅ markiert;
   `runtime.js` validiert HQ-DeepSaves inklusive Arena-Active-Blocker,
@@ -639,7 +639,7 @@ Hochstufen-Spielrunden.
   (`systems/gameflow/speicher-fortsetzung.md`) und HUD-/Core-Sektionen die
   getrennten Foreshadow-/Gate-Badges, Ökonomie-Formeln sowie das zusätzliche
   Accessibility-Preset spiegeln.
-- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-10-28“ verweist auf die
+- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-KI 2025-10-28“ verweist auf die
   aktualisierten Runtime- und Wissensmodule (RT, M12, HUD, Core) und verlinkt die
   QA-Testreferenz (`!save` Minimal-HQ-Save).
 - **QA-Log:** Eintrag 2025-10-28 verweist seit 2025-11-05 auf den erledigten
@@ -665,7 +665,7 @@ Hochstufen-Spielrunden.
   `logs.market[]`, trimmt Kosten in ganze CU und ergänzt automatisch Px-Klauseln
   (`Px ±n`), sobald `px_delta` gesetzt wird. Das Limit (`MARKET_LOG_LIMIT = 24`)
   hält den Debrief schlank; ältere Einkäufe werden FIFO gekappt.
-- **QA-Bedarf:** Maintainer:innen liefern für Premium-Angebote (Temporal Ships
+- **QA-Bedarf:** Maintainer liefern für Premium-Angebote (Temporal Ships
   ≥ 5 000 CU) noch Px- und Quellenhinweise, damit der Debrief Konsolenrabatte
   (`note`, `source`) unterscheidet. QA vermerkt jeden Testlauf im Beta-Log mit
   Chronopolis-Report, Px-Delta und Rang/Research-Kontext.
@@ -676,40 +676,37 @@ rollt `chronopolisStockReport()` (Daily-Roll) und bestätigt, dass sämtliche Sl
 ohne 🔒-Locks erscheinen. Anschließend protokolliert es einen Kauf (`log_market_purchase()`
 mit `px_delta`) und prüft den Debrief-Trace (`Chronopolis-Trace`) auf Px-Klausel,
 Notiz und Quellenhinweis. QA-Log 2025-06-28 führt den Lauf samt Output auf und
-schließt die Beobachtung.
-27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren.
-    Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an
-    das HQ-Vermögen.
-28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional
-    nach drei Missionen. Status: *erledigt* – Episodenabschluss triggert
-    sofortigen Reset; ein konfigurierbarer Drei-Missions-Takt hält die Stadt
-    lebendig.
-29. **Gefährdungs-Skala vereinheitlichen.** Einheitliche Risk-Level-Icons.
-    Status: *erledigt* – Toolkit formatiert `R1–R4` automatisch als HUD-Badges,
-    Artefakt-Pool & HUD-Dokumentation spiegeln die neue Skala.
-30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter
-    `/help sg`. Status: *erledigt* – `/help sg` fasst Würfelgrößen, Zielwerte und
-    Exploding-Ansagen filmisch auf einer Zeile zusammen.
+schließt die Beobachtung. 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren.
+Status: _erledigt_ – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an
+das HQ-Vermögen. 28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional
+nach drei Missionen. Status: _erledigt_ – Episodenabschluss triggert
+sofortigen Reset; ein konfigurierbarer Drei-Missions-Takt hält die Stadt
+lebendig. 29. **Gefährdungs-Skala vereinheitlichen.** Einheitliche Risk-Level-Icons.
+Status: _erledigt_ – Toolkit formatiert `R1–R4` automatisch als HUD-Badges,
+Artefakt-Pool & HUD-Dokumentation spiegeln die neue Skala. 30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter
+`/help sg`. Status: _erledigt_ – `/help sg` fasst Würfelgrößen, Zielwerte und
+Exploding-Ansagen filmisch auf einer Zeile zusammen.
 
 ## Nachverfolgung & Nächste Schritte
+
 1. **Validierung:** Maßnahmen 1–10 anhand der Commits prüfen und Ergebnisse im
    QA-Fahrplan sowie im entsprechenden Abschnitt des QA-Logs dokumentieren.
 2. **Dokumentation:** Punkte 11–20 in README, Maintainer-Ops und Glossar
    spiegeln, sobald Runtime-Anpassungen bestätigt sind; Referenzen im QA-Log
-   hinterlegen. Jeder QA-Log-Eintrag notiert den verwendeten Beta-GPT-Testprompt,
-   damit Regressionen reproduzierbar bleiben. **Repo-Agent:innen liefern den
+   hinterlegen. Jeder QA-Log-Eintrag notiert den verwendeten Beta-KI-Testprompt,
+   damit Regressionen reproduzierbar bleiben. **Repo-Agenten liefern den
    Wissensspiegel (Runtime-Module, Toolkit) innerhalb desselben Commits** und
-   dokumentieren ihn. Maintainer:innen bestätigen anschließend den Transfer in
+   dokumentieren ihn. Maintainer bestätigen anschließend den Transfer in
    produktive Plattform-Runtimes (siehe Maintainer-Ops) inklusive Datum und
    Commit-ID. Maintainer-Ops wurde am 2025-03-21 auf Version 1.2.0 angehoben und
-   beschreibt nun die Spiegelprozesse nach MyGPT-Freigabe.
+   beschreibt nun die Spiegelprozesse nach KI-Spielleitung-Freigabe.
 3. **Roadmap:** Themen 21–30 mit der UX-/Tooling-Roadmap verknüpfen, in den
    QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
    abstimmen.
 4. **Tooling-Abgleich:** `.markdownlint.yaml` (Zeilenlänge 100, Frontmatter-Ausnahmen)
    und `.prettierrc.json` (Doc-only Overrides) sind produktiv eingebunden.
    `make lint` ruft der Reihe nach `npm run lint:rt`, `GM_STYLE=verbose npm run
-   lint:rt`, `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
+lint:rt`, `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
    `npm run lint:links` und `npm run lint:md` auf. Das Markdownlint-Skript
    basiert auf der Python-Implementierung der `.markdownlint.yaml` und prüft QA-
    Plan, QA-Audit und QA-Index; der Pre-Commit-Hook `markdownlint` verweist auf
@@ -717,7 +714,8 @@ schließt die Beobachtung.
    `npm run format:docs:check` steht für
    Dokumentations-Reviews bereit (Prettier lokal installieren, falls benötigt).
 
-## Befunde Beta-GPT-Lauf 2025-06 (ISSUE #1–#16)
+## Befunde Beta-KI-Lauf 2025-06 (ISSUE #1–#16)
+
 Der Testprompt vom Juni 2025 ergänzt 16 neue Baustellen rund um HQ-Saves,
 Gruppenschemata und PvP-Logik. Die folgenden Einträge bilden den aktuellen
 Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
@@ -726,6 +724,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 **Status-Legende:** `[ ] Offen`, `[x] Erledigt`
 
 ### Issue #1 – HQ-Save-Pflichtfelder
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Minimal-HQ-Saves ließen `economy`, `logs`, `ui` und
   `campaign.px` leer.
@@ -736,6 +735,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   Pflichtfelder. Referenz: Commit `3e4f306`.
 
 ### Issue #2 – Gruppensave-Konsistenz
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Drei konkurrierende Arrays für Teamzusammenstellungen
   verhindern einen stabilen Merge.
@@ -746,6 +746,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   `party.characters[]`; Dokumentation spiegelt die Alias-Bereinigung.
 
 ### Issue #3 – Arc-Dashboard
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Das Arc-Dashboard muss als Pflichtcontainer im Save-Schema
   und in der Doku auftauchen, damit Cross-Mode-Imports stabil bleiben.
@@ -755,6 +756,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Der Story-Hub verliert nach einem Reload Kontext.
 
 ### Issue #4 – Load-Compliance
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Einstiegstrigger feuern mehrfach, da ein Statusflag fehlt.
 - **Umsetzung:** Runtime-Ansatz in `runtime.js` greift nicht, weil die Datei im
@@ -764,10 +766,11 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   gibt den Auswahlmodus über `AllowEntryChoice()` nach Missionsstart frei.
   QA-Fahrplan & Logs halten die Evidenz aus dem Acceptance-Smoke 2025-06-13
   fest (SaveGuard während Arena und Reset nach Exit).
-- **Risiko bei Verzug:** Spieler:innen erhalten direkt nach `!load`
+- **Risiko bei Verzug:** Spieler erhalten direkt nach `!load`
   wiederholte Dialoge.
 
 ### Issue #5 – Hot-Exfil Px-Verlust
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** FAQ und Runtime widersprachen sich bei der Px-Strafe.
 - **Umsetzung:** Toolkit-Default `px_loss_on_hot_fail` wurde auf `false`
@@ -778,6 +781,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   2025-06-11).
 
 ### Issue #6 – Phase-Strike-Kosten
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** PvP-Kosten sind doppelt definiert, das Modus-Flag bleibt
   unklar.
@@ -791,14 +795,16 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Die Psi-Balance kippt in Sparring-Szenen.
 
 ### Issue #7 – Accessibility-Dialog
+
 - **Status:** [x] Entfällt
 - **Kerndiagnose:** Es fehlt ein einheitliches Menü für Barrierefreiheit.
-- **Entscheid:** Maintainer:innen verwerfen das HUD-Menü (2025-06-13); Schrift-
+- **Entscheid:** Maintainer verwerfen das HUD-Menü (2025-06-13); Schrift-
   größen-Anpassungen bleiben Aufgabe der Endgeräte/Apps.
 - **Dokumentation:** Fahrplan 2025 markiert Issue #7 als verworfen, keine
   Umsetzung in `runtime.js` vorgesehen.
 
 ### Issue #8 – Offline-Fallback
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Kein definierter Offline-Dialog trotz HUD-Alerts.
 - **Empfohlene Umsetzung:** `offline_help()` ergänzen, ein lokales FAQ
@@ -811,6 +817,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Die Kodex-Hilfe bricht bei Verbindungsproblemen ab.
 
 ### Issue #9 – Semver-Benennung
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** `ZR_VERSION` und `zr_version` werden uneinheitlich
   verwendet.
@@ -822,6 +829,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   und Fehlermeldungen ziehen nach. (Commit: wird im PR referenziert.)
 
 ### Issue #10 – Foreshadow-Gates
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Foreshadow-Fortschritt ist nicht im Save verankert.
 - **Empfohlene Umsetzung:** `logs.foreshadow` persistieren und ein
@@ -832,6 +840,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   (Commit: wird im PR referenziert.)
 
 ### Issue #11 – Koop-CU-Verteilung
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Team- und Charakter-Wallets werden nicht sauber getrennt.
 - **Empfohlene Umsetzung:** Debrief-Dialog um Splits ergänzen, Standard
@@ -842,6 +851,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Belohnungsverteilung bleibt strittig und Saves driften.
 
 ### Issue #12 – Chronopolis-Warnung
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Das einmalige Popup besitzt kein Persistenzflag.
 - **Empfohlene Umsetzung:** `logs.flags.chronopolis_warn_seen` setzen.
@@ -850,6 +860,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   bindet das Popup nur einmal ein. (Commit: wird im PR referenziert.)
 
 ### Issue #13 – Ask→Suggest
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Die geforderte Mechanik ist nicht dokumentiert oder
   standardisiert.
@@ -861,6 +872,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   beschreibt den Ablauf. (Commit: wird im PR referenziert.)
 
 ### Issue #14 – Suspend-Snapshot
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Initiative- und Timer-Zustände fehlten beim Resume.
 - **Empfohlene Umsetzung:** Snapshot um `initiative.order[]`,
@@ -871,6 +883,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   referenziert.)
 
 ### Issue #15 – PSI-Buffer-Arena
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** PvP-Dämpfer sind nicht zentral dokumentiert.
 - **Empfohlene Umsetzung:** `apply_arena_rules()` bündelt `psi_buffer` und
@@ -880,6 +893,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   PvP-Abgleich hervor. (Commit: wird im PR referenziert.)
 
 ### Issue #16 – Chronopolis-Marktlog
+
 - **Status:** [x] Erledigt
 - **Kerndiagnose:** Käufe erzeugen kein Save-Log trotz Px-Auswirkungen.
 - **Empfohlene Umsetzung:** `logs.market[]` um Timestamp, Item, Kosten und eine
@@ -899,7 +913,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - [x] Codex erstellt Branches für Schema-/Runtime-Änderungen (#1–#16) und
       verknüpft Commits mit dem Audit; Umsetzung läuft auf dem Arbeitszweig
       `work` und die Commit-Historie referenziert die Audit-IDs.
-- [x] Maintainer:innen synchronisieren README, Modul 12 und Master-Index nach
+- [x] Maintainer synchronisieren README, Modul 12 und Master-Index nach
       Abschluss der jeweiligen Teilaufgaben; die aktuellen Mirrors stehen seit
       Version 1.16.0 auf demselben Stand wie die Runtime-Hooks.
 
@@ -922,6 +936,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Tests:** Pflichtpaket ausgeführt (siehe QA-Log/Commit).
 
 ## Offene Fragen für das Team (Stand: 2025-04-02)
+
 Die folgenden Punkte galten im ursprünglichen Audit als ungeklärt und sind für
 den Live-Gang bewertet:
 

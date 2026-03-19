@@ -1,4 +1,5 @@
 # 01-m5-boss-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.040134
 - **Tokens:** in:6543 out:1367
@@ -12,13 +13,13 @@
 **Schnellstart-Bogen: WRAITH**
 
 | Attribut | Wert |
-|---|---|
-| STR | 3 |
-| GES | 6 |
-| INT | 4 |
-| CHA | 3 |
-| TEMP | 4 |
-| SYS | 4 |
+| -------- | ---- |
+| STR      | 3    |
+| GES      | 6    |
+| INT      | 4    |
+| CHA      | 3    |
+| TEMP     | 4    |
+| SYS      | 4    |
 
 **HP:** 13/13 · **Stress:** 3/10 · **Noise:** Gelb
 
@@ -50,6 +51,7 @@ Der Safe ist leer. **Die Kausalklingen waren vor dir hier.**
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Datensafe ausgeräumt — Dokumente bei RAZR in der Hand
 - 2 bewaffnete Klingen-Soldaten, 1 Operator am Terminal
 - RAZR: Boss-Tier, unbekannte Implantate, gefährlich auf kurze Distanz

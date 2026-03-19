@@ -1,4 +1,5 @@
 # 05-offline-tschernobyl-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.026268
 - **Tokens:** in:5706 out:610
@@ -23,21 +24,21 @@ Drei Profile, sofort spielbereit. Wähle eine Nummer:
 
 **1 · GHOST**
 Infiltration, Tarnung, lautlose Kills.
-*STR 2 · GES 5 · INT 3 · CHA 2 · TEMP 3 · SYS 3*
+_STR 2 · GES 5 · INT 3 · CHA 2 · TEMP 3 · SYS 3_
 Loadout: Schalldämpfer-Pistole, Kletterkit, Rauchgranate ×2, Retina-HUD, Jammer-Patch
 
 ---
 
 **2 · FIXER**
 Social Engineering, Informationsbeschaffung, Netzwerke.
-*STR 2 · GES 3 · INT 4 · CHA 5 · TEMP 2 · SYS 2*
+_STR 2 · GES 3 · INT 4 · CHA 5 · TEMP 2 · SYS 2_
 Loadout: Taser, Fälschungs-Kit, Comlink-Spoofer, Retina-HUD, Notfallausweis ×3
 
 ---
 
 **3 · BREACHER**
 Direkter Einsatz, schwere Ausrüstung, Raumkontrolle.
-*STR 5 · GES 3 · INT 2 · CHA 2 · TEMP 3 · SYS 3*
+_STR 5 · GES 3 · INT 2 · CHA 2 · TEMP 3 · SYS 3_
 Loadout: Kurz-Shotgun, Sprengladung ×2, Schutzweste, Retina-HUD, Verbandkit ×2
 
 ---

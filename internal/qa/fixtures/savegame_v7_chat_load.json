@@ -19,9 +19,7 @@
     "hq_pool": 6400
   },
   "logs": {
-    "notes": [
-      "Load-Pfad: Spiel laden + JSON-Paste im Chat (OpenWebUI-safe)."
-    ],
+    "notes": ["Load-Pfad: Spiel laden + JSON-Paste im Chat (OpenWebUI-safe)."],
     "flags": {
       "imported_saves": [],
       "duplicate_branch_detected": false,

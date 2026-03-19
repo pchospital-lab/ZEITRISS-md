@@ -6,7 +6,7 @@ tags: [dev, chronopolis]
 
 # Chronopolis Static Map Blueprint (Maintainer)
 
-_Grundplan einer statischen City-Map für das textbasierte GPT-Spiel_
+_Grundplan einer statischen City-Map für das textbasierte KI-Spiel_
 
 ## 1 · Macro-Layout (Top-Down)
 

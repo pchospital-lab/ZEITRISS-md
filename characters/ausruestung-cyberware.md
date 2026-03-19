@@ -56,10 +56,12 @@ Mission und Balance passen. Die Tabellen in diesem Modul sind **Beispiele**,
 kein geschlossener Katalog.
 
 **Pflicht für Save/Load:**
+
 - Im Save bleibt das einheitliche Format `equipment[{name,type,tier}]`.
 - `name` darf frei und kreativ sein, wenn die Wirkung plausibel ist.
 
 **Leitplanken für freie Item-Erstellung:**
+
 - **Plausibilität:** Item passt zu Welt, Epoche und Situation.
 - **Lizenz-Fit:** Angebot folgt Tier-/Ruf-Rahmen statt beliebigem High-End.
 - **Tradeoff:** starke Effekte haben Kosten, Limits oder Risiken.
@@ -70,6 +72,7 @@ kein geschlossener Katalog.
 kleine PP/Heat-Effekte mit Tradeoff.
 
 **Item-DSL** (für neue Gegenstände, generativ nutzbar):
+
 ```
 <NAME> · Typ: gear|weapon|armor|gadget|consumable|implant|bio|artifact · Tier: <0-5> · Kosten: <CU>
 SYS: <0/1/2> · Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
@@ -77,37 +80,36 @@ SYS: <0/1/2> · Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <
 
 Die folgende Tabelle fasst typische Ausrüstungsbeispiele entlang der Lizenzstufen zusammen (Preise in CU).
 
+| Ausrüstung (Tier 1 – ca. 100 CU) | Effekt                               | Kosten (CU) |
+| -------------------------------- | ------------------------------------ | ----------- |
+| Bypass-Implantat                 | +2 Sicherheitsmechanik, leise        | 100         |
+| Schalldämpfer-Aufsatz            | −2 Wach-Alert, nur 3 Schüsse haltbar | 100         |
+| Micro-Bug-Pair                   | 20 m Funk, 30 Min Akku               | 100         |
+| Rauchgranate Mk I                | 1 Szene – Sicht –2                   | 100         |
 
-| Ausrüstung (Tier 1 – ca. 100 CU) | Effekt | Kosten (CU) |
-| --- | --- | --- |
-| Bypass-Implantat | +2 Sicherheitsmechanik, leise | 100 |
-| Schalldämpfer-Aufsatz | −2 Wach-Alert, nur 3 Schüsse haltbar | 100 |
-| Micro-Bug-Pair | 20 m Funk, 30 Min Akku | 100 |
-| Rauchgranate Mk I | 1 Szene – Sicht –2 | 100 |
+| Ausrüstung (Tier 2 – 60–300 CU) | Effekt                                      | Kosten (CU) |
+| ------------------------------- | ------------------------------------------- | ----------- |
+| Chamäleon-Suit v2               | +1 Sneak in Licht, +2 im Dunkeln            | 300         |
+| Mini-Drohne "Wisp"              | Live-Vid 120 m, Zugriffsreichweite 20 m     | 300         |
+| EMP-Patch                       | legt 1 elektr. Schloss flach (SG‑1)         | 300         |
+| Netz-Spoofer                    | fälscht Kamera-Feed 1 Szene                 | 300         |
+| Adrenalin-Shot                  | −2 Stress oder Fatigue ignorieren (1 Szene) | 60          |
+| Lichtbild-Köder                 | 1‑Szene Decoy; Heimlichkeit +2              | 90          |
+| Nano-Bindepflaster              | 4 LP sofort; kein Med‑Bay                   | 70          |
 
-| Ausrüstung (Tier 2 – 60–300 CU) | Effekt | Kosten (CU) |
-| --- | --- | --- |
-| Chamäleon-Suit v2 | +1 Sneak in Licht, +2 im Dunkeln | 300 |
-| Mini-Drohne "Wisp" | Live-Vid 120 m, Zugriffsreichweite 20 m | 300 |
-| EMP-Patch | legt 1 elektr. Schloss flach (SG‑1) | 300 |
-| Netz-Spoofer | fälscht Kamera-Feed 1 Szene | 300 |
-| Adrenalin-Shot | −2 Stress oder Fatigue ignorieren (1 Szene) | 60 |
-| Lichtbild-Köder | 1‑Szene Decoy; Heimlichkeit +2 | 90 |
-| Nano-Bindepflaster | 4 LP sofort; kein Med‑Bay | 70 |
+| Ausrüstung (Tier 3 – ca. 600 CU) | Effekt                                 | Kosten (CU) |
+| -------------------------------- | -------------------------------------- | ----------- |
+| Plasma-Cutter (Handheld)         | öffnet Metalltür in 1 Rnd, laut        | 600         |
+| Phase-Gürtel β                   | 1×/Mission: 3 Sek durch Wand (≤ 20 cm) | 600         |
+| Nanofiber-Vest                   | –2 Schaden erste Kugel / Szene         | 600         |
+| EMP-Granate Pro                  | Radius 8 m, deaktiviert Drohnen        | 600         |
 
-| Ausrüstung (Tier 3 – ca. 600 CU) | Effekt | Kosten (CU) |
-| --- | --- | --- |
-| Plasma-Cutter (Handheld) | öffnet Metalltür in 1 Rnd, laut | 600 |
-| Phase-Gürtel β | 1×/Mission: 3 Sek durch Wand (≤ 20 cm) | 600 |
-| Nanofiber-Vest | –2 Schaden erste Kugel / Szene | 600 |
-| EMP-Granate Pro | Radius 8 m, deaktiviert Drohnen | 600 |
-
-| Ausrüstung (Tier 4 – ca. 900 CU) | Effekt | Kosten (CU) |
-| --- | --- | --- |
-| Proto-Zeitdetektor | Warnt 1 Szene vor Anachron-Tech | 900 |
-| Psi-Synchron Helm | −1 SG auf Psi, nur mit Psi-Tag | 900 |
-| Void-Blade | ignoriert Rüstung 2, Paradoxon-safe | 900 |
-| Chrono-Beacon | Not-Extraction in 1 Rnd → Nullzeit | 900 |
+| Ausrüstung (Tier 4 – ca. 900 CU) | Effekt                              | Kosten (CU) |
+| -------------------------------- | ----------------------------------- | ----------- |
+| Proto-Zeitdetektor               | Warnt 1 Szene vor Anachron-Tech     | 900         |
+| Psi-Synchron Helm                | −1 SG auf Psi, nur mit Psi-Tag      | 900         |
+| Void-Blade                       | ignoriert Rüstung 2, Paradoxon-safe | 900         |
+| Chrono-Beacon                    | Not-Extraction in 1 Rnd → Nullzeit  | 900         |
 
 #### Konforme Beispielausrüstung
 
@@ -117,7 +119,6 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele entlang der Lizenzstuf
 
 `Neurotonikum-Ampulle · Typ: Consumable · Kosten: 100 CU · SYS: 0`
 `Effekt: sofort +2 PP · Limit: 1× · Tradeoff: +1 Stress`
-
 
 \*\> **_Hinweis:_** Alle Werte und Beispiele in diesem Modul sind Vorschläge, die auf Spielbalance
 geprüft sind. Die SL (Spielleitung) – ob Mensch oder KI – sollte diese an die eigene Kampagne
@@ -129,13 +130,13 @@ erfolgreiche Missionen, formalen ITI-Ruf-Aufstieg und erworbene Lizenzen verdien
 **Tier-Lizenzen — Preistabelle:**
 
 | Tier | Ruf-Anforderung | Lizenzkosten |
-|------|-----------------|-------------|
-| 0 | — | Frei |
-| I | Ruf +1 | 200 CU |
-| II | Ruf +2 | 500 CU |
-| III | Ruf +3 | 1.500 CU |
-| IV | Ruf +4 | 3.000 CU |
-| V | Ruf +5 | 5.000 CU |
+| ---- | --------------- | ------------ |
+| 0    | —               | Frei         |
+| I    | Ruf +1          | 200 CU       |
+| II   | Ruf +2          | 500 CU       |
+| III  | Ruf +3          | 1.500 CU     |
+| IV   | Ruf +4          | 3.000 CU     |
+| V    | Ruf +5          | 5.000 CU     |
 
 Ab **Ruf +5** stehen grundsätzlich alle regulären ITI-Lizenzpfade offen. Die eigentliche
 Begrenzung läuft dann über **CU**, Verfügbarkeit, Storyfreigaben und HQ-Ressourcen — nicht mehr
@@ -144,6 +145,7 @@ Begrenzung läuft dann über **CU**, Verfügbarkeit, Storyfreigaben und HQ-Resso
 Einzelne Artefakte, Schiffe oder Sondermodule können weiterhin als
 **Objekt-/Projektfreigabe** laufen, ohne das gesamte Tier V global zu sperren.
 Kanonische Tabelle: siehe [Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md#zugang-zu-ausrüstung-cyberware-hq-phase).
+
 ## Waffen: Arsenal der Zeitalter
 
 Ob Klingen, Kugeln oder Laser – Chrononauten greifen auf ein breites Spektrum an Waffen zurück,
@@ -171,14 +173,14 @@ Geräusch eines aktivierten Energieschwerts.
 
 **Beispiel-Nahkampfwaffen:**
 
+| Waffe                          | Epoche                 | Schaden    | Besonderheit                                    | Kosten (CU) | Tier |
+| ------------------------------ | ---------------------- | ---------- | ----------------------------------------------- | ----------- | ---- |
+| Römischer _Gladius_            | Antike                 | 2 (leicht) | Kurz, führig; effektiv im Nahkampf, unauffällig | 50          | 0    |
+| Langschwert (zweihändig)       | Mittelalter            | 3 (mittel) | Hohe Durchschlagskraft; gegen Platte mäßig      | 80          | 1    |
+| Moderner Kampfmesser           | 21. Jh. (modern)       | 2 (leicht) | Versteckbar; schnelle Stiche oder Würfe         | 40          | 0    |
+| Monofil-Katana                 | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; braucht Übung  | 120         | 2    |
+| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft)     | 4 (schwer) | Ignoriert Rüstung; leuchtet {heavy}             | 200         | 3    |
 
-| Waffe | Epoche | Schaden | Besonderheit | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- | --- |
-| Römischer _Gladius_ | Antike | 2 (leicht) | Kurz, führig; effektiv im Nahkampf, unauffällig | 50 | 0 |
-| Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Platte mäßig | 80 | 1 |
-| Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Versteckbar; schnelle Stiche oder Würfe | 40 | 0 |
-| Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; braucht Übung | 120 | 2 |
-| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Ignoriert Rüstung; leuchtet {heavy} | 200 | 3 |
 ### Fernkampfwaffen
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
@@ -193,18 +195,17 @@ einige Beispiele:
 
 **Beispiel-Fernkampfwaffen:**
 
+| Waffe            | Epoche      | Schaden             | Reichweite        | Besonderheit                                             | Kosten (CU) | Tier |
+| ---------------- | ----------- | ------------------- | ----------------- | -------------------------------------------------------- | ----------- | ---- |
+| Langbogen        | Mittelalter | 2–3 (leicht–mittel) | Weit (bis ~100 m) | Lautlos, tödlich; langsam                                | 60          | 0    |
+| Repetierarmbrust | Renaissance | 3 (mittel)          | Mittel (~30 m)    | Magazin für mehrere Bolzen; leise                        | 100         | 1    |
+| Revolver         | 20. Jh.     | 3 (mittel)          | Mittel (~30 m)    | Sechs-Schuss-Trommel; solide Wirkung, laut               | 50          | 0    |
+| Sturmgewehr      | 21. Jh.     | 4 (schwer)          | Mittel–weit       | Vollauto; hoher Schaden, laut; Munition nötig            | 150         | 1    |
+| Needler-Pistole  | 22. Jh.     | 1 (**Betäubung**)   | Kurz–mittel       | Schießt Nadeln, fast lautlos                             | 180         | 2    |
+| Laser-Gewehr     | 23. Jh.     | 4 (schwer)          | Weit              | Strahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250         | 2    |
+| Plasmawerfer     | 24. Jh.     | 5 (schwer+)         | Mittel (~50 m)    | Vernichtet Ziel; hoher Energiebedarf {heavy}             | 300         | 3    |
 
-| Waffe | Epoche | Schaden | Reichweite | Besonderheit | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- | --- | --- |
-| Langbogen | Mittelalter | 2–3 (leicht–mittel) | Weit (bis ~100 m) | Lautlos, tödlich; langsam | 60 | 0 |
-| Repetierarmbrust | Renaissance | 3 (mittel) | Mittel (~30 m) | Magazin für mehrere Bolzen; leise | 100 | 1 |
-| Revolver | 20. Jh. | 3 (mittel) | Mittel (~30 m) | Sechs-Schuss-Trommel; solide Wirkung, laut | 50 | 0 |
-| Sturmgewehr | 21. Jh. | 4 (schwer) | Mittel–weit | Vollauto; hoher Schaden, laut; Munition nötig | 150 | 1 |
-| Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Schießt Nadeln, fast lautlos | 180 | 2 |
-| Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Strahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 | 2 |
-| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50 m) | Vernichtet Ziel; hoher Energiebedarf {heavy} | 300 | 3 |
-
-> *Hinweis:* Reichweiten sind grobe Richtwerte für offenes Gelände. „Schwer+“ Schaden deutet an, dass
+> _Hinweis:_ Reichweiten sind grobe Richtwerte für offenes Gelände. „Schwer+“ Schaden deutet an, dass
 > meist ein einziger Treffer bereits kritische Verwundungen verursacht. Die Spielleitung kann bei
 > solchen extremen Waffen zusätzliche Effekte wie _Durchschlag_ durch Deckung oder _Kollateralschaden_
 > in der Umgebung beschreiben.
@@ -243,14 +244,14 @@ infiltrative Operationen bewusst deaktiviert werden.
 
 **Beispiel-Schutzkleidung und Rüstungen:**
 
-| Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- | --- |
-| Lederwams | Mittelalter | _Leichter Schutz:_ –1 Schaden im Nahkampf | Kaum Kugelschutz, wirkt altmodisch | 30 | 0 |
-| Kettenhemd | Historisch | _Mäßiger Schutz:_ –1 Schaden vs Klingen | Schwer, klirrend, schwer zu verbergen | 60 | 1 |
-| Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gg. Klingen | 100 | 1 |
-| Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; etwas hinderlich | 180 | 2 |
-| Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer; kann ausfallen | 220 | 2 |
-| Energie-Schild | Zukunft | _Energieschild:_ blockt 5 Schaden {heavy} | EMP-anfällig; sichtbarer Schimmer | 250 | 3 |
+| Rüstung               | Epoche      | Schutz                                      | Besonderheit                             | Kosten (CU) | Tier |
+| --------------------- | ----------- | ------------------------------------------- | ---------------------------------------- | ----------- | ---- |
+| Lederwams             | Mittelalter | _Leichter Schutz:_ –1 Schaden im Nahkampf   | Kaum Kugelschutz, wirkt altmodisch       | 30          | 0    |
+| Kettenhemd            | Historisch  | _Mäßiger Schutz:_ –1 Schaden vs Klingen     | Schwer, klirrend, schwer zu verbergen    | 60          | 1    |
+| Kevlar-Weste          | Modern      | _Basis-Schutz:_ –1 Projektil                | Unter Jacke tragbar; schwach gg. Klingen | 100         | 1    |
+| Taktischer Kampfanzug | Modern      | _Starker Schutz:_ –2 Schaden                | Sehr auffällig, schwer; etwas hinderlich | 180         | 2    |
+| Leichter Nano-Anzug   | 22. Jh.     | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer; kann ausfallen                    | 220         | 2    |
+| Energie-Schild        | Zukunft     | _Energieschild:_ blockt 5 Schaden {heavy}   | EMP-anfällig; sichtbarer Schimmer        | 250         | 3    |
 
 _Hinweis:_ Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**
@@ -315,6 +316,7 @@ Ausrüstungsgegenstände:
   zur Einsatzzeit. Ermöglicht es, Identitäten zu wechseln und unterzutauchen. (In Spielbegriffen
   unterstützt es Verkleidungs-Proben, in manchen Fällen kein Wurf nötig, wenn gut vorbereitet.)
   _Kosten:_ 20–50 CU je nach Umfang. _(tier: 0)_
+
 #### Low-Tech Starterpack
 
 Für historische Settings bietet sich ein einfaches Basispaket ohne moderne Technik an:
@@ -363,7 +365,7 @@ Paradoxon. Beispiele für taktische Gadgets:
   auflösen – ideal, um aus Gefangenschaft zu entkommen oder Barrieren zu umgehen. _Einschränkung:_
   Sehr limitiert (max. 1–2 Nutzungen pro Mission, da die Energiezelle sich dann entlädt und Neuladen
   nur im HQ möglich ist). _Kosten:_ 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich). _(tier: 2)_
-- **Kausalabfang-Marker ("Never happened")** *(ITI-Standardmodul, nicht shopbar):*
+- **Kausalabfang-Marker ("Never happened")** _(ITI-Standardmodul, nicht shopbar):_
   Unsichtbares Nahbereichs-Protokoll für die Einsatznachbereitung. Der Marker
   darf nur auf **bereits kampfunfähige 0-LP-Hostiles** gesetzt werden und
   benötigt eine belastbare Identitätsfassung auf Armeslänge plus aktiven
@@ -389,15 +391,15 @@ Paradoxon. Beispiele für taktische Gadgets:
 Diese Preisklasse füllt die Lücke zwischen Standard-Gadgets und Fahrzeug-Upgrades. Die Module sind
 tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 
-| Kategorie | Item | Effekte (Kurzfassung) | SYS | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- | --- |
-| **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; 1× Blend-Schutz | 1 | 900 | 2 |
-|  | _Micro-Breach-Drone_ | Lautloser Cutter für Schlösser/Schaltpunkte; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
-| **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Schockfeld negiert 2 LP/Treffer (3 Lad.) | 1 | 1000 | 2 |
-|  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 | 1 |
-| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl.; Spurenscan 50 m | 0 | 800 | 1 |
-|  | _Neuro-Takt-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
-| **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
+| Kategorie                 | Item                         | Effekte (Kurzfassung)                                                     | SYS | Kosten (CU) | Tier |
+| ------------------------- | ---------------------------- | ------------------------------------------------------------------------- | --- | ----------- | ---- |
+| **Tarnung & Zugriff**     | _Adaptive Camo-Cloak_        | Aktive Tarnmatrix, +2 Schleichen; 1× Blend-Schutz                         | 1   | 900         | 2    |
+|                           | _Micro-Breach-Drone_         | Lautloser Cutter für Schlösser/Schaltpunkte; Silent Rotor (−1 SG Horchen) | 0   | 1100        | 2    |
+| **Defensiv-Gear**         | _Kinetic Barrier-Harness_    | Schockfeld negiert 2 LP/Treffer (3 Lad.)                                  | 1   | 1000        | 2    |
+|                           | _Reactive Weave Vest_        | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar                      | 0   | 850         | 1    |
+| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl.; Spurenscan 50 m                                     | 0   | 800         | 1    |
+|                           | _Neuro-Takt-Visor_           | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht                | 1   | 1200        | 2    |
+| **Med-/Support**          | _Med-Auto-Kit_               | Auto-Clot; 1× 2 LP Sofortheilung                                          | 0   | 200         | 2    |
 
 #### Stim-Reg Cap-Injector {#stim-reg-cap-injector}
 
@@ -417,6 +419,7 @@ Module zählen nicht._
 - **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
 
 <a id="cyberware-bioware"></a>
+
 ## Cyberware & Bioware
 
 ### Cyberware-Implantate
@@ -446,14 +449,14 @@ fremd wirken oder empfindlich reagieren, bis sie kalibriert sind.
 
 id: implant_t1
 
-| Implantat | Beschreibung | SYS | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- |
-| **Nachtsicht-Implantat** | Künstliches Auge mit Verstärker. _Effekt:_ Nachtsicht, +1 Wahrnehmung. | 1 | 300 | 0 |
-| **Kybernetischer Arm** | Servomotorik-Prothese. _Effekt:_ Stärke +1, Schaden ohne Waffe schwer. | 1 | 400 | 1 |
-| **Neuronales Interface** | Chip mit HUD. _Effekt:_ Datenzugriff, Funkverbindung; +2 Elektronik. | 1 | 250 | 1 |
-| **Subdermale Panzerplatten** | Platten unter Haut. _Effekt:_ –1 Schaden; auffällig bei Verletzung. | 1 | 350 | 2 |
-| **Notfall-Stimulat** _(Implantat)_ | Subkutanes Injektionssystem. Bei 0 LP hält es 1 Runde wach. | 1 | 200 | 0 |
-| **Servomotoren in Beinen** | Bein-Servomotoren. _Effekt:_ +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1 | 300 | 2 |
+| Implantat                          | Beschreibung                                                              | SYS | Kosten (CU) | Tier |
+| ---------------------------------- | ------------------------------------------------------------------------- | --- | ----------- | ---- |
+| **Nachtsicht-Implantat**           | Künstliches Auge mit Verstärker. _Effekt:_ Nachtsicht, +1 Wahrnehmung.    | 1   | 300         | 0    |
+| **Kybernetischer Arm**             | Servomotorik-Prothese. _Effekt:_ Stärke +1, Schaden ohne Waffe schwer.    | 1   | 400         | 1    |
+| **Neuronales Interface**           | Chip mit HUD. _Effekt:_ Datenzugriff, Funkverbindung; +2 Elektronik.      | 1   | 250         | 1    |
+| **Subdermale Panzerplatten**       | Platten unter Haut. _Effekt:_ –1 Schaden; auffällig bei Verletzung.       | 1   | 350         | 2    |
+| **Notfall-Stimulat** _(Implantat)_ | Subkutanes Injektionssystem. Bei 0 LP hält es 1 Runde wach.               | 1   | 200         | 0    |
+| **Servomotoren in Beinen**         | Bein-Servomotoren. _Effekt:_ +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1   | 300         | 2    |
 
 _Hinweis:_ In Absprache kann die SL Implantate mit **höheren SYS-Kosten** zulassen, die dann
 erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
@@ -482,14 +485,14 @@ hormonelle Schwankungen. Das kann die SL gelegentlich als Nachteil ausspielen.
 
 id: implant_t2
 
-| Modifikation | Beschreibung | SYS | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- |
-| **Immun-Booster-Genmod** | Resistenz gegen Gifte; mögliches Autoimmunrisiko | 1 | 250 | 1 |
-| **Reflexverstärkung** | Nervensystem-Tuning. _Effekt:_ +1 Geschick; schnelle Reaktion; Muskelzucken. | 1 | 300 | 2 |
-| **Muskelstärkung** | Genmod für mehr Kraft. _Effekt:_ +1 Stärke. Nebenwirkung: großer Appetit. | 1 | 300 | 2 |
-| **Nachtsicht-Netzhaut** | Genetisch angepasste Augen. _Effekt:_ Nachtsicht. Augen leuchten rot/grün. | 1 | 200 | 1 |
-| **Regenerations-Booster** | Heilrate x2; Nebenwirkung: hoher Stoffwechsel {heavy} | 1 | 400 | 3 |
-| **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken. | 1 | 250 | 1 |
+| Modifikation              | Beschreibung                                                                 | SYS | Kosten (CU) | Tier |
+| ------------------------- | ---------------------------------------------------------------------------- | --- | ----------- | ---- |
+| **Immun-Booster-Genmod**  | Resistenz gegen Gifte; mögliches Autoimmunrisiko                             | 1   | 250         | 1    |
+| **Reflexverstärkung**     | Nervensystem-Tuning. _Effekt:_ +1 Geschick; schnelle Reaktion; Muskelzucken. | 1   | 300         | 2    |
+| **Muskelstärkung**        | Genmod für mehr Kraft. _Effekt:_ +1 Stärke. Nebenwirkung: großer Appetit.    | 1   | 300         | 2    |
+| **Nachtsicht-Netzhaut**   | Genetisch angepasste Augen. _Effekt:_ Nachtsicht. Augen leuchten rot/grün.   | 1   | 200         | 1    |
+| **Regenerations-Booster** | Heilrate x2; Nebenwirkung: hoher Stoffwechsel {heavy}                        | 1   | 400         | 3    |
+| **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken.    | 1   | 250         | 1    |
 
 _Balance-Hinweis:_ Cyberware und Bioware sind gleichwertige Alternativen. Wichtig ist: **Alle
 Verbesserungen zehren an der SYS-Kapazität** – ein Agent voller Implantate hat kaum Raum für Psi.
@@ -504,33 +507,39 @@ _Hinweis:_ „Bioware 3+“ bedeutet, dass der Charakter Bioware im Wert von mi
 installiert hat – also drei belegte Slots.
 
 #### Adaptive-Ligament (Bioware-Upgrade)
+
 - **Slot-Typ:** Muskulatur
 - **Voraussetzung:** Bioware 3+, Attribut Beweglichkeit ≥ 10
 - **Effekt:** +1 Würfel auf Klettern & Sprünge; Fallschaden halbiert.
 
 #### Neuromimetic-Coating
+
 - **Slot-Typ:** Nervenverbund
 - **Voraussetzung:** Bioware 3+, PSI-Fähigkeit verknüpft
 - **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](../systems/kp-kraefte-psi.md#mentale-maskierung)
   um 1.
 
 #### Metabo-Recycler
+
 - **Slot-Typ:** Organe
 - **Voraussetzung:** Bioware 3+
 - **Effekt:** Erlaubt eine zweite Gratis-Erholung (Short Rest) pro Mission.
   Bei Übernutzung schläft der Charakter sofort ein oder kämpft mit extremer Müdigkeit.
 
 #### Osteo-Capacitor
+
 - **Slot-Typ:** Skelett
 - **Voraussetzung:** Bioware 3+, Panzerungs-Mod aktiv
 - **Effekt:** Beim Blocken wird Exploding-6 zweimal geprüft (stackt nicht).
 
 #### Stealth-Skin
+
 - **Slot-Typ:** Haut
 - **Voraussetzung:** Bioware 3+
 - **Effekt:** +1 Würfel auf Heimlichkeit-Proben.
 
 <a id="optional-hominin-bio-sheaths"></a>
+
 ### Optional: Hominin-Bio-Sheaths
 
 > **Kanonische Homininen-Tabelle:** Die vollständige Liste mit Attributsmodifikatoren
@@ -545,21 +554,21 @@ Fantasy-Rassen.
 
 #### Vorteile & Herausforderungen
 
-| Vorteil | Herausforderung |
-| --- | --- |
+| Vorteil                                             | Herausforderung                                        |
+| --------------------------------------------------- | ------------------------------------------------------ |
 | Frischer „Wow“-Effekt, ohne Magiewesen einzuführen. | Historische Limits bei Größe, Sprache und Feinmotorik. |
-| Passt zur ZEITRISS-Prämisse. | Verkleidung erschwert; auffällige Proportionen. |
-| Einfache Regel-Modifikatoren (+STR/–INT usw.). | Implantate benötigen angepasste Systemlast. |
+| Passt zur ZEITRISS-Prämisse.                        | Verkleidung erschwert; auffällige Proportionen.        |
+| Einfache Regel-Modifikatoren (+STR/–INT usw.).      | Implantate benötigen angepasste Systemlast.            |
 
 #### Mögliche Homininen
 
-| Spezies | Zeitfenster | Key-Traits | Spielrelevanz |
-| --- | --- | --- | --- |
-| **Homo neanderthalensis** | bis ~40 000 v.Chr. | kräftiger Brustkorb | +2 STR, –1 INT, –1 CHA |
-| **Denisova-Mensch** | bis ~50 000 v.Chr. | robuste Knochen, kälteresistent | +1 STR, +1 TEMP, –1 CHA, –1 INT |
-| **Homo heidelbergensis** | bis ~200 000 v.Chr. | extreme Ausdauer | +1 STR, +1 SYS, –1 CHA, –1 INT |
-| **Homo floresiensis** | bis ~50 000 v.Chr. | klein und wendig | +2 GES, –2 STR, Vorteil in engen Räumen |
-| **Homo erectus (spät)** | bis ~110 000 v.Chr. | hohe Hitzeresistenz | +1 GES, +1 SYS, –1 CHA, –1 INT |
+| Spezies                   | Zeitfenster         | Key-Traits                      | Spielrelevanz                           |
+| ------------------------- | ------------------- | ------------------------------- | --------------------------------------- |
+| **Homo neanderthalensis** | bis ~40 000 v.Chr.  | kräftiger Brustkorb             | +2 STR, –1 INT, –1 CHA                  |
+| **Denisova-Mensch**       | bis ~50 000 v.Chr.  | robuste Knochen, kälteresistent | +1 STR, +1 TEMP, –1 CHA, –1 INT         |
+| **Homo heidelbergensis**  | bis ~200 000 v.Chr. | extreme Ausdauer                | +1 STR, +1 SYS, –1 CHA, –1 INT          |
+| **Homo floresiensis**     | bis ~50 000 v.Chr.  | klein und wendig                | +2 GES, –2 STR, Vorteil in engen Räumen |
+| **Homo erectus (spät)**   | bis ~110 000 v.Chr. | hohe Hitzeresistenz             | +1 GES, +1 SYS, –1 CHA, –1 INT          |
 
 #### Balancing-Regeln
 
@@ -570,23 +579,23 @@ Fantasy-Rassen.
 
 #### Beispiel-Archetypen
 
-| Archetyp | Attribut-Boni | Kern-Talent | Einsatzfeld |
-| --- | --- | --- | --- |
-| **„Neander-Bruiser“** | +2 STR, –1 INT, –1 CHA | Hammerschlag – Nahkampfschaden +1 | Sturm-Ops |
-| **„Denisovan Scout“** | +1 STR, +1 TEMP, –1 CHA, –1 INT | Frostborn – ignoriert Kälte bis −20 °C | Arktis-Drops |
-| **„Heidel-Endurer“** | +1 STR, +1 SYS, –1 CHA, –1 INT | Marathoner – doppelte Ausdauerlaufzeit | Aufklärung |
-| **„Flores Shadow“** | +2 GES, –2 STR | Tunnelgeist – +2 Heimlichkeit in engen Räumen | Grabungsmissionen |
-| **„Erectus Nomad“** | +1 GES, +1 SYS, –1 CHA, –1 INT | Heat-Runner – kein Erschöpfungsmalus bei Hitze | Wüsten-Ops |
+| Archetyp              | Attribut-Boni                   | Kern-Talent                                    | Einsatzfeld       |
+| --------------------- | ------------------------------- | ---------------------------------------------- | ----------------- |
+| **„Neander-Bruiser“** | +2 STR, –1 INT, –1 CHA          | Hammerschlag – Nahkampfschaden +1              | Sturm-Ops         |
+| **„Denisovan Scout“** | +1 STR, +1 TEMP, –1 CHA, –1 INT | Frostborn – ignoriert Kälte bis −20 °C         | Arktis-Drops      |
+| **„Heidel-Endurer“**  | +1 STR, +1 SYS, –1 CHA, –1 INT  | Marathoner – doppelte Ausdauerlaufzeit         | Aufklärung        |
+| **„Flores Shadow“**   | +2 GES, –2 STR                  | Tunnelgeist – +2 Heimlichkeit in engen Räumen  | Grabungsmissionen |
+| **„Erectus Nomad“**   | +1 GES, +1 SYS, –1 CHA, –1 INT  | Heat-Runner – kein Erschöpfungsmalus bei Hitze | Wüsten-Ops        |
 
 ## Legalitäts- & Wartungs-Stufen {#legalitäts--wartungs-stufen}
 
-| Stufe | Marktzugang | Wartungs­intervall | Kostensatz (Credits) | Risiko bei Ausfall |
-|------:|-------------|-------------------|---------------------:|--------------------|
-| 0 | zivil / legal | alle 10 Missionen | 5 % Kaufwert | Funktions­verlust |
-| 1 | kontrolliert  | alle 5 Missionen  | 10 % | -1 auf passende Proben |
-| 2 | grau Markt    | alle 3 Missionen  | 15 % | Systemfehler (SL‑Event) |
-| 3 | militärisch   | alle 2 Missionen  | 20 % | Wunde „Verstümmelt“ möglich |
-| 4 | schwarz Markt | jede Mission   | 30 % | Sofortiger Ausfall + Trauma |
+| Stufe | Marktzugang   | Wartungs­intervall | Kostensatz (Credits) | Risiko bei Ausfall          |
+| ----: | ------------- | ------------------ | -------------------: | --------------------------- |
+|     0 | zivil / legal | alle 10 Missionen  |         5 % Kaufwert | Funktions­verlust           |
+|     1 | kontrolliert  | alle 5 Missionen   |                 10 % | -1 auf passende Proben      |
+|     2 | grau Markt    | alle 3 Missionen   |                 15 % | Systemfehler (SL‑Event)     |
+|     3 | militärisch   | alle 2 Missionen   |                 20 % | Wunde „Verstümmelt“ möglich |
+|     4 | schwarz Markt | jede Mission       |                 30 % | Sofortiger Ausfall + Trauma |
 
 > **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
 
@@ -596,7 +605,6 @@ if item.license > char.licenses.max:
 ```
 
 Implantate mit **SYS > 2** verursachen zusätzlich **5 % Wartungskosten pro Mission**.
-
 
 ### Ressourcen-Boxen für Munition & Gadgets
 
@@ -769,6 +777,7 @@ gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier ein
   einer Fraktion und führt zu einer Anschlussmission.
 
 ### ItemForge-Integration
+
 Der Befehl `itemforge()` greift auf diese Tabellen zu. Nutzt die IDs wie `weapon_t1` oder
 `gadget_t3`, um gezielt Kategorien zu wählen. Beispiel:
 `!itemforge core 100cu` erzeugt Tier‑1/2-Loot, `!itemforge rift` erlaubt Tier 3.
@@ -786,12 +795,14 @@ Chrononauten mit spannenden Funden zu belohnen.
 Lizenzschlüssel.
 
 **Tier I–II (früher Build):** Basis- bis fortgeschrittene Standardausrüstung
+
 - Waffenmods: Standard-Optik, Match-Lauf, Stabilisatoren
 - Rüstung: Leichte Weste, modularer Träger, taktische Helme
 - Drohnen: Scout/Spotter, Sensor-Upgrades
 - Preisrange: ca. 100–600 CU
 
 **Tier III–IV (fortgeschrittener Build):** High-End-Systeme, Spezialmodule, Prototypen
+
 - Adaptiv-Tarnung, Smart-Optiken, ECM-Module
 - Leichtgewicht-Komposite, spezialisierte Helm-/HUD-Pakete
 - Preisrange: ca. 500–3.000+ CU

@@ -13,6 +13,7 @@
 ### Run 1: Klassischer Start (Sonnet vs. Opus)
 
 **Sonnet (4.574 Zeichen):**
+
 - ✅ Einleitung paraphrasiert (nicht wörtlich zitiert)
 - ✅ Vollständiger Charakterbogen mit konkreten Zahlen
 - ✅ HUD-Zeile korrekt formatiert
@@ -23,6 +24,7 @@
 - ⚠️ Attribute korrekt übernommen (18 Punkte)
 
 **Opus 4.6 (2.199 Zeichen):**
+
 - ✅ Atmosphärisch dichter, filmischer Einstieg
 - ✅ Besserer Noir-Ton ("Die Kälte trifft dich zuerst...")
 - ✅ HUD-Zeile vorhanden
@@ -62,6 +64,7 @@
 ### Run 5: Echtes Gruppenspiel mit Save-Handoff (Sonnet)
 
 **Run 5a — Gruppenstart (3.340 Zeichen):**
+
 - ✅ Zwei Charaktere korrekt erstellt (PHANTOM + CIPHER)
 - ✅ HUD zeigt Squad-Anzeige
 - ✅ Briefing szenisch mit Operationsleiter
@@ -70,6 +73,7 @@
 - ⚠️ Nur Szene 1 (Briefing), kein Save-Output
 
 **Run 5b — Handoff: Spieler B übernimmt (1.876 Zeichen):**
+
 - ✅ Save korrekt geladen, CIPHER als Spieler erkannt
 - ✅ PHANTOM wird als NPC-Partner gesteuert
 - ✅ Squad-Radio-Kommunikation funktioniert
@@ -81,6 +85,7 @@
 ## Gesamtbewertung
 
 ### Funktioniert ✅
+
 - HUD-Format konsistent über alle Runs
 - Save/Load mit v6-Schema wird erkannt
 - Noir-Atmosphäre durchgehend gut
@@ -91,6 +96,7 @@
 - Spieler-Handbuch-Refactor hat keine Regression verursacht
 
 ### Verbesserungsbedarf ⚠️
+
 - RAG-Retrieval nutzt Regelwerk nicht vollständig (erfindet Werte)
 - Attribut-Ranges werden nicht eingehalten (zu hohe Startwerte bei Gruppe)
 - Arena- und Ökonomie-Werte oft erfunden statt aus Regelwerk
@@ -99,6 +105,7 @@
 - API-Single-Shot zu kurz für komplette Missionen
 
 ### Empfehlung
+
 - Für echtes Spielen: Browser-Chat (Multi-Turn), nicht API-Single-Shot
 - Opus 4.6 liefert bessere Atmosphäre, Sonnet bessere Regeltreue
 - Regelwerk ist solide — die Schwäche liegt im RAG der Plattform

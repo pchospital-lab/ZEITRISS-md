@@ -1,4 +1,5 @@
 # 04-lvl500-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.036747
 - **Tokens:** in:6574 out:1135

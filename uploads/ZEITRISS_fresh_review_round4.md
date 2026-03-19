@@ -14,6 +14,7 @@ Die größten verbleibenden Baustellen sind jetzt vor allem **SSOT-Drifts** und 
 ### 1) Erzählperspektive / Voice-SSOT ist noch gespalten
 
 **Problem:**
+
 - Masterprompt fordert klar **Präsens + Du/Ihr**.
 - `sl-referenz.md` setzt `gm_second_person` als Default.
 - `speicher-fortsetzung.md` normalisiert Defaults aber auf `gm_third_person`.
@@ -24,6 +25,7 @@ Das ist kein Schönheitsfehler. Es verändert direkt, wie sich ZEITRISS anfühlt
 
 **Empfehlung:**
 Eine einzige harte Wahrheit festziehen:
+
 - Runtime-Default = `gm_second_person`
 - Third Person nur als explizite Accessibility-/Style-Option
 - `toolkit-gpt-spielleiter.md` auf dieselbe Linie heben
@@ -35,6 +37,7 @@ Eine einzige harte Wahrheit festziehen:
 
 **Beschreibung:**
 Die Runtime ist stilistisch nicht SSOT-sauber. Aktuell konkurrieren vier Wahrheiten:
+
 - Masterprompt: Präsens + Du/Ihr
 - SL-Referenz: `gm_second_person` als Default
 - Save-Doku: `gm_third_person` als Default
@@ -43,6 +46,7 @@ Die Runtime ist stilistisch nicht SSOT-sauber. Aktuell konkurrieren vier Wahrhei
 Das erzeugt echten Spielgefühl-Drift bei Save/Load und je nach Modulgewichtung.
 
 **Aufgaben:**
+
 1. In `systems/toolkit-gpt-spielleiter.md` den Voice-Lock auf **Second Person** umstellen:
    - Default `ui.voice_profile = gm_second_person`
    - `gm_third_person` nur optional / explizit gewählt
@@ -52,6 +56,7 @@ Das erzeugt echten Spielgefühl-Drift bei Save/Load und je nach Modulgewichtung.
 5. Smoke-/Lint-Check ergänzen, der bei `gm_third_person` als unmarkiertem Default fehlschlägt.
 
 **Akzeptanzkriterien:**
+
 - Kein Runtime-Modul widerspricht mehr `Du/Ihr` als Standard.
 - `gm_third_person` bleibt nutzbar, aber nie Default.
 - Save/Load kippt die Erzählperspektive nicht mehr ungewollt.
@@ -63,6 +68,7 @@ Das erzeugt echten Spielgefühl-Drift bei Save/Load und je nach Modulgewichtung.
 **Problem:**
 Der Masterprompt beschreibt ein klares v7-Modell (`v`, `zr`, `characters[]`, `attr`, `economy.hq_pool`, `arc.questions/hooks`).
 In `speicher-fortsetzung.md` und teils `sl-referenz.md` tauchen aber noch kanonisch aussehende Beispiele/Helferschichten auf mit:
+
 - `zr_version`
 - Root-`character{}`
 - `character.attributes`
@@ -72,6 +78,7 @@ In `speicher-fortsetzung.md` und teils `sl-referenz.md` tauchen aber noch kanoni
 - teils `loadout`-Strukturen außerhalb der SSOT-Beschreibung
 
 Dazu kommt eine direkte Kollision in `sl-referenz.md`:
+
 - einmal sind `character.attributes.SYS_runtime/SYS_used` und `cooldowns` Pflicht im HQ-Deepsave
 - später heißt es, genau diese Laufzeitwerte würden **nicht** gespeichert.
 
@@ -80,6 +87,7 @@ Für Menschen ist das lesbar. Für Agenten/LLMs ist es Gift. Sobald ein Save-Mod
 
 **Empfehlung:**
 Die Save-Doku braucht jetzt einen letzten harten Sweep:
+
 - ein einziges öffentliches v7-Zielmodell
 - alles andere explizit als Legacy-/Helper-Bridge markieren oder aus dem Runtime-Kanon entfernen
 
@@ -91,6 +99,7 @@ Die Save-Doku braucht jetzt einen letzten harten Sweep:
 Obwohl das v7-Zielmodell inzwischen klar ist, enthalten geladene Runtime-Dokumente noch konkurrierende Formen (`zr_version`, `character{}`, `attributes`, alte Arc-Pfade, persistierte Runtime-Felder). Das ist für KI-Spielleitung und Save/Load-Export unnötig riskant.
 
 **Aufgaben:**
+
 1. `systems/gameflow/speicher-fortsetzung.md` in zwei sauber getrennte Bereiche teilen:
    - **Kanonisches v7-Zielmodell**
    - **Legacy-/Import-Bridges**
@@ -106,6 +115,7 @@ Obwohl das v7-Zielmodell inzwischen klar ist, enthalten geladene Runtime-Dokumen
 5. Alle Save-Beispiele gegen dieselbe Feldliste validieren.
 
 **Akzeptanzkriterien:**
+
 - Ein Leser kann in 30 Sekunden erkennen, wie ein kanonischer v7-Save aussieht.
 - Kein kanonisches Beispiel nutzt gleichzeitig `attr` und `attributes`.
 - Kein kanonisches Beispiel mischt `zr` und `zr_version`.
@@ -118,6 +128,7 @@ Obwohl das v7-Zielmodell inzwischen klar ist, enthalten geladene Runtime-Dokumen
 **Problem:**
 Im Spieler-Handbuch ist Px inzwischen genau richtig: ein **fester, deterministischer Progressionspfad**.
 Aber `kampagnenstruktur.md` führt wieder Unschärfe ein:
+
 - optionaler **Index-Merge-Schalter** bei Paralleltrupps
 - optionaler **±1-Jitter** auf die Schwelle
 - **Kurzmissionen zählen nur halb** / jeder zweite Einsatz = +1
@@ -136,11 +147,12 @@ Px konsequent als SSOT-Loop behandeln. Hausregeln entweder ganz raus aus Runtime
 Der Paradoxon-Index ist in den Core-Texten bereits als fester, deterministischer Belohnungs-Loop verankert. `kampagnenstruktur.md` bringt aktuell wieder optionale Abweichungen rein (Jitter, halbierte Kurzmissionen, optionaler Index-Merge-Schalter). Das schwächt die Klarheit des Systems.
 
 **Aufgaben:**
+
 1. In `gameplay/kampagnenstruktur.md` die Passagen zu
    - `Index-Merge-Schalter`
    - `±1-Jitter`
    - `Kurzmissionen zählen erst nach zwei Einsätzen`
-   aus dem Runtime-Kanon entfernen oder in einen explizit nicht-kanonischen Hausregelblock verschieben.
+     aus dem Runtime-Kanon entfernen oder in einen explizit nicht-kanonischen Hausregelblock verschieben.
 2. Überall klarstellen:
    - Px folgt ausschließlich der TEMP-Tabelle
    - kein Zufallsjitter
@@ -149,6 +161,7 @@ Der Paradoxon-Index ist in den Core-Texten bereits als fester, deterministischer
 3. Falls Paralleltrupps relevant bleiben: exakt eine Merge-Regel definieren, keine Schalterlogik.
 
 **Akzeptanzkriterien:**
+
 - Px verhält sich überall gleich.
 - Kein geladenes Runtime-Modul schlägt zufällige oder alternative Px-Zählung vor.
 - Merge-Verhalten von Px ist ohne Optionen beschrieben.
@@ -175,6 +188,7 @@ Diesen Satz sofort korrigieren. Tier/Lizenzzugang darf nur an `reputation.iti` h
 Die neue Ruf-/Tier-Logik ist an mehreren Stellen schon sauber umgesetzt, aber im Toolkit existiert noch eine Formulierung, die den Tier-Zugang am „Hauptfraktionsruf (ITI/Ordo)“ festmacht. Das widerspricht dem neuen SSOT.
 
 **Aufgaben:**
+
 1. In `systems/toolkit-gpt-spielleiter.md` alle Formulierungen ersetzen, die Tier-Zugang über Fraktionsruf oder „Hauptfraktionsruf“ erklären.
 2. Überall die SSOT-Linie verwenden:
    - `reputation.iti` = Rang, Lizenz-Tier, formaler Zugriff
@@ -182,6 +196,7 @@ Die neue Ruf-/Tier-Logik ist an mehreren Stellen schon sauber umgesetzt, aber im
 3. Debrief-Beispiele prüfen und ggf. auf `ITI-Ruf` umschreiben.
 
 **Akzeptanzkriterien:**
+
 - Kein Runtime-Modul leitet Tier-Zugang mehr aus Fraktionsruf ab.
 - Debrief/Toolkit/Handbuch benutzen dieselbe Rufsprache.
 
@@ -191,6 +206,7 @@ Die neue Ruf-/Tier-Logik ist an mehreren Stellen schon sauber umgesetzt, aber im
 
 **Problem:**
 Der Alien-/Mystery-Kern ist inzwischen stark. Aber der frühe Einstieg benennt weiterhin sehr direkt:
+
 - Bewusstsein aus dem Absolut
 - Rekrutierung aus dem Absolut
 - Kampagnenübersicht mit deutlicher Absolut-Erklärung
@@ -213,11 +229,13 @@ Damit bleibt die Tiefe erhalten, aber der frühe Ton bleibt erwachsener und nüc
 Die frühe Onboarding-Schicht benennt das „Absolut“ bereits recht direkt. Das ist lore-seitig interessant, kann aber die bodenständige Mystery-Wirkung unnötig früh metaphysisch färben.
 
 **Aufgaben:**
+
 1. In `core/spieler-handbuch.md`, `characters/charaktererschaffung-grundlagen.md` und ggf. `gameplay/kampagnenuebersicht.md` jeweils einen Rahmensatz ergänzen, dass „Absolut“ ein ITI-Arbeitsbegriff / Forschungsmodell ist.
 2. Keine große Umformulierung nötig; kleine, präzise Klammer genügt.
 3. Prüfen, ob frühe Spielertexte weniger wie geoffenbarte Kosmologie und mehr wie kontrollierte Instituts-Sprache klingen.
 
 **Akzeptanzkriterien:**
+
 - Deep Lore bleibt vorhanden.
 - Onboarding klingt nüchterner.
 - Mystery-/Alien-/Zeitversatz-Vibes bleiben im Vordergrund.
@@ -237,9 +255,11 @@ Wenn das Team vor Szene 10 den **Signaturtell** des Gegners korrekt identifizier
 **Mini-Regeltext (direkt übernehmbar):**
 
 ### Signaturtell (Boss-/Rift-Payoff)
+
 Vor jedem Mini-, Episoden- oder Rift-Boss existiert genau **ein verwertbarer Signaturtell**: eine körperliche Schwäche, ein wiederkehrendes Bewegungsmuster, ein technischer Taktfehler, eine Reaktion auf Material, Licht, Lärm, Temperatur oder Zeitmarker.
 
 Wird dieser Tell **vor Szene 10** durch Foreshadow, Intel oder Forensik korrekt erkannt und im Spiel benannt, erhält das Team in der Boss-Szene **einmalig einen taktischen Vorteil**. Beispiele:
+
 - Boss-Signaturfähigkeit startet **eine Runde später**,
 - erstes Defensivfenster des Bosses fällt weg,
 - Team erhält **+1 auf den Eröffnungszug** oder
@@ -260,7 +280,9 @@ Jede Rift-Op hat drei Beweisachsen: **Bio**, **Material**, **Temporal**. Wenn da
 **Mini-Regeltext (direkt übernehmbar):**
 
 ### Forensik-Dreieck (Rift-Casefiles)
+
 Jede Rift-Op besitzt drei mögliche Beweisachsen:
+
 - **Bio** – Gewebe, DNA, Sekrete, Knochen, Spuren am Opfer oder Tatort
 - **Material** – Legierungen, Werkstoffe, Rückstände, Gerätefragmente, Schnittbilder
 - **Temporal** – Driftmarker, Echoverzögerungen, Ankerfehler, Zeitversatzmuster
@@ -268,6 +290,7 @@ Jede Rift-Op besitzt drei mögliche Beweisachsen:
 Sichert das Team **mindestens 2 von 3** Achsen sauber, gilt der Fall als **sauber klassifiziert**. Die Spielleitung gibt dann den eigentlichen Kern des Phänomens klar frei (z. B. „keine Alien-Biologie, sondern posthumane Hülle“, „keine dämonische Manifestation, sondern Zeitversatz + Bio-Adaptionsprojekt“).
 
 **Payoff bei 2/3 oder 3/3:**
+
 - ein **Boss-Signaturtell** wird offengelegt,
 - oder **+1 Schritt** auf Debrief-/Research-Qualität,
 - oder **sauberer Exfil-Bonus** / reduzierter Heat,
@@ -292,10 +315,10 @@ Der Satz bündelt genau deine Stärke.
 ZEITRISS ist jetzt an einem Punkt, an dem die letzten Verbesserungen weniger „Welt retten“ und mehr **Klinge schärfen** sind.
 
 Meine Reihenfolge wäre:
+
 1. Voice-SSOT fixen
 2. Save-SSOT final härten
 3. Px-Optionalität aus Runtime ziehen
 4. Toolkit-Rufsatz korrigieren
 5. Absolut weich rahmen
 6. Danach Signaturtell + Forensik-Dreieck ergänzen
-

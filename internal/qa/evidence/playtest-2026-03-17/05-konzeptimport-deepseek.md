@@ -1,4 +1,5 @@
 # 05-konzeptimport-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek-v32
 - **Tokens:** in:11392 out:701 cost:$0.003344848
 - **Date:** 2026-03-17T11:12:58+01:00
@@ -32,9 +33,9 @@ ZEITRISS ist ein physischer Agenten-Thriller mit Zeitreise-Framework. Es gibt ke
 
 **Optionen für dich:**
 
-1) **`generate`** – Ich erstelle einen ZEITRISS-Charakter basierend auf dem Vibe "Elara, High-Elf Wizard, Sage", aber innerhalb der ZEITRISS-Regeln.
-2) **`custom generate`** – Du gibst mir eine kurze Textbeschreibung deiner gewünschten Rolle (z.B. "Archivarin mit hohem INT und TEMP"), ich setze sie in Zahlen um.
-3) **`selbst bauen`** – Du verteilst selbst die 18 Punkte auf STR, GES, INT, CHA, TEMP, SYS (jeweils 2–6) und wählst Talente/Ausrüstung aus einer Liste.
+1. **`generate`** – Ich erstelle einen ZEITRISS-Charakter basierend auf dem Vibe "Elara, High-Elf Wizard, Sage", aber innerhalb der ZEITRISS-Regeln.
+2. **`custom generate`** – Du gibst mir eine kurze Textbeschreibung deiner gewünschten Rolle (z.B. "Archivarin mit hohem INT und TEMP"), ich setze sie in Zahlen um.
+3. **`selbst bauen`** – Du verteilst selbst die 18 Punkte auf STR, GES, INT, CHA, TEMP, SYS (jeweils 2–6) und wählst Talente/Ausrüstung aus einer Liste.
 
 ---
 

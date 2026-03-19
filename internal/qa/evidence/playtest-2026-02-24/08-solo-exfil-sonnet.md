@@ -1,17 +1,17 @@
 # Playtest 08 — Solo Exfil unter Druck (Sonnet)
 
-| Feld | Wert |
-|---|---|
-| **Modell** | zeitriss-v426-uncut-sonnet (Claude Sonnet 4.6 via Amazon Bedrock) |
-| **Datum** | 2026-02-24 |
-| **Szenario** | Solo, Level 10, Callsign 'Wraith', Infiltrator, Core-Op, Start in Szene 8, Exfil-Druck, Klassik-Modus |
-| **Prompt** | "Spiel starten. Solo schnell. Level 10, Callsign 'Wraith', Infiltrator. Core-Op. Die Mission beginnt direkt in Szene 8 — Exfil-Fenster öffnet sich in 6 Minuten, Alarm ist ausgelöst, 3 Patrouillen aktiv. Klassik-Modus." |
+| Feld         | Wert                                                                                                                                                                                                                       |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Modell**   | zeitriss-v426-uncut-sonnet (Claude Sonnet 4.6 via Amazon Bedrock)                                                                                                                                                          |
+| **Datum**    | 2026-02-24                                                                                                                                                                                                                 |
+| **Szenario** | Solo, Level 10, Callsign 'Wraith', Infiltrator, Core-Op, Start in Szene 8, Exfil-Druck, Klassik-Modus                                                                                                                      |
+| **Prompt**   | "Spiel starten. Solo schnell. Level 10, Callsign 'Wraith', Infiltrator. Core-Op. Die Mission beginnt direkt in Szene 8 — Exfil-Fenster öffnet sich in 6 Minuten, Alarm ist ausgelöst, 3 Patrouillen aktiv. Klassik-Modus." |
 
 ---
 
 # ZEITRISS — Einleitung
 
-> *"Die Vergangenheit ist kein Museum. Sie ist ein Minenfeld."*
+> _"Die Vergangenheit ist kein Museum. Sie ist ein Minenfeld."_
 > — ITI-Feldhandbuch, Ausgabe 7, Seite 1
 
 Du bist Chrononaut:in. Operativ. Ausgebildet vom Internationalen Temporal-Institut — ITI — einer Organisation, die offiziell nicht existiert und inoffiziell alles kontrolliert, was die Stabilität der Zeitlinie betrifft. Du springst in Epochen, die andere Menschen nur aus Büchern kennen. Du sicherst Artefakte, neutralisierst Bedrohungen, verhindert Paradoxe — und kommst lebend zurück. Meistens.
@@ -81,6 +81,7 @@ Das Exfil-Fenster ist kein Versprechen. Es ist eine Physik-Tatsache: In knapp se
 Du hörst Stiefel. Nicht weit. **Patrouille BETA** — mindestens zwei Mann, schwere Sohlen auf Betontreppe, Richtung: abwärts, Richtung du.
 
 Zwischen dir und Schacht B-7 liegen:
+
 - Ein gesperrter Verbindungsgang (Wählscheibe, Kombination unbekannt)
 - Ein offener Korridor — beleuchtet, keine Deckung
 - Ein Lüftungsschacht-Zugang, Gitter verschraubt, 90 Sekunden Arbeit
@@ -108,6 +109,7 @@ Intel / Risiken / Zeitfenster
 2. **Wählscheibe knacken:** Schlossknacker-Kit einsetzen, Verbindungsgang aufbrechen — schneller Weg, aber Geräusch und Zeitdruck.
 3. **Offener Korridor, BETA ablenken:** Rauchgranate werfen, durch den Qualm sprinten bevor BETA reagiert.
 4. **Freie Aktion** — dein Zug.
+
 ---
 
 ---
@@ -115,7 +117,9 @@ Intel / Risiken / Zeitfenster
 ## QA-Bewertung
 
 ### HUD-Zeile
+
 ✅ Vorhanden: `EP 1 · MS 7 · SC 8/12 · PHASE Exfil · MODE CORE · COMMS JAM · Lvl 10 ▓▓▓▓▓▓▓▓▓░ 4.200/5.000 XP · Px 1/5 · Stress 2/10 · Obj: Datenkassette exfiltrieren · Exfil T-06:00`
+
 - ✅ Szene 8 korrekt übernommen wie angefordert
 - ✅ Phase "Exfil" passend zum Szenario
 - ✅ COMMS JAM — sinnvoll bei Alarm-Situation
@@ -126,6 +130,7 @@ Intel / Risiken / Zeitfenster
 - ✅ XP-Balken mit Fortschritt — visuell ansprechend
 
 ### Charakterbogen
+
 ✅ Vollständig: Attribute, HP, Stress, Talente, Ausrüstung, Implantate
 ✅ Callsign "Wraith" korrekt übernommen
 ✅ Infiltrator-Rolle sauber umgesetzt (Schleichen +3, Hacking +2, Schlösser +2)
@@ -133,10 +138,12 @@ Intel / Risiken / Zeitfenster
 ✅ Loadout taktisch sinnvoll für Infiltrator (Jammer, Schlossknacker, Silenced Pistol, Rauch)
 
 ### Proben
+
 ⚠️ Keine Proben gewürfelt (korrekt — Szene beginnt gerade, Spieler muss erst wählen)
 ✅ Probenerfordernisse klar angekündigt (Schlossknacker → Probe nötig)
 
 ### Atmosphäre
+
 ✅ Exzellent: "BWAH. BWAH. BWAH." Alarm-Klaxon
 ✅ Pulsierendes Karmesinrot, vibrierende Böden
 ✅ Kalter-Krieg-Bunker (1973, Ostblock-Architektur) atmosphärisch beschrieben
@@ -146,6 +153,7 @@ Intel / Risiken / Zeitfenster
 ✅ Kodex-Intel trocken und präzise — passt zum Ton
 
 ### Szenario-Umsetzung
+
 ✅ "Direkt in Szene 8" — sofort in medias res, kein Briefing, kein Vorlauf
 ✅ "Exfil-Fenster 6 Minuten" — als Sprungfenster mit Physik-Erklärung umgesetzt
 ✅ "Alarm ausgelöst" — Klaxon aktiv, visuell + akustisch
@@ -153,6 +161,7 @@ Intel / Risiken / Zeitfenster
 ✅ Prompt-Anforderungen zu 100% umgesetzt
 
 ### Regeltreue
+
 - Attributsystem korrekt (6 Attribute)
 - Talente mit Boni (+2, +3)
 - Ausrüstung mit Mechanik (Jammer-Radius, Kit-Einsätze, Mag-Größen)
@@ -161,11 +170,11 @@ Intel / Risiken / Zeitfenster
 - Zeitdruck mechanisch modelliert (nicht nur narrativ)
 - Heldenwurf erwähnt
 
-| Kategorie | Note (1-5) |
-|---|---|
-| HUD korrekt | 5 |
-| Proben | n/a (Szenenstart) |
-| Atmosphäre | 5 |
-| Regeltreue | 5 |
+| Kategorie   | Note (1-5)        |
+| ----------- | ----------------- |
+| HUD korrekt | 5                 |
+| Proben      | n/a (Szenenstart) |
+| Atmosphäre  | 5                 |
+| Regeltreue  | 5                 |
 
 **Gesamtbewertung: 5.0/5** — Perfekt. Der schwierigste Prompt der Reihe (Szene 8 direkt, alle Constraints) wurde fehlerfrei umgesetzt. Atmosphäre ist erstklassig, der Zeitdruck greifbar, die taktischen Optionen klar differenziert. HUD-Zeile enthält alle Felder inkl. XP-Balken. Stress bereits bei 2 (nicht 0) — das System "denkt mit". Herausragend.

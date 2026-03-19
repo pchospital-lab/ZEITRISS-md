@@ -7,50 +7,50 @@
 
 ## Pruefmatrix
 
-| # | Check | Status | Detail |
-|---|---|---|---|
-| 1 | A-T1: Chargen-Angebot | ✅ PASS |  |
-| 2 | A-T2: PC-Attribute sichtbar | ✅ PASS |  |
-| 3 | A-T2: NPC-Begleiter erwaehnt | ✅ PASS |  |
-| 4 | A-T3: HUD vorhanden | ✅ PASS |  |
-| 5 | A-T3: Teamkontext | ✅ PASS |  |
-| 6 | A-T4: Sprung beschrieben | ✅ PASS |  |
-| 7 | A-T5: Team agiert zusammen | ✅ PASS |  |
-| 8 | A-T6: Debrief | ✅ PASS |  |
-| 9 | A-T6: Level/XP | ✅ PASS |  |
-| 10 | A-T7: JSON vorhanden | ✅ PASS |  |
-| 11 | A-T7: v: 7 | ✅ PASS |  |
-| 12 | A-T7: characters[] Array | ✅ PASS |  |
-| 13 | A-T7: Mindestens 2 Charaktere | ✅ PASS | count=2 |
-| 14 | A-T7: save_id | ✅ PASS |  |
-| 15 | A-T7: continuity.npc_roster | ✅ PASS |  |
-| 16 | B-T1: Recap/Rueckblick | ✅ PASS |  |
-| 17 | B-T1: Charaktername erkannt | ✅ PASS |  |
-| 18 | B-T2: HQ-Szene | ✅ PASS |  |
-| 19 | B-T3: JSON vorhanden | ✅ PASS |  |
-| 20 | B-T3: v: 7 | ✅ PASS |  |
-| 21 | B-T3: Solo-Charakter erhalten | ✅ PASS |  |
-| 22 | B-T3: Lineage (parent_save_id) | ✅ PASS |  |
-| 23 | B-T3: Charakter-ID konsistent | ✅ PASS | expected=CHR-YARA-001, got=CHR-YARA-001 |
-| 24 | C-T1: Session-Anker erwaehnt | ✅ PASS |  |
-| 25 | C-T1: Kontinuitaetsrueckblick | ✅ PASS |  |
-| 26 | C-T1: Mehrere Charaktere erkannt | ✅ PASS |  |
-| 27 | C-T2: Mehrere Charaktere gelistet | ✅ PASS |  |
-| 28 | C-T3: JSON vorhanden | ✅ PASS |  |
-| 29 | C-T3: v: 7 | ✅ PASS |  |
-| 30 | C-T3: characters[] Array | ✅ PASS |  |
-| 31 | C-T3: Alle Charaktere erhalten | ✅ PASS | count=2 |
-| 32 | C-T3: save_id | ✅ PASS |  |
-| 33 | C-T3: parent_save_id | ✅ PASS |  |
-| 34 | C-T3: economy.hq_pool | ✅ PASS |  |
-| 35 | C-T3: arc{} | ✅ PASS |  |
-| 36 | C-T3: continuity{} | ✅ PASS |  |
-| 37 | C-T3: summaries{} | ✅ PASS |  |
-| 38 | C-T3: logs.flags | ✅ PASS |  |
-| 39 | C-T3: KEIN save_version | ✅ PASS |  |
-| 40 | C-T3: KEIN party{} | ✅ PASS |  |
-| 41 | C-T3: KEIN arc_dashboard | ✅ PASS |  |
-| 42 | C-T3: npc_roster erhalten | ✅ PASS |  |
+| #   | Check                             | Status  | Detail                                  |
+| --- | --------------------------------- | ------- | --------------------------------------- |
+| 1   | A-T1: Chargen-Angebot             | ✅ PASS |                                         |
+| 2   | A-T2: PC-Attribute sichtbar       | ✅ PASS |                                         |
+| 3   | A-T2: NPC-Begleiter erwaehnt      | ✅ PASS |                                         |
+| 4   | A-T3: HUD vorhanden               | ✅ PASS |                                         |
+| 5   | A-T3: Teamkontext                 | ✅ PASS |                                         |
+| 6   | A-T4: Sprung beschrieben          | ✅ PASS |                                         |
+| 7   | A-T5: Team agiert zusammen        | ✅ PASS |                                         |
+| 8   | A-T6: Debrief                     | ✅ PASS |                                         |
+| 9   | A-T6: Level/XP                    | ✅ PASS |                                         |
+| 10  | A-T7: JSON vorhanden              | ✅ PASS |                                         |
+| 11  | A-T7: v: 7                        | ✅ PASS |                                         |
+| 12  | A-T7: characters[] Array          | ✅ PASS |                                         |
+| 13  | A-T7: Mindestens 2 Charaktere     | ✅ PASS | count=2                                 |
+| 14  | A-T7: save_id                     | ✅ PASS |                                         |
+| 15  | A-T7: continuity.npc_roster       | ✅ PASS |                                         |
+| 16  | B-T1: Recap/Rueckblick            | ✅ PASS |                                         |
+| 17  | B-T1: Charaktername erkannt       | ✅ PASS |                                         |
+| 18  | B-T2: HQ-Szene                    | ✅ PASS |                                         |
+| 19  | B-T3: JSON vorhanden              | ✅ PASS |                                         |
+| 20  | B-T3: v: 7                        | ✅ PASS |                                         |
+| 21  | B-T3: Solo-Charakter erhalten     | ✅ PASS |                                         |
+| 22  | B-T3: Lineage (parent_save_id)    | ✅ PASS |                                         |
+| 23  | B-T3: Charakter-ID konsistent     | ✅ PASS | expected=CHR-YARA-001, got=CHR-YARA-001 |
+| 24  | C-T1: Session-Anker erwaehnt      | ✅ PASS |                                         |
+| 25  | C-T1: Kontinuitaetsrueckblick     | ✅ PASS |                                         |
+| 26  | C-T1: Mehrere Charaktere erkannt  | ✅ PASS |                                         |
+| 27  | C-T2: Mehrere Charaktere gelistet | ✅ PASS |                                         |
+| 28  | C-T3: JSON vorhanden              | ✅ PASS |                                         |
+| 29  | C-T3: v: 7                        | ✅ PASS |                                         |
+| 30  | C-T3: characters[] Array          | ✅ PASS |                                         |
+| 31  | C-T3: Alle Charaktere erhalten    | ✅ PASS | count=2                                 |
+| 32  | C-T3: save_id                     | ✅ PASS |                                         |
+| 33  | C-T3: parent_save_id              | ✅ PASS |                                         |
+| 34  | C-T3: economy.hq_pool             | ✅ PASS |                                         |
+| 35  | C-T3: arc{}                       | ✅ PASS |                                         |
+| 36  | C-T3: continuity{}                | ✅ PASS |                                         |
+| 37  | C-T3: summaries{}                 | ✅ PASS |                                         |
+| 38  | C-T3: logs.flags                  | ✅ PASS |                                         |
+| 39  | C-T3: KEIN save_version           | ✅ PASS |                                         |
+| 40  | C-T3: KEIN party{}                | ✅ PASS |                                         |
+| 41  | C-T3: KEIN arc_dashboard          | ✅ PASS |                                         |
+| 42  | C-T3: npc_roster erhalten         | ✅ PASS |                                         |
 
 ## Phasen
 
@@ -66,7 +66,7 @@
 
 ---
 
-> *„Die Vergangenheit ist kein Museum. Sie ist ein Minenfeld."*
+> _„Die Vergangenheit ist kein Museum. Sie ist ein Minenfeld."_
 > — ITI-Feldhandbuch, Ausgabe 7, Seite 1
 
 ---
@@ -112,7 +112,7 @@ Du verteilst die 18 Punkte selbst, wählst Talente und Ausrüstung. Volle Kontro
 
 ---
 
-*Freie Aktion: Frag nach dem ITI, den Fraktionen, der Spielwelt — bevor es losgeht.*
+_Freie Aktion: Frag nach dem ITI, den Fraktionen, der Spielwelt — bevor es losgeht._
 
 ---
 
@@ -139,6 +139,7 @@ Würfelsequenz intern: 3W6-Drop-Low, normiert auf 18-Punkte-Budget, Cap 6.
 ---
 
 ### AGENTIN YARA VOSS
+
 **Callsign:** STILLER SCHNITT
 **Rang:** Rekrut · ITI-Ruf 0 · Lizenz Tier 0
 
@@ -150,14 +151,14 @@ Würfelsequenz intern: 3W6-Drop-Low, normiert auf 18-Punkte-Budget, Cap 6.
 
 #### ATTRIBUTE (18 Punkte)
 
-| Attribut | Wert | Funktion |
-|----------|------|----------|
-| STR | 1 | Nahkampf, Kraftakte |
-| GES | 6 | Fernkampf, Schleichen, Schlösser, Ausweichen |
-| INT | 4 | Technik, Hacking, Spurenanalyse |
-| CHA | 3 | Soziales, Täuschung, Stress |
-| TEMP | 2 | Zeitphänomene |
-| SYS | 2 | Implantat-Slots |
+| Attribut | Wert | Funktion                                     |
+| -------- | ---- | -------------------------------------------- |
+| STR      | 1    | Nahkampf, Kraftakte                          |
+| GES      | 6    | Fernkampf, Schleichen, Schlösser, Ausweichen |
+| INT      | 4    | Technik, Hacking, Spurenanalyse              |
+| CHA      | 3    | Soziales, Täuschung, Stress                  |
+| TEMP     | 2    | Zeitphänomene                                |
+| SYS      | 2    | Implantat-Slots                              |
 
 **Summe: 18 ✓ · Kein Wert über 6 ✓ · Kein Wert unter 1 ✓**
 
@@ -165,27 +166,27 @@ Würfelsequenz intern: 3W6-Drop-Low, normiert auf 18-Punkte-Budget, Cap 6.
 
 #### TALENTE (2 Starttalente)
 
-- **Schattenschritt** *(GES)*: +1 auf alle Schleichen-Proben in urbanen Umgebungen. Bei Erfolg hinterlässt du keine Spuren im Staub, im Schnee, auf nassem Boden.
-- **Kalte Analyse** *(INT)*: Einmal pro Szene kannst du eine Spurenanalyse-Probe wiederholen. Nur der zweite Wurf zählt.
+- **Schattenschritt** _(GES)_: +1 auf alle Schleichen-Proben in urbanen Umgebungen. Bei Erfolg hinterlässt du keine Spuren im Staub, im Schnee, auf nassem Boden.
+- **Kalte Analyse** _(INT)_: Einmal pro Szene kannst du eine Spurenanalyse-Probe wiederholen. Nur der zweite Wurf zählt.
 
 ---
 
 #### IMPLANTATE (SYS 2 → 2 Slots)
 
-- **Retina-HUD** *(Slot 1)*: Kontaktlinsen-Interface. Karten, Vitalwerte, Kodex-Feed, Zielerkennung. Physisch unauffällig.
-- **Subkutaner Jammer** *(Slot 2)*: Kurzstrecken-Signalunterdrückung (3m Radius, 90 Sekunden aktiv). Schaltet Kameras, Mikrofone, drahtlose Sensoren lokal aus. Wiederaufladezeit: 2 Szenen.
+- **Retina-HUD** _(Slot 1)_: Kontaktlinsen-Interface. Karten, Vitalwerte, Kodex-Feed, Zielerkennung. Physisch unauffällig.
+- **Subkutaner Jammer** _(Slot 2)_: Kurzstrecken-Signalunterdrückung (3m Radius, 90 Sekunden aktiv). Schaltet Kameras, Mikrofone, drahtlose Sensoren lokal aus. Wiederaufladezeit: 2 Szenen.
 
 ---
 
 #### AUSRÜSTUNG / LOADOUT
 
-| Item | Typ | Tier |
-|------|-----|------|
-| Silenced Makarov PM | Waffe | 1 |
-| Karbonmesser | Waffe | 1 |
-| Dietrich-Set (mechanisch) | Gadget | 1 |
-| Feldverbandset | Verbrauchsgut | 1 |
-| Tarnkleidung (Zivilist, 1978 Ost) | Ausrüstung | 1 |
+| Item                              | Typ           | Tier |
+| --------------------------------- | ------------- | ---- |
+| Silenced Makarov PM               | Waffe         | 1    |
+| Karbonmesser                      | Waffe         | 1    |
+| Dietrich-Set (mechanisch)         | Gadget        | 1    |
+| Feldverbandset                    | Verbrauchsgut | 1    |
+| Tarnkleidung (Zivilist, 1978 Ost) | Ausrüstung    | 1    |
 
 **Wallet:** 100 CU
 **HP:** 10/10 · **Stress:** 0/8
@@ -195,7 +196,7 @@ Würfelsequenz intern: 3W6-Drop-Low, normiert auf 18-Punkte-Budget, Cap 6.
 #### EPOCHENFAHRZEUG
 
 **Trabant 601 „Graue Maus"** — getarnt als Wartungsfahrzeug, Ostberlin-Kennzeichen, Hohlraum unter dem Rücksitz (Waffen/Dokumente). Langsam. Unauffällig. Zuverlässig.
-*Verfügbar: alle 4 Missionen (TEMP 2)*
+_Verfügbar: alle 4 Missionen (TEMP 2)_
 
 ---
 
@@ -204,6 +205,7 @@ Würfelsequenz intern: 3W6-Drop-Low, normiert auf 18-Punkte-Budget, Cap 6.
 Yara hat gelernt, dass Systeme Lücken haben — und dass Lücken Türen sind. Sie redet wenig. Sie beobachtet viel. Beim ITI ist sie seit drei Monaten. Sie hat noch keine Fragen gestellt, die ihr jemand beantwortet hat. Das stört sie nicht. Noch nicht.
 
 ---
+
 ---
 
 ## NPC-TEAMKOLLEGE
@@ -213,6 +215,7 @@ Sein Profil ist einfacher, härter, direkter — ein Gegengewicht zu Yaras Still
 ---
 
 ### AGENT FELIX „FELIX DER HAMMER" BRANDT
+
 **Callsign:** HAMMER
 **Rang:** Rekrut · ITI-Ruf 0 · Lizenz Tier 0
 **Scope:** `session` · **Status:** `attached`
@@ -225,14 +228,14 @@ Sein Profil ist einfacher, härter, direkter — ein Gegengewicht zu Yaras Still
 
 #### ATTRIBUTE (18 Punkte)
 
-| Attribut | Wert | Funktion |
-|----------|------|----------|
-| STR | 6 | Nahkampf, Kraftakte |
-| GES | 3 | Fernkampf, Ausweichen |
-| INT | 2 | Technik, Analyse |
-| CHA | 2 | Soziales |
-| TEMP | 1 | Zeitphänomene |
-| SYS | 4 | Implantat-Slots |
+| Attribut | Wert | Funktion              |
+| -------- | ---- | --------------------- |
+| STR      | 6    | Nahkampf, Kraftakte   |
+| GES      | 3    | Fernkampf, Ausweichen |
+| INT      | 2    | Technik, Analyse      |
+| CHA      | 2    | Soziales              |
+| TEMP     | 1    | Zeitphänomene         |
+| SYS      | 4    | Implantat-Slots       |
 
 **Summe: 18 ✓**
 
@@ -240,28 +243,28 @@ Sein Profil ist einfacher, härter, direkter — ein Gegengewicht zu Yaras Still
 
 #### TALENTE
 
-- **Eiserne Faust** *(STR)*: +1 auf alle Nahkampf-Angriffe. Bei Treffern über SG +3: Ziel ist für 1 Runde desorientiert (−1 auf nächste Probe).
-- **Deckungsinstinkt** *(GES)*: Einmal pro Szene kann Felix als Reaktion Deckung suchen, ohne eine Probe abzulegen — sofern Deckung physisch vorhanden ist.
+- **Eiserne Faust** _(STR)_: +1 auf alle Nahkampf-Angriffe. Bei Treffern über SG +3: Ziel ist für 1 Runde desorientiert (−1 auf nächste Probe).
+- **Deckungsinstinkt** _(GES)_: Einmal pro Szene kann Felix als Reaktion Deckung suchen, ohne eine Probe abzulegen — sofern Deckung physisch vorhanden ist.
 
 ---
 
 #### IMPLANTATE (SYS 4 → 4 Slots)
 
-- **Retina-HUD** *(Slot 1)*
-- **Knochenstruktur-Dämpfer** *(Slot 2)*: Absorbiert Sturz- und Aufprallschaden (bis 2 LP pro Szene automatisch abgefangen).
-- **Adrenalin-Injektor** *(Slot 3)*: Einmal pro Mission: +2 auf STR-Probe, sofort aktiv. Danach 1 Stress.
-- **Subkutaner Panzereinsatz Brustkorb** *(Slot 4)*: Rüstungswert 1 (reduziert eingehenden Schaden um 1 LP pro Treffer).
+- **Retina-HUD** _(Slot 1)_
+- **Knochenstruktur-Dämpfer** _(Slot 2)_: Absorbiert Sturz- und Aufprallschaden (bis 2 LP pro Szene automatisch abgefangen).
+- **Adrenalin-Injektor** _(Slot 3)_: Einmal pro Mission: +2 auf STR-Probe, sofort aktiv. Danach 1 Stress.
+- **Subkutaner Panzereinsatz Brustkorb** _(Slot 4)_: Rüstungswert 1 (reduziert eingehenden Schaden um 1 LP pro Treffer).
 
 ---
 
 #### AUSRÜSTUNG
 
-| Item | Typ | Tier |
-|------|-----|------|
-| Walther P38 (modifiziert) | Waffe | 1 |
-| Brecheisen | Werkzeug/Waffe | 1 |
-| Handscanner (Metallortung) | Gadget | 1 |
-| Feldverbandset | Verbrauchsgut | 1 |
+| Item                       | Typ            | Tier |
+| -------------------------- | -------------- | ---- |
+| Walther P38 (modifiziert)  | Waffe          | 1    |
+| Brecheisen                 | Werkzeug/Waffe | 1    |
+| Handscanner (Metallortung) | Gadget         | 1    |
+| Feldverbandset             | Verbrauchsgut  | 1    |
 
 **HP:** 12/12 · **Stress:** 0/7
 
@@ -272,16 +275,17 @@ Sein Profil ist einfacher, härter, direkter — ein Gegengewicht zu Yaras Still
 Felix redet nicht über München. Er redet nicht über den Vorfall. Er redet über Sicherheitslinien, Exitrouten und ob das Schloss hier eine oder zwei Zuhaltungen hat. Er ist gut darin, Dinge zu schützen. Er ist besser darin, Dinge zu stoppen. Yara vertraut ihm. Das ist ungewöhnlich für sie.
 
 ---
+
 ---
 
 ## TEAM-ÜBERSICHT
 
-| | Yara Voss | Felix Brandt |
-|--|-----------|--------------|
-| **Stärke** | GES 6 · Infiltration | STR 6 · Sicherung |
-| **Schwäche** | STR 1 · kein Nahkampf | INT 2 · keine Technik |
-| **Nische** | Schleichen, Schlösser, Analyse | Kampf, Schutz, Brute-Force |
-| **Synergie** | Sie kommt rein. Er hält die Linie. | |
+|              | Yara Voss                          | Felix Brandt               |
+| ------------ | ---------------------------------- | -------------------------- |
+| **Stärke**   | GES 6 · Infiltration               | STR 6 · Sicherung          |
+| **Schwäche** | STR 1 · kein Nahkampf              | INT 2 · keine Technik      |
+| **Nische**   | Schleichen, Schlösser, Analyse     | Kampf, Schutz, Brute-Force |
+| **Synergie** | Sie kommt rein. Er hält die Linie. |                            |
 
 ---
 
@@ -315,11 +319,12 @@ Kodex: Bereit für ITI-Einweisung.
 ---
 
 # EPISODE 1 · MISSION 1
+
 ## „TOTER BRIEFKASTEN"
 
 ---
 
-**Regie-Layer:** Yara Voss. Drei Monate im Dienst, null abgeschlossene Missionen. Commander Renier hat euer Team persönlich für diesen Einsatz angefordert — nicht weil ihr erfahren seid, sondern weil ihr *neu* seid. Keine Akte. Keine Verbindungen. Keine Spuren, die jemand zurückverfolgen kann.
+**Regie-Layer:** Yara Voss. Drei Monate im Dienst, null abgeschlossene Missionen. Commander Renier hat euer Team persönlich für diesen Einsatz angefordert — nicht weil ihr erfahren seid, sondern weil ihr _neu_ seid. Keine Akte. Keine Verbindungen. Keine Spuren, die jemand zurückverfolgen kann.
 
 ---
 
@@ -366,7 +371,7 @@ Felix nimmt seine Mappe, schlägt sie auf, liest. Er nickt einmal, langsam. Sein
 
 ## OPTIONEN
 
-**1 — Fragen stellen:** Yara hakt nach — Falk, der Ordo, der Briefkasten-Typ, was das ITI *wirklich* weiß.
+**1 — Fragen stellen:** Yara hakt nach — Falk, der Ordo, der Briefkasten-Typ, was das ITI _wirklich_ weiß.
 
 **2 — Loadout prüfen:** Ausrüstung für 1973 London durchgehen, ggf. anpassen oder ergänzen bevor ihr springt.
 
@@ -473,7 +478,7 @@ Yara schlägt den Weg durch den Durchgang ein.
 ---
 
 **PROBE: Schleichen**
-*SG 7 — belebter Hinterhof, früher Morgen, vereinzelte Fenster mit Blick nach unten*
+_SG 7 — belebter Hinterhof, früher Morgen, vereinzelte Fenster mit Blick nach unten_
 
 Wurf: W6 `[5]` + GES 6/2 `+3` + Talent Schattenschritt `+1` = **9 vs SG 7 → TREFFER**
 
@@ -637,7 +642,7 @@ Er schiebt einen Umschlag über den Tisch. Lizenzabzeichen, Tier I. Zwei Stück.
 
 ## ITI-BULLETIN
 
-*Aus dem Operations-Deck, eingehend 21:17 Nullzeit:*
+_Aus dem Operations-Deck, eingehend 21:17 Nullzeit:_
 **Team VOSS/BRANDT — Erstkontakt Ordo-Netz bestätigt. Archiv klassifiziert Falk-Protokoll als Priorität 2. Codebuch zur Kryptoabteilung weitergeleitet. Drei Kontaktnamen in Auswertung — früheste Ergebnisse in 48 Stunden Nullzeit. Weitere Ordo-Aktivität in Epoche 1960–1980 nicht auszuschließen.**
 
 ---
@@ -676,29 +681,51 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
 
 ```json
 {
-  "v": 7, "zr": "4.2.6",
+  "v": 7,
+  "zr": "4.2.6",
   "save_id": "SAVE-2026-03-08T21:30:00Z-HQ-EP1-MS1",
   "parent_save_id": null,
   "merge_id": null,
   "branch_id": "ANCHOR-main",
   "campaign": {
-    "episode": 1, "mission": 1, "px": 0, "px_state": "stable", "mode": "core",
+    "episode": 1,
+    "mission": 1,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "core",
     "rift_seeds": []
   },
   "characters": [
     {
-      "id": "CHR-YARA-001", "name": "Yara Voss", "callsign": "STILLER SCHNITT",
+      "id": "CHR-YARA-001",
+      "name": "Yara Voss",
+      "callsign": "STILLER SCHNITT",
       "rank": "Feldagent",
-      "lvl": 2, "xp": 1,
-      "origin": { "epoch": "Ostberlin, 1978", "hominin": "Homo sapiens sapiens", "role": "Infiltration / Analyse" },
+      "lvl": 2,
+      "xp": 1,
+      "origin": {
+        "epoch": "Ostberlin, 1978",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltration / Analyse"
+      },
       "attr": { "STR": 1, "GES": 6, "INT": 4, "CHA": 3, "TEMP": 2, "SYS": 2 },
-      "hp": 10, "hp_max": 10, "stress": 0,
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
       "has_psi": false,
       "sys_installed": 2,
       "levelup_pending": true,
       "talents": [
-        { "name": "Schattenschritt", "linked": "GES", "effect": "+1 Schleichen urban; keine Spuren bei Erfolg" },
-        { "name": "Kalte Analyse", "linked": "INT", "effect": "1x/Szene Spurenanalyse-Probe wiederholen" }
+        {
+          "name": "Schattenschritt",
+          "linked": "GES",
+          "effect": "+1 Schleichen urban; keine Spuren bei Erfolg"
+        },
+        {
+          "name": "Kalte Analyse",
+          "linked": "INT",
+          "effect": "1x/Szene Spurenanalyse-Probe wiederholen"
+        }
       ],
       "equipment": [
         { "name": "Silenced Makarov PM", "type": "weapon", "tier": 1 },
@@ -708,8 +735,16 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
         { "name": "Tarnkleidung (Zivilist, 1978 Ost)", "type": "armor", "tier": 1 }
       ],
       "implants": [
-        { "name": "Retina-HUD", "slot": 1, "effect": "Karten, Vitalwerte, Kodex-Feed, Zielerkennung" },
-        { "name": "Subkutaner Jammer", "slot": 2, "effect": "3m Signalunterdrückung, 90s aktiv, Aufladezeit 2 Szenen" }
+        {
+          "name": "Retina-HUD",
+          "slot": 1,
+          "effect": "Karten, Vitalwerte, Kodex-Feed, Zielerkennung"
+        },
+        {
+          "name": "Subkutaner Jammer",
+          "slot": 2,
+          "effect": "3m Signalunterdrückung, 90s aktiv, Aufladezeit 2 Szenen"
+        }
       ],
       "history": {
         "background": "Kurierfahrerin Ostberlin 1978, rekrutiert nach physikalisch unmöglicher Grenzüberquerung. Drei Monate ITI-Dienst.",
@@ -718,36 +753,67 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
         ]
       },
       "carry": [
-        { "name": "Ordo-Codebuch (1973-Chiffre)", "type": "gadget", "tier": 1, "note": "heißes Loot — Kryptoabteilung" }
+        {
+          "name": "Ordo-Codebuch (1973-Chiffre)",
+          "type": "gadget",
+          "tier": 1,
+          "note": "heißes Loot — Kryptoabteilung"
+        }
       ],
       "quarters_stash": [],
       "vehicles": {
         "epoch_vehicle": {
-          "id": "VEH-YARA-001", "name": "Trabant 601 'Graue Maus'", "type": "vehicle", "tier": 1,
+          "id": "VEH-YARA-001",
+          "name": "Trabant 601 'Graue Maus'",
+          "type": "vehicle",
+          "tier": 1,
           "upgrades": []
         },
         "availability": { "ready_every_missions": 4, "next_ready_in": 3 },
         "legendary_temporal_ship": null
       },
       "reputation": {
-        "iti": 1, "faction": "Ordo Mnemonika",
-        "factions": { "ordo_mnemonika": 0, "chrono_symmetriker": 0, "kausalklingen": 0, "zerbrechliche_ewigkeit": 0 }
+        "iti": 1,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
       },
       "wallet": 283
     },
     {
-      "id": "CHR-FELIX-001", "name": "Felix Brandt", "callsign": "HAMMER",
+      "id": "CHR-FELIX-001",
+      "name": "Felix Brandt",
+      "callsign": "HAMMER",
       "rank": "Feldagent",
-      "lvl": 2, "xp": 1,
-      "origin": { "epoch": "München, 1962", "hominin": "Homo sapiens sapiens", "role": "Sicherung / Schwerer Kontakt" },
+      "lvl": 2,
+      "xp": 1,
+      "origin": {
+        "epoch": "München, 1962",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Sicherung / Schwerer Kontakt"
+      },
       "attr": { "STR": 6, "GES": 3, "INT": 2, "CHA": 2, "TEMP": 1, "SYS": 4 },
-      "hp": 12, "hp_max": 12, "stress": 0,
+      "hp": 12,
+      "hp_max": 12,
+      "stress": 0,
       "has_psi": false,
       "sys_installed": 4,
       "levelup_pending": true,
       "talents": [
-        { "name": "Eiserne Faust", "linked": "STR", "effect": "+1 Nahkampf; bei Treffer SG+3: Ziel desorientiert 1 Runde" },
-        { "name": "Deckungsinstinkt", "linked": "GES", "effect": "1x/Szene Deckung ohne Probe, sofern physisch vorhanden" }
+        {
+          "name": "Eiserne Faust",
+          "linked": "STR",
+          "effect": "+1 Nahkampf; bei Treffer SG+3: Ziel desorientiert 1 Runde"
+        },
+        {
+          "name": "Deckungsinstinkt",
+          "linked": "GES",
+          "effect": "1x/Szene Deckung ohne Probe, sofern physisch vorhanden"
+        }
       ],
       "equipment": [
         { "name": "Walther P38 (modifiziert)", "type": "weapon", "tier": 1 },
@@ -756,10 +822,26 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
         { "name": "Feldverbandset", "type": "consumable", "tier": 1 }
       ],
       "implants": [
-        { "name": "Retina-HUD", "slot": 1, "effect": "Karten, Vitalwerte, Kodex-Feed, Zielerkennung" },
-        { "name": "Knochenstruktur-Dämpfer", "slot": 2, "effect": "Bis 2 LP Sturz-/Aufprallschaden automatisch abgefangen/Szene" },
-        { "name": "Adrenalin-Injektor", "slot": 3, "effect": "1x/Mission: +2 STR-Probe, danach Stress +1" },
-        { "name": "Subkutaner Panzereinsatz Brustkorb", "slot": 4, "effect": "Rüstung 1: eingehender Schaden −1 LP/Treffer" }
+        {
+          "name": "Retina-HUD",
+          "slot": 1,
+          "effect": "Karten, Vitalwerte, Kodex-Feed, Zielerkennung"
+        },
+        {
+          "name": "Knochenstruktur-Dämpfer",
+          "slot": 2,
+          "effect": "Bis 2 LP Sturz-/Aufprallschaden automatisch abgefangen/Szene"
+        },
+        {
+          "name": "Adrenalin-Injektor",
+          "slot": 3,
+          "effect": "1x/Mission: +2 STR-Probe, danach Stress +1"
+        },
+        {
+          "name": "Subkutaner Panzereinsatz Brustkorb",
+          "slot": 4,
+          "effect": "Rüstung 1: eingehender Schaden −1 LP/Treffer"
+        }
       ],
       "history": {
         "background": "Ehemaliger Sicherheitsdienst-Techniker München 1962, entlassen nach nicht aktenkundigem Vorfall. Redet nicht darüber.",
@@ -771,15 +853,24 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
       "quarters_stash": [],
       "vehicles": {
         "epoch_vehicle": {
-          "id": "VEH-FELIX-001", "name": "BMW R75/5 'Grauer Wolf'", "type": "vehicle", "tier": 1,
+          "id": "VEH-FELIX-001",
+          "name": "BMW R75/5 'Grauer Wolf'",
+          "type": "vehicle",
+          "tier": 1,
           "upgrades": []
         },
         "availability": { "ready_every_missions": 4, "next_ready_in": 3 },
         "legendary_temporal_ship": null
       },
       "reputation": {
-        "iti": 1, "faction": null,
-        "factions": { "ordo_mnemonika": 0, "chrono_symmetriker": 0, "kausalklingen": 0, "zerbrechliche_ewigkeit": 0 }
+        "iti": 1,
+        "faction": null,
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
       },
       "wallet": 283
     }
@@ -815,25 +906,42 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
   "continuity": {
     "last_seen": { "mode": "core", "episode": 1, "mission": 1, "location": "HQ" },
     "split": {
-      "family_id": null, "thread_id": null,
-      "expected_threads": [], "resolved_threads": [],
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
       "convergence_ready": false
     },
     "roster_echoes": [
-      { "id": "NPC-RENIER-001", "name": "Commander Arnaud Renier", "note": "Lobte saubere Arbeit. Nächste Akte morgen früh." },
-      { "id": "NPC-MIRA-001", "name": "Archivarin Mira", "note": "Übernahm Kassette persönlich. Falk-Protokoll Priorität 2." }
+      {
+        "id": "NPC-RENIER-001",
+        "name": "Commander Arnaud Renier",
+        "note": "Lobte saubere Arbeit. Nächste Akte morgen früh."
+      },
+      {
+        "id": "NPC-MIRA-001",
+        "name": "Archivarin Mira",
+        "note": "Übernahm Kassette persönlich. Falk-Protokoll Priorität 2."
+      }
     ],
     "shared_echoes": [
-      { "echo": "Falk-Protokoll: 3 Ordo-Kontaktnamen — Auswertung läuft, Folgemission wahrscheinlich." }
+      {
+        "echo": "Falk-Protokoll: 3 Ordo-Kontaktnamen — Auswertung läuft, Folgemission wahrscheinlich."
+      }
     ],
     "convergence_tags": [],
     "npc_roster": [
       {
-        "id": "CHR-FELIX-001", "name": "Felix Brandt", "callsign": "HAMMER",
-        "role": "Sicherung / Schwerer Kontakt", "trait": "Redet nicht über München",
-        "scope": "session", "owner_id": "CHR-YARA-001",
+        "id": "CHR-FELIX-001",
+        "name": "Felix Brandt",
+        "callsign": "HAMMER",
+        "role": "Sicherung / Schwerer Kontakt",
+        "trait": "Redet nicht über München",
+        "scope": "session",
+        "owner_id": "CHR-YARA-001",
         "bond": "Yara vertraut ihm — ungewöhnlich für sie",
-        "status": "attached", "last_seen": "HQ Klinik",
+        "status": "attached",
+        "last_seen": "HQ Klinik",
         "offscreen": "Schnittwunde versorgt, einsatzbereit",
         "hook": "Was war der Vorfall in München?"
       }
@@ -856,9 +964,12 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
     ]
   },
   "ui": {
-    "gm_style": "verbose", "suggest_mode": false,
-    "contrast": "standard", "badge_density": "standard",
-    "output_pace": "normal", "voice_profile": "gm_second_person"
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
   }
 }
 ```
@@ -881,7 +992,7 @@ Ihr seid zurück. Felix lässt sich in der Klinik die Schnittwunde versorgen —
 
 **Spieler:** `Spiel laden
 
-```json
+````json
 {
   "v": 7,
   "zr": "4.2.6",
@@ -1327,7 +1438,7 @@ Kein Namensschild. Kein Callsign-Patch. Neu — oder sie will nicht erkannt werd
     "voice_profile": "gm_second_person"
   }
 }
-```
+````
 
 ---
 
@@ -1341,7 +1452,7 @@ Kein Namensschild. Kein Callsign-Patch. Neu — oder sie will nicht erkannt werd
 
 **Spieler:** `Spiel laden
 
-```json
+````json
 {
   "v": 7,
   "zr": "4.2.6",
@@ -1922,7 +2033,7 @@ Was wählst du?
     "voice_profile": "gm_second_person"
   }
 }
-```
+````
 
 ---
 
@@ -1938,4 +2049,3 @@ Was wählst du?
 4. **Freie Aktion** — Bucht 12, unbekannte Agentin, Felix im Med-Lab
 
 ---
-

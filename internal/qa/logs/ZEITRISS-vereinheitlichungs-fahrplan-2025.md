@@ -7,6 +7,7 @@ tags: [qa, log]
 # ZEITRISS Vereinheitlichungs-Fahrplan 2025
 
 ## Zielsetzung
+
 Dieser Fahrplan übersetzt die extern dokumentierten Vereinheitlichungs-Hinweise
 in konkrete Aufgaben für ZEITRISS. Er priorisiert Sprach- und
 Formatangleichungen, überprüft Metadaten und stärkt den vorgesehenen
@@ -14,6 +15,7 @@ QA-Workflow. Alle Schritte erfolgen gemäß `AGENTS.md`, `CONTRIBUTING.md` sowie
 den Maintainer-Richtlinien.
 
 ## Maßnahmenübersicht
+
 1. **Dokumentensprache vereinheitlichen** ✅
    - README: Abschnittsüberschriften in konsistente deutsche Terminologie
      überführen (z. B. „Wie du beitragen kannst“ statt „How to Contribute“). ✅
@@ -51,10 +53,10 @@ den Maintainer-Richtlinien.
      Formatabweichungen erkannt. ✅
 5. **KI-Review- und QA-Prozess aktiv nutzen**
    - Bei jedem größeren Diff: Review über ARXION oder äquivalente
-    Vergleichs-KI anstoßen, Findings in
-    `internal/qa/audits/ZEITRISS-qa-audit-2025.md`
+     Vergleichs-KI anstoßen, Findings in
+     `internal/qa/audits/ZEITRISS-qa-audit-2025.md`
      dokumentieren.
-   - Beta-GPT-Playtests für spielrelevante Änderungen durchführen; Reports im
+   - Beta-KI-Playtests für spielrelevante Änderungen durchführen; Reports im
      QA-Fahrplan aktualisieren.
    - Commit- und PR-Notizen um ausgeführte Tests ergänzen (z. B. `make lint`,
      `make test`, `bash scripts/smoke.sh`).
@@ -62,6 +64,7 @@ den Maintainer-Richtlinien.
      externen Playtests erforderlich (Dokumentationsabschluss). ✅
 
 ## Zeitplan & Verantwortlichkeiten
+
 - **Sprint 1 (Woche 1–2):** Sprachangleichung in README/CONTRIBUTING
   abschließen, Lizenzprüfung durchführen.
 - **Sprint 2 (Woche 3):** YAML-Versionen aktualisieren, `CHANGELOG.md` und
@@ -72,6 +75,7 @@ den Maintainer-Richtlinien.
   Änderung anwenden und dokumentieren.
 
 ## Erfolgskriterien
+
 - Keine englischsprachigen Überschriften oder Frontmatter-Titel in
   Root-Dokumenten.
 - Lizenztext und Verweise vollständig, inkl. funktionierender Links auf CC- und
@@ -82,6 +86,7 @@ den Maintainer-Richtlinien.
   Terminologie-Abweichungen in Stichproben.
 
 ## Nachverfolgung
+
 Pflege Fortschrittsupdates im Maintainer-Journal (`docs/maintainer-ops.md`) und
 halte Review-Tickets in eurem Issue-Tracker aktuell. Bei Abweichungen sofort die
-zuständigen Maintainer:innen informieren und Korrekturmaßnahmen planen.
+zuständigen Maintainer informieren und Korrekturmaßnahmen planen.

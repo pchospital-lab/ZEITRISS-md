@@ -22,7 +22,6 @@ Issue-Tracker, wenn eine unmittelbare Ausnutzung möglich ist.
 - Bitte gib angemessen Zeit für Behebung, bevor technische Details öffentlich
   geteilt werden.
 
-
 ## Key-Notfallpfad
 
 Wenn ein API-Key versehentlich im Repo oder in einem öffentlichen Paste landet:

@@ -1,4 +1,5 @@
 # 04-dienstweg-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek-v32
 - **Tokens:** in:11359 out:962 cost:$0.003440371
 - **Date:** 2026-03-17T11:03:17+01:00
@@ -48,6 +49,7 @@ Die Frau an der Theke dreht sich halb zu dir.
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Die Nullzeitbar ist ein Ort für informelle Kontakte.
 - Hier gibt es keine offiziellen Briefings – alles ist subtext.
 - Du kannst Gerüchte hören, vielleicht Hinweise auf bevorstehende Missionen.
@@ -57,7 +59,8 @@ Die Frau an der Theke dreht sich halb zu dir.
 ---
 
 **Optionen**
-1) **Mit der Frau an der Theke sprechen.** Sie scheint erfahren.
-2) **Den Mann am Tisch kontaktieren.** Er sieht wie ein Techniker oder Analyst aus.
-3) **Den jungen Agenten an der Wand fragen.** Er könnte gerade von einer Mission zurück sein.
-4) **Freie Aktion.**
+
+1. **Mit der Frau an der Theke sprechen.** Sie scheint erfahren.
+2. **Den Mann am Tisch kontaktieren.** Er sieht wie ein Techniker oder Analyst aus.
+3. **Den jungen Agenten an der Wand fragen.** Er könnte gerade von einer Mission zurück sein.
+4. **Freie Aktion.**

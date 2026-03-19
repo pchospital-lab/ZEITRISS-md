@@ -57,6 +57,7 @@ können ein Rift offen lassen und die Core-Operation fortsetzen. Sie riskieren
 während des Arcs keinen höheren SG.
 
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
+
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
 ITI-Hauptquartiers ein schmaler, gleißender Riss auftut — kein Tor, keine
 Scheibe, sondern ein Schnitt in der Luft. Kaltes, bläuliches Licht taucht das
@@ -75,8 +76,8 @@ scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **sicher in der Nullzeit** angekommen sind. Ein sanfter Ton erklingt im
 **Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
 hoch: `Willkommen, Agent. Kodex-Sync aktiv ...`
-*(Details zur Hardware: siehe
-[HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec)).*
+_(Details zur Hardware: siehe
+[HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec))._
 
 Das Nullzeit-HQ bildet den gigantischen Kern des ITI; Chronopolis bleibt bis zum Stadtschlüssel
 (Level 10+) versiegelt und wird erst dann zum nächsten Ankerpunkt.
@@ -162,7 +163,6 @@ Sprungbrett dienen: Spielleitungen können sie direkt aufgreifen oder nach
 Belieben abwandeln, um einen einzigartigen Start ins **erste echte
 ZEITRISS-Abenteuer** ihrer Gruppe zu schaffen.
 
-
 Tauchen wir nun ein in die Welt des filmischen Erzählens und schauen wir uns an,
 mit welchen Techniken und Ideen man einen **cineastischen Einstieg**
 inszenieren kann. Fokus an, Einsatzstart für euer Zeitreise-Abenteuer!
@@ -209,8 +209,7 @@ erstrahlen zu lassen:
   Sprünge –, oder das dichte Neonleuchten einer futuristischen Megacity im Regen.
   Ein stimmungsvoller **Establishing Shot** zieht alle sofort in die Welt hinein.
   Details zu Licht, Wetter, Geräuschen und Gerüchen schaffen Immersion. Beispiel:
-  _„Die Kamera fährt über das vom Mondlicht silbern beschienene London des Jahres
-  1890. Im Dunst der Gaslaternen glitzert feiner Regen, während irgendwo in der
+  _„Die Kamera fährt über das vom Mondlicht silbern beschienene London des Jahres 1890. Im Dunst der Gaslaternen glitzert feiner Regen, während irgendwo in der
   Ferne die Turmuhr von Big Ben mit zwölf Schlägen Mitternacht verkündet…“_ – Schon
   sind alle im Kopfkino.
 - **Close-ups und Details:** Nach der Totale lohnt es sich, den imaginären Fokus
@@ -256,6 +255,7 @@ erstrahlen zu lassen:
 
   Reminder: Physicality Gate einhalten – Mixed-Reality-Linsen und
   sensorbasierte Lichtquellen statt VR-Räumen oder externen Projektoren nutzen.
+
 - **Zeitlupe und Zeitraffer:** Im Zeitreise-Setting bietet es sich an, auch mit
   der **Wahrnehmung von Zeit** zu spielen. Eine dramatische Szene kann sich
   gefühlt in Zeitlupe abspielen – beschreibt etwa, wie in einem brenzligen
@@ -716,7 +716,7 @@ nutzen, bis das Gesamtbild klar wird.
 
 ### Missionsidee 1: **Gestohlene Zukunft**
 
- _Hook:_ In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
+_Hook:_ In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
 Fall von Zeitverbrechen. Die Chrononauten sollen diese **anachronistische Technologie**
 sicherstellen, bevor sie die Zeitlinie destabilisiert.
 
@@ -724,21 +724,21 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
   geschmuggelt und sollen an eine Gang verkauft werden. Die Agenten müssen die
   Datenträger aufspüren und sichern, bevor ein Deal mit einer rivalisierenden
   Zeitfraktion den gefährlichen Technologiesprung auslöst.
-Wer den dokumentierten Verlauf des Hauptereignisses stabil hält – ob vorsichtig
-oder mit hartem Zugriff –, baut den Resonanz-Index (Px) planmäßig auf. Grobe
-Abweichungen oder verpatzte Kernziele lassen den Px höchstens pausieren.
-Erreicht der Index Stufe 5, legt das HQ gemäß
-[Zeitriss‑Core](../../core/zeitriss-core.md#paradoxon--pararifts) automatisch
-neue Rift-Seeds auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
-an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte. Die
-Szene spielt in den neonbeleuchteten Schatten von _Neo Berlin 2085_ – einer
-futuristischen Metropole voller Cyberpunk-Flair. In engen Gassen und auf
-verregneten Dachterrassen kommt es zu Verfolgungsjagden und Schusswechseln mit
-Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
-entgegen, der mit dem Gerät zu fliehen versucht. Die Mission kulminiert in einem
-actionreichen **Showdown** (zu Fuß oder in Fahrzeugen), an dessen Ende das
-entwendete Objekt in den Händen der Charaktere und die Schurken außer Gefecht
-sind.
+  Wer den dokumentierten Verlauf des Hauptereignisses stabil hält – ob vorsichtig
+  oder mit hartem Zugriff –, baut den Resonanz-Index (Px) planmäßig auf. Grobe
+  Abweichungen oder verpatzte Kernziele lassen den Px höchstens pausieren.
+  Erreicht der Index Stufe 5, legt das HQ gemäß
+  [Zeitriss‑Core](../../core/zeitriss-core.md#paradoxon--pararifts) automatisch
+  neue Rift-Seeds auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
+  an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte. Die
+  Szene spielt in den neonbeleuchteten Schatten von _Neo Berlin 2085_ – einer
+  futuristischen Metropole voller Cyberpunk-Flair. In engen Gassen und auf
+  verregneten Dachterrassen kommt es zu Verfolgungsjagden und Schusswechseln mit
+  Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
+  entgegen, der mit dem Gerät zu fliehen versucht. Die Mission kulminiert in einem
+  actionreichen **Showdown** (zu Fuß oder in Fahrzeugen), an dessen Ende das
+  entwendete Objekt in den Händen der Charaktere und die Schurken außer Gefecht
+  sind.
 - **Tonalität:** Perfekt für einen **rasanten Action-Einstieg**. Die Mission sollte
   als echter Außeneinsatz gespielt werden. Renier funkt nur sporadisch Unterstützung,
   während das Team ohne Netz und doppelten Boden agiert. Misslingt der Einsatz,

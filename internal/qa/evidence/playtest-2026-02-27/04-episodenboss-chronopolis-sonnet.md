@@ -1,4 +1,5 @@
 # 04-episodenboss-chronopolis-sonnet
+
 - **Model:** anthropic/claude-sonnet-4.5 (via zeitriss-v426-uncut-sonnet base model)
 - **Datum:** 2026-02-27
 - **Szenario:** Save-Load → Episodenboss MS10 → Debrief/Level 10 → Chronopolis-Eintritt
@@ -15,6 +16,7 @@
 **Input:** `Spiel laden` + Save-JSON (v6, CHR-7741 "Wraith", Lvl 9, EP1 MS9 abgeschlossen)
 
 **Output (gekürzt):**
+
 ```
 Kodex: Load-Modus aktiv. Save-Version 6 erkannt. Rekonstruiere Spielstand...
 
@@ -33,6 +35,7 @@ Ziel: Kessler ausschalten, Implantat bergen, Datenspuren sichern.
 **Input:** "Briefing annehmen, springe, Infiltration überspringen, direkt zu Kessler"
 
 **Output (gekürzt):**
+
 ```
 EP 1 · MS 10 · SC 7/14 · PHASE Konflikt · COMMS OK · Lvl 9 · Px 3/5 · Stress 5/28 · 💀 BOSS · Obj Kessler neutralisieren · T-62:00
 
@@ -48,6 +51,7 @@ Kodex: Boss-Encounter initiiert. Kessler — TEMP 12.
 **Input:** "EMP-Granate auf Kessler, Katana-Nahkampf!"
 
 **Output (gekürzt):**
+
 ```
 EP 1 · MS 10 · SC 7/14 · ❤️🩹 Vital 28/28→19/28 · 🧠 Stress 5→8/28 · 💀 BOSS
 
@@ -67,6 +71,7 @@ Kodex: Vital 19/28. Stress +2.
 **Input:** "Rauchgranate + Kessler finishen, alles oder nichts"
 
 **Output (gekürzt):**
+
 ```
 EP 1 · MS 10 · SC 7/14 · ❤️🩹 19/28 · 🧠 Stress 8/28 · 💀 BOSS · T-61:28
 
@@ -85,6 +90,7 @@ Loot: Kausalklingen-Implantat (beschädigt), Verschlüsseltes Datapad, Chronomet
 **Input:** "Alles looten, Exfil Osttunnel, Sprint zum Gate!"
 
 **Output (gekürzt):**
+
 ```
 EP 1 · MS 10 · SC 9/14 · PHASE Exfil · T-00:47
 
@@ -111,6 +117,7 @@ Ruf: ITI Vertrauenswürdig | Kessler-Zelle: Eliminiert
 **Input:** "Level-Up: +1 GES (→ 8). Chronopolis betreten."
 
 **Output — Chronopolis-Warnung:**
+
 ```
 CHRONOPOLIS-INSTANZ
 Epoche: 2094 (Episode 1 Lock)
@@ -125,6 +132,7 @@ Status: Aktiv | Instanziert | Temporal isoliert
 ```
 
 **Output — Eintritt:**
+
 ```
 EP 1 · MS 10 · SC -- · PHASE CHRONOPOLIS · MODE INSTANZ · COMMS OFF · Lvl 10 · Px 3/5 · ❤️🩹 28/28 · 🧠 3/10
 
@@ -141,50 +149,53 @@ Feindliche Signatur: Unbekannt. Distanz: 200m+
 
 ## Regelcheck
 
-| Kriterium | Status | Details |
-|-----------|--------|---------|
-| **Save-Load v6** | ✅ | Alle Felder korrekt erkannt, Recap zeigt Save-Daten exakt |
-| **HUD-String** | ✅ | Durchgehend korrekt, alle Pflichtfelder (EP/MS/SC/PHASE/MODE/COMMS/Lvl/Px/Stress/Obj/Exfil) |
-| **HUD-Icons kontextsensitiv** | ✅ | 💀 Boss-Encounter, ❤️🩹 Vital, 🧠 Stress, 👁️ Tarnung korrekt ein/ausgeblendet |
-| **Würfelproben** | ✅ | Jede riskante Aktion hat Probe. Format korrekt: `Probe: X → W6/W10: [n] + Attr/2 + Talent = Y vs SG Z → HIT/MISS` |
-| **Exploding Dice** | ✅ | W6 [6] → Exploding → [4] = 10 korrekt angewendet |
-| **W6 vs W10 Schwelle** | ⚠️ | Turn 3 nutzt W10 für GES 7 — Regel sagt W10 erst ab Attribut ≥11. GES 7 sollte W6 sein. |
-| **Attribut-Halbierung** | ⚠️ | GES 7/2 wird mal als 3 (floor korrekt), aber in Probenformel manchmal nur "GES 3" ohne /2-Anzeige. Inkonsistent in der Darstellung. |
-| **Boss-Encounter markiert** | ✅ | 💀 BOSS-ENCOUNTER im HUD, Boss-Stats kommuniziert |
-| **Loot nach Gegnern** | ✅ | Detaillierte Loot-Liste nach Boss-Kill mit Kategorien |
-| **Debrief/Score-Screen** | ✅ | Automatisch nach Mission: Bewertung → Loot-Recap → CU → XP/Level-Up → Ruf |
-| **Level-Up: EINE Wahl** | ✅ | Genau 3 Optionen, explizit "EINE Option" |
-| **XP-Balken Lvl 1–10** | ✅ | `Lvl 10 ▓▓▓▓▓▓▓▓▓▓ 10/10` korrekt (1 Mission = 1 Level) |
-| **Px-Progression (TEMP)** | ⚠️ | Debrief sagt "+3 wegen TEMP 3", aber Regel: TEMP 3-5 → +2/Mission, nicht +3. Px hätte von 3 auf 5 steigen müssen (+2), nicht +3. |
-| **3 Optionen + Freie Aktion** | ✅ | Durchgehend, jede Szene |
-| **Atmosphäre/Noir-Stil** | ✅ | Filmisch, knapp, Sinnesdetails (Kälte, Ozon, Blut, Geräusche). Ausgezeichnet. |
-| **Chronopolis-Warnung** | ✅ | Alle 6 Regeln korrekt angezeigt: Kein Save, Tod=Konsequenzen, Items behalten, keine Timeline-Auswirkung |
-| **Chronopolis-Instanz** | ✅ | Epoche korrekt (EP1-gebunden), Kodex: Link OFF, kein Szenencount, MODE INSTANZ |
-| **Chronopolis: COMMS OFF** | ✅ | HUD zeigt COMMS OFF und Kodex meldet "Link: OFF" |
-| **Chronopolis: SC --** | ✅ | Kein Szenencount, korrekt als "--" angezeigt |
-| **Keine Selbstreferenz-Loops** | ✅ | Kessler ist externer Antagonist, keine "Du warst hier schon mal"-Momente |
-| **Körperlichkeit** | ✅ | Physische Beschreibungen: Knochen brechen, Blut, Aufprall, Kondensatem, Schmerz |
-| **Action-Contract (kein Tutorial)** | ✅ | Alles als filmische Beats, keine Schritt-für-Schritt-Anleitungen |
-| **Kodex als taktischer Kommentator** | ✅ | Knappe Statusmeldungen: "Magazin", "Rauchgranate verbraucht. Bestand: 2", "Vital 19/28" |
-| **Szene ≥3 Absätze** | ✅ | Kampfszenen 4-6 Absätze, Szenenwechsel 3+ Absätze |
+| Kriterium                            | Status | Details                                                                                                                             |
+| ------------------------------------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Save-Load v6**                     | ✅     | Alle Felder korrekt erkannt, Recap zeigt Save-Daten exakt                                                                           |
+| **HUD-String**                       | ✅     | Durchgehend korrekt, alle Pflichtfelder (EP/MS/SC/PHASE/MODE/COMMS/Lvl/Px/Stress/Obj/Exfil)                                         |
+| **HUD-Icons kontextsensitiv**        | ✅     | 💀 Boss-Encounter, ❤️🩹 Vital, 🧠 Stress, 👁️ Tarnung korrekt ein/ausgeblendet                                                       |
+| **Würfelproben**                     | ✅     | Jede riskante Aktion hat Probe. Format korrekt: `Probe: X → W6/W10: [n] + Attr/2 + Talent = Y vs SG Z → HIT/MISS`                   |
+| **Exploding Dice**                   | ✅     | W6 [6] → Exploding → [4] = 10 korrekt angewendet                                                                                    |
+| **W6 vs W10 Schwelle**               | ⚠️     | Turn 3 nutzt W10 für GES 7 — Regel sagt W10 erst ab Attribut ≥11. GES 7 sollte W6 sein.                                             |
+| **Attribut-Halbierung**              | ⚠️     | GES 7/2 wird mal als 3 (floor korrekt), aber in Probenformel manchmal nur "GES 3" ohne /2-Anzeige. Inkonsistent in der Darstellung. |
+| **Boss-Encounter markiert**          | ✅     | 💀 BOSS-ENCOUNTER im HUD, Boss-Stats kommuniziert                                                                                   |
+| **Loot nach Gegnern**                | ✅     | Detaillierte Loot-Liste nach Boss-Kill mit Kategorien                                                                               |
+| **Debrief/Score-Screen**             | ✅     | Automatisch nach Mission: Bewertung → Loot-Recap → CU → XP/Level-Up → Ruf                                                           |
+| **Level-Up: EINE Wahl**              | ✅     | Genau 3 Optionen, explizit "EINE Option"                                                                                            |
+| **XP-Balken Lvl 1–10**               | ✅     | `Lvl 10 ▓▓▓▓▓▓▓▓▓▓ 10/10` korrekt (1 Mission = 1 Level)                                                                             |
+| **Px-Progression (TEMP)**            | ⚠️     | Debrief sagt "+3 wegen TEMP 3", aber Regel: TEMP 3-5 → +2/Mission, nicht +3. Px hätte von 3 auf 5 steigen müssen (+2), nicht +3.    |
+| **3 Optionen + Freie Aktion**        | ✅     | Durchgehend, jede Szene                                                                                                             |
+| **Atmosphäre/Noir-Stil**             | ✅     | Filmisch, knapp, Sinnesdetails (Kälte, Ozon, Blut, Geräusche). Ausgezeichnet.                                                       |
+| **Chronopolis-Warnung**              | ✅     | Alle 6 Regeln korrekt angezeigt: Kein Save, Tod=Konsequenzen, Items behalten, keine Timeline-Auswirkung                             |
+| **Chronopolis-Instanz**              | ✅     | Epoche korrekt (EP1-gebunden), Kodex: Link OFF, kein Szenencount, MODE INSTANZ                                                      |
+| **Chronopolis: COMMS OFF**           | ✅     | HUD zeigt COMMS OFF und Kodex meldet "Link: OFF"                                                                                    |
+| **Chronopolis: SC --**               | ✅     | Kein Szenencount, korrekt als "--" angezeigt                                                                                        |
+| **Keine Selbstreferenz-Loops**       | ✅     | Kessler ist externer Antagonist, keine "Du warst hier schon mal"-Momente                                                            |
+| **Körperlichkeit**                   | ✅     | Physische Beschreibungen: Knochen brechen, Blut, Aufprall, Kondensatem, Schmerz                                                     |
+| **Action-Contract (kein Tutorial)**  | ✅     | Alles als filmische Beats, keine Schritt-für-Schritt-Anleitungen                                                                    |
+| **Kodex als taktischer Kommentator** | ✅     | Knappe Statusmeldungen: "Magazin", "Rauchgranate verbraucht. Bestand: 2", "Vital 19/28"                                             |
+| **Szene ≥3 Absätze**                 | ✅     | Kampfszenen 4-6 Absätze, Szenenwechsel 3+ Absätze                                                                                   |
 
 ---
 
 ## Bug-Details
 
 ### ⚠️ W6/W10-Schwelle (Turn 3)
+
 - **Regel:** W10 erst ab Attribut ≥ 11
 - **Ist:** GES 7 → W10 verwendet (EMP-Wurf, Katana, Ausweichen)
 - **Soll:** GES 7 → W6
 - **Impact:** Mittel — verfälscht Proben-Ergebnisse (höhere Werte möglich)
 
 ### ⚠️ Px-Progression (Turn 5)
+
 - **Regel:** TEMP 3–5 → +2 Px pro Mission
 - **Ist:** Debrief sagt "+3 diese Mission wegen TEMP 3"
 - **Soll:** +2 (Px 3 → 5, was ClusterCreate auslösen sollte!)
 - **Impact:** Hoch — ClusterCreate bei Px 5 wurde nicht ausgelöst, obwohl es hätte passieren sollen
 
 ### ⚠️ Attribut-Darstellung inkonsistent
+
 - **Regel:** Format `Attr X/2` in Probenzeile
 - **Ist:** Mal "GES 7/2" (korrekt), mal "GES 3" (Kurzform)
 - **Impact:** Kosmetisch — Nachvollziehbarkeit leidet
@@ -193,7 +204,7 @@ Feindliche Signatur: Unbekannt. Distanz: 200m+
 
 ## Hinweis: OpenWebUI-Bug entdeckt
 
-Das Custom-Model `zeitriss-v426-uncut-sonnet` gibt `null` zurück (HTTP 200, content-length 4, process-time 0). 
+Das Custom-Model `zeitriss-v426-uncut-sonnet` gibt `null` zurück (HTTP 200, content-length 4, process-time 0).
 
 **Ursache:** `base_model_id` im Custom-Model ist `"anthropic/claude-sonnet-4-5"` (Bindestrich), aber das Backend-Modell heißt `"anthropic/claude-sonnet-4.5"` (Punkt). OpenWebUI 0.8.5 gibt bei nicht gefundenem Base-Model `null` statt einen Fehler zurück.
 
@@ -208,6 +219,7 @@ Das Custom-Model `zeitriss-v426-uncut-sonnet` gibt `null` zurück (HTTP 200, con
 **Rating: ⭐⭐⭐⭐ (4/5) — Stark, mit kleinen Regelfehlern**
 
 ### Stärken
+
 - **Save-Load perfekt:** v6-Schema wird sauber erkannt, Recap ist präzise
 - **Boss-Encounter top:** Atmosphärisch, spannend, mit klaren Stakes und mechanischem Druck
 - **HUD durchgehend korrekt:** Alle Pflichtfelder, kontextsensitive Icons, Szenencount
@@ -218,9 +230,11 @@ Das Custom-Model `zeitriss-v426-uncut-sonnet` gibt `null` zurück (HTTP 200, con
 - **Noir-Stil exzellent:** "Monofaser schneidet durch Rippen, Lunge, Wirbelsäule" — UNCUT tut was es soll
 
 ### Schwächen
+
 - **W6/W10-Schwelle ignoriert** — nutzt W10 für Attribute unter 11
 - **Px-Progression falsch berechnet** — TEMP 3 gibt +3 statt +2, ClusterCreate bei Px 5 nicht ausgelöst
 - **Attribut-Darstellung inkonsistent** — mal mit /2, mal ohne
 
 ### Vergleich zu früheren Playtests
+
 Deutlich besser als der Chronopolis-Solo-Test vom 24.02 (der bei der Charakter-Erstellung hängen blieb). Boss-Encounter ist vergleichbar mit dem M10-Test vom 23.02, aber mit vollständigerem Debrief und funktionierendem Chronopolis-Eintritt.

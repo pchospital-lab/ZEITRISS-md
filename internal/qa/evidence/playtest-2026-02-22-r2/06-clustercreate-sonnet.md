@@ -1,4 +1,5 @@
 # 06-clustercreate-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.057306
 - **Tokens:** in:5707 out:2679
@@ -25,26 +26,26 @@ Der Kodex lädt die Missionsdaten hoch. Zahlen rollen durchs Retina-Overlay.
 
 ### ◼ SCORE-SCREEN · MS 8
 
-| Kategorie | Ergebnis | Wertung |
-|---|---|---|
-| Primärziel | ✅ Erfüllt | ★★★ |
-| Sekundärziele | ✅ 2/2 | ★★★ |
-| Kollateralschäden | Minimal | ★★★ |
-| Tarnung | Kompromittiert / erholt | ★★ |
-| Zeiteinhaltung | Innerhalb Fenster | ★★★ |
-| **GESAMT** | **SHADOW GRADE: A−** | **★★★** |
+| Kategorie         | Ergebnis                | Wertung |
+| ----------------- | ----------------------- | ------- |
+| Primärziel        | ✅ Erfüllt              | ★★★     |
+| Sekundärziele     | ✅ 2/2                  | ★★★     |
+| Kollateralschäden | Minimal                 | ★★★     |
+| Tarnung           | Kompromittiert / erholt | ★★      |
+| Zeiteinhaltung    | Innerhalb Fenster       | ★★★     |
+| **GESAMT**        | **SHADOW GRADE: A−**    | **★★★** |
 
 ---
 
 ### ◼ LOOT-RECAP
 
-| Item | Kategorie | Status |
-|---|---|---|
-| Verschlüsselte Datenkassette (Typ-7) | Intel / Hot Loot | Im Archiv |
-| Seitenarm Makarov PM (modifiziert) | Waffe | Einbehalten |
-| 3× Zugangschip Klasse B | Tool | Übergeben |
-| 420 CU Barmittel | Wirtschaft | Gutgeschrieben |
-| Chemischer Signalmarker | Sondermaterial | Analyse läuft |
+| Item                                 | Kategorie        | Status         |
+| ------------------------------------ | ---------------- | -------------- |
+| Verschlüsselte Datenkassette (Typ-7) | Intel / Hot Loot | Im Archiv      |
+| Seitenarm Makarov PM (modifiziert)   | Waffe            | Einbehalten    |
+| 3× Zugangschip Klasse B              | Tool             | Übergeben      |
+| 420 CU Barmittel                     | Wirtschaft       | Gutgeschrieben |
+| Chemischer Signalmarker              | Sondermaterial   | Analyse läuft  |
 
 `Kodex: Heiße Loot-Items wurden zur Archiv-Analyse weitergeleitet. Kein Heat-Rückstand.`
 
@@ -52,13 +53,13 @@ Der Kodex lädt die Missionsdaten hoch. Zahlen rollen durchs Retina-Overlay.
 
 ### ◼ WIRTSCHAFT
 
-| Posten | Betrag |
-|---|---|
-| Basis-Auszahlung MS 8 | +1.200 CU |
-| Bonus: Saubere Exfil | +300 CU |
-| Bonus: Beide Sekundärziele | +400 CU |
-| Ausrüstungsverschleiß | −180 CU |
-| **Netto** | **+1.720 CU** |
+| Posten                     | Betrag        |
+| -------------------------- | ------------- |
+| Basis-Auszahlung MS 8      | +1.200 CU     |
+| Bonus: Saubere Exfil       | +300 CU       |
+| Bonus: Beide Sekundärziele | +400 CU       |
+| Ausrüstungsverschleiß      | −180 CU       |
+| **Netto**                  | **+1.720 CU** |
 
 `Kontostand: 8.340 CU`
 
@@ -66,13 +67,13 @@ Der Kodex lädt die Missionsdaten hoch. Zahlen rollen durchs Retina-Overlay.
 
 ### ◼ XP & LEVEL
 
-| Posten | XP |
-|---|---|
-| Mission abgeschlossen | +800 |
-| Shadow Grade A− | +200 |
-| Sekundärziele | +150 |
-| Saubere Exfil | +100 |
-| **Gesamt** | **+1.250 XP** |
+| Posten                | XP            |
+| --------------------- | ------------- |
+| Mission abgeschlossen | +800          |
+| Shadow Grade A−       | +200          |
+| Sekundärziele         | +150          |
+| Saubere Exfil         | +100          |
+| **Gesamt**            | **+1.250 XP** |
 
 `Lvl 9 ▓▓▓▓▓▓▓▓░░ 8.090/9.200 XP`
 
@@ -82,7 +83,7 @@ Der Kodex lädt die Missionsdaten hoch. Zahlen rollen durchs Retina-Overlay.
 
 **ITI-Intern:** Vertrauen +1 → **Stufe: Bewährt**
 **Fraktion ANKER:** Neutral → keine Änderung
-**Fraktion MERIDIAN:** Unbekannt → Erste Sichtung registriert *(Datenkassette hat Interesse geweckt)*
+**Fraktion MERIDIAN:** Unbekannt → Erste Sichtung registriert _(Datenkassette hat Interesse geweckt)_
 
 ---
 
@@ -131,7 +132,7 @@ Die Daten rollen durch dein Overlay. Nicht als Warnung. Als Tatsache. Zwei Stell
 ### ◼ RIFT-SEED 01 — **"TOTER WINKEL"**
 
 **Ursprung:** MS 5 · Exfil-Phase · Budapest, 1973
-**Anomalie:** Ein Kontakt — Deckname SPATZ — wurde in einer Gasse zurückgelassen. Lebend. Er hat dich gesehen. Er hat die Ausrüstung gesehen. In der Originaltimeline stirbt SPATZ drei Wochen später bei einem Verkehrsunfall. Aber die Chrono-Verwerfungsmessung zeigt: *er ist nicht gestorben.*
+**Anomalie:** Ein Kontakt — Deckname SPATZ — wurde in einer Gasse zurückgelassen. Lebend. Er hat dich gesehen. Er hat die Ausrüstung gesehen. In der Originaltimeline stirbt SPATZ drei Wochen später bei einem Verkehrsunfall. Aber die Chrono-Verwerfungsmessung zeigt: _er ist nicht gestorben._
 
 **Klassifikation:** 🌀 Rift-Seed · Klasse B · Kausalrisiko: MITTEL
 **Status:** Gesperrt bis Episodenende · Spielbar in Episode 3
@@ -141,7 +142,7 @@ Die Daten rollen durch dein Overlay. Nicht als Warnung. Als Tatsache. Zwei Stell
 ### ◼ RIFT-SEED 02 — **"ECHO IM BERNSTEIN"**
 
 **Ursprung:** MS 7 · Intel-Phase · Sibirien, 2041
-**Anomalie:** Das verschlüsselte Signal, das du abgefangen hast — Kodex hat die Metadaten analysiert. Die Nachricht wurde nicht in 2041 gesendet. Die Zeitstempel sind gefälscht. Ursprung: **unbekannte Chrono-Adresse.** Jemand hat die Zeitlinie als Briefkasten benutzt. Die Nachricht war für *jemanden* — und die Verwerfungsmuster legen nahe, dass dieser Jemand *du* bist.
+**Anomalie:** Das verschlüsselte Signal, das du abgefangen hast — Kodex hat die Metadaten analysiert. Die Nachricht wurde nicht in 2041 gesendet. Die Zeitstempel sind gefälscht. Ursprung: **unbekannte Chrono-Adresse.** Jemand hat die Zeitlinie als Briefkasten benutzt. Die Nachricht war für _jemanden_ — und die Verwerfungsmuster legen nahe, dass dieser Jemand _du_ bist.
 
 **Klassifikation:** 🌀 Rift-Seed · Klasse A · Kausalrisiko: HOCH
 **Status:** Gesperrt bis Episodenende · Spielbar in Episode 3
@@ -167,12 +168,12 @@ Du sitzt allein im Debriefraum. Das Neonlicht flackert nicht mehr. Aber die Farb
 
 ### ◼ ARC-DASHBOARD UPDATE
 
-| | |
-|---|---|
-| **Offene Rift-Seeds** | 2 (TOTER WINKEL · ECHO IM BERNSTEIN) |
-| **Aktive Fraktionen** | ITI · ANKER · MERIDIAN (neu) |
-| **Offene Fragen** | Wer benutzt die Zeitlinie als Briefkasten? · Lebt SPATZ noch? |
-| **Nächste Episode** | Episode 3 · Px-Reset auf 0 nach MS 10 |
+|                       |                                                               |
+| --------------------- | ------------------------------------------------------------- |
+| **Offene Rift-Seeds** | 2 (TOTER WINKEL · ECHO IM BERNSTEIN)                          |
+| **Aktive Fraktionen** | ITI · ANKER · MERIDIAN (neu)                                  |
+| **Offene Fragen**     | Wer benutzt die Zeitlinie als Briefkasten? · Lebt SPATZ noch? |
+| **Nächste Episode**   | Episode 3 · Px-Reset auf 0 nach MS 10                         |
 
 ---
 
@@ -180,9 +181,9 @@ Du sitzt allein im Debriefraum. Das Neonlicht flackert nicht mehr. Aber die Farb
 
 Du hast Zeit. Zwei Missionen bis zum Episodenende.
 
-**1 — Ausrüstung & Loadout** *(Markt, Upgrades, Reparatur)*
-**2 — Archiv & Intel** *(Rift-Seeds ansehen, Fraktionsdaten, offene Fragen)*
-**3 — Briefing MS 9** *(Nächste Mission starten)*
+**1 — Ausrüstung & Loadout** _(Markt, Upgrades, Reparatur)_
+**2 — Archiv & Intel** _(Rift-Seeds ansehen, Fraktionsdaten, offene Fragen)_
+**3 — Briefing MS 9** _(Nächste Mission starten)_
 
 **Freie Aktion:** Sag was du tust — HQ erkunden, Kontakt aufnehmen, Kodex befragen, schlafen.
 

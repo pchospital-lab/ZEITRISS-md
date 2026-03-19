@@ -1,4 +1,5 @@
 # 01-5er-rift-boss-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.058884
 - **Tokens:** in:7968 out:2332
@@ -10,6 +11,7 @@
 ---
 
 ## RIFT-094 — SCHWARZER TOD
+
 ### Casefile · Briefing · Nullzeit-HQ, Briefingraum Gamma-3
 
 ---
@@ -28,7 +30,7 @@ Kodex öffnet das Casefile.
 
 **CASEFILE: RIFT-094**
 
-**Lage:** Avignon, Oktober 1347. Die Pest hat die Stadt noch nicht vollständig erfasst — aber sie kommt. Und mit ihr etwas anderes. ITI-Sensoren registrieren eine Kausal-Infektion im Herzen der Altstadt: ein Zeitriss der Klasse III, verankert an einem einzigen Punkt — dem sogenannten **Pestdoktor**, bekannt unter dem Alias *"Le Médecin Noir"*. Kein historischer Arzt. Kein Scharlatan. Eine Anomalie in Menschengestalt, die seit drei Wochen durch Avignon geht, Sterbende berührt und weiterzieht.
+**Lage:** Avignon, Oktober 1347. Die Pest hat die Stadt noch nicht vollständig erfasst — aber sie kommt. Und mit ihr etwas anderes. ITI-Sensoren registrieren eine Kausal-Infektion im Herzen der Altstadt: ein Zeitriss der Klasse III, verankert an einem einzigen Punkt — dem sogenannten **Pestdoktor**, bekannt unter dem Alias _"Le Médecin Noir"_. Kein historischer Arzt. Kein Scharlatan. Eine Anomalie in Menschengestalt, die seit drei Wochen durch Avignon geht, Sterbende berührt und weiterzieht.
 
 Die Seuchenkurve stimmt nicht. Die Pest tötet in dieser Zeitlinie dreimal schneller als in der gesicherten Chronik. Zu viele Tote, zu früh. In 14 Tagen Spielzeit stirbt der Papst — Clemens VI. lebt in der gesicherten Linie bis 1352. Stirbt er jetzt, kollabiert die kirchliche Struktur Südfrankreichs. Dominoeffekt. Casefile-Querverweise zeigen Verbindung zur Fraktion **Ordo Mnemonika** (Fraktionswert: −2). Die Warnung aus EP8 klingt nach.
 

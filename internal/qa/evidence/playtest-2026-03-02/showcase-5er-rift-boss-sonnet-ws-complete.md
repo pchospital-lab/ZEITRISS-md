@@ -17,6 +17,7 @@ Spiel starten (solo schnell)
 Ich will eine **5er-Gruppe Rift-Op, Level 8-9, Episodenboss-Konfrontation**.
 
 Setup:
+
 - Mein Charakter: Der Taktiker. STR 2, GES 4, INT 5, CHA 3, TEMP 3, SYS 1. Talente: Spurenanalyse +3, Täuschung +2.
 - 4 NPCs im Squad: Eine Scharfschützin, ein Nahkämpfer, eine Hackerin, ein Sanitäter. Gib ihnen Namen und Persönlichkeit.
 - Setting: Rift-Op in eine Epoche deiner Wahl — überrasch mich. Etwas Unerwartetes, kein Standard-Mittelalter.
@@ -73,7 +74,7 @@ Lvl 8 ▓▓▓▓▓▓▓▓░░ 8/10 · Px 3/5 · Stress 0/12 · Obj — ·
 
 ## EINLEITUNG
 
-*Die Nullzeit riecht nach Ozon und kaltem Metall. Sie riecht immer nach Ozon und kaltem Metall. Das ist der Geruch von Orten, die aus der Zeit herausgefallen sind.*
+_Die Nullzeit riecht nach Ozon und kaltem Metall. Sie riecht immer nach Ozon und kaltem Metall. Das ist der Geruch von Orten, die aus der Zeit herausgefallen sind._
 
 Das ITI-Hauptquartier liegt zwischen den Sekunden — eine Megacity aus Glas und Beton, die keine Uhr braucht, weil Zeit hier kein Konsens ist. Du kennst die Wege: Sprungkammer Ebene 3, Briefingraum 7-C, Kantine mit dem Kaffee der immer zu heiß ist.
 
@@ -97,11 +98,11 @@ Die Karte zeigt **Nordperu. 1986.**
 
 Sie lässt das sacken.
 
-> **LANG:** "Was ihr findet: Eine Forschungsstation. Offiziell: US-amerikanisches Botanik-Projekt. Inoffiziell: Tarnoperation des *Orden del Eje Quieto* — ihr kennt sie als die Stille Achse. Die Fraktion, die seit Episode 1 unsere Sprungdaten abgreift."
+> **LANG:** "Was ihr findet: Eine Forschungsstation. Offiziell: US-amerikanisches Botanik-Projekt. Inoffiziell: Tarnoperation des _Orden del Eje Quieto_ — ihr kennt sie als die Stille Achse. Die Fraktion, die seit Episode 1 unsere Sprungdaten abgreift."
 
 Yuki hört auf zu kauen.
 
-> **LANG:** "Die Stille Achse hat in diesem Zeitfenster einen Anchor-Punkt installiert. Ein physisches Gerät — wir nennen es den *Kern*. Wenn der Kern aktiv bleibt, können sie von 1986 aus jede unserer Missionen in Episode 2 rückwirkend kompromittieren. Alle acht. Inklusive dieser."
+> **LANG:** "Die Stille Achse hat in diesem Zeitfenster einen Anchor-Punkt installiert. Ein physisches Gerät — wir nennen es den _Kern_. Wenn der Kern aktiv bleibt, können sie von 1986 aus jede unserer Missionen in Episode 2 rückwirkend kompromittieren. Alle acht. Inklusive dieser."
 
 Hammer dreht den Ring schneller.
 
@@ -121,21 +122,21 @@ Sie faltet die Karte zusammen.
 
 ---
 
-**ARNAUD** *(setzt den Kaffeebecher ab)*: "Medizinische Versorgung vor Ort?"
+**ARNAUD** _(setzt den Kaffeebecher ab)_: "Medizinische Versorgung vor Ort?"
 
 > **LANG:** "Nichts, was ihr nicht mitbringt."
 
-**HAMMER** *(grinst)*: "Wieviele Achse-Leute?"
+**HAMMER** _(grinst)_: "Wieviele Achse-Leute?"
 
 > **LANG:** "Schätzung: zwölf bis fünfzehn. Bewaffnet. Einige könnten Chrono-Ausrüstung tragen — geklaute ITI-Technologie."
 
-**VOSS** *(ohne sich umzudrehen)*: "Sichtlinien?"
+**VOSS** _(ohne sich umzudrehen)_: "Sichtlinien?"
 
 > **LANG:** "Dschungel. Keine."
 
 Voss nickt. Das schien sie interessiert zu haben.
 
-**YUKI** *(zieht ein Kabel durch die Finger)*: "Der Kern — welche Schnittstelle? Mechanisch? Digital?"
+**YUKI** _(zieht ein Kabel durch die Finger)_: "Der Kern — welche Schnittstelle? Mechanisch? Digital?"
 
 > **LANG:** "Unbekannt. Vargas hat die Baupläne. Die sind nicht in unseren Daten."
 
@@ -152,17 +153,17 @@ Lang schiebt eine Kiste über den Tisch.
 
 **STANDARD-LOADOUT (angepasst an 1986-Tarnung):**
 
-| Item | Kategorie | Notiz |
-|---|---|---|
-| Feldmesser, Militär | Nahkampf | Epochenkonform |
-| Beretta 92F (2 Magazine) | Seitenwaffe | 1986-konform |
-| Dragunov-Kopie (Voss) | Scharfschütze | Modifiziert, Schalldämpfer |
-| Kabelset Typ-3 + Universaladapter (Yuki) | Tech | Für Kern-Analyse |
-| Feldverbandskasten (Arnaud) | Medizin | 4× Vollheilung, 6× Stabilisierung |
-| Comlink-Set (5×) | Komm | Kurzwelle, epochenkonform getarnt |
-| Rauchgranaten (3×) | Taktik | Geteilt |
-| EMP-Handgranate (1×) | Tech | Letzte Option gegen den Kern |
-| Jammer (Yuki) | Tech | Stört lokale Kommunikation 50m Radius |
+| Item                                     | Kategorie     | Notiz                                 |
+| ---------------------------------------- | ------------- | ------------------------------------- |
+| Feldmesser, Militär                      | Nahkampf      | Epochenkonform                        |
+| Beretta 92F (2 Magazine)                 | Seitenwaffe   | 1986-konform                          |
+| Dragunov-Kopie (Voss)                    | Scharfschütze | Modifiziert, Schalldämpfer            |
+| Kabelset Typ-3 + Universaladapter (Yuki) | Tech          | Für Kern-Analyse                      |
+| Feldverbandskasten (Arnaud)              | Medizin       | 4× Vollheilung, 6× Stabilisierung     |
+| Comlink-Set (5×)                         | Komm          | Kurzwelle, epochenkonform getarnt     |
+| Rauchgranaten (3×)                       | Taktik        | Geteilt                               |
+| EMP-Handgranate (1×)                     | Tech          | Letzte Option gegen den Kern          |
+| Jammer (Yuki)                            | Tech          | Stört lokale Kommunikation 50m Radius |
 
 **DEINE AUSRÜSTUNG (Taktiker):**
 Beretta 92F · Feldmesser · Comlink · Fernglas (militärisch) · Signalmarkierer (3×)
@@ -237,11 +238,11 @@ Der Amazonas riecht nach Fäulnis und Wachstum und Regen, der seit Stunden fäll
 
 Dschungel-Nacht ist nicht dunkel. Sie ist grün-schwarz und voller Geräusche. Zikaden, Frösche, irgendwo Wasser. Der Regen trommelt auf Blätter, die so groß sind wie Schilde. Dreißig Meter über euch: Blätterdach, das den Himmel auslöscht.
 
-Hammer wischt sich Schlamm vom Knie. Flüstert: *"Ich dachte, Dschungel ist romantisch."*
+Hammer wischt sich Schlamm vom Knie. Flüstert: _"Ich dachte, Dschungel ist romantisch."_
 
 Yuki zieht bereits ihr Comlink heraus und gleicht Koordinaten ab.
 
-> **YUKI** *(leise)*: "Station ist vierhundert Meter nordnordost. Ich sehe... warte."
+> **YUKI** _(leise)_: "Station ist vierhundert Meter nordnordost. Ich sehe... warte."
 
 Sie hält inne. Schaut auf das Display.
 
@@ -299,7 +300,7 @@ Obj: Kern lokalisieren · Exfil T-17:58:40
 
 Du gibst die Zeichen. Keine Worte — Handzeichen, die das Team seit Monaten kennt. Voss löst sich lautlos in die Dunkelheit auf, Dragunov quer über den Rücken. Yuki zieht den Wärmescanner hoch und kauert sich neben Arnaud hinter einen Baumstamm, der dicker ist als ein Auto breit.
 
-> **ARNAUD** *(flüstert, fast belustigt)*: „Ich halte die Stellung. Wie immer."
+> **ARNAUD** _(flüstert, fast belustigt)_: „Ich halte die Stellung. Wie immer."
 
 Dann bist du und Hammer allein im Regen.
 
@@ -374,7 +375,7 @@ Hammer lässt ihn langsam in den Schlamm gleiten. Schaut auf dich. Tippt auf sei
 
 Du nimmst das Gerät.
 
-> **Du** *(leise ins Comlink)*: „In Position. Go."
+> **Du** _(leise ins Comlink)_: „In Position. Go."
 
 Eine Sekunde Stille.
 
@@ -385,7 +386,7 @@ Kodex: Posten 1 — neutralisiert (Hammer, KO). Posten 2 — neutralisiert (Voss
 Noise: 0. Heat: 0. Perimeter: vorübergehend offen.
 ```
 
-> **YUKI** *(Comlink, Flüstern)*: „Scanner zeigt keine weiteren Wärmesignaturen in 80 Metern. Ihr habt ein Fenster. Vielleicht vier Minuten bis zur nächsten Posten-Rotation."
+> **YUKI** _(Comlink, Flüstern)_: „Scanner zeigt keine weiteren Wärmesignaturen in 80 Metern. Ihr habt ein Fenster. Vielleicht vier Minuten bis zur nächsten Posten-Rotation."
 
 ---
 
@@ -404,7 +405,7 @@ Heißes Loot: AK + Funkgerät erhöhen Heat bei Sichtbarkeit. Verstecken oder en
 
 Hammer hebt den Lageplan auf. Hält ihn unter sein Nachtsichtgerät.
 
-> **HAMMER** *(Flüstern, konzentriert)*: „Da. Gebäudegrundriss. Drei Strukturen — eine größer, zwei kleiner. Und hier..." Er tippt auf eine Stelle in der Mitte. „Kreis mit einem X. Handgeschrieben."
+> **HAMMER** _(Flüstern, konzentriert)_: „Da. Gebäudegrundriss. Drei Strukturen — eine größer, zwei kleiner. Und hier..." Er tippt auf eine Stelle in der Mitte. „Kreis mit einem X. Handgeschrieben."
 
 Er reicht dir den Plan.
 
@@ -450,10 +451,11 @@ INTEL / RISIKEN / ZEITFENSTER
 
 Option 2 — Funkgerät auswerten, aber schnell. Yuki hat 90 Sekunden, nicht mehr. Während sie den Funk knackt, studiere ich den Lageplan mit Spurenanalyse. Voss hält überwatch. Hammer sichert den neutralisierten Posten. Danach: Westseite — blinde Seite rein. Yuki vorn mit Scanner, ich dirigiere.
 
-Ab hier: Spiel ALLE Rollen weiter, inklusive meinen Taktiker. Ich spiele taktisch klug, nutze das Team, gehe kalkulierte Risiken ein. Wähle bei jeder Entscheidung die klügste Option. 
+Ab hier: Spiel ALLE Rollen weiter, inklusive meinen Taktiker. Ich spiele taktisch klug, nutze das Team, gehe kalkulierte Risiken ein. Wähle bei jeder Entscheidung die klügste Option.
 
 Spiel die restlichen Szenen komplett durch bis zum Debrief:
-- Infiltration der Station (2-3 Szenen) 
+
+- Infiltration der Station (2-3 Szenen)
 - Boss-Konfrontation mit Vargas
 - Kern-Zerstörung
 - Exfil
@@ -475,7 +477,7 @@ Obj: Kern lokalisieren · Exfil T-17:51:20
 
 Du gibst Yuki das Funkgerät. Sie schaut es an wie ein Koch, der einen fremden Herd sieht — zwei Sekunden Einschätzung, dann ist sie drin.
 
-> **YUKI** *(flüstert, bereits hantierend)*: „Kurzwelle, modifiziert. Jemand hat die Standardfrequenzen verschoben. Clever. Nicht clever genug."
+> **YUKI** _(flüstert, bereits hantierend)_: „Kurzwelle, modifiziert. Jemand hat die Standardfrequenzen verschoben. Clever. Nicht clever genug."
 
 Sie klemmt das Gerät zwischen Knie und Baum, zieht ein dünnes Kabel aus ihrer Tasche und verbindet es mit ihrem Handscanner — Universaladapter, Typ-3-Kabelset, direkt ins Signaleingangsmodul des Funkgeräts. Ihre Finger arbeiten ohne Zögern.
 
@@ -501,7 +503,7 @@ Drei Strukturen. Du benennst sie intern:
 
 **Beta** — Kleineres Gebäude, westlich von Alpha. Verbunden durch einen überdachten Gang. Keine Eingänge markiert, aber ein Symbol, das du als Generator oder Stromversorgung interpretierst. Wer Beta kontrolliert, kontrolliert das Licht in Alpha.
 
-**Gamma** — Südöstlich, freistehendes Gebäude. Handschriftlich daneben: *"alojamiento"* — Unterkunft. Wo die Leute schlafen. Wo die meisten Körper sind.
+**Gamma** — Südöstlich, freistehendes Gebäude. Handschriftlich daneben: _"alojamiento"_ — Unterkunft. Wo die Leute schlafen. Wo die meisten Körper sind.
 
 Die Westseite von Alpha hat keine Markierungen. Keine Eingänge, keine Fenster auf dem Plan. Aber: der überdachte Gang von Beta läuft direkt daran vorbei. Wer durch Beta geht, kommt an Alphas Westmauer entlang — und der Zeichner hat diese Route nicht für schützenswert gehalten.
 
@@ -519,7 +521,7 @@ Alternativ: Stromabschaltung in Beta löscht Licht in Alpha — taktischer Vorte
 
 Achtzig Sekunden.
 
-> **YUKI** *(Zähne zusammengebissen)*: „Verschlüsselung ist primitiv. 1986-primitiv. Das ist fast..." Sie hält inne. „Fast beleidigend."
+> **YUKI** _(Zähne zusammengebissen)_: „Verschlüsselung ist primitiv. 1986-primitiv. Das ist fast..." Sie hält inne. „Fast beleidigend."
 
 ```
 Probe: Systemeinbruch (Yuki) → W6: [5] + INT 6/2 + Talent 4 = 5+3+4 = 12 vs SG 8 → TREFFER
@@ -529,9 +531,9 @@ Das Gerät knistert. Dann: Stimmen.
 
 Spanisch. Zwei Männer. Du verstehst genug — dein Taktiker-Briefing hat Grundlagen-Spanisch eingeschlossen, und Yuki tippt gleichzeitig eine Rohübersetzung auf ihren Handscanner.
 
-> **YUKI** *(flüstert, übersetzt)*: „...Rotation in zwei Minuten... Posten Drei antwortet nicht... Wahrscheinlich schläft er wieder... Vargas wird morgen früh beim Kern sein, nicht heute Nacht... Der Direktor ist in Alpha, Nordraum..."
+> **YUKI** _(flüstert, übersetzt)_: „...Rotation in zwei Minuten... Posten Drei antwortet nicht... Wahrscheinlich schläft er wieder... Vargas wird morgen früh beim Kern sein, nicht heute Nacht... Der Direktor ist in Alpha, Nordraum..."
 
-Sie schaut auf. Ihre Augen sagen: *Das ist Gold.*
+Sie schaut auf. Ihre Augen sagen: _Das ist Gold._
 
 > **YUKI**: „Vargas ist drin. Nordraum. Und Posten-Drei — das sind wir. Sie werden in zwei Minuten merken, dass er nicht antwortet."
 
@@ -543,13 +545,13 @@ Empfehle sofortigen Aufbruch — Westroute via Beta.
 
 Du rollst den Lageplan zusammen. Steckst ihn weg.
 
-> **Du** *(ins Comlink, flüsternd)*: „Voss. Wir gehen West. Beta zuerst, dann Alpha-Nord. Vargas sitzt im Nordraum. Halte Sichtlinie auf Süd-Eingang — falls jemand rauskommt."
+> **Du** _(ins Comlink, flüsternd)_: „Voss. Wir gehen West. Beta zuerst, dann Alpha-Nord. Vargas sitzt im Nordraum. Halte Sichtlinie auf Süd-Eingang — falls jemand rauskommt."
 
-> **VOSS** *(Comlink, trocken)*: „Verstanden."
+> **VOSS** _(Comlink, trocken)_: „Verstanden."
 
-> **Du** *(zu Hammer)*: „Du bist hinter mir. Yuki führt mit dem Scanner. Arnaud, du deckst unseren Rückweg ab — bleib am Waldrand bis ich rufe."
+> **Du** _(zu Hammer)_: „Du bist hinter mir. Yuki führt mit dem Scanner. Arnaud, du deckst unseren Rückweg ab — bleib am Waldrand bis ich rufe."
 
-> **ARNAUD** *(nickt, ruhig)*: „Ich bin da."
+> **ARNAUD** _(nickt, ruhig)_: „Ich bin da."
 
 ---
 
@@ -567,13 +569,13 @@ Eine Tür, Südseite. Offen — ein Spalt, Licht fällt heraus, orangegelb, Glü
 
 Yuki hebt die Hand. Ihr bleibt stehen.
 
-> **YUKI** *(Handzeichen, dann Flüstern)*: „Eine Wärmesignatur. Sitzt. Bewegt sich kaum."
+> **YUKI** _(Handzeichen, dann Flüstern)_: „Eine Wärmesignatur. Sitzt. Bewegt sich kaum."
 
 Ein Wachmann. Oder ein Techniker. Beides ist möglich.
 
 Du schaust auf Hammer. Er schaut zurück. Dann auf die offene Tür.
 
-> **Du** *(flüsternd)*: „Ich gehe rein. Social Engineering — Techniker sucht Generator-Problem. Du bleibst außen, Tür im Auge."
+> **Du** _(flüsternd)_: „Ich gehe rein. Social Engineering — Techniker sucht Generator-Problem. Du bleibst außen, Tür im Auge."
 
 Hammer runzelt die Stirn. Nickt dann.
 
@@ -587,11 +589,11 @@ Die Tür aufdrücken. Reingehen.
 
 Der Raum riecht nach Diesel und heißem Metall. Generator links, ein Ungetüm aus den Siebzigern, Kabel wie Schlangenknäuel. Rechts: ein Klapptisch, eine Lampe, ein Mann.
 
-Vierzig, Schnauzbart, Militärhemd ohne Abzeichen. Schaut auf von einer Zeitung — *El Comercio*, das Datum stimmt. Greift nach der Waffe an seinem Gürtel, noch nicht, nur Reflex.
+Vierzig, Schnauzbart, Militärhemd ohne Abzeichen. Schaut auf von einer Zeitung — _El Comercio_, das Datum stimmt. Greift nach der Waffe an seinem Gürtel, noch nicht, nur Reflex.
 
 Du redest zuerst.
 
-> **Du** *(Spanisch, ruhig, leicht genervt)*: „El generador está haciendo un ruido extraño. Vargas quiere que alguien lo revise." — *Der Generator macht ein komisches Geräusch. Vargas will, dass jemand nachschaut.*
+> **Du** _(Spanisch, ruhig, leicht genervt)_: „El generador está haciendo un ruido extraño. Vargas quiere que alguien lo revise." — _Der Generator macht ein komisches Geräusch. Vargas will, dass jemand nachschaut._
 
 ```
 Probe: Täuschung → W6: [3] + CHA 3/2 + Talent 2 = 3+1+2 = 6 vs SG 7 → MISS — knapp
@@ -599,7 +601,7 @@ Probe: Täuschung → W6: [3] + CHA 3/2 + Talent 2 = 3+1+2 = 6 vs SG 7 → MISS 
 
 Der Mann schaut dich an. Dann auf den Generator. Dann wieder auf dich.
 
-> **MANN**: „¿Quién eres tú?" — *Wer bist du?*
+> **MANN**: „¿Quién eres tú?" — _Wer bist du?_
 
 Er steht auf. Hand jetzt fester am Gürtel.
 
@@ -636,7 +638,7 @@ Kodex: Techniker — KO, nicht letal. Schätzung: 8–12 Minuten bewusstlos.
 
 Hammer ist bereits drin, Tür hinter sich. Er schaut auf den Mann, dann auf dich.
 
-> **HAMMER** *(leise, anerkennend)*: „Nicht schlecht für einen Taktiker."
+> **HAMMER** _(leise, anerkennend)_: „Nicht schlecht für einen Taktiker."
 
 ---
 
@@ -655,11 +657,11 @@ Schlüsselbund: Kein heißes Loot. Generator-Schaltkasten: Taktische Option (Lic
 
 Du schaust auf den Schaltkasten. Dann auf Yuki, die bereits die Kabel studiert.
 
-> **YUKI** *(flüsternd)*: „Wenn ich hier den Hauptschalter umlege, ist Alpha dunkel. Komplett. Vargas auch."
+> **YUKI** _(flüsternd)_: „Wenn ich hier den Hauptschalter umlege, ist Alpha dunkel. Komplett. Vargas auch."
 
 > **Du**: „Noch nicht. Erst wenn wir drin sind und wissen wo er sitzt."
 
-> **YUKI** *(nickt)*: „Auf dein Signal."
+> **YUKI** _(nickt)_: „Auf dein Signal."
 
 Der überdachte Gang beginnt fünf Meter von der Nordtür von Beta. Wellblech-Dach, offene Seiten, Regen fällt schräg rein. Er führt direkt an Alphas Westmauer entlang — zwanzig Meter, keine Deckung, aber auch keine Fenster auf dieser Seite.
 
@@ -687,7 +689,7 @@ Der Lageplan sagt: Nordraum ist links.
 
 Du gibst Yuki das Zeichen. Sie schiebt den Scanner vor sich her, flach an der Wand entlang.
 
-> **YUKI** *(Handzeichen)*: Drei Signaturen rechts. Eine links — Nordraum. Sitzt. Bewegt sich nicht.
+> **YUKI** _(Handzeichen)_: Drei Signaturen rechts. Eine links — Nordraum. Sitzt. Bewegt sich nicht.
 
 Vargas.
 
@@ -737,7 +739,7 @@ Er dreht sich um, bevor du einen Schritt machst.
 
 Keine Überraschung auf seinem Gesicht. Keine Angst. Nur — Interesse.
 
-> **VARGAS** *(Spanisch, dann Englisch, als er dich ansieht)*: „Ich habe mich gefragt, welche Route ihr nehmt. West war meine zweite Vermutung."
+> **VARGAS** _(Spanisch, dann Englisch, als er dich ansieht)_: „Ich habe mich gefragt, welche Route ihr nehmt. West war meine zweite Vermutung."
 
 Seine Stimme ist ruhig. Das Englisch ist akzentfrei.
 
@@ -749,9 +751,9 @@ Er zieht einen Stuhl vom Tisch und setzt sich selbst, Beine übereinandergeschla
 
 Hammer ist halb im Raum, Fäuste geschlossen. Du hältst ihn mit einem Handzeichen.
 
-> **Du** *(ruhig, Beretta auf Vargas)*: „Reden. Warum?"
+> **Du** _(ruhig, Beretta auf Vargas)_: „Reden. Warum?"
 
-> **VARGAS** *(lächelt, nicht warm)*: „Weil ihr den falschen Auftrag habt. Der Kern ist nicht das, was euer ITI euch gesagt hat. Er ist kein Anker für unsere Operationen. Er ist ein Sicherheitsventil."
+> **VARGAS** _(lächelt, nicht warm)_: „Weil ihr den falschen Auftrag habt. Der Kern ist nicht das, was euer ITI euch gesagt hat. Er ist kein Anker für unsere Operationen. Er ist ein Sicherheitsventil."
 
 Er lehnt sich vor.
 
@@ -792,13 +794,13 @@ Aber: er schaut einmal, kurz, nach rechts. Zur Tür auf der anderen Seite des Ra
 
 Dort ist etwas. Oder jemand.
 
-> **Du** *(ruhig, ohne die Waffe zu senken)*: „Yuki. Zweite Tür, rechts vom Regal. Jetzt."
+> **Du** _(ruhig, ohne die Waffe zu senken)_: „Yuki. Zweite Tür, rechts vom Regal. Jetzt."
 
 Vargas' Augen verengen sich. Minimal. Er hat nicht erwartet, dass du das siehst.
 
-> **YUKI** *(tritt in den Raum, Scanner hoch)*: „...Wärmesignatur. Hinter der Tür. Groß."
+> **YUKI** _(tritt in den Raum, Scanner hoch)_: „...Wärmesignatur. Hinter der Tür. Groß."
 
-> **VARGAS** *(hebt die Hände, langsam)*: „Das ist Schutz. Kein Angriff. Ich bin allein hier reingekommen — fast."
+> **VARGAS** _(hebt die Hände, langsam)_: „Das ist Schutz. Kein Angriff. Ich bin allein hier reingekommen — fast."
 
 > **Du**: „Ruf ihn raus."
 
@@ -810,15 +812,15 @@ Die zweite Tür öffnet sich.
 
 ---
 
-Der Mann, der herauskommt, ist nicht groß. Er ist *massiv* — ein Kopf größer als Hammer, Schultern wie Träger, ein Gesicht das aussieht als wäre es mehrfach neu zusammengesetzt worden. Er trägt kein Gewehr. Er trägt nichts. Das macht ihn nicht weniger bedrohlich.
+Der Mann, der herauskommt, ist nicht groß. Er ist _massiv_ — ein Kopf größer als Hammer, Schultern wie Träger, ein Gesicht das aussieht als wäre es mehrfach neu zusammengesetzt worden. Er trägt kein Gewehr. Er trägt nichts. Das macht ihn nicht weniger bedrohlich.
 
-> **VARGAS** *(zu dem Mann)*: „Ruhig, Cobre."
+> **VARGAS** _(zu dem Mann)_: „Ruhig, Cobre."
 
 Cobre bleibt stehen. Schaut auf dich. Schaut auf Hammer. Schaut wieder auf dich.
 
 Hammer schaut zurück. Zum ersten Mal heute Nacht sieht Hammer nicht entspannt aus.
 
-> **VARGAS** *(zu dir)*: „Also. Ihr habt drei Optionen, wie ich das sehe. Ihr schießt mich, Cobre tötet mindestens einen von euch, meine Leute kommen auf den Lärm, und ihr habt einen toten Taktiker und einen zerstörten Kern und einen offenen Rift in neun Stunden. Oder: Ihr glaubt mir nicht, fesselt mich, zerstört den Kern, und wir sehen in neun Stunden, wer recht hatte. Oder—"
+> **VARGAS** _(zu dir)_: „Also. Ihr habt drei Optionen, wie ich das sehe. Ihr schießt mich, Cobre tötet mindestens einen von euch, meine Leute kommen auf den Lärm, und ihr habt einen toten Taktiker und einen zerstörten Kern und einen offenen Rift in neun Stunden. Oder: Ihr glaubt mir nicht, fesselt mich, zerstört den Kern, und wir sehen in neun Stunden, wer recht hatte. Oder—"
 
 Er hält inne.
 
@@ -851,7 +853,7 @@ Obj: Kern-Entscheidung · Exfil T-17:35:00
 
 Du lässt Vargas fünf Minuten. Nicht zehn.
 
-> **Du** *(zu Vargas)*: „Fünf. Cobre bleibt wo er ist. Yuki kommt mit. Hammer — Tür im Auge."
+> **Du** _(zu Vargas)_: „Fünf. Cobre bleibt wo er ist. Yuki kommt mit. Hammer — Tür im Auge."
 
 Vargas nickt. Steht auf, geht zur zweiten Tür. Cobre macht keinen Schritt. Hammer stellt sich so, dass er beide sehen kann.
 
@@ -861,7 +863,7 @@ Er ist unspektakulär. Ein Metallzylinder, sechzig Zentimeter hoch, dreißig Dur
 
 Die Anzeige zeigt Koordinaten und eine Wellenform. Die Wellenform pulsiert.
 
-> **VARGAS** *(tritt daneben, zeigt auf die Anzeige)*: „Das sind Chrono-Verwerfungen. Nicht unsere — wir können sie messen, nicht erzeugen. Schaut hier—"
+> **VARGAS** _(tritt daneben, zeigt auf die Anzeige)_: „Das sind Chrono-Verwerfungen. Nicht unsere — wir können sie messen, nicht erzeugen. Schaut hier—"
 
 Er tippt auf das Display. Die Wellenform zoomt raus. Sechzehn Spitzen. Sechzehn Ereignisse.
 
@@ -869,9 +871,9 @@ Er tippt auf das Display. Die Wellenform zoomt raus. Sechzehn Spitzen. Sechzehn 
 
 Yuki hat ihr Kabelset bereits in der Hand. Sie schaut dich an.
 
-> **YUKI** *(flüsternd)*: „Ich kann die Daten auslesen. Zwei Minuten. Dann wissen wir ob er lügt."
+> **YUKI** _(flüsternd)_: „Ich kann die Daten auslesen. Zwei Minuten. Dann wissen wir ob er lügt."
 
-> **VARGAS** *(hat es gehört)*: „Bitte."
+> **VARGAS** _(hat es gehört)_: „Bitte."
 
 ---
 
@@ -885,7 +887,7 @@ Yuki schließt Kabelset Typ-3 an den Universaladapter an, verbindet ihn mit der 
 
 Neunzig Sekunden.
 
-> **YUKI** *(leise, zunehmend ernst)*: „Die Wellenform-Daten sind echt. Das ist kein Konstrukt — das sind echte Messwerte. Sechzehn Ereignisse, Koordinaten stimmen mit bekannten Rift-Zonen überein." Pause. „Und — hier. Der Kern hat eine Stabilisierungsfunktion. Aktiv seit drei Monaten, passiv. Wenn er morgen früh aktiviert wird, projiziert er ein Dämpfungsfeld. Radius: zweihundert Kilometer. Dauer: schätzungsweise drei Jahre."
+> **YUKI** _(leise, zunehmend ernst)_: „Die Wellenform-Daten sind echt. Das ist kein Konstrukt — das sind echte Messwerte. Sechzehn Ereignisse, Koordinaten stimmen mit bekannten Rift-Zonen überein." Pause. „Und — hier. Der Kern hat eine Stabilisierungsfunktion. Aktiv seit drei Monaten, passiv. Wenn er morgen früh aktiviert wird, projiziert er ein Dämpfungsfeld. Radius: zweihundert Kilometer. Dauer: schätzungsweise drei Jahre."
 
 Sie schaut auf.
 
@@ -893,13 +895,13 @@ Sie schaut auf.
 
 Vargas sagt nichts. Er muss nicht.
 
-Du stehst vor dem Kern. Beretta noch in der Hand. Denkst an Lang: *Zerstört ihn.* Denkst an die sechzehn Wellenform-Spitzen. Denkst an den Agenten in Bogotá, den Arnaud kannte.
+Du stehst vor dem Kern. Beretta noch in der Hand. Denkst an Lang: _Zerstört ihn._ Denkst an die sechzehn Wellenform-Spitzen. Denkst an den Agenten in Bogotá, den Arnaud kannte.
 
 Dann denkst du: Vargas hat unsere Sprungdaten. Er hat Agenten kompromittiert. Er hat Menschen getötet. Das ist auch wahr.
 
 Beides ist wahr. Das ist das Problem.
 
-> **Du** *(zu Vargas)*: „Der Kern bleibt. Aber du kommst mit uns."
+> **Du** _(zu Vargas)_: „Der Kern bleibt. Aber du kommst mit uns."
 
 Vargas blinzelt. Das hat er nicht erwartet.
 
@@ -907,7 +909,7 @@ Vargas blinzelt. Das hat er nicht erwartet.
 
 Du lässt den Satz offen.
 
-> **VARGAS** *(nach einem Moment)*: „Und Cobre?"
+> **VARGAS** _(nach einem Moment)_: „Und Cobre?"
 
 > **Du**: „Cobre bleibt hier. Er schläft ein bisschen."
 
@@ -925,13 +927,13 @@ Obj: Vargas sichern → Exfil · Exfil T-17:31:45
 
 Cobre schläft nicht freiwillig.
 
-Das ist das Problem mit Männern seiner Größe — sie wissen, was kommt, sobald du das Wort *schläft* benutzt. Er bewegt sich, bevor du fertig gesprochen hast: ein Schritt nach links, Hände hoch aber nicht ergeben, Augen auf Hammer.
+Das ist das Problem mit Männern seiner Größe — sie wissen, was kommt, sobald du das Wort _schläft_ benutzt. Er bewegt sich, bevor du fertig gesprochen hast: ein Schritt nach links, Hände hoch aber nicht ergeben, Augen auf Hammer.
 
-> **VARGAS** *(scharf)*: „Cobre. Para."
+> **VARGAS** _(scharf)_: „Cobre. Para."
 
 Ein Zögern. Dann: Cobre bleibt stehen. Hände offen. Augen immer noch auf Hammer.
 
-> **HAMMER** *(leise, zu dir)*: „Ich mach das."
+> **HAMMER** _(leise, zu dir)_: „Ich mach das."
 
 ---
 
@@ -953,9 +955,9 @@ Dann sackt Cobre.
 
 Hammer richtet sich auf. Zieht einmal tief Luft.
 
-> **HAMMER** *(zu Vargas, atemlos)*: „Er wacht auf. Ohne Knochenschaden."
+> **HAMMER** _(zu Vargas, atemlos)_: „Er wacht auf. Ohne Knochenschaden."
 
-> **VARGAS** *(neutral)*: „Gut."
+> **VARGAS** _(neutral)_: „Gut."
 
 ```
 Kodex: Stress +1. Aktuell: 3/12.
@@ -975,19 +977,19 @@ Obj: Exfil mit Gefangenem · Exfil T-17:28:20
 
 Du drückst den Comlink.
 
-> **Du** *(leise, klar)*: „Voss. Wir kommen raus — West, durch Beta, dann Nordrand. Wir haben einen Gefangenen. Hochwertig. Kein Lärm."
+> **Du** _(leise, klar)_: „Voss. Wir kommen raus — West, durch Beta, dann Nordrand. Wir haben einen Gefangenen. Hochwertig. Kein Lärm."
 
-> **VOSS** *(sofort)*: „Verstanden. Südeingang — Bewegung. Zwei Männer, Taschenlampen, suchen Posten. Ihr habt maximal vier Minuten."
+> **VOSS** _(sofort)_: „Verstanden. Südeingang — Bewegung. Zwei Männer, Taschenlampen, suchen Posten. Ihr habt maximal vier Minuten."
 
 > **Du**: „Arnaud. Nordrand, dreißig Meter in den Wald. Markier den Treffpunkt."
 
-> **ARNAUD** *(Comlink, ruhig)*: „Bereits dort."
+> **ARNAUD** _(Comlink, ruhig)_: „Bereits dort."
 
 Vargas bekommt Kabelbinder an die Handgelenke — vor dem Körper, nicht hinter dem Rücken. Du willst, dass er gehen kann. Yuki zieht den Lageplan noch einmal raus, reißt die Kern-Sektion ab und steckt sie ein. Hammer nimmt die Datenkabel vom Kern — nicht die Stromkabel, nur die Datenkabel. Der Kern läuft weiter. Die Anzeige pulsiert unverändert.
 
-> **Du** *(zu Vargas)*: „Wenn du schreist, kann ich dir nicht versprechen was Voss macht."
+> **Du** _(zu Vargas)_: „Wenn du schreist, kann ich dir nicht versprechen was Voss macht."
 
-> **VARGAS** *(trocken)*: „Ich bin nicht suizidal."
+> **VARGAS** _(trocken)_: „Ich bin nicht suizidal."
 
 ---
 
@@ -999,7 +1001,7 @@ Regen. Schlamm. Dunkelheit.
 
 Vargas stolpert einmal — Kabelbinder, ungewohntes Terrain. Du fängst ihn ab. Er nickt, sagt nichts.
 
-Hinter euch: Stimmen. Taschenlampen, Südseite. Jemand ruft einen Namen — *"Álvaro?"* — das ist der Techniker aus dem Generator-Raum. Sie suchen.
+Hinter euch: Stimmen. Taschenlampen, Südseite. Jemand ruft einen Namen — _"Álvaro?"_ — das ist der Techniker aus dem Generator-Raum. Sie suchen.
 
 ```
 Probe: Schleichen (Gruppe mit Gefangenem) → W6: [3] + GES 4/2 + 0 = 3+2 = 5 vs SG 7 → MISS
@@ -1007,7 +1009,7 @@ Probe: Schleichen (Gruppe mit Gefangenem) → W6: [3] + GES 4/2 + 0 = 3+2 = 5 vs
 
 Vargas' Schuh bricht durch eine verrottete Wurzel. Das Knacken ist laut — nicht katastrophal, aber laut genug. Eine Taschenlampe schwenkt in eure Richtung.
 
-> **VOSS** *(Comlink, flüsternd)*: „Ich hab ihn."
+> **VOSS** _(Comlink, flüsternd)_: „Ich hab ihn."
 
 Ein Schuss — gedämpft, Schalldämpfer, Voss' Dragunov. Nicht auf den Mann. Auf den Boden drei Meter rechts von ihm. Die Taschenlampe dreht sich reflexartig weg.
 
@@ -1023,15 +1025,15 @@ Kodex: Noise-Ereignis — Ablenkungsschuss Voss. Heat +1. Aktuell: Heat 2/5.
 Kodex: Treffpunkt erreicht. Sprungfenster: T-17:22:00.
 ```
 
-> **VOSS** *(tritt aus dem Dunkel, Dragunov über der Schulter)*: „Sauber. Zwei Minuten, dann suchen sie systematisch."
+> **VOSS** _(tritt aus dem Dunkel, Dragunov über der Schulter)_: „Sauber. Zwei Minuten, dann suchen sie systematisch."
 
-> **ARNAUD** *(schaut Vargas an, ruhig)*: „Das ist also der Mann."
+> **ARNAUD** _(schaut Vargas an, ruhig)_: „Das ist also der Mann."
 
-> **VARGAS** *(schaut Arnaud an)*: „Ich kenne deinen Namen. Arnaud Delacroix. Ich kenne auch was mit deinem Agenten in Bogotá passiert ist."
+> **VARGAS** _(schaut Arnaud an)_: „Ich kenne deinen Namen. Arnaud Delacroix. Ich kenne auch was mit deinem Agenten in Bogotá passiert ist."
 
 Arnaud sagt nichts. Sein Gesicht ändert sich nicht. Aber seine Hand bewegt sich einen Zentimeter näher zur Hüfte.
 
-> **Du** *(ruhig, zwischen beiden)*: „Später. Jetzt: Sprung."
+> **Du** _(ruhig, zwischen beiden)_: „Später. Jetzt: Sprung."
 
 ---
 
@@ -1045,11 +1047,11 @@ Obj: Sprung ins HQ · Exfil T-17:19:30
 
 Das Gate-Gerät ist bei Voss — ein flacher Metallrahmen, ausklappbar, Größe eines aufgeklappten Aktenkoffers. Er stellt es auf dem Waldboden auf, Schlamm unter den Füßen, Regen auf dem Display.
 
-> **VOSS** *(tippt Koordinaten)*: „Nullzeit-Anker, Standard-HQ-Eingang. Wartezeit: neunzig Sekunden."
+> **VOSS** _(tippt Koordinaten)_: „Nullzeit-Anker, Standard-HQ-Eingang. Wartezeit: neunzig Sekunden."
 
 Vargas schaut das Gate-Gerät an. Zum ersten Mal heute Nacht sieht er etwas, das er nicht kennt.
 
-> **VARGAS** *(leise)*: „Das ist nicht Stille-Achse-Technologie."
+> **VARGAS** _(leise)_: „Das ist nicht Stille-Achse-Technologie."
 
 > **Du**: „Nein."
 
@@ -1087,17 +1089,17 @@ Lang wartet bereits. Nicht allein — zwei ITI-Sicherheitsleute hinter ihm, Arme
 
 Er schaut Vargas an. Dann dich.
 
-> **LANG** *(neutral)*: „Du hast ihn lebend."
+> **LANG** _(neutral)_: „Du hast ihn lebend."
 
 > **Du**: „Und den Kern läuft noch. Hör dir an, was er zu sagen hat."
 
 Lang schaut dich fünf Sekunden an. Dann nickt er den Sicherheitsleuten zu. Sie nehmen Vargas in Empfang — professionell, nicht brutal. Vargas lässt es geschehen.
 
-> **VARGAS** *(über die Schulter, zu dir)*: „Ich werde reden. Aber ich will, dass du dabei bist."
+> **VARGAS** _(über die Schulter, zu dir)_: „Ich werde reden. Aber ich will, dass du dabei bist."
 
 > **Du**: „Das entscheidet Lang."
 
-> **VARGAS** *(ein halbes Lächeln)*: „Natürlich."
+> **VARGAS** _(ein halbes Lächeln)_: „Natürlich."
 
 Er wird abgeführt. Die Tür schließt sich.
 
@@ -1127,7 +1129,9 @@ Kodex: Score-Screen in 60 Sekunden verfügbar.
 ---
 
 # ═══════════════════════════════════════
+
 # MISSION DEBRIEF — EP 2 · MISSION 8
+
 # ═══════════════════════════════════════
 
 ```
@@ -1387,7 +1391,7 @@ Ergebnis:
 
 Offene Fragen:
 1. Wer hat die sechzehn unkontrollierten Risse erzeugt?
-2. Was ist die 
+2. Was ist die
 
 ---
 
@@ -1401,3 +1405,4 @@ Offene Fragen:
 | WS-Status | 20/20 (erstmals inkl. Toolkit) |
 | Modell | Sonnet 4.6 |
 | Version | ZEITRISS v4.2.6 Uncut |
+```

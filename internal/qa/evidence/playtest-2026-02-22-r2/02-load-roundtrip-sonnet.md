@@ -1,4 +1,5 @@
 # 02-load-roundtrip-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.031821
 - **Tokens:** in:6717 out:778
@@ -38,6 +39,7 @@ An der Wand gegenüber dem Eingang hängt das Briefing-Board. Rotes Licht. Bedeu
 Du kannst direkt ins Briefing, oder erst die Basis nutzen.
 
 **Verfügbar im HQ:**
+
 - Ausrüstungsdepot (Loadout prüfen / tauschen)
 - Markt (4.200 CU verfügbar)
 - Archiv / Kodex-Query (RIFT-022 vorrecherchieren)

@@ -1,4 +1,5 @@
 # 05-konzeptimport-sonnet
+
 - **Model:** zeitriss-v426-uncut
 - **Tokens:** in:13856 out:423 cost:$0.047913
 - **Date:** 2026-03-17T11:12:35+01:00
@@ -23,4 +24,4 @@ Bevor ich den Bogen baue — eine kurze Frage:
 >
 > **C) Mnemonisch/Archival** — Sie liest Orte und Objekte, extrahiert Erinnerungen aus Räumen und Personen. Ideal für Ermittlung und Infiltration.
 
-*(Oder sag mir etwas anderes — das ist deine Elara.)*
+_(Oder sag mir etwas anderes — das ist deine Elara.)_

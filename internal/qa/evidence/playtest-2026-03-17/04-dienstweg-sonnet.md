@@ -1,4 +1,5 @@
 # 04-dienstweg-sonnet
+
 - **Model:** zeitriss-v426-uncut
 - **Tokens:** in:13824 out:1123 cost:$0.058317
 - **Date:** 2026-03-17T11:02:13+01:00
@@ -13,7 +14,7 @@ Das Quarzatrium ist größer als es von außen wirkt. Die Decke besteht aus gesc
 
 Die Quartiermeisterei liegt im Nordflügel, hinter einer Schleuse aus gemattetem Stahl. Der Duty-Desk-Offizier — ein stämmiger Mann mit einem Narbenstreifen über der Schläfe, Namensschild **Brenn** — schiebt dir ohne großes Aufheben eine Ausgabebox über den Tresen.
 
-*„Schnellstart-Loadout. Standard-Tier. Unterschreib hier."*
+_„Schnellstart-Loadout. Standard-Tier. Unterschreib hier."_
 
 Er tippt auf ein Pad. Du unterschreibst. Die Box enthält:
 

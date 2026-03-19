@@ -42,12 +42,14 @@ Definitionen, nicht umgekehrt.
      Muss/Soll/Kann-Semantik.
    - Status: _abgeschlossen_ (Kanon-Mini-Glossar extrahiert, 2027-03-16)
 2. **Anker-Sync README/Core (Session 1–2)**
-  - Ziel: README-Abschnitte auf den Kanon aus den Core-Quickformaten
-    harmonisieren.
-  - Gate: keine abweichende Begriffs- oder Prioritätslogik zwischen README
-    und den beiden Core-Dateien.
-  - Status: _abgeschlossen_ (Belohnungslogik + Optionalitätssemantik im README
-    auf den Core-Kanon harmonisiert, 2027-03-17)
+
+- Ziel: README-Abschnitte auf den Kanon aus den Core-Quickformaten
+  harmonisieren.
+- Gate: keine abweichende Begriffs- oder Prioritätslogik zwischen README
+  und den beiden Core-Dateien.
+- Status: _abgeschlossen_ (Belohnungslogik + Optionalitätssemantik im README
+  auf den Core-Kanon harmonisiert, 2027-03-17)
+
 3. **Gameplay-Pass (Session 2–3)**
    - Zielmodule: `gameplay/kampagnenuebersicht.md`,
      `gameplay/kampagnenstruktur.md`.
@@ -150,7 +152,6 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
   bleibt rein spielleitungsorientiert.
 - Ergebnis: Wissensmodule bleiben auf Laufzeitregeln fokussiert;
   Setup-/Bestückungsanweisungen liegen ausschließlich in README/Setup-Dokumenten.
-
 
 - Repo-weite Suchanker-Prüfung abgeschlossen (`optional`, `Pflicht`,
   `empfohlen`, `Rift`, `Belohnung`, `CU`, `Scaling`).

@@ -308,6 +308,7 @@ vs. _„Lehne als Stadtrat die Bitte ab“_).
 Optional darf die Spielleitung die Dynamik als „Wortgefecht in Runden“
 darstellen (mit Fortschrittspunkten als Visualisierung). Das bleibt ein
 Erzähl-Overlay; gewürfelt wird nur, wenn die Szene es wirklich braucht.
+
 - **Würfel & Rollenspiel Hand in Hand:** Die Spieler sollten aktiv ausspielen, _was_ ihre Figur sagt
   – platte Zahlenwürfe allein überzeugen keinen NSC. Der SL (bzw. KI-SL als KI-Spielleiter) kann für
   besonders treffende oder kreative Argumente situative **Boni oder Mali** auf die

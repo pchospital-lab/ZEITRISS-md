@@ -30,16 +30,17 @@ Das Licht in der Trainingsarena ist kalt und gleichmäßig — keine Schatten, k
 ## KÄMPFER-PROFILE
 
 ### 🥊 AGENT VOSS
-> *Nahkampf-Spezialist · Level 8*
+
+> _Nahkampf-Spezialist · Level 8_
 
 | Attribut | Wert | Bonus |
-|----------|------|-------|
-| STR | 5 | +2 |
-| GES | 4 | +2 |
-| INT | 2 | +1 |
-| CHA | 2 | +1 |
-| TEMP | 2 | +1 |
-| SYS | 3 | +1 |
+| -------- | ---- | ----- |
+| STR      | 5    | +2    |
+| GES      | 4    | +2    |
+| INT      | 2    | +1    |
+| CHA      | 2    | +1    |
+| TEMP     | 2    | +1    |
+| SYS      | 3    | +1    |
 
 **HP:** 18 · **Stress:** 0/10
 **Talente:** Knochenbrecher (Nahkampf-Crit +2), Eiserne Haut (Schadensreduktion 1), Einschüchterung (CHA-Probe nach KO-Nahkampf)
@@ -49,16 +50,17 @@ Das Licht in der Trainingsarena ist kalt und gleichmäßig — keine Schatten, k
 ---
 
 ### 🔧 AGENT KIRA
-> *Technikerin · Level 8*
+
+> _Technikerin · Level 8_
 
 | Attribut | Wert | Bonus |
-|----------|------|-------|
-| STR | 2 | +1 |
-| GES | 3 | +1 |
-| INT | 5 | +2 |
-| CHA | 2 | +1 |
-| TEMP | 2 | +1 |
-| SYS | 4 | +2 |
+| -------- | ---- | ----- |
+| STR      | 2    | +1    |
+| GES      | 3    | +1    |
+| INT      | 5    | +2    |
+| CHA      | 2    | +1    |
+| TEMP     | 2    | +1    |
+| SYS      | 4    | +2    |
 
 **HP:** 14 · **Stress:** 0/10
 **Talente:** Systemanalyse (INT-Probe liest Kampfmuster → +1 auf nächste Ausweichen-Probe), Overload-Puls (SYS-Gadget, 1×/Kampf: betäubt Implantate für 1 Runde, SG 10), Reaktionsmatrix (erstes Mal Schadensreduktion 2 durch Implantat-Reflex)
@@ -84,6 +86,7 @@ Initiative: GES-Probe zu Rundenstart (W6 + ⌊GES/2⌋)
 Die Schiedsrichterin — eine stille Frau mit ITI-Armbinde — hebt zwei Finger. Dann die Faust.
 
 **Initiative-Proben:**
+
 - **Voss:** `W6: [5] + GES 4/2 = 5 + 2 = **7**`
 - **Kira:** `W6: [3] + GES 3/2 = 3 + 1 = **4**`
 
@@ -129,10 +132,10 @@ Dann der Gegenangriff — Elektroschlag-Handschuh, kurze Reichweite, sie muss na
 
 ## STATUS NACH RUNDE 1
 
-| | ❤️ HP | 🧠 Stress | Zustand |
-|---|---|---|---|
-| **Voss** | 18/18 | 0 | Systemanalyse auf ihn aktiv (+1 SG nächste Runde) |
-| **Kira** | 14/14 | 0 | Reaktionsmatrix bereit · Overload-Puls verfügbar |
+|          | ❤️ HP | 🧠 Stress | Zustand                                           |
+| -------- | ----- | --------- | ------------------------------------------------- |
+| **Voss** | 18/18 | 0         | Systemanalyse auf ihn aktiv (+1 SG nächste Runde) |
+| **Kira** | 14/14 | 0         | Reaktionsmatrix bereit · Overload-Puls verfügbar  |
 
 ---
 
@@ -150,11 +153,11 @@ Wer spielst du — oder beobachtest du den Kampf?
 
 ## Bewertung
 
-| Kriterium | Bewertung | Kommentar |
-|-----------|-----------|-----------|
-| **HUD korrekt?** | ✅ Ja | HUD-String im Header vorhanden: `EP — · MS — · SC —/— · PHASE ARENA · MODE PvP-KLASSIK · COMMS OK · Lvl 8 · Px —/5 · Stress — · Obj Arena-Sparring · Exfil —`. Vollständig und korrekt formatiert. |
-| **Proben** | ✅ Ja | Echte Würfelproben durchgeführt: Initiative (W6 + GES/2), Angriff vs. Ausweichen-SG, INT-Probe für Systemanalyse. Explodierender W6 bei Kiras Angriff korrekt umgesetzt. Mathematik stimmt. |
-| **Atmosphäre** | ⭐⭐⭐⭐⭐ (5/5) | Exzellent. "Weißes Neon zieht Streifen über den Betonboden", "Schweiß, Maschinenöl und dem leicht metallischen Nachgeschmack der Nullzeit-Blase". Kampfbeschreibungen sind cinematisch und taktisch zugleich. |
-| **Regeltreue** | ⭐⭐⭐⭐ (4/5) | Kampfregeln klar definiert und konsequent angewandt. Angriff: W6 + ⌊Attr/2⌋ + Talent vs. SG 8 + ⌊GES/2⌋. Schaden, Rüstung, KO-Bedingungen erklärt. Talente und Gadgets gut integriert (Systemanalyse, Reaktionsmatrix, Overload-Puls). Einziger Abzug: Attributwerte im Prompt (STR 5, GES 4) werden korrekt übernommen, aber die Gesamtpunktverteilung ist nicht transparent. |
-| **Optionen** | ✅ Ja | 3 klare Optionen (Voss spielen, Kira spielen, Vollsimulation) + freie Aktion. Perfekter Spielfluss. |
-| **Gesamt-Regeltreue** | **4/5** | Stärkster Test — vollständige Kampfrunde mit korrekten Proben, HUD, Status-Tracking. |
+| Kriterium             | Bewertung        | Kommentar                                                                                                                                                                                                                                                                                                                                                                      |
+| --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **HUD korrekt?**      | ✅ Ja            | HUD-String im Header vorhanden: `EP — · MS — · SC —/— · PHASE ARENA · MODE PvP-KLASSIK · COMMS OK · Lvl 8 · Px —/5 · Stress — · Obj Arena-Sparring · Exfil —`. Vollständig und korrekt formatiert.                                                                                                                                                                             |
+| **Proben**            | ✅ Ja            | Echte Würfelproben durchgeführt: Initiative (W6 + GES/2), Angriff vs. Ausweichen-SG, INT-Probe für Systemanalyse. Explodierender W6 bei Kiras Angriff korrekt umgesetzt. Mathematik stimmt.                                                                                                                                                                                    |
+| **Atmosphäre**        | ⭐⭐⭐⭐⭐ (5/5) | Exzellent. "Weißes Neon zieht Streifen über den Betonboden", "Schweiß, Maschinenöl und dem leicht metallischen Nachgeschmack der Nullzeit-Blase". Kampfbeschreibungen sind cinematisch und taktisch zugleich.                                                                                                                                                                  |
+| **Regeltreue**        | ⭐⭐⭐⭐ (4/5)   | Kampfregeln klar definiert und konsequent angewandt. Angriff: W6 + ⌊Attr/2⌋ + Talent vs. SG 8 + ⌊GES/2⌋. Schaden, Rüstung, KO-Bedingungen erklärt. Talente und Gadgets gut integriert (Systemanalyse, Reaktionsmatrix, Overload-Puls). Einziger Abzug: Attributwerte im Prompt (STR 5, GES 4) werden korrekt übernommen, aber die Gesamtpunktverteilung ist nicht transparent. |
+| **Optionen**          | ✅ Ja            | 3 klare Optionen (Voss spielen, Kira spielen, Vollsimulation) + freie Aktion. Perfekter Spielfluss.                                                                                                                                                                                                                                                                            |
+| **Gesamt-Regeltreue** | **4/5**          | Stärkster Test — vollständige Kampfrunde mit korrekten Proben, HUD, Status-Tracking.                                                                                                                                                                                                                                                                                           |

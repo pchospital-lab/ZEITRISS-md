@@ -13,7 +13,7 @@ verschoben, damit dieses Dokument den aktuellen Fokus abbildet.
 
 ## Zielbild
 
-- Beta-GPT- und MyGPT-Läufe liefern konsistente QA-Protokolle.
+- Beta-KI- und KI-Spielleitung-Läufe liefern konsistente QA-Protokolle.
 - Audit, Fahrplan und QA-Log spiegeln denselben Maßnahmen- und Wissensstand.
 - Wissensmodule dokumentieren jede Runtime-Änderung unmittelbar.
 
@@ -30,7 +30,7 @@ verbindlicher Fahrplan-/Audit-Stand nachgezogen.
 - Rift-Protokoll bleibt für temporale und Chronopolis-Legenden aktiv und
   blockiert Fahrzeugeinsätze im Rift-Debrief deterministisch.
 - Regression bleibt über `tools/test_vehicle_window.js` und `npm run
-  test:vehicle-window` abgesichert.
+test:vehicle-window` abgesichert.
 
 ### QA-Nachcheck (Closure-Gate)
 
@@ -158,10 +158,10 @@ referenziert.
 
 ## QA-Zyklus
 
-1. **Vorbereitung** – Maintainer:innen gleichen Wissensstände gemäß
+1. **Vorbereitung** – Maintainer gleichen Wissensstände gemäß
    [`docs/maintainer-ops.md`](../../../docs/maintainer-ops.md) ab und prüfen die
    20 Wissensspeicher-Slots.
-2. **Testlauf** – Tester:innen nutzen das
+2. **Testlauf** – Tester nutzen das
    [Tester-Briefing](../../../docs/qa/tester-playtest-briefing.md) inklusive
    Acceptance-Smoke-Checkliste und Mission-5-Badge-Check.
 3. **Archivierung** – Komplette Protokolle landen unter
@@ -434,7 +434,6 @@ Fokus auf konsistente Wissensmodule ohne auswertbare Template-Delimiters im Runt
 
 Referenzbeleg: QA-Log-Eintrag **2027-03-09 – Repo-Agent – Tiefenanalyse-Fortsetzung**.
 
-
 ## Nachtrag 2027-03-10 – Lauf 1: Runtime-Neutralisierung umgesetzt
 
 Umsetzungsfokus dieses Laufs: T1–T3 in priorisierten Runtime-Dateien ausgeführt
@@ -453,6 +452,7 @@ Umsetzungsfokus dieses Laufs: T1–T3 in priorisierten Runtime-Dateien ausgefüh
   `core/sl-referenz.md` auf runtime-neutrale Formulierungen umgestellt.
 
 **Offen für Folgeläufe**
+
 - **T4 (mittel):** in Lauf 2 umgesetzt (Template-Delimiter im Toolkit auf
   template-neutrale Pseudocode-Notation umgestellt).
 - **T5 (mittel):** in Lauf 2 umgesetzt (Versionsharmonisierung in
@@ -473,51 +473,51 @@ Tiefenanalyse-Backlog.
 
 ## Rollen & Übergabe
 
-- **Maintainer:innen** – Halten Wissensstände synchron, stoßen Tests an und
+- **Maintainer** – Halten Wissensstände synchron, stoßen Tests an und
   spiegeln Runtimes.
-- **Tester:innen** – Dokumentieren die QA-Läufe unverändert und liefern sie ins
+- **Tester** – Dokumentieren die QA-Läufe unverändert und liefern sie ins
   QA-Log.
 - **Codex (Repo-Agent)** – Priorisiert die Ergebnisse, setzt Maßnahmen um und
   aktualisiert Audit, Fahrplan und Referenzen.
 
 ## Deepcheck-Kurzprotokolle 2025
 
-| Datum | Schwerpunkt | Referenzen |
-| ----------- | ------------------------------ | ---------- |
-| 2027-03-08 | Bug-/Optimierungscheck, Pflichtpaket grün | QA-Log 2027-03-08 |
-| 2026-01-14 | Beta-GPT Playtest 2026-01-14 übernommen | QA-Log 2026-01-14 |
-| 2025-06-11 | Repo-Analyse & Maßnahmenplan | README §QA-Artefakte; QA-Log 2025-06-22 |
-| 2025-06-12 | Runtime-Stubs & Routing-Layer | SR; QA-Log 2025-06-22 |
-| 2025-06-13 | Beta-GPT-Nachlauf | QA-Log 2025-06-13; Maßnahmenpaket Beta-GPT 2025-06 |
-| 2025-06-14 | Offline-Audit Jammer-Flow | QA-Log 2025-06-14 |
-| 2025-06-15 | QA-Follow-up-Mapping | QA-Log 2025-06-22 |
-| 2025-06-16 | Follow-ups & Checklisten | QA-Log 2025-06-22 |
-| 2025-06-17 | Koop-Debrief & Wallet-Split | README §HQ/Chronopolis; QA-Log 2025-06-20 |
-| 2025-06-18 | Compliance-Abgleich | RT 4.2.2; R(Flags) |
-| 2025-06-19 | Pre-City-Hub Dokumentation | README §ITI-HQ & Chronopolis; QA-Log 2025-06-19 |
-| 2025-06-22 | Fahrplan-/QA-Log-Synchronität | QA-Log 2025-06-22 |
-| 2025-07-05 | Beta-GPT Deltas (Save/HUD/Arena) | QA-Log 2025-07-05 |
-| 2025-07-18 | Beta-GPT Regression Save/HUD/Compliance | QA-Log 2025-07-18 |
-| 2025-10-21 | Beta-GPT 2025-10-15 Nacharbeiten validiert | QA-Log 2025-10-21 |
-| 2025-10-28 | Beta-GPT 10-28 Deltas dokumentiert | QA-Log 2025-10-28; Paket 2025-10-28 |
-| 2025-10-29 | HQ-DeepSave & Wissensspiegel entschlackt | QA-Log 2025-10-29 |
-| 2025-10-30 | QA-Artefakte sichtbar verknüpft | QA-Log 2025-10-30 |
-| 2025-10-31 | Wissensmodule von QA-Hinweisen bereinigt | QA-Log 2025-10-31 |
-| 2025-11-01 | Deepcheck-Sync & Fahrplan 1.8.5 | QA-Log 2025-11-01 |
-| 2025-11-02 | Wissensmodule entschlackt (Review) | QA-Log 2025-11-02 |
-| 2025-11-03 | QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check | QA-Log 2025-11-03 |
-| 2025-11-04 | Deepcheck-Fortsetzung & Fahrplan 1.8.7 Mirror | QA-Log 2025-11-04 |
-| 2025-11-06 | Regression Audit-Maßnahmen #13–#20 | QA-Log 2025-11-06 |
-| 2025-11-26 | Simulativer Acceptance-/Save-Lauf | QA-Log 2025-11-26 |
-| 2025-12-03 | Testprompt Voll-Lauf (Acceptance 1–15, Save v6) | QA-Log 2025-12-03 |
-| 2025-12-22 | Pflichtprüfungen vollständig grün | Repo-Checks (make lint/test, smoke, Linter) |
+| Datum      | Schwerpunkt                                     | Referenzen                                        |
+| ---------- | ----------------------------------------------- | ------------------------------------------------- |
+| 2027-03-08 | Bug-/Optimierungscheck, Pflichtpaket grün       | QA-Log 2027-03-08                                 |
+| 2026-01-14 | Beta-KI Playtest 2026-01-14 übernommen          | QA-Log 2026-01-14                                 |
+| 2025-06-11 | Repo-Analyse & Maßnahmenplan                    | README §QA-Artefakte; QA-Log 2025-06-22           |
+| 2025-06-12 | Runtime-Stubs & Routing-Layer                   | SR; QA-Log 2025-06-22                             |
+| 2025-06-13 | Beta-KI-Nachlauf                                | QA-Log 2025-06-13; Maßnahmenpaket Beta-KI 2025-06 |
+| 2025-06-14 | Offline-Audit Jammer-Flow                       | QA-Log 2025-06-14                                 |
+| 2025-06-15 | QA-Follow-up-Mapping                            | QA-Log 2025-06-22                                 |
+| 2025-06-16 | Follow-ups & Checklisten                        | QA-Log 2025-06-22                                 |
+| 2025-06-17 | Koop-Debrief & Wallet-Split                     | README §HQ/Chronopolis; QA-Log 2025-06-20         |
+| 2025-06-18 | Compliance-Abgleich                             | RT 4.2.2; R(Flags)                                |
+| 2025-06-19 | Pre-City-Hub Dokumentation                      | README §ITI-HQ & Chronopolis; QA-Log 2025-06-19   |
+| 2025-06-22 | Fahrplan-/QA-Log-Synchronität                   | QA-Log 2025-06-22                                 |
+| 2025-07-05 | Beta-KI Deltas (Save/HUD/Arena)                 | QA-Log 2025-07-05                                 |
+| 2025-07-18 | Beta-KI Regression Save/HUD/Compliance          | QA-Log 2025-07-18                                 |
+| 2025-10-21 | Beta-KI 2025-10-15 Nacharbeiten validiert       | QA-Log 2025-10-21                                 |
+| 2025-10-28 | Beta-KI 10-28 Deltas dokumentiert               | QA-Log 2025-10-28; Paket 2025-10-28               |
+| 2025-10-29 | HQ-DeepSave & Wissensspiegel entschlackt        | QA-Log 2025-10-29                                 |
+| 2025-10-30 | QA-Artefakte sichtbar verknüpft                 | QA-Log 2025-10-30                                 |
+| 2025-10-31 | Wissensmodule von QA-Hinweisen bereinigt        | QA-Log 2025-10-31                                 |
+| 2025-11-01 | Deepcheck-Sync & Fahrplan 1.8.5                 | QA-Log 2025-11-01                                 |
+| 2025-11-02 | Wissensmodule entschlackt (Review)              | QA-Log 2025-11-02                                 |
+| 2025-11-03 | QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check    | QA-Log 2025-11-03                                 |
+| 2025-11-04 | Deepcheck-Fortsetzung & Fahrplan 1.8.7 Mirror   | QA-Log 2025-11-04                                 |
+| 2025-11-06 | Regression Audit-Maßnahmen #13–#20              | QA-Log 2025-11-06                                 |
+| 2025-11-26 | Simulativer Acceptance-/Save-Lauf               | QA-Log 2025-11-26                                 |
+| 2025-12-03 | Testprompt Voll-Lauf (Acceptance 1–15, Save v6) | QA-Log 2025-12-03                                 |
+| 2025-12-22 | Pflichtprüfungen vollständig grün               | Repo-Checks (make lint/test, smoke, Linter)       |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
 ## Arbeitsstränge & Ziele
 
 - **Dokumentation & Index** – README, Repo-Map und `master-index.json` halten
-  die Runtime-Referenz schlank. *Stand 2025-10-31:* Die Dokumenten-Landkarte
+  die Runtime-Referenz schlank. _Stand 2025-10-31:_ Die Dokumenten-Landkarte
   verweist ausschließlich auf runtime-relevante Module; QA-Artefakte bleiben in
   `internal/qa/` dokumentiert und werden außerhalb des Wissensspeichers
   gepflegt.
@@ -668,7 +668,7 @@ ohne Querbezüge zu verlieren.
 
 **Status:** ✅ abgeschlossen (QA-Log 2026-11-03, Audit-Update 2026-11-03).
 
-## Maßnahmenübersicht Beta-GPT 2025-06 (Issues #1–#16)
+## Maßnahmenübersicht Beta-KI 2025-06 (Issues #1–#16)
 
 **Referenzkürzel**
 
@@ -682,7 +682,7 @@ ohne Querbezüge zu verlieren.
 `BRF` = docs/qa/tester-playtest-briefing.md
 `CW` = systems/currency/cu-waehrungssystem.md
 
-## Maßnahmenpaket Beta-GPT 2025-12 (Copy-Paste-QA)
+## Maßnahmenpaket Beta-KI 2025-12 (Copy-Paste-QA)
 
 Die folgenden Punkte stammen aus dem Copy-Paste-Testlauf (Acceptance 1–15, Save v6) und sind für
 den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf Release-Qualität.
@@ -756,11 +756,11 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
 - Optional Mini-Tabelle im QA-Kapitel anlegen („Dispatcher-Smoke 0–4 bestanden“), damit künftige
   Änderungen die Basislinie kennen.
 - QA: Bei Dispatcher-Änderungen Acceptance 0–4 erneut durchlaufen lassen.
-`GM` = gameplay/kreative-generatoren-missionen.md
-`SR` = internal/runtime/runtime-stub-routing-layer.md
-`PSI` = systems/kp-kraefte-psi.md
-`VEH` = gameplay/fahrzeuge-konflikte.md
-`MASS` = gameplay/massenkonflikte.md
+  `GM` = gameplay/kreative-generatoren-missionen.md
+  `SR` = internal/runtime/runtime-stub-routing-layer.md
+  `PSI` = systems/kp-kraefte-psi.md
+  `VEH` = gameplay/fahrzeuge-konflikte.md
+  `MASS` = gameplay/massenkonflikte.md
 
 ## Maßnahmenpaket Copy-Paste-QA 2025-12 (Issues #1–#14)
 
@@ -768,22 +768,22 @@ Der Copy-Paste-Lauf (Acceptance 1–15, Save v6, QA-Runner) ist vollständig
 abgeglichen. Die folgenden Punkte fassen den aktuellen Zustand zusammen und
 halten die nächsten Schritte für Folge-Läufe fest.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ------------------------------ | -------------------------------------------- | ------ |
-| #1 | Paradoxon-Intro invertiert | Einleitungstext korrigieren: Px steigt nur bei sauberer Stabilisierung; hartes Eingreifen lässt Px stagnieren oder sinken. QA: Einleitung/Start-Text gegen README spiegeln. | ✅ erledigt |
-| #2 | Doppelte Zeile in Acceptance #6 | Duplicate in `docs/qa/tester-playtest-briefing.md` und `doc.md` entfernt; QA-Parser bleibt auf kanonische Fehltexte aus Runtime/Toolkit ausgerichtet. | ✅ erledigt |
-| #3 | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisiert; Save-Preview immer mit `arc_dashboard`. QA: Cross-Mode-Import mit Pflichtcontainer prüfen. | ✅ erledigt |
-| #4 | Armbänder erlaubt, keine Normalisierung | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA-Check auf Armband-Loadouts entfällt (Thema abgeschlossen). | ✅ erledigt |
-| #5 | `seed_source` (trigger vs. trigger_pool) | Toolkit auf `seed_source = preserve|trigger` gespiegelt, Fixture angepasst; Pools bleiben `preserve_pool`/`trigger_pool`. | ✅ erledigt |
-| #6 | Boss-Gate/DR-Logs | PASS; optional `logs.trace[].boss` standardisieren (Typ/DR) für Snapshot-Stabilität. QA: Mission 5 Abschluss/Abbruch prüfen. | ✅ pass |
-| #7 | Ask↔Suggest | PASS; Overlay-Parser akzeptiert `· SUG` als optionales Suffix. QA: `SUG-ON/OFF` Toasts prüfen. | ✅ pass |
-| #8 | Psi-Heat vs. Px-Reset | Psi-Module/README klären: Arena-Fails resetten `campaign.px` nicht; Px-Reset folgt nur nach Px 5 + Debrief/HQ. | ✅ erledigt |
-| #9 | Accessibility Legacy-Mapping | PASS; QA erweitert um Legacy-Import (`full|minimal`, `rapid|quick`). | ✅ pass |
-| #10 | Offline-Fallback | PASS; Rate-Limit & SaveGuard behalten. Optionaler Hinweis „Mission läuft weiter“. | ✅ pass |
-| #11 | Vehikel-/Massenkonflikt-Logs | PASS; strukturierte `logs.hud[]`-Events als Pflichtlog prüfen. | ✅ pass |
-| #12 | Chronopolis/Economy-Audit | PASS; `economy_audit`-Trace bei HQ-Save standardisiert. | ✅ erledigt |
-| #13 | Rift-Boss-Szenenindex | Generator-Map auf Boss-Encounter Szene 10 + Resolution Szene 11–14 harmonisiert. QA: Golden-Files updaten. | ✅ erledigt |
-| #14 | Test-Save v6 Fixture | Fixture `savegame_v6_test.json` aktualisiert (Seed-Source konsistent). | ✅ erledigt |
+| Issue | Kurzfassung                                   | Fahrplan/Nächste Schritte                                                                                                                                                   | Status                                                                              |
+| ----- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------- | ------- |
+| #1    | Paradoxon-Intro invertiert                    | Einleitungstext korrigieren: Px steigt nur bei sauberer Stabilisierung; hartes Eingreifen lässt Px stagnieren oder sinken. QA: Einleitung/Start-Text gegen README spiegeln. | ✅ erledigt                                                                         |
+| #2    | Doppelte Zeile in Acceptance #6               | Duplicate in `docs/qa/tester-playtest-briefing.md` und `doc.md` entfernt; QA-Parser bleibt auf kanonische Fehltexte aus Runtime/Toolkit ausgerichtet.                       | ✅ erledigt                                                                         |
+| #3    | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisiert; Save-Preview immer mit `arc_dashboard`. QA: Cross-Mode-Import mit Pflichtcontainer prüfen.                                    | ✅ erledigt                                                                         |
+| #4    | Armbänder erlaubt, keine Normalisierung       | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA-Check auf Armband-Loadouts entfällt (Thema abgeschlossen).   | ✅ erledigt                                                                         |
+| #5    | `seed_source` (trigger vs. trigger_pool)      | Toolkit auf `seed_source = preserve                                                                                                                                         | trigger`gespiegelt, Fixture angepasst; Pools bleiben`preserve_pool`/`trigger_pool`. | ✅ erledigt |
+| #6    | Boss-Gate/DR-Logs                             | PASS; optional `logs.trace[].boss` standardisieren (Typ/DR) für Snapshot-Stabilität. QA: Mission 5 Abschluss/Abbruch prüfen.                                                | ✅ pass                                                                             |
+| #7    | Ask↔Suggest                                   | PASS; Overlay-Parser akzeptiert `· SUG` als optionales Suffix. QA: `SUG-ON/OFF` Toasts prüfen.                                                                              | ✅ pass                                                                             |
+| #8    | Psi-Heat vs. Px-Reset                         | Psi-Module/README klären: Arena-Fails resetten `campaign.px` nicht; Px-Reset folgt nur nach Px 5 + Debrief/HQ.                                                              | ✅ erledigt                                                                         |
+| #9    | Accessibility Legacy-Mapping                  | PASS; QA erweitert um Legacy-Import (`full                                                                                                                                  | minimal`, `rapid                                                                    | quick`).    | ✅ pass |
+| #10   | Offline-Fallback                              | PASS; Rate-Limit & SaveGuard behalten. Optionaler Hinweis „Mission läuft weiter“.                                                                                           | ✅ pass                                                                             |
+| #11   | Vehikel-/Massenkonflikt-Logs                  | PASS; strukturierte `logs.hud[]`-Events als Pflichtlog prüfen.                                                                                                              | ✅ pass                                                                             |
+| #12   | Chronopolis/Economy-Audit                     | PASS; `economy_audit`-Trace bei HQ-Save standardisiert.                                                                                                                     | ✅ erledigt                                                                         |
+| #13   | Rift-Boss-Szenenindex                         | Generator-Map auf Boss-Encounter Szene 10 + Resolution Szene 11–14 harmonisiert. QA: Golden-Files updaten.                                                                  | ✅ erledigt                                                                         |
+| #14   | Test-Save v6 Fixture                          | Fixture `savegame_v6_test.json` aktualisiert (Seed-Source konsistent).                                                                                                      | ✅ erledigt                                                                         |
 
 README-Abschnittskürzel:  
 `R(QA)` = README §QA-Checks 2025-06-27  
@@ -838,14 +838,14 @@ abgearbeitet werden.
    Szene-Anzeige bleibt im HQ (inkl. Charaktererstellung) aus; Scene-Overlay
    erscheint nur in Missionen/Rifts.
 10. **Issue #10 – Einleitung endet sporadisch zu früh (✅ erledigt)**  
-   HQ-Kurzintro um die Schlusszeile ergänzt und im Start-Flow gespiegelt.
+    HQ-Kurzintro um die Schlusszeile ergänzt und im Start-Flow gespiegelt.
 11. **Issue #11 – „Handgelenk“-Regel entfernen (✅ erledigt)**  
-   Handgelenk-Projektionen als Legacy markiert; Hardware-Anker bleiben
-   (Linse/Terminal/Kabel), kein Handgelenk-Default.
+    Handgelenk-Projektionen als Legacy markiert; Hardware-Anker bleiben
+    (Linse/Terminal/Kabel), kein Handgelenk-Default.
 12. **Issue #12 – Arena-SceneCounter/HUD-Overlay prüfen (✅ erledigt)**  
-   Arena zeigt keinen Szenenzähler; `scene_overlay()` rendert ausschließlich
-   bei `location='FIELD'`. Entscheidung in README/Toolkit/Speicher-Modul
-   gespiegelt und Runtime angepasst.
+    Arena zeigt keinen Szenenzähler; `scene_overlay()` rendert ausschließlich
+    bei `location='FIELD'`. Entscheidung in README/Toolkit/Speicher-Modul
+    gespiegelt und Runtime angepasst.
 
 **Hinweise zum Playtest-Output**
 
@@ -856,164 +856,166 @@ abgearbeitet werden.
   Altregel aus früheren Outputs und widerspricht dem Retinal‑HUD‑Prinzip
   (umgesetzt in Issue #11: in Toolkit/README korrigiert).
 
-Alle Maßnahmen des Beta-GPT-Laufs Juni 2025 sind abgeschlossen. Die Tabelle
+Alle Maßnahmen des Beta-KI-Laufs Juni 2025 sind abgeschlossen. Die Tabelle
 fasst Status und Hauptverweise zusammen; weiterführende Evidenz steht im
 QA-Audit und im Beta-QA-Log.
 
-| Issue | Thema | Status | Primärreferenzen |
-| ----- | -------------------------- | ------ | ---------------- |
-| #1 | Save-Schema | ✅ abgeschlossen | `runtime.js`; Modul 12; QA-Log 2025-06-29 |
-| #2 | Save-Normalisierung | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-11 |
-| #3 | Arc-Dashboard | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-13 |
-| #4 | Load-Flows | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-11 |
-| #5 | Exfil-Policy | ✅ abgeschlossen | README; QA-Log 2025-06-11 |
-| #6 | PvP-Modusflag | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-24 |
-| #7 | Accessibility-Menü | ❌ verworfen | Maintainer:innen-Entscheid 2025-06-13 |
-| #8 | Offline-Fallback | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-18 |
-| #9 | Versionierung | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-11 |
-| #10 | Foreshadow-Log | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-27 |
-| #11 | Koop-Ökonomie | ✅ abgeschlossen | README; Modul 12; QA-Log 2025-06-20 |
-| #12 | Chronopolis-Warnung | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-11 |
-| #13 | Ask→Suggest | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-27 |
-| #14 | Suspend-Snapshot | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-22 |
-| #15 | PSI-Arena-Regeln | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-27 |
-| #16 | Markt-Log | ✅ abgeschlossen | README; Modul 15; QA-Log 2025-06-28 |
+| Issue | Thema               | Status           | Primärreferenzen                          |
+| ----- | ------------------- | ---------------- | ----------------------------------------- |
+| #1    | Save-Schema         | ✅ abgeschlossen | `runtime.js`; Modul 12; QA-Log 2025-06-29 |
+| #2    | Save-Normalisierung | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-11           |
+| #3    | Arc-Dashboard       | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-13           |
+| #4    | Load-Flows          | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-11                |
+| #5    | Exfil-Policy        | ✅ abgeschlossen | README; QA-Log 2025-06-11                 |
+| #6    | PvP-Modusflag       | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-24           |
+| #7    | Accessibility-Menü  | ❌ verworfen     | Maintainer-Entscheid 2025-06-13           |
+| #8    | Offline-Fallback    | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-18                |
+| #9    | Versionierung       | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-11           |
+| #10   | Foreshadow-Log      | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-27           |
+| #11   | Koop-Ökonomie       | ✅ abgeschlossen | README; Modul 12; QA-Log 2025-06-20       |
+| #12   | Chronopolis-Warnung | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-11           |
+| #13   | Ask→Suggest         | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-27                |
+| #14   | Suspend-Snapshot    | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-22                |
+| #15   | PSI-Arena-Regeln    | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-27           |
+| #16   | Markt-Log           | ✅ abgeschlossen | README; Modul 15; QA-Log 2025-06-28       |
 
-## Maßnahmenpaket Beta-GPT 2025-07 (Issues #1–#15)
+## Maßnahmenpaket Beta-KI 2025-07 (Issues #1–#15)
 
-Der Beta-GPT-Lauf vom 2025-07-05 lieferte neue Findings rund um Save-Versionen,
+Der Beta-KI-Lauf vom 2025-07-05 lieferte neue Findings rund um Save-Versionen,
 Foreshadow-Darstellung, Arena-/Comms-Makros und Acceptance-Checks. Die folgende
 Tabelle dokumentiert den offenen Maßnahmenblock. Detailnotizen: QA-Log
-2025-07-05 sowie [Rohprotokoll des Beta-GPT-Laufs](../logs/2025-07-05-beta-gpt-delta.md)
-und das ergänzende Chatprotokoll (Maintainer:innen-Archiv).
+2025-07-05 sowie [Rohprotokoll des Beta-KI-Laufs](../logs/2025-07-05-beta-gpt-delta.md)
+und das ergänzende Chatprotokoll (Maintainer-Archiv).
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ---------- |
-| #1 | Save-Version 5→6 angleichen | ✅ abgeschlossen | R; M12 |
-| #2 | Foreshadow Gate vs. Season Total trennen | ✅ abgeschlossen | R(QA); TK(16) |
-| #3 | `scene_overlay()`/`!boss status` | ✅ abgeschlossen | R(RT); TK(16) |
-| #4 | `SF-OFF`-Badge Preconditions | ✅ abgeschlossen | R(Schnell) |
-| #5 | `arenaStart(options)` Makro + HUD-Toast | ✅ abgeschlossen | R(RT); TK(16) |
-| #6 | `comms_check()` Funktionsspec | ✅ abgeschlossen | R(RT); DOC; TK(11) |
-| #7 | Save-Dedupe `team.members`→`party.characters` | ✅ abgeschlossen | M12 |
-| #8 | `logs.fr_interventions[]` doppelt | ✅ abgeschlossen | M12 |
-| #9 | Acceptance 12 Reihenfolge Badge/Toast | ✅ abgeschlossen | R(QA) |
-| #10 | Wallet-Init Solo→Koop | ✅ abgeschlossen | R(Koop); M12 |
-| #11 | Accessibility-/Offline-Checks | ✅ abgeschlossen | R(QA) |
-| #12 | README „Spiel laden“ syncen | ✅ abgeschlossen | R(Start); M12 |
-| #13 | Foreshadow-Reset Evidenz | ✅ abgeschlossen | R(QA); TK(16) |
-| #14 | Arena-Save-Guard Acceptance | ✅ abgeschlossen | R(RT); R(QA) |
-| #15 | City/Chronopolis Acceptance | ✅ abgeschlossen | R(QA) |
+| Issue | Thema                                         | Status           | Primärref.         |
+| ----- | --------------------------------------------- | ---------------- | ------------------ |
+| #1    | Save-Version 5→6 angleichen                   | ✅ abgeschlossen | R; M12             |
+| #2    | Foreshadow Gate vs. Season Total trennen      | ✅ abgeschlossen | R(QA); TK(16)      |
+| #3    | `scene_overlay()`/`!boss status`              | ✅ abgeschlossen | R(RT); TK(16)      |
+| #4    | `SF-OFF`-Badge Preconditions                  | ✅ abgeschlossen | R(Schnell)         |
+| #5    | `arenaStart(options)` Makro + HUD-Toast       | ✅ abgeschlossen | R(RT); TK(16)      |
+| #6    | `comms_check()` Funktionsspec                 | ✅ abgeschlossen | R(RT); DOC; TK(11) |
+| #7    | Save-Dedupe `team.members`→`party.characters` | ✅ abgeschlossen | M12                |
+| #8    | `logs.fr_interventions[]` doppelt             | ✅ abgeschlossen | M12                |
+| #9    | Acceptance 12 Reihenfolge Badge/Toast         | ✅ abgeschlossen | R(QA)              |
+| #10   | Wallet-Init Solo→Koop                         | ✅ abgeschlossen | R(Koop); M12       |
+| #11   | Accessibility-/Offline-Checks                 | ✅ abgeschlossen | R(QA)              |
+| #12   | README „Spiel laden“ syncen                   | ✅ abgeschlossen | R(Start); M12      |
+| #13   | Foreshadow-Reset Evidenz                      | ✅ abgeschlossen | R(QA); TK(16)      |
+| #14   | Arena-Save-Guard Acceptance                   | ✅ abgeschlossen | R(RT); R(QA)       |
+| #15   | City/Chronopolis Acceptance                   | ✅ abgeschlossen | R(QA)              |
 
 ## Formatierungs-Backlog 2025-10 (Dokumentation)
 
 - ✅ **QA-Logs 2025-07-05/07-18/10-15:** Markdown-Zeilen unter 100 Zeichen
   gebracht (Stand 2025-10-21).
-- ✅ **Fahrplan-Tabellen „Maßnahmenpaket Beta-GPT 2025-07“:** Spaltenkürzel
+- ✅ **Fahrplan-Tabellen „Maßnahmenpaket Beta-KI 2025-07“:** Spaltenkürzel
   geprüft, Zeilenlängen passen (Stand 2025-10-21).
 
 Aktuell keine offenen Formatierungsaufgaben.
 
-## Maßnahmenpaket Beta-GPT 2025-07-18 (Issues #1–#12)
+## Maßnahmenpaket Beta-KI 2025-07-18 (Issues #1–#12)
 
-Der Beta-GPT-Lauf vom 2025-07-18 offenbart neue Regressionen rund um Save-Guards,
+Der Beta-KI-Lauf vom 2025-07-18 offenbart neue Regressionen rund um Save-Guards,
 HUD-Badges, Persistenz-Flags und Dispatcher-Hinweise. Die Tabelle listet alle
 offenen Maßnahmen auf. Detailnotizen stehen im QA-Log 2025-07-18 sowie im
-[Rohprotokoll des Beta-GPT-Laufs](../logs/2025-07-18-beta-gpt-delta.md).
+[Rohprotokoll des Beta-KI-Laufs](../logs/2025-07-18-beta-gpt-delta.md).
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ---------------------- | ---------- |
-| #1 | Exfil-SaveGuard & `campaign.exfil.active` Reset | ✅ – Guard & Reset RT | RT; M12 |
-| #2 | Mission 5 HUD Gate-Badge (FS 2/2 · Saison 0/4) | ✅ – HUD `GATE 2/2` | RT; R; HUD |
-| #3 | `SF-OFF` Persistenzflag & Overlay | ✅ – HUD & Save in Sync | RT; R; HUD |
-| #4 | Solo→Koop Wallet-Initialisierung | ✅ – Wallet-Autoinit | RT; R; M12 |
-| #5 | Arena `phase_strike_tax` Persistenz | ✅ – Psi-Log aktiv | RT; R; TK(16) |
-| #6 | Compliance-Flag Mirror Runtime↔Campaign | ✅ – Mirror aktiv | RT; TK(16) |
-| #7 | FIFO-Deckel `logs.offline[]` | ✅ – Queue = 12 | RT; R |
-| #8 | Boss-Gate Badge `GATE` in `scene_overlay()` | ✅ – Toolkit spiegelt | RT; TK(16); HUD |
-| #9 | Dispatcher-Hinweis `!radio clear`/`!alias clear` | ✅ – Start-Hilfe | RT; R |
-| #10 | `px_tracker()` ETA-Heuristik | ✅ – ETA-Hinweis | RT; R |
-| #11 | Heist/Street Tag-Normalisierung | ✅ – Split `|`/`,` | RT; TK(16) |
-| #12 | Semver-Mismatch-Fehlertext | ✅ – Dispatcher = R | R; TK(16) |
+| Issue | Thema                                            | Status                  | Primärref.      |
+| ----- | ------------------------------------------------ | ----------------------- | --------------- | ---------- |
+| #1    | Exfil-SaveGuard & `campaign.exfil.active` Reset  | ✅ – Guard & Reset RT   | RT; M12         |
+| #2    | Mission 5 HUD Gate-Badge (FS 2/2 · Saison 0/4)   | ✅ – HUD `GATE 2/2`     | RT; R; HUD      |
+| #3    | `SF-OFF` Persistenzflag & Overlay                | ✅ – HUD & Save in Sync | RT; R; HUD      |
+| #4    | Solo→Koop Wallet-Initialisierung                 | ✅ – Wallet-Autoinit    | RT; R; M12      |
+| #5    | Arena `phase_strike_tax` Persistenz              | ✅ – Psi-Log aktiv      | RT; R; TK(16)   |
+| #6    | Compliance-Flag Mirror Runtime↔Campaign          | ✅ – Mirror aktiv       | RT; TK(16)      |
+| #7    | FIFO-Deckel `logs.offline[]`                     | ✅ – Queue = 12         | RT; R           |
+| #8    | Boss-Gate Badge `GATE` in `scene_overlay()`      | ✅ – Toolkit spiegelt   | RT; TK(16); HUD |
+| #9    | Dispatcher-Hinweis `!radio clear`/`!alias clear` | ✅ – Start-Hilfe        | RT; R           |
+| #10   | `px_tracker()` ETA-Heuristik                     | ✅ – ETA-Hinweis        | RT; R           |
+| #11   | Heist/Street Tag-Normalisierung                  | ✅ – Split `            | `/`,`           | RT; TK(16) |
+| #12   | Semver-Mismatch-Fehlertext                       | ✅ – Dispatcher = R     | R; TK(16)       |
 
-## Maßnahmenpaket Beta-GPT 2025-10-15 (Issues #1–#15)
+## Maßnahmenpaket Beta-KI 2025-10-15 (Issues #1–#15)
 
-Der Beta-GPT-Lauf vom 2025-10-15 deckt erneut Diskrepanzen zwischen Acceptance-
+Der Beta-KI-Lauf vom 2025-10-15 deckt erneut Diskrepanzen zwischen Acceptance-
 Checkliste, Save-Schema, HUD-Badges und Accessibility-/Arena-Flows auf. Die
 folgenden Maßnahmen sind offen und müssen mit Wissensmodulen, Dispatcher und
 Runtime synchronisiert werden. Detailnotizen stehen im QA-Log 2025-10-15 sowie
 im [aktuellen Rohprotokoll](../logs/2025-10-15-beta-gpt-delta.md).
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ---------- |
-| #1 | Acceptance-Smoke auf 15 Prüfschritte | ✅ abgeschlossen | R(QA); BRF |
-| #2 | Legacy-Gruppensaves → v6-Migration | ✅ abgeschlossen | RT; M12 |
-| #3 | `StartMission()` respektiert `skip_entry_choice` | ✅ abgeschlossen | RT; TK(16) |
-| #4 | Auto-Reset `SF-OFF` nach Mission 5 | ✅ abgeschlossen | RT; HUD |
-| #5 | Gate-Badge-Persistenz in M5/M10 HUD | ✅ abgeschlossen | RT; HUD |
-| #6 | Arena-Phase im Save verankern | ✅ abgeschlossen | RT; SR |
-| #7 | Arena-Logs & Cross-Mode-Evidenz | ✅ abgeschlossen | RT; TK(16) |
-| #8 | NPC-Squad-Autoradio & Preset-Logging | ✅ abgeschlossen | RT; TK(16) |
-| #9 | `chronopolis_warn_seen` Persistenz & Debrief | ✅ abgeschlossen | RT; R(Chrono) |
-| #10 | Hazard-Pay vor Wallet-Split | ✅ abgeschlossen | RT; M12 |
-| #11 | Boss-DR-HUD-Toast verpflichtend | ✅ abgeschlossen | RT; HUD |
-| #12 | `logs.foreshadow[]` als Pflichtfeld | ✅ abgeschlossen | RT; M12 |
-| #13 | `!accessibility`-Dialog + UI-Persistenz | ✅ abgeschlossen | RT; R(Chat) |
-| #14 | Dispatcher-Startoption `trigger` | ✅ abgeschlossen | RT; R(Start); BRF |
-| #15 | Cinematic-HUD-Header nach Briefing | ✅ abgeschlossen | RT; HUD |
+| Issue | Thema                                            | Status           | Primärref.        |
+| ----- | ------------------------------------------------ | ---------------- | ----------------- |
+| #1    | Acceptance-Smoke auf 15 Prüfschritte             | ✅ abgeschlossen | R(QA); BRF        |
+| #2    | Legacy-Gruppensaves → v6-Migration               | ✅ abgeschlossen | RT; M12           |
+| #3    | `StartMission()` respektiert `skip_entry_choice` | ✅ abgeschlossen | RT; TK(16)        |
+| #4    | Auto-Reset `SF-OFF` nach Mission 5               | ✅ abgeschlossen | RT; HUD           |
+| #5    | Gate-Badge-Persistenz in M5/M10 HUD              | ✅ abgeschlossen | RT; HUD           |
+| #6    | Arena-Phase im Save verankern                    | ✅ abgeschlossen | RT; SR            |
+| #7    | Arena-Logs & Cross-Mode-Evidenz                  | ✅ abgeschlossen | RT; TK(16)        |
+| #8    | NPC-Squad-Autoradio & Preset-Logging             | ✅ abgeschlossen | RT; TK(16)        |
+| #9    | `chronopolis_warn_seen` Persistenz & Debrief     | ✅ abgeschlossen | RT; R(Chrono)     |
+| #10   | Hazard-Pay vor Wallet-Split                      | ✅ abgeschlossen | RT; M12           |
+| #11   | Boss-DR-HUD-Toast verpflichtend                  | ✅ abgeschlossen | RT; HUD           |
+| #12   | `logs.foreshadow[]` als Pflichtfeld              | ✅ abgeschlossen | RT; M12           |
+| #13   | `!accessibility`-Dialog + UI-Persistenz          | ✅ abgeschlossen | RT; R(Chat)       |
+| #14   | Dispatcher-Startoption `trigger`                 | ✅ abgeschlossen | RT; R(Start); BRF |
+| #15   | Cinematic-HUD-Header nach Briefing               | ✅ abgeschlossen | RT; HUD           |
 
 **Stand 2025-10-21:** README, QA-Briefing und Masterprompt spiegeln die 15 Acceptance-Schritte,
 `runtime.js`/Toolkit dokumentieren `ShowComplianceOnce()` als Primär-Makro mit Alias
 `StoreCompliance()`, und Save-/Modul-Dokumente führen Wallets, HQ-Moments, Logs (`logs.psi[]`,
 `logs.fr_interventions[]`, `logs.flags.foreshadow_gate_*`) sowie Modul-9-Begriffe konsistent.
 
-## Maßnahmenpaket Beta-GPT 2025-10-28 (Issues #1–#13)
+## Maßnahmenpaket Beta-KI 2025-10-28 (Issues #1–#13)
 
-Der Beta-GPT-Lauf vom 2025-10-28 deckt neue Abweichungen zwischen SaveGuard,
+Der Beta-KI-Lauf vom 2025-10-28 deckt neue Abweichungen zwischen SaveGuard,
 Pflichtfeld-Docs, Arena-Blockern und Ökonomie-/HUD-Texten auf. Die Tabelle bündelt
 alle offenen Maßnahmen; Detailnotizen stehen im QA-Log 2025-10-28 und im
 Maintainer-Rohprotokoll (Archiv).
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ---------- |
-| #1 | HQ-DeepSave Pflichtfelder vereinheitlichen | ✅ – Serializer prüft HUD/Logs | RT; M12 |
-| #2 | Save-Beispiel um Pflichtblöcke erweitern | ✅ – JSON aktualisiert | M12 |
-| #3 | Arena-Active-Blocker im SaveGuard | ✅ – Guard aktiviert | RT; R |
-| #4 | Foreshadow-/Gate-Badges trennen | ✅ – Gate-Label harmonisiert | HUD; RT; BRF |
-| #5 | Paradoxon-Reset auf Missionsende | ✅ – Reset-Flag + Toast | RT; TK(16); R |
-| #6 | Boss-DR-HUD-Toast Pflicht | ✅ – Toast & DR-Wert | RT; R |
-| #7 | Mission-5 Self-Reflection Reset | ✅ – Debrief-Reset | RT; M12 |
-| #8 | Cross-Mode Import Beispielstrecke | ✅ – Doku erweitert | M12; R |
-| #9 | Mission-/CU-Ökonomie Formel | ✅ – Formel & Fallback | GM; CW; RT |
-| #10 | Gate-Badge vs. Toast Anzeige | ✅ – Einmalige Warnung | TK(16); R |
-| #11 | Comms-Core Regelblock | ✅ – Core-Sektion & Verweis | R; DOC |
-| #12 | Foreshadow-Mirror Pflichtfeld | ✅ – SaveGuard + Beispiel | RT; M12 |
-| #13 | Accessibility-Preset Beispiel | ✅ – Zweites Muster-Save | M12 |
+| Issue | Thema                                      | Status                         | Primärref.    |
+| ----- | ------------------------------------------ | ------------------------------ | ------------- |
+| #1    | HQ-DeepSave Pflichtfelder vereinheitlichen | ✅ – Serializer prüft HUD/Logs | RT; M12       |
+| #2    | Save-Beispiel um Pflichtblöcke erweitern   | ✅ – JSON aktualisiert         | M12           |
+| #3    | Arena-Active-Blocker im SaveGuard          | ✅ – Guard aktiviert           | RT; R         |
+| #4    | Foreshadow-/Gate-Badges trennen            | ✅ – Gate-Label harmonisiert   | HUD; RT; BRF  |
+| #5    | Paradoxon-Reset auf Missionsende           | ✅ – Reset-Flag + Toast        | RT; TK(16); R |
+| #6    | Boss-DR-HUD-Toast Pflicht                  | ✅ – Toast & DR-Wert           | RT; R         |
+| #7    | Mission-5 Self-Reflection Reset            | ✅ – Debrief-Reset             | RT; M12       |
+| #8    | Cross-Mode Import Beispielstrecke          | ✅ – Doku erweitert            | M12; R        |
+| #9    | Mission-/CU-Ökonomie Formel                | ✅ – Formel & Fallback         | GM; CW; RT    |
+| #10   | Gate-Badge vs. Toast Anzeige               | ✅ – Einmalige Warnung         | TK(16); R     |
+| #11   | Comms-Core Regelblock                      | ✅ – Core-Sektion & Verweis    | R; DOC        |
+| #12   | Foreshadow-Mirror Pflichtfeld              | ✅ – SaveGuard + Beispiel      | RT; M12       |
+| #13   | Accessibility-Preset Beispiel              | ✅ – Zweites Muster-Save       | M12           |
 
-## Maßnahmenpaket Beta-GPT 2025-11-26 (Issues #1–#9)
+## Maßnahmenpaket Beta-KI 2025-11-26 (Issues #1–#9)
 
 Der simulative Maintainer-Lauf vom 2025-11-26 deckt Dokumentationslücken rund
 um Mission 5 Auto-Reset, Arena-Cross-Mode-Laden, Suggest-Modus-Persistenz und
 Save-Beispiele auf. Die Tabelle sammelt alle offenen Punkte; Details stehen im
 QA-Log 2025-11-26.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ---------- |
-| #1 | Mission 5 Self-Reflection Auto-Reset Beispiel | ✅ – Save/HUD-Beispiel ergänzt | M12; HUD |
-| #2 | Arena-Saves beim Laden auf HQ zurücksetzen | ✅ – Runtime-Reset & Doku | RT; M12 |
-| #3 | Acceptance-Smoke-Kurzfassung im Wissensspiegel | ✅ – Kurzabläufe in README/DOC | R(QA); DOC |
-| #4 | Foreshadow-Gate-Badge 0/2 vs. 2/2 präzisieren | ✅ – HUD/Toolkit präzisiert | HUD; TK(16) |
-| #5 | Save-Beispiel für `modes` inkl. `suggest` | ✅ – Beispielblock dokumentiert | M12; R |
-| #6 | Chronopolis-Warncut & Flag-Verhalten erläutern | ✅ – Warncut-Flag erklärt | R(Chrono); M12 |
-| #7 | HQ-only SaveGuard: Story-Beispiel für Missionsabbruch | ✅ – Guard-Story im Modul | M12; R |
-| #8 | Array-only Gruppensave: Migration mit Wallet-Init | ✅ – Migration & Wallet-Init | M12 |
-| #9 | Psi-Heat-Reset (Konflikt vs. HQ) klarziehen | ✅ – Reset-Regel dokumentiert | RT; PSI |
+| Issue | Thema                                                 | Status                          | Primärref.     |
+| ----- | ----------------------------------------------------- | ------------------------------- | -------------- |
+| #1    | Mission 5 Self-Reflection Auto-Reset Beispiel         | ✅ – Save/HUD-Beispiel ergänzt  | M12; HUD       |
+| #2    | Arena-Saves beim Laden auf HQ zurücksetzen            | ✅ – Runtime-Reset & Doku       | RT; M12        |
+| #3    | Acceptance-Smoke-Kurzfassung im Wissensspiegel        | ✅ – Kurzabläufe in README/DOC  | R(QA); DOC     |
+| #4    | Foreshadow-Gate-Badge 0/2 vs. 2/2 präzisieren         | ✅ – HUD/Toolkit präzisiert     | HUD; TK(16)    |
+| #5    | Save-Beispiel für `modes` inkl. `suggest`             | ✅ – Beispielblock dokumentiert | M12; R         |
+| #6    | Chronopolis-Warncut & Flag-Verhalten erläutern        | ✅ – Warncut-Flag erklärt       | R(Chrono); M12 |
+| #7    | HQ-only SaveGuard: Story-Beispiel für Missionsabbruch | ✅ – Guard-Story im Modul       | M12; R         |
+| #8    | Array-only Gruppensave: Migration mit Wallet-Init     | ✅ – Migration & Wallet-Init    | M12            |
+| #9    | Psi-Heat-Reset (Konflikt vs. HQ) klarziehen           | ✅ – Reset-Regel dokumentiert   | RT; PSI        |
 
 **QA-Testreferenz (11-26 Paket)**
+
 - Mission 5 Badge-Check erneut mit Save-Reset-Flags abbilden.
 - Arena-Save in HQ laden und Guard/Reset beobachten.
 
 **QA-Testreferenz (10-28 Paket)**
+
 - Regressionstest `!save` mit Minimal-HQ-Save (nur Pflichtfelder). Erwartet:
   Serializer ergänzt fehlende Pflichtblöcke leer und meldet Warnung – keine
   Blocker.
@@ -1024,19 +1026,19 @@ Der erneute Testprompt-Lauf vom 2025-12-02 liefert einen Px-Balancing-Bug und
 zehn Dokumentations-/Save-Themen (Acceptance-Spiegel, SaveGuard, Wallets, HUD).
 Alle Punkte sind umgesetzt und im Wissensspiegel verankert.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ---------- |
-| #1 | Px-Balancing: Fail/Patzer senken Px | ✅ abgeschlossen | RT; TK(16); R(QA) |
-| #2 | Acceptance-Smoke-Liste im Runtime-Set spiegeln | ✅ abgeschlossen | R(QA); DOC; BRF |
-| #3 | `select_state_for_save()` Pflichtfelder angleichen | ✅ abgeschlossen | M12; R(Start); RT |
-| #4 | Wallet-Init-Begriff vereinheitlichen | ✅ abgeschlossen | M12; R(Koop) |
-| #5 | Self-Reflection: Charakterwert hat Vorrang | ✅ abgeschlossen | HUD; RT; M12 |
-| #6 | Arena-SaveGuard: `location`-Set und Blocker dokumentieren | ✅ abgeschlossen | R; TK(16); SR |
-| #7 | `!accessibility`-Dialog (Optionen → JSON) ausformulieren | ✅ abgeschlossen | R(Chat); HUD |
-| #8 | Gruppensaves ohne `team.members[]` zeigen (Legacy nur Migration) | ✅ abgeschlossen | M12 |
-| #9 | Suggest-Modus vs. Self-Reflection entkoppeln | ✅ abgeschlossen | TK(16); R(Chat) |
-| #10 | Markt-Log auf 24 Einträge limit dokumentieren | ✅ abgeschlossen | M12; CW |
-| #11 | PvP-Arena als optionales Endgame kennzeichnen | ✅ abgeschlossen | R(QA); TK(16) |
+| Issue | Thema                                                            | Status           | Primärref.        |
+| ----- | ---------------------------------------------------------------- | ---------------- | ----------------- |
+| #1    | Px-Balancing: Fail/Patzer senken Px                              | ✅ abgeschlossen | RT; TK(16); R(QA) |
+| #2    | Acceptance-Smoke-Liste im Runtime-Set spiegeln                   | ✅ abgeschlossen | R(QA); DOC; BRF   |
+| #3    | `select_state_for_save()` Pflichtfelder angleichen               | ✅ abgeschlossen | M12; R(Start); RT |
+| #4    | Wallet-Init-Begriff vereinheitlichen                             | ✅ abgeschlossen | M12; R(Koop)      |
+| #5    | Self-Reflection: Charakterwert hat Vorrang                       | ✅ abgeschlossen | HUD; RT; M12      |
+| #6    | Arena-SaveGuard: `location`-Set und Blocker dokumentieren        | ✅ abgeschlossen | R; TK(16); SR     |
+| #7    | `!accessibility`-Dialog (Optionen → JSON) ausformulieren         | ✅ abgeschlossen | R(Chat); HUD      |
+| #8    | Gruppensaves ohne `team.members[]` zeigen (Legacy nur Migration) | ✅ abgeschlossen | M12               |
+| #9    | Suggest-Modus vs. Self-Reflection entkoppeln                     | ✅ abgeschlossen | TK(16); R(Chat)   |
+| #10   | Markt-Log auf 24 Einträge limit dokumentieren                    | ✅ abgeschlossen | M12; CW           |
+| #11   | PvP-Arena als optionales Endgame kennzeichnen                    | ✅ abgeschlossen | R(QA); TK(16)     |
 
 ## Maßnahmenpaket Maintainer 2025-12-12 (Issues #1–#6)
 
@@ -1046,16 +1048,17 @@ die im Wissensspiegel verankert wurden. Alle Punkte sind umgesetzt und
 zwischen README, QA-Briefing, Speichermodul, Psi-Modul und Toolkit
 abgestimmt.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ------------- |
-| #1 | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen | ✅ | R(QA); BRF; DOC |
-| #2 | Self-Reflection: Truth-Source `character.self_reflection` | ✅ | HUD; RT; M12 |
-| #3 | Boss-Gate/Foreshadow Terminologie & Reset-Zeitpunkte | ✅ | HUD; TK(16); R(QA) |
-| #4 | Cross-Mode Währungs-Sync (Solo→Koop→Arena) | ✅ | M12; R(Koop); CW |
-| #5 | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) bündeln | ✅ | PSI; TK(16); RT |
-| #6 | Fahrzeug-/Massenkonflikt-Regeln im Smoke-Flow | ✅ | R(QA); VEH; MASS |
+| Issue | Thema                                                     | Status | Primärref.         |
+| ----- | --------------------------------------------------------- | ------ | ------------------ |
+| #1    | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen   | ✅     | R(QA); BRF; DOC    |
+| #2    | Self-Reflection: Truth-Source `character.self_reflection` | ✅     | HUD; RT; M12       |
+| #3    | Boss-Gate/Foreshadow Terminologie & Reset-Zeitpunkte      | ✅     | HUD; TK(16); R(QA) |
+| #4    | Cross-Mode Währungs-Sync (Solo→Koop→Arena)                | ✅     | M12; R(Koop); CW   |
+| #5    | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) bündeln      | ✅     | PSI; TK(16); RT    |
+| #6    | Fahrzeug-/Massenkonflikt-Regeln im Smoke-Flow             | ✅     | R(QA); VEH; MASS   |
 
 Details zum Maßnahmenpaket 2025-12-12:
+
 - #1 README/DOC spiegeln Acceptance 1–15 inkl. Dispatcher-Verweis.
 - #2 Speichermodul/HUD priorisieren `character.self_reflection` + Auto-Reset.
 - #3 HUD/Toolkit-Status und README-Smoke synchronisiert.
@@ -1076,19 +1079,20 @@ Dokumentations- und Strukturthemen, die in den Wissensmodulen und im Serializer 
 müssen. Der komplette Rohtext liegt unter
 `internal/qa/evidence/2025-12-13-testprompt-raw.md`.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ------------- |
-| #1 | Vollständiges v6-Test-Save als Fixture | ✅ abgeschlossen | M12; README |
-| #2 | Self-Reflection Flags vs. Charakterwert | ✅ abgeschlossen | HUD; RT; M12 |
-| #3 | Versionsstring Modul 12 (4.2.2 vs. 4.2.3) | ✅ abgeschlossen | M12; README; master-index |
-| #4 | Single Source of Truth für Rift-Seeds | ✅ | M12; TK(16); gameplay/kampagnenstruktur |
-| #5 | Arena-Mode-Reset (campaign.mode ← previous_mode) | ✅ abgeschlossen | TK(16); RT; SR |
-| #6 | Host-Regel beim Multi-Save-Import | ✅ abgeschlossen | README; M12 |
-| #7 | CU-Formel konsolidieren (Risko, Hazard-Pay, 10×Level) | ✅ | CW; Modul 15; Modul 8A |
-| #8 | Boss-DR nach Teamgröße staffeln | ✅ | HUD; TK(16); gameplay/kampagnenstruktur |
-| #9 | Acceptance-Smoke 1–15 als Runtime-Overlay bereitstellen | ✅ abgeschlossen | R(QA); DOC; BRF |
+| Issue | Thema                                                   | Status           | Primärref.                              |
+| ----- | ------------------------------------------------------- | ---------------- | --------------------------------------- |
+| #1    | Vollständiges v6-Test-Save als Fixture                  | ✅ abgeschlossen | M12; README                             |
+| #2    | Self-Reflection Flags vs. Charakterwert                 | ✅ abgeschlossen | HUD; RT; M12                            |
+| #3    | Versionsstring Modul 12 (4.2.2 vs. 4.2.3)               | ✅ abgeschlossen | M12; README; master-index               |
+| #4    | Single Source of Truth für Rift-Seeds                   | ✅               | M12; TK(16); gameplay/kampagnenstruktur |
+| #5    | Arena-Mode-Reset (campaign.mode ← previous_mode)        | ✅ abgeschlossen | TK(16); RT; SR                          |
+| #6    | Host-Regel beim Multi-Save-Import                       | ✅ abgeschlossen | README; M12                             |
+| #7    | CU-Formel konsolidieren (Risko, Hazard-Pay, 10×Level)   | ✅               | CW; Modul 15; Modul 8A                  |
+| #8    | Boss-DR nach Teamgröße staffeln                         | ✅               | HUD; TK(16); gameplay/kampagnenstruktur |
+| #9    | Acceptance-Smoke 1–15 als Runtime-Overlay bereitstellen | ✅ abgeschlossen | R(QA); DOC; BRF                         |
 
 **QA-Testreferenz (12-13 Paket)**
+
 - Acceptance-Smoke erneut mit dem geposteten HQ-Deepsave durchlaufen (Solo → Koop → Arena) und
   gegen das neue Fixture spiegeln.
 - Mission-5-Badge-Check und Arena-Exit gezielt beobachten, um Self-Reflection- und Mode-Reset-
@@ -1102,14 +1106,14 @@ Matrix, und Toolkit/HUD spiegeln den Wert samt Toast. Phase-Strike-Logs landen v
 und Rift-Einsätze inkl. Seeds/Hazard-Pay ab. Cross-Mode-Saves führen strukturierte
 `logs.flags.merge_conflicts[]`, und die v6-Fixtures enthalten alle Pflichtcontainer.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ---------------- |
-| #1 | Boss-DR nach Teamgröße statt Fixwerten spiegeln | ✅ abgeschlossen | gameplay/kampagnenstruktur.md; systems/toolkit-gpt-spielleiter.md; systems/wuerfelmechanik.md |
-| #2 | Phase-Strike-Logs auf `logs.arena_psi[]` konsolidieren | ✅ abgeschlossen | systems/kp-kraefte-psi.md; gameplay/kampagnenstruktur.md; README.md |
-| #3 | Foreshadow-/Gate-Begriffe und Persistenz vereinheitlichen | ✅ abgeschlossen | README.md; systems/toolkit-gpt-spielleiter.md; systems/gameflow/speicher-fortsetzung.md |
-| #4 | Rift-CU-Belohnung als Single-Formel dokumentieren | ✅ abgeschlossen | systems/currency/cu-waehrungssystem.md; gameplay/kampagnenstruktur.md |
-| #5 | Merge-Konflikte in Cross-Mode-Saves strukturiert loggen | ✅ abgeschlossen | systems/gameflow/speicher-fortsetzung.md; README.md |
-| #6 | Pflichtfelder Save v6 mit Fixture absichern (`logs.arena_psi` etc.) | ✅ abgeschlossen | systems/gameflow/speicher-fortsetzung.md; internal/qa/fixtures/ |
+| Issue | Thema                                                               | Status           | Primärref.                                                                                    |
+| ----- | ------------------------------------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------- |
+| #1    | Boss-DR nach Teamgröße statt Fixwerten spiegeln                     | ✅ abgeschlossen | gameplay/kampagnenstruktur.md; systems/toolkit-gpt-spielleiter.md; systems/wuerfelmechanik.md |
+| #2    | Phase-Strike-Logs auf `logs.arena_psi[]` konsolidieren              | ✅ abgeschlossen | systems/kp-kraefte-psi.md; gameplay/kampagnenstruktur.md; README.md                           |
+| #3    | Foreshadow-/Gate-Begriffe und Persistenz vereinheitlichen           | ✅ abgeschlossen | README.md; systems/toolkit-gpt-spielleiter.md; systems/gameflow/speicher-fortsetzung.md       |
+| #4    | Rift-CU-Belohnung als Single-Formel dokumentieren                   | ✅ abgeschlossen | systems/currency/cu-waehrungssystem.md; gameplay/kampagnenstruktur.md                         |
+| #5    | Merge-Konflikte in Cross-Mode-Saves strukturiert loggen             | ✅ abgeschlossen | systems/gameflow/speicher-fortsetzung.md; README.md                                           |
+| #6    | Pflichtfelder Save v6 mit Fixture absichern (`logs.arena_psi` etc.) | ✅ abgeschlossen | systems/gameflow/speicher-fortsetzung.md; internal/qa/fixtures/                               |
 
 **QA-Referenz (Copy-Paste-QA)**
 
@@ -1133,25 +1137,25 @@ Der erneute Copy-Paste-Lauf (Acceptance 1–15, Save v6 Import/Export) bestätig
 der Runtime, deckt aber mehrere Doku- und Schema-Divergenzen auf. Die folgenden Punkte sind für die
 nächsten Durchläufe einzuplanen.
 
-| Issue | Thema | Fahrplan/Nächste Schritte | Status |
-| ----- | ------------------------------ | -------------------------------------------- | ------ |
-| #1 | Dispatcher-Smoke (Acceptance 1–6) | Golden-Strings/Hint als Single Source halten; README ↔ Fixtures diffen; Smoke 1–6 in CI forcieren. | ✅ erledigt |
-| #2 | Load-Flow Flags | Persistenzquelle auf `campaign.entry_choice_skipped`/`ui.intro_seen` festlegen; `flags.runtime.skip_entry_choice` als transient dokumentieren. | ✅ erledigt |
-| #3 | SaveGuard-Reihenfolge | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`. | ✅ erledigt |
-| #4 | Gear-Label Stabilität | Doku ergänzen: Gear-Namen werden nicht normalisiert; optional Snapshot-Test für Loadout-Namen. | ✅ erledigt |
-| #5 | Paradoxon-Cluster/Merge-Cap | Klarstellung: kein Hard-Limit beim Erzeugen, Cap 12 nur beim Merge; Trace-Payload (`cluster_create`, `rift_seed_merge_cap_applied`) harmonisieren. | ✅ erledigt |
-| #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | ✅ erledigt |
-| #7 | Mission-5 Badge Auto-Reset | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten. | ✅ erledigt |
-| #8 | Modus Ask↔Suggest | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen. | ✅ erledigt |
-| #9 | Offline-Flow | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren. | ✅ erledigt |
-| #10 | HUD-Events/QA-Budget | Schema auf `logs.hud` Objekt-Events prüfen oder Trace-Spiegel definieren; QA-Runner um Roundtrip für `vehicle_clash`/`mass_conflict` erweitern. | ✅ erledigt |
-| #11 | Arena/PvP Resume | Arena-Guard-Strings fixieren; Resume-Token + `merge_conflicts` Trace stabil halten. | ✅ erledigt |
-| #12 | Psi-Heat Reset | Konflikt-/HQ-Reset deterministisch halten; Acceptance 13 Solo & Arena testen. | ✅ erledigt |
-| #13 | Accessibility Persistenz | Speicher-Snippet (`speicher-fortsetzung.md`) erweitert um `contrast`/`badge_density`/`output_pace`; Hinweis „Snippet gekürzt“ falls Beispiel minimal bleibt. | ✅ erledigt |
-| #14 | Economy-Audit High-Tier | Trace-Payload (`target_range`, `chronopolis_sinks`) stabilisieren; Anchor-Tests 120/512/900+ in QA belassen. | ✅ erledigt |
-| #15 | Wallet-/Merge-Shape | Wallets auf ID→{name,balance} festlegen; Ablageort `merge_conflicts` (Trace vs. `logs.flags`) kanonisieren und Migrationshinweis ergänzen. | ✅ erledigt |
-| #16 | Onboarding Intro | HQ-Intro als Vollzitat verankert; README/Toolkit spiegeln die Langform, QA-Fixtures nutzen das vollständige Zitat. | ✅ erledigt |
-| #17 | Save v6 Fixture (bereitgestellt) | Fixture in `internal/qa/fixtures/` spiegeln und gegen Validator laufen lassen; Reimport-Roundtrip Solo→Koop→PvP prüfen. | ✅ erledigt |
+| Issue | Thema                             | Fahrplan/Nächste Schritte                                                                                                                                    | Status      |
+| ----- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| #1    | Dispatcher-Smoke (Acceptance 1–6) | Golden-Strings/Hint als Single Source halten; README ↔ Fixtures diffen; Smoke 1–6 in CI forcieren.                                                           | ✅ erledigt |
+| #2    | Load-Flow Flags                   | Persistenzquelle auf `campaign.entry_choice_skipped`/`ui.intro_seen` festlegen; `flags.runtime.skip_entry_choice` als transient dokumentieren.               | ✅ erledigt |
+| #3    | SaveGuard-Reihenfolge             | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`.                                                   | ✅ erledigt |
+| #4    | Gear-Label Stabilität             | Doku ergänzen: Gear-Namen werden nicht normalisiert; optional Snapshot-Test für Loadout-Namen.                                                               | ✅ erledigt |
+| #5    | Paradoxon-Cluster/Merge-Cap       | Klarstellung: kein Hard-Limit beim Erzeugen, Cap 12 nur beim Merge; Trace-Payload (`cluster_create`, `rift_seed_merge_cap_applied`) harmonisieren.           | ✅ erledigt |
+| #6    | Boss-Helper/Foreshadow            | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen.                                                                        | ✅ erledigt |
+| #7    | Mission-5 Badge Auto-Reset        | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten.                                           | ✅ erledigt |
+| #8    | Modus Ask↔Suggest                 | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen.                                                                                  | ✅ erledigt |
+| #9    | Offline-Flow                      | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren.                                  | ✅ erledigt |
+| #10   | HUD-Events/QA-Budget              | Schema auf `logs.hud` Objekt-Events prüfen oder Trace-Spiegel definieren; QA-Runner um Roundtrip für `vehicle_clash`/`mass_conflict` erweitern.              | ✅ erledigt |
+| #11   | Arena/PvP Resume                  | Arena-Guard-Strings fixieren; Resume-Token + `merge_conflicts` Trace stabil halten.                                                                          | ✅ erledigt |
+| #12   | Psi-Heat Reset                    | Konflikt-/HQ-Reset deterministisch halten; Acceptance 13 Solo & Arena testen.                                                                                | ✅ erledigt |
+| #13   | Accessibility Persistenz          | Speicher-Snippet (`speicher-fortsetzung.md`) erweitert um `contrast`/`badge_density`/`output_pace`; Hinweis „Snippet gekürzt“ falls Beispiel minimal bleibt. | ✅ erledigt |
+| #14   | Economy-Audit High-Tier           | Trace-Payload (`target_range`, `chronopolis_sinks`) stabilisieren; Anchor-Tests 120/512/900+ in QA belassen.                                                 | ✅ erledigt |
+| #15   | Wallet-/Merge-Shape               | Wallets auf ID→{name,balance} festlegen; Ablageort `merge_conflicts` (Trace vs. `logs.flags`) kanonisieren und Migrationshinweis ergänzen.                   | ✅ erledigt |
+| #16   | Onboarding Intro                  | HQ-Intro als Vollzitat verankert; README/Toolkit spiegeln die Langform, QA-Fixtures nutzen das vollständige Zitat.                                           | ✅ erledigt |
+| #17   | Save v6 Fixture (bereitgestellt)  | Fixture in `internal/qa/fixtures/` spiegeln und gegen Validator laufen lassen; Reimport-Roundtrip Solo→Koop→PvP prüfen.                                      | ✅ erledigt |
 
 **Fixture-Spiegel (Copy-Paste-QA 2025-12-27)**
 
@@ -1173,11 +1177,11 @@ Enums divergieren zwischen Schema und Dialog, Offline-Hilfe nutzt verschiedene
 Feldnamen und die 15er Acceptance-Liste ist im Runtime-Set zu knapp gespiegelt.
 Alle Punkte sind umgesetzt.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------ | ------------- |
-| #1 | Badge-Dichte/Output-Pace vereinheitlichen (`full|minimal` → `standard|compact`) | ✅ abgeschlossen | M12; RT; R(QA) |
-| #2 | Offline-Hilfe-Feldname auf `offline_help_last_scene` konsolidieren | ✅ abgeschlossen | M12; RT; SR |
-| #3 | Acceptance-Smoke 1–15 im Runtime-Mirror schließen (Boss/SF/SUG/Psi/Access/Arena) | ✅ abgeschlossen | R(QA); DOC; BRF |
+| Issue | Thema                                                                            | Status             | Primärref.      |
+| ----- | -------------------------------------------------------------------------------- | ------------------ | --------------- | ---------------- | -------------- |
+| #1    | Badge-Dichte/Output-Pace vereinheitlichen (`full                                 | minimal`→`standard | compact`)       | ✅ abgeschlossen | M12; RT; R(QA) |
+| #2    | Offline-Hilfe-Feldname auf `offline_help_last_scene` konsolidieren               | ✅ abgeschlossen   | M12; RT; SR     |
+| #3    | Acceptance-Smoke 1–15 im Runtime-Mirror schließen (Boss/SF/SUG/Psi/Access/Arena) | ✅ abgeschlossen   | R(QA); DOC; BRF |
 
 ## Maßnahmenpaket Copy-Paste-QA 2025-12-XX (Issues #1–#15)
 
@@ -1186,23 +1190,23 @@ Sie werden in den kommenden Durchläufen sukzessive abgearbeitet. Rohreferenz: v
 Save-Block (HQ/Core, Px 4/5, Seeds #011/#085/#404, Wallet 4×) sowie die Mission-5-Badge-Abfolge:
 SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei Abort/Complete.
 
-| Issue | Thema | Status | Primärref. |
-| ----- | ------------------------------ | ------------------------- | ---------------- |
-| #1 | QA-Mode für `ShowComplianceOnce()` (HUD-Toast-Kanal) | ✅ abgeschlossen | RT; R; TK(16) |
-| #2 | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`) | ✅ abgeschlossen – README & Modul 12 verweisen auf einheitliches Schema | M12; R |
-| #3 | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern | ✅ abgeschlossen – QA-Briefing führt Schritt 0 `!sf off`, HUD-Reset bleibt dokumentiert | RT; HUD; BRF |
-| #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | ✅ abgeschlossen – HQ-/Arena-/Exfil-Blocker teilen denselben Text | RT; R |
-| #5 | Gear-Armband als eigenes Gear | ✅ abgeschlossen – keine Normalisierung, keine weiteren QA-Checks zu Armbändern | RT; TK(16); R |
-| #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | ✅ abgeschlossen – Gruppe/NPC-Fehler ohne Markdown | RT; TK(16) |
-| #7 | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen | ✅ abgeschlossen – `party.characters[]` ist die einzige Quelle, Legacy-Spiegel dokumentiert | M12; R |
-| #8 | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln | ✅ abgeschlossen – Feld optional, Serializer/Docs spiegeln leere Arrays | M12; R |
-| #9 | CU-Belohnungsformel vereinheitlichen (Quickstart/Generator/Währung) | ✅ abgeschlossen – Schnellstart/Generator/CW nutzen einheitliche Risiko/Seed/Hazard-Formel | CW; GM; R |
-| #10 | Px-Policy für Rifts klären (`campaign.px` vs. `rift_px`) | ✅ abgeschlossen – `campaign.px` ist Single Source, `rift_px` wird verworfen | R; M12; gameplay/kampagnenstruktur.md |
-| #11 | Rift-Seeds um Cluster/Level-Metadaten erweitern (1–25/80–150/400–1000) | ✅ abgeschlossen – optionale `cluster_hint`/`level_hint` in Save/Dashboard dokumentiert | gameplay/kampagnenstruktur.md; M12 |
-| #12 | Wallet-Splitting: Restverteilung deterministisch loggen | ✅ abgeschlossen – Roster-Order & HQ-Pool-Hinweis fix | R; M12 |
-| #13 | Artefaktwirtschaft: Sink/Salvage einführen (kein Verkauf) | ✅ abgeschlossen – Archiv-/Salvage-Sink ersetzt Verkäufe, keine CU-Auszahlung | CW; README; gameplay/kampagnenstruktur.md |
-| #14 | Arena-Ladepolitik: Lobby-Saves/Resume-Token definieren | ✅ abgeschlossen | RT; SR; R |
-| #15 | Rift-Launch-Guards auf v6-Felder normalisieren (`location`, Seeds als Objekte) | ✅ abgeschlossen | TK(16); M12; RT; R |
+| Issue | Thema                                                                          | Status                                                                                      | Primärref.                                |
+| ----- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| #1    | QA-Mode für `ShowComplianceOnce()` (HUD-Toast-Kanal)                           | ✅ abgeschlossen                                                                            | RT; R; TK(16)                             |
+| #2    | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`)       | ✅ abgeschlossen – README & Modul 12 verweisen auf einheitliches Schema                     | M12; R                                    |
+| #3    | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern             | ✅ abgeschlossen – QA-Briefing führt Schritt 0 `!sf off`, HUD-Reset bleibt dokumentiert     | RT; HUD; BRF                              |
+| #4    | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`)                   | ✅ abgeschlossen – HQ-/Arena-/Exfil-Blocker teilen denselben Text                           | RT; R                                     |
+| #5    | Gear-Armband als eigenes Gear                                                  | ✅ abgeschlossen – keine Normalisierung, keine weiteren QA-Checks zu Armbändern             | RT; TK(16); R                             |
+| #6    | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen            | ✅ abgeschlossen – Gruppe/NPC-Fehler ohne Markdown                                          | RT; TK(16)                                |
+| #7    | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen               | ✅ abgeschlossen – `party.characters[]` ist die einzige Quelle, Legacy-Spiegel dokumentiert | M12; R                                    |
+| #8    | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln             | ✅ abgeschlossen – Feld optional, Serializer/Docs spiegeln leere Arrays                     | M12; R                                    |
+| #9    | CU-Belohnungsformel vereinheitlichen (Quickstart/Generator/Währung)            | ✅ abgeschlossen – Schnellstart/Generator/CW nutzen einheitliche Risiko/Seed/Hazard-Formel  | CW; GM; R                                 |
+| #10   | Px-Policy für Rifts klären (`campaign.px` vs. `rift_px`)                       | ✅ abgeschlossen – `campaign.px` ist Single Source, `rift_px` wird verworfen                | R; M12; gameplay/kampagnenstruktur.md     |
+| #11   | Rift-Seeds um Cluster/Level-Metadaten erweitern (1–25/80–150/400–1000)         | ✅ abgeschlossen – optionale `cluster_hint`/`level_hint` in Save/Dashboard dokumentiert     | gameplay/kampagnenstruktur.md; M12        |
+| #12   | Wallet-Splitting: Restverteilung deterministisch loggen                        | ✅ abgeschlossen – Roster-Order & HQ-Pool-Hinweis fix                                       | R; M12                                    |
+| #13   | Artefaktwirtschaft: Sink/Salvage einführen (kein Verkauf)                      | ✅ abgeschlossen – Archiv-/Salvage-Sink ersetzt Verkäufe, keine CU-Auszahlung               | CW; README; gameplay/kampagnenstruktur.md |
+| #14   | Arena-Ladepolitik: Lobby-Saves/Resume-Token definieren                         | ✅ abgeschlossen                                                                            | RT; SR; R                                 |
+| #15   | Rift-Launch-Guards auf v6-Felder normalisieren (`location`, Seeds als Objekte) | ✅ abgeschlossen                                                                            | TK(16); M12; RT; R                        |
 
 **QA-Testreferenz (Rohform Copy-Paste-Lauf)**
 
@@ -1257,27 +1261,27 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
    `logs.hud[]`-Events akzeptieren `at`, der Serializer ergänzt fehlende Timestamps beim HQ-Save.
    README/Toolkit/Save-Docs spiegeln die ISO-Stempel-Regel.
 10. **Issue #10 – Offline-Konnektivität: HQ immer mit Kodex (✅ erledigt)**  
-   Klarstellung: HQ **immer** mit Kodex-Uplink; Offline-Kappung gilt **nur während Mission**.
-   Offline-Help und Save-Doku spiegeln den Re-Sync-Blocker im HQ.
+    Klarstellung: HQ **immer** mit Kodex-Uplink; Offline-Kappung gilt **nur während Mission**.
+    Offline-Help und Save-Doku spiegeln den Re-Sync-Blocker im HQ.
 11. **Issue #11 – Economy-Audit-Trace ergänzen (✅ erledigt)**  
-   `economy_audit` in `logs.trace[]` beim HQ-Save (Level, HQ-Pool, Wallet-Sum, Richtwerte,
-   Chronopolis-Sinks). HUD-Toast nur bei Out-of-Range.
+    `economy_audit` in `logs.trace[]` beim HQ-Save (Level, HQ-Pool, Wallet-Sum, Richtwerte,
+    Chronopolis-Sinks). HUD-Toast nur bei Out-of-Range.
 12. **Issue #12 – Atmosphere-Contract-Capture in QA-Mode erzwingen (✅ erledigt)**  
-   QA-Mode (`logs.flags.qa_mode=true`) erzwingt pro Phase 8–12 Zeilen plus Banned-Terms-Status
-   und HUD-Toast-Zählung; SaveGuard blockt unvollständige Captures.
+    QA-Mode (`logs.flags.qa_mode=true`) erzwingt pro Phase 8–12 Zeilen plus Banned-Terms-Status
+    und HUD-Toast-Zählung; SaveGuard blockt unvollständige Captures.
 
-**QA-Hinweis (Review-Update)**  
+**QA-Hinweis (Review-Update)**
 
 - Teamgröße-Entscheid (1–5) muss in Save-Schema, Dispatcher, HUD-DR, Arena-Policy und
-  QA-Fixtures gespiegelt werden.  
+  QA-Fixtures gespiegelt werden.
 - Rift-Zusammenwurf: Deckel + Auswahl-UI/Logik und Abgabe an ITI-Teams in Save/Trace
-  dokumentieren.  
+  dokumentieren.
 - Offline: HQ bleibt online; Mission-only-Kappung reduziert SaveGuard-Missverständnisse.
 
 ## Maßnahmenpaket Copy-Paste-QA 2026-01 (Issues #1–#16, Rohform)
 
 Der jüngste Copy-Paste-Testlauf (Solo, Solo+Squad, Koop, PvP; Seeds 1–25/80–150/400–1000) brachte
-16 neue Befunde plus zusätzliche Vorgaben der Tester:innen. Alle Punkte sind abgeschlossen und
+16 neue Befunde plus zusätzliche Vorgaben der Tester. Alle Punkte sind abgeschlossen und
 werden im Umsetzungsstand dokumentiert; die Rohbeobachtungen aus den HUD-/Log-Auszügen bleiben hier
 erhalten, damit keine Kontextdetails verloren gehen.
 
@@ -1306,7 +1310,7 @@ erhalten, damit keine Kontextdetails verloren gehen.
 - SaveGuard-Pflichtfelder (`logs.flags.merge_conflicts`, `logs.arena_psi`) fehlen in Beispielen;
   JSON-Schema-Version nötig.
 - Accessibility-Persistenz: `save_deep()` speichert nur Teilfelder, `contrast/badge_density/
-  output_pace` fehlen nach Load.
+output_pace` fehlen nach Load.
 - Offline-Hinweis spricht von Save-Sperre, obwohl HQ-only gilt; Text muss Cloud-Sync präzisieren.
 - Cross-Mode-Merge verwirft Seeds/Counter still; Konfliktliste muss verpflichtend gefüllt werden.
 - Load-Guard erzwingt HQ und verschweigt Arena-Context-Drops; Conflict-Toast fehlt.
@@ -1322,33 +1326,33 @@ erhalten, damit keine Kontextdetails verloren gehen.
 
 ### Fahrplan (Issues #1–#16)
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
-| ----- | ------------------------------ | -------------------------------------------- |
-| #1 | E2E-Trace-Schema pro Szene/Modus | ✅ Schema & Runtime-Hooks (Start/Rift/Arena) dokumentiert,
-| | | Trace landet in `logs.trace[]` |
-| #2 | Compliance-QA-Bypass | ✅ `qa_mode` = HUD-Toast-only, Start-Dispatcher übernimmt
-| | | Player-Count/Ansprache |
-| #3 | Rift-Seed Freischaltung Episode | ✅ Runtime/Toolkit/README angleichen: HQ-only nach Episodenende (AC#10 Mirror) |
-| #4 | Gate vs. Foreshadow Terminologie | ✅ `NextScene()` fixiert Gate-Toast auf FS 0/4; HUD
-| | | und Boss-Helper spiegeln Gate 2/2 konstant |
-| #5 | Paradoxon-Effekte vereinheitlichen | ✅ Single-Source-Tabelle in Modul 12; README verweist auf Px 0–4/5 Schema |
-| #6 | SYS-Semantik/SaveGuard trennen | ✅ `SYS_installed`/`SYS_runtime` Pflicht, Save-Migration |
-| | | und Fehlermeldungen aktiv |
-| #7 | Save-Schema Pflichtfelder | ✅ `saveGame.v6.schema.json` versioniert; Loader prüft Pflichtcontainer; GPT-Kompaktprofil dokumentiert |
-| #8 | Accessibility-Persistenz | ✅ `save_deep()` zieht UI-Felder via `prepare_save_ui()`,
-| | | SaveGuard erzwingt kompletten Block |
-| #9 | Offline-HUD-FAQ präzisieren | ✅ FAQ/Stub/README spiegeln Cloud-Sync & HQ-only-Policy;
-| | | QA-Bypass-Text ergänzt |
-| #10 | Cross-Mode-Merge-Konflikte | ✅ Loader-Hook `push_merge_conflict()` protokolliert Seeds/Counter/UI/Arena |
-| #11 | Arena-Load-Konfliktmarkierung | ✅ Load erzeugt Toast + `merge_conflicts` bei Arena-State |
-| #12 | High-Level-Ökonomie | ✅ Modul 15 führt die Level-100/400/1000-Tabelle (Reward vs. Sinks),
-| | | README verweist auf Seed-Stack/Hazard-Pay und unveränderte Wallet-Splits |
-| #13 | Artefaktprogression | ✅ Modul 15 dokumentiert Research-/Archivwerte und prozentuale Buffs,
-| | | freier Artefakthandel bleibt im Kampagnen- und README-Regelblock verankert |
-| #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf Team gesamt 1–5 harmonisiert,
-| | | `npc-team` bleibt 0–4 NPCs; Docs und Tests angepasst |
-| #15 | Mission 5 Badge/SF-OFF Snapshot | ✅ QA-Runner `tools/test_acceptance_followups.js` prüft HUD/Flags gegen Golden File |
-| #16 | QA-Fixture Save v6 voll | ✅ Fixture `internal/qa/fixtures/savegame_v6_full.json` dokumentiert |
+| Issue | Kurzfassung                        | Fahrplan/Nächste Schritte                                                                               |
+| ----- | ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| #1    | E2E-Trace-Schema pro Szene/Modus   | ✅ Schema & Runtime-Hooks (Start/Rift/Arena) dokumentiert,                                              |
+|       |                                    | Trace landet in `logs.trace[]`                                                                          |
+| #2    | Compliance-QA-Bypass               | ✅ `qa_mode` = HUD-Toast-only, Start-Dispatcher übernimmt                                               |
+|       |                                    | Player-Count/Ansprache                                                                                  |
+| #3    | Rift-Seed Freischaltung Episode    | ✅ Runtime/Toolkit/README angleichen: HQ-only nach Episodenende (AC#10 Mirror)                          |
+| #4    | Gate vs. Foreshadow Terminologie   | ✅ `NextScene()` fixiert Gate-Toast auf FS 0/4; HUD                                                     |
+|       |                                    | und Boss-Helper spiegeln Gate 2/2 konstant                                                              |
+| #5    | Paradoxon-Effekte vereinheitlichen | ✅ Single-Source-Tabelle in Modul 12; README verweist auf Px 0–4/5 Schema                               |
+| #6    | SYS-Semantik/SaveGuard trennen     | ✅ `SYS_installed`/`SYS_runtime` Pflicht, Save-Migration                                                |
+|       |                                    | und Fehlermeldungen aktiv                                                                               |
+| #7    | Save-Schema Pflichtfelder          | ✅ `saveGame.v6.schema.json` versioniert; Loader prüft Pflichtcontainer; GPT-Kompaktprofil dokumentiert |
+| #8    | Accessibility-Persistenz           | ✅ `save_deep()` zieht UI-Felder via `prepare_save_ui()`,                                               |
+|       |                                    | SaveGuard erzwingt kompletten Block                                                                     |
+| #9    | Offline-HUD-FAQ präzisieren        | ✅ FAQ/Stub/README spiegeln Cloud-Sync & HQ-only-Policy;                                                |
+|       |                                    | QA-Bypass-Text ergänzt                                                                                  |
+| #10   | Cross-Mode-Merge-Konflikte         | ✅ Loader-Hook `push_merge_conflict()` protokolliert Seeds/Counter/UI/Arena                             |
+| #11   | Arena-Load-Konfliktmarkierung      | ✅ Load erzeugt Toast + `merge_conflicts` bei Arena-State                                               |
+| #12   | High-Level-Ökonomie                | ✅ Modul 15 führt die Level-100/400/1000-Tabelle (Reward vs. Sinks),                                    |
+|       |                                    | README verweist auf Seed-Stack/Hazard-Pay und unveränderte Wallet-Splits                                |
+| #13   | Artefaktprogression                | ✅ Modul 15 dokumentiert Research-/Archivwerte und prozentuale Buffs,                                   |
+|       |                                    | freier Artefakthandel bleibt im Kampagnen- und README-Regelblock verankert                              |
+| #14   | Teamgrößen-Fehlertexte             | ✅ Validator/Start/HUD-Strings auf Team gesamt 1–5 harmonisiert,                                        |
+|       |                                    | `npc-team` bleibt 0–4 NPCs; Docs und Tests angepasst                                                    |
+| #15   | Mission 5 Badge/SF-OFF Snapshot    | ✅ QA-Runner `tools/test_acceptance_followups.js` prüft HUD/Flags gegen Golden File                     |
+| #16   | QA-Fixture Save v6 voll            | ✅ Fixture `internal/qa/fixtures/savegame_v6_full.json` dokumentiert                                    |
 
 ## Maßnahmenpaket Agenten-Thriller-Ton 2026-02 (Issues #1–#9)
 
@@ -1360,22 +1364,22 @@ bleibt unverändert, aber die Interpretation und Generator-Outputs müssen nachg
 Alle Punkte sind abgeschlossen; der Abschnitt dient als referenzierte Belegspur für den
 abgeschlossenen Tone-Shift.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
-| ----- | ------------------------------ | -------------------------------------------- |
-| #1 | Physicality Gate erzwingen | ✅ Runtime erzwingt Hardware-Angaben (`require_scan_device/`
-| | | `require_hack_device/must_comms`) + `HARDWARE`-Toasts; README/Toolkit/HUD-Spec spiegeln |
-| #2 | Core vs. Rift Loop klarziehen | ✅ Runtime setzt Core=Episode, Rift=Casefile (`loop` + HUD
-| | | `MODE RIFT · CASE … · STAGE …`), Launch bleibt HQ-only nach Episodenende |
-| #3 | Core-Ziele diversifizieren | ✅ Briefings fordern Anchor + Auftragstyp (`protect|extract|`
-| | | `neutralize|document|influence|prevent`), 60 % People/Influence-Fokus in README/Toolkit/Generator |
-| #4 | Rift als Case Engine | ✅ Casefile-Tracker (Tatort→Leads→Boss) + HUD-Stage, 14er-Template und
-| | | One-Weird-Thing-Guard dokumentiert; QA 20 Rifts prüfen bleibt als Hinweis |
-| #5 | EntryChoice sichtbar machen | ✅ Szene 0/1 blendet `MODE CORE/RIFT · EntryChoice …` als HUD-Toast ein, Skip-Flag respektiert (Runtime + Docs aktualisiert) |
-| #6 | Rift-Seed normalisieren | ✅ Normalizer erzwingt `id/label/status/seed_tier/hook`, füllt fehlende Felder aus Seed-Katalog; Launch setzt `active_seed_hook` |
-| #7 | Welt-Beats als Standard | ✅ Fraktionsinterventionen loggen automatisch Briefing/Mid/Debrief nach `logs.fr_interventions[]` (mit Szene/Episode/Mission) |
-| #8 | HUD als dünnes Overlay führen | ✅ HUD-Header zeigen `MODE CORE/RIFT` + `CASE <ID>: <Label> · HOOK …`; Entry-Toasts/Case-Hooks als Backtick-Overlay, HUD-Spec/Toolkit/README gespiegelt |
-| #9 | One-Weird-Thing-Rule aktivieren | ✅ Runtime-Guard `register_anomaly()` (Core 0/Rift 1 +
-| | | `WEIRD`-Toast); README/Toolkit/Generator spiegeln Budget 1 |
+| Issue | Kurzfassung                     | Fahrplan/Nächste Schritte                                                                                                                               |
+| ----- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- | ------------------------------------------------------------------ |
+| #1    | Physicality Gate erzwingen      | ✅ Runtime erzwingt Hardware-Angaben (`require_scan_device/`                                                                                            |
+|       |                                 | `require_hack_device/must_comms`) + `HARDWARE`-Toasts; README/Toolkit/HUD-Spec spiegeln                                                                 |
+| #2    | Core vs. Rift Loop klarziehen   | ✅ Runtime setzt Core=Episode, Rift=Casefile (`loop` + HUD                                                                                              |
+|       |                                 | `MODE RIFT · CASE … · STAGE …`), Launch bleibt HQ-only nach Episodenende                                                                                |
+| #3    | Core-Ziele diversifizieren      | ✅ Briefings fordern Anchor + Auftragstyp (`protect                                                                                                     | extract  | `         |
+|       |                                 | `neutralize                                                                                                                                             | document | influence | prevent`), 60 % People/Influence-Fokus in README/Toolkit/Generator |
+| #4    | Rift als Case Engine            | ✅ Casefile-Tracker (Tatort→Leads→Boss) + HUD-Stage, 14er-Template und                                                                                  |
+|       |                                 | One-Weird-Thing-Guard dokumentiert; QA 20 Rifts prüfen bleibt als Hinweis                                                                               |
+| #5    | EntryChoice sichtbar machen     | ✅ Szene 0/1 blendet `MODE CORE/RIFT · EntryChoice …` als HUD-Toast ein, Skip-Flag respektiert (Runtime + Docs aktualisiert)                            |
+| #6    | Rift-Seed normalisieren         | ✅ Normalizer erzwingt `id/label/status/seed_tier/hook`, füllt fehlende Felder aus Seed-Katalog; Launch setzt `active_seed_hook`                        |
+| #7    | Welt-Beats als Standard         | ✅ Fraktionsinterventionen loggen automatisch Briefing/Mid/Debrief nach `logs.fr_interventions[]` (mit Szene/Episode/Mission)                           |
+| #8    | HUD als dünnes Overlay führen   | ✅ HUD-Header zeigen `MODE CORE/RIFT` + `CASE <ID>: <Label> · HOOK …`; Entry-Toasts/Case-Hooks als Backtick-Overlay, HUD-Spec/Toolkit/README gespiegelt |
+| #9    | One-Weird-Thing-Rule aktivieren | ✅ Runtime-Guard `register_anomaly()` (Core 0/Rift 1 +                                                                                                  |
+|       |                                 | `WEIRD`-Toast); README/Toolkit/Generator spiegeln Budget 1                                                                                              |
 
 ## Maßnahmenpaket Rift-/Casefile-Generatoren 2026-03 (Issues #1–#5)
 
@@ -1383,29 +1387,29 @@ Der Copy-Paste-Lauf zum Rift-/Casefile-Thema hat fünf zentrale Baustellen ident
 auf klare Default-Ausgaben (echte Para-Kreaturen), einen kanonischen Seed-Katalog und konsistente
 Persistenz. Alle Punkte sind abgeschlossen und werden über den Umsetzungsstand gespiegelt.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
-| ----- | ------------------------------ | -------------------------------------------- |
-| #1 | Para-Creature-Generator auf Rift-Casefile-Default drehen | `gameplay/kreative-generatoren-`
-| | | `begegnungen.md`: Abschnitt `#para-creature-generator` durch “Rift Casefile Edition” ersetzen,
-| | | alte Urban-Myth-Edition als `#urban-myth-generator` auslagern; One-Weird-Thing (1 Zeiteffekt,
-| | | 1 Anchor, 3–5 Tells, 1 Weakness) als Standard; optional `master-index.json` Pooltitel
-| | | aktualisieren; QA: 10 Seeds, keine Tech-Falschspuren |
-| #2 | Rift-Seed Catalogue kanonisch anlegen | `gameplay/kreative-generatoren-missionen.md` um
-| | | neuen Abschnitt `#rift-seed-catalogue` erweitern (Casefile-Schema mit `rift_id/epoch/label/`
-| | | `hook/briefing_public/leads/boss_private`), `RiftSeedTable`-Einträge 10/24 auf
-| | | `Chrono Butcher`/`Jersey Devil` setzen, Deepsea-Seed in future/Arc verschieben; QA: 10 Seeds
-| | | ziehen, Briefing max. 5 Bullets, Boss 1 Zeiteffekt |
-| #3 | Rift-Casefile-Builder als Output-Template verankern | Unter dem neuen Catalogue einen
-| | | “Rift-Casefile Builder”-Block einfügen (CASE, VISUAL HOOK, BRIEFING PUBLIC, OBJECTIVES,
-| | | CASE OVERLAY, TRUTH, LEADS PRIVATE, BOSS PRIVATE; 14-Szenen-Map); QA: 3 Seeds (low/mid/high)
-| | | als komplette Fallakte rendern |
-| #4 | One-Weird-Thing-Guard als Default dokumentieren | Guard-Text in Para-Creature-Generator und
-| | | Rift-Seed Catalogue ergänzen: keine zweite Anomalie, keine “es war nur Tech” in Rifts,
-| | | Urban-Myth-Generator nur als Falschspur; QA: 5 Rift-Runs prüfen, dass nur 1 Weirdness aktiv |
-| #5 | Rift-Seed-Persistenz erweitern | `systems/toolkit-gpt-spielleiter.md` (Makro
-| | | `generate_rift_seeds()`): Seed-Objekt um `label/seed_tier/hook/time_marker` ergänzen,
-| | | optional Load-Normalizer für Alt-Saves; QA: Save/Load mit 3 Seeds, HQ-Briefing zeigt
-| | | vollständige Seed-Daten |
+| Issue | Kurzfassung                                              | Fahrplan/Nächste Schritte                                                                      |
+| ----- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| #1    | Para-Creature-Generator auf Rift-Casefile-Default drehen | `gameplay/kreative-generatoren-`                                                               |
+|       |                                                          | `begegnungen.md`: Abschnitt `#para-creature-generator` durch “Rift Casefile Edition” ersetzen, |
+|       |                                                          | alte Urban-Myth-Edition als `#urban-myth-generator` auslagern; One-Weird-Thing (1 Zeiteffekt,  |
+|       |                                                          | 1 Anchor, 3–5 Tells, 1 Weakness) als Standard; optional `master-index.json` Pooltitel          |
+|       |                                                          | aktualisieren; QA: 10 Seeds, keine Tech-Falschspuren                                           |
+| #2    | Rift-Seed Catalogue kanonisch anlegen                    | `gameplay/kreative-generatoren-missionen.md` um                                                |
+|       |                                                          | neuen Abschnitt `#rift-seed-catalogue` erweitern (Casefile-Schema mit `rift_id/epoch/label/`   |
+|       |                                                          | `hook/briefing_public/leads/boss_private`), `RiftSeedTable`-Einträge 10/24 auf                 |
+|       |                                                          | `Chrono Butcher`/`Jersey Devil` setzen, Deepsea-Seed in future/Arc verschieben; QA: 10 Seeds   |
+|       |                                                          | ziehen, Briefing max. 5 Bullets, Boss 1 Zeiteffekt                                             |
+| #3    | Rift-Casefile-Builder als Output-Template verankern      | Unter dem neuen Catalogue einen                                                                |
+|       |                                                          | “Rift-Casefile Builder”-Block einfügen (CASE, VISUAL HOOK, BRIEFING PUBLIC, OBJECTIVES,        |
+|       |                                                          | CASE OVERLAY, TRUTH, LEADS PRIVATE, BOSS PRIVATE; 14-Szenen-Map); QA: 3 Seeds (low/mid/high)   |
+|       |                                                          | als komplette Fallakte rendern                                                                 |
+| #4    | One-Weird-Thing-Guard als Default dokumentieren          | Guard-Text in Para-Creature-Generator und                                                      |
+|       |                                                          | Rift-Seed Catalogue ergänzen: keine zweite Anomalie, keine “es war nur Tech” in Rifts,         |
+|       |                                                          | Urban-Myth-Generator nur als Falschspur; QA: 5 Rift-Runs prüfen, dass nur 1 Weirdness aktiv    |
+| #5    | Rift-Seed-Persistenz erweitern                           | `systems/toolkit-gpt-spielleiter.md` (Makro                                                    |
+|       |                                                          | `generate_rift_seeds()`): Seed-Objekt um `label/seed_tier/hook/time_marker` ergänzen,          |
+|       |                                                          | optional Load-Normalizer für Alt-Saves; QA: Save/Load mit 3 Seeds, HQ-Briefing zeigt           |
+|       |                                                          | vollständige Seed-Daten                                                                        |
 
 **Umsetzungsstand 2026-03**
 
@@ -1425,21 +1429,21 @@ Arena-/Queue-States, UI-Enums, Cross-Mode-Konflikten, Offline-Guards, Output-Ver
 vollständigen v6-Fixture. Alle Punkte sind abgeschlossen; Abschnitt und Tabelle dokumentieren die
 nachgewiesenen Fixes für Folgeaudits.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ------------------------------ | -------------------------------------------- | ------ |
-| #1 | Acceptance-Smoke Dispatcher-Strings angleichen | QA-Briefing/Runner auf kanonische Fehlertexte (`npc-team 5`, `gruppe 3`) und Gruppen-Flow („2 Saves + 1 Rolle“ klar definieren) trimmen; Strings optional zentralisieren oder Tests auf contains/startsWith umstellen. | ✅ erledigt |
-| #2 | SaveGuard-Pflichtfelder vs. Prompt | Pflichtcontainer-Liste (inkl. `logs.trace`, `logs.arena_psi`, `logs.flags.merge_conflicts`) im QA-Prompt spiegeln; optional `required_containers` aus Schema exportieren und Negativtest „fehlendes logs.trace“ ergänzen. | ✅ erledigt |
-| #3 | SaveGuard-Texte vereinheitlichen | Kanonische Guard-Matrix (`Speichern nur im HQ…`/Exfil/Arena/SYS nicht voll installiert) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren. | ✅ erledigt |
-| #4 | Boss-DR & Teamgröße clampen | Teamgröße auf 1–5 hart clampen (Load/ArenaStart), DR-Tabelle anpassen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen. | ✅ erledigt |
-| #5 | Px-Reset & Seed-Gating präzisieren | Terminologie „Episode“ durchgängig nutzen, Reset beim Debrief→HQ mit `px_reset_pending/confirm`; Seeds erst nach Episodenende spielbar, Reset-Flags und Logs setzen. | ✅ erledigt |
-| #6 | Chronopolis-Gate vs. Pre-City | QA-Plan splitten: Frühphase testet Pre-City-Hub (Werkstatt/Archiv) ohne Vollstadt; ab Level 10 Chronopolis/Fraktionen. Toast/Log `chronopolis_unlock_level=10` ergänzen. | ✅ erledigt |
-| #7 | Arena Queue-/Zone-State vertraglich fixen | `arena.queue_state` Enum (`idle|searching|matched|staging|active|completed`) + optional `arena.zone` (`safe|combat`) definieren; HUD/Logs/Save spiegeln, Acceptance-Check für Queue-Transitions + SaveGuard während `arena.phase=active`. | ✅ erledigt |
-| #8 | UI-Enums konsolidieren | Kanonisches Set (`badge_density: standard|dense|compact`, `output_pace: normal|fast|slow`) festziehen; Legacy-Mappings dokumentieren und Serializer normalisieren. | ✅ erledigt |
-| #9 | Cross-Mode-Import Konfliktlogging | Merge-Layer erzwingt `merge_conflicts` bei Abweichungen (`campaign.mode`, Seeds, UI, Arena-State); `logs.trace` Merge-Event; QA-Checkliste fordert sichtbare Konflikte + Arena-Reset-Beleg. | ✅ erledigt |
-| #10 | Offline-Fallback Rate-Limit + SaveGuard | Acceptance um Rate-Limit (`!offline` <60 s) und Save-Sperre bis HQ-Resync erweitern; eigener SaveGuard-Reason + `logs.trace` (`save-blocked: offline`). | ✅ erledigt |
-| #11 | QA-Output-Vertrag widerspruchsfrei | Output-Regel festlegen: JSON-Block entweder als Appendix oder als Evidenz in ISSUE; Runner/Parser tolerant machen, Copyblock-Version anheben. | ✅ erledigt |
-| #12 | Offizielles v6-Fixture bereitstellen | Schema-konformes Save (Lvl 7/120/520, Seeds 1–25/80–150/400–1000, Pflichtcontainer inkl. `logs.trace`/`logs.arena_psi`/`merge_conflicts`) unter `internal/qa/fixtures/` versionieren; CI-Test „schema-validate + load_deep + summarize“ ergänzen. | ✅ erledigt |
-| #13 | `economy.credits` Spiegel klären | Entscheiden, ob `economy.credits` als derived/optional Feld verbleibt oder konsolidiert wird; Loader synchronisiert `credits = cu` bei fehlendem Feld, QA testet Arena/Wallet-Split ohne Divergenz. | ✅ erledigt |
+| Issue | Kurzfassung                                    | Fahrplan/Nächste Schritte                                                                                                                                                                                                                         | Status      |
+| ----- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------ | ------- | ------------------------------------------------------------------------------ | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| #1    | Acceptance-Smoke Dispatcher-Strings angleichen | QA-Briefing/Runner auf kanonische Fehlertexte (`npc-team 5`, `gruppe 3`) und Gruppen-Flow („2 Saves + 1 Rolle“ klar definieren) trimmen; Strings optional zentralisieren oder Tests auf contains/startsWith umstellen.                            | ✅ erledigt |
+| #2    | SaveGuard-Pflichtfelder vs. Prompt             | Pflichtcontainer-Liste (inkl. `logs.trace`, `logs.arena_psi`, `logs.flags.merge_conflicts`) im QA-Prompt spiegeln; optional `required_containers` aus Schema exportieren und Negativtest „fehlendes logs.trace“ ergänzen.                         | ✅ erledigt |
+| #3    | SaveGuard-Texte vereinheitlichen               | Kanonische Guard-Matrix (`Speichern nur im HQ…`/Exfil/Arena/SYS nicht voll installiert) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren.                                                                                       | ✅ erledigt |
+| #4    | Boss-DR & Teamgröße clampen                    | Teamgröße auf 1–5 hart clampen (Load/ArenaStart), DR-Tabelle anpassen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen.                                                                                              | ✅ erledigt |
+| #5    | Px-Reset & Seed-Gating präzisieren             | Terminologie „Episode“ durchgängig nutzen, Reset beim Debrief→HQ mit `px_reset_pending/confirm`; Seeds erst nach Episodenende spielbar, Reset-Flags und Logs setzen.                                                                              | ✅ erledigt |
+| #6    | Chronopolis-Gate vs. Pre-City                  | QA-Plan splitten: Frühphase testet Pre-City-Hub (Werkstatt/Archiv) ohne Vollstadt; ab Level 10 Chronopolis/Fraktionen. Toast/Log `chronopolis_unlock_level=10` ergänzen.                                                                          | ✅ erledigt |
+| #7    | Arena Queue-/Zone-State vertraglich fixen      | `arena.queue_state` Enum (`idle                                                                                                                                                                                                                   | searching   | matched                        | staging | active                                                                         | completed`) + optional `arena.zone` (`safe | combat`) definieren; HUD/Logs/Save spiegeln, Acceptance-Check für Queue-Transitions + SaveGuard während `arena.phase=active`. | ✅ erledigt |
+| #8    | UI-Enums konsolidieren                         | Kanonisches Set (`badge_density: standard                                                                                                                                                                                                         | dense       | compact`, `output_pace: normal | fast    | slow`) festziehen; Legacy-Mappings dokumentieren und Serializer normalisieren. | ✅ erledigt                                |
+| #9    | Cross-Mode-Import Konfliktlogging              | Merge-Layer erzwingt `merge_conflicts` bei Abweichungen (`campaign.mode`, Seeds, UI, Arena-State); `logs.trace` Merge-Event; QA-Checkliste fordert sichtbare Konflikte + Arena-Reset-Beleg.                                                       | ✅ erledigt |
+| #10   | Offline-Fallback Rate-Limit + SaveGuard        | Acceptance um Rate-Limit (`!offline` <60 s) und Save-Sperre bis HQ-Resync erweitern; eigener SaveGuard-Reason + `logs.trace` (`save-blocked: offline`).                                                                                           | ✅ erledigt |
+| #11   | QA-Output-Vertrag widerspruchsfrei             | Output-Regel festlegen: JSON-Block entweder als Appendix oder als Evidenz in ISSUE; Runner/Parser tolerant machen, Copyblock-Version anheben.                                                                                                     | ✅ erledigt |
+| #12   | Offizielles v6-Fixture bereitstellen           | Schema-konformes Save (Lvl 7/120/520, Seeds 1–25/80–150/400–1000, Pflichtcontainer inkl. `logs.trace`/`logs.arena_psi`/`merge_conflicts`) unter `internal/qa/fixtures/` versionieren; CI-Test „schema-validate + load_deep + summarize“ ergänzen. | ✅ erledigt |
+| #13   | `economy.credits` Spiegel klären               | Entscheiden, ob `economy.credits` als derived/optional Feld verbleibt oder konsolidiert wird; Loader synchronisiert `credits = cu` bei fehlendem Feld, QA testet Arena/Wallet-Split ohne Divergenz.                                               | ✅ erledigt |
 
 **Umsetzungsstand 2026-04**
 
@@ -1480,45 +1484,45 @@ Compliance-Ballast entfernen, die „uncut“-Regeln sichtbar machen und paralle
 stabile Presets für Consumer-Hardware liefern. Die Tabelle fasst die offenen
 Aufgaben inkl. Fundstellen zusammen.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ------------------------------ | -------------------------------------------- | ------ |
-| #1 | LM-Studio-Sampling-Presets | Zwei Presets anlegen (ZEITRISS-PLAY 0,60/0,92/60/0,05/1,06;
-| | | Noir/Interlude 0,70/0,94/80/0,07/1,05) plus Antwort-Limit 1100–1600
-| | | Tokens; Kontextprofile 16k/24k/32k dokumentieren und GPU/CPU-Defaults
-| | | (Offload, Flash Attention, Batch 128–512, Thread-Pool nach Kernen)
-| | | in README/Toolkit spiegeln. | ✅ erledigt |
-| #2 | RAG-Settings entschlacken | Big-RAG auf Limit 4, Affinity 0,74, Chunk 650, Overlap 96
-| | | trimmen; QA-Preset trennt Runtime-Module von QA-Dokumenten. Fundstelle:
-| | | aktuelle RAG-Werte in LM-Studio-Preset/Tooling. | ✅ erledigt |
-| #3 | Compliance-Makros neutralisieren | `ShowComplianceOnce`/`StoreCompliance` in README und
-| | | `systems/toolkit-gpt-spielleiter.md` zu No-Ops umbauen oder entfernen;
-| | | `systems/gameflow/speicher-fortsetzung.md` entbindet Loads von der
-| | | Pflicht, den Hinweis auszugeben. | ✅ erledigt |
-| #4 | Action-Contract Default auf „uncut“ | Save-/UI-Defaults auf `action_mode=frei|uncut`,
-| | | Pattern `full_scene` (statt intent-cut-result), `loot_policy=full_loot`,
-| | | `body_handling=protocol` umstellen; Schema-/Beispielblöcke in
-| | | `systems/gameflow/speicher-fortsetzung.md` und README anpassen. | ✅ erledigt |
-| #5 | Loot/Cleanup/Exfil als Gameplay | Loot-Blöcke wieder standardisieren (Waffen/Tools,
-| | | Keys/Daten, Wert/CU, Hinweise, „heißes Loot“ markiert) ohne Body-Search-
-| | | Anleitung; Cleanup als Risiko/Protokoll mit Kosten (Zeit, Stress,
-| | | Noise/Heat) beschreiben; Exfil-Fenster wieder hervorheben. Spiegel in
-| | | README, Toolkit und kampagnenstruktur. | ✅ erledigt |
-| #6 | Template-Syntax-Guard | Systemprompt/Toolkit ergänzen: `{%`/`{{` ignorieren, keine
-| | | Template-Klammern ausgeben; Fokus auf Klartext-Regeln, um oss-20b
-| | | Verwirrung zu vermeiden. | ✅ erledigt |
-| #7 | Neuer Systemprompt & Presets | Systemprompt „ZEITRISS 4.2.5 – LOCAL UNCUT“ liegt in
-| | | `meta/masterprompt_v6.md` (Legacy in `meta/archive/masterprompt_v6_legacy.md`),
-| | | Hinweise in README/Toolkit/Debrief aktualisiert. LM-Studio-Presets weiter
-| | | trennen (PLAY uncut vs. QA mit niedriger Temp, QA-Blockformat). | ✅ erledigt |
+| Issue | Kurzfassung                         | Fahrplan/Nächste Schritte                                                       | Status      |
+| ----- | ----------------------------------- | ------------------------------------------------------------------------------- | ----------- |
+| #1    | LM-Studio-Sampling-Presets          | Zwei Presets anlegen (ZEITRISS-PLAY 0,60/0,92/60/0,05/1,06;                     |
+|       |                                     | Noir/Interlude 0,70/0,94/80/0,07/1,05) plus Antwort-Limit 1100–1600             |
+|       |                                     | Tokens; Kontextprofile 16k/24k/32k dokumentieren und GPU/CPU-Defaults           |
+|       |                                     | (Offload, Flash Attention, Batch 128–512, Thread-Pool nach Kernen)              |
+|       |                                     | in README/Toolkit spiegeln.                                                     | ✅ erledigt |
+| #2    | RAG-Settings entschlacken           | Big-RAG auf Limit 4, Affinity 0,74, Chunk 650, Overlap 96                       |
+|       |                                     | trimmen; QA-Preset trennt Runtime-Module von QA-Dokumenten. Fundstelle:         |
+|       |                                     | aktuelle RAG-Werte in LM-Studio-Preset/Tooling.                                 | ✅ erledigt |
+| #3    | Compliance-Makros neutralisieren    | `ShowComplianceOnce`/`StoreCompliance` in README und                            |
+|       |                                     | `systems/toolkit-gpt-spielleiter.md` zu No-Ops umbauen oder entfernen;          |
+|       |                                     | `systems/gameflow/speicher-fortsetzung.md` entbindet Loads von der              |
+|       |                                     | Pflicht, den Hinweis auszugeben.                                                | ✅ erledigt |
+| #4    | Action-Contract Default auf „uncut“ | Save-/UI-Defaults auf `action_mode=frei                                         | uncut`,     |
+|       |                                     | Pattern `full_scene` (statt intent-cut-result), `loot_policy=full_loot`,        |
+|       |                                     | `body_handling=protocol` umstellen; Schema-/Beispielblöcke in                   |
+|       |                                     | `systems/gameflow/speicher-fortsetzung.md` und README anpassen.                 | ✅ erledigt |
+| #5    | Loot/Cleanup/Exfil als Gameplay     | Loot-Blöcke wieder standardisieren (Waffen/Tools,                               |
+|       |                                     | Keys/Daten, Wert/CU, Hinweise, „heißes Loot“ markiert) ohne Body-Search-        |
+|       |                                     | Anleitung; Cleanup als Risiko/Protokoll mit Kosten (Zeit, Stress,               |
+|       |                                     | Noise/Heat) beschreiben; Exfil-Fenster wieder hervorheben. Spiegel in           |
+|       |                                     | README, Toolkit und kampagnenstruktur.                                          | ✅ erledigt |
+| #6    | Template-Syntax-Guard               | Systemprompt/Toolkit ergänzen: `{%`/`{{` ignorieren, keine                      |
+|       |                                     | Template-Klammern ausgeben; Fokus auf Klartext-Regeln, um oss-20b               |
+|       |                                     | Verwirrung zu vermeiden.                                                        | ✅ erledigt |
+| #7    | Neuer Systemprompt & Presets        | Systemprompt „ZEITRISS 4.2.5 – LOCAL UNCUT“ liegt in                            |
+|       |                                     | `meta/masterprompt_v6.md` (Legacy in `meta/archive/masterprompt_v6_legacy.md`), |
+|       |                                     | Hinweise in README/Toolkit/Debrief aktualisiert. LM-Studio-Presets weiter       |
+|       |                                     | trennen (PLAY uncut vs. QA mit niedriger Temp, QA-Blockformat).                 | ✅ erledigt |
 
 ## Regressionstest-Termine 2025
 
-| Zeitraum | Umfang | Status | QA-Log |
-| ---------------- | ---------------------------------------------------- | ------ | ------ |
-| 19.03.2025 | Acceptance-Smoke-Abgleich (Build 4.2.2) | ✅ abgeschlossen | 2025-03-19 |
-| 09.–13.06.2025 | Regression MyGPT-Beta (Spiegel/Saves) | ✅ abgeschlossen | 2025-06-28 |
-| 08.–12.09.2025 | Regression MyGPT-Beta (Arena & Großteam) | ✅ abgeschlossen | 2025-09-11 |
-| 08.–12.12.2025 | Regression MyGPT-Beta (Jahresabschluss) | ✅ abgeschlossen | 2025-12-10 |
+| Zeitraum       | Umfang                                  | Status           | QA-Log     |
+| -------------- | --------------------------------------- | ---------------- | ---------- |
+| 19.03.2025     | Acceptance-Smoke-Abgleich (Build 4.2.2) | ✅ abgeschlossen | 2025-03-19 |
+| 09.–13.06.2025 | Regression Beta-KI (Spiegel/Saves)      | ✅ abgeschlossen | 2025-06-28 |
+| 08.–12.09.2025 | Regression Beta-KI (Arena & Großteam)   | ✅ abgeschlossen | 2025-09-11 |
+| 08.–12.12.2025 | Regression Beta-KI (Jahresabschluss)    | ✅ abgeschlossen | 2025-12-10 |
 
 ## Mission 5 Badge-Check (Kurzablauf)
 
@@ -1548,19 +1552,19 @@ Voice-Lock, Rift-Template, Core-Noir, Default-Mode, HUD-Schlankheit und
 QA-Stylevertrag. Alle Punkte sind umgesetzt und im Runtime-Overlay sowie in
 den Wissensmodulen verankert.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ------------------------------ | -------------------------------------------- | ------ |
-| #1 | Physicality Guard erzwingen | Physicality-Guard als Default (Hardware + Sinnesdetail); Banned-Terms-Lexikon in Toolkit/README, HUD-Usage-Log für QA. | ✅ erledigt |
-| #2 | Voice-Lock auf dritte Person | `voice_profile = gm_third_person` als Standard; Start/Load normalisieren, Decision-Prompts ohne 2nd-Person-Narration. | ✅ erledigt |
-| #3 | Rift-Template = Monster-Hunt | Rift-Generator auf 14-Szenen-Map trimmen (Tatort→Leads→Boss Szene 10, | ✅ erledigt |
-| | | eine Anomalie, Foreshadows Szene 9); Seed-Felder `{hook,` | |
-| | | atrocity_scene, signature, time_skill, weakness_hint, boss_arena}` | |
-| | | erzwingen; HUD führt Stages; QA: 3 Seeds prüfen (Szene 1 Opferbild, | |
-| | | Szene 9 zwei Foreshadows, Szene 10 Bosskontakt + DR-Toast). | |
-| #4 | Core/HQ-Noir festziehen | Briefings setzen Anchor + Auftragstyp, HQ-Szenen führen Sinneseindruck/Fraktionsbeat; Toolkit/README betonen rationalen Noir. | ✅ erledigt |
-| #5 | Default-Mode-Preset reaktivieren | `modes` stets `mission_focus` + `covert_ops_technoir`; Normalizer ergänzt Legacy, Noir-Preset vor Szene 0. | ✅ erledigt |
-| #6 | HUD als dünne Schicht halten | HUD-Usage pro Szene (Limit 2, Ziel 80/20 Szene vs. HUD); Gate/FS/Boss-DR-Strings bleiben unverändert. | ✅ erledigt |
-| #7 | QA-Runner mit Atmosphere Contract | Atmosphere-Contract (3rd person, Physicality Guard, Casefile-Rift, Core-Noir) in QA-Briefing/Runtime verankert; Contract-Block für QA-Runner. | ✅ erledigt |
+| Issue | Kurzfassung                       | Fahrplan/Nächste Schritte                                                                                                                     | Status      |
+| ----- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| #1    | Physicality Guard erzwingen       | Physicality-Guard als Default (Hardware + Sinnesdetail); Banned-Terms-Lexikon in Toolkit/README, HUD-Usage-Log für QA.                        | ✅ erledigt |
+| #2    | Voice-Lock auf dritte Person      | `voice_profile = gm_third_person` als Standard; Start/Load normalisieren, Decision-Prompts ohne 2nd-Person-Narration.                         | ✅ erledigt |
+| #3    | Rift-Template = Monster-Hunt      | Rift-Generator auf 14-Szenen-Map trimmen (Tatort→Leads→Boss Szene 10,                                                                         | ✅ erledigt |
+|       |                                   | eine Anomalie, Foreshadows Szene 9); Seed-Felder `{hook,`                                                                                     |             |
+|       |                                   | atrocity_scene, signature, time_skill, weakness_hint, boss_arena}`                                                                            |             |
+|       |                                   | erzwingen; HUD führt Stages; QA: 3 Seeds prüfen (Szene 1 Opferbild,                                                                           |             |
+|       |                                   | Szene 9 zwei Foreshadows, Szene 10 Bosskontakt + DR-Toast).                                                                                   |             |
+| #4    | Core/HQ-Noir festziehen           | Briefings setzen Anchor + Auftragstyp, HQ-Szenen führen Sinneseindruck/Fraktionsbeat; Toolkit/README betonen rationalen Noir.                 | ✅ erledigt |
+| #5    | Default-Mode-Preset reaktivieren  | `modes` stets `mission_focus` + `covert_ops_technoir`; Normalizer ergänzt Legacy, Noir-Preset vor Szene 0.                                    | ✅ erledigt |
+| #6    | HUD als dünne Schicht halten      | HUD-Usage pro Szene (Limit 2, Ziel 80/20 Szene vs. HUD); Gate/FS/Boss-DR-Strings bleiben unverändert.                                         | ✅ erledigt |
+| #7    | QA-Runner mit Atmosphere Contract | Atmosphere-Contract (3rd person, Physicality Guard, Casefile-Rift, Core-Noir) in QA-Briefing/Runtime verankert; Contract-Block für QA-Runner. | ✅ erledigt |
 
 **Umsetzungsstand 2026-05**
 
@@ -1599,17 +1603,17 @@ GPT-Dialog). Schwerpunkt ist die sprachliche Entschärfung von
 Moderations-Triggern, die Stabilisierung des Noir-Vokabulars und die
 QA-Absicherung gegen How-to-Nähe sowie Digital-Drift.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Bio-Seed/Save-Wording entschärfen | `kreative-generatoren-missionen.md` Seed P-0004 und `speicher-fortsetzung.md` Beispiel-Strings auf Kontaminationsalarm/Probenverlust/Laborstörung umstellen (keine Erreger/Anschlag/Toxin). Optional `sensitive:true` + Core-Filter. QA: Smoke-Check „Banned Terms“ um Bio-Trigger ergänzen. | ✅ abgeschlossen |
-| #2 | Extract/Kidnapping-Framing | Missionstyp „Verschwinden“ in Schutzaufnahme/Evakuierung umtexten, ggf. Split in Core/Opt-in. README-Mapping `extract → Evakuierung/Schutzaufnahme` ergänzen. QA: Acceptance-Regel für objective=`extract` ohne Entführungswortlaut. | ✅ abgeschlossen |
-| #3 | Lockpick/Hack-How-to entfernen | `ausruestung-cyberware.md`, `characters/charaktererschaffung-grundlagen.md`, `cu_waehrungssystem.md` auf abstrakte Kompetenz-Boni umstellen (kein Dietrich/Lockpick/knacken/Hacker-Kit). QA: Banned-Terms erweitern (player-facing). | ✅ abgeschlossen |
-| #4 | Encounter-Hack/Real-Targets entschärfen | `kreative-generatoren-begegnungen.md` Methoden auf physische Manipulation umstellen, reale Targets/SSL/Backdoor in In-World-Begriffe übersetzen. QA: Atmosphere-Contract-Banned-Terms um „Hack/Backdoor/SSL“ ergänzen. | ✅ abgeschlossen |
-| #5 | Noir-Lexikon gegen Digital-Drift | Zentrale Mapping-Tabelle (Toolkit/README) für Knoten/Vault/Holo/Debug etc. definieren. `kampagnenstruktur.md`, `kreative-generatoren-begegnungen.md`, Gear-Namen auf Noir-Lexikon drehen. QA: Contract-Prüfung erweitert (hits + HUD-Toast 80/20). | ✅ abgeschlossen |
-| #6 | Tone-Filter: `NAME.EXT` | Tone-Filter-Mapping auf „Aktenanhang/Beilage/Abzug“ umstellen oder Token entfernen; Whitelist/Blacklist für digitale Ersatzwörter ergänzen. QA: Atmosphere-Excerpt darf „uplink file“ nicht enthalten. | ✅ abgeschlossen |
-| #7 | Dev-Kommandos aus Player-Facing | Knowledge-Pack-Splitting (Prod ohne Kommandoliste, QA mit Liste) oder Sanitizer-Regel für Backticked Commands. QA: 3 Szenen prüfen, keine Funktions-/Command-Tokens im Fließtext. | ✅ abgeschlossen |
-| #8 | Atmosphere-Contract erweitern | `logs.flags.atmosphere_contract_capture` um `banned_terms.hits[]`, `howto_hits[]`, `rewrite_suggestion` ergänzen. QA-Playtest-Briefing: pro Phase Capture-Excerpt, FAIL → Issue. | ✅ abgeschlossen |
-| #9 | „Richtlinien“ in Worldbuilding | `kampagnenstruktur.md` Überschrift „Content-Richtlinien“ in „Leitplanken/Bühnenregeln/Spielleitfaden“ umbenennen; optional Soft-Fail für Meta-Wörter in Contract. | ✅ abgeschlossen |
+| Issue | Kurzfassung                             | Fahrplan/Nächste Schritte                                                                                                                                                                                                                                                                    | Status           |
+| ----- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| #1    | Bio-Seed/Save-Wording entschärfen       | `kreative-generatoren-missionen.md` Seed P-0004 und `speicher-fortsetzung.md` Beispiel-Strings auf Kontaminationsalarm/Probenverlust/Laborstörung umstellen (keine Erreger/Anschlag/Toxin). Optional `sensitive:true` + Core-Filter. QA: Smoke-Check „Banned Terms“ um Bio-Trigger ergänzen. | ✅ abgeschlossen |
+| #2    | Extract/Kidnapping-Framing              | Missionstyp „Verschwinden“ in Schutzaufnahme/Evakuierung umtexten, ggf. Split in Core/Opt-in. README-Mapping `extract → Evakuierung/Schutzaufnahme` ergänzen. QA: Acceptance-Regel für objective=`extract` ohne Entführungswortlaut.                                                         | ✅ abgeschlossen |
+| #3    | Lockpick/Hack-How-to entfernen          | `ausruestung-cyberware.md`, `characters/charaktererschaffung-grundlagen.md`, `cu_waehrungssystem.md` auf abstrakte Kompetenz-Boni umstellen (kein Dietrich/Lockpick/knacken/Hacker-Kit). QA: Banned-Terms erweitern (player-facing).                                                         | ✅ abgeschlossen |
+| #4    | Encounter-Hack/Real-Targets entschärfen | `kreative-generatoren-begegnungen.md` Methoden auf physische Manipulation umstellen, reale Targets/SSL/Backdoor in In-World-Begriffe übersetzen. QA: Atmosphere-Contract-Banned-Terms um „Hack/Backdoor/SSL“ ergänzen.                                                                       | ✅ abgeschlossen |
+| #5    | Noir-Lexikon gegen Digital-Drift        | Zentrale Mapping-Tabelle (Toolkit/README) für Knoten/Vault/Holo/Debug etc. definieren. `kampagnenstruktur.md`, `kreative-generatoren-begegnungen.md`, Gear-Namen auf Noir-Lexikon drehen. QA: Contract-Prüfung erweitert (hits + HUD-Toast 80/20).                                           | ✅ abgeschlossen |
+| #6    | Tone-Filter: `NAME.EXT`                 | Tone-Filter-Mapping auf „Aktenanhang/Beilage/Abzug“ umstellen oder Token entfernen; Whitelist/Blacklist für digitale Ersatzwörter ergänzen. QA: Atmosphere-Excerpt darf „uplink file“ nicht enthalten.                                                                                       | ✅ abgeschlossen |
+| #7    | Dev-Kommandos aus Player-Facing         | Knowledge-Pack-Splitting (Prod ohne Kommandoliste, QA mit Liste) oder Sanitizer-Regel für Backticked Commands. QA: 3 Szenen prüfen, keine Funktions-/Command-Tokens im Fließtext.                                                                                                            | ✅ abgeschlossen |
+| #8    | Atmosphere-Contract erweitern           | `logs.flags.atmosphere_contract_capture` um `banned_terms.hits[]`, `howto_hits[]`, `rewrite_suggestion` ergänzen. QA-Playtest-Briefing: pro Phase Capture-Excerpt, FAIL → Issue.                                                                                                             | ✅ abgeschlossen |
+| #9    | „Richtlinien“ in Worldbuilding          | `kampagnenstruktur.md` Überschrift „Content-Richtlinien“ in „Leitplanken/Bühnenregeln/Spielleitfaden“ umbenennen; optional Soft-Fail für Meta-Wörter in Contract.                                                                                                                            | ✅ abgeschlossen |
 
 ## Maßnahmenpaket Chrononauten-Presets 2026-07 (Issues #1–#4)
 
@@ -1620,12 +1624,12 @@ sowie Cyber-/Bioware** konsequent mitzuberechnen. So lassen sich alle
 Beispielcharaktere 1:1 im Character-Editor nachbauen, ohne versteckte
 Legacy-Regeln oder Skill-Sidepaths.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Pregens & Start-Archetypen auf 18-Punkte-Schema umstellen | `characters/charaktererschaffung-optionen.md`: Abschnitt `### Pregens` + alle<br>`## Start-Archetypen`-Blöcke auf **Editor-Basiswerte** umstellen<br>(Attribute starten bei 0, Rassenmods addieren, dann 18 Punkte).<br>**Rassenmods, Talente, Cyber-/Bioware** pro Pregen prüfen und in den<br>Attributzeilen spiegeln; SYS-Kosten der Implantate miterfassen.<br>Flavour-Zeilen an neue Schwerpunkte angleichen. QA: Jeder Pregen =<br>Summe 18 (vor Mods) + Editor-Nachbau (Rasse/Mods/Implantate/Talente). | ✅ erledigt |
-| #2 | Schnellstart & Quick-Build editor-konform machen | `characters/charaktererschaffung-optionen.md`: `### Quick-Build für One-Shots`<br>auf Preset-Auswahl umstellen (kein „8 Punkte frei“).<br>`### Schnellstart-Chrononauten` auf Editor-Presets mit 18 Punkten +<br>Rassenmods umstellen; **Skills-Altbestand** entfernen oder 1:1 in<br>Talente übersetzen. Psi-Option klar als Toggle deklarieren. Unique-Gear<br>ohne direkte Px-Manipulation modellieren. QA: Alle Schnellstart-Presets<br>im Editor (Rasse/Mods/Implantate/Talente) nachbaubar. | ✅ erledigt |
-| #3 | Tutorial-Charakter Jonas editorfähig machen | `characters/charaktererschaffung-grundlagen.md` → „Beispielcharakter für die<br>Tutorialrunde“: Attribute auf 18-Punkte-Schema bringen (inkl.<br>Rassenmods/Talente/Cyber-/Bioware, falls gesetzt). Text zur Probechance<br>prüfen und ggf. angleichen. QA: Jonas lässt sich im Editor ohne<br>Sonderregeln bauen. | ✅ erledigt |
-| #4 | Preset-Validator gegen Drift | Tooling-Check aufsetzen (`tools/validate_presets.*` oder Parser):<br>prüft Presets auf 6 Attribute, Summe=18 (vor Mods), Start-Caps,<br>**Rassenmods**, **Talente**, **Cyber-/Bioware** inkl. SYS-Budget. Optional<br>strukturierte Preset-Quelle (JSON/YAML) definieren und Doku daraus<br>generieren. QA: Validator rot → nach Fix grün; Pflichtlauf im QA-Paket<br>dokumentieren. | ✅ erledigt |
+| Issue | Kurzfassung                                               | Fahrplan/Nächste Schritte                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Status      |
+| ----- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| #1    | Pregens & Start-Archetypen auf 18-Punkte-Schema umstellen | `characters/charaktererschaffung-optionen.md`: Abschnitt `### Pregens` + alle<br>`## Start-Archetypen`-Blöcke auf **Editor-Basiswerte** umstellen<br>(Attribute starten bei 0, Rassenmods addieren, dann 18 Punkte).<br>**Rassenmods, Talente, Cyber-/Bioware** pro Pregen prüfen und in den<br>Attributzeilen spiegeln; SYS-Kosten der Implantate miterfassen.<br>Flavour-Zeilen an neue Schwerpunkte angleichen. QA: Jeder Pregen =<br>Summe 18 (vor Mods) + Editor-Nachbau (Rasse/Mods/Implantate/Talente). | ✅ erledigt |
+| #2    | Schnellstart & Quick-Build editor-konform machen          | `characters/charaktererschaffung-optionen.md`: `### Quick-Build für One-Shots`<br>auf Preset-Auswahl umstellen (kein „8 Punkte frei“).<br>`### Schnellstart-Chrononauten` auf Editor-Presets mit 18 Punkten +<br>Rassenmods umstellen; **Skills-Altbestand** entfernen oder 1:1 in<br>Talente übersetzen. Psi-Option klar als Toggle deklarieren. Unique-Gear<br>ohne direkte Px-Manipulation modellieren. QA: Alle Schnellstart-Presets<br>im Editor (Rasse/Mods/Implantate/Talente) nachbaubar.              | ✅ erledigt |
+| #3    | Tutorial-Charakter Jonas editorfähig machen               | `characters/charaktererschaffung-grundlagen.md` → „Beispielcharakter für die<br>Tutorialrunde“: Attribute auf 18-Punkte-Schema bringen (inkl.<br>Rassenmods/Talente/Cyber-/Bioware, falls gesetzt). Text zur Probechance<br>prüfen und ggf. angleichen. QA: Jonas lässt sich im Editor ohne<br>Sonderregeln bauen.                                                                                                                                                                                             | ✅ erledigt |
+| #4    | Preset-Validator gegen Drift                              | Tooling-Check aufsetzen (`tools/validate_presets.*` oder Parser):<br>prüft Presets auf 6 Attribute, Summe=18 (vor Mods), Start-Caps,<br>**Rassenmods**, **Talente**, **Cyber-/Bioware** inkl. SYS-Budget. Optional<br>strukturierte Preset-Quelle (JSON/YAML) definieren und Doku daraus<br>generieren. QA: Validator rot → nach Fix grün; Pflichtlauf im QA-Paket<br>dokumentieren.                                                                                                                           | ✅ erledigt |
 
 **Umsetzungsstand 2026-07**
 
@@ -1646,17 +1650,17 @@ Dieses Paket bündelt die MR-Schärfung der PvP-Arena (Ausrüstung, Haptik,
 Magnetfeld-Deck, Shared-Overlay) samt diegetischer HUD-Schicht. Ziel ist, dass
 Arena-Outputs **physisch** wirken, ohne Digitalraum-Vibe.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Arena als MR-Trainingsanlage verankern | `gameplay/kampagnenstruktur.md`: „Simulation“ durch MR-Trainingsanlage ersetzen, Suit-Lock/Med-Scan und Reset-Logik diegetisch erklären. QA: 1 Arena-Probelauf ohne VR-Vokabular. | ✅ abgeschlossen |
-| #2 | Hardware-/Facility-Kasten ergänzen | `gameplay/kampagnenstruktur.md`: kurzer MR-Absatz (Suit/Helm, Magnetfeld, Beacon-Gitter, Safe/Combat-Zonen), 1 Beispielabsatz „Eintritt in die Arena“. QA: Stil-Check gegen Holodeck/VR-Termine. | ✅ abgeschlossen |
-| #3 | Default-Map umbenennen | `systems/toolkit-gpt-spielleiter.md`: Default `map` auf physische Bezeichnung (z. B. „Magnet-Deck A“) ändern; ggf. Legacy-Hinweis. QA: Arena-Start zeigt neuen Map-Label. | ✅ abgeschlossen |
-| #4 | Diegetisches HUD als Default | `systems/toolkit-gpt-spielleiter.md`: `arena_hud()` um `style='diegetic'` ergänzen; Labels „Halle/Grenze/Zeit/Runde“ verwenden, Debug-Style optional. QA: HUD in beiden Styles prüfen. | ✅ abgeschlossen |
-| #5 | Fahrzeug-Rigs für Arena | `gameplay/kampagnenstruktur.md`: Arena-Fahrzeugrigs beschreiben (Harness + MR-Karosse + Magnetfeld). `vehicle_policy='rig'` im Toolkit dokumentieren. QA: Chase-Szene mit Rig vs. off. | ✅ abgeschlossen |
-| #6 | Kulisse = Set + MR-Overlay | `gameplay/kampagnenstruktur.md`: Kulissen-Satz ergänzen (Set/Props/Licht + MR), kein Epochensprung. QA: Prompt „Kulisse 1700“ bleibt Arena. | ✅ abgeschlossen |
-| #7 | Feedback-Intensität als Kalibrierung | `gameplay/kampagnenstruktur.md` + Toolkit: `feedback_intensity` (off/low/standard) beschreiben; nur Beschreibung, keine Werte. QA: Start mit low/off prüfen. | ✅ abgeschlossen |
-| #8 | Shared-Overlay Lore | `gameplay/kampagnenstruktur.md`: Beacon-Gitter + Suit-Marker erklären, damit alle dieselbe MR sehen. QA: Szene „Einer steigt ins Fahrzeug“ konsistent beschreiben. | ✅ abgeschlossen |
-| #9 | Dämpfer diegetisch erklären | `gameplay/kampagnenstruktur.md`: Exploding-Dämpfer als Impuls-Governor erklären; optional diegetischer Toast. QA: Arena-Start-Info ohne Runtime-Begriffe verständlich. | ✅ abgeschlossen |
+| Issue | Kurzfassung                            | Fahrplan/Nächste Schritte                                                                                                                                                                        | Status           |
+| ----- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- |
+| #1    | Arena als MR-Trainingsanlage verankern | `gameplay/kampagnenstruktur.md`: „Simulation“ durch MR-Trainingsanlage ersetzen, Suit-Lock/Med-Scan und Reset-Logik diegetisch erklären. QA: 1 Arena-Probelauf ohne VR-Vokabular.                | ✅ abgeschlossen |
+| #2    | Hardware-/Facility-Kasten ergänzen     | `gameplay/kampagnenstruktur.md`: kurzer MR-Absatz (Suit/Helm, Magnetfeld, Beacon-Gitter, Safe/Combat-Zonen), 1 Beispielabsatz „Eintritt in die Arena“. QA: Stil-Check gegen Holodeck/VR-Termine. | ✅ abgeschlossen |
+| #3    | Default-Map umbenennen                 | `systems/toolkit-gpt-spielleiter.md`: Default `map` auf physische Bezeichnung (z. B. „Magnet-Deck A“) ändern; ggf. Legacy-Hinweis. QA: Arena-Start zeigt neuen Map-Label.                        | ✅ abgeschlossen |
+| #4    | Diegetisches HUD als Default           | `systems/toolkit-gpt-spielleiter.md`: `arena_hud()` um `style='diegetic'` ergänzen; Labels „Halle/Grenze/Zeit/Runde“ verwenden, Debug-Style optional. QA: HUD in beiden Styles prüfen.           | ✅ abgeschlossen |
+| #5    | Fahrzeug-Rigs für Arena                | `gameplay/kampagnenstruktur.md`: Arena-Fahrzeugrigs beschreiben (Harness + MR-Karosse + Magnetfeld). `vehicle_policy='rig'` im Toolkit dokumentieren. QA: Chase-Szene mit Rig vs. off.           | ✅ abgeschlossen |
+| #6    | Kulisse = Set + MR-Overlay             | `gameplay/kampagnenstruktur.md`: Kulissen-Satz ergänzen (Set/Props/Licht + MR), kein Epochensprung. QA: Prompt „Kulisse 1700“ bleibt Arena.                                                      | ✅ abgeschlossen |
+| #7    | Feedback-Intensität als Kalibrierung   | `gameplay/kampagnenstruktur.md` + Toolkit: `feedback_intensity` (off/low/standard) beschreiben; nur Beschreibung, keine Werte. QA: Start mit low/off prüfen.                                     | ✅ abgeschlossen |
+| #8    | Shared-Overlay Lore                    | `gameplay/kampagnenstruktur.md`: Beacon-Gitter + Suit-Marker erklären, damit alle dieselbe MR sehen. QA: Szene „Einer steigt ins Fahrzeug“ konsistent beschreiben.                               | ✅ abgeschlossen |
+| #9    | Dämpfer diegetisch erklären            | `gameplay/kampagnenstruktur.md`: Exploding-Dämpfer als Impuls-Governor erklären; optional diegetischer Toast. QA: Arena-Start-Info ohne Runtime-Begriffe verständlich.                           | ✅ abgeschlossen |
 
 **Umsetzungsstand 2026-08**
 
@@ -1670,14 +1674,14 @@ Dieses Paket fasst den Feinschliff für Spielstart, Herkunftslogik und
 Charakterdossier zusammen. Ziel ist ein runderer Einstieg mit klaren Defaults,
 Origin-Block und Echo-Talent, ohne das Spieldesign zu verändern.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Start-Defaults ohne Spielerzahl-Fragen | `README.md` und `systems/toolkit-gpt-spielleiter.md`: `solo` setzt Ansprache **Du** und `player_count = 1`, keine Nachfrage; `gruppe` nutzt **Ihr**, Spielerzahl wird im Charakterbau mitgezählt. Modusfrage nur, wenn `klassisch|schnell` fehlt. | ✅ abgeschlossen |
-| #2 | `npc-team`-Semantik klären | `README.md` und Toolkit: `npc-team N` = NPC‑Begleiter 0–4 (Team gesamt 1–5). Fehltexte bleiben unverändert. QA: Start-Transkripte/Smoke-Check prüfen. | ✅ abgeschlossen |
-| #3 | Origin-Block vor der Statistik | `characters/charaktererschaffung-grundlagen.md` und README: Origin-Block (Epoche/Ort, Rolle/Beruf, Tod-Kategorie) vor den Werten; Optionen _selbst bauen_, `generate`, `custom generate`. | ✅ abgeschlossen |
-| #4 | Echo-Talent als drittes Talent | `characters/charaktererschaffung-grundlagen.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen. | ✅ abgeschlossen |
-| #5 | Dossier-Ausgabe definieren | `characters/charaktererschaffung-grundlagen.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock. | ✅ abgeschlossen |
-| #6 | Nullzeit-Puffer statt „virtueller Raum“ | `characters/charaktererschaffung-grundlagen.md`: Wording auf Nullzeit-Puffer/Holo-Interface/Labor drehen, Körperbau erst nach Abschluss. | ✅ abgeschlossen |
+| Issue | Kurzfassung                             | Fahrplan/Nächste Schritte                                                                                                                                                                                                         | Status           |
+| ----- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------- |
+| #1    | Start-Defaults ohne Spielerzahl-Fragen  | `README.md` und `systems/toolkit-gpt-spielleiter.md`: `solo` setzt Ansprache **Du** und `player_count = 1`, keine Nachfrage; `gruppe` nutzt **Ihr**, Spielerzahl wird im Charakterbau mitgezählt. Modusfrage nur, wenn `klassisch | schnell` fehlt.  | ✅ abgeschlossen |
+| #2    | `npc-team`-Semantik klären              | `README.md` und Toolkit: `npc-team N` = NPC‑Begleiter 0–4 (Team gesamt 1–5). Fehltexte bleiben unverändert. QA: Start-Transkripte/Smoke-Check prüfen.                                                                             | ✅ abgeschlossen |
+| #3    | Origin-Block vor der Statistik          | `characters/charaktererschaffung-grundlagen.md` und README: Origin-Block (Epoche/Ort, Rolle/Beruf, Tod-Kategorie) vor den Werten; Optionen _selbst bauen_, `generate`, `custom generate`.                                         | ✅ abgeschlossen |
+| #4    | Echo-Talent als drittes Talent          | `characters/charaktererschaffung-grundlagen.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen.                                                              | ✅ abgeschlossen |
+| #5    | Dossier-Ausgabe definieren              | `characters/charaktererschaffung-grundlagen.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock.                                                               | ✅ abgeschlossen |
+| #6    | Nullzeit-Puffer statt „virtueller Raum“ | `characters/charaktererschaffung-grundlagen.md`: Wording auf Nullzeit-Puffer/Holo-Interface/Labor drehen, Körperbau erst nach Abschluss.                                                                                          | ✅ abgeschlossen |
 
 ## Maßnahmenpaket Plattform-Contract Action & Gewalt 2026-10 (Issues #1–#6)
 
@@ -1686,14 +1690,14 @@ Agenten-Thriller-Ton und filmische Action zu behalten, ohne in How-to oder
 Body-Handling abzudriften. Loot/Intel bleibt als **abstrakter Outcome** im
 Debrief oder als knapper Scene-Tag („Keycard erhalten“) sichtbar.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Contract-Memo archivieren | Neues Meta-Dokument unter `internal/qa/evidence/` anlegen (Titel: „Plattform-Contract: Action & Gewalt“), Quelle/Datum vermerken und im QA-Log referenzieren. | ✅ abgeschlossen |
-| #2 | Actionfilm-Cut als SL-Pattern | `systems/toolkit-gpt-spielleiter.md`: Guard/Pattern „Outcome statt Anleitung“ ergänzen (Intent → Cut → Resultat + Konsequenzen + Optionen), ohne Policy-Sprache im In-World-Output. | ✅ abgeschlossen |
-| #3 | Style-Compliance spiegeln | `README.md` und `gameplay/kampagnenstruktur.md` (No-Go-Zonen/Style-Compliance) um kurze Regeln ergänzen: keine Schritt-für-Schritt-Gewalt, kein Body-Handling, Konsequenzen via Noise/Stress/Heat/Zeitfenster. | ✅ abgeschlossen |
-| #4 | Loot-Handling abstrahieren | Toolkit-/Debrief-Hinweise präzisieren (Keycards/Intel als Outcome, Loot-Recap im Debrief, keine „Durchsuchen“-Prozeduren). Relevante Makros: `itemforge()`, Loot-Reminder. | ✅ abgeschlossen |
-| #5 | QA-Checks für Tester:innen | `docs/qa/tester-playtest-briefing.md` um PASS/FAIL-Kriterien ergänzen (Cut/Outcome bei zu konkreten Ansagen, keine How-to-Optimierungen, In-World bleibt). | ✅ abgeschlossen |
-| #6 | Optionales Runtime-Logging | Prüfen, ob `logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]` sinnvoll sind; falls ja, Save-Schema/Runtime/Toolkit/Debrief spiegeln und QA-Trace definieren. | ✅ abgeschlossen |
+| Issue | Kurzfassung                   | Fahrplan/Nächste Schritte                                                                                                                                                                                      | Status           |
+| ----- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| #1    | Contract-Memo archivieren     | Neues Meta-Dokument unter `internal/qa/evidence/` anlegen (Titel: „Plattform-Contract: Action & Gewalt“), Quelle/Datum vermerken und im QA-Log referenzieren.                                                  | ✅ abgeschlossen |
+| #2    | Actionfilm-Cut als SL-Pattern | `systems/toolkit-gpt-spielleiter.md`: Guard/Pattern „Outcome statt Anleitung“ ergänzen (Intent → Cut → Resultat + Konsequenzen + Optionen), ohne Policy-Sprache im In-World-Output.                            | ✅ abgeschlossen |
+| #3    | Style-Compliance spiegeln     | `README.md` und `gameplay/kampagnenstruktur.md` (No-Go-Zonen/Style-Compliance) um kurze Regeln ergänzen: keine Schritt-für-Schritt-Gewalt, kein Body-Handling, Konsequenzen via Noise/Stress/Heat/Zeitfenster. | ✅ abgeschlossen |
+| #4    | Loot-Handling abstrahieren    | Toolkit-/Debrief-Hinweise präzisieren (Keycards/Intel als Outcome, Loot-Recap im Debrief, keine „Durchsuchen“-Prozeduren). Relevante Makros: `itemforge()`, Loot-Reminder.                                     | ✅ abgeschlossen |
+| #5    | QA-Checks für Tester          | `docs/qa/tester-playtest-briefing.md` um PASS/FAIL-Kriterien ergänzen (Cut/Outcome bei zu konkreten Ansagen, keine How-to-Optimierungen, In-World bleibt).                                                     | ✅ abgeschlossen |
+| #6    | Optionales Runtime-Logging    | Prüfen, ob `logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]` sinnvoll sind; falls ja, Save-Schema/Runtime/Toolkit/Debrief spiegeln und QA-Trace definieren.                            | ✅ abgeschlossen |
 
 ## Maßnahmenpaket QA-Copy-Paste-Lauf 2026-10 (Issues #1–#11)
 
@@ -1706,19 +1710,19 @@ HUD-Toast-Budget sowie Arena-Merge-Konflikte. Der komplette QA-Save liegt im
 Testlog (inkl. Seeds 1–25/80–150/400–1000, Wallet-Anker 120/512/900+, Arena-
 Pfad, Offline-Rate-Limit und HUD-Object-Events).
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
-| ----- | ------------------------------ | ------------------------------------------- | ------ |
-| #1 | QA-Mode-Compliance & Ansprache | `ShowComplianceOnce(qa_mode=true)` zeigt nur HUD-Toast; Dispatcher übernimmt `qa_player_count`/`qa_addressing`, Save-Flags spiegeln QA-Mode. Debrief-Runtime-Flag ergänzen. | ✅ erledigt (2026-11-06) |
-| #2 | Dispatcher-Start & Fehltexte | Golden-Strings für Start-/Fehlertexte (Klammern-Pflicht), Syntax-Hint 1×/Session (`dispatch_hint`, channel `dispatcher`), Load-Flow ohne EntryChoice, SaveGuard HQ-only-Blocker-String. | ✅ abgeschlossen (Strings/Trace in RT & README gespiegelt) |
-| #3 | Px 5 → ClusterCreate-Standard | Trace-Schema `cluster_create` vereinheitlichen (`px_before/after`, `seed_ids`, Episode/Mission/Scene/Loc + campaign_type), `campaign.rift_seeds[]` als Objekte normalisieren; HUD-Toast „Px Reset → 0“. | ✅ abgeschlossen (Cluster-Trace + Seed-Normalisierung 2026-11-06) |
-| #4 | Mission‑5 Badge/SF-OFF Safeguard | QA-Hook beim Start von M5: wenn `SF-OFF` fehlt, Warn-Toast/Debrief-Hinweis + Flag `acceptance_12_missing_sf_off`; `foreshadow_gate_m5_seen` persistieren. | ✅ abgeschlossen (2026-11-07) |
-| #5 | Psi-Heat Trace | `log_psi_event()` um Kategorien `psi_heat_inc/reset` mit Trigger ergänzen; Aggregation pro Konflikt, HQ-Transfer reset protokollieren. | ✅ abgeschlossen (2026-11-07) |
-| #6 | Suggest-Persistenz-Guard | `normalize_save_v6()` synchronisiert `ui.suggest_mode` ↔ `character.modes` und schreibt HUD-Tag `· SUG` deterministisch; Roundtrip-Test (SUG-ON/OFF) fixieren. | ✅ abgeschlossen (Runtime/README/Spiegel aktualisiert 2026-11-05) |
-| #7 | Offline-FAQ & SaveGuard | README/FAQ-Text auf „HQ-Deepsave erst nach Re-Sync; SaveGuard blockt Offline-Ende“ angleichen; SaveGuard-Meldung mit Suffix „– HQ-Save gesperrt.“ und Trace `save_blocked` standardisieren. | ✅ abgeschlossen (Runtime-Strings & Wissensmodule vereinheitlicht 2026-11-05) |
-| #8 | Accessibility-Roundtrip | UI-Block (`contrast/badge_density/output_pace` etc.) vollständig speichern/ laden; Legacy-Mapping unit-testen; Acceptance 14/15 Runner um Diff-Check erweitern. | ✅ abgeschlossen (2026-11-07) |
-| #9 | Economy: Currency-Sync Trace | `sync_primary_currency()` loggt `currency_sync` (before/after, reason) bei Wallet-Split, Hazard-Pay, Arena-Fee, Markt-Kauf; Ankerwerte 120/512/900+ im QA-Runner prüfen. | ✅ abgeschlossen (Trace `currency_sync` für Arena/Wallet/Hazard/Markt aktiv 2026-11-05) |
-| #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; Suppressions tracen `toast_suppressed` inkl. `hud_scene_usage` und `qa_mode`. Gate/FS/Boss priorisieren. | ✅ abgeschlossen (HUD-Budget/Trace aktualisiert 2026-11-06) |
-| #11 | Arena-Merge-Konflikt-Toast | `reset_arena_after_load()` erzwingt Toast „Merge-Konflikt: Arena-Status verworfen“ bei jeder Verwerfung des Arena-Blocks, plus `merge_conflicts[]` Record; Dedupe per Token. | ✅ abgeschlossen (Toast + Trace dedupliziert 2026-11-05) |
+| Issue | Kurzfassung                      | Fahrplan/Nächste Schritte                                                                                                                                                                               | Status                                                                                  |
+| ----- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| #1    | QA-Mode-Compliance & Ansprache   | `ShowComplianceOnce(qa_mode=true)` zeigt nur HUD-Toast; Dispatcher übernimmt `qa_player_count`/`qa_addressing`, Save-Flags spiegeln QA-Mode. Debrief-Runtime-Flag ergänzen.                             | ✅ erledigt (2026-11-06)                                                                |
+| #2    | Dispatcher-Start & Fehltexte     | Golden-Strings für Start-/Fehlertexte (Klammern-Pflicht), Syntax-Hint 1×/Session (`dispatch_hint`, channel `dispatcher`), Load-Flow ohne EntryChoice, SaveGuard HQ-only-Blocker-String.                 | ✅ abgeschlossen (Strings/Trace in RT & README gespiegelt)                              |
+| #3    | Px 5 → ClusterCreate-Standard    | Trace-Schema `cluster_create` vereinheitlichen (`px_before/after`, `seed_ids`, Episode/Mission/Scene/Loc + campaign_type), `campaign.rift_seeds[]` als Objekte normalisieren; HUD-Toast „Px Reset → 0“. | ✅ abgeschlossen (Cluster-Trace + Seed-Normalisierung 2026-11-06)                       |
+| #4    | Mission‑5 Badge/SF-OFF Safeguard | QA-Hook beim Start von M5: wenn `SF-OFF` fehlt, Warn-Toast/Debrief-Hinweis + Flag `acceptance_12_missing_sf_off`; `foreshadow_gate_m5_seen` persistieren.                                               | ✅ abgeschlossen (2026-11-07)                                                           |
+| #5    | Psi-Heat Trace                   | `log_psi_event()` um Kategorien `psi_heat_inc/reset` mit Trigger ergänzen; Aggregation pro Konflikt, HQ-Transfer reset protokollieren.                                                                  | ✅ abgeschlossen (2026-11-07)                                                           |
+| #6    | Suggest-Persistenz-Guard         | `normalize_save_v6()` synchronisiert `ui.suggest_mode` ↔ `character.modes` und schreibt HUD-Tag `· SUG` deterministisch; Roundtrip-Test (SUG-ON/OFF) fixieren.                                          | ✅ abgeschlossen (Runtime/README/Spiegel aktualisiert 2026-11-05)                       |
+| #7    | Offline-FAQ & SaveGuard          | README/FAQ-Text auf „HQ-Deepsave erst nach Re-Sync; SaveGuard blockt Offline-Ende“ angleichen; SaveGuard-Meldung mit Suffix „– HQ-Save gesperrt.“ und Trace `save_blocked` standardisieren.             | ✅ abgeschlossen (Runtime-Strings & Wissensmodule vereinheitlicht 2026-11-05)           |
+| #8    | Accessibility-Roundtrip          | UI-Block (`contrast/badge_density/output_pace` etc.) vollständig speichern/ laden; Legacy-Mapping unit-testen; Acceptance 14/15 Runner um Diff-Check erweitern.                                         | ✅ abgeschlossen (2026-11-07)                                                           |
+| #9    | Economy: Currency-Sync Trace     | `sync_primary_currency()` loggt `currency_sync` (before/after, reason) bei Wallet-Split, Hazard-Pay, Arena-Fee, Markt-Kauf; Ankerwerte 120/512/900+ im QA-Runner prüfen.                                | ✅ abgeschlossen (Trace `currency_sync` für Arena/Wallet/Hazard/Markt aktiv 2026-11-05) |
+| #10   | HUD-Toast-Budget                 | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; Suppressions tracen `toast_suppressed` inkl. `hud_scene_usage` und `qa_mode`. Gate/FS/Boss priorisieren.                    | ✅ abgeschlossen (HUD-Budget/Trace aktualisiert 2026-11-06)                             |
+| #11   | Arena-Merge-Konflikt-Toast       | `reset_arena_after_load()` erzwingt Toast „Merge-Konflikt: Arena-Status verworfen“ bei jeder Verwerfung des Arena-Blocks, plus `merge_conflicts[]` Record; Dedupe per Token.                            | ✅ abgeschlossen (Toast + Trace dedupliziert 2026-11-05)                                |
 
 ## Maßnahmenpaket Copy-Paste-QA 2026-12 (Issues #1–#11, Fahrplan-Update)
 
@@ -1747,7 +1751,7 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    ergänzen oder ausdrücklich dokumentieren, warum er fehlt. QA: Save ohne `arc_dashboard` muss
    entweder auto-gefüllt oder geblockt werden, kein stilles Weglassen.
    _Status: ✅ umgesetzt – `arc_dashboard` wird vor dem HQ-Save aufgefüllt, SaveGuard prüft alle
-   Dashboard-Pflichtpfade (2025-12-25)._ 
+   Dashboard-Pflichtpfade (2025-12-25)._
 4. **Issue #4 – Mission‑5 Self‑Reflection konsistent hooken**
    Self-Reflection nur über `set_self_reflection()` setzen und am Missionsende (M5/M10) automatisch
    auf `SF-ON` resetten; Flags `self_reflection_auto_reset_*` schreiben. QA: Golden-File für
@@ -1768,13 +1772,13 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    Seeds auf 12 und gibt Überschuss an ITI-NPC-Teams. Trace `rift_seed_merge_cap_applied` mit
    kept/overflow + `merge_conflicts`-Eintrag, QA: Cross-Mode-Import 14→12 Seeds belegen.
    _Status: ✅ abgeschlossen – Merge-Cap-Trace (`rift_seed_merge_cap_applied`), Konflikt-Record
-   und Doku-Update (2026-12-31)._ 
+   und Doku-Update (2026-12-31)._
 7. **Issue #7 – HUD-Events `vehicle_clash`/`mass_conflict` strukturieren**
    `hud_event()`-Helper einführen, Objekt-Events validieren (Allowlist, numerische Felder) und
    fehlende `at`-Timestamps auto-füllen. QA: Je 1 Chase + 1 Massenkonflikt pro Run mit
    Objekt-Events in `logs.hud[]` prüfen.
    _Status: ✅ abgeschlossen – hud_event-Helper, Allowlist/Auto-Timestamp und HUD-Log-Sanitizer
-   aktiv (2027-01-10)._ 
+   aktiv (2027-01-10)._
 8. **Issue #8 – Economy-Anker & Merge-Regeln auditieren**
    `economy_audit()` als Helper pro HQ-Transfer/Debrief mit Level-Anker (120/512/900+) und
    Host-Vorrang für `economy.cu`; Wallet-Merge union-by-agent-id, Konflikte in
@@ -1787,13 +1791,13 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    Toast standardisieren. QA: PvP-Flow laden/entladen, Mode-Restore und Phase-Strike-Tax-Logs
    prüfen.
    _Status: ✅ abgeschlossen – Load-Reset setzt Kampagnenmodus per previous/resume-Mode,
-   Phase-Strike-Tax=0, SaveGuard blockt CITY/Arena (2027-03-02)._ 
+   Phase-Strike-Tax=0, SaveGuard blockt CITY/Arena (2027-03-02)._
 10. **Issue #10 – Chronopolis-Unlock vereinheitlichen**
     Einheitlichen Unlock-Pfad bereitstellen (`chronopolis_unlocked`, Level/Key/Toast/Trace), HQ-
     SaveGuard blockt CITY. Migration: wenn Key-Item vorhanden, fehlende Flags ergänzen. QA:
     Level 9→10 Levelup → Toast/Flags/Trace; Save/Load stabil.
     _Status: ✅ abgeschlossen – Unlock prüft Level/Key auch beim Laden, SaveGuard meldet
-    Chronopolis-Blocker, Trace/Toast werden nachgezogen (2027-03-02)._ 
+    Chronopolis-Blocker, Trace/Toast werden nachgezogen (2027-03-02)._
 11. **Issue #11 – Save v6 Fixture & Roundtrip sichern**
     Test-Save enthält alle Pflichtcontainer (Seeds, Economy-Anker, Arena/Chronopolis/HUD-Events,
     Atmosphere-Capture). Fixture als `savegame_v6_test.json`-Variante übernehmen, Exporter auf
@@ -1801,7 +1805,7 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
     struktureller Diff ohne Containerverlust.
     _Status: ✅ abgeschlossen – Fixture `savegame_v6_test.json` trägt Chronopolis-, HUD- und
     Atmosphere-Capture-Blöcke, `last_save_at` fixiert Save-/HUD-Timestamps und ein Roundtrip-Test
-    prüft den vollständigen Container-Erhalt (2027-03-05)._ 
+    prüft den vollständigen Container-Erhalt (2027-03-05)._
 
 ## Maßnahmenpaket Copy-Paste-QA 2027-XX (Issues #1–#10, neuer Lauf)
 
@@ -1898,7 +1902,7 @@ und mit QA-Runner sowie Fixtures abzugleichen.
 
 4. **Issue #4 – Index-Hygiene Runtime vs. QA**
    QA-Briefings und Archivdateien dürfen nicht in den Runtime-Index; Index listet ausschließlich
-   die 20 Wissensspeicher-Module (README, master-index*, 18 Runtime-Docs).
+   die 20 Wissensspeicher-Module (README, master-index\*, 18 Runtime-Docs).
    _Status: ✅ dokumentiert – README stellt klar, dass QA-Briefings separat gepostet und nicht
    indiziert werden._
 
@@ -1912,9 +1916,9 @@ und mit QA-Runner sowie Fixtures abzugleichen.
    Tokens/s und Retrieval-Stabilität.
    _Status: ✅ dokumentiert – README nennt 24k/32k-Empfehlung und relativiert 131k._
 
-## Maßnahmenpaket Beta-GPT Playtest 2026-XX (Issues #1–#12)
+## Maßnahmenpaket Beta-KI Playtest 2026-XX (Issues #1–#12)
 
-Der aktuelle Beta-GPT-Lauf (Tester-Briefing) liefert 11 dokumentierte Findings plus eine
+Der aktuelle Beta-KI-Lauf (Tester-Briefing) liefert 11 dokumentierte Findings plus eine
 Design-Korrektur: Preserve/Trigger sollen **nicht** strikt getrennt bleiben, sondern gemischt
 spielbar sein. Die Punkte müssen in Runtime, Wissensmodulen und QA-Runner/Fahrplan sauber
 nachvollzogen werden. Referenz: der mitgelieferte Save v6 (Multi-Level-Roster 8/120/512/905,
@@ -1977,14 +1981,14 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    _Status: ✅ erledigt – HQ-Loop dokumentiert und in Wissensmodulen gespiegelt._
 
 10. **Issue #10 – HUD-Toast-Suppression im Log spiegeln**
-   Unterdrückte Toasts nicht im Player-HUD, aber als `logs.hud[]`-Eintrag mit
-   `suppressed:true` + Grund speichern; Trace `toast_suppressed` bleibt Pflicht. QA:
-   3–4 Low-Priority-Overlays, 2 sichtbar, Rest suppressed + Trace.
-   _Status: ✅ erledigt – Suppressed-Entries in `logs.hud[]` mit `reason:"budget"`._
+    Unterdrückte Toasts nicht im Player-HUD, aber als `logs.hud[]`-Eintrag mit
+    `suppressed:true` + Grund speichern; Trace `toast_suppressed` bleibt Pflicht. QA:
+    3–4 Low-Priority-Overlays, 2 sichtbar, Rest suppressed + Trace.
+    _Status: ✅ erledigt – Suppressed-Entries in `logs.hud[]` mit `reason:"budget"`._
 
-## Maßnahmenpaket Beta-GPT Playtest 2026-01-14 (Issues #1–#9)
+## Maßnahmenpaket Beta-KI Playtest 2026-01-14 (Issues #1–#9)
 
-Der Beta-GPT-Lauf vom 2026-01-14 liefert neun dokumentierte Punkte inklusive
+Der Beta-KI-Lauf vom 2026-01-14 liefert neun dokumentierte Punkte inklusive
 Test-Save v6 (Multi-Level-Roster 7/120/512/905, Rift-Cluster 1–25/80–150/400–1000).
 Referenz: QA-Log 2026-01-14.
 
@@ -2009,9 +2013,9 @@ Referenz: QA-Log 2026-01-14.
    _Status: ✅ erledigt – Merge-Regel (Tier/Discovered/Timestamp) + `selection_rule` dokumentiert._
 
 5. **Issue #5 – SaveGuard-Prioritäten in Modul 12 spiegeln**
-   Kanonische Reihenfolge (offline > arena > hq_only > exfil > sys > stress >
+   Kanonische Reihenfolge (offline > arena > hq*only > exfil > sys > stress >
    psi_heat) als Tabelle/Verweis im Speichermodul festhalten.
-   _Status: ✅ erledigt – Prioritätstabelle in Modul 12 ergänzt._
+   \_Status: ✅ erledigt – Prioritätstabelle in Modul 12 ergänzt.*
 
 6. **Issue #6 – UI/Accessibility-Override im Cross-Mode-Import markieren**
    Erwartungssatz im Testerprompt ergänzen; optional Trace `ui_host_override`
@@ -2037,21 +2041,20 @@ Referenz: QA-Log 2026-01-14.
    fehlende `hud_event.at`.
    _Status: ✅ erledigt – Dummy-Save-Fixture ergänzt, Normalizer-Regel dokumentiert._
 
-11. **Issue #11 – Acceptance-Report standardisieren + Save-Fixture**
+10. **Issue #11 – Acceptance-Report standardisieren + Save-Fixture**
     Report-Format (Steps 1–15 PASS/FAIL + Links auf `logs.trace`/`logs.hud`) fixieren;
     Offline numerisch als #15. Beigefügten Save v6 als Copy/Paste-Fixture aufnehmen
-    (Self-Reflection Auto-Reset, toast_suppressed, rift_seed_merge_cap_applied, Arena-Resume).
+    (Self-Reflection Auto-Reset, toast*suppressed, rift_seed_merge_cap_applied, Arena-Resume).
     QA: Reimport-Tests Solo→Koop→PvP mit Diff auf `economy.wallets{}`, `merge_conflicts[]`, `ui`,
     `arena`, `campaign.rift_seeds[]`.
-    _Status: ✅ erledigt._
+    \_Status: ✅ erledigt.*
 
-12. **Issue #12 – Preserve/Trigger nicht strikt trennen (Mixed-Play)**
+11. **Issue #12 – Preserve/Trigger nicht strikt trennen (Mixed-Play)**
     Kampagnenmodus soll gemischt spielbar sein; keine harte Trennung zwischen `preserve` und
     `trigger`. Doku/Toolkit/Mission-Generator prüfen: Pool-Logik, UI-Ansage und Save-Felder
     (`campaign.mode`, `seed_source`) so anpassen, dass gemischtes Spielen als Standard erlaubt ist.
     QA: Runs mit wechselnden Seeds (Preserve/Trigger gemischt) ohne Konflikt-Fehlermeldung.
     _Status: ✅ erledigt – Mixed-Default + Seed-Quelle pro Mission dokumentiert._
-
 
 ## Teilumsetzung 2026-02-20 – Paradoxon als Reward-Balken (Pass 1)
 
@@ -2061,12 +2064,12 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 3
 ### Umgesetzte Punkte
 
 - [x] Paradoxon-Subsystem auf reinen Fortschrittsbalken geschärft:
-  keine Heil-, PP- oder Zustands-Boni auf Px-Stufen.
+      keine Heil-, PP- oder Zustands-Boni auf Px-Stufen.
 - [x] `ClusterCreate()` bei Px 5 als einziger mechanischer Payoff in
-  Zustands-/Kampagnenmodul konsolidiert.
+      Zustands-/Kampagnenmodul konsolidiert.
 - [x] HUD-Textbeispiele bereinigt (kein `Loot +1` auf Zwischenstufen).
 - [x] Toolkit-Wording bereinigt (`Px-Fortschritt` statt
-  `Px-Belohnungen`).
+      `Px-Belohnungen`).
 
 ### Teilumsetzung 2026-02-20 – Terminologie-Pass Mission/Episode/Szene (Pass 2)
 
@@ -2076,11 +2079,10 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 1
 ### Umgesetzte Punkte
 
 - [x] TL;DR in `README.md` auf kanonische Begriffe umgestellt
-  (Mission = 12 Szenen, Episode = ~10 Missionen).
+      (Mission = 12 Szenen, Episode = ~10 Missionen).
 - [x] TL;DR im `core/spieler-handbuch.md` mit identischer Formel gespiegelt.
 - [x] Glossar/Zeiteinheiten im Spieler-Handbuch um Episode/Arc/Kampagne
-  ergänzt, damit Mission/Episode/Szene konsistent referenzierbar sind.
-
+      ergänzt, damit Mission/Episode/Szene konsistent referenzierbar sind.
 
 ### Teilumsetzung 2026-02-20 – Speichersystem-Pass (Pass 3, Korrektur)
 
@@ -2091,24 +2093,24 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
 
 - [x] `core/wuerfelmechanik.md` von „Nightly Auto-Save" auf klare HQ-only-Autosave-Regel umgestellt.
 - [x] `core/zeitriss-core.md` Nullzeit-Menü präzisiert: `Pfad fortsetzen`
-  bedeutet Episodenverlauf, nicht Mid-Mission-Rückkehr aus dem HQ.
+      bedeutet Episodenverlauf, nicht Mid-Mission-Rückkehr aus dem HQ.
 - [x] `characters/hud-system.md` Nullzeit-Menü analog angepasst; kein Mid-Mission-Load aus HQ.
 
 ### Folgeaufgaben-Status (konsolidiert)
 
 - [x] Terminologie-Pass Mission/Episode/Szene repo-weit vereinheitlicht
-  (README + Spieler-Handbuch auf kanonische Hierarchie abgeglichen).
+      (README + Spieler-Handbuch auf kanonische Hierarchie abgeglichen).
 - [x] Speichersystem-Pass abgeschlossen (HQ-only/Autosave-Definition
-  in allen Modulen angeglichen).
+      in allen Modulen angeglichen).
 - [x] README-Onboarding nach Spielerfluss umbauen (Quickstart zuerst,
-  rechtliche Hinweise nachgelagert). _(Statusabgleich 2027-03-11: README führt
-  den 5-Minuten-Quickstart vor Lizenz-/Rechtsteilen.)_
+      rechtliche Hinweise nachgelagert). _(Statusabgleich 2027-03-11: README führt
+      den 5-Minuten-Quickstart vor Lizenz-/Rechtsteilen.)_
 - [x] Template-Guard-Pass in Wissensmodulen (Template-Syntax entfernen oder
-  intern kapseln). _(Abschluss über Läufe T1-T4 vom 2027-03-10; offene Delimiter
-  in Runtime-/Toolkit-Modulen bereinigt.)_
+      intern kapseln). _(Abschluss über Läufe T1-T4 vom 2027-03-10; offene Delimiter
+      in Runtime-/Toolkit-Modulen bereinigt.)_
 - [x] Setup-/Versionierungsdrift (inkl. Changelog-Regel) in einem separaten
-  Release-Durchlauf schließen. _(Abschluss über T5 vom 2027-03-10; Setup-Guide
-  auf 4.2.6 harmonisiert, Changelog im Root vorhanden.)_
+      Release-Durchlauf schließen. _(Abschluss über T5 vom 2027-03-10; Setup-Guide
+      auf 4.2.6 harmonisiert, Changelog im Root vorhanden.)_
 
 ### Zyklus 2027-03-14 – KI-First-Onboarding & Economy-/Scaling-Checks
 
@@ -2123,7 +2125,6 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
      `economy_audit`-Trace und Wallet-Pfade).
   4. Pflicht-Läufe `python3 tools/lint_runtime.py` +
      `GM_STYLE=verbose python3 tools/lint_runtime.py` (Runtime-Regelabgleich).
-
 
 ### Zyklus 2027-03-15 – SSOT-Modulpipeline (Vorbereitung auf Step-by-Step-Durchläufe)
 
@@ -2148,15 +2149,15 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
 ### Aktiver Rest-Backlog (für die nächsten Zyklen)
 
 - [x] Arena-Smoke-Baseline repariert: Device-Requirement-Check toleriert in
-  `scripts/lint_arena.py` beide Dash-Varianten (`-`/`–`); Pflichtläufe
-  `make test` und `bash scripts/smoke.sh` wieder grün. _(Stand 2027-03-12)_
+      `scripts/lint_arena.py` beide Dash-Varianten (`-`/`–`); Pflichtläufe
+      `make test` und `bash scripts/smoke.sh` wieder grün. _(Stand 2027-03-12)_
 - [x] Tiefenanalyse-Upload in einen strukturierten Maßnahmenkatalog überführt
-  (nur verbleibende Punkte), damit Upload-Artefakte nicht mehr als operative
-  To-do-Liste dienen. _(Erfasst in
-  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`, Stand
-  2027-03-13.)_
+      (nur verbleibende Punkte), damit Upload-Artefakte nicht mehr als operative
+      To-do-Liste dienen. _(Erfasst in
+      `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`, Stand
+      2027-03-13.)_
 - [ ] Restkatalog iterativ abarbeiten (Single-Source-of-Truth-Restpunkte und
-  Stil-Feinschliff) entlang der 5-stufigen SSOT-Modulpipeline und pro Zyklus
-  im QA-Log dokumentieren.
+      Stil-Feinschliff) entlang der 5-stufigen SSOT-Modulpipeline und pro Zyklus
+      im QA-Log dokumentieren.
 - [x] Economy-/Scaling-Sicherungen als gebündelte QA-Checkliste im Fahrplan
-  verankert (Stand 2027-03-14).
+      verankert (Stand 2027-03-14).

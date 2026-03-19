@@ -17,8 +17,6 @@ The user pasted a massive instruction text. The system prompt says: "You are ZEI
 
 ## Response
 
-
-
 ---
 
-*Report generiert: 2026-03-01 00:59 CET*
+_Report generiert: 2026-03-01 00:59 CET_

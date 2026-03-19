@@ -1,17 +1,17 @@
 # Playtest 07 — 5er-Gruppe High-Level Core-Op (Sonnet)
 
-| Feld | Wert |
-|---|---|
-| **Modell** | zeitriss-v426-uncut-sonnet (Claude Sonnet 4.6 via Amazon Bedrock) |
-| **Datum** | 2026-02-24 |
-| **Szenario** | 5er-Gruppe, Level 15, Core-Op, Mission 3, Klassik-Modus |
-| **Prompt** | "Spiel starten. 5er-Gruppe: 'Sphinx' (Einsatzleiterin, Level 15, CHA 6), 'Viper' (Sniper, Level 15, GES 6), 'Locke' (Hacker, Level 15, INT 6), 'Tank' (Breacher, Level 15, STR 6), 'Doc' (Medic, Level 15, SYS 5). Core-Op. Mission 3 der Episode. Klassik-Modus." |
+| Feld         | Wert                                                                                                                                                                                                                                                               |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Modell**   | zeitriss-v426-uncut-sonnet (Claude Sonnet 4.6 via Amazon Bedrock)                                                                                                                                                                                                  |
+| **Datum**    | 2026-02-24                                                                                                                                                                                                                                                         |
+| **Szenario** | 5er-Gruppe, Level 15, Core-Op, Mission 3, Klassik-Modus                                                                                                                                                                                                            |
+| **Prompt**   | "Spiel starten. 5er-Gruppe: 'Sphinx' (Einsatzleiterin, Level 15, CHA 6), 'Viper' (Sniper, Level 15, GES 6), 'Locke' (Hacker, Level 15, INT 6), 'Tank' (Breacher, Level 15, STR 6), 'Doc' (Medic, Level 15, SYS 5). Core-Op. Mission 3 der Episode. Klassik-Modus." |
 
 ---
 
 # ZEITRISS — Einleitung
 
-> *"Die Vergangenheit ist kein Museum. Sie ist ein Schlachtfeld, das noch kämpft."*
+> _"Die Vergangenheit ist kein Museum. Sie ist ein Schlachtfeld, das noch kämpft."_
 > — ITI-Feldhandbuch, Ausgabe 7, Seite 1
 
 ---
@@ -294,6 +294,7 @@ ZEITFENSTER  05:17 Uhr — Wachablösung, danach Fenster geschlossen
 2. **Einstiegspunkt B wählen** — Seiteneingang Straße, über Erdgeschoss zum UG, mittleres Risiko / mehr Intel-Potenzial
 3. **Weitere Intel anfordern** — Kodex nach Archivplänen, Kellerstruktur oder Meridian-Profil befragen
 4. **Freie Aktion** — Sphinx, Viper, Locke, Tank oder Doc sprechen / Ausrüstung anpassen / eigene Idee
+
 ---
 
 ---
@@ -301,12 +302,16 @@ ZEITFENSTER  05:17 Uhr — Wachablösung, danach Fenster geschlossen
 ## QA-Bewertung
 
 ### HUD-Zeile
+
 ✅ Vorhanden: `EP 1 · MS 3 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 15 (Gruppe) · Px 0/5 · Stress 0 · Obj TBD · Exfil -`
+
 - Alle Pflichtfelder korrekt dargestellt (Episode, Mission, Szene, Phase, Mode, Level, Px, Stress, Obj, Exfil)
 - Zusatz "(Gruppe)" bei Level — korrekt für 5er-Gruppe
 
 ### Charakterbögen
+
 ✅ Alle 5 Charaktere vollständig erstellt mit:
+
 - Callsigns korrekt übernommen (Sphinx, Viper, Locke, Tank, Doc)
 - Angegebene Attribute korrekt zugewiesen (CHA 6 für Sphinx, GES 6 für Viper, etc.)
 - Fehlende Attribute sinnvoll nach Rollenlogik ergänzt
@@ -315,13 +320,16 @@ ZEITFENSTER  05:17 Uhr — Wachablösung, danach Fenster geschlossen
 - HP, Stress, CU, XP vorhanden
 
 ### Team-Overview
+
 ✅ Gruppen-HUD mit HP/Stress/Status für alle 5 Chars
 ✅ Gruppen-CU und Px-Tracker
 
 ### Proben
+
 ⚠️ Keine Proben gewürfelt (korrekt — Briefing-Phase, noch kein Gameplay)
 
 ### Atmosphäre
+
 ✅ Exzellent: Kalter Kaffee, Ozon, flackerndes Neonlicht, Nullzeit-Stabilisator
 ✅ Setting Wien 1943 atmosphärisch aufgebaut
 ✅ Direktor Vasić als NPC mit Persönlichkeit
@@ -329,6 +337,7 @@ ZEITFENSTER  05:17 Uhr — Wachablösung, danach Fenster geschlossen
 ✅ Entscheidungspunkte mit klaren taktischen Optionen (4 Choices)
 
 ### Regeltreue
+
 - Attributsystem korrekt (6 Attribute, sinnvolle Verteilung)
 - HP-Berechnung plausibel (STR-basiert)
 - Stress-Maximum variiert per Charakter — gut
@@ -338,11 +347,11 @@ ZEITFENSTER  05:17 Uhr — Wachablösung, danach Fenster geschlossen
 - Mission/Episode/Szene-Tracking korrekt
 - CU-System vorhanden
 
-| Kategorie | Note (1-5) |
-|---|---|
-| HUD korrekt | 5 |
-| Proben | n/a (Briefing) |
-| Atmosphäre | 5 |
-| Regeltreue | 4 |
+| Kategorie   | Note (1-5)     |
+| ----------- | -------------- |
+| HUD korrekt | 5              |
+| Proben      | n/a (Briefing) |
+| Atmosphäre  | 5              |
+| Regeltreue  | 4              |
 
 **Gesamtbewertung: 4.7/5** — Hervorragend. Alle 5 Chars sauber erstellt, exzellentes Briefing-Setting mit Wien 1943, starke NSC-Präsenz, taktisch sinnvolle Optionen. Minimaler Abzug: Attributpunkte-Summen nicht 100% verifizierbar (Level-15-Bonus nicht explizit gelistet pro Char), aber plausibel.

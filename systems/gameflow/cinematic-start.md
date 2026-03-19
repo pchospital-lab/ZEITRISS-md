@@ -59,6 +59,7 @@ können ein Rift offen lassen und die Core-Operation fortsetzen. Sie riskieren
 während des Arcs keinen höheren SG.
 
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
+
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
 ITI-Hauptquartiers ein schmaler, gleißender Riss auftut — kein Tor, keine
 Scheibe, sondern ein Schnitt in der Luft. Kaltes, bläuliches Licht taucht das
@@ -77,8 +78,8 @@ scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **sicher in der Nullzeit** angekommen sind. Ein sanfter Ton erklingt im
 **Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
 hoch: `Willkommen, Agent. Kodex-Sync aktiv ...`
-*(Details zur Hardware: siehe
-[HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec)).*
+_(Details zur Hardware: siehe
+[HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec))._
 
 Das Nullzeit-HQ bildet den gigantischen Kern des ITI; Chronopolis bleibt bis zum Stadtschlüssel
 (Level 10+) versiegelt und wird erst dann zum nächsten Ankerpunkt.

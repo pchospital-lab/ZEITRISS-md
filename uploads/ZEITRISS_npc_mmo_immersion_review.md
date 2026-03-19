@@ -5,6 +5,7 @@
 Die neue **Kontinuitätslogik für echte Spielercharaktere** ist inzwischen stark genug, um das gewünschte MMO-Gefühl glaubhaft anzudeuten.
 
 Der **größte verbleibende Bruch** liegt jetzt bei den **NPC-Chrononauten**:
+
 - In der aktuellen Philosophie von ZEITRISS sollen Rückkehrer, Joiner, Splits, Rejoins und Kontinuitäts-Echos eine lebende Welt erzeugen.
 - Im Toolkit existiert aber noch eine alte Logik, in der ein Solo-NPC-Team im Kern **temporär** ist und Gruppenstarts sogar **Px/Seeds resetten**.
 - Gleichzeitig gibt es im v7-Schema **keinen kompakten, strukturierten NPC-Kontinuitätsblock**, obwohl `npc-team` als echter Startpfad vorhanden ist.
@@ -116,6 +117,7 @@ attached | hq | assigned | recovering | missing | rival
 ```
 
 Bedeutung:
+
 - `attached` = gerade als aktiver Begleiter vorgesehen
 - `hq` = im HQ ansprechbar, aber nicht im Feld
 - `assigned` = offscreen bei anderem Einsatz
@@ -143,6 +145,7 @@ Bedeutung:
 Jeder geladene Save darf **NPC-Kontinuität** mitbringen.
 
 Aber:
+
 - **Session-NPCs** hängen am Session-Anker
 - **Personal-NPCs** hängen an ihrem `owner_id`
 - **aktive Feldplätze** sind global begrenzt
@@ -174,6 +177,7 @@ all others remain HQ/offscreen
 ### Wichtig
 
 Die KI-SL soll **nicht technisch nachfragen**, sondern nur dann in-world fragen, wenn es dramaturgisch Sinn ergibt:
+
 - „Für den Einsatz ist nur ein freier Platz im Shuttle. Wen nehmt ihr mit – Latch oder Solberg?“
 
 Wenn keine Nachfrage nötig ist, wählt die KI automatisch.
@@ -188,6 +192,7 @@ Die NPCs verschwinden **nicht**.
 Sie gehen in einen der Zustände `hq`, `assigned`, `recovering`, `missing` oder `rival`.
 
 Beim nächsten relevanten Load liefert die KI-SL **eine kurze Offscreen-Fortschreibung**:
+
 - wo sie waren
 - was sich verändert hat
 - was sie jetzt mitbringen
@@ -215,6 +220,7 @@ Beispiel:
 ### Transfer nur als Szene
 
 Ein Wechsel eines NPC zwischen `session` und `personal` darf nur über einen **sichtbaren Inworld-Beat** passieren:
+
 - „Mara kommt mit dir.“
 - „Solberg bleibt bei Team A.“
 - „Renier zieht Latch für einen internen Auftrag ab.“
@@ -238,6 +244,7 @@ Pro abwesendem NPC maximal **eine** kompakte Offscreen-Fortschreibung pro Rückk
 ### Mini-Generator (für KI-SL)
 
 **Auftrag:**
+
 - Überwachung
 - Bergung
 - Eskortierung
@@ -247,6 +254,7 @@ Pro abwesendem NPC maximal **eine** kompakte Offscreen-Fortschreibung pro Rückk
 - medizinische Reha
 
 **Veränderung:**
+
 - Narbe
 - Misstrauen
 - neue Loyalität
@@ -256,6 +264,7 @@ Pro abwesendem NPC maximal **eine** kompakte Offscreen-Fortschreibung pro Rückk
 - Beute / Zugangscode / Kontakt
 
 **Folge:**
+
 - Hook
 - Boss-Tell
 - Alt-Route
@@ -275,6 +284,7 @@ Sie liefern **Zusammenfassung + Haken**, keine zweite unendliche Spielfläche.
 ### 1. NPC-Rejoin-Beat
 
 Wenn bekannte NPC-Chrononauten im Save oder Merge relevant sind, muss die KI-SL beim Load kurz zeigen:
+
 - wer physisch da ist
 - wer nur als Funk/HQ-Spur präsent ist
 - wer fehlt
@@ -295,6 +305,7 @@ Beispiel:
 ### 4. NPC-Cross-Pollination
 
 Wenn NPCs Offscreen waren, sollen sie gelegentlich etwas aus einer anderen Linie mitbringen:
+
 - ein Gerücht
 - eine Wunde
 - einen Gegenstand
@@ -312,6 +323,7 @@ So entsteht die MMO-Lüge: Die Welt lief weiter, auch wenn die Kamera weg war.
 Der Abschnitt **„Solo-Modus mit temporärem NPC-Team“** muss raus oder komplett umgeschrieben werden.
 
 Insbesondere problematisch:
+
 - „temporäres Team“
 - „existiert nur für diese Mission“
 - `StartGroupMode(...)` mit Reset von `campaign.px` und `rift_seeds`
@@ -328,6 +340,7 @@ Diese Logik stammt aus der alten Gruppenstart-Denkweise und widerspricht dem akt
 Ersetze die alte Solo-„temporäres NPC-Team“-Logik durch ein persistentes NPC-Kontinuitätsmodell, das Solo und Multiplayer gleich behandelt.
 
 **Umsetzen:**
+
 - Toolkit-Abschnitt „Solo-Modus mit temporärem NPC-Team“ vollständig überarbeiten
 - Begriffe „temporär“, „nur für diese Mission“ und Reset-Logik entfernen
 - neue SSOT-Regel einführen: NPC-Chrononauten sind persistente Offscreen-Agenten
@@ -336,6 +349,7 @@ Ersetze die alte Solo-„temporäres NPC-Team“-Logik durch ein persistentes NP
 - keine Vollcharaktere daraus machen, sondern kompakte Kontinuitätsobjekte
 
 **Akzeptanzkriterien:**
+
 - Solo-NPCs verschwinden nach Missionende nicht mehr implizit
 - NPCs können in späteren Sessions wieder auftauchen
 - Solo- und Multiplayer-Join nutzen dieselbe Logik
@@ -351,6 +365,7 @@ Ersetze die alte Solo-„temporäres NPC-Team“-Logik durch ein persistentes NP
 Persistente NPC-Chrononauten mit minimalem JSON-Budget speicherbar machen.
 
 **Umsetzen:**
+
 - in `continuity` ergänzen:
   - `npc_roster[]` max 6
   - `active_npc_ids[]` max 4
@@ -359,6 +374,7 @@ Persistente NPC-Chrononauten mit minimalem JSON-Budget speicherbar machen.
 - keine Wallets, keine Vollausrüstung, keine XP-Subtrees für NPCs
 
 **Akzeptanzkriterien:**
+
 - bestehende Saves bleiben per Default kompatibel (`npc_roster=[]`)
 - Mehrfach-Load kann NPCs deduplizieren
 - NPCs sind bei Rejoin/Leave später wieder referenzierbar
@@ -373,6 +389,7 @@ Persistente NPC-Chrononauten mit minimalem JSON-Budget speicherbar machen.
 Festlegen, wer NPCs mitbringen darf und wie aktive Feldplätze fair und stabil besetzt werden.
 
 **Umsetzen:**
+
 - Menschen zählen immer zuerst gegen Teamcap 5
 - NPCs füllen nur freie Plätze
 - jeder geladene Save darf NPC-Kontinuität mitbringen
@@ -387,6 +404,7 @@ Festlegen, wer NPCs mitbringen darf und wie aktive Feldplätze fair und stabil b
 - Tie-Break: Rollenfit → Bond → Recency
 
 **Akzeptanzkriterien:**
+
 - 5 Menschen = keine Feld-NPCs
 - 3 Menschen = max 2 Feld-NPCs
 - kein stilles Verschwinden bekannter NPCs; nicht gewählte NPCs bleiben HQ/Funk/offscreen präsent
@@ -401,6 +419,7 @@ Festlegen, wer NPCs mitbringen darf und wie aktive Feldplätze fair und stabil b
 NPCs sollen auch außerhalb der aktiven Kamera glaubhaft weiterleben, ohne Save-Budget zu sprengen.
 
 **Umsetzen:**
+
 - pro NPC max 1 Offscreen-Satz pro Rückkehrfenster
 - Format:
   - Auftrag/Ort
@@ -410,6 +429,7 @@ NPCs sollen auch außerhalb der aktiven Kamera glaubhaft weiterleben, ohne Save-
 - Offscreen-NPCs erzeugen keine vollständigen Nebenkampagnen, nur Echos/Hooks
 
 **Akzeptanzkriterien:**
+
 - spätere Wiederbegegnungen haben sichtbare Veränderung
 - Spieler bekommen das Gefühl, dass die Welt weiterlief
 - JSON bleibt klein
@@ -424,6 +444,7 @@ NPCs sollen auch außerhalb der aktiven Kamera glaubhaft weiterleben, ohne Save-
 Beim Rejoin soll sofort klar sein, wer da ist, wer fehlt und was sich bei bekannten NPCs geändert hat.
 
 **Umsetzen:**
+
 - Pflichtausgabe beim Mehrfach-Load erweitern:
   1. Session-Anker
   2. Rückkehrer/Joiner
@@ -436,6 +457,7 @@ Beim Rejoin soll sofort klar sein, wer da ist, wer fehlt und was sich bei bekann
   - neue Spuren oder sichtbare Veränderungen
 
 **Akzeptanzkriterien:**
+
 - Rejoins lesen sich wie eine echte Fortsetzung
 - bekannte NPCs fühlen sich nie „vergessen“ an
 
@@ -449,6 +471,7 @@ Beim Rejoin soll sofort klar sein, wer da ist, wer fehlt und was sich bei bekann
 Alte Gruppenstartlogik, die Px und Seeds zurücksetzt, darf die neue Kontinuitätsphilosophie nicht mehr unterlaufen.
 
 **Umsetzen:**
+
 - `StartGroupMode(players=[], keep_scene=false)` entfernen oder komplett neu schreiben
 - KEIN Reset mehr von:
   - `state.campaign.px`
@@ -461,6 +484,7 @@ Alte Gruppenstartlogik, die Px und Seeds zurücksetzt, darf die neue Kontinuitä
   - ggf. Split-/Rejoin-Beat ausspielen
 
 **Akzeptanzkriterien:**
+
 - Join/Merge erzeugt keinen stillen Progress-Verlust mehr
 - NPC- und Menschengruppen laufen auf derselben Philosophie
 
@@ -474,6 +498,7 @@ Alte Gruppenstartlogik, die Px und Seeds zurücksetzt, darf die neue Kontinuitä
 Solo-Begleiter sollen nicht ungewollt nach externer Sci-Fi-Projektor-Ästhetik klingen.
 
 **Umsetzen:**
+
 - Formulierungen wie „Hologramm-Begleiter“ ersetzen durch:
   - Linsen-Lichtbild
   - Kodex-Assistenz im Sichtfeld
@@ -481,6 +506,7 @@ Solo-Begleiter sollen nicht ungewollt nach externer Sci-Fi-Projektor-Ästhetik k
   - HQ-Leitfigur über physische Schnittstelle
 
 **Akzeptanzkriterien:**
+
 - Solo-Unterstützer bleiben möglich
 - Physicality Gate bleibt unangetastet
 
@@ -490,10 +516,12 @@ Solo-Begleiter sollen nicht ungewollt nach externer Sci-Fi-Projektor-Ästhetik k
 
 ```md
 ### Persistente NPC-Chrononauten
+
 NPC-Chrononauten sind keine Wegwerf-Begleiter, sondern persistente Kontinuitätsakteure des ITI.
 Wenn sie die Szene verlassen, verschwinden sie nicht aus der Welt. Sie laufen als Offscreen-Agenten weiter und können später mit veränderter Lage, neuer Spur oder sichtbarer Folge wieder auftauchen.
 
 Für v7 gilt ein kompaktes Modell:
+
 - `continuity.npc_roster[]` hält bekannte NPC-Chrononauten fest.
 - `continuity.active_npc_ids[]` markiert, welche davon aktuell als Feldbegleiter mitlaufen.
 - NPCs speichern keine Vollökonomie und kein Vollinventar. Persistiert werden nur Identität, Rolle, Bindung, Status, letzte Sichtung, Offscreen-Fortschreibung und ein Hook.
@@ -523,6 +551,7 @@ Jeder geladene Save darf NPC-Kontinuität mitbringen; aktive Feld-NPCs werden ab
 
 ```md
 ## Solo- und Gruppenkontinuität mit NPC-Chrononauten
+
 NPC-Chrononauten sind in ZEITRISS keine bloßen Füllfiguren. Sie sind persistente Offscreen-Agenten des ITI, die Solo- und Gruppenkontinuität miteinander verweben.
 
 Wenn ein Spieler mit NPC-Begleitern unterwegs ist, merkt sich die KI-SL diese Figuren als bekannte Mitagenten mit Rolle, Stimme, Bindung und letzter Spur. Verlässt der Spieler sie oder wechselt in eine andere Gruppe, verschwinden sie nicht still, sondern wechseln in einen nachvollziehbaren Status: `hq`, `assigned`, `recovering`, `missing` oder `rival`.
@@ -530,6 +559,7 @@ Wenn ein Spieler mit NPC-Begleitern unterwegs ist, merkt sich die KI-SL diese Fi
 Beim späteren Wiedersehen bringt jede dieser Figuren genau eine kompakte Offscreen-Fortschreibung mit: wo sie war, was sich verändert hat und welchen Hook sie jetzt in die Szene trägt.
 
 In gemischten Menschen-/NPC-Runden gilt:
+
 - Menschen belegen Feldplätze zuerst.
 - NPCs füllen nur freie Plätze bis Teamgröße 5.
 - Jeder geladene Save darf bekannte NPC-Kontinuität mitbringen.
@@ -550,6 +580,7 @@ Die KI-SL fragt nur dann aktiv nach einer Auswahl, wenn es in-world Sinn ergibt.
 ## Gesamturteil
 
 Wenn du diese NPC-Schicht sauber einziehst, bekommt ZEITRISS genau das, was dir noch fehlt:
+
 - Solo fühlt sich nicht mehr nach „Ersatz-Team“ an,
 - Multiplayer nicht mehr nach „Host mit Gastdaten“,
 - und NPCs werden zu etwas, das sich fast wie andere echte Spieler anfühlt – nur eben von der KI simuliert.

@@ -1,4 +1,5 @@
 # 01-initiative-sonnet
+
 - **Model:** zeitriss-v426-uncut
 - **Tokens:** in:13834 out:798 cost:$0.053472
 - **Date:** 2026-03-17T10:52:48+01:00
@@ -13,7 +14,7 @@
 
 **Formel:** `1W6 + max(GES, TEMP)`
 
-Der höhere Wert aus GES oder TEMP bestimmt den Bonus — wer schneller *reagiert*, ob durch Reflexe oder Zeitgespür.
+Der höhere Wert aus GES oder TEMP bestimmt den Bonus — wer schneller _reagiert_, ob durch Reflexe oder Zeitgespür.
 
 ---
 
@@ -53,12 +54,12 @@ Probe: Initiative → W6: [1] + max(GES 2, TEMP 1) = 1 + 2 = 3
 
 ## Zugreihenfolge
 
-| Rang | Akteur | Ergebnis |
-|------|--------|----------|
-| 1. | **KIRA** | **9** |
-| 2. | Klingenmann A | 8 |
-| 3. | Schütze B | 7 |
-| 4. | Blocker C | 3 |
+| Rang | Akteur        | Ergebnis |
+| ---- | ------------- | -------- |
+| 1.   | **KIRA**      | **9**    |
+| 2.   | Klingenmann A | 8        |
+| 3.   | Schütze B     | 7        |
+| 4.   | Blocker C     | 3        |
 
 ---
 

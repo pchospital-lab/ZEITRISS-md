@@ -1,4 +1,5 @@
 # 05-konzeptimport-glm5
+
 - **Model:** zeitriss-v426-uncut-glm5
 - **Tokens:** in:10802 out:1239 cost:$0.01387088
 - **Date:** 2026-03-17T11:16:24+01:00
@@ -27,7 +28,7 @@ ORIGIN         Epoche: Alternativzeitlinie (magische Ära)
 ATTRIBUTE                    TALENTS
 STR      2                   ▸ Schnelle Analyse (+1 INT-Proben)
 GES      3                   ▸ Psi-Anker I (Basis-Psi stabilisiert)
-INT      6                     
+INT      6
 CHA      4                   IMPLANTATE
 TEMP     2                   ▸ Neuralinterface Mk.I (+1 Hacking)
 SYS      1                      (SYS_max = 1, installiert = 1)
@@ -51,6 +52,7 @@ CARRY        [□□□□□□]         WALLET       100 CU
 **Hintergrund-Kernel:** Elara stammt aus einer Zeitlinie, in der "Magie" eine verstandene Wissenschaft war – eine Ära die im Kollaps verschwand. Das ITI zog sie kurz vor dem Untergang heraus. Jetzt arbeitet sie an Fällen, die andere für unmöglich halten.
 
 **Psi-Fähigkeiten (Level 1):**
+
 - **Phasing I** – Kurze Distanz teleportieren (TEMP-Probe, kostet PP)
 - **Schild I** – Reaktiver Schutz vor physischem Schaden (+2 Abwehr für Szene)
 

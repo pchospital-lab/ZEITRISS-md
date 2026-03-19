@@ -18,6 +18,7 @@ tags: [system, psi, optional]
 ### Cheat-Sheet: Psi-Regeln auf einen Blick {#psi-cheat}
 
 **Psi-Standard & Charakter-Gating (SSOT):**
+
 - **Weltstandard im Einsatzraum:** Psi ist primär den Zeitreisenden vorbehalten – Chrononauten sowie den zentralen Gegnerfraktionen rund um Zeitriss-Ereignisse.
 - **Ausnahmen in Epochen:** Einzelne Figuren (z. B. Schamanen, Orakel, Mystiker) können psi-nahe Phänomene zeigen, benennen sie aber kulturabhängig; mechanisch bleibt es dieselbe Psi-Logik.
 - **Charakter-Gating (`has_psi`):** Ob ein Charakter Psi-Kräfte aktiv nutzen kann, ist individuell und wird über `has_psi` gesteuert.
@@ -33,10 +34,11 @@ tags: [system, psi, optional]
 - Psi-Optionen erscheinen nur bei gesetztem `has_psi`;
   `render_psi_option(name, cost)` zeigt sie mit klaren
   Stresskosten.
-_Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
-`Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
+  _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
+  `Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
 
 > **Psi-Kosten auf einen Blick:**
+>
 > - **PP (Power-Punkte)** = Energiepool, wird verbraucht. Pool = TEMP-Wert. Regeneriert nach jedem Konflikt.
 > - **SYS (Systemlast)** = wird temporär belegt, solange eine Kraft aktiv ist. Kurze Effekte (<1 Sekunde) kosten 0 SYS.
 > - Jede Psi-Kraft hat PP-Kosten (einmalig beim Wirken) und SYS-Kosten (temporär belegt bei anhaltenden Effekten).
@@ -77,6 +79,7 @@ verdeckte Einsätze, alles bleibt düster und hardwarebetont.
 Weitere Spielmodi findet ihr in [README](../core/sl-referenz.md#spielmodi).
 
 <a id="psi-talente"></a>
+
 ## Psi-Fähigkeiten & Talente (Modul 4C)
 
 ### Psi-Fähigkeiten (Optional)
@@ -116,8 +119,9 @@ Proben, bis die Last reduziert ist.
 
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur
 kurz an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren
+
 - je schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat
-ggf. nach SL-Gusto eine unkontrollierte Nebenwirkung).
+  ggf. nach SL-Gusto eine unkontrollierte Nebenwirkung).
 
 Da Psionik massiv ins Gefüge der Zeit eingreift, sollte ihre **Balance** sorgfältig beachtet
 werden. In niedrigen Stufen bieten Psi-Kräfte eher subtile Vorteile (z.B. ein kurzer Gedankenimpuls,
@@ -131,13 +135,13 @@ So bleibt Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 
 ### Beispiel-DCs {#psi-dc}
 
-| Kraft              | SG |
-| ------------------ | -- |
-| Telekinese-Stoß    | 12 |
-| Gedankenlesen      | 9  |
-| Zeit verlangsamen  | 13 |
-| Psi-Schild         | 14 |
-| Mentale Maskierung | 11 |
+| Kraft              | SG  |
+| ------------------ | --- |
+| Telekinese-Stoß    | 12  |
+| Gedankenlesen      | 9   |
+| Zeit verlangsamen  | 13  |
+| Psi-Schild         | 14  |
+| Mentale Maskierung | 11  |
 
 **Rechenbeispiel:** Agentin Rhea (TEMP 5 → PP 5/5, SYS 4, Heat 0) nutzt _Gedankenlesen_
 (SG 9, Talentstufe 3).
@@ -183,26 +187,31 @@ Der Chrononaut verstärkt nur einen bereits per `Präkognition III` gesehenen,
 plausiblen Nah-Zukunftszweig.
 
 **Voraussetzungen:**
+
 - `has_psi: true`
 - Talent **Psioniker**
 - **Präkognition III**
 
 **Ablauf:**
+
 - Erst `Präkognition III` würfeln.
 - Nur bei Erfolg darf unmittelbar danach `Präkognitive Manifestation` auf denselben
   Ankerpunkt gewirkt werden.
 
 **Ansage:**
+
 - Der Spieler formuliert genau **eine** günstige lokale Änderung relativ zum
   offenbarten Ankerpunkt.
 
 **Manifestation I (Low):**
+
 - `TEMP-Probe`, SG 11, **+1 PP / +0 SYS**, Cooldown 1, **Psi-Heat +1**
 - Erfolg: Mikro-Vorteil unter 1 Sekunde.
 - Beispiele: Blick wendet sich ab, Sensor glitched kurz, Griff liegt frei.
 - Fehlschlag: kleines Spiegelbild der Absicht.
 
 **Manifestation II (Medium):**
+
 - `TEMP-Probe`, SG 13, **+2 PP / +1 SYS**, Cooldown 2, **Psi-Heat +1**
 - Erfolg: ein lokaler Ablauf kippt günstig für bis zu 1 Runde.
 - Beispiele: Wache verlässt kurz den Posten, Tür rastet nicht ganz ein,
@@ -210,6 +219,7 @@ plausiblen Nah-Zukunftszweig.
 - Fehlschlag: plausible Komplikation im selben Szenenraum.
 
 **Manifestation III (High):**
+
 - `TEMP-Probe`, SG 15, **+3 PP / +2 SYS**, Cooldown 3, **Psi-Heat +1**
 - Erfolg: kurzes günstiges Kausalfenster über maximal zwei Beats im selben
   Szenencluster.
@@ -219,6 +229,7 @@ plausiblen Nah-Zukunftszweig.
   ist zusätzlich ein Resonanz-Check fällig.
 
 **Nicht erlaubt:**
+
 - keine rückwirkende Faktenänderung
 - keine Erschaffung neuer NPCs, Gegenstände, Codes oder Ausgänge
 - keine direkte Zielerfüllung
@@ -226,6 +237,7 @@ plausiblen Nah-Zukunftszweig.
 - keine Änderung von Ruf, Loot, Shops, Saves oder Meta-Systemen
 
 **Arena/PvP:**
+
 - Keine Szenenumschreibung.
 - In Arena oder direktem PvP fällt der Effekt auf klassische Präkognition zurück:
   Warnung, Timing-Fenster, taktischer Mikro-Vorteil.
@@ -247,6 +259,7 @@ Verbirgt Gedanken für eine Szene. _Kosten:_ 2 PP (mittel) / 2 SYS; erschwert fr
   _Kosten:_ 3 PP (stark) / 3 SYS.
 
 _Balance-Hinweis (Psi):_
+
 - Psi ist kein Generalschlüssel. Jede Kraft hat klare Kosten / Limits.
 - Beispiel: Telepathie ≙ kurze Info-Abfrage, unpräzise; Zeitverzögerung ≙ hoher Energieverbrauch.
 - Die SL beschreibt Effekte nüchtern im HUD, z.B. "Herzfrequenz steigt" oder
@@ -259,30 +272,30 @@ _Balance-Hinweis (Psi):_
 Um den Spielfluss zu beschleunigen, hat jede Kraft drei feste Leistungsstufen. Die Systemlast (SYS)
 ist bereits einkalkuliert - die SL wählt nur noch den passenden Output:
 
-| Stufe | SYS-Kosten | Effektbeispiel Telepathie |
-| ----- | ---------- | ------------------------- |
-| **Low**  | 1 | nur Gefühlsregungen spüren |
-| **Medium** | 2 | klarer Gedankenfunk, kurze Sätze |
-| **High** | 3 | tiefer Zugriff, ganze Gespräche |
+| Stufe      | SYS-Kosten | Effektbeispiel Telepathie        |
+| ---------- | ---------- | -------------------------------- |
+| **Low**    | 1          | nur Gefühlsregungen spüren       |
+| **Medium** | 2          | klarer Gedankenfunk, kurze Sätze |
+| **High**   | 3          | tiefer Zugriff, ganze Gespräche  |
 
 Andere Kräfte folgen demselben Muster (1/2/3 SYS oder ±1 zum Basiskostenwert). Die Agenten wissen
 so sofort, welche Intensität sie aufrufen können, ohne im Gefecht nachrechnen zu müssen.
 
 ### Backlash-Tabelle (kritischer Patzer) {#backlash-tabelle-kritischer-patzer}
 
-| Patzerwert | Effekt |
-|-----------:|--------|
-| 1-3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase). |
-| 4-6 | Disruption: Verlust von PP = doppelte Talentkosten. |
-| 7-9 | Feedback-Schock: 1 Stufe "Verwundet" (siehe Zustände). |
-| 10 | Rift-Feedback: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
+| Patzerwert | Effekt                                                                                       |
+| ---------: | -------------------------------------------------------------------------------------------- |
+|        1-3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase).                                     |
+|        4-6 | Disruption: Verlust von PP = doppelte Talentkosten.                                          |
+|        7-9 | Feedback-Schock: 1 Stufe "Verwundet" (siehe Zustände).                                       |
+|         10 | Rift-Feedback: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
 
 ### Squad-Scaling-Regel
 
 - Man kann so viele Personen buffen, wie der eigene Wert in _Temporaler Affinität_ hergibt.
 - Keine zusätzlichen Kosten - gleich wie beim Einzelbuff.
 
-> *Beispiel:* TEMP 5 bufft bis zu fünf Teammitglieder.
+> _Beispiel:_ TEMP 5 bufft bis zu fünf Teammitglieder.
 
 ### Resonanz {#resonanz}
 
@@ -355,7 +368,7 @@ _P_ markiert passive, _A_ aktive Talente.
   Vorbereitung (Kleidung, Akzent, Make-up) kann der Charakter nahezu jede **Identität glaubhaft
   annehmen**. Gegenüber gewöhnlichen Wachen/Zivilisten benötigt er keine Probe, um nicht aufzufallen;
   nur geübte Beobachter könnten ihn durchschauen (und selbst da +2 SG).
-<a id="adrenalinschub"></a>
+  <a id="adrenalinschub"></a>
 - **Adrenalinschub** (A): Kurzfristige Mobilisierung letzter Reserven. _Einmal pro Mission_ kann der
   Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STR und GES** z.B. für
   1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende
@@ -388,6 +401,7 @@ _Zum Abschluss:_ Dieses Modul liefert eine Fülle an Möglichkeiten, den eigenen
 auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf achten, dass die
 **Spielbalance** erhalten bleibt - kein Gegenstand und kein Talent sollte die Gruppe unbesiegbar
 machen.
+
 - **Telekinese + Muskelstärkung:** Kombiniert steigt die Schwierigkeit aller Proben um +1 oder die
   Aktion benötigt eine Cooldown-Runde.
 
@@ -409,7 +423,7 @@ Eine vollständige Übersicht aller Kräfte folgt im weiteren Verlauf dieses Mod
 Welche **Psi-Fähigkeiten** können Chrononauten im Spiel entwickeln oder antreffen? Im Folgenden eine
 Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind.
 Diese Fähigkeiten manifestieren sich dezent - als feine Wahrnehmungen oder begrenzte Einflüsse -
- und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen tauchen erst auf,
+und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen tauchen erst auf,
 wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Covert-Ops**-Modus bleiben sie verborgen.
 
 - **Intuition ("sechster Sinn"):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
@@ -483,19 +497,21 @@ wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Cover
   Psi-Waffe verzichten auf Exploding 6. Hat das Ziel eine Rüstung mit **SR ≥ 2**, steigt die
   Schwelle um **+1** - der Makro `TK-Melee` prüft diese Rüstung automatisch. Außerdem darf der Angriff
   pro Szene nur einmal erfolgen, um Missbrauch zu verhindern.
+
 ```pseudo
 if attack_type == "TK-Melee" and target.armor >= 2:
     SG += 1
 ```
-  Cooldown: Nach Einsatz **1 Runde warten** oder alternativ **+1 SYS** für eine sofortige
-  Folgeaktion zahlen.
-  Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
-  **Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
-  Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
-  Zufallszahlen-Generatoren gemessen, die auf mikroskopische PK-Effekte hindeuten - im Spiel kann man
-  daraus ableiten, dass Telekinese vor allem im **Mikrobereich** verlässlich ist (z.B. elektronische
-  Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
-  sollten selten und folgenreich sein (siehe Paradoxon-Effekte).
+
+Cooldown: Nach Einsatz **1 Runde warten** oder alternativ **+1 SYS** für eine sofortige
+Folgeaktion zahlen.
+Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
+**Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
+Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
+Zufallszahlen-Generatoren gemessen, die auf mikroskopische PK-Effekte hindeuten - im Spiel kann man
+daraus ableiten, dass Telekinese vor allem im **Mikrobereich** verlässlich ist (z.B. elektronische
+Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
+sollten selten und folgenreich sein (siehe Paradoxon-Effekte).
 
 #### Phase-Strike {#phase-strike}
 
@@ -582,6 +598,7 @@ und Nahkampf-Telekinese wirkt nicht durch das Gitter hindurch. Diese Technik ist
 teuer und wird oft nur in Hochsicherheits-Labors oder Gefängnissen verbaut.
 
 Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panzerglas oder Anti-Psi-Barriere steht.
+
 - **Chronokinese:** Eine besonders exotische Fähigkeit, die direkt mit der Zeit selbst spielt.
   Chronokinetiker können im minimalen Umfang lokale Zeitströme beeinflussen. Zum Beispiel könnte ein
   Chrononaut seinen eigenen Zeitablauf für ein, zwei Sekunden beschleunigen - für Außenstehende bewegt
@@ -823,17 +840,17 @@ sein taktisches Visier (1 Punkt) und das Körperstabilisator-Implantat (1 Punkt)
 herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann er die Hardware wieder
 hochfahren. Diese Mechanik fördert interessante Entscheidungen und verhindert zugleich, dass Psi
 ständig auf Maximalstärke läuft - man muss haushalten und Prioritäten setzen.
+
 ### Overload-Stufen im Überblick {#overload}
 
-| Stufe | Effekt |
-| --- | --- |
+| Stufe  | Effekt                                              |
+| ------ | --------------------------------------------------- |
 | SYS +1 | Überhitzung - Implantat warnt vor Temperaturanstieg |
-| SYS +2 | Zittern - feine Motorik -1, Aktionen erschwert |
-| SYS +3 | Blackout - kurzer Systemausfall, handlungsunfähig |
-
+| SYS +2 | Zittern - feine Motorik -1, Aktionen erschwert      |
+| SYS +3 | Blackout - kurzer Systemausfall, handlungsunfähig   |
 
 > **Warum drosselt das ITI Psi-Hardware?**
-> Starke neuronale Impulse erzeugen sogenanntes *Quantum-Bleed*. Dieses Phänomen
+> Starke neuronale Impulse erzeugen sogenanntes _Quantum-Bleed_. Dieses Phänomen
 > kann den Zeitstrom destabilisieren und verstößt gegen internationale
 > Sicherheitsabkommen. Daher sind offizielle Psi-Module gedrosselt; wer sie
 > überlädt, riskiert Resonanzschäden und juristische Konsequenzen.
@@ -846,11 +863,11 @@ Implantate herunterregeln zu müssen.
 
 ### Psi-SYS-Kurzregel {#psi-sys-kurz}
 
-| Effektart                  | SYS | Hinweis                           |
-|----------------------------|-----|----------------------------------|
-| Impuls unter 1 Sekunde     | 0   | kein Slotverbrauch               |
-| Aktiv bis 1 Runde          | 1   | blockiert 1 SYS während der Wirkzeit |
-| Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten |
+| Effektart                  | SYS          | Hinweis                              |
+| -------------------------- | ------------ | ------------------------------------ |
+| Impuls unter 1 Sekunde     | 0            | kein Slotverbrauch                   |
+| Aktiv bis 1 Runde          | 1            | blockiert 1 SYS während der Wirkzeit |
+| Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten          |
 
 Beispielausgabe bei einer Aktivierung:
 
@@ -922,24 +939,24 @@ Verantwortung verbunden.
 ### Power-Punkte = Temporale Affinität {#power-punkte-temp}
 
 | TEMP-Wert | PP-Pool | Stark (3) | Mittel (2) | Gering (1) |
-|:-------:|:-------:|:---------:|:----------:|:----------:|
-| 6 | 6 | 2 | 3 | 6 |
-| 7 | 7 | 2 | 3 | 7 |
-| 8 | 8 | 2 | 4 | 8 |
-| 9 | 9 | 3 | 4 | 9 |
-| 10 | 10 | 3 | 5 | 10 |
-| 11 | 11 | 3 | 5 | 11 |
-| 12 | 12 | 4 | 6 | 12 |
+| :-------: | :-----: | :-------: | :--------: | :--------: |
+|     6     |    6    |     2     |     3      |     6      |
+|     7     |    7    |     2     |     3      |     7      |
+|     8     |    8    |     2     |     4      |     8      |
+|     9     |    9    |     3     |     4      |     9      |
+|    10     |   10    |     3     |     5      |     10     |
+|    11     |   11    |     3     |     5      |     11     |
+|    12     |   12    |     4     |     6      |     12     |
 
-*PP-Pool = TEMP* - mehr nicht.
+_PP-Pool = TEMP_ - mehr nicht.
 
 #### Cooldown
 
 | Kraftstufe | PP-Kosten | Cooldown (Runden) |
-|------------|----------:|------------------:|
-| Stark | 3 | 3 |
-| Mittel | 2 | 2 |
-| Gering | 1 | 1 |
+| ---------- | --------: | ----------------: |
+| Stark      |         3 |                 3 |
+| Mittel     |         2 |                 2 |
+| Gering     |         1 |                 1 |
 
 #### Regeneration {#psi-pp-regeneration}
 
@@ -958,19 +975,20 @@ Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als sic
 #### Überziehen ("Burn")
 
 Ihr dürft **bis zu TEMP PP** zusätzlich ausgeben, sobald euer Pool leer ist.
+
 - Preis: **Psi-Heat +1** und **Stress +1** pro verbranntem PP (Default).
-> Optionaler Hardcore-Schalter (KANN): statt Stress kann die SL einmalig **Px-1** ansetzen, wenn der Burn
-> eine absichtlich paradoxe Intervention mit sichtbaren Zeitschäden auslöst.
-> **Nie** mehr Burn-PP als TEMP - die Zeit reißt sonst sofort (SL-Ereignis).
-> **Psi-Talentstufe** darf nicht höher sein als euer aktueller **TEMP**-Wert.
+  > Optionaler Hardcore-Schalter (KANN): statt Stress kann die SL einmalig **Px-1** ansetzen, wenn der Burn
+  > eine absichtlich paradoxe Intervention mit sichtbaren Zeitschäden auslöst.
+  > **Nie** mehr Burn-PP als TEMP - die Zeit reißt sonst sofort (SL-Ereignis).
+  > **Psi-Talentstufe** darf nicht höher sein als euer aktueller **TEMP**-Wert.
 
 ### Balance-Kurzübersicht
 
-| Typische Rolle | TEMP | PP | Starke Kräfte pro Mission* |
-| -------------- | -: | -: | --------------------------: |
-| Rookie-Psi     |  7 |  7 |             2 (plus 1 Burn) |
-| Veteran-Psi    |  9 |  9 |                           3 |
-| Elite-Psi      | 11 | 11 |                         3-4 |
+| Typische Rolle | TEMP |  PP | Starke Kräfte pro Mission\* |
+| -------------- | ---: | --: | --------------------------: |
+| Rookie-Psi     |    7 |   7 |             2 (plus 1 Burn) |
+| Veteran-Psi    |    9 |   9 |                           3 |
+| Elite-Psi      |   11 |  11 |                         3-4 |
 
 \* Annahme: Kurze Erholung nach jedem Kampf.
 
@@ -998,9 +1016,9 @@ erhöhte Toleranz gegenüber Psi-Heat. Die Grundkosten der Kräfte (1/2/3 PP)
 bleiben unverändert — stattdessen verschiebt sich die **Overload-Schwelle**
 nach oben.
 
-| TEMP-Wert | Heat-Toleranz | Overload (System-Reboot) bei | Effekt |
-| --------- | ------------- | ---------------------------- | ------ |
-| 1–7       | ±0            | Heat = 6                     | Standard-Regeln |
+| TEMP-Wert | Heat-Toleranz | Overload (System-Reboot) bei | Effekt                                                    |
+| --------- | ------------- | ---------------------------- | --------------------------------------------------------- |
+| 1–7       | ±0            | Heat = 6                     | Standard-Regeln                                           |
 | 8–11      | +1            | Heat = **7**                 | SG +4 erst ab Heat ≥ 6; Initiative-Malus erst ab Heat > 5 |
 | 12+       | +2            | Heat = **8**                 | SG +4 erst ab Heat ≥ 7; Initiative-Malus erst ab Heat > 6 |
 
@@ -1030,7 +1048,6 @@ overload_threshold = 6 + heat_toleranz
 
 **HUD-Anzeige:** Das Toolkit zeigt die angepasste Schwelle im Heat-Overlay:
 `PSI-HEAT 4/7 (Toleranz +1)` statt des Standard-`4/6`.
-
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** - sei es durch steigende
 Erfahrung, spezielles Training oder den Einsatz futuristischer Hilfsmittel. _ZEITRISS 4.2.6_
@@ -1099,7 +1116,6 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
   von morgen auch externe Geräte und Substanzen, die Psi triggern oder verstärken sollen. Hier öffnet
   sich ein Spielfeld für kreative Gadgets, die das ITI oder andere Gruppen entwickelt haben. Einige
   Beispiele:
-
   - _Psi-Verstärker-Helm:_ Ein tragbares Gerät ähnlich einem EEG-Kopfband voller Sensoren, das
     Gehirnwellen ausliest und gezielte Impulse zurücksendet, um latent telepathische Kommunikation zu
     ermöglichen. Damit könnten selbst nicht-telepathische Teammitglieder an einer rudimentären
@@ -1164,14 +1180,15 @@ intuitives Zeitgefühl), könnte dies im HUD als flackerndes Icon auftauchen - v
 Psi-Symbol (Ψ) oder ein Warndreieck mit dem Schriftzug _"Temporal Anomaly"_. So merkt der Spieler,
 aha, da passiert etwas Übersinnliches, aber aus Charaktersicht ist es plausibel, denn das ITI-HUD
 interpretiert die biologischen Daten. Ein telepathischer Kontakt könnte vom Anzug als erhöhter
-neuraler Aktivität erkannt werden, woraufhin eine dezente Anzeige erscheint: _"Synapsen-Kohärenz 85%
+neuraler Aktivität erkannt werden, woraufhin eine dezente Anzeige erscheint: \_"Synapsen-Kohärenz 85%
+
 - Externe Einflüsse erkannt"_. Solche **HUD-Einblendungen** sollte man sparsam einsetzen, aber sie
-können helfen, das Unsichtbare sichtbar zu machen, ohne die Immersion zu brechen. Außerdem
-unterstreichen sie den halb-wissenschaftlichen Anstrich: Das System _misst_ etwas, was es nicht ganz
-versteht. Die Spieler bekommen Feedback, dass ihre Fähigkeit wirkt (oder dass etwas auf sie wirkt).
-Ein weiteres Beispiel: Bei einem missglückten Psi-Versuch könnte das HUD kurz rot aufleuchten und
-_"Neuronale Instabilität"_ warnen, gepaart mit einem schrillen Ton - der Charakter spürt dies als
-Kopfschmerz. Die Verzahnung von Psi und Technologie auf diese Art verstärkt das Sci-Fi-Flair.
+  können helfen, das Unsichtbare sichtbar zu machen, ohne die Immersion zu brechen. Außerdem
+  unterstreichen sie den halb-wissenschaftlichen Anstrich: Das System \_misst_ etwas, was es nicht ganz
+  versteht. Die Spieler bekommen Feedback, dass ihre Fähigkeit wirkt (oder dass etwas auf sie wirkt).
+  Ein weiteres Beispiel: Bei einem missglückten Psi-Versuch könnte das HUD kurz rot aufleuchten und
+  _"Neuronale Instabilität"_ warnen, gepaart mit einem schrillen Ton - der Charakter spürt dies als
+  Kopfschmerz. Die Verzahnung von Psi und Technologie auf diese Art verstärkt das Sci-Fi-Flair.
 
 **Kodex-Hinweise und Hintergrundwissen:** Der **Kodex** des ITI ist das Ingame-Lexikon, das
 fortlaufend mit Informationen gefüttert wird. Die KI-Spielleitung kann ihn nutzen, um den Spielern
@@ -1332,7 +1349,7 @@ spekulative Grundlagenforschung. Ihre Kernthesen:
    sondern Interferenzmuster zwischen Projektoren.
 
 Die praktischen Implikationen sind enorm — und beunruhigend. Wenn Realität eine
-Konsensfunktion aus Bewusstseinsprojektionen ist, dann *ändert* jeder
+Konsensfunktion aus Bewusstseinsprojektionen ist, dann _ändert_ jeder
 Zeitsprung nicht nur die Geschichte, sondern die Projektionsmatrix aller
 beteiligten Beobachter. Der Paradoxon-Index misst in diesem Modell nicht
 temporale Instabilität, sondern den **Grad der Projektionsdivergenz** zwischen
@@ -1346,7 +1363,7 @@ dem Team und der restlichen Zeitlinie.
 > philosophischer Monolog.
 
 **Chronopolis-Zusatz (Anhang `ABSOLUT-7/CITY`):** Interne ITI-Notizen führen
-Chronopolis explizit als *Anwendungsfall* von Absolut-7, nicht als eigenes
+Chronopolis explizit als _Anwendungsfall_ von Absolut-7, nicht als eigenes
 zweites Modell. Leseregel für die Spielleitung: Wenn in anderen Modulen
 `ABSOLUT-7` im Kontext `CITY` auftaucht, ist immer dieser Anhang gemeint —
 kodex-instanziierter, physisch wirksamer Resonanzraum der gescheiterten

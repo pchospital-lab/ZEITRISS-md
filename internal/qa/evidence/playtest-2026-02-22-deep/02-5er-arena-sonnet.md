@@ -1,4 +1,5 @@
 # 02-5er-arena-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.073317
 - **Tokens:** in:7884 out:3311
@@ -17,7 +18,7 @@
 
 Die Schleuse öffnet mit einem hydraulischen Zischen. Warmweißes Licht schlägt euch entgegen — das Hallenrund der Chronopolis-Arena, Tier 4, Kapazität 12.000. Die Tribünen sind voll. Lärm wie Brandung, Biergeruch und Schweiß, das Vibrieren der Lautsprechertürme im Brustbein. Über dem Kampffeld hängt ein rotierendes Hologramm: **HAWK SQUAD vs. IRON MERIDIAN**.
 
-Iron Meridian. Bekannt. Fünf Söldner aus dem EP8-Turnier, Tier 4 seit drei Episoden. Ihr Anführer — Callsign *Furnace* — trägt Schwerpanzer und eine Plasmakanone, die Löcher in Beton brennt. Flanke links: zwei CQB-Spezialisten mit Monofilament-Netzen. Rechts: ein Techniker hinter einem mobilen Schild, und ganz hinten, kaum sichtbar im Schatten des Nordtores — ein Scharfschütze. Hoher Turm, Deckung, Sichtlinie auf das gesamte Feld.
+Iron Meridian. Bekannt. Fünf Söldner aus dem EP8-Turnier, Tier 4 seit drei Episoden. Ihr Anführer — Callsign _Furnace_ — trägt Schwerpanzer und eine Plasmakanone, die Löcher in Beton brennt. Flanke links: zwei CQB-Spezialisten mit Monofilament-Netzen. Rechts: ein Techniker hinter einem mobilen Schild, und ganz hinten, kaum sichtbar im Schatten des Nordtores — ein Scharfschütze. Hoher Turm, Deckung, Sichtlinie auf das gesamte Feld.
 
 Ihr steht im Südtor. Beton, Stahlgitter, Schutt als Deckung. Das Feld ist eine zerstörte Stadtkulisse — umgekippte Fahrzeuge, eingestürzte Mauern, ein erhöhter Mittelbereich mit Trümmerberg. Drei Sekunden bis zum Startsignal.
 
@@ -114,7 +115,7 @@ Venom steht auf. Die Vibro-Axt fährt auf Furnace hinunter — flache Seite, Are
 
 ### MATCH-ERGEBNIS
 
-**Lautsprecher:** *"HAWK SQUAD — SIEG. CLEAN SWEEP. RUNDE 2."*
+**Lautsprecher:** _"HAWK SQUAD — SIEG. CLEAN SWEEP. RUNDE 2."_
 
 Die Tribünen explodieren. 12.000 Menschen auf den Beinen.
 
@@ -126,16 +127,17 @@ Die Tribünen explodieren. 12.000 Menschen auf den Beinen.
 
 ## SCORE — ARENA TIER 4 · HAWK SQUAD vs. IRON MERIDIAN
 
-| Kategorie | Ergebnis |
-|---|---|
-| Sieg | ✅ Clean Sweep (2 Runden) |
-| Gegner ausgeschaltet | 5/5 |
-| Eigene Verluste | 0 |
-| Kritische Treffer | 1 (Hawk → Furnace) |
-| Koordination | Perfekt — alle 5 Rollen synchron |
-| Bewertung | **S-RANK** |
+| Kategorie            | Ergebnis                         |
+| -------------------- | -------------------------------- |
+| Sieg                 | ✅ Clean Sweep (2 Runden)        |
+| Gegner ausgeschaltet | 5/5                              |
+| Eigene Verluste      | 0                                |
+| Kritische Treffer    | 1 (Hawk → Furnace)               |
+| Koordination         | Perfekt — alle 5 Rollen synchron |
+| Bewertung            | **S-RANK**                       |
 
 **Belohnungen:**
+
 - `+3.200 CU` Arena-Preisgeld (Teamkasse: 37.500 → 40.700 CU)
 - `+1.800 XP` (Hawk: 42.100 → 43.900 XP)
 - `Arena Tier 4 — Wins: 15/20 (Aufstieg Tier 5 bei 20)`

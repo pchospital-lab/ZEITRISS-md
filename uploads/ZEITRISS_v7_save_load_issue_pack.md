@@ -65,7 +65,7 @@ Die Doku mischt Chat-native Nutzung mit Runtime-Pseudocode. In produktiver KI-SL
 1. Trenne in der Doku strikt:
    - **Chat-native / OpenWebUI sicher:** `!save` → JSON exportieren, `Spiel laden` + JSON einfügen
    - **runtime-only / optional:** `!load` letzter Save, `!autosave hq`, `!suspend`, `!resume`
-2. Kennzeichne alle runtime-only Befehle mit einer klaren Notiz: 
+2. Kennzeichne alle runtime-only Befehle mit einer klaren Notiz:
    - „Nur mit Host-Runtime / nicht garantiert im reinen Wissensspeicher-Betrieb“
 3. Entferne jeden Anschein, dass reines OpenWebUI temporäre Dateien zuverlässig hält.
 
@@ -369,6 +369,7 @@ Wenn parallele Core-Branches nicht unterstützt werden sollen, schreibe dafür e
 ### Speichern
 
 Gespeichert wird nur:
+
 - direkt nach der Charaktererschaffung im HQ
 - nach jedem Debrief
 - nach längeren HQ-Umbauten / Shop / Klinik / Werkstatt
@@ -380,6 +381,7 @@ Gespeichert wird nur:
 ### Nicht speichern
 
 Kein DeepSave in:
+
 - Core-Ops
 - Rift-Ops
 - Chronopolis
@@ -390,6 +392,7 @@ Kein DeepSave in:
 ### Neuer Chat
 
 Für maximale Stabilität gilt:
+
 - **ein neuer Chat pro HQ→Mission→HQ-Zyklus**
 - zusätzlich neuer Chat nach jedem HQ-DeepSave, wenn ihr einen harten Abschnittswechsel macht
 - niemals mitten im Feld auf einen neuen Chat hoffen, außer ihr nutzt bewusst einen separaten Runtime-Suspend
@@ -397,10 +400,12 @@ Für maximale Stabilität gilt:
 ### Split/Merge
 
 Kanonisch unterstützt ist aktuell:
+
 - Split **nach Episodenende** für getrennte Rift-Ops
 - Merge **im HQ** nach Abschluss aller Teil-Rifts
 
 Nicht automatisch als kanonisch behandelt werden:
+
 - parallele Core-Missions-Branches innerhalb derselben Episode
 - Misch-Splits ohne explizite Merge-Regeln (z. B. ein Team Rift, ein Team PvP, ein Team Chronopolis)
 ```

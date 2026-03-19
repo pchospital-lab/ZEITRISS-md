@@ -15,6 +15,7 @@ Spiel starten (solo schnell)
 Ich will eine **5er-Gruppe Rift-Op, Level 8-9, Episodenboss-Konfrontation**.
 
 Setup:
+
 - Mein Charakter: Der Taktiker. STR 2, GES 4, INT 5, CHA 3, TEMP 3, SYS 1. Talente: Spurenanalyse +3, Täuschung +2.
 - 4 NPCs im Squad: Eine Scharfschützin, ein Nahkämpfer, eine Hackerin, ein Sanitäter. Gib ihnen Namen und Persönlichkeit.
 - Setting: Rift-Op in eine Epoche deiner Wahl — überrasch mich. Etwas Unerwartetes, kein Standard-Mittelalter.
@@ -34,7 +35,7 @@ Mach es filmisch. Mach es hart. Zeig den Leuten, warum ZEITRISS anders ist.
 
 # ZEITRISS — EINLEITUNG
 
-*"Die Vergangenheit ist nicht vergangen. Sie wartet."*
+_"Die Vergangenheit ist nicht vergangen. Sie wartet."_
 
 Das ITI — das **Institut für Temporale Integrität** — operiert außerhalb der Zeitlinie, verankert in der Nullzeit. Ihr seid Chrononauten: Agenten, die in kritische Epochen einspringen, um Zeitverzerrungen zu neutralisieren, Fraktionen zu neutralisieren, Schäden zu kontrollieren. Keine Helden. Werkzeuge. Präzise, belastbar, entbehrlich.
 
@@ -51,19 +52,20 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Taktiker | Level 8 | CHR-0847**
 
 | Attribut | Wert | Würfel |
-|----------|------|--------|
-| STR | 2 | W6 |
-| GES | 4 | W6 |
-| INT | 5 | W6 |
-| CHA | 3 | W6 |
-| TEMP | 3 | W6 |
-| SYS | 1 | W6 |
+| -------- | ---- | ------ |
+| STR      | 2    | W6     |
+| GES      | 4    | W6     |
+| INT      | 5    | W6     |
+| CHA      | 3    | W6     |
+| TEMP     | 3    | W6     |
+| SYS      | 1    | W6     |
 
 **HP:** 14/14 · **Stress:** 0/12 · **Psi-Heat:** 0
 
 **Talente:** Spurenanalyse +3 · Täuschung +2
 
 **Loadout (Epoche-adaptiert):**
+
 - Seitenwaffe: Makarov PM (Epoche-konform, schalldämpft)
 - Backup: Stilett
 - Gear: Kontaktlinsen-HUD · Mikro-Recorder · Identitäts-Kit (3 Legenden) · Kodex-Comlink (verborgen)
@@ -79,7 +81,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Anya Voss.** Weißrussisch. Kurze, aschblonde Haare, Narbe durch die linke Augenbraue. Spricht wenig. Wenn sie spricht, hat sie recht. Sitzt auf Dächern wie andere Menschen auf Sofas. Hasst Erklärungen. Liebt Winkel.
 
 | STR 2 · GES 6 · INT 4 · CHA 1 · TEMP 2 · SYS 1 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 12/12 · **Stress:** 0/10
 **Waffe:** Epoche-adaptiertes Scharfschützengewehr (Dragunov SVD, modifiziert) · Messer
@@ -92,7 +94,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Felix Brück.** Österreichisch. Groß, breit, Hände wie Schaufeln. Lacht zu viel für jemanden in seinem Job. Trägt keine Schutzweste — "verlangsamt mich". Hat noch nie einen Nahkampf verloren. Hat schon zwei verloren.
 
 | STR 7 · GES 4 · INT 2 · CHA 3 · TEMP 2 · SYS 1 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 18/18 · **Stress:** 0/9
 **Waffe:** Epoche-adaptiert: Schlagstock + Messer · Backup: Revolver
@@ -105,7 +107,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Suki Fenn.** Japanisch-britisch. Klein, ruhig, immer leicht abwesend wirkend — denkt drei Schritte voraus. Fingernägel kurz und sauber. Spricht mit Maschinen besser als mit Menschen. Hat ein Tick: zählt leise, wenn sie unter Druck steht.
 
 | STR 1 · GES 3 · INT 6 · CHA 2 · TEMP 2 · SYS 4 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 10/10 · **Stress:** 0/10
 **Waffe:** Kompakte Pistole · Taser
@@ -120,7 +122,7 @@ Rift-Ops sind die schmutzigen Jobs. Wenn ein Riss zu groß wird für Standard-Pr
 **Marcus Carver.** Nigerianisch-amerikanisch. Mitte vierzig. Graue Schläfen, ruhige Hände. War Chirurg, bevor das ITI ihn rekrutierte. Stellt keine Fragen über Wunden, nur über Blutgruppen. Trinkt zu viel Kaffee. Lächelt nur bei wirklich schlechten Witzen.
 
 | STR 3 · GES 3 · INT 5 · CHA 4 · TEMP 2 · SYS 1 |
-|---|
+| ---------------------------------------------- |
 
 **HP:** 13/13 · **Stress:** 0/11
 **Waffe:** Kompakte Pistole · Skalpell-Set (Nahkampf-Notfall)
@@ -152,13 +154,13 @@ Keine Karte, die du erkennst.
 
 ---
 
-*"Episode Zwei, Mission Acht. Codename: EISBLUME. Zielzeitraum —"* er macht eine Pause, als würde er selbst noch nicht ganz daran glauben *"— Stalingrad. November 1942."*
+_"Episode Zwei, Mission Acht. Codename: EISBLUME. Zielzeitraum —"_ er macht eine Pause, als würde er selbst noch nicht ganz daran glauben _"— Stalingrad. November 1942."_
 
 Stille.
 
 Brück hört auf zu grinsen.
 
-*"Mitten in der Kesselschlacht. Temperatur minus zwanzig. Beide Seiten beschießen alles, was sich bewegt. Ihr springt rein als sowjetische Zivilinformanten — Legende bereits vorbereitet. Deckname: WINTERVÖGEL. Ihr habt ein Fenster von achtzehn Stunden vor dem nächsten großen Artilleriebeschuss, der das Zielgebiet in Schutt legt."*
+_"Mitten in der Kesselschlacht. Temperatur minus zwanzig. Beide Seiten beschießen alles, was sich bewegt. Ihr springt rein als sowjetische Zivilinformanten — Legende bereits vorbereitet. Deckname: WINTERVÖGEL. Ihr habt ein Fenster von achtzehn Stunden vor dem nächsten großen Artilleriebeschuss, der das Zielgebiet in Schutt legt."_
 
 Die Karte zoomt. Ein Fabrikgebäude am Wolga-Ufer. Ruinen, Ruinen, mehr Ruinen. Und inmitten davon — ein Hitzesignal, das nicht von 1942 sein kann.
 
@@ -168,37 +170,37 @@ Die Karte zoomt. Ein Fabrikgebäude am Wolga-Ufer. Ruinen, Ruinen, mehr Ruinen. 
 
 ---
 
-*"Das Hitzesignal ist euer Primärziel: Fraktion OUROBOROS hat einen temporalen Anker in den Fabrikruinen installiert. Wir wissen nicht, wie lange er läuft. Wir wissen, wer ihn bewacht."*
+_"Das Hitzesignal ist euer Primärziel: Fraktion OUROBOROS hat einen temporalen Anker in den Fabrikruinen installiert. Wir wissen nicht, wie lange er läuft. Wir wissen, wer ihn bewacht."_
 
 Haas wechselt das Bild.
 
 Ein Gesicht. Männlich, Anfang fünfzig, kalt wie der Fluss nebenan. Hohe Wangenknochen, Augen wie Knöpfe.
 
-*"Codename: PHARAO. Echter Name unbekannt. Zugehörigkeit: OUROBOROS-Fraktion, Rang Episodenboss. Er hat in den letzten zwei Missionen drei ITI-Agenten neutralisiert — permanent. Er ist nicht allein. Seine Leibgarde, 'Die Sieben Siegel', sind sechs Personen: zwei Scharfschützen auf den Ruinen, zwei Nahkämpfer im Inneren, ein Techniker am Anker, und ein Koordinator, den wir bisher nicht lokalisieren konnten."*
+_"Codename: PHARAO. Echter Name unbekannt. Zugehörigkeit: OUROBOROS-Fraktion, Rang Episodenboss. Er hat in den letzten zwei Missionen drei ITI-Agenten neutralisiert — permanent. Er ist nicht allein. Seine Leibgarde, 'Die Sieben Siegel', sind sechs Personen: zwei Scharfschützen auf den Ruinen, zwei Nahkämpfer im Inneren, ein Techniker am Anker, und ein Koordinator, den wir bisher nicht lokalisieren konnten."_
 
 Fenn hört auf zu tippen. Carver setzt seinen Kaffee ab.
 
-*"Primärziel: Anker deaktivieren. Sekundärziel: PHARAO neutralisieren — tot oder lebendig, aber der Anker hat Priorität. Tertiärziel: OUROBOROS-Datenspeicher sichern, falls vorhanden. Rücksprung-Fenster: achtzehn Stunden, Anker im HQ-Relais. Exfil-Point: Wolga-Ufer, 300m nördlich der Fabrik."*
+_"Primärziel: Anker deaktivieren. Sekundärziel: PHARAO neutralisieren — tot oder lebendig, aber der Anker hat Priorität. Tertiärziel: OUROBOROS-Datenspeicher sichern, falls vorhanden. Rücksprung-Fenster: achtzehn Stunden, Anker im HQ-Relais. Exfil-Point: Wolga-Ufer, 300m nördlich der Fabrik."_
 
 Er macht eine Pause. Sieht euch der Reihe nach an.
 
-*"Stalingrad 1942 ist eine der am stärksten überwachten Zeitlinien, die wir kennen. Jede Abweichung zählt. Minimaler Footprint. Kodex ist auf Notfall-Only gesetzt — zu viel Funk-Traffic zieht OUROBOROS-Scanner an. Ihr kommuniziert über Zeichen und Kurzcode."*
+_"Stalingrad 1942 ist eine der am stärksten überwachten Zeitlinien, die wir kennen. Jede Abweichung zählt. Minimaler Footprint. Kodex ist auf Notfall-Only gesetzt — zu viel Funk-Traffic zieht OUROBOROS-Scanner an. Ihr kommuniziert über Zeichen und Kurzcode."_
 
 ---
 
-Voss löst sich von der Wand. *"Kälteausrüstung?"*
+Voss löst sich von der Wand. _"Kälteausrüstung?"_
 
-*"Epoche-konform. Sowjetische Wintermäntel, Filzstiefel, Waffen der Zeit. Keine Anachronismen im Äußeren."*
+_"Epoche-konform. Sowjetische Wintermäntel, Filzstiefel, Waffen der Zeit. Keine Anachronismen im Äußeren."_
 
-Brück: *"Wie kalt ist minus zwanzig?"*
+Brück: _"Wie kalt ist minus zwanzig?"_
 
-Carver, ohne aufzublicken: *"Kalt genug, dass dein Schweiß gefriert, bevor er den Boden erreicht."*
+Carver, ohne aufzublicken: _"Kalt genug, dass dein Schweiß gefriert, bevor er den Boden erreicht."_
 
-Brück nickt langsam. *"Schön."*
+Brück nickt langsam. _"Schön."_
 
-Fenn tippt wieder. *"Der Techniker am Anker — wenn der die Sicherung aktiviert, bevor wir rankommen?"*
+Fenn tippt wieder. _"Der Techniker am Anker — wenn der die Sicherung aktiviert, bevor wir rankommen?"_
 
-*"Dann habt ihr ein Problem."* Haas klappt die Tafel zu. *"Fragen?"*
+_"Dann habt ihr ein Problem."_ Haas klappt die Tafel zu. _"Fragen?"_
 
 ---
 
@@ -223,7 +225,7 @@ Fenn tippt wieder. *"Der Techniker am Anker — wenn der die Sicherung aktiviert
 
 **Voss** ist bereits verschwunden — steht wahrscheinlich schon in der Sprungkammer.
 
-**Fenn** schließt ihr Terminal, steckt es ein. Sieht dich an. *"Ich hab den Anker-Typ schon analysiert. Wenn wir ihn unter Druck setzen, bevor er die Sicherung aktiviert — zwei Minuten Fenster, maximal. Danach ist der Anker heiß."*
+**Fenn** schließt ihr Terminal, steckt es ein. Sieht dich an. _"Ich hab den Anker-Typ schon analysiert. Wenn wir ihn unter Druck setzen, bevor er die Sicherung aktiviert — zwei Minuten Fenster, maximal. Danach ist der Anker heiß."_
 
 Du hast das letzte Wort vor dem Sprung.
 

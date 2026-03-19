@@ -1,4 +1,5 @@
 # 01-combat-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.038094
 - **Tokens:** in:5328 out:1474
@@ -15,23 +16,23 @@ Bevor wir loslegen — ich zeige dir erst deinen vollständigen Charakterbogen, 
 
 ## CHARAKTERBOGEN · PHANTOM
 
-| | |
-|---|---|
-| **ID** | CHR-0091 |
-| **Callsign** | Phantom |
-| **Rolle** | Ghost |
-| **Level** | 1 · 0/400 XP |
+|              |              |
+| ------------ | ------------ |
+| **ID**       | CHR-0091     |
+| **Callsign** | Phantom      |
+| **Rolle**    | Ghost        |
+| **Level**    | 1 · 0/400 XP |
 
 ### ATTRIBUTE (18 Punkte verteilt)
 
-| Attribut | Wert | Bonus |
-|---|---|---|
-| STR — Stärke | 2 | +1 |
-| GES — Geschicklichkeit | 5 | +2 |
-| INT — Intelligenz | 3 | +1 |
-| CHA — Charisma | 3 | +1 |
-| TEMP — Zeitaffinität | 3 | +1 |
-| SYS — Systemkapazität | 2 | +1 |
+| Attribut               | Wert | Bonus |
+| ---------------------- | ---- | ----- |
+| STR — Stärke           | 2    | +1    |
+| GES — Geschicklichkeit | 5    | +2    |
+| INT — Intelligenz      | 3    | +1    |
+| CHA — Charisma         | 3    | +1    |
+| TEMP — Zeitaffinität   | 3    | +1    |
+| SYS — Systemkapazität  | 2    | +1    |
 
 > Summe: 18 ✓ · Alle Werte 1–5 ✓
 
@@ -42,21 +43,21 @@ Bevor wir loslegen — ich zeige dir erst deinen vollständigen Charakterbogen, 
 
 ### AUSRÜSTUNG
 
-| Slot | Item |
-|---|---|
-| Primär | Monofaser-Schwert |
-| Sekundär | Pistole (12/12) |
-| Gadgets | Jammer ×3, Tarnoverlay (Ladung 2/2) |
-| Rüstung | Kevlar-Untergewebe (Absorb 1) |
+| Slot     | Item                                |
+| -------- | ----------------------------------- |
+| Primär   | Monofaser-Schwert                   |
+| Sekundär | Pistole (12/12)                     |
+| Gadgets  | Jammer ×3, Tarnoverlay (Ladung 2/2) |
+| Rüstung  | Kevlar-Untergewebe (Absorb 1)       |
 
 ### WERTE
 
-| | |
-|---|---|
-| ❤️‍🩹 Vital | 10/10 |
-| 🧠 Stress | 0/10 |
+|            |       |
+| ---------- | ----- |
+| ❤️‍🩹 Vital   | 10/10 |
+| 🧠 Stress  | 0/10  |
 | 👁️ Tarnung | Aktiv |
-| 💰 CU | 200 |
+| 💰 CU      | 200   |
 
 ---
 
@@ -91,6 +92,7 @@ Dreißig Meter weiter — Stimmen. Zwei Männer, Kantonesisch, gelangweilt. Sie 
 ---
 
 **Loot — Wachmann**
+
 - Walther P88, 8/8 (heiß — erhöht Heat bei Mitnahme)
 - Schlüsselbund (3 Schlüssel, unbekannte Türen)
 - Handy (Nokia, gesperrt)
@@ -99,6 +101,7 @@ Dreißig Meter weiter — Stimmen. Zwei Männer, Kantonesisch, gelangweilt. Sie 
 ---
 
 **INTEL / RISIKEN**
+
 - Zwei Wachmänner, ~30m, Sichtlinie zur Gasse in ~90 Sek.
 - Hinterhof-Tür: einer der drei Schlüssel passt vermutlich
 - Leiche sichtbar, wenn Patrouille vorbeikommt

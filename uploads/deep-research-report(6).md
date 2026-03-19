@@ -12,11 +12,12 @@ Dieses Upload-Artefakt wurde in einen schlanken Onboarding-Pass überführt.
 ## Executive Summary
 
 Das Repository positioniert **ZEITRISS®-md** bereits klar als KI‑geleitetes Tech‑Noir‑Zeitreise‑RPG mit **explodierenden Würfeln** und **JSON‑Charakterbögen** sowie einem schnellen Einstieg über **Script‑Setup in OpenWebUI**. fileciteturn8file7L1-L33  
-Die zentrale Stärke, die in deinem Briefing (Screenshot) besonders stark herauskommt, ist jedoch in der aktuellen README noch „zu leise“: **Der JSON‑Speicherstand ist nicht nur eine Exportfunktion – er ist dein portabler Charakterbogen, also das Ownership‑Objekt des Spiels.** Spieler*innen können ihren Charakter (und damit ihre Kampagne) **plattformübergreifend** mitnehmen: Wohnzimmer‑Runde → danach Save splitten → zuhause solo weiterspielen → später wieder drop‑in/drop‑out mit einer anderen Gruppe. Diese „dezentral‑MMO‑ohne‑Server“-Erzählung ist das emotionale und technische Alleinstellungsmerkmal und sollte deshalb **oben** in die README, noch vor (oder direkt nach) dem 5‑Minuten‑Setup. fileciteturn8file7L1-L33
+Die zentrale Stärke, die in deinem Briefing (Screenshot) besonders stark herauskommt, ist jedoch in der aktuellen README noch „zu leise“: **Der JSON‑Speicherstand ist nicht nur eine Exportfunktion – er ist dein portabler Charakterbogen, also das Ownership‑Objekt des Spiels.** Spieler\*innen können ihren Charakter (und damit ihre Kampagne) **plattformübergreifend** mitnehmen: Wohnzimmer‑Runde → danach Save splitten → zuhause solo weiterspielen → später wieder drop‑in/drop‑out mit einer anderen Gruppe. Diese „dezentral‑MMO‑ohne‑Server“-Erzählung ist das emotionale und technische Alleinstellungsmerkmal und sollte deshalb **oben** in die README, noch vor (oder direkt nach) dem 5‑Minuten‑Setup. fileciteturn8file7L1-L33
 
-Technisch ist die Architektur dafür bereits sauber angelegt:  
-- Der **Masterprompt** ist als **Systemprompt** gedacht (nicht als Wissensdatei) und enthält u. a. das **Save‑Schema v6** und die Kommandos für Start/Load. fileciteturn8file11L1-L45  
-- Die Plattform‑Referenz ist ein **Wissensspeicher mit 20 Modulen** (Spieler‑Handbuch + 19 Runtime‑Module). fileciteturn8file9L1-L14  
+Technisch ist die Architektur dafür bereits sauber angelegt:
+
+- Der **Masterprompt** ist als **Systemprompt** gedacht (nicht als Wissensdatei) und enthält u. a. das **Save‑Schema v6** und die Kommandos für Start/Load. fileciteturn8file11L1-L45
+- Die Plattform‑Referenz ist ein **Wissensspeicher mit 20 Modulen** (Spieler‑Handbuch + 19 Runtime‑Module). fileciteturn8file9L1-L14
 - Das Speicher‑/Fortsetzungssystem definiert einen klaren HQ‑Loop und Cross‑Mode‑Regeln (Solo↔Koop↔Arena), inklusive Host‑Priorität beim Merge. fileciteturn18file6
 
 Was jetzt fehlt, ist vor allem **Onboarding‑Copy**: ein „plattformagnostischer“ Setup‑Abschnitt (Systemprompt‑Feld vs. kein Systemprompt‑Feld → dann erste Chatnachricht) und ein „Bring‑Your‑Character“-Abschnitt, der das portable Savegame als Kernfeature verkauft.
@@ -26,10 +27,10 @@ Was jetzt fehlt, ist vor allem **Onboarding‑Copy**: ein „plattformagnostisch
 ZEITRISS ist im Repo bereits als **KI‑first Betrieb** beschrieben: Die Spielleitung läuft „im Chat“, optional mit Voice, und das Projekt setzt bewusst auf Self‑Hosting/DIY statt zentrale Serverinstanz. fileciteturn8file7L113-L139  
 Genau hier greift deine stärkste Produktstory: **Nicht Server‑Persistenz, sondern Spieler‑Persistenz.** Der Save ist ein **versionierter JSON‑Block**, der den Zustand in einem stabilen Schema abbildet und dadurch „mitwandert“ – du bist nicht an eine geschlossene Plattform‑Save‑Datenbank gebunden, sondern hast etwas, das du **kopieren, sichern, versionieren, teilen und wieder importieren** kannst. (Diese Logik wird im Masterprompt und im Speicher‑Modul explizit als Schema/Flow beschrieben.) fileciteturn8file11L1-L45 fileciteturn18file6
 
-Das schafft genau das, was du „MMO‑Punkt“ nennst: **Drop‑in/Drop‑out‑Multiplayer über Chat**, ohne Matchmaking‑Server, ohne proprietäre Charakter‑Locks. Inhaltlich ist außerdem der „One‑Build“-Gedanke konsistent: *ein* Regelstand, der (über Wissensmodule + Masterprompt) auf unterschiedliche Plattformen gespiegelt werden kann. fileciteturn8file0L20-L43
+Das schafft genau das, was du „MMO‑Punkt“ nennst: **Drop‑in/Drop‑out‑Multiplayer über Chat**, ohne Matchmaking‑Server, ohne proprietäre Charakter‑Locks. Inhaltlich ist außerdem der „One‑Build“-Gedanke konsistent: _ein_ Regelstand, der (über Wissensmodule + Masterprompt) auf unterschiedliche Plattformen gespiegelt werden kann. fileciteturn8file0L20-L43
 
 Zusätzlich passt diese Story sehr gut zu eurer Privacy‑Ausrichtung („kein Zwang zur zentralen Infrastruktur“). In den internen Hosting‑Notizen wird explizit ein dezentraler Betrieb und Datensparsamkeit über Exporte empfohlen. fileciteturn8file0L44-L77  
-Wenn Nutzer*innen bewusst eine privacy‑zentrierte Umgebung wählen wollen, ist **Proton Lumo** ein Beispiel für ein System, das „no‑logs“ und „zero‑access encryption“ für Chat‑Historien betont (wichtig: Plattformdetails können sich ändern; als Marketing‑/Policy‑Statement ist es aber eine starke Option für die README‑Sektion „Privacy‑Optionen“). citeturn4search1turn4search5
+Wenn Nutzer\*innen bewusst eine privacy‑zentrierte Umgebung wählen wollen, ist **Proton Lumo** ein Beispiel für ein System, das „no‑logs“ und „zero‑access encryption“ für Chat‑Historien betont (wichtig: Plattformdetails können sich ändern; als Marketing‑/Policy‑Statement ist es aber eine starke Option für die README‑Sektion „Privacy‑Optionen“). citeturn4search1turn4search5
 
 ## Technische Bausteine, die plattformübergreifend stabil bleiben
 
@@ -52,9 +53,9 @@ Für die README ist es hilfreich, nicht „jede Plattform der Welt“ aufzuzähl
 
 Eine Plattform ist praktisch kompatibel, wenn sie Folgendes kann:
 
-- **Systemprompt/Instruktionsfeld** (oder ersatzweise: ihr könnt eine lange erste Nachricht als „Regelvertrag“ setzen).  
-- **Dokument‑Kontext** (ideal: Knowledge/Files/RAG; Minimum: Dateiupload oder Copy‑Paste großer Texte).  
-- **Stabile Chat‑Session** (Kontext groß genug für Mission/Briefing/Debrief; je größer, desto stabiler).  
+- **Systemprompt/Instruktionsfeld** (oder ersatzweise: ihr könnt eine lange erste Nachricht als „Regelvertrag“ setzen).
+- **Dokument‑Kontext** (ideal: Knowledge/Files/RAG; Minimum: Dateiupload oder Copy‑Paste großer Texte).
+- **Stabile Chat‑Session** (Kontext groß genug für Mission/Briefing/Debrief; je größer, desto stabiler).
 - **Unveränderte JSON‑Copy/Paste** (Saves dürfen nicht „formatiert kaputt“ gemacht werden).
 
 Diese Logik deckt sich mit dem OpenWebUI‑Ansatz, wo „Model Presets“ explizit System Prompts, Knowledge Collections und Tooling an ein Base‑Model binden. citeturn2search0
@@ -62,7 +63,7 @@ Diese Logik deckt sich mit dem OpenWebUI‑Ansatz, wo „Model Presets“ expliz
 ### Referenzpfad: OpenWebUI (Script‑Setup)
 
 Das Repo benennt den Standardpfad: Script‑Setup in OpenWebUI plus danach kurzer Check „Masterprompt gesetzt, Wissensspeicher verknüpft (20 Slots)“. fileciteturn8file7L15-L33  
-Das Setup‑Script selbst ist als idempotent dokumentiert und erwartet: OpenWebUI läuft lokal, Provider‑Key (z. B. OpenRouter) ist in den Verbindungen gesetzt, und ein OpenWebUI‑API‑Key existiert. fileciteturn10file1L1-L30  
+Das Setup‑Script selbst ist als idempotent dokumentiert und erwartet: OpenWebUI läuft lokal, Provider‑Key (z. B. OpenRouter) ist in den Verbindungen gesetzt, und ein OpenWebUI‑API‑Key existiert. fileciteturn10file1L1-L30
 
 Wichtig (für eure README‑Copy): OpenWebUI ist in den offiziellen Docs **protokollorientiert** (OpenAI Chat Completions API) und arbeitet mit OpenAI‑kompatiblen Providern, Proxies und lokalen Servern. Das ist exakt die Brücke, um „fast überall lauffähig“ sauber zu begründen. citeturn2search5turn2search7
 
@@ -70,21 +71,21 @@ Wichtig (für eure README‑Copy): OpenWebUI ist in den offiziellen Docs **proto
 
 Für eure „plattformagnostische“ README‑Anleitung ist es wertvoll, zwei Dinge konkret zu nennen: „OpenAI‑kompatibel“ heißt (a) Chat‑Completions‑Endpoint und (b) Modell‑IDs.
 
-- OpenRouter dokumentiert ein OpenAI‑kompatibles Chat‑Completions‑API und beschreibt u. a. Model‑Routing, Parameter‑Forwarding und Fallback‑Verhalten. citeturn0search1  
-- Groq dokumentiert explizit „OpenAI Compatibility“ und nennt das Base‑URL‑Pattern für die OpenAI‑kompatiblen Endpoints (`https://api.groq.com/openai/v1`). citeturn0search0  
+- OpenRouter dokumentiert ein OpenAI‑kompatibles Chat‑Completions‑API und beschreibt u. a. Model‑Routing, Parameter‑Forwarding und Fallback‑Verhalten. citeturn0search1
+- Groq dokumentiert explizit „OpenAI Compatibility“ und nennt das Base‑URL‑Pattern für die OpenAI‑kompatiblen Endpoints (`https://api.groq.com/openai/v1`). citeturn0search0
 
 Diese beiden Quellen reichen, um in der README seriös zu sagen: „Wenn dein Anbieter OpenAI‑kompatible Endpoints anbietet, funktioniert ZEITRISS in der Regel auch dort.“
 
 ### Privacy‑Option: Proton Lumo
 
 Wenn ihr in der README alternative Spielumgebungen nennen wollt, ist **Proton Lumo** ein gutes Beispiel für „privacy‑orientierter Chat“: Proton beschreibt u. a. „no‑logs“, „zero‑access encrypted chat history“ und „no training“, sowie optionales Web‑Search‑Opt‑in und Serverbetrieb unter eigener Kontrolle. citeturn4search1turn4search5  
-Außerdem erwähnt Proton, dass Lumo Dokumente über (u. a.) Proton Drive in den Arbeitskontext holen kann und dass man Chat‑Instruktionen/Stilvorgaben setzen kann – was sich gut mit eurem „Masterprompt + Wissenspaket“‑Paradigma verbindet. citeturn4search6  
+Außerdem erwähnt Proton, dass Lumo Dokumente über (u. a.) Proton Drive in den Arbeitskontext holen kann und dass man Chat‑Instruktionen/Stilvorgaben setzen kann – was sich gut mit eurem „Masterprompt + Wissenspaket“‑Paradigma verbindet. citeturn4search6
 
-Für eure README‑Formulierung ist wichtig: Nicht behaupten, Lumo hätte „ein Systemprompt‑Feld wie OpenWebUI“, sondern sauber die generische Regel nennen: *Wenn es ein Instruktionsfeld gibt → Masterprompt dort rein; wenn nicht → Masterprompt als erste Chatnachricht.*
+Für eure README‑Formulierung ist wichtig: Nicht behaupten, Lumo hätte „ein Systemprompt‑Feld wie OpenWebUI“, sondern sauber die generische Regel nennen: _Wenn es ein Instruktionsfeld gibt → Masterprompt dort rein; wenn nicht → Masterprompt als erste Chatnachricht._
 
 ### Local Runner: LM Studio als Beispiel
 
-Für Local‑Runner solltet ihr in der README nicht in UI‑Klickpfade verfallen (Screenshots altern schnell), sondern nur sagen: „System/Instruction Prompt setzen; Prompt‑Template nicht in Template‑Syntax kippen lassen; Dateien als Kontext hinzufügen“. LM Studio dokumentiert, dass Prompt‑Templates modellabhängig sind und man sie ggf. anpassen kann. citeturn2search1  
+Für Local‑Runner solltet ihr in der README nicht in UI‑Klickpfade verfallen (Screenshots altern schnell), sondern nur sagen: „System/Instruction Prompt setzen; Prompt‑Template nicht in Template‑Syntax kippen lassen; Dateien als Kontext hinzufügen“. LM Studio dokumentiert, dass Prompt‑Templates modellabhängig sind und man sie ggf. anpassen kann. citeturn2search1
 
 ## Multiplayer‑Handoffs und Save‑Splits als „Drop‑in/Drop‑out“
 
@@ -93,9 +94,9 @@ Die eigentliche Stärke liegt aber darin, Multiplayer als **Workflow** zu erklä
 
 Das Speicher‑Modul beschreibt dafür die entscheidenden Mechaniken, die ihr in README‑Copy übersetzen könnt:
 
-- **HQ‑Only Save** als Spannungsgarantie und Standard‑Loop „Mission → Debrief → HQ → Save → neuer Chat empfohlen“. fileciteturn18file6  
-- **Host‑Regel** beim Mehrfach‑Import: Wenn mehrere Saves gepostet werden, gilt der zuerst gepostete Save als Host; sein Kampagnenblock gewinnt, weitere Saves liefern Charakter/Loadout/Wallet‑Anteile. fileciteturn18file6  
-- **Cross‑Mode‑Transfers** (Solo→Koop→Arena etc.) sind als Transferlogik beschrieben, was ideal zum „Save split & zuhause weiter“ passt. fileciteturn18file6  
+- **HQ‑Only Save** als Spannungsgarantie und Standard‑Loop „Mission → Debrief → HQ → Save → neuer Chat empfohlen“. fileciteturn18file6
+- **Host‑Regel** beim Mehrfach‑Import: Wenn mehrere Saves gepostet werden, gilt der zuerst gepostete Save als Host; sein Kampagnenblock gewinnt, weitere Saves liefern Charakter/Loadout/Wallet‑Anteile. fileciteturn18file6
+- **Cross‑Mode‑Transfers** (Solo→Koop→Arena etc.) sind als Transferlogik beschrieben, was ideal zum „Save split & zuhause weiter“ passt. fileciteturn18file6
 
 Wenn ihr das in 8–12 Zeilen in die README gießt, sinkt die Einstiegshürde massiv: Menschen sehen sofort, **wie** man gemeinsam spielt, ohne dass ihr Discord‑Bots, Pipes oder „später“ braucht.
 
@@ -110,6 +111,7 @@ ZEITRISS ist kein klassisches „Spiel mit Server-Account“.
 Du spielst in einem Chat – und **dein Charakterbogen ist ein versionierter JSON‑Speicherstand**.
 
 Das heißt:
+
 - Du kannst deinen Charakter **überall hin mitnehmen** (jede kompatible Chat‑Plattform, lokal oder Cloud).
 - Du kannst **mit Freunden lokal spielen**, danach den Save **splitten** und zuhause solo weiterspielen.
 - Du kannst später wieder **drop‑in/drop‑out** mit einer anderen Gruppe spielen – ohne Matchmaking-Server, ohne proprietären Lock‑In.
@@ -122,15 +124,16 @@ Das heißt:
 
 ZEITRISS ist „LLM‑ready“. Du brauchst nur zwei Dinge:
 
-1) **Wissenspaket (20 Module)**  
+1. **Wissenspaket (20 Module)**  
    Lade `core/spieler-handbuch.md` + 19 Runtime‑Module als Knowledge/Files/Docs in deine Plattform.
-2) **Masterprompt (Systemprompt)**  
+2. **Masterprompt (Systemprompt)**  
    Kopiere den Inhalt von `meta/masterprompt_v6.md` in das **Systemprompt-/Instructions‑Feld**.
 
 👉 **Wenn deine Plattform kein Systemprompt‑Feld hat:**  
 Dann poste `meta/masterprompt_v6.md` **als allererste Chatnachricht**, bevor du „Spiel starten“ tippst.
 
 Danach startest du ZEITRISS mit:
+
 - `Spiel starten (solo klassisch)` (empfohlen)
 - oder `Spiel starten (solo schnell)`
 - oder `Spiel laden` + JSON‑Save

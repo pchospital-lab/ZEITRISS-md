@@ -166,6 +166,7 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
 **Attributswerte und Caps:**
 
 > **Attributs-Caps auf einen Blick:**
+>
 > - **Start:** Max. 6 pro Attribut (aus 18 Punkten verteilt)
 > - **Reguläres Level-Up:** bis **10** (menschliches Maximum)
 > - **Nach Prestige-Aufstieg:** bis **14** (übermenschlich, erfordert Story-Meilensteine)
@@ -321,22 +322,22 @@ gliedert sich in zwei Phasen:
   Mission bringt sofort ein Level-Up. Ab Level 11 steigen die XP-Anforderungen
   pro Stufe moderat an. Die konkrete Tabelle:
 
-  | Level | XP pro Level | Kumulativ |
-  |-------|-------------|-----------|
-  | 1–10 | 1 XP (= 1 Mission) | 10 XP |
-  | 11–20 | 2 XP | 30 XP |
-  | 21–30 | 3 XP | 60 XP |
-  | 31–50 | 4 XP | 140 XP |
-  | 51–100 | 5 XP | 390 XP |
+  | Level  | XP pro Level       | Kumulativ |
+  | ------ | ------------------ | --------- |
+  | 1–10   | 1 XP (= 1 Mission) | 10 XP     |
+  | 11–20  | 2 XP               | 30 XP     |
+  | 21–30  | 3 XP               | 60 XP     |
+  | 31–50  | 4 XP               | 140 XP    |
+  | 51–100 | 5 XP               | 390 XP    |
 
   **Prestige-Meilensteine:**
 
-  | Level | Meilenstein |
-  |-------|-------------|
-  | 25 | Titel: *Bewährter Agent* — kosmetisches HUD-Abzeichen |
-  | 50 | Titel: *Veteran* — eigener Fraktionssektor im HQ |
-  | 75 | Titel: *Koryphäe* — Zugang zu Prestige-Perks |
-  | 100 | Titel: *Legende* — ITI-Legendenstatus, umfassende Privilegien |
+  | Level | Meilenstein                                                   |
+  | ----- | ------------------------------------------------------------- |
+  | 25    | Titel: _Bewährter Agent_ — kosmetisches HUD-Abzeichen         |
+  | 50    | Titel: _Veteran_ — eigener Fraktionssektor im HQ              |
+  | 75    | Titel: _Koryphäe_ — Zugang zu Prestige-Perks                  |
+  | 100   | Titel: _Legende_ — ITI-Legendenstatus, umfassende Privilegien |
 
   Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
   sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange
@@ -359,7 +360,6 @@ gliedert sich in zwei Phasen:
   oder qualitativ (neue Möglichkeiten statt bloßer Zahlensteigerung), um _exponentiellen
   Machtzuwachs zu vermeiden_. **Storytelling:** Meilensteine erweitern ihre Befugnisse im ITI -
   Chrononauten bleiben dennoch namenlose Werkzeuge, die von den Epochen vergessen werden
-
 
 #### Reputation-Meilensteine
 
@@ -414,8 +414,8 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   - **Ab Attribut 14:** Der **Heldenwürfel** wird freigeschaltet. Er erlaubt dem Charakter,
     den Probewürfel erneut zu werfen und das bessere Ergebnis zu nehmen.
     Der Heldenwürfel kann **ebenfalls explodieren** (Burst-Cap).
-  Beide Mechaniken unterstreichen, wie außergewöhnlich Werte jenseits der 10 sind — solche Attribute
-  erfordern einen Prestige-Aufstieg und bedeutende Story-Meilensteine.
+    Beide Mechaniken unterstreichen, wie außergewöhnlich Werte jenseits der 10 sind — solche Attribute
+    erfordern einen Prestige-Aufstieg und bedeutende Story-Meilensteine.
 
 #### Prestige-Perks & Legendenpfade
 
@@ -425,9 +425,9 @@ den Standard-Aufstieg ablöst.
 - **Prestige-Trigger:** Der Aufstieg wird im HQ als feierlicher Akt festgehalten - Ihr kehrt ins ITI
   zurück, absolviert einen Rite-of-Passage und entscheidet Euch für einen Prestige-Pfad. Erst danach
   dürfen einzelne Attribute erzählerisch auf 11 oder 12 springen.
-- **Perk-Design:** Prestige-Perks liefern qualitative Macht. Beispiele: *Temporal Anchor* (einmal pro
-  Einsatz eine Szene einfrieren), *Aegis der Fraktion* (Euer HQ-Sektor spendet temporäre DR),
-  *Psi-Resonanz* (ein 11er TEMP erlaubt Euch, Zeitflüsse zu spüren und +1W6 auf Vorahnungsproben zu
+- **Perk-Design:** Prestige-Perks liefern qualitative Macht. Beispiele: _Temporal Anchor_ (einmal pro
+  Einsatz eine Szene einfrieren), _Aegis der Fraktion_ (Euer HQ-Sektor spendet temporäre DR),
+  _Psi-Resonanz_ (ein 11er TEMP erlaubt Euch, Zeitflüsse zu spüren und +1W6 auf Vorahnungsproben zu
   legen). Jeder Perk bindet Euch an Verbündete, Feinde oder Ressourcen.
 - **Mechanik & Balance:** Der Prestige-Pfad ersetzt den Standard-Attributsbonus. Ihr entscheidet aktiv,
   welcher Perk Eure Rolle schärft. Attribute bleiben dabei innerhalb des Caps, solange kein Prestige-
@@ -465,13 +465,13 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 #### Prestige-Stufen & Interner Aufstieg
 
-  - **Prestige-Stufen:** Um lange Kampagnen zu gliedern, führt ZEITRISS optionale
-    Prestige-Stufen ein - etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhält der Chrononaut
-    einen Titel im ITI und darf einen besonderen _Prestige-Perk_ wählen. Beispiele: ein zusätzlicher
-    Heldenwürfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
-    Attributslimit geringfügig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
-    Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden erlangen
-    ITI-weiten Ruf, was interne Plots eröffnet, bleiben jedoch anonym für die Epochen.
+- **Prestige-Stufen:** Um lange Kampagnen zu gliedern, führt ZEITRISS optionale
+  Prestige-Stufen ein - etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhält der Chrononaut
+  einen Titel im ITI und darf einen besonderen _Prestige-Perk_ wählen. Beispiele: ein zusätzlicher
+  Heldenwürfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
+  Attributslimit geringfügig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
+  Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden erlangen
+  ITI-weiten Ruf, was interne Plots eröffnet, bleiben jedoch anonym für die Epochen.
 
 #### Endgame-Inhalte & Langzeit-Herausforderungen
 
@@ -606,7 +606,6 @@ kompletten Ablauf zusammen — Details stecken in den verlinkten Modulen.
 > **Merke:** Kampfregeln verteilen sich auf mehrere Module. Dieser Abschnitt ist
 > die Navigationshilfe — folge den Links für die vollständigen Regeln.
 
-
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere
 Spielsessions hinweg nahtlos fortführen zu können. Da die KI-Spielleitung nicht dauerhaft alle
 Details vergangener Sitzungen behalten kann, wird am Ende **jeder Mission** ein maschinenlesbarer
@@ -660,32 +659,60 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v7, gekürzt):
 
 ```json
 {
-  "v": 7, "zr": "4.2.6",
+  "v": 7,
+  "zr": "4.2.6",
   "campaign": { "episode": 2, "mission": 3, "px": 3, "mode": "mixed", "rift_seeds": [] },
-  "characters": [{
-    "id": "CHR-1234", "name": "Alex", "callsign": "Nova", "rank": "Operator I",
-    "lvl": 4, "xp": 4,
-    "origin": { "epoch": "2024", "hominin": "Homo sapiens sapiens", "role": "CQB-Operator" },
-    "attr": { "STR": 4, "GES": 5, "INT": 3, "CHA": 2, "TEMP": 2, "SYS": 3 },
-    "hp": 10, "hp_max": 10, "stress": 0,
-    "has_psi": false, "sys_installed": 2,
-    "talents": ["Schleichprofi", "Pistolenschütze"],
-    "equipment": [
-      {"name": "CQB-Kampfpistole (SD)", "type": "weapon", "tier": 1},
-      {"name": "Kevlar-Weste Stufe II", "type": "armor", "tier": 1, "dr": 2}
-    ],
-    "implants": [{"name": "Reflex-Boost", "sys_cost": 1, "effect": "+1 Initiative"}],
-    "reputation": {
-      "iti": 1, "faction": "Ordo Mnemonika",
-      "factions": {"ordo_mnemonika": 1, "chrono_symmetriker": 0, "kausalklingen": 0, "zerbrechliche_ewigkeit": 0}
-    },
-    "wallet": 320
-  }],
+  "characters": [
+    {
+      "id": "CHR-1234",
+      "name": "Alex",
+      "callsign": "Nova",
+      "rank": "Operator I",
+      "lvl": 4,
+      "xp": 4,
+      "origin": { "epoch": "2024", "hominin": "Homo sapiens sapiens", "role": "CQB-Operator" },
+      "attr": { "STR": 4, "GES": 5, "INT": 3, "CHA": 2, "TEMP": 2, "SYS": 3 },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 2,
+      "talents": ["Schleichprofi", "Pistolenschütze"],
+      "equipment": [
+        { "name": "CQB-Kampfpistole (SD)", "type": "weapon", "tier": 1 },
+        { "name": "Kevlar-Weste Stufe II", "type": "armor", "tier": 1, "dr": 2 }
+      ],
+      "implants": [{ "name": "Reflex-Boost", "sys_cost": 1, "effect": "+1 Initiative" }],
+      "reputation": {
+        "iti": 1,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 1,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 320
+    }
+  ],
   "economy": { "hq_pool": 0 },
-  "logs": { "trace": [], "market": [], "artifact_log": [], "notes": [], "flags": {"runtime_version": "4.2.6"} },
+  "logs": {
+    "trace": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [],
+    "flags": { "runtime_version": "4.2.6" }
+  },
   "arc": { "factions": {}, "questions": [], "hooks": [] },
-  "ui": { "gm_style": "verbose", "suggest_mode": false, "contrast": "standard",
-    "badge_density": "standard", "output_pace": "normal", "voice_profile": "gm_second_person" }
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
 }
 ```
 
@@ -709,8 +736,8 @@ oder zusammengeführt:
 ```json
 {
   "characters": [
-    {"id": "CHR-1234", "name": "Alex", "rank": "Operator I", "lvl": 4, "wallet": 320},
-    {"id": "CHR-5678", "name": "Nova", "rank": "Rekrut", "lvl": 2, "wallet": 100}
+    { "id": "CHR-1234", "name": "Alex", "rank": "Operator I", "lvl": 4, "wallet": 320 },
+    { "id": "CHR-5678", "name": "Nova", "rank": "Rekrut", "lvl": 2, "wallet": 100 }
   ]
 }
 ```
@@ -781,7 +808,7 @@ Jahrzehnten, dass diese „Zivilisationen jenseits des Menschen" gar keine
 Außerirdischen sind — sondern **post-humane Zeitreisende aus der fernen Zukunft**.
 Ihre Bio-Sheaths haben sich über Jahrhunderttausende so weit von der
 menschlichen Grundform entfernt, dass sie für zeitgenössische Beobachter
-außerirdisch *wirken*. Je fortschrittlicher die Technologie, desto weiter der
+außerirdisch _wirken_. Je fortschrittlicher die Technologie, desto weiter der
 Ursprungspunkt in der Zukunft.
 
 Historische „Alien-Sichtungen" — Roswell 1947, die Foo-Fighter-Berichte des
@@ -802,8 +829,8 @@ Verlauf ihrer Kampagne.
 > **Spielleitung:** Diese Erkenntnis eignet sich als Mid- oder Late-Campaign-Reveal.
 > Streue früh subtile Hinweise (humane DNA in „Alien"-Proben, vertraute
 > Schriftzeichen auf fremder Technologie, ein „außerirdisches" Gerät, das auf
-> ITI-Frequenzen antwortet). Der volle Reveal — *es gibt keine Aliens, nur
-> die Zukunft* — sollte ein Schlüsselmoment sein, der das Weltbild der
+> ITI-Frequenzen antwortet). Der volle Reveal — _es gibt keine Aliens, nur
+> die Zukunft_ — sollte ein Schlüsselmoment sein, der das Weltbild der
 > Spieler auf den Kopf stellt.
 
 #### Alltag im HQ
@@ -882,7 +909,6 @@ Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
    - Ein kurzer Luftzug begrüßt das Team, während sich der Riss hinter ihnen schließt.
 
 2. **Verpflichtender HQ-Beat (Downtime)**
-
    - Nach jeder Mission folgt die Rückkehr ins ITI-HQ als fester Heimkehr-Beat.
      Die Szene darf kompakt als Montage ausgespielt werden, wird aber nicht
      übersprungen.
@@ -900,8 +926,8 @@ Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
    - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
    - Laufende Einsätze werden nicht aus dem HQ heraus wieder aufgenommen.
 
-> Bei Paradoxon-Index 5 legt das HQ trotzdem 1-2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
-  3. **Notfall-Rückholung**
+> Bei Paradoxon-Index 5 legt das HQ trotzdem 1-2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ. 3. **Notfall-Rückholung**
+
      - Gerät eine Mission in totale Eskalation (z.B. Total Party Kill), zieht ein
       **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
       Wahlmöglichkeiten wie oben.
@@ -941,24 +967,24 @@ _Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
 **Temporaler Affinität (TEMP)** erhalten kleinere, bei hohen Werten größere
 Sprünge. Die Staffel ist fix an TEMP gekoppelt:
 
-| TEMP | Px-Zuwachs |
-|-----:|:--------------------------------------|
-| 1–2 | +1 Px alle 2 Missionen |
-| 3–5 | +1 Px pro Mission |
-| 6–8 | +2 Px pro Mission |
-| 9–11 | +2 Px pro Mission |
-| 12–14 | +3 Px pro Mission |
+|  TEMP | Px-Zuwachs             |
+| ----: | :--------------------- |
+|   1–2 | +1 Px alle 2 Missionen |
+|   3–5 | +1 Px pro Mission      |
+|   6–8 | +2 Px pro Mission      |
+|  9–11 | +2 Px pro Mission      |
+| 12–14 | +3 Px pro Mission      |
 
 Bei grobem Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD
 als Warnung. Eskaliert die Situation weiter → **−1 Px** (Backlash), maximal
 einmal pro Mission. **Px kann nicht unter 0 fallen** (Floor = 0).
 
-| Stufe | HUD-Farbe | Score-Screen zeigt              | Mechanischer Effekt                  |
-|-----:|-----------|---------------------------------|--------------------------------------|
-| 0    | ▢ rot     | `Px 0/5 — Leerlauf`            | Keiner                               |
-| 1-2  | ▢ rot     | `Px X/5 — Resonanz aufgebaut`  | Keiner (Fortschritt sichtbar)        |
-| 3-4  | ▢ gelb    | `Px X/5 — Hochlauf`            | Keiner (Fortschritt sichtbar)        |
-| **5**| ▢ grün    | `Px 5/5 — ClusterCreate!`      | 1-2 Rift-Seeds vorgemerkt, Index → 0 |
+| Stufe | HUD-Farbe | Score-Screen zeigt            | Mechanischer Effekt                  |
+| ----: | --------- | ----------------------------- | ------------------------------------ |
+|     0 | ▢ rot     | `Px 0/5 — Leerlauf`           | Keiner                               |
+|   1-2 | ▢ rot     | `Px X/5 — Resonanz aufgebaut` | Keiner (Fortschritt sichtbar)        |
+|   3-4 | ▢ gelb    | `Px X/5 — Hochlauf`           | Keiner (Fortschritt sichtbar)        |
+| **5** | ▢ grün    | `Px 5/5 — ClusterCreate!`     | 1-2 Rift-Seeds vorgemerkt, Index → 0 |
 
 > **ClusterCreate:** Bei Px ≥ 5 pulsiert das HUD grün.
 > Das ITI merkt nach Missionsende 1-2 Rift-Seeds vor (spielbar nach
@@ -969,8 +995,9 @@ einmal pro Mission. **Px kann nicht unter 0 fallen** (Floor = 0).
 bei Px 5. Zwischen-Werte liefern kein CU, keine Loot-Boni und keine
 Analyse-Buffs — der steigende Balken und die Farbwechsel im HUD sind das
 Feedback. Der eigentliche Reward sind die Rift-Seeds: Zugang zu Artefakten,
-Paramonstern und besonderen Missions-Hooks. Teams sollen Paradoxon *anstreben* —
+Paramonstern und besonderen Missions-Hooks. Teams sollen Paradoxon _anstreben_ —
 ein niedriger Index ist verschenktes Potenzial, kein "Safety Score".
+
 > **Legendary-Limit:** Ein Agent führt pro Mission nur **ein** aktives Artefakt.
 > Aktivierung = freie Aktion; Fehlbenutzung erzeugt Stress+1 und einen Cooldown von 1 Szene.
 
@@ -1040,6 +1067,7 @@ sind unter anderem:
   Die Projektionen sind dabei immer an sichtbare ITI-Infrastruktur gebunden
   (Holosuite, Briefingglas, Tischprojektor) und nicht an mobile
   Handgelenk-HUDs.
+
 - **Werkstätten & Arsenal:** Werkstätten zur Wartung, Reparatur und Anpassung von Ausrüstung sowie
   ein zentrales Arsenal, in dem die Chrononauten ihre Ausrüstung lagern und neue Gegenstände
   beschaffen können. Das ITI hat hierfür eine einheitliche epochenübergreifende Währung eingeführt -
@@ -1120,9 +1148,9 @@ Agenten bei Bedarf dauerhaft in Preserve- oder Trigger-Fraktionen.
 Preserve, Trigger und Zerbrechliche Ewigkeit bleiben ITI-intern verbündet
 (Zellenprinzip), wenn es gegen externe Fremdfraktionen geht.
 
-  - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern",
-    die das Gleichgewicht der Zeit wahren wollen.
-    Ansprechperson im HQ: **Pater Lorian**.
+- **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern",
+  die das Gleichgewicht der Zeit wahren wollen.
+  Ansprechperson im HQ: **Pater Lorian**.
   Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
   Wenn jemand durch Zeitreisen diese Ordnung zu sehr stört, schreiten die Chrono-Symmetriker ein. Ihre
   Agenten tauchen oft unerwartet auf, um paradoxes Handeln zu verhindern. Für Spielercharaktere können
@@ -1146,12 +1174,12 @@ Preserve, Trigger und Zerbrechliche Ewigkeit bleiben ITI-intern verbündet
     Ansprechperson im HQ: **Offizier Vargas**.
     Die "Klingen der Kausalität" schneiden jeden "Zeit-Zweig" ab, der den
     Fluss der Zeit unkontrolliert verändert. Kausalklingen-Agenten sind streng geschult, schwer
-  bewaffnet und mit fortschrittlicher temporaler Ausrüstung ausgestattet, um extreme Abweichungen zu
-  korrigieren. Tauchen die Kausalklingen im Spiel auf, bedeutet das meist Ärger: Entweder haben die
-  Spieler (oder jemand anderes) etwas Dramatisches an der Geschichte verändert, oder ein gefährlicher
-  Zeitverbrecher ist am Werk. Man kann eventuell mit ihnen kooperieren, doch ihre Methoden sind
-  radikal - im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls auch eine Person), als
-  ein Risiko für die Zeitlinie einzugehen.
+    bewaffnet und mit fortschrittlicher temporaler Ausrüstung ausgestattet, um extreme Abweichungen zu
+    korrigieren. Tauchen die Kausalklingen im Spiel auf, bedeutet das meist Ärger: Entweder haben die
+    Spieler (oder jemand anderes) etwas Dramatisches an der Geschichte verändert, oder ein gefährlicher
+    Zeitverbrecher ist am Werk. Man kann eventuell mit ihnen kooperieren, doch ihre Methoden sind
+    radikal - im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls auch eine Person), als
+    ein Risiko für die Zeitlinie einzugehen.
 - Ihr langfristiger Plan wird nur in Andeutungen sichtbar, etwa wenn ein Offizier von einer
   "reinen" Hauptzeitlinie spricht, die sie wiederherstellen wollen.
 - **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern.
@@ -1161,9 +1189,9 @@ Preserve, Trigger und Zerbrechliche Ewigkeit bleiben ITI-intern verbündet
   sie operieren im Verborgenen und stoßen Ereignisse gezielt an, um ein geheimes Muster zu vollenden.
   Daher bleibt unklar, ob Katastrophen zufällig geschehen oder von ihnen provoziert wurden.
   Möglich, dass sie hinter den rätselhaften Anomalien stecken, denen die Chrononauten nachjagen.
-Ihr Einfluss zeigt sich nur in Fragmenten gefundener Manifeste oder Predigten,
-weshalb Contra-Agenten oft Sympathien entwickeln, obwohl viele Missionen
-letztlich den gleichen Ausgang wie bei den Pro-Fraktionen haben.
+  Ihr Einfluss zeigt sich nur in Fragmenten gefundener Manifeste oder Predigten,
+  weshalb Contra-Agenten oft Sympathien entwickeln, obwohl viele Missionen
+  letztlich den gleichen Ausgang wie bei den Pro-Fraktionen haben.
 
 Daneben gibt es zahllose **kleinere Fraktionen und Akteure**: lokale Geheimbünde in einzelnen
 Epochen, mächtige Megakonzerne der Zukunft (mit Interesse an Zeitreise-Technologie, um in

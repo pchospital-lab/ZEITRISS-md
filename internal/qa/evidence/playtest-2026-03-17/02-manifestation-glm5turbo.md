@@ -1,4 +1,5 @@
 # 02-manifestation-glm5turbo
+
 - **Model:** zeitriss-v426-uncut-glm5-turbo
 - **Tokens:** in:10839 out:3040 cost:$0.011938112
 - **Date:** 2026-03-17T10:57:06+01:00
@@ -20,16 +21,16 @@ Der Posten nimmt einen Schluck Kaffee. Du hast vielleicht vierzig Sekunden, bevo
 ---
 
 **KONZEPTIMPORT — LYRA**
-*Psionikerin, TEMP-fokussiert. Konzept übernommen, Werte auf ZEITRISS-Start normalisiert.*
+_Psionikerin, TEMP-fokussiert. Konzept übernommen, Werte auf ZEITRISS-Start normalisiert._
 
-| Attribut | Wert |
-|----------|------|
-| STR | 2 |
-| GES | 3 |
-| INT | 3 |
-| CHA | 2 |
-| TEMP | 5 |
-| SYS | 3 |
+| Attribut  | Wert   |
+| --------- | ------ |
+| STR       | 2      |
+| GES       | 3      |
+| INT       | 3      |
+| CHA       | 2      |
+| TEMP      | 5      |
+| SYS       | 3      |
 | **Summe** | **18** |
 
 **Lvl 1** · HP 10/10 · Stress 0/5 · PP 5/5 · Psi-Heat 0/3
@@ -37,6 +38,7 @@ Der Posten nimmt einen Schluck Kaffee. Du hast vielleicht vierzig Sekunden, bevo
 **Fraktion:** Ordo Mnemonika · ITI-Ruf 0 · Wallet 100 CU
 
 **Ausrüstung:**
+
 - Phasen-Dolch (Tier 1, Nahkampf, psi-resonant)
 - Psi-Verstärker Mk I (Implantat, +1 PP bei Psi-Proben)
 - ITI-Standardanzug (Tier 1, leicht gepanzert)

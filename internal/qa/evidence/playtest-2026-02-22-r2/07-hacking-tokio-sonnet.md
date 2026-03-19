@@ -1,4 +1,5 @@
 # 07-hacking-tokio-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.034641
 - **Tokens:** in:5717 out:1166
@@ -33,6 +34,7 @@ Das Raumklima arbeitet gegen Zero. Jede Sekunde kühlt das Residuum weiter ab. D
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Wache: **T-01:12** bis zur nächsten Patrouille durch Serverraum B
 - Biometrischer Abgleich: 61% — System akzeptiert ab 70%; zweiter Versuch löst Silent Alarm aus
 - IDS aktiv: Jede weitere manuelle Anfrage erhöht Noise +1

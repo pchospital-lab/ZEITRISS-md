@@ -1,6 +1,7 @@
 # ZEITRISS – Playtest-Minipatches nach Lumo-Feedback
 
 ## Ziel
+
 Nur kleine, risikoarme Text-/Contract-Härtungen. Kein Umbau der Inhalte, kein neues Subsystem, keine Save-Schema-Erweiterung solange der Referenzpfad (OpenWebUI + Sonnet) stabil läuft.
 
 ---
@@ -8,14 +9,17 @@ Nur kleine, risikoarme Text-/Contract-Härtungen. Kein Umbau der Inhalte, kein n
 ## 1) Load-Flow auf HQ-Router ziehen (statt „Mission fortsetzen“)
 
 ### Problem
+
 Schwächere Modelle interpretieren einen HQ-DeepSave nach Debrief teils als „offene Mission“.
 
 ### Patch-Orte
+
 - `core/sl-referenz.md`
 - `systems/toolkit-gpt-spielleiter.md`
 - optional `core/spieler-handbuch.md`
 
 ### Zieltext
+
 **Ersetze sinngemäß jeden unscharfen Load-Satz durch:**
 
 > **HQ-Load-Standard:** Ein HQ-DeepSave lädt **immer** in einen freien HQ-Zustand,
@@ -35,16 +39,19 @@ Schwächere Modelle interpretieren einen HQ-DeepSave nach Debrief teils als „o
 ## 2) SaveGuard für HQ-Saves entspannen: Transienten normalisieren statt blocken
 
 ### Problem
+
 Die aktuellen Guards sind für schwächere Modelle unnötig streng. Wenn ein Modell
 Stress/Psi-Heat/SYS-Runtime nicht sauber als HQ-resettiert begreift, blockiert es
 fälschlich den Save.
 
 ### Patch-Orte
+
 - `systems/gameflow/speicher-fortsetzung.md`
 - `systems/toolkit-gpt-spielleiter.md`
 - optional kurzer Spiegel in `core/sl-referenz.md`
 
 ### Zieltext
+
 **Ergänze direkt beim SaveGuard / HQ-Save-Contract:**
 
 > **HQ-Save-Normalisierung:** Ist `location="HQ"` und liegt **kein** aktiver Einsatz
@@ -77,11 +84,13 @@ serialize_v7()
 ## 3) Alias-Härtung für HQ-Orte
 
 ### Problem
+
 „Zero Time Lounge“ ist kanonisch, aber Spieler sagen natürlich „Nullzeitbar“.
 „Werkstatt“ taucht im Freeplay-Menü auf, ist aber als Hauptort nicht gleich klar.
 Schwächere Modelle behandeln solche Begriffe sonst wie neue Orte.
 
 ### Patch-Orte
+
 - `core/sl-referenz.md`
 - `systems/toolkit-gpt-spielleiter.md`
 - optional `core/spieler-handbuch.md`
@@ -89,6 +98,7 @@ Schwächere Modelle behandeln solche Begriffe sonst wie neue Orte.
 ### Zieltext
 
 > **HQ-Alias-SSOT:**
+>
 > - `Nullzeitbar` = **Zero Time Lounge** (vollwertiger HQ-Ort, savebar)
 > - `Bar` = **Zero Time Lounge**
 > - `Werkstatt` = Tech-/Werkstattzone im **Research-Wing** bzw. zugehörigen ITI-Servicezonen
@@ -102,10 +112,12 @@ Schwächere Modelle behandeln solche Begriffe sonst wie neue Orte.
 ## 4) Spielerführung nach Debrief: ein klarer Stabilitätspfad
 
 ### Problem
+
 Der richtige Rhythmus ist implizit da, aber nicht deutlich genug als „beste Praxis“.
 Gerade auf Lumo hilft eine explizite Nach-Debrief-Leitung.
 
 ### Patch-Orte
+
 - `core/spieler-handbuch.md`
 - `core/sl-referenz.md`
 - optional `meta/masterprompt_v6.md`
@@ -113,6 +125,7 @@ Gerade auf Lumo hilft eine explizite Nach-Debrief-Leitung.
 ### Zieltext
 
 > **Empfohlener Stabilitätspfad:**
+>
 > 1. **Debrief / Score-Screen**
 > 2. **Level-Up jetzt abschließen** (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`)
 > 3. Danach **HQ wählen**: Schnell-HQ / manuell / Auto-HQ
@@ -131,10 +144,12 @@ Gerade auf Lumo hilft eine explizite Nach-Debrief-Leitung.
 ## 5) ITI-Hierarchie / MMO-Gefühl schärfen
 
 ### Problem
+
 Der große, geschäftige ITI-Komplex ist angelegt, aber einzelne Texte machen
 Commander Renier noch zu direkt zum Erstkontakt.
 
 ### Patch-Orte
+
 - `systems/toolkit-gpt-spielleiter.md`
 - `core/sl-referenz.md`
 - optional `gameplay/kampagnenstruktur.md`
@@ -159,6 +174,7 @@ Commander Renier noch zu direkt zum Erstkontakt.
 > `Commander Arnaud Renier — strategische Leitung, Eskalationen, seltene persönliche Audienzen.`
 
 **Service-Anker aktivieren statt nur optional erwähnen:**
+
 - `ITI-HALDEN` = Wachoffizier / Duty Desk
 - `ITI-NOX` = Quartiermeisterei / Beschaffung
 - `ITI-JUNO` = Med-Tech / Implantatroutine
@@ -169,10 +185,12 @@ Commander Renier noch zu direkt zum Erstkontakt.
 ## 6) Gegnerbild härten: extern standard, ITI-Verrat selten
 
 ### Problem
+
 Das Repo tendiert schon in die richtige Richtung, aber schwächere Modelle greifen
 zu oft auf „jemand im ITI ist korrupt“ als Billig-Twist zurück.
 
 ### Patch-Orte
+
 - `systems/toolkit-gpt-spielleiter.md`
 - optional `core/sl-referenz.md`
 - optional `core/spieler-handbuch.md`
@@ -193,10 +211,12 @@ zu oft auf „jemand im ITI ist korrupt“ als Billig-Twist zurück.
 ## 7) Preserve/Trigger: nur patchen, wenn dieser Designwunsch weiter gilt
 
 ### Beobachtung
+
 Der aktuelle Textstand behandelt `mixed` als Standard und macht `preserve/trigger`
 vor einem Fraktionsübertritt praktisch zweitrangig.
 
 ### Nur patchen, falls ausdrücklich gewollt
+
 Wenn der gewünschte Fantasy-Case wirklich bleibt: „Spieler sollen schon ab Start
 optional reinen Preserve- oder Trigger-Pool wählen können“, dann nur diesen kleinen
 Textpatch machen:
@@ -213,9 +233,11 @@ Kein anderer Systemumbau nötig.
 ## 8) Anti-Loop-Bremse für lange Missionen
 
 ### Problem
+
 Gegen Missionsende neigen schwächere Modelle zu Wiederholungsschleifen.
 
 ### Patch-Ort
+
 - `systems/toolkit-gpt-spielleiter.md`
 
 ### Zieltext
@@ -230,6 +252,7 @@ Gegen Missionsende neigen schwächere Modelle zu Wiederholungsschleifen.
 ---
 
 ## Meine Priorität (von höchstem Nutzen / geringstem Risiko)
+
 1. **Load-Flow auf HQ-Router ziehen**
 2. **SaveGuard-Transienten normalisieren statt blocken**
 3. **Alias-Härtung für Nullzeitbar / Werkstatt / HQ-Orte**
@@ -239,9 +262,9 @@ Gegen Missionsende neigen schwächere Modelle zu Wiederholungsschleifen.
 7. **Preserve/Trigger nur patchen, wenn der ursprüngliche Designwille wirklich wieder gilt**
 
 ## Was ich NICHT ändern würde
+
 - kein neues Save-Schema-Feld nur für „post_debrief“ / „skill pending“
 - keinen Ausbau des Wissensspeichers
 - keine weiteren HQ-Subsysteme
 - keine neue Fraktionsmechanik
 - keine zusätzliche Speichertiefe
-

@@ -9,7 +9,7 @@ tags: [examples]
 **Spieler:**
 `Spiel starten (solo schnell) – Rolle: Sniper Alleingänger`
 
-**SL (MyGPT):**
+**SL (KI-Spielleitung):**
 
 > Briefingraum. Kaltweiße Projektionen, Einsatzkarte flackert.
 > **Kodex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
@@ -19,11 +19,12 @@ tags: [examples]
 > —
 > Kurzes Briefing (3 Sätze + 3 Ziele). Dann: „Los geht’s: Szene 1 – Zugangspunkt?“
 
-*(Erwartung: Keine Nachfrage „Laden“, sofort Mission.)*
+_(Erwartung: Keine Nachfrage „Laden“, sofort Mission.)_
 
 ## Gruppe – Schnelleinstieg (gemischt)
 
 **Spieler:**
+
 ```text
 Spiel starten (gruppe schnell)
 [A] – Save posten
@@ -31,7 +32,7 @@ Spiel starten (gruppe schnell)
 [C] – Rolle: Face
 ```
 
-**SL (MyGPT):**
+**SL (KI-Spielleitung):**
 
 > Kodex-Archiv – Rückkehrprotokoll aktiviert.
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
@@ -40,4 +41,4 @@ Spiel starten (gruppe schnell)
 > HQ-Kurzintro → Briefing (3 Ziele) → Szene 1.
 > „Führung festlegen? (optional)“
 
-*(Erwartung: Zwei werden geladen, eine Person bekommt Defaults; direkt Briefing.)*
+_(Erwartung: Zwei werden geladen, eine Person bekommt Defaults; direkt Briefing.)_

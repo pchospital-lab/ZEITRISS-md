@@ -1,10 +1,12 @@
 # Follow-up Fahrplan – Regelupdate Terminologie/Chronopolis/Save (2026-02-23)
 
 ## Kontext
+
 Dieses Follow-up protokolliert offene QA-Befunde aus dem Regelupdate-Lauf
 (EP→XP-Terminologie, Chronopolis-Tod, Save-Taktung, Gruppen-Todesentscheid).
 
 ## Offene Punkte aus Pflichtprüfungen
+
 - ✅ Erledigt: Legacy-Dokument archiviert unter
   `meta/archive/speicher-fortsetzung.legacy.md` (nicht mehr im Runtime-Pfad).
 - ✅ Erledigt: `migrate_save` ist wieder explizit im Save-Modul dokumentiert,
@@ -36,13 +38,13 @@ P2/P3-Regeldrift in Runtime-Modulen reduziert:
 Damit gelten ZR-011 und ZR-012 als nachgezogen; ZR-014 wurde als
 Produktentscheidung **nicht übernommen** (kein Runtime-Requirement).
 
-
 ## Nachzug Interface-Contract (2026-03-01)
 
 Aus dem Rift-Feinpatch wurde der universelle Kern jetzt repo-weit nachgezogen
 (Spieler-Handbuch, HUD-Hinweise, Toolkit-Offline-Texte, Masterprompt).
 
 ### Nachcheck Restpunkt (2026-03-01)
+
 - ✅ Erledigt: Arena-/Comms-Pfade auf identische Guard-Sprache gezogen.
   `must_comms()` nennt jetzt explizit die benannte Schnittstelle
   (Port/Buchse/Konsole/Relais), `validate_signal()` blockiert ohne
@@ -50,6 +52,7 @@ Aus dem Rift-Feinpatch wurde der universelle Kern jetzt repo-weit nachgezogen
   benannte Ziel-Schnittstelle mit derselben HUD-Formulierung.
 
 ## Abschlussstand
+
 Der Follow-up-Block ist abgeschlossen; es bestehen aktuell keine offenen
 Pflichtprüfungs-Punkte mehr aus dem Regelupdate-Lauf vom 2026-02-23.
 
@@ -132,7 +135,6 @@ Als nächster sinnvoller Deep-Research-Folgeschritt wurde die Tonalitätsfrage a
 Damit ist ZR-008 im laufenden Follow-up als abgeschlossen nachgezogen; die
 P0/P1-Closure bleibt unverändert, ergänzt um diesen P2-Konsistenzpass.
 
-
 ## Nachzug ZR-009 – Level-Up-Regel konsolidiert (2026-02-23)
 
 Als nächster sinnvoller Deep-Research-Folgeschritt wurde die offene
@@ -172,7 +174,6 @@ und Core-Texten zu reduzieren.
 
 Damit ist ZR-013 aus `uploads/deep-research-report(4).md` im laufenden
 Follow-up als abgeschlossen dokumentiert.
-
 
 ## Nachcheck & Pflege (2026-02-23, Abschluss vor neuem Search-Lauf)
 

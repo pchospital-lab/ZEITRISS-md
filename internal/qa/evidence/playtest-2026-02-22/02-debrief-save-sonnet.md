@@ -1,4 +1,5 @@
 # 02-debrief-save-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.045735
 - **Tokens:** in:5300 out:1989
@@ -10,7 +11,8 @@
 ---
 
 ## ◼ SCORE-SCREEN — MISSION 5 ◼
-### *„Archivschatten"* · Core-Op · Episode 1
+
+### _„Archivschatten"_ · Core-Op · Episode 1
 
 ---
 
@@ -143,11 +145,7 @@ Bekanntheitsgrad (Heat)     NIEDRIG
       "SYS_runtime": 2,
       "SYS_used": 0
     },
-    "talents": [
-      "Schleichen I",
-      "Hacking I",
-      "Nahkampf I"
-    ],
+    "talents": ["Schleichen I", "Hacking I", "Nahkampf I"],
     "bioware": [],
     "equipment": {
       "primary": "Standardpistole (ITI-Ausgabe)",

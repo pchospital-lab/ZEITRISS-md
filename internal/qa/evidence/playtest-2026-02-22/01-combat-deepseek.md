@@ -1,4 +1,5 @@
 # 01-combat-deepseek
+
 - **Model:** zeitriss-v426-uncut-deepseek
 - **Cost:** $0.00175863
 - **Tokens:** in:4297 out:431
@@ -14,18 +15,20 @@ Der Mann hat gerade Zeit, den Kopf zu drehen, bevor die Monofaser durch seinen H
 
 `Kodex: Monofaser-Schwert — Ladung 9/10.`
 
-**Intel / Risiken / Zeitfenster**  
-- Der Körper wird spätestens in 5 Minuten entdeckt.  
-- Du bist jetzt im Alarmbereich der Triaden. Noise +1.  
-- Die nächste Patrouille könnte jeden Moment auftauchen.  
+**Intel / Risiken / Zeitfenster**
 
-**Loot**  
-- MP5 (Magazin 25/30)  
-- Schlüsselbund (wahrscheinlich Zugang zu einem Hinterraum)  
-- 20 CU (lose Scheine)  
+- Der Körper wird spätestens in 5 Minuten entdeckt.
+- Du bist jetzt im Alarmbereich der Triaden. Noise +1.
+- Die nächste Patrouille könnte jeden Moment auftauchen.
 
-1. Die MP5 nehmen, den Körper verstecken.  
-2. Den Schlüsselbund nehmen, schnell weiter.  
-3. Den Körper liegen lassen, direkt zum Ziel.  
+**Loot**
+
+- MP5 (Magazin 25/30)
+- Schlüsselbund (wahrscheinlich Zugang zu einem Hinterraum)
+- 20 CU (lose Scheine)
+
+1. Die MP5 nehmen, den Körper verstecken.
+2. Den Schlüsselbund nehmen, schnell weiter.
+3. Den Körper liegen lassen, direkt zum Ziel.
 
 Freie Aktion?

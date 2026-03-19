@@ -1,4 +1,5 @@
 # 06-rift-mothman-sonnet
+
 - **Model:** zeitriss-v426-uncut-sonnet
 - **Cost:** $0.054354
 - **Tokens:** in:5318 out:2560
@@ -12,7 +13,8 @@
 # RIFT-033 — CASEFILE
 
 ## LONDON, NOVEMBER 1888
-### *"The Whitechapel Specter"*
+
+### _"The Whitechapel Specter"_
 
 ---
 
@@ -39,7 +41,8 @@ Warnung — Jack-the-Ripper-Aktivität läuft parallel. Nicht intervenieren.
 
 ---
 
-### ► AKT I — *"Rauch und Gerüchte"*
+### ► AKT I — _"Rauch und Gerüchte"_
+
 **Szenen 1–4 | Phase: Infiltration & Intel**
 
 Das Bild ist noch unvollständig. Gerüchte, Spuren, erste Kontakte.
@@ -50,11 +53,12 @@ Wraith muss die Anomalie lokalisieren, bevor sie eskaliert.
 > Was weiß Scotland Yard — und was verschweigt es?
 > Welche Verbindung besteht zwischen den Sichtungen und den Ripper-Morden?
 
-**Schlüssel-Locations:** Dosshouse in der Flower & Dean Street · Pub "The Ten Bells" · Zeitungsbüro *The East London Observer* · Nebelgassen hinter dem Spitalfields Market
+**Schlüssel-Locations:** Dosshouse in der Flower & Dean Street · Pub "The Ten Bells" · Zeitungsbüro _The East London Observer_ · Nebelgassen hinter dem Spitalfields Market
 
 ---
 
-### ► AKT II — *"Federn und Blut"*
+### ► AKT II — _"Federn und Blut"_
+
 **Szenen 5–10 | Phase: Konflikt & Eskalation**
 
 Die Anomalie hat ein Muster. Wraith hat Kontakt — direkt oder indirekt.
@@ -69,7 +73,8 @@ Etwas stimmt nicht. Der Mothman ist nicht allein. Oder er ist nicht das, was er 
 
 ---
 
-### ► AKT III — *"Letzte Nacht in Whitechapel"*
+### ► AKT III — _"Letzte Nacht in Whitechapel"_
+
 **Szenen 11–14 | Phase: Konfrontation & Exfil**
 
 Eine Nacht. Eine Chance. Wraith muss entscheiden — und handeln.
@@ -129,7 +134,7 @@ Erste Sichtung: Dachfirst der Christ Church, Spitalfields.
 Zeuge: Constable Thomas Holt, E-Division. Dienstbericht versiegelt.
 Anomalie-Klasse SIGMA bedeutet: Kreatur mit Chrono-Interaktion.
 Keine Rückführungsoption im Archiv. Neutralisation oder Eindämmung.
-Zeitfenster kritisch — Mothman-Aktivität nimmt zu. 
+Zeitfenster kritisch — Mothman-Aktivität nimmt zu.
 Px-Startrisiko: moderat. Halte Eingriffe minimal.
 Sprung auf: 6. November 1888, 21:00 Uhr. Whitechapel, Aldgate East.
 Viel Glück, Wraith.
@@ -162,7 +167,7 @@ Du stehst in einer Seitengasse, Mantel beschlagen, Gehstock in der Hand. Mr. Ash
 ---
 
 **1 — Pub "The Ten Bells":** Gerüchteküche. Locals reden. Vielleicht weiß jemand von den Dachsichtungen.
-**2 — Zeitungsbüro** *East London Observer*: Nachtschicht. Gibt es einen Bericht über "den Engel vom Dach"?
+**2 — Zeitungsbüro** _East London Observer_: Nachtschicht. Gibt es einen Bericht über "den Engel vom Dach"?
 **3 — Flower & Dean Street:** Dosshouse-Betreiber Silas Murch soll Constable Holts Bericht gehört haben — aus erster Hand.
 
 **Freie Aktion:** Was tut Wraith?

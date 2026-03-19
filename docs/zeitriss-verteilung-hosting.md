@@ -6,14 +6,14 @@ tags: [meta]
 
 # ZEITRISS – Einführung, Verteilung & Hosting (intern)
 
-Hinweis: Strategiepapier für Maintainer:innen, Partner und interessierte
-Endanwender:innen. Nicht in den Wissensspeicher laden.
+Hinweis: Strategiepapier für Maintainer, Partner und interessierte
+Endanwender. Nicht in den Wissensspeicher laden.
 
 ## Ziel & Rahmen
 
 ZEITRISS wird als privatsphärefreundliches KI-Rollenspiel vertrieben. Der
 Schwerpunkt liegt auf lokalem Betrieb – sämtliche Spielinhalte und Regeln
-laufen entweder auf der Hardware der Endnutzer:innen oder in Ende-zu-Ende-
+laufen entweder auf der Hardware der Endnutzer oder in Ende-zu-Ende-
 verschlüsselten Umgebungen. Das System ist als Solo-Betrieb konzipiert: eine
 zentrale Wissensbasis (Regelwerk + Module), ein KI-Spielleiter-Prompt und ein
 einheitlicher Entwicklungsstand, der auf verschiedene Plattformen gespiegelt
@@ -81,16 +81,16 @@ hervorgehoben werden.
 - **Keine Telemetrie, keine Datensammelei:** Weder die Spiel-Engine (LLM) noch
   das Regelwerk enthalten Telemetrie-Code. Es werden keine Spielerdaten heimlich
   erfasst. Alles, was das System „lernt“, geschieht offen im Chat (z. B.
-  Charakterbögen in JSON-Form) und verbleibt bei den Nutzer:innen.
-- **Datensparsamkeit bei Exporten:** Spieler:innen können ihren Spielstand
+  Charakterbögen in JSON-Form) und verbleibt bei den Nutzer.
+- **Datensparsamkeit bei Exporten:** Spieler können ihren Spielstand
   (Memory JSON) exportieren. Empfohlen wird, Exporte lokal und sicher
   aufzubewahren (bei sensiblen Inhalten ggf. verschlüsselt). Chats auf
   geteilten Plattform-Accounts (z. B. Firmenkonten) sollten nach Abschluss
   einer Kampagne gelöscht oder archiviert und dann gelöscht werden.
-- **Hinweise für Nutzer:innen:** In Benutzeranleitungen oder Hilfetexten wird
+- **Hinweise für Nutzer:** In Benutzeranleitungen oder Hilfetexten wird
   klargestellt, dass öffentliche/ungeschützte Plattformen tabu sind, wenn reale
   persönliche Informationen ins Spiel kommen. ZEITRISS selbst benötigt keine
-  echten persönlichen Daten der Spieler:innen – falls Nutzer:innen dennoch
+  echten persönlichen Daten der Spieler – falls Nutzer dennoch
   eigene Namen oder biografische Details einbringen, geschieht dies auf eigene
   Verantwortung innerhalb der privaten Session.
 
@@ -107,7 +107,7 @@ hervorgehoben werden.
   Lizenzierung).
 - **Import-Schritte (Kurzfassung):** Für gängige Umgebungen werden kurze
   Importanleitungen bereitgestellt:
-  - **OpenAI GPTs (optional, Legacy):
+  - \*\*OpenAI GPTs (optional, Legacy):
     `meta/masterprompt_v6.md` vollständig ins Systemprompt-Feld kopieren.
     Danach `core/spieler-handbuch.md` und alle 19 Runtime-Module in den
     Wissensspeicher hochladen (Details in `docs/maintainer-ops.md`).
@@ -126,14 +126,14 @@ hervorgehoben werden.
     können aber von der Community integriert werden.
 - **Self-Service-Dokumentation:** Eine ausführlichere Schritt-für-Schritt-
   Anleitung (mit Screenshots ggf.) kann auf der Projekt-Website oder im Wiki
-  verlinkt werden, damit auch nicht-technische Nutzer:innen ZEITRISS einrichten
+  verlinkt werden, damit auch nicht-technische Nutzer ZEITRISS einrichten
   können. Wichtig ist, den Importpfad klar und einfach zu halten – idealerweise
   in weniger als 5 Minuten vom Download bis zum spielbereiten Setup.
 
 ## Hosting-Strategie
 
 - **Dezentraler Betrieb:** ZEITRISS bleibt einem dezentralen Modell treu. Jede
-  Spielrunde läuft in der Umgebung der Nutzer:innen (lokal oder im eigenen
+  Spielrunde läuft in der Umgebung der Nutzer (lokal oder im eigenen
   geschützten Account). Dies reduziert laufende Betriebskosten und vermeidet
   Haftungsfragen durch Serverbetrieb (insbesondere wegen der 18+-Inhalte).
 - **Kein öffentlicher Zentral-Server:** Aktuell ist kein offizieller Online-
@@ -181,13 +181,13 @@ internen Notizen).
   eingesetzt werden, um geschlossene Wissenspakete für Partner bereitzustellen
   (z. B. ZIP mit allen benötigten Dateien), falls direkte GitHub-Nutzung nicht
   erwünscht ist.
-- **Lokale UIs:** Nutzer:innen, die kein LM Studio verwenden möchten, können
+- **Lokale UIs:** Nutzer, die kein LM Studio verwenden möchten, können
   andere UI-Frontends einsetzen. Erfolgreich getestet wurden z. B.
   Oobabooga Text UI oder OpenWebUI in Verbindung mit lokalem LLM-Backend.
 - **Sprachein- und -ausgabe:** Für vollkommen telemetriefreie Immersion
   empfehlen sich lokale Sprach-Tools: Whisper offline zur Spracherkennung
   sowie Open-Source-TTS-Systeme (z. B. Coqui TTS) für Sprachausgabe. So bleibt
-  auch die Audio-Ein-/Ausgabe des Spiels unter der Kontrolle der Nutzer:innen.
+  auch die Audio-Ein-/Ausgabe des Spiels unter der Kontrolle der Nutzer.
 - **Hardware-Unabhängigkeit:** ZEITRISS ist an keine bestimmte Hardware
   gebunden. Es läuft auf gängigen PCs mit entsprechender GPU (für große
   Modelle) oder sogar CPU-only mit performance-schonenden Einstellungen.
@@ -206,7 +206,7 @@ internen Notizen).
   der Narrative. Dies wird in allen Nutzerinformationen deutlich
   kommuniziert (bereits im README und Lizenztext verankert).
 - **Verantwortung bei Nutzung:** Weder der Entwickler noch eventuelle
-  Lizenzpartner übernehmen Haftung für Handlungen der Nutzer:innen, die aus
+  Lizenzpartner übernehmen Haftung für Handlungen der Nutzer, die aus
   dem Spiel heraus inspiriert werden. Alle Anweisungen des KI-Spielleiters
   sind als Teil der Simulation zu verstehen.
 - **Keine Notfallhilfe:** ZEITRISS ist nicht dafür vorgesehen, echte Probleme

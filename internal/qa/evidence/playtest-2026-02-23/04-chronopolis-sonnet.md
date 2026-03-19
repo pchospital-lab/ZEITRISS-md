@@ -1,4 +1,5 @@
 # 04-chronopolis-sonnet
+
 - **Model:** sonnet
 - **Cost:** $0.031782
 - **Tokens:** in:6424 out:834
@@ -9,7 +10,7 @@
 
 ---
 
-Das Tor öffnet sich nicht — es *reißt* auf.
+Das Tor öffnet sich nicht — es _reißt_ auf.
 
 Ein Schwall warmer, stickiger Luft trifft dich ins Gesicht. Schwefel, Asche, und darunter etwas Süßliches, das du nicht einordnen kannst. Chronopolis — die gescheiterte Zeitlinie dieser Episode — empfängt dich nicht. Sie duldet dich.
 
@@ -22,6 +23,7 @@ Das Viertel um dich herum atmet. Fenster ohne Scheiben gaffen dich an wie leere 
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Beobachter oben: unbekannte Absicht, bewaffnet unbekannt
 - Gasse links: schwere Präsenz, Kontakt möglich
 - Platz vorne: Feuer, Gruppe, potenziell Handel oder Feind

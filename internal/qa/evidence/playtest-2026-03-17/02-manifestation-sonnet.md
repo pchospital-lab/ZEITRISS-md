@@ -1,4 +1,5 @@
 # 02-manifestation-sonnet
+
 - **Model:** zeitriss-v426-uncut
 - **Tokens:** in:13911 out:1710 cost:$0.067383
 - **Date:** 2026-03-17T10:55:08+01:00
@@ -15,11 +16,11 @@ Bevor ich würfle, muss ich die Regelgrundlage prüfen.
 
 **Präkognitive Manifestation** ist laut Schema nur unter diesen Bedingungen zulässig:
 
-> *„Nur nach erfolgreicher `Präkognition III` zulässig, beeinflusst nur den dabei offenbarten lokalen Nah-Zukunftsanker, löst nie Missionsziele direkt."*
+> _„Nur nach erfolgreicher `Präkognition III` zulässig, beeinflusst nur den dabei offenbarten lokalen Nah-Zukunftsanker, löst nie Missionsziele direkt."_
 
 Das bedeutet:
 
-- **Schritt 1:** Erst eine `Präkognition III`-Probe — die enthüllt einen konkreten Nah-Zukunftsanker (z. B. *„Der Wachmann dreht sich in 8 Sekunden ab"* oder *„Der Türcode wird in einer Minute gewechselt"*).
+- **Schritt 1:** Erst eine `Präkognition III`-Probe — die enthüllt einen konkreten Nah-Zukunftsanker (z. B. _„Der Wachmann dreht sich in 8 Sekunden ab"_ oder _„Der Türcode wird in einer Minute gewechselt"_).
 - **Schritt 2:** Dann darf `Präkognitive Manifestation` diesen **einen** enthüllten Ankerpunkt beeinflussen — nicht die Tür selbst öffnen, sondern z. B. den Moment erzwingen, in dem der Wachmann wegschaut.
 - **Einschränkung:** Missionsziele (Tür öffnen = direktes Hindernis auf dem Zielpfad) werden **nicht direkt gelöst.** Die Manifestation schafft eine Lücke — du musst sie noch nutzen.
 
@@ -31,9 +32,9 @@ Das bedeutet:
 
 ### PHASE 1: Präkognition III
 
-**Attribut:** TEMP 9 → W10 (Exploding, da ≥ 11 nicht erreicht — TEMP ist 9, also W6... warte.**
+**Attribut:** TEMP 9 → W10 (Exploding, da ≥ 11 nicht erreicht — TEMP ist 9, also W6... warte.\*\*
 
-> Regelcheck: *„Ab Attribut ≥ 11: W10."* TEMP = 9 → **W6 (Exploding).**
+> Regelcheck: _„Ab Attribut ≥ 11: W10."_ TEMP = 9 → **W6 (Exploding).**
 
 **Probe: Präkognition III → TEMP**
 SG: 10 (gesicherter Bereich, aktiver Wachposten)
@@ -84,6 +85,7 @@ Die Manifestation hat die Lücke erzwungen. Nutzen musst du sie selbst.
 ---
 
 **Intel / Risiken / Zeitfenster**
+
 - Lücke: ~4 Sekunden, Wachmann schaut weg
 - Karte am Gürtel: Greifbar, aber Körperkontakt nötig
 - Psi-Heat: 5/10 — nächste Psi-Aktion erhöht Risiko spürbar

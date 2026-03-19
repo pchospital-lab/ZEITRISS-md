@@ -7,78 +7,78 @@
 
 ## Pruefmatrix
 
-| # | Check | Status | Detail |
-|---|---|---|---|
-| 1 | T1: Setting (ITI/Nullzeit) | ✅ PASS |  |
-| 2 | T1: Drei Chargen-Wege | ✅ PASS |  |
-| 3 | T2: Attribute (STR/GES) | ✅ PASS |  |
-| 4 | T2: Bogen/Loadout | ✅ PASS |  |
-| 5 | T2: Origin/Epoche | ✅ PASS |  |
-| 6 | T3: HUD als Inline-Code | ✅ PASS |  |
-| 7 | T3: MODE CORE | ✅ PASS |  |
-| 8 | T3: Missionsziel klar | ✅ PASS |  |
-| 9 | T3: Intel/Risiken-Block | ✅ PASS |  |
-| 10 | T3: Director-Layer (Relevanzsatz) | ✅ PASS |  |
-| 11 | T4: Sprung physisch beschrieben | ✅ PASS |  |
-| 12 | T4: Ankunft in Zielzeit | ✅ PASS |  |
-| 13 | T4: Optionen | ✅ PASS |  |
-| 14 | T5: Würfelprobe | ✅ PASS |  |
-| 15 | T5: Attribut-Zuordnung (GES) | ✅ PASS |  |
-| 16 | T5: Proben-Ergebnis (HIT/MISS) | ❌ FAIL |  |
-| 17 | T6: Kampfprobe (STR) | ✅ PASS |  |
-| 18 | T6: Kodex-Kommentar in Backticks | ✅ PASS |  |
-| 19 | T6: Konsequenz beschrieben | ✅ PASS |  |
-| 20 | T6: LP/Schaden erwaehnt | ❌ FAIL |  |
-| 21 | T7: SaveGuard kommuniziert HQ-only | ✅ PASS |  |
-| 22 | T7: Kein kanonischer JSON-Export | ❌ FAIL |  |
-| 23 | T8: Exfil-Szene | ✅ PASS |  |
-| 24 | T9: Score-Screen/Debrief | ✅ PASS |  |
-| 25 | T9: CU-Belohnung | ✅ PASS |  |
-| 26 | T9: XP/Level | ✅ PASS |  |
-| 27 | T9: ITI-Ruf | ✅ PASS |  |
-| 28 | T9: Lizenz-Tier | ✅ PASS |  |
-| 29 | T9: Paradoxon (Px) | ✅ PASS |  |
-| 30 | T9: HQ-Menue (3 Optionen) | ❌ FAIL |  |
-| 31 | T10: JSON vorhanden | ✅ PASS |  |
-| 32 | T10: v: 7 | ✅ PASS | v=7 |
-| 33 | T10: zr: 4.2.6 | ✅ PASS |  |
-| 34 | T10: characters[] ist Array | ✅ PASS |  |
-| 35 | T10: Attr-Summe=18 | ✅ PASS | sum=18, vals=[2, 5, 4, 4, 1, 2] |
-| 36 | T10: Kein Attr>6 | ✅ PASS | max=5 |
-| 37 | T10: Kein Attr<1 | ✅ PASS | min=1 |
-| 38 | T10: id vorhanden | ✅ PASS |  |
-| 39 | T10: name | ✅ PASS |  |
-| 40 | T10: callsign | ✅ PASS |  |
-| 41 | T10: rank | ✅ PASS |  |
-| 42 | T10: lvl >= 1 | ✅ PASS |  |
-| 43 | T10: wallet | ✅ PASS |  |
-| 44 | T10: reputation.iti | ✅ PASS |  |
-| 45 | T10: reputation.factions | ✅ PASS |  |
-| 46 | T10: history.milestones | ✅ PASS |  |
-| 47 | T10: carry[] | ✅ PASS |  |
-| 48 | T10: quarters_stash[] | ✅ PASS |  |
-| 49 | T10: vehicles.epoch_vehicle | ✅ PASS |  |
-| 50 | T10: has_psi definiert | ✅ PASS |  |
-| 51 | T10: equipment[] | ✅ PASS |  |
-| 52 | T10: campaign.episode | ✅ PASS |  |
-| 53 | T10: campaign.px_state | ✅ PASS |  |
-| 54 | T10: campaign.rift_seeds[] | ✅ PASS |  |
-| 55 | T10: economy.hq_pool | ✅ PASS |  |
-| 56 | T10: arc.factions | ✅ PASS |  |
-| 57 | T10: arc.hooks | ✅ PASS |  |
-| 58 | T10: continuity.last_seen | ✅ PASS |  |
-| 59 | T10: continuity.npc_roster | ✅ PASS |  |
-| 60 | T10: summaries | ✅ PASS |  |
-| 61 | T10: logs.trace | ✅ PASS |  |
-| 62 | T10: logs.flags | ✅ PASS |  |
-| 63 | T10: ui.gm_style | ✅ PASS |  |
-| 64 | T10: save_id | ✅ PASS |  |
-| 65 | T10: parent_save_id definiert | ✅ PASS |  |
-| 66 | T10: branch_id | ✅ PASS |  |
-| 67 | T10: KEIN save_version | ✅ PASS |  |
-| 68 | T10: KEIN party{} | ✅ PASS |  |
-| 69 | T10: KEIN team{} | ✅ PASS |  |
-| 70 | T10: KEIN arc_dashboard | ✅ PASS |  |
+| #   | Check                              | Status  | Detail                          |
+| --- | ---------------------------------- | ------- | ------------------------------- |
+| 1   | T1: Setting (ITI/Nullzeit)         | ✅ PASS |                                 |
+| 2   | T1: Drei Chargen-Wege              | ✅ PASS |                                 |
+| 3   | T2: Attribute (STR/GES)            | ✅ PASS |                                 |
+| 4   | T2: Bogen/Loadout                  | ✅ PASS |                                 |
+| 5   | T2: Origin/Epoche                  | ✅ PASS |                                 |
+| 6   | T3: HUD als Inline-Code            | ✅ PASS |                                 |
+| 7   | T3: MODE CORE                      | ✅ PASS |                                 |
+| 8   | T3: Missionsziel klar              | ✅ PASS |                                 |
+| 9   | T3: Intel/Risiken-Block            | ✅ PASS |                                 |
+| 10  | T3: Director-Layer (Relevanzsatz)  | ✅ PASS |                                 |
+| 11  | T4: Sprung physisch beschrieben    | ✅ PASS |                                 |
+| 12  | T4: Ankunft in Zielzeit            | ✅ PASS |                                 |
+| 13  | T4: Optionen                       | ✅ PASS |                                 |
+| 14  | T5: Würfelprobe                    | ✅ PASS |                                 |
+| 15  | T5: Attribut-Zuordnung (GES)       | ✅ PASS |                                 |
+| 16  | T5: Proben-Ergebnis (HIT/MISS)     | ❌ FAIL |                                 |
+| 17  | T6: Kampfprobe (STR)               | ✅ PASS |                                 |
+| 18  | T6: Kodex-Kommentar in Backticks   | ✅ PASS |                                 |
+| 19  | T6: Konsequenz beschrieben         | ✅ PASS |                                 |
+| 20  | T6: LP/Schaden erwaehnt            | ❌ FAIL |                                 |
+| 21  | T7: SaveGuard kommuniziert HQ-only | ✅ PASS |                                 |
+| 22  | T7: Kein kanonischer JSON-Export   | ❌ FAIL |                                 |
+| 23  | T8: Exfil-Szene                    | ✅ PASS |                                 |
+| 24  | T9: Score-Screen/Debrief           | ✅ PASS |                                 |
+| 25  | T9: CU-Belohnung                   | ✅ PASS |                                 |
+| 26  | T9: XP/Level                       | ✅ PASS |                                 |
+| 27  | T9: ITI-Ruf                        | ✅ PASS |                                 |
+| 28  | T9: Lizenz-Tier                    | ✅ PASS |                                 |
+| 29  | T9: Paradoxon (Px)                 | ✅ PASS |                                 |
+| 30  | T9: HQ-Menue (3 Optionen)          | ❌ FAIL |                                 |
+| 31  | T10: JSON vorhanden                | ✅ PASS |                                 |
+| 32  | T10: v: 7                          | ✅ PASS | v=7                             |
+| 33  | T10: zr: 4.2.6                     | ✅ PASS |                                 |
+| 34  | T10: characters[] ist Array        | ✅ PASS |                                 |
+| 35  | T10: Attr-Summe=18                 | ✅ PASS | sum=18, vals=[2, 5, 4, 4, 1, 2] |
+| 36  | T10: Kein Attr>6                   | ✅ PASS | max=5                           |
+| 37  | T10: Kein Attr<1                   | ✅ PASS | min=1                           |
+| 38  | T10: id vorhanden                  | ✅ PASS |                                 |
+| 39  | T10: name                          | ✅ PASS |                                 |
+| 40  | T10: callsign                      | ✅ PASS |                                 |
+| 41  | T10: rank                          | ✅ PASS |                                 |
+| 42  | T10: lvl >= 1                      | ✅ PASS |                                 |
+| 43  | T10: wallet                        | ✅ PASS |                                 |
+| 44  | T10: reputation.iti                | ✅ PASS |                                 |
+| 45  | T10: reputation.factions           | ✅ PASS |                                 |
+| 46  | T10: history.milestones            | ✅ PASS |                                 |
+| 47  | T10: carry[]                       | ✅ PASS |                                 |
+| 48  | T10: quarters_stash[]              | ✅ PASS |                                 |
+| 49  | T10: vehicles.epoch_vehicle        | ✅ PASS |                                 |
+| 50  | T10: has_psi definiert             | ✅ PASS |                                 |
+| 51  | T10: equipment[]                   | ✅ PASS |                                 |
+| 52  | T10: campaign.episode              | ✅ PASS |                                 |
+| 53  | T10: campaign.px_state             | ✅ PASS |                                 |
+| 54  | T10: campaign.rift_seeds[]         | ✅ PASS |                                 |
+| 55  | T10: economy.hq_pool               | ✅ PASS |                                 |
+| 56  | T10: arc.factions                  | ✅ PASS |                                 |
+| 57  | T10: arc.hooks                     | ✅ PASS |                                 |
+| 58  | T10: continuity.last_seen          | ✅ PASS |                                 |
+| 59  | T10: continuity.npc_roster         | ✅ PASS |                                 |
+| 60  | T10: summaries                     | ✅ PASS |                                 |
+| 61  | T10: logs.trace                    | ✅ PASS |                                 |
+| 62  | T10: logs.flags                    | ✅ PASS |                                 |
+| 63  | T10: ui.gm_style                   | ✅ PASS |                                 |
+| 64  | T10: save_id                       | ✅ PASS |                                 |
+| 65  | T10: parent_save_id definiert      | ✅ PASS |                                 |
+| 66  | T10: branch_id                     | ✅ PASS |                                 |
+| 67  | T10: KEIN save_version             | ✅ PASS |                                 |
+| 68  | T10: KEIN party{}                  | ✅ PASS |                                 |
+| 69  | T10: KEIN team{}                   | ✅ PASS |                                 |
+| 70  | T10: KEIN arc_dashboard            | ✅ PASS |                                 |
 
 ## Gesamtbewertung
 
@@ -104,8 +104,8 @@
 
 ---
 
-> *„Die Vergangenheit ist kein Museum. Sie ist ein Schlachtfeld."*
-> *— ITI-Einführungsprotokoll, Nullzeit-Archiv*
+> _„Die Vergangenheit ist kein Museum. Sie ist ein Schlachtfeld."_
+> _— ITI-Einführungsprotokoll, Nullzeit-Archiv_
 
 ---
 
@@ -140,7 +140,7 @@ Du verteilst selbst **18 Punkte** auf sechs Attribute (STR, GES, INT, CHA, TEMP,
 
 ---
 
-*Freie Aktion: Du kannst auch einfach sagen, was du dir vorstellst — ich übersetze es in einen Charakter.*
+_Freie Aktion: Du kannst auch einfach sagen, was du dir vorstellst — ich übersetze es in einen Charakter._
 
 ---
 
@@ -152,7 +152,7 @@ Du verteilst selbst **18 Punkte** auf sechs Attribute (STR, GES, INT, CHA, TEMP,
 
 # Charaktergenerierung — ZEITRISS
 
-*Würfle Herkunft, Rolle, Attribute, Hintergrund...*
+_Würfle Herkunft, Rolle, Attribute, Hintergrund..._
 
 ---
 
@@ -169,39 +169,39 @@ Schleichen, Täuschen, Informationen beschaffen. Kein Frontsoldat — aber gefä
 
 ## Attributverteilung (18 Punkte)
 
-| Attribut | Wert | Bedeutung |
-|----------|------|-----------|
-| **STR** | 2 | Solide, kein Muskelprotz |
-| **GES** | 5 | Kernkompetenz — Schleichen, Ausweichen, Schießen |
-| **INT** | 4 | Analytisch, schnell im Kopf |
-| **CHA** | 4 | Überzeugend, kalt wenn nötig |
-| **TEMP** | 1 | Kaum Affinität zu Zeitphänomenen |
-| **SYS** | 2 | Basis-Implantate, kein Technik-Spezialist |
+| Attribut | Wert | Bedeutung                                        |
+| -------- | ---- | ------------------------------------------------ |
+| **STR**  | 2    | Solide, kein Muskelprotz                         |
+| **GES**  | 5    | Kernkompetenz — Schleichen, Ausweichen, Schießen |
+| **INT**  | 4    | Analytisch, schnell im Kopf                      |
+| **CHA**  | 4    | Überzeugend, kalt wenn nötig                     |
+| **TEMP** | 1    | Kaum Affinität zu Zeitphänomenen                 |
+| **SYS**  | 2    | Basis-Implantate, kein Technik-Spezialist        |
 
-*Summe: 18 ✓ — Alle Werte 1–6 ✓*
+_Summe: 18 ✓ — Alle Werte 1–6 ✓_
 
 ---
 
 ## Talente (2 Starttalente)
 
-**`Schattenschritt`** *(GES)*
+**`Schattenschritt`** _(GES)_
 Bewegung in Deckung kostet keinen Aktionswurf bei bekannten Grundrissen — nur bei aktiver Bedrohung oder Überraschungskontakt wird gewürfelt. +1 auf Schleichen-Proben.
 
-**`Kaltblütig`** *(CHA)*
+**`Kaltblütig`** _(CHA)_
 Erste Stressprobe pro Szene automatisch bestanden. Bei Verhören und Täuschung: +1 auf CHA-Proben.
 
 ---
 
 ## Ausrüstung (Startloadout)
 
-| Item | Typ | Tier |
-|------|-----|------|
-| Walther PPK (modifiziert, Schalldämpfer) | Waffe | 1 |
-| Kampfmesser | Waffe | 1 |
-| ITI-Kontaktlinse (HUD-Overlay, Kodex-Link) | Implantat | 1 |
-| Signaljammer (Handgröße, 3 Ladungen) | Gadget | 1 |
-| Kevlar-Unterziehweste | Rüstung | 1 |
-| Universaldietrich (mechanisch/elektronisch) | Tool | 1 |
+| Item                                        | Typ       | Tier |
+| ------------------------------------------- | --------- | ---- |
+| Walther PPK (modifiziert, Schalldämpfer)    | Waffe     | 1    |
+| Kampfmesser                                 | Waffe     | 1    |
+| ITI-Kontaktlinse (HUD-Overlay, Kodex-Link)  | Implantat | 1    |
+| Signaljammer (Handgröße, 3 Ladungen)        | Gadget    | 1    |
+| Kevlar-Unterziehweste                       | Rüstung   | 1    |
+| Universaldietrich (mechanisch/elektronisch) | Tool      | 1    |
 
 **Carry:** 6/6 Slots belegt — Quartierslager leer.
 
@@ -209,11 +209,11 @@ Erste Stressprobe pro Szene automatisch bestanden. Bei Verhören und Täuschung:
 
 ## Hintergrund
 
-**Deckname / Callsign:** *noch offen — du vergibst ihn gleich*
+**Deckname / Callsign:** _noch offen — du vergibst ihn gleich_
 
 Karl-Heinz Brenner. Oder das, was von ihm übrig ist.
 
-Stasi-Ausbilder nannten ihn *„das stille Werkzeug"* — er war nie der Lauteste im Raum, aber immer der Letzte, der ging. 1984 sollte er einen westdeutschen Journalisten liquidieren. Er tat es nicht. Verschwand stattdessen. Das ITI fand ihn drei Wochen später in Wien, hungrig, mit einem gestohlenen BND-Dossier unter dem Arm und dem Angebot: *„Wir haben Verwendung für jemanden, der weiß, wie Systeme von innen aussehen."*
+Stasi-Ausbilder nannten ihn _„das stille Werkzeug"_ — er war nie der Lauteste im Raum, aber immer der Letzte, der ging. 1984 sollte er einen westdeutschen Journalisten liquidieren. Er tat es nicht. Verschwand stattdessen. Das ITI fand ihn drei Wochen später in Wien, hungrig, mit einem gestohlenen BND-Dossier unter dem Arm und dem Angebot: _„Wir haben Verwendung für jemanden, der weiß, wie Systeme von innen aussehen."_
 
 Er nahm das Angebot an. Seitdem springt er.
 
@@ -310,7 +310,7 @@ Er nahm das Angebot an. Seitdem springt er.
 
 Bevor es losgeht — zwei Dinge:
 
-**1. Callsign:** Wie nennt dich die Crew im Funk? *(Ein Wort, ein Spitzname, ein alter Deckname — was auch immer passt.)*
+**1. Callsign:** Wie nennt dich die Crew im Funk? _(Ein Wort, ein Spitzname, ein alter Deckname — was auch immer passt.)_
 
 **2. Annehmen oder anpassen?**
 
@@ -318,7 +318,7 @@ Bevor es losgeht — zwei Dinge:
 `2` — **Einen Wert tauschen** (ein Attribut +1, eines −1)
 `3` — **Talent tauschen** (eines der Starttalente ersetzen)
 
-*Freie Aktion: Sag mir einfach was du ändern willst.*
+_Freie Aktion: Sag mir einfach was du ändern willst._
 
 ---
 
@@ -328,7 +328,7 @@ Bevor es losgeht — zwei Dinge:
 
 **KI-SL:**
 
-*Callsign fehlt noch — ich nehme* ***„Stiller"*** *als Funk-Rufzeichen. Passt zum Profil. Kannst du jederzeit ändern.*
+_Callsign fehlt noch — ich nehme_ **_„Stiller"_** _als Funk-Rufzeichen. Passt zum Profil. Kannst du jederzeit ändern._
 
 ---
 
@@ -337,6 +337,7 @@ Bevor es losgeht — zwei Dinge:
 ---
 
 # ITI-Hauptquartier — Nullzeit
+
 ## Quarzatrium → Operations-Deck
 
 Das Quarzatrium riecht nach gefilterter Luft und altem Stein. Die Wände bestehen aus poliertem Basalt — kein Fenster, kein natürliches Licht, nur das kalte Weiß der Deckenstreifen, die sich im Boden spiegeln. Irgendwo tickt eine analoge Uhr. In der Nullzeit ist das ein Witz, den niemand erklärt.
@@ -357,11 +358,11 @@ Auf dem Tisch liegt ein aufgeklapptes Dossier. Schwarzweißfotos, handschriftlic
 
 Das Foto zeigt einen Mann in Zivilkleidung vor einem Kolonialgebäude — europäisches Gesicht, arabischer Kaftan darüber, ein Aktenkoffer in der Hand.
 
-**„Das ist Dr. Emmerich Voss. Österreichischer Altertumsforscher. Oder war es, bis er 1938 von der SS zwangsrekrutiert wurde. Jetzt arbeitet er für das *Ahnenerbe* — Himmlers Mystik-Beschaffungskommando."**
+**„Das ist Dr. Emmerich Voss. Österreichischer Altertumsforscher. Oder war es, bis er 1938 von der SS zwangsrekrutiert wurde. Jetzt arbeitet er für das _Ahnenerbe_ — Himmlers Mystik-Beschaffungskommando."**
 
 Renier schiebt ein zweites Foto rüber. Ein Artefakt: eine Bronzescheibe, etwa handtellergroß, mit eingravierten Symbolen die keiner bekannten Schrift entsprechen.
 
-**„Die *Scheibe von Abydos*. Vor drei Wochen in einem Grab bei Luxor ausgegraben. Voss hat sie. In 72 Stunden — Einsatzzeit — verlässt er Kairo mit ihr. Ziel: Berlin. Wenn die Scheibe das Ahnenerbe-Archiv erreicht, verlieren wir sie für Jahrzehnte. Möglicherweise für immer."**
+**„Die _Scheibe von Abydos_. Vor drei Wochen in einem Grab bei Luxor ausgegraben. Voss hat sie. In 72 Stunden — Einsatzzeit — verlässt er Kairo mit ihr. Ziel: Berlin. Wenn die Scheibe das Ahnenerbe-Archiv erreicht, verlieren wir sie für Jahrzehnte. Möglicherweise für immer."**
 
 Er schließt das Dossier.
 
@@ -389,7 +390,7 @@ Er wartet nicht auf die Antwort.
 
 Renier schiebt dir einen versiegelten Umschlag zu. Legende, Papiere, 50 ägyptische Pfund Startkapital.
 
-**„Österreichischer Kaufmann. Textilhandel. Deine Kontaktperson vor Ort heißt Yusuf — er hält sich im Basar von Khan el-Khalili auf. Frag nach *Seide aus Damaskus*. Er weiß, dass du kommst."**
+**„Österreichischer Kaufmann. Textilhandel. Deine Kontaktperson vor Ort heißt Yusuf — er hält sich im Basar von Khan el-Khalili auf. Frag nach _Seide aus Damaskus_. Er weiß, dass du kommst."**
 
 Er tritt zurück.
 
@@ -402,11 +403,11 @@ Er tritt zurück.
 
 ---
 
-**1 — Fragen stellen** *(Voss, die Scheibe, die Abwehr-Agenten, Yusuf)*
-**2 — Ausrüstung prüfen und Sprung vorbereiten** *(Loadout final checken, Gate-Koordinaten bestätigen)*
-**3 — Direkt zum Sprung** *(Keine weiteren Fragen — sofort nach Kairo)*
+**1 — Fragen stellen** _(Voss, die Scheibe, die Abwehr-Agenten, Yusuf)_
+**2 — Ausrüstung prüfen und Sprung vorbereiten** _(Loadout final checken, Gate-Koordinaten bestätigen)_
+**3 — Direkt zum Sprung** _(Keine weiteren Fragen — sofort nach Kairo)_
 
-*Freie Aktion: Du kannst spezifisch nachfragen, etwas am Loadout tauschen, oder Renier etwas fragen das nicht auf der Liste steht.*
+_Freie Aktion: Du kannst spezifisch nachfragen, etwas am Loadout tauschen, oder Renier etwas fragen das nicht auf der Liste steht._
 
 ---
 
@@ -464,7 +465,7 @@ Kairo 1942 riecht nach einem Krieg, der noch nicht entschieden ist — und nach 
 
 - **Uhr läuft:** T-71:52 bis Voss' Abreise
 - **Sofortrisiko:** Britische Patrouillen im Stadtzentrum — Ausweiskontrolle wahrscheinlich
-- **Yusuf:** Khan el-Khalili, 1,8 km östlich — Stichwort *„Seide aus Damaskus"*
+- **Yusuf:** Khan el-Khalili, 1,8 km östlich — Stichwort _„Seide aus Damaskus"_
 - **Hotel Shepheard:** Voss' letzte bekannte Position, 2,3 km nordöstlich — Hochrisiko (Abwehr-Agenten bekannt präsent)
 - **Unbekannt:** Tagesrhythmus von Voss, wo die Scheibe liegt, ob er bereits Verdacht geschöpft hat
 
@@ -476,11 +477,11 @@ Du hast drei Sekunden bevor sie in deine Richtung schauen.
 
 ---
 
-**1 — Zu Yusuf im Basar** *(Kontakt aufbauen, Lageeinschätzung holen — sicherer erster Schritt)*
-**2 — Zum Hotel Shepheard** *(Voss direkt lokalisieren — riskanter, aber spart Zeit)*
-**3 — Deckung halten, Lage beobachten** *(Britische Patrouille einschätzen, Bewegungsmuster lesen)*
+**1 — Zu Yusuf im Basar** _(Kontakt aufbauen, Lageeinschätzung holen — sicherer erster Schritt)_
+**2 — Zum Hotel Shepheard** _(Voss direkt lokalisieren — riskanter, aber spart Zeit)_
+**3 — Deckung halten, Lage beobachten** _(Britische Patrouille einschätzen, Bewegungsmuster lesen)_
 
-*Freie Aktion: Du kannst die Gasse anders verlassen, die Soldaten ansprechen, oder dich in den Teestand setzen und beobachten.*
+_Freie Aktion: Du kannst die Gasse anders verlassen, die Soldaten ansprechen, oder dich in den Teestand setzen und beobachten._
 
 ---
 
@@ -498,7 +499,7 @@ Du hast drei Sekunden bevor sie in deine Richtung schauen.
 
 **Talent Schattenschritt:** Bewegung in Deckung auf bekanntem Grundriss — kein Wurf nötig. Kairo-Gassen sind aber unbekanntes Terrain, aktive Patrouille in Sichtlinie. Wurf fällig.
 
-**SG 7** *(Belebte Straße, britische Patrouille, unbekanntes Terrain)*
+**SG 7** _(Belebte Straße, britische Patrouille, unbekanntes Terrain)_
 
 `Probe: Schleichen → W6: [5] + GES 5/2 (=2) + Talent Schattenschritt 1 = 8 vs SG 7 → TREFFER`
 
@@ -549,11 +550,11 @@ Du hast einen Moment.
 
 ---
 
-**1 — Küchendurchgang** *(Tarnung als Lieferant, im Strom des Personals mitlaufen)*
-**2 — Personaltreppe aufschließen** *(Dietrich, aber Wachmann muss abgelenkt oder gewartet werden)*
-**3 — Lüftungsschacht** *(Lautlos rein — aber eng und Waffe schwer erreichbar)*
+**1 — Küchendurchgang** _(Tarnung als Lieferant, im Strom des Personals mitlaufen)_
+**2 — Personaltreppe aufschließen** _(Dietrich, aber Wachmann muss abgelenkt oder gewartet werden)_
+**3 — Lüftungsschacht** _(Lautlos rein — aber eng und Waffe schwer erreichbar)_
 
-*Freie Aktion: Den Wachmann ansprechen, ablenken, oder die Lage weiter beobachten bevor du dich entscheidest.*
+_Freie Aktion: Den Wachmann ansprechen, ablenken, oder die Lage weiter beobachten bevor du dich entscheidest._
 
 ---
 
@@ -586,7 +587,7 @@ Du bist bereits in Bewegung.
 
 Lautlos. Kein Messer — zu viel Blut, zu viel Cleanup. Würgegriff.
 
-**SG 6** *(Überraschungsangriff, Wachmann noch nicht in Alarmstellung)*
+**SG 6** _(Überraschungsangriff, Wachmann noch nicht in Alarmstellung)_
 
 `Probe: Nahkampf → W6: [6] → Exploding! → W6: [3] = 9 + STR 2/2 (=1) = 10 vs SG 6 → TREFFER (Kritisch)`
 
@@ -608,14 +609,14 @@ Er ist nicht tot. Bewusstlos. Puls fühlbar unter deinen Fingern — schnell, ab
 
 ## Loot / Beute
 
-| Item | Typ | Wert |
-|------|-----|------|
-| Karabiner Kar98k + 5 Patronen | Waffe T1 | — |
-| Schlüsselbund (2 Schlüssel, unbekannte Schlösser) | Tool | — |
-| 3 ägyptische Pfund | CU | 3 £ |
-| Zigarettenpäckchen (Cleopatra) | Verbrauchsgut | — |
+| Item                                              | Typ           | Wert |
+| ------------------------------------------------- | ------------- | ---- |
+| Karabiner Kar98k + 5 Patronen                     | Waffe T1      | —    |
+| Schlüsselbund (2 Schlüssel, unbekannte Schlösser) | Tool          | —    |
+| 3 ägyptische Pfund                                | CU            | 3 £  |
+| Zigarettenpäckchen (Cleopatra)                    | Verbrauchsgut | —    |
 
-*Carry voll (6/6) — Karabiner zu groß, nicht tragbar ohne Aufsehen. Schlüsselbund passt in Jackettasche.*
+_Carry voll (6/6) — Karabiner zu groß, nicht tragbar ohne Aufsehen. Schlüsselbund passt in Jackettasche._
 
 ---
 
@@ -629,13 +630,13 @@ Die Hintertür steht noch offen. Dampf, Stimmen auf Arabisch, das Scheppern von 
 ---
 
 **Kausalabfang durchführen?**
-*(Wachmann wird aus der Erinnerung dieser Begegnung herausgelöst — er wacht auf ohne Erinnerung an dich. Kostet: 30 Sekunden, Kodex-Uplink)*
+_(Wachmann wird aus der Erinnerung dieser Begegnung herausgelöst — er wacht auf ohne Erinnerung an dich. Kostet: 30 Sekunden, Kodex-Uplink)_
 
-`1` — **Ja, Kausalabfang + Personaltreppe** *(sauber, kein Nachhall, dann rein)*
-`2` — **Nein, direkt Personaltreppe** *(Zeit sparen, Risiko: er wacht auf und schlägt Alarm)*
-`3` — **Küchendurchgang nutzen** *(Wachmann hinter Deckung, im Personalstrom verschwinden)*
+`1` — **Ja, Kausalabfang + Personaltreppe** _(sauber, kein Nachhall, dann rein)_
+`2` — **Nein, direkt Personaltreppe** _(Zeit sparen, Risiko: er wacht auf und schlägt Alarm)_
+`3` — **Küchendurchgang nutzen** _(Wachmann hinter Deckung, im Personalstrom verschwinden)_
 
-*Freie Aktion: Wachmann fesseln/knebeln, Schlüssel am Schloss testen, oder Lage durch die offene Tür einschätzen.*
+_Freie Aktion: Wachmann fesseln/knebeln, Schlüssel am Schloss testen, oder Lage durch die offene Tür einschätzen._
 
 ---
 
@@ -649,76 +650,99 @@ Die Hintertür steht noch offen. Dampf, Stimmen auf Arabisch, das Scheppern von 
 
 ```json
 {
-  "v": 7, "zr": "4.2.6",
+  "v": 7,
+  "zr": "4.2.6",
   "save_id": "SAVE-2026-EP1-MS1-SC4-STILLER",
   "parent_save_id": null,
   "merge_id": null,
   "branch_id": "ANCHOR-main",
   "campaign": {
-    "episode": 1, "mission": 1, "px": 0, "px_state": "stable", "mode": "core",
+    "episode": 1,
+    "mission": 1,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "core",
     "rift_seeds": []
   },
-  "characters": [{
-    "id": "CHR-BRENNER-01",
-    "name": "Karl-Heinz Brenner",
-    "callsign": "Stiller",
-    "rank": "Rekrut",
-    "lvl": 1, "xp": 0,
-    "origin": { "epoch": "Ostberlin, 1978", "hominin": "Homo sapiens sapiens", "role": "Infiltrator / Geheimdienstoperative" },
-    "attr": { "STR": 2, "GES": 5, "INT": 4, "CHA": 4, "TEMP": 1, "SYS": 2 },
-    "hp": 10, "hp_max": 10, "stress": 0,
-    "has_psi": false,
-    "sys_installed": 1,
-    "talents": [
-      { "name": "Schattenschritt", "attr": "GES", "effect": "+1 Schleichen, kein Wurf bei Deckung auf bekanntem Grundriss" },
-      { "name": "Kaltblütig", "attr": "CHA", "effect": "+1 Täuschung/Verhör, 1x Stressprobe/Szene auto bestanden" }
-    ],
-    "equipment": [
-      { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
-      { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
-      { "name": "ITI-Kontaktlinse (HUD/Kodex)", "type": "implant", "tier": 1 },
-      { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
-      { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
-      { "name": "Universaldietrich", "type": "tool", "tier": 1 }
-    ],
-    "implants": [
-      { "name": "ITI-Kontaktlinse", "effect": "HUD-Overlay, Kodex-Link", "sys_cost": 1 }
-    ],
-    "history": {
-      "background": "Ex-Stasi-Operative, Wien-Defekt 1984. Sollte westdeutschen Journalisten liquidieren — tat es nicht. Vom ITI in Wien rekrutiert. Weiß wie Systeme von innen aussehen.",
-      "milestones": []
-    },
-    "carry": [
-      { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
-      { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
-      { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
-      { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
-      { "name": "Universaldietrich", "type": "tool", "tier": 1 },
-      { "name": "Schlüsselbund (2 Schlüssel)", "type": "tool", "tier": 1 }
-    ],
-    "quarters_stash": [],
-    "vehicles": {
-      "epoch_vehicle": {
-        "id": "VEH-TRABANT-01",
-        "name": "Trabant 601 (mod.)",
-        "type": "vehicle",
-        "tier": 1,
-        "upgrades": ["Hohlraumfach", "Kurzwellen-Relais"]
+  "characters": [
+    {
+      "id": "CHR-BRENNER-01",
+      "name": "Karl-Heinz Brenner",
+      "callsign": "Stiller",
+      "rank": "Rekrut",
+      "lvl": 1,
+      "xp": 0,
+      "origin": {
+        "epoch": "Ostberlin, 1978",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltrator / Geheimdienstoperative"
       },
-      "availability": { "ready_every_missions": 4, "next_ready_in": 0 },
-      "legendary_temporal_ship": null
-    },
-    "reputation": {
-      "iti": 0, "faction": "—",
-      "factions": {
-        "ordo_mnemonika": 0,
-        "chrono_symmetriker": 0,
-        "kausalklingen": 0,
-        "zerbrechliche_ewigkeit": 0
-      }
-    },
-    "wallet": 103
-  }],
+      "attr": { "STR": 2, "GES": 5, "INT": 4, "CHA": 4, "TEMP": 1, "SYS": 2 },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 1,
+      "talents": [
+        {
+          "name": "Schattenschritt",
+          "attr": "GES",
+          "effect": "+1 Schleichen, kein Wurf bei Deckung auf bekanntem Grundriss"
+        },
+        {
+          "name": "Kaltblütig",
+          "attr": "CHA",
+          "effect": "+1 Täuschung/Verhör, 1x Stressprobe/Szene auto bestanden"
+        }
+      ],
+      "equipment": [
+        { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
+        { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
+        { "name": "ITI-Kontaktlinse (HUD/Kodex)", "type": "implant", "tier": 1 },
+        { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
+        { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
+        { "name": "Universaldietrich", "type": "tool", "tier": 1 }
+      ],
+      "implants": [
+        { "name": "ITI-Kontaktlinse", "effect": "HUD-Overlay, Kodex-Link", "sys_cost": 1 }
+      ],
+      "history": {
+        "background": "Ex-Stasi-Operative, Wien-Defekt 1984. Sollte westdeutschen Journalisten liquidieren — tat es nicht. Vom ITI in Wien rekrutiert. Weiß wie Systeme von innen aussehen.",
+        "milestones": []
+      },
+      "carry": [
+        { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
+        { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
+        { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
+        { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
+        { "name": "Universaldietrich", "type": "tool", "tier": 1 },
+        { "name": "Schlüsselbund (2 Schlüssel)", "type": "tool", "tier": 1 }
+      ],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-TRABANT-01",
+          "name": "Trabant 601 (mod.)",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": ["Hohlraumfach", "Kurzwellen-Relais"]
+        },
+        "availability": { "ready_every_missions": 4, "next_ready_in": 0 },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 0,
+        "faction": "—",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 103
+    }
+  ],
   "economy": { "hq_pool": 0 },
   "logs": {
     "trace": [
@@ -746,7 +770,12 @@ Die Hintertür steht noch offen. Dampf, Stimmen auf Arabisch, das Scheppern von 
     "summary_active_arcs": "EP1 MS1: Kairo 1942 — Scheibe von Abydos. Voss im Hotel Shepheard. Wachmann ausgeschaltet, Seiteneingang offen."
   },
   "continuity": {
-    "last_seen": { "mode": "core", "episode": 1, "mission": 1, "location": "Kairo 1942 — Hotel Shepheard, Rückseite" },
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 1,
+      "location": "Kairo 1942 — Hotel Shepheard, Rückseite"
+    },
     "split": {
       "family_id": null,
       "thread_id": null,
@@ -813,7 +842,7 @@ Die Hintertür steht noch offen. Dampf, Stimmen auf Arabisch, das Scheppern von 
 `2` — **Direkt Personaltreppe, kein Abfang**
 `3` — **Küchendurchgang**
 
-*Freie Aktion verfügbar.*
+_Freie Aktion verfügbar._
 
 ---
 
@@ -829,7 +858,7 @@ Die Hintertür steht noch offen. Dampf, Stimmen auf Arabisch, das Scheppern von 
 
 # Hotel Shepheard — Personaltreppe / Innenbereich
 
-Einen Moment. Renier hat gesagt: *Scheibe sichern.* Die Scheibe ist noch nicht gesichert — Voss ist noch irgendwo im Hotel, das Artefakt mit ihm. Direkter Rücksprung jetzt würde bedeuten: Mission fehlgeschlagen, leere Hände.
+Einen Moment. Renier hat gesagt: _Scheibe sichern._ Die Scheibe ist noch nicht gesichert — Voss ist noch irgendwo im Hotel, das Artefakt mit ihm. Direkter Rücksprung jetzt würde bedeuten: Mission fehlgeschlagen, leere Hände.
 
 Du weißt das.
 
@@ -859,7 +888,7 @@ Voss ist allein.
 
 ## Probe: Schloss öffnen (Universaldietrich)
 
-**SG 6** *(Hotelschloss, mechanisch, Standardsicherheit 1942)*
+**SG 6** _(Hotelschloss, mechanisch, Standardsicherheit 1942)_
 
 `Probe: Schlösser → W6: [4] + GES 5/2 (=2) + Talent — = 6 vs SG 6 → TREFFER (knapp)`
 
@@ -889,7 +918,7 @@ Du bist schneller.
 
 Kein Lärm. Kein Schuss. Ein ruhiger Mann der weiß was er tut — das ist überzeugender als jede Waffe.
 
-**SG 7** *(Voss ist kein Kämpfer, aber kein Idiot — er wird einschätzen)*
+**SG 7** _(Voss ist kein Kämpfer, aber kein Idiot — er wird einschätzen)_
 
 `Probe: Einschüchterung → W6: [5] + CHA 4/2 (=2) + Talent Kaltblütig 1 = 8 vs SG 7 → TREFFER`
 
@@ -970,34 +999,34 @@ Du stehst auf der Plattform, Scheibe in der Hand, Kairo-Staub noch auf den Schuh
 
 ## ★★★★☆ — SCORE: EXZELLENT
 
-| Kategorie | Ergebnis |
-|-----------|----------|
-| Primärziel | ✓ Scheibe von Abydos gesichert |
-| Tarnung | ✓ Keine Kompromittierung |
-| Kollateralschaden | ✓ Keine Toten |
-| Zeiteffizienz | ✓ Weit vor Deadline |
-| Spuren | ✓ Kausalabfang durchgeführt |
+| Kategorie         | Ergebnis                       |
+| ----------------- | ------------------------------ |
+| Primärziel        | ✓ Scheibe von Abydos gesichert |
+| Tarnung           | ✓ Keine Kompromittierung       |
+| Kollateralschaden | ✓ Keine Toten                  |
+| Zeiteffizienz     | ✓ Weit vor Deadline            |
+| Spuren            | ✓ Kausalabfang durchgeführt    |
 
 ---
 
 ## Loot-Recap
 
-| Item | Status |
-|------|--------|
+| Item               | Status                 |
+| ------------------ | ---------------------- |
 | Scheibe von Abydos | → ITI-Archiv übergeben |
-| 3 ägyptische Pfund | → Wallet (+3 CU) |
+| 3 ägyptische Pfund | → Wallet (+3 CU)       |
 
 ---
 
 ## Auszahlung
 
-| Posten | Betrag |
-|--------|--------|
-| Mission-Grundlohn | +150 CU |
-| Bonus: Keine Spuren | +50 CU |
-| Bonus: Vor Deadline | +25 CU |
-| Ägyptische Pfund | +3 CU |
-| **Gesamt** | **+228 CU** |
+| Posten              | Betrag      |
+| ------------------- | ----------- |
+| Mission-Grundlohn   | +150 CU     |
+| Bonus: Keine Spuren | +50 CU      |
+| Bonus: Vor Deadline | +25 CU      |
+| Ägyptische Pfund    | +3 CU       |
+| **Gesamt**          | **+228 CU** |
 
 **Wallet: 103 + 228 = 331 CU**
 
@@ -1013,9 +1042,9 @@ Du stehst auf der Plattform, Scheibe in der Hand, Kairo-Staub noch auf den Schuh
 
 **Level-Up-Wahl — genau EINE Option:**
 
-`A` — **+1 Attribut** *(STR, GES, INT, CHA, TEMP oder SYS)*
-`B` — **Neues Talent** *(passend zu bisherigem Profil oder neu)*
-`C` — **+1 SYS** *(zusätzlicher Implantat-Slot)*
+`A` — **+1 Attribut** _(STR, GES, INT, CHA, TEMP oder SYS)_
+`B` — **Neues Talent** _(passend zu bisherigem Profil oder neu)_
+`C` — **+1 SYS** _(zusätzlicher Implantat-Slot)_
 
 ---
 
@@ -1055,11 +1084,11 @@ Die Scheibe ist im Archiv — aber Miras Frage hängt in der Luft: **Wer hat Vos
 
 **HQ-Menü — was als nächstes?**
 
-`1` — **Level-Up wählen** *(dann HQ-Rundgang oder direkt Briefing)*
-`2` — **HQ-Rundgang** *(Shop, Klinik, Archiv, Zero Time Lounge)*
-`3` — **Direkt zum nächsten Briefing** *(Mission 2)*
+`1` — **Level-Up wählen** _(dann HQ-Rundgang oder direkt Briefing)_
+`2` — **HQ-Rundgang** _(Shop, Klinik, Archiv, Zero Time Lounge)_
+`3` — **Direkt zum nächsten Briefing** _(Mission 2)_
 
-*Freie Aktion: Mira befragen, Renier ansprechen, oder etwas anderes im HQ erledigen.*
+_Freie Aktion: Mira befragen, Renier ansprechen, oder etwas anderes im HQ erledigen._
 
 ---
 
@@ -1074,8 +1103,11 @@ Die Scheibe ist im Archiv — aber Miras Frage hängt in der Luft: **Wer hat Vos
 ---
 
 # ═══════════════════════════════════
+
 # MISSION 1 — SCORE-SCREEN
+
 # SCHEIBE VON ABYDOS · KAIRO 1942
+
 # ═══════════════════════════════════
 
 ```
@@ -1176,77 +1208,100 @@ C  +1 SYS
 
 ```json
 {
-  "v": 7, "zr": "4.2.6",
+  "v": 7,
+  "zr": "4.2.6",
   "save_id": "SAVE-2026-EP1-MS1-DEBRIEF-STILLER",
   "parent_save_id": "SAVE-2026-EP1-MS1-SC4-STILLER",
   "merge_id": null,
   "branch_id": "ANCHOR-main",
   "campaign": {
-    "episode": 1, "mission": 1, "px": 0, "px_state": "stable", "mode": "core",
+    "episode": 1,
+    "mission": 1,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "core",
     "rift_seeds": []
   },
-  "characters": [{
-    "id": "CHR-BRENNER-01",
-    "name": "Karl-Heinz Brenner",
-    "callsign": "Stiller",
-    "rank": "Rekrut",
-    "lvl": 2, "xp": 0,
-    "origin": { "epoch": "Ostberlin, 1978", "hominin": "Homo sapiens sapiens", "role": "Infiltrator / Geheimdienstoperative" },
-    "attr": { "STR": 2, "GES": 5, "INT": 4, "CHA": 4, "TEMP": 1, "SYS": 2 },
-    "hp": 10, "hp_max": 10, "stress": 0,
-    "has_psi": false,
-    "sys_installed": 1,
-    "talents": [
-      { "name": "Schattenschritt", "attr": "GES", "effect": "+1 Schleichen, kein Wurf bei Deckung auf bekanntem Grundriss" },
-      { "name": "Kaltblütig", "attr": "CHA", "effect": "+1 Täuschung/Verhör, 1x Stressprobe/Szene auto bestanden" }
-    ],
-    "equipment": [
-      { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
-      { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
-      { "name": "ITI-Kontaktlinse (HUD/Kodex)", "type": "implant", "tier": 1 },
-      { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
-      { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
-      { "name": "Universaldietrich", "type": "tool", "tier": 1 }
-    ],
-    "implants": [
-      { "name": "ITI-Kontaktlinse", "effect": "HUD-Overlay, Kodex-Link", "sys_cost": 1 }
-    ],
-    "history": {
-      "background": "Ex-Stasi-Operative, Wien-Defekt 1984. Sollte westdeutschen Journalisten liquidieren — tat es nicht. Vom ITI in Wien rekrutiert. Weiß wie Systeme von innen aussehen.",
-      "milestones": [
-        "MS1: Scheibe von Abydos aus Kairo 1942 gesichert. Voss und Wachmann kausalabgefangen. Keine Toten, keine Spuren. Mira-Notiz: Artefakt älter als ägyptisch."
-      ]
-    },
-    "carry": [
-      { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
-      { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
-      { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
-      { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
-      { "name": "Universaldietrich", "type": "tool", "tier": 1 }
-    ],
-    "quarters_stash": [],
-    "vehicles": {
-      "epoch_vehicle": {
-        "id": "VEH-TRABANT-01",
-        "name": "Trabant 601 (mod.)",
-        "type": "vehicle",
-        "tier": 1,
-        "upgrades": ["Hohlraumfach", "Kurzwellen-Relais"]
+  "characters": [
+    {
+      "id": "CHR-BRENNER-01",
+      "name": "Karl-Heinz Brenner",
+      "callsign": "Stiller",
+      "rank": "Rekrut",
+      "lvl": 2,
+      "xp": 0,
+      "origin": {
+        "epoch": "Ostberlin, 1978",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltrator / Geheimdienstoperative"
       },
-      "availability": { "ready_every_missions": 4, "next_ready_in": 3 },
-      "legendary_temporal_ship": null
-    },
-    "reputation": {
-      "iti": 1, "faction": "—",
-      "factions": {
-        "ordo_mnemonika": 0,
-        "chrono_symmetriker": 0,
-        "kausalklingen": 0,
-        "zerbrechliche_ewigkeit": 0
-      }
-    },
-    "wallet": 351
-  }],
+      "attr": { "STR": 2, "GES": 5, "INT": 4, "CHA": 4, "TEMP": 1, "SYS": 2 },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 1,
+      "talents": [
+        {
+          "name": "Schattenschritt",
+          "attr": "GES",
+          "effect": "+1 Schleichen, kein Wurf bei Deckung auf bekanntem Grundriss"
+        },
+        {
+          "name": "Kaltblütig",
+          "attr": "CHA",
+          "effect": "+1 Täuschung/Verhör, 1x Stressprobe/Szene auto bestanden"
+        }
+      ],
+      "equipment": [
+        { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
+        { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
+        { "name": "ITI-Kontaktlinse (HUD/Kodex)", "type": "implant", "tier": 1 },
+        { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
+        { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
+        { "name": "Universaldietrich", "type": "tool", "tier": 1 }
+      ],
+      "implants": [
+        { "name": "ITI-Kontaktlinse", "effect": "HUD-Overlay, Kodex-Link", "sys_cost": 1 }
+      ],
+      "history": {
+        "background": "Ex-Stasi-Operative, Wien-Defekt 1984. Sollte westdeutschen Journalisten liquidieren — tat es nicht. Vom ITI in Wien rekrutiert. Weiß wie Systeme von innen aussehen.",
+        "milestones": [
+          "MS1: Scheibe von Abydos aus Kairo 1942 gesichert. Voss und Wachmann kausalabgefangen. Keine Toten, keine Spuren. Mira-Notiz: Artefakt älter als ägyptisch."
+        ]
+      },
+      "carry": [
+        { "name": "Walther PPK (mod., Schalldämpfer)", "type": "weapon", "tier": 1 },
+        { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
+        { "name": "Signaljammer (3 Ladungen)", "type": "gadget", "tier": 1 },
+        { "name": "Kevlar-Unterziehweste", "type": "armor", "tier": 1 },
+        { "name": "Universaldietrich", "type": "tool", "tier": 1 }
+      ],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-TRABANT-01",
+          "name": "Trabant 601 (mod.)",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": ["Hohlraumfach", "Kurzwellen-Relais"]
+        },
+        "availability": { "ready_every_missions": 4, "next_ready_in": 3 },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 1,
+        "faction": "—",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 351
+    }
+  ],
   "economy": { "hq_pool": 0 },
   "logs": {
     "trace": [
@@ -1281,7 +1336,12 @@ C  +1 SYS
     "summary_active_arcs": "EP1: Scheibe von Abydos im ITI-Archiv. Herkunft unklar — älter als ägyptisch. Wer gab Voss die Koordinaten? Yusuf in Kairo nicht kontaktiert. Abwehr-Agenten in Kairo unbekannt."
   },
   "continuity": {
-    "last_seen": { "mode": "core", "episode": 1, "mission": 1, "location": "ITI-HQ Nullzeit — Debrief Raum 3-B" },
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 1,
+      "location": "ITI-HQ Nullzeit — Debrief Raum 3-B"
+    },
     "split": {
       "family_id": null,
       "thread_id": null,
@@ -1379,4 +1439,3 @@ C  +1 SYS
 `C` — +1 SYS
 
 ---
-
