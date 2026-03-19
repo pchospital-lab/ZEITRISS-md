@@ -311,7 +311,7 @@ payload = {
     'meta': {
         'description': 'Tech-Noir Zeitreise-RPG mit KI-Spielleitung. Chrononauten, explodierende Würfel, cinematisches HUD. 18+.',
         'profile_image_url': '',
-        'capabilities': {'vision': False, 'usage': False},
+        'capabilities': None,
         'knowledge': [{'id': kb_id, 'name': 'ZEITRISS 4.2.6 Regelwerk'}],
         'suggestion_prompts': [
             {'content': 'Spiel starten (solo klassisch)'},
