@@ -302,7 +302,11 @@ class APIClient:
 
     def list_files(self) -> list[dict]:
         code, data = self.get("/api/v1/files/")
-        if code == 200 and isinstance(data, list):
+        if code != 200:
+            return []
+        if isinstance(data, dict) and "items" in data:
+            return data["items"]
+        if isinstance(data, list):
             return data
         return []
 
@@ -703,7 +707,12 @@ def run_setup(repo: Path, cfg: dict) -> None:
         if client.add_file_to_knowledge(kb_id, fid):
             link_ok += 1
         else:
-            link_fail += 1
+            # Retry once after short delay (indexing may still be running)
+            time.sleep(1)
+            if client.add_file_to_knowledge(kb_id, fid):
+                link_ok += 1
+            else:
+                link_fail += 1
 
     if link_fail == 0:
         print_ok(f"Alle {link_ok} Dateien verknüpft")
