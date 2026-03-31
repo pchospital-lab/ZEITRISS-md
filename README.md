@@ -90,48 +90,64 @@ Textzusammenfassung der wichtigsten Eckdaten.
 
 ## Einrichten & Spielen
 
-### Voraussetzungen
+### Was ihr braucht
 
-- **Python 3.8+** (vorinstalliert auf macOS/Linux, [python.org](https://python.org) für Windows)
-- **[OpenWebUI](https://github.com/open-webui/open-webui)** installiert
-- **[OpenRouter](https://openrouter.ai)**-Konto mit API-Key (in OpenWebUI
-  unter Einstellungen → Verbindungen eintragen)
+1. **[OpenWebUI](https://github.com/open-webui/open-webui)** — eure
+   Spieloberfläche (kostenlos, self-hosted)
+2. **[OpenRouter](https://openrouter.ai)** — Konto + API-Key anlegen, in
+   OpenWebUI unter Einstellungen → Verbindungen eintragen
+3. **[Python 3.8+](https://python.org)** — auf macOS/Linux vorinstalliert,
+   auf Windows einmal von python.org installieren
 
-### Automatisches Setup (empfohlen)
+### Setup-Script starten
 
-```bash
+**Per ZIP (kein Git nötig):**
+
+1. Oben auf dieser Seite **Code → Download ZIP** klicken
+2. ZIP entpacken, Terminal/Eingabeaufforderung im entpackten Ordner öffnen
+3. Ausführen:
+
+```
+python scripts/setup.py
+```
+
+**Per Git:**
+
+```
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
 python scripts/setup.py
 ```
 
-Das Script erstellt Preset + Wissensspeicher automatisch, fragt interaktiv
-nach API-Key und Modell. Danach: Neuen Chat öffnen, Preset
-`ZEITRISS v4.2.6 Uncut` wählen, lostippen:
+Das Script führt euch durch: API-Key eingeben, Modell wählen — Preset und
+Wissensspeicher werden automatisch erstellt. Danach:
 
-> `Spiel starten (solo klassisch)`
+1. Neuen Chat in OpenWebUI öffnen
+2. Modell **ZEITRISS v4.2.6 Uncut** wählen
+3. Lostippen: `Spiel starten (solo klassisch)`
 
-**Vor jeder Session:** `git pull` und Script erneut starten — hält alles
-auf dem neuesten Stand.
+**Aktualisieren:** Neues ZIP laden (oder `git pull`) und Script nochmal
+starten — fertig.
 
-### Lumo, Claude Projects oder andere Plattformen
+### Ohne OpenWebUI (Lumo, Claude Projects etc.)
 
-```bash
+Wer auf einer anderen Plattform spielen will:
+
+```
 python scripts/setup.py --export
 ```
 
-Erzeugt einen fertigen Ordner mit 19 Wissensdateien + Systemprompt +
-Setup-Anleitung. Für Lumo: Ordner nach Proton Drive kopieren, dort
-mit dem Projekt verlinken — fertig. Details: [Lumo-Setup](docs/setup-lumo.md)
+Das erstellt einen Ordner mit:
+- **`knowledge/`** — 19 Wissensdateien → ins Projektwissen
+- **`system/`** — Systemprompt → in die Projekt-Anweisungen
+- **`SETUP-ANLEITUNG.md`** — erklärt Schritt für Schritt was wohin gehört
 
-### Manuelles Setup
+Für Lumo: `knowledge/`-Dateien nach Proton Drive kopieren, im Projekt
+verlinken. Details: [Lumo-Setup](docs/setup-lumo.md)
 
-1. 19 Wissensmodule hochladen (alle `slot: true` aus `master-index.json`)
-2. `meta/masterprompt_v6.md` als System-Prompt setzen (nicht als Wissensdatei)
-3. Parameter: Temperature `0.8` · Top-P `0.9` · Freq-Penalty `0.3` ·
-   Max Tokens `64000`
+### Manuelles Setup (ohne Script)
 
-Details & Modultabelle: [Setup-Guide](docs/setup-guide.md)
+Geht auch — alle Details in der [Setup-Anleitung](docs/setup-guide.md).
 
 ### Modell-Empfehlung (Stand März 2026)
 
