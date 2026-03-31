@@ -1,264 +1,142 @@
 ---
-title: "ZEITRISS Setup & Repository Guide"
+title: "ZEITRISS Setup-Guide"
 version: 4.2.6
 tags: [meta, setup]
 ---
 
-# ZEITRISS Setup & Repository Guide
+# ZEITRISS Setup-Guide
 
-Dieses Dokument beschreibt Setup, Plattform-Konfiguration und
-Repository-Struktur für den aktuellen ZEITRISS-Stand. Spielinhalte und Regeln
-findest du in der [README](../README.md).
+Technische Details zu Setup, Plattform-Konfiguration und Repository-Struktur.
+Spielinhalte und Regeln findest du in der [README](../README.md).
 
-**Versionshinweis:** Die Dokumentversion ist `4.2.6`; Preset- und
-Masterprompt-Namen bleiben auf `v4.2.6` harmonisiert.
-
-## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
-
-### KI-First-Onboarding (kanonischer Ablauf)
-
-1. **Voraussetzungen:** OpenWebUI installieren und OpenRouter-Zugang
-   vorbereiten.
-2. **Aktuelles Repo bereitstellen:** Git-Clone oder GitHub-ZIP herunterladen,
-   entpacken und in den Repo-Ordner wechseln.
-3. **Script-Setup ausführen:** `./scripts/setup-openwebui.sh`.
-4. **Start-Checks:** Masterprompt im Systemfeld + 19 Default-Wissensslots geprüft,
-   dann `Spiel starten (solo klassisch)` oder natürlich formulieren, dass du
-   solo neu starten willst.
-
-Dieser Ablauf ist der Referenzpfad für ZEITRISS im KI-Chatbetrieb und bleibt
-zwischen README und Setup-Guide synchron.
-
-### Vor jeder Session aktualisieren (Standard)
-
-- Neuesten Repo-Stand ziehen (`git pull`) oder frischen ZIP-Stand entpacken.
-- Setup-Script erneut starten (`./scripts/setup-openwebui.sh`).
-- In OpenWebUI prüfen: Preset aktiv, Masterprompt gesetzt, Wissensspeicher mit
-  19 Default-Modulen verknüpft (plus optionale Zusatzmodule nach Bedarf).
-
-Die komplette Operator-Checkliste liegt repo-intern vor. Dort findet ihr die
-Plattform-Workflows, Upload-Notizen sowie die Rollenaufteilung zwischen
-Repo-Agent und Ingame-Kodex. Dieses README listet nur die
-Laufzeitreferenz - bei Fragen zum Hochladen, Synchronisieren oder Testen führt
-euch das Maintainer-Dokument.
-
-### Wissensspeicher laden
-
-**Am schnellsten (OpenWebUI):** Führe das Setup-Script aus — es erledigt alles
-automatisch:
+## Schnellstart
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
-./scripts/setup-openwebui.sh
+python scripts/setup.py
 ```
 
-Das Script erstellt die Knowledge Base, lädt das Spieler-Handbuch + 18 Runtime-Module
-hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
-welches Base-Modell genutzt werden soll: Standard ist
-`anthropic/claude-sonnet-4.6`, alternativ kannst du eine Model-ID manuell
-eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
-„ZEITRISS v4.2.6 Uncut" (aktueller Preset-Name) wählen, dann
-`Spiel starten (solo klassisch)` tippen oder den Neustart natürlich
-formulieren.
+Das Script führt interaktiv durch: API-Key, Modellauswahl, Knowledge Base,
+Preset. Danach: `ZEITRISS v4.2.6 Uncut` als Modell wählen, neuen Chat
+starten.
 
-Hinweis für laufenden Betrieb: Das erneute Ausführen des Scripts ist der
-bevorzugte Update-Weg, damit Preset, Masterprompt-Feld und Wissensspeicher auf
-dem neuesten Repo-Stand bleiben.
+**Vor jeder Session:** `git pull` und `python scripts/setup.py` erneut
+ausführen — aktualisiert Wissensspeicher und Preset auf den neuesten Stand.
 
-Für manuelle Uploads auf anderen Plattformen kann ein kuratiertes Paket per
-`./scripts/export-knowledge-pack.sh` erzeugt werden.
+## Setup-Script Modi
 
-**Manuell (OpenWebUI ohne Script, andere Plattformen):**
+| Befehl | Was passiert |
+| ------ | ------------ |
+| `python scripts/setup.py` | OpenWebUI-Setup (KB + Dateien + Preset) |
+| `python scripts/setup.py --export` | Export-Paket für Lumo und andere Plattformen |
+| `python scripts/setup.py --export --flat` | Export mit nummerierten Dateien (kein Nesting) |
+| `python scripts/setup.py --export -o ~/Desktop` | Export in ein bestimmtes Verzeichnis |
 
-Für Proton Lumo gibt es eine eigene, schlanke Plattform-Anleitung:
-[`docs/setup-lumo.md`](setup-lumo.md).
+**Umgebungsvariablen (optional):**
 
-1. **Knowledge Base erstellen:** In OpenWebUI unter Wissensspeicher →
-   „Neue Wissensbasis" → Name: `ZEITRISS 4.2.6 Regelwerk`.
-2. **19 Dateien hochladen:** `core/spieler-handbuch.md` plus alle 18
-   Runtime-Module aus der Tabelle unten in diese Knowledge Base laden.
-   **NICHT** in den Wissensspeicher gehören: `README.md` (GitHub-Landingpage),
-   `master-index.json` (Steuerungsdatei),
-   `meta/archive/speicher-fortsetzung.legacy.md`
-   (historisches Archiv, veraltet).
-3. **Modell-Preset erstellen:** Unter Modelle → Neues Modell:
-   - **Name:** `ZEITRISS v4.2.6 Uncut – [Modellname]`
-   - **Base-Modell:** Eines der empfohlenen Modelle (siehe Tabelle oben)
-   - **System-Prompt:** Inhalt von `meta/masterprompt_v6.md` komplett einfügen.
-     Der Masterprompt gehört **nicht** in den Wissensspeicher — er wird
-     ausschließlich als Systemfeld geladen.
-   - **Wissensbasis:** Die eben erstellte `ZEITRISS 4.2.6 Regelwerk` verknüpfen
-   - **Parameter (unter Erweiterte Einstellungen):**
-     - Temperature: `0.8`
-     - Top-P: `0.9`
-     - Frequency Penalty: `0.3`
-     - Max Tokens: `64000`
-   - **Capabilities:** Vision und Usage **aus**
-   - **Tools/Filter:** Keine nötig
-   - **Vorschläge:** `Spiel starten (solo klassisch)`, `Spiel laden`, `Ich will solo neu anfangen und meinen Charakter generieren.`
-4. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
-   alle 19 Wissensmodule (Spieler-Handbuch + 18 Runtime-Module) weiterhin geladen sind.
-   `characters/charaktererschaffung-optionen.md` ist bewusst **optional** (Inspiration/Fallback)
-   und gehört nicht mehr in den Default-Ladepfad.
-5. **Spielen:** Neuen Chat öffnen → Preset wählen →
-   `Spiel starten (solo klassisch)` tippen oder natürlich sagen, dass du
-   solo neu starten willst. `solo schnell` bleibt als Fast-Lane für
-   Kurzrunden verfügbar.
+| Variable | Wirkung |
+| -------- | ------- |
+| `OPENWEBUI_URL` | OpenWebUI-Adresse (Standard: `http://localhost:3000`) |
+| `OPENWEBUI_API_KEY` | API-Key (sonst interaktiv) |
+| `ZEITRISS_MODEL` | Base-Model-ID (sonst interaktiv) |
 
-### Runtime-Module im Wissensspeicher
+## Manuelles Setup (ohne Script)
 
-| Kategorie      | Datei                                                                       |
-| -------------- | --------------------------------------------------------------------------- |
-| **core**       | `core/spieler-handbuch.md` _(Einleitung, Lore, Schnellstart, FAQ, Glossar)_ |
-| **core**       | `core/zeitriss-core.md`                                                     |
-|                | `core/wuerfelmechanik.md`                                                   |
-|                | `core/sl-referenz.md` _(Dispatcher, Regeln, Tabellen)_                      |
-| **characters** | `characters/ausruestung-cyberware.md`                                       |
-|                | `characters/charaktererschaffung-grundlagen.md`                             |
-|                | `characters/zustaende.md`                                                   |
-|                | `characters/hud-system.md`                                                  |
-| **gameplay**   | `gameplay/fahrzeuge-konflikte.md`                                           |
-|                | `gameplay/kampagnenstruktur.md`                                             |
-|                | `gameplay/kampagnenuebersicht.md`                                           |
-|                | `gameplay/kreative-generatoren-begegnungen.md`                              |
-|                | `gameplay/kreative-generatoren-missionen.md`                                |
-|                | `gameplay/massenkonflikte.md`                                               |
-| **systems**    | `systems/currency/cu-waehrungssystem.md`                                    |
-|                | `systems/gameflow/cinematic-start.md`                                       |
-|                | `systems/gameflow/speicher-fortsetzung.md`                                  |
-|                | `systems/kp-kraefte-psi.md`                                                 |
-|                | `systems/toolkit-gpt-spielleiter.md`                                        |
+### 1. Knowledge Base
 
-**Optional zuschaltbar (nicht im Default-Slotset):**
+Erstelle in OpenWebUI eine Knowledge Base `ZEITRISS 4.2.6 Regelwerk` und
+lade die 19 Wissensmodule hoch:
 
-- `characters/charaktererschaffung-optionen.md` _(Inspiration/Fallback-Archetypen für One-Shots oder expliziten Wunsch)_
+| Kategorie | Dateien |
+| --------- | ------- |
+| **core** | `spieler-handbuch.md`, `zeitriss-core.md`, `wuerfelmechanik.md`, `sl-referenz.md` |
+| **characters** | `charaktererschaffung-grundlagen.md`, `ausruestung-cyberware.md`, `zustaende.md`, `hud-system.md` |
+| **gameplay** | `kampagnenstruktur.md`, `kampagnenuebersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
+| **systems** | `kp-kraefte-psi.md`, `cu-waehrungssystem.md`, `speicher-fortsetzung.md`, `cinematic-start.md`, `toolkit-gpt-spielleiter.md` |
 
-**Slot-Kennzeichnung:** In `master-index.json` sind das Spieler-Handbuch und die
-18 Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
-`"slot": false` und zählen nicht als Wissensspeicher-Slot.
+**Nicht hochladen:** `README.md`, `master-index.json`, Archiv-Dateien.
 
-### Plattform-Setup
+**Optional:** `characters/charaktererschaffung-optionen.md` (Inspiration für
+One-Shots, nicht im Default-Set).
 
-- **OpenWebUI + OpenRouter (empfohlen):** Setup-Script (s.o.) oder manuell: Modelle unter
-  Einstellungen → Verbindungen anbinden, dann Dateien hochladen und Preset
-  erstellen. Das Script zeigt dazu einen Kosten-/Datentransfer-Hinweis und fragt die
-  Auswahl explizit ab. API-Keys werden beim Setup interaktiv abgefragt.
+Welche Dateien als Slot gelten, bestimmt `master-index.json` (`"slot": true`).
 
-  **Empfohlene Modelle (Stand März 2026):**
+### 2. Modell-Preset
 
-  > Derzeit ist **Sonnet 4.6 das einzige Modell mit vollständiger Regeltreue.**
-  > Budget-Modelle erzählen atmosphärisch, erfinden aber eigene Würfelsysteme.
+Unter Modelle → Neues Modell:
 
-  | Modell                        | Typ               | Preis/1M Token | Output | Stärke                                                                            |
-  | ----------------------------- | ----------------- | -------------- | ------ | --------------------------------------------------------------------------------- |
-  | `anthropic/claude-sonnet-4.6` | **Empfohlen**     | ~$3/$15        | 128K   | Einziges Modell mit korrekter Würfelmechanik, HUD, Score-Screen und Px-Berechnung |
-  | `deepseek/deepseek-v3.2`      | **Budget**        | ~$0.25/$0.40   | 65K    | Gute Atmosphäre, sehr günstig (~$0.002/Turn), Regeln teilweise abweichend         |
-  | `z-ai/glm-4.6`                | **Experimentell** | ~$0.40/$1.71   | 131K   | Starker Noir-Ton, erfindet eigene Regeln — für Atmosphäre-Spieler                 |
+- **Name:** `ZEITRISS v4.2.6 Uncut`
+- **Base-Modell:** `anthropic/claude-sonnet-4.6` (empfohlen)
+- **System-Prompt:** Inhalt von `meta/masterprompt_v6.md` komplett einfügen.
+  Gehört **nicht** in den Wissensspeicher.
+- **Wissensbasis:** `ZEITRISS 4.2.6 Regelwerk` verknüpfen
+- **Capabilities:** Vision und Usage **aus**
 
-  **Optimale Parameter (für alle Modelle):**
+### 3. Parameter
 
-  | Parameter         | Wert      | Warum                                                                                                |
-  | ----------------- | --------- | ---------------------------------------------------------------------------------------------------- |
-  | Temperature       | **0.8**   | Guter Sweet-Spot: kreativ genug für Noir-Atmosphäre, stabil genug für Regeltreue                     |
-  | Top-P             | **0.9**   | Schneidet die unwahrscheinlichsten Tokens ab, reduziert Halluzinationen                              |
-  | Frequency Penalty | **0.3**   | Verhindert Wiederholungen in langen Sessions                                                         |
-  | Max Tokens        | **64000** | Sonnet 4.6 unterstützt bis 128K Output — 64K reicht für 5er-Gruppen-Saves + Debrief ohne Abschneiden |
+| Parameter | Wert | Warum |
+| --------- | ---- | ----- |
+| Temperature | **0.8** | Kreativ genug für Noir, stabil genug für Regeltreue |
+| Top-P | **0.9** | Reduziert Halluzinationen |
+| Frequency Penalty | **0.3** | Verhindert Wiederholungen in langen Sessions |
+| Max Tokens | **64000** | Reicht für Gruppen-Saves + Debrief |
 
-  Das Setup-Script setzt diese Parameter automatisch. Bei manuellem Setup
-  die Werte unter Modelle → Bearbeiten → Erweiterte Parameter eintragen.
+### 4. Spielen
 
-- \*\*OpenAI-GPTs (optional): Funktionell derzeit nicht als Primärpfad empfohlen,
-  weil Content-Filter häufiger eingreifen (`redacted`) und große Masterprompts in
-  der Praxis limitieren können.
-- **Lokale Modelle (Offline):** Perspektivisch interessant, aktuell für ZEITRISS oft
-  noch zu leistungslimitiert. Für stabile Runs besser starke Remote-Modelle nutzen.
-- **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
-  ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
+Neuen Chat öffnen → Preset wählen → `Spiel starten (solo klassisch)` oder
+natürlich formulieren. `solo schnell` als Fast-Lane für Kurzrunden.
 
-### Sicherheitsdefaults für OpenWebUI {#sicherheitsdefaults-fur-openwebui}
+## Modelle (Stand März 2026)
 
-- **Header-Forwarding aus lassen:** `ENABLE_FORWARD_USER_INFO_HEADERS` nur in
-  bewusst kontrollierten Enterprise-Setups aktivieren.
+> **Sonnet 4.6 ist das einzige Modell mit vollständiger Regeltreue.**
+> Budget-Modelle erzählen atmosphärisch, erfinden aber eigene Würfelsysteme.
+
+| Modell | Typ | Preis/1M Token | Stärke |
+| ------ | --- | -------------- | ------ |
+| `anthropic/claude-sonnet-4.6` | **Empfohlen** | ~$3/$15 | Korrekte Mechanik, HUD, Px |
+| `z-ai/glm-5-turbo` | **Budget** | Günstig | Erkennt Regelgates, 7× billiger |
+| `deepseek/deepseek-v3.2` | **Ultra-Budget** | ~$0.25/$0.40 | ~$0.002/Turn, Regeln teils abweichend |
+| `z-ai/glm-5` | **Experimentell** | ~$0.40/$1.71 | Guter Noir-Ton, halluziniert teils |
+
+## Andere Plattformen
+
+### Lumo (Proton)
+
+Eigene Anleitung: [`docs/setup-lumo.md`](setup-lumo.md)
+
+Kurzfassung: `python scripts/setup.py --export`, dann den `knowledge/`-Ordner
+nach Proton Drive kopieren und im Lumo-Projekt verlinken.
+
+### Sonstige (Claude Projects, lokale Modelle etc.)
+
+`python scripts/setup.py --export` erzeugt ein plattformunabhängiges Paket
+mit Setup-Anleitung. Für Plattformen ohne Ordner-Support:
+`python scripts/setup.py --export --flat` (nummerierte Dateien).
+
+## Sicherheit
+
 - **API-Keys getrennt halten:** Keine geteilten Admin-Tokens für Spielgruppen.
-  Nutze pro Person/Account eigene Schlüssel.
-- **RBAC aktiv pflegen:** Bei Mehrnutzerbetrieb Rollen und Gruppen explizit
-  setzen; keine impliziten Admin-Pfade offen lassen.
-- **Auth vor Netzfreigabe:** OpenWebUI nie ohne Login ins Internet hängen
-  (insb. bei Reverse-Proxy/Portforwarding).
-- **Remote-Provider bewusst einsetzen:** Externe Modellanbieter können Kosten
-  verursachen und Eingaben verarbeiten. Keine sensiblen Daten in Prompts.
+- **Auth vor Netzfreigabe:** OpenWebUI nie ohne Login ins Internet hängen.
+- **Remote-Provider:** Können Kosten verursachen und Eingaben verarbeiten.
+  Keine sensiblen Daten in Prompts.
+- **Key versehentlich committed?** Sofort rotieren/revoken, Datei bereinigen,
+  History-Cleanup falls gepusht.
 
-### Key-Notfallpfad (wenn versehentlich committed)
-
-1. API-Key sofort beim Provider oder in OpenWebUI rotieren/revoken.
-2. Betroffene Datei bereinigen und lokal gespeicherte Kopien prüfen.
-3. Falls der Commit bereits gepusht wurde: History-Cleanup durchführen und den
-   Vorgang als Security-Fall dokumentieren.
-4. Danach Secret-Scanning/Push-Protection im Ziel-Repo prüfen.
-
-### Runtimes & Tests außerhalb des Wissensspeichers
-
-- `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
-  Test-Tools bleiben lokal im Repo und werden **nicht** in produktive
-  Wissensspeicher hochgeladen.
-- Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als
-  Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis
-  (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne
-  externe Skripte denselben Funktionsumfang erhalten.
-- Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Spiegel
-  Anpassungen an Runtime-Logik zeitnah in den Wissensmodulen, damit der
-  produktive Wissensspeicher konsistent bleibt.
-
-## Repo-Map {#repo-map}
+## Repo-Map
 
 ```
 ZEITRISS-md/
-├─ README.md                # Portal, Runtime-Referenz & Plattform-Hinweise
-├─ core/                    # Grundregeln & Zeitriss-Mechaniken (Runtime)
-├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
-├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
-├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime)
-├─ internal/qa/             # Interne Pläne/Logs (Meta-Artefakte)
-├─ internal/runtime/        # Entwickler-Stubs (`runtime-stub-routing-layer.md`) & lokale Runtimes
-├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
-├─ docs/                    # Maintainer-Ops, Lizenznotizen, Hosting-Strategie
-│                           # (tags: [meta]; inkl. Fahrplan & Protokoll)
-├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
-└─ master-index.json        # Übersicht aller Module/Slugs & Setup-Steuerung
+├─ README.md                # Portal & Schnellstart
+├─ setup.json               # Projekt-Config für setup.py
+├─ core/                    # Grundregeln & Zeitriss-Mechaniken
+├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände
+├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau
+├─ systems/                 # Gameflow, Währungen, KI-SL-Toolkit
+├─ meta/                    # Masterprompts, Hintergrundbriefe
+├─ docs/                    # Setup-Guides, Lizenz, Maintainer-Ops
+├─ scripts/                 # setup.py, Linter, Smoke-Tests
+├─ internal/                # QA-Logs, Runtime-Stubs (Dev-only)
+├─ tools/                   # Hilfsprogramme (Dev-only)
+└─ master-index.json        # Modulübersicht & Slot-Steuerung
 ```
-
-### Dokumenten-Landkarte {#dokumenten-landkarte}
-
-- **README (Portal & Runtime-Referenz)** - Einstieg für alle Rollen,
-  Plattform-Setup und Deep-Links in die Runtime-Module.
-- **Beitrags- & Agentenrichtlinien (repo-intern)** - Arbeitsgrundlage für
-  Beitragende und Repo-Agenten, inkl. Prüfpfade, Compliance und QA-Hinweise.
-- **Maintainer-Handbuch (repo-intern)** - Upload-Workflows, Plattformpflege und
-  Runtime-Spiegelungen.
-- **Impressum (repo-intern)** - Rechtliche Pflichtangaben und Kontakt für
-  Lizenzanfragen.
-- **Hintergrund- & Strategie-Notizen (repo-intern)** - Lizenz-,
-  Hosting- und Entwicklungsnotizen, nicht für den Wissensspeicher gedacht.
-- \*\*Masterprompts (repo-intern) – Laufzeit-Briefings für die KI-SL; enthalten
-  keine Dev-Vorgaben wie Agentenregeln.
-
-## Wie du beitragen kannst
-
-Hinweise zum Einreichen von Änderungen sowie Schreibregeln
-liegen repo-intern in den Beitragsrichtlinien vor.
-Für lokale Checks nutze die dort beschriebene `pre-commit`-Integration.
-
-Die Inhalte stehen für private kreative Nutzung bereit.
-ZEITRISS® ist eine beim DPMA eingetragene Wortmarke (Reg.-Nr. 30 2025 215 671).
-Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung
-erlaubt (siehe [LICENSE](../LICENSE)).
-Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
-
-### Acceptance-Smoke-Checkliste
-
-Die vollständige 15-Punkte-Checkliste für QA-/Beta-Läufe ist als Runtime-
-Spiegel im [Toolkit](../systems/toolkit-gpt-spielleiter.md#acceptance-smoke)
-verfügbar, damit KI-Spielleitungen die Prüfpunkte intern referenzieren
-können. Die ausführliche Version mit Goldenfiles und Traces liegt in
-[`docs/qa/tester-playtest-briefing.md`](qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).

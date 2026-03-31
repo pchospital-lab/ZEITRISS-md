@@ -15,8 +15,8 @@ vollständiges Rollenspielsystem mit Würfelproben, Charakterentwicklung,
 Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
 Loot und Debrief.
 
-Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — OpenWebUI
-einrichten, Preset wählen, losspielen.
+Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — einrichten,
+Preset wählen, losspielen.
 
 ### So sieht das aus
 
@@ -88,39 +88,50 @@ Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
 Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
 Textzusammenfassung der wichtigsten Eckdaten.
 
-## In 3 Minuten starten
+## Einrichten & Spielen
 
-### Script-Setup (empfohlen)
+### Voraussetzungen
+
+- **Python 3.8+** (vorinstalliert auf macOS/Linux, [python.org](https://python.org) für Windows)
+- **[OpenWebUI](https://github.com/open-webui/open-webui)** installiert
+- **[OpenRouter](https://openrouter.ai)**-Konto mit API-Key (in OpenWebUI
+  unter Einstellungen → Verbindungen eintragen)
+
+### Automatisches Setup (empfohlen)
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
-./scripts/setup-openwebui.sh
+python scripts/setup.py
 ```
 
-**Voraussetzung:** [OpenWebUI](https://github.com/open-webui/open-webui)
-installiert + [OpenRouter](https://openrouter.ai)-Konto mit API-Key.
+Das Script erstellt Preset + Wissensspeicher automatisch, fragt interaktiv
+nach API-Key und Modell. Danach: Neuen Chat öffnen, Preset
+`ZEITRISS v4.2.6 Uncut` wählen, lostippen:
 
-Das Script legt Preset + Wissensspeicher automatisch an. Danach: Preset
-wählen, `Spiel starten (solo klassisch)` tippen oder den Neustart
-natürlich formulieren — die KI versteht beides.
-`solo schnell` bleibt als optionale Fast-Lane für Kurzrunden.
+> `Spiel starten (solo klassisch)`
 
 **Vor jeder Session:** `git pull` und Script erneut starten — hält alles
 auf dem neuesten Stand.
 
+### Lumo, Claude Projects oder andere Plattformen
+
+```bash
+python scripts/setup.py --export
+```
+
+Erzeugt einen fertigen Ordner mit 19 Wissensdateien + Systemprompt +
+Setup-Anleitung. Für Lumo: Ordner nach Proton Drive kopieren, dort
+mit dem Projekt verlinken — fertig. Details: [Lumo-Setup](docs/setup-lumo.md)
+
 ### Manuelles Setup
 
-Falls ihr ohne Script arbeitet:
-
-1. 19 Wissensmodule hochladen (`core/spieler-handbuch.md` + 18
-   Runtime-Module laut `master-index.json`)
-2. `meta/masterprompt_v6.md` als System-Prompt setzen (nicht als
-   Wissensdatei)
+1. 19 Wissensmodule hochladen (alle `slot: true` aus `master-index.json`)
+2. `meta/masterprompt_v6.md` als System-Prompt setzen (nicht als Wissensdatei)
 3. Parameter: Temperature `0.8` · Top-P `0.9` · Freq-Penalty `0.3` ·
    Max Tokens `64000`
 
-Details: [Setup-Guide](docs/setup-guide.md) · [Lumo-Setup](docs/setup-lumo.md)
+Details & Modultabelle: [Setup-Guide](docs/setup-guide.md)
 
 ### Modell-Empfehlung (Stand März 2026)
 

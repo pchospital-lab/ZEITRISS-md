@@ -1,0 +1,22 @@
+{
+  "project": "ZEITRISS",
+  "version": "4.2.6",
+  "kb_name": "ZEITRISS 4.2.6 Regelwerk",
+  "kb_description": "Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6",
+  "preset_id": "zeitriss-v426-uncut",
+  "preset_name": "ZEITRISS v4.2.6 Uncut",
+  "preset_description": "Tech-Noir Zeitreise-RPG mit KI-Spielleitung. Chrononauten, explodierende Würfel, cinematisches HUD. 18+.",
+  "masterprompt": "meta/masterprompt_v6.md",
+  "default_model": "anthropic/claude-sonnet-4.6",
+  "params": {
+    "temperature": 0.8,
+    "top_p": 0.9,
+    "frequency_penalty": 0.3,
+    "max_tokens": 64000
+  },
+  "suggestions": [
+    "Spiel starten (solo klassisch)",
+    "Spiel laden",
+    "Ich will solo neu anfangen und meinen Charakter generieren."
+  ]
+}

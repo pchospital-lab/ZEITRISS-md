@@ -1,81 +1,61 @@
 ---
 title: "ZEITRISS Lumo Setup"
-version: 1.0.0
+version: 1.1.0
 tags: [meta, setup, lumo]
 ---
 
 # ZEITRISS auf Lumo (Proton) einrichten
 
-Diese Anleitung beschreibt den **minimalen, stabilen Setup-Pfad** für Lumo.
-Ziel ist ein sauberer Projektaufbau ohne Doppel-Instruktionen und ohne falsche
-Erwartungen an die Modelltreue.
+## Export-Paket erzeugen
 
-## Klare Empfehlung
+```bash
+python scripts/setup.py --export
+```
 
-- **Masterprompt nur in die Projekt-Anweisungen**
-- **nicht** zusätzlich in Personalisierung
-- **nicht** ins Projektwissen
-- ins Projektwissen nur die **19 Default-Module**
-- keine inhaltlichen Umbauten vor dem Langzeit-Playtest
+Das erstellt einen Ordner mit:
+- `knowledge/` — 19 Wissensdateien (mit Unterordnern)
+- `system/SYSTEM_PROMPT_ONLY.md` — Masterprompt
+- `SETUP-ANLEITUNG.md` — Kurzanleitung
+
+Für flache Dateien ohne Unterordner (einfacher für Einzel-Upload):
+
+```bash
+python scripts/setup.py --export --flat
+```
+
+## Einrichtung
+
+1. **Proton Drive:** Ordner `ZEITRISS` erstellen.
+2. Alle Dateien aus `knowledge/` in diesen Drive-Ordner laden.
+3. **Lumo:** Neues Projekt `ZEITRISS` erstellen.
+4. In **Anweisungen**: Inhalt von `system/SYSTEM_PROMPT_ONLY.md` einfügen.
+5. **Projektwissen**: Den Drive-Ordner `ZEITRISS` verlinken.
+6. Personalisierung leer lassen oder neutral:
+   `Antworte standardmäßig auf Deutsch. Sei direkt, klar und kritisch.`
+7. Websuche im Spielbetrieb **deaktivieren**.
+8. Neuen Chat starten: `Spiel starten (solo klassisch)`
+
+**Tipp:** Das Setup ist ein Desktop-Job (5 Min). Danach kann man auf dem
+Handy einfach das Projekt öffnen und losspielen — Proton Drive
+synchronisiert automatisch.
 
 ## Was gehört wohin?
 
-### Projekt-Anweisungen
+| Ziel | Inhalt | Nicht |
+| ---- | ------ | ----- |
+| **Projekt-Anweisungen** | `SYSTEM_PROMPT_ONLY.md` | Nicht doppeln in Personalisierung |
+| **Projektwissen** | 19 Dateien aus `knowledge/` | Nicht den Masterprompt hochladen |
+| **Personalisierung** | Leer oder neutral | Keinen ZEITRISS-Prompt hier |
 
-Hier kommt der komplette Inhalt von `meta/masterprompt_v6.md` hinein.
+## Erwartungsmanagement
 
-### Projektwissen
+- **Referenz-Erlebnis:** `anthropic/claude-sonnet-4.6` auf OpenWebUI
+- Lumo ist spielbar und macht Spaß, aber andere Modelle können bei
+  Regeldetails und Thinking abweichen
+- Das ist kein Plattform-Bashing — stärkste Modelle = stärkstes Erlebnis
 
-Hier gehören nur die 19 Default-Module hinein (alle `slot: true` aus
-`master-index.json`).
+## Bestehendes Charaktermaterial
 
-Praktischer Weg: Erzeuge mit `scripts/export-knowledge-pack.sh` ein kuratiertes
-Upload-Paket und nimm daraus nur den Ordner `knowledge/`.
-
-### Personalisierung
-
-Für ZEITRISS möglichst leer lassen oder nur neutral halten, z. B.:
-
-`Antworte standardmäßig auf Deutsch. Sei direkt, klar und kritisch.`
-
-**Wichtig:** Den ZEITRISS-Masterprompt hier nicht doppeln.
-
-## Modell-Erwartung klar kommuniziert
-
-ZEITRISS ist auf Lumo spielbar und kann Spaß machen, gerade bei
-Abomodellen ohne Tokenfokus. Gleichzeitig gilt:
-
-- **Referenz-/Best-Erlebnis:** `anthropic/claude-sonnet-4.6`
-- andere Modelle (inkl. Lumo-Setups) können beim Thinking und bei
-  Regeldetails merkbar abweichen
-
-Das soll keine Plattform abwerten, sondern Erwartungsmanagement sichern:
-Das stärkste ZEITRISS-Erlebnis entsteht aktuell mit den stärksten Modellen.
-
-## Schritt-für-Schritt
-
-1. Neues Lumo-Projekt `ZEITRISS` erstellen.
-2. In **Anweisungen** `meta/masterprompt_v6.md` einfügen.
-3. In **Projektwissen** nur die 19 Default-Module laden (idealerweise via
-   Export-Paket).
-4. Personalisierung leer/neutral halten.
-5. Websuche im Spielbetrieb deaktivieren.
-6. Neuen Chat starten mit `Spiel starten (solo klassisch)` oder `Spiel laden`.
-
-## Bestehendes Charaktermaterial auf Lumo
-
-Bestehendes Charaktermaterial kann übernommen werden. Wenn dein Setup keinen
-zuverlässigen Bildinput bietet, nutze den Textweg mit den Kernangaben:
-Rolle, Hintergrund, Stärken, Schwächen, prägendes Talent und
+Funktioniert auch auf Lumo. Wenn kein zuverlässiger Bildinput: Textweg
+mit Rolle, Hintergrund, Stärken, Schwächen, prägendes Talent und
 Ausrüstungsrichtung.
-
-## Sicherheit & Stil
-
-Der Action-Contract bleibt plattformübergreifend gleich:
-
-- filmisch, in-world, outcome-basiert
-- keine Schritt-für-Schritt-Anleitungen für reale Straftaten
-- keine Real-World-How-to-Ausleitungen
-
-Damit bleibt ZEITRISS stiltreu und kompatibel mit den Sicherheitsgrenzen der
-jeweiligen Plattform.

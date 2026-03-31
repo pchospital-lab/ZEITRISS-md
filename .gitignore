@@ -25,3 +25,7 @@ node_modules/
 
 # Test-Artefakte
 out/
+
+# Dev-Notizen & Export-Packs
+.dev/
+.exports/

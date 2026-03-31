@@ -12,7 +12,7 @@ operativen Gate für Maintainer.
 
 ## 1) Setup-Gate
 
-- OpenWebUI-Setup mit `./scripts/setup-openwebui.sh` vorbereitet.
+- OpenWebUI-Setup mit `python scripts/setup.py` vorbereitet.
 - Erwarteter Wissensspeicherpfad aktiv: 19 Slots
   (Spieler-Handbuch + 18 Runtime-Module) + Masterprompt separat.
 - Geplantes Modell für Regeltreue gesetzt:
