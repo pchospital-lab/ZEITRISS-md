@@ -54,6 +54,24 @@ synchronisiert automatisch.
   Regeldetails und Thinking abweichen
 - Das ist kein Plattform-Bashing — stärkste Modelle = stärkstes Erlebnis
 
+## Spielstände verwalten
+
+Beim Speichern (`!save` im HQ) erzeugt die KI einen JSON-Block.
+Auf Lumo wird dieser automatisch als Datei im Chat-Wissen abgelegt.
+
+**Solo:** Beim Laden in einem neuen Chat den **alten Spielstand vorher
+entfernen**, falls noch einer im Chat-Wissen liegt. Sonst versucht die
+KI zu mergen statt sauber zu laden. Faustregel: Immer nur der aktuelle
+Spielstand im Chat-Wissen.
+
+**Gruppe:** Mehrere Spielstände gleichzeitig einfügen ist gewollt — der
+erste Save setzt den Kampagnenrahmen, jeder weitere bringt seinen
+Charakter mit (Merge). Aber: **nur aktuelle Stände einfügen.** Veraltete
+JSONs aus früheren Sessions vorher löschen.
+
+**Aufräumen:** Nach längeren Spielphasen das Projektwissen prüfen und
+veraltete Spielstände löschen — nur den neuesten pro Charakter behalten.
+
 ## Bestehendes Charaktermaterial
 
 Funktioniert auch auf Lumo. Wenn kein zuverlässiger Bildinput: Textweg
