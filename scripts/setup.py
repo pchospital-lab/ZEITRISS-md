@@ -477,6 +477,16 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
         "**Tipp:** Das Setup macht man am besten am Desktop. Danach kann man auf",
         "dem Handy einfach das Projekt öffnen und losspielen — Proton Drive",
         "synchronisiert automatisch.",
+    ]
+
+    # Save management section — use project-specific text if provided
+    save_info = cfg.get("save_info")
+    if save_info and isinstance(save_info, list):
+        lines.append("")
+        lines.extend(save_info)
+    else:
+        # Default: generic save management (ZEITRISS-style)
+        lines += [
         "",
         "## Spielstände verwalten",
         "",
@@ -504,6 +514,9 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
         "",
         "Nach längeren Spielphasen das Projektwissen prüfen und veraltete",
         "Spielstände löschen — nur den jeweils neuesten pro Charakter behalten.",
+        ]
+
+    lines += [
         "",
         "## Erwartungsmanagement",
         "",
