@@ -18,6 +18,7 @@ or kb/ directory.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -735,13 +736,24 @@ def run_setup(repo: Path, cfg: dict) -> None:
     params = cfg.get("params", {})
     suggestions = [{"content": s} for s in cfg.get("suggestions", [])]
 
+    # ── Profile image (docs/gameicon.png → data URL) ────────────────
+    profile_image_url = ""
+    icon_path = repo / "docs" / "gameicon.png"
+    if icon_path.exists():
+        with open(icon_path, "rb") as img_f:
+            b64 = base64.b64encode(img_f.read()).decode()
+        profile_image_url = f"data:image/png;base64,{b64}"
+        print_ok(f"Game Icon geladen: {icon_path.name} ({icon_path.stat().st_size // 1024} KB)")
+    else:
+        print_info("Kein Game Icon gefunden (docs/gameicon.png) — übersprungen")
+
     payload = {
         "id": cfg["preset_id"],
         "name": cfg["preset_name"],
         "base_model_id": model,
         "meta": {
             "description": cfg.get("preset_description", ""),
-            "profile_image_url": "",
+            "profile_image_url": profile_image_url,
             "capabilities": None,
             "knowledge": [{"id": kb_id, "name": kb_name}],
             "suggestion_prompts": suggestions,
