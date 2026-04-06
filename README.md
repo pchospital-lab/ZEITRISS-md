@@ -1,5 +1,9 @@
 # ZEITRISS®-md Zeitreise RPG
 
+<p align="center">
+  <img src="docs/gameicon.png" alt="ZEITRISS" width="200">
+</p>
+
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
 > **Tech-Noir-Agententhriller mit KI-Spielleitung.** Ihr spielt Chrononauten
