@@ -170,7 +170,10 @@ Geht auch — alle Details in der [Setup-Anleitung](docs/setup-guide.md).
 
 ## Das Spielsystem in Kürze
 
-1. **Agenten.** Als Chrononauten deckt ihr Zeitverschwörungen auf.
+1. **Agenten.** Als Chrononauten deckt ihr Zeitverschwörungen auf — Schicht
+   für Schicht, nicht per Briefing-Dump. Jede Episode baut sich auf wie eine
+   Staffel: erst der kleine Auftrag vor großer Kulisse, dann die Verdichtung,
+   dann das Finale.
 2. **Missionsphasen.** Briefing → Infiltration → Konflikt → Exfil → Debrief.
    12 Szenen pro Core-Mission, 14 bei Rift-Ops.
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10, ab 14 Heldenwürfel.
