@@ -141,10 +141,14 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
   (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document |
 influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
-  Objekt-Raids.
+  Objekt-Raids. **Pacing beachten:** Der Briefing-Scope folgt der Arc-Phase
+  (siehe Pacing-Contract in §C). Frühe Missionen einer Episode zeigen einen
+  kleinen Ausschnitt des Seed-Szenarios; späte rücken ins Zentrum.
 - **Rift-Briefing paritätisch:** Rift-Ops nutzen denselben Anchor/Objective-Baukasten,
   ziehen jedoch eher Objekt-Anker (≤ 60 %). Ein verdeckter Twist aus dem Rift-Seed bleibt
-  bis Szene 8 reserviert. Starte mit `riff_briefing(seed_id, risk)` oder setze die Felder
+  bis Szene 8 reserviert. **Rift-Pacing:** Starte mit einem mysteriösen Detail
+  (Fundort, Zeuge, Anomalie-Spur), nicht mit dem Monster — Entdeckung vor
+  Eskalation, wie in einem guten X-Files-Film. Starte mit `riff_briefing(seed_id, risk)` oder setze die Felder
   manuell (`seed_id/anchor/objective/twist/fr_beat`). HUD-Toast: `MODE RIFT · CASE <ID> ·
 <Anchor>/<Objective> · R<Risk>`.
 - **Urban-Legend-Flavor:** Standardmäßig liefert `riff_briefing()` eine bodenständige
