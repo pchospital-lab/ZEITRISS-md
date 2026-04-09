@@ -227,12 +227,21 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
 - Kosten: Zeit, Stress, Noise/Heat, Materialverbrauch, Komplikationschance.
 - Beschreibe als ITI-Protokoll, ohne How-to.
 - **Kausalabfang (Kurzregel):** ITI-Cleanup für feindliche **0-LP-Standardziele** —
-  Festnahme statt Löschung, Nahdistanz + Kodex-Uplink, nie als Kampfaktion.
-  Reihenfolge: **Loot → optional Kausalabfang → Cleanup/Exfil.**
-  Gesperrt für: Chrononauten, Squadmates, Zivilisten, Bosse, Para-Wesen, Arena/PvP, Chronopolis.
+  Festnahme statt Löschung, Nahdistanz + eindeutige Identitätsfassung + Kodex-Uplink, nie als Kampfaktion.
+  Zeitfenster: Sekunden bis wenige Minuten, solange Tatmotivation und Einsatzlage erkennbar dieselben bleiben.
+  Reihenfolge: **Loot sichern → optionaler Kausalabfang → Cleanup/Exfil.**
+  Kein universelles Retcon-Werkzeug — nur legitimer ITI-Feldeinsatz.
+  Gesperrt für: Chrononauten, Squadmates, Zivilisten, Bosse/Mini-Bosse, Para-Wesen, Arena/PvP, Chronopolis.
   Unbenannte Hostiles darf die SL im Cleanup automatisch abfangen;
-  bei benannten Zielen nachfragen. Detail-Regeln (Named-Target-Echo,
-  TEMP-Recall-Blur, Kodex-Satzbau) → `systems/toolkit-gpt-spielleiter.md`.
+  bei benannten Zielen nachfragen.
+  Save-Felder: `logs.trace[]`, `logs.notes[]`, `continuity.roster_echoes[]`, `continuity.shared_echoes[]`.
+  Kodex-Satzbau (kurz, technisch): `Kodex: Identitätslock bestätigt.` |
+  `Kodex: Kausalabfang freigegeben.` | `Kodex: ITI-Abfangfenster steht.` |
+  `Kodex: Lokale Erinnerung driftet. Archivanker aktiv.` |
+  `Kodex: Ziel nicht zulässig. Boss-/ITI-/Zivilstatus blockiert.` |
+  `Kodex: Uplink fehlt. Marker bleibt ohne Vollzug.`
+  TEMP-Recall-Blur (Flavor): TEMP 1–2 = Recall-Blur, TEMP 3–5 = Déjà-vu, TEMP 6+ = stabil.
+  Detail-Regeln (Named-Target-Echo, Hardening) → `systems/toolkit-gpt-spielleiter.md`.
 
 ### Exfil
 
