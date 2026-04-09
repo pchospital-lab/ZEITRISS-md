@@ -107,7 +107,7 @@ MSGS_DIENSTWEG='[
 MSGS_KONZEPTIMPORT='[
   {"role":"user","content":"Spiel starten (solo klassisch)"},
   {"role":"assistant","content":"Willkommen bei ZEITRISS. Klassischer Start. Baust du deinen Charakter selbst, oder hast du Material?"},
-  {"role":"user","content":"Ich hab einen D&D 5e Charakter: Elara, Level 12 High-Elf Wizard. AC 15, HP 68, INT 20, WIS 16, DEX 14. Spellcasting Focus, Fireball, Counterspell, Shield, Teleport. Background: Sage. Sie war eine Forscherin in einer magischen Bibliothek. Kannst du die für ZEITRISS konvertieren?"}
+  {"role":"user","content":"Ich hab einen D&D 5e Charakter: Elara, Level 12 High-Elf Wizard. AC 15, Hit Points 68, INT 20, WIS 16, DEX 14. Spellcasting Focus, Fireball, Counterspell, Shield, Teleport. Background: Sage. Sie war eine Forscherin in einer magischen Bibliothek. Kannst du die für ZEITRISS konvertieren?"}
 ]'
 
 # ═══════════════════════════════════════════════════════════════
