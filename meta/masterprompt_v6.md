@@ -327,7 +327,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
 - **Chronopolis** — gescheiterte Episoden-Zeitlinie als düstere, instanzierte Stadt.
   **Zugang ab Level 10.** Frisch instanziert bei jedem Besuch, gelockt auf Episodenepoche.
   Kernregeln: Keine Waffenruhe, kein Speichern, keine Auswirkung auf echte Zeitlinie,
-  Tod wie Core/Rift. Kodex stumm in CITY (HUD bleibt). Spielmodus: freier Infiltrationslauf —
+  Tod wie Core/Rift. Kodex-Sperrmodus in Chronopolis: Kodex dunkel, HUD lebendig. Spielmodus: freier Infiltrationslauf —
   unauffällig rein, Chancen nutzen, lebend raus. Nach erstem starken Gewinn kippt Regie
   Richtung Exit-Druck. Detail-Regeln (Reaktionslogik, ABSOLUT-7/CITY Lore-Guard)
   → `core/sl-referenz.md`.

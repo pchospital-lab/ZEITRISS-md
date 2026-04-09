@@ -58,7 +58,7 @@ lade die 19 Wissensmodule hoch:
 **Nicht hochladen:** `README.md`, `master-index.json`, Archiv-Dateien.
 
 **Optional:** `characters/charaktererschaffung-optionen.md` (Inspiration für
-One-Shots, nicht im Default-Set).
+One-Shots, nicht im Default-Slotset).
 
 Welche Dateien als Slot gelten, bestimmt `master-index.json` (`"slot": true`).
 

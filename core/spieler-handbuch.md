@@ -386,7 +386,7 @@ ohne Tier V global zu sperren.
 | `!sf off` / `!sf on` | Self-Reflection aus/an                                                 |
 | `!kampagnenmodus`    | Pool wechseln (preserve/trigger)                                       |
 | `!offline`           | Kodex-Feldprotokoll (1×/Min; in Chronopolis eigene Sperrmodus-Antwort) |
-| `kodex [thema]`      | Weltwissen/Regeln abfragen (in `CITY` gesperrt)                        |
+| `kodex [thema]` | Weltwissen/Regeln abfragen (in `CITY` gesperrt)                             |
 
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
 

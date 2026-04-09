@@ -128,7 +128,8 @@ Wissensspeicher werden automatisch erstellt. Danach:
 
 1. Neuen Chat in OpenWebUI öffnen
 2. Modell **ZEITRISS v4.2.6 Uncut** wählen
-3. Lostippen: `Spiel starten (solo klassisch)`
+3. Lostippen: `Spiel starten (solo klassisch)` — oder `solo schnell` als optionale Fast-Lane für Kurzrunden.
+   Startbefehle lassen sich auch in natürlicher Sprache formulieren.
 
 **Aktualisieren:** Neues ZIP laden (oder `git pull`) und Script nochmal
 starten — fertig.
@@ -142,7 +143,7 @@ python scripts/setup.py --export
 ```
 
 Das erstellt einen Ordner mit:
-- **`knowledge/`** — 19 Wissensdateien → ins Projektwissen
+- **`knowledge/`** — 19 Wissensmodule (Slots im Default-Ladepfad) → ins Projektwissen
 - **`system/`** — Systemprompt → in die Projekt-Anweisungen
 - **`SETUP-ANLEITUNG.md`** — erklärt Schritt für Schritt was wohin gehört
 
