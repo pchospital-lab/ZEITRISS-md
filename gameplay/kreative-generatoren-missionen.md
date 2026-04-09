@@ -135,12 +135,24 @@ Standard-Transferwerte:
 - **Auftragstyp wählen:** `protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document | influence | prevent`.
 - **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
   oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids.
+- **Briefing-Eskalation:** Der Briefing-Scope folgt der Arc-Phase der Episode.
+  Mission 1–2 zeigt einen **kleinen Ausschnitt** des historischen Szenarios als
+  konkretes Ziel (einen Zeugen befragen, eine Lieferung verfolgen, einen Zugang
+  dokumentieren). Erst ab Mission 6+ rückt die Crew ins Zentrum der großen
+  Bedrohung. So entsteht der Netflix-Effekt: Der Spieler **entdeckt** die
+  Verschwörung Schicht für Schicht, statt sie im ersten Briefing erklärt zu
+  bekommen.
 - **Physische Near-Future-Tech:** Scans, Hacks, Comms laufen über Linse/Sensor/
   Kabel/Relays/Terminal - Mixed-Reality-HUD über die Linse statt losgelöster
   VR-Räume oder Projektor-UIs.
 
 ### Rift-Casefiles: Tatort → Leads → Boss-Encounter → Auflösung
 
+- **Rift-Pacing:** Jede Rift-Op ist ein eigenständiger X-Files-Film. Start mit
+  einem mysteriösen Detail (Fundort, Zeuge, Spur), nicht mit dem Monster. Das
+  Para-Wesen taucht als **Ahnung** auf, nicht als Endgegner in Szene 1. Die
+  Tatort-Phase (1–4) baut Atmosphäre und Fragen auf; die Leads-Phase (5–9)
+  verdichtet zur Konfrontation. Auch hier gilt: **Entdeckung vor Eskalation.**
 - Das 14er-Template folgt der Ermittlungslogik: **Tatort (1-4)** → **Leads
   (5-9)** → **Boss-Encounter (10)** → **Boss-Resolution (11-14)**.
 - HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss/Auflösung`; der
@@ -204,6 +216,13 @@ Die Runtime verwendet dieselben Werte, wenn kein konkreter Betrag im Debrief
 übergeben wird.
 
 ## Automatischer Mission Seed
+
+**Scope-Regel:** Der gezogene Seed bestimmt **Epoche, Setting und
+Hintergrundszenario** der Episode. Das Briefing scoped den konkreten Auftrag auf
+die **aktuelle Arc-Phase** herunter: Frühe Missionen (1–2) bekommen einen kleinen
+Ausschnitt des Szenarios als Ziel, späte Missionen (6–10) rücken ins Zentrum des
+Geschehens. Behandle Seeds nicht als 1:1-Aufträge — sie sind der **Horizont**,
+nicht das Briefing.
 
 Dieses Start-Tool zieht zu Beginn einer Sitzung je einen Eintrag aus drei Listen
 und kombiniert sie zu einem knappen Briefing. KI-SL würfelt verdeckt und stellt das Ergebnis vor.

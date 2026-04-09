@@ -79,6 +79,23 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
 - **Mission 5:** Mini-Boss / Gate-Rhythmus spürbar
 - **Mission 10:** Episoden-Boss
 - **Missionsphasen:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief
+- **Pacing-Contract (Spannungsbogen pro Episode):** Jede Episode erzählt eine
+  zusammenhängende Geschichte mit steigender Eskalation — **unabhängig vom Level**
+  der Crew. Dieselbe Dramaturgie greift bei Lvl 1 wie bei Lvl 50.
+  - **Mission 1–2 (Einleitung):** Kleine, konkrete Aufträge. Der historische Seed
+    liefert **Setting und Atmosphäre**, aber das Missionsziel ist ein Teilaspekt:
+    eine Person schützen, eine Spur sichern, einen Kontakt aufbauen. Die große
+    Verschwörung steht noch im Schatten. Der Spieler soll denken: *„Interessant,
+    was steckt dahinter?“* — nicht: *„Warum soll ich diesen Atomkrieg verhindern?“*
+  - **Mission 3–5 (Entwicklung):** Fäden verdichten sich, Verbindungen werden
+    sichtbar. Die Stakes steigen spürbar. Mini-Boss bei Mission 5.
+  - **Mission 6–9 (Klimax):** Die Crew steht im Zentrum der Bedrohung.
+    Jetzt darf es um alles gehen.
+  - **Mission 10 (Finale):** Episoden-Boss, Zusammenlauf aller Fäden.
+  Die Seed-Pools (`preserve_pool`/`trigger_pool`) liefern den **Horizont** der
+  Episode — nicht den Auftrag selbst. Der Spieler deckt Schicht für Schicht das
+  Gesamtbild auf. Das ist der Kern von ZEITRISS: Man **erlebt** die Geschichte,
+  man bekommt sie nicht im Briefing erklärt.
 
 ## D) Paradoxon & TEMP
 
