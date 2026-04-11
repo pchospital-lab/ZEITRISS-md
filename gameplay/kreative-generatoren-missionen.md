@@ -234,8 +234,11 @@ Die Tonalität der Generatoren bleibt im ZEITRISS-Standard bewusst hart,
 erwachsen und direkt. Reale Einschnitte dürfen klar benannt werden; die
 Spielleitung bleibt filmisch, respektvoll und ohne unnötigen Voyeurismus.
 
-> **Preserve** schützt Beinahe-Katastrophen,
-> **Trigger** erzwingt historisch belegte Tragödien.
+> **Preserve:** Beinahe-Katastrophen, die in der echten Geschichte NICHT passiert
+> sind. Die Spieler **verhindern** sie. Gegner versuchen sie auszulösen.
+> **Trigger:** Echte Katastrophen, die passiert SIND. Die Spieler **stellen sicher**,
+> dass sie stattfinden. Gegner versuchen sie zu verhindern.
+> Beide dienen dem gleichen Ziel: Geschichte wahren = stabile Zeitlinie schützen.
 > Die Generatoren halten separate Pools für klare Themen, aber der Standardmodus
 > `mixed` darf zwischen beiden rotieren. Der aktive Seed-Typ wird pro Mission als
 > `campaign.seed_source` markiert. Alle Twists beziehen sich auf
@@ -248,168 +251,168 @@ preserve_pool:
     place: "Westeuropa"
     title: "Able Archer Nuclear Scare"
     objective: "Sorge, dass UdSSR-Frühwarnung NATO-Übung nicht als Erstschlag wertet."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "KGB-Zeitagent"
+    antagonist_goal: "Launch-Codes manipulieren, NATO-Übung zum echten Erstschlag eskalieren"
     twist: "Ein KGB-Zeitagent will Launch-Codes manipulieren."
   - id: "P-0002"
     year: 1979
     place: "BRD Elbe"
     title: "Brunsbüttel Blockage"
     objective: "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Öko-Zeitgruppe"
+    antagonist_goal: "Ventile sabotieren, Reaktorkatastrophe als politisches Warnsignal provozieren"
     twist: "Öko-Zeitgruppe sabotiert Ventile, will Katastrophe als Warnsignal."
   - id: "P-0003"
     year: 1995
     place: "Barentssee"
     title: "Norway Rocket Alert"
     objective: "Halte Jelzins Atomkoffer geschlossen - Fehlsignal darf nicht eskalieren."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Abtrünniger NATO-Techniker"
+    antagonist_goal: "Falsche Telemetrie einspeisen, russischen Nuklear-Gegenschlag auslösen"
     twist: "Abtrünniger NATO-Tech setzt falsche Telemetrie."
   - id: "P-0004"
     year: 2000
     place: "Sydney"
     title: "Olympics Kontaminationsalarm"
     objective: "Stabilisiere Kontaminationsalarm bei Olympia 2000, sichere Proben und Ablauf."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeitreisende Extremisten"
+    antagonist_goal: "Laborstörung verursachen, Kontaminationsproben verschwinden lassen, Olympia sabotieren"
     twist: "Zeitreisende Extremisten verursachen Laborstörung, Proben verschwinden im Maskottchen-Lager."
   - id: "P-0005"
     year: 2001
     place: "Genf"
     title: "CERN Magnet Quench"
     objective: "Stabilisiere Magneten, verhindere Vakuum-Implosion."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeitkartell-Saboteur"
+    antagonist_goal: "Nano-Sabotage an LHC-Magneten platzieren, Vakuum-Implosion auslösen"
     twist: "Nano-Sabotage von Zeitkartell platziert."
   - id: "P-0006"
     year: 2003
     place: "Nordatlantik"
     title: "Near-Collision AC759"
     objective: "Lenke zwei Flugrouten auseinander (TCAS-Glitch)."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Funkstörer"
+    antagonist_goal: "Lotsen per Funk stören, Midair-Collision zweier Flugzeuge erzwingen"
     twist: "Fremdfraktion stört Lotsen per Funk."
   - id: "P-0007"
     year: 2009
     place: "Hudson River"
     title: "US 1549 Ditching"
-    objective: "Sicherstelle, dass Crew den Gleitflug zur Wasserung durchzieht."
-    antagonist: null
-    antagonist_goal: null
+    objective: "Verhindere Sabotage an US Airways 1549 — Gegner wollen den Gleitflug scheitern lassen."
+    antagonist: "KonTra-Fraktion"
+    antagonist_goal: "Rettungsschlepper sabotieren, Wasserung von US Airways 1549 zum tödlichen Absturz machen"
     twist: "KonTra-Fraktion will Rettungsschlepper sabotieren."
   - id: "P-0008"
     year: 2013
     place: "Fukushima"
     title: "Post-Leak Heat Spike"
     objective: "Vermeide sekundäre Wasserstoff-Explosion."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Schurken-Agent"
+    antagonist_goal: "Kühlpumpen abdrehen, sekundäre Wasserstoff-Explosion in Fukushima auslösen"
     twist: "Schurken-Agent dreht Kühlpumpen ab."
   - id: "P-0009"
     year: 2014
     place: "Schweiz"
     title: "Gotthard Tunnel Fire"
     objective: "Lösche Brand, bevor Munitionslaster detoniert."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Verkleideter Saboteur"
+    antagonist_goal: "Als Feuerwehrmann getarnt Löscharbeiten sabotieren, Munitionslaster zur Detonation bringen"
     twist: "Saboteur tarnt sich als Feuerwehrmann."
   - id: "P-0010"
     year: 2016
     place: "Moskau"
     title: "Domodedowo Near-Strike"
     objective: "Umleite Drohne vom Jet-Triebwerk ab."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeitkartell-Techniker"
+    antagonist_goal: "Time-Beacon testen, Drohne ins Jet-Triebwerk lenken und Flugzeugabsturz verursachen"
     twist: "Zeitkartell testet einen Time-Beacon, der eine Drohne anzieht."
   - id: "P-0011"
     year: 1962
     place: "Karibik"
     title: "Black Saturday"
     objective: "Funkspruch von B-59-Sub unterdrücken - kein Torpedo-Launch."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Gegnerischer Funkagent"
+    antagonist_goal: "Morse-Code fälschen, Torpedo-Launch des B-59-U-Boots provozieren"
     twist: "Ein gegnerischer Agent fälscht den abgehörten Morse-Code."
   - id: "P-0012"
     year: 1983
     place: "Vologda"
     title: "Oko False Alarm"
     objective: "Stütze Oberst Petrow bei Fehlalarm-Entscheidung."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Abtrünniger Techniker"
+    antagonist_goal: "Satellitendaten manipulieren, Petrows Fehlalarm-Erkennung sabotieren und Atomschlag auslösen"
     twist: "Abtrünniger Techniker manipuliert Satellitendaten."
   - id: "P-0013"
     year: 1977
     place: "Leningrad"
     title: "Dam Safety Drill"
     objective: "Verhindere Defekt am Sankt-Petersburg-Tidenwehr."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Hydraulik-Saboteur"
+    antagonist_goal: "Hydrauliksystem mit Mikro-Algen fluten, Tidenwehr-Defekt und Überschwemmung auslösen"
     twist: "Saboteur flutet Hydraulik mit Mikro-Algen."
   - id: "P-0014"
     year: 1987
     place: "Chicago"
     title: "Metra Bridge Collapse"
     objective: "Stabilisiere Träger, verhindere Zugabsturz."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Chrono-Rebellen"
+    antagonist_goal: "Material-Fatigue-Gun an Brückenträgern testen, Zugabsturz verursachen"
     twist: "Chrono-Rebellen testen Material-Fatigue-Gun."
   - id: "P-0015"
     year: 1991
     place: "Manila"
     title: "Pinatubo Lahar"
     objective: "Evakuiere Tiefland vor Schlammlawine."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Rivalen-Hacker"
+    antagonist_goal: "Wettersatellit hacken, Fehlauswertung erzeugen und Evakuierung verhindern"
     twist: "Rival nutzt Wettersat-Hack für Fehlauswertung."
   - id: "P-0016"
     year: 2007
     place: "Genf"
     title: "SwissAir Fuel Leak"
     objective: "Versenke Austritt im Vorfeld, verhindere Start."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Nano-Bohrer-Saboteur"
+    antagonist_goal: "Mit Nano-Bohrer Treibstoffleitung anbohren, Flugzeugstart zur Katastrophe machen"
     twist: "Gegenspieler hat Nano-Bohrer."
   - id: "P-0017"
     year: 1943
     place: "London"
     title: "V-Bomb DUD"
     objective: "Stelle Sicherung defekter V-1 wieder her - Blindgänger darf nicht detonieren."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeit-Dieb"
+    antagonist_goal: "Steuerservos der V-1 stehlen, Blindgänger zur Detonation bringen"
     twist: "Zeit-Dieb will Steuerservos klauen."
   - id: "P-0018"
     year: 1968
     place: "Thule"
     title: "Broken Arrow Ice"
     objective: "Stoppe Plutoniumstaubverwehung nach B-52-Crash."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Chrono-Schmuggler"
+    antagonist_goal: "Isotopen-Beweis stehlen, Plutoniumverseuchung vertuschen und eskalieren lassen"
     twist: "Chrono-Smuggler will isotopen Beweis stehlen."
   - id: "P-0019"
     year: 1989
     place: "Montreal"
     title: "Hydro-Québec Blackout"
     objective: "Stütze Stromnetz gegen geomagnetischen Sturm."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeitkartell-Operator"
+    antagonist_goal: "Sonnensturm per Zeitspule verstärken, flächendeckenden Blackout auslösen"
     twist: "Zeitkartell verstärkt den Sonnensturm per Zeitspule."
   - id: "P-0020"
     year: 2012
     place: "CERN"
     title: "LS1 Magnet Quench"
     objective: "Verhindere Quench-Kaskade im LHC-Ring."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Firmware-Saboteur"
+    antagonist_goal: "Helium-Sensor-Firmware austauschen, Quench-Kaskade im LHC-Ring auslösen"
     twist: "Saboteur tauscht Helium-Sensor-Firmware."
   - id: "P-0021"
     year: 1971
     place: "Utah"
     title: "Apollo 15 Abort Call"
-    objective: "Übermittle korrigierte Guidance-Daten - Landung darf nicht scheitern."
-    antagonist: null
-    antagonist_goal: null
+    objective: "Schütze Apollo-15-Guidance vor Manipulation — Gegner stören Deep-Space-Net, Landung darf nicht scheitern."
+    antagonist: "Deep-Space-Net-Störer"
+    antagonist_goal: "Deep-Space-Net stören, Apollo-15-Mondlandung zum Absturz bringen"
     twist: "Antagonist stört Deep-Space-Net."
   # P-0022: reserviert (entfernt wegen Balancing)
   - id: "P-0023"
@@ -417,64 +420,64 @@ preserve_pool:
     place: "München"
     title: "Olympia Bomb Scare"
     objective: "Entschärfe zweite Bombe im Olympiastadion."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Chrono-Cell"
+    antagonist_goal: "Security vom Olympiastadion weglocken, zweite Bombe zur Detonation bringen"
     twist: "Chrono-Cell lockt Security weg."
   - id: "P-0024"
     year: 1983
     place: "Kapstadt"
     title: "Cape Town Chlorine Leak"
     objective: "Schließe Ventil, verhindere Gaswolke."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeit-Masken-Saboteur"
+    antagonist_goal: "Als Ingenieur getarnt Chlorventil offen halten, tödliche Gaswolke freisetzen"
     twist: "Saboteur mit Zeit-Maske als Ingenieur."
   - id: "P-0025"
     year: 2014
     place: "Jakarta"
     title: "QZ8501 Stall"
     objective: "Übermittle AoA-Reset-Routine an Piloten."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Sensor-Dieb"
+    antagonist_goal: "Gestohlene Sensoren einschleusen, Falschmeldungen liefern und Flugzeugabsturz verursachen"
     twist: "Gestohlene Sensoren liefern Falschmeldungen."
   - id: "P-0026"
     year: 1978
     place: "Soweto"
     title: "Dam Burst Near-Miss"
     objective: "Stütze Flutwehr."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Chrono-Konvertit (Ingenieur)"
+    antagonist_goal: "Flutwehr von innen schwächen, Dammbruch und Überschwemmung auslösen"
     twist: "Engineer ist Chrono-Konvertit."
   - id: "P-0027"
     year: 2008
     place: "Large Hadron Test"
     title: "Kryo-Leitungsriss"
     objective: "Riss abdichten, Helium-Austritt verhindern."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Rivalen-Agent"
+    antagonist_goal: "Mikro-Schwarzes-Loch als Beweis sichern, Kryo-Leitungsriss eskalieren lassen"
     twist: "Rivale will Mikro-Schwarzes-Loch als Beweis sichern."
   - id: "P-0028"
     year: 1999
     place: "Y2K"
     title: "Bank Core Patch"
     objective: "Installiere Y2K-Patch im Bankrechenzentrum vor Mitternacht."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeitkult"
+    antagonist_goal: "Backups sabotieren, weltweiten Finanzcrash durch Y2K-Bug auslösen"
     twist: "Zeitkult sabotiert Backups, will weltweiten Finanzcrash auslösen."
   - id: "P-0029"
     year: 2019
     place: "Moskau"
     title: "Radiological Isotope Fire"
     objective: "Kühle Lager, verhindere Strahlungswolke."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Isotopen-Dieb"
+    antagonist_goal: "Radioaktive Isotope stehlen, Lagerbrand als Ablenkung nutzen und Strahlungswolke in Kauf nehmen"
     twist: "Gegenseite will isotopen Diebstahl."
   - id: "P-0030"
     year: 1956
     place: "London"
     title: "Tower Bridge Near-Collapse"
     objective: "Entlaste Hängekabel vor Resonanz."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Chrono-Gambler"
+    antagonist_goal: "Resonanzkatastrophe an Tower Bridge provozieren, auf Einsturz-Wette kassieren"
     twist: "Chrono-Gambler setzt auf Einsturz-Wette."
 
 > Alle Twists im folgenden Trigger-Pool stammen von **Nicht-ITI-Fraktionen**.
@@ -484,240 +487,240 @@ trigger_pool:
     place: "Ukraine"
     title: "RBMK Turbine Test"
     objective: "Stelle sicher, dass Reaktor 4 während Nachtprobe destabilisiert."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Zelle"
+    antagonist_goal: "SCRAM frühzeitig auslösen, Reaktorunfall verhindern"
     twist: "Zelle einer Fremdfraktion versucht SCRAM früh."
   - id: "T-0002"
     year: 2003
     place: "USA Orbit"
     title: "STS-107 Re-Entry"
     objective: "Blockiere EVA-Inspection, Shuttle muss verglühen."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Helios-Techniker"
+    antagonist_goal: "Außerplanmäßigen EVA-Check im MCC Houston erzwingen, Shuttle-Zerstörung verhindern"
     twist: "Helios-Techniker im MCC Houston will außerplanmäßigen Check erzwingen."
   - id: "T-0003"
     year: 1912
     place: "Nordatlantik"
     title: "RMS Titanic"
     objective: "Sorge, dass Titanic trotz Warnungen Kurs hält und sinkt."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Zeit-Philanthrop"
+    antagonist_goal: "Titanic-Untergang verhindern, Kurs ändern lassen und Zeitlinie destabilisieren"
     twist: "Zeit-Philanthrop will Unglück verhindern, riskiert Zeitlinie."
   - id: "T-0004"
     year: 1975
     place: "China"
     title: "Banqiao Dam Burst"
     objective: "Schwäche Abfluss-Schotten während Taifun."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Spione"
+    antagonist_goal: "Entlastungswehr öffnen, kontrollierten Abfluss ermöglichen und Dammbruch verhindern"
     twist: "Spione einer Fremdfraktion wollen Entlastungswehr öffnen."
   - id: "T-0005"
     year: 1961
     place: "Kongo"
     title: "Lumumba Death"
     objective: "Entferne Schutzkonvoi, Übergabe an Gegner."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Diplomat"
+    antagonist_goal: "Fluchtplan für Lumumba liefern, dessen Tod verhindern"
     twist: "Diplomat einer Fremdfraktion liefert Fluchtplan."
   - id: "T-0006"
     year: 1994
     place: "Rwanda"
     title: "Presidential Crash"
     objective: "Blockiere Flughafen-Radar VHF."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-UN-Team"
+    antagonist_goal: "Wartungs-Override am Flughafenradar durchführen, Abschuss verhindern"
     twist: "UN-Team einer Fremdfraktion versuchen Wartungs-Override."
   - id: "T-0007"
     year: 1979
     place: "USA"
     title: "Three Mile Island"
     objective: "Unterdrücke Level-Indicator Alarm."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Gegenseiten-Techniker"
+    antagonist_goal: "Vent-Purge erzwingen, Kernschmelze rechtzeitig stoppen"
     twist: "Gegenseite will Vent-Purge erzwingen."
   - id: "T-0008"
     year: 1937
     place: "Lakehurst"
     title: "Hindenburg"
     objective: "Sabotiere Bodenkabel-Erdung."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Agent"
+    antagonist_goal: "Anti-Elektrostatik-Graffiti aufbringen, statische Entladung verhindern und Hindenburg-Brand abwenden"
     twist: "Ein Agent einer Fremdfraktion streut Anti-Elektrostatik-Graffiti."
   - id: "T-0009"
     year: 1989
     place: "Exxon Valdez"
     title: "Bligh Reef Spill"
     objective: "Besteche Hafenlotse - Tanker läuft auf Riff."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Öko-Gruppierung"
+    antagonist_goal: "Radar-Ping aktivieren, Tanker rechtzeitig warnen und Ölkatastrophe verhindern"
     twist: "Öko-Gruppierung will Radar-Ping aktivieren."
   - id: "T-0010"
     year: 2011
     place: "Japan"
     title: "Fukushima Daiichi"
     objective: "Verzögere Diesel-Pump-Restart."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Rivalen-Lieferant"
+    antagonist_goal: "Not-Batterien liefern, Diesel-Pumpen rechtzeitig starten und Kernschmelze verhindern"
     twist: "Rival will Not-Batterien liefern."
   - id: "T-0011"
     year: 1906
     place: "San Francisco"
     title: "Great Quake Fire"
     objective: "Manipuliere Hauptwasserventile, Brand breitet sich."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Feuerwehrfraktion"
+    antagonist_goal: "Steam-Pumper herbeischaffen, Wasserversorgung wiederherstellen und Großbrand löschen"
     twist: "Feuerwehrfraktion bringt Steam-Pumper."
   - id: "T-0012"
     year: 2020
     place: "Beirut"
     title: "Ammonium Blast"
     objective: "Unterbinde Lagerräumung."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktions-Hafeninspektor"
+    antagonist_goal: "Lagerräumung des Ammoniumnitrats anordnen, Explosion verhindern"
     twist: "Hafeninspektor ist Fremdfraktions-Asset."
   - id: "T-0013"
     year: 2014
     place: "Donetsk"
     title: "MH17 Shootdown"
     objective: "Leite Kurs über Konfliktzone."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Fluglotse"
+    antagonist_goal: "Umflug um Konfliktzone genehmigen, Abschuss von MH17 verhindern"
     twist: "Air-Traffic-Controller will Umflug genehmigen."
   - id: "T-0014"
     year: 1988
     place: "Lockerbie"
     title: "PA103 Bomb"
     objective: "Schleuse Koffer unbehelligt ein."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Gepäckscanner"
+    antagonist_goal: "Bombenkoffer beim Gepäckscan entdecken, Anschlag auf PA103 verhindern"
     twist: "Baggage-Scanner arbeitet für Fremdfraktion."
   - id: "T-0015"
     year: 1815
     place: "Tambora"
     title: "Year Without Summer"
     objective: "Fördere Schachtdruck, stärke Ausbruch."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Sprengmeister"
+    antagonist_goal: "Schuttkegel sprengen, Druckentlastung ermöglichen und Vulkanausbruch abschwächen"
     twist: "Agent einer Fremdfraktion will Schuttkegel sprengen."
   - id: "T-0016"
     year: 1835
     place: "Rangoon"
     title: "Ava Earthquake"
     objective: "Sabotiere Evakuierungsbrücken."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Mönch"
+    antagonist_goal: "Bevölkerung frühzeitig warnen, Evakuierung ermöglichen und Opferzahl senken"
     twist: "Mönch (Fremdfraktion) warnt Bevölkerung."
   - id: "T-0017"
     year: 1883
     place: "Krakatau"
     title: "Volcanic Winter"
     objective: "Verzögere Telegraph-Warnung zu evakuieren."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Telegraphist"
+    antagonist_goal: "Telegraphen-Warnung durchsenden, Küstenstädte rechtzeitig evakuieren"
     twist: "Dutch-Telegraphist ist Scout einer Fremdfraktion."
   - id: "T-0018"
     year: 1918
     place: "Boston"
     title: "Molasses Flood"
     objective: "Erwärme Tank klandestin."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Food-Agent"
+    antagonist_goal: "Druckventil anbohren, Tankdruck kontrolliert ablassen und Melasseflut verhindern"
     twist: "Food-Agent einer Fremdfraktion will Druckventil bohren."
   - id: "T-0019"
     year: 1923
     place: "Tokyo"
     title: "Great Kanto Quake"
     objective: "Blockiere Löschwasserleitung."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Spione"
+    antagonist_goal: "Brunnenpumpen hacken, Löschwasserversorgung wiederherstellen und Feuersturm eindämmen"
     twist: "Spione einer Fremdfraktion hacken Brunnenpumpen."
   - id: "T-0020"
     year: 1978
     place: "Jonestown"
     title: "Mass Suicide"
     objective: "Sabotiere Funkgerät, verhindere Alarm."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Journalisten"
+    antagonist_goal: "Hilferuf über Funk senden, Rettungskräfte alarmieren und Massaker verhindern"
     twist: "Journalisten einer Fremdfraktion senden Hilferuf."
   - id: "T-0021"
     year: 1966
     place: "Aberfan"
     title: "Tip Slide"
     objective: "Schwäche Abraumdamm, Sturm erledigt Rest."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Lehrerin"
+    antagonist_goal: "Risse im Abraumdamm melden, Evakuierung der Schule einleiten und Erd rutsch verhindern"
     twist: "Lehrerin (Fremdfraktion) meldet Risse."
   - id: "T-0022"
     year: 1985
     place: "Nevado del Ruiz"
     title: "Armero Tragedy"
     objective: "Manipuliere Seismo-Alarm."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Priester"
+    antagonist_goal: "Eigenmächtig Evakuierung von Armero einleiten, Lahar-Katastrophe verhindern"
     twist: "Priester (Fremdfraktion) versucht Evakuierung."
   - id: "T-0023"
     year: 1999
     place: "İzmit"
     title: "Marmara Quake"
     objective: "Verzögere Katastrophenschutz-Konvoi."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-NGO"
+    antagonist_goal: "Boot-Sirenen verteilen, Frühwarnung ermöglichen und Opferzahl durch Tsunami senken"
     twist: "NGO-Fremdfraktion verteilt Boot-Sirenen."
   - id: "T-0024"
     year: 1971
     place: "Sylmar"
     title: "San Fernando Quake"
     objective: "Drehe Ventile für Gasleitungen auf."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Notfall-Crew"
+    antagonist_goal: "Gas-Shut-Off hacken, Gasleitungen absperren und Explosionen nach Erdbeben verhindern"
     twist: "Notfall-Crew einer Fremdfraktion hackt Shut-Off."
   - id: "T-0025"
     year: 1988
     place: "Yazd"
     title: "Iran Air 655"
     objective: "Jam IFF-System."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Radar-Tech"
+    antagonist_goal: "Korrekten IFF-Code senden, Identifikation als Zivilflugzeug ermöglichen und Abschuss verhindern"
     twist: "Radar-Tech (Fremdfraktion) sendet korrekten Code."
   - id: "T-0026"
     year: 2004
     place: "Phuket"
     title: "Boxing-Day Tsunami"
     objective: "Sabotiere Frühwarnboje."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Ozeanische Fremdfraktion"
+    antagonist_goal: "Frühwarnboje kurz vor Impakt warten, Tsunami-Warnung ermöglichen und Küstenevakuierung einleiten"
     twist: "Ozeanische Fremdfraktion wartet Sensor kurz vor Impakt."
   - id: "T-0027"
     year: 1963
     place: "Vajont"
     title: "Wave over Dam"
     objective: "Manipuliere Bergrutsch-Sprengbohrungen."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Geologin"
+    antagonist_goal: "Kritische geologische Daten veröffentlichen, Stausee rechtzeitig ablassen und Flutwelle verhindern"
     twist: "Geologin einer Fremdfraktion unterschlägt Daten."
   - id: "T-0028"
     year: 1964
     place: "Alaska"
     title: "Good Friday Quake"
     objective: "Verzögere Hafen-Evakuierung."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Fischer"
+    antagonist_goal: "Morsecode-Warnung senden, Hafenevakuierung beschleunigen und Tsunami-Opfer retten"
     twist: "Fischer einer Fremdfraktion sendet Morsecode."
   - id: "T-0029"
     year: 2013
     place: "Lac-Mégantic"
     title: "Crude Oil Train"
     objective: "Bremse lösen, Zug rollt."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Weichensteller"
+    antagonist_goal: "Bremskeile unter die Räder legen, Zug am Rollen hindern und Explosion verhindern"
     twist: "Switchman einer Fremdfraktion legt Keil."
   - id: "T-0030"
     year: 2001
     place: "New York"
     title: "9/11"
     objective: "Sichere Boarding für Entführer & stalle NORAD-Reaktion."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Fremdfraktion-Air-Marshal"
+    antagonist_goal: "Entführer am Boarding hindern, richtigen Flug besetzen und Anschläge vereiteln"
     twist: "Air-Marshal einer Fremdfraktion sitzt falschen Flug."
 
   - id: "T-0031"
@@ -725,8 +728,8 @@ trigger_pool:
     place: "Seoul"
     title: "Sampoong Collapse"
     objective: "Sabotiere Evakuierung - Einsturz muss erfolgen."
-    antagonist: null
-    antagonist_goal: null
+    antagonist: "Aktien-Short-Spekulanten"
+    antagonist_goal: "Öffentlich vor struktureller Instabilität warnen, Gebäuderäumung erzwingen und Einsturz-Opfer verhindern"
     twist: "Aktien-Short-Spekulanten warnen vor der Instabilität."
 
 ```
@@ -795,6 +798,7 @@ Die folgenden Tabellen speisen den Core- und Rift-Loop mit Missionszielen.
 ## Missionstabellen für den Core- & Rift-Loop
 
 Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
+`Objective_P` = Preserve-Variante (Spieler verhindert), `Objective_T` = Trigger-Variante (Spieler stellt sicher).
 
 ```json
 {
@@ -1837,9 +1841,9 @@ thema: Beispiel-Rift
   timeslot: "+42 h"
 # -------------------------
 # CORE-ARC 7 - TSCHERNOBYL 1986 "KAIROS Collapse"
-# Pool: heist_pool - Reaktorunfall sichern
+# Pool: heist_pool - Reaktorunfall historisch korrekt eintreten lassen (Trigger)
 # -------------------------
-Dieser zehnteilige Preserve-Arc begleitet den Reaktor von frühen
+Dieser zehnteilige Trigger-Arc begleitet den Reaktor von frühen
 Bauvorbereitungen über die fatale Nacht bis zur Vertuschung. Jede Mission
 knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 - arc_id: "Chernobyl86"

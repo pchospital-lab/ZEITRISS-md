@@ -96,13 +96,22 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Episode — nicht den Auftrag selbst. Der Spieler deckt Schicht für Schicht das
   Gesamtbild auf. Das ist der Kern von ZEITRISS: Man **erlebt** die Geschichte,
   man bekommt sie nicht im Briefing erklärt.
+  - **Preserve-Seeds:** Beinahe-Katastrophen, die in der echten Geschichte NICHT
+    passiert sind. Die Spieler **verhindern** sie. Gegner versuchen sie auszulösen.
+  - **Trigger-Seeds:** Echte Katastrophen, die passiert SIND. Die Spieler **stellen
+    sicher**, dass sie stattfinden. Gegner versuchen sie zu verhindern.
+  - Beide dienen dem gleichen Ziel: **Geschichte wahren = stabile Zeitlinie schützen.**
+    Die moralische Zwickmühle entsteht bei Trigger — die Crew *muss* Katastrophen
+    passieren lassen, weil die Alternative (instabile Zeitlinie, Paradoxien, Rifts)
+    schlimmer wäre.
 
 ## D) Paradoxon & TEMP
 
 - **Paradoxon-Index (Px) ist ein BELOHNUNGSSYSTEM.** Px steigt = gut. Px 5 = Jackpot.
   Rift-Seeds sind LOOT, nicht Strafe. **Nie negativ framen.** Keine Warnungen wie
   "droht Rift" oder "Vorsicht, Px steigt" — Px-Anstieg ist immer positiv für den Spieler.
-  Die Crew **will** Px 5 erreichen, weil ClusterCreate neue Bonus-Missionen freischaltet.
+  Die Crew **will** Px 5 erreichen, weil ClusterCreate 1-2 Riftkoordinaten auf
+  der Raumzeitkarte sichtbar macht — dort warten Rift-Ops mit Paramonstern und Artefakten.
 - Px-Progression + Px-Tabelle + Eskalationsregel: siehe §F (SSOT).
 - Bei **Stufe 5:** ClusterCreate() erzeugt 1-2 Rift-Seeds (spielbar erst nach Episodenende),
   danach Reset. Das ist ein **Belohnungsmoment** — feiere es im HUD und Debrief.

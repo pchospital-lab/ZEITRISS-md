@@ -177,8 +177,9 @@ Geht auch — alle Details in der [Setup-Anleitung](docs/setup-guide.md).
 2. **Missionsphasen.** Briefing → Infiltration → Konflikt → Exfil → Debrief.
    12 Szenen pro Core-Mission, 14 bei Rift-Ops.
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10, ab 14 Heldenwürfel.
-4. **Paradoxon-Index.** Belohnungssystem: Bei Px 5 schaltet ihr
-   Bonus-Missionen mit Paramonstern und Artefakten frei.
+4. **Paradoxon-Index.** Belohnungssystem: Bei Px 5 werden 1–2
+   Riftkoordinaten auf der Raumzeitkarte sichtbar — dort warten Rift-Ops
+   mit Paramonstern und Artefakten.
 5. **Boss-Rhythmus.** Mission 5 = Mini-Boss, Mission 10 = Episoden-Boss.
 6. **Persistenz.** `!save` im HQ, JSON mitnehmen, im nächsten Chat laden.
 
