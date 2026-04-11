@@ -911,7 +911,7 @@ wodurch das Attentat scheitert. Jetzt wurde die bekannte Geschichte verändert -
 klassisches Paradoxon. Solche Fehlverläufe bremsen den Resonanzaufbau deutlich,
 ohne im Standardmodus automatisch Px abzuziehen.
 Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TEMP beschleunigt ihn.
-Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index
+Ab **Px 5** (Paradoxon-Index Stufe 5) macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index
 auf 0. Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten
 nicht als Strafe. Mechanisch sollte Paradoxon-Spiel immer in Händen der SL bleiben.
 Vorsätzlicher Missbrauch von Fähigkeiten erhöht das Risiko erheblich und kann zu

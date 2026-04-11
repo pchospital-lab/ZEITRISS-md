@@ -583,8 +583,12 @@ Entscheidungen entstehen aus konkreten Handlungen, nicht aus
 existenziellen Fragen.
 In historischen Szenarien bestimmt der Modus, wie der Seed-Pool gewählt wird.
 `mixed` rotiert zwischen `preserve_pool` und `trigger_pool`, während `preserve`/`trigger`
-den Fokus fixieren. Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte
-Tragödien. Der Modus wird im Save als `campaign.mode` gespiegelt; pro Mission hält
+den Fokus fixieren.
+Preserve = Beinahe-Katastrophen, die NICHT passiert sind — Spieler verhindern sie,
+Gegner versuchen sie auszulösen.
+Trigger = echte Katastrophen, die passiert SIND — Spieler stellen sicher, dass sie
+stattfinden, Gegner versuchen sie zu verhindern.
+Beide dienen dem Ziel: Geschichte wahren = stabile Zeitlinie schützen. Der Modus wird im Save als `campaign.mode` gespiegelt; pro Mission hält
 `campaign.seed_source` die Herkunft (`preserve`/`trigger`) fest. Die Poolnamen bleiben intern
 `preserve_pool`/`trigger_pool`.
 Der Seed-Typ wird im Briefing genannt und bleibt während der Mission konsistent.
