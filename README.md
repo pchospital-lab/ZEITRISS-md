@@ -99,7 +99,7 @@ Wissensmodule. Überall dort, wo du einen System-Prompt setzen und
 Wissensdateien laden kannst, läuft ZEITRISS.
 
 **Aber:** ZEITRISS ist das komplexeste Projekt dieser Familie. Der
-Masterprompt ist mit ~34 KB deutlich größer als bei ARXION oder SEKRA.
+Masterprompt ist mit ~34 KB deutlich größer als bei den anderen Bausätzen.
 Das bedeutet:
 
 - **OpenWebUI + starkes Modell** — Optimale Erfahrung. Empfohlen.
