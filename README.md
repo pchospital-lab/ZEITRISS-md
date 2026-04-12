@@ -92,6 +92,34 @@ Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
 Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
 Textzusammenfassung der wichtigsten Eckdaten.
 
+## Läuft überall — mit Einschränkungen
+
+ZEITRISS ist ein Datensatz, kein Programm — ein Masterprompt und 19
+Wissensmodule. Überall dort, wo du einen System-Prompt setzen und
+Wissensdateien laden kannst, läuft ZEITRISS.
+
+**Aber:** ZEITRISS ist das komplexeste Projekt dieser Familie. Der
+Masterprompt ist mit ~34 KB deutlich größer als bei den anderen Bausätzen.
+Das bedeutet:
+
+- **OpenWebUI + starkes Modell** — Optimale Erfahrung. Empfohlen.
+- **Lumo / Claude Projects** — Funktioniert, wenn die Plattform genug
+  System-Prompt-Platz bietet.
+- **Custom GPTs (OpenAI)** — Eingeschränkt. System-Prompt-Limit zu klein,
+  18+-Content wird teilweise redacted.
+- **Schwache Modelle** — Kommen an Grenzen. ZEITRISS braucht Modelle, die
+  komplexe Regelsysteme + Kreativität + Pacing gleichzeitig können.
+
+**Dein Save ist JSON.** Charakter mitnehmen, in jedem Chat laden, Plattform
+wechseln — das funktioniert überall. Die Schnittstelle ist portabel, auch
+wenn nicht jede Plattform die volle ZEITRISS-Erfahrung liefern kann.
+
+ZEITRISS ist Teil der CustomAI-Bausatz-Familie von PC Hospital. Alle
+Bausätze funktionieren nach dem gleichen Prinzip: Masterprompt +
+Wissensmodule + JSON-Schnittstelle.
+
+---
+
 ## Einrichten & Spielen
 
 ### Was ihr braucht
