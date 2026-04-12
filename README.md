@@ -114,9 +114,9 @@ Das bedeutet:
 wechseln — das funktioniert überall. Die Schnittstelle ist portabel, auch
 wenn nicht jede Plattform die volle ZEITRISS-Erfahrung liefern kann.
 
-ZEITRISS ist Teil der CustomAI-Bausatz-Familie von PC Hospital. Alle
-Bausätze funktionieren nach dem gleichen Prinzip: Masterprompt +
-Wissensmodule + JSON-Schnittstelle.
+ZEITRISS ist ein Bausatz von pchospital. Alle Bausätze funktionieren
+nach dem gleichen Prinzip: Masterprompt + Wissensmodule +
+JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
 ---
 
@@ -126,8 +126,9 @@ Wissensmodule + JSON-Schnittstelle.
 
 1. **[OpenWebUI](https://github.com/open-webui/open-webui)** — eure
    Spieloberfläche (kostenlos, self-hosted)
-2. **[OpenRouter](https://openrouter.ai)** — Konto + API-Key anlegen, in
-   OpenWebUI unter Einstellungen → Verbindungen eintragen
+2. **Modellzugang** — lokal (Ollama) oder Cloud
+   ([OpenRouter](https://openrouter.ai) o. Ä.). In OpenWebUI unter
+   Einstellungen → Verbindungen eintragen
 3. **[Python 3.8+](https://python.org)** — auf macOS/Linux vorinstalliert,
    auf Windows einmal von python.org installieren
 
