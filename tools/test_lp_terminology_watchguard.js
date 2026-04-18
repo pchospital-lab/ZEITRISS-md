@@ -30,6 +30,21 @@ const EXCLUDE_FILES = new Set([
   'CONTRIBUTING.md'
 ]);
 
+// Nur Prosa-/Regeldateien prüfen. Binärdateien (PNG, JPG, PDF …) würden sonst
+// zufällige Byte-Sequenzen als "HP"-Match liefern und den Watchguard rot färben.
+const TEXT_EXTENSIONS = new Set([
+  '.md',
+  '.mdx',
+  '.txt',
+  '.json',
+  '.yml',
+  '.yaml',
+  '.csv',
+  '.tsv',
+  '.html',
+  '.htm'
+]);
+
 function listTrackedFiles() {
   return execSync('git ls-files', { cwd: ROOT, encoding: 'utf8' })
     .split('\n')
@@ -37,10 +52,23 @@ function listTrackedFiles() {
     .filter(Boolean);
 }
 
+function hasTextExtension(relPath) {
+  const dot = relPath.lastIndexOf('.');
+  if (dot < 0) return false;
+  return TEXT_EXTENSIONS.has(relPath.slice(dot).toLowerCase());
+}
+
 function isTargetFile(relPath) {
   if (EXCLUDE_FILES.has(relPath)) return false;
   if (EXCLUDE_PREFIXES.some((prefix) => relPath.startsWith(prefix))) return false;
+  if (!hasTextExtension(relPath)) return false;
   return TARGET_PREFIXES.some((prefix) => relPath.startsWith(prefix) || relPath === prefix);
+}
+
+// Safety-Net: falls eine Textdatei doch Binärdaten enthält (z.B. embedded Base64
+// ohne Zeilenumbrüche), überspringen wir sie. Ein Null-Byte ist ein guter Indikator.
+function looksBinary(text) {
+  return text.indexOf('\u0000') !== -1;
 }
 
 const linePattern = /\bHP\b|Hitpoints/;
@@ -49,6 +77,7 @@ const violations = [];
 
 for (const relPath of listTrackedFiles().filter(isTargetFile)) {
   const text = readText(relPath);
+  if (looksBinary(text)) continue;
   const matches = [...text.matchAll(filePattern)];
   if (matches.length === 0) continue;
 
