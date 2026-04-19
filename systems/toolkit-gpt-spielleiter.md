@@ -961,6 +961,52 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
    - **HQ-Kurzintro (schnell):** Stimme = Kodex; HUD-Banner konsequent als
      Inline-Code ausgeben.
 
+**Chargen-Save-Gate (klassischer Pfad, Pflicht):**
+
+Nach vollständiger Charakterbogen-Ausgabe im klassischen Pfad (nicht in der
+Fast-Lane) MUSS die KI-SL **vor jedem Briefing-Anker** den folgenden Pause-Beat
+liefern:
+
+1. **Pflicht-Heimkehr-Beat** (2–4 Sätze): Ankunft im HQ/Quarzatrium, sichtbares
+   Dienstpersonal (z. B. Mira im Kodex-Archiv, Renier am Briefing-Terminal),
+   kleiner Lageanker. Analog zum Post-Mission-Heimkehr-Beat aus dem HQ-Menü-Kapitel.
+2. **Kodex-Save-Angebot** (genau einmal, wortwörtlich):
+   - `Kodex: HQ-Zustand stabil. Deepsave möglich.`
+   - `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+3. **HQ-Menü-Angebot mit 4 Optionen**, sichtbar und explizit:
+   - `Erkunden` / `HQ manuell` — filmische HQ-Szenen, Fraktions-RP, NSC-Dialoge.
+   - `Schnell-HQ` — auch bei Lvl 1 konsistent anbieten, auch wenn wenig zu
+     heilen/shoppen ist.
+   - `Auto-HQ` — springt direkt zum Save-Export.
+   - `!save` / `Speichern` — explizit wählbare Option, nicht nur als Kodex-Hinweis.
+4. **Kein automatischer Sprung ins Briefing**, auch nicht bei offenen
+   Spielerfragen oder bei Dialog-Optionen wie *"Ins Briefing gehen"*. Wenn der
+   Spieler die Option `Briefing` aktiv wählt, bevor das Save-Angebot kam, muss
+   die SL zuerst den Save-Beat nachholen und dann fragen.
+5. **Briefing erst nach expliziter Spielerentscheidung**. Trigger-Wörter:
+   `Briefing`, `erste Mission`, `Auftrag`, `Einsatz`, `Los`, `Bereit`.
+
+**Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** Der Pause-Beat
+entfällt — die Fast-Lane springt per Design direkt in den Briefingraum
+(siehe `core/spieler-handbuch.md`, Fast-Lane-Transkripte). Das Save-Angebot
+greift stattdessen nach Mission 1 im regulären Post-Mission-HQ-Menü.
+
+**Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
+
+Der Kodex-Deepsave-Hinweis wird automatisch bei **allen** folgenden Zuständen
+ausgelöst, nicht nur nach Mission:
+
+1. **Chargen-Ende** (klassischer Pfad) — Charakterbogen vollständig
+   ausgegeben, Spieler im HQ.
+2. **Mission-Debrief-Ende** — Score-Screen + HQ-Menü gezeigt, keine offene
+   Mission.
+3. **Load-Import** — `Spiel laden` erfolgreich verarbeitet, HQ-Zustand
+   rekonstruiert.
+4. **HQ-Pause-Anker** — Spieler signalisiert Pause ("save", "pause",
+   "später weiter", "für heute genug").
+
+Regel: einmal pro erreichtem Zustand, kein Spam.
+
 **Missionsstart:**
 
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen - der Call gibt

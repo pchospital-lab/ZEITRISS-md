@@ -25,13 +25,15 @@ tags: [system]
 
 > **Für Spieler:** Hier das Wichtigste in 30 Sekunden.
 >
-> - **Speichern** geht nur im HQ (nach Missionen, vor dem nächsten Einsatz) und wird **ausschließlich** durch den Spielerbefehl `!save` ausgelöst.
+> - **Speichern** geht nur im HQ (nach Chargen, nach Missionen, vor dem nächsten Einsatz) und wird **ausschließlich** durch den Spielerbefehl `!save` ausgelöst.
 > - Befehl: `!save` - der Kodex erzeugt einen JSON-Block zum Kopieren.
 > - **Laden:** JSON-Block (oder mehrere JSON-Blöcke) in den Chat einfügen; `Spiel laden` ist optional.
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
-> - **Neuer Chat pro Mission** empfohlen: Mission abschließen → HQ → Save → neuer Chat → Laden.
+> - **Neuer Chat pro Abschnitt** empfohlen: Chargen → Save → neuer Chat → HQ-Runde → Save → neuer Chat → Mission → HQ → Save → neuer Chat. Jeder Abschnitt startet frisch.
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Zustand stabil. Deepsave möglich.`
 > - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+> - **Savebare HQ-Zustände:** Chargen-Ende (klassischer Pfad), Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
+> - **Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** springt direkt in den Briefingraum, kein Chargen-Save-Gate. Save-Angebot erst nach Mission 1.
 >
 > _Technische Details für die KI-Spielleitung folgen unten._
 

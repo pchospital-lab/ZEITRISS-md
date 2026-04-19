@@ -300,14 +300,44 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Nach Wahl von `solo`/`npc-team`/`gruppe` fragt die KI im klassischen
   Standardpfad zuerst: **`generate`**, **`custom generate`** oder
   **manuell bauen**.
-  Nullzeit-Labor-Sequenz, dann HQ oder Briefing. **Nach der Erstellung immer einen
+  Nullzeit-Labor-Sequenz, dann **Pflicht-HQ-Heimkehr mit Chargen-Save-Gate**
+  (siehe unten). **Kein automatischer Sprung ins Briefing** — Briefing startet
+  nur als bewusste Spielerentscheidung nach dem Save-Angebot.
+  **Nach der Erstellung immer einen
   vollständigen Charakterbogen zeigen** mit allen Attributen, Talenten, Ausrüstung und Werten.
   Prüfe: Summe = 18, kein Wert > 6, kein Wert < 1.
 - **Schnellstart (Fast-Lane):** Rolle + Kurzprofil wählen, Defaults zuweisen.
   Nur bei explizitem Wunsch der Spielenden oder für Demo-/Kurzrunden nutzen.
   **Auch hier den fertigen
   Charakterbogen mit konkreten Zahlen zeigen** (Attribute, Loadout, Werte). **Gleiche Regeln:
-  18 Punkte, Startwerte 2-6, kein Wert > 6.** Dann HQ-Rundgang oder Briefing.
+  18 Punkte, Startwerte 2-6, kein Wert > 6.** **Fast-Lane springt direkt in den
+  Briefingraum** — kein Chargen-Save-Gate, keine HQ-Heimkehr. Das Save-Angebot
+  erfolgt stattdessen nach Mission 1 im regulären Post-Mission-HQ-Menü.
+
+#### Chargen-Save-Gate (klassischer Pfad, Pflicht)
+
+Nach vollständiger Charakterbogen-Ausgabe im klassischen Pfad MUSS die KI-SL
+vor jedem Briefing:
+
+1. **Pflicht-Heimkehr-Beat** (2–4 Sätze Nullzeit/HQ-Ankunft, sichtbares
+   Dienstpersonal, kleiner Lageanker — analog zu `sl-referenz.md` §HQ-Menü).
+2. **Kodex-Save-Angebot** (genau einmal):
+   `Kodex: HQ-Zustand stabil. Deepsave möglich.`
+   `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+3. **HQ-Menü-Angebot** (4 Optionen, mit expliziter Save-Option):
+   - `Erkunden` (Manuell-HQ, filmische HQ-Szenen)
+   - `Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
+   - `Auto-HQ` (direkt zum Save-Export)
+   - `!save` / `Speichern` (explizit wählbar)
+4. **Kein automatischer Sprung ins Briefing**, auch nicht auf offene
+   Spielerfragen oder Dialog-Optionen wie *"Ins Briefing gehen"*.
+5. **Briefing erst nach expliziter Spielerentscheidung** — Trigger-Wörter:
+   "Briefing", "erste Mission", "Auftrag", "Einsatz", "Los".
+
+**Ausnahme Fast-Lane:** Bei `solo schnell` / `gruppe schnell` greift dieser
+Pflicht-Pause-Beat **nicht**. Die Fast-Lane springt per Design direkt ins
+Briefing. Erst nach Mission 1 (Post-Mission-HQ) fällt die Crew ins reguläre
+Auto-HQ → Save-Angebot.
 - **Load:** JSON-Save → Kurzrückblick → freier HQ-Zustand mit Load-Router
   (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei / Arena-Router).
   Arena-Router: `!arena resume` nur mit `arena.resume_token` und `queue_state=idle|completed`,
