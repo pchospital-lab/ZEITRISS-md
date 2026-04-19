@@ -11,6 +11,10 @@ Spielinhalte und Regeln findest du in der [README](../README.md).
 
 ## Schnellstart
 
+> 💡 **Was ist ein API-Key?**
+> Ein API-Key ist wie ein persönliches Passwort für eine KI-Schnittstelle. Du erstellst einen Account auf [openrouter.ai](https://openrouter.ai), bekommst einen Key, und ZEITRISS nutzt ihn um Anfragen zu schicken. Budget-Modelle kosten dort oft unter **0,01 € pro Runde** — also Cent-Beträge. Kein Abo, nur was du nutzt.
+> Kein Terminal zur Hand? → [Wie öffne ich ein Terminal?](terminal-help.md)
+
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
