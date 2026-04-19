@@ -309,31 +309,27 @@ assert.ok(
 const masterpromptText = getDocText('meta/masterprompt_v6.md');
 
 assert.ok(
-  /würfeltyp[- ]schwellen[^\n]*(?:verbindlich|tabelle)/i.test(masterpromptText),
-  'W10-Schwellen-Drift: Masterprompt muss die verbindliche Wuerfeltyp-Schwellen-Tabelle enthalten.'
+  /würfeltyp\s+nach\s+basis-attribut/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss "Wuerfeltyp nach Basis-Attribut" als Kernregel benennen.'
 );
 assert.ok(
-  /1-10[^\n]*w6[\s\S]{0,160}11-13[^\n]*w10[\s\S]{0,160}14\+[\s\S]{0,120}(?:verfügbar|heldenwürfel)/i.test(masterpromptText),
+  /1-10[^\n]*w6[\s\S]{0,160}11-13[^\n]*w10[\s\S]{0,160}14\+[\s\S]{0,120}verfügbar/i.test(masterpromptText),
   'W10-Schwellen-Drift: Schwellen-Tabelle muss 1-10=W6, 11-13=W10, 14+=Heldenwuerfel-verfuegbar in dieser Reihenfolge enthalten.'
 );
 assert.ok(
-  /heldenwürfel\s+ist\s+kein\s+zusätzlicher\s+würfel/i.test(masterpromptText),
-  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass Heldenwuerfel kein zusaetzlicher Wuerfel sondern Reroll-Token ist.'
+  /heldenwürfel\s*=\s*reroll-token/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass Heldenwuerfel = Reroll-Token (kein zweiter Wuerfel im Wurf) ist.'
 );
 assert.ok(
-  /basis-attributwert\s+für\s+würfeltyp/i.test(masterpromptText),
-  'W10-Schwellen-Drift: Masterprompt muss Basis-Attributwert als Grundlage fuer Wuerfeltyp benennen (Schutz gegen temporaere Buffs).'
+  /temporäre\s+effekte[\s\S]{0,160}ändern\s+den\s+würfeltyp\s+niemals/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass temporaere Effekte den Wuerfeltyp niemals aendern.'
 );
 assert.ok(
-  /temporäre\s+boni\/mali[\s\S]{0,200}niemals\s+den\s+würfeltyp/i.test(masterpromptText),
-  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass temporaere Boni/Mali den Wuerfeltyp niemals aendern.'
+  /talente\/buffs[\s\S]{0,120}niemals\s+würfeltyp-änderungen/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass Talente/Buffs niemals den Wuerfeltyp aendern.'
 );
 assert.ok(
-  /talente?\s+ändern\s+niemals\s+den\s+würfeltyp/i.test(masterpromptText),
-  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass Talente den Wuerfeltyp niemals aendern.'
-);
-assert.ok(
-  /wort\s+"schwellenwert"\s+im\s+kodex\s+darf\s+nur/i.test(masterpromptText),
+  /wort\s+"schwellenwert"\s+darf\s+im\s+kodex\s+nur/i.test(masterpromptText),
   'W10-Schwellen-Drift: Masterprompt muss das Wort "Schwellenwert" im Kodex auf Attribut 11 und 14 beschraenken.'
 );
 assert.ok(
@@ -383,6 +379,26 @@ assert.ok(
 assert.ok(
   /beispiel\s+richtig[\s\S]{0,400}10→11[\s\S]{0,160}w10\s+bei\s+ges-proben/i.test(masterpromptText),
   'W10-Schwellen-Drift: Masterprompt muss Positiv-Beispiel (echte Schwelle GES 10->11) enthalten.'
+);
+assert.ok(
+  /buff-falle[\s\S]{0,120}häufiger\s+ki-fehler/i.test(masterpromptText),
+  'Buff-Schwellen-Drift: Masterprompt muss den Buff-Falle-Block enthalten.'
+);
+assert.ok(
+  /basis-ges\s+9\s+\+\s+injektor\s+\+3[\s\S]{0,120}würfeltyp\s+bleibt\s+\*?\*?w6/i.test(masterpromptText),
+  'Buff-Schwellen-Drift: Masterprompt muss konkretes Buff-Beispiel (Basis-GES 9 + Injektor +3 -> W6) enthalten.'
+);
+assert.ok(
+  /⌊basis-attribut\s*\/\s*2⌋[\s\S]{0,120}temporäre\s+modifikatoren/i.test(masterpromptText),
+  'Buff-Schwellen-Drift: Endwert-Formel muss floor(Basis-Attribut/2) + temporaere Modifikatoren explizit auffuehren.'
+);
+assert.ok(
+  /richtig:[\s\S]{0,200}w6:\s*\[5\][\s\S]{0,120}injektor\s+\+3/i.test(masterpromptText),
+  'Buff-Schwellen-Drift: Masterprompt muss konkretes Positiv-Beispiel (W6: [5] + floor(9/2) + Injektor +3) enthalten.'
+);
+assert.ok(
+  /falsch:[\s\S]{0,200}w10\s*\(ges\+buff=12\)[\s\S]{0,200}zwei\s+regelverstöße/i.test(masterpromptText),
+  'Buff-Schwellen-Drift: Masterprompt muss konkretes Negativ-Beispiel (W10 bei GES+Buff=12 = zwei Regelverstoesse) enthalten.'
 );
 
 console.log('onboarding-start-save-watchguard-ok');
