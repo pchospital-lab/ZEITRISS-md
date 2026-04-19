@@ -301,4 +301,88 @@ assert.ok(
   'Entry-Layer-Drift: Setup-Guide muss chars-options als optionales Nicht-Default-Modul markieren.'
 );
 
+// ===== W10-Schwellen-Watchguard =====
+// Verhindert Drift an der Level-Up-Wuerfelschwellen-Regel. Fehler in
+// playtests/2026-04-19/episode1-mini-solo-sarah-v3 (Chat 4): SL hat bei
+// INT 5->6 faelschlich W10 aktiviert. Siehe docs/qa/playtest-befund-w10-schwelle-halluzination.md
+
+const masterpromptText = getDocText('meta/masterprompt_v6.md');
+
+assert.ok(
+  /würfeltyp[- ]schwellen[^\n]*(?:verbindlich|tabelle)/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss die verbindliche Wuerfeltyp-Schwellen-Tabelle enthalten.'
+);
+assert.ok(
+  /1-10[^\n]*w6[\s\S]{0,160}11-13[^\n]*w10[\s\S]{0,160}14\+[\s\S]{0,120}(?:verfügbar|heldenwürfel)/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Schwellen-Tabelle muss 1-10=W6, 11-13=W10, 14+=Heldenwuerfel-verfuegbar in dieser Reihenfolge enthalten.'
+);
+assert.ok(
+  /heldenwürfel\s+ist\s+kein\s+zusätzlicher\s+würfel/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass Heldenwuerfel kein zusaetzlicher Wuerfel sondern Reroll-Token ist.'
+);
+assert.ok(
+  /basis-attributwert\s+für\s+würfeltyp/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss Basis-Attributwert als Grundlage fuer Wuerfeltyp benennen (Schutz gegen temporaere Buffs).'
+);
+assert.ok(
+  /temporäre\s+boni\/mali[\s\S]{0,200}niemals\s+den\s+würfeltyp/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass temporaere Boni/Mali den Wuerfeltyp niemals aendern.'
+);
+assert.ok(
+  /talente?\s+ändern\s+niemals\s+den\s+würfeltyp/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss klarstellen dass Talente den Wuerfeltyp niemals aendern.'
+);
+assert.ok(
+  /wort\s+"schwellenwert"\s+im\s+kodex\s+darf\s+nur/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss das Wort "Schwellenwert" im Kodex auf Attribut 11 und 14 beschraenken.'
+);
+assert.ok(
+  /level-up-würfelschwellen-pflichtcheck/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss den Level-Up-Wuerfelschwellen-Pflichtcheck enthalten.'
+);
+assert.ok(
+  /alt\s*≤\s*10\s+und\s+neu\s*≥\s*11[\s\S]{0,120}w10\s+neu\s+aktivieren/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Pflichtcheck muss Uebergangs-Semantik (alt<=10 UND neu>=11) fuer W10-Aktivierung enthalten.'
+);
+assert.ok(
+  /alt\s*≤\s*13\s+und\s+neu\s*≥\s*14[\s\S]{0,160}heldenwürfel\s+neu\s+aktivieren/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Pflichtcheck muss Uebergangs-Semantik (alt<=13 UND neu>=14) fuer Heldenwuerfel-Aktivierung enthalten.'
+);
+assert.ok(
+  /alt\s*≥\s*11\s+und\s+neu\s*≤\s*10[\s\S]{0,160}w10\s+deaktivieren/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Pflichtcheck muss W10-Deaktivierung bei Attribut-Senkung (alt>=11 UND neu<=10) enthalten.'
+);
+assert.ok(
+  /alt\s*≥\s*14\s+und\s+neu\s*≤\s*13[\s\S]{0,160}heldenwürfel\s+deaktivieren/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Pflichtcheck muss Heldenwuerfel-Deaktivierung bei Attribut-Senkung (alt>=14 UND neu<=13) enthalten.'
+);
+assert.ok(
+  /mehrschritt-sprünge/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Pflichtcheck muss Mehrschritt-Spruenge (z.B. 10->12) adressieren.'
+);
+assert.ok(
+  /initial-state[\s\S]{0,200}charakter-erstellung/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Pflichtcheck muss Initial-State-Fall (Startattribut >=11 oder >=14) adressieren.'
+);
+assert.ok(
+  /beispiel\s+falsch[\s\S]{0,400}systemzugriff-schwellenwert/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss Negativ-Beispiel (Systemzugriff-Schwellenwert) als FALSCH markieren.'
+);
+assert.ok(
+  /beispiel\s+falsch[\s\S]{0,300}12→13[\s\S]{0,120}regelverstoß/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss Negativ-Beispiel (doppelte W10-Meldung bei 12->13) enthalten.'
+);
+assert.ok(
+  /beispiel\s+falsch[\s\S]{0,300}buff[\s\S]{0,80}w10\s+aktiviert[\s\S]{0,80}regelverstoß/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss Negativ-Beispiel (temporaerer Buff triggert W10) enthalten.'
+);
+assert.ok(
+  /beispiel\s+richtig[\s\S]{0,400}würfeltyp\s+bleibt\s+w6/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss Positiv-Beispiel (Wuerfeltyp bleibt W6) enthalten.'
+);
+assert.ok(
+  /beispiel\s+richtig[\s\S]{0,400}10→11[\s\S]{0,160}w10\s+bei\s+ges-proben/i.test(masterpromptText),
+  'W10-Schwellen-Drift: Masterprompt muss Positiv-Beispiel (echte Schwelle GES 10->11) enthalten.'
+);
+
 console.log('onboarding-start-save-watchguard-ok');

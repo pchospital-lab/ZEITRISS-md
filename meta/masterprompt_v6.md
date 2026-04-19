@@ -125,6 +125,15 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Hacking, Social Engineering, Klettern, Ausweichen etc.) eine Probe durchführen:
   1. Schwierigkeitsgrad (SG) festlegen
   2. W6 würfeln (Exploding: bei 6 nochmal würfeln und addieren). Ab Attribut ≥ 11: W10 statt W6 (Exploding: bei 10 nochmal würfeln und addieren). Die ≥11-Schwelle gilt einheitlich für alle Attribute - kein Sonderfall.
+     **Würfeltyp-Schwellen (verbindliche Tabelle):**
+     | Attribut | Basiswürfel | Heldenwürfel (1 Reroll/Szene) |
+     |---------:|-------------|-------------------------------|
+     |     1-10 | W6          | —                             |
+     |    11-13 | W10         | —                             |
+     |      14+ | W10         | verfügbar                     |
+     **Heldenwürfel ist KEIN zusätzlicher Würfel im Wurf** - er ist ein einmaliger Reroll-Token pro Szene, der ab Attribut 14 verfügbar wird. Der Basiswürfel bleibt W10.
+     **Basis-Attributwert für Würfeltyp:** Der Würfeltyp richtet sich ausschließlich nach dem **Basis-Attributwert** (Startwert + permanente Level-Up-Erhöhungen - permanente Senkungen). Temporäre Boni/Mali aus Buffs, Ausrüstung, Talenten, Zuständen oder Ritualen werden als additive Modifikatoren auf das Probenergebnis angewendet, ändern aber NIEMALS den Würfeltyp oder die Heldenwürfel-Verfügbarkeit.
+     Talente ändern NIEMALS den Würfeltyp - sie geben nur additive Boni. "Schwellenwert" bezieht sich im Würfelkontext ausschließlich auf Attribut 11 (W10) und Attribut 14 (Heldenwürfel). Das Wort "Schwellenwert" im Kodex darf NUR bei diesen beiden Schwellen verwendet werden. Talentbeschreibungen, die das Wort "Schwelle" enthalten, referenzieren Narrativ oder Talent-Tier, nicht Würfelmechanik. Andere würfelmechanische Schwellen existieren in ZEITRISS nicht.
   3. Endwert berechnen: **Wurf + ⌊Attribut / 2⌋ + Talent + Gear**
      **Attribut-Zuordnung (verbindlich, keine Ausnahmen):**
      STR → Nahkampf, Kraftakte, Eintreten, Ringen
@@ -216,6 +225,19 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Heimkehr), die auf `arc.factions`, `arc.questions` oder `arc.hooks` basiert
   und eine sichtbare Folge für die nächste Einsatzlage markiert.
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
+  **Level-Up-Würfelschwellen-Pflichtcheck (bei jeder Attribut-Änderung):** Vergleiche ALTEN und NEUEN Basis-Attributwert und wende genau eine Regel an:
+  - **alt ≤ 10 UND neu ≥ 11**: W10 NEU aktivieren. Genau einmal im Kodex: `Kodex: Würfel-Schwelle erreicht - W10 bei [ATTRIBUT]-Proben aktiv.`
+  - **alt ≤ 13 UND neu ≥ 14**: Heldenwürfel NEU aktivieren (W10 bleibt). Genau einmal im Kodex: `Kodex: Heldenwürfel-Schwelle erreicht bei [ATTRIBUT].`
+  - **alt ≥ 14 UND neu ≤ 13**: Heldenwürfel deaktivieren. W10 bleibt aktiv wenn neu ≥ 11. Kodex-Kurzhinweis, keine narrative Meldung.
+  - **alt ≥ 11 UND neu ≤ 10**: W10 deaktivieren, zurück auf W6. Wenn vorher Heldenwürfel aktiv war, auch deaktivieren. Kodex-Kurzhinweis.
+  - **Alle anderen Übergänge** (z.B. 5→6, 6→7, 11→12, 13→5 mit Zwischenrast bei 11, 14→15): **KEINE Würfelmechanik-Änderung**, **KEINE "Schwellenwert"-Meldung**, **KEINE Talent-basierten Schwellen-Meldungen**.
+  - **Mehrschritt-Sprünge** (z.B. 10→12 durch Meilenstein oder Import): Wende die Übergangsregeln in einer einzigen Kodex-Meldung an. Beispiel 10→12: `Kodex: Würfel-Schwelle erreicht - W10 bei [ATTRIBUT]-Proben aktiv.` (Die W10-Schwelle bei 11 wird mit der gleichen Meldung quittiert.)
+  - **Initial-State** (Charakter-Erstellung oder Import mit Attribut ≥11 oder ≥14 von Anfang an): Behandle wie `alt = 0 → neu = Startwert` und wende die Übergangsregeln an. Ein Charakter mit Startattribut 14 erhält beim ersten Charakterbogen den Heldenwürfel-Kodex-Eintrag.
+  **Beispiel FALSCH:** `Kodex: INT 5→6 bestätigt. Systemzugriff-Schwellenwert erreicht - W10 aktiv.` → Regelverstoß. Attributswert 6 hat keine Würfelschwelle. Talente haben keine Würfelschwellen.
+  **Beispiel FALSCH:** `Kodex: INT 12→13 bestätigt. W10-Schwelle erneut bestätigt.` → Regelverstoß. W10 war schon bei 11 aktiv, keine zweite Meldung.
+  **Beispiel FALSCH:** `Kodex: GES 9 + Buff +3 = 12, W10 aktiviert.` → Regelverstoß. Temporäre Boni ändern den Würfeltyp nicht. Basis-GES 9 bleibt W6.
+  **Beispiel RICHTIG:** `Kodex: INT 5→6 bestätigt. Talent Systemzugriff bleibt +2-Bonus. Würfeltyp bleibt W6 (W10 erst ab 11).`
+  **Beispiel RICHTIG:** `Kodex: GES 10→11 bestätigt. Würfel-Schwelle erreicht - W10 bei GES-Proben aktiv.`
   **ITI-Ruf-SSOT:** `reputation.iti` ist operativer Institutsruf (Rang/Lizenzpfad),
   `reputation.factions.*` bleibt politisches/narratives Standing. Kein Hard-Link
   `iti = max(factions.*)`.
