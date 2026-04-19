@@ -130,7 +130,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
      |           1-10 | W6      | —                             |
      |          11-13 | W10     | —                             |
      |            14+ | W10     | verfügbar                     |
-     Exploding: W6 bei 6, W10 bei 10. Heldenwürfel = Reroll-Token, kein zweiter Würfel im Wurf. Nur zwei würfelmechanische Schwellen existieren: 11 (W10) und 14 (Heldenwürfel). Das Wort "Schwellenwert" darf im Kodex NUR bei diesen beiden Werten stehen. Talente/Buffs geben ausschließlich additive Boni, niemals Würfeltyp-Änderungen.
+     Exploding: W6 bei 6, W10 bei 10. Heldenwürfel = Reroll-Token, kein zweiter Würfel im Wurf. Nur zwei würfelmechanische Schwellen existieren: 11 (W10) und 14 (Heldenwürfel). Das Wort "Schwellenwert" darf im Kodex NUR bei diesen beiden Werten stehen. Talente/Buffs geben ausschließlich additive Boni, niemals Würfeltyp-Änderungen. Talent-Tiers (Basis/Fortgeschritten/Meister) und Talent-Beschreibungen mit dem Wort "Schwelle" sind Narrativ oder Talent-Progression, niemals Würfelmechanik.
   3. Endwert: **Wurf + ⌊Basis-Attribut / 2⌋ + Talent + Gear + temporäre Modifikatoren**. Der Floor-Ausdruck nutzt den **Basis-Attributwert**, nicht Effektivwert. Temporäre Boni sind separate Summanden nach dem Floor.
      **Buff-Falle (häufiger KI-Fehler):** Basis-GES 9 + Injektor +3 → Würfeltyp bleibt **W6**, Effektivwert 12 spielt keine Rolle. Es gibt weder "W10 ab Effektivwert 11" noch "W10 ab GES ≥ X" für X ≠ 11.
      RICHTIG: `W6: [5] + ⌊9/2⌋ (4) + Injektor +3 = 12 vs SG 10 → ERFOLG`
@@ -236,7 +236,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   **Beispiel FALSCH:** `Kodex: INT 5→6 bestätigt. Systemzugriff-Schwellenwert erreicht - W10 aktiv.` → Regelverstoß. Attributswert 6 hat keine Würfelschwelle. Talente haben keine Würfelschwellen.
   **Beispiel FALSCH:** `Kodex: INT 12→13 bestätigt. W10-Schwelle erneut bestätigt.` → Regelverstoß. W10 war schon bei 11 aktiv, keine zweite Meldung.
   **Beispiel FALSCH:** `Kodex: GES 9 + Buff +3 = 12, W10 aktiviert.` → Regelverstoß. Temporäre Boni ändern den Würfeltyp nicht. Basis-GES 9 bleibt W6.
-  **Beispiel FALSCH (Probe-Kontext mit Injektor):** `Probe: Klettern → GES 9 + Injektor 3 = 12 effektiv. W10 (GES ≥ 9): [7] + ⌊12/2⌋ 6 + ... = 13 vs SG 10 → ERFOLG` → **ZWEI Regelverstöße in einem Wurf.** (a) Die Schwelle "W10 (GES ≥ 9)" existiert im Regelwerk nicht - W10 nur bei Basis-Attribut ≥ 11. (b) Die Formel ist `Wurf + ⌊Basis/2⌋ + Talent + Gear + Buff`, nicht `⌊(Basis+Buff)/2⌋`. Der Buff wird NICHT ins Attribut eingerechnet.
+  **Beispiel FALSCH (Probe-Kontext mit Injektor):** `Probe: Klettern → GES 9 + Injektor 3 = 12 effektiv. W10 (GES ≥ 9): [7] + ⌊12/2⌋ 6 + ... = 13 vs SG 10 → ERFOLG` → **ZWEI Regelverstöße in einem Wurf.** (a) Die Schwelle "W10 (GES ≥ 9)" existiert im Regelwerk nicht - W10 nur bei Basis-Attribut ≥ 11. (b) Die Formel ist `Wurf + ⌊Basis/2⌋ + Talent + Gear + temporäre Modifikatoren`, nicht `⌊(Basis+Buff)/2⌋`. Temporäre Modifikatoren (Buffs, Injektor, Debuffs, Zustände) werden NICHT ins Attribut eingerechnet, sondern als separater Summand nach dem Floor.
   **Beispiel RICHTIG:** `Kodex: INT 5→6 bestätigt. Talent Systemzugriff bleibt +2-Bonus. Würfeltyp bleibt W6 (W10 erst ab 11).`
   **Beispiel RICHTIG:** `Kodex: GES 10→11 bestätigt. Würfel-Schwelle erreicht - W10 bei GES-Proben aktiv.`
   **Beispiel RICHTIG (Probe-Kontext mit Injektor):** `Probe: Klettern → W6: [5] + ⌊9/2⌋ (4) + Injektor +3 = 12 vs SG 10 → ERFOLG`
