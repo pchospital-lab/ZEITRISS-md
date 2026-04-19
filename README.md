@@ -120,6 +120,20 @@ JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
 ---
 
+## Neu hier? Lies das zuerst!
+
+ZEITRISS braucht eine KI-Spieloberfläche. Du hast zwei Wege:
+
+**🟢 Einsteiger (Browser-basiert, kein Download nötig):**
+→ [Lumo / Claude-Anleitung](docs/setup-lumo.md) — läuft direkt im Browser, kein Programm installieren. Du brauchst nur einen Account.
+
+**🔧 Fortgeschritten (Self-Hosted, volle Kontrolle):**
+→ [OpenWebUI-Setup](docs/setup-guide.md) — mehr Leistung, braucht Terminal und etwas Geduld.
+
+Nicht sicher? Fang mit dem Einsteiger-Weg an.
+
+---
+
 ## Einrichten & Spielen
 
 ### Was ihr braucht
@@ -138,6 +152,7 @@ JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
 1. Oben auf dieser Seite **Code → Download ZIP** klicken
 2. ZIP entpacken, Terminal/Eingabeaufforderung im entpackten Ordner öffnen
+   *(Kein Terminal zur Hand? → [Wie öffne ich ein Terminal?](docs/terminal-help.md))*
 3. Ausführen:
 
 ```
