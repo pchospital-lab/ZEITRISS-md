@@ -131,6 +131,71 @@ for (const rule of hqPerDocRuleMatrix) {
   assertPerDocRule(rule.docs, rule);
 }
 
+// ---------------------------------------------------------------------------
+// Chargen-Save-Gate-Watchguard
+//
+// Der Chargen-Save-Gate-Abschnitt muss im klassischen Onboarding-Pfad
+// ausdrücklich verankert sein. Entdeckt via automatisiertem Noob-Playtest
+// (Sarah-Persona, Lvl 1), in dem die SL nach Chargen ohne Save-Angebot ins
+// Briefing gesprungen ist.
+//
+// Siehe: docs/qa/playtest-befund-chargen-save-gate.md (merged 2026-04-19)
+// ---------------------------------------------------------------------------
+
+const chargenGateDocs = [
+  'meta/masterprompt_v6.md',
+  'systems/toolkit-gpt-spielleiter.md',
+  'core/sl-referenz.md',
+  'systems/gameflow/speicher-fortsetzung.md',
+  'core/spieler-handbuch.md'
+];
+
+const chargenGatePerDocRules = [
+  {
+    label: 'chargen-save-gate-anker',
+    regex: /chargen-save-gate/i
+  },
+  {
+    label: 'fast-lane-ausnahme-anker',
+    regex: /fast-lane[\s\S]{0,320}(?:direkt\s+(?:in(?:s|\s+den)?)\s+briefing(?:raum)?|kein(?:e|en)?\s+(?:pause|chargen-save-gate)|keine\s+HQ-Heimkehr)/i
+  }
+];
+
+for (const rule of chargenGatePerDocRules) {
+  assertPerDocRule(chargenGateDocs, rule);
+}
+
+// Trigger-Liste "Savebare HQ-Zustände" muss in mindestens zwei Kern-SSOT-Dateien
+// konsistent auftauchen (Masterprompt ist optional; er verweist auf Toolkit/SL-Ref).
+const triggerListDocs = [
+  'systems/toolkit-gpt-spielleiter.md',
+  'core/sl-referenz.md',
+  'systems/gameflow/speicher-fortsetzung.md'
+];
+
+let triggerListHits = 0;
+for (const relPath of triggerListDocs) {
+  const text = getDocText(relPath);
+  if (/savebare\s+hq-zustände/i.test(text) || /deepsave-trigger-liste/i.test(text)) {
+    triggerListHits += 1;
+  }
+}
+assert.ok(
+  triggerListHits >= 2,
+  `Trigger-Liste-Drift: 'Savebare HQ-Zustände'/'Deepsave-Trigger-Liste' nur ${triggerListHits}/${triggerListDocs.length} Treffer.`
+);
+
+// Chargen-Ende muss in der Trigger-Liste als eigener Fall genannt sein.
+let chargenEndHits = 0;
+for (const relPath of triggerListDocs) {
+  const text = getDocText(relPath);
+  if (/chargen-ende/i.test(text)) chargenEndHits += 1;
+}
+assert.ok(
+  chargenEndHits >= 2,
+  `Chargen-Trigger-Drift: 'Chargen-Ende' nur ${chargenEndHits}/${triggerListDocs.length} Treffer in Trigger-Listen.`
+);
+
 const spielerHandbuchText = getDocText('core/spieler-handbuch.md');
 assert.ok(
   /standard\s*\(empfohlen\)[\s\S]{0,220}spiel\s+starten\s*\(solo\s+klassisch\)/i.test(spielerHandbuchText),

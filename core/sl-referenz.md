@@ -904,6 +904,28 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
    Hinweis: `HQ-Zustand stabil. Deepsave möglich. Für sauberen
 Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 
+**Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
+
+Das HQ-Menü und das Kodex-Save-Angebot werden nicht nur nach Mission, sondern
+bei **allen** folgenden Zuständen ausgelöst (einmal pro Zustand, kein Spam):
+
+1. **Chargen-Ende (klassischer Pfad)** - Charakterbogen vollständig ausgegeben,
+   Spieler im HQ. Das HQ-Menü wird um eine vierte Option erweitert:
+   `!save` / `Speichern` als direkt wählbaren Pfad. **Kein automatischer Sprung
+   ins Briefing**, auch nicht auf Dialog-Optionen wie *"Ins Briefing gehen"*;
+   Briefing erst nach expliziter Spielerentscheidung.
+2. **Mission-Debrief-Ende** - Score-Screen + HQ-Menü gezeigt, keine offene
+   Mission (Regelwerk oben).
+3. **Load-Import** - `Spiel laden` erfolgreich verarbeitet, HQ-Zustand
+   rekonstruiert.
+4. **HQ-Pause-Anker** - Spieler signalisiert Pause ("save", "pause",
+   "später weiter", "für heute genug").
+
+**Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** Die Fast-Lane
+springt per Design direkt in den Briefingraum; das Chargen-Save-Gate greift
+hier **nicht**. Das Save-Angebot erfolgt stattdessen nach Mission 1 im
+regulären Post-Mission-HQ-Menü.
+
 Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
 (2-4 Sätze):
 

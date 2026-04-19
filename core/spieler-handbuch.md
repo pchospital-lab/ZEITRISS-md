@@ -507,8 +507,16 @@ Siehe auch:
 
 > **Verstanden.** Wir starten im klassischen Standardpfad.
 > **Charakterweg bestätigt:** `generate` (volle KI-Erschaffung).
-> **HQ-Intro** mit Kodex-Anker, danach **Briefing** für Mission 1.
-> _Dann:_ "Szene 1 - Zugangspunkt?"
+> **Nach vollständigem Charakterbogen:** HQ-Heimkehr-Beat (2–4 Sätze Quarzatrium,
+> sichtbares Dienstpersonal), dann **Chargen-Save-Gate**:
+>
+> - `Kodex: HQ-Zustand stabil. Deepsave möglich.`
+> - `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+> - Menü-Optionen: `Erkunden` / `Schnell-HQ` / `Auto-HQ` / **`!save`**
+>
+> **Kein automatischer Sprung ins Briefing** — Briefing startet erst, wenn der
+> Spieler aktiv `Briefing`, `erste Mission` o. ä. wählt.
+> _Empfehlung:_ Nach `!save` neuen Chat öffnen, Save laden, dann HQ-Runde oder Mission 1.
 
 </details>
 
@@ -526,6 +534,10 @@ Siehe auch:
 > **Fraktionslage:** ruhig.
 >
 > - _Kurzes Briefing_ (3 Ziele). _Dann:_ "Szene 1 - Zugangspunkt?"
+
+**Fast-Lane-Hinweis:** Die Fast-Lane springt direkt in den Briefingraum —
+**kein Chargen-Save-Gate**. Das ist so gewollt, für Demo-/Kurzrunden. Das
+erste Save-Angebot kommt nach Mission 1 im regulären Post-Mission-HQ.
 
 </details>
 
