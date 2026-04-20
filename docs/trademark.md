@@ -114,6 +114,8 @@ Präsidentin Eva Schewior zeichnet das Dokument.
 
 - Öffentliche Formulierungen zu Inspiration/Abgrenzung stehen zusätzlich im
   [README](../README.md#markenhinweis--inspiration).
+- Werk- und Entwicklungshistorie vor der Repository-Veröffentlichung:
+  [werk-historie.md](./werk-historie.md).
 
 © 2025 pchospital – ZEITRISS® – Texte unter CC BY-NC 4.0, Code unter MIT. Siehe
 LICENSE.
