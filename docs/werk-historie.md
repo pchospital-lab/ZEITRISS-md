@@ -16,8 +16,8 @@ tags: [meta, legal]
 - **Erste nachweisbare Arbeitsdatei:** 13. April 2025
 - **DPMA-Markenanmeldung:** 19. April 2025 (Aktenzeichen 30 2025 215 671.9)
 - **Eintragung ins Markenregister:** bestätigt 18. August 2025
-- **Ablauf der Widerspruchsfrist:** 19. Januar 2026 — keine Widersprüche
 - **Benutzungsschonfrist beginnt:** 20. Dezember 2025
+- **Mitteilung § 42 MarkenG (kein Widerspruch erhoben):** 19. Januar 2026
 
 ## Versionsverlauf vor dem Repository
 
@@ -45,12 +45,12 @@ geführt.
 
 ## DPMA-Zeitstempel
 
-| Ereignis                              | Datum        | Aktenzeichen / Referenz         |
-|---------------------------------------|--------------|---------------------------------|
-| DPMA-Anmeldung (Unterlagen-Zip)       | 2025-04-19   | 30 2025 215 671.9               |
-| Eingangsbestätigung DPMA              | 2025-08-18   | siehe `trademark.md`            |
-| Mitteilung § 42 MarkenG (kein Widerspruch) | 2026-01-19 | siehe `trademark.md`            |
-| Beginn Benutzungsschonfrist           | 2025-12-20   | siehe `trademark.md`            |
+| Ereignis                                   | Datum        | Aktenzeichen / Referenz |
+|--------------------------------------------|--------------|-------------------------|
+| DPMA-Anmeldung (Unterlagen-Zip)            | 2025-04-19   | 30 2025 215 671.9       |
+| Eintragung ins Markenregister              | 2025-08-18   | siehe `trademark.md`    |
+| Beginn Benutzungsschonfrist                | 2025-12-20   | siehe `trademark.md`    |
+| Mitteilung § 42 MarkenG (kein Widerspruch) | 2026-01-19   | siehe `trademark.md`    |
 
 Die Anmeldungsunterlagen liegen im internen Werkarchiv als
 `DPMAdirektWeb-Unterlagen-2025041916391814WA.zip` (648.218 Byte, Zeitstempel
