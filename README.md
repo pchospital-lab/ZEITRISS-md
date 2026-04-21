@@ -1,4 +1,4 @@
-# ZEITRISS®-md Zeitreise RPG
+# ZEITRISS®-md Zeitreise-RPG
 
 <p align="center">
   <img src="docs/gameicon.png" alt="ZEITRISS" width="200">
@@ -6,7 +6,7 @@
 
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
-> **Tech-Noir-Agententhriller mit KI-Spielleitung.** Ihr spielt Chrononauten
+> **Tech-Noir-Zeitreise-RPG mit KI-Spielleitung.** Ihr spielt Chrononauten
 > des ITI — Elite-Agenten, die durch die Zeit springen, um die Hauptzeitlinie
 > zu stabilisieren. Explodierende Würfel, HUD-Overlay, persistente Saves.
 > **18+, Uncut.**
@@ -131,7 +131,7 @@ JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
    eintragen.
 3. **Setup starten.**
 
-```
+```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
 python scripts/setup.py
