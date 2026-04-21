@@ -120,16 +120,16 @@ JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
 ---
 
-## Los geht's
+## Drei Schritte, dann spielen
 
-ZEITRISS braucht eine KI-Spieloberfläche. Zwei Wege:
-
-**🟢 Einsteiger — im Browser, kein Terminal:**
-→ [Lumo oder Claude Projects](docs/setup-lumo.md). Account anlegen,
-Wissenspaket hochladen, losspielen.
-
-**🔧 Fortgeschritten — Self-Hosted, volle Kontrolle:**
-[OpenWebUI](https://github.com/open-webui/open-webui) installieren, dann:
+1. **Plattform wählen.**
+   [OpenWebUI](https://github.com/open-webui/open-webui) für die volle
+   Erfahrung (self-hosted, kostenlos). Alternativ Browser-Projekte wie
+   Lumo oder Claude Projects — etwas eingeschränkt, dafür ohne Terminal.
+2. **Modell wählen.** Cloud ([OpenRouter](https://openrouter.ai) o.Ä.)
+   oder lokal (Ollama). API-Key unter Einstellungen → Verbindungen
+   eintragen.
+3. **Setup starten.**
 
 ```
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
@@ -137,13 +137,16 @@ cd ZEITRISS-md
 python scripts/setup.py
 ```
 
-Das Script führt interaktiv durch API-Key, Modellwahl und
-Wissensspeicher. Danach: neuen Chat öffnen, Modell
+Danach: neuen Chat in OpenWebUI öffnen, Modell
 **ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)`
-tippen.
+tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 
-→ **[Ausführlicher Setup-Guide](docs/setup-guide.md)** — Details,
-Optionen, Troubleshooting, manuelles Setup, Plattform-Alternativen.
+**Browser-Pfad** (Lumo/Claude Projects): keine Installation, nur
+Account und Wissenspaket — Anleitung in
+[docs/setup-lumo.md](docs/setup-lumo.md).
+
+**Setup-Guide** (Details, Flags, Troubleshooting, Plattform-Alternativen,
+manuelles Setup): [docs/setup-guide.md](docs/setup-guide.md).
 
 ## Modell-Empfehlung (Stand März 2026)
 
@@ -180,13 +183,14 @@ Schnellstart, FAQ
 
 ## Lizenz
 
-- **Privat:** Kostenlos. CC BY-NC 4.0, Attribution
-  "ZEITRISS® — pchospital".
-- **Kommerziell:** Schriftliche Vereinbarung nötig (siehe
-  [LICENSE](LICENSE)).
-- **Streams/Videos:** Erlaubt mit Attribution (siehe
-  [Creator-Lizenz](docs/creator-license.md)).
-- **18+.** ZEITRISS® ist eine eingetragene Marke (DPMA).
+- **Inhalte** (Texte, Illustrationen, Regeln) — CC BY-NC 4.0 mit
+  Attribution "ZEITRISS® — pchospital". Private Nutzung kostenlos.
+- **Code** (Scripts, Tools, Runtime) — MIT.
+- **Kommerzielle Nutzung:** Schriftliche Vereinbarung nötig
+  (siehe [LICENSE](LICENSE)).
+- **Streams/Videos:** Erlaubt mit Attribution
+  (siehe [Creator-Lizenz](docs/creator-license.md)).
+- **18+.** ZEITRISS® ist eine eingetragene Wortmarke (DPMA).
 
 ## Feedback
 
