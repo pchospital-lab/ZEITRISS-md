@@ -120,46 +120,16 @@ JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
 ---
 
-## Neu hier? Lies das zuerst!
+## Los geht's
 
-ZEITRISS braucht eine KI-Spieloberfläche. Du hast zwei Wege:
+ZEITRISS braucht eine KI-Spieloberfläche. Zwei Wege:
 
-**🟢 Einsteiger (Browser-basiert, kein Download nötig):**
-→ [Lumo / Claude-Anleitung](docs/setup-lumo.md) — läuft direkt im Browser, kein Programm installieren. Du brauchst nur einen Account.
+**🟢 Einsteiger — im Browser, kein Terminal:**
+→ [Lumo oder Claude Projects](docs/setup-lumo.md). Account anlegen,
+Wissenspaket hochladen, losspielen.
 
-**🔧 Fortgeschritten (Self-Hosted, volle Kontrolle):**
-→ [OpenWebUI-Setup](docs/setup-guide.md) — mehr Leistung, braucht Terminal und etwas Geduld.
-
-Nicht sicher? Fang mit dem Einsteiger-Weg an.
-
----
-
-## Einrichten & Spielen
-
-### Was ihr braucht
-
-1. **[OpenWebUI](https://github.com/open-webui/open-webui)** — eure
-   Spieloberfläche (kostenlos, self-hosted)
-2. **Modellzugang** — lokal (Ollama) oder Cloud
-   ([OpenRouter](https://openrouter.ai) o. Ä.). In OpenWebUI unter
-   Einstellungen → Verbindungen eintragen
-3. **[Python 3.8+](https://python.org)** — auf macOS/Linux vorinstalliert,
-   auf Windows einmal von python.org installieren
-
-### Setup-Script starten
-
-**Per ZIP (kein Git nötig):**
-
-1. Oben auf dieser Seite **Code → Download ZIP** klicken
-2. ZIP entpacken, Terminal/Eingabeaufforderung im entpackten Ordner öffnen
-   *(Kein Terminal zur Hand? → [Wie öffne ich ein Terminal?](docs/terminal-help.md))*
-3. Ausführen:
-
-```
-python scripts/setup.py
-```
-
-**Per Git:**
+**🔧 Fortgeschritten — Self-Hosted, volle Kontrolle:**
+[OpenWebUI](https://github.com/open-webui/open-webui) installieren, dann:
 
 ```
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
@@ -167,86 +137,15 @@ cd ZEITRISS-md
 python scripts/setup.py
 ```
 
-Das Script führt euch durch: API-Key eingeben, Modell wählen — Preset und
-Wissensspeicher werden automatisch erstellt. Danach:
+Das Script führt interaktiv durch API-Key, Modellwahl und
+Wissensspeicher. Danach: neuen Chat öffnen, Modell
+**ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)`
+tippen.
 
-1. Neuen Chat in OpenWebUI öffnen
-2. Modell **ZEITRISS v4.2.6 Uncut** wählen
-3. Lostippen: `Spiel starten (solo klassisch)` — oder `solo schnell` als optionale Fast-Lane für Kurzrunden.
-   Startbefehle lassen sich auch in natürlicher Sprache formulieren.
+→ **[Ausführlicher Setup-Guide](docs/setup-guide.md)** — Details,
+Optionen, Troubleshooting, manuelles Setup, Plattform-Alternativen.
 
-**Aktualisieren:** Neues ZIP laden (oder `git pull`) und Script nochmal
-starten — fertig. Das Script räumt das alte Preset und den alten Wissensspeicher
-zuerst weg und baut danach alles sauber neu auf. Am Ende prüft es automatisch,
-ob das Retrieval wirklich funktioniert.
-
-**Nach einem OpenWebUI-Major-Upgrade:** Einfach `python scripts/setup.py` neu
-ausführen — das genügt. Das Script erkennt und behebt Konfigurationsdrift
-nach Updates selbst.
-
-### Troubleshooting
-
-**„SL antwortet, aber Regeln klingen falsch"**
-
-Das Retrieval funktioniert möglicherweise nicht. Preset und Wissensspeicher
-neu aufbauen:
-
-```
-python scripts/setup.py
-```
-
-Wenn der Fehler nach dem Neuaufbau bleibt, ist meist die
-Embedding-Engine in OpenWebUI durcheinander. Zurück auf den sicheren
-Standard:
-
-```
-python scripts/setup.py --embedding default
-```
-
-Das setzt die Embedding-Engine explizit auf das eingebaute MiniLM-Modell
-und baut danach alles neu auf. `--reset-embeddings` räumt zusätzlich
-verwaiste Vektor-Ordner auf — kombinierbar, wenn du ganz auf Nummer sicher
-gehen willst.
-
-**„Script meldet Fehler beim Verknüpfen der Dateien"**
-
-Kein Problem: Das Script überprüft am Ende das Retrieval direkt.
-Solange die Meldung `KB-Retrieval funktioniert` erscheint, sind alle
-Dateien korrekt eingebunden — auch wenn der Linking-Schritt einzelne
-HTTP-Fehler gemeldet hat (bekannter OpenWebUI-Response-Bug).
-
-**Ich will Ollama als Embedding-Engine nutzen statt des Defaults:**
-
-```
-python scripts/setup.py --embedding ollama
-```
-
-Voraussetzung: Ollama läuft lokal und OpenWebUI kann es erreichen
-(typischerweise `http://host.docker.internal:11434`). Empfohlener
-Embedder `nomic-embed-text` wird automatisch gesetzt.
-Für Normalos ohne eigenes Ollama: Standard (MiniLM) reicht vollständig.
-
-### Ohne OpenWebUI (Lumo, Claude Projects etc.)
-
-Wer auf einer anderen Plattform spielen will:
-
-```
-python scripts/setup.py --export
-```
-
-Das erstellt einen Ordner mit:
-- **`knowledge/`** — 19 Wissensmodule (Slots im Default-Ladepfad) → ins Projektwissen
-- **`system/`** — Systemprompt → in die Projekt-Anweisungen
-- **`SETUP-ANLEITUNG.md`** — erklärt Schritt für Schritt was wohin gehört
-
-Für Lumo: `knowledge/`-Dateien nach Proton Drive kopieren, im Projekt
-verlinken. Details: [Lumo-Setup](docs/setup-lumo.md)
-
-### Manuelles Setup (ohne Script)
-
-Geht auch — alle Details in der [Setup-Anleitung](docs/setup-guide.md).
-
-### Modell-Empfehlung (Stand März 2026)
+## Modell-Empfehlung (Stand März 2026)
 
 - **Empfohlen:** `anthropic/claude-sonnet-4.6` — einziges Modell mit
   vollständiger Regeltreue. Stärkster Noir-Ton, sauberste Spielerfahrung.
