@@ -1,4 +1,4 @@
-# ZEITRISS®-md Zeitreise RPG
+# ZEITRISS®-md Zeitreise-RPG
 
 <p align="center">
   <img src="docs/gameicon.png" alt="ZEITRISS" width="200">
@@ -6,7 +6,7 @@
 
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
-> **Tech-Noir-Agententhriller mit KI-Spielleitung.** Ihr spielt Chrononauten
+> **Tech-Noir-Zeitreise-RPG mit KI-Spielleitung.** Ihr spielt Chrononauten
 > des ITI — Elite-Agenten, die durch die Zeit springen, um die Hauptzeitlinie
 > zu stabilisieren. Explodierende Würfel, HUD-Overlay, persistente Saves.
 > **18+, Uncut.**
@@ -120,85 +120,35 @@ JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
 ---
 
-## Neu hier? Lies das zuerst!
+## Drei Schritte, dann spielen
 
-ZEITRISS braucht eine KI-Spieloberfläche. Du hast zwei Wege:
+1. **Plattform wählen.**
+   [OpenWebUI](https://github.com/open-webui/open-webui) für die volle
+   Erfahrung (self-hosted, kostenlos). Alternativ Browser-Projekte wie
+   Lumo oder Claude Projects — etwas eingeschränkt, dafür ohne Terminal.
+2. **Modell wählen.** Cloud ([OpenRouter](https://openrouter.ai) o.Ä.)
+   oder lokal (Ollama). API-Key unter Einstellungen → Verbindungen
+   eintragen.
+3. **Setup starten.**
 
-**🟢 Einsteiger (Browser-basiert, kein Download nötig):**
-→ [Lumo / Claude-Anleitung](docs/setup-lumo.md) — läuft direkt im Browser, kein Programm installieren. Du brauchst nur einen Account.
-
-**🔧 Fortgeschritten (Self-Hosted, volle Kontrolle):**
-→ [OpenWebUI-Setup](docs/setup-guide.md) — mehr Leistung, braucht Terminal und etwas Geduld.
-
-Nicht sicher? Fang mit dem Einsteiger-Weg an.
-
----
-
-## Einrichten & Spielen
-
-### Was ihr braucht
-
-1. **[OpenWebUI](https://github.com/open-webui/open-webui)** — eure
-   Spieloberfläche (kostenlos, self-hosted)
-2. **Modellzugang** — lokal (Ollama) oder Cloud
-   ([OpenRouter](https://openrouter.ai) o. Ä.). In OpenWebUI unter
-   Einstellungen → Verbindungen eintragen
-3. **[Python 3.8+](https://python.org)** — auf macOS/Linux vorinstalliert,
-   auf Windows einmal von python.org installieren
-
-### Setup-Script starten
-
-**Per ZIP (kein Git nötig):**
-
-1. Oben auf dieser Seite **Code → Download ZIP** klicken
-2. ZIP entpacken, Terminal/Eingabeaufforderung im entpackten Ordner öffnen
-   *(Kein Terminal zur Hand? → [Wie öffne ich ein Terminal?](docs/terminal-help.md))*
-3. Ausführen:
-
-```
-python scripts/setup.py
-```
-
-**Per Git:**
-
-```
+```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
 python scripts/setup.py
 ```
 
-Das Script führt euch durch: API-Key eingeben, Modell wählen — Preset und
-Wissensspeicher werden automatisch erstellt. Danach:
+Danach: neuen Chat in OpenWebUI öffnen, Modell
+**ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)`
+tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 
-1. Neuen Chat in OpenWebUI öffnen
-2. Modell **ZEITRISS v4.2.6 Uncut** wählen
-3. Lostippen: `Spiel starten (solo klassisch)` — oder `solo schnell` als optionale Fast-Lane für Kurzrunden.
-   Startbefehle lassen sich auch in natürlicher Sprache formulieren.
+**Browser-Pfad** (Lumo/Claude Projects): keine Installation, nur
+Account und Wissenspaket — Anleitung in
+[docs/setup-lumo.md](docs/setup-lumo.md).
 
-**Aktualisieren:** Neues ZIP laden (oder `git pull`) und Script nochmal
-starten — fertig.
+**Setup-Guide** (Details, Flags, Troubleshooting, Plattform-Alternativen,
+manuelles Setup): [docs/setup-guide.md](docs/setup-guide.md).
 
-### Ohne OpenWebUI (Lumo, Claude Projects etc.)
-
-Wer auf einer anderen Plattform spielen will:
-
-```
-python scripts/setup.py --export
-```
-
-Das erstellt einen Ordner mit:
-- **`knowledge/`** — 19 Wissensmodule (Slots im Default-Ladepfad) → ins Projektwissen
-- **`system/`** — Systemprompt → in die Projekt-Anweisungen
-- **`SETUP-ANLEITUNG.md`** — erklärt Schritt für Schritt was wohin gehört
-
-Für Lumo: `knowledge/`-Dateien nach Proton Drive kopieren, im Projekt
-verlinken. Details: [Lumo-Setup](docs/setup-lumo.md)
-
-### Manuelles Setup (ohne Script)
-
-Geht auch — alle Details in der [Setup-Anleitung](docs/setup-guide.md).
-
-### Modell-Empfehlung (Stand März 2026)
+## Modell-Empfehlung (Stand März 2026)
 
 - **Empfohlen:** `anthropic/claude-sonnet-4.6` — einziges Modell mit
   vollständiger Regeltreue. Stärkster Noir-Ton, sauberste Spielerfahrung.
@@ -233,13 +183,14 @@ Schnellstart, FAQ
 
 ## Lizenz
 
-- **Privat:** Kostenlos. CC BY-NC 4.0, Attribution
-  "ZEITRISS® — pchospital".
-- **Kommerziell:** Schriftliche Vereinbarung nötig (siehe
-  [LICENSE](LICENSE)).
-- **Streams/Videos:** Erlaubt mit Attribution (siehe
-  [Creator-Lizenz](docs/creator-license.md)).
-- **18+.** ZEITRISS® ist eine eingetragene Marke (DPMA).
+- **Inhalte** (Texte, Illustrationen, Regeln) — CC BY-NC 4.0 mit
+  Attribution "ZEITRISS® — pchospital". Private Nutzung kostenlos.
+- **Code** (Scripts, Tools, Runtime) — MIT.
+- **Kommerzielle Nutzung:** Schriftliche Vereinbarung nötig
+  (siehe [LICENSE](LICENSE)).
+- **Streams/Videos:** Erlaubt mit Attribution
+  (siehe [Creator-Lizenz](docs/creator-license.md)).
+- **18+.** ZEITRISS® ist eine eingetragene Wortmarke (DPMA).
 
 ## Feedback
 

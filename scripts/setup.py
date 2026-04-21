@@ -292,14 +292,14 @@ class APIClient:
         return None
 
     def add_file_to_knowledge(self, kb_id: str, file_id: str) -> bool:
-        code, data = self.post_json(
+        """Link a file to a KB. HTTP 200 is the source of truth — the response's
+        `files` field is None in several OpenWebUI versions (known bug).
+        """
+        code, _data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/add",
             {"file_id": file_id},
         )
-        if code != 200 or not isinstance(data, dict):
-            return False
-        files = data.get("files") or []
-        return len(files) > 0
+        return code == 200
 
     def list_files(self) -> list[dict]:
         code, data = self.get("/api/v1/files/")
@@ -346,6 +346,84 @@ class APIClient:
         else:
             code, data = self.post_json("/api/v1/models/create", payload)
             return code == 200, "created"
+
+    def delete_model(self, model_id: str) -> tuple[bool, bool]:
+        """Delete a model preset by id. Returns (existed, ok)."""
+        code, _ = self.delete(f"/api/v1/models/model/delete?id={model_id}")
+        if code == 200:
+            return True, True
+        if code == 404:
+            return False, True
+        return False, False
+
+    # ── RAG / embedding plumbing ────────────────────────────────────
+
+    def get_embedding_config(self) -> dict:
+        """Current embedding config. Empty dict if the endpoint is unavailable."""
+        code, data = self.get("/api/v1/retrieval/embedding")
+        if code == 200 and isinstance(data, dict):
+            return data
+        return {}
+
+    def patch_embedding_config(self, payload: dict) -> bool:
+        """Update embedding config. OpenWebUI uses POST /update on this endpoint."""
+        code, _ = self.post_json("/api/v1/retrieval/embedding/update", payload)
+        return code == 200
+
+    def reset_kb_vectors(self, kb_id: str) -> bool:
+        """Ask OpenWebUI to rebuild embeddings for a knowledge base.
+        The endpoint name changes between versions; try the known variants."""
+        for path in (
+            f"/api/v1/knowledge/{kb_id}/reset",
+            f"/api/v1/knowledge/{kb_id}/reindex",
+        ):
+            code, _ = self.post_json(path, {})
+            if code == 200:
+                return True
+        return False
+
+    def query_kb(
+        self, kb_id: str, query: str, k: int = 5, timeout: float = 30.0
+    ) -> dict:
+        """Directly query a knowledge base via the retrieval endpoint.
+
+        This hits OpenWebUI's native retrieval path (embed query + vector search),
+        NOT /api/chat/completions — the chat endpoint does no RAG injection.
+
+        Returns dict with 'ok' (bool), 'hits' (int), 'snippets' (list[str]),
+        'distances' (list[float]), 'code' (int).
+        """
+        result = {"ok": False, "hits": 0, "snippets": [], "distances": [], "code": 0}
+        code, data = self.post_json(
+            "/api/v1/retrieval/query/collection",
+            {
+                "query": query,
+                "collection_names": [kb_id],
+                "k": k,
+            },
+            timeout=timeout,
+        )
+        result["code"] = code
+        if code != 200 or not isinstance(data, dict):
+            return result
+
+        docs = data.get("documents") or []
+        dists = data.get("distances") or []
+        # OpenWebUI wraps in one list per collection, unwrap:
+        if docs and isinstance(docs[0], list):
+            docs = docs[0]
+        if dists and isinstance(dists[0], list):
+            dists = dists[0]
+
+        result["snippets"] = [str(d) for d in docs]
+        result["distances"] = [float(x) for x in dists if isinstance(x, (int, float))]
+        result["hits"] = len(result["snippets"])
+        result["ok"] = result["hits"] > 0
+        # Diagnostic: if the endpoint returned 200 but we got nothing, surface
+        # the top-level shape so troubleshooting isn't a blind exercise.
+        if result["hits"] == 0 and isinstance(data, dict):
+            result["response_keys"] = sorted(data.keys())
+        return result
 
 
 # ── Export mode ─────────────────────────────────────────────────────
@@ -548,18 +626,193 @@ def _dir_size_human(path: Path) -> str:
 
 # ── Setup mode (OpenWebUI) ─────────────────────────────────────────
 
-def run_setup(repo: Path, cfg: dict) -> None:
+DEFAULT_EMBED_ENGINE = "sentence-transformers"
+DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+
+
+def _ensure_embedding_engine(
+    client: "APIClient",
+    wanted: Optional[str],
+    ollama_url: Optional[str],
+    ollama_model: Optional[str],
+) -> None:
+    """Pre-flight: make sure a supported embedding engine is configured.
+
+    Behaviour:
+      - wanted == 'default' -> explicitly set sentence-transformers / MiniLM.
+      - wanted == 'ollama'  -> set engine=ollama with model/url from args.
+      - wanted is None      -> inspect current config, warn on mismatch,
+                               never touch it.
+
+    After any PATCH we read the config back and verify the change really landed
+    (OpenWebUI silently keeps the old value in some error branches).
+    Never raises: problems are reported but don't abort the whole setup.
+    """
+    current = client.get_embedding_config()
+    engine = (current.get("RAG_EMBEDDING_ENGINE") or "").strip().lower()
+    model = current.get("RAG_EMBEDDING_MODEL") or ""
+
+    def _pretty(e: str, m: str) -> str:
+        if not e:
+            return "default (OpenWebUI built-in, z.B. MiniLM)"
+        return f"{e} / {m or '?'}"
+
+    print_info(f"Embedding-Engine aktuell: {_pretty(engine, model)}")
+
+    def _apply_and_verify(label: str, payload: dict, expect_engine: str, expect_model: str) -> None:
+        print_info(f"Setze Embedding-Engine auf {label}...")
+        ok = client.patch_embedding_config(payload)
+        if not ok:
+            print_warn(f"Konnte Embedding-Engine nicht aktualisieren — weiter mit bestehender Config.")
+            return
+        # Read-after-write verify
+        after = client.get_embedding_config()
+        got_engine = (after.get("RAG_EMBEDDING_ENGINE") or "").strip().lower()
+        got_model = (after.get("RAG_EMBEDDING_MODEL") or "").strip()
+        if got_engine == expect_engine and (not expect_model or got_model == expect_model):
+            print_ok(f"Embedding-Engine auf {label} gesetzt und verifiziert.")
+        else:
+            print_warn(
+                f"Engine-Update nicht wirksam: wollte {expect_engine}/{expect_model or '?'}, "
+                f"OpenWebUI meldet {got_engine or '(leer)'}/{got_model or '(leer)'}.\n"
+                f"     Prüfe OpenWebUI Admin → Dokumente → Embedding Model."
+            )
+
+    if wanted == "default":
+        if engine == DEFAULT_EMBED_ENGINE and model == DEFAULT_EMBED_MODEL:
+            print_ok("Embedding-Engine bereits auf Default — nichts zu tun.")
+            return
+        _apply_and_verify(
+            "Default (MiniLM)",
+            {
+                "embedding_engine": DEFAULT_EMBED_ENGINE,
+                "embedding_model": DEFAULT_EMBED_MODEL,
+            },
+            DEFAULT_EMBED_ENGINE,
+            DEFAULT_EMBED_MODEL,
+        )
+        return
+
+    if wanted == "ollama":
+        target_model = ollama_model or "nomic-embed-text"
+        target_url = ollama_url or "http://host.docker.internal:11434"
+        if engine == "ollama" and model == target_model:
+            print_ok(f"Embedding-Engine bereits Ollama/{target_model} — nichts zu tun.")
+            return
+        _apply_and_verify(
+            f"Ollama ({target_model} via {target_url})",
+            {
+                "embedding_engine": "ollama",
+                "embedding_model": target_model,
+                "ollama_config": {"url": target_url, "key": ""},
+            },
+            "ollama",
+            target_model,
+        )
+        return
+
+    # wanted is None — only warn if something looks fishy, never touch it
+    if engine and engine not in ("ollama", "openai", "sentence-transformers"):
+        print_warn(
+            f"Unbekannte Embedding-Engine '{engine}'. Das Retrieval könnte fehlschlagen.\n"
+            f"     Tipp: python setup.py --embedding default   (zurück auf OpenWebUI-Default)"
+        )
+
+
+def _run_verify_retrieval(
+    client: "APIClient",
+    kb_id: str,
+    verify_cfg: dict,
+) -> bool:
+    """Run a canary retrieval against the freshly built KB.
+
+    Queries the vector store directly (not the chat endpoint — that doesn't RAG).
+    Returns True if retrieval is functional, False otherwise.
+    Never raises; prints clear diagnostics.
+    """
+    query = verify_cfg.get("query") or verify_cfg.get("prompt")
+    expect_any = verify_cfg.get("expect_any") or []
+    expect_sources_min = max(1, int(verify_cfg.get("expect_sources_min") or 1))
+    top_k = int(verify_cfg.get("top_k") or 5)
+
+    if not query:
+        print_info("Kein Verify-Query in setup.json — überspringe Retrieval-Check.")
+        return True
+
+    print_info(f"Retrieval-Check: query='{query[:60]}...' gegen KB {kb_id[:8]}...")
+    result = client.query_kb(kb_id, query, k=top_k)
+
+    if not result["ok"]:
+        extra = ""
+        if result.get("response_keys"):
+            extra = f" [top-level-keys: {', '.join(result['response_keys'])}]"
+        print_error(
+            f"Retrieval-Check fehlgeschlagen (HTTP {result['code']}, hits={result['hits']}){extra}."
+        )
+        return False
+
+    hits = result["hits"]
+    joined = " \n".join(result["snippets"])
+    hit_phrases = [p for p in expect_any if p in joined]
+
+    # Compact snippet preview
+    if result["snippets"]:
+        preview = result["snippets"][0].strip().replace("\n", " ")[:140]
+        print_info(f"Top-Treffer: {preview!r}")
+    if result["distances"]:
+        print_info(
+            f"Hits: {hits}, Top-Distanzen: "
+            + ", ".join(f"{d:.3f}" for d in result["distances"][:3])
+        )
+    if expect_any:
+        print_info(f"Erwartete Phrasen gefunden: {hit_phrases or '—'}")
+
+    ok_hits = hits >= expect_sources_min
+    ok_phrase = bool(hit_phrases) if expect_any else True
+
+    if ok_hits and ok_phrase:
+        print_ok("KB-Retrieval funktioniert — Chunks gefunden und Regel-Phrase matched.")
+        return True
+
+    if not ok_hits:
+        print_error(
+            f"KB-Retrieval failed: nur {hits} Treffer zurückgegeben "
+            f"(mindestens {expect_sources_min} erwartet). "
+            "Meist: Embedding-Engine passt nicht zu den Vektoren."
+        )
+    if expect_any and not ok_phrase:
+        print_error(
+            "KB-Retrieval liefert zwar Treffer, aber keine erwartete Regel-Phrase. "
+            "Chunking/Embedding liefert nur schwach passende Passagen."
+        )
+
+    print_info(
+        "Troubleshooting:\n"
+        "     • Embedding-Engine prüfen (Admin → Dokumente → Embedding Model)\n"
+        "     • python setup.py --reset-embeddings     (Vektor-DB dieser KB neu bauen)\n"
+        "     • python setup.py --embedding default    (zurück auf OpenWebUI-Default)"
+    )
+    return False
+
+
+def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Interactive OpenWebUI setup: KB + files + preset."""
+    opts = opts or {}
     project = cfg["project"]
 
     print_header(f"{project} – OpenWebUI Setup")
 
+    assume_yes = bool(opts.get("assume_yes"))
+
     # ── URL ──────────────────────────────────────────────────────────
     url = os.environ.get("OPENWEBUI_URL", "").strip()
     if not url:
-        url = input("  OpenWebUI URL [http://localhost:3000]: ").strip()
-        if not url:
+        if assume_yes:
             url = "http://localhost:3000"
+        else:
+            url = input("  OpenWebUI URL [http://localhost:3000]: ").strip()
+            if not url:
+                url = "http://localhost:3000"
 
     # ── API Key ──────────────────────────────────────────────────────
     api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
@@ -590,40 +843,52 @@ def run_setup(repo: Path, cfg: dict) -> None:
         sys.exit(1)
     print_ok("API-Key gültig")
 
+    # ── Embedding-Engine Precheck ────────────────────────────────────
+    _ensure_embedding_engine(
+        client,
+        wanted=opts.get("embedding"),
+        ollama_url=opts.get("ollama_url"),
+        ollama_model=opts.get("ollama_model"),
+    )
+
     # ── Model selection ──────────────────────────────────────────────
     default_model = cfg.get("default_model", "anthropic/claude-sonnet-4.6")
     env_model_var = f"{project.upper().replace(' ', '_').replace('-', '_')}_MODEL"
     model = os.environ.get(env_model_var, "").strip()
 
     if not model:
-        print()
-        print(f"  {_c('1', 'Modell-Auswahl')}")
-        print(f"  {project} läuft provider-neutral — das Modell wählst du selbst.")
-        print(f"  Hinweis: Remote-Modelle können Kosten verursachen und Eingaben")
-        print(f"  an Drittanbieter übermitteln. Keine sensiblen Daten in Prompts.")
-        print()
-        print(f"  [1] Empfohlen: {default_model}")
-        print(f"  [2] Model-ID manuell eingeben")
-        choice = input("  Auswahl [1/2] (Standard 1): ").strip() or "1"
-
-        if choice == "1":
+        if assume_yes:
             model = default_model
-            print_info(f"Prüfe Modell: {model}")
-            if not client.test_model(model):
-                print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
-                if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
-                    model = input("  Alternative Model-ID: ").strip()
-                    if not model:
-                        print_error("Kein Modell angegeben.")
-                        sys.exit(1)
-        elif choice == "2":
-            model = input("  Model-ID eingeben: ").strip()
-            if not model:
-                print_error("Kein Modell angegeben.")
-                sys.exit(1)
+            print_info(f"--yes: Verwende Default-Modell {model}")
         else:
-            print_error(f"Ungültige Auswahl: {choice}")
-            sys.exit(1)
+            print()
+            print(f"  {_c('1', 'Modell-Auswahl')}")
+            print(f"  {project} läuft provider-neutral — das Modell wählst du selbst.")
+            print(f"  Hinweis: Remote-Modelle können Kosten verursachen und Eingaben")
+            print(f"  an Drittanbieter übermitteln. Keine sensiblen Daten in Prompts.")
+            print()
+            print(f"  [1] Empfohlen: {default_model}")
+            print(f"  [2] Model-ID manuell eingeben")
+            choice = input("  Auswahl [1/2] (Standard 1): ").strip() or "1"
+
+            if choice == "1":
+                model = default_model
+                print_info(f"Prüfe Modell: {model}")
+                if not client.test_model(model):
+                    print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
+                    if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
+                        model = input("  Alternative Model-ID: ").strip()
+                        if not model:
+                            print_error("Kein Modell angegeben.")
+                            sys.exit(1)
+            elif choice == "2":
+                model = input("  Model-ID eingeben: ").strip()
+                if not model:
+                    print_error("Kein Modell angegeben.")
+                    sys.exit(1)
+            else:
+                print_error(f"Ungültige Auswahl: {choice}")
+                sys.exit(1)
 
     print_ok(f"Base Model: {model}")
 
@@ -636,6 +901,16 @@ def run_setup(repo: Path, cfg: dict) -> None:
         sz = fp.stat().st_size
         if sz > 150_000:
             print_warn(f"{fp.name}: {sz/1024:.0f} KB — über 150 KB, Indexierung könnte fehlschlagen")
+
+    # ── Preset aufräumen (falls Upgrade die ID verwaist hat) ─────────
+    preset_id = cfg["preset_id"]
+    existed, ok = client.delete_model(preset_id)
+    if existed and ok:
+        print_ok(f"Altes Preset aufgeräumt (Id: {preset_id}).")
+    elif not existed:
+        print_info("Kein vorhandenes Preset mit dieser ID — Neuinstallation.")
+    else:
+        print_warn(f"Konnte altes Preset nicht aufräumen (Id: {preset_id}) — fahre trotzdem fort.")
 
     # ── Knowledge Base (destroy & recreate) ──────────────────────────
     kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
@@ -651,6 +926,13 @@ def run_setup(repo: Path, cfg: dict) -> None:
     if existing_kbs:
         print_info(f"{len(existing_kbs)} bestehende KB(s) entfernen...")
         for kb in existing_kbs:
+            if opts.get("reset_embeddings"):
+                # Best-effort: drop the old vector collection *before* deleting
+                # the KB entry, so Chroma doesn't leave an orphan directory
+                # around. The rebuilt KB gets a brand-new collection UUID
+                # anyway — the real embedding-engine fix goes through
+                # --embedding default|ollama, not through this flag.
+                client.reset_kb_vectors(kb["id"])
             client.delete_knowledge(kb["id"])
 
         # Clean up old files matching our filenames
@@ -702,25 +984,30 @@ def run_setup(repo: Path, cfg: dict) -> None:
     # ── Link files to KB ─────────────────────────────────────────────
     print_info("Verknüpfe Dateien mit Knowledge Base...")
 
-    link_ok = 0
-    link_fail = 0
+    api_ok = 0
+    api_fail = 0
     for fid in uploaded_ids:
         if client.add_file_to_knowledge(kb_id, fid):
-            link_ok += 1
+            api_ok += 1
         else:
             # Retry once after short delay (indexing may still be running)
             time.sleep(1)
             if client.add_file_to_knowledge(kb_id, fid):
-                link_ok += 1
+                api_ok += 1
             else:
-                link_fail += 1
+                api_fail += 1
 
-    if link_fail == 0:
-        print_ok(f"Alle {link_ok} Dateien verknüpft")
+    # Truth source: HTTP 200 on /file/add means the link was persisted.
+    # `GET /knowledge/{id}.files` is null across several OpenWebUI versions,
+    # so we don't count on it. The real end-to-end signal is the Retrieval-Check
+    # below — if it returns chunks from the expected files, linkage is good.
+    expected = len(uploaded_ids)
+    if api_fail == 0:
+        print_ok(f"Alle {api_ok} Dateien verknüpft (HTTP 200)")
     else:
         print_warn(
-            f"{link_ok}/{len(uploaded_ids)} verknüpft ({link_fail} Fehler)"
-            " — bitte in OpenWebUI prüfen"
+            f"{api_ok}/{expected} Dateien via API verknüpft, "
+            f"{api_fail} Fehler — Retrieval-Check zeigt gleich, ob’s trotzdem reicht."
         )
 
     # ── Model preset ─────────────────────────────────────────────────
@@ -774,9 +1061,20 @@ def run_setup(repo: Path, cfg: dict) -> None:
         print_error("Preset konnte nicht erstellt/aktualisiert werden.")
         sys.exit(1)
 
+    # ── Verify Retrieval ─────────────────────────────────────────────
+    verify_cfg = cfg.get("verify") or {}
+    verify_ok = True
+    if opts.get("no_verify"):
+        print_info("Retrieval-Check per --no-verify übersprungen.")
+    elif not verify_cfg:
+        print_info("Kein verify-Block in setup.json — Retrieval-Check übersprungen.")
+    else:
+        print()
+        verify_ok = _run_verify_retrieval(client, kb_id, verify_cfg)
+
     # ── Summary ──────────────────────────────────────────────────────
     print()
-    print_header("Setup abgeschlossen!")
+    print_header("Setup abgeschlossen!" if verify_ok else "Setup abgeschlossen (mit Warnung)")
     print(f"  Preset:        {cfg['preset_name']}")
     print(f"  Base Model:    {model}")
     print(f"  Knowledge:     {len(kb_files)} Dateien")
@@ -794,6 +1092,18 @@ def run_setup(repo: Path, cfg: dict) -> None:
     print(f"  4. Tippe: {start_cmd}")
     print()
 
+    if not verify_ok:
+        print_warn(
+            "Retrieval-Check war nicht eindeutig grün. "
+            "Die SL antwortet zwar, zieht aber evtl. keine KB-Fakten.\n"
+            "     Nächster Versuch: python setup.py --reset-embeddings"
+        )
+        if opts.get("strict"):
+            # Opt-in: some users wrap this script in CI — Exit 2 so automation
+            # notices the warning. Default stays on 0 for doppelklick-friendly
+            # behaviour.
+            sys.exit(2)
+
 
 # ── Main ────────────────────────────────────────────────────────────
 
@@ -803,10 +1113,14 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent("""\
             Examples:
-              python setup.py                    # OpenWebUI setup (interactive)
-              python setup.py --export           # Export knowledge pack
-              python setup.py --export --flat    # Export flat (numbered, no subdirs)
+              python setup.py                          # OpenWebUI setup (interactive)
+              python setup.py --export                 # Export knowledge pack
+              python setup.py --export --flat          # Flat export (no subdirs)
               python setup.py --export -o ~/Desktop/pack  # Export to custom dir
+              python setup.py --reset-embeddings       # Clean orphan vectors
+              python setup.py --strict                 # Exit 2 on verify fail (CI)
+              python setup.py --embedding ollama       # Force Ollama as embedder
+              python setup.py --no-verify              # Skip retrieval check
         """),
     )
     parser.add_argument(
@@ -823,6 +1137,45 @@ def main() -> None:
         "-o", "--output",
         help="Output directory for export (default: .exports/)",
     )
+    parser.add_argument(
+        "--embedding",
+        choices=["default", "ollama"],
+        help=(
+            "Embedding-Engine vor dem Setup erzwingen. "
+            "'default' = OpenWebUI Built-in (empfohlen für Normalos), "
+            "'ollama' = lokales Ollama mit nomic-embed-text."
+        ),
+    )
+    parser.add_argument(
+        "--ollama-url",
+        default=None,
+        help="Ollama-URL (nur mit --embedding ollama, Default: http://host.docker.internal:11434).",
+    )
+    parser.add_argument(
+        "--ollama-model",
+        default=None,
+        help="Ollama-Embedding-Modell (Default: nomic-embed-text).",
+    )
+    parser.add_argument(
+        "--reset-embeddings",
+        action="store_true",
+        help="Vektor-Collection dieser KB vor dem Rebuild zurücksetzen.",
+    )
+    parser.add_argument(
+        "--no-verify",
+        action="store_true",
+        help="Retrieval-Check nach Setup überspringen (nicht empfohlen).",
+    )
+    parser.add_argument(
+        "-y", "--yes",
+        action="store_true",
+        help="Keine Rückfragen stellen (für automatisierte Läufe).",
+    )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit-Code 2 bei fehlgeschlagenem Retrieval-Check (für CI/CD).",
+    )
     args = parser.parse_args()
 
     repo = find_repo_root()
@@ -831,7 +1184,19 @@ def main() -> None:
     if args.export:
         run_export(repo, cfg, flat=args.flat, out_dir=args.output)
     else:
-        run_setup(repo, cfg)
+        run_setup(
+            repo,
+            cfg,
+            opts={
+                "embedding": args.embedding,
+                "ollama_url": args.ollama_url,
+                "ollama_model": args.ollama_model,
+                "reset_embeddings": args.reset_embeddings,
+                "no_verify": args.no_verify,
+                "assume_yes": args.yes,
+                "strict": args.strict,
+            },
+        )
 
 
 if __name__ == "__main__":
