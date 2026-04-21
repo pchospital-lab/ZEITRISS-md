@@ -802,12 +802,17 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
 
     print_header(f"{project} – OpenWebUI Setup")
 
+    assume_yes = bool(opts.get("assume_yes"))
+
     # ── URL ──────────────────────────────────────────────────────────
     url = os.environ.get("OPENWEBUI_URL", "").strip()
     if not url:
-        url = input("  OpenWebUI URL [http://localhost:3000]: ").strip()
-        if not url:
+        if assume_yes:
             url = "http://localhost:3000"
+        else:
+            url = input("  OpenWebUI URL [http://localhost:3000]: ").strip()
+            if not url:
+                url = "http://localhost:3000"
 
     # ── API Key ──────────────────────────────────────────────────────
     api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
@@ -852,34 +857,38 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     model = os.environ.get(env_model_var, "").strip()
 
     if not model:
-        print()
-        print(f"  {_c('1', 'Modell-Auswahl')}")
-        print(f"  {project} läuft provider-neutral — das Modell wählst du selbst.")
-        print(f"  Hinweis: Remote-Modelle können Kosten verursachen und Eingaben")
-        print(f"  an Drittanbieter übermitteln. Keine sensiblen Daten in Prompts.")
-        print()
-        print(f"  [1] Empfohlen: {default_model}")
-        print(f"  [2] Model-ID manuell eingeben")
-        choice = input("  Auswahl [1/2] (Standard 1): ").strip() or "1"
-
-        if choice == "1":
+        if assume_yes:
             model = default_model
-            print_info(f"Prüfe Modell: {model}")
-            if not client.test_model(model):
-                print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
-                if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
-                    model = input("  Alternative Model-ID: ").strip()
-                    if not model:
-                        print_error("Kein Modell angegeben.")
-                        sys.exit(1)
-        elif choice == "2":
-            model = input("  Model-ID eingeben: ").strip()
-            if not model:
-                print_error("Kein Modell angegeben.")
-                sys.exit(1)
+            print_info(f"--yes: Verwende Default-Modell {model}")
         else:
-            print_error(f"Ungültige Auswahl: {choice}")
-            sys.exit(1)
+            print()
+            print(f"  {_c('1', 'Modell-Auswahl')}")
+            print(f"  {project} läuft provider-neutral — das Modell wählst du selbst.")
+            print(f"  Hinweis: Remote-Modelle können Kosten verursachen und Eingaben")
+            print(f"  an Drittanbieter übermitteln. Keine sensiblen Daten in Prompts.")
+            print()
+            print(f"  [1] Empfohlen: {default_model}")
+            print(f"  [2] Model-ID manuell eingeben")
+            choice = input("  Auswahl [1/2] (Standard 1): ").strip() or "1"
+
+            if choice == "1":
+                model = default_model
+                print_info(f"Prüfe Modell: {model}")
+                if not client.test_model(model):
+                    print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
+                    if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
+                        model = input("  Alternative Model-ID: ").strip()
+                        if not model:
+                            print_error("Kein Modell angegeben.")
+                            sys.exit(1)
+            elif choice == "2":
+                model = input("  Model-ID eingeben: ").strip()
+                if not model:
+                    print_error("Kein Modell angegeben.")
+                    sys.exit(1)
+            else:
+                print_error(f"Ungültige Auswahl: {choice}")
+                sys.exit(1)
 
     print_ok(f"Base Model: {model}")
 
