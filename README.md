@@ -176,7 +176,55 @@ Wissensspeicher werden automatisch erstellt. Danach:
    Startbefehle lassen sich auch in natürlicher Sprache formulieren.
 
 **Aktualisieren:** Neues ZIP laden (oder `git pull`) und Script nochmal
-starten — fertig.
+starten — fertig. Das Script räumt das alte Preset und den alten Wissensspeicher
+zuerst weg und baut danach alles sauber neu auf. Am Ende prüft es automatisch,
+ob das Retrieval wirklich funktioniert.
+
+**Nach einem OpenWebUI-Major-Upgrade:** Einfach `python scripts/setup.py` neu
+ausführen — das genügt. Das Script erkennt und behebt Konfigurationsdrift
+nach Updates selbst.
+
+### Troubleshooting
+
+**„SL antwortet, aber Regeln klingen falsch"**
+
+Das Retrieval funktioniert möglicherweise nicht. Preset und Wissensspeicher
+neu aufbauen:
+
+```
+python scripts/setup.py
+```
+
+Wenn der Fehler nach dem Neuaufbau bleibt, ist meist die
+Embedding-Engine in OpenWebUI durcheinander. Zurück auf den sicheren
+Standard:
+
+```
+python scripts/setup.py --embedding default
+```
+
+Das setzt die Embedding-Engine explizit auf das eingebaute MiniLM-Modell
+und baut danach alles neu auf. `--reset-embeddings` räumt zusätzlich
+verwaiste Vektor-Ordner auf — kombinierbar, wenn du ganz auf Nummer sicher
+gehen willst.
+
+**„Script meldet Fehler beim Verknüpfen der Dateien"**
+
+Kein Problem: Das Script überprüft am Ende das Retrieval direkt.
+Solange die Meldung `KB-Retrieval funktioniert` erscheint, sind alle
+Dateien korrekt eingebunden — auch wenn der Linking-Schritt einzelne
+HTTP-Fehler gemeldet hat (bekannter OpenWebUI-Response-Bug).
+
+**Ich will Ollama als Embedding-Engine nutzen statt des Defaults:**
+
+```
+python scripts/setup.py --embedding ollama
+```
+
+Voraussetzung: Ollama läuft lokal und OpenWebUI kann es erreichen
+(typischerweise `http://host.docker.internal:11434`). Empfohlener
+Embedder `nomic-embed-text` wird automatisch gesetzt.
+Für Normalos ohne eigenes Ollama: Standard (MiniLM) reicht vollständig.
 
 ### Ohne OpenWebUI (Lumo, Claude Projects etc.)
 
