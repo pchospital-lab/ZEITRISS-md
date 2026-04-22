@@ -180,7 +180,7 @@ LLM-Pipeline fährst.
 Setze Umgebungsvariablen, dann fragt das Script nichts:
 
 ```bash
-export OPENWEBUI_URL=http://localhost:3000
+export OPENWEBUI_URL=http://localhost:8080
 export OPENWEBUI_API_KEY=sk-...
 python scripts/setup.py -y
 ```
@@ -205,7 +205,7 @@ aus `setup.json`.
 
 | Flag | Wirkung |
 | ---- | ------- |
-| `-y`, `--yes` | Keine Rückfragen. URL = `http://localhost:3000`, Modell = Default |
+| `-y`, `--yes` | Keine Rückfragen. URL = `http://localhost:8080`, Modell = Default |
 | `--embedding default` | Setzt Embedding explizit auf MiniLM (OpenWebUI-built-in) |
 | `--embedding ollama` | Setzt Embedding auf Ollama + `nomic-embed-text` |
 | `--ollama-url URL` | Custom Ollama-Endpoint (Default: `http://host.docker.internal:11434`) |
@@ -218,7 +218,7 @@ aus `setup.json`.
 
 | Variable | Wirkung |
 | -------- | ------- |
-| `OPENWEBUI_URL` | OpenWebUI-Adresse (Default: `http://localhost:3000`) |
+| `OPENWEBUI_URL` | OpenWebUI-Adresse (Default: `http://localhost:8080`) |
 | `OPENWEBUI_API_KEY` | API-Key (sonst interaktiv) |
 | `ZEITRISS_MODEL` | Base-Model-ID (sonst interaktiv) |
 

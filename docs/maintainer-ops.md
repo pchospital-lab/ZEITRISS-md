@@ -57,7 +57,7 @@ Der Datensatz für Runtime-nahe KI-Setups besteht aus:
 
 ### Lokaler Betrieb (OpenWebUI/Ollama/OpenRouter)
 
-1. Lokale Zielumgebung starten (z. B. OpenWebUI auf `http://localhost:3000`).
+1. Lokale Zielumgebung starten (z. B. OpenWebUI auf `http://localhost:8080`).
 2. Optional `python scripts/setup.py` ausführen.
 3. Alternativ manuell Masterprompt + Wissensmodule importieren.
 4. Nach jedem Merge Wissensmodule neu synchronisieren und Save/Load kurz prüfen.

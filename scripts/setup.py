@@ -805,14 +805,16 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     assume_yes = bool(opts.get("assume_yes"))
 
     # ── URL ──────────────────────────────────────────────────────────
+    # OpenWebUI 0.9.1 default port is 8080 (was 3000 in <= 0.9.0).
     url = os.environ.get("OPENWEBUI_URL", "").strip()
+    default_url = "http://localhost:8080"
     if not url:
         if assume_yes:
-            url = "http://localhost:3000"
+            url = default_url
         else:
-            url = input("  OpenWebUI URL [http://localhost:3000]: ").strip()
+            url = input(f"  OpenWebUI URL [{default_url}]: ").strip()
             if not url:
-                url = "http://localhost:3000"
+                url = default_url
 
     # ── API Key ──────────────────────────────────────────────────────
     api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
@@ -1042,7 +1044,12 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             "description": cfg.get("preset_description", ""),
             "profile_image_url": profile_image_url,
             "capabilities": None,
-            "knowledge": [{"id": kb_id, "name": kb_name}],
+            # OpenWebUI 0.9.1+ needs type='collection' to trigger KB retrieval in chat.
+            # Without it, middleware.py line ~2334 falls through the `else` branch
+            # and the KB reference never hits the retrieval pipeline.
+            "knowledge": [
+                {"id": kb_id, "name": kb_name, "type": "collection"}
+            ],
             "suggestion_prompts": suggestions,
         },
         "params": {
