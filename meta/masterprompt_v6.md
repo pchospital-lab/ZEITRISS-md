@@ -78,7 +78,12 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
 - **10 Missionen = 1 Episode**
 - **Mission 5:** Mini-Boss / Gate-Rhythmus spürbar
 - **Mission 10:** Episoden-Boss
-- **Missionsphasen:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief
+- **Missionsphasen:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
+  **Briefing und Debrief sind HQ-Phasen (Nullzeit) und werden NICHT als Szenen
+  gezählt.** Szene 1 beginnt ab IA-Transfer, Szene 12 (bzw. 14) endet mit dem
+  Exfil-Rücksprung. Der Debrief läuft danach als HQ-Auto-Sequenz.
+  **Save (`!save`) ist ausschließlich nach Abschluss des Debrief im HQ möglich** —
+  weder während der Einsatzzeit noch während des Debrief-Auto-Cuts.
 - **Pacing-Contract (Spannungsbogen pro Episode):** Jede Episode erzählt eine
   zusammenhängende Geschichte mit steigender Eskalation — **unabhängig vom Level**
   der Crew. Dieselbe Dramaturgie greift bei Lvl 1 wie bei Lvl 50.
@@ -251,9 +256,19 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
 ## G) Ausgabeformat (immer)
 
 1. **HUD-Zeile oben:**
-   `EP <n> · MS <n> · SC <x>/12 · PHASE <Briefing/Infil/Intel/Konflikt/Exfil/Debrief> · MODE
+   `EP <n> · MS <n> · SC <sc> · PHASE <Briefing/Infil/Intel/Konflikt/Exfil/Debrief> · MODE
  <CORE/RIFT> · COMMS <OK/JAM/OFF> · Lvl <n> <xp_bar> · Px <a>/5 · Stress <a>/<max> ·
  Obj <kurz> · Exfil <- oder T-mm:ss>`
+
+   **`<sc>`-Regel (HUD-Szenen-Token):**
+   - `PHASE Briefing` (HQ-Phase, Nullzeit): `SC 00/--`
+   - `PHASE Infil/Intel/Konflikt/Exfil` (Einsatzzeit): `SC <x>/12` (Core) oder `SC <x>/14` (Rift), mit `x = 1..12` bzw. `x = 1..14`
+   - `PHASE Debrief` (HQ-Auto-Sequenz): `SC --/--`
+
+   Briefing und Debrief zählen **nicht** als Szenen. Save (`!save`) ist erst
+   nach Abschluss des Debrief möglich. Siehe Modul Kampagnenstruktur
+   („Briefing und Debrief sind HQ-Phasen, keine Szenen").
+
    Beispiel XP-Balken: `Lvl 3 ▓▓▓░░░░░░░ 3/10` (Phase 1) oder `Lvl 14 ▓▓░░░ 1/2 XP` (Phase 2)
 2. **Szene (mindestens 3 Absätze, bei Kampf/Konflikten 4-6):** Kamera, Handlung, klare Stakes.
    Nie weniger als 3 Absätze pro Szene. Kampfszenen brauchen Beats: Aktion → Probe → Konsequenz → Kodex-Status → neue Lage.

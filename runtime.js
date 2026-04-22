@@ -7486,7 +7486,13 @@ function scene_overlay(scene){
   const obj = state.campaign?.objective ?? '?';
   const missionType = resolve_mission_type();
   const modeLabel = missionType === 'rift' ? 'MODE RIFT' : 'MODE CORE';
-  let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · ${modeLabel}`;
+  // SC-Token gemäß SSOT (gameplay/kampagnenstruktur.md#briefing-debrief-szenen-count):
+  //  - Einsatz-Szenen (sc ≥ 1): SC <x>/<total>
+  //  - Briefing-Transfer / IA-Übergang (sc === 0): SC 00/-- (HQ-Phase, Nullzeit)
+  //  - Debrief läuft als HQ-Auto-Sequenz, nach Rückkehr nach HQ rendert
+  //    scene_overlay() keinen HUD mehr (location !== 'FIELD' ⇒ null).
+  const scToken = sc >= 1 ? `SC ${sc}/${total}` : `SC 00/--`;
+  let h = `EP ${ep} · MS ${ms} · ${scToken} · ${modeLabel}`;
   if (missionType === 'rift'){
     const seedId = state.campaign?.active_seed_id || state.campaign?.seed_id;
     const seedLabel = state.campaign?.active_seed_label || state.campaign?.seed_label;

@@ -23,7 +23,12 @@ Details findest du in der LICENSE-Datei im Repository.
 
 1. **Agenten.** Als Chrononauten deckt ihr Zeitverschwörungen auf.
 2. **Missionsphasen.** Eine **Mission** läuft über Briefing → Infiltration →
-   Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
+   Intel/Konflikt → Exfiltration → Debrief. Die **12 Szenen** (Core) bzw.
+   **14 Szenen** (Rift) zählen ausschließlich die Einsatzzeit zwischen
+   IA-Transfer und Rücksprung. **Briefing und Debrief sind HQ-Phasen in der
+   Nullzeit und werden nicht als Szenen gezählt** — Szene 1 beginnt ab IA,
+   Szene 12 (bzw. 14) endet mit dem Exfil-Rücksprung, der Debrief läuft
+   danach als HQ-Auto-Sequenz. Gespeichert wird erst **nach** dem Debrief.
    Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
    sind Sondermissionen in vier Stages mit vierzehn Szenen (Tatort → Leads → Boss → Auflösung).
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
@@ -157,8 +162,10 @@ Die ersten Schritte in unter zwei Minuten:
 4. **HQ oder Briefing** — nach der Erstellung: HQ-Rundgang mit Kodex oder direkt ins Briefing.
 5. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
    W6 normal, W10 ab Attribut 11, Heldenwürfel ab 14. Exploding bei Maximum (Burst-Cap 1).
-6. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift). Boss in Szene 10.
-   Mini-Boss in Mission 5 der Episode, Episoden-Boss in Mission 10.
+6. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift) in der Einsatzzeit
+   zwischen IA-Transfer und Rücksprung. **Briefing und Debrief laufen im HQ
+   und zählen nicht als Szenen.** Boss in Szene 10. Mini-Boss in Mission 5 der
+   Episode, Episoden-Boss in Mission 10.
 7. **Paradoxon** — steigt nach jeder Mission (TEMP-Staffel). Bei Px 5 → `ClusterCreate()` →
    1-2 Rift-Seeds. Das ist der Belohnungsmoment.
 8. **Debrief** — nach jeder Mission automatisch: Score-Screen mit CU, XP, Level-Up,
@@ -167,9 +174,9 @@ Die ersten Schritte in unter zwei Minuten:
 
 Weiterführend:
 
-- [Mini-Walkthrough "Mauerbau 1961"](../gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961)
+- [Core-Briefing-Baukasten & Mission-Generatoren](../gameplay/kreative-generatoren-missionen.md)
 - [Cinematic Start](../systems/gameflow/cinematic-start.md)
-- [Demo-Mission "Feuerkette 1410"](../gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410)
+- [Briefing und Debrief sind HQ-Phasen](../gameplay/kampagnenstruktur.md#briefing-debrief-szenen-count)
 
 ## Cheatsheet - Alle Kernregeln auf einen Blick {#cheatsheet}
 
@@ -1045,7 +1052,8 @@ spielerfreundliche Noir-Varianten übersetzt.
 
 ### Zeiteinheiten
 
-- **Szene** - ca. 5-10 Min. Spielzeit. Core-Ops nutzen 12, Rift-Ops 14 Szenen
+- **Szene** - ca. 5-10 Min. Spielzeit. Core-Ops nutzen 12 Einsatz-Szenen,
+  Rift-Ops 14 Einsatz-Szenen (Briefing/Debrief sind HQ-Phasen, keine Szenen)
   ([Missionsdauer](../gameplay/kampagnenstruktur.md#missionsdauer),
   [HUD-Macros](../systems/toolkit-gpt-spielleiter.md#startscene--endscene-macros)).
 - **Kampfrunde** - kurzer Aktionszyklus im Kampf; Grundlage für Initiative,

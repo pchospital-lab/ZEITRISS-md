@@ -141,6 +141,11 @@ Danach: neuen Chat in OpenWebUI öffnen, Modell
 **ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)`
 tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 
+> `Spiel starten (solo schnell)` ist optional als Fast-Lane für Kurztests verfügbar.
+> Ihr dürft den Einstieg jederzeit in natürlicher Sprache sagen oder
+> formulieren („Wir wollen neu starten als Gruppe“ ist ebenso gültig) —
+> Details im [Setup-Guide](docs/setup-guide.md).
+
 **Browser-Pfad** (Lumo/Claude Projects): keine Installation, nur
 Account und Wissenspaket — Anleitung in
 [docs/setup-lumo.md](docs/setup-lumo.md).

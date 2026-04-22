@@ -40,7 +40,9 @@ rt.state.campaign.scene_total = 14;
 console.log = () => {};
 const riftOverlay = rt.StartMission();
 console.log = originalLog;
-assert(riftOverlay.includes('SC 0/14'), 'Rift-Overlay zeigt nicht 14 Szenen.');
+// Briefing-Transfer: sc === 0 → HUD zeigt 'SC 00/--' (HQ-Phase gemäß SSOT
+// gameplay/kampagnenstruktur.md#briefing-debrief-szenen-count).
+assert(riftOverlay.includes('SC 00/--'), 'Rift-Overlay zeigt beim Briefing-Transfer nicht "SC 00/--".');
 assert.strictEqual(rt.state.phase, 'rift', 'Rift-Phase in state.phase fehlt.');
 assert.strictEqual(rt.state.campaign.phase, 'rift', 'Rift-Phase in campaign.phase fehlt.');
 assert.strictEqual(rt.state.scene.total, 14, 'Rift-Szenenanzahl nicht übernommen.');
