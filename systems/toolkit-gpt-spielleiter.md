@@ -170,8 +170,9 @@ influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
   werden beim Laden normalisiert (`label/seed_tier/hook`) und aus dem Seed-Katalog
   aufgefüllt, falls Felder fehlen.
 - **Fraktions-Beats protokollieren:** Der gezogene `state.fr_intervention` wird in
-  Briefing (Szene 0), Mid-Mission (ab Szenenhälfte) und Debrief als
-  `logs.fr_interventions[]` mit Szene/Episode/Mission abgelegt.
+  Briefing (HQ-Phase vor Szene 1, `SC 00/--`), Mid-Mission (ab Szenenhälfte) und
+  Debrief (HQ-Auto-Sequenz nach Szene 12/14) als `logs.fr_interventions[]` mit
+  Szene/Episode/Mission abgelegt.
 - **Welt-Beats streuen:** Trage Fraktionsinterventionen als
   `logs.fr_interventions[]` ein (mind. Briefing/Mid/Debrief), jeweils mit
   Quelle (z.B. ITS, Tempest, Archiv) und Szene.

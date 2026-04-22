@@ -173,6 +173,12 @@ Core-Ops dauern durchschnittlich **60-75 Minuten** und umfassen **12 Szenen**.
 Rift-Ops strecken sich über etwa **90-120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer).
 
+> **Szenen-Count:** Die 12 (Core) bzw. 14 (Rift) Szenen zählen ausschließlich
+> die Einsatzzeit zwischen IA-Transfer und Rücksprung. **Briefing und Debrief
+> sind HQ-Phasen in der Nullzeit und zählen nicht als Szenen.** Details und
+> Save-Fenster in
+> [Briefing und Debrief sind HQ-Phasen](../gameplay/kampagnenstruktur.md#briefing-debrief-szenen-count).
+
 ### Agenda für Session 0 {#agenda-session-0}
 
 1. **Ton & Modus** - Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
@@ -756,7 +762,8 @@ Quickrefs und Unterabschnitte sind zur schnellen Orientierung mit aufgeführt.
 | [systems/gameflow/cinematic-start.md](../systems/gameflow/cinematic-start.md)                      | Cinematic-Gruppenstart                                 |
 | [systems/currency/cu-waehrungssystem.md](../systems/currency/cu-waehrungssystem.md)                | CU-Währungssystem                                      |
 | [systems/toolkit-gpt-spielleiter.md](../systems/toolkit-gpt-spielleiter.md)                        | Toolkit für die KI-Spielleitung                        |
-| [kampagnenstruktur.md](../gameplay/kampagnenstruktur.md#beispiel-episoden)                         | Beispiel-Episoden & Rift-Op                            |
+| [gameplay/kampagnenstruktur.md](../gameplay/kampagnenstruktur.md)                                  | Kampagnenstruktur (Arcs, Preserve/Trigger, HQ)         |
+| [gameplay/kreative-generatoren-missionen.md](../gameplay/kreative-generatoren-missionen.md)        | Core-Briefing-Baukasten + Core-12-/Rift-14-Templates   |
 
 Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6
 folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.

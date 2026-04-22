@@ -303,35 +303,6 @@ flowchart LR
     E --> F(Debrief)
 ```
 
-##### Trigger-Beispiel Titanic 1912 {#trigger-beispiel-titanic-1912}
-
-```yaml
-# gameplay/kampagnenstruktur.md - Trigger-Beispiel Titanic
-title: "Trigger-Mission Titanic 1912"
-id: EX-TRIG-1912-TIT
-trigger_only: true
-version: 4.2.6
-```
-
-**Ereignis:** Untergang der Titanic.
-**Hintergrund:** Ein Zeitverbrecher will das Schiff retten, um ein
-Prototyp-Funkgerät zu bergen. Würde die Katastrophe ausbleiben,
-gerät die Technik in militaristische Hände und verschärft kommende
-Kriege.
-
-1. Briefing - Auftrag: Titanic muss wie bekannt untergehen.
-2. Infiltration - Undercover an Bord in Southampton.
-3. Kontakt - Verdächtigen Offizier im Rauchsalon belauschen.
-4. Intel - Merkwürdige Funkbauteile in seinem Gepäck sichern.
-5. Konflikt - Eiswarnungen im Funkraum abfangen.
-6. Konflikt - Störsender installieren, um Hilfe zu verzögern.
-7. Infiltration - Pumpensteuerung sabotieren.
-8. Twist - Saboteur deckt die Agenten auf, kurzer Nahkampf.
-9. Exfiltration - Rettungsboote beobachten, Chaos zulassen.
-10. Konflikt - Gegner versucht weiterhin, Passagiere zu retten.
-11. Exfiltration - Via Zeitriss oder Rettungsboot entkommen.
-12. Debrief - Titanic sinkt, Zeitlinie stabil.
-
 ### Core- & Rift-Loop
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
@@ -674,13 +645,36 @@ if episode_completed:
 #### Aktaufteilung pro Missionstyp
 
 - **Core (Thrillerton, 12 Szenen):** Akt A (1-4) Setup, Anreise und erster Konflikt, Akt B (5-9)
-  Intel-Twist und Sicherungsvorbereitung, Akt C (10-12) Showdown/Flucht/Debrief. Das
+  Intel-Twist und Sicherungsvorbereitung, Akt C (10-12) Showdown/Flucht und Exfil. Das
   Boss-Gate öffnet frühestens bei Szene 10 und verlangt **4** eindeutige Foreshadow-Marker
   (Mission 4 und 9 je zwei).
 - **Rift (Film-Template mit Mid-Twist, 14 Szenen):** Akt A (1-4) Tatort & erste Spur,
   Akt B (5-9) Leads, Ermittlungen und Mid-Twist (spätestens Szene 9), Akt C (10-12) Boss-Showdown,
   Szene 13 Nachspiel, Szene 14 Epilog/Flashback (kein Loot). Showdowns beginnen frühestens bei Szene 10;
   das Boss-Gate verlangt **2** Foreshadow-Marker vor dem Einstieg.
+
+##### Briefing und Debrief sind HQ-Phasen, keine Szenen {#briefing-debrief-szenen-count}
+
+Die 12 Szenen (Core) bzw. 14 Szenen (Rift) zählen **ausschließlich die
+Einsatzzeit** — also den Zeitraum zwischen dem Transfer an den Insertion
+Anchor (IA) und dem Rücksprung durchs Return Window (RW). Briefing und
+Debrief liegen beide in der **Nullzeit/HQ** und werden **nicht** mitgezählt:
+
+- **Briefing:** HQ-Phase **vor Szene 1**. HUD-Tag `PHASE Briefing`, Szenen-
+  Zähler bleibt `SC 00/--`. Erst mit dem Transfer an den IA beginnt
+  `SC 01/12` (bzw. `SC 01/14`).
+- **Szene 12 (Core) bzw. Szene 14 (Rift):** Letzter Moment in der Einsatzzeit
+  — typischerweise Exfil-Finale, Rücksprung armieren, Nullzeit-Beat.
+- **Debrief:** HQ-Auto-Sequenz **nach Szene 12/14**, kein Szenen-Slot. Hier
+  laufen Bewertung, Loot-Recap, CU, XP/Level-Up, ITI-Ruf und das HQ-Menü.
+- **Save-Fenster:** Erst **nach Abschluss des Debrief**, wenn die Gruppe
+  frei im HQ steht (`!save`). Speichern ist **HQ-exklusiv** und weder
+  während der Einsatzzeit noch während des Debrief-Auto-Cuts zulässig.
+
+Für die Runtime heißt das: `SC 12/12` (bzw. `SC 14/14`) ist **nicht** der
+End-Marker der Mission. Der kanonische End-Marker ist der Übergang in den
+Debrief-Auto-Cut bzw. das `Save empfohlen`-Signal des HUDs nach Abschluss
+der HQ-Pflichtschritte.
 
 ### Post-Op Sweep (optional)
 
@@ -925,12 +919,15 @@ enden im Showdown gegen ein Paramonster. Die Szenen im Überblick:
 7. Eskalation der Anomalie.
 8. Twist - wahre Ursache/Paramonster.
 9. Planung & Vorbereitung des Angriffs.
-10. Showdown-Beginn.
+10. Showdown-Beginn (Boss-Encounter).
 11. Klimax - Gegner besiegt, Riss schließen.
 12. Nachwirkungen & Aufräumen.
-13. Debriefing oder Rückkehr.
-14. Epilog - Fade-out oder kurzer Stoppuhr-Flashback (Artefakt-Drop bereits beim Boss,
-    kein Epilog-Wurf).
+13. Rücksprung armieren, Einsatzfenster schließen.
+14. Epilog - Nullzeit-Beat / kurzer Stoppuhr-Flashback (kein Loot,
+    Artefakt-Drop bereits beim Boss).
+
+Debriefing läuft danach als HQ-Auto-Sequenz (keine Szene), siehe
+[Briefing und Debrief sind HQ-Phasen](#briefing-debrief-szenen-count).
 
 Stilhinweise:
 
@@ -981,145 +978,30 @@ Risiko: R3  ·  Hook: kalter Atem in leeren Zügen
 
 ###### Rift-Mission Template
 
+> Briefing und Debrief sind **HQ-Phasen** (Nullzeit), keine Einsatz-Szenen.
+> Die 14 Szenen laufen zwischen IA-Transfer und Rücksprung.
+
 ```text
-1. Einleitung/Briefing - [ANOMALIE] in [ORT] ([ZEIT]).
-2. Anreise & Erkundung - [HINWEIS 1].
-3. Erste Spur - [HINWEIS 2] oder [NSC 1].
-4. Konflikt I - [GEGNER 1].
-5. Vertiefte Nachforschungen - [NSC 2] oder Archive.
-6. Falsche Fährte - Verdacht auf [IRRTUM].
-7. Eskalation - [ANOMALIE-AKT].
-8. Twist - Paramonster [NAME] entdeckt.
-9. Planung & Vorbereitung - [AUSRÜSTUNG].
-10. Showdown-Beginn - Kampf in [SZENERIE].
-11. Klimax - [SCHWACHSTELLE/LÖSUNG] nutzen.
-12. Nachspiel - Aufräumen in [ORT].
-13. Debrief - Rückreise oder HQ-Funk.
-14. Epilog - Fade-out oder kurzer Stoppuhr-Flashback (Artefakt-Drop bereits beim Boss,
-    kein Epilog-Wurf).
+HQ  Briefing - [ANOMALIE] in [ORT] ([ZEIT]) (HUD: SC 00/--, PHASE Briefing).
+ 1. Anreise & Erkundung - [HINWEIS 1].
+ 2. Erste Spur - [HINWEIS 2] oder [NSC 1].
+ 3. Konflikt I - [GEGNER 1].
+ 4. Vertiefte Nachforschungen - [NSC 2] oder Archive.
+ 5. Falsche Fährte - Verdacht auf [IRRTUM].
+ 6. Eskalation - [ANOMALIE-AKT].
+ 7. Twist - Paramonster [NAME] entdeckt.
+ 8. Planung & Vorbereitung - [AUSRÜSTUNG].
+ 9. Foreshadow-Peak - [SCHWACHSTELLEN-HINWEIS] als letzter Marker vor Boss.
+10. Showdown-Beginn - Boss-Encounter in [SZENERIE] (Gate: 2 Foreshadow-Marker).
+11. Klimax - [SCHWACHSTELLE/LÖSUNG] nutzen, Paramonster niederringen.
+12. Nachspiel - Aufräumen in [ORT], Artefakt-Drop beim Boss bereits erfolgt.
+13. Rücksprung - Return Window armieren, [ORT] verlassen.
+14. Epilog - Nullzeit-Beat / Stoppuhr-Flashback (kein Loot, kein Epilog-Wurf).
+HQ  Debrief - Rückreise-Dialog, Auswertung, CU, XP, Save (HUD: SC --/--, PHASE Debrief).
 ```
 
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
-
-##### Mini-Walkthrough London-Arc - Endgültige Fassung {#mini-walkthrough-london-arc}
-
-```yaml
-# gameplay/kampagnenstruktur.md - Abschnitt Mini-Walkthrough London-Arc
-title: "Mini-Walkthrough London-Arc"
-id: EX-PRES-1851-LON
-type: core_op # wichtig: nicht rift_op
-preserve_only: true
-version: 4.2.6
-```
-
-**Mission 1 - Chrono Heist**
-
-1. Briefing - Auftrag: Brand im Crystal Palace verhindern.
-2. Infiltration - Lieferkutsche schmuggelt Team aufs Gelände.
-3. Kontakt - Bestechung eines Wachmanns öffnet Seitentor.
-4. Intel - Heizungspläne sichern, Lage der Gasrohre prüfen.
-5. Konflikt - ARGOS-Agent entdeckt Störsender.
-6. Kontakt - Palastarbeiter weist auf Lagertrakt.
-7. Intel - Gasflasche mit Zeitsiegel markieren.
-8. Konflikt - Saboteure legen Brandfalle.
-9. Konflikt - Wache löst Alarm aus, Feuerwerk entzündet sich fast.
-10. Exfiltration - Flucht über Dachrinne in den Park.
-11. Exfiltration - Zeitriss im Kutschenschuppen erreichen.
-12. Debrief - Index 2/5, ARGOS bleibt aktiv.
-
-**HQ-Phase 1** - Paradoxon < 5, kein ClusterCreate().
-
-**Mission 2 - Gasleitung stoppen**
-
-1. Briefing - Seed R-089 droht Explosion am Ausstellungstag.
-2. Infiltration - Abwasserkanal führt unter das Gelände.
-3. Kontakt - Arbeiter melden unregelmäßige Lieferung.
-4. Intel - Abhörgerät entdeckt verdächtige Funksprüche.
-5. Konflikt - Gearwrights bewachen Gasverteiler.
-6. Kontakt - Ingenieur bittet um Hilfe beim Abdrehen.
-7. Intel - Code für Ventile entschlüsseln.
-8. Konflikt - Scharfschütze auf Kran hält Team in Schach.
-9. Konflikt - Gasleitung schließen, Gegner stören.
-10. Exfiltration - Rauch zieht auf, Besucherpanik.
-11. Exfiltration - Team springt durch den offenen Zeitriss.
-12. Debrief - ClusterCreate() löst Seed R-089, Index 0/5.
-
-**HQ-Phase 2** - Seed bleibt offen; Schwelle +1, CU ×1.2.
-
-**Mission 3 - ARGOS-Venture zerschlagen**
-
-1. Briefing - Letzte Hinweise auf ARGOS-Führer.
-2. Infiltration - Nachtmarkt um den Palast.
-3. Kontakt - Informant liefert Standortcode.
-4. Intel - Überwachungskarten sichern.
-5. Konflikt - ARGOS-Techniker stört Energieversorgung.
-6. Kontakt - Zivilisten warnen vor Patrouillen.
-7. Intel - Identität des Anführers bestätigt.
-8. Konflikt - Feuergefecht im Maschinenraum.
-9. Konflikt - Saboteur versucht Brand erneut.
-10. Exfiltration - Gefangene sichern, per Kutsche raus.
-11. Exfiltration - Zeitriss aktiviert, Seed bleibt offen.
-12. Debrief - Crystal Palace intakt, Arc abgeschlossen.
-
-**Epilog** - Seed R-089 weiter offen für spätere Rift-Op.
-
-##### Mini-Walkthrough Mauerbau 1961 {#mini-walkthrough-mauerbau-1961}
-
-```yaml
-# gameplay/kampagnenstruktur.md - Abschnitt Mini-Walkthrough Mauerbau 1961
-title: "Mini-Walkthrough Mauerbau 1961"
-id: EX-TRIG-1961-BER
-trigger_only: true # eindeutiger Modus
-version: 4.2.6
-```
-
-**Mission 1 - Erste Kontakte**
-
-1. Briefing - Ost-Berlin wird abgeriegelt, Schleuserwege kartieren.
-2. Infiltration - Kontrollposten beobachten und Umwege testen.
-3. Kontakt - Schleusernetz ansprechen, Papiere besorgen.
-4. Intel - Baupläne des Schutzwalls auftreiben.
-5. Konflikt - Stasi-Patrouille wird misstrauisch.
-6. Kontakt - Überläufer warnt vor Plenum 89.
-7. Intel - Notfunk abhören, Materialtransporte verfolgen.
-8. Konflikt - Kneipenschlägerei lenkt Wachtrupp ab.
-9. Konflikt - Saboteure beschädigen Baufahrzeuge.
-10. Exfiltration - Rückzug über Kanalrohr.
-11. Exfiltration - Zeitriss im Lagerhaus nutzen.
-12. Debrief - Index 1/5, Lage weiter gespannt.
-
-**Mission 2 - Pläne sichern**
-
-1. Briefing - Bauleitung überwacht Materialzugänge.
-2. Infiltration - Archiv im Verwaltungsbau infiltrieren.
-3. Kontakt - Stasi-Logistiker bietet Hilfe gegen Schutzgeld.
-4. Intel - Lieferlisten und Routen kopieren.
-5. Konflikt - Rivalen belauschen heimlich das Gespräch.
-6. Kontakt - Fälscherin liefert offizielle Stempel.
-7. Intel - Routenplan der Baufahrzeuge entschlüsseln.
-8. Konflikt - Zeitsoldaten greifen ein, Index steigt.
-9. Konflikt - Verfolgung über den Alexanderplatz.
-10. Exfiltration - Flussfähre Richtung Westen.
-11. Exfiltration - Zeitriss im U-Bahn-Tunnel erreichen.
-12. Debrief - Seed offen, Index 3/5.
-
-**Mission 3 - Aufruhr entfachen**
-
-1. Briefing - Unruhen sollen Mauerbau erzwingen.
-2. Infiltration - Versammlungen koordinieren.
-3. Kontakt - Oppositionelle Gruppen zusammentrommeln.
-4. Intel - Zeitplan der SED abfangen.
-5. Konflikt - Volkspolizei räumt ersten Platz.
-6. Kontakt - Stasi spioniert Versammlungen aus.
-7. Intel - Funkspruch zum Baubefehl mitschneiden.
-8. Konflikt - Straßenkampf mit Loyalisten.
-9. Konflikt - Demonstration eskaliert vor dem Tor.
-10. Exfiltration - Untertauchen in der Menge.
-11. Exfiltration - Zeitriss unter Bahnhof nutzen.
-12. Debrief - Mauerbau beschleunigt, Zeitlinie stabil.
-
-**Epilog** - Grenzanlagen entstehen 12./13. August, Fluchtwege reißen ab.
 
 ##### Preserve-Arc Salamis 480 v. Chr. {#preserve-arc-salamis-480}
 
@@ -1148,28 +1030,10 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 > **Chrompunk-Flair:** Chrom-Söldner im Linothorax-Kevlar,
 > Projektionshelme mit Hoplit-Kamm, "Bronze"-Smartguns und Wachstafel-Cyberdecks.
 
-| #   | Datum/Phase 480u202f v.u202f Chr. | Codename              | Schauplatz           | Preserve                                                                                       | ARGOS-Hook |
-| --- | --------------------------------- | --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- | ---------- |
-| 1   | 26. Aug. - Morgengrauen           | **Dry Dock**          | Korinthische Werft   | Brandpfeile sabotieren, Schiffsrumpf beschädigen.                                              |
-|     |                                   |                       |                      | 3 Bruiser + Urwolf eskortieren Waffen → Nachtkampf auf Triremen                                |
-| 2   | 27. Aug. Mittag                   | **Copper Quill**      | Delphi-Amphiktyonie  | Orakelrolle fälschen: 'Seemauern retten Hellas.'                                               |
-|     |                                   |                       |                      | Face + Hack-Monk säen Panik → Nahkampf im Adyton                                               |
-| 3   | 31. Aug.                          | **Phalanx Key**       | Sparta, Gerusia      | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee).                                  |
-|     |                                   |                       |                      | Silver-Tongue besticht Rat → Rededuell, dann Hoplit-Gunfight im Hof                            |
-| 4   | 2. Sept.                          | **Aegis-Schaltpunkt** | Ägina-Signalfeuer    | Bewahre Feuerkette - falsches Signal ändert Flottenorden.                                      |
-|     |                                   |                       |                      | Drohnen-Rigger zündet Kupfer-Ornithopter-Fackel → Felsenklippen-Duell                          |
-| 5   | 10. Sept.                         | **Iron Marble**       | Piräus-Lager         | Persische Skorpion-Ballista-Vorräte zerstören.                                                 |
-|     |                                   |                       |                      | Merc-Squad infiltriert als 'Bauern' → Lagerbrand, Kurzfeuergefechte                            |
-| 6   | 18. Sept.                         | **Owl Cipher**        | Akropolis-Krypta     | Geheime Seekriegs-Kodexe von Themistokles sichern.                                             |
-|     |                                   |                       |                      | Bruiser, Urwolf, Sniper stürmen Höhle → CQB in Karyatiden-Gängen                               |
-| 7   | 20. Sept.                         | **Channel Ghost**     | Meerenge von Salamis | Seil-Boom stören, die Engpass blockieren soll.                                                 |
-|     |                                   |                       |                      | Combat-Divers legen Minen → Unterwasser-Fight an Bronze-Ketten                                 |
-| 8   | 21. Sept. Vor-Dämmerung           | **Red Keel**          | Vorhut-Reede         | ARGOS-Dronen von Xerxes' Flaggschiff entfernen.                                                |
-|     |                                   |                       |                      | Samurai-Bodyguard + Rigger → Stealth-Katana vs. Smart-Kopis                                    |
-| 9   | 22. Sept. Schlacht                | **Mist Spear**        | Deck der Athená Nicé | Admiralsflagge sichern - Signal fürs Gegenrammen.                                              |
-|     |                                   |                       |                      | Sniper auf Nebelschiff, Urwolf an Kette → Mastkletter-Schusswechsel                            |
-| 10  | 22. Sept. Ende                    | **Azure Break**       | Xerxes' Thron        | Xerxes nicht evakuieren - er muss Rückzug befehlen.                                            |
-|     |                                   |                       |                      | Elite-Handler + Heavy-Merc-Schilde decken Xerxes → Finale Strand-Schlacht (Samurai Gorō hilft) |
+_Die SL generiert die Einsatz-Szenen dieses Arcs frei aus dem
+Core-Briefing-Baukasten und dem Core-12-Step-Template
+(`gameplay/kreative-generatoren-missionen.md`). Schauplatz-Kette,
+Gegner-Roster, Stil-Notizen und Arc-Outcome bilden den kanonischen Rahmen._
 
 ### Gegner-Roster (kompakt)
 
@@ -1197,135 +1061,6 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 
 - Erfolg → Griechischer Sieg bleibt, Demokratiepfad stabil, +2 Ruf bei Kodex, 600-800 CU Gesamtertrag.
 - Scheitern → "Persische Weltordnung" → ClusterCreate(), Zeitlinie kollabiert, Kampagne-Reset empfohlen.
-
-##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
-
-_45-Minuten-Demo, Tannenberg/Grunwald - kompaktes 12-Szenen-Format zur Einführung_
-
-> **ZEITPUNKT** 15. Juli 1410 - Vorabend der Schlacht von Tannenberg
-> **ORT** Hügelkuppe "Witold-Höhe", 2 km südwestlich des Heerlagers der Ordensritter
-> **AUFTRAG** Sabotiert einen hölzernen **Signal-Leuchtturm**, dessen Feuerkette Verstärkung anfordert.
-
-```yaml
-# Preserve objectives
-preserve_only: true
-objective: |
-  Entferne Pulverrückstände, damit die Kette erst 1410/07/15 detoniert, wie überliefert.
-antagonist: "Der Alte Orden"
-antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
-```
-
-###### Szenenübersicht
-
-_`NextScene()` nach Szene 12._
-| # | Ort | Konflikt | Ziel | Spur | SG |
-|---|----|---------|-----|-----|----|
-| 1 | Nullzeit-Bunker | Zeitdruck, Lauscher | Einsatzplan schmieden | Orden spioniert | 5 |
-| 2 | Lagerpfad (Nacht) | Wache & Hund | In Lager eindringen | ferne Hammerschläge | 6 |
-| 3 | Schmiedehütte | misstrauischer Schmied | Probenstück sichern | zweiter Wachposten naht | 7 |
-| 4 | Schleusengraben | verschlammtes Tor | Geheimgang finden | Wasser steigt | 8 |
-| 5 | Pulverkammer | Schloss + Giftgasfalle | Zugang zur Feuerkette | Ketten noch ungefährlich | 9 |
-| 6 | Decision Room | Alarm droht | Pulverreste entfernen | Rufe von oben | 9 |
-| 7 | Turmaufstieg | feindlicher Bogenschütze | Auf Wehrgang gelangen | Belagerer rücken an | 7 |
-| 8 | Wehrgang Ost | Patrouille kreuzt | Zündvorrichtung sabotieren | Rauchwolke im Tal | 8 |
-| 9 | Wehrgang West | Kreuzritter rufen Hilfe | Fluchtweg sichern | Kanister mit Öl | 7 |
-| 10 | Hofpassage | Ritter greifen an | Zeitriss erreichen | Pferde scheuen | 8 |
-| 11 | Waldrand | Verfolger abschütteln | Rücksprungpunkt erreichen | Turm brennt nicht | 6 |
-| 12 | Debrief im HQ | - | Bericht abliefern | Orden sucht Täter | - |
-
-##### Kurzabenteuer "Operation GLASLÄUFER" {#operation-glaslaeufer}
-
-_10-Seiten-Outline, Berlin 1961_
-
-| #   | Ort                | Konflikt                  | Ziel                   | Spur                       | SG  |
-| --- | ------------------ | ------------------------- | ---------------------- | -------------------------- | --- |
-| 1   | HQ-Briefing        | straffer Zeitplan         | Auftrag besprechen     | Funkmast-Foto              | 5   |
-| 2   | Checkpoint Charlie | misstrauische Grenzer     | Einreise sichern       | Baukolonne im Hintergrund  | 6   |
-| 3   | Straßenmarkt       | neugieriger Informant     | Stasi-Ingenieur finden | Gerücht Funkstörung        | 6   |
-| 4   | Baucontainer       | versteckte Mikrofone      | Pläne kopieren         | abgenutztes Siegel         | 7   |
-| 5   | Funkmast-Basis     | Patrouille prüft Ausweise | Zugang zum Mast        | Aktentasche voller Skizzen | 8   |
-| 6   | Wartungsgang       | Reparaturtrupp taucht auf | Abhörgerät platzieren  | Dröhnen setzt ein          | 8   |
-| 7   | Versorgungsraum    | Zeitsoldaten erscheinen   | Kampf vermeiden        | Index steigt auf 1         | 9   |
-| 8   | Container-Hack     | Alarm ausgelöst           | Steuerung sichern      | Peilsender piept           | 9   |
-| 9   | Flucht zur Spree   | Scheinwerfer suchen       | Dampfer erreichen      | Hund bellt am Kai          | 7   |
-| 10  | Dampferdeck        | Verfolger feuern          | Abfahrt erzwingen      | Funkspruch "Ziel flieht"   | 8   |
-| 11  | Spree-Ufer         | Motorboot jagt            | Abstand gewinnen       | Wasserpegel steigt         | 7   |
-| 12  | HQ-Debrief         | -                         | Einsatz bewerten       | Zeitsoldaten aktiv         | -   |
-
-_`NextScene()` nach Szene 12._
-_Start in 60 Sek._
-
-1. Wählt Pre-Gen-Operative.
-2. Das ITI stellt ein Standard-Loadout kostenlos bereit; Zusatzgear kostet
-   CUs (siehe Modul 15).
-3. SL würfelt Wetterprobe, nennt Sicht & Geräuschpegel. Los!
-
-##### Beispiel-Episoden & Rift-Op {#beispiel-episoden}
-
-_Hinweis:_ Die folgenden Listen zeigen einzelne Missionen.
-Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem Fall.
-
-**Episode 1 - OKO FALSE-ALARM**
-
-1. Briefing in Nullzeit-Atrium - Petrow retten, Atomkrieg verhindern.
-2. Moskau-Vorstadt: Schwarzmarkt-Kontakt für Uniform.
-3. LKW-Kontrolle: falsche Papiere überzeugen.
-4. Zaun bei Schneesturm - Laser-Kamera, Wachhund.
-5. Lüftungsschacht voller Frost - leise sägen.
-6. **Twist:** Legionär-Leibwache patrouilliert (anachron).
-7. Funkraum - Sat-Signal stören oder fälschen.
-8. Zentrale - Petrow zweifeln lassen, Raketen-Alarm blinkt.
-9. Alarm ertönt doch: Neandertaler-PMC stürmt Flur.
-10. Schacht-Escape zum Wald.
-11. Verfolgung auf Ural-Truck.
-12. Debrief - 300 CU + Lizenz-Shop.
-
-**Episode 4 - FALKENSTEIN NACHTJAGD**
-
-1. Briefing - Burggraf verkauft Zukunfts-Tech.
-2. Dorf-Schankstube: Gerücht, Geheimgang entdecken.
-3. Nacht-Wald, Armbrust-Patrouille.
-4. Steinschloss-MG-Nest (anachron) auf Zugbrücke.
-5. Innenhof - mittelalterliche Drohne auf Scheiterhaufen-Podest.
-6. **Twist:** Gladiator mit PKM bewacht Schatzkammer.
-7. Krypta-Tunnel - Kreuzrisse im Mauerwerk explodieren.
-8. Schatzkammer - Daten-Kristall sichern.
-9. Alarm: Burghorn + Scheinwerfer aus 1930.
-10. Dach-Rappelling bei Vollmond-Bluthunden.
-11. Fluss-Flucht im Ruderboot, Verfolgung durch Sturmtruppler.
-12. Debrief - 450 CU.
-
-**Episode 9 - TITAN DRIFT**
-
-1. Briefing - Kolonisten 99 % tot, Anomalie stoppen.
-2. Dock-Schleuse: Vereiste Panels, Energie 3 %.
-3. Dunkel-Korridor, Leichensäcke treiben.
-4. Reaktor-Core, scheinbar "Alien"-Raptoren (zeitversetzte Fauna) nagen Kabel.
-5. Sensor-Array - Windung außerhalb Schiffshülle.
-6. **Twist:** Gegenspieler nutzt Zeit-Leuchtboje, Risse im Rumpf.
-7. Kolonisten-Cryo-Deck - Restcrew befreien.
-8. Reaktor neu starten (Schalter-Puzzle).
-9. Schwarm-Horde nähert sich Brücke, Zeitdruck 6 min.
-10. Not-Abkoppeln Brückensektion.
-11. Evac via Shuttleröhre in Orbit-Pod.
-12. Debrief - 700 CU, möglicher T3-Kauf.
-
-**Rift-Op Mothman Bridge**
-
-1. Briefing - Sturzregen über Virginias Highway; flackernde Lichter und gesperrte Brücken beunruhigen die Polizei.
-2. Anreise bei Sturm, Brückenbauwerk gesperrt.
-3. Local Witness - verängstigter Trucker berichtet von roten Augen.
-4. Drohnen-Scan zeigt Energiespitzen im Nebel.
-5. Spuren sichern am Brückenpfeiler.
-6. **Twist:** Phantom-Passanten tauchen zeitversetzt auf.
-7. Lagerhaus durchsuchen - alte Karten finden.
-8. Mutierte Tiere greifen aus Schatten an.
-9. Tunnel unter der Brücke entdecken.
-10. Seismische Stöße reißen Mauerstücke weg.
-11. Mothman-Sichtung am Brückenbogen.
-12. Kampf gegen Kultisten, die Zeitriss stabilisieren wollen.
-13. Zeitriss schließen oder abstürzende Brücke riskieren.
-14. Debrief - 800 CU, Paradoxon sinkt auf 0.
 
 #### Dev-Check-Liste
 

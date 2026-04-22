@@ -94,39 +94,53 @@ Standard-Transferwerte:
 
 ### Core 12-Step Mission Template
 
-| #   | Phase        | Zweck                 |
-| --- | ------------ | --------------------- |
-| 1   | Briefing     | Auftrag erhalten      |
-| 2   | Anreise      | Sprung oder Reise     |
-| 3   | Auftakt      | Lage sondieren        |
-| 4   | Infiltration | Zugang schaffen       |
-| 5   | Kontakt      | Info beschaffen       |
-| 6   | Konflikt I   | erster Gegnerkontakt  |
-| 7   | Intel Twist  | unerwartete Wendung   |
-| 8   | Konflikt II  | Haupthindernis        |
-| 9   | Sicherung    | Zielobjekt greifen    |
-| 10  | Flucht       | Exfiltration beginnen |
-| 11  | Rücksprung   | Entkommen             |
-| 12  | Debrief      | Belohnung auszahlen   |
+> **Briefing** liegt **vor Szene 1** als HQ-Phase (Nullzeit, `SC 00/--`).
+> **Debrief** liegt **nach Szene 12** als HQ-Auto-Sequenz. Beide zählen nicht
+> als Einsatz-Szenen. Save erst nach Debrief im HQ. Siehe
+> [Briefing und Debrief sind HQ-Phasen](kampagnenstruktur.md#briefing-debrief-szenen-count).
+
+| Position     | Phase        | Zweck                 |
+| ------------ | ------------ | --------------------- |
+| _HQ (vor 1)_ | Briefing     | Auftrag erhalten      |
+| 1            | Anreise      | Sprung oder Reise     |
+| 2            | Auftakt      | Lage sondieren        |
+| 3            | Infiltration | Zugang schaffen       |
+| 4            | Kontakt      | Info beschaffen       |
+| 5            | Konflikt I   | erster Gegnerkontakt  |
+| 6            | Intel Twist  | unerwartete Wendung   |
+| 7            | Konflikt II  | Haupthindernis        |
+| 8            | Sicherung    | Zielobjekt greifen    |
+| 9            | Flucht       | Exfiltration beginnen |
+| 10           | Showdown     | Boss-Gate / Konfrontation |
+| 11           | Rücksprung   | Armieren & Entkommen  |
+| 12           | Nullzeit-Beat | Transfer-Moment / Cliffhanger |
+| _HQ (nach 12)_ | Debrief    | Auto-Sequenz: Bewertung, Loot, CU, XP, Save |
 
 ### Rift 14-Step Mission Template
 
-| #   | Phase        | Zweck                 |
-| --- | ------------ | --------------------- |
-| 1   | Briefing     | Auftrag erhalten      |
-| 2   | Anreise      | Sprung oder Reise     |
-| 3   | Auftakt      | Lage sondieren        |
-| 4   | Infiltration | Zugang schaffen       |
-| 5   | Kontakt      | Info beschaffen       |
-| 6   | Vorbereitung | Ausrüstung prüfen     |
-| 7   | Konflikt I   | erster Gegnerkontakt  |
-| 8   | Intel Twist  | unerwartete Wendung   |
-| 9   | Konflikt II  | Haupthindernis        |
-| 10  | Sicherung    | Zielobjekt greifen    |
-| 11  | Flucht       | Exfiltration beginnen |
-| 12  | Verfolgung   | Gegner setzt nach     |
-| 13  | Abschluss    | Rücksprung            |
-| 14  | Debrief      | Belohnung auszahlen   |
+> **Briefing** liegt **vor Szene 1** als HQ-Phase (Nullzeit, `SC 00/--`).
+> **Debrief** liegt **nach Szene 14** als HQ-Auto-Sequenz. Beide zählen nicht
+> als Einsatz-Szenen. Save erst nach Debrief im HQ. Siehe
+> [Briefing und Debrief sind HQ-Phasen](kampagnenstruktur.md#briefing-debrief-szenen-count).
+
+| Position     | Phase          | Zweck                     |
+| ------------ | -------------- | ------------------------- |
+| _HQ (vor 1)_ | Briefing       | Auftrag erhalten          |
+| 1            | Anreise        | Sprung oder Reise         |
+| 2            | Auftakt        | Tatort sondieren          |
+| 3            | Infiltration   | Zugang schaffen           |
+| 4            | Kontakt        | Info beschaffen           |
+| 5            | Vorbereitung   | Ausrüstung prüfen         |
+| 6            | Konflikt I     | erster Gegnerkontakt      |
+| 7            | Intel Twist    | unerwartete Wendung / Mid-Twist |
+| 8            | Konflikt II    | Haupthindernis            |
+| 9            | Sicherung      | Zielobjekt greifen        |
+| 10           | Boss-Encounter | Paramonster-Showdown      |
+| 11           | Flucht         | Exfiltration beginnen     |
+| 12           | Verfolgung     | Gegner setzt nach         |
+| 13           | Nachspiel      | Rücksprung armieren       |
+| 14           | Epilog         | Nullzeit-Beat / Flashback |
+| _HQ (nach 14)_ | Debrief      | Auto-Sequenz: Bewertung, Loot, CU, XP, Save |
 
 ### Core-Briefing-Baukasten (Anchor + Auftragstyp)
 
