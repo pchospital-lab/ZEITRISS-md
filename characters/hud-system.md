@@ -86,10 +86,20 @@ Der Standard-Header zeigt:
 `· TTL {mm:ss?} · GATE {gate_seen}/2 · FS {fs_seen}/{fs_total} · Stress {cur} · Px {px_bar}`
 `· Lvl {lvl} {xp_bar} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
-**Level-Fortschrittsleiste:** `{xp_bar}` zeigt den XP-Fortschritt zum nächsten
-Level als Balken: `▓▓▓▓░░░░░░ (340/800 XP)`. Die Leiste ist **permanent
-sichtbar** und aktualisiert sich nach jeder Mission im Debrief. Sie motiviert
-durch sichtbaren Fortschritt — analog zum Px-Balken, aber immer eingeblendet.
+**Level-Fortschrittsleiste:** `{xp_bar}` hat **zwei Phasen**:
+- **Phase 1 (Lvl 1–10):** Balken zeigt **Level-Rang**, nicht XP-Füllstand.
+  Beispiel: `Lvl 3 ▓▓▓░░░░░░░` (drei gefüllte Blöcke = Level 3). Jede
+  Mission = +1 Level = +1 Block. **Niemals** als `3/10` oder `3/10 XP` lesen
+  oder schreiben — es gibt in Phase 1 keinen XP-Sammel-Wert.
+- **Phase 2 (ab Lvl 11):** Balken zeigt XP-Füllstand zur nächsten Schwelle.
+  Beispiel: `Lvl 14 ▓▓░░░ 1/2 XP` (1 von 2 XP gesammelt, Schwelle laut
+  Tabelle in `zeitriss-core.md` §Aufstieg). Das " XP"-Suffix signalisiert
+  eindeutig Phase 2. Bei hohen Prestige-Leveln (51+) können Schwellen bis
+  zu 5 XP betragen — Balken analog.
+
+Die Leiste ist **permanent sichtbar** und aktualisiert sich nach jeder Mission
+im Debrief. Sie motiviert durch sichtbaren Fortschritt — analog zum Px-Balken,
+aber immer eingeblendet.
 
 - Rift-Casefiles hängen `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss` an
   den Header, damit der Ermittlungsstand (Tatort → Leads → Boss) sichtbar bleibt.
@@ -365,7 +375,7 @@ _Kodex:_
 | --------------- | ---------------------------------------------------------- |
 | ❤️‍🩹              | Vitalstatus                                                |
 | 🧠              | Stresslevel                                                |
-| Lvl + XP-Balken | Charakterlevel mit Fortschrittsleiste (`▓▓▓░░ 340/800 XP`) |
+| Lvl + XP-Balken | Charakterlevel (Phase 1: `Lvl 3 ▓▓▓░░░░░░░` ohne XP-Stand, Phase 2: `Lvl 14 ▓▓░░░ 1/2 XP` mit XP-Stand) |
 | 👁️              | Tarnung/Sichtbarkeit                                       |
 
 **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):

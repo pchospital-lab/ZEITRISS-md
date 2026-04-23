@@ -330,6 +330,14 @@ gliedert sich in zwei Phasen:
   | 31–50  | 4 XP               | 140 XP    |
   | 51–100 | 5 XP               | 390 XP    |
 
+  **Lesehilfe zur Tabelle (wichtig gegen Häufigste Fehldeutung):** Die Spalte
+  _Kumulativ_ beschreibt die **Gesamt-XP-Summe bis zum Phasenübergang** (z. B.
+  "10 XP" = Summe der ersten 10 Level-Aufstiege in Phase 1). Sie ist **kein**
+  10er-Füllbalken pro Level. In Phase 1 gibt es keinen XP-Füllstand `X/10`
+  — jede Mission = +1 Level, Punkt. Erst ab Level 11 wird XP zum Sammel-Wert,
+  weil Schwellen > 1 sind (z. B. `1/2 XP` = 1 von 2 XP für den nächsten Lvl).
+  Siehe Masterprompt §F XP-Regel-Anwendung und §G Ausgabeformat XP-Balken.
+
   **Prestige-Meilensteine:**
 
   | Level | Meilenstein                                                   |

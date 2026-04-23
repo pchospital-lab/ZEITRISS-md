@@ -1,0 +1,160 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "campaign": {
+    "episode": 12,
+    "mission": 10,
+    "px": 3,
+    "px_state": "stable",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "AGENT-A",
+      "name": "Astra",
+      "lvl": 13,
+      "wallet": 7200,
+      "xp": 0,
+      "attr": {
+        "STR": 3,
+        "GES": 5,
+        "INT": 13,
+        "CHA": 2,
+        "TEMP": 3,
+        "SYS": 0
+      },
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "GES 4 -> 5",
+          "mission": "MS1"
+        },
+        "2": {
+          "choice": "+1 Attribut",
+          "detail": "INT 5 -> 6",
+          "mission": "MS2"
+        },
+        "3": {
+          "choice": "+1 Attribut",
+          "detail": "INT 6 -> 7",
+          "mission": "MS3"
+        },
+        "4": {
+          "choice": "+1 Attribut",
+          "detail": "INT 7 -> 8",
+          "mission": "MS4"
+        },
+        "5": {
+          "choice": "+1 Attribut",
+          "detail": "INT 8 -> 9",
+          "mission": "MS5"
+        },
+        "6": {
+          "choice": "+1 Attribut",
+          "detail": "INT 9 -> 10",
+          "mission": "MS6"
+        },
+        "7": {
+          "choice": "+1 Attribut",
+          "detail": "INT 10 -> 11",
+          "mission": "MS7"
+        },
+        "8": {
+          "choice": "+1 Attribut",
+          "detail": "INT 11 -> 12",
+          "mission": "MS8"
+        },
+        "9": {
+          "choice": "+1 Attribut",
+          "detail": "INT 12 -> 13",
+          "mission": "MS9"
+        },
+        "10": {
+          "choice": "Talent/Upgrade",
+          "detail": "Tatortanalyse -> Meister",
+          "mission": "MS10"
+        },
+        "11": {
+          "choice": "+1 SYS",
+          "detail": "SYS 0 -> 1 Slot",
+          "mission": "MS11"
+        },
+        "12": {
+          "choice": "Talent/Upgrade",
+          "detail": "Neues Talent: Drohnen-Pilot",
+          "mission": "MS12"
+        },
+        "13": {
+          "choice": "+1 SYS",
+          "detail": "SYS 1 -> 2 Slots",
+          "mission": "MS13"
+        }
+      }
+    }
+  ],
+  "economy": {
+    "hq_pool": 53200
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "economy_audit",
+        "target_range": {
+          "level_band": "900+"
+        }
+      }
+    ],
+    "artifact_log": [],
+    "market": [],
+    "notes": [],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; Chronopolis-Embargo"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 12,
+      "mission": 10,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "save_id": "zr-v7-level-history-lvl13-attrs-gedeckt-2026-04-23",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

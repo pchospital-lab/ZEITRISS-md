@@ -75,6 +75,26 @@
           },
           "wallet": {
             "type": "number"
+          },
+          "level_history": {
+            "description": "Pro-Character Level-Up-Historie. Key = Level als String ('1','2',...). Pflicht für Anti-Stacking-Gate (§F Level-Up-Exklusivitäts-Pflichtgate). Platzierung: character.level_history (NICHT Root-Ebene).",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["choice"],
+              "properties": {
+                "choice": {
+                  "type": "string",
+                  "enum": ["+1 Attribut", "Talent/Upgrade", "+1 SYS"]
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "mission": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -235,11 +255,13 @@
           }
         },
         "roster_echoes": {
+          "description": "Figuren-Echos aus Split/Merge. Jedes Item MUSS Objekt mit 'char_id' sein (Referenz auf characters[].id). NICHT mit shared_echoes-Format vermischen — roster_echoes bindet an Figur, shared_echoes an Ereignis. Siehe Masterprompt §D roster_echoes-Pflichtformat.",
           "type": "array",
           "maxItems": 5,
           "items": {
             "type": "object",
             "additionalProperties": true,
+            "required": ["char_id"],
             "properties": {
               "char_id": {
                 "type": "string"
@@ -254,11 +276,13 @@
           }
         },
         "shared_echoes": {
+          "description": "Gruppen-Echos aus Split/Merge. Jedes Item MUSS Objekt mit 'tag' sein (Slug/Identifier), niemals Rohstring oder {echo: ...}. Siehe Masterprompt §D Split/Merge-Pflichtformat.",
           "type": "array",
           "maxItems": 6,
           "items": {
             "type": "object",
             "additionalProperties": true,
+            "required": ["tag"],
             "properties": {
               "tag": {
                 "type": "string"

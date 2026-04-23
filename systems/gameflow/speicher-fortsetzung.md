@@ -972,6 +972,9 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
 - `last_seen`: letzter bekannter Einsatzkontext.
 - `split`: `{family_id, thread_id, expected_threads[], resolved_threads[], convergence_ready}` für kanonische Core-Splits.
 - `roster_echoes[]` (max 5), `shared_echoes[]` (max 6), `convergence_tags[]` (max 4).
+- **Pflichtformat `shared_echoes[]`:** Jedes Item MUSS Objekt mit mindestens `tag` sein, empfohlen vollständig `{ "tag": "<slug>", "scope": "shared|rumor|campaign|personal", "text": "<kurz>" }`. Bindung: **Ereignis/Erkenntnis**, nicht Figur.
+- **Pflichtformat `roster_echoes[]` (andere Struktur!):** Jedes Item MUSS Objekt mit mindestens `char_id` sein, empfohlen vollständig `{ "char_id": "<CHR-ID>", "tone": "<stimmung>", "text": "<1-Satz-Recap>" }`. Bindung: **eine Figur**, nicht ein Ereignis. Niemals mit `shared_echoes`-Format vermischen.
+- **Gemeinsam**: Rohstrings (`["Lagerhaus gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) sind in beiden Arrays Schema-Verletzung und werden von `test_v7_schema_consistency.js` + `test_continuity_output_contract.js` abgelehnt. Siehe Masterprompt §D.
 - **Persistente NPC-Chrononauten:**
   - `npc_roster[]` (max 6) mit kompakten Feldern
     `id,name,callsign,role,trait,scope,owner_id,bond,status,last_seen,offscreen,hook`
