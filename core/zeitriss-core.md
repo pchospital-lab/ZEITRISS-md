@@ -385,8 +385,9 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 #### Attribut- und Talentsteigerungen
 
-- **Aufstiegswahl pro Stufe (SSOT):** Pro Stufenaufstieg genau **eine** Wahl:
+- **Aufstiegswahl pro Stufe (SSOT):** Pro Stufenaufstieg genau **eine** Wahl — niemals mehrere:
   `+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`.
+- **Anti-Stacking-Pflichtgate:** Vor jeder Level-Up-Wahl MUSS `character.level_history[<aktuelles_level>]` im Save-State geprüft werden. Ist für diese Stufe bereits eine Wahl eingetragen, darf keine weitere Wahl auf derselben Stufe kodifiziert werden — auch nicht bei Import- oder Chargen-Sondervereinbarungen. Verstoßversuche werden mit `` `Kodex: Stufenaufstieg {N} bereits verbraucht ({gewählte_Option}). Weitere Wahl erst ab Lvl {N+1}.` `` abgelehnt. Siehe Masterprompt §F, Level-Up-Exklusivitäts-Pflichtgate.
 - **Attributsfortschritt:** Wenn die Wahl auf Attribut fällt, wird **ein Attribut um +1**
   erhöht. Das reguläre Level-Up endet bei **10** (menschliches Maximum). Jede weitere
   Steigerung erfordert einen **Prestige-Aufstieg** oder ein spezielles Story-Ereignis. Ab **11**

@@ -1129,16 +1129,20 @@ vA.B. Bitte HQ-Migration veranlassen.`
 ## HQ-Loop-Contract (Debrief → Freeplay)
 
 Nach jedem Einsatz folgt ein deterministischer HQ-Loop. Diese Reihenfolge ist
-verpflichtend und wird im Debrief sichtbar dokumentiert:
+**verpflichtend** und wird im Debrief sichtbar dokumentiert. Der Debrief darf
+nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtgate):
 
-1. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
-2. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
-3. **XP/Skills** (Level-Up/Skill-Picks aktiv abfragen).
-4. **Freeplay-Anker** - explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
+1. **Score-Screen / Missions-Bewertung** (Erfolg/Teilerfolg/Fehlschlag, Px-Stand).
+2. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
+3. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
+4. **XP/Skills** (Level-Up/Skill-Picks aktiv abfragen — **genau eine** Wahl pro Stufe; Anti-Stacking-Gate gegen `character.level_history[<lvl>]`).
+5. **ITI-Ruf-Update** (formaler Institutsruf, Lizenz-Tier).
+6. **`!save`-Angebot** — erst **nach** abgeschlossener Level-Up-Wahl. Ein `!save` **vor** der Wahl wird mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
+7. **Freeplay-Anker** — explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
    plus **1 Gerücht** (kurzer Hook) anbieten.
 
 Der Freeplay-Anker wird sichtbar ausgespielt und als normaler HQ-Fortschritt im
-Debrief dokumentiert.
+Debrief dokumentiert. Nach `!save` kann der Spieler nahtlos weiterspielen oder den Chat schließen und in einem neuen Chat per JSON-paste in die Nullzeit zurückkehren.
 
 ### Gruppenregel bei Todesfällen (Core/Rift/Chronopolis)
 

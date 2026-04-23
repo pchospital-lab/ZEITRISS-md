@@ -180,7 +180,7 @@ Mali. Mehr Details im Kodex.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`
 > bzw. `Agent/Investigator/Forensik`), sofern das Skip-Flag nicht aktiv ist.
 > Das HUD zeigt **vier Dauer-Elemente** (Lvl, Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️),
-> die immer sichtbar sind. Das Paradoxon-Icon 🌀 ist **kontextsensitiv** und
+> die im ausgegebenen HUD-Block immer enthalten sind. Nach der **Gate-HUD-Policy** (Masterprompt §F) wird der HUD-Block an Phase-Gates, Szenen-Start, Mission-Start/-Ende, Schwellenüberschreitungen, Level-Up, Boss/Gate und bei `!status` ausgegeben; in reinen Narrativbeats ohne Statusänderung entfällt er, der Kodex-Stream (Typ A/B/C) trägt den State weiter. Das Paradoxon-Icon 🌀 ist **kontextsensitiv** und
 > erscheint nur, wenn ein Px-relevanter Zustand aktiv ist (z. B. Px > 0,
 > Resonanz-/Backlash-Hinweis, ClusterCreate-Meldung). Alle weiteren Icons
 > (🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown,
@@ -359,7 +359,7 @@ _Kodex:_
 
 #### HUD-Icons auf einen Blick {#hud-icons}
 
-**Dauer-Anzeige** (immer sichtbar):
+**Dauer-Anzeige** (im ausgegebenen HUD-Block immer enthalten — Block selbst folgt der Gate-HUD-Policy aus Masterprompt §F):
 
 | Symbol          | Bedeutung                                                  |
 | --------------- | ---------------------------------------------------------- |

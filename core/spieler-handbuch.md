@@ -380,7 +380,9 @@ ohne Tier V global zu sperren.
 
 ### HUD-Icons
 
-**Dauer (immer sichtbar):** Lvl · ❤️‍🩹 Vital · 🧠 Stress · 👁️ Tarnung
+Das HUD erscheint als **Inline-Code-Block** (grauer monospace-Look) und folgt der **Gate-HUD-Policy** (siehe Masterprompt §F): Pflicht an Phase-Wechseln, Szenen-Start, Mission-Start/-Ende, LP-/Stress-/Px-Schwellen, Level-Up, Boss/Gate und bei `!status`. In reinen Dialog-/Reise-/Lore-Beats ohne Statusänderung entfällt der Block; der Kodex trägt den State weiter (Typ A/B/C).
+
+**Dauer (im HUD-Block immer enthalten, sobald der Block ausgegeben wird):** Lvl · ❤️‍🩹 Vital · 🧠 Stress · 👁️ Tarnung
 
 **Kontextsensitiv:** 🌀 Paradoxon (bei Px-relevanten Zuständen) · 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · ✋ TK-Cooldown · 💀 Boss · ☆ Rift-Bonus
 
@@ -640,13 +642,13 @@ Upgrades, Level-Up) → Speichern → **neuen Chat öffnen** → `Spiel laden` m
 Speicherstand. So startet die nächste Mission mit vollem Regelzugriff und frischem
 Kontext. Innerhalb einer Mission einfach weiterspielen.
 
-**Empfohlener Stabilitätspfad:**
+**Pflicht-Reihenfolge (Mission-Transition):**
 
-1. **Debrief / Score-Screen** abschließen.
-2. **Level-Up jetzt abschließen** (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`).
+1. **Debrief / Score-Screen** abschließen (Pflicht — kein Direkt-Sprung zum nächsten Briefing).
+2. **Level-Up jetzt abschließen** (genau eine Wahl pro Stufe: `+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS` — kein Stacking über mehrere Wahlen pro Stufe).
 3. Danach **HQ wählen**: Schnell-HQ, manuell oder Auto-HQ.
-4. **Speichern**, sobald ihr frei im HQ steht.
-5. Für den nächsten Einsatz oder längere HQ-Phase: **neuen Chat** mit Load.
+4. **`!save`** erst **nach** dem Level-Up — sobald ihr frei im HQ steht. Ein Save vor der Level-Up-Wahl wird von der KI-SL mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
+5. Für den nächsten Einsatz oder längere HQ-Phase: **neuen Chat** öffnen, Save-JSON einfügen, weiter in der Nullzeit.
 
 Kodex-Kurzsatz nach Debrief:
 `Kodex: Einsatz abgeschlossen. Upgrade jetzt möglich. Danach HQ-Freiraum oder Deepsave.`
