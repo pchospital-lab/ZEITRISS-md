@@ -690,10 +690,11 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
   für reguläre Offline-Missionen außerhalb Chronopolis; im HQ-Kern ist Kodex
   wieder aktiv.
 
-HUD-Zustände erscheinen als Backticks. Alle Icons sind **kontextsensitiv** und
-werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt:
+HUD-Zustände erscheinen als Backticks (Inline-Code, grauer monospace-Look). Der HUD-Block folgt der **Gate-HUD-Policy** (siehe Masterprompt §F): Pflicht an Phase-Gates, Szenen-Start, Mission-Start/-Ende, LP-/Stress-/Px-Schwellenüberschreitung, Level-Up, Boss/Gate und bei `!status`. In reinen Narrativbeats ohne Statusänderung entfällt der Block — der Kodex-Stream (Typ A/B/C) trägt die State-Awareness weiter.
 
-- **Dauer-Anzeige** (immer sichtbar): Lvl, ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
+Wenn der HUD-Block ausgegeben wird, gelten folgende Icon-Regeln:
+
+- **Dauer-Anzeige** (im ausgegebenen HUD-Block immer enthalten): Lvl, ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
 - **Zustands-Icons** (bei Eintritt → bei Ende weg): 🌀 Paradoxon (Px-relevant),
   🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown
 - **Situations-Icons**: 💀 bei Boss-Encounters (Szene 10 Core/Rift),
@@ -897,7 +898,7 @@ z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jeder Mission zeigt die Spielleitung **automatisch** einen
 **Missions-Abschlussbildschirm** (Score-Screen):
 Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → ITI-Ruf-Update.
-Dieser Screen erscheint immer — der Spieler muss nicht danach fragen.
+Dieser Screen erscheint immer — der Spieler muss nicht danach fragen. Der Score-Screen ist **Pflicht zwischen zwei Missionen** und darf nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtgate). Die Reihenfolge zum Save ist verbindlich: **Score-Screen → Level-Up-Wahl → `!save`**; bei aktiver Level-Schwelle wird ein `!save` vor der Wahl mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
 
 Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 

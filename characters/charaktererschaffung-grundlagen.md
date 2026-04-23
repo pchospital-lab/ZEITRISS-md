@@ -437,12 +437,14 @@ Szenen kosten kein zusätzliches In-Game-Geld oder Ressourcen, nur Zeit im HQ (d
 relativ frei fließt).
 
 **Verbesserungen pro Stufe:** Bei jedem Level-Aufstieg dürft ihr euren Charakter **mechanisch
-verbessern**. Dabei gilt als Standard pro Stufe genau **eine** Wahl:
+verbessern**. Dabei gilt pro Stufe **genau eine** Wahl — niemals mehrere:
 
 - **`+1 Attribut`** (ein Attribut eurer Wahl um +1; ab 11 W10 statt W6, ab 14 zusätzlich
   Heldenwürfel),
 - **`Talent/Upgrade`** (neues Talent oder Ausbau eines bestehenden Talents),
 - **`+1 SYS`** (mehr Systemkapazität für Cyber-/Bioware/Psi-Last).
+
+**Anti-Stacking (Pflicht):** Jede Stufe erlaubt exakt eine dieser Wahlen. Ist für eine Stufe bereits eine Wahl eingetragen (in `character.level_history[<lvl>]` des Save-Blocks), darf keine weitere Wahl auf derselben Stufe nachgezogen werden — auch nicht später, auch nicht bei Import- oder Chargen-Sondervereinbarungen. Die nächste Wahl kommt erst mit dem nächsten Stufenaufstieg. Die KI-SL lehnt Verstoßversuche mit einer Kodex-Meldung ab.
 
 Diese Wahl wird in der HQ-Phase als Trainings- oder Forschungsfortschritt ausgespielt.
 Generell gilt: **Werte über 10 sind außergewöhnlich**. Obwohl der theoretische

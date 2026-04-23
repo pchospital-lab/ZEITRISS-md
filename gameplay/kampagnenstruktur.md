@@ -749,15 +749,17 @@ E --> A
 
 Nach jeder Mission zeigt die Spielleitung **automatisch** einen
 **Missions-Abschlussbildschirm** — der Spieler muss nicht danach fragen.
-Dieser Screen läuft in fester Reihenfolge ab:
+Dieser Screen läuft in fester Reihenfolge ab und ist **Pflicht zwischen zwei Missionen** — kein Direkt-Sprung vom Exfil-Rücksprung ins nächste Briefing (siehe Masterprompt §C, Mission-Transition-Pflichtgate):
 
 1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand anzeigen
 2. **Loot-Recap** — alle gefundenen Gegenstände und Artefakte auflisten
 3. **CU-Auszahlung** — Belohnung nach CU-Formel berechnen und ausschütten,
    bei Teams Wallet-Split durchführen
-4. **XP & Level-Up** — EP vergeben; bei Aufstieg genau eine Upgrade-Wahl
-   anbieten (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`).
+4. **XP & Level-Up** — EP vergeben; bei Aufstieg **genau eine** Upgrade-Wahl
+   anbieten (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`). Anti-Stacking: `character.level_history[<lvl>]` vor Wahl prüfen (siehe Masterprompt §F, Level-Up-Exklusivitäts-Pflichtgate).
 5. **ITI-Ruf-Update** — formalen ITI-Ruf nennen; Fraktionssignale nur ergänzend ausweisen
+
+Die Reihenfolge ist verbindlich: **Score-Screen → Level-Up-Wahl → `!save` → (optional Chat-Close und Neustart per JSON-paste)**. Ein `!save` **vor** dem Level-Up ist unvollständig und wird von der KI-SL mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
 
 Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
 

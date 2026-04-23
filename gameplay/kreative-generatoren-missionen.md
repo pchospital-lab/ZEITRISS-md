@@ -114,7 +114,7 @@ Standard-Transferwerte:
 | 10           | Showdown     | Boss-Gate / Konfrontation |
 | 11           | Rücksprung   | Armieren & Entkommen  |
 | 12           | Nullzeit-Beat | Transfer-Moment / Cliffhanger |
-| _HQ (nach 12)_ | Debrief    | Auto-Sequenz: Bewertung, Loot, CU, XP, Save |
+| _HQ (nach 12)_ | Debrief    | Auto-Sequenz: Bewertung → Loot → CU → XP/Level-Up → ITI-Ruf → `!save` (siehe Masterprompt §C Mission-Transition-Pflichtgate) |
 
 ### Rift 14-Step Mission Template
 
@@ -140,7 +140,7 @@ Standard-Transferwerte:
 | 12           | Verfolgung     | Gegner setzt nach         |
 | 13           | Nachspiel      | Rücksprung armieren       |
 | 14           | Epilog         | Nullzeit-Beat / Flashback |
-| _HQ (nach 14)_ | Debrief      | Auto-Sequenz: Bewertung, Loot, CU, XP, Save |
+| _HQ (nach 14)_ | Debrief      | Auto-Sequenz: Bewertung → Loot → CU → XP/Level-Up → ITI-Ruf → `!save` (siehe Masterprompt §C Mission-Transition-Pflichtgate) |
 
 ### Core-Briefing-Baukasten (Anchor + Auftragstyp)
 
