@@ -75,6 +75,26 @@
           },
           "wallet": {
             "type": "number"
+          },
+          "level_history": {
+            "description": "Pro-Character Level-Up-Historie. Key = Level als String ('1','2',...). Pflicht für Anti-Stacking-Gate (§F Level-Up-Exklusivitäts-Pflichtgate). Platzierung: character.level_history (NICHT Root-Ebene).",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["choice"],
+              "properties": {
+                "choice": {
+                  "type": "string",
+                  "enum": ["+1 Attribut", "Talent/Upgrade", "+1 SYS"]
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "mission": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -254,11 +274,13 @@
           }
         },
         "shared_echoes": {
+          "description": "Gruppen-Echos aus Split/Merge. Jedes Item MUSS Objekt mit 'tag' sein (Slug/Identifier), niemals Rohstring oder {echo: ...}. Siehe Masterprompt §D Split/Merge-Pflichtformat.",
           "type": "array",
           "maxItems": 6,
           "items": {
             "type": "object",
             "additionalProperties": true,
+            "required": ["tag"],
             "properties": {
               "tag": {
                 "type": "string"

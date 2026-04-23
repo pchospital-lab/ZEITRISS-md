@@ -81,6 +81,14 @@ ob dieses glücklichen Ausgangs.)_
 **W10-Schwelle als Standard:** ZEITRISS nutzt als Baseline W6. Sobald ein
 Attribut **11+** erreicht, wird diese Probe mit W10 gewürfelt. So bleibt das
 Grundspiel schnell, während hohe Werte spürbar mehr Granularität erhalten.
+
+> **Pflichtcheck bei Load/Import (seit 2026-04-23):** Beim Laden eines Saves
+> oder Merge-Import checkt die KI-Spielleitung **jedes Attribut einzeln**
+> gegen die Schwellen 11 und 14. Würfeltypen hängen **ausschließlich** am
+> numerischen Attributwert — **nicht** an Level, Talent-Stufe, Rang oder
+> Story-Bonus. Eine Aussage wie "INT 6 → W10 aktiv" ist ein harter
+> Regelbruch. Siehe Masterprompt §F Würfelschwellen-Pflichtcheck beim
+> Save-Load / Merge-Import.
 In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich. Das
 additive Modell lautet:
 

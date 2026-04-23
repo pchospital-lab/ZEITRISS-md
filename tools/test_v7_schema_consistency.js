@@ -14,7 +14,8 @@ const fixtures = [
   'internal/qa/fixtures/savegame_v7_merge_rift_pvp.json',
   'internal/qa/fixtures/savegame_v7_chronopolis_roundtrip.json',
   'internal/qa/fixtures/savegame_v7_abort_resume.json',
-  'internal/qa/fixtures/savegame_v7_chat_load.json'
+  'internal/qa/fixtures/savegame_v7_chat_load.json',
+  'internal/qa/fixtures/savegame_v7_level_history.json'
 ];
 
 const forbiddenRoot = ['save_version', 'zr_version', 'character', 'party', 'team', 'arc_dashboard', 'location', 'phase'];
@@ -52,6 +53,22 @@ function checkFixture(relPath){
   assert.ok(continuity.shared_echoes.length <= 6, `${label}: continuity.shared_echoes überschreitet Budget (max 6).`);
   assert.ok(continuity.convergence_tags.length <= 4, `${label}: continuity.convergence_tags überschreitet Budget (max 4).`);
 
+  // Pflichtformat-Check: shared_echoes[] und roster_echoes[] Items müssen Objekt mit 'tag' sein
+  // (Schema-Invariante seit 2026-04-23 nach Run-D-Merge-Analyse)
+  continuity.shared_echoes.forEach((item, i) => {
+    assert.strictEqual(typeof item, 'object', `${label}: continuity.shared_echoes[${i}] muss Objekt sein (kein String oder Primitive).`);
+    assert.ok(item !== null && !Array.isArray(item), `${label}: continuity.shared_echoes[${i}] muss Objekt sein (nicht null/array).`);
+    assert.ok(typeof item.tag === 'string' && item.tag.length > 0, `${label}: continuity.shared_echoes[${i}] braucht 'tag' als non-leeren String (Fremdkeys wie {echo:...} sind verboten).`);
+  });
+  continuity.roster_echoes.forEach((item, i) => {
+    assert.strictEqual(typeof item, 'object', `${label}: continuity.roster_echoes[${i}] muss Objekt sein.`);
+    assert.ok(item !== null && !Array.isArray(item), `${label}: continuity.roster_echoes[${i}] muss Objekt sein (nicht null/array).`);
+    assert.ok(typeof item.tag === 'string' && item.tag.length > 0, `${label}: continuity.roster_echoes[${i}] braucht 'tag' als non-leeren String.`);
+  });
+
+  // level_history-Platzierung: NUR pro Character, NIEMALS auf Root (seit 2026-04-23)
+  assert.ok(!('level_history' in save), `${label}: Root-Level 'level_history' verboten — gilt pro Character (siehe Masterprompt §F Level-Up-Exklusivitäts-Pflichtgate).`);
+
   assert.strictEqual(typeof save.summaries.summary_last_episode, 'string', `${label}: summary_last_episode muss String sein.`);
   assert.strictEqual(typeof save.summaries.summary_last_rift, 'string', `${label}: summary_last_rift muss String sein.`);
   assert.strictEqual(typeof save.summaries.summary_active_arcs, 'string', `${label}: summary_active_arcs muss String sein.`);
@@ -68,6 +85,18 @@ function checkFixture(relPath){
     forbiddenCharacter.forEach((key) => {
       assert.ok(!(key in character), `${label}: characters[${index}] enthält Legacyfeld '${key}'.`);
     });
+    // level_history (optional) muss Objekt sein, Keys = Level-Nummer als String, Values = Wahl-Objekt mit 'choice'
+    if ('level_history' in character) {
+      const lh = character.level_history;
+      assert.strictEqual(typeof lh, 'object', `${label}: characters[${index}].level_history muss Objekt sein.`);
+      assert.ok(lh !== null && !Array.isArray(lh), `${label}: characters[${index}].level_history muss Objekt (Map) sein, nicht Array/null.`);
+      Object.entries(lh).forEach(([lvl, choice]) => {
+        assert.ok(/^\d+$/.test(lvl), `${label}: characters[${index}].level_history Key '${lvl}' muss numerischer Level-String sein.`);
+        assert.strictEqual(typeof choice, 'object', `${label}: characters[${index}].level_history['${lvl}'] muss Objekt sein.`);
+        assert.ok(typeof choice.choice === 'string' && ['+1 Attribut', 'Talent/Upgrade', '+1 SYS'].includes(choice.choice),
+          `${label}: characters[${index}].level_history['${lvl}'].choice muss einer der Werte sein: '+1 Attribut', 'Talent/Upgrade', '+1 SYS'.`);
+      });
+    }
   });
 
   if (save.arc && typeof save.arc === 'object') {

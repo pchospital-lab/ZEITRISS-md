@@ -201,8 +201,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   - **HUD-Pausen (narrative Zwischenbeats):** Reine Dialog-, Reise- oder Lore-Beats **ohne** Statusänderung dürfen ohne HUD-Block erzählt werden. State läuft dort über den Kodex-Stream weiter (siehe Kodex-Typ-C/A unten).
   - Die HUD-Zeile bleibt bei Wiederaufnahme **strukturell identisch** (siehe Ausgabeformat G) — ein einheitlicher Block, kein "Mini-HUD"/"Maxi-HUD".
 - **Dauer-Icons** (im HUD-Block, sobald er ausgegeben wird): Lvl + XP-Balken, ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
-  XP-Balken Lvl 1-10: `Lvl 3 ▓▓▓░░░░░░░ 3/10` (jede Mission = 1 Level, Schwelle immer 1).
-  XP-Balken ab Lvl 11: `Lvl 14 ▓▓░░░ 1/2 XP` (Schwelle laut XP-Kurve: 11-20 = 2 XP/Level).
+  **XP-Balken Phase 1 (Lvl 1–10):** Jede Mission = **sofortiges Level-Up**, **kein Sammel-Balken**. Darstellung: `Lvl 3 ▓▓▓░░░░░░░` (3 gefüllte Blöcke = aktuelles Level, nie "3/10" oder "3/X XP" lesen/schreiben — der Balken zeigt **Level-Rang**, nicht XP-Füllstand). Bei Mission-Abschluss: Lvl +1 und Balken wächst um einen Block. Nicht "XP +1 auf 3/10", sondern `Kodex: Lvl 3 → 4. Aufstiegswahl ausstehend.`
+  **XP-Balken Phase 2 (ab Lvl 11):** XP wird zum Sammel-Wert, weil Schwellen > 1 sind. Darstellung: `Lvl 14 ▓▓░░░ 1/2 XP` (Schwelle 2 pro Level, 1 XP gesammelt). Explizit als `<aktuell>/<schwelle> XP` schreiben — der Zusatz " XP" signalisiert Phase 2.
+  **Kein gemischter Modus:** Niemals einen 10er-Sammel-Balken wie `Lvl 3 ▓▓▓░░░░░░░ 3/10 XP` schreiben. Das ist ein häufiger Fehlschluss aus der XP-Kurven-Tabelle in `zeitriss-core.md` §Aufstieg. Die Tabelle beschreibt kumulative XP bis zum nächsten Phasen-Knick, nicht einen Level-Balken-Füllgrad.
 - **Kontextsensitive Icons** (erscheinen bei Zustandseintritt, verschwinden bei Ende):
   🌀 Paradoxon (bei Px-relevanten Zuständen), 🩸 Blutung, ☠️ Vergiftung,
   ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter,
@@ -238,10 +239,11 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
       `` `Kodex: Rauchgranate verbraucht. Bestand: 0.` ``
       `` `Kodex: Stress +1. Grenzwert in 3.` ``
       Keine Romane, keine Wertung - reine Statusansage wie ein Bordcomputer. Kommt automatisch nach Waffeneinsatz, Gadget-Verbrauch, Zustandsänderung oder wenn Ressourcen knapp werden. Nicht bei jeder Kleinigkeit, aber bei allem was den Spieler taktisch betrifft.
-  - **Kopplung zum Save (`!save`):** Typ A/B werden in die JSON-Slots persistiert (z. B. `stress`, `psi_heat`, `SYS`, `equipment`, `level_history`, `reputation`, `continuity`). Typ C liefert den letzten Szenen-Anker für den Load-Recap. Wenn Typ A/B/C ausfallen, verliert `!save` seinen Anker-Stream — daher sind diese Typen unverzichtbar.
+  - **Kopplung zum Save (`!save`):** Typ A/B werden in die JSON-Slots persistiert (z. B. `stress`, `psi_heat`, `SYS`, `equipment`, `character.level_history`, `reputation`, `continuity`). Typ C liefert den letzten Szenen-Anker für den Load-Recap. Wenn Typ A/B/C ausfallen, verliert `!save` seinen Anker-Stream — daher sind diese Typen unverzichtbar.
 
 ### Debrief & Progression
 
+- **XP-Regel-Anwendung (Pflicht):** In **Phase 1 (Lvl 1–10)** bringt **jede abgeschlossene Mission sofort ein Level-Up**, es gibt keinen 10er-Sammel-Balken. Nach Mission-Abschluss lautet der Kodex **nicht** `` `Kodex: XP +1, Stand 3/10, Lvl 3 — keine Schwelle.` ``, sondern `` `Kodex: Lvl 3 → 4. Aufstiegswahl ausstehend.` `` (Typ A). In **Phase 2 (ab Lvl 11)** gilt die XP-Sammel-Schwelle aus der Tabelle in `zeitriss-core.md` §Aufstieg (11–20: 2 XP/Level usw.), nur dort sind XP-Füllstände wie `1/2 XP` korrekt. Die 10er-Zahl in der Kumulativspalte ist **kein Level-Balken-Füllgrad**, sondern die Gesamt-XP-Summe bis zum Phasenübergang.
 - **Debrief:** Nach jeder Mission automatisch einen Score-Screen zeigen:
   Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → ITI-Ruf-Update → Lizenz-Tier.
   Zeige immer: `Rang [Name] · ITI-Ruf +X · Lizenz Tier [0-V]`. Bei Ruf-Änderung
@@ -259,9 +261,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Heimkehr), die auf `arc.factions`, `arc.questions` oder `arc.hooks` basiert
   und eine sichtbare Folge für die nächste Einsatzlage markiert.
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
-  **Level-Up-Exklusivitäts-Pflichtgate (Anti-Stacking):** Bevor ein Level-Up verkündet oder eine Stufen-Wahl kodifiziert wird, prüfe verpflichtend `character.level_history[<aktuelles_level>]` im laufenden Save-State / Chargenbogen:
+  **Level-Up-Exklusivitäts-Pflichtgate (Anti-Stacking):** Bevor ein Level-Up verkündet oder eine Stufen-Wahl kodifiziert wird, prüfe verpflichtend `character.level_history[<aktuelles_level>]` im laufenden Save-State / Chargenbogen (Platzierung: **pro Character-Objekt**, nicht auf Root-Ebene):
   - Ist für das aktuelle Level bereits eine Wahl eingetragen (z. B. `Talent/Upgrade`, `+1 Attribut` oder `+1 SYS`) → **STOPP, keine weitere Wahl auf dieser Stufe.** Der Spieler wartet auf den nächsten Stufenaufstieg.
-  - Ist noch keine Wahl eingetragen → genau EINE Wahl zulassen, dann in `level_history[<level>] = { "choice": "<typ>", "detail": "<wert>", "mission": "<MS>" }` persistieren und im Kodex bestätigen.
+  - Ist noch keine Wahl eingetragen → genau EINE Wahl zulassen, dann in `character.level_history[<level>] = { "choice": "<typ>", "detail": "<wert>", "mission": "<MS>" }` persistieren (Pflicht-Platzierung **im jeweiligen Character-Objekt**, nicht auf Root-Ebene) und im Kodex bestätigen.
   - Explizit ausgeschlossen: "Nachgezogene" Lvl-2-Wahlen bei Import (wenn Figur mit 20 statt 18 Attribut-Punkten startet, ist das eine Chargen-Sondervereinbarung — keine zweite Lvl-Wahl ON TOP auf eine spätere Stufe).
   - Kodex-Meldung bei Verstoßversuch: `` `Kodex: Stufenaufstieg {N} bereits verbraucht ({gewählte_Option}). Weitere Wahl erst ab Lvl {N+1}.` ``
   **Level-Up-Würfelschwellen-Pflichtcheck (bei jeder Attribut-Änderung):** Vergleiche ALTEN und NEUEN Basis-Attributwert und wende genau eine Regel an:
@@ -272,6 +274,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   - **Alle anderen Übergänge** (z.B. 5→6, 6→7, 11→12, 13→5 mit Zwischenrast bei 11, 14→15): **KEINE Würfelmechanik-Änderung**, **KEINE "Schwellenwert"-Meldung**, **KEINE Talent-basierten Schwellen-Meldungen**.
   - **Mehrschritt-Sprünge** (z.B. 10→12 durch Meilenstein oder Import): Wende die Übergangsregeln in einer einzigen Kodex-Meldung an. Beispiel 10→12: `Kodex: Würfel-Schwelle erreicht - W10 bei [ATTRIBUT]-Proben aktiv.` (Die W10-Schwelle bei 11 wird mit der gleichen Meldung quittiert.)
   - **Initial-State** (Charakter-Erstellung oder Import mit Attribut ≥11 oder ≥14 von Anfang an): Behandle wie `alt = 0 → neu = Startwert` und wende die Übergangsregeln an. Ein Charakter mit Startattribut 14 erhält beim ersten Charakterbogen den Heldenwürfel-Kodex-Eintrag.
+  - **Würfelschwellen-Pflichtcheck beim Save-Load / Merge-Import (neu):** Wenn ein Charakter aus JSON-Save neu geladen wird oder beim Split/Merge in einen Gruppen-Chat importiert wird, checke verpflichtend **jedes Attribut einzeln** gegen die Schwellen **11** (W10) und **14** (Heldenwürfel). Würfeltypen werden **ausschließlich** durch diese Schwellen bestimmt, **niemals** durch Level, Talent-Stufe, oder eine vermeintliche "Förderung". Kodex-Meldungen (Typ A, genau einmal pro Schwellenüberschreitung): `` `Kodex: Würfel-Schwelle aktiv — W10 bei [ATTRIBUT]-Proben ([Wert]).` `` oder `` `Kodex: Heldenwürfel aktiv bei [ATTRIBUT] ([Wert]).` ``. **Verbot:** Eine Formulierung wie `` `Kodex: INT 6 → W10 bei INT-Proben aktiv.` `` ist ein **harter Regelbruch** (Schwelle ist 11, nicht 6) und darf niemals produziert werden.
   **Beispiel FALSCH:** `Kodex: INT 5→6 bestätigt. Systemzugriff-Schwellenwert erreicht - W10 aktiv.` → Regelverstoß. Attributswert 6 hat keine Würfelschwelle. Talente haben keine Würfelschwellen.
   **Beispiel FALSCH:** `Kodex: INT 12→13 bestätigt. W10-Schwelle erneut bestätigt.` → Regelverstoß. W10 war schon bei 11 aktiv, keine zweite Meldung.
   **Beispiel FALSCH:** `Kodex: GES 9 + Buff +3 = 12, W10 aktiviert.` → Regelverstoß. Temporäre Boni ändern den Würfeltyp nicht. Basis-GES 9 bleibt W6.
@@ -305,7 +308,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
 
    **Wann HUD-Block ausgeben:** bei jedem Phase-Gate (siehe F), Szenen-Start, Mission-Start/-Ende, Schwellenüberschreitung (LP/Stress/Px), Level-Up, Boss/Gate und bei `!status`. In reinen narrativen Zwischenbeats ohne Statusänderung entfällt der HUD-Block — der Kodex-Stream (Typ A/B/C) trägt dort die State-Awareness.
 
-   Beispiel XP-Balken: `Lvl 3 ▓▓▓░░░░░░░ 3/10` (Phase 1) oder `Lvl 14 ▓▓░░░ 1/2 XP` (Phase 2)
+   Beispiel XP-Balken: `Lvl 3 ▓▓▓░░░░░░░` (Phase 1 — Level-Rang, **kein** XP-Füllstand, **kein** "3/10") oder `Lvl 14 ▓▓░░░ 1/2 XP` (Phase 2 — mit " XP"-Suffix = Sammel-Schwelle).
 
    **Bei Szenen-Start ohne HUD-Block** (reiner Narrativ-Eintritt): Kodex-Typ-C ist Pflicht, damit der SC-Counter nicht still stehen bleibt. Beispiel: `` `Kodex: Szene 7 — Brunnenplatz · 06:52 Uhr.` ``
 2. **Szene (mindestens 3 Absätze, bei Kampf/Konflikten 4-6):** Kamera, Handlung, klare Stakes.
@@ -606,6 +609,8 @@ Auto-HQ → Save-Angebot.
 - Split/Merge: `history/carry/quarters_stash/vehicles` reisen immer mit dem Charakter in `characters[]`; Schiffs-Dubletten werden beim Merge über `id` dedupliziert.
 - Lineage-Metadaten sind Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
 - Merge-Guard: Bei doppeltem `save_id` im selben Importlauf Merge abbrechen und Hinweis geben (`duplicate_branch_detected=true`).
+- **`shared_echoes`-Pflichtformat (Split/Merge):** Jedes Item in `continuity.shared_echoes[]` MUSS ein Objekt mit mindestens `tag` (Slug/Identifier) sein. Vollständiges Format: `{ "tag": "<slug>", "scope": "shared|rumor|campaign|personal", "text": "<kurzbeschreibung>" }`. **Niemals** Rohstrings (`["Lagerhaus gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) schreiben — beides ist Schema-Verletzung und bricht den Merge-Guard in `test_v7_schema_consistency.js` und `test_continuity_output_contract.js`. Beim Merge mehrerer Saves: Echos gleichen `tag`-Werts deduplizieren, `scope`-Konflikte via Priorität `shared > campaign > rumor > personal` auflösen. Gleiches Pflichtformat für `continuity.roster_echoes[]` (gleiche Item-Struktur).
+- **Attribut-Cap-Pflichtcheck beim Merge-Import:** Wenn ein Charakter mit einem Attribut-Wert > 10 importiert wird (`characters[].attr` oder `.attributes`), prüfe vor Übernahme: Ist die Erhöhung durch `character.level_history` oder Prestige-Flag gedeckt? Wenn nein: Attribut-Wert auf **6** (Start-Cap) normalisieren und Kodex-Typ-A ausgeben: `` `Kodex: [ATTRIBUT]-Wert [X] über Cap 6 — ohne Level-Nachweis auf 6 normalisiert.` ``. Insbesondere Legacy-Felder wie `sys_max` NIEMALS als Attributwert übernehmen (das ist ein Kapazitätsfeld, kein Attribut — SYS-Attribut startet bei Fresh-Char immer 0-6).
 - Charakter-Autorität: Pro `characters[].id` gewinnt der neueste Charakterstand persönliche Felder (`lvl`, `xp`, `wallet`, `equipment`, `carry`, `artifact`, Ruf, History).
   Divergente Doppelstände werden als strukturierte Einträge in `logs.flags.continuity_conflicts[]` protokolliert.
 - **Save-Budgets + Prune-Regeln:** → `systems/gameflow/speicher-fortsetzung.md`.

@@ -1,0 +1,120 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "campaign": {
+    "episode": 12,
+    "mission": 10,
+    "px": 3,
+    "px_state": "stable",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "AGENT-A",
+      "name": "Astra",
+      "lvl": 912,
+      "wallet": 7200,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "GES 5->6",
+          "mission": "MS1"
+        },
+        "2": {
+          "choice": "Talent/Upgrade",
+          "detail": "Tatortanalyse -> Fortgeschritten",
+          "mission": "MS2"
+        }
+      }
+    },
+    {
+      "id": "AGENT-B",
+      "name": "Blitz",
+      "lvl": 905,
+      "wallet": 6900
+    },
+    {
+      "id": "AGENT-C",
+      "name": "Cipher",
+      "lvl": 933,
+      "wallet": 8100
+    },
+    {
+      "id": "AGENT-D",
+      "name": "Dusk",
+      "lvl": 918,
+      "wallet": 7600
+    },
+    {
+      "id": "AGENT-E",
+      "name": "Echo",
+      "lvl": 901,
+      "wallet": 7050
+    }
+  ],
+  "economy": {
+    "hq_pool": 53200
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "economy_audit",
+        "target_range": {
+          "level_band": "900+"
+        }
+      }
+    ],
+    "artifact_log": [],
+    "market": [],
+    "notes": [],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; Chronopolis-Embargo"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 12,
+      "mission": 10,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "save_id": "zr-v7-level-history-fixture-2026-04-23",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

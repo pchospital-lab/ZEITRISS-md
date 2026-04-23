@@ -495,6 +495,8 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 | 31–50  | 4 XP               | 140 XP    |
 | 51–100 | 5 XP               | 390 XP    |
 
+**Anti-Fehldeutung:** Spalte _Kumulativ_ = Gesamt-XP-Summe bis Phasenübergang, **kein** Level-Füllbalken. In Phase 1 gibt es keinen `X/10`-XP-Stand — jede Mission = +1 Level. HUD-Darstellung: `Lvl 3 ▓▓▓░░░░░░░` (Level-Rang), **niemals** `3/10 XP`. Ab Lvl 11 dann `Lvl 14 ▓▓░░░ 1/2 XP` mit Suffix. Siehe Masterprompt §F XP-Regel-Anwendung + §G Ausgabeformat.
+
 **Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 schaltet Kodex den
 **digitalen Chronopolis-Schlüssel** frei — eine kryptographische Signatur,
 die bei jedem Schleusendurchgang live dechiffriert wird. Erst danach ist der
