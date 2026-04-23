@@ -255,11 +255,13 @@
           }
         },
         "roster_echoes": {
+          "description": "Figuren-Echos aus Split/Merge. Jedes Item MUSS Objekt mit 'char_id' sein (Referenz auf characters[].id). NICHT mit shared_echoes-Format vermischen — roster_echoes bindet an Figur, shared_echoes an Ereignis. Siehe Masterprompt §D roster_echoes-Pflichtformat.",
           "type": "array",
           "maxItems": 5,
           "items": {
             "type": "object",
             "additionalProperties": true,
+            "required": ["char_id"],
             "properties": {
               "char_id": {
                 "type": "string"

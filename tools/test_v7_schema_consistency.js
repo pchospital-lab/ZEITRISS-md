@@ -15,7 +15,8 @@ const fixtures = [
   'internal/qa/fixtures/savegame_v7_chronopolis_roundtrip.json',
   'internal/qa/fixtures/savegame_v7_abort_resume.json',
   'internal/qa/fixtures/savegame_v7_chat_load.json',
-  'internal/qa/fixtures/savegame_v7_level_history.json'
+  'internal/qa/fixtures/savegame_v7_level_history.json',
+  'internal/qa/fixtures/savegame_v7_level_history_attrs_gedeckt.json'
 ];
 
 const forbiddenRoot = ['save_version', 'zr_version', 'character', 'party', 'team', 'arc_dashboard', 'location', 'phase'];
@@ -53,8 +54,10 @@ function checkFixture(relPath){
   assert.ok(continuity.shared_echoes.length <= 6, `${label}: continuity.shared_echoes überschreitet Budget (max 6).`);
   assert.ok(continuity.convergence_tags.length <= 4, `${label}: continuity.convergence_tags überschreitet Budget (max 4).`);
 
-  // Pflichtformat-Check: shared_echoes[] und roster_echoes[] Items müssen Objekt mit 'tag' sein
-  // (Schema-Invariante seit 2026-04-23 nach Run-D-Merge-Analyse)
+  // Pflichtformat-Checks (Schema-Invariante seit 2026-04-23 nach Run-D-Merge-Analyse):
+  // - shared_echoes[]: Items bindend an Ereignisse -> brauchen 'tag' (Slug/Identifier)
+  // - roster_echoes[]: Items bindend an Charaktere -> brauchen 'char_id' (Referenz auf characters[].id)
+  // Verschiedene Strukturen NICHT vermischen.
   continuity.shared_echoes.forEach((item, i) => {
     assert.strictEqual(typeof item, 'object', `${label}: continuity.shared_echoes[${i}] muss Objekt sein (kein String oder Primitive).`);
     assert.ok(item !== null && !Array.isArray(item), `${label}: continuity.shared_echoes[${i}] muss Objekt sein (nicht null/array).`);
@@ -63,7 +66,7 @@ function checkFixture(relPath){
   continuity.roster_echoes.forEach((item, i) => {
     assert.strictEqual(typeof item, 'object', `${label}: continuity.roster_echoes[${i}] muss Objekt sein.`);
     assert.ok(item !== null && !Array.isArray(item), `${label}: continuity.roster_echoes[${i}] muss Objekt sein (nicht null/array).`);
-    assert.ok(typeof item.tag === 'string' && item.tag.length > 0, `${label}: continuity.roster_echoes[${i}] braucht 'tag' als non-leeren String.`);
+    assert.ok(typeof item.char_id === 'string' && item.char_id.length > 0, `${label}: continuity.roster_echoes[${i}] braucht 'char_id' als non-leeren String (kanonisches Format {char_id, tone, text}).`);
   });
 
   // level_history-Platzierung: NUR pro Character, NIEMALS auf Root (seit 2026-04-23)
