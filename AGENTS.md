@@ -21,6 +21,32 @@
 3. **Prüfen** — CI-Smoke muss grün sein. Keine Eigenregeln erfinden.
 4. **Pushen** — Branch pushen. Flo reviewed und merged auf GitHub.
 
+## Pull Request Descriptions
+
+Flo liest die Description zuerst, bevor er den Diff öffnet. Leere oder einzeilige Bodies werden nicht gemergt.
+
+Struktur doppelt verankert: `.github/PULL_REQUEST_TEMPLATE.md` zeigt im Web-UI-Formular unter einem externen Abschreckungs-Hinweis das leere Gerüst, diese Regeln gelten für alle Maintainer- und Agenten-PRs — egal ob manuell, via `gh pr create --body-file` oder durch einen Agenten erstellt.
+
+### Pflicht-Sektionen (Reihenfolge verbindlich)
+
+- **Was** — 1–3 Zeilen: welche Dateien, was neu/anders.
+- **Warum** — 1–3 Zeilen: konkreter Auslöser, welches Problem gelöst wird.
+- **Wichtige Entscheidungen** — Bullets: Trade-offs, verworfene Alternativen, Benamungen. Der für Flo wertvollste Teil.
+- **Verifikation** — was wurde getestet (Kommando + kurzer Live-Output, z.B. `bash scripts/smoke.sh`). Bei Critic-Review: Rating + Kernkritik.
+- **Post-Merge-TODOs** — Bullets; wenn keine vorhanden: Sektion weglassen.
+- **Referenzen** — optional, nur wenn vorhanden.
+
+### Regeln
+
+- Deutsch, ganze Sätze. Pfade und Fachbegriffe bleiben technisch.
+- Konkret statt generisch: keine "Update docs"-Bodies, keine Commit-Message-Copies.
+- Verifikations-Output live kopieren, nicht rekonstruieren.
+- Keine Hype-Emoji wie 🚀🔥 bei normalen Änderungen (✓ ❌ ⚠ sind OK).
+
+Referenz-Bodies: siehe aktuelle sauber dokumentierte Merges in `git log main --merges`.
+
+
+
 ## Pflicht-Invarianten (nicht brechen)
 
 - **Save-Schema v7** — Template im Masterprompt ist SSOT.
