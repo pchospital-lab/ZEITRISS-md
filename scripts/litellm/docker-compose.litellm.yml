@@ -1,0 +1,45 @@
+# LiteLLM-Proxy für ZEITRISS.
+#
+# Starten:
+#   cd scripts/litellm
+#   cp .env.example .env   # und Keys eintragen, wenn ihr nicht das setup-Script nutzt
+#   docker compose -f docker-compose.litellm.yml --env-file .env up -d
+#
+# Oder bequemer: `python scripts/setup.py --install-litellm`
+# legt .env mit generiertem Master-Key an und startet den Container.
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: litellm-zeitriss
+    restart: unless-stopped
+
+    # Loopback-only: Der Proxy ist von außen nicht erreichbar, nur vom
+    # selben Host (da wo OpenWebUI auch läuft). Das ist Absicht — LiteLLM
+    # hat keinen eigenen Auth-Layer über den master_key hinaus.
+    ports:
+      - "127.0.0.1:4000:4000"
+
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+
+    volumes:
+      # Config read-only eingehängt — Änderungen erfordern Container-Restart.
+      - ./config.yaml:/app/config.yaml:ro
+
+    command:
+      - "--config"
+      - "/app/config.yaml"
+      - "--port"
+      - "4000"
+      - "--num_workers"
+      - "1"
+
+    healthcheck:
+      # LiteLLM stellt einen Health-Endpoint ohne Auth bereit.
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:4000/health/liveness || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

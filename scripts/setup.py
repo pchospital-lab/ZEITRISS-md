@@ -878,6 +878,239 @@ def _save_sync_manifest(repo: Path, manifest: dict) -> None:
         print_warn(f"Sync-Manifest konnte nicht geschrieben werden: {exc}")
 
 
+def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
+    """Install + start LiteLLM proxy for Anthropic prompt caching.
+
+    Schritte:
+      1. Docker verfügbar?
+      2. OpenRouter-Key holen (Env oder Abfrage).
+      3. Master-Key erzeugen (falls noch keiner in .env ist).
+      4. .env schreiben (chmod 600, gitignored).
+      5. `docker compose up -d` für den Proxy.
+      6. Health-Check abwarten.
+      7. 2-Call-Cache-Test gegen den Proxy.
+      8. OpenWebUI-Connection auf http://localhost:4000 zeigen lassen
+         (als zusätzliche OpenAI-kompatible Connection).
+
+    Idempotent: Läuft mehrfach ok, erzeugt keinen Doppel-Container.
+    """
+    opts = opts or {}
+    project = cfg["project"]
+
+    print_header(f"{project} — LiteLLM-Proxy einrichten")
+
+    lite_dir = repo / "scripts" / "litellm"
+    if not lite_dir.is_dir():
+        print_error(f"Erwartetes Verzeichnis fehlt: {lite_dir}")
+        print_info("Ist das Repo vollständig ausgecheckt?")
+        sys.exit(1)
+
+    compose_file = lite_dir / "docker-compose.litellm.yml"
+    env_file = lite_dir / ".env"
+    env_example = lite_dir / ".env.example"
+    if not compose_file.is_file() or not env_example.is_file():
+        print_error("docker-compose.litellm.yml oder .env.example fehlen im Repo.")
+        sys.exit(1)
+
+    # 1. Docker verfügbar?
+    import subprocess
+    try:
+        subprocess.run(
+            ["docker", "compose", "version"],
+            check=True, capture_output=True, timeout=10,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        print_error(
+            "Docker (mit Compose-Plugin) nicht verfügbar. "
+            "LiteLLM läuft als Docker-Container, ohne Docker geht es nicht.\n"
+            "Installation: https://docs.docker.com/engine/install/"
+        )
+        sys.exit(1)
+    print_ok("Docker verfügbar.")
+
+    # 2. + 3. Keys besorgen
+    def _read_env_file(path: Path) -> dict:
+        out = {}
+        if not path.is_file():
+            return out
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, _, v = line.partition("=")
+            out[k.strip()] = v.strip()
+        return out
+
+    existing = _read_env_file(env_file)
+
+    or_key = (
+        os.environ.get("OPENROUTER_API_KEY")
+        or existing.get("OPENROUTER_API_KEY")
+        or ""
+    )
+    if not or_key or or_key.startswith("sk-or-v1-REPLACE") or or_key == "":
+        if opts.get("assume_yes"):
+            print_error(
+                "OPENROUTER_API_KEY nicht gesetzt (Env + .env leer) und "
+                "--yes aktiv. Bitte erst `export OPENROUTER_API_KEY=sk-or-...` "
+                "oder .env vorab anlegen."
+            )
+            sys.exit(1)
+        try:
+            or_key = input("OpenRouter-API-Key (sk-or-...): ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            print_error("Abgebrochen.")
+            sys.exit(1)
+        if not or_key.startswith("sk-or-"):
+            print_error("Das sieht nicht nach einem OpenRouter-Key aus. Erwartet: sk-or-...")
+            sys.exit(1)
+
+    master_key = existing.get("LITELLM_MASTER_KEY") or ""
+    if not master_key or master_key.startswith("sk-litellm-REPLACE"):
+        import secrets
+        master_key = "sk-litellm-" + secrets.token_urlsafe(32)
+        print_ok("LiteLLM-Master-Key generiert (zufällig, 32 Byte).")
+    else:
+        print_info("Bestehender LiteLLM-Master-Key in .env wird weiter genutzt.")
+
+    # 4. .env schreiben, chmod 600
+    env_content = (
+        "# Generiert von scripts/setup.py --install-litellm\n"
+        "# Diese Datei enthält Secrets — bitte nicht committen.\n"
+        f"OPENROUTER_API_KEY={or_key}\n"
+        f"LITELLM_MASTER_KEY={master_key}\n"
+    )
+    env_file.write_text(env_content, encoding="utf-8")
+    try:
+        env_file.chmod(0o600)
+    except PermissionError:
+        print_warn("Konnte .env nicht auf chmod 600 setzen (Windows-NTFS?). "
+                   "Bitte manuell absichern.")
+    print_ok(f".env geschrieben ({env_file}).")
+
+    # 5. Container starten
+    print_info("Starte LiteLLM-Container...")
+    try:
+        res = subprocess.run(
+            [
+                "docker", "compose",
+                "-f", str(compose_file),
+                "--env-file", str(env_file),
+                "up", "-d",
+            ],
+            capture_output=True, text=True, timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        print_error("docker compose up hing >120s fest — bitte manuell prüfen.")
+        sys.exit(1)
+    if res.returncode != 0:
+        print_error(f"docker compose up fehlgeschlagen:\n{res.stderr}")
+        sys.exit(1)
+    print_ok("Container gestartet.")
+
+    # 6. Health-Check
+    import urllib.request
+    import urllib.error
+    print_info("Warte auf LiteLLM-Health-Endpoint (max. 60 s)...")
+    healthy = False
+    for i in range(30):
+        time.sleep(2)
+        try:
+            req = urllib.request.Request("http://127.0.0.1:4000/health/liveness")
+            with urllib.request.urlopen(req, timeout=3) as resp:
+                if resp.status == 200:
+                    healthy = True
+                    break
+        except (urllib.error.URLError, ConnectionError, TimeoutError, OSError):
+            continue
+    if not healthy:
+        print_error(
+            "LiteLLM antwortet nach 60 s nicht auf /health/liveness.\n"
+            "Logs prüfen: docker logs litellm-zeitriss"
+        )
+        sys.exit(1)
+    print_ok("LiteLLM erreichbar auf http://127.0.0.1:4000.")
+
+    # 7. 2-Call-Cache-Test (Best-Effort)
+    print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische Calls)...")
+    big_system = "You are a concise assistant. " * 400  # ~2000 Tokens
+    test_body = json.dumps({
+        "model": "zeitriss-sonnet",
+        "messages": [
+            {"role": "system", "content": big_system},
+            {"role": "user", "content": "Say only: OK"},
+        ],
+        "temperature": 0.1,
+        "max_tokens": 8,
+    }).encode("utf-8")
+    headers = {
+        "Authorization": f"Bearer {master_key}",
+        "Content-Type": "application/json",
+    }
+
+    def _call() -> Optional[dict]:
+        try:
+            req = urllib.request.Request(
+                "http://127.0.0.1:4000/v1/chat/completions",
+                data=test_body, headers=headers, method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                return json.loads(resp.read())
+        except (urllib.error.URLError, urllib.error.HTTPError,
+                ConnectionError, TimeoutError, json.JSONDecodeError) as exc:
+            print_warn(f"Cache-Test-Call fehlgeschlagen: {exc}")
+            return None
+
+    call1 = _call()
+    if call1 is None:
+        print_warn(
+            "Cache-Test nicht möglich — Container läuft aber. "
+            "Häufige Ursachen: OpenRouter-Credits leer, OpenRouter-Privacy "
+            "blockiert Anthropic/Bedrock, falscher Key."
+        )
+    else:
+        time.sleep(3)
+        call2 = _call()
+        if call2:
+            usage2 = call2.get("usage", {}) or {}
+            cached = (usage2.get("prompt_tokens_details") or {}).get("cached_tokens", 0)
+            if cached and cached > 0:
+                print_ok(
+                    f"Prompt-Caching aktiv: {cached} Tokens aus Cache in Call 2. "
+                    f"Ersparnis pro Folge-Turn ~90 %."
+                )
+            else:
+                print_warn(
+                    "Caching-Check neutral: Call 2 hat keine `cached_tokens` > 0 "
+                    "gemeldet. Kann an OpenRouter-Routing liegen. "
+                    "Privacy-Settings auf openrouter.ai prüfen."
+                )
+
+    # 8. OpenWebUI-Connection (optional, nur Hinweis — kein Auto-Schreiben,
+    #    weil die OpenWebUI-Connections-API zwischen Versionen stark wechselt.)
+    print()
+    print_header("LiteLLM-Proxy läuft.")
+    print()
+    print("  Nächster Schritt — OpenWebUI-Connection hinzufügen:")
+    print()
+    print(f"  1. OpenWebUI öffnen: {os.environ.get('OPENWEBUI_URL', 'http://localhost:8080')}")
+    print("  2. Settings → Connections → OpenAI → „+ Add Connection")
+    print("     URL:  http://localhost:4000/v1")
+    print(f"     Key:  {master_key}")
+    print("     Name: LiteLLM (ZEITRISS Cache)")
+    print("  3. Speichern.")
+    print("  4. Preset `ZEITRISS v4.2.6 Uncut` im Admin-Bereich öffnen,")
+    print("     Base-Model auf `zeitriss-sonnet` umstellen.")
+    print()
+    print("  Danach läuft jeder Chat über LiteLLM → OpenRouter → Bedrock/Anthropic,")
+    print("  und der Masterprompt wird gecached. Erwartete Ersparnis: ~90 % auf")
+    print("  den Prompt-Anteil jedes Folge-Turns.")
+    print()
+    print("  Master-Key wurde sicher in scripts/litellm/.env abgelegt (chmod 600).")
+    print("  Container-Logs: `docker logs litellm-zeitriss`")
+
+
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Incremental sync mode: update only what changed since last setup/sync.
 
@@ -1555,6 +1788,7 @@ def main() -> None:
             Examples:
               python setup.py                          # OpenWebUI setup (full install)
               python setup.py --sync                   # Incremental update (only changed files)
+              python setup.py --install-litellm        # Prompt-Caching-Proxy einrichten (spart ~90%)
               python setup.py --export                 # Export knowledge pack
               python setup.py --export --flat          # Flat export (no subdirs)
               python setup.py --export -o ~/Desktop/pack  # Export to custom dir
@@ -1576,6 +1810,15 @@ def main() -> None:
             "Inkrementeller Sync: nur geänderte Masterprompt/KB-Files pushen, "
             "statt Preset+KB komplett neu zu bauen. Nutzt MD5-Manifest in "
             ".openwebui-sync.json. Nach Repo-Merges der empfohlene Weg."
+        ),
+    )
+    parser.add_argument(
+        "--install-litellm",
+        action="store_true",
+        help=(
+            "LiteLLM-Proxy als Docker-Container einrichten. Aktiviert "
+            "Anthropic-Prompt-Caching: Folge-Turns in einer Session zahlen "
+            "nur ~10%% des Masterprompt-Preises. Benötigt Docker + OpenRouter-Key."
         ),
     )
     parser.add_argument(
@@ -1633,6 +1876,14 @@ def main() -> None:
 
     if args.export:
         run_export(repo, cfg, flat=args.flat, out_dir=args.output)
+    elif args.install_litellm:
+        run_install_litellm(
+            repo,
+            cfg,
+            opts={
+                "assume_yes": args.yes,
+            },
+        )
     elif args.sync:
         run_sync(
             repo,
