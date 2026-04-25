@@ -146,6 +146,12 @@ tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 > formulieren („Wir wollen neu starten als Gruppe“ ist ebenso gültig) —
 > Details im [Setup-Guide](docs/setup-guide.md).
 
+**Updates nach Patches**: `git pull && python scripts/setup.py --sync`
+— der `--sync`-Modus überträgt nur, was sich geändert hat, statt jedes
+Mal die ganze Knowledge Base neu zu berechnen. Spart bei typischen
+Regel-Patches Minuten. Details im
+[Setup-Guide](docs/setup-guide.md#aktualisieren-und-nach-upgrades).
+
 **Browser-Pfad** (Lumo/Claude Projects): keine Installation, nur
 Account und Wissenspaket — Anleitung in
 [docs/setup-lumo.md](docs/setup-lumo.md).
