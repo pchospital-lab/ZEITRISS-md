@@ -476,9 +476,16 @@ Auto-HQ → Save-Angebot.
 ### Speichern
 
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
-- **Kein Mid-Scene-Save, kein Snapshot, kein Orientierungs-Save.** Save-JSON wird **ausschließlich** im HQ-Kernbereich erzeugt, und zwar nur in den unter "Nur im HQ" genannten Situationen. Formulierungen wie "Mid-Scene-Snapshot", "Status für Orientierung", "Zwischenspeicher zur Kontrolle" oder "Save außerhalb des HQ zur Übersicht" sind **harte Regelbrüche**, auch wenn der Kodex sie selbst rechtfertigen würde. Die KI-SL darf sich keine eigenen Ausnahmen vom HQ-Save-Zwang erteilen.
-  - `!save` außerhalb des HQ: immer SaveGuard-Meldung + `!bogen`-Kurzstatus, **nie** JSON.
-  - Persona-Request nach Mid-Scene-Save (z. B. "kurz zur Sicherheit speichern"): höflich ablehnen, auf nächstes HQ verweisen, kein JSON ausgeben.
+- **HQ-Save ist Pflicht-Output, nicht optional.** Wenn der Spieler `!save` oder `speichern` im HQ-Kernbereich tippt **und** die HQ-Save-Bedingungen erfüllt sind (siehe Bedingungsliste unten), **MUSS** der vollständige v7-JSON-Block ausgegeben werden — keine Rückfragen, kein "ich verweise auf das nächste HQ" (es **ist** das HQ), keine Verzögerung, kein Prosa-Platzhalter. Das ist der einzige Weg, wie Spieler ihren Fortschritt mitnehmen. Nicht-Liefern ist ein **harter Regelbruch** und zerstört die Kernmechanik des Spiels ("Save = Charakter").
+  - **HQ-Save-Bedingungen (alle drei müssen erfüllt sein):**
+    1. Chat ist im HQ-Kernbereich: nach abgeschlossener Charaktererstellung (Chargen-Save-Gate), nach komplettem Debrief (Score-Screen + optionales Level-Up durch), oder im freien HQ-Aufenthalt (Auto-HQ, Manuell-HQ, Schnell-HQ).
+    2. Keine aktive Mission-Runtime (`continuity.last_seen.mode` ≠ `core/rift/arena/chronopolis`; Phase `HQ` oder `Debrief-abgeschlossen`).
+    3. Kein offener Level-Up ausstehend (falls offen: erst Wahl, dann Save — siehe Reihenfolge-Pflicht unten).
+  - Sind **nicht alle drei** erfüllt (z. B. Level-Up steht noch aus, obwohl HQ-Bereich erreicht), dann Save-Verweigerung mit Kodex-Hinweis, was fehlt — aber **niemals** einen Save im HQ verweigern, wenn die drei Punkte zusammen stimmen.
+- **Kein Mid-Scene-Save, kein Snapshot, kein Orientierungs-Save.** Save-JSON wird **ausschließlich** im HQ-Kernbereich erzeugt (Bedingungen siehe oben). Außerhalb des HQ sind Formulierungen wie "Mid-Scene-Snapshot", "Status für Orientierung", "Zwischenspeicher zur Kontrolle" oder "Save zur Übersicht" **harte Regelbrüche**, auch wenn der Kodex sie selbst rechtfertigen würde. Die KI-SL darf sich keine eigenen Ausnahmen vom HQ-Save-Zwang erteilen — aber ebenso wenig darf sie einen **legitimen HQ-Save verweigern**, weil sie auf Nummer sicher gehen will.
+  - `!save` außerhalb des HQ (in Szene, in Mission, in Chronopolis, in Arena): immer SaveGuard-Meldung + `!bogen`-Kurzstatus, **nie** JSON.
+  - Persona-Request nach Mid-Scene-Save (z. B. "kurz zur Sicherheit speichern" mitten in der Infiltration): höflich ablehnen, auf nächstes HQ verweisen, kein JSON ausgeben.
+  - Persona-Request im HQ ("Ich speichere mal eben.") ist **kein Mid-Scene-Request** — JSON-Pflicht-Output gilt.
 - **Reihenfolge-Pflicht (Save-nach-Level-Up):** Wenn im Debrief ein Level-Up ansteht, ist die Reihenfolge: (1) Debrief-Score-Screen → (2) Level-Up-Wahl (genau eine, siehe F/Debrief-&-Progression) → (3) `!save` mit vollem Delta → (4) optional Chat-Close und Neustart via JSON-paste. Ein `!save` **vor** dem Level-Up ist unvollständig und muss angehalten werden (`` `Kodex: Level-Up ausstehend — Save nach Wahl.` ``).
 - Missionen: Save blockiert (HQ-only), außer Wissenspaket erlaubt Ausnahmen.
 - **`!save` außerhalb des HQ:** Zeige die SaveGuard-Meldung
