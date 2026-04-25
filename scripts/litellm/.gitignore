@@ -1,0 +1,7 @@
+# Secrets (per-Install, nicht versionieren):
+.env
+
+# Das Beispiel-File ist Teil des Repos und soll committet werden.
+# Die Root-.gitignore schließt `.env.*` pauschal aus, hier whitelisten
+# wir explizit die Template-Datei:
+!.env.example

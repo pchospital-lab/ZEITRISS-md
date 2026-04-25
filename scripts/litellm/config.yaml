@@ -1,0 +1,40 @@
+# LiteLLM-Proxy-Konfiguration für ZEITRISS.
+#
+# LiteLLM sitzt zwischen OpenWebUI und OpenRouter. Es setzt auf die
+# System-Message (Masterprompt) den Anthropic-Prompt-Cache-Marker
+# (`cache_control: ephemeral`). Dadurch zahlt ihr beim zweiten, dritten,
+# vierten Turn in einer Session nicht mehr den vollen Masterprompt-Preis,
+# sondern nur noch etwa ein Zehntel.
+#
+# Wichtig: Damit das Caching greifen darf, muss in eurem OpenRouter-Account
+# unter "Settings → Privacy" der Provider-Zugriff für Anthropic oder Bedrock
+# zugelassen sein. OpenRouter zeigt das selbst an, wenn die Route blockiert ist.
+
+model_list:
+  # Hauptmodell für ZEITRISS-Runs. Der Modellname `zeitriss-sonnet` ist
+  # das, was OpenWebUI als Base-Model referenzieren soll — das Setup-Script
+  # konfiguriert das automatisch.
+  - model_name: zeitriss-sonnet
+    litellm_params:
+      model: openrouter/anthropic/claude-sonnet-4.6
+      api_key: os.environ/OPENROUTER_API_KEY
+      # Prompt-Cache-Marker auf System-Prompt setzen.
+      # Offizielle LiteLLM-Doku: docs.litellm.ai/docs/proxy/prompt_caching
+      cache_control_injection_points:
+        - location: message
+          role: system
+
+general_settings:
+  # Master-Key schützt den Proxy. Wird im Setup-Script generiert und in .env
+  # abgelegt (chmod 600). Jede Anfrage an den Proxy muss diesen Key mitführen;
+  # OpenWebUI bekommt ihn beim Einrichten der Verbindung.
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+litellm_settings:
+  # Nicht unterstützte Parameter (z. B. OpenAI-spezifische Felder) verwerfen,
+  # statt einen Fehler zu werfen. Macht OpenWebUI-Kompatibilität robuster.
+  drop_params: true
+  # Verbose-Logging während der Stabilisierungsphase. Kann auf `false`
+  # gestellt werden, sobald das Setup produktiv läuft. Nichts in den Logs
+  # enthält Secrets.
+  set_verbose: true

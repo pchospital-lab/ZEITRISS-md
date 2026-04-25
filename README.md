@@ -141,23 +141,22 @@ Danach: neuen Chat in OpenWebUI öffnen, Modell
 **ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)`
 tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 
-> `Spiel starten (solo schnell)` ist optional als Fast-Lane für Kurztests verfügbar.
-> Ihr dürft den Einstieg jederzeit in natürlicher Sprache sagen oder
-> formulieren („Wir wollen neu starten als Gruppe“ ist ebenso gültig) —
-> Details im [Setup-Guide](docs/setup-guide.md).
+> `Spiel starten (solo schnell)` ist optional als Fast-Lane für
+> Kurzrunden verfügbar. Natürliche Sprache funktioniert genauso
+> („Wir wollen neu starten als Gruppe").
 
-**Updates nach Patches**: `git pull && python scripts/setup.py --sync`
-— der `--sync`-Modus überträgt nur, was sich geändert hat, statt jedes
-Mal die ganze Knowledge Base neu zu berechnen. Spart bei typischen
-Regel-Patches Minuten. Details im
-[Setup-Guide](docs/setup-guide.md#aktualisieren-und-nach-upgrades).
+---
 
-**Browser-Pfad** (Lumo/Claude Projects): keine Installation, nur
-Account und Wissenspaket — Anleitung in
-[docs/setup-lumo.md](docs/setup-lumo.md).
+**Alles weitere im [Setup-Guide](docs/setup-guide.md):**
 
-**Setup-Guide** (Details, Flags, Troubleshooting, Plattform-Alternativen,
-manuelles Setup): [docs/setup-guide.md](docs/setup-guide.md).
+- [Überblick der Komponenten](docs/setup-guide.md#überblick-wie-zeitriss-läuft)
+  (wer macht was, was ist Pflicht, was optional)
+- [Happy Path in 5 Schritten](docs/setup-guide.md#happy-path-installation-in-fünf-schritten)
+  (OpenWebUI + OpenRouter + LiteLLM)
+- [Updates mit `--sync`](docs/setup-guide.md#updates-und-wartung)
+  (nur Deltas übertragen, spart Minuten)
+- [Varianten](docs/setup-guide.md#varianten): Lokales Gruppenspiel,
+  Ollama offline, Lumo/Claude Projects, manuelles Setup
 
 ## Modell-Empfehlung (Stand März 2026)
 
