@@ -2831,7 +2831,7 @@ feedback_intensity="low") -%⟩
 ⟨% set arena.t_remaining = arena.time_limit_s %⟩
 ⟨# Round-Reset: LP, SYS, PP, Cooldowns, Psi-Heat → Startwerte #⟩
 ⟨% for c in arena.combatants %⟩
-⟨% set c.hp = c.hp_max %⟩
+⟨% set c.lp = c.lp_max %⟩
 ⟨% set c.sys_runtime = 0 %⟩
 ⟨% set c.pp = c.pp_max %⟩
 ⟨% set c.psi_heat = 0 %⟩

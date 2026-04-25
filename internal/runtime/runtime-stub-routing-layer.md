@@ -176,7 +176,7 @@ Content-Type: application/json
     "audit": []
   },
   "character": {
-    "hp": 18,
+    "lp": 18,
     "stress": 0,
     "rank": "Operator I",
     "attributes": { "SYS_max": 3, "SYS_installed": 3, "SYS_runtime": 0, "SYS_used": 3 }

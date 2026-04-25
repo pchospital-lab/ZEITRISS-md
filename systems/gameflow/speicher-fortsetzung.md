@@ -247,7 +247,7 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - `{id, name, callsign, rank, lvl, xp}`
   - `origin.{epoch, hominin, role}`
   - `attr.{STR, GES, INT, CHA, TEMP, SYS}` (SYS = SYS_max)
-  - `hp, hp_max, stress, has_psi, sys_installed`
+  - `lp, lp_max, stress, has_psi, sys_installed`
   - wenn `has_psi`: `psi_heat, pp, psi_abilities[]`
   - `talents[], equipment[{name,type,tier}], implants[{name,sys_cost,effect}]`
   - `history{background, milestones[]}`
@@ -539,8 +539,8 @@ zurück.
         "SYS_runtime": 2,
         "SYS_used": 2
       },
-      "hp": 10,
-      "hp_max": 10,
+      "lp": 10,
+      "lp_max": 10,
       "stress": 0,
       "has_psi": false,
       "psi_heat": 0,
@@ -1508,8 +1508,8 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
         "role": "Aufklärung"
       },
       "attr": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS": 4 },
-      "hp": 10,
-      "hp_max": 10,
+      "lp": 10,
+      "lp_max": 10,
       "stress": 0,
       "has_psi": false,
       "sys_installed": 4,

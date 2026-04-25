@@ -1260,7 +1260,7 @@ characters: [{                          // Array, Session-Anker = Index 0
   id, name, callsign, rank, lvl, xp,
   origin: {epoch, hominin, role},
   attr: {STR, GES, INT, CHA, TEMP, SYS},  // SYS = SYS_max
-  hp, hp_max, stress,
+  lp, lp_max, stress,
   has_psi,                              // wenn true: psi_heat, pp, psi_abilities[]
   sys_installed,
   talents:[], equipment:[{name,type,tier}], implants:[{name,sys_cost,effect}],
