@@ -23,29 +23,58 @@
 
 ## Pull Request Descriptions
 
-Flo liest die Description zuerst, bevor er den Diff öffnet. Leere oder einzeilige Bodies werden nicht gemergt.
+Flo liest die Description zuerst, bevor er den Diff öffnet. Unser Workflow:
 
-Struktur doppelt verankert: `.github/PULL_REQUEST_TEMPLATE.md` zeigt im Web-UI-Formular unter einem externen Abschreckungs-Hinweis das leere Gerüst, diese Regeln gelten für alle Maintainer- und Agenten-PRs — egal ob manuell, via `gh pr create --body-file` oder durch einen Agenten erstellt.
+- **Ein Commit pro Branch**, dann Squash-Merge durch Flo.
+- GitHub nimmt beim Squash-Merge die **Commit-Message** als Default-Vorschlag für den PR-Body und damit auch für die Main-Commit-Message.
+- Darum ist der richtige Ort für die Pflicht-Struktur die **Commit-Message selbst**, nicht ein separater PR-Body.
 
-### Pflicht-Sektionen (Reihenfolge verbindlich)
+### Pflicht-Struktur (gilt in der Commit-Message)
 
-- **Was** — 1–3 Zeilen: welche Dateien, was neu/anders.
-- **Warum** — 1–3 Zeilen: konkreter Auslöser, welches Problem gelöst wird.
-- **Wichtige Entscheidungen** — Bullets: Trade-offs, verworfene Alternativen, Benamungen. Der für Flo wertvollste Teil.
-- **Verifikation** — was wurde getestet (Kommando + kurzer Live-Output, z.B. `bash scripts/smoke.sh`). Bei Critic-Review: Rating + Kernkritik.
-- **Post-Merge-TODOs** — Bullets; wenn keine vorhanden: Sektion weglassen.
-- **Referenzen** — optional, nur wenn vorhanden.
+```
+<type>(<scope>): <kurzes Subject, max. 72 Zeichen>
+
+## Was
+
+1–3 Zeilen: welche Dateien, was neu/anders.
+
+## Warum
+
+1–3 Zeilen: konkreter Auslöser, welches Problem gelöst wird.
+
+## Wichtige Entscheidungen
+
+- Bullets: Trade-offs, verworfene Alternativen, Benamungen. Der für Flo wertvollste Teil.
+
+## Verifikation
+
+Konkret getestet mit welchem Kommando? (Dieses Repo: siehe CI-Smoke bzw. Repo-Konvention.) Bei Critic-Review: Rating + Kernkritik.
+
+## Post-Merge-TODOs
+
+- Bullets; wenn keine vorhanden: Sektion weglassen.
+
+## Referenzen
+
+- Optional, nur wenn vorhanden.
+```
 
 ### Regeln
 
-- Deutsch, ganze Sätze. Pfade und Fachbegriffe bleiben technisch.
-- Konkret statt generisch: keine "Update docs"-Bodies, keine Commit-Message-Copies.
+- Subject konventional (`fix(x):`, `docs(y):`, `feat(z):`), Imperativ, Deutsch oder Englisch je nach Repo-Konvention.
+- Die Sektions-Überschriften (`## Was`, `## Warum`, …) kommen **wörtlich** in den Commit-Body — sie rendern im gemergten `git log` und im GitHub-PR-Preview sauber als Markdown.
+- Konkret statt generisch: keine "Update docs"-Bodies, keine Commit-Message-Copies von anderen Commits.
 - Verifikations-Output live kopieren, nicht rekonstruieren.
 - Keine Hype-Emoji wie 🚀🔥 bei normalen Änderungen (✓ ❌ ⚠ sind OK).
 
-Referenz-Bodies: siehe aktuelle sauber dokumentierte Merges in `git log main --merges`.
+### Im Web-UI beim PR-Erstellen
 
+1. GitHub lädt zuerst `PULL_REQUEST_TEMPLATE.md` in die Textarea (nur der Abschreckungs-Hinweis für externe Besucher).
+2. Darunter — oder als Ersatz — erscheint die letzte Commit-Message als Body-Vorschlag.
+3. **Unsere Commit-Message hat die Pflicht-Struktur bereits drin.** Die Textarea kann man so lassen oder das Template oben abtrennen — Flo entscheidet beim Merge.
+4. Squash-Merge: GitHub übernimmt Commit-Message als Main-Commit-Body. Fertig lesbar in `git log`.
 
+Historischer Anker: ARXION #504 (gemergt 2026-04-25) war die Main-Commit-Message, die unlesbar wurde — Auslöser für diese Umstellung.
 
 ## Pflicht-Invarianten (nicht brechen)
 
