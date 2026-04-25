@@ -71,8 +71,12 @@ function looksBinary(text) {
   return text.indexOf('\u0000') !== -1;
 }
 
-const linePattern = /\bHP\b|Hitpoints/;
-const filePattern = /\bHP\b|Hitpoints/g;
+// Prosa-Drift ("HP" als Kurzform, "Hitpoints" als englischer Begriff) plus
+// Schema-Drift (JSON-Felder `"hp":`, `hp_max`, `"health":`, `"hit_points":`
+// oder Prosa-Listen mit `hp, hp_max, ...`). Der Watchguard muss beide fangen,
+// sonst rutschen Save-Schema-Templates durch (Regression aus Playtest 2026-04-25).
+const linePattern = /\bHP\b|Hitpoints|\"hp\"\s*:|\"hp_max\"\s*:|\bhp_max\b|\"health\"\s*:|\"hit_points\"\s*:|(^|[^a-zA-Z_])hp\s*,\s*hp_max\b/;
+const filePattern = /\bHP\b|Hitpoints|\"hp\"\s*:|\"hp_max\"\s*:|\bhp_max\b|\"health\"\s*:|\"hit_points\"\s*:|(^|[^a-zA-Z_])hp\s*,\s*hp_max\b/g;
 const violations = [];
 
 for (const relPath of listTrackedFiles().filter(isTargetFile)) {
