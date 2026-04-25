@@ -80,6 +80,8 @@ Sprache.
 
 Für alle, die wissen wollen, was im Hintergrund passiert:
 
+### Full-Rebuild (`python scripts/setup.py`)
+
 1. **Verbindung prüfen** — API-Key, Health-Check, Auth.
 2. **Embedding-Engine-Precheck** — liest die aktuelle Konfiguration und
    warnt bei unbekannten Engines.
@@ -89,33 +91,136 @@ Für alle, die wissen wollen, was im Hintergrund passiert:
 5. **19 Wissensdateien hochladen** und an die neue KB verknüpfen.
 6. **Preset anlegen/aktualisieren** — Masterprompt, Parameter, KB-Bindung,
    Icon.
-7. **Retrieval-Check** — eine Canary-Query fragt die KB direkt ab und
+7. **Sync-Manifest schreiben** — `.openwebui-sync.json` im Repo-Root
+   speichert Datei-Hashes und OpenWebUI-Datei-IDs, damit spätere
+   `--sync`-Läufe nur Deltas übertragen. (Das Manifest ist per-Install
+   gitignored und gehört nicht ins Repo.)
+8. **Retrieval-Check** — eine Canary-Query fragt die KB direkt ab und
    prüft, ob die erwarteten Regel-Phrasen als Chunks zurückkommen.
    Nur wenn das grün ist, gilt das Setup als erfolgreich.
 
 Der Retrieval-Check ist der eigentliche Knackpunkt: Er entscheidet final,
 ob Setup gelungen ist, unabhängig davon, was einzelne API-Calls melden.
 
+### Inkrementeller Sync (`python scripts/setup.py --sync`)
+
+1. **Verbindung prüfen** — wie oben.
+2. **Preset + KB lesen** — holt den aktuellen Zustand über die OpenWebUI-API.
+3. **Manifest laden** — `.openwebui-sync.json`; fehlt es, wird der erste
+   Lauf alle Dateien neu hochladen (so wie Full-Rebuild).
+4. **Masterprompt-Drift prüfen** — MD5-Vergleich zwischen lokalem File
+   und `params.system` im Preset. Bei Drift: Preset-Patch (<1 s).
+5. **KB-Datei-Deltas prüfen** — pro Datei MD5 gegen Manifest vergleichen.
+6. **Für jede geänderte Datei**: alte Version entlinken und löschen,
+   neue Version hochladen, an KB verknüpfen (synchron mit Embedding-Pass).
+7. **Manifest-Checkpoint** — alle drei verarbeiteten Dateien wird das
+   Manifest zwischengespeichert, damit Ctrl-C den bisherigen Fortschritt
+   nicht verliert.
+8. **Retrieval-Check** — gleich wie beim Full-Rebuild.
+
+Wichtig: Der `--sync`-Modus **vertraut** auf sein Manifest. Wenn jemand
+in der OpenWebUI-UI manuell eine KB-Datei löscht, kann der Server-Drift-Check
+das beim nächsten `--sync` meist bemerken (solange OpenWebUI die
+Dateiliste korrekt liefert). In Zweifelsfällen hilft immer der
+Full-Rebuild.
+
+`--sync` patcht außerdem **nur den Masterprompt** im Preset. Manuelle
+Tweaks an Temperature, Top-P oder Frequency-Penalty in OpenWebUI bleiben
+erhalten — nur der System-Prompt-Text wird bei Drift überschrieben.
+
 ---
 
 ## Aktualisieren und nach Upgrades
 
-### Normale Updates
+### Normale Updates (schnell, inkrementell) — empfohlen
 
-Neues ZIP laden (oder `git pull`) und das Script nochmal starten — fertig.
-Es räumt das alte Preset und die alte Knowledge Base weg und baut alles
-frisch auf.
+Nach einem `git pull` reicht in der Regel:
 
 ```bash
 git pull
+python scripts/setup.py --sync
+```
+
+Der `--sync`-Modus vergleicht die lokalen Dateien mit einem Manifest
+(`.openwebui-sync.json`, automatisch bei jedem Setup angelegt) und
+überträgt **nur, was sich tatsächlich geändert hat**:
+
+- Masterprompt geändert → Preset wird gepatcht (<1 s).
+- Einzelne Wissensmodule geändert → nur diese werden neu hochgeladen und
+  ihre Embeddings berechnet.
+- Nichts geändert → „Alles synchron, nichts zu tun."
+
+Das spart bei typischen Regel-Patches **Minuten bis zu einer halben Stunde**
+gegenüber dem Full-Rebuild. Eure KB-IDs bleiben stabil, offene
+Browser-Chats überleben, Embeddings werden nicht unnötig neu gerechnet.
+
+**Hinweis für ZIP-Download-User**: Wer das Repo ohne Git als ZIP lädt,
+sollte Full-Rebuild nutzen — `--sync` braucht das Manifest aus vorherigen
+Läufen am gleichen Ort, und ein frisches ZIP-Entpacken hat das nicht.
+
+**Hinweis für manuelle Preset-Tweaks**: `--sync` patcht nur den
+System-Prompt (Masterprompt) im Preset. Wenn du in OpenWebUI manuell
+Temperature, Top-P oder Frequency geändert hast, bleiben diese Werte
+erhalten. Nur Änderungen am Masterprompt-Text ziehen über `--sync`
+in euer Preset ein.
+
+### Erstinstallation oder bei Struktur-Drift
+
+```bash
 python scripts/setup.py
 ```
 
+Der Full-Rebuild räumt das alte Preset und die alte Knowledge Base weg
+und baut alles frisch auf. Richtig in folgenden Fällen:
+
+- **Erstinstallation** — `--sync` verlangt ein existierendes Preset.
+  Beim ersten Lauf gibt's das noch nicht, also ist Full-Rebuild Pflicht.
+- **Major-Upgrades von OpenWebUI** — Knowledge-Schema kann sich ändern.
+- **Zerschossener Zustand** — z. B. nach manuellem Eingriff in die KB,
+  siehe [Troubleshooting](#troubleshooting).
+- **Wenn `--sync` mehrfach fehlschlägt** und der Fehler unklar bleibt.
+
+Der Full-Rebuild schreibt am Ende automatisch das Manifest, sodass ein
+anschließender `--sync`-Lauf sofort „synchron" meldet — kein doppeltes
+Rechnen von Embeddings.
+
+### Dauer-Erwartung
+
+| Fall | Dauer |
+| ---- | ----- |
+| `--sync`, nichts geändert | <1 Sekunde |
+| `--sync`, nur Masterprompt | 1–2 Sekunden |
+| `--sync`, 1–5 KB-Dateien geändert | 20 Sekunden bis 8 Minuten |
+| Full-Rebuild / Erstinstallation | 5–25 Minuten |
+
+Die Spannweite kommt vom **Embedding-Backend**: OpenWebUI-Default
+(MiniLM) rechnet in Sekunden, Ollama-CPU braucht pro 80-kB-Datei
+60–120 Sekunden.
+
+Der `--sync`-Lauf gibt die erwartete Dauer zu Beginn aus und zeigt pro
+Datei einen Fortschrittszeiger — das Script sieht nur „eingefroren"
+aus, ist es aber nicht. Solange Fortschritt sichtbar ist, läuft die
+Embedding-Berechnung serverseitig weiter. Das Manifest wird alle drei
+verarbeiteten Dateien zwischengespeichert — bei Ctrl-C oder Abbruch
+bleibt der bisherige Fortschritt erhalten, der nächste `--sync` setzt
+dort fort.
+
+Bei sehr langsamer Hardware oder sehr großen Dateien kann das Timeout
+pro Datei hochgesetzt werden — siehe
+[Troubleshooting](#sync-meldet-timeout-bei-der-datei-verknüpfung).
+
+### Multi-Install-Hinweis
+
+Pro lokalem Repo-Clone wird genau ein Manifest geführt
+(`.openwebui-sync.json`). Wer gegen mehrere OpenWebUI-Instanzen syncen
+will (z. B. zwei Rechner, zwei Server), braucht getrennte Clones.
+
 ### Nach OpenWebUI-Major-Upgrades
 
-Einfach wieder `python scripts/setup.py` laufen lassen. Das Script
-erkennt und behebt die häufigsten Konfigurations-Drifts nach Updates
-selbst. Wenn nach einem Upgrade trotzdem etwas nicht passt: siehe
+Hier ist der **Full-Rebuild** (ohne `--sync`) die sichere Wahl, weil sich
+Schema-Details in OpenWebUI ändern können. Das Script erkennt die
+häufigsten Konfigurations-Drifts nach Updates selbst. Wenn nach einem
+Upgrade trotzdem etwas nicht passt: siehe
 [Troubleshooting](#troubleshooting).
 
 ---
@@ -188,6 +293,48 @@ python scripts/setup.py -y
 Mit `-y` verzichtet das Script auf Modell-Rückfrage und nimmt den Default
 aus `setup.json`.
 
+### „`--sync` meldet 'Preset existiert nicht'"
+
+Du hast `--sync` genutzt, ohne dass es vorher einen Full-Setup-Lauf gab
+(oder das Preset wurde in OpenWebUI manuell gelöscht). `--sync` ist ein
+**Update**-Modus, keine Erstinstallation. Lösung:
+
+```bash
+python scripts/setup.py   # Full-Rebuild ohne --sync
+```
+
+Danach ist das Manifest da und weitere Patches laufen wieder per `--sync`.
+
+### „`--sync` dauert genauso lang wie der Full-Rebuild"
+
+Das kann zwei Gründe haben:
+
+1. **Kein Manifest vorhanden** (`.openwebui-sync.json` fehlt, z. B. nach
+   frischem Clone ohne vorheriges Setup oder nach `git clean`).
+   Lösung: `python scripts/setup.py` einmal komplett durchlaufen lassen —
+   das schreibt das Manifest mit, und künftige `--sync`-Läufe sind dann
+   delta-fähig.
+2. **Masterprompt + viele KB-Module zugleich geändert** (z. B. nach
+   größerem Release). Dann zieht das Script wirklich alle betroffenen
+   Dateien nach. Der Progress-Counter zeigt, wie viele es sind.
+
+### „`--sync` meldet Timeout bei der Datei-Verknüpfung"
+
+OpenWebUI rechnet die Embeddings synchron, während das Script wartet.
+Auf Ollama-CPU-Setups kann das pro Datei 1–2 Minuten dauern. Der
+Default-Timeout liegt bei 6 Minuten pro Datei — für die allermeisten
+Setups reichlich. Auf sehr langsamer Hardware oder bei sehr großen
+Dateien hochsetzen:
+
+```bash
+export OWUI_ADD_FILE_TIMEOUT=900   # 15 Minuten pro Datei
+python scripts/setup.py --sync
+```
+
+Wenn das Script bei einer Datei trotzdem aufgibt: der bisherige
+Fortschritt bleibt im Manifest stehen. Der nächste `--sync`-Lauf
+setzt genau dort fort, wo abgebrochen wurde.
+
 ---
 
 ## Script-Referenz
@@ -196,7 +343,8 @@ aus `setup.json`.
 
 | Befehl | Was passiert |
 | ------ | ------------ |
-| `python scripts/setup.py` | OpenWebUI-Setup, interaktiv |
+| `python scripts/setup.py` | OpenWebUI-Setup, interaktiv (Full-Rebuild) |
+| `python scripts/setup.py --sync` | Inkrementelles Update nach `git pull` (empfohlen) |
 | `python scripts/setup.py --export` | Export-Paket für Lumo, Claude Projects, etc. |
 | `python scripts/setup.py --export --flat` | Flat-Export mit nummerierten Dateien |
 | `python scripts/setup.py --export -o ~/Desktop/pack` | Export in Custom-Pfad |
@@ -206,6 +354,7 @@ aus `setup.json`.
 | Flag | Wirkung |
 | ---- | ------- |
 | `-y`, `--yes` | Keine Rückfragen. URL = `http://localhost:8080`, Modell = Default |
+| `--sync` | Inkrementell updaten: nur geänderte Dateien/Masterprompt pushen, Rest bleibt. Nutzt `.openwebui-sync.json`-Manifest. |
 | `--embedding default` | Setzt Embedding explizit auf MiniLM (OpenWebUI-built-in) |
 | `--embedding ollama` | Setzt Embedding auf Ollama + `nomic-embed-text` |
 | `--ollama-url URL` | Custom Ollama-Endpoint (Default: `http://host.docker.internal:11434`) |
@@ -221,6 +370,7 @@ aus `setup.json`.
 | `OPENWEBUI_URL` | OpenWebUI-Adresse (Default: `http://localhost:8080`) |
 | `OPENWEBUI_API_KEY` | API-Key (sonst interaktiv) |
 | `ZEITRISS_MODEL` | Base-Model-ID (sonst interaktiv) |
+| `OWUI_ADD_FILE_TIMEOUT` | Sekunden-Timeout pro Datei beim KB-Link (Default: 360). Hochsetzen bei langsamer Hardware oder sehr großen Dateien. |
 
 ---
 
