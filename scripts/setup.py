@@ -292,14 +292,53 @@ class APIClient:
         return None
 
     def add_file_to_knowledge(self, kb_id: str, file_id: str) -> bool:
-        """Link a file to a KB. HTTP 200 is the source of truth — the response's
-        `files` field is None in several OpenWebUI versions (known bug).
+        """Link a file to a KB. HTTP 200 is the primary success signal.
+
+        Timeout deliberately long (360 s default): OpenWebUI runs the file's
+        embedding pass synchronously before responding. On Ollama-CPU with
+        80 kB files that can easily take 60–120 s per file. Default (30 s)
+        would false-negative. Override via OWUI_ADD_FILE_TIMEOUT env var for
+        very large files or slow hardware (Low-End-NUC, thermal throttling).
+
+        Note: OpenWebUI's `GET /knowledge/{id}` sometimes returns `files: null`
+        (known bug across 0.8.x/0.9.x), so post-link verification via GET is
+        unreliable as a definitive check. We trust HTTP 200 here; the caller
+        (run_sync) does an additional end-to-end retrieval check.
         """
+        try:
+            timeout = float(os.environ.get("OWUI_ADD_FILE_TIMEOUT", "360"))
+        except ValueError:
+            timeout = 360.0
         code, _data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/add",
             {"file_id": file_id},
+            timeout=timeout,
         )
         return code == 200
+
+    def remove_file_from_knowledge(self, kb_id: str, file_id: str) -> bool:
+        """Unlink a file from a KB (reverse of add_file_to_knowledge).
+        HTTP 200 indicates the link was removed; file entity itself stays.
+        """
+        code, _data = self.post_json(
+            f"/api/v1/knowledge/{kb_id}/file/remove",
+            {"file_id": file_id},
+            timeout=60.0,
+        )
+        return code == 200
+
+    def get_model(self, model_id: str) -> Optional[dict]:
+        """Fetch a single model preset by id. Returns None if missing.
+
+        `model_id` is URL-escaped so slugs with `/`, `&`, spaces etc. work.
+        """
+        import urllib.parse
+        code, data = self.get(
+            f"/api/v1/models/model?id={urllib.parse.quote(model_id, safe='')}"
+        )
+        if code != 200 or not isinstance(data, dict):
+            return None
+        return data
 
     def list_files(self) -> list[dict]:
         code, data = self.get("/api/v1/files/")
@@ -795,6 +834,379 @@ def _run_verify_retrieval(
     return False
 
 
+def _file_md5(path: Path) -> str:
+    """Compute MD5 hash of a file's bytes (used for sync-manifest comparison)."""
+    h = hashlib.md5()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _text_md5(text: str) -> str:
+    """Compute MD5 hash of a string (used for Masterprompt comparison)."""
+    return hashlib.md5(text.encode("utf-8")).hexdigest()
+
+
+def _load_sync_manifest(repo: Path) -> dict:
+    """Load the local sync manifest if present. Returns empty dict otherwise.
+
+    The manifest tracks {filename: {md5, file_id}} and
+    {'masterprompt_md5': ...} so --sync can do incremental updates without
+    rebuilding the whole KB. It's per-install (git-ignored).
+    """
+    manifest_path = repo / ".openwebui-sync.json"
+    if not manifest_path.exists():
+        return {}
+    try:
+        with open(manifest_path, encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            return data
+    except (json.JSONDecodeError, OSError) as exc:
+        print_warn(f"Sync-Manifest beschädigt, ignoriert: {exc}")
+    return {}
+
+
+def _save_sync_manifest(repo: Path, manifest: dict) -> None:
+    """Persist the sync manifest. Best-effort; warn on failure but never fatal."""
+    manifest_path = repo / ".openwebui-sync.json"
+    try:
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2, sort_keys=True)
+    except OSError as exc:
+        print_warn(f"Sync-Manifest konnte nicht geschrieben werden: {exc}")
+
+
+def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
+    """Incremental sync mode: update only what changed since last setup/sync.
+
+    Compares local files (via MD5) against the persisted manifest, then:
+    - Pushes the Masterprompt via PATCH on `params.system` if it changed.
+    - Uploads changed KB files, links them, unlinks+deletes the old entries.
+    - Leaves untouched files alone — no embedding rebuild, no preset destroy.
+
+    Fallback: If no manifest exists, the preset is missing, or the KB is
+    missing, we explicitly bail with a clear message rather than silently
+    rebuilding — that’s what `run_setup` is for.
+    """
+    opts = opts or {}
+    project = cfg["project"]
+
+    print_header(f"{project} – OpenWebUI Sync (inkrementell)")
+
+    # ── Preconditions ─────────────────────────────────────────────────
+    url = (
+        os.environ.get("OPENWEBUI_URL")
+        or cfg.get("url")
+        or "http://localhost:8080"
+    )
+    api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not api_key:
+        print_error(
+            "OPENWEBUI_API_KEY fehlt in der Umgebung. Bitte "
+            "~/.openwebui_env laden (`source ~/.openwebui_env`)."
+        )
+        sys.exit(1)
+
+    client = APIClient(url, api_key)
+    if not client.check_health():
+        print_error(f"OpenWebUI nicht erreichbar unter {url}.")
+        sys.exit(1)
+    if not client.check_auth():
+        print_error("API-Key ungültig oder ohne Rechte.")
+        sys.exit(1)
+    print_ok(f"OpenWebUI erreichbar: {url}")
+
+    preset_id = cfg["preset_id"]
+    preset = client.get_model(preset_id)
+    if preset is None:
+        print_error(
+            f"Preset „{preset_id}“ existiert nicht in OpenWebUI. "
+            f"Für Erstinstallation bitte `python scripts/setup.py` (ohne --sync) nutzen."
+        )
+        sys.exit(1)
+    print_ok(f"Preset gefunden: {preset.get('name', preset_id)}")
+
+    # KB-Id aus Preset-Meta ziehen (OWUI 0.9.1+ legt sie unter meta.knowledge[0].id)
+    kb_id: Optional[str] = None
+    preset_kb_meta = (preset.get("meta") or {}).get("knowledge") or []
+    if preset_kb_meta and isinstance(preset_kb_meta, list):
+        first = preset_kb_meta[0]
+        if isinstance(first, dict):
+            kb_id = first.get("id")
+    if not kb_id:
+        print_error(
+            "Preset hat keine verknüpfte Knowledge Base. "
+            "Für Reparatur bitte `python scripts/setup.py` (Full-Rebuild) nutzen."
+        )
+        sys.exit(1)
+    print_ok(f"Knowledge Base verknüpft: {kb_id[:12]}…")
+
+    manifest = _load_sync_manifest(repo)
+    if not manifest:
+        print_warn(
+            "Kein Sync-Manifest gefunden (.openwebui-sync.json). "
+            "Erster --sync-Lauf wird alle Dateien als „geneu“ behandeln und "
+            "ein Manifest anlegen. Bei größeren Drifts ist `python scripts/setup.py` "
+            "(Full-Rebuild) schneller und sauberer."
+        )
+
+    # ── 1. Masterprompt-Sync ──────────────────────────────────────────
+    mp_path = repo / cfg["masterprompt"]
+    if not mp_path.exists():
+        print_error(f"Masterprompt nicht gefunden: {cfg['masterprompt']}")
+        sys.exit(1)
+    mp_text = mp_path.read_text(encoding="utf-8")
+    mp_md5_local = _text_md5(mp_text)
+    mp_md5_remote = _text_md5(
+        (preset.get("params") or {}).get("system", "") or ""
+    )
+    mp_md5_last = manifest.get("masterprompt_md5", "")
+
+    if mp_md5_local == mp_md5_remote:
+        print_ok(f"Masterprompt synchron (MD5 {mp_md5_local[:8]}).")
+    else:
+        print_info(
+            f"Masterprompt-Drift: lokal {mp_md5_local[:8]} vs. OpenWebUI {mp_md5_remote[:8]} "
+            f"(zuletzt gesynct: {mp_md5_last[:8] or '—'}). Patche Preset…"
+        )
+        # Minimal-Payload wie in run_setup bauen. Wir schicken NICHT das komplette
+        # GET-Response-Dict (enthält user_id, created_at, access_grants, …),
+        # weil strengere OpenWebUI-Versionen das mit 422 ablehnen. Stattdessen nur
+        # die Felder, die upsert_model erwartet, und params.system frisch ersetzen.
+        preset_meta = dict(preset.get("meta") or {})
+        preset_params = dict(preset.get("params") or {})
+        preset_params["system"] = mp_text
+        payload = {
+            "id": preset.get("id") or preset_id,
+            "name": preset.get("name") or cfg.get("preset_name", preset_id),
+            "base_model_id": preset.get("base_model_id"),
+            "meta": preset_meta,
+            "params": preset_params,
+        }
+        if not payload["base_model_id"]:
+            print_error(
+                "Preset hat kein `base_model_id` — vermutlich inkonsistenter "
+                "Preset-Zustand. Bitte einmal `python scripts/setup.py` "
+                "(Full-Rebuild) laufen lassen."
+            )
+            sys.exit(1)
+        success, action = client.upsert_model(payload)
+        if success:
+            print_ok(f"Masterprompt gepatcht (Preset {action}).")
+        else:
+            print_error("Masterprompt-Patch fehlgeschlagen — Sync abgebrochen.")
+            sys.exit(1)
+
+    manifest["masterprompt_md5"] = mp_md5_local
+    manifest["masterprompt_path"] = cfg["masterprompt"]
+
+    # ── 2. KB-Files-Sync (Delta via MD5) ──────────────────────────────
+    kb_files = discover_knowledge_files(repo, cfg)
+    files_manifest = dict(manifest.get("kb_files", {}))  # copy
+
+    # Server-Side-Drift-Check: Hole die tatsächlich in der KB verlinkten File-IDs
+    # und markiere im Manifest alle Enträge, deren `file_id` serverseitig fehlt,
+    # als "verloren" (file_id wird entfernt). Das triggert Re-Upload im
+    # Delta-Check, auch wenn lokal nichts geändert wurde — fängt den Fall ab,
+    # dass jemand in der OpenWebUI-UI manuell eine KB-Datei entfernt hat.
+    #
+    # WICHTIG: OpenWebUI 0.8.x+ gibt bei `GET /knowledge/{id}` das `files`-Feld
+    # regelmäßig als `null` zurück (bekannter Bug, kommentiert auch in run_setup).
+    # In dem Fall dürfen wir **nicht** alle Manifest-Einträge als "lost" markieren,
+    # sonst triggern wir False-Positive-Re-Uploads bei jedem Sync. Deshalb: nur
+    # wenn der Server eine **nicht-leere** Liste liefert, vertrauen wir ihr.
+    server_kb_code, server_kb_data = client.get(f"/api/v1/knowledge/{kb_id}")
+    if server_kb_code == 200 and isinstance(server_kb_data, dict):
+        server_files = server_kb_data.get("files")
+        if isinstance(server_files, list) and server_files:
+            server_file_ids = {
+                f.get("id") for f in server_files if isinstance(f, dict) and f.get("id")
+            }
+            lost = []
+            for name, entry in list(files_manifest.items()):
+                fid = entry.get("file_id") if isinstance(entry, dict) else None
+                if fid and fid not in server_file_ids:
+                    # Manifest sagt "in KB", Server sagt "nein" → Re-Upload forcieren
+                    lost.append(name)
+                    files_manifest.pop(name, None)
+            if lost:
+                print_warn(
+                    f"Server-Drift: {len(lost)} Datei(en) laut Manifest in KB, "
+                    f"aber serverseitig nicht verlinkt — werden neu hochgeladen: "
+                    f"{', '.join(lost)}"
+                )
+        # Falls `server_files is None` oder leer: OWUI-Bug → Server-Drift-Check
+        # stillschweigend überspringen, Manifest bleibt Wahrheit.
+    elif server_kb_code >= 400:
+        print_warn(
+            f"Server-Drift-Check nicht möglich (HTTP {server_kb_code}) — "
+            f"Manifest bleibt Wahrheit."
+        )
+
+    print()
+    print_info(f"Prüfe {len(kb_files)} KB-Dateien auf Änderungen…")
+
+    changed: list[tuple[Path, str]] = []  # (Path, new_md5)
+    unchanged_count = 0
+
+    local_filenames = {fp.name for fp in kb_files}
+
+    for fp in kb_files:
+        md5_now = _file_md5(fp)
+        tracked = files_manifest.get(fp.name) or {}
+        md5_last = tracked.get("md5", "")
+        if md5_now == md5_last:
+            unchanged_count += 1
+        else:
+            changed.append((fp, md5_now))
+
+    # Dateien die aus kb_files verschwunden sind, aber im Manifest drin:
+    removed_names = [name for name in files_manifest.keys() if name not in local_filenames]
+
+    if not changed and not removed_names:
+        print_ok(f"Alle {len(kb_files)} KB-Dateien synchron — nichts zu tun.")
+        _save_sync_manifest(repo, manifest)
+        print()
+        print_header("Sync abgeschlossen — alles aktuell.")
+        return
+
+    print_info(
+        f"Änderungen: {len(changed)} geändert/neu, "
+        f"{unchanged_count} unverändert, {len(removed_names)} entfernt."
+    )
+
+    # Zeitschätzung für Endspieler: Ollama-CPU-Embeddings brauchen 60–120 s
+    # pro 80-kB-File. Bei GPU oder OpenWebUI-Default-Embedder (BGE) geht das
+    # in 5–10 s. Worst-Case-Signal vermeidet die "sieht eingefroren aus"-Falle.
+    if changed:
+        def _fmt(s: int) -> str:
+            if s >= 60:
+                return f"{s // 60} Min {s % 60:02d} s"
+            return f"{s} s"
+        eta_lo = len(changed) * 10   # Fast-path (BGE/GPU)
+        eta_hi = len(changed) * 120  # Ollama-CPU worst case
+        print_info(
+            f"Geschätzte Dauer: {_fmt(eta_lo)} (GPU/BGE) bis {_fmt(eta_hi)} "
+            f"(Ollama-CPU). Embeddings laufen serverseitig — Script bitte durchlaufen lassen."
+        )
+
+    if not opts.get("assume_yes"):
+        answer = input("Fortfahren? [Y/n] ").strip().lower()
+        if answer in ("n", "no", "nein"):
+            print_info("Abgebrochen, kein Upload durchgeführt.")
+            return
+
+    link_failures: list[str] = []
+    sync_t0 = time.time()
+
+    # 2a. Geänderte/neue Dateien: erst alte entlinken+löschen, DANN neue hochladen+verlinken.
+    # Reihenfolge ist wichtig: OpenWebUI verweigert den KB-Link einer Datei mit
+    # identischem Content, wenn eine inhaltsgleiche Datei noch in der KB hängt
+    # ("400: Duplicate content detected"). Erster Fix: alte zuerst weg.
+    total_changed = len(changed)
+    for idx, (fp, md5_new) in enumerate(changed, start=1):
+        tracked = files_manifest.get(fp.name) or {}
+        old_file_id = tracked.get("file_id")
+
+        # Alte Version zuerst entlinken + entfernen (best-effort).
+        # OpenWebUI hält sonst am alten Content-Hash fest und lehnt Re-Link ab.
+        if old_file_id:
+            client.remove_file_from_knowledge(kb_id, old_file_id)
+            client.delete_file(old_file_id)
+
+        # Fallback: falls der Manifest nicht aktuell war (z. B. erste --sync-Runde
+        # nach manuellem Full-Setup), Namens-Kollision in der globalen Files-Liste
+        # prüfen und ggf. entfernen.
+        if not old_file_id:
+            same_name = [
+                f for f in client.list_files() if f.get("filename") == fp.name
+            ]
+            for dup in same_name:
+                dup_id = dup.get("id")
+                if dup_id:
+                    client.remove_file_from_knowledge(kb_id, dup_id)
+                    client.delete_file(dup_id)
+
+        # Neue Version hochladen
+        new_file_id = client.do_upload_file(fp)
+        if not new_file_id:
+            print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe.")
+            continue
+
+        # An KB anhängen (Retry einmal nach 1s — Indexierung asynchron)
+        linked = client.add_file_to_knowledge(kb_id, new_file_id)
+        if not linked:
+            time.sleep(1)
+            linked = client.add_file_to_knowledge(kb_id, new_file_id)
+
+        if linked:
+            files_manifest[fp.name] = {"md5": md5_new, "file_id": new_file_id}
+            # Alle 3 Files ein Manifest-Zwischen-Write, damit bei Abbruch
+            # (Strom weg, User Ctrl-C) der bisherige Fortschritt nicht verloren ist.
+            if idx % 3 == 0:
+                manifest["kb_files"] = files_manifest
+                _save_sync_manifest(repo, manifest)
+            elapsed_total = int(time.time() - sync_t0)
+            print_ok(
+                f"[{idx}/{total_changed}] {fp.name} — neu {new_file_id[:12]}… "
+                f"(laufend: {elapsed_total // 60}m {elapsed_total % 60:02d}s)"
+            )
+        else:
+            # WICHTIG: Kein Manifest-Update bei fehlgeschlagenem Link.
+            # Sonst hält das Manifest eine File-ID, die zwar in OpenWebUI
+            # existiert, aber **nicht in der KB verlinkt** ist — das Retrieval
+            # wäre stillschweigend kaputt, und der nächste --sync-Lauf würde
+            # die Datei als "unverändert synchron" einstufen (MD5-Match).
+            # Altmanifest-Eintrag bleibt stehen → nächster Lauf triggert Retry.
+            # Verwaiste File-Entity im OWUI-FS aufräumen (best-effort).
+            client.delete_file(new_file_id)
+            print_warn(
+                f"[{idx}/{total_changed}] KB-Link fehlgeschlagen für {fp.name} — "
+                f"Manifest NICHT aktualisiert, verwaiste File-Entity entfernt. "
+                f"Nächster `--sync` wiederholt den Upload. "
+                f"Bei wiederholtem Fehler: `python setup.py` (Full-Rebuild)."
+            )
+            link_failures.append(fp.name)
+
+    # 2b. Entfernte Dateien: entlinken + löschen
+    for name in removed_names:
+        tracked = files_manifest.get(name) or {}
+        fid = tracked.get("file_id")
+        if fid:
+            client.remove_file_from_knowledge(kb_id, fid)
+            client.delete_file(fid)
+            print_ok(f"Entfernt: {name}")
+        files_manifest.pop(name, None)
+
+    manifest["kb_files"] = files_manifest
+    manifest["last_sync"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    _save_sync_manifest(repo, manifest)
+
+    print()
+    if link_failures:
+        print_header("Sync abgeschlossen (mit Fehlern).")
+        print_warn(
+            f"{len(link_failures)} Datei(en) nicht verknüpft: {', '.join(link_failures)}. "
+            f"Nächster `--sync`-Lauf wiederholt den Upload automatisch."
+        )
+    else:
+        print_header("Sync abgeschlossen.")
+    print_info(
+        f"Preset: {preset.get('name', preset_id)} · KB: {kb_id[:12]}… · "
+        f"geändert erfolgreich: {len(changed) - len(link_failures)}, "
+        f"fehlgeschlagen: {len(link_failures)}, entfernt: {len(removed_names)}."
+    )
+    if opts.get("no_verify"):
+        return
+    # Retrieval-Verify als Smoke-Check (wenn verify-Block vorhanden)
+    verify_cfg = cfg.get("verify") or {}
+    if verify_cfg:
+        print()
+        _run_verify_retrieval(client, kb_id, verify_cfg)
+
+
 def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Interactive OpenWebUI setup: KB + files + preset."""
     opts = opts or {}
@@ -962,12 +1374,14 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print()
 
     uploaded_ids: list[str] = []
+    uploaded_map: dict[str, tuple[str, str]] = {}  # name -> (file_id, md5) for manifest
     errors = 0
 
     for i, fp in enumerate(kb_files, 1):
         file_id = client.do_upload_file(fp)
         if file_id:
             uploaded_ids.append(file_id)
+            uploaded_map[fp.name] = (file_id, _file_md5(fp))
             try:
                 rel = fp.relative_to(repo)
             except ValueError:
@@ -1068,6 +1482,25 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         print_error("Preset konnte nicht erstellt/aktualisiert werden.")
         sys.exit(1)
 
+    # ── Sync-Manifest schreiben (für spätere --sync-Läufe) ──────────────────
+    # Nach erfolgreichem Full-Setup ist Masterprompt synchron und alle
+    # uploaded_map-Files sind in der KB verlinkt. Das Manifest hier zu schreiben
+    # macht `--sync` unmittelbar danach auf "alles synchron" gehen — ohne dass
+    # der User erneut Minuten an Embeddings rechnen muss, falls er das Manifest
+    # verliert (neuer Rechner, git-clean, Festplatten-Reset).
+    sync_manifest_out = {
+        "masterprompt_md5": _text_md5(system_prompt),
+        "masterprompt_path": cfg["masterprompt"],
+        "kb_files": {
+            name: {"md5": md5, "file_id": fid}
+            for name, (fid, md5) in uploaded_map.items()
+        },
+        "last_sync": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "written_by": "run_setup",
+    }
+    _save_sync_manifest(repo, sync_manifest_out)
+    print_ok("Sync-Manifest geschrieben — künftige `--sync`-Läufe starten delta-fähig.")
+
     # ── Verify Retrieval ─────────────────────────────────────────────
     verify_cfg = cfg.get("verify") or {}
     verify_ok = True
@@ -1120,7 +1553,8 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent("""\
             Examples:
-              python setup.py                          # OpenWebUI setup (interactive)
+              python setup.py                          # OpenWebUI setup (full install)
+              python setup.py --sync                   # Incremental update (only changed files)
               python setup.py --export                 # Export knowledge pack
               python setup.py --export --flat          # Flat export (no subdirs)
               python setup.py --export -o ~/Desktop/pack  # Export to custom dir
@@ -1134,6 +1568,15 @@ def main() -> None:
         "--export",
         action="store_true",
         help="Export knowledge pack instead of OpenWebUI setup",
+    )
+    parser.add_argument(
+        "--sync",
+        action="store_true",
+        help=(
+            "Inkrementeller Sync: nur geänderte Masterprompt/KB-Files pushen, "
+            "statt Preset+KB komplett neu zu bauen. Nutzt MD5-Manifest in "
+            ".openwebui-sync.json. Nach Repo-Merges der empfohlene Weg."
+        ),
     )
     parser.add_argument(
         "--flat",
@@ -1190,6 +1633,15 @@ def main() -> None:
 
     if args.export:
         run_export(repo, cfg, flat=args.flat, out_dir=args.output)
+    elif args.sync:
+        run_sync(
+            repo,
+            cfg,
+            opts={
+                "assume_yes": args.yes,
+                "no_verify": args.no_verify,
+            },
+        )
     else:
         run_setup(
             repo,
