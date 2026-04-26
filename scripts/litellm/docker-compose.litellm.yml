@@ -38,7 +38,10 @@ services:
 
     healthcheck:
       # LiteLLM stellt einen Health-Endpoint ohne Auth bereit.
-      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:4000/health/liveness || exit 1"]
+      # Wichtig: Das litellm-Image (Wolfi-basiert) hat kein `curl`, nur
+      # `python3`. Daher Python statt curl — funktioniert in allen
+      # Varianten des offiziellen Images.
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:4000/health/liveness', timeout=3).status==200 else 1)\" || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
