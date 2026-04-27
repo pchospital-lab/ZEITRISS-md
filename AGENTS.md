@@ -21,6 +21,16 @@
 3. **Prüfen** — CI-Smoke muss grün sein. Keine Eigenregeln erfinden.
 4. **Pushen** — Branch pushen. Flo reviewed und merged auf GitHub.
 
+## QA-Workflows
+
+Zwei komplementäre Test-Zugänge (beide dokumentiert unter `docs/`):
+
+- **Menschlicher Tester / manueller Playtest:** [`docs/qa/tester-playtest-briefing.md`](docs/qa/tester-playtest-briefing.md)
+- **Automatisierter Persona-Playtest (Repo-Agent):** [`docs/testing.md`](docs/testing.md)
+
+Wenn du als Repo-Agent ZEITRISS testen sollst, liest du `docs/testing.md`
+(Preset-Infos, Regressions-Matrix, Preflight-Checks, Cross-Findings).
+
 ## Pull Request Descriptions
 
 Flo liest die Description zuerst, bevor er den Diff öffnet. Unser Workflow:
