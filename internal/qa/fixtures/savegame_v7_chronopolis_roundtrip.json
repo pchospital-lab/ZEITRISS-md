@@ -39,7 +39,7 @@
   },
   "continuity": {
     "last_seen": {
-      "mode": "core",
+      "mode": "hq",
       "episode": 10,
       "mission": 0,
       "location": "HQ"

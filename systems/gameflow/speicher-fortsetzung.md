@@ -153,6 +153,36 @@ for field in ui_persistent:
   )
 ```
 
+**v7-Export-Pflichtfelder (kanonisch, nicht Runtime-Bridge):** Der Pseudocode
+oben arbeitet auf der internen Runtime-Bridge — die dort aufgelistete
+`required`-Liste (inkl. `character.attributes.SYS_runtime`, `cooldowns`,
+`logs.offline`, `logs.alias_trace` …) ist **kein** Exportvertrag.
+Für den tatsächlichen `!save`-JSON-Export nach Schema v7 sind
+folgende Felder Pflicht (Template-SSOT = Masterprompt §F):
+
+```text
+v, zr, save_id, parent_save_id, merge_id, branch_id,
+campaign { episode, mission, px, px_state, mode, rift_seeds[] },
+characters[] { id, name, callsign, rank, lvl, xp, origin, attr, lp, lp_max,
+               stress, has_psi, sys_installed, talents[], equipment[],
+               implants[], history, carry[], quarters_stash[], vehicles,
+               reputation, wallet, level_history },
+economy { hq_pool },
+logs { trace[], market[], artifact_log[], notes[], flags },
+summaries { summary_last_episode, summary_last_rift, summary_active_arcs },
+continuity { last_seen { mode, episode, mission, location },
+              split, roster_echoes[], shared_echoes[],
+              convergence_tags[], npc_roster[], active_npc_ids[] },
+arc { factions, questions[], hooks[] },
+ui { gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile }
+```
+
+Felder wie `character.attributes.SYS_runtime`, `cooldowns`, `city_active`,
+`logs.alias_trace`, `logs.squad_radio` etc. sind **Runtime-only** und werden
+bei HQ-Save-Normalisierung verworfen, nicht exportiert. `campaign.loc` ist
+ebenfalls **runtime-only**; der Save nutzt `continuity.last_seen.location`
+und `logs.flags.chronopolis_unlocked` für Load-Routing.
+
 **HQ-Save-Normalisierung:** Liegt `location="HQ"` vor und es ist kein aktiver
 Einsatz mehr offen (`CITY`, Arena, aktives Exfil-, Transfer- oder Queue-State
 ausgenommen), normalisiert der HQ-Save vor dem Export alle transienten Felder

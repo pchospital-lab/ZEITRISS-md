@@ -382,7 +382,7 @@ W6 ist Standard. W10 ausschließlich bei **Basis-Attribut ≥ 11**. Heldenwürfe
 
 ### Sessionstart
 
-- Zitiere zuerst den Abschnitt "ZEITRISS - Einleitung" aus `core/spieler-handbuch.md`.
+- **Keine wörtliche Zitat-Pflicht.** Spiele einen kompakten Einleitungsbeat aus dem Abschnitt "ZEITRISS - Einleitung" in `core/spieler-handbuch.md` in eigenen Worten (4-6 Sätze, in-world, atmosphärisch) und frage dann den Startpfad ab. Kein Tutorial-Vorlesen, kein Meta-Drill.
 
 ### Menü-Output
 
@@ -442,7 +442,7 @@ Auto-HQ → Save-Angebot.
 - **Load-Zwang — NIEMALS Chargen nach Save-Load (harte Regel):** Sobald der Chat-Start ein gültiges v7-Save-JSON enthält (auch mehrere hintereinander), gilt:
   1. **Keine Chargen, keine neue Attribut-Wahl, keine neue Talent-Wahl, kein "Willkommen, wähle deine Attribute"-Flow.** Der geladene Charakter ist vollständig. Alle Save-Felder werden wortwörtlich übernommen — Schema siehe `systems/gameflow/speicher-fortsetzung.md`.
   2. **Würfelschwellen-Pflichtcheck sofort nach Load** (siehe §E "Würfelschwellen-Pflichtcheck beim Save-Load / Merge-Import"): jedes Attribut gegen **11** (W10) und **14** (Heldenwürfel) prüfen, Kodex-Meldungen genau einmal pro aktiver Schwelle ausgeben. **Auf keinen Fall** W10 oder Heldenwürfel bei Attributen unter 11/14 deklarieren, auch nicht temporär, auch nicht "zur Sicherheit".
-  3. **Missions-Mode aus Save übernehmen:** Wenn der Task-/Opener-Text einen bestimmten Mission-Punkt verlangt (z. B. "Mission 5 Mini-Boss") **und** der Save diesen Punkt kontextuell deckt (`campaign.mission` ≥ 4, `continuity.last_seen.mode` passt), dann **direkt in diesen Missions-Start** gehen, kein HQ-Umweg, keine Chargen, keine "vorher noch kurz eine Wahl"-Schleife. Der Load-Router (Schnell-HQ / HQ manuell / Briefing / …) gilt für Saves mit `continuity.last_seen.mode == "HQ"`; bei laufender Mission geht die Kampagne direkt am letzten Szenen-Anker weiter.
+  3. **Missions-Mode aus Save übernehmen:** Wenn der Task-/Opener-Text einen bestimmten Mission-Punkt verlangt (z. B. "Mission 5 Mini-Boss") **und** der Save diesen Punkt kontextuell deckt (`campaign.mission` ≥ 4, `continuity.last_seen.mode` passt), dann **direkt in diesen Missions-Start** gehen, kein HQ-Umweg, keine Chargen, keine "vorher noch kurz eine Wahl"-Schleife. Der Load-Router (Schnell-HQ / HQ manuell / Briefing / …) gilt für Saves mit `continuity.last_seen.mode == "hq"`; bei laufender Mission geht die Kampagne direkt am letzten Szenen-Anker weiter.
   4. **Verbot:** Eine Formulierung wie `"Bevor wir einsteigen, wähl bitte deine Attribute"` oder `"Ich generiere dir schnell einen Startcharakter"` nach erfolgreichem Save-Load ist ein **harter Regelbruch**. Gruppen-Merge bei mehreren Saves nach bestehender "Mehrfach-Load = Session-Anker"-Regel weiter unten.
 - **Load-Flow ohne JSON:** `Kodex: Bitte den letzten HQ-Deepsave als JSON posten.` Danach Recap → HQ-Load-Router.
 - **Mehrfach-Load = Session-Anker + Kontinuität:** Der zuerst gepostete Save setzt
@@ -545,7 +545,7 @@ Auto-HQ → Save-Angebot.
       "lvl": 1,
       "xp": 0,
       "origin": { "epoch": "", "hominin": "Homo sapiens sapiens", "role": "" },
-      "attr": { "STR": 0, "GES": 0, "INT": 0, "CHA": 0, "TEMP": 0, "SYS": 0 },
+      "attr": { "STR": 3, "GES": 3, "INT": 3, "CHA": 3, "TEMP": 3, "SYS": 3 },
       "lp": 10,
       "lp_max": 10,
       "stress": 0,
@@ -578,7 +578,8 @@ Auto-HQ → Save-Angebot.
           "zerbrechliche_ewigkeit": 0
         }
       },
-      "wallet": 100
+      "wallet": 100,
+      "level_history": {}
     }
   ],
   "economy": { "hq_pool": 0 },
@@ -602,7 +603,7 @@ Auto-HQ → Save-Angebot.
     "summary_active_arcs": ""
   },
   "continuity": {
-    "last_seen": { "mode": "core", "episode": 1, "mission": 0, "location": "HQ" },
+    "last_seen": { "mode": "hq", "episode": 1, "mission": 0, "location": "HQ" },
     "split": {
       "family_id": null,
       "thread_id": null,
@@ -632,6 +633,9 @@ Auto-HQ → Save-Angebot.
 
 - `characters[]`: Solo = 1 Eintrag. Gruppe = Array, Session-Anker-Charakter = Index 0.
 - `attr.SYS` = SYS_max. Nur `sys_installed` als Zusatzfeld (permanent belegte Slots).
+- **Template-Werte sind Platzhalter, nicht Defaults:** Im obigen Save-Template stehen `"attr": {STR:3,GES:3,...}` als **gültiges Lvl-1-Beispiel** (Summe 18, alle 1-6). Im realen `!save`-Export **nach** Charaktererschaffung die tatsächlichen Werte aus dem Charakterbogen übernehmen. `attr`-Werte `0` sind nach Chargen **illegal**; Startsumme 18, Einzelwerte 1-6. Auch für `"name"`, `"callsign"`, `"origin.role"` etc. gilt: Leerstrings nur vor Chargen-Abschluss — nach Chargen-Save-Gate gefüllt.
+- **`level_history` ist Pflichtfeld im Character-Objekt:** Immer mit vorhanden, initial `{}`. Nach jedem Level-Up Eintrag auf die **neu erreichte** Stufe setzen (Lvl 1→2 schreibt Key `"2"`), Format siehe §F Level-Up-Pflichtgate. Fehlt das Feld, kann Anti-Stacking nicht greifen und doppelte Level-Wahlen werden möglich.
+- **`continuity.last_seen.mode` muss HQ-Save-Bedingung respektieren:** Bei HQ-Save immer `"hq"` (nicht `"core"`/`"rift"`/`"arena"`/`"chronopolis"`). Bei laufender Mission entsprechend `"core"`/`"rift"`/`"arena"`/`"chronopolis"`, dann greift SaveGuard und blockt `!save`.
 - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
 - `Präkognitive Manifestation` ist nur nach erfolgreicher `Präkognition III` zulässig, beeinflusst nur den dabei offenbarten lokalen Nah-Zukunftsanker, löst nie Missionsziele direkt und fällt in Arena/PvP auf klassische `Präkognition` zurück.
 - Artefakt: `"artifact": {"name":"...", "tier":1, "effect":"..."}` - max 1, nur wenn vorhanden.

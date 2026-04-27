@@ -988,7 +988,9 @@ Entscheidung - nicht automatisch im selben Zug.
   Status `CITY` und ist kein Savepunkt.
 - **Pre-City-Hub** dient als gesicherte Übergangszone zwischen HQ und Chronopolis.
   - Zugang erfolgt nach dem ersten HQ-Briefing: Kodex bietet den "Transitpfad" an,
-    sobald `campaign.loc` erneut auf `HQ` gesetzt wurde und die Crew mindestens
+    sobald die Runtime wieder im HQ steht (`campaign.loc == "HQ"`, **Runtime-State**,
+    nicht Save-persistent; im Save wird dieser Zustand über
+    `continuity.last_seen.location == "HQ"` getragen) und die Crew mindestens
     Mission 2 erreicht hat.
   - Der Bereich liefert atmosphärische Brückenbeschreibungen (Landeplattform,
     Transitlifte, Sicherheitschecks) und einen täglichen Vorschau-Feed mit zwei
@@ -1012,7 +1014,8 @@ Entscheidung - nicht automatisch im selben Zug.
   Die Wegführung ist absichtlich als **Schlauchlevel** gesetzt: Einstieg nur
   über die Eingangsschleuse im Pre-City-Hub, Rückweg nur über die
   gegenüberliegende Ausgangsschleuse nach vollständigem Ringlauf.
-  `campaign.loc` wechselt auf `CITY`, Speichern bleibt blockiert.
+  Die Runtime setzt `campaign.loc = "CITY"` (Runtime-only, wird nicht gespeichert),
+  Speichern bleibt während des Stadtlaufs blockiert — SaveGuard greift.
 - **Stimmungswechsel:** Chronopolis hat immer die gleiche Stadtstruktur, aber
   Bevölkerung, Atmosphäre und Angebot wechseln in die Epoche der aktiven
   Episode. Zeitlich spielt die Stadt ein Szenario _nach der aktuellen Episode,

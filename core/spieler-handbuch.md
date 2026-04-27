@@ -403,7 +403,7 @@ Das HUD erscheint als **Inline-Code-Block** (grauer monospace-Look) und folgt de
 
 - **Standard (empfohlen):** `Spiel starten (solo klassisch)` oder natürlicher
   Neustart-Wunsch - Erschaffung (`generate` / `custom generate` / manuell) →
-  HQ-Intro → Briefing → Szene 1
+  HQ-Intro → **Chargen-Save-Gate** → (Briefing / freies Erkunden) → Szene 1
 - `Spiel starten (npc-team [0-4] klassisch)` - PC bauen + NPC-Begleiter
   (Team gesamt 1-5), danach dieselbe Charakterwahl
   (`generate` / `custom generate` / manuell)
