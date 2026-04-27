@@ -214,7 +214,8 @@
           "additionalProperties": true,
           "properties": {
             "mode": {
-              "type": "string"
+              "type": "string",
+              "enum": ["hq", "core", "rift", "arena", "chronopolis", "debrief"]
             },
             "episode": {
               "type": "integer"

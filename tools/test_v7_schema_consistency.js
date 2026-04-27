@@ -140,12 +140,24 @@ fixtures.forEach(checkFixture);
     `${label}: Save-Output-Template enthält 'last_seen.mode: "core"' bei 'location: "HQ"' — Selbstwiderspruch zur HQ-SaveGuard-Bedingung. Template muss 'mode: "hq"' bei HQ-Save verwenden.`);
 
   // Check 2: Save-Output-Template muss level_history-Feld im Character-Objekt zeigen.
-  // Sucht den Block zwischen der HQ-save_id und dem schließenden characters]-Bracket; darin muss 'level_history' vorkommen.
+  //
+  // Voraussetzungen des Outer-Regex (bei Template-Refactor anpassen!):
+  //   - save_id-Format: "save_id": "SAVE-...HQ..." (String enthält 'HQ' als Marker für HQ-Save-Beispiel)
+  //   - Zwischen save_id und "characters": [ stehen max. 300 Zeichen (andere save-Felder wie parent_save_id, merge_id, branch_id etc.)
+  //   - Character-Block-Ende: Zeile mit genau "  ]," (zwei Spaces Indent + ],) — markiert Ende des characters-Arrays
+  //
+  // Falls einer dieser Punkte im Template strukturell umgebaut wird, schlägt der Outer-Regex fehl
+  // und der Silent-Success-Guard unten feuert. Dann: Regex hier an die neue Struktur anpassen, NICHT löschen.
   const charBlockMatch = mp.match(/"save_id"\s*:\s*"SAVE-[^"]*HQ[^"]*"[\s\S]{0,300}"characters"\s*:\s*\[([\s\S]*?)\n  \],/);
-  if (charBlockMatch){
-    assert.ok(/"level_history"/.test(charBlockMatch[1]),
-      `${label}: Save-Output-Template zeigt kein 'level_history' im Character-Block — Anti-Stacking-Feld muss im Template mit, sonst verlieren LLM-Saves das Feld (siehe §F Level-Up-Exklusivitäts-Pflichtgate).`);
-  }
+
+  // Silent-Success-Guard (seit 2026-04-27): Wenn der Outer-Regex gar nicht matched,
+  // heißt das NICHT, dass das Template OK ist — es heißt, der Check weiß nicht mehr, wo er suchen soll.
+  // Hart feuern, damit niemand versehentlich einen strukturellen Template-Umbau durchwinkt.
+  assert.ok(charBlockMatch,
+    `${label}: Der Template-Watchguard findet den Character-Block im Save-Output-Template nicht mehr — das Template wurde strukturell umgebaut. Bitte den Regex in test_v7_schema_consistency.js an die neue Struktur anpassen (siehe Voraussetzungs-Kommentar direkt über dem Regex).`);
+
+  assert.ok(/"level_history"/.test(charBlockMatch[1]),
+    `${label}: Save-Output-Template zeigt kein 'level_history' im Character-Block — Anti-Stacking-Feld muss im Template mit, sonst verlieren LLM-Saves das Feld (siehe §F Level-Up-Exklusivitäts-Pflichtgate).`);
 
   // Check 3: Save-Output-Template darf keine attr-Nullen zeigen (illegaler Lvl1-Char).
   const zeroAttrRegex = /"attr"\s*:\s*\{\s*"STR"\s*:\s*0\s*,\s*"GES"\s*:\s*0/;

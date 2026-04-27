@@ -89,42 +89,64 @@ ins Sichtfeld:
 
 `Tipp: menü zeigt Optionen und aktive Modi`
 
-Mit einem Zischen gleiten gegenüber dem Zeitriss massive Stahltüren auf.
-**Commander Arnaud Renier**, Einsatzleiter des Instituts für Temporale
-Intervention (ITI), tritt mit entschlossenem Schritt in die Halle. Sein
-schneeweißer Einsatzanzug mit dem ITI-Emblem und sein durchdringender Blick
-verraten militärische Disziplin, doch ein angedeutetes Lächeln in seinen Augen
-zeigt auch Neugier. Renier mustert die Neuankömmlinge – eine **Gruppe von
-Agenten aus unterschiedlichen Zeiten**: Dort steht ein kräftiger Mann in
-zerbeulter Plattenrüstung, an der getrockneter Schlamm aus dem 13. Jahrhundert
-klebt – ein Ritter, der gerade eben einen mittelalterlichen Kriegsschauplatz
-verlassen hat. Neben ihm blickt eine Frau in einem hochmodernen Nanofaser-Anzug
-fasziniert auf die antik wirkende Halle – eine Technikerin aus dem Jahr 2190,
-für die diese Umgebung beinahe prähistorisch anmutet. Etwas abseits tastet ein
-junges Talent in Jeans und Lederjacke vorsichtig nach dem altägyptischen Amulett
-an seinem Hals – ein Historiker aus den 2020ern, der ein **historisches Relikt**
-von seiner letzten Mission mitgebracht hat. Für einen Moment herrscht gespanntes
-Schweigen: Hier treffen **Menschen verschiedener Epochen** zusammen, vereint im
-Licht des Zeitrisss, zum ersten Mal gemeinsam an einem Ort jenseits der Zeit.
-Das entfernte Summen der Quarzfeld-Generatoren und das leise Piepen des
-Kodex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film,
-voller Bedeutung und Erwartung.
+Mit einem Zischen gleiten gegenüber dem Zeitriss massive Stahltüren auf — doch
+keine Paradeaufstellung, kein Empfangskomitee. Stattdessen öffnet sich der Blick
+auf den **Ordo-Mnemonika-Duty-Desk** am Rand der Empfangshalle: eine halbrunde
+Konsole aus mattem Quarzglas, davor ein schlichter Stehtisch mit zwei abgenutzten
+Thermobechern, einer Tablet-Ablage und einem Tablett, auf dem noch die
+Kondensringe des letzten Kaffees trocknen. Ein Hologramm-Display neben dem Desk
+flackert kurz auf, der Schriftzug `COMMANDER A. RENIER · VORAB-GRUSS` läuft
+über den Rand, dann startet die aufgezeichnete Nachricht von selbst. Renier
+erscheint in halbtransparenter Projektion, Einsatzanzug mit ITI-Emblem,
+durchdringender Blick, die Stimme ruhig und klar:
+_„Willkommen im Herzen des ITI, Agenten. Ich kann heute nicht persönlich
+unten sein — die Fraktionslage lässt es nicht zu. Archivarin Mira übernimmt
+euch. Hört auf sie; sie weiß, was sie tut.“_ Ein kurzes Nicken, dann zerfällt
+das Hologramm in blaue Staubkörner und löst sich auf.
 
-Schließlich durchbricht Renier die Stille, seine Stimme hallt ruhig durch den
-hohen Raum: _„Willkommen im Herzen des ITI, Agenten.“_ Während er spricht,
-erscheint ein halbtransparentes Interface-Display neben ihm – der Kodex
-projiziert Ankunftsdaten und Profile. Renier fährt fort, während sein Blick
-über die versammelten Zeitreisenden schweift: \*„Sie befinden sich nun in der
-**_Nullzeit_**, unserem Hauptquartier außerhalb des normalen Zeitstroms. Hier
-ticken die Uhren anders – genau genommen gar nicht. Egal wie lange wir bleiben,
-für die Außenwelt vergehen nur Sekunden. Wir altern nicht und können euch genau
-an den Moment zurückschicken, aus dem ihr gekommen seid. Doch es ist auch
-gewöhnungsbedürftig: kein Tag, keine Nacht, nur wir und unsere Missionen.“_ Er
-lächelt aufmunternd und tritt näher. _„Bevor wir fortfahren, nehmt euch einen
-Augenblick. Schaut euch um, lernt euch kennen.“\* Die Charaktere haben Zeit,
-erste Worte zu wechseln – Blicke voller Neugier, Skepsis, Aufregung werden
-getauscht. Dieser Moment könnte der Auftakt zu ihrem ersten gemeinsamen
-Abenteuer sein…
+Hinter dem Duty-Desk tritt **Archivarin Mira** hervor, eine **Homo floresiensis**,
+kaum über den Tresen reichend, Ordo-Mnemonika-Schulterspange, graugrüne
+Feldkutte über dem schmalen Bau. In der einen Hand balanciert sie ein Tablett
+mit vier dampfenden Bechern, in der anderen ein abgegriffenes Kodex-Tablet,
+auf dem schon eure Profile blinken. Der Ausdruck in ihrem Gesicht ist der
+einer Frau, die heute bereits zehn Neulinge durch genau diese Szene geschleust
+hat und es trotzdem nicht routiniert wirken lässt. Sie mustert die
+Neuankömmlinge – eine **Gruppe von Agenten aus unterschiedlichen Zeiten**:
+Dort steht ein kräftiger Mann in zerbeulter Plattenrüstung, an der getrockneter
+Schlamm aus dem 13. Jahrhundert klebt – ein Ritter, der gerade eben einen
+mittelalterlichen Kriegsschauplatz verlassen hat. Neben ihm blickt eine Frau
+in einem hochmodernen Nanofaser-Anzug fasziniert auf die antik wirkende Halle –
+eine Technikerin aus dem Jahr 2190, für die diese Umgebung beinahe prähistorisch
+anmutet. Etwas abseits tastet ein junges Talent in Jeans und Lederjacke
+vorsichtig nach dem altägyptischen Amulett an seinem Hals – ein Historiker aus
+den 2020ern, der ein **historisches Relikt** von seiner letzten Mission
+mitgebracht hat. Für einen Moment herrscht gespanntes Schweigen: Hier treffen
+**Menschen verschiedener Epochen** zusammen, vereint im Licht des Zeitrisss,
+zum ersten Mal gemeinsam an einem Ort jenseits der Zeit. Das entfernte Summen
+der Quarzfeld-Generatoren und das leise Piepen des Kodex-Systems sind die
+einzigen Geräusche – eine Szene wie aus einem Film, voller Bedeutung und
+Erwartung.
+
+Mira durchbricht die Stille, ihre Stimme trocken, aber nicht kalt — eher wie
+eine Archivarin, die schon zu viele Papierränder gekräuselt hat, um sich noch
+von irgendwas aus der Fassung bringen zu lassen: _„Willkommen im Herzen des
+ITI, Agenten. Ich bin Mira, Ordo Mnemonika, Duty-Desk. Ich bin heute euer
+Kontakt — für Missionen, Briefings, Debriefings, und was sonst noch aus euch
+raus muss.“_ Sie stellt das Tablett auf dem Stehtisch ab, neben ihr entfaltet
+der Kodex ein halbtransparentes Interface-Display und projiziert Ankunftsdaten
+und Profile. Mira nimmt sich einen der Becher, pustet einmal drüber, hebt dann
+den Blick über den Rand: _„Ihr seid jetzt in der **_Nullzeit_**, unserem
+Hauptquartier außerhalb des normalen Zeitstroms. Hier ticken die Uhren anders —
+genau genommen gar nicht. Egal wie lange wir bleiben, für die Außenwelt
+vergehen nur Sekunden. Ihr altert nicht, und wir können euch genau an den
+Moment zurückschicken, aus dem ihr gekommen seid. Klingt bequem. Gewöhnt man
+sich trotzdem dran: kein Tag, keine Nacht, nur wir und unsere Missionen.“_
+Sie schiebt das Tablett mit den Bechern einen Handbreit weiter in eure
+Richtung, ein fast beiläufiges Angebot. _„Bevor wir fortfahren, nehmt euch
+einen Augenblick. Schaut euch um, lernt euch kennen. Kaffee ist da, ich frage
+nicht nach Zeitzonen.“_ Die Charaktere haben Zeit, erste Worte zu wechseln —
+Blicke voller Neugier, Skepsis, Aufregung werden getauscht. Dieser Moment
+könnte der Auftakt zu ihrem ersten gemeinsamen Abenteuer sein…
 
 ## Einleitung: Runtime-Fokus statt Baukasten
 
