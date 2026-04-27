@@ -291,15 +291,19 @@ Jetzt seid ihr bereit für die erste Mission!
 
 Direkt im Anschluss führt die Spielleitung die frisch gebackenen Chrononauten in das
 **Institut für Temporale Intervention (ITI)**. Die erste Einweisung übernimmt
-Commander Renier persönlich. Dieses Hauptquartier liegt in einer
-gewaltigen Megacity innerhalb der **Nullzeit** — ein schwebender Knotenpunkt jenseits
-des normalen Zeitstroms. In dieser High-Tech-Enklave,
-die wie eine düstere Untergrundmetropole voller Neonlichter und Schatten wirkt,
-erhalten die Agenten eine Einführung: Welche Rolle
-spielen sie im Schutz der Zeitlinie, welche Einrichtungen stehen ihnen offen und
-welche Fraktionen operieren im Hintergrund?
+**Archivarin Mira am Ordo-Mnemonika-Duty-Desk** — sie ist der Standard-Erstkontakt
+für alle Neulinge. Commander Renier bleibt Gesamtkoordinator und tritt nur bei
+fraktionsübergreifenden Einsatzlagen, Eskalationen oder Schlüsselmeilensteinen
+persönlich auf; ein aufgezeichneter Willkommensgruß von ihm kann beim Betreten
+der Empfangshalle laufen, Face-to-Face-Audienzen sind aber keine Tutorial-Szene.
+Das Hauptquartier liegt in einer gewaltigen Megacity innerhalb der **Nullzeit** —
+ein schwebender Knotenpunkt jenseits des normalen Zeitstroms. In dieser
+High-Tech-Enklave, die wie eine düstere Untergrundmetropole voller Neonlichter
+und Schatten wirkt, erhalten die Agenten ihre Einführung: welche Rolle sie im
+Schutz der Zeitlinie spielen, welche Einrichtungen ihnen offen stehen und welche
+Fraktionen im Hintergrund operieren.
 
-Commander Renier stellt die vier ITI-Fraktionen als Orientierung vor —
+Mira stellt die vier ITI-Fraktionen als Orientierung vor —
 **Chrono-Symmetriker** _(Preserve)_, **Ordo Mnemonika** _(Neutral)_,
 **Kausalklingen** _(Preserve)_ und **Zerbrechliche Ewigkeit** _(Trigger)_.
 Alle vier verfolgen denselben Auftrag: den natürlichen Verlauf der Geschichte

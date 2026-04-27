@@ -177,7 +177,7 @@ entpacken, Terminal im Ordner öffnen, Script ausführen.
 
 ### Schritt 5 (empfohlen) — LiteLLM einrichten für günstigeres Spielen
 
-Der ZEITRISS-Masterprompt ist ~34 KB groß. Ohne Caching zahlt ihr ihn
+Der ZEITRISS-Masterprompt ist ~60 KB groß (versionsabhängig). Ohne Caching zahlt ihr ihn
 bei **jedem** Turn neu. LiteLLM ist ein kleiner Docker-Container, der
 den Anthropic-Prompt-Cache aktiviert und spart **~90 % der
 Prompt-Kosten** auf jedem Folge-Turn.
@@ -675,6 +675,25 @@ Im Zweifel hilft immer der Full-Rebuild.
 Ergebnisse aus dem
 [Modellvergleich 2026-03-17](../internal/qa/evidence/playtest-2026-03-17/AUSWERTUNG.md)
 (5 Szenarien × 4 Modelle).
+
+### Modell-Parameter-Profile
+
+`setup.json` transportiert die Preset-Parameter (`temperature`, `top_p`,
+`frequency_penalty`, `max_tokens`). Die gelieferten Werte sind auf
+**Sonnet 4.6 via LiteLLM/OpenWebUI** kalibriert — also auf den Referenz-Stack,
+auf dem das Regelwerk getestet wurde. Bei anderen Stacks über OpenWebUI → Preset
+→ _Advanced Params_ anpassen (Script nicht erneut laufen lassen):
+
+| Profil | Stack | `frequency_penalty` | `max_tokens` | Begründung |
+| --- | --- | --- | --- | --- |
+| **sonnet_46_dev (Default)** | Sonnet 4.6 + LiteLLM | `0.3` | `64000` | Ausbalanciert, Ausgaben atmosphärisch, lange Szenen möglich |
+| **portable_default** | andere Provider / striktere Output-Limits | `0.1` | `8000`–`16000` | Regel-Terminologie stabiler, kleine Output-Caps |
+| **rules_strict** | Regel-Tests, Gates | `0.0` | `8000` | Maximale Terminologiekonsistenz, kein Drift bei wiederholten Begriffen |
+
+**Faustregel:** `frequency_penalty` > 0.3 lass — zerstreut Regelterme
+(`SaveGuard`, `SG`, `PP`, `Px`). `max_tokens` > 32000 nur auf Stacks, die das
+echte Output-Budget wirklich liefern; OpenRouter/LiteLLM reichen praktisch
+~16k effektiv durch.
 
 ### Sicherheit
 

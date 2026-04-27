@@ -321,7 +321,8 @@ Spannung** bis zum Schluss erhalten bleibt.
    **keine Halbierung** — Initiative ist kein Check, sondern eine Reaktionsmessung).
    Boni aus Talenten oder Cyberware addieren; der höchste Wert beginnt.
    Gleichstand: höherer TEMP, dann höherer GES, dann Stichwurf.
-2. **Angriffswurf:** Beispiel: 6 auf dem W6 + STR 3 = 9 gegen SG 8.
+2. **Angriffswurf:** Beispiel: Attribut STR **6** → Bonus `floor(6/2) = +3`. Wurf 6 auf dem W6 + STR-Bonus 3 = **9 gegen SG 8**.
+   Kontrast: Bei STR 3 wäre der Bonus nur `floor(3/2) = +1`, also 6 + 1 = 7 — Treffer erst mit Talent +2 (= 9).
 3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
    Kritische Treffer mit Nahkampf-Mods gewähren **+2 DMG** extra.

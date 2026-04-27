@@ -8,6 +8,10 @@ function readJson(relPath){
   return JSON.parse(fs.readFileSync(path.join(ROOT, relPath), 'utf8'));
 }
 
+function readText(relPath){
+  return fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+}
+
 const fixtures = [
   'internal/qa/fixtures/savegame_v7_5er_hq_highlevel.json',
   'internal/qa/fixtures/savegame_v7_split_3_2_merge.json',
@@ -72,6 +76,17 @@ function checkFixture(relPath){
   // level_history-Platzierung: NUR pro Character, NIEMALS auf Root (seit 2026-04-23)
   assert.ok(!('level_history' in save), `${label}: Root-Level 'level_history' verboten — gilt pro Character (siehe Masterprompt §F Level-Up-Exklusivitäts-Pflichtgate).`);
 
+  // HQ-SaveGuard-Invariante (seit 2026-04-27 nach SSOT-Drift-Fix):
+  // Wenn last_seen.location === 'HQ', darf mode NICHT in {core, rift, arena, chronopolis} liegen.
+  // Das wäre Selbstwiderspruch: HQ-Save-Bedingung verlangt genau diese Modes NICHT.
+  if (save.continuity && save.continuity.last_seen) {
+    const ls = save.continuity.last_seen;
+    if (ls.location === 'HQ') {
+      assert.ok(!['core', 'rift', 'arena', 'chronopolis'].includes(ls.mode),
+        `${label}: continuity.last_seen inkonsistent — location='HQ' mit mode='${ls.mode}' widerspricht HQ-SaveGuard-Bedingung (Masterprompt §F). Erwartet: mode='hq' oder freier Nicht-Runtime-Wert.`);
+    }
+  }
+
   assert.strictEqual(typeof save.summaries.summary_last_episode, 'string', `${label}: summary_last_episode muss String sein.`);
   assert.strictEqual(typeof save.summaries.summary_last_rift, 'string', `${label}: summary_last_rift muss String sein.`);
   assert.strictEqual(typeof save.summaries.summary_active_arcs, 'string', `${label}: summary_active_arcs muss String sein.`);
@@ -111,5 +126,31 @@ function checkFixture(relPath){
 
 readJson('systems/gameflow/saveGame.v7.schema.json');
 fixtures.forEach(checkFixture);
+
+// Masterprompt-Template-Invarianten (seit 2026-04-27 SSOT-Drift-Fix):
+// Das kopierfähige Save-Output-Template in §F wird von LLMs wörtlich reproduziert.
+// Drift dort = Drift in jedem Spieler-Save. Darum: Template muss selbst sauber sein.
+(function checkMasterpromptTemplate(){
+  const mp = readText('meta/masterprompt_v6.md');
+  const label = 'meta/masterprompt_v6.md';
+
+  // Check 1: HQ-Save-Template darf NICHT mode='core' bei location='HQ' haben.
+  const hqCoreRegex = /"last_seen"\s*:\s*\{\s*"mode"\s*:\s*"core"[^}]*"location"\s*:\s*"HQ"/;
+  assert.ok(!hqCoreRegex.test(mp),
+    `${label}: Save-Output-Template enthält 'last_seen.mode: "core"' bei 'location: "HQ"' — Selbstwiderspruch zur HQ-SaveGuard-Bedingung. Template muss 'mode: "hq"' bei HQ-Save verwenden.`);
+
+  // Check 2: Save-Output-Template muss level_history-Feld im Character-Objekt zeigen.
+  // Sucht den Block zwischen der HQ-save_id und dem schließenden characters]-Bracket; darin muss 'level_history' vorkommen.
+  const charBlockMatch = mp.match(/"save_id"\s*:\s*"SAVE-[^"]*HQ[^"]*"[\s\S]{0,300}"characters"\s*:\s*\[([\s\S]*?)\n  \],/);
+  if (charBlockMatch){
+    assert.ok(/"level_history"/.test(charBlockMatch[1]),
+      `${label}: Save-Output-Template zeigt kein 'level_history' im Character-Block — Anti-Stacking-Feld muss im Template mit, sonst verlieren LLM-Saves das Feld (siehe §F Level-Up-Exklusivitäts-Pflichtgate).`);
+  }
+
+  // Check 3: Save-Output-Template darf keine attr-Nullen zeigen (illegaler Lvl1-Char).
+  const zeroAttrRegex = /"attr"\s*:\s*\{\s*"STR"\s*:\s*0\s*,\s*"GES"\s*:\s*0/;
+  assert.ok(!zeroAttrRegex.test(mp),
+    `${label}: Save-Output-Template zeigt 'attr: {STR:0, GES:0, ...}' — nach Chargen illegal (Startsumme 18, Einzelwerte 1-6). Template muss gültiges Lvl-1-Beispiel zeigen.`);
+})();
 
 console.log('v7-schema-consistency-ok');

@@ -97,9 +97,13 @@ Der Standard-Header zeigt:
   eindeutig Phase 2. Bei hohen Prestige-Leveln (51+) können Schwellen bis
   zu 5 XP betragen — Balken analog.
 
-Die Leiste ist **permanent sichtbar** und aktualisiert sich nach jeder Mission
-im Debrief. Sie motiviert durch sichtbaren Fortschritt — analog zum Px-Balken,
-aber immer eingeblendet.
+Die Leiste ist **in jedem ausgegebenen HUD-Block sichtbar** und aktualisiert sich
+nach jeder Mission im Debrief. Der HUD-Block selbst folgt der Gate-HUD-Policy
+(Missionsstart, Level-Up, Px-Schwelle, Kampf, Debrief) — reine Dialogturns ohne
+Statusänderung posten keinen HUD-Block.
+
+Sie motiviert durch sichtbaren Fortschritt — analog zum Px-Balken, sobald der
+Block ausgegeben wird.
 
 - Rift-Casefiles hängen `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss` an
   den Header, damit der Ermittlungsstand (Tatort → Leads → Boss) sichtbar bleibt.
