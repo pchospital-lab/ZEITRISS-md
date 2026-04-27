@@ -139,8 +139,9 @@ den Blick über den Rand: _„Ihr seid jetzt in der **_Nullzeit_**, unserem
 Hauptquartier außerhalb des normalen Zeitstroms. Hier ticken die Uhren anders —
 genau genommen gar nicht. Egal wie lange wir bleiben, für die Außenwelt
 vergehen nur Sekunden. Ihr altert nicht, und wir können euch genau an den
-Moment zurückschicken, aus dem ihr gekommen seid. Klingt bequem. Gewöhnt man
-sich trotzdem dran: kein Tag, keine Nacht, nur wir und unsere Missionen.“_
+Moment zurückschicken, aus dem ihr gekommen seid. Klingt bequem. Ist es nicht.
+Kein Tag, keine Nacht, nur wir und unsere Missionen — daran gewöhnt man sich
+nie ganz. Man lernt nur, damit zu arbeiten.“_
 Sie schiebt das Tablett mit den Bechern einen Handbreit weiter in eure
 Richtung, ein fast beiläufiges Angebot. _„Bevor wir fortfahren, nehmt euch
 einen Augenblick. Schaut euch um, lernt euch kennen. Kaffee ist da, ich frage
