@@ -1545,22 +1545,12 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
   alternativen Zukunft auf, der aus der von den Spielern geschaffenen Zeitlinie stammt - konfrontiert
   die Agenten mit den Folgen ihres Handelns. So spürt die Gruppe den **Verantwortungsdruck**, der mit
   der Macht über die Zeit einhergeht.
-- **Paradoxon-Verschiebungen:** Wenn man an der Zeit selbst manipuliert, bleibt dies nicht ohne
-  Risiko. Hier kommt das Konzept der Paradoxon-Verschiebungen ins Spiel. Jedes Eingreifen, das der
-  "ursprünglichen" Geschichte widerspricht, erzeugt eine gewisse **paradoxe Energie**. Das Modul
-  schlägt vor, diese als eine Art Leiste oder Zähler im Hintergrund mitzuführen. Kleine Änderungen
-  (die im großen Gefüge keine Wellen schlagen) senken den Wert nur minimal, aber große Eingriffe
-  (z. B. das Überleben einer Person, die ursprünglich sterben sollte)
-  senken oder lassen das Paradoxon deutlich stagnieren.
-  Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: Die Welt
-  beginnt zu flackern, Déjà-vus plagen die Charaktere, und es können Zeitkreaturen erscheinen - würfelt.
-  Wer solche Phänomene vermeiden möchte, spielt die optionale **Covert-Ops**-Variante ohne Kreaturen
-  im Kreaturen- & Gestalten-Generator eine passende Erscheinung -, die versuchen, das Paradoxon
-  "aufzufressen". Diese Ereignisse sind exzellente Aufhänger für Zwischenspiele. Vielleicht müssen die
-  Agenten ein **Paradoxon glätten**, indem sie einen Teil der Änderung rückgängig machen oder einen
-  Ausgleich in der Timeline schaffen. Gelingt es ihnen, sinkt der Paradoxon-Zähler wieder. Schaffen sie es
-  nicht, kann aus der Paradoxon-Verschiebung ein dauerhaftes Phänomen werden (z. B. ein Riss in der
-  Realität, den man im HQ überwachen und eindämmen muss).
+- **Timeline-Echos statt Strafkonto:** Langzeitfolgen laufen nicht über ein zweites Paradoxon-System,
+  sondern über dokumentierte Echos in Story, Heat, Ressourcenlage und Fraktionsreaktionen.
+  Der Px-Loop bleibt positiv (Resonanz → Seeds bei Px 5). Konsequenzen für schlechte Entscheidungen
+  entstehen durch Druck im Feld, höhere Kosten, riskantere Lagen und politische Gegenmaßnahmen.
+  Die KI-SL darf dafür Echo-Beats setzen (z. B. Flackerzonen, widersprüchliche Zeugenaussagen,
+  lokale Instabilität), führt aber **keinen negativen Px-Grind** ein.
 
 Durch diese langfristigen Mechaniken bleibt die Kampagnenwelt im Fluss. Die Spieler sehen direktes
 **Feedback auf ihr Tun**: Ihr Einfluss wächst, ihre Taten formen Geschichte, doch zugleich müssen
@@ -1694,9 +1684,9 @@ Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat-Zone
    entscheidet die Gruppe: **Cashout** (Pending wird sicher gebankt, HQ-Save wieder erlaubt)
    oder **Push** (nächste Serie, höheres Risiko, höherer Pending-Multiplikator). Wer pusht
    und verliert, verliert den Pending-Bonus ganz oder größtenteils (Trostreward optional).
-5. **Belohnungen:** Siege bringen CU, Ruf, Training-XP und steigende Multiplikatoren.
+5. **Belohnungen:** Siege bringen CU, Arena-Ruf (Ladder/Show-Ruf), Training-XP und steigende Multiplikatoren.
    Die Arena vergibt **kein Px**, **keine Rift-Seeds** und verändert `campaign.px` nie direkt.
-   Progression läuft über `training_xp`/Missionsäquivalente und wird erst beim Cashout gebankt.
+   Progression läuft über banked Training-XP/Missionsäquivalente und wird erst beim Cashout als normales `characters[].xp` verbucht.
    Kodex markiert den Abschluss mit einem `arena_episode_stamp`, damit
    episodische Belohnungen (ohne Px) nachvollziehbar bleiben.
    Die Startgebühr fällt bei jedem neuen Lauf erneut an.
@@ -1825,11 +1815,12 @@ PvP/Arena ist ein **vollwertiger Progressionsweg**, aber strikt getrennt von
 Paradoxon-/Rift-Ökonomie:
 
 - Arena vergibt **nie** Px und **nie** Rift-Seeds.
-- Gebankte Cashouts vergeben stattdessen **Training-XP** und zählen als
-  **Missionsäquivalent** (1 erfolgreicher Contract-Cashout = 1 Missionsäquivalent).
+- Gebankte Cashouts vergeben **Training-XP als Herkunftslabel**, die beim Verbuchen
+  als normales `characters[].xp` zählen, plus **Missionsäquivalent**
+  (1 erfolgreicher Contract-Cashout = 1 Missionsäquivalent).
 - Level-Ups laufen über dieselbe Pflichtlogik wie überall:
   genau eine Wahl pro neuem Level und persistenter Eintrag in `level_history`.
-- Arena-Cashouts dürfen CU, Ruf, Training-XP und Ladder-Fortschritt vergeben;
+- Arena-Cashouts dürfen CU, Arena-Ruf, Training-XP und Ladder-Fortschritt vergeben;
   Artefakt-Farm bleibt in der Arena deaktiviert.
 
 #### Diminishing Returns
