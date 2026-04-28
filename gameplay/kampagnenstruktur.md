@@ -1690,11 +1690,13 @@ Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat-Zone
    optionale **Schwierigkeit** erlaubt es, Gegner schwächer oder stärker zu
    skalieren. Anschließend versetzt Kodex beide Gruppen in die Arena.
 4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Ein HUD-Overlay zeigt
-   Punktestand und Rundenfortschritt. Nach jedem Duell kann eine Revanche
-   gestartet oder die Arena verlassen werden. Wer nach einem Sieg weiterspielt
-   und die Serie verliert, erhält keinen Bonus.
-5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren.
-   Die Arena vergibt **kein Px** und verändert `campaign.px` nie direkt.
+   Punktestand, **Banked/Pending** und Rundenfortschritt. Nach jeder gewonnenen Serie
+   entscheidet die Gruppe: **Cashout** (Pending wird sicher gebankt, HQ-Save wieder erlaubt)
+   oder **Push** (nächste Serie, höheres Risiko, höherer Pending-Multiplikator). Wer pusht
+   und verliert, verliert den Pending-Bonus ganz oder größtenteils (Trostreward optional).
+5. **Belohnungen:** Siege bringen CU, Ruf, Training-XP und steigende Multiplikatoren.
+   Die Arena vergibt **kein Px**, **keine Rift-Seeds** und verändert `campaign.px` nie direkt.
+   Progression läuft über `training_xp`/Missionsäquivalente und wird erst beim Cashout gebankt.
    Kodex markiert den Abschluss mit einem `arena_episode_stamp`, damit
    episodische Belohnungen (ohne Px) nachvollziehbar bleiben.
    Die Startgebühr fällt bei jedem neuen Lauf erneut an.
@@ -1725,13 +1727,12 @@ Kampagnenmodus temporär auf `pvp` und merkt den alten Wert in
 `arena.previous_mode`. Beim Verlassen stellt `arenaEnd()` den
 Ursprungsmodus (`preserve`/`trigger`/`mixed`) wieder her und leert
 `arena.previous_mode`. Fehlt `previous_mode` (z. B. bei Legacy-Saves), fällt
-der Reset auf `preserve` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
+der Reset auf `mixed` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
 
-Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
+Die PvP-Arena eignet sich als vollwertiger Karrierepfad, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
 `arena_episode_stamp` hängt im HQ im Quarzatrium aus; sobald Kodex es setzt,
-weiß die Gruppe, dass für die laufende Episode kein weiterer Px-Bonus mehr
-wartet.
+weiß die Gruppe, dass der aktuelle Arena-Contract bereits gewertet wurde.
 
 **Siegbedingungen:** Ein Duell gilt als gewonnen, wenn das gegnerische Team
 kampfunfähig ist oder das Missionsziel erreicht wurde. Verlassen Teilnehmende
@@ -1800,15 +1801,15 @@ Die Basis-CU richten sich nach dem Durchschnittslevel der Spielenden
 
 #### Anti-Grinding: Cooldown
 
-Pro Episode sind maximal **3 Arena-Matches** erlaubt. Kodex führt einen
-Zähler in `arena.matches_this_episode` und verweigert den Eintritt nach
-dem dritten Lauf mit dem HUD-Toast: _"Arena-Kontingent erschöpft - nächste
-Episode freigegeben."_
+Anti-Grind läuft über **Arena-Contracts/Season-Fenster**, nicht über `campaign.episode`.
+Kodex führt `arena.rewarded_runs_this_contract` und limitiert pro Contract
+standardmäßig auf **3 rewardbare Runs**. Danach bleibt Spielen möglich, aber
+Bonus-Rewards pausieren bis zum nächsten Contract.
 
 #### Persistenzvertrag (Arena)
 
 Persistiert werden nur Arena-Felder mit Kampagnenbezug:
-`arena.previous_mode`, `arena.resume_token`, `arena.matches_this_episode`,
+`arena.previous_mode`, `arena.resume_token`, `arena.rewarded_runs_this_contract`,
 `arena.first_wins`, `arena.defeated_types`, `arena.last_reward_episode`,
 `arena.wins_player|wins_opponent|tier` und `arena.match_policy`.
 
@@ -1817,6 +1818,19 @@ Transiente Match-/Queue-Felder (`arena.active`, `arena.phase`,
 Beim HQ-Load werden sie auf Abschlusszustand normalisiert
 (`active=false`, `phase=idle|completed`, `queue_state=idle|completed`),
 damit `!save` im HQ reproduzierbar bleibt.
+
+#### PvP-only Progression (gleichwertiger Karrierepfad)
+
+PvP/Arena ist ein **vollwertiger Progressionsweg**, aber strikt getrennt von
+Paradoxon-/Rift-Ökonomie:
+
+- Arena vergibt **nie** Px und **nie** Rift-Seeds.
+- Gebankte Cashouts vergeben stattdessen **Training-XP** und zählen als
+  **Missionsäquivalent** (1 erfolgreicher Contract-Cashout = 1 Missionsäquivalent).
+- Level-Ups laufen über dieselbe Pflichtlogik wie überall:
+  genau eine Wahl pro neuem Level und persistenter Eintrag in `level_history`.
+- Arena-Cashouts dürfen CU, Ruf, Training-XP und Ladder-Fortschritt vergeben;
+  Artefakt-Farm bleibt in der Arena deaktiviert.
 
 #### Diminishing Returns
 
@@ -1845,11 +1859,12 @@ abgeschlossene Tiers in `arena.first_wins[tier]` (Zähler 0-3).
 | 1-3                 | +50 % CU   |
 | 4+                  | kein Bonus |
 
-> **Zusammenspiel:** Diminishing Returns und First-Win-Bonus schließen sich
-> nicht gegenseitig aus. Ist es der erste Sieg gegen einen Tier, greift der
-> Bonus. Ist derselbe Gegnertyp bereits besiegt, greift stattdessen der
-> 50-%-Malus - selbst wenn der Tier-Bonus noch verfügbar wäre.
-> First-Win-Bonus hat **Vorrang**, solange der Zähler unter 3 liegt.
+> **Zusammenspiel:** Diminishing Returns und First-Win-Bonus laufen deterministisch:
+> 1) Basis-Reward nach Tier berechnen.
+> 2) Wenn für dieses Tier noch ein First-Win-Slot offen ist, gilt First-Win und
+>    der Repeat-Malus wird ignoriert.
+> 3) Nur ohne First-Win greift der 50-%-Repeat-Malus bei bereits besiegtem Gegnertyp.
+> 4) Push-Multiplikator wird zuletzt auf **pending** Rewards angewandt.
 
 ## Chronopolis - Freier Infiltrationslauf
 

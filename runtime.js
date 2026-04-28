@@ -1120,7 +1120,7 @@ function sanitize_hud_entries(entries){
 const HQ_CLASSIC_INTRO_LINES = [
   'Nullzeit-Labor (klassisch): Dein letzter Einsatz endete tödlich; das ITI rekonstruierte dein Bewusstsein aus dem Absolut.',
   'Du schwebst im Nullzeit-Puffer, Holo-Konsolen blenden Erinnerungen ein: Hier definierst du, wer du warst und wer du sein willst.',
-  'Hinter Panzerverglasung wächst aus Synth-Gel eine neue Bio-Hülle; Bio-/Cyberware und Ausrüstung warten auf Freigabe.',
+  'Hinter Panzerverglasung stabilisiert sich ein neuer Körperanker; Bio-/Cyberware und Ausrüstung warten auf Freigabe.',
   'Während du Attribute und Rolle festlegst, koppelt das HUD die Slots für Waffen, Bioware, Cyberware und Gear.',
   'Sobald Rolle, Waffen und Implantate fix sind, finalisiert das ITI die Hülle – erst dann koppelt es dein Bewusstsein an.',
   'Wenn die Drucktanks verstummen, entlädt sich der Transferblitz; Sensoren flackern, dein Bewusstsein fährt in den Körper.',
@@ -6149,8 +6149,10 @@ function reset_arena_after_load(){
       ? clone_plain_object(arena.resume_token)
       : null;
   const previousMode = (() => {
-    const raw = pickString(arena.previous_mode, resumeTokenFromSave?.previous_mode, arena.mode);
-    return raw ? raw.trim() : null;
+    const raw = pickString(arena.previous_mode, resumeTokenFromSave?.previous_mode);
+    if (!raw) return 'mixed';
+    const normalized = raw.trim().toLowerCase();
+    return ['preserve', 'trigger', 'mixed'].includes(normalized) ? normalized : 'mixed';
   })();
   if (wasActive && !arena.previous_mode){
     arena.previous_mode = previousMode;
@@ -6166,12 +6168,7 @@ function reset_arena_after_load(){
     arena.resume_token.previous_mode = previousMode;
   }
   const campaign = ensure_campaign();
-  if (previousMode){
-    campaign.mode = previousMode;
-  } else if (wasActive && campaign.mode === 'pvp'){
-    delete campaign.mode;
-    ensure_campaign();
-  }
+  campaign.mode = previousMode;
   arena.active = false;
   arena.phase = hadCompleted || wasActive ? 'completed' : 'idle';
   arena.queue_state = hadCompleted || wasActive ? 'completed' : 'idle';
@@ -6740,16 +6737,18 @@ function arenaResume(){
   apply_arena_rules();
   ensure_runtime_flags().arena_active = true;
   state.location = 'ARENA';
-  const pxLocked =
-    arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
-  const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
+  const rewardWindowOpen =
+    arena.last_reward_episode === null || arena.last_reward_episode !== currentEpisode;
+  const rewardNote = rewardWindowOpen
+    ? 'Cashout-Fenster offen'
+    : 'Contract-Fenster bereits gewertet';
   const policyLabel = matchPolicy === 'lore' ? 'Lore-Kampf' : 'Sim/Range';
   const baseMessage = `Arena Resume · Tier ${arena.tier} · Policy ${policyLabel}`;
-  hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
+  hud_toast(`${baseMessage} · ${rewardNote}`, 'ARENA');
   if (audit.length){
     hud_toast(`Arena-Audit reaktiviert: ${audit.length} Hinweise.`, 'ARENA');
   }
-  return `${baseMessage} · ${scenario.description} · ${pxNote}`;
+  return `${baseMessage} · ${scenario.description} · ${rewardNote}`;
 }
 
 function arenaStart(options = {}){
@@ -6799,12 +6798,14 @@ function arenaStart(options = {}){
   apply_arena_rules();
   ensure_runtime_flags().arena_active = true;
   state.location = 'ARENA';
-  const pxLocked =
-    arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
-  const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
+  const rewardWindowOpen =
+    arena.last_reward_episode === null || arena.last_reward_episode !== currentEpisode;
+  const rewardNote = rewardWindowOpen
+    ? 'Cashout-Fenster offen'
+    : 'Contract-Fenster bereits gewertet';
   const policyLabel = matchPolicy === 'lore' ? 'Lore-Kampf' : 'Sim/Range';
   const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU · Policy ${policyLabel}`;
-  hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
+  hud_toast(`${baseMessage} · ${rewardNote}`, 'ARENA');
   if (audit.length){
     hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
   }
@@ -6820,21 +6821,21 @@ function arenaStart(options = {}){
       match_policy: matchPolicy,
       mode_previous: previousMode
     },
-    note: pxNote
+    note: rewardNote
   });
-  return `${baseMessage} · ${scenario.description} · ${pxNote}`;
+  return `${baseMessage} · ${scenario.description} · ${rewardNote}`;
 }
 
 function arenaScore(){
   const arena = ensure_arena();
-  const pxLocked =
-    arena.last_reward_episode !== null &&
-    arena.last_reward_episode === (state.campaign?.episode ?? null);
-  const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus offen';
+  const rewardWindowOpen =
+    arena.last_reward_episode === null ||
+    arena.last_reward_episode !== (state.campaign?.episode ?? null);
+  const rewardNote = rewardWindowOpen ? 'Cashout offen' : 'Contract bereits gewertet';
   const scenario = arena.scenario?.description || 'n/a';
   const summary =
     `Arena-Score ${arena.wins_player}:${arena.wins_opponent} · Tier ${arena.tier} · ` +
-    `Team ${arena.team_size} · ${pxNote}`;
+    `Team ${arena.team_size} · ${rewardNote}`;
   return `${summary} · Szenario ${scenario}`;
 }
 
@@ -6844,21 +6845,14 @@ function arenaExit(){
     return 'Arena ist nicht aktiv.';
   }
   const episode = state.campaign?.episode ?? null;
-  let pxGranted = false;
-  if (arena.wins_player >= 2 && arena.wins_player > arena.wins_opponent){
-    if (episode !== null && arena.last_reward_episode !== episode){
-      incrementParadoxon(1);
-      arena.last_reward_episode = episode;
-      pxGranted = true;
-    }
+  if (arena.wins_player >= 2 && arena.wins_player > arena.wins_opponent && episode !== null){
+    arena.last_reward_episode = episode;
   }
   const messageParts = [`Arena Ende · Score ${arena.wins_player}:${arena.wins_opponent}`];
   if (arena.wins_player < 2 || arena.wins_player <= arena.wins_opponent){
-    messageParts.push('Keine Px-Belohnung (Serie verloren)');
-  } else if (pxGranted){
-    messageParts.push(`Px-Bonus +1 (Episode ${episode ?? 'n/a'})`);
+    messageParts.push('Pending-Bonus verloren · Basisreward optional');
   } else {
-    messageParts.push('Px-Bonus bereits vergeben');
+    messageParts.push('Cashout möglich · Training-XP/CU/Ruf bankbar');
   }
   arena.active = false;
   arena.phase = 'completed';
@@ -6882,8 +6876,7 @@ function arenaExit(){
   if (typeof restoreMode === 'string' && restoreMode.trim()){
     state.campaign.mode = restoreMode;
   } else {
-    delete state.campaign.mode;
-    ensure_campaign();
+    state.campaign.mode = 'mixed';
   }
   delete arena.previous_mode;
   ensure_runtime_flags().arena_active = false;
@@ -8099,9 +8092,11 @@ function prepare_save_arena(arena){
     zone: normalize_arena_zone(source.zone, { active }),
     mode: typeof source.mode === 'string' && source.mode.trim() ? source.mode.trim() : 'single',
     match_policy: normalize_arena_match_policy(source.match_policy),
-    previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
-      ? source.previous_mode.trim()
-      : null,
+    previous_mode: (() => {
+      const raw = typeof source.previous_mode === 'string' ? source.previous_mode.trim().toLowerCase() : '';
+      if (!raw) return null;
+      return ['preserve', 'trigger', 'mixed'].includes(raw) ? raw : 'mixed';
+    })(),
     team_size: clamp_team_size(source.team_size, { allowZero: false }),
     tier: Number.isFinite(source.tier) ? Math.max(1, Math.floor(source.tier)) : 1,
     proc_budget: Number.isFinite(source.proc_budget)

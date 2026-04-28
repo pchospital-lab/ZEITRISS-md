@@ -292,7 +292,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Nach Arena-Ende bleibt Save im Abschlusszustand erlaubt (`idle|completed` bei
   `arena.active=false`), damit der direkte PvP→HQ-Savepunkt stabil nutzbar ist.
   Persistiert werden für Arena nur langlebige Felder
-  (`previous_mode`, `resume_token`, `matches_this_episode`,
+  (`previous_mode`, `resume_token`, `rewarded_runs_this_contract`,
   `first_wins`, `defeated_types`, `last_reward_episode`, Serienstand/Tier/Policy);
   Queue-/Run-Status bleibt transient und wird beim HQ-Load normalisiert.
   Saves aus Chronopolis/CITY werden mit "SaveGuard: Chronopolis ist kein HQ-
@@ -404,14 +404,16 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   laufen über denselben Helper, schreiben `self_reflection_auto_reset_*`
   (inkl. History-Eintrag pro Mission) und bleiben damit deterministisch.
 - **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis
-  zum Exit, markiert Px-Boni pro Episode und hält die PvP-Policy im Save
+  zum Exit, vergibt Arena-Boni/Training-XP statt Px und hält die PvP-Policy im Save
   (`arena.match_policy=sim|lore`). `sim` steht für Sim/Range-Training,
   `lore` erlaubt Cross-Alignment als Lore-Kampf; der HUD-Toast nennt die
-  aktive Policy. PvP ist optionales Endgame-Modul; Standardkampagnen laufen
+  aktive Policy. `campaign.mode='pvp'` bleibt Runtime-Status und wird nie als
+  dauerhafter Exportmodus gehalten (Fallback bei Missing `previous_mode` immer `mixed`).
+  PvP ist optionales Endgame-Modul; Standardkampagnen laufen
   ohne Arena-Fokus weiter.
 - **Phase-Strike Arena.** `arenaStart(options)` zieht die Arena-Gebühr aus
   `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier,
-  Szenario, Policy sowie Px-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
+  Szenario, Policy sowie Cashout-/Risiko-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
   (`economy.hq_pool`) geführt; der Credits-Fallback bleibt reiner Legacy-Importpfad;
   `sync_primary_currency()` hält beide Felder deckungsgleich und protokolliert
   bei Arena-Gebühren, Wallet-Splits und Markt-Käufen `currency_sync`-Traces

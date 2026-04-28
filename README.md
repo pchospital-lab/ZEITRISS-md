@@ -27,7 +27,7 @@ Preset wählen, losspielen.
 ```text
 EP 1 · MS 3 · SC 7/12
 PHASE Konflikt · MODE CORE
-Lvl 4 ▓▓▓▓░░░░░░ 4/10
+Lvl 4 ▓▓▓▓░░░░░░ · Px 2/5 · CU 340 · Ruf ITI 3 · HQ savebar
 Px 2/5 · Stress 3/10
 Obj: Dossier sichern
 ```

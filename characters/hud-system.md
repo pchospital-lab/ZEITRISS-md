@@ -160,6 +160,7 @@ Block ausgegeben wird.
 - **PSI-Chars:** `PP 6/8 · Psi-Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)`
 - **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)`
 - **Exfil-Phase:** `ANCR: Hinterhof · RW: 07:30`
+- **Arena/Cashout:** `🏟 S2/C04 · BO3 1:0 · Banked 180 CU/2 Ruf/1 TXP · Pending 240 CU/3 Ruf/1 TXP x1.5 · Risiko: Verlust verbrennt Pending`
 - **Gemeinsam:** Szene-Ticker `SC x/12` nur an Übergängen, Overcharge als Flag `OC 0/1`.
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
