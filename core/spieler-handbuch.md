@@ -83,7 +83,7 @@ dann Zeitphysik**.
 
 - **Core-Ops** liefern auf lange Sicht fast immer eine rationale, wenn auch
   verstörende Erklärung.
-- Typische Wahrheiten hinter dem Mythos sind: **posthumane Bio-Hüllen**,
+- Typische Wahrheiten hinter dem Mythos sind: **posthumane Rekonstruktionskörper** (ITI-Laborjargon: Biohüllen),
   **fehlklassifizierte Zukunftstechnologie**, **Fraktions-PsyOps**,
   **Zeitversatz** oder **verdeckte Bergungsoperationen**.
 - **Rift-Ops** dürfen unberechenbarer wirken, bleiben in ZEITRISS aber trotzdem
