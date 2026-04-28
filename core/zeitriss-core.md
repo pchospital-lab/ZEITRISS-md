@@ -176,7 +176,7 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
 Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
 außergewöhnlich und markiert das menschliche Maximum.
 Bei der Charaktererschaffung setzt ihr zunächst **alle sechs Attribute auf 0**,
-tragt direkt die **Boni/Mali eurer Bio-Hülle** ein (diese können Zwischenwerte unter 0 erzeugen) und
+tragt direkt die **Boni/Mali eures Körperprofils** ein (diese können Zwischenwerte unter 0 erzeugen) und
 verteilt anschließend **18 freie Punkte** — jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
 kein Attribut unter **1** liegen; 3 bleibt der Orientierungswert für Durchschnittlichkeit, typische
 Startbereiche sind 2–6. Kein Start-Attribut darf höher als 6 sein, damit ihr nicht bereits im
@@ -187,7 +187,7 @@ Cap unverrückbar. Das absolute Maximum liegt bei **14** — solche Werte erford
 Kampagnen-Meilensteine und sind extrem selten.
 
 **Beispiel:** Agent Alex (Standardmensch ohne Modifikatoren) startet alle Werte bei 0, fügt keine
-Rassenanpassungen hinzu und verteilt 18 Punkte: STR 3, GES 4, INT 4, CHA 2, TEMP 3, SYS 2. Alex ist
+Profil-Modifikationen hinzu und verteilt 18 Punkte: STR 3, GES 4, INT 4, CHA 2, TEMP 3, SYS 2. Alex ist
 damit überdurchschnittlich gewandt und schlau, besitzt solide Temporale Affinität, aber nur
 durchschnittliche Körperkraft und Ausstrahlung. Diese Werte fließen in Proben ein: Je höher ein
 Attribut, desto größer die Chance, dass entsprechende Aktionen gelingen; niedrige Werte machen
@@ -214,8 +214,8 @@ seinem Bereich narrative und oft auch mechanische Vorteile.
 - **Technische/Handwerkliche Fertigkeiten:** z. B. Hacker, Sprengstoffexperte, Mechaniker,
   Alchemist. Solche Talente erlauben es dem Charakter, komplexe Aufgaben in ihrem Fachgebiet zu
   meistern, die anderen ohne dieses Können verwehrt bleiben.
-- **Zeitreise-Fähigkeiten:** Außergewöhnliche Kräfte, die durch den Kontakt mit dem Zeitstrom oder
-  spezielles Training entstanden sind. Dazu zählen **Psionik** oder temporale Manipulationen - etwa
+- **Psi-/Resonanzfähigkeiten:** Außergewöhnliche Kräfte, die durch den Kontakt mit dem Zeitstrom oder
+  spezielles Training entstanden sind. Dazu zählen **Psionik** oder seltene TEMP-/Psi-gebundene Hochstufenphänomene - etwa
   eine kurze Verlangsamung der Zeit für ein paar Sekunden, eine instinktive Vorahnung kommender
   Ereignisse (_Präkognition_) oder das Spüren von Zeitschocks aus der Ferne. Diese Fähigkeiten sind
   äußerst selten und erfordern eine hohe Temporale Affinität; oft entwickeln sie sich erst spät im

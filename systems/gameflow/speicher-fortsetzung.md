@@ -1519,6 +1519,10 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 Dieses Schema ist das **einzige** kanonische Exportformat für neue Saves (Solo und Koop).
 Es ist kein zweites, paralleles Format erlaubt.
 
+> **SSOT-Hinweis:** Es gibt nur ein kanonisches Save-Beispiel — das strict-v7-HQ-Deepsave-Template
+> aus dem Masterprompt. Jede andere JSON-Darstellung in dieser Datei dient nur der
+> Migrationserklärung oder als Teilbeispiel, nicht als alternatives Exportmuster.
+
 **HQ-Save-Invariante:** Gespeichert wird ausschließlich im HQ-Kernbereich.
 Vor dem Speichern läuft der Debrief-Reset auf HQ-Basis (`stress`, `psi_heat`,
 `SYS`). Diese Felder bleiben im v7-Schema, damit der explizite HQ-Zustand im
@@ -1553,7 +1557,7 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
         "hominin": "Homo sapiens sapiens",
         "role": "Aufklärung"
       },
-      "attr": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS": 4 },
+      "attr": { "STR": 5, "GES": 3, "INT": 4, "CHA": 3, "TEMP": 2, "SYS": 1 },
       "lp": 10,
       "lp_max": 10,
       "stress": 0,
@@ -1586,7 +1590,8 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
           "zerbrechliche_ewigkeit": 0
         }
       },
-      "wallet": 0
+      "wallet": 0,
+      "level_history": {}
     }
   ],
   "economy": { "hq_pool": 0 },
@@ -1610,18 +1615,49 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
     "summary_last_rift": "",
     "summary_active_arcs": ""
   },
+  "continuity": {
+    "last_seen": { "mode": "hq", "episode": 1, "mission": 0, "location": "HQ" },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
   "ui": {
     "gm_style": "verbose",
     "suggest_mode": false,
+    "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
     "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "previous_mode": "mixed",
+    "resume_token": null,
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "tier": 1,
+    "match_policy": "safe"
   }
 }
 ```
 
 > Gruppen- und Solo-Saves nutzen dieselbe Roster-Quelle: `characters[]`.
+
+> `arena` ist im v7-Export **optional**: nur schreiben, wenn Arena-Karriere bereits genutzt wurde.
+> Wenn vorhanden, wird der Block strict validiert; Match-Laufzeitdaten bleiben außerhalb des Deepsave.
 
 > **Vollständigkeitshinweis:** `talents[]`, `history`, `carry`, `quarters_stash` und `vehicles` gehören im v7-Kanon in jeden Charaktereintrag (`characters[]`). Epochenfahrzeuge werden als `vehicles.epoch_vehicle` persistiert und folgen im Einsatz der TEMP-Tabelle; `legendary_temporal_ship` bleibt optionaler Zusatzslot.
 

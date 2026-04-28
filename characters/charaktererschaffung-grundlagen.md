@@ -290,7 +290,7 @@ die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
    Bei der Charaktererstellung gibt es **keinen Fraktionswahlzwang**. Die
    Orientierung entwickelt sich im Spiel.
 
-Jetzt seid ihr bereit für die erste Mission!
+Jetzt seid ihr bereit für euren ersten HQ-Deepsave. Erst danach entscheidet ihr bewusst, ob ihr das HQ ausspielt, trainiert, die Arena betretet oder ins erste Briefing geht.
 
 ## Erste Schritte im ITI
 
