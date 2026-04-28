@@ -1872,7 +1872,7 @@ _Runtime-Leitfaden für die KI-SL (spieler-sichtbar, ohne Dev-Tooling)_
 > Gruppen-DeepSave_). Chronopolis-Items gehen nur verloren, wenn ihr den Run
 > nicht lebend verlasst.
 > Items die man lebend rausbringt: behalten. Keine Auswirkungen auf die echte Zeitlinie.
-> Chronopolis ist eine temporäre Instanz, erschaffen von Kodex. Kein Speichern möglich.
+> Chronopolis ist eine temporär stabilisierte **reale Bruchlinie** der Episode, die Kodex bei jedem Eintritt neu dechiffriert und kurz begehbar hält. Kein Speichern möglich.
 
 ### Schleusenprotokoll ITI ↔ Chronopolis (Erzähl-SSOT)
 
@@ -1942,7 +1942,7 @@ den Runtime-Wissensspeicher.
   Lokale HUD-Daten/Logs bleiben aktiv, freie `kodex`-/FAQ-Abfragen sind bis
   zum Exit in den HQ-Kern blockiert.
 - **Lore-Rail (`ABSOLUT-7/CITY`):** Als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell ist die Stadt als physisch wirksamer
-  Resonanzraum zu spielen — nicht als Matrix-Simulation. Das "Was bedeutet das
+  Resonanzraum zu spielen — als **reale Bruchlinie**, die Kodex stabilisiert/dechiffriert, nicht als Simulation. Das "Was bedeutet das
   für die Welt?" bleibt ein später Erkenntnis-Beat, nicht der Szenenmodus.
 
 ### 4 | Regie-Output (kompakt und verpflichtend)

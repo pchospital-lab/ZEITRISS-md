@@ -18,18 +18,19 @@ Quelle: `uploads/ZEITRISS_agentenpaket_nachcheck.md` + `uploads/zeitriss_nachche
 - **P1-010** erledigt: Rift-Standardloot nutzt Ermittlungsakten/Para-Spuren/
   experimentelle Gear; Relikte bleiben Core-/Story-Beute.
 
+## Neu erledigt (Patch-Sprint "Seeds+Chronopolis")
+
+- **P1-007** erledigt: Seed-Cap-Drift bereinigt; kanonisch bleibt **kein Solo-Hardcap**,
+  Cap **12 nur beim HQ-Merge/Group-Import**.
+- **P1-012** erledigt: Chronopolis-Frame auf „Kodex stabilisiert/dechiffriert
+  reale Bruchlinie" konsolidiert; kein VR-/Simulations-Frame in
+  Regeltexten mit Runtime-Bezug.
+
 ## Offen (nächster sinnvoller Block)
 
-1. **P1-007 Seed-Cap-Drift restlos entfernen**
-   - überall klar: **kein Solo-Hardcap**, Cap **12 nur beim HQ-Merge**.
-2. **P1-012 Chronopolis-Schärfung**
-   - Formulierungen auf „Kodex stabilisiert/dechiffriert reale Bruchlinie“
-     konsolidieren (kein VR-/Simulations-Frame).
-
-## Empfohlener nächster Schritt (ein Sprint)
-
-- **Patch-Sprint "Seeds+Chronopolis"** (P1-007 + P1-012).
-- Danach kurzer Drift-Check gegen Alt-/QA-Dokumente mit Fokus auf Legacy-Texte.
+- Aktuell kein neuer P1-Block aus dem Nachcheck offen.
+- Nächster Schritt: regulärer Drift-Check gegen Alt-/QA-Dokumente mit Fokus auf
+  Legacy-Texte und Formulierungsreste.
 
 ## Mini-Verifikation nach jedem Sprint
 
@@ -40,7 +41,7 @@ Quelle: `uploads/ZEITRISS_agentenpaket_nachcheck.md` + `uploads/zeitriss_nachche
    - PvP/Arena: `PVP-01..03`
    - Cross-Mode: `MULTI-01..03`, `CROSS-01`
 
-## Definition of Done für den nächsten PR
+## Definition of Done für den Folge-PR
 
 - Keine konkurrierenden Aussagen zum Seed-Cap in
   `core/sl-referenz.md`, `systems/gameflow/speicher-fortsetzung.md`,
@@ -48,4 +49,4 @@ Quelle: `uploads/ZEITRISS_agentenpaket_nachcheck.md` + `uploads/zeitriss_nachche
   Alt-/QA-Dokumente mit Regelbezug.
 - Chronopolis-Texte nutzen konsistent den Frame „reale Bruchlinie“.
 - Smoke grün.
-- PR-Body nennt exakt: **was gefixt**, **was bewusst offen bleibt**.
+- Commit-/PR-Text nennt exakt: **was gefixt**, **was bewusst offen bleibt**.
