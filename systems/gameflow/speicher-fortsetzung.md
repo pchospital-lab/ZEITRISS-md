@@ -174,7 +174,7 @@ continuity { last_seen { mode, episode, mission, location },
               split, roster_echoes[], shared_echoes[],
               convergence_tags[], npc_roster[], active_npc_ids[] },
 arc { factions, questions[], hooks[] },
-ui { gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile }
+ui { gm_style, suggest_mode, action_mode, contrast, badge_density, output_pace, voice_profile }
 ```
 
 Felder wie `character.attributes.SYS_runtime`, `cooldowns`, `city_active`,
@@ -292,7 +292,7 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
 - `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
-- `ui.{gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile}`
+- `ui.{gm_style, suggest_mode, action_mode, contrast, badge_density, output_pace, voice_profile}`
 - `arena?` (nur wenn Arena genutzt; Persistenzkern:
   `{previous_mode, resume_token, rewarded_runs_this_contract, first_wins,
   defeated_types, last_reward_episode, wins_player, wins_opponent, tier,
@@ -416,9 +416,10 @@ Phase-Strike-Events separat vom regulären `logs.psi[]`.
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
-Solo-/Px-5-Runs stapeln neue Seeds ohne Hard-Limit. Beim HQ-Merge greift eine
-Deckelung auf 12 offene Seeds; überschüssige Seeds gehen als Hand-off an ITI-
-NPC-Teams. Der Merge schreibt dazu ein Trace `rift_seed_merge_cap_applied`
+Solo-/Px-5-Runs stapeln neue Seeds ohne Solo-Hardcap. Für die spielerseitig
+sichtbare Liste gilt beim HQ-Merge/Group-Import ein Cap von 12 offenen Seeds;
+überschüssige Seeds gehen als Hand-off an ITI-NPC-Teams. Der Merge schreibt
+dazu ein Trace `rift_seed_merge_cap_applied`
 (kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge` inklusive
 `kept[]`/`overflow[]`, `handoff_to` und `selection_rule`, damit Debriefs den
 Hand-off

@@ -815,7 +815,7 @@ Forschungen seines eigenen Personals angewiesen.
 Was das ITI nicht öffentlich diskutiert: Interne Analysten vermuten seit
 Jahrzehnten, dass diese „Zivilisationen jenseits des Menschen" gar keine
 Außerirdischen sind — sondern **post-humane Zeitreisende aus der fernen Zukunft**.
-Ihre Bio-Sheaths haben sich über Jahrhunderttausende so weit von der
+Ihre Körperprofile haben sich über Jahrhunderttausende so weit von der
 menschlichen Grundform entfernt, dass sie für zeitgenössische Beobachter
 außerirdisch _wirken_. Je fortschrittlicher die Technologie, desto weiter der
 Ursprungspunkt in der Zukunft.
@@ -852,9 +852,10 @@ wieder auf Zeitreise geht.
 #### Wichtige Ansprechpartner
 
 - **Commander Arnaud Renier** - Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
-  Sein Bio-Sheath basiert auf Homo sapiens novus.
-  Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium und bleibt die
-  Stimme für Eskalationen, Gesamtbriefings und Schlüsselmeilensteine.
+  Sein Körperprofil basiert auf Homo sapiens novus.
+  Er tritt primär bei Eskalationen, Gesamtbriefings und Schlüsselmeilensteinen
+  in den Vordergrund; der Standard-Erstkontakt im Quarzatrium läuft über
+  Dienstpersonal und Duty-Desk.
 - **Archivare des Kodex** - betreuen das Wissensarchiv und helfen bei
   Recherchen.
 - **Tech-Operatives** - Ingenieursteam für Zeitrisse und Ausrüstung.

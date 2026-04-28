@@ -409,6 +409,75 @@
           "type": "string"
         }
       }
+    },
+    "arena": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active",
+        "phase",
+        "mode",
+        "tier",
+        "previous_mode",
+        "resume_token",
+        "rewarded_runs_this_contract",
+        "first_wins",
+        "defeated_types",
+        "last_reward_episode",
+        "wins_player",
+        "wins_opponent",
+        "match_policy"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "phase": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "integer"
+        },
+        "previous_mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resume_token": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "rewarded_runs_this_contract": {
+          "type": "integer"
+        },
+        "first_wins": {
+          "type": "integer"
+        },
+        "defeated_types": {
+          "type": "array"
+        },
+        "last_reward_episode": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "wins_player": {
+          "type": "integer"
+        },
+        "wins_opponent": {
+          "type": "integer"
+        },
+        "match_policy": {
+          "type": "string"
+        }
+      }
     }
   }
 }

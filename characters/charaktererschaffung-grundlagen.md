@@ -44,7 +44,7 @@ und (optional) Cyberware; „Biohülle“ bleibt ITI-Laborjargon.
    [Cinematisches HUD-Overlay](hud-system.md#cinematisches-hud-overlay).
 8. Teamrolle festlegen (optional)
 9. Dossier skizzieren (Lebenslauf, Tod, Anker, Hook)
-10. Erste Mission planen
+10. HQ-Deepsave erstellen und danach bewusst wählen: HQ ausspielen, trainieren, Arena, Briefing oder Load-Pause.
 
 - Die KI agiert als Spielleitung - vergleichbar mit einer klassischen Pen-&-Paper-Runde.
   Dabei schlüpft er in die Rolle des ITI-Kodex, der über das HUD um Hilfe gebeten werden
