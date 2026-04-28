@@ -1,0 +1,290 @@
+{
+  "package": "ZEITRISS_agentenpaket_pvp_bio_nachcheck",
+  "date": "2026-04-28",
+  "target_branch": "fix/pvp-progression-bio-grundform",
+  "summary": "Nachcheck mit Fokus auf Bio-/Grundform-Feeling, PvP-only Progression, Arena Cashout Loop und Save-/PvP-Restdrift.",
+  "tasks": [
+    {
+      "id": "P0-01",
+      "severity": "P0",
+      "theme": "PvP/Px Drift",
+      "title": "Arena darf campaign.px nie verändern",
+      "files": [
+        "gameplay/kampagnenstruktur.md",
+        "core/sl-referenz.md",
+        "runtime.js",
+        "tests/fixtures if present"
+      ],
+      "problem": "Gameplay sagt Arena gibt kein Px, aber SL/Runtime verwenden Px-Boni und runtime.js ruft incrementParadoxon im Arena-Exit auf.",
+      "patch": [
+        "Ersetze Arena-Px-Boni durch Arena-Bonus/Training-XP/Ruf/CU.",
+        "Entferne incrementParadoxon aus arenaExit.",
+        "Füge Test hinzu: PvP-Sieg verändert campaign.px nicht."
+      ],
+      "acceptance_tests": [
+        "Start campaign.px=4, Arena gewinnen und cashouten, Export zeigt campaign.px=4.",
+        "Keine Arena-Meldung enthält Px-Bonus."
+      ]
+    },
+    {
+      "id": "P0-02",
+      "severity": "P0",
+      "theme": "PvP-only Progression",
+      "title": "Arena-Progressionsvertrag einführen",
+      "files": [
+        "gameplay/kampagnenstruktur.md",
+        "core/sl-referenz.md",
+        "core/spieler-handbuch.md",
+        "meta/masterprompt_v6.md"
+      ],
+      "problem": "PvP belohnt CU/Ruf, aber kein klarer Level-/XP-Pfad für Spieler, die ausschließlich PvP spielen.",
+      "patch": [
+        "Definiere Training-XP oder Missionsäquivalent für gebankte Arena-Runs.",
+        "Level-Ups laufen über level_history und exakt eine Wahl.",
+        "Kein Px, keine RiftSeeds, keine Arena-Artefakt-Farm."
+      ],
+      "acceptance_tests": [
+        "L1 PvP-only Char kann durch Arena-Cashouts Fortschritt/Level-Up erhalten.",
+        "level_history enthält ARENA-Sx-Ry source."
+      ]
+    },
+    {
+      "id": "P0-03",
+      "severity": "P0",
+      "theme": "Arena Motivation",
+      "title": "Cashout/Pending Push-your-luck Loop kanonisieren",
+      "files": [
+        "gameplay/kampagnenstruktur.md",
+        "core/sl-referenz.md",
+        "core/spieler-handbuch.md",
+        "characters/hud-system.md"
+      ],
+      "problem": "Revanche/Best-of-Three existiert, aber Banked vs Pending und Risikoentscheidung sind nicht hart genug definiert.",
+      "patch": [
+        "Füge Banked/Pending Rewards hinzu.",
+        "Nach Serie: Cashout oder Push; Loss reduziert/verbrennt Pending-Bonus.",
+        "Arena-HUD zeigt Banked, Pending, Risiko und Optionen."
+      ],
+      "acceptance_tests": [
+        "Nach gewonnenem Match fragt SL Cashout oder Push.",
+        "Bei Niederlage ist Pending-Verlust nachvollziehbar."
+      ]
+    },
+    {
+      "id": "P0-04",
+      "severity": "P0",
+      "theme": "Strict Save Export",
+      "title": "ui.action_mode im Masterprompt-Savetemplate ergänzen",
+      "files": [
+        "meta/masterprompt_v6.md",
+        "save examples/fixtures"
+      ],
+      "problem": "Strict export schema verlangt ui.action_mode; Masterprompt-Template zeigt es nicht.",
+      "patch": [
+        "Setze ui.action_mode='uncut' im kanonischen Save-Template.",
+        "Alle Save-Beispiele synchronisieren."
+      ],
+      "acceptance_tests": [
+        "!save validiert gegen saveGame.v7.export.schema.json."
+      ]
+    },
+    {
+      "id": "P0-05",
+      "severity": "P0",
+      "theme": "PvP Save/Mode Boundary",
+      "title": "PvP previous_mode fallback auf mixed setzen",
+      "files": [
+        "systems/gameflow/speicher-fortsetzung.md",
+        "gameplay/kampagnenstruktur.md",
+        "core/sl-referenz.md",
+        "runtime.js"
+      ],
+      "problem": "Einige Legacy-Formulierungen fallen bei fehlendem previous_mode auf preserve zurück.",
+      "patch": [
+        "Fallback immer mixed.",
+        "campaign.mode='pvp' runtime-only, nie strict exportiert."
+      ],
+      "acceptance_tests": [
+        "Arena-Fehlerload ohne previous_mode setzt campaign.mode=mixed.",
+        "Strict export enthält kein campaign.mode=pvp."
+      ]
+    },
+    {
+      "id": "P1-01",
+      "severity": "P1",
+      "theme": "Character Feel",
+      "title": "Bio-Hülle/Rasse/Spezies player-facing ersetzen",
+      "files": [
+        "characters/charaktererschaffung-grundlagen.md",
+        "characters/charaktererschaffung-optionen.md",
+        "core/spieler-handbuch.md"
+      ],
+      "problem": "Charaktererschaffung liest sich teils wie Fantasy-Rasse oder Avatar-Hülle.",
+      "patch": [
+        "Rasse -> Grundform",
+        "Spezies -> Grundform",
+        "Rassenmods -> Profil-Mods",
+        "Bio-Hülle nur ITI-Laborjargon."
+      ],
+      "acceptance_tests": [
+        "Neuer Spieler sieht Grundform/Körperprofil statt Bio-Hülle/Rasse."
+      ]
+    },
+    {
+      "id": "P1-02",
+      "severity": "P1",
+      "theme": "Character Feel",
+      "title": "Rekrutierungsmetaphysik physischer formulieren",
+      "files": [
+        "characters/charaktererschaffung-grundlagen.md",
+        "systems/gameflow/cinematic-start.md",
+        "meta/masterprompt_v6.md"
+      ],
+      "problem": "Bewusstsein-in-Hülle-Formulierung erzeugt Avatar/Upload-Gefühl.",
+      "patch": [
+        "Chrononaut ist echter physischer Körper aus Fleisch und Blut.",
+        "ITI rekonstruiert/stabilisiert Körper an Absolut-Grenze.",
+        "Biohülle nur Laborjargon."
+      ],
+      "acceptance_tests": [
+        "Start erzeugt keine digitale Avatar-Assoziation."
+      ]
+    },
+    {
+      "id": "P1-03",
+      "severity": "P1",
+      "theme": "Psi Premise",
+      "title": "Psi als ZEITRISS-Magieersatz in Charaktererschaffung spiegeln",
+      "files": [
+        "systems/kp-kraefte-psi.md",
+        "characters/charaktererschaffung-grundlagen.md",
+        "core/spieler-handbuch.md"
+      ],
+      "problem": "Psi-Modul ist gut, aber die starke Premise sollte früher player-facing sichtbar werden.",
+      "patch": [
+        "Kurzen Absatz: Psi ist rationaler Magieersatz; Nicht-Psi vollwertig.",
+        "PP/SYS/has_psi klar zeigen."
+      ],
+      "acceptance_tests": [
+        "Spieler versteht Fantasy-Magie -> Psi ohne Nicht-Psi abzuwerten."
+      ]
+    },
+    {
+      "id": "P1-04",
+      "severity": "P1",
+      "theme": "Examples",
+      "title": "Quick Builds und Beispiele von Rasse auf Grundform umstellen",
+      "files": [
+        "characters/charaktererschaffung-grundlagen.md",
+        "characters/charaktererschaffung-optionen.md",
+        "README.md"
+      ],
+      "problem": "Beispiele prägen LLM-Ausgaben; Rasse/Rassenmods in Beispielen ziehen alte Sprache zurück.",
+      "patch": [
+        "Rasse: -> Grundform:",
+        "Rassenmods -> Profil-Mods/Grundform-Mods."
+      ],
+      "acceptance_tests": [
+        "grep -i 'Rasse' characters/ zeigt keine aktive Spielterminologie."
+      ]
+    },
+    {
+      "id": "P1-05",
+      "severity": "P1",
+      "theme": "Arena Economy",
+      "title": "First-Win vs Repeat-Malus deterministisch machen",
+      "files": [
+        "gameplay/kampagnenstruktur.md"
+      ],
+      "problem": "First-Win-Bonus und Diminishing Returns wirken widersprüchlich formuliert.",
+      "patch": [
+        "Definiere klare Berechnungsreihenfolge.",
+        "Empfehlung: First-Win hat Vorrang, Repeat-Malus danach wenn kein First-Win offen."
+      ],
+      "acceptance_tests": [
+        "SL kann Reward nach drei ersten Siegen und Repeat-Farm eindeutig erklären."
+      ]
+    },
+    {
+      "id": "P1-06",
+      "severity": "P1",
+      "theme": "Arena Anti-Grind",
+      "title": "Arena-Anti-Grind von Core campaign.episode entkoppeln",
+      "files": [
+        "gameplay/kampagnenstruktur.md",
+        "core/sl-referenz.md",
+        "saveGame schemas if needed"
+      ],
+      "problem": "Max 3 Arena-Matches pro Core-Episode blockiert reine PvP-Spieler potenziell.",
+      "patch": [
+        "Arena-Season/Arena-Contract als eigene Rewardfenster einführen.",
+        "rewarded_runs_this_contract, first_wins, defeated_enemy_types persistieren oder ableiten."
+      ],
+      "acceptance_tests": [
+        "PvP-only kann nach Rewardcap einen neuen Arena-Contract erhalten ohne CoreOps."
+      ]
+    },
+    {
+      "id": "P1-07",
+      "severity": "P1",
+      "theme": "Arena HUD",
+      "title": "Banked/Pending/Risiko im Arena-HUD anzeigen",
+      "files": [
+        "characters/hud-system.md",
+        "gameplay/kampagnenstruktur.md",
+        "core/sl-referenz.md"
+      ],
+      "problem": "Die Cashout-Entscheidung braucht sichtbare Einsätze.",
+      "patch": [
+        "Arena-HUD mit S/C/Tier/BO3, Banked, Pending, Risiko, Optionen ergänzen."
+      ],
+      "acceptance_tests": [
+        "Nach jedem Sieg sieht die Gruppe Cashout vs Push klar im HUD."
+      ]
+    },
+    {
+      "id": "P2-01",
+      "severity": "P2",
+      "theme": "UI Persistence",
+      "title": "UI-Persistenzliste auf sieben Felder synchronisieren",
+      "files": [
+        "systems/gameflow/speicher-fortsetzung.md"
+      ],
+      "problem": "Eine UI-Persistenzliste erwähnt nur vier Felder, strict export verlangt sieben.",
+      "patch": [
+        "Liste: gm_style, suggest_mode, action_mode, contrast, badge_density, output_pace, voice_profile."
+      ],
+      "acceptance_tests": [
+        "Kein Dokument sagt 'vier UI-Felder' als kanonische Vollständigkeit."
+      ]
+    },
+    {
+      "id": "P2-02",
+      "severity": "P2",
+      "theme": "Public Pitch",
+      "title": "README-HUD-Beispiel ohne alten 4/10-Levelbalken",
+      "files": [
+        "README.md"
+      ],
+      "problem": "README-Beispiel wirkt wie alter XP-Balken und kann Erwartungen verfälschen.",
+      "patch": [
+        "HUD-Beispiel auf Px/HQ/Arena-Status statt Lvl 4 4/10 umstellen."
+      ],
+      "acceptance_tests": [
+        "README quick glance widerspricht nicht Phase-1-Levelmodell."
+      ]
+    }
+  ],
+  "playtests": [
+    "BIO-01 Standard-Humin classic start, no Bio-Huelle/Rasse wording, HQ charged save valid",
+    "BIO-02 Hominin profile grounded, no fantasy race feel, mods correct",
+    "PSI-01 Psi as rational magic replacement, non-psi viable",
+    "PVP-01 PvP-only L1 arena cashout grants training progression and no Px",
+    "PVP-02 Push-your-luck pending loss test",
+    "PVP-03 Group PvP with NPC fill and per-character rewards",
+    "PVP-04 Arena resume token, no deep save mid arena",
+    "PVP-05 First-win vs repeat malus formula",
+    "SAVE-01 Strict export after PvP includes ui.action_mode and no campaign.mode=pvp",
+    "XMODE-01 Core to PvP to Rift without mode or Px contamination"
+  ]
+}
