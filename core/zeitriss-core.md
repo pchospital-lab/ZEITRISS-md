@@ -970,8 +970,9 @@ Der Px-Stand wird im Debrief-Score-Screen angezeigt. Zwischen-Werte
 HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Px 5.
 
 Spielende wollen den Index **bewusst steigern**, denn jeder Punkt bringt
-neue **Rift-Seeds** in Reichweite. Ein **Paradoxon -1** bremst den
-Fortschritt spürbar.
+neue **Rift-Seeds** in Reichweite. Fehlverhalten erzeugt stattdessen
+spürbaren Einsatzdruck (Heat/Timeline-Echo/Fraktionsreaktionen), nicht
+einen negativen Px-Mechanismus.
 
 _Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
 **Temporaler Affinität (TEMP)** erhalten kleinere, bei hohen Werten größere
@@ -986,8 +987,9 @@ Sprünge. Die Staffel ist fix an TEMP gekoppelt:
 | 12–14 | +3 Px pro Mission      |
 
 Bei grobem Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD
-als Warnung. Eskaliert die Situation weiter → **−1 Px** (Backlash), maximal
-einmal pro Mission. **Px kann nicht unter 0 fallen** (Floor = 0).
+als Warnung. Eskaliert die Situation weiter, setzt Kodex **Heat +1**,
+ein **Timeline-Echo** und eine **Fraktionsnotiz** (maximal einmal pro Mission
+als Backlash-Marker).
 
 | Stufe | HUD-Farbe | Score-Screen zeigt            | Mechanischer Effekt                  |
 | ----: | --------- | ----------------------------- | ------------------------------------ |
