@@ -1,0 +1,388 @@
+{
+  "package": "ZEITRISS 4.2.6 Nachcheck-Agentenpaket",
+  "generated_at": "2026-04-28T00:00:00+02:00",
+  "target_branch": "fix/v426-postpatch-gameflow-savepoints",
+  "review_limitations": [
+    "Statischer GitHub-Web/Raw-Review; kein lokaler Clone/CI wegen DNS-Fehler in der Review-Umgebung.",
+    "Befunde basieren auf Masterprompt, Gameflow-Modulen, SL-Referenz, Spielerhandbuch, Kampagnenstruktur, Schema und QA-Smokes."
+  ],
+  "core_verdict": {
+    "status": "almost_ready_for_next_playtests",
+    "coreops": "freeze_except_save_start_ssot",
+    "next_focus_order": [
+      "RiftOps",
+      "Chronopolis",
+      "PvP/Arena",
+      "Cross-Mode-Merge"
+    ],
+    "design_loop": "HQ-only Deepsave -> neuer Chat -> Load-Router -> Abschnitt -> Debrief/Exit -> HQ -> Deepsave"
+  },
+  "tasks": [
+    {
+      "id": "ZR-NC-P0-001",
+      "severity": "P0",
+      "title": "Remove HQ save `phase: core` drift",
+      "files": [
+        "systems/gameflow/speicher-fortsetzung.md"
+      ],
+      "problem": "Speichermodul says HQ-Saves remain `phase: core`, which conflicts with the new HQ save anchor via continuity.last_seen.",
+      "expected_patch": "Replace with: HQ saves do not persist runtime phase; canonical HQ anchor is continuity.last_seen.mode='hq' and location='HQ'. Mission type may appear only in logs.trace/summaries/runtime.",
+      "acceptance_tests": [
+        "Saving after Core/Rift/Arena/Chronopolis exit produces continuity.last_seen.mode='hq'.",
+        "No root `phase: core` is used as HQ save decision field.",
+        "Load from HQ save opens HQ router, not half-open mission continuation."
+      ]
+    },
+    {
+      "id": "ZR-NC-P0-002",
+      "severity": "P0",
+      "title": "Keep `campaign.mode` as campaign pool only",
+      "files": [
+        "core/sl-referenz.md",
+        "systems/gameflow/saveGame.v7.schema.json",
+        "meta/masterprompt_v6.md"
+      ],
+      "problem": "Persistent schema text includes campaign.mode='rift', overloading campaign pool with mission type.",
+      "expected_patch": "campaign.mode enum = mixed|preserve|trigger. Use runtime/trace mission_type or continuity.last_seen.mode for core/rift/arena/chronopolis.",
+      "acceptance_tests": [
+        "Rift completion does not persist campaign.mode='rift'.",
+        "Arena exit restores mixed/preserve/trigger.",
+        "Chronopolis exit does not persist campaign.mode='chronopolis'."
+      ]
+    },
+    {
+      "id": "ZR-NC-P0-003",
+      "severity": "P0",
+      "title": "Align classic start everywhere with Chargen-Save-Gate",
+      "files": [
+        "systems/gameflow/cinematic-start.md",
+        "core/spieler-handbuch.md",
+        "doc.md",
+        "internal/qa/fixtures/dispatcher_strings.json"
+      ],
+      "problem": "Some short modules still allow HQ tour or direct briefing after classic chargen, while Masterprompt requires HQ Heimkehr + save offer and no auto briefing.",
+      "expected_patch": "Classic path: chargen -> HQ Heimkehrbeat -> Chargen-Save-Gate -> HQ menu. Fast-lane only: direct briefing, save after mission 1.",
+      "acceptance_tests": [
+        "`Spiel starten (solo klassisch)` never jumps to briefing immediately after chargen.",
+        "`Spiel starten (gruppe klassisch)` ends in HQ save gate/lobby, not SC1.",
+        "`solo schnell` and `gruppe schnell` still jump to briefing by design."
+      ]
+    },
+    {
+      "id": "ZR-NC-P0-004",
+      "severity": "P0",
+      "title": "Split tolerant import schema from strict export schema",
+      "files": [
+        "systems/gameflow/saveGame.v7.schema.json"
+      ],
+      "problem": "Schema is titled canonical export but allows additionalProperties and requires too few character/campaign fields.",
+      "expected_patch": "Either create saveGame.v7.export.schema.json with strict required fields or rename current schema to import/normalizer helper.",
+      "acceptance_tests": [
+        "Export lint fails if characters[].level_history is missing.",
+        "Export lint fails if campaign.rift_seeds is missing.",
+        "Import schema remains tolerant for legacy/partial saves if separate."
+      ]
+    },
+    {
+      "id": "ZR-NC-P0-005",
+      "severity": "P0",
+      "title": "Fix `Level 5` Rift trigger to `Px 5`",
+      "files": [
+        "gameplay/kampagnenstruktur.md"
+      ],
+      "problem": "A diagram/dev checklist still references Level 5 as seed trigger; canonical trigger is Paradoxon-Index Px 5.",
+      "expected_patch": "Replace all seed-triggering `Level 5` occurrences with `Px 5` / `Paradoxon-Index 5`.",
+      "acceptance_tests": [
+        "Level 5 with Px<5 creates no seeds.",
+        "Px 5 at any level runs ClusterCreate()."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-006",
+      "severity": "P1",
+      "title": "Complete Arena persistent contract and mode reset",
+      "files": [
+        "core/sl-referenz.md",
+        "gameplay/kampagnenstruktur.md",
+        "systems/gameflow/saveGame.v7.schema.json",
+        "meta/masterprompt_v6.md"
+      ],
+      "problem": "Arena uses queue_state, previous_mode, match_policy, anti-grind counters etc., but compact schema/template only mentions small arena block. Legacy fallback resets previous_mode to preserve instead of mixed.",
+      "expected_patch": "Define persistent vs transient arena fields; set previous_mode fallback to mixed; ensure completed/idle HQ save allowed, active/queue blocked.",
+      "acceptance_tests": [
+        "Arena active save blocked with SaveGuard.",
+        "Arena completed HQ save allowed.",
+        "Reload after arena restores campaign.mode correctly.",
+        "First-win/diminishing counters survive if intended persistent."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-007",
+      "severity": "P1",
+      "title": "Unify Rift seed cap rule",
+      "files": [
+        "gameplay/kampagnenstruktur.md",
+        "systems/gameflow/speicher-fortsetzung.md",
+        "core/sl-referenz.md"
+      ],
+      "problem": "Modern rule says no solo hard limit and merge cap 12; older text says up to two seeds may remain open.",
+      "expected_patch": "Remove or soften max-two text; mechanical cap only applies at HQ merge with overflow handoff.",
+      "acceptance_tests": [
+        "Solo save with 5 open seeds accepted.",
+        "Merge of >12 seeds caps and logs overflow."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-008",
+      "severity": "P1",
+      "title": "Unify conflict flag naming",
+      "files": [
+        "core/sl-referenz.md",
+        "systems/gameflow/speicher-fortsetzung.md",
+        "systems/gameflow/saveGame.v7.schema.json",
+        "meta/masterprompt_v6.md"
+      ],
+      "problem": "Both logs.flags.continuity_conflicts[] and logs.flags.merge_conflicts[] appear as save/flag targets.",
+      "expected_patch": "Choose one canonical flag field; recommended: continuity_conflicts[] in flags, merge_conflicts as trace event name only.",
+      "acceptance_tests": [
+        "Multi-load wallet/rift/arena conflicts land in the chosen canonical flag field.",
+        "Trace event can be merge_conflicts but save flags are not duplicated under two names."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-009",
+      "severity": "P1",
+      "title": "Clean Root vs Character compact save tree",
+      "files": [
+        "systems/gameflow/speicher-fortsetzung.md"
+      ],
+      "problem": "Compact profile lists root fields after 'Pro Character', which may cause nested economy/logs under characters[].",
+      "expected_patch": "Separate Pro Character and Root sections explicitly.",
+      "acceptance_tests": [
+        "Export sample has economy/logs/summaries/continuity/arc/ui at root only.",
+        "No characters[].economy or characters[].logs in generated save."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-010",
+      "severity": "P1",
+      "title": "Fix Rift loot Relikt drift",
+      "files": [
+        "core/sl-referenz.md",
+        "gameplay/kampagnenstruktur.md"
+      ],
+      "problem": "Kampagnenstruktur says Relikte Core-exclusive; SL loot matrix lists Relikte as Rift standard loot.",
+      "expected_patch": "Rift standard loot: investigation files, para traces, experimental gear, research samples. Artifact only after Rift boss scene 10. Relikte remain Core/story loot.",
+      "acceptance_tests": [
+        "Rift non-boss loot never generates Core-exclusive Relikt by default.",
+        "Rift boss can trigger artifact roll only at scene 10."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-011",
+      "severity": "P1",
+      "title": "Decide UI action_mode persistence",
+      "files": [
+        "core/sl-referenz.md",
+        "systems/gameflow/speicher-fortsetzung.md",
+        "systems/gameflow/saveGame.v7.schema.json",
+        "meta/masterprompt_v6.md"
+      ],
+      "problem": "action_mode=uncut is referenced as persistent/default in SL/runtime text but absent from master v7 UI template/schema required fields.",
+      "expected_patch": "Either add ui.action_mode to v7 export or define it as runtime invariant not saved. Recommendation: persist it.",
+      "acceptance_tests": [
+        "Load never loses uncut/action contract.",
+        "UI schema/template/reference agree on action_mode status."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-012",
+      "severity": "P1",
+      "title": "Sharpen Chronopolis key/lore/savepoint contract",
+      "files": [
+        "core/sl-referenz.md",
+        "core/spieler-handbuch.md",
+        "gameplay/kampagnenstruktur.md"
+      ],
+      "problem": "Chronopolis is mostly correct, but one pitch says it is created by Kodex; key item vs flag should be decided.",
+      "expected_patch": "Phrase as Kodex stabilizes/decrypts a real Bruchlinie/quantum resonance; no VR/simulation. Use level+flag+trace unlock unless key item is explicitly persisted.",
+      "acceptance_tests": [
+        "Lvl9: locked. Lvl10: flag/trace unlock. Pre-City save allowed. CITY save blocked.",
+        "Chronopolis text never frames it as a Matrix/VR/server simulation."
+      ]
+    },
+    {
+      "id": "ZR-NC-P1-013",
+      "severity": "P1",
+      "title": "Clarify group fast-lane smoke vs multi-load smoke",
+      "files": [
+        "doc.md",
+        "internal/qa/fixtures/dispatcher_strings.json"
+      ],
+      "problem": "`gruppe schnell -> 2 Saves + 1 Rolle -> Briefing` mixes new start and multi-load semantics.",
+      "expected_patch": "Separate new group fast-lane from multiple JSON load/import test.",
+      "acceptance_tests": [
+        "New `gruppe schnell` does roles/defaults/teamcheck -> briefing.",
+        "Multiple JSONs in first prompt triggers session anchor + join imports -> HQ router."
+      ]
+    },
+    {
+      "id": "ZR-NC-P2-014",
+      "severity": "P2",
+      "title": "Mark legacy save prose in dice module as historical/migration-only",
+      "files": [
+        "core/wuerfelmechanik.md"
+      ],
+      "problem": "Quick-Fight is fixed, but later save prose still mentions old version field style such as version 4.1.4.",
+      "expected_patch": "Replace with v7 pointer or mark legacy prose as migration history only.",
+      "acceptance_tests": [
+        "No player-facing current save instruction tells model to emit `version` instead of v/zr."
+      ]
+    }
+  ],
+  "playtest_suites": [
+    {
+      "id": "RIFT-01",
+      "title": "Px5 to Rift debrief roundtrip",
+      "steps": [
+        "Load HQ save with px=4.",
+        "Finish Core mission and reach Px5.",
+        "Run ClusterCreate, lock seeds until episode end, confirm px_state/reset.",
+        "Finish episode, save in HQ, new chat, load JSON.",
+        "Open Rift Board, launch open seed, play 14 scenes with boss no earlier than scene 10.",
+        "Try !save in scene 7; must block.",
+        "Exfil, Rift debrief, close seed, save in HQ, load new chat."
+      ],
+      "pass": [
+        "No campaign.mode='rift'",
+        "No rift_px",
+        "Seed lifecycle deterministic",
+        "HQ router after reload"
+      ]
+    },
+    {
+      "id": "RIFT-02",
+      "title": "Seed stacking and merge cap",
+      "steps": [
+        "Create two solo saves with many open seeds",
+        "Multi-load in one chat",
+        "Check anchor, cap 12, overflow handoff"
+      ],
+      "pass": [
+        "No max-two cap",
+        "Overflow trace and conflict visible",
+        "No silent seed loss"
+      ]
+    },
+    {
+      "id": "CHRONO-01",
+      "title": "Level gate and Pre-City save prompt",
+      "steps": [
+        "Load L9 save",
+        "Verify locked",
+        "Load/Lvl10 save",
+        "Unlock flag/trace",
+        "Enter Pre-City",
+        "Save prompt before Schleuse"
+      ],
+      "pass": [
+        "Pre-City is HQ/saveable",
+        "CITY no-save",
+        "No duplicate unlock toast"
+      ]
+    },
+    {
+      "id": "CHRONO-02",
+      "title": "CITY saveguard and exit debrief",
+      "steps": [
+        "Enter CITY",
+        "Attempt !save",
+        "Buy/find asset",
+        "Exit via Schleuse",
+        "Run Sonder-Debrief",
+        "HQ save"
+      ],
+      "pass": [
+        "No JSON in CITY",
+        "Assets only if carried out alive",
+        "Chronopolis trace in save"
+      ]
+    },
+    {
+      "id": "PVP-01",
+      "title": "Arena start, active save block, completed save",
+      "steps": [
+        "Load HQ save mixed",
+        "Start Arena",
+        "Attempt save during queue/active",
+        "End match",
+        "Save HQ",
+        "Load new chat"
+      ],
+      "pass": [
+        "SaveGuard during active",
+        "campaign.mode restored",
+        "resume only valid if token/idle|completed"
+      ]
+    },
+    {
+      "id": "PVP-02",
+      "title": "PvP anti-grind persistence",
+      "steps": [
+        "Win matches vs same enemy type/tier",
+        "Save after arena exit",
+        "Load",
+        "Repeat"
+      ],
+      "pass": [
+        "defeated_types/first_wins persisted or explicitly runtime-only",
+        "No infinite first-win farm"
+      ]
+    },
+    {
+      "id": "MULTI-01",
+      "title": "Multiple real player saves as first message",
+      "steps": [
+        "Paste 3 save JSONs in first prompt",
+        "Check session anchor",
+        "Check join imports",
+        "HQ recap/router"
+      ],
+      "pass": [
+        "No chargen",
+        "No mode prompt",
+        "Wallet/echo conflicts transparent"
+      ]
+    },
+    {
+      "id": "MULTI-02",
+      "title": "Solo NPC-team to real group",
+      "steps": [
+        "Load solo save with NPC roster",
+        "Add real player saves",
+        "Check human slot priority",
+        "NPC offscreen progress"
+      ],
+      "pass": [
+        "No NPC deletion",
+        "Team cap 5",
+        "Roster echo appears in next two blocks"
+      ]
+    },
+    {
+      "id": "CROSS-01",
+      "title": "Rift + Chronopolis + Arena branch merge",
+      "steps": [
+        "Prepare branch A Rift, branch B Chronopolis, branch C Arena",
+        "Multi-load",
+        "Resolve conflicts"
+      ],
+      "pass": [
+        "No extra campaign progress canonized",
+        "Personal truth and echoes imported",
+        "Conflicts not silent"
+      ]
+    }
+  ],
+  "recommended_next_action": "Patch P0/P1 before large playtests; then run RiftOps -> Chronopolis -> PvP -> Cross-Mode-Merge."
+}
