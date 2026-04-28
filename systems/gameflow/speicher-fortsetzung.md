@@ -133,7 +133,7 @@ required = [
   "logs.fr_interventions",
   "logs.psi",
   "logs.arena_psi",
-  "logs.flags.merge_conflicts",
+  "logs.flags.continuity_conflicts",
   "logs.flags",
   "ui",
   "arena"
@@ -635,7 +635,7 @@ zurück.
     "flags": {
       "runtime_version": "4.2.6",
       "chronopolis_warn_seen": false,
-      "merge_conflicts": []
+      "continuity_conflicts": []
     },
     "field_notes": [
       {
@@ -780,7 +780,7 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
 **Session-Anker-Priorität (SSOT):** Bei Merge/Import bleibt der Session-Anker
 führend für `campaign`, `economy.hq_pool`, `arc` und globale `logs.flags`.
 Gaststände liefern persönliche Wahrheit plus erlaubte Branch-Anteile. Konflikte
-werden in `logs.flags.merge_conflicts[]` dokumentiert.
+werden in `logs.flags.continuity_conflicts[]` dokumentiert.
 
 ### Cross-Mode-Transfer-Matrix {#cross-mode-transfer}
 
@@ -791,14 +791,14 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 | Richtung              | Übernommene Felder                                                                                                                                                                                                  | Verworfene/Zurückgesetzte Felder                                                                                                                | Besonderheiten                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
+| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
 | **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`.                                                                                | -                                                                                                                                               | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`.     |
 | **PvP → zurück**      | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
 
-Bei **jedem** Cross-Mode-Transfer werden Konflikte im `merge_conflicts[]`-Array
+Bei **jedem** Cross-Mode-Transfer werden Konflikte im `continuity_conflicts[]`-Array
 dokumentiert. Jeder Eintrag enthält mindestens:
 
 ```json
@@ -963,7 +963,7 @@ der **zuerst gepostete Save den Session-Anker** (aktueller Einstiegspunkt mit
 `episode`, `mission`, `mode`, `rift_seeds[]`, `px`). Weitere Saves liefern
 zusätzlich persönliche Wahrheit pro `characters[].id` und Kontinuitäts-Echos.
 Abweichende Kampagnenwerte außerhalb des Session-Ankers landen weiterhin in
-`logs.flags.merge_conflicts[]`. Der HQ-Pool (`economy.hq_pool`) bleibt
+`logs.flags.continuity_conflicts[]`. Der HQ-Pool (`economy.hq_pool`) bleibt
 ankergeführt; Wallets/Loadouts/History der Rückkehrer werden pro Charakter
 aktualisiert (neuester Stand gewinnt persönliche Felder).
 
@@ -1155,7 +1155,7 @@ vA.B. Bitte HQ-Migration veranlassen.`
   Eintrag in `characters[]` ein numerisches `wallet`-Feld trägt
   (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Session-Anker-Wallets
   maßgeblich; Import-Wallets werden per Charakter-ID auf fehlende Einträge
-  übertragen. Abweichende Beträge landen in `logs.flags.merge_conflicts[]`
+  übertragen. Abweichende Beträge landen in `logs.flags.continuity_conflicts[]`
   und im Trace `merge_conflicts`, während die Anker-Balance Vorrang behält.
 - **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
