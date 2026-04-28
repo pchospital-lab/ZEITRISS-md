@@ -243,7 +243,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | **Sensor**    | 60 m 360° LIDAR                          | Tarnwürfe -2                  |
 | **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung      | Reichweite 20 m               |
 | **Systeme**   | Autorepair 1 LP/Runde                    | deaktiv bei EMP               |
-| **Trigger**   | Selbstzerstörung bei ≤ 1 LP (1W6, R=3 m) | historisch → Px -1            |
+| **Trigger**   | Selbstzerstörung bei ≤ 1 LP (1W6, R=3 m) | historisch → Timeline-Echo + Fraktionsnotiz |
 | **Rolle**     | Patrouille, Alarmmultiplikator           | verdoppelt "Gefahr im Anflug" |
 
 ### 2 · Konzern-Psychiker - Stufe B (Elite)
@@ -264,7 +264,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | Psi-Rest 2 | -    | **Spezial:** Timing-Gefühl   | -                 |
 | Stress 10  | -    | LP 8                         |                   |
 
-_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Px -1 bei Erfolg ≥ 2.
+_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder erzeugt Heat +1 bei Erfolg ≥ 2.
 _Timing-Gefühl:_ Du spürst, wann eine Routine bricht - Türzyklen, Patrouillen, Blickrichtungen.
 Mechanik: 1× pro Szene bekommst du +2 auf eine Probe, die Timing betrifft (Schleichen durch Sichtfenster,
 an Wache vorbei, in einen Raumwechsel). Bei Erfolg: du darfst eine Konsequenzstufe (Lärm/Alarm)
@@ -381,7 +381,7 @@ liegen, mischt die SL den Stapel zurück.
 | 41 | Parallel Orders - konkurrierendes Team erhält identische Befehle. | 1 | mittel |
 | 42 | Cold Swap - Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
 | 43 | Alarm-Transmitter sendet Signal-Broadcast und warnt Gegner vor dem Team - Stealth +2 SG. | 0 | klein |
-| 44 | Delayed Cipher datiert 30 Jahre zu spät - Rätsel PZ-2.5, Px -1 bei Fail. | 1 | klein |
+| 44 | Delayed Cipher datiert 30 Jahre zu spät - Rätsel PZ-2.5, Heat +1 bei Fail. | 1 | klein |
 | 45 | Black Budget - unbekannte Geldgeber mischen sich ein, Shadow-Team optional. | 2 | mittel |
 | 46 | Automata sabotieren Bosporus-Telegrafen - Flottenabkommen in Gefahr. | 2 | mittel |
 | 47 | Verlorenes Pharaonengrab - Bauplan einer frühen Dampfmaschine sabotiert römische Versorgung. | 2 | mittel |
@@ -907,24 +907,24 @@ normalen Legendarys stehen. Der Bonus gilt für den 1W14-Wurf, nicht den Gate-Wu
 
 | Wurf | Tier       | Name                        | Effekt                                                                    | Risiko / Cooldown                                   |
 | ---: | :--------- | --------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------- |
-|    1 | Legendary  | **Mothman-Auge**            | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1                                 | R2: Blend 1 Sz, Px -1 bei Fehlwurf                  |
-|    2 | Legendary  | **Rift-Skorpion-Stachel**   | +2 DMG & **Doppelschlag 20 %** (Nahkampf)                                 | R4: Selbststich SYS -1, Px -1                       |
-|    3 | Legendary  | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m                                         | R3: Bruch → Item weg, Px -1                         |
-|    4 | Legendary  | **Nullzeit-Larve**          | 1×/Mission Gadget-Reload                                                  | R2: Erwacht Heat +1, Px -1                          |
-|    5 | Legendary  | **Ektoplasma-Drüse**        | Flächen-Stun, Gegner Ini -2                                               | R2: Leck Stress +1, Px -1                           |
-|    6 | Legendary  | **Phase-Raptor-Zahnrad**    | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG                                 | R2: Entlädt, Px -1                                  |
-|    7 | Legendary  | **Zeitfalter-Kokon**        | 1×/Sz Mini-Sprung ±5 Sek.                                                 | R2: Fehlversatz Px -1                               |
-|    8 | Legendary  | **Krakenherz-Fragment**     | Bioscan 30 m durch Wände                                                  | R2: Puls Heat +1, Px -1                             |
-|    9 | Legendary  | **Bernstein-Rabenflügel**   | Lautlos eine Szene & Gleiten 10 m                                         | R3: Feuer zerstört, Px -1                           |
-|   10 | Legendary  | **Silberne Lupus-Klaue**    | +1 DMG & **Doppelschlag 15 %**                                            | R2: Blutkontakt Stress +1, Px -1                    |
-|   11 | Legendary  | **Temporaler Knochenzahn**  | SG -2 auf Fossil-Analysen                                                 | R1: Signal-Ping, Px -1                              |
-|   12 | Legendary  | **Mantis-Oculus**           | Fernkampf +1 Hit, Blend-Immun                                             | R2: Fehlschuss Ally Blend, Px -1                    |
-|   13 | Legendary  | **Rift-Spinnenseide**       | 30 m Seil, 1 t, Rüstung ignoriert                                         | R3: Löst sich bei Px 4, Px -1                       |
-|   14 | Legendary  | **Doppel-Pupille**          | Angst-Immun & Blend-Frei                                                  | R2: Vision-Flash Stress +1, Px -1                   |
-|   15 | **Mythic** | **Chrono-Herz**             | +1 auf alle Attribute permanent, 1×/Episode Reroll eines beliebigen Wurfs | R3: Herzstillstand 1 Rd (CHA-Save SG 12), Px -1     |
-|   16 | **Mythic** | **Nullzeit-Auge**           | Sieht 10 Sek in die Zukunft (1×/Mission), alle Proben +2 für 1 Szene      | R4: Zeitblindheit 1 Mission (Wahrnehmung -2), Px -1 |
+|    1 | Legendary  | **Mothman-Auge**            | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1                                 | R2: Blend 1 Sz + Timeline-Echo bei Fehlwurf         |
+|    2 | Legendary  | **Rift-Skorpion-Stachel**   | +2 DMG & **Doppelschlag 20 %** (Nahkampf)                                 | R4: Selbststich SYS -1 + Heat +1                    |
+|    3 | Legendary  | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m                                         | R3: Bruch → Item weg + Fraktionsnotiz               |
+|    4 | Legendary  | **Nullzeit-Larve**          | 1×/Mission Gadget-Reload                                                  | R2: Erwacht Heat +1                                  |
+|    5 | Legendary  | **Ektoplasma-Drüse**        | Flächen-Stun, Gegner Ini -2                                               | R2: Leck Stress +1 + Timeline-Echo                  |
+|    6 | Legendary  | **Phase-Raptor-Zahnrad**    | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG                                 | R2: Entlädt + Heat +1                               |
+|    7 | Legendary  | **Zeitfalter-Kokon**        | 1×/Sz Mini-Sprung ±5 Sek.                                                 | R2: Fehlversatz + Timeline-Echo                     |
+|    8 | Legendary  | **Krakenherz-Fragment**     | Bioscan 30 m durch Wände                                                  | R2: Puls Heat +1                                     |
+|    9 | Legendary  | **Bernstein-Rabenflügel**   | Lautlos eine Szene & Gleiten 10 m                                         | R3: Feuer zerstört + Fraktionsnotiz                 |
+|   10 | Legendary  | **Silberne Lupus-Klaue**    | +1 DMG & **Doppelschlag 15 %**                                            | R2: Blutkontakt Stress +1 + Noise +1                |
+|   11 | Legendary  | **Temporaler Knochenzahn**  | SG -2 auf Fossil-Analysen                                                 | R1: Signal-Ping + Noise +1                          |
+|   12 | Legendary  | **Mantis-Oculus**           | Fernkampf +1 Hit, Blend-Immun                                             | R2: Fehlschuss Ally Blend + Heat +1                 |
+|   13 | Legendary  | **Rift-Spinnenseide**       | 30 m Seil, 1 t, Rüstung ignoriert                                         | R3: Löst sich bei Resonanzspitze, Item verbraucht   |
+|   14 | Legendary  | **Doppel-Pupille**          | Angst-Immun & Blend-Frei                                                  | R2: Vision-Flash Stress +1                           |
+|   15 | **Mythic** | **Chrono-Herz**             | +1 auf alle Attribute permanent, 1×/Episode Reroll eines beliebigen Wurfs | R3: Herzstillstand 1 Rd (CHA-Save SG 12) + Heat +1  |
+|   16 | **Mythic** | **Nullzeit-Auge**           | Sieht 10 Sek in die Zukunft (1×/Mission), alle Proben +2 für 1 Szene      | R4: Zeitblindheit 1 Mission + Timeline-Echo         |
 
-> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko kostet Px -1 (Fortschritt Richtung ClusterCreate geht verloren, Px wird NICHT erhöht).
+> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko erzeugt Drucksignale (Heat/Stress/Noise/Timeline-Echo), aber keinen Px-Malus.
 > **Mythic:** Nur erreichbar mit TEMP ≥ 14 (+2 auf Artefaktwurf). Mythic-Artefakte sind der Endgame-Reward für maximale temporale Affinität.
 
 > **Risk-Level (HUD-Badges):** R1 🟢 Niedrig - Warnhinweis · R2 🟡 Moderat - spürbarer Malus · R3 🟠 Hoch - droht Verlust oder harter Debuff · R4 🔴 Kritisch - massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
@@ -1055,7 +1055,7 @@ Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
 > → Grund: _Perception +1_ → Psi-Matrix upgrade: _Telepath-Reichweite ×2_ →
 > Größe M = 2 Nutzungen / Mission.
 
-**Risiko:** jeder Fehlschlag ⇒ Px -1, plus Nebenwirkung laut Tabelle B.
+**Risiko:** jeder Fehlschlag ⇒ Heat +1, plus Nebenwirkung laut Tabelle B.
 
 #### Tabelle B - Nebeneffekte (d6)
 
@@ -1347,7 +1347,7 @@ vorgesehenen Erfolgsbonus.
 | 7   | 1888            | London          | 5 Drähte, 3 Enden -> Morsecode.                    | B-G-R-G-S = "SEAL"                     | Schaltschrank offen, +1 Info     |
 | 8   | 1906            | Istanbul        | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358                                   | Artefakt-Zugang, Stress -2       |
 | 9   | 1911            | Agadir          | Drei falsche Schiffsrouten ergeben ein Dreieck.    | 30°25′N 09°36′W                        | Feindliches Depot entdeckt       |
-| 10  | 1983            | Moskau          | XOR-Lochkarten-Uhrzeiten.                          | Karte 17 -> 101100                     | Countdown gestoppt, Paradoxon -1 |
+| 10  | 1983            | Moskau          | XOR-Lochkarten-Uhrzeiten.                          | Karte 17 -> 101100                     | Countdown gestoppt, Heat -1       |
 | 11  | Frühmittelalter | Runen-Stele     | Ringstein mit 16 Runen                             | Sternkarte richten, Fach öffnet        | Fehler: Pfeilfalle               |
 | 12  | Spätantike      | Hydr.Orgel      | V/W-Kammern                                        | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer          |
 | 13  | Viktorianisch   | Zahnrad-Panel   | 12 Messingräder, verschieden                       | Fibo-Reihenfolge                       | Kurzschluss: Dunkel 10 Min       |
