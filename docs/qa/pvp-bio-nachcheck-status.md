@@ -6,8 +6,8 @@ tags: [qa, pvp, charaktere]
 
 # QA-Status: PvP/Bio-Nachcheck (2026-04-28)
 
-Quelle: `uploads/ZEITRISS_agentenpaket_pvp_bio_nachcheck.md` +
-`uploads/zeitriss_pvp_bio_backlog.json`.
+Quelle: `internal/qa/process/nachcheck-status-2026-04-28.md` +
+`docs/qa/playtest-befund-pvp-only-cashout.md`.
 
 ## Umsetzungsstand (Repo)
 
