@@ -44,6 +44,6 @@ Quelle: `uploads/ZEITRISS_agentenpaket_pvp_bio_nachcheck.md` +
 
 ## Checkliste für den nächsten Agenten
 
-- [ ] Playtest-Befunddatei unter `docs/qa/playtest-befund-pvp-only-cashout.md` anlegen.
+- [x] Playtest-Befunddatei unter `docs/qa/playtest-befund-pvp-only-cashout.md` angelegt.
 - [ ] Ergebnisse gegen diese Statusdatei spiegeln (Haken + Kurzfazit pro Testfall).
 - [ ] Falls Drift auftaucht: direkt Ticket im Backlog-JSON ergänzen.
