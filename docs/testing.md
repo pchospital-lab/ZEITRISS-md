@@ -214,6 +214,16 @@ siehe Daily-Notes April 2026 im Agent-Workspace):
 - **MP-Änderungsvorschläge** → eigener PR gegen `meta/masterprompt_v6.md`,
   mit Watchguard-Erweiterung in `runtime.js` und `scripts/smoke.sh`
 
+### Aktueller Fokus-Tracker (PvP/Bio, Stand 2026-04-28)
+
+Für den laufenden Nachcheck-Block ist der Umsetzungs- und QA-Stand separat
+gepflegt in:
+
+- [`docs/qa/pvp-bio-nachcheck-status.md`](qa/pvp-bio-nachcheck-status.md)
+
+Diese Datei dient als Abhakliste zwischen Implementierung und nächstem
+Playtest-Zyklus (PvP-only → Save-Export → Cross-Mode).
+
 **Konvention für `docs/qa/`-PRs aus Playtest-Findings** (Default, kein
 Dogma — bei Sonderfällen wie `buff-schwelle-critic-selbstreview.md`
 Abweichung erlaubt):

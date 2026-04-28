@@ -621,6 +621,7 @@ Auto-HQ → Save-Angebot.
   "ui": {
     "gm_style": "verbose",
     "suggest_mode": false,
+    "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
@@ -665,8 +666,8 @@ Auto-HQ → Save-Angebot.
   Effekte laufen über Allowlist. Detail-Präzedenzgraph
   → `systems/toolkit-gpt-spielleiter.md`.
 - Arena nur wenn genutzt: mindestens Serienstand/Tier plus Persistenzkern
-  (`previous_mode`, optional `resume_token`, Anti-Grind-Counter wie
-  `matches_this_episode`/`first_wins`/`defeated_types`); Queue-/Run-Status ist
+  (`previous_mode`, optional `resume_token`, Contract-/Season-Counter wie
+  `rewarded_runs_this_contract`/`first_wins`/`defeated_types`); Queue-/Run-Status ist
   Laufzeitdaten und wird beim HQ-Load auf Abschlusszustand normalisiert.
 - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
 - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:

@@ -481,8 +481,10 @@ zurück.
 `action_mode` ist immer `uncut` (18+ Tech-Noir). Legacy-Werte wie
 `konform|frei|safe|pg-13` werden beim Laden auf `uncut` normalisiert.
 
-> **UI-Persistenz-Regel:** Die vier Felder `ui.suggest_mode`,
-> `ui.contrast`, `ui.badge_density` und `ui.output_pace` sind **persistent**.
+> **UI-Persistenz-Regel:** Die sieben Felder `ui.gm_style`,
+> `ui.suggest_mode`, `ui.action_mode`, `ui.contrast`,
+> `ui.badge_density`, `ui.output_pace` und `ui.voice_profile` sind
+> **persistent**.
 > Beim Speichern schreibt der Serializer sie IMMER explizit in den Save-Block.
 > Beim Laden restauriert `load_deep()` sie IMMER 1:1 aus dem Save - kein
 > Fallback auf Defaults für vorhandene Werte. Nur bei fehlenden Feldern in
@@ -490,13 +492,16 @@ zurück.
 >
 > | Feld            | Default für alte Saves |
 > | --------------- | ---------------------- |
+> | `gm_style`      | `"verbose"`            |
 > | `suggest_mode`  | `false`                |
+> | `action_mode`   | `"uncut"`              |
 > | `contrast`      | `"standard"`           |
 > | `badge_density` | `"standard"`           |
 > | `output_pace`   | `"normal"`             |
+> | `voice_profile` | `"gm_second_person"`   |
 >
 > Diese Defaults gelten ausschließlich als Auffangnetz für Migrationsfälle.
-> Aktuelle Saves (v7) müssen alle vier Felder enthalten - der SaveGuard
+> Aktuelle Saves (v7) müssen alle sieben Felder enthalten - der SaveGuard
 > bricht andernfalls ab.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
@@ -793,7 +798,7 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
 | **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
-| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`.                                                                                | -                                                                                                                                               | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`.     |
+| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"` (Runtime-only).                                                                                | -                                                                                                                                               | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`.     |
 | **PvP → zurück**      | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
@@ -1142,7 +1147,7 @@ vA.B. Bitte HQ-Migration veranlassen.`
   3. **Load während Arena:** `reset_arena_after_load()` nutzt
      `arena.previous_mode` / `resume_token.previous_mode`, setzt
      `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
-     fällt der Reset auf `'preserve'` zurück.
+     fällt der Restore **immer** auf `mixed` zurück (nie `preserve`).
      Arena ist **kein** dauerhaft eigener Kampagnenmodus - PvP gilt nur temporär.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
@@ -1154,7 +1159,7 @@ vA.B. Bitte HQ-Migration veranlassen.`
 - **Arena-Persistenzvertrag (persistent vs. transient).**
   Persistiert werden nur langlebige Werte:
   `wins_player`, `wins_opponent`, `tier`, `match_policy`,
-  `previous_mode`, `resume_token`, `matches_this_episode`,
+  `previous_mode`, `resume_token`, `rewarded_runs_this_contract`,
   `first_wins`, `defeated_types`, `last_reward_episode`.
   Laufzeit-/Queue-Felder (`active`, `phase`, `queue_state`, `zone`,
   Match-Runtime-Budgets, Staging-Helfer) gelten als transient und werden

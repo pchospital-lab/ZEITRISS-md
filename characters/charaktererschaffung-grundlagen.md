@@ -23,17 +23,18 @@ Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar struk
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht. Der
 Default-Startpfad ist vollständig in diesem Modul enthalten und benötigt keine
 zusätzlichen Charakterdateien.
-Nach dem fatalen Ende eures früheren Lebens extrahierte das ITI euer Bewusstsein aus dem Absolut.
+Nach dem fatalen Ende eures früheren Lebens rettete das ITI euren Chrononauten an der Absolut-Grenze.
 ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute
 unvollständig verstandene Grenzphysik. Die Charaktererschaffung findet im **Nullzeit-Puffer** statt, über Holo-Interfaces und Labor-
-Displays. Erst wenn der Prozess abgeschlossen ist, baut das HQ die passende Bio-Hülle - auf
-Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Bewusstsein hinein.
+Displays. Erst wenn der Prozess abgeschlossen ist, stabilisiert das HQ euren realen Körperanker - auf
+Wunsch auch als experimentelles Hominin-Profil. Ihr spielt einen physischen Chrononauten aus Fleisch, Blut, Nerven
+und (optional) Cyberware; „Biohülle“ bleibt ITI-Laborjargon.
 
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
-2. Spezies oder Bio-Hülle wählen - Basis-Mensch, humane Abstufung (T-Stufe/N-Typ) oder historischer
-   Hominin.
+2. Grundform oder Körperprofil wählen - Basis-Humin, humane Abstufung (T-Stufe/N-Typ) oder historisches
+   Hominin-Profil.
 3. Attribute verteilen (18 Punkte von Basis 0, Endwerte ≥ 1)
 4. Drei Talente wählen (2 frei + 1 Echo aus dem früheren Leben)
 5. Startausrüstung notieren
@@ -104,19 +105,19 @@ der sich nach derselben Figur anfühlt.
 
     Vor der Attributvergabe prüft
     `enforce_identity_before_stats(char)`, ob **Konzept**,
-    **Callsign**, **Name** und **Grundform/Hülle** gesetzt sind.
+    **Callsign**, **Name** und **Grundform/Körperprofil** gesetzt sind.
     Fehlt etwas, blockt das System den nächsten Schritt.
 
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
     Affinität) und **SYS** (Systemkapazität für Implantate). Ihr startet mit einem Budget von
     **18 Attributspunkten**. Geht bei der Verteilung konsequent so vor:
-    1. Setzt **alle Attribute auf 0** und wendet sofort die **Rassen-Boni/-Mali** an. Dadurch können
+    1. Setzt **alle Attribute auf 0** und wendet sofort die **Grundform-Mods** an. Dadurch können
        auch **0- oder negative Zwischenwerte** entstehen.
     2. Verteilt nun die **18 Punkte** auf die so modifizierten Werte. Jeder Punkt erhöht einen Wert um
        genau **+1**. Der HUD-Kodex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt,
        wenn ihr überzieht oder Punkte unverteilt lasst.
-    3. Nach der Verteilung muss **jeder Endwert mindestens 1** betragen (Rassenmali dürfen also nicht
+    3. Nach der Verteilung muss **jeder Endwert mindestens 1** betragen (Profil-Mali dürfen also nicht
        dazu führen, dass ihr bei **0 oder darunter** fertig werdet). Werte um **3** dienen nur als
        Orientierung für Durchschnittlichkeit; typischer Startbereich sind **2-6**, extrem hohe
        Spezialisierungen sollten durch Schwächen ausgeglichen sein.
@@ -152,6 +153,10 @@ der sich nach derselben Figur anfühlt.
     etwas in der Art wählen?"_ - Auf diese Weise integriert sich die Charaktererschaffung nahtlos ins
     Spiel, anstatt eine trockene Zahlenübung zu sein. Psi-spezifische Talente erscheinen nur, wenn das
     Flag `has_psi` gesetzt ist; `render_psi_option()` zeigt sie mit klaren Stresskosten.
+
+    **Psi-Prämisse:** Psi ist die ZEITRISS-Antwort auf Magie – keine Zauberliste, sondern seltene
+    Resonanz zwischen Nervensystem, Zeitkante und Absolut. Nicht-Psi-Charaktere bleiben
+    vollständig konkurrenzfähig und sind in jeder Kampagne vollwertig spielbar.
 
     **Kurzreferenz - häufige Talente**
 
@@ -390,7 +395,7 @@ Der Rekrut **Jonas Richter** dient als Musterfigur, um Neulingen den Ablauf zu
 zeigen:
 
 1. **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3.
-2. **Rasse:** Homo sapiens sapiens (keine Modifikatoren).
+2. **Grundform:** Humin (Homo sapiens sapiens, keine Modifikatoren).
 3. **Talente:** _Soldat_, _Erste Hilfe_, _Zähigkeit_.
 4. **Cyber-/Bioware:** Neuro-Link (SYS 1), Notfall-Stimulat (SYS 1),
    Sub-Derm-Kevlar (SYS 1). **SYS-Last:** 3/3.
@@ -399,7 +404,7 @@ zeigen:
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
-- **Rassenmods:** keine
+- **Profil-Mods:** keine
 - **Finale Attribute:** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
 - **Talente:** Soldat; Erste Hilfe; Zähigkeit
 - **Cyber-/Bioware:** Neuro-Link (SYS 1), Notfall-Stimulat (SYS 1), Sub-Derm-Kevlar (SYS 1). **SYS-Last:** 3/3
