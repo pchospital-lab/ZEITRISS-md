@@ -742,7 +742,7 @@ desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 graph LR
 A[Missionsepisode] --> C[HQ-Phase]
 C --> B[Paradoxon-Index]
-B -->|Level 5| D[Rift-Pool]
+B -->|Px 5| D[Rift-Pool]
   D -->|Episodenende Bonus| E[Schwierigkeitsgrad & CU-Multi]
 E --> A
 ```
@@ -1067,7 +1067,7 @@ Gegner-Roster, Stil-Notizen und Arc-Outcome bilden den kanonischen Rahmen._
 #### Dev-Check-Liste
 
 - Paradoxon-Tracker 0-5 bleibt bestehen.
-- Bei Level 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
+- Bei Px 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
 - Rift-Pool als Array: `seed_id` und
   `status(locked_until_episode_end/open/closed)`.
 - Schwierigkeit = `base_dc + len(campaign.rift_seeds)`.

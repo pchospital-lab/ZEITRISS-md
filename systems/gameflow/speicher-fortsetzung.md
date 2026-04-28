@@ -462,12 +462,14 @@ Zielrange (120/512/900+), `band_reason`, `wallet_avg_scope`, Chronopolis-Sinks u
 erscheint nur bei Abweichungen. Das Trace ergänzt `logs.hud[]` und ersetzt
 keine Toasts.
 
-**Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
-Runtime `state.phase`/`campaign.phase` automatisch auf
-`core|transfer|rift|pvp` (immer Kleinbuchstaben) gemäß Missionstyp und
-Szenenzahl. Seeds geben nur den Typ vor und überlassen das `phase`-Feld der
-Laufzeit; andere Werte führen beim Laden zu einem SaveGuard-Fehler, da das
-Schema nur die vier erlaubten Tokens akzeptiert.
+**Phase-Feld:** HQ-Deepsaves persistieren keinen laufenden Runtime-`phase`-Wert.
+Der kanonische Save-Anker ist `continuity.last_seen` mit
+`continuity.last_seen.mode="hq"` und `continuity.last_seen.location="HQ"`.
+Während einer laufenden Mission setzt die Runtime `state.phase`/`campaign.phase`
+weiterhin auf `core|transfer|rift|pvp` (immer Kleinbuchstaben).
+Missionstypen dürfen in `logs.trace[]`, `summaries.*` und Runtime-Status stehen,
+aber nicht als aktiver HQ-Save-Modus persistiert werden.
+Andere Werte führen beim Laden zu einem SaveGuard-Fehler.
 
 **Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
 (`ui.gm_style`, `ui.suggest_mode`, `ui.action_mode`) und ergänzen fehlende
@@ -792,7 +794,7 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 | **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
 | **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`.                                                                                | -                                                                                                                                               | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`.     |
-| **PvP → zurück**      | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`.                                     |
+| **PvP → zurück**      | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
 
