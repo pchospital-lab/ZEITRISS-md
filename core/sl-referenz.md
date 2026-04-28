@@ -280,7 +280,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `characters[].carry`, `characters[].quarters_stash`, `characters[].vehicles`, `logs` (inklusive
   `hud`, `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
   `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
-  `flags`, `flags.merge_conflicts`) sowie `ui`, `arena` und `arc` werden vom
+  `flags`, `flags.continuity_conflicts`) sowie `ui`, `arena` und `arc` werden vom
   Serializer garantiert. `logs.field_notes[]` ist optional; fehlt der Block,
   legt der Serializer ein leeres Array an. HQ-/Profil-Infos liegen im
   v7-Zielmodell bei `characters[].quarters_stash`; Weltkontinuität läuft über
@@ -314,7 +314,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   sodass der SaveGuard den normalisierten UI-Block prüft.
 - Wallet-Audits arbeiten ausschließlich auf dem v7-Zielmodell: Session-Anker-HQ-Pool in
   `economy.hq_pool`, persönliche Guthaben in `characters[].wallet`. Union-/Merge-
-  Konflikte werden über `logs.flags.merge_conflicts[]` (`field='wallet'`)
+  Konflikte werden über `logs.flags.continuity_conflicts[]` (`field='wallet'`)
   dokumentiert.
 - **Legacy-Spiegel für KI-SL (ohne runtime.js):** Alte Root-Schlüssel wie
   `sys`, `sys_used`, `sys_installed`, `sys_runtime`, `stress`, `psi_heat` oder
@@ -709,7 +709,7 @@ Das HUD bleibt clean — nie alle Icons gleichzeitig, nur was gerade relevant is
 | Mission  | Standard-Loot                                       | Boss-Loot               | Artefakt     |
 | -------- | --------------------------------------------------- | ----------------------- | ------------ |
 | **Core** | Forschungsergebnisse · Datenchips · Cash · Upgrades | Spezialwaffe / Gear-Mod | ✘            |
-| **Rift** | Relikte · Ermittlungsakten · experimentelle Gear    | Artefakt-Wurf bei Boss  | ✔ (nur hier) |
+| **Rift** | Ermittlungsakten · Para-Spuren · experimentelle Gear | Artefakt-Wurf bei Boss  | ✔ (nur hier) |
 
 ## Loot-Quickref
 
@@ -719,8 +719,8 @@ Das HUD bleibt clean — nie alle Icons gleichzeitig, nur was gerade relevant is
 | Rift-Op†    | `roll_legendary()`       | ARTEFAKT (bei 1W6 = 6) |
 
 † Das Artefakt-Wurfskript greift ausschließlich in Szene 10 (Rift-Boss)
-automatisch und bleibt bei **max. 1 Artefakt pro Mission**. Relikte zählen
-als Story-Items und nutzen den normalen Generator.
+automatisch und bleibt bei **max. 1 Artefakt pro Mission**. Relikte bleiben
+Core-/Story-Beute; Rift-Loot nutzt Ermittlungsakten, Para-Spuren und experimentelle Gear.
 
 **Artefakt-Sink:** Artefakte bleiben handelbar wie Gear (Tausch, Schenkung oder
 Verkauf zulässig), aber die Abrechnung läuft über Research-/Archivwerte statt
