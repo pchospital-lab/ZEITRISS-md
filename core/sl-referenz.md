@@ -50,7 +50,7 @@ tags: [core, reference, gm]
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt." und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Session-Ankers maßgeblich; Import-Wallets
   werden union-by-id angehängt, fehlende Labels aus dem Import ergänzt, und
-  Konflikte landen in `logs.flags.merge_conflicts` (Allowlist:
+  Konflikte landen in `logs.flags.continuity_conflicts` (Allowlist:
   `wallet|rift_merge|arena_resume|campaign_mode|phase_bridge|location_bridge`)
   plus dem Trace `merge_conflicts`.
   Jeder HQ-Save schreibt ein `economy_audit`-Trace mit Level-Band
@@ -1257,7 +1257,7 @@ wieder einschalten. Siehe auch
 ```text
 v: 7, zr: "4.2.6"
 campaign: { episode, mission, px:0..5, px_state:"stable"|"pending_reset"|"consumed",
-  mode:"mixed"|"preserve"|"trigger"|"rift",
+  mode:"mixed"|"preserve"|"trigger",
   rift_seeds:[{id, epoch, label, status, tier}] }
 characters: [{                          // Array, Session-Anker = Index 0
   id, name, callsign, rank, lvl, xp,

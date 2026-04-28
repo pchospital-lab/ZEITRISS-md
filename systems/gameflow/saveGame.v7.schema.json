@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://zeitriss.example/saveGame.v7.schema.json",
-  "title": "ZEITRISS Save v7 (kanonischer Export)",
+  "title": "ZEITRISS Save v7 (Import/Normalizer, tolerant)",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -32,10 +32,16 @@
       "type": "string"
     },
     "parent_save_id": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "merge_id": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "branch_id": {
       "type": "string"
@@ -43,7 +49,14 @@
     "campaign": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["episode", "mission", "px", "px_state"],
+      "required": [
+        "episode",
+        "mission",
+        "px",
+        "px_state",
+        "mode",
+        "rift_seeds"
+      ],
       "properties": {
         "episode": {
           "type": "integer"
@@ -58,7 +71,22 @@
         },
         "px_state": {
           "type": "string",
-          "enum": ["stable", "pending_reset", "consumed"]
+          "enum": [
+            "stable",
+            "pending_reset",
+            "consumed"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "mixed",
+            "preserve",
+            "trigger"
+          ]
+        },
+        "rift_seeds": {
+          "type": "array"
         }
       }
     },
@@ -68,7 +96,10 @@
       "items": {
         "type": "object",
         "additionalProperties": true,
-        "required": ["id", "wallet"],
+        "required": [
+          "id",
+          "wallet"
+        ],
         "properties": {
           "id": {
             "type": "string"
@@ -81,11 +112,17 @@
             "type": "object",
             "additionalProperties": {
               "type": "object",
-              "required": ["choice"],
+              "required": [
+                "choice"
+              ],
               "properties": {
                 "choice": {
                   "type": "string",
-                  "enum": ["+1 Attribut", "Talent/Upgrade", "+1 SYS"]
+                  "enum": [
+                    "+1 Attribut",
+                    "Talent/Upgrade",
+                    "+1 SYS"
+                  ]
                 },
                 "detail": {
                   "type": "string"
@@ -102,7 +139,9 @@
     "economy": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["hq_pool"],
+      "required": [
+        "hq_pool"
+      ],
       "properties": {
         "hq_pool": {
           "type": "number"
@@ -112,7 +151,13 @@
     "logs": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["trace", "notes", "artifact_log", "market", "flags"],
+      "required": [
+        "trace",
+        "notes",
+        "artifact_log",
+        "market",
+        "flags"
+      ],
       "properties": {
         "flags": {
           "type": "object",
@@ -147,14 +192,23 @@
                     "type": "string"
                   },
                   "anchor_save_id": {
-                    "type": ["string", "null"]
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "incoming_save_id": {
-                    "type": ["string", "null"]
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "resolution": {
                     "type": "string",
-                    "enum": ["anchor_kept_echo_imported", "newer_personal_state_applied"]
+                    "enum": [
+                      "anchor_kept_echo_imported",
+                      "newer_personal_state_applied"
+                    ]
                   },
                   "note": {
                     "type": "string"
@@ -169,7 +223,11 @@
     "arc": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["factions", "questions", "hooks"]
+      "required": [
+        "factions",
+        "questions",
+        "hooks"
+      ]
     },
     "ui": {
       "type": "object",
@@ -177,11 +235,20 @@
       "required": [
         "gm_style",
         "suggest_mode",
+        "action_mode",
         "contrast",
         "badge_density",
         "output_pace",
         "voice_profile"
-      ]
+      ],
+      "properties": {
+        "action_mode": {
+          "type": "string",
+          "enum": [
+            "uncut"
+          ]
+        }
+      }
     },
     "arena": {
       "type": "object"
@@ -192,7 +259,11 @@
     "summaries": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["summary_last_episode", "summary_last_rift", "summary_active_arcs"],
+      "required": [
+        "summary_last_episode",
+        "summary_last_rift",
+        "summary_active_arcs"
+      ],
       "properties": {
         "summary_last_episode": {
           "type": "string"
@@ -215,7 +286,14 @@
           "properties": {
             "mode": {
               "type": "string",
-              "enum": ["hq", "core", "rift", "arena", "chronopolis", "debrief"]
+              "enum": [
+                "hq",
+                "core",
+                "rift",
+                "arena",
+                "chronopolis",
+                "debrief"
+              ]
             },
             "episode": {
               "type": "integer"
@@ -233,10 +311,16 @@
           "additionalProperties": true,
           "properties": {
             "family_id": {
-              "type": ["string", "null"]
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "thread_id": {
-              "type": ["string", "null"]
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "expected_threads": {
               "type": "array",
@@ -262,7 +346,9 @@
           "items": {
             "type": "object",
             "additionalProperties": true,
-            "required": ["char_id"],
+            "required": [
+              "char_id"
+            ],
             "properties": {
               "char_id": {
                 "type": "string"
@@ -283,14 +369,21 @@
           "items": {
             "type": "object",
             "additionalProperties": true,
-            "required": ["tag"],
+            "required": [
+              "tag"
+            ],
             "properties": {
               "tag": {
                 "type": "string"
               },
               "scope": {
                 "type": "string",
-                "enum": ["shared", "rumor", "campaign", "personal"]
+                "enum": [
+                  "shared",
+                  "rumor",
+                  "campaign",
+                  "personal"
+                ]
               },
               "text": {
                 "type": "string"
@@ -331,5 +424,6 @@
         "active_npc_ids"
       ]
     }
-  }
+  },
+  "description": "Tolerantes Import-/Normalizer-Schema für Legacy- und Join-Loads. Für kanonischen !save-Export gilt saveGame.v7.export.schema.json."
 }

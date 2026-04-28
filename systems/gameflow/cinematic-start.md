@@ -26,14 +26,18 @@ folgt ein Establishing Shot der Zielrealität.
 
 **Runtime-Default (kanonisch):** natürlicher Neustart oder Kurzform, dann
 `klassisch` als Standard; Charakterwahl über `generate`, `custom generate`
-oder manuell. Erst danach HQ-Rundgang **oder** Briefing.
+oder manuell. Im klassischen Pfad folgt danach zuerst Heimkehrbeat +
+Chargen-Save-Gate im HQ; Briefing startet erst nach expliziter Wahl.
 
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
-Danach wählt die Gruppe: **HQ-Rundgang mit Kodex** (Tour, Sicherheit, HUD,
-Kodex-Regeln) oder direkt das **Briefing** im Quarzatrium. Der Missions-Seed
-wird erst im Briefing gezogen – nicht bereits in Einleitung oder HQ-Tour. Erst
-anschließend treten die Chrononauten durch den Zeitriss und beginnen ihre
-Mission.
+Danach folgt im klassischen Pfad verpflichtend der **Heimkehrbeat im HQ** mit
+Chargen-Save-Gate (`!save` anbieten, kein Auto-Briefing). Erst nach
+Spielerentscheidung startet das **Briefing** im Quarzatrium.
+Im Fast-Lane-Pfad (`solo schnell`/`gruppe schnell`) bleibt der direkte Einstieg
+ins Briefing erlaubt; dort gibt es kein Chargen-Save-Gate vor Mission 1.
+Der Missions-Seed wird erst im Briefing gezogen – nicht bereits in Einleitung
+oder HQ-Tour. Erst anschließend treten die Chrononauten durch den Zeitriss und
+beginnen ihre Mission.
 Im HQ erscheinen Einsatzdaten auf festen **Briefingflächen** im Raum statt als
 freischwebende Menüs.
 Beim Sprung zeigt das HUD stets:
@@ -176,8 +180,9 @@ Varianten als **Inszenierungswerkzeug** erlaubt:
 - Notfall-/Crash-Start mit sofortigem Druck
 
 Diese Varianten ändern **nicht** den Produktpfad (Neustart/Kurzform →
-`klassisch` → `generate/custom generate/manuell` → HQ oder Briefing) und
-ändern keine Save-, Split- oder Missionsregeln.
+`klassisch` → `generate/custom generate/manuell` → Heimkehrbeat +
+Chargen-Save-Gate → HQ-Router/Briefing per Entscheidung; Fast-Lane direkt ins
+Briefing) und ändern keine Save-, Split- oder Missionsregeln.
 
 ## Fazit: klarer Start, optionale Inszenierung
 

@@ -1,0 +1,414 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zeitriss.example/saveGame.v7.export.schema.json",
+  "title": "ZEITRISS Save v7 (kanonischer Export, strikt)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "zr",
+    "save_id",
+    "parent_save_id",
+    "merge_id",
+    "branch_id",
+    "campaign",
+    "characters",
+    "economy",
+    "logs",
+    "summaries",
+    "continuity",
+    "arc",
+    "ui"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 7
+    },
+    "zr": {
+      "type": "string"
+    },
+    "save_id": {
+      "type": "string"
+    },
+    "parent_save_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "merge_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "branch_id": {
+      "type": "string"
+    },
+    "campaign": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "episode",
+        "mission",
+        "px",
+        "px_state",
+        "mode",
+        "rift_seeds"
+      ],
+      "properties": {
+        "episode": {
+          "type": "integer"
+        },
+        "mission": {
+          "type": "integer"
+        },
+        "px": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "px_state": {
+          "type": "string",
+          "enum": [
+            "stable",
+            "pending_reset",
+            "consumed"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "mixed",
+            "preserve",
+            "trigger"
+          ]
+        },
+        "rift_seeds": {
+          "type": "array"
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "callsign",
+          "rank",
+          "lvl",
+          "xp",
+          "origin",
+          "attr",
+          "lp",
+          "lp_max",
+          "stress",
+          "has_psi",
+          "sys_installed",
+          "talents",
+          "equipment",
+          "implants",
+          "history",
+          "carry",
+          "quarters_stash",
+          "vehicles",
+          "reputation",
+          "wallet",
+          "level_history"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "callsign": {
+            "type": "string"
+          },
+          "rank": {
+            "type": "string"
+          },
+          "lvl": {
+            "type": "integer"
+          },
+          "xp": {
+            "type": "integer"
+          },
+          "origin": {
+            "type": "object"
+          },
+          "attr": {
+            "type": "object"
+          },
+          "lp": {
+            "type": "integer"
+          },
+          "lp_max": {
+            "type": "integer"
+          },
+          "stress": {
+            "type": "integer"
+          },
+          "has_psi": {
+            "type": "boolean"
+          },
+          "sys_installed": {
+            "type": "integer"
+          },
+          "talents": {
+            "type": "array"
+          },
+          "equipment": {
+            "type": "array"
+          },
+          "implants": {
+            "type": "array"
+          },
+          "history": {
+            "type": "object"
+          },
+          "carry": {
+            "type": "array"
+          },
+          "quarters_stash": {
+            "type": "array"
+          },
+          "vehicles": {
+            "type": "object"
+          },
+          "reputation": {
+            "type": "object"
+          },
+          "wallet": {
+            "type": "number"
+          },
+          "level_history": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "economy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hq_pool"
+      ],
+      "properties": {
+        "hq_pool": {
+          "type": "number"
+        }
+      }
+    },
+    "logs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace",
+        "market",
+        "artifact_log",
+        "notes",
+        "flags"
+      ],
+      "properties": {
+        "trace": {
+          "type": "array"
+        },
+        "market": {
+          "type": "array"
+        },
+        "artifact_log": {
+          "type": "array"
+        },
+        "notes": {
+          "type": "array"
+        },
+        "flags": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "runtime_version",
+            "chronopolis_unlocked",
+            "imported_saves",
+            "duplicate_branch_detected",
+            "duplicate_character_detected",
+            "continuity_conflicts"
+          ],
+          "properties": {
+            "runtime_version": {
+              "type": "string"
+            },
+            "chronopolis_unlocked": {
+              "type": "boolean"
+            },
+            "imported_saves": {
+              "type": "array"
+            },
+            "duplicate_branch_detected": {
+              "type": "boolean"
+            },
+            "duplicate_character_detected": {
+              "type": "boolean"
+            },
+            "continuity_conflicts": {
+              "type": "array"
+            }
+          }
+        }
+      }
+    },
+    "summaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary_last_episode",
+        "summary_last_rift",
+        "summary_active_arcs"
+      ],
+      "properties": {
+        "summary_last_episode": {
+          "type": "string"
+        },
+        "summary_last_rift": {
+          "type": "string"
+        },
+        "summary_active_arcs": {
+          "type": "string"
+        }
+      }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "last_seen",
+        "split",
+        "roster_echoes",
+        "shared_echoes",
+        "convergence_tags",
+        "npc_roster",
+        "active_npc_ids"
+      ],
+      "properties": {
+        "last_seen": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "episode",
+            "mission",
+            "location"
+          ],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "hq",
+                "core",
+                "rift",
+                "arena",
+                "chronopolis",
+                "debrief"
+              ]
+            },
+            "episode": {
+              "type": "integer"
+            },
+            "mission": {
+              "type": "integer"
+            },
+            "location": {
+              "type": "string"
+            }
+          }
+        },
+        "split": {
+          "type": "object"
+        },
+        "roster_echoes": {
+          "type": "array"
+        },
+        "shared_echoes": {
+          "type": "array"
+        },
+        "convergence_tags": {
+          "type": "array"
+        },
+        "npc_roster": {
+          "type": "array"
+        },
+        "active_npc_ids": {
+          "type": "array"
+        }
+      }
+    },
+    "arc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factions",
+        "questions",
+        "hooks"
+      ],
+      "properties": {
+        "factions": {
+          "type": "object"
+        },
+        "questions": {
+          "type": "array"
+        },
+        "hooks": {
+          "type": "array"
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gm_style",
+        "suggest_mode",
+        "action_mode",
+        "contrast",
+        "badge_density",
+        "output_pace",
+        "voice_profile"
+      ],
+      "properties": {
+        "gm_style": {
+          "type": "string"
+        },
+        "suggest_mode": {
+          "type": [
+            "string",
+            "boolean"
+          ]
+        },
+        "action_mode": {
+          "type": "string",
+          "enum": [
+            "uncut"
+          ]
+        },
+        "contrast": {
+          "type": "string"
+        },
+        "badge_density": {
+          "type": "string"
+        },
+        "output_pace": {
+          "type": "string"
+        },
+        "voice_profile": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

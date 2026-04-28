@@ -147,19 +147,21 @@ Ohne expliziten Modus gilt **klassisch** als Standard.
 Bei **klassisch** folgt die volle Charaktererschaffung.
 Vor den Werten steht der Origin-Block (Epoche/Beruf/Tod), auf Wunsch mit
 `generate` oder `custom generate`, plus Echo-Talent aus dem früheren Leben.
-Danach wählst du: **HQ-Rundgang mit Kodex** (Tour, HUD, Kodex-Regeln)
-oder **Briefing** (erst dort wird die Mission gezogen).
+Danach folgt im klassischen Pfad der **Heimkehrbeat im HQ** mit
+Chargen-Save-Gate (`!save` wird angeboten, kein Auto-Briefing).
+Erst nach deiner Entscheidung startet das **Briefing** (erst dort wird die
+Mission gezogen).
 Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst dann
 das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
-Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und kannst
-ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
+Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und startest
+direkt im Briefing; das Save-Angebot kommt erst nach Mission 1.
 
 Die ersten Schritte in unter zwei Minuten:
 
 1. **Startwunsch äußern** — neu starten oder Save laden (natürlichsprachlich oder per Kurzbefehl).
 2. **Bei Neustart:** solo / npc-team / gruppe wählen; Default ist klassisch.
 3. **Charakterweg wählen** — `generate`, `custom generate` oder selbst bauen.
-4. **HQ oder Briefing** — nach der Erstellung: HQ-Rundgang mit Kodex oder direkt ins Briefing.
+4. **Chargen-Save-Gate (klassisch)** — nach der Erstellung erst Heimkehrbeat + `!save`-Angebot im HQ, danach Briefing per Entscheidung.
 5. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
    W6 normal, W10 ab Attribut 11, Heldenwürfel ab 14. Exploding bei Maximum (Burst-Cap 1).
 6. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift) in der Einsatzzeit
@@ -769,8 +771,8 @@ Wie willst du einsteigen?
 Klassischer Einstieg: Gemächlicher Start im Nullzeit-HQ - du lernst deinen
 Chrononauten kennen, bevor es ins Feld geht.
 
-Schnelleinstieg: Überspringe die Einführung: Wähle eine Rolle und stürze dich
-nach kurzer Vorbereitung ins Spiel - Briefing oder HQ-Rundgang nach Wahl.
+Schnelleinstieg: Überspringe die ausführliche Erschaffung: Rolle wählen und
+nach kurzer Vorbereitung direkt ins Briefing starten.
 
 Freie Aktion: Definiere Callsign, Konzept und Hülle deines Chrononauten, und wir
 beginnen unmittelbar mit deinem ersten Einsatz.
@@ -796,12 +798,12 @@ Nach Einleitung (Compliance-Hook entfällt) wählst du zwischen
   Vor dem Menü zeigt das System automatisch die Nullzeit-Labor-Sequenz aus dem
   ITI-Archiv: Bewusstsein aus dem Absolut, Tank-Schweben, Bio-/Cyberware-Slots,
   Ausrüstung und neue Bio-Hülle, Transferblitz und Eintritt ins Quarzatrium.
-  Danach entscheidest du, ob du einen HQ-Rundgang mit Kodex-Tour (inklusive
-  Sicherheits- und HUD-Briefing) willst oder direkt ins Briefing gehst. Der
-  Missions-Seed wird erst im Briefing gezogen.
+  Danach greift der Heimkehrbeat mit Chargen-Save-Gate im HQ. Erst nach
+  expliziter Entscheidung geht es ins Briefing; dort wird der Missions-Seed
+  gezogen.
 - _Schnell:_ Wähle eine Rolle (Infiltration, Tech, Face, Sniper …) und ein
-  Kurzprofil. Anschließend kannst du ebenfalls zwischen HQ-Einstieg und sofortigem
-  Briefing wählen.
+  Kurzprofil. Anschließend startet der Fast-Lane-Pfad direkt im Briefing; ein
+  Save-Angebot folgt erst nach Mission 1.
 
 ## Grundidee
 
