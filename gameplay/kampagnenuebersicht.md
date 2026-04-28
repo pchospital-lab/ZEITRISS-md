@@ -126,7 +126,7 @@ Weitere Infos zum HUD liefert das Modul
 [Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
 Ab höherem **ITI-Ruf** öffnet sich zusätzlich der streng bewachte Kernbereich.
 Chronopolis beherbergt Sapiens-Sapiens, N-Typen, T-Stufen und historische Homininen.
-Das ITI rekrutiert aus allen Abstufungen und Bio-Sheaths; auch rivalisierende Gruppen setzen
+Das ITI rekrutiert aus allen Abstufungen und Hominin-Profilen; auch rivalisierende Gruppen setzen
 auf diese Vielfalt. Sie trägt spürbar zum Chrononautenflair bei.
 
 ### Pre-City-Hub Übergangsphase
