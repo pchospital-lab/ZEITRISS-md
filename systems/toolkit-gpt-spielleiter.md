@@ -923,8 +923,10 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
      Patch-Level wird ignoriert.
    - Mismatch → "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
      HQ-Migration veranlassen."
-   - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing.
-     Keine Nachfrage "klassisch/schnell".
+   - Nach Erfolg: kurze Rückblende, dann in den HQ-Load-Router
+     (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei /
+     Rift-Board falls frei / Arena-Router).
+     Kein impliziter Briefing-Autostart und keine Nachfrage "klassisch/schnell".
 2. Enthält einen klaren Neustart-Wunsch (natürliche Sprache oder `Spiel starten (...)`) → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.
    - `schnell|fast` erwähnt → Schnelleinstieg.

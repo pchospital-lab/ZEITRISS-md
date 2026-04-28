@@ -1,7 +1,7 @@
 ---
 title: Nachcheck-Status — Anschlussplan
 date: 2026-04-28
-status: aktiv
+status: abgeschlossen
 ---
 
 # Nachcheck-Status (schlank)
@@ -26,9 +26,9 @@ Quelle: `uploads/ZEITRISS_agentenpaket_nachcheck.md` + `uploads/zeitriss_nachche
   reale Bruchlinie" konsolidiert; kein VR-/Simulations-Frame in
   Regeltexten mit Runtime-Bezug.
 
-## Offen (nächster sinnvoller Block)
+## Abschlussstand (2026-04-28)
 
-- Aktuell kein neuer P1-Block aus dem Nachcheck offen.
+- Aktuell ist **kein neuer P1-Block** aus dem Nachcheck offen.
 - Der erste Drift-Check-Lauf (2026-04-28) ist erfolgt:
   - Legacy-Formulierung „frisch instanziert/Instanz-Identität" in
     `gameplay/kampagnenstruktur.md` auf Bruchlinien-Frame korrigiert.
@@ -44,7 +44,7 @@ Quelle: `uploads/ZEITRISS_agentenpaket_nachcheck.md` + `uploads/zeitriss_nachche
    - PvP/Arena: `PVP-01..03`
    - Cross-Mode: `MULTI-01..03`, `CROSS-01`
 
-## Definition of Done für den Folge-PR
+## Definition of Done (erfüllt am 2026-04-28)
 
 - Keine konkurrierenden Aussagen zum Seed-Cap in
   `core/sl-referenz.md`, `systems/gameflow/speicher-fortsetzung.md`,
