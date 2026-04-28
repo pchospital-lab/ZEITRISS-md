@@ -293,7 +293,10 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
 - `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
 - `ui.{gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile}`
-- `arena?` (nur wenn Arena genutzt: `{wins, losses, tier}`)
+- `arena?` (nur wenn Arena genutzt; Persistenzkern:
+  `{previous_mode, resume_token, rewarded_runs_this_contract, first_wins,
+  defeated_types, last_reward_episode, wins_player, wins_opponent, tier,
+  match_policy}`)
 
 > **Keine Laufzeit-Daten im Save:** location, phase, scene, exfil, cooldowns,
 > SYS_runtime, SYS_used werden zur Laufzeit gesetzt — nicht gespeichert.
@@ -1562,7 +1565,7 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
       "lp_max": 10,
       "stress": 0,
       "has_psi": false,
-      "sys_installed": 4,
+      "sys_installed": 1,
       "talents": ["Schleichprofi"],
       "equipment": [{ "name": "Resonanz-Sniper", "type": "weapon", "tier": 2 }],
       "implants": [],
