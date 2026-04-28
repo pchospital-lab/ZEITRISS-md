@@ -840,8 +840,8 @@ Der Bericht würfelt ein 50/50-Ergebnis aus. Fällt es negativ aus, verliert die
 Gruppe CU in Höhe ihres Spielerlevels (niemals unter 0). Bei einem positiven
 Ergebnis erhalten sie ein Item im Wert von **CU × Spielerlevel**. Offene Seeds
 werden nach jedem Entfernen neu verrechnet, sodass der Schwierigkeitsgrad stets
-aktuell bleibt. Bis zu zwei Seeds dürfen offen bleiben, um sie später selbst als
-Rift-Op zu spielen oder für künftige Plots zu parken.
+aktuell bleibt. Es gibt dabei **kein Solo-Hardcap** für offene Seeds; eine
+Deckelung auf **max. 12** greift ausschließlich beim **HQ-Merge/Group-Import**.
 
 > **Beispiel** - _Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
 > einmal miterleben zu müssen, aber das ist nun mal der Lauf der Dinge. Dafür
