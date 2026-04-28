@@ -1513,7 +1513,7 @@ Tiefe und Abwechslung, ohne den Spielfluss zu stören.
 spürbar werden. Nichts steigert die Immersion mehr, als wenn die Gruppe merkt, dass sie die Welt -
 oder in ZEITRISS gar die Zeit selbst - nachhaltig verändert. Hierfür führt das Modul einige
 Mechaniken ein, die **langfristige Entwicklungen** abbilden: **Ruf**, **Einflusszonen**,
-**historische Auswirkungen** und **Paradoxon-Verschiebungen**. Diese Konzepte greifen ineinander und
+**historische Auswirkungen** und **Timeline-Echos**. Diese Konzepte greifen ineinander und
 erzeugen zusammen ein Gefühl fortschreitender Geschichte.
 
 - **Ruf und Ansehen:** Wie beim Fraktionsmanagement beschrieben, sammelt die Gruppe Ruf innerhalb des ITI-Systems.
