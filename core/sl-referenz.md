@@ -291,6 +291,10 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   solange Matchmaking/Run aktiv sind (`searching|matched|staging|active`).
   Nach Arena-Ende bleibt Save im Abschlusszustand erlaubt (`idle|completed` bei
   `arena.active=false`), damit der direkte PvP→HQ-Savepunkt stabil nutzbar ist.
+  Persistiert werden für Arena nur langlebige Felder
+  (`previous_mode`, `resume_token`, `matches_this_episode`,
+  `first_wins`, `defeated_types`, `last_reward_episode`, Serienstand/Tier/Policy);
+  Queue-/Run-Status bleibt transient und wird beim HQ-Load normalisiert.
   Saves aus Chronopolis/CITY werden mit "SaveGuard: Chronopolis ist kein HQ-
   Savepunkt" verworfen.
 - `logs.flags.imported_saves[]` protokolliert jeden Import mit mindestens

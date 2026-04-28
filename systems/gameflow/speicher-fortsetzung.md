@@ -1135,10 +1135,10 @@ vA.B. Bitte HQ-Migration veranlassen.`
   leert Charakter- und Team-Psi-Heat beim Debrief, die Runtime-Flags führen
   die Aggregation fort.
 - **Arena-Mode-State-Machine (`campaign.mode`):**
-  1. **Start:** `arenaStart()` merkt `campaign.previous_mode = campaign.mode`,
+  1. **Start:** `arenaStart()` merkt `arena.previous_mode = campaign.mode`,
      setzt `campaign.mode = 'pvp'`.
-  2. **Exit:** `arenaEnd()` stellt `campaign.mode = previous_mode` wieder her,
-     leert `previous_mode = null`.
+  2. **Exit:** `arenaEnd()` stellt `campaign.mode = arena.previous_mode` wieder her,
+     leert `arena.previous_mode = null`.
   3. **Load während Arena:** `reset_arena_after_load()` nutzt
      `arena.previous_mode` / `resume_token.previous_mode`, setzt
      `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
@@ -1151,6 +1151,15 @@ vA.B. Bitte HQ-Migration veranlassen.`
   nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`, Szenario, `previous_mode`),
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
+- **Arena-Persistenzvertrag (persistent vs. transient).**
+  Persistiert werden nur langlebige Werte:
+  `wins_player`, `wins_opponent`, `tier`, `match_policy`,
+  `previous_mode`, `resume_token`, `matches_this_episode`,
+  `first_wins`, `defeated_types`, `last_reward_episode`.
+  Laufzeit-/Queue-Felder (`active`, `phase`, `queue_state`, `zone`,
+  Match-Runtime-Budgets, Staging-Helfer) gelten als transient und werden
+  beim HQ-Load auf einen sicheren Abschlusszustand normalisiert
+  (`active=false`, `phase=idle|completed`, `queue_state=idle|completed`).
 - **Wallets.** `initialize_wallets_from_roster()` stellt sicher, dass jeder
   Eintrag in `characters[]` ein numerisches `wallet`-Feld trägt
   (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Session-Anker-Wallets

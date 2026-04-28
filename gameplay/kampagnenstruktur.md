@@ -1722,10 +1722,10 @@ auch HQ-Szenen den Standard-Kernschutz führen.
 
 **Mode-Reset nach Arena-Exit:** Beim Start setzt `arenaStart()` den
 Kampagnenmodus temporär auf `pvp` und merkt den alten Wert in
-`campaign.previous_mode`. Beim Verlassen stellt `arenaEnd()` den
+`arena.previous_mode`. Beim Verlassen stellt `arenaEnd()` den
 Ursprungsmodus (`preserve`/`trigger`/`mixed`) wieder her und leert
-`previous_mode`. Fehlt `previous_mode` (z. B. bei Legacy-Saves), fällt der
-Reset auf `preserve` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
+`arena.previous_mode`. Fehlt `previous_mode` (z. B. bei Legacy-Saves), fällt
+der Reset auf `preserve` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
@@ -1804,6 +1804,19 @@ Pro Episode sind maximal **3 Arena-Matches** erlaubt. Kodex führt einen
 Zähler in `arena.matches_this_episode` und verweigert den Eintritt nach
 dem dritten Lauf mit dem HUD-Toast: _"Arena-Kontingent erschöpft - nächste
 Episode freigegeben."_
+
+#### Persistenzvertrag (Arena)
+
+Persistiert werden nur Arena-Felder mit Kampagnenbezug:
+`arena.previous_mode`, `arena.resume_token`, `arena.matches_this_episode`,
+`arena.first_wins`, `arena.defeated_types`, `arena.last_reward_episode`,
+`arena.wins_player|wins_opponent|tier` und `arena.match_policy`.
+
+Transiente Match-/Queue-Felder (`arena.active`, `arena.phase`,
+`arena.queue_state`, `arena.zone`, laufende Budgets) gelten als Laufzeitdaten.
+Beim HQ-Load werden sie auf Abschlusszustand normalisiert
+(`active=false`, `phase=idle|completed`, `queue_state=idle|completed`),
+damit `!save` im HQ reproduzierbar bleibt.
 
 #### Diminishing Returns
 

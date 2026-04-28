@@ -664,7 +664,10 @@ Auto-HQ → Save-Angebot.
 - **Mixed-Split ohne Branch-Protokoll:** Session-Anker führt; branch-lokale
   Effekte laufen über Allowlist. Detail-Präzedenzgraph
   → `systems/toolkit-gpt-spielleiter.md`.
-- Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
+- Arena nur wenn genutzt: mindestens Serienstand/Tier plus Persistenzkern
+  (`previous_mode`, optional `resume_token`, Anti-Grind-Counter wie
+  `matches_this_episode`/`first_wins`/`defeated_types`); Queue-/Run-Status ist
+  Laufzeitdaten und wird beim HQ-Load auf Abschlusszustand normalisiert.
 - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
 - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:
   - `stable`: Normalbetrieb (Px 0-4).
