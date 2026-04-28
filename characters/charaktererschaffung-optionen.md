@@ -8,7 +8,7 @@ tags: [characters]
 
 ## Inhalt
 
-- Humane Abstufungen & Homininen-Bio-Sheaths
+- Humine Grundformen & Hominin-Profile
 - Quick-Builds & Schnellstart-Chrononauten
 - Start-Archetypen (Beispielcharaktere)
 - Team-Zusammenstellung & Rollenverteilung (optional)
@@ -24,7 +24,7 @@ empfohlener Standard. Archetypen, Quick-Builds und Pregens sind
 **nicht** der bevorzugte Runtime-Pfad, sondern dienen als Inspiration,
 One-Shot-Hilfe oder Fallback bei ausdrücklichem Wunsch.
 
-### Humane Abstufungen
+### Humine Grundformen
 
 Im Laufe der Jahrhunderte haben sich neben dem Basismenschen zwei weiterentwickelte Stufen
 etabliert. Sie sind beim ITI wie auch bei gegnerischen Fraktionen vertreten und verleihen
@@ -50,7 +50,7 @@ Frühmoderne Genlinie mit gezielter Hirnoptimierung.
 - Widersteht einfachen Psi‑Tricks (SG −1).
 - Zugriff auf besondere Kodex‑Kommandos (nach Freigabe).
 - Körperliche Extrembelastung steigert Stress schneller (+1 bei STR‑Proben).
-- Kompakte Bio-Hülle verringert die verfügbare Systemlast.
+- Kompaktes Körperprofil verringert die verfügbare Systemlast.
 
 #### Homo Sapiens Transitus – „T‑Stufe“
 
@@ -73,22 +73,22 @@ Vorstufe zum Posthumanen. Wirkt auf Unmodifizierte oft befremdlich.
 Chronopolis versammelt Agenten aller drei Stufen. Auch rivalisierende Gruppen
 setzen auf diese Mischung, was dem Spiel eine vielfältige Note verleiht.
 
-| Spezies             | Boni                                            | Nachteile                        |
+| Grundform           | Boni                                            | Nachteile                        |
 | ------------------- | ----------------------------------------------- | -------------------------------- |
 | **T‑Stufe**         | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS | EMP-anfällig; Neurostabi nötig   |
 | **N‑Typ**           | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS | Psi-resistent, Stress +1 bei STR |
 | **Standard-Mensch** | Keine Modifikatoren                             | –                                |
 
 Weitere Vorfahren siehe Abschnitt
-[Historische Homininen (Bio-Sheaths)](#historische-homininen-bio-sheaths).
+[Historische Homininen (Körperprofile)](#historische-homininen-koerperprofile).
 
-### Historische Homininen (Bio-Sheaths)
+### Historische Homininen (Körperprofile)
 
 Neben den modernen Sapiens-Stufen experimentiert das ITI mit fossiler DNA.
-Spieler können Neandertaler oder andere Vorfahren als temporäre Hüllen wählen.
+Spieler können Neandertaler oder andere Vorfahren als stabilisierte physische Körperprofile wählen.
 Alle Varianten balancieren ihre Boni und Mali aus.
 
-| Spezies               | Attribut-Boni                   |
+| Grundform             | Attribut-Boni                   |
 | --------------------- | ------------------------------- |
 | Homo neanderthalensis | STR +2, INT −1, CHA −1          |
 | Denisova-Mensch       | STR +1, TEMP +1, CHA −1, INT −1 |
@@ -100,7 +100,7 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 
 - Wählt ein Preset aus den Schnellstart-Chrononauten oder Start-Archetypen.
 - Passt Namen, Callsign und Hintergrund an.
-- Legt die Spezies fest und übernehmt die Rassenmods.
+- Legt die Grundform fest und übernehmt die Profil-Mods.
 - Übernehmt Talente sowie Cyber-/Bioware samt SYS-Last aus dem Preset.
 - Die Presets sind so gebaut, dass die SYS-Last voll ausgeschöpft ist
   (Psi-Chars füllen freie Slots mit aktiven Psi-Kräften).
@@ -113,7 +113,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 
 #### "Ghost" – Infiltration Specialist
 
-- **Rasse:** Homo floresiensis
+- **Grundform:** Homo floresiensis
 - **Attribute (final):** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3 – schnell,
   leise, robust genug für nächtliche Einsätze.
 - **Talente:** _Schleichprofi_, _Akrobat_, _Schattenprofil_.
@@ -124,14 +124,14 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 3, GES 3, INT 4, CHA 3, TEMP 2, SYS 3
-- **Rassenmods:** STR −2, GES +2
+- **Profil-Mods:** STR −2, GES +2
 - **Finale Attribute:** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3
 - **Talente:** Schleichprofi; Akrobat; Schattenprofil
 - **Cyber-/Bioware:** Neuro-Trans(SYS1), Fingernagel-Kl.(SYS1), Notfall-Stim(SYS1) **SYS-Last:** 3/3
 
 #### "Kernel" – Tech & Drone Handler
 
-- **Rasse:** Denisova‑Mensch
+- **Grundform:** Denisova‑Mensch
 - **Attribute (final):** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3 – Tech- und
   Drohnenspezialistin mit hoher temporaler Sensibilität.
 - **Talente:** _Techno‑Mancer_, _Drohnensteuerung_, _Systemanalyst_.
@@ -142,14 +142,14 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 1, GES 3, INT 5, CHA 3, TEMP 3, SYS 3
-- **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
+- **Profil-Mods:** STR +1, TEMP +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3
 - **Talente:** Techno‑Mancer; Drohnensteuerung; Systemanalyst
 - **Cyber-/Bioware:** Neuro-Link-Sock.(SYS1), AR-Linse(SYS1), Notfall-Stim(SYS1) **SYS-Last:** 3/3
 
 #### "Wildcard" – Face / Social Ops
 
-- **Rasse:** Homo sapiens novus
+- **Grundform:** Homo sapiens novus
 - **Attribute (final):** STR 2, GES 2, INT 4, CHA 5, TEMP 3, SYS 2 – soziale
   Dominanz und ruhige Präsenz.
 - **Talente:** _Diplomatin_, _Menschenkenntnis_, _Verkleidungskünstler_.
@@ -159,14 +159,14 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 4, TEMP 2, SYS 3
-- **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
+- **Profil-Mods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 2, GES 2, INT 4, CHA 5, TEMP 3, SYS 2
 - **Talente:** Diplomatin; Menschenkenntnis; Verkleidungskünstler
 - **Cyber-/Bioware:** Stimm‑Modulator (SYS 1), Daten‑Tattoos (SYS 1). **SYS-Last:** 2/2
 
 #### "Ricochet" – Close-Quarters Shooter
 
-- **Rasse:** Homo neanderthalensis
+- **Grundform:** Homo neanderthalensis
 - **Attribute (final):** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2 – brachiale
   Kraft, schnelle Reaktion, kurze Wege.
 - **Talente:** _Waffenmeister_, _CQB‑Spezialist_, _Schmerzresistenz_.
@@ -176,14 +176,14 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
-- **Rassenmods:** STR +2, INT −1, CHA −1
+- **Profil-Mods:** STR +2, INT −1, CHA −1
 - **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
 - **Talente:** Waffenmeister; CQB‑Spezialist; Schmerzresistenz
 - **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1), Servomotoren in Beinen (SYS 1). **SYS-Last:** 2/2
 
 #### "Focus" – Psi-Assault
 
-- **Rasse:** Homo sapiens novus
+- **Grundform:** Homo sapiens novus
 - **Attribute (final):** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2 – Psi-Fokus,
   klare Konzentration, geringe körperliche Reserven.
 - **Talente:** _Psi‑Kontrolle_, _Meditation_, _Fokusfeuer_.
@@ -195,7 +195,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 2, GES 3, INT 3, CHA 3, TEMP 4, SYS 3
-- **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
+- **Profil-Mods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2
 - **Talente:** Psi‑Kontrolle; Meditation; Fokusfeuer
 - **Cyber-/Bioware:** keine (0 SYS), Zeitsinn (SYS 1), Telepathie (SYS 1). **SYS-Last:** 2/2
@@ -219,7 +219,7 @@ Charakter besonders fördern kann.)
 
 ### Historiker-Diplomat – Dr. Elise Weber
 
-- **Rasse:** Homo sapiens sapiens
+- **Grundform:** Homo sapiens sapiens
 
 _„Geschichte ist Verhandlung – und ich kenne beides.“_ – Dr. Weber ist eine belesene Historikerin
 und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen verbinden kann.
@@ -244,7 +244,7 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
-- **Rassenmods:** keine
+- **Profil-Mods:** keine
 - **Finale Attribute:** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
 - **Talente:** Polyglott; Historisches Wissen; Diplomatin
 - **Cyber-/Bioware:** Neuro-Translator (SYS 1), Kognitives Enh. Stufe 1 (SYS 1) **SYS-Last:** 2/2
@@ -269,7 +269,7 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
 
 ### Zukunfts-Tech-Operative – Mira Nguyen
 
-- **Rasse:** Denisova-Mensch
+- **Grundform:** Denisova-Mensch
 
 _„Kein System bleibt lange verborgen – besonders nicht, wenn es aus dem letzten Jahrhundert
 stammt.“_ – Mira
@@ -300,7 +300,7 @@ Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 1, GES 4, INT 5, CHA 3, TEMP 3, SYS 2
-- **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
+- **Profil-Mods:** STR +1, TEMP +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 4, INT 4, CHA 2, TEMP 4, SYS 2
 - **Talente:** Techno‑Mancer; Drohnensteuerung; Improvisationsingenieurin
 - **Cyber-/Bioware:** Neuro-Link (SYS 1), AR-Linse (SYS 1). **SYS-Last:** 2/2
@@ -332,7 +332,7 @@ Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 
 ### Temporal-Soldat – Nikolai Volkov
 
-- **Rasse:** Homo neanderthalensis
+- **Grundform:** Homo neanderthalensis
 
 _„Zeit zu kämpfen – egal in welcher Epoche.“_ – Nikolai ist ein kampferprobter Veteran, der jeden
 Zeitreise-Einsatz als Schlacht betrachtet, die es zu gewinnen gilt. Er dient als Beschützer des
@@ -364,7 +364,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
-- **Rassenmods:** STR +2, INT −1, CHA −1
+- **Profil-Mods:** STR +2, INT −1, CHA −1
 - **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
 - **Talente:** Waffenmeister; Taktiker; Schmerzresistenz
 - **Cyber-/Bioware:** Notfall-Stimulanz-Modul (SYS 1), Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 2/2
@@ -400,7 +400,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
 
 ### Tech-Ingenieur – Sabine Kessler
 
-- **Rasse:** Homo floresiensis
+- **Grundform:** Homo floresiensis
 
 _„Wenn’s klemmt oder knarzt – ich krieg das schon hin.“_ – Sabine ist die technische Expertin fürs
 Grobe. Sie repariert, modifiziert und bedient jede Maschine, ob Pferdekutsche oder Raumschiff. Und
@@ -427,7 +427,7 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 4, GES 3, INT 4, CHA 2, TEMP 2, SYS 3
-- **Rassenmods:** STR −2, GES +2
+- **Profil-Mods:** STR −2, GES +2
 - **Finale Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3
 - **Talente:** Mechaniker-Meisterin; Sprengstoffexperte; Fahrzeugprofi
 - **Cyber-/Bioware:** Ocular-HUD(SYS1), Nano-Werkzeug(SYS1), Neuro-Link(SYS1) **SYS-Last:** 3/3
@@ -461,7 +461,7 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
 
 ### Wissenschaftler-Medic – Dr. Julian Richter
 
-- **Rasse:** Homo erectus (spät)
+- **Grundform:** Homo erectus (spät)
 
 _„Die Zeitlinie ist ein Puzzle – lasst es uns zusammensetzen. Und bleibt dabei bitte am Leben.“_ –
 Dr. Richter ist zugleich Feldarzt und wissenschaftliches Gehirn des Teams. Er sucht nach Erklärungen
@@ -493,7 +493,7 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 2, GES 2, INT 5, CHA 3, TEMP 5, SYS 1
-- **Rassenmods:** GES +1, SYS +1, CHA −1, INT −1
+- **Profil-Mods:** GES +1, SYS +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 5, SYS 2
 - **Talente:** Arzt der Zeiten; Analytiker; Temporallogiker
 - **Cyber-/Bioware:** Chrono-Sensorik-Modul (SYS 1), medizinisches HUD (SYS 1). **SYS-Last:** 2/2
@@ -523,7 +523,7 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
 
 ### Undercover-Spion – Henry Walsh
 
-- **Rasse:** Homo sapiens novus
+- **Grundform:** Homo sapiens novus
 
 _„Aus den Schatten heraus lässt sich Geschichte am effektivsten verändern.“_ – Henry ist ein Meister
 der Täuschung, Infiltration und lautlosen Eliminierung. Er beschafft Informationen oder schaltet
@@ -556,7 +556,7 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
 **Preset-Check (Editor)**
 
 - **Basiswerte (18):** STR 2, GES 5, INT 3, CHA 3, TEMP 2, SYS 3
-- **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
+- **Profil-Mods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 1, GES 4, INT 4, CHA 4, TEMP 3, SYS 2
 - **Talente:** Schleichprofi; Verkleidungskünstler; Lautlose Klinge
 - **Cyber-/Bioware:** Stimm-Modulator (SYS 1), Bypass-Set (SYS 1). **SYS-Last:** 2/2
@@ -684,7 +684,7 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 
 ### Pregens {#pregens}
 
-| Name               | Rolle                   | Rasse                 |
+| Name               | Rolle                   | Grundform                 |
 | ------------------ | ----------------------- | --------------------- |
 | Dr. Elise Weber    | Historikerin/Diplomatin | Homo sapiens sapiens  |
 | Mira Nguyen        | Zukunfts-Tech-Operative | Denisova-Mensch       |
@@ -693,7 +693,7 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 | Dr. Julian Richter | Wissenschaftler/Medic   | Homo erectus (spät)   |
 | Henry Walsh        | Undercover-Spion        | Homo sapiens novus    |
 
-| Name               | Basiswerte (18): STR/GES/INT/CHA/TEMP/SYS | Rassenmods                           | Finale Attribute: STR/GES/INT/CHA/TEMP/SYS | SYS-Last |
+| Name               | Basiswerte (18): STR/GES/INT/CHA/TEMP/SYS | Profil-Mods                           | Finale Attribute: STR/GES/INT/CHA/TEMP/SYS | SYS-Last |
 | ------------------ | ----------------------------------------- | ------------------------------------ | ------------------------------------------ | -------- |
 | Dr. Elise Weber    | 1/2/5/4/4/2                               | keine                                | 1/2/5/4/4/2                                | 2/2      |
 | Mira Nguyen        | 1/4/5/3/3/2                               | STR+1 TEMP+1 CHA−1 INT−1             | 2/4/4/2/4/2                                | 2/2      |

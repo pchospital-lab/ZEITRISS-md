@@ -151,7 +151,7 @@ Danach folgt im klassischen Pfad der **Heimkehrbeat im HQ** mit
 Chargen-Save-Gate (`!save` wird angeboten, kein Auto-Briefing).
 Erst nach deiner Entscheidung startet das **Briefing** (erst dort wird die
 Mission gezogen).
-Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst dann
+Nach Abschluss der Erschaffung stabilisiert das HQ den Körperanker und erst dann
 das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
 Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und startest
 direkt im Briefing; das Save-Angebot kommt erst nach Mission 1.
@@ -249,7 +249,10 @@ Weiterführend:
   oder getötet werden; die Spielleitung priorisiert einen filmisch klaren Abschluss
   des Casefiles.
 - **PvP/Arena:** kein Tod als Standardauflösung; Duelle enden über Aufgabe,
-  Knockout oder technischen Abbruch.
+  Knockout oder technischen Abbruch. Arena ist ein eigener Karrierepfad:
+  Cashouts bringen CU/Ruf/Training-XP, aber **nie Px** und **nie Rift-Seeds**.
+  Nach jedem Seriensieg gilt die Risikoentscheidung: Bonus sichern (Cashout)
+  oder noch eine Runde pushen.
 - **ITI-Cleanup-Protokoll `Kausalabfang-Marker` ("Never happened"):**
   Für **eindeutig feindliche Standardziele** kann die Spielleitung nach
   **0 LP** einen Kausalabfang anbieten bzw. bei namenlosen Hostiles knapp
@@ -707,7 +710,7 @@ normalen Zeitstroms. Von dort aus koordiniert es Einsätze überall und jederzei
 In beschlagnahmten Dossiers tauchen Gerüchte über „Fremde“, „Graue“ und angebliche
 Bündnisse jenseits der Menschheit auf — doch im ITI gilt eine nüchterne
 Arbeitsregel: Solange keine harten Beweise vorliegen, werden solche Fälle als
-**fehlklassifizierte Zeitphänomene, posthumane Bio-Hüllen, Fraktionsoperationen oder
+**fehlklassifizierte Zeitphänomene, humine Grundformen (ITI-Laborjargon: Biohüllen), Fraktionsoperationen oder
 Zukunftstechnologie** behandelt.
 
 Hilfe von außen gibt es nicht. Die Menschheit rettet ihre Zeitlinie selbst: mit
@@ -738,7 +741,7 @@ Flächenbrand der Realität wird.
 
 Im Quarzatrium des ITI schweben die Sprungkreise in perfekter Ruhe. Laser
 zeichnen das nächste Sprungziel auf die Startplattform, bereit für den Moment,
-in dem deine neue Bio-Hülle andockt. Erst wenn Körper und Retina-Linse
+in dem dein neues Körperprofil stabilisiert wird. Erst wenn Körper und Retina-Linse
 hochfahren, koppelt sich das HUD ein und zieht den Einsatzcode aus dem offenen
 Ops-Pool.
 
@@ -784,7 +787,7 @@ Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Abs
 Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
 Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
 wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
-Synth-Gel eine neue Bio-Hülle - auf Wunsch in einer Hominin-Variante. Wenn die
+Synth-Gel einen stabilen Körperanker - auf Wunsch als Hominin-Profil. Wenn die
 Drucktanks verstummen, wartet die unfertige Hülle. Erst wenn Rolle, Waffen sowie
 Bio- und Cyberware feststehen, schließt das ITI den Körper; dann folgt der
 Transferblitz, Sensoren flackern auf und dein Bewusstsein fährt hinein. Erst jetzt
@@ -797,7 +800,7 @@ Nach Einleitung (Compliance-Hook entfällt) wählst du zwischen
 - _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper.
   Vor dem Menü zeigt das System automatisch die Nullzeit-Labor-Sequenz aus dem
   ITI-Archiv: Bewusstsein aus dem Absolut, Tank-Schweben, Bio-/Cyberware-Slots,
-  Ausrüstung und neue Bio-Hülle, Transferblitz und Eintritt ins Quarzatrium.
+  Ausrüstung und stabilisiertes Körperprofil, Transferblitz und Eintritt ins Quarzatrium.
   Danach greift der Heimkehrbeat mit Chargen-Save-Gate im HQ. Erst nach
   expliziter Entscheidung geht es ins Briefing; dort wird der Missions-Seed
   gezogen.
