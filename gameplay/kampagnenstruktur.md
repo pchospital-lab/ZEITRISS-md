@@ -1859,7 +1859,7 @@ _Runtime-Leitfaden für die KI-SL (spieler-sichtbar, ohne Dev-Tooling)_
 
 > **Chronopolis** ist die **gescheiterte Zeitlinie der aktuellen Episode** —
 > so sieht die Welt aus, wenn die Mission fehlschlägt. Düster, instabil, gefährlich.
-> Die Stadt wird bei jedem Betreten **frisch instanziert** (gelockt auf die Episodenepoche),
+> Die Stadt erscheint bei jedem Betreten als **neu dechiffrierte Bruchlinien-Ausprägung** (gelockt auf die Episodenepoche),
 > mit neuen Bewohnern, Händlern und Begegnungen.
 > Die ringförmige Stadt schmiegt sich um das zentrale ITI-Hauptquartier.
 > Die Lauflogik bleibt als **Schlauchroute** gesetzt: Eintritt durch die
@@ -1930,7 +1930,7 @@ den Runtime-Wissensspeicher.
 
 ### 3 | Runtime-Leitplanken für Chronopolis
 
-- **Instanz-Identität:** Jeder Eintritt liefert eine neue, erzählerisch frische
+- **Bruchlinien-Identität:** Jeder Eintritt liefert eine neue, erzählerisch frische
   City-Ausprägung derselben gescheiterten Episodenzeitlinie.
 - **Save-Guard:** In Chronopolis wird nicht gespeichert; DeepSave bleibt HQ-only.
 - **Risikologik:** Kein Sonder-Respawn; Tod folgt den Core-/Rift-Regeln.
