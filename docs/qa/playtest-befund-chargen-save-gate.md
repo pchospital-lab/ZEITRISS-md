@@ -1,12 +1,27 @@
 ---
 title: "Playtest-Befund: Chargen-Save-Gate wird von der KI-SL übersprungen"
 date: 2026-04-19
-status: offen
+status: abgeschlossen
 severity: hoch
 scope: masterprompt, toolkit-gpt-spielleiter, sl-referenz
 ---
 
 # Playtest-Befund: Chargen → Save-Angebot wird übersprungen
+
+## Abschluss (2026-04-28)
+
+Der Befund gilt als **abgeschlossen**. Der klassische Startpfad ist inzwischen
+über die SSOT-Dokumente auf Pflicht-Heimkehr + Chargen-Save-Gate vor dem
+ersten Briefing ausgerichtet; die Fast-Lane bleibt explizit als Ausnahme
+definiert. Die kritische `oder`-Lesart im Masterprompt wurde auf den
+Pflicht-Pause-Beat korrigiert.
+
+Verankert in:
+
+- `meta/masterprompt_v6.md` (Chargen-Save-Gate + Fast-Lane-Ausnahme)
+- `systems/toolkit-gpt-spielleiter.md` (Pause-Beat/Kodex-Hinweise)
+- `core/sl-referenz.md` (Auto-HQ→Save ohne Briefing-Autosprung)
+- `systems/gameflow/speicher-fortsetzung.md` (Save-Hinweis + Briefing-Guard)
 
 ## Kurzfassung
 
