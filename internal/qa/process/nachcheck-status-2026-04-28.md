@@ -29,8 +29,11 @@ Quelle: `uploads/ZEITRISS_agentenpaket_nachcheck.md` + `uploads/zeitriss_nachche
 ## Offen (nächster sinnvoller Block)
 
 - Aktuell kein neuer P1-Block aus dem Nachcheck offen.
-- Nächster Schritt: regulärer Drift-Check gegen Alt-/QA-Dokumente mit Fokus auf
-  Legacy-Texte und Formulierungsreste.
+- Der erste Drift-Check-Lauf (2026-04-28) ist erfolgt:
+  - Legacy-Formulierung „frisch instanziert/Instanz-Identität" in
+    `gameplay/kampagnenstruktur.md` auf Bruchlinien-Frame korrigiert.
+  - Kein neuer inhaltlicher Regelblock geöffnet; Fokus bleibt auf
+    Terminologie-Hygiene in Alt-/QA-Dokumenten mit Regelbezug.
 
 ## Mini-Verifikation nach jedem Sprint
 
