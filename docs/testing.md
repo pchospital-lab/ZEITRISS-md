@@ -224,6 +224,10 @@ gepflegt in:
 Diese Datei dient als Abhakliste zwischen Implementierung und nächstem
 Playtest-Zyklus (PvP-only → Save-Export → Cross-Mode).
 
+Für den konkreten Lauf liegt bereits eine Befundvorlage bereit:
+
+- [`docs/qa/playtest-befund-pvp-only-cashout.md`](qa/playtest-befund-pvp-only-cashout.md)
+
 **Konvention für `docs/qa/`-PRs aus Playtest-Findings** (Default, kein
 Dogma — bei Sonderfällen wie `buff-schwelle-critic-selbstreview.md`
 Abweichung erlaubt):
