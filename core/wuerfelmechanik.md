@@ -535,12 +535,12 @@ Paramonstern und Artefakt-Loot. Der Index ist ein Fortschrittsbalken, keine Gefa
 
 **Px steigt deterministisch** nach jeder erfolgreichen Mission gemäß der TEMP-Staffel
 (→ siehe Spieler-Handbuch oder zeitriss-core.md für die vollständige Tabelle).
-**Px -1 (selten):** Nur bei extremen Fehlern (Zivilopfer, zerstörte Kern-Anker).
-Missionsabbruch oder Scheitern = kein Px-Zuwachs, aber auch kein Abzug.
+Missionsabbruch oder Scheitern = kein Px-Zuwachs. Fehlverhalten erzeugt stattdessen
+Drucksignale (z. B. Heat, Noise, Timeline-Echo, Fraktionsreaktionen), aber keinen Px-Abzug.
 
 > **Paradoxon-Pro-Tip:**
 > _Der Px-Anstieg ist fix an TEMP gekoppelt — jede erfolgreiche Mission zählt._
-> _Grobe Paradoxa drücken den Index ausnahmsweise um 1._
+> _Fehler erzeugen Druck im Einsatz, nicht negative Px-Mechanik._
 > Höherer TEMP-Wert = schnellerer Px-Aufbau = mehr Rift-Seeds pro Episode.
 
 ### Seed-Counter im HUD

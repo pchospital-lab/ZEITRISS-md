@@ -539,15 +539,16 @@ installiert hat – also drei belegte Slots.
 - **Effekt:** +1 Würfel auf Heimlichkeit-Proben.
 
 <a id="optional-hominin-bio-sheaths"></a>
+<a id="optional-hominin-koerperprofile"></a>
 
-### Optional: Hominin-Bio-Sheaths
+### Optional: Hominin-Körperprofile
 
 > **Kanonische Homininen-Tabelle:** Die vollständige Liste mit Attributsmodifikatoren
 > und Balancing-Regeln findet sich in
-> [Charaktererschaffung-Optionen](charaktererschaffung-optionen.md#historische-homininen-bio-sheaths).
+> [Charaktererschaffung-Optionen](charaktererschaffung-optionen.md#historische-homininen-koerperprofile).
 > Die folgende Übersicht dient als Kurzreferenz im Ausrüstungskontext.
 
-Die ITI-Forschung erlaubt es, ein Bewusstsein in eine **polyclonale Bio-Hülle** zu implantieren.
+Die ITI-Forschung erlaubt es, ein Bewusstsein in ein **polyclonales Hominin-Körperprofil** zu implantieren.
 Diese Körper basieren auf fossiler DNA, ergänzt durch Nanografting. Spieler können so statt eines
 modernen Menschen einen urzeitlichen Homininen körpern. Der Ansatz bleibt reine Sci-Fi ohne
 Fantasy-Rassen.
@@ -572,7 +573,7 @@ Fantasy-Rassen.
 
 #### Balancing-Regeln
 
-- **Kosten:** keine SYS-Kosten. Der Bio-Sheath ist der Körper des Charakters, kein Implantat.
+- **Kosten:** keine SYS-Kosten. Das Körperprofil ist der Körper des Charakters, kein Implantat.
 - **Talent:** Jede Spezies bringt ein exklusives Talent.
 - **Limit:** Feinsensorische Cyberware ist teurer oder inkompatibel (+50 % Kosten).
 - **Cover-Malus:** +2 SG auf soziale Infiltration bei auffälligen Körpern.
