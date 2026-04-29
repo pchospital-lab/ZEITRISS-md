@@ -1375,7 +1375,7 @@ Diese Beobachter helfen den Agenten nicht, sondern erzeugen Reibung, ohne als Fr
 | **FIELD DOWNTIME** | Reiseabschnitt, Low-Signal-Momente    | Kurze Verschnaufpausen fernab des HQ                | 1W8             |
 
 _Regel: Würfle bei Szenenübergang oder dramaturgischer Flaute; Ergebnisse dürfen frei interpretiert
-oder logisch ersetzt werden._
+oder logisch ersetzt werden. Encounter-Folgen steuern nur lokalen Druck/Echo und ändern `campaign.px` nicht automatisch._
 
 #### 2 CORE OPS-Pool (1W12)
 
@@ -1391,23 +1391,23 @@ oder logisch ersetzt werden._
 | 8    | **EC-CORE-008** | _Mediensturm_: Kameras rollen.                                     | Social / Disguise       | 10       | Timeline-Echo + Fraktionsnotiz |
 | 9    | **EC-CORE-009** | _Cipher-Server NB-II_: Admin anwesend, kennt Logs.                 | Tech / Social           | 11       | 0                            |
 | 10   | **EC-CORE-010** | _U-Bahn-Flucht_: Zielperson springt in Zug, Notbremse deaktiviert. | Chase                   | 10       | 0                            |
-| 11   | **EC-CORE-011** | _Magnetbahn-Deraillieren 2334_: Schiene sabotiert, Chaos.          | Infiltration / Repair   | 12       | +1                           |
+| 11   | **EC-CORE-011** | _Magnetbahn-Deraillieren 2334_: Schiene sabotiert, Chaos.          | Infiltration / Repair   | 12       | Druck +1                     |
 | 12   | **EC-CORE-012** | _Orbital-Relais Beta_: Außenbord-Hatch klemmt, Mikro-Meteoriten.   | EVA / Tech              | 13       | 0                            |
 
 #### 3 RIFT OPS-Pool (1W10)
 
 | Wurf | Kodex-ID        | Encounter & Kurzbriefing                                                | Konflikt            | Basis-DC | Folge              |
 | ---- | --------------- | ----------------------------------------------------------------------- | ------------------- | -------- | ----------------- |
-| 1    | **EC-RIFT-001** | _Zeit-Doppel_: Kopie des Teams (5 Min Versatz).                         | Social / Identity   | 11       | +2 wenn ignoriert |
-| 2    | **EC-RIFT-002** | _Schwerkraft-Flimmern_: Lokal 0.7 g, Equipment-Checks erschwert.        | Survival            | 9        | +1                |
-| 3    | **EC-RIFT-003** | _Zeitregen_: Regen prasselt rückwärts, Sichtverhältnisse verzerrt.      | Stealth / Psi       | 10       | +1                |
-| 4    | **EC-RIFT-004** | _Cluster-Market_: Schwarzhandel mit Out-of-Era-Tech.                    | Social / Tech       | 10       | +1-2 bei Käufen   |
+| 1    | **EC-RIFT-001** | _Zeit-Doppel_: Kopie des Teams (5 Min Versatz).                         | Social / Identity   | 11       | Timeline-Echo +2 wenn ignoriert |
+| 2    | **EC-RIFT-002** | _Schwerkraft-Flimmern_: Lokal 0.7 g, Equipment-Checks erschwert.        | Survival            | 9        | Druck +1          |
+| 3    | **EC-RIFT-003** | _Zeitregen_: Regen prasselt rückwärts, Sichtverhältnisse verzerrt.      | Stealth / Psi       | 10       | Noise +1          |
+| 4    | **EC-RIFT-004** | _Cluster-Market_: Schwarzhandel mit Out-of-Era-Tech.                    | Social / Tech       | 10       | Bloom-Druck +1 bis +2 bei Käufen   |
 | 5    | **EC-RIFT-005** | _Chrono-Fauna_: Raubtier mit Phasen-Sprung-Muster greift Patrouille an. | Kampf               | 12       | 0                 |
 | 6    | **EC-RIFT-006** | _Looper-Schall_: Geräuschfetzen aus Zukunft warnen vor Wache.           | Infiltration        | 9        | 0                 |
-| 7    | **EC-RIFT-007** | _Parallax-Treppe_: Flur mit drei Offsets; nur einer passt.              | Rätsel              | 11       | +1 je Fehlversuch |
+| 7    | **EC-RIFT-007** | _Parallax-Treppe_: Flur mit drei Offsets; nur einer passt.              | Rätsel              | 11       | Rift-Echo +1 je Fehlversuch |
 | 8    | **EC-RIFT-008** | _Cluster-Repair-Droid_: Flickt Riss, fordert "Pfand": Ausrüstung.       | Verhandeln          | 10       | 0                 |
-| 9    | **EC-RIFT-009** | _De-Sync Pulse_: Elektronik rebootet zufällig; Psi-Module glitch.       | Tech / Psi          | 12       | +1                |
-| 10   | **EC-RIFT-010** | _Rift-Seed-Bloom_: 1-3 Mini-Rifts; Gegner nach Wahl.                    | Kampf / Containment | 13       | +2                |
+| 9    | **EC-RIFT-009** | _De-Sync Pulse_: Elektronik rebootet zufällig; Psi-Module glitch.       | Tech / Psi          | 12       | Noise +1          |
+| 10   | **EC-RIFT-010** | _Rift-Seed-Bloom_: 1-3 Mini-Rifts; Gegner nach Wahl.                    | Kampf / Containment | 13       | Bloom-Druck +2    |
 
 #### 4 FIELD DOWNTIME-Pool (1W8)
 

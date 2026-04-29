@@ -216,8 +216,61 @@
           },
           "level_history": {
             "type": "object"
+          },
+          "psi_heat": {
+            "type": "integer"
+          },
+          "pp": {
+            "type": "integer"
+          },
+          "psi_abilities": {
+            "type": "array"
+          },
+          "artifact": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "tier",
+              "effect"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "tier": {
+                "type": "integer"
+              },
+              "effect": {
+                "type": "string"
+              }
+            }
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "has_psi": {
+                  "const": true
+                }
+              },
+              "required": [
+                "has_psi"
+              ]
+            },
+            "then": {
+              "required": [
+                "psi_heat",
+                "pp",
+                "psi_abilities"
+              ]
+            }
+          }
+        ]
       }
     },
     "economy": {

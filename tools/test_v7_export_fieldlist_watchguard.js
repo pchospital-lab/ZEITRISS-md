@@ -16,14 +16,15 @@ function assert(condition, message) {
 
 const doc = readMarkdown(
   'systems/gameflow/speicher-fortsetzung.md',
-  [/Kompakt-Profil/i, /Save v7/i],
-  'v7-Exportpflichtfelder',
+  [/### Kompakt-Profil \(Save v7\)/i],
+  'v7-Export-Kompakt-Profil',
 );
 
 const requiredSnippets = [
   'entry_choice_skipped', 'episode_start', 'episode_end',
   'logs.hud', 'logs.psi', 'logs.arena_psi',
   'ui.intro_seen', 'ui.dice.debug_rolls',
+  'has_psi', 'psi_heat', 'pp', 'psi_abilities', 'artifact?',
   'arena.active', 'arena.phase', 'arena.queue_state',
   'arena.contract_id', 'arena.streak',
   'arena.pending_rewards', 'arena.banked_rewards',
