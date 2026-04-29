@@ -117,7 +117,7 @@ Belohnungslogik konsistent bleiben; einzelne Missionen dürfen kürzer oder län
 der durchschnittliche Korridor pro Episode gewahrt bleibt.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
 Bei **Session 0** ruft Kodex einmalig `episode_seed_make()` auf. Das Makro zieht zehn
-Missions-Seeds, legt sie als `campaign.episode_plan` ab und speichert Start- sowie
+Missions-Seeds, legt daraus einen Regieplan für die KI-SL ab; persistent gespeichert werden nur sichtbare Routen/Hooks sowie
 Endpunkt in `campaign.episode_start` und `campaign.episode_end`.
 Erst nach Mission 10 offenbart Kodex den vollen Zusammenhang.
 
@@ -125,7 +125,7 @@ Erst nach Mission 10 offenbart Kodex den vollen Zusammenhang.
 
 Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
 
-- **Session 0:** `episode_seed_make()` legt zehn Missions-Seeds an (`campaign.episode_plan`)
+- **Session 0:** `episode_seed_make()` erstellt intern zehn Missions-Seeds (Regieplan, nicht Vollpersistenz im v7-Save)
   und fixiert `campaign.episode_start` sowie `campaign.episode_end`.
 - **Sitzungsstart:** Der **Automatische Mission Seed** bestimmt Zeit, Ort, Anomalie und Risiko.
 - **Core-Ops:** Ziehen Ziele aus `CoreObjectiveTable`.
@@ -1371,7 +1371,7 @@ Diese Beobachter helfen den Agenten nicht, sondern erzeugen Reibung, ohne als Fr
 | Kategorie          | Phase                                 | Typischer Einsatz                                   | Wurf-Empfehlung |
 | ------------------ | ------------------------------------- | --------------------------------------------------- | --------------- |
 | **CORE OPS**       | Aufklärung → Zugriff → Exfiltration   | Standardmissionen (Sabotage, Sicherung, Extraction) | 1W12            |
-| **RIFT OPS**       | Bei Paradoxon ≥ 2 oder Cluster-Events | Umgang mit Zeitrissen & Anomalien                   | 1W10            |
+| **RIFT OPS**       | Bei Cluster-Events und offenen Rift-Seeds (nicht über negative Px-Logik) | Umgang mit Zeitrissen & Anomalien                   | 1W10            |
 | **FIELD DOWNTIME** | Reiseabschnitt, Low-Signal-Momente    | Kurze Verschnaufpausen fernab des HQ                | 1W8             |
 
 _Regel: Würfle bei Szenenübergang oder dramaturgischer Flaute; Ergebnisse dürfen frei interpretiert
@@ -1427,7 +1427,7 @@ oder logisch ersetzt werden._
 ```
 1. Bestimme Kategorie
    - Missionphase = CORE
-   - Paradoxon ≥2 = RIFT
+   - Rift-Ops nur über offene `campaign.rift_seeds[]` + gültiges Gate
    - Ruhe-/Reiseabschnitt = FIELD
 
 2. Würfle passenden Pool (1W12/1W10/1W8).
