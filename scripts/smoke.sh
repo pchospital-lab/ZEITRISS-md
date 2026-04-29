@@ -14,6 +14,13 @@ echo "Repo root: ${ROOT}"
 cd "${ROOT}"
 export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"
 
+mkdir -p out
+node tools/test_smoke_script_sanity.js > out/smoke_script_sanity.log
+grep smoke-script-sanity-ok out/smoke_script_sanity.log
+
+node tools/test_v7_export_fieldlist_watchguard.js > out/v7_export_fieldlist_watchguard.log
+grep "v7-export-fieldlist-watchguard-ok" out/v7_export_fieldlist_watchguard.log
+
 python3 tools/lint_runtime.py
 python3 tools/lint_debrief_trace.py
 python3 -m scripts.lint_arena
@@ -23,11 +30,6 @@ python3 -m scripts.lint_umlauts
 python3 -m scripts.validate_index
 python3 -m scripts.check_lint_anchors
 python3 -m unittest -q
-
-# Smoke-Skript-Sanity (Shebang/Zeilenumbrüche/bash -n)
-mkdir -p out
-node tools/test_smoke_script_sanity.js > out/smoke_script_sanity.log
-grep smoke-script-sanity-ok out/smoke_script_sanity.log
 
 # Gear shop tiers deterministic
 mkdir -p out
