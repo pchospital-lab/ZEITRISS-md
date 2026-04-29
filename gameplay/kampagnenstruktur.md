@@ -1798,16 +1798,18 @@ Bonus-Rewards pausieren bis zum nächsten Contract.
 
 #### Persistenzvertrag (Arena)
 
-Persistiert werden nur Arena-Felder mit Kampagnenbezug:
-`arena.previous_mode`, `arena.resume_token`, `arena.rewarded_runs_this_contract`,
-`arena.first_wins`, `arena.defeated_types`, `arena.last_reward_episode`,
-`arena.wins_player|wins_opponent|tier` und `arena.match_policy`.
+Persistiert werden Arena-Karriere und der HQ-safe Checkpoint:
+`arena.active=false`, `arena.phase=idle|completed`, `arena.queue_state=idle|completed`,
+`arena.previous_mode`, `arena.resume_token`, `arena.contract_id`, `arena.streak`,
+`arena.pending_rewards`, `arena.banked_rewards`,
+`arena.rewarded_runs_this_contract`, `arena.first_wins`, `arena.defeated_types`,
+`arena.last_reward_episode`, `arena.wins_player|wins_opponent|tier` und
+`arena.match_policy`.
 
-Transiente Match-/Queue-Felder (`arena.active`, `arena.phase`,
-`arena.queue_state`, `arena.zone`, laufende Budgets) gelten als Laufzeitdaten.
-Beim HQ-Load werden sie auf Abschlusszustand normalisiert
-(`active=false`, `phase=idle|completed`, `queue_state=idle|completed`),
-damit `!save` im HQ reproduzierbar bleibt.
+Runtime-only bleiben Live-Queue/Matchphysik, Gegnerzustände, Rundentimer,
+Zonen und temporäre Budgets. Der Export bleibt trotzdem vollständig:
+`arena` ist immer vorhanden und wird bei ungenutzter Arena als Default-Idle-Block
+geführt, damit `!save` im HQ reproduzierbar bleibt.
 
 #### PvP-only Progression (gleichwertiger Karrierepfad)
 
