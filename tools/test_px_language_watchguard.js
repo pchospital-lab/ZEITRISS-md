@@ -22,4 +22,13 @@ for (const rel of targets){
   }
 }
 
+const { text: campaignText } = readMarkdown('gameplay/kampagnenstruktur.md', [], 'Px-Language-Watchguard (Encounter-Tabellen)');
+const encounterSliceMatch = campaignText.match(/#### 2 CORE OPS-Pool \(1W12\)[\s\S]*?#### 4 FIELD DOWNTIME-Pool \(1W8\)/i);
+assert.ok(encounterSliceMatch, 'gameplay/kampagnenstruktur.md: Encounter-Tabellenbereich nicht gefunden.');
+const encounterSlice = encounterSliceMatch[0];
+const forbiddenEncounterShorthand = [/\|\s*0-1\s*\|/i, /\|\s*\+1-2\s*\|/i, /\|\s*\+1\s*\|/i, /\|\s*\+2\s*\|/i];
+for (const rx of forbiddenEncounterShorthand) {
+  assert.ok(!rx.test(encounterSlice), `gameplay/kampagnenstruktur.md: Unbeschriftete Encounter-Folge gefunden (${rx}).`);
+}
+
 console.log('px-language-watchguard-ok');

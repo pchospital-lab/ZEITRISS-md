@@ -1384,7 +1384,7 @@ oder logisch ersetzt werden. Encounter-Folgen steuern nur lokalen Druck/Echo und
 | 1    | **EC-CORE-001** | _Grenzposten 1985_: Soldaten filzen Waggon; Team versteckt Gear.   | Stealth / Social        | 9        | 0                            |
 | 2    | **EC-CORE-002** | _Hochhaus-Abseilroute 2072_: Plattform-Einstieg, Sturm.            | Infiltration / Klettern | 11       | 0                            |
 | 3    | **EC-CORE-003** | _Stromausfall 1999_: Notstrom, Fenster 10 Min.                     | Tech / Sabotage         | 10       | Heat +1 bei Verzug           |
-| 4    | **EC-CORE-004** | _Undercover-Auktion 1928_: Bieten auf Relikt; Rivalen anwesend.    | Social / Bluff          | 8        | 0-1                          |
+| 4    | **EC-CORE-004** | _Undercover-Auktion 1928_: Bieten auf Relikt; Rivalen anwesend.    | Social / Bluff          | 8        | Heat +0-1 je nach Eskalation |
 | 5    | **EC-CORE-005** | _Konvoi-Hinterhalt_: Drohne meldet Routen-Split.                   | Kampf / Fahrzeug        | 12       | 0                            |
 | 6    | **EC-CORE-006** | _Fabrikloft-Labor 2025_: Bio-Schleuse, Chefin da.                  | Hack / Psi              | 10       | Noise +1 bei sichtbarem Psi           |
 | 7    | **EC-CORE-007** | _Flusskanal-Zufahrt 1643_: Tor öffnet nur heute bei Vollmond.      | Survival / Timing       | 9        | 0                            |

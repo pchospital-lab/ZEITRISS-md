@@ -1167,15 +1167,20 @@ vA.B. Bitte HQ-Migration veranlassen.`
   nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`, Szenario, `previous_mode`),
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
-- **Arena-Persistenzvertrag (persistent vs. transient).**
-  Persistiert werden nur langlebige Werte:
-  `wins_player`, `wins_opponent`, `tier`, `match_policy`,
-  `previous_mode`, `resume_token`, `rewarded_runs_this_contract`,
-  `first_wins`, `defeated_types`, `last_reward_episode`.
-  Laufzeit-/Queue-Felder (`active`, `phase`, `queue_state`, `zone`,
-  Match-Runtime-Budgets, Staging-Helfer) gelten als transient und werden
-  beim HQ-Load auf einen sicheren Abschlusszustand normalisiert
-  (`active=false`, `phase=idle|completed`, `queue_state=idle|completed`).
+- **Arena-Persistenzvertrag (Karriere + HQ-safe Checkpoint).**
+  Persistiert werden Arena-Karriere und HQ-sichere Sentinel-/Checkpoint-Felder:
+  `arena.active=false`, `arena.phase=idle|completed`,
+  `arena.queue_state=idle|completed`, `arena.mode`, `arena.tier`,
+  `arena.previous_mode`, `arena.resume_token`, `arena.contract_id`,
+  `arena.streak`, `arena.pending_rewards`, `arena.banked_rewards`,
+  `arena.rewarded_runs_this_contract`, `arena.first_wins`,
+  `arena.defeated_types`, `arena.last_reward_episode`,
+  `arena.wins_player`, `arena.wins_opponent` und `arena.match_policy`.
+  Runtime-only bleiben Live-Queue-/Matchzustände wie
+  `searching|matched|staging|active`, Gegnerzustände, Rundentimer,
+  Zonen, temporäre Budgets und laufende Matchphysik. Der HQ-Save schreibt
+  niemals ein aktives Match, aber immer den vollständigen
+  Default-/Checkpoint-Block.
 - **Wallets.** `initialize_wallets_from_roster()` stellt sicher, dass jeder
   Eintrag in `characters[]` ein numerisches `wallet`-Feld trägt
   (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Session-Anker-Wallets
