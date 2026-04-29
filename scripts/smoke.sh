@@ -168,5 +168,22 @@ grep "chronopolis-gate-watchguard-ok" out/chronopolis_gate_watchguard.log
 node tools/test_chronopolis_kodex_lockout_watchguard.js > out/chronopolis_kodex_lockout_watchguard.log
 grep "chronopolis-kodex-lockout-watchguard-ok" out/chronopolis_kodex_lockout_watchguard.log
 
+
+# v7 Smart-Merge 3/2 Watchguard
+node tools/test_v7_smart_merge_3_2.js > out/v7_smart_merge_3_2.log
+grep "v7-smart-merge-3-2-ok" out/v7_smart_merge_3_2.log
+
+# Arena-Runden-Checkpoint Watchguard
+node tools/test_arena_round_checkpoint.js > out/arena_round_checkpoint.log
+grep "arena-round-checkpoint-ok" out/arena_round_checkpoint.log
+
+# Personal-Export Watchguard
+node tools/test_v7_personal_export.js > out/v7_personal_export.log
+grep "v7-personal-export-ok" out/v7_personal_export.log
+
+# Px-Sprachdrift Watchguard
+node tools/test_px_language_watchguard.js > out/px_language_watchguard.log
+grep "px-language-watchguard-ok" out/px_language_watchguard.log
+
 echo ""
 echo "All smoke checks passed."

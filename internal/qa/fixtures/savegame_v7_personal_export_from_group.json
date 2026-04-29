@@ -1,0 +1,34 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-PERSONAL-AGENT-03",
+  "parent_save_id": "SAVE-GROUP-5ER-ROOT",
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {"episode": 5, "mission": 0, "px": 1, "px_state": "stable", "mode": "preserve", "rift_seeds": []},
+  "characters": [{"id": "AGENT-03", "name": "Kira", "lvl": 8, "xp": 320, "wallet": 1450, "history": {"milestones": ["Berlin-43: Route 1986 gesichert."]}}],
+  "economy": {"hq_pool": 0},
+  "logs": {
+    "trace": [{"event":"personal_export"}],
+    "hud": [],
+    "psi": [],
+    "arena_psi": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": ["Personal-Export: nur AGENT-03 + kompakte Gruppenechos."],
+    "flags": {"runtime_version":"4.2.6","imported_saves":[],"continuity_conflicts":[]}
+  },
+  "summaries": {"summary_last_episode":"Export aus 5er-Gruppe im HQ.", "summary_last_rift":"", "summary_active_arcs":"MORGENROT bleibt offen."},
+  "continuity": {
+    "last_seen": {"mode":"hq","episode":5,"mission":0,"location":"HQ"},
+    "split": {"family_id":"EP1-BERLIN43-FORK-01","thread_id":"EP1-BERLIN43-B1986","expected_threads":["EP1-BERLIN43-A1939","EP1-BERLIN43-B1986"],"resolved_threads":["EP1-BERLIN43-B1986"],"convergence_ready":false},
+    "roster_echoes": [{"char_id":"AGENT-03","tone":"fokussiert","text":"Trägt die 1986-Aktenkopie."}],
+    "shared_echoes": [{"tag":"echo:morgenrot","scope":"campaign","text":"Codewort MORGENROT wurde in zwei Epochen bestätigt."}],
+    "convergence_tags": ["echo:morgenrot"],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "arc": {"factions":{},"questions":[],"hooks":[{"tag":"route:rejoin","text":"Rejoin im HQ vorbereitet."}]},
+  "ui": {"gm_style":"verbose","suggest_mode":false,"contrast":"standard","badge_density":"standard","output_pace":"normal","voice_profile":"gm_second_person"},
+  "arena": {"active": false,"phase": "idle","queue_state":"idle","first_wins":{}}
+}
