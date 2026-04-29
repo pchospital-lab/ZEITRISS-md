@@ -165,4 +165,38 @@ fixtures.forEach(checkFixture);
     `${label}: Save-Output-Template zeigt 'attr: {STR:0, GES:0, ...}' — nach Chargen illegal (Startsumme 18, Einzelwerte 1-6). Template muss gültiges Lvl-1-Beispiel zeigen.`);
 })();
 
+
+(function checkSpeicherNoSecondTemplate(){
+  const sf = readText('systems/gameflow/speicher-fortsetzung.md');
+  const label = 'systems/gameflow/speicher-fortsetzung.md';
+  const secIdx = sf.indexOf('### Kanonisches Save-Exportformat (v7, einziges Format)');
+  assert.ok(secIdx >= 0, `${label}: Abschnitt 'Kanonisches Save-Exportformat' fehlt.`);
+  const after = sf.slice(secIdx, secIdx + 4000);
+  assert.ok(!/```json[\s\S]*?"v"\s*:\s*7[\s\S]*?```/.test(after),
+    `${label}: Zweite kopierfähige v7-JSON-Templatekopie entdeckt. SSOT ist ausschließlich Masterprompt §F.`);
+  assert.ok(/IMPORT-ONLY \/ NICHT KOPIEREN \/ KEIN `!save`-BEISPIEL/.test(sf),
+    `${label}: Legacy-/Beispielhinweis (IMPORT-ONLY / NICHT KOPIEREN / KEIN !save-BEISPIEL) fehlt.`);
+})();
+
+(function checkV7FixturesAreStrictOrNamedFragments(){
+  const dir = path.join(ROOT, 'internal/qa/fixtures');
+  const files = fs.readdirSync(dir).filter((f) => /^savegame_v7_.*\.json$/.test(f)).sort();
+  const rootRequired = ['v','zr','save_id','parent_save_id','merge_id','branch_id','campaign','characters','economy','logs','summaries','continuity','arc','ui','arena'];
+  const charRequired = ['id','name','callsign','rank','lvl','xp','origin','attr','lp','lp_max','stress','has_psi','sys_installed','talents','equipment','implants','history','carry','quarters_stash','vehicles','reputation','wallet','level_history'];
+  files.forEach((f) => {
+    const save = readJson(path.join('internal/qa/fixtures', f));
+    const missingRoot = rootRequired.filter((k)=>!(k in save));
+    const isFragmentName = f.includes('fragment') || save.fixture_kind === 'fragment';
+    if (missingRoot.length > 0 && !isFragmentName) {
+      assert.fail(`${f}: nicht strict vollständig (fehlend: ${missingRoot.join(', ')}). Entweder strict vervollständigen oder Datei als Fragment benennen.`);
+    }
+    if (missingRoot.length === 0 && !isFragmentName) {
+      save.characters.forEach((c, i) => {
+        const miss = charRequired.filter((k)=>!(k in c));
+        assert.ok(miss.length === 0, `${f}: characters[${i}] fehlt strict Pflichtfelder: ${miss.join(', ')}`);
+      });
+    }
+  });
+})();
+
 console.log('v7-schema-consistency-ok');

@@ -117,5 +117,6 @@
     "dice": {
       "debug_rolls": true
     }
-  }
+  },
+  "fixture_kind": "fragment"
 }

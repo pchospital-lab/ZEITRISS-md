@@ -18,7 +18,8 @@
     "summaries",
     "continuity",
     "arc",
-    "ui"
+    "ui",
+    "arena"
   ],
   "properties": {
     "v": {
@@ -189,7 +190,14 @@
             "type": "array"
           },
           "history": {
-            "type": "object"
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "milestones": {
+                "type": "array",
+                "maxItems": 20
+              }
+            }
           },
           "carry": {
             "type": "array"
@@ -239,16 +247,20 @@
       ],
       "properties": {
         "trace": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 64
         },
         "market": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 24
         },
         "artifact_log": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 32
         },
         "notes": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 24
         },
         "flags": {
           "type": "object",
@@ -362,19 +374,24 @@
           "type": "object"
         },
         "roster_echoes": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 5
         },
         "shared_echoes": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 6
         },
         "convergence_tags": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 4
         },
         "npc_roster": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 6
         },
         "active_npc_ids": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 4
         }
       }
     },
@@ -391,10 +408,12 @@
           "type": "object"
         },
         "questions": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 18
         },
         "hooks": {
-          "type": "array"
+          "type": "array",
+          "maxItems": 18
         }
       }
     },

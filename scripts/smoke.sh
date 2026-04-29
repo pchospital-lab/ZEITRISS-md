@@ -24,6 +24,11 @@ python3 -m scripts.validate_index
 python3 -m scripts.check_lint_anchors
 python3 -m unittest -q
 
+# Smoke-Skript-Sanity (Shebang/Zeilenumbrüche/bash -n)
+mkdir -p out
+node tools/test_smoke_script_sanity.js > out/smoke_script_sanity.log
+grep smoke-script-sanity-ok out/smoke_script_sanity.log
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

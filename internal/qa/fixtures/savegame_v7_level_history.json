@@ -106,5 +106,6 @@
     "badge_density": "standard",
     "output_pace": "normal",
     "voice_profile": "gm_second_person"
-  }
+  },
+  "fixture_kind": "fragment"
 }
