@@ -59,6 +59,12 @@ Flo liest die Description zuerst, bevor er den Diff öffnet. Unser Workflow:
 ## Verifikation
 
 Konkret getestet mit welchem Kommando? (Dieses Repo: siehe CI-Smoke bzw. Repo-Konvention.) Bei Critic-Review: Rating + Kernkritik.
+Nur kompakte Patchnotes-Form:
+
+- 1–3 Kommandos (z. B. `bash scripts/smoke.sh`)
+- Je Kommando eine kurze Ergebniszeile (`OK`/`FAIL` + Kernhinweis)
+- Keine rohen Voll-Logs, keine mehrfachen `Summary: OK`-Blöcke
+- Lange Outputs nur als Artefakt/Anhang referenzieren
 
 ## Post-Merge-TODOs
 
@@ -74,7 +80,7 @@ Konkret getestet mit welchem Kommando? (Dieses Repo: siehe CI-Smoke bzw. Repo-Ko
 - Subject konventional (`fix(x):`, `docs(y):`, `feat(z):`), Imperativ, Deutsch oder Englisch je nach Repo-Konvention.
 - Die Sektions-Überschriften (`## Was`, `## Warum`, …) kommen **wörtlich** in den Commit-Body — sie rendern im gemergten `git log` und im GitHub-PR-Preview sauber als Markdown.
 - Konkret statt generisch: keine "Update docs"-Bodies, keine Commit-Message-Copies von anderen Commits.
-- Verifikations-Output live kopieren, nicht rekonstruieren.
+- Verifikations-Output live kopieren, nicht rekonstruieren — aber auf kompaktes Ergebnis kürzen (patchnotes-tauglich).
 - Keine Hype-Emoji wie 🚀🔥 bei normalen Änderungen (✓ ❌ ⚠ sind OK).
 
 ### Im Web-UI beim PR-Erstellen
