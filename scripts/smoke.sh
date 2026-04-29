@@ -185,5 +185,9 @@ grep "v7-personal-export-ok" out/v7_personal_export.log
 node tools/test_px_language_watchguard.js > out/px_language_watchguard.log
 grep "px-language-watchguard-ok" out/px_language_watchguard.log
 
+# Save-Budget-Watchguard
+node tools/test_save_budget_watchguard.js > out/save_budget_watchguard.log
+grep "save-budget-watchguard-ok" out/save_budget_watchguard.log
+
 echo ""
 echo "All smoke checks passed."
