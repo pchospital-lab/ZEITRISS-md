@@ -16,11 +16,12 @@ function assert(condition, message) {
 
 const doc = readMarkdown(
   'systems/gameflow/speicher-fortsetzung.md',
-  [/### Kompakt-Profil \(Save v7\)/i],
-  'v7-Export-Kompakt-Profil',
+  [/\*\*v7-Export-Pflichtfelder \(kanonisch, nicht Runtime-Bridge\):\*\*/i, /### Kompakt-Profil \(Save v7\)/i],
+  'v7-Export-Pflichtfelder',
 );
 
 const requiredSnippets = [
+  'campaign { episode, mission, px, px_state, mode, rift_seeds[], entry_choice_skipped, episode_start, episode_end }',
   'entry_choice_skipped', 'episode_start', 'episode_end',
   'logs.hud', 'logs.psi', 'logs.arena_psi',
   'ui.intro_seen', 'ui.dice.debug_rolls',
