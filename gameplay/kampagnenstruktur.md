@@ -1379,16 +1379,16 @@ oder logisch ersetzt werden._
 
 #### 2 CORE OPS-Pool (1W12)
 
-| Wurf | Kodex-ID        | Encounter & Kurzbriefing                                           | Konflikt                | Basis-DC | Paradoxon                    |
+| Wurf | Kodex-ID        | Encounter & Kurzbriefing                                           | Konflikt                | Basis-DC | Druck/Echo                   |
 | ---- | --------------- | ------------------------------------------------------------------ | ----------------------- | -------- | ---------------------------- |
 | 1    | **EC-CORE-001** | _Grenzposten 1985_: Soldaten filzen Waggon; Team versteckt Gear.   | Stealth / Social        | 9        | 0                            |
 | 2    | **EC-CORE-002** | _Hochhaus-Abseilroute 2072_: Plattform-Einstieg, Sturm.            | Infiltration / Klettern | 11       | 0                            |
-| 3    | **EC-CORE-003** | _Stromausfall 1999_: Notstrom, Fenster 10 Min.                     | Tech / Sabotage         | 10       | +1 bei Verzögerung           |
+| 3    | **EC-CORE-003** | _Stromausfall 1999_: Notstrom, Fenster 10 Min.                     | Tech / Sabotage         | 10       | Heat +1 bei Verzug           |
 | 4    | **EC-CORE-004** | _Undercover-Auktion 1928_: Bieten auf Relikt; Rivalen anwesend.    | Social / Bluff          | 8        | 0-1                          |
 | 5    | **EC-CORE-005** | _Konvoi-Hinterhalt_: Drohne meldet Routen-Split.                   | Kampf / Fahrzeug        | 12       | 0                            |
-| 6    | **EC-CORE-006** | _Fabrikloft-Labor 2025_: Bio-Schleuse, Chefin da.                  | Hack / Psi              | 10       | +1 bei Psi-Einsatz           |
+| 6    | **EC-CORE-006** | _Fabrikloft-Labor 2025_: Bio-Schleuse, Chefin da.                  | Hack / Psi              | 10       | Noise +1 bei sichtbarem Psi           |
 | 7    | **EC-CORE-007** | _Flusskanal-Zufahrt 1643_: Tor öffnet nur heute bei Vollmond.      | Survival / Timing       | 9        | 0                            |
-| 8    | **EC-CORE-008** | _Mediensturm_: Kameras rollen.                                     | Social / Disguise       | 10       | -1 (Px) bei Live-Übertragung |
+| 8    | **EC-CORE-008** | _Mediensturm_: Kameras rollen.                                     | Social / Disguise       | 10       | Timeline-Echo + Fraktionsnotiz |
 | 9    | **EC-CORE-009** | _Cipher-Server NB-II_: Admin anwesend, kennt Logs.                 | Tech / Social           | 11       | 0                            |
 | 10   | **EC-CORE-010** | _U-Bahn-Flucht_: Zielperson springt in Zug, Notbremse deaktiviert. | Chase                   | 10       | 0                            |
 | 11   | **EC-CORE-011** | _Magnetbahn-Deraillieren 2334_: Schiene sabotiert, Chaos.          | Infiltration / Repair   | 12       | +1                           |
@@ -1396,7 +1396,7 @@ oder logisch ersetzt werden._
 
 #### 3 RIFT OPS-Pool (1W10)
 
-| Wurf | Kodex-ID        | Encounter & Kurzbriefing                                                | Konflikt            | Basis-DC | Paradoxon         |
+| Wurf | Kodex-ID        | Encounter & Kurzbriefing                                                | Konflikt            | Basis-DC | Folge              |
 | ---- | --------------- | ----------------------------------------------------------------------- | ------------------- | -------- | ----------------- |
 | 1    | **EC-RIFT-001** | _Zeit-Doppel_: Kopie des Teams (5 Min Versatz).                         | Social / Identity   | 11       | +2 wenn ignoriert |
 | 2    | **EC-RIFT-002** | _Schwerkraft-Flimmern_: Lokal 0.7 g, Equipment-Checks erschwert.        | Survival            | 9        | +1                |
@@ -1413,21 +1413,21 @@ oder logisch ersetzt werden._
 
 | Wurf | Kodex-ID      | Szene                                                                    | Nutzen                     | Hinweis            |
 | ---- | ------------- | ------------------------------------------------------------------------ | -------------------------- | ------------------ |
-| 1    | **EC-FD-001** | Straßen-Garküche Bangkok 1981 - Gerüchte zum Zielort.                    | Info-Snack (+1 Kontakt)    | Paradoxon 0        |
+| 1    | **EC-FD-001** | Straßen-Garküche Bangkok 1981 - Gerüchte zum Zielort.                    | Info-Snack (+1 Kontakt)    | Px bleibt unverändert        |
 | 2    | **EC-FD-002** | Nachtzug-Liegewagen - Journalist im Abteil.                              | Social-Probe, Stress-Abbau | Risiko → Info-Leak |
 | 3    | **EC-FD-003** | Kirchplatz-Flohmarkt Prag 1896 - antikes Gadget könnte Schlüssel sein.   | Recherche                  |                    |
 | 4    | **EC-FD-004** | Tankstopp Route 66 1955 - Sheriff nähert sich, Nummernschild falsch.     | Bluff                      |                    |
 | 5    | **EC-FD-005** | Flughafen-Warteschleife 2090 - Drohnenstreik, Flug nur gegen Bestechung. | Ressourcen-Tausch          |                    |
 | 6    | **EC-FD-006** | Regnerische Seitenstraße - kleiner Taschendieb stiehlt Datenstick.       | Mini-Chase                 |                    |
 | 7    | **EC-FD-007** | Impro-Jazz-Bar Paris 1937 - Saxophonist bietet Hideout gegen Gefallen.   | Social                     |                    |
-| 8    | **EC-FD-008** | Autonome Werkstatt - Gratis-Repair, aber KI speichert Seriennummern.     | Tech                       | Paradoxon 0        |
+| 8    | **EC-FD-008** | Autonome Werkstatt - Gratis-Repair, aber KI speichert Seriennummern.     | Tech                       | Px bleibt unverändert        |
 
 #### 5 Mini-Generator »Encounter Composer« (optional)
 
 ```
 1. Bestimme Kategorie
    - Missionphase = CORE
-   - Rift-Ops nur über offene `campaign.rift_seeds[]` + gültiges Gate
+   - Rift-Ops nur über offene `campaign.rift_seeds[]` + gültiges Gate; Encounter-Folgen erhöhen Px nicht automatisch
    - Ruhe-/Reiseabschnitt = FIELD
 
 2. Würfle passenden Pool (1W12/1W10/1W8).
