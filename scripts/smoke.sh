@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
-set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd -P)"
@@ -15,6 +16,9 @@ cd "${ROOT}"
 export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"
 
 mkdir -p out
+node tools/test_eol_lf_watchguard.js > out/eol_lf_watchguard.log
+grep eol-lf-watchguard-ok out/eol_lf_watchguard.log
+
 node tools/test_smoke_script_sanity.js > out/smoke_script_sanity.log
 grep smoke-script-sanity-ok out/smoke_script_sanity.log
 
