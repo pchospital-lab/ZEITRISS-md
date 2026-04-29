@@ -125,5 +125,6 @@
     "summary_last_episode": "",
     "summary_last_rift": "",
     "summary_active_arcs": ""
-  }
+  },
+  "fixture_kind": "fragment"
 }

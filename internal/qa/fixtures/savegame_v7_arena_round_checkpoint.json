@@ -138,5 +138,6 @@
     "wins_player": 1,
     "wins_opponent": 0,
     "match_policy": "sim"
-  }
+  },
+  "fixture_kind": "fragment"
 }

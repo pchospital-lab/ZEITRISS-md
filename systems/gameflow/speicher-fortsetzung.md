@@ -1520,152 +1520,43 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 
 ### Kanonisches Save-Exportformat (v7, einziges Format)
 
-Dieses Schema ist das **einzige** kanonische Exportformat für neue Saves (Solo und Koop).
-Es ist kein zweites, paralleles Format erlaubt.
+Das **einzige** kopierfähige `!save`-Template steht im Masterprompt §F (`meta/masterprompt_v6.md`).
+Diese Datei dokumentiert Feldbedeutung, SaveGuard, Import/Migration, Split/Merge und Budgets.
 
-> **SSOT-Hinweis:** Es gibt nur ein kanonisches Save-Beispiel — das strict-v7-HQ-Deepsave-Template
-> aus dem Masterprompt. Jede andere JSON-Darstellung in dieser Datei dient nur der
-> Migrationserklärung oder als Teilbeispiel, nicht als alternatives Exportmuster.
+> **IMPORT-ONLY / NICHT KOPIEREN / KEIN `!save`-BEISPIEL:**
+> JSON-Blöcke in dieser Datei sind Legacy-/Migrationsbeispiele oder Teilbeispiele für Spezialfälle.
+> Sie dürfen **nicht** als alternatives Exportmuster für neue v7-`!save`-Ausgaben verwendet werden.
 
-**HQ-Save-Invariante:** Gespeichert wird ausschließlich im HQ-Kernbereich.
-Vor dem Speichern läuft der Debrief-Reset auf HQ-Basis (`stress`, `psi_heat`,
-`SYS`). Diese Felder bleiben im v7-Schema, damit der explizite HQ-Zustand im
-Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
+Arena-Persistenzvertrag (HQ-safe):
 
-```json
-{
-  "v": 7,
-  "zr": "4.2.6",
-  "save_id": "SAVE-2026-03-08T20:15:00Z-HQ-ALPHA",
-  "parent_save_id": null,
-  "merge_id": null,
-  "branch_id": "ANCHOR-main",
-  "campaign": {
-    "episode": 1,
-    "mission": 0,
-    "px": 0,
-    "px_state": "stable",
-    "mode": "mixed",
-    "rift_seeds": []
-  },
-  "characters": [
-    {
-      "id": "CHR-0001",
-      "name": "Agent Name",
-      "callsign": "Signal",
-      "rank": "Rekrut",
-      "lvl": 1,
-      "xp": 0,
-      "origin": {
-        "epoch": "ITI-Nullzeit",
-        "hominin": "Homo sapiens sapiens",
-        "role": "Aufklärung"
-      },
-      "attr": { "STR": 5, "GES": 3, "INT": 4, "CHA": 3, "TEMP": 2, "SYS": 1 },
-      "lp": 10,
-      "lp_max": 10,
-      "stress": 0,
-      "has_psi": false,
-      "sys_installed": 1,
-      "talents": ["Schleichprofi"],
-      "equipment": [{ "name": "Resonanz-Sniper", "type": "weapon", "tier": 2 }],
-      "implants": [],
-      "history": { "background": "ITI-Rekrut der 2. Kohorte", "milestones": [] },
-      "carry": [],
-      "quarters_stash": [],
-      "vehicles": {
-        "epoch_vehicle": {
-          "id": "VEH-0001",
-          "name": "Nachtfalter",
-          "type": "vehicle",
-          "tier": 1,
-          "upgrades": []
-        },
-        "availability": { "ready_every_missions": 3, "next_ready_in": 0 },
-        "legendary_temporal_ship": null
-      },
-      "reputation": {
-        "iti": 0,
-        "faction": "Ordo Mnemonika",
-        "factions": {
-          "ordo_mnemonika": 0,
-          "chrono_symmetriker": 0,
-          "kausalklingen": 0,
-          "zerbrechliche_ewigkeit": 0
-        }
-      },
-      "wallet": 0,
-      "level_history": {}
-    }
-  ],
-  "economy": { "hq_pool": 0 },
-  "arc": { "factions": {}, "questions": [], "hooks": [] },
-  "logs": {
-    "trace": [],
-    "market": [],
-    "artifact_log": [],
-    "notes": [],
-    "flags": {
-      "runtime_version": "4.2.6",
-      "chronopolis_unlocked": false,
-      "imported_saves": [],
-      "duplicate_branch_detected": false,
-      "duplicate_character_detected": false,
-      "continuity_conflicts": []
-    }
-  },
-  "summaries": {
-    "summary_last_episode": "",
-    "summary_last_rift": "",
-    "summary_active_arcs": ""
-  },
-  "continuity": {
-    "last_seen": { "mode": "hq", "episode": 1, "mission": 0, "location": "HQ" },
-    "split": {
-      "family_id": null,
-      "thread_id": null,
-      "expected_threads": [],
-      "resolved_threads": [],
-      "convergence_ready": false
-    },
-    "roster_echoes": [],
-    "shared_echoes": [],
-    "convergence_tags": [],
-    "npc_roster": [],
-    "active_npc_ids": []
-  },
-  "ui": {
-    "gm_style": "verbose",
-    "suggest_mode": false,
-    "action_mode": "uncut",
-    "contrast": "standard",
-    "badge_density": "standard",
-    "output_pace": "normal",
-    "voice_profile": "gm_second_person"
-  },
-  "arena": {
-    "previous_mode": "mixed",
-    "resume_token": null,
-    "rewarded_runs_this_contract": 0,
-    "first_wins": {},
-    "defeated_types": [],
-    "last_reward_episode": null,
-    "wins_player": 0,
-    "wins_opponent": 0,
-    "tier": 1,
-    "match_policy": "safe"
-  }
-}
-```
+Vertragsanker (rein deklarativ, **kein** kopierfähiges JSON):
 
-> Gruppen- und Solo-Saves nutzen dieselbe Roster-Quelle: `characters[]`.
+- `"v": 7`
+- `"characters": []` als einziger Charaktercontainer
+- `"wallet": 0` liegt je Charakter unter `characters[]`
+- `"economy": { "hq_pool": 0 }`
+- `"arc": { "factions": {}, "questions": [], "hooks": [] }`
+- `"history": { "background": "", "milestones": [] }`
+- `"carry": []`
+- `"quarters_stash": []`
+- `"vehicles": { "epoch_vehicle": { "id": "VEH-XXXX" } }`
+- Feldanker `"epoch_vehicle"` bleibt Pflicht im Fahrzeugcontainer
+- Wallet pro Charakter: `characters[].wallet`
+- HQ-Pool: `economy.hq_pool`
+- Story-Hub: `arc`
+- Charakterpersistenz umfasst `history`, `carry`, `quarters_stash`, `vehicles`, `vehicles.epoch_vehicle`
 
-> `arena` ist im v7-Export **optional**: nur schreiben, wenn Arena-Karriere bereits genutzt wurde.
-> Wenn vorhanden, wird der Block strict validiert; Match-Laufzeitdaten bleiben außerhalb des Deepsave.
 
-> **Vollständigkeitshinweis:** `talents[]`, `history`, `carry`, `quarters_stash` und `vehicles` gehören im v7-Kanon in jeden Charaktereintrag (`characters[]`). Epochenfahrzeuge werden als `vehicles.epoch_vehicle` persistiert und folgen im Einsatz der TEMP-Tabelle; `legendary_temporal_ship` bleibt optionaler Zusatzslot.
-
-> **Carry/Quartier-Regel (merge-fest):** `carry[]` ist auf 6 Einträge begrenzt, `quarters_stash[]` auf 24 Einträge je Charakter. Bei Overflow müssen Einträge vor Save in `economy.hq_pool` verkauft, in Team-Trade übergeben oder narrativ verworfen werden.
+- Persistiert werden **ausschließlich** HQ-sichere Sentinel- und Karrierefelder:
+  `active`, `phase`, `queue_state`, `mode`, `tier`, `previous_mode`, `resume_token`,
+  `contract_id`, `streak`, `pending_rewards`, `banked_rewards`,
+  `rewarded_runs_this_contract`, `first_wins`, `defeated_types`,
+  `last_reward_episode`, `wins_player`, `wins_opponent`, `match_policy`.
+- **Nicht** persistiert wird laufende Matchphysik (laufender Run, Zonen-/Staging-Daten,
+  temporäre Kampfzustände, Tick/Frame-nahe Matchdaten).
+- SaveGuard bleibt strikt: Während Queue/Match/Run sind Save-Versuche gesperrt.
+  Erst nach Rückkehr in die HQ-Arena-Lounge wird der Arena-Block auf Sentinelzustand
+  normalisiert (`active=false`, `phase/queue_state=idle|completed`) und exportiert.
 
 #### Arc-Objekt (`arc`)
 
