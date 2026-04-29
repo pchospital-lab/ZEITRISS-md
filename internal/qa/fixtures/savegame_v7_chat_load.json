@@ -19,7 +19,9 @@
     "hq_pool": 6400
   },
   "logs": {
-    "notes": ["Load-Pfad: Spiel laden + JSON-Paste im Chat (OpenWebUI-safe)."],
+    "notes": [
+      "Load-Pfad: Spiel laden + JSON-Paste im Chat (OpenWebUI-safe)."
+    ],
     "flags": {
       "imported_saves": [],
       "duplicate_branch_detected": false,
@@ -68,5 +70,6 @@
     "summary_last_episode": "",
     "summary_last_rift": "",
     "summary_active_arcs": ""
-  }
+  },
+  "fixture_kind": "fragment"
 }
