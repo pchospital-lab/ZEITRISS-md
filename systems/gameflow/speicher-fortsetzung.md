@@ -517,6 +517,9 @@ zurück.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
+> **IMPORT-ONLY / NICHT KOPIEREN / KEIN `!save`-BEISPIEL:**
+> Dieser Abschnitt ist ausschließlich Legacy-/Migrationsreferenz und kein aktiver Wissensspeicher-Exportvertrag.
+
 > **Legacy-/Import-Hinweis (Legacy-Bridge):** Der folgende Block dient als Bridge-Referenz für
 > Migrationen aus älteren Ständen. **Nicht als kanonischen Neu-Export verwenden.**
 > Kanonische Exporte folgen dem v7-Zielmodell
@@ -757,7 +760,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 - Pflichtfelder (v7-Export): `v`, `zr`, `campaign.px`, `characters[]`
   (kanonischer Charakterbogen inkl. `wallet`, `history`, `carry`,
   `quarters_stash`, `vehicles`), `economy.hq_pool`, `arc`, `logs`, `ui`
-  und optional `arena`.
+  und `arena` als verpflichtender Root-Block (bei Inaktivität als Default-Idle).
 - **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
   abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
