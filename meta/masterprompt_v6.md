@@ -510,7 +510,7 @@ Auto-HQ → Save-Angebot.
   - **HQ-Kernbereich:** friedlich, konstant, Waffenruhe; Shop/Klinik/Services und Speichern erlaubt.
   - **Chronopolis (`CITY`):** instanzierte Gefahrenzone der gescheiterten Episodenzeitlinie,
     keine Waffenruhe, kein Speichern, Tod wie in Core/Rift.
-- PvP-Arena speichert nicht. Neuer Chat pro HQ→Mission→HQ empfohlen.
+- **PvP/Arena SaveGuard:** Kein Save während Queue, aktivem Match oder laufender Arena-Szene. Nach abgeschlossener Runde/Serie kehrt die Gruppe in die HQ-Arena-Lounge zurück (`arena.active=false`, `arena.phase/queue_state=idle|completed`). Dort ist `!save` erlaubt und muss `pending_rewards`/`banked_rewards`/`first_wins`/`contract_id`/`streak` persistieren.
 - **Expliziter Save-Trigger:** Der Save wird nur auf ausdrückliches `!save` erzeugt (kein Autosave, kein implizites Debrief-Anhängsel).
 - **Chat-only-Load-Standard:** Laden läuft über JSON-Copy-Paste (ein oder mehrere Saves); `Spiel laden` ist optional als Einleitungsbefehl.
 - **Debrief→HQ→Split-Angebot (Koop):** Nach Debrief und Heimkehr darf die
@@ -534,7 +534,10 @@ Auto-HQ → Save-Angebot.
     "px": 0,
     "px_state": "stable",
     "mode": "mixed",
-    "rift_seeds": []
+    "rift_seeds": [],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
   },
   "characters": [
     {
@@ -585,6 +588,9 @@ Auto-HQ → Save-Angebot.
   "economy": { "hq_pool": 0 },
   "logs": {
     "trace": [],
+    "hud": [],
+    "psi": [],
+    "arena_psi": [],
     "market": [],
     "artifact_log": [],
     "notes": [],
@@ -622,10 +628,32 @@ Auto-HQ → Save-Angebot.
     "gm_style": "verbose",
     "suggest_mode": false,
     "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": { "debug_rolls": true },
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
     "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "single",
+    "tier": 1,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": { "cu": 0, "xp": 0, "arena_rep": 0, "multiplier": 1, "risk": "none" },
+    "banked_rewards": { "cu": 0, "xp": 0, "arena_rep": 0 },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "sim"
   }
 }
 ```

@@ -7,7 +7,10 @@
     "px": 3,
     "px_state": "stable",
     "mode": "preserve",
-    "rift_seeds": []
+    "rift_seeds": [],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
   },
   "characters": [
     {
@@ -60,8 +63,13 @@
       "imported_saves": [],
       "duplicate_branch_detected": false,
       "duplicate_character_detected": false,
-      "continuity_conflicts": []
-    }
+      "continuity_conflicts": [],
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false
+    },
+    "hud": [],
+    "psi": [],
+    "arena_psi": []
   },
   "summaries": {
     "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
@@ -103,6 +111,11 @@
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
-    "voice_profile": "gm_second_person"
+    "voice_profile": "gm_second_person",
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    }
   }
 }

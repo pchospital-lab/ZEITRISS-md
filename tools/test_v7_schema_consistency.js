@@ -148,7 +148,7 @@ fixtures.forEach(checkFixture);
   //
   // Falls einer dieser Punkte im Template strukturell umgebaut wird, schlägt der Outer-Regex fehl
   // und der Silent-Success-Guard unten feuert. Dann: Regex hier an die neue Struktur anpassen, NICHT löschen.
-  const charBlockMatch = mp.match(/"save_id"\s*:\s*"SAVE-[^"]*HQ[^"]*"[\s\S]{0,300}"characters"\s*:\s*\[([\s\S]*?)\n  \],/);
+  const charBlockMatch = mp.match(/"save_id"\s*:\s*"SAVE-[^"]*HQ[^"]*"[\s\S]{0,900}"characters"\s*:\s*\[([\s\S]*?)\n  \],/);
 
   // Silent-Success-Guard (seit 2026-04-27): Wenn der Outer-Regex gar nicht matched,
   // heißt das NICHT, dass das Template OK ist — es heißt, der Check weiß nicht mehr, wo er suchen soll.

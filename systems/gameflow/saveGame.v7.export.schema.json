@@ -55,7 +55,10 @@
         "px",
         "px_state",
         "mode",
-        "rift_seeds"
+        "rift_seeds",
+        "entry_choice_skipped",
+        "episode_start",
+        "episode_end"
       ],
       "properties": {
         "episode": {
@@ -87,6 +90,21 @@
         },
         "rift_seeds": {
           "type": "array"
+        },
+        "entry_choice_skipped": {
+          "type": "boolean"
+        },
+        "episode_start": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "episode_end": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },
@@ -211,6 +229,9 @@
       "additionalProperties": false,
       "required": [
         "trace",
+        "arena_psi",
+        "psi",
+        "hud",
         "market",
         "artifact_log",
         "notes",
@@ -260,6 +281,15 @@
               "type": "array"
             }
           }
+        },
+        "hud": {
+          "type": "array"
+        },
+        "psi": {
+          "type": "array"
+        },
+        "arena_psi": {
+          "type": "array"
         }
       }
     },
@@ -378,7 +408,9 @@
         "contrast",
         "badge_density",
         "output_pace",
-        "voice_profile"
+        "voice_profile",
+        "intro_seen",
+        "dice"
       ],
       "properties": {
         "gm_style": {
@@ -407,6 +439,21 @@
         },
         "voice_profile": {
           "type": "string"
+        },
+        "intro_seen": {
+          "type": "boolean"
+        },
+        "dice": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "debug_rolls"
+          ],
+          "properties": {
+            "debug_rolls": {
+              "type": "boolean"
+            }
+          }
         }
       }
     },
@@ -416,10 +463,15 @@
       "required": [
         "active",
         "phase",
+        "queue_state",
         "mode",
         "tier",
         "previous_mode",
         "resume_token",
+        "contract_id",
+        "streak",
+        "pending_rewards",
+        "banked_rewards",
         "rewarded_runs_this_contract",
         "first_wins",
         "defeated_types",
@@ -449,7 +501,7 @@
         },
         "resume_token": {
           "type": [
-            "object",
+            "string",
             "null"
           ]
         },
@@ -457,7 +509,11 @@
           "type": "integer"
         },
         "first_wins": {
-          "type": "integer"
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
         },
         "defeated_types": {
           "type": "array"
@@ -476,6 +532,72 @@
         },
         "match_policy": {
           "type": "string"
+        },
+        "queue_state": {
+          "type": "string",
+          "enum": [
+            "idle",
+            "completed",
+            "none"
+          ]
+        },
+        "contract_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "streak": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pending_rewards": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cu",
+            "xp",
+            "arena_rep",
+            "multiplier",
+            "risk"
+          ],
+          "properties": {
+            "cu": {
+              "type": "number"
+            },
+            "xp": {
+              "type": "number"
+            },
+            "arena_rep": {
+              "type": "number"
+            },
+            "multiplier": {
+              "type": "number"
+            },
+            "risk": {
+              "type": "string"
+            }
+          }
+        },
+        "banked_rewards": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cu",
+            "xp",
+            "arena_rep"
+          ],
+          "properties": {
+            "cu": {
+              "type": "number"
+            },
+            "xp": {
+              "type": "number"
+            },
+            "arena_rep": {
+              "type": "number"
+            }
+          }
         }
       }
     }
