@@ -13,7 +13,7 @@ const targets = [
   'meta/masterprompt_v6.md',
   'systems/gameflow/speicher-fortsetzung.md'
 ];
-const forbidden = [/Paradoxon\s*>?=\s*2/i, /Paradoxon\s*≥\s*2/i, /Px\s*-\s*1/i, /Px-1/i];
+const forbidden = [/Paradoxon\s*>?=\s*2/i, /Paradoxon\s*≥\s*2/i, /Px\s*-\s*1/i, /Px-1/i, /\|\s*Paradoxon\s*\|/i, /-1\s*\(Px\)/i, /\+\d+\s*bei\s+Psi-Einsatz/i, /\+\d+\s*bei\s+Verzögerung/i, /Paradoxon\s+0/i, /RIFT OPS.*Paradoxon/i];
 
 for (const rel of targets){
   const { text } = readMarkdown(rel, [], `Px-Language-Watchguard (${rel})`);
