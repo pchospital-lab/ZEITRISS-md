@@ -693,10 +693,7 @@ Auto-HQ → Save-Angebot.
 - **Mixed-Split ohne Branch-Protokoll:** Session-Anker führt; branch-lokale
   Effekte laufen über Allowlist. Detail-Präzedenzgraph
   → `systems/toolkit-gpt-spielleiter.md`.
-- Arena nur wenn genutzt: mindestens Serienstand/Tier plus Persistenzkern
-  (`previous_mode`, optional `resume_token`, Contract-/Season-Counter wie
-  `rewarded_runs_this_contract`/`first_wins`/`defeated_types`); Queue-/Run-Status ist
-  Laufzeitdaten und wird beim HQ-Load auf Abschlusszustand normalisiert.
+- Arena ist immer vorhanden: ungenutzte Saves führen den Default-Idle-Block (`active=false`, `phase=idle`, `queue_state=idle`) plus Persistenzkern (`previous_mode`, `resume_token`, `contract_id`, `streak`, `pending_rewards`, `banked_rewards`, `rewarded_runs_this_contract`, `first_wins`, `defeated_types`, `last_reward_episode`, `wins_player`, `wins_opponent`, `tier`, `match_policy`). Live-Matchphysik (Queue-Livezustände, Gegnerzustände, Rundentimer, Zonen, temporäre Budgets) wird nie gespeichert.
 - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
 - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:
   - `stable`: Normalbetrieb (Px 0-4).

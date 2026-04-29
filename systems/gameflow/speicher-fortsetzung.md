@@ -174,7 +174,10 @@ continuity { last_seen { mode, episode, mission, location },
               split, roster_echoes[], shared_echoes[],
               convergence_tags[], npc_roster[], active_npc_ids[] },
 arc { factions, questions[], hooks[] },
-ui { gm_style, suggest_mode, action_mode, contrast, badge_density, output_pace, voice_profile }
+ui { gm_style, suggest_mode, action_mode, intro_seen, dice{debug_rolls}, contrast, badge_density, output_pace, voice_profile },
+arena { active, phase, queue_state, mode, tier, previous_mode, resume_token, contract_id, streak,
+        pending_rewards, banked_rewards, rewarded_runs_this_contract, first_wins, defeated_types,
+        last_reward_episode, wins_player, wins_opponent, match_policy }
 ```
 
 Felder wie `character.attributes.SYS_runtime`, `cooldowns`, `city_active`,
@@ -267,12 +270,12 @@ Das kanonische Schema-Template steht im **Masterprompt** (`meta/masterprompt_v6.
 Orientiere dich an SaveGuard + folgendem Pfadbaum.
 
 **Wichtig zur Struktur:** `characters[]` ist nur der Charakterblock. `economy`,
-`logs`, `summaries`, `continuity`, `arc`, `ui` und optional `arena` liegen
+`logs`, `summaries`, `continuity`, `arc`, `ui` und `arena` liegen
 immer auf **Root-Ebene** (nicht unter einem Charakter).
 
 - `v`, `zr` (Schema- und ZEITRISS-Version)
 - `save_id`, `parent_save_id`, `merge_id`, `branch_id` (Lineage + Dedupe-Guards)
-- `campaign.{episode, mission, px, px_state, mode, rift_seeds[]}`
+- `campaign.{episode, mission, px, px_state, mode, rift_seeds[], entry_choice_skipped, episode_start, episode_end}`
 - `characters[]` — Array, Session-Anker-Charakter = Index 0. Pro Character:
   - `{id, name, callsign, rank, lvl, xp}`
   - `origin.{epoch, hominin, role}`
@@ -292,11 +295,14 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
 - `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
-- `ui.{gm_style, suggest_mode, action_mode, contrast, badge_density, output_pace, voice_profile}`
-- `arena?` (nur wenn Arena genutzt; Persistenzkern:
-  `{previous_mode, resume_token, rewarded_runs_this_contract, first_wins,
-  defeated_types, last_reward_episode, wins_player, wins_opponent, tier,
-  match_policy}`)
+- `ui.{gm_style, suggest_mode, action_mode, intro_seen, dice{debug_rolls}, contrast, badge_density, output_pace, voice_profile}`
+  - Pflicht-Unterfeld: `ui.dice.debug_rolls`
+- `arena.{active, phase, queue_state, mode, tier, previous_mode, resume_token, contract_id, streak, pending_rewards, banked_rewards, rewarded_runs_this_contract, first_wins, defeated_types, last_reward_episode, wins_player, wins_opponent, match_policy}` (immer vorhanden; ungenutzt als Default-Idle-Block)
+  - Pflicht-Unterfelder: `arena.active`, `arena.phase`, `arena.queue_state`, `arena.mode`, `arena.tier`,
+    `arena.previous_mode`, `arena.resume_token`, `arena.contract_id`, `arena.streak`,
+    `arena.pending_rewards`, `arena.banked_rewards`, `arena.rewarded_runs_this_contract`,
+    `arena.first_wins`, `arena.defeated_types`, `arena.last_reward_episode`,
+    `arena.wins_player`, `arena.wins_opponent`, `arena.match_policy`
 
 > **Keine Laufzeit-Daten im Save:** location, phase, scene, exfil, cooldowns,
 > SYS_runtime, SYS_used werden zur Laufzeit gesetzt — nicht gespeichert.
