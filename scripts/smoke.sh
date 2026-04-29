@@ -188,6 +188,11 @@ grep "arena-round-checkpoint-ok" out/arena_round_checkpoint.log
 node tools/test_v7_personal_export.js > out/v7_personal_export.log
 grep "v7-personal-export-ok" out/v7_personal_export.log
 
+
+# v7-Charakter-Optionalfelder-Schema-Watchguard
+node tools/test_v7_character_optional_fields_schema.js > out/v7_character_optional_fields_schema.log
+grep "v7-character-schema-watchguard-ok" out/v7_character_optional_fields_schema.log
+
 # Px-Sprachdrift Watchguard
 node tools/test_px_language_watchguard.js > out/px_language_watchguard.log
 grep "px-language-watchguard-ok" out/px_language_watchguard.log

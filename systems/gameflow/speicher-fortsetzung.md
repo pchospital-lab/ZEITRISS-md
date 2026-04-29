@@ -162,13 +162,14 @@ folgende Felder Pflicht (Template-SSOT = Masterprompt §F):
 
 ```text
 v, zr, save_id, parent_save_id, merge_id, branch_id,
-campaign { episode, mission, px, px_state, mode, rift_seeds[] },
+campaign { episode, mission, px, px_state, mode, rift_seeds[], entry_choice_skipped, episode_start, episode_end },
 characters[] { id, name, callsign, rank, lvl, xp, origin, attr, lp, lp_max,
-               stress, has_psi, sys_installed, talents[], equipment[],
-               implants[], history, carry[], quarters_stash[], vehicles,
-               reputation, wallet, level_history },
+               stress, has_psi, sys_installed, psi_heat?, pp?, psi_abilities?,
+               talents[], equipment[], implants[], history, carry[],
+               quarters_stash[], vehicles, artifact?, reputation, wallet,
+               level_history },
 economy { hq_pool },
-logs { trace[], market[], artifact_log[], notes[], flags },
+logs { trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags },
 summaries { summary_last_episode, summary_last_rift, summary_active_arcs },
 continuity { last_seen { mode, episode, mission, location },
               split, roster_echoes[], shared_echoes[],
@@ -291,7 +292,7 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - `reputation.{iti, faction, factions:{}}`
   - `wallet`
 - `economy.{hq_pool}`
-- `logs.{trace[], market[], artifact_log[], notes[], flags:{}}`
+- `logs.{trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
 - `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
