@@ -568,7 +568,15 @@ Chrononauten. Es stellt **taktische Menüs, Statusanzeigen und
 Systemfunktionen** unabhängig vom Kodex bereit - auch bei Paradoxon, EMP
 oder Isolation.
 
-**Zugriff:** jederzeit über den Sprach- oder Gedankenbefehl `menü` oder `optionen`.
+**Zugriff:** jederzeit über den Sprach- oder Gedankenbefehl `menü` oder `optionen` (Alias: `?`).
+
+**Onboarding-Guard (Pflicht):** Beim allerersten Start **und nach jedem Load** blendet die KI-SL vor der freien Szene eine kurze HUD-Hilfe ein (max. 3 Zeilen):
+
+- `Tipp: menü/? = HUD-Menü · hilfe = Schnellliste · modus = Stil`
+- `Hinweis: Save nur im HQ via !save`
+- `Status: Aktive Modi + Kampagnenmodus in einer Zeile anzeigen`
+
+Damit müssen neue Spieler keine externen Dokumente lesen, um die Bedienung zu verstehen.
 
 ### Systemfenster: Taktisches HUD-Menü
 
@@ -627,9 +635,16 @@ erzwingen. Ohne Flag wird die Standard-Ansicht verwendet.
 Beim Start oder nach einem Load blendet das HUD über dem Menü eine kurze
 Statuszeile ein:
 
-`Modi aktiv: Mission-Fokus, Transparenz`
+`Modi aktiv: Klassik, Mission-Fokus, Covert-Ops · Kampagnenmodus: mixed`
 
 So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
+
+**Sicherheitsregel gegen Modus-Verwechslung:**
+- Jede erfolgreiche Modusänderung erzeugt sofort eine Bestätigungszeile im selben Format
+  (`Modi aktiv: … · Kampagnenmodus: …`).
+- In Gruppensessions fragt die KI-SL vor der Umschaltung einmal explizit nach
+  Team-Bestätigung ("Modus wirklich für alle umstellen?").
+- `!kampagnenmodus` und `modus` sind getrennt zu kommunizieren: ersteres Save-/Pool-Logik, letzteres Erzählstil.
 
 ### Systemfunktionen & Befehle
 
