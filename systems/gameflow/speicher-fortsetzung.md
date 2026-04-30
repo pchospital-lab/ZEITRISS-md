@@ -695,7 +695,7 @@ zurück.
 Hooks benötigt, kann Talente auch als Objekte speichern. Die einfache Liste
 bleibt unterstützt; beide Formen können gemischt werden.
 
-```json
+```text
 "talents": [
   "Schleichprofi",
   {"name": "Pistolenschütze", "tag": "ranged", "bonus": 2},
@@ -714,7 +714,7 @@ Migrationsquellen und werden beim Laden in diese v7-Pfade verdichtet, statt als
 
 **Mission 5/10 Auto-Reset (Self-Reflection-Beispiel)**
 
-```json
+```text
 {
   "logs": {
     "hud": ["SF-OFF (Mission 5)", "GATE 2/2", "SF-ON (post-M5 reset)"],
@@ -820,7 +820,7 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 Bei **jedem** Cross-Mode-Transfer werden Konflikte im `continuity_conflicts[]`-Array
 dokumentiert. Jeder Eintrag enthält mindestens:
 
-```json
+```text
 {
   "field": "<allowlist-feld>",
   "source": "<Wert aus Quell-Modus>",
@@ -837,7 +837,7 @@ Dedupe-/Lineage-Funde ergänzen die Allowlist um `duplicate_branch` und `duplica
 
 Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
 
-```json
+```text
 {
   "event": "cross_mode_transfer",
   "at": "<ISO-Timestamp>",
@@ -856,7 +856,7 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
 > **Legacy-/Import-Hinweis (Legacy-Bridge):** Zweites Altstands-Muster für
 > Migrationsfälle; kein kanonischer v7-Neu-Export.
 
-```json
+```text
 {
   "v": 6,
   "zr_version": "4.2.6",
@@ -1399,7 +1399,7 @@ Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
 
 **Save-Beispiel mit `modes` inkl. `suggest`**
 
-```json
+```text
 {
   "ui": { "suggest_mode": true, "gm_style": "verbose", "action_mode": "uncut" },
   "character": { "modes": ["klassik", "mission_focus", "covert_ops_technoir", "suggest"] },
