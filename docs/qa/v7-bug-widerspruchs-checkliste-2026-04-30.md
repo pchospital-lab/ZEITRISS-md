@@ -33,7 +33,9 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 - [x] **#10 W10-Buff-Halluzinationen mit Negativbeispielen absichern**
   - [x] SSOT-Würfelregel um explizites Negativbeispiel ergänzt (`GES 9 + Injektor +3` bleibt W6).
   - [x] Formelpfad präzisiert: temporäre Boni additiv nach dem Wurf, kein Würfelarten-Wechsel durch Buffs.
-- [ ] **#11 Chargen-Save-Gate im Startflow erzwingen**
+- [x] **#11 Chargen-Save-Gate im Startflow erzwingen**
+  - [x] Masterprompt erzwingt nach Chargen im klassischen Pfad: Pflicht-HQ-Heimkehr → einmaliges Kodex-Save-Angebot → HQ-Menü mit expliziter `!save`-Option.
+  - [x] Briefing wird erst nach expliziter Spielerentscheidung erlaubt; Fast-Lane bleibt als dokumentierte Ausnahme ohne Chargen-Save-Gate.
 - [ ] **#12 Probe-Template vor Würfen standardisieren**
 - [ ] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
 - [x] **#14 Rift-Split: Episode/Stresstransfer eindeutig regeln**
