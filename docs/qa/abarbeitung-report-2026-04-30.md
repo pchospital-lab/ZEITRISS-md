@@ -26,7 +26,12 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
 - **P0-2 Abschluss in Toolkit nachgezogen:** verbleibende Altformulierungen
   (`campaign.previous_mode`, `state.phase/campaign.phase`) in
   `systems/toolkit-gpt-spielleiter.md` sind auf
-  `arena.previous_mode` bzw. `runtime_phase` harmonisiert.
+  `arena.previous_mode` bzw. `runtime_phase` harmonisiert.- **Rest-Scan abgeschlossen (P0-2, final):** Ergänzende Wissens-/QA-Texte
+  sind auf den aktuellen Vertrag gezogen (Legacy-`phase: core`-Snippet auf
+  `runtime_phase: core`; SaveGuard-Trace-Text in
+  `systems/gameflow/speicher-fortsetzung.md` auf `runtime_phase` + Legacy-
+  Fallback `state.phase` präzisiert).
+
 
 ## Offen (nächste Steps)
 
@@ -36,28 +41,21 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
    Klassisch immer:
    Chargenabschluss → HQ-Heimkehrbeat → Save-Angebot → erst danach Briefing.
 
-2. **Persistenzvertrag repo-weit spiegeln (Rest-Scan)**  
-   Kernmodule sind harmonisiert (`core/sl-referenz.md`,
-   `gameplay/kampagnenstruktur.md`,
-   `systems/toolkit-gpt-spielleiter.md`,
-   `systems/gameflow/speicher-fortsetzung.md`). Offen ist nur noch ein
-   finaler Rest-Scan auf Altbegriffe in ergänzenden QA-/Arbeitsdokumenten.
-
 ### P1 — Unmittelbar danach
 
-3. **5er-Split/Merge-Matrix als QA-Standard**  
+1. **5er-Split/Merge-Matrix als QA-Standard**  
    Fälle 4/1, 3/2, Resplit, Konfliktfälle, deterministische Thread-IDs.
 
-4. **Seed-Cap/Overflow beweisen**  
+2. **Seed-Cap/Overflow beweisen**  
    Merge >12 Seeds mit erwartetem Overflow-Logging (Trace + Flags).
 
-5. **Arena-/Rift-Transferhygiene**  
+3. **Arena-/Rift-Transferhygiene**  
    Kein persistenter Auto-Rejoin-Drift; HQ-only Savepfad und Wallet-Trennung
    in Negativtests sichern.
 
 ### P2 — Nach Stabilisierung
 
-6. **Chronopolis-Qualitätspass**  
+4. **Chronopolis-Qualitätspass**  
    Spawn-Prioritäten, shared/roster echoes, Beat-Loop-Varianz dokumentiert
    testen.
 

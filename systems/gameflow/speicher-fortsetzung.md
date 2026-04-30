@@ -251,9 +251,8 @@ noch füllen sie das Protokoll.
 inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 `chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,
 die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace
-mit `reason`, `location` und `phase` (Fallback auf `state.phase`, falls
-`campaign.phase` fehlt), damit Reihenfolge und Auslöser in Snapshots
-transparent bleiben.
+mit `reason`, `location` und `runtime_phase` (Fallback auf Legacy-`state.phase`),
+damit Reihenfolge und Auslöser in Snapshots transparent bleiben.
 
 | Priorität | Guard               | Trace-Reason                                         | Hinweis                                |
 | --------- | ------------------- | ---------------------------------------------------- | -------------------------------------- |
@@ -476,7 +475,7 @@ keine Toasts.
 **Phase-Feld:** HQ-Deepsaves persistieren keinen laufenden Runtime-`phase`-Wert.
 Der kanonische Save-Anker ist `continuity.last_seen` mit
 `continuity.last_seen.mode="hq"` und `continuity.last_seen.location="HQ"`.
-Während einer laufenden Mission setzt die Runtime `state.phase`/`campaign.phase`
+Während einer laufenden Mission setzt die Runtime `runtime_phase`
 weiterhin auf `core|transfer|rift|pvp` (immer Kleinbuchstaben).
 Missionstypen dürfen in `logs.trace[]`, `summaries.*` und Runtime-Status stehen,
 aber nicht als aktiver HQ-Save-Modus persistiert werden.

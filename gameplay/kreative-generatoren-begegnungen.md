@@ -1250,7 +1250,7 @@ Dieser Patch liefert konkrete Eingriffe in den Verlauf realer Geschichte.
 Jeder Block lässt sich direkt in den Mission Seed kopieren.
 
 ```yaml
-phase: core
+runtime_phase: core
 - jahr: 1888
   ort: London
   fraktion: Fenian Brotherhood
