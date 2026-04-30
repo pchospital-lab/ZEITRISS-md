@@ -96,3 +96,11 @@ So bleibt jeder Zwischenstand nachvollziehbar und ihr könnt nach jedem Schritt 
 - Boss-Beat löst `chrono_mark_big_win('boss')` aus; Para-Beat nutzt `generate_para_creature(seed)` auf offenem Seed.
 
 **Nächster sinnvoller Step:** gezielte QA-Regressionsfälle für Boss-/Para-Verknüpfung in Chronopolis ergänzen und gegen `bash scripts/smoke.sh` + Chronopolis-Matrix gegenprüfen.
+
+## Anschluss-Notiz (Stand 2026-04-30, WS-Spiegelung nachgezogen)
+
+- Die Runtime-Änderungen zur dynamischen Chronopolis-Anbindung sind jetzt auch im Wissensspeicher-SSOT `gameplay/kampagnenstruktur.md` gespiegelt.
+- Ergänzt wurden dort explizit: Epochen-Übernahme aus `campaign.epoch`, optionaler Einmal-Boss-Beat aus `campaign.boss_history`, Para-Beats nur aus offenen `campaign.rift_seeds` (inkl. Alarm/Psi-Tech-Priorisierung) und Big-Win-Exit-Druck nach Boss-Encounter.
+- Damit ist die Regel nicht mehr nur in `internal/runtime/toolkit-runtime-makros.md`, sondern auch in einem WS-Slot verankert und kommt im Spiel an.
+
+**Nächster sinnvoller Step:** Regressionsmatrix um einen WS-vs-Runtime-Spiegelcheck erweitern (Chronopolis-Beat-Logik), damit zukünftige Patches nicht mehr nur in `internal/` landen.
