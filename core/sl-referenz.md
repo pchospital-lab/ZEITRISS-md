@@ -1219,16 +1219,21 @@ Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 
 ```yaml
-phase: core
+runtime_phase: core
 year: 1962
 place: Karibik
 objective: Black Saturday - Funkspruch der B-59 unterdrücken (kein Torpedoabschuss)
 ```
 
-Rift-Seeds nutzen `phase: rift`.
+Rift-Seeds nutzen zur Laufzeit `runtime_phase: rift`.
 
-`phase` markiert die Missionsphase: `core` für den Einsatz vor Ort,
-`transfer` für An- und Abreise sowie `rift` für Paradoxon-Sprünge.
+`runtime_phase` markiert nur den aktiven Einsatzstatus:
+`core` für den Einsatz vor Ort, `transfer` für An- und Abreise sowie `rift`
+für Paradoxon-Sprünge.
+Dieser Wert ist **runtime-only** und wird nicht als persistenter
+HQ-Save-Anker benutzt. Für HQ-Deepsaves gilt stattdessen
+`continuity.last_seen.mode="hq"` plus
+`continuity.last_seen.location="HQ"`.
 
 Die Paradoxon-Mechanik ist standardmäßig aktiv. Über `modus paradoxon off` lässt
 sich das Feature jedoch jederzeit deaktivieren und mit `modus paradoxon on`
