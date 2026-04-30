@@ -8,9 +8,9 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
   - [x] Formulierung „Rift nur nach Episodenende“ im Save-/Flow-Modul entschärft (`launch_rift`).
   - [ ] Alte Legacy-Spuren („nur nach Episodenende“) vollständig in allen betroffenen Modulen bereinigen.
   - [ ] Episodenzähler-Verhalten bei Rift-Split explizit im SSOT verankern.
-- [ ] **#2 Optionales Modul als Pflicht-Abhängigkeit auflösen**
-  - [ ] Verweise aus `charaktererschaffung-grundlagen.md` auf optionale Inhalte prüfen/reduzieren.
-  - [ ] Pflichtwissen in Grundlagen spiegeln oder als optional markieren.
+- [x] **#2 Optionales Modul als Pflicht-Abhängigkeit auflösen**
+  - [x] Verweise aus `charaktererschaffung-grundlagen.md` auf optionale Inhalte geprüft; keine Pflicht-Abhängigkeit auf Modul 3B mehr im Default-Startpfad.
+  - [x] Pflichtwissen verbleibt in den Grundlagen; optionale Vertiefungen bleiben als Zusatzmaterial gekennzeichnet.
 - [ ] **#3 Dev-/QA-Material vom Runtime-Kanon trennen**
   - [ ] Lange QA-Fixtures und Meta-Beratung aus WS-Modulen auslagern oder als Import-only markieren.
 - [ ] **#4 Startpfad vereinheitlichen**
@@ -31,7 +31,7 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 - [ ] **#12 Probe-Template vor Würfen standardisieren**
 - [ ] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
 - [ ] **#14 Rift-Split: Episode/Stresstransfer eindeutig regeln**
-- [ ] **#15 LP/HP-Terminologie inkl. JSON-Watchguard harmonisieren**
+- [ ] **#15 LP-vs-Legacy-Terminologie inkl. JSON-Watchguard harmonisieren**
 - [x] **#16 Cinematic-Elemente als optional markieren** (expliziter Hinweis ergänzt).
 
 ## Nächste sinnvolle PR-Reihenfolge
