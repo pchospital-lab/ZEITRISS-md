@@ -1472,7 +1472,7 @@ danach öffnet sich das HQ-Menü:
 ```
 **/qr**
 **Phase?** `brief|arrive|intel|breach|exfil|return`
-**Ammo?** `stress|px|hp`
+**Ammo?** `stress|px|lp`
 **Cheat:** Würfel = `/roll Xd6 explode` (Auto-Explode)
 ```
 
