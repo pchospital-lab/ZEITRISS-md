@@ -127,6 +127,93 @@ Jeder Run muss mindestens die folgenden Punkte **explizit** prüfen:
 Bei jeder neuen MP- oder Schema-Änderung die Matrix erweitern, nicht nur
 nachträgliche Checks in `_summary.md` ergänzen.
 
+### Erweiterter Testflow P1/P2 (Stand 2026-04-30)
+
+Nach Abschluss der P0-Tasks wird die Playtest-Matrix um vier Pflichtblöcke
+erweitert. Reihenfolge ist verbindlich: erst P1 vollständig, danach P2.
+
+#### P1-1: 5er Split/Merge-Matrix
+
+Pflichtfälle:
+
+- **4/1-Split im HQ** (kanonischer Split mit `continuity.split.family_id`)
+- **3/2-Split mit Rejoin**
+- **Resplit** (z. B. `3 -> 2/1`)
+- **Konfliktfall / non-canonical Import**
+
+Mindest-Checks je Fall:
+
+- `family_id`, `thread_id`, `expected_threads`, `resolved_threads`,
+  `convergence_ready`
+- deterministische Merge-Ergebnisse (`characters[]`, `economy.hq_pool`,
+  `campaign.px`/`px_state`)
+- Konfliktprotokoll in `logs.flags.continuity_conflicts[]` bzw.
+  `merge_conflicts`
+- Trace-Nachweise `team_split`/`team_merge`
+
+#### P1-2: Seed-Cap & Overflow-Nachweis
+
+Pflichtfälle:
+
+- `8 + 7` offene Seeds (Overflow erwartet)
+- `12` offene Seeds (kein Overflow)
+- `11 + 1` offene Seeds (kein Overflow)
+- `10 + 3` offene Seeds (Overflow erwartet)
+
+Mindest-Checks:
+
+- Merge-Ergebnis hält max. **12 offene Seeds**
+- Trace-Event `rift_seed_merge_cap_applied` mit `kept[]`/`overflow[]`
+- `merge_conflicts` enthält `rift_merge`
+- Handoff-Nachweis (`handoff_to`, Auswahlregel) + Debrief-Hinweis im
+  Inworld-Text
+
+#### P1-3: Arena-/Rift-Transferhygiene (Negativtests)
+
+Pflichtfälle:
+
+- PvP-Run -> HQ-Save
+- Import eines Arena-aktiven Saves
+- Rift-Transfer zurück HQ
+- Mixed-Import (Rift + PvP + Chronopolis ohne gemeinsames Split-Protokoll)
+
+Mindest-Checks:
+
+- Keine persistenten Arena-Runtime-Reste (`resume_token`, aktive Queue/Match-
+  States)
+- `campaign.mode` bleibt Persistenzstrategie (`mixed|preserve|trigger`)
+- Runtime läuft über `runtime_phase` und wird HQ-safe normalisiert
+- Branch-lokale Daten werden nur über den definierten Importpfad übernommen
+
+#### P2-1: Chronopolis-Qualitätspass
+
+Pflichtfälle:
+
+- Reaktions-Beat nach signifikanter Aktion
+- Exit-Druck bei großem Gewinn
+- sauberer Exit Richtung HQ
+- Negativfälle (Stuck, fehlende Optionen, Persistenzdrift)
+- Cross-Mode-Flow: `Core -> Arena -> Rift -> Chronopolis -> Save/Load`
+
+Mindest-Checks:
+
+- Beat-Loop bleibt konsistent (kein stummer Dead-End)
+- Persistenzvertrag eingehalten (keine Runtime-Felder als Save-Quelle)
+- Logs/Trace dokumentieren Unlock- und Rückkehrpfade nachvollziehbar
+
+#### Artefaktpflicht pro Testfall
+
+Für jeden Fall im Run-Artefakt dokumentieren:
+
+- Testfall-ID (z. B. `P1-1-T03`)
+- Setup/Inputs (inkl. Session-Anker)
+- Erwartung vs. Ist-Ergebnis
+- Status (`PASS`/`FAIL`/`SOFT-FAIL`)
+- Evidenz (Trace-Auszug, Save-Diff, betroffene Felder)
+
+Diese Verdichtung ist der Standard für die spätere Repo-Übernahme in
+`docs/qa/*` und für die Fortschreibung des Abarbeitungs-Reports.
+
 ### Weiche Checks (beobachten, nicht enforcen — Stand 2026-04-27)
 
 Diese Punkte sind **thematisch erwünscht**, aber bewusst **nicht als
