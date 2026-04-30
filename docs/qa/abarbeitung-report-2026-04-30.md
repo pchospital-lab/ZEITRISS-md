@@ -6,47 +6,45 @@ Dieses Dokument übersetzt den Nachcheck in eine anschlussfähige Arbeitsliste.
 Fokus: **Masterprompt + Wissensdateien** als einziges Laufzeitsystem in der
 Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
 
+
 ## In diesem Schritt erledigt
 
-- **SL-Referenz bereinigt:** Beispielblock und Erklärung auf
-  `runtime_phase` umgestellt, damit kein persistenter `phase`-Anker für HQ-Saves
-  impliziert wird.
-- **HQ-Anker klargestellt:** In der gleichen Stelle explizit
-  `continuity.last_seen.mode="hq"` und `continuity.last_seen.location="HQ"`
-  als persistente Save-Route ergänzt.
+- **Persistenzvertrag geschärft (P0-1):** `core/sl-referenz.md` präzisiert,
+  dass `campaign.mode` ausschließlich Persistenzstrategie (`mixed|preserve|trigger`)
+  ist und Arena-Status über Runtime (`runtime_phase`) läuft.
+- **`campaign.mode`-Härtung dokumentiert (P0-3):** PvP-/Arena-Passagen
+  stellen jetzt explizit klar, dass kein `campaign.mode='pvp'` persistiert
+  wird; Fallback bleibt `mixed` bei fehlendem `arena.previous_mode`.
+- **Arena-Resume entschärft:** `arena.resume_token` ist als runtime-only markiert;
+  HQ-Load erfolgt über den regulären Arena-Router statt Auto-Rejoin via Save.
 
 ## Offen (nächste Steps)
 
 ### P0 — Muss vor breitem Playtest
 
-1. **Persistenzvertrag final harmonisieren**  
-   Alle WS-Module auf dieselbe Trennung bringen:
-   - persistent: Save-relevante Felder
-   - runtime-only: Missions-/Queue-/Transfer-Zustände
-
-2. **Chargen-Save-Gate regressionssicher**  
+1. **Chargen-Save-Gate regressionssicher**  
    Klassisch immer:
    Chargenabschluss → HQ-Heimkehrbeat → Save-Angebot → erst danach Briefing.
 
-3. **`campaign.mode` strikt begrenzen**  
-   Nur `mixed|preserve|trigger` als Persistenzstrategie;
-   Missionsarten nicht als Kampagnenmodus persistieren.
+2. **Persistenzvertrag repo-weit spiegeln**  
+   Nach der Referenz-Härtung müssen die übrigen WS-Module denselben Vertrag
+   (persistent vs. runtime-only) wortgleich tragen.
 
 ### P1 — Unmittelbar danach
 
-4. **5er-Split/Merge-Matrix als QA-Standard**  
+3. **5er-Split/Merge-Matrix als QA-Standard**  
    Fälle 4/1, 3/2, Resplit, Konfliktfälle, deterministische Thread-IDs.
 
-5. **Seed-Cap/Overflow beweisen**  
+4. **Seed-Cap/Overflow beweisen**  
    Merge >12 Seeds mit erwartetem Overflow-Logging (Trace + Flags).
 
-6. **Arena-/Rift-Transferhygiene**  
+5. **Arena-/Rift-Transferhygiene**  
    Kein persistenter Auto-Rejoin-Drift; HQ-only Savepfad und Wallet-Trennung
    in Negativtests sichern.
 
 ### P2 — Nach Stabilisierung
 
-7. **Chronopolis-Qualitätspass**  
+6. **Chronopolis-Qualitätspass**  
    Spawn-Prioritäten, shared/roster echoes, Beat-Loop-Varianz dokumentiert
    testen.
 
