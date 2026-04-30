@@ -6,15 +6,15 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 
 - [ ] **#1 Split-/Merge-Kanon konsolidieren**
   - [x] Formulierung „Rift nur nach Episodenende“ im Save-/Flow-Modul entschärft (`launch_rift`).
-  - [ ] Alte Legacy-Spuren („nur nach Episodenende“) vollständig in allen betroffenen Modulen bereinigen.
+  - [x] Alte Legacy-Spuren („nur nach Episodenende“) in den SSOT-Startregeln bereinigt (Toolkit-Abschnitt Core vs Rift).
   - [ ] Episodenzähler-Verhalten bei Rift-Split explizit im SSOT verankern.
 - [x] **#2 Optionales Modul als Pflicht-Abhängigkeit auflösen**
   - [x] Verweise aus `charaktererschaffung-grundlagen.md` auf optionale Inhalte geprüft; keine Pflicht-Abhängigkeit auf Modul 3B mehr im Default-Startpfad.
   - [x] Pflichtwissen verbleibt in den Grundlagen; optionale Vertiefungen bleiben als Zusatzmaterial gekennzeichnet.
 - [ ] **#3 Dev-/QA-Material vom Runtime-Kanon trennen**
   - [ ] Lange QA-Fixtures und Meta-Beratung aus WS-Modulen auslagern oder als Import-only markieren.
-- [ ] **#4 Startpfad vereinheitlichen**
-  - [ ] Natürlicher Startpfad überall als Standard; `schnell` nur als optionale Fast-Lane.
+- [x] **#4 Startpfad vereinheitlichen**
+  - [x] Natürlicher Startpfad als Standardpfad verankert; `schnell` bleibt explizit optionale Fast-Lane (SSOT-Startregeln + Verweis bereinigt).
 
 ## Fehler
 
