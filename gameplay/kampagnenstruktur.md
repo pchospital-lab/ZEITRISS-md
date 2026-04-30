@@ -242,9 +242,13 @@ Eine Kampagne startet standardmäßig im **Mischpool-Modus** und darf Preserve- 
 Trigger-Seeds mischen. Preserve-Missionen sichern Beinahe-Katastrophen,
 während Trigger-Missionen dokumentierte Tragödien gewährleisten. Die Seeds
 bleiben in getrennten Pools (`preserve_pool`/`trigger_pool`), damit die Themen
-klar bleiben, aber der Einsatz darf rotieren. `campaign.mode` steuert den Fokus
-(`mixed`, `preserve`, `trigger`), während `campaign.seed_source` pro Mission
-festhält, ob der aktuelle Seed aus Preserve oder Trigger stammt.
+klar bleiben, aber der Einsatz darf rotieren. `campaign.mode` bleibt dabei
+rein persistent als **Pool-Strategie** (`mixed`, `preserve`, `trigger`) und
+markiert keinen aktiven Missions-/Arena-Status. Laufzeit-Zustände werden über
+`runtime_phase` geführt; beim HQ-Deepsave gilt als Anker
+`continuity.last_seen.mode="hq"` plus `continuity.last_seen.location="HQ"`.
+`campaign.seed_source` hält pro Mission fest, ob der aktuelle Seed aus Preserve
+oder Trigger stammt.
 Im Briefing nennt das HUD Zeit und Ort einer Instabilität; welches Ereignis
 betroffen ist, deckt die Investigation auf. Zur Auswertung nutzt die
 KI-Spielleitung je nach `seed_source` `history_ok_preserve()` oder
