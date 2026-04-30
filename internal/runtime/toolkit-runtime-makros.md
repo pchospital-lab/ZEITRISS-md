@@ -1358,13 +1358,25 @@ HQ-Overlay).
 ⟪ chrono_warn_once() ⟫
 ⟪ hud_tag('Vor Chronopolis: HQ-DeepSave bestätigen oder bewusst ohne Save fortfahren') ⟫
 ⟨% set campaign.loc = 'CITY' %⟩
+⟨% set ep_use = ep if ep is not none else campaign.epoch %⟩
+⟨% set boss_history = campaign.boss_history or [] %⟩
+⟨% set recent_boss = boss_history[-1] if boss_history|length > 0 else None %⟩
+⟨% set open_seeds = [] %⟩
+⟨% for seed in (campaign.rift_seeds or []) %⟩
+⟨% if (seed.status | default('open') | lower) != 'closed' %⟩
+⟨% do open_seeds.append(seed) %⟩
+⟨% endif %⟩
+⟨% endfor %⟩
 ⟨% set chrono = {
-'active': true, 'district': district, 'epoch': ep,
+'active': true, 'district': district, 'epoch': ep_use,
 'price_mod': 1.0, 'black_mod': 1.3, 'phase': 'INIT',
 'pressure': 0,
 'big_win_seen': false,
 'last_beat_type': None,
-'last_beat': None
+'last_beat': None,
+'boss': recent_boss,
+'boss_encountered': false,
+'open_seeds': open_seeds
 } %⟩
 ⟪ chrono_guards_enable() ⟫
 ⟪ chrono_hud('INIT') ⟫
@@ -1476,7 +1488,7 @@ HQ-Overlay).
 ⟨# Chronopolis Beat-Loop (Reaktionslogik ohne Szenencounter)
 I/O-Vertrag:
 - Input: event_tag (deal|kauf|fund|gewalt|alarm|verweilen|backtracking|psi_tech|big_win|exit_push),
-         context (optional, frei), force_type (optional: encounter|nsc|twist|para)
+         context (optional, frei), force_type (optional: encounter|nsc|twist|para|boss)
 - Runtime-Transient: chrono.pressure, chrono.big_win_seen, chrono.last_beat_type, chrono.last_beat
 - Persistenz: keine Chrono-Beat-Historie im Save; nur Laufzustand während CITY aktiv ist.
 - Output: genau 1 Beat aus encounter_pool|nsc_generator|twist_pool|para_creature, danach HUD-Update.
@@ -1508,13 +1520,20 @@ I/O-Vertrag:
 ⟨% endif %⟩
 ⟨% set pick = force_type %⟩
 ⟨% if not pick %⟩
+  ⟨% set options = ['encounter','nsc','twist','encounter'] %⟩
   ⟨% if chrono.big_win_seen and (chrono.pressure or 0) >= 3 %⟩
-    ⟨% set pick = random.choice(['encounter','twist','encounter','encounter']) %⟩
-  ⟨% else %⟩
-    ⟨% set pick = random.choice(['encounter','nsc','twist','encounter']) %⟩
+    ⟨% set options = ['encounter','twist','encounter','encounter'] %⟩
   ⟨% endif %⟩
-  ⟨% if event_tag in ['psi_tech','alarm'] and rng_roll(1,8)[0][0] == 8 %⟩
+  ⟨% if chrono.boss and not chrono.boss_encountered %⟩
+    ⟨% set options = options + ['boss'] %⟩
+  ⟨% endif %⟩
+  ⟨% set can_para = (chrono.open_seeds or []) | length > 0 %⟩
+  ⟨% if can_para and event_tag in ['psi_tech','alarm'] %⟩
     ⟨% set pick = 'para' %⟩
+  ⟨% elif can_para and rng_roll(1,8)[0][0] == 8 %⟩
+    ⟨% set pick = 'para' %⟩
+  ⟨% else %⟩
+    ⟨% set pick = random.choice(options) %⟩
   ⟨% endif %⟩
 ⟨% endif %⟩
 ⟨% if pick == chrono.last_beat_type and pick == 'twist' %⟩
@@ -1522,14 +1541,27 @@ I/O-Vertrag:
 ⟨% endif %⟩
 ⟨% set chrono.last_beat_type = pick %⟩
 ⟨% set chrono.phase = 'REACT' %⟩
-⟨% if pick == 'encounter' %⟩
+⟨% if pick == 'boss' %⟩
+⟨% set boss_name = chrono.boss.name if chrono.boss is mapping and chrono.boss.name is defined else chrono.boss %⟩
+⟨% set beat = 'Du triffst auf ' ~ boss_name ~ ' - ein Echo der laufenden Episode.' %⟩
+⟨% set chrono.boss_encountered = true %⟩
+⟪ chrono_mark_big_win('boss') ⟫
+⟨% elif pick == 'para' %⟩
+⟨% if (chrono.open_seeds or []) | length > 0 %⟩
+⟨% set seed = random.choice(chrono.open_seeds) %⟩
+⟨% set para = generate_para_creature(seed) %⟩
+⟨% set beat = para.hud if para and para.hud is defined else ('Para-Anomalie aus Seed ' ~ (seed.id or '?')) %⟩
+⟨% else %⟩
+⟨% set beat = random.choice(['Para-Schatten frisst Sensorbild','Urban-Myth kreuzt die Ringroute']) %⟩
+⟨% endif %⟩
+⟨% elif pick == 'encounter' %⟩
 ⟨% set beat = random.choice(['Patrouille schneidet die Route','Blockade mit Scan-Fenster','Zeugen markieren eure Signatur','Exit-Jäger nehmen Fährte auf']) %⟩
 ⟨% elif pick == 'nsc' %⟩
 ⟨% set beat = random.choice(['Händler bietet überteuerte Abkürzung','Informantin verkauft halbe Wahrheit','Schieber kennt einen stillen Rückweg','Köderkontakt lockt in Engstelle']) %⟩
 ⟨% elif pick == 'twist' %⟩
 ⟨% set beat = random.choice(['Weg kippt in Sperrzone','Deal bricht im letzten Satz','Beobachter meldet euch weiter','Ware ist manipuliert']) %⟩
 ⟨% else %⟩
-⟨% set beat = random.choice(['Para-Schatten frisst Sensorbild','Urban-Myth kreuzt die Ringroute']) %⟩
+⟨% set beat = 'Urban Myth kreuzt die Ringroute' %⟩
 ⟨% endif %⟩
 ⟨% set chrono.last_beat = {'event': event_tag, 'type': pick, 'beat': beat, 'context': context} %⟩
 ⟪ hud_tag('Chronopolis-Beat [' ~ pick ~ '] nach ' ~ event_tag ~ ': ' ~ beat) ⟫

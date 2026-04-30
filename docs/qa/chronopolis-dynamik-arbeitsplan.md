@@ -85,3 +85,14 @@ So bleibt jeder Zwischenstand nachvollziehbar und ihr könnt nach jedem Schritt 
 - Die Abschlusskriterien unter Punkt 6 sind damit erfüllt und als abgehakt markiert.
 - Offene Restpunkte bleiben optional (weitere Modell-Stresstests/Feintuning), nicht blockierend für den aktuellen Scope.
 
+
+
+## Anschluss-Notiz (Stand 2026-04-30, Chronopolis Dynamic Integration)
+
+- Runtime-Makro `start_chronopolis()` übernimmt jetzt standardmäßig `campaign.epoch`, falls `ep` nicht explizit gesetzt wird.
+- Beim Chronopolis-Start wird der letzte Eintrag aus `campaign.boss_history` als `chrono.boss` übernommen (inkl. Einmal-Encounter-Flag).
+- Offene Rift-Seeds werden als `chrono.open_seeds` aus `campaign.rift_seeds` gespiegelt (`status != closed`).
+- `chrono_next_beat()` baut die Beat-Auswahl dynamisch: `boss` nur einmalig bei vorhandener Historie, `para` nur mit offenen Seeds (erzwungen bei `psi_tech`/`alarm`, sonst 1/8 Chance), Twist-Dopplung bleibt verhindert.
+- Boss-Beat löst `chrono_mark_big_win('boss')` aus; Para-Beat nutzt `generate_para_creature(seed)` auf offenem Seed.
+
+**Nächster sinnvoller Step:** gezielte QA-Regressionsfälle für Boss-/Para-Verknüpfung in Chronopolis ergänzen und gegen `bash scripts/smoke.sh` + Chronopolis-Matrix gegenprüfen.
