@@ -1997,10 +1997,20 @@ den Runtime-Wissensspeicher.
     Psi-/Tech-Nutzung darf die Spielleitung den Para-Beat erzwingen,
     sonst selten (ca. 1/8)
   - `urban-myth` als Fallback, wenn kein passender Spezial-Beat greift
+- **Boss-Priorität & Zustände:** Solange der zuletzt protokollierte Boss/Miniboss
+  der laufenden Episode noch aktiv ist (kein Kill-Flag im Verlauf), darf
+  Chronopolis diesen Kontakt priorisieren: bei passendem Druckfenster zuerst
+  `encounter_pool:boss`, danach erst Standard-Encounter. Nach einem Boss-Sieg
+  gilt dieser Beat als verbraucht.
+- **Para-Quelle strikt begrenzt:** Para-Kreaturen stammen ausschließlich aus
+  offenen `campaign.rift_seeds[]` derselben Kampagne. Keine freien
+  "zusätzlichen Monster" ohne Seed-Anker.
 - **Kein Leerlauf-Stacking:** Nicht zwei reine Atmosphärenbeats hintereinander,
   wenn die Crew aktiv auf Gewinn spielt.
 - **Nach dem ersten starken Gewinn** kippt die Regie Richtung Exit-Druck.
   Zielgefühl: „Wir haben etwas bekommen. Jetzt wird es gefährlich.“
+  Das gilt besonders nach Boss-Encounter oder Schlüssel-Loot: Wege verknappen,
+  Exit-Jäger aktivieren, Twists/Encounter vor Handelsruhe priorisieren.
 
 ### 4C | Seltene Apex-Bedrohung
 

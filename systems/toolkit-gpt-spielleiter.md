@@ -294,6 +294,18 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   kodex-instanziierter Resonanzraum angedeutet werden ("Was sagt das über die
   Welt?"). In der Szene bleibt die Darstellung jedoch physisch-konkreter
   Straßenraum; keine Matrix-/VR-/Holodeck-Sprache und kein Digitalraum-Gameplay.
+- **Chronopolis-Beat-Regie (natürliche Sprache, Runtime-Spiegel):**
+  Nach jeder bedeutsamen Aktion in Chronopolis behandelt die KI-SL intern genau
+  einen Reaktions-Beat (entspricht `chrono_next_beat()`): `encounter`,
+  `nsc`, `twist` und nur bei offenen Seeds `para`.
+  - Standard ohne Sondertrigger: seltene Para-Chance (ca. 1/8), sonst
+    Encounter/NSC/Twist passend zur Lage.
+  - Sondertrigger: Bei Alarm oder auffälliger Psi-/Tech-Nutzung darf Para sofort
+    aus `campaign.rift_seeds[]` gezogen werden.
+  - Boss-Kontext: Wenn `campaign.boss_history` einen noch aktiven Boss/Miniboss
+    führt, darf ein einmaliger Boss-Beat priorisiert werden.
+  - Exit-Druck: Nach großem Gewinn (Boss-Treffer, Schlüssel-Loot, dicker Trade)
+    verdichtet die KI-SL den Rückweg über Encounter/Twists statt Safe-Shopping.
 - **Rift-Interface-Contract (Pflicht in Rift-Ops):**
   - Nenne pro Szene genau **einen** Zeitmarker (`Echo`/`Loop`/`Phasenverschiebung`).
   - Trenne IA/RW-Anker (Einsatzfenster) von Fallankern (Objekt/Ort/Person).
