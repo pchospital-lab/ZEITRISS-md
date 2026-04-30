@@ -423,7 +423,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   (1-4), `mode` (`single`/`squad` …) und `matchPolicy` (`sim`/`lore`). Zieht die
   Arena-Gebühr aus
   `economy`, synchronisiert den Betrag per `sync_primary_currency()` auf
-  `economy.hq_pool` und setzt `state.campaign.mode = 'pvp'`,
+  `economy.hq_pool` und setzt den Arena-Status ausschließlich als Runtime
+  (`runtime_phase='arena'`; temporärer Arena-Zustand in `arena.*`),
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
   (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
   Szenario, Policy (`arena.match_policy`) und Px-Status aus. HQ-DeepSaves
@@ -826,7 +827,7 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 > automatisch anhand des Missionstyps **und** überschreiben
 > `campaign.scene` auf den aktuellen Szenenindex (`0` beim Start).
 > Rift-Ops behalten damit `phase: rift` und `SC …/14` im HUD sowie in
-> Saves, Core-Ops `phase: core` mit `SC …/12`. Beim Save nach dem
+> Runtime-/Trace-Daten, Core-Ops `phase: core` mit `SC …/12`. Beim Save nach dem
 > Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten. Seeds
 > geben lediglich den Missionstyp vor; die Runtime setzt `phase`
 > automatisch in Kleinbuchstaben (`core|transfer|rift`).
