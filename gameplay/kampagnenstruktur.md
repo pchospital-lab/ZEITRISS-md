@@ -1980,15 +1980,23 @@ den Runtime-Wissensspeicher.
 - Nach jeder bedeutsamen Aktion prüft die KI-SL, ob Chronopolis antwortet:
   Deal, Kauf, wertiger Fund, sichtbarer Gewaltakt, Alarm, längeres Verweilen,
   Backtracking, auffällige Psi-/Tech-Nutzung oder gesichertes Schlüsselobjekt.
-- Antwort = **genau ein** Beat aus vorhandenen Bausteinen (Priorität default: `encounter_pool` → `nsc_generator` → `twist_pool`, selten `para-creature`):
+- Antwort = **genau ein** Beat aus vorhandenen Bausteinen. Die Auswahl bleibt
+  kontextnah zur laufenden Episode: Chronopolis übernimmt standardmäßig die
+  aktuelle `campaign.epoch`, kann den letzten Boss/Miniboss aus
+  `campaign.boss_history` als optionalen Einmal-Beat führen und nutzt offene
+  `campaign.rift_seeds` als Quelle für Para-Beats.
+  Priorität default: `encounter_pool` → `nsc_generator` → `twist_pool`,
+  situativ `para-creature`:
   - `encounter_pool` (`combat|social|hazard`) für Patrouillen, Blockaden,
     Scans, Zeugen, Räuber oder Exit-Jäger
   - `nsc_generator` für Händler, Informanten, Köder, falsche Helfer,
     Mitwisser und Schieber
   - `twist_pool` für verrutschte Lage, Beobachter, gesperrte Wege,
     schiefgehende Deals oder falsche Ware
-  - selten `para-creature` / `urban-myth`, wenn die gescheiterte Zeitlinie
-    sichtbar zurückbeißt
+  - `para-creature` nur bei offenen Rift-Seeds; bei Alarm/auffälliger
+    Psi-/Tech-Nutzung darf die Spielleitung den Para-Beat erzwingen,
+    sonst selten (ca. 1/8)
+  - `urban-myth` als Fallback, wenn kein passender Spezial-Beat greift
 - **Kein Leerlauf-Stacking:** Nicht zwei reine Atmosphärenbeats hintereinander,
   wenn die Crew aktiv auf Gewinn spielt.
 - **Nach dem ersten starken Gewinn** kippt die Regie Richtung Exit-Druck.
@@ -1997,6 +2005,9 @@ den Runtime-Wissensspeicher.
 ### 4C | Seltene Apex-Bedrohung
 
 - Ein **Hunter/Boss** ist in Chronopolis optional, nicht Pflicht pro Run.
+- Wenn vorhanden, kann der zuletzt protokollierte Boss/Miniboss aus
+  `campaign.boss_history` als **einmaliger Encounter-Beat** auftauchen.
+  Nach diesem Treffer steigt der Exit-Druck unmittelbar (Big-Win-Effekt).
 - Er erscheint bevorzugt, wenn die Crew zu lange bleibt, etwas Zentrales trägt
   oder nach klaren Warnzeichen trotzdem tiefer in den Ring drückt.
 - Der Apex sitzt idealerweise auf Rückweg oder Exit, nicht als früher
@@ -2027,7 +2038,12 @@ den Runtime-Wissensspeicher.
 - **Regie-Fokus:** nicht technische Vermessung, sondern klare Gefahr-/Chance-
   Signale und Konsequenzen beim Exit.
 
-**Makro-Anker für Runtime:** `start_chronopolis()` initialisiert den Lauf und aktiviert den Chronopolis-Loop. Danach ruft die KI-SL nach jeder bedeutsamen Aktion genau einmal `chrono_next_beat(...)` auf; bei starkem Gewinn setzt `chrono_mark_big_win(...)` den Exit-Druck.
+**Makro-Anker für Runtime:** `start_chronopolis()` initialisiert den Lauf,
+übernimmt ohne Override die laufende `campaign.epoch`, spiegelt offene
+`campaign.rift_seeds` für Chronopolis und aktiviert den Chronopolis-Loop.
+Danach ruft die KI-SL nach jeder bedeutsamen Aktion genau einmal
+`chrono_next_beat(...)` auf; bei starkem Gewinn (inkl. Boss-Encounter) setzt
+`chrono_mark_big_win(...)` den Exit-Druck.
 
 Die Maintainer-Blaupause (Asset-Budgets, Mod-Kit, Build-Roadmap) bleibt bewusst
 außerhalb des Runtime-Wissensspeichers in
