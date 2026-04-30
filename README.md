@@ -118,6 +118,11 @@ ZEITRISS ist ein Bausatz von pchospital. Alle Bausätze funktionieren
 nach dem gleichen Prinzip: Masterprompt + Wissensmodule +
 JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
 
+**Wichtig für Regel-Updates:** Im normalen Spielbetrieb zählt nur, was im
+Masterprompt und den Wissensmodulen steht. Runtime-/Tooling-Dateien unter
+`internal/`, `docs/`, `tools/` oder `runtime.js` sind für Tests/Entwicklung
+gedacht und werden von der KI-Spielleitung nicht automatisch geladen.
+
 ---
 
 ## Drei Schritte, dann spielen

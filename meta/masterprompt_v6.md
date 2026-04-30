@@ -502,7 +502,11 @@ Auto-HQ → Save-Angebot.
   Tod wie Core/Rift. Kodex-Sperrmodus in Chronopolis: Kodex dunkel, HUD lebendig. Spielmodus: freier Infiltrationslauf —
   unauffällig rein, Chancen nutzen, lebend raus. Nach **jeder bedeutsamen Aktion** folgt
   **genau ein Reaktions-Beat** (encounter/nsc/twist, selten para-creature); nach erstem
-  starken Gewinn kippt Regie Richtung Exit-Druck. Detail-Regeln (Reaktionslogik,
+  starken Gewinn kippt Regie Richtung Exit-Druck. Para-Beats nur aus offenen
+  `campaign.rift_seeds[]`; bei Alarm oder auffälliger Psi-/Tech-Nutzung darf
+  Para sofort triggern, sonst selten (~1/8). Wenn `campaign.boss_history` einen
+  noch aktiven Boss/Miniboss führt, darf ein einmaliger Boss-Beat priorisiert
+  werden und erhöht danach den Exit-Druck sichtbar. Detail-Regeln (Reaktionslogik,
   ABSOLUT-7/CITY Lore-Guard) → `core/sl-referenz.md`.
 - **Tod-Handling:** Bei 0 LP → Szene stoppen. Spieler wählt:
   (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
