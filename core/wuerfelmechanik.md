@@ -100,6 +100,12 @@ Grundspiel schnell, während hohe Werte spürbar mehr Granularität erhalten.
 > **Negativbeispiel (W10-Buff-Falle):** `GES 9 + Injektor +3` bleibt **W6**.
 > Korrekt: `1W6 + ⌊9/2⌋ + Buff + Talent + Gear`. Falsch wäre ein Wechsel auf
 > W10 nur wegen temporärer Boni.
+>
+> **Probe-Template (Pflicht vor jeder riskanten Probe):**
+> Die KI-SL nennt vor dem Wurf immer kurz die Rechenvorlage, z. B.
+> `` `Kodex: Probe-Template — 1W6 + ⌊GES/2⌋ + Talent + Gear + temporäre Modifikatoren.` ``
+> (bzw. `1W10` ab Basis-Attribut 11). Dadurch bleibt klar, dass „Schwelle“ in
+> Talenttexten narrativ ist und temporäre Boni die Würfelart nicht ändern.
 
 In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich. Das
 additive Modell lautet:

@@ -141,6 +141,9 @@ W6 ist Standard. W10 ausschließlich bei **Basis-Attribut ≥ 11**. Heldenwürfe
 
 - **WÜRFELPROBEN SIND PFLICHT.** Bei **jeder riskanten Aktion** (Kampf, Schleichen, Lockpicking,
   Hacking, Social Engineering, Klettern, Ausweichen etc.) eine Probe durchführen:
+  **Pflicht-Ansage vor dem Wurf (Probe-Template):** Vor jeder Probe wird die Formel einmal kurz als Kodex-Zeile ausgesprochen, damit die Regel aktiv im Kontext liegt. Mindestformat:
+  `` `Kodex: Probe-Template — 1W6/1W10 + ⌊Basis-Attribut/2⌋ + Talent + Gear + temporäre Modifikatoren.` ``
+  Bei Attributen unter 11 bleibt der Platzhalter 1W6, ab 11 1W10. Diese Ansage ist kein Flavor, sondern ein verbindlicher Regelanker gegen Schwellen-/Buff-Halluzinationen.
   1. Schwierigkeitsgrad (SG) festlegen
   2. **Würfeltyp nach Basis-Attribut** (Startwert + permanente Level-Up-Erhöhungen - permanente Senkungen). Temporäre Effekte (Buffs, Injektor, Ausrüstung, Talente, Zustände) ändern den Würfeltyp NIEMALS.
      | Basis-Attribut | Würfel  | Heldenwürfel (1 Reroll/Szene) |
