@@ -1244,6 +1244,9 @@ pro Teilgruppe einen eigenen Save:
 4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
 5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
 6. **campaign.px + px_state:** Px und `px_state` werden in beide Saves kopiert (nicht aufgeteilt).
+7. **Episode/Stress bei Rift-Splits:** Rift-Branches behalten dieselbe
+   `campaign.episode` wie der Core-Anker; beim Transfer zurück ins HQ wird
+   missionsbedingter Stress auf den gespeicherten HQ-Basiswert zurückgesetzt.
 
 ### Kanonischer Merge (Core + Rift)
 
@@ -1444,6 +1447,8 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 - `launch_rift(id)` - startet eine Rift-Mission aus einem Seed, sobald der
   Rift-Flow im HQ freigegeben wurde (auch innerhalb derselben Episode möglich,
   wenn `continuity.split.family_id` den Core-Parallelpfad zusammenhält).
+  Der Aufruf erhöht `campaign.episode` dabei **nicht**; stattdessen läuft der
+  Einsatz als `phase:"rift"` innerhalb der laufenden Episode.
 - `resolve_rifts(ids)` - markiert Seeds als geschlossen und passt Belohnungen an.
 - `seed_to_hook(id)` - liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
 

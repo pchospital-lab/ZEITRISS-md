@@ -4,10 +4,10 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 
 ## Blocker
 
-- [ ] **#1 Split-/Merge-Kanon konsolidieren**
+- [x] **#1 Split-/Merge-Kanon konsolidieren**
   - [x] Formulierung „Rift nur nach Episodenende“ im Save-/Flow-Modul entschärft (`launch_rift`).
   - [x] Alte Legacy-Spuren („nur nach Episodenende“) in den SSOT-Startregeln bereinigt (Toolkit-Abschnitt Core vs Rift).
-  - [ ] Episodenzähler-Verhalten bei Rift-Split explizit im SSOT verankern.
+  - [x] Episodenzähler-Verhalten bei Rift-Split explizit im SSOT verankern.
 - [x] **#2 Optionales Modul als Pflicht-Abhängigkeit auflösen**
   - [x] Verweise aus `charaktererschaffung-grundlagen.md` auf optionale Inhalte geprüft; keine Pflicht-Abhängigkeit auf Modul 3B mehr im Default-Startpfad.
   - [x] Pflichtwissen verbleibt in den Grundlagen; optionale Vertiefungen bleiben als Zusatzmaterial gekennzeichnet.
@@ -32,7 +32,9 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 - [ ] **#11 Chargen-Save-Gate im Startflow erzwingen**
 - [ ] **#12 Probe-Template vor Würfen standardisieren**
 - [ ] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
-- [ ] **#14 Rift-Split: Episode/Stresstransfer eindeutig regeln**
+- [x] **#14 Rift-Split: Episode/Stresstransfer eindeutig regeln**
+  - [x] SSOT ergänzt: `launch_rift` erhöht `campaign.episode` nicht, Rift läuft als `phase:"rift"`.
+  - [x] SSOT ergänzt: Stress-Reset beim HQ-Transfer folgt dem gespeicherten HQ-Basiswert.
 - [ ] **#15 LP-vs-Legacy-Terminologie inkl. JSON-Watchguard harmonisieren**
 - [x] **#16 Cinematic-Elemente als optional markieren** (expliziter Hinweis ergänzt).
 
