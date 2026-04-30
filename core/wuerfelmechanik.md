@@ -97,6 +97,10 @@ Grundspiel schnell, während hohe Werte spürbar mehr Granularität erhalten.
 > **Begriffs-Klarstellung (Schwelle):** Wenn Talente von „Schwelle“ sprechen,
 > ist damit der narrative Tierfortschritt gemeint, nicht eine separate
 > Würfelschwelle für Proben.
+> **Negativbeispiel (W10-Buff-Falle):** `GES 9 + Injektor +3` bleibt **W6**.
+> Korrekt: `1W6 + ⌊9/2⌋ + Buff + Talent + Gear`. Falsch wäre ein Wechsel auf
+> W10 nur wegen temporärer Boni.
+
 In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich. Das
 additive Modell lautet:
 
