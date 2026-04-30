@@ -1360,10 +1360,15 @@ HQ-Overlay).
 ⟨% set campaign.loc = 'CITY' %⟩
 ⟨% set chrono = {
 'active': true, 'district': district, 'epoch': ep,
-'price_mod': 1.0, 'black_mod': 1.3, 'phase': 'INIT'
+'price_mod': 1.0, 'black_mod': 1.3, 'phase': 'INIT',
+'pressure': 0,
+'big_win_seen': false,
+'last_beat_type': None,
+'last_beat': None
 } %⟩
 ⟪ chrono_guards_enable() ⟫
 ⟪ chrono_hud('INIT') ⟫
+⟪ chrono_bootstrap_loop() ⟫
 ⟨%- endmacro %⟩
 
 ⟨# LINT:CHRONO_KEY_HQ_HOOK #⟩
@@ -1467,6 +1472,70 @@ HQ-Overlay).
 ⟨% set chrono.price_mod = base %⟩⟨% set chrono.black_mod = black %⟩
 ⟪ chrono_hud('ECON') ⟫
 ⟨%- endmacro %⟩
+
+⟨# Chronopolis Beat-Loop (Reaktionslogik ohne Szenencounter)
+I/O-Vertrag:
+- Input: event_tag (deal|kauf|fund|gewalt|alarm|verweilen|backtracking|psi_tech|big_win|exit_push),
+         context (optional, frei), force_type (optional: encounter|nsc|twist|para)
+- Runtime-Transient: chrono.pressure, chrono.big_win_seen, chrono.last_beat_type, chrono.last_beat
+- Persistenz: keine Chrono-Beat-Historie im Save; nur Laufzustand während CITY aktiv ist.
+- Output: genau 1 Beat aus encounter_pool|nsc_generator|twist_pool|para_creature, danach HUD-Update.
+#⟩
+⟨% macro chrono_bootstrap_loop() -%⟩
+⟨% if not chrono or not chrono.active %⟩⟨% return %⟩⟨% endif %⟩
+⟨% set chrono.phase = 'LOOP_READY' %⟩
+⟪ hud_tag('Chronopolis-Loop aktiv · Reaktions-Beat nach jeder bedeutsamen Aktion') ⟫
+⟪ chrono_hud('LOOP_READY') ⟫
+⟨%- endmacro %⟩
+
+⟨% macro chrono_mark_big_win(reason='') -%⟩
+⟨% if not chrono or not chrono.active %⟩⟨% return %⟩⟨% endif %⟩
+⟨% if not chrono.big_win_seen %⟩
+⟨% set chrono.big_win_seen = true %⟩
+⟨% set chrono.pressure = (chrono.pressure or 0) + 2 %⟩
+⟪ hud_tag('Chronopolis reagiert auf großen Gewinn · Exit-Druck steigt') ⟫
+⟨% endif %⟩
+⟨% if reason %⟩⟪ hud_tag('Big-Win-Trigger: ' ~ reason) ⟫⟨% endif %⟩
+⟨%- endmacro %⟩
+
+⟨% macro chrono_next_beat(event_tag='aktion', context='', force_type=None) -%⟩
+⟨% if not chrono or not chrono.active %⟩
+⟪ hud_tag('Chronopolis-Beat blockiert - Run nicht aktiv') ⟫⟨% return %⟩
+⟨% endif %⟩
+⟨% if event_tag in ['big_win','schluesselobjekt'] %⟩⟪ chrono_mark_big_win(event_tag) ⟫⟨% endif %⟩
+⟨% if chrono.big_win_seen and event_tag in ['verweilen','backtracking','alarm','gewalt'] %⟩
+⟨% set chrono.pressure = (chrono.pressure or 0) + 1 %⟩
+⟨% endif %⟩
+⟨% set pick = force_type %⟩
+⟨% if not pick %⟩
+  ⟨% if chrono.big_win_seen and (chrono.pressure or 0) >= 3 %⟩
+    ⟨% set pick = random.choice(['encounter','twist','encounter','encounter']) %⟩
+  ⟨% else %⟩
+    ⟨% set pick = random.choice(['encounter','nsc','twist','encounter']) %⟩
+  ⟨% endif %⟩
+  ⟨% if event_tag in ['psi_tech','alarm'] and rng_roll(1,8)[0][0] == 8 %⟩
+    ⟨% set pick = 'para' %⟩
+  ⟨% endif %⟩
+⟨% endif %⟩
+⟨% if pick == chrono.last_beat_type and pick == 'twist' %⟩
+⟨% set pick = 'encounter' %⟩
+⟨% endif %⟩
+⟨% set chrono.last_beat_type = pick %⟩
+⟨% set chrono.phase = 'REACT' %⟩
+⟨% if pick == 'encounter' %⟩
+⟨% set beat = random.choice(['Patrouille schneidet die Route','Blockade mit Scan-Fenster','Zeugen markieren eure Signatur','Exit-Jäger nehmen Fährte auf']) %⟩
+⟨% elif pick == 'nsc' %⟩
+⟨% set beat = random.choice(['Händler bietet überteuerte Abkürzung','Informantin verkauft halbe Wahrheit','Schieber kennt einen stillen Rückweg','Köderkontakt lockt in Engstelle']) %⟩
+⟨% elif pick == 'twist' %⟩
+⟨% set beat = random.choice(['Weg kippt in Sperrzone','Deal bricht im letzten Satz','Beobachter meldet euch weiter','Ware ist manipuliert']) %⟩
+⟨% else %⟩
+⟨% set beat = random.choice(['Para-Schatten frisst Sensorbild','Urban-Myth kreuzt die Ringroute']) %⟩
+⟨% endif %⟩
+⟨% set chrono.last_beat = {'event': event_tag, 'type': pick, 'beat': beat, 'context': context} %⟩
+⟪ hud_tag('Chronopolis-Beat [' ~ pick ~ '] nach ' ~ event_tag ~ ': ' ~ beat) ⟫
+⟪ chrono_hud('REACT') ⟫
+⟨%- endmacro %⟩
+
 
 ⟨% macro rank_index(rank) -%⟩
 ⟨% if rank not in ranks.order %⟩
