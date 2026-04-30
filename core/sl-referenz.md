@@ -1188,6 +1188,12 @@ zugeschaltet.
 Der Suggest-Modus wird mit `modus suggest` aktiviert und mit `modus ask` wieder deaktiviert.
 Er ist als Noob-/Einsteigerhilfe gedacht; der normale Kodex bleibt davon
 unabhängig aktiv (Regelhinweise, HUD, Logs).
+
+**UI-Guardrails (Pflicht in aktiven Sessions):**
+- Start/Load immer mit kurzer Befehls-Reminder-Zeile (`menü/?`, `hilfe`, `modus`, `!save im HQ`).
+- Nach jedem Moduswechsel sofort den vollständigen Zustand nennen: aktive Erzählmodi **und** Kampagnenmodus.
+- In Gruppenrunden Moduswechsel nur nach expliziter Team-Bestätigung anwenden.
+- `!kampagnenmodus` nie als Stilkommando formulieren; immer als Save-/Pool-Logik ausweisen.
 Vorschläge markiert der Kodex sichtbar als `Vorschlag:` (Toolkit-Makro `suggest_actions()`)
 und wartet auf ein bestätigendes oder korrigierendes Spieler-Feedback, bevor er fortfährt.
 Die üblichen 3 + frei-Ideen nach einer Szene bleiben dabei bestehen; Suggest ergänzt sie nur
