@@ -27,7 +27,9 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 
 ## Warnung / Info
 
-- [ ] **#9 Buff-/Temporär-Begriffe vereinheitlichen**
+- [x] **#9 Buff-/Temporär-Begriffe vereinheitlichen**
+  - [x] `core/wuerfelmechanik.md` ergänzt: Buff = temporärer Modifikator (synonym); Buffs ändern nie die Würfelart, sondern zählen additiv nach dem Wurf.
+  - [x] Klarstellung ergänzt: Talent-„Schwelle“ meint narrativen Tierfortschritt, keine separate Würfelschwelle.
 - [ ] **#10 W10-Buff-Halluzinationen mit Negativbeispielen absichern**
 - [ ] **#11 Chargen-Save-Gate im Startflow erzwingen**
 - [ ] **#12 Probe-Template vor Würfen standardisieren**
