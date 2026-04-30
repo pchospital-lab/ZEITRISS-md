@@ -63,11 +63,11 @@ Ziel: Die freie Chronopolis-Regie (Beats statt Szenencount) reproduzierbar in Ru
 
 ## 6) Abschlusskriterien für „wieder sauber anschließbar“
 
-- [ ] Beat-Loop in Runtime dokumentiert und anschließbar.
-- [ ] WS-Module konsistent aktualisiert.
-- [ ] QA-Fälle + erwartete Ergebnisse im Repo hinterlegt.
-- [ ] Keine Save-/Mode-Regressions gegen v7-Invarianten.
-- [ ] Änderungsnotiz mit offenen Restpunkten vorhanden.
+- [x] Beat-Loop in Runtime dokumentiert und anschließbar.
+- [x] WS-Module konsistent aktualisiert.
+- [x] QA-Fälle + erwartete Ergebnisse im Repo hinterlegt.
+- [x] Keine Save-/Mode-Regressions gegen v7-Invarianten.
+- [x] Änderungsnotiz mit offenen Restpunkten vorhanden.
 
 ## Reihenfolgeempfehlung für die Umsetzung
 
@@ -78,3 +78,10 @@ Ziel: Die freie Chronopolis-Regie (Beats statt Szenencount) reproduzierbar in Ru
 5. Abschlusscheckliste abhaken (6)
 
 So bleibt jeder Zwischenstand nachvollziehbar und ihr könnt nach jedem Schritt sicher wieder einsteigen.
+
+## Status (Stand 2026-04-30)
+
+- Steps **0-5** sind umgesetzt (SSOT, Runtime-Loop, Makro-Vertrag, WS-Sync, QA-Matrix, Smoke-Check).
+- Die Abschlusskriterien unter Punkt 6 sind damit erfüllt und als abgehakt markiert.
+- Offene Restpunkte bleiben optional (weitere Modell-Stresstests/Feintuning), nicht blockierend für den aktuellen Scope.
+
