@@ -41,11 +41,15 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 - [x] **#12 Probe-Template vor Würfen standardisieren**
   - [x] Masterprompt ergänzt: verbindliche Kodex-Ansage „Probe-Template“ vor jeder riskanten Probe.
   - [x] Würfelmodul ergänzt: gleiches Pflicht-Template als Regelanker gegen Schwellen-/Buff-Halluzinationen.
-- [ ] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
+- [x] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
+  - [x] Pflichtfeldliste im Save-SSOT enthält die v7-Felder inkl. `entry_choice_skipped`, `episode_start`, `psi_heat`, `logs.arena_psi[]`, `ui.dice.debug_rolls` und Arena-Rootblock.
+  - [x] Export-Schema (`saveGame.v7.export.schema.json`) und Schema-Guards laufen auf derselben Feldbasis (Smoke: `v7-export-fieldlist-watchguard`, `v7-character-schema-watchguard`, `v7-schema-consistency`).
 - [x] **#14 Rift-Split: Episode/Stresstransfer eindeutig regeln**
   - [x] SSOT ergänzt: `launch_rift` erhöht `campaign.episode` nicht, Rift läuft als `phase:"rift"`.
   - [x] SSOT ergänzt: Stress-Reset beim HQ-Transfer folgt dem gespeicherten HQ-Basiswert.
-- [ ] **#15 LP-vs-Legacy-Terminologie inkl. JSON-Watchguard harmonisieren**
+- [x] **#15 LP-vs-Legacy-Terminologie inkl. JSON-Watchguard harmonisieren**
+  - [x] Runtime-Textpfade auf LP-Form gebracht (u. a. Toolkit-Quick-Reference von `hp` → `lp`).
+  - [x] `lp-terminology`-Watchguard prüft Prosa und JSON-Felddrift auf alte Feldnamen (Legacy-Lebenspunkte-Keys), nicht nur Fließtext.
 - [x] **#16 Cinematic-Elemente als optional markieren** (expliziter Hinweis ergänzt).
 
 ## Nächste sinnvolle PR-Reihenfolge
