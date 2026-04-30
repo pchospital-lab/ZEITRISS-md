@@ -1975,12 +1975,12 @@ den Runtime-Wissensspeicher.
 - **Regie-Default:** social/hazard zuerst, combat als Folge.
   Chronopolis soll freier als Core/Rift wirken, aber nie harmlos erscheinen.
 
-### 4B | Reaktionslogik ohne Counter
+### 4B | Reaktionslogik ohne Counter (SSOT für Runtime-Beat-Loop)
 
 - Nach jeder bedeutsamen Aktion prüft die KI-SL, ob Chronopolis antwortet:
   Deal, Kauf, wertiger Fund, sichtbarer Gewaltakt, Alarm, längeres Verweilen,
   Backtracking, auffällige Psi-/Tech-Nutzung oder gesichertes Schlüsselobjekt.
-- Antwort = **genau ein** Beat aus vorhandenen Bausteinen:
+- Antwort = **genau ein** Beat aus vorhandenen Bausteinen (Priorität default: `encounter_pool` → `nsc_generator` → `twist_pool`, selten `para-creature`):
   - `encounter_pool` (`combat|social|hazard`) für Patrouillen, Blockaden,
     Scans, Zeugen, Räuber oder Exit-Jäger
   - `nsc_generator` für Händler, Informanten, Köder, falsche Helfer,
@@ -2026,6 +2026,8 @@ den Runtime-Wissensspeicher.
   Maschinenbrummen, instabile Zeitresonanz.
 - **Regie-Fokus:** nicht technische Vermessung, sondern klare Gefahr-/Chance-
   Signale und Konsequenzen beim Exit.
+
+**Makro-Anker für Runtime:** `start_chronopolis()` initialisiert den Lauf und aktiviert den Chronopolis-Loop. Danach ruft die KI-SL nach jeder bedeutsamen Aktion genau einmal `chrono_next_beat(...)` auf; bei starkem Gewinn setzt `chrono_mark_big_win(...)` den Exit-Druck.
 
 Die Maintainer-Blaupause (Asset-Budgets, Mod-Kit, Build-Roadmap) bleibt bewusst
 außerhalb des Runtime-Wissensspeichers in
