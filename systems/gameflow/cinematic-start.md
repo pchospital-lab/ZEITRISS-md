@@ -98,13 +98,13 @@ keine Paradeaufstellung, kein Empfangskomitee. Stattdessen öffnet sich der Blic
 auf den **Ordo-Mnemonika-Duty-Desk** am Rand der Empfangshalle: eine halbrunde
 Konsole aus mattem Quarzglas, davor ein schlichter Stehtisch mit zwei abgenutzten
 Thermobechern, einer Tablet-Ablage und einem Tablett, auf dem noch die
-Kondensringe des letzten Kaffees trocknen. Ein Hologramm-Display neben dem Desk
+Kondensringe eines abgestellten Bechers trocknen. Ein Hologramm-Display neben dem Desk
 flackert kurz auf, der Schriftzug `COMMANDER A. RENIER · VORAB-GRUSS` läuft
 über den Rand, dann startet die aufgezeichnete Nachricht von selbst. Renier
 erscheint in halbtransparenter Projektion, Einsatzanzug mit ITI-Emblem,
 durchdringender Blick, die Stimme ruhig und klar:
 _„Willkommen im Herzen des ITI, Agenten. Ich kann heute nicht persönlich
-unten sein — die Fraktionslage lässt es nicht zu. Archivarin Mira übernimmt
+unten sein — die Einsatzlage lässt es nicht zu. Archivarin Mira übernimmt
 euch. Hört auf sie; sie weiß, was sie tut.“_ Ein kurzes Nicken, dann zerfällt
 das Hologramm in blaue Staubkörner und löst sich auf.
 
@@ -131,7 +131,8 @@ der Quarzfeld-Generatoren und das leise Piepen des Kodex-Systems sind die
 einzigen Geräusche – eine Szene wie aus einem Film, voller Bedeutung und
 Erwartung.
 
-Mira durchbricht die Stille, ihre Stimme trocken, aber nicht kalt — eher wie
+**Optionaler Flavor-Beat (kein Pflichtbaustein):** Mira durchbricht die
+Stille, ihre Stimme trocken, aber nicht kalt — eher wie
 eine Archivarin, die schon zu viele Papierränder gekräuselt hat, um sich noch
 von irgendwas aus der Fassung bringen zu lassen: _„Willkommen im Herzen des
 ITI, Agenten. Ich bin Mira, Ordo Mnemonika, Duty-Desk. Ich bin heute euer

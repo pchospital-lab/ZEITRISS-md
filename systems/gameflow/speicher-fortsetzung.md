@@ -1441,7 +1441,9 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
   der Hinweis nach dem ersten Besuch stumm bleibt.
 - `ClusterCreate()` - legt bei Paradoxon 5 neue Rift-Seeds an.
 - `ClusterDashboard()` - zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
-- `launch_rift(id)` - startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
+- `launch_rift(id)` - startet eine Rift-Mission aus einem Seed, sobald der
+  Rift-Flow im HQ freigegeben wurde (auch innerhalb derselben Episode möglich,
+  wenn `continuity.split.family_id` den Core-Parallelpfad zusammenhält).
 - `resolve_rifts(ids)` - markiert Seeds als geschlossen und passt Belohnungen an.
 - `seed_to_hook(id)` - liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
 
