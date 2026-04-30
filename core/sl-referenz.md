@@ -407,8 +407,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   zum Exit, vergibt Arena-Boni/Training-XP statt Px und hält die PvP-Policy im Save
   (`arena.match_policy=sim|lore`). `sim` steht für Sim/Range-Training,
   `lore` erlaubt Cross-Alignment als Lore-Kampf; der HUD-Toast nennt die
-  aktive Policy. `campaign.mode='pvp'` bleibt Runtime-Status und wird nie als
-  dauerhafter Exportmodus gehalten (Fallback bei Missing `previous_mode` immer `mixed`).
+  aktive Policy. Arena-Status bleibt Runtime (`runtime_phase='arena'`) und wird
+  nie als persistenter `campaign.mode` geschrieben; fehlt `arena.previous_mode`,
+  fällt der Exportmodus deterministisch auf `mixed` zurück.
   PvP ist optionales Endgame-Modul; Standardkampagnen laufen
   ohne Arena-Fokus weiter.
 - **Phase-Strike Arena.** `arenaStart(options)` zieht die Arena-Gebühr aus
@@ -827,8 +828,9 @@ führt nur die Dispatcher-/Runtime-Invarianten für die Spielleitung.
 `mixed|preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Standard ist `mixed`
 (alle Chrononauten starten beim Ordo Mnemonika im Mischpool). Der fokussierte Modus
 (`preserve` oder `trigger`) ist erst nach einem **Fraktionsübertritt** relevant —
-vorher bleibt `mixed` aktiv. Der Modus wird in `campaign.mode` und
-`campaign.seed_source` hinterlegt, bevor Starts oder Arena-Abzweigungen laufen.
+vorher bleibt `mixed` aktiv. Der Modus wird als Persistenzstrategie in `campaign.mode`
+(`mixed|preserve|trigger`) und über `campaign.seed_source` hinterlegt, bevor
+Starts oder Arena-Abzweigungen laufen.
 Legacy-Starts mit `preserve|trigger` in den Klammern werden mit einem Hinweis
 abgebrochen.
 
@@ -852,8 +854,8 @@ fortgesetzt.
 
 **Arena-Router (Load):**
 
-- Mit `arena.resume_token` und Abschlusszustand (`queue_state=idle|completed`):
-  Option `!arena resume` ohne neue Gebühr anbieten.
+- `arena.resume_token` ist runtime-only und bleibt außerhalb aktiver Arena-Sitzungen
+  leer; im HQ-Load wird Arena daher regulär über den Router betreten.
 - Bei aktivem Arena-Run/Matchmaking (`queue_state=searching|matched|staging|active`):
   kein HQ-Resume anbieten; zuerst HQ-Normalisierung/Exit abschließen.
 - Ohne Resume-Token: Arena nur als regulären HQ-Abzweig (neuer Start) anzeigen.
