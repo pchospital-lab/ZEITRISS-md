@@ -68,8 +68,10 @@ gm_second_person`, Du/Ihr im Präsens). `gm_third_person` und `gm_observer`
   bleiben optionale Accessibility-/Style-Profile und müssen explizit gewählt
   sein; andere Werte werden auf das Default zurückgesetzt.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
-  HUD; Rift-Ops starten ausschließlich nach Episodenende als `MODE RIFT`
-  **Casefile** aus dem HQ. Seeds bleiben HQ-only bis zur Episodepause.
+  HUD. Rift-Ops bleiben ein **HQ-gesteuerter Nebenpfad** (`MODE RIFT`) und
+  können bei freigegebenem Split-Family-Flow auch innerhalb derselben Episode
+  starten (`continuity.split.family_id` als Kanon-Anker). Seeds bleiben
+  HQ-only bis zur Episodepause.
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
 covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
@@ -991,7 +993,7 @@ liefern:
 
 **Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** Der Pause-Beat
 entfällt — die Fast-Lane springt per Design direkt in den Briefingraum
-(siehe `core/spieler-handbuch.md`, Fast-Lane-Transkripte). Das Save-Angebot
+(siehe `core/spieler-handbuch.md`). Das Save-Angebot
 greift stattdessen nach Mission 1 im regulären Post-Mission-HQ-Menü.
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
