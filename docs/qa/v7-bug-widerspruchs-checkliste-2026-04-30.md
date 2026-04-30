@@ -20,8 +20,10 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 
 - [ ] **#5 Legacy-JSON im aktiven Wissensspeicher entschärfen**
 - [x] **#6 Veraltete Fraktionswahl-Formulierung bereinigen** (Cinematic-Text sprachlich neutralisiert).
-- [ ] **#7 HQ-Entwicklungsdarstellung angleichen**
-- [ ] **#8 Slot-/Modul-Zahl synchronisieren** (19 Runtime-Module + Spieler-Handbuch)
+- [x] **#7 HQ-Entwicklungsdarstellung angleichen**
+  - [x] HQ-Kanon im Kampagnenmodul als statische Nullzeit-Anlage ohne Basisbau verankert; Fortschritt nur über Freigaben/Beziehungen.
+- [x] **#8 Slot-/Modul-Zahl synchronisieren**
+  - [x] Terminologie auf 19 Wissensspeicher-Slots vereinheitlicht (Spieler-Handbuch + 18 Runtime-Module; Masterprompt separat).
 
 ## Warnung / Info
 
