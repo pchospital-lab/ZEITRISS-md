@@ -30,7 +30,9 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 - [x] **#9 Buff-/Temporär-Begriffe vereinheitlichen**
   - [x] `core/wuerfelmechanik.md` ergänzt: Buff = temporärer Modifikator (synonym); Buffs ändern nie die Würfelart, sondern zählen additiv nach dem Wurf.
   - [x] Klarstellung ergänzt: Talent-„Schwelle“ meint narrativen Tierfortschritt, keine separate Würfelschwelle.
-- [ ] **#10 W10-Buff-Halluzinationen mit Negativbeispielen absichern**
+- [x] **#10 W10-Buff-Halluzinationen mit Negativbeispielen absichern**
+  - [x] SSOT-Würfelregel um explizites Negativbeispiel ergänzt (`GES 9 + Injektor +3` bleibt W6).
+  - [x] Formelpfad präzisiert: temporäre Boni additiv nach dem Wurf, kein Würfelarten-Wechsel durch Buffs.
 - [ ] **#11 Chargen-Save-Gate im Startflow erzwingen**
 - [ ] **#12 Probe-Template vor Würfen standardisieren**
 - [ ] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
