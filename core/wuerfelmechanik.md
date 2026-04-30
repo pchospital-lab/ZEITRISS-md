@@ -89,6 +89,14 @@ Grundspiel schnell, während hohe Werte spürbar mehr Granularität erhalten.
 > Story-Bonus. Eine Aussage wie "INT 6 → W10 aktiv" ist ein harter
 > Regelbruch. Siehe Masterprompt §F Würfelschwellen-Pflichtcheck beim
 > Save-Load / Merge-Import.
+>
+> **Begriffs-Klarstellung (Buff/Temporär):** „Buff“ und „temporärer
+> Modifikator“ sind synonym. Solche Boni werden **additiv nach dem Würfelwurf**
+> gerechnet und ändern **nie** die Würfelart (W6/W10).
+>
+> **Begriffs-Klarstellung (Schwelle):** Wenn Talente von „Schwelle“ sprechen,
+> ist damit der narrative Tierfortschritt gemeint, nicht eine separate
+> Würfelschwelle für Proben.
 In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich. Das
 additive Modell lautet:
 
