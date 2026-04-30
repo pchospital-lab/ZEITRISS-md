@@ -36,7 +36,9 @@ Quelle: interner Bericht „ZEITRISS V7 – Bug- und Widerspruchsliste (Shadow-N
 - [x] **#11 Chargen-Save-Gate im Startflow erzwingen**
   - [x] Masterprompt erzwingt nach Chargen im klassischen Pfad: Pflicht-HQ-Heimkehr → einmaliges Kodex-Save-Angebot → HQ-Menü mit expliziter `!save`-Option.
   - [x] Briefing wird erst nach expliziter Spielerentscheidung erlaubt; Fast-Lane bleibt als dokumentierte Ausnahme ohne Chargen-Save-Gate.
-- [ ] **#12 Probe-Template vor Würfen standardisieren**
+- [x] **#12 Probe-Template vor Würfen standardisieren**
+  - [x] Masterprompt ergänzt: verbindliche Kodex-Ansage „Probe-Template“ vor jeder riskanten Probe.
+  - [x] Würfelmodul ergänzt: gleiches Pflicht-Template als Regelanker gegen Schwellen-/Buff-Halluzinationen.
 - [ ] **#13 SaveGuard-Doku vollständig mit Schema synchronisieren**
 - [x] **#14 Rift-Split: Episode/Stresstransfer eindeutig regeln**
   - [x] SSOT ergänzt: `launch_rift` erhöht `campaign.episode` nicht, Rift läuft als `phase:"rift"`.
