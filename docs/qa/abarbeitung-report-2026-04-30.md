@@ -26,20 +26,22 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
 - **P0-2 Abschluss in Toolkit nachgezogen:** verbleibende Altformulierungen
   (`campaign.previous_mode`, `state.phase/campaign.phase`) in
   `systems/toolkit-gpt-spielleiter.md` sind auf
-  `arena.previous_mode` bzw. `runtime_phase` harmonisiert.- **Rest-Scan abgeschlossen (P0-2, final):** Ergänzende Wissens-/QA-Texte
+  `arena.previous_mode` bzw. `runtime_phase` harmonisiert.
+- **Rest-Scan abgeschlossen (P0-2, final):** Ergänzende Wissens-/QA-Texte
   sind auf den aktuellen Vertrag gezogen (Legacy-`phase: core`-Snippet auf
   `runtime_phase: core`; SaveGuard-Trace-Text in
   `systems/gameflow/speicher-fortsetzung.md` auf `runtime_phase` + Legacy-
   Fallback `state.phase` präzisiert).
 
 
+
+- **Chargen-Save-Gate regressionssicher abgeschlossen (P0):** Der klassische
+  Startpfad bleibt verbindlich `Chargenabschluss -> HQ-Heimkehrbeat -> einmaliges
+  Save-Angebot -> HQ-Menü`; Briefing startet erst nach expliziter
+  Spielerentscheidung. Der Status ist zusätzlich in der v7-Checkliste als
+  erledigt dokumentiert (`#11 Chargen-Save-Gate`).
+
 ## Offen (nächste Steps)
-
-### P0 — Muss vor breitem Playtest
-
-1. **Chargen-Save-Gate regressionssicher**  
-   Klassisch immer:
-   Chargenabschluss → HQ-Heimkehrbeat → Save-Angebot → erst danach Briefing.
 
 ### P1 — Unmittelbar danach
 
