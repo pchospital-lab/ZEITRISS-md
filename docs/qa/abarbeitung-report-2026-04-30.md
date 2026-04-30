@@ -18,6 +18,11 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
 - **Arena-Resume entschärft:** `arena.resume_token` ist als runtime-only markiert;
   HQ-Load erfolgt über den regulären Arena-Router statt Auto-Rejoin via Save.
 - **Persistenzvertrag weiter gespiegelt (P0-2, Teil 1):** `gameplay/kampagnenstruktur.md` nennt `campaign.mode` jetzt explizit als persistente Pool-Strategie; aktive Missionszustände laufen über `runtime_phase`, HQ-Anker über `continuity.last_seen` (`mode="hq"`, `location="HQ"`).
+- **Persistenzvertrag in weiteren WS-Modulen gespiegelt (P0-2, Teil 2):**
+  `systems/toolkit-gpt-spielleiter.md` und
+  `systems/gameflow/speicher-fortsetzung.md` stellen Arena/Core/Rift-Zustände
+  jetzt konsistent als Runtime (`runtime_phase` + `arena.*`) dar; `campaign.mode`
+  bleibt als persistente Strategie (`mixed|preserve|trigger`) dokumentiert.
 
 ## Offen (nächste Steps)
 
@@ -29,7 +34,10 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
 
 2. **Persistenzvertrag repo-weit spiegeln**  
    Nach der Referenz-Härtung müssen die übrigen WS-Module denselben Vertrag
-   (persistent vs. runtime-only) wortgleich tragen. *(Teil 1 erledigt: `gameplay/kampagnenstruktur.md`; Rest offen.)*
+   (persistent vs. runtime-only) wortgleich tragen. *(Teil 1+2 erledigt:
+   `gameplay/kampagnenstruktur.md`,
+   `systems/toolkit-gpt-spielleiter.md`,
+   `systems/gameflow/speicher-fortsetzung.md`; Rest offen.)*
 
 ### P1 — Unmittelbar danach
 

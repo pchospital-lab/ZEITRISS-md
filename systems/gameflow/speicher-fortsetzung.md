@@ -812,8 +812,8 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
 | **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
-| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"` (Runtime-only).                                                                                | -                                                                                                                                               | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`.     |
-| **PvP → zurück**      | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
+| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten; Arena läuft nur als Runtime-Zustand (`runtime_phase='arena'` + `arena.*`).                                                                                | -                                                                                                                                               | Nach Arena-Exit bleibt `campaign.mode` der Kampagnenmodus (`mixed\|preserve\|trigger`); `arena.previous_mode` wird als Rückkehr-Referenz genutzt und danach geleert.     |
+| **PvP → zurück**      | Kampagnenmodus bleibt/kehrt auf `arena.previous_mode` zurück (`mixed\|preserve\|trigger`). Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
 
@@ -1153,16 +1153,17 @@ vA.B. Bitte HQ-Migration veranlassen.`
   `psi_heat_reset` mit Trigger (`hq_transfer`) in `logs.psi[]`. `reset_psi_heat()`
   leert Charakter- und Team-Psi-Heat beim Debrief, die Runtime-Flags führen
   die Aggregation fort.
-- **Arena-Mode-State-Machine (`campaign.mode`):**
-  1. **Start:** `arenaStart()` merkt `arena.previous_mode = campaign.mode`,
-     setzt `campaign.mode = 'pvp'`.
-  2. **Exit:** `arenaEnd()` stellt `campaign.mode = arena.previous_mode` wieder her,
-     leert `arena.previous_mode = null`.
+- **Arena-Mode-State-Machine (Runtime + Persistenzvertrag):**
+  1. **Start:** `arenaStart()` merkt `arena.previous_mode = campaign.mode`;
+     Arena läuft als Runtime (`runtime_phase='arena'`, Queue/Match in `arena.*`).
+  2. **Exit:** `arenaEnd()` beendet Runtime-Arena und stellt sicher, dass
+     `campaign.mode` auf dem Kampagnenmodus bleibt (`mixed|preserve|trigger`);
+     anschließend `arena.previous_mode = null`.
   3. **Load während Arena:** `reset_arena_after_load()` nutzt
      `arena.previous_mode` / `resume_token.previous_mode`, setzt
      `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
      fällt der Restore **immer** auf `mixed` zurück (nie `preserve`).
-     Arena ist **kein** dauerhaft eigener Kampagnenmodus - PvP gilt nur temporär.
+     Arena ist **kein** eigener persistenter Kampagnenmodus.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt ("Arena-Zustand auf HQ
