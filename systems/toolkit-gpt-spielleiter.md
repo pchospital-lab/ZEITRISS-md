@@ -378,9 +378,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
     `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
     den Arena-Zuschlag im Debrief zu bestätigen, und das `mode`-Feld, um Cross-Mode-Wechsel
     (z. B. Solo→PvP) transparent zu protokollieren. `arenaStart()` setzt
-    `location='ARENA'`, merkt `campaign.previous_mode` und markiert den Px-Fortschritt
-    pro Episode; `arenaEnd()` stellt `campaign.mode` wieder her und leert den
-    `previous_mode`-Puffer. `reset_arena_after_load()` hält den Ursprungsmodus über
+    `location='ARENA'`, merkt `arena.previous_mode` und markiert den Px-Fortschritt
+    pro Episode; `arenaEnd()` hält `campaign.mode` als Kampagnenmodus
+    (`mixed|preserve|trigger`) und leert danach den
+    `arena.previous_mode`-Puffer. `reset_arena_after_load()` hält den Ursprungsmodus über
     `arena.previous_mode`/`resume_token.previous_mode`, setzt den Modus beim Laden
     zurück und verhindert Phase-Strike-Tax-Reste, falls ein Save mitten in der
     Serie geladen wird.
@@ -823,15 +824,15 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 `fx_override={"tags":["heist"]}` nutzen.
 
 > **Runtime-Mirror:** `StartMission()` und `reset_mission_state()` lesen
-> `campaign.scene_total`, setzen `state.phase`/`campaign.phase`
+> `campaign.scene_total`, setzen den Laufzeitstatus `runtime_phase`
 > automatisch anhand des Missionstyps **und** überschreiben
 > `campaign.scene` auf den aktuellen Szenenindex (`0` beim Start).
-> Rift-Ops behalten damit `phase: rift` und `SC …/14` im HUD sowie in
-> Runtime-/Trace-Daten, Core-Ops `phase: core` mit `SC …/12`. Beim Save nach dem
+> Rift-Ops behalten damit `runtime_phase: rift` und `SC …/14` im HUD sowie in
+> Runtime-/Trace-Daten, Core-Ops `runtime_phase: core` mit `SC …/12`. Beim Save nach dem
 > Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten. Seeds
-> geben lediglich den Missionstyp vor; die Runtime setzt `phase`
+> geben lediglich den Missionstyp vor; die Runtime setzt `runtime_phase`
 > automatisch in Kleinbuchstaben (`core|transfer|rift`).
-> **Normalization-Guard:** Alle `phase`-Felder (State, Campaign, Seeds,
+> **Normalization-Guard:** Alle `runtime_phase`-Felder (Runtime, Seeds,
 > Logs) werden beim Laden/Speichern auf lowercase gezogen und fallen bei
 > leeren Werten auf `core` zurück. Füttere Makros, Seeds und Resume-Inputs
 > nur mit `core|transfer|rift` in Kleinbuchstaben, damit HUD, Save und

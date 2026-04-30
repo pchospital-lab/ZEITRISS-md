@@ -23,6 +23,10 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
   `systems/gameflow/speicher-fortsetzung.md` stellen Arena/Core/Rift-Zustände
   jetzt konsistent als Runtime (`runtime_phase` + `arena.*`) dar; `campaign.mode`
   bleibt als persistente Strategie (`mixed|preserve|trigger`) dokumentiert.
+- **P0-2 Abschluss in Toolkit nachgezogen:** verbleibende Altformulierungen
+  (`campaign.previous_mode`, `state.phase/campaign.phase`) in
+  `systems/toolkit-gpt-spielleiter.md` sind auf
+  `arena.previous_mode` bzw. `runtime_phase` harmonisiert.
 
 ## Offen (nächste Steps)
 
@@ -32,12 +36,12 @@ Chatoberfläche (inkl. Split/Merge über mehrere parallele Chats).
    Klassisch immer:
    Chargenabschluss → HQ-Heimkehrbeat → Save-Angebot → erst danach Briefing.
 
-2. **Persistenzvertrag repo-weit spiegeln**  
-   Nach der Referenz-Härtung müssen die übrigen WS-Module denselben Vertrag
-   (persistent vs. runtime-only) wortgleich tragen. *(Teil 1+2 erledigt:
+2. **Persistenzvertrag repo-weit spiegeln (Rest-Scan)**  
+   Kernmodule sind harmonisiert (`core/sl-referenz.md`,
    `gameplay/kampagnenstruktur.md`,
    `systems/toolkit-gpt-spielleiter.md`,
-   `systems/gameflow/speicher-fortsetzung.md`; Rest offen.)*
+   `systems/gameflow/speicher-fortsetzung.md`). Offen ist nur noch ein
+   finaler Rest-Scan auf Altbegriffe in ergänzenden QA-/Arbeitsdokumenten.
 
 ### P1 — Unmittelbar danach
 
