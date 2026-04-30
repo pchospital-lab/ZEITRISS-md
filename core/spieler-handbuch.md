@@ -400,6 +400,9 @@ Das HUD erscheint als **Inline-Code-Block** (grauer monospace-Look) und folgt de
 | `!sf off` / `!sf on` | Self-Reflection aus/an                                                 |
 | `!kampagnenmodus`    | Pool wechseln (preserve/trigger)                                       |
 | `!offline`           | Kodex-Feldprotokoll (1×/Min; in Chronopolis eigene Sperrmodus-Antwort) |
+| `menü` / `optionen` / `?` | Öffnet das taktische HUD-Menü mit kontextnahen Funktionen                  |
+| `hilfe`             | Zeigt die Schnellliste mit Start-, Save-, Modus- und Support-Befehlen      |
+| `modus`             | Zeigt/ändert Erzählstil; jede Änderung wird mit "Modi aktiv …" quittiert     |
 | `kodex [thema]` | Weltwissen/Regeln abfragen (in `CITY` gesperrt)                             |
 
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
