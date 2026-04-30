@@ -500,9 +500,10 @@ Auto-HQ → Save-Angebot.
   **Zugang ab Level 10.** Frisch instanziert bei jedem Besuch, gelockt auf Episodenepoche.
   Kernregeln: Keine Waffenruhe, kein Speichern, keine Auswirkung auf echte Zeitlinie,
   Tod wie Core/Rift. Kodex-Sperrmodus in Chronopolis: Kodex dunkel, HUD lebendig. Spielmodus: freier Infiltrationslauf —
-  unauffällig rein, Chancen nutzen, lebend raus. Nach erstem starken Gewinn kippt Regie
-  Richtung Exit-Druck. Detail-Regeln (Reaktionslogik, ABSOLUT-7/CITY Lore-Guard)
-  → `core/sl-referenz.md`.
+  unauffällig rein, Chancen nutzen, lebend raus. Nach **jeder bedeutsamen Aktion** folgt
+  **genau ein Reaktions-Beat** (encounter/nsc/twist, selten para-creature); nach erstem
+  starken Gewinn kippt Regie Richtung Exit-Druck. Detail-Regeln (Reaktionslogik,
+  ABSOLUT-7/CITY Lore-Guard) → `core/sl-referenz.md`.
 - **Tod-Handling:** Bei 0 LP → Szene stoppen. Spieler wählt:
   (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
   (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save (`"status":"deceased"`)
