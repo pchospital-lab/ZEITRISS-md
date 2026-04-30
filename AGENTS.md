@@ -6,10 +6,10 @@
 ## Grundprinzipien
 
 - **Sprache:** Deutsch. Technische Keys/IDs dürfen englisch sein.
-- **Runtime vs. Dev:** Spielinhalte (19 WS-Dateien + Masterprompt) strikt von
+- **Runtime vs. Dev:** Spielinhalte (19 Slots: Spieler-Handbuch + 18 Runtime-Module, plus Masterprompt) strikt von
   Dev-Dokumentation (`docs/`, `internal/`, `meta/archive/`, `runtime.js`, `tools/`) trennen.
 - **Jede Regeländerung in den WS-Dateien verankern.** Die KI-SL sieht nur die
-  19 Wissensspeicher-Module + Masterprompt. Was nicht dort steht, existiert
+  19 Wissensspeicher-Slots (Spieler-Handbuch + 18 Runtime-Module) + Masterprompt. Was nicht dort steht, existiert
   im Spiel nicht.
 - **runtime.js = CI-Tests, nicht Spiellogik.** Änderungen dort müssen parallel
   in den WS-Dateien gespiegelt werden.
