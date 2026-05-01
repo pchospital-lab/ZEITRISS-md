@@ -20,7 +20,12 @@ Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
 Loot und Debrief.
 
 Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — einrichten,
-Preset wählen, losspielen.
+Preset wählen, losspielen. **Regeln, Welt, Skillung, Taktik** lernt ihr
+**spielerisch im Chat** — fragt einfach die Spielleitung („wie levele ich
+am besten?", „was macht TEMP?", „was ist ein Rift-Op?"), sie antwortet
+in-world, ohne die vierte Wand zu brechen. Kein Computerspiel und kein
+klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
+**nichts bleibt ungeklärt**, weil ihr jederzeit fragen könnt.
 
 ### So sieht das aus
 
@@ -163,19 +168,17 @@ tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 - [Varianten](docs/setup-guide.md#varianten): Lokales Gruppenspiel,
   Ollama offline, Lumo/Claude Projects, manuelles Setup
 
-## Modell-Empfehlung (Stand März 2026)
+## Modell-Empfehlung
 
-- **Empfohlen:** `anthropic/claude-sonnet-4.6` — einziges Modell mit
-  vollständiger Regeltreue. Stärkster Noir-Ton, sauberste Spielerfahrung.
-- **Budget:** `z-ai/glm-5-turbo` — 7× günstiger als Sonnet, erkennt
-  Regelgates und Load-Router. Bestes Preis-Leistungs-Verhältnis.
-- **Ultra-Budget:** `deepseek/deepseek-v3.2` — ~$0.002/Turn, gute
-  Atmosphäre, aber ignoriert teils neue Mechaniken (Load-Router, Psi-Gates).
-- **Experimentell:** `z-ai/glm-5` — gute Atmosphäre, halluziniert aber
-  gelegentlich Regeln.
+**Standard-Stack: `anthropic/claude-sonnet-4.6` + LiteLLM.** Sonnet 4.6 ist
+aktuell das einzige getestete Modell mit vollständiger Regeltreue und
+stärkstem Noir-Ton. Der optionale LiteLLM-Proxy (Docker, ein Befehl im Setup) aktiviert
+den Anthropic-Prompt-Cache und senkt die Kosten um **~90 %** — ZEITRISS
+wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
 
-> Ergebnisse aus dem [Modellvergleich 2026-03-17](internal/qa/evidence/playtest-2026-03-17/AUSWERTUNG.md)
-> (5 Szenarien × 4 Modelle, Scorecard-Methodik).
+Weitere getestete Modelle (teils mit Regel-Einschränkungen) sind im
+[Setup-Guide](docs/setup-guide.md#modelle) dokumentiert. Neuere und
+lokale Modelle werden nach dem nächsten Testzyklus nachgezogen.
 
 ## Das Spielsystem in Kürze
 
