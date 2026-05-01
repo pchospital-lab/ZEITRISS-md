@@ -22,6 +22,12 @@ grep eol-lf-watchguard-ok out/eol_lf_watchguard.log
 node tools/test_smoke_script_sanity.js > out/smoke_script_sanity.log
 grep smoke-script-sanity-ok out/smoke_script_sanity.log
 
+# Akzeptanz-Follow-ups (Mission 5 HUD-Snapshots, Arena, Psi-Heat, Accessibility)
+# Historisch nur via `npm test` gelaufen -> Schatten-Pipeline. Seit 01.05.2026
+# auch im Smoke-Stack, damit Golden-File-Drift sofort sichtbar wird.
+node tools/test_acceptance_followups.js > out/acceptance_followups.log
+echo "acceptance-followups-ok"
+
 node tools/test_v7_export_fieldlist_watchguard.js > out/v7_export_fieldlist_watchguard.log
 grep "v7-export-fieldlist-watchguard-ok" out/v7_export_fieldlist_watchguard.log
 
