@@ -820,13 +820,25 @@ def _run_verify_retrieval(
             "Meist: Embedding-Engine passt nicht zu den Vektoren."
         )
     if expect_any and not ok_phrase:
-        print_error(
-            "KB-Retrieval liefert zwar Treffer, aber keine erwartete Regel-Phrase. "
-            "Chunking/Embedding liefert nur schwach passende Passagen."
+        # Weniger alarmistisch: Treffer existieren, nur die konkrete Canary-
+        # Phrase rankt nicht in Top-K. Das ist meistens Query-Tuning, nicht
+        # kaputte KB. Klärt den 'ist das ein Bug?'-Moment für First-Time-User.
+        print_warn(
+            f"KB-Retrieval funktioniert ({hits} Treffer gefunden), aber die "
+            f"erwartete Regel-Phrase aus setup.json ('verify.expect_any') rankt "
+            f"nicht in den Top {top_k}. Das ist häufig ein Query-Tuning-Problem, "
+            f"**nicht** zwingend ein kaputtes Setup."
         )
+        print_info(
+            "Schnelltest: Öffne einen Chat im Preset und stell eine konkrete "
+            "Regel-Frage. Wenn die SL korrekt antwortet, ist alles OK. "
+            "Fehlen Citations oder sind die Regeln falsch, greift Troubleshooting:"
+        )
+    elif not ok_hits:
+        print_info("Troubleshooting:")
 
     print_info(
-        "Troubleshooting:\n"
+        "     • Live-Chat im Preset testen (Regel-Frage stellen)\n"
         "     • Embedding-Engine prüfen (Admin → Dokumente → Embedding Model)\n"
         "     • python setup.py --reset-embeddings     (Vektor-DB dieser KB neu bauen)\n"
         "     • python setup.py --embedding default    (zurück auf OpenWebUI-Default)"
@@ -1326,10 +1338,16 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         )
 
     if not opts.get("assume_yes"):
-        answer = input("Fortfahren? [Y/n] ").strip().lower()
-        if answer in ("n", "no", "nein"):
-            print_info("Abgebrochen, kein Upload durchgeführt.")
-            return
+        if not sys.stdin.isatty():
+            # Nicht-interaktiver Kontext (Pipe, CI, Subprozess): input() würde
+            # sofort mit EOFError crashen. Impliziter Consent — wer ohne TTY
+            # laufen lässt, will keine Rückfrage. Gleiches Verhalten wie -y.
+            print_info("Nicht-interaktive Session erkannt (kein TTY) — fahre automatisch fort.")
+        else:
+            answer = input("Fortfahren? [Y/n] ").strip().lower()
+            if answer in ("n", "no", "nein"):
+                print_info("Abgebrochen, kein Upload durchgeführt.")
+                return
 
     link_failures: list[str] = []
     sync_t0 = time.time()

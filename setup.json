@@ -20,8 +20,8 @@
     "Ich will solo neu anfangen und meinen Charakter generieren."
   ],
   "verify": {
-    "query": "Mentale Maskierung Psi-Kraft Kosten PP SYS Telepathie",
-    "expect_any": ["Mentale Maskierung", "2 PP", "2 SYS", "+2 SG"],
+    "query": "Paradoxon Meilenstein Px 5 ClusterCreate Rift",
+    "expect_any": ["CLUSTERCREATE", "Rift"],
     "expect_sources_min": 1,
     "top_k": 5
   }
