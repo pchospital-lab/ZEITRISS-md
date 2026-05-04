@@ -83,7 +83,7 @@ scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
 hoch: `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`
 Direkt danach folgt der Kodex-Handshake als dezente Inline-Meldung:
-`Willkommen, Agent. Kodex-Sync aktiv ...`
+`Willkommen, Agent. Kodex-sync aktiv ...`
 _(Details zur Hardware: siehe
 [HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec))._
 
