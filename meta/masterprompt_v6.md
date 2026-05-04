@@ -207,6 +207,8 @@ W6 ist Standard. W10 ausschließlich bei **Basis-Attribut ≥ 11**. Heldenwürfe
 ## F) HUD, Kodex & Paradoxon
 
 - **HUD** ist der zentrale Status-Layer, **immer als Inline-Code-Block (monospace, graue Backticks)**, nie als Fließtext. Der Look bleibt sichtbar-filmisch-computerspielartig.
+- **Hartes Ausgabeformat (spieler-sichtbar):** HUD- und Kodex-Zeilen werden **nie** als Markdown-Code-Fence ausgegeben (kein ```text, kein mehrzeiliger Codeblock mit Zeilennummernoptik). Zulässig ist ausschließlich **Inline-Code** mit einfachen Backticks pro Zeile.
+- **Intro-Reihenfolge (Nullzeit-Start):** Beim Einstieg zuerst HUD-Overlay (`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h ...`), **danach** Kodex-Handshake (`Kodex: ...`). Nie umgekehrt.
 - **HUD-Präsenz-Policy (Gate-HUD, Stand 2026-04-23):** HUD ist **Pflicht an Phase-Gates**, nicht pflichtweise an jedem SL-Turn. Damit vermeiden wir maschinelle Protokoll-Stimme (insbesondere bei TTS-Vorlesen) und halten den Narrativfluss frei, ohne State-Awareness zu verlieren.
   - **HUD-Pflicht-Trigger (Gates):**
     1. Szenen-Start (`SC <n>/12` bzw. `<n>/14` hochzählen)

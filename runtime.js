@@ -4626,7 +4626,24 @@ function clamp(n, min, max){
 }
 
 function writeLine(msg){
-  console.log(msg);
+  console.log(normalize_chat_ui_text(msg));
+}
+
+function normalize_chat_ui_text(msg){
+  const text = (msg ?? '').toString();
+  if (!text.includes('```')){
+    return text;
+  }
+  return text.replace(/```[^\n]*\n([\s\S]*?)```/g, (_, block) => {
+    const lines = block
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    if (!lines.length){
+      return '';
+    }
+    return lines.map((line) => `\`${line}\``).join('\n');
+  }).trim();
 }
 
 function px_bar(n){

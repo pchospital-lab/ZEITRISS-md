@@ -1253,6 +1253,8 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
 - **Konsequente Formatierung:** HUD-Overlays erscheinen als Inline-Code (`` `...` ``), während Wissensausgaben
   das Präfix `Kodex:` verwenden. Durch diese feste Form wissen Spieler sofort, dass Systemmeldungen
   folgen. Ergänzende Symbole wie ⚠ für Warnung oder ⏳ für Zeitablauf unterstützen die Orientierung.
+  **Nicht zulässig** im spieler-sichtbaren Output: Markdown-Code-Fences (```text / ```). Solche Blöcke brechen die UI-Immersion; HUD/Kodex daher immer als einzelne Inline-Zeilen.
+  **Startreihenfolge im Nullzeit-Einstieg:** Erst HUD-Overlay (`Nullzeit-Puffer · Transfer ...`), anschließend Kodex-Handshake (`Kodex: ...`).
 - **Informationstiefe steuern:** Nutzt den Kodex, um Hintergrundinfos oder Regelwissen
   bereitzustellen, **ohne ins Dozieren zu verfallen**. Der Kodex kann auf Anfrage der Spieler oder
   automatisch bei wichtigen Entdeckungen Daten liefern. Halte die Einträge **knapp und relevant** -
