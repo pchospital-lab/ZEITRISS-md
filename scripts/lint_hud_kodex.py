@@ -15,6 +15,7 @@ warn_pattern = re.compile(
     r"(?<!\\)\[[A-Z][A-Za-z0-9_-]{1,12}\s*:[^\]]*\]"
 )
 dollar_pattern = re.compile(r"\$[^$]+\$")
+fence_hud_pattern = re.compile(r"(?is)```[^\n]*\n[^`]*(?:\[HUD:|\[TIP:|\[TIPP:|\[Kodex:)[^`]*```")
 
 whitelist = [
     re.compile(r"\[Exploding [^\]]+\]"),
@@ -32,6 +33,9 @@ def main() -> int:
     ok = True
     for path in root.rglob('*.md'):
         text = read_text(path)
+        if fence_hud_pattern.search(text):
+            print(f"{path}: fenced HUD/Kodex block")
+            ok = False
         for match in warn_pattern.finditer(text):
             if is_whitelisted(match.group(0)):
                 continue
