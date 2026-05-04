@@ -81,16 +81,17 @@ Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlich
 scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **sicher in der Nullzeit** angekommen sind. Ein sanfter Ton erklingt im
 **Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
-hoch: `Willkommen, Agent. Kodex-Sync aktiv ...`
+hoch: `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`
+Direkt danach folgt der Kodex-Handshake als dezente Inline-Meldung:
+`Willkommen, Agent. Kodex-Sync aktiv ...`
 _(Details zur Hardware: siehe
 [HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec))._
 
 Das Nullzeit-HQ bildet den gigantischen Kern des ITI; Chronopolis bleibt bis zum Stadtschlüssel
 (Level 10+) versiegelt und wird erst dann zum nächsten Ankerpunkt.
 
-Noch bevor sich die Halle öffnet, schiebt der Kodex eine dezente Hinweiszeile
-ins Sichtfeld:
-
+Noch bevor sich die Halle öffnet, schiebt der Kodex eine dezente
+Inline-Hinweiszeile ins Sichtfeld:
 `Tipp: menü zeigt Optionen und aktive Modi`
 
 Mit einem Zischen gleiten gegenüber dem Zeitriss massive Stahltüren auf — doch
