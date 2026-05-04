@@ -32,13 +32,18 @@ Intro-HUD-Reihenfolge, Inline-Darstellung des Kodex-Hinweises und Linter-Absiche
   - Gleiche UI-Regel im spielrelevanten Wissensspeicher verankert, damit die KI-SL
     dieselbe Formatvorgabe in Runtime-Ausgaben konsistent befolgt.
 
+- [x] `meta/masterprompt_v6.md` + `systems/toolkit-gpt-spielleiter.md`
+  - Leak-Guard präzisiert: nur Roh-Makro/Debug unterdrücken, **nicht** gerenderte Makro-Ergebnisse.
+  - Sprung-/Entry-Sequenzen und sichtbare Kommandos (`menü`, `!save`, `!load`) bleiben ausdrücklich erlaubt.
+- [x] `systems/gameflow/cinematic-start.md`
+  - Terminologie auf `Kodex-sync` vereinheitlicht.
+
 ## Offen / Nächster möglicher Schritt
 
 - [ ] Optional: HUD-Icon-Review gemäß Bericht (nur falls konsistent mit Runtime-SSOT).
 - [ ] Optional: Zusatz-Linterregel, die generische Fence-Blöcke mit HUD-typischen
       Statuszeilen (`LP`, `Stress`, `EP/MS/SC`) im WS-Text hart blockt.
-- [ ] Optional: explizite QA-Simulation für `ENTRY`-Tag-Budget-Bypass dokumentieren
-      (Implementierung ist bereits vorhanden, derzeit kein Code-Eingriff nötig).
+- [x] QA-Notiz ergänzt: ENTRY-/Sprungsequenzen bleiben trotz Leak-Guard zulässig (Prompt+Toolkit präzisiert).
 
 ## Verifikation (Patchnote-Stil)
 
