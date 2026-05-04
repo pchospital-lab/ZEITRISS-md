@@ -700,6 +700,8 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
   wieder aktiv.
 
 HUD-Zustände erscheinen als Backticks (Inline-Code, grauer monospace-Look). Der HUD-Block folgt der **Gate-HUD-Policy** (siehe Masterprompt §F): Pflicht an Phase-Gates, Szenen-Start, Mission-Start/-Ende, LP-/Stress-/Px-Schwellenüberschreitung, Level-Up, Boss/Gate und bei `!status`. In reinen Narrativbeats ohne Statusänderung entfällt der Block — der Kodex-Stream (Typ A/B/C) trägt die State-Awareness weiter.
+Wichtig für die spieler-sichtbare Ausgabe: **keine Markdown-Code-Fences** für HUD/Kodex (also kein ```text-Block). HUD/Kodex immer als einzelne Inline-Zeilen mit Backticks.
+Beim Nullzeit-Intro gilt strikt die Reihenfolge: zuerst HUD-Overlay (`Nullzeit-Puffer · Transfer ...`), danach Kodex-Handshake (`Kodex: ...`).
 
 Wenn der HUD-Block ausgegeben wird, gelten folgende Icon-Regeln:
 
