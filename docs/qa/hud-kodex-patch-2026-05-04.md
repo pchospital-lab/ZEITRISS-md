@@ -1,6 +1,6 @@
 ---
 title: "QA-Status – HUD/Kodex-Patch (2026-05-04)"
-status: "in-progress"
+status: "done"
 owner: "repo-agent"
 ---
 
@@ -50,3 +50,12 @@ Intro-HUD-Reihenfolge, Inline-Darstellung des Kodex-Hinweises und Linter-Absiche
 - `pytest scripts/tests/test_lint_hud_kodex.py` → OK (5 passed)
 - `bash scripts/smoke.sh` → OK (All smoke checks passed)
 - `bash scripts/smoke.sh` (nach Runtime-Normalisierung erneut) → OK (All smoke checks passed)
+
+## Nachcheck (Bericht `uploads/hud-und-kodex-nachbesserungen2.pdf`)
+
+- Makro-Leak-Guard bleibt auf **Rohtext/Debug** begrenzt; gerenderte Makro-Ergebnisse bleiben sichtbar.
+- Terminologie ist auf `Kodex-sync` vereinheitlicht.
+- Sprung-/Entry-Sequenzen sowie sichtbare Kommandos (`menü`, `!save`, `!load`) sind weiterhin explizit erlaubt.
+- Smoke-Nachlauf bestätigt: keine Regression in Save-/HUD-/Runtime-Watchguards.
+- Der Upload-Bericht wurde nach erfolgreichem Nachcheck entfernt (`uploads/hud-und-kodex-nachbesserungen2.pdf`).
+
