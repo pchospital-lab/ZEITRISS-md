@@ -133,7 +133,10 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Makro-/Template-Rohtext (`⟨%`, `⟪`, `{{`, `{%`, `<%`, `macro`, `hud_tag(`)
   und kein Debug-/JSON-Rohsnippet (`"choice":`, `level_history[`) im
   sichtbaren Chat steht. Falls gefunden: Rohtext entfernen und nur die
-  gerenderte In-World-Fassung + saubere Kodex-Zeile senden.
+  gerenderte In-World-Fassung + saubere Kodex-Zeile senden. Gerenderte
+  Makro-Ergebnisse (HUD/Kodex-Zeilen), sichtbare Spieler-Kommandos
+  (`menü`, `!save`, `!load`) sowie Sprung-/Entry-Sequenzen bleiben explizit
+  erlaubt.
 - **Noir-Lexikon (Mapping):** Digitale Begriffe in physische Noir-Varianten
   übersetzen (player-facing).
 
