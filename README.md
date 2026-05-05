@@ -97,7 +97,7 @@ Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
 Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
 Textzusammenfassung der wichtigsten Eckdaten.
 
-## Läuft überall — mit Einschränkungen
+## Zwei Setup-Wege (klar getrennt)
 
 ZEITRISS ist ein Datensatz, kein Programm — ein Masterprompt und 19
 Wissensmodule. Überall dort, wo du einen System-Prompt setzen und
@@ -132,10 +132,9 @@ gedacht und werden von der KI-Spielleitung nicht automatisch geladen.
 
 ## Drei Schritte, dann spielen
 
-1. **Plattform wählen.**
-   [OpenWebUI](https://github.com/open-webui/open-webui) für die volle
-   Erfahrung (self-hosted, kostenlos). Alternativ Browser-Projekte wie
-   Lumo oder Claude Projects — etwas eingeschränkt, dafür ohne Terminal.
+1. **Weg wählen.**
+   **Standard (empfohlen):** OpenWebUI als Test- und Zielplattform.
+   **Portabel (ohne Gewähr):** Export in andere Plattformen per Hand.
 2. **Modell wählen.** Cloud ([OpenRouter](https://openrouter.ai) o.Ä.)
    oder lokal (Ollama). API-Key unter Einstellungen → Verbindungen
    eintragen.
@@ -166,7 +165,7 @@ tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
 - [Updates mit `--sync`](docs/setup-guide.md#updates-und-wartung)
   (nur Deltas übertragen, spart Minuten)
 - [Varianten](docs/setup-guide.md#varianten): Lokales Gruppenspiel,
-  Ollama offline, Lumo/Claude Projects, manuelles Setup
+  Ollama offline, portabler Export, manuelles Setup
 
 ## Modell-Empfehlung
 
