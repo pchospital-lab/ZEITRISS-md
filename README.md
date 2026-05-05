@@ -29,13 +29,8 @@ klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
 
 ### So sieht das aus
 
-```text
-EP 1 · MS 3 · SC 7/12
-PHASE Konflikt · MODE CORE
-Lvl 11 ▓▓░░░░░░░░ · Fortschrittsfenster (L11+) 2/10 · Px 2/5
-CU 340 · Ruf ITI 3 · Stress 3/10 · HQ savebar
-Obj: Dossier sichern
-```
+🎬 `EP 01 · MS 03 · SC 07/12 · MODE CORE · Objective: Dossier sichern`\
+📊 `Stress 3 · Px █░░░░ (1/5) · Lvl 3 ▓▓▓░░░░░░░ · Rank Operator · SYS 1/4 (free 3)`
 
 > Der Wachmann dreht sich um. Seine Hand geht zum
 > Holster. Du bist schneller.
