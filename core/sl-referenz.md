@@ -502,7 +502,9 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 | 31–50  | 4 XP               | 140 XP    |
 | 51–100 | 5 XP               | 390 XP    |
 
-**Anti-Fehldeutung:** Spalte _Kumulativ_ = Gesamt-XP-Summe bis Phasenübergang, **kein** Level-Füllbalken. In Phase 1 gibt es keinen `X/10`-XP-Stand — jede Mission = +1 Level. HUD-Darstellung: `Lvl 3 ▓▓▓░░░░░░░` (Level-Rang), **niemals** `3/10 XP`. Ab Lvl 11 dann `Lvl 14 ▓▓░░░ 1/2 XP` mit Suffix. Siehe Masterprompt §F XP-Regel-Anwendung + §G Ausgabeformat.
+**Anti-Fehldeutung:** Spalte _Kumulativ_ = Gesamt-XP-Summe bis Phasenübergang, **kein** Level-Füllbalken. In Phase 1
+gibt es keinen `X/10`-XP-Stand — jede Mission = +1 Level. HUD-Darstellung: `Lvl 3 ▓▓▓░░░░░░░` (Level-Rang), **niemals**
+`3/10 XP`. Ab Lvl 11 dann `Lvl 14 ▓▓░░░ 1/2 XP` mit Suffix. Siehe Masterprompt §F XP-Regel-Anwendung + §G Ausgabeformat.
 
 **Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 schaltet Kodex den
 **digitalen Chronopolis-Schlüssel** frei — eine kryptographische Signatur,
@@ -652,7 +654,8 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   Nahbereichsmodul für **0-LP-Hostiles** nach Konfliktende. Voraussetzung:
   **Nahdistanz + eindeutige Identitätsfassung + Kodex-Uplink**. Bei Freigabe
   veranlasst das ITI eine eng begrenzte retrospektive Festnahme im Fenster
-  **Sekunden bis wenige Minuten** vor Einsatzkontakt; Abfang nur, solange **Tatmotivation und Einsatzlage** des Ziels erkennbar dieselben bleiben. Der Marker ist
+  **Sekunden bis wenige Minuten** vor Einsatzkontakt; Abfang nur, solange **Tatmotivation und Einsatzlage** des Ziels
+  erkennbar dieselben bleiben. Der Marker ist
   **kein Kampf-Gadget**, **kein universelles Retcon-Werkzeug**; Leitmotiv **Festnahme statt Löschung**; nicht shopbar und
   nicht als Pflicht-Inventar zu führen; Boss-/Mini-Boss-Ziele, Chrononauten,
   Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis sind gesperrt.
@@ -699,9 +702,14 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
   für reguläre Offline-Missionen außerhalb Chronopolis; im HQ-Kern ist Kodex
   wieder aktiv.
 
-HUD-Zustände erscheinen als Backticks (Inline-Code, grauer monospace-Look). Der HUD-Block folgt der **Gate-HUD-Policy** (siehe Masterprompt §F): Pflicht an Phase-Gates, Szenen-Start, Mission-Start/-Ende, LP-/Stress-/Px-Schwellenüberschreitung, Level-Up, Boss/Gate und bei `!status`. In reinen Narrativbeats ohne Statusänderung entfällt der Block — der Kodex-Stream (Typ A/B/C) trägt die State-Awareness weiter.
-Wichtig für die spieler-sichtbare Ausgabe: **keine Markdown-Code-Fences** für HUD/Kodex (also kein ```text-Block). HUD/Kodex immer als einzelne Inline-Zeilen mit Backticks.
-Beim Nullzeit-Intro gilt strikt die Reihenfolge: zuerst HUD-Overlay (`Nullzeit-Puffer · Transfer ...`), danach Kodex-Handshake (`Kodex: ...`).
+HUD-Zustände erscheinen als Backticks (Inline-Code, grauer monospace-Look). Der HUD-Block folgt der **Gate-HUD-Policy**
+(siehe Masterprompt §F): Pflicht an Phase-Gates, Szenen-Start, Mission-Start/-Ende,
+LP-/Stress-/Px-Schwellenüberschreitung, Level-Up, Boss/Gate und bei `!status`. In reinen Narrativbeats ohne
+Statusänderung entfällt der Block — der Kodex-Stream (Typ A/B/C) trägt die State-Awareness weiter.
+Wichtig für die spieler-sichtbare Ausgabe: **keine Markdown-Code-Fences** für HUD/Kodex (also kein ```text-Block).
+HUD/Kodex immer als einzelne Inline-Zeilen mit Backticks.
+Beim Nullzeit-Intro gilt strikt die Reihenfolge: zuerst HUD-Overlay (`Nullzeit-Puffer · Transfer ...`), danach
+Kodex-Handshake (`Kodex: ...`).
 
 Wenn der HUD-Block ausgegeben wird, gelten folgende Icon-Regeln:
 
@@ -813,7 +821,9 @@ Index-Senke im Kodex.
 
 ### ZEITRISS - Einleitung
 
-> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht im [Spieler-Handbuch](spieler-handbuch.md#zeitriss-einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
+> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht im
+[Spieler-Handbuch](spieler-handbuch.md#zeitriss-einleitung). Dieses Modul konzentriert sich auf SL-Regeln und
+Systemtabellen.
 
 ## Spielstart
 
@@ -910,7 +920,10 @@ z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jeder Mission zeigt die Spielleitung **automatisch** einen
 **Missions-Abschlussbildschirm** (Score-Screen):
 Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → ITI-Ruf-Update.
-Dieser Screen erscheint immer — der Spieler muss nicht danach fragen. Der Score-Screen ist **Pflicht zwischen zwei Missionen** und darf nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtgate). Die Reihenfolge zum Save ist verbindlich: **Score-Screen → Level-Up-Wahl → `!save`**; bei aktiver Level-Schwelle wird ein `!save` vor der Wahl mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
+Dieser Screen erscheint immer — der Spieler muss nicht danach fragen. Der Score-Screen ist **Pflicht zwischen zwei
+Missionen** und darf nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtgate). Die Reihenfolge
+zum Save ist verbindlich: **Score-Screen → Level-Up-Wahl → `!save`**; bei aktiver Level-Schwelle wird ein `!save` vor
+der Wahl mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
 
 Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 
