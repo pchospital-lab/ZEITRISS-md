@@ -385,11 +385,15 @@ ohne Tier V global zu sperren.
 
 ### HUD-Icons
 
-Das HUD erscheint als **Inline-Code-Block** (grauer monospace-Look) und folgt der **Gate-HUD-Policy** (siehe Masterprompt §F): Pflicht an Phase-Wechseln, Szenen-Start, Mission-Start/-Ende, LP-/Stress-/Px-Schwellen, Level-Up, Boss/Gate und bei `!status`. In reinen Dialog-/Reise-/Lore-Beats ohne Statusänderung entfällt der Block; der Kodex trägt den State weiter (Typ A/B/C).
+Das HUD erscheint als **Inline-Code-Block** (grauer monospace-Look) und folgt der **Gate-HUD-Policy** (siehe
+Masterprompt §F): Pflicht an Phase-Wechseln, Szenen-Start, Mission-Start/-Ende, LP-/Stress-/Px-Schwellen, Level-Up,
+Boss/Gate und bei `!status`. In reinen Dialog-/Reise-/Lore-Beats ohne Statusänderung entfällt der Block; der Kodex trägt
+den State weiter (Typ A/B/C).
 
 **Dauer (im HUD-Block immer enthalten, sobald der Block ausgegeben wird):** Lvl · ❤️‍🩹 Vital · 🧠 Stress · 👁️ Tarnung
 
-**Kontextsensitiv:** 🌀 Paradoxon (bei Px-relevanten Zuständen) · 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · ✋ TK-Cooldown · 💀 Boss · ☆ Rift-Bonus
+**Kontextsensitiv:** 🌀 Paradoxon (bei Px-relevanten Zuständen) · 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown ·
+🛡️ Abwehr · ✋ TK-Cooldown · 💀 Boss · ☆ Rift-Bonus
 
 ### Wichtige Befehle
 
@@ -786,7 +790,10 @@ beginnen unmittelbar mit deinem ersten Einsatz.
 Wenn du dich für den klassischen Einstieg entscheidest, startet alles wie gehabt
 im Nullzeit-Labor: Dein letzter Einsatz endete tödlich. Aufgrund deines
 außergewöhnlich starken freien Willens konnte das ITI dein Bewusstsein aus dem
-Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Absolut" nicht als Glaube, sondern als Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik. **Absolut, Nullzeit und Zeitriss** sind für das ITI keine drei Wunder, sondern drei Zustände derselben Grenzphysik: Im Absolut bleibt Bewusstsein lesbar, in der Nullzeit wird es gehalten, im Zeitriss bricht dieselbe Physik in die Geschichte ein. Jetzt schwebst du im
+Absolut rekonstruieren - du erhältst eine zweite Chance. ITI-intern gilt „Absolut" nicht als Glaube, sondern als
+Arbeitsbegriff für eine bis heute unvollständig verstandene Grenzphysik. **Absolut, Nullzeit und Zeitriss** sind für das
+ITI keine drei Wunder, sondern drei Zustände derselben Grenzphysik: Im Absolut bleibt Bewusstsein lesbar, in der
+Nullzeit wird es gehalten, im Zeitriss bricht dieselbe Physik in die Geschichte ein. Jetzt schwebst du im
 Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
 Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
 wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
