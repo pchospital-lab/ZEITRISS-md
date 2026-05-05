@@ -30,21 +30,17 @@ klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
 ### So sieht das aus
 
 🎬 `EP 01 · MS 03 · SC 07/12 · MODE CORE · Objective: Dossier sichern`\
-📊 `Stress 3 · Px █░░░░ (1/5) · Lvl 3 ▓▓▓░░░░░░░ · Rank Operator · SYS 1/4 (free 3)`
+💢 `Stress 3 · Px █░░░░ (1/5) · Lvl 3 ▓▓▓░░░░░░░ · Rank Operator · SYS 1/4 (free 3)`
 
 > Der Wachmann dreht sich um. Seine Hand geht zum
 > Holster. Du bist schneller.
 
-`Probe: Nahkampf → W6: [6]`\
-`→ Exploding! → W6: [2] = 8`\
-`+ STR 4/2 + Talent 1 = 11`\
-`vs SG 8 → TREFFER`
+`Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 10 vs SG 8 → TREFFER`
 
 > Dein Ellbogen trifft seinen Kehlkopf. Er klappt
 > zusammen, lautlos.
 
-`Kodex: Wachmann neutralisiert.`\
-`Noise +1 · Mag 8/8 · Checkpoint 40m`
+`Kodex: Wachmann neutralisiert. Stress +1.`
 
 ### Ähnlich, aber anders
 
