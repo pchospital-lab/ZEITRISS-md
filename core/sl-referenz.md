@@ -244,7 +244,8 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 
 **Semver (Save-Laden):**
 
-- Save lädt, wenn `major.minor` aus `zr` mit `ZR_VERSION` übereinstimmt (Legacy-Importe mit `zr_version` werden vorher normalisiert);
+- Save lädt, wenn `major.minor` aus `zr` mit `ZR_VERSION` übereinstimmt
+  (Legacy-Importe mit `zr_version` werden vorher normalisiert);
   Patch-Level wird ignoriert.
 - Mismatch → "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
   HQ-Migration veranlassen."
@@ -276,8 +277,10 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `SYS_used`, `cooldowns`) werden nicht persistiert und beim Laden neu gesetzt.
 - Legacy-Importe mit Root-`character{}`/`character.attributes{}` werden beim
   Laden auf das v7-Zielschema (`characters[]` + `attr`) normalisiert.
-- `campaign.px`, `economy.hq_pool`, `characters[].wallet`, `characters[].history`,
-  `characters[].carry`, `characters[].quarters_stash`, `characters[].vehicles`, `logs` (inklusive
+- `campaign.px`, `economy.hq_pool`, `characters[].wallet`,
+  `characters[].history`, `characters[].carry`,
+  `characters[].quarters_stash`, `characters[].vehicles`, `logs`
+  (inklusive
   `hud`, `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
   `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
   `flags`, `flags.continuity_conflicts`) sowie `ui`, `arena` und `arc` werden vom

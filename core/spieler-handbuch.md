@@ -657,9 +657,13 @@ Kontext. Innerhalb einer Mission einfach weiterspielen.
 **Pflicht-Reihenfolge (Mission-Transition):**
 
 1. **Debrief / Score-Screen** abschließen (Pflicht — kein Direkt-Sprung zum nächsten Briefing).
-2. **Level-Up jetzt abschließen** (genau eine Wahl pro Stufe: `+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS` — kein Stacking über mehrere Wahlen pro Stufe).
+2. **Level-Up jetzt abschließen** (genau eine Wahl pro Stufe:
+   `+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS` —
+   kein Stacking über mehrere Wahlen pro Stufe).
 3. Danach **HQ wählen**: Schnell-HQ, manuell oder Auto-HQ.
-4. **`!save`** erst **nach** dem Level-Up — sobald ihr frei im HQ steht. Ein Save vor der Level-Up-Wahl wird von der KI-SL mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
+4. **`!save`** erst **nach** dem Level-Up — sobald ihr frei im HQ
+   steht. Ein Save vor der Level-Up-Wahl wird von der KI-SL mit
+   `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
 5. Für den nächsten Einsatz oder längere HQ-Phase: **neuen Chat** öffnen, Save-JSON einfügen, weiter in der Nullzeit.
 
 Kodex-Kurzsatz nach Debrief:
