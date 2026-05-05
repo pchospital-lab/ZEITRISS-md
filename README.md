@@ -19,6 +19,9 @@ vollständiges Rollenspielsystem mit Würfelproben, Charakterentwicklung,
 Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
 Loot und Debrief.
 
+Dank kreativem Missionsgenerator und stetig neuen Preserve-/Trigger-Seeds
+gibt es fortlaufend neue Einsätze — keine Kampagne verläuft wie die andere.
+
 Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — einrichten,
 Preset wählen, losspielen. **Regeln, Welt, Skillung, Taktik** lernt ihr
 **spielerisch im Chat** — fragt einfach die Spielleitung („wie levele ich
@@ -67,6 +70,8 @@ ihr mit `!save` — der JSON enthält alle Charaktere. Jeder kann seinen Stand
 mitnehmen, solo weiterspielen und beim nächsten Gruppenabend wieder einsteigen.
 Der erste gepostete Save setzt den Kampagnenrahmen, jeder weitere Charakter
 bringt seinen persönlichen Fortschritt mit.
+Wenn sich Gruppen trennen und später wieder zusammentreffen, verweben sich die
+einzelnen Handlungsstränge wieder zu einem gemeinsamen Zeitnetz.
 
 **Hinweis zu Saves:** Ausformulierte Vorgeschichten dürfen ausführlich sein,
 der Save bleibt trotzdem kompakt. Beim HQ-`!save` können ältere
@@ -170,12 +175,21 @@ wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
    dann das Finale.
 2. **Missionsphasen.** Briefing → Infiltration → Konflikt → Exfil → Debrief.
    12 Szenen pro Core-Mission, 14 bei Rift-Ops.
-3. **Explodierende Würfel.** W6, ab Attribut 11 W10, ab 14 Heldenwürfel.
-4. **Paradoxon-Index.** Belohnungssystem: Bei Px 5 werden 1–2
+3. **Preserve & Trigger.** Ihr stabilisiert historische Verläufe (**Preserve**)
+   oder sorgt aktiv dafür, dass dokumentierte Ereignisse eintreten
+   (**Trigger**), wenn genau das den größeren Schaden verhindert. Chrononauten
+   agieren dabei als Werkzeug eines größeren Plans des ITI.
+4. **Explodierende Würfel.** W6, ab Attribut 11 W10, ab 14 Heldenwürfel.
+5. **Paradoxon-Index.** Belohnungssystem: Der Anstieg von Px hängt vom
+   Missionsverlauf und euren Preserve/Trigger-Entscheidungen ab. Bei Px 5 werden 1–2
    Riftkoordinaten auf der Raumzeitkarte sichtbar — dort warten Rift-Ops
    mit Paramonstern und Artefakten.
-5. **Boss-Rhythmus.** Mission 5 = Mini-Boss, Mission 10 = Episoden-Boss.
-6. **Persistenz.** `!save` im HQ, JSON mitnehmen, im nächsten Chat laden.
+6. **Boss-Rhythmus.** Mission 5 = Mini-Boss, Mission 10 = Episoden-Boss.
+7. **Persistenz.** `!save` im HQ, JSON mitnehmen, im nächsten Chat laden.
+
+**Makros sind Komfort, keine Pflicht:** `!save`, `!bogen` oder `!menü` sind
+Shortcuts. Ihr könnt genauso natürlich schreiben wie „speichere meinen
+Charakter“ oder „zeig meinen Bogen“ — die Spielleitung reagiert in-world.
 
 → **[Spieler-Handbuch](core/spieler-handbuch.md)** — Einleitung, Regeln,
 Schnellstart, FAQ
