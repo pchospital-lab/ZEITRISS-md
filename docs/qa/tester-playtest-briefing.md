@@ -12,9 +12,10 @@ tags: [meta]
 
 ## Plattform
 
-- **OpenWebUI + OpenRouter** (empfohlen)
+- **Nur Weg A testen:** OpenWebUI + OpenRouter
 - Modell: `anthropic/claude-sonnet-4.6` (einziges Modell mit voller Regeltreue)
 - Setup: `python scripts/setup.py` → Preset + 19 WS-Module + Masterprompt
+- **Nicht Teil der QA-Basis:** Lumo (Plattform von Proton), ungetestete Plattformen (z. B. Claude Code), kleine lokale Modelle
 
 ## Testmatrix
 
