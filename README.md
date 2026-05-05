@@ -30,7 +30,7 @@ klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
 ### So sieht das aus
 
 🎬 `EP 01 · MS 03 · SC 07/12 · MODE CORE · Objective: Dossier sichern`\
-💢 `Stress 3 · Px █░░░░ (1/5) · Lvl 3 ▓▓▓░░░░░░░ · Rank Operator · SYS 1/4 (free 3)`
+🧠 `Stress 3 · Px █░░░░ (1/5) · Lvl 3 ▓▓▓░░░░░░░ · Rank Operator · SYS 1/4 (free 3)`
 
 > Der Wachmann dreht sich um. Seine Hand geht zum
 > Holster. Du bist schneller.
