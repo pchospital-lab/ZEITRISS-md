@@ -38,7 +38,7 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 │   (Docker)                     (einmalig, danach `--sync` bei        │
 │    │                           Updates)                              │
 │    │                                                                 │
-│    ├──► LiteLLM (Docker, optional) ──► OpenRouter ──► Claude/GLM/… │
+│    ├──► LiteLLM (Docker, Standardpfad) ──► OpenRouter ──► Claude/GLM/… │
 │    │      [aktiviert Prompt-Cache: ~90 % Ersparnis bei Claude]      │
 │    │                                                                 │
 │    └──► Ollama (optional, zwei verschiedene Rollen):                 │
@@ -53,7 +53,7 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 | **ZEITRISS-Repo + Python** | ✅ Pflicht | Regelwerk + Setup-Script |
 | **OpenRouter-Key** | ✅ Pflicht* | Modellzugang (Cloud, günstig pay-per-token). *Außer bei Ollama-Sprachmodell-Variante |
 | **OpenWebUI-API-Key** | ✅ Pflicht | damit Setup-Script Preset + KB schreiben kann |
-| **LiteLLM** (Docker-Container) | 🟡 Empfohlen | Prompt-Cache für Claude-Modelle (~90 % Ersparnis) |
+| **LiteLLM** (Docker-Container) | ✅ Standardpfad | Prompt-Cache für Claude-Modelle (~90 % Ersparnis) |
 | **Ollama** | ⚪ Optional | Offline-Modell **oder** lokales Embedding |
 
 > 💡 **Das Setup-Script macht viel, aber nicht alles**: Es richtet
@@ -63,37 +63,39 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 
 ---
 
-## Welches Setup passt zu dir?
+## Zwei Wege (verbindlich getrennt)
 
-```text
-Willst du ZEITRISS …
+### Weg A — Standard-Setup (offiziell getestet)
 
-├─ schnell + günstig + beste Qualität?      → Happy Path (OpenWebUI + OpenRouter + LiteLLM)
-│                                             [Standard-Pfad]
-│
-├─ offline / ohne Cloud / private Daten?    → Variante: Ollama als Sprachmodell
-│                                             (braucht starke GPU)
-│
-├─ anderes Frontend nutzen?                → Variante: Portabler Export (ohne Gewähr)
-│                                             (manueller Import je Plattform)
-│
-└─ DIY, kein Script?                        → Variante: Manuelles Setup
-```
+Das ist der **verbindliche Referenzpfad** für ZEITRISS:
 
-Für den **Happy Path** lies einfach den nächsten Abschnitt. Alles
-andere findest du unter [Varianten](#varianten).
+- OpenWebUI
+- OpenRouter
+- `anthropic/claude-sonnet-4.6`
+- LiteLLM-Cache als Standardbestandteil
+
+Nur für diesen Pfad sind Qualität und Reproduzierbarkeit intern verlässlich geprüft.
+
+### Weg B — Portabler Setup (ohne Gewähr)
+
+Manueller Export in andere Plattformen (Masterprompt + Wissensmodule).
+Geeignet für erfahrene Nutzer, aber **nicht** Teil der offiziellen Testbasis.
+
+### Derzeit nicht unterstützt
+
+- Lumo (Plattform von Proton)
+- ungetestete Plattformen (z. B. Claude Code)
+- kleine lokale Modelle als Spielleitung
 
 ---
 
-## Happy Path: Installation in fünf Schritten
+## Weg A — Standard-Setup (offiziell getestet)
 
 Dieser Pfad richtet OpenWebUI + OpenRouter ein — das empfohlene
-Basis-Setup. Schritt 5 (LiteLLM) ist ein **empfohlener Bonus** für
-Claude-Modelle und spart langfristig die meisten Kosten. Wer kein Claude
-nutzt, überspringt Schritt 5.
+Basis-Setup. LiteLLM ist im Referenzpfad **Standardbestandteil** und spart langfristig die meisten Kosten.
 
-> ℹ️ **Zeitaufwand**: ~25 Minuten fürs Basis-Setup, +5 Minuten für den
-> LiteLLM-Bonus. Updates später dauern meist unter einer Minute.
+> ℹ️ **Zeitaufwand**: ~30 Minuten fürs vollständige Standard-Setup
+> (inkl. LiteLLM). Updates später dauern meist unter einer Minute.
 
 ### Schritt 1 — OpenWebUI starten
 
@@ -175,7 +177,7 @@ Dauer: **5–10 Minuten** beim ersten Mal (Embeddings werden berechnet).
 Ohne Git: ZIP-Download über **Code → Download ZIP** auf GitHub,
 entpacken, Terminal im Ordner öffnen, Script ausführen.
 
-### Schritt 5 (empfohlen) — LiteLLM einrichten für günstigeres Spielen
+### Schritt 5 — LiteLLM einrichten (Standard im Referenzpfad)
 
 Der ZEITRISS-Masterprompt ist ~60 KB groß (versionsabhängig). Ohne Caching zahlt ihr ihn
 bei **jedem** Turn neu. LiteLLM ist ein kleiner Docker-Container, der
@@ -202,9 +204,8 @@ zeigt am Ende drei Klicks, die ihr in OpenWebUI noch machen müsst:
 > Anthropic oder AWS Bedrock zugelassen sein. Sonst blockiert OpenRouter
 > die Route, und das Caching greift nicht. Das Script warnt explizit.
 
-Wenn ihr kein Claude-Modell nutzt, könnt ihr Schritt 5 überspringen —
-bei GLM/DeepSeek/Qwen ist das integrierte Caching anders geregelt,
-LiteLLM schadet nicht, bringt aber weniger.
+Auch bei anderen Modellen bleibt LiteLLM im Referenzpfad gesetzt, damit
+das Setup konsistent bleibt und QA-Befunde reproduzierbar sind.
 
 ### Fertig — Spiel starten
 
@@ -296,9 +297,9 @@ braucht getrennte Clones.
 
 ---
 
-## Varianten
+## Weg B — Portabler Setup (ohne Gewähr)
 
-Abweichungen vom Happy Path. Alle optional, jede für sich dokumentiert.
+Dieser Abschnitt dokumentiert Best-Effort-Varianten außerhalb des offiziellen Referenzpfads.
 
 ### Lokales Gruppenspiel am selben Rechner
 
@@ -435,9 +436,10 @@ Der Import ist manuell und hängt vollständig von der Zielplattform ab.
 | Plattform | Tauglichkeit |
 | --- | --- |
 | Plattformen mit großem System-Prompt + Dateiupload | ⚠️ Theoretisch nutzbar, nicht Teil unseres QA-Standards. |
-| Claude Projects | ⚠️ Kann funktionieren, Qualität modellabhängig. |
-| Custom GPTs (OpenAI) | ⚠️ Eingeschränkt (Prompt-Limits, Moderations-/Redaction-Effekte). |
-| Lumo / Proton | ❌ Derzeit **nicht empfohlen** (aktuell nicht zuverlässig getestet). |
+| Offizieller Pfad: OpenWebUI | ✅ Empfohlen und getestet. |
+| Portabler Import (allgemein) | ⚠️ Nur manuell, ohne Gewähr. |
+| Lumo (Plattform von Proton) | ❌ Derzeit nicht unterstützt (keine zuverlässige Spielerfahrung). |
+| Ungetestete Plattformen (z. B. Claude Code) | ❌ Nicht freigegeben. |
 
 Für Plattformen ohne Ordner-Support: `--export --flat` erzeugt
 nummerierte Flat-Dateien.
