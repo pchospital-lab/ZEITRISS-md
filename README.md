@@ -35,7 +35,7 @@ klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
 > Der Wachmann dreht sich um. Seine Hand geht zum
 > Holster. Du bist schneller.
 
-`Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 10 vs SG 8 → TREFFER`
+`Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 8 vs SG 8 → TREFFER`
 
 > Dein Ellbogen trifft seinen Kehlkopf. Er klappt
 > zusammen, lautlos.
