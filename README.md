@@ -107,7 +107,7 @@ separates Programm. Für die Nutzung gibt es **zwei klar getrennte Wege**:
 - **Plattform:** OpenWebUI
 - **Modellpfad:** OpenRouter, empfohlen `anthropic/claude-sonnet-4.6`
 - **Standard:** LiteLLM für Prompt-Cache (Kostenersparnis)
-- **Status:** ✅ aktiv getestet und als Referenz-Setup genutzt
+- **Status:** Aktiv getestet und als Referenz-Setup genutzt
 
 **Nur für diesen Weg** sind reproduzierbares Feedback und saubere
 Fehlersuche realistisch möglich.
@@ -116,16 +116,16 @@ Fehlersuche realistisch möglich.
 
 - Export/Import von Masterprompt + Wissensmodulen in andere Plattformen
 - Sinnvoll für fortgeschrittene Nutzer mit eigener Runtime-Erfahrung
-- **Status:** ⚠️ technisch möglich, aber nicht Teil der offiziellen Testbasis
+- **Status:** Technisch möglich, aber nicht Teil der offiziellen Testbasis
 
 Wichtig: Weg B ist **kein Ersatz** für den Standardpfad, sondern eine
 Best-Effort-Option für eigene Experimente.
 
-### Nicht empfohlen / derzeit nicht unterstützt
+### Hinweise zur Plattformwahl
 
-- **Lumo (Plattform von Proton):** ❌ aktuell keine zuverlässige ZEITRISS-Erfahrung
-- **Ungetestete Plattformen (z. B. Claude Code):** ❌ nicht freigegeben
-- **Kleine lokale Modelle:** ❌ für ZEITRISS in der Regel zu schwach
+- **Lumo (Plattform von Proton):** Aktuell keine zuverlässige ZEITRISS-Erfahrung
+- **Ungetestete Plattformen (z. B. Claude Code):** Noch nicht freigegeben
+- **Kleine lokale Modelle:** Für ZEITRISS in der Regel zu schwach
 
 **Kurzfassung:** Wenn ihr spielen und sinnvolles Feedback geben wollt, nutzt
 Weg A.
@@ -170,10 +170,6 @@ aktuell das einzige getestete Modell mit vollständiger Regeltreue und
 stärkstem Noir-Ton. Der LiteLLM-Proxy (Docker, Teil des Standard-Setups) aktiviert
 den Anthropic-Prompt-Cache und senkt die Kosten um **~90 %** — ZEITRISS
 wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
-
-Weitere getestete Modelle (teils mit Regel-Einschränkungen) sind im
-[Setup-Guide](docs/setup-guide.md#modelle) dokumentiert. Neuere und
-lokale Modelle werden nach dem nächsten Testzyklus nachgezogen.
 
 ## Das Spielsystem in Kürze
 
