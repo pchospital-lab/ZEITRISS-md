@@ -74,8 +74,8 @@ Willst du ZEITRISS …
 ├─ offline / ohne Cloud / private Daten?    → Variante: Ollama als Sprachmodell
 │                                             (braucht starke GPU)
 │
-├─ nur mal reinschnuppern, keine Installation?  → Variante: Lumo / Claude Projects
-│                                                 (ohne OpenWebUI, ohne Script)
+├─ anderes Frontend nutzen?                → Variante: Portabler Export (ohne Gewähr)
+│                                             (manueller Import je Plattform)
 │
 └─ DIY, kein Script?                        → Variante: Manuelles Setup
 ```
@@ -420,7 +420,7 @@ Embedding-Modell) ist verfügbar, OpenWebUI kann Ollama erreichen.
 > ist der Indexer, der die KB durchsuchbar macht. Beide können parallel
 > laufen oder keins — OpenWebUI braucht nur den Default-MiniLM.
 
-### Andere Plattformen (Lumo, Claude Projects, Custom GPTs)
+### Andere Plattformen (portabler Export, ohne Gewähr)
 
 Kein OpenWebUI, kein Docker, kein Script — ihr nutzt einen fertigen
 Browser-Dienst. ZEITRISS wird dabei als **Wissenspaket** exportiert:
@@ -429,14 +429,15 @@ Browser-Dienst. ZEITRISS wird dabei als **Wissenspaket** exportiert:
 python scripts/setup.py --export
 ```
 
-Das erzeugt ein Paket mit `masterprompt.md` + 19 Wissensmodulen plus
-Anleitung, wie ihr es in eure Plattform ladet.
+Das erzeugt ein Paket mit `masterprompt.md` + 19 Wissensmodulen.
+Der Import ist manuell und hängt vollständig von der Zielplattform ab.
 
 | Plattform | Tauglichkeit |
 | --- | --- |
-| **Lumo** (Proton) | ✅ Funktioniert gut. Details: [`docs/setup-lumo.md`](setup-lumo.md) |
-| **Claude Projects** | ✅ Funktioniert gut. |
-| **Custom GPTs** (OpenAI) | ⚠️ Eingeschränkt. Prompt-Limit zu klein, 18+-Inhalte werden teils redacted. |
+| Plattformen mit großem System-Prompt + Dateiupload | ⚠️ Theoretisch nutzbar, nicht Teil unseres QA-Standards. |
+| Claude Projects | ⚠️ Kann funktionieren, Qualität modellabhängig. |
+| Custom GPTs (OpenAI) | ⚠️ Eingeschränkt (Prompt-Limits, Moderations-/Redaction-Effekte). |
+| Lumo / Proton | ❌ Derzeit **nicht empfohlen** (aktuell nicht zuverlässig getestet). |
 
 Für Plattformen ohne Ordner-Support: `--export --flat` erzeugt
 nummerierte Flat-Dateien.
@@ -600,7 +601,7 @@ Ausführlichere LiteLLM-Doku:
 | `python scripts/setup.py` | Full-Rebuild, interaktiv |
 | `python scripts/setup.py --sync` | Inkrementelles Update (empfohlen nach `git pull`) |
 | `python scripts/setup.py --install-litellm` | LiteLLM-Proxy einrichten |
-| `python scripts/setup.py --export` | Export-Paket für Lumo / Claude Projects |
+| `python scripts/setup.py --export` | Export-Paket für alternative Plattformen (ohne Gewähr) |
 | `python scripts/setup.py --export --flat` | Flat-Export (nummerierte Dateien) |
 
 ### Flags
