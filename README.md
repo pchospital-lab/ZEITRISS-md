@@ -99,46 +99,42 @@ Textzusammenfassung der wichtigsten Eckdaten.
 
 ## Zwei Setup-Wege (klar getrennt)
 
-ZEITRISS ist ein Datensatz, kein Programm — ein Masterprompt und 19
-Wissensmodule. Überall dort, wo du einen System-Prompt setzen und
-Wissensdateien laden kannst, läuft ZEITRISS.
+ZEITRISS ist ein Datensatz (Masterprompt + 19 Wissensmodule), kein
+separates Programm. Für die Nutzung gibt es **zwei klar getrennte Wege**:
 
-**Aber:** ZEITRISS ist das komplexeste Projekt dieser Familie. Der
-Masterprompt ist mit ~60 KB (versionsabhängig) deutlich größer als bei den anderen Bausätzen.
-Das bedeutet:
+### Weg A — Standard-Setup (empfohlen, getestet, Referenz-Basis)
 
-- **OpenWebUI + starkes Modell** — Optimale Erfahrung. Empfohlen.
-- **Lumo / Claude Projects** — Funktioniert, wenn die Plattform genug
-  System-Prompt-Platz bietet.
-- **Custom GPTs (OpenAI)** — Eingeschränkt. System-Prompt-Limit zu klein,
-  18+-Content wird teilweise redacted.
-- **Schwache Modelle** — Kommen an Grenzen. ZEITRISS braucht Modelle, die
-  komplexe Regelsysteme + Kreativität + Pacing gleichzeitig können.
+- **Plattform:** OpenWebUI
+- **Modellpfad:** OpenRouter, empfohlen `anthropic/claude-sonnet-4.6`
+- **Standard:** LiteLLM für Prompt-Cache (Kostenersparnis)
+- **Status:** ✅ aktiv getestet und als Referenz-Setup genutzt
 
-**Dein Save ist JSON.** Charakter mitnehmen, in jedem Chat laden, Plattform
-wechseln — das funktioniert überall. Die Schnittstelle ist portabel, auch
-wenn nicht jede Plattform die volle ZEITRISS-Erfahrung liefern kann.
+**Nur für diesen Weg** sind reproduzierbares Feedback und saubere
+Fehlersuche realistisch möglich.
 
-ZEITRISS ist ein Bausatz von pchospital. Alle Bausätze funktionieren
-nach dem gleichen Prinzip: Masterprompt + Wissensmodule +
-JSON-Schnittstelle. Privat kostenlos. Gewerblich lizenziert.
+### Weg B — Portabler Setup (manuell, ohne Gewähr)
 
-**Wichtig für Regel-Updates:** Im normalen Spielbetrieb zählt nur, was im
-Masterprompt und den Wissensmodulen steht. Runtime-/Tooling-Dateien unter
-`internal/`, `docs/`, `tools/` oder `runtime.js` sind für Tests/Entwicklung
-gedacht und werden von der KI-Spielleitung nicht automatisch geladen.
+- Export/Import von Masterprompt + Wissensmodulen in andere Plattformen
+- Sinnvoll für fortgeschrittene Nutzer mit eigener Runtime-Erfahrung
+- **Status:** ⚠️ technisch möglich, aber nicht Teil der offiziellen Testbasis
+
+Wichtig: Weg B ist **kein Ersatz** für den Standardpfad, sondern eine
+Best-Effort-Option für eigene Experimente.
+
+### Nicht empfohlen / derzeit nicht unterstützt
+
+- **Lumo (Plattform von Proton):** ❌ aktuell keine zuverlässige ZEITRISS-Erfahrung
+- **Ungetestete Plattformen (z. B. Claude Code):** ❌ nicht freigegeben
+- **Kleine lokale Modelle:** ❌ für ZEITRISS in der Regel zu schwach
+
+**Kurzfassung:** Wenn ihr spielen und sinnvolles Feedback geben wollt, nutzt
+Weg A.
 
 ---
 
-## Drei Schritte, dann spielen
+## Setup starten
 
-1. **Weg wählen.**
-   **Standard (empfohlen):** OpenWebUI als Test- und Zielplattform.
-   **Portabel (ohne Gewähr):** Export in andere Plattformen per Hand.
-2. **Modell wählen.** Cloud ([OpenRouter](https://openrouter.ai) o.Ä.)
-   oder lokal (Ollama). API-Key unter Einstellungen → Verbindungen
-   eintragen.
-3. **Setup starten.**
+### Weg A — Standard-Setup (OpenWebUI)
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
@@ -146,32 +142,32 @@ cd ZEITRISS-md
 python scripts/setup.py
 ```
 
-Danach: neuen Chat in OpenWebUI öffnen, Modell
-**ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)`
-tippen. Das Script legt Knowledge Base, Preset und Parameter selbst an.
+Danach in OpenWebUI: neuen Chat öffnen, Preset
+**ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)` tippen.
+Natürliche Sprache funktioniert ebenfalls, z. B. „Wir wollen neu als Gruppe starten“.
 
-> `Spiel starten (solo schnell)` ist optional als Fast-Lane für
-> Kurzrunden verfügbar. Natürliche Sprache funktioniert genauso
-> („Wir wollen neu starten als Gruppe").
+### Weg B — Portabler Setup (manuell)
+
+- Masterprompt + Wissensmodule manuell in die Zielplattform eintragen
+- JSON für Save/Load nutzen
+- Keine Funktionsgarantie, kein offizieller Betriebs-/Hilfepfad
+
+Details für beide Wege stehen im [Setup-Guide](docs/setup-guide.md).
 
 ---
 
 **Alles weitere im [Setup-Guide](docs/setup-guide.md):**
 
-- [Überblick der Komponenten](docs/setup-guide.md#überblick-wie-zeitriss-läuft)
-  (wer macht was, was ist Pflicht, was optional)
-- [Happy Path in 5 Schritten](docs/setup-guide.md#happy-path-installation-in-fünf-schritten)
-  (OpenWebUI + OpenRouter + LiteLLM)
+- [Weg A: Happy Path (offiziell)](docs/setup-guide.md#weg-a--standard-setup-offiziell-getestet)
+- [Weg B: Portabler Setup](docs/setup-guide.md#weg-b--portabler-setup-ohne-gewähr)
 - [Updates mit `--sync`](docs/setup-guide.md#updates-und-wartung)
-  (nur Deltas übertragen, spart Minuten)
-- [Varianten](docs/setup-guide.md#varianten): Lokales Gruppenspiel,
-  Ollama offline, portabler Export, manuelles Setup
+- [Troubleshooting](docs/setup-guide.md#troubleshooting)
 
 ## Modell-Empfehlung
 
 **Standard-Stack: `anthropic/claude-sonnet-4.6` + LiteLLM.** Sonnet 4.6 ist
 aktuell das einzige getestete Modell mit vollständiger Regeltreue und
-stärkstem Noir-Ton. Der optionale LiteLLM-Proxy (Docker, ein Befehl im Setup) aktiviert
+stärkstem Noir-Ton. Der LiteLLM-Proxy (Docker, Teil des Standard-Setups) aktiviert
 den Anthropic-Prompt-Cache und senkt die Kosten um **~90 %** — ZEITRISS
 wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
 
