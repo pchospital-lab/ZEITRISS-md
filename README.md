@@ -19,8 +19,10 @@ vollständiges Rollenspielsystem mit Würfelproben, Charakterentwicklung,
 Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
 Loot und Debrief.
 
-Dank kreativem Missionsgenerator und stetig neuen Preserve-/Trigger-Seeds
-gibt es fortlaufend neue Einsätze — keine Kampagne verläuft wie die andere.
+Die Spielleitung zieht aus einem ganzen Orchester von Generatoren —
+Settings, NSC-Pools, Preserve-/Trigger-Seeds, Paradox-Events und
+Rift-Koordinaten — und webt daraus jede Kampagne neu. Kein Playthrough
+gleicht dem anderen.
 
 Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — einrichten,
 Preset wählen, losspielen. **Regeln, Welt, Skillung, Taktik** lernt ihr
