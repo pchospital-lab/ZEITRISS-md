@@ -6,6 +6,24 @@
 
 ---
 
+
+## Datensatz-vs-Dev-Check
+
+- **Datensatz-Relevanz:** Dieser Review ist **laufzeitrelevant**, weil er
+  konkrete Regel-Drift (Würfeltyp/Probeformel unter Buff-Einfluss) bewertet
+  und explizit zwischen robustem Fix (Level-Up) und offenem Drift (Buff-Fall)
+  unterscheidet.
+- **WS-Spiegelpflicht bei Regeländerung:** Abgeleitete Regelanpassungen dürfen
+  nicht in `docs/` verbleiben. Sie sind in den Wissensspeicher-Modulen zu
+  verankern, insbesondere in:
+  - `meta/masterprompt_v6.md` (SSOT-Regelanker + Guardrails/Negativbeispiele)
+  - `01_system/03_mechanik_proben.md` (Probeformel Basiswert vs. Modifikatoren)
+  - `01_system/04_mechanik_kampf.md` (falls derselbe Formelpfad im Kampf gilt)
+  - `master-index.json` (nur falls Slot-Zuordnung angepasst wird)
+- **Invariantenhinweis:** Save-Schema v7 bleibt unverändert; betroffen sind
+  ausschließlich Regeltext, Beispiele und Guardrails zur Laufzeitanwendung.
+
+---
 ## TL;DR
 
 **Verdict: Merge mit einer Anpassung (Formel-Namensgleichheit) und einem fehlenden Satz nachziehen.**
