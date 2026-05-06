@@ -9,6 +9,13 @@
 
 ---
 
+## Datensatz-vs-Dev-Check
+
+- Datensatz-Relevanz: ja — Würfelschwelle und Level-Up-Flow beeinflussen direkte Laufzeitantworten der KI-SL.
+- Nur Dev/QA: nein — Harness/Logs sind nur Evidenzquelle, nicht Ursache.
+- WS-Spiegelpflicht: ja — Zielmodule: `meta/masterprompt_v6.md`, `core/spieler-handbuch.md`, `core/wuerfelmechanik.md`, `systems/toolkit-gpt-spielleiter.md` (Pflichtcheck nach Level-Up und bei Load/Resume).
+- Invarianten betroffen: nein — Save-Schema v7/Boss-Timing/Szenen-Counts bleiben unverändert; nur Regelklarheit/Guarding.
+
 ## Zusammenfassung
 
 Beim Level-Up von Wire (Lena Voss) von `INT 5 → 6` aktivierte die KI-SL
