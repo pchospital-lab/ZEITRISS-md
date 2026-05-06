@@ -19,6 +19,22 @@ Fokus: A (Level-Up INT 5->6, Ursprungs-Bug) und D (Buff-Fall, neuer Bug).
 B/C hatten in V1+V2 beide 100% Pass und brauchen keine statistische 
 Absicherung.
 
+## Datensatz-vs-Dev-Check
+
+- **Datensatz-Relevanz:** Dieser Befund ist **laufzeitrelevant**, weil er die
+  Robustheit einer aktiven Regelanwendung im Spielbetrieb prüft
+  (Würfeltypentscheidung und Probeformel unter Buff-Einfluss).
+- **WS-Spiegelpflicht bei Regeländerung:** Folgeänderungen dürfen nicht in
+  `docs/` verbleiben. Sie sind in den Wissensspeicher-Modulen zu verankern,
+  insbesondere in:
+  - `meta/masterprompt_v6.md` (SSOT-Regelanker + Negativbeispiele)
+  - `01_system/03_mechanik_proben.md` (Probenformel, Basis-vs.-Buff-Logik)
+  - `01_system/04_mechanik_kampf.md` (falls Kampfsituationen denselben
+    Formelpfad nutzen)
+  - `master-index.json` (nur falls Slot-Zuordnung geändert wird)
+- **Invariantenhinweis:** Save-Schema v7 bleibt unverändert; betroffen sind
+  ausschließlich Regeltext, Guardrails und Beispiele zur Laufzeitanwendung.
+
 ---
 
 ## Ergebnis
