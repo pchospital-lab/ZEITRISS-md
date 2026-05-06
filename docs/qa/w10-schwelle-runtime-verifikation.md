@@ -16,6 +16,22 @@ Negativ-Beispiele) den W10-Schwellen-Bug aus der Ursprungs-Observation
 
 Fokus-Test — keine komplette Playtest-Kette, sondern 5 gezielte Szenarien, je 1-3 Turns.
 
+## Datensatz-vs-Dev-Check
+
+- **Datensatz-Relevanz:** Dieser Befund ist **laufzeitrelevant**, weil er ein
+  konkretes Regelverhalten der KI-SL (Würfeltyp-Schwelle + Formelberechnung bei
+  Buffs) validiert und dabei weiterhin eine offene Drift-Variante dokumentiert.
+- **WS-Spiegelpflicht bei Regeländerung:** Folgeänderungen dürfen nicht in
+  `docs/` stehenbleiben. Sie müssen in den Wissensspeicher-Modulen gespiegelt
+  werden, insbesondere in:
+  - `meta/masterprompt_v6.md` (SSOT-Regelanker & Negativbeispiele)
+  - `01_system/03_mechanik_proben.md` (Probenformel und Basis-vs.-Buff-Regel)
+  - `01_system/04_mechanik_kampf.md` (falls Kampfsituationen dieselbe
+    Buff-Formel berühren)
+  - `master-index.json` (nur falls Slot-Struktur/Zuordnung angepasst wird)
+- **Invariantenhinweis:** Save-Schema v7 bleibt unverändert; betroffen sind nur
+  Regeltext, Beispiele und Guardrails zur Anwendung.
+
 ---
 
 ## Ergebnis
