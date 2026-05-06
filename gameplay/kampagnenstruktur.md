@@ -1918,13 +1918,16 @@ in Routine, Debrief und HQ-Menü wechselt.
 ### Schleusen-Debrief (Chronopolis-Exit, kompakt)
 
 Nach Chronopolis nutzt die Spielleitung einen kurzen Sonder-Debrief mit fester
-Reihenfolge:
+Reihenfolge. Im Raumvertrag (siehe `systems/gameflow/speicher-fortsetzung.md`)
+läuft Schritt 1–5 unter `continuity.last_seen.mode="debrief"`; **Abschluss von
+Schritt 5 öffnet die Tür** (`mode` wechselt auf `"hq"`), erst danach greift
+`!save` im HQ-Menü (Schritt 6):
 
 1. **Status:** Zurück in der Nullzeit (vollständig, verletzt, Schock).
 2. **Asset-Check:** Physisch mitgebrachte Funde und geloggte Erwerbe.
 3. **Chronopolis-Trace:** Käufe/Services inkl. Kosten und Notizen.
 4. **Highlight:** Gesichertes Schlüsselobjekt (z. B. Temporal Ship).
-5. **Reset & Stabilisierung:** Stress/Psi-Heat/SYS auf HQ-Basis.
+5. **Reset & Stabilisierung:** Stress/Psi-Heat/SYS auf HQ-Basis. *Tür auf: `mode="hq"`.*
 6. **HQ-Menü:** Schnell-HQ, manuell oder Auto-HQ & Save.
 
 ### 2 | Freischalt-Logik (Runtime-Kanon)

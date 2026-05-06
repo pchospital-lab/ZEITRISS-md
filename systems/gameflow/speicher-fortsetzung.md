@@ -1194,23 +1194,135 @@ vA.B. Bitte HQ-Migration veranlassen.`
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
   `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
 
-## HQ-Loop-Contract (Debrief → Freeplay)
+## Raumvertrag (Oldschool-Abschnittslogik)
 
-Nach jedem Einsatz folgt ein deterministischer HQ-Loop. Diese Reihenfolge ist
-**verpflichtend** und wird im Debrief sichtbar dokumentiert. Der Debrief darf
-nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtgate):
+ZEITRISS folgt einem klaren Raummodell, das Oldschool-CRPGs als Vorbild nimmt: der Spieler
+bewegt sich durch benannte Räume, und Saves sind an **einen** dieser Räume gebunden — das
+HQ.
+
+```
+hq → briefing → core/rift/arena/chronopolis → debrief → hq
+```
+
+`continuity.last_seen.mode` trägt den aktuellen Raum:
+
+- **`"hq"`** — **Speicherraum.** `!save` erlaubt, neuer Chat/JSON-Paste empfohlen.
+- **`"briefing"`** — vordere Schleuse vor der Mission (Briefingraum). Kein Save. Der
+  Briefingraum wird mit dem Missionsstart verlassen, `mode` wechselt auf den aktiven
+  Missionsraum.
+- **`"core"` / `"rift"` / `"arena"` / `"chronopolis"`** — aktive Missionsräume. Kein Save.
+- **`"debrief"`** — hintere Schleuse nach der Mission (Debriefingraum). Kein Save.
+  Der Debriefingraum wird erst nach vollständigem Durchlauf der für den Missionstyp
+  gültigen Debrief-Variante verlassen (siehe unten); erst dann schaltet `mode` auf `"hq"`
+  um („Tür auf“).
+
+`!save` außerhalb von `mode="hq"` wird mit
+`` `SaveGuard: Speichern nur im HQ - HQ-Save gesperrt.` `` abgewiesen. Briefing und Debrief
+sind **Türen, keine Speicherpunkte.** Das ist der Grund, warum Spieler nach einer sauberen
+Abschnittsabwicklung nie einen „Post-Save-Debrief-Echo“ erleben: beim Save ist der Debrief
+per Konstruktion längst abgeschlossen und `character.level_history[<aktuelles_level>]`
+gefüllt.
+
+### Debrief-Varianten (drei Formen, derselbe Raum)
+
+Der Debriefingraum ist der Pflichtraum vor der Rückkehr ins HQ. Je nach
+Missionstyp durchläuft er eine andere Sequenz — aber **immer** endet er mit dem
+Raumwechsel `mode: debrief → hq`:
+
+- **Standard-Debrief** (Core, Rift): 6 Schritte — siehe HQ-Loop-Contract unten.
+  Tür auf nach Schritt 5 (ITI-Ruf-Update inkl. Lizenz-Tier).
+- **Chronopolis-Debrief** (Schleusen-Debrief): 6 Schritte Sonderform — Status →
+  Asset-Check → Chronopolis-Trace → Highlight → Reset/Stabilisierung → HQ-Menü
+  (kanonisch in `gameplay/kampagnenstruktur.md`, Abschnitt *Schleusen-Debrief*).
+  Tür auf nach Schritt 5 (Reset/Stabilisierung). Kein Standard-Loot-/XP-/ITI-Flow,
+  weil Chronopolis-Assets über `arc.hooks` und Funde gebucht werden.
+- **Arena/PvP-Debrief** (Match-Debrief): 4 Schritte Kurzform — Match-Recap →
+  `arena.banked_rewards`-Buchung → ITI-Ruf-Delta (falls getriggert) → HQ-Menü.
+  Tür auf nach Schritt 3 (ITI-Ruf-Delta). Kein XP/Level-Up-Flow, weil PvP
+  außerhalb der Kampagnen-XP-Kurve läuft. Falls kein ITI-Ruf-Delta anfällt,
+  reicht der Abschluss von Schritt 2.
+
+Alle drei Varianten schalten am Ende `mode="hq"` **und** `location="HQ"`. Erst
+danach ist `!save` erlaubt. Die Missionstyp-Erkennung erfolgt über den
+`continuity.last_seen.mode`-Wert im Moment des Mission-Endes (`core`/`rift` →
+Standard, `chronopolis` → Schleusen-Debrief, `arena` → Match-Debrief).
+
+### Ausnahmen, die den Raumvertrag nicht brechen
+
+- **HQ-Verweilen / Quartier-Szenen** (Solo und Gruppe): bleibt `mode="hq"`, `!save`
+  erlaubt. Der Spieler kann im HQ „schlafen gehen“, speichern und im neuen Chat am
+  nächsten Tag weiterspielen. Der HQ als Raum ist nicht personalisiert (kein
+  individuelles Quartier als Save-Zwangspunkt), damit Gruppen identisch speichern
+  können wie Solo-Spieler. Der Session-Anker des Saves läuft über den ersten
+  Character im Array.
+- **Arena-Zwischenrunden:** während `mode="arena"` + aktiver Queue/Match bleibt
+  Save gesperrt (`arena.queue_state` respektieren). Erst der Match-Debrief
+  (4 Schritte) schaltet auf `mode="hq"`.
+- **Suspend/Resume während Briefing oder Debrief:** ein Snapshot in diesen
+  Übergangsräumen ist kein regulärer Save. Beim Resume wird der Raumvertrag
+  respektiert (`!save` erst wieder ab `mode="hq"`).
+
+## HQ-Loop-Contract (Standard-Debrief für Core & Rift)
+
+Nach einem Core- oder Rift-Einsatz folgt ein deterministischer HQ-Loop. Er teilt sich in
+zwei Phasen: **Debriefingraum (Schritte 1–5)** und **HQ nach Tür-auf (Schritte 6–7)**.
+Diese Reihenfolge ist **verpflichtend** und wird sichtbar dokumentiert. Der Debrief darf
+nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtgate).
+
+**Phase A — Debriefingraum (`mode="debrief"`, kein Save):**
 
 1. **Score-Screen / Missions-Bewertung** (Erfolg/Teilerfolg/Fehlschlag, Px-Stand).
 2. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
 3. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
-4. **XP/Skills** (Level-Up/Skill-Picks aktiv abfragen — **genau eine** Wahl pro Stufe; Anti-Stacking-Gate gegen `character.level_history[<lvl>]`).
-5. **ITI-Ruf-Update** (formaler Institutsruf, Lizenz-Tier).
-6. **`!save`-Angebot** — erst **nach** abgeschlossener Level-Up-Wahl. Ein `!save` **vor** der Wahl wird mit `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
+4. **XP/Skills** (Level-Up/Skill-Picks aktiv abfragen — **genau eine** Wahl pro Stufe;
+   Anti-Stacking-Gate gegen `character.level_history[<lvl>]`).
+5. **ITI-Ruf-Update & Lizenz-Tier** (formaler Institutsruf, Lizenz-Tier-Verknüpfung).
+   **Abschluss dieses Schritts öffnet die Tür:** `mode` schaltet von `"debrief"` auf
+   `"hq"`, `location` auf `"HQ"`. Ab jetzt greift `!save`.
+
+**Phase B — HQ nach Tür-auf (`mode="hq"`, Save freigegeben):**
+
+6. **`!save`-Angebot** — Kodex bietet Save explizit an. Ein `!save` vor Abschluss von
+   Schritt 4 (Level-Up-Wahl) wurde bereits in Phase A mit
+   `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten; in Phase B ist der
+   Pfad frei.
 7. **Freeplay-Anker** — explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
    plus **1 Gerücht** (kurzer Hook) anbieten.
 
-Der Freeplay-Anker wird sichtbar ausgespielt und als normaler HQ-Fortschritt im
-Debrief dokumentiert. Nach `!save` kann der Spieler nahtlos weiterspielen oder den Chat schließen und in einem neuen Chat per JSON-paste in die Nullzeit zurückkehren.
+Der Freeplay-Anker wird sichtbar ausgespielt und als normaler HQ-Fortschritt dokumentiert.
+Nach `!save` kann der Spieler nahtlos weiterspielen oder den Chat schließen und in einem
+neuen Chat per JSON-paste in die Nullzeit zurückkehren.
+
+**Warum die Tür nach Schritt 5 aufgeht:** Ende von Schritt 5 markiert die vollständige
+missionsseitige Abrechnung. Alles danach sind HQ-interne Folgeszenen. Save-Angebot (6)
+ist nur sinnvoll, wenn Save auch funktioniert — es *ist* also Phase B. Das beseitigt
+jeden Ambiguitätsfall zwischen „noch im Debrief“ und „schon im HQ“.
+
+### Chronopolis-Debrief (Schleuse, Kurzverweis)
+
+Nach Chronopolis greift der **Schleusen-Debrief** aus
+[`gameplay/kampagnenstruktur.md` → Schleusen-Debrief (Chronopolis-Exit, kompakt)](../../gameplay/kampagnenstruktur.md#schleusen-debrief-chronopolis-exit-kompakt)
+anstelle des Standard-HQ-Loops. Ablauf: Status → Asset-Check → Chronopolis-Trace →
+Highlight → Reset/Stabilisierung → HQ-Menü. **Tür-auf-Trigger:** Abschluss von Schritt 5
+(Reset/Stabilisierung); danach schaltet `mode` auf `"hq"`, und `!save` ist freigegeben.
+Kein Standard-Loot-/XP-/ITI-Flow, weil Chronopolis-Assets separat verbucht werden.
+
+### Arena/PvP-Debrief (Match-Debrief)
+
+Nach einem Arena-Match folgt ein kompakter Match-Debrief (`mode="debrief"` für die Dauer
+der Sequenz):
+
+1. **Match-Recap** — Ergebnis, Gegnertyp, Streak-Update.
+2. **`arena.banked_rewards`-Buchung** — `pending_rewards` in `banked_rewards` überführen,
+   `first_wins`/`defeated_types` ggf. fortschreiben.
+3. **ITI-Ruf-Delta** (optional, nur bei Trigger wie `first_win` pro Gegnertyp).
+   **Tür-auf-Trigger** sobald dieser Schritt abgeschlossen oder nicht angefallen ist.
+4. **HQ-Menü** (bereits `mode="hq"`) — Spieler kehrt ins HQ-Router zurück, `!save`
+   freigegeben. `arena.active=false`, `queue_state="idle"`, `previous_mode` geleert.
+
+Der Match-Debrief enthält **keine** Level-Up-Wahl, weil PvP nicht zur
+Kampagnen-XP-Kurve beiträgt. Ein Save während aktiver Queue/Match bleibt blockiert bis
+zum Abschluss des Match-Debriefs.
 
 ### Gruppenregel bei Todesfällen (Core/Rift/Chronopolis)
 

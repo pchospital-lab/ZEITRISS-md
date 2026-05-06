@@ -405,6 +405,7 @@
               "type": "string",
               "enum": [
                 "hq",
+                "briefing",
                 "core",
                 "rift",
                 "arena",
