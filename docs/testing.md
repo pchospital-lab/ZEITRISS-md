@@ -214,6 +214,34 @@ Für jeden Fall im Run-Artefakt dokumentieren:
 Diese Verdichtung ist der Standard für die spätere Repo-Übernahme in
 `docs/qa/*` und für die Fortschreibung des Abarbeitungs-Reports.
 
+
+### Pflicht-Gate: Datensatz-vs-Dev-Trennlinie (ab 2026-05-06)
+
+Jeder neue QA-Befund (Playtest, Verifikation, Regression) muss **vor** der
+fachlichen Bewertung einen kurzen Trennlinien-Check enthalten. Hintergrund:
+ZEITRISS-Laufzeit kennt nur Masterprompt + 19 Wissensdateien; alles andere ist
+Dev-/Testkontext.
+
+**Pflichtblock pro Befund:**
+
+- **Datensatz-Relevanz:** Betrifft der Befund die Laufzeit (Masterprompt/WS)?
+- **Nur Dev/QA?:** Wenn ja, klar als Dev-Hinweis markieren (kein Runtime-Bug).
+- **WS-Spiegelpflicht:** Bei Regelwirkung angeben, in **welches** WS-Modul die
+  Änderung muss (oder warum keine WS-Änderung nötig ist).
+- **Invarianten-Check:** Kurz vermerken, dass Save-Schema v7/Boss-Timing/Szenen-
+  counts etc. nicht verletzt werden.
+
+**Template (copy/paste):**
+
+```md
+## Datensatz-vs-Dev-Check
+
+- Datensatz-Relevanz: <ja/nein + Grund>
+- Nur Dev/QA: <ja/nein + Datei/Tool>
+- WS-Spiegelpflicht: <ja/nein + Zielmodul(e)>
+- Invarianten betroffen: <nein/ja + welche>
+```
+
 ### Weiche Checks (beobachten, nicht enforcen — Stand 2026-04-27)
 
 Diese Punkte sind **thematisch erwünscht**, aber bewusst **nicht als
