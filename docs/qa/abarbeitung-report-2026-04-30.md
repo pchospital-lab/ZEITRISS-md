@@ -212,3 +212,37 @@ Der nächste Bearbeitungsschritt sollte immer:
    Laufzeitbezug auf fehlenden Datensatz-vs-Dev-Block prüfen.
 2. **Erster evidenzbasierter WS-Patch:** Einen bestätigten Driftpunkt mit
    minimalinvasivem Patch in ein konkretes WS-Modul überführen (inkl. Smoke).
+
+## Update 2026-05-06 (Teil 6) — Restscan erweitert um Runtime-Verifikation
+
+### Neu erledigt
+
+- **P1-1-T01 (zusätzlicher Altbefund):** Ein weiterer laufzeitnaher QA-Befund
+  wurde im Restscan nachgezogen und um den Pflichtblock
+  `Datensatz-vs-Dev-Check` ergänzt:
+  - `docs/qa/w10-schwelle-runtime-verifikation.md`
+- **WS-Zielpfad konkretisiert:** Der Befund verweist nun explizit auf
+  `meta/masterprompt_v6.md` sowie auf die betroffenen Runtime-Module
+  `01_system/03_mechanik_proben.md` und `01_system/04_mechanik_kampf.md`.
+
+### Drift mit WS-Auswirkung (Sammelstand, aktualisiert)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Risiko: Regelhinweise bleiben im QA-Text hängen und werden nicht in den 19
+     Wissensmodulen verankert.
+   - Stand: **IN PROGRESS** (4 Altbefunde nachannotiert, Restscan weiter offen).
+   - Nächste Aktion: Stichprobe auf weitere laufzeitnahe Nicht-`playtest-befund`
+     Dateien fortsetzen; nur bei echter WS-Relevanz Pflichtblock ergänzen.
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Risiko: Übernahme von gut klingenden, aber unbestätigten Regeländerungen.
+   - Stand: **PASS-Regel aktiv** (kein Drift beobachtet).
+   - Nächste Aktion: Beim ersten inhaltlichen WS-Patch Evidenzreferenz +
+     Vorher/Nachher-Nachweis verbindlich dokumentieren.
+
+### Offen (nächste Abarbeitung)
+
+1. **Restscan P1-1-T01 finalisieren:** Laufzeitnahe QA-Artefakte außerhalb der
+   bisherigen Befundserie auf fehlenden Datensatz-vs-Dev-Block prüfen.
+2. **Erster evidenzbasierter WS-Patch:** Bestätigten Driftpunkt aus den
+   W10/Buff-Befunden minimalinvasiv ins Ziel-WS-Modul überführen (inkl. Smoke).
