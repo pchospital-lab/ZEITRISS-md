@@ -320,3 +320,51 @@ Der nächste Bearbeitungsschritt sollte immer:
 2. **Erster evidenzbasierter WS-Patch:** Bestätigten Driftpunkt aus
    `buff-schwelle-v2-verifikation`/`w10-schwelle-runtime-verifikation`
    minimalinvasiv ins Ziel-WS-Modul überführen (inkl. `bash scripts/smoke.sh`).
+
+## Update 2026-05-06 (Teil 9) — Restscan P1-1-T01 formell geschlossen
+
+### Neu erledigt
+
+- **P1-1-T01 Abschlussprüfung durchgeführt:** Der Restscan wurde gegen das
+  verpflichtende `Datensatz-vs-Dev`-Gate aus `docs/testing.md` final
+  gegengeprüft; alle laufzeitnahen Befunde der Serie sind nachannotiert.
+- **Abschlussliste dokumentiert (laufzeitrelevant = nachannotiert):**
+  - `docs/qa/playtest-befund-chargen-save-gate.md`
+  - `docs/qa/playtest-befund-w10-schwelle-halluzination.md`
+  - `docs/qa/playtest-befund-pvp-only-cashout.md`
+  - `docs/qa/w10-schwelle-runtime-verifikation.md`
+  - `docs/qa/buff-schwelle-v2-verifikation.md`
+  - `docs/qa/buff-schwelle-critic-selbstreview.md`
+- **Restdateien explizit als nicht-laufzeitrelevant markiert:**
+  `docs/qa/accessibility-docs-nachcheck-2026-05-05.md`,
+  `docs/qa/chronopolis-dynamik-arbeitsplan.md`,
+  `docs/qa/chronopolis-regressionsmatrix.md`,
+  `docs/qa/hud-kodex-patch-2026-05-04.md`,
+  `docs/qa/pvp-bio-nachcheck-status.md`,
+  `docs/qa/v7-bug-widerspruchs-checkliste-2026-04-30.md`,
+  `docs/qa/tester-playtest-briefing.md` (Prozess/Plan/Briefing, kein
+  unmittelbarer Regel- oder Runtime-Patchpfad).
+
+### Drift mit WS-Auswirkung (Sammelstand, aktualisiert)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Risiko: Regelhinweise bleiben im QA-Text hängen und werden nicht in den 19
+     Wissensmodulen verankert.
+   - Stand: **CLOSED** (P1-1-T01 abgeschlossen; laufzeitnahe Altbefunde
+     vollständig nachannotiert).
+   - Nächste Aktion: Gate als Dauerstandard beibehalten; bei jedem neuen
+     Laufzeitbefund Pflichtblock direkt im Erstentwurf setzen.
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Risiko: Übernahme von gut klingenden, aber unbestätigten Regeländerungen.
+   - Stand: **PASS-Regel aktiv** (kein Drift beobachtet).
+   - Nächste Aktion: Beim ersten inhaltlichen WS-Patch Evidenzreferenz +
+     Vorher/Nachher-Nachweis verbindlich dokumentieren.
+
+### Offen (nächste Abarbeitung)
+
+1. **P1-1-T02 vorbereiten:** Aus `buff-schwelle-v2-verifikation` und
+   `w10-schwelle-runtime-verifikation` einen priorisierten
+   Minimalpatch-Kandidaten wählen (ein Regelpunkt, ein Zielmodul).
+2. **Erster evidenzbasierter WS-Patch:** Gewählten Driftpunkt minimalinvasiv in
+   das Ziel-WS-Modul überführen (inkl. `bash scripts/smoke.sh`).
