@@ -89,3 +89,24 @@ Der nächste Bearbeitungsschritt sollte immer:
    Fallblöcke überführen (Setup/Erwartung/Ist/Status).
 3. **WS-Patches gezielt nachziehen:** Nur Punkte in die 19 Wissensmodule
    übernehmen, die den Testblock bestanden haben.
+
+
+## Update 2026-05-06 (Teil 2) — Trennlinie als QA-Pflichtgate
+
+### Neu erledigt
+
+- **P0-1 konkret umgesetzt:** `docs/testing.md` enthält jetzt ein
+  verpflichtendes „Datensatz-vs-Dev“-Gate inkl. Copy/Paste-Template für neue
+  Befunde.
+- **Übernahmeregel operationalisiert:** QA-Befunde müssen jetzt explizit
+  markieren, ob ein Punkt nur Dev/Tooling betrifft oder in WS gespiegelt werden
+  muss.
+
+### Offen (nächste Abarbeitung)
+
+1. **P1-1 starten:** Für die Top-Driftpunkte aus dem Issue-Paket je einen
+   Testfallblock mit `Setup/Erwartung/Ist/Status` anlegen.
+2. **Drift-Bündelung nachziehen (P1-2):** Im nächsten Report-Update einen
+   eigenen Sammelabschnitt „Drift mit WS-Auswirkung“ führen.
+3. **WS-Patches nur nach Evidenz:** Erst Testfallblock, dann gezielter Patch in
+   den 19 Wissensdateien + erneuter Smoke.
