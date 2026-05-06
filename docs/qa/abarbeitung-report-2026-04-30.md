@@ -282,3 +282,41 @@ Der nächste Bearbeitungsschritt sollte immer:
 2. **Erster evidenzbasierter WS-Patch:** Bestätigten Driftpunkt aus
    `buff-schwelle-v2-verifikation`/`w10-schwelle-runtime-verifikation`
    minimalinvasiv ins Ziel-WS-Modul überführen (inkl. Smoke).
+
+
+## Update 2026-05-06 (Teil 8) — Restscan um Critic-Selbstreview ergänzt
+
+### Neu erledigt
+
+- **P1-1-T01 (zusätzlicher Altbefund):** Der laufzeitnahe Review-Befund
+  wurde im Restscan nachgezogen und um den Pflichtblock
+  `Datensatz-vs-Dev-Check` ergänzt:
+  - `docs/qa/buff-schwelle-critic-selbstreview.md`
+- **WS-Zielpfad harmonisiert:** Der nachgezogene Befund verwendet nun
+  denselben WS-Überführungspfad wie die übrigen W10/Buff-Artefakte
+  (`meta/masterprompt_v6.md`, `01_system/03_mechanik_proben.md`,
+  `01_system/04_mechanik_kampf.md`, optional `master-index.json`).
+
+### Drift mit WS-Auswirkung (Sammelstand, aktualisiert)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Risiko: Regelhinweise bleiben im QA-Text hängen und werden nicht in den 19
+     Wissensmodulen verankert.
+   - Stand: **IN PROGRESS** (6 Altbefunde nachannotiert, Abschlussprüfung offen).
+   - Nächste Aktion: Abschließende Gegenprobe gegen `docs/testing.md`-Gate;
+     verbleibende Restdateien als "nicht laufzeitrelevant" oder "nachannotiert"
+     explizit markieren und P1-1-T01 danach schließen.
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Risiko: Übernahme von gut klingenden, aber unbestätigten Regeländerungen.
+   - Stand: **PASS-Regel aktiv** (kein Drift beobachtet).
+   - Nächste Aktion: Beim ersten inhaltlichen WS-Patch Evidenzreferenz +
+     Vorher/Nachher-Nachweis verbindlich dokumentieren.
+
+### Offen (nächste Abarbeitung)
+
+1. **Restscan P1-1-T01 formell schließen:** Abschlussliste der geprüften
+   Laufzeitbefunde inkl. "kein WS-Impact"-Markierungen dokumentieren.
+2. **Erster evidenzbasierter WS-Patch:** Bestätigten Driftpunkt aus
+   `buff-schwelle-v2-verifikation`/`w10-schwelle-runtime-verifikation`
+   minimalinvasiv ins Ziel-WS-Modul überführen (inkl. `bash scripts/smoke.sh`).
