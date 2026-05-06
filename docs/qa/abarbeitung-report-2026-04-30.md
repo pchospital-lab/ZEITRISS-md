@@ -178,3 +178,37 @@ Der nächste Bearbeitungsschritt sollte immer:
    Datensatz-vs-Dev-Block prüfen und nachannotieren.
 2. **Erster evidenzbasierter WS-Patch:** Einen bestätigten Driftpunkt in
    ein WS-Modul überführen (inkl. Vorher/Nachher-Check + Smoke).
+
+
+## Update 2026-05-06 (Teil 5) — Restscan fortgesetzt & weiterer Altbefund nachannotiert
+
+### Neu erledigt
+
+- **P1-1-T01 (weiterer Fortschritt):** Ein zusätzlicher laufzeitrelevanter
+  Altbefund wurde mit dem Pflichtblock `Datensatz-vs-Dev-Check` ergänzt:
+  - `docs/qa/playtest-befund-pvp-only-cashout.md`
+- **WS-Zielpfad präzisiert:** Der Befund nennt jetzt explizit die
+  Zielmodule für mögliche Runtime-Korrekturen (`speicher-fortsetzung`,
+  `toolkit-gpt-spielleiter`, `kampagnenstruktur`, `masterprompt_v6`).
+
+### Drift mit WS-Auswirkung (Sammelstand, aktualisiert)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Risiko: Regelhinweise bleiben im QA-Text hängen und werden nicht in den 19
+     Wissensmodulen verankert.
+   - Stand: **IN PROGRESS** (3 Altbefunde nachannotiert, Restscan weiter offen).
+   - Nächste Aktion: Restliche laufzeitnahen QA-Befunde stichprobenbasiert
+     prüfen und nur bei WS-Relevanz nachannotieren.
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Risiko: Übernahme von gut klingenden, aber unbestätigten Regeländerungen.
+   - Stand: **PASS-Regel aktiv** (kein Drift beobachtet).
+   - Nächste Aktion: Beim ersten inhaltlichen WS-Patch Evidenzreferenz +
+     Vorher/Nachher-Nachweis verbindlich dokumentieren.
+
+### Offen (nächste Abarbeitung)
+
+1. **Restscan P1-1-T01 abschließen:** Verbleibende ältere QA-Befunde mit
+   Laufzeitbezug auf fehlenden Datensatz-vs-Dev-Block prüfen.
+2. **Erster evidenzbasierter WS-Patch:** Einen bestätigten Driftpunkt mit
+   minimalinvasivem Patch in ein konkretes WS-Modul überführen (inkl. Smoke).
