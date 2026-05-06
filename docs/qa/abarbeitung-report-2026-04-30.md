@@ -110,3 +110,38 @@ Der nächste Bearbeitungsschritt sollte immer:
    eigenen Sammelabschnitt „Drift mit WS-Auswirkung“ führen.
 3. **WS-Patches nur nach Evidenz:** Erst Testfallblock, dann gezielter Patch in
    den 19 Wissensdateien + erneuter Smoke.
+
+## Update 2026-05-06 (Teil 3) — Testfallblöcke & Drift-Bündelung gestartet
+
+### Neu erledigt
+
+- **P1-1 gestartet:** Offene Punkte aus dem Datensatztrennungs-Issue-Paket sind
+  jetzt als reproduzierbare Testfallblöcke dokumentiert (`Setup/Erwartung/Ist/Status`
+  inkl. Trennlinien-Check) in
+  `docs/qa/datensatz-trennung-testfallbloecke-2026-05-06.md`.
+- **P1-2 operationalisiert:** Ein eigener Sammelblick „Drift mit WS-Auswirkung“
+  ist unten ergänzt, damit Laufzeitrelevanz nicht mehr zwischen Dev-Hinweisen
+  untergeht.
+
+### Drift mit WS-Auswirkung (Sammelstand)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Risiko: Regelhinweise bleiben im QA-Text hängen und werden nicht in den 19
+     Wissensmodulen verankert.
+   - Stand: Als FAIL-Testfall P1-1-T01 erfasst.
+   - Nächste Aktion: Altbefunde mit betroffenen Zielmodulen nachannotieren.
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Risiko: Übernahme von gut klingenden, aber unbestätigten Regeländerungen.
+   - Stand: Als PASS-Regeltest P1-1-T03 formalisiert (Übernahme erst nach
+     reproduzierbarem Nachweis).
+   - Nächste Aktion: Beim nächsten WS-Patch Evidenzreferenz verpflichtend führen.
+
+### Offen (nächste Abarbeitung)
+
+1. **Altbefunde nachannotieren (P1-1-T01):** Für laufzeitrelevante QA-Dateien
+   pro Befund Ziel-WS-Modul ergänzen.
+2. **Erster evidenzbasierter WS-Patch:** Einen bestätigten Driftpunkt aus den
+   Testfallblöcken in ein konkretes Wissensmodul überführen + Smoke.
+3. **Drift-Sammelstand fortschreiben:** Abschnitt „Drift mit WS-Auswirkung“ in
+   jedem weiteren Update aktualisieren (neu/erledigt/offen).
