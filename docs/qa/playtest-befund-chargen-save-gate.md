@@ -8,6 +8,13 @@ scope: masterprompt, toolkit-gpt-spielleiter, sl-referenz
 
 # Playtest-Befund: Chargen → Save-Angebot wird übersprungen
 
+## Datensatz-vs-Dev-Check
+
+- Datensatz-Relevanz: ja — betrifft den kanonischen Startpfad (Chargenabschluss -> HQ-Save-Gate -> Briefing).
+- Nur Dev/QA: nein — Testharness zeigt das Symptom, die Regel liegt in Masterprompt/WS-Modulen.
+- WS-Spiegelpflicht: ja — Zielmodule: `meta/masterprompt_v6.md`, `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`, `systems/gameflow/speicher-fortsetzung.md`.
+- Invarianten betroffen: nein — Save-Schema v7 bleibt erhalten; Boss-/Szenen-Invarianten unberührt.
+
 ## Abschluss (2026-04-28)
 
 Der Befund gilt als **abgeschlossen**. Der klassische Startpfad ist inzwischen

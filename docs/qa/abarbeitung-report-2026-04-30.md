@@ -145,3 +145,36 @@ Der nächste Bearbeitungsschritt sollte immer:
    Testfallblöcken in ein konkretes Wissensmodul überführen + Smoke.
 3. **Drift-Sammelstand fortschreiben:** Abschnitt „Drift mit WS-Auswirkung“ in
    jedem weiteren Update aktualisieren (neu/erledigt/offen).
+
+## Update 2026-05-06 (Teil 4) — Altbefunde nachannotiert
+
+### Neu erledigt
+
+- **P1-1-T01 (Teilfortschritt):** Laufzeitrelevante Altbefunde wurden mit dem
+  Pflichtblock `Datensatz-vs-Dev-Check` nachannotiert:
+  - `docs/qa/playtest-befund-chargen-save-gate.md`
+  - `docs/qa/playtest-befund-w10-schwelle-halluzination.md`
+- **Zielmodul-Disziplin erhöht:** Beide Befunde benennen jetzt explizit, in
+  welche Wissensmodule ein möglicher Regelpatch gehört statt nur
+  Fließtext-Hinweise zu liefern.
+
+### Drift mit WS-Auswirkung (Sammelstand, aktualisiert)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Risiko: Regelhinweise bleiben im QA-Text hängen und werden nicht in den 19
+     Wissensmodulen verankert.
+   - Stand: **IN PROGRESS** (2 Altbefunde nachannotiert, Restscan offen).
+   - Nächste Aktion: Weitere laufzeitnahe Befunde mit Pflichtblock ergänzen.
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Risiko: Übernahme von gut klingenden, aber unbestätigten Regeländerungen.
+   - Stand: **PASS-Regel aktiv** (kein Drift beobachtet).
+   - Nächste Aktion: Beim ersten inhaltlichen WS-Patch die Evidenzreferenz
+     weiterhin verpflichtend im Report führen.
+
+### Offen (nächste Abarbeitung)
+
+1. **Restscan P1-1-T01:** Weitere ältere QA-Befunde auf fehlenden
+   Datensatz-vs-Dev-Block prüfen und nachannotieren.
+2. **Erster evidenzbasierter WS-Patch:** Einen bestätigten Driftpunkt in
+   ein WS-Modul überführen (inkl. Vorher/Nachher-Check + Smoke).
