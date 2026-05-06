@@ -368,3 +368,51 @@ Der nächste Bearbeitungsschritt sollte immer:
    Minimalpatch-Kandidaten wählen (ein Regelpunkt, ein Zielmodul).
 2. **Erster evidenzbasierter WS-Patch:** Gewählten Driftpunkt minimalinvasiv in
    das Ziel-WS-Modul überführen (inkl. `bash scripts/smoke.sh`).
+
+
+## Update 2026-05-06 (Teil 9) — Erster evidenzbasierter WS-Patch gemergt (Save-Raum-Vertrag)
+
+### Neu erledigt
+
+- **Erster evidenzbasierter WS-Patch live:** PR #3159
+  (`refactor(gameflow): Save-Raum-Vertrag mit Briefing/Debrief als eigene
+  Übergangsräume`) ist gemergt. Damit ist die seit Teil 4 offene Baustelle
+  "Erster evidenzbasierter WS-Patch" geschlossen.
+- **Save/Load-Bug strukturell eliminiert:** Der Playtest-Befund vom 06.05.
+  (Doppel-Debrief + zweites Level-Up nach Load) wird nicht mehr reaktiv
+  abgefangen, sondern per Raumvertrag verhindert. Save ist nur bei
+  `mode="hq"` möglich; `mode="hq"` wird nur nach Tür-auf im Debriefingraum
+  gesetzt; Tür-auf verlangt abgeschlossene Level-Up-Wahl (Phase A Schritt 4).
+  Damit ist `level_history[<aktuelles_level>]` beim Save per Konstruktion
+  gefüllt.
+- **Drei Debrief-Varianten kanonisch:** Core/Rift-Standard (5 Schritte),
+  Chronopolis-Schleusen-Debrief (5 Sonderschritte, SSOT in
+  `gameplay/kampagnenstruktur.md`), Arena-/PvP-Match-Debrief (2–3 Schritte).
+  Alle mit explizitem Tür-auf-Trigger.
+- **Schema mitgezogen:** `saveGame.v7.schema.json` und
+  `saveGame.v7.export.schema.json` um `"briefing"` erweitert. Doku-Drift
+  zwischen Refactor-Text und Schema vermieden.
+
+### Drift mit WS-Auswirkung (Sammelstand, aktualisiert)
+
+1. **Unvollständige WS-Zielmarkierung in älteren Befunden**
+   - Stand: **CLOSED** (bleibt).
+
+2. **Upload-Vorschläge ohne Evidenzdruck**
+   - Stand: **PASS-Regel aktiv und einmal live validiert.** Beim
+     Save-Raum-Vertrag-Patch wurde der ursprüngliche Codex-Pseudocode-Vorschlag
+     (`uploads/Spielstand speichern und laden.pdf`) bewusst verworfen und durch
+     eine Schleusen-Raum-Metapher ersetzt, die strukturell richtiger ist und
+     den Bug per Konstruktion eliminiert statt reaktiv abzufangen.
+   - Nächste Aktion: Muster beibehalten — Upload-Vorschläge immer gegen das
+     Mental-Model "ZEITRISS ist Datensatz, keine Programmspezifikation"
+     spiegeln.
+
+### Neu offen (nach Merge)
+
+1. **Optional-Polish nachreichen:** `speicher-fortsetzung.md:795` (alte
+   Arena-Exit-Formulierung) um "(via Match-Debrief, siehe Raumvertrag)"
+   erweitern. Kosmetischer Hinweis aus Critic-Runde 2, nicht blockierend.
+2. **Rift-/Core-Interplay-Designcall:** SG-Multi, Loot-Multi und Epochenlock
+   solo/grp bei Rift-während-Episode als Optionspapier aufsetzen. Eigener
+   Vorgang, nicht Teil des Save-Raum-Refactors.
