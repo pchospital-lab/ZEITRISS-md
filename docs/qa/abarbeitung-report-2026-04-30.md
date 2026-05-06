@@ -69,3 +69,23 @@ Der nächste Bearbeitungsschritt sollte immer:
 2. die betroffenen Wissensmodule synchron ändern,
 3. `bash scripts/smoke.sh` laufen lassen,
 4. bei QA-relevanten Änderungen die betroffenen Fixture-Dateien benennen.
+
+
+## Update 2026-05-06 — Startpaket Datensatztrennung
+
+### Neu erledigt
+
+- **Issue-Paket in QA überführt:** Vorschläge aus der externen Unterredung/Uploads
+  wurden als priorisierte Startliste in `docs/qa/issue-pack-datensatz-trennung-2026-05-06.md`
+  verankert (P0/P1/P2 mit Fundstellen).
+- **Arbeitsprinzip fixiert:** "Nicht blind übernehmen" ist jetzt als explizite
+  Review-Regel dokumentiert (reproduzierbar, invariantensicher, WS-verankerbar).
+
+### Offen (konkret als nächste Abarbeitung)
+
+1. **P0-1 ausführen:** Datensatz-vs-Dev-Check als festen Prüfpunkt in jedem
+   neuen QA-Befund mitführen.
+2. **P1-1 ausführen:** Offene Vorschläge schrittweise in testbare
+   Fallblöcke überführen (Setup/Erwartung/Ist/Status).
+3. **WS-Patches gezielt nachziehen:** Nur Punkte in die 19 Wissensmodule
+   übernehmen, die den Testblock bestanden haben.
