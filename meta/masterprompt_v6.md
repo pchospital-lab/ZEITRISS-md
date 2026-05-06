@@ -594,7 +594,7 @@ Auto-HQ → Save-Angebot.
   **harter Regelbruch** und zerstört die Kernmechanik des Spiels ("Save = Charakter").
   - **HQ-Save-Bedingungen (alle drei müssen erfüllt sein):**
     1. Chat ist im HQ-Kernbereich: nach abgeschlossener Charaktererstellung (Chargen-Save-Gate), nach komplettem Debrief (Score-Screen + optionales Level-Up durch), oder im freien HQ-Aufenthalt (Auto-HQ, Manuell-HQ, Schnell-HQ).
-    2. Keine aktive Mission-Runtime (`continuity.last_seen.mode` ≠ `core/rift/arena/chronopolis`; Phase `HQ` oder `Debrief-abgeschlossen`).
+    2. Keine aktive Mission-Runtime **und kein offener Übergangsraum** (`continuity.last_seen.mode` ≠ `core/rift/arena/chronopolis/briefing/debrief`; Phase `HQ` oder `Debrief-abgeschlossen`).
     3. Kein offener Level-Up ausstehend (falls offen: erst Wahl, dann Save — siehe Reihenfolge-Pflicht unten).
   - Sind **nicht alle drei** erfüllt (z. B. Level-Up steht noch aus, obwohl HQ-Bereich erreicht), dann
     Save-Verweigerung mit Kodex-Hinweis, was fehlt — aber **niemals** einen Save im HQ verweigern, wenn die drei
@@ -804,8 +804,18 @@ Auto-HQ → Save-Angebot.
   Eintrag auf die **neu erreichte** Stufe setzen (Lvl 1→2 schreibt Key `"2"`), Format siehe §F Level-Up-Pflichtgate.
   Fehlt das Feld, kann Anti-Stacking nicht greifen und doppelte Level-Wahlen werden möglich.
 - **`continuity.last_seen.mode` muss HQ-Save-Bedingung respektieren:** Bei HQ-Save immer `"hq"` (nicht
-  `"core"`/`"rift"`/`"arena"`/`"chronopolis"`). Bei laufender Mission entsprechend
-  `"core"`/`"rift"`/`"arena"`/`"chronopolis"`, dann greift SaveGuard und blockt `!save`.
+  `"core"`/`"rift"`/`"arena"`/`"chronopolis"`/`"briefing"`/`"debrief"`). Bei laufender Mission entsprechend
+  `"core"`/`"rift"`/`"arena"`/`"chronopolis"`, dann greift SaveGuard und blockt `!save`. In den zwei
+  Übergangsräumen **Briefingraum** (`"briefing"`) und **Debriefingraum** (`"debrief"`) gilt SaveGuard ebenfalls:
+  Briefing und Debrief sind **kein HQ**, `!save` wird dort mit `` `SaveGuard: Speichern nur im HQ - HQ-Save
+  gesperrt.` `` abgewiesen. Der Debriefingraum kennt drei Varianten, abhängig vom Herkunftsraum:
+  **Standard-Debrief** (Core/Rift) mit 5 Phase-A-Schritten, **Chronopolis-Schleusen-Debrief** mit 5 Sonder-
+  Schritten, **Arena-/PvP-Match-Debrief** mit 2–3 Phase-A-Schritten (gefolgt vom HQ-Menü bereits im
+  `"hq"`-Raum). Der Raumwechsel `"debrief"` → `"hq"` erfolgt
+  am Ende der jeweils letzten Phase-A-Stufe (Details: `systems/gameflow/speicher-fortsetzung.md`,
+  `core/sl-referenz.md`). Eintritt ins Briefing schaltet `mode` von `"hq"` auf `"briefing"`, Missionsstart
+  auf den aktiven Missionsraum. Das ist der Oldschool-Raumvertrag: **Save nur im HQ, Briefing und Debrief
+  sind Türen, nicht Speicherpunkte.**
 - **`logs.flags.runtime_version` ist die aktuell laufende ZEITRISS-Version (z. B. `"4.2.6"`).** Der Wert im obigen
   Save-Template ist ein Beispiel und muss im realen `!save`-Export mit der tatsächlich verwendeten Version des
   Bausatzes befüllt werden — nicht hartcodiert abschreiben. Quelle (in dieser Reihenfolge): `setup.json.version`,

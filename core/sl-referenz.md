@@ -867,6 +867,35 @@ nicht in eine laufende Mission. Nach dem Recap folgt ein kurzer Router:
 Debrief/HQ-Rückkehr als abgeschlossen und wird nach Load nicht halb offen
 fortgesetzt.
 
+**Raumvertrag (Oldschool-Abschnittslogik):** ZEITRISS folgt einem klaren Raummodell:
+`hq → briefing → core/rift/arena/chronopolis → debrief → hq`. Der HQ ist der einzige
+Speicherraum. **Briefingraum** (`continuity.last_seen.mode="briefing"`) und
+**Debriefingraum** (`mode="debrief"`) sind eigenständige Übergangszonen — Schleusen, keine
+Speicherpunkte. `!save` ist dort genauso gesperrt wie in der Mission selbst.
+
+Der Debriefingraum kennt drei Varianten, abhängig vom Herkunftsraum (Details in
+`systems/gameflow/speicher-fortsetzung.md`):
+
+- **Standard-Debrief** nach Core/Rift: Score-Screen → Auto-Loot → CU-/Wallet-Split →
+  XP/Level-Up-Wahl → ITI-Ruf + Lizenz-Tier. **Tür auf** nach Schritt 5. Danach folgen im
+  HQ das Save-Angebot und der Freeplay-Anker.
+- **Chronopolis-Debrief** (Schleuse): Status → Asset-Check → Trace → Highlight →
+  Reset/Stabilisierung → HQ-Menü. **Tür auf** nach Schritt 5. Kanonisch beschrieben in
+  `gameplay/kampagnenstruktur.md` (*Schleusen-Debrief*).
+- **Arena-/PvP-Debrief** (Match-Debrief): Match-Recap → `banked_rewards`-Buchung →
+  optional ITI-Ruf-Delta → HQ-Menü. **Tür auf** nach Schritt 3 (oder 2, falls kein
+  Ruf-Delta). Kein XP/Level-Up, weil PvP außerhalb der Kampagnen-XP-Kurve läuft.
+
+In allen drei Varianten schaltet der Raumwechsel am Ende auf `mode="hq"` +
+`location="HQ"`. Erst dann ist `!save` erlaubt, und der nächste Abschnitt startet
+idealerweise in einem neuen Chat via JSON-paste.
+
+*Konsequenz für Save-Load-Doppelspiele:* Weil Saves ausschließlich im HQ entstehen, sind
+alle missionsseitigen Zustandsfelder (z. B. `character.level_history[<aktuelles_level>]`
+bzw. `arena.banked_rewards`) beim Load per Konstruktion bereits für die zuletzt gespielte
+Mission abgeschlossen. Ein Doppel-Debrief oder ein zweites Level-Up auf derselben Stufe
+kann nach einem sauberen Load nicht mehr entstehen.
+
 **Arena-Router (Load):**
 
 - `arena.resume_token` ist runtime-only und bleibt außerhalb aktiver Arena-Sitzungen
