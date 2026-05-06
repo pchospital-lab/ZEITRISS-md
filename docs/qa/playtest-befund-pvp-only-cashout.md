@@ -12,6 +12,13 @@ Ziel: Für den nächsten Testzyklus den aktuellen Stand aus
 `docs/qa/pvp-bio-nachcheck-status.md` reproduzierbar verifizieren,
 inklusive sauberem Anschluss für Folge-Agenten.
 
+## Datensatz-vs-Dev-Check
+
+- Datensatz-Relevanz: ja — betrifft Runtime-Verträge für `campaign.mode`, `arena.previous_mode` sowie Export-/Reimport-Verhalten im Spielbetrieb.
+- Nur Dev/QA: nein — Smoke/Validator sind Prüfhilfen; die eigentliche Wirkung liegt in den Wissensmodulen und Save-Verträgen.
+- WS-Spiegelpflicht: ja — Zielmodule: `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md`, `gameplay/kampagnenstruktur.md`, `meta/masterprompt_v6.md`.
+- Invarianten betroffen: nein — Save-Schema v7 bleibt Pflicht; Boss-Timing/Szenen-Counts/Px-Tabelle werden nicht geändert.
+
 ## Scope
 
 - **PVP-01** PvP-only L1 → Cashout → Levelpfad
