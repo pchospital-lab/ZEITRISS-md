@@ -1123,6 +1123,42 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print("  Container-Logs: `docker logs litellm-zeitriss`")
 
 
+def _auto_load_owui_env() -> None:
+    """Lade ~/.openwebui_env in os.environ, wenn Keys fehlen.
+
+    Unterstützt beide Formate:
+        OPENWEBUI_API_KEY=sk-...      (ohne export)
+        export OPENWEBUI_API_KEY=sk-...
+
+    Bestehende Umgebungs-Werte werden NICHT überschrieben — die Env-Datei
+    ist Fallback, nicht Override. Fehler werden geschluckt (die Datei ist
+    optional).
+    """
+    if os.environ.get("OPENWEBUI_API_KEY", "").strip():
+        return
+    home_env = Path.home() / ".openwebui_env"
+    if not home_env.exists():
+        return
+    try:
+        for line in home_env.read_text("utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("export "):
+                line = line[len("export "):]
+            if "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            k = k.strip()
+            v = v.strip().strip('"').strip("'")
+            if k and v and not os.environ.get(k):
+                os.environ[k] = v
+    except OSError:
+        # Stumm — wir versuchen unser Bestes; wenn die Datei nicht lesbar ist,
+        # fällt das Script gleich auf die normale Env-fehlt-Fehlermeldung zurück.
+        pass
+
+
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Incremental sync mode: update only what changed since last setup/sync.
 
@@ -1137,6 +1173,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """
     opts = opts or {}
     project = cfg["project"]
+    _auto_load_owui_env()
 
     print_header(f"{project} – OpenWebUI Sync (inkrementell)")
 
@@ -1149,12 +1186,12 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
     if not api_key:
         print_error(
-            "OPENWEBUI_API_KEY fehlt in der Umgebung.\n"
-            "  Wenn du ~/.openwebui_env nutzt (ohne 'export'-Prefix), "
-            "lade die Datei so, dass die Variablen an Kind-Prozesse vererbt werden:\n"
-            "      export $(grep -v '^#' ~/.openwebui_env | xargs)\n"
-            "  Alternativ inline:\n"
-            "      OPENWEBUI_URL=http://localhost:8080 OPENWEBUI_API_KEY=sk-... python scripts/setup.py --sync"
+            "OPENWEBUI_API_KEY fehlt.\n"
+            "  Tipp: Starte stattdessen den Launcher, der kümmert sich um Keys automatisch:\n"
+            "      python scripts/zeitriss.py           (Menu [3] = Keys neu verbinden)\n"
+            "  Oder lege ~/.openwebui_env an (wird beim nächsten Start automatisch geladen):\n"
+            "      OPENWEBUI_URL=http://localhost:8080\n"
+            "      OPENWEBUI_API_KEY=sk-..."
         )
         sys.exit(1)
 
@@ -1466,6 +1503,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Interactive OpenWebUI setup: KB + files + preset."""
     opts = opts or {}
     project = cfg["project"]
+    _auto_load_owui_env()
 
     print_header(f"{project} – OpenWebUI Setup")
 
@@ -1531,17 +1569,12 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             print_info(f"--yes: Verwende Default-Modell {model}")
         else:
             print()
-            print(f"  {_c('1', 'Modell-Auswahl')}")
-            print(f"  {project} läuft provider-neutral — das Modell wählst du selbst.")
-            print(f"  Hinweis: Remote-Modelle können Kosten verursachen und Eingaben")
-            print(f"  an Drittanbieter übermitteln. Keine sensiblen Daten in Prompts.")
-            print()
-            print(f"  [1] Empfohlen: {default_model}")
-            print(f"  [2] Model-ID manuell eingeben")
-            choice = input("  Auswahl [1/2] (Standard 1): ").strip() or "1"
+            print(f"  Empfohlenes Modell: {_c('1', default_model)}")
+            print(f"  {_c('2', '(Enter = übernehmen. Alternative Model-ID optional eintippen.)')}")
+            answer = input("  Modell: ").strip()
+            model = answer or default_model
 
-            if choice == "1":
-                model = default_model
+            if model == default_model:
                 print_info(f"Prüfe Modell: {model}")
                 if not client.test_model(model):
                     print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
@@ -1550,14 +1583,6 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                         if not model:
                             print_error("Kein Modell angegeben.")
                             sys.exit(1)
-            elif choice == "2":
-                model = input("  Model-ID eingeben: ").strip()
-                if not model:
-                    print_error("Kein Modell angegeben.")
-                    sys.exit(1)
-            else:
-                print_error(f"Ungültige Auswahl: {choice}")
-                sys.exit(1)
 
     print_ok(f"Base Model: {model}")
 

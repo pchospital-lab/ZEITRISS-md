@@ -132,17 +132,37 @@ Weg A.
 
 ## Setup starten
 
-### Weg A — Standard-Setup (OpenWebUI)
+> **Zeitbudget beim ersten Mal:** 30–60 Minuten, wenn Docker und Python neu
+> auf den Rechner kommen. Reine Script-Laufzeit ohne Installation: ca.
+> 5–10 Minuten. Updates später: 1–2 Minuten.
+>
+> **Brauchst du einmal:** Docker, Python 3, einen OpenRouter-Account mit
+> Guthaben (ca. 5 USD) und einen lokalen OpenWebUI-API-Key. Alle Details
+> und Klick-Pfade stehen im [Setup-Guide](docs/setup-guide.md).
+
+### Weg A — Standard-Setup (OpenWebUI), Launcher-Variante (empfohlen)
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
-python scripts/setup.py
+python scripts/zeitriss.py       # plattform-unabhängiger Launcher mit Menü
 ```
 
-Danach in OpenWebUI: neuen Chat öffnen, Preset
-**ZEITRISS v4.2.6 Uncut** wählen, `Spiel starten (solo klassisch)` tippen.
-Natürliche Sprache funktioniert ebenfalls, z. B. „Wir wollen neu als Gruppe starten“.
+Unter Windows doppelklickbar als `zeitriss.bat`, unter macOS/Linux als
+`./zeitriss.sh`. Der Launcher führt dich durch [1] Erstinstallation, [2]
+Update, [3] Keys verbinden, [4] Diagnose, [5] Spiel starten — ohne dass du
+dir Kommandos merken musst.
+
+### Weg A — Alternative: direkt das Setup-Script
+
+```bash
+python scripts/setup.py          # Erstinstallation
+python scripts/setup.py --sync   # spätere Updates
+```
+
+Danach in OpenWebUI: neuen Chat öffnen, Preset **ZEITRISS v4.2.6 Uncut**
+wählen, `Spiel starten (solo klassisch)` tippen. Natürliche Sprache
+funktioniert ebenfalls, z. B. „Wir wollen neu als Gruppe starten“.
 
 ### Weg B — Portabler Setup (manuell)
 
@@ -168,6 +188,11 @@ aktuell das einzige getestete Modell mit vollständiger Regeltreue und
 stärkstem Noir-Ton. Der LiteLLM-Proxy (Docker, Teil des Standard-Setups) aktiviert
 den Anthropic-Prompt-Cache und senkt die Kosten um **~90 %** — ZEITRISS
 wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
+
+> In OpenWebUI taucht das Modell nach der LiteLLM-Installation als
+> `zeitriss-sonnet` im Dropdown auf. Das ist nur ein LiteLLM-Alias für
+> `anthropic/claude-sonnet-4.6` — gleiches Modell, kürzerer Name.
+> ZEITRISS wird automatisch auf diesen Alias eingestellt.
 
 ## Das Spielsystem in Kürze
 
