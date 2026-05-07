@@ -57,6 +57,12 @@ except ImportError as e:
     print(f"FEHLER: scripts/setup.py kann nicht importiert werden: {e}")
     sys.exit(1)
 
+try:
+    import rite as rite_module  # noqa: E402  (Lore-Overlay: nur Prolog + Finale)
+except ImportError:
+    # Rite ist optional — ohne läuft der Launcher weiter wie bisher.
+    rite_module = None  # type: ignore[assignment]
+
 
 # ── Darstellung (Unicode-sparsam, Windows-cmd-kompatibel) ────────────
 
@@ -280,6 +286,46 @@ def _ensure_owui_env() -> bool:
         print(yellow(f"  Warnung: konnte {home_env} nicht lesen: {e}"))
         return False
     return bool(os.environ.get("OPENWEBUI_API_KEY", "").strip())
+
+
+def action_install_lore() -> None:
+    """Menüpunkt Lore-Setup: Prolog → klassisches Setup → Finale.
+
+    Ruft exakt denselben ``action_install`` wie der Standard-Menüpunkt,
+    nur eingerahmt in Kodex-Prolog (vorher) und Welcome-Box (hinterher).
+    Wenn das Rite-Modul nicht importierbar ist, fallen wir stumm auf
+    den klassischen Flow zurück.
+    """
+    if rite_module is None:
+        action_install()
+        return
+
+    url = _openwebui_url()
+    try:
+        rite_module.prologue(url)
+    except Exception as e:
+        # Lore darf Installation niemals blockieren. Wenn der Prolog
+        # crasht, ganz kurz melden und normal weitermachen.
+        print(dim(f"  (Lore-Prolog übersprungen: {e.__class__.__name__})"))
+
+    # Installation läuft 1:1 wie beim Standard-Menüpunkt. Alle Fehler-
+    # meldungen, Retries und Prompts von setup.py bleiben sichtbar.
+    action_install()
+
+    # Finale nur, wenn die Installation wirklich durchlief. Wir erkennen
+    # das daran, dass Preset + OWUI-Key jetzt vorhanden sind.
+    try:
+        cfg = load_cfg()
+        if not os.environ.get("OPENWEBUI_API_KEY"):
+            return
+        client = setup_module.APIClient(url, os.environ["OPENWEBUI_API_KEY"])
+        preset = client.get_model(cfg["preset_id"])
+        if preset is None:
+            return
+        rite_module.finale(url)
+    except Exception:
+        # Lore-Finale ist Kosmetik, niemals ein harter Fehler.
+        return
 
 
 def action_install() -> None:
@@ -838,6 +884,7 @@ def main() -> int:
         print()
         print(dim("  ── Installation ──────────────────────────────"))
         print("   [1]  Komplett-Setup in OpenWebUI (empfohlen)")
+        print("   [L]  Lore-Setup — wie [1], eingerahmt als ITI-Bergung")
         print("   [2]  Regelwerk woanders nutzen (Export-Paket erzeugen)")
         print()
         print(dim("  ── Im Betrieb ───────────────────────────────"))
@@ -852,6 +899,8 @@ def main() -> int:
 
         if choice == "1":
             action_install()
+        elif choice == "l":
+            action_install_lore()
         elif choice == "2":
             action_export()
         elif choice == "3":

@@ -219,6 +219,19 @@ Keys als ✓ oder -) und ein Menü mit sechs Punkten, gruppiert in
 Unten steht eine Eingabezeile **`Auswahl:`**. Für die Erstinstallation
 tipp **`1`** und drück Enter.
 
+#### Lore-Setup (optional)
+
+Der Launcher bietet zusätzlich den Menüpunkt **`[L]  Lore-Setup`**.
+Da läuft exakt dasselbe Setup wie unter `[1]`, nur in einen kurzen
+Kodex-Funkspruch eingerahmt (Prolog im Terminal vor dem Setup, Welcome-
+Box danach). Pure Kosmetik: die eigentliche Installation, alle Fehler-
+meldungen und Retries bleiben genau wie im Standardpfad sichtbar.
+
+Für Screenshots/QA: `ZEITRISS_RITE_INSTANT=1` schaltet die Typewriter-
+Animation aus, alles erscheint sofort.
+
+Designnotizen: siehe [`docs/first-contact-rite.md`](first-contact-rite.md).
+
 ---
 
 ### Schritt 6 - Was der Launcher dich jetzt fragt
