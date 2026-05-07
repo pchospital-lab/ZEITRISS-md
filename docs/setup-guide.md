@@ -14,10 +14,11 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 ## Inhalt
 
 1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
-2. [Zwei Wege — welcher ist für dich?](#zwei-wege--welcher-ist-für-dich)
-3. [Weg A — Standard-Setup (offiziell getestet)](#weg-a--standard-setup-offiziell-getestet)
+2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
+3. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
 4. [Updates und Wartung](#updates-und-wartung)
-5. [Weg B — Gruppenspiel, Ollama, Portabler Export](#weg-b--portabler-setup-ohne-gewähr)
+5. [Weiterführendes](#weiterführendes-gruppenspiel-ollama-portabler-export)
+   — Gruppenspiel, Ollama, Export
    - [Portabler Export (ohne Gewähr)](#portabler-export-ohne-gewähr)
 6. [Troubleshooting](#troubleshooting)
 7. [Referenz](#referenz)
@@ -66,27 +67,34 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 
 ---
 
-## Zwei Wege — welcher ist für dich?
+## Was der Launcher dir anbietet
 
-**Weg A: Komplett-Setup in OpenWebUI (empfohlen).** Der offiziell
+Der Launcher (`python scripts/zeitriss.py`) ist der zentrale Einstieg
+für alles Setup-Bezogene. Er bietet zwei Installationswege:
+
+**[1] Komplett-Setup in OpenWebUI (empfohlen).** Der offiziell
 getestete Referenzpfad — OpenWebUI + OpenRouter + Claude Sonnet 4.6 +
-LiteLLM-Cache. Ein Launcher-Klick, fertig. Alle Regel-QA ist gegen
-diesen Stack kalibriert. → [Weg A unten](#weg-a--standard-setup-offiziell-getestet)
+LiteLLM-Cache. Ein Launcher-Klick, der Launcher führt dich durch
+alles. Alle Regel-QA ist gegen diesen Stack kalibriert — darauf testen
+wir, und darauf entwickeln wir weiter. →
+[Komplett-Setup in OpenWebUI unten](#komplett-setup-in-openwebui-empfohlen)
 
-**Weg B: Regelwerk woanders nutzen (portabler Export, ohne Gewähr).**
-Wenn du lieber auf Lumo, Claude Projects, OpenAI Projects oder einer
-eigenen Plattform spielst. Launcher erzeugt dir ein Wissenspaket, das
-du manuell importierst. Kein Support, keine QA-Garantie, aber technisch
-möglich. → [Portabler Export unten](#portabler-export-ohne-gewähr)
+**[2] Regelwerk woanders nutzen (Export-Paket, ohne Gewähr).** Du
+willst auf einer anderen Chat-Plattform spielen, die System-Prompts
+und Wissensdateien verwaltet? Der Launcher erzeugt dir ein
+Export-Paket. Du importierst es manuell in deine Plattform. **Wir
+testen nicht gegen andere Plattformen, Regel-Glitches sind
+möglich** — das ist Do-it-yourself-Terrain. →
+[Portabler Export unten](#portabler-export-ohne-gewähr)
 
-### Derzeit nicht unterstützt
+### Was nicht geht
 
-- Lumo (Plattform von Proton) — keine zuverlässige Spielerfahrung
-- ungetestete Plattformen (z. B. Claude Code) — noch nicht freigegeben
-- kleine lokale Modelle als Spielleitung — zu schwach für ZEITRISS
+- Kleine lokale Modelle als Spielleitung — ZEITRISS ist regel-komplex,
+  Modelle unter 70B-Klasse kommen schnell an Grenzen.
+
 ---
 
-## Weg A - Standard-Setup (offiziell getestet)
+## Komplett-Setup in OpenWebUI (empfohlen)
 
 Dieser Pfad richtet OpenWebUI + OpenRouter + LiteLLM-Cache ein - den
 offiziellen Referenz-Stack. Du installierst selbst nur **Docker und
@@ -479,9 +487,11 @@ braucht getrennte Clones.
 
 ---
 
-## Weg B - Portabler Setup (ohne Gewähr)
+## Weiterführendes: Gruppenspiel, Ollama, portabler Export
 
-Dieser Abschnitt dokumentiert Best-Effort-Varianten außerhalb des offiziellen Referenzpfads.
+Dieser Abschnitt sammelt ergänzende Szenarien: Gruppenspiel am selben
+Rechner, Ollama als Alternativ-Modell oder als lokalen Embedder, und
+den portablen Export in andere Chat-Plattformen.
 
 ### Lokales Gruppenspiel am selben Rechner
 
@@ -605,10 +615,15 @@ Embedding-Modell) ist verfügbar, OpenWebUI kann Ollama erreichen.
 
 ### Portabler Export (ohne Gewähr)
 
-Kein OpenWebUI, kein Docker, kein Script-Aufruf — ihr nutzt einen
-fertigen Browser-Dienst (Lumo, Claude Projects, OpenAI Projects, eigenes
-Setup …). ZEITRISS wird dabei als **Wissenspaket** exportiert und in
-die Zielplattform manuell importiert.
+Du willst ZEITRISS auf einer anderen Chat-Plattform nutzen? Der
+Launcher erzeugt dir ein **Wissenspaket** (Masterprompt + 19
+Wissensmodule), das du in jede Plattform hochladen kannst, die einen
+langen System-Prompt und den Upload von Wissensdateien unterstützt.
+
+> ⚠️ **Wir testen nur gegen OpenWebUI.** Auf anderen Plattformen kann
+> ZEITRISS funktionieren, aber Regel-Glitches sind möglich — z. B.
+> erzwingt das Regelwerk das HUD-Format, was bei schwächerer Retrieval-
+> Qualität auseinanderfällt. Do-it-yourself-Terrain.
 
 #### Der einfache Weg: Launcher-Menüpunkt [2]
 
@@ -630,15 +645,19 @@ kommt als Systemprompt, Wissensmodule als „Wissen"/„Knowledge"). Das
 erzeugte Paket enthält zusätzlich eine `SETUP-ANLEITUNG.md` mit
 Plattform-spezifischen Tipps.
 
-#### Plattform-Tauglichkeit
+#### Was die Zielplattform können muss
 
-| Plattform | Tauglichkeit |
-| --- | --- |
-| Plattformen mit großem System-Prompt + Dateiupload | ⚠️ Theoretisch nutzbar, nicht Teil unseres QA-Standards. |
-| Offizieller Pfad: OpenWebUI | ✅ Empfohlen und getestet. |
-| Portabler Import (allgemein) | ⚠️ Nur manuell, ohne Gewähr. |
-| Lumo (Plattform von Proton) | ❌ Derzeit nicht unterstützt (keine zuverlässige Spielerfahrung). |
-| Ungetestete Plattformen (z. B. Claude Code) | ❌ Nicht freigegeben. |
+- **Langer System-Prompt / Projekt-Anweisung** (mind. ~60 KB) — für
+  den Masterprompt.
+- **Upload von mehreren Wissens-/Projekt-Dateien** — für die 19
+  Wissensmodule.
+- **Retrieval über die hochgeladenen Dateien** — ohne das halluziniert
+  das Modell die Regeln, statt sie nachzuschlagen.
+- Idealerweise ein **Claude-Sonnet-4.6-Klasse-Modell** oder besser;
+  mit schwächeren Modellen bricht die Regeltreue.
+
+Plattformen ohne eines dieser vier Features sind für ZEITRISS
+ungeeignet — wir können dir dabei nicht helfen.
 
 #### Für CLI-Fans: direkt via `setup.py --export`
 
@@ -662,7 +681,7 @@ Wenn ihr das Script nicht nutzen wollt:
 | --- | --- |
 | **core** | `spieler-handbuch.md`, `zeitriss-core.md`, `wuerfelmechanik.md`, `sl-referenz.md` |
 | **characters** | `charaktererschaffung-grundlagen.md`, `ausruestung-cyberware.md`, `zustaende.md`, `hud-system.md` |
-| **gameplay** | `kampagnenstruktur.md`, `kampagnenuebersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
+| **gameplay** | `kampagnenstruktur.md`, `kampagnenübersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
 | **systems** | `kp-kraefte-psi.md`, `cu-waehrungssystem.md`, `speicher-fortsetzung.md`, `cinematic-start.md`, `toolkit-gpt-spielleiter.md` |
 
 **Nicht hochladen**: `README.md`, `master-index.json`, Archiv-Dateien.
