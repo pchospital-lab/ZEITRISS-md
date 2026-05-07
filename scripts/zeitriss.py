@@ -12,7 +12,7 @@ Menü-Launcher für Windows / macOS / Linux. Ein Script, fünf Aufgaben:
     [X] Beenden
 
 Der Launcher ersetzt `setup.py` nicht, er ruft dessen Funktionen auf.
-Ziel: Spieler:innen müssen sich keine Kommandozeilen-Befehle merken.
+Ziel: Spieler müssen sich keine Kommandozeilen-Befehle merken.
 
 Aufruf:
     python scripts/zeitriss.py
@@ -104,14 +104,41 @@ def _cmd_available(name: str) -> bool:
     return shutil.which(name) is not None
 
 
+def _open_browser(url: str) -> bool:
+    """Versucht den Default-Browser auf ``url`` zu öffnen. Gibt True zurück,
+    wenn's geklappt hat (bzw. beim OS keine Exception flog).
+
+    Auf Headless-Linux ohne DISPLAY/WAYLAND_DISPLAY wird bewusst nichts
+    versucht — wir wollen keine ominose Fehlermeldung produzieren.
+    """
+    if sys.platform.startswith("linux") and not (
+        os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY")
+    ):
+        return False
+    try:
+        return bool(webbrowser.open(url))
+    except Exception:
+        return False
+
+
 def _python_ok() -> tuple[bool, str]:
     # Wir laufen ja gerade in Python, also OK — aber melde Version.
     return True, f"Python {sys.version_info.major}.{sys.version_info.minor}"
 
 
+def _docker_daemon_hint() -> str:
+    """Plattform-passende Erinnerung, wie man Docker startet."""
+    if sys.platform == "win32":
+        return "Öffne Docker Desktop (Wal-Icon in der Taskleiste) und warte 1–2 Minuten, bis es läuft"
+    if sys.platform == "darwin":
+        return "Öffne Docker Desktop (Wal-Icon in der Menu-Bar) und warte, bis der Status 'Docker Desktop is running' ist"
+    # Linux
+    return "Starte den Docker-Daemon, z. B. 'sudo systemctl start docker'"
+
+
 def _docker_ok() -> tuple[bool, str]:
     if not _cmd_available("docker"):
-        return False, "docker nicht im PATH"
+        return False, "Docker nicht installiert (Download: https://docs.docker.com/get-docker/)"
     try:
         r = subprocess.run(
             ["docker", "ps"],
@@ -120,9 +147,9 @@ def _docker_ok() -> tuple[bool, str]:
     except Exception as e:
         return False, f"docker-Aufruf fehlgeschlagen: {e.__class__.__name__}"
     if r.returncode != 0:
-        # Häufigster Fall: Docker Desktop nicht gestartet
-        return False, "Docker-Dienst nicht gestartet"
+        return False, f"Docker-Daemon läuft nicht. {_docker_daemon_hint()}"
     return True, "Docker läuft"
+
 
 
 def _openwebui_url() -> str:
@@ -286,9 +313,13 @@ def action_install() -> None:
             return
 
     if not _ensure_owui_env():
+        url = _openwebui_url()
         print(yellow("\n  Ich brauche einen OpenWebUI-API-Key, um Preset + Knowledge Base anzulegen."))
-        print(f"  Hol dir den Key in OpenWebUI unter {_openwebui_url()}/")
+        print(f"  Hol dir den Key in OpenWebUI unter {url}/")
         print("  (Profil-Icon oben rechts → Einstellungen → Account → API-Keys → Create new key).")
+        # Browser-Komfort: nur öffnen, wenn eine Anzeige verfügbar scheint.
+        if _open_browser(url):
+            print(dim("  Browser wurde schon für dich geöffnet."))
         print()
         from getpass import getpass
         key = getpass("  Key hier einfügen (Eingabe ist unsichtbar, das ist normal): ").strip()
@@ -297,7 +328,7 @@ def action_install() -> None:
             _pause()
             return
         os.environ["OPENWEBUI_API_KEY"] = key
-        os.environ.setdefault("OPENWEBUI_URL", _openwebui_url())
+        os.environ.setdefault("OPENWEBUI_URL", url)
 
     try:
         setup_module.run_setup(REPO, load_cfg())
@@ -313,6 +344,9 @@ def action_install() -> None:
     if not ok:
         print()
         print(bold("  LiteLLM-Cache aktivieren? (spart ~90 % Prompt-Kosten, sehr empfohlen)"))
+        print(yellow("  Voraussetzung: bei OpenRouter unter 'settings/privacy' den Provider"))
+        print(yellow("  'Anthropic' (oder AWS Bedrock) explizit erlauben — sonst cached LiteLLM nicht."))
+        print(yellow("  Direktlink: https://openrouter.ai/settings/privacy"))
         ans = _prompt("  Aktivieren? (j/n): ").lower()
         if ans in ("j", "y", "ja", "yes", ""):
             try:
@@ -325,26 +359,99 @@ def action_install() -> None:
     _pause()
 
 
+def _git(*args: str) -> subprocess.CompletedProcess:
+    """Thin wrapper: git -C REPO <args>, erfasst stdout+stderr."""
+    return subprocess.run(
+        ["git", "-C", str(REPO), *args],
+        capture_output=True, text=True,
+    )
+
+
+def _update_repo_via_git() -> bool:
+    """Führt einen freundlichen git pull durch. Bei lokalen Änderungen bietet
+    das Script ``git stash`` an, zieht, und stasht dann wieder auf.
+
+    Ziel: Der Nutzer verliert **nie** seine Handgriffe, auch wenn er aus
+    Versehen eine Datei editiert hat. Aber er muss auch nichts mergen.
+
+    Returns:
+        True, wenn das Repo jetzt in einem konsistenten Zustand ist und
+        der nachfolgende Sync sinnvoll weiterlaufen kann.
+        False, wenn ein Konflikt/Fehler Aufmerksamkeit braucht (etwa
+        Stash-Pop-Konflikt mit Marker in Dateien) — Caller sollte
+        den Sync dann NICHT blind starten.
+    """
+    print(dim("  Hole neueste Änderungen von GitHub..."))
+
+    # Lokale Anpassungen (tracked only, untracked bleiben unberührt).
+    dirty = _git("status", "--porcelain", "--untracked-files=no").stdout.strip()
+    stashed = False
+    if dirty:
+        print(yellow("  ⚠  Du hast lokale Änderungen an Dateien aus dem Repo."))
+        print(dim("     Damit der Pull nicht kracht, lege ich sie kurz auf den Stash-Stack"))
+        print(dim("     und stelle sie danach wieder her (git stash)."))
+        ans = _prompt("  Fortfahren? (j/n): ").lower()
+        if ans not in ("j", "y", "ja", "yes", ""):
+            print(dim("  Pull übersprungen, Sync läuft mit lokalem Stand weiter."))
+            return True
+        r = _git("stash", "push", "-m", "zeitriss.py auto-stash")
+        if r.returncode != 0:
+            print(yellow("  ⚠  git stash fehlgeschlagen — überspringe Pull, behalte lokalen Stand."))
+            print(dim("    " + (r.stderr.strip().splitlines() or ["?"])[-1]))
+            return True
+        stashed = True
+
+    r = _git("pull", "--ff-only")
+    out = (r.stdout + r.stderr).strip()
+    if r.returncode == 0:
+        if "Bereits aktuell" in out or "Already up to date" in out:
+            print(green("  ✓  Repo war schon aktuell."))
+        else:
+            print(green("  ✓  Repo aktualisiert."))
+            print(dim("    " + "\n    ".join(out.splitlines()[-4:])))
+    else:
+        # Pull fehlgeschlagen (Netz, DNS, non-FF). Nach unserem Stash sollte
+        # non-FF eigentlich nicht mehr vorkommen, aber wir handhaben es trotzdem.
+        last_line = (out.splitlines() or ["?"])[-1]
+        print(yellow(f"  ⚠  git pull hat Probleme: {last_line}"))
+        print(dim("    Sync läuft trotzdem weiter mit dem lokalen Stand."))
+
+    if stashed:
+        r = _git("stash", "pop")
+        if r.returncode == 0:
+            print(dim("  ✓  Deine lokalen Änderungen sind zurück aus dem Stash."))
+        else:
+            # Heiß: stash pop hat einen Merge-Konflikt erzeugt. Die Arbeitsdateien
+            # enthalten jetzt <<<<<<< / ======= / >>>>>>> Marker, der Stash
+            # bleibt im Stack. Sync darf hier NICHT weiterlaufen — sonst
+            # syncen wir kaputte Dateien.
+            print()
+            print(red("  ✗  Deine Änderungen kollidieren mit dem Update von GitHub."))
+            print(yellow("     Die betroffenen Dateien enthalten jetzt Konflikt-Marker"))
+            print(yellow("     (<<<<<<< / ======= / >>>>>>>) und müssen manuell aufgelöst werden."))
+            print(dim(""))
+            print(dim("     Eine sichere Kopie deiner Änderungen liegt im Stash. Hilfreiche Kommandos:"))
+            print(dim("       git status               — zeigt die konflikt-Dateien"))
+            print(dim("       git stash list           — zeigt deinen Stash-Eintrag"))
+            print(dim("       git stash show -p        — zeigt deinen Original-Diff"))
+            print(dim("       git checkout -- <datei>  — verwirft deine lokale Variante"))
+            print(dim("       git stash drop           — entsorgt den Stash, wenn du fertig bist"))
+            print()
+            print(yellow("  Ich brich den Sync hier ab, damit nichts Kaputtes nach OpenWebUI wandert."))
+            return False
+    return True
+
+
 def action_update() -> None:
     print(bold("\n  [2] ZEITRISS aktualisieren\n"))
 
     # Git-Pull (nur wenn Repo git-versioniert)
     if (REPO / ".git").exists() and _cmd_available("git"):
-        print(dim("  Hole neueste Änderungen von GitHub..."))
-        r = subprocess.run(
-            ["git", "-C", str(REPO), "pull", "--ff-only"],
-            capture_output=True, text=True,
-        )
-        out = (r.stdout + r.stderr).strip()
-        if r.returncode == 0:
-            if "Bereits aktuell" in out or "Already up to date" in out:
-                print(green("  ✓  Repo war schon aktuell."))
-            else:
-                print(green("  ✓  Repo aktualisiert."))
-                print(dim("    " + "\n    ".join(out.splitlines()[-4:])))
-        else:
-            print(yellow(f"  ⚠  git pull hat Probleme: {out.splitlines()[-1] if out else '?'}"))
-            print(dim("    Sync läuft trotzdem weiter mit dem lokalen Stand."))
+        if not _update_repo_via_git():
+            # Stash-Pop-Konflikt o.ä. — Sync überspringen, damit wir nicht gegen
+            # konflikt-markierte Dateien pushen.
+            _pause()
+            return
     else:
         print(dim("  Kein Git-Repo (vermutlich ZIP-Download) - überspringe git pull."))
 
@@ -366,29 +473,82 @@ def action_update() -> None:
     _pause()
 
 
+def _parse_env_file(path: Path) -> dict[str, str]:
+    """Liest eine ~/.openwebui_env-artige Datei ein, tolerant gegen
+    `export`-Prefix und Quotes. Gibt {KEY: VALUE} zurück (Kommentare/leere
+    Zeilen ignoriert).
+    """
+    result: dict[str, str] = {}
+    if not path.exists():
+        return result
+    try:
+        for line in path.read_text("utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("export "):
+                line = line[len("export "):]
+            if "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            k = k.strip()
+            v = v.strip().strip('"').strip("'")
+            if k:
+                result[k] = v
+    except OSError:
+        pass
+    return result
+
+
+def _mask(secret: str) -> str:
+    """Maskiert einen Key für die Anzeige: zeigt nur die letzten 4 Zeichen."""
+    if not secret:
+        return "(leer)"
+    if len(secret) <= 4:
+        return "*" * len(secret)
+    return f"…{secret[-4:]}"
+
+
 def action_rekeys() -> None:
     print(bold("\n  [3] API-Keys neu verbinden\n"))
-    print("  Hier hinterlegen wir die beiden Keys dauerhaft in `~/.openwebui_env`,")
-    print("  damit du sie in Zukunft nicht mehr eintippen musst.")
-    print()
-    print(f"  OpenWebUI ist erreichbar unter: {_openwebui_url()}")
-    print("  Hol den OpenWebUI-Key: Profil-Icon → Einstellungen → Account → API-Keys.")
+
+    home_env = Path.home() / ".openwebui_env"
+    existing = _parse_env_file(home_env)
+
+    if existing:
+        print("  Ich habe bereits gespeicherte Werte gefunden:")
+        if "OPENWEBUI_URL" in existing:
+            print(f"    • OpenWebUI-URL:       {existing['OPENWEBUI_URL']}")
+        if "OPENWEBUI_API_KEY" in existing:
+            print(f"    • OpenWebUI-API-Key:   {_mask(existing['OPENWEBUI_API_KEY'])}")
+        if "OPENROUTER_API_KEY" in existing:
+            print(f"    • OpenRouter-Key:      {_mask(existing['OPENROUTER_API_KEY'])}")
+        print()
+        print(dim("  Enter = vorhandenen Wert behalten. Neue Eingabe = überschreiben."))
+    else:
+        print("  Keine gespeicherten Werte gefunden — lege neue Datei an.")
     print()
 
-    url = _prompt(f"  OpenWebUI-URL [{_openwebui_url()}]: ").strip() or _openwebui_url()
+    default_url = existing.get("OPENWEBUI_URL") or _openwebui_url()
+    url = _prompt(f"  OpenWebUI-URL [{default_url}]: ").strip() or default_url
 
     from getpass import getpass
-    owui_key = getpass("  OpenWebUI-API-Key (Eingabe unsichtbar): ").strip()
+    existing_owui = existing.get("OPENWEBUI_API_KEY", "")
+    owui_hint = f" (Enter = behalten: {_mask(existing_owui)})" if existing_owui else ""
+    owui_input = getpass(f"  OpenWebUI-API-Key{owui_hint} (Eingabe unsichtbar): ").strip()
+    owui_key = owui_input or existing_owui
     if not owui_key:
         print(red("  Kein Key eingegeben. Abbruch."))
         _pause()
         return
 
-    or_key = getpass("  OpenRouter-API-Key (sk-or-..., leer lassen um zu überspringen): ").strip()
+    existing_or = existing.get("OPENROUTER_API_KEY", "")
+    or_hint = f" (Enter = behalten: {_mask(existing_or)})" if existing_or else " (leer lassen, um zu überspringen)"
+    or_input = getpass(f"  OpenRouter-API-Key (sk-or-...){or_hint}: ").strip()
+    or_key = or_input or existing_or
 
-    home_env = Path.home() / ".openwebui_env"
     lines = [
-        "# Von zeitriss.py geschrieben - von Launcher automatisch gelesen.",
+        "# Von zeitriss.py geschrieben - vom Launcher automatisch gelesen.",
         f"OPENWEBUI_URL={url}",
         f"OPENWEBUI_API_KEY={owui_key}",
     ]
@@ -398,8 +558,8 @@ def action_rekeys() -> None:
 
     try:
         home_env.chmod(0o600)
-    except Exception:
-        # Windows-NTFS: chmod wirkungslos; bewusst stumm (kein Panik-Warn für Markus).
+    except OSError:
+        # Windows-NTFS: chmod wirkungslos; bewusst stumm (keine Panik-Warn für den Nutzer).
         pass
 
     print(green(f"\n  ✓  Keys gespeichert in {home_env}"))
@@ -408,6 +568,24 @@ def action_rekeys() -> None:
     if or_key:
         os.environ["OPENROUTER_API_KEY"] = or_key
     _pause()
+
+
+def _extract_kb_id(preset: dict) -> Optional[str]:
+    """Zieht die erste KB-ID aus dem Preset-Meta. Tolerant gegen
+    unterschiedliche Formate: Liste von Dicts mit ``id``, Liste von Strings,
+    oder — wenn etwas exotisch ist — None statt Crash.
+    """
+    meta = (preset.get("meta") or {}).get("knowledge")
+    if not isinstance(meta, list) or not meta:
+        return None
+    first = meta[0]
+    if isinstance(first, dict):
+        kb_id = first.get("id")
+    elif isinstance(first, str):
+        kb_id = first
+    else:
+        return None
+    return kb_id if isinstance(kb_id, str) and kb_id else None
 
 
 def action_diagnose() -> None:
@@ -442,19 +620,19 @@ def action_diagnose() -> None:
                 print(red(f"   ✗  Preset '{preset_id}' existiert nicht (Install nötig?)"))
             else:
                 print(green(f"   ✓  Preset '{preset.get('name', preset_id)}' gefunden"))
-                meta = (preset.get("meta") or {}).get("knowledge") or []
-                if meta and isinstance(meta, list):
-                    kb_id = (meta[0].get("id") if isinstance(meta[0], dict) else meta[0])
-                    if kb_id:
-                        v_cfg = cfg.get("verify", {})
-                        q = v_cfg.get("query", "")
-                        if q:
-                            result = client.query_kb(kb_id, q, k=v_cfg.get("top_k", 5))
-                            hits = result.get("hits", 0)
-                            if hits > 0:
-                                print(green(f"   ✓  KB-Retrieval OK ({hits} Treffer)"))
-                            else:
-                                print(red("   ✗  KB-Retrieval lieferte 0 Treffer - vermutlich Sync nötig"))
+                kb_id = _extract_kb_id(preset)
+                if kb_id is None:
+                    print(yellow("   !  Preset gefunden, aber KB-Verknüpfung konnte nicht gelesen werden — Format unerwartet"))
+                else:
+                    v_cfg = cfg.get("verify", {})
+                    q = v_cfg.get("query", "")
+                    if q:
+                        result = client.query_kb(kb_id, q, k=v_cfg.get("top_k", 5))
+                        hits = result.get("hits", 0)
+                        if hits > 0:
+                            print(green(f"   ✓  KB-Retrieval OK ({hits} Treffer)"))
+                        else:
+                            print(red("   ✗  KB-Retrieval lieferte 0 Treffer - vermutlich Sync nötig"))
         except Exception as e:
             print(red(f"   ✗  Diagnose-Fehler: {e.__class__.__name__}: {e}"))
 
@@ -471,10 +649,8 @@ def action_play() -> None:
         _pause()
         return
     print(f"  Öffne Browser auf {url} ...")
-    try:
-        webbrowser.open(url)
-    except Exception as e:
-        print(yellow(f"  Konnte Browser nicht öffnen ({e}). Bitte manuell: {url}"))
+    if not _open_browser(url):
+        print(yellow(f"  Konnte Browser nicht automatisch öffnen. Bitte manuell: {url}"))
     print(dim("  In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'"))
     _pause()
 
