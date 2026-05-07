@@ -1574,15 +1574,17 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             answer = input("  Modell: ").strip()
             model = answer or default_model
 
-            if model == default_model:
-                print_info(f"Prüfe Modell: {model}")
-                if not client.test_model(model):
-                    print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
-                    if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
-                        model = input("  Alternative Model-ID: ").strip()
-                        if not model:
-                            print_error("Kein Modell angegeben.")
-                            sys.exit(1)
+            # Erreichbarkeit immer prüfen — auch bei selbst eingetippter ID.
+            # Typos wie 'claude-sonnet4.6' (Bindestrich fehlt) sonst erst viel
+            # später beim ersten Chat sichtbar.
+            print_info(f"Prüfe Modell: {model}")
+            if not client.test_model(model):
+                print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
+                if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
+                    model = input("  Alternative Model-ID: ").strip()
+                    if not model:
+                        print_error("Kein Modell angegeben.")
+                        sys.exit(1)
 
     print_ok(f"Base Model: {model}")
 
