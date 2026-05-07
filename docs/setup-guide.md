@@ -14,10 +14,11 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 ## Inhalt
 
 1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
-2. [Welches Setup passt zu dir?](#welches-setup-passt-zu-dir)
-3. [Happy Path: Installation in fünf Schritten](#happy-path-installation-in-fünf-schritten)
+2. [Zwei Wege — welcher ist für dich?](#zwei-wege--welcher-ist-für-dich)
+3. [Weg A — Standard-Setup (offiziell getestet)](#weg-a--standard-setup-offiziell-getestet)
 4. [Updates und Wartung](#updates-und-wartung)
-5. [Varianten](#varianten)
+5. [Weg B — Gruppenspiel, Ollama, Portabler Export](#weg-b--portabler-setup-ohne-gewähr)
+   - [Portabler Export (ohne Gewähr)](#portabler-export-ohne-gewähr)
 6. [Troubleshooting](#troubleshooting)
 7. [Referenz](#referenz)
 
@@ -38,7 +39,7 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 │   (Docker)                     (einmalig, danach `--sync` bei        │
 │    │                           Updates)                              │
 │    │                                                                 │
-│    ├──► LiteLLM (Docker, Standardpfad) ──► OpenRouter ──► Claude/GLM/… │
+│    ├──► LiteLLM (Docker, Standardpfad) ──► OpenRouter ──► Claude/GLM/... │
 │    │      [aktiviert Prompt-Cache: ~90 % Ersparnis bei Claude]      │
 │    │                                                                 │
 │    └──► Ollama (optional, zwei verschiedene Rollen):                 │
@@ -56,234 +57,368 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 | **LiteLLM** (Docker-Container) | ✅ Standardpfad | Prompt-Cache für Claude-Modelle (~90 % Ersparnis) |
 | **Ollama** | ⚪ Optional | Offline-Modell **oder** lokales Embedding |
 
-> 💡 **Das Setup-Script macht viel, aber nicht alles**: Es richtet
-> Preset und Knowledge Base in OpenWebUI automatisch ein. OpenWebUI
-> selbst, Docker, Python und die zwei API-Keys müsst ihr einmal manuell
-> bereitstellen. Ollama nur, wenn ihr es bewusst wollt.
+> 💡 **Was ihr selbst braucht, was der Launcher macht:** Ihr installiert
+> einmalig **Docker** und **Python** und legt zwei **API-Keys** an
+> (OpenRouter + OpenWebUI). Alles andere - OpenWebUI-Docker-Container,
+> LiteLLM-Docker-Container, Preset, Knowledge Base, Retrieval-Check -
+> macht der Launcher (`python scripts/zeitriss.py`). Ollama ist optional
+> und nur für Spieler gedacht, die bewusst offline spielen wollen.
 
 ---
 
-## Zwei Wege (verbindlich getrennt)
+## Zwei Wege — welcher ist für dich?
 
-### Weg A — Standard-Setup (offiziell getestet)
+**Weg A: Komplett-Setup in OpenWebUI (empfohlen).** Der offiziell
+getestete Referenzpfad — OpenWebUI + OpenRouter + Claude Sonnet 4.6 +
+LiteLLM-Cache. Ein Launcher-Klick, fertig. Alle Regel-QA ist gegen
+diesen Stack kalibriert. → [Weg A unten](#weg-a--standard-setup-offiziell-getestet)
 
-Das ist der **verbindliche Referenzpfad** für ZEITRISS:
-
-- OpenWebUI
-- OpenRouter
-- `anthropic/claude-sonnet-4.6`
-- LiteLLM-Cache als Standardbestandteil
-
-Nur für diesen Pfad sind Qualität und Reproduzierbarkeit intern verlässlich geprüft.
-
-### Weg B — Portabler Setup (ohne Gewähr)
-
-Manueller Export in andere Plattformen (Masterprompt + Wissensmodule).
-Geeignet für erfahrene Nutzer, aber **nicht** Teil der offiziellen Testbasis.
+**Weg B: Regelwerk woanders nutzen (portabler Export, ohne Gewähr).**
+Wenn du lieber auf Lumo, Claude Projects, OpenAI Projects oder einer
+eigenen Plattform spielst. Launcher erzeugt dir ein Wissenspaket, das
+du manuell importierst. Kein Support, keine QA-Garantie, aber technisch
+möglich. → [Portabler Export unten](#portabler-export-ohne-gewähr)
 
 ### Derzeit nicht unterstützt
 
-- Lumo (Plattform von Proton)
-- ungetestete Plattformen (z. B. Claude Code)
-- kleine lokale Modelle als Spielleitung
+- Lumo (Plattform von Proton) — keine zuverlässige Spielerfahrung
+- ungetestete Plattformen (z. B. Claude Code) — noch nicht freigegeben
+- kleine lokale Modelle als Spielleitung — zu schwach für ZEITRISS
+---
+
+## Weg A - Standard-Setup (offiziell getestet)
+
+Dieser Pfad richtet OpenWebUI + OpenRouter + LiteLLM-Cache ein - den
+offiziellen Referenz-Stack. Du installierst selbst nur **Docker und
+Python**, den Rest erledigt der Launcher (`python scripts/zeitriss.py`).
+
+> i️ **Zeitaufwand beim ersten Mal:** 30-60 Minuten (inklusive
+> Docker- und Python-Installation). Reine Launcher-Laufzeit ohne
+> Installation: 5-10 Minuten. Updates später: 1-2 Minuten.
 
 ---
 
-## Weg A — Standard-Setup (offiziell getestet)
+### Schritt 1 - Docker installieren
 
-Dieser Pfad richtet OpenWebUI + OpenRouter ein — das empfohlene
-Basis-Setup. LiteLLM ist im Referenzpfad **Standardbestandteil** und spart langfristig die meisten Kosten.
+Docker ist die Voraussetzung für OpenWebUI und LiteLLM - beide laufen
+als Docker-Container auf deinem Rechner. Den Launcher interessiert
+das nicht, er ruft einfach `docker`-Befehle auf. Docker muss also
+**einmal installiert und gestartet** sein, bevor der Launcher läuft.
 
-> ℹ️ **Zeitaufwand** beim ersten Mal: **30–60 Minuten**, wenn Docker und Python
-> neu installiert werden müssen. Reine Script-Laufzeit ohne Installation:
-> 5–10 Minuten. Updates später: 1–2 Minuten.
+1. **Installieren:** <https://docs.docker.com/get-docker/>
+   - Windows/macOS: "Docker Desktop" herunterladen und installieren.
+   - Linux: je nach Distro, z. B. Ubuntu/Debian `sudo apt install docker.io`.
+2. **Starten:**
+   - Windows/macOS: Docker Desktop öffnen (Wal-Icon in der Taskleiste/
+     Menüleiste), warten bis der Status "Docker Desktop is running"
+     erscheint (1-2 Min beim ersten Mal).
+   - Linux: `sudo systemctl start docker` (und optional
+     `sudo systemctl enable docker` für Autostart nach Reboot).
+3. **Test:** `docker ps` im Terminal. Wenn eine leere Tabelle
+   erscheint (nur Kopfzeile), läuft Docker. Fehlermeldungen wie
+   "Cannot connect to the Docker daemon" bedeuten: Docker ist zwar
+   installiert, aber nicht gestartet.
 
-### Der einfache Weg: Launcher mit Menü
+---
 
-Wenn du dir keine Kommandos merken willst: nutz den Launcher.
+### Schritt 2 - Python 3 installieren
 
-- **Windows:** Doppelklick auf `zeitriss.bat` im Repo-Ordner.
-- **macOS/Linux:** `./zeitriss.sh` im Repo-Ordner (oder `python scripts/zeitriss.py`).
+Der Launcher ist ein Python-Script. Du brauchst Python 3.9 oder neuer.
 
-Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/Keys
-als ✓ oder —) und bietet fünf Menüpunkte:
+- **macOS:** meist vorinstalliert. Testen: `python3 --version`. Wenn
+  nicht vorhanden, `brew install python3` oder von <https://python.org>.
+- **Linux:** meist vorinstalliert. Wenn nicht: `sudo apt install python3`.
+- **Windows:** Installer von <https://python.org> holen.
 
-- **[1]** Erstinstallation (startet falls nötig auch den OpenWebUI-Container)
-- **[2]** Aktualisieren (`git pull` + Sync in einem)
-- **[3]** API-Keys neu verbinden (speichert sie in `~/.openwebui_env`, nie wieder eintippen)
-- **[4]** Diagnose (prüft alles durch, sagt auf Deutsch, was klemmt)
-- **[5]** Spiel starten (öffnet den Browser auf OpenWebUI)
-
-Die fünf Schritte weiter unten beschreiben das Gleiche auf der
-Kommandozeile — zum Nachlesen, wenn der Launcher mal eine Frage nicht
-klären kann oder du wissen willst, was genau passiert.
-
-
-### Schritt 1 — OpenWebUI starten
-
-OpenWebUI ist eure Chat-Oberfläche (kostenlos, self-hosted, nichts
-verlässt euren Rechner).
-
-**Voraussetzung**: Docker muss einmal vorab installiert sein. Falls
-noch nicht vorhanden: <https://docs.docker.com/get-docker/>.
-
-```bash
-docker run -d --name open-webui \
-  -p 8080:8080 \
-  -v open-webui:/app/backend/data \
-  ghcr.io/open-webui/open-webui:main
-```
-
-Danach <http://localhost:8080> öffnen und einen Admin-Account anlegen
-(bleibt lokal auf eurem Gerät).
-
-> ⚠️ **Port bereits belegt?** Wenn ihr OpenWebUI auf einem anderen Port
-> startet (z. B. `-p 3000:8080`), müsst ihr das dem Setup-Script später
-> mitteilen: `export OPENWEBUI_URL=http://localhost:3000` vor dem Aufruf.
-
-Wer kein Docker hat: Alternative Installationswege in der
-[Upstream-Doku](https://docs.openwebui.com/getting-started/).
-
-### Schritt 2 — OpenRouter-Account + Key
-
-OpenRouter gibt euch Zugang zu Claude/GLM/DeepSeek etc. ohne eigene
-Abos — ihr zahlt pay-per-token.
-
-1. Account auf <https://openrouter.ai> anlegen.
-2. Guthaben einzahlen — **5 USD reichen für viele Stunden Spiel**.
-3. **Privacy-Einstellung:** unter <https://openrouter.ai/settings/privacy>
-   muss der Provider-Zugriff für Anthropic (oder AWS Bedrock) erlaubt sein.
-   Ohne das blockiert OpenRouter die Route, und der LiteLLM-Cache in
-   Schritt 5 greift nicht.
-4. Unter <https://openrouter.ai/keys> einen Key erzeugen (`sk-or-v1-…`).
-5. In OpenWebUI eintragen: **Einstellungen → Verbindungen →
-   + OpenAI-kompatible Connection**
-   - Base URL: `https://openrouter.ai/api/v1`
-   - API-Key: euer `sk-or-v1-…`
-
-> ℹ️ **Über Tokens & Kosten:** Abgerechnet wird pro Token (grob: 1 Token ≈
-> 4 Zeichen Text). Ein typischer ZEITRISS-Turn kostet mit aktivem
-> LiteLLM-Cache (Schritt 5) nur **Cent-Beträge** — 5 USD halten meist
-> 20+ Spielstunden. OpenRouter hat im Dashboard eine **harte
-> Ausgaben-Obergrenze**, die ihr einstellen könnt, falls euch das beruhigt.
-
-### Schritt 3 — Python + OpenWebUI-API-Key
-
-Python braucht ihr, um das Setup-Script laufen zu lassen.
-
-- macOS / Linux: meist schon da.
-- **Windows**: Installer von <https://python.org> holen.
-
-> ⚠️ **Windows-Stolperfalle**: Beim Installer **„Add Python to PATH"**
-> anklicken. Ohne das kennt die Eingabeaufforderung den `python`-Befehl
-> nicht.
+> ⚠️ **Windows-Stolperfalle:** Beim Python-Installer den Haken bei
+> **"Add Python to PATH"** setzen. Ohne den Haken kennt die
+> Eingabeaufforderung den `python`-Befehl nicht, und der Launcher
+> startet nicht.
 >
 > Kein Terminal zur Hand? → [Wie öffne ich ein Terminal?](terminal-help.md)
 
-Dann braucht das Script noch einen zweiten Key — den **OpenWebUI-API-Key**
-(nicht verwechseln mit dem OpenRouter-Key aus Schritt 2):
+---
 
-1. In OpenWebUI oben rechts auf euer Profil klicken.
-2. **Account → API Keys → „Create new key"**.
-3. Key kopieren, in die Zwischenablage.
+### Schritt 3 - OpenRouter-Account + Key besorgen
 
-> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key (Schritt 2)
-> redet mit dem Sprachmodell. Der OpenWebUI-Key (hier) redet mit eurem
-> eigenen OpenWebUI. Das Setup-Script nutzt Letzteren, um Preset und
-> Knowledge Base automatisch anzulegen, statt dass ihr das per Hand
-> klickt.
+OpenRouter liefert das Sprachmodell (Claude Sonnet 4.6, pay-per-token,
+kein Abo). Du brauchst **einen Account, ein kleines Guthaben und einen
+API-Key**.
 
-### Schritt 4 — ZEITRISS klonen und Setup-Script laufen lassen
+1. **Account anlegen:** <https://openrouter.ai> → "Sign Up".
+2. **Guthaben einzahlen:** <https://openrouter.ai/credits> - 5 USD
+   reichen für viele Spielstunden (mit aktivem LiteLLM-Cache in
+   Schritt 6 werden daraus ~20+ Spielstunden).
+3. **Privacy-Einstellung setzen:** <https://openrouter.ai/settings/privacy>
+   → in der Provider-Liste **Anthropic** auf *Allowed / Erlaubt* setzen
+   (meistens ein Toggle-Schalter oder eine Checkbox). AWS Bedrock ist
+   eine Alternative zu Anthropic, beides zusammen schadet nicht. Ohne
+   diesen Schritt blockiert OpenRouter später den LiteLLM-Cache, und
+   die ~90-%-Ersparnis ist weg.
+4. **Key erzeugen:** <https://openrouter.ai/keys> → "Create Key" →
+   Namen vergeben (z. B. "zeitriss") → Key kopieren. Er beginnt mit
+   `sk-or-v1-...`. **Key jetzt sofort wegspeichern** (Notiz-App,
+   Passwort-Manager) - OpenRouter zeigt ihn dir nur einmal.
+
+---
+
+### Schritt 4 - ZEITRISS klonen
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
-python scripts/setup.py
 ```
 
-Das Script fragt den OpenWebUI-API-Key ab, lädt die 19 Wissensmodule
-hoch, erstellt die Knowledge Base, legt das Preset `ZEITRISS v4.2.6 Uncut`
-an und prüft am Ende per Retrieval-Check, ob alles greift.
+Kein Git installiert? Zwei Möglichkeiten:
 
-Dauer: **5–10 Minuten** beim ersten Mal (Embeddings werden berechnet).
-Ohne Git: ZIP-Download über **Code → Download ZIP** auf GitHub,
-entpacken, Terminal im Ordner öffnen, Script ausführen.
+- **Git installieren:** <https://git-scm.com/downloads> (empfohlen,
+  weil Updates via Launcher-Menüpunkt [4] dann out-of-the-box
+  funktionieren).
+- **ZIP-Download:** Auf GitHub "Code → Download ZIP" klicken, entpacken,
+  Terminal im entpackten Ordner öffnen. Funktioniert, aber Updates
+  musst du dann per erneutem ZIP-Download holen - inkrementelles `--sync`
+  braucht ein Git-Repo.
 
-### Schritt 5 — LiteLLM einrichten (Standard im Referenzpfad)
+---
 
-Der ZEITRISS-Masterprompt ist ~60 KB groß (versionsabhängig). Ohne Caching zahlt ihr ihn
-bei **jedem** Turn neu. LiteLLM ist ein kleiner Docker-Container, der
-den Anthropic-Prompt-Cache aktiviert und spart **~90 % der
-Prompt-Kosten** auf jedem Folge-Turn.
+### Schritt 5 - Launcher starten
 
 ```bash
-python scripts/setup.py --install-litellm
+python scripts/zeitriss.py
 ```
 
-Das Script fragt den OpenRouter-Key, erzeugt einen eigenen
-LiteLLM-Master-Key, startet den Container, prüft den Cache live und
-zeigt am Ende drei Klicks, die ihr in OpenWebUI noch machen müsst:
+Unter Windows alternativ **Doppelklick auf `zeitriss.bat`**, unter
+macOS/Linux alternativ `./zeitriss.sh`.
 
-1. **Einstellungen → Verbindungen → + Add Connection**
-   - URL: `http://localhost:4000/v1`
-   - Key: der ausgegebene LiteLLM-Master-Key
-2. Speichern.
-3. Preset `ZEITRISS v4.2.6 Uncut` öffnen → Base-Model auf
-   `zeitriss-sonnet` umstellen.
-
-> ⚠️ **Privacy-Check bei OpenRouter**: Unter
-> <https://openrouter.ai/settings/privacy> muss der Provider-Zugriff für
-> Anthropic oder AWS Bedrock zugelassen sein. Sonst blockiert OpenRouter
-> die Route, und das Caching greift nicht. Das Script warnt explizit.
-
-Auch bei anderen Modellen bleibt LiteLLM im Referenzpfad gesetzt, damit
-das Setup konsistent bleibt und QA-Befunde reproduzierbar sind.
-
-### Fertig — Spiel starten
-
-Neuen Chat in OpenWebUI öffnen, Modell `ZEITRISS v4.2.6 Uncut` wählen,
-tippen:
+Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/
+Keys als ✓ oder -) und ein Menü mit sechs Punkten, gruppiert in
+*Installation* und *Im Betrieb*:
 
 ```
-Spiel starten (solo klassisch)
+  ── Installation ───────────────────────────────
+   [1]  Komplett-Setup in OpenWebUI (empfohlen)
+   [2]  Regelwerk woanders nutzen (Export-Paket erzeugen)
+
+  ── Im Betrieb ──────────────────────────────
+   [3]  Spiel starten (Browser öffnen)
+   [4]  ZEITRISS aktualisieren (git pull + Sync)
+   [5]  API-Keys ändern
+   [6]  Bei mir läuft was nicht (Diagnose)
+
+   [X]  Beenden
 ```
 
-`Spiel starten (solo schnell)` ist optional als Fast-Lane für
-Kurzrunden. Natürliche Sprache
-funktioniert auch — „Ich will neu starten als Gruppe" startet die
-Gruppen-Chargen.
+Unten steht eine Eingabezeile **`Auswahl:`**. Für die Erstinstallation
+tipp **`1`** und drück Enter.
 
-> ℹ️ **Funktioniert's?** Die SL begrüßt euch mit einer Szene, ein
-> HUD-Block `EP 1 · MS 1 · SC …` taucht auf — dann läuft alles. Falls
-> nicht: [Troubleshooting](#troubleshooting).
+---
+
+### Schritt 6 - Was der Launcher dich jetzt fragt
+
+> 💡 **Der Launcher ist dein Reiseleiter.** Er sagt dir im Terminal an
+> jeder Stelle selbst, was zu tun ist - inklusive dem Browser-Teil
+> (A + B + C). Die folgenden Unterschritte sind deshalb **eine
+> ausführliche Referenz mit Screenshots-in-Prosa**, falls du nachlesen
+> willst. Im Regelfall reicht es, dem Launcher-Output zu folgen.
+
+Der Launcher arbeitet Menüpunkt [1] von oben nach unten ab und stoppt
+nur dort, wo er etwas von dir braucht. Du musst zwischendrin **einmal
+in den Browser wechseln und drei Klicks machen** - der Rest läuft
+automatisch.
+
+#### 6.1 - Docker-Check
+
+Der Launcher prüft, ob Docker läuft. Falls nicht, bricht er ab mit dem
+Hinweis "Docker fehlt/läuft nicht". Dann zurück zu Schritt 1.
+
+#### 6.2 - OpenWebUI-Container installieren + starten
+
+Der Launcher fragt: *"Soll ich OpenWebUI jetzt starten? (j/n):"*
+
+Enter drücken (= Ja). Der Launcher zieht den Docker-Container
+`ghcr.io/open-webui/open-webui:main` (beim ersten Mal ~1 GB, 1-2 Min
+Download) und startet ihn auf Port 8080.
+
+Danach siehst du: *"✓  OpenWebUI läuft"*.
+
+#### 6.3 - OpenWebUI im Browser einrichten (der Handarbeits-Teil)
+
+Der Launcher fragt nun nach deinem **OpenWebUI-API-Key** und öffnet
+dabei automatisch <http://localhost:8080> im Browser.
+
+> ⏸️ **Launcher wartet jetzt auf dich.** Lass das Terminal offen,
+> wechsel in den Browser, erledige A + B + C unten, kopier zum Schluss
+> den Key - komm dann zurück ins Terminal (Schritt 6.4). Der Launcher
+> ist **nicht** abgestürzt, er wartet.
+
+**A) Admin-Account anlegen** (nur beim allerersten Mal)
+
+Im Browser: Benutzername, E-Mail, Passwort eintragen. Das ist ein
+**rein lokaler** Account - er bleibt auf deinem Rechner, keine Daten
+werden irgendwohin geschickt.
+
+**B) OpenRouter-Key als Connection eintragen**
+
+Nach dem Anlegen landest du auf der OpenWebUI-Startseite. Von dort:
+
+1. Oben rechts auf das **Profil-Icon** klicken → **Einstellungen**.
+2. Im Einstellungs-Menü links **Verbindungen** wählen.
+3. Bei *OpenAI-API-Verbindungen* auf das **`+`-Icon** bzw. den Button
+   **"Verbindung hinzufügen"** (englisch: "+ Add Connection"). Die UI
+   ist auf Deutsch, wenn dein Browser auf Deutsch ist, sonst Englisch -
+   das Feldlayout ist identisch.
+4. Eintragen:
+   - **Base URL / URL:** `https://openrouter.ai/api/v1`
+   - **API-Key:** dein `sk-or-v1-...` aus Schritt 3
+5. **Speichern** klicken.
+
+**C) OpenWebUI-API-Key erzeugen**
+
+Nochmal auf das Profil-Icon oben rechts → **Einstellungen → Account →
+API Keys → "Create new key"** (oder **"Neuen Schlüssel erstellen"**)
+→ Key kopieren.
+
+> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key (Schritt 3)
+> redet mit dem Sprachmodell in der Cloud. Der OpenWebUI-Key (hier)
+> redet mit deinem lokalen OpenWebUI. Der Launcher nutzt Letzteren,
+> um das Preset und die Knowledge Base automatisch anzulegen, statt
+> dass du 19 Dateien von Hand hochladen müsstest.
+
+#### 6.4 - Zurück ins Terminal
+
+Der Launcher wartet immer noch auf deinen OpenWebUI-API-Key. Key
+einfügen und Enter drücken:
+
+- **Windows CMD / PowerShell:** Rechtsklick im Terminal-Fenster fügt
+  den Zwischenablage-Inhalt ein.
+- **macOS Terminal / iTerm:** **Cmd+V**.
+- **Linux Terminal (gnome-terminal, Konsole ...):** **Ctrl+Shift+V**.
+
+> ⚠️ **Eingabe ist unsichtbar** - du siehst nichts, während du einfügst.
+> Das ist Absicht (wie bei Passwort-Eingaben). Einfach einfügen,
+> Enter, fertig.
+
+Der Launcher lädt jetzt die 19 Wissensmodule nach OpenWebUI hoch,
+legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
+Retrieval-Check, ob die KB funktioniert. Dauer: **5-10 Minuten beim
+ersten Mal** (Embeddings werden berechnet).
+
+#### 6.5 - LiteLLM-Cache aktivieren?
+
+Wenn der Launcher fertig ist, fragt er: *"LiteLLM-Cache aktivieren?
+(spart ~90 % Prompt-Kosten, sehr empfohlen)"*
+
+**Ja drücken.** Der Launcher zieht den LiteLLM-Docker-Container,
+startet ihn auf Port 4000 (nur lokal, nicht nach außen erreichbar) und
+erzeugt einen Master-Key. Am Ende zeigt er dir im Terminal **drei
+Browser-Schritte**, die du noch manuell machen musst (der Launcher kann
+sie nicht automatisieren, weil OpenWebUI den Key selbst kennen muss) —
+und schreibt den **Master-Key direkt in die `Key:`-Zeile von Schritt 1**,
+du kopierst ihn also genau dort, wo du ihn gleich brauchst:
+
+1. **Neue Connection in OpenWebUI eintragen.** Zurück in den Browser:
+   **Profil-Icon → Einstellungen → Verbindungen → „+ Verbindung
+   hinzufügen"**
+   - **URL:** `http://localhost:4000/v1`
+   - **API-Key:** der vom Launcher ausgegebene `sk-litellm-…`
+   - **Name:** `LiteLLM (ZEITRISS Cache)`
+   - **Speichern.**
+2. **Preset auf LiteLLM umstellen.** Im linken Menü
+   **Arbeitsbereich → Modelle** (englisch *Workspace → Models*)
+   → Eintrag **`ZEITRISS v4.2.6 Uncut`** anklicken.
+3. **Im Preset-Editor** das **Base-Modell-Dropdown** oben auf
+   **`zeitriss-sonnet`** umstellen → **Speichern.**
+
+> 💡 **Master-Key später nochmal gebraucht?** Der Launcher legt ihn
+> zusätzlich in `scripts/litellm/.env` ab (chmod 600, nur für dich
+> lesbar).
+
+Fertig. Der Launcher hat deine Keys in einer versteckten Datei
+gespeichert (`~/.openwebui_env` unter macOS/Linux,
+`%USERPROFILE%\.openwebui_env` unter Windows) - **du musst sie nicht
+anfassen**. Bei jedem weiteren Launcher-Start werden sie automatisch
+geladen, du musst sie nie wieder eintippen.
+
+---
+
+### Schritt 7 - Spiel starten
+
+Im Launcher-Menü **[3] Spiel starten** wählen. Der Browser öffnet sich
+auf <http://localhost:8080>. Dort:
+
+1. Neuen Chat öffnen.
+2. Oben im Dropdown Preset **ZEITRISS v4.2.6 Uncut** auswählen.
+3. Tippen: `Spiel starten (solo klassisch)`
+
+Die KI-Spielleitung begrüßt dich mit einer Szene, ein HUD-Block
+`EP 1 · MS 1 · SC ...` taucht auf. Ab hier erklärt dir die SL alles
+weitere in-world.
+
+**Varianten:**
+
+- `Spiel starten (solo schnell)` - Fast-Lane für Kurzrunden (Charakter
+  mit Defaults, direkt ins Briefing).
+- `Spiel starten (gruppe klassisch)` - Gruppen-Chargen, alle nacheinander.
+- `Spiel starten (gruppe schnell)` - Fast-Lane für Gruppen.
+- Natürliche Sprache funktioniert auch ("Ich will neu starten als
+  Gruppe" startet die Gruppen-Chargen).
+
+> i️ **Funktioniert's?** Erwartete erste Antwort: Willkommensszene mit
+> HUD-Block (`EP 1 · MS 1 · SC ...`) **oder** Fragen zur
+> Charaktererschaffung ("Name?", "Vibe?" etc.). Beides ist in Ordnung
+> - die SL startet je nach Preset-Variante direkt mit einer Szene oder
+> mit der Charaktererstellung. Wenn stattdessen eine leere Antwort oder
+> ein Fehler kommt: im Launcher **[6] Bei mir läuft was nicht** starten
+> — das prüft alles durch und sagt auf Deutsch, was klemmt. Weitere Hilfe:
+> [Troubleshooting](#troubleshooting).
 
 ---
 
 ## Updates und Wartung
 
-### Der normale Update-Flow
+### Der einfache Weg: Launcher-Menüpunkt [4]
 
-Nach einem `git pull` reicht:
+```bash
+python scripts/zeitriss.py
+```
+
+Dann **[4] ZEITRISS aktualisieren** wählen. Der Launcher macht
+automatisch:
+
+1. `git pull --ff-only` im Repo (bei lokalen Änderungen legt er sie
+   kurz auf den Stash-Stack und stellt sie danach wieder her).
+2. `~/.openwebui_env` laden (deine Keys).
+3. Inkrementellen Sync starten - überträgt nur, was sich geändert hat.
+
+Das ist der empfohlene Weg, weil du dir nichts merken musst.
+
+### Für CLI-Fans: direkt via `setup.py --sync`
+
+Intern ruft der Launcher das Script `setup.py` auf - du kannst es auch
+direkt nutzen, brauchst du aber nicht. Der Launcher-Menüpunkt [4] macht
+genau das Gleiche und kümmert sich zusätzlich um `git pull` und das
+Laden deiner Keys. Direkt via CLI:
 
 ```bash
 git pull
-# Env-Variablen für OpenWebUI-URL + API-Key laden (nur nötig, wenn noch nicht in der Shell gesetzt):
-export $(grep -v '^#' ~/.openwebui_env | xargs)   # falls ~/.openwebui_env existiert
+export $(grep -v '^#' ~/.openwebui_env | xargs)   # Keys aus ~/.openwebui_env laden
 python scripts/setup.py --sync
 ```
 
 > 💡 **Warum `export $(... | xargs)` und nicht `source ~/.openwebui_env`?**
-> Wenn eure `~/.openwebui_env` Zeilen wie `OPENWEBUI_API_KEY=sk-…` ohne
-> `export`-Prefix enthält (so wie der Setup-Guide sie vorschlägt),
-> werden die Variablen beim `source` zwar in der aktuellen Shell
-> gesetzt, **aber nicht an Python als Kind-Prozess vererbt**. Der
-> `export $(... | xargs)`-Einzeiler macht sie explizit exportierbar.
-> Das Setup-Script gibt diesen Hinweis auch im Fehlerfall.
+> Die `~/.openwebui_env` enthält Zeilen wie `OPENWEBUI_API_KEY=sk-...` ohne
+> `export`-Prefix. Bei `source` werden die Variablen zwar in der
+> aktuellen Shell gesetzt, **aber nicht an Python als Kind-Prozess
+> vererbt**. Der `export $(... | xargs)`-Einzeiler macht sie explizit
+> exportierbar. Das Setup-Script gibt diesen Hinweis auch im Fehlerfall.
 >
-> Alternativ inline:
+> Alternativ inline als eine Zeile:
+>
 > ```bash
-> OPENWEBUI_URL=http://localhost:8080 OPENWEBUI_API_KEY=sk-… python scripts/setup.py --sync
+> OPENWEBUI_URL=http://localhost:8080 OPENWEBUI_API_KEY=sk-... python scripts/setup.py --sync
 > ```
+
+### Was `--sync` intern tut
 
 Der `--sync`-Modus vergleicht die lokalen Dateien mit einem Manifest
 (`.openwebui-sync.json`, automatisch angelegt) und überträgt **nur,
@@ -292,7 +427,7 @@ was sich geändert hat**:
 - Masterprompt geändert → Preset wird gepatcht (<1 s).
 - Einzelne Wissensmodule geändert → nur die neu hochladen und neu
   indexieren.
-- Nichts geändert → „Alles synchron, nichts zu tun."
+- Nichts geändert → "Alles synchron, nichts zu tun."
 
 Das spart bei typischen Regel-Patches **Minuten bis zu einer halben
 Stunde** gegenüber dem Full-Rebuild. Eure KB-IDs bleiben stabil, offene
@@ -303,13 +438,13 @@ Browser-Chats überleben.
 | Fall | Dauer |
 | --- | --- |
 | `--sync`, nichts geändert | <1 Sekunde |
-| `--sync`, nur Masterprompt | 1–2 Sekunden |
-| `--sync`, 1–5 KB-Dateien geändert | 20 s bis 8 min |
+| `--sync`, nur Masterprompt | 1-2 Sekunden |
+| `--sync`, 1-5 KB-Dateien geändert | 20 s bis 8 min |
 | Full-Rebuild / Erstinstallation | 5 min bis 25 min |
 
 Die Spannweite kommt von der **Embedding-Engine**: OpenWebUI-Default
 (MiniLM) rechnet in Sekunden, Ollama-CPU braucht pro 80-kB-Datei
-60–120 Sekunden. Bei sehr langsamer Hardware das Timeout hochsetzen —
+60-120 Sekunden. Bei sehr langsamer Hardware das Timeout hochsetzen -
 siehe [Troubleshooting](#sync-meldet-timeout-bei-der-datei-verknüpfung).
 
 ### Wann Full-Rebuild statt `--sync`?
@@ -320,15 +455,15 @@ python scripts/setup.py
 
 Richtig in folgenden Fällen:
 
-- **Erstinstallation** — `--sync` verlangt ein existierendes Preset.
-- **Nach OpenWebUI-Major-Upgrade** — Knowledge-Schema kann sich ändern.
-- **ZIP-Download-User** — ohne Git geht `--sync` nicht (Manifest wäre
+- **Erstinstallation** - `--sync` verlangt ein existierendes Preset.
+- **Nach OpenWebUI-Major-Upgrade** - Knowledge-Schema kann sich ändern.
+- **ZIP-Download-User** - ohne Git geht `--sync` nicht (Manifest wäre
   bei jedem frischen ZIP-Entpacken wieder weg).
-- **Zerschossener Zustand** — wenn `--sync` mehrfach fehlschlägt und
+- **Zerschossener Zustand** - wenn `--sync` mehrfach fehlschlägt und
   der Fehler unklar bleibt.
 
 Der Full-Rebuild schreibt am Ende automatisch das Manifest, sodass ein
-anschließender `--sync`-Lauf sofort „synchron" meldet.
+anschließender `--sync`-Lauf sofort "synchron" meldet.
 
 ### Manuelle Tweaks im Preset bleiben erhalten
 
@@ -344,7 +479,7 @@ braucht getrennte Clones.
 
 ---
 
-## Weg B — Portabler Setup (ohne Gewähr)
+## Weg B - Portabler Setup (ohne Gewähr)
 
 Dieser Abschnitt dokumentiert Best-Effort-Varianten außerhalb des offiziellen Referenzpfads.
 
@@ -352,14 +487,14 @@ Dieser Abschnitt dokumentiert Best-Effort-Varianten außerhalb des offiziellen R
 
 ZEITRISS ist primär für **Gruppen an einem Gerät** gedacht: alle sitzen
 zusammen um einen Laptop, ein Spieler moderiert, gespielt wird im
-Wechsel — wie am Pen-&-Paper-Tisch, nur mit KI-SL statt Human-SL.
+Wechsel - wie am Pen-&-Paper-Tisch, nur mit KI-SL statt Human-SL.
 
 > Remote-Play über Netzwerk (Tailscale, VPN, Multi-User-OpenWebUI) ist
 > möglich, braucht aber eigenes Setup. Ein dedizierter Remote-Guide
 > folgt später.
 
 **Setup für die Gruppe**: Nur eine Person hostet (folgt dem Happy Path).
-Die anderen installieren **nichts** — sie sitzen einfach mit am Rechner.
+Die anderen installieren **nichts** - sie sitzen einfach mit am Rechner.
 
 **Gruppenstart**:
 
@@ -369,7 +504,7 @@ Spiel starten (gruppe klassisch)
 
 Die SL führt durch Gruppen-Chargen: Jeder Spieler gibt Vibe, Attribute
 und Loadout nacheinander durch. Danach HQ, Save, Mission. Alternativ
-`Spiel starten (gruppe schnell)` als Fast-Lane — SL generiert Charaktere
+`Spiel starten (gruppe schnell)` als Fast-Lane - SL generiert Charaktere
 mit Defaults und springt direkt ins Briefing.
 
 **Mitgebrachte Saves laden** (aus Solo- oder früheren Gruppen-Abenden):
@@ -378,7 +513,7 @@ mit Defaults und springt direkt ins Briefing.
 Spiel laden
 ```
 
-Danach alle Saves hintereinander in den Chat pasten — ein Save sieht
+Danach alle Saves hintereinander in den Chat pasten - ein Save sieht
 so aus:
 
 ````
@@ -400,13 +535,13 @@ alle weiteren bringen ihre Charaktere mit. Die SL mergt automatisch.
 
 **Wer tippt, wer würfelt?**
 
-- **Ein Tipper pro Szene** — einer sitzt an der Tastatur, die anderen
+- **Ein Tipper pro Szene** - einer sitzt an der Tastatur, die anderen
   sagen vor, Tipper rotiert nach jeder Mission.
 - **Ansage in eckigen Klammern** (empfohlen, nicht Pflicht):
-  „[Kira] Ich ziele auf den Wachposten" ist eindeutiger als anonymes
-  „Ich schieße". Natürliche Sprache („Kira zielt…") funktioniert
-  genauso — die eckigen Klammern sind nur eine Abkürzung.
-- **Würfel macht die SL** — das ist Teil des Spiels. Die Gruppe
+  "[Kira] Ich ziele auf den Wachposten" ist eindeutiger als anonymes
+  "Ich schieße". Natürliche Sprache ("Kira zielt...") funktioniert
+  genauso - die eckigen Klammern sind nur eine Abkürzung.
+- **Würfel macht die SL** - das ist Teil des Spiels. Die Gruppe
   entscheidet die Aktion, die SL berichtet das Ergebnis mit Formel.
 
 **Pausen**: Der Chat läuft nicht weiter, solange niemand tippt. Klo-Pause
@@ -417,8 +552,8 @@ Text in eine Datei kopieren und an alle verteilen. Beim nächsten Abend
 einfach `Spiel laden` und einfügen.
 
 **Split für Solo-Weiterspielen**: Nach Debrief im HQ bietet die SL
-Split-Pfade an. Einfach sagen: „Ich möchte mit Kira solo weiterspielen."
-Die SL gibt einen Solo-Save aus — nur diese Figur + Kampagnen-Anker.
+Split-Pfade an. Einfach sagen: "Ich möchte mit Kira solo weiterspielen."
+Die SL gibt einen Solo-Save aus - nur diese Figur + Kampagnen-Anker.
 Solo-Erlebnisse fließen beim nächsten Gruppenabend wieder ein.
 
 > 💡 **Save früh, save oft**: Macht nach jeder Mission einen gemeinsamen
@@ -432,7 +567,7 @@ offline/lokal, keine Daten verlassen euren Rechner.
 
 **Voraussetzung**: Ollama installiert, ein fähiges Modell geladen
 (z. B. `llama3.1:70b` oder `qwen2.5:72b`). ZEITRISS ist regel-komplex,
-schwache Modelle kommen schnell an Grenzen — mindestens 70B-Klasse
+schwache Modelle kommen schnell an Grenzen - mindestens 70B-Klasse
 empfohlen, und eine GPU mit genug VRAM.
 
 **Einrichtung**: Ollama wie gewohnt laufen lassen. In OpenWebUI unter
@@ -440,13 +575,13 @@ empfohlen, und eine GPU mit genug VRAM.
 `http://host.docker.internal:11434`). Das ZEITRISS-Preset nutzt dann
 statt `claude-sonnet-4.6` eins eurer Ollama-Modelle.
 
-**LiteLLM bringt hier nichts** — Ollama hat kein Anthropic-Cache, es
+**LiteLLM bringt hier nichts** - Ollama hat kein Anthropic-Cache, es
 läuft ja lokal.
 
 ### Ollama als Embedding-Engine (lokales KB-Indexing)
 
 **Rolle**: Ollama ersetzt hier **MiniLM** (den Default-Embedder). Nur
-beim **Aufbau der Knowledge Base** und bei `--sync` aktiv — nicht beim
+beim **Aufbau der Knowledge Base** und bei `--sync` aktiv - nicht beim
 Spielen selbst.
 
 **Wann sinnvoll?** Wenn ihr sowieso schon Ollama fahrt und einen
@@ -466,19 +601,36 @@ Embedding-Modell) ist verfügbar, OpenWebUI kann Ollama erreichen.
 > 💡 **Die zwei Ollama-Rollen nicht verwechseln**: Sprachmodell-Ollama
 > (oben) ist das Hirn, das die SL antreibt. Embedding-Ollama (hier)
 > ist der Indexer, der die KB durchsuchbar macht. Beide können parallel
-> laufen oder keins — OpenWebUI braucht nur den Default-MiniLM.
+> laufen oder keins - OpenWebUI braucht nur den Default-MiniLM.
 
-### Andere Plattformen (portabler Export, ohne Gewähr)
+### Portabler Export (ohne Gewähr)
 
-Kein OpenWebUI, kein Docker, kein Script — ihr nutzt einen fertigen
-Browser-Dienst. ZEITRISS wird dabei als **Wissenspaket** exportiert:
+Kein OpenWebUI, kein Docker, kein Script-Aufruf — ihr nutzt einen
+fertigen Browser-Dienst (Lumo, Claude Projects, OpenAI Projects, eigenes
+Setup …). ZEITRISS wird dabei als **Wissenspaket** exportiert und in
+die Zielplattform manuell importiert.
+
+#### Der einfache Weg: Launcher-Menüpunkt [2]
 
 ```bash
-python scripts/setup.py --export
+python scripts/zeitriss.py
 ```
 
-Das erzeugt ein Paket mit `masterprompt.md` + 19 Wissensmodulen.
-Der Import ist manuell und hängt vollständig von der Zielplattform ab.
+Im Menü **[2] Regelwerk woanders nutzen (Export-Paket erzeugen)**
+wählen. Der Launcher fragt dich:
+
+1. **Format** — [1] strukturiert (Ordner mit Unterordnern), [2] flach
+   (nummerierte Dateien in einem Ordner, für Plattformen ohne
+   Ordner-Support), [3] beides.
+2. **Ausgabe-Ordner** — default `./.exports/`, Enter = übernehmen.
+3. **Im Dateimanager öffnen?** — macht er gern.
+
+Im Terminal siehst du am Ende konkrete Import-Hinweise (Masterprompt
+kommt als Systemprompt, Wissensmodule als „Wissen"/„Knowledge"). Das
+erzeugte Paket enthält zusätzlich eine `SETUP-ANLEITUNG.md` mit
+Plattform-spezifischen Tipps.
+
+#### Plattform-Tauglichkeit
 
 | Plattform | Tauglichkeit |
 | --- | --- |
@@ -488,8 +640,15 @@ Der Import ist manuell und hängt vollständig von der Zielplattform ab.
 | Lumo (Plattform von Proton) | ❌ Derzeit nicht unterstützt (keine zuverlässige Spielerfahrung). |
 | Ungetestete Plattformen (z. B. Claude Code) | ❌ Nicht freigegeben. |
 
-Für Plattformen ohne Ordner-Support: `--export --flat` erzeugt
-nummerierte Flat-Dateien.
+#### Für CLI-Fans: direkt via `setup.py --export`
+
+```bash
+python scripts/setup.py --export           # strukturiert
+python scripts/setup.py --export --flat    # flache Nummerierung
+python scripts/setup.py --export --out DIR # eigener Ausgabe-Ordner
+```
+
+Macht intern genau das, was der Launcher-Menüpunkt [2] macht.
 
 ### Manuelles Setup ohne Script
 
@@ -510,7 +669,7 @@ Wenn ihr das Script nicht nutzen wollt:
 
 **Optional, nicht im Default-Slotset**: `characters/charaktererschaffung-optionen.md`
 (Inspirations-/Fallback-Charaktere, Archetypen-Fundus für One-Shots). Das
-Modul ist bewusst nicht im Default-Ladepfad — die SL bevorzugt `generate`
+Modul ist bewusst nicht im Default-Ladepfad - die SL bevorzugt `generate`
 / `custom generate` / manuelles Bauen. Nur laden, wenn ihr Pregens
 bewusst im Spiel haben wollt.
 
@@ -538,7 +697,7 @@ bewusst im Spiel haben wollt.
 
 ## Troubleshooting
 
-### „Die SL antwortet, aber Regeln klingen falsch"
+### "Die SL antwortet, aber Regeln klingen falsch"
 
 Das Retrieval zieht vermutlich keine Regeln aus der KB. Erst Script
 noch einmal laufen lassen:
@@ -557,14 +716,14 @@ python scripts/setup.py --embedding default
 Das setzt die Engine explizit auf das eingebaute MiniLM-Modell und
 baut alles neu auf.
 
-### „Das Script meldet Fehler beim Verknüpfen der Dateien"
+### "Das Script meldet Fehler beim Verknüpfen der Dateien"
 
 Der Verknüpfungs-Endpunkt von OpenWebUI meldet manchmal spurious
 HTTP-Fehler. Entscheidend ist der **Retrieval-Check** am Ende: Solange
 dort `KB-Retrieval funktioniert` steht, sind alle Dateien korrekt
 eingebunden.
 
-### „Ich habe einen komplett zerschossenen Zustand"
+### "Ich habe einen komplett zerschossenen Zustand"
 
 ```bash
 python scripts/setup.py --reset-embeddings --embedding default
@@ -573,7 +732,7 @@ python scripts/setup.py --reset-embeddings --embedding default
 `--reset-embeddings` räumt verwaiste Vektor-Ordner auf, bevor die neue
 KB gebaut wird.
 
-### „Setup hängt bei der URL-Abfrage"
+### "Setup hängt bei der URL-Abfrage"
 
 Umgebungsvariablen setzen, dann fragt das Script nichts:
 
@@ -583,7 +742,7 @@ export OPENWEBUI_API_KEY=sk-...
 python scripts/setup.py -y
 ```
 
-### „`--sync` meldet ‚Preset existiert nicht'"
+### "`--sync` meldet 'Preset existiert nicht'"
 
 `--sync` ist ein Update-Modus, keine Erstinstallation. Einmal Full-Rebuild
 laufen lassen:
@@ -592,20 +751,20 @@ laufen lassen:
 python scripts/setup.py
 ```
 
-### „`--sync` dauert so lang wie der Full-Rebuild"
+### "`--sync` dauert so lang wie der Full-Rebuild"
 
 Zwei häufige Ursachen:
 
 1. **Kein Manifest vorhanden** (`.openwebui-sync.json` fehlt, z. B.
    nach `git clean` oder frischem ZIP-Entpacken). Lösung: einmal
    Full-Rebuild, danach sind künftige `--sync` wieder schnell.
-2. **Viele Dateien zugleich geändert** — dann zieht `--sync` sie alle
+2. **Viele Dateien zugleich geändert** - dann zieht `--sync` sie alle
    durch, das ist normal. Der Progress-Counter zeigt, wie viele.
 
-### „`--sync` meldet Timeout bei der Datei-Verknüpfung"
+### "`--sync` meldet Timeout bei der Datei-Verknüpfung"
 
 OpenWebUI rechnet die Embeddings synchron. Ollama-CPU braucht pro
-Datei 1–2 Minuten, Default-Timeout ist 6 Minuten. Auf sehr langsamer
+Datei 1-2 Minuten, Default-Timeout ist 6 Minuten. Auf sehr langsamer
 Hardware hochsetzen:
 
 ```bash
@@ -616,13 +775,13 @@ python scripts/setup.py --sync
 Wenn das Script bei einer Datei trotzdem aufgibt: Fortschritt bleibt
 im Manifest stehen, der nächste `--sync` macht dort weiter.
 
-### „LiteLLM-Cache greift nicht"
+### "LiteLLM-Cache greift nicht"
 
 Drei häufige Ursachen:
 
 1. **OpenRouter-Privacy-Settings** blockieren Anthropic/Bedrock. Unter
    <https://openrouter.ai/settings/privacy> prüfen.
-2. **OpenRouter-Guthaben leer** — dann schlägt jede Anfrage mit 402
+2. **OpenRouter-Guthaben leer** - dann schlägt jede Anfrage mit 402
    fehl. Unter <https://openrouter.ai/credits> nachladen.
 3. **Master-Key falsch** in der OpenWebUI-Connection. Logs prüfen:
    `docker logs litellm-zeitriss`.
@@ -706,7 +865,7 @@ Ausführlichere LiteLLM-Doku:
 
 `--sync` **vertraut** auf sein Manifest. Wenn jemand in OpenWebUI
 manuell eine KB-Datei löscht, merkt der Server-Drift-Check das beim
-nächsten Lauf — solange OpenWebUI die Dateiliste korrekt ausgibt.
+nächsten Lauf - solange OpenWebUI die Dateiliste korrekt ausgibt.
 Im Zweifel hilft immer der Full-Rebuild.
 
 ### Modelle
@@ -730,17 +889,17 @@ Ergebnisse aus dem
 
 `setup.json` transportiert die Preset-Parameter (`temperature`, `top_p`,
 `frequency_penalty`, `max_tokens`). Die gelieferten Werte sind auf
-**Sonnet 4.6 via LiteLLM/OpenWebUI** kalibriert — also auf den Referenz-Stack,
+**Sonnet 4.6 via LiteLLM/OpenWebUI** kalibriert - also auf den Referenz-Stack,
 auf dem das Regelwerk getestet wurde. Bei anderen Stacks über OpenWebUI → Preset
 → _Advanced Params_ anpassen (Script nicht erneut laufen lassen):
 
 | Profil | Stack | `frequency_penalty` | `max_tokens` | Begründung |
 | --- | --- | --- | --- | --- |
 | **sonnet_46_dev (Default)** | Sonnet 4.6 + LiteLLM | `0.3` | `64000` | Ausbalanciert, Ausgaben atmosphärisch, lange Szenen möglich |
-| **portable_default** | andere Provider / striktere Output-Limits | `0.1` | `8000`–`16000` | Regel-Terminologie stabiler, kleine Output-Caps |
+| **portable_default** | andere Provider / striktere Output-Limits | `0.1` | `8000`-`16000` | Regel-Terminologie stabiler, kleine Output-Caps |
 | **rules_strict** | Regel-Tests, Gates | `0.0` | `8000` | Maximale Terminologiekonsistenz, kein Drift bei wiederholten Begriffen |
 
-**Faustregel:** `frequency_penalty` > 0.3 lass — zerstreut Regelterme
+**Faustregel:** `frequency_penalty` > 0.3 lass - zerstreut Regelterme
 (`SaveGuard`, `SG`, `PP`, `Px`). `max_tokens` > 32000 nur auf Stacks, die das
 echte Output-Budget wirklich liefern; OpenRouter/LiteLLM reichen praktisch
 ~16k effektiv durch.
@@ -751,7 +910,7 @@ echte Output-Budget wirklich liefern; OpenRouter/LiteLLM reichen praktisch
   Spielgruppen.
 - **Auth vor Netzfreigabe**: OpenWebUI nie ohne Login ins Internet
   hängen.
-- **Remote-Provider** verarbeiten Eingaben — keine sensiblen Daten in
+- **Remote-Provider** verarbeiten Eingaben - keine sensiblen Daten in
   Prompts.
 - **Key versehentlich committed?** Sofort rotieren, Datei bereinigen,
   History-Cleanup falls schon gepusht.
