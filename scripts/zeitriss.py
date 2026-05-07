@@ -314,15 +314,33 @@ def action_install() -> None:
 
     if not _ensure_owui_env():
         url = _openwebui_url()
-        print(yellow("\n  Ich brauche einen OpenWebUI-API-Key, um Preset + Knowledge Base anzulegen."))
-        print(f"  Hol dir den Key in OpenWebUI unter {url}/")
-        print("  (Profil-Icon oben rechts → Einstellungen → Account → API-Keys → Create new key).")
+        print(yellow("\n  🌐 Jetzt bist du kurz im Browser dran — drei Schritte (A→B→C):"))
+        print()
+        print(bold("  A) Admin-Account in OpenWebUI anlegen"))
+        print(f"     OpenWebUI öffnet sich auf {url}")
+        print("     Benutzername + Passwort setzen — bleibt rein lokal.")
+        print()
+        print(bold("  B) OpenRouter-Key als Connection in OpenWebUI eintragen"))
+        print("     Profil-Icon oben rechts → Einstellungen → Verbindungen")
+        print("     → '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):")
+        print("       Base URL:  https://openrouter.ai/api/v1")
+        print("       API-Key:   dein 'sk-or-v1-...' von https://openrouter.ai/keys")
+        print("     Speichern.")
+        print()
+        print(bold("  C) OpenWebUI-API-Key für mich erzeugen"))
+        print("     (brauche ich gleich, um Preset + Knowledge Base anzulegen)")
+        print("     Profil-Icon → Einstellungen → Account → API Keys")
+        print("     → 'Create new key' → Key kopieren.")
+        print()
         # Browser-Komfort: nur öffnen, wenn eine Anzeige verfügbar scheint.
         if _open_browser(url):
-            print(dim("  Browser wurde schon für dich geöffnet."))
+            print(dim("  (Den Browser habe ich dir schon geöffnet.)"))
         print()
+        print(yellow("  ⏸️  Ich warte hier, während du A+B+C erledigst. Danach Key unten einfügen."))
+        print()
+        print(dim("  (Einfügen: Windows CMD Rechtsklick, macOS Cmd+V, Linux Ctrl+Shift+V.)"))
         from getpass import getpass
-        key = getpass("  Key hier einfügen (Eingabe ist unsichtbar, das ist normal): ").strip()
+        key = getpass("  OpenWebUI-API-Key hier einfügen (Eingabe ist unsichtbar, das ist normal): ").strip()
         if not key:
             print(red("  Kein Key eingegeben, Abbruch."))
             _pause()
@@ -716,17 +734,118 @@ def _start_openwebui() -> None:
 
 # ── Main-Loop ────────────────────────────────────────────────────────
 
+def action_export() -> None:
+    """Menupunkt [2]: Export-Paket für andere Chat-Plattformen erzeugen.
+
+    Fragt Format (strukturiert / flat / beide), optional Ausgabe-Pfad,
+    ruft setup.py:run_export() auf, zeigt Ergebnis und öffnet den
+    Ausgabe-Ordner im Dateimanager, wenn möglich.
+    """
+    print(bold("\n  [2] Regelwerk woanders nutzen (Export-Paket erzeugen)\n"))
+    print("  Ich packe das ZEITRISS-Regelwerk (Masterprompt + 19 Wissensmodule)")
+    print("  in einen Ordner, den du manuell in deine Chat-Plattform (Lumo,")
+    print("  Claude Projects, OpenAI Projects, ...) hochladen kannst.")
+    print()
+    print(yellow("  ⚠️  Das ist ein Best-Effort-Weg. Wir testen gegen OpenWebUI,"))
+    print(yellow("     nicht gegen andere Plattformen. Regel-Glitches sind möglich."))
+    print()
+    print(bold("  Welches Format?"))
+    print("   [1]  Strukturiert (Ordner mit Unterordnern core/, systems/, ...)")
+    print(dim("        → für Plattformen mit Datei-Upload, die Ordner behalten"))
+    print("   [2]  Flach (alle Dateien nummeriert in einem Ordner)")
+    print(dim("        → für Plattformen ohne Ordner-Support (Claude Projects etc.)"))
+    print("   [3]  Beides erzeugen")
+    print("   [X]  Abbrechen")
+    print()
+    choice = _prompt("  Auswahl [1]: ").strip().lower() or "1"
+    if choice in ("x", "q", "exit", "abbrechen"):
+        print(dim("  Abgebrochen."))
+        _pause()
+        return
+    if choice not in ("1", "2", "3"):
+        print(yellow(f"  Unbekannte Auswahl: {choice!r} — abgebrochen."))
+        _pause()
+        return
+
+    default_out = str(REPO / ".exports")
+    out_input = _prompt(f"  Ausgabe-Ordner [{default_out}]: ").strip()
+    out_dir = out_input or default_out
+
+    print()
+    cfg = load_cfg()
+    modes = []
+    if choice == "1":
+        modes = [False]
+    elif choice == "2":
+        modes = [True]
+    else:
+        modes = [False, True]
+
+    try:
+        for flat in modes:
+            setup_module.run_export(REPO, cfg, flat=flat, out_dir=out_dir)
+    except SystemExit:
+        pass
+    except Exception as e:
+        print(red(f"\n  Export fehlgeschlagen: {e.__class__.__name__}: {e}"))
+        _pause()
+        return
+
+    print()
+    print(bold("  Hinweise für den Import in deine Zielplattform:"))
+    print("   • masterprompt.md kommt als SYSTEMPROMPT / Projekt-Anweisung")
+    print("     in die Zielplattform — NICHT als Wissensdokument.")
+    print("   • Die 19 Wissensmodule gehen als 'Wissen' / 'Projekt-Dateien' /")
+    print("     'Knowledge' rein — je nachdem wie die Plattform das nennt.")
+    print("   • Ohne retrieval-fähige Plattform wird's unzuverlässig.")
+    print(dim("   • Plattform-spezifische Tipps: docs/setup-guide.md#portabler-export"))
+    print()
+
+    # Ordner im Dateimanager öffnen (plattform-spezifisch, best-effort)
+    print(dim(f"  Falls der Dateimanager nicht öffnet (z. B. SSH/Headless):"))
+    print(dim(f"  Pfad zum Kopieren: {out_dir}"))
+    ans = _prompt("  Ausgabe-Ordner jetzt im Dateimanager öffnen? (j/n) [j]: ").strip().lower()
+    if ans in ("", "j", "y", "ja", "yes"):
+        _open_folder(out_dir)
+
+    _pause()
+
+
+def _open_folder(path: str) -> None:
+    """Öffnet einen Ordner plattform-neutral im Dateimanager.
+
+    Best-effort: schlägt still fehl, wenn kein Dateimanager verfügbar
+    (z. B. Headless-SSH). Keine Exception raisen.
+    """
+    try:
+        if sys.platform == "win32":
+            os.startfile(path)  # type: ignore[attr-defined]
+        elif sys.platform == "darwin":
+            subprocess.run(["open", path], check=False)
+        else:
+            subprocess.run(["xdg-open", path], check=False,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception as e:
+        print(dim(f"  (Konnte Ordner nicht öffnen: {e.__class__.__name__} — manuell öffnen: {path})"))
+
+
 def main() -> int:
     while True:
         banner()
         print_status_block()
         print()
         print(bold("  Was möchtest du tun?"))
-        print("   [1]  Erstinstallation (Preset + Knowledge Base in OpenWebUI anlegen)")
-        print("   [2]  ZEITRISS aktualisieren (git pull + Sync)")
-        print("   [3]  API-Keys neu verbinden")
-        print("   [4]  Problem? Diagnose starten")
-        print("   [5]  Spiel starten (Browser öffnen)")
+        print()
+        print(dim("  ── Installation ──────────────────────────────"))
+        print("   [1]  Komplett-Setup in OpenWebUI (empfohlen)")
+        print("   [2]  Regelwerk woanders nutzen (Export-Paket erzeugen)")
+        print()
+        print(dim("  ── Im Betrieb ───────────────────────────────"))
+        print("   [3]  Spiel starten (Browser öffnen)")
+        print("   [4]  ZEITRISS aktualisieren (git pull + Sync)")
+        print("   [5]  API-Keys ändern")
+        print("   [6]  Bei mir läuft was nicht (Diagnose)")
+        print()
         print("   [X]  Beenden")
         print()
         choice = _prompt("  Auswahl: ").strip().lower()
@@ -734,13 +853,15 @@ def main() -> int:
         if choice == "1":
             action_install()
         elif choice == "2":
-            action_update()
+            action_export()
         elif choice == "3":
-            action_rekeys()
-        elif choice == "4":
-            action_diagnose()
-        elif choice == "5":
             action_play()
+        elif choice == "4":
+            action_update()
+        elif choice == "5":
+            action_rekeys()
+        elif choice == "6":
+            action_diagnose()
         elif choice in ("x", "q", "quit", "exit", ""):
             print(dim("\n  Bis bald, Chrononaut.\n"))
             return 0
