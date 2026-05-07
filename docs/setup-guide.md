@@ -94,8 +94,30 @@ Geeignet für erfahrene Nutzer, aber **nicht** Teil der offiziellen Testbasis.
 Dieser Pfad richtet OpenWebUI + OpenRouter ein — das empfohlene
 Basis-Setup. LiteLLM ist im Referenzpfad **Standardbestandteil** und spart langfristig die meisten Kosten.
 
-> ℹ️ **Zeitaufwand**: ~30 Minuten fürs vollständige Standard-Setup
-> (inkl. LiteLLM). Updates später dauern meist unter einer Minute.
+> ℹ️ **Zeitaufwand** beim ersten Mal: **30–60 Minuten**, wenn Docker und Python
+> neu installiert werden müssen. Reine Script-Laufzeit ohne Installation:
+> 5–10 Minuten. Updates später: 1–2 Minuten.
+
+### Der einfache Weg: Launcher mit Menü
+
+Wenn du dir keine Kommandos merken willst: nutz den Launcher.
+
+- **Windows:** Doppelklick auf `zeitriss.bat` im Repo-Ordner.
+- **macOS/Linux:** `./zeitriss.sh` im Repo-Ordner (oder `python scripts/zeitriss.py`).
+
+Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/Keys
+als ✓ oder —) und bietet fünf Menüpunkte:
+
+- **[1]** Erstinstallation (startet falls nötig auch den OpenWebUI-Container)
+- **[2]** Aktualisieren (`git pull` + Sync in einem)
+- **[3]** API-Keys neu verbinden (speichert sie in `~/.openwebui_env`, nie wieder eintippen)
+- **[4]** Diagnose (prüft alles durch, sagt auf Deutsch, was klemmt)
+- **[5]** Spiel starten (öffnet den Browser auf OpenWebUI)
+
+Die fünf Schritte weiter unten beschreiben das Gleiche auf der
+Kommandozeile — zum Nachlesen, wenn der Launcher mal eine Frage nicht
+klären kann oder du wissen willst, was genau passiert.
+
 
 ### Schritt 1 — OpenWebUI starten
 
@@ -129,11 +151,21 @@ Abos — ihr zahlt pay-per-token.
 
 1. Account auf <https://openrouter.ai> anlegen.
 2. Guthaben einzahlen — **5 USD reichen für viele Stunden Spiel**.
-3. Unter <https://openrouter.ai/keys> einen Key erzeugen (`sk-or-v1-…`).
-4. In OpenWebUI eintragen: **Einstellungen → Verbindungen →
+3. **Privacy-Einstellung:** unter <https://openrouter.ai/settings/privacy>
+   muss der Provider-Zugriff für Anthropic (oder AWS Bedrock) erlaubt sein.
+   Ohne das blockiert OpenRouter die Route, und der LiteLLM-Cache in
+   Schritt 5 greift nicht.
+4. Unter <https://openrouter.ai/keys> einen Key erzeugen (`sk-or-v1-…`).
+5. In OpenWebUI eintragen: **Einstellungen → Verbindungen →
    + OpenAI-kompatible Connection**
    - Base URL: `https://openrouter.ai/api/v1`
    - API-Key: euer `sk-or-v1-…`
+
+> ℹ️ **Über Tokens & Kosten:** Abgerechnet wird pro Token (grob: 1 Token ≈
+> 4 Zeichen Text). Ein typischer ZEITRISS-Turn kostet mit aktivem
+> LiteLLM-Cache (Schritt 5) nur **Cent-Beträge** — 5 USD halten meist
+> 20+ Spielstunden. OpenRouter hat im Dashboard eine **harte
+> Ausgaben-Obergrenze**, die ihr einstellen könnt, falls euch das beruhigt.
 
 ### Schritt 3 — Python + OpenWebUI-API-Key
 
