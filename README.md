@@ -142,10 +142,27 @@ wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
    dann das Finale.
 2. **Missionsphasen.** Briefing → Infiltration → Konflikt → Exfil → Debrief.
    12 Szenen pro Core-Mission, 14 bei Rift-Ops.
-3. **Preserve & Trigger.** Ihr stabilisiert historische Verläufe (**Preserve**)
-   oder sorgt aktiv dafür, dass dokumentierte Ereignisse eintreten
-   (**Trigger**), wenn genau das den größeren Schaden verhindert. Chrononauten
-   agieren dabei als Werkzeug eines größeren Plans des ITI.
+3. **Preserve & Trigger — zwei Haltungen, ein Ziel.** Euer Job ist, die
+   Geschichte zu wahren. Die eigentlichen Gegner sind **Fremdfraktionen**,
+   die den Geschichtsverlauf zu ihren Gunsten umschreiben wollen. Gegen die
+   steht ihr gemeinsam — egal, welche Haltung ihr gewählt habt.
+   - **Preserve-Agenten** verhindern Ereignisse, die in der dokumentierten
+     Geschichte *gerade so nicht* passiert sind, aber in eurer Zeitlinie
+     doch einzutreten drohen.
+   - **Trigger-Agenten** sorgen dafür, dass dokumentierte Tragödien
+     stattfinden, weil ihr Ausbleiben eine schlimmere Kettenreaktion
+     auslösen würde.
+
+   Als Trigger-Agent fühlt es sich an wie die dunkle Seite (Katastrophen
+   passieren lassen), als Preserve-Agent wie Heldentum (Katastrophen abwenden).
+   Ist aber keins von beidem — beide Seiten sind Verbündete innerhalb des
+   ITI und kämpfen gegen denselben äußeren Feind.
+   Neutrale spielen in Teams beider Haltungen mit; Preserve- und
+   Trigger-Agenten operieren im Feld (Core-/Rift-Ops) nur innerhalb
+   derselben Haltung zusammen (operatives Zellenprinzip, keine
+   Feindschaft). In der **PvP-Arena** ist dagegen jede Kombination
+   erlaubt — dort messt ihr euch haltungsübergreifend.
+   Chrononauten agieren als Werkzeug eines größeren Plans des ITI.
 4. **Explodierende Würfel.** W6, ab Attribut 11 W10, ab 14 Heldenwürfel.
 5. **Paradoxon-Index.** Belohnungssystem: Der Anstieg von Px hängt vom
    Missionsverlauf und euren Preserve/Trigger-Entscheidungen ab. Bei Px 5 werden 1–2

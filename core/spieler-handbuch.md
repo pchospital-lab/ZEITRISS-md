@@ -833,15 +833,55 @@ Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist der
 **Mischpool-Modus** (`mixed`), also eine rotierende Auswahl aus beiden Pools;
 der Seed-Typ wird pro Mission als `campaign.seed_source` markiert.
 
-- **Preserve-Missionen** - sichern beinahe entglittene Ereignisse.
-- **Trigger-Missionen** - garantieren dokumentierte Tragödien.
-- **Beide Seiten sind Verbündete innerhalb des ITI.** Neutrale können
-  in Teams beider Haltungen mitspielen. Preserve und Trigger operieren
-  nur innerhalb derselben Haltung zusammen - nicht aus Feindschaft,
-  sondern als operatives Zellenprinzip. Gegen Fremdfraktionen stehen
-  alle gemeinsam.
-  Details zu Teams und Missionspools: siehe
-  [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
+### Preserve und Trigger - zwei Haltungen, ein Ziel
+
+Euer Job ist, die Geschichte zu wahren. Die eigentlichen Gegner sind
+**Fremdfraktionen**, die den Geschichtsverlauf zu ihren Gunsten umschreiben
+wollen - historische Geheimdienste, rivalisierende Zeitorganisationen,
+profit- oder ideologiegetriebene Akteure. Gegen die steht ihr **gemeinsam** -
+egal, welche Haltung ihr gewählt habt.
+
+Das **fühlt sich** für euch unterschiedlich an, je nachdem auf welcher
+Seite ihr steht: Als **Trigger-Agent** spielt ihr gefühlt die dunkle Seite —
+ihr lasst Katastrophen passieren und fragt euch irgendwann, was eigentlich
+der natürliche Verlauf war und wer hier wen bedingt. Als **Preserve-Agent**
+fühlt ihr euch wie Heldentum — ihr wendet Katastrophen ab und bewahrt
+Menschenleben. Beide Empfindungen sind gewollt. Moralisch überlegen ist
+keine der beiden Haltungen: Preserve und Trigger sind **Verbündete
+innerhalb des ITI**, nur mit gegensätzlichen Methoden:
+
+- **Preserve-Missionen** - sichern beinahe entglittene Ereignisse. Was in
+  der dokumentierten Geschichte *gerade so nicht* passiert ist, droht in
+  eurer Zeitlinie doch einzutreten. Ihr verhindert es.
+- **Trigger-Missionen** - garantieren dokumentierte Tragödien. Was real
+  passiert ist, droht auszufallen. Ihr sorgt dafür, dass es stattfindet,
+  weil die Alternative schlimmer wäre.
+
+Beide Haltungen verfolgen dasselbe Ziel: den dokumentierten
+Geschichtsverlauf wahren und die Zeitlinie stabil halten. Die moralische
+Zwickmühle bei Trigger (Katastrophen passieren lassen, die man verhindern
+könnte) ist Designabsicht, kein Bug.
+
+**Team-Prinzip im Feld (Core-/Rift-Ops):** Neutrale können in Teams beider
+Haltungen mitspielen. Preserve und Trigger operieren nur innerhalb derselben
+Haltung zusammen - nicht aus Feindschaft, sondern als operatives Zellenprinzip
+des ITI. Gegen Fremdfraktionen stehen alle gemeinsam.
+
+**Ausnahme Arena:** In der PvP-Arena gibt es keine Haltungstrennung. Jede
+Kombination ist erlaubt - Preserve gegen Trigger, Neutrale gegen alle,
+Mischteams. Das lockert das Haltungssystem auf und gibt allen Fraktionen
+einen Raum für direktes Kräftemessen.
+
+**Hard-Limits sind Ingame-Welt, nicht SL-Ansage:** Das Team-Prinzip ist
+eine operative Default-Logik, kein Verbot. Ihr dürft trotzdem alles
+versuchen - eigenes Team angreifen, einen Kameraden opfern, um jemand
+anderen zu retten, Haltungsgrenzen ignorieren. Die SL bremst euch nicht
+mit „das geht nicht", sondern erzählt die Konsequenz im Fiktionsraum.
+Bei echter Eskalation rückt eine ITI-Sicherheitszelle aus und darf euch
+als Zielobjekt behandeln.
+
+Details zu Teams und Missionspools:
+siehe [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
 Alle Chrononauten starten als Agenten des **Ordo Mnemonika** _(Neutral)_
 und spielen den Mischpool. Im Spielverlauf können sie zu einer Preserve-

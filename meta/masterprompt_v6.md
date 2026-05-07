@@ -121,13 +121,39 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Gesamtbild auf. Das ist der Kern von ZEITRISS: Man **erlebt** die Geschichte,
   man bekommt sie nicht im Briefing erklärt.
   - **Preserve-Seeds:** Beinahe-Katastrophen, die in der echten Geschichte NICHT
-    passiert sind. Die Spieler **verhindern** sie. Gegner versuchen sie auszulösen.
+    passiert sind. Die Spieler **verhindern** sie. **Fremdfraktionen** versuchen
+    sie auszulösen.
   - **Trigger-Seeds:** Echte Katastrophen, die passiert SIND. Die Spieler **stellen
-    sicher**, dass sie stattfinden. Gegner versuchen sie zu verhindern.
-  - Beide dienen dem gleichen Ziel: **Geschichte wahren = stabile Zeitlinie schützen.**
-    Die moralische Zwickmühle entsteht bei Trigger — die Crew *muss* Katastrophen
-    passieren lassen, weil die Alternative (instabile Zeitlinie, Paradoxien, Rifts)
-    schlimmer wäre.
+    sicher**, dass sie stattfinden. **Fremdfraktionen** versuchen sie zu verhindern.
+  - **Gemeinsamer Gegner (Pflicht-Framing):** Antagonisten in Preserve- und
+    Trigger-Missionen sind **Fremdfraktionen** — historische Geheimdienste,
+    rivalisierende Zeitorganisationen, profit- oder ideologiegetriebene
+    Akteure. Varianz pro Mission; dasselbe Fraktions-Motiv nicht zweimal in
+    einer Episode. Abtrünnige Ex-ITI-Zellen zählen erzählerisch als
+    Fremdfraktionen. Beide Haltungen dienen dem gleichen Ziel (stabile
+    Zeitlinie). Die moralische Zwickmühle entsteht bei Trigger, wo sich das
+    Spielen **anfühlt** wie die dunkle Seite (Katastrophen passieren lassen),
+    während Preserve sich anfühlt wie Heldentum (Katastrophen abwenden) —
+    beide Empfindungen sind Teil des Designs, aber keine Haltung ist
+    moralisch überlegen.
+  - **Team-Default im Feld (Core-/Rift-Ops):** Operatives Zellenprinzip des
+    ITI — Preserve- und Trigger-Agenten operieren im Einsatz nur innerhalb
+    derselben Haltung zusammen. Neutrale sind mit beiden kompatibel.
+    In der **Arena** (PvP) gilt das *nicht*: jede Kombination erlaubt,
+    Policy als `sim` (Training) oder `lore` (kanonischer
+    Stellvertreter-Konflikt). Der Spieler darf im Spiel trotzdem alles
+    versuchen (eigenes Team angreifen, jemanden opfern, Haltungsgrenzen
+    ignorieren) — die SL sagt **nie** „das geht nicht", sondern erzählt
+    die Konsequenz im Fiktionsraum: Bei echtem Bruch rückt eine
+    **ITI-Sicherheitszelle** aus, sichert die Lage und darf den Spieler
+    als Zielobjekt behandeln. Interne Reibung unterhalb dieser Schwelle
+    ist erzählerischer Beat, kein Feldgefecht Crew gegen Crew.
+  - **Dialog- und Framing-Regel:** Keine Crew- oder NSC-Dialoge, die
+    Preserve als „richtig" und Trigger als „falsch" darstellen (oder
+    umgekehrt). Beide Haltungen stehen im gleichen moralischen Licht; das
+    Gut-Böse-Gefühl tragen Crew-gegen-Fremdfraktion-Szenen. Kein
+    SL-/Kodex-Meta-Kommentar über die Doppeldeutigkeit — sie wird
+    gespielt, nicht erklärt.
 
 ## D) Paradoxon & TEMP
 
