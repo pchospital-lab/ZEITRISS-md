@@ -95,108 +95,31 @@ Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
 Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
 Textzusammenfassung der wichtigsten Eckdaten.
 
-## Zwei Setup-Wege (klar getrennt)
+## Setup
 
-ZEITRISS ist ein Datensatz (Masterprompt + 19 Wissensmodule), kein
-separates Programm. Für die Nutzung gibt es **zwei klar getrennte Wege**:
-
-### Weg A — Standard-Setup (empfohlen, getestet, Referenz-Basis)
-
-- **Plattform:** OpenWebUI
-- **Modellpfad:** OpenRouter, empfohlen `anthropic/claude-sonnet-4.6`
-- **Standard:** LiteLLM für Prompt-Cache (Kostenersparnis)
-- **Status:** Aktiv getestet und als Referenz-Setup genutzt
-
-**Nur für diesen Weg** sind reproduzierbares Feedback und saubere
-Fehlersuche realistisch möglich.
-
-### Weg B — Portabler Setup (manuell, ohne Gewähr)
-
-- Export/Import von Masterprompt + Wissensmodulen in andere Plattformen
-- Sinnvoll für fortgeschrittene Nutzer mit eigener Runtime-Erfahrung
-- **Status:** Technisch möglich, aber nicht Teil der offiziellen Testbasis
-
-Wichtig: Weg B ist **kein Ersatz** für den Standardpfad, sondern eine
-Best-Effort-Option für eigene Experimente.
-
-### Hinweise zur Plattformwahl
-
-- **Lumo (Plattform von Proton):** Aktuell keine zuverlässige ZEITRISS-Erfahrung
-- **Ungetestete Plattformen (z. B. Claude Code):** Noch nicht freigegeben
-- **Kleine lokale Modelle:** Für ZEITRISS in der Regel zu schwach
-
-**Kurzfassung:** Wenn ihr spielen und sinnvolles Feedback geben wollt, nutzt
-Weg A.
-
----
-
-## Setup in 3 Schritten
-
-### Was du einmalig brauchst
-
-- **Docker** (Download: <https://docs.docker.com/get-docker/>)
-- **Python 3** (<https://python.org> — auf Windows beim Installer
-  „Add Python to PATH" anklicken)
-- **OpenRouter-Account** mit ~5 USD Guthaben (<https://openrouter.ai>),
-  dazu unter <https://openrouter.ai/settings/privacy> den Provider
-  **Anthropic** auf *Allowed* setzen, und unter
-  <https://openrouter.ai/keys> einen Key `sk-or-v1-…` erzeugen.
-
-### Schritt 1 — Hol dir ZEITRISS
+ZEITRISS ist ein Datensatz (Masterprompt + 19 Wissensmodule). Ein
+**Launcher** bringt ihn in deine Chat-Umgebung:
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
-```
-
-(Kein Git? Auf GitHub **Code → Download ZIP**, entpacken, Terminal im
-Ordner öffnen.)
-
-### Schritt 2 — Starte den Launcher
-
-```bash
 python scripts/zeitriss.py
 ```
 
-Unter Windows auch Doppelklick auf `zeitriss.bat`, unter macOS/Linux
-`./zeitriss.sh`.
+Im Menü **[1] Komplett-Setup in OpenWebUI** wählen — der Launcher führt
+dich durch Docker, OpenWebUI, Regelwerk und optional einen Prompt-Cache.
+Dauer beim ersten Mal: **30–60 Minuten** (inkl. Docker/Python, falls neu).
 
-### Schritt 3 — Folge dem Launcher
+**Voraussetzungen und die kompletten Schritt-für-Schritt-Details stehen
+im [Setup-Guide](docs/setup-guide.md).**
 
-Im Menü **[1] Komplett-Setup in OpenWebUI** wählen. Der Launcher
-übernimmt von hier: OpenWebUI-Container starten, drei Browser-Klicks
-erklären (Admin-Account, OpenRouter-Connection, API-Key), das Regelwerk
-hochladen, optional den LiteLLM-Cache einrichten. Er sagt dir im
-Terminal an jeder Stelle selbst, was als nächstes zu tun ist.
+### Andere Chat-Plattform?
 
-Wenn er fertig ist: **[3] Spiel starten** wählen, im Browser neuen Chat
-öffnen, Preset **ZEITRISS v4.2.6 Uncut** auswählen, tippen:
-
-```
-Spiel starten (solo klassisch)
-```
-
-> ⏱️ **Zeitbudget beim ersten Mal:** 30–60 Minuten inkl. Docker- und
-> Python-Installation. Updates später (Launcher-Menü [4]): 1–2 Minuten.
-
----
-
-### Du willst ZEITRISS woanders spielen (Lumo, Claude Projects, …)?
-
-Im Launcher-Menü **[2] Regelwerk woanders nutzen** wählen — er erzeugt
-dir ein Export-Paket mit Masterprompt und allen Wissensmodulen, das du
-manuell in deine Ziel-Plattform hochladen kannst.
-
-⚠️ Das ist ein **Best-Effort-Weg ohne Gewähr**. Nur Weg A (OpenWebUI)
-ist offiziell getestet. Details und Plattform-Hinweise im
-[Setup-Guide](docs/setup-guide.md#portabler-export-ohne-gewähr).
-
-### Wenn etwas klemmt
-
-Im Launcher-Menü **[6] Bei mir läuft was nicht** wählen — er prüft
-Docker, OpenWebUI, API-Keys und KB-Retrieval durch und sagt dir auf
-Deutsch, wo der Fehler sitzt. Tiefer:
-[Troubleshooting](docs/setup-guide.md#troubleshooting).
+Im Launcher **[2] Regelwerk woanders nutzen** erzeugt dir ein
+Export-Paket für jede Plattform, die System-Prompts und Wissensdateien
+verwaltet. ⚠️ Ohne Gewähr — wir testen nur gegen OpenWebUI, Regel-
+Glitches sind auf anderen Plattformen möglich.
+Details: [Portabler Export](docs/setup-guide.md#portabler-export-ohne-gewähr).
 
 ## Modell-Empfehlung
 
