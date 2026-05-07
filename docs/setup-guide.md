@@ -235,8 +235,23 @@ Nach einem `git pull` reicht:
 
 ```bash
 git pull
+# Env-Variablen für OpenWebUI-URL + API-Key laden (nur nötig, wenn noch nicht in der Shell gesetzt):
+export $(grep -v '^#' ~/.openwebui_env | xargs)   # falls ~/.openwebui_env existiert
 python scripts/setup.py --sync
 ```
+
+> 💡 **Warum `export $(... | xargs)` und nicht `source ~/.openwebui_env`?**
+> Wenn eure `~/.openwebui_env` Zeilen wie `OPENWEBUI_API_KEY=sk-…` ohne
+> `export`-Prefix enthält (so wie der Setup-Guide sie vorschlägt),
+> werden die Variablen beim `source` zwar in der aktuellen Shell
+> gesetzt, **aber nicht an Python als Kind-Prozess vererbt**. Der
+> `export $(... | xargs)`-Einzeiler macht sie explizit exportierbar.
+> Das Setup-Script gibt diesen Hinweis auch im Fehlerfall.
+>
+> Alternativ inline:
+> ```bash
+> OPENWEBUI_URL=http://localhost:8080 OPENWEBUI_API_KEY=sk-… python scripts/setup.py --sync
+> ```
 
 Der `--sync`-Modus vergleicht die lokalen Dateien mit einem Manifest
 (`.openwebui-sync.json`, automatisch angelegt) und überträgt **nur,

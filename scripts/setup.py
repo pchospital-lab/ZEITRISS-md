@@ -778,7 +778,7 @@ def _run_verify_retrieval(
         print_info("Kein Verify-Query in setup.json — überspringe Retrieval-Check.")
         return True
 
-    print_info(f"Retrieval-Check: query='{query[:60]}...' gegen KB {kb_id[:8]}...")
+    print_info(f"Retrieval-Check: query='{query[:60]}...' gegen KB {kb_id}")
     result = client.query_kb(kb_id, query, k=top_k)
 
     if not result["ok"]:
@@ -1149,8 +1149,12 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
     if not api_key:
         print_error(
-            "OPENWEBUI_API_KEY fehlt in der Umgebung. Bitte "
-            "~/.openwebui_env laden (`source ~/.openwebui_env`)."
+            "OPENWEBUI_API_KEY fehlt in der Umgebung.\n"
+            "  Wenn du ~/.openwebui_env nutzt (ohne 'export'-Prefix), "
+            "lade die Datei so, dass die Variablen an Kind-Prozesse vererbt werden:\n"
+            "      export $(grep -v '^#' ~/.openwebui_env | xargs)\n"
+            "  Alternativ inline:\n"
+            "      OPENWEBUI_URL=http://localhost:8080 OPENWEBUI_API_KEY=sk-... python scripts/setup.py --sync"
         )
         sys.exit(1)
 
@@ -1186,7 +1190,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             "Für Reparatur bitte `python scripts/setup.py` (Full-Rebuild) nutzen."
         )
         sys.exit(1)
-    print_ok(f"Knowledge Base verknüpft: {kb_id[:12]}…")
+    print_ok(f"Knowledge Base verknüpft: {kb_id}")
 
     manifest = _load_sync_manifest(repo)
     if not manifest:
@@ -1445,7 +1449,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     else:
         print_header("Sync abgeschlossen.")
     print_info(
-        f"Preset: {preset.get('name', preset_id)} · KB: {kb_id[:12]}… · "
+        f"Preset: {preset.get('name', preset_id)} · KB: {kb_id} · "
         f"geändert erfolgreich: {len(changed) - len(link_failures)}, "
         f"fehlgeschlagen: {len(link_failures)}, entfernt: {len(removed_names)}."
     )
@@ -1617,7 +1621,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         print_error("Knowledge Base konnte nicht erstellt werden.")
         sys.exit(1)
     action = "aktualisiert" if existing_kbs else "erstellt"
-    print_ok(f"Knowledge Base {action} (ID: {kb_id[:12]}...)")
+    print_ok(f"Knowledge Base {action} (ID: {kb_id})")
 
     # ── Upload files ─────────────────────────────────────────────────
     print()
