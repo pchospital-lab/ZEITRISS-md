@@ -7,7 +7,7 @@ Zero external dependencies — uses only Python standard library.
 
 Usage:
     python setup.py                    # Interactive OpenWebUI setup
-    python setup.py --export           # Export knowledge pack (for Lumo etc.)
+    python setup.py --export           # Export knowledge pack for alternative chat platforms
     python setup.py --export --flat    # Export flat (no subdirs, numbered)
 
 Reads project config from setup.json in the repo root.
@@ -468,7 +468,7 @@ class APIClient:
 # ── Export mode ─────────────────────────────────────────────────────
 
 def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str] = None) -> None:
-    """Export a knowledge pack for manual platform setup (Lumo etc.)."""
+    """Export a knowledge pack for manual setup on alternative chat platforms."""
     project = cfg["project"]
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     base = Path(out_dir) if out_dir else repo / ".exports"
@@ -562,8 +562,9 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
         "",
         "**Wichtig:** Nur den Inhalt von `knowledge/` ins Projektwissen laden.",
         "Die Datei `SYSTEM_PROMPT_ONLY.md` und diese Anleitung gehören **nicht**",
-        "in den Wissensspeicher. Wenn du auf Lumo einen Drive-Ordner verlinkst,",
-        "verlinke nur den Ordner mit den Wissensdateien — nicht diesen Export-Ordner.",
+        "in den Wissensspeicher. Wenn deine Plattform einen externen Ordner (z.B.",
+        "Cloud-Drive) mit dem Projektwissen verknüpft, verknüpfe nur den Ordner mit",
+        "den Wissensdateien — nicht diesen Export-Ordner.",
         "",
         "## Einrichtung (allgemein)",
         "",
@@ -585,20 +586,10 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
         "5. **Starten**",
         f"   Neuen Chat öffnen → `{start_cmd}`",
         "",
-        "## Einrichtung auf Lumo (Proton)",
-        "",
-        f"1. **Proton Drive:** Ordner `{project}` erstellen.",
-        f"2. **Nur** die Dateien aus `knowledge/` in diesen Drive-Ordner laden.",
-        "   Nicht die Anleitung, nicht den Systemprompt — nur die Wissensdateien.",
-        f"3. **Lumo:** Neues Projekt `{project}` erstellen.",
-        "4. In **Anweisungen**: Inhalt von `system/SYSTEM_PROMPT_ONLY.md` einfügen.",
-        f"5. **Projektwissen**: Den Drive-Ordner `{project}` verlinken.",
-        "6. Websuche im Spielbetrieb **deaktivieren**.",
-        f"7. Neuen Chat starten: `{start_cmd}`",
-        "",
-        "**Tipp:** Das Setup macht man am besten am Desktop. Danach kann man auf",
-        "dem Handy einfach das Projekt öffnen und losspielen — Proton Drive",
-        "synchronisiert automatisch.",
+        "> ⚠️ **Kalibriert wird ausschließlich gegen das Komplett-Setup in",
+        "> OpenWebUI (Sonnet 4.6 + LiteLLM).** Alle anderen Plattformen laufen",
+        "> im Do-it-yourself-Modus: technisch möglich, aber ohne Regel-QA und",
+        "> ohne Gewähr bei Regel-Glitches.",
     ]
 
     # Save management section — use project-specific text if provided
@@ -613,7 +604,9 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
         "## Spielstände verwalten",
         "",
         "Beim Speichern (`!save` im HQ) erzeugt die KI einen JSON-Block.",
-        "Auf Lumo wird dieser automatisch als Datei im Chat-Wissen abgelegt.",
+        "Je nach Plattform wird dieser entweder als Datei im Chat-/Projektwissen",
+        "abgelegt oder muss manuell gespeichert werden — prüfe das Verhalten",
+        "deiner Plattform nach dem ersten `!save`.",
         "",
         "### Solo",
         "",
@@ -1079,7 +1072,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
         print_warn(
             "Cache-Test nicht möglich — Container läuft aber. "
             "Häufige Ursachen: OpenRouter-Credits leer, OpenRouter-Privacy "
-            "blockiert Anthropic/Bedrock, falscher Key."
+            "blockiert den Anthropic-Provider, falscher Key."
         )
     else:
         time.sleep(3)
@@ -1118,7 +1111,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print("  3. Im Preset-Editor: Base-Modell-Dropdown auf `zeitriss-sonnet`")
     print("     umstellen → Speichern.")
     print()
-    print("  Danach läuft jeder Chat über LiteLLM → OpenRouter → Bedrock/Anthropic,")
+    print("  Danach läuft jeder Chat über LiteLLM → OpenRouter → Anthropic,")
     print("  und der Masterprompt wird gecached. Erwartete Ersparnis: ~90 % auf")
     print("  den Prompt-Anteil jedes Folge-Turns.")
     print()

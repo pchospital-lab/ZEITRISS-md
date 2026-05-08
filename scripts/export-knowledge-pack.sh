@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # ZEITRISS – Knowledge-Pack Export
 # Erstellt ein kuratiertes Upload-Paket für manuelle Plattform-Setups
-# (z. B. Lumo, andere Project-Runtimes).
+# (andere Chat-Plattformen mit Knowledge-Base-/Projektwissen-Upload).
+# Kalibriert wird ausschließlich gegen das Komplett-Setup in OpenWebUI
+# — dieses Skript ist ein Best-Effort-Export, ohne Gewähr.
 
 set -euo pipefail
 

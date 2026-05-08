@@ -27,7 +27,13 @@ const EXCLUDE_PREFIXES = [
 
 const EXCLUDE_FILES = new Set([
   'AGENTS.md',
-  'CONTRIBUTING.md'
+  'CONTRIBUTING.md',
+  // Archivierte Playtest-Auswertung (PR #3168, 2026-05-08): Beschreibt den
+  // LP/HP-Template-Bug vom 2026-04-25 in seinen historischen Symptomen und
+  // muss `HP` explizit zitieren dürfen, um den Befund nachvollziehbar zu
+  // machen. Datei ist als „historische Auswertung, Befunde inzwischen
+  // abgearbeitet" deklariert und wird nicht mehr fortgeschrieben.
+  'docs/qa/playtest-2026-04-25-persona-auswertung.md'
 ]);
 
 // Nur Prosa-/Regeldateien prüfen. Binärdateien (PNG, JPG, PDF …) würden sonst
