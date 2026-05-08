@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 """ZEITRISS – Plattform-unabhängiger Setup-Launcher.
 
-Menü-Launcher für Windows / macOS / Linux. Ein Script, fünf Aufgaben:
+Menü-Launcher für Windows / macOS / Linux. Ein Script, ein Menü:
 
-    [1] Erstinstallation starten
-    [2] ZEITRISS aktualisieren
-    [3] API-Keys neu verbinden
-    [4] Problem? Diagnose starten
-    [5] Spiel starten (Browser öffnen)
+    [1] Komplett-Setup in OpenWebUI (empfohlen)
+    [L] Lore-Setup — wie [1], eingerahmt als ITI-Bergung
+    [2] Regelwerk woanders nutzen (Export-Paket erzeugen)
+    [3] Spiel starten (Browser öffnen)
+    [4] ZEITRISS aktualisieren (git pull + Sync)
+    [5] API-Keys ändern
+    [6] Bei mir läuft was nicht (Diagnose)
     [X] Beenden
 
 Der Launcher ersetzt `setup.py` nicht, er ruft dessen Funktionen auf.
@@ -329,11 +331,11 @@ def action_install_lore() -> None:
 
 
 def action_install() -> None:
-    print(bold("\n  [1] Erstinstallation\n"))
+    print(bold("\n  [1] Komplett-Setup in OpenWebUI\n"))
     print("  Was jetzt passiert:")
     print("   1. Voraussetzungen werden geprüft (Docker, Python, OpenWebUI).")
     print("   2. Das Regelwerk wird in OpenWebUI als Preset + Knowledge Base angelegt.")
-    print("   3. Optional: LiteLLM-Cache-Container (spart ~90 % der Modellkosten).")
+    print("   3. LiteLLM-Cache-Container einrichten (spart ~90 % der Modellkosten).")
     print()
 
     ok, info = _docker_ok()
@@ -407,11 +409,12 @@ def action_install() -> None:
     ok, _ = _litellm_ok()
     if not ok:
         print()
-        print(bold("  LiteLLM-Cache aktivieren? (spart ~90 % Prompt-Kosten, sehr empfohlen)"))
+        print(bold("  LiteLLM-Cache aktivieren? (gehört zum Golden Setup, spart ~90 % Prompt-Kosten)"))
+        print("  Das ist der Referenz-Stack, gegen den wir kalibrieren — Sonnet 4.6 + LiteLLM + OpenWebUI.")
         print(yellow("  Voraussetzung: bei OpenRouter unter 'settings/privacy' den Provider"))
-        print(yellow("  'Anthropic' (oder AWS Bedrock) explizit erlauben — sonst cached LiteLLM nicht."))
+        print(yellow("  'Anthropic' explizit erlauben — sonst cached LiteLLM nicht."))
         print(yellow("  Direktlink: https://openrouter.ai/settings/privacy"))
-        ans = _prompt("  Aktivieren? (j/n): ").lower()
+        ans = _prompt("  Aktivieren? (j/n, Default: j): ").lower()
         if ans in ("j", "y", "ja", "yes", ""):
             try:
                 setup_module.run_install_litellm(REPO, load_cfg())
@@ -705,7 +708,7 @@ def action_diagnose() -> None:
 
 def action_play() -> None:
     url = _openwebui_url()
-    print(bold("\n  [5] Spiel starten\n"))
+    print(bold("\n  [3] Spiel starten\n"))
     ok, info = _openwebui_ok()
     if not ok:
         print(red(f"  OpenWebUI ist nicht erreichbar: {info}"))
@@ -716,6 +719,8 @@ def action_play() -> None:
     if not _open_browser(url):
         print(yellow(f"  Konnte Browser nicht automatisch öffnen. Bitte manuell: {url}"))
     print(dim("  In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'"))
+    print(dim("  Alternativ 'Spiel starten (solo schnell)' als Fast-Lane (optional) für Kurzrunden,"))
+    print(dim("  oder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'."))
     _pause()
 
 
@@ -789,17 +794,17 @@ def action_export() -> None:
     """
     print(bold("\n  [2] Regelwerk woanders nutzen (Export-Paket erzeugen)\n"))
     print("  Ich packe das ZEITRISS-Regelwerk (Masterprompt + 19 Wissensmodule)")
-    print("  in einen Ordner, den du manuell in deine Chat-Plattform (Lumo,")
-    print("  Claude Projects, OpenAI Projects, ...) hochladen kannst.")
+    print("  in einen Ordner, den du manuell in deine Zielplattform hochladen")
+    print("  kannst.")
     print()
-    print(yellow("  ⚠️  Das ist ein Best-Effort-Weg. Wir testen gegen OpenWebUI,"))
-    print(yellow("     nicht gegen andere Plattformen. Regel-Glitches sind möglich."))
+    print(yellow("  ⚠️  Das ist ein Best-Effort-Weg. Kalibriert wird nur gegen"))
+    print(yellow("     OpenWebUI. Andere Plattformen: Regel-Glitches sind möglich."))
     print()
     print(bold("  Welches Format?"))
     print("   [1]  Strukturiert (Ordner mit Unterordnern core/, systems/, ...)")
     print(dim("        → für Plattformen mit Datei-Upload, die Ordner behalten"))
     print("   [2]  Flach (alle Dateien nummeriert in einem Ordner)")
-    print(dim("        → für Plattformen ohne Ordner-Support (Claude Projects etc.)"))
+    print(dim("        → für Plattformen ohne Ordner-Support"))
     print("   [3]  Beides erzeugen")
     print("   [X]  Abbrechen")
     print()

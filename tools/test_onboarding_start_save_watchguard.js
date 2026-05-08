@@ -237,10 +237,19 @@ assert.strictEqual(
   'Archetypen-Drift: chars-options muss im master-index als optionaler Nicht-Default-Slot (slot:false) geführt werden.'
 );
 
+// Entry-Layer nach PR #3165 ("Launcher als einziger Einstieg"): README ist
+// Landingpage und trägt nur Produktversprechen/Konzept-Anker (siehe
+// README-spezifische Assertions weiter unten). Die konkreten Runtime-Entry-
+// Befehle (`Spiel starten (solo klassisch)` etc.) leben in den drei Entry-
+// Layer-Dokumenten, die der Nutzer _zwischen_ Setup und erstem Chat sieht:
+// Setup-Guide (Doku-SSOT), Launcher (Runtime-SSOT) und der Deprecation-Shim
+// setup-openwebui.sh (Legacy-Fallback). Alle drei müssen die Entry-Regeln
+// konsistent tragen, damit kein Nutzer nach dem Setup ohne Startbefehl
+// dasteht.
 const entryLayerDocs = [
-  'README.md',
   'docs/setup-guide.md',
-  'scripts/setup-openwebui.sh'
+  'scripts/setup-openwebui.sh',
+  'scripts/zeitriss.py'
 ];
 
 const entryRules = [

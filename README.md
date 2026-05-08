@@ -107,7 +107,7 @@ python scripts/zeitriss.py
 ```
 
 Im Menü **[1] Komplett-Setup in OpenWebUI** wählen — der Launcher führt
-dich durch Docker, OpenWebUI, Regelwerk und optional einen Prompt-Cache.
+dich durch Docker, OpenWebUI, Regelwerk und den LiteLLM-Prompt-Cache.
 Dauer beim ersten Mal: **30–60 Minuten** (inkl. Docker/Python, falls neu).
 
 **Voraussetzungen und die kompletten Schritt-für-Schritt-Details stehen

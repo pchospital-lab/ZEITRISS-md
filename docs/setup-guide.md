@@ -17,9 +17,8 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
 3. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
 4. [Updates und Wartung](#updates-und-wartung)
-5. [Weiterführendes](#weiterführendes-gruppenspiel-ollama-portabler-export)
-   — Gruppenspiel, Ollama, Export
-   - [Portabler Export (ohne Gewähr)](#portabler-export-ohne-gewähr)
+5. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
+   — Gruppenspiel, Lokal-GPU-Variante, Export
 6. [Troubleshooting](#troubleshooting)
 7. [Referenz](#referenz)
 
@@ -40,10 +39,10 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 │   (Docker)                     (einmalig, danach `--sync` bei        │
 │    │                           Updates)                              │
 │    │                                                                 │
-│    ├──► LiteLLM (Docker, Standardpfad) ──► OpenRouter ──► Claude/GLM/... │
-│    │      [aktiviert Prompt-Cache: ~90 % Ersparnis bei Claude]      │
+│    ├──► LiteLLM (Docker, Pflicht) ──► OpenRouter ──► Sonnet 4.6     │
+│    │      [aktiviert Prompt-Cache: ~90 % Ersparnis]                  │
 │    │                                                                 │
-│    └──► Ollama (optional, zwei verschiedene Rollen):                 │
+│    └──► Ollama (optional, Lokal-GPU-Variante, ungetestet):          │
 │           • als Sprachmodell (offline spielen, statt OpenRouter)     │
 │           • als Embedding-Engine (KB lokal indexieren, statt MiniLM) │
 └──────────────────────────────────────────────────────────────────────┘
@@ -53,17 +52,20 @@ einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
 | --- | --- | --- |
 | **OpenWebUI** (Docker-Container) | ✅ Pflicht | Chat-Oberfläche, hier spielt ihr |
 | **ZEITRISS-Repo + Python** | ✅ Pflicht | Regelwerk + Setup-Script |
-| **OpenRouter-Key** | ✅ Pflicht* | Modellzugang (Cloud, günstig pay-per-token). *Außer bei Ollama-Sprachmodell-Variante |
+| **OpenRouter-Key** | ✅ Pflicht¹ | Modellzugang (Cloud, günstig pay-per-token) |
 | **OpenWebUI-API-Key** | ✅ Pflicht | damit Setup-Script Preset + KB schreiben kann |
-| **LiteLLM** (Docker-Container) | ✅ Standardpfad | Prompt-Cache für Claude-Modelle (~90 % Ersparnis) |
-| **Ollama** | ⚪ Optional | Offline-Modell **oder** lokales Embedding |
+| **LiteLLM** (Docker-Container) | ✅ Pflicht (Golden Setup) | Prompt-Cache für Sonnet 4.6 (~90 % Ersparnis); bleibt auch bei Lokal-GPU-Variante aktiv, damit du jederzeit zwischen Cloud und Lokal umschalten kannst |
+| **Ollama** | ⚪ Optional (ungetestet) | Lokal-GPU-Variante: Sprachmodell **und/oder** Embedding |
+
+¹ Bei der reinen Lokal-GPU-Variante (Ollama als Sprachmodell, ohne Cloud-Fallback) optional. Empfohlen bleibt der Cloud-Key als Rückfallebene.
 
 > 💡 **Was ihr selbst braucht, was der Launcher macht:** Ihr installiert
 > einmalig **Docker** und **Python** und legt zwei **API-Keys** an
 > (OpenRouter + OpenWebUI). Alles andere - OpenWebUI-Docker-Container,
 > LiteLLM-Docker-Container, Preset, Knowledge Base, Retrieval-Check -
-> macht der Launcher (`python scripts/zeitriss.py`). Ollama ist optional
-> und nur für Spieler gedacht, die bewusst offline spielen wollen.
+> macht der Launcher (`python scripts/zeitriss.py`). Die Lokal-GPU-Variante
+> (Ollama) ist optional und ungetestet - passende Hardware vorausgesetzt
+> (siehe unten).
 
 ---
 
@@ -87,10 +89,27 @@ testen nicht gegen andere Plattformen, Regel-Glitches sind
 möglich** — das ist Do-it-yourself-Terrain. →
 [Portabler Export unten](#portabler-export-ohne-gewähr)
 
-### Was nicht geht
+### Getestet / ungetestet
 
-- Kleine lokale Modelle als Spielleitung — ZEITRISS ist regel-komplex,
-  Modelle unter 70B-Klasse kommen schnell an Grenzen.
+**Getestet und kalibriert:** OpenWebUI + OpenRouter + Sonnet 4.6 + LiteLLM.
+Die gesamte Regel-QA (Probenformeln, HUD, Px-Logik, Retrieval-Checks) läuft
+gegen diesen Stack. Wer hier bleibt, spielt auf dem Stand, gegen den wir
+selbst testen.
+
+**Nicht kalibriert, technisch möglich, DIY:**
+
+- **Andere Chat-Plattformen** (Export-Paket, Menu [2]) — Retrieval- und
+  System-Prompt-Verhalten variiert, Regel-Glitches sind möglich.
+- **Lokale Sprachmodelle** via Ollama — ZEITRISS ist regel-komplex,
+  Modelle unter der 70B-Klasse kommen schnell an Grenzen. Consumer-GPUs
+  reichen typischerweise nicht; eine Workstation-Klasse (z.B.
+  Framework-Ryzen-Max-128GB oder vergleichbar) kann das stemmen, sobald
+  fähige Modelle kompakt genug werden. Aktuell keine Test-Abdeckung.
+- **Lokale Embedding-Engine** via Ollama — reine KB-Indizierung, läuft,
+  aber der Default-MiniLM reicht für 19 Dateien ebenso.
+
+Feedback zu allen Pfaden gerne als Issue — aktive Fehlersuche oder
+Support leisten wir nur für den Golden Setup.
 
 ---
 
@@ -324,12 +343,17 @@ legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
 Retrieval-Check, ob die KB funktioniert. Dauer: **5-10 Minuten beim
 ersten Mal** (Embeddings werden berechnet).
 
-#### 6.5 - LiteLLM-Cache aktivieren?
+#### 6.5 - LiteLLM-Cache aktivieren
 
 Wenn der Launcher fertig ist, fragt er: *"LiteLLM-Cache aktivieren?
-(spart ~90 % Prompt-Kosten, sehr empfohlen)"*
+(gehört zum Golden Setup, spart ~90 % Prompt-Kosten)"*
 
-**Ja drücken.** Der Launcher zieht den LiteLLM-Docker-Container,
+**Ja drücken.** LiteLLM ist Teil des Golden Setups (Sonnet 4.6 + LiteLLM
++ OpenWebUI) — die Ja/Nein-Abfrage ist nur ein technischer Haken, falls
+dein Setup gerade ohne Cache weiterlaufen muss (z.B. blockierter Port
+4000). Im Normalfall: Enter drücken.
+
+Der Launcher zieht dann den LiteLLM-Docker-Container,
 startet ihn auf Port 4000 (nur lokal, nicht nach außen erreichbar) und
 erzeugt einen Master-Key. Am Ende zeigt er dir im Terminal **drei
 Browser-Schritte**, die du noch manuell machen musst (der Launcher kann
@@ -583,25 +607,47 @@ Solo-Erlebnisse fließen beim nächsten Gruppenabend wieder ein.
 > Save. Save = Charakter; nicht gesichert = im nächsten Browser-Crash
 > weg.
 
-### Ollama als Sprachmodell (Offline-Play)
+### Lokal-GPU-Variante (Ollama, ungetestet)
 
-**Rolle**: Ollama ersetzt hier **OpenRouter**. Ihr spielt komplett
+> ⚠️ **Nicht kalibriert, DIY-Terrain.** Wir testen und optimieren
+> ausschließlich auf OpenWebUI + Sonnet 4.6 + LiteLLM. Die Lokal-GPU-
+> Variante ist technisch unterstützt, aber nicht Teil unserer Regel-QA.
+> Regel-Abweichungen auf dieser Variante lassen sich von außen kaum
+> zuordnen (Modell, GPU-Auslastung oder Prompt?), deshalb können wir da
+> nicht gezielt gegensteuern.
+
+Diese Variante bleibt innerhalb von **Weg A** (OpenWebUI + Launcher).
+Es ist keine separate Installation — du richtest den Standard-Stack
+einmal via Launcher ein und schaltest im OpenWebUI-Preset-Dropdown
+zwischen `zeitriss-sonnet` (Cloud) und deinem Ollama-Modell hin und her.
+
+**Realistische Hardware:** ZEITRISS ist regel-komplex; Modelle unter der
+70B-Klasse kommen schnell an Grenzen. Consumer-GPUs reichen typischerweise
+nicht. Eine Workstation-Klasse (z.B. Framework-Ryzen-Max-128GB oder
+vergleichbar) kann das stemmen, sobald fähige Modelle kompakt genug
+werden. Bis dahin ist der Cloud-Pfad (Sonnet 4.6 via LiteLLM) der einzige
+getestete Weg — und der Punkt, zu dem man per Dropdown-Flip jederzeit
+zurückkehrt.
+
+#### Ollama als Sprachmodell
+
+**Rolle**: Ollama ersetzt das Cloud-Modell. Ihr spielt komplett
 offline/lokal, keine Daten verlassen euren Rechner.
 
-**Voraussetzung**: Ollama installiert, ein fähiges Modell geladen
-(z. B. `llama3.1:70b` oder `qwen2.5:72b`). ZEITRISS ist regel-komplex,
-schwache Modelle kommen schnell an Grenzen - mindestens 70B-Klasse
-empfohlen, und eine GPU mit genug VRAM.
-
-**Einrichtung**: Ollama wie gewohnt laufen lassen. In OpenWebUI unter
+**Einrichtung**: Ollama wie gewohnt laufen lassen, ein fähiges Modell
+laden (70B-Klasse oder größer, genug VRAM). In OpenWebUI unter
 **Einstellungen → Verbindungen** die Ollama-Verbindung eintragen (meist
-`http://host.docker.internal:11434`). Das ZEITRISS-Preset nutzt dann
-statt `claude-sonnet-4.6` eins eurer Ollama-Modelle.
+`http://host.docker.internal:11434`). Im ZEITRISS-Preset das Base-Modell-
+Dropdown auf dein Ollama-Modell umstellen.
 
-**LiteLLM bringt hier nichts** - Ollama hat kein Anthropic-Cache, es
-läuft ja lokal.
+**LiteLLM bleibt drin.** Der Anthropic-Prompt-Cache greift zwar nur auf
+der Cloud-Route, schadet aber nicht — LiteLLM funktioniert als
+Multi-Provider-Proxy weiter, und der Vorteil ist: Du kannst per
+Dropdown-Flip sofort zurück auf `zeitriss-sonnet` wechseln, wenn dir
+dein lokales Modell bei der nächsten Szene nicht mehr reicht. Keine
+Re-Installation, kein Container-Neustart.
 
-### Ollama als Embedding-Engine (lokales KB-Indexing)
+#### Ollama als Embedding-Engine
 
 **Rolle**: Ollama ersetzt hier **MiniLM** (den Default-Embedder). Nur
 beim **Aufbau der Knowledge Base** und bei `--sync` aktiv - nicht beim
@@ -902,34 +948,36 @@ Im Zweifel hilft immer der Full-Rebuild.
 
 ### Modelle
 
-> **Sonnet 4.6 ist das einzige Modell mit vollständiger Regeltreue.**
-> Budget-Modelle erzählen atmosphärisch, erfinden aber eigene
-> Würfelsysteme, wenn man sie lässt.
+**Getestet und empfohlen:** `anthropic/claude-sonnet-4.6` — als einziges
+Modell mit vollständiger Regeltreue (korrekte Mechanik, HUD, Px).
+Preisrahmen: ~$3/$15 pro 1M Token, mit LiteLLM-Cache auf den Prompt-Anteil
+~90 % Ersparnis pro Folge-Turn.
 
-| Modell | Typ | Preis (pro 1M Token) | Stärke |
-| --- | --- | --- | --- |
-| `anthropic/claude-sonnet-4.6` | **Empfohlen** | ~$3/$15 | Korrekte Mechanik, HUD, Px |
-| `z-ai/glm-5-turbo` | **Budget** | günstig | Erkennt Regelgates, 7× billiger |
-| `deepseek/deepseek-v3.2` | **Ultra-Budget** | ~$0.25/$0.40 | Günstig, Regeln teils abweichend |
-| `z-ai/glm-5` | **Experimentell** | ~$0.40/$1.71 | Guter Noir-Ton, halluziniert teils |
-
-Ergebnisse aus dem
-[Modellvergleich 2026-03-17](../internal/qa/evidence/playtest-2026-03-17/AUSWERTUNG.md)
-(5 Szenarien × 4 Modelle).
+Alle anderen Modelle sind **nicht kalibriert und ohne Gewähr.**
+Historischer Vergleich (GLM-Familie, DeepSeek) aus dem Playtest vom
+2026-03-17 liegt im Archiv
+([AUSWERTUNG](../internal/qa/evidence/playtest-2026-03-17/AUSWERTUNG.md)),
+wird aber nicht mehr gepflegt. Budget-Modelle können atmosphärisch
+erzählen, erfinden aber eigene Würfelsysteme, wenn man sie lässt.
 
 ### Modell-Parameter-Profile
 
 `setup.json` transportiert die Preset-Parameter (`temperature`, `top_p`,
 `frequency_penalty`, `max_tokens`). Die gelieferten Werte sind auf
 **Sonnet 4.6 via LiteLLM/OpenWebUI** kalibriert - also auf den Referenz-Stack,
-auf dem das Regelwerk getestet wurde. Bei anderen Stacks über OpenWebUI → Preset
-→ _Advanced Params_ anpassen (Script nicht erneut laufen lassen):
+auf dem das Regelwerk getestet wurde. Wer den getesteten Weg fährt, muss
+hier **nichts** anpassen.
 
-| Profil | Stack | `frequency_penalty` | `max_tokens` | Begründung |
+Die folgenden Profile sind Starthilfen für **nicht-kalibrierte Stacks**,
+wenn jemand das Preset in einer anderen Plattform oder mit einem anderen
+Modell betreibt. Anpassung über OpenWebUI → Preset → _Advanced Params_
+(Script nicht erneut laufen lassen). Ohne Gewähr, kein Hilfeversprechen:
+
+| Profil | Wofür | `frequency_penalty` | `max_tokens` | Begründung |
 | --- | --- | --- | --- | --- |
-| **sonnet_46_dev (Default)** | Sonnet 4.6 + LiteLLM | `0.3` | `64000` | Ausbalanciert, Ausgaben atmosphärisch, lange Szenen möglich |
-| **portable_default** | andere Provider / striktere Output-Limits | `0.1` | `8000`-`16000` | Regel-Terminologie stabiler, kleine Output-Caps |
-| **rules_strict** | Regel-Tests, Gates | `0.0` | `8000` | Maximale Terminologiekonsistenz, kein Drift bei wiederholten Begriffen |
+| **sonnet_46_dev (Default, getestet)** | Sonnet 4.6 + LiteLLM | `0.3` | `64000` | Ausbalanciert, Ausgaben atmosphärisch, lange Szenen möglich |
+| **portable_default** (ungetestet) | andere Provider / striktere Output-Limits | `0.1` | `8000`-`16000` | Regel-Terminologie stabiler, kleine Output-Caps |
+| **rules_strict** (ungetestet) | Regel-Tests, Gates | `0.0` | `8000` | Maximale Terminologiekonsistenz, kein Drift bei wiederholten Begriffen |
 
 **Faustregel:** `frequency_penalty` > 0.3 lass - zerstreut Regelterme
 (`SaveGuard`, `SG`, `PP`, `Px`). `max_tokens` > 32000 nur auf Stacks, die das
