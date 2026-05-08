@@ -1184,7 +1184,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         print_error(
             "OPENWEBUI_API_KEY fehlt.\n"
             "  Tipp: Starte stattdessen den Launcher, der kümmert sich um Keys automatisch:\n"
-            "      python scripts/zeitriss.py           (Menu [3] = Keys neu verbinden)\n"
+            "      python scripts/zeitriss.py           (Menü [5] = API-Keys ändern)\n"
             "  Oder lege ~/.openwebui_env an (wird beim nächsten Start automatisch geladen):\n"
             "      OPENWEBUI_URL=http://localhost:8080\n"
             "      OPENWEBUI_API_KEY=sk-..."
@@ -1495,6 +1495,126 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         _run_verify_retrieval(client, kb_id, verify_cfg)
 
 
+def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
+    """Totales Reset: OpenWebUI-State (Preset + KB + Vektoren + Files +
+    lokales Sync-Manifest) komplett plattmachen, dann `run_setup()` neu starten.
+
+    Behalten bleiben bewusst:
+      - `~/.openwebui_env` (Keys — damit der Rebuild ohne Browser-A/B/C auskommt)
+      - Der OpenWebUI-Container und dessen Admin-Account
+      - LiteLLM-Container (nur wenn ``opts['reset_litellm']`` gesetzt wird,
+        dann wird der Container inklusive `scripts/litellm/.env` entfernt
+        und der LiteLLM-Install-Schritt im `run_setup` bietet sich erneut an)
+
+    Wird vom Launcher-Menüpunkt [7] aufgerufen mit expliziter Bestaetigung.
+    """
+    opts = opts or {}
+    project = cfg["project"]
+    preset_id = cfg["preset_id"]
+    _auto_load_owui_env()
+
+    print_header(f"{project} – Reset")
+
+    # 1) OpenWebUI erreichbar?
+    url = os.environ.get("OPENWEBUI_URL", "").strip() or "http://localhost:8080"
+    api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not api_key:
+        print_error(
+            "OPENWEBUI_API_KEY fehlt — Reset kann OpenWebUI nicht aufräumen.\n"
+            "  Nutze Menüpunkt [5] (API-Keys ändern), dann Reset erneut."
+        )
+        sys.exit(1)
+
+    client = APIClient(url, api_key)
+    if not client.check_health():
+        print_error(f"OpenWebUI nicht erreichbar unter {url}. Reset abgebrochen.")
+        sys.exit(1)
+
+    # 2) Preset löschen (falls vorhanden)
+    existed, ok = client.delete_model(preset_id)
+    if existed and ok:
+        print_ok(f"Preset '{preset_id}' entfernt.")
+    elif not existed:
+        print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
+    else:
+        print_warn(f"Preset '{preset_id}' konnte nicht entfernt werden (fährt trotzdem fort).")
+
+    # 3) Alle KBs mit dem Projekt-Namen (meist genau eine) — inklusive Vektoren.
+    kb_name_prefix = project  # KB-Name == project in run_setup
+    removed_kbs = 0
+    try:
+        for kb in client.list_knowledge():
+            name = kb.get("name") or ""
+            if name == kb_name_prefix or name.startswith(kb_name_prefix):
+                kb_id = kb.get("id")
+                if not kb_id:
+                    continue
+                # Erst Vektor-Collection leeren, dann KB-Entry killen (verhindert
+                # verwaiste Chroma-Ordner auf dem OpenWebUI-Volume).
+                client.reset_kb_vectors(kb_id)
+                if client.delete_knowledge(kb_id):
+                    removed_kbs += 1
+    except Exception as e:
+        print_warn(f"Fehler beim KB-Abräumen: {e.__class__.__name__}: {e}")
+    if removed_kbs:
+        print_ok(f"{removed_kbs} Knowledge Base(s) entfernt.")
+    else:
+        print_info("Keine projektzugehörige KB gefunden — übersprungen.")
+
+    # 4) Files mit den Wissensdatei-Namen dieses Projekts kürzen.
+    try:
+        kb_files = discover_knowledge_files(repo, cfg)
+        our_filenames = {fp.name for fp in kb_files}
+        old_files = [
+            f for f in client.list_files() if f.get("filename") in our_filenames
+        ]
+        if old_files:
+            for f in old_files:
+                client.delete_file(f["id"])
+            print_ok(f"{len(old_files)} alte Projekt-Dateien entfernt.")
+    except Exception as e:
+        print_warn(f"Fehler beim File-Abräumen: {e.__class__.__name__}: {e}")
+
+    # 5) Lokales Sync-Manifest löschen (sonst versucht `--sync` später inkrementell
+    #    gegen tote IDs zu mergen).
+    manifest = repo / ".openwebui-sync.json"
+    if manifest.exists():
+        try:
+            manifest.unlink()
+            print_ok(f"Lokales Sync-Manifest entfernt: {manifest.name}")
+        except OSError as e:
+            print_warn(f"Konnte {manifest.name} nicht löschen: {e}")
+
+    # 6) Optional: LiteLLM-Container + .env wegpacken.
+    if opts.get("reset_litellm"):
+        import subprocess  # lazy, konsistent mit dem Rest des Files
+        litellm_env = repo / "scripts" / "litellm" / ".env"
+        try:
+            compose = repo / "scripts" / "litellm" / "docker-compose.litellm.yml"
+            if compose.exists() and shutil.which("docker"):
+                subprocess.run(
+                    ["docker", "compose", "-f", str(compose), "down"],
+                    capture_output=True, text=True, timeout=30,
+                )
+                print_ok("LiteLLM-Container gestoppt/entfernt (docker compose down).")
+        except Exception as e:
+            print_warn(f"LiteLLM-Container konnte nicht sauber gestoppt werden: {e}")
+        if litellm_env.exists():
+            try:
+                litellm_env.unlink()
+                print_ok(f"{litellm_env.relative_to(repo)} entfernt.")
+            except OSError as e:
+                print_warn(f"Konnte {litellm_env.name} nicht löschen: {e}")
+
+    print()
+    print_info("Reset abgeschlossen — starte jetzt sauberen Neuaufbau.")
+    print()
+
+    # 7) Frischer Aufbau. run_setup legt KB + Files + Preset neu an;
+    #    Caller im Launcher macht danach ggf. run_install_litellm wieder.
+    run_setup(repo, cfg, opts)
+
+
 def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Interactive OpenWebUI setup: KB + files + preset."""
     opts = opts or {}
@@ -1567,7 +1687,15 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             print()
             print(f"  Empfohlenes Modell: {_c('1', default_model)}")
             print(f"  {_c('2', '(Enter = übernehmen. Alternative Model-ID optional eintippen.)')}")
-            answer = input("  Modell: ").strip()
+            try:
+                answer = input("  Modell: ").strip()
+            except EOFError:
+                # Nicht-interaktiver Aufruf (Pipe/CI): Default übernehmen statt
+                # mit EOFError-Traceback abzusterben. Das wäre der Weg, wie das
+                # Setup nach einem abgebrochenen Reset oder in einem Script-
+                # Kontext den halbfertigen Zustand hinterlässt.
+                answer = ""
+                print_info("Keine Eingabe (stdin geschlossen) — Default übernommen.")
             model = answer or default_model
 
             # Erreichbarkeit immer prüfen — auch bei selbst eingetippter ID.
@@ -1576,8 +1704,15 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             print_info(f"Prüfe Modell: {model}")
             if not client.test_model(model):
                 print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
-                if input("  ").strip().lower() not in ("j", "y", "ja", "yes"):
-                    model = input("  Alternative Model-ID: ").strip()
+                try:
+                    confirm_unreachable = input("  ").strip().lower()
+                except EOFError:
+                    confirm_unreachable = "n"
+                if confirm_unreachable not in ("j", "y", "ja", "yes"):
+                    try:
+                        model = input("  Alternative Model-ID: ").strip()
+                    except EOFError:
+                        model = ""
                     if not model:
                         print_error("Kein Modell angegeben.")
                         sys.exit(1)
