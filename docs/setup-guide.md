@@ -218,19 +218,21 @@ Unter Windows alternativ **Doppelklick auf `zeitriss.bat`**, unter
 macOS/Linux alternativ `./zeitriss.sh`.
 
 Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/
-Keys als ✓ oder -) und ein Menü mit sechs Punkten, gruppiert in
-*Installation* und *Im Betrieb*:
+Keys als ✓ oder -) und ein Menü, gruppiert in *Einrichtung* und
+*Im Betrieb*:
 
 ```
-  ── Installation ───────────────────────────────
-   [1]  Komplett-Setup in OpenWebUI (empfohlen)
-   [2]  Regelwerk woanders nutzen (Export-Paket erzeugen)
+  ── Einrichtung (wähle einen Weg) ──────────────
+   [1]  Komplett-Setup in OpenWebUI (empfohlen, Golden Setup)
+   [L]  Lore-Setup — wie [1], eingerahmt als ITI-Bergung
+   [2]  Regelwerk woanders nutzen (Export-Paket, ohne Gewähr)
 
   ── Im Betrieb ──────────────────────────────
    [3]  Spiel starten (Browser öffnen)
    [4]  ZEITRISS aktualisieren (git pull + Sync)
    [5]  API-Keys ändern
    [6]  Bei mir läuft was nicht (Diagnose)
+   [7]  Reset — Neuinstallation (⚠ destruktiv)
 
    [X]  Beenden
 ```
@@ -250,6 +252,32 @@ Für Screenshots/QA: `ZEITRISS_RITE_INSTANT=1` schaltet die Typewriter-
 Animation aus, alles erscheint sofort.
 
 Designnotizen: siehe [`docs/first-contact-rite.md`](first-contact-rite.md).
+
+#### Reset — Neuinstallation (destruktiv)
+
+Menüpunkt **`[7]  Reset — Neuinstallation`** räumt den ZEITRISS-Zustand
+in OpenWebUI komplett weg und startet danach automatisch ein frisches
+`[1]`-Setup. Gedacht für Situationen, in denen `[6] Diagnose` zwar einen
+Fehler findet, aber der Auto-Fix nicht reicht (z.B. nach kaputtem Upgrade
+oder manuellen Edits, die sich nicht mehr per Sync einfangen lassen).
+
+Bevor irgendwas gelöscht wird, zeigt der Launcher eine **konkrete
+Trefferliste**: welche Presets, KBs und das Sync-Manifest auf deiner
+Instanz tatsächlich entfernt würden. Danach zwei Bestätigungen:
+LiteLLM-Container-Wahl (Default n, bleibt also drin) und Typo-Schutz
+(Wort `RESET` in Großbuchstaben tippen).
+
+Gelöscht werden: das ZEITRISS-Preset, die projektzugehörige Knowledge
+Base samt Vektoren und hochgeladenen Dateien, das lokale Sync-Manifest
+(`.openwebui-sync.json`). Behalten bleiben: der OpenWebUI-Container samt
+Admin-Account, deine API-Keys in `~/.openwebui_env`, alle anderen
+Presets/KBs in deiner OpenWebUI-Installation.
+
+> ⚠️ **KB-Präfix-Matching.** Der Reset löscht alle KBs, deren Name mit
+> dem Projektnamen (`ZEITRISS`) beginnt. Wer eine manuelle Backup-KB mit
+> einem Namen wie `ZEITRISS-BACKUP` pflegt, sollte sie vor dem Reset
+> umbenennen — der Launcher zeigt vor der Bestätigung eine Trefferliste,
+> dort sieht man's rechtzeitig.
 
 ---
 
@@ -273,7 +301,7 @@ Hinweis "Docker fehlt/läuft nicht". Dann zurück zu Schritt 1.
 
 #### 6.2 - OpenWebUI-Container installieren + starten
 
-Der Launcher fragt: *"Soll ich OpenWebUI jetzt starten? (j/n):"*
+Der Launcher fragt: *"Soll ich OpenWebUI jetzt starten? (j/n) [j]:"*
 
 Enter drücken (= Ja). Der Launcher zieht den Docker-Container
 `ghcr.io/open-webui/open-webui:main` (beim ersten Mal ~1 GB, 1-2 Min
