@@ -25,6 +25,7 @@ Aufruf:
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
@@ -287,6 +288,132 @@ def load_cfg() -> dict:
     return setup_module.load_config(REPO)
 
 
+def _detect_install_state() -> str:
+    """Erkennt, ob ZEITRISS in OpenWebUI bereits eingerichtet ist.
+
+    Fünf Zustände — bewusst defensiv klassifiziert. Bei Unsicherheit ist
+    "unreachable" der ehrlichste Default, damit Caller den User explizit
+    fragen statt stumm zu reinstallieren.
+
+    Returns:
+        "fresh":          Nichts da. Klassisches Erstinstall ist richtig.
+        "installed":      Preset + verlinkte KB existieren in OpenWebUI.
+                          → Update-Pfad ist der semantisch richtige Default.
+        "partial":        Halb-Zustand (Preset ohne KB-Link, oder Preset weg
+                          aber andere Spuren da). Klassik-Install räumt auf,
+                          aber nur nach expliziter User-Bestätigung.
+        "partial_no_key": Manifest vorhanden, aber kein API-Key in der Umgebung
+                          (frische Shell, Repo-Klon ohne Setup-Lauf). Live-Check
+                          unmöglich, run_setup wird sowieso gleich nach Key
+                          fragen — daher KEIN extra Confirm-Prompt im Caller.
+        "unreachable":    OpenWebUI antwortet nicht oder Setup-Konfig kaputt.
+                          Caller MUSS warnen, bevor er Klassik-Install startet —
+                          sonst löscht run_setup eine in 30 s erreichbare KB.
+
+    Wichtig zur Manifest-Logik: Das `.openwebui-sync.json`-Manifest ist NUR
+    ein Indiz für frühere Sync-Aktivität, kein Wahrheits-Anker. Live-Preset+KB
+    ohne Manifest ist ein **funktionierender** Zustand (Hand-Setup, alte
+    setup.py-Version, manueller Übertrag); `run_sync` schreibt das Manifest
+    beim ersten Lauf neu. Daher: Preset+KB-Link → "installed", egal ob
+    Manifest da ist. Manifest ohne Preset → "partial" (Sync-Spur stumm zurück-
+    geblieben, OWUI wurde gewiped).
+    """
+    try:
+        cfg = load_cfg()
+        preset_id = cfg["preset_id"]
+    except Exception:
+        return "unreachable"
+
+    # Manifest-Check: nur als Heuristik für verwaiste Sync-Spuren.
+    manifest_path = REPO / ".openwebui-sync.json"
+    has_manifest = False
+    if manifest_path.exists():
+        try:
+            with open(manifest_path, "r", encoding="utf-8") as fh:
+                m = json.load(fh)
+            kb_files = m.get("kb_files") or {}
+            has_manifest = isinstance(kb_files, dict) and len(kb_files) > 0
+        except (OSError, json.JSONDecodeError):
+            has_manifest = False
+
+    # Ohne API-Key kein Live-Check mehr möglich. Eigener Sub-State, damit der
+    # Caller den Confirm-Prompt skippen kann — run_setup fragt sowieso gleich
+    # nach dem Key, das doppelt-fragen ist nur Reibung. Manifest-leer + kein
+    # Key bleibt dagegen "fresh" (nichts hier, ganz normaler Erstinstall).
+    if not _ensure_owui_env():
+        return "partial_no_key" if has_manifest else "fresh"
+
+    url = _openwebui_url()
+    try:
+        client = setup_module.APIClient(url, os.environ["OPENWEBUI_API_KEY"])
+        if not client.check_health():
+            # OWUI nicht erreichbar — KRITISCHER Fall: wenn OWUI gerade hochboot,
+            # antwortet /health 30 s lang nicht, hat aber Preset+KB im Speicher.
+            # Wenn wir hier stumm "fresh" zurückgeben, läuft der User in
+            # Klassik-Install und verliert seine Daten kurz nach OWUI-Boot.
+            # Daher: "unreachable" → Caller fragt explizit.
+            return "unreachable"
+        preset = client.get_model(preset_id)
+    except Exception:
+        return "unreachable"
+
+    has_preset = preset is not None
+
+    # KB-Verknüpfung am Preset prüfen — Preset ohne KB ist ein halber Zustand.
+    # Schema-Pfad live verifiziert (OpenWebUI 0.9.x): `preset.meta.knowledge`
+    # ist eine Liste von {id, name}-Einträgen direkt am Top-Level-Preset.
+    # Bei Schema-Wackler in 0.10+ hier validieren.
+    has_kb_link = False
+    if has_preset:
+        try:
+            meta = (preset or {}).get("meta") or {}
+            kb_list = meta.get("knowledge") or []
+            has_kb_link = isinstance(kb_list, list) and len(kb_list) > 0
+        except Exception:
+            has_kb_link = False
+
+    # Live-Wahrheit: Preset + KB-Link reicht. Manifest ist NICHT Pflicht-Anker,
+    # weil run_sync ihn beim ersten Lauf eines installierten Stacks neu erzeugt.
+    if has_preset and has_kb_link:
+        return "installed"
+    if has_preset or has_manifest:
+        return "partial"
+    return "fresh"
+
+
+def _confirm_reinstall_after_partial() -> bool:
+    """Bestätigung für Erstinstall, wenn `_detect_install_state()` "partial" meldet.
+
+    Standard-Antwort "j", weil die Klassik-Install den halben Zustand sauber
+    überschreibt — aber wir machen die Frage trotzdem explizit, damit der User
+    versteht, dass etwas neu aufgebaut wird statt nur ergänzt.
+    """
+    print()
+    print(yellow("  ZEITRISS sieht halb installiert aus (Preset oder KB-Link fehlt)."))
+    print("  Eine Erstinstallation baut Preset + Knowledge Base sauber neu auf.")
+    print(dim("  Bestehende Daten in OpenWebUI mit dieser Preset-ID werden ersetzt."))
+    print()
+    ans = _prompt("  Trotzdem fortfahren? (j/n) [j]: ").strip().lower()
+    return ans in ("", "j", "y", "ja", "yes")
+
+
+def _confirm_reinstall_unreachable() -> bool:
+    """Bestätigung, wenn OpenWebUI nicht erreichbar ist ("unreachable"-State).
+
+    Wichtig: hier ist der Default ABSICHTLICH "n". Wenn OWUI gerade hochboot,
+    soll der User lieber 30 s warten und nochmal drücken, als blind die KB
+    zu verlieren, weil run_setup gleich zuschlägt sobald OWUI antwortet.
+    """
+    print()
+    print(yellow("  OpenWebUI antwortet gerade nicht."))
+    print("  Wenn du OpenWebUI gerade gestartet hast, warte 30 Sekunden und drücke [1] erneut.")
+    print(dim("  Falls OpenWebUI wirklich neu eingerichtet werden muss: trotzdem fortfahren."))
+    print(dim("  Bestehende Daten (falls OWUI doch noch hochkommt) werden dann ersetzt."))
+    print()
+    ans = _prompt("  Trotzdem fortfahren? (j/n) [n]: ").strip().lower()
+    return ans in ("j", "y", "ja", "yes")
+
+
 def _ensure_owui_env() -> bool:
     """Auto-lade ~/.openwebui_env in os.environ, wenn Keys fehlen.
 
@@ -327,11 +454,49 @@ def action_install_lore() -> None:
     scripts/rite.py), informieren wir den Nutzer kurz und starten dann den
     klassischen Flow — damit er nicht rätselt, warum er plötzlich im
     Standard-Setup-Screen steht.
+
+    Idempotenz-Check vorab (analog zu action_install): Wenn ZEITRISS
+    bereits installiert ist, leiten wir auf [4] Update um — ohne Lore-
+    Rahmung, weil das Update kein Bergungs-Narrativ ist, sondern Routine.
+    Lore-Setup ist explizit der Bergungs-Moment; das gibt es nur einmal.
     """
     if rite_module is None:
         print(yellow("\n  Lore-Modul nicht verfügbar — starte Standard-Komplett-Setup."))
         action_install()
         return
+
+    state = _detect_install_state()
+    if state == "installed":
+        print(bold("\n  [L] Lore-Setup\n"))
+        print(green("  ✓ ZEITRISS ist bereits eingerichtet."))
+        print()
+        print("  Das Lore-Setup ist der Bergungs-Moment — den gibt es nur einmal.")
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] ZEITRISS aktualisieren um.")
+        print(dim("  Wenn du das Bergungs-Ritual neu erleben willst:"))
+        print(dim("    → [7] Reset → [L] Lore-Setup"))
+        print()
+        ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            action_update()
+        return
+    if state == "partial":
+        print(bold("\n  [L] Lore-Setup\n"))
+        if not _confirm_reinstall_after_partial():
+            print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
+            _pause()
+            return
+        # User hat bestätigt — Bergungs-Ritual läuft jetzt regulär.
+    elif state == "partial_no_key":
+        # Wie in action_install: Key-Frage kommt gleich, kein extra Prompt.
+        # Hinweis bewusst minimal, damit das Lore-Ritual gleich danach atmet.
+        print(bold("\n  [L] Lore-Setup\n"))
+        print(dim("  Hinweis: Eine alte Sync-Spur liegt im Repo. "
+                  "run_setup fragt gleich nach dem API-Key."))
+    elif state == "unreachable":
+        print(bold("\n  [L] Lore-Setup\n"))
+        if not _confirm_reinstall_unreachable():
+            _pause()
+            return
 
     url = _openwebui_url()
     try:
@@ -343,7 +508,9 @@ def action_install_lore() -> None:
 
     # Installation läuft 1:1 wie beim Standard-Menüpunkt. Alle Fehler-
     # meldungen, Retries und Prompts von setup.py bleiben sichtbar.
-    action_install()
+    # `_skip_state_check=True`, weil wir oben schon klassifiziert haben —
+    # sonst doppelte API-Calls und doppelte User-Prompts.
+    action_install(_skip_state_check=True)
 
     # Finale nur, wenn die Installation wirklich durchlief. Wir erkennen
     # das daran, dass Preset + OWUI-Key jetzt vorhanden sind.
@@ -361,8 +528,49 @@ def action_install_lore() -> None:
         return
 
 
-def action_install() -> None:
+def action_install(*, _skip_state_check: bool = False) -> None:
     print(bold("\n  [1] Komplett-Setup in OpenWebUI\n"))
+
+    # Idempotenz-Check: Schon installiert → auf [4] Update umleiten.
+    # `_skip_state_check=True` ist Keyword-only (siehe `*,` in der Signatur),
+    # damit niemand das Argument versehentlich positional setzt. Genutzt von
+    # action_install_lore() und action_diagnose()-Auto-Fix, die beide den
+    # State vorher schon klassifiziert haben — sonst doppelte API-Calls und
+    # doppelte User-Prompts.
+    if not _skip_state_check:
+        state = _detect_install_state()
+        if state == "installed":
+            print(green("  ✓ ZEITRISS ist bereits eingerichtet."))
+            print()
+            print("  Für aktuelle Repo-Files leite ich dich auf [4] ZEITRISS aktualisieren um.")
+            print(dim("  Wenn du wirklich alles neu willst (z.B. nach kaputtem Stand): [7] Reset."))
+            print()
+            ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
+            if ans in ("", "j", "y", "ja", "yes"):
+                action_update()
+            return
+        if state == "partial":
+            if not _confirm_reinstall_after_partial():
+                print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
+                _pause()
+                return
+            # Ab hier: User hat Erstinstall trotz "partial" bestätigt —
+            # run_setup räumt halbe Zustände sauber auf.
+        elif state == "partial_no_key":
+            # Manifest da, kein Key in der Umgebung. Kein Confirm-Prompt —
+            # run_setup fragt gleich nach dem Key, der echte Bestimmungs-Moment
+            # liegt dort. Eine Mini-Info reicht, damit der User weiß, dass es
+            # nicht ganz "fresh" ist und etwas neu aufgebaut werden könnte.
+            print(dim("  Hinweis: Eine alte Sync-Spur liegt im Repo. "
+                      "run_setup fragt jetzt nach dem API-Key."))
+        elif state == "unreachable":
+            if not _confirm_reinstall_unreachable():
+                _pause()
+                return
+            # Ab hier: User hat trotz fehlender OWUI-Antwort bestätigt.
+            # action_install hat eigene OWUI-Reachability-Checks weiter unten,
+            # die ihn dann nochmal sauber abfangen, falls OWUI immer noch down.
+
     print("  Was jetzt passiert:")
     print("   1. Voraussetzungen werden geprüft (Docker, Python, OpenWebUI).")
     print("   2. Einmal im Browser: Admin-Account + OpenRouter-Key + OpenWebUI-API-Key (A/B/C).")
@@ -890,7 +1098,10 @@ def action_diagnose() -> None:
         if kind == "rekeys":
             action_rekeys()
         elif kind == "install":
-            action_install()
+            # Diagnose hat den fehlenden Stand schon nachgewiesen — wir
+            # überspringen den State-Check in action_install, sonst bekommt
+            # der User nach dem Auto-Fix-"j" gleich den partial-Prompt nochmal.
+            action_install(_skip_state_check=True)
         elif kind == "sync":
             action_update()
 
