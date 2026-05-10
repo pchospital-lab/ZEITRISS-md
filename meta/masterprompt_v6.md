@@ -614,7 +614,7 @@ Auto-HQ → Save-Angebot.
 
 ### Speichern
 
-- **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
+- **Nur im HQ:** Save-Output ist exklusiv an HQ-Status gebunden (siehe HQ-Save-Bedingungen unten). Save-Angebote erfolgen automatisch an allen acht Abschnittsübergängen — siehe Sync-Handover-Klausel direkt darunter.
 - **Save-Sync-Handover an Abschnittsübergängen (verbindlich).** Jeder
   Abschnittsübergang (HQ ↔ Mission/Rift, HQ ↔ Chronopolis, HQ ↔ Arena,
   Chargen → HQ) folgt einem einheitlichen Sync-Handover-Pattern: kurzer
