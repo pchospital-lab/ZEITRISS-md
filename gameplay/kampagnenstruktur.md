@@ -1571,8 +1571,13 @@ Dieser Ablauf dauert nur wenige Minuten Spielzeit und besteht aus drei Schritten
 2. **Stress abbauen** - Kurze Erholungsaktionen wie Training oder Gespräche senken Stress um 1.
 3. **Forschung anstoßen** - Ein Projekt oder Hinweis für die nächste Mission vorbereiten.
 
-Jeder Turn zählt als eine HQ-Runde. Mehrfache Durchläufe sind möglich, doch die
-Zeit verstreicht entsprechend in der Spielwelt.
+Ein Ressource-Turn ist ein **Erzähl-Beat innerhalb** einer HQ-Runde
+(siehe [Spieler-Handbuch §Gameflow](../core/spieler-handbuch.md#gameflow-chat-wechsel)
+für die HQ-Runde als eigener Spielabschnitt mit eigenem Chat). Mehrfache
+Durchläufe innerhalb derselben HQ-Runde sind möglich — das HQ liegt in
+der Nullzeit, dort gibt es keinen Countdown. Wer narrativ Zeit
+verstreichen lassen will (z. B. eine NPC-Beziehung reifen lassen),
+nutzt die Erzählpausen-Beats unten als bewusste Setzung.
 
 ## Erzählpausen, Freizeit und Alltag im HQ
 
