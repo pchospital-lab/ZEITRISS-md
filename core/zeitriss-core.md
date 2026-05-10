@@ -731,10 +731,19 @@ man zum nächsten Spielleiter mitnimmt. `characters[]` enthält alle Agenten
 (Exfil, Cooldowns, SYS_runtime sind Session-State). Details zur Vollstruktur
 im Modul **Speicherstand & Fortsetzung**.
 
-**Speichern & Laden in der Praxis:** Am Ende einer Mission erstellt die Spielleitung
-den Save nach dem Schema im Masterprompt. Vor der nächsten Session kopiert man
-den JSON in den neuen Chat-Kontext. Die KI liest den Speicherstand ein und hat
-sofort alle Fakten — Attribute, Equipment, Reputation, Story-Hooks.
+**Speichern & Laden in der Praxis:** Am Ende **jedes Spielabschnitts**
+(Charaktererschaffung, HQ-Runde, Mission, Chronopolis-Lauf, Arena-Match)
+erstellt die Spielleitung im HQ einen Save nach dem Schema im Masterprompt
+und schließt damit den Abschnitt ab. Vor dem nächsten Abschnitt öffnet man
+einen frischen Chat, fügt den JSON ein, die KI liest den Speicherstand ein
+und hat sofort alle Fakten — Attribute, Equipment, Reputation, Story-Hooks.
+Der Chat-Wechsel zwischen Abschnitten ist Pflicht-Hygiene, kein Komfort:
+Spieler-Devise im
+[Spielerhandbuch](spieler-handbuch.md#gameflow-chat-wechsel),
+SL-/Toolkit-Pflichten im
+[Speicher- und Fortsetzungssystem][modul12-flow].
+
+[modul12-flow]: ../systems/gameflow/speicher-fortsetzung.md#save-prompts-im-hq-flow
 
 **Gruppen-Spielstände:** Alle Charaktere stehen in `characters[]`. Der
 Session-Anker (erster Eintrag) setzt den Einstiegspunkt der Runde
@@ -943,9 +952,11 @@ Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
       Wahlmöglichkeiten wie oben.
 
 Im digitalen Spielsystem öffnet ein Trigger **"on Zeitsprung"** automatisch ein Nullzeit-Menü. Dort
-beginnt immer eine kurze HQ-Phase mit Shop, Skill-Upgrades und Save-System. Erst danach können die
-Spieler **Pfad fortsetzen** oder **Neuen Pfad wählen**. **Pfad fortsetzen** bedeutet den Verlauf der
-Episode beizubehalten, nicht die laufende Mission aus dem HQ zurückzuladen. Entscheiden sie sich für
+beginnt eine vollwertige **HQ-Runde** als eigener Spielabschnitt mit Shop, Skill-Upgrades, Klinik
+und Save-Angebot — siehe [Der Gameflow](spieler-handbuch.md#gameflow-chat-wechsel). Erst nach
+dem Save-und-Chat-Wechsel können die Spieler **Pfad fortsetzen** oder **Neuen Pfad wählen**.
+**Pfad fortsetzen** bedeutet den Verlauf der Episode beizubehalten, nicht die laufende Mission
+aus dem HQ zurückzuladen. Entscheiden sie sich für
 Letzteres, wird der bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss samt
 Missions-Manifest geöffnet und die verlassene Zeitlinie als "versiegelt" markiert - keine weiteren
 Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf

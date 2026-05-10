@@ -799,6 +799,12 @@ bewusst im Spiel haben wollt.
 
 **4. Spielen**: Neuer Chat → Preset wählen → `Spiel starten (solo klassisch)`.
 
+> **Spielrhythmus.** ZEITRISS spielt sich in eigenständigen Abschnitten
+> (Charaktererschaffung, HQ-Runde, Mission, Chronopolis, Arena), je
+> Abschnitt ein eigener Chat mit `!save` am Ende und neuem Chat plus Save-Load
+> am Anfang. Hintergrund und Begründung im Spielerhandbuch:
+> [Der Gameflow: Chat-Wechsel als Spielrhythmus](../core/spieler-handbuch.md#gameflow-chat-wechsel).
+
 ---
 
 ## Troubleshooting

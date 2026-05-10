@@ -26,6 +26,7 @@ tags: [meta]
 | Quickstart           | `Spiel starten (solo schnell)`              | Summe 18, Cap 6, v7-Save, Ruf im Bogen           |
 | Klassisch            | `Spiel starten (solo klassisch)`            | Chargen-Dialog, Attributverteilung, HQ-Intro     |
 | Save/Load            | `!save` → neuer Chat → `Spiel laden` + JSON | Alle Werte erhalten, v7-Schema                   |
+| Abschnittsrhythmus   | HQ-Runde + Mission in **getrennten Chats**  | Kein Mix, je Chat ein Abschnitt + Save dazwischen |
 | Mission durchspielen | 12 Szenen, Debrief                          | Px-Staffel korrekt, Ruf + Lizenz-Tier im Debrief |
 | Level-Up             | Nach Mission 1                              | Genau 1 Wahl: +1 Attr ODER Talent ODER +1 SYS    |
 
@@ -79,3 +80,46 @@ bash scripts/smoke.sh
 ```
 
 Muss vor jedem Push grün sein.
+
+## Spielrhythmus (Pflicht-Check)
+
+Der Gameflow-Rhythmus ist die zentrale Spieler-Devise — bei jedem Testlauf
+mitprüfen, weil Drift hier alles andere unzuverlässig macht.
+
+**Erwarteter Ablauf in jedem Solo- oder Gruppen-Lauf:**
+
+```text
+Chargen → !save → neuer Chat → Save laden
+       → HQ-Runde → !save → neuer Chat → Save laden
+       → Briefing + Mission + Debrief → !save → neuer Chat → Save laden
+       → HQ-Runde → !save → neuer Chat → Save laden
+       → ...
+```
+
+**Prüfpunkte:**
+
+- KI-SL bietet nach jedem Debrief ein `!save`-Angebot, **bevor** sie zum
+  nächsten Briefing einlädt.
+- KI-SL bietet nach längeren HQ-Aktivitäten (Equip-Wechsel, Klinik,
+  Werkstatt, RP-Beats) ein `!save` an, **bevor** sie zur Mission überleitet.
+- Equipment-Änderungen, Implantate, Wallet-Bewegungen aus der HQ-Runde
+  müssen im danach erstellten Save sichtbar sein und beim nächsten
+  Mission-Load korrekt geladen werden.
+- KI-SL **darf nicht** vorschlagen, „Mission und HQ-Aktionen im selben
+  Chat" zu spielen — Pflicht-Verstoß, in den Findings festhalten.
+- Fast-Lane (`solo schnell` / `gruppe schnell`) ist Sonderfall: erstes
+  Save-Angebot erst nach Mission 1, das ist korrekt.
+
+**Drift-Hinweise:**
+
+- Wird Auto-Equip zwischen Mission und Mission im selben Chat angeboten,
+  ist das ein Regress auf die alte Mechanik (vor 2026-05). Reporten.
+- Sagt die KI-SL „du kannst direkt weiter ins Briefing", ohne das
+  Save-Angebot, ist das ein Verstoß gegen die
+  [Save-Taktung](../../core/sl-referenz.md#save-taktung-verbindlich).
+
+Spieler-Doku: [Der Gameflow][gameflow-spieler]. SL-/Toolkit-Pflichten:
+[Save-Prompts im HQ-Flow][modul12].
+
+[gameflow-spieler]: ../../core/spieler-handbuch.md#gameflow-chat-wechsel
+[modul12]: ../../systems/gameflow/speicher-fortsetzung.md#save-prompts-im-hq-flow
