@@ -75,6 +75,14 @@ bringt seinen persönlichen Fortschritt mit.
 Wenn sich Gruppen trennen und später wieder zusammentreffen, verweben sich die
 einzelnen Handlungsstränge wieder zu einem gemeinsamen Zeitnetz.
 
+**Spielrhythmus: ein Abschnitt = ein Chat.** ZEITRISS spielt sich in
+sauber abgeschlossenen Spielabschnitten — Charaktererschaffung, HQ-Runde,
+Mission, Chronopolis, Arena. Am Ende jedes Abschnitts ein `!save`, dann
+neuer Chat, Save laden, weiter im HQ-Hub. Klingt ungewohnt, fühlt sich
+nach zwei Runden völlig natürlich an: kein Kontext-Overflow, sauberer
+Regelzugriff, klarer Schnitt zwischen den Beats. Mehr dazu im
+[Spieler-Handbuch](core/spieler-handbuch.md#gameflow-chat-wechsel).
+
 **Hinweis zu Saves:** Ausformulierte Vorgeschichten dürfen ausführlich sein,
 der Save bleibt trotzdem kompakt. Beim HQ-`!save` können ältere
 Freitext-Details in `summaries.*` verdichtet werden; der spielrelevante Kern
