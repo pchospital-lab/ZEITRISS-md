@@ -335,6 +335,13 @@ Ausnahme: **Fast-Lane** (`solo schnell` / `gruppe schnell`). Diese Variante
 springt aus der Charaktererschaffung direkt ins Briefing; das erste
 Save-Angebot kommt erst nach Mission 1. Ab da gilt der reguläre Rhythmus.
 
+### Mehr dazu
+
+- Was die KI-SL an jedem der acht Sync-Punkte macht:
+  [SL-Referenz §Save-Taktung](sl-referenz.md#save-taktung-verbindlich).
+- Tiefer rein in die Save-Mechanik (Sync-Punkte im Detail, Sonderfälle wie
+  Final-Save bei Tod): [Modul 12 §Save-Sync-Handover](../systems/gameflow/speicher-fortsetzung.md#save-sync-handover).
+
 ## Cheatsheet - Alle Kernregeln auf einen Blick {#cheatsheet}
 
 ### Probenformel
