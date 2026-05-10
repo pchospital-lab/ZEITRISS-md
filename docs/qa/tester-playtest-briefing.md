@@ -96,30 +96,57 @@ Chargen → !save → neuer Chat → Save laden
        → ...
 ```
 
-**Prüfpunkte:**
+**Acht Sync-Punkte (Pflicht-Check pro Punkt):**
 
-- KI-SL bietet nach jedem Debrief ein `!save`-Angebot, **bevor** sie zum
-  nächsten Briefing einlädt.
-- KI-SL bietet nach längeren HQ-Aktivitäten (Equip-Wechsel, Klinik,
-  Werkstatt, RP-Beats) ein `!save` an, **bevor** sie zur Mission überleitet.
-- Equipment-Änderungen, Implantate, Wallet-Bewegungen aus der HQ-Runde
+| Sync-Punkt | Erwarteter In-Fiction-Beat | Erwartete Folge |
+| --- | --- | --- |
+| Charaktererschaffung → HQ-Hub | Heimkehr-Beat (Quarzatrium, Dienstpersonal) | Chargen-Save-Gate, kein Auto-Briefing |
+| HQ → Briefing (Core) | Sprungvorbereitung an Sync-Station | `!save` → Chat-Wechsel-Verweis |
+| HQ → Briefing (Rift) | Rift-Koordinate aktiviert + Sprungvorbereitung | `!save` → Chat-Wechsel-Verweis |
+| HQ → Chronopolis-Schleuse | Schleuse verriegelt, rotes Statuslicht | `!save` → Chat-Wechsel-Verweis |
+| HQ → Arena-Match | Arena-Lobby Match-Lock | `!save` → Chat-Wechsel-Verweis |
+| Standard-Debrief → HQ | Nullzeit-Andocken | `!save` nach Score-Screen + Level-Up |
+| Chronopolis-Debrief → HQ | Schleuse entriegelt | `!save` → Chat-Wechsel-Verweis |
+| Arena-Debrief → HQ | Match-Recap eingehängt | `!save` nach `banked_rewards` |
+
+**Generelle Prüfpunkte:**
+
+- An jedem Sync-Punkt erscheint der Sync-Beat **bevor** der Übergang
+  abgeschlossen wird. KI-SL darf **nicht** ohne Sync-Beat den Übergang
+  durchführen.
+- Tippt der Tester nach `!save` im selben Chat einen Übergangsbefehl
+  („Briefing", „Arena", „Chronopolis betreten", „weiter ins HQ"), muss die
+  KI-SL freundlich auf den nächsten Chat verweisen — **kein** Briefing,
+  kein Match-Start, keine Schleuse, keine Mission im selben Chat nach Save.
+- Im neuen Chat nach Save-Load erscheint **immer** der HQ-Hub-Router mit
+  Wahl-Optionen (Briefing anfordern / HQ erkunden / Schnell-HQ /
+  Chronopolis-Schleuse / Rift-Board / Arena-Router). Auch wenn der
+  Spieler-Opener bereits einen Übergang nennt, wird der Router gezeigt
+  (kann transparent durchspringen).
+- Equipment-Änderungen, Implantate, Wallet-Bewegungen aus einer HQ-Runde
   müssen im danach erstellten Save sichtbar sein und beim nächsten
   Mission-Load korrekt geladen werden.
-- KI-SL **darf nicht** vorschlagen, „Mission und HQ-Aktionen im selben
-  Chat" zu spielen — Pflicht-Verstoß, in den Findings festhalten.
-- Fast-Lane (`solo schnell` / `gruppe schnell`) ist Sonderfall: erstes
-  Save-Angebot erst nach Mission 1, das ist korrekt.
+- Fast-Lane (`solo schnell` / `gruppe schnell`) ist Sonderfall: kein
+  Chargen-Sync, erstes Save-Angebot erst nach Mission 1.
 
-**Drift-Hinweise:**
+**Drift-Hinweise (alles unten ist ein Regress, in Findings festhalten):**
 
-- Wird Auto-Equip zwischen Mission und Mission im selben Chat angeboten,
-  ist das ein Regress auf die alte Mechanik (vor 2026-05). Reporten.
-- Sagt die KI-SL „du kannst direkt weiter ins Briefing", ohne das
-  Save-Angebot, ist das ein Verstoß gegen die
-  [Save-Taktung](../../core/sl-referenz.md#save-taktung-verbindlich).
+- KI-SL führt Übergang ohne Sync-Beat durch (z. B. springt direkt ins
+  Briefing nach Debrief, ohne Heimkehr-Beat + Save-Angebot).
+- KI-SL bietet im selben Chat nach `!save` einen weiteren Übergang an
+  (z. B. „okay, jetzt das Briefing für die nächste Mission?").
+- HQ-Hub-Router fehlt im neuen Chat nach Save-Load.
+- Auto-Equip zwischen Mission und Mission im selben Chat angeboten
+  (alter Pre-2026-05-Drift).
+- KI-SL sagt „du kannst direkt weiter ins Briefing" ohne Sync-Beat
+  (Verstoß gegen die
+  [Save-Taktung](../../core/sl-referenz.md#save-taktung-verbindlich)).
+- Sync-Beat ist nur ein nüchternes „!save?" ohne Lore-Verankerung
+  (Sync-Station/Schleuse/Arena-Lobby/Heimkehr-Andocken). Das ist ein
+  UX-Regress, kein harter Bug — aber reporten.
 
 Spieler-Doku: [Der Gameflow][gameflow-spieler]. SL-/Toolkit-Pflichten:
 [Save-Prompts im HQ-Flow][modul12].
 
 [gameflow-spieler]: ../../core/spieler-handbuch.md#gameflow-chat-wechsel
-[modul12]: ../../systems/gameflow/speicher-fortsetzung.md#save-prompts-im-hq-flow
+[modul12]: ../../systems/gameflow/speicher-fortsetzung.md#save-sync-handover

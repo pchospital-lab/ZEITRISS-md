@@ -30,7 +30,7 @@ tags: [system]
 > - **Laden:** JSON-Block (oder mehrere JSON-Blöcke) in den Chat einfügen; `Spiel laden` ist optional.
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
 > - **Neuer Chat pro Abschnitt** empfohlen: Chargen → Save → neuer Chat → HQ-Runde → Save → neuer Chat → Mission → HQ → Save → neuer Chat. Jeder Abschnitt startet frisch.
-> - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Zustand stabil. Deepsave möglich.`
+> - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Stand stabil. Deepsave möglich.`
 > - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 > - **Savebare HQ-Zustände:** Chargen-Ende (klassischer Pfad), Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
 > - **Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** springt direkt in den Briefingraum, kein Chargen-Save-Gate. Save-Angebot erst nach Mission 1.
@@ -49,25 +49,78 @@ ausgefüllter v6-Referenzstand mit Pflichtfeldern und Cross-Mode-Pfaden
 `arena.phase_strike_tax`) genutzt. Er dient ausschließlich der
 Import-Validierung; der kanonische Exportpfad bleibt v7.
 
-## Save-Prompts im HQ-Flow
+## Save-Sync-Handover an Abschnittsübergängen {#save-sync-handover}
 
-- **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
-  Missionen, Arenawarteschlangen oder Chronopolis.
-- **Verbindliche Trigger (chronologisch):**
-  - **Vor dem Briefing/Absprung** (Core, Rift, PVP-Arena): erst speichern, dann Briefing anfordern,
-    damit der Save im HQ startet und kein offener Missionsblock im JSON landet.
-  - **Nach jedem Debriefing**: sobald Belohnungen verbucht sind und die Crew wieder frei im HQ steht.
-  - **Nach längeren HQ-Freerun-Phasen**: sobald ein größerer Umbau/Shop/Clinic-/Werkstatt-Block
-    abgeschlossen ist (insbesondere vor einem Themenwechsel im Chat).
-  - **Vor Chronopolis-Schleuseneintritt**: Kodex fragt verpflichtend „Jetzt HQ-DeepSave erstellen?“,
-    erst danach startet die Schleuse.
-  - **Nach Chronopolis-Rückkehr ins HQ**: sofortiger Save-Prompt, damit Runs entkoppelt bleiben.
-- **Chronopolis & Arena:** Chronopolis zählt als City und blockiert Saves. PVP-Arena speichert
-  ebenfalls nicht - Save-Prompts greifen erst nach Rückkehr ins HQ bei
-  `queue_state=idle|completed`.
-- **Chat-Hygiene:** Empfohlen ist ein frischer Chat pro HQ→Mission→HQ-Zyklus. Leite nach dem Save
-  an: "Nächster Chat? JSON importieren, dann weiter." So bleibt der Deepsave die einzige Quelle der
-  Wahrheit.
+Jeder Abschnittsübergang (HQ ↔ Mission, HQ ↔ Chronopolis, HQ ↔ Arena, Chargen → HQ)
+folgt demselben **Save-Sync-Handover-Pattern**. Aus Spielersicht ist es kein Block,
+sondern ein **Sync-Beat** in der ITI-Lore: vor jedem Sprung sichert die Nullzeit-
+Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Chat
+öffnet im HQ-Hub-Router.
+
+- **Grundregel:** Save-Outputs nur, wenn die Crew frei im HQ ist; niemals in
+  Missionen, Arenawarteschlangen oder Chronopolis (siehe SaveGuards unten).
+- **Acht verbindliche Sync-Punkte mit Macro-Pin:**
+  1. **Charaktererschaffung → HQ-Hub** (Chargen-Save-Gate, klassischer Pfad —
+     bestehende Mechanik, kein neues Macro).
+  2. **HQ → Briefing (Core-Mission)**: Pre-Mission-Sync — Sprungvorbereitung.
+     Macro: `save_sync_pre_briefing()`.
+  3. **HQ → Briefing (Rift-Op)**: Pre-Rift-Sync — eigener Macro
+     `save_sync_pre_rift()` mit Rift-Lore-Beat („Rift-Koordinate aktiviert").
+     **Reihenfolge**: erst `chrono_can_launch_rift()`-Gate (HQ-Loc +
+     Episodenende), bei `false` höflicher Refusal-Beat (kein Sync); bei
+     `true` Sync-Beat → Save → Chat-Wechsel.
+  4. **HQ → Chronopolis-Schleuse**: Pre-Schleuse-Sync (atmosphärischer Beat,
+     Textbaustein unten). Macro: `save_sync_pre_chrono_gate()`.
+  5. **HQ → Arena-Match**: Pre-Match-Sync (Arena-Lobby-Beat). Macro:
+     `save_sync_pre_arena()`.
+  6. **Standard-Debrief abgeschlossen → freie HQ-Phase**: Post-Mission-Sync
+     (Heimkehr-Beat), nach Score-Screen + Level-Up-Wahl. Macro:
+     `save_sync_post_debrief()`.
+  7. **Chronopolis-Schleusen-Debrief → freie HQ-Phase**: Post-Chronopolis-
+     Sync. Macro: `save_sync_post_chrono()`.
+  8. **Arena-Match-Debrief → freie HQ-Phase**: Post-Match-Sync (nach
+     `banked_rewards`-Buchung). Macro: `save_sync_post_arena()`.
+- **Handover-Ablauf** (an jedem Sync-Punkt identisch):
+  1. **In-Fiction-Beat** (1–4 Sätze passend zum Übergangstyp — z. B.
+     Sync-Station, Heimkehr-Andocken, Schleusen-Verriegelung,
+     Arena-Lobby-Lock, Match-Recap-Andocken).
+  2. **Kodex-Save-Angebot** (genau einmal pro Übergang):
+     `Kodex: HQ-Stand stabil. Deepsave möglich.`
+     `Kodex: Sync vor Übergang empfohlen — !save für Stand sichern.`
+  3. **`!save`-Pflicht-Output** (vollständiger v7-JSON-Block, siehe
+     §HQ-JSON-Save unten).
+  4. **Verweis auf Chat-Wechsel**: `Kodex: Sync abgeschlossen. JSON in neuen
+     Chat einfügen, dort öffnet sich der HQ-Hub.`
+  5. **Im selben Chat ist nach Save kein Übergang mehr möglich**: Tippt der
+     Spieler trotzdem den Übergangsbefehl, antwortet die KI-SL mit einem
+     freundlichen Lore-Verweis (z. B.: „Sync ist abgeschlossen —
+     Sprungvorbereitung erfolgt im nächsten Chat. JSON einfügen, dann
+     öffnet sich der HQ-Hub."). Kein neues Briefing, kein Match-Start, keine
+     Schleuse im selben Chat nach Save.
+- **HQ-Hub-Router (Pflicht nach jedem Save-Load):** Der Router ist immer
+  da, auch wenn der Spieler direkt einen Übergang anfordern würde. Optionen
+  bleiben wie etabliert (Schnell-HQ / HQ manuell / Briefing / Chronopolis
+  falls frei / Rift-Board falls frei / Arena-Router falls relevant).
+  Details siehe `core/sl-referenz.md` §HQ-Load-Standard.
+- **Chronopolis & Arena (SaveGuards bleiben):** Chronopolis zählt als City
+  und blockiert Saves. PvP-Arena speichert ebenfalls nicht — Sync-Punkte
+  greifen erst nach Rückkehr ins HQ bei `queue_state=idle|completed`. Das
+  Save-Sync-Pattern unten blockiert *Übergänge*, nicht den Save selbst —
+  beide Mechaniken sind komplementär.
+- **Fast-Lane-Ausnahme:** `solo schnell` / `gruppe schnell` springt aus der
+  Charaktererschaffung direkt ins Briefing — kein Chargen-Sync, kein
+  HQ-Heimkehr-Beat. Erstes Save-Angebot kommt nach Mission 1, dort greift
+  der Standard-Debrief-Sync wieder regulär.
+- **Tod-Final-Save ist KEIN Sync-Punkt.** Heroischer Tod erzeugt einen
+  Final-Save (`"status":"deceased"`) als Sonderausnahme zur HQ-only-Regel
+  (siehe Tod-Handling im Masterprompt). Davor läuft **kein** Sync-Beat —
+  das filmische Ende ist die Lore-Verankerung. Sync-Macros werden bei
+  Tod-Final-Save nicht aufgerufen.
+- **Chat-Hygiene:** Pro Spielabschnitt ein frischer Chat mit DeepSave-Import.
+  Spieler-Devise im
+  [Spielerhandbuch](../../core/spieler-handbuch.md#gameflow-chat-wechsel),
+  technisches Fundament im Save-Schema und im
+  [Save-Taktung](../../core/sl-referenz.md#save-taktung-verbindlich).
 
 #### Textbaustein: Vor Chronopolis-Schleuseneintritt (Savepflicht als Stimmung)
 
@@ -1060,8 +1113,18 @@ Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit f�
 
 ### Pflichtbeats für Split/Rejoin
 
-- **Split-Beat:** Vor Branch-Wechsel kurze Inworld-Übergabe (wer wohin geht,
-  welcher Auftrag/Hinweis auf welchem Thread liegt).
+> **Wichtig — Splits gibt es ausschließlich an Sync-Punkten.** Ein Split
+> bedeutet: getrennte Saves, getrennte Chats, eigene Session-Anker. Das
+> passiert **zwischen** Abschnitten (z. B. nach Debrief: ein Spieler geht
+> nach Hause solo, der Rest spielt weiter). **Innerhalb einer Mission**
+> teilt sich die Crew nicht in separate Chats/Saves auf. Squad-Manöver in
+> einer Szene (einer klopft, andere in den Keller; eine Subgruppe schleicht,
+> die andere lenkt ab) sind erzählerische Parallel-Beats unter derselben
+> SL — derselbe Chat, dieselbe Mission, derselbe Save, dieselbe
+> Szenen-Zählung. Das ist Pen-and-Paper-Standard, kein Split.
+
+- **Split-Beat:** Vor Branch-Wechsel **am Sync-Punkt** kurze Inworld-Übergabe
+  (wer wohin geht, welcher Auftrag/Hinweis auf welchem Thread liegt).
 - **Rejoin-HQ-Beat:** Beim Zusammenführen kurze Rückkehrszene im HQ (wer
   ankommt, wer reagiert, welche Spur sofort sichtbar wird).
 - **Echo-Fortwirkung:** Mindestens ein importierter Eintrag aus

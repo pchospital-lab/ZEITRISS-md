@@ -743,7 +743,7 @@ Spieler-Devise im
 SL-/Toolkit-Pflichten im
 [Speicher- und Fortsetzungssystem][modul12-flow].
 
-[modul12-flow]: ../systems/gameflow/speicher-fortsetzung.md#save-prompts-im-hq-flow
+[modul12-flow]: ../systems/gameflow/speicher-fortsetzung.md#save-sync-handover
 
 **Gruppen-Spielstände:** Alle Charaktere stehen in `characters[]`. Der
 Session-Anker (erster Eintrag) setzt den Einstiegspunkt der Runde

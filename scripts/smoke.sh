@@ -35,6 +35,7 @@ python3 tools/lint_runtime.py
 python3 tools/lint_debrief_trace.py
 python3 -m scripts.lint_arena
 python3 -m scripts.lint_chronopolis
+python3 -m scripts.lint_save_sync
 python3 -m scripts.lint_doc_links
 python3 -m scripts.lint_umlauts
 python3 -m scripts.validate_index

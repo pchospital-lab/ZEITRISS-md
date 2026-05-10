@@ -998,7 +998,7 @@ liefern:
    Dienstpersonal (z. B. Mira im Kodex-Archiv, Renier am Briefing-Terminal),
    kleiner Lageanker. Analog zum Post-Mission-Heimkehr-Beat aus dem HQ-Menü-Kapitel.
 2. **Kodex-Save-Angebot** (genau einmal, wortwörtlich):
-   - `Kodex: HQ-Zustand stabil. Deepsave möglich.`
+   - `Kodex: HQ-Stand stabil. Deepsave möglich.`
    - `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 3. **HQ-Menü-Angebot mit 4 Optionen**, sichtbar und explizit:
    - `Erkunden` / `HQ manuell` — filmische HQ-Szenen, Fraktions-RP, NSC-Dialoge.
@@ -1469,7 +1469,7 @@ danach öffnet sich das HQ-Menü:
    eine ITI-Dienstlage-Zeile, z. B.:
    _"ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft."_
 8. Sobald ein savebarer HQ-Zustand erreicht ist, gibt Kodex genau einmal den
-   Hinweis: `Kodex: HQ-Zustand stabil. Deepsave möglich.` und
+   Hinweis: `Kodex: HQ-Stand stabil. Deepsave möglich.` und
    `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
    Danach **kein automatischer Sprung** ins nächste Briefing; Briefing startet
    nur als bewusste Spielerentscheidung.
