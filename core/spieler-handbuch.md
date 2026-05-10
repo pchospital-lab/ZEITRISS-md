@@ -223,11 +223,11 @@ und Arena sind getrennte Spielräume mit eigenem Chat — auch wenn man
 theoretisch mehrere hintereinander spielen könnte. Das ist Absicht.
 
 > **Begriffshinweis.** „HQ-Runde" meint hier den **großen Spielabschnitt**
-> mit eigenem Chat (Equip, Klinik, Werkstatt, RP, Bar). Der Begriff
-> „HQ-Runde" taucht auch im [Ressource-Turn](../gameplay/kampagnenstruktur.md#ressource-turn-im-hq)
-> als Synonym für einen kleinen **Drei-Schritt-Block** auf (Stash, Stress,
-> Forschung). Beides ist nicht dasselbe: Der Ressource-Turn ist ein
-> Erzähl-Beat **innerhalb** einer HQ-Runde im Sinne dieses Abschnitts.
+> mit eigenem Chat (Equip, Klinik, Werkstatt, RP, Bar). Innerhalb einer
+> HQ-Runde gibt es als optionalen Mini-Loop den
+> [Ressource-Turn](../gameplay/kampagnenstruktur.md#ressource-turn-im-hq)
+> — einen kompakten **Drei-Schritt-Block** (Stash, Stress, Forschung) als
+> Erzähl-Beat. HQ-Runde = Spielabschnitt; Ressource-Turn = Beat darin.
 
 ### Warum HQ-Runde immer ein eigener Abschnitt ist
 
