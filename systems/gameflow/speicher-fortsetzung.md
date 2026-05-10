@@ -1423,6 +1423,10 @@ pro Teilgruppe einen eigenen Save:
    `campaign.episode` wie der Core-Anker; beim Transfer zurück ins HQ wird
    missionsbedingter Stress auf den gespeicherten HQ-Basiswert zurückgesetzt.
 
+> **Konkrete Anwendung:** Eine narrative Variante des Core-Splits ist der
+> [Multi-Zeit-Sicht-Split](../../gameplay/kampagnenstruktur.md#multi-zeit-sicht-split)
+> — eine Mission aus zwei Zeit-Sichten desselben Arcs parallel erzählt.
+
 ### Kanonischer Merge (Core + Rift)
 
 Beim Rejoin im HQ werden die Branch-Saves wieder zusammengeführt:

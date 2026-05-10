@@ -868,6 +868,73 @@ Das Macro `redirect_same_slot()` verschiebt den Einsatzstart um mindestens sechs
 Stunden. Bewahren und Triggern führen zum gleichen Ergebnis; nur Stil und
 Paradoxon-Wert variieren.
 
+#### Multi-Zeit-Sicht-Split {#multi-zeit-sicht-split}
+
+Eine seltene, aber kraftvolle Erzähltechnik: Eine Mission im selben Arc
+wird **aus zwei Zeit-Sichten parallel erzählt**. Beispiel: Nach Mission 3
+einer Berlin-Episode bietet die Aufklärung zwei Hebel — eine Subgruppe
+greift in **2049** ein, eine andere in **2016**. Beide Threads gehören
+zur selben Story-Linie (z. B. der Wissenschaftler in unterschiedlichen
+Lebensphasen), nicht zu zwei separaten Episoden.
+
+**Wann gilt das?**
+
+- Beide Threads liegen im selben Arc/Hotspot (Berlin/Wissenschaftler X,
+  nicht Berlin 1943 ↔ Babylon 600 v. Chr.).
+- **Arc-Lock-konform:** Aus Arc-Sicht ist das **ein** chronologischer
+  Rücksprung (eine Zeit-Sicht ist die Vorgeschichte der anderen), nicht
+  zwei unabhängige Sprünge. Die „ein einzelner Rücksprung pro Arc"-Regel
+  bleibt gewahrt.
+- Selbst-Begegnung bleibt durch `redirect_same_slot()` ausgeschlossen
+  (Δt ≥ 6h). Bei Multi-Zeit-Sicht ist der Abstand definitionsgemäß
+  groß genug.
+- Bei zwei *unabhängigen* Stories oder Epochenwechsel handelt es sich
+  um einen Arc-Sprung, **nicht** um Multi-Zeit-Sicht.
+
+**Mechanik (Schema deckt's vollständig — siehe `systems/gameflow/speicher-fortsetzung.md` §Kanonischer Split-Standard):**
+
+- Beide Subgruppen erhalten denselben `continuity.split.family_id` und
+  dieselbe `expected_threads`-Liste (z. B. `["zeit_2049", "zeit_2016"]`).
+- Sync-Punkt nach Mission 3 (Standard-Debrief). Beide Subgruppen
+  speichern mit `family_id`-Tag, gehen in eigene Chats, spielen ihren
+  Thread bis zum Mission-Ziel.
+- Beim Rejoin: Saves zusammenführen, `convergence_ready=true` wenn
+  beide `resolved_threads` voll sind.
+- **Mission-Counter:** Beide Threads zählen zusammen als **eine Mission
+  im Episoden-Counter** — sie sind narrativ eine Mission, nur aus zwei
+  Sichten erzählt. `logs.notes[]` und `convergence_tags[]` halten beide
+  Stränge fest.
+- **Px-Behandlung:** Px folgt dem Standard-Split-Standard — wird beim
+  Split kopiert, beim Merge nach Priorität konsolidiert
+  (`consumed > pending_reset > stable`). Kein Doppel-Gewinn durch zwei
+  Threads.
+- **Boss-Beats (Mission 5/10):** Bei Multi-Zeit-Sicht erscheint der
+  Mini-/Episoden-Boss in **einer** Zeit-Sicht (kanonisch in der
+  Mission-Hauptzeit), nicht in beiden. Die andere Sicht trägt
+  Vorgeschichte oder Konsequenz, nicht den Boss-Encounter.
+
+**Erzählerische Pflichten (KI-SL):**
+
+- **Ankündigung:** Vor dem Split eine kurze Inworld-Übergabe ("Was wisst
+  ihr aus 2016, was die anderen in 2049 niemals wissen können?").
+- **Pacing-Stil frei:** Threads können abwechselnd erzählt werden
+  (Cross-Cut) oder erst Thread A bis Cliffhanger, dann Thread B
+  (Sequenz). Entscheidung der SL nach Tisch.
+- **Echo-Pflicht zwischen Threads** (zusätzlich zur Standard-Echo-Pflicht
+  aus Modul 12, nicht ersetzend): Thread A produziert eine konkrete
+  Spur, die in Thread B auftauchen *kann* (z. B. „der Wissenschaftler
+  trägt 2049 immer noch die Uhr aus 2016"). Mindestens ein Echo-Eintrag
+  pro Thread, der beim Merge sichtbar wird — das ist der MMO-Effekt.
+- **Selbst-Begegnungs-Sperre bleibt aktiv:** `redirect_same_slot()`
+  verhindert weiterhin Selbstkontakt unter 6h, auch wenn die Threads
+  zeitlich konvergieren würden.
+
+**Abgrenzung gegen Mid-Mission-Split:** Multi-Zeit-Sicht passiert
+**zwischen** Missionen (an einem Sync-Punkt), niemals innerhalb einer
+laufenden Mission. Squad-Manöver in einer Szene (einer klopft, andere
+in den Keller) bleiben Pen-and-Paper-Standard ohne technischen Split
+(siehe [Modul 12 §Pflichtbeats für Split/Rejoin](../systems/gameflow/speicher-fortsetzung.md#save-sync-handover)).
+
 #### Rift-Side-Ops
 
 Eine Rift-Op umfasst eine **vollständige Mission**. Sie folgt dem

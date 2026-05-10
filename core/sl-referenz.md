@@ -362,6 +362,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Reaktion/Spur).
   **Echo-Pflicht:** Mindestens ein importierter Echo-Eintrag muss in den
   nächsten zwei Sitzungsblöcken konkret wieder auftauchen.
+  **Narrative Variante:** [Multi-Zeit-Sicht-Split](../gameplay/kampagnenstruktur.md#multi-zeit-sicht-split)
+  — eine Mission aus zwei Zeit-Sichten desselben Arcs parallel erzählt
+  (zählt als eine Mission im Episoden-Counter).
 - **Mixed-Split-Präzedenz (ohne Branch-Protokoll):** Bei Mischpfaden
   (Rift + PvP + Chronopolis + Abort) wird **kein** zusätzlicher
   Kampagnenfortschritt kanonisiert. Merge läuft deterministisch als
