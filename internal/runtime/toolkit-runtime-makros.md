@@ -1468,6 +1468,102 @@ HQ-Overlay).
 ⟪ StartMission(total=14, type='rift', seed_id=seed_id, epoch=ep_use, objective='Resolve Rift') ⟫
 ⟨%- endmacro %⟩
 
+⟨# LINT:SAVE_SYNC_HANDOVER #⟩
+⟨# Save-Sync-Handover-Module: einheitliches Lore-Beat-Pattern für alle acht
+   Abschnittsübergänge. Jedes Übergangs-Macro ruft save_sync_offer() mit dem
+   passenden Übergangstyp; das Macro setzt den HUD-Beat und gibt die
+   Kodex-Save-Strings aus. Save-Pflicht-Output bleibt Masterprompt-Logik.
+   Verbot 'kein Übergang im selben Chat nach Save' wird in Masterprompt
+   §Save-Sync-Handover erzwungen. SSOT in
+   systems/gameflow/speicher-fortsetzung.md §Save-Sync-Handover.
+
+   Aufruf-Pin (KI-SL-Verhalten):
+   - Vor StartMission(type='core'|'rift') und vor arena_start()/chrono_enter():
+     KI-SL ruft das passende save_sync_pre_*-Macro AUS DEM HQ heraus, vor dem
+     Übergangsbefehl. Bei Rift zusätzlich der bestehende
+     chrono_can_launch_rift()-Gate-Check VOR dem Sync.
+   - Nach Debrief-Tür-auf (Standard/Chronopolis/Arena) ruft die KI-SL beim
+     Eintritt in die freie HQ-Phase das passende save_sync_post_*-Macro,
+     bevor der nächste Spielerwunsch (Briefing/Erkunden/Arena/Chrono) bedient
+     wird.
+   - Tod-Final-Save (heroischer Tod) ist KEIN Sync-Punkt — kein Sync-Beat
+     vor Final-Save, das filmische Ende ist die Lore-Verankerung.
+#⟩
+
+⟨% macro save_sync_offer(transition_type) -%⟩
+⟪ hud_tag('SYNC · ' ~ transition_type) ⟫
+Kodex: HQ-Stand stabil. Deepsave möglich.
+Kodex: Sync vor Übergang empfohlen - !save für Stand sichern.
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_PRE_BRIEFING #⟩
+⟨% macro save_sync_pre_briefing() -%⟩
+⟪ hud_tag('Sprungvorbereitung · Pre-Mission-Sync') ⟫
+Sync-Station blinkt. Vor dem Sprung wird gesichert - ITI-Standardprotokoll.
+⟪ save_sync_offer('pre_briefing') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_PRE_RIFT #⟩
+⟨% macro save_sync_pre_rift() -%⟩
+⟪ hud_tag('Rift-Koordinate aktiviert · Pre-Rift-Sync') ⟫
+Sync-Station blinkt. Rift-Koordinate liegt an, Sprungvorbereitung läuft - letzter Sync vor dem Rift-Sprung.
+⟪ save_sync_offer('pre_rift') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_PRE_CHRONO_GATE #⟩
+⟨% macro save_sync_pre_chrono_gate() -%⟩
+⟪ hud_tag('Schleusenverriegelung · Pre-Chronopolis-Sync') ⟫
+Die Schleuse verriegelt. Rotes Statuslicht läuft über die Türkanten - letzter Sync vor der Stadt.
+⟪ save_sync_offer('pre_chronopolis') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_PRE_ARENA #⟩
+⟨% macro save_sync_pre_arena() -%⟩
+⟪ hud_tag('Arena-Lobby · Pre-Match-Sync') ⟫
+Match-Lock kommt. Arena-Lobby fordert Sync vor Eintritt in den Ring.
+⟪ save_sync_offer('pre_arena') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_POST_DEBRIEF #⟩
+⟨% macro save_sync_post_debrief() -%⟩
+⟪ hud_tag('Heimkehr-Andocken · Post-Mission-Sync') ⟫
+Nullzeit-Andocken. Stand wird in die ITI-Datenbank übertragen.
+⟪ save_sync_offer('post_debrief') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_POST_CHRONO #⟩
+⟨% macro save_sync_post_chrono() -%⟩
+⟪ hud_tag('Schleuse entriegelt · Post-Chronopolis-Sync') ⟫
+Schleuse entriegelt. Letzter Sync nach Stadtende - Run wird entkoppelt.
+⟪ save_sync_offer('post_chronopolis') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:SAVE_SYNC_POST_ARENA #⟩
+⟨% macro save_sync_post_arena() -%⟩
+⟪ hud_tag('Match-Recap eingehängt · Post-Match-Sync') ⟫
+Match-Recap eingehängt, banked_rewards verbucht. Sync abschließen vor HQ-Rückkehr.
+⟪ save_sync_offer('post_arena') ⟫
+⟨%- endmacro %⟩
+
+⟨# LINT:HQ_HUB_ROUTER #⟩
+⟨# HQ-Hub-Router: ist nach jedem Save-Load Pflicht und IMMER SICHTBAR
+   (mindestens einzeilig). Auch wenn der Spieler-Opener bereits einen
+   konkreten Übergang nennt, wird der Router gerendert; danach kann die
+   KI-SL die Spieler-Wahl in einem Folge-Beat sofort umsetzen. 'Transparent
+   durchspringen' heißt: Router sichtbar lassen, Spielerwunsch direkt im
+   nächsten Beat ausführen - nicht: Router unsichtbar machen. #⟩
+⟨% macro hq_hub_router_show() -%⟩
+⟪ hud_tag('HQ-Hub · Wahlpunkt') ⟫
+HQ-Hub. Wohin?
+- Briefing anfordern (neue Mission)
+- HQ erkunden (Equip, Klinik, Werkstatt, Bar, Archiv)
+- Schnell-HQ (kompakter Service-Stop)
+- Auto-HQ (Auto-Abwicklung der HQ-Pflichtschritte)
+- Chronopolis-Schleuse ⟪ '(verfügbar)' if (character.lvl or 1) >= 10 else '(ab Lvl 10)' ⟫
+- Rift-Board ⟪ '(verfügbar)' if campaign.episode_completed else '(nach Episodenende)' ⟫
+- Arena-Router (PvP)
+⟨%- endmacro %⟩
+
 ⟨# LINT:CHRONO_SERVICES #⟩
 ⟨% macro chrono_hud(phase="") -%⟩
 ⟨% set segs = [

@@ -344,12 +344,22 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   (aktueller Kampagnenrahmen). Core-Parallelpfade sind kanonisch, wenn
   `continuity.split.family_id` gesetzt ist; Konvergenz greift bei
   `resolved_threads == expected_threads` (`convergence_ready=true`).
-  Mid-Episode-Splits (z. B. 5er-Team trennt sich in 3/2) bleiben spielbar: jede
-  Gruppe hat ihren eigenen Session-Anker. Beim Rejoin bleiben Episode/Mission/Px
-  am aktiven Anker, Joiner bringen persönliche Wahrheit + Kontinuitäts-Echos mit.
-  Für Px gilt weiterhin `consumed > pending_reset > stable`.
-  **Szenenpflicht:** Split als kurzer Split-Beat (Übergabe je Thread), Rejoin
-  als kurzer Rejoin-HQ-Beat (Ankunft + unmittelbare Reaktion/Spur).
+  **Splits passieren ausschließlich an Sync-Punkten** (zwischen
+  Abschnitten — z. B. nach Debrief geht ein Spieler nach Hause solo, der
+  Rest spielt im Gruppen-Chat weiter). Mid-Episode-Splits zwischen
+  Missionen (5er-Team trennt sich in 3/2 für die nächste Mission) bleiben
+  spielbar: jede Gruppe hat ihren eigenen Session-Anker. Beim Rejoin
+  bleiben Episode/Mission/Px am aktiven Anker, Joiner bringen persönliche
+  Wahrheit + Kontinuitäts-Echos mit. Für Px gilt weiterhin
+  `consumed > pending_reset > stable`.
+  **Squad-Manöver innerhalb einer Mission sind KEIN Split:** Wenn die
+  Crew in einer Szene räumlich getrennt operiert (einer klopft, andere
+  in den Keller), bleibt das derselbe Chat, dieselbe Mission, derselbe
+  Save, dieselbe Szenen-Zählung. KI-SL erzählt das parallel-narrativ
+  (Pen-and-Paper-Standard), kein Mid-Mission-Save, kein `family_id`-Split.
+  **Szenenpflicht:** Split als kurzer Split-Beat am Sync-Punkt (Übergabe
+  je Thread), Rejoin als kurzer Rejoin-HQ-Beat (Ankunft + unmittelbare
+  Reaktion/Spur).
   **Echo-Pflicht:** Mindestens ein importierter Echo-Eintrag muss in den
   nächsten zwei Sitzungsblöcken konkret wieder auftauchen.
 - **Mixed-Split-Präzedenz (ohne Branch-Protokoll):** Bei Mischpfaden
@@ -529,26 +539,55 @@ für wirtschaftliche Details.
 
 ## Save-Taktung (verbindlich)
 
-Kodex setzt Save-Prompts im HQ an festen Checkpoints:
+Save-Sync-Handover an Abschnittsübergängen — Kodex blockiert den Übergang,
+bis der Sync durch ist. Aus Spielersicht ein Lore-Beat, technisch ein Gate.
 
-1. vor jedem Briefing/Absprung,
-2. nach jedem Debriefing,
-3. nach längeren HQ-Freerun-Phasen (Shop/Clinic/Werkstatt) — also am Ende
-   einer **HQ-Runde** als eigenständiger Spielabschnitt,
-4. vor Chronopolis-Schleuseneintritt,
-5. nach Chronopolis-Rückkehr ins HQ.
+Acht verbindliche Sync-Punkte mit Macro-Pin:
+
+1. Charaktererschaffung → HQ-Hub (Chargen-Save-Gate, klassischer Pfad —
+   bestehende Mechanik),
+2. HQ → Briefing (Core-Mission): `save_sync_pre_briefing()`,
+3. HQ → Briefing (Rift-Op): `save_sync_pre_rift()` — Reihenfolge: erst
+   `chrono_can_launch_rift()`-Gate (HQ-Loc + Episodenende), bei `false`
+   höflicher Refusal-Beat ohne Sync; bei `true` Sync-Beat → Save →
+   Chat-Wechsel,
+4. HQ → Chronopolis-Schleuse: `save_sync_pre_chrono_gate()`
+   (atmosphärischer Beat),
+5. HQ → Arena-Match: `save_sync_pre_arena()` (Arena-Lobby-Beat),
+6. Standard-Debrief abgeschlossen → freie HQ-Phase:
+   `save_sync_post_debrief()` (Heimkehr-Beat, nach Score-Screen +
+   Level-Up-Wahl),
+7. Chronopolis-Schleusen-Debrief → freie HQ-Phase:
+   `save_sync_post_chrono()`,
+8. Arena-Match-Debrief → freie HQ-Phase: `save_sync_post_arena()` (nach
+   `banked_rewards`-Buchung).
+
+**Tod-Final-Save ist KEIN Sync-Punkt** — heroischer Tod erzeugt einen
+Final-Save (`"status":"deceased"`) ohne vorgeschalteten Sync-Beat
+(filmisches Ende = Lore-Verankerung).
+
+**Handover-Ablauf an jedem Sync-Punkt identisch:** In-Fiction-Beat → Kodex-
+Save-Angebot → `!save`-JSON → Chat-Wechsel-Verweis. Im selben Chat ist nach
+Save kein Übergang mehr möglich — Tippt der Spieler trotzdem den
+Übergangsbefehl, kommt ein freundlicher Lore-Verweis auf den nächsten Chat
+mit HQ-Hub-Router. Vollständige SSOT-Doku in
+[Modul 12 § Save-Sync-Handover][modul12].
 
 Für Stabilität gilt: pro **Spielabschnitt** ein frischer Chat mit
 DeepSave-Import. Abschnitte sind: Charaktererschaffung, HQ-Runde, Mission
 (Core/Rift), Chronopolis-Lauf, Arena-Match. Eine HQ-Runde (Equip-Wechsel,
 Klinik, Werkstatt, RP, Bar) gehört nie in denselben Chat wie eine Mission;
-der dazwischenliegende Save bildet Equipment, Implantate, Wallet und
+der dazwischenliegende Sync bildet Equipment, Implantate, Wallet und
 ITI-Ruf sauber für den Mission-Chat ab. Spieler-Devise im
-[Spieler-Handbuch][gameflow-spieler]; technische Save-Pflichten siehe
-[Modul 12][modul12].
+[Spieler-Handbuch][gameflow-spieler].
+
+**Fast-Lane-Ausnahme:** `solo schnell` / `gruppe schnell` springt aus der
+Charaktererschaffung direkt ins Briefing — kein Chargen-Sync. Erstes
+Save-Angebot kommt nach Mission 1, dort greift der Standard-Debrief-Sync
+wieder regulär.
 
 [gameflow-spieler]: spieler-handbuch.md#gameflow-chat-wechsel
-[modul12]: ../systems/gameflow/speicher-fortsetzung.md#save-prompts-im-hq-flow
+[modul12]: ../systems/gameflow/speicher-fortsetzung.md#save-sync-handover
 
 ## Gruppen-Todesentscheid (Core/Rift/Chronopolis)
 
@@ -977,7 +1016,7 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
    HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
    Briefing. Kodex bietet stattdessen einmal `!save` an und gibt nach Export den
-   Hinweis: `HQ-Zustand stabil. Deepsave möglich. Für sauberen
+   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für sauberen
 Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**

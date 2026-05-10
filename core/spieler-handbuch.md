@@ -288,17 +288,32 @@ Regelzugriff und einen klaren Rhythmus.
 
 ### Die Faustregel für jeden Abschnittswechsel
 
-1. **Abschnitt sauber zu Ende spielen.** Mission bis zum Debrief, HQ-Runde
-   bis zur Save-Bereitschaft, Chargen bis zum Heimkehrbeat.
-2. **`!save` im HQ.** Der Kodex erzeugt den vollständigen v7-JSON-Block.
+Du musst nichts auswendig lernen — der Kodex begleitet dich. An jedem
+Abschnittsübergang läuft derselbe **Sync-Beat**: kurze ITI-Lore-Sequenz,
+Save-Angebot, dann Chat-Wechsel zum HQ-Hub. Du kannst nichts vergessen,
+weil der Kodex den Sync vor jedem Übergang aktiv anbietet.
+
+1. **Abschnitt sauber zu Ende spielen.** Mission bis zum Debrief,
+   HQ-Runde bis zur Save-Bereitschaft, Chargen bis zum Heimkehrbeat.
+2. **Sync-Beat & `!save`.** Der Kodex meldet sich von selbst —
+   Sync-Station, Heimkehr-Andocken, Schleusen-Verriegelung,
+   Arena-Lobby-Lock je nach Übergang. Tippe `!save`, der Kodex erzeugt den
+   vollständigen v7-JSON-Block.
 3. **JSON kopieren.** Sicher ablegen, bei Gruppen mit den anderen Spielern
    teilen.
-4. **Neuer Chat.** Frisches Fenster, Preset wählen.
+4. **Neuer Chat.** Frisches Fenster, Preset wählen. Im selben Chat ist
+   nach Save kein Übergang mehr möglich — der Kodex verweist freundlich auf
+   den nächsten Chat.
 5. **Save laden.** JSON einfügen. `Spiel laden` davor zu schicken ist
    optional — bei Multi-Save in einer Nachricht entfällt es ohnehin. Bei
    Gruppen stapelt ihr eure Saves nacheinander; der erste setzt den
    Session-Anker.
-6. **Nächster Abschnitt.** HQ-Load-Router oder Briefing-Anforderung.
+6. **HQ-Hub-Router.** Nach jedem Save-Load öffnet sich automatisch der
+   HQ-Hub mit allen Wahl-Optionen (Briefing anfordern, HQ erkunden,
+   Schnell-HQ, Chronopolis-Schleuse falls Lvl 10+, Rift-Board falls
+   Episodenende, Arena-Router). Du entscheidest frisch, was als nächstes
+   kommt — auch „doch nochmal HQ, ich hab was vergessen" ist eine
+   gültige Wahl.
 
 ### Wann darf man im selben Chat bleiben?
 
@@ -306,6 +321,15 @@ Regelzugriff und einen klaren Rhythmus.
 Chat — Briefing, Szenen, Debrief — auch wenn das mehrere Stunden dauert. Nur
 bei einem **Abschnittswechsel** (HQ ↔ Mission, Mission ↔ HQ, HQ ↔
 Chronopolis, HQ ↔ Arena) gilt die Chat-Wechsel-Regel.
+
+**Squad-Manöver innerhalb einer Mission sind kein Split.** Wenn ihr euch in
+einer Szene aufteilt (einer klopft an die Tür, andere schleichen in den
+Keller; eine Subgruppe lenkt ab, die andere infiltriert), bleibt das alles
+**im selben Chat**. Die KI-SL erzählt das parallel — wie am echten
+Spieltisch, wo die SL zwischen den Spielern hin- und herwechselt. Kein
+neuer Save, kein neuer Chat, kein technischer Split. Splits mit getrennten
+Saves passieren nur an Abschnittsübergängen (z. B. nach Debrief geht einer
+nach Hause solo weiter, der Rest spielt als Gruppe weiter).
 
 Ausnahme: **Fast-Lane** (`solo schnell` / `gruppe schnell`). Diese Variante
 springt aus der Charaktererschaffung direkt ins Briefing; das erste
@@ -662,7 +686,7 @@ Siehe auch:
 > **Nach vollständigem Charakterbogen:** HQ-Heimkehr-Beat (2–4 Sätze Quarzatrium,
 > sichtbares Dienstpersonal), dann **Chargen-Save-Gate**:
 >
-> - `Kodex: HQ-Zustand stabil. Deepsave möglich.`
+> - `Kodex: HQ-Stand stabil. Deepsave möglich.`
 > - `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 > - Menü-Optionen: `Erkunden` / `Schnell-HQ` / `Auto-HQ` / **`!save`**
 >

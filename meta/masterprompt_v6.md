@@ -328,7 +328,7 @@ danach weiter plausibel wirkt.
     - **Typ B — Welt-State (Pflicht):** Jeder aktivierte Timer, Trigger, Plot-Flag, Welt-Event. Beispiele:
       `` `Kodex: Köder platziert. Passive Emission aktiv.` ``
       `` `Kodex: Gate-Window geöffnet. Exfil-Timer 90 Sek.` ``
-      `` `Kodex: HQ-Zustand stabil. Deepsave möglich.` ``
+      `` `Kodex: HQ-Stand stabil. Deepsave möglich.` ``
     - **Typ C — Szenen-Anker (Pflicht):** Bei jedem Szenen-Start genau eine Kodex-Zeile mit Szenen-Nummer, Ort und
       Ingame-Zeit. Sorgt dafür, dass der SC-Counter auch in reinen Narrativphasen (ohne HUD-Toast) verlustfrei
       hochläuft und im Save-Stream rekonstruierbar bleibt. Beispiel:
@@ -554,8 +554,10 @@ vor jedem Briefing:
 
 1. **Pflicht-Heimkehr-Beat** (2–4 Sätze Nullzeit/HQ-Ankunft, sichtbares
    Dienstpersonal, kleiner Lageanker — analog zu `sl-referenz.md` §HQ-Menü).
-2. **Kodex-Save-Angebot** (genau einmal):
-   `Kodex: HQ-Zustand stabil. Deepsave möglich.`
+2. **Kodex-Save-Angebot** (genau einmal — identisch mit Sync-Offer-Wording an
+   den anderen sieben Sync-Punkten):
+   `Kodex: HQ-Stand stabil. Deepsave möglich.`
+   `Kodex: Sync vor Übergang empfohlen — !save für Stand sichern.`
    `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
 3. **HQ-Menü-Angebot** (4 Optionen, mit expliziter Save-Option):
    - `Erkunden` (Manuell-HQ, filmische HQ-Szenen)
@@ -613,6 +615,35 @@ Auto-HQ → Save-Angebot.
 ### Speichern
 
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
+- **Save-Sync-Handover an Abschnittsübergängen (verbindlich).** Jeder
+  Abschnittsübergang (HQ ↔ Mission/Rift, HQ ↔ Chronopolis, HQ ↔ Arena,
+  Chargen → HQ) folgt einem einheitlichen Sync-Handover-Pattern: kurzer
+  In-Fiction-Beat → Kodex-Save-Angebot → `!save`-JSON → Chat-Wechsel-
+  Verweis → HQ-Hub-Router im neuen Chat. Aus Spielersicht ein Lore-Beat,
+  technisch ein Gate. **SSOT** in
+  `systems/gameflow/speicher-fortsetzung.md` §Save-Sync-Handover (8
+  Sync-Punkte mit Macro-Pin, In-Fiction-Beats, Eskalationsstufen,
+  Tod-Final-Save-Ausnahme, Fast-Lane-Ausnahme).
+- **Hard-Rules an Sync-Punkten:**
+  - **Im selben Chat ist nach `!save` kein Übergang mehr möglich.** Tippt
+    der Spieler trotzdem „Briefing"/„Arena"/„Chronopolis betreten"/„weiter
+    ins HQ", antwortet die KI-SL mit einem freundlichen Lore-Verweis auf
+    den nächsten Chat. Verstoß = harter Regelbruch.
+  - **HQ-Hub-Router ist Pflicht** nach jedem Save-Load und bleibt
+    mindestens einzeilig sichtbar — auch wenn der Spieler-Opener einen
+    konkreten Übergang nennt.
+  - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (HQ +
+    Episodenende), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
+    `true` Sync-Beat → `!save` → Chat-Wechsel.
+  - **Tod-Final-Save ist KEIN Sync-Punkt** — kein Sync-Beat vor Final-Save,
+    das filmische Ende ist die Lore-Verankerung.
+  - **Squad-Manöver innerhalb einer Mission sind KEIN Split:** Wenn die
+    Crew sich in einer Szene räumlich teilt (einer klopft an die Tür,
+    andere in den Keller), bleibt das **derselbe Chat, dieselbe Mission,
+    derselbe Save, dieselbe Szenen-Zählung**. KI-SL erzählt das
+    parallel-narrativ (Pen-and-Paper-Standard), kein Chat-Wechsel, kein
+    Mid-Mission-Save, kein `family_id`-Split. Splits mit getrennten Saves
+    gibt es ausschließlich an Sync-Punkten (zwischen Abschnitten).
 - **HQ-Save ist Pflicht-Output, nicht optional.** Wenn der Spieler `!save` oder `speichern` im HQ-Kernbereich tippt
   **und** die HQ-Save-Bedingungen erfüllt sind (siehe Bedingungsliste unten), **MUSS** der vollständige v7-JSON-Block
   ausgegeben werden — keine Rückfragen, kein "ich verweise auf das nächste HQ" (es **ist** das HQ), keine Verzögerung,
