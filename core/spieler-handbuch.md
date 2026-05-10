@@ -171,14 +171,145 @@ Die ersten Schritte in unter zwei Minuten:
 7. **Paradoxon** — steigt nach jeder Mission (TEMP-Staffel). Bei Px 5 → `ClusterCreate()` →
    1-2 Rift-Seeds. Das ist der Belohnungsmoment.
 8. **Debrief** — nach jeder Mission automatisch: Score-Screen mit CU, XP, Level-Up,
-   **ITI-Ruf** + Lizenz-Tier. Danach HQ (Heilen, Shoppen, Speichern).
-9. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
+   **ITI-Ruf** + Lizenz-Tier. Danach Übergang ins HQ.
+9. **HQ-Runde** — eigener Spielabschnitt zwischen Debrief und nächster Mission:
+   Equipment ändern, Klinik/Operation, Werkstatt, Bar/Archiv, Roleplay, Gerüchte
+   ziehen. Dauer offen — kann zwei Sätze sein, kann eine halbe Stunde Spielzeit sein.
+10. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
+11. **Neuer Chat** — nach jedem Save in einen frischen Chat, Save laden, nächster Abschnitt.
+    So bleibt der Kontext klein und die Regeln greifen sauber.
 
 Weiterführend:
 
+- [Der Gameflow: Chat-Wechsel als Spielrhythmus](#gameflow-chat-wechsel)
 - [Core-Briefing-Baukasten & Mission-Generatoren](../gameplay/kreative-generatoren-missionen.md)
 - [Cinematic Start](../systems/gameflow/cinematic-start.md)
 - [Briefing und Debrief sind HQ-Phasen](../gameplay/kampagnenstruktur.md#briefing-debrief-szenen-count)
+
+## Der Gameflow: Chat-Wechsel als Spielrhythmus {#gameflow-chat-wechsel}
+
+> **Das ist die wichtigste Regel im Spielbetrieb — wichtiger als jede Würfelregel.**
+> Wer den Rhythmus einmal drin hat, spielt ZEITRISS, wie es gedacht ist:
+> als Serie sauber abgeschlossener Abschnitte, jeder mit eigenem Save.
+
+### Die Devise
+
+ZEITRISS spielt sich **abschnittsweise**, nicht in einem Endlos-Chat. Jeder
+Abschnitt ist ein eigener Spielraum mit einem klaren Anfang und einem klaren
+Ende. Am Ende jedes Abschnitts erzeugt der Kodex einen frischen Save (`!save`),
+und ihr öffnet einen **neuen Chat** für den nächsten Abschnitt — dort wird der
+Save geladen, und es geht weiter.
+
+```text
+Chargen → !save → neuer Chat → Save laden
+       → HQ-Runde → !save → neuer Chat → Save laden
+       → Briefing + Mission + Debrief → !save → neuer Chat → Save laden
+       → HQ-Runde → !save → neuer Chat → Save laden
+       → Briefing + Mission + Debrief → !save → …
+```
+
+### Die fünf Abschnittstypen
+
+| Abschnitt | Inhalt | Endet mit |
+| --- | --- | --- |
+| **Charaktererschaffung** | Origin, Werte, Echo-Talent, Heimkehrbeat im HQ. | Chargen-Save-Gate (`!save`). |
+| **HQ-Runde** | Equipment ändern, Klinik/Operation, Werkstatt-Upgrades, Bar/Archiv, Roleplay, Gerüchte ziehen, Fraktionsbeats, Split/Merge-Entscheidungen. | `!save` im freien HQ. |
+| **Mission** (Core/Rift) | Briefing → Infiltration → Konflikt → Exfiltration → Debrief. Briefing und Debrief sind HQ-Phasen, die 12/14 Szenen liegen dazwischen. | Debrief-Tür auf, `!save` im HQ. |
+| **Chronopolis-Lauf** | Schleuse, Stadtinfiltration der gescheiterten Zeitlinie, Rückkehr. | Schleusen-Debrief abgeschlossen, `!save` im HQ. |
+| **Arena-Match** | Match-Setup → Kampf → Match-Debrief. | Match-Debrief abgeschlossen, `!save` im HQ. |
+
+Die Abschnitte sind **nicht vermischbar**. HQ-Runde, Mission, Chronopolis
+und Arena sind getrennte Spielräume mit eigenem Chat — auch wenn man
+theoretisch mehrere hintereinander spielen könnte. Das ist Absicht.
+
+> **Begriffshinweis.** „HQ-Runde" meint hier den **großen Spielabschnitt**
+> mit eigenem Chat (Equip, Klinik, Werkstatt, RP, Bar). Der Begriff
+> „HQ-Runde" taucht auch im [Ressource-Turn](../gameplay/kampagnenstruktur.md#ressource-turn-im-hq)
+> als Synonym für einen kleinen **Drei-Schritt-Block** auf (Stash, Stress,
+> Forschung). Beides ist nicht dasselbe: Der Ressource-Turn ist ein
+> Erzähl-Beat **innerhalb** einer HQ-Runde im Sinne dieses Abschnitts.
+
+### Warum HQ-Runde immer ein eigener Abschnitt ist
+
+Frühere Versionen behandelten das HQ als kurzen Service-Stop nach Missionen —
+Auto-Equip durch Kodex, dann direkt die nächste Mission. Das ist **vorbei**.
+Die HQ-Runde ist heute ein vollwertiger Spielabschnitt:
+
+- **Du entscheidest, was du tust.** Equipment ändern, dich operieren lassen,
+  in die Bar gehen und reden, einen Kontakt anrufen, Gerüchte ziehen, deinen
+  Charakter feinschleifen. Niemand drängt dich zur nächsten Mission.
+- **Es frisst Kontext.** Equipment-Wechsel, Klinik-Dialoge, Werkstatt-Upgrades
+  und Roleplay produzieren viele Tokens. Wenn das im selben Chat wie die
+  nächste Mission läuft, hat die KI-Spielleitung am Ende der Mission keine
+  Regelkapazität mehr. Eigener Chat heißt: voller Regelzugriff für jeden
+  Abschnitt.
+- **Der Save bildet den HQ-Stand sauber ab.** Equipment, Implantate, Wallet,
+  ITI-Ruf, Fraktionsstand — alles, was du in der HQ-Runde geändert hast,
+  steht im JSON. Nimmst du das in den Mission-Chat mit, startet die Mission
+  mit dem korrekten Stand. Das ist die Garantie, dass nichts „aus dem Ruder
+  läuft".
+
+### Warum nach jeder Mission ebenfalls neuer Chat
+
+Dieselbe Logik in die andere Richtung: Eine Mission produziert dichten
+taktischen Kontext (Szenen, Würfe, HUD-Events, NPC-Dialoge). Diesen Kontext
+brauchst du in der nächsten HQ-Runde nicht mehr — die Konsequenzen stehen
+bereits im Save (CU, Stress, Loot, Logs, Story-Flags). Frischer Chat heißt:
+voller Regelzugriff für die HQ-Runde, ohne dass alte Mission-Tokens den Platz
+blockieren.
+
+### Wie sich daraus „MMO-Feeling ohne Server" ergibt
+
+Der Save-JSON ist dein **Charakterkontinuum**, das HQ ist deine **räumliche
+Kontinuität**, der NPC-Roster und die Echos sind deine **soziale
+Kontinuität**. Zusammen ergibt sich ein durchgehendes Spielgefühl, obwohl
+jeder Abschnitt in einem eigenen Chat lebt:
+
+- **Solo:** Dein Save reist mit dir. HQ-Runde, Mission, HQ-Runde — überall
+  dieselbe Welt, dieselben NPCs im Roster, dieselben offenen Fäden.
+- **Gruppe:** Jeder Spieler hat sein eigenes Save-JSON. Beim Lobbystart in
+  einem neuen Chat (zu Sitzungsbeginn oder nach längerer Pause) postet jeder
+  sein Save; der erste setzt den Session-Anker (Episode/Mission/Standort),
+  die übrigen liefern den persönlichen Stand. Innerhalb derselben
+  Spielrunde wird der Anker nicht neu ausgehandelt — neue Saves im selben
+  Lauf liefern nur Updates pro Charakter. So kann jemand zwischendurch
+  aussteigen, jemand neues dazukommen, eine Untergruppe sich aufteilen —
+  alles mit derselben Save-Mechanik.
+- **Splits und Merges:** Wenn die Crew sich aufspaltet, spielt jede Hälfte
+  ihren eigenen Abschnitt mit eigenem Chat und eigenem Save. Beim
+  Wiedertreffen werden die Saves zusammengeführt; Echo-Logs und gemeinsame
+  Erinnerungen tragen die getrennten Erlebnisse als Gerüchte ins Roleplay
+  zurück.
+
+Der Chat-Wechsel ist **kein Bruch im Spielfluss**, sondern ein **bewusster
+Schnitt** — wie ein Szenenwechsel im Film. Du verlierst nichts, weil der
+Save alles transportiert, was zählt. Du gewinnst frischen Kontext, sauberen
+Regelzugriff und einen klaren Rhythmus.
+
+### Die Faustregel für jeden Abschnittswechsel
+
+1. **Abschnitt sauber zu Ende spielen.** Mission bis zum Debrief, HQ-Runde
+   bis zur Save-Bereitschaft, Chargen bis zum Heimkehrbeat.
+2. **`!save` im HQ.** Der Kodex erzeugt den vollständigen v7-JSON-Block.
+3. **JSON kopieren.** Sicher ablegen, bei Gruppen mit den anderen Spielern
+   teilen.
+4. **Neuer Chat.** Frisches Fenster, Preset wählen.
+5. **Save laden.** JSON einfügen. `Spiel laden` davor zu schicken ist
+   optional — bei Multi-Save in einer Nachricht entfällt es ohnehin. Bei
+   Gruppen stapelt ihr eure Saves nacheinander; der erste setzt den
+   Session-Anker.
+6. **Nächster Abschnitt.** HQ-Load-Router oder Briefing-Anforderung.
+
+### Wann darf man im selben Chat bleiben?
+
+**Innerhalb eines Abschnitts immer.** Eine Mission läuft komplett in einem
+Chat — Briefing, Szenen, Debrief — auch wenn das mehrere Stunden dauert. Nur
+bei einem **Abschnittswechsel** (HQ ↔ Mission, Mission ↔ HQ, HQ ↔
+Chronopolis, HQ ↔ Arena) gilt die Chat-Wechsel-Regel.
+
+Ausnahme: **Fast-Lane** (`solo schnell` / `gruppe schnell`). Diese Variante
+springt aus der Charaktererschaffung direkt ins Briefing; das erste
+Save-Angebot kommt erst nach Mission 1. Ab da gilt der reguläre Rhythmus.
 
 ## Cheatsheet - Alle Kernregeln auf einen Blick {#cheatsheet}
 
@@ -537,7 +668,10 @@ Siehe auch:
 >
 > **Kein automatischer Sprung ins Briefing** — Briefing startet erst, wenn der
 > Spieler aktiv `Briefing`, `erste Mission` o. ä. wählt.
-> _Empfehlung:_ Nach `!save` neuen Chat öffnen, Save laden, dann HQ-Runde oder Mission 1.
+> _Empfehlung:_ Nach `!save` neuen Chat öffnen, Save laden, dann **HQ-Runde**
+> als eigenen Abschnitt spielen (Equip, Klinik, RP). Erst danach in einem
+> weiteren Chat das Briefing für Mission 1 anfordern. Siehe
+> [Der Gameflow: Chat-Wechsel als Spielrhythmus](#gameflow-chat-wechsel).
 
 </details>
 
@@ -647,12 +781,19 @@ Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](sl-referenz.md).
 ## Mini-FAQ
 
 **Muss ich nach jeder Mission einen neuen Chat öffnen?**
-Empfohlen: Ja. Die KI-Spielleitung arbeitet mit einem begrenzten Kontextfenster -
-je länger ein Chat läuft, desto weniger zuverlässig greift sie auf die Regeln zu.
-Der beste Workflow: Mission abschließen → im HQ alles erledigen (Debrief, Shoppen,
-Upgrades, Level-Up) → Speichern → **neuen Chat öffnen** → `Spiel laden` mit dem
-Speicherstand. So startet die nächste Mission mit vollem Regelzugriff und frischem
-Kontext. Innerhalb einer Mission einfach weiterspielen.
+Ja — und nicht nur nach jeder Mission, sondern nach **jedem Abschnitt**
+(Charaktererschaffung, HQ-Runde, Mission, Chronopolis-Lauf, Arena-Match). Die
+KI-Spielleitung arbeitet mit einem begrenzten Kontextfenster; je länger ein
+Chat läuft, desto weniger zuverlässig greift sie auf die Regeln zu. Der
+Gameflow ist deshalb bewusst als Serie eigenständiger Abschnitte designt,
+jeweils mit eigenem Save am Ende. Details und Begründung in
+[Der Gameflow: Chat-Wechsel als Spielrhythmus](#gameflow-chat-wechsel).
+
+Kurz: Mission abschließen → Debrief → `!save` → **neuer Chat** → Save laden →
+**HQ-Runde** als eigener Abschnitt spielen (Equip, Klinik, RP) → `!save` →
+**neuer Chat** → Save laden → nächste Mission. So startet jeder Abschnitt mit
+vollem Regelzugriff und frischem Kontext. **Innerhalb** eines Abschnitts
+einfach weiterspielen — der Chat-Wechsel ist nur am Abschnittsende fällig.
 
 **Pflicht-Reihenfolge (Mission-Transition):**
 
@@ -664,7 +805,10 @@ Kontext. Innerhalb einer Mission einfach weiterspielen.
 4. **`!save`** erst **nach** dem Level-Up — sobald ihr frei im HQ
    steht. Ein Save vor der Level-Up-Wahl wird von der KI-SL mit
    `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten.
-5. Für den nächsten Einsatz oder längere HQ-Phase: **neuen Chat** öffnen, Save-JSON einfügen, weiter in der Nullzeit.
+5. **Neuer Chat** für den nächsten Abschnitt — egal ob HQ-Runde
+   (Equip/Klinik/RP) oder direkt Briefing für die nächste Mission. Save-JSON
+   einfügen, weiter in der Nullzeit. HQ-Runde und Mission **nie** im selben
+   Chat — siehe [Der Gameflow](#gameflow-chat-wechsel).
 
 Kodex-Kurzsatz nach Debrief:
 `Kodex: Einsatz abgeschlossen. Upgrade jetzt möglich. Danach HQ-Freiraum oder Deepsave.`

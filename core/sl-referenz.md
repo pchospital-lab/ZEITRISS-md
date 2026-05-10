@@ -533,11 +533,22 @@ Kodex setzt Save-Prompts im HQ an festen Checkpoints:
 
 1. vor jedem Briefing/Absprung,
 2. nach jedem Debriefing,
-3. nach längeren HQ-Freerun-Phasen (Shop/Clinic/Werkstatt),
+3. nach längeren HQ-Freerun-Phasen (Shop/Clinic/Werkstatt) — also am Ende
+   einer **HQ-Runde** als eigenständiger Spielabschnitt,
 4. vor Chronopolis-Schleuseneintritt,
 5. nach Chronopolis-Rückkehr ins HQ.
 
-Für Stabilität gilt: pro HQ→Einsatz→HQ-Zyklus ein frischer Chat mit DeepSave-Import.
+Für Stabilität gilt: pro **Spielabschnitt** ein frischer Chat mit
+DeepSave-Import. Abschnitte sind: Charaktererschaffung, HQ-Runde, Mission
+(Core/Rift), Chronopolis-Lauf, Arena-Match. Eine HQ-Runde (Equip-Wechsel,
+Klinik, Werkstatt, RP, Bar) gehört nie in denselben Chat wie eine Mission;
+der dazwischenliegende Save bildet Equipment, Implantate, Wallet und
+ITI-Ruf sauber für den Mission-Chat ab. Spieler-Devise im
+[Spieler-Handbuch][gameflow-spieler]; technische Save-Pflichten siehe
+[Modul 12][modul12].
+
+[gameflow-spieler]: spieler-handbuch.md#gameflow-chat-wechsel
+[modul12]: ../systems/gameflow/speicher-fortsetzung.md#save-prompts-im-hq-flow
 
 ## Gruppen-Todesentscheid (Core/Rift/Chronopolis)
 
