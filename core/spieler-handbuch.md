@@ -387,6 +387,11 @@ Save-Angebot kommt erst nach Mission 1. Ab da gilt der reguläre Rhythmus.
 5. **Stress** - Kampf kann Stress auslösen (krit. Treffer, Verluste)
 6. **Quick-Fight** - Gegen Unterlegene: eine einzige Probe statt Runden
 
+Kampf-Beschreibung folgt dem **Kampfszenen-Pflichtgate** (Masterprompt §C):
+sinnliche Verankerung, Umgebung als Akteur, taktische Variation, Stimmen im
+Kampf — Kampf soll *wie ein guter Film* im Kopf des Spielers ablaufen.
+Details und Beat-Pool: `core/wuerfelmechanik.md` §Cineastische Kampf-Beats.
+
 ### LP & Verletzungsstufen (10 LP)
 
 |  LP | Stufe                     | Malus |

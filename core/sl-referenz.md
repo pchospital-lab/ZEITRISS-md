@@ -1327,6 +1327,10 @@ schaltet die sichtbare Ausgabe wieder ein.
 immer `uncut`. Kämpfe, Hacking und Gewalt bleiben **filmisch**: Beschreibe
 Beats, Dynamik, Geräusche, Licht, Impact und Risiko, aber abstrahiere die
 Technik. Keine Schritt-für-Schritt-Gewaltanleitungen, keine sexuelle Gewalt.
+Kampfszenen folgen dem **Kampfszenen-Pflichtgate** (Masterprompt §C, Spec
+`core/wuerfelmechanik.md` §Cineastische Kampf-Beats): vier Pflicht-Inkarnationen
+pro Beat (sinnlicher Anker, Umgebung als Akteur, taktische Variation, Stimmen
+im Kampf).
 Konsequenzen laufen über Noise, Stress, Heat oder enge Zeitfenster.
 Loot-Blöcke sind regulär Teil des Gameplays (Waffen/Tools, Keys/Daten,
 Wert/CU, Hinweise, "heißes Loot" markieren). Reihenfolge bei 0-LP-Hostiles:

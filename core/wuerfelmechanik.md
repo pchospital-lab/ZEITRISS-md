@@ -394,6 +394,107 @@ Regeln konsistent weitergeführt.
 **Save-Standard im HQ:** Gespeichert wird ausschließlich per `!save` in der HQ-Phase.
 Laufende Missionen bleiben davon ausgenommen.
 
+## Cineastische Kampf-Beats: Wie ein guter Actionfilm liest sich {#cineastische-kampf-beats}
+
+Einzelkämpfe und Skirmishes (zwei bis sechs Gegner, kein Massengefecht) folgen
+in ZEITRISS einer cineastischen Beat-Choreografie. Jeder Beat läuft mechanisch
+weiterhin nach `Aktion → Probe → Konsequenz → Kodex-Status → neue Lage`
+(Masterprompt §G Ausgabeformat). Diese Mechanik bleibt unberührt. Der
+Unterschied entsteht **um die Probe herum** — vier Pflicht-Inkarnationen, die
+den Beat von Tabletop-Protokoll zu Action-Choreografie heben.
+
+> **Pflichtgate-Spec:** Vollständige Regel mit Geltungsbereich und Anti-Patterns
+> steht im Masterprompt §C **Kampfszenen-Pflichtgate**. Dieser Abschnitt liefert
+> Beat-Pool, Beispiele und SL-Choreografie-Werkzeuge.
+
+### Die vier Pflicht-Inkarnationen pro Beat
+
+1. **Sinnlicher Anker** — mindestens ein konkretes Sinnesdetail (Geräusch /
+   Sicht / Geruch / Taktiles) pro Beat.
+2. **Umgebung als Akteur** — Crew und Gegner nutzen Geometrie der Szene
+   (Möbel, Treppen, Lichtschalter, Fenster, Wagenladungen, Säulen, Schatten).
+3. **Taktische Variation** — in 3+ aufeinanderfolgenden Beats mindestens
+   zwei verschiedene Aktionsarten.
+4. **Stimmen im Kampf — Crew oder Welt** — ab dem 3. Kampf-Beat sprechen
+   Crew-Mates (NSC-Begleiter im Solo-Save, Spieler-Charaktere via Comlink-Funk
+   in Squad-Sessions), Gegner (Schrei, Befehl in Muttersprache) oder
+   Welt-Beteiligte (Zivilist, Marktfrau, Patrouille im Nachbarblock).
+
+### Beat-Pool für taktische Variation
+
+| Aktionsart        | Beispiele                                                                                                                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Gezielter Schuss**  | Glock vom Schulterholster, Präzisionsschuss durch Türspalt, Doppel-Tap auf Brust                                       |
+| **Nahkampf**          | Klinge an Kehle, Ellbogen in Magen, Garrotte um Hals, Pistole als Schlagwaffe                                          |
+| **Manipulation**      | Schalter umlegen, Tisch umwerfen, Schloss knacken während Voronov deckt, Granaten-Stift ziehen                          |
+| **Bewegung**          | Rolle hinter Deckung, Sprung über Brüstung, Klettern in Schornstein, Ausweichen seitwärts                              |
+| **Druck**             | Zuruf zum Gegner, Drohung mit Geiselleben, Ablenkungsschrei aus dem Rücken                                              |
+| **Umgebungs-Trick**   | Lichter aus, Rauchgranate, Tisch als Rampe, brennende Vorhang-Wand, Trinkglas auf Boden                                 |
+| **Comlink-Koordination** | Crew-Mate *„Flanke rechts“* per Knochenleitung, *„Drei Sekunden bis Patrouille“* via Funk; in Squad-Sessions zwischen Spieler-Charakteren gleichwertig                                  |
+| **Psi/Implantat-Aktion** | Retina-Zielerfassung aktiviert, Dermal-Mic spricht trotz Händedruck, Psi-Druck auf Gegner-Gedanke                       |
+
+### Sinneswahrnehmungs-Pool
+
+| Sinn       | Konkrete Anker                                                                                              |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| **Geräusch**   | Patronenhülse auf Steinboden, brechender Tisch, Schrei aus Nebenraum, klickender Hammer ohne Munition  |
+| **Sicht**      | Mündungsfeuer im dunklen Raum, Glassplitter im Lichtkegel, Blutspritzer am weißen Hemd, Rauch vom Lauf |
+| **Geruch**     | Pulverdampf, verbrannter Stoff, Schweiß im engen Raum, Eisengeruch von Blut                            |
+| **Taktiles**   | Warmer Pistolenlauf, glitschiger Boden, eiserne Klinge an der Kehle, Adrenalin in den Fingerspitzen     |
+
+### Beispiel: Kampf-Sequenz mit drei Beats
+
+**Beat 1 (Eintritt, Sinnlich + Umgebung):**
+
+> *Silva tritt die Tür auf. Der Holzrahmen splittert mit einem Knall, der durch
+> das Treppenhaus echot. Drinnen — Pulverdampf, ein Tisch quer im Raum,
+> Petroleumlampe noch schwankend. Der Gegner hinter der Lampe richtet die
+> Mauser auf sie. Sein Schussarm zittert.*
+
+> `Kodex: Probe-Template — 1W6 + ⌊GES/2⌋ + Talent Handfeuerwaffen +2 + Gear.`
+> `Probe: Erstschuss → W6: [5] + 3 + 2 + 1 = 11 vs SG 8 → KRITISCHER ERFOLG`
+
+> *Silva hat ihn vor allen anderen gemacht, weil sie weiß, dass die Pause
+> zwischen Überraschung und Gegenwehr genau so lang ist, wie man braucht, um
+> eine Münze fallen zu lassen. Der Mauser-Mann sackt gegen den Tisch.*
+
+**Beat 2 (Bewegung + Kampf-Stimme):**
+
+> *Crew-Mate über Knochenleitung, kaum hörbar: „Zweiter, Fensterseite, hinter
+> dem Vorhang.“*
+
+> *Silva rollt hinter den umgeworfenen Tisch. Holz splittert unter den
+> Aufschlägen. Patronenhülsen klirren auf den Steinboden — jemand aus dem
+> Nebenraum schlägt Rückzug.*
+
+> `Kodex: Probe-Template — 1W6 + ⌊GES/2⌋ + Talent Schleichen +1.`
+> `Probe: Deckungsrolle → W6: [4] + 3 + 1 = 8 vs SG 7 → ERFOLG`
+
+**Beat 3 (Umgebungs-Trick + taktische Variation):**
+
+> *Silva greift nach der Petroleumlampe, zieht den Docht aus und schlägt sie
+> gegen die Wand. Glas und brennendes Öl verteilen sich über den Vorhang.
+> Der Gegner dahinter schreit — ungarisch, etwas über Feuer. Voronov geht
+> rein, ehe der erste Vorhangstoff durchgebrannt ist.*
+
+Drei Beats, drei verschiedene Aktionsarten (gezielter Schuss → Bewegung →
+Umgebungs-Trick), zwei Kampf-Stimmen (Crew-Funk, ungarischer Schrei),
+fünf Sinneswahrnehmungen (Knall, Pulverdampf, Holzsplittern, Hülsenklirren,
+brennendes Öl), Umgebung permanent aktiv. **Das** ist Kampf wie im Film.
+
+### SL-Choreografie-Werkzeuge
+
+- **Kamera bewegen:** Wechsle pro Beat den Fokus — erst Crew, dann Gegner,
+  dann Umgebung, dann wieder Crew. Nicht durchgängig nur Silva-Perspektive.
+- **Zeit dehnen oder raffen:** Kritische Erfolge bekommen Slow-Motion-Beats
+  (3 Sätze für 1 Sekunde Spielzeit). Routine-Treffer raffen (1 Satz).
+- **Sound vor Bild:** „Ein Knall, dann der Geruch, dann das Bild“ — Sinne
+  triggern in der Reihenfolge, in der ein Spieler im Film wahrnehmen würde.
+- **Anti-Symmetrie:** Wenn der Gegner schön positioniert ist (Deckung, Waffe,
+  Munition), gib ihm einen Fehler (zitternde Hand, leerer Magazin-Click,
+  Verband am Arm). Wenn die Crew vorwärts kommt, gib ihr einen Stolperer
+  (Stress +1, lose Stiefelbinde, klemmende Glock). Asymmetrie macht Beats lebendig.
+
 ## Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
 
 Chrononauten erleben nicht nur Einzelkämpfe und kleine Scharmützel, sondern geraten mitunter mitten

@@ -881,6 +881,16 @@ nicht übereilt vorantreiben. Mehr Szenen bedeuten mehr Raum für Spannung.
 Core-Ops sollen wie Folgen einer Streaming-Serie wirken, Rift-Ops eher wie einzelne
 Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
 
+**Konflikt-Beats sind cineastisch, nicht abstrakt:** In Konflikt-I (SC 5),
+Konflikt-II (SC 7) und Showdown (SC 10) gilt das **Kampfszenen-Pflichtgate**
+(Masterprompt §C, Spec: `core/wuerfelmechanik.md` §Cineastische Kampf-Beats).
+Vier Pflicht-Inkarnationen pro Kampf-Beat: sinnlicher Anker (Geräusch/Sicht/
+Geruch/Taktiles), Umgebung als Akteur (Möbel, Treppen, Licht, Schatten),
+taktische Variation (3+ Beats = 2+ Aktionsarten), NSC-Stimmen ab dem 3. Beat
+(Comlink, Gegner-Schrei, Zivilist). Keine „Silva schießt, er schießt zurück“-
+Protokolle — jeder Kampf-Beat soll im Kopf des Spielers wie ein Filmschnitt
+ablaufen.
+
 ### Staffel-Skeleton "Glanzlicht"
 
 | Ep  | Phase | Arbeitstitel             | Kernmechanik                                    |
