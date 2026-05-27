@@ -47,9 +47,13 @@ Der Riss reißt auf — zu nah, zu hell, zu kalt. Ihr werdet mit einem Ruck
 mitgenommen, die Welt kippt einmal über sich selbst, und die Zielrealität
 spuckt euch schief aus. Ein Atemzug Sortieren, dann erst beginnt der
 Establishing Shot der Epoche.
-Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die
-Chrononauten erhalten eine handfeste Geschichtsmission, die sie mitten in eine
-Verschwörung führt.
+Der erste Auftrag ist mehr als ein Tutorial — aber **deutlich weniger** als die
+Konfrontation mit der Verschwörung. Die Chrononauten erhalten eine **konkrete,
+kleine Geschichtsmission** mit klar abgrenztem Teilziel (eine Person schützen,
+eine Spur sichern, einen Kontakt aufbauen, ein Objekt dokumentieren) im
+Schatten der größeren Verschwörung. Die Verschwörung selbst bleibt in MS1-2
+**Horizont**, nicht Briefing-Inhalt — vollständige Regel im Masterprompt §C
+MS1-2-Tonfall-Pflichtgate und Pacing-Contract.
 Ihr Eingreifen baut den Paradoxon-Index (Px) als **Resonanz-Index** der
 Chrononauten auf. Solange ihr das dokumentierte Hauptereignis stabilisiert,
 zählt auch robustes Vorgehen – nur grobe Paradoxa oder verlorene Kernziele

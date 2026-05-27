@@ -111,6 +111,45 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
     eine Person schützen, eine Spur sichern, einen Kontakt aufbauen. Die große
     Verschwörung steht noch im Schatten. Der Spieler soll denken: *„Interessant,
     was steckt dahinter?“* — nicht: *„Warum soll ich diesen Atomkrieg verhindern?“*
+    **MS1-2-Tonfall-Pflichtgate** (Anti-Onboarding-Hammer):
+      - **Briefing-Stakes klein halten:** Hauptziel ist konkret und greifbar —
+        *„den Botschafter unbemerkt observieren“* / *„das verschollene Tagebuch
+        wiederfinden“* / *„zwei Stunden lang einen Augenzeugen beschatten“*. **Niemals**:
+        *„die Zeitlinie reparieren“* / *„den Atomkrieg verhindern“* /
+        *„das Auseinanderfallen der Wirklichkeit aufhalten“* / *„die Welt vor
+        XYZ retten“*. Solche Mega-Stakes sind erst ab Mission 6+ erlaubt
+        (Klimax-Phase), nie in der Einleitung.
+      - **Verschwörung als Gerücht, nicht als Faktum:** Der Briefing-Offizier
+        nennt eine Beobachtung (*„anomale Signatur, schwach“*), nicht ein
+        Endgame (*„eine Fraktion will die Zeitlinie löschen“*). Hinweise auf
+        größeren Plot sind erlaubt als **Schatten am Horizont**
+        (*„könnte ein Vorzeichen sein, könnte ein Einzelfall sein“*) — nie als
+        bereits etablierte Bedrohung.
+      - **Sprach-Pflicht:** Briefing-Text vermeidet **Eschatologie-Vokabular**
+        („Untergang“, „Auslöschung“, „Apokalypse“, „alles geht verloren“,
+        „unwiederbringlich“) und **Welt-Stakes-Behauptungen** in MS1–2.
+        Stattdessen Spionage-Thriller-Vokabular („Anomalie“, „unklar“,
+        „Beobachtung“, „kein autorisiertes Team vor Ort“).
+      - **Spieler-Gefühl-Prüfung:** Nach dem Briefing soll der Spieler
+        *„Interessant, was steckt dahinter?“* denken — nicht *„Puh, gleich
+        Welt-Untergang als FBI-Rookie?“*. Wenn das Briefing schon Stakes-
+        Maximum hat, ist die Eskalation in MS6–9 erzählerisch verbraucht.
+      - **Anti-Pattern (als Muster, nicht nur als Wortlaut):** Jede Briefing-
+        Formulierung, die in MS1–2 **Welt-Stakes als Faktum** behauptet, ist
+        ein Onboarding-Hammer. Verbotene Muster sind u. a.: *„die Zeitlinie
+        reparieren“* / *„die Realität rutscht uns durch die Finger“* / *„den
+        Atomkrieg verhindern“* / *„die Welt vor X retten“* / *„das Auseinander-
+        fallen der Wirklichkeit aufhalten“* / *„die Auslöschung verhindern“*
+        — auch in Synonymen und Paraphrasen. Konkretes Beispiel aus Playtest
+        MS0: *„Ein einziger falscher Schritt — und die Zeitlinie sieht aus wie
+        etwas, das wir nicht mehr reparieren können“* (direkter Bruch der
+        Regel). Wenn der Briefing-Text das Schicksal der Zeitlinie, der Welt
+        oder der Realität als Einsatz nennt, ist es ein Onboarding-Hammer —
+        unabhängig vom konkreten Wortlaut.
+      - **Begründung:** Wer auf Stufe 1 schon die Welt rettet, hat in Mission
+        10 keine Steigerung mehr. ZEITRISS lebt vom Schicht-für-Schicht-
+        Aufdecken (siehe Pacing-Contract). Wenn MS1 als Einsteiger-Schock
+        „Alles steht auf dem Spiel“ serviert, leidet die ganze Episode.
   - **Mission 3–5 (Entwicklung):** Fäden verdichten sich, Verbindungen werden
     sichtbar. Die Stakes steigen spürbar. Mini-Boss bei Mission 5.
   - **Mission 6–9 (Klimax):** Die Crew steht im Zentrum der Bedrohung.
