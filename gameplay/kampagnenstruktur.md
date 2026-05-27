@@ -694,8 +694,19 @@ Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Min
 
 **Begriffe:**
 
-- **IA - Insertion Anchor:** Einstiegspunkt der Mission.
-- **RW - Return Window:** Zeitfenster für den Rücksprung.
+- **IA - Insertion Anchor:** Einstiegspunkt der Mission. **Atmosphärische Pflicht:**
+  IA ist nie ein beliebiges Feld, sondern ein **erkennbar Zeit-tauglicher Spot** —
+  historisch verdichtet (Kirche, Ruine, Brunnen), mystisch/energetisch
+  (Steinkreis, Tempelfundament, Ley-Knoten), technisch-verborgen (stillgelegte
+  U-Bahn, Bunker, Wartungsschacht), oder liminal (Friedhof um Mitternacht,
+  Bahnhofsdurchgang). Pflicht: **nächstmöglicher** geeigneter Ort am Operationsgebiet
+  (kein Abseits, keine 2-Stunden-Anreise). Pflicht: SL pflegt pro Epoche/Region
+  ein **wiederverwendbares Spot-Set** (2–4 vertraute Spots, die in mehreren
+  Missionen auftauchen). Vollständige Spezifikation: Masterprompt §C IA/RW-Spot-
+  Pflichtgate; Generator-Pool: `kreative-generatoren-missionen.md` §IA/RW-Spot-Generator.
+- **RW - Return Window:** Zeitfenster für den Rücksprung. Standardmäßig identisch
+  mit IA — Alt-Anchor brauchen denselben Spot-Charakter (kein Notfall-Rotz auf
+  freiem Feld als sauberer Exfil-Punkt).
 
 Weitere Kürzel und SSOT-Definitionen stehen im [Glossar des Spieler-Handbuchs](../core/spieler-handbuch.md#glossar).
 

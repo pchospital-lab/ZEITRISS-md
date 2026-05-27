@@ -160,6 +160,84 @@ Standard-Transferwerte:
   Kabel/Relays/Terminal - Mixed-Reality-HUD über die Linse statt losgelöster
   VR-Räume oder Projektor-UIs.
 
+### IA/RW-Spot-Generator {#ia-rw-spot-generator}
+
+Der **Insertion Anchor (IA)** und das **Return Window (RW)** sind keine
+beliebigen Felder, sondern erkennbar Zeitreise-taugliche Orte (siehe
+Masterprompt §C IA/RW-Spot-Pflichtgate, sowie §Exfil-Mechanik in
+`kampagnenstruktur.md` §Exfil). Der Generator zieht pro Mission **einen IA**
+(Standard-RW ist identisch) aus den vier Spot-Profilen, abhängig von Epoche und
+Operationsgebiet. Pflicht: **Nächstmöglicher** geeigneter Ort am
+Operationsgebiet — kein Abseits, keine 2-Stunden-Anreise zum Land-IA.
+
+> **Terminologie-Klarstellung:** Der hier definierte **IA-Anchor** (Insertion
+> Anchor = Sprungort) ist nicht identisch mit dem **Briefing-Baukasten-Anchor**
+> oben in §Core-Briefing-Baukasten (Person/Ort/Objekt als Kernkonflikt der
+> Mission) und nicht identisch mit dem **Rift-Fallanker** in §Rift-Casefile
+> Builder (gebundenes Objekt einer Anomalie). Drei distinkte Bedeutungen, eine
+> bewusste Trennung — siehe `kampagnenstruktur.md` §Rift-Op Interface Contract
+> für die Begriffspflege.
+
+**Spot-Profile (W4-Wurf oder freie Wahl der SL):**
+
+| W4  | Profil                | Beispiele (Auswahl, nicht erschöpfend)                                                                                                                              |
+| --- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Historisch verdichtet** | Alte Kirche, Kloster-Refugium, Ruine mit dokumentierter Geschichte, Stadttor a.D., Burgkapelle, Mausoleum, mittelalterlicher Brunnen, Aquaedukt-Rest, Stadtmauer-Nische |
+| 2   | **Mystisch / energetisch** | Steinkreis, Megalith-Anlage, Tempelfundament, Ley-Linien-Schnittpunkt, alte Quellfassung, vermeintlicher Hexen-/Heilstein, Heiliger Hain, Druiden-Eiche                |
+| 3   | **Technisch-verborgen**    | Stillgelegte U-Bahn-Station, Versorgungstunnel unter Großstadt, Bunker-System (Cold-War-Reste), Wartungsschacht, alte Strom-Verteilkammer, Werks-Untergeschoss        |
+| 4   | **Liminal / Schwelle**     | Friedhofsmauer um Mitternacht, Bahnhofsdurchgang nach Schließung, Hochhausdach mit Sichtlinie auf Operationsgebiet, alte Treppenhäuser, Brückenunterseite             |
+
+**Pflicht-Eigenschaften pro Spot:**
+
+1. **Charakter** — Wurf oder Wahl aus den vier Profilen oben. **Plattes Feld am
+   Stadtrand, Hinterhof, x-beliebige Wiese sind nicht zulässig.**
+2. **Nähe** — zu Fuß oder per Epochen-Verkehrsmittel `≤ 30 min` vom
+   Operationsgebiet erreichbar.
+3. **Beschreibung im Sprung** — zwei bis vier Sätze sensorischer Verankerung
+   beim IA-Transfer (Geruch, Klang, Lichtfall, was den Ort besonders macht,
+   warum er Zeit-tauglich wirkt).
+4. **Wiedererkennung pflegen** — SL führt pro Epoche/Region ein
+   **wiederverwendbares Spot-Set** (2–4 vertraute Spots), die in mehreren
+   Missionen auftauchen können. Eintrag im `logs.trace[]`: `IA <Name>
+   (<Profil>) — vertraut seit MS<n>`.
+
+**Beispiel-Generator-Output:**
+
+```
+Epoche: Wien 1913 · Operationsgebiet: Innere Stadt
+IA-Wurf: W4 = 1 (Historisch verdichtet)
+IA: Krypta unter dem Stephansdom — ungenutzter Seitengang
+    hinter den Habsburger-Sarkophagen. Kalter Stein, Weihrauch-
+    Spuren, das Echo der Schritte oben. Seit MS3 vertraut.
+RW: Identisch mit IA (Standard). Alt-Anchor bei Kompromittierung:
+    Schnürboden des Theaters an der Wien (Profil 4 - liminal).
+```
+
+```
+Epoche: Manhattan 1972 · Operationsgebiet: Lower East Side
+IA-Wurf: W4 = 3 (Technisch-verborgen)
+IA: Stillgelegte IRT-Tunnel-Station "Worth Street" —
+    Mosaik-Buchstaben halb über Putz, Ratten im Schwellenholz,
+    Wasser tropft im Takt der oberirdischen Ampelschaltung.
+RW: Identisch mit IA. Alt-Anchor: Friedhof Trinity Churchyard
+    (Profil 4 - liminal), 6 Minuten zu Fuß.
+```
+
+**Anti-Patterns (nicht generieren):**
+
+- *„Ein Feld zwei Kilometer westlich der Stadt.“* — zu generisch, kein Charakter.
+- *„Ein Hinterhof an der Hauptstraße.“* — austauschbar, keine Zeit-Tauglichkeit.
+- *„Ein Parkplatz beim Industriegebiet.“* — Spionage-Generik, nicht ZEITRISS.
+- *„Ein Lagerschuppen außerhalb der Stadt.“* — zu weit weg und ohne Charakter.
+
+**Far-Future / extraterrestrische Rifts:** Bei Settings ohne historische
+Substanz (Mondbasis, Raumschiff, Tiefsee-Habitat, Asteroiden-Außenposten) trägt
+**Profil 3 (technisch-verborgen) das Pflichtgate allein** — Wartungsschacht,
+stillgelegte Druckschleuse, alter Reaktor-Kontrollraum, leerstehendes Hangardeck
+sind dort die ZEITRISS-tauglichen Spots. Profile 1/2/4 sind dann nicht anwendbar,
+das ist OK. Auf Luna 2266 ist die nächstmögliche Tiefen-Wartungsschleuse der
+Zeitreise-Spot, nicht ein Mondfeld.
+
 ### Rift-Casefiles: Tatort → Leads → Boss-Encounter → Auflösung
 
 - **Rift-Pacing:** Jede Rift-Op ist ein eigenständiger X-Files-Film. Start mit
