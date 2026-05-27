@@ -406,6 +406,12 @@ den Beat von Tabletop-Protokoll zu Action-Choreografie heben.
 > **Pflichtgate-Spec:** Vollständige Regel mit Geltungsbereich und Anti-Patterns
 > steht im Masterprompt §C **Kampfszenen-Pflichtgate**. Dieser Abschnitt liefert
 > Beat-Pool, Beispiele und SL-Choreografie-Werkzeuge.
+>
+> **Bosskampf-Spezialfall:** Für Mini-Boss (MS5), Episoden-Boss (MS10),
+> Rift-Boss (SC10) und Para-Tier-3+ gilt zusätzlich das **Bosskampf-Pflichtgate**
+> (mehrphasig, überraschungs-Switch, Phase-Spezialitäten) — siehe Masterprompt
+> §C und `gameplay/kampagnenstruktur.md` §Bossphasen-System. Innerhalb jeder
+> Boss-Phase gelten die hier beschriebenen vier Pflicht-Inkarnationen weiterhin.
 
 ### Die vier Pflicht-Inkarnationen pro Beat
 

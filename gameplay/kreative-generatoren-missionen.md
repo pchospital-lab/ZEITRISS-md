@@ -2372,6 +2372,11 @@ Sample`.
 6. **TRUTH** - kurzer Absatz, warum Marker aktiv bleibt.
 7. **LEADS PRIVATE** - 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
 8. **BOSS PRIVATE** - Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
+   **Phasen-Pflicht (Bosskampf-Pflichtgate):** Rift-Bosse haben **3 Phasen** mit LP pro
+   Phase 8–11 (Para-Tier-3+: 9–12), Phasen-Switch via narrativem Reveal, je 1
+   Phase-Spezialität. Builder-Felder: `phase_1`/`phase_2`/`phase_3` mit
+   `name`/`speciality`/`trigger_next`. Vollständige Spec:
+   `gameplay/kampagnenstruktur.md` §Bossphasen-System.
 
 **14-Szenen-Map (Tatort → Leads → Boss-Encounter → Auflösung)**
 
@@ -2379,7 +2384,10 @@ Sample`.
 - **Leads (5-9):** Drei Würfel-Checks aus "Leads Private" platzieren, je einer deckt den
   Anchor, den Marker und die Weakness ab; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
 - **Boss-Encounter (10):** Weakness sichtbar machen, Marker-Bedingung für Abschluss prüfen,
-  Boss-Fähigkeit (Weirdness) maximal einmal pro Runde einsetzen.
+  Boss-Fähigkeit (Weirdness) maximal einmal pro Runde einsetzen. **Drei Phasen Pflicht**
+  (siehe `gameplay/kampagnenstruktur.md` §Bossphasen-System): Phasen-Switch via narrativem Reveal,
+  Phase-Spezialität pro Phase, LP pro Phase 8–11 (Boss-DR aus Teamgröße-Tabelle).
+  Rift-Boss-Zeitfähigkeit zählt als Phase-Spezialität einer Phase, nicht aller.
 - **Boss-Resolution (11-14):** Flucht-/Nachbeben, Cleanup, Konsequenzen, Abschluss (HUD bleibt
   im Boss-Stage-Modus).
 
