@@ -1040,6 +1040,12 @@ nicht übereilt vorantreiben. Mehr Szenen bedeuten mehr Raum für Spannung.
 Core-Ops sollen wie Folgen einer Streaming-Serie wirken, Rift-Ops eher wie einzelne
 Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
 
+**MS1-2-Tonfall (Onboarding):** Die ersten beiden Missionen einer Episode
+haben **kleine, konkrete Aufträge** — keine Welt-Stakes, keine Endgame-Sprache.
+Die große Verschwörung bleibt **Schatten am Horizont**, nicht Briefing-Inhalt.
+Vollständige Pflichtregel mit Anti-Patterns: Masterprompt §C MS1-2-Tonfall-
+Pflichtgate (Teil des Pacing-Contracts).
+
 **Konflikt-Beats sind cineastisch, nicht abstrakt:** In Konflikt-I (SC 5),
 Konflikt-II (SC 7) und Showdown (SC 10) gilt das **Kampfszenen-Pflichtgate**
 (Masterprompt §C, Spec: `core/wuerfelmechanik.md` §Cineastische Kampf-Beats).

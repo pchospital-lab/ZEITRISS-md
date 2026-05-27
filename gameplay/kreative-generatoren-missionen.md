@@ -180,7 +180,11 @@ Standard-Transferwerte:
   dokumentieren). Erst ab Mission 6+ rückt die Crew ins Zentrum der großen
   Bedrohung. So entsteht der Netflix-Effekt: Der Spieler **entdeckt** die
   Verschwörung Schicht für Schicht, statt sie im ersten Briefing erklärt zu
-  bekommen.
+  bekommen. Vollständige Sprach-/Tonfall-Pflichten und Anti-Patterns:
+  Masterprompt §C MS1-2-Tonfall-Pflichtgate. **Wichtig:** Antagonist-Goals im
+  Mission-Template-Catalogue (T-0001+) sind **SL-interne Mechanik**, nicht
+  Briefing-Text — Briefing-Stakes bleiben auch dann klein, wenn das
+  Template-Endspiel groß ist.
 - **Physische Near-Future-Tech:** Scans, Hacks, Comms laufen über Linse/Sensor/
   Kabel/Relays/Terminal - Mixed-Reality-HUD über die Linse statt losgelöster
   VR-Räume oder Projektor-UIs.
