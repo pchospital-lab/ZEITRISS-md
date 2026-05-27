@@ -542,7 +542,164 @@ Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
 
 _Hinweis:_ Boss erscheint weiterhin Core: **M5/M10**, Rift: **Szene 10**.
 
-#### Signaturtell (Boss-/Rift-Payoff)
+### Bossphasen-System {#bossphasen-system}
+
+Bosse sind keine stärkeren Standard-Gegner, sondern **eigene Encounter-Klasse**
+mit mehreren Phasen. Der Spieler soll *lange kämpfen, taktieren müssen, sich
+Sorgen machen, ob die Crew heil rauskommt*. Vollständige Pflichtregel:
+Masterprompt §C **Bosskampf-Pflichtgate**. Dieser Abschnitt liefert
+Phasen-Templates, Switch-Triggers, Spezialitäten-Pool und Builder-Beispiele.
+
+#### Phasen-Anzahl und LP-Verteilung {#bossphasen-lp}
+
+| Boss-Typ                | Phasen | LP pro Phase   | Boss-DR (Teamgröße-Tabelle)    |
+| ----------------------- | ------ | -------------- | ------------------------------- |
+| **Mini-Boss** (MS5)         | 2      | 6–8 pro Phase  | 1–3 (Mini-Boss-Spalte)          |
+| **Episoden-Boss** (MS10)    | 3      | 8–11 pro Phase | 2–4 (Arc-/Rift-Boss-Spalte)     |
+| **Rift-Boss** (SC10)        | 3      | 8–11 pro Phase | 2–4 (Arc-/Rift-Boss-Spalte)     |
+| **Para-Tier-3+**            | 3      | 9–12 pro Phase | +1 zur Tabellen-Vorgabe         |
+
+Overkill-Schaden am Phasen-Ende **verfällt** — die nächste Phase startet mit
+frischer LP-Tranche. Damit verdoppelt sich die Kampfdauer ohne Stat-Inflation.
+
+#### Phasen-Beats pro Phase {#bossphasen-beats}
+
+| Teamgröße | Beats pro Phase | Bemerkung                                          |
+| ---------- | ---------------- | -------------------------------------------------- |
+| Solo / Duo | 3–5 Beats        | LP pro Phase ggf. am unteren Rand der Tabelle      |
+| Trio       | 4–6 Beats        |                                                    |
+| Vier/Fünf | 5–8 Beats        | LP pro Phase ggf. am oberen Rand der Tabelle       |
+
+Innerhalb jeder Phase greift das **Kampfszenen-Pflichtgate** mit den vier
+Pflicht-Inkarnationen (siehe Masterprompt §C). Phasen-Beats sind
+*normale* Kampf-Beats, der Unterschied ist nur die LP-Tranche und die
+Phase-Spezialität.
+
+#### Phasen-Switch — Überraschungs-Reveal-Pflicht {#bossphasen-switch}
+
+Der Übergang zwischen Phasen darf **nicht vorhersagbar** sein. Trigger ist
+**nicht** *„bei 50% LP“* (das wüsste der Spieler), sondern eine **narrative
+Wendung** — sieben Standard-Trigger als Pool:
+
+| Switch-Typ                | Beschreibung                                                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hidden-Asset-Reveal**       | Boss enthüllt eine Fähigkeit/Ausrüstung/Identität, die nicht im Briefing stand (Tier-2-Implantat, zweite Klinge, Psi-Sub-Form). |
+| **Verstärkung-Reveal**        | Boss ruft Verstärkung (Funk, Pfiff, Tür fliegt auf) — 2–3 Standard-Gegner kommen dazu.                                            |
+| **Schauplatzwechsel**         | Kampf wandert (auf das Dach, in den Keller, durch ein Fenster auf die Straße). Phase 2 hat neue Geometrie.                       |
+| **Trumpf-Entfesseln**         | Boss benutzt jetzt eine Trumpf-Spezialität, die er bisher zurückhielt (Para-Fähigkeit, Zeit-Effekt, Granaten).                  |
+| **Defensiv→Offensiv-Kipper**  | Boss war zurückhaltend (Deckung, Kontern), wird jetzt aggressiv (Stürmen, Verfolgen) — oder umgekehrt.                          |
+| **Geisel/Druckmittel-Switch** | Boss greift jetzt nach einem Druckmittel (Zivilist, Crew-Mate, MacGuffin) statt direktem Kampf.                                  |
+| **Zeit-/Umgebungs-Eskalation** | Brandstoff entzündet sich, Boden bricht ein, Sirene läuft, Patrouille gleich da — die Umgebung wird selbst zum Akteur.        |
+
+**Pflicht-Format des Switch-Beats:** 3–5 Sätze sinnliche Reveal-Beschreibung
++ Kodex-Ansage:
+
+```
+Kodex: Phase 2 — <Phasen-Name, z. B. "Cybernetik enthüllt" / "Verstärkung eingetroffen">.
+```
+
+Beispiel-Switch (Vásárhelyi, Episoden-Boss MS10, Phase 1 → Phase 2):
+
+> *Vásárhelyi taumelt gegen die Wand, presst eine Hand auf die Schussverletzung
+> in der Schulter. Sein Atem geht stoffig. Dann hörst du es — vom Treppenhaus
+> her, drei oder vier Paar Stiefel auf Stein. Die Tür fliegt auf. Drei Soldaten
+> in k.u.k.-Uniformen stürmen rein, Mauser im Anschlag. Vásárhelyi hatte einen
+> Rückhalt, der nirgends in eurer Akte stand.*
+>
+> `Kodex: Phase 2 — Verstärkung eingetroffen.`
+
+#### Phase-Spezialitäten-Pool {#bossphasen-spezialitaeten}
+
+Jede Phase hat **mindestens eine Spezialität** — eine Fähigkeit, taktische
+Bedrohung oder Umgebungsdynamik, die in dieser Phase aktiv ist und Crew zu
+**Anpassung zwingt**. SL wählt aus dem Pool oder generiert epochenpassend:
+
+| Kategorie          | Beispiel-Spezialitäten                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| **Boss-Boost**         | +2 GES/STR-Boost auf Boss-Proben, Adrenalin-Schub (1 Phase), Bersererker-Modus (verdoppelter Nahkampf-Schaden)   |
+| **Crew-Mali**          | Rauchgranate (Sicht ≤ 3m, GES-Proben SG +2), Tinnitus (Comlink ausgefallen 1 Phase), Stress-Druck (+1 pro Beat) |
+| **Add-Spawn**          | 2 Standard-Gegner pro Crew-Runde, müssen Aufmerksamkeit teilen; Add-Welle 1×/Phase                              |
+| **Umgebungs-Effekt**   | Brennende Vorhänge (Beat 3: Sicht runter), Bodenriss (Beat 5: Bewegung SG +1), kollabierendes Dach (Beat 6: 1W6 Schaden) |
+| **Zeit-Spezial**       | Episoden-Boss: 1× kurzer Chrono-Effekt (Initiative-Reset, 1 Runde Slow-Motion); Rift-Boss: voller Chrono-Suite |
+| **Heal-Threshold**     | Boss heilt 1–3 LP, wenn Crew einen Beat lang nicht angreift (zwingt zu Dauerdruck)                              |
+| **Druckmittel**        | Boss greift nach Geisel/MacGuffin — Crew muss aufteilen (Boss bekämpfen vs. Geisel sichern)                     |
+
+Spezialitäten werden via Kodex offen angesagt:
+
+```
+Kodex: Phase 2 — Sicht durch Rauch eingeschränkt. SG +2 auf GES-Proben.
+```
+
+Damit Spieler taktieren können (Rauchgranate verbrauchen, Klinge statt Pistole,
+Dermal-Mic-Funk statt Sichtkoordination).
+
+#### Szenen-Span eines Bosskampfs {#bossphasen-szenen-span}
+
+Ein Bosskampf umspannt typischerweise **2–4 aufeinanderfolgende Szenen** des
+12/14-Szenen-Korridors (Mission-Integrität-Pflichtgate, Masterprompt §C):
+
+- **Mini-Boss MS5** (2 Phasen, 10–16 Beats): 2–3 Szenen, typisch Szene 5–7 der Mission.
+- **Episoden-Boss MS10** (3 Phasen, 15–24 Beats): 3–4 Szenen. Mission 10 ist die
+  Episoden-Boss-Mission — 12 Szenen Platz, Bosskampf belegt typisch Szene 7–11.
+- **Rift-Boss SC10** (3 Phasen, 15–24 Beats): 3–4 Szenen, Szene 10–13 der Rift-Op
+  (Boss-Resolution ab Szene 13/14 wie gehabt).
+
+Der Szenen-Zähler **tickt während des Bosskampfs weiter** — jeder Phasen-Beat-Block
+ist normaler Mission-Beat-Output. Der HUD-Tag `BOSS-Encounter Phase X/Y` bleibt
+durchgängig sichtbar, bis der Boss in Phase Y besiegt ist. Damit bleibt das
+Akt-C-Pacing (Showdown + Exfil + Nullzeit-Beat) intakt und das Szenen-SOLL aus
+Mission-Integrität-Pflichtgate wird nicht gerissen.
+
+#### Encounter-Start — Phasen-Plan ansagen {#bossphasen-start}
+
+Beim Boss-Encounter-Start gibt der Kodex **immer** die Phasen-Anzahl und die
+erste Phase an. Phase-Spezialität wird **erst bei Phasen-Start** sichtbar
+(Überraschungs-Pflicht):
+
+```
+Kodex: Boss-Encounter — Vásárhelyi (3 Phasen erwartet). Phase 1: Straßenkampf.
+Kodex: Phase 1 — keine Spezialität, Boss in Deckung hinter umgeworfener Droschke.
+```
+
+Damit kennt der Spieler den Spannungsbogen (*„aha, das wird noch dauern“*),
+weiss aber **nicht**, was die nächste Phase bringt.
+
+#### Builder-Skizze (Episoden-Boss Vásárhelyi MS10, Solo+2NPC) {#bossphasen-builder-beispiel}
+
+```yaml
+boss_id: VASARHELYI-MS10
+phases: 3
+lp_per_phase: 9         # Episoden-Boss, Solo+2NPC = Vollteam-Approximation
+boss_dr: 3              # Arc-/Rift-Boss-Spalte, Team 3-4
+phase_1:
+  name: "Straßenkampf"
+  speciality: null      # keine Spezialität in Phase 1 — reine Skirmish-Eskalation
+  trigger_next: "Boss-LP Phase 1 = 0 → Switch-Beat Verstärkung-Reveal"
+phase_2:
+  name: "Verstärkung eingetroffen"
+  speciality: "add-spawn: 3 k.u.k.-Soldaten, 1× Add-Welle"
+  trigger_next: "Boss-LP Phase 2 = 0 → Switch-Beat Trumpf-Entfesseln"
+phase_3:
+  name: "Letztes Ass"
+  speciality: "boss-boost: Adrenalin-Schub, +2 STR auf Nahkampf-Proben"
+  trigger_next: "Boss-LP Phase 3 = 0 → Showdown-Auflösung"
+```
+
+Dieser Builder wird vom `generate_boss()`-Makro automatisch produziert; der
+SL pflegt nur die Phase-Spezialitäten epochenpassend.
+
+#### Backward-Compatibility bestehender Rift-Seeds {#bossphasen-migration}
+
+Bestehende Rift-Seeds in `gameplay/kreative-generatoren-missionen.md`
+(§Rift-Seed Catalogue, Z.2244–2360) ohne explizite `phase_*`-Felder werden zur
+Laufzeit aus dem Pool §Phasen-Switch und §Phase-Spezialitäten improvisiert.
+Der bestehende `boss_stat_hint` (z. B. *„LP 11 | Armor 1 | GES 8 | TEMP 6“*)
+wird ab sofort als **LP pro Phase** gelesen, nicht als Gesamt-LP-Pool — die
+Werte (LP 8–11) liegen ohnehin im Phasen-Korridor dieser Spec. Schrittweise
+Migration der 5 Bestands-Seeds um explizite `phase_1`/`phase_2`/`phase_3`-Felder
+als Folge-PR.
+
+#### Signaturtell (Boss-/Rift-Payoff) {#signaturtell}
 
 Vor jedem Mini-, Episoden- oder Rift-Boss existiert genau **ein verwertbarer
 Signaturtell** (z. B. Bewegungsmuster, Materialreaktion, Taktfehler,
@@ -555,7 +712,9 @@ identifiziert und im Spiel benannt, erhält das Team in der Boss-Szene
 - Boss-Signaturfähigkeit startet eine Runde später, **oder**
 - erstes Defensivfenster entfällt, **oder**
 - Team erhält +1 auf den Eröffnungszug, **oder**
-- ein Boss-DR-/Overflow-Effekt wird für genau einen Treffer ignoriert.
+- ein Boss-DR-/Overflow-Effekt wird für genau einen Treffer ignoriert, **oder**
+- **Phase 1 startet mit Spezialität inaktiv** (greift erst ab Phase 2; spart
+  der Crew die erste Anpassungsrunde, siehe §Bossphasen-System).
 
 Der Signaturtell ersetzt keine Boss-Mechanik; er macht Vorbereitung spürbar.
 
