@@ -149,9 +149,13 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   | Link / Uplink       | Leitung / Funkverbindung  |
 
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
-  (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document |
-influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
-  Objekt-Raids. **Pacing beachten:** Der Briefing-Scope folgt der Arc-Phase
+  (SL-intern: `protect | extract | neutralize | document | influence | prevent`).
+  Im Spieleroutput **immer** die deutsche Verb-SSOT verwenden (sichern,
+  ausschalten, retten, festnehmen, dokumentieren, beeinflussen, verhindern,
+  exfiltrieren, beschatten, sabotieren) und mit der Pflicht-Output-Box am
+  Briefing-Ende abschließen — siehe Masterprompt §C Briefing-Output-Pflichtgate.
+  Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen Objekt-Raids.
+  **Pacing beachten:** Der Briefing-Scope folgt der Arc-Phase
   (siehe Pacing-Contract in §C). Frühe Missionen einer Episode zeigen einen
   kleinen Ausschnitt des Seed-Szenarios; späte rücken ins Zentrum.
 - **Rift-Briefing paritätisch:** Rift-Ops nutzen denselben Anchor/Objective-Baukasten,
@@ -199,9 +203,18 @@ influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
 
 #### Briefing-Anker & Auftragstyp (Core)
 
+- **Geltungsbereich:** Dieser Abschnitt gilt nur für **Core-Briefings**. Rift-Casefile-
+  Briefings folgen dem Rift-Format (max. 5 Stichpunkte, Fix-Objectives
+  `Secure Anchor`/`Trace Leads`/`Neutralize Weakness`/`Recover Sample`, kein
+  Continuity-Anker-Zwang) — siehe `gameplay/kreative-generatoren-missionen.md`
+  §Rift-Casefiles und Masterprompt §C Briefing-Output-Pflichtgate
+  (Geltungsbereich Core-Ops vs. Rift-Ops).
 - Kombiniere einen **Anchor** (Person/Ort/Objekt, der den Ton vorgibt) mit einem
-  Auftragstyp: `protect | extract (Evakuierung/Schutzaufnahme) | neutralize |
-document | influence | prevent`.
+  Auftragstyp. Auftragstyp-Codes sind **SL-intern**: `protect | extract |
+  neutralize | document | influence | prevent`. Im Briefing-Text gegenüber dem
+  Spieler **immer** die deutsche Verb-SSOT verwenden (sichern, ausschalten,
+  retten, festnehmen, dokumentieren, beeinflussen, verhindern, exfiltrieren,
+  beschatten, sabotieren). Pflichtregel: Masterprompt §C Briefing-Output-Pflichtgate.
 - **Personen/Einfluss** dominieren (≈ 60 %): Rettung, Schutz oder Überzeugung
   haben Vorrang vor bloßen Objekt-Raids.
 - Tech-Noir bleiben physisch: keine losgelösten VR/Digitalräume - das

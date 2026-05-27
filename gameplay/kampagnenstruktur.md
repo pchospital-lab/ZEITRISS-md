@@ -674,11 +674,29 @@ Debrief liegen beide in der **Nullzeit/HQ** und werden **nicht** mitgezählt:
 
 - **Briefing:** HQ-Phase **vor Szene 1**. HUD-Tag `PHASE Briefing`, Szenen-
   Zähler bleibt `SC 00/--`. Erst mit dem Transfer an den IA beginnt
-  `SC 01/12` (bzw. `SC 01/14`).
+  `SC 01/12` (bzw. `SC 01/14`). **Output-Pflicht (Core-Ops):** Jedes
+  Core-Briefing endet mit strukturierter Ziel-Ausgabe (Hauptziel + 0–2
+  Nebenziele, Verb-SSOT sichern/ausschalten/retten/festnehmen/dokumentieren/
+  beeinflussen/verhindern/exfiltrieren/beschatten/sabotieren, mit Erfolgs-
+  kriterien) plus mindestens einem Continuity-Rückverweis auf die Vor-Mission
+  ab MS2 (`arc.hooks[]`, `arc.questions[]`, `logs.notes[]`,
+  `continuity.shared_echoes[]`). **Rift-Briefings haben eigenes Format**
+  (max. 5 Stichpunkte, Fix-Objectives `Secure Anchor`/`Trace Leads`/
+  `Neutralize Weakness`/`Recover Sample`, kein Continuity-Zwang) —
+  vollständige Spezifikation: Masterprompt §C „Briefing-Output-Pflichtgate“.
 - **Szene 12 (Core) bzw. Szene 14 (Rift):** Letzter Moment in der Einsatzzeit
   — typischerweise Exfil-Finale, Rücksprung armieren, Nullzeit-Beat.
 - **Debrief:** HQ-Auto-Sequenz **nach Szene 12/14**, kein Szenen-Slot. Hier
   laufen Bewertung, Loot-Recap, CU, XP/Level-Up, ITI-Ruf und das HQ-Menü.
+  **Debrief-Spiegel-Pflicht (Core-Ops):** Score-Screen hakt die im
+  Core-Briefing gesetzten Ziele pro Ziel ab (✓/✗). Verfehlte Ziele werden
+  in `arc.hooks[]` als Folgespur abgelegt und stehen damit als Continuity-
+  Anker für das nächste Briefing zur Verfügung. **Rift-Debrief** spiegelt
+  stattdessen die Fix-Objectives `Secure Anchor`/`Trace Leads`/
+  `Neutralize Weakness`/`Recover Sample` plus Forensik-Dreieck-Status
+  (Bio/Material/Temporal, mind. 2/3 für saubere Klassifikation) — siehe
+  Masterprompt §C Briefing-Output-Pflichtgate (Geltungsbereich Core-Ops vs.
+  Rift-Ops).
 - **Save-Fenster:** Erst **nach Abschluss des Debrief**, wenn die Gruppe
   frei im HQ steht (`!save`). Speichern ist **HQ-exklusiv** und weder
   während der Einsatzzeit noch während des Debrief-Auto-Cuts zulässig.

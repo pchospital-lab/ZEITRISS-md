@@ -1102,10 +1102,16 @@ Artefakten und temporaler Abweichungen.
   `[mission_focus, covert_ops_technoir]`. Der Normalizer ergänzt Legacy-Saves
   automatisch, das Noir-Preset greift vor Szene 0 und blendet den Modus im HUD
   ein.
-- **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** mit einem
-  Auftragstyp (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize |
-document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
-  Personen, Einfluss oder Schutz statt reiner Objekt-Raubzüge.
+- **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** (Person/Ort/
+  Objekt) mit einem Auftrag. Im Spieleroutput nutzt der KI-SL die deutsche
+  Verb-SSOT (**sichern, ausschalten, retten, festnehmen, dokumentieren,
+  beeinflussen, verhindern, exfiltrieren, beschatten, sabotieren**) und legt
+  jedes Briefing mit strukturierter Ziel-Box (Hauptziel + 0–2 Nebenziele +
+  Erfolgskriterien) ab. Die englischen Auftragstyp-Codes (`protect`/`extract`/
+  `neutralize`/`document`/`influence`/`prevent`) bleiben SL-intern für das
+  Generator-Mapping (siehe Briefing-Output-Pflichtgate im Masterprompt §C).
+  Mindestens 60 % der Core-Ops fokussieren Personen, Einfluss oder Schutz
+  statt reiner Objekt-Raubzüge.
 - **EntryChoice sichtbar:** Szene 0/1 fragt die Vorgehensweise ab - Core
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`.
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template mit
