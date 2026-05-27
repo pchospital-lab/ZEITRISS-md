@@ -456,6 +456,23 @@ Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Sch
 **HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern
 weiterhin ausschließlich im **HQ**.)
 
+**Exfil-Stress-Pflichtgate (Kurzform):** Drei Pflicht-Mechaniken machen Exfils
+spürbar stressig:
+1. **TTL-Anzeige bei jeder Exfil-Anfrage** — Kodex gibt konkreten Spot und
+   verbleibende Minuten aus, bevor der Spieler entscheidet.
+2. **Alt-Anchor bei verpasstem RW** — nächstmöglicher Spot-Charakter-konformer
+   Ort, **SG +2** beim Armieren, **Stress +1** für Squad, 1–2 Anreise-Szenen
+   zählen in 12/14er-Korridor.
+3. **Spotlight-Eskalation bei überlangem Aufenthalt** — ab 2. Warteszene
+   nach Exfil-Fenster-Öffnung 1W6 pro Szene, eskalierend (Sz2: bei 1;
+   Sz3: bei 1–2; Sz4+: bei 1–3). Bei Spotlight-Beat: konkrete Welt-Reaktion
+   (Auto-Alarm, Scheinwerfer, Bühne, Anzeigetafel, Patrouille, NSC mit
+   falschem Namen, Tier-Reaktion). Konsequenzen: **Stress +1** Crew,
+   **Heat +1**, **TTL -1 Min**, `logs.notes[]`-Eintrag. Keine Px-Änderung
+   (Druck-Mechanik, nicht Belohnung).
+
+Details: [Exfil-Stress-Pflichtgate](../gameplay/kampagnenstruktur.md#exfil-stress-pflichtgate).
+
 _(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz und nicht für Spieler gedacht.)_
 
 Die Runtime spiegelt das Fenster parallel nach
