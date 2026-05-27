@@ -745,6 +745,133 @@ Weitere Kürzel und SSOT-Definitionen stehen im [Glossar des Spieler-Handbuchs](
 Empfehlung: **0-2 Sweeps**. Mehr ist möglich, doch Stress & Zeit erhöhen das Risiko.
 **Speichern** bleibt **HQ-exklusiv**.
 
+#### Exfil-Stress-Pflichtgate {#exfil-stress-pflichtgate}
+
+Drei Pflicht-Mechaniken machen Exfils spürbar stressig und stellen sicher, dass
+*Zeitreise mit Orten und Zeit zu tun hat*, nicht mit beliebigem Verlassen.
+
+**1. TTL-Anzeige bei Exfil-Anfrage (Pflicht):**
+Sobald der Spieler den Rückweg ansteuert oder Comlink mit *„Exfil anfordern“* /
+*„Rückkehr“* / *„RW armieren“* anfragt, gibt die KI-SL **immer** den aktuellen
+TTL-Stand und den Spot konkret aus, **bevor** der Spieler entscheidet:
+```
+Kodex: Exfil-Fenster — IA <Spot-Name> · RW armierbar in 6:42 Min
+       (Standard-Fenster: 8 Min, abzüglich Sweeps/Stress-Tikker).
+       Nach Ablauf → Hot-Exfil (Alt-Anchor <Name> verfügbar, SG +2).
+```
+Das Fenster ist sichtbar und entscheidbar — kein verstecktes TTL, das die SL
+im Kopf führt. Der Spieler weiß, wie viel Luft er hat. Bei Folgespur-Sweeps,
+Verzögerungen oder Stress-Tikkern wird der TTL **sichtbar** reduziert
+(`Kodex: TTL 6:42 → 4:42 nach Sweep.`).
+
+**2. Alt-Anchor mit eskaliertem Risiko (Pflicht):**
+Verpasst das Team das primäre RW (TTL ≤ 0) **oder** der IA ist kompromittiert,
+zwingt die KI-SL einen Alt-Anchor in die Szene. Dieser ist **nicht** beliebig
+weit weg, sondern folgt der IA/RW-Spot-Pflichtgate-Regel (Masterprompt §C):
+nächstmöglicher Spot-Charakter-konformer Ort am Operationsgebiet. Aber:
+- **Anreise zum Alt-Anchor** = 1–2 zusätzliche Szenen (Verfolgung, Stadt-
+  durchquerung, Improvisation), die in die 12/14-Szenen-Zählung **fallen**.
+- **Alt-Anchor-RW-armieren** hat **SG +2** gegenüber Standard-RW (provisorisch
+  geknotene Sprungsignatur, instabilere Geometrie).
+- **Stress +1 für alle Squad-Mitglieder** beim Alt-Anchor-Bezug.
+- Misslingen am Alt-Anchor = Hot-Exfil-Eskalation (siehe TTL ≤ 0 oben),
+  zusätzlich ein **Spotlight-Wurf** (siehe Punkt 3).
+
+**3. Spotlight-Eskalation bei überlangem Aufenthalt (Pflicht):**
+Je länger die Crew nach Öffnung des Exfil-Fensters **nicht** zum Anchor unterwegs
+ist (sweept, lootet, redet, sammelt), desto stärker fokussiert sich die Welt
+auf sie. Erzählerisches Bild: *„Die Zeitlinie spuckt euch aus.“* Die SL
+schiebt **konkrete Spotlight-Beats** in die nächste Warteszene — zufällige
+Welt-Reaktionen, die den Druck erzeugen, **jetzt** zum Spot zu kommen.
+- **W6 pro Warteszene** (Sweep-Szenen zählen als Warteszenen — die bestehenden
+  Sweep-Kosten TTL -2 Min und Stress +1 bleiben zusätzlich aktiv; Spotlight-Wurf
+  greift ab der 2. Szene nach Exfil-Fenster-Öffnung):
+  - Warteszene 1: kein Wurf (Grace-Beat, Atemholen erlaubt).
+  - Warteszene 2: 1W6, bei **1** → Spotlight-Beat.
+  - Warteszene 3: 1W6, bei **1–2** → Spotlight-Beat.
+  - Warteszene 4+: 1W6, bei **1–3** → Spotlight-Beat.
+- **Spotlight-Beat** = eine konkrete Welt-Reaktion in der Szene, die
+  Aufmerksamkeit auf die Crew zieht. **Pflicht-Eigenschaft:** der Beat
+  zwingt die Crew zur Reaktion (Cover wechseln, Spielen mit der Situation,
+  Flucht antreten), **nicht** nur narrative Verzierung. Beispiel-Pool, die
+  SL wählt einen passenden zum Spot und Epoche:
+  - Auto-Alarm geht zufällig in unmittelbarer Nähe los — Schergen drehen sich
+    um, jemand kommt zum Prüfen.
+  - Stadtfest-Scheinwerfer schwenkt zufällig auf die Position der Crew
+    (Bühnenkonzert, Karnevalswagen, Lichtinstallation).
+  - Crew wird in einer Menge „auf die Bühne“ gezerrt (Tradition verlangt
+    Beteiligung, neugieriger Konferenzier, später Hochzeitsgast).
+  - Stadion-/Bahnhofs-Anzeigetafel oder Pressefotograf lichtet die Crew ab
+    (Schwarz-Weiß-Plattenkamera 1913, Überwachungskamera 1972).
+  - Patrouille biegt zwei Straßen weiter zufällig in die Richtung der Crew.
+  - Ein NSC erkennt die Crew für jemand anderen, spricht laut den falschen
+    Namen an (*„Herr Direktor! Wir warten doch auf Sie!“*).
+  - Tier (Hund, Pferd, Vogelschwarm) reagiert auf etwas an der Crew —
+    Implantat-Resonanz, fremde Stoffe, ungewohnter Geruch.
+  - Wetterumschwung der die Crew sichtbarer macht (Regenpfütze spiegelt
+    Linse, plötzlicher Wind lüftet Tarnung).
+- **Konsequenzen pro Spotlight-Beat:**
+  - **Stress +1** für Crew (Squad: alle Mitglieder).
+  - **Heat +1** in der Epoche.
+  - **`logs.notes[]`-Eintrag** *„Spotlight-Beat <Typ> <Spot> <SC>/<MS>“*.
+  - **TTL -1 Min** zusätzlich (die Welt frisst Zeit).
+  - **Keine Px-Veränderung.** Spotlight-Eskalation ist Druck-Mechanik, nicht
+    Belohnungssystem. Px-Anstieg wäre narrativ falsches Signal („krieg ich
+    dafür was?“) — stattdessen erzeugt die Welt durch wachsenden Gegendruck
+    den Wunsch des Spielers, **jetzt** zum Anchor zu kommen.
+- **Kodex-Ansage bei Spotlight:**
+  ```
+  Kodex: Spotlight-Beat — <konkrete Welt-Reaktion>. Stress +1, Heat +1, TTL -1 Min.
+  ```
+  **SL-Framing-Pflicht:** Spotlight ist Welt-Reaktion, nicht Spieler-Fehler.
+  Niemals *„ihr habt was falsch gemacht“* oder *„das hattet ihr provoziert“*
+  formulieren. Stattdessen *„die Welt bemerkt euch — jetzt weg hier“*. Der
+  Beat ist Spielmechanik in Erzählform, kein Vorwurf.
+- **Spotlight-Beats akkumulieren bis 3 pro Mission**; ab dem **3.
+  Spotlight-Beat** wird das Phänomen *richtig schlimm*: **die Welt produziert
+  einen direkten Verfolger** (eigene Ermittler vor Ort, k.u.k.-Polizei,
+  sowjetischer NKWD-Trupp, Stadtgarde — was zur Epoche passt). Pflicht:
+  Die Eskalation triggert die in der Missions-Eröffnung gewählte Fremdfraktion
+  auf `aktiver Eingriff`-Status (siehe §Fraktionsinterventionen, mindestens
+  eine volle Szene direkte Gegenwehr). Save-Schema-Pflicht:
+  `log_intervention({'result': 'escalated', 'faction': <missions-fraktion>, 'impact': 'spotlight_cascade', 'escalated': true})`
+  nach der Szene.
+- **Wenn die Crew das primäre RW verpasst und zum Alt-Anchor muss:** Spotlight-
+  Eskalation läuft weiter (W6-Wurf zählt pro Alt-Anchor-Anreise-Szene), und
+  das Spotlight-Beat-Konto wird zusätzlich um **+1 vorgezogen** — wer am
+  Alt-Anchor ankommt, ist bereits auf der dritten Schwelle. Das ist Dein
+  *„richtig schlimm“*-Punkt: primären Anchor verpassen bedeutet Eskalations-
+  Stufe überspringen, Welt-Aufmerksamkeit massiv.
+
+**Multiplayer-Verhalten:**
+- **Squad-Manöver** (mehrere Chars, eine Crew, eine Szene): **ein W6 pro
+  Warteszene** für die Crew als Einheit. Spotlight-Beat trifft die ganze Crew
+  (Stress +1 für alle Squad-Mitglieder, Heat +1 einmal aufs Mission-Konto).
+- **Core-Splits mit `continuity.split.family_id`** (parallele Threads in
+  derselben Mission): **ein W6 pro Thread pro Warteszene**. Spotlight-Beats
+  akkumulieren mission-weit über alle Threads, die 3-Beat-Eskalation zählt
+  aggregiert (Thread A: 2 Spotlight + Thread B: 1 Spotlight = Eskalation
+  triggert in beiden Threads). Beim Konvergenz-Merge werden Spotlight-
+  Einträge in `logs.notes[]` dedupliziert nach `tag`-Wert (analog zur
+  `shared_echoes`-Merge-Regel `shared > campaign > rumor > personal`).
+- **Stress +1 beim Alt-Anchor-Bezug** gilt pro betroffener Squad (nicht pro
+  Thread — sonst doppelt im Split).
+
+**Begründung:** Exfil-Stress war bisher nur TTL-mechanisch (Zeit läuft, Stress
+steigt). Das macht es zu einer Buchhaltungs-Sache. **Spotlight-Eskalation**
+macht den Rückweg spürbar zur Schere: Je länger die Crew herumsteht, desto
+*konkreter* drückt die Welt sie raus — ein zufälliger Alarm, ein Scheinwerfer,
+ein NSC der zu laut ruft, eine Patrouille die zufällig einbiegt. Der Spieler
+soll nicht denken *„ich krieg eine Strafe“*, sondern *„hier wird's gleich
+ungemütlich, jetzt schnell weg“*. Erzählerisches Bild: die Zeitlinie spuckt
+sie aus. Das ist ZEITRISS-Kern: Orte und Zeit haben Gewicht, und je länger
+du an einem Ort bleibst, an dem du nicht sein solltest, desto sichtbarer
+wirst du.
+
+**Geltungsbereich:** Core-Ops und Rift-Ops gleichermaßen. Rift-Casefiles
+haben ihre eigenen 14 Szenen, die Mechanik greift dort ab Szene 11
+(Flucht-Phase) statt nach Primärziel.
+
 ### Cinematic Arc {#cinematic-arc}
 
 Missionen entfalten ihre Wirkung erst durch einen ruhigen Einstieg. Plane zu Beginn
