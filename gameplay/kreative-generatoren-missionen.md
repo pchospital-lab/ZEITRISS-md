@@ -146,9 +146,34 @@ Standard-Transferwerte:
 
 - **Anchor bestimmen:** Person, Ort oder Objekt setzt den Kernkonflikt (z. B.
   Informant, Relais-Knoten, Archivkiste).
-- **Auftragstyp wählen:** `protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document | influence | prevent`.
+- **Auftragstyp wählen** (SL-interner Code-Mapping zur `CoreObjectiveTable`):
+  `protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document | influence | prevent`.
+- **Verb-SSOT für Spieleroutput** (Pflichtgate, siehe Masterprompt §C „Briefing-Output-Pflichtgate“):
+  Im Briefing-Text **niemals** die englischen Codes oben verwenden. Stattdessen die deutschen
+  Pflicht-Verben — **sichern, ausschalten, retten, festnehmen, dokumentieren, beeinflussen,
+  verhindern, exfiltrieren, beschatten, sabotieren**. Mapping als SL-Spickzettel:
+
+  | Auftragstyp-Code  | Spieleroutput-Verben (deutsch)             |
+  | ----------------- | ------------------------------------------ |
+  | `protect`         | retten, sichern, beschatten                |
+  | `extract`         | exfiltrieren, sichern, festnehmen          |
+  | `neutralize`      | ausschalten, sabotieren                    |
+  | `document`        | dokumentieren, beschatten                  |
+  | `influence`       | beeinflussen, umstimmen (Variant)          |
+  | `prevent`         | verhindern, sabotieren                     |
+
 - **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
   oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids.
+- **Continuity-Anker (Pflicht ab MS2):** Briefing zieht mindestens einen Rückverweis
+  aus dem Save-State der Vor-Mission (`arc.hooks[]`, `arc.questions[]`,
+  `logs.notes[]`, oder `continuity.shared_echoes[]`). So spürt der Spieler die
+  Quest-Strang-Entwicklung. Vollständige Pflichtregel: Masterprompt §C
+  Briefing-Output-Pflichtgate.
+- **Nur Core-Ops:** Dieser Baukasten und die Verb-SSOT/Pflicht-Output-Box gelten
+  ausschließlich für Core-Briefings. Rift-Casefiles haben eigenes Briefing-Format
+  (max. 5 Stichpunkte, Fix-Objectives `Secure Anchor`/`Trace Leads`/
+  `Neutralize Weakness`/`Recover Sample`, kein Continuity-Anker-Zwang) — siehe
+  §Rift-Casefiles und §Rift-Seed Catalogue.
 - **Briefing-Eskalation:** Der Briefing-Scope folgt der Arc-Phase der Episode.
   Mission 1–2 zeigt einen **kleinen Ausschnitt** des historischen Szenarios als
   konkretes Ziel (einen Zeugen befragen, eine Lieferung verfolgen, einen Zugang
