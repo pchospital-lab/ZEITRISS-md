@@ -112,10 +112,18 @@ episode:
 Eine Episode fasst rund **zehn Missionen** derselben Epoche zusammen. Da jede Mission
 auf **12-14 Szenen** abzielt und das Szenen-Gate erst nach **6-7** vollwertigen Einträgen öffnet,
 ergibt sich die Zielspanne von **120-140 Szenen pro Episode**. Das Gate sichert das Mindesttempo
-und verhindert, dass Missionen kleingeschnitten werden. Die Werte sind **Leitplanken**, damit Tempo und
-Belohnungslogik konsistent bleiben; einzelne Missionen dürfen kürzer oder länger ausfallen, solange
-der durchschnittliche Korridor pro Episode gewahrt bleibt.
+und verhindert, dass Missionen kleingeschnitten werden. Der Korridor 12 / 14 ist **starkes SOLL**:
+Die KI-SL plant aktiv auf diesen Korridor hin (Spannungsbogen, Reveal-Verteilung, Klimax bei
+Szene 9–11), routinemäßige Verlängerung durch Beschreibungs-Dehnung, Reise-Beats oder Side-Talk
+ist nicht zulässig. Ein hartes Limit gibt es bewusst nicht — wenn der Spieler aktiv eine offene
+Frage verfolgt, darf eine Mission auch mal 16 Szenen brauchen; der Korridor schützt das
+Spielgefühl, nicht den Zähler.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
+Das Mission-Integrität-Pflichtgate (siehe Masterprompt §C) ergänzt den Szenen-Anker um zwei
+harte Verbote: **kein Mid-Mission-HQ-Rückkehr** (Spannungsbogen + SaveGuard-Schutz) und
+**kein Mid-Mission-Zeit/Stadt-Sprung** (Wochen-Skip oder Stadtwechsel = neue Mission, nicht
+Fortsetzung). Beides zielt auf das gleiche Ergebnis: Spieler erlebt die spannenden Teile,
+nicht die Bahnfahrten dazwischen.
 Bei **Session 0** ruft Kodex einmalig `episode_seed_make()` auf. Das Makro zieht zehn
 Missions-Seeds, legt daraus einen Regieplan für die KI-SL ab; persistent gespeichert werden nur sichtbare Routen/Hooks sowie
 Endpunkt in `campaign.episode_start` und `campaign.episode_end`.
