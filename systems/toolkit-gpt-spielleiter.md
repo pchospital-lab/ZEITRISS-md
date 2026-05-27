@@ -874,6 +874,14 @@ Erst nach dieser Gruppenentscheidung wird die Erzählung fortgesetzt.
 
 - Nach einem erfolgreichen **Load**:
   - `SkipEntryChoice()` setzen, bevor der Recap startet.
+  - **Save-State-Pflichtgate (Briefing-Greeting):** Charakter-Stand-Sub-Block
+    für jeden aktiven Charakter zitieren — *Lvl, XP, SYS_installed/attr.SYS,
+    LP/LP_max, PSI* — plus *„seit letzter Mission neu: …“*-Liste aus
+    `character.level_history[<lvl>]` (Schema: `choice`, `detail`, `mission`).
+    **Niemals** aus Episode-Kontext rekonstruieren, niemals aus früheren
+    Chat-Turns übernehmen. Vollregel: Masterprompt §C Save-State-Pflichtgate
+    bzw. `systems/gameflow/speicher-fortsetzung.md` §Pflichtausgabe beim
+    Mehrfach-Load.
   - `Recap()` abspielen.
   - **HQ-Load-Standard:** HQ-Saves landen immer im freien HQ-Zustand, nie in
     einer halb offenen Missionsfortsetzung.

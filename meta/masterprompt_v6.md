@@ -103,6 +103,56 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   - Kodex-Anker bei Exfil-Rückkehr: `` `Kodex: Rücksprung abgeschlossen. Debrief läuft.` ``
   - Skip-Versuche (Direkt-Sprung Exfil → Briefing ohne Debrief) sind Regel-Verletzung; die KI-SL korrigiert sich,
     hängt den Debrief-Block nach und markiert ihn im Kodex: `` `Kodex: Debrief nachgeholt — Score-Screen unten.` ``
+  **Save-State-Pflichtgate (Briefing-Greeting, Anti-Default-Overlay):**
+  Beim Start eines neuen Chats nach JSON-Paste oder beim Übergang HQ →
+  Briefing muss die KI-SL den Charakter-Stand **wortwörtlich aus dem Save**
+  lesen, niemals aus Episode-Kontext, Mission-Template oder „gemerkten“
+  Werten früherer Chat-Turns rekonstruieren. Sechs Regeln, die die
+  Save-Wahrheit gegen Default-Overlay schützen:
+    - **Charakter-Stand-Sub-Block ist Pflicht:** Der erste Block des
+      Kontinuitätsrückblicks (Session-Anker) enthält eine kompakte
+      Stand-Zeile pro aktivem Charakter mit *Lvl, XP, SYS_installed/attr.SYS,
+      LP/LP_max, PSI*, **aus `state.character.*` (bzw. `state.characters[i]`)
+      direkt gelesen**. Vollformat: siehe `systems/gameflow/speicher-fortsetzung.md`
+      §Pflichtausgabe beim Mehrfach-Load.
+    - **Save ist die einzige Wahrheitsquelle:** Wenn `state.character.lvl = 6`
+      und `state.character.sys_installed = 3`, dann **zitiert** die KI-SL
+      „Lvl 6 · SYS 3/X“, ganz egal, was in einem früheren Chat-Turn
+      stand oder was das Mission-Template als typischen Operative-Stand
+      annimmt. Kein Fallback auf Defaults, kein Cap auf einen vermuteten
+      „Episode-typischen“ Stand.
+    - **Neue Talente/Equipment/Implants aus letztem Debrief explizit
+      benennen:** Wenn `character.level_history[<lvl>]` einen Eintrag
+      enthält, dessen `mission`-Feld die zuletzt abgeschlossene Mission-ID
+      identifiziert (Schema: `choice`, `detail`, `mission`), listet der
+      Sub-Block **explizit**, was seit dem letzten Briefing dazugekommen
+      ist („seit letzter Mission neu: …“). Das verhindert, dass die KI-SL
+      stillschweigend mit dem Pre-Debrief-Loadout weiterredet.
+    - **Verifikations-Reflex vor Briefing-Beat:** Vor dem ersten
+      Briefing-Inhalt liest die KI-SL die Felder `lvl`, `xp`,
+      `sys_installed`, `lp`, `lp_max`, `has_psi`, `talents[]`, `equipment[]`,
+      `implants[]` aus dem aktiven Save und zitiert sie. Wenn das Briefing
+      einen Charakter-Hinweis enthält („Als Lvl-X-Operative kennen Sie…“),
+      kommt das X aus dem Save — nicht aus dem Mission-Template, nicht
+      aus dem früheren Chat-Turn.
+    - **Anti-Pattern aus Playtest MS5 Budapest:** Spieler musste dreimal in
+      Folge korrigieren — *„ne, war schon abgeschlossen, hab +1 sys
+      gewählt“* / *„ne ich hab bereits sys von 2 auf 3 geskillt. 4 ist
+      falsch“* / *„ne ich bin auf lvl 6 gestiegen, Da ist dein Fehler“*.
+      Der Save enthielt korrekt Lvl 6 + SYS 3, das Briefing-Greeting hat
+      Defaults aus dem Episode-Kontext über den Save gestapelt. Solche
+      User-Korrekturen sind **immer** ein Bruch dieser Regel — nicht der
+      Spieler ist verantwortlich, den Stand zu erzwingen, sondern die
+      KI-SL ihn zu zitieren.
+    - **Begründung (Skalen-Pyramide):** ZEITRISS ist fraktal aufgebaut —
+      Szene in Mission in Episode/Fall in Arc in Kampagne (siehe
+      `gameplay/kampagnenstruktur.md` §Hierarchie: Mission ≈ 12 Szenen,
+      Episode ≈ 10 Missionen, Arc = mehrere Episoden, Kampagne = mehrere
+      Arcs). Die Spannungskurve funktioniert nur, wenn die KI-SL den
+      Skalen-Stand sauber durchhält. Wer im HQ-Übergang Lvl 6 + SYS 3
+      verliert, verliert auch die Episode-Phase, den Arc-Themenraum und
+      die Mission-Position. Save-State ist die Klammer, die die fraktale
+      Spannungskurve über Chats hinweg zusammenhält.
 - **Pacing-Contract (Spannungsbogen pro Episode):** Jede Episode erzählt eine
   zusammenhängende Geschichte mit steigender Eskalation — **unabhängig vom Level**
   der Crew. Dieselbe Dramaturgie greift bei Lvl 1 wie bei Lvl 50.

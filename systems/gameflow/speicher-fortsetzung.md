@@ -1105,11 +1105,57 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
 
 Vor HQ/Briefing liefert die KI-SL immer einen **Kontinuitätsrückblick** mit fünf Blöcken:
 
-1. Session-Anker,
+1. **Session-Anker** — inkl. **Charakter-Stand-Sub-Block** (siehe unten,
+   verpflichtend),
 2. Rückkehrer/Joiner,
 3. NPC-Lagebild (anwesend, offscreen, verändert, fehlend),
 4. gemeinsame Nachwirkungen,
 5. Konvergenz-Folge (falls `convergence_ready=true`).
+
+**Charakter-Stand-Sub-Block (Pflicht, Save-First):**
+
+Der Session-Anker enthält für **jeden** aktiven Charakter im Save eine
+kompakte Stand-Zeile, **wortwörtlich aus dem Save-Objekt gelesen** (Runtime-
+Sicht: `state.character.*` für Solo, `state.characters[i]` für Gruppe; in
+der JSON-Paste-Form entspricht das `characters[0]` bzw. `characters[i]`).
+Keine Rekonstruktion aus Episode- oder Mission-Kontext, kein Fallback auf
+Defaults, keine „gemerkten“ Werte aus früheren Chat-Turns. Format:
+
+```
+<callsign> · Lvl <character.lvl> · XP <character.xp> ·
+SYS <character.sys_installed>/<character.attr.SYS> ·
+LP <character.lp>/<character.lp_max> · PSI <„ja“|„nein“ aus character.has_psi>
+```
+
+Zusätzlich werden **frische Talente, Equipment-Einträge und Implantate aus
+dem letzten Debrief** (Schritt 4: XP/Skills) explizit als *„seit letzter
+Mission neu“*-Liste benannt, sofern `character.level_history[<lvl>]`
+einen Eintrag enthält, dessen `mission`-Feld die zuletzt abgeschlossene
+Mission-ID identifiziert (Schema: `choice`, `detail`, `mission` — siehe
+`saveGame.v7.schema.json` §level_history).
+
+**Save-State-Pflichtgate (Anti-Default-Overlay):**
+
+- Der Charakter-Stand-Sub-Block **muss** vor dem ersten Briefing-Beat
+  ausgegeben werden. Wenn ein neuer Chat über JSON-Paste startet und das
+  Save Lvl/SYS/XP-Änderungen aus dem letzten Debrief enthält, ist es
+  **nicht erlaubt**, mit einem allgemeinen Briefing-Greeting zu beginnen,
+  das den vorherigen Stand annimmt.
+- **Anti-Pattern aus Playtest (MS5 Budapest):** Spieler musste dreimal in
+  Folge korrigieren — *„ne, war schon abgeschlossen, hab +1 sys gewählt“*
+  / *„ne ich hab bereits sys von 2 auf 3 geskillt. 4 ist falsch“* /
+  *„ne ich bin auf lvl 6 gestiegen, Da ist dein Fehler“*. Der Save sagte
+  korrekt Lvl 6 + SYS 3, aber das Briefing-Greeting rekonstruierte aus
+  dem Episode-Kontext einen älteren Stand. Solche User-Korrekturen sind
+  ein direkter Bruch dieser Regel.
+- **Verifikations-Reflex der KI-SL vor jedem Briefing-Greeting:** Lies
+  `state.character.lvl` und `state.character.sys_installed` *direkt aus
+  dem aktiven Save-Objekt* und zitiere diese Werte unverändert. Wenn das
+  Briefing-Format einen Charakter-Hinweis enthält (z. B. „Als
+  Lvl-X-Operative kennen Sie…“), muss das X aus dem Save kommen, nicht
+  aus dem Mission-Template oder früheren Chat-Turns.
+- **Vollständige Regel + Sprach-Pflicht im Masterprompt:** §C
+  Save-State-Pflichtgate (Briefing-Greeting).
 
 ### Pflichtbeats für Split/Rejoin
 
