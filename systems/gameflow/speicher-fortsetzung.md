@@ -32,8 +32,8 @@ tags: [system]
 > - **Neuer Chat pro Abschnitt** empfohlen: Chargen → Save → neuer Chat → HQ-Runde → Save → neuer Chat → Mission → HQ → Save → neuer Chat. Jeder Abschnitt startet frisch.
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Stand stabil. Deepsave möglich.`
 > - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
-> - **Savebare HQ-Zustände:** Chargen-Ende (klassischer Pfad), Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
-> - **Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** springt direkt in den Briefingraum, kein Chargen-Save-Gate. Save-Angebot erst nach Mission 1.
+> - **Savebare HQ-Zustände:** Chargen-Ende, Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
+> - *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme (`solo schnell` / `gruppe schnell`), die direkt in den Briefingraum sprang und das Chargen-Save-Gate übersprang. Die Ausnahme wurde entfernt; das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 >
 > _Technische Details für die KI-Spielleitung folgen unten._
 
@@ -107,10 +107,12 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
   greifen erst nach Rückkehr ins HQ bei `queue_state=idle|completed`. Das
   Save-Sync-Pattern unten blockiert *Übergänge*, nicht den Save selbst —
   beide Mechaniken sind komplementär.
-- **Fast-Lane-Ausnahme:** `solo schnell` / `gruppe schnell` springt aus der
-  Charaktererschaffung direkt ins Briefing — kein Chargen-Sync, kein
-  HQ-Heimkehr-Beat. Erstes Save-Angebot kommt nach Mission 1, dort greift
-  der Standard-Debrief-Sync wieder regulär.
+- *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme
+  (`solo schnell` / `gruppe schnell`), die aus der Charaktererschaffung
+  direkt ins Briefing sprang — ohne Chargen-Sync, ohne HQ-Heimkehr-Beat.
+  Die Ausnahme wurde entfernt; das Chargen-Save-Gate ist jetzt Pflicht
+  auf jedem Onboarding-Pfad. Legacy-Trigger `solo schnell` / `gruppe schnell`
+  werden im Runtime still auf `klassisch` gemappt.
 - **Tod-Final-Save ist KEIN Sync-Punkt.** Heroischer Tod erzeugt einen
   Final-Save (`"status":"deceased"`) als Sonderausnahme zur HQ-only-Regel
   (siehe Tod-Handling im Masterprompt). Davor läuft **kein** Sync-Beat —
@@ -1028,8 +1030,8 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 > Spielleitungen. Runtime-Implementierungen müssen die hier definierten
 > Regeln spiegeln, dürfen aber keinen eigenen Spielkanon einführen.
 
-**Multi-Save-Import (Gruppenschnellstart):** Werden vor einem neuen Briefing
-mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe schnell)`), setzt
+**Multi-Save-Import (Gruppenstart):** Werden vor einem neuen Briefing
+mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe)`), setzt
 der **zuerst gepostete Save den Session-Anker** (aktueller Einstiegspunkt mit
 `episode`, `mission`, `mode`, `rift_seeds[]`, `px`). Weitere Saves liefern
 zusätzlich persönliche Wahrheit pro `characters[].id` und Kontinuitäts-Echos.

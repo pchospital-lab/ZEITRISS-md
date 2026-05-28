@@ -23,6 +23,17 @@ ersten Briefing ausgerichtet; die Fast-Lane bleibt explizit als Ausnahme
 definiert. Die kritische `oder`-Lesart im Masterprompt wurde auf den
 Pflicht-Pause-Beat korrigiert.
 
+## Folge-Update (2026-05-28, refactor/remove-fast-lane)
+
+Die Fast-Lane-Ausnahme wurde komplett **entfernt** — sie sparte einen
+Beat, kollidierte aber mit dem Briefing-Sprung-Block und brach den
+Save-Loop. Es gibt jetzt nur noch den klassischen Pfad mit Chargen-
+Save-Gate. Trigger `solo schnell` / `gruppe schnell` werden im Runtime
+still auf `klassisch` gemappt. Alles unten in diesem Dokument, was die
+Fast-Lane als aktiven Pfad beschreibt, ist historische Befund-Notiz —
+der kanonische aktuelle Stand steht in `meta/masterprompt_v6.md`
+§ Chargen-Save-Gate.
+
 Verankert in:
 
 - `meta/masterprompt_v6.md` (Chargen-Save-Gate + Fast-Lane-Ausnahme)

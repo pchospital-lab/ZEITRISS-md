@@ -27,10 +27,14 @@ assert(response.startsWith('Startsyntax aktualisiert'));
 response = rt.on_command('!kampagnenmodus trigger');
 assert(response.startsWith('Kampagnenmodus gesetzt: TRIGGER'));
 
+// Fast-Lane entfernt (refactor/remove-fast-lane, 2026-05-28):
+// Trigger `solo schnell` wird still auf den klassischen Pfad gemappt.
+// Bestandseingaben funktionieren weiter, landen aber im einzigen
+// Onboarding-Pfad. State.mode bleibt deshalb `klassisch`.
 response = rt.on_command('spiel starten (solo schnell)');
-assert.strictEqual(response, 'solo-trigger-schnell');
+assert.strictEqual(response, 'solo-trigger-klassisch');
 assert.strictEqual(rt.state.start.type, 'solo');
-assert.strictEqual(rt.state.start.mode, 'schnell');
+assert.strictEqual(rt.state.start.mode, 'klassisch');
 assert.strictEqual(rt.state.start.seed_mode, 'trigger');
 assert.strictEqual(rt.state.campaign.mode, 'trigger');
 assert.strictEqual(rt.state.campaign.seed_source, 'trigger');
@@ -66,10 +70,12 @@ assert(response.startsWith('Kampagnenmodus separat setzen'));
 response = rt.on_command('!kampagnenmodus trigger');
 assert(response.startsWith('Kampagnenmodus gesetzt: TRIGGER'));
 
+// Fast-Lane entfernt: `gruppe fast` / `gruppe schnell` werden ebenfalls
+// still auf klassisch gemappt. state.mode bleibt `klassisch`.
 response = rt.on_command('spiel starten (gruppe fast)');
-assert.strictEqual(response, 'gruppe-trigger-schnell');
+assert.strictEqual(response, 'gruppe-trigger-klassisch');
 assert.strictEqual(rt.state.start.type, 'gruppe');
-assert.strictEqual(rt.state.start.mode, 'schnell');
+assert.strictEqual(rt.state.start.mode, 'klassisch');
 assert.strictEqual(rt.state.start.seed_mode, 'trigger');
 assert.strictEqual(rt.state.campaign.mode, 'trigger');
 assert.strictEqual(rt.state.campaign.seed_source, 'trigger');

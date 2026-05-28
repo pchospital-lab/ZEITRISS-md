@@ -5,8 +5,9 @@
 # OpenWebUI 0.9.1 kompatibel, mit Retrieval-Verify).
 #
 # Nach erfolgreichem Setup ist der Standard-Einstieg im neuen Chat:
-#   Spiel starten (solo klassisch)                  — Default-Runtime-Pfad
-#   Spiel starten (solo schnell)                    — Fast-Lane, optional
+#   Spiel starten (solo klassisch)                  — einziger Pfad
+# (Bis v4.2.5 gab es eine Fast-Lane `solo schnell`; entfernt, alte
+# Trigger werden still auf `klassisch` gemappt.)
 # Alternativ in natürlicher Sprache sagen "neu starten" oder "neu
 # starten bitte" — der SL nimmt natürliche Formulierungen an.
 #

@@ -148,8 +148,8 @@ print(json.dumps({
         'capabilities': {'vision': False, 'usage': False},
         'knowledge': [{'id': '$KB_ID', 'name': 'ZEITRISS 4.2.6 Regelwerk'}],
         'suggestion_prompts': [
-            {'content': 'Spiel starten (solo schnell)'},
             {'content': 'Spiel starten (solo klassisch)'},
+            {'content': 'Spiel starten (gruppe klassisch)'},
             {'content': 'Spiel laden'}
         ]
     },

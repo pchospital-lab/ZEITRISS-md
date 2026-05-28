@@ -153,15 +153,12 @@ Erst nach deiner Entscheidung startet das **Briefing** (erst dort wird die
 Mission gezogen).
 Nach Abschluss der Erschaffung stabilisiert das HQ den Körperanker und erst dann
 das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
-Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und startest
-direkt im Briefing; das Save-Angebot kommt erst nach Mission 1.
-
 Die ersten Schritte in unter zwei Minuten:
 
 1. **Startwunsch äußern** — neu starten oder Save laden (natürlichsprachlich oder per Kurzbefehl).
 2. **Bei Neustart:** solo / npc-team / gruppe wählen; Default ist klassisch.
 3. **Charakterweg wählen** — `generate`, `custom generate` oder selbst bauen.
-4. **Chargen-Save-Gate (klassisch)** — nach der Erstellung erst Heimkehrbeat + `!save`-Angebot im HQ, danach Briefing per Entscheidung.
+4. **Chargen-Save-Gate (Pflicht)** — nach der Erstellung erst Heimkehrbeat + `!save`-Angebot im HQ, dann **neuen Chat öffnen, Save laden, dort Briefing**. Im Chargen-Chat geht kein Sprung mehr ins Briefing.
 5. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
    W6 normal, W10 ab Attribut 11, Heldenwürfel ab 14. Exploding bei Maximum (Burst-Cap 1).
 6. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift) in der Einsatzzeit
@@ -331,9 +328,12 @@ neuer Save, kein neuer Chat, kein technischer Split. Splits mit getrennten
 Saves passieren nur an Abschnittsübergängen (z. B. nach Debrief geht einer
 nach Hause solo weiter, der Rest spielt als Gruppe weiter).
 
-Ausnahme: **Fast-Lane** (`solo schnell` / `gruppe schnell`). Diese Variante
-springt aus der Charaktererschaffung direkt ins Briefing; das erste
-Save-Angebot kommt erst nach Mission 1. Ab da gilt der reguläre Rhythmus.
+*Hinweis für Tester aus älteren Patches:* Bis v4.2.5 gab es eine
+**Fast-Lane** (`solo schnell` / `gruppe schnell`), die aus der
+Charaktererschaffung direkt ins Briefing sprang — ohne Chargen-Save-Gate.
+Die Variante wurde entfernt. Legacy-Trigger `solo schnell` / `gruppe schnell`
+werden still auf den klassischen Pfad gemappt, damit alte Notizen weiter
+funktionieren.
 
 ### Mehr dazu
 
@@ -589,8 +589,6 @@ den State weiter (Typ A/B/C).
 - `Spiel starten (gruppe klassisch)` - alle bauen mit
   `generate` / `custom generate` / manuell; Saves können danach im Lobby-Flow
   gepostet werden
-- **Fast-Lane (optional):** `Spiel starten (solo schnell)` oder
-  `Spiel starten (npc-team [0-4] schnell)` für Kurzrunden mit Rollen-Defaults
 - `Spiel laden` - Deepsave → Kodex-Recap → freier HQ-Zustand mit Router
   (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei /
   Arena-Router mit Resume-Check), EntryChoice übersprungen
@@ -711,33 +709,12 @@ Siehe auch:
 
 </details>
 
-<details><summary>Solo - Schnelleinstieg (Fast-Lane, optional)</summary>
-
-**Spieler:**
-`Spiel starten (solo schnell) - Rolle: Sniper Alleingänger`
-
-**SL (KI-SL):**
-
-> **Briefingraum**. Projektionen flackern.
-> **Kodex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
-> **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.
-> **Legende:** ziviler Gutachter.
-> **Fraktionslage:** ruhig.
->
-> - _Kurzes Briefing_ (3 Ziele). _Dann:_ "Szene 1 - Zugangspunkt?"
-
-**Fast-Lane-Hinweis:** Die Fast-Lane springt direkt in den Briefingraum —
-**kein Chargen-Save-Gate**. Das ist so gewollt, für Demo-/Kurzrunden. Das
-erste Save-Angebot kommt nach Mission 1 im regulären Post-Mission-HQ.
-
-</details>
-
-<details><summary>Gruppe - Schnelleinstieg (Fast-Lane, optional; gemischt, 2 Saves + 1 Rolle)</summary>
+<details><summary>Gruppe - Mischrunde (gemischt, 2 Saves + 1 Rolle)</summary>
 
 **Spieler:**
 
 ```text
-Spiel starten (gruppe schnell)
+Spiel starten (gruppe)
 [A] - Save posten
 [B] - Save posten
 [C] - Rolle: Face
@@ -965,9 +942,6 @@ Wie willst du einsteigen?
 Klassischer Einstieg: Gemächlicher Start im Nullzeit-HQ - du lernst deinen
 Chrononauten kennen, bevor es ins Feld geht.
 
-Schnelleinstieg: Überspringe die ausführliche Erschaffung: Rolle wählen und
-nach kurzer Vorbereitung direkt ins Briefing starten.
-
 Freie Aktion: Definiere Callsign, Konzept und Hülle deines Chrononauten, und wir
 beginnen unmittelbar mit deinem ersten Einsatz.
 
@@ -988,19 +962,16 @@ Transferblitz, Sensoren flackern auf und dein Bewusstsein fährt hinein. Erst je
 öffnest du die Augen in einer
 klinisch weißen Kammer.
 
-Nach Einleitung (Compliance-Hook entfällt) wählst du zwischen
-**klassischem Einstieg** und **Schnelleinstieg**:
+Nach Einleitung (Compliance-Hook entfällt) folgt der **klassische Einstieg**
+als einziger Pfad:
 
-- _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper.
+- _Klassisch (Standard):_ Ausführliche Charaktererschaffung wie im Pen & Paper.
   Vor dem Menü zeigt das System automatisch die Nullzeit-Labor-Sequenz aus dem
   ITI-Archiv: Bewusstsein aus dem Absolut, Tank-Schweben, Bio-/Cyberware-Slots,
   Ausrüstung und stabilisiertes Körperprofil, Transferblitz und Eintritt ins Quarzatrium.
   Danach greift der Heimkehrbeat mit Chargen-Save-Gate im HQ. Erst nach
-  expliziter Entscheidung geht es ins Briefing; dort wird der Missions-Seed
-  gezogen.
-- _Schnell:_ Wähle eine Rolle (Infiltration, Tech, Face, Sniper …) und ein
-  Kurzprofil. Anschließend startet der Fast-Lane-Pfad direkt im Briefing; ein
-  Save-Angebot folgt erst nach Mission 1.
+  expliziter Entscheidung und erfolgtem Deepsave geht es im neuen Chat ins
+  Briefing; dort wird der Missions-Seed gezogen.
 
 ## Grundidee
 

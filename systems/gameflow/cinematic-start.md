@@ -33,8 +33,10 @@ Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquar
 Danach folgt im klassischen Pfad verpflichtend der **Heimkehrbeat im HQ** mit
 Chargen-Save-Gate (`!save` anbieten, kein Auto-Briefing). Erst nach
 Spielerentscheidung startet das **Briefing** im Quarzatrium.
-Im Fast-Lane-Pfad (`solo schnell`/`gruppe schnell`) bleibt der direkte Einstieg
-ins Briefing erlaubt; dort gibt es kein Chargen-Save-Gate vor Mission 1.
+*Hinweis für künftige Wartung:* Bis v4.2.5 gab es einen Fast-Lane-Pfad
+(`solo schnell`/`gruppe schnell`), der den direkten Einstieg ins Briefing
+ohne Chargen-Save-Gate erlaubte. Die Variante wurde entfernt; Trigger
+werden still auf den klassischen Pfad gemappt.
 Der Missions-Seed wird erst im Briefing gezogen – nicht bereits in Einleitung
 oder HQ-Tour. Erst anschließend treten die Chrononauten durch den Zeitriss und
 beginnen ihre Mission.
@@ -187,8 +189,8 @@ Varianten als **Inszenierungswerkzeug** erlaubt:
 
 Diese Varianten ändern **nicht** den Produktpfad (Neustart/Kurzform →
 `klassisch` → `generate/custom generate/manuell` → Heimkehrbeat +
-Chargen-Save-Gate → HQ-Router/Briefing per Entscheidung; Fast-Lane direkt ins
-Briefing) und ändern keine Save-, Split- oder Missionsregeln.
+Chargen-Save-Gate → HQ-Router/Briefing per Entscheidung) und ändern
+keine Save-, Split- oder Missionsregeln.
 
 ## Fazit: klarer Start, optionale Inszenierung
 

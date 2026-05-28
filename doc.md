@@ -32,27 +32,26 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 - Golden-Referenz: Start-/Fehlertexte kommen aus `dispatcher_strings` (Runtime)
   und der Fixture `internal/qa/fixtures/dispatcher_strings.json`.
 
-1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → **Chargen-Save-Gate** → (Briefing / freies Erkunden) → SC 1
-2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
-3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
+1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → **Chargen-Save-Gate** → (neuer Chat) → Briefing → SC 1
+2. `Spiel starten (solo schnell)` → still auf klassischen Pfad gemappt (Legacy-Trigger, kein eigener Flow mehr).
+3. `Spiel starten (npc-team 3)` → Autogen-NSCs (3) → Chargen-Save-Gate → Briefing
 4. `Spiel starten (npc-team 5)` → Fehlertext „NPC-Begleiter: 0–4 (Team gesamt 1–5).
-   Bitte erneut eingeben (z. B. npc-team 3).“
-5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
-6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
-   (klassisch/schnell sind erlaubt)“
+   Bitte erneut eingeben (z. B. npc-team 3).“
+5. `Spiel starten (gruppe schnell)` → still auf klassischen Pfad gemappt (Legacy-Trigger, kein eigener Flow mehr).
+6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
-8. `Speichern` während Mission → Blocker „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
-9. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+8. `Speichern` während Mission → Blocker "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt."
+9. "Px 5" triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 
 ### Boss-Gates & HUD-Badges
 
-10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD bleibt
+10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD bleibt
     auf dem Golden-String `GATE 2/2 · FS x/y` (Foreshadow zählt nur den FS-Block
     hoch) und der Trace hält Teamgröße sowie DR-Basis fest.
-11. Mission 5 starten → HUD meldet den Encounter-Hinweis
-    `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
+11. Mission 5 starten → HUD meldet den Encounter-Hinweis
+    `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und - falls zuvor deaktiviert -
     `SF-OFF` (Suggest-Badge bleibt davon unberührt). Der Foreshadow-Zähler startet
-    bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −X
+    bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert - -X
 Schaden pro Treffer` (DR nach Teamgröße/Boss-Typ laut
     [Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)); beim
     Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection
@@ -61,14 +60,14 @@ Schaden pro Treffer` (DR nach Teamgröße/Boss-Typ laut
 ### Psi-Heat & Ressourcen-Reset
 
 12. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
-    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
+    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
     setzt SYS/Stress/Psi-Heat zurück.
 
 ### Accessibility & UI-Persistenz
 
 13. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
     `Badges: dense` oder `compact` und `Output pace: slow` bestätigen; HUD-Toast
-    „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
+    "Accessibility aktualisiert ..." notieren und die aktualisierten UI-Felder im
     Save-Preview sichern. Legacy-Werte `full|minimal` werden auf
     `standard|compact` gemappt.
 14. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
@@ -79,7 +78,7 @@ Schaden pro Treffer` (DR nach Teamgröße/Boss-Typ laut
 
 - Arena/Psi: Ein Lauf mit Psi-Charakter (`phase_strike_cost()` aktiv, HUD-Toast
   mit Tax + Logs), ein Lauf ohne Psi (nur Arena-Gebühr, `psi_buffer` aktiv).
-- Fahrzeuge/Massenkonflikte: „Cineastische Verfolgung“ auslösen (Start-Overlay,
+- Fahrzeuge/Massenkonflikte: "Cineastische Verfolgung" auslösen (Start-Overlay,
   Crash/Stress protokollieren) und Massenkonflikt-Flag aufnehmen.
 
 ## Nachrichtenfluss: Lade-Pipeline
@@ -99,16 +98,16 @@ flowchart TD
 Verzögert Konfliktszenen bis zur angegebenen Szene. Standardmäßig bleibt die
 Liste `allow` leer; setze etwa `allow=['ambush','vehicle_chase']`, wenn frühe
 Überfälle oder Verfolgungen erlaubt sein sollen. Missions-Tags `heist` oder
-`street` senken das Limit automatisch um je eine Szene (Minimum: Szene 2).
+`street` senken das Limit automatisch um je eine Szene (Minimum: Szene 2).
 
-### `comms_check(device, range_m, …)`
+### `comms_check(device, range_m, ...)`
 
 Prüft Gerät und Reichweite. Akzeptiert `device`
 (`comlink|cable|relay|jammer_override`, Groß-/Kleinschreibung egal) sowie eine
 Reichweite in Metern. Optional können `range_km`, Jammer- oder Relay-Flags
 übergeben werden. Liefert `true`, wenn Reichweite × `state.comms.rangeMod`
 größer Null ist und bei Jammer nur Kabel, Relais oder Override genutzt werden.
-Die Kernregeln sind im [README → Comms-Core](README.md#comms-core) gespiegelt.
+Die Kernregeln sind im [README → Comms-Core](README.md#comms-core) gespiegelt.
 Wird durch `must_comms(opts)` ergänzt, das automatisch km→m konvertiert.
 
 ### `must_comms(opts)`
@@ -126,13 +125,13 @@ etc.) steht, sonst `false`.
 
 Warnung im PRECISION-Stil, falls weniger als `count` Hinweise für spätere
 Bosskämpfe gesetzt wurden. Core-Missionen benötigen nun vier Foreshadows,
-Rift-Operationen zwei, um Szene 10 zu erreichen.
+Rift-Operationen zwei, um Szene 10 zu erreichen.
 
 ### `ForeshadowHint(text, tag='Foreshadow')`
 
 Registriert einen Foreshadow-Hinweis und sendet einen passenden HUD-Toast.
 Nur Hinweise, die über dieses Makro oder automatische System-Hints gesetzt
-werden, heben den Gate für Szene 10 auf. Persistiert Marker in `logs.foreshadow`
+werden, heben den Gate für Szene 10 auf. Persistiert Marker in `logs.foreshadow`
 und hält das HUD-Badge aktuell.
 
 ## Beispiele
