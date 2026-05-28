@@ -162,44 +162,45 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
     Verschwörung steht noch im Schatten. Der Spieler soll denken: *„Interessant,
     was steckt dahinter?“* — nicht: *„Warum soll ich diesen Atomkrieg verhindern?“*
     **MS1-2-Tonfall-Pflichtgate** (Anti-Onboarding-Hammer):
-      - **Briefing-Stakes klein halten:** Hauptziel ist konkret und greifbar —
-        *„den Botschafter unbemerkt observieren“* / *„das verschollene Tagebuch
-        wiederfinden“* / *„zwei Stunden lang einen Augenzeugen beschatten“*. **Niemals**:
-        *„die Zeitlinie reparieren“* / *„den Atomkrieg verhindern“* /
-        *„das Auseinanderfallen der Wirklichkeit aufhalten“* / *„die Welt vor
-        XYZ retten“*. Solche Mega-Stakes sind erst ab Mission 6+ erlaubt
-        (Klimax-Phase), nie in der Einleitung.
-      - **Verschwörung als Gerücht, nicht als Faktum:** Der Briefing-Offizier
-        nennt eine Beobachtung (*„anomale Signatur, schwach“*), nicht ein
-        Endgame (*„eine Fraktion will die Zeitlinie löschen“*). Hinweise auf
-        größeren Plot sind erlaubt als **Schatten am Horizont**
-        (*„könnte ein Vorzeichen sein, könnte ein Einzelfall sein“*) — nie als
-        bereits etablierte Bedrohung.
-      - **Sprach-Pflicht:** Briefing-Text vermeidet **Eschatologie-Vokabular**
-        („Untergang“, „Auslöschung“, „Apokalypse“, „alles geht verloren“,
-        „unwiederbringlich“) und **Welt-Stakes-Behauptungen** in MS1–2.
-        Stattdessen Spionage-Thriller-Vokabular („Anomalie“, „unklar“,
-        „Beobachtung“, „kein autorisiertes Team vor Ort“).
-      - **Spieler-Gefühl-Prüfung:** Nach dem Briefing soll der Spieler
-        *„Interessant, was steckt dahinter?“* denken — nicht *„Puh, gleich
-        Welt-Untergang als FBI-Rookie?“*. Wenn das Briefing schon Stakes-
-        Maximum hat, ist die Eskalation in MS6–9 erzählerisch verbraucht.
-      - **Anti-Pattern (als Muster, nicht nur als Wortlaut):** Jede Briefing-
-        Formulierung, die in MS1–2 **Welt-Stakes als Faktum** behauptet, ist
-        ein Onboarding-Hammer. Verbotene Muster sind u. a.: *„die Zeitlinie
-        reparieren“* / *„die Realität rutscht uns durch die Finger“* / *„den
-        Atomkrieg verhindern“* / *„die Welt vor X retten“* / *„das Auseinander-
-        fallen der Wirklichkeit aufhalten“* / *„die Auslöschung verhindern“*
-        — auch in Synonymen und Paraphrasen. Konkretes Beispiel aus Playtest
-        MS0: *„Ein einziger falscher Schritt — und die Zeitlinie sieht aus wie
-        etwas, das wir nicht mehr reparieren können“* (direkter Bruch der
-        Regel). Wenn der Briefing-Text das Schicksal der Zeitlinie, der Welt
-        oder der Realität als Einsatz nennt, ist es ein Onboarding-Hammer —
-        unabhängig vom konkreten Wortlaut.
-      - **Begründung:** Wer auf Stufe 1 schon die Welt rettet, hat in Mission
-        10 keine Steigerung mehr. ZEITRISS lebt vom Schicht-für-Schicht-
-        Aufdecken (siehe Pacing-Contract). Wenn MS1 als Einsteiger-Schock
-        „Alles steht auf dem Spiel“ serviert, leidet die ganze Episode.
+
+    - **Briefing-Stakes klein halten:** Hauptziel ist konkret und greifbar —
+      *„den Botschafter unbemerkt observieren“* / *„das verschollene Tagebuch
+      wiederfinden“* / *„zwei Stunden lang einen Augenzeugen beschatten“*. **Niemals**:
+      *„die Zeitlinie reparieren“* / *„den Atomkrieg verhindern“* /
+      *„das Auseinanderfallen der Wirklichkeit aufhalten“* / *„die Welt vor
+      XYZ retten“*. Solche Mega-Stakes sind erst ab Mission 6+ erlaubt
+      (Klimax-Phase), nie in der Einleitung.
+    - **Verschwörung als Gerücht, nicht als Faktum:** Der Briefing-Offizier
+      nennt eine Beobachtung (*„anomale Signatur, schwach“*), nicht ein
+      Endgame (*„eine Fraktion will die Zeitlinie löschen“*). Hinweise auf
+      größeren Plot sind erlaubt als **Schatten am Horizont**
+      (*„könnte ein Vorzeichen sein, könnte ein Einzelfall sein“*) — nie als
+      bereits etablierte Bedrohung.
+    - **Sprach-Pflicht:** Briefing-Text vermeidet **Eschatologie-Vokabular**
+      („Untergang“, „Auslöschung“, „Apokalypse“, „alles geht verloren“,
+      „unwiederbringlich“) und **Welt-Stakes-Behauptungen** in MS1–2.
+      Stattdessen Spionage-Thriller-Vokabular („Anomalie“, „unklar“,
+      „Beobachtung“, „kein autorisiertes Team vor Ort“).
+    - **Spieler-Gefühl-Prüfung:** Nach dem Briefing soll der Spieler
+      *„Interessant, was steckt dahinter?“* denken — nicht *„Puh, gleich
+      Welt-Untergang als FBI-Rookie?“*. Wenn das Briefing schon Stakes-
+      Maximum hat, ist die Eskalation in MS6–9 erzählerisch verbraucht.
+    - **Anti-Pattern (als Muster, nicht nur als Wortlaut):** Jede Briefing-
+      Formulierung, die in MS1–2 **Welt-Stakes als Faktum** behauptet, ist
+      ein Onboarding-Hammer. Verbotene Muster sind u. a.: *„die Zeitlinie
+      reparieren“* / *„die Realität rutscht uns durch die Finger“* / *„den
+      Atomkrieg verhindern“* / *„die Welt vor X retten“* / *„das Auseinander-
+      fallen der Wirklichkeit aufhalten“* / *„die Auslöschung verhindern“*
+      — auch in Synonymen und Paraphrasen. Konkretes Beispiel aus Playtest
+      MS0: *„Ein einziger falscher Schritt — und die Zeitlinie sieht aus wie
+      etwas, das wir nicht mehr reparieren können“* (direkter Bruch der
+      Regel). Wenn der Briefing-Text das Schicksal der Zeitlinie, der Welt
+      oder der Realität als Einsatz nennt, ist es ein Onboarding-Hammer —
+      unabhängig vom konkreten Wortlaut.
+    - **Begründung:** Wer auf Stufe 1 schon die Welt rettet, hat in Mission
+      10 keine Steigerung mehr. ZEITRISS lebt vom Schicht-für-Schicht-
+      Aufdecken (siehe Pacing-Contract). Wenn MS1 als Einsteiger-Schock
+      „Alles steht auf dem Spiel“ serviert, leidet die ganze Episode.
   - **Mission 3–5 (Entwicklung):** Fäden verdichten sich, Verbindungen werden
     sichtbar. Die Stakes steigen spürbar. Mini-Boss bei Mission 5.
   - **Mission 6–9 (Klimax):** Die Crew steht im Zentrum der Bedrohung.
@@ -263,16 +264,18 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   4. **Continuity-Anker (Pflicht ab Mission 2):** Mindestens **ein** Briefing-Element zieht aus dem Save-State der Vor-Mission — konkret aus `arc.hooks[]`, `arc.questions[]`, `logs.notes[]` oder `continuity.shared_echoes[]`. Format: *„Aus Vorgespräch … / Aus letztem Debrief … / Folgespur aus MS<n-1>: …“*. So spürt der Spieler, dass seine Befunde wirken und seine Quest-Stränge sich entwickeln. Kein Briefing ohne mindestens einen Continuity-Rückgriff (Ausnahme: MS1 einer neuen Episode, wo es noch keine Vor-Mission gibt).
   - **Anti-Pattern:** Prosa-Briefings ohne klares Ziel (*„Ihr werdet schon sehen, was nötig ist“*), Ziele ohne Verb (*„Hinweise zur Verschwörung“*), Ziele ohne Erfolgskriterium (*„Helft den Briten“*), Briefings ohne Bezug zum vorherigen Mission-Befund.
   - **Pflicht-Output-Format am Ende des Briefing-Texts** (vor den Spieler-Optionen):
-    ```
+
+    ```text
     Hauptziel: <Verb> <Objekt> [+ Bedingung]
       Erfüllt, wenn: <Prädikat>
     Opt.: <Verb> <Objekt> [+ Bedingung]
       Erfüllt, wenn: <Prädikat>
     Bonus: <Verb> <Objekt>
       Erfüllt, wenn: <Prädikat>
-    
+
     Folgespur aus MS<n-1>: <kurzer Rückverweis>
     ```
+
   - **Debrief-Spiegel:** Im Debrief wird die Ziel-Erfüllung **pro Ziel** abgehakt (Score-Screen-Pflicht): *„Hauptziel: ✓ / Opt.: ✓ / Bonus: ✗“*. Verfehlte Ziele werden nicht still geschluckt — sie tauchen als Folgespur in `arc.hooks[]` wieder auf und sind Continuity-Material für das nächste Briefing.
   - **Begründung:** Spieler verliert in langen Episoden den Überblick, wenn Ziele sich auf *„Hinweise sammeln“* reduzieren. Klare Verben sind XCom-/Heist-Movie-Standard, dort funktionieren sie aus gutem Grund. Continuity-Anker im Briefing macht die Quest-Strang-Pflege im Save-JSON spürbar belohnend — was der Spieler in MS5 entdeckt, taucht in MS6 als Briefing-Auftakt auf, nicht als verschwommene Erinnerung.
   - **Gruppen- und Split-Verhalten (Multiplayer/MMO):**
@@ -352,11 +355,13 @@ danach weiter plausibel wirkt.
   verbindlicher Regelanker gegen Schwellen-/Buff-Halluzinationen.
   1. Schwierigkeitsgrad (SG) festlegen
   2. **Würfeltyp nach Basis-Attribut** (Startwert + permanente Level-Up-Erhöhungen - permanente Senkungen). Temporäre Effekte (Buffs, Injektor, Ausrüstung, Talente, Zustände) ändern den Würfeltyp NIEMALS.
-     | Basis-Attribut | Würfel  | Heldenwürfel (1 Reroll/Szene) |
-     |---------------:|---------|-------------------------------|
-     |           1-10 | W6      | —                             |
-     |          11-13 | W10     | —                             |
-     |            14+ | W10     | verfügbar                     |
+
+     | Basis-Attribut | Würfel | Heldenwürfel (1 Reroll/Szene) |
+     |---------------:|--------|-------------------------------|
+     | 1-10           | W6     | —                             |
+     | 11-13          | W10    | —                             |
+     | 14+            | W10    | verfügbar                     |
+
      Exploding: W6 bei 6, W10 bei 10. Heldenwürfel = Reroll-Token, kein zweiter Würfel im Wurf. Nur zwei
      würfelmechanische Schwellen existieren: 11 (W10) und 14 (Heldenwürfel). Das Wort "Schwellenwert" darf im Kodex NUR
      bei diesen beiden Werten stehen. Talente/Buffs geben ausschließlich additive Boni, niemals Würfeltyp-Änderungen.
@@ -383,22 +388,26 @@ danach weiter plausibel wirkt.
   dieselben Proben wie reguläre Konflikte. Keine Ausnahmen.
 - Ab Attribut 14: Heldenwurf als einmaliger Reroll pro Szene.
 - **Tier-Wirkungsrahmen (Waffen / Rüstung / Gear):**
+
   | Tier | Schaden (Waffe) | DR (Rüstung) | Lizenz | CU-Bereich |
-  |------|----------------|-------------|--------|-----------|
-  | 0 | 1-2 LP | 0-1 | frei | 30-60 |
-  | 1 | 2-3 LP | 1 | Ruf +1 | 50-150 |
-  | 2 | 3-4 LP | 1-2 | Ruf +2 | 120-300 |
-  | 3 | 4-5 LP | 2-3 | Ruf +3 | 300-600 |
-  | 4 | 5-6 LP | 3 | Ruf +4 | 600-900 |
-  | 5 | 6+ LP | 4+ | Ruf +5 | Projekt |
+  |------|-----------------|--------------|--------|------------|
+  | 0    | 1-2 LP          | 0-1          | frei   | 30-60      |
+  | 1    | 2-3 LP          | 1            | Ruf +1 | 50-150     |
+  | 2    | 3-4 LP          | 1-2          | Ruf +2 | 120-300    |
+  | 3    | 4-5 LP          | 2-3          | Ruf +3 | 300-600    |
+  | 4    | 5-6 LP          | 3            | Ruf +4 | 600-900    |
+  | 5    | 6+ LP           | 4+           | Ruf +5 | Projekt    |
+
 - **Talent-Balance (generativ):** Talente sind frei formulierbar - Name und
   Flavor unbeschränkt, solange die Wirkung klar benannt und thematisch eng
   gefasst ist ("Nahkampf" ist zu breit, "Schwertkampf" ist richtig).
-  | Stufe | Wirkung (Richtwert) |
-  |-------|-------------------|
-  | Basis | +2 auf spezifische Probe ODER Routine-Auto-Erfolg |
-  | Upgrade | +3 ODER Reroll 1×/Mission ODER zusätzlicher Nebeneffekt |
-  | Meister | +4 ODER 1×/Mission Sonderaktion ODER Auto-Erfolg bis SG 8 |
+
+  | Stufe   | Wirkung (Richtwert)                                        |
+  |---------|------------------------------------------------------------|
+  | Basis   | +2 auf spezifische Probe ODER Routine-Auto-Erfolg          |
+  | Upgrade | +3 ODER Reroll 1×/Mission ODER zusätzlicher Nebeneffekt    |
+  | Meister | +4 ODER 1×/Mission Sonderaktion ODER Auto-Erfolg bis SG 8  |
+
   Wer ein Talent besitzt, entfällt die Probe bei trivialen Anwendungen
   (Autofahren-Talent = keine Probe im Normalverkehr, nur bei Verfolgungsjagd).
   Talente stapeln nicht: bei Überlappung gilt nur das höchste.
@@ -747,6 +756,7 @@ vor jedem Briefing:
 Pflicht-Pause-Beat **nicht**. Die Fast-Lane springt per Design direkt ins
 Briefing. Erst nach Mission 1 (Post-Mission-HQ) fällt die Crew ins reguläre
 Auto-HQ → Save-Angebot.
+
 - **Load:** JSON-Save → Kurzrückblick → freier HQ-Zustand mit Load-Router
   (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei / Arena-Router).
   Arena-Router: `!arena resume` nur mit `arena.resume_token` und `queue_state=idle|completed`,
@@ -862,10 +872,11 @@ Auto-HQ → Save-Angebot.
   werden und erhöht danach den Exit-Druck sichtbar. Detail-Regeln (Reaktionslogik,
   ABSOLUT-7/CITY Lore-Guard) → `core/sl-referenz.md`.
 - **Tod-Handling:** Bei 0 LP → Szene stoppen. Spieler wählt:
-  (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
-  (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save (`"status":"deceased"`)
-  - Abschlussbericht ausgeben. Bei Gruppen entscheidet die Gruppe.
-  * Items die man lebend rausbringt: behalten. Das ist der Anreiz.
+  - (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
+  - (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save
+    (`"status":"deceased"`), Abschlussbericht ausgeben. Bei Gruppen
+    entscheidet die Gruppe.
+  - Items die man lebend rausbringt: behalten. Das ist der Anreiz.
 - **ITI** ist die Gesamtanlage in der Nullzeit: sicherer **HQ-Kernbereich** plus
   ringförmige Chronopolis-Zone. Für Regeln gilt:
   - **HQ-Kernbereich:** friedlich, konstant, Waffenruhe; Shop/Klinik/Services und Speichern erlaubt.
