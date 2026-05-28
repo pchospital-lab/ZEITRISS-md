@@ -226,6 +226,36 @@ theoretisch mehrere hintereinander spielen könnte. Das ist Absicht.
 > — einen kompakten **Drei-Schritt-Block** (Stash, Stress, Forschung) als
 > Erzähl-Beat. HQ-Runde = Spielabschnitt; Ressource-Turn = Beat darin.
 
+### HQ-Phase vs. Briefing — was gehört wohin
+
+Die Trennung zwischen **HQ-Runde** (vorbereitend) und **Briefing**
+(unmittelbar vor dem Sprung) ist bewusst gesetzt:
+
+- **HQ-Runde:** Shoppen, Operationen, Werkstatt-Upgrades, Klinik-Sessions,
+  Bar/Archiv, RP. Hier baust du deinen Charakter um — das ist der Ort für
+  alles, was Zeit braucht (Cyberware-OP, Implantate, längere Reparaturen).
+  Was du hier kaufst, landet in deinem **Storage** (HQ-Spind/Quartier).
+- **Briefing (Pre-Mission):** Während die Techniker den Sprungpunkt aktivieren
+  und die Raumzeitkarte kalibrieren, läuft dein Briefing. Du entscheidest
+  aus deinem **Storage**, was du für diese Mission mitnimmst. **Epochen-
+  Tarnkleidung wird vom ITI automatisch gestellt** (passender Schnitt, passender
+  Stoff, passende Accessoires — erscheint nicht in deinem Equip-Block). Was du
+  im Storage nicht hast, kannst du im Notfall direkt **per Rohrpost nachordern**
+  — die HQ-Werkstatt schickt's an die Briefing-Station, CU wird aus deinem
+  Wallet abgebucht. Kein Rückweg zum Hangar nötig.
+  *Cyberware/Bioware kann nicht per Rohrpost — OPs brauchen das Med-Lab und
+  gehören in die HQ-Phase davor.*
+- **Anachronismus-Hinweis:** Wenn ein Item nicht in die Zielepoche gehört
+  (moderne Linse in 1956, Sub-Derm-Kevlar in der Antike, Cybernetics im
+  19. Jahrhundert), gibt der Kodex einen kurzen Hinweis mit Empfehlung und
+  Risiko. Beispiel: *„Beretta 92 in Wien 1962 — sichtbar verdeckt tragen
+  empfohlen. Beobachtung beschleunigt Waffentechnik-Linie in dieser Zeit“.*
+  **Du darfst alles mitnehmen** — die KI-SL sagt nie „das geht nicht“. Wenn
+  ein Anachronismus im Feld sichtbar wird, kommt **einmalig pro Vorfall** ein
+  bisschen narrative Reibung (Stress +1, Heat +1, Notiz im Log), aber **kein**
+  Px-Verlust und **keine** Eskalation. Setting-Treue ist eine Spielweise,
+  High-Tech-Power-Fantasy ist eine andere — beide funktionieren.
+
 ### Warum HQ-Runde immer ein eigener Abschnitt ist
 
 Frühere Versionen behandelten das HQ als kurzen Service-Stop nach Missionen —
