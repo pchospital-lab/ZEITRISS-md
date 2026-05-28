@@ -1051,13 +1051,34 @@ def action_diagnose() -> None:
     # LiteLLM: Wenn Status-Block ihn als fehlend zeigt, ist das nicht zwingend
     # ein Fehler (manche User wollen ohne Cache spielen), aber es gehört zum
     # Golden Setup — deshalb als Empfehlung, nicht als Fehler.
+    #
+    # Schlauer Vorschlag: Wenn alle anderen Checks grün sind und nur der
+    # LiteLLM-Cache fehlt, schicke den User direkt auf `--install-litellm`
+    # (~1 Minute, lässt Preset/KB/Embeddings unangetastet) statt auf das
+    # Komplett-Setup (könnte versehentlich Preset/KB neu bauen).
+    #
+    # Bewusst konservativ: **jedes** andere Finding (auch "manual"-only oder
+    # "rekeys") blockt den Fast-Path. Begründung: wenn z.B. OWUI nicht
+    # erreichbar ist, kann --install-litellm zwar Container starten, aber
+    # weder Connection noch Preset-Rewire schreiben — der User läuft dann
+    # in halben Erfolg statt aufgeräumtes Komplett-Setup. Lieber einmal mehr
+    # den vollen Pfad als ein halb-verkabeltes System.
     litellm_active, _ = _litellm_ok()
     if not litellm_active and _cmd_available("docker"):
         print(yellow("   !  LiteLLM-Cache-Container läuft nicht — gehört zum Golden Setup (~90 % Ersparnis)."))
-        fixes.append((
-            "Menü [1] Komplett-Setup erneut durchlaufen — am Ende wird der LiteLLM-Cache angeboten.",
-            "install",
-        ))
+        if len(fixes) == 0:
+            # Alle Kern-Checks (OWUI-Health, Auth, Preset, KB-Retrieval)
+            # grün — minimaler Fix reicht.
+            fixes.append((
+                "LiteLLM-Cache nachinstallieren (`scripts/setup.py --install-litellm`) — "
+                "Preset, KB und Embeddings bleiben unangetastet.",
+                "litellm",
+            ))
+        else:
+            fixes.append((
+                "Menü [1] Komplett-Setup erneut durchlaufen — am Ende wird der LiteLLM-Cache angeboten.",
+                "install",
+            ))
 
     print()
     if not fixes:
@@ -1104,6 +1125,16 @@ def action_diagnose() -> None:
             action_install(_skip_state_check=True)
         elif kind == "sync":
             action_update()
+        elif kind == "litellm":
+            # Minimaler Fix: nur den LiteLLM-Cache nachinstallieren.
+            # Lässt Preset, KB und Embeddings völlig unangetastet (kein
+            # Re-Embedding-Lauf, kein KB-Rebuild). Idempotent in setup.py.
+            try:
+                setup_module.run_install_litellm(REPO, load_cfg())
+            except SystemExit:
+                pass
+            except Exception as e:
+                print(red(f"\n  LiteLLM-Install fehlgeschlagen: {e.__class__.__name__}: {e}"))
 
     # Re-Diagnose: Lief der Fix durch? Wenn nicht, Eskalation auf [7] Reset anbieten.
     print()
