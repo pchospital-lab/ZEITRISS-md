@@ -154,15 +154,50 @@ const chargenGatePerDocRules = [
   {
     label: 'chargen-save-gate-anker',
     regex: /chargen-save-gate/i
-  },
-  {
-    label: 'fast-lane-ausnahme-anker',
-    regex: /fast-lane[\s\S]{0,320}(?:direkt\s+(?:in(?:s|\s+den)?)\s+briefing(?:raum)?|kein(?:e|en)?\s+(?:pause|chargen-save-gate)|keine\s+HQ-Heimkehr)/i
   }
 ];
 
 for (const rule of chargenGatePerDocRules) {
   assertPerDocRule(chargenGateDocs, rule);
+}
+
+// ---------------------------------------------------------------------------
+// Anti-Fast-Lane-Watchguard (refactor/remove-fast-lane, 2026-05-28)
+//
+// Fast-Lane wurde entfernt: einziger Einstiegspfad ist `solo klassisch`.
+// Dieser Block stellt sicher, dass keine SSOT-Datei eine separate
+// Fast-Lane-Sprung-Mechanik wieder einführt. Trigger `solo schnell` /
+// `gruppe schnell` werden zwar still auf den klassischen Pfad gemappt
+// (Bestandsschutz), aber kein Doku-Pfad darf Fast-Lane als eigenen
+// Onboarding-Modus beschreiben.
+//
+// Erlaubt sind nur historische/Wartungs-Erwähnungen (mit Wort
+// "entfernt" oder "Legacy" oder "bis v4.2.5" im selben Satz).
+// ---------------------------------------------------------------------------
+
+const antiFastLaneDocs = chargenGateDocs;
+
+for (const relPath of antiFastLaneDocs) {
+  const text = getDocText(relPath);
+  // Wir scannen den umliegenden Kontext (300 Chars vor + 300 nach dem
+  // Sprung-Treffer), um Legacy-Marker auch dann anzuerkennen, wenn sie
+  // im Satz davor stehen ("Hinweis für künftige Wartung… Fast-Lane sprang
+  // direkt ins Briefing…").
+  const sprungRegex = /fast-lane[\s\S]{0,200}(?:springt|sprang|sprung|direkt\s+(?:ins?|in\s+den)\s+briefing)/gi;
+  let match;
+  while ((match = sprungRegex.exec(text)) !== null) {
+    const blockStart = Math.max(0, match.index - 300);
+    const blockEnd = Math.min(text.length, match.index + match[0].length + 300);
+    const context = text.slice(blockStart, blockEnd);
+    const ok =
+      /entfernt|legacy|bis\s+v4\.2\.5|hinweis\s+für\s+künftige\s+wartung|war\s+früher|früher\s+gab\s+es|gestrichen|abgeschafft|wurde\s+entfernt|kollidierte/i.test(
+        context
+      );
+    assert.ok(
+      ok,
+      `Anti-Fast-Lane-Drift: ${relPath} enthält einen Fast-Lane-Sprung-Block ohne Legacy/Entfernt-Marker:\n  ${match[0].slice(0, 160).replace(/\n/g, ' ')}\u2026`
+    );
+  }
 }
 
 // Trigger-Liste "Savebare HQ-Zustände" muss in mindestens zwei Kern-SSOT-Dateien
@@ -202,16 +237,8 @@ assert.ok(
   'Spielerhandbuch-Drift: Mini-Einsatzhandbuch muss `solo klassisch` als Standard (empfohlen) ausweisen.'
 );
 assert.ok(
-  /fast-lane\s*\(optional\)[\s\S]{0,220}solo\s+schnell/i.test(spielerHandbuchText),
-  'Spielerhandbuch-Drift: Mini-Einsatzhandbuch muss `solo schnell` als optionale Fast-Lane markieren.'
-);
-assert.ok(
   /kampagnenstart[\s\S]{0,120}standard[\s\S]{0,120}klassisch\s*\+\s*generate/i.test(spielerHandbuchText),
   'Spielerhandbuch-Drift: Start-Transkripte müssen einen klassischen Kampagnenstart als Standard hervorheben.'
-);
-assert.ok(
-  /solo\s*-\s*schnelleinstieg\s*\(fast-lane,\s*optional\)/i.test(spielerHandbuchText),
-  'Spielerhandbuch-Drift: Solo-Schnelleinstieg muss als optionale Fast-Lane gekennzeichnet bleiben.'
 );
 
 const charsOptionsText = getDocText('characters/charaktererschaffung-optionen.md');
@@ -257,11 +284,6 @@ const entryRules = [
     label: 'entry-klassisch-default',
     regex: /spiel\s+starten\s*\(solo\s+klassisch\)/i,
     minHits: 3
-  },
-  {
-    label: 'entry-fastlane-optional',
-    regex: /solo\s+schnell[^\n]{0,120}(?:fast-lane|optional)/i,
-    minHits: 2
   },
   {
     label: 'entry-natuerliche-sprache',

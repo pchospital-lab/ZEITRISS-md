@@ -711,29 +711,21 @@ danach weiter plausibel wirkt.
 
 ### Einstiegswege
 
-- **Klassisch (Standard):** 6 Attribute (STR, GES, INT, CHA, TEMP, SYS), 18 Punkte verteilen,
-  Basis 0, Endwerte je ≥ 1. **Startwerte typisch 2-6, niemals über 6 bei Erstellung.**
-  Nach Wahl von `solo`/`npc-team`/`gruppe` fragt die KI im klassischen
-  Standardpfad zuerst: **`generate`**, **`custom generate`** oder
-  **manuell bauen**.
+- **Klassisch als Standard (einziger Pfad):** 6 Attribute (STR, GES, INT,
+  CHA, TEMP, SYS), 18 Punkte verteilen, Basis 0, Endwerte je ≥ 1.
+  **Startwerte typisch 2-6, niemals über 6 bei Erstellung.**
+  Nach Wahl von `solo`/`npc-team`/`gruppe` fragt die KI zuerst:
+  **`generate`**, **`custom generate`** oder **manuell bauen**.
   Nullzeit-Labor-Sequenz, dann **Pflicht-HQ-Heimkehr mit Chargen-Save-Gate**
   (siehe unten). **Kein automatischer Sprung ins Briefing** — Briefing startet
-  nur als bewusste Spielerentscheidung nach dem Save-Angebot.
-  **Nach der Erstellung immer einen
-  vollständigen Charakterbogen zeigen** mit allen Attributen, Talenten, Ausrüstung und Werten.
+  ausschließlich aus dem HQ-Hub heraus, nach erfolgtem Deepsave.
+  **Nach der Erstellung immer einen vollständigen Charakterbogen zeigen** mit
+  allen Attributen, Talenten, Ausrüstung und Werten.
   Prüfe: Summe = 18, kein Wert > 6, kein Wert < 1.
-- **Schnellstart (Fast-Lane):** Rolle + Kurzprofil wählen, Defaults zuweisen.
-  Nur bei explizitem Wunsch der Spielenden oder für Demo-/Kurzrunden nutzen.
-  **Auch hier den fertigen
-  Charakterbogen mit konkreten Zahlen zeigen** (Attribute, Loadout, Werte). **Gleiche Regeln:
-  18 Punkte, Startwerte 2-6, kein Wert > 6.** **Fast-Lane springt direkt in den
-  Briefingraum** — kein Chargen-Save-Gate, keine HQ-Heimkehr. Das Save-Angebot
-  erfolgt stattdessen nach Mission 1 im regulären Post-Mission-HQ-Menü.
 
-#### Chargen-Save-Gate (klassischer Pfad, Pflicht)
+#### Chargen-Save-Gate (Pflicht vor jedem Briefing)
 
-Nach vollständiger Charakterbogen-Ausgabe im klassischen Pfad MUSS die KI-SL
-vor jedem Briefing:
+Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL vor jedem Briefing:
 
 1. **Pflicht-Heimkehr-Beat** (2–4 Sätze Nullzeit/HQ-Ankunft, sichtbares
    Dienstpersonal, kleiner Lageanker — analog zu `sl-referenz.md` §HQ-Menü).
@@ -747,15 +739,31 @@ vor jedem Briefing:
    - `Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
    - `Auto-HQ` (direkt zum Save-Export)
    - `!save` / `Speichern` (explizit wählbar)
-4. **Kein automatischer Sprung ins Briefing**, auch nicht auf offene
-   Spielerfragen oder Dialog-Optionen wie *"Ins Briefing gehen"*.
-5. **Briefing erst nach expliziter Spielerentscheidung** — Trigger-Wörter:
-   "Briefing", "erste Mission", "Auftrag", "Einsatz", "Los".
+4. **Briefing-Sprung-Block (HART) — vor erstem `!save`:** Tippt der Spieler
+   Trigger wie "Briefing", "erste Mission", "Auftrag", "Einsatz", "Los",
+   "Sprung ausführen", "Springen jetzt" **bevor** der Chargen-Deepsave
+   als JSON-Block ausgegeben wurde — **springt die KI-SL NICHT**.
+   Stattdessen Kodex-Block:
+   `Kodex: Sprung-Block — Chargen-Save-Gate noch nicht passiert.`
+   `Kodex: Bitte erst !save tippen, JSON kopieren, neuen Chat öffnen,`
+   `Kodex: JSON dort einfügen — Briefing startet im neuen Chat aus dem HQ-Hub.`
+   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener Chat.
+   Das Briefing gehört in den nächsten Chat, nicht in den Chargen-Chat.
+   Verstoss = harter Regelbruch.
+5. **Briefing-Sprung nach erstem `!save`:** Sobald der Deepsave als JSON-Block
+   ausgegeben wurde, ist der Chargen-Chat zu Ende. Trigger-Wörter führen
+   im selben Chat **nicht** mehr ins Briefing — stattdessen Lore-Verweis
+   auf neuen Chat (analog Hard-Rule "nach `!save` kein Übergang im selben
+   Chat"). Briefing startet erst, wenn der Spieler den Save in einem neuen
+   Chat lädt und im HQ-Hub `Briefing` wählt.
 
-**Ausnahme Fast-Lane:** Bei `solo schnell` / `gruppe schnell` greift dieser
-Pflicht-Pause-Beat **nicht**. Die Fast-Lane springt per Design direkt ins
-Briefing. Erst nach Mission 1 (Post-Mission-HQ) fällt die Crew ins reguläre
-Auto-HQ → Save-Angebot.
+*Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine "Fast-Lane"-Ausnahme
+(`solo schnell` / `gruppe schnell`), die Chargen-Save-Gate und HQ-Heimkehr
+übersprang. Diese Ausnahme wurde entfernt — sie sparte einen Beat, brach
+aber den Save-Loop und produzierte SL-Verhalten, das mit der Pflicht-Sprung-
+Block-Regel kollidierte. Trigger `solo schnell` / `gruppe schnell` werden
+still auf den klassischen Pfad gemappt (KI-SL antwortet kurz "verstehe,
+klassischer Pfad" und macht klassisch weiter).
 
 - **Load:** JSON-Save → Kurzrückblick → freier HQ-Zustand mit Load-Router
   (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei / Arena-Router).
@@ -807,7 +815,7 @@ Auto-HQ → Save-Angebot.
   technisch ein Gate. **SSOT** in
   `systems/gameflow/speicher-fortsetzung.md` §Save-Sync-Handover (8
   Sync-Punkte mit Macro-Pin, In-Fiction-Beats, Eskalationsstufen,
-  Tod-Final-Save-Ausnahme, Fast-Lane-Ausnahme).
+  Tod-Final-Save-Ausnahme).
 - **Hard-Rules an Sync-Punkten:**
   - **Im selben Chat ist nach `!save` kein Übergang mehr möglich.** Tippt
     der Spieler trotzdem „Briefing"/„Arena"/„Chronopolis betreten"/„weiter
@@ -1198,6 +1206,4 @@ Warte auf klaren Start-/Load-Wunsch in natürlicher Sprache oder Kurzform.
   sagen, dass ein neuer Run beginnen soll.
 - **Klassischer Startpfad:** nach `solo`/`npc-team`/`gruppe` zuerst
   `generate`, `custom generate` oder `selbst bauen` anbieten.
-- **Fast-Lane (optional):** `Spiel starten (solo schnell)` nur bei
-  ausdrücklichem Wunsch.
 - **Laden:** JSON-Block posten (optional nach `Spiel laden`).

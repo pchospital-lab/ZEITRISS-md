@@ -3767,8 +3767,10 @@ function play_hq_intro(force = false, mode = 'klassisch'){
   const ui = ensure_ui();
   show_compliance_once();
   if (ui.intro_seen && !force) return false;
-  const normalized = mode === 'schnell' || mode === 'fast' ? 'schnell' : 'klassisch';
-  const lines = normalized === 'schnell' ? HQ_QUICK_INTRO_LINES : HQ_CLASSIC_INTRO_LINES;
+  // Fast-Lane entfernt (refactor/remove-fast-lane, 2026-05-28): 'schnell'
+  // wird still auf 'klassisch' gemappt, damit Bestandstrigger weiter laufen.
+  // Es gibt nur noch ein einziges Intro-Set.
+  const lines = HQ_CLASSIC_INTRO_LINES;
   writeLine(lines.join('\n'));
   ui.intro_seen = true;
   return true;
@@ -10041,12 +10043,12 @@ function debrief(st){
 
 const DISPATCHER_STRINGS = Object.freeze({
   start_hint: [
-    'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]).',
+    'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe).',
     'Klammern sind Pflicht.'
   ].join(' '),
   npc_team_size_error:
     'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).',
-  group_number_error: 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)'
+  group_number_error: 'Bei gruppe keine Zahl angeben.'
 });
 const DISPATCHER_START_SYNTAX_HINT = DISPATCHER_STRINGS.start_hint;
 const NPC_TEAM_SIZE_ERROR = DISPATCHER_STRINGS.npc_team_size_error;
@@ -10142,18 +10144,21 @@ function on_command(command){
     }
     if ((m = cmd.match(/^spiel starten\s*\(solo([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
+      // Fast-Lane wurde entfernt (refactor/remove-fast-lane, 2026-05-28):
+      // Trigger `schnell`/`fast` werden still auf `klassisch` gemappt, damit
+      // Bestands-Skripte und Tester nicht crashen. Es gibt nur noch einen
+      // Onboarding-Pfad.
       let mode = 'klassisch';
       let legacySeed = null;
       options.forEach((token) => {
-        if (token === 'schnell' || token === 'fast') mode = 'schnell';
-        if (token === 'klassisch' || token === 'classic') mode = 'klassisch';
         if (token === 'trigger' || token === 'preserve') legacySeed = token;
+        // `schnell`, `fast`, `klassisch`, `classic` werden alle zu `klassisch`.
       });
       if (legacySeed){
         return [
           'Startsyntax aktualisiert: Kampagnenmodus im HQ setzen',
           '(z. B. `!kampagnenmodus trigger`).',
-          'In den Start-Klammern nur `klassisch` oder `schnell` nutzen.'
+          'Start-Klammern brauchen jetzt nur noch `klassisch` (oder leer).'
         ].join(' ');
       }
       return startSolo(mode);
@@ -10161,6 +10166,7 @@ function on_command(command){
     if ((m = cmd.match(/^spiel starten\s*\(npc-team([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
       let size = 0;
+      // Fast-Lane entfernt: `schnell`/`fast` werden still zu `klassisch`.
       let mode = 'klassisch';
       let legacySeed = null;
       options.forEach((token) => {
@@ -10169,19 +10175,16 @@ function on_command(command){
           if (Number.isFinite(parsed)){
             size = parsed;
           }
-        } else if (token === 'schnell' || token === 'fast'){
-          mode = 'schnell';
-        } else if (token === 'klassisch' || token === 'classic'){
-          mode = 'klassisch';
         } else if (token === 'trigger' || token === 'preserve'){
           legacySeed = token;
         }
+        // `schnell`, `fast`, `klassisch`, `classic` werden alle zu `klassisch`.
       });
       if (legacySeed){
         return [
           'Kampagnenmodus wird nicht mehr im Startbefehl gesetzt.',
           'Nutze `!kampagnenmodus mixed|preserve|trigger` im HQ und wiederhole den Start',
-          'mit `klassisch` oder `schnell`.'
+          'mit `klassisch` (oder leer).'
         ].join(' ');
       }
       if (size > 4){
@@ -10195,16 +10198,16 @@ function on_command(command){
     }
     if ((m = cmd.match(/^spiel starten\s*\(gruppe([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
+      // Fast-Lane entfernt: `schnell`/`fast` werden still zu `klassisch`.
       let mode = 'klassisch';
       let legacySeed = null;
       options.forEach((token) => {
-        if (token === 'schnell' || token === 'fast') mode = 'schnell';
-        if (token === 'klassisch' || token === 'classic') mode = 'klassisch';
         if (token === 'trigger' || token === 'preserve') legacySeed = token;
+        // `schnell`, `fast`, `klassisch`, `classic` werden alle zu `klassisch`.
       });
       if (legacySeed){
         return 'Kampagnenmodus separat setzen: `!kampagnenmodus mixed|preserve|trigger`. ' +
-          'Start-Klammern verwenden nur `klassisch` oder `schnell`.';
+          'Start-Klammern brauchen jetzt nur noch `klassisch` (oder leer).';
       }
       return startGroup(mode);
     }
@@ -10235,9 +10238,10 @@ function on_command(command){
           'Startbefehle:',
           '- Vor jedem Einsatz: !radio clear und !alias clear ausführen, '
             + 'damit Funk- und Alias-Logs frisch sind.',
-          '- Spiel starten (solo [klassisch|schnell])',
-          '- Spiel starten (npc-team [0–4] [klassisch|schnell])',
-          '- Spiel starten (gruppe [klassisch|schnell])',
+          '- Spiel starten (solo [klassisch])',
+          '- Spiel starten (npc-team [0–4] [klassisch])',
+          '- Spiel starten (gruppe [klassisch])',
+          '  (Legacy-Trigger `schnell`/`fast` werden still auf `klassisch` gemappt.)',
           '- Spiel laden',
           'Kampagnenmodus separat setzen: !kampagnenmodus mixed|preserve|trigger'
             + ' (persistiert im Save).',

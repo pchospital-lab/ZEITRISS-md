@@ -23,8 +23,8 @@ tags: [meta]
 
 | Test                 | Eingabe                                     | Prüfpunkte                                       |
 | -------------------- | ------------------------------------------- | ------------------------------------------------ |
-| Quickstart           | `Spiel starten (solo schnell)`              | Summe 18, Cap 6, v7-Save, Ruf im Bogen           |
-| Klassisch            | `Spiel starten (solo klassisch)`            | Chargen-Dialog, Attributverteilung, HQ-Intro     |
+| Klassisch (solo)     | `Spiel starten (solo klassisch)`            | Chargen-Dialog, Attributverteilung, HQ-Intro, Summe 18, Cap 6, v7-Save, Ruf im Bogen |
+| Legacy-Trigger       | `Spiel starten (solo schnell)`              | Sollte still auf den klassischen Pfad mappen — SL antwortet wie bei `solo klassisch` |
 | Save/Load            | `!save` → neuer Chat → `Spiel laden` + JSON | Alle Werte erhalten, v7-Schema                   |
 | Abschnittsrhythmus   | HQ-Runde + Mission in **getrennten Chats**  | Kein Mix, je Chat ein Abschnitt + Save dazwischen |
 | Mission durchspielen | 12 Szenen, Debrief                          | Px-Staffel korrekt, Ruf + Lizenz-Tier im Debrief |
@@ -34,7 +34,7 @@ tags: [meta]
 
 | Test             | Eingabe                                      | Prüfpunkte                                       |
 | ---------------- | -------------------------------------------- | ------------------------------------------------ |
-| Gruppe erstellen | `Spiel starten (gruppe schnell)` + 2-5 Saves | characters[] Array, Host = Index 0               |
+| Gruppe erstellen | `Spiel starten (gruppe klassisch)` + 2-5 Saves | characters[] Array, Host = Index 0               |
 | Team-Split       | Nach Episode: Gruppe aufteilen               | Seeds korrekt zugewiesen, HQ-Pool aufgeteilt     |
 | Separate Rifts   | Jedes Teilteam spielt Rift in eigenem Chat   | Unabhängige Saves, Artefakte, Level-Ups          |
 | Team-Merge       | 2 Saves zusammenführen                       | Transparentes Merge-Protokoll, alle Chars intakt |
@@ -126,8 +126,10 @@ Chargen → !save → neuer Chat → Save laden
 - Equipment-Änderungen, Implantate, Wallet-Bewegungen aus einer HQ-Runde
   müssen im danach erstellten Save sichtbar sein und beim nächsten
   Mission-Load korrekt geladen werden.
-- Fast-Lane (`solo schnell` / `gruppe schnell`) ist Sonderfall: kein
-  Chargen-Sync, erstes Save-Angebot erst nach Mission 1.
+- *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine Fast-Lane
+  (`solo schnell` / `gruppe schnell`) als Sonderfall (kein Chargen-Sync,
+  erstes Save-Angebot erst nach Mission 1). Die Variante wurde entfernt;
+  alte Trigger werden still auf den klassischen Pfad gemappt.
 
 **Drift-Hinweise (alles unten ist ein Regress, in Findings festhalten):**
 

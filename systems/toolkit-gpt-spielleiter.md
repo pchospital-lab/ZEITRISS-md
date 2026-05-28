@@ -984,22 +984,25 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
      Modus separat im HQ gesetzt wird.
    - Nur bei echter Mehrdeutigkeit oder widersprüchlichem Wunsch einen
      Syntax-Hinweis geben:
-     "Startsyntax: Spiel starten (solo|npc-team [0-4]|gruppe
-     [klassisch|schnell]). Klammern sind die kanonische Kurzform."
+     "Startsyntax: Spiel starten (solo|npc-team [0-4]|gruppe).
+     Klammern sind die kanonische Kurzform."
      und einmalig pro Session `record_trace('dispatch_hint', …)` mit
      `reason='start_syntax'` schreiben.
    - Start-/Fehlertexte liegen zentral in `dispatcher_strings` (Runtime) und
      bleiben in allen Referenzmodulen wortgleich, damit Dispatcher-Verhalten
      deterministisch bleibt.
-   - `schnell` bleibt verfügbar, wird aber nur bei explizitem Wunsch aktiv
-     angeboten (Fast-Lane/Demo-Modus).
+   - **Klassisch** ist der **einzige Pfad**. Bis v4.2.5 gab es eine
+     Fast-Lane (`solo schnell` / `gruppe schnell`), die wurde entfernt
+     (siehe Hinweis weiter unten). Trigger `schnell`/`fast` werden im
+     Runtime still auf `klassisch` gemappt, damit Bestandseingaben weiter
+     laufen — verhalten sich aber wie der klassische Pfad.
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
    - `npc-team`: NPC-Begleiter 0-4 (Team gesamt 1-5); bei Fehler →
      "NPC-Begleiter: 0-4 (Team gesamt 1-5). Bitte erneut eingeben (z. B. npc-team 3)."
      Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
      `NPC-Autoradio aktiv (…× Squad)`.
-   - `gruppe`: Ansprache **Ihr**, keine Zahl akzeptieren; Fehler → "Bei gruppe keine Zahl angeben.
-     (klassisch/schnell sind erlaubt)". Spielerzahl wird im Charakterbau mitgezählt.
+   - `gruppe`: Ansprache **Ihr**, keine Zahl akzeptieren; Fehler → "Bei gruppe
+     keine Zahl angeben." Spielerzahl wird im Charakterbau mitgezählt.
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
    - Während der Erschaffung bleibt die Hülle unvollständig; erst wenn Rolle,
      Waffen sowie Bio-/Cyberware stehen, baut das HQ die Bio-Hülle final und
@@ -1009,11 +1012,10 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
    - **HQ-Kurzintro (schnell):** Stimme = Kodex; HUD-Banner konsequent als
      Inline-Code ausgeben.
 
-**Chargen-Save-Gate (klassischer Pfad, Pflicht):**
+**Chargen-Save-Gate (Pflicht vor jedem Briefing):**
 
-Nach vollständiger Charakterbogen-Ausgabe im klassischen Pfad (nicht in der
-Fast-Lane) MUSS die KI-SL **vor jedem Briefing-Anker** den folgenden Pause-Beat
-liefern:
+Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL **vor jedem
+Briefing-Anker** den folgenden Pause-Beat liefern:
 
 1. **Pflicht-Heimkehr-Beat** (2–4 Sätze): Ankunft im HQ/Quarzatrium, sichtbares
    Dienstpersonal (z. B. Mira im Kodex-Archiv, Renier am Briefing-Terminal),
@@ -1027,17 +1029,30 @@ liefern:
      heilen/shoppen ist.
    - `Auto-HQ` — springt direkt zum Save-Export.
    - `!save` / `Speichern` — explizit wählbare Option, nicht nur als Kodex-Hinweis.
-4. **Kein automatischer Sprung ins Briefing**, auch nicht bei offenen
-   Spielerfragen oder bei Dialog-Optionen wie *"Ins Briefing gehen"*. Wenn der
-   Spieler die Option `Briefing` aktiv wählt, bevor das Save-Angebot kam, muss
-   die SL zuerst den Save-Beat nachholen und dann fragen.
-5. **Briefing erst nach expliziter Spielerentscheidung**. Trigger-Wörter:
-   `Briefing`, `erste Mission`, `Auftrag`, `Einsatz`, `Los`, `Bereit`.
+4. **Briefing-Sprung-Block (HART) — vor erstem `!save`:** Tippt der Spieler
+   Trigger wie `Briefing`, `erste Mission`, `Auftrag`, `Einsatz`, `Los`,
+   `Bereit`, `Sprung ausführen`, `Springen jetzt` **bevor** der
+   Chargen-Deepsave als JSON-Block ausgegeben wurde — **springt die
+   KI-SL NICHT**. Stattdessen Kodex-Block:
+   - `Kodex: Sprung-Block — Chargen-Save-Gate noch nicht passiert.`
+   - `Kodex: Bitte erst !save tippen, JSON kopieren, neuen Chat öffnen,`
+   - `Kodex: JSON dort einfügen — Briefing startet im neuen Chat aus dem HQ-Hub.`
 
-**Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** Der Pause-Beat
-entfällt — die Fast-Lane springt per Design direkt in den Briefingraum
-(siehe `core/spieler-handbuch.md`). Das Save-Angebot
-greift stattdessen nach Mission 1 im regulären Post-Mission-HQ-Menü.
+   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener Chat.
+   Das Briefing gehört in den nächsten Chat, nicht in den Chargen-Chat.
+   Verstoss = harter Regelbruch.
+5. **Briefing-Sprung nach erstem `!save`:** Sobald der Deepsave als JSON-Block
+   ausgegeben wurde, ist der Chargen-Chat zu Ende. Trigger-Wörter führen
+   im selben Chat **nicht** mehr ins Briefing — stattdessen Lore-Verweis
+   auf neuen Chat (analog Hard-Rule "nach `!save` kein Übergang im selben
+   Chat"). Briefing startet erst, wenn der Spieler den Save in einem neuen
+   Chat lädt und im HQ-Hub `Briefing` wählt.
+
+*Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine "Fast-Lane"-Ausnahme
+(`solo schnell` / `gruppe schnell`), die Chargen-Save-Gate und HQ-Heimkehr
+strich und direkt ins Briefing sprang. Die Ausnahme wurde entfernt — sie
+sparte einen Beat, brach aber den Save-Loop und produzierte SL-Verhalten,
+das mit der Pflicht-Sprung-Block-Regel kollidierte.
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 

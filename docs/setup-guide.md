@@ -429,12 +429,14 @@ weitere in-world.
 
 **Varianten:**
 
-- `Spiel starten (solo schnell)` - Fast-Lane für Kurzrunden (Charakter
-  mit Defaults, direkt ins Briefing).
 - `Spiel starten (gruppe klassisch)` - Gruppen-Chargen, alle nacheinander.
-- `Spiel starten (gruppe schnell)` - Fast-Lane für Gruppen.
+- `Spiel starten (npc-team [0-4] klassisch)` - Solo plus 0-4 NSC-Begleiter.
 - Natürliche Sprache funktioniert auch ("Ich will neu starten als
   Gruppe" startet die Gruppen-Chargen).
+
+*Hinweis:* Bis v4.2.5 gab es eine Fast-Lane (`solo schnell` /
+`gruppe schnell`), die direkt ins Briefing sprang. Die Variante wurde
+entfernt; alte Trigger werden still auf den klassischen Pfad gemappt.
 
 > i️ **Funktioniert's?** Erwartete erste Antwort: Willkommensszene mit
 > HUD-Block (`EP 1 · MS 1 · SC ...`) **oder** Fragen zur
@@ -578,9 +580,7 @@ Spiel starten (gruppe klassisch)
 ```
 
 Die SL führt durch Gruppen-Chargen: Jeder Spieler gibt Vibe, Attribute
-und Loadout nacheinander durch. Danach HQ, Save, Mission. Alternativ
-`Spiel starten (gruppe schnell)` als Fast-Lane - SL generiert Charaktere
-mit Defaults und springt direkt ins Briefing.
+und Loadout nacheinander durch. Danach HQ, Save, Mission.
 
 **Mitgebrachte Saves laden** (aus Solo- oder früheren Gruppen-Abenden):
 

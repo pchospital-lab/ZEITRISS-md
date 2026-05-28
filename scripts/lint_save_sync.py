@@ -185,9 +185,11 @@ def main() -> int:
             "Modul 12 enforces 'no transition after save in same chat'",
             sv_text,
         )
+        # Fast-Lane entfernt (refactor/remove-fast-lane, 2026-05-28):
+        # Anker zeigt jetzt auf die Legacy-Notiz statt auf die aktive Ausnahme.
         all_ok &= ok(
-            r"Fast-Lane-Ausnahme",
-            "Modul 12 mentions Fast-Lane exception",
+            r"Bis v4\.2\.5 gab es eine \*\*Fast-Lane\*\*-Ausnahme",
+            "Modul 12 trails the Fast-Lane removal note",
             sv_text,
         )
     else:

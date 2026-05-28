@@ -15,19 +15,24 @@ tags: [core, reference, gm]
 ### Dispatcher-Starts & Speicherpfade
 
 - **Spielstart-Varianten.** `Spiel starten` akzeptiert `solo`, `npc-team` und
-  `gruppe` plus die Zusätze `klassisch` oder `schnell`; dieselben Pfade dürfen
-  auch über klare natürliche Sprache angesteuert werden. `npc-team` verlangt eine
-  Zahl `0-4` (NPC-Begleiter; Team gesamt 1-5), `gruppe` ignoriert Zahlen.
-  Ungültige Kombinationen liefern die passenden Fehltexte.
+  `gruppe`; optional folgt `klassisch` (Default ist klassisch). Dieselben Pfade
+  dürfen auch über klare natürliche Sprache angesteuert werden. `npc-team`
+  verlangt eine Zahl `0-4` (NPC-Begleiter; Team gesamt 1-5), `gruppe` ignoriert
+  Zahlen. Ungültige Kombinationen liefern die passenden Fehltexte.
+  *Legacy-Trigger:* `schnell`/`fast` werden im Runtime still auf `klassisch`
+  gemappt (Bestandsschutz; bis v4.2.5 war das eine eigene Fast-Lane mit
+  Sprung direkt ins Briefing — die Variante wurde entfernt).
 - **Zentrale Strings.** Start-/Fehlertexte liegen in
   `dispatcher_strings` (Runtime-Export).
 - **Syntax-Hinweis.** Bei echter Mehrdeutigkeit oder fehlerhaftem Muster
-  antwortet der Dispatcher mit "Startsyntax: Spiel starten (solo|npc-team [0-4]|gruppe
-  [klassisch|schnell]). Klammern sind die kanonische Kurzform." und schreibt
+  antwortet der Dispatcher mit "Startsyntax: Spiel starten (solo|npc-team
+  [0-4]|gruppe). Klammern sind die kanonische Kurzform." und schreibt
   höchstens einmal pro Session einen Trace-Eintrag `dispatch_hint`.
-- **Briefing & Schnellstart.** Ohne Modus nutzt der Dispatcher standardmäßig
-  `klassisch` und fragt im Standardpfad zuerst nach `generate`, `custom generate`
-  oder manuellem Bau. `schnell` bleibt als Fast-Lane bei explizitem Wunsch.
+- **Briefing & Schnellstart.** `klassisch` ist als Standard der einzige
+  Pfad. Der Dispatcher fragt im Standardpfad zuerst nach `generate`, `custom generate`
+  oder manuellem Bau. Legacy-Trigger `schnell`/`fast` werden im Runtime
+  still auf `klassisch` gemappt (Bestandsschutz); die Fast-Lane als
+  eigener Pfad wurde entfernt (siehe Hinweis am Ende dieses Kapitels).
   Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
@@ -228,8 +233,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 
 **Akzeptierte Zusätze:**
 
-- Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen
-  (auch `classic|fast`).
+- Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` folgen (auch
+  `classic`). Legacy-Trigger `schnell`/`fast` werden still auf `klassisch`
+  gemappt (siehe Hinweis im Sessionstart-Block oben).
 - `npc-team` akzeptiert `0-4` NPC-Begleiter (Team gesamt 1-5); Arena nutzt dieselbe Obergrenze.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
 - Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf,
@@ -240,7 +246,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 **Fehlertexte:**
 
 - `npc-team 5` → "NPC-Begleiter: 0-4 (Team gesamt 1-5). Bitte erneut eingeben (z. B. npc-team 3)."
-- `gruppe 3` → "Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)"
+- `gruppe 3` → "Bei gruppe keine Zahl angeben."
 
 **Semver (Save-Laden):**
 
@@ -601,10 +607,11 @@ der dazwischenliegende Sync bildet Equipment, Implantate, Wallet und
 ITI-Ruf sauber für den Mission-Chat ab. Spieler-Devise im
 [Spieler-Handbuch][gameflow-spieler].
 
-**Fast-Lane-Ausnahme:** `solo schnell` / `gruppe schnell` springt aus der
-Charaktererschaffung direkt ins Briefing — kein Chargen-Sync. Erstes
-Save-Angebot kommt nach Mission 1, dort greift der Standard-Debrief-Sync
-wieder regulär.
+*Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme
+(`solo schnell` / `gruppe schnell`), die aus der Charaktererschaffung
+direkt ins Briefing sprang — ohne Chargen-Sync, mit Save-Angebot erst
+nach Mission 1. Die Ausnahme wurde entfernt; siehe `meta/masterprompt_v6.md`
+§ Chargen-Save-Gate für den aktuellen Pflicht-Pfad.
 
 [gameflow-spieler]: spieler-handbuch.md#gameflow-chat-wechsel
 [modul12]: ../systems/gameflow/speicher-fortsetzung.md#save-sync-handover
@@ -904,8 +911,9 @@ Kanonische Spielertexte und Startbeispiele stehen im
 [Spieler-Handbuch](spieler-handbuch.md#mini-einsatzhandbuch). Diese Referenz
 führt nur die Dispatcher-/Runtime-Invarianten für die Spielleitung.
 
-- Akzeptierte Startmuster: `Spiel starten (solo|npc-team [0-4]|gruppe
-[klassisch|schnell])`; für Load genügt JSON-Copy-Paste (optional `Spiel laden` davor).
+- Akzeptierte Startmuster: `Spiel starten (solo|npc-team [0-4]|gruppe)`;
+  optional folgt `klassisch` (Default). Für Load genügt JSON-Copy-Paste
+  (optional `Spiel laden` davor).
 - Ohne Save-JSON setzt die Spielleitung nicht aus dem Nichts fort und fordert den Spielstand aktiv an.
 - Legacy-Starts mit `preserve|trigger` in Klammern brechen mit Hinweis ab;
   Kampagnenmodus wird im HQ per `!kampagnenmodus` gesetzt.
@@ -1056,10 +1064,10 @@ bei **allen** folgenden Zuständen ausgelöst (einmal pro Zustand, kein Spam):
 4. **HQ-Pause-Anker** - Spieler signalisiert Pause ("save", "pause",
    "später weiter", "für heute genug").
 
-**Ausnahme Fast-Lane (`solo schnell` / `gruppe schnell`):** Die Fast-Lane
-springt per Design direkt in den Briefingraum; das Chargen-Save-Gate greift
-hier **nicht**. Das Save-Angebot erfolgt stattdessen nach Mission 1 im
-regulären Post-Mission-HQ-Menü.
+*Hinweis für künftige Wartung:* Die alte **Fast-Lane** (`solo schnell` /
+`gruppe schnell`), die per Design direkt in den Briefingraum sprang und
+den Chargen-Save-Gate übersprang, wurde mit dem Fast-Lane-Rip entfernt.
+Das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 
 Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
 (2-4 Sätze):
