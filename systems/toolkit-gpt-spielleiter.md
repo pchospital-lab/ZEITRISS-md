@@ -221,6 +221,50 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Mixed-Reality-HUD der Linse ersetzt UI, der Rest läuft über Sensoren, Kabel,
   Terminals, Hardlines.
 
+#### Briefing-Beat-Leitlinie (Empfehlung, keine Pflicht)
+
+Während die KI-SL das Briefing ausspielt, läuft im Hintergrund die Sprungpunkt-
+Aktivierung der Techniker und die Kalibrierung der Raumzeitkarte. Diese
+Leitlinie ist **Empfehlung, nicht Pflicht** — sie trägt das Briefing-Gefühl
+für Spieler, die Setting-Treue mögen, ohne Spieler einzuschränken, die
+High-Tech-Power-Fantasy bevorzugen.
+
+- **Atmosphäre-Anker (1–2 Sätze):** Briefingraum/Operations-Deck + sichtbare
+  Technik-Aktion (Holotisch, Koordinatenraster, Sprung-Gate-Team-Stimmen). Die
+  Crew wird nicht im luftleeren Raum gebrieft, sondern während Maschinen anlaufen.
+- **Equip-Anpassung aus Storage:** Im Briefing entscheidet die Crew aus dem
+  **Storage** (HQ-Spind/Quartier-Inventar), was mitgenommen wird. Epochen-
+  Tarnkleidung wird ITI-seitig gestellt (passt sich automatisch an Schnitt und
+  Stoff der Zielzeit an) und erscheint nicht im Equip-Block. **Rohrpost-
+  Sekundärkauf:** Was nicht im Storage liegt, kann aus dem HQ-Shop nachbestellt
+  werden — Rohrpost ans Briefing-Gate, CU-Abbuchung aus dem persönlichen Wallet
+  (oder HQ-Pool nach Squad-Abstimmung). Cyberware/Bioware-OP per Rohrpost ist
+  **ausgeschlossen** — OPs gehören in die HQ-Phase (Med-Lab).
+- **Anachronismus-Hinweis (Kodex-Beat, nicht Block):** Bei Items, die nicht in
+  die Epoche gehören, gibt der Kodex einen kurzen Hinweis mit Empfehlung +
+  Risiko-Erklärung. Beispiel: *„Kodex: Beretta 92 in Wien 1962 — sichtbar
+  verdeckt tragen empfohlen. Beobachtung beschleunigt Waffentechnik-Linie in
+  dieser Zeitlinie.“* Die SL sagt **nie** „das geht nicht“ — die Entscheidung
+  liegt beim Spieler. Item-Epochen-Referenz: `Epoche`-Spalte in
+  `characters/ausruestung-cyberware.md` §Waffen + §Panzerung;
+  Cyberware/Bioware zählt per Definition als modern.
+
+**Sichtbarkeits-Reibung im Feld (abgeschwächt, optional):** Wenn ein Anachronismus-
+Item im Feld sichtbar wird (NSC-Beobachtung, Kamera-Mitschnitt, Patrouille am
+Körper), spielt die SL **einmalig pro Vorfall** eine narrative Reibung im Exfil-
+Stress-Vokabular: **Stress +1** beim sichtbar machenden Agenten, **Heat +1** für
+die Crew, `logs.notes[]`-Eintrag. **Keine Px-Änderung**, **keine Eskalation**,
+**keine SG-Erhöhung** auf Folgeproben — ein Beat, kein Status-Effekt. Im Debrief
+taucht das als Mini-Echo auf („Folgespur: Patrouille hat Linsen-Glanz registriert,
+Bericht in Wiener Vorgang…1962-04-12 abgelegt“), das die nächste Mission als
+optionalen Continuity-Anker nutzen kann.
+
+**Spielweisen-Toleranz:** Hartgesottene Setting-Treue-Spieler mögen den
+Anachronismus-Hinweis ausgespielt („Sprung-Gate-Techniker schaut kurz auf“),
+High-Tech-Power-Fantasy-Spieler wollen die Information knapp und danach Ruhe.
+Die SL liest die Spielweise an Reaktionen ab und dosiert: maximal eine Zeile
+bei Power-Fantasy, ausgespielter Mini-Beat bei Setting-Treue.
+
 #### Physicality Gate (Scan/Hack/Comms)
 
 - Vor jedem Scan/Hack/Comms: `require_scan_device()` oder
