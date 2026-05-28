@@ -883,6 +883,274 @@ def _save_sync_manifest(repo: Path, manifest: dict) -> None:
         print_warn(f"Sync-Manifest konnte nicht geschrieben werden: {exc}")
 
 
+def _mask_secret(s: str, keep_prefix: int = 8, keep_suffix: int = 4) -> str:
+    """`sk-litellm-abcd…wxyz` Fingerprint statt Klartext.
+
+    Für stdout/Logging: User erkennt den Key wieder (Prefix + 4er-Suffix
+    matchen den `.env`-Eintrag und die OpenWebUI-Connection), aber niemand
+    kann ihn aus einem Terminal-Screenshot oder Session-Transcript abgreifen.
+    Klartext bleibt nur in `scripts/litellm/.env` (chmod 600).
+    """
+    if not s or len(s) <= keep_prefix + keep_suffix + 3:
+        return "sk-…"
+    return f"{s[:keep_prefix]}…{s[-keep_suffix:]}"
+
+
+def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
+    """Bestimmt das LiteLLM-Routing-Modell, auf das das OpenWebUI-Preset
+    nach Cache-Install zeigen soll.
+
+    Reihenfolge:
+      1. `cfg['litellm']['routing_model']` — explizit in setup.json.
+      2. Erstes `model_name` aus `scripts/litellm/config.yaml`.
+      3. Convention-Fallback: `<project-lowercased>-sonnet`.
+
+    Kein yaml-Import nötig — wir machen einen schmalen Regex, der für
+    unsere kleine config.yaml ausreicht. Das spart Bausätzen einen
+    pyyaml-Pflicht-Install.
+    """
+    explicit = (cfg.get("litellm") or {}).get("routing_model")
+    if isinstance(explicit, str) and explicit.strip():
+        return explicit.strip()
+
+    config_yaml = repo / "scripts" / "litellm" / "config.yaml"
+    if config_yaml.is_file():
+        try:
+            import re
+            text = config_yaml.read_text(encoding="utf-8")
+            m = re.search(r"^\s*-\s*model_name:\s*([^\s#]+)\s*$", text, re.MULTILINE)
+            if m:
+                return m.group(1).strip()
+        except OSError:
+            pass
+
+    return f"{str(cfg.get('project', 'zeitriss')).lower()}-sonnet"
+
+
+def _ensure_owui_litellm_connection(
+    owui_url: str,
+    owui_key: str,
+    master_key: str,
+    project: str,
+) -> tuple[bool, str]:
+    """Stellt sicher, dass OpenWebUI eine Connection auf den LiteLLM-Proxy hat.
+
+    Idempotent: prüft `GET /openai/config`, ob `http://127.0.0.1:4000/v1`
+    schon als Base-URL angemeldet ist. Wenn ja: nichts tun. Wenn nein:
+    Connection per `POST /openai/config/update` ergänzen und den Routing-
+    Modell-Pin (`zeitriss-sonnet`) setzen, damit OWUI nur das eine
+    LiteLLM-Modell als „cached“-Variante anbietet (nicht das ganze
+    OpenRouter-Modell-Inventar via LiteLLM doppelt).
+
+    Returns (ok, message). Bei API-Fehlern: ok=False, message ist die
+    Diagnose; Caller druckt das und fällt auf die Hand-Anleitung zurück.
+    """
+    import urllib.request
+    import urllib.error
+
+    target_url = "http://127.0.0.1:4000/v1"
+
+    def _api(method: str, path: str, payload: Optional[dict] = None) -> tuple[int, Any]:
+        body = json.dumps(payload).encode() if payload is not None else None
+        req = urllib.request.Request(
+            f"{owui_url.rstrip('/')}{path}",
+            data=body, method=method,
+            headers={
+                "Authorization": f"Bearer {owui_key}",
+                "Content-Type": "application/json",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                raw = resp.read()
+                try:
+                    return resp.status, json.loads(raw)
+                except json.JSONDecodeError:
+                    return resp.status, raw.decode("utf-8", "replace")
+        except urllib.error.HTTPError as e:
+            try:
+                return e.code, json.loads(e.read())
+            except (json.JSONDecodeError, OSError):
+                return e.code, str(e)
+        except (urllib.error.URLError, OSError) as e:
+            return 0, str(e)
+
+    code, data = _api("GET", "/openai/config")
+    if code != 200 or not isinstance(data, dict):
+        return False, f"OpenWebUI /openai/config nicht erreichbar (HTTP {code})"
+
+    urls = list(data.get("OPENAI_API_BASE_URLS") or [])
+    keys = list(data.get("OPENAI_API_KEYS") or [])
+    configs = dict(data.get("OPENAI_API_CONFIGS") or {})
+    routing_model = _litellm_routing_model_id(
+        Path(__file__).resolve().parent.parent,
+        {"project": project},
+    )
+
+    # Längen-Sync: ältere OWUI-Versionen lieferten gelegentlich `keys`
+    # kürzer als `urls` (z.B. wenn ein Key nie gesetzt war). Wir dürfen
+    # keinen Längen-Drift produzieren — sonst liest OWUI später `keys[idx]`
+    # mit dem falschen Key. `configs` darf lückenhaft sein (OWUI nutzt
+    # Defaults), nur URL/Key müssen 1:1 synchron sein.
+    while len(keys) < len(urls):
+        keys.append("")
+
+    if target_url in urls:
+        idx = urls.index(target_url)
+        old_key = keys[idx] if idx < len(keys) else ""
+        old_cfg = dict(configs.get(str(idx)) or {})
+        old_pins = list(old_cfg.get("model_ids") or [])
+
+        # Drift-Check: nur POSTen, wenn Key, Pin oder Enable-Flag
+        # tatsächlich abweichen. Hält die "kein Re-Write bei identischem
+        # State"-Idempotenz-Garantie ein.
+        needs_write = (
+            old_key != master_key
+            or routing_model not in old_pins
+            or not old_cfg.get("enable", False)
+        )
+        if not needs_write:
+            return True, (
+                f"Connection bereits vorhanden ({target_url} → Routing-Pin: "
+                f"{routing_model}) — kein Update nötig."
+            )
+
+        keys[idx] = master_key
+        cfg_for_idx = old_cfg or {
+            "tags": ["cached"], "prefix_id": "",
+            "connection_type": "external", "auth_type": "bearer",
+        }
+        cfg_for_idx["enable"] = True
+        cfg_for_idx.setdefault("tags", ["cached"])
+        cfg_for_idx.setdefault("prefix_id", "")
+        cfg_for_idx.setdefault("connection_type", "external")
+        cfg_for_idx.setdefault("auth_type", "bearer")
+        # Pin auf Routing-Modell setzen, bestehende Pins anderer Modelle
+        # bleiben erhalten.
+        if routing_model not in old_pins:
+            old_pins.append(routing_model)
+        cfg_for_idx["model_ids"] = old_pins
+        configs[str(idx)] = cfg_for_idx
+        action = "updated"
+    else:
+        urls.append(target_url)
+        keys.append(master_key)
+        configs[str(len(urls) - 1)] = {
+            "enable": True,
+            "tags": ["cached"],
+            "prefix_id": "",
+            "model_ids": [routing_model],
+            "connection_type": "external",
+            "auth_type": "bearer",
+        }
+        action = "created"
+
+    # Pflicht-Invariante vor dem POST: urls und keys synchron in der Länge.
+    assert len(urls) == len(keys), (
+        f"len drift: urls={len(urls)} keys={len(keys)} — OWUI-State inkonsistent"
+    )
+
+    payload = {
+        "ENABLE_OPENAI_API": True,
+        "OPENAI_API_BASE_URLS": urls,
+        "OPENAI_API_KEYS": keys,
+        "OPENAI_API_CONFIGS": configs,
+    }
+    code, data = _api("POST", "/openai/config/update", payload)
+    if code != 200:
+        return False, f"OpenWebUI /openai/config/update fehlgeschlagen (HTTP {code})"
+    return True, f"Connection {action} ({target_url} → Routing-Pin: {routing_model})"
+
+
+def _wait_for_owui_model_visible(
+    owui_url: str, owui_key: str, model_id: str, max_wait_s: float = 6.0,
+) -> bool:
+    """Probe `GET /api/models`, bis das frisch hinzugefügte Connection-Modell
+    in der OpenWebUI-Modell-Liste auftaucht. Vermeidet die Race zwischen
+    Connection-Update und Preset-Rewire (OWUI muss intern die LiteLLM-
+    Modell-Liste neu pollen, bevor `routing_model` als gültige
+    base_model_id akzeptiert wird).
+
+    Returns True, wenn das Modell sichtbar wurde (auch sofort). False,
+    wenn nach max_wait_s noch nicht da — Caller druckt einen Hinweis,
+    macht aber trotzdem weiter (Rewire kann auch dann gelingen, weil
+    OWUI's Preset-Update keine Existenz-Validierung macht).
+    """
+    import urllib.request
+    import urllib.error
+
+    deadline = time.monotonic() + max_wait_s
+    delay = 0.5
+    while time.monotonic() < deadline:
+        try:
+            req = urllib.request.Request(
+                f"{owui_url.rstrip('/')}/api/models",
+                headers={"Authorization": f"Bearer {owui_key}"},
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data = json.loads(resp.read())
+                items = data.get("data", data) if isinstance(data, dict) else data
+                if any(m.get("id") == model_id for m in items or []):
+                    return True
+        except (urllib.error.URLError, urllib.error.HTTPError, OSError, json.JSONDecodeError):
+            pass
+        time.sleep(delay)
+        delay = min(delay * 1.5, 2.0)
+    return False
+
+
+def _rewire_preset_base_model(
+    repo: Path, cfg: dict, owui_url: str, owui_key: str,
+) -> tuple[bool, str]:
+    """Stellt das `base_model_id` des Presets auf das LiteLLM-Routing-Modell.
+
+    Ohne diesen Schritt zeigt das Preset weiterhin auf `anthropic/claude-
+    sonnet-4.6` direkt → OWUI routet über OpenRouter ohne LiteLLM →
+    kein Caching → User zahlt ~10× pro Turn. Diese Funktion macht den
+    dritten Browser-Klick aus der alten Setup-Anleitung obsolet.
+
+    Idempotent: prüft erst den aktuellen Wert; nur Update bei Drift.
+    Returns (ok, message). Caller druckt das.
+    """
+    preset_id = cfg["preset_id"]
+    routing_model = _litellm_routing_model_id(repo, cfg)
+
+    client = APIClient(owui_url, owui_key)
+    preset = client.get_model(preset_id)
+    if preset is None:
+        return False, f"Preset '{preset_id}' in OpenWebUI nicht gefunden — Setup [1] zuerst laufen lassen."
+
+    current_base = preset.get("base_model_id")
+    if current_base == routing_model:
+        return True, f"Preset zeigt bereits auf `{routing_model}` — kein Rewire nötig."
+
+    form = {
+        "id": preset.get("id", preset_id),
+        "base_model_id": routing_model,
+        "name": preset.get("name", cfg.get("preset_name", preset_id)),
+        "meta": preset.get("meta", {}),
+        "params": preset.get("params", {}),
+        "is_active": preset.get("is_active", True),
+    }
+    ok, action = client.upsert_model(form)
+    if not ok:
+        return False, (
+            f"Preset-Update fehlgeschlagen (action={action}). "
+            f"Manueller Fallback: Workspace → Models → '{preset.get('name', preset_id)}' → "
+            f"Base-Modell auf `{routing_model}` setzen."
+        )
+
+    # Verify — Re-GET und base_model_id vergleichen.
+    verify = client.get_model(preset_id)
+    if not verify or verify.get("base_model_id") != routing_model:
+        return False, (
+            f"Preset-Update lief durch, aber Re-GET zeigt base_model_id="
+            f"{verify.get('base_model_id') if verify else 'None'}. "
+            f"Bitte einmal manuell verifizieren."
+        )
+    return True, f"Preset `{preset.get('name', preset_id)}` zeigt jetzt auf `{routing_model}`."
+
+
 def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Install + start LiteLLM proxy for Anthropic prompt caching.
 
@@ -894,8 +1162,10 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
       5. `docker compose up -d` für den Proxy.
       6. Health-Check abwarten.
       7. 2-Call-Cache-Test gegen den Proxy.
-      8. OpenWebUI-Connection auf http://localhost:4000 zeigen lassen
-         (als zusätzliche OpenAI-kompatible Connection).
+      8. OpenWebUI-Connection auf http://localhost:4000 anlegen/aktualisieren
+         (idempotent, via `/openai/config/update`).
+      9. Preset-Base-Modell auf LiteLLM-Routing-Modell rewiren (sonst
+         routet OWUI weiter über OpenRouter direkt = kein Caching).
 
     Idempotent: Läuft mehrfach ok, erzeugt keinen Doppel-Container.
     """
@@ -1092,31 +1362,125 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                     "Privacy-Settings auf openrouter.ai prüfen."
                 )
 
-    # 8. OpenWebUI-Connection (optional, nur Hinweis — kein Auto-Schreiben,
-    #    weil die OpenWebUI-Connections-API zwischen Versionen stark wechselt.)
+    # 8 + 9. Auto-Wire: OpenWebUI-Connection + Preset-Base-Modell setzen.
+    print()
+    print_info("Verknüpfe OpenWebUI mit dem LiteLLM-Proxy…")
+    _auto_load_owui_env()
+    owui_url = (
+        os.environ.get("OPENWEBUI_URL")
+        or cfg.get("url")
+        or "http://localhost:8080"
+    ).rstrip("/")
+    owui_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+
+    # Pro Step ein Bool, damit der Manual-Fallback weiter unten weiss,
+    # welcher Schritt noch übrig ist. (Critic-Befund: voller Fallback nach
+    # teilweisem Erfolg = User legt eine zweite, doppelte Connection an.)
+    ok_conn = False
+    ok_rewire = False
+    routing_model = _litellm_routing_model_id(repo, cfg)
+
+    if not owui_key:
+        print_warn(
+            "Kein OPENWEBUI_API_KEY in der Umgebung — Auto-Verknüpfung übersprungen.\n"
+            "Setup [1] oder Menü [5] API-Keys ändern füllt den Wert; danach Menü [4] für Sync."
+        )
+    else:
+        # Enge Exception-Filter: erwartete Klassen für Netzwerk/JSON/Config.
+        # Alle anderen (KeyError in setup.json etc.) lassen wir hochlaufen —
+        # die sollen den User wachrütteln, nicht in Manual-Fallback verschwinden.
+        import urllib.error
+        try:
+            ok_conn, msg_conn = _ensure_owui_litellm_connection(
+                owui_url, owui_key, master_key, project,
+            )
+            if ok_conn:
+                print_ok(f"OpenWebUI-Connection: {msg_conn}")
+            else:
+                print_warn(f"OpenWebUI-Connection: {msg_conn}")
+        except (urllib.error.URLError, urllib.error.HTTPError, OSError, json.JSONDecodeError) as exc:
+            print_warn(
+                f"OpenWebUI-Connection-Update fehlgeschlagen: {exc.__class__.__name__}: {exc}"
+            )
+
+        # Race-Fix: nach Connection-Update muss OWUI intern die LiteLLM-
+        # Modell-Liste pollen, bevor `routing_model` als gültige
+        # base_model_id akzeptiert wird. Auf langsamen Hosts kann das
+        # ein paar Sekunden dauern.
+        if ok_conn:
+            visible = _wait_for_owui_model_visible(
+                owui_url, owui_key, routing_model, max_wait_s=6.0,
+            )
+            if not visible:
+                print_warn(
+                    f"Modell `{routing_model}` taucht noch nicht in OpenWebUIs Modell-Liste auf. "
+                    "Versuche den Preset-Rewire trotzdem; bei Fehlschlag in 10s nochmal."
+                )
+
+        try:
+            ok_rewire, msg_rewire = _rewire_preset_base_model(
+                repo, cfg, owui_url, owui_key,
+            )
+            if ok_rewire:
+                print_ok(f"Preset-Rewire: {msg_rewire}")
+            else:
+                print_warn(f"Preset-Rewire: {msg_rewire}")
+        except (urllib.error.URLError, urllib.error.HTTPError, OSError, json.JSONDecodeError) as exc:
+            print_warn(
+                f"Preset-Rewire fehlgeschlagen: {exc.__class__.__name__}: {exc}"
+            )
+
     print()
     print_header("LiteLLM-Proxy läuft.")
     print()
-    print("  Jetzt noch drei Browser-Klicks, dann läuft der Cache:")
+    auto_wired = ok_conn and ok_rewire
+    if auto_wired:
+        print_ok(
+            f"Cache ist live verkabelt: Preset → `{routing_model}` → LiteLLM → OpenRouter.\n"
+            "  Nichts mehr zu klicken — mit Menü [3] direkt ins Spiel."
+        )
+    else:
+        # Granularer Fallback: nur die Schritte zeigen, die wirklich noch
+        # offen sind. Verhindert doppelte Connections, wenn der User
+        # einer falschen 3-Klick-Anleitung folgt.
+        missing_steps = []
+        if not ok_conn:
+            missing_steps.append((
+                "OpenWebUI-Verbindung zum LiteLLM-Proxy einrichten",
+                [
+                    f"OpenWebUI öffnen: {owui_url}",
+                    "Profil-Icon oben rechts → Einstellungen → Verbindungen",
+                    "→ '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):",
+                    "  URL:  http://localhost:4000/v1",
+                    f"  Key:  {_mask_secret(master_key)}  (Klartext in scripts/litellm/.env)",
+                    f"  Name: LiteLLM ({project} Cache)",
+                    "Speichern.",
+                ],
+            ))
+        if not ok_rewire:
+            missing_steps.append((
+                "Preset auf das LiteLLM-Routing-Modell umstellen",
+                [
+                    "Im linken Menü: Arbeitsbereich → Modelle",
+                    f"(engl.: Workspace → Models) → `{cfg.get('preset_name', cfg['preset_id'])}` anklicken.",
+                    f"Im Preset-Editor: Base-Modell-Dropdown auf `{routing_model}` umstellen → Speichern.",
+                ],
+            ))
+
+        if missing_steps:
+            print(f"  {len(missing_steps)} Schritt(e) noch offen — manuell nachholen:\n")
+            for i, (title, steps) in enumerate(missing_steps, 1):
+                print(f"  {i}. {title}")
+                for step in steps:
+                    print(f"     {step}")
+                print()
+            print("  Danach läuft jeder Chat über LiteLLM → OpenRouter → Anthropic,")
+            print("  und der Masterprompt wird gecached. Erwartete Ersparnis: ~90 % auf")
+            print("  den Prompt-Anteil jedes Folge-Turns.")
     print()
-    print(f"  1. OpenWebUI öffnen: {os.environ.get('OPENWEBUI_URL', 'http://localhost:8080')}")
-    print("     Profil-Icon oben rechts → Einstellungen → Verbindungen")
-    print("     → '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):")
-    print("       URL:  http://localhost:4000/v1")
-    print(f"       Key:  {master_key}")
-    print("       Name: LiteLLM (ZEITRISS Cache)")
-    print("     Speichern.")
-    print("  2. Im linken Menü: Arbeitsbereich → Modelle")
-    print("     (engl.: Workspace → Models) → `ZEITRISS v4.2.6 Uncut` anklicken.")
-    print("  3. Im Preset-Editor: Base-Modell-Dropdown auf `zeitriss-sonnet`")
-    print("     umstellen → Speichern.")
-    print()
-    print("  Danach läuft jeder Chat über LiteLLM → OpenRouter → Anthropic,")
-    print("  und der Masterprompt wird gecached. Erwartete Ersparnis: ~90 % auf")
-    print("  den Prompt-Anteil jedes Folge-Turns.")
-    print()
-    print("  Master-Key wurde sicher in scripts/litellm/.env abgelegt (chmod 600).")
-    print("  Container-Logs: `docker logs litellm-zeitriss`")
+    print(f"  Master-Key (Fingerprint): {_mask_secret(master_key)}")
+    print("  Klartext-Speicher: scripts/litellm/.env (chmod 600).")
+    print("  Container-Logs:    docker logs litellm-zeitriss")
 
 
 def _auto_load_owui_env() -> None:
