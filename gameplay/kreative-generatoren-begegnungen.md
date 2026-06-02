@@ -571,6 +571,42 @@ Nur mehrere Zeitanker können ihn bannen.
 ```
 
 Nur sichtbar oder entfernbar mit speziellem Gerät.
+
+### Para-Schwereklassen (handfest vs. flüchtig) {#para-schwereklassen}
+
+Die Statblocks oben sind **flüchtige** Parawesen — niedriger LP-Pool (W6×1 bis
+W6×2), kein Armor. Sie fallen nach 2–3 Treffern und eignen sich für schnelle
+Schreck-Begegnungen und Schwärme. **Für die physischen Rift-Kerngefechte auf dem
+Weg zum Boss** (Horror-Action, siehe Masterprompt §C Rift-Horror-Pflichtgate)
+braucht es **handfeste** Parawesen, die *ein paar Kugeln vertragen* — sonst ist der
+Kampf vorbei, bevor der Dread wirkt. Drei Schwereklassen, die das bereits
+vorhandene `Armor`-Feld (siehe Casefile-Boss-Statblocks) und höhere LP-Tranchen
+nutzen:
+
+- **Flüchtig (💀–💀💀):** LP W6×1–2, **Armor 0**. Schwärme, Späher, Schreck-Spawns.
+  Fallen schnell — das ist gewollt. Nutze sie in Gruppen für Druck, nicht solo als
+  Hindernis.
+- **Handfest (💀💀💀):** LP **W6×3–4** (≈10–14), **Armor 1–2** (reduziert jeden
+  Treffer um den Armor-Wert, min. 1 Restschaden). Das ist die **Standard-Kampf-
+  Klasse für physische Rift-Gefechte** — verträgt rund 5–10 Treffer (Armor 1 ≈ 5–7, Armor 2 ≈ 8–12), zwingt zu Taktik
+  und Stellungswechsel, ohne Boss zu sein. Beispiel: Brut-Raptor, Klon-Soldat,
+  Chronostalker.
+- **Schwer (💀💀💀💀–💀💀💀💀💀):** LP W6×4–5 + **Armor 2–3**, optional eine Mini-
+  Signature-Power. Elite-Wache vor dem Boss, Mini-Boss-Kandidat (dann greift das
+  Bosskampf-Pflichtgate ab 💀💀💀💀 / Para-Tier-3+).
+
+**Armor-Mechanik:** `Armor N` zieht von **jedem** eingehenden Treffer N Schaden ab
+(min. 1 Restschaden, damit kein Treffer komplett verpufft). Exploding-Treffer und
+gezielte Schwachpunkt-Treffer (Weak Spot DC) **ignorieren Armor** — so bleibt die
+Schwachpunkt-Jagd belohnt. Armor erhöht **nicht** den SG (wie die 💀-Skala), sondern
+nur die Zähigkeit. Boss-DR (Teamgrößen-Tabelle) und Para-Armor stapeln nicht — bei
+Boss-Encountern gilt die Boss-DR.
+
+**Faustregel für die SL:** Eine Rift-Op hat mindestens **2–3 handfeste**
+Para-Begegnungen vor dem Boss (physische Kerngefechte), gerne garniert mit
+flüchtigen Schwärmen für Druck. Reine Glaskanonen-Reihen sind kein Horror-Action-
+Kampf, sondern Zielscheiben-Schießen.
+
 Diese Kreaturen (und viele mehr) könnt ihr einbauen, um euren Abenteuern Würze und Mysterium zu
 verleihen. Wichtig ist, sie **sparsam und gezielt** einzusetzen - jede besondere Begegnung soll sich
 einzigartig anfühlen. Die Spieler dürfen ruhig mal ins Grübeln kommen: "Was zum Henker ist _das_!?"
