@@ -325,7 +325,7 @@ Das kanonische Schema-Template steht im **Masterprompt** (`meta/masterprompt_v6.
 Orientiere dich an SaveGuard + folgendem Pfadbaum.
 
 **Wichtig zur Struktur:** `characters[]` ist nur der Charakterblock. `economy`,
-`logs`, `summaries`, `continuity`, `arc`, `ui` und `arena` liegen
+`research`, `logs`, `summaries`, `continuity`, `arc`, `ui` und `arena` liegen
 immer auf **Root-Ebene** (nicht unter einem Charakter).
 
 - `v`, `zr` (Schema- und ZEITRISS-Version)
@@ -346,6 +346,9 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - `reputation.{iti, faction, factions:{}}`
   - `wallet`
 - `economy.{hq_pool}`
+- `research.{projects[]}` — laufende HQ-Forschungen UND Mission-Funde, die im Labor entschlüsselt/analysiert werden. Jeder Eintrag:
+  `{id, label, kind: "hq_research"|"field_decrypt", scope: "episode"|"campaign", tier, missions_total, missions_done, status: "in_progress"|"ready"|"collected", source?, reward_hint?}`.
+  `tier` = Anzahl Core-Missionen bis fertig (Tier 0 = sofort beim nächsten Debrief, Tier 5 = 5 Core-Missionen). `scope: "episode"` = der Fund/das Projekt gehört zur laufenden Episode und **muss vor dem Episoden-Boss (MS10) fertig werden, damit es im Finale einsetzbar ist** → `tier` wird beim Anlegen so gedeckelt, dass es spätestens beim MS9-Debrief `ready` wird (`missions_total = min(tier, 9 − aktuelle_Mission)`, siehe Masterprompt §C). `scope: "campaign"` = episodenübergreifender Verschwörungs-Strang, darf länger laufen (kein Cap). `missions_total` = der effektive (ggf. gedeckelte) Tier-Wert. `missions_done` tickt **+1 pro abgeschlossenem Core-Mission-Debrief**, beginnend beim **nächsten** Debrief nach dem Anlegen (nicht der laufenden Mission). `status` wird `ready`, sobald `missions_done >= missions_total`. Leeres Array, wenn nichts läuft. **Migration:** Ein Projekt ohne `scope` (Alt-Stand) wird als `scope: "campaign"` behandelt (kein rückwirkendes Cap).
 - `logs.{trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
 - `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
@@ -1207,7 +1210,9 @@ vA.B. Bitte HQ-Migration veranlassen.`
   "SaveGuard: Exfil aktiv - HQ-Save gesperrt."
 - Pflichtblöcke dürfen nicht geschätzt werden; der Serializer ersetzt fehlende
   Strukturen mit sicheren Defaults (Wallets `{}`, Logs als leere Arrays,
-  `ui.gm_style="verbose"`).
+  `ui.gm_style="verbose"`). **Ein in Legacy-/pre-Research-Saves fehlender
+  `research`-Block wird beim Laden als `research: {projects: []}` (leeres Array)
+  initialisiert** — die Migration legt keine Projekte rückwirkend an.
 - Story-Beispiel für den HQ-Guard: Abbruch kurz vor Mission 5-Boss → HUD meldet
   `BOSS`+`GATE 2/2`, Debrief schreibt `last_mission_end_reason=aborted`,
   Self-Reflection springt automatisch auf `SF-ON` und der Save bleibt bis zur
