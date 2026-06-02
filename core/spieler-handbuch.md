@@ -61,6 +61,10 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - Ihr springt in eine Epoche, erledigt den Auftrag, springt zurück.
 - Keine Zeitschwurbelei - Zeit ist euer Setting, nicht euer Puzzle.
 - Beispiel: Bankjob während eines echten historischen Überfalls.
+- **Du wählst deinen Weg:** Das Briefing nennt **ein** klares Hauptziel, aber
+  bietet dir **2-3 verschiedene Angriffspunkte** an (z. B. über das Dach, durch
+  den Versorgungstunnel, getarnt am Haupteingang). Du entscheidest, wie du rangehst —
+  der Auftrag ist das Ziel, nicht der Weg.
 
 **Rift-Ops (Bonus-Missionen):**
 
