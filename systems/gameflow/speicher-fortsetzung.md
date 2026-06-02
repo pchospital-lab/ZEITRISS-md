@@ -1476,7 +1476,7 @@ pro Teilgruppe einen eigenen Save:
 4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
 5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
 6. **campaign.px + px_state:** Px und `px_state` werden in beide Saves kopiert (nicht aufgeteilt).
-6a. **campaign.heat:** Heat ist Crew-/Welt-weit und wird wie `px` **in beide Saves kopiert, nicht aufgeteilt** (die Welt fahndet nach der ganzen Crew, egal welcher Thread). Beim Merge wird der **höhere** Heat-Wort beider Threads übernommen (max), nicht summiert — die wachsamste Welt-Reaktion gilt, kein Doppel-Anstieg durch zwei Threads.
+6a. **campaign.heat:** Heat ist Crew-/Welt-weit und wird wie `px` **in beide Saves kopiert, nicht aufgeteilt** (die Welt fahndet nach der ganzen Crew, egal welcher Thread). Beim Merge wird der **höhere** Heat-Wert beider Threads übernommen (max), nicht summiert — die wachsamste Welt-Reaktion gilt, kein Doppel-Anstieg durch zwei Threads.
 7. **Episode/Stress bei Rift-Splits:** Rift-Branches behalten dieselbe
    `campaign.episode` wie der Core-Anker; beim Transfer zurück ins HQ wird
    missionsbedingter Stress auf den gespeicherten HQ-Basiswert zurückgesetzt.

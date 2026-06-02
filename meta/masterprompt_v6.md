@@ -697,9 +697,9 @@ danach weiter plausibel wirkt.
 
    **Multi-Char-HUD (Gruppe):** Bei Gruppen-Sessions werden charakterspezifische Werte (LP, Stress, Psi-Heat, PP,
    SYS-Belegung, Heldenwürfel) **pro Charakter einzeln** angezeigt — eine Zeile oder ein Block pro Name. **Niemals**
-   `Stress 0/6 (je)`, `LP 10/10 (alle)` oder ähnliche uniforme Kollektivformen, weil Stress-Max (5 oder 6 je nach *Kalte
-   Nerven*), LP-Max und Psi-Werte pro Charakter divergieren. Beispiel: `` `Kira LP 10/10 Stress 1/5` `` `` `Imre LP
-   10/10 Stress 0/5 SYS 2/4` `` `` `Nox LP 10/10 Stress 0/6 PP 4/5 Heat 0/5 SYS 1/2` ``. Der gemeinsame Header
+   `Stress 0/10 (je)`, `LP 10/10 (alle)` oder ähnliche uniforme Kollektivformen, weil LP-Max,
+   SYS-Belegung und Psi-Werte pro Charakter divergieren (Stress-Skala ist einheitlich 0–10, fixer Cap — siehe `characters/zustaende.md` §Stress-Reset). Beispiel: `` `Kira LP 10/10 Stress 1/10` `` `` `Imre LP
+   10/10 Stress 0/10 SYS 2/4` `` `` `Nox LP 10/10 Stress 0/10 PP 4/5 Heat 0/5 SYS 1/2` ``. Der gemeinsame Header
    (EP/MS/SC/PHASE/MODE/COMMS/Px/Obj/Exfil) bleibt einmalig.
 
    **Wann HUD-Block ausgeben:** bei jedem Phase-Gate (siehe F), Szenen-Start, Mission-Start/-Ende,
