@@ -482,6 +482,16 @@ Details und Beat-Pool: `core/wuerfelmechanik.md` §Cineastische Kampf-Beats.
 
 Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 
+### Heat / Fahndung (0-5)
+
+| Heat | Bedeutung                                                                           |
+| ---: | ----------------------------------------------------------------------------------- |
+|  0-2 | Unauffällig — keine besonderen Einschränkungen                                      |
+|  3-4 | Welt wird wachsam — mehr Patrouillen, Kontrollen; eine Fraktion beobachtet die Crew |
+|    5 | Aktive Fahndung — nächste Mission startet unter erhöhtem Druck                      |
+
+Heat steigt durch laute oder sichtbare Aktionen im Feld: Alarm auslösen, Zeugen hinterlassen, Spotlight-Eskalation, Anachronismus-Sichtung. Er bleibt über Missionen hinweg bestehen — die Welt vergisst nicht sofort. **Ausweg:** Im HQ sinkt Heat um 1 pro Episoden-Übergang (die Spur kühlt ab). Zusätzlich kann die Crew gezielt Spuren verwischen, falsche Fährten legen oder per ITI-Vertuschung gegen CU-Einsatz den Druck senken. Das Ziel ist das Gefühl *„wir müssen vorsichtiger werden"* — kein Dauerfrust, sondern kalkulierbarer Druck. Das HUD-Icon 👁️ Tarnung spiegelt den aktuellen Heat-Stand. **Gilt für Core- und Rift-Ops; nicht für Arena und Chronopolis.**
+
 ### Psi (Kurzversion)
 
 - **PP-Pool** = TEMP-Wert · Kosten: stark 3 / mittel 2 / gering 1 PP
@@ -572,6 +582,20 @@ ohne Tier V global zu sperren.
 
 **Debrief-Format:** `Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II`
 
+### Forschung & Fund-Analyse
+
+HQ-Forschungen und auf Mission gesicherte Funde reifen nicht in Echtzeit, sondern über eine **Anzahl abgeschlossener Core-Missionen**. Wie lange eine Analyse dauert, richtet sich nach Wert und Komplexität des Fundes — die Spielleitung nennt die Schätzung beim Einlagern (*„~3 Einsätze bis Ergebnis"*).
+
+| Reife-Schwelle | Bedeutung                                           |
+| -------------- | --------------------------------------------------- |
+| Tier 0         | Fertig beim nächsten Debrief                        |
+| Tier 1–5       | Fertig nach 1–5 abgeschlossenen Core-Missionen      |
+
+- **Rift-, Arena- und Chronopolis-Missionen zählen nicht** — nur echte Core-Einsätze ticken den Fortschritt.
+- **Episode-gebundene Funde** müssen vor dem Episoden-Boss fertig werden; die Spielleitung passt das Tier beim Anlegen automatisch an. Sehr späte Funde werden als Eil-Analyse direkt verfügbar.
+- **Beim Laden und HQ-Eintritt** zeigt der Kodex den Stand: `Kodex: Research — <Label>: 2/3 Einsätze` bzw. `✓ abholbereit`. So spürt ihr bei jedem Wiedereinstieg, was sich in der Zwischenzeit getan hat.
+- Zwei Quellen fließen ins selbe System: **HQ-Forschungen** (eigene Studien, Gear-Analysen) und **Feld-Funde** (verschlüsselte Datenträger, Artefakte, Proben — ins Labor gegeben).
+
 ### XP-Kurve
 
 |  Level |                       XP pro Level | Kumulativ |
@@ -586,6 +610,15 @@ ohne Tier V global zu sperren.
 > Ab Level 11: XP-Balken zeigt `aktuell/schwelle` (z.B. `Lvl 14 ▓▓░░░ 1/2 XP`).
 > Pro Level-Up genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`.
 > **Aufstieg ist ein Moment, keine Zeile:** Die SL spielt jedes Level-Up als kurzen Beat aus (was die neue Fähigkeit konkret im Feld bringt), gern als Mini-Szene in Werkstatt/Training. **Meilenstein-Schwellen für alle Klassen:** Attribut 11 schaltet **W10** frei, Attribut 14 den **Heldenwürfel** — das sind spürbare Sprünge, nicht nur +1. Psi-Kräfte steigen in Stufen (Basis → Fortgeschritten → Experte), Talente ebenso. So hat jeder Charakter echte Freischalt-Momente, nicht nur die Psi-Begabten.
+
+**Prestige-Meilensteine:** An Lvl 25, 50, 75 und 100 ist das Level-Up kein normaler Werkstatt-Beat, sondern ein feierlicher **Rite-of-Passage** im ITI — mit Titel-Verleihung und einer **Prestige-Perk-Wahl** statt des üblichen Attributsbonus.
+
+| Level | Prestige-Titel  |
+| ----: | --------------- |
+|    25 | Bewährter Agent |
+|    50 | Veteran         |
+|    75 | Koryphäe        |
+|   100 | Legende         |
 
 ### HUD-Icons
 
