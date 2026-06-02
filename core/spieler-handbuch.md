@@ -66,9 +66,11 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 
 - Freigeschaltet durch Px 5 (gutes Spielen → Belohnung).
 - Paramonster jagen, Artefakte looten.
-- Mystery-Casefile-Atmosphäre in historischem Setting.
-- Jede Rift-Op ist ein eigenständiger Mystery-Casefile-Fallfilm:
-  kein Pflichtbezug zu laufender Core-Mission, Episode, Arc oder Kampagne.
+- Mystery-Casefile-Atmosphäre, die in **Horror-Action** kippt: Event-Horizon-Vibe mit
+  handfesten Parawesen, die ein paar Kugeln vertragen, und einem Boss, der das Schauern lehrt.
+  Das Jenseitige bleibt nur angedeutet — der Grusel lebt im Ungesagten.
+- Jede Rift-Op ist ein eigenständiger Fallfilm: kein Pflichtbezug zu laufender
+  Core-Mission, Episode, Arc oder Kampagne.
 - Die Ursache kann auf einen Zeitriss zurückgeführt werden - oder
   absichtlich mysteriös bleiben, wenn der Fall nicht vollständig geklärt wird.
 
@@ -579,6 +581,7 @@ ohne Tier V global zu sperren.
 > **XP = abgeschlossene Missionen.** Level 1-10: Jede Mission = Level-Up (kein XP-Balken nötig).
 > Ab Level 11: XP-Balken zeigt `aktuell/schwelle` (z.B. `Lvl 14 ▓▓░░░ 1/2 XP`).
 > Pro Level-Up genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`.
+> **Aufstieg ist ein Moment, keine Zeile:** Die SL spielt jedes Level-Up als kurzen Beat aus (was die neue Fähigkeit konkret im Feld bringt), gern als Mini-Szene in Werkstatt/Training. **Meilenstein-Schwellen für alle Klassen:** Attribut 11 schaltet **W10** frei, Attribut 14 den **Heldenwürfel** — das sind spürbare Sprünge, nicht nur +1. Psi-Kräfte steigen in Stufen (Basis → Fortgeschritten → Experte), Talente ebenso. So hat jeder Charakter echte Freischalt-Momente, nicht nur die Psi-Begabten.
 
 ### HUD-Icons
 
@@ -1300,8 +1303,9 @@ spielerfreundliche Noir-Varianten übersetzt.
 
 ### Zeiteinheiten
 
-- **Szene** - ca. 5-10 Min. Spielzeit. Core-Ops nutzen 12 Einsatz-Szenen,
-  Rift-Ops 14 Einsatz-Szenen (Briefing/Debrief sind HQ-Phasen, keine Szenen)
+- **Szene** - ein dichter Beat (Spielzeit am Tisch ~2-3 Min). Core-Ops nutzen 12 Einsatz-Szenen,
+  Rift-Ops 14 Einsatz-Szenen (Briefing/Debrief sind HQ-Phasen, keine Szenen). Eine Core-Op
+  spielt sich dicht und zielgerichtet in **rund 25-30 Min** — kein Reise-Tagebuch, keine Leerlauf-Szenen
   ([Missionsdauer](../gameplay/kampagnenstruktur.md#missionsdauer),
   [HUD-Macros](../systems/toolkit-gpt-spielleiter.md#startscene--endscene-macros)).
 - **Kampfrunde** - kurzer Aktionszyklus im Kampf; Grundlage für Initiative,
