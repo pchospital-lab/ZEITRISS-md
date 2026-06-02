@@ -174,7 +174,7 @@ Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
 In Core-Ops treten Rivalen aus externen Machtblöcken auf,
 während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 
-Core-Ops dauern durchschnittlich **60-75 Minuten** und umfassen **12 Szenen**.
+Core-Ops dauern durchschnittlich **25-30 Minuten** und umfassen **12 Szenen** — dicht und zielgerichtet, nicht gedehnt.
 Rift-Ops strecken sich über etwa **90-120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer).
 

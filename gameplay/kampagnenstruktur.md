@@ -97,8 +97,9 @@ Ereignisse zeigen und gemeinsam den Arc vorantreiben. Die vier Arc-Phasen erstre
 
 Durch diese episodische Struktur erhalten die Spieler regelmäßig Erfolgserlebnisse und die Kampagne
 bleibt **übersichtlich gegliedert**, ohne an epischer Gesamterzählung einzubüßen. Der **Arc-
-Baukasten** erlaubt es der Spielleitung außerdem, bei Bedarf flexibel Episoden einzuschieben oder
-Handlungsbögen zu verlängern, falls die Spieler z. B. unerwartete Nebenwege einschlagen.
+Baukasten** erlaubt es der Spielleitung außerdem, bei Bedarf flexibel Episoden einzuschieben. Unerwartete
+Nebenwege der Spieler bleiben dabei **innerhalb des 12-Szenen-Korridors** der laufenden Mission — ein
+Nebenweg verlängert die Mission nicht als Default, sondern wird zum nächsten Mission-Auftrag, wenn er groß genug ist (siehe Mission-Integrität-Pflichtgate, Masterprompt §C).
 
 ```yaml
 episode:
@@ -810,7 +811,7 @@ if episode_completed:
 
 | Format                | Dauer IRL  | Soll-Szenen   | Beschreibung                                      |
 | --------------------- | ---------- | ------------- | ------------------------------------------------- |
-| **Mission (Core-Op)** | 60-75 min  | **12 Szenen** | "Netflix-Folge" - Cliffhanger, Level-Up           |
+| **Mission (Core-Op)** | 25-30 min  | **12 Szenen** | "Netflix-Folge" - dicht, Cliffhanger, Level-Up    |
 | **Rift-Op (X-File)**  | 90-120 min | **14 Szenen** | Action-Thriller - zwei Peaks,<br>Twist und Finale |
 
 #### Aktaufteilung pro Missionstyp
@@ -1033,12 +1034,17 @@ haben ihre eigenen 14 Szenen, die Mechanik greift dort ab Szene 11
 
 ### Cinematic Arc {#cinematic-arc}
 
-Missionen entfalten ihre Wirkung erst durch einen ruhigen Einstieg. Plane zu Beginn
-mindestens zwei Szenen für Ankunft, Beobachtung oder Planung ein, bevor der erste
-große Konflikt losbricht. Die SL darf die Länge flexibel erweitern und muss die Handlung
-nicht übereilt vorantreiben. Mehr Szenen bedeuten mehr Raum für Spannung.
-Core-Ops sollen wie Folgen einer Streaming-Serie wirken, Rift-Ops eher wie einzelne
-Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
+Missionen entfalten ihre Wirkung durch einen **knappen, spürbaren Einstieg** — nicht
+durch Länge. Plane höchstens **ein bis zwei kurze Szenen** für Ankunft und erste
+Lage, dann setzt der Kern-Auftrag ein. Der **12-Szenen-Korridor ist die Soll-Länge,
+nicht die Untergrenze**: Die Mission bleibt **dicht und zielgerichtet**, jede Szene trägt
+den Kern-Auftrag voran. Aufklärung und Verschwörungs-Reveals laufen **während** der
+Infiltration und der Konflikte mit, nicht als vorgeschaltete Beobachtungs-Phase.
+Core-Ops sollen wie Folgen einer Streaming-Serie wirken (dichte 25–30 Min), Rift-Ops
+eher wie einzelne Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale
+einzuleiten — aber dehne die Mission auch **nicht** künstlich: kein Side-Talk-Padding,
+keine Reise-Beats als Selbstzweck. Mehr Szenen bedeuten **nicht** mehr Spannung,
+sondern Verwässerung.
 
 **MS1-2-Tonfall (Onboarding):** Die ersten beiden Missionen einer Episode
 haben **kleine, konkrete Aufträge** — keine Welt-Stakes, keine Endgame-Sprache.

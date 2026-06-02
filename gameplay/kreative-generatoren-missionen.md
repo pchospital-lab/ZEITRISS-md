@@ -94,6 +94,13 @@ Standard-Transferwerte:
 
 ### Core 12-Step Mission Template
 
+> **Action ist der Kern jeder Core-Op.** Aufklärung und Verschwörungs-Reveals
+> werden **nebenbei während** der Infiltrations- und Konflikt-Szenen aufgedeckt,
+> nicht als eigene vorgeschaltete Beobachtungs-Phase. SC1–2 (Anreise/Auftakt)
+> bleiben **knapp** — der Kern-Auftrag (Ort + Ziel-Objekt/Person + Abschluss-Event)
+> trägt die Mission ab SC3. Siehe Masterprompt §C Mission-Integrität-Pflichtgate
+> Regel 4 (Harter Kern-Auftrag).
+>
 > **Briefing** liegt **vor Szene 1** als HQ-Phase (Nullzeit, `SC 00/--`).
 > **Debrief** liegt **nach Szene 12** als HQ-Auto-Sequenz. Beide zählen nicht
 > als Einsatz-Szenen. Save erst nach Debrief im HQ. Siehe
@@ -162,8 +169,22 @@ Standard-Transferwerte:
   | `influence`       | beeinflussen, umstimmen (Variant)          |
   | `prevent`         | verhindern, sabotieren                     |
 
+- **Angriffspunkte generieren (2–3, Pflicht):** Zu jedem Hauptziel produziert der
+  Generator **2–3 erkennbar verschiedene Vorgehenswege** auf dasselbe Ziel, zwischen
+  denen der Spieler im Briefing wählt — verschiedene IA-Spots, verschiedene Risiken,
+  verschiedener Stil (laut/leise/getarnt). Beispiel: *„Über das Dach / durch den
+  Versorgungstunnel / als geladener Gast getarnt.“* Das Hauptziel bleibt **genau
+  eines** (Score-Screen-Anker), nur der Weg ist wählbar. Vollständige Pflichtregel:
+  Masterprompt §C Briefing-Output-Pflichtgate Regel 2 (Angriffspunkte).
+- **Action-Kern, Aufklärung als Beilage:** Das Hauptziel trägt mindestens ein
+  Action-/Sicherungs-Verb (sichern/ausschalten/retten/festnehmen/verhindern/
+  exfiltrieren/sabotieren). Reine Beobachtungs-Verben (beschatten/dokumentieren)
+  sind **nie alleiniges** Core-Hauptziel — Aufklärung läuft während des Kern-Auftrags
+  mit. Siehe Masterprompt §C Briefing-Output-Pflichtgate Regel 1 (Action-Kern-Pflicht).
 - **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
-  oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids.
+  oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids — aber
+  stets mit Action-/Sicherungs-Kern (z. B. „den Informanten **exfiltrieren**“, nicht
+  „den Informanten **beobachten**“).
 - **Continuity-Anker (Pflicht ab MS2):** Briefing zieht mindestens einen Rückverweis
   aus dem Save-State der Vor-Mission (`arc.hooks[]`, `arc.questions[]`,
   `logs.notes[]`, oder `continuity.shared_echoes[]`). So spürt der Spieler die
