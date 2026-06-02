@@ -290,11 +290,22 @@ Zeitreise-Spot, nicht ein Mondfeld.
 
 ### Rift-Casefiles: Tatort → Leads → Boss-Encounter → Auflösung
 
-- **Rift-Pacing:** Jede Rift-Op ist ein eigenständiger X-Files-Film. Start mit
-  einem mysteriösen Detail (Fundort, Zeuge, Spur), nicht mit dem Monster. Das
-  Para-Wesen taucht als **Ahnung** auf, nicht als Endgegner in Szene 1. Die
-  Tatort-Phase (1–4) baut Atmosphäre und Fragen auf; die Leads-Phase (5–9)
-  verdichtet zur Konfrontation. Auch hier gilt: **Entdeckung vor Eskalation.**
+- **Rift-Pacing:** Jede Rift-Op ist ein eigenständiger **Horror-Action-Film**
+  (Event-Horizon-Vibe, mit mehr Kampf — siehe Masterprompt §C Rift-Horror-
+  Pflichtgate), kein reiner Ermittlungs-Krimi. Start mit einem mysteriösen Detail
+  (Fundort, Zeuge, Spur), nicht mit dem fertig enthüllten Boss-Monster. Das
+  *große* Para-Wesen (der Boss) taucht als **Ahnung** auf, nicht als Endgegner in
+  Szene 1.
+  - **Aber: Action wird frontgeladen, Ermittlung läuft nebenbei.** Schon die
+    Tatort-Phase (1–4) und die Leads-Phase (5–9) enthalten **physische
+    Para-Begegnungen** (handfeste Parawesen, siehe `kreative-generatoren-
+    begegnungen.md` §Para-Schwereklassen) — die Crew kämpft sich durch den Dread
+    *hindurch*, während sie ermittelt. Die drei Leads-Würfel-Checks werden **in
+    oder nach** Kampf-/Bedrohungs-Beats platziert, nicht als ruhige Ermittlungs-
+    Szenen davor. Faustregel: **2–3 handfeste Kampf-Begegnungen vor dem Boss.**
+    Atmosphäre-Aufbau ja — aber nicht 9 Szenen Ermittlung ohne Kampf.
+  - **Entdeckung vor Eskalation** gilt für das *Mysterium* (der Ursprung enthüllt
+    sich langsam), **nicht** für die Action (die läuft von Anfang an mit).
 - Das 14er-Template folgt der Ermittlungslogik: **Tatort (1-4)** → **Leads
   (5-9)** → **Boss-Encounter (10)** → **Boss-Resolution (11-14)**.
 - HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss/Auflösung`; der
