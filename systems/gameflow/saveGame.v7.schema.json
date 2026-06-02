@@ -148,6 +148,15 @@
         }
       }
     },
+    "research": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "projects": {
+          "type": "array"
+        }
+      }
+    },
     "logs": {
       "type": "object",
       "additionalProperties": true,

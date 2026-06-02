@@ -24,6 +24,8 @@ const requiredSnippets = [
   'campaign { episode, mission, px, px_state, mode, rift_seeds[], entry_choice_skipped, episode_start, episode_end }',
   'entry_choice_skipped', 'episode_start', 'episode_end',
   'logs.hud', 'logs.psi', 'logs.arena_psi',
+  'research { projects[]',
+  'kind, scope, tier, missions_total, missions_done, status',
   'ui.intro_seen', 'ui.dice.debug_rolls',
   'has_psi', 'psi_heat', 'pp', 'psi_abilities', 'artifact?',
   'arena.active', 'arena.phase', 'arena.queue_state',

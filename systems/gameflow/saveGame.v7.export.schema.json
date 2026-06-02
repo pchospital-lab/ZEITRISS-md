@@ -285,6 +285,42 @@
         }
       }
     },
+    "research": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "projects"
+      ],
+      "properties": {
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "id",
+              "label",
+              "kind",
+              "scope",
+              "tier",
+              "missions_total",
+              "missions_done",
+              "status"
+            ],
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "kind": { "type": "string", "enum": ["hq_research", "field_decrypt"] },
+              "scope": { "type": "string", "enum": ["episode", "campaign"] },
+              "tier": { "type": "number" },
+              "missions_total": { "type": "number" },
+              "missions_done": { "type": "number" },
+              "status": { "type": "string", "enum": ["in_progress", "ready", "collected"] }
+            }
+          }
+        }
+      }
+    },
     "logs": {
       "type": "object",
       "additionalProperties": false,

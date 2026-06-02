@@ -1011,6 +1011,7 @@ klassischer Pfad" und macht klassisch weiter).
     }
   ],
   "economy": { "hq_pool": 0 },
+  "research": { "projects": [] },
   "logs": {
     "trace": [],
     "hud": [],
