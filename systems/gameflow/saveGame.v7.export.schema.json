@@ -73,6 +73,11 @@
           "minimum": 0,
           "maximum": 5
         },
+        "heat": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
         "px_state": {
           "type": "string",
           "enum": [

@@ -277,8 +277,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - Kanonischer HQ-Deepsave (v7) persistiert pro Eintrag in `characters[]`
   mindestens `id`, `attr`, `sys_installed`, `stress` und (bei Psi-Charakteren)
   `psi_heat`.
-  **Invariante:** Speichern nur im HQ; Debrief setzt `stress`/`psi_heat`/`SYS`
-  vorher auf HQ-Basis zurück. Die Felder bleiben im Save für expliziten
+  **Invariante:** Speichern nur im HQ; Debrief setzt `stress` auf **0**
+  (SSOT: `characters/zustaende.md` §Stress-Reset) und `psi_heat`/`SYS` auf
+  HQ-Basis zurück. Die Felder bleiben im Save für expliziten
   HQ-Status und stabile Legacy-Importe. Laufzeitwerte (`SYS_runtime`,
   `SYS_used`, `cooldowns`) werden nicht persistiert und beim Laden neu gesetzt.
 - Legacy-Importe mit Root-`character{}`/`character.attributes{}` werden beim

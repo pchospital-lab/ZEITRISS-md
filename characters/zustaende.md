@@ -329,6 +329,13 @@ Lebenspunkte hinausgehen:
   Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur Effekte beschreiben
   ("Eure Hände zittern...") oder offen kommunizieren ("Stress 5/10 - deutliche Anspannung."). Das
   HUD besitzt den Toggle `/stress open|hidden`.
+  **Stress-Schwellen-Beat (Pflicht beim Überschreiten):** Erreicht Stress eine Schwelle
+  (5 = Angespannt, 10 = Zusammenbruch), spielt die SL das als **spürbaren Beat** aus -
+  nicht nur als HUD-Zahl: ein bis zwei sensorische Sätze (zitternde Hände, flacher Atem,
+  ein Schnauzer zu viel gegenüber einem NSC). Im **verdeckten** Modus (`/stress hidden`)
+  rein narrativ ohne Zahl - der Spieler spürt die Anspannung, ohne sie als Mechanik zu
+  lesen (hält den Anspruch hoch). Das ist Anspannung, kein Malus-Hagel: ein Beat pro
+  Schwellenüberschreitung, nicht pro Punkt.
 - **Stress-Momente:** Unter akutem Zeitdruck blendet das HUD einen Countdown ein. Scheitert eine
   Probe, kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder Ressourcen in die
   Waagschale werfen.
