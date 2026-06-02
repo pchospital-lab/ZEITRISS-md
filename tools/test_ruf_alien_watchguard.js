@@ -28,9 +28,16 @@ function expectNotMatch(relPath, pattern, message) {
 }
 
 // Debrief-/Ruf-Disziplin: zentraler Ablauf muss explizit ITI-Ruf führen.
+// Anker auf den stabilen Kern (ITI-Ruf-Update im Flow), robust gegen Beat-Klammern
+// wie "ITI-Ruf-Update (mit Beförderungs-Beat ...)" aus dem Aufstiegs-Beat-Pflichtgate.
 expectIncludes(
   'meta/masterprompt_v6.md',
-  'Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → ITI-Ruf-Update → Lizenz-Tier.',
+  'CU-Auszahlung → XP/Level-Up',
+  'Debrief-Flow muss die kanonische Score-Reihenfolge führen.'
+);
+expectIncludes(
+  'meta/masterprompt_v6.md',
+  'ITI-Ruf-Update',
   'Debrief-Flow muss ITI-Ruf-Update explizit enthalten.'
 );
 

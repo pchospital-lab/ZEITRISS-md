@@ -340,6 +340,7 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - wenn `has_psi`: `psi_heat, pp, psi_abilities[]`
   - `talents[], equipment[{name,type,tier}], implants[{name,sys_cost,effect}]`
   - `history{background, milestones[]}`
+  - `prestige?: { level_titles[], perks[] }` (optional; erst ab Prestige-Meilenstein Lvl 25 belegt — hält verliehene Titel _Bewährter Agent_/_Veteran_/_Koryphäe_/_Legende_ und gewählte Prestige-Perks; fehlend = noch kein Prestige erreicht)
   - `carry[{name,type,tier}]` (max 6, missionsnah)
   - `quarters_stash[{name,type,tier}]` (max 24, HQ-Lager je Charakter)
   - `vehicles{epoch_vehicle, availability, legendary_temporal_ship?}`
@@ -1213,7 +1214,9 @@ vA.B. Bitte HQ-Migration veranlassen.`
   Strukturen mit sicheren Defaults (Wallets `{}`, Logs als leere Arrays,
   `ui.gm_style="verbose"`). **Ein in Legacy-/pre-Research-Saves fehlender
   `research`-Block wird beim Laden als `research: {projects: []}` (leeres Array)
-  initialisiert** — die Migration legt keine Projekte rückwirkend an.
+  initialisiert** — die Migration legt keine Projekte rückwirkend an. Das optionale
+  `prestige`-Feld bleibt bei Charakteren unter Lvl 25 schlicht **weg** (kein Default-
+  Objekt erzwungen) — es wird erst beim ersten Prestige-Meilenstein angelegt.
 - Story-Beispiel für den HQ-Guard: Abbruch kurz vor Mission 5-Boss → HUD meldet
   `BOSS`+`GATE 2/2`, Debrief schreibt `last_mission_end_reason=aborted`,
   Self-Reflection springt automatisch auf `SF-ON` und der Save bleibt bis zur

@@ -199,6 +199,14 @@
               }
             }
           },
+          "prestige": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "level_titles": { "type": "array" },
+              "perks": { "type": "array" }
+            }
+          },
           "carry": {
             "type": "array"
           },
