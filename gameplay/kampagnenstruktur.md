@@ -197,6 +197,7 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 - Wählt eine **Fremdfraktion** mit eigenem Ziel.
 - Zu Missionsbeginn auf Intervention würfeln (`1-2` ruhig, `3-4` Beobachter, `5-6` aktiver Eingriff).
+- **Beobachter-Beat (`3-4`):** `Beobachter` ist kein stiller Log-Eintrag, sondern ein **spürbares Zeichen** im Feld - die Gegenseite reagiert sichtbar auf den Spielerfolg: ein Schatten, der zu lange folgt; ein Funkgerät, das woanders klickt; ein Gesicht, das in zwei Szenen auftaucht. Ein bis zwei diegetische Sätze, die dem Spieler das Gefühl geben *„wir sind nicht allein hier“*, ohne schon anzugreifen. Steigt die Mission in `aktiver Eingriff` (durch Heat 5 oder Re-Wurf), ist die Vorahnung bereits gelegt.
 - Bei aktivem Eingriff zwingt die Fraktion mindestens **eine volle Szene Gegenwehr** (Hinterhalt,
   Sperrfeuer, Blockade). Ergebnis `5-6` ist kein Flavor-Tag, sondern löst einen echten Angriff aus,
   bevor die Spielenden freie Aktionen haben.
@@ -851,7 +852,18 @@ Debrief liegen beide in der **Nullzeit/HQ** und werden **nicht** mitgezählt:
   **Debrief-Spiegel-Pflicht (Core-Ops):** Score-Screen hakt die im
   Core-Briefing gesetzten Ziele pro Ziel ab (✓/✗). Verfehlte Ziele werden
   in `arc.hooks[]` als Folgespur abgelegt und stehen damit als Continuity-
-  Anker für das nächste Briefing zur Verfügung. **Rift-Debrief** spiegelt
+  Anker für das nächste Briefing zur Verfügung.
+  **Scheiterns-Beat (Pflicht bei verfehltem Hauptziel / Mission gescheitert):**
+  Misserfolg wird **so erlebbar inszeniert wie Erfolg** — nicht nur ein rotes
+  ✗ + Log-Eintrag. 1–2 diegetische Sätze: das ITI ist unzufrieden, die verfehlte
+  Spur hat Konsequenzen (eine Fraktion zieht Vorteil, ein Zeitfaden bleibt offen,
+  jemand im HQ spricht es an). Das Gefühl *„das hätte besser laufen müssen“*
+  gehört dazu — es macht den nächsten Erfolg süßer. **Fail-Forward-Verdeckung
+  (siehe Masterprompt §F):** Scheitern fühlt sich nach echter Konsequenz an,
+  aber die SL hängt **immer eine Folgespur an** (verfehltes Ziel → neue
+  Mission/Hook), nie eine Sackgasse — und legt das Sicherheitsnetz nie offen.
+  Unter dem Beat-Dosierungs-Budget (§F): meist eine Kodex-Zeile, bei
+  Komplett-Scheitern ein voller Beat. **Rift-Debrief** spiegelt
   stattdessen die Fix-Objectives `Secure Anchor`/`Trace Leads`/
   `Neutralize Weakness`/`Recover Sample` plus Forensik-Dreieck-Status
   (Bio/Material/Temporal, mind. 2/3 für saubere Klassifikation) — siehe

@@ -331,7 +331,7 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
 
 - `v`, `zr` (Schema- und ZEITRISS-Version)
 - `save_id`, `parent_save_id`, `merge_id`, `branch_id` (Lineage + Dedupe-Guards)
-- `campaign.{episode, mission, px, px_state, mode, rift_seeds[], entry_choice_skipped, episode_start, episode_end}`
+- `campaign.{episode, mission, px, px_state, heat, mode, rift_seeds[], entry_choice_skipped, episode_start, episode_end}` — `heat` (0–5, Crew-/Welt-weit) ist die **Aufmerksamkeits-/Fahndungs-Achse**: steigt durch Spotlight/Anachronismus/laute Aktionen, sinkt durch Heat-Abbau (siehe Masterprompt §F Heat-Eskalations-Pflichtgate). Fehlt in Legacy-Saves → Default `0`.
 - `characters[]` — Array, Session-Anker-Charakter = Index 0. Pro Character:
   - `{id, name, callsign, rank, lvl, xp}`
   - `origin.{epoch, hominin, role}`
@@ -1476,6 +1476,7 @@ pro Teilgruppe einen eigenen Save:
 4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
 5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
 6. **campaign.px + px_state:** Px und `px_state` werden in beide Saves kopiert (nicht aufgeteilt).
+6a. **campaign.heat:** Heat ist Crew-/Welt-weit und wird wie `px` **in beide Saves kopiert, nicht aufgeteilt** (die Welt fahndet nach der ganzen Crew, egal welcher Thread). Beim Merge wird der **höhere** Heat-Wort beider Threads übernommen (max), nicht summiert — die wachsamste Welt-Reaktion gilt, kein Doppel-Anstieg durch zwei Threads.
 7. **Episode/Stress bei Rift-Splits:** Rift-Branches behalten dieselbe
    `campaign.episode` wie der Core-Anker; beim Transfer zurück ins HQ wird
    missionsbedingter Stress auf den gespeicherten HQ-Basiswert zurückgesetzt.
