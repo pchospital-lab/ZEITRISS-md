@@ -1074,22 +1074,7 @@ taktische Variation (3+ Beats = 2+ Aktionsarten), NSC-Stimmen ab dem 3. Beat
 Protokolle — jeder Kampf-Beat soll im Kopf des Spielers wie ein Filmschnitt
 ablaufen.
 
-### Staffel-Skeleton "Glanzlicht"
-
-| Ep  | Phase | Arbeitstitel             | Kernmechanik                                    |
-| --- | ----- | ------------------------ | ----------------------------------------------- |
-| 1   | Core  | Lieferung aus dem Nichts | Phantom-Stahllieferung (Logistik vs. Sabotage)  |
-| 2   | Core  | Planer unter Zeitdruck   | Social-Heist im Baubüro                         |
-| 3   | Core  | Kanal unter dem Palast   | Understreet-Einbruch                            |
-| 4   | Core  | Der Schatten der Zukunft | Verfolgung / Gefecht mit Fremdfraktion          |
-| 5   | Core  | Die Nacht der Bauprobe   | Sicherung oder Einbau letzter Zukunfts-Bauteile |
-| 6   | Core  | Bauabnahme               | Staffel-Finale: Showdown Bewahren vs. Auslösen  |
-
-Im Finale treffen beide Philosophien direkt aufeinander: Die Chrononauten wollen
-das Ereignis bewahren, die gegnerische Fraktion versucht es auszulösen (oder
-umgekehrt, je nach Kampagnenausrichtung).
-
-Rifts spawnen separat zwischen diesen Episoden und werden einzeln gelistet.
+Rifts spawnen separat zwischen den Episoden und werden einzeln gelistet (siehe Rift-Loop unten).
 
 ### Epoch-Lock & Rift-Loop
 
@@ -1433,84 +1418,7 @@ HQ  Debrief - Rückreise-Dialog, Auswertung, CU, XP, Save (HUD: SC --/--, PHASE 
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
-##### Preserve-Arc Salamis 480 v. Chr. {#preserve-arc-salamis-480}
-
-```yaml
-# gameplay/kampagnenstruktur.md - Abschnitt Preserve-Arc Salamis 480 v. Chr.
-title: "Preserve-Arc Salamis 480 v. Chr."
-id: EX-PRES-0480-SAL
-type: core_op
-preserve_only: true
-version: 4.2.6
-```
-
-**Epoche:** Klassisches Griechenland & Perserkriege
-**Beinahe-Katastrophe:** Die vereinte griechische Flotte siegt knapp bei Salamis.
-Wäre Xerxes I. dort erfolgreich gewesen, hätte das Achämeniden-Reich die Ägäis dominiert -
-Demokratie und Philosophie, wie wir sie kennen, wären nie entstanden.
-**Auftrag:** Der griechische Sieg muss erhalten bleiben.
-
-**Gegnerfraktion:** **ARGOS Venture** - ein transtemporaler Hochrisiko-Megakon.
-Die Investoren setzen auf eine "Persische Weltordnung" und versuchen daher,
-verdeckt einzugreifen. So wollen sie später an einer exklusiven
-Bronze-Silk-Road-Zeitlinie verdienen.
-
-> **Creature-Limit:** einziges Bio-Hybrid bleibt der **Urwolf-Bluthund**
-> (zeitversetzter Riesenwolf). Keine weiteren Tiere.
-> **Chrompunk-Flair:** Chrom-Söldner im Linothorax-Kevlar,
-> Projektionshelme mit Hoplit-Kamm, "Bronze"-Smartguns und Wachstafel-Cyberdecks.
-
-_Die SL generiert die Einsatz-Szenen dieses Arcs frei aus dem
-Core-Briefing-Baukasten und dem Core-12-Step-Template
-(`gameplay/kreative-generatoren-missionen.md`). Schauplatz-Kette,
-Gegner-Roster, Stil-Notizen und Arc-Outcome bilden den kanonischen Rahmen._
-
-### Gegner-Roster (kompakt)
-
-| Einheit                   | Loadout                                  | Kern-Taktik                |
-| ------------------------- | ---------------------------------------- | -------------------------- |
-| **ARGOS-Bruiser**         | Linothorax-Kevlar, Smart-Gladius, Schild | Breach & Schildwall        |
-| **Urwolf-Bluthund**       | Hybrid-Tracker                           | Spur, Biss W⁶, Furcht      |
-| **Hack-Monk**             | Wachstafel-Deck, Shock-Stylus            | Matrix-Scrying, Propaganda |
-| **Silver-Tongue Face**    | Vox-Mod, Chameleon-Himation              | Bestechung, Crowd-Control  |
-| **Drohnen-Rigger**        | Kupfer-Ornithopter, Mini-Hydra-Bots      | Luft-Recon, Sprengungen    |
-| **Samurai-Bodyguard**     | Katana T2, Reflex-Boost                  | Elite-Melee                |
-| **Sniper (Gastraphetes)** | Repetier-Bolzenwerfer, Optik-Aug         | Fernfeuer                  |
-| **Heavy-Merc**            | Hoplon-Drohnen, Pilum-Launcher           | Schildwall-Advance         |
-| **Elite-Handler**         | Takt-Leitung, Gel-Stab                   | Kommando, Moral-Boost      |
-
-### Stil- und Regel-Notizen
-
-- **Urwolf** taucht maximal zweimal pro Mission auf (Spür- oder Angsteinheit).
-- **Samurai Shimada Gorō** stößt in Mission 8 zum Team - sein Katana schneidet antike Bronze mühelos.
-- **Chrom trifft Antike:** Bronze-Kupfer-Optik, aber Smart-Mechanik; der Repetier-Gastraphetes
-  spielt sich wie eine Sturm-Armbrust.
-- **Paradoxon-Trigger:** nur, wenn ARGOS entscheidend persische Siege erzwingt (flüchtige Persian-Win-Branch).
-
-**Arc-Outcome**
-
-- Erfolg → Griechischer Sieg bleibt, Demokratiepfad stabil, +2 Ruf bei Kodex, 600-800 CU Gesamtertrag.
-- Scheitern → "Persische Weltordnung" → ClusterCreate(), Zeitlinie kollabiert, Kampagne-Reset empfohlen.
-
-#### Dev-Check-Liste
-
-- Paradoxon-Tracker 0-5 bleibt bestehen.
-- Bei Px 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
-- Rift-Pool als Array: `seed_id` und
-  `status(locked_until_episode_end/open/closed)`.
-- Schwierigkeit = `base_dc + len(campaign.rift_seeds)`.
-- CU = `base_cu * (1 + len(campaign.rift_seeds)*0.2)`.
-- High-Level-Ökonomie: Modul 15 listet Richtwerte für Level 100/400/1000
-  (Belohnung vs. Kosten/Sinks); Hazard-Pay und Seed-Multiplikator bleiben
-  identisch.
-- Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
-- Bei Rift-Ops die `campaign.scene` bis **14** verfolgen und erst dann abschließen.
-- Rift-Operationen erhöhen den Paradoxon-Index nicht und schließen sich nach dem Verlassen automatisch.
-  Artefaktkontakt kann dennoch Punkte auslösen.
-- Artefakte handelbar wie Gear: Research-/Archivwerte dokumentieren Fortschritt;
-  prozentuale Buff-Staffel (≈ 10 / 15 / 20-25 %) hält Endgame-Balancing stabil.
-
-#### Adaptive Opposition
+### Adaptive Opposition {#adaptive-opposition}
 
 Steigt der Paradoxon-Index während einer Mission auf 3 oder höher, reagieren
 Antagonisten aktiver. Jeder wichtige Gegner erhält einmalig einen kleinen

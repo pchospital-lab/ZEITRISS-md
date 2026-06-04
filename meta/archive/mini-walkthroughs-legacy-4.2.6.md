@@ -194,8 +194,11 @@ HQ. Debrief - Mauerbau beschleunigt, Zeitlinie stabil. (HUD: SC --/--).
 ## Preserve-Arc Salamis 480 v. Chr. — Missions-Tabelle
 
 > Diese Tabelle ist der archivierte Walkthrough-Teil des Salamis-Arcs.
-> Gegner-Roster, Stil-Notizen und Arc-Outcome bleiben im aktiven Modul
-> `gameplay/kampagnenstruktur.md#preserve-arc-salamis-480` erhalten.
+> Der Salamis-Arc wurde am 2026-06-04 aus dem aktiven Modul entfernt; der
+> Voll-Block (Gegner-Roster, Stil-Notizen, Arc-Outcome) liegt nun in
+> `meta/archive/arcs-ausformuliert-legacy-4.2.6.md`. Das ARGOS-Roster lebt
+> generativ im Fremdfraktions-Generator
+> (`gameplay/kreative-generatoren-missionen.md#fremdfraktions-generator`) weiter.
 
 | #   | Datum/Phase 480 v. Chr.           | Codename              | Schauplatz           | Preserve                                                                                       |
 | --- | --------------------------------- | --------------------- | -------------------- | ---------------------------------------------------------------------------------------------- |
