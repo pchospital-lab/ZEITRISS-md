@@ -1185,6 +1185,8 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
   4. In einem **Forschungslabor** oder einer Werkstatt.
   5. In einer **abgeschirmten Nullzone** fernab der regulären Zeit.
   6. Während eines bedeutenden **historischen Ereignisses** (Krönung, Attentat, Naturkatastrophe…).
+  7. Bei einer **geheimen Versammlung unter ziviler Fassade** (Zirkel, Loge, schwarze Klinik oder Katakombe).
+  8. In einer **Megakon-Anlage mit getarntem Hochsicherheits-Untergeschoss** (Promenade oben, Sperrtrakt unten).
 
 - **Twist/Dilemma:**
   1. Jemand, den ihr schützen oder dem ihr helfen sollt, ist **nicht der, der er zu sein scheint** -
@@ -1233,7 +1235,20 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
 
 ```pseudo
 # Pseudocode: passendes Pool ziehen
-if mission_type == "preserve":
+# Pool-Eintraege sind inspirierende Seeds, KEINE Pflicht-Vorlage: die KI-SL waehlt
+# EINEN als Ausgangspunkt und variiert/erfindet Schauplatz, Layout und Eskalation
+# passend zu Epoche und Auftrag frei weiter - niemals woertlich uebernehmen.
+SCHAUPLATZ_POOLS = {
+    "heist":     heist_pool,
+    "black_ops": black_ops_pool,
+    "future":    future_pool,
+    "faction_op": faction_op_pool,   # mittlerer Stakes-Layer
+}
+
+if mission_type in SCHAUPLATZ_POOLS:
+    # Run-Schauplatz (Anlage/Zirkel/Klinik/Forscher/Megakon)
+    seed = random.choice(SCHAUPLATZ_POOLS[mission_type])
+elif mission_type == "preserve":
     seed = random.choice(preserve_pool)
 else:
     seed = random.choice(trigger_pool)
@@ -1291,26 +1306,169 @@ Zeitperiode umfasst.
 
 ### Heist Pool {#heist_pool}
 
+Dieser Pool liefert Einbruchs- und Beschaffungs-Runs gegen gesicherte Ziele -
+konkrete Schauplätze mit Etagen, Zugängen und einem klaren Punkt, an dem die
+stille Operation in einen lauten Kampf kippt. Die Einträge sind **inspirierende
+Anreger, nicht erschöpfend** - die KI-SL nimmt einen als Funken und erfindet
+den Schauplatz passend zu Epoche und Auftrag frei weiter.
+
 ```yaml
 heist_pool:
-  - safecrack_demo
-  - tunnel_bypass
+  - id: safecrack_demo
+    schauplatz: "Privattresor unter einem unscheinbaren Stadt-Anwesen - hinter dem Weinkeller eine gepanzerte Schließanlage"
+    layout: "Erdgeschoss als zivile Fassade, ein getarnter Lastenaufzug führt zwei Etagen in die Hochsicherheits-Tiefe"
+    wachen: "Privater Sicherheitsdienst mit Hundestreife oben, biometrische Schleusen und ein Wachraum unten"
+    escalation: "Still bis der Tresor-Seismograf anschlägt - dann Schott-Lockdown und Verstärkung über den Aufzug"
+  - id: tunnel_bypass
+    schauplatz: "Stillgelegter U-Bahn-Schacht, der unter einem Banktresor entlangführt"
+    layout: "Drei Tunnelebenen, eine eingestürzte Sektion als Engstelle, Durchbruch direkt unter dem Tresorboden"
+    wachen: "Wartungsdrohnen auf Schiene, Bewegungsmelder an jedem Schott, oben patrouillierende Bankwache"
+    escalation: "Still bis der Durchbruch-Bohrer Vibration auslöst - dann Flutschotts, Drohnenschwarm, Funkstörung"
+  - id: crypt_conclave
+    schauplatz: "Geheimer Zirkel tagt in einer Krypta unter einer alten Kapelle - Reliquienschreine als Datenverstecke"
+    layout: "Krypta über Katakomben-Gänge erreichbar, ein Hauptgewölbe mit Ritualtisch, mehrere blinde Seitennischen"
+    wachen: "Vermummte Logenbrüder, ein bewaffneter Türsteher pro Gang, versteckte Kameras in den Heiligenfiguren"
+    escalation: "Still solange ihr als Zirkel-Gast durchgeht - ein falsches Losungswort und die Gänge werden zur Falle"
+  - id: vault_under_estate
+    schauplatz: "Kunstsammler-Villa mit getarntem Hochsicherheits-Untergeschoss hinter der Bibliothek"
+    layout: "Repräsentative Beletage, eine Drehwand öffnet den Abstieg zu einem klimatisierten Panzergewölbe"
+    wachen: "Diener und Gäste als Tarnung, unten zwei Techniker plus Laser-Gitter und Gewichtssensoren"
+    escalation: "Still während des Empfangs - sobald ein Exponat fehlt, Panik oben und Lockdown des Gewölbes unten"
+  - id: archive_lift
+    schauplatz: "Konzern-Aktenarchiv, dessen oberste Etage ein getarntes Daten-Backup im Keller verbirgt"
+    layout: "Sieben Bürogeschosse als Fassade, ein Notfall-Schacht führt zum abgeschotteten Serverraum unter dem Fundament"
+    wachen: "Nachtreinigung und ein Pförtner oben, biometrischer Doppelschlüssel und ein Sicherheitsmann unten"
+    escalation: "Still bis ein Zugriffslog Alarm meldet - dann Stahltüren, Notstrom-Dunkelheit, Sperrung des Schachts"
+  - id: gala_grab
+    schauplatz: "Wichtiges Bieter-Treffen in einem Hotel-Ballsaal - das eigentliche Ziel liegt im Backstage-Tresorzimmer"
+    layout: "Ballsaal mit Bühne, dahinter Künstlergänge, eine bewachte Tür zum improvisierten Auktions-Tresor"
+    wachen: "Türsteher mit Gästeliste, mobile Bodyguards der Bieter, ein Tresorwärter mit Funkanbindung"
+    escalation: "Still während der Versteigerung - eine ausgelöste Alarmtaste und das Treffen wird zur Geiselnahme"
 ```
 
 ### Black-Ops Pool {#black_ops_pool}
 
+Verdeckte Zugriffe gegen menschliche Ziele und Anlagen - leise rein, Auftrag
+abarbeiten, raus, bevor jemand merkt, dass ihr da wart. Jeder Eintrag nennt den
+Kipppunkt, ab dem Tarnung nicht mehr trägt. Auch hier gilt: **Anreger, nicht
+erschöpfend** - die KI-SL variiert frei statt wörtlich zu übernehmen.
+
 ```yaml
 black_ops_pool:
-  - night_insertion
-  - asset_wipe
+  - id: night_insertion
+    schauplatz: "Schwarze Klinik in einem Hinterhof-Trakt - illegale Eingriffe hinter einer harmlosen Praxis-Front"
+    layout: "Praxis-Empfang als Tarnung, ein abgeschlossener OP-Flügel mit Aufwachräumen und einem Patientenarchiv im Keller"
+    wachen: "Pflegepersonal mit Schweigepflicht, ein Sicherheitsmann am OP-Flügel, Kameras über jeder Liege"
+    escalation: "Still bis ein Monitor-Alarm losgeht - dann Riegel auf dem OP-Flügel und ein Notruf an externe Schläger"
+  - id: asset_wipe
+    schauplatz: "Aktenlager eines Strohfirmen-Büros, in dem belastende Beweise verschwinden sollen"
+    layout: "Großraumbüro, ein Serverschrank im Nebenraum, der eigentliche Beweisordner liegt im Chef-Safe dahinter"
+    wachen: "Nachtwächter mit Rundgang, Bewegungsmelder im Flur, eine verschlüsselte Alarmleitung zur Zentrale"
+    escalation: "Still bis der Safe geöffnet wird - dann stille Alarmierung und ein Abfangteam riegelt die Etage ab"
+  - id: scientist_lift
+    schauplatz: "Wohnkomplex, in dem eine Forscherin gegen ihren Willen festgehalten wird - Exfiltration unter Gegenwehr"
+    layout: "Vier Stockwerke, die Forscherin im obersten Apartment, Treppenhaus und ein einzelner Aufzug als Fluchtwege"
+    wachen: "Zwei Bewacher in der Wohnung, ein Posten im Foyer, eine Streife im Innenhof"
+    escalation: "Still bis der Posten den Wechsel verpasst meldet - dann Hof-Abriegelung und ein Verfolgerteam im Treppenhaus"
+  - id: meeting_storm
+    schauplatz: "Konspiratives Treffen in einer Lagerhalle, das gestürmt und unterbrochen werden muss"
+    layout: "Offene Halle mit Verladerampe, ein abgetrennter Besprechungs-Container in der Mitte, Galerie unter dem Dach"
+    wachen: "Bewaffnete Begleiter der Teilnehmer, Späher auf der Galerie, ein Fahrer pro Wagen am Tor"
+    escalation: "Stille Annäherung möglich - sobald der erste Schuss fällt, Deckungsfeuer aus dem Container und Flucht zu den Wagen"
+  - id: handler_intercept
+    schauplatz: "Übergabe in einem leeren Parkhaus - ein feindlicher Verbindungsmann soll abgefangen werden"
+    layout: "Drei Decks, Rampen ohne Deckung, ein Treppenturm pro Ecke, der Treffpunkt auf dem mittleren Deck"
+    wachen: "Der Verbindungsmann mit zwei Wachen, ein Fahrer am Ausgang, Späher auf dem Dachdeck"
+    escalation: "Still bis die Übergabe läuft - ein Fehlschlag und die Rampen werden mit Fahrzeugen zugefahren"
+  - id: safehouse_clear
+    schauplatz: "Konspiratives Versteck einer Fremdfraktion über einem geschlossenen Ladenlokal"
+    layout: "Laden als Tarnung, eine versteckte Treppe zur Wohnung, ein Funkraum mit Notvernichtungs-Schalter"
+    wachen: "Zwei Operative im Funkraum, ein Späher am Fenster, ein Wachhund im Laden"
+    escalation: "Still bis der Funker euch sieht - dann Aktenvernichtung, Funkruf an Verstärkung, verbarrikadierte Treppe"
 ```
 
 ### Future Pool {#future_pool}
 
+Futuristische Hochsicherheits-Runs - Anlagen, Stationen und getarnte
+Untergeschosse, in denen Technik die Wachen ersetzt. Auch hier: ein klarer
+Kipppunkt von leise zu laut. Die Einträge sind **inspirierende Anreger, nicht
+erschöpfend** - die KI-SL erfindet im selben Geist frei weiter.
+
 ```yaml
 future_pool:
-  - zero_g_breach
-  - orbital_hack
+  - id: zero_g_breach
+    schauplatz: "Orbital-Forschungsanlage, deren ziviler Hangar ein militärisches Sperrlabor verbirgt"
+    layout: "Wohnring mit künstlicher Schwerkraft, ein schwereloser Versorgungskern führt zum abgeschotteten Sperrlabor"
+    wachen: "Stationscrew im Wohnring, autonome Wartungsdrohnen im Kern, ein KI-Schleusenwärter am Labor"
+    escalation: "Still bis die Schleusen-KI eine Anomalie loggt - dann Druckabriegelung der Sektion und Drohnen-Sperrfeuer"
+  - id: orbital_hack
+    schauplatz: "Datenrelais-Plattform am Rand eines Zeittors - das Kernarchiv liegt in einem strahlungsgeschützten Unterdeck"
+    layout: "Antennen-Außenring, eine Kommandobrücke, ein abgeschirmtes Unterdeck nur über manuelle Luke erreichbar"
+    wachen: "Wenige Techniker, ein bewaffneter Systemadmin, automatische Geschütztürme am Unterdeck"
+    escalation: "Still bis ein Datenabgriff entdeckt wird - dann Brücken-Lockdown, scharfe Türme, Selbstlöschung des Archivs"
+  - id: arcology_subfloor
+    schauplatz: "Megakon-Arkologie mit getarntem Hochsicherheits-Untergeschoss unter den öffentlichen Verkaufsetagen"
+    layout: "Konsum-Promenaden oben, ein verstecktes Dienst-Tram führt in die abgeschottete Forschungstiefe"
+    wachen: "Konzern-Sicherheit in den Promenaden, Iris-Schleusen am Tram, ein KI-überwachtes Labordeck"
+    escalation: "Still solange eure Zugangs-Chips gültig scheinen - ein gesperrter Chip löst Promenaden-Räumung und Tram-Stopp aus"
+  - id: cryo_extraction
+    schauplatz: "Kryo-Anlage eines Konzerns, in der eine eingefrorene Forscherin als Patent-Geisel liegt - Rettung unter Gegenwehr"
+    layout: "Empfangsdeck, ein Kühlhallen-Labyrinth mit Kapsel-Reihen, eine Reanimations-Kammer als Ziel"
+    wachen: "Wartungs-Androiden, ein menschlicher Aufseher, Temperatur-Sensoren als stille Alarmgeber"
+    escalation: "Still bis eine Kapsel geöffnet wird - dann Kühlhallen-Lockdown, Androiden im Angriffsmodus, Reanimations-Countdown"
+  - id: server_temple
+    schauplatz: "Daten-Sanktum eines Tech-Zirkels, der seinen Server-Altar wie eine Kultstätte unter dem Firmensitz hütet"
+    layout: "Repräsentative Lobby, ein ritualisierter Abstieg zum Rechenzentrum, der Master-Kern in einem Faradaykäfig"
+    wachen: "Zirkel-Adepten als Wächter, biometrische Andacht-Schleusen, ein autonomes Verteidigungssystem am Kern"
+    escalation: "Still solange ihr den Ritus mitspielt - ein falscher Handgriff und der Käfig versiegelt, Adepten greifen an"
+  - id: shuttle_summit
+    schauplatz: "Hochrangiges Treffen an Bord eines Suborbital-Shuttles - das Treffen muss gestürmt oder unterbrochen werden"
+    layout: "Passagierdeck mit Konferenzkabine, ein enger Versorgungsgang, das Cockpit als verriegelter Rückzugsraum"
+    wachen: "Personenschützer der Delegierten, ein Bordmarshal, Geschütztüren zwischen den Sektionen"
+    escalation: "Still bis der Marshal Verdacht schöpft - dann Kabinen-Riegel, Druckwarnung, Notabkopplung als Eskalation"
+```
+
+### Faction-Op Pool {#faction_op_pool}
+
+Dieser Pool liefert den **mittleren Spannungs-Layer** zwischen banalem
+Nebenauftrag und Weltrettung: Fraktions-Operationen, die sich groß und wichtig
+anfühlen - eine Megakon-Anlage infiltrieren, einen Zirkel ausheben, Forscher
+exfiltrieren, eine zeitreisende Fremdfraktion stören -, ohne dass jeder Einsatz
+gleich über das Schicksal der Welt entscheidet. Die Stakes liegen bei Anlage,
+Zelle oder Schlüsselperson, nicht beim Atomkrieg.
+
+```yaml
+faction_op_pool:
+  - id: megacorp_infiltration
+    schauplatz: "Megakon-Produktionsanlage, deren unscheinbares Logistik-Gebäude ein getarntes Hochsicherheits-Untergeschoss trägt"
+    layout: "Zwei Fertigungshallen als Fassade, ein versteckter Frachtaufzug führt zum abgeschotteten Entwicklungslabor"
+    wachen: "Werkschutz mit Ausweispflicht, Drohnen-Streifen über den Hallen, eine Iris-Schleuse am Aufzug"
+    escalation: "Still solange ihr als Zulieferer geltet - ein gesperrter Werksausweis löst Hallen-Lockdown und Drohnen-Jagd aus"
+  - id: conclave_dismantle
+    schauplatz: "Geheimer Zirkel tagt in einer Krypta unter alten Katakomben - die Führungszelle soll dezimiert und enttarnt werden"
+    layout: "Katakomben-Gänge als Zugang, ein Ritualgewölbe als Zentrum, mehrere Fluchtnischen mit Geheimtüren"
+    wachen: "Vermummte Adepten, bewaffnete Türhüter an jedem Gang, ein Zirkelmeister mit Leibgarde"
+    escalation: "Still solange die Tarnung als Eingeweihte hält - ein enttarntes Gesicht und die Gänge werden zur tödlichen Falle"
+  - id: researcher_exfil
+    schauplatz: "Forscher einer Fremdfraktion soll aus einem bewachten Anwesen exfiltriert werden, bevor er verlegt wird"
+    layout: "Herrenhaus mit Parkmauer, der Forscher in einem gesicherten Studiertrakt, Tor und Tunnel als Fluchtwege"
+    wachen: "Personenschützer im Haus, Streifen entlang der Mauer, ein Kontrollposten am Tor"
+    escalation: "Still bis das Tor den fehlenden Forscher meldet - dann Mauer-Riegel, Hundestreife, ein Verfolger-Konvoi"
+  - id: timeline_sabotage
+    schauplatz: "Getarnte Operationsbasis einer zeitreisenden Fremdfraktion in einem Lagerhaus - ihr Zeit-Eingriff soll gestört werden"
+    layout: "Lagerhalle mit getarntem Kontrollraum, ein Geräte-Kern im Zentrum, Galerie und Verladerampe als Zugänge"
+    wachen: "Fremd-Operative am Kern, ein Techniker-Team, automatische Scanner an jedem Tor"
+    escalation: "Still bis ein Scanner anschlägt - dann Kern-Notabschaltung, Operative in Deckung, Selbstzerstörungs-Drohung der Basis"
+  - id: black_clinic_raid
+    schauplatz: "Schwarze Klinik der Fremdfraktion, in der an entführten Zeugen experimentiert wird - sie muss ausgehoben werden"
+    layout: "Praxis-Fassade, ein OP-Trakt im ersten Stock, ein Zellen-Keller mit den festgehaltenen Zeugen"
+    wachen: "Pflege-Schläger im Trakt, ein Wachposten am Keller, Kameras in jedem Flur"
+    escalation: "Still bis ein Zeuge befreit wird - dann Keller-Lockdown, Personal greift an, Notruf an Fraktions-Verstärkung"
+  - id: summit_disrupt
+    schauplatz: "Wichtiges Allianz-Treffen zweier Fraktionen in einem Konferenzzentrum - das Bündnis soll gestört oder belauscht werden"
+    layout: "Foyer als Tarnung, ein gesicherter Konferenzsaal, ein Technik-Zwischengeschoss über der Decke"
+    wachen: "Bodyguards beider Seiten, Türkontrolle mit Gästeliste, Späher im Zwischengeschoss"
+    escalation: "Still solange ihr als Personal durchgeht - ein aufgedeckter Lauschangriff und der Saal wird abgeriegelt, Sturm beginnt"
 ```
 
 ## Historische Wendepunkte-Generator: Auslöser und Folgen {#wendepunkte-generator}
