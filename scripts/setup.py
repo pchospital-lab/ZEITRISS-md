@@ -2486,11 +2486,57 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             "Die SL antwortet zwar, zieht aber evtl. keine KB-Fakten.\n"
             "     Nächster Versuch: python setup.py --reset-embeddings"
         )
-        if opts.get("strict"):
-            # Opt-in: some users wrap this script in CI — Exit 2 so automation
-            # notices the warning. Default stays on 0 for doppelklick-friendly
-            # behaviour.
-            sys.exit(2)
+
+    # ── LiteLLM-Caching anbieten (Einschritt-Erlebnis) ──────────────────
+    # Damit der Nutzer nicht wissen muss, dass es `--install-litellm` als
+    # separaten zweiten Befehl gibt: wenn mindestens eine cache=True-Variante
+    # existiert, bieten wir das Caching gleich hier an. Idempotent — ein
+    # erneuter Lauf legt keinen Doppel-Container an.
+    if opts.get("offer_litellm"):
+        cache_variants = [vk for vk, v in cfg["variants"].items() if v.get("cache")]
+        if cache_variants:
+            print()
+            print_info(
+                "Mindestens eine Variante nutzt Anthropic-Prompt-Caching "
+                f"({', '.join(cache_variants)}). Mit LiteLLM zahlst du ab Turn 2 "
+                "nur ~10 % des Masterprompt-Preises."
+            )
+            do_litellm = False
+            if opts.get("assume_yes"):
+                do_litellm = True
+                print_info("--yes: LiteLLM-Caching wird automatisch eingerichtet.")
+            elif not sys.stdin.isatty():
+                # Nicht-interaktiv ohne --yes: nicht raten, nur Hinweis.
+                print_info(
+                    "Nicht-interaktiv — LiteLLM-Caching nicht automatisch eingerichtet. "
+                    "Später mit `python scripts/setup.py --install-litellm` nachholen."
+                )
+            else:
+                try:
+                    ans = input("  LiteLLM-Caching jetzt einrichten? [Y/n] ").strip().lower()
+                except EOFError:
+                    ans = "n"
+                do_litellm = ans in ("", "y", "j", "ja", "yes")
+
+            if do_litellm:
+                try:
+                    run_install_litellm(repo, cfg, opts={"assume_yes": opts.get("assume_yes")})
+                except SystemExit as exc:
+                    # run_install_litellm bricht bei fehlendem Docker/Key mit
+                    # sys.exit(1) ab. Das Setup selbst war aber erfolgreich —
+                    # wir verschlucken den Abbruch zu einer Warnung, statt den
+                    # ganzen Setup-Lauf als Fehler zu werten.
+                    if exc.code not in (0, None):
+                        print_warn(
+                            "LiteLLM-Einrichtung abgebrochen (siehe oben). Das Preset-Setup "
+                            "ist fertig; Caching später mit `--install-litellm` nachholen."
+                        )
+
+    if not verify_ok and opts.get("strict"):
+        # Opt-in: some users wrap this script in CI — Exit 2 so automation
+        # notices the warning. Default stays on 0 for doppelklick-friendly
+        # behaviour.
+        sys.exit(2)
 
 
 # ── Main ────────────────────────────────────────────────────────────
@@ -2767,6 +2813,14 @@ def main() -> None:
         action="store_true",
         help="Exit-Code 2 bei fehlgeschlagenem Retrieval-Check (für CI/CD).",
     )
+    parser.add_argument(
+        "--no-litellm",
+        action="store_true",
+        help=(
+            "Nach dem Setup NICHT anbieten, LiteLLM-Caching einzurichten. "
+            "Für CI/automatisierte Läufe oder wenn kein Docker vorhanden ist."
+        ),
+    )
     # ── Multi-Variant ────────────────────────────────────────────────
     parser.add_argument(
         "--variant",
@@ -2846,6 +2900,7 @@ def main() -> None:
                 "no_verify": args.no_verify,
                 "assume_yes": args.yes,
                 "strict": args.strict,
+                "offer_litellm": not args.no_litellm,
                 "variants": resolve_variant_selection(cfg, args.variant, args.all_variants),
             },
         )
