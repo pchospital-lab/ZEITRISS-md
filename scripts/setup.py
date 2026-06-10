@@ -598,7 +598,7 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
         lines.append("")
         lines.extend(save_info)
     else:
-        # Default: generic save management (ZEITRISS-style)
+        # Default: generic save management (override via cfg["save_info"])
         lines += [
         "",
         "## Spielstände verwalten",
@@ -924,7 +924,7 @@ def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
         except OSError:
             pass
 
-    return f"{str(cfg.get('project', 'zeitriss')).lower()}-sonnet"
+    return f"{str(cfg.get('project', 'assistant')).lower()}-sonnet"
 
 
 def _ensure_owui_litellm_connection(
@@ -938,7 +938,7 @@ def _ensure_owui_litellm_connection(
     Idempotent: prüft `GET /openai/config`, ob `http://127.0.0.1:4000/v1`
     schon als Base-URL angemeldet ist. Wenn ja: nichts tun. Wenn nein:
     Connection per `POST /openai/config/update` ergänzen und den Routing-
-    Modell-Pin (`zeitriss-sonnet`) setzen, damit OWUI nur das eine
+    Modell-Pin (`<project>-sonnet`) setzen, damit OWUI nur das eine
     LiteLLM-Modell als „cached“-Variante anbietet (nicht das ganze
     OpenRouter-Modell-Inventar via LiteLLM doppelt).
 
@@ -1171,6 +1171,13 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     """
     opts = opts or {}
     project = cfg["project"]
+    # Container-Name folgt der Repo-Konvention (docker-compose.litellm.yml:
+    # container_name: litellm-<project>). Aus project abgeleitet, damit
+    # Fehlertexte in jeder Blaupause-Kopie den richtigen Container nennen.
+    litellm_container = f"litellm-{project.lower()}"
+    # Routing-Modell früh berechnen: der Cache-Test (Schritt 7) braucht es
+    # bereits, nicht erst beim Connection-Rewire (Schritt 8).
+    routing_model = _litellm_routing_model_id(repo, cfg)
 
     print_header(f"{project} — LiteLLM-Proxy einrichten")
 
@@ -1302,7 +1309,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     if not healthy:
         print_error(
             "LiteLLM antwortet nach 60 s nicht auf /health/liveness.\n"
-            "Logs prüfen: docker logs litellm-zeitriss"
+            f"Logs prüfen: docker logs {litellm_container}"
         )
         sys.exit(1)
     print_ok("LiteLLM erreichbar auf http://127.0.0.1:4000.")
@@ -1311,7 +1318,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische Calls)...")
     big_system = "You are a concise assistant. " * 400  # ~2000 Tokens
     test_body = json.dumps({
-        "model": "zeitriss-sonnet",
+        "model": routing_model,
         "messages": [
             {"role": "system", "content": big_system},
             {"role": "user", "content": "Say only: OK"},
@@ -1378,7 +1385,6 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     # teilweisem Erfolg = User legt eine zweite, doppelte Connection an.)
     ok_conn = False
     ok_rewire = False
-    routing_model = _litellm_routing_model_id(repo, cfg)
 
     if not owui_key:
         print_warn(
@@ -1480,7 +1486,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print()
     print(f"  Master-Key (Fingerprint): {_mask_secret(master_key)}")
     print("  Klartext-Speicher: scripts/litellm/.env (chmod 600).")
-    print("  Container-Logs:    docker logs litellm-zeitriss")
+    print(f"  Container-Logs:    docker logs {litellm_container}")
 
 
 def _auto_load_owui_env() -> None:
@@ -1547,11 +1553,10 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     if not api_key:
         print_error(
             "OPENWEBUI_API_KEY fehlt.\n"
-            "  Tipp: Starte stattdessen den Launcher, der kümmert sich um Keys automatisch:\n"
-            "      python scripts/zeitriss.py           (Menü [5] = API-Keys ändern)\n"
-            "  Oder lege ~/.openwebui_env an (wird beim nächsten Start automatisch geladen):\n"
+            "  Lege ~/.openwebui_env an (wird beim nächsten Start automatisch geladen):\n"
             "      OPENWEBUI_URL=http://localhost:8080\n"
-            "      OPENWEBUI_API_KEY=sk-..."
+            "      OPENWEBUI_API_KEY=sk-...\n"
+            "  (Repos mit eigenem Launcher-Skript bieten dafür auch ein Menü an.)"
         )
         sys.exit(1)
 
