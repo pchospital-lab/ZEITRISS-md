@@ -53,16 +53,128 @@ def find_repo_root() -> Path:
 
 
 def load_config(repo: Path) -> dict:
-    """Load and validate setup.json."""
+    """Load and validate setup.json, then normalise to the variants model.
+
+    Backward compatibility is non-negotiable: a setup.json WITHOUT a `variants`
+    block behaves exactly as before. We synthesise a single implicit variant
+    "default" from the legacy top-level fields (preset_id/preset_name/
+    default_model), so every existing repo keeps working unchanged.
+    """
     cfg_path = repo / "setup.json"
     with open(cfg_path, encoding="utf-8") as f:
         cfg = json.load(f)
-    required = ["project", "preset_id", "preset_name", "masterprompt", "params"]
-    missing = [k for k in required if k not in cfg]
+
+    # `project`, `masterprompt`, `params` are always required. `preset_id`/
+    # `preset_name` are only required in the LEGACY (no-variants) shape.
+    base_required = ["project", "masterprompt", "params"]
+    missing = [k for k in base_required if k not in cfg]
     if missing:
         print_error(f"setup.json missing keys: {', '.join(missing)}")
         sys.exit(1)
+
+    _normalise_variants(repo, cfg)
     return cfg
+
+
+def _normalise_variants(repo: Path, cfg: dict) -> None:
+    """In-place: guarantee cfg has a valid `variants` dict + `default_variant`.
+
+    Two shapes are accepted:
+    - LEGACY (no `variants`): synthesise one variant "default" from
+      preset_id/preset_name/default_model, cache=True (today's behaviour).
+    - MODERN (`variants` present): validate each variant has preset_id,
+      preset_name, model. Top-level preset_id/preset_name then optional.
+    """
+    variants = cfg.get("variants")
+
+    if not variants:
+        # LEGACY shape — preset_id/preset_name are required here.
+        legacy_required = ["preset_id", "preset_name"]
+        missing = [k for k in legacy_required if k not in cfg]
+        if missing:
+            print_error(
+                "setup.json missing keys: " + ", ".join(missing)
+                + " (required unless a `variants` block is present)."
+            )
+            sys.exit(1)
+        cfg["variants"] = {
+            "default": {
+                "preset_id": cfg["preset_id"],
+                "preset_name": cfg["preset_name"],
+                "model": cfg.get("default_model", "anthropic/claude-sonnet-4.6"),
+                "litellm_routing": _litellm_routing_model_id(repo, cfg),
+                # Today's recommended path routes through LiteLLM for caching.
+                "cache": True,
+            }
+        }
+        cfg["default_variant"] = "default"
+        return
+
+    # MODERN shape — validate the variants dict.
+    if not isinstance(variants, dict) or not variants:
+        print_error("setup.json `variants` must be a non-empty object.")
+        sys.exit(1)
+
+    for key, v in variants.items():
+        if not isinstance(v, dict):
+            print_error(f"setup.json variant '{key}' must be an object.")
+            sys.exit(1)
+        v_missing = [k for k in ("preset_id", "preset_name", "model") if k not in v]
+        if v_missing:
+            print_error(
+                f"setup.json variant '{key}' missing: {', '.join(v_missing)}."
+            )
+            sys.exit(1)
+        v.setdefault("cache", False)
+        if v["cache"]:
+            v.setdefault("litellm_routing", _litellm_routing_model_id(repo, cfg))
+
+    # default_variant: explicit, else first inserted key.
+    dv = cfg.get("default_variant")
+    if dv is None:
+        dv = next(iter(variants))
+        cfg["default_variant"] = dv
+    elif dv not in variants:
+        print_error(
+            f"setup.json `default_variant` = '{dv}' is not a defined variant "
+            f"(have: {', '.join(variants)})."
+        )
+        sys.exit(1)
+
+
+def resolve_variant_selection(
+    cfg: dict, variant: Optional[str], all_variants: bool
+) -> list[str]:
+    """Map CLI flags to the list of variant-keys to operate on.
+
+    --all-variants  -> every key
+    --variant X     -> [X]  (error if X unknown)
+    (neither)       -> [default_variant]   (safe, predictable)
+    """
+    variants = cfg["variants"]
+    if all_variants:
+        return list(variants)
+    if variant:
+        if variant not in variants:
+            print_error(
+                f"Unbekannte Variante '{variant}'. "
+                f"Verfügbar: {', '.join(variants)}."
+            )
+            sys.exit(1)
+        return [variant]
+    return [cfg["default_variant"]]
+
+
+def variant_base_model(repo: Path, cfg: dict, variant_key: str) -> str:
+    """Effective base_model_id for a variant.
+
+    cache=True -> the LiteLLM routing model id (so OWUI talks to the proxy).
+    cache=False -> the variant's raw `model` (direct provider via OpenRouter).
+    """
+    v = cfg["variants"][variant_key]
+    if v.get("cache"):
+        return v.get("litellm_routing") or _litellm_routing_model_id(repo, cfg)
+    return v["model"]
 
 
 # ── Knowledge file discovery ────────────────────────────────────────
@@ -932,10 +1044,11 @@ def _ensure_owui_litellm_connection(
     owui_key: str,
     master_key: str,
     project: str,
+    litellm_port: int = 4000,
 ) -> tuple[bool, str]:
     """Stellt sicher, dass OpenWebUI eine Connection auf den LiteLLM-Proxy hat.
 
-    Idempotent: prüft `GET /openai/config`, ob `http://127.0.0.1:4000/v1`
+    Idempotent: prüft `GET /openai/config`, ob `http://127.0.0.1:<port>/v1`
     schon als Base-URL angemeldet ist. Wenn ja: nichts tun. Wenn nein:
     Connection per `POST /openai/config/update` ergänzen und den Routing-
     Modell-Pin (`<project>-sonnet`) setzen, damit OWUI nur das eine
@@ -948,7 +1061,7 @@ def _ensure_owui_litellm_connection(
     import urllib.request
     import urllib.error
 
-    target_url = "http://127.0.0.1:4000/v1"
+    target_url = f"http://127.0.0.1:{litellm_port}/v1"
 
     def _api(method: str, path: str, payload: Optional[dict] = None) -> tuple[int, Any]:
         body = json.dumps(payload).encode() if payload is not None else None
@@ -1110,45 +1223,57 @@ def _rewire_preset_base_model(
     dritten Browser-Klick aus der alten Setup-Anleitung obsolet.
 
     Idempotent: prüft erst den aktuellen Wert; nur Update bei Drift.
-    Returns (ok, message). Caller druckt das.
+    Multi-Variant: rewired ALLE cache=True-Varianten auf ihr jeweiliges
+    litellm_routing-Modell. cache=False-Varianten (z.B. Mistral) bleiben
+    unberührt — die sollen direkt über OpenRouter laufen.
+    Returns (ok, message) — ok=True nur wenn ALLE betroffenen Presets sitzen.
     """
-    preset_id = cfg["preset_id"]
-    routing_model = _litellm_routing_model_id(repo, cfg)
-
     client = APIClient(owui_url, owui_key)
-    preset = client.get_model(preset_id)
-    if preset is None:
-        return False, f"Preset '{preset_id}' in OpenWebUI nicht gefunden — Setup [1] zuerst laufen lassen."
+    cache_variants = [
+        (vk, v) for vk, v in cfg["variants"].items() if v.get("cache")
+    ]
+    if not cache_variants:
+        return True, "Keine cache=True-Variante — kein Rewire nötig."
 
-    current_base = preset.get("base_model_id")
-    if current_base == routing_model:
-        return True, f"Preset zeigt bereits auf `{routing_model}` — kein Rewire nötig."
-
-    form = {
-        "id": preset.get("id", preset_id),
-        "base_model_id": routing_model,
-        "name": preset.get("name", cfg.get("preset_name", preset_id)),
-        "meta": preset.get("meta", {}),
-        "params": preset.get("params", {}),
-        "is_active": preset.get("is_active", True),
-    }
-    ok, action = client.upsert_model(form)
-    if not ok:
-        return False, (
-            f"Preset-Update fehlgeschlagen (action={action}). "
-            f"Manueller Fallback: Workspace → Models → '{preset.get('name', preset_id)}' → "
-            f"Base-Modell auf `{routing_model}` setzen."
-        )
-
-    # Verify — Re-GET und base_model_id vergleichen.
-    verify = client.get_model(preset_id)
-    if not verify or verify.get("base_model_id") != routing_model:
-        return False, (
-            f"Preset-Update lief durch, aber Re-GET zeigt base_model_id="
-            f"{verify.get('base_model_id') if verify else 'None'}. "
-            f"Bitte einmal manuell verifizieren."
-        )
-    return True, f"Preset `{preset.get('name', preset_id)}` zeigt jetzt auf `{routing_model}`."
+    msgs: list[str] = []
+    all_ok = True
+    for vk, v in cache_variants:
+        preset_id = v["preset_id"]
+        routing_model = v.get("litellm_routing") or _litellm_routing_model_id(repo, cfg)
+        preset = client.get_model(preset_id)
+        if preset is None:
+            all_ok = False
+            msgs.append(f"'{vk}': Preset '{preset_id}' nicht gefunden — Setup zuerst.")
+            continue
+        if preset.get("base_model_id") == routing_model:
+            msgs.append(f"'{vk}': bereits auf `{routing_model}`.")
+            continue
+        form = {
+            "id": preset.get("id", preset_id),
+            "base_model_id": routing_model,
+            "name": preset.get("name", v["preset_name"]),
+            "meta": preset.get("meta", {}),
+            "params": preset.get("params", {}),
+            "is_active": preset.get("is_active", True),
+        }
+        ok, action = client.upsert_model(form)
+        if not ok:
+            all_ok = False
+            msgs.append(
+                f"'{vk}': Update fehlgeschlagen (action={action}) — manuell: "
+                f"Workspace → Models → '{preset.get('name', preset_id)}' → Base `{routing_model}`."
+            )
+            continue
+        verify = client.get_model(preset_id)
+        if not verify or verify.get("base_model_id") != routing_model:
+            all_ok = False
+            msgs.append(
+                f"'{vk}': Update lief, aber Re-GET zeigt "
+                f"{verify.get('base_model_id') if verify else 'None'} — manuell prüfen."
+            )
+            continue
+        msgs.append(f"'{vk}': zeigt jetzt auf `{routing_model}`.")
+    return all_ok, " | ".join(msgs)
 
 
 def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -1162,7 +1287,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
       5. `docker compose up -d` für den Proxy.
       6. Health-Check abwarten.
       7. 2-Call-Cache-Test gegen den Proxy.
-      8. OpenWebUI-Connection auf http://localhost:4000 anlegen/aktualisieren
+      8. OpenWebUI-Connection auf http://localhost:<litellm.port> anlegen/aktualisieren
          (idempotent, via `/openai/config/update`).
       9. Preset-Base-Modell auf LiteLLM-Routing-Modell rewiren (sonst
          routet OWUI weiter über OpenRouter direkt = kein Caching).
@@ -1178,8 +1303,28 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     # Routing-Modell früh berechnen: der Cache-Test (Schritt 7) braucht es
     # bereits, nicht erst beim Connection-Rewire (Schritt 8).
     routing_model = _litellm_routing_model_id(repo, cfg)
+    # Port aus setup.json (litellm.port), Default 4000. setup.py nutzt ihn für
+    # alle eigenen Calls + die OWUI-Connection-URL. ACHTUNG: docker-compose
+    # bindet den Port selbst — stimmt cfg-Port nicht mit dem Compose-Port
+    # überein, warnen wir unten.
+    litellm_port = int((cfg.get("litellm") or {}).get("port", 4000))
+    litellm_base = f"http://127.0.0.1:{litellm_port}"
 
     print_header(f"{project} — LiteLLM-Proxy einrichten")
+
+    # Compose-Port-Drift-Check (best-effort, kein Auto-Edit).
+    _compose_for_port = repo / "scripts" / "litellm" / "docker-compose.litellm.yml"
+    if litellm_port != 4000 and _compose_for_port.is_file():
+        try:
+            _ctext = _compose_for_port.read_text(encoding="utf-8")
+            if f":{litellm_port}:" not in _ctext and "4000:4000" in _ctext:
+                print_warn(
+                    f"setup.json litellm.port={litellm_port}, aber docker-compose.litellm.yml "
+                    f"bindet noch 4000. Passe dort `ports:` auf "
+                    f"'127.0.0.1:{litellm_port}:{litellm_port}' und `--port {litellm_port}` an."
+                )
+        except OSError:
+            pass
 
     lite_dir = repo / "scripts" / "litellm"
     if not lite_dir.is_dir():
@@ -1299,7 +1444,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     for i in range(30):
         time.sleep(2)
         try:
-            req = urllib.request.Request("http://127.0.0.1:4000/health/liveness")
+            req = urllib.request.Request(f"{litellm_base}/health/liveness")
             with urllib.request.urlopen(req, timeout=3) as resp:
                 if resp.status == 200:
                     healthy = True
@@ -1312,7 +1457,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
             f"Logs prüfen: docker logs {litellm_container}"
         )
         sys.exit(1)
-    print_ok("LiteLLM erreichbar auf http://127.0.0.1:4000.")
+    print_ok(f"LiteLLM erreichbar auf {litellm_base}.")
 
     # 7. 2-Call-Cache-Test (Best-Effort)
     print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische Calls)...")
@@ -1334,7 +1479,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     def _call() -> Optional[dict]:
         try:
             req = urllib.request.Request(
-                "http://127.0.0.1:4000/v1/chat/completions",
+                f"{litellm_base}/v1/chat/completions",
                 data=test_body, headers=headers, method="POST",
             )
             with urllib.request.urlopen(req, timeout=120) as resp:
@@ -1398,7 +1543,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
         import urllib.error
         try:
             ok_conn, msg_conn = _ensure_owui_litellm_connection(
-                owui_url, owui_key, master_key, project,
+                owui_url, owui_key, master_key, project, litellm_port,
             )
             if ok_conn:
                 print_ok(f"OpenWebUI-Connection: {msg_conn}")
@@ -1457,7 +1602,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                     f"OpenWebUI öffnen: {owui_url}",
                     "Profil-Icon oben rechts → Einstellungen → Verbindungen",
                     "→ '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):",
-                    "  URL:  http://localhost:4000/v1",
+                    f"  URL:  {litellm_base}/v1",
                     f"  Key:  {_mask_secret(master_key)}  (Klartext in scripts/litellm/.env)",
                     f"  Name: LiteLLM ({project} Cache)",
                     "Speichern.",
@@ -1468,7 +1613,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                 "Preset auf das LiteLLM-Routing-Modell umstellen",
                 [
                     "Im linken Menü: Arbeitsbereich → Modelle",
-                    f"(engl.: Workspace → Models) → `{cfg.get('preset_name', cfg['preset_id'])}` anklicken.",
+                    f"(engl.: Workspace → Models) → das/die cache=True-Preset(s) anklicken.",
                     f"Im Preset-Editor: Base-Modell-Dropdown auf `{routing_model}` umstellen → Speichern.",
                 ],
             ))
@@ -1569,15 +1714,27 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         sys.exit(1)
     print_ok(f"OpenWebUI erreichbar: {url}")
 
-    preset_id = cfg["preset_id"]
+    # Variant-aware: --sync arbeitet gegen die KB EINES Presets (KB + Masterprompt
+    # sind geteilt). Default: default_variant; --variant X wählt gezielt. Wenn der
+    # Caller mehrere Varianten schickt (--all-variants), patchen wir den
+    # Masterprompt unten in JEDES betroffene Preset — die KB-Delta-Logik läuft
+    # nur einmal (geteilte KB).
+    sync_variant_keys = (opts.get("variants") or [cfg["default_variant"]])
+    primary_vk = sync_variant_keys[0]
+    preset_id = cfg["variants"][primary_vk]["preset_id"]
     preset = client.get_model(preset_id)
     if preset is None:
         print_error(
-            f"Preset „{preset_id}“ existiert nicht in OpenWebUI. "
+            f"Preset „{preset_id}“ (Variante '{primary_vk}') existiert nicht in OpenWebUI. "
             f"Für Erstinstallation bitte `python scripts/setup.py` (ohne --sync) nutzen."
         )
         sys.exit(1)
-    print_ok(f"Preset gefunden: {preset.get('name', preset_id)}")
+    print_ok(f"Preset gefunden: {preset.get('name', preset_id)} (Variante '{primary_vk}')")
+    if len(sync_variant_keys) > 1:
+        print_info(
+            f"Masterprompt-Patch geht an {len(sync_variant_keys)} Varianten: "
+            f"{', '.join(sync_variant_keys)} (KB-Delta nur einmal — geteilte KB)."
+        )
 
     # KB-Id aus Preset-Meta ziehen (OWUI 0.9.1+ legt sie unter meta.knowledge[0].id)
     kb_id: Optional[str] = None
@@ -1615,40 +1772,53 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     )
     mp_md5_last = manifest.get("masterprompt_md5", "")
 
-    if mp_md5_local == mp_md5_remote:
+    if mp_md5_local == mp_md5_remote and len(sync_variant_keys) == 1:
         print_ok(f"Masterprompt synchron (MD5 {mp_md5_local[:8]}).")
     else:
-        print_info(
-            f"Masterprompt-Drift: lokal {mp_md5_local[:8]} vs. OpenWebUI {mp_md5_remote[:8]} "
-            f"(zuletzt gesynct: {mp_md5_last[:8] or '—'}). Patche Preset…"
-        )
-        # Minimal-Payload wie in run_setup bauen. Wir schicken NICHT das komplette
-        # GET-Response-Dict (enthält user_id, created_at, access_grants, …),
-        # weil strengere OpenWebUI-Versionen das mit 422 ablehnen. Stattdessen nur
-        # die Felder, die upsert_model erwartet, und params.system frisch ersetzen.
-        preset_meta = dict(preset.get("meta") or {})
-        preset_params = dict(preset.get("params") or {})
-        preset_params["system"] = mp_text
-        payload = {
-            "id": preset.get("id") or preset_id,
-            "name": preset.get("name") or cfg.get("preset_name", preset_id),
-            "base_model_id": preset.get("base_model_id"),
-            "meta": preset_meta,
-            "params": preset_params,
-        }
-        if not payload["base_model_id"]:
-            print_error(
-                "Preset hat kein `base_model_id` — vermutlich inkonsistenter "
-                "Preset-Zustand. Bitte einmal `python scripts/setup.py` "
-                "(Full-Rebuild) laufen lassen."
+        if mp_md5_local != mp_md5_remote:
+            print_info(
+                f"Masterprompt-Drift: lokal {mp_md5_local[:8]} vs. OpenWebUI {mp_md5_remote[:8]} "
+                f"(zuletzt gesynct: {mp_md5_last[:8] or '—'}). Patche Preset(s)…"
             )
-            sys.exit(1)
-        success, action = client.upsert_model(payload)
-        if success:
-            print_ok(f"Masterprompt gepatcht (Preset {action}).")
-        else:
-            print_error("Masterprompt-Patch fehlgeschlagen — Sync abgebrochen.")
-            sys.exit(1)
+        # Masterprompt in JEDES betroffene Varianten-Preset patchen. Der
+        # Masterprompt ist für alle Varianten identisch (geteilt) — wir holen
+        # je Preset das aktuelle meta/params, um base_model_id + KB-Link zu
+        # erhalten, und ersetzen nur params.system.
+        # Minimal-Payload (NICHT das komplette GET-Dict) — strengere OWUI-
+        # Versionen lehnen user_id/created_at/access_grants mit 422 ab.
+        for vk in sync_variant_keys:
+            v_pid = cfg["variants"][vk]["preset_id"]
+            v_preset = preset if v_pid == preset_id else client.get_model(v_pid)
+            if v_preset is None:
+                print_warn(f"Variante '{vk}': Preset '{v_pid}' nicht gefunden — übersprungen.")
+                continue
+            v_remote_md5 = _text_md5((v_preset.get("params") or {}).get("system", "") or "")
+            if v_remote_md5 == mp_md5_local:
+                print_ok(f"Variante '{vk}': Masterprompt bereits synchron.")
+                continue
+            preset_meta = dict(v_preset.get("meta") or {})
+            preset_params = dict(v_preset.get("params") or {})
+            preset_params["system"] = mp_text
+            payload = {
+                "id": v_preset.get("id") or v_pid,
+                "name": v_preset.get("name") or cfg["variants"][vk]["preset_name"],
+                "base_model_id": v_preset.get("base_model_id"),
+                "meta": preset_meta,
+                "params": preset_params,
+            }
+            if not payload["base_model_id"]:
+                print_error(
+                    f"Variante '{vk}': Preset hat kein `base_model_id` — vermutlich "
+                    f"inkonsistenter Zustand. Bitte `python scripts/setup.py --variant {vk}` "
+                    f"(Full-Rebuild) laufen lassen."
+                )
+                sys.exit(1)
+            success, action = client.upsert_model(payload)
+            if success:
+                print_ok(f"Variante '{vk}': Masterprompt gepatcht (Preset {action}).")
+            else:
+                print_error(f"Variante '{vk}': Masterprompt-Patch fehlgeschlagen — Sync abgebrochen.")
+                sys.exit(1)
 
     manifest["masterprompt_md5"] = mp_md5_local
     manifest["masterprompt_path"] = cfg["masterprompt"]
@@ -1879,7 +2049,8 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """
     opts = opts or {}
     project = cfg["project"]
-    preset_id = cfg["preset_id"]
+    # Multi-Variant: ALLE Varianten-Presets löschen, nicht nur eins.
+    reset_preset_ids = [v["preset_id"] for v in cfg["variants"].values()]
     _auto_load_owui_env()
 
     print_header(f"{project} – Reset")
@@ -1899,14 +2070,15 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         print_error(f"OpenWebUI nicht erreichbar unter {url}. Reset abgebrochen.")
         sys.exit(1)
 
-    # 2) Preset löschen (falls vorhanden)
-    existed, ok = client.delete_model(preset_id)
-    if existed and ok:
-        print_ok(f"Preset '{preset_id}' entfernt.")
-    elif not existed:
-        print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
-    else:
-        print_warn(f"Preset '{preset_id}' konnte nicht entfernt werden (fährt trotzdem fort).")
+    # 2) Alle Varianten-Presets löschen (falls vorhanden)
+    for preset_id in reset_preset_ids:
+        existed, ok = client.delete_model(preset_id)
+        if existed and ok:
+            print_ok(f"Preset '{preset_id}' entfernt.")
+        elif not existed:
+            print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
+        else:
+            print_warn(f"Preset '{preset_id}' konnte nicht entfernt werden (fährt trotzdem fort).")
 
     # 3) Alle KBs mit dem Projekt-Namen (meist genau eine) — inklusive Vektoren.
     kb_name_prefix = project  # KB-Name == project in run_setup
@@ -2043,50 +2215,34 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         ollama_model=opts.get("ollama_model"),
     )
 
-    # ── Model selection ──────────────────────────────────────────────
-    default_model = cfg.get("default_model", "anthropic/claude-sonnet-4.6")
-    env_model_var = f"{project.upper().replace(' ', '_').replace('-', '_')}_MODEL"
-    model = os.environ.get(env_model_var, "").strip()
+    # ── Variant-Auswahl ──────────────────────────────────────────────
+    # Welche Presets dieser Lauf anlegt, bestimmt der Caller via
+    # opts["variants"] (Liste von Variant-Keys). Default: die Default-Variante.
+    variant_keys = opts.get("variants") or [cfg["default_variant"]]
+    print_info(
+        f"Varianten in diesem Lauf: {', '.join(variant_keys)} "
+        f"(geteilte Knowledge Base)."
+    )
 
-    if not model:
-        if assume_yes:
-            model = default_model
-            print_info(f"--yes: Verwende Default-Modell {model}")
+    # Erreichbarkeit der Base-Modelle prüfen (Typo-Schutz). cache=True-Varianten
+    # zeigen auf das LiteLLM-Routing-Modell, das erst nach --install-litellm
+    # erreichbar ist — daher dort kein harter Fehler, nur Hinweis.
+    for vk in variant_keys:
+        bm = variant_base_model(repo, cfg, vk)
+        is_cached = bool(cfg["variants"][vk].get("cache"))
+        if is_cached:
+            print_info(
+                f"  Variante '{vk}': Base-Model {bm} (über LiteLLM — "
+                f"erst nach --install-litellm erreichbar)."
+            )
         else:
-            print()
-            print(f"  Empfohlenes Modell: {_c('1', default_model)}")
-            print(f"  {_c('2', '(Enter = übernehmen. Alternative Model-ID optional eintippen.)')}")
-            try:
-                answer = input("  Modell: ").strip()
-            except EOFError:
-                # Nicht-interaktiver Aufruf (Pipe/CI): Default übernehmen statt
-                # mit EOFError-Traceback abzusterben. Das wäre der Weg, wie das
-                # Setup nach einem abgebrochenen Reset oder in einem Script-
-                # Kontext den halbfertigen Zustand hinterlässt.
-                answer = ""
-                print_info("Keine Eingabe (stdin geschlossen) — Default übernommen.")
-            model = answer or default_model
-
-            # Erreichbarkeit immer prüfen — auch bei selbst eingetippter ID.
-            # Typos wie 'claude-sonnet4.6' (Bindestrich fehlt) sonst erst viel
-            # später beim ersten Chat sichtbar.
-            print_info(f"Prüfe Modell: {model}")
-            if not client.test_model(model):
-                print_warn("Modell nicht erreichbar — trotzdem verwenden? (j/n)")
-                try:
-                    confirm_unreachable = input("  ").strip().lower()
-                except EOFError:
-                    confirm_unreachable = "n"
-                if confirm_unreachable not in ("j", "y", "ja", "yes"):
-                    try:
-                        model = input("  Alternative Model-ID: ").strip()
-                    except EOFError:
-                        model = ""
-                    if not model:
-                        print_error("Kein Modell angegeben.")
-                        sys.exit(1)
-
-    print_ok(f"Base Model: {model}")
+            if client.test_model(bm):
+                print_ok(f"  Variante '{vk}': Base-Model {bm} erreichbar.")
+            else:
+                print_warn(
+                    f"  Variante '{vk}': Base-Model {bm} nicht erreichbar — "
+                    f"Preset wird trotzdem angelegt (prüfe die Model-ID)."
+                )
 
     # ── Discover knowledge files ─────────────────────────────────────
     kb_files = discover_knowledge_files(repo, cfg)
@@ -2098,15 +2254,18 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         if sz > 150_000:
             print_warn(f"{fp.name}: {sz/1024:.0f} KB — über 150 KB, Indexierung könnte fehlschlagen")
 
-    # ── Preset aufräumen (falls Upgrade die ID verwaist hat) ─────────
-    preset_id = cfg["preset_id"]
-    existed, ok = client.delete_model(preset_id)
-    if existed and ok:
-        print_ok(f"Altes Preset aufgeräumt (Id: {preset_id}).")
-    elif not existed:
-        print_info("Kein vorhandenes Preset mit dieser ID — Neuinstallation.")
-    else:
-        print_warn(f"Konnte altes Preset nicht aufräumen (Id: {preset_id}) — fahre trotzdem fort.")
+    # ── Presets aufräumen (alle Varianten dieses Laufs) ─────────────
+    # Jede Variante hat ihre eigene preset_id; wir räumen genau die auf, die
+    # dieser Lauf gleich neu anlegt — NICHT die der anderen Varianten.
+    for vk in variant_keys:
+        v_pid = cfg["variants"][vk]["preset_id"]
+        existed, ok = client.delete_model(v_pid)
+        if existed and ok:
+            print_ok(f"Altes Preset aufgeräumt (Variante '{vk}', Id: {v_pid}).")
+        elif not existed:
+            print_info(f"Kein vorhandenes Preset für Variante '{vk}' — Neuanlage.")
+        else:
+            print_warn(f"Konnte Preset '{v_pid}' nicht aufräumen — fahre fort.")
 
     # ── Knowledge Base (destroy & recreate) ──────────────────────────
     kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
@@ -2232,37 +2391,42 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     else:
         print_info("Kein Game Icon gefunden (docs/gameicon.png) — übersprungen")
 
-    payload = {
-        "id": cfg["preset_id"],
-        "name": cfg["preset_name"],
-        "base_model_id": model,
-        "meta": {
-            "description": cfg.get("preset_description", ""),
-            "profile_image_url": profile_image_url,
-            "capabilities": None,
-            # OpenWebUI 0.9.1+ needs type='collection' to trigger KB retrieval in chat.
-            # Without it, middleware.py line ~2334 falls through the `else` branch
-            # and the KB reference never hits the retrieval pipeline.
-            "knowledge": [
-                {"id": kb_id, "name": kb_name, "type": "collection"}
-            ],
-            "suggestion_prompts": suggestions,
-        },
-        "params": {
-            "system": system_prompt,
-            "temperature": params.get("temperature", 0.8),
-            "top_p": params.get("top_p", 0.9),
-            "frequency_penalty": params.get("frequency_penalty", 0.3),
-            "max_tokens": params.get("max_tokens", 64000),
-        },
-    }
-
-    success, action = client.upsert_model(payload)
-    if success:
-        print_ok(f"Preset {action}: {cfg['preset_name']}")
-    else:
-        print_error("Preset konnte nicht erstellt/aktualisiert werden.")
-        sys.exit(1)
+    # Ein Preset pro Variante — alle zeigen auf dieselbe (geteilte) KB.
+    created_presets: list[tuple[str, str]] = []  # (variant_key, base_model)
+    for vk in variant_keys:
+        v = cfg["variants"][vk]
+        v_base_model = variant_base_model(repo, cfg, vk)
+        payload = {
+            "id": v["preset_id"],
+            "name": v["preset_name"],
+            "base_model_id": v_base_model,
+            "meta": {
+                "description": v.get("preset_description", cfg.get("preset_description", "")),
+                "profile_image_url": profile_image_url,
+                "capabilities": None,
+                # OpenWebUI 0.9.1+ needs type='collection' to trigger KB retrieval in chat.
+                # Without it, middleware.py line ~2334 falls through the `else` branch
+                # and the KB reference never hits the retrieval pipeline.
+                "knowledge": [
+                    {"id": kb_id, "name": kb_name, "type": "collection"}
+                ],
+                "suggestion_prompts": suggestions,
+            },
+            "params": {
+                "system": system_prompt,
+                "temperature": params.get("temperature", 0.8),
+                "top_p": params.get("top_p", 0.9),
+                "frequency_penalty": params.get("frequency_penalty", 0.3),
+                "max_tokens": params.get("max_tokens", 64000),
+            },
+        }
+        success, action = client.upsert_model(payload)
+        if success:
+            print_ok(f"Preset {action}: {v['preset_name']} (Variante '{vk}', Base {v_base_model})")
+            created_presets.append((vk, v_base_model))
+        else:
+            print_error(f"Preset für Variante '{vk}' konnte nicht erstellt/aktualisiert werden.")
+            sys.exit(1)
 
     # ── Sync-Manifest schreiben (für spätere --sync-Läufe) ──────────────────
     # Nach erfolgreichem Full-Setup ist Masterprompt synchron und alle
@@ -2297,8 +2461,9 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # ── Summary ──────────────────────────────────────────────────────
     print()
     print_header("Setup abgeschlossen!" if verify_ok else "Setup abgeschlossen (mit Warnung)")
-    print(f"  Preset:        {cfg['preset_name']}")
-    print(f"  Base Model:    {model}")
+    print(f"  Presets:       {len(created_presets)} (geteilte Knowledge Base)")
+    for vk, v_base in created_presets:
+        print(f"    • {cfg['variants'][vk]['preset_name']}  [{vk}]  →  {v_base}")
     print(f"  Knowledge:     {len(kb_files)} Dateien")
     print(f"  Temperature:   {params.get('temperature', 0.8)}")
     print(f"  Top-P:         {params.get('top_p', 0.9)}")
@@ -2307,10 +2472,11 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print()
 
     start_cmd = cfg.get("suggestions", ["Start"])[0]
+    first_preset_name = cfg["variants"][created_presets[0][0]]["preset_name"] if created_presets else cfg.get("preset_name", project)
     print(f"  So geht's weiter:")
     print(f"  1. Öffne {url} im Browser")
     print(f"  2. Starte einen neuen Chat")
-    print(f"  3. Wähle das Modell \"{cfg['preset_name']}\"")
+    print(f"  3. Wähle eines der Presets oben (z.B. \"{first_preset_name}\")")
     print(f"  4. Tippe: {start_cmd}")
     print()
 
@@ -2328,6 +2494,189 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
 
 
 # ── Main ────────────────────────────────────────────────────────────
+
+def _connect_owui_or_exit() -> "APIClient":
+    """Baue einen APIClient aus Env/~/.openwebui_env. Klarer Exit ohne Traceback,
+    wenn URL/Key fehlen oder OpenWebUI nicht erreichbar/autorisiert ist."""
+    _auto_load_owui_env()
+    url = (os.environ.get("OPENWEBUI_URL") or "http://localhost:8080").strip()
+    api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not api_key:
+        print_error(
+            "OPENWEBUI_API_KEY fehlt.\n"
+            "  Lege ~/.openwebui_env an (OPENWEBUI_URL + OPENWEBUI_API_KEY) "
+            "oder setze die Env-Variablen."
+        )
+        sys.exit(1)
+    client = APIClient(url, api_key)
+    if not client.check_health():
+        print_error(f"OpenWebUI nicht erreichbar unter {url}.")
+        sys.exit(1)
+    if not client.check_auth():
+        print_error("API-Key ungültig oder ohne Rechte.")
+        sys.exit(1)
+    return client
+
+
+def run_list(repo: Path, cfg: dict) -> None:
+    """Read-only Übersicht: welche Varianten-Presets + die geteilte KB liegen
+    aktuell in OpenWebUI? Beantwortet 'läuft schon was?' ohne Raten."""
+    project = cfg["project"]
+    print_header(f"{project} – Status in OpenWebUI")
+    client = _connect_owui_or_exit()
+
+    live_models = {m.get("id"): m for m in client.list_models() if isinstance(m, dict)}
+    kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
+    kb_exists = any(
+        kb.get("name") == kb_name for kb in client.list_knowledge()
+    )
+
+    print()
+    print(f"  Geteilte Knowledge Base '{kb_name}': "
+          + ("✓ vorhanden" if kb_exists else "✗ fehlt"))
+    print()
+    print(f"  {'Variante':<14}{'preset_id':<28}{'live?':<8}{'Base-Model (live)'}")
+    print(f"  {'-'*13:<14}{'-'*27:<28}{'-'*7:<8}{'-'*30}")
+    for vk, v in cfg["variants"].items():
+        pid = v["preset_id"]
+        live = live_models.get(pid)
+        mark = "✓" if live else "✗"
+        base = (live.get("base_model_id") if live else "—") or "—"
+        flag = " (default)" if vk == cfg["default_variant"] else ""
+        print(f"  {vk + flag:<14}{pid:<28}{mark:<8}{base}")
+    print()
+
+
+def run_delete(repo: Path, cfg: dict, variant: str, delete_kb: bool = False,
+               assume_yes: bool = False) -> None:
+    """Löscht das Preset einer Variante. Die geteilte KB bleibt erhalten, es sei
+    denn --delete-kb UND keine andere Variante ist noch live."""
+    project = cfg["project"]
+    if variant not in cfg["variants"]:
+        print_error(
+            f"Unbekannte Variante '{variant}'. "
+            f"Verfügbar: {', '.join(cfg['variants'])}."
+        )
+        sys.exit(1)
+    print_header(f"{project} – Variante '{variant}' löschen")
+    client = _connect_owui_or_exit()
+
+    pid = cfg["variants"][variant]["preset_id"]
+    if not assume_yes:
+        if not sys.stdin.isatty():
+            print_info("Nicht-interaktiv — fahre fort.")
+        else:
+            ans = input(f"  Preset '{pid}' wirklich löschen? [y/N] ").strip().lower()
+            if ans not in ("y", "j", "yes", "ja"):
+                print_info("Abgebrochen.")
+                return
+
+    existed, ok = client.delete_model(pid)
+    if existed and ok:
+        print_ok(f"Preset '{pid}' gelöscht.")
+    elif not existed:
+        print_info(f"Kein Preset '{pid}' in OpenWebUI — nichts zu löschen.")
+    else:
+        print_warn(f"Preset '{pid}' konnte nicht gelöscht werden.")
+
+    if delete_kb:
+        # Nur löschen, wenn keine ANDERE Variante noch ein live-Preset hat.
+        live_ids = {m.get("id") for m in client.list_models() if isinstance(m, dict)}
+        other_live = [
+            vk for vk, v in cfg["variants"].items()
+            if vk != variant and v["preset_id"] in live_ids
+        ]
+        if other_live:
+            print_warn(
+                f"KB NICHT gelöscht — noch genutzt von Varianten: {', '.join(other_live)}."
+            )
+        else:
+            kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
+            kbs = [kb for kb in client.list_knowledge() if kb.get("name") == kb_name]
+            for kb in kbs:
+                client.delete_knowledge(kb["id"])
+            if kbs:
+                print_ok(f"Geteilte KB '{kb_name}' gelöscht ({len(kbs)}).")
+            else:
+                print_info(f"Keine KB '{kb_name}' gefunden.")
+
+
+def run_add_variant(repo: Path, cfg: dict) -> None:
+    """Interaktiver Assistent: neue Variante in setup.json ergänzen. Wählt das
+    Modell aus dem optionalen model_catalog ODER per freier ID-Eingabe, validiert
+    die Erreichbarkeit (test_model) und schreibt die Variante zurück in setup.json.
+    Legt KEIN Preset an — danach `setup.py --variant <neu>` ausführen."""
+    project = cfg["project"]
+    print_header(f"{project} – Neue Variante anlegen")
+
+    if not sys.stdin.isatty():
+        print_error("--add-variant ist interaktiv und braucht ein TTY.")
+        sys.exit(1)
+
+    catalog = cfg.get("model_catalog") or {}
+    chosen_model = ""
+    if catalog:
+        print("  Modell-Katalog:")
+        items = list(catalog.items())
+        for i, (label, mid) in enumerate(items, 1):
+            print(f"    [{i}] {label}  →  {mid}")
+        print(f"    [f] Freie Model-ID eingeben")
+        sel = input("  Auswahl: ").strip().lower()
+        if sel != "f":
+            try:
+                idx = int(sel) - 1
+                chosen_model = items[idx][1]
+            except (ValueError, IndexError):
+                print_error("Ungültige Auswahl.")
+                sys.exit(1)
+    if not chosen_model:
+        chosen_model = input("  Model-ID (z.B. openrouter/anthropic/claude-sonnet-4.6): ").strip()
+    if not chosen_model:
+        print_error("Keine Model-ID angegeben.")
+        sys.exit(1)
+
+    # Erreichbarkeit prüfen (best-effort — nur wenn OWUI erreichbar).
+    try:
+        client = _connect_owui_or_exit()
+        if client.test_model(chosen_model):
+            print_ok(f"Modell erreichbar: {chosen_model}")
+        else:
+            print_warn(f"Modell '{chosen_model}' nicht erreichbar — trotzdem eintragen? [y/N]")
+            if input("  ").strip().lower() not in ("y", "j", "yes", "ja"):
+                print_info("Abgebrochen.")
+                return
+    except SystemExit:
+        print_warn("OpenWebUI nicht erreichbar — Modell-Check übersprungen, trage trotzdem ein.")
+
+    key = input("  Varianten-Key (kurz, z.B. 'opus'): ").strip()
+    if not key or key in cfg["variants"]:
+        print_error(f"Key leer oder existiert bereits ({', '.join(cfg['variants'])}).")
+        sys.exit(1)
+    pname = input(f"  Preset-Anzeigename [{project} ({key})]: ").strip() or f"{project} ({key})"
+    pid = input(f"  preset_id [{project.lower()}-{key}]: ").strip() or f"{project.lower()}-{key}"
+    use_cache = input("  Über LiteLLM cachen (nur Anthropic sinnvoll)? [y/N] ").strip().lower() in ("y", "j", "yes", "ja")
+
+    new_variant = {"preset_id": pid, "preset_name": pname, "model": chosen_model, "cache": use_cache}
+    if use_cache:
+        new_variant["litellm_routing"] = f"{project.lower()}-{key}"
+
+    # Zurück in setup.json schreiben (raw JSON, nicht die normalisierte cfg).
+    cfg_path = repo / "setup.json"
+    with open(cfg_path, encoding="utf-8") as f:
+        raw = json.load(f)
+    if not raw.get("variants"):
+        print_error(
+            "setup.json hat noch keinen variants-Block (Legacy-Shape). "
+            "Bitte erst auf das variants-Schema heben, dann --add-variant."
+        )
+        sys.exit(1)
+    raw["variants"][key] = new_variant
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        json.dump(raw, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    print_ok(f"Variante '{key}' in setup.json ergänzt.")
+    print_info(f"Jetzt anlegen mit:  python scripts/setup.py --variant {key}")
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -2418,6 +2767,42 @@ def main() -> None:
         action="store_true",
         help="Exit-Code 2 bei fehlgeschlagenem Retrieval-Check (für CI/CD).",
     )
+    # ── Multi-Variant ────────────────────────────────────────────────
+    parser.add_argument(
+        "--variant",
+        default=None,
+        help=(
+            "Nur diese eine Variante (Preset) anlegen/syncen. "
+            "Default ohne Flag: die default_variant aus setup.json."
+        ),
+    )
+    parser.add_argument(
+        "--all-variants",
+        action="store_true",
+        help="Alle in setup.json definierten Varianten anlegen/syncen (KB einmal, N Presets).",
+    )
+    parser.add_argument(
+        "--list",
+        action="store_true",
+        dest="list_variants",
+        help="Zeigt, welche Varianten-Presets + die geteilte KB aktuell in OpenWebUI liegen (read-only).",
+    )
+    parser.add_argument(
+        "--delete",
+        default=None,
+        metavar="VARIANT",
+        help="Löscht das Preset dieser Variante in OpenWebUI. KB bleibt (außer --delete-kb).",
+    )
+    parser.add_argument(
+        "--delete-kb",
+        action="store_true",
+        help="Mit --delete: auch die geteilte Knowledge Base löschen (nur wenn keine andere Variante sie braucht).",
+    )
+    parser.add_argument(
+        "--add-variant",
+        action="store_true",
+        help="Interaktiver Assistent: neue Variante (Preset) aus Modell-Katalog oder freier ID anlegen.",
+    )
     args = parser.parse_args()
 
     repo = find_repo_root()
@@ -2433,6 +2818,12 @@ def main() -> None:
                 "assume_yes": args.yes,
             },
         )
+    elif args.list_variants:
+        run_list(repo, cfg)
+    elif args.delete:
+        run_delete(repo, cfg, args.delete, delete_kb=args.delete_kb, assume_yes=args.yes)
+    elif args.add_variant:
+        run_add_variant(repo, cfg)
     elif args.sync:
         run_sync(
             repo,
@@ -2440,6 +2831,7 @@ def main() -> None:
             opts={
                 "assume_yes": args.yes,
                 "no_verify": args.no_verify,
+                "variants": resolve_variant_selection(cfg, args.variant, args.all_variants),
             },
         )
     else:
@@ -2454,6 +2846,7 @@ def main() -> None:
                 "no_verify": args.no_verify,
                 "assume_yes": args.yes,
                 "strict": args.strict,
+                "variants": resolve_variant_selection(cfg, args.variant, args.all_variants),
             },
         )
 

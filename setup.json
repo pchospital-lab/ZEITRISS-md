@@ -3,8 +3,6 @@
   "version": "4.2.6",
   "kb_name": "ZEITRISS 4.2.6 Regelwerk",
   "kb_description": "Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6",
-  "preset_id": "zeitriss-v426-uncut",
-  "preset_name": "ZEITRISS v4.2.6 Uncut",
   "preset_description": "Tech-Noir Zeitreise-RPG mit KI-Spielleitung. Chrononauten, explodierende Würfel, cinematisches HUD. 18+.",
   "masterprompt": "meta/masterprompt_v6.md",
   "default_model": "anthropic/claude-sonnet-4.6",
@@ -24,5 +22,29 @@
     "expect_any": ["CLUSTERCREATE", "Rift"],
     "expect_sources_min": 1,
     "top_k": 5
-  }
+  },
+  "litellm": {
+    "port": 4000
+  },
+  "model_catalog": {
+    "Sonnet 4.6 (Anthropic, gecacht)": "openrouter/anthropic/claude-sonnet-4.6",
+    "Mistral Small (Lumo-Parität)": "openrouter/mistralai/mistral-small-2603",
+    "Opus 4.8 (Anthropic, Premium)": "openrouter/anthropic/claude-opus-4.8"
+  },
+  "variants": {
+    "sonnet": {
+      "preset_id": "zeitriss-v426-uncut",
+      "preset_name": "ZEITRISS v4.2.6 Uncut",
+      "model": "openrouter/anthropic/claude-sonnet-4.6",
+      "litellm_routing": "zeitriss-sonnet",
+      "cache": true
+    },
+    "mistral": {
+      "preset_id": "zeitriss-v426-mistral",
+      "preset_name": "ZEITRISS v4.2.6 (Mistral)",
+      "model": "openrouter/mistralai/mistral-small-2603",
+      "cache": false
+    }
+  },
+  "default_variant": "sonnet"
 }
