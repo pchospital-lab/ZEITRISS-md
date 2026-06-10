@@ -24,6 +24,15 @@ model_list:
         - location: message
           role: system
 
+  # Mistral-Variante für Lumo-Paritäts-Playtests (Lumo läuft auf Mistral Small).
+  # Kein Cache-Marker — der Anthropic-Prompt-Cache greift bei Mistral nicht
+  # (drop_params verwirft ihn ohnehin still). Modell-ID gegen die aktuelle
+  # Lumo-Modellwahl verifizieren (Proton routet automatisch, kann sich ändern).
+  - model_name: zeitriss-mistral
+    litellm_params:
+      model: openrouter/mistralai/mistral-small-2603
+      api_key: os.environ/OPENROUTER_API_KEY
+
 general_settings:
   # Master-Key schützt den Proxy. Wird im Setup-Script generiert und in .env
   # abgelegt (chmod 600). Jede Anfrage an den Proxy muss diesen Key mitführen;
