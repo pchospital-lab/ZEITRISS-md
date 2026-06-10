@@ -169,12 +169,20 @@ def variant_base_model(repo: Path, cfg: dict, variant_key: str) -> str:
     """Effective base_model_id for a variant.
 
     cache=True -> the LiteLLM routing model id (so OWUI talks to the proxy).
-    cache=False -> the variant's raw `model` (direct provider via OpenRouter).
+    cache=False -> the variant's raw `model` (direct provider via OpenRouter),
+                   ohne `openrouter/`-Provider-Präfix: OpenWebUIs OpenRouter-
+                   Connection listet die Modelle als bare id (z.B.
+                   `mistralai/mistral-small-2603`). Das Präfix `openrouter/`
+                   gilt nur für LiteLLM-Provider-Routing (config.yaml) — als
+                   OWUI-base_model_id führt es zu "Model not found".
     """
     v = cfg["variants"][variant_key]
     if v.get("cache"):
         return v.get("litellm_routing") or _litellm_routing_model_id(repo, cfg)
-    return v["model"]
+    model = v["model"]
+    if model.startswith("openrouter/"):
+        model = model[len("openrouter/"):]
+    return model
 
 
 # ── Knowledge file discovery ────────────────────────────────────────
@@ -1417,11 +1425,19 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print_ok(f".env geschrieben ({env_file}).")
 
     # 5. Container starten
+    # WICHTIG: `-p <projektname>` erzwingen. Ohne expliziten Projektnamen
+    # leitet Compose ihn vom Parent-Ordner ab — und der heißt bei JEDEM
+    # Bausatz `litellm` (scripts/litellm/). Folge: alle Repos teilen sich das
+    # Compose-Projekt `litellm`, und jeder `up -d` ersetzt den Service des
+    # vorherigen Repos und reißt dessen Container ab (nur der letzte überlebt).
+    # Der eindeutige Container-Name allein reicht NICHT — das Projekt muss
+    # eindeutig sein. Siehe Vorfall 2026-06-10.
     print_info("Starte LiteLLM-Container...")
     try:
         res = subprocess.run(
             [
                 "docker", "compose",
+                "-p", litellm_container,
                 "-f", str(compose_file),
                 "--env-file", str(env_file),
                 "up", "-d",
@@ -2133,8 +2149,11 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         try:
             compose = repo / "scripts" / "litellm" / "docker-compose.litellm.yml"
             if compose.exists() and shutil.which("docker"):
+                # `-p` muss dem `up`-Projektnamen entsprechen (litellm-<project>),
+                # sonst findet `down` den falschen/keinen Stack. Siehe up-Schritt.
+                _proj = f"litellm-{cfg['project'].lower()}"
                 subprocess.run(
-                    ["docker", "compose", "-f", str(compose), "down"],
+                    ["docker", "compose", "-p", _proj, "-f", str(compose), "down"],
                     capture_output=True, text=True, timeout=30,
                 )
                 print_ok("LiteLLM-Container gestoppt/entfernt (docker compose down).")
