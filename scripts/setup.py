@@ -172,7 +172,7 @@ def variant_base_model(repo: Path, cfg: dict, variant_key: str) -> str:
     cache=False -> the variant's raw `model` (direct provider via OpenRouter),
                    ohne `openrouter/`-Provider-Präfix: OpenWebUIs OpenRouter-
                    Connection listet die Modelle als bare id (z.B.
-                   `mistralai/mistral-small-2603`). Das Präfix `openrouter/`
+                   `deepseek/deepseek-v3.2`). Das Präfix `openrouter/`
                    gilt nur für LiteLLM-Provider-Routing (config.yaml) — als
                    OWUI-base_model_id führt es zu "Model not found".
     """
@@ -1232,7 +1232,7 @@ def _rewire_preset_base_model(
 
     Idempotent: prüft erst den aktuellen Wert; nur Update bei Drift.
     Multi-Variant: rewired ALLE cache=True-Varianten auf ihr jeweiliges
-    litellm_routing-Modell. cache=False-Varianten (z.B. Mistral) bleiben
+    litellm_routing-Modell. cache=False-Varianten (z.B. DeepSeek) bleiben
     unberührt — die sollen direkt über OpenRouter laufen.
     Returns (ok, message) — ok=True nur wenn ALLE betroffenen Presets sitzen.
     """

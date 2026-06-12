@@ -28,7 +28,7 @@
   },
   "model_catalog": {
     "Sonnet 4.6 (Anthropic, gecacht)": "openrouter/anthropic/claude-sonnet-4.6",
-    "Mistral Small (Lumo-Parität)": "openrouter/mistralai/mistral-small-2603",
+    "DeepSeek V3.2 (Budget, ohne LiteLLM)": "openrouter/deepseek/deepseek-v3.2",
     "Opus 4.8 (Anthropic, Premium)": "openrouter/anthropic/claude-opus-4.8"
   },
   "variants": {
@@ -39,10 +39,10 @@
       "litellm_routing": "zeitriss-sonnet",
       "cache": true
     },
-    "mistral": {
-      "preset_id": "zeitriss-v426-mistral",
-      "preset_name": "ZEITRISS v4.2.6 (Mistral)",
-      "model": "openrouter/mistralai/mistral-small-2603",
+    "deepseek": {
+      "preset_id": "zeitriss-v426-deepseek",
+      "preset_name": "ZEITRISS v4.2.6 (DeepSeek Budget)",
+      "model": "openrouter/deepseek/deepseek-v3.2",
       "cache": false
     }
   },
