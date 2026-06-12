@@ -2515,9 +2515,9 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             f"{len(upload_failures)} fehlgeschlagen: {', '.join(upload_failures)}"
         )
         print_error(
-            "Setup abgebrochen: ZEITRISS braucht ALLE Wissensdateien. "
+            f"Setup abgebrochen: {project} braucht ALLE Wissensdateien. "
             "Ein unvollständiger Wissensspeicher ist kein abgespecktes, sondern "
-            "ein kaputtes Spiel."
+            "ein kaputtes Setup."
         )
         print_info(
             "     So geht's weiter (holt automatisch nur die fehlenden Dateien nach):\n"
@@ -2697,7 +2697,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     if not coverage_ok:
         print_error(
             "Setup NICHT erfolgreich: Es fehlen Wissensdateien in der KB (siehe oben). "
-            "ZEITRISS braucht alle Module — bitte erneut laufen lassen:\n"
+            f"{project} braucht alle Module — bitte erneut laufen lassen:\n"
             "     python setup.py --sync"
         )
         sys.exit(1)
