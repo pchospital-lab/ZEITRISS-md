@@ -24,14 +24,11 @@ model_list:
         - location: message
           role: system
 
-  # Mistral-Variante für Lumo-Paritäts-Playtests (Lumo läuft auf Mistral Small).
-  # Kein Cache-Marker — der Anthropic-Prompt-Cache greift bei Mistral nicht
-  # (drop_params verwirft ihn ohnehin still). Modell-ID gegen die aktuelle
-  # Lumo-Modellwahl verifizieren (Proton routet automatisch, kann sich ändern).
-  - model_name: zeitriss-mistral
-    litellm_params:
-      model: openrouter/mistralai/mistral-small-2603
-      api_key: os.environ/OPENROUTER_API_KEY
+  # Hinweis: Die Budget-Variante (DeepSeek V3.2) läuft bewusst NICHT über
+  # LiteLLM, sondern direkt über die OpenRouter-Connection in OpenWebUI
+  # (setup.json: cache=false). Der Anthropic-Prompt-Cache greift bei
+  # Nicht-Anthropic-Modellen nicht, darum lohnt der Proxy-Umweg nicht.
+  # Deshalb steht hier nur das gecachte Sonnet-Hauptmodell.
 
 general_settings:
   # Master-Key schützt den Proxy. Wird im Setup-Script generiert und in .env
