@@ -576,7 +576,10 @@ class APIClient:
         Returns dict with 'ok' (bool), 'hits' (int), 'snippets' (list[str]),
         'distances' (list[float]), 'code' (int).
         """
-        result = {"ok": False, "hits": 0, "snippets": [], "distances": [], "code": 0}
+        result = {
+            "ok": False, "hits": 0, "snippets": [], "distances": [],
+            "names": [], "code": 0,
+        }
         code, data = self.post_json(
             "/api/v1/retrieval/query/collection",
             {
@@ -592,14 +595,29 @@ class APIClient:
 
         docs = data.get("documents") or []
         dists = data.get("distances") or []
+        metas = data.get("metadatas") or []
         # OpenWebUI wraps in one list per collection, unwrap:
         if docs and isinstance(docs[0], list):
             docs = docs[0]
         if dists and isinstance(dists[0], list):
             dists = dists[0]
+        if metas and isinstance(metas[0], list):
+            metas = metas[0]
 
         result["snippets"] = [str(d) for d in docs]
         result["distances"] = [float(x) for x in dists if isinstance(x, (int, float))]
+        # Quell-Dateinamen je Chunk (Diagnose: aus welcher Datei stammt ein
+        # Treffer). OpenWebUI legt den KB-Dateinamen in metadata.name
+        # (Fallback: source). Coverage wird separat über die File-Zuordnung
+        # geprüft (_run_coverage_check), nicht über dieses Ranking.
+        names: list[str] = []
+        for m in metas:
+            if isinstance(m, dict):
+                nm = m.get("name") or m.get("source") or ""
+                if nm:
+                    # nur Basename, damit Pfad-Varianten (kb/x.md vs x.md) matchen
+                    names.append(str(nm).replace("\\", "/").split("/")[-1])
+        result["names"] = names
         result["hits"] = len(result["snippets"])
         result["ok"] = result["hits"] > 0
         # Diagnostic: if the endpoint returned 200 but we got nothing, surface
@@ -981,6 +999,83 @@ def _run_verify_retrieval(
         "     • python setup.py --embedding default    (zurück auf OpenWebUI-Default)"
     )
     return False
+
+
+def _run_coverage_check(
+    client: "APIClient",
+    kb_id: str,
+    expected_files: list[str],
+) -> bool:
+    """Prüft deterministisch, dass JEDE erwartete Wissensdatei wirklich in der
+    KB liegt — nicht über das (verrauschte) Vektor-Ranking, sondern über die
+    harte File-Zuordnung.
+
+    Das ist die Antwort auf den GAU „Setup meldet top, obwohl der Datensatz
+    unvollständig ist“. Der bestehende Retrieval-Check (eine Query, eine
+    Phrase) kann grün melden, während einzelne Module fehlen.
+
+    WARUM nicht über Retrieval-Sonden: OpenWebUI cappt die Treffer pro Query
+    (RAG_TOP_K, oft 8), und auf CPU-Embedding (nomic) verdrängen „laute“
+    Dateien leise aus den Top-Treffern. Empirisch decken selbst 19 gezielte
+    Sonden nicht zuverlässig alle Dateien ab → ständige Fehlalarme bei
+    gesundem Setup. Deshalb prüfen wir die WAHRHEIT: OpenWebUI legt pro
+    KB-Datei ein File-Entity mit `meta.collection_name == kb_id` an
+    (`GET /api/v1/files/`). Diese Zuordnung ist exakt, kein Ranking.
+
+    Returns True, wenn jede erwartete Datei als File-Entity der KB existiert.
+    Bricht nie hart ab — der Caller entscheidet über sys.exit.
+    """
+    expected = {Path(f).name for f in expected_files}
+    if not expected:
+        print_info("Coverage-Check: keine erwarteten Dateien — übersprungen.")
+        return True
+
+    print_info(
+        f"Coverage-Check: alle {len(expected)} Wissensdateien wirklich in der KB? "
+        f"(KB {kb_id})"
+    )
+
+    files = client.list_files()
+    if not files:
+        print_warn(
+            "Coverage-Check unbestimmt: /api/v1/files/ lieferte keine Liste. "
+            "Überspringe (kein Fehlalarm) — Retrieval-Check oben bleibt maßgeblich."
+        )
+        return True
+
+    in_kb: set[str] = set()
+    for f in files:
+        meta = f.get("meta") or {}
+        if meta.get("collection_name") == kb_id:
+            nm = meta.get("name") or f.get("filename")
+            if nm:
+                in_kb.add(str(nm).replace("\\", "/").split("/")[-1])
+
+    missing = sorted(expected - in_kb)
+    print_info(f"Abgedeckt: {len(expected & in_kb)}/{len(expected)} Dateien in der KB")
+
+    if missing:
+        print_error(
+            f"Coverage-Check FEHLGESCHLAGEN: {len(missing)} Wissensdatei(en) "
+            f"fehlen in der KB:"
+        )
+        for m in missing:
+            print_error(f"     ✗ {m}")
+        print_info(
+            "     Diese Module sind NICHT in der KB — die KI-SL würde mit "
+            "Lücken spielen (anderes, kaputtes Spiel).\n"
+            "     Reparatur (holt nur die fehlenden Dateien nach):\n"
+            "       python setup.py --sync\n"
+            "     Bei wiederholtem Fehler / langsamer Hardware:\n"
+            "       export OWUI_UPLOAD_TIMEOUT=300 && python setup.py"
+        )
+        return False
+
+    print_ok(
+        f"Coverage-Check grün — alle {len(expected)} Wissensdateien sind "
+        "nachweisbar in der KB."
+    )
+    return True
 
 
 def _file_md5(path: Path) -> str:
@@ -1927,8 +2022,17 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     removed_names = [name for name in files_manifest.keys() if name not in local_filenames]
 
     if not changed and not removed_names:
-        print_ok(f"Alle {len(kb_files)} KB-Dateien synchron — nichts zu tun.")
+        print_ok(f"Alle {len(kb_files)} KB-Dateien laut Manifest synchron.")
         _save_sync_manifest(repo, manifest)
+        # WICHTIG: "Manifest synchron" (MD5 lokal == zuletzt hochgeladen) belegt
+        # NICHT, dass die Datei noch in der KB liegt — ein früherer Abbruch
+        # könnte sie rausgeworfen haben. Genau hier (häufigster Update-Fall:
+        # "nichts geändert") muss die Vollständigkeit trotzdem bewiesen werden,
+        # sonst meldet das Update "alles aktuell", während ein Modul fehlt.
+        if not opts.get("no_verify"):
+            print()
+            if not _run_coverage_check(client, kb_id, [fp.name for fp in kb_files]):
+                sys.exit(1)
         print()
         print_header("Sync abgeschlossen — alles aktuell.")
         return
@@ -2088,6 +2192,15 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     if verify_cfg:
         print()
         _run_verify_retrieval(client, kb_id, verify_cfg)
+
+    # Coverage-Check: beweist auch beim Update, dass ALLE Wissensdateien in
+    # der KB liegen — nicht nur die in diesem Lauf geänderten. Fängt den Fall
+    # "eine alte Datei ist irgendwann aus der KB gefallen" (z.B. früherer
+    # abgebrochener Lauf). Fehlende Datei → harter Exit, damit Launcher [4]
+    # nicht fälschlich "fertig" meldet.
+    print()
+    if not _run_coverage_check(client, kb_id, [fp.name for fp in kb_files]):
+        sys.exit(1)
 
 
 def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -2550,10 +2663,23 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     else:
         print()
         verify_ok = _run_verify_retrieval(client, kb_id, verify_cfg)
+    # Coverage-Check läuft IMMER (auch ohne verify-Block): beweist, dass JEDE
+    # Wissensdatei wirklich in der KB liegt — schließt den GAU "meldet top
+    # trotz fehlendem Modul". Läuft nur bei --no-verify nicht.
+    # Anders als der Retrieval-Phrasen-Check (weiche Warnung, Query-Tuning)
+    # ist eine fehlende Datei ein HARTER Fehler.
+    coverage_ok = True
+    if not opts.get("no_verify"):
+        print()
+        coverage_ok = _run_coverage_check(client, kb_id, [fp.name for fp in kb_files])
 
     # ── Summary ──────────────────────────────────────────────────────
     print()
-    print_header("Setup abgeschlossen!" if verify_ok else "Setup abgeschlossen (mit Warnung)")
+    print_header(
+        "Setup abgeschlossen!" if (verify_ok and coverage_ok)
+        else "Setup abgeschlossen (mit Warnung)" if coverage_ok
+        else "Setup UNVOLLSTÄNDIG — Wissensdateien fehlen"
+    )
     print(f"  Presets:       {len(created_presets)} (geteilte Knowledge Base)")
     for vk, v_base in created_presets:
         print(f"    • {cfg['variants'][vk]['preset_name']}  [{vk}]  →  {v_base}")
@@ -2563,6 +2689,18 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print(f"  Freq-Penalty:  {params.get('frequency_penalty', 0.3)}")
     print(f"  Max Tokens:    {params.get('max_tokens', 64000)}")
     print()
+
+    # HARTER Abbruch bei fehlenden Wissensdateien VOR der Spielstart-Anleitung:
+    # kein "top"/"starte das Spiel" bei kaputtem Datensatz. Auch vor dem
+    # LiteLLM-Angebot, weil ein unvollständiges Setup nicht "fertig genug"
+    # fürs Caching ist.
+    if not coverage_ok:
+        print_error(
+            "Setup NICHT erfolgreich: Es fehlen Wissensdateien in der KB (siehe oben). "
+            "ZEITRISS braucht alle Module — bitte erneut laufen lassen:\n"
+            "     python setup.py --sync"
+        )
+        sys.exit(1)
 
     start_cmd = cfg.get("suggestions", ["Start"])[0]
     first_preset_name = cfg["variants"][created_presets[0][0]]["preset_name"] if created_presets else cfg.get("preset_name", project)
