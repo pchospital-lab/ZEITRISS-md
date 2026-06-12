@@ -348,7 +348,13 @@ class APIClient:
             return code, body
 
     def upload_file(self, path: str, filepath: Path) -> tuple[int, Any]:
-        """Multipart file upload using stdlib."""
+        """Multipart file upload using stdlib.
+
+        Timeout länger als der 30-s-Default (via OWUI_UPLOAD_TIMEOUT, Default
+        120 s): große Wissensdateien (>100 kB) plus langsame Hardware
+        (Ollama-CPU, thermisch gedrosselte NUCs) können beim Upload den
+        30-s-Default reßen und würden fälschlich als Fehler gezählt.
+        """
         boundary = f"----PythonSetup{hashlib.md5(str(time.time()).encode()).hexdigest()}"
         filename = filepath.name
         with open(filepath, "rb") as f:
@@ -362,11 +368,17 @@ class APIClient:
         body += file_data
         body += f"\r\n--{boundary}--\r\n".encode("utf-8")
 
+        try:
+            timeout = float(os.environ.get("OWUI_UPLOAD_TIMEOUT", "120"))
+        except ValueError:
+            timeout = 120.0
+
         return self._request(
             "POST",
             path,
             data=body,
             content_type=f"multipart/form-data; boundary={boundary}",
+            timeout=timeout,
         )
 
     # ── High-level methods ──────────────────────────────────────────
@@ -474,14 +486,26 @@ class APIClient:
         code, _ = self.delete(f"/api/v1/files/{file_id}")
         return code == 200
 
-    def do_upload_file(self, filepath: Path) -> Optional[str]:
-        code, body = self.upload_file("/api/v1/files/", filepath)
-        try:
-            data = json.loads(body) if isinstance(body, bytes) else body
-        except (json.JSONDecodeError, TypeError):
-            return None
-        if isinstance(data, dict):
-            return data.get("id")
+    def do_upload_file(self, filepath: Path, *, retries: int = 2) -> Optional[str]:
+        """Upload one file, mit Retry bei transienten Fehlern.
+
+        `retries` = Anzahl ZUSÄTZLICHER Versuche nach dem ersten (Default 2 →
+        bis zu 3 Versuche gesamt). Backoff: 2 s, 4 s. Transiente HTTP-/Timeout-
+        Schluckaufe beim Hochladen waren die häufigste Ursache stiller
+        Teil-Installationen — jede Wissensdatei MUSS hochkommen, ein fehlendes
+        Modul macht ein anderes (kaputtes) Spiel.
+        """
+        for attempt in range(retries + 1):
+            _code, body = self.upload_file("/api/v1/files/", filepath)
+            try:
+                data = json.loads(body) if isinstance(body, bytes) else body
+            except (json.JSONDecodeError, TypeError):
+                data = None
+            if isinstance(data, dict) and data.get("id"):
+                return data.get("id")
+            # Fehlversuch — vor dem nächsten Versuch kurz warten (Backoff).
+            if attempt < retries:
+                time.sleep(2 * (attempt + 1))
         return None
 
     def list_models(self) -> list[dict]:
@@ -2030,12 +2054,28 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print()
     if link_failures:
         print_header("Sync abgeschlossen (mit Fehlern).")
-        print_warn(
-            f"{len(link_failures)} Datei(en) nicht verknüpft: {', '.join(link_failures)}. "
-            f"Nächster `--sync`-Lauf wiederholt den Upload automatisch."
+        print_info(
+            f"Preset: {preset.get('name', preset_id)} · KB: {kb_id} · "
+            f"geändert erfolgreich: {len(changed) - len(link_failures)}, "
+            f"fehlgeschlagen: {len(link_failures)}, entfernt: {len(removed_names)}."
         )
-    else:
-        print_header("Sync abgeschlossen.")
+        # Harter Fehler-Exit: Der Manifest-Eintrag der gescheiterten Dateien
+        # wurde bewusst NICHT aktualisiert, ein erneuter `--sync` holt sie also
+        # automatisch nach. Aber der Lauf darf nicht als Erfolg gelten — sonst
+        # meldet der Launcher [4] "fertig", obwohl Module fehlen.
+        print_error(
+            f"{len(link_failures)} Datei(en) nicht verknüpft: {', '.join(link_failures)}."
+        )
+        print_info(
+            "     Einfach erneut laufen lassen — holt automatisch nur die "
+            "fehlenden Dateien nach:\n"
+            "       python setup.py --sync\n"
+            "     Bei wiederholtem Fehler / langsamer Hardware:\n"
+            "       export OWUI_ADD_FILE_TIMEOUT=600 && python setup.py --sync"
+        )
+        sys.exit(1)
+
+    print_header("Sync abgeschlossen.")
     print_info(
         f"Preset: {preset.get('name', preset_id)} · KB: {kb_id} · "
         f"geändert erfolgreich: {len(changed) - len(link_failures)}, "
@@ -2335,7 +2375,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
 
     uploaded_ids: list[str] = []
     uploaded_map: dict[str, tuple[str, str]] = {}  # name -> (file_id, md5) for manifest
-    errors = 0
+    upload_failures: list[str] = []
 
     for i, fp in enumerate(kb_files, 1):
         file_id = client.do_upload_file(fp)
@@ -2348,12 +2388,31 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 rel = fp.name
             print_ok(f"[{i}/{len(kb_files)}] {rel}")
         else:
-            print_error(f"[{i}/{len(kb_files)}] {fp.name} — Upload fehlgeschlagen")
-            errors += 1
+            print_error(f"[{i}/{len(kb_files)}] {fp.name} — Upload fehlgeschlagen (nach Retries)")
+            upload_failures.append(fp.name)
 
     print()
-    if errors:
-        print_warn(f"{len(kb_files) - errors}/{len(kb_files)} Dateien hochgeladen ({errors} Fehler)")
+    if upload_failures:
+        # Harter Abbruch: Es gibt keinen sinnvollen Teil-Zustand. Eine fehlende
+        # Wissensdatei macht ein anderes (kaputtes) Spiel — die KI-SL hätte
+        # stille Lücken, die der Spieler erst mitten in einer Mission merkt.
+        # Lieber jetzt laut scheitern als später leise falsch spielen.
+        print_error(
+            f"{len(kb_files) - len(upload_failures)}/{len(kb_files)} Dateien hochgeladen — "
+            f"{len(upload_failures)} fehlgeschlagen: {', '.join(upload_failures)}"
+        )
+        print_error(
+            "Setup abgebrochen: ZEITRISS braucht ALLE Wissensdateien. "
+            "Ein unvollständiger Wissensspeicher ist kein abgespecktes, sondern "
+            "ein kaputtes Spiel."
+        )
+        print_info(
+            "     So geht's weiter (holt automatisch nur die fehlenden Dateien nach):\n"
+            "       python setup.py            # erneut versuchen (Full-Rebuild)\n"
+            "     Bei langsamer Hardware / wiederholtem Timeout vorher:\n"
+            "       export OWUI_UPLOAD_TIMEOUT=300"
+        )
+        sys.exit(1)
     else:
         print_ok(f"Alle {len(kb_files)} Dateien hochgeladen")
 
@@ -2361,7 +2420,9 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print_info("Verknüpfe Dateien mit Knowledge Base...")
 
     api_ok = 0
-    api_fail = 0
+    link_failures: list[str] = []
+    # uploaded_ids und uploaded_map sind gleich befüllt; Name für Reporting holen.
+    id_to_name = {fid: name for name, (fid, _md5) in uploaded_map.items()}
     for fid in uploaded_ids:
         if client.add_file_to_knowledge(kb_id, fid):
             api_ok += 1
@@ -2371,20 +2432,33 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             if client.add_file_to_knowledge(kb_id, fid):
                 api_ok += 1
             else:
-                api_fail += 1
+                link_failures.append(id_to_name.get(fid, fid))
 
     # Truth source: HTTP 200 on /file/add means the link was persisted.
     # `GET /knowledge/{id}.files` is null across several OpenWebUI versions,
     # so we don't count on it. The real end-to-end signal is the Retrieval-Check
     # below — if it returns chunks from the expected files, linkage is good.
     expected = len(uploaded_ids)
-    if api_fail == 0:
+    if not link_failures:
         print_ok(f"Alle {api_ok} Dateien verknüpft (HTTP 200)")
     else:
-        print_warn(
-            f"{api_ok}/{expected} Dateien via API verknüpft, "
-            f"{api_fail} Fehler — Retrieval-Check zeigt gleich, ob’s trotzdem reicht."
+        # Gleiche Logik wie beim Upload: eine nicht verlinkte Datei ist eine
+        # stille Retrieval-Lücke. Kein grünes Weiterlaufen bei Teil-Zustand.
+        print_error(
+            f"{api_ok}/{expected} Dateien verknüpft — "
+            f"{len(link_failures)} fehlgeschlagen: {', '.join(link_failures)}"
         )
+        print_error(
+            "Setup abgebrochen: Eine nicht verknüpfte Wissensdatei fällt aus dem "
+            "Retrieval — die KI-SL spielt dann mit Lücken."
+        )
+        print_info(
+            "     So geht's weiter (holt die fehlenden Dateien nach):\n"
+            "       python setup.py --sync     # nur fehlende/geänderte Dateien\n"
+            "     Bei wiederholtem Fehler / langsamer Hardware:\n"
+            "       export OWUI_ADD_FILE_TIMEOUT=600 && python setup.py"
+        )
+        sys.exit(1)
 
     # ── Model preset ─────────────────────────────────────────────────
     print()
