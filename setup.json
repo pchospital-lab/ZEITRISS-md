@@ -26,6 +26,15 @@
   "litellm": {
     "port": 4000
   },
+  "launcher": {
+    "name": "ZEITRISS",
+    "tagline": "Tech-Noir Zeitreise-RPG",
+    "noun": "Spiel",
+    "start_label": "Spiel starten",
+    "start_hint": "In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'\nAlternativ 'Spiel starten (solo schnell)' als Fast-Lane (optional) für Kurzrunden,\noder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'.",
+    "farewell": "Bis bald, Chrononaut.",
+    "export_intro": "Ich packe das ZEITRISS-Regelwerk (Masterprompt + Wissensmodule)"
+  },
   "model_catalog": {
     "Sonnet 4.6 (Anthropic, gecacht)": "openrouter/anthropic/claude-sonnet-4.6",
     "DeepSeek V3.2 (Budget, ohne LiteLLM)": "openrouter/deepseek/deepseek-v3.2",
