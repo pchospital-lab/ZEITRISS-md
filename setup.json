@@ -19,7 +19,10 @@
   ],
   "verify": {
     "query": "Paradoxon Meilenstein Px 5 ClusterCreate Rift",
-    "expect_any": ["CLUSTERCREATE", "Rift"],
+    "expect_any": [
+      "CLUSTERCREATE",
+      "Rift"
+    ],
     "expect_sources_min": 1,
     "top_k": 5
   },
@@ -33,7 +36,9 @@
     "start_label": "Spiel starten",
     "start_hint": "In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'\nAlternativ 'Spiel starten (solo schnell)' als Fast-Lane (optional) für Kurzrunden,\noder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'.",
     "farewell": "Bis bald, Chrononaut.",
-    "export_intro": "Ich packe das ZEITRISS-Regelwerk (Masterprompt + Wissensmodule)"
+    "export_intro": "Ich packe das ZEITRISS-Regelwerk (Masterprompt + Wissensmodule)",
+    "lore_moment": "Bergungs-Moment",
+    "lore_label": "eingerahmt als ITI-Bergung"
   },
   "model_catalog": {
     "Sonnet 4.6 (Anthropic, gecacht)": "openrouter/anthropic/claude-sonnet-4.6",
