@@ -473,14 +473,57 @@ class APIClient:
         return data
 
     def list_files(self) -> list[dict]:
-        code, data = self.get("/api/v1/files/")
-        if code != 200:
-            return []
-        if isinstance(data, dict) and "items" in data:
-            return data["items"]
-        if isinstance(data, list):
-            return data
-        return []
+        """Listet ALLE File-Entities — paginiert.
+
+        OpenWebUI 0.9.5 hat `/api/v1/files/` auf serverseitige Pagination
+        umgestellt (Default 50 Items pro Seite, `?page=N`, plus `total`-Feld).
+        Frueher kam die komplette Liste in einem Rutsch. Ohne Pagination liest
+        der Coverage-Check nur die erste 50er-Seite und meldet je nach
+        Seiten-Reihenfolge wild schwankende Fehlalarme (z. B. "1/20 in der KB",
+        obwohl alle Dateien verknuepft sind), weil die KB-Files auf spaeteren
+        Seiten liegen. Wir sammeln daher alle Seiten ein, bis `total` erreicht
+        ist oder eine Seite nichts Neues mehr liefert.
+
+        Aeltere OpenWebUI-Versionen, die eine reine Liste (statt `{items,total}`)
+        zurueckgeben, kennen keine Pagination — dann brechen wir nach der ersten
+        Antwort ab (rueckwaertskompatibel).
+
+        Dedupe: ueberlappende Seiten (gleiches File auf zwei Seiten) werden
+        ueber ein `seen`-Set abgefangen, damit kein File doppelt gezaehlt wird.
+        """
+        out: list[dict] = []
+        seen: set[str] = set()
+        page = 1
+        while True:
+            code, data = self.get(f"/api/v1/files/?page={page}")
+            if code != 200:
+                break
+            if isinstance(data, list):
+                # Alte API ohne Pagination: komplette Liste, fertig.
+                return data
+            if not isinstance(data, dict):
+                break
+            items = data.get("items") or []
+            added_this_page = 0
+            for f in items:
+                fid = f.get("id")
+                if fid and fid not in seen:
+                    seen.add(fid)
+                    out.append(f)
+                    added_this_page += 1
+            total = data.get("total")
+            if added_this_page == 0:
+                # Keine neuen Items mehr — auch der Fall, wenn `total` fehlt.
+                break
+            if total is not None and len(out) >= total:
+                break
+            page += 1
+            # Sicherung gegen Endlosschleife: 200 Seiten x 50 Items ~ 10k Files.
+            # Bei einer Instanz mit mehr als ~10k Files hier erhoehen, sonst
+            # liefert list_files() wieder unvollstaendig (stiller Teil-Read).
+            if page > 200:
+                break
+        return out
 
     def delete_file(self, file_id: str) -> bool:
         code, _ = self.delete(f"/api/v1/files/{file_id}")
