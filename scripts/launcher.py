@@ -356,6 +356,12 @@ def meta() -> dict:
             "export_intro",
             f"Ich packe den {name}-Inhalt (Masterprompt + Wissensmodule)",
         ),
+        # Begriff fürs Lore-Setup-Erlebnis ([L]) — projektgerecht, da das
+        # narrative Framing pro Bausatz anders ist (ZEITRISS: Bergung,
+        # Privacy Odyssey: Link-Aufschaltung). Nur relevant, wenn rite.py da ist.
+        "lore_moment": lb.get("lore_moment", "Lore-Moment"),
+        # Kurzes Framing-Label hinter dem [L]-Menüpunkt ("eingerahmt als …").
+        "lore_label": lb.get("lore_label", "narrativ eingerahmt"),
     }
     _META_CACHE = m
     return m
@@ -543,9 +549,9 @@ def action_install_lore() -> None:
         print(bold("\n  [L] Lore-Setup\n"))
         print(green(f"  ✓ {meta()['name']} ist bereits eingerichtet."))
         print()
-        print("  Das Lore-Setup ist der Bergungs-Moment — den gibt es nur einmal.")
+        print(f"  Das Lore-Setup ist der {meta()['lore_moment']} — den gibt es nur einmal.")
         print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um.")
-        print(dim("  Wenn du das Bergungs-Ritual neu erleben willst:"))
+        print(dim("  Wenn du das Lore-Ritual neu erleben willst:"))
         print(dim("    → [7] Reset → [L] Lore-Setup"))
         print()
         ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
@@ -770,10 +776,31 @@ def action_install(*, _skip_state_check: bool = False) -> None:
     _pause()
 
 
+def _git_cmd() -> list[str]:
+    """Basis-Git-Kommando — standardmäßig `git`, optional ueberschreibbar.
+
+    Der Enduser clont das Repo mit seinem eigenen Auth (HTTPS-Credential-
+    Manager oder SSH); fuer ihn funktioniert plain `git pull` ohne Zutun.
+
+    Wer einen eigenen Git-Wrapper braucht (z.B. ein Maintainer mit
+    Custom-Credential-Helper / Multi-Account-Setup), setzt die Umgebungs-
+    variable `LAUNCHER_GIT` auf den Wrapper-Namen oder -Pfad — dann laufen
+    alle Pull-/Stash-Operationen darueber. Beispiel: `LAUNCHER_GIT=ghrepo`.
+    Mehrteilige Kommandos werden per Whitespace gesplittet.
+    """
+    override = os.environ.get("LAUNCHER_GIT", "").strip()
+    return override.split() if override else ["git"]
+
+
 def _git(*args: str) -> subprocess.CompletedProcess:
-    """Thin wrapper: git -C REPO <args>, erfasst stdout+stderr."""
+    """Thin wrapper: <git-cmd> -C REPO <args>, erfasst stdout+stderr.
+
+    Das Git-Kommando kommt aus `_git_cmd()` (Default `git`, per `LAUNCHER_GIT`
+    ueberschreibbar). `-C REPO` wirkt auch auf Wrapper, die git-Argumente
+    durchreichen.
+    """
     return subprocess.run(
-        ["git", "-C", str(REPO), *args],
+        [*_git_cmd(), "-C", str(REPO), *args],
         capture_output=True, text=True,
     )
 
@@ -1595,7 +1622,7 @@ def main() -> int:
         print(dim("  ── Einrichtung (wähle einen Weg) ──────────────")) 
         print("   [1]  Komplett-Setup in OpenWebUI (empfohlen, Golden Setup)")
         if has_lore:
-            print("   [L]  Lore-Setup — wie [1], eingerahmt als ITI-Bergung")
+            print(f"   [L]  Lore-Setup — wie [1], {m['lore_label']}")
         print("   [2]  Inhalt woanders nutzen (Export-Paket, ohne Gewähr)")
         print()
         print(dim("  ── Im Betrieb ───────────────────────────────"))
