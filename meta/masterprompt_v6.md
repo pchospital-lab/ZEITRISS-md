@@ -979,6 +979,7 @@ klassischer Pfad" und macht klassisch weiter).
     "px_state": "stable",
     "heat": 0,
     "mode": "mixed",
+    "epoch": null,
     "rift_seeds": [],
     "entry_choice_skipped": false,
     "episode_start": null,
