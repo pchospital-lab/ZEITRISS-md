@@ -269,14 +269,19 @@ assert.strictEqual(
 // README-spezifische Assertions weiter unten). Die konkreten Runtime-Entry-
 // Befehle (`Spiel starten (solo klassisch)` etc.) leben in den drei Entry-
 // Layer-Dokumenten, die der Nutzer _zwischen_ Setup und erstem Chat sieht:
-// Setup-Guide (Doku-SSOT), Launcher (Runtime-SSOT) und der Deprecation-Shim
-// setup-openwebui.sh (Legacy-Fallback). Alle drei müssen die Entry-Regeln
-// konsistent tragen, damit kein Nutzer nach dem Setup ohne Startbefehl
-// dasteht.
+// Setup-Guide (Doku-SSOT), Launcher-Identität setup.json (Runtime-SSOT) und der
+// Deprecation-Shim setup-openwebui.sh (Legacy-Fallback). Alle drei müssen die
+// Entry-Regeln konsistent tragen, damit kein Nutzer nach dem Setup ohne
+// Startbefehl dasteht.
+//
+// Hinweis: Seit dem Launcher-Shim-Refactor (#3218/#3219) ist scripts/zeitriss.py
+// nur noch ein dünner Einstiegspunkt ohne eigenes Wording; das 'Spiel starten
+// (solo klassisch)'-Wording + Lore lebt jetzt im launcher/suggestions-Block von
+// setup.json. Darum prüft der Watchguard setup.json statt des Shims.
 const entryLayerDocs = [
   'docs/setup-guide.md',
   'scripts/setup-openwebui.sh',
-  'scripts/zeitriss.py'
+  'setup.json'
 ];
 
 const entryRules = [
