@@ -780,7 +780,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | ------------ | ------------ | ------------------------- | ---------------------------------------------------- |
 | **Fail**     | < SG         | 4 auf W6 → Misserfolg     | -                                                    |
 | **Success**  | ≥ SG         | 6 explodiert, dann 5 → 11 | pro 3 TEMP 1 PP (CHA als Willenskraft vs 2×Psi-Heat) |
-| **Critical** | ≥ SG + 5     | 10 → 10 → 3 = 23          | PP-Pool voll nach Kampf                              |
+| **Critical** | ≥ SG + 5     | 10 → 10 = 20 (Burst-Cap)  | PP-Pool voll nach Kampf                              |
 
 ### Quick Reference (2 Seiten)
 

@@ -733,7 +733,7 @@ damit die Exploding-Regel greift.
 
 Explodierende Sequenzen werden mit `!exploding` oder `[W6*]`
 gekennzeichnet und laut ausgegeben, z. B.
-`Exploding 6 → 6 → 2 = 14`.
+`Exploding 6 → 6 = 12`.
 
 ## Typische Sprachmuster & Satzvorlagen
 
