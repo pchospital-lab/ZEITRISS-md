@@ -719,7 +719,7 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
 
 ## Nützliche Alltagsausrüstung (1W6) {#gear_t1}
 
-1. **Epocheangepasstes Werkzeugset** – Passt sich automatisch an die Zeitepoche an; Bonus +1 auf
+1. **Robustes Werkzeugset** – Vielseitiges Set (Zangen, Klingen, Draht, Klebeband); Bonus +1 auf
    Reparatur-/Bastelwürfe. Wert: 80 CU. `altSkin: "Römer-Werkzeug 50 n.Chr."`
 2. **Mini-Drohne** – Handliche Aufklärungsdrohne, Reichweite 200 m. Wert: 120 CU. Praktisch für
    Kundschaft in weitläufigen Arealen. `altSkin: "Botenvogel 1350"`
