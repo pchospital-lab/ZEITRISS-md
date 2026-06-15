@@ -180,6 +180,14 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Falls
   `state.flags.runtime.skip_entry_choice` oder `campaign.entry_choice_skipped`
   gesetzt ist, beschreibe den zuletzt gewählten Stil nur knapp.
+- **Concealment-Start ab SC1:** Der Core-EntryChoice
+  setzt den Tarnstatus 👁️ für Szene 1 und damit den Concealment-Start am Hotspot
+  (Masterprompt §C Hotspot-Concealment-Start-Pflichtgate): **Cover/Silent →**
+  `👁️ verdeckt` (physisch ungesehen), **Asset →** `👁️ getarnt` (sozial/Undercover).
+  `SC 01` beginnt **direkt am Ziel** (IA dort), nicht als Anreise-Szene; ein Patzer
+  oder lauter Zug kippt 👁️ auf `enttarnt` (über bestehende Proben + Heat, kein eigener
+  Würfel). Lauter Einstieg oder MS8+ → `👁️ offen` (frontal, sofort Action). Siehe
+  Tarnstatus-Skala in `characters/hud-system.md` §Tarnstatus.
 - **Casefile-Anchors:** Rift-HUD zeigt `MODE RIFT · CASE <ID>: <Label> · HOOK …`; Seeds
   werden beim Laden normalisiert (`label/seed_tier/hook`) und aus dem Seed-Katalog
   aufgefüllt, falls Felder fehlen.

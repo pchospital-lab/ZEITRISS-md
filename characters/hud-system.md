@@ -381,7 +381,7 @@ _Kodex:_
 | ❤️‍🩹              | Vitalstatus                                                |
 | 🧠              | Stresslevel                                                |
 | Lvl + XP-Balken | Charakterlevel (Phase 1: `Lvl 3 ▓▓▓░░░░░░░` ohne XP-Stand, Phase 2: `Lvl 14 ▓▓░░░ 1/2 XP` mit XP-Stand) |
-| 👁️              | Tarnung/Sichtbarkeit                                       |
+| 👁️              | Tarnung/Sichtbarkeit (`verdeckt` / `getarnt` / `enttarnt` / `offen`) |
 
 **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):
 
@@ -398,6 +398,28 @@ _Kodex:_
 
 **Icon-Klarheit (SSOT):** `🌀` steht exklusiv für den Paradoxon-Index;
 `✋` markiert den TK-Nahkampf-Cooldown.
+
+#### Tarnstatus 👁️ (Concealment) {#tarnstatus}
+
+Der Tarnstatus ist **ab `SC 01` aktiv** und in jedem Feld-HUD sichtbar — er trägt
+den Concealment-Start jeder Core-Mission (siehe Masterprompt §C
+Hotspot-Concealment-Start-Pflichtgate). Der im Briefing gewählte Angriffspunkt
+(EntryChoice) setzt den Anfangswert:
+
+| Anzeige           | Bedeutung                                                            |
+| ----------------- | -------------------------------------------------------------------- |
+| `👁️ verdeckt`     | Physisch ungesehen (Silent/Cover-Einstieg: Schatten, Tunnel, Dach)   |
+| `👁️ getarnt`      | Sozial getarnt (Asset/Social-Einstieg: Undercover, die Rolle hält)   |
+| `👁️ enttarnt`     | Tarnung gekippt — Heat/Stress steigen, Szene wird offene Konfrontation |
+| `👁️ offen`        | Kein Concealment (lauter Einstieg oder MS8+ frontal): sofort Action  |
+
+**Kipp-Punkt:** `verdeckt`/`getarnt` kippt auf `enttarnt` durch einen Patzer, eine
+laute Aktion oder einen durchschauten Social-Zug — **kein eigener Würfel**, der Kipp
+läuft über bestehende Proben + Heat. Die KI-SL vermittelt ihn in-world (*„Der Wachmann
+hält inne, mustert dich eine Sekunde zu lang — deine Tarnung bröckelt“*), nicht als
+nackte Statuszeile. Ist der Tarnstatus `enttarnt`, gelten die normalen Konflikt-/
+Kampfregeln; eine spätere Rück-Tarnung ist möglich (Abschütteln, neue Verkleidung),
+verlangt aber eine erfolgreiche Probe und einen ruhigen Beat.
 
 #### Risk-Level-Badges {#risk-level-badges}
 

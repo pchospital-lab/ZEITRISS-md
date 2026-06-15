@@ -490,7 +490,7 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 |  3-4 | Welt wird wachsam — mehr Patrouillen, Kontrollen; eine Fraktion beobachtet die Crew |
 |    5 | Aktive Fahndung — nächste Mission startet unter erhöhtem Druck                      |
 
-Heat steigt durch laute oder sichtbare Aktionen im Feld: Alarm auslösen, Zeugen hinterlassen, Spotlight-Eskalation, Anachronismus-Sichtung. Er bleibt über Missionen hinweg bestehen — die Welt vergisst nicht sofort. **Ausweg:** Im HQ sinkt Heat um 1 pro Episoden-Übergang (die Spur kühlt ab). Zusätzlich kann die Crew gezielt Spuren verwischen, falsche Fährten legen oder per ITI-Vertuschung gegen CU-Einsatz den Druck senken. Das Ziel ist das Gefühl *„wir müssen vorsichtiger werden"* — kein Dauerfrust, sondern kalkulierbarer Druck. Das HUD-Icon 👁️ Tarnung spiegelt den aktuellen Heat-Stand. **Gilt für Core- und Rift-Ops; nicht für Arena und Chronopolis.**
+Heat steigt durch laute oder sichtbare Aktionen im Feld: Alarm auslösen, Zeugen hinterlassen, Spotlight-Eskalation, Anachronismus-Sichtung. Er bleibt über Missionen hinweg bestehen — die Welt vergisst nicht sofort. **Ausweg:** Im HQ sinkt Heat um 1 pro Episoden-Übergang (die Spur kühlt ab). Zusätzlich kann die Crew gezielt Spuren verwischen, falsche Fährten legen oder per ITI-Vertuschung gegen CU-Einsatz den Druck senken. Das Ziel ist das Gefühl *„wir müssen vorsichtiger werden"* — kein Dauerfrust, sondern kalkulierbarer Druck. Das HUD-Icon 👁️ Tarnung zeigt deinen **Concealment-Zustand** (`verdeckt`/`getarnt`/`enttarnt`/`offen`, siehe Tarnstatus im HUD-System) — enttarnt zu werden **treibt** den Heat, ist aber nicht dasselbe wie der Heat-Stand selbst. **Gilt für Core- und Rift-Ops; nicht für Arena und Chronopolis.**
 
 ### Psi (Kurzversion)
 

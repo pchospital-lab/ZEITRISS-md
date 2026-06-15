@@ -55,6 +55,10 @@ List of documented `LINT:` anchors grouped by feature.
 - `LINT:CORE_BOSS_M05_M10`
 - `LINT:BOSS_SCENE10_RIFT`
 
+## Mission Pacing
+
+- `LINT:SC1_CONCEALMENT_HOT`
+
 ## Px HUD
 
 - `LINT:PX5_SEED_GATE`

@@ -404,6 +404,7 @@ mechanische Effekt greift.
 ⟨% if campaign.type == "core" %⟩
   ⟨% set campaign.scene_total = 12 %⟩
   ⟨# LINT:CORE_BOSS_M05_M10 #⟩
+  ⟨# LINT:SC1_CONCEALMENT_HOT — SC1 startet am Hotspot mit aktivem Tarnstatus (Masterprompt §C); EntryChoice Cover/Silent→verdeckt, Asset→getarnt, laut/MS8+→offen #⟩
   ⟨% set campaign.boss_allowed = (campaign.mission_in_episode in [5,10]) %⟩
   ⟨% set campaign.artifact_allowed = false %⟩
 ⟨% elif campaign.type == "rift" %⟩
