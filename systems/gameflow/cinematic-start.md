@@ -29,6 +29,9 @@ folgt ein Establishing Shot der Zielrealität.
 oder manuell. Im klassischen Pfad folgt danach zuerst Heimkehrbeat +
 Chargen-Save-Gate im HQ; Briefing startet erst nach expliziter Wahl.
 
+> Beim echten Neustart spielt die KI-SL **davor** den Welt-Einleitungs-Crawl (Masterprompt
+> §I Sessionstart). Modul 13 regelt den filmischen Start ab HQ/Mission, nicht den Welt-Crawl.
+
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
 Danach folgt im klassischen Pfad verpflichtend der **Heimkehrbeat im HQ** mit
 Chargen-Save-Gate (`!save` anbieten, kein Auto-Briefing). Erst nach

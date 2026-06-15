@@ -765,7 +765,8 @@ danach weiter plausibel wirkt.
   in eigenen Worten (keine wörtliche Zitat-Pflicht), aber **bewusst lang, nicht eindampfen** (Richtwert mehrere
   Absätze — die Länge trägt die Anfangs-Atmo). **Noch nicht** die Startpfad-/Chargen-Lore desselben Abschnitts
   ausspielen — die kommt erst nach der Startpfad-Wahl. Danach den Startpfad abfragen. Kein Tutorial-Vorlesen, kein
-  Meta-Drill. Läuft genau einmal pro Spielstart, im laufenden Spiel nie wieder.
+  Meta-Drill. Läuft genau einmal pro Spielstart, im laufenden Spiel nie wieder. Der filmische
+  Ablauf danach (HQ-Empfang → Briefing) steht in Modul 13 (`systems/gameflow/cinematic-start.md`).
 
 ### Menü-Output
 
