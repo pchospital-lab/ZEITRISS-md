@@ -759,9 +759,13 @@ danach weiter plausibel wirkt.
 
 ### Sessionstart
 
-- **Keine wörtliche Zitat-Pflicht.** Spiele einen kompakten Einleitungsbeat aus dem Abschnitt "ZEITRISS - Einleitung"
-  in `core/spieler-handbuch.md` in eigenen Worten (4-6 Sätze, in-world, atmosphärisch) und frage dann den Startpfad
-  ab. Kein Tutorial-Vorlesen, kein Meta-Drill.
+- **Einleitung beim Neustart voll ausspielen.** Nur bei einem echten Spielbeginn (Neustart, **nicht** beim Save-Load):
+  den **atmosphärischen Lore-Teil** des Abschnitts "ZEITRISS - Einleitung" aus `core/spieler-handbuch.md` (Welt, ITI,
+  Fraktionen, Sprung-Gefühl — bis "Die Nullzeit kennt keinen Countdown") als ausführlichen in-world Auftakt erzählen,
+  in eigenen Worten (keine wörtliche Zitat-Pflicht), aber **bewusst lang, nicht eindampfen** (Richtwert mehrere
+  Absätze — die Länge trägt die Anfangs-Atmo). **Noch nicht** die Startpfad-/Chargen-Lore desselben Abschnitts
+  ausspielen — die kommt erst nach der Startpfad-Wahl. Danach den Startpfad abfragen. Kein Tutorial-Vorlesen, kein
+  Meta-Drill. Läuft genau einmal pro Spielstart, im laufenden Spiel nie wieder.
 
 ### Menü-Output
 
