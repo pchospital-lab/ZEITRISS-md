@@ -1200,6 +1200,28 @@ Ein **Arc** setzt sich aus mehreren Episoden desselben historischen Hotspots zus
 Die Handlung verläuft in der Regel vorwärts. Ein einzelner Rücksprung pro Arc
 ist erlaubt, darf jedoch keine Selbstbegegnung ermöglichen.
 
+> **Epochenübergreifende Verschwörung — wo lebt sie? (nicht im Arc)**
+> **Regel zuerst:** Ein Epochenwechsel ist immer ein **Arc-Sprung** (neuer Arc, neue Epoche,
+> derselbe übergeordnete Verschwörungs-Strang) — **nicht** ein Multi-Zeit-Sicht-Split (der bleibt
+> definitionsgemäß **im selben Arc/Hotspot**, siehe unten) und **nicht** der einzelne erlaubte
+> Rücksprung pro Arc.
+>
+> **Warum:** Der Arc bleibt bewusst **Hotspot-fix** (eine Epoche über seine Episoden) — das
+> schützt den Self-Collision-Guard und hält jede Episode immersiv in **einer** Ära
+> (`episode.setting_lock`). Der große Strang dagegen — dieselbe Fremdfraktion hinter einem
+> Bankraub der 1920er **und** einem Reaktorzwischenfall der 1980er — lebt eine Ebene höher auf
+> der **Kampagnen-Ebene** (der „rote Faden“ über alle Arcs, siehe Kampagnenhierarchie).
+>
+> **Persistenz:** Der epochenübergreifende Strang wird allein über `research`-Projekte mit
+> **`scope: "campaign"`** getragen (episodenübergreifend, kein Cap, reift über Epochenwechsel
+> hinweg — siehe Masterprompt §C Research-Fortschritt-Pflichtgate). `arc.factions`/`arc.hooks`
+> sind **arc-scoped** und werden pro neuem Arc **erneut gesetzt** (wiederkehrende Fraktion/Hook),
+> nicht als arcübergreifender Speicher missverstehen.
+>
+> **Leak-Verbot:** Innerhalb einer gelockten Episode bleibt der Strang **unsichtbar** bis auf
+> Research-Funde und wiederkehrende Fraktions-Hinweise — **niemals** als zweite, on-screen
+> gespielte Epoche (Setting-Lock, konsistent mit MS1-2: Verschwörung bleibt Schatten am Horizont).
+
 ```pseudo
 if last_player_epoch == requested_epoch
    and abs(Δt) < 6h:
