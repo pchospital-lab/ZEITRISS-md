@@ -574,6 +574,7 @@ def main() -> int:
     req(r"scene_total\s*=\s*14", tk, "Rift: 14 Szenen gesetzt", fails)
     req(r"LINT:BOSS_SCENE10_RIFT", tk, "Boss-Hook vorhanden", fails)
     req(r"LINT:CORE_BOSS_M05_M10", tk, "Core-Boss nur in Mission 5/10 erlaubt", fails)
+    req(r"LINT:SC1_CONCEALMENT_HOT", tk, "Hotspot-Concealment-Start ab SC1 verankert", fails)
 
     # DelayConflict & Finale
     req(r"DelayConflict\(\s*4\s*\)", tk, "DelayConflict(4) aktiv", fails)

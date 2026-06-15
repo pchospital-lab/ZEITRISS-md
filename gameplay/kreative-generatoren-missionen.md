@@ -96,10 +96,12 @@ Standard-Transferwerte:
 
 > **Action ist der Kern jeder Core-Op.** Aufklärung und Verschwörungs-Reveals
 > werden **nebenbei während** der Infiltrations- und Konflikt-Szenen aufgedeckt,
-> nicht als eigene vorgeschaltete Beobachtungs-Phase. SC1–2 (Anreise/Auftakt)
-> bleiben **knapp** — der Kern-Auftrag (Ort + Ziel-Objekt/Person + Abschluss-Event)
-> trägt die Mission ab SC3. Siehe Masterprompt §C Mission-Integrität-Pflichtgate
-> Regel 4 (Harter Kern-Auftrag).
+> nicht als eigene vorgeschaltete Beobachtungs-Phase. **`SC 01` startet bereits am
+> Hotspot, geladen** — die Crew springt direkt ins Operationsgebiet (IA dort, kein
+> Anreise-Fußweg), Tarnstatus aktiv ab dem Sprung, ein Patzer kippt ihn. `SC1–2`
+> sind **aktive Annäherung unter Gefahr** (positionieren, scouten, Zugang suchen),
+> **nicht** passives Lage-Sondieren aus sicherer Distanz. Siehe Masterprompt §C
+> **Hotspot-Concealment-Start-Pflichtgate** + Mission-Integrität-Pflichtgate Regel 4.
 >
 > **Briefing** liegt **vor Szene 1** als HQ-Phase (Nullzeit, `SC 00/--`).
 > **Debrief** liegt **nach Szene 12** als HQ-Auto-Sequenz. Beide zählen nicht
@@ -109,8 +111,8 @@ Standard-Transferwerte:
 | Position     | Phase        | Zweck                 |
 | ------------ | ------------ | --------------------- |
 | _HQ (vor 1)_ | Briefing     | Auftrag erhalten      |
-| 1            | Anreise      | Sprung oder Reise     |
-| 2            | Auftakt      | Lage sondieren        |
+| 1            | Insertion    | Sprung an den Hotspot — Concealment-Start, Tarnstatus aktiv |
+| 2            | Annäherung   | Positionieren & scouten unter Gefahr |
 | 3            | Infiltration | Zugang schaffen       |
 | 4            | Kontakt      | Info beschaffen       |
 | 5            | Konflikt I   | erster Gegnerkontakt  |
@@ -241,8 +243,14 @@ Operationsgebiet — kein Abseits, keine 2-Stunden-Anreise zum Land-IA.
 
 1. **Charakter** — Wurf oder Wahl aus den vier Profilen oben. **Plattes Feld am
    Stadtrand, Hinterhof, x-beliebige Wiese sind nicht zulässig.**
-2. **Nähe** — zu Fuß oder per Epochen-Verkehrsmittel `≤ 30 min` vom
-   Operationsgebiet erreichbar.
+2. **Direkt am Hotspot** — der IA liegt **im oder unmittelbar am**
+   Operationsgebiet, nicht in Anreise-Distanz davor: die Krypta **unter** dem
+   Zielkomplex, der Wartungsschacht **im** Gebäude, das Dach **gegenüber** mit
+   Sichtlinie, der Lieferanten-Hof **hinter** dem Ziel. Nach dem Sprung steht die
+   Crew bereits in der ersten Bedrohungszone (`SC 01` = Concealment-Start, siehe
+   Masterprompt §C Hotspot-Concealment-Start-Pflichtgate) — **kein** Fußweg quer
+   durch die Stadt, **keine** zahme Anreise-Szene. Faustregel: vom IA zum
+   Ziel-Objekt sind es Schritte oder eine Tür, keine 30 Minuten.
 3. **Beschreibung im Sprung** — zwei bis vier Sätze sensorischer Verankerung
    beim IA-Transfer (Geruch, Klang, Lichtfall, was den Ort besonders macht,
    warum er Zeit-tauglich wirkt).
@@ -254,11 +262,14 @@ Operationsgebiet — kein Abseits, keine 2-Stunden-Anreise zum Land-IA.
 **Beispiel-Generator-Output:**
 
 ```
-Epoche: Wien 1913 · Operationsgebiet: Innere Stadt
+Epoche: Wien 1913 · Operationsgebiet: Palais am Graben (Ziel: Kurier im 2. Stock)
 IA-Wurf: W4 = 1 (Historisch verdichtet)
-IA: Krypta unter dem Stephansdom — ungenutzter Seitengang
-    hinter den Habsburger-Sarkophagen. Kalter Stein, Weihrauch-
-    Spuren, das Echo der Schritte oben. Seit MS3 vertraut.
+IA: Gruft der Hauskapelle DIREKT UNTER dem Zielgebäude — ein
+    zugemauerter Seitengang, der auf den Lieferanten-Hinterhof des
+    Hauses führt. Kalter Stein, Weihrauch-Spuren, über dir die
+    gedämpften Schritte des Ziels. Seit MS3 vertraut.
+    → SC 01: Crew steht im Hinterhof, Tarnstatus aktiv, die
+      Hintertür drei Schritte entfernt. Kein Anmarsch.
 RW: Identisch mit IA (Standard). Alt-Anchor bei Kompromittierung:
     Schnürboden des Theaters an der Wien (Profil 4 - liminal).
 ```
@@ -279,6 +290,12 @@ RW: Identisch mit IA. Alt-Anchor: Friedhof Trinity Churchyard
 - *„Ein Hinterhof an der Hauptstraße.“* — austauschbar, keine Zeit-Tauglichkeit.
 - *„Ein Parkplatz beim Industriegebiet.“* — Spionage-Generik, nicht ZEITRISS.
 - *„Ein Lagerschuppen außerhalb der Stadt.“* — zu weit weg und ohne Charakter.
+- *„Ein Café zwei Straßen vom Ziel, um die Lage zu beobachten.“* — **Distanz-Falle:**
+  zwingt eine zahme Anreise- und Beobachtungs-Szene auf, bevor etwas passiert.
+  Der IA gehört **an** das Ziel (Hinterhof, Gruft darunter, Dach gegenüber),
+  nicht in Sicht-Distanz davor (siehe Masterprompt §C Hotspot-Concealment-Start).
+  Charakter allein genügt nicht — ein stimmungsvolles Wiener Kaffeehaus ist trotzdem
+  ein Anti-Pattern, wenn es nur Beobachtungsposten in Distanz ist.
 
 **Far-Future / extraterrestrische Rifts:** Bei Settings ohne historische
 Substanz (Mondbasis, Raumschiff, Tiefsee-Habitat, Asteroiden-Außenposten) trägt

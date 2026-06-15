@@ -817,8 +817,11 @@ if episode_completed:
 
 #### Aktaufteilung pro Missionstyp
 
-- **Core (Thrillerton, 12 Szenen):** Akt A (1-4) Setup, Anreise und erster Konflikt, Akt B (5-9)
-  Intel-Twist und Sicherungsvorbereitung, Akt C (10-12) Showdown/Flucht und Exfil. Das
+- **Core (Thrillerton, 12 Szenen):** Akt A (1-4) Concealment-Start am Hotspot, Annäherung
+  unter Gefahr und erster Konflikt, Akt B (5-9)
+  Intel-Twist und Sicherungsvorbereitung, Akt C (10-12) Showdown/Flucht und Exfil. **`SC 01`
+  startet direkt am Ziel, geladen** — keine separate Anreise-Szene (siehe Masterprompt §C
+  Hotspot-Concealment-Start-Pflichtgate). Das
   Boss-Gate öffnet frühestens bei Szene 10 und verlangt **4** eindeutige Foreshadow-Marker
   (Mission 4 und 9 je zwei).
 - **Rift (Film-Template mit Mid-Twist, 14 Szenen):** Akt A (1-4) Tatort & erste Spur,
@@ -1047,8 +1050,11 @@ haben ihre eigenen 14 Szenen, die Mechanik greift dort ab Szene 11
 ### Cinematic Arc {#cinematic-arc}
 
 Missionen entfalten ihre Wirkung durch einen **knappen, spürbaren Einstieg** — nicht
-durch Länge. Plane höchstens **ein bis zwei kurze Szenen** für Ankunft und erste
-Lage, dann setzt der Kern-Auftrag ein. Der **12-Szenen-Korridor ist die Soll-Länge,
+durch Länge. **`SC 01` ist keine Anreise-Szene:** die Crew springt direkt an den
+Hotspot und ist ab dem ersten Moment unter latenter Entdeckung (Tarnstatus aktiv,
+siehe Masterprompt §C Hotspot-Concealment-Start-Pflichtgate). Annäherung und Scouten
+laufen **am Ziel und unter Gefahr**, nicht als zahme Beobachtung aus sicherer Distanz —
+dann setzt der Kern-Auftrag ein. Der **12-Szenen-Korridor ist die Soll-Länge,
 nicht die Untergrenze**: Die Mission bleibt **dicht und zielgerichtet**, jede Szene trägt
 den Kern-Auftrag voran. Aufklärung und Verschwörungs-Reveals laufen **während** der
 Infiltration und der Konflikte mit, nicht als vorgeschaltete Beobachtungs-Phase.
