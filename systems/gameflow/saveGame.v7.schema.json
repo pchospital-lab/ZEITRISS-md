@@ -85,6 +85,13 @@
             "trigger"
           ]
         },
+        "epoch": {
+          "description": "Aktuelle Episoden-Epoche (Setting-Lock pro Episode). Wird von der Runtime gesetzt (toolkit-runtime-makros set campaign.epoch) und von Boss-Generierung, Rift-/Core-Missionsstart und Chronopolis (campaign.epoch-Übernahme) konsumiert. Optional/Legacy-tolerant: fehlend => null.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "rift_seeds": {
           "type": "array"
         }
