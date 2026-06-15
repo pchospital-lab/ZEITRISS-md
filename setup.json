@@ -34,7 +34,7 @@
     "tagline": "Tech-Noir Zeitreise-RPG",
     "noun": "Spiel",
     "start_label": "Spiel starten",
-    "start_hint": "In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'\nAlternativ 'Spiel starten (solo schnell)' als Fast-Lane (optional) für Kurzrunden,\noder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'.",
+    "start_hint": "In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'\noder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'.",
     "farewell": "Bis bald, Chrononaut.",
     "export_intro": "Ich packe das ZEITRISS-Regelwerk (Masterprompt + Wissensmodule)",
     "lore_moment": "Bergungs-Moment",
