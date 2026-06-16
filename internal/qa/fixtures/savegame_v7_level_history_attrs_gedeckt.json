@@ -14,7 +14,7 @@
       "id": "AGENT-A",
       "name": "Astra",
       "lvl": 13,
-      "wallet": 7200,
+      "wallet": 60400,
       "xp": 0,
       "attr": {
         "STR": 3,
@@ -94,7 +94,12 @@
     }
   ],
   "economy": {
-    "hq_pool": 53200
+    "wallets": {
+      "AGENT-A": {
+        "balance": 60400,
+        "name": "Astra"
+      }
+    }
   },
   "logs": {
     "trace": [

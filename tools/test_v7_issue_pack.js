@@ -15,7 +15,9 @@ function assertBaseV7(save, label){
   assert.ok(Object.prototype.hasOwnProperty.call(save, 'merge_id'), `${label}: merge_id fehlt.`);
   assert.strictEqual(typeof save.branch_id, 'string', `${label}: branch_id fehlt.`);
   assert.ok(Array.isArray(save.characters), `${label}: characters[] fehlt.`);
-  assert.ok(save.economy && Number.isFinite(save.economy.hq_pool), `${label}: economy.hq_pool fehlt.`);
+  assert.ok(save.economy && typeof save.economy === 'object', `${label}: economy-Block fehlt.`);
+  assert.ok(save.characters.every((c) => Number.isFinite(c.wallet)),
+    `${label}: jedes characters[].wallet muss numerisch sein (Geld-SSOT).`);
   assert.ok(save.campaign && typeof save.campaign.px_state === 'string', `${label}: campaign.px_state fehlt.`);
   assert.ok(save.logs && save.logs.flags && Array.isArray(save.logs.flags.continuity_conflicts), `${label}: logs.flags.continuity_conflicts[] fehlt.`);
   assert.ok(save.summaries && typeof save.summaries.summary_active_arcs === 'string', `${label}: summaries.summary_active_arcs muss String sein.`);

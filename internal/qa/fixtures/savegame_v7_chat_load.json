@@ -12,11 +12,15 @@
   "characters": [
     {
       "id": "AGENT-CHAT",
-      "wallet": 1400
+      "wallet": 7800
     }
   ],
   "economy": {
-    "hq_pool": 6400
+    "wallets": {
+      "AGENT-CHAT": {
+        "balance": 7800
+      }
+    }
   },
   "logs": {
     "notes": [

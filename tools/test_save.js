@@ -415,11 +415,17 @@ rt.completeMission({ temp: 1, completed: 'Stabilized' });
 assert.equal(rt.state.campaign.missions_since_px, 1);
 assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
 
+// Wallet-SSOT: economy.cu ist ein berechneter VIEW (= Summe der Wallets), kein
+// gespeicherter Topf. Bei leeren Wallets ist die Gruppenkasse 0, selbst wenn ein
+// Legacy-cu im Eingangsobjekt stand.
 rt.state.economy = { cu: '1500', wallets: {} };
 const hqPoolStatus = rt.apply_wallet_split({}, 0);
-assert.equal(rt.state.economy.cu, 1500);
+assert.equal(rt.state.economy.cu, 0);
+assert.equal(rt.group_treasury_view(rt.state.economy), 0);
 assert.ok(Array.isArray(hqPoolStatus.lines));
 
+// Beim Export spiegelt economy.cu/credits die Summe der Wallets (50 + 125 = 175),
+// nicht den frueheren gespeicherten Topf (1750).
 const economyMirrorSource = JSON.parse(JSON.stringify(base));
 economyMirrorSource.economy = {
   cu: '1750',
@@ -430,7 +436,8 @@ economyMirrorSource.economy = {
 };
 const economyMirrorJson = rt.save_deep(economyMirrorSource);
 const economyMirrorData = JSON.parse(economyMirrorJson);
-assert.equal(economyMirrorData.economy.cu, 1750);
+assert.equal(economyMirrorData.economy.cu, 175);
+assert.equal(economyMirrorData.economy.credits, 175);
 assert.equal(economyMirrorData.economy.wallets.ghost.balance, 50);
 assert.equal(economyMirrorData.economy.wallets.ghost.name, 'Ghost');
 assert.equal(economyMirrorData.economy.wallets.nova.balance, 125);

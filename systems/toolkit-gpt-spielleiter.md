@@ -246,7 +246,8 @@ High-Tech-Power-Fantasy bevorzugen.
   Stoff der Zielzeit an) und erscheint nicht im Equip-Block. **Rohrpost-
   Sekundärkauf:** Was nicht im Storage liegt, kann aus dem HQ-Shop nachbestellt
   werden — Rohrpost ans Briefing-Gate, CU-Abbuchung aus dem persönlichen Wallet
-  (oder HQ-Pool nach Squad-Abstimmung). Cyberware/Bioware-OP per Rohrpost ist
+  des kaufenden Charakters; reicht es nicht, scheitert der Kauf (zum
+  Zusammenlegen vorher CU-Übergabe). Cyberware/Bioware-OP per Rohrpost ist
   **ausgeschlossen** — OPs gehören in die HQ-Phase (Med-Lab).
 - **Anachronismus-Hinweis (Kodex-Beat, nicht Block):** Bei Items, die nicht in
   die Epoche gehören, gibt der Kodex einen kurzen Hinweis mit Empfehlung +
@@ -495,9 +496,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Dokumentiere Gate-Badge (`GATE 2/2` im HUD) und Saisonstand (`Mission FS 0/4` nach dem Reset) für eure Einsatznotizen.
 - **`arenaStart(options)`** - Erwartet ein Objekt mit optional `teamSize`
   (1-4), `mode` (`single`/`squad` …) und `matchPolicy` (`sim`/`lore`). Zieht die
-  Arena-Gebühr aus
-  `economy`, synchronisiert den Betrag per `sync_primary_currency()` auf
-  `economy.hq_pool` und setzt den Arena-Status ausschließlich als Runtime
+  Arena-Gebühr (skaliert am Gruppenvermögen) aus dem **Wallet des eintretenden
+  Charakters** (`characters[].wallet`); reicht es nicht, scheitert der Eintritt.
+  `sync_primary_currency()` spiegelt danach die Gruppenkasse und setzt den
+  Arena-Status ausschließlich als Runtime
   (`runtime_phase='arena'`; temporärer Arena-Zustand in `arena.*`),
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
   (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
@@ -619,24 +621,24 @@ sichtbar.`; der Trace `cluster_create` enthält px_before/after, seed_ids,
   - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus
     `characters[].wallet`. Ohne Vorgaben verteilt die KI-SL die Prämie
     gleichmäßig.
-  - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.hq_pool`. Bleiben nach
-    Sonderverteilungen CU übrig, ergänzt der KI-SL `(Rest … CU im HQ-Pool)`.
+  - `Gruppenkasse: … CU` zeigt die Summe aller Wallets (View). Rest-CU aus
+    Sonderverteilungen gehen an den ersten Charakter (Index 0).
   - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level,
-    `band_reason`, `wallet_avg_scope`, `target_range` für HQ-Pool+Wallet-Schnitt,
+    `band_reason`, `wallet_avg_scope`, `target_range` für Gruppenkasse+Wallet-Schnitt,
     Wallet-Summe, `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein
-    HUD-Toast erscheint nur bei Abweichungen. Beim Laden behalten Session-Anker-HQ-Pool
-    und Session-Anker-Wallets Vorrang; Import-Wallets werden union-by-id angefügt,
+    HUD-Toast erscheint nur bei Abweichungen. Beim Laden behalten die Wallets pro
+    `characters[].id` Vorrang; Import-Wallets werden union-by-id angefügt,
     fehlende Labels aus dem Import ergänzt und abweichende Balances/Labels als
     Merge-Konflikte markiert (`logs.flags.merge_conflicts[]` + Trace
     `merge_conflicts`, `field='wallet'`).
   - Dialogvorschlag: _"Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
-    HQ-Pool belassen."_
+    Rest beim Geber belassen oder per CU-Übergabe umlegen."_
   - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`).
     Der KI-SL bestätigt die Vorgaben, passt die Wallets an und hält Besonderheiten
     im Missionsprotokoll fest.
     - Auch ohne Runtime-Stub führt der KI-SL diese Schritte manuell aus:
-      Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
+      Wallet-Balancen aktualisieren, Gruppenkasse (Summe) nennen, Entscheidung nachhalten.
     - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`,
       `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile;
       nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0-1

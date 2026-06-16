@@ -85,7 +85,9 @@ function runPhaseStrikeArenaCheck(){
   rt.startGroup('klassisch');
   rt.state.campaign.episode = 4;
   rt.state.campaign.mode = 'core';
-  rt.state.economy = { credits: 1500 };
+  // Wallet-SSOT: Geld lebt in den Wallets, nicht in einem Topf. Der eintretende
+  // Charakter (Anker, Index 0) zahlt die Arena-Gebuehr aus seinem Wallet.
+  rt.state.economy = { wallets: {} };
   rt.state.team = {
     size: 3,
     members: [
@@ -93,6 +95,11 @@ function runPhaseStrikeArenaCheck(){
       { name: 'Gamma', lvl: 7 }
     ]
   };
+  rt.initialize_wallets_from_roster();
+  // Anker-Wallet mit Deckung fuer die Arena-Gebuehr ausstatten.
+  const arenaRoster = rt.build_wallet_roster();
+  const arenaAnchorId = arenaRoster.roster[0].id;
+  rt.wallet_lookup()[arenaAnchorId].balance = 1500;
 
   const taxBefore = rt.phase_strike_tax();
   assert.strictEqual(taxBefore, 0, 'Phase-Strike-Steuer sollte außerhalb der Arena 0 sein');

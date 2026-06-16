@@ -146,11 +146,28 @@
     "economy": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "hq_pool"
-      ],
       "properties": {
-        "hq_pool": {
+        "wallets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "balance"
+            ],
+            "properties": {
+              "balance": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "cu": {
+          "type": "number"
+        },
+        "credits": {
           "type": "number"
         }
       }

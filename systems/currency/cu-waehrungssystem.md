@@ -47,20 +47,80 @@ Epoche Bargeld, wandelt das ITI die entsprechenden Chrono Units automatisch in d
   dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
   aus dem Gleichgewicht bringen - das ITI reguliert streng den Geldfluss.
 
-### HQ-Pool & Wallet-SSOT
+### Wallet-SSOT & Gruppenkasse
 
-- `economy.hq_pool` ist das einzige kanonische HQ-Konto.
-- Persönliche Guthaben liegen ausschließlich in `characters[].wallet`.
-- Debrief-Reihenfolge: erst HQ-Buchung (`hazard_pay`, Missionserfolg,
-  Marktbewegungen), danach Wallet-Split auf die aktiven `characters[]`.
+- **Das Wallet ist die einzige Geld-Wahrheit.** Jede Chrono Unit gehört genau
+  einem Charakter und liegt ausschließlich in `characters[].wallet`. Es gibt
+  keinen besitzlosen Geld-Topf und kein gemeinsames HQ-Konto mehr.
+- **Die Gruppenkasse ist ein berechneter VIEW**, kein Speicherfeld: Sie ist die
+  Live-Summe aller `characters[].wallet` und dient ausschließlich der Anzeige
+  (Debrief, `!bogen`, Economy-Audit). Sie wird **nie** gespeichert und hat
+  keinen Eigentümer - sie ist nur das Bild "wie viel hat die Crew zusammen".
+- **Käufe zahlt der kaufende Charakter aus SEINEM Wallet.** Reicht das eigene
+  Wallet nicht, scheitert der Kauf ("Nicht genug CU im Wallet"). Niemand zahlt
+  "für die Gruppe", es gibt keinen Sammeltopf, aus dem abgebucht wird.
+- **Zusammenlegen für Großanschaffungen läuft über CU-Übergabe:** Charakter A
+  übergibt N CU an B, dann kauft B selbst aus dem aufgestockten Wallet (siehe
+  Abschnitt "CU-Übergabe"). So legt die Crew bewusst und nachvollziehbar
+  zusammen, ohne dass je ein besitzloser Topf entsteht.
+- **Solo:** Bei nur einem Charakter ist sein Wallet zugleich die Gruppenkasse -
+  die angezeigte Summe ist schlicht dein Konto.
 - **Cross-Mode-Sequenz:** `load_save()` → Roster normalisieren auf
-  `characters[]` → `arenaStart()` (Gebühr aus `economy.hq_pool`) → Debrief
+  `characters[]` → `arenaStart()` (Arena-Gebühr aus dem Wallet des
+  eintretenden Charakters, skaliert am Gruppenvermögen) → Debrief
   `apply_wallet_split()` (Ziel: `characters[].wallet`).
 
-Legacy-Felder wie `economy.cu`, `economy.credits` oder `economy.wallets{}`
-gelten ausschließlich als Importpfad. Nach dem Laden werden sie in
-`economy.hq_pool` plus `characters[].wallet` überführt und nicht mehr als
-aktive Runtime-Struktur weitergeführt.
+**Belohnungen** werden im Debrief direkt auf die `characters[].wallet` der
+beteiligten Agenten gebucht (Wallet-Split, siehe Modul 12). Es gibt keinen
+Zwischenschritt über ein Sammelkonto.
+
+**Geld verlässt das Spiel** nur über **Sinks** unter Spielerkontrolle:
+Fraktionsspende, >Cap-Overflow (Hard-Cap pro Agent), Wartungskosten, Archiv-/
+Research-Beiträge. Sinks ziehen direkt aus dem jeweiligen Charakter-Wallet ab -
+kein mitgeführter Topf nötig.
+
+Legacy-Felder wie `economy.cu`, `economy.credits`, `economy.hq_pool` oder
+`economy.wallets{}` gelten ausschließlich als Importpfad. Beim Laden wird ein
+Alt-`hq_pool`/`cu`-Betrag dem Wallet des Session-Anker-Charakters (Index 0)
+gutgeschrieben (Trace `economy_pool_migrated`); danach wird `economy.*` nicht
+mehr exportiert. Die Spielleitung bietet nach einer solchen Migration an, den
+Betrag per CU-Übergabe auf die Crew umzuverteilen.
+
+### CU-Übergabe (Wallet → Wallet)
+
+Charaktere können sich gegenseitig CU übergeben - so legt die Crew für
+Großanschaffungen zusammen, ohne dass je ein besitzloser Topf entsteht. Der
+Empfänger kauft danach selbst aus seinem aufgestockten Wallet.
+
+- **Auslöser:** Spielerbefehl `!uebergabe <Geber-id> <Empfaenger-id> <Betrag>`
+  oder natürliche Sprache ("Nova gibt Ghost 200 CU").
+- **Regel (streng konservativ):** Die Übergabe gelingt nur, wenn das Wallet des
+  Gebers den Betrag deckt (`geber.wallet >= betrag`). Sonst scheitert sie ohne
+  Teilbuchung ("Nicht genug CU im Wallet - Übergabe abgebrochen").
+- **Effekt:** `geber.wallet -= betrag`, `empfaenger.wallet += betrag`.
+  Ganzzahlig. Negative Beträge und Selbstübergaben sind unzulässig.
+- **Phase:** Übergaben laufen in der HQ-Phase (Geld-Management ist
+  HQ-Aktivität). In Missionen bleibt es bei der bestehenden Regel: Ausrüstung
+  darf übergeben werden, CU-Übergaben werden erst im HQ-Save persistiert.
+- **Trace:** Jede Übergabe schreibt `logs.trace[]`-Event
+  `{ "event": "cu_transfer", "from": "<id>", "to": "<id>", "amount": <n> }`.
+- **Solo:** Nicht anwendbar (nur ein Wallet).
+
+**SL-Beispiel-Output:**
+
+> Spieler: `Nova gibt Ghost 400 CU`
+>
+> SL:
+> `Kodex: CU-Übergabe verbucht. Nova → Ghost: 400 CU.`
+> *Nova tippt kurz auf ihr Datenpad, ein leises Bestätigungssignal.*
+> `Wallet Nova: 1250 CU | Wallet Ghost: 1900 CU | Gruppenkasse: 3150 CU`
+
+**Fehlschlag-Beispiel:**
+
+> Spieler: `Nova gibt Ghost 5000 CU`
+>
+> SL:
+> `Kodex: Übergabe abgebrochen - Wallet Nova deckt 5000 CU nicht (Stand: 1250 CU).`
 
 **Startkapital:** Jeder neue Charakter erhält **100 CU** Wert an Ausrüstung
 (→ [Charaktererschaffung](../../characters/charaktererschaffung-grundlagen.md)).
@@ -185,20 +245,21 @@ Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).
 - **Sinks fixieren:** Levelabhängige Wartung (Transport/Logistik) oder Archiv-
   und Research-Spenden halten Überschüsse im Fluss und stützen das Paradoxon-
   Balancing ab Level 400+.
-- **Wallet-Splits unverändert:** Auch hohe Beträge fließen erst in den HQ-Pool
-  und werden dann per `Wallet-Split (n×)` verteilt; Rundungen folgen derselben
-  Sequenz wie im Low-Level-Spiel.
+- **Wallet-Splits unverändert:** Auch hohe Beträge werden im Debrief direkt per
+  `Wallet-Split (n×)` auf die Charakter-Wallets verteilt; ein Zwischentopf
+  existiert nicht. Rundungsreste gehen an das Anker-Wallet (Index 0).
 
 ### Rewards → Wallet-Richtwerte (ab Lvl 400+)
 
 Die Belohnungen aus der Core-/Rift-Formel sollten die Wallets auf einem
 kontrollierten Plateau halten. Nutze die Richtwerte als Brücke zwischen
-Reward-Berechnung, HQ-Pool und persönlichen Wallets, damit der Ökonomie-Loop
-auch im Endgame stabil bleibt:
+Reward-Berechnung und persönlichen Wallets, damit der Ökonomie-Loop
+auch im Endgame stabil bleibt. Der frühere HQ-Pool-Anteil ist in die
+Pro-Wallet-Bänder eingerechnet; die Gruppenkasse ist die Summe der Wallets:
 
-- **Lvl 120:** HQ-Pool 8-10 k CU, Wallets 1-2 k CU pro Agent:in.
-- **Lvl 512:** HQ-Pool 25-30 k CU, Wallets 3-5 k CU pro Agent:in.
-- **Lvl 900+:** HQ-Pool 45-60 k CU, Wallets 6-10 k CU pro Agent:in.
+- **Lvl 120:** Wallets 1,2-2,4 k CU pro Agent:in, Gruppenkasse (Summe) 6-12 k CU.
+- **Lvl 512:** Wallets 3,5-6 k CU pro Agent:in, Gruppenkasse (Summe) 17,5-30 k CU.
+- **Lvl 900+:** Wallets 7-12 k CU pro Agent:in, Gruppenkasse (Summe) 35-60 k CU.
 
 **Chronopolis-Preisanker (High-Tier-Sinks):**
 

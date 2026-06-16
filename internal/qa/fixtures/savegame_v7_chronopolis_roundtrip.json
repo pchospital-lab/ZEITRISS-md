@@ -12,11 +12,15 @@
   "characters": [
     {
       "id": "AGENT-CITY",
-      "wallet": 5100
+      "wallet": 24900
     }
   ],
   "economy": {
-    "hq_pool": 19800
+    "wallets": {
+      "AGENT-CITY": {
+        "balance": 24900
+      }
+    }
   },
   "logs": {
     "trace": [
