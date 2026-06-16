@@ -19,10 +19,7 @@
   ],
   "verify": {
     "query": "Paradoxon Meilenstein Px 5 ClusterCreate Rift",
-    "expect_any": [
-      "CLUSTERCREATE",
-      "Rift"
-    ],
+    "expect_any": ["CLUSTERCREATE", "Rift"],
     "expect_sources_min": 1,
     "top_k": 5
   },
