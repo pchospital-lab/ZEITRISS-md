@@ -16,32 +16,560 @@
     {
       "id": "AGENT-A",
       "name": "Astra",
+      "callsign": "ECHO",
+      "rank": "Operator IX",
       "lvl": 912,
-      "wallet": 60400
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Analytik & Spurensicherung"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 7,
+        "INT": 9,
+        "CHA": 5,
+        "TEMP": 6,
+        "SYS": 5
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 5,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Astra (ECHO) - erfahrener ITI-Operator, Rolle: Analytik & Spurensicherung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 60400,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
     },
     {
       "id": "AGENT-B",
       "name": "Blitz",
+      "callsign": "STORM",
+      "rank": "Operator IX",
       "lvl": 905,
-      "wallet": 6900
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "CQB & Sturmangriff"
+      },
+      "attr": {
+        "STR": 9,
+        "GES": 8,
+        "INT": 4,
+        "CHA": 4,
+        "TEMP": 7,
+        "SYS": 3
+      },
+      "lp": 26,
+      "lp_max": 26,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 3,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Blitz (STORM) - erfahrener ITI-Operator, Rolle: CQB & Sturmangriff.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 6900,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      }
     },
     {
       "id": "AGENT-C",
       "name": "Cipher",
+      "callsign": "GHOST",
+      "rank": "Operator IX",
       "lvl": 933,
-      "wallet": 8100
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltration & Hacking"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 8,
+        "INT": 8,
+        "CHA": 5,
+        "TEMP": 5,
+        "SYS": 9
+      },
+      "lp": 19,
+      "lp_max": 19,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Cipher (GHOST) - erfahrener ITI-Operator, Rolle: Infiltration & Hacking.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 8100,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      }
     },
     {
       "id": "AGENT-D",
       "name": "Dusk",
+      "callsign": "VEIL",
+      "rank": "Operator IX",
       "lvl": 918,
-      "wallet": 7600
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Verdeckte Aufklaerung"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 7,
+        "INT": 6,
+        "CHA": 8,
+        "TEMP": 6,
+        "SYS": 4
+      },
+      "lp": 21,
+      "lp_max": 21,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 4,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Dusk (VEIL) - erfahrener ITI-Operator, Rolle: Verdeckte Aufklaerung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 7600,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
     },
     {
       "id": "AGENT-E",
       "name": "Echo",
+      "callsign": "RELAY",
+      "rank": "Operator IX",
       "lvl": 901,
-      "wallet": 7050
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Support & Feldtechnik"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 6,
+        "INT": 7,
+        "CHA": 6,
+        "TEMP": 5,
+        "SYS": 7
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Echo (RELAY) - erfahrener ITI-Operator, Rolle: Support & Feldtechnik.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 7050,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      }
     }
   ],
   "economy": {
@@ -139,5 +667,34 @@
       "debug_rolls": true
     }
   },
-  "fixture_kind": "fragment"
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "none",
+    "tier": 0,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "low"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "standard"
+  }
 }
