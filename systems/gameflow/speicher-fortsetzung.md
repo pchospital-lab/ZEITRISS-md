@@ -14,8 +14,9 @@ tags: [system]
   ausschließlich `ClusterCreate()` aus; der Reset erfolgt via HQ-Bestätigung.
   `campaign.px_state` bildet den Lebenszyklus (`stable|pending_reset|consumed`)
   und verhindert Px-Reanimationen bei Split/Merge.
-- **MUSS:** Economy-Sync bleibt konsistent (`economy.hq_pool` als Primäranker,
-  `economy.credits` als Legacy-Fallback via Synchronisierung).
+- **MUSS:** Geld lebt ausschließlich in `characters[].wallet`. Die Gruppenkasse
+  ist ein berechneter View (Summe aller Wallets), kein gespeichertes Feld.
+  `economy.*` ist reiner Legacy-Importpfad.
 - **SOLL:** Neuer Chat pro Mission wird als empfohlener Stabilitätspfad geführt,
   ohne als harte Regel formuliert zu werden.
 - **KANN:** Optionale Trace-Felder dürfen ergänzt werden, sofern sie keine
@@ -223,7 +224,7 @@ characters[] { id, name, callsign, rank, lvl, xp, origin, attr, lp, lp_max,
                talents[], equipment[], implants[], history, carry[],
                quarters_stash[], vehicles, artifact?, reputation, wallet,
                level_history },
-economy { hq_pool },
+economy { wallets{ <id>:{balance,name} } },
 research { projects[] { id, label, kind, scope, tier, missions_total, missions_done, status, source?, reward_hint? } },
 logs { trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags },
 summaries { summary_last_episode, summary_last_rift, summary_active_arcs },
@@ -347,7 +348,7 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - `artifact?: {name, tier, effect}` (max 1)
   - `reputation.{iti, faction, factions:{}}`
   - `wallet`
-- `economy.{hq_pool}`
+- `economy.{wallets}` (Runtime-Cache; gespeicherte Geld-SSOT ist `characters[].wallet`)
 - `research.{projects[]}` — laufende HQ-Forschungen UND Mission-Funde, die im Labor entschlüsselt/analysiert werden. Jeder Eintrag:
   `{id, label, kind: "hq_research"|"field_decrypt", scope: "episode"|"campaign", tier, missions_total, missions_done, status: "in_progress"|"ready"|"collected", source?, reward_hint?}`.
   `tier` = Anzahl Core-Missionen bis fertig (Tier 0 = sofort beim nächsten Debrief, Tier 5 = 5 Core-Missionen). `scope: "episode"` = der Fund/das Projekt gehört zur laufenden Episode und **muss vor dem Episoden-Boss (MS10) fertig werden, damit es im Finale einsetzbar ist** → `tier` wird beim Anlegen so gedeckelt, dass es spätestens beim MS9-Debrief `ready` wird (`missions_total = min(tier, 9 − aktuelle_Mission)`, siehe Masterprompt §C). `scope: "campaign"` = episodenübergreifender Verschwörungs-Strang, darf länger laufen (kein Cap). `missions_total` = der effektive (ggf. gedeckelte) Tier-Wert. `missions_done` tickt **+1 pro abgeschlossenem Core-Mission-Debrief**, beginnend beim **nächsten** Debrief nach dem Anlegen (nicht der laufenden Mission). `status` wird `ready`, sobald `missions_done >= missions_total`. Leeres Array, wenn nichts läuft. **Migration:** Ein Projekt ohne `scope` (Alt-Stand) wird als `scope: "campaign"` behandelt (kein rückwirkendes Cap).
@@ -373,17 +374,18 @@ den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für
 `economy_audit`, damit Roundtrips keine neuen Zeitmarken erzeugen.
 
 `economy_audit()` dokumentiert jeden HQ-Save mit stabilen Feldern: `level`, `band_reason`,
-`hq_pool`, `wallet_sum`, `wallet_count`, `wallet_avg`, `wallet_avg_scope`,
+`treasury`, `wallet_sum`, `wallet_count`, `wallet_avg`, `wallet_avg_scope`,
 `chronopolis_sinks`, `target_range`, `delta` und `out_of_range`. `target_range` nutzt fixe
-Level-Bänder **120** (HQ 8 000-10 000 CU, Wallet Ø 1 000-2 000 CU), **512** (HQ 25 000-30 000 CU,
-Wallet Ø 3 000-5 000 CU) und **900+** (HQ 45 000-60 000 CU, Wallet Ø 6 000-10 000 CU) und skaliert
+Level-Bänder **120** (Gruppenkasse 6 000-12 000 CU, Wallet Ø 1 200-2 400 CU), **512** (Gruppenkasse
+17 500-30 000 CU, Wallet Ø 3 500-6 000 CU) und **900+** (Gruppenkasse 35 000-60 000 CU, Wallet Ø
+7 000-12 000 CU) und skaliert
 `wallet_total` über alle Charakter-Wallets. Die Band-Auswahl folgt dem
 Session-Anker-Level (`character.lvl|level` oder `campaign.level`); fehlt dieser,
 nutzt der Audit die Medianstufe der `characters[]`-Roster und schreibt
 `band_reason=session_anchor_level|roster_median|unknown`. `wallet_avg_scope`
 steht immer auf `characters[].wallet`. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt
 boolesche Flags und löst
-den Toast "Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+)." aus.
+den Toast "Economy-Audit: Gruppenkasse/Wallets außerhalb Richtwerten (Lvl 120|512|900+)." aus.
 Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
 Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
 
@@ -434,7 +436,7 @@ Installation (`sys_installed ≤ attr.SYS`).
 > Legacy-Überführung direkt im Wissensspeicher (siehe
 > [V6→V7-Migrationsbeispiel](#v6-v7-migrationsbeispiel-im-wissensspeicher)).
 > Im Runtime-Kanon gilt beim Export ausschließlich das v7-Format mit `v`,
-> `characters[]`, `characters[].wallet`, `economy.hq_pool` und `arc`.
+> `characters[]`, `characters[].wallet` und `arc` (kein `economy`-Geldfeld).
 
 ### V6→V7-Migrationsbeispiel im Wissensspeicher {#v6-v7-migrationsbeispiel-im-wissensspeicher}
 
@@ -455,7 +457,7 @@ Repo-Dateien** alte Stände sicher umheben kann.
 
 - `v = 7`, `zr = 4.2.6`
 - `characters = [agent-nova(wallet=320), agent-rook(wallet=280)]`
-- `economy.hq_pool = 540`
+- `economy.cu = 540` (Legacy) -> Session-Anker-Wallet: `agent-nova.wallet = 320 + 540 = 860`
 - `campaign.mission = 5`
 - `campaign.rift_seeds = [RS-01@1947(status=open)]`
 - `arc = {questions[], hooks[], factions{}}`
@@ -464,7 +466,7 @@ Repo-Dateien** alte Stände sicher umheben kann.
 
 - `save_version`/`zr_version` sind reine Importmarker.
 - `party.characters[]` und `team.members[]` werden in `characters[]` zusammengeführt.
-- `economy.cu` wird auf `economy.hq_pool` gehoben.
+- `economy.cu`/`economy.hq_pool` (Legacy) wird dem Wallet des Session-Anker-Charakters (Index 0) gutgeschrieben; `economy.*` wird danach nicht mehr exportiert (Trace `economy_pool_migrated`).
 - `arc_dashboard.offene_seeds[]` wird in den v7-Pfad (`campaign.rift_seeds[]`) überführt.
 - Exportiert wird anschließend **nur** das v7-Format.
 
@@ -500,8 +502,8 @@ HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
 Felder zu definieren. Legacy-Schlüssel (`save_version`, `party.characters[]`,
 `team.members[]`, `economy.cu`, `arc_dashboard`) sind reine Import-Aliase; neue
 Saves entstehen ausschließlich im v7-Format mit `v`, `characters[]` und
-`economy.hq_pool`. Divergierende Doppelstrukturen gelten als Fehler und werden
-beim Laden zusammengeführt.
+`characters[].wallet` (kein `economy`-Geldfeld). Divergierende Doppelstrukturen
+gelten als Fehler und werden beim Laden zusammengeführt.
 
 **Lineage & Dedupe (Merge-Schutz):** Jeder v7-Save führt `save_id` als eindeutige
 Import-ID. `parent_save_id` zeigt auf den direkten Vorgänger, `merge_id` markiert
@@ -520,15 +522,15 @@ läuft zusätzlich in `logs.flags.imported_saves[]` ein (mindestens `save_id`,
 enthält mindestens `event`, `at` (ISO), `location`, `phase`,
 `mission_type`/`campaign_mode`, `scene{episode,mission,index,total}` sowie
 `foreshadow{progress,required,tokens,expected}`. Optionale Felder fassen HUD-
-Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{hq_pool}` + Wallet-Summen), FR-Bias
+Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (Gruppenkasse = Σ `characters[].wallet`), FR-Bias
 und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
 `boss{type,dr,toast}` (mini|arc|rift) beim Missionsstart. Die Runtime ruft
 `record_trace()` bei `StartMission()`, `launch_rift()` und `arenaStart()` auf,
 begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save.
 Beim HQ-Save schreibt die Runtime zusätzlich
-ein `economy_audit`-Event mit Level, HQ-Pool, Wallet-Summe,
+ein `economy_audit`-Event mit Level, Gruppenkasse (= Wallet-Summe),
 Zielrange (120/512/900+), `band_reason`, `wallet_avg_scope`, Chronopolis-Sinks und Delta-Feldern
-(`delta.hq_pool`/`delta.wallet_avg` zum jeweiligen Zielband); ein HUD-Toast
+(`delta.treasury`/`delta.wallet_avg` zum jeweiligen Zielband); ein HUD-Toast
 erscheint nur bei Abweichungen. Das Trace ergänzt `logs.hud[]` und ersetzt
 keine Toasts.
 
@@ -582,7 +584,7 @@ zurück.
 > **Legacy-/Import-Hinweis (Legacy-Bridge):** Der folgende Block dient als Bridge-Referenz für
 > Migrationen aus älteren Ständen. **Nicht als kanonischen Neu-Export verwenden.**
 > Kanonische Exporte folgen dem v7-Zielmodell
-> (`v`, `zr`, `characters[]`, `attr`, `economy.hq_pool`, `arc.questions/hooks`).
+> (`v`, `zr`, `characters[]`, `attr`, `characters[].wallet`, `arc.questions/hooks`).
 
 > Referenz-HQ-Block mit Quartier, Timeline, Squad und Feldnotizen. Alle
 > Pflichtfelder bleiben erhalten; optionale Blöcke sind knapp, aber vollständig
@@ -700,7 +702,7 @@ zurück.
       "gear": ["Multi-Tool Wraith", "Faseroptik-Kabelkamera", "Rauchgranate Mk I", "Micro-Breacher"]
     }
   },
-  "economy": { "hq_pool": 1650 },
+  "economy": { "wallets": {} },
   "logs": {
     "trace": [],
     "artifact_log": [],
@@ -818,7 +820,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 
 - Pflichtfelder (v7-Export): `v`, `zr`, `campaign.px`, `characters[]`
   (kanonischer Charakterbogen inkl. `wallet`, `history`, `carry`,
-  `quarters_stash`, `vehicles`), `economy.hq_pool`, `arc`, `logs`, `ui`
+  `quarters_stash`, `vehicles`), `arc`, `logs`, `ui`
   und `arena` als verpflichtender Root-Block (bei Inaktivität als Default-Idle).
 - **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
@@ -829,7 +831,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   SYS-/Stress-/Heat-Status werden pro Charakter geführt und Laufzeitwerte beim
   Laden neu gesetzt.
 - Die KI-SL darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
-  fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.hq_pool = 0`,
+  fehlende Pflichtblöcke automatisch auf sichere Defaults (leere `characters[].wallet = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
 - `characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
   `party.characters[]`/`team.members[]` werden beim Import nach `characters[]`
@@ -840,8 +842,9 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 ### Cross-Mode Import - Solo → Koop/Arena {#cross-mode-import}
 
 Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
-`load_save()` → `normalize_roster_to_characters()` → `sync_hq_pool()` →
-Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
+`load_save()` → `normalize_roster_to_characters()` →
+Arena-Gebühr über `arenaStart()` (aus dem Wallet des eintretenden Charakters) →
+Debrief `apply_wallet_split()`.
 
 1. **Solo-Save laden.** `characters[]` enthält initial den Protagonisten.
    Zusätzliche Crew-Saves dürfen nur Charaktere (inkl. Wallet), Loadouts und
@@ -853,10 +856,11 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    `arena.previous_mode` und `arena.phase='active'`, markiert `location='ARENA'`
    und blockiert Save-Versuche bis zum Arena-Exit.
 4. **Zurück nach HQ.** Nach Arena-Exit bleibt `campaign.px` unverändert;
-   Rewards laufen über `economy.hq_pool` sowie optionale Wallet-Splits.
+   Rewards laufen direkt als Wallet-Split auf `characters[].wallet`.
 
 **Session-Anker-Priorität (SSOT):** Bei Merge/Import bleibt der Session-Anker
-führend für `campaign`, `economy.hq_pool`, `arc` und globale `logs.flags`.
+führend für `campaign`, `arc` und globale `logs.flags`. Wallets folgen pro
+`characters[].id` dem jeweiligen Owner (nichts wird zusammengelegt).
 Gaststände liefern persönliche Wahrheit plus erlaubte Branch-Anteile. Konflikte
 werden in `logs.flags.continuity_conflicts[]` dokumentiert.
 
@@ -869,8 +873,8 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 | Richtung              | Übernommene Felder                                                                                                                                                                                                  | Verworfene/Zurückgesetzte Felder                                                                                                                | Besonderheiten                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`economy.hq_pool`, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
-| **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt ankergeführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
+| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
+| **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert. Wallets bleiben pro `characters[].id` beim Owner. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten; Arena läuft nur als Runtime-Zustand (`runtime_phase='arena'` + `arena.*`).                                                                                | -                                                                                                                                               | Nach Arena-Exit bleibt `campaign.mode` der Kampagnenmodus (`mixed\|preserve\|trigger`); `arena.previous_mode` wird als Rückkehr-Referenz genutzt und danach geleert.     |
 | **PvP → zurück**      | Kampagnenmodus bleibt/kehrt auf `arena.previous_mode` zurück (`mixed\|preserve\|trigger`). Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
@@ -932,7 +936,7 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
   },
   "campaign": { "episode": 12, "scene": 0, "px": 2 },
   "characters": [{ "id": "CHR-7777", "name": "Jade", "wallet": 1200, "loadout": [] }],
-  "economy": { "hq_pool": 1200 },
+  "economy": { "wallets": {} },
   "arc": { "open_seeds": [], "factions": {}, "questions": [], "timeline": [] },
   "logs": {
     "artifact_log": [],
@@ -1041,9 +1045,10 @@ der **zuerst gepostete Save den Session-Anker** (aktueller Einstiegspunkt mit
 `episode`, `mission`, `mode`, `rift_seeds[]`, `px`). Weitere Saves liefern
 zusätzlich persönliche Wahrheit pro `characters[].id` und Kontinuitäts-Echos.
 Abweichende Kampagnenwerte außerhalb des Session-Ankers landen weiterhin in
-`logs.flags.continuity_conflicts[]`. Der HQ-Pool (`economy.hq_pool`) bleibt
-ankergeführt; Wallets/Loadouts/History der Rückkehrer werden pro Charakter
-aktualisiert (neuester Stand gewinnt persönliche Felder).
+`logs.flags.continuity_conflicts[]`. Es gibt keinen gemeinsamen Pool mehr -
+jedes Wallet bleibt pro `characters[].id` beim Owner; Wallets/Loadouts/History
+der Rückkehrer werden pro Charakter aktualisiert (neuester Stand gewinnt
+persönliche Felder). Die Gruppenkasse ergibt sich automatisch als neue Summe.
 
 #### OpenWebUI-Lobbybetrieb (Hopper/Leaver)
 
@@ -1306,10 +1311,11 @@ vA.B. Bitte HQ-Migration veranlassen.`
   Default-/Checkpoint-Block.
 - **Wallets.** `initialize_wallets_from_roster()` stellt sicher, dass jeder
   Eintrag in `characters[]` ein numerisches `wallet`-Feld trägt
-  (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Session-Anker-Wallets
-  maßgeblich; Import-Wallets werden per Charakter-ID auf fehlende Einträge
-  übertragen. Abweichende Beträge landen in `logs.flags.continuity_conflicts[]`
-  und im Trace `merge_conflicts`, während die Anker-Balance Vorrang behält.
+  (Toast "Wallets initialisiert (n×)"). Jedes Wallet folgt seinem Owner
+  (`characters[].id`); nichts wird zusammengelegt. Beim Multi-Save-Import
+  werden Wallets per Charakter-ID gemergt; divergente Beträge für dieselbe ID
+  landen in `logs.flags.continuity_conflicts[]` und im Trace `merge_conflicts`
+  (neuester Stand gewinnt die persönlichen Felder).
 - **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
   `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
@@ -1393,7 +1399,7 @@ nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtga
 
 1. **Score-Screen / Missions-Bewertung** (Erfolg/Teilerfolg/Fehlschlag, Px-Stand).
 2. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
-3. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
+3. **CU & Wallet-Split** (Reward direkt auf die Wallets verteilen).
 4. **XP/Skills** (Level-Up/Skill-Picks aktiv abfragen — **genau eine** Wahl pro Stufe;
    Anti-Stacking-Gate gegen `character.level_history[<lvl>]`).
 5. **ITI-Ruf-Update & Lizenz-Tier** (formaler Institutsruf, Lizenz-Tier-Verknüpfung).
@@ -1468,8 +1474,10 @@ pro Teilgruppe einen eigenen Save:
 
 1. **Characters aufteilen:** Jede Teilgruppe bekommt ihre `characters[]`.
    Session-Anker des neuen Saves = erster Character im Array.
-2. **HQ-Pool aufteilen:** `economy.hq_pool` gleichmäßig verteilen
-   (oder nach Absprache). Persönliche `wallet`-Werte bleiben beim Character.
+2. **Wallets reisen mit:** Es wird **nichts** geteilt. Jeder Charakter nimmt
+   sein `characters[].wallet` unverändert in den Save seiner Teilgruppe mit.
+   Die Gruppenkasse jeder Teilgruppe ergibt sich automatisch als Summe ihrer
+   mitgereisten Wallets.
 3. **Seeds zuweisen:** Jede Teilgruppe bekommt den/die Seeds, die sie spielen
    will. Seed-Status wechselt auf `"active"`. Seeds, die niemand nimmt, bleiben
    `"open"` und kommen in beide Saves.
@@ -1492,7 +1500,9 @@ Beim Rejoin im HQ werden die Branch-Saves wieder zusammengeführt:
 1. **Characters mergen:** Alle `characters[]` in ein Array.
    Session-Anker-Charakter = Index 0 (aus dem Save des ursprünglichen
    Session-Ankers).
-2. **HQ-Pool summieren:** `economy.hq_pool` aus beiden Saves addieren.
+2. **Wallets zusammenführen:** Jeder bringt sein Wallet mit; nichts wird
+   summiert oder umverteilt. Die Gruppenkasse ist automatisch die Summe aller
+   `characters[].wallet` im gemergten Roster.
 3. **Seeds: Union:** Alle Seeds beider Saves zusammenführen (closed + open).
 4. **Px-State zuerst, dann Wert:** Priorität `consumed > pending_reset > stable`.
    Daraus folgt: `consumed => px=0`, `pending_reset => px=5`,
@@ -1566,30 +1576,30 @@ Nach jeder Mission folgt auf den Belohnungsblock automatisch der Koop-Abschnitt.
 `apply_wallet_split()` spiegelt das Ergebnis in `characters[].wallet` und erzeugt
 die Debrief-Zeilen.
 
-### Hazard-Pay & HQ-Pool
+### Hazard-Pay & Wallet-Split
 
-- Enthält `outcome` ein `hazard_pay`-Feld (oder `economy.hazard_pay`), bucht die
-  Runtime den Betrag zuerst auf `economy.hq_pool` und loggt `Hazard-Pay: … CU
-priorisiert`.
-- Anschließend meldet `apply_wallet_split()` den HQ-Stand als
-  `HQ-Pool: <Betrag> CU verfügbar`. Restbeträge erscheinen in Klammern
-  (`Rest 150 CU im HQ-Pool`).
+- Enthält `outcome` ein `hazard_pay`-Feld (oder `economy.hazard_pay`), wird der
+  Betrag dem Reward-Topf der Mission zugeschlagen und zusammen mit der
+  Grundprämie per Wallet-Split auf die `characters[].wallet` verteilt
+  (`Hazard-Pay: … CU priorisiert in den Split`). Es gibt **keinen** Zwischentopf.
+- Anschließend meldet `apply_wallet_split()` die `Gruppenkasse: <Σ Wallets> CU`
+  als reine Anzeige.
 - Reihenfolge und Restsummen bleiben deterministisch: Die Debrief-Zeile
   `Wallet-Split (n×)` listet IDs in Roster-Reihenfolge, verteilt Rundungsreste
-  gleichmäßig von oben nach unten und schließt mit einem einzigen Hinweis auf
-  den verbleibenden HQ-Pool (`Rest … CU im HQ-Pool`).
+  gleichmäßig von oben nach unten; ein etwaiger letzter Rest-CU geht an den
+  **ersten** Charakter (Index 0). Keine `Rest … CU im HQ-Pool`-Zeile mehr.
 
 ### Standard- und Sonderaufteilungen
 
 1. **Standardaufteilung.** Ohne Vorgaben verteilt die KI-SL die Auszahlung
    gleichmäßig (`Wallet-Split (n×): Ghost +200 CU | …`).
-2. **Solo→Koop.** Beim Moduswechsel initialisiert
-   `initialize_wallets_from_roster()` leere Wallets für alle `characters[]`
-   und verschiebt Solo-Guthaben in den HQ-Pool.
+2. **Solo→Koop.** Beim Moduswechsel behält jeder Charakter sein bestehendes
+   `characters[].wallet`; es wird **nichts** verschoben oder zusammengelegt.
+   Neue Mitglieder bringen ihr eigenes Wallet mit.
 3. **Spezialschemata.** Sonderregeln kommen über `economy.split`/`wallet_split`.
    Prozentwerte (`percent`, `percent_share`) nutzt die KI-SL als 0-1 bzw. 0-100 %.
    Verhältnisangaben (`ratio`, `weight`, `share_ratio`, `portion`) bleiben
-   relative Anteile. Nicht zugewiesene CU verbleiben im HQ-Pool.
+   relative Anteile. Nicht zugewiesene CU gehen an den ersten Charakter (Index 0).
 4. **Dialogführung.** Kodex nennt Standard und Alternativen (_"Standardaufteilung
    je 200 CU …"_) und dokumentiert Entscheidungen in Debrief oder
    Einsatzprotokoll.
@@ -1661,7 +1671,7 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 **Inhalt der Ausgabe**
 
 - Kampagnenkopf (Episode/Mission)
-- Team-Ökonomie (`economy.hq_pool`)
+- Gruppenkasse (Summe aller Wallets, reine Anzeige)
 - pro Charakter: Name, Lvl, Rolle/Klasse, LP, Stress, Psi-Heat, Attribute, Wallet, Ausrüstung
 
 > **Wichtig für OpenWebUI / reinen Chatbetrieb:** Der kanonische Pfad ist
@@ -1793,7 +1803,7 @@ Vertragsanker (rein deklarativ, **kein** kopierfähiges JSON):
 - `"v": 7`
 - `"characters": []` als einziger Charaktercontainer
 - `"wallet": 0` liegt je Charakter unter `characters[]`
-- `"economy": { "hq_pool": 0 }`
+- `"economy": { "wallets": {} }` (Runtime-Cache; Geld-SSOT ist `characters[].wallet`)
 - `"arc": { "factions": {}, "questions": [], "hooks": [] }`
 - `"history": { "background": "", "milestones": [] }`
 - `"carry": []`
@@ -1801,7 +1811,7 @@ Vertragsanker (rein deklarativ, **kein** kopierfähiges JSON):
 - `"vehicles": { "epoch_vehicle": { "id": "VEH-XXXX" } }`
 - Feldanker `"epoch_vehicle"` bleibt Pflicht im Fahrzeugcontainer
 - Wallet pro Charakter: `characters[].wallet`
-- HQ-Pool: `economy.hq_pool`
+- Gruppenkasse: berechneter View = Σ `characters[].wallet` (kein Save-Geldfeld)
 - Story-Hub: `arc`
 - Charakterpersistenz umfasst `history`, `carry`, `quarters_stash`, `vehicles`, `vehicles.epoch_vehicle`
 
@@ -1833,7 +1843,7 @@ Vertragsanker (rein deklarativ, **kein** kopierfähiges JSON):
   `arc.timeline` oder `arc_dashboard` gelten nur als
   **Import-Bridge**.
 - `load_save()` migriert Legacy-Daten in das v7-Zielmodell (`v`, `characters[]`,
-  `economy.hq_pool`, `arc.*`).
+  `characters[].wallet`, `arc.*`); Legacy-`economy.*` wird ins Session-Anker-Wallet gefaltet.
 - `save_game()` exportiert ausschließlich das v7-Schema.
 - V6-Beispiele in diesem Dokument dienen ausschließlich der Migrationserklärung
   und sind **kein** alternatives Speicherformat.

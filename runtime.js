@@ -1728,12 +1728,29 @@ function log_market_purchase(item, cost, options = {}){
   const costValue = normalize_primary_currency(normalized.cost_cu);
   if (costValue !== null && costValue > 0){
     const economy = ensure_economy();
-    const before = resolve_primary_currency(economy);
-    const next = Math.max(0, before - costValue);
-    economy.cu = next;
+    // Kaeufer bestimmen: explizit (options.buyer_id/character_id) oder Anker (Index 0).
+    const rosterInfo = build_wallet_roster();
+    const buyerId = (typeof options.buyer_id === 'string' && options.buyer_id.trim())
+      || (typeof options.character_id === 'string' && options.character_id.trim())
+      || (rosterInfo.roster[0] && rosterInfo.roster[0].id);
+    if (!buyerId){
+      throw new Error('Markt-Kauf: Kein Kaeufer-Wallet bestimmbar.');
+    }
+    const buyerLabel = rosterInfo.indexById.has(buyerId)
+      ? rosterInfo.roster[rosterInfo.indexById.get(buyerId)].label
+      : null;
+    const record = get_wallet_record(buyerId, buyerLabel);
+    const balance = Math.max(0, Math.round(record.balance || 0));
+    if (balance < costValue){
+      // KEIN Mitfinanzieren, KEIN Topf - der Kauf scheitert.
+      throw new Error(
+        `Kauf gescheitert: ${normalized.item || 'Artikel'} kostet ${costValue} CU, ` +
+        `Wallet ${record.name || buyerId} hat nur ${balance} CU.`);
+    }
+    record.balance = balance - costValue;
     sync_primary_currency(
       economy,
-      next,
+      undefined,
       { reason: 'market_purchase', note: normalized.item || null }
     );
   }
@@ -2619,7 +2636,11 @@ function set_accessibility_option(option, value){
   return accessibility_status();
 }
 
-const ECONOMY_PRIMARY_KEYS = ['credits', 'cu', 'balance', 'assets'];
+// Echte Legacy-Geld-Toepfe (NICHT cu/credits - die sind der berechnete
+// View-Spiegel). Werden in fold_legacy_pool_into_characters() beim Import
+// konservativ ins Anker-Wallet gefaltet. Im Live-Betrieb wird KEIN gespeicherter
+// Topf mehr gelesen (resolve_primary_currency = Summe Wallets).
+const ECONOMY_LEGACY_POOL_KEYS = ['hq_pool', 'balance', 'assets'];
 
 function normalize_primary_currency(value){
   const numeric = asNumber(value);
@@ -2628,18 +2649,15 @@ function normalize_primary_currency(value){
   return rounded < 0 ? 0 : rounded;
 }
 
+// Primary Currency = berechneter VIEW = Summe aller Wallet-Balances.
+// KEIN gespeichertes Topf-Feld mehr (Wallet-SSOT). sum_wallet_balances ist
+// eine function-Deklaration weiter unten -> Hoisting greift.
 function resolve_primary_currency(economy){
   if (!economy || typeof economy !== 'object'){
     return 0;
   }
-  for (const key of ECONOMY_PRIMARY_KEYS){
-    if (!(key in economy)) continue;
-    const normalized = normalize_primary_currency(economy[key]);
-    if (normalized !== null){
-      return normalized;
-    }
-  }
-  return 0;
+  const { total } = sum_wallet_balances(economy.wallets);
+  return total;
 }
 
 function record_currency_sync(reason, before, after, meta = {}){
@@ -2671,21 +2689,15 @@ function record_currency_sync(reason, before, after, meta = {}){
   return record_trace('currency_sync', payload);
 }
 
+// Spiegelt den View (Summe der Wallets) nach economy.cu/credits. Der override-
+// Parameter ist Legacy und wird IGNORIERT: die Geldaenderung muss VORHER in den
+// Wallets passiert sein, dann ist der Spiegel automatisch korrekt.
 function sync_primary_currency(economy, override, trace){
   if (!economy || typeof economy !== 'object'){
     return 0;
   }
-  const before = resolve_primary_currency(economy);
-  let amount = null;
-  if (override !== undefined){
-    amount = normalize_primary_currency(override);
-  }
-  if (amount === null){
-    amount = resolve_primary_currency(economy);
-  }
-  if (amount === null){
-    amount = 0;
-  }
+  const before = Number.isFinite(economy.cu) ? economy.cu : 0;
+  const amount = resolve_primary_currency(economy); // = Summe Wallets
   economy.cu = amount;
   economy.credits = amount;
   const traceReason = typeof trace === 'object' && !Array.isArray(trace)
@@ -2700,8 +2712,12 @@ function ensure_economy(){
     state.economy = {};
   }
   const economy = state.economy;
-  sync_primary_currency(economy);
-  ensure_wallets();
+  ensure_wallets();              // ZUERST - der View haengt davon ab
+  sync_primary_currency(economy); // economy.cu/credits = Summe Wallets
+  // Hinweis: der Live-View liest `hq_pool` nie (resolve_primary_currency =
+  // Summe Wallets). Die Legacy-Topf-Faltung passiert auf Daten-Ebene in
+  // fold_legacy_pool_into_characters() (via migrate_save), der Export-Strip in
+  // prepare_save_economy().
   return economy;
 }
 
@@ -5857,31 +5873,36 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
 
 function apply_wallet_split(outcome, cuReward){
   const economy = ensure_economy();
+  const rosterInfo = build_wallet_roster();
+  const anchorId = rosterInfo.roster[0] ? rosterInfo.roster[0].id : null;
+  const anchorLabel = rosterInfo.roster[0] ? rosterInfo.roster[0].label : null;
+  const lines = [];
+
+  // Hazard-Pay: kein Topf mehr -> wird dem Split zugeschlagen (an Anker gebucht).
   const hazardSource = outcome?.economy?.hazard_pay
     ?? outcome?.hazard_pay
     ?? outcome?.economy?.hazard;
   const hazardPay = normalize_cu(hazardSource);
-  const lines = [];
-  const startBalance = resolve_primary_currency(economy);
-  if (hazardPay !== null && hazardPay > 0){
-    economy.cu = Math.max(0, Math.round(economy.cu) + hazardPay);
-    record_currency_sync('hazard_pay', startBalance, economy.cu, { source: 'debrief' });
-    lines.push(`Hazard-Pay: ${hazardPay} CU priorisiert (HQ-Pool).`);
+  if (hazardPay !== null && hazardPay > 0 && anchorId){
+    const rec = get_wallet_record(anchorId, anchorLabel);
+    rec.balance = Math.max(0, Math.round(rec.balance || 0) + hazardPay);
+    lines.push(`Hazard-Pay: ${hazardPay} CU priorisiert in den Split (${rec.name || anchorId}).`);
   }
+
   const reward = normalize_cu(cuReward);
   if (reward === null || reward <= 0){
-    const hqBalance = Math.max(0, Math.round(economy.cu));
-    lines.push(`HQ-Pool: ${hqBalance} CU verfügbar.`);
-    return { lines, payout: 0, leftover: 0 };
+    sync_primary_currency(economy, undefined, { reason: 'wallet_split', source: 'debrief' });
+    const treasury = group_treasury_view(economy);
+    lines.push(`Gruppenkasse: ${treasury} CU (Σ Wallets).`);
+    return { lines, payout: hazardPay || 0, leftover: 0 };
   }
-  const rosterInfo = build_wallet_roster();
   const instructions = gather_wallet_instructions(outcome, rosterInfo);
   const { allocations, totalAssigned, leftover } = compute_wallet_allocations(
     reward,
     rosterInfo,
     instructions
   );
-  economy.cu = Math.max(0, Math.round(economy.cu) + reward);
+  // Direkt in die Wallets buchen (KEIN economy.cu-Zwischentopf).
   allocations.forEach((entry) => {
     const record = get_wallet_record(entry.id, entry.label);
     if (!record) return;
@@ -5890,8 +5911,10 @@ function apply_wallet_split(outcome, cuReward){
       record.name = entry.label;
     }
   });
-  if (totalAssigned > 0){
-    economy.cu = Math.max(0, Math.round(economy.cu) - totalAssigned);
+  // Unteilbarer Rundungsrest -> Anker-Wallet (konservativ, nichts geht verloren).
+  if (leftover > 0 && anchorId){
+    const rec = get_wallet_record(anchorId, anchorLabel);
+    rec.balance = Math.max(0, Math.round(rec.balance || 0) + leftover);
   }
   if (allocations.length){
     const summary = allocations
@@ -5899,11 +5922,89 @@ function apply_wallet_split(outcome, cuReward){
       .join(' | ');
     lines.push(`Wallet-Split (${allocations.length}×): ${summary}`);
   }
-  sync_primary_currency(economy, economy.cu, { reason: 'wallet_split', source: 'debrief' });
-  const hqBalance = Math.max(0, Math.round(economy.cu));
-  const remainderText = leftover > 0 ? ` (Rest ${leftover} CU im HQ-Pool)` : '';
-  lines.push(`HQ-Pool: ${hqBalance} CU verfügbar${remainderText}.`);
-  return { lines, payout: totalAssigned, leftover };
+  sync_primary_currency(economy, undefined, { reason: 'wallet_split', source: 'debrief' });
+  const treasury = group_treasury_view(economy);
+  const remainderText = leftover > 0 ? ` (Rundungsrest ${leftover} CU an Anker-Wallet)` : '';
+  lines.push(`Gruppenkasse: ${treasury} CU (Σ Wallets)${remainderText}.`);
+  // leftover ist jetzt verbucht -> payout enthaelt ihn, leftover-Rueckgabe = 0.
+  return { lines, payout: totalAssigned + leftover, leftover: 0 };
+}
+
+// Faltet einen Alt-Topf (hq_pool/cu/credits/...) aus Legacy-Saves konservativ
+// ins Anker-Wallet (Index 0). Einmalig + idempotent (hq_pool wird danach geloescht).
+// Faltet einen Legacy-Geld-Topf (hq_pool/balance/assets) konservativ in die
+// Charakter-Wallets und projiziert characters[].wallet -> economy.wallets.
+// Arbeitet auf der DATEN-Ebene des Saves (data.party.characters[], data.economy),
+// laeuft in migrate_save VOR prepare_save_economy (das den Topf strippt).
+//
+// WICHTIG: KEINE cu/credits in den Topf-Keys - das sind seit jeher der
+// berechnete View-Spiegel (= Summe Wallets), nicht von einem echten Topf zu
+// unterscheiden. Wuerde man sie falten, entstuende bei jedem Reload Inflation.
+//
+// Konservativ + idempotent: der Topf wird genau einmal ins Anker-Wallet (Index 0
+// der kanonischen Roster-Liste) addiert, dann aus economy entfernt. Ein zweiter
+// Lauf findet keinen Topf mehr.
+function fold_legacy_pool_into_characters(data){
+  if (!data || typeof data !== 'object') return;
+  const economy = (data.economy && typeof data.economy === 'object') ? data.economy : (data.economy = {});
+  const roster = Array.isArray(data?.party?.characters) ? data.party.characters : [];
+
+  // (1) Alt-Topf sichern (nur echte Topf-Keys, NIE cu/credits).
+  let legacyPool = 0;
+  for (const key of ['hq_pool', 'balance', 'assets']){
+    const v = normalize_primary_currency(economy[key]);
+    if (v !== null && v > 0){ legacyPool = v; break; }
+  }
+  // (2) Topf konservativ ins Anker-Wallet (party.characters[0]) falten.
+  if (legacyPool > 0 && roster.length){
+    const anchor = roster[0];
+    const cur = normalize_primary_currency(anchor.wallet);
+    anchor.wallet = Math.max(0, (cur === null ? 0 : cur) + legacyPool);
+  }
+  // Legacy-Topf-Felder aus economy entfernen (kein gespeicherter Topf mehr).
+  for (const key of ['hq_pool', 'balance', 'assets']){
+    if (key in economy) delete economy[key];
+  }
+  // (3) economy.wallets aus characters[].wallet projizieren (Owner-Key = id).
+  const wallets = {};
+  roster.forEach((member) => {
+    if (!member || typeof member !== 'object') return;
+    const id = normalize_wallet_id(member.id);
+    if (!id) return;
+    const bal = normalize_primary_currency(member.wallet);
+    const name = typeof member.name === 'string' && member.name.trim()
+      ? member.name.trim()
+      : (typeof member.callsign === 'string' && member.callsign.trim() ? member.callsign.trim() : null);
+    wallets[id] = { balance: bal === null ? 0 : Math.max(0, bal), ...(name ? { name } : {}) };
+  });
+  economy.wallets = wallets;
+  // cu/credits als View-Spiegel (= Summe Wallets) setzen.
+  const total = sum_wallet_balances(wallets).total;
+  economy.cu = total;
+  economy.credits = total;
+}
+
+// Liest den gespeicherten Startwert eines Charakters (characters[].wallet,
+// also state.character / party.characters[] / team.members[]) anhand der id.
+// characters[].wallet ist die gespeicherte Geld-SSOT; economy.wallets ist nur
+// der Laufzeit-Spiegel davon.
+function wallet_seed_from_character(id){
+  if (!id) return 0;
+  const sources = [];
+  if (state.character && typeof state.character === 'object') sources.push(state.character);
+  const party = state.party;
+  if (party && Array.isArray(party.characters)) sources.push(...party.characters);
+  const team = state.team;
+  if (team && Array.isArray(team.members)) sources.push(...team.members);
+  for (const src of sources){
+    if (!src || typeof src !== 'object') continue;
+    const srcId = typeof src.id === 'string' && src.id.trim() ? src.id.trim() : null;
+    if (srcId === id){
+      const w = asNumber(src.wallet);
+      if (w !== null) return Math.max(0, Math.round(w));
+    }
+  }
+  return 0;
 }
 
 function initialize_wallets_from_roster(){
@@ -5914,7 +6015,9 @@ function initialize_wallets_from_roster(){
   roster.forEach((entry) => {
     if (!entry || !entry.id) return;
     if (!wallets[entry.id]){
-      wallets[entry.id] = { balance: 0, name: entry.label || null };
+      // Startguthaben aus characters[].wallet (SSOT) uebernehmen, sonst 0.
+      const seed = wallet_seed_from_character(entry.id);
+      wallets[entry.id] = { balance: Math.max(0, Math.round(seed || 0)), name: entry.label || null };
       created += 1;
     } else if (!wallets[entry.id].name && entry.label){
       wallets[entry.id].name = entry.label;
@@ -5924,6 +6027,53 @@ function initialize_wallets_from_roster(){
     hud_toast(`Wallets initialisiert (${created}×)`, 'HQ');
   }
   return created;
+}
+
+// Offizieller Gruppenkasse-View (= Summe aller Wallets), NICHT gespeichert.
+function group_treasury_view(economy = state.economy){
+  return sum_wallet_balances(economy && economy.wallets).total;
+}
+
+// Wallet->Wallet-Uebergabe, streng konservativ (Summe bleibt gleich).
+function transfer_cu(fromId, toId, amount){
+  const economy = ensure_economy();
+  const wallets = wallet_lookup();
+  const amt = normalize_cu(amount);
+  if (amt === null || amt <= 0){
+    throw new Error('Transfer: Betrag muss positiv sein.');
+  }
+  const from = normalize_wallet_id(fromId);
+  const to = normalize_wallet_id(toId);
+  if (!from || !to){
+    throw new Error('Transfer: Ungueltige Wallet-ID.');
+  }
+  if (from === to){
+    throw new Error('Transfer: Quelle und Ziel identisch.');
+  }
+  if (!wallets[from]){
+    throw new Error(`Transfer: Quell-Wallet ${from} existiert nicht.`);
+  }
+  if (!wallets[to]){
+    throw new Error(`Transfer: Ziel-Wallet ${to} existiert nicht.`);
+  }
+  const fromBal = Math.max(0, Math.round(wallets[from].balance || 0));
+  if (fromBal < amt){
+    throw new Error(
+      `Transfer gescheitert: ${wallets[from].name || from} hat nur ${fromBal} CU (benoetigt ${amt}).`);
+  }
+  const before = group_treasury_view(economy);
+  wallets[from].balance = fromBal - amt;
+  wallets[to].balance = Math.max(0, Math.round(wallets[to].balance || 0)) + amt;
+  sync_primary_currency(economy, undefined, { reason: 'wallet_transfer', source: 'transfer' });
+  const after = group_treasury_view(economy);
+  if (before !== after){
+    throw new Error(`Transfer-Invariante verletzt: ${before} != ${after}`);
+  }
+  // Dediziertes cu_transfer-Trace (unabhaengig von der Treasury-Invariante - die
+  // bleibt per Definition konstant, also wuerde record_currency_sync nichts loggen).
+  record_trace('cu_transfer', { from, to, amount: amt });
+  hud_toast(`Transfer: ${amt} CU ${wallets[from].name || from} → ${wallets[to].name || to}`, 'HQ');
+  return { from, to, amount: amt, treasury: after };
 }
 
 function sum_wallet_balances(wallets){
@@ -5954,39 +6104,33 @@ function sum_market_spend(logs){
 function economy_audit_guidelines(level, walletCount){
   if (!Number.isFinite(level)) return null;
   let band = null;
-  let hqMin = null;
-  let hqMax = null;
   let walletMin = null;
   let walletMax = null;
+  // Der fruehere HQ-Pool-Anteil ist in die Pro-Wallet-Baender eingerechnet
+  // (moderate Stauchung, siehe cu-waehrungssystem.md). Kein separates hq-Band mehr.
   if (level >= 900){
     band = '900+';
-    hqMin = 45000;
-    hqMax = 60000;
-    walletMin = 6000;
-    walletMax = 10000;
+    walletMin = 7000;
+    walletMax = 12000;
   } else if (level >= 512){
     band = '512';
-    hqMin = 25000;
-    hqMax = 30000;
-    walletMin = 3000;
-    walletMax = 5000;
+    walletMin = 3500;
+    walletMax = 6000;
   } else if (level >= 120){
     band = '120';
-    hqMin = 8000;
-    hqMax = 10000;
-    walletMin = 1000;
-    walletMax = 2000;
+    walletMin = 1200;
+    walletMax = 2400;
   }
   if (!band) return null;
-  const walletTotal = walletCount > 0
+  // Gruppenkasse-Zielband = Pro-Wallet-Band x Wallet-Anzahl (ersetzt hq_pool-Band).
+  const treasury = walletCount > 0
     ? { min: walletMin * walletCount, max: walletMax * walletCount }
     : null;
   return {
     level_band: band,
     targets: {
-      hq_pool: { min: hqMin, max: hqMax },
       wallet_avg: { min: walletMin, max: walletMax },
-      wallet_total: walletTotal
+      treasury
     }
   };
 }
@@ -6017,8 +6161,8 @@ function resolve_economy_audit_level(snapshot){
 
 function build_economy_audit(s){
   const economy = s?.economy || {};
-  const hqPool = Number.isFinite(economy.cu) ? Math.max(0, Math.round(economy.cu)) : 0;
   const { total: walletSum, count: walletCount } = sum_wallet_balances(economy.wallets);
+  const treasury = walletSum; // Gruppenkasse = Summe Wallets (View)
   const walletAvg = walletCount > 0 ? Math.round(walletSum / walletCount) : null;
   const { level, band_reason: bandReason } = resolve_economy_audit_level(s);
   const walletAvgScope = 'economy.wallets';
@@ -6035,20 +6179,20 @@ function build_economy_audit(s){
   };
   const delta = targetRange
     ? {
-      hq_pool: deltaFor(hqPool, targetRange.hq_pool),
+      treasury: deltaFor(treasury, targetRange.treasury),
       wallet_avg: deltaFor(walletAvg, targetRange.wallet_avg)
     }
     : null;
   const outOfRange = delta
     ? {
-      hq_pool: delta.hq_pool !== null && delta.hq_pool !== 0,
+      treasury: delta.treasury !== null && delta.treasury !== 0,
       wallet_avg: delta.wallet_avg !== null && delta.wallet_avg !== 0
     }
     : null;
   return {
     level,
     band_reason: bandReason,
-    hq_pool: hqPool,
+    treasury,
     wallet_sum: walletSum,
     wallet_count: walletCount,
     wallet_avg: walletAvg,
@@ -6063,10 +6207,10 @@ function build_economy_audit(s){
 function maybe_toast_economy_audit(audit){
   if (!audit?.out_of_range) return;
   const parts = [];
-  if (audit.out_of_range.hq_pool) parts.push('HQ-Pool');
+  if (audit.out_of_range.treasury) parts.push('Gruppenkasse');
   if (audit.out_of_range.wallet_avg) parts.push('Wallets');
   const scope = parts.length ? parts.join('/') : 'Ökonomie';
-  const band = audit.target_range && audit.target_range.hq_pool
+  const band = audit.target_range
     ? `Lvl ${audit.target_range?.level_band || audit.level || 'n/a'}`
     : 'Endgame';
   hud_toast(`Economy-Audit: ${scope} außerhalb Richtwerten (${band}).`, 'HQ');
@@ -6661,26 +6805,32 @@ function gatherArenaPlayers(){
   return players;
 }
 
-function readArenaCurrency(){
+// Arena-Eintritt: Initiator-Wallet ist die Zahlquelle; die Gebuehr SKALIERT aber
+// am Gruppenvermoegen (Entscheidung II). Gibt id + Initiator-Balance + Treasury zurueck.
+function readArenaCurrency(options = {}){
   const economy = ensure_economy();
-  for (const key of ECONOMY_PRIMARY_KEYS){
-    if (!(key in economy)) continue;
-    const normalized = normalize_primary_currency(economy[key]);
-    if (normalized !== null){
-      return { key, value: normalized };
-    }
-  }
-  const synced = sync_primary_currency(economy);
-  return { key: 'credits', value: synced };
+  const rosterInfo = build_wallet_roster();
+  const initiatorId = (typeof options.initiator_id === 'string' && options.initiator_id.trim())
+    || (typeof options.character_id === 'string' && options.character_id.trim())
+    || (rosterInfo.roster[0] && rosterInfo.roster[0].id);
+  const label = (initiatorId && rosterInfo.indexById.has(initiatorId))
+    ? rosterInfo.roster[rosterInfo.indexById.get(initiatorId)].label
+    : null;
+  const record = initiatorId ? get_wallet_record(initiatorId, label) : null;
+  const value = record ? Math.max(0, Math.round(record.balance || 0)) : 0;
+  return { key: initiatorId, value, treasury: group_treasury_view(economy) };
 }
 
+// Zieht die Gebuehr aus dem Initiator-Wallet ab (key = initiatorId).
 function writeArenaCurrency(key, value, reason = null){
   const economy = ensure_economy();
-  const normalized = normalize_primary_currency(value);
-  const amount = normalized === null ? 0 : normalized;
-  economy[key] = amount;
+  const record = key ? get_wallet_record(key) : null;
+  if (record){
+    const normalized = normalize_primary_currency(value);
+    record.balance = normalized === null ? 0 : Math.max(0, normalized);
+  }
   const trace = reason ? { reason, source: 'arena' } : undefined;
-  sync_primary_currency(economy, amount, trace);
+  sync_primary_currency(economy, undefined, trace);
 }
 
 function getArenaFee(currency = 0){
@@ -6776,10 +6926,13 @@ function arenaStart(options = {}){
   if (arena.active){
     throw new Error('Arena bereits aktiv – beendet zuerst die laufende Serie.');
   }
-  const { key, value } = readArenaCurrency();
-  const fee = getArenaFee(value);
+  const { key, value, treasury } = readArenaCurrency(options);
+  // Gebuehr skaliert am Gruppenvermoegen, bezahlt wird aus dem Initiator-Wallet.
+  const fee = getArenaFee(treasury);
   if (value < fee){
-    throw new Error('Arena-Gebühr kann nicht bezahlt werden. Credits prüfen.');
+    throw new Error(
+      'Arena-Gebühr kann nicht bezahlt werden. Initiator-Wallet prüfen ' +
+      '(ggf. vorher per CU-Übergabe zusammenlegen).');
   }
   const players = gatherArenaPlayers();
   const tierRule = resolveArenaTier(players);
@@ -8167,8 +8320,11 @@ function prepare_save_arena(arena){
 
 function prepare_save_economy(economy){
   const base = clone_plain_object(economy);
+  if ('hq_pool' in base){
+    delete base.hq_pool; // niemals einen gespeicherten Topf exportieren
+  }
   const primary = sync_primary_currency(base);
-  base.cu = primary;
+  base.cu = primary;     // View-Spiegel (= Summe Wallets), kein Topf
   base.credits = primary;
   const wallets = {};
   if (base.wallets && typeof base.wallets === 'object' && !Array.isArray(base.wallets)){
@@ -8884,8 +9040,35 @@ function select_state_for_save(s, options = {}){
     arena: prepare_save_arena(s.arena),
     arc_dashboard: arcDashboard
   };
+  project_wallets_to_characters(payload);
   enforce_required_save_fields(payload);
   return payload;
+}
+
+// Schreibt die Runtime-Wallets (economy.wallets, Owner-Key = id) zurueck in die
+// gespeicherte Geld-SSOT characters[].wallet (party.characters[] + character).
+// So ist die in Schema/Doku deklarierte SSOT im echten Export auch real
+// vorhanden und deckungsgleich mit economy.wallets (kein Doku-/Code-Drift).
+function project_wallets_to_characters(payload){
+  if (!payload || typeof payload !== 'object') return;
+  const wallets = (payload.economy && payload.economy.wallets && typeof payload.economy.wallets === 'object')
+    ? payload.economy.wallets
+    : {};
+  const applyTo = (member) => {
+    if (!member || typeof member !== 'object') return;
+    const id = normalize_wallet_id(member.id);
+    if (!id) return;
+    const rec = wallets[id];
+    if (rec && Number.isFinite(rec.balance)){
+      member.wallet = Math.max(0, Math.round(rec.balance));
+    }
+  };
+  if (payload.party && Array.isArray(payload.party.characters)){
+    payload.party.characters.forEach(applyTo);
+  }
+  if (payload.character){
+    applyTo(payload.character);
+  }
 }
 
 function save_deep(s=state){
@@ -9110,6 +9293,12 @@ function migrate_save(data){
     data.campaign.phase = normalize_phase_value(data.campaign.phase, data.phase);
   }
   normalize_party_roster(data);
+  // Wallet-SSOT-Migration auf DATEN-Ebene, BEVOR prepare_save_economy den
+  // Legacy-Topf strippt. Faltet hq_pool/balance/assets konservativ ins
+  // Anker-Wallet (party.characters[0]) und projiziert characters[].wallet ->
+  // economy.wallets, damit der Runtime das Geld sieht. Idempotent: laeuft nur,
+  // solange noch ein echter Alt-Topf vorhanden ist.
+  fold_legacy_pool_into_characters(data);
   data.character = prepare_save_character(data.character, { requireId: false });
   data.campaign = prepare_save_campaign(data.campaign);
   data.economy = prepare_save_economy(data.economy);
@@ -9734,6 +9923,8 @@ function load_deep(raw){
   migrated.location = 'HQ';
   hydrate_state(migrated);
   ensure_economy();
+  // Legacy-Topf-Faltung passiert bereits in migrate_save (Daten-Ebene, vor
+  // prepare_save_economy). Hier nur noch der normale Wallet-Sync via ensure_economy.
   ensure_rift_seeds();
   const pxResetNote = apply_px_reset_if_ready('load');
   const arenaReset = reset_arena_after_load();
@@ -10126,6 +10317,22 @@ function on_command(command){
         return err.message;
       }
     }
+    if (cmd.startsWith('!uebergabe') || cmd.startsWith('!übergabe')){
+      // CU-Uebergabe Wallet->Wallet: !uebergabe <von> <an> <betrag>
+      // (IDs case-sensitiv aus dem Originalbefehl, nicht aus cmd).
+      const parts = command.trim().split(/\s+/);
+      if (parts.length < 4){
+        return 'Kodex: Syntax `!uebergabe <von-id> <an-id> <betrag>` '
+          + '(CU-Uebergabe zwischen zwei Wallets, in der HQ-Phase).';
+      }
+      try {
+        const res = transfer_cu(parts[1], parts[2], parts[3]);
+        return `Kodex: CU-Uebergabe verbucht. ${res.from} -> ${res.to}: ${res.amount} CU. `
+          + `Gruppenkasse: ${res.treasury} CU.`;
+      } catch (err){
+        return `Kodex: ${err.message}`;
+      }
+    }
     const missingStartBrackets = cmd.startsWith('spiel starten')
       && (!cmd.includes('(') || !cmd.includes(')'));
     if (missingStartBrackets){
@@ -10479,6 +10686,11 @@ module.exports = {
   phase_strike_cost,
   apply_arena_rules,
   apply_wallet_split,
+  transfer_cu,
+  group_treasury_view,
+  build_wallet_roster,
+  wallet_lookup,
+  initialize_wallets_from_roster,
   getArenaFee,
   arenaResume,
   arenaStart,

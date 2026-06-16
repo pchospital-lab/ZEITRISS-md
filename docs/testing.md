@@ -116,7 +116,7 @@ Zwei zentrale Profile unter `personas/`, weitere inline in den Harnesses
 Jeder Run muss mindestens die folgenden Punkte **explizit** prüfen:
 
 - **v7-Save-Schema:** `v: 7`, `characters[]`, `attr{}`, `reputation{}`,
-  `economy.hq_pool`, `level_history[]`, `last_seen.mode:"hq"`
+  `characters[].wallet` (kein `economy`-Geldfeld), `level_history[]`, `last_seen.mode:"hq"`
 - **Würfel-Mechanik:** `⌊Attribut/2⌋`-Formel (nicht `/2` ohne floor!),
   Exploding 6 bei W6, Exploding 10 bei W10, Burst-Cap 1
 - **HUD-Disziplin:** HUD nur bei Gate-Triggern (LP/Stress/PP/SYS-Änderung,
@@ -145,8 +145,8 @@ Mindest-Checks je Fall:
 
 - `family_id`, `thread_id`, `expected_threads`, `resolved_threads`,
   `convergence_ready`
-- deterministische Merge-Ergebnisse (`characters[]`, `economy.hq_pool`,
-  `campaign.px`/`px_state`)
+- deterministische Merge-Ergebnisse (`characters[]`, `characters[].wallet`
+  (Wallets reisen mit, kein Pool-Merge), `campaign.px`/`px_state`)
 - Konfliktprotokoll in `logs.flags.continuity_conflicts[]` bzw.
   `merge_conflicts`
 - Trace-Nachweise `team_split`/`team_merge`

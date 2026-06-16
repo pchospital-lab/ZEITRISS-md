@@ -17,7 +17,7 @@
       "id": "AGENT-A",
       "name": "Astra",
       "lvl": 912,
-      "wallet": 7200
+      "wallet": 60400
     },
     {
       "id": "AGENT-B",
@@ -45,7 +45,28 @@
     }
   ],
   "economy": {
-    "hq_pool": 53200
+    "wallets": {
+      "AGENT-A": {
+        "balance": 60400,
+        "name": "Astra"
+      },
+      "AGENT-B": {
+        "balance": 6900,
+        "name": "Blitz"
+      },
+      "AGENT-C": {
+        "balance": 8100,
+        "name": "Cipher"
+      },
+      "AGENT-D": {
+        "balance": 7600,
+        "name": "Dusk"
+      },
+      "AGENT-E": {
+        "balance": 7050,
+        "name": "Echo"
+      }
+    }
   },
   "logs": {
     "trace": [

@@ -31,7 +31,12 @@
     }
   ],
   "economy": {
-    "hq_pool": 0
+    "wallets": {
+      "AGENT-03": {
+        "balance": 1450,
+        "name": "Kira"
+      }
+    }
   },
   "logs": {
     "trace": [

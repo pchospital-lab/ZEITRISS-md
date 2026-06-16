@@ -22,11 +22,16 @@
       "name": "Kira",
       "lvl": 7,
       "xp": 220,
-      "wallet": 980
+      "wallet": 3980
     }
   ],
   "economy": {
-    "hq_pool": 3000
+    "wallets": {
+      "AGENT-03": {
+        "balance": 3980,
+        "name": "Kira"
+      }
+    }
   },
   "logs": {
     "trace": [

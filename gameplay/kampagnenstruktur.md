@@ -2033,10 +2033,11 @@ kurz an Schultern und Hüfte, die Halle brummt. Im Staging-Bereich blinken die
 Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat-Zone
 öffnet, "setzen" sich MR-Waffen und Fahrzeuge sauber auf die realen Rigs.
 
-1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
-   Vermögens**. Kodex zieht den Betrag aus dem primären Economy-Feld und
-   schreibt ihn in `economy.hq_pool`; ein optionaler Credits-Fallback wird
-   nur für Legacy-Importe synchronisiert, damit der HQ-Stand konsistent bleibt.
+1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des Gruppenvermögens**
+   (Summe aller Wallets). Kodex zieht den Betrag aus dem **Wallet des
+   eintretenden Charakters** (`characters[].wallet`); reicht das Wallet nicht,
+   ist der Eintritt gesperrt (vorher per CU-Übergabe zusammenlegen). Legacy-
+   `economy.*` bleibt reiner Importpfad.
    Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
 2. **Szenario-Setup:** Kodex zieht das Arenenszenario aus
    `kreative-generatoren-missionen.md#missions-generator` und beschreibt die

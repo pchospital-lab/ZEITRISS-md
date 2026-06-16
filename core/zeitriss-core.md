@@ -705,7 +705,7 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v7, gekürzt):
       "wallet": 320
     }
   ],
-  "economy": { "hq_pool": 0 },
+  "economy": { "wallets": {} },
   "logs": {
     "trace": [],
     "market": [],

@@ -19,7 +19,7 @@
   "characters": [
     {
       "id": "AGENT-R",
-      "wallet": 4200
+      "wallet": 26800
     },
     {
       "id": "AGENT-P",
@@ -27,7 +27,14 @@
     }
   ],
   "economy": {
-    "hq_pool": 22600
+    "wallets": {
+      "AGENT-R": {
+        "balance": 26800
+      },
+      "AGENT-P": {
+        "balance": 3900
+      }
+    }
   },
   "logs": {
     "flags": {

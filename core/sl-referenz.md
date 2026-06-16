@@ -53,18 +53,18 @@ tags: [core, reference, gm]
 - **Speichern.** _(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz.)_
   Einsätze lassen kein Speichern zu; der Dispatcher meldet
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt." und hält die Mission
-  aktiv. Beim Laden bleibt der HQ-Pool des Session-Ankers maßgeblich; Import-Wallets
+  aktiv. Beim Laden bleiben die Wallets pro `characters[].id` maßgeblich; Import-Wallets
   werden union-by-id angehängt, fehlende Labels aus dem Import ergänzt, und
   Konflikte landen in `logs.flags.continuity_conflicts` (Allowlist:
   `wallet|rift_merge|arena_resume|campaign_mode|phase_bridge|location_bridge`)
   plus dem Trace `merge_conflicts`.
   Jeder HQ-Save schreibt ein `economy_audit`-Trace mit Level-Band
-  (120/512/900+), `band_reason`, `wallet_avg_scope`, `target_range` (HQ-Pool +
+  (120/512/900+), `band_reason`, `wallet_avg_scope`, `target_range` (Gruppenkasse +
   Wallet-Richtwert), Delta-Flags (`delta`, `out_of_range`),
   `chronopolis_sinks` (Liste der angesetzten Sinks) sowie dem berechneten
   Wallet-Durchschnitt. Die Band-Auswahl nutzt den Session-Anker-Level; fehlt dieser,
-  greift der Median der Party/Team-Roster. Weichen HQ-Pool oder Wallet
-  vom Ziel ab, erscheint der Toast "Economy-Audit: HQ-Pool/Wallets außerhalb
+  greift der Median der Party/Team-Roster. Weichen Gruppenkasse oder Wallet
+  vom Ziel ab, erscheint der Toast "Economy-Audit: Gruppenkasse/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).".
   SaveGuards loggen `save_blocked` mit Grund, Standort (`location`) und Phase
   (`phase`), damit die Reihenfolge und der Auslöser nachvollziehbar bleiben.
@@ -273,7 +273,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - v6-Saves (`save_version: 6`) bleiben reiner Importpfad und werden beim Laden
   automatisch auf v7 gehoben (`v: 7`): Legacy-Roster (`party.characters[]`,
   `team.members[]`) wird in `characters[]` zusammengeführt; Legacy-Pool
-  `economy.cu` wird auf `economy.hq_pool` normalisiert.
+  `economy.cu`/`economy.hq_pool` (Legacy) wird beim Import dem Session-Anker-Wallet (Index 0) gutgeschrieben.
 - Kanonischer HQ-Deepsave (v7) persistiert pro Eintrag in `characters[]`
   mindestens `id`, `attr`, `sys_installed`, `stress` und (bei Psi-Charakteren)
   `psi_heat`.
@@ -284,7 +284,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `SYS_used`, `cooldowns`) werden nicht persistiert und beim Laden neu gesetzt.
 - Legacy-Importe mit Root-`character{}`/`character.attributes{}` werden beim
   Laden auf das v7-Zielschema (`characters[]` + `attr`) normalisiert.
-- `campaign.px`, `economy.hq_pool`, `characters[].wallet`,
+- `campaign.px`, `characters[].wallet`,
   `characters[].history`, `characters[].carry`,
   `characters[].quarters_stash`, `characters[].vehicles`, `logs`
   (inklusive
@@ -326,8 +326,8 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   optionale `voice_profile`. Migration und Serializer ergänzen fehlende Felder
   mit Defaults (`standard|normal|gm_second_person`, `action_mode=uncut`),
   sodass der SaveGuard den normalisierten UI-Block prüft.
-- Wallet-Audits arbeiten ausschließlich auf dem v7-Zielmodell: Session-Anker-HQ-Pool in
-  `economy.hq_pool`, persönliche Guthaben in `characters[].wallet`. Union-/Merge-
+- Wallet-Audits arbeiten ausschließlich auf `characters[].wallet`; die Gruppenkasse
+  ist die berechnete Summe daraus. Union-/Merge-
   Konflikte werden über `logs.flags.continuity_conflicts[]` (`field='wallet'`)
   dokumentiert.
 - **Legacy-Spiegel für KI-SL (ohne runtime.js):** Alte Root-Schlüssel wie
@@ -437,9 +437,11 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   ohne Arena-Fokus weiter.
 - **Phase-Strike Arena.** `arenaStart(options)` zieht die Arena-Gebühr aus
   `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier,
-  Szenario, Policy sowie Cashout-/Risiko-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
-  (`economy.hq_pool`) geführt; der Credits-Fallback bleibt reiner Legacy-Importpfad;
-  `sync_primary_currency()` hält beide Felder deckungsgleich und protokolliert
+  Szenario, Policy sowie Cashout-/Risiko-Status per HUD-Toast. Die Gebühr (skaliert am
+  Gruppenvermögen) wird aus dem **Wallet des eintretenden Charakters** abgebucht
+  (`characters[].wallet`); reicht das Wallet nicht, scheitert der Arena-Eintritt. Der
+  `economy.*`-Fallback bleibt reiner Legacy-Importpfad;
+  `sync_primary_currency()` spiegelt danach die Gruppenkasse und protokolliert
   bei Arena-Gebühren, Wallet-Splits und Markt-Käufen `currency_sync`-Traces
   mit Delta und Grund.
 
@@ -823,7 +825,7 @@ Core-/Story-Beute; Rift-Loot nutzt Ermittlungsakten, Para-Spuren und experimente
 **Artefakt-Sink:** Artefakte bleiben handelbar wie Gear (Tausch, Schenkung oder
 Verkauf zulässig), aber die Abrechnung läuft über Research-/Archivwerte statt
 Marktpreis. Archivieren zieht sie endgültig aus der Wirtschaft, CUs fließen nur
-über den HQ-Pool und nie als automatischer Sellout.
+über das Charakter-Wallet (Verkauf/Tausch durch den Besitzer) und nie als automatischer Sellout.
 
 ## Kampagnenhierarchie
 
@@ -998,12 +1000,12 @@ separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
 landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und
 HUD-Overlay, sodass der Run nachvollziehbar bleibt.
 Beim HQ-Save ergänzt die Runtime außerdem ein `economy_audit`-Trace mit Level,
-HQ-Pool, Wallet-Summe, Zielband (120/512/900+), Delta-Feldern und
+Gruppenkasse (= Wallet-Summe), Zielband (120/512/900+), Delta-Feldern und
 Chronopolis-Sinks (Toast nur bei Abweichungen).
 Für KI-SL ist der Export-Kanon ausschließlich das **Kompakt-Profil** im
 Wissensspeicher: Nutze die SaveGuard-Liste als Pflichtset und den Baum
 `v/zr → characters[]
-→ campaign/campaign.rift_seeds → loadout/economy.hq_pool → logs.*
+→ campaign/campaign.rift_seeds → loadout → logs.*
 → arc/ui/arena`, um den Speicherstand zu rekonstruieren.
 Externe Schema-Dateien sind reine Runtime-/Tooling-Hilfen außerhalb des
 Wissensspeichers; Legacy-Imports können dort weiterhin als
@@ -1260,25 +1262,23 @@ Entscheidung - nicht automatisch im selben Zug.
   sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs; bei
   protokollierten Cuts erscheint zusätzlich `How-to-Guard n×`.
 - Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche
-  Auszahlungen (`characters[].wallet`) und `HQ-Pool: … CU verfügbar` für den
-  Restbestand (`economy.hq_pool`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
-  sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus
-  `characters[]`; Legacy-Aliase (`party.characters[]`/`team.members[]`) bleiben
-  ausschließlich Importpfad.
-  `initialize_wallets_from_roster()` verschiebt alte Solo-Guthaben vollständig
-  in den HQ-Pool und öffnet anschließend die Wallets aller aktiven IDs. Ohne
-  Spezialvorgaben teilt die SL die Prämie gleichmäßig und holt eine
-  Bestätigung ein, bevor Sonderwünsche umgesetzt werden. Der HQ-Pool bleibt
-  als `economy.hq_pool` der einzige kanonische Team-Kontostand.
-- **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
-  landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
-  die Wallet-Verteilung.
+  Auszahlungen (`characters[].wallet`) und `Gruppenkasse: … CU` als reine
+  Anzeige (= Σ Wallets). Beim Umstieg von Solo auf Koop behält jeder Charakter
+  sein Wallet; nichts wird verschoben. Wallets sind pro `characters[].id`
+  direkt verfügbar; Legacy-Aliase (`party.characters[]`/`team.members[]`)
+  bleiben ausschließlich Importpfad. Ohne Spezialvorgaben teilt die SL die
+  Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche
+  umgesetzt werden. Es gibt keinen Team-Kontostand; die Gruppenkasse ist die
+  berechnete Wallet-Summe.
+- **Hazard-Pay** wird dem Split zugeschlagen: `hazard_pay`-Angaben im Debrief
+  fließen mit der Grundprämie direkt in die Wallets (`Hazard-Pay: … CU
+  priorisiert in den Split`), kein Zwischentopf.
 - **Deterministische Verteilung.** `Wallet-Split (n×)` listet alle IDs in
-  Roster-Reihenfolge, verteilt Rundungsreste von oben nach unten und schließt
-  mit einem einzigen Hinweis auf den verbleibenden HQ-Pool (`Rest … CU im
-HQ-Pool`).
-- **String-Eingaben für CU** bleiben erhalten: HQ-Pool (`economy.hq_pool`) und
-  Charakter-Wallets (`characters[].wallet`) akzeptieren numerische Strings wie `"1500"`
+  Roster-Reihenfolge und verteilt Rundungsreste von oben nach unten; ein
+  etwaiger letzter Rest-CU geht an den ersten Charakter (Index 0). Keine
+  `Rest … CU im HQ-Pool`-Zeile mehr.
+- **String-Eingaben für CU** bleiben erhalten: Charakter-Wallets
+  (`characters[].wallet`) akzeptieren numerische Strings wie `"1500"`
   und wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
   Werte fallen auf `0` zurück.
 - **High-Level-Ökonomie:** Modul 15 enthält die kanonischen Economy-Bänder 120/512/900+
@@ -1428,7 +1428,7 @@ characters: [{                          // Array, Session-Anker = Index 0
   reputation: {iti, faction, factions:{}},
   wallet
 }]
-economy: { hq_pool }
+economy: { wallets{ <id>:{balance,name} } }
 logs: { trace:[], market:[], artifact_log:[], notes:[], flags:{} }
 summaries: { summary_last_episode, summary_last_rift, summary_active_arcs }
 continuity: {

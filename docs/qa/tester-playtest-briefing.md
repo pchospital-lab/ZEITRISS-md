@@ -35,7 +35,7 @@ tags: [meta]
 | Test             | Eingabe                                      | Prüfpunkte                                       |
 | ---------------- | -------------------------------------------- | ------------------------------------------------ |
 | Gruppe erstellen | `Spiel starten (gruppe klassisch)` + 2-5 Saves | characters[] Array, Host = Index 0               |
-| Team-Split       | Nach Episode: Gruppe aufteilen               | Seeds korrekt zugewiesen, HQ-Pool aufgeteilt     |
+| Team-Split       | Nach Episode: Gruppe aufteilen               | Seeds korrekt zugewiesen, Wallets reisen mit (nichts geteilt) |
 | Separate Rifts   | Jedes Teilteam spielt Rift in eigenem Chat   | Unabhängige Saves, Artefakte, Level-Ups          |
 | Team-Merge       | 2 Saves zusammenführen                       | Transparentes Merge-Protokoll, alle Chars intakt |
 
@@ -59,7 +59,7 @@ Prüfe bei jedem Save:
 - `characters[]` (nicht `character{}` + `party{}`)
 - `attr` (nicht `attributes` mit SYS_max/runtime/used)
 - `reputation` mit Fraktionswerten
-- `economy.hq_pool` (nicht `economy.cu`)
+- `characters[].wallet` (kein `economy`-Geldfeld; Gruppenkasse = berechnete Summe)
 - Keine Laufzeit-Daten (exfil, cooldowns, scene)
 - Logs: 4 Arrays (trace, market, artifact_log, notes)
 

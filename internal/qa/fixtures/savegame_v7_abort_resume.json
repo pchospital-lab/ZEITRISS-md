@@ -12,11 +12,15 @@
   "characters": [
     {
       "id": "AGENT-ABORT",
-      "wallet": 2300
+      "wallet": 13400
     }
   ],
   "economy": {
-    "hq_pool": 11100
+    "wallets": {
+      "AGENT-ABORT": {
+        "balance": 13400
+      }
+    }
   },
   "logs": {
     "trace": [

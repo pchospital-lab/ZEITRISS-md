@@ -54,9 +54,11 @@ NODE_SCRIPT = textwrap.dedent(
       cooldowns: {},
       attributes: { SYS_max: 2, SYS_used: 2 }
     };
-    state.economy = { credits: 1500 };
+    // Wallet-SSOT: der kaufende Charakter zahlt aus seinem Wallet.
+    state.economy = { wallets: { 'qa-agentin': { balance: 1500, name: 'Operator' } } };
 
     log_market_purchase('Null-Grav-Tether', 450, {
+      buyer_id: 'qa-agentin',
       timestamp: '2025-06-13T11:00:00.000Z',
       px_clause: 'kein Px-Abzug',
       note: 'QA Einkauf'

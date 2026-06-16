@@ -19,7 +19,7 @@
   "characters": [
     {
       "id": "AGENT-1",
-      "wallet": 2800
+      "wallet": 21100
     },
     {
       "id": "AGENT-2",
@@ -39,7 +39,23 @@
     }
   ],
   "economy": {
-    "hq_pool": 18300
+    "wallets": {
+      "AGENT-1": {
+        "balance": 21100
+      },
+      "AGENT-2": {
+        "balance": 2600
+      },
+      "AGENT-3": {
+        "balance": 2500
+      },
+      "AGENT-4": {
+        "balance": 2400
+      },
+      "AGENT-5": {
+        "balance": 2450
+      }
+    }
   },
   "logs": {
     "flags": {

@@ -117,7 +117,7 @@ def check_sl_reference_save_contract(text: str, fails: list[str]) -> None:
 
     req(r"v:\s*7", section, "SL-Referenz benennt Save-Zielversion v7", fails)
     req(r"characters\[\]\s*\.wallet|characters\[\]\s*`?\.wallet`?", section, "SL-Referenz nutzt Charakter-Wallets als Zielmodell", fails)
-    req(r"economy\.hq_pool", section, "SL-Referenz nutzt economy.hq_pool als HQ-Pool", fails)
+    req(r"characters\[\]\.wallet|Gruppenkasse", section, "SL-Referenz nutzt Wallet-SSOT/Gruppenkasse", fails)
     req(r"arc\.(factions|questions|hooks)", section, "SL-Referenz nutzt Arc-v7-Pfad", fails)
 
     legacy_hard_fails: tuple[str, ...] = (
@@ -149,7 +149,7 @@ def check_save_v7_canonical_export_block(text: str, fails: list[str]) -> None:
     req(r"\"v\"\s*:\s*7", section, "Save-Exportformat nutzt v: 7", fails)
     req(r"\"characters\"\s*:\s*\[", section, "Save-Exportformat nutzt characters[]", fails)
     req(r"\"wallet\"\s*:", section, "Save-Exportformat nutzt Charakter-Wallets", fails)
-    req(r"\"hq_pool\"\s*:", section, "Save-Exportformat nutzt economy.hq_pool", fails)
+    req(r"\"wallets\"\s*:", section, "Save-Exportformat nutzt economy.wallets", fails)
     req(r"\"arc\"\s*:\s*\{", section, "Save-Exportformat nutzt arc-Objekt", fails)
 
     req(r"\"history\"\s*:\s*\{", section, "Save-Exportformat nutzt Charakter-History", fails)
@@ -164,7 +164,6 @@ def check_save_v7_canonical_export_block(text: str, fails: list[str]) -> None:
         r"\"party\"\s*:",
         r"\"team\"\s*:",
         r"\"cu\"\s*:",
-        r"\"wallets\"\s*:",
         r"arc_dashboard",
     )
     for pattern in forbidden:
@@ -390,7 +389,7 @@ def check_full_hq_deepsave_block_uses_v7_ssot(root: Path, fails: list[str]) -> N
     req(r'"v"\s*:\s*7', block, "HQ-Deepsave nutzt v: 7", fails)
     req(r'"characters"\s*:\s*\[', block, "HQ-Deepsave nutzt characters[]", fails)
     req(r'"wallet"\s*:', block, "HQ-Deepsave nutzt Wallet im Charaktermodell", fails)
-    req(r'"hq_pool"\s*:', block, "HQ-Deepsave nutzt economy.hq_pool", fails)
+    req(r'"wallets"\s*:', block, "HQ-Deepsave nutzt economy.wallets", fails)
     req(r'"arc"\s*:\s*\{', block, "HQ-Deepsave nutzt arc-Objekt", fails)
 
     forbidden_patterns: tuple[str, ...] = (
@@ -398,7 +397,6 @@ def check_full_hq_deepsave_block_uses_v7_ssot(root: Path, fails: list[str]) -> N
         r'"party"\s*:',
         r'"team"\s*:',
         r'"cu"\s*:',
-        r'"wallets"\s*:',
         r'"arc_dashboard"\s*:',
         r'compliance_shown_today',
     )
