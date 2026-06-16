@@ -340,7 +340,6 @@
               "label",
               "kind",
               "scope",
-              "tier",
               "missions_total",
               "missions_done",
               "status"
@@ -350,7 +349,6 @@
               "label": { "type": "string" },
               "kind": { "type": "string", "enum": ["hq_research", "field_decrypt"] },
               "scope": { "type": "string", "enum": ["episode", "campaign"] },
-              "tier": { "type": "number" },
               "missions_total": { "type": "number" },
               "missions_done": { "type": "number" },
               "status": { "type": "string", "enum": ["in_progress", "ready", "collected"] }
