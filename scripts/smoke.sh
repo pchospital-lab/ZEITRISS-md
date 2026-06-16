@@ -215,5 +215,9 @@ grep "px-language-watchguard-ok" out/px_language_watchguard.log
 node tools/test_save_budget_watchguard.js > out/save_budget_watchguard.log
 grep "save-budget-watchguard-ok" out/save_budget_watchguard.log
 
+# Research-Status-Enum-Watchguard (Start-Status in_progress, active verboten)
+node tools/test_research_status_enum_watchguard.js > out/research_status_enum_watchguard.log
+grep "research-status-enum-watchguard-ok" out/research_status_enum_watchguard.log
+
 echo ""
 echo "All smoke checks passed."
