@@ -682,6 +682,8 @@ danach weiter plausibel wirkt.
   - **Geltungsbereich:** Core-Debrief (dort entsteht Ruf). Ändert **keine** Mechanik — Rang-Mapping, Ruf-Progression, Cap 5, Tier-Tabelle bleiben unverändert; der Beat **rahmt** nur (wie Px-Resonanz- und Level-Up-Beat).
   - **Begründung:** Aufstieg war mechanisch korrekt, aber als Erlebnis ein String-Tausch in der HUD-Zeile — dasselbe Muster wie Px/Level-Up vor ihren Beats.
 
+- **Wallet-Übersicht & Gruppenkasse-Anzeige (Pflicht bei mehr als einem Charakter):** Immer wenn der Kodex Wallet-Stände auflistet — nach einer CU-Übergabe, im Debrief-Wallet-Split, oder wenn die Crew nach dem Geldstand/Gesamtüberblick fragt — folgt bei einer Gruppe (zwei oder mehr Charaktere) auf die Einzel-Wallets **immer** eine Summenzeile `` `Gruppenkasse: <Σ> CU` `` (Σ aller `characters[].wallet`). Im **Debrief-Wallet-Split** trägt sie kanonisch das Suffix `` `(Σ Wallets)` `` (so emittiert es die Runtime); bei Übergabe/Anfrage genügt `` `Gruppenkasse: <Σ> CU` `` ohne Suffix (Runtime-treu). Die Gruppenkasse ist ein **berechneter View** über die Wallet-Summe, kein gespeichertes Topf-Feld — sie hat keinen Eigentümer, niemand zahlt aus ihr (Käufe/Sinks ziehen immer aus dem Einzel-Wallet, scheitern bei Unterdeckung). **Solo (ein Charakter):** keine Gruppenkasse-Zeile — das einzelne Wallet *ist* der Kontostand. Beispiel nach Übergabe: `` `Wallet Nova: 1250 CU | Wallet Ghost: 1900 CU | Gruppenkasse: 3150 CU` ``.
+
 ## G) Ausgabeformat (Gate-basiert, siehe F)
 
 1. **HUD-Zeile oben (an Gates Pflicht, siehe HUD-Präsenz-Policy in F):**

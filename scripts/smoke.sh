@@ -219,5 +219,9 @@ grep "save-budget-watchguard-ok" out/save_budget_watchguard.log
 node tools/test_research_status_enum_watchguard.js > out/research_status_enum_watchguard.log
 grep "research-status-enum-watchguard-ok" out/research_status_enum_watchguard.log
 
+# Gruppenkasse-Sigma-Anzeige-Watchguard (Summenzeile Pflicht bei >1 Charakter)
+node tools/test_gruppenkasse_anzeige_watchguard.js > out/gruppenkasse_anzeige_watchguard.log
+grep "gruppenkasse-anzeige-watchguard-ok" out/gruppenkasse_anzeige_watchguard.log
+
 echo ""
 echo "All smoke checks passed."
