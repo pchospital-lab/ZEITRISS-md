@@ -225,7 +225,7 @@ characters[] { id, name, callsign, rank, lvl, xp, origin, attr, lp, lp_max,
                quarters_stash[], vehicles, artifact?, reputation, wallet,
                level_history },
 economy { wallets{ <id>:{balance,name} } },
-research { projects[] { id, label, kind, scope, tier, missions_total, missions_done, status, source?, reward_hint? } },
+research { projects[] { id, label, kind, scope, missions_total, missions_done, status, source?, reward_hint? } },
 logs { trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags },
 summaries { summary_last_episode, summary_last_rift, summary_active_arcs },
 continuity { last_seen { mode, episode, mission, location },
@@ -350,8 +350,8 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - `wallet`
 - `economy.{wallets}` (Runtime-Cache; gespeicherte Geld-SSOT ist `characters[].wallet`)
 - `research.{projects[]}` — laufende HQ-Forschungen UND Mission-Funde, die im Labor entschlüsselt/analysiert werden. Jeder Eintrag:
-  `{id, label, kind: "hq_research"|"field_decrypt", scope: "episode"|"campaign", tier, missions_total, missions_done, status: "in_progress"|"ready"|"collected", source?, reward_hint?}`.
-  `tier` = Anzahl Core-Missionen bis fertig (Tier 0 = sofort beim nächsten Debrief, Tier 5 = 5 Core-Missionen). `scope: "episode"` = der Fund/das Projekt gehört zur laufenden Episode und **muss vor dem Episoden-Boss (MS10) fertig werden, damit es im Finale einsetzbar ist** → `tier` wird beim Anlegen so gedeckelt, dass es spätestens beim MS9-Debrief `ready` wird (`missions_total = min(tier, 9 − aktuelle_Mission)`, siehe Masterprompt §C). `scope: "campaign"` = episodenübergreifender Verschwörungs-Strang, darf länger laufen (kein Cap). `missions_total` = der effektive (ggf. gedeckelte) Tier-Wert. `missions_done` tickt **+1 pro abgeschlossenem Core-Mission-Debrief**, beginnend beim **nächsten** Debrief nach dem Anlegen (nicht der laufenden Mission). `status` wird `ready`, sobald `missions_done >= missions_total`. Leeres Array, wenn nichts läuft. **Migration:** Ein Projekt ohne `scope` (Alt-Stand) wird als `scope: "campaign"` behandelt (kein rückwirkendes Cap).
+  `{id, label, kind: "hq_research"|"field_decrypt", scope: "episode"|"campaign", missions_total, missions_done, status: "in_progress"|"ready"|"collected", source?, reward_hint?}`.
+  `missions_total` = Anzahl Core-Missionen bis fertig (0 = sofort beim nächsten Debrief, 5 = 5 Core-Missionen). Research kennt **kein** `tier`-Feld — Dauer wird **ausschließlich** in Einsätzen (`missions_total`) gemessen; „Tier" ist im Spiel allein der Lizenz-/Ausrüstungs-Begriff. `scope: "episode"` = der Fund/das Projekt gehört zur laufenden Episode und **muss vor dem Episoden-Boss (MS10) fertig werden, damit es im Finale einsetzbar ist** → `missions_total` wird beim Anlegen so gedeckelt, dass es spätestens beim MS9-Debrief `ready` wird (`missions_total = min(Wunsch-Dauer, 9 − aktuelle_Mission)`, siehe Masterprompt §C). `scope: "campaign"` = episodenübergreifender Verschwörungs-Strang, darf länger laufen (kein Cap). `missions_done` tickt **+1 pro abgeschlossenem Core-Mission-Debrief**, beginnend beim **nächsten** Debrief nach dem Anlegen (nicht der laufenden Mission). `status` wird `ready`, sobald `missions_done >= missions_total`. Leeres Array, wenn nichts läuft. **Migration:** Ein Projekt ohne `scope` (Alt-Stand) wird als `scope: "campaign"` behandelt (kein rückwirkendes Cap). Ein Alt-Save mit `tier`-Feld (vor der Tier-Elimination): `tier` wird **ignoriert** — die Dauer kommt ausschließlich aus `missions_total`; beim nächsten `!save` fällt das `tier`-Feld weg.
 - `logs.{trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
 - `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`

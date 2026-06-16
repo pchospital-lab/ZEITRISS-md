@@ -1,18 +1,29 @@
-// Research-Status-Enum-Watchguard
+// Research-Feld-Hygiene-Watchguard (Status-Enum + Dauer-Eindeutigkeit)
 //
-// Hintergrund (Playtest 2026-06-16, eager-Solo-Lauf): Die SL schrieb
+// Hintergrund A (Playtest 2026-06-16, eager-Solo-Lauf): Die SL schrieb
 // research.projects[].status = "active" in einen echten Save. Gueltig sind laut
 // v7-Export-Schema NUR ["in_progress","ready","collected"]. Ursache: "active"
 // ist anderswo im Save-Schema gueltig (arena.queue_state, Rift-Seeds), und das
 // Research-Pflichtgate nannte den START-Status eines neu angelegten Projekts
 // nirgends -> die SL erfand das naheliegende "active".
 //
-// Dieser Watchguard verankert die Korrektur dauerhaft:
+// Hintergrund B (Review 2026-06-16): research trug frueher zusaetzlich ein
+// `tier`-Feld als Dauer-Wunschwert. "tier" ist im Spiel aber dreifach belegt
+// (Lizenz-Tier 0-V, Equipment-Tier, arena.tier) -> Verwechslungsgefahr fuer
+// das Sprachmodell. `tier` wurde aus research ELIMINIERT: Dauer wird
+// ausschliesslich in `missions_total` (Einsaetze) gemessen. "Tier" ist jetzt
+// allein der Lizenz-/Ausruestungs-Begriff.
+//
+// Dieser Watchguard verankert beide Korrekturen dauerhaft:
 //   1. Der Masterprompt nennt den Start-Status "in_progress" explizit.
 //   2. Der Masterprompt verbietet "active" als research-status explizit.
-//   3. Das Feld-SSOT (speicher-fortsetzung.md) traegt weiterhin genau das
-//      kanonische Enum in_progress|ready|collected.
-// So kann der prompt-seitige Fix nicht still wieder herausdriften.
+//   3. Das Feld-SSOT (speicher-fortsetzung.md) traegt genau das kanonische
+//      Enum in_progress|ready|collected.
+//   4. Das v7-Export-Schema traegt genau dieses Enum (Validierungs-Autoritaet).
+//   5. Das v7-Export-Schema fuehrt KEIN research-`tier`-Feld mehr (weder
+//      required noch als property) -> Dauer-Eindeutigkeit ueber missions_total.
+//   6. Der Masterprompt sagt explizit, dass research kein `tier` kennt.
+// So kann keiner der beiden Fixes still wieder herausdriften.
 
 const fs = require('fs');
 const path = require('path');
@@ -78,6 +89,27 @@ assert(
 assert(
   !enumVals.includes('active'),
   'v7-Export-Schema erlaubt "active" als research-status (darf es nicht).',
+);
+
+// 5) Dauer-Eindeutigkeit: research-Projekte fuehren KEIN `tier`-Feld mehr.
+const projItem = schema.properties.research.properties.projects.items;
+assert(
+  Array.isArray(projItem.required) && !projItem.required.includes('tier'),
+  'v7-Export-Schema: research.projects[] hat `tier` noch in required (muss raus -> Dauer = missions_total).',
+);
+assert(
+  !(projItem.properties && Object.prototype.hasOwnProperty.call(projItem.properties, 'tier')),
+  'v7-Export-Schema: research.projects[] definiert noch ein `tier`-property (muss raus -> Dauer = missions_total).',
+);
+assert(
+  Array.isArray(projItem.required) && projItem.required.includes('missions_total'),
+  'v7-Export-Schema: research.projects[] fuehrt `missions_total` nicht als required (= die Dauer-SSOT).',
+);
+
+// 6) Masterprompt sagt explizit, dass research kein `tier` kennt (Anti-Verwechslung).
+assert(
+  /research[^\n]*kein[^\n]*`tier`/i.test(mp) || /kein[^\n]*`tier`-Feld/i.test(mp),
+  'Masterprompt stellt nicht mehr klar, dass research kein `tier`-Feld kennt.',
 );
 
 console.log('research-status-enum-watchguard-ok');
