@@ -308,7 +308,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   - **Gruppen- und Split-Verhalten (Multiplayer/MMO):**
     - **Solo + Gruppe ohne Split** (Squad-Manöver kanonisch, siehe §I Squad-Manöver): Ein Hauptziel für die ganze Crew, geteilte Erfolgskriterien. Persönliche Nebenziele optional als *„Opt. (<Callsign>): …“* markiert, gewertet wie reguläre Opt./Bonus.
     - **Core-Splits mit `continuity.split.family_id`** (parallele Branches, §I Core-Split-Kanon): **Jeder Thread bekommt ein eigenes Briefing** mit eigenem Hauptziel und eigenen Opt./Bonus — das Pflichtgate gilt pro Thread, nicht pro Family. Geteiltes Episoden-Hauptziel taucht als *„Thread-übergreifend (`family_id`): …“* in jedem Thread-Briefing zusätzlich auf. Konvergenz (`resolved_threads[] == expected_threads[]`) löst den Merge der Folgespuren aus (siehe Punkt unten).
-    - **Debrief-Spiegel bei Split:** Jeder Thread spiegelt seine eigenen Ziele ab. Verfehlte Ziele eines Splits wandern in `continuity.shared_echoes[]` mit thread-getaggtem Format `{tag: "folgespur-ms<n>-<thread_id>", scope: "campaign", text: …}` (Schema-konform mit bestehendem `shared_echoes`-Pflichtformat, siehe §I Schema-v7-Regeln). Solo- und Squad-Folgespuren ohne Split-Kontext landen wie gewohnt als String-Eintrag in `arc.hooks[]`. Bei Konvergenz werden `shared_echoes`-Einträge gleichen `tag`-Werts dedupliziert nach bestehender Merge-Regel (Priorität `shared > campaign > rumor > personal`).
+    - **Debrief-Spiegel bei Split:** Jeder Thread spiegelt seine eigenen Ziele ab. Verfehlte Ziele eines Splits wandern in `continuity.shared_echoes[]` mit thread-getaggtem Format `{tag: "folgespur-ms<n>-<thread_id>", scope: "campaign", text: …}` (Schema-konform mit bestehendem `shared_echoes`-Pflichtformat, siehe §I Schema-v7-Regeln). Der `scope: "campaign"`-Wert markiert hier **nur die Merge-Dedup-Priorität** — die Folgespur bleibt eine kurzlebige Split-Spur in `shared_echoes` und wird **nicht** nach `research` umgeleitet (vgl. §I `shared_echoes`-Abgrenzung). Solo- und Squad-Folgespuren ohne Split-Kontext landen wie gewohnt als String-Eintrag in `arc.hooks[]`. Bei Konvergenz werden `shared_echoes`-Einträge gleichen `tag`-Werts dedupliziert nach bestehender Merge-Regel (Priorität `shared > campaign > rumor > personal`).
     - **Continuity-Anker bei Multi-Char:** Im Gruppen-Briefing **bevorzugt** Echos mit `scope: "shared"` oder `scope: "campaign"` ziehen, da sie für die ganze Crew relevant sind. `scope: "personal"`-Echos (oder `roster_echoes[]`-Einträge gebunden an einzelne `char_id`) nur dann als Briefing-Rückverweis nutzen, wenn der gebundene Charakter im aktiven Squad ist. Sonst als HQ-Vorgespräch-Beat individuell einspielen, nicht als Crew-Briefing-Ziel.
     - **Verb-SSOT und Pflicht-Output-Format gelten unverändert** — das ändert sich zwischen Solo und Gruppe nicht. Die Ziel-Ausgabe-Struktur (normaler Fließtext, höchstens kursiv, nie Codeblock/Inline-Backtick) bleibt strukturell identisch, nur die Anrede („Du“ vs. „Ihr“) folgt der §A-Pronomenregel.
   - **Geltungsbereich Core-Ops vs. Rift-Ops:** Dieses Pflichtgate gilt **ausschließlich für Core-Ops-Briefings**. **Rift-Ops haben ein eigenes Briefing-Format** und folgen nicht der Core-Ziel-Ausgabe-Pflicht. Konkrete Unterschiede für Rift-Ops:
@@ -1174,6 +1174,19 @@ klassischer Pfad" und macht klassisch weiter).
   Merge-Guard in `test_v7_schema_consistency.js` und `test_continuity_output_contract.js`. Beim Merge mehrerer Saves:
   Echos gleichen `tag`-Werts deduplizieren, `scope`-Konflikte via Priorität `shared > campaign > rumor > personal`
   auflösen.
+- **`shared_echoes`-Abgrenzung (kein Sammelbecken für den roten Faden):** `shared_echoes[]` ist die
+  **enge, flüchtige** Ablage für Split/Merge-Folgespuren (`folgespur-ms<n>-<thread_id>`) + kurzlebige
+  Ereignis-Echos — max 6, ältere werden beim HQ-`!save` verdichtet/gepruned (gewollt). Der
+  **epochenübergreifende Verschwörungs-Strang** (Identität/Funktion einer Fraktion, Natur eines
+  Prozesses/Objekts, langfristige Personen-/Ort-Spuren) gehört **nicht** als Einzel-Echos hierher,
+  sondern in **`research.projects[]`** (`scope: "campaign"`, kein Cap, reift über Epochen, siehe §C)
+  und/oder verdichtet in **`summaries.summary_active_arcs`**. Ein **Rift-Seed** gehört **nie** als Echo
+  in `shared_echoes` — er lebt allein in **`campaign.rift_seeds[]`** und entsteht dort ausschließlich
+  via ClusterCreate (Px 5, siehe §F Px-Resonanz), nie durch manuelles Eintragen. Faustregel beim
+  Debrief-`!save`: kurzlebige Split-Folgespur → `shared_echoes`,
+  über die Episode hinaus reifender Faden → `research`/`summary_active_arcs`. **Achtung scope-Marke:** Ein
+  `folgespur-ms…`-Item mit `scope: "campaign"` bleibt eine Split-Folgespur und gehört weiter in
+  `shared_echoes` — die `scope`-Marke steuert nur die Merge-Dedup-Priorität, **nicht** den Speicherort.
 - **`roster_echoes`-Pflichtformat (Split/Merge, ACHTUNG: andere Struktur als `shared_echoes`):** Jedes Item in
   `continuity.roster_echoes[]` MUSS ein Objekt mit mindestens `char_id` (Referenz auf `characters[].id`) sein.
   Vollständiges Format: `{ "char_id": "<CHR-ID>", "tone": "<stimmung>", "text": "<1-Satz-Recap: wer ist das, was

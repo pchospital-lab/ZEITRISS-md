@@ -1451,6 +1451,12 @@ arena?: { wins, losses, tier }          // nur wenn Arena genutzt
 > `arc.hooks` max 18, `history.milestones` max 20 pro Charakter.
 > **Kontinuitäts-Budget:** `roster_echoes` max 5, `shared_echoes` max 6,
 > `convergence_tags` max 4, `npc_roster` max 6, `active_npc_ids` max 4.
+> **`shared_echoes`-Abgrenzung:** enger flüchtiger Topf für Split/Merge-Folgespuren +
+> kurzlebige Ereignis-Echos (max 6, ältere verdichtet/gepruned). Der epochenübergreifende
+> Verschwörungs-Strang gehört NICHT hierher, sondern in `research.projects[]`
+> (`scope:"campaign"`, kein Cap) und/oder `summaries.summary_active_arcs`. Ein Rift-Seed gehört
+> nie als Echo hierher — er lebt allein in `campaign.rift_seeds[]` (entsteht nur via ClusterCreate,
+> Px 5). Siehe Masterprompt §I.
 > NPC-Scope bleibt `personal|session|iti`, NPC-Status
 > `attached|hq|assigned|recovering|missing|rival`.
 > Join/Leave-Guard: `personal` folgt `owner_id`, `session` bleibt am
