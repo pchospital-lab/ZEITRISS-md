@@ -1088,6 +1088,15 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
 - `split`: `{family_id, thread_id, expected_threads[], resolved_threads[], convergence_ready}` für kanonische Core-Splits.
 - `roster_echoes[]` (max 5), `shared_echoes[]` (max 6), `convergence_tags[]` (max 4).
 - **Pflichtformat `shared_echoes[]`:** Jedes Item MUSS Objekt mit mindestens `tag` sein, empfohlen vollständig `{ "tag": "<slug>", "scope": "shared|rumor|campaign|personal", "text": "<kurz>" }`. Bindung: **Ereignis/Erkenntnis**, nicht Figur.
+- **`shared_echoes`-Abgrenzung (kein Sammelbecken für den roten Faden):** `shared_echoes[]` ist eng und
+  flüchtig — für **Split/Merge-Folgespuren** (`folgespur-ms<n>-<thread_id>`) und kurzlebige Ereignis-Echos,
+  Budget max 6, ältere werden beim HQ-`!save` verdichtet/gepruned. Der **epochenübergreifende
+  Verschwörungs-Strang** gehört NICHT als Einzel-Echos hierher, sondern in `research.projects[]`
+  (`scope: "campaign"`, kein Cap, reift über Epochen) und/oder verdichtet in `summaries.summary_active_arcs`.
+  Ein Rift-Seed gehört nie als Echo hierher — er lebt allein in `campaign.rift_seeds[]` (entsteht dort nur
+  via ClusterCreate bei Px 5). Ausnahme: ein `folgespur-ms…`-Item mit `scope:
+  "campaign"` bleibt eine Split-Folgespur in `shared_echoes` (scope = Dedup-Marke, nicht Speicherort).
+  Siehe Masterprompt §I `shared_echoes`-Abgrenzung.
 - **Pflichtformat `roster_echoes[]` (andere Struktur!):** Jedes Item MUSS Objekt mit mindestens `char_id` sein, empfohlen vollständig `{ "char_id": "<CHR-ID>", "tone": "<stimmung>", "text": "<1-Satz-Recap>" }`. Bindung: **eine Figur**, nicht ein Ereignis. Niemals mit `shared_echoes`-Format vermischen.
 - **Gemeinsam**: Rohstrings (`["Lagerhaus gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) sind in beiden Arrays Schema-Verletzung und werden von `test_v7_schema_consistency.js` + `test_continuity_output_contract.js` abgelehnt. Siehe Masterprompt §D.
 - **Persistente NPC-Chrononauten:**
