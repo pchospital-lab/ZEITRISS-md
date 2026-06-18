@@ -1,0 +1,8 @@
+[16:06:25] === START Solo-Canary persona=noob max_turns=2 ===
+[16:06:25] >>> Sarah (Opener): Spiel starten (solo klassisch)
+[16:07:01] [turn 1] SL (3716 chars, 56973+1320 tok, 33.3s, ~$0.19)
+[16:07:04] >>> Sarah: okay das klingt mega cool aber ich hab keine ahnung was ich machen soll 😅 kannst du einfach einen ch
+[16:07:45] [turn 2] SL (4053 chars, 57771+1641 tok, 37.6s, ~$0.39)
+[16:07:48] >>> Sarah: okay sie ist perfekt ich liebe sie schon 😍 was ist SYS, ist das was schlimmes? und dann mach ich das
+[16:07:48] === ENDE === Turns=2 ~$0.39 Findings=0
+[16:07:48] Artefakte: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-1606-solo-canary-noob

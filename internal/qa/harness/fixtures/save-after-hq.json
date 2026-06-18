@@ -1,0 +1,191 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-01-01T06:14:00Z-HQ-ZTL-VOSS",
+  "parent_save_id": "SAVE-2026-01-01T00:00:00Z-HQ-SPLINTER-INIT",
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 0,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "mixed",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-VOSS-001",
+      "name": "Mara Voss",
+      "callsign": "SPLINTER",
+      "rank": "Rekrut",
+      "lvl": 1,
+      "xp": 0,
+      "origin": {
+        "epoch": "1987, Berlin",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltration & Spurenanalyse"
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 5,
+        "INT": 5,
+        "CHA": 2,
+        "TEMP": 2,
+        "SYS": 2
+      },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "name": "Tatortanalyse",
+          "tier": "Basis",
+          "effect": "+2 auf INT-Proben zur Spurensicherung, Szenenrekonstruktion und technischen Analyse. Triviale Analysen: Auto-Erfolg."
+        }
+      ],
+      "equipment": [
+        { "name": "Kompakte Dienstpistole", "type": "weapon", "tier": 1 },
+        { "name": "Leichte Kevlarweste", "type": "armor", "tier": 1 },
+        { "name": "Handscanner (ITI-Modell)", "type": "gadget", "tier": 1 },
+        { "name": "Multitool-Dietrich", "type": "gadget", "tier": 0 },
+        { "name": "Comlink (verschlüsselt)", "type": "gadget", "tier": 1 },
+        { "name": "Rauchgranate x2", "type": "consumable", "tier": 0 }
+      ],
+      "implants": [],
+      "history": {
+        "background": "Berlin, 1987. Aufgewachsen zwischen Stasi-Schatten und Kaltem Krieg. Ausgebildete Kriminaltechnikerin, rekrutiert nach einem Zwischenfall, den das ITI lieber aus den Akten tilgt. Fragt nicht warum Zeitlinien gesichert werden — fragt wer davon profitiert.",
+        "milestones": [
+          "Zero Time Lounge: Erstkontakt Duna. Kessler (8 Episoden) und Pham (5 Episoden) beobachtet — Papiernotiz, Handschrift, kein Druck, Kessler wusste vor dem Umdrehen wer reinkam. Duna testet ob Voss sieht was sie sieht."
+        ]
+      },
+      "carry": [
+        { "name": "Kompakte Dienstpistole", "type": "weapon", "tier": 1 },
+        { "name": "Leichte Kevlarweste", "type": "armor", "tier": 1 },
+        { "name": "Handscanner (ITI-Modell)", "type": "gadget", "tier": 1 },
+        { "name": "Multitool-Dietrich", "type": "gadget", "tier": 0 },
+        { "name": "Comlink (verschlüsselt)", "type": "gadget", "tier": 1 },
+        { "name": "Rauchgranate x2", "type": "consumable", "tier": 0 }
+      ],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-WOLF-001",
+          "name": "Grauer Wolf",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 0,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 100
+    }
+  ],
+  "economy": {
+    "hq_pool": 0
+  },
+  "logs": {
+    "trace": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [
+      "ZTL-Beobachtung: Kessler wusste vor dem Umdrehen wer reinkam. Papiernotiz — Handschrift, 2-3 Zeilen, kein Druck. Plan, kein Befehl. Pham: Lächeln, Faltkante gesehen. Duna testet Voss aktiv."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": "EP1: Voss im HQ. ZTL-Szene läuft — Duna, Kessler, Pham. Offene Frage: Kesslers Plan, Dunas Test."
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 1,
+      "mission": 0,
+      "location": "HQ · Zero Time Lounge"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-DUNA-001",
+        "name": "Duna",
+        "callsign": null,
+        "role": "ZTL-Thekenpersonal",
+        "scope": "HQ",
+        "status": "active",
+        "notes": "Beobachterin. Testet Neulinge aktiv. Kein Kodex-Protokoll in der ZTL."
+      },
+      {
+        "id": "NPC-KESSLER-001",
+        "name": "Kessler",
+        "callsign": null,
+        "role": "Erfahrener Chrononaut",
+        "scope": "HQ",
+        "status": "active",
+        "notes": "8 Episoden. Narbe Schläfe. Papiernotiz — eigener Plan, kein Befehl. Wusste vor Umdrehen wer reinkam."
+      },
+      {
+        "id": "NPC-PHAM-001",
+        "name": "Pham",
+        "callsign": null,
+        "role": "Erfahrener Chrononaut",
+        "scope": "HQ",
+        "status": "active",
+        "notes": "5 Episoden. Ruhig, beobachtend. Lächeln bei Kesslers Antwort — kennt die Situation."
+      }
+    ],
+    "active_npc_ids": ["NPC-DUNA-001", "NPC-KESSLER-001", "NPC-PHAM-001"]
+  },
+  "arc": {
+    "factions": {},
+    "questions": [
+      "Was steht auf Kesslers Papier — und wessen Plan ist es?",
+      "Warum testet Duna Neulinge, und was macht sie mit dem was sie herausfindet?"
+    ],
+    "hooks": [
+      "Kessler: 8 Episoden, Papiernotiz, wusste wer reinkommt — möglicher Kontakt oder Risiko.",
+      "Duna: inoffizielle Informationsquelle, kein Kodex-Protokoll in ZTL."
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

@@ -1,0 +1,95 @@
+[11:24:40] === START 5er-Split/Merge Case resplit ===
+[11:24:40] === Phase 1 (Anker) — Chat local:playtest-1b914506a9 ===
+[11:24:40] >>> [P1-load] Spieler: [5er-HQ-Save laden]
+[11:25:12] <<< [P1-load] SL (2632 chars, 61710 ptok, cache 91%, RAG=5, cum $0.0485)
+[11:25:12] >>> [P1-split] Spieler: [resplit-Split + !save je Gruppe]
+[11:26:30] <<< [P1-split] SL (2112 chars, 62211 ptok, cache 0%, RAG=5, cum $0.2889)
+[11:26:30]   … 0/2 Saves, fordere getrennt nach
+[11:26:30] >>> [P1-split2] Spieler: [alle Branch-Saves getrennt anfordern]
+[11:27:38] <<< [P1-split2] SL (14064 chars, 62948 ptok, cache 89%, RAG=8, cum $0.4088)
+[11:27:38]   → 2 Branch-Save(s) extrahiert (erwartet 2)
+[11:27:38]   💾 Save 'p1-branch1-3er' (mode=hq) -> p1-branch1-3er.json
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/0/lp: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/0/lp_max: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/0/has_psi: 'FEHLT' is not of type 'boolean'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/0/sys_installed: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/1/lp: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/1/lp_max: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/1/has_psi: 'FEHLT' is not of type 'boolean'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/1/sys_installed: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/2/lp: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/2/lp_max: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/2/has_psi: 'FEHLT' is not of type 'boolean'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch1-3er @ characters/2/sys_installed: 'FEHLT' is not of type 'integer'
+[11:27:38]   💾 Save 'p1-branch2-2er' (mode=hq) -> p1-branch2-2er.json
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/0/lp: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/0/lp_max: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/0/has_psi: 'FEHLT' is not of type 'boolean'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/0/sys_installed: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/1/lp: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/1/lp_max: 'FEHLT' is not of type 'integer'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/1/has_psi: 'FEHLT' is not of type 'boolean'
+[11:27:38]   ❌ [P1] SCHEMA: p1-branch2-2er @ characters/1/sys_installed: 'FEHLT' is not of type 'integer'
+[11:27:38]   ↪ Resplit der ersten Gruppe
+[11:27:38] >>> [resplit] Spieler: [erste Gruppe laden]
+[11:28:06] <<< [resplit] SL (2774 chars, 58486 ptok, cache 96%, RAG=0, cum $0.4492)
+[11:28:06] >>> [resplit] Spieler: [Resplit A+B / C]
+[11:29:21] <<< [resplit] SL (13745 chars, 62920 ptok, cache 89%, RAG=5, cum $0.5668)
+[11:29:21]   💾 Save 'resplit-1' (mode=hq) -> resplit-1.json
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/0/lp: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/0/lp_max: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/0/has_psi: 'FEHLT' is not of type 'boolean'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/0/sys_installed: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/1/lp: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/1/lp_max: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/1/has_psi: 'FEHLT' is not of type 'boolean'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-1 @ characters/1/sys_installed: 'FEHLT' is not of type 'integer'
+[11:29:21]   💾 Save 'resplit-2' (mode=hq) -> resplit-2.json
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-2 @ characters/0/lp: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-2 @ characters/0/lp_max: 'FEHLT' is not of type 'integer'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-2 @ characters/0/has_psi: 'FEHLT' is not of type 'boolean'
+[11:29:21]   ❌ [resplit] SCHEMA: resplit-2 @ characters/0/sys_installed: 'FEHLT' is not of type 'integer'
+[11:29:21]   → nach Resplit 3 Branches gesamt
+[11:29:21] === Branch 1-2er — Chat local:playtest-e38cfbf86a ===
+[11:29:21] >>> [branch-1-2er] Spieler: [Branch-Save laden]
+[11:29:49] <<< [branch-1-2er] SL (3082 chars, 58263 ptok, cache 97%, RAG=0, cum $0.6081)
+[11:29:49] >>> [branch-1-2er] Spieler: [HQ-Beat + !save]
+[11:30:53] <<< [branch-1-2er] SL (8298 chars, 64312 ptok, cache 87%, RAG=5, cum $0.6993)
+[11:30:53]   💾 Save 'branch-1-2er-result' (mode=hq) -> branch-1-2er-result.json
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/0/lp: 'FEHLT' is not of type 'integer'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/0/lp_max: 'FEHLT' is not of type 'integer'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/0/has_psi: 'FEHLT' is not of type 'boolean'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/0/sys_installed: 'FEHLT' is not of type 'integer'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/1/lp: 'FEHLT' is not of type 'integer'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/1/lp_max: 'FEHLT' is not of type 'integer'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/1/has_psi: 'FEHLT' is not of type 'boolean'
+[11:30:53]   ❌ [branch-1-2er] SCHEMA: branch-1-2er-result @ characters/1/sys_installed: 'FEHLT' is not of type 'integer'
+[11:30:53] === Branch 2-1er — Chat local:playtest-b0815c0944 ===
+[11:30:53] >>> [branch-2-1er] Spieler: [Branch-Save laden]
+[11:31:28] <<< [branch-2-1er] SL (3000 chars, 63092 ptok, cache 89%, RAG=4, cum $0.7543)
+[11:31:28] >>> [branch-2-1er] Spieler: [HQ-Beat + !save]
+[11:31:53] <<< [branch-2-1er] SL (1906 chars, 63858 ptok, cache 88%, RAG=5, cum $0.8051)
+[11:31:53] >>> [branch-2-1er] Spieler: [!save explizit]
+[11:32:18] <<< [branch-2-1er] SL (1173 chars, 63559 ptok, cache 89%, RAG=5, cum $0.8529)
+[11:32:18]   ❌ Branch 2-1er: kein Save erhalten
+[11:32:18] === Branch 3-2er — Chat local:playtest-3761f8a425 ===
+[11:32:18] >>> [branch-3-2er] Spieler: [Branch-Save laden]
+[11:32:51] <<< [branch-3-2er] SL (2519 chars, 62930 ptok, cache 89%, RAG=5, cum $0.9051)
+[11:32:51] >>> [branch-3-2er] Spieler: [HQ-Beat + !save]
+[11:33:48] <<< [branch-3-2er] SL (7857 chars, 63945 ptok, cache 88%, RAG=5, cum $0.9902)
+[11:33:48]   💾 Save 'branch-3-2er-result' (mode=hq) -> branch-3-2er-result.json
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/0/lp: 'FEHLT' is not of type 'integer'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/0/lp_max: 'FEHLT' is not of type 'integer'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/0/has_psi: 'FEHLT' is not of type 'boolean'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/0/sys_installed: 'FEHLT' is not of type 'integer'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/1/lp: 'FEHLT' is not of type 'integer'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/1/lp_max: 'FEHLT' is not of type 'integer'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/1/has_psi: 'FEHLT' is not of type 'boolean'
+[11:33:48]   ❌ [branch-3-2er] SCHEMA: branch-3-2er-result @ characters/1/sys_installed: 'FEHLT' is not of type 'integer'
+[11:33:48] === Phase 4 (Merge) — Chat local:playtest-f5f097752d ===
+[11:33:48] >>> [P4-merge] Spieler: [beide Branch-Saves laden + Merge]
+[11:34:20] <<< [P4-merge] SL (3821 chars, 60344 ptok, cache 93%, RAG=0, cum $1.0423)
+[11:34:20] >>> [P4-merge] Spieler: [!save explizit]
+[11:34:37] <<< [P4-merge] SL (1095 chars, 65607 ptok, cache 86%, RAG=5, cum $1.0977)
+[11:34:37]   ❌ [P4] kein Merge-Save erhalten
+[11:34:37] === ENDE === verdict=FAIL turns=14 $1.0977 peak=65607 cache=84% fails=50 softs=0

@@ -1,0 +1,17 @@
+{
+  "case": "4-1",
+  "verdict": "FAIL",
+  "turns": 8,
+  "cost_usd": 0.6319,
+  "peak_prompt_tokens": 64990,
+  "avg_cache_hit": 0.901,
+  "fails": [
+    "❌ [CONVERGE] merge: resolved_threads ['SOLO-E', 'SQUAD-ABCD'] deckt erwartete ['SPLIT-EP12-MS10-KAIROS-SOLO', 'SPLIT-EP12-MS10-KAIROS-SQUAD'] nicht ab",
+    "❌ [IMPORTED] merge: imported_saves protokolliert 0/2 Branches (jeder Branch braucht save_id+branch_id+status)"
+  ],
+  "softs": [
+    "⚠️ [ANCHOR-ECON] merge: hq_pool 26600 != Anker 53200 und kein continuity_conflict protokolliert",
+    "⚠️ [CONVERGE] merge: split.expected_threads ['SOLO-E', 'SQUAD-ABCD'] != erwartet ['SPLIT-EP12-MS10-KAIROS-SOLO', 'SPLIT-EP12-MS10-KAIROS-SQUAD']"
+  ],
+  "merge_save_captured": true
+}

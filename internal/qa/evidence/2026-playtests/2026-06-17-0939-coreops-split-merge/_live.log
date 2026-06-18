@@ -1,0 +1,161 @@
+[09:39:31] === START CoreOps-Split/Merge (voller organischer Lauf) ===
+[09:39:31] === M1-5er — Chat local:playtest-2befa72f48 (5 Personas: ['ECHO', 'STORM', 'GHOST', 'VEIL', 'RELAY']) ===
+[09:39:31] >>> [M1-5er] [Save laden]
+[09:40:19] <<< [M1-5er] SL (3955 chars, 61029 ptok, cache 93%, RAG=0, cum $0.0578)
+[09:40:19] >>> [M1-5er] [Briefing -> Mission starten]
+[09:41:11] <<< [M1-5er] SL (4509 chars, 66918 ptok, cache 85%, RAG=7, cum $0.1386)
+[09:41:39] >>> [M1-5er] [Crew-Eingaben]
+[09:42:39] <<< [M1-5er] SL (5480 chars, 70302 ptok, cache 81%, RAG=6, cum $0.2364)
+[09:43:01] >>> [M1-5er] [Crew-Eingaben]
+[09:43:58] <<< [M1-5er] SL (4859 chars, 73198 ptok, cache 86%, RAG=6, cum $0.3167)
+[09:44:28] >>> [M1-5er] [Crew-Eingaben]
+[09:45:27] <<< [M1-5er] SL (5178 chars, 75398 ptok, cache 84%, RAG=6, cum $0.4078)
+[09:45:45] >>> [M1-5er] [Crew-Eingaben]
+[09:46:58] <<< [M1-5er] SL (6623 chars, 78103 ptok, cache 83%, RAG=6, cum $0.5121)
+[09:47:16] >>> [M1-5er] [Crew-Eingaben]
+[09:48:13] <<< [M1-5er] SL (5150 chars, 80817 ptok, cache 84%, RAG=6, cum $0.6061)
+[09:48:29] >>> [M1-5er] [Crew-Eingaben]
+[09:49:32] <<< [M1-5er] SL (5667 chars, 83878 ptok, cache 84%, RAG=4, cum $0.7039)
+[09:49:52] >>> [M1-5er] [Crew-Eingaben]
+[09:50:52] <<< [M1-5er] SL (5552 chars, 86065 ptok, cache 85%, RAG=5, cum $0.8022)
+[09:51:12] >>> [M1-5er] [Crew-Eingaben]
+[09:52:18] <<< [M1-5er] SL (6264 chars, 89075 ptok, cache 86%, RAG=6, cum $0.9039)
+[09:52:34] >>> [M1-5er] [Crew-Eingaben]
+[09:53:28] <<< [M1-5er] SL (4974 chars, 92179 ptok, cache 86%, RAG=8, cum $1.0012)
+[09:53:44] >>> [M1-5er] [Crew-Eingaben]
+[09:55:08] <<< [M1-5er] SL (7684 chars, 95055 ptok, cache 86%, RAG=5, cum $1.1179)
+[09:55:08]   🏁 [M1-5er] HQ-Savepoint-Marker erkannt -> Mission-Ende-Save
+[09:55:08]   ⚠️ [M1-5er] Save in Prosa, kein JSON -> Eskalation 1
+[09:55:08] >>> [M1-5er] [Save-Zwang 1/3]
+[09:55:25] <<< [M1-5er] SL (1004 chars, 97788 ptok, cache 87%, RAG=5, cum $1.1929)
+[09:55:25]   ⚠️ [M1-5er] Save in Prosa, kein JSON -> Eskalation 2
+[09:55:25] >>> [M1-5er] [Save-Zwang 2/3]
+[09:57:16] <<< [M1-5er] SL (19882 chars, 96454 ptok, cache 91%, RAG=5, cum $1.3656)
+[09:57:16]   ⚠️ [M1-5er] SAVE-PROSE: M1-5er: Save erst nach Eskalation als JSON
+[09:57:16]   💾 Save 'm1-5er-result' (mode=hq, 5 chars) -> m1-5er-result.json
+[09:57:16] === SPLIT — Chat local:playtest-65c6f5fbba ===
+[09:57:16] >>> [SPLIT] [5er-Stand laden]
+[09:57:50] <<< [SPLIT] SL (3457 chars, 63611 ptok, cache 90%, RAG=0, cum $1.4261)
+[09:57:50] >>> [SPLIT] [3/2-Split + !save je Team]
+[10:00:51] <<< [SPLIT] SL (31387 chars, 69911 ptok, cache 82%, RAG=6, cum $1.6756)
+[10:00:51]   💾 Save 'split-team-alpha-3er' (mode=hq, 3 chars) -> split-team-alpha-3er.json
+[10:00:51]   ❌ [SPLIT] SCHEMA: split-team-alpha-3er @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-
+[10:00:51]   ❌ [SPLIT] ECHO-CAP: split-team-alpha-3er: shared_echoes 7>6
+[10:00:51]   💾 Save 'split-team-bravo-2er' (mode=hq, 2 chars) -> split-team-bravo-2er.json
+[10:00:51]   ❌ [SPLIT] SCHEMA: split-team-bravo-2er @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-
+[10:00:51]   ❌ [SPLIT] ECHO-CAP: split-team-bravo-2er: shared_echoes 7>6
+[10:00:51] === M2-Alpha-3er — Chat local:playtest-89dac7a00b (3 Personas: ['ECHO', 'STORM', 'GHOST']) ===
+[10:00:51] >>> [M2-Alpha-3er] [Save laden]
+[10:01:17] <<< [M2-Alpha-3er] SL (2595 chars, 62271 ptok, cache 92%, RAG=0, cum $1.7262)
+[10:01:17] >>> [M2-Alpha-3er] [Briefing -> Mission starten]
+[10:01:32] <<< [M2-Alpha-3er] SL (881 chars, 67124 ptok, cache 85%, RAG=5, cum $1.7846)
+[10:01:42] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:02:35] <<< [M2-Alpha-3er] SL (4951 chars, 67286 ptok, cache 85%, RAG=4, cum $1.8681)
+[10:02:47] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:03:45] <<< [M2-Alpha-3er] SL (5240 chars, 70390 ptok, cache 90%, RAG=5, cum $1.9398)
+[10:03:58] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:04:59] <<< [M2-Alpha-3er] SL (5562 chars, 73181 ptok, cache 87%, RAG=6, cum $2.0227)
+[10:05:11] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:06:04] <<< [M2-Alpha-3er] SL (4750 chars, 75287 ptok, cache 85%, RAG=5, cum $2.1079)
+[10:06:17] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:07:14] <<< [M2-Alpha-3er] SL (5056 chars, 77402 ptok, cache 85%, RAG=7, cum $2.1961)
+[10:07:23] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:08:30] <<< [M2-Alpha-3er] SL (6073 chars, 78446 ptok, cache 87%, RAG=5, cum $2.2865)
+[10:08:39] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:09:36] <<< [M2-Alpha-3er] SL (5327 chars, 82643 ptok, cache 86%, RAG=4, cum $2.3774)
+[10:09:46] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:10:44] <<< [M2-Alpha-3er] SL (5439 chars, 85487 ptok, cache 86%, RAG=5, cum $2.4722)
+[10:10:52] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:11:45] <<< [M2-Alpha-3er] SL (4856 chars, 86904 ptok, cache 87%, RAG=6, cum $2.5617)
+[10:11:53] >>> [M2-Alpha-3er] [Crew-Eingaben]
+[10:13:24] <<< [M2-Alpha-3er] SL (8561 chars, 89318 ptok, cache 88%, RAG=6, cum $2.6758)
+[10:13:24]   🏁 [M2-Alpha-3er] HQ-Savepoint-Marker erkannt -> Mission-Ende-Save
+[10:13:24]   ⚠️ [M2-Alpha-3er] Save in Prosa, kein JSON -> Eskalation 1
+[10:13:24] >>> [M2-Alpha-3er] [Save-Zwang 1/3]
+[10:15:31] <<< [M2-Alpha-3er] SL (20231 chars, 93345 ptok, cache 87%, RAG=5, cum $2.8575)
+[10:15:31]   ⚠️ [M2-Alpha-3er] SAVE-PROSE: M2-Alpha-3er: Save erst nach Eskalation als JSON
+[10:15:31]   💾 Save 'm2-alpha-3er-result' (mode=hq, 3 chars) -> m2-alpha-3er-result.json
+[10:15:31]   ❌ [M2-Alpha-3er] SCHEMA: m2-alpha-3er-result @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-
+[10:15:31]   ❌ [M2-Alpha-3er] ECHO-CAP: m2-alpha-3er-result: shared_echoes 9>6
+[10:15:31] === M2-Bravo-2er — Chat local:playtest-5607a7bc10 (2 Personas: ['VEIL', 'RELAY']) ===
+[10:15:31] >>> [M2-Bravo-2er] [Save laden]
+[10:16:00] <<< [M2-Bravo-2er] SL (2810 chars, 61444 ptok, cache 93%, RAG=0, cum $2.9079)
+[10:16:00] >>> [M2-Bravo-2er] [Briefing -> Mission starten]
+[10:16:16] <<< [M2-Bravo-2er] SL (938 chars, 66454 ptok, cache 86%, RAG=5, cum $2.9643)
+[10:16:22] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:17:24] <<< [M2-Bravo-2er] SL (5908 chars, 67484 ptok, cache 84%, RAG=7, cum $3.0521)
+[10:17:31] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:17:57] <<< [M2-Bravo-2er] SL (2111 chars, 68905 ptok, cache 91%, RAG=6, cum $3.1014)
+[10:18:04] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:18:43] <<< [M2-Bravo-2er] SL (3247 chars, 70823 ptok, cache 89%, RAG=5, cum $3.1663)
+[10:18:49] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:19:22] <<< [M2-Bravo-2er] SL (2847 chars, 72582 ptok, cache 87%, RAG=5, cum $3.2321)
+[10:19:28] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:20:02] <<< [M2-Bravo-2er] SL (2924 chars, 73434 ptok, cache 90%, RAG=7, cum $3.2934)
+[10:20:09] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:20:38] <<< [M2-Bravo-2er] SL (2454 chars, 75028 ptok, cache 89%, RAG=5, cum $3.3541)
+[10:20:45] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:21:15] <<< [M2-Bravo-2er] SL (2220 chars, 76459 ptok, cache 89%, RAG=5, cum $3.4133)
+[10:21:22] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:21:51] <<< [M2-Bravo-2er] SL (2225 chars, 77517 ptok, cache 90%, RAG=8, cum $3.4725)
+[10:21:59] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:22:26] <<< [M2-Bravo-2er] SL (2187 chars, 78003 ptok, cache 91%, RAG=7, cum $3.5289)
+[10:22:32] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:22:59] <<< [M2-Bravo-2er] SL (2008 chars, 79825 ptok, cache 90%, RAG=8, cum $3.5876)
+[10:23:05] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:23:35] <<< [M2-Bravo-2er] SL (2302 chars, 80443 ptok, cache 91%, RAG=7, cum $3.6467)
+[10:23:41] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:24:10] <<< [M2-Bravo-2er] SL (2492 chars, 81370 ptok, cache 91%, RAG=7, cum $3.7062)
+[10:24:16] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:24:47] <<< [M2-Bravo-2er] SL (2402 chars, 83141 ptok, cache 90%, RAG=6, cum $3.7681)
+[10:24:55] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:25:27] <<< [M2-Bravo-2er] SL (2658 chars, 83810 ptok, cache 91%, RAG=5, cum $3.8309)
+[10:25:31] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:26:01] <<< [M2-Bravo-2er] SL (2386 chars, 83945 ptok, cache 92%, RAG=7, cum $3.8894)
+[10:26:07] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:26:35] <<< [M2-Bravo-2er] SL (2257 chars, 84759 ptok, cache 92%, RAG=7, cum $3.9472)
+[10:26:41] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:27:16] <<< [M2-Bravo-2er] SL (2906 chars, 87005 ptok, cache 91%, RAG=6, cum $4.0127)
+[10:27:23] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:27:51] <<< [M2-Bravo-2er] SL (2305 chars, 88240 ptok, cache 91%, RAG=6, cum $4.0741)
+[10:27:56] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:28:30] <<< [M2-Bravo-2er] SL (2535 chars, 88362 ptok, cache 93%, RAG=4, cum $4.1350)
+[10:28:38] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:29:22] <<< [M2-Bravo-2er] SL (3672 chars, 90945 ptok, cache 91%, RAG=7, cum $4.2092)
+[10:29:29] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:30:15] <<< [M2-Bravo-2er] SL (4153 chars, 91759 ptok, cache 92%, RAG=6, cum $4.2853)
+[10:30:22] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:31:00] <<< [M2-Bravo-2er] SL (3210 chars, 94311 ptok, cache 90%, RAG=8, cum $4.3600)
+[10:31:06] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:31:53] <<< [M2-Bravo-2er] SL (4164 chars, 95974 ptok, cache 90%, RAG=7, cum $4.4428)
+[10:31:59] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:32:50] <<< [M2-Bravo-2er] SL (4650 chars, 97812 ptok, cache 90%, RAG=6, cum $4.5306)
+[10:32:55] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:33:43] <<< [M2-Bravo-2er] SL (4215 chars, 100123 ptok, cache 90%, RAG=5, cum $4.6169)
+[10:33:50] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:34:37] <<< [M2-Bravo-2er] SL (4328 chars, 101429 ptok, cache 90%, RAG=6, cum $4.7030)
+[10:34:47] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:35:24] <<< [M2-Bravo-2er] SL (2769 chars, 104065 ptok, cache 90%, RAG=6, cum $4.7835)
+[10:35:31] >>> [M2-Bravo-2er] [Crew-Eingaben]
+[10:36:29] <<< [M2-Bravo-2er] SL (5296 chars, 105263 ptok, cache 91%, RAG=7, cum $4.8769)
+[10:36:29]   🏁 [M2-Bravo-2er] HQ-Savepoint-Marker erkannt -> Mission-Ende-Save
+[10:36:29] >>> [M2-Bravo-2er] [Save-Zwang 1/3]
+[10:38:31] <<< [M2-Bravo-2er] SL (18148 chars, 107718 ptok, cache 91%, RAG=5, cum $5.0449)
+[10:38:31]   💾 Save 'm2-bravo-2er-result' (mode=hq, 2 chars) -> m2-bravo-2er-result.json
+[10:38:31]   ❌ [M2-Bravo-2er] SCHEMA: m2-bravo-2er-result @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-
+[10:38:31]   ❌ [M2-Bravo-2er] ECHO-CAP: m2-bravo-2er-result: shared_echoes 9>6
+[10:38:31] === MERGE — Chat local:playtest-144acba808 ===
+[10:38:31] >>> [MERGE] [beide Branch-Saves laden + Merge]
+[10:39:45] <<< [MERGE] SL (7938 chars, 69195 ptok, cache 82%, RAG=0, cum $5.1512)
+[10:39:45]   ⚠️ [MERGE] Save in Prosa, kein JSON -> Eskalation 1
+[10:39:45] >>> [MERGE] [Save-Zwang 1/3]
+[10:40:00] <<< [MERGE] SL (657 chars, 76427 ptok, cache 75%, RAG=5, cum $5.2430)
+[10:40:00]   ⚠️ [MERGE] Save in Prosa, kein JSON -> Eskalation 2
+[10:40:00] >>> [MERGE] [Save-Zwang 2/3]
+[10:40:13] <<< [MERGE] SL (800 chars, 74867 ptok, cache 76%, RAG=5, cum $5.3308)
+[10:40:13]   ⚠️ [MERGE] Save in Prosa, kein JSON -> Eskalation 3
+[10:40:13] >>> [MERGE] [Save-Zwang 3/3]
+[10:40:28] <<< [MERGE] SL (835 chars, 76142 ptok, cache 95%, RAG=4, cum $5.3684)
+[10:40:28]   ❌ [MERGE] SAVE-PROSE: MERGE: kein JSON trotz Eskalation
+[10:40:28]   ❌ [MERGE] MERGE-SAVE: Merge erzeugte keinen Save
+[10:40:28] === ENDE === verdict=FAIL turns=64 $5.3684 peak=107718 cache=88% fails=10 softs=2

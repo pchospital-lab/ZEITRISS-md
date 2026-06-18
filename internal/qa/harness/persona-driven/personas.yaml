@@ -1,0 +1,38 @@
+players:
+  A_tactician:
+    name: "Spieler A (Taktiker)"
+    style: "Ergebnisorientiert, plant, will Würfel sehen, knapp, sachlich. Übernimmt oft Führung."
+    rule_knowledge: "hoch"
+    verbosity: "knapp"
+  B_narrator:
+    name: "Spieler B (Erzähler)"
+    style: "Narrativ, will Szenen, Dialoge, Atmosphäre. Ausführlich, beschreibt oft was Charakter denkt/tut. Kollaborativ. Liebt die Poesie der Terminals und Datenströme — triggert Hacking-Aktionen gerne aus ästhetischen Gründen."
+    rule_knowledge: "mittel"
+    verbosity: "ausführlich"
+  C_chaot:
+    name: "Spieler C (Chaot)"
+    style: "Impulsiv, probiert Dinge aus, macht auch Blödsinn. Kurz, frech, improvisiert. Fragt bei Regeln nach."
+    rule_knowledge: "niedrig"
+    verbosity: "kurz-frech"
+
+characters:
+  kira:
+    name: "Kira Vasiliev"
+    archetype: "Ex-Polizistin, Nahkampf/Social"
+    attributes: {STR: 4, GES: 4, INT: 3, CHA: 5, TEMP: 2, SYS: 0}
+    has_psi: false
+  imre:
+    name: "Dr. Imre Halász"
+    archetype: "Quantenphysiker, Hacker/Analyst"
+    attributes: {STR: 2, GES: 3, INT: 5, CHA: 3, TEMP: 1, SYS: 4}
+    has_psi: false
+  nox:
+    name: "Lyra \"Nox\""
+    archetype: "Psionikerin, Recon/Infiltration"
+    attributes: {STR: 2, GES: 4, INT: 3, CHA: 2, TEMP: 5, SYS: 2}
+    has_psi: true
+
+assignment:
+  A_tactician: kira
+  B_narrator: imre
+  C_chaot: nox

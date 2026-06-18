@@ -1,0 +1,225 @@
+
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "campaign": {
+    "episode": 12,
+    "mission": 8,
+    "px": 2,
+    "mode": "mixed",
+    "rift_seeds": [
+      {
+        "id": "SEED-0412",
+        "epoch": "1943-Berlin",
+        "label": "Projekt Chronofeuer",
+        "status": "open",
+        "seed_tier": "late",
+        "hook": "SS-Chrono-Division hat Zeitriss-Waffe aktiviert — Anomalie-Kaskade droht"
+      },
+      {
+        "id": "SEED-0391",
+        "epoch": "2187-NeoTokyo",
+        "label": "Echo der Nullzeit",
+        "status": "open",
+        "seed_tier": "late",
+        "hook": "Parasitäre Zeitlinie frisst sich rückwärts — Apex-Para auf freiem Fuß"
+      }
+    ]
+  },
+  "characters": [
+    {
+      "id": "CHR-0001",
+      "name": "Marek Voss",
+      "callsign": "Splitter",
+      "rank": "Apex-Agent",
+      "lvl": 950,
+      "xp": 950,
+      "origin": {
+        "epoch": "2024",
+        "hominin": "Homo sapiens sapiens",
+        "role": "CQB-Operator / Psi-Hybridspez."
+      },
+      "attr": {
+        "STR": 12,
+        "GES": 14,
+        "INT": 13,
+        "CHA": 11,
+        "TEMP": 14,
+        "SYS": 12
+      },
+      "hp": 22,
+      "hp_max": 22,
+      "stress": 1,
+      "has_psi": true,
+      "sys_installed": 12,
+      "talents": [
+        "Präzisionsschütze +5",
+        "CQB-Spezialist +5",
+        "Schleichprofi (Meister) +5",
+        "Temporale Resonanz +4",
+        "Psi-Kontrolle IV +4",
+        "Zeitfluss-Lesen +3",
+        "Hacker (Feldexperte) +3",
+        "Verhandlungsführer +3",
+        "Überlebensexperte +3",
+        "Paradox-Resistenz +2",
+        "Medizin (Feldmäßig) +2",
+        "Fraktionskunde: Ordo +2"
+      ],
+      "signature_move": {
+        "name": "Chronopulse-Ausweichen",
+        "desc": "1× pro Mission: Zeitfluss dehnen, Treffer ausweichen + sofortiger Gegenangriff",
+        "cost": "2 SYS, 1 TEMP-Heat",
+        "unlocked_at_lvl": 50
+      },
+      "equipment": [
+        {
+          "name": "Chrono-Scharfschützensystem Mk.VII",
+          "type": "weapon",
+          "subtype": "ranged",
+          "tier": 5,
+          "gear_bonus": 5
+        },
+        {
+          "name": "CQB-Monoblade 'Zeitschnitt'",
+          "type": "weapon",
+          "subtype": "melee",
+          "tier": 5,
+          "gear_bonus": 5
+        },
+        {
+          "name": "Psi-Verstärker-Exosuit",
+          "type": "armor",
+          "tier": 5,
+          "dr": "[TBD — Flo muss klären: DR-Wert Tier V]",
+          "gear_bonus": 5,
+          "special": "+2 auf Psi-Proben"
+        },
+        {
+          "name": "Chrono-Sensor-Helm",
+          "type": "equipment",
+          "tier": 4,
+          "gear_bonus": 4,
+          "special": "Anomalie-Detection passiv"
+        },
+        {
+          "name": "Temporal-Scrambler",
+          "type": "equipment",
+          "tier": 4,
+          "gear_bonus": 4,
+          "special": "Anti-Zeitmanipulation, -2 auf feindliche TEMP-Proben gegen Träger"
+        }
+      ],
+      "implants": [
+        { "name": "Reflex-Boost III", "sys_cost": 2, "effect": "+3 Initiative / GES-Proben" },
+        { "name": "Psi-Kanal-Verstärker", "sys_cost": 2, "effect": "+2 Psi-Proben" },
+        { "name": "Chrono-Interface Beta", "sys_cost": 2, "effect": "Zeitanomalie-Analyse passiv" },
+        { "name": "Neuronales Kampf-HUD", "sys_cost": 1, "effect": "+1 alle Kampf-Proben" },
+        { "name": "Stress-Dämpfer Bio", "sys_cost": 2, "effect": "-1 Stress-Anstieg/Szene" },
+        { "name": "Subdermal-Panzer", "sys_cost": 3, "effect": "DR +2 permanent" }
+      ],
+      "artifacts": [
+        {
+          "name": "Chrono-Splitter 'Erstes Echo'",
+          "rarity": "mythic",
+          "effect": "[TBD — Flo muss klären: Mythic-Effektkatalog]"
+        },
+        {
+          "name": "Temporal-Linse Mk.IV",
+          "rarity": "mythic",
+          "effect": "+2 TEMP für 1 Szene, 1× pro Mission"
+        },
+        {
+          "name": "Psi-Resonanz-Kristall",
+          "rarity": "rare",
+          "effect": "+3 TEMP-Proben vs. Anomalien"
+        },
+        {
+          "name": "Zeitfragment-Shard",
+          "rarity": "standard",
+          "quantity": 3,
+          "effect": "Handelbar, Research-Wert"
+        },
+        {
+          "name": "Paradox-Dämpfer",
+          "rarity": "rare",
+          "effect": "Px-Anstieg -1 pro Auslöser"
+        },
+        {
+          "name": "Verlorene Stoppuhr",
+          "rarity": "plot",
+          "effect": "Plot-gebunden — kein Gear-Bonus"
+        }
+      ],
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 5,
+          "kausalklingen": 3,
+          "chrono_symmetriker": 1,
+          "zerbrechliche_ewigkeit": -2
+        }
+      },
+      "licenses": {
+        "tier": 5,
+        "unlocked": ["I", "II", "III", "IV", "V"]
+      },
+      "chronopolis": {
+        "key_unlocked": true,
+        "unlock_level": 10,
+        "runs_completed": "[TBD — Flo muss klären: Zählt das System Chronopolis-Runs?]",
+        "special_status": "[TBD — Flo muss klären: Lvl-950-Sonderstatus in Chronopolis?]"
+      },
+      "wallet": 8000
+    }
+  ],
+  "economy": {
+    "hq_pool": 62500
+  },
+  "logs": {
+    "trace": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [
+      "Lvl-950-Referenz-Save — Marek Voss 'Splitter'. Erstellt für Tester-Playtest-Run 01.",
+      "TEMP 14 + GES 14: Beide auf Heldenwürfel-Schwelle. W10 + Reroll aktiv.",
+      "SYS voll ausgelastet (12/12) — kein Raum für weitere Implantate ohne Umbau.",
+      "Ruf Zerbrechliche Ewigkeit: -2 — narrativer Hook für Fraktions-Konflikt.",
+      "2 offene Rift-Seeds (beide 'late' tier) — SG-Bonus +2, CU-Multi ×1.4 aktiv."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "tester_save": true,
+      "persona": "end-tier-vet",
+      "constructed_by": "tester-vet-01"
+    }
+  },
+  "arc": {
+    "factions": {
+      "ordo_mnemonika": { "status": "verbündet", "ruf": 5 },
+      "kausalklingen": { "status": "alliiert-angespannt", "ruf": 3 },
+      "chrono_symmetriker": { "status": "distanziert", "ruf": 1 },
+      "zerbrechliche_ewigkeit": { "status": "feindlich", "ruf": -2 }
+    },
+    "questions": [
+      "Was steckt hinter Projekt Chronofeuer — wer hat die Waffe damals entwickelt?",
+      "Wer ist 'Das Echo' — die Stimme in der Nullzeit-Anomalie?",
+      "Wie lange hält die Allianz mit den Kausalklingen, bevor sie kippt?"
+    ],
+    "hooks": [
+      "Verlorene Stoppuhr pulsiert im Rücken — Plot-Artefakt-Trigger steht bevor",
+      "Zerbrechliche Ewigkeit hat Kopfgeld auf Splitter ausgesetzt",
+      "Ordo Mnemonika bittet um Einweihung in den Inneren Kreis (Level-950-Meilenstein)"
+    ],
+    "open_seeds": ["SEED-0412", "SEED-0391"]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "cinematic",
+    "voice_profile": "gm_second_person"
+  }
+}

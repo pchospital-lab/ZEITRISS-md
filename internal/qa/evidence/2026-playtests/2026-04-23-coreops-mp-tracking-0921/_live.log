@@ -1,0 +1,625 @@
+[09:21:20] === START: coreops-mp-tracking-0921 ===
+[09:21:20] Spieler: ['jonas', 'kim', 'sarah'], Max turns: 80
+[09:21:20] >>> GRUPPE: Spiel starten (gruppe klassisch). Wir sind 3 Spieler:
+Sarah hat schon eine Mission gespielt und bringt Mara Voss
+mit (Ca
+[09:21:20] 
+--- Turn 1 ---
+[09:21:51] <<< SL (16700p/733c/30.7s, cum=17433): # ZEITRISS  ---  > *"Die Vergangenheit ist kein Museum. Sie ist ein Tatort."* > — ITI-Handbuch, Einl
+[09:21:55] >>> JONAS (Jonas): Mein Char ist schon fertig vom letzten Mal — STR 5, GES 4, TEMP 4, INT 3, SOC 2,
+[09:21:58] >>> KIM (Kim): generate alle, ich will einfach losspielen lol
+[09:22:01] >>> SARAH (Mara Voss): Voss ist komplett, ihr habt die Werte alle oben — GES 5, INT 5, TEMP 4, SOC 3, S
+[09:22:02] 
+--- Turn 2 ---
+[09:22:51] <<< SL (17674p/2325c/49.4s, cum=37432): ## Gruppen-Import – Konvertierung & Klärung  Bevor ich die Bögen ausgebe, zwei kurze Hinweise:  --- 
+[09:23:00] >>> JONAS (Jonas): Okay, Kaspar sieht gut aus, passt für mich. Callsign würde ich "RAMPART" nehmen,
+[09:23:03] >>> KIM (Kim): warte mal kurz — SYS ist das mit den Implantat-Slots oder? und wieso hat meine I
+[09:23:09] >>> SARAH (Mara Voss): Kurze Gegenfrage zur Klärung: Mein Original-Sheet hat SOC 3 und WIS 3 — die gehe
+[09:23:10] 
+--- Turn 3 ---
+[09:24:01] <<< SL (20404p/1571c/51.3s, cum=59407): ## Klärungsrunde – alle Fragen beantwortet  ---  ### Sarah – Punktefrage Voss  Du hast Recht mit der
+[09:24:05] >>> JONAS (Jonas): Okay, RAMPART ist gesetzt, danke für die Erklärung mit dem Tier-System — macht S
+[09:24:08] >>> KIM (Kim): ja GES 5 und INT 5 klingt gut! ich vertrau dir 😄
+[09:24:10] >>> SARAH (Mara Voss): Passt für mich — Voss hat bei Level-Up GES und INT erhöht, das ergibt Sinn für S
+[09:24:11] 
+--- Turn 4 ---
+[09:24:51] <<< SL (22158p/2199c/39.9s, cum=83764): ## Finale Charakterbögen – Gruppe ZEITRISS  ---  `Kodex: Gruppenimport abgeschlossen. 3 Agenten veri
+[09:24:55] >>> JONAS (Jonas): Alright, Ren Kaspar steht bereit. Kurze Frage noch bevor's losgeht — der Erste-H
+[09:24:58] >>> KIM (Kim): okay MOTH klingt so cool ich liebe das 😭 aber was ist nochmal SYS? hab das letzt
+[09:25:02] >>> SARAH (Mara Voss): Voss wirft einen kurzen Blick auf den finalen Bogen, nickt einmal. "Alles korrek
+[09:25:03] 
+--- Turn 5 ---
+[09:25:51] <<< SL (24588p/1335c/48.1s, cum=109687): ## HQ – Duty-Desk, kurze Einweisung  Der Duty-Desk-Mitarbeiter — Namensschild: **OSEI, T.** — schaut
+[09:25:51] ⚠️  FINDING: [TERMINOLOGIE] SL nutzt 'HP' statt 'LP'
+[09:25:56] >>> JONAS (Jonas): Okay, 100 CU, ich nehm zwei Injektoren — macht 60 CU. Den Rest heb ich für die Q
+[09:25:58] >>> KIM (Kim): okay klinik klingt gut aber... haben wir überhaupt zeit? 20 minuten reicht das?
+[09:26:01] >>> SARAH (Mara Voss): Voss lehnt kurz gegen die Wand, Arme verschränkt, und tippt: "Ich geh schon mal 
+[09:26:02] 
+--- Turn 6 ---
+[09:26:54] <<< SL (26125p/2162c/51.3s, cum=137974): ## HQ – Drei Wege, ein Ziel  ---  ### Kaspar – Duty-Desk  Osei zieht zwei Injektoren aus dem Fach un
+[09:26:59] >>> JONAS (Jonas): Ich lehne mich kurz vor und starre auf das Foto von Finch.
+
+"Warten kurz — der '
+[09:27:01] >>> KIM (Kim): okay der adrenalin-ding klingt gut aber 85 cu... hab ich dann noch 15 übrig? ist
+[09:27:10] >>> SARAH (Mara Voss): Voss nickt Mira kurz zu. "Beide neu. Erster gemeinsamer Einsatz." Sie zieht eine
+[09:27:11] 
+--- Turn 7 ---
+[09:27:53] <<< SL (28591p/1641c/42.0s, cum=168206): ## Briefing – Fragen, Antworten, Entscheidung  ---  ### Kim – Klinik-Entscheidung  Der Med-Tech wart
+[09:28:04] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Datenstick. Ich will Finchs Route haben bevor wir springen — be
+[09:28:07] >>> KIM (Kim): okay warte — SYS-Slot bedeutet ich kann noch EIN weiteres implantat kriegen spät
+[09:28:12] >>> SARAH (Mara Voss): Voss nimmt den Datenstick, dreht ihn kurz zwischen den Fingern. "Wir gehen den S
+[09:28:13] 
+--- Turn 8 ---
+[09:29:00] <<< SL (30542p/1589c/46.7s, cum=200337): ## Briefing – Datenstick-Analyse  ---  ### Kim – SYS kurz  Ja. SYS 2, ein Slot belegt — **ein freier
+[09:29:06] >>> JONAS (Jonas): Okay, ich tendiere zu Option 2, aber leicht abgewandelt. Delacroix hat recht — w
+[09:29:09] >>> KIM (Kim): Okay warte — Claire Vance geht in die Bar, das macht Sinn oder? Ich bin am unauf
+[09:29:19] >>> SARAH (Mara Voss): Ich tippe:
+
+"Ich mag Delacroix' Ansatz — wenn der Dritte eine Stammgast-Legende 
+[09:29:20] 
+--- Turn 9 ---
+[09:30:35] <<< SL (32575p/2123c/75.1s, cum=235035): ## Sprung – Washington D.C., 14. Oktober 1962  ---  Mira hört sich den Plan an. Nickt einmal, knapp.
+[09:30:41] >>> JONAS (Jonas): Okay, ich bin MOTH. Ich betrete die Bar, gehe zur Theke und bestelle was Unauffä
+[09:30:45] >>> KIM (Kim): okay ich bin drin!! riecht hier komisch lol
+
+also ich bin die MOTH oder? die in 
+[09:30:58] >>> SARAH (Mara Voss): Voss hält den Notizblock aufgeschlagen, Stift in der Hand — sieht aus wie Warten
+[09:30:59] 
+--- Turn 10 ---
+[09:31:44] <<< SL (35037p/1705c/44.9s, cum=271777): ## Szene 1 — The Argyle, 17:31 Uhr  ---  ### Kurze Rollenzuweisung  Kleines Durcheinander — kein Pro
+[09:32:01] >>> JONAS (Jonas): Okay, verstanden — Rollenzuweisung ist klar, danke für die Korrektur!
+
+RAMPART h
+[09:32:12] >>> KIM (Kim): okay also ich bin MOTH, Delacroix ist in der Bar — stimmt das so?
+
+dann Option 2
+[09:32:19] >>> SARAH (Mara Voss): Voss presst kurz den Finger ans Ohrrelais. „RAMPART, zehn Meter hinter dir — dun
+[09:32:20] 
+--- Turn 11 ---
+[09:33:05] <<< SL (37106p/1861c/44.9s, cum=310744): ## Szene 1 — Connecticut Avenue / The Argyle, 17:36 Uhr  ---  ### Kim — ja, MOTH ist Delacroix, du b
+[09:33:11] >>> JONAS (Jonas): Okay, Kaspar bleibt wo er ist und gibt kurz durch: *"MOTH — Finch ist drin, sitz
+[09:33:15] >>> KIM (Kim): okay MOTH hört jetzt was die sagen — soll ich das irgendwie aufnehmen?? oder rei
+[09:33:19] >>> SARAH (Mara Voss): Voss flüstert ins Comlink: "Finch ist drin, Verfolger hält die Stellung draußen 
+[09:33:20] 
+--- Turn 12 ---
+[09:33:56] <<< SL (39317p/1460c/36.6s, cum=351521): ## Szene 1 — The Argyle / Connecticut Avenue, 17:39 Uhr  ---  ### Kim — so läuft das  Du tippst was 
+[09:34:05] >>> JONAS (Jonas): Okay Moment, ich denk kurz laut nach bevor ich mich festlege.
+
+Der Verfolger sch
+[09:34:13] >>> KIM (Kim): okay ich glaub wir müssen das ding aufhalten bevor der kleine typ es einsteckt??
+[09:34:17] >>> SARAH (Mara Voss): Voss sagt leise ins Comlink: "Verfolger fixiert Seitengasse — ich check das. MOT
+[09:34:18] 
+--- Turn 13 ---
+[09:34:56] <<< SL (41278p/1711c/37.7s, cum=394510): ## Szene 1 → Szene 2 — Split-Aktion, 17:40 Uhr  ---  ### Koordination — Comms kurz  Burst-Signal läu
+[09:35:07] >>> JONAS (Jonas): Warte kurz — die Nachricht von Sarah ist abgeschnitten, Option 3 für RAMPART feh
+[09:35:13] >>> KIM (Kim): okay SPLINTER blockiert den Kurier — Voss geht einfach auf ihn zu und fragt nach
+[09:35:19] >>> SARAH (Mara Voss): Voss sagt leise ins Comlink: "Kurier ablenken, Päckchen verzögern — ich gehe rei
+[09:35:20] 
+--- Turn 14 ---
+[09:35:52] <<< SL (43433p/1346c/32.1s, cum=439289): ## Szene 2 — Seitengasse / The Argyle, 17:41 Uhr  ---  ### Kurze Klärung für Jonas und Kim  Option 3
+[09:35:59] >>> JONAS (Jonas): Okay, Initiative 8 — Kaspar hat den Moment.
+
+Ich gehe direkt auf den Verfolger z
+[09:36:03] >>> KIM (Kim): ok Moths moment!! ich lass das glas fallen — so als ob ich ausrutsche, voll unab
+[09:36:08] >>> SARAH (Mara Voss): Voss lässt das Notizbuch sinken und tritt einen halben Schritt zur Seite — genau
+[09:36:09] 
+--- Turn 15 ---
+[09:36:46] <<< SL (45140p/1720c/36.2s, cum=486149): ## Szene 2 — Alle drei gleichzeitig, 17:41 Uhr  ---  ### MOTH — Glas fallen lassen  Delacroix' Ellbo
+[09:36:53] >>> JONAS (Jonas): Okay, Moment — Kaspar gibt den Verfolger auf, das ist klar. Option 2.
+
+Aber ich 
+[09:36:56] >>> KIM (Kim): okay MOTH greift das Päckchen, jetzt sofort!! und dann ruf ich Kaspar an oder wi
+[09:37:00] >>> SARAH (Mara Voss): Voss hält den Blick auf den Kurier, tippt kurz ins Comlink: *"SPLINTER an alle —
+[09:37:01] 
+--- Turn 16 ---
+[09:37:54] <<< SL (47228p/2068c/53.4s, cum=535445): ## Szene 2 → 3 — Alles bricht los, 17:42 Uhr  ---  ### Jonas — Mechanik-Antwort  Kein DSA-Splitting 
+[09:38:03] >>> JONAS (Jonas): Okay, Situation gecheckt. Der Typ ist ruhig und er hat Recht — wir haben das Päc
+[09:38:07] >>> KIM (Kim): ok ich bin draußen auf der straße, mega!! aber der typ hat mein gesicht gesehen 
+[09:38:11] >>> SARAH (Mara Voss): Voss sagt ruhig, ohne die Augen vom Verfolger zu nehmen: *"Stimmt. War für jeman
+[09:38:12] 
+--- Turn 17 ---
+[09:40:10] <<< SL (49684p/1529c/118.2s, cum=586658): ## Szene 3 — Gasse / Connecticut Avenue, 17:43 Uhr  ---  ### Kim — draußen auf der Straße  Laufen. N
+[09:40:33] >>> JONAS (Jonas): Okay kurze Frage zur Mechanik bevor ich entscheide — wenn wir den Kurier befrage
+[09:40:37] >>> KIM (Kim): okay ich warte kurz an der haltestelle und schick den anderen den treffpunkt — w
+[09:40:42] >>> SARAH (Mara Voss): Voss nickt Kaspar kurz zu — Verfolger weg, Gasse sauber — dann wendet sie sich d
+[09:40:43] 
+--- Turn 18 ---
+[09:41:49] <<< SL (51523p/1662c/66.3s, cum=639843): ## Szene 3 — Gasse, Kurier-Befragung, 17:43 Uhr  ---  ### Jonas — Mechanik-Antwort  **Verhör / Ausfr
+[09:41:59] >>> JONAS (Jonas): Kaspar gibt dem Kurier einen langen Blick, dann ein kurzes Nicken Richtung Ausga
+[09:42:04] >>> KIM (Kim): MOTH checkt kurz rein — warte auf euch, Päckchen liegt sicher.
+
+Aber hey, dieser
+[09:42:08] >>> SARAH (Mara Voss): Voss sagt leise zum Kurier: „Du hast uns nie gesehen. Geh nach Hause."
+
+Dann zu 
+[09:42:09] 
+--- Turn 19 ---
+[09:43:02] <<< SL (53494p/1108c/52.8s, cum=694445): ## Szene 3 — Gasse, letzter Beat, 17:44 Uhr  ---  ### Georgetown-Adresse  Kaspar macht den halben Sc
+[09:43:12] >>> JONAS (Jonas): Ich würde tippen:
+
+---
+
+Okay, Adresse ist drin, gut. Für MOTH: Ich würde Option 
+[09:43:16] >>> KIM (Kim): okay MOTH senkt Kopf, Päckchen zwischen die Arme geklemmt, schaut aufs Handy als
+[09:43:20] >>> SARAH (Mara Voss): Ich tippe:
+
+"Voss an Moth: Kopf runter, lass ihn passieren. Kein Blick. Wir komm
+[09:43:21] 
+--- Turn 20 ---
+[09:43:56] <<< SL (54990p/1264c/35.0s, cum=750699): ## Szene 3 → 4 — Exfil, Connecticut Avenue, 17:45 Uhr  ---  ### Jonas — Heat-Mechanik kurz  Drei Leu
+[09:44:05] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay, Größerer ist das Problem. Option 1 ist zu heiß — er sieht
+[09:44:09] >>> KIM (Kim): okay warte — wenn er uns beobachtet und wir dann einfach *verschwinden*, sieht e
+[09:44:14] >>> SARAH (Mara Voss): Ich tippe:
+
+„Option 2, aber ich mach die Ablenkung. Voss geht rüber, fragt ihn n
+[09:44:15] 
+--- Turn 21 ---
+[09:44:44] <<< SL (56705p/1113c/29.5s, cum=808517): ## Klärungsrunde + Exfil-Plan  ---  ### Kim — Gate-Sichtbarkeit  Das Gate ist **nicht unsichtbar**. 
+[09:44:49] >>> JONAS (Jonas): Okay der Große hat also ein Profil auf uns — das ist der klassische "wird uns sp
+[09:44:52] >>> KIM (Kim): okay warte — "Volta Street ist drei Blocks west" — meint er das als DROHUNG? wie
+[09:44:55] >>> SARAH (Mara Voss): Voss hält seinen Blick genau drei Sekunden — nicht eine länger. Dann sagt sie, v
+[09:44:56] 
+--- Turn 22 ---
+[09:45:56] <<< SL (58054p/2585c/59.9s, cum=869156): ## Szene 4 — Exfil, 17:46 Uhr  ---  ### Kim — kurze Antwort  Der Große hat die Adresse nicht von euc
+[09:46:00] >>> JONAS (Jonas): Okay warte mal kurz — Kaspar levelt auf und kriegt Lizenz Tier I? Was bedeutet d
+[09:46:03] >>> KIM (Kim): warte ich hab level 2?? MOTH hat level 2 bekommen?? das ist so cool ich freu mic
+[09:46:07] >>> SARAH (Mara Voss): Voss dreht sich zu Mira um. "Der Große — er hat 'Volta Street' bestätigt bevor i
+[09:46:08] 
+--- Turn 23 ---
+[09:46:41] <<< SL (60824p/1193c/32.8s, cum=931173): ## HQ — Klärungsrunde + Mira-Reaktion  ---  ### Jonas — Lizenz Tier I & XP  **Lizenz Tier I** bedeut
+[09:46:49] >>> JONAS (Jonas): Okay Level 2, nice. Ich nehm +1 STR — Kaspar ist halt der der reinläuft wenn's e
+[09:46:52] >>> KIM (Kim): ok lvl 2 nice!! was ist nochmal SYS genau? ich glaub ich nehm Attribut aber ich 
+[09:46:55] >>> SARAH (Mara Voss): Voss nickt langsam bei Miras letztem Satz — das ist der Teil der sie beschäftigt
+[09:46:56] 
+--- Turn 24 ---
+[09:47:31] <<< SL (62348p/1321c/34.3s, cum=994842): ## HQ — Level-Up & Analyse  ---  ### Jonas — STR 5→6  `Kodex: Kaspar — STR 5 → 6. Würfeltyp bleibt W
+[09:47:31] ⚠️  FINDING: [TERMINOLOGIE] SL nutzt 'HP' statt 'LP'
+[09:47:36] >>> JONAS (Jonas): Schreibe ich kurz rein, während Kim noch überlegt:
+
+„Miras Analyse klingt logisc
+[09:47:41] >>> KIM (Kim): okay CHA dann! delacroix redet sich aus allem raus, das passt 😄
+[09:47:50] >>> SARAH (Mara Voss): Voss lehnt gegen den Türrahmen und schaut Mira an. "Die Botschaft war für uns — 
+[09:47:51] 
+--- Turn 25 ---
+[09:48:20] <<< SL (63934p/1382c/29.6s, cum=1060158): ## HQ — Finale Bögen & Save  ---  ### Jonas — HP rückwirkend?  HP-Maximum steigt sofort — du startes
+[09:48:24] >>> JONAS (Jonas): Okay nice, 16/16 — das fühlt sich gut an. Bin bereit für Mission 2, aber vorher 
+[09:48:28] >>> KIM (Kim): 4 — direkt weiter! Aber warte mal, mein Stress-Max ist jetzt 14? Das ist wegen d
+[09:48:32] >>> SARAH (Mara Voss): Voss nickt Mira kurz zu. "Volta Street. Wir sind bereit."
+
+!save
+[09:48:33] 
+--- Turn 26 ---
+[09:50:32] <<< SL (65514p/5253c/119.1s, cum=1130925): ## Kurze Antworten + Save  ---  ### Kim — Stress-Max 14  Genau richtig gerechnet:  > Stress-Max = 8 
+[09:50:36] >>> JONAS (Jonas): Ich nehme den Verstärkten Kampfhandschuh für 80 CU. Passt perfekt zu Kaspars Sti
+[09:50:38] >>> KIM (Kim): haha okay 16 ist besser als 14, kein stress (buchstäblich)
+
+wartet Jonas noch od
+[09:50:42] >>> SARAH (Mara Voss): Okay, ich glaube ich hab Voss' Werte gerade falsch im Kopf — laut Save steht GES
+[09:50:43] 
+--- Turn 27 ---
+[09:51:37] <<< SL (70974p/1962c/54.7s, cum=1203861): ## Klärung + Quartiermeisterei + Briefing-Freigabe  ---  ### Sarah — Voss' Werte  Ja, genau. Die GES
+[09:51:46] >>> JONAS (Jonas): Okay, Bauteil aus einer unbekannten Epoche — das ist eine Hausnummer. Ich frag m
+[09:51:48] >>> KIM (Kim): okay warte — "keine Epoche die wir kennen" bedeutet das Ding kommt aus der ZUKUN
+[09:51:52] >>> SARAH (Mara Voss): Okay, GES 6 / INT 6 ist gespeichert, danke für die Klarstellung.
+
+Voss lehnt übe
+[09:51:53] 
+--- Turn 28 ---
+[09:52:22] <<< SL (73326p/1082c/29.6s, cum=1278269): ## Briefing — letzte Fragen, dann Sprung  ---  ### Kim — Zukunftstechnologie?  `Kodex: Materialanaly
+[09:52:26] >>> JONAS (Jonas): Plan passt für mich. Observation first, dann Hinterausgang, Keller-Route.
+
+Eine 
+[09:52:31] >>> KIM (Kim): okay also wir wissen es einfach nicht, cool cool
+
+ich bin für Plan 1, Recon mach
+[09:52:38] >>> SARAH (Mara Voss): Voss nickt knapp. "Plan bestätigen. Recon ist keine verlorene Zeit — Überraschun
+[09:52:39] 
+--- Turn 29 ---
+[09:53:29] <<< SL (74687p/1997c/50.5s, cum=1354953): ## Briefing — letzter Beat, dann Sprung  ---  ### Jonas — Fotos oder physisch einpacken?  Mira, ohne
+[09:53:35] >>> JONAS (Jonas): Okay, Hintereingang klingt gut — die schiefe Tür ist ein Geschenk. Ich würd sage
+[09:53:39] >>> KIM (Kim): okay die alte frau ist ein problem oder? was machen wir mit ihr
+[09:53:43] >>> SARAH (Mara Voss): Voss sagt leise, ohne die Gasse aus den Augen zu lassen: „Einer drin, Erdgeschos
+[09:53:44] 
+--- Turn 30 ---
+[09:54:30] <<< SL (76968p/1824c/45.4s, cum=1433745): ## Szene 1 — Warten, 09:58 Uhr  ---  ### Jonas & Sarah — Türmechanik  Gute Frage. **Gequollenes Holz
+[09:54:36] >>> JONAS (Jonas): Okay, der Mantel ist ein Fund. Auge über Anker — hat jemand das schon mal irgend
+[09:54:39] >>> KIM (Kim): okay warte mal — das Auge über dem Anker, das ist doch kein Zufall oder?? und de
+[09:54:43] >>> SARAH (Mara Voss): Voss dreht das Streichholzheftchen einmal um — schaut das Logo an, prägt es sich
+[09:54:44] 
+--- Turn 31 ---
+[09:55:18] <<< SL (79169p/1439c/33.6s, cum=1514353): ## Szene 2 — Flur, rechte Tür, 10:01 Uhr  ---  ### Jonas & Kim — Auge über Anker  `Kodex: Logo-Abfra
+[09:55:24] >>> JONAS (Jonas): Okay moment — Kaspar hat doch INT 3, oder? Wäre das nicht W6 + 1 statt +3? Ich f
+[09:55:26] >>> KIM (Kim): warte mal — "Tarnung: kompromittiert" heißt die wissen wer wir sind?? und das fo
+[09:55:29] >>> SARAH (Mara Voss): Okay das Foto ist ein Problem. Voss nimmt den Handscanner — Notizbuch und Karte,
+[09:55:30] 
+--- Turn 32 ---
+[09:55:59] <<< SL (80939p/1208c/29.2s, cum=1596500): ## Szene 2 — Simultanaktion, 10:02 Uhr  ---  ### Jonas — INT-Probe Klarstellung  Richtig aufgepasst.
+[09:56:05] >>> JONAS (Jonas): Option 2. Delacroix bleibt im Hof und fängt ab, falls jemand rausklettert — aber
+[09:56:08] >>> KIM (Kim): Okay MOTH warnt!! Sie soll unten bleiben und aufpassen falls jemand aus dem Fens
+[09:56:13] >>> SARAH (Mara Voss): Okay, Delacroix warnen — Option 2. Voss flüstert ins Comlink: "MOTH, Bewegung ob
+[09:56:14] 
+--- Turn 33 ---
+[09:56:45] <<< SL (82468p/1251c/31.1s, cum=1680219): ## Szene 3 — Treppe / Hof, 10:03 Uhr  ---  ### Jonas — Simultanaktion  Getrennte Proben, gleichzeiti
+[09:56:51] >>> JONAS (Jonas): Ich kombiniere 3 und 4 — kurzer Burst an Kaspar, dann Positionierung:
+
+*"Er ist 
+[09:56:57] >>> KIM (Kim): MOTH zieht die Pistole hoch und ruft gleichzeitig leise ins Comlink: "Er kommt r
+[09:57:01] >>> SARAH (Mara Voss): Voss zischt ins Comlink: "Kaspar — schnell, er ist am Fenster." Dann, leiser: "M
+[09:57:02] 
+--- Turn 34 ---
+[09:57:38] <<< SL (84094p/1366c/36.1s, cum=1765679): ## Szene 3 — Hof / Fenster, 10:03 Uhr  ---  ### Koordination — Kim führt, Jonas unterstützt  Kim hat
+[09:57:44] >>> JONAS (Jonas): Okay krass, das hat funktioniert. Ich nehm Option 1, aber kurz vorher — Kaspar s
+[09:57:47] >>> KIM (Kim): okay MOTH kommt rauf, alle zusammen — aber Pistole bleibt erstmal drin. er hat "
+[09:57:50] >>> SARAH (Mara Voss): Voss lehnt am Türrahmen, Pistole locker in Richtung seiner Mitte, und mustert ih
+[09:57:51] 
+--- Turn 35 ---
+[09:58:22] <<< SL (85815p/1202c/31.1s, cum=1852696): ## Szene 4 — Schlafzimmer, 10:05 Uhr  ---  ### Jonas — Sichern und Verhör  Aufteilen ist richtig. Ka
+[09:58:29] >>> JONAS (Jonas): Okay krass, der ist vorbereitet. Der hat auf uns gewartet oder zumindest mit sow
+[09:58:32] >>> KIM (Kim): okay warte — "dokumentiert" heißt das Ding hat sowas wie einen Speicher? eine Bl
+[09:58:35] >>> SARAH (Mara Voss): Ich gehe mit Option 3, aber ich will sie ein bisschen einbetten.
+
+---
+
+Voss läss
+[09:58:36] 
+--- Turn 36 ---
+[09:59:38] <<< SL (87391p/1260c/62.4s, cum=1941347): ## Szene 4 — Verhör, 10:06 Uhr  ---  ### Kim — "dokumentiert"  Gute Einschätzung. Ein Speicher, eine
+[09:59:45] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Option 3 für mich — Kaspar lehnt sich ganz leicht vor, sagt nic
+[09:59:48] >>> KIM (Kim): ich tipp schnell: option 3 klingt fies aber gut?? aber warte — was ist SG nochma
+[09:59:51] >>> SARAH (Mara Voss): Option 3 — aber ich will es nicht als Drohung klingen lassen, eher als Versprech
+[09:59:52] 
+--- Turn 37 ---
+[10:01:00] <<< SL (88947p/966c/67.9s, cum=2031260): ## Szene 4 — Verhör, letzter Beat, 10:07 Uhr  ---  ### OOC-Antworten kurz  **Jonas — Einschüchterung
+[10:01:11] >>> JONAS (Jonas): Kaspar lehnt sich leicht vor — nicht bedrohlich, eher als würde er gleich was sa
+[10:01:15] >>> KIM (Kim): ok warte ich check das kurz
+
+also wir nennen einfach ITI? wir haben das bauteil 
+[10:01:18] >>> SARAH (Mara Voss): Voss hält den Blick, nickt einmal knapp. "ZEITRISS. Privatsektor, Auftragsbasis 
+[10:01:19] 
+--- Turn 38 ---
+[10:01:46] <<< SL (90256p/1052c/26.9s, cum=2122568): ## Szene 4 — Tausch, 10:08 Uhr  ---  ### OOC-Antworten kurz  **Jonas — ITI-Risiko:** ITI ist nicht ö
+[10:01:58] >>> JONAS (Jonas): Option 2 für mich — die dritte Partei ist der eigentliche Knackpunkt hier. Wer a
+[10:02:02] >>> KIM (Kim): okay warte kurz — "kopie nicht original" bedeutet das unser ganzer auftrag war u
+[10:02:18] >>> SARAH (Mara Voss): Voss lässt das kurz sacken, dann: "Wer hat eurer Organisation das Bauteil überge
+[10:02:19] 
+--- Turn 39 ---
+[10:02:53] <<< SL (91666p/1308c/34.2s, cum=2215542): ## Szene 5 — Verhör, dritte Partei, 10:09 Uhr  ---  ### Kim — war der Auftrag umsonst?  Nein. Ihr ha
+[10:03:01] >>> JONAS (Jonas): Option 2, aber ich will das Heftchen gleichzeitig hochbringen — Kaspar soll kurz
+[10:03:04] >>> KIM (Kim): okay warte — das streichholzheftchen IST von denen?? das hat er die ganze zeit i
+[10:03:08] >>> SARAH (Mara Voss): Ich nehme Option 2, aber kombiniert — erst das Heftchen holen, dann konfrontiere
+[10:03:09] 
+--- Turn 40 ---
+[10:04:01] <<< SL (93396p/1330c/52.3s, cum=2310268): ## Szene 5 — Konfrontation, 10:10 Uhr  ---  ### Jonas — Probe  **Reaktion lesen = INT** (Tatortanaly
+[10:04:13] >>> JONAS (Jonas): Heftchen einpacken, klar. Und Vadim laufen lassen — er ist kein Ziel mehr, eher 
+[10:04:20] >>> KIM (Kim): Heftchen einpacken, Vadim laufen lassen. Wir haben unser Wort gegeben. Raus hier
+[10:04:25] >>> SARAH (Mara Voss): Voss nimmt das Heftchen vom Tisch, steckt es ein. Dann, ohne Vadim anzusehen: *"
+[10:04:26] 
+--- Turn 41 ---
+[10:05:20] <<< SL (95005p/2227c/54.3s, cum=2407500): ## Szene 5 — Letzter Beat, 10:11 Uhr  ---  ### Kaspars letzte Frage  Vadim hört die Frage. Schaut ku
+[10:05:28] >>> JONAS (Jonas): Okay krass, Voss levelt schon auf 3? Ich bin neidisch lol. Aber fair, sie hat di
+[10:05:32] >>> KIM (Kim): oh warte Voss macht LEVEL UP?? was ist TEMP nochmal, ich vergess das immer 😭
+[10:05:40] >>> SARAH (Mara Voss): Voss Lvl 3 — ich nehme Talent-Upgrade: Tatortanalyse Fortgeschritten. Passt bess
+[10:05:41] 
+--- Turn 42 ---
+[10:07:22] <<< SL (97574p/6142c/101.4s, cum=2511216): ## Klärungen + Level-Up + Save  ---  ### Jonas — Paradoxon-Index  Gute Nachricht: **Px 5 ist das Zie
+[10:07:32] >>> JONAS (Jonas): Okay, das klingt deutlich besser als ich dachte! Also Px ist quasi unser Fortsch
+[10:07:34] >>> KIM (Kim): oh okay das hab ich komplett falsch verstanden lol. also wir WOLLEN den px hochk
+[10:07:39] >>> SARAH (Mara Voss): Okay, ich lese das nochmal durch... Also Px 5 ist quasi unser Meilenstein, cool.
+[10:07:40] 
+--- Turn 43 ---
+[10:08:05] <<< SL (103928p/733c/25.2s, cum=2615877): ## HQ — Px-Erklärung & Voss-Talent  ---  ### Jonas — Px als Fortschrittsbalken  Genau richtig. Px is
+[10:08:15] >>> JONAS (Jonas): Okay cool, der Reroll ist tatsächlich stark — gerade bei so einem Vadim-Fall wo 
+[10:08:17] >>> KIM (Kim): Lounge kurz! Ich will Voss fragen was ein Reroll ist lol
+[10:08:20] >>> SARAH (Mara Voss): Okay, der Reroll ist tatsächlich stärker als ich dachte — gut zu wissen für Situ
+[10:08:21] 
+--- Turn 44 ---
+[10:08:47] <<< SL (104901p/906c/26.0s, cum=2721684): ## HQ — Kurze Runde vor Briefing  ---  ### Drei Wege, ein Ziel  Sarah will direkt zu Mira. Jonas zur
+[10:08:51] >>> JONAS (Jonas): Okay, Kaspar kauft den Schildknauf-Handschuh (85 CU) und das Taktische Messer (7
+[10:08:53] >>> KIM (Kim): okay ich bin kurz in der Lounge, hol mir auch einen Kaffee und schau Voss beim U
+[10:08:59] >>> SARAH (Mara Voss): Voss nickt einmal, kurz. Setzt sich, Rücken zur Wand, Blick zur Tür.
+
+„Danke."
+
+
+[10:09:00] 
+--- Turn 45 ---
+[10:10:28] <<< SL (106098p/1551c/88.4s, cum=2829333): ## HQ — Letzte Klärung + Briefing  ---  ### Jonas — Handschuh-Stapeln  **Schildknauf-Handschuh stape
+[10:10:34] >>> JONAS (Jonas): Okay, Stapeln macht Sinn — Basis braucht Basis, klar.
+
+Zur Frage: Kaspar spricht
+[10:10:36] >>> KIM (Kim): ich heb die hand — ich kann französisch! nicht perfekt aber okay, hab mal ne fre
+[10:10:38] >>> SARAH (Mara Voss): Voss lehnt sich vor. "Ich spreche Französisch — nicht perfekt, aber überzeugend 
+[10:10:39] 
+--- Turn 46 ---
+[10:11:04] <<< SL (107937p/986c/25.0s, cum=2938256): ## Briefing Mission 3 — Deckidentitäten & Sprache  ---  ### Sprache — geklärt  Voss und Delacroix sp
+[10:11:17] >>> JONAS (Jonas): Ich geh kurz die Optionen durch — eigentlich will ich beides wissen, Anreise UND
+[10:11:20] >>> KIM (Kim): ok warte kurz — MOTH bin ich, also Claire? die 26jährige Studentin?
+
+das passt l
+[10:11:23] >>> SARAH (Mara Voss): Voss nimmt die Mappe, blättert kurz durch. "Witwe. Gut — erklärt warum ich wenig
+[10:11:24] 
+--- Turn 47 ---
+[10:11:50] <<< SL (109284p/1009c/25.6s, cum=3048549): ## Briefing Mission 3 — Hypothesen  ---  ### Kim — Claire Fontaine  Ja, das bist du. 26, Studentin, 
+[10:11:55] >>> JONAS (Jonas): "Warte kurz — Voss ist Nahkämpfer, sprich kein Diplomat. Wenn wir als Flüchtling
+[10:11:57] >>> KIM (Kim): kurze frage noch — wenn die uns nach papieren fragen, was ist meine story genau?
+[10:12:00] >>> SARAH (Mara Voss): Voss nimmt die gefälschten Papiere, prüft kurz das Foto. "Ausrüstungs-Check zuer
+[10:12:01] 
+--- Turn 48 ---
+[10:12:38] <<< SL (110508p/1228c/36.6s, cum=3160285): ## Briefing — letzte Checks, dann Sprung  ---  ### Rollenverteilung & Legenden  Mira zeigt auf die d
+[10:12:50] >>> JONAS (Jonas): Ich nehm die Pistole mit, versteckt unter der Jacke — lieber das Risiko als gar 
+[10:12:53] >>> KIM (Kim): ok warte kurz — was ist MS nochmal? und dann: Sprung, aber ich nehm die Pistole 
+[10:12:57] >>> SARAH (Mara Voss): Voss nimmt die Mappe, blättert kurz durch ohne aufzuschauen. "Pistolen kommen mi
+[10:12:58] 
+--- Turn 49 ---
+[10:13:39] <<< SL (112043p/1565c/41.5s, cum=3273893): ## Letzte Klärungen + Sprung  ---  ### Kim — MS  **MS = Mission.** Die Zahl im HUD oben. Gerade: MS 
+[10:13:43] >>> JONAS (Jonas): Gute Erklärung, danke! Bezüglich der Markierung — ich würd sagen Option 3, aber 
+[10:13:46] >>> KIM (Kim): oh wow es riecht sooo gut hier 😭 okay aber R.L. — das klingt nach einer Person o
+[10:13:50] >>> SARAH (Mara Voss): Ich geh mit Option 2, aber dezent — Voss bleibt nicht stehen, sie geht langsam v
+[10:13:51] 
+--- Turn 50 ---
+[10:14:24] <<< SL (113860p/874c/33.5s, cum=3388627): ## Szene 1 — Waldrand, Markierung, 06:05 Uhr  ---  ### Kombination — dezentes Vorbeigehen + Blick na
+[10:14:47] >>> JONAS (Jonas): Okay, die 17 könnte Uhrzeit sein — 17 Uhr, drei Tage von heute wäre der 17. Augu
+[10:14:52] >>> KIM (Kim): okay warte — was ist nochmal SYS genau, INT ist Intelligenz oder? 😅
+
+aber egal —
+[10:14:59] >>> SARAH (Mara Voss): Voss sagt leise, ohne die Lippen groß zu bewegen: „R.L. und eine 17. Drei Tage, 
+[10:15:00] 
+--- Turn 51 ---
+[10:15:34] <<< SL (115204p/1237c/33.6s, cum=3505068): ## Szene 1 — Rasten, Beobachtung, 06:07 Uhr  ---  ### Kim — kurze Antworten  **SYS** = Implantat-Slo
+[10:15:42] >>> JONAS (Jonas): Okay, Voss wartet kurz ab — Augenkontakt hat sie ja schon hergestellt, das war f
+[10:15:45] >>> KIM (Kim): Die Frau fragen. Auf Französisch. Kaspar kann das doch, oder?
+[10:15:48] >>> SARAH (Mara Voss): Voss beobachtet die Frau noch eine Sekunde, dann leise zu den anderen: *"Résista
+[10:15:49] 
+--- Turn 52 ---
+[10:16:19] <<< SL (116765p/1097c/29.4s, cum=3622930): ## Szene 1 — Fahrzeug identifizieren, 06:08 Uhr  ---  ### Kurze Klärungen  **Kaspar spricht kein Fra
+[10:16:26] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay, Frau sagt warten — ich folge ihr. Kaspar bleibt ruhig, be
+[10:16:29] >>> KIM (Kim): okay warten klingt richtig, die frau kennt das dorf besser als wir
+
+aber was ist
+[10:16:32] >>> SARAH (Mara Voss): Ich warte kurz ab und beobachte die Soldaten — wie verhalten die sich am Gasthof
+[10:16:33] 
+--- Turn 53 ---
+[10:17:06] <<< SL (118239p/1396c/33.1s, cum=3742565): ## Szene 1 — Warten, Beobachten, 06:09 Uhr  ---  ### Kim — kurze Antworten  **SYS** = Implantat-Slot
+[10:17:12] >>> JONAS (Jonas): Ich nehme Option 3 — Kaspar bleibt im Hintergrund und beobachtet die Straße währ
+[10:17:17] >>> KIM (Kim): Option 3, Delacroix fragt beides — erst warum zweimal, dann wie wir reinkommen o
+[10:17:21] >>> SARAH (Mara Voss): Ich tippe:
+
+„Voss flüstert zu Kaspar: ‚Zweimal heute. Das ist kein Zufall.' — Op
+[10:17:22] 
+--- Turn 54 ---
+[10:17:51] <<< SL (119929p/1215c/28.6s, cum=3863709): ## Szene 2 — Hügelrand, 06:11 Uhr  ---  ### Jonas — Wahrnehmungs-Check  Ja, das ist eine Probe. Kasp
+[10:17:59] >>> JONAS (Jonas): Ich lasse Kaspar kurz zu Delacroix rübergucken und tippe:
+
+---
+
+Kaspar schüttelt
+[10:18:04] >>> KIM (Kim): ich würde Delacroix sagen: Option 3! lass sie reden, dann wissen wir was sie sch
+[10:18:13] >>> SARAH (Mara Voss): Ich gehe mit Option 3 — Gegenfrage. Voss sagt leise zu Delacroix: "Lass sie rede
+[10:18:14] 
+--- Turn 55 ---
+[10:19:36] <<< SL (121545p/1280c/82.5s, cum=3986534): ## Szene 2 — Gegenfrage, 06:12 Uhr  ---  ### Jonas — Delacroix' Talente  Delacroix hat **Verdeckte I
+[10:19:45] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay, Voss hat den Blick-Moment gesehen — das ist ein klarer Hi
+[10:19:48] >>> KIM (Kim): okay Voss hat ihren Blick nach links gesehen oder? ich glaub wir sollten Option 
+[10:19:53] >>> SARAH (Mara Voss): Voss hält ihren Blick — kurz, direkt.
+
+*"Der Offizier kommt heute Nachmittag wie
+[10:19:54] 
+--- Turn 56 ---
+[10:20:19] <<< SL (123358p/1013c/25.4s, cum=4110905): ## Szene 2 — Vertrauen aufbauen, 06:13 Uhr  ---  ### Jonas — Modifikator für Blick-Moment  Ja, das g
+[10:20:27] >>> JONAS (Jonas): Ich tippe Option 2, aber mit einem Twist:
+
+---
+
+Voss atmet kurz aus — nicht Unsi
+[10:20:31] >>> KIM (Kim): Okay ich würde Option 2 nehmen aber mit einem kleinen Twist — Voss sagt "Wir wis
+[10:20:39] >>> SARAH (Mara Voss): Ich nehme Option 2, aber kombiniere sie mit einem Hauch Ehrlichkeit — Voss würde
+[10:20:40] 
+--- Turn 57 ---
+[10:21:09] <<< SL (124890p/1176c/29.3s, cum=4236971): ## Szene 2 — Vertrauen, letzter Versuch, 06:14 Uhr  ---  ### Jonas — Modifikator  Ja. Voss hat einen
+[10:21:16] >>> JONAS (Jonas): Okay nice, Voss hat das gut hingekriegt. 👍
+
+Ich würd sagen Option 1 — Feldweg, u
+[10:21:20] >>> KIM (Kim): Okay Luc first, Gasthof! Aber was ist nochmal SYS genau — das MS da oben?
+[10:21:22] >>> SARAH (Mara Voss): Voss schaut der Frau nach bis sie verschwunden ist, dann dreht sie sich zu Kaspa
+[10:21:23] 
+--- Turn 58 ---
+[10:21:54] <<< SL (126321p/1289c/31.0s, cum=4364581): ## Szene 3 — Feldweg, Saint-Cirq, 06:18 Uhr  ---  ### Kim — letzte Mal, versprochen  **SYS** = Impla
+[10:22:01] >>> JONAS (Jonas): Ich geh für Option 2, aber mit einem kleinen Twist — Kaspar und Voss gehen rein 
+[10:22:04] >>> KIM (Kim): Ich geh rein, direkt zu Luc. Delacroix soll sich neben ihn setzen — er ist Franz
+[10:22:08] >>> SARAH (Mara Voss): Voss sagt leise zu den anderen: „Er wartet auf uns — oder auf jemanden der nicht
+[10:22:09] 
+--- Turn 59 ---
+[10:22:50] <<< SL (127912p/1235c/41.2s, cum=4493728): ## Szene 3 → 4 — Auberge du Lot, 06:22 Uhr  ---  ### Jonas — Sprach-Bonus  Ja. Delacroix spricht Fra
+[10:22:58] >>> JONAS (Jonas): Okay interessant — er hat auf uns gewartet. Das ist entweder sehr gut oder sehr 
+[10:23:00] >>> KIM (Kim): Option 2, ich frag ihn zurück. Woher weiß der das überhaupt lol
+[10:23:06] >>> SARAH (Mara Voss): Ich gehe mit Option 3 erstmal — Delacroix nimmt den Kaffee, trinkt einen Schluck
+[10:23:07] 
+--- Turn 60 ---
+[10:23:55] <<< SL (129494p/1270c/48.9s, cum=4624492): ## Szene 4 — Auberge du Lot, Theke, 06:24 Uhr  ---  ### Jonas — Codewort / Erkennungszeichen  Nein. 
+[10:24:28] >>> JONAS (Jonas): Okay krass, Marguerite hat das also schon vorbereitet. Die Frau denkt wirklich e
+[10:24:30] >>> KIM (Kim): option 3!! was weiß luc über den inhalt
+[10:24:32] >>> SARAH (Mara Voss): Voss wartet bis Luc fertig geredet hat, dann schiebt sie ihren Kaffee zur Seite 
+[10:24:33] 
+--- Turn 61 ---
+[10:25:01] <<< SL (131077p/1029c/28.4s, cum=4756598): ## Szene 4 — Luc, Inhalt der Kiste, 06:26 Uhr  ---  Voss stellt die Frage direkt. Luc schaut sie an 
+[10:25:08] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Warm. Das ist das erste Mal dass ich wirklich aufhorche heute M
+[10:25:13] >>> KIM (Kim): okay warm klingt super unheimlich. ich stimme für zimmer zuerst — ich will wisse
+[10:25:16] >>> SARAH (Mara Voss): Voss nickt langsam, sagt ruhig: „Warm im Keller im August. Keine Erklärung dafür
+[10:25:17] 
+--- Turn 62 ---
+[10:25:53] <<< SL (132493p/1125c/35.9s, cum=4890216): ## Szene 4 → 5 — Zimmer, Lagebesprechung, 06:28 Uhr  ---  ### Kim — Handscanner kurz erklärt  Der Ha
+[10:25:57] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Option 2 kombiniert mit Plan — Kaspar bleibt als Beobachter im 
+[10:26:04] >>> KIM (Kim): Okay Marguerite frag ich kurz — sie hat die Kiste doch selbst versteckt, die wei
+[10:26:09] >>> SARAH (Mara Voss): Option 2, aber kurz halten: "Delacroix bleibt als Auge hier — Brunnenplatz, Sich
+[10:26:10] 
+--- Turn 63 ---
+[10:26:39] <<< SL (133867p/1081c/28.4s, cum=5025164): ## Szene 5 — Lageplanung, 06:30 Uhr  ---  ### Rollenzuweisung — kurze Klärung  Drei Meinungen, drei 
+[10:26:44] >>> JONAS (Jonas): Okay, Option 1 klingt solide. Kaspar als Relais auf halbem Weg macht Sinn — ich 
+[10:26:49] >>> KIM (Kim): Option 1 klingt gut! Aber was ist nochmal SYS bei Kaspar als Relais, bedeutet da
+[10:26:52] >>> SARAH (Mara Voss): Option 1 klingt gut für mich. Voss sagt ruhig: „Kaspar, du bleibst auf halbem We
+[10:26:53] 
+--- Turn 64 ---
+[10:27:16] <<< SL (135210p/871c/22.6s, cum=5161245): ## Szene 5 — Aufstellung, 06:31 Uhr  ---  ### Kim — SYS beim Relais  SYS hat hier nichts damit zu tu
+[10:27:20] >>> JONAS (Jonas): **Option 1.**
+
+Aber kurze Frage noch bevor wir loslaufen — Voss wartet in der Mü
+[10:27:25] >>> KIM (Kim): 1, ausführen! Aber kurze Frage — was ist MOTH nochmal, bin ich das?
+[10:27:28] >>> SARAH (Mara Voss): Voss sagt ruhig: „Ausführen. Delacroix, du hast fünf Minuten für Marguerite — ni
+[10:27:29] 
+--- Turn 65 ---
+[10:28:04] <<< SL (136373p/1475c/34.7s, cum=5299093): ## Szene 5 → 6 — Aufstellung, 06:32 Uhr  ---  ### Kim — ja, du bist MOTH  MOTH = Ines Delacroix, Cal
+[10:28:25] >>> JONAS (Jonas): Okay, Luc ist drin — Voss folgt nach, aber nicht sofort auf den Fersen, kurze Pa
+[10:28:28] >>> KIM (Kim): okay ich bin am Brunnenplatz, Südstraße im Blick
+
+Delacroix stellt sich ans Wass
+[10:28:35] >>> SARAH (Mara Voss): Voss wartet bis Luc zwei Schritte drin ist, dann folgt sie ruhig nach — kein Zög
+[10:28:36] 
+--- Turn 66 ---
+[10:29:13] <<< SL (138346p/1610c/36.9s, cum=5439049): ## Szene 6 — Mühle / Brunnenplatz, 06:47 Uhr  ---  ### Kim — Dreher kurz erklärt  **Hauptmann Dreher
+[10:29:23] >>> JONAS (Jonas): **RAMPART — Friedhof**
+
+Kaspar lehnt am Torpfosten, Arme verschränkt, schaut die
+[10:29:26] >>> KIM (Kim): MOTH bewegt sich nicht, oder? Warten bis mehr klar ist?
+
+Aber Haustür — kann Del
+[10:29:29] >>> SARAH (Mara Voss): Voss lässt die Hand auf dem Tuch, dreht sich nicht um. Sagt leise, auf Französis
+[10:29:30] 
+--- Turn 67 ---
+[10:30:07] <<< SL (140387p/1650c/37.6s, cum=5581086): ## Szene 6 — Drei Fronten, 06:49 Uhr  ---  ### Jonas — Mühlen-Sichtlinie & Probe-Frage  Vom Friedhof
+[10:30:16] >>> JONAS (Jonas): Okay, Burst raus — zweimal, Signal läuft. Dann Augen auf das Fahrzeug: Kaspar bl
+[10:30:19] >>> KIM (Kim): oh gott ein schweres Fahrzeug das klingt NICHT gut
+
+SPLINTER: Voss nimmt die Kis
+[10:30:23] >>> SARAH (Mara Voss): Voss sagt leise ins Comlink: „Scan positiv — Kiste ist heiß, anderes Objekt als 
+[10:30:24] 
+--- Turn 68 ---
+[10:31:02] <<< SL (142456p/1599c/37.5s, cum=5725141): ## Szene 7 — Alle drei gleichzeitig, 06:51 Uhr  ---  ### Kim — SYS  **SYS = Implantat-Slots.** Nicht
+[10:31:02] ⚠️  FINDING: [TERMINOLOGIE] SL nutzt 'HP' statt 'LP'
+[10:31:08] >>> JONAS (Jonas): Okay, meine INT-Probe — ich würfle noch schnell.
+
+Aber unabhängig vom Ergebnis: 
+[10:31:13] >>> KIM (Kim): ok gate JETZT, keine zeit zum warten. aber kann jemand voss mit der kiste helfen
+[10:31:17] >>> SARAH (Mara Voss): Voss setzt die Kiste auf dem Mühlenboden ab, kniet kurz daneben. "Feldweg. Jetzt
+[10:31:18] 
+--- Turn 69 ---
+[10:32:09] <<< SL (144394p/1523c/51.7s, cum=5871058): ## Szene 7 → 8 — Feldweg, 06:52 Uhr  ---  ### Jonas — Gate im Freien  Kein Malus. Gate-Window funkti
+[10:32:17] >>> JONAS (Jonas): Option 1, aber mit Vorbereitung für Option 3 falls der LKW wirklich hält.
+
+Voss 
+[10:32:21] >>> KIM (Kim): Okay MOTH läuft einfach weiter, normal, wie jemand der zur Arbeit geht. Und sie 
+[10:32:26] >>> SARAH (Mara Voss): Voss dreht sich nicht um, spricht leise durch die Zähne: "Weiterlaufen. Normales
+[10:32:27] 
+--- Turn 70 ---
+[10:33:26] <<< SL (146336p/2617c/59.4s, cum=6020011): ## Szene 8 — Feldweg, kritischer Moment, 06:54 Uhr  ---  ### Jonas — Legende aktiv halten  Ja, das g
+[10:33:30] >>> JONAS (Jonas): Okay nice, Level 3! Kurze Frage bevor ich weitermache — Kaspar kriegt jetzt eine
+[10:33:31] >>> KIM (Kim): warte kaspar und moth sind beide auf lvl 3?? gleichzeitig?? das ist doch super o
+[10:33:34] >>> SARAH (Mara Voss): Voss lässt sich auf einen der Stühle fallen, zieht die Kevlarweste aus. "Mehrere
+[10:33:35] 
+--- Turn 71 ---
+[10:33:52] <<< SL (149148p/726c/17.1s, cum=6169885): ## HQ — Klärungsrunde  ---  ### Jonas — Level-Up Mechanik & MOTH-Frage  **Level-Up:** Pro Stufenaufs
+[10:33:57] >>> JONAS (Jonas): Okay, verstanden — eine Wahl, kein Stacking. Für Kaspar nehme ich **Nahkampf-Tak
+[10:34:04] >>> KIM (Kim): ok wait SYS ist nochmal was genau? punkte die man ausgeben kann oder einfach +1 
+[10:34:08] >>> SARAH (Mara Voss): Voss nickt langsam bei Miras Worten. "Infrastruktur bedeutet Zeitplan. Jemand wa
+[10:34:09] 
+--- Turn 72 ---
+[10:35:16] <<< SL (150171p/840c/67.8s, cum=6320896): ## HQ — Klärungen & Level-Up  ---  ### Kim — SYS erklärt (letzte Mal, versprochen 😄)  **SYS ist dein
+[10:35:21] >>> JONAS (Jonas): Okay krass, der Desorientierer-Effekt ist eigentlich richtig stark in längeren K
+[10:35:23] >>> KIM (Kim): Okay SYS hab ich jetzt kapiert 😄 ich nehm **GES 5→6**, Delacroix soll schnell bl
+[10:35:34] >>> SARAH (Mara Voss): Ich warte kurz auf Kim, dann tippe ich:
+
+---
+
+"Voss sagt zu Mira: Seite 7 — was 
+[10:35:35] 
+--- Turn 73 ---
+[10:36:23] <<< SL (151304p/1413c/47.8s, cum=6473613): ## HQ — Level-Up abgeschlossen  ---  ### Kleine Korrektur  **Jonas** hat GES 5→6 gewählt — aber das 
+[10:36:30] >>> JONAS (Jonas): Warte kurz — ich spiel ja Kaspar, nicht Delacroix. Also ja, Kims GES-Wahl hab ic
+[10:36:35] >>> KIM (Kim): okay NEUN?? und nur zwei gesichert das ist nicht gut
+
+was bedeutet nochmal "Null
+[10:36:38] >>> SARAH (Mara Voss): Voss legt den Finger auf den dritten lesbaren Eintrag — Konstantinopel, kein Jah
+[10:36:39] 
+--- Turn 74 ---
+[10:37:09] <<< SL (153121p/1247c/30.0s, cum=6627981): ## Archiv-Raum 7 — Recherche  ---  ### Kim — "Nullpunkt"  Kein bekannter ITI-Begriff. Neu, unbekannt
+[10:37:15] >>> JONAS (Jonas): Ich tippe Option 3 — kurze Frage noch an den Archivar:
+
+"Warte kurz. Der Nullpun
+[10:37:17] >>> KIM (Kim): Warte kurz — was ist nochmal der Unterschied zwischen Destabilisierung und Fixie
+[10:37:22] >>> SARAH (Mara Voss): Voss sagt ruhig zum Archivar: "Danke. Das war mehr als ich erwartet hatte." Sie 
+[10:37:23] 
+--- Turn 75 ---
+[10:39:53] <<< SL (154715p/6977c/150.8s, cum=6789673): ## Archiv-Raum 7 — letzte Fragen + Save  ---  ### Kim — Destabilisierung vs. Fixierung  Der Archivar
+[10:40:03] >>> JONAS (Jonas): Okay, das ist gruselig präzise. Jemand der *gewonnen* hat und das einfrieren wil
+[10:40:13] >>> KIM (Kim): okay das macht SO viel mehr sinn als das was im handbuch stand lol
+
+also fixieru
+[10:40:17] >>> SARAH (Mara Voss): Voss notiert das Boten-Profil, ohne aufzublicken. "Nicht-Einheimischer, sprachli
+[10:40:18] 
+--- Turn 76 ---
+[10:40:48] <<< SL (162082p/1064c/29.8s, cum=6952819): ## HQ — Letzte Fragen vor Istanbul  ---  ### Kim — ja, gruseliger als Chaos  Genau. Chaos kann man b
+[10:40:51] >>> JONAS (Jonas): 4 — direkt Briefing. Ich hab genug Kontext, wir können loslegen.
+
+Kurze Frage no
+[10:40:56] >>> KIM (Kim): okay ich glaub ich hab's. also wir suchen jemanden der sich so verhält als wär e
+[10:41:00] >>> SARAH (Mara Voss): Voss lehnt sich zurück. "Jemand der wartet, bis die Übergabe klappt — das ist ke
+[10:41:01] 
+--- Turn 77 ---
+[10:42:35] <<< SL (163408p/1709c/94.4s, cum=7117936): ## Briefing Mission 4 — Istanbul, 1941  ---  ### Kurze Antworten vor dem Raum  **Jonas — Ausrüstung:
+[10:42:40] >>> JONAS (Jonas): "Okay, der Assistent der Ausrüstungskisten schleppt — das bin ich, oder? Passt z
+[10:42:42] >>> KIM (Kim): warte der auftraggeber ist WIRKLICH da?? der typ aus mission 1??
+[10:42:48] >>> SARAH (Mara Voss): Voss schaut auf das Foto und sagt nichts für einen Moment. Dann: *"Auftraggeber 
+[10:42:49] 
+--- Turn 78 ---
+[10:43:12] <<< SL (165376p/773c/23.7s, cum=7284085): ## Briefing Mission 4 — letzte Fragen  ---  ### Jonas — Köder-Technik  Mira nimmt das Gerät vom Tisc
+[10:43:34] >>> JONAS (Jonas): Okay ich verstehe das Gerät — aber eine Frage noch bevor wir entscheiden: Wenn d
+[10:43:41] >>> KIM (Kim): ok wait — er ist in Zimmer 214 und WIR haben den Köder? dann gehen wir doch dire
+[10:43:44] >>> SARAH (Mara Voss): Ich tippe:
+
+"Voss lehnt sich zurück. 'Wenn er auf uns wartet, sitzt er nicht im 
+[10:43:45] 
+--- Turn 79 ---
+[10:44:09] <<< SL (166453p/813c/23.8s, cum=7451351): ## Briefing — letzte Klärung vor Sprung  ---  ### Jonas — Köder als Ortungsgerät  Mira hört die Frag
+[10:44:20] >>> JONAS (Jonas): Option 1 — aber ich hab noch eine kurze Frage vorher.
+
+"Mira, wenn wir in die Lo
+[10:44:24] >>> KIM (Kim): okay lobby-bar klingt logisch, wenn ich der böse wäre würd ich da auch sitzen lo
+[10:44:28] >>> SARAH (Mara Voss): "Option 1. Voss sagt ruhig: Lobby-Bar, ich gehe zuerst rein, allein, als Tourist
+[10:44:29] 
+--- Turn 80 ---
+[10:45:22] <<< SL (167517p/2003c/52.1s, cum=7620871): ## Sprung — Istanbul, 14. März 1941  ---  ### Aufstellung — Miras letzte Antwort  *"Drei ist keine G
+[10:45:27] >>> JONAS (Jonas): Okay kurze Frage bevor ich reagiere — der Blick auf die Kiste, war das eine echt
+[10:45:29] >>> KIM (Kim): ok MOTH checkt unauffällig ob der typ an tisch 4 noch auf die kiste schaut oder 
+[10:45:32] >>> SARAH (Mara Voss): Voss sagt leise ins Comlink: „Tisch 4 hat auf die Kiste geschaut. Nicht auf euch
+[10:45:33] 
+=== ENDE: max_turns erreicht ===
+[10:45:33] 📊 Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/coreops-mp-tracking-0921/_bericht.md
+[10:45:33] 📉 Tokens peak: 167517
+[10:45:33] 🧩 MP-Sections dormant: 2/13

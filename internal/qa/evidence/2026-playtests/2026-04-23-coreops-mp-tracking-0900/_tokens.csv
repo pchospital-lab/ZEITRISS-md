@@ -1,0 +1,3 @@
+turn,prompt_tokens,completion_tokens,total_tokens,cum_tokens,latency_s,sl_reply_chars
+1,16700,2006,18706,18706,53.21,4420
+2,18968,996,19964,38670,26.85,2209

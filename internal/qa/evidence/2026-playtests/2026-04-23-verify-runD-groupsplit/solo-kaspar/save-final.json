@@ -1,0 +1,175 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-RAMPART-HQ-A",
+  "parent_save_id": "solo-rampart-runD",
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 1,
+    "px": 1,
+    "px_state": "stable",
+    "mode": "core",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-RAMPART-01",
+      "name": "Ren Kaspar",
+      "callsign": "RAMPART",
+      "rank": "Feldagent",
+      "lvl": 1,
+      "xp": 0,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Nahkampf-Spezialist"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 4,
+        "INT": 3,
+        "CHA": 2,
+        "TEMP": 4,
+        "SYS": 0
+      },
+      "hp": 10,
+      "hp_max": 13,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "name": "Nahkampf-Taktik",
+          "tier": "Basis",
+          "bonus": "+2 auf Nahkampf-Proben (STR)"
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Kampfmesser",
+          "type": "weapon",
+          "tier": 1
+        },
+        {
+          "name": "Schwere Rüstung",
+          "type": "armor",
+          "tier": 1
+        },
+        {
+          "name": "Comlink",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": [
+          "Mission 1: Lagerhaus gesichert"
+        ]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-RAMPART-01",
+          "name": "Standardfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 2,
+        "faction": "",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 100,
+      "level_history": {}
+    }
+  ],
+  "economy": {
+    "hq_pool": 0
+  },
+  "logs": {
+    "trace": [],
+    "market": [
+      "HQ-Ausrüstungskammer besucht. Kein Kauf — Budget unzureichend für Tier-2-Upgrade."
+    ],
+    "artifact_log": [],
+    "notes": [
+      "SYS-Migrationslücke aus Legacy-Save: sys_max 14 nicht übernommen. SYS als Attribut auf 0 gesetzt."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [
+        "solo-rampart-runD"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 1,
+      "location": "HQ-Ausrüstungskammer"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [
+      "Mission 1: Lagerhaus gesichert"
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-VEITH-01",
+        "name": "Dr. Veith",
+        "callsign": null,
+        "role": "Kontakt",
+        "scope": "core",
+        "status": "aktiv"
+      }
+    ],
+    "active_npc_ids": []
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

@@ -1,0 +1,28 @@
+[18:11:24] === START Solo-Journey persona=noob max_turns=10 max_chats=2 ===
+[18:11:24] Chat #1 (Chargen/Start) — local:playtest-1258752236
+[18:11:24] >>> Sarah (Opener): Spiel starten (solo klassisch)
+[18:11:58] [turn 1 / chat 1] SL (3425 chars, 59387+1250 tok, RAG=5, ~$0.20)
+[18:12:00] >>> Sarah: generate
+[18:12:39] [turn 2 / chat 1] SL (3657 chars, 59011+1498 tok, RAG=4, ~$0.40)
+[18:12:44] >>> Sarah: okay das ist viel text 😅 aber die vera klingt cool! was mach ich jetzt als erstes
+[18:12:58] [turn 3 / chat 1] SL (762 chars, 60625+279 tok, RAG=7, ~$0.58)
+[18:13:01] >>> Sarah: okay also !save
+[18:13:40] [turn 4 / chat 1] SL (4984 chars, 60869+1908 tok, RAG=4, ~$0.79)
+[18:13:40]   💾 SAVE erkannt (mode=hq) -> chat01-turn04-hq.json
+[18:13:40]   🔄 CHAT-HANDOVER -> Chat #2 (local:playtest-609e3b6a78), paste Save
+[18:14:10] [turn 5 / chat 2] SL (2260 chars, 60870+1005 tok, RAG=5, ~$0.99)
+[18:14:13] >>> Sarah: okay was soll ich jetzt machen? 😅 ich glaub ich will einfach direkt den ersten auftrag
+[18:14:24] [turn 6 / chat 2] SL (363 chars, 59683+148 tok, RAG=7, ~$1.17)
+[18:14:25] >>> Sarah: 1
+[18:15:04] [turn 7 / chat 2] SL (3765 chars, 58886+1483 tok, RAG=5, ~$1.37)
+[18:15:07] >>> Sarah: ich geh einfach zum naschmarkt, das klingt am wenigsten kompliziert 😄 also option 1!
+[18:15:41] [turn 8 / chat 2] SL (2871 chars, 61898+1132 tok, RAG=6, ~$1.57)
+[18:15:43] >>> Sarah: okay also ich geh einfach zu hartner und red ihn an 😄 option 1!
+[18:16:19] [turn 9 / chat 2] SL (3069 chars, 62565+1219 tok, RAG=5, ~$1.78)
+[18:16:22] >>> Sarah: okay hartner soll einfach mitkommen, wir hauen ab bevor der typ näher kommt! option 1
+[18:16:54] [turn 10 / chat 2] SL (2419 chars, 65055+1022 tok, RAG=5, ~$1.99)
+[18:16:58] >>> Sarah: ins café!! küche hinterausgang klingt gut 😄 option 2
+[18:16:58] === ENDE === turns=10 chats=2 stop=max_turns saves=1 findings=0 ~$1.99
+
+SUMMARY_JSON: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-1811-solo-journey-noob/_summary.json
+OUT_DIR: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-1811-solo-journey-noob

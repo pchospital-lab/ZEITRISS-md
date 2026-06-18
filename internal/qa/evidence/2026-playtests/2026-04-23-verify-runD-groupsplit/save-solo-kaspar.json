@@ -1,0 +1,85 @@
+{
+  "v": 7,
+  "save_id": "solo-rampart-runD",
+  "session_type": "solo",
+  "characters": [
+    {
+      "name": "Ren Kaspar",
+      "callsign": "RAMPART",
+      "player": "Jonas",
+      "level": 1,
+      "xp": 7,
+      "attributes": {
+        "GES": 4,
+        "INT": 3,
+        "TEMP": 4,
+        "SOC": 2,
+        "STR": 5,
+        "WIS": 3
+      },
+      "lp": 10,
+      "lp_max": 13,
+      "stress": 3,
+      "pp": 0,
+      "pp_max": 0,
+      "sys": 0,
+      "sys_max": 14,
+      "talents": [
+        "Nahkampf-Taktik"
+      ],
+      "equipment": [
+        {
+          "name": "Kampfmesser",
+          "type": "weapon",
+          "tier": 1
+        },
+        {
+          "name": "Schwere Rüstung",
+          "type": "armor",
+          "tier": 1
+        },
+        {
+          "name": "Comlink",
+          "type": "tool",
+          "tier": 1
+        }
+      ],
+      "currency": {
+        "cu": 100
+      },
+      "level_history": {},
+      "missions_completed": 1,
+      "px": 1,
+      "deepsave": true
+    }
+  ],
+  "squad": {
+    "name": "Ren Kaspar",
+    "tier": 1,
+    "wallet": {
+      "cu": 100
+    },
+    "reputation": {
+      "ITI": 2,
+      "Tempocom": 0,
+      "Arcana": 0
+    }
+  },
+  "continuity": {
+    "shared_echoes": [
+      "Mission 1: Lagerhaus gesichert"
+    ],
+    "npc_roster": [
+      {
+        "name": "Dr. Veith",
+        "role": "Kontakt",
+        "status": "aktiv"
+      }
+    ]
+  },
+  "session_meta": {
+    "chat_id": "solo-rampart",
+    "scene_count": 0,
+    "phase": "HQ"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "v": 7,
+  "save_id": "solo-moth-runD",
+  "session_type": "solo",
+  "characters": [
+    {
+      "name": "Ines Delacroix",
+      "callsign": "MOTH",
+      "player": "Kim",
+      "level": 1,
+      "xp": 9,
+      "attributes": {
+        "GES": 3,
+        "INT": 5,
+        "TEMP": 5,
+        "SOC": 4,
+        "STR": 2,
+        "WIS": 4
+      },
+      "lp": 9,
+      "lp_max": 10,
+      "stress": 1,
+      "pp": 3,
+      "pp_max": 5,
+      "psi_heat": 1,
+      "sys": 2,
+      "sys_max": 12,
+      "talents": [
+        "Telepathie",
+        "Prekognition"
+      ],
+      "equipment": [
+        {
+          "name": "Comlink",
+          "type": "tool",
+          "tier": 1
+        },
+        {
+          "name": "Neuralnet-Kontaktlinsen",
+          "type": "tool",
+          "tier": 2
+        },
+        {
+          "name": "Multitool",
+          "type": "tool",
+          "tier": 1
+        }
+      ],
+      "currency": {
+        "cu": 80
+      },
+      "level_history": {},
+      "missions_completed": 1,
+      "px": 1,
+      "deepsave": true
+    }
+  ],
+  "squad": {
+    "name": "Ines Delacroix",
+    "tier": 1,
+    "wallet": {
+      "cu": 80
+    },
+    "reputation": {
+      "ITI": 2,
+      "Tempocom": 0,
+      "Arcana": 0
+    }
+  },
+  "continuity": {
+    "shared_echoes": [
+      "Mission 1: Lagerhaus gesichert"
+    ],
+    "npc_roster": [
+      {
+        "name": "Dr. Veith",
+        "role": "Kontakt",
+        "status": "aktiv"
+      }
+    ]
+  },
+  "session_meta": {
+    "chat_id": "solo-moth",
+    "scene_count": 0,
+    "phase": "HQ"
+  }
+}

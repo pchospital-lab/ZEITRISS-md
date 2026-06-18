@@ -1,0 +1,4 @@
+turn,prompt_tokens,completion_tokens,cum_cost_usd,latency_s,sl_chars
+1,59387,1099,0.1946,31.7,3102
+2,59580,1083,0.3896,33.3,2489
+3,58766,494,0.5733,17.5,1214

@@ -1,0 +1,18 @@
+{
+  "verdict": "FAIL",
+  "turns": 2,
+  "cost_usd": 0.3653,
+  "peak_prompt_tokens": 77306,
+  "avg_cache_hit": 0.785,
+  "merge_save_captured": true,
+  "fails": [
+    "❌ [SCHEMA] merge-result-5er @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-",
+    "❌ [ECHO-CAP] merge-result-5er: shared_echoes 12>6",
+    "❌ [ECHO-CAP] merge: shared_echoes 12>6",
+    "❌ [WEALTH-EXPLOIT] merge: Gesamtvermögen STEIGT über Split/Merge 90050→95440 (+5390, +6.0%) — Geld-Druck-Exploit über Split/Merge-Zyklus"
+  ],
+  "softs": [
+    "⚠️ [IMPORTED] merge: imported_saves als String-Array (1 Einträge) statt kanonischer Objektform [{save_id,branch_id,status}] (Modul 12)",
+    "⚠️ [ROUTING-FADEN] 10 Ermittlungs-Hinweis(e) noch als campaign-shared_echo (sollten in research/summary): ['meridian-funktion-ms11', 'route-drei-prozess-ms12', 'route-drei-nichtmensch-ms11', 'mv-initialen-ms12', 'depot-anatolien-bronzezeit-ms11', 'zylinder-erster-anker-ms12', 'kaffee-kalt-meridian-ms12', 'frau-zuerich-iti-stiefel-ms12', 'kowalski-warschau-ms12', 'kairos-beobachter-wien1937-ms12']"
+  ]
+}

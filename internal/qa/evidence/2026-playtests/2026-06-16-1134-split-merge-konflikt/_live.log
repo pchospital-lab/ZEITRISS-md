@@ -1,0 +1,27 @@
+[11:34:37] === START 5er-Split/Merge Case konflikt ===
+[11:34:37] === Phase 1 (Anker) — Chat local:playtest-b2aecbe78d ===
+[11:34:37] >>> [P1-load] Spieler: [5er-HQ-Save laden]
+[11:35:09] <<< [P1-load] SL (3058 chars, 61710 ptok, cache 91%, RAG=5, cum $0.0516)
+[11:35:09] >>> [P1-split] Spieler: [konflikt-Split + !save je Gruppe]
+[11:36:48] <<< [P1-split] SL (14767 chars, 62419 ptok, cache 90%, RAG=5, cum $0.1743)
+[11:36:48]   → 2 Branch-Save(s) extrahiert (erwartet 2)
+[11:36:48]   💾 Save 'p1-branch1-4er' (mode=hq) -> p1-branch1-4er.json
+[11:36:48]   💾 Save 'p1-branch2-1er' (mode=hq) -> p1-branch2-1er.json
+[11:36:48] === Branch 1-4er — Chat local:playtest-c68033d708 ===
+[11:36:48] >>> [branch-1-4er] Spieler: [Branch-Save laden]
+[11:37:21] <<< [branch-1-4er] SL (3622 chars, 58688 ptok, cache 96%, RAG=0, cum $0.2205)
+[11:37:21] >>> [branch-1-4er] Spieler: [HQ-Beat + !save]
+[11:37:39] <<< [branch-1-4er] SL (1218 chars, 64973 ptok, cache 87%, RAG=5, cum $0.2730)
+[11:37:39] >>> [branch-1-4er] Spieler: [!save explizit]
+[11:37:59] <<< [branch-1-4er] SL (1465 chars, 64368 ptok, cache 87%, RAG=5, cum $0.3254)
+[11:37:59]   ❌ Branch 1-4er: kein Save erhalten
+[11:37:59] === Branch 2-1er — Chat local:playtest-cf4ac70356 ===
+[11:37:59] >>> [branch-2-1er] Spieler: [Branch-Save laden]
+[11:38:30] <<< [branch-2-1er] SL (2471 chars, 63317 ptok, cache 89%, RAG=4, cum $0.3788)
+[11:38:30] >>> [branch-2-1er] Spieler: [HQ-Beat + !save]
+[11:38:53] <<< [branch-2-1er] SL (1601 chars, 63508 ptok, cache 89%, RAG=5, cum $0.4272)
+[11:38:53] >>> [branch-2-1er] Spieler: [!save explizit]
+[11:39:14] <<< [branch-2-1er] SL (1126 chars, 63118 ptok, cache 89%, RAG=5, cum $0.4734)
+[11:39:14]   ❌ Branch 2-1er: kein Save erhalten
+[11:39:14]   ❌ ABBRUCH: <2 Branches mit Ergebnis-Save
+[11:39:14] === ENDE === verdict=FAIL turns=8 $0.4734 peak=64973 cache=90% fails=2 softs=0

@@ -1,0 +1,177 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-MOTH-runD-HQ-001",
+  "parent_save_id": "solo-moth-runD",
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 1,
+    "px": 1,
+    "px_state": "stable",
+    "mode": "core",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-MOTH-001",
+      "name": "Ines Delacroix",
+      "callsign": "MOTH",
+      "rank": "Feldagentin",
+      "lvl": 1,
+      "xp": 9,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": ""
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 3,
+        "INT": 5,
+        "CHA": 4,
+        "TEMP": 5,
+        "SYS": 12
+      },
+      "hp": 9,
+      "hp_max": 10,
+      "stress": 1,
+      "has_psi": true,
+      "pp": 3,
+      "pp_max": 5,
+      "psi_heat": 1,
+      "psi_abilities": [
+        "Telepathie",
+        "Präkognition"
+      ],
+      "sys_installed": 2,
+      "talents": [
+        "Telepathie",
+        "Präkognition"
+      ],
+      "equipment": [
+        {
+          "name": "Comlink",
+          "type": "tool",
+          "tier": 1
+        },
+        {
+          "name": "Neuralnet-Kontaktlinsen",
+          "type": "tool",
+          "tier": 2
+        },
+        {
+          "name": "Multitool",
+          "type": "tool",
+          "tier": 1
+        }
+      ],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": [
+          "Mission 1: Lagerhaus gesichert"
+        ]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-MOTH-001",
+          "name": "",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 2,
+        "faction": "",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 80,
+      "level_history": {}
+    }
+  ],
+  "economy": {
+    "hq_pool": 0
+  },
+  "logs": {
+    "trace": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [
+        "solo-moth-runD"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 1,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [
+      "Mission 1: Lagerhaus gesichert"
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-VEITH-001",
+        "name": "Dr. Veith",
+        "callsign": "",
+        "role": "Kontakt",
+        "scope": "recurring",
+        "status": "aktiv"
+      }
+    ],
+    "active_npc_ids": []
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": [
+      "Dr. Veith hat eine Nachricht hinterlassen"
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

@@ -1,0 +1,28 @@
+[11:17:57] === START 5er-Split/Merge Case 3-2 ===
+[11:17:57] === Phase 1 (Anker) — Chat local:playtest-0a664309c5 ===
+[11:17:57] >>> [P1-load] Spieler: [5er-HQ-Save laden]
+[11:18:32] <<< [P1-load] SL (2943 chars, 61710 ptok, cache 91%, RAG=5, cum $0.0510)
+[11:18:32] >>> [P1-split] Spieler: [3-2-Split + !save je Gruppe]
+[11:19:56] <<< [P1-split] SL (15205 chars, 62380 ptok, cache 90%, RAG=5, cum $0.1748)
+[11:19:56]   → 2 Branch-Save(s) extrahiert (erwartet 2)
+[11:19:56]   💾 Save 'p1-branch1-3er' (mode=hq) -> p1-branch1-3er.json
+[11:19:56]   💾 Save 'p1-branch2-2er' (mode=hq) -> p1-branch2-2er.json
+[11:19:56] === Branch 1-3er — Chat local:playtest-665500e0ea ===
+[11:19:56] >>> [branch-1-3er] Spieler: [Branch-Save laden]
+[11:20:22] <<< [branch-1-3er] SL (2619 chars, 58513 ptok, cache 96%, RAG=0, cum $0.2150)
+[11:20:22] >>> [branch-1-3er] Spieler: [HQ-Beat + !save]
+[11:21:23] <<< [branch-1-3er] SL (8801 chars, 64433 ptok, cache 87%, RAG=5, cum $0.3103)
+[11:21:23]   💾 Save 'branch-1-3er-result' (mode=hq) -> branch-1-3er-result.json
+[11:21:23] === Branch 2-2er — Chat local:playtest-29319a6730 ===
+[11:21:23] >>> [branch-2-2er] Spieler: [Branch-Save laden]
+[11:21:47] <<< [branch-2-2er] SL (2354 chars, 58170 ptok, cache 97%, RAG=0, cum $0.3481)
+[11:21:47] >>> [branch-2-2er] Spieler: [HQ-Beat + !save]
+[11:22:42] <<< [branch-2-2er] SL (7700 chars, 64004 ptok, cache 88%, RAG=5, cum $0.4344)
+[11:22:42]   💾 Save 'branch-2-2er-result' (mode=hq) -> branch-2-2er-result.json
+[11:22:42] === Phase 4 (Merge) — Chat local:playtest-b46b0bbf2d ===
+[11:22:42] >>> [P4-merge] Spieler: [beide Branch-Saves laden + Merge]
+[11:24:01] <<< [P4-merge] SL (14735 chars, 60637 ptok, cache 93%, RAG=0, cum $0.5518)
+[11:24:01]   💾 Save 'merge-result' (mode=hq) -> merge-result.json
+[11:24:01]   ⚠️ [MERGE-ASSERT] IMPORTED: merge: imported_saves als String-Array (3 Einträge) statt kanonischer Objektform [{save_id,branch_id,status}] (Modul 12)
+[11:24:01]   ℹ️ [MERGE-ASSERT] WEALTH: merge: Gesamtvermögen erhalten (90050 CU)
+[11:24:01] === ENDE === verdict=PASS turns=7 $0.5518 peak=64433 cache=92% fails=0 softs=1

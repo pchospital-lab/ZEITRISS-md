@@ -1,0 +1,10 @@
+{
+  "turns": 6,
+  "total_cost_usd": 0.2111,
+  "tokens_read_total": 38070,
+  "tokens_write_total": 19035,
+  "tokens_uncached_total": 33669,
+  "tokens_output_total": 3648,
+  "avg_cache_hit_ratio": 0.526,
+  "save_failures_total": 0
+}

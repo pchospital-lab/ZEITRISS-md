@@ -1,0 +1,242 @@
+diff --git a/.lint/anchors.allow b/.lint/anchors.allow
+index 777f27ca..f8a071b7 100644
+--- a/.lint/anchors.allow
++++ b/.lint/anchors.allow
+@@ -8,3 +8,4 @@ LINT:FR_INTERVENTION
+ LINT:HQ_ONLY_SAVE
+ LINT:PX5_SEED_GATE
+ LINT:RIFT_ARTIFACT_11_13_D6
++LINT:SC1_CONCEALMENT_HOT
+diff --git a/characters/hud-system.md b/characters/hud-system.md
+index 94f0f5c8..1620d3bd 100644
+--- a/characters/hud-system.md
++++ b/characters/hud-system.md
+@@ -381,7 +381,7 @@ _Kodex:_
+ | ❤️‍🩹              | Vitalstatus                                                |
+ | 🧠              | Stresslevel                                                |
+ | Lvl + XP-Balken | Charakterlevel (Phase 1: `Lvl 3 ▓▓▓░░░░░░░` ohne XP-Stand, Phase 2: `Lvl 14 ▓▓░░░ 1/2 XP` mit XP-Stand) |
+-| 👁️              | Tarnung/Sichtbarkeit                                       |
++| 👁️              | Tarnung/Sichtbarkeit (`verdeckt` / `getarnt` / `enttarnt` / `offen`) |
+ 
+ **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):
+ 
+@@ -399,6 +399,28 @@ _Kodex:_
+ **Icon-Klarheit (SSOT):** `🌀` steht exklusiv für den Paradoxon-Index;
+ `✋` markiert den TK-Nahkampf-Cooldown.
+ 
++#### Tarnstatus 👁️ (Concealment) {#tarnstatus}
++
++Der Tarnstatus ist **ab `SC 01` aktiv** und in jedem Feld-HUD sichtbar — er trägt
++den Concealment-Start jeder Core-Mission (siehe Masterprompt §C
++Hotspot-Concealment-Start-Pflichtgate). Der im Briefing gewählte Angriffspunkt
++(EntryChoice) setzt den Anfangswert:
++
++| Anzeige           | Bedeutung                                                            |
++| ----------------- | -------------------------------------------------------------------- |
++| `👁️ verdeckt`     | Physisch ungesehen (Silent/Cover-Einstieg: Schatten, Tunnel, Dach)   |
++| `👁️ getarnt`      | Sozial getarnt (Asset/Social-Einstieg: Undercover, die Rolle hält)   |
++| `👁️ enttarnt`     | Tarnung gekippt — Heat/Stress steigen, Szene wird offene Konfrontation |
++| `👁️ offen`        | Kein Concealment (lauter Einstieg oder MS8+ frontal): sofort Action  |
++
++**Kipp-Punkt:** `verdeckt`/`getarnt` kippt auf `enttarnt` durch einen Patzer, eine
++laute Aktion oder einen durchschauten Social-Zug — **kein eigener Würfel**, der Kipp
++läuft über bestehende Proben + Heat. Die KI-SL vermittelt ihn in-world (*„Der Wachmann
++hält inne, mustert dich eine Sekunde zu lang — deine Tarnung bröckelt“*), nicht als
++nackte Statuszeile. Ist der Tarnstatus `enttarnt`, gelten die normalen Konflikt-/
++Kampfregeln; eine spätere Rück-Tarnung ist möglich (Abschütteln, neue Verkleidung),
++verlangt aber eine erfolgreiche Probe und einen ruhigen Beat.
++
+ #### Risk-Level-Badges {#risk-level-badges}
+ 
+ | Badge            | Bedeutung                     | Einsatz im Spiel                                             |
+diff --git a/gameplay/kampagnenstruktur.md b/gameplay/kampagnenstruktur.md
+index 0d7f3b6c..5c8da300 100644
+--- a/gameplay/kampagnenstruktur.md
++++ b/gameplay/kampagnenstruktur.md
+@@ -817,8 +817,11 @@ if episode_completed:
+ 
+ #### Aktaufteilung pro Missionstyp
+ 
+-- **Core (Thrillerton, 12 Szenen):** Akt A (1-4) Setup, Anreise und erster Konflikt, Akt B (5-9)
+-  Intel-Twist und Sicherungsvorbereitung, Akt C (10-12) Showdown/Flucht und Exfil. Das
++- **Core (Thrillerton, 12 Szenen):** Akt A (1-4) Concealment-Start am Hotspot, Annäherung
++  unter Gefahr und erster Konflikt, Akt B (5-9)
++  Intel-Twist und Sicherungsvorbereitung, Akt C (10-12) Showdown/Flucht und Exfil. **`SC 01`
++  startet direkt am Ziel, geladen** — keine separate Anreise-Szene (siehe Masterprompt §C
++  Hotspot-Concealment-Start-Pflichtgate). Das
+   Boss-Gate öffnet frühestens bei Szene 10 und verlangt **4** eindeutige Foreshadow-Marker
+   (Mission 4 und 9 je zwei).
+ - **Rift (Film-Template mit Mid-Twist, 14 Szenen):** Akt A (1-4) Tatort & erste Spur,
+@@ -1047,8 +1050,11 @@ haben ihre eigenen 14 Szenen, die Mechanik greift dort ab Szene 11
+ ### Cinematic Arc {#cinematic-arc}
+ 
+ Missionen entfalten ihre Wirkung durch einen **knappen, spürbaren Einstieg** — nicht
+-durch Länge. Plane höchstens **ein bis zwei kurze Szenen** für Ankunft und erste
+-Lage, dann setzt der Kern-Auftrag ein. Der **12-Szenen-Korridor ist die Soll-Länge,
++durch Länge. **`SC 01` ist keine Anreise-Szene:** die Crew springt direkt an den
++Hotspot und ist ab dem ersten Moment unter latenter Entdeckung (Tarnstatus aktiv,
++siehe Masterprompt §C Hotspot-Concealment-Start-Pflichtgate). Annäherung und Scouten
++laufen **am Ziel und unter Gefahr**, nicht als zahme Beobachtung aus sicherer Distanz —
++dann setzt der Kern-Auftrag ein. Der **12-Szenen-Korridor ist die Soll-Länge,
+ nicht die Untergrenze**: Die Mission bleibt **dicht und zielgerichtet**, jede Szene trägt
+ den Kern-Auftrag voran. Aufklärung und Verschwörungs-Reveals laufen **während** der
+ Infiltration und der Konflikte mit, nicht als vorgeschaltete Beobachtungs-Phase.
+diff --git a/gameplay/kreative-generatoren-missionen.md b/gameplay/kreative-generatoren-missionen.md
+index 02ab74ea..6309f3b5 100644
+--- a/gameplay/kreative-generatoren-missionen.md
++++ b/gameplay/kreative-generatoren-missionen.md
+@@ -96,10 +96,12 @@ Standard-Transferwerte:
+ 
+ > **Action ist der Kern jeder Core-Op.** Aufklärung und Verschwörungs-Reveals
+ > werden **nebenbei während** der Infiltrations- und Konflikt-Szenen aufgedeckt,
+-> nicht als eigene vorgeschaltete Beobachtungs-Phase. SC1–2 (Anreise/Auftakt)
+-> bleiben **knapp** — der Kern-Auftrag (Ort + Ziel-Objekt/Person + Abschluss-Event)
+-> trägt die Mission ab SC3. Siehe Masterprompt §C Mission-Integrität-Pflichtgate
+-> Regel 4 (Harter Kern-Auftrag).
++> nicht als eigene vorgeschaltete Beobachtungs-Phase. **`SC 01` startet bereits am
++> Hotspot, geladen** — die Crew springt direkt ins Operationsgebiet (IA dort, kein
++> Anreise-Fußweg), Tarnstatus aktiv ab dem Sprung, ein Patzer kippt ihn. `SC1–2`
++> sind **aktive Annäherung unter Gefahr** (positionieren, scouten, Zugang suchen),
++> **nicht** passives Lage-Sondieren aus sicherer Distanz. Siehe Masterprompt §C
++> **Hotspot-Concealment-Start-Pflichtgate** + Mission-Integrität-Pflichtgate Regel 4.
+ >
+ > **Briefing** liegt **vor Szene 1** als HQ-Phase (Nullzeit, `SC 00/--`).
+ > **Debrief** liegt **nach Szene 12** als HQ-Auto-Sequenz. Beide zählen nicht
+@@ -109,8 +111,8 @@ Standard-Transferwerte:
+ | Position     | Phase        | Zweck                 |
+ | ------------ | ------------ | --------------------- |
+ | _HQ (vor 1)_ | Briefing     | Auftrag erhalten      |
+-| 1            | Anreise      | Sprung oder Reise     |
+-| 2            | Auftakt      | Lage sondieren        |
++| 1            | Insertion    | Sprung an den Hotspot — Concealment-Start, Tarnstatus aktiv |
++| 2            | Annäherung   | Positionieren & scouten unter Gefahr |
+ | 3            | Infiltration | Zugang schaffen       |
+ | 4            | Kontakt      | Info beschaffen       |
+ | 5            | Konflikt I   | erster Gegnerkontakt  |
+@@ -241,8 +243,14 @@ Operationsgebiet — kein Abseits, keine 2-Stunden-Anreise zum Land-IA.
+ 
+ 1. **Charakter** — Wurf oder Wahl aus den vier Profilen oben. **Plattes Feld am
+    Stadtrand, Hinterhof, x-beliebige Wiese sind nicht zulässig.**
+-2. **Nähe** — zu Fuß oder per Epochen-Verkehrsmittel `≤ 30 min` vom
+-   Operationsgebiet erreichbar.
++2. **Direkt am Hotspot** — der IA liegt **im oder unmittelbar am**
++   Operationsgebiet, nicht in Anreise-Distanz davor: die Krypta **unter** dem
++   Zielkomplex, der Wartungsschacht **im** Gebäude, das Dach **gegenüber** mit
++   Sichtlinie, der Lieferanten-Hof **hinter** dem Ziel. Nach dem Sprung steht die
++   Crew bereits in der ersten Bedrohungszone (`SC 01` = Concealment-Start, siehe
++   Masterprompt §C Hotspot-Concealment-Start-Pflichtgate) — **kein** Fußweg quer
++   durch die Stadt, **keine** zahme Anreise-Szene. Faustregel: vom IA zum
++   Ziel-Objekt sind es Schritte oder eine Tür, keine 30 Minuten.
+ 3. **Beschreibung im Sprung** — zwei bis vier Sätze sensorischer Verankerung
+    beim IA-Transfer (Geruch, Klang, Lichtfall, was den Ort besonders macht,
+    warum er Zeit-tauglich wirkt).
+@@ -254,11 +262,14 @@ Operationsgebiet — kein Abseits, keine 2-Stunden-Anreise zum Land-IA.
+ **Beispiel-Generator-Output:**
+ 
+ ```
+-Epoche: Wien 1913 · Operationsgebiet: Innere Stadt
++Epoche: Wien 1913 · Operationsgebiet: Paekthaus am Graben (Ziel: Kurier im 2. Stock)
+ IA-Wurf: W4 = 1 (Historisch verdichtet)
+-IA: Krypta unter dem Stephansdom — ungenutzter Seitengang
+-    hinter den Habsburger-Sarkophagen. Kalter Stein, Weihrauch-
+-    Spuren, das Echo der Schritte oben. Seit MS3 vertraut.
++IA: Gruft der Hauskapelle DIREKT UNTER dem Zielgebäude — ein
++    zugemauerter Seitengang, der auf den Lieferanten-Hinterhof des
++    Hauses führt. Kalter Stein, Weihrauch-Spuren, über dir die
++    gedämpften Schritte des Ziels. Seit MS3 vertraut.
++    → SC 01: Crew steht im Hinterhof, Tarnstatus aktiv, die
++      Hintertür drei Schritte entfernt. Kein Anmarsch.
+ RW: Identisch mit IA (Standard). Alt-Anchor bei Kompromittierung:
+     Schnürboden des Theaters an der Wien (Profil 4 - liminal).
+ ```
+@@ -279,6 +290,12 @@ RW: Identisch mit IA. Alt-Anchor: Friedhof Trinity Churchyard
+ - *„Ein Hinterhof an der Hauptstraße.“* — austauschbar, keine Zeit-Tauglichkeit.
+ - *„Ein Parkplatz beim Industriegebiet.“* — Spionage-Generik, nicht ZEITRISS.
+ - *„Ein Lagerschuppen außerhalb der Stadt.“* — zu weit weg und ohne Charakter.
++- *„Ein Café zwei Straßen vom Ziel, um die Lage zu beobachten.“* — **Distanz-Falle:**
++  zwingt eine zahme Anreise- und Beobachtungs-Szene auf, bevor etwas passiert.
++  Der IA gehört **an** das Ziel (Hinterhof, Gruft darunter, Dach gegenüber),
++  nicht in Sicht-Distanz davor (siehe Masterprompt §C Hotspot-Concealment-Start).
++  Charakter allein genügt nicht — ein stimmungsvolles Wiener Kaffeehaus ist trotzdem
++  ein Anti-Pattern, wenn es nur Beobachtungsposten in Distanz ist.
+ 
+ **Far-Future / extraterrestrische Rifts:** Bei Settings ohne historische
+ Substanz (Mondbasis, Raumschiff, Tiefsee-Habitat, Asteroiden-Außenposten) trägt
+diff --git a/internal/runtime/toolkit-runtime-makros.md b/internal/runtime/toolkit-runtime-makros.md
+index e27bb27f..7108f2d0 100644
+--- a/internal/runtime/toolkit-runtime-makros.md
++++ b/internal/runtime/toolkit-runtime-makros.md
+@@ -404,6 +404,7 @@ mechanische Effekt greift.
+ ⟨% if campaign.type == "core" %⟩
+   ⟨% set campaign.scene_total = 12 %⟩
+   ⟨# LINT:CORE_BOSS_M05_M10 #⟩
++  ⟨# LINT:SC1_CONCEALMENT_HOT — SC1 startet am Hotspot mit aktivem Tarnstatus (Masterprompt §C); EntryChoice Cover/Silent→verdeckt, Asset→getarnt, laut/MS8+→offen #⟩
+   ⟨% set campaign.boss_allowed = (campaign.mission_in_episode in [5,10]) %⟩
+   ⟨% set campaign.artifact_allowed = false %⟩
+ ⟨% elif campaign.type == "rift" %⟩
+diff --git a/meta/lint-anchors.md b/meta/lint-anchors.md
+index 575f9838..00fddaa1 100644
+--- a/meta/lint-anchors.md
++++ b/meta/lint-anchors.md
+@@ -55,6 +55,10 @@ List of documented `LINT:` anchors grouped by feature.
+ - `LINT:CORE_BOSS_M05_M10`
+ - `LINT:BOSS_SCENE10_RIFT`
+ 
++## Mission Pacing
++
++- `LINT:SC1_CONCEALMENT_HOT`
++
+ ## Px HUD
+ 
+ - `LINT:PX5_SEED_GATE`
+diff --git a/meta/masterprompt_v6.md b/meta/masterprompt_v6.md
+index fe1698b4..9c3568db 100644
+--- a/meta/masterprompt_v6.md
++++ b/meta/masterprompt_v6.md
+@@ -226,6 +226,15 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
+   4. **Harter Kern-Auftrag (Anti-Leerlauf):** Jede Core-Mission hat einen **konkreten, abschließbaren Kern-Auftrag**: ein **greifbarer Ort** (die Forschungsanlage, das Anwesen, der Frachter) + ein **greifbares Ziel-Objekt/Person** (die Forschungsdaten, der Wissenschaftler, der Kurier) + ein **klares Abschluss-Event** (gesichert / rausgeholt / ausgeschaltet / festgenommen / sabotiert). Die Mission „läuft“ nicht „irgendwohin“ — sie hat ein hartes Zentrum, um das alles kreist. **Anti-Pattern (verboten):** „Beobachtet die Lage“ / „Findet heraus, was vor sich geht“ / „Sammelt Hinweise“ als Mission*zweck*. Aufklärung und Verschwörungs-Reveals laufen **während** der Infiltration und der Konflikte mit, nicht als eigene vorgeschaltete Beobachtungs-Mission. **MS1-2-Verträglichkeit:** „konkret + hart“ heißt *greifbar und abschließbar*, **nicht** *große Stakes* — in MS1-2 ist der Kern klein und scharf („den Kurier am Bahnhof abfangen und die Aktentasche sichern“), nicht weltbewegend. Der Action-Kern und die Skala sind zwei verschiedene Achsen (siehe MS1-2-Tonfall-Pflichtgate).
+   - **Trigger-Moment der vier Regeln:** Die Pflichtgate-Prüfung läuft bei jedem Szenen-Start (vor `SC`-Inkrement) und bei jedem Phase-Wechsel. Wenn die SL erwägt, eine Mission über Korridor zu strecken, einen HQ-Rücksprung einzubauen oder einen großen Zeit/Stadt-Sprung zu erzählen: **stattdessen** den aktuellen Beat als Mission-Cliffhanger ankern (`` `Kodex: Teilziel gesichert — Folgespur führt nach …` ``), Exfil einleiten, im Debrief den Folge-Auftrag als nächstes Briefing skizzieren.
+   - **Anti-Skip-Verhältnis zur Save-Mechanik:** Die vier Regeln verstärken den bestehenden SaveGuard. Spieler soll nie das Gefühl haben „ich gehe schnell ins HQ um zu speichern“ — das geht mechanisch nicht (SaveGuard) und narrativ nicht (Mission-Integrität-Pflichtgate). Beide Schichten zusammen halten das Save-Pacing sauber.
++- **Hotspot-Concealment-Start-Pflichtgate (Geladen ab dem Sprung):** Eine Core-Mission startet **scharf**, nicht zahm. Der Spieler springt — und ist **sofort am Ziel**, im Radius der Gefahr, unter latenter Entdeckung. Das Spielgefühl folgt dem Concealment-Prinzip taktischer Schleich-Spiele: die Crew ist (noch) unentdeckt, kann sich positionieren und auskundschaften — aber ein falscher Zug, eine laute Aktion oder ein Patzer **kippt den Tarnstatus**, und die Szene eskaliert. Spannung ab `SC 01`, kein Aufwärmen. Fünf Regeln:
++  1. **SC1 ist am Hotspot, keine Anreise-Szene:** `SC 01` beginnt **im oder unmittelbar am** Operationsgebiet (der Insertion Anchor liegt direkt dort, siehe IA/RW-Spot-Pflichtgate). Nach dem Sprung steht die Crew bereits in der ersten Bedrohungszone — kein Fußweg quer durch die Stadt, kein „erst mal hinfahren und beobachten“. `SC 01`/`SC 02` sind **aktive Annäherung unter Gefahr** (positionieren, scouten, Zugang suchen — geladen), nicht passives Lage-Sondieren.
++  2. **Tarnstatus ab SC1 aktiv (👁️):** Der gewählte Angriffspunkt (EntryChoice, siehe Briefing-Output-Pflichtgate) setzt den Anfangs-Tarnstatus im HUD: **Silent/Cover → physisch verdeckt** (Schatten, ungesehen), **Asset/Social → sozial getarnt** (Undercover, die Rolle hält). Der Tarnstatus ist ab dem Sprung sichtbar geführt und kann **kippen**: ein Patzer, eine laute Aktion, ein durchschauter Social-Zug bricht die Tarnung → Heat/Stress steigen, die Szene wird zur offenen Konfrontation. Kein neuer Würfel — der Kipp läuft über bestehende Proben + Heat.
++  3. **Social ist Eindring-Tarnung, keine Recherche-Phase:** Der Social-/Asset-Einstieg bedeutet *Undercover im Zielgebiet* (als geladener Gast auf der Gala, als Lieferant am Tor) — jeder Satz kann auffliegen lassen, die Spannung ist identisch zur Schleich-Variante, nur die Tarnung ist sozial statt physisch. Social ist **niemals** „in einem Café in sicherer Distanz die Lage beobachten“. Die Angriffspunkte sind **drei Einstiege in dieselbe Infiltration**, keine drei Spielgefühle — nach dem Einstieg gilt für alle der Concealment-Druck.
++  4. **Lauter Start erlaubt (frontal):** Wählt der Spieler den lauten/frontalen Angriffspunkt, **oder** ab **MS8+** (späte Episode, Eskalationsstufe), darf `SC 01` ohne Concealment frontal starten — Tarnstatus `offen`, sofort Action. Das ist kein Bruch des Gates, sondern seine laute Variante: scharf ab Sekunde 1 gilt weiterhin.
++  5. **MS1-2-Verträglichkeit:** „Geladen“ heißt *taktisch-physische Entdeckungsgefahr*, **nicht** Eschatologie oder Welt-Stakes (siehe MS1-2-Tonfall-Pflichtgate). Ein kleiner, konkreter Auftrag (den Kurier abfangen) startet trotzdem scharf am Hotspot — Anspannung kommt aus der Lage, nicht aus der Bedrohungsskala.
++  - **Anti-Pattern (verboten):** *„Ihr springt in die Stephansdom-Krypta und macht euch zu Fuß auf den Weg zum Café Landtmann, wo Brenners Kontakt erwartet wird. Ihr nehmt einen Tisch in Sichtweite und beobachtet.“* — Das ist eine vorgeschaltete Anreise- und Beobachtungs-Phase: IA weit vom Ziel, zwei zahme Szenen bevor etwas passiert, Tarnstatus irrelevant. **Stattdessen:** IA direkt am Café (Lieferanten-Hof dahinter, Dach gegenüber, Personaltreppe), `SC 01` = Crew ist drin/dran, Tarnstatus aktiv, der erste Zug entscheidet, ob sie ungesehen näher kommt oder auffliegt.
++  - **Spieler-Gefühl-Prüfung:** Nach `SC 01` soll der Spieler denken *„Okay, ich bin drin, es ist ernst, ein falscher Schritt und es geht los“* — nicht *„Aha, ich laufe erst mal hin und gucke.“*
++  - **Trigger-Moment:** Prüfung beim Übergang Briefing → `SC 01` (Mission-Start) und beim ersten Szenen-Inkrement. Der gewählte EntryChoice-Angriffspunkt bestimmt Startort und Tarnstatus. `LINT:SC1_CONCEALMENT_HOT`
+ - **IA/RW-Spot-Pflichtgate (Atmosphärische Sprungorte):** Insertion Anchor (IA) und Return Window (RW) sind keine beliebigen Felder. Beide Müssen **erkennbar Zeitreise-tauglich** sein — der Spieler soll beim Lesen denken: *„Ah, das ist also ein Spot, wo man Zeitreisen kann.“* Drei Pflicht-Eigenschaften:
+   1. **Charakter:** Der Spot trägt eines der ZEITRISS-Spot-Profile — **historisch verdichtet** (alte Kirche, mittelalterlicher Brunnen, Ruine mit Geschichte), **mystisch/energetisch** (Steinkreis, Megalith, Tempelfundament, Knotenpunkt von Ley-Linien), **technisch-verborgen** (verlassene U-Bahn unter NY, stillgelegter Strom-Tunnel unter Paris, Las-Vegas-Bunker-System, Wartungsschacht), **liminal** (Friedhofsmauer, Bahnhofsdurchgang um Mitternacht, Hochhausdach mit klarer Sichtlinie auf etwas Bedeutsames), oder **futuristisch-verdichtet** (Frachtschleuse und Kälteschlaf-Deck eines Kolonialschiffs, Orbital-Dockingring, stillgelegter Reaktorkern einer Kolonie, Wartungstunnel einer Raumstation, Terraforming-Relais) — das Spiel ist **allzeitlich**, Zukunfts-Spots sind gleichwertig. Plattes Feld am Stadtrand, Hinterhof, x-beliebige Wiese, beliebiger Korridor sind **nicht** zulässig — das ist Spionage-Generik, nicht ZEITRISS. Auch in der Zukunft: der Spot hat **Charakter** (ein Ort mit Geschichte/Gewicht), kein generischer Sci-Fi-Gang.
+   2. **Nähe zum Auftrag:** Der Spot ist der **nächstmögliche** geeignete Ort zum Operationsgebiet. Keine Anreise von zwei Stunden vom Land-IA zum Stadt-Ziel. Wenn die Mission in Wien spielt, ist der IA in Wien oder direkt unter Wien (Katakomben, U-Bahn-Vorläufer, alter Stephansdom-Krypta-Zugang). Wenn in Manhattan: stillgelegter Tunnel unter dem Operationsblock, Dachfirst eines Nachbargebäudes, alte Kirche zwei Straßen weiter. **Kein Abseits.**
+diff --git a/systems/toolkit-gpt-spielleiter.md b/systems/toolkit-gpt-spielleiter.md
+index 1a9e3b11..51492a9e 100644
+--- a/systems/toolkit-gpt-spielleiter.md
++++ b/systems/toolkit-gpt-spielleiter.md
+@@ -180,6 +180,14 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
+   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Falls
+   `state.flags.runtime.skip_entry_choice` oder `campaign.entry_choice_skipped`
+   gesetzt ist, beschreibe den zuletzt gewählten Stil nur knapp.
++- **Concealment-Start ab SC1:** Der Core-EntryChoice
++  setzt den Tarnstatus 👁️ für Szene 1 und damit den Concealment-Start am Hotspot
++  (Masterprompt §C Hotspot-Concealment-Start-Pflichtgate): **Cover/Silent →**
++  `👁️ verdeckt` (physisch ungesehen), **Asset →** `👁️ getarnt` (sozial/Undercover).
++  `SC 01` beginnt **direkt am Ziel** (IA dort), nicht als Anreise-Szene; ein Patzer
++  oder lauter Zug kippt 👁️ auf `enttarnt` (über bestehende Proben + Heat, kein eigener
++  Würfel). Lauter Einstieg oder MS8+ → `👁️ offen` (frontal, sofort Action). Siehe
++  Tarnstatus-Skala in `characters/hud-system.md` §Tarnstatus.
+ - **Casefile-Anchors:** Rift-HUD zeigt `MODE RIFT · CASE <ID>: <Label> · HOOK …`; Seeds
+   werden beim Laden normalisiert (`label/seed_tier/hook`) und aus dem Seed-Katalog
+   aufgefüllt, falls Felder fehlen.
+diff --git a/tools/lint_runtime.py b/tools/lint_runtime.py
+index 980d3188..a855affd 100755
+--- a/tools/lint_runtime.py
++++ b/tools/lint_runtime.py
+@@ -574,6 +574,7 @@ def main() -> int:
+     req(r"scene_total\s*=\s*14", tk, "Rift: 14 Szenen gesetzt", fails)
+     req(r"LINT:BOSS_SCENE10_RIFT", tk, "Boss-Hook vorhanden", fails)
+     req(r"LINT:CORE_BOSS_M05_M10", tk, "Core-Boss nur in Mission 5/10 erlaubt", fails)
++    req(r"LINT:SC1_CONCEALMENT_HOT", tk, "Hotspot-Concealment-Start ab SC1 verankert", fails)
+ 
+     # DelayConflict & Finale
+     req(r"DelayConflict\(\s*4\s*\)", tk, "DelayConflict(4) aktiv", fails)

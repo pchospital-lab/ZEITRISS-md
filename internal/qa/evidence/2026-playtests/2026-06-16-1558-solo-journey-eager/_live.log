@@ -1,0 +1,36 @@
+[15:58:56] === START Solo-Journey persona=eager max_turns=50 max_chats=6 ===
+[15:58:56] Chat #1 (Chargen/Start) — local:playtest-2d31e04e6d
+[15:58:56] >>> Jonas (Opener): Spiel starten (solo klassisch)
+[15:59:26] [turn 1 / chat 1] SL (2512 chars, 61120+924 tok, RAG=5, ~$0.20)
+[15:59:28] >>> Jonas: 1, los geht's
+[16:00:09] [turn 2 / chat 1] SL (3819 chars, 59399+1558 tok, RAG=5, ~$0.40)
+[16:00:12] >>> Jonas: passt, weiter — wann geht's los?
+[16:00:23] [turn 3 / chat 1] SL (551 chars, 60466+211 tok, RAG=7, ~$0.58)
+[16:00:24] >>> Jonas: !save
+[16:01:06] [turn 4 / chat 1] SL (5170 chars, 62756+1970 tok, RAG=5, ~$0.80)
+[16:01:06]   💾 SAVE erkannt (mode=hq) -> chat01-turn04-hq.json
+[16:01:06]   🔄 CHAT-HANDOVER -> Chat #2 (local:playtest-2799b3f98e), paste Save
+[16:01:45] [turn 5 / chat 2] SL (2255 chars, 63259+1008 tok, RAG=4, ~$1.01)
+[16:01:48] >>> Jonas: Option 3, Briefing. Los.
+[16:02:35] [turn 6 / chat 2] SL (4216 chars, 60873+1646 tok, RAG=4, ~$1.21)
+[16:02:38] >>> Jonas: Option 2. Ich geh rein, rede mich durch, und wenn ich Glück hab schnapp ich auch noch den 
+[16:03:15] [turn 7 / chat 2] SL (3009 chars, 62896+1220 tok, RAG=6, ~$1.42)
+[16:03:18] >>> Jonas: Ich geh rein, Frühgast-Legende. Hab angeblich ein Zimmer gebucht, Rask, Anreise heute früh
+[16:03:52] [turn 8 / chat 2] SL (2794 chars, 63943+1163 tok, RAG=8, ~$1.63)
+[16:03:54] >>> Jonas: Option 1, Dietrich raus, Schloss knacken. Solange der schnarcht ist das mein Fenster.
+[16:04:28] [turn 9 / chat 2] SL (2774 chars, 65602+1146 tok, RAG=6, ~$1.84)
+[16:04:30] >>> Jonas: Option 2. Papier zuerst, dann Koffer. Einmal rein, alles mitnehmen.
+[16:05:01] [turn 10 / chat 2] SL (2315 chars, 66663+955 tok, RAG=6, ~$2.06)
+[16:05:04] >>> Jonas: Option 2. "Ich bin nicht hier um Ärger — der Koffer, Varga. Wer holt ihn ab?"
+[16:05:46] [turn 11 / chat 2] SL (3406 chars, 68555+1474 tok, RAG=5, ~$2.29)
+[16:05:49] >>> Jonas: Koffer nehmen, Papier einstecken, Exfil. Bauer notiert — vielleicht interessiert das die Z
+[16:06:38] [turn 12 / chat 2] SL (4184 chars, 69436+1776 tok, RAG=6, ~$2.52)
+[16:06:43] >>> Jonas: Level 2 — ich nehm Option 2, neues Talent. Was steht zur Auswahl?
+[16:07:03] [turn 13 / chat 2] SL (1421 chars, 71557+530 tok, RAG=6, ~$2.74)
+[16:07:06] >>> Jonas: Verhörführung. Hat heute Abend funktioniert, soll kein Zufall bleiben.
+[16:07:31] [turn 14 / chat 2] SL (1463 chars, 71671+627 tok, RAG=6, ~$2.97)
+[16:07:34] >>> Jonas: !save — dann neuer Chat für MS 2.
+[16:08:34] [turn 15 / chat 2] SL (7867 chars, 74074+3081 tok, RAG=5, ~$3.24)
+[16:08:34]   💾 SAVE erkannt (mode=hq) -> chat02-turn15-hq.json
+[16:08:34]   🔄 CHAT-HANDOVER -> Chat #3 (local:playtest-161d0d8a0b), paste Save
+[16:08:59] [turn 16 / chat 3] SL (2239 chars, 58798+1016 tok, RAG=0, ~$3.43)

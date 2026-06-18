@@ -1,0 +1,747 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-EP12-MS12-DEBRIEF-ALPHA",
+  "parent_save_id": "SAVE-2026-EP12-MS12-SPLIT-ALPHA",
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "campaign": {
+    "episode": 12,
+    "mission": 12,
+    "px": 2,
+    "px_state": "stable",
+    "heat": 0,
+    "mode": "preserve",
+    "epoch": null,
+    "rift_seeds": [
+      {
+        "id": "RIFT-EP12-MS11-NOR1947",
+        "sector": "Norwegen, 1947",
+        "signature": "organisch, mobil, unklassifiziert",
+        "available_after_episode": 12
+      }
+    ],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "AGENT-A",
+      "name": "Astra",
+      "callsign": "ECHO",
+      "rank": "Operator IX",
+      "lvl": 914,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Analytik & Spurensicherung"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 7,
+        "INT": 10,
+        "CHA": 5,
+        "TEMP": 6,
+        "SYS": 5
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 5,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Astra (ECHO) - erfahrener ITI-Operator, Rolle: Analytik & Spurensicherung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: LEITER als Bindungs-Agent enttarnt, MERIDIAN-Funktion aufgedeckt",
+          "MS12: Brenner gesichert, Route-Drei-Natur als Prozess identifiziert, M.V.-Spur aufgedeckt"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "Notizbuch M.V.",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "Filmpatrone (Leica, halb belichtet)",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 61910,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "913": {
+          "choice": "+1 Attribut",
+          "detail": "INT 9 → 10",
+          "mission": "MS11"
+        },
+        "914": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS12"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
+    },
+    {
+      "id": "AGENT-B",
+      "name": "Blitz",
+      "callsign": "STORM",
+      "rank": "Operator IX",
+      "lvl": 907,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "CQB & Sturmangriff"
+      },
+      "attr": {
+        "STR": 10,
+        "GES": 8,
+        "INT": 4,
+        "CHA": 4,
+        "TEMP": 7,
+        "SYS": 3
+      },
+      "lp": 26,
+      "lp_max": 26,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 3,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Blitz (STORM) - erfahrener ITI-Operator, Rolle: CQB & Sturmangriff.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: Haas gesichert, Verhör abgeschlossen",
+          "MS12: Begleiter 1 + Franz neutralisiert, Brenner exfiltriert"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "Kurzwaffe österreichisch (x2, sichergestellt)",
+          "type": "weapon",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 8090,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "906": {
+          "choice": "+1 Attribut",
+          "detail": "STR 9 → 10",
+          "mission": "MS11"
+        },
+        "907": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS12"
+        }
+      }
+    },
+    {
+      "id": "AGENT-C",
+      "name": "Cipher",
+      "callsign": "GHOST",
+      "rank": "Operator IX",
+      "lvl": 935,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltration & Hacking"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 8,
+        "INT": 8,
+        "CHA": 5,
+        "TEMP": 5,
+        "SYS": 10
+      },
+      "lp": 19,
+      "lp_max": 19,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Cipher (GHOST) - erfahrener ITI-Operator, Rolle: Infiltration & Hacking.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: Datenträger gesichert, MRD-7-Spiegelung auf Träger",
+          "MS12: Filmpatrone extrahiert, Brenner-Verhör eingeleitet, Zylinder gesichert"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "Datenträger (Ablenkung, Wien 1938)",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "MRD-7-Spiegelung",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "Metallzylinder (Koordinate Erster Anker, versiegelt)",
+          "type": "gadget",
+          "tier": 3
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 9290,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "934": {
+          "choice": "+1 SYS",
+          "detail": "SYS 9 → 10",
+          "mission": "MS11"
+        },
+        "935": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS12"
+        }
+      }
+    }
+  ],
+  "economy": {
+    "wallets": {
+      "AGENT-A": {
+        "balance": 61910,
+        "name": "Astra"
+      },
+      "AGENT-B": {
+        "balance": 8090,
+        "name": "Blitz"
+      },
+      "AGENT-C": {
+        "balance": 9290,
+        "name": "Cipher"
+      }
+    }
+  },
+  "research": {
+    "projects": [
+      {
+        "id": "RES-MRD7-EP12MS11",
+        "kind": "field_decrypt",
+        "label": "MRD-7-Analyse",
+        "description": "MERIDIAN-Funktion, Adressaten-Struktur, Protokoll-Herkunft. Empfänger Wien 1938.",
+        "status": "in_progress",
+        "missions_total": 2,
+        "missions_done": 1,
+        "scope": "campaign"
+      }
+    ]
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "economy_audit",
+        "target_range": {
+          "level_band": "900+"
+        }
+      },
+      {
+        "event": "mission_complete",
+        "mission": "MS11",
+        "epoch": "Wien 1938",
+        "result": "vollstaendig"
+      },
+      {
+        "event": "split_created",
+        "family_id": "SPLIT-EP12-MS12-WIEN",
+        "thread_id": "ALPHA",
+        "members": [
+          "AGENT-A",
+          "AGENT-B",
+          "AGENT-C"
+        ]
+      },
+      {
+        "event": "mission_complete",
+        "mission": "MS12",
+        "epoch": "Wien 1938",
+        "result": "vollstaendig",
+        "thread": "ALPHA"
+      }
+    ],
+    "artifact_log": [],
+    "market": [],
+    "notes": [
+      "MS11: LEITER = Bindungs-Agent KAIROS, keine echten Depot-Koordinaten",
+      "MS11: Primärer Datenträger ist Ablenkung — echter Träger Route Drei",
+      "MS11: MERIDIAN ist Funktion/Amt, rollende Besetzung, letzte bekannte Inkarnation weiblich, ITI-intern, vor 3 Jahren",
+      "MS11: Route Drei war nie ein Mensch — LEITERs letzte Aussage vor Rücksprung, ungeklärt",
+      "MS11: Brenner, Praterstern 21:45 Wien 1938 — gesichert MS12",
+      "MS11: Frau (unbekannt, Akzent polnisch) wusste von Bindungs-Operation — Verhör im ITI, Thread BRAVO",
+      "MS11: Haas — unwissender Kurier, Verhör abgeschlossen",
+      "MS12: Route Drei = Prozess, nicht Objekt/Mensch. Vorbereitung 18 Monate. Letzter Anker noch nicht gesetzt.",
+      "MS12: Datum letzter Anker — 21. März 1938. Neun Tage ab MS12.",
+      "MS12: M.V. — Initialen eingeritzt in Notizbuch. Tot seit 3 Jahren. Vermutlich frühere MERIDIAN-Inkarnation, arbeitete gegen Route Drei.",
+      "MS12: Frau in Zürich (ITI-Stiefel, Deutsch ohne Muttersprache) übergab Brenner das Notizbuch — Identität offen.",
+      "MS12: Renier kennt Kürzel M.V. — hat nichts gesagt.",
+      "MS12: Metallzylinder = Koordinate erster Anker Route Drei. Versiegelt, bei GHOST.",
+      "MS12: Kaffee kalt trinken — Gewohnheit des ITI-internen MERIDIAN-Kontakts laut Brenner.",
+      "MS12: Filmpatrone (Leica) — Fotograf Norddach unbekannt, Bilder von Brenner.",
+      "SPLIT: Thread ALPHA abgeschlossen. Thread BRAVO: Status unbekannt."
+    ],
+    "flags": {
+      "imported_saves": [
+        "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": [
+        "level_history enthält nur MS1-Eintrag — Aufstiegs-Delta Lvl 2-912 nicht durch Einträge gedeckt (Import-Flag, narrativ akzeptiert)",
+        "Level-Up-Wahlen MS12 ausstehend x3 (ALPHA-Thread) — noch nicht persistiert"
+      ],
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false
+    },
+    "hud": [],
+    "psi": [],
+    "arena_psi": []
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 MS12 abgeschlossen (Thread ALPHA). Brenner gesichert. Route Drei = Prozess, letzter Anker 21. März 1938. M.V.-Spur: frühere MERIDIAN, tot seit 3 Jahren. Renier kennt M.V.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; MERIDIAN-Funktion aufgedeckt; Route Drei = Prozess, 21.03.1938; M.V.-Spur; Brenner im ITI; Zylinder ungeöffnet; Thread BRAVO unaufgelöst"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 12,
+      "mission": 12,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": "SPLIT-EP12-MS12-WIEN",
+      "thread_id": "ALPHA",
+      "expected_threads": [
+        "ALPHA",
+        "BRAVO"
+      ],
+      "resolved_threads": [
+        "ALPHA"
+      ],
+      "convergence_ready": false
+    },
+    "roster_echoes": [
+      {
+        "char_id": "AGENT-A",
+        "tone": "fokussiert",
+        "text": "Astra/ECHO — Analytikerin, deckte M.V.-Spur auf, Psi aktiv. INT 10. Thread ALPHA abgeschlossen."
+      },
+      {
+        "char_id": "AGENT-B",
+        "tone": "direkt",
+        "text": "Blitz/STORM — CQB-Spezialist, neutralisierte Begleiter 1 + Franz, Brenner exfiltriert. STR 10."
+      },
+      {
+        "char_id": "AGENT-C",
+        "tone": "präzise",
+        "text": "Cipher/GHOST — Infiltration, trägt Zylinder (erster Anker), MRD-7-Spiegelung. SYS 10."
+      }
+    ],
+    "shared_echoes": [
+      {
+        "tag": "meridian-funktion-ms11",
+        "scope": "campaign",
+        "text": "MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-intern, vor 3 Jahren."
+      },
+      {
+        "tag": "route-drei-prozess-ms12",
+        "scope": "campaign",
+        "text": "Route Drei ist ein Prozess, kein Objekt/Mensch. 18 Monate Vorbereitung. Letzter Anker: 21. März 1938. Noch nicht gesetzt."
+      },
+      {
+        "tag": "mv-initialen-ms12",
+        "scope": "campaign",
+        "text": "M.V. — Initialen im Notizbuch, eingeritzt. Tot seit 3 Jahren. Vermutlich frühere MERIDIAN-Inkarnation die gegen Route Drei arbeitete. Renier kennt das Kürzel."
+      },
+      {
+        "tag": "depot-anatolien-bronzezeit-ms11",
+        "scope": "campaign",
+        "text": "KAIROS-Depot: Frühe Bronzezeit, Anatolien — Koordinaten nur auf echtem Träger Route Drei."
+      },
+      {
+        "tag": "zylinder-erster-anker-ms12",
+        "scope": "campaign",
+        "text": "Metallzylinder (bei GHOST): Koordinate des ersten Route-Drei-Ankers. Versiegelt. Wer ersten Anker versteht, versteht den Prozess."
+      },
+      {
+        "tag": "kaffee-kalt-meridian-ms12",
+        "scope": "campaign",
+        "text": "ITI-interner MERIDIAN-Kontakt hat Gewohnheit: Kaffee kalt stehen lassen, dann in einem Zug trinken — laut Brenner."
+      },
+      {
+        "tag": "frau-zuerich-iti-stiefel-ms12",
+        "scope": "campaign",
+        "text": "Frau in Zürich (ca. 50, graues Haar, Deutsch ohne Muttersprache, ITI-Stiefel) gab Brenner Notizbuch mit Auftrag. Identität unbekannt."
+      },
+      {
+        "tag": "rift-seed-norwegen-1947",
+        "scope": "campaign",
+        "text": "Rift-Seed geortet: Norwegen 1947, organische mobile Signatur — verfügbar nach Episodenabschluss."
+      },
+      {
+        "tag": "split-ms12-alpha-abgeschlossen",
+        "scope": "shared",
+        "text": "Thread ALPHA abgeschlossen: Brenner gesichert, Route-Drei-Natur als Prozess dokumentiert, M.V.-Spur aufgedeckt. Thread BRAVO: Status offen."
+      }
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-LEITER-MS11",
+        "name": "LEITER",
+        "callsign": "LEITER",
+        "role": "KAIROS-Bindungs-Agent",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-HAAS-MS11",
+        "name": "Haas",
+        "callsign": "HAAS",
+        "role": "KAIROS-Kurier (unwissend)",
+        "scope": "episode",
+        "status": "ITI-Gewahrsam",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-FRAU-MS11",
+        "name": "Unbekannte Frau",
+        "callsign": "WESTSEITE",
+        "role": "KAIROS-Kontakt Wien, wusste von Bindungs-Op",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam, Verhör bei BRAVO",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-BRENNER-MS12",
+        "name": "Brenner",
+        "callsign": "BRENNER",
+        "role": "KAIROS-Kurier, Träger Route-Drei-Sekundärmaterial",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam, Verhör ausstehend",
+        "last_seen": "ITI-Nullzeit, MS12-Exfil"
+      }
+    ],
+    "active_npc_ids": [
+      "NPC-LEITER-MS11",
+      "NPC-HAAS-MS11",
+      "NPC-FRAU-MS11",
+      "NPC-BRENNER-MS12"
+    ]
+  },
+  "arc": {
+    "factions": {
+      "KAIROS": "Gegenoffensive aktiv — Route-Drei-Prozess läuft, letzter Anker 21. März 1938",
+      "ITI": "Mögliche Infiltration durch MERIDIAN-Funktion — Renier informiert, kennt M.V."
+    },
+    "questions": [
+      "Wer ist aktuell MERIDIAN — welche ITI-Person besetzt die Funktion?",
+      "Was ist Route Drei genau — was passiert wenn der letzte Anker gesetzt wird?",
+      "Wer ist die Frau aus Zürich mit ITI-Stiefeln?",
+      "Was zeigt der Metallzylinder — wo liegt der erste Anker?",
+      "Was weiß Renier über M.V. — und warum schweigt er?"
+    ],
+    "hooks": [
+      "MRD-7-Analyse läuft — 1/2 Missionen, ein weiterer Einsatz bis Ergebnis",
+      "Brenner-Verhör ausstehend — ITI-Nullzeit, 2 Stunden",
+      "Metallzylinder öffnen — Lab, Cipher dabei",
+      "21. März 1938 — neun Tage, letzter Anker noch nicht gesetzt",
+      "Renier kennt M.V. — Konfrontation ausstehend",
+      "Filmpatrone — Fotograf Norddach unbekannt, Identität klären",
+      "Thread BRAVO — Status unbekannt, Konvergenz ausstehend",
+      "Rift-Seed Norwegen 1947 — nach Episodenabschluss spielbar",
+      "Aufstiegswahlen x3 ausstehend (ALPHA) — vor nächster Mission eintragen"
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    },
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "none",
+    "tier": 0,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "low"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "standard"
+  }
+}

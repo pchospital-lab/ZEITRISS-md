@@ -1,0 +1,55 @@
+[13:10:37] === PHASE START: phase2-group-canary-3p ===
+[13:10:37] Spieler: ['jonas', 'kim', 'sarah']
+[13:10:37] Max turns: 60
+[13:10:37] >>> GRUPPE: Spiel starten (gruppe klassisch)
+[13:10:37] 
+--- Turn 1 ---
+[13:10:53] <<< SL (21466p/424c): # ZEITRISS  ---  ## Willkommen im ITI — Gruppenstart (klassisch)  **Gruppenstart bestätigt.** Ansprache: **Ihr**. Modus:
+[13:10:57] >>> JONAS (Jonas): Okay, ich bin dabei! Ich würde gerne **custom generate** machen — ich hab schon 
+[13:11:05] >>> KIM (Kim): oh wow okay das ist direkt viel text 😅
+
+ich bin Kim! ich spiel zum ersten mal üb
+[13:11:09] >>> SARAH (Mara Voss): Hey! Ich bin solo heute, die anderen haben keine Zeit gehabt. Ich spiel meinen C
+[13:11:10] 
+--- Turn 2 ---
+[13:11:46] <<< SL (20745p/682c): `EP 1 · MS 0 · SC —/— · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  # ITI — Gruppenstart  Drei Spielende, drei 
+[13:11:53] >>> JONAS (Jonas): Okay cool, dann leg ich mal los.
+
+**1. Epoche:** Spätes 20. Jahrhundert, so 80er
+[13:11:57] >>> KIM (Kim): okay also ich dachte an jemanden der gut reden kann? wie so eine die leute überz
+[13:12:05] >>> SARAH (Mara Voss): Hey! Ich hab den Save leider nicht als JSON, ich glaub ich hab gestern nicht ges
+[13:12:07] 
+--- Turn 3 ---
+[13:12:59] <<< SL (22867p/2338c): `EP 1 · MS 0 · SC —/— · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  ## Zur Systemfrage — Jonas  Kurze Antwort, 
+[13:13:07] >>> JONAS (Jonas): Okay, verstanden — also kein Pool, sondern ein einzelner Wurf mit Attribut-Bonus
+[13:13:09] >>> KIM (Kim): okay das ist VIEL text 😅 aber ich glaub ich hab's?
+
+also ja, die journalistin kl
+[13:13:14] >>> SARAH (Mara Voss): okay ich glaub ich hab das nochmal verstanden — also Mara hat GES 5 und INT 5, d
+[13:13:15] 
+--- Turn 4 ---
+[13:13:41] <<< SL (25051p/839c): `EP 1 · MS 0 · SC —/— · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  ## Kurze Regelantworten — alle drei  ---  *
+[13:13:47] >>> JONAS (Jonas): Okay, das macht Sinn — also quasi wie ein Würfelpool bei SR, nur dass der Gegner
+[13:13:50] >>> KIM (Kim): okay ECHO klingt cool aber... was ist TEMP? 😅
+[13:13:53] >>> SARAH (Mara Voss): okay W6+4 auf Spurensuche klingt nach einem Traum 😄 ich nehm den Vorschlag so — 
+[13:13:54] 
+--- Turn 5 ---
+[13:14:27] <<< SL (25924p/493c): `EP 1 · MS 0 · SC —/— · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  ## Schnelle Antworten  **Jonas — WALL:** Fu
+[13:14:32] >>> JONAS (Jonas): Nice, WALL gefällt mir auch besser. Klingt nach jemandem der im Weg steht und ni
+[13:14:35] >>> KIM (Kim): ECHO klingt cool! Aber was bedeutet das Callsign eigentlich für die Story? Ist d
+[13:14:38] >>> SARAH (Mara Voss): Haha nice, Kim und ihre TEMP-Frage 😄 Ich bin gespannt welches Callsign sie wählt
+[13:14:39] 
+--- Turn 6 ---
+[13:14:59] <<< SL (26943p/492c): `EP 1 · MS 0 · SC —/— · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  ## Schnelle Antworten  **Jonas — kein Würfe
+[13:15:53] >>> JONAS (Jonas): Okay, verstanden — also eher wie ein fixer Bonus auf einen einzelnen Würfel, nic
+[13:15:55] >>> KIM (Kim): ECHO klingt so cool omg. Ja, nehm ich! 🙌
+[13:16:12] >>> SARAH (Mara Voss): Okay cool, ich wart kurz auf Kim — und ja, SPLINTER steht bereit 👍
+[13:16:13] 
+--- Turn 7 ---
+[13:19:13] ⚠️  FINDING: [SL-ERROR] timed out
+[13:19:13] ❌ SL-Fehler: timed out
+[13:19:13] 
+=== PHASE ENDE: max_turns erreicht ===
+[13:19:13] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-21/phase2-group/_bericht.md
+[13:19:13] Tokens: 148264
+[13:19:13] Findings: 1

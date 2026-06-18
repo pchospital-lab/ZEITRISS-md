@@ -1,0 +1,336 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-HQ-FADEN-002",
+  "parent_save_id": "SAVE-2026-HQ-FADEN-001",
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 1,
+    "px": 0,
+    "px_state": "stable",
+    "heat": 1,
+    "mode": "mixed",
+    "epoch": "1962-Wien",
+    "rift_seeds": [],
+    "entry_choice_skipped": false,
+    "episode_start": "MS1",
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "CHR-FADEN-001",
+      "name": "Lena Vasek",
+      "callsign": "FADEN",
+      "rank": "Feldagent",
+      "lvl": 2,
+      "xp": 0,
+      "origin": {
+        "epoch": "1987, Prag",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Analystin / Geheimdienstoperative"
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 4,
+        "INT": 4,
+        "CHA": 6,
+        "TEMP": 2,
+        "SYS": 1
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "name": "Kaltleser",
+          "stufe": "Basis",
+          "effekt": "+2 auf CHA-Proben beim Einschätzen von Personen. Bei offensichtlichen NSC-Täuschungen automatischer Hinweis ohne Probe."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Walther PPK",
+          "type": "weapon",
+          "tier": 1
+        },
+        {
+          "name": "Aufnahmegerät (Mantelknopf-Mikro)",
+          "type": "gadget",
+          "tier": 0
+        },
+        {
+          "name": "Gefälschte Diplomatenpapiere (2 Identitäten, 1960er)",
+          "type": "gadget",
+          "tier": 1
+        },
+        {
+          "name": "ITI-Standardkomlink (Knochenleitung)",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "implants": [],
+      "history": {
+        "background": "Ehemalige StB-Analystin aus Prag, 1987. Fand eine Akte über eine Organisation, die Ereignisse vor ihrer eigenen Entstehung beeinflusst hatte. Zwei Wochen später vom ITI rekrutiert.",
+        "milestones": [
+          "MS1 — Wien 1962: Notizbuch gesichert, Brenner und Horáček exfiltriert. Tomáš entkommen. Barmann: Armband-System entdeckt — Zahlen sind Reihenfolge der ersten Sprünge, älter als das ITI."
+        ]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-FADEN-001",
+          "name": "Nicht zugewiesen",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 3
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 1,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 280,
+      "level_history": {
+        "2": {
+          "choice": "+1 Attribut",
+          "detail": "CHA 5→6",
+          "mission": "MS1"
+        }
+      }
+    }
+  ],
+  "economy": {
+    "hq_pool": 0
+  },
+  "research": {
+    "projects": [
+      {
+        "id": "RES-NOTIZBUCH-001",
+        "label": "Notizbuch-Analyse (Wien 1962)",
+        "kind": "field_decrypt",
+        "scope": "episode",
+        "tier": 2,
+        "missions_done": 0,
+        "missions_total": 2,
+        "status": "running",
+        "description": "Zweisprachiges Notizbuch, dunkelblauer Einband. Einträge 1931–1962, operative Erfolgsbilanz unbekannter Drittpartei. Letzte drei Seiten verschlüsselt — Treffpunkt-Code, Zeitzeuge Budapest 1956."
+      }
+    ]
+  },
+  "logs": {
+    "trace": [
+      "MS1 · Wien 1962 · Café Landtmann: Brenner observiert, Kontaktperson Horáček identifiziert.",
+      "MS1 · Wien 1962 · Lerchenfelderstraße 34: Horáček verfolgt, Armband-Kennzeichnung notiert (Nr.14), Briefkästen teilweise gelesen (Horáček, Winkler, M.Szabó, leer).",
+      "MS1 · Wien 1962 · Skodagasse 7: Brenner konfrontiert, Notizbuch gesichert, Unbekannter Verfolger identifiziert.",
+      "MS1 · Stephansdom-Krypta: Exfil unter Beschuss, Brenner mitgenommen (nicht autorisiert).",
+      "MS1 · Notsprung · Piaristenkirche-Krypta: Horáček gesichert, Tomáš entkommen. Wien 1962 Eintrag: verhindert.",
+      "HQ · Zero Time Lounge: Barmann — Armband Nr.16, Nordafrika 1943. Armband-System: Reihenfolge der ersten Sprünge, älter als ITI. Lena Vasek: noch keine Nummer."
+    ],
+    "hud": [],
+    "psi": [],
+    "arena_psi": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [
+      "Chargen abgeschlossen. Zero Time Lounge besucht. Barmann: Callsign unbekannt, Narbe Schulter links, erste Mission Nordafrika 1943. Agentin NAHT erwähnt: 3 Episoden, keine Verluste.",
+      "MS1 abgeschlossen. Bonus-Ziel verfehlt (Wohnung Josefstadt). Horáček und Brenner im HQ. Tomáš entkommen — Wien 1962, bewaffnet, behauptet gemeinsames Ziel.",
+      "Barmann trägt Armband Nr.16. Horáček Nr.14. Tomáš: Nummer unbekannt. Lena Vasek: Nummer noch nicht gefunden. Armbänder werden rückwärts durch die Zeit platziert — jemand kennt die Zeitreisenden bevor sie es selbst wissen."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": "Episode 1 — Wien 1962. Notizbuch mit Interventionschronik 1931–1962 gesichert. Unbekannte Drittpartei (der Faden) hinter allen Einträgen. Tomáš: Zeitzeuge Budapest 1956, entkommen, behauptet Schutz des Notizbuchs. Armband-System: Zählung von Zeitreisenden älter als ITI, rückwärts platziert. Lena Vaseks Nummer unbekannt."
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 1,
+      "mission": 1,
+      "location": "HQ — Zero Time Lounge"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [
+      {
+        "char_id": "NPC-BRENNER-001",
+        "tone": "erschöpft, desorientiert, kooperativ",
+        "text": "Karl Brenner, Kultusbeamter Wien 1962, nicht autorisiert exfiltriert. Träger des Notizbuchs. Weiß von Horáčeks Forschung und dem Faden."
+      },
+      {
+        "char_id": "NPC-HORACEK-001",
+        "tone": "ruhig, analytisch, abwartend",
+        "text": "Dr. Horáček, Historikerin, Armband Nr.14. Zwanzig Jahre Forschung über den Faden. Kennt Tomáš aus Budapest 1956. Jetzt im HQ."
+      }
+    ],
+    "shared_echoes": [
+      {
+        "tag": "notizbuch-wien-1962",
+        "scope": "episode",
+        "text": "Notizbuch mit Interventionschronik 1931–1962 gesichert. In Analyse. Treffpunkt-Code letzte drei Seiten verschlüsselt."
+      },
+      {
+        "tag": "tomas-entkommen",
+        "scope": "episode",
+        "text": "Tomáš, Zeitzeuge Budapest 1956, entkommen. Wien 1962, bewaffnet. Behauptet Schutz des Notizbuchs. Letztes Wort: Wien 1962 Eintrag lautet verhindert."
+      },
+      {
+        "tag": "armband-system",
+        "scope": "campaign",
+        "text": "Armbänder mit Zahlen = Reihenfolge erster Zeitsprünge. Älter als ITI. Rückwärts platziert — jemand kennt Zeitreisende bevor sie es selbst wissen. Barmann Nr.16, Horáček Nr.14. Lena Vaseks Nummer unbekannt."
+      },
+      {
+        "tag": "der-faden",
+        "scope": "campaign",
+        "text": "Unbekannter Beobachter hinter allen Notizbuch-Einträgen 1931–1956. Dieselbe Handschrift, dreißig Jahre. Horáček nennt ihn den Faden. Barmanns Hinweis: nicht wer schreibt — sondern wann."
+      }
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-MIRA-001",
+        "name": "Mira",
+        "callsign": "Archivarin",
+        "role": "Duty-Desk / Neulingsbetreuung",
+        "scope": "hq",
+        "status": "aktiv"
+      },
+      {
+        "id": "NPC-BARMANN-001",
+        "name": "Unbekannt",
+        "callsign": "Barmann",
+        "role": "Zero Time Lounge — Armband Nr.16, Nordafrika 1943",
+        "scope": "hq",
+        "status": "aktiv"
+      },
+      {
+        "id": "NPC-NAHT-001",
+        "name": "Unbekannt",
+        "callsign": "NAHT",
+        "role": "Erfahrene Agentin, 3 Episoden keine Verluste",
+        "scope": "hq",
+        "status": "aktiv"
+      },
+      {
+        "id": "NPC-BRENNER-001",
+        "name": "Karl Brenner",
+        "callsign": null,
+        "role": "Kultusbeamter Wien 1962, exfiltriert MS1",
+        "scope": "hq",
+        "status": "aktiv"
+      },
+      {
+        "id": "NPC-HORACEK-001",
+        "name": "Dr. Horáček",
+        "callsign": null,
+        "role": "Historikerin, Armband Nr.14, Forscherin des Fadens",
+        "scope": "hq",
+        "status": "aktiv"
+      },
+      {
+        "id": "NPC-TOMAS-001",
+        "name": "Tomáš",
+        "callsign": null,
+        "role": "Zeitzeuge Budapest 1956, Verfolger MS1, entkommen",
+        "scope": "field",
+        "status": "entkommen — Wien 1962"
+      }
+    ],
+    "active_npc_ids": [
+      "NPC-BRENNER-001",
+      "NPC-HORACEK-001"
+    ]
+  },
+  "arc": {
+    "factions": {
+      "armband_netz": "unbekannte Struktur, älter als ITI, Armbänder als Kennzeichnung"
+    },
+    "questions": [
+      "Wer schreibt die Einträge im Notizbuch — und wann?",
+      "Wer ist der Faden, der bei allen Ereignissen 1931–1956 dabei war?",
+      "Wer platziert die Armbänder rückwärts durch die Zeit?",
+      "Was ist mit den Nummern 1–13?",
+      "Welche Nummer hat Lena Vasek — und wo liegt ihr Armband?",
+      "Was sollte in Wien 1962 passieren — und was wurde verhindert?"
+    ],
+    "hooks": [
+      "Tomáš — Wien 1962, entkommen, bewaffnet, kennt das Gate-Window. Verbindung zu Horáček und Budapest 1956.",
+      "Notizbuch-Treffpunkt-Code (letzte drei Seiten) — Zeitzeuge Budapest 1956, Identität unbekannt, Wien 1962.",
+      "Lerchenfelderstraße 34 — drei Briefkästen ungelesen. Wer wohnt dort noch?",
+      "Bonus-Ziel verfehlt: Brenners Wohnung Josefstadt nie gesichtet."
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    },
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "single",
+    "tier": 1,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "none"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "sim"
+  }
+}

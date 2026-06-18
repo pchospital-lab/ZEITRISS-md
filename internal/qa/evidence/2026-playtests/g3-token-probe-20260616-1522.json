@@ -1,0 +1,32 @@
+[
+  {
+    "scenes": 4,
+    "msgs": 12,
+    "prompt_tokens": 68158,
+    "completion_tokens": 253,
+    "cached": 0,
+    "pct_256k": 26.6,
+    "latency_s": 16.0,
+    "rag": 1
+  },
+  {
+    "scenes": 8,
+    "msgs": 22,
+    "prompt_tokens": 76769,
+    "completion_tokens": 248,
+    "cached": 56293,
+    "pct_256k": 30.0,
+    "latency_s": 15.2,
+    "rag": 1
+  },
+  {
+    "scenes": 12,
+    "msgs": 34,
+    "prompt_tokens": 87111,
+    "completion_tokens": 356,
+    "cached": 56293,
+    "pct_256k": 34.0,
+    "latency_s": 19.4,
+    "rag": 1
+  }
+]

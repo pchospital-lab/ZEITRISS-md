@@ -1,0 +1,24 @@
+{
+  "verdict": "FAIL",
+  "turns": 64,
+  "cost_usd": 5.3684,
+  "peak_prompt_tokens": 107718,
+  "avg_cache_hit": 0.879,
+  "merge_save_captured": false,
+  "fails": [
+    "❌ [SCHEMA] split-team-alpha-3er @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-",
+    "❌ [ECHO-CAP] split-team-alpha-3er: shared_echoes 7>6",
+    "❌ [SCHEMA] split-team-bravo-2er @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-",
+    "❌ [ECHO-CAP] split-team-bravo-2er: shared_echoes 7>6",
+    "❌ [SCHEMA] m2-alpha-3er-result @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-",
+    "❌ [ECHO-CAP] m2-alpha-3er-result: shared_echoes 9>6",
+    "❌ [SCHEMA] m2-bravo-2er-result @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-",
+    "❌ [ECHO-CAP] m2-bravo-2er-result: shared_echoes 9>6",
+    "❌ [SAVE-PROSE] MERGE: kein JSON trotz Eskalation",
+    "❌ [MERGE-SAVE] Merge erzeugte keinen Save"
+  ],
+  "softs": [
+    "⚠️ [SAVE-PROSE] M1-5er: Save erst nach Eskalation als JSON",
+    "⚠️ [SAVE-PROSE] M2-Alpha-3er: Save erst nach Eskalation als JSON"
+  ]
+}

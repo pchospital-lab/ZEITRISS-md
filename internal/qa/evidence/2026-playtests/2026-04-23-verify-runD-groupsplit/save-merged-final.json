@@ -1,0 +1,326 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-GROUP-EP1-MS1-HQ-MERGE-001",
+  "parent_save_id": null,
+  "merge_id": "MERGE-splinter-runD+RAMPART-HQ-A+MOTH-runD-HQ-001",
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 1,
+    "px": 1,
+    "px_state": "stable",
+    "mode": "core",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-SPLINTER-01",
+      "name": "Mara Voss",
+      "callsign": "SPLINTER",
+      "player": "Sarah",
+      "rank": "Feldagentin",
+      "lvl": 1,
+      "xp": 9,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Ermittlerin"
+      },
+      "attr": {
+        "STR": 3,
+        "GES": 5,
+        "INT": 5,
+        "CHA": 3,
+        "TEMP": 4,
+        "SYS": 0
+      },
+      "hp": 11,
+      "hp_max": 12,
+      "stress": 3,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "name": "Tatortanalyse",
+          "tier": "Basis",
+          "bonus": "+2 auf INT-Proben zur Spurensicherung"
+        }
+      ],
+      "equipment": [
+        { "name": "Dienstpistole", "type": "weapon", "tier": 1 },
+        { "name": "Kevlarweste", "type": "armor", "tier": 1 },
+        { "name": "Handscanner", "type": "tool", "tier": 1 },
+        { "name": "Multitool", "type": "tool", "tier": 1 },
+        { "name": "Rauchgranate", "type": "gadget", "tier": 1 },
+        { "name": "Rauchgranate", "type": "gadget", "tier": 1 }
+      ],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": ["Mission 1: Lagerhaus gesichert"]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-SPLINTER-01",
+          "name": "Standardfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 2,
+        "faction": "",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 120,
+      "level_history": {}
+    },
+    {
+      "id": "CHR-RAMPART-01",
+      "name": "Ren Kaspar",
+      "callsign": "RAMPART",
+      "player": "Jonas",
+      "rank": "Feldagent",
+      "lvl": 1,
+      "xp": 0,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Nahkampf-Spezialist"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 4,
+        "INT": 3,
+        "CHA": 2,
+        "TEMP": 4,
+        "SYS": 0
+      },
+      "hp": 13,
+      "hp_max": 13,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "name": "Nahkampf-Taktik",
+          "tier": "Basis",
+          "bonus": "+2 auf STR-Proben im Nahkampf"
+        }
+      ],
+      "equipment": [
+        { "name": "Kampfmesser", "type": "weapon", "tier": 1 },
+        { "name": "Schwere Rüstung", "type": "armor", "tier": 1 },
+        { "name": "Comlink", "type": "gadget", "tier": 1 }
+      ],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": ["Mission 1: Lagerhaus gesichert"]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-RAMPART-01",
+          "name": "Standardfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 2,
+        "faction": "",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 100,
+      "level_history": {}
+    },
+    {
+      "id": "CHR-MOTH-001",
+      "name": "Ines Delacroix",
+      "callsign": "MOTH",
+      "player": "Kim",
+      "rank": "Feldagentin",
+      "lvl": 1,
+      "xp": 9,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": ""
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 3,
+        "INT": 5,
+        "CHA": 4,
+        "TEMP": 5,
+        "SYS": 12
+      },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 1,
+      "has_psi": true,
+      "pp": 3,
+      "pp_max": 5,
+      "psi_heat": 1,
+      "psi_abilities": ["Telepathie", "Präkognition"],
+      "sys_installed": 2,
+      "talents": [
+        {
+          "name": "Telepathie",
+          "tier": "Basis",
+          "bonus": "Psi-Fähigkeit: Gedanken lesen / senden"
+        },
+        {
+          "name": "Präkognition",
+          "tier": "Basis",
+          "bonus": "Psi-Fähigkeit: kurze Zukunftsanker spüren"
+        }
+      ],
+      "equipment": [
+        { "name": "Comlink", "type": "tool", "tier": 1 },
+        { "name": "Neuralnet-Kontaktlinsen", "type": "tool", "tier": 2 },
+        { "name": "Multitool", "type": "tool", "tier": 1 }
+      ],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": ["Mission 1: Lagerhaus gesichert"]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-MOTH-001",
+          "name": "Standardfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 2,
+        "faction": "",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 80,
+      "level_history": {}
+    }
+  ],
+  "economy": { "hq_pool": 0 },
+  "logs": {
+    "trace": [],
+    "market": [
+      "RAMPART: HQ-Ausrüstungskammer besucht. Kein Kauf — Budget unzureichend für Tier-2-Upgrade."
+    ],
+    "artifact_log": [],
+    "notes": [
+      "SPLINTER: SOC/WIS-Migration → CHA 3, SYS 0.",
+      "RAMPART: sys_max 14 → SYS-Attribut 0 (Schema v7).",
+      "RAMPART: hp-Lücke (10/13) → HQ-Grundversorgung, hp auf 13/13 gesetzt.",
+      "MOTH: HP auf 10/10 via HQ-Grundversorgung.",
+      "MOTH: W10 bei SYS-Proben aktiv (SYS 12 ≥ 11).",
+      "Merge: Drei Solo-Branches ohne family_id → Session-Anker SPLINTER führt.",
+      "Hook aktiv: Dr. Veith hat eine Nachricht hinterlassen (aus MOTH-Arc)."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [
+        "solo-splinter-runD",
+        "SAVE-2026-RAMPART-HQ-A",
+        "SAVE-2026-MOTH-runD-HQ-001"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": "Alle drei haben Mission 1 (Lagerhaus) solo abgeschlossen. Erste gemeinsame Mission steht bevor. Hook: Dr. Veith wartet."
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 1,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [
+      "Mission 1: Lagerhaus gesichert (alle drei, solo)"
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-VEITH-01",
+        "name": "Dr. Veith",
+        "callsign": null,
+        "role": "Kontakt",
+        "scope": "recurring",
+        "status": "aktiv"
+      }
+    ],
+    "active_npc_ids": ["NPC-VEITH-01"]
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": [
+      "Dr. Veith hat eine Nachricht hinterlassen — Inhalt unbekannt."
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}
