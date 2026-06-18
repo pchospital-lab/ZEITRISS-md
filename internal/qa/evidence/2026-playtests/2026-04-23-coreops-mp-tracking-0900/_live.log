@@ -1,0 +1,24 @@
+[09:00:43] === START: coreops-mp-tracking-0900 ===
+[09:00:43] Spieler: ['jonas', 'kim', 'sarah'], Max turns: 2
+[09:00:43] >>> GRUPPE: Spiel starten (gruppe klassisch). Wir sind 3 Spieler:
+Sarah hat schon eine Mission gespielt und bringt Mara Voss
+mit (Ca
+[09:00:43] 
+--- Turn 1 ---
+[09:01:36] <<< SL (16700p/2006c/53.2s, cum=18706): # ZEITRISS — Gruppenstart  ---  Willkommen bei ZEITRISS.  *Für alle Neulinge — und zur Erinnerung fü
+[09:01:41] >>> JONAS (Jonas): Okay, Kodiak passt — ich mag den Callsign. Aber ich hätte meinen Char eigentlich
+[09:01:49] >>> KIM (Kim): ok yuna park klingt cool, static als callsign ist auch nice 👍 aber was ist nochm
+[09:01:54] >>> SARAH (Mara Voss): Kurz OOC: GES 5 und INT 5 stimmen, aber ich hatte ursprünglich auch TEMP 4 — kan
+[09:01:55] 
+--- Turn 2 ---
+[09:02:22] <<< SL (18968p/996c/26.9s, cum=38670): ## Korrekturen — alle drei bestätigt  ---  ### JONAS → DARIUS COLE / KODIAK (korrigiert)  Tausch: ST
+[09:02:28] >>> JONAS (Jonas): Warte kurz — ich glaub da ist was durcheinandergeraten. Ich wollte INT auf 1 set
+[09:02:35] >>> KIM (Kim): ok SYS ist also wie... USB-Ports für den Körper lol
+
+für Yuna passt das, ich las
+[09:02:39] >>> SARAH (Mara Voss): Für Voss: INT 5 behalten, die 2 Punkte kommen von STR — also STR 2 bleibt, oder.
+[09:02:40] 
+=== ENDE: max_turns erreicht ===
+[09:02:40] 📊 Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/coreops-mp-tracking-0900/_bericht.md
+[09:02:40] 📉 Tokens peak: 18968
+[09:02:40] 🧩 MP-Sections dormant: 9/13

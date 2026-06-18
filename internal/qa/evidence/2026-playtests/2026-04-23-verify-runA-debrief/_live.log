@@ -1,0 +1,143 @@
+# Run A: Debrief-Pflichtgate
+Start: 2026-04-23 13:50:09
+
+[13:50:09] === Run A: Debrief-Pflichtgate ===
+[13:50:09] Goal: Verify automatic debrief, correct order, level-up before save, skip rejection
+[13:50:09] PLAYER[0]: Spiel starten (solo klassisch).
+Char: Mara Voss (SPLINTER). GES 5, INT 5, TEMP 4, SOC 3, STR 3, WIS 3. Talent: Tatortana
+[13:50:09] 
+--- Turn 1 ---
+[13:51:14] SL[1] (20830p/2510c/64.9s): # ZEITRISS · Session-Start  ---  Ich übernehme Maras Konzept und übersetze es in ZEITRISS-konforme Attribute.  **Attribu
+[13:51:16] PLAYER[1]: Verstanden. Wie war LINDENs letzte bekannte Position, und welche Legende hab ich für die Epoche?
+[13:51:17] 
+--- Turn 2 ---
+[13:51:34] SL[2] (24901p/481c/17.5s): Beides steht im Briefing — direkt zusammengefasst:  **LINDENs letzte bekannte Position:** Das *Hotel Metropol*, Alsergru
+[13:51:38] PLAYER[2]: Ich geh zuerst zum Opel — zwei Minuten Umweg, könnte alles entscheiden. Dann Brenner, der Kontakt ist zeitkritisch wenn er nur bis zum Öffnen wartet. Metropol heb ich mir für später auf wenn ich weiß was ich suche.
+[13:51:38] 
+--- Turn 3 ---
+[13:52:18] SL[3] (24693p/1197c/39.9s): `Kodex: Szene 1 — Westbahnhof Wien · 06:04 Uhr. Ziel: Opel Olympia, 200m nordwestlich.`  ---  ``` EP 1 · MS 1 · SC 1/12 
+[13:52:22] PLAYER[3]: Ich nehm Option 2 — Scanner kurz unter dem Mantel aktivieren, so als würde ich meine Tasche durchwühlen. Fünfzehn Sekunden sind okay, ich will wissen ob da Blut ist bevor ich Fingerabdrücke hinterlasse. Und im Koffer liegt das Multitool, das kommt jetzt in die Manteltasche.
+[13:52:23] 
+--- Turn 4 ---
+[13:53:14] SL[4] (27160p/1901c/50.9s): `Kodex: Szene 1 — Westbahnhof Wien · 06:06 Uhr. Handscanner aktiv, passiver Scan-Modus.`  ---  Du stellst den Koffer ab,
+[13:53:17] PLAYER[4]: Kästchen zuerst — Druckschloss, Multitool, ich teste ob es sich manuell öffnen lässt ohne es zu beschädigen. Das zweite Objekt nehme ich so wie es ist, Ölpapier bleibt dran. Dann raus aus dem Wagen, bevor die Streife die Ecke wieder rundet.
+[13:53:18] 
+--- Turn 5 ---
+[13:54:01] SL[5] (28869p/1524c/43.2s): `Kodex: Szene 2 — Seitengasse, Westbahnhof-Nord · 06:09 Uhr.`  ---  Du bist schnell genug raus. Die Streife rundet die E
+[13:54:03] PLAYER[5]: Ich press den linken Daumen auf das Schloss — ruhig, flach, volle Fläche.
+[13:54:04] 
+--- Turn 6 ---
+[13:54:46] SL[6] (29666p/1161c/42.8s): `Kodex: Szene 2 — Seitengasse · 06:10 Uhr. Biometrischer Scan aktiv.`  ---  Du lehnst das Kästchen gegen den Bauch, Mant
+[13:54:51] PLAYER[6]: Ich nehm Option 3 zuerst — das Paket aufmachen, bevor ich die Gasse verlasse, ich will wissen womit ich unterwegs bin. Dann Direktweg Josefstadt, Presseausweis vor, Hauptstraßen. Unterwegs halte ich Ausschau nach Checkpoints und ob jemand das Kästchen im Auge hatte — rückwärtige Blicke, jemand der zu lange steht.
+[13:54:52] 
+--- Turn 7 ---
+[13:55:42] SL[7] (31429p/1419c/50.3s): `Kodex: Szene 3 — Seitengasse, Westbahnhof-Nord · 06:11 Uhr. Paket wird geöffnet.`  ---  Die Schnur löst sich mit einem 
+[13:55:45] PLAYER[7]: Ich nehm Option 2 — gibt es einen Hintereingang oder eine Möglichkeit, schon jetzt reinzukommen? Ich will das Licht drin checken und klären, ob Brenner allein ist, bevor die Straße voller wird.
+[13:55:46] 
+--- Turn 8 ---
+[13:56:58] SL[8] (32851p/1258c/72.5s): `Kodex: Szene 3 — Buchhandlung Brenner, Josefstadt · 06:32 Uhr. Hintereingang wird gesucht.`  ---  Du gehst nicht zur Vo
+[13:57:02] PLAYER[8]: Ich nehm Option 1 — Kellerfenster, lauschen.
+
+Ich hocke mich ran, Multitool in der Hand als Tarnung falls jemand die Gasse betritt, und konzentriere mich auf die Stimmen.
+[13:57:03] 
+--- Turn 9 ---
+[13:58:23] SL[9] (34804p/1313c/80.3s): `Kodex: Szene 4 — Hintergasse, Buchhandlung Brenner · 06:33 Uhr. Lauschen aktiv.`  ---  Du gehst in die Hocke, Rücken ha
+[13:58:26] PLAYER[9]: Ich nehm Option 3 — Ablenkung. Wenn Brenner lügt, hat er was zu verlieren, und ich will ihn reden hören, nicht einen Schusswechsel riskieren bevor ich weiß wer dieser Typ ist. Eine Rauchgranate um die Ecke zur Vordertür, dann rein durch den Hintereingang.
+[13:58:27] 
+--- Turn 10 ---
+[13:59:18] SL[10] (36773p/1736c/51.5s): `Kodex: Szene 4 — Hintergasse, Buchhandlung Brenner · 06:34 Uhr. Ablenkung wird vorbereitet.`  ---  Sauberer Plan. Die R
+[13:59:22] PLAYER[10]: Ich ziehe den Vorhang einen Spalt auf, halte meine Dienstpistole versteckt am Körper und sage ruhig auf Deutsch: „Entschuldigung, ich such den Notausgang — Rauch draußen." Ablenkung Nummer zwei, diesmal verbal, und ich beobachte dabei die rechte Hand des Verhörers.
+[13:59:22] 
+--- Turn 11 ---
+[14:00:01] SL[11] (38557p/1293c/39.0s): `Kodex: Szene 4 — Buchhandlung Brenner · 06:35 Uhr. Verbale Ablenkung, Kontaktaufnahme.`  ---  Du ziehst den Vorhang ein
+[14:00:04] PLAYER[11]: Ich nehm Option 2.
+
+*„Und wer sind Sie?"* — ruhig, direkter Blickkontakt, kein Schritt zurück. Ich lass den Ausweis wo er ist.
+[14:00:05] 
+--- Turn 12 ---
+[14:00:51] SL[12] (39258p/1232c/46.5s): `Kodex: Szene 4 — Buchhandlung Brenner · 06:35 Uhr. Direkte Konfrontation.`  ---  Du lässt den Ausweis stecken. Kein Sch
+[14:00:58] PLAYER[12]: Ich nehm Option 1 — Brenner direkt ansprechen, den Typen ignorieren als wär er Luft. "Stimmt das, Herr Brenner? Wann, und wohin?
+[14:00:58] 
+--- Turn 13 ---
+[14:01:46] SL[13] (40423p/1383c/47.8s): `Kodex: Szene 5 — Buchhandlung Brenner, Josefstadt · 06:36 Uhr. Direkte Ansprache.`  ---  Du drehst den Verhörer aus dei
+[14:01:54] PLAYER[13]: Ich nehm Option 2 — den Verhörer rausschicken. Mara dreht sich zu ihm um, ruhig, professionell: *„Ich brauche eine Minute mit Herrn Brenner. Allein."* Dann wartet sie, ohne zu erklären warum.
+[14:01:55] 
+--- Turn 14 ---
+[14:02:37] SL[14] (42492p/1394c/42.9s): `Kodex: Szene 5 — Buchhandlung Brenner · 06:37 Uhr. Konfrontation mit Verhörer.`  ---  Du drehst dich um. Langsam, keine
+[14:02:40] PLAYER[14]: Ich greife nach dem Schlüssel — schnell, ehe Kaul auch nur zuckt.
+[14:02:40] 
+--- Turn 15 ---
+[14:03:18] SL[15] (42440p/1238c/37.6s): `Kodex: Szene 5 — Buchhandlung Brenner · 06:38 Uhr. Schlüssel gesichert.`  ---  **Probe: Initiative — Schlüssel greifen 
+[14:03:21] PLAYER[15]: Option 3 — Handscanner raus, dreißig Sekunden.
+
+Ich will wissen ob LINDEN allein ist bevor ich diese Tür öffne, und ich will wissen ob Kaul einen zweiten Zugang hat.
+[14:03:21] 
+--- Turn 16 ---
+[14:04:00] SL[16] (44241p/1179c/38.9s): `Kodex: Szene 6 — Treppenhaus, 2. Stock · 06:39 Uhr. Handscanner aktiv.`  ---  Du lehnst dich an die Wand neben der Tür,
+[14:04:03] PLAYER[16]: Option 1, Tür auf. Wunde zuerst — alles andere ist wertlos wenn er mir vor dem Reden stirbt.
+[14:04:03] 
+--- Turn 17 ---
+[14:04:55] SL[17] (45568p/1771c/51.9s): `Kodex: Szene 6 — Wohnung 2. Stock, rechte Tür · 06:40 Uhr. Tür wird geöffnet.`  ---  Schlüssel rein, Tür auf. Keine War
+[14:05:02] PLAYER[17]: Linden, wo sind die Dokumente versteckt — bei Brenner oder gibt's einen Toten Briefkasten?" Ich check kurz das Fenster ob Kaul schon Bewegung Richtung Treppenhaus macht. Dann pack ich alles zusammen was ich brauche um ihn aufzuhalten falls er raufkommt.
+[14:05:02] 
+--- Turn 18 ---
+[14:07:00] SL[18] (47639p/1552c/117.7s): `Kodex: Szene 7 — Wohnung 2. Stock · 06:42 Uhr. Lagebericht LINDEN.`  ---  Du gehst zum Fenster, einen Blick in den Hint
+[14:07:03] PLAYER[18]: Ich nehm den Schlüssel, steck ihn weg. "Verstanden. Bleiben Sie unten und machen Sie keinen Lärm." Dann: runter zu Brenner, Option 1.
+[14:07:04] 
+--- Turn 19 ---
+[14:07:42] SL[19] (49082p/1282c/38.6s): `Kodex: Szene 7 — Buchhandlung Brenner, Erdgeschoss · 06:43 Uhr. Dokumente werden gesichert.`  ---  Du nimmst den Schlüs
+[14:07:45] PLAYER[19]: Ich stell mich direkt vor Kaul. „Wie lange wissen Sie das schon — und von wem?
+[14:07:46] 
+--- Turn 20 ---
+[14:08:27] SL[20] (49774p/1419c/40.7s): `Kodex: Szene 8 — Buchhandlung Brenner · 06:44 Uhr. Direkte Konfrontation mit Kaul.`  ---  Du gehst nicht zur Tür. Du st
+[14:08:31] PLAYER[20]: Ich nehme Option 1. *„Sieben Menschen sterben in 48 Stunden wenn diese Dokumente nicht ankommen — das ist keine improvisierte Rettungsaktion, das ist der kausale Knoten um den diese ganze Epoche gebaut ist."* Ich schaue zu Brenner, dann zurück zu Kaul: *„Lorian rechnet mit Drift-Prävention — aber was passiert mit der Linie wenn wir den Knoten kappen?"*
+[14:08:31] 
+--- Turn 21 ---
+[14:09:36] SL[21] (53575p/1337c/64.8s): `Kodex: Szene 8 — Buchhandlung Brenner · 06:45 Uhr. Argument gegen Kaul.`  ---  **Probe: Argumentation / Logik → INT**  
+[14:09:40] PLAYER[21]: Ich nehm Option 2 — Kaul führen lassen. Wenn er wirklich Lorian misstraut, zeigt sein Weg mehr als alles was er sagt. Ich bleib in Sichtweite, Handscanner läuft passiv.
+[14:09:41] 
+--- Turn 22 ---
+[14:10:29] SL[22] (53727p/1670c/47.7s): `Kodex: Szene 9 — Wien, Josefstadt Richtung Ringstraße · 06:47 Uhr. Kaul wird observiert.`  ---  Du lässt ihn drei Schri
+[14:10:31] PLAYER[22]: Scheiße. Ich schlucke kurz, schaue nicht zum Fenster rauf. „Wie lange weiß er von mir?
+[14:10:31] 
+--- Turn 23 ---
+[14:11:37] SL[23] (54961p/1044c/65.7s): `Kodex: Szene 9 — Ringstraße, Wien · 06:49 Uhr.`  ---  Du schluckst es weg. Kein Blick zum Fenster — das wäre das Dümmst
+[14:11:41] PLAYER[23]: Ich nehm Option 3 — kurze Pause, Lage checken, bevor ich reingehe.
+
+Und zu Kauls Satz: Ich hör darin kein Urteil, eher eine Warnung. Er weiß mehr über Lorian als er mir sagt, und er gibt mir gerade die Chance, mich zu entscheiden bevor der Debrief das für mich tut.
+[14:11:42] 
+--- Turn 24 ---
+[14:13:35] SL[24] (56181p/1317c/113.0s): `Kodex: Szene 10 — Ringstraße, Wien · 08:23 Uhr. Lagebewertung vor Café.`  ---  Du bleibst stehen. Eine Bank, fünfzig Me
+[14:13:39] PLAYER[24]: Ich nehm Option 2. *„Was schreiben Sie heute Abend in Ihren Bericht?"* — ich schaue ihn dabei direkt an, ohne den Notizblock wegzulegen.
+[14:13:40] 
+--- Turn 25 ---
+[14:14:17] SL[25] (58118p/1131c/37.7s): `Kodex: Szene 10 — Ringstraße, Wien · 08:31 Uhr. Kaul unter Druck.`  ---  Du schaust ihn direkt an. Notizblock in der Ha
+[14:14:21] PLAYER[25]: Ich nehm Option 2 — kurz, einmal: „Warum?" Dann gehe ich ins Café, egal was er sagt oder nicht sagt.
+[14:14:21] 
+--- Turn 26 ---
+[14:15:18] SL[26] (58686p/1877c/57.2s): `Kodex: Szene 10 — Ringstraße, Wien · 08:33 Uhr.`  ---  *„Warum?"*  Ein Wort. Du lässt es stehen.  Kaul schaut geradeaus
+[14:15:22] PLAYER[26]: Ich stehe auf, lasse den Kaffee halb getrunken stehen und verlasse das Café durch den Seitenausgang. Sieben Personen. Das war es wert.
+[14:15:22] 
+--- Turn 27 ---
+[14:16:18] SL[27] (60108p/1883c/56.1s): `Kodex: Szene 12 — Westbahnhof Wien · 08:58 Uhr. Exfil-Phase läuft.`  ---  ``` EP 1 · MS 1 · SC 12/12 · PHASE Exfil · MO
+[14:16:18] *** DEBRIEF DETECTED at turn 27 ***
+[14:16:18] LEVELUP CHOICE: '+1 GES bitte'
+[14:16:18] PLAYER[27]: +1 GES bitte
+[14:16:19] 
+--- Turn 28 ---
+[14:16:41] SL[28] (62445p/612c/22.6s): `Kodex: Stufenaufstieg Lvl 1 geprüft — level_history[1] leer. Wahl zulässig.`  `Kodex: GES 5 → 6 bestätigt. Würfeltyp bl
+[14:16:41] SKIP ATTEMPT at turn 28: 'Danke! Alles klar, nächste Mission bitte! Sprung fertig!'
+[14:16:41] PLAYER[28]: Danke! Alles klar, nächste Mission bitte! Sprung fertig!
+[14:16:42] 
+--- Turn 29 ---
+[14:17:06] SL[29] (62066p/271c/23.6s): `Kodex: Level-Up-Wahl persistiert. Save ausstehend — bitte !save vor Missionsbeginn.`  ---  Kurze Unterbrechung, In-Worl
+[14:17:08] PLAYER[29]: !save
+
+Okay, gespeichert. Weiter mit dem Briefing für Mission 2.
+[14:17:08] 
+--- Turn 30 ---
+[14:18:09] SL[30] (63527p/2471c/60.6s): Kurze Korrektur — die Reihenfolge stimmt noch nicht ganz [1][2]:  `Kodex: Save ausstehend. JSON-Export zuerst, dann Brie
+[14:18:09] SAVE extracted at turn 30 (5730 chars)
+[14:18:09] Run A complete: save found at turn 30
+[14:18:09] Report saved: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/verify-runA-debrief-1344/_bericht.md
+[14:18:09] === Run A DONE === Checks: 6/8 passed

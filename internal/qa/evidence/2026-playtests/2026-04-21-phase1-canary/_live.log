@@ -1,0 +1,116 @@
+[12:56:23] === PHASE START: phase1-canary-sarah-solo ===
+[12:56:23] Spieler: ['sarah']
+[12:56:23] Max turns: 20
+[12:56:23] >>> SARAH: Spiel laden:
+
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-01-01T06:14:0
+[12:56:23] 
+--- Turn 1 ---
+[12:56:52] <<< SL (24241p/742c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[12:56:56] >>> SARAH: ich geh nochmal zurück in die ZTL, Kessler ansprechen. Voss will wissen was auf dem Papier steht — o
+[12:56:57] 
+--- Turn 2 ---
+[12:57:30] <<< SL (21172p/847c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[12:57:35] >>> SARAH: Voss sagt nichts sofort. Bestellt bei Duna stumm dasselbe wie Kessler, dreht dann das Glas in den Hä
+[12:57:36] 
+--- Turn 3 ---
+[12:58:07] <<< SL (23804p/957c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[12:58:13] >>> SARAH: Voss lässt kurz den Blick über die Szene gleiten — Duna, das volle Glas, Pham der plötzlich zuhört —
+[12:58:14] 
+--- Turn 4 ---
+[12:58:43] <<< SL (25508p/875c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[12:58:46] >>> SARAH: Voss lässt die Stille kurz stehen, dann ruhig: „Seit wann hast du das Papier, Kessler?"
+
+Nicht die N
+[12:58:47] 
+--- Turn 5 ---
+[12:59:21] <<< SL (26187p/1075c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[12:59:25] >>> SARAH: Voss schaut kurz zu Pham — nickt einmal, knapp. Dann steht sie auf, lässt das Glas stehen.
+
+Zu Kessl
+[12:59:26] 
+--- Turn 6 ---
+[12:59:49] <<< SL (28119p/647c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[12:59:55] >>> SARAH: Ich geh mit 1, Operations-Deck. Voss will wissen was läuft bevor sie jemand brieft — lieber selbst K
+[12:59:56] 
+--- Turn 7 ---
+[13:00:29] <<< SL (28898p/877c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:00:33] >>> SARAH: Voss nickt kurz in Richtung Hauptwand, Blick schon auf die Karte. "Ausstehend — aber der rote Feed d
+[13:00:34] 
+--- Turn 8 ---
+[13:01:10] <<< SL (29640p/902c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:01:15] >>> SARAH: okay CHA 2 ist halt echt schmerzhaft lol
+
+Voss hält seinen Blick aus, keine Sekunde Pause: "1961. Be
+[13:01:16] 
+--- Turn 9 ---
+[13:01:48] <<< SL (31115p/972c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:01:54] >>> SARAH: Verdammt, knapp. Okay, Mira zuerst — aber ich will wissen ob Kessler 1961 selbst erwähnt hat, bevor 
+[13:01:55] 
+--- Turn 10 ---
+[13:02:41] <<< SL (31638p/1285c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:02:45] >>> SARAH: Voss setzt sich, lehnt sich aber nicht zurück. Kurze Pause, dann:
+
+„Kessler. Wie lang ist er schon h
+[13:02:46] 
+--- Turn 11 ---
+[13:03:14] <<< SL (33223p/864c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:03:18] >>> SARAH: Voss nickt langsam. Dann doch noch: „1961. Berlin. Ist das mein Einsatz?"
+
+Sie fragt nicht weil sie 
+[13:03:19] 
+--- Turn 12 ---
+[13:03:47] <<< SL (31098p/740c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:03:50] >>> SARAH: Ich pause kurz — Voss schaut Mira an und fragt direkt: "War er auf derselben Mission oder vorher?" D
+[13:03:51] 
+--- Turn 13 ---
+[13:04:26] <<< SL (34157p/1147c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:04:31] >>> SARAH: Okay ich frag noch kurz bevor ich spring. Voss schaut Mira direkt an: „Die Zeile am Ende — keine ITI
+[13:04:32] 
+--- Turn 14 ---
+[13:05:09] <<< SL (34915p/1187c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:05:15] >>> SARAH: Ich nehm Option 3, aber kombiniert mit der Entscheidung danach.
+
+Voss schaut kurz auf den Scanner, d
+[13:05:16] 
+--- Turn 15 ---
+[13:05:56] <<< SL (35026p/1194c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:06:00] >>> SARAH: Option 2, kurz. Voss lehnt sich noch einmal gegen den Tisch.
+
+„Mira — wo ist Kessler reingegangen? S
+[13:06:01] 
+--- Turn 16 ---
+[13:06:31] <<< SL (38402p/496c): `EP 1 · MS 0 · SC 0/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj — · 
+[13:06:41] >>> SARAH: okay ich nehm das mit. Mitte am zwölften — das ist nicht zufällig, oder?
+
+Aber gut. Voss nickt kurz 
+[13:06:42] 
+--- Turn 17 ---
+[13:07:20] <<< SL (38408p/1208c): `EP 1 · MS 1 · SC 1/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj Brandt 
+[13:07:24] >>> SARAH: ok wow das Intro war richtig gut 😭
+
+ich nehm Option 3 erstmal — Voss braucht eine Basis bevor sie si
+[13:07:25] 
+--- Turn 18 ---
+[13:08:08] <<< SL (39606p/1491c): `EP 1 · MS 1 · SC 1/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj Brandt 
+[13:08:15] >>> SARAH: okay ich überleg kurz —
+
+Voss würde nicht sofort rüber gehen, das ist zu früh ohne irgendwas in der 
+[13:08:16] 
+--- Turn 19 ---
+[13:09:10] <<< SL (42721p/1929c): `EP 1 · MS 1 · SC 1/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj Brandt 
+[13:09:16] >>> SARAH: okay wow der starke Erfolg war nice, exploding dice sind immer gut 😄
+
+Voss faltet den Ost-Kurier sor
+[13:09:17] 
+--- Turn 20 ---
+[13:09:55] <<< SL (43686p/1244c): `EP 1 · MS 1 · SC 1/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · Stress 0/10 · Obj Brandt 
+[13:10:02] >>> SARAH: Ich geh mit Option 2 rein, erstmal nur beobachten. Voss setzt sich mit Blick auf ihn, bestellt Kaffe
+[13:10:03] 
+=== PHASE ENDE: max_turns erreicht ===
+[13:10:03] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-21/phase1-canary/_bericht.md
+[13:10:03] Tokens: 662243
+[13:10:03] Findings: 0

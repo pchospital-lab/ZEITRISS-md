@@ -1,0 +1,411 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-SPLIT-EP12-MS10-SQUAD-ABCD-HQ-01",
+  "parent_save_id": "SAVE-SPLIT-EP12-MS10-SQUAD-ABCD",
+  "merge_id": null,
+  "branch_id": "SPLIT-EP12-MS10-KAIROS-SQUAD",
+  "campaign": {
+    "episode": 12,
+    "mission": 10,
+    "px": 3,
+    "px_state": "stable",
+    "heat": 0,
+    "mode": "preserve",
+    "epoch": null,
+    "rift_seeds": [],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "AGENT-A",
+      "name": "Astra",
+      "callsign": "Astra",
+      "rank": "Veteran",
+      "lvl": 912,
+      "xp": 0,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": ""
+      },
+      "attr": {
+        "STR": 3,
+        "GES": 3,
+        "INT": 3,
+        "CHA": 3,
+        "TEMP": 3,
+        "SYS": 3
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [],
+      "equipment": [],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": []
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-A",
+          "name": "",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 7200,
+      "level_history": {}
+    },
+    {
+      "id": "AGENT-B",
+      "name": "Blitz",
+      "callsign": "Blitz",
+      "rank": "Veteran",
+      "lvl": 905,
+      "xp": 0,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": ""
+      },
+      "attr": {
+        "STR": 3,
+        "GES": 3,
+        "INT": 3,
+        "CHA": 3,
+        "TEMP": 3,
+        "SYS": 3
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [],
+      "equipment": [],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": []
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-B",
+          "name": "",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 6900,
+      "level_history": {}
+    },
+    {
+      "id": "AGENT-C",
+      "name": "Cipher",
+      "callsign": "Cipher",
+      "rank": "Koryphäe",
+      "lvl": 933,
+      "xp": 0,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": ""
+      },
+      "attr": {
+        "STR": 3,
+        "GES": 3,
+        "INT": 3,
+        "CHA": 3,
+        "TEMP": 3,
+        "SYS": 3
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [],
+      "equipment": [],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": []
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-C",
+          "name": "",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 8100,
+      "level_history": {}
+    },
+    {
+      "id": "AGENT-D",
+      "name": "Dusk",
+      "callsign": "Dusk",
+      "rank": "Veteran",
+      "lvl": 918,
+      "xp": 0,
+      "origin": {
+        "epoch": "",
+        "hominin": "Homo sapiens sapiens",
+        "role": ""
+      },
+      "attr": {
+        "STR": 3,
+        "GES": 3,
+        "INT": 3,
+        "CHA": 3,
+        "TEMP": 3,
+        "SYS": 3
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [],
+      "equipment": [],
+      "implants": [],
+      "history": {
+        "background": "",
+        "milestones": []
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-D",
+          "name": "",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 7600,
+      "level_history": {}
+    }
+  ],
+  "economy": {
+    "hq_pool": 26600
+  },
+  "research": {
+    "projects": []
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "split_origin",
+        "family_id": "SPLIT-EP12-MS10-KAIROS",
+        "thread_id": "SQUAD-ABCD",
+        "from_save": "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL"
+      },
+      {
+        "event": "hq_save",
+        "save_id": "SAVE-SPLIT-EP12-MS10-SQUAD-ABCD-HQ-01",
+        "note": "Attribut-Cap-Warnung quittiert (Option 1: Werte so übernommen). Alle attr=3, level_history leer."
+      }
+    ],
+    "artifact_log": [],
+    "market": [],
+    "notes": [
+      "Split von 5er-Squad: Astra/Blitz/Cipher/Dusk bilden Squad-Branch. Echo verfolgt Solo-Spur (SOLO-E).",
+      "Attribut-Cap-Warnung beim Load: alle Attribute auf 3 trotz Lvl 900+. Spieler hat Option 1 gewählt — keine Korrektur, Werte bleiben."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [
+        "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+        "SAVE-SPLIT-EP12-MS10-SQUAD-ABCD"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    },
+    "hud": [],
+    "psi": [],
+    "arena_psi": []
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; Chronopolis-Embargo"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 12,
+      "mission": 10,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": "SPLIT-EP12-MS10-KAIROS",
+      "thread_id": "SQUAD-ABCD",
+      "expected_threads": [
+        "SQUAD-ABCD",
+        "SOLO-E"
+      ],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [
+      {
+        "char_id": "AGENT-E",
+        "tone": "abwesend",
+        "text": "Echo verfolgt eine separate Spur — getrennt operierend, selbe Familie."
+      }
+    ],
+    "shared_echoes": [
+      {
+        "tag": "kairos-gegenoffensive",
+        "scope": "campaign",
+        "text": "KAIROS-Gegenoffensive läuft. Squad-Branch übernimmt Hauptstrang."
+      },
+      {
+        "tag": "chronopolis-embargo",
+        "scope": "campaign",
+        "text": "Chronopolis-Embargo aktiv. Status offen."
+      },
+      {
+        "tag": "split-ep12-origin",
+        "scope": "shared",
+        "text": "Squad (A/B/C/D) und Echo (E) getrennt operierend ab EP12/MS10. family_id: SPLIT-EP12-MS10-KAIROS."
+      }
+    ],
+    "convergence_tags": [
+      "SPLIT-EP12-MS10-KAIROS"
+    ],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": [
+      "Solo-Spur Echo (SOLO-E): Ergebnis ausstehend — bei Konvergenz zusammenführen.",
+      "KAIROS-Gegenoffensive: nächster Einsatz Squad-Branch."
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person",
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    }
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "single",
+    "tier": 1,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "none"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "sim"
+  }
+}

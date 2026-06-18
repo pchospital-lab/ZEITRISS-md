@@ -1,0 +1,399 @@
+[13:02:29] === PHASE START: phase2c-group-mission1-full ===
+[13:02:29] Spieler: ['jonas', 'kim', 'sarah']
+[13:02:29] Max turns: 80
+[13:02:29] >>> GRUPPE: Spiel starten (gruppe klassisch)
+[13:02:29] 
+--- Turn 1 ---
+[13:02:44] <<< SL (27959p/375c/15.3s, cum=28334): # ZEITRISS — Gruppenstart (klassisch)  ---  Gruppenstart bestätigt. Ansprache: **Ihr**. [1]  Bevor w
+[13:02:49] >>> JONAS (Jonas): Wir sind 3 Spieler. Ich würde gerne `selbst bauen` — ich mag es, meine Attribute
+[13:02:52] >>> KIM (Kim): wir sind zu zweit! ich und sarah 😊 was ist TEMP und SYS?? klingt nach sci-fi
+[13:02:55] >>> SARAH (Mara Voss): Wir sind 3 Spieler! Ich hab meinen Charakter schon — Mara Voss, Callsign SPLINTE
+[13:02:56] 
+--- Turn 2 ---
+[13:03:24] <<< SL (27499p/922c/27.3s, cum=56755): # ZEITRISS — Gruppenstart · 3 Spieler  ---  Drei Spieler, verstanden. Kurze Rollcall-Bestätigung:  |
+[13:03:30] >>> JONAS (Jonas): Okay, 18 Punkte, alles klar. Ich will einen Nahkampf-Tank spielen, der sich auch
+[13:03:33] >>> KIM (Kim): okay das ist SO viel text 😅 ähm. was ist ein paradoxon-index??
+[13:03:37] >>> SARAH (Mara Voss): Okay, also Mara ist definitiv die stille Beobachterin — kein Psi-Kram, das passt
+[13:03:38] 
+--- Turn 3 ---
+[13:04:08] <<< SL (30127p/975c/30.0s, cum=87857): # ZEITRISS — Charakterbau · Runde 2  ---  ## Jonas — Attributcheck ✓  **STR 5 · GES 4 · INT 2 · CHA 
+[13:04:16] >>> JONAS (Jonas): Okay, das Würfelsystem check ich — also quasi wie ein Stufensystem, ähnlich wie 
+[13:04:19] >>> KIM (Kim): okay ich will jemanden der gut reden kann 😄 also option 2? vibe wäre so... charm
+[13:04:24] >>> SARAH (Mara Voss): Okay cool, Hintergrund für Mara: Ex-Kriminaltechnikerin beim BKA, ist nach einem
+[13:04:25] 
+--- Turn 4 ---
+[13:05:25] <<< SL (31666p/1489c/60.2s, cum=121012): # ZEITRISS — Charakterbau · Runde 3  ---  ## Jonas / REBAR — Cyberware-Auswahl  Kein geschlossener K
+[13:05:33] >>> JONAS (Jonas): Okay, alle drei Implantate nehme ich — die ergänzen sich gut. Subdermal-Mesh als
+[13:05:37] >>> KIM (Kim): okay wow das ist viel text 😅
+
+aber ja das klingt gut!! CHA 6 ich bin die Stimme 
+[13:05:42] >>> SARAH (Mara Voss): Bogen sieht perfekt aus, danke! Tatortanalyse + Scanner ist genau der Combo den 
+[13:05:43] 
+--- Turn 5 ---
+[13:06:29] <<< SL (33864p/1443c/46.4s, cum=156319): # ZEITRISS — Charakterbau · Runde 4  ---  ## Jonas / REBAR — Regelantwort: Talent-Bonus  Gute Frage,
+[13:06:33] >>> JONAS (Jonas): Okay, danke — das ist tatsächlich cleaner als SR. Kein "würfel mehr Würfel", ein
+[13:06:36] >>> KIM (Kim): okay also hintergrund... sie hat irgendwo gearbeitet wo viel geredet wird und da
+[13:06:41] >>> SARAH (Mara Voss): Okay cool, also bei mir wäre das dann: W6 + 2 (INT-Hälfte) + 2 (Tatortanalyse) +
+[13:06:42] 
+--- Turn 6 ---
+[13:07:49] <<< SL (35005p/2340c/67.2s, cum=193664): # ZEITRISS — Charakterbau · Runde 5  ---  ## Jonas / Marek Schulz / REBAR — Bestätigt  Marek Schulz.
+[13:07:54] >>> JONAS (Jonas): Marek Schulz, ja — passt gut. Kurze Frage zum Bogen: der Myo-Booster gibt +2 auf
+[13:07:56] >>> KIM (Kim): okay wow das ist viel text 😅 aber ich hab meinen bogen gesehen! Lea klingt so co
+[13:08:00] >>> SARAH (Mara Voss): Okay der Bogen sieht perfekt aus, danke! Und die Tabelle mit dem Auto-Erfolg mac
+[13:08:01] 
+--- Turn 7 ---
+[13:08:37] <<< SL (37664p/1133c/35.4s, cum=232461): # ZEITRISS — Regelcheck & Los geht's  ---  ## Jonas / REBAR — Myo-Booster konkret  Gute Frage, und n
+[13:08:42] >>> JONAS (Jonas): Okay, verstanden — der Booster ist quasi ein Situationsbonus der sich sauber sta
+[13:08:45] >>> KIM (Kim): "okay TEMP hab ich glaub verstanden?? also Lea spürt irgendwas bevor die anderen
+[13:08:49] >>> SARAH (Mara Voss): Voss lehnt an der Wand und mustert Mira kurz.
+
+Ich frag mal: Was genau meint sie
+[13:08:50] 
+--- Turn 8 ---
+[13:09:24] <<< SL (39401p/1106c/33.9s, cum=272968): `Kodex: Szene 1 — Quarzatrium · ITI-Hauptquartier · 07:00 Uhr (Nullzeit).`  ---  Das Quarzatrium ist
+[13:09:29] >>> JONAS (Jonas): Okay, der Deepsave-Mechanismus macht Sinn — klingt ein bisschen wie ein Quicksav
+[13:09:32] >>> KIM (Kim): okay warte kurz — "Deepsave" heißt wenn ich sterbe laden die mich einfach neu? w
+[13:09:37] >>> SARAH (Mara Voss): Voss schiebt sich von der Wand ab und sagt ruhig: "Noch eine — wer entscheidet o
+[13:09:38] 
+--- Turn 9 ---
+[13:10:13] <<< SL (40688p/1062c/34.6s, cum=314718): `Kodex: Szene 2 — Quarzatrium → HQ-Rundgang · Nullzeit.`  ---  Mira beantwortet die Fragen in der Re
+[13:10:17] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Hangar klingt interessant — ich würd gern mal eine Sprungkammer
+[13:10:20] >>> KIM (Kim): okay wow das ist alles sehr viel 😅
+
+aber ich glaub ich will zum hangar? die spru
+[13:10:24] >>> SARAH (Mara Voss): Okay ich versuch's mal mit Vargas. Voss tritt einen Schritt vor, Haltung entspan
+[13:10:25] 
+--- Turn 10 ---
+[13:11:10] <<< SL (41846p/1440c/44.7s, cum=358004): `Kodex: Szene 3 — Hangar-Axis + Operations-Deck · Nullzeit · 07:15 Uhr.`  ---  Mira nickt knapp. *„H
+[13:11:16] >>> JONAS (Jonas): Ich geh in den Hangar — das interessiert mich. Die Kammern klingen wild.
+
+Frage 
+[13:11:20] >>> KIM (Kim): warte mal kurz — "zieht euch auseinander"?? meint er das wörtlich oder ist das s
+[13:11:24] >>> SARAH (Mara Voss): okay knapp gescheitert, klassisch 😅 aber immerhin hat Vargas geredet
+
+Voss nickt
+[13:11:25] 
+--- Turn 11 ---
+[13:12:06] <<< SL (43820p/1283c/40.4s, cum=403107): `Kodex: Szene 4 — Hangar-Axis · Nullzeit · 07:22 Uhr.`  ---  Alle drei landen im Hangar. Der Technik
+[13:12:11] >>> JONAS (Jonas): Ich trete kurz zu Kammer Eins und halte die Hand rein — nicht weit, nur die Fing
+[13:12:15] >>> KIM (Kim): puh, okay. ich glaub ich hab die hälfte nicht verstanden lol
+
+aber das mit dem e
+[13:12:20] >>> SARAH (Mara Voss): Voss tritt langsam auf Kammer Eins zu und streckt die Hand rein — nicht weit, nu
+[13:12:21] 
+--- Turn 12 ---
+[13:12:51] <<< SL (45241p/906c/30.7s, cum=449254): `Kodex: Szene 5 — Hangar-Axis · Kammer Eins · Nullzeit · 07:31 Uhr.`  ---  Alle drei stehen jetzt vo
+[13:12:57] >>> JONAS (Jonas): „Offener Anker..." *kurze Pause* „Also ihr wisst nicht mal ob die Person noch ex
+[13:13:00] >>> KIM (Kim): "warte mal — offener Anker heißt der ist einfach... weg? Für immer?"
+[13:13:03] >>> SARAH (Mara Voss): Voss lässt den Blick kurz zu Kammer Zwei wandern, dann zurück zu Denz.
+
+"Offener
+[13:13:04] 
+--- Turn 13 ---
+[13:13:28] <<< SL (46487p/734c/23.4s, cum=496475): `Kodex: Szene 6 — Hangar-Axis · Kammer Eins · Nullzeit · 07:38 Uhr.`  ---  Denz hört alle drei Frage
+[13:13:30] >>> JONAS (Jonas): Okay, unter ein Prozent ist besser als ich dachte. Trotzdem — "irgendwo zwischen
+[13:13:35] >>> KIM (Kim): okay also "irgendwo zwischen zwei Kalibrierpunkten" klingt brutal ehrlich gesagt
+[13:13:38] >>> SARAH (Mara Voss): Okay ich glaub ich hab genug für heute Nacht. Voss sieht Denz kurz an und nickt 
+[13:13:39] 
+--- Turn 14 ---
+[13:14:50] <<< SL (46938p/4042c/71.2s, cum=547455): `Kodex: Szene 7 — Quartiere · Nullzeit · 07:51 Uhr.`  ---  Denz nickt der Gruppe zu. Kein Abschiedsw
+[13:14:53] >>> JONAS (Jonas): Okay ich les mal kurz den Export durch — Marek schaut aufs Comlink, liest die Na
+[13:14:58] >>> KIM (Kim): warte mal kurz — was ist ein "Deepsave"? ist das anders als ein normaler save?
+[13:15:01] >>> SARAH (Mara Voss): !save
+
+okay das nehm ich mit in den neuen chat. Voss schläft also mit Rücken zur
+[13:15:02] 
+--- Turn 15 ---
+[13:15:20] <<< SL (51440p/428c/17.8s, cum=599323): `Kodex: HQ-Zustand stabil. Deepsave bereits ausgegeben — JSON oben ist euer aktueller Stand.`  ---  
+[13:15:24] >>> JONAS (Jonas): Okay, hab den JSON-Block — kurze Frage bevor wir in den neuen Chat wechseln: Ist
+[13:15:26] >>> KIM (Kim): okay warte — was ist ein JSON-Block? soll ich da irgendwas kopieren? 😅
+[13:15:28] >>> SARAH (Mara Voss): Okay, JSON ist gespeichert. Mara geht schon vor — Briefingraum, offene Tür, wir 
+[13:15:29] 
+--- Turn 16 ---
+[13:15:48] <<< SL (51627p/466c/18.7s, cum=651416): ## Letzte Fragen vor dem Sprung  ---  **Jonas — Save-Slots:**  Technisch unbegrenzt — ihr könnt so v
+[13:15:51] >>> JONAS (Jonas): Okay cool, verstanden. Also quasi wie Savegame-Dateien manuell verwalten — ich p
+[13:15:54] >>> KIM (Kim): okay also ich kopier den ganzen krams mit den klammern und dann einfach in neuen
+[13:15:56] >>> SARAH (Mara Voss): Alright, Splinter ist bereit. Ich kopier mir den JSON gleich rüber — war das eig
+[13:15:57] 
+--- Turn 17 ---
+[13:16:15] <<< SL (52991p/336c/17.8s, cum=704743): ## Letzte Antworten — dann ab in den neuen Chat  ---  **Jonas:** Genau so [6]. JSON in eine Textdate
+[13:16:17] >>> JONAS (Jonas): Alright, bin dabei. Jacke an, Briefingraum. Bis drüben!
+[13:16:19] >>> KIM (Kim): okay warte ich check das noch nicht ganz 😅 ich muss jetzt einfach diesen JSON-Bl
+[13:16:22] >>> SARAH (Mara Voss): Okay nice, Deepsave ist raus. Mara lehnt an der Tür und wartet nicht auf die and
+[13:16:23] 
+--- Turn 18 ---
+[13:16:38] <<< SL (52755p/265c/15.0s, cum=757763): ## Letzter Beat vor dem Sprung  ---  **Jonas:** Jacke an, Tür auf, Gang. Marek wartet auf niemanden 
+[13:16:39] >>> JONAS (Jonas): Warte mal kurz — wir brechen hier ab und machen einen neuen Chat auf? Hab ich da
+[13:16:41] >>> KIM (Kim): okay warte kurz — "neuer Chat"? ich muss jetzt wirklich einen neuen chat aufmach
+[13:16:44] >>> SARAH (Mara Voss): Voss läuft schon. "SPLINTER unterwegs — wer bremst, bleibt zurück."
+
+!save
+[13:16:45] 
+--- Turn 19 ---
+[13:17:03] <<< SL (53358p/377c/18.4s, cum=811498): ## Kurze Meta-Pause — ja, das ist real  ---  **Jonas & Kim:** Ja, das ist real — kein Teil vom Spiel
+[13:17:05] >>> JONAS (Jonas): Alright, verstanden. Kopiere den JSON jetzt raus und mach einen neuen Chat auf. 
+[13:17:07] >>> KIM (Kim): warte kurz – was ist ein JSON-Block? 😅 wo ist der genau?
+[13:17:10] >>> SARAH (Mara Voss): okay verstanden! ich hol mir den json-block — bis im neuen chat, Briefing 07:00 
+[13:17:11] 
+--- Turn 20 ---
+[13:17:25] <<< SL (54555p/280c/13.7s, cum=866333): ## Letzter Stop — dann wirklich los  ---  **Jonas:** Perfekt. Bis drüben!  ---  **Kim:** Der JSON-Bl
+[13:17:28] >>> JONAS (Jonas): Warte kurz — ich hab noch keinen JSON-Block für meinen Char, oder? Wir haben den
+[13:17:30] >>> KIM (Kim): okay warte ich glaub ich hab den block gefunden? ist das der lange mit den ganze
+[13:17:32] >>> SARAH (Mara Voss): Bis drüben ihr zwei! 🫡 Voss ist bereit.
+[13:17:33] 
+--- Turn 21 ---
+[13:17:48] <<< SL (54788p/282c/14.8s, cum=921403): ## Kurze Antwort — dann wirklich los  ---  **Jonas:** Dein Charakter ist komplett im JSON drin [3]. 
+[13:17:51] >>> JONAS (Jonas): Warte kurz — ich find den JSON-Block gerade nicht auf Anhieb. Welche Nummer hat 
+[13:17:54] >>> KIM (Kim): warte kurz — "gute jagd"?? das klingt so cool 😭 okay ich bin ready. wann geht's 
+[13:17:56] >>> SARAH (Mara Voss): !save
+
+Bis morgen früh, 07:00 Uhr. Voss schläft nicht — aber sie lässt den Scann
+[13:17:57] 
+--- Turn 22 ---
+[13:18:17] <<< SL (55002p/378c/20.0s, cum=976783): ## Letzte Antworten — wirklich letzte  ---  **Jonas:** Den JSON-Block nicht nach Beitragsnummer such
+[13:18:20] >>> JONAS (Jonas): Warte mal kurz — ich blick da gerade nicht ganz durch. Was ist das für eine Nach
+[13:18:23] >>> KIM (Kim): okay ich find den Block glaub ich? ist das dieser riesige ding mit ganz viel tex
+[13:18:25] >>> SARAH (Mara Voss): Okay cool, ich such den Block. Gute Jagd zusammen — bis drüben!
+[13:18:26] 
+--- Turn 23 ---
+[13:18:42] <<< SL (55815p/327c/16.6s, cum=1032925): ## Kurze Orientierung — alles gut  ---  **Jonas:** Keine Sorge, ihr habt noch nicht gespielt [1]. Wa
+[13:18:46] >>> JONAS (Jonas): Warte mal kurz — ich glaub ich steh auf dem Schlauch. Wir haben doch heute erst 
+[13:18:49] >>> KIM (Kim): warte kurz — ich soll den riesigen textblock kopieren und dann einfach in einen 
+[13:18:53] >>> SARAH (Mara Voss): Okay nice, dann bis drüben! SPLINTER ist ready. 🫡
+[13:18:54] 
+--- Turn 24 ---
+[13:19:14] <<< SL (56023p/454c/19.9s, cum=1089402): ## Kurze Orientierung — alles gut, Jonas  ---  **Jonas:** Ihr habt heute tatsächlich schon einiges g
+[13:19:16] >>> JONAS (Jonas): Alright, verstanden! Also Marek ist fertig und wartet im Deepsave. Bin gespannt 
+[13:19:19] >>> KIM (Kim): okay warte ich check das kurz 😅 ich muss also diesen riesigen textblock kopieren
+[13:19:22] >>> SARAH (Mara Voss): Alright, Deepsave ist gespeichert, bis im neuen Chat! 🫡
+[13:19:23] 
+--- Turn 25 ---
+[13:19:36] <<< SL (56831p/227c/13.2s, cum=1146460): ## Los geht's — wirklich jetzt  ---  **Jonas:** Marek ist bereit. Bis drüben! 🤙  ---  **Kim:** Genau
+[13:19:39] >>> JONAS (Jonas): Warte mal kurz — ich blick da noch nicht ganz durch. Was genau soll ich kopieren
+[13:19:41] >>> KIM (Kim): okay warte ich blick da gerade nicht ganz durch 😅 was ist ein "Deepsave" und war
+[13:19:43] >>> SARAH (Mara Voss): Bis drüben ihr zwei! 🫡 Voss ist ready. !save
+[13:19:44] 
+--- Turn 26 ---
+[13:20:05] <<< SL (57099p/527c/21.7s, cum=1204086): ## Kurze Orientierung — alles gut, wirklich  ---  **Jonas & Kim:** Ihr habt heute tatsächlich schon 
+[13:20:08] >>> JONAS (Jonas): Okay, verstanden! Kopiere den JSON-Block gleich. Bis drüben im neuen Chat — bin 
+[13:20:10] >>> KIM (Kim): okay warte ich check das kurz 😅
+
+also ich muss diesen { } block kopieren und dan
+[13:20:12] >>> SARAH (Mara Voss): okay alles klar! ich such mal den JSON-Block… einen moment
+
+gefunden, ist kopier
+[13:20:13] 
+--- Turn 27 ---
+[13:20:27] <<< SL (58308p/222c/13.9s, cum=1262616): ## Letzter Beat — wirklich jetzt  ---  **Jonas:** Perfekt. Bis drüben! 🤙  ---  **Kim:** Genau so [1]
+[13:20:30] >>> JONAS (Jonas): Warte kurz — ich check nochmal ob ich den JSON-Block richtig hab. Also einfach a
+[13:20:33] >>> KIM (Kim): warte mal kurz – ich soll jetzt wirklich einen neuen chat aufmachen? oder ist da
+[13:20:34] >>> SARAH (Mara Voss): !save
+
+Perfekt, verstanden! Voss ist bereit für 07:00. Bis im neuen Chat 👋
+[13:20:35] 
+--- Turn 28 ---
+[13:20:51] <<< SL (57551p/377c/15.8s, cum=1320544): ## Letzte Antworten — dann wirklich los  ---  **Jonas:** Genau so [1]. Alles zwischen den geschweift
+[13:20:55] >>> JONAS (Jonas): Warte mal kurz — ich blick da grad nicht ganz durch. Was soll ich da genau kopie
+[13:20:57] >>> KIM (Kim): okay warte ich check das noch nicht ganz 😅 wo ist denn dieser JSON-Block den ich
+[13:20:59] >>> SARAH (Mara Voss): Okay, bis drüben! 👋
+
+!save
+[13:21:00] 
+--- Turn 29 ---
+[13:21:16] <<< SL (58218p/363c/16.1s, cum=1379125): ## Kurze Pause — echte Antwort  ---  **Jonas & Kim:** Ihr habt recht, das war verwirrend. Hier die e
+[13:21:19] >>> JONAS (Jonas): Okay danke, das ist viel klarer! Dann machen wir hier weiter — "Briefing starten
+[13:21:21] >>> KIM (Kim): okay ich check das nicht komplett aber "briefing starten" klingt gut, lass uns e
+[13:21:23] >>> SARAH (Mara Voss): Okay, ich bin dabei — Briefing starten! Voss ist bereit.
+[13:21:24] 
+--- Turn 30 ---
+[13:21:58] <<< SL (59183p/1159c/33.9s, cum=1439467): # ZEITRISS — Episode 1 · Mission 1  ---  ``` EP 1 · MS 1 · SC 00/-- · PHASE Briefing · MODE CORE · C
+[13:22:04] >>> JONAS (Jonas): Ich nehme die Mappe und schlage sie auf, überfliege erstmal den ersten Teil.
+
+Da
+[13:22:06] >>> KIM (Kim): puh, okay. Was ist REBAR, das bin ich oder? Und warum hab ich mehr LP als die an
+[13:22:11] >>> SARAH (Mara Voss): Ich greife nach der Mappe und schlage sie auf, aber eigentlich interessiert mich
+[13:22:12] 
+--- Turn 31 ---
+[13:22:44] <<< SL (60702p/1029c/32.1s, cum=1501198): `Kodex: Szene 1 — Briefingraum · ITI-Hauptquartier · 07:00 Uhr (Nullzeit).`  ---  Mira hört alle dre
+[13:22:48] >>> JONAS (Jonas): Kurze Frage bevor wir zur Mappe gehen — der Mann auf dem Foto, haben wir irgendw
+[13:22:51] >>> KIM (Kim): okay also ich bin STATIC / Lea, hab ich's 😄
+
+aber ich hätte noch ne Frage zu dem
+[13:22:54] >>> SARAH (Mara Voss): Ich frag kurz nach bevor wir gehen — Mira, Hartmann: wie vorsichtig müssen wir s
+[13:22:55] 
+--- Turn 32 ---
+[13:23:22] <<< SL (61846p/792c/27.3s, cum=1563836): `Kodex: Szene 1 — Briefingraum · ITI-Hauptquartier · 07:00 Uhr (Nullzeit).`  ---  Mira hört alle dre
+[13:23:27] >>> JONAS (Jonas): Warte mal kurz bevor wir springen — die Legende für Hartmann sollten wir jetzt k
+[13:23:29] >>> KIM (Kim): okay warte kurz — was ist eine "Legende"? meint sie damit dass wir lügen müssen?
+[13:23:34] >>> SARAH (Mara Voss): Ich würd noch kurz die Legende mit Mira durchgehen bevor wir springen — Voss fra
+[13:23:35] 
+--- Turn 33 ---
+[13:23:59] <<< SL (62659p/680c/23.4s, cum=1627175): `Kodex: Szene 1 — Briefingraum · Nullzeit · 07:08 Uhr. Legenden-Briefing.`  ---  Mira hört zu. Sie n
+[13:24:04] >>> JONAS (Jonas): Kurze Regeltech-Frage bevor ich mich festlege: Wenn Lea mit Hartmann redet und i
+[13:24:07] >>> KIM (Kim): okay warte — ich hab noch ne frage zur kleidung 😅 wir können doch nicht in jeans
+[13:24:11] >>> SARAH (Mara Voss): Kurz zu Kim: ja, genau so hab ich das auch verstanden gestern, Legende = die Lüg
+[13:24:12] 
+--- Turn 34 ---
+[13:24:42] <<< SL (64263p/902c/29.4s, cum=1692340): `Kodex: Szene 1 — Briefingraum · Nullzeit · 07:12 Uhr. Letzte Absprachen.`  ---  Mira hört alle drei
+[13:24:48] >>> JONAS (Jonas): Okay, Kleidung nehmen und dann Absprung — aber kurz noch: Wenn die Situation kip
+[13:24:52] >>> KIM (Kim): okay cool, also ich schnappe mir einfach die Kleidung und dann los? ich will das
+[13:24:56] >>> SARAH (Mara Voss): Okay ich schnapp mir die Kleidung aus dem Schrank — Mara würde sowieso nicht lan
+[13:24:57] 
+--- Turn 35 ---
+[13:25:30] <<< SL (65716p/1000c/32.7s, cum=1759056): `Kodex: Briefing abgeschlossen. Absprung vorbereitet. Bochum, 12. November 1977.`  ---  **An Jonas —
+[13:25:37] >>> JONAS (Jonas): Okay, Mechanik hab ich — deutlich schlichter als SR, gefällt mir eigentlich.
+
+Ku
+[13:25:39] >>> KIM (Kim): okay ich geh rein. mara geht eh schon vor also ich einfach hinterher oder?
+[13:25:42] >>> SARAH (Mara Voss): Voss dreht sich nochmal zu Denz um. "Wenn wir ankommen — merken wir sofort dass 
+[13:25:43] 
+--- Turn 36 ---
+[13:26:16] <<< SL (66501p/1016c/32.7s, cum=1826573): Denz hört beide Fragen ab. Er lehnt sich kurz gegen den Kammerrahmen.  **An Marek — Drift-Protokoll:
+[13:26:23] >>> JONAS (Jonas): Okay, Ankunft bestätigt, das ist schon cool. Drei Minuten Drift, das zählt also 
+[13:26:26] >>> KIM (Kim): puh, okay. Ich glaub ich geh zur Uni? Ilse Hartmann treffen klingt am wichtigste
+[13:26:32] >>> SARAH (Mara Voss): okay der Moment wo das Licht umschlägt war surreal, ich hab kurz nicht gewusst w
+[13:26:33] 
+--- Turn 37 ---
+[13:27:11] <<< SL (68120p/1184c/38.0s, cum=1895877): `Kodex: Szene 3 — Bochum-Wattenscheid · Bahnhofsnähe · 09:07 Uhr · 12.11.1977.`  ---  **An Jonas — D
+[13:27:19] >>> JONAS (Jonas): Okay, Mara hat also drei Verdachtspunkte identifiziert — gutes Auge. Ich würde s
+[13:27:21] >>> KIM (Kim): okay puh, das ist viel 😅
+
+kann Lea einfach rübergehen und den Typen im Auto frag
+[13:27:27] >>> SARAH (Mara Voss): Okay die drei Dinge — Voss meldet leise ins Comlink: "Wir werden beobachtet. Ope
+[13:27:28] 
+--- Turn 38 ---
+[13:28:10] <<< SL (69908p/1531c/41.6s, cum=1967316): `Kodex: Szene 3 — Bochum-Wattenscheid · 09:09 Uhr · 12.11.1977. Aufteilen.`  ---  **Kurze Regelantwo
+[13:28:15] >>> JONAS (Jonas): Kennzeichen melden würde ich sofort machen, das kostet uns keine Zeit — Comlink 
+[13:28:18] >>> KIM (Kim): okay puh. also der typ an der ecke guckt die ganze zeit falsch rum, das ist doch
+[13:28:23] >>> SARAH (Mara Voss): Okay das mit der Miss ärgert mich, aber die INT-Probe hat's gerettet. 😅
+
+Ich wür
+[13:28:24] 
+--- Turn 39 ---
+[13:29:05] <<< SL (71619p/1403c/40.8s, cum=2040338): `Kodex: Szene 3 — Bochum-Wattenscheid · 09:11 Uhr · 12.11.1977. Comlink aktiv.`  ---  **Schnelle Reg
+[13:29:11] >>> JONAS (Jonas): Ich würd sagen Option 3 — Bahn nehmen und beobachten ob jemand mitsteigt. Hartma
+[13:29:14] >>> KIM (Kim): okay ich check das nicht alles aber — nehmen wir einfach die Bahn? Hartmann ist 
+[13:29:20] >>> SARAH (Mara Voss): Okay ich tendiere zu Option 3, aber mit einem kleinen Twist — Voss steigt mit ei
+[13:29:21] 
+--- Turn 40 ---
+[13:30:02] <<< SL (73358p/1216c/40.8s, cum=2114912): `Kodex: Szene 4 — Straßenbahn 302 · Bochum · 09:14 Uhr · 12.11.1977.`  ---  **Kurze Regelantworten:*
+[13:30:07] >>> JONAS (Jonas): Okay, das Telefon ist weird. Das flaggen wir definitiv — das klingt nicht nach n
+[13:30:10] >>> KIM (Kim): warte mal kurz — das telefon das nicht existieren sollte... bedeutet das die bes
+[13:30:16] >>> SARAH (Mara Voss): okay der kritische erfolg hat sich gelohnt 😅
+
+Voss meldet sich ruhig über Comlin
+[13:30:17] 
+--- Turn 41 ---
+[13:31:09] <<< SL (74998p/1119c/52.4s, cum=2191029): `Kodex: Anachronistisches Mobilgerät gemeldet. Flag aktiv — mögliche Drittpartei mit Zeitreise-Hinte
+[13:31:14] >>> JONAS (Jonas): Kurze Frage bevor wir reingehen — wenn Meridian-Leute auf dem Campus sind, könne
+[13:31:16] >>> KIM (Kim): okay warte ich check das noch nicht ganz 😅 was ist "Drittpartei-Flag"? bedeutet 
+[13:31:21] >>> SARAH (Mara Voss): Ich würd sagen erst kurz orientieren bevor wir reingehen — Voss checkt unauffäll
+[13:31:22] 
+--- Turn 42 ---
+[13:31:58] <<< SL (76340p/1181c/35.9s, cum=2268550): `Kodex: Szene 6 — Campus RUB · Eingangsbereich Gebäude NA · 09:34 Uhr · 12.11.1977.`  ---  **Kurze R
+[13:32:03] >>> JONAS (Jonas): Ich würd sagen Seiteneingang. Wir wissen dass die uns noch nicht identifiziert h
+[13:32:07] >>> KIM (Kim): okay ich glaub ich hab das — die zwei typen beim fahrrad sind böse und wir solle
+[13:32:12] >>> SARAH (Mara Voss): Seiteneingang. Voss sagt leise: "Wir geben denen keinen Grund uns zu speichern, 
+[13:32:13] 
+--- Turn 43 ---
+[13:32:48] <<< SL (77719p/1161c/35.7s, cum=2347430): `Kodex: Szene 6 — Campus RUB · Seiteneingang · 09:36 Uhr · 12.11.1977.`  ---  **Regelantworten kurz:
+[13:32:55] >>> JONAS (Jonas): Okay, Exploding Dice bei Lea — schön, kannte ich noch nicht so. Also der W6 expl
+[13:32:58] >>> KIM (Kim): okay wir sind drin, cool!! 😄
+
+aber warte — was ist "SC 7/12"? und was bedeutet "
+[13:33:04] >>> SARAH (Mara Voss): Okay knapp aber drin, ich nehme das 😅
+
+Voss lehnt kurz an die Wand, hört in den 
+[13:33:05] 
+--- Turn 44 ---
+[13:33:36] <<< SL (78427p/973c/30.8s, cum=2426830): `Kodex: Szene 7 — Gebäude NA · Erdgeschoss-Korridor · 09:38 Uhr · 12.11.1977.`  ---  **Kurze Regelan
+[13:33:40] >>> JONAS (Jonas): Ich tippe Option 2 — kurz lauschen macht Sinn bevor wir reingehen. Wenn sie grad
+[13:33:43] >>> KIM (Kim): okay also Lea klopft einfach? ich würde sagen option 1 aber kurz davor noch laus
+[13:33:46] >>> SARAH (Mara Voss): Ich würde erst lauschen — INT-Probe für Mara? Mit Tatortanalyse wär das +2, also
+[13:33:47] 
+--- Turn 45 ---
+[13:34:30] <<< SL (79825p/1338c/42.7s, cum=2507993): `Kodex: Szene 7 — Gebäude NA · Korridor Ebene 3 · 09:41 Uhr · 12.11.1977.`  ---  **Regelantwort kurz
+[13:34:35] >>> JONAS (Jonas): Ich würde sagen 1 + 2 gleichzeitig — Lea hält Hartmann beschäftigt mit dem Inter
+[13:34:37] >>> KIM (Kim): puh, okay. ich glaub ich mach 1 UND 2 gleichzeitig? lea redet und mara schaut si
+[13:34:41] >>> SARAH (Mara Voss): Okay ich kombiniere 1 und 2 — Lea macht das Interview, und Mara nutzt die Zeit u
+[13:34:42] 
+--- Turn 46 ---
+[13:35:22] <<< SL (82446p/1302c/40.1s, cum=2591741): `Kodex: Szene 8 — Büro 303 · Gebäude NA · 09:43 Uhr · 12.11.1977.`  ---  **Regelantwort — geteilte A
+[13:35:29] >>> JONAS (Jonas): Interessant — also kein Split sondern Parallel-Proben mit Malus auf die "verstec
+[13:35:32] >>> KIM (Kim): puh, okay. Ich glaub Lea soll jetzt irgendwas über die Aktentasche sagen? Die li
+[13:35:37] >>> SARAH (Mara Voss): Okay ich geh mit Option 4 — Mara hat das Foto gesehen, aber ich will nicht die L
+[13:35:38] 
+--- Turn 47 ---
+[13:36:20] <<< SL (83995p/1330c/41.2s, cum=2677066): `Kodex: Szene 8 — Büro 303 · Gebäude NA · 09:46 Uhr · 12.11.1977.`  ---  **Regelantworten kurz:**  *
+[13:36:25] >>> JONAS (Jonas): Okay, Marek bleibt erstmal wo er ist — ich will die Situation nicht eskalieren b
+[13:36:28] >>> KIM (Kim): puh, okay. also Marek soll reinkommen? ich geh mal auf Option 3 — er tritt einfa
+[13:36:35] >>> SARAH (Mara Voss): Okay ich glaub Mara macht jetzt was — sie schiebt sich langsam vom Türrahmen weg
+[13:36:36] 
+--- Turn 48 ---
+[13:37:25] <<< SL (85922p/1393c/48.8s, cum=2764381): `Kodex: Szene 8 — Büro 303 · Gebäude NA · 09:47 Uhr · 12.11.1977. Drucksituation.`  ---  **Regelantw
+[13:37:31] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay, danke für die Klarstellung mit dem SG — macht Sinn, ein W
+[13:37:34] >>> KIM (Kim): okay wow der kritische erfolg hat mich grad richtig aufgeregt 😭
+
+aber warte — wa
+[13:37:39] >>> SARAH (Mara Voss): Okay der Kritische von Jonas war so befriedigend zu lesen 😭
+
+Mara nutzt den Mome
+[13:37:40] 
+--- Turn 49 ---
+[13:38:20] <<< SL (87984p/1280c/39.9s, cum=2853645): `Kodex: Szene 9 — Büro 303 · Gebäude NA · 09:48 Uhr · 12.11.1977.`  ---  **Kurze Antworten:**  **Jon
+[13:38:25] >>> JONAS (Jonas): Ich würd sagen Option 3 zuerst — den dritten Mann identifizieren, solange das Ge
+[13:38:27] >>> KIM (Kim): okay ich hab das mit dem flüstern nicht erwartet 👀
+
+können wir nicht einfach kur
+[13:38:32] >>> SARAH (Mara Voss): Voss zieht Lea in den Korridor, dreht sich weg vom Haupteingang. Flüstert: *„Kal
+[13:38:33] 
+--- Turn 50 ---
+[13:39:14] <<< SL (88688p/1391c/40.9s, cum=2943724): `Kodex: Szene 9 — Korridor Ebene 3 · Gebäude NA · 09:51 Uhr · 12.11.1977.`  ---  **Kurze Regelantwor
+[13:39:21] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay, Archivlücke 1976 ist für mich das interessanteste Signal 
+[13:39:27] >>> KIM (Kim): okay Klaus Berger finde ich am gruseligsten. der verschwindet einfach aus dem Ar
+[13:39:32] >>> SARAH (Mara Voss): Berger verschwindet 1976 aus dem Archiv, und Meridian ist genau jetzt aktiv — da
+[13:39:33] 
+--- Turn 51 ---
+[13:40:13] <<< SL (91845p/1426c/40.6s, cum=3036995): `Kodex: Szene 10 — Korridor Ebene 3 · Treppenhaus · 09:52 Uhr · 12.11.1977.`  ---  **Kurze Regelantw
+[13:40:19] >>> JONAS (Jonas): Okay, Helios AG klingt wie der eigentliche Faden hier. Berger arbeitet dort, dre
+[13:40:24] >>> KIM (Kim): okay helios AG klingt mega verdächtig. wer gründet einen energiekonzern und löst
+[13:40:29] >>> SARAH (Mara Voss): Okay ich glaub wir müssen den Typen jetzt ansprechen bevor Meridian das übernimm
+[13:40:30] 
+--- Turn 52 ---
+[13:41:17] <<< SL (93604p/1541c/47.9s, cum=3132140): `Kodex: Szene 10 — Universitätsstraße · Campus RUB · 09:54 Uhr · 12.11.1977.`  ---  **Regelantworten
+[13:41:23] >>> JONAS (Jonas): Ich würde sagen Option 2 zuerst — Bremer fragen was er weiß. Wenn wir ihm jetzt 
+[13:41:26] >>> KIM (Kim): okay warte ich steig kurz aus dem Kodex-Ding aus 😅
+
+was ist "CHA-Probe SG 9" — m
+[13:41:32] >>> SARAH (Mara Voss): Ich würd Option 2 nehmen, aber mit einem kleinen Vorlauf — Voss tritt einen Schr
+[13:41:33] 
+--- Turn 53 ---
+[13:42:14] <<< SL (95145p/1252c/40.9s, cum=3228537): `Kodex: Szene 11 — Fahrradschuppen · Campus RUB · 09:56 Uhr · 12.11.1977.`  ---  **Regelantworten ku
+[13:42:19] >>> JONAS (Jonas): Okay, Option 3 — Marek übernimmt. Das klingt nach meinem Char.
+
+Kurze Regelfrage
+[13:42:22] >>> KIM (Kim): warte der meridian typ sieht jetzt ZUM SCHUPPEN?? können wir nicht einfach optio
+[13:42:27] >>> SARAH (Mara Voss): okay Marek soll übernehmen, der hat eh die besseren Karten gerade
+
+aber Voss ble
+[13:42:28] 
+--- Turn 54 ---
+[13:43:04] <<< SL (96902p/1254c/35.8s, cum=3326693): `Kodex: Szene 11 — Fahrradschuppen · Campus RUB · 09:57 Uhr · 12.11.1977.`  ---  **Regelantwort Jona
+[13:43:04] 🛑 Stop-Hint erkannt: 'SC 12/12' — Phase beendet
+[13:43:04] 
+=== PHASE ENDE: Stop-Hint: SC 12/12 ===
+[13:43:04] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-27/phase2c-group-mission1-postfix-2973-2974/_bericht.md
+[13:43:04] Tokens: 3326693 (peak prompt: 96902)
+[13:43:04] Findings: 0

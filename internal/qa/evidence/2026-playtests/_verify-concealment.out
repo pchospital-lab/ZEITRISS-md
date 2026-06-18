@@ -1,0 +1,52 @@
+[21:46:47] === START Solo-Journey persona=noob max_turns=22 max_chats=3 ===
+[21:46:47] Chat #1 (Chargen/Start) — local:playtest-3be53f8fce
+[21:46:47] >>> Sarah (Opener): Spiel starten (solo klassisch)
+[21:47:19] [turn 1 / chat 1] SL (2938 chars, 61086+1051 tok, RAG=5, ~$0.20)
+[21:47:22] >>> Sarah: okay das klingt cool aber puh das ist viel text 😅 mach einfach mal 1 für mich!
+[21:47:54] [turn 2 / chat 1] SL (2306 chars, 61020+995 tok, RAG=6, ~$0.40)
+[21:47:56] >>> Sarah: okay die klingt cool! was heißt SYS nochmal? aber egal, weiter weiter 😄
+[21:48:15] [turn 3 / chat 1] SL (1412 chars, 60166+570 tok, RAG=4, ~$0.59)
+[21:48:17] >>> Sarah: ja alles da! was mach ich jetzt hier, kann ich irgendwo rumgucken?
+[21:48:34] [turn 4 / chat 1] SL (1057 chars, 61302+416 tok, RAG=7, ~$0.78)
+[21:48:36] >>> Sarah: ich geh mal zur bar, klingt am lustigsten 😄
+[21:48:54] [turn 5 / chat 1] SL (1250 chars, 62243+485 tok, RAG=6, ~$0.97)
+[21:48:56] >>> Sarah: ich frag mal 2, was hat der schon alles gesehen 👀
+[21:49:15] [turn 6 / chat 1] SL (1401 chars, 63061+544 tok, RAG=6, ~$1.17)
+[21:49:18] >>> Sarah: oh man das mit dem partner klingt krass 😳 frag ich mal 1!
+[21:49:37] [turn 7 / chat 1] SL (1295 chars, 63554+519 tok, RAG=7, ~$1.37)
+[21:49:39] >>> Sarah: oooh 😳 das ist so traurig... ich frag mal 4!
+[21:49:57] [turn 8 / chat 1] SL (1079 chars, 64019+436 tok, RAG=5, ~$1.56)
+[21:49:59] >>> Sarah: okay das war richtig gut 😭 aber was ist jetzt dieses save ding, muss ich das wirklich mach
+[21:50:15] [turn 9 / chat 1] SL (983 chars, 65200+375 tok, RAG=6, ~$1.77)
+[21:50:17] >>> Sarah: okay okay ich machs 😅 !save
+[21:51:01] [turn 10 / chat 1] SL (5600 chars, 65623+2156 tok, RAG=4, ~$2.00)
+[21:51:01]   💾 SAVE erkannt (mode=hq) -> chat01-turn10-hq.json
+[21:51:01]   🔄 CHAT-HANDOVER -> Chat #2 (local:playtest-53c8d09e4b), paste Save
+[21:51:39] [turn 11 / chat 2] SL (2552 chars, 63212+1118 tok, RAG=5, ~$2.20)
+[21:51:41] >>> Sarah: puh okay, was soll ich jetzt machen? bin ich wieder im HQ?
+[21:51:58] [turn 12 / chat 2] SL (775 chars, 60985+315 tok, RAG=6, ~$2.39)
+[21:52:00] >>> Sarah: ich glaub ich geh zu dax in die lounge! 3
+[21:52:20] [turn 13 / chat 2] SL (1274 chars, 62206+482 tok, RAG=6, ~$2.58)
+[21:52:26] >>> Sarah: kein briefing noch nein. was ist wien 1962?
+[21:52:44] [turn 14 / chat 2] SL (1287 chars, 63413+481 tok, RAG=7, ~$2.78)
+[21:52:46] >>> Sarah: was ist schiefgelaufen? wie schließt sich so ein fenster einfach?
+[21:53:04] [turn 15 / chat 2] SL (1234 chars, 62770+465 tok, RAG=5, ~$2.98)
+[21:53:06] >>> Sarah: und wo ist marcus jetzt??
+[21:53:25] [turn 16 / chat 2] SL (1350 chars, 62297+518 tok, RAG=8, ~$3.17)
+[21:53:28] >>> Sarah: okay ich mach das. ich geh nach wien und halt augen offen. wo soll ich suchen?
+[21:53:51] [turn 17 / chat 2] SL (1336 chars, 64451+501 tok, RAG=5, ~$3.37)
+[21:53:54] >>> Sarah: okay okay ich geh zum operations deck. aber dann komm ich zurück!
+[21:54:08] [turn 18 / chat 2] SL (668 chars, 66097+268 tok, RAG=3, ~$3.57)
+[21:54:09] >>> Sarah: ich geh rein. wer wartet da auf mich?
+[21:54:25] [turn 19 / chat 2] SL (1100 chars, 63861+425 tok, RAG=7, ~$3.77)
+[21:54:29] >>> Sarah: warte mal kurz, was war das gerade für ne komische nachricht da oben?? "aus einem anderen 
+[21:54:42] [turn 20 / chat 2] SL (692 chars, 66274+254 tok, RAG=7, ~$3.97)
+[21:54:44] >>> Sarah: okay krass. danke für die erklärung! also weiter — ich schau Vargas an und frag ihn was er
+[21:55:02] [turn 21 / chat 2] SL (1275 chars, 65005+471 tok, RAG=6, ~$4.18)
+[21:55:05] >>> Sarah: okay er kannte den namen sofort. das ist doch komisch oder? ich tu so als obs mir egal ist
+[21:55:23] [turn 22 / chat 2] SL (1230 chars, 66668+477 tok, RAG=5, ~$4.38)
+[21:55:26] >>> Sarah: okay 1938 prag, das ist doch kurz vor dem krieg oder? warum schicken die mich da hin, ist 
+[21:55:26] === ENDE === turns=22 chats=2 stop=max_turns saves=1 findings=0 ~$4.38
+
+SUMMARY_JSON: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-2146-solo-journey-noob/_summary.json
+OUT_DIR: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-2146-solo-journey-noob

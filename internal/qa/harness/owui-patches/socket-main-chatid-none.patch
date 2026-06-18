@@ -1,0 +1,11 @@
+--- /tmp/socket_orig.py	2026-06-15 17:10:40.970630530 +0200
++++ /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/owui-patches/socket_main.py.patched	2026-06-15 17:09:44.000000000 +0200
+@@ -899,7 +899,7 @@
+ 
+ async def get_event_emitter(request_info, update_db=True):
+     # Channel mode: route pipeline output to channel message updates
+-    if request_info.get('chat_id', '').startswith('channel:'):
++    if (request_info.get('chat_id') or '').startswith('channel:'):
+         return await _make_channel_emitter(request_info)
+ 
+     async def __event_emitter__(event_data):

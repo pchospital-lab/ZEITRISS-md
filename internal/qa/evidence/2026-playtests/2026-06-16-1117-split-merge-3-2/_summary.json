@@ -1,0 +1,13 @@
+{
+  "case": "3-2",
+  "verdict": "PASS",
+  "turns": 7,
+  "cost_usd": 0.5518,
+  "peak_prompt_tokens": 64433,
+  "avg_cache_hit": 0.918,
+  "fails": [],
+  "softs": [
+    "⚠️ [IMPORTED] merge: imported_saves als String-Array (3 Einträge) statt kanonischer Objektform [{save_id,branch_id,status}] (Modul 12)"
+  ],
+  "merge_save_captured": true
+}

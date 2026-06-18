@@ -1,0 +1,14 @@
+{
+  "turns": 5,
+  "total_records": 40,
+  "sl_turns": 5,
+  "persona_internal_r1_r2": 30,
+  "persona_final_calls": 5,
+  "total_cost_usd": 1.3581,
+  "sl_cost": 0.4051,
+  "persona_cost": 0.953,
+  "avg_cache_hit_sl": 0.51,
+  "save_failures_total": 0,
+  "save_checked_count": 0,
+  "stopped_early_budget_guard": true
+}

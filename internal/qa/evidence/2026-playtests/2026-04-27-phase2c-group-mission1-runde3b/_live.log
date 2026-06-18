@@ -1,0 +1,481 @@
+[14:47:27] === PHASE START: phase2c-group-mission1-full ===
+[14:47:27] Spieler: ['jonas', 'kim', 'sarah']
+[14:47:27] Max turns: 80
+[14:47:27] >>> GRUPPE: Spiel starten (gruppe klassisch)
+[14:47:27] 
+--- Turn 1 ---
+[14:47:44] <<< SL (29258p/455c/16.9s, cum=29713): # ZEITRISS — Gruppenstart  ---  Das ITI empfängt euch. Nicht mit Fanfare, nicht mit Zeremonien — mit
+[14:47:50] >>> JONAS (Jonas): Okay cool, wir sind zu zweit — Sarah spielt mit, sie hat mir das System empfohle
+[14:47:54] >>> KIM (Kim): okay ich glaub ich bin verwirrt 😅 ich bin Kim, ich spiel zum ersten mal überhaup
+[14:47:58] >>> SARAH (Mara Voss): Okay, ich spiele Mara Voss, Callsign SPLINTER — Infiltration & Spurenanalyse. Ic
+[14:47:59] 
+--- Turn 2 ---
+[14:48:35] <<< SL (30355p/1363c/36.2s, cum=61431): # ZEITRISS — Gruppenstart · Drei Stimmen, ein Team  ---  Willkommen, alle drei. Kurze Antworten, dan
+[14:48:43] >>> JONAS (Jonas): Okay, Werte nehme ich so wie vorgeschlagen: STR 5, GES 4, INT 2, CHA 3, TEMP 2, 
+[14:48:48] >>> KIM (Kim): okay also ich will jemanden der gut redet und irgendwie... schlau wirkt? so eine
+[14:48:51] >>> SARAH (Mara Voss): Super, SPLINTER ist drin! 🙌
+
+Ich bin gespannt wie die anderen beiden aussehen — 
+[14:48:52] 
+--- Turn 3 ---
+[14:49:36] <<< SL (31920p/1743c/44.0s, cum=95094): # Crew-Aufbau · Runde 2  ---  ## Luca Hartner / ANVIL — bestätigt ✓  Zur LP-Frage: **LP starten bei 
+[14:49:43] >>> JONAS (Jonas): Okay, Crew sieht gut aus — klassische Rollenverteilung, gefällt mir. ANVIL als N
+[14:49:45] >>> KIM (Kim): okay yuna ist perfekt!! ich behalte den namen 😄
+
+aber was ist STR 1?? sie kann n
+[14:49:50] >>> SARAH (Mara Voss): Option 1 bitte, ich will das Quarzatrium sehen! Voss schaut sich neugierig um wä
+[14:49:51] 
+--- Turn 4 ---
+[14:50:38] <<< SL (34114p/1685c/46.6s, cum=130893): # Probenformel & HQ-Ankunft  ---  ## Jonas — Probenformel (kurz & konkret)  **Endwert = Würfelwurf +
+[14:50:45] >>> JONAS (Jonas): Okay, die Formel hab ich — W6 + Hälfte Attribut + Talent, Explosionswürfel bei 6
+[14:50:48] >>> KIM (Kim): okay puh das war viel text 😅
+
+aber diese Mira klingt interessant! Yuna geht zu i
+[14:50:55] >>> SARAH (Mara Voss): Voss unterschreibt das Pad ohne es großartig zu lesen — Standardprozedur ist Sta
+[14:50:56] 
+--- Turn 5 ---
+[14:51:35] <<< SL (35933p/1245c/39.0s, cum=168071): # Quarzatrium — Mira  ---  Mira legt den Stift hin — einen echten Stift, Kugelschreiber, billig — un
+[14:51:42] >>> JONAS (Jonas): Ich lehn mich kurz zurück. Kausalitätshaftung als "halb Scherz" — das klingt nac
+[14:51:44] >>> KIM (Kim): okay warte, was ist ein Deepsave 😭 muss ich jetzt irgendwas klicken?
+[14:51:49] >>> SARAH (Mara Voss): Okay Paragraf sieben hab ich mir verdient, fair. 😅
+
+Voss dreht sich Richtung Ope
+[14:51:50] 
+--- Turn 6 ---
+[14:52:31] <<< SL (38193p/1398c/41.4s, cum=207662): # Retina-Overlay, Deepsave & Operations-Deck  ---  ## Jonas — Retina-Overlay  Das Overlay ist **pass
+[14:52:37] >>> JONAS (Jonas): Okay, das Overlay-System macht Sinn — passiv im Hintergrund, aktiv auf Anfrage. 
+[14:52:40] >>> KIM (Kim): okay warte ich check das kurz
+
+also der geschwärzte block mit dem grünen icon — 
+[14:52:45] >>> SARAH (Mara Voss): !save
+
+Kurze Frage bevor wir weitermachen — der geschwärzte Block mit dem grünen
+[14:52:46] 
+--- Turn 7 ---
+[14:54:06] <<< SL (39491p/4574c/80.3s, cum=251727): # Save-Gate · Operations-Deck  ---  ## !save — Sarah  Ihr seid noch im HQ-Erkunden, kein Debrief abg
+[14:54:11] >>> JONAS (Jonas): Okay, Luca Hartner, Callsign ANVIL — passt gut. STR 5, GES 4, das ist genau wie 
+[14:54:13] >>> KIM (Kim): puh okay. Was ist das alles? Muss ich das lesen?
+[14:54:16] >>> SARAH (Mara Voss): Oh cool, Deepsave! !save bestätigt 👍
+
+Alles klar, SPLINTER ist ready. Wann geht 
+[14:54:17] 
+--- Turn 8 ---
+[14:54:42] <<< SL (44816p/580c/24.4s, cum=297123): # Kurze Antworten, dann weiter  ---  ## Jonas — Nahkampf-Talent, nochmal knapp  **Fixer Bonus auf de
+[14:54:46] >>> JONAS (Jonas): Okay, gecheckt — also W6 plus feste Boni, kein Pool. Macht Sinn, einfacher als S
+[14:54:49] >>> KIM (Kim): okay ich glaub ich check das noch nicht ganz aber — GHOST redet mit dem Technike
+[14:54:52] >>> SARAH (Mara Voss): Okay ich geh mit Option 4 — Voss positioniert sich unauffällig zwischen Tür und 
+[14:54:53] 
+--- Turn 9 ---
+[14:55:34] <<< SL (44836p/1328c/41.3s, cum=343287): # Operations-Deck — Simultanaktion  ---  **Kim** — ja, würfeln. Das ist eine CHA-Probe, weil Yuna je
+[14:55:42] >>> JONAS (Jonas): Okay, interessant — also Voss war auf GES-Probe, weil Bewegung und Unauffälligke
+[14:55:46] >>> KIM (Kim): omg eine 13?? das ist gut oder?? 😭 okay ich glaub wir sollten zu Mira, die wirkt
+[14:55:50] >>> SARAH (Mara Voss): okay Yuna, richtig gut gespielt 👍
+
+Voss meldet sich per Comlink, Flüstermodus: "
+[14:55:51] 
+--- Turn 10 ---
+[14:56:17] <<< SL (46727p/761c/26.4s, cum=390775): # Rückzug — Atrium  ---  **Kim — ja, 13 ist sehr gut.** SG war 8, du hast ihn um 5 übertroffen. Der 
+[14:56:24] >>> JONAS (Jonas): Mira macht mir ein bisschen Sorgen gerade. Wenn sie neunzehn Jahre hier ist, wei
+[14:56:27] >>> KIM (Kim): okay mira hat aufgehört zu schreiben das ist doch kein zufall oder??
+
+ich geh ei
+[14:56:30] >>> SARAH (Mara Voss): Voss beobachtet Miras stillen Stift noch einen Moment.
+
+"Ich sag Freie Aktion — 
+[14:56:31] 
+--- Turn 11 ---
+[14:57:11] <<< SL (47892p/1317c/39.8s, cum=439984): # Mira — Das Gespräch das sie erwartet hat  ---  **Jonas — "Einschätzen"-Probe:** Ja, das gibt es. D
+[14:57:16] >>> JONAS (Jonas): „Wir wollen es wissen. Immer."
+
+Kurze Pause, dann tipp ich noch:
+
+„Und Mira — da
+[14:57:19] >>> KIM (Kim): puh, okay. ich will das wissen! das andere team — was ist denen passiert?
+[14:57:23] >>> SARAH (Mara Voss): Okay der ERFOLG fühlt sich gut an, danke Tatortanalyse 😄
+
+Voss nickt langsam und
+[14:57:24] 
+--- Turn 12 ---
+[14:57:59] <<< SL (48383p/1130c/35.3s, cum=489497): # Mira — Was sie weiß  ---  `Kodex: Szene 2 — Quarzatrium · Mira-Briefing inoffiziell.`  ---  Mira s
+[14:58:04] >>> JONAS (Jonas): Ich würde kurz unter uns reden wollen, bevor wir zu Renier gehen — Option 3.
+
+Ab
+[14:58:06] >>> KIM (Kim): puh, okay. ich frag sie was der typ genau erfunden hat, das klingt so wichtig??
+[14:58:11] >>> SARAH (Mara Voss): Aufnahme aus.
+
+Voss schaltet den Scanner ab, kein Kommentar. Dann, bevor Mira si
+[14:58:12] 
+--- Turn 13 ---
+[14:58:41] <<< SL (50252p/868c/28.7s, cum=540617): # Mira — Letzte Antwort, dann Renier  ---  **Jonas — Regellfrage:** Tatortanalyse greift bei *Szenen
+[14:58:46] >>> JONAS (Jonas): Okay, Regeltech verstanden — INT für Soziales, Talent nur für physische Szene. M
+[14:58:50] >>> KIM (Kim): "okay warte ich check das nicht ganz — wir sollen JETZT entscheiden ob wir in de
+[14:58:55] >>> SARAH (Mara Voss): okay danke für die Regelklarstellung, macht Sinn
+
+Voss schaut den anderen beiden
+[14:58:56] 
+--- Turn 14 ---
+[14:59:32] <<< SL (51967p/1148c/35.3s, cum=593732): # Entscheidung  ---  `Kodex: Szene 2 — Quarzatrium · Entscheidungspunkt.`  ---  Mira steht noch am K
+[14:59:35] >>> JONAS (Jonas): „Freie Frage — Renier sagt Baur kam *freiwillig*. Zu wem genau? Arbeitet er für 
+[14:59:37] >>> KIM (Kim): okay warte ich check das kurz
+
+also der Typ steht vor einer Karte und hat uns ge
+[14:59:40] >>> SARAH (Mara Voss): Voss lehnt sich kurz an die Wand, Blick auf die Karte. "Was war MERIDIANs letzte
+[14:59:41] 
+--- Turn 15 ---
+[15:00:12] <<< SL (52899p/978c/30.4s, cum=647609): # Renier — Drei Fragen, eine Antwort  ---  `Kodex: Szene 3 — Reniers Büro · Nullzeit.`  ---  Renier 
+[15:00:17] >>> JONAS (Jonas): Ich tipp mal Option 3 — die Abdeckung ist für mich das Wichtigste bevor ich ja s
+[15:00:21] >>> KIM (Kim): puh, okay. Ich check nicht ganz alles aber dieser Vane klingt mega suspicious?? 
+[15:00:29] >>> SARAH (Mara Voss): Voss lehnt sich vor und schaut auf die blaue Markierung. "Vane war vor Baur da —
+[15:00:30] 
+--- Turn 16 ---
+[15:01:28] <<< SL (55023p/1157c/57.2s, cum=703789): # Renier — Abdeckung & Legende  ---  **Jonas — Tarnung und Soziales im System:**  Tarnung läuft über
+[15:01:35] >>> JONAS (Jonas): Hartner, der schweigt. Okay, das passt eigentlich gut. Ich hab kein Problem dami
+[15:01:38] >>> KIM (Kim): puh, okay. Was soll ich jetzt machen? 😅
+
+ähm — Jonas sagt: "Ich fahr und halt di
+[15:01:46] >>> SARAH (Mara Voss): Voss nimmt den Umschlag mit den Papieren, schaut kurz rein, legt ihn wieder hin.
+[15:01:47] 
+--- Turn 17 ---
+[15:02:21] <<< SL (56286p/849c/34.0s, cum=760924): # Renier — Entscheidung & Absprung  ---  `Kodex: Szene 3 — Reniers Büro · Abschluss Briefing.`  --- 
+[15:02:26] >>> JONAS (Jonas): Okay ich nehm die Umschläge — aber kurze Frage noch bevor wir gehen:
+
+Der Transp
+[15:02:29] >>> KIM (Kim): puh, okay. das war viel 😅
+
+ich glaub Yuna nimmt den Umschlag mit der LERCHE-Adre
+[15:02:33] >>> SARAH (Mara Voss): Voss greift nach den Umschlägen und sieht die anderen kurz an. "Ich würd sagen w
+[15:02:34] 
+--- Turn 18 ---
+[15:03:09] <<< SL (56627p/1094c/34.7s, cum=818645): # Absprung-Vorbereitung — Letzte Details  ---  `Kodex: Szene 3 — Reniers Büro · Abschluss.`  ---  Re
+[15:03:15] >>> JONAS (Jonas): Ich würde sagen Option 1, Hangar zuerst — ich will wissen was der Lieferwagen fü
+[15:03:18] >>> KIM (Kim): okay puh. also ich bin die Assistentin die nichts sagt außer wenn Voss mich ranl
+[15:03:23] >>> SARAH (Mara Voss): Okay ich geh kurz in die Quartiere — Overlay-Briefing zu 1943 will ich nicht übe
+[15:03:24] 
+--- Turn 19 ---
+[15:04:15] <<< SL (59174p/1756c/51.4s, cum=879575): # Hangar & Quartiere — Letzte neunzig Minuten  ---  `Kodex: Szene 4 — Quartiere / Hangar-Axis · T-75
+[15:04:19] >>> JONAS (Jonas): Ich schau mir den Hohlraum nochmal genau an, dann: „Alles klar. Eine kurze Frage
+[15:04:21] >>> KIM (Kim): puh, okay. Also Yuna steigt jetzt einfach rein in die Kapsel? Ich hab keine Frag
+[15:04:25] >>> SARAH (Mara Voss): Voss lehnt kurz gegen den Lieferwagen und schaut den Techniker an. "Keine Fragen
+[15:04:26] 
+--- Turn 20 ---
+[15:05:12] <<< SL (61108p/1735c/46.4s, cum=942418): # Hangar-Axis — T-minus fünf  ---  `Kodex: Szene 4 — Hangar-Axis · T-05 Minuten.`  ---  Der Technike
+[15:05:19] >>> JONAS (Jonas): Okay, wir sind wirklich in 1943. Das Overlay ist wild, ich gewöhn mich noch dran
+[15:05:23] >>> KIM (Kim): okay wir sind wirklich da?? ich dachte das fühlt sich mehr an wie... keine ahnun
+[15:05:27] >>> SARAH (Mara Voss): Okay kurze Frage bevor ich antworte — die Waffen sind noch im Hohlraum vom Liefe
+[15:05:28] 
+--- Turn 21 ---
+[15:06:08] <<< SL (62462p/1022c/39.2s, cum=1005902): # Sarlat — Marktplatz, 09:17 Uhr  ---  `Kodex: Szene 1 — Sarlat, Marktplatz · 09:17 Uhr.`  ---  **Sa
+[15:06:13] >>> JONAS (Jonas): Okay, ich bin für Option 1 — direkt vorbei, normales Händlertempo. Mein Typ schl
+[15:06:16] >>> KIM (Kim): okay warte ich hab das nicht ganz kapiert 😅 mein char ist die Yuna oder? und ich
+[15:06:22] >>> SARAH (Mara Voss): Ich geh mit Option 3 — Yuna als Ablenkung macht am meisten Sinn, der Typ ist ein
+[15:06:23] 
+--- Turn 22 ---
+[15:07:27] <<< SL (64354p/1305c/64.0s, cum=1071561): # Rue des Tanneurs — Koordinierter Durchgang  ---  **Jonas — Probenformel:** W6 + **⌊GES/2⌋**, nicht
+[15:07:34] >>> JONAS (Jonas): Okay, Floor-Funktion — macht Sinn, danke. Also bei GES 4 bin ich zufällig bei 2 
+[15:07:36] >>> KIM (Kim): puh, okay. 😅
+
+Ich sag Option 3! Das klingt am unauffälligsten oder? Einfach so t
+[15:07:41] >>> SARAH (Mara Voss): Okay warte — GES 5 gibt nur +2? Ich dachte ⌊5/2⌋ wäre 2,5 also aufgerundet 3, ab
+[15:07:42] 
+--- Turn 23 ---
+[15:08:31] <<< SL (66168p/1082c/48.6s, cum=1138811): # Rue des Tanneurs — Durchgang vollständig  ---  `Kodex: Szene 1 — Rue des Tanneurs · 09:19 Uhr.`  -
+[15:08:36] >>> JONAS (Jonas): Ich würde Option 3 nehmen — macht Sinn als Kompromiss. ANVIL ist der Nahkämpfer,
+[15:08:38] >>> KIM (Kim): puh, okay. Was ist ANVIL, bin ich das? Ich würd sagen wir nehmen die Waffen mit,
+[15:08:42] >>> SARAH (Mara Voss): Voss nimmt eine der Walther raus, prüft kurz das Magazin und steckt sie in den I
+[15:08:43] 
+--- Turn 24 ---
+[15:09:10] <<< SL (67608p/709c/27.0s, cum=1207128): # Rue des Tanneurs — Ausrüstung & Weiter  ---  **Kim — ANVIL ist Jonas' Charakter, Luca Hartner.** D
+[15:09:16] >>> JONAS (Jonas): Hartner nickt kurz bei der Einweisung. Dann leise in den Chat:
+
+„Verstanden. — K
+[15:09:19] >>> KIM (Kim): puh okay. Yuna nimmt die Waffe. Eine harmlose Buchhalterin die durchsucht wird i
+[15:09:24] >>> SARAH (Mara Voss): Okay, Voss wartet kurz auf Kims Antwort — ich würde in der Zeit die Gasse noch m
+[15:09:25] 
+--- Turn 25 ---
+[15:10:10] <<< SL (68384p/1552c/45.7s, cum=1277064): # Rue des Tanneurs — Abmarsch  ---  **Jonas — LERCHE-Erkennungssatz:** Das läuft primär über den Sat
+[15:10:15] >>> JONAS (Jonas): Ich würd zuerst nach MERIDIAN fragen — Zeitlinie zuerst, dann können wir einschä
+[15:10:18] >>> KIM (Kim): okay wow die hat echt gewartet 😬
+
+ich frag sie was mit dem anderen team passiert
+[15:10:22] >>> SARAH (Mara Voss): Voss nickt kurz, Stimme gleich ruhig wie vorher: *„MERIDIAN — wann haben Sie sie
+[15:10:23] 
+--- Turn 26 ---
+[15:11:02] <<< SL (70574p/1242c/39.3s, cum=1348880): # Apotheke Moreau — LERCHE spricht  ---  `Kodex: Szene 2 — Apotheke Moreau · 09:26 Uhr.`  ---  **Sar
+[15:11:08] >>> JONAS (Jonas): okay das ist nicht gut. wenn der typ heute morgen schon da war und alle zwei tag
+[15:11:11] >>> KIM (Kim): okay warte ich hab das nicht ganz kapiert. die andere gruppe ist weg seit 8 tage
+[15:11:15] >>> SARAH (Mara Voss): Okay, ich kombiniere 1 und 4 — Voss fragt nach dem Beobachter, aber gleichzeitig
+[15:11:16] 
+--- Turn 27 ---
+[15:11:58] <<< SL (72308p/1326c/41.3s, cum=1422514): # Apotheke — Beschreibung & Scanner  ---  `Kodex: Szene 2 — Apotheke Moreau · 09:28 Uhr.`  ---  **Jo
+[15:12:05] >>> JONAS (Jonas): Ich position mich schon mal näher an der Tür, aber bleibe aus der Sichtlinie vom
+[15:12:07] >>> KIM (Kim): okay warte kurz 😅
+
+mein char ist SPLINTER oder? ich schau durch den vorhang. ein
+[15:12:10] >>> SARAH (Mara Voss): Voss macht mit der Hand ein "Stop"-Zeichen in Richtung der anderen und flüstert 
+[15:12:11] 
+--- Turn 28 ---
+[15:12:50] <<< SL (73729p/1281c/38.6s, cum=1497524): # Apotheke — Stille & Hintertür  ---  `Kodex: Szene 2 — Apotheke Moreau · 09:29 Uhr.`  ---  **Kim — 
+[15:13:00] >>> JONAS (Jonas): Okay, Explosion bei Ghost — das ist wie ein Aces bei SR, oder? Cooles System.
+
+I
+[15:13:03] >>> KIM (Kim): option 3 klingt mega spannend aber auch mega scary 😅 was ist eine CHA-Probe gena
+[15:13:08] >>> SARAH (Mara Voss): Voss flüstert zu Hartner: „ANVIL, ich schätze der wartet auf Verstärkung oder ei
+[15:13:09] 
+--- Turn 29 ---
+[15:13:48] <<< SL (75296p/1199c/39.1s, cum=1574019): # Apotheke — Entscheidung & Raus  ---  **Kim — CHA-Probe erklärt:** Du wirfst W6, addierst `⌊CHA/2⌋`
+[15:13:54] >>> JONAS (Jonas): Ich würde sagen Kombination aus 2 und 3 — GHOST bleibt kurz zurück während wir m
+[15:13:57] >>> KIM (Kim): okay wir gehen einfach raus oder? ich will aber kurz fragen ob sie noch was über
+[15:14:02] >>> SARAH (Mara Voss): Ich nehm Option 2 kombiniert mit 1 — also zügig gehen, aber Voss fragt LERCHE le
+[15:14:03] 
+--- Turn 30 ---
+[15:14:43] <<< SL (75997p/1382c/40.6s, cum=1651398): # Hinterhof — Raus & Reden  ---  **Jonas — Split-Proben:** Wenn GHOST zurückbleibt und beobachtet, i
+[15:14:48] >>> JONAS (Jonas): Okay, die Schritte kommen — ich würde sagen GHOST kommt jetzt selbst raus, keine
+[15:14:50] >>> KIM (Kim): okay Yuna haut ab! sie wartet doch nicht bis der typ sie sieht 😅
+[15:14:54] >>> SARAH (Mara Voss): Comlink an GHOST: "Beweg dich jetzt, wir warten an der Ecke." — Voss schiebt LER
+[15:14:55] 
+--- Turn 31 ---
+[15:15:39] <<< SL (78320p/1322c/44.0s, cum=1731040): # Nordgasse — Raus  ---  `Kodex: Szene 2 — Nordgasse · 09:31 Uhr.`  ---  **Jonas — GES-Probe:** Ja, 
+[15:15:44] >>> JONAS (Jonas): Okay, LERCHE ist weg — das lief sauberer als ich dachte.
+
+Ich würde sagen Option
+[15:15:47] >>> KIM (Kim): puh okay. ich wähl 3, der typ mit dem mantel ist irgendwie creepy. kann ich einf
+[15:15:52] >>> SARAH (Mara Voss): Voss lässt kurz den Atem raus. Schaut LERCHE nach.
+
+*„Waldrand östlich, kurz vor
+[15:15:53] 
+--- Turn 32 ---
+[15:16:33] <<< SL (79764p/1336c/40.5s, cum=1812140): # Querstraße — Drei Fragen, eine Entscheidung  ---  **Jonas — Reconnaissance-Probe:** Keine eigene K
+[15:16:39] >>> JONAS (Jonas): Ich lehn mich kurz zu Sarah: „Er arbeitet ein Protokoll ab — das klingt nach ech
+[15:16:41] >>> KIM (Kim): puh, okay. ich glaub ich hab die hälfte nicht verstanden aber — Yuna geht hin? a
+[15:16:45] >>> SARAH (Mara Voss): Voss zieht sich zwei Schritte zurück in die Querstraße und sagt leise ins Comlin
+[15:16:46] 
+--- Turn 33 ---
+[15:17:31] <<< SL (81783p/1479c/44.8s, cum=1895402): # Querstraße — Ghost geht hin  ---  `Kodex: Szene 3 — Querstraße / Apotheke · 09:35 Uhr.`  ---  **Jo
+[15:17:37] >>> JONAS (Jonas): Moment — ich check kurz die Situation.
+
+Yuna hat ihn eingeschätzt, er hat sie ei
+[15:17:39] >>> KIM (Kim): oh wow er hat sie direkt eingeschätzt, das ist so creepy 😳
+
+können wir ihn verfo
+[15:17:44] >>> SARAH (Mara Voss): Okay kurz zusammenkommen, wir brauchen was Yuna gesehen hat bevor wir irgendwas 
+[15:17:45] 
+--- Turn 34 ---
+[15:18:17] <<< SL (83856p/941c/31.8s, cum=1980199): # Querstraße — Zusammenkommen  ---  `Kodex: Szene 3 — Querstraße, Nebenstraße · 09:37 Uhr.`  ---  **
+[15:18:22] >>> JONAS (Jonas): Okay, Explosionswürfel verstanden — macht Sinn, danke.
+
+Ich würde sagen Hartner 
+[15:18:27] >>> KIM (Kim): okay also hartner bin ich, oder? ich würd gern hinterher aber was ist SG 9 😅
+[15:18:31] >>> SARAH (Mara Voss): Voss nickt kaum sichtbar. "Drei Minuten ist viel in einer Menge."
+
+Ich würde Vos
+[15:18:32] 
+--- Turn 35 ---
+[15:19:11] <<< SL (85119p/1214c/39.0s, cum=2066532): # Verfolgung — Entscheidung & Probe  ---  **Kim — ANVIL ist Jonas' Charakter.** Du bist Yuna Park, G
+[15:19:18] >>> JONAS (Jonas): Okay, SG 9 mit W6 + 2 — das war von Anfang an schwierig. Kein Vorwurf.
+
+Ich würd
+[15:19:20] >>> KIM (Kim): okay warte kurz. was bedeutet "verbrannt"? 😅 ist das schlecht?
+[15:19:25] >>> SARAH (Mara Voss): Mist. Okay, kurze Frage — wenn Voss jetzt Tatortanalyse einsetzt um den Nordausg
+[15:19:26] 
+--- Turn 36 ---
+[15:20:07] <<< SL (86938p/1267c/41.3s, cum=2154737): # Kurze Antworten, dann raus  ---  **Jonas — GES-Pool für ANVIL:** Ja, W6 + 2, identisch mit Voss. N
+[15:20:12] >>> JONAS (Jonas): Okay, GES-Basis ohne Talent-Bonus — verstanden. Also wie ein "ungespezter" Würfe
+[15:20:15] >>> KIM (Kim): okay also ich bin "verbrannt" weil der typ mein gesicht kennt 😅 das ist doof
+
+ka
+[15:20:20] >>> SARAH (Mara Voss): Voss dreht sich halb zu Yuna um. "Das Gehöft macht mir Kopfzerbrechen. Kein Mili
+[15:20:21] 
+--- Turn 37 ---
+[15:20:58] <<< SL (88483p/1064c/37.4s, cum=2244284): # Landstraße — Lagenbesprechung  ---  `Kodex: Szene 4 — Landstraße Richtung Landgut · 09:47 Uhr.`  -
+[15:21:06] >>> JONAS (Jonas): Ich würd sagen Transponder zuerst — Option 3. Der sendet vielleicht noch, und we
+[15:21:08] >>> KIM (Kim): okay ich glaub ich versteh. Yuna schaut einfach mal was sie sehen kann, oder? Al
+[15:21:14] >>> SARAH (Mara Voss): Option 2, aber ich möchte kurz vorher klären: Transponder ist doch eigentlich Pr
+[15:21:15] 
+--- Turn 38 ---
+[15:22:17] <<< SL (89405p/1903c/61.8s, cum=2335592): # Waldrand — Vorgehen geklärt  ---  **Jonas — Schleichen aktiv oder reaktiv:** Aktiver Wurf, immer. 
+[15:22:24] >>> JONAS (Jonas): Okay, Schleichen verstanden — aktiv immer wenn Beobachter da sind, GES als Basis
+[15:22:26] >>> KIM (Kim): okay warte. jemand wusste von MERIDIAN?? das ist doch mega schlecht oder
+
+sollen
+[15:22:32] >>> SARAH (Mara Voss): okay der Explosionswürfel kam im richtigen Moment 👀
+
+Voss legt die Hand flach au
+[15:22:33] 
+--- Turn 39 ---
+[15:23:19] <<< SL (92062p/1592c/45.5s, cum=2429246): # Waldrand — Transponder bergen  ---  **Sarah — Transponder bergen:** Kurze STR-Probe für das Ausgra
+[15:23:27] >>> JONAS (Jonas): Okay, ich check kurz das Probe-System bevor ich antworte — also W6 + halber Attr
+[15:23:29] >>> KIM (Kim): puh, okay. Was ist MERIDIAN nochmal? Und wir haben fünf Stunden Zeit — können wi
+[15:23:37] >>> SARAH (Mara Voss): okay das mit dem Leck ist echt unschön. Voss sagt leise zu den anderen: „Wir geh
+[15:23:38] 
+--- Turn 40 ---
+[15:24:11] <<< SL (94431p/986c/32.9s, cum=2524663): # Kurze Antworten, dann Entscheidung  ---  **Jonas — Probensystem:** Genau richtig. W6 + ⌊Attribut/2
+[15:24:16] >>> JONAS (Jonas): Stallgebäude. Händlerlegende ist zu riskant wenn Vane schon gewarnt sein könnte 
+[15:24:19] >>> KIM (Kim): ich votiere für 1, Händlerlegende! Voss redet, wir fahren vor, klingt am wenigst
+[15:24:23] >>> SARAH (Mara Voss): Ich stimme für Option 2. Voss sagt ruhig: „Wenn Vane gewarnt ist, merken wir das
+[15:24:24] 
+--- Turn 41 ---
+[15:25:09] <<< SL (95460p/1549c/45.6s, cum=2621672): # Waldrand — Entscheidung: Händlerlegende  ---  **Jonas — Reaktionsprobe bei früher Wache:** Keine a
+[15:25:14] >>> JONAS (Jonas): Ich votiere für **2** — kurze Sekunde, Vane einschätzen bevor wir aussteigen.
+
+V
+[15:25:18] >>> KIM (Kim): okay wow er wusste das?? oder hat er geraten?? ich bin so nervös gerade 😅
+
+ich g
+[15:25:25] >>> SARAH (Mara Voss): Option 2 erstmal — ich will Vane eine Sekunde lang lesen bevor Voss aussteigt.
+
+
+[15:25:26] 
+--- Turn 42 ---
+[15:26:05] <<< SL (97359p/1326c/38.9s, cum=2720357): # Hof — Vane einschätzen  ---  **Zur Regellfrage (alle drei):** Ja, INT-Probe um jemanden einzuschät
+[15:26:14] >>> JONAS (Jonas): Okay, Voss' Einschätzung macht Sinn — der Mann hat uns reingelassen obwohl er we
+[15:26:17] >>> KIM (Kim): puh, okay. ich glaub ich folg einfach rein? Yuna geht hinter Voss her, unauffäll
+[15:26:21] >>> SARAH (Mara Voss): Option 3, kurze Abstimmung.
+
+Voss stoppt einen Schritt vor der Treppe, dreht sic
+[15:26:22] 
+--- Turn 43 ---
+[15:27:00] <<< SL (98705p/1220c/37.8s, cum=2820282): # Freitreppe — Letzte Abstimmung  ---  **Jonas — Gruppenaufstellung:** Kein formaler Unterstützungsb
+[15:27:05] >>> JONAS (Jonas): Ich bleib draußen, alles klar.
+
+Kurze Frage zur Mechanik: die Proben oben — das 
+[15:27:08] >>> KIM (Kim): okay die tür ansprechen klingt riskant oder?? ich mein wir wissen doch dass da j
+[15:27:16] >>> SARAH (Mara Voss): Option 2, aber mit Wendung — Voss bleibt stehen, lächelt, und sagt dabei ganz be
+[15:27:17] 
+--- Turn 44 ---
+[15:27:57] <<< SL (100588p/1361c/40.5s, cum=2922231): # Vanes Salon — Erstkontakt  ---  **Jonas — Probensystem:** Genau richtig. Ein einzelner W6, feste B
+[15:28:06] >>> JONAS (Jonas): Okay krass, der wusste das schon vorher. Das ändert die Dynamik komplett.
+
+Sarah
+[15:28:09] >>> KIM (Kim): puh okay. also er weiß schon wer wir sind?? das ist doch eigentlich cool oder? i
+[15:28:15] >>> SARAH (Mara Voss): okay der Explosionswürfel ist so befriedigend lol
+
+Voss lehnt sich leicht vor, H
+[15:28:16] 
+--- Turn 45 ---
+[15:28:55] <<< SL (102256p/1279c/39.7s, cum=3025766): # Vanes Salon — Karten auf dem Tisch  ---  `Kodex: Szene 7 — Salon, Landgut Vane · 10:51 Uhr.`  --- 
+[15:29:01] >>> JONAS (Jonas): Okay ich bin gerade draußen als ANVIL und lese mit — kurze Frage zur Mechanik: d
+[15:29:05] >>> KIM (Kim): okay warte kurz 😅
+
+also Voss ist ich, oder? und ich soll jetzt antworten was ich
+[15:29:12] >>> SARAH (Mara Voss): Voss lehnt sich leicht zurück, Blick ruhig auf Vane.
+
+"Wir wissen dass jemand se
+[15:29:13] 
+--- Turn 46 ---
+[15:30:01] <<< SL (103882p/1534c/47.9s, cum=3131182): # Vanes Salon — Verhandlung  ---  **Jonas — Standardformat:** Ja, das ist das Standardformat für all
+[15:30:08] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Moment — die Tür. Kim hat die gesehen, oder? Wenn das Baur ist,
+[15:30:10] >>> KIM (Kim): oh warte ich hab die tür gesehen!! soll ich jetzt option 3 machen oder ist das z
+[15:30:14] >>> SARAH (Mara Voss): Voss hält Vanes Blick, kurze Pause. "Hier, wenn Sie uns einladen. Spart uns alle
+[15:30:15] 
+--- Turn 47 ---
+[15:31:13] <<< SL (104995p/1236c/58.7s, cum=3237413): # Salon — Baur tritt ein  ---  **Jonas & Kim — zur Mechanik:** Jemanden direkt ansprechen der bereit
+[15:31:18] >>> JONAS (Jonas): Okay das ist wild — ein Zeitreisender hat ihm geholfen das Ding zu bauen. Das er
+[15:31:22] >>> KIM (Kim): okay warte kurz
+
+er hat das gebaut weil ein typ aus der ZUKUNFT ihm gezeigt hat 
+[15:31:27] >>> SARAH (Mara Voss): Voss lehnt sich minimal vor, Stimme ruhig — nicht drängend.
+
+*„Beschreiben Sie i
+[15:31:28] 
+--- Turn 48 ---
+[15:32:11] <<< SL (107638p/1486c/43.0s, cum=3346537): # Salon — Baur antwortet  ---  **Jonas — zwei Fragen kombinieren:** Ja, das geht. Baur redet — ich s
+[15:32:14] >>> JONAS (Jonas): Okay, Moment. Das Gerät sendet seit 18 Tagen Informationen — an wen auch immer. 
+[15:32:17] >>> KIM (Kim): warte mal kurz ich muss das sacken lassen
+
+er weiß seit 18 tagen nicht wer die i
+[15:32:23] >>> SARAH (Mara Voss): Voss hält kurz inne, lässt das sacken. Dann ruhig: „Herr Baur — können Sie es ab
+[15:32:24] 
+--- Turn 49 ---
+[15:32:58] <<< SL (109347p/1080c/33.3s, cum=3456964): # Salon — Kann er es abschalten?  ---  **Sarah — Empfänger-Reaktion einschätzen:** Das ist Baur der 
+[15:33:01] >>> JONAS (Jonas): Option 1. Ich will das Gerät sehen bevor wir irgendwas entscheiden.
+
+Baur, gehen
+[15:33:04] >>> KIM (Kim): okay "offene tür" klingt SEHR schlecht. ich will das ding sehen. option 1?
+[15:33:08] >>> SARAH (Mara Voss): Option 1, ich will das Ding selbst sehen bevor wir irgendwas entscheiden.
+
+Voss 
+[15:33:09] 
+--- Turn 50 ---
+[15:33:55] <<< SL (110730p/1573c/45.9s, cum=3569267): # Erster Stock — Das Gerät  ---  **Sarah — Handscanner am Gerät:** Ja, INT-Probe mit Tatortanalyse +
+[15:33:59] >>> JONAS (Jonas): Moment kurze Systemfrage bevor ich antworte — ANVIL ist ja außen bei Hartner, od
+[15:34:03] >>> KIM (Kim): okay ich hab die 3 wörter gesehen und mir läuft's kalt den rücken runter 😅
+
+kann
+[15:34:07] >>> SARAH (Mara Voss): Okay das ist krass. Voss sagt leise zu Yuna: „Schau dir die Handschrift an — wan
+[15:34:08] 
+--- Turn 51 ---
+[15:34:52] <<< SL (111541p/1485c/44.3s, cum=3682293): # Erster Stock — Handschrift & Hartner kommt rein  ---  **Jonas — ANVIL ist draußen:** Richtig, du h
+[15:34:58] >>> JONAS (Jonas): Okay, ich bin jetzt im Zimmer und hab die Kurzfassung von Voss gehört.
+
+Hartner 
+[15:35:03] >>> KIM (Kim): puh okay. also jemand war HIER drin und baur hat das nicht gemerkt??
+
+ich frag i
+[15:35:07] >>> SARAH (Mara Voss): Voss schaut kurz zu Hartner, dann zur Tür, dann zum Gerät.
+
+"ANVIL, du sicherst 
+[15:35:08] 
+--- Turn 52 ---
+[15:35:52] <<< SL (114337p/1454c/43.9s, cum=3798084): # Erster Stock — Abschalten & Sichern  ---  **Jonas & Sarah — Entscheidungsproben:** Keine Probe für
+[15:35:59] >>> JONAS (Jonas): Okay, Sperre. Nicht von Baur — also war jemand in diesem Zimmer und hat das Gerä
+[15:36:02] >>> KIM (Kim): warte mal — das schloss hat baur NICHT eingebaut?? wer war das dann 😳
+
+ich sag: 
+[15:36:06] >>> SARAH (Mara Voss): Okay, Schloss knacken ist klar SPLINTERs Job — ich nehm das Multitool und geh ra
+[15:36:07] 
+--- Turn 53 ---
+[15:36:37] <<< SL (116317p/779c/30.1s, cum=3915180): # Schloss knacken  ---  **Zur Regellfrage (Jonas):** Multitool gibt +1 auf die Probe — das ist ein A
+[15:36:42] >>> JONAS (Jonas): Ich tippe Option 3, aber kombiniert — Voss hält kurz den Scanner dran, dann legt
+[15:36:44] >>> KIM (Kim): ich sag Baur soll es selbst umlegen. er hat das ding gebaut, irgendwie fühlt sic
+[15:36:50] >>> SARAH (Mara Voss): Okay Explosion auf dem ersten Würfel, nice 😄
+
+Ich nehme Option 3 — kurze Messung
+[15:36:51] 
+--- Turn 54 ---
+[15:37:26] <<< SL (116670p/1114c/34.9s, cum=4032964): # Gerätezimmer — Letzte Messung & Hebel  ---  **Jonas — Explosionswürfel:** Ja, genau wie Exploding 
+[15:37:29] >>> JONAS (Jonas): Ich tippe Option 1, aber kurz vorher noch: „Baur, wer ist der Empfänger? Hast du
+[15:37:32] >>> KIM (Kim): puh okay. ich sag mal 4, freie aktion?
+
+ich will Baur fragen wohin das Signal ge
+[15:37:37] >>> SARAH (Mara Voss): Scheiße, aktiver Empfänger — das heißt die wissen *jetzt* dass wir es abgeschalt
+[15:37:38] 
+--- Turn 55 ---
+[15:38:20] <<< SL (118594p/1329c/41.8s, cum=4152887): # Gerätezimmer — Letzte Sekunden  ---  `Kodex: Szene 10 — Gerätezimmer · 11:11 Uhr.`  ---  **Baur — 
+[15:38:23] >>> JONAS (Jonas): Ich würde sagen wir machen 3 während wir fahren — Baur hat die Hefte dabei, der 
+[15:38:26] >>> KIM (Kim): okay warte mal kurz 😅
+
+wer ist nochmal LERCHE? das ist doch nicht Baur oder?
+[15:38:32] >>> SARAH (Mara Voss): okay wir fahren erstmal 3 und 1 kombiniert — Baur im Auto befragen, dann nach Sa
+[15:38:33] 
+--- Turn 56 ---
+[15:39:19] <<< SL (119301p/1618c/46.1s, cum=4273806): # Landstraße — Baur im Gespräch  ---  **Jonas — Befragung als Probe:** Kommt drauf an wie ihr fragt.
+[15:39:24] >>> JONAS (Jonas): Ich würde Baur direkt fragen — Option 3.
+
+„Was sollte nach den 18 Tagen passiere
+[15:39:27] >>> KIM (Kim): okay warte ich muss kurz — "die Verbindung ist der Weg" was soll das heißen??
+
+u
+[15:39:30] >>> SARAH (Mara Voss): Option 3, ich frag ihn noch kurz.
+
+Voss lehnt sich leicht vor: „Baur — was sollt
+[15:39:31] 
+--- Turn 57 ---
+[15:40:13] <<< SL (122643p/1401c/41.9s, cum=4397850): # Landstraße — Was nach 18 Tagen  ---  `Kodex: Szene 11 — Landstraße · 11:19 Uhr.`  ---  **Jonas — I
+[15:40:19] >>> JONAS (Jonas): Erstmal: sieben Tage bis zum Datum, drei Tage bis zum Rücksprung-Fenster — das i
+[15:40:22] >>> KIM (Kim): okay SIEBEN TAGE. das ist doch klar oder?? wir bleiben!!
+
+was ist ein Rücksprung
+[15:40:27] >>> SARAH (Mara Voss): Option 3 erstmal — Voss sagt zu Baur: "Kalt und groß. Dachten Sie je an Industri
+[15:40:28] 
+--- Turn 58 ---
+[15:41:10] <<< SL (123663p/1486c/42.5s, cum=4522999): # Sarlat — Deckung & Entscheidung  ---  `Kodex: Szene 12 — Sarlat, Seitenstraße · 11:34 Uhr.`  ---  
+[15:41:10] 🛑 Stop-Hint erkannt: 'SC 12/12' — Phase beendet
+[15:41:10] 
+=== PHASE ENDE: Stop-Hint: SC 12/12 ===
+[15:41:10] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-27/phase2c-group-mission1-runde3b/_bericht.md
+[15:41:10] Tokens: 4522999 (peak prompt: 123663)
+[15:41:10] Findings: 0

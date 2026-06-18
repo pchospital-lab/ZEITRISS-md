@@ -23,7 +23,9 @@ Dieses Repo hat **zwei komplementäre Test-Workflows**:
 **Scope-Hinweis (wichtig für externe Contributor:innen):** Dieser Guide
 dokumentiert den **agent-internen Automatisierungs-Workflow**. Die
 Harness-Scripts, die einen Persona-Sub-Agent gegen das SL-Preset spielen
-lassen, liegen im privaten Agent-Workspace, nicht in diesem Repo.
+lassen, liegen seit 2026-06-18 unter `internal/qa/harness/` **in diesem
+Repo** (zuvor nur im privaten Agent-Workspace). Die Run-Artefakte dieser
+Läufe liegen unter `internal/qa/evidence/2026-playtests/`.
 Externe Tester:innen, die manuell gegen ZEITRISS spielen, finden im
 [Tester-Briefing](qa/tester-playtest-briefing.md) alles Nötige — dieser
 Guide hier ist für dich nur als Referenz interessant (welche Regeln
@@ -50,27 +52,34 @@ Matrix, Preflight-Regeln, Cross-Findings-Mechanik.
 
 ### Harness-Location
 
-Alle Harnesses liegen workspace-lokal unter:
+Seit 2026-06-18 liegen die Harnesses **im Repo** unter `internal/qa/harness/`:
 
 ```text
-~/.openclaw/workspace-cloud/playtests/zeitriss/
-├── harness/              # group-harness.py, coreops-harness.py,
-│                         # episode1-mini.py, w10-schwelle-probe.py
+internal/qa/harness/
+├── *.py                  # coreops_split_merge.py, group-harness.py,
+│                         # solo_journey.py, split_merge.py, merge_assert.py,
+│                         # episode1-mini.py, w10-schwelle-probe.py u.a.
+├── persona-driven/       # persona-player.py + personas.yaml (Zwei-KI-Setup)
 ├── personas/             # noob.md, end-tier-vet.md
 ├── scenarios/            # Placeholder (aktuell inline in PHASES-Dicts)
 ├── fixtures/             # save-lvl950-marek.json, save-group-initial.json,
 │                         # save-after-hq.json
-└── runs/                 # YYYY-MM-DD-<kurzname>/ pro Run
+├── owui-patches/         # OpenWebUI-Hotfixes (socket-main-chatid-none)
+└── zeitriss-sysprompt.txt  # eingefrorene MP-Kopie v4.2.6 (Harness-Input,
+                            # NICHT SSOT — SSOT ist meta/masterprompt_v6.md)
 ```
+
+Run-Artefakte (Berichte + rohe Transkripte) liegen unter
+`internal/qa/evidence/2026-playtests/<YYYY-MM-DD-kurzname>/`.
 
 Aufruf-Pattern:
 
 ```bash
 source ~/.openwebui_env
-cd ~/.openclaw/workspace-cloud/playtests/zeitriss
-python3 harness/group-harness.py --phase 2       # Gruppen-Canary
-python3 harness/coreops-harness.py               # Regel-Mechanik, PSI-Tracking
-python3 harness/episode1-mini.py                 # Solo-Smoke
+cd <repo>/internal/qa/harness
+python3 group-harness.py --phase 2       # Gruppen-Canary
+python3 coreops_split_merge.py           # Core-Ops Split/Merge
+python3 episode1-mini.py                 # Solo-Smoke
 ```
 
 **Harness-Übersicht:**
@@ -320,7 +329,9 @@ siehe Daily-Notes April 2026 im Agent-Workspace):
 
 ## Auswertung: Run-Artefakte zu Repo-Doku
 
-**Run-Artefakte bleiben im Workspace.** Was ins Repo wandert:
+**Run-Artefakte liegen seit 2026-06-18 im Repo** unter
+`internal/qa/evidence/2026-playtests/` (vorher nur im Workspace). Was
+zusätzlich als kuratierte Doku ins Repo wandert:
 
 - **Strukturelle Findings** → `docs/qa/<finding-name>.md` (siehe bestehende:
   `playtest-befund-chargen-save-gate.md`, `playtest-befund-w10-schwelle-halluzination.md`)
@@ -348,9 +359,8 @@ Dogma — bei Sonderfällen wie `buff-schwelle-critic-selbstreview.md`
 Abweichung erlaubt):
 
 - Commit-Subject: `qa: <kurze-erkenntnis>` oder `fix(runtime): <regelbruch>`
-- Im `## Warum`: Link auf den konkreten Run-Artefakt-Pfad im Workspace
-  (auch wenn Repo-Leser nicht drauf zugreifen — Paper-Trail für den
-  Repo-Agenten im Workspace)
+- Im `## Warum`: Link auf den konkreten Run-Artefakt-Pfad unter
+  `internal/qa/evidence/2026-playtests/<run>/` (im Repo, für alle nachvollziehbar)
 - `## Verifikation`: CI-Smoke (`bash scripts/smoke.sh`) + ggf. Verweis auf
   erneuten Playtest-Run, der den Fix prüft
 
@@ -373,7 +383,10 @@ Sonst landet ein Bug im Playtest, der eigentlich schon in der CI auffällt.
 
 - Menschliches Tester-Briefing: [docs/qa/tester-playtest-briefing.md](qa/tester-playtest-briefing.md)
 - Playtest-Readiness-Gate: `internal/qa/process/playtest-readiness-gate.md`
-- Agent-interner Workspace (nicht Teil des Repos): `~/.openclaw/workspace-cloud/playtests/zeitriss/README.md`
+- Harness im Repo: `internal/qa/harness/README.md`
+- Run-Evidenz im Repo: `internal/qa/evidence/2026-playtests/README.md`
+- Agent-interner Workspace (Arbeitskopie, Spiegel):
+  `~/.openclaw/workspace-cloud/playtests/zeitriss/`
 
 ---
 

@@ -1,0 +1,20 @@
+[16:08:09] === START Solo-Canary persona=noob max_turns=18 ===
+[16:08:09] >>> Sarah (Opener): Spiel starten (solo klassisch)
+[16:08:46] [turn 1] SL (3562 chars, 56973+1290 tok, 33.0s, ~$0.19)
+[16:08:50] >>> Sarah: okay das klingt mega cool aber ich hab keine ahnung was ich da lesen soll 😅 kannst du einfach für mi
+[16:09:23] [turn 2] SL (3126 chars, 58091+1310 tok, 29.6s, ~$0.38)
+[16:09:27] >>> Sarah: Was heißt SYS und TEMP, ist das was Schlimmes? 😂 Aber ja Mara klingt cool, ich nehm sie!
+[16:09:49] [turn 3] SL (1877 chars, 59416+734 tok, 18.1s, ~$0.57)
+[16:09:51] >>> Sarah: ok cool danke!! also ich will eigentlich einfach direkt losspielen, was muss ich jetzt machen? 😄
+[16:10:04] [turn 4] SL (947 chars, 59966+356 tok, 9.1s, ~$0.76)
+[16:10:07] >>> Sarah: warte mal kurz… warum muss ich dafür nen neuen chat öffnen?? kann das nicht einfach hier losgehen 😅
+[16:10:19] [turn 5] SL (991 chars, 60688+345 tok, 9.8s, ~$0.95)
+[16:10:23] >>> Sarah: okay okay ich glaub ich hab's verstanden, ist wie speichern beim Sims 😄 und dann wie mach ich das mi
+[16:10:32] [turn 6] SL (405 chars, 61060+158 tok, 5.2s, ~$1.13)
+[16:10:32] >>> Sarah: !save
+[16:11:11] [turn 7] SL (5097 chars, 61361+1962 tok, 34.4s, ~$1.34)
+[16:11:11] 🏁 Stop-Hint '"v": 7' erkannt — Canary-Ziel erreicht
+[16:11:11] === ENDE === Turns=7 ~$1.34 Findings=0
+[16:11:11] Artefakte: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-1608-solo-canary-noob
+
+SUMMARY_JSON: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-1608-solo-canary-noob/_summary.json

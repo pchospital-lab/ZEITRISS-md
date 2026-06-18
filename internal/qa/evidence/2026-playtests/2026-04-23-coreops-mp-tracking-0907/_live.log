@@ -1,0 +1,34 @@
+[09:07:04] === START: coreops-mp-tracking-0907 ===
+[09:07:04] Spieler: ['jonas', 'kim', 'sarah'], Max turns: 60
+[09:07:04] >>> GRUPPE: Spiel starten (gruppe klassisch). Wir sind 3 Spieler:
+Sarah hat schon eine Mission gespielt und bringt Mara Voss
+mit (Ca
+[09:07:04] 
+--- Turn 1 ---
+[09:07:28] <<< SL (16700p/802c/23.7s, cum=17502): # ZEITRISS  ---  > *„Die Vergangenheit ist kein Museum. Sie ist ein Tatort."* > — ITI-Feldhandbuch, 
+[09:07:37] >>> JONAS (Jonas): Ich spiel meinen alten weiter — hab die Werte noch im Kopf. Callsign **BREACH**,
+[09:07:41] >>> KIM (Kim): generiere Kim!
+[09:07:48] >>> SARAH (Mara Voss): Okay, meine Stats stehen ja schon — aber kurze Frage: laut meinem Sheet hab ich 
+[09:07:49] 
+--- Turn 2 ---
+[09:08:24] <<< SL (17821p/1492c/34.9s, cum=36815): # Charakter-Aushandlung  ---  ## BREACH — Lukas Mayer (Jonas)  **Punktcheck zuerst:** STR 5 + GES 4 
+[09:08:30] >>> JONAS (Jonas): Okay, fair — ich hatte noch die alten Attributnamen im Kopf, macht Sinn dass die
+[09:08:35] >>> KIM (Kim): CIPHER klingt mega cool!! Ich nehm sie so 🙌
+
+Aber was ist nochmal SYS genau? Nur
+[09:08:39] >>> SARAH (Mara Voss): Okay, der Vorschlag für Voss passt mir gut — GES 5 und INT 5 bleiben, der Rest i
+[09:08:40] 
+--- Turn 3 ---
+[09:09:05] <<< SL (19653p/1019c/25.5s, cum=57487): # Regelklärungen & Anpassungen  ---  ## Jonas → BREACH  **Ja, geht absolut.** TEMP 1 ist regelkonfor
+[09:09:10] >>> JONAS (Jonas): Passt so, die Slots nehm ich. Subdermal-Armor und Retina-HUD machen für Lukas Si
+[09:09:14] >>> KIM (Kim): ok mein slot 3 — kann ich da später im spiel was reinstecken oder muss das jetzt
+[09:09:17] >>> SARAH (Mara Voss): Okay cool, das mit TEMP macht Sinn — Voss vertraut Beweisen, nicht Bauchgefühl, 
+[09:09:18] 
+--- Turn 4 ---
+[09:10:05] <<< SL (20903p/2355c/46.9s, cum=80745): # Letzte Klärungen  ---  ## Kim → Slot 3  **Ja, jederzeit im Spiel nachrüsten.** Implantate kaufst d
+[09:10:05] 🛑 Stop-Hint: 'Save empfohlen'
+[09:10:05] 
+=== ENDE: Stop-Hint: Save empfohlen ===
+[09:10:05] 📊 Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/coreops-mp-tracking-0907/_bericht.md
+[09:10:05] 📉 Tokens peak: 20903
+[09:10:05] 🧩 MP-Sections dormant: 6/13

@@ -1,0 +1,65 @@
+[13:20:14] === PHASE START: phase2-group-canary-3p ===
+[13:20:14] Spieler: ['jonas', 'kim', 'sarah']
+[13:20:14] Max turns: 60
+[13:20:14] >>> GRUPPE: Spiel starten (gruppe klassisch)
+[13:20:14] 
+--- Turn 1 ---
+[13:20:34] <<< SL (21466p/500c): # ZEITRISS — Gruppenstart (Klassisch)  ---  `Kodex: Gruppenprotokoll aktiviert. Ansprache: Ihr. Charakterbau-Modus: klas
+[13:20:38] >>> JONAS (Jonas): Okay cool, Zeitreisen-Setting, bin dabei! Wir sind zu dritt — ich, Sarah und Mar
+[13:20:40] >>> KIM (Kim): okay also ich bin dabei, sarah auch - also 2 spieler?
+
+und was ist "klassisch" g
+[13:20:44] >>> SARAH (Mara Voss): Okay ich bin solo heute, die anderen haben keine Zeit gehabt. Ich spiel Mara Vos
+[13:20:45] 
+--- Turn 2 ---
+[13:21:17] <<< SL (20814p/941c): # Gruppenstart — Drei Meldungen, eine Antwort  `Kodex: Drei Einzel-Inputs erkannt. Normalisiere auf Gruppen-Klassisch-Pf
+[13:21:22] >>> JONAS (Jonas): Okay cool, die Tabelle hilft. Ich hätte gedacht STR und GES sind meine Hauptwert
+[13:21:31] >>> KIM (Kim): okay was ist TEMP lol. "zeitgespür" klingt nach sowas wie... kann ich die uhr gu
+[13:21:39] >>> SARAH (Mara Voss): Okay cool, ich geb euch die Restpunkte: STR 2, CHA 3, TEMP 2, SYS 1. Macht 18 ge
+[13:21:40] 
+--- Turn 3 ---
+[13:22:19] <<< SL (23005p/1701c): # Drei Inputs — sortiert  `Kodex: Drei Eingaben verarbeitet. Mara Voss wird rekonstruiert. Kim-Profil wird generiert. Jo
+[13:22:22] >>> JONAS (Jonas): Okay, SYS verstanden — kein Essenz-System, nur Slots. Das ist eigentlich entspan
+[13:22:25] >>> KIM (Kim): okay wow das ist viel 😅 ich glaub ich nehm nummer 2? den straßenprediger oder so
+[13:22:28] >>> SARAH (Mara Voss): oh nice, SPLINTER sieht perfekt aus! !save
+
+eine Frage noch — die Einsatzjacke h
+[13:22:29] 
+--- Turn 4 ---
+[13:23:10] <<< SL (25014p/1639c): # Drei Inputs — sortiert  `Kodex: Jonas-Rechnung wird geprüft. Kim-Profil wird generiert. Mara-Frage beantwortet. Save-A
+[13:23:18] >>> JONAS (Jonas): Gut, Punkte stimmen. Dann fehlt noch Name und Hintergrund von mir — ich überleg 
+[13:23:21] >>> KIM (Kim): okay wow der hat ja CHA 6 das ist krass 😂 ja passt! aber was bedeutet "im direkt
+[13:23:25] >>> SARAH (Mara Voss): Okay cool, Einsatzjacke kann bleiben — narrativ macht das mehr Sinn für Voss.
+
+U
+[13:23:26] 
+--- Turn 5 ---
+[13:24:17] <<< SL (26574p/2004c): # Drei Inputs — sortiert  `Kodex: Lev Moran-Profil wird generiert. Kim-Frage beantwortet. HQ-Eincheck vorbereitet.`  ---
+[13:24:21] >>> JONAS (Jonas): Okay, RAMM steht. Ich mag den Hintergrund — das mit der Gasse klingt nach einem 
+[13:24:23] >>> KIM (Kim): puh, okay. Also ich muss jetzt nix machen außer ankommen? 😅 ich schau mich mal u
+[13:24:27] >>> SARAH (Mara Voss): okay die Summen stimmen, nice 👍
+
+Voss tritt einen Schritt ins Atrium und lässt d
+[13:24:28] 
+--- Turn 6 ---
+[13:25:06] <<< SL (29321p/1238c): # Drei Inputs — sortiert  `Kodex: Jonas-Frage beantwortet. Kim in Freierkundung. Mara Voss aktiv im Atrium.`  ---  ## Jo
+[13:25:13] >>> JONAS (Jonas): Okay cool, Med-Lab für später vorgemerkt. Reflex-Booster klingt nach meinem Ding
+[13:25:16] >>> KIM (Kim): okay der blinkende punkt macht mich wahnsinnig, ich frag einfach mal 👀
+
+"Archiva
+[13:25:20] >>> SARAH (Mara Voss): Voss nimmt den Chip-Schlüssel und dreht ihn kurz zwischen den Fingern. Dann scha
+[13:25:21] 
+--- Turn 7 ---
+[13:26:11] <<< SL (30707p/1044c): `EP 1 · MS 1 · SC 1/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/1 · Px 0/5 · Stress 0/10 · Obj Unbek
+[13:26:14] >>> JONAS (Jonas): Ich geh direkt rein, Option 1. Aber kurze Frage vorher — was bedeutet das "SC 1/
+[13:26:18] >>> KIM (Kim): puh okay das ist viel 😅 also meine Figur - Mara glaub ich? - die würde jetzt ein
+[13:26:22] >>> SARAH (Mara Voss): Voss dreht sich kurz zu den anderen: "Habt ihr das auch gesehen? Sie hat die Fra
+[13:26:23] 
+--- Turn 8 ---
+[13:27:06] <<< SL (31892p/1136c): `EP 1 · MS 1 · SC 1/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/1 · Px 0/5 · Stress 0/10 · Obj Wien-
+[13:27:06] 🛑 Stop-Hint erkannt: 'DEBRIEF' — Phase beendet
+[13:27:06] 
+=== PHASE ENDE: Stop-Hint: DEBRIEF ===
+[13:27:06] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-21/phase2-group/_bericht.md
+[13:27:06] Tokens: 218996
+[13:27:06] Findings: 0

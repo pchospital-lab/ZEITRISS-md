@@ -1,0 +1,131 @@
+[19:10:31] === START Solo-Journey persona=noob max_turns=60 max_chats=6 ===
+[19:10:31] Chat #1 (Chargen/Start) — local:playtest-701de918a1
+[19:10:31] >>> Sarah (Opener): Spiel starten (solo klassisch)
+[19:11:02] [turn 1 / chat 1] SL (2564 chars, 59387+944 tok, RAG=5, ~$0.19)
+[19:11:05] >>> Sarah: okay das klingt cool aber ich hab keine ahnung was STR oder SYS bedeutet 😅 macht der einfa
+[19:11:39] [turn 2 / chat 1] SL (2692 chars, 57698+1114 tok, RAG=6, ~$0.38)
+[19:11:41] >>> Sarah: oh sie ist cool!! spy-vibes gefallen mir 😄 passt so, lass uns loslegen!
+[19:12:04] [turn 3 / chat 1] SL (1309 chars, 59736+530 tok, RAG=5, ~$0.57)
+[19:12:07] >>> Sarah: ich schau mich erstmal um! was ist die zero time lounge? klingt fancy 😄
+[19:12:30] [turn 4 / chat 1] SL (1757 chars, 60845+649 tok, RAG=5, ~$0.76)
+[19:12:33] >>> Sarah: ich setz mich hin und nehm das glas 😄 was ist das überhaupt für ein getränk
+[19:12:55] [turn 5 / chat 1] SL (1414 chars, 60552+549 tok, RAG=5, ~$0.95)
+[19:12:57] >>> Sarah: option 1! was war dein erstes briefing? 😄
+[19:13:19] [turn 6 / chat 1] SL (1373 chars, 62713+541 tok, RAG=3, ~$1.15)
+[19:13:21] >>> Sarah: noch einen nehmen ja! und ähm wer war die frau gerade? die hat mich irgendwie komisch ange
+[19:13:41] [turn 7 / chat 1] SL (1268 chars, 61802+513 tok, RAG=7, ~$1.34)
+[19:13:43] >>> Sarah: drei episoden keine verluste?? was bedeutet das 😳 klingt irgendwie gruselig
+[19:14:02] [turn 8 / chat 1] SL (1182 chars, 63319+447 tok, RAG=5, ~$1.54)
+[19:14:04] >>> Sarah: okay was ist deepsave 😅 muss ich da irgendwas kopieren?
+[19:14:21] [turn 9 / chat 1] SL (1012 chars, 64298+387 tok, RAG=4, ~$1.74)
+[19:14:24] >>> Sarah: okay also !save und dann kopieren, ich probiers 😅
+
+!save
+[19:15:13] [turn 10 / chat 1] SL (5773 chars, 65107+2258 tok, RAG=4, ~$1.97)
+[19:15:13]   💾 SAVE erkannt (mode=hq) -> chat01-turn10-hq.json
+[19:15:13]   🔄 CHAT-HANDOVER -> Chat #2 (local:playtest-5b63c04153), paste Save
+[19:15:46] [turn 11 / chat 2] SL (2372 chars, 61283+1075 tok, RAG=5, ~$2.17)
+[19:15:48] >>> Sarah: puh okay, alles wieder da? 😅 was mach ich jetzt als erstes
+[19:16:04] [turn 12 / chat 2] SL (1053 chars, 60276+390 tok, RAG=6, ~$2.35)
+[19:16:06] >>> Sarah: direkt briefing! ich will endlich loslegen 😄
+[19:16:19] [turn 13 / chat 2] SL (570 chars, 61803+216 tok, RAG=4, ~$2.54)
+[19:16:21] >>> Sarah: ugh nochmal?? okay okay ich machs 😅 !save
+[19:17:06] [turn 14 / chat 2] SL (5481 chars, 61658+2149 tok, RAG=3, ~$2.76)
+[19:17:06]   💾 SAVE erkannt (mode=hq) -> chat02-turn14-hq.json
+[19:17:06]   🔄 CHAT-HANDOVER -> Chat #3 (local:playtest-ab2858f710), paste Save
+[19:17:39] [turn 15 / chat 3] SL (2568 chars, 61297+1036 tok, RAG=5, ~$2.96)
+[19:17:42] >>> Sarah: briefing!! los gehts endlich 😄
+[19:18:24] [turn 16 / chat 3] SL (3914 chars, 61237+1560 tok, RAG=4, ~$3.16)
+[19:18:27] >>> Sarah: option 1! als gast rein, ich will sehen wie der typ so ist 😄
+[19:19:16] [turn 17 / chat 3] SL (3903 chars, 60298+1585 tok, RAG=4, ~$3.37)
+[19:19:19] >>> Sarah: hmm ich schau mir die frau erstmal genauer an! option 2
+[19:19:56] [turn 18 / chat 3] SL (3153 chars, 64423+1213 tok, RAG=4, ~$3.58)
+[19:19:58] >>> Sarah: das armband! option 3, ich will wissen was das ist
+[19:20:32] [turn 19 / chat 3] SL (2992 chars, 64396+1147 tok, RAG=5, ~$3.79)
+[19:20:34] >>> Sarah: ich folg ihr!! option 1, die frau ist interessanter gerade
+[19:21:14] [turn 20 / chat 3] SL (3226 chars, 65244+1275 tok, RAG=5, ~$4.01)
+[19:21:16] >>> Sarah: option 1, ich bieg kurz ab. sie soll denken ich bin irgendein tourist 😅
+[19:21:54] [turn 21 / chat 3] SL (3194 chars, 67685+1277 tok, RAG=6, ~$4.23)
+[19:21:56] >>> Sarah: option 1! kurz zu den briefkästen, ich will wissen wer da wohnt. brenner kann warten oder?
+[19:22:25] [turn 22 / chat 3] SL (2313 chars, 67957+951 tok, RAG=6, ~$4.45)
+[19:22:28] >>> Sarah: option 3 ich geh einfach weiter, ich will keinen stress mit dem typen 😅
+[19:22:56] [turn 23 / chat 3] SL (2183 chars, 69484+886 tok, RAG=6, ~$4.67)
+[19:22:59] >>> Sarah: puh okay, also brenner ist wichtiger oder? ich geh zur skodagasse. aber was ist mit dem ty
+[19:23:33] [turn 24 / chat 3] SL (2862 chars, 70700+1156 tok, RAG=6, ~$4.90)
+[19:23:35] >>> Sarah: okay also ich klingel einfach bei brenner, der typ draußen schaut ja nicht mal zu mir. und
+[19:24:09] [turn 25 / chat 3] SL (2561 chars, 71209+1046 tok, RAG=6, ~$5.13)
+[19:24:13] >>> Sarah: option 1!! dem beobachter draußen sag ich bescheid, vielleicht haut brenner dann mit mir a
+[19:24:47] [turn 26 / chat 3] SL (2644 chars, 72820+1075 tok, RAG=7, ~$5.36)
+[19:24:51] >>> Sarah: option 3! was sind das für jahreszahlen, ich versteh das nicht 👀 und was heißt das mit den
+[19:25:25] [turn 27 / chat 3] SL (2735 chars, 74586+1066 tok, RAG=6, ~$5.60)
+[19:25:29] >>> Sarah: okay also der hat wirklich leute beeinflusst?? budapest und so?? ich frag option 1, wer wa
+[19:25:52] [turn 28 / chat 3] SL (1854 chars, 74812+723 tok, RAG=7, ~$5.84)
+[19:25:55] >>> Sarah: warte mal kurz, "bis heute abend" was meint er damit?? und der typ draußen den keiner kenn
+[19:26:27] [turn 29 / chat 3] SL (2504 chars, 75742+1022 tok, RAG=5, ~$6.08)
+[19:26:30] >>> Sarah: option 3!! raus hier, ich nehm das notizbuch und brenner kommt mit. hinterausgang wo??
+[19:26:58] [turn 30 / chat 3] SL (2234 chars, 76453+918 tok, RAG=5, ~$6.32)
+[19:27:01] >>> Sarah: option 1 brenner kommt mit!! ich kann den da nicht einfach stehen lassen 😤
+[19:27:37] [turn 31 / chat 3] SL (2993 chars, 77577+1262 tok, RAG=6, ~$6.57)
+[19:27:40] >>> Sarah: option 1!! einfach rein da, tür zu, weg!! 😤 brenner zuerst
+[19:28:23] [turn 32 / chat 3] SL (3490 chars, 78645+1463 tok, RAG=6, ~$6.83)
+[19:28:27] >>> Sarah: option 1!! los los los, ich pack brenner am arm und WEG DA 😤 der soll ruhig schießen, wir 
+[19:29:24] [turn 33 / chat 3] SL (4839 chars, 80895+2010 tok, RAG=4, ~$7.10)
+[19:29:26] >>> Sarah: oh wow okay wir haben's geschafft?? 😅 was ist jetzt ein "aufstieg" und was heißt SYS??
+[19:29:55] [turn 34 / chat 3] SL (2175 chars, 80961+838 tok, RAG=7, ~$7.36)
+[19:29:58] >>> Sarah: okay puh das ist viel text 😅 ich glaub ich nehm einfach die erste option?? damit ich in de
+[19:30:14] [turn 35 / chat 3] SL (998 chars, 83246+410 tok, RAG=5, ~$7.62)
+[19:30:17] >>> Sarah: CHA dann!! bin ja anscheinend gut darin lol 😄
+[19:30:48] [turn 36 / chat 3] SL (2579 chars, 83703+1083 tok, RAG=6, ~$7.88)
+[19:30:51] >>> Sarah: puh okay, was soll ich jetzt machen? 😅 ich glaub ich geh mal zu brenner schauen wie's ihm 
+[19:31:12] [turn 37 / chat 3] SL (1483 chars, 84518+568 tok, RAG=7, ~$8.15)
+[19:31:18] >>> Sarah: ich sag ihm einfach die wahrheit?? also soweit ich das selbst versteh 😅 "sie sind... nicht
+[19:31:38] [turn 38 / chat 3] SL (1495 chars, 85183+597 tok, RAG=8, ~$8.41)
+[19:31:40] >>> Sarah: option 3!! ich will wissen wer diese horáček ist, das klingt mega spannend 👀
+[19:32:10] [turn 39 / chat 3] SL (2832 chars, 85796+1083 tok, RAG=6, ~$8.68)
+[19:32:13] >>> Sarah: okay warte warte warte 😳 dieselbe person über 30 jahre?? das ist doch wie... ich?? 
+
+was s
+[19:32:45] [turn 40 / chat 3] SL (2739 chars, 88859+1073 tok, RAG=7, ~$8.97)
+[19:32:50] >>> Sarah: okay MOMENT 😳 sie wartet da allein und weiß von nix?? ich geh zurück, option 2!!
+[19:33:27] [turn 41 / chat 3] SL (3224 chars, 88733+1337 tok, RAG=5, ~$9.25)
+[19:33:30] >>> Sarah: scheiß drauf, ich geh rein!! option 1, walther raus 😤
+[19:34:02] [turn 42 / chat 3] SL (2418 chars, 89427+984 tok, RAG=5, ~$9.54)
+[19:34:06] >>> Sarah: option 2!! horáček wegziehen, schnell!!
+[19:34:37] [turn 43 / chat 3] SL (2405 chars, 90921+990 tok, RAG=5, ~$9.82)
+[19:34:40] >>> Sarah: deckungsfeuer!! option 1, ich schieß kurz damit horáček durchs fenster kann, dann hinterhe
+[19:35:19] [turn 44 / chat 3] SL (2893 chars, 92315+1210 tok, RAG=7, ~$10.12)
+[19:35:22] >>> Sarah: option 3!! ich frag sie ob sie nen sicheren ort kennt, wir haben keine zeit für großes erk
+[19:36:00] [turn 45 / chat 3] SL (3240 chars, 92082+1363 tok, RAG=7, ~$10.41)
+[19:36:04] >>> Sarah: option 1 nochmal!! und was meinte sie mit "der faden das sind sie"?? 😰
+[19:36:36] [turn 46 / chat 3] SL (2724 chars, 94589+1073 tok, RAG=5, ~$10.71)
+[19:36:39] >>> Sarah: okay er sagt er will dasselbe aber ich trau dem nicht!! option 2, NOCHMAL armieren, alles 
+[19:37:18] [turn 47 / chat 3] SL (3426 chars, 95415+1395 tok, RAG=5, ~$11.02)
+[19:37:20] >>> Sarah: option 3!! und was meint sie mit "verhindert"?? der typ hat das GEWUSST bevor wir da waren
+[19:37:50] [turn 48 / chat 3] SL (2624 chars, 96366+1026 tok, RAG=8, ~$11.33)
+[19:37:53] >>> Sarah: option 1, ja erste mission. aber warte — er hat nen eintrag gelesen der noch nicht geschri
+[19:38:25] [turn 49 / chat 3] SL (2852 chars, 97144+1144 tok, RAG=7, ~$11.63)
+[19:38:27] >>> Sarah: okay das ist so creepy 😭 wer schreibt die einträge dann überhaupt?? option 1, ich will zum
+[19:38:59] [turn 50 / chat 3] SL (2809 chars, 99738+1121 tok, RAG=5, ~$11.95)
+[19:39:02] >>> Sarah: ich starr das armband an. option 2 — "16. was bedeutet das?"
+[19:39:31] [turn 51 / chat 3] SL (2358 chars, 101158+964 tok, RAG=6, ~$12.27)
+[19:39:34] >>> Sarah: wer zählt?? und warum fangen die erst bei 14 an, gibt es noch mehr?? 😰
+[19:40:08] [turn 52 / chat 3] SL (3167 chars, 101879+1233 tok, RAG=4, ~$12.59)
+[19:40:11] >>> Sarah: okay das ist so gruselig 😟 irgendwo liegt ein armband MIT MEINER NUMMER und ich weiß noch 
+[19:40:32] [turn 53 / chat 3] SL (1614 chars, 102903+608 tok, RAG=4, ~$12.91)
+[19:40:34] >>> Sarah: okay !save dann 😅 aber ich will UNBEDINGT wissen was mit dem armband ist wenn ich wiederko
+[19:41:59] [turn 54 / chat 3] SL (11548 chars, 104189+4544 tok, RAG=4, ~$13.29)
+[19:41:59]   💾 SAVE erkannt (mode=hq) -> chat03-turn54-hq.json
+[19:41:59]   🔄 CHAT-HANDOVER -> Chat #4 (local:playtest-a91b3c081c), paste Save
+[19:42:28] [turn 55 / chat 4] SL (2500 chars, 58140+1043 tok, RAG=0, ~$13.48)
+[19:42:31] >>> Sarah: okay bin wieder da!! was war nochmal mit dem armband 👀
+[19:42:55] [turn 56 / chat 4] SL (1762 chars, 62225+661 tok, RAG=4, ~$13.68)
+[19:42:59] >>> Sarah: okay ich will den barmann fragen!! option 1 — weiß er wo MEIN armband ist??
+[19:43:29] [turn 57 / chat 4] SL (2162 chars, 63179+816 tok, RAG=4, ~$13.88)
+[19:43:33] >>> Sarah: warte also... MEIN armband liegt auch irgendwo rum in der vergangenheit?? das ist so weird
+[19:43:57] [turn 58 / chat 4] SL (1975 chars, 64074+758 tok, RAG=4, ~$14.08)
+[19:44:00] >>> Sarah: ich nehm das papier!! und dann.. wer ist nochmal horáček? die kenn ich noch nicht glaub ic
+[19:44:22] [turn 59 / chat 4] SL (1554 chars, 64326+593 tok, RAG=7, ~$14.29)
+[19:44:24] >>> Sarah: option 2 erstmal! ich will wissen was sie rausgefunden hat 👀
+[19:44:52] [turn 60 / chat 4] SL (2162 chars, 65999+829 tok, RAG=6, ~$14.50)
+[19:44:58] >>> Sarah: okay ich leg das papier auf den tisch!! option 1. aber ich will auch wissen wer tomáš ist 
+[19:44:58] === ENDE === turns=60 chats=4 stop=max_turns saves=3 findings=0 ~$14.50

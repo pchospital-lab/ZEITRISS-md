@@ -1,0 +1,376 @@
+
+🎮 ZEITRISS CoreOps-Harness v2.0 (MP-Tracking)
+Target: http://127.0.0.1:8080 · KB: bb266c62... · SL: zeitriss-v426-uncut
+Szenario: CoreOps Tier-1, Verification-Run nach PR #2963. PSI-Kim. MP-Nutzung getrackt.
+Max Turns: 44
+
+[12:46:46] === START: coreops-verify-psi-1246 ===
+[12:46:46] Spieler: ['jonas', 'kim', 'sarah'], Max turns: 44
+[12:46:46] >>> GRUPPE: Spiel starten (gruppe klassisch). Wir sind 3 Spieler:
+- Sarah bringt Mara Voss (SPLINTER): GES 5, INT 5, TEMP 4, SOC 3, 
+[12:46:46] 
+--- Turn 1 ---
+[12:47:43] <<< SL (19305p/2697c/57.6s, cum=22002): # ZEITRISS — Gruppenstart · Klassisch · 3 Spieler  ---  ## ZEITRISS  *„Wir schützen nicht die Vergan
+[12:47:47] >>> JONAS (Jonas): Okay, ich glaub der Text wurde zweimal eingefügt oder ist abgeschnitten — aber i
+[12:47:50] >>> KIM (Ines Delacroix): warte mal kurz – PP 8/8? ich dachte ich hab TEMP 5, das wären doch eher 4-5 PP? 
+[12:47:53] >>> SARAH (Mara Voss): Okay ich bin da, sorry kurze Verbindung. Voss ist bereit — wartet auf das Briefi
+[12:47:54] 
+--- Turn 2 ---
+[12:48:17] <<< SL (22210p/344c/23.1s, cum=44556): ## PP-Klärung für Kim + Startcheck  ---  **Kim — gute Frage, kurze Antwort:**  PP-Startwert = **TEMP
+[12:48:21] >>> JONAS (Jonas): Alright, ich bin ready. Und hey Kim, TEMP 5 ist schon fett — ich komm mit meinen
+[12:48:23] >>> KIM (Ines Delacroix): okay 8 PP das ist mehr als ich dachte, nice!! ready, los geht's 🙌
+[12:48:26] >>> SARAH (Mara Voss): Warte noch auf Kim, aber ich bin bereit. Voss hat sich schon mental auf Renier e
+[12:48:27] 
+--- Turn 3 ---
+[12:49:16] <<< SL (22710p/1986c/48.7s, cum=69252): ``` EP 1 · MS 1 · SC 00/-- · PHASE Briefing · MODE CORE · COMMS OK Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · 
+[12:49:22] >>> JONAS (Jonas): Okay, ich lehn mich kurz zurück und nehm das alles auf. Wien 1873, Journalist, u
+[12:49:28] >>> KIM (Ines Delacroix): „Warte kurz — er hat den Satz abgebrochen. *'Ihr se—'* Was wollte er sagen?"
+
+*U
+[12:49:31] >>> SARAH (Mara Voss): Voss lehnt sich leicht vor und sieht auf die Straßenkarte. „Der geschwärzte Name
+[12:49:32] 
+--- Turn 4 ---
+[12:50:04] <<< SL (25103p/836c/32.0s, cum=95191): Renier hat den Satz nicht abgebrochen — das war ein Tippfehler im Briefing-Text, der jetzt behoben i
+[12:50:12] >>> JONAS (Jonas): Ich meld mich sprungbereit — aber kurz noch: dieses "geschütztes Kontinuitätsobj
+[12:50:15] >>> KIM (Ines Delacroix): Ja, ich mach die Probe! TEMP 5, also 5W6? Oder wie läuft das hier — nehm ich den
+[12:50:22] >>> SARAH (Mara Voss): Voss nickt langsam bei Holls Namen, sagt aber nichts — das ist mehr als Renier f
+[12:50:23] 
+--- Turn 5 ---
+[12:50:23] === Progress 5/44 (11%) · Prompt peak 17865 tok/turn avg ===
+[12:50:52] <<< SL (26225p/668c/29.0s, cum=122084): **Kim — kurze Würfelmechanik-Erklärung:**  Kein Würfelpool, kein "höchster Wert". ZEITRISS nutzt **e
+[12:50:54] >>> JONAS (Jonas): Ich tippe eine 4.
+[12:50:57] >>> KIM (Ines Delacroix): okay 4! was ergibt das?
+
+und — kann ich dabei kurz seine Stimmung lesen? also ob
+[12:51:04] >>> SARAH (Mara Voss): Ich würfel eine 4. Also 4 + 2 = 6, das reicht nicht gegen SG 10, oder?
+[12:51:05] 
+--- Turn 6 ---
+[12:51:32] <<< SL (27008p/770c/26.3s, cum=149862): **Kurze Klarstellung zur Runde:**  Die Telepathie-Probe gehört **Kim (Ines)**. Jonas und Sarah würfe
+[12:51:38] >>> JONAS (Jonas): „Okay, kurze Absprache bevor wir laufen — ich würd sagen Option 1, aber fix."
+
+*
+[12:51:42] >>> KIM (Ines Delacroix): Mist. Okay, Ungeduld krieg ich, mehr nicht — der Mann ist einfach ein emotionale
+[12:51:50] >>> SARAH (Mara Voss): „Voss sagt ruhig: Ich übernehme die Vorhut bei Ankunft, Handscanner läuft sofort
+[12:51:51] 
+--- Turn 7 ---
+[12:52:28] <<< SL (28115p/1434c/37.2s, cum=179411): Die zwanzig Minuten laufen. Draußen im Korridor sind Schritte zu hören — Hangar-Personal, Routine.  
+[12:52:32] >>> JONAS (Jonas): Ich geh vor. Hab den Eingang eh schon im Blick, macht Sinn dass ich als erster d
+[12:52:38] >>> KIM (Ines Delacroix): Kurze Prekog auf den Sprung? Einfach mal fühlen ob was schiefläuft auf der ander
+[12:52:41] >>> SARAH (Mara Voss): Voss wirft noch einen letzten Blick auf den Techniker, dann auf die Pylonen. „Fa
+[12:52:42] 
+--- Turn 8 ---
+[12:52:54] <<< SL (29803p/318c/12.1s, cum=209532): **Kim — Präkognition I:**  Ja, **2 PP**, TEMP-Probe SG 10. Sofortaktion, noch vor dem Sprung. Bei Er
+[12:53:02] >>> JONAS (Jonas): Okay, ich würfel. W6 + 2 gegen SG 10 — das ist schon knapp, ich brauch mindesten
+[12:53:05] >>> KIM (Ines Delacroix): ja mach ich! *würfelt* 🎲 — hab ne 4
+
+4 + 2 = 6, das ist unter 10 oder? fail?
+[12:53:09] >>> SARAH (Mara Voss): Okay, ich mach die Probe. W6: **4** — plus 2, macht 6. Verfehlt, oder?
+[12:53:10] 
+--- Turn 9 ---
+[12:53:51] <<< SL (30319p/1633c/41.0s, cum=241484): **Kurze Klärung für alle drei:**  **Jonas** — du würfelst hier nicht. Präkognition ist **Ines' Fähig
+[12:53:58] >>> JONAS (Jonas): Okay, der Sprung ist durch — und Ines' Splitter hat ja gepasst, Kälte und Kopfst
+[12:54:04] >>> KIM (Ines Delacroix): Der Splitter war real — Kälte, Pflaster, Hund. Check, check, check. Gruselig.
+
+I
+[12:54:09] >>> SARAH (Mara Voss): Ich tippe:
+
+---
+
+Voss lässt den Blick einmal langsam durch den Hof wandern, bevo
+[12:54:10] 
+--- Turn 10 ---
+[12:54:10] === Progress 10/44 (22%) · Prompt peak 23079 tok/turn avg ===
+[12:54:41] <<< SL (32409p/1178c/31.2s, cum=275071): **Kim — Telepathie auf Umgebung:**  Telepathie I braucht **Sichtkontakt zu einer Person** — sie lies
+[12:54:46] >>> JONAS (Jonas): Die Eisentür check ich kurz — geöltes Schloss bedeutet regelmäßige Nutzung, das 
+[12:54:51] >>> KIM (Ines Delacroix): "okay macht sinn, keine PP verschwendet 👍
+
+ich halte die augen offen falls einer
+[12:54:54] >>> SARAH (Mara Voss): Ich gehe tiefer. "Voss hält den Scanner über die Abdrücke." Würfele ich INT+2 ge
+[12:54:55] 
+--- Turn 11 ---
+[12:55:18] <<< SL (33901p/558c/23.1s, cum=309530): **Sarah — ja, genau so:**  INT-Probe + Tatortanalyse-Bonus (+2), SG 9. Dein INT ist 5, also:  **W6 +
+[12:55:23] >>> JONAS (Jonas): Okay, ich würfel — *klick* — hab eine 4 gewürfelt. Das gibt 4 + 2 + 2 = 8, also 
+[12:55:26] >>> KIM (Ines Delacroix): okay warte ich check kurz — W6 + 2 + 2, ich brauch 5+ auf dem W6, richtig?
+
+*wür
+[12:55:33] >>> SARAH (Mara Voss): Ich würfle — W6 ergibt eine **6**. Das macht 6 + 2 + 2 = **10**, Erfolg.
+
+Voss s
+[12:55:34] 
+--- Turn 12 ---
+[12:55:46] <<< SL (34789p/361c/12.4s, cum=344680): **Jonas & Kim — kurze Regelklärung:**  ZEITRISS kennt keine Teilerfolge per se — aber **knappe Misse
+[12:55:49] >>> JONAS (Jonas): Okay krass, Explosion auf W6 — das kannte ich von DSA so nicht, cool. Bin gespan
+[12:55:52] >>> KIM (Ines Delacroix): *lehnt sich vor*
+
+oh warte, explodierender Würfel?? das ist eine Regel die ich m
+[12:55:56] >>> SARAH (Mara Voss): *würfelt*
+
+Okay, ich hab eine **4** — macht dann 14 gesamt, oder? Voss schaut si
+[12:55:57] 
+--- Turn 13 ---
+[12:56:22] <<< SL (35312p/804c/25.0s, cum=380796): **Probe: Tatortanalyse → W6: [6→4] + ⌊5/2⌋ (2) + Talent +2 = 14 vs. SG 9 → KRITISCHER ERFOLG**  `Kod
+[12:56:27] >>> JONAS (Jonas): Okay krasser Krit, Mara ist ja voll in ihrem Element gerade 😄
+
+Ich würde Option 
+[12:56:31] >>> KIM (Ines Delacroix): Ines, Notizbuch noch in der Hand: "Okay ich versuch kurz Prekog auf das Papier —
+[12:56:38] >>> SARAH (Mara Voss): Ich nehme Option 1, aber kurz — Voss sagt leise zu Jonas: „Papier. Ich sichere e
+[12:56:39] 
+--- Turn 14 ---
+[12:57:02] <<< SL (36455p/878c/23.9s, cum=418129): **Kim — Präkognition auf Objekt:**  Präkognition I zeigt einen **Nah-Zukunfts-Blick** — was in den n
+[12:57:09] >>> JONAS (Jonas): Café Central ist ein Statement. Wer auch immer das da hingelegt hat, der weiß wa
+[12:57:13] >>> KIM (Ines Delacroix): okay danke für die Klarstellung! dann spar ich die PP lieber
+
+Ines schaut die Tr
+[12:57:18] >>> SARAH (Mara Voss): Ich gehe mit Option 2, aber kombiniert — Voss sagt leise zu den anderen: „Café C
+[12:57:19] 
+--- Turn 15 ---
+[12:57:19] === Progress 15/44 (34%) · Prompt peak 26910 tok/turn avg ===
+[12:57:33] <<< SL (37726p/404c/14.1s, cum=456259): **Jonas — GES-Probe, ja, mit Kontext-Modifikator:**  Holztreppe, Morgenstille, jemand könnte oben st
+[12:57:37] >>> JONAS (Jonas): Okay, das ist quasi unschaffbar ohne Explosion, oder? W6+2-1 = maximal 7, ich br
+[12:57:39] >>> KIM (Ines Delacroix): ok moment *würfelt physisch* — hab ne 4 gewürfelt, macht das 4+2=6, oder?
+[12:57:44] >>> SARAH (Mara Voss): Ich warte kurz — Voss lehnt an der Hofmauer und beobachtet die Fenster im Oberge
+[12:57:45] 
+--- Turn 16 ---
+[12:58:06] <<< SL (38353p/698c/20.8s, cum=495310): **Jonas — kurze Korrektur:**  Nicht unschaffbar, aber eng. W6 Maximum ist 6, plus 2, minus 1 = **7**
+[12:58:15] >>> JONAS (Jonas): Okay, Gleichgültigkeit ist zumindest kein "lauft weg sofort" — aber bei dem Würf
+[12:58:17] >>> KIM (Ines Delacroix): "Gleichgültigkeit klingt irgendwie beunruhigender als Gefahr? 😅 Ich sag Abzug zu
+[12:58:22] >>> SARAH (Mara Voss): Ich tippe:
+
+---
+
+Voss lehnt sich kurz zur Tür vor und murmelt: „Gleichgültigkeit
+[12:58:23] 
+--- Turn 17 ---
+[12:59:08] <<< SL (39382p/1653c/44.7s, cum=536345): Zwei Stimmen für Option 3 (Jonas, Mara), eine für Abzug zu Brenner (Ines). Mehrheit trägt — ihr blei
+[12:59:12] >>> JONAS (Jonas): „Holl war hier" — okay das ist keine gute Nachricht. Ich schau Mara kurz an und 
+[12:59:15] >>> KIM (Ines Delacroix): „Holl war hier" — okay das ist creepy.
+
+Kann ich kurz eine Prekog auf Brenner ma
+[12:59:18] >>> SARAH (Mara Voss): Voss sagt ruhig: „Holl war hier — wann?" Sie tritt einen halben Schritt auf Bren
+[12:59:19] 
+--- Turn 18 ---
+[12:59:37] <<< SL (41289p/613c/18.1s, cum=578247): **Kim — kurze Korrektur:**  Präkognition zeigt Nah-Zukunft, keine Lügendetektion. Für "lügt sie uns 
+[12:59:41] >>> JONAS (Jonas): Ich nehme Telepathie. 1 PP, Sichtkontakt ist ja gegeben — ich will wissen ob sie
+[12:59:45] >>> KIM (Ines Delacroix): Telepathie, 1 PP. Ich will wissen ob sie Angst hat oder uns was verheimlicht.
+[12:59:48] >>> SARAH (Mara Voss): Okay, Telepathie dann — Sichtkontakt ist da, 1 PP. Ich würde gerne wissen ob sie
+[12:59:49] 
+--- Turn 19 ---
+[13:00:03] <<< SL (42099p/210c/13.3s, cum=620556): **Jonas & Sarah — kurze Klarstellung:**  Telepathie ist **Ines' Fähigkeit**, nicht eure. RAMPART und
+[13:00:08] >>> JONAS (Jonas): Alright, Kim übernimmt. Ich beobachte Brenner weiter — Hände, Blickkontakt, ob s
+[13:00:10] >>> KIM (Ines Delacroix): *würfelt*
+
+5 + 2 = 7... mist, reicht das? SG war 10 oder?
+[13:00:14] >>> SARAH (Mara Voss): Ah okay, danke für die Klarstellung! Ich warte dann auf Kims Wurf, bevor ich wei
+[13:00:15] 
+--- Turn 20 ---
+[13:00:15] === Progress 20/44 (45%) · Prompt peak 30125 tok/turn avg ===
+[13:00:39] <<< SL (42552p/848c/24.5s, cum=663956): **Probe: Telepathie I → W6: [5] + ⌊5/2⌋ (2) = 7 vs. SG 10 → MISS**  `Kodex: Telepathie I — Fehlschla
+[13:00:42] >>> JONAS (Jonas): Ich tippe:
+
+„Bevor wir hochgehen — wer hat Ihnen gesagt, dass Leute kommen könnt
+[13:00:51] >>> KIM (Ines Delacroix): „Okay Arndt wartet auf uns, das klingt fast zu einfach."
+
+Kurze Pause.
+
+„Ich wür
+[13:00:53] >>> SARAH (Mara Voss): Voss sagt ruhig zu Brenner: „Wann genau hat er Sie gebeten, uns hochzuschicken?"
+[13:00:54] 
+--- Turn 21 ---
+[13:01:21] <<< SL (43617p/937c/27.1s, cum=708510): Brenner hört alle drei Fragen — dieselbe Frage aus drei Richtungen. Sie antwortet einmal, ruhig, ohn
+[13:01:27] >>> JONAS (Jonas): Ich nehme Option 3, aber kombiniert — ich frage nach dem Mann, während Mara den 
+[13:01:32] >>> KIM (Ines Delacroix): „Warte — bevor wir den Umschlag anfassen." *tippt kurz* „Kann ich Brenner jetzt 
+[13:01:34] >>> SARAH (Mara Voss): Voss nimmt den Umschlag aus der Dose, hält ihn gegen das Licht, dann zieht sie d
+[13:01:35] 
+--- Turn 22 ---
+[13:01:53] <<< SL (44867p/575c/17.4s, cum=753952): **Sarah — ja, korrekt:**  Tatortanalyse +2 auf INT-Proben zur Spurensicherung. Umschlag analysieren 
+[13:01:58] >>> JONAS (Jonas): Gut, Brenner gibt was her. Ich hake nochmal kurz nach, bevor ich abschließe:
+
+„D
+[13:02:05] >>> KIM (Ines Delacroix): *würfelt* 🎲
+
+Okay ich hab eine **5** — das reicht oder? Und ich tippe gleichzeit
+[13:02:09] >>> SARAH (Mara Voss): Okay, ich würfel für Voss — /roll d6
+
+*(tippt kurz danach)*
+
+Ergebnis ist eine *
+[13:02:10] 
+--- Turn 23 ---
+[13:02:40] <<< SL (45808p/1251c/30.4s, cum=801011): **Beide Proben gleichzeitig:**  ---  **Probe: Tatortanalyse → W6: [5] + ⌊5/2⌋ (2) + Talent +2 = 9 vs
+[13:02:46] >>> JONAS (Jonas): Okay, kurz Pause. Tempocom hat Brenner drei Wochen VOR unserer Mission-Zuweisung
+[13:02:54] >>> KIM (Ines Delacroix): „Warte — *endlich*? Sie hat gedacht *endlich*. Ich hab nicht viel erwischt aber 
+[13:02:58] >>> SARAH (Mara Voss): Ich lege den Umschlag langsam auf den Tisch, Seite nach oben. „Tempocom. Ihr Was
+[13:02:59] 
+--- Turn 24 ---
+[13:03:44] <<< SL (47481p/1004c/45.4s, cum=849496): **Jonas — Multitasking:**  Tür sichern ist passive Aktion, kein Würfelwurf nötig solange der Flur no
+[13:03:54] >>> JONAS (Jonas): *tippt*
+
+Okay, der Schritt von oben ändert alles. Ich flüstere kurz zu den ander
+[13:04:01] >>> KIM (Ines Delacroix): „Warte — bevor wir hochgehen. Darf ich kurz Telepathie auf Brenner versuchen? Nu
+[13:04:10] >>> SARAH (Mara Voss): Voss sagt leise zu Ines: „Arndt bewegt sich — wir müssen jetzt hoch." Dann, eine
+[13:04:11] 
+--- Turn 25 ---
+[13:04:11] === Progress 25/44 (56%) · Prompt peak 33073 tok/turn avg ===
+[13:04:31] <<< SL (48896p/622c/19.4s, cum=899014): **Jonas — Positionswechsel:**  Normale Bewegungsaktion, kein Malus, kein Wurf. Der Flur ist still. D
+[13:04:37] >>> JONAS (Jonas): Okay, ich bin an der Treppe. Oben rührt sich was — Schublade klingt nicht gut, d
+[13:04:40] >>> KIM (Ines Delacroix): sparen. Arndt ist das eigentliche Ziel, Brenner hat eh schon geredet
+[13:04:43] >>> SARAH (Mara Voss): Voss nickt Brenner knapp zu und sagt leise: „Vera. Gut." Dann dreht sie den Kopf
+[13:04:44] 
+--- Turn 26 ---
+[13:05:18] <<< SL (49786p/1349c/34.1s, cum=950149): `Kodex: PP-Entscheidung — Telepathie gespart. PP bleibt bei 2/8. Aufstieg zu Arndt, dritter Stock.` 
+[13:05:24] >>> JONAS (Jonas): „Wir wollen den Artikel nicht stoppen." Ich schaue kurz zur Reisetasche, dann wi
+[13:05:26] >>> KIM (Ines Delacroix): Ich scan kurz seine Emotionen, bevor Jonas antwortet — kostet das 1 PP bei SG 10
+[13:05:30] >>> SARAH (Mara Voss): Voss bleibt an der Tür stehen und lässt den Blick über die Recherche-Wand wander
+[13:05:31] 
+--- Turn 27 ---
+[13:06:01] <<< SL (51393p/529c/29.9s, cum=1002071): **Kim — ja, 1 PP, SG 10:**  Telepathie I auf Arndt, Sichtkontakt gegeben. W6 + ⌊5/2⌋ (2) vs. SG 10. 
+[13:06:04] >>> JONAS (Jonas): „Arndt — Vera hat uns kontaktiert. Wir wissen nicht mehr als Sie uns gerade sage
+[13:06:07] >>> KIM (Ines Delacroix): ja ich mach's. letzter PP aber ich will wissen ob er lügt wenn er sagt "sie war 
+[13:06:15] >>> SARAH (Mara Voss): Voss tippt kurz auf den Handscanner und sieht kurz zu Kim rüber — ein kleines Ko
+[13:06:16] 
+--- Turn 28 ---
+[13:06:27] <<< SL (52109p/395c/11.6s, cum=1054575): **Kim — du hast entschieden. Würfel deinen W6.**  `Kodex: Telepathie I — Zeitfenster offen. W6 + 2 v
+[13:06:31] >>> JONAS (Jonas): Scheiße. Das war der falsche Einstieg.
+
+Ich tippe: „Okay, ich warte kurz — Kim, 
+[13:06:34] >>> KIM (Ines Delacroix): *würfelt* 4! also 4+2=6, das reicht nicht oder? SG war 10 😬
+
+kann ich trotzdem w
+[13:06:36] >>> SARAH (Mara Voss): *würfelt* Hab eine 4.
+[13:06:37] 
+--- Turn 29 ---
+[13:06:58] <<< SL (52688p/822c/21.1s, cum=1108085): **Probe: Telepathie I → W6: [4] + ⌊5/2⌋ (2) = 6 vs. SG 10 → MISS**  `Kodex: Telepathie I — Fehlschla
+[13:07:01] >>> JONAS (Jonas): Ich geh mit Option 2, aber kombiniert mit 4 — Ines soll mir das V-Signal zeigen 
+[13:07:06] >>> KIM (Ines Delacroix): ich flüster zu Jonas: "V auf nem Brief — Vera hat ihm physisch geschrieben, ich 
+[13:07:15] >>> SARAH (Mara Voss): Ich tippe:
+
+Voss hat die Taborstraße — fremde Handschrift, bläuliche Tinte, unte
+[13:07:16] 
+--- Turn 30 ---
+[13:07:16] === Progress 30/44 (68%) · Prompt peak 36057 tok/turn avg ===
+[13:07:39] <<< SL (53808p/865c/23.8s, cum=1162758): Jonas sagt: „Taborstraße 31."  Ruhig. Beiläufig. Wie jemand der eine Adresse nennt die er schon lang
+[13:07:46] >>> JONAS (Jonas): „Darf ich?" — ich deute auf den Umschlag, warte auf sein Nicken.
+
+Dann, ruhig: „
+[13:07:48] >>> KIM (Ines Delacroix): „Okay ich MUSS das jetzt lesen — aber erstmal: kann ich kurz Telepathie auf Arnd
+[13:07:55] >>> SARAH (Mara Voss): Voss sagt ruhig: „Darf ich?" — und deutet auf den Umschlag, Handscanner schon ha
+[13:07:56] 
+--- Turn 31 ---
+[13:08:52] <<< SL (55019p/590c/56.0s, cum=1218367): **Kim — Jonas hat recht:**  Arndt redet gerade freiwillig. Telepathie jetzt kostet 1 PP (letzte Rese
+[13:08:57] >>> JONAS (Jonas): Ich lehne mich etwas vor und höre zu, ohne Arndt zu unterbrechen. Vera klingt na
+[13:09:01] >>> KIM (Ines Delacroix): warte. er redet eh. PP spare ich.
+[13:09:04] >>> SARAH (Mara Voss): Ich nehme den Umschlag — **/roll W6**
+
+Ergebnis + 4 (2 GES + Talent) gegen SG 8,
+[13:09:05] 
+--- Turn 32 ---
+[13:09:22] <<< SL (55816p/510c/16.3s, cum=1274693): **Sarah — kurze Korrektur:**  Die Formel ist **W6 + ⌊INT/2⌋ + Talent**, nicht GES. Tatortanalyse läu
+[13:09:24] >>> JONAS (Jonas): W6 → *würfelt* — **4**. Also 4 + 4 = **8 gesamt**.
+[13:09:31] >>> KIM (Ines Delacroix): *würfel*
+
+4 + 4 = **8**!
+
+(danke für die Korrektur, hab mir INT gemerkt 👍)
+
+---
+
+[13:09:33] >>> SARAH (Mara Voss): Okay, danke für die Korrektur! W6: **3**. Also 3 + 4 = **7** gesamt — was fällt 
+[13:09:34] 
+--- Turn 33 ---
+[13:10:01] <<< SL (56547p/979c/26.8s, cum=1332219): **Klärung für alle drei:**  Nur **Sarah** würfelt hier — die Tatortanalyse auf den Umschlag gehört M
+[13:10:05] >>> JONAS (Jonas): „Leute — unten am Torbogen steht jemand. Dunkler Mantel, vierzig, schaut direkt 
+[13:10:08] >>> KIM (Ines Delacroix): "Scheiß drauf, ich mach's. Letzte PP auf Arndt — ich will wissen ob er uns anlüg
+[13:10:12] >>> SARAH (Mara Voss): Voss steckt den Umschlag ein ohne zu zögern. „Fenster zurück, jetzt — Arndt, ken
+[13:10:13] 
+--- Turn 34 ---
+[13:10:26] <<< SL (57780p/400c/12.8s, cum=1390399): **Kim — letzte PP:**  TEMP-Probe, W6 + ⌊5/2⌋ (2) vs. SG 9. PP gehen auf **0/8**. Würfel.  `Kodex: Te
+[13:10:33] >>> JONAS (Jonas): Okay, das ist ein wichtiger Hinweis — der Typ war also schon bei der Brief-Überg
+[13:10:35] >>> KIM (Ines Delacroix): *würfelt*
+
+5 + 2 = 7. Verfehlt, oder?
+[13:10:42] >>> SARAH (Mara Voss): Ich würfel für Kim: [W6 = 4]
+
+„4 plus 2 macht 6 — gegen SG 9, das reicht nicht."
+[13:10:43] 
+--- Turn 35 ---
+[13:10:43] === Progress 35/44 (79%) · Prompt peak 38876 tok/turn avg ===
+[13:11:08] <<< SL (58439p/994c/24.9s, cum=1449832): **Kurze Klarstellung:**  Sarah — du würfelst nicht für Kim. Jede Spielerin würfelt nur für ihre eige
+[13:11:20] >>> JONAS (Jonas): „Option 2 — ich geh runter. Mara, scann den Umschlag jetzt sofort, wir können ni
+[13:11:25] >>> KIM (Ines Delacroix): „Scheiße, PP leer — aber er lügt nicht, das hab ich zumindest gespürt. Er *warte
+[13:11:31] >>> SARAH (Mara Voss): Voss nimmt den Umschlag, zieht den Handscanner. „Ich leuchte ihn durch, bevor ir
+[13:11:32] 
+--- Turn 36 ---
+[13:11:49] <<< SL (59756p/521c/17.0s, cum=1510109): Jonas — du kennst den Hof bereits: **Eisentür Nord** als zweiter Ausgang, geölt, aktiv genutzt. Der 
+[13:11:53] >>> JONAS (Jonas): GES-Probe für die Treppe — W6: ich würfel eine 4. Plus 2 (GES) macht 6, das reic
+[13:11:58] >>> KIM (Ines Delacroix): Ich halte kurz die Luft an — Taborstraße 31, das speicher ich — und dann: **kurz
+[13:12:05] >>> SARAH (Mara Voss): Mara-Probe zuerst: W6 → **4** + 2 (INT) + 2 (Talent) = **8** vs. SG 7 ✓
+
+Voss sa
+[13:12:06] 
+--- Turn 37 ---
+[13:12:32] <<< SL (60607p/967c/25.7s, cum=1571683): **Kim — Psi-leer:**  PP sind bei 0/8. Keine Psi-Aktionen mehr bis HQ — weder Telepathie noch Präkogn
+[13:12:37] >>> JONAS (Jonas): Okay, er hat sich noch nicht umgedreht — das ist meine Chance. Ich warte kurz ab
+[13:12:41] >>> KIM (Ines Delacroix): okay warte ich bin verwirrt — hat Jonas die Stufe laut gemacht oder Ines? weil i
+[13:12:47] >>> SARAH (Mara Voss): Okay, Voss steckt den Grundriss ein — der kommt direkt zu Brenner, das ist ihr Z
+[13:12:48] 
+--- Turn 38 ---
+[13:13:14] <<< SL (61992p/971c/25.6s, cum=1634646): **Kim — Klarstellung:**  Jonas hat die Treppe gemacht, nicht Ines. Du bist noch oben im dritten Stoc
+[13:13:18] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay kurze Frage zur Lage — wenn ich Brenner hole (Option 3), w
+[13:13:22] >>> KIM (Ines Delacroix): Okay Arndt weiß was das ist — ich frag ihn kurz aus, Zugänge, ob noch jemand and
+[13:13:25] >>> SARAH (Mara Voss): Voss nimmt Arndt ruhig beim Arm. „Taborstraße 31 — wer außer Ihnen weiß davon?" 
+[13:13:26] 
+--- Turn 39 ---
+[13:13:41] <<< SL (63250p/432c/15.2s, cum=1698328): **Jonas — Brenner holen:**  Der Weg zum zweiten Stock läuft komplett innen — Treppenhaus, kein Hofko
+[13:13:45] >>> JONAS (Jonas): Okay, klar — ich hol Brenner, das ist risikolos und wir brauchen alle Mann wenn 
+[13:13:47] >>> KIM (Ines Delacroix): Ich hol Brenner. Bin in 30 Sekunden zurück.
+[13:13:50] >>> SARAH (Mara Voss): Voss nickt Arndt kurz zu, dann ins Comlink, leise: „Jonas — Brenner holen, jetzt
+[13:13:51] 
+--- Turn 40 ---
+[13:13:51] === Progress 40/44 (90%) · Prompt peak 41618 tok/turn avg ===
+[13:14:13] <<< SL (63894p/903c/22.5s, cum=1763125): **Kim — kurze Klarstellung:**  Du bist im dritten Stock bei Arndt, Jonas ist im Erdgeschoss. Brenner
+[13:14:18] >>> JONAS (Jonas): Keller klingt gut. Wenn der Durchgang wirklich nicht dokumentiert ist, haben wir
+[13:14:22] >>> KIM (Ines Delacroix): okay warte — kann ich kurz Prekog auf den Mann im Hof machen? bevor wir uns ents
+[13:14:25] >>> SARAH (Mara Voss): Voss nimmt den Grundriss aus der Tasche und hält ihn Brenner hin — Taborstraße 3
+[13:14:26] 
+--- Turn 41 ---
+[13:15:22] <<< SL (65038p/1415c/56.4s, cum=1829578): **Kim — Psi-leer:**  PP sind bei 0/8. Keine Psi-Aktionen bis HQ-Reset — das gilt für Telepathie und 
+[13:15:28] >>> JONAS (Jonas): Ich tippe:
+
+---
+
+Okay, Exfil hat geklappt, gut. Bevor wir irgendwo hinrennen — C
+[13:15:32] >>> KIM (Ines Delacroix): „Brenner." Ines bleibt kurz stehen, bevor sie die Gasse betritt. „Was verbindet 
+[13:15:38] >>> SARAH (Mara Voss): Voss hält kurz inne in der Gasse, prüft instinktiv beide Richtungen. „Renier zue
+[13:15:39] 
+--- Turn 42 ---
+[13:16:05] <<< SL (66784p/1095c/26.3s, cum=1897457): Arndt antwortet Jonas, während Mara den Comlink vorbereitet.  „Persönlich." Er sagt es ohne Zögern. 
+[13:16:13] >>> JONAS (Jonas): Ich nehme Option 2, aber mit einer Modifikation — Arndt und Brenner kommen mit, 
+[13:16:18] >>> KIM (Ines Delacroix): „Option 3. Aufteilen."
+
+kurze pause
+
+„und ich will vorher kurz Prekog auf die Ta
+[13:16:22] >>> SARAH (Mara Voss): Voss sagt leise, ohne die Gasse aus den Augen zu lassen: „Arndt — wie ist der Br
+[13:16:23] 
+--- Turn 43 ---
+[13:16:46] <<< SL (68314p/940c/23.1s, cum=1966711): **Kim — Psi-leer, das ist endgültig:**  PP 0/8. Keine Psi-Aktionen bis HQ-Reset. Das gilt auch für P
+[13:16:53] >>> JONAS (Jonas): Okay, Treffpunkt: Praterstraße 12, Innenhof — dort war vorhin das Schild mit dem
+[13:16:56] >>> KIM (Ines Delacroix): okay warte kurz — PP 0/8 ist der neue cap oder mein aktueller stand? weil ich da
+[13:17:00] >>> SARAH (Mara Voss): Voss sagt leise zu Ines: „Du bleibst hinter mir, du gibst den Ton an — klar?" Da
+[13:17:01] 
+--- Turn 44 ---
+[13:17:25] <<< SL (69638p/1028c/24.6s, cum=2037377): **Kim — kurze Klarstellung:**  PP 0/8 bedeutet: dein Maximum ist 8, dein aktueller Stand ist 0. Du h
+[13:17:34] >>> JONAS (Jonas): Kurz zu Brenner: „Danke. Das erklärt einiges." Mehr sag ich nicht dazu — wenn si
+[13:17:38] >>> KIM (Ines Delacroix): „Warte kurz — kann ich trotz PP 0 noch ne Prekog auf die Tür machen? Oder bin ic
+[13:17:43] >>> SARAH (Mara Voss): Option 4 — Mara scannt, Ines beobachtet.
+
+Voss hält kurz an, zieht den Handscann
+[13:17:44] 
+=== ENDE: max_turns erreicht ===
+[13:17:44] 📊 Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/coreops-verify-psi-1246/_bericht.md
+[13:17:44] 📉 Tokens peak: 69638
+[13:17:44] 🧩 MP-Sections dormant: 4/13

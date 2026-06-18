@@ -1,0 +1,19 @@
+[12:17:09] === START CoreOps MERGE-ONLY (Fix #3235 Beweis) ===
+[12:17:09] === MERGE-ONLY: lädt vorhandene Branch-Saves, fährt nur Merge ===
+[12:17:09]   geladen: alpha-3er (3 chars), bravo-2er (2 chars)
+[12:17:09] === MERGE — Chat local:playtest-11e281a814 ===
+[12:17:09] >>> [MERGE] [beide Branch-Saves laden + Merge]
+[12:18:06] <<< [MERGE] SL (6006 chars, 69780 ptok, cache 82%, RAG=0, cum $0.0946)
+[12:18:06]   🎓 [MERGE] Level-Up-Sperre erkannt -> Default-Wahlen eintragen (Auflösung 1)
+[12:18:06] >>> [MERGE] [Level-Up-Wahl 1]
+[12:21:08] <<< [MERGE] SL (30914 chars, 77306 ptok, cache 74%, RAG=6, cum $0.3653)
+[12:21:08]   💾 Save 'merge-result-5er' (mode=hq, 5 chars) -> merge-result-5er.json
+[12:21:08]   ❌ [MERGE] SCHEMA: merge-result-5er @ continuity/shared_echoes: [{'tag': 'meridian-funktion-ms11', 'scope': 'campaign', 'text': 'MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-
+[12:21:08]   ❌ [MERGE] ECHO-CAP: merge-result-5er: shared_echoes 12>6
+[12:21:08]   ⚠️ [MERGE-ASSERT] IMPORTED: merge: imported_saves als String-Array (1 Einträge) statt kanonischer Objektform [{save_id,branch_id,status}] (Modul 12)
+[12:21:08]   ❌ [MERGE-ASSERT] ECHO-CAP: merge: shared_echoes 12>6
+[12:21:08]   ❌ [MERGE-ASSERT] WEALTH-EXPLOIT: merge: Gesamtvermögen STEIGT über Split/Merge 90050→95440 (+5390, +6.0%) — Geld-Druck-Exploit über Split/Merge-Zyklus
+[12:21:08]   ℹ️ [ROUTING] ROUTING-RIFT: Kein Rift-Seed in shared_echoes (korrekt)
+[12:21:08]   ⚠️ [ROUTING] ROUTING-FADEN: 10 Ermittlungs-Hinweis(e) noch als campaign-shared_echo (sollten in research/summary): ['meridian-funktion-ms11', 'route-drei-prozess-ms12', 'route-drei-nichtmensch-ms11', 'mv-initialen-ms12', 'depot-anatolien-bronzezeit-ms11', 'zylinder-erster-anker-ms12', 'kaffee-kalt-meridian-ms12', 'frau-zuerich-iti-stiefel-ms12', 'kowalski-warschau-ms12', 'kairos-beobachter-wien1937-ms12']
+[12:21:08]   ℹ️ [ROUTING] Faden-Ablage: research.projects=2, summary_active_arcs=gefüllt, shared_echoes=12 (davon campaign-nonfolgespur=11), rift_seeds=1
+[12:21:08] === ENDE === verdict=FAIL turns=2 $0.3653 peak=77306 cache=78% fails=4 softs=2

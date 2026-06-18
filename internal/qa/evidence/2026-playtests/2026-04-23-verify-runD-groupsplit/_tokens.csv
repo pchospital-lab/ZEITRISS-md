@@ -1,0 +1,15 @@
+turn,phase,prompt_tokens,completion_tokens,latency_s
+13:56:14,solo-voss,24919,849,29.98
+13:56:30,solo-voss,22507,399,15.79
+13:56:42,solo-voss,23210,238,11.60
+13:56:57,solo-voss-save,23393,278,15.24
+13:57:36,solo-kaspar,24650,1394,38.26
+13:58:06,solo-kaspar,22651,861,30.15
+13:58:26,solo-kaspar,25308,514,19.26
+13:59:01,solo-kaspar-save,24627,1669,35.03
+13:59:29,solo-delacroix,24415,885,28.06
+13:59:42,solo-delacroix,23824,388,12.57
+14:00:06,solo-delacroix,23524,520,23.55
+14:00:39,solo-delacroix-save,23665,1573,32.91
+14:03:34,merge,22711,5996,174.56
+14:03:51,merge,30810,367,16.27

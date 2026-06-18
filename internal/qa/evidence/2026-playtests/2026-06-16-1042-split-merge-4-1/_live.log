@@ -1,0 +1,32 @@
+[10:42:58] === START 5er-Split/Merge Case 4-1 ===
+[10:42:58] === Phase 1 (Anker) — Chat local:playtest-3b5f9d0497 ===
+[10:42:58] >>> [P1-load] Spieler: [5er-HQ-Save laden]
+[10:43:31] <<< [P1-load] SL (2105 chars, 61710 ptok, cache 91%, RAG=5, cum $0.0463)
+[10:43:31] >>> [P1-split] Spieler: [4/1-Split anfordern + !save je Gruppe]
+[10:44:54] <<< [P1-split] SL (14844 chars, 61827 ptok, cache 91%, RAG=5, cum $0.1679)
+[10:44:54]   → 2 Branch-Save(s) extrahiert
+[10:44:54]   💾 Save 'p1-branch1-4er' (mode=hq) -> p1-branch1-4er.json
+[10:44:54]   💾 Save 'p1-branch2-1er' (mode=hq) -> p1-branch2-1er.json
+[10:44:54] === Branch A-4er — Chat local:playtest-a115103cf1 ===
+[10:44:54] >>> [branch-A-4er] Spieler: [Branch-Save laden]
+[10:45:26] <<< [branch-A-4er] SL (3180 chars, 58900 ptok, cache 96%, RAG=0, cum $0.2118)
+[10:45:26] >>> [branch-A-4er] Spieler: [HQ-Beat + !save]
+[10:45:45] <<< [branch-A-4er] SL (1017 chars, 64990 ptok, cache 87%, RAG=5, cum $0.2639)
+[10:45:45] >>> [branch-A-4er] Spieler: [!save explizit]
+[10:46:48] <<< [branch-A-4er] SL (10484 chars, 64355 ptok, cache 87%, RAG=5, cum $0.3680)
+[10:46:48]   💾 Save 'branch-A-4er-result' (mode=hq) -> branch-A-4er-result.json
+[10:46:48] === Branch B-1er — Chat local:playtest-2cfd598971 ===
+[10:46:48] >>> [branch-B-1er] Spieler: [Branch-Save laden]
+[10:47:24] <<< [branch-B-1er] SL (2828 chars, 63602 ptok, cache 88%, RAG=4, cum $0.4240)
+[10:47:24] >>> [branch-B-1er] Spieler: [HQ-Beat + !save]
+[10:48:27] <<< [branch-B-1er] SL (7143 chars, 63915 ptok, cache 88%, RAG=5, cum $0.5054)
+[10:48:27]   💾 Save 'branch-B-1er-result' (mode=hq) -> branch-B-1er-result.json
+[10:48:27] === Phase 4 (Merge) — Chat local:playtest-b6ca645319 ===
+[10:48:27] >>> [P4-merge] Spieler: [beide Branch-Saves laden + Merge]
+[10:49:51] <<< [P4-merge] SL (15959 chars, 61019 ptok, cache 92%, RAG=0, cum $0.6319)
+[10:49:51]   💾 Save 'merge-result' (mode=hq) -> merge-result.json
+[10:49:51]   ⚠️ [MERGE-ASSERT] ANCHOR-ECON: merge: hq_pool 26600 != Anker 53200 und kein continuity_conflict protokolliert
+[10:49:51]   ❌ [MERGE-ASSERT] CONVERGE: merge: resolved_threads ['SOLO-E', 'SQUAD-ABCD'] deckt erwartete ['SPLIT-EP12-MS10-KAIROS-SOLO', 'SPLIT-EP12-MS10-KAIROS-SQUAD'] nicht ab
+[10:49:51]   ⚠️ [MERGE-ASSERT] CONVERGE: merge: split.expected_threads ['SOLO-E', 'SQUAD-ABCD'] != erwartet ['SPLIT-EP12-MS10-KAIROS-SOLO', 'SPLIT-EP12-MS10-KAIROS-SQUAD']
+[10:49:51]   ❌ [MERGE-ASSERT] IMPORTED: merge: imported_saves protokolliert 0/2 Branches (jeder Branch braucht save_id+branch_id+status)
+[10:49:51] === ENDE === verdict=FAIL turns=8 $0.6319 peak=64990 cache=90% fails=2 softs=2

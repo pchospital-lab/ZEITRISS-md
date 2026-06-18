@@ -1,0 +1,162 @@
+# Turn 3 — SL
+
+```
+Kodex: INT 5 → 6 bestätigt. Würfeltyp bleibt W6 (W10 erst ab INT 11).
+```
+```
+Kodex: level_history[2] = { "choice": "Attribut", "detail": "INT +1", "mission": "MS01" }
+```
+
+---
+
+**Wahl kodifiziert.** Kein weiterer Aufstieg auf Stufe 2 möglich.
+
+Voss wird schärfer. Die Spurenanalyse sitzt tiefer, die Muster fügen sich schneller zusammen. Kleinigkeit — aber im Feld zählt jede Sekunde Vorsprung.
+
+---
+
+Hier der vollständige `!save`-Block:
+
+```json
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-01-01T00:00:00Z-HQ-ALPHA",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 1,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "core",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-VOSS-01",
+      "name": "Mara Voss",
+      "callsign": "SPLINTER",
+      "rank": "Feldagentin",
+      "lvl": 2,
+      "xp": 0,
+      "origin": { "epoch": "", "hominin": "Homo sapiens sapiens", "role": "Ermittlerin" },
+      "attr": { "STR": 3, "GES": 5, "INT": 6, "CHA": 3, "TEMP": 4, "SYS": 3 },
+      "hp": 12,
+      "hp_max": 12,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        { "name": "Tatortanalyse", "tier": "Basis", "bonus": "+2 auf Spurenanalyse-Proben" }
+      ],
+      "equipment": [
+        { "name": "Dienstpistole", "type": "weapon", "tier": 1 },
+        { "name": "Kevlarweste", "type": "armor", "tier": 1 },
+        { "name": "Handscanner", "type": "gadget", "tier": 1 },
+        { "name": "Multitool", "type": "gadget", "tier": 0 },
+        { "name": "Comlink", "type": "gadget", "tier": 0 }
+      ],
+      "implants": [],
+      "history": {
+        "background": "Feldagentin, erste Mission erfolgreich abgeschlossen.",
+        "milestones": [
+          "MS01 abgeschlossen — Bewertung GUT",
+          "Lvl 2: INT +1"
+        ]
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-VOSS-01",
+          "name": "Standard-Feldfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": { "ready_every_missions": 3, "next_ready_in": 0 },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 1,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 350
+    }
+  ],
+  "economy": { "hq_pool": 0 },
+  "logs": {
+    "trace": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [
+      "MS01 abgeschlossen. Bewertung GUT. +250 CU. +1 ITI-Ruf. Lvl 2: INT 5→6."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": "Episode 1 läuft. Mission 1 abgeschlossen."
+  },
+  "continuity": {
+    "last_seen": { "mode": "core", "episode": 1, "mission": 1, "location": "HQ" },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "arc": { "factions": {}, "questions": [], "hooks": [] },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}
+```
+
+---
+
+```
+Kodex: HQ-Zustand stabil. Deepsave abgeschlossen.
+```
+```
+Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.
+```
+
+---
+
+**HQ-Menü — SPLINTER · Feldagentin · Ruf 1 · Lizenz Tier I**
+
+Das ITI liegt ruhig um dich. Irgendwo im Quarzatrium läuft ein gedämpftes Gespräch zwischen zwei Technikern. Der Duty-Desk leuchtet grün.
+
+**`[1] Erkunden`** — Manuelles HQ (Klinik, Shop, Quartiere, Archiv, Gespräche)
+**`[2] Schnell-HQ`** — Kurzrast, dann bereit für Mission 2
+**`[3] Briefing`** — Mission 2 starten
+**`[4] Freie Aktion`**

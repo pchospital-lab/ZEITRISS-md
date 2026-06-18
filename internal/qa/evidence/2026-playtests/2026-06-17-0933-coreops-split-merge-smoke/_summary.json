@@ -1,0 +1,15 @@
+{
+  "verdict": "FAIL",
+  "turns": 6,
+  "cost_usd": 0.3624,
+  "peak_prompt_tokens": 70628,
+  "avg_cache_hit": 0.886,
+  "merge_save_captured": false,
+  "fails": [
+    "❌ [SECTION-SAVE] SMOKE-5er: kein Ergebnis-Save",
+    "❌ [SMOKE] Save-Pipeline lieferte keinen Save"
+  ],
+  "softs": [
+    "⚠️ [MISSION-INCOMPLETE] SMOKE-5er: kein HQ-Savepoint nach 1 Turns — Save erzwungen"
+  ]
+}

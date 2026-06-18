@@ -1,0 +1,95 @@
+{
+  "v": 7,
+  "save_id": "solo-splinter-runD",
+  "session_type": "solo",
+  "characters": [
+    {
+      "name": "Mara Voss",
+      "callsign": "SPLINTER",
+      "player": "Sarah",
+      "level": 1,
+      "xp": 9,
+      "attributes": {
+        "GES": 5,
+        "INT": 5,
+        "TEMP": 4,
+        "SOC": 3,
+        "STR": 3,
+        "WIS": 3
+      },
+      "lp": 11,
+      "lp_max": 12,
+      "stress": 3,
+      "pp": 0,
+      "pp_max": 0,
+      "sys": 0,
+      "sys_max": 14,
+      "talents": [
+        "Tatortanalyse"
+      ],
+      "equipment": [
+        {
+          "name": "Dienstpistole",
+          "type": "weapon",
+          "tier": 1
+        },
+        {
+          "name": "Kevlarweste",
+          "type": "armor",
+          "tier": 1
+        },
+        {
+          "name": "Handscanner",
+          "type": "tool",
+          "tier": 1
+        },
+        {
+          "name": "Multitool",
+          "type": "tool",
+          "tier": 1
+        },
+        {
+          "name": "2x Rauchgranate",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "currency": {
+        "cu": 120
+      },
+      "level_history": {},
+      "missions_completed": 1,
+      "px": 1,
+      "deepsave": true
+    }
+  ],
+  "squad": {
+    "name": "Mara Voss",
+    "tier": 1,
+    "wallet": {
+      "cu": 120
+    },
+    "reputation": {
+      "ITI": 2,
+      "Tempocom": 0,
+      "Arcana": 0
+    }
+  },
+  "continuity": {
+    "shared_echoes": [
+      "Mission 1: Lagerhaus gesichert"
+    ],
+    "npc_roster": [
+      {
+        "name": "Dr. Veith",
+        "role": "Kontakt",
+        "status": "aktiv"
+      }
+    ]
+  },
+  "session_meta": {
+    "chat_id": "solo-splinter",
+    "scene_count": 0,
+    "phase": "HQ"
+  }
+}

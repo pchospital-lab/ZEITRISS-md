@@ -1,0 +1,14 @@
+{
+  "case": "konflikt",
+  "verdict": "FAIL",
+  "turns": 8,
+  "cost_usd": 0.4734,
+  "peak_prompt_tokens": 64973,
+  "avg_cache_hit": 0.897,
+  "fails": [
+    "❌ [BRANCH-SAVE] Branch 1-4er: kein Ergebnis-Save",
+    "❌ [BRANCH-SAVE] Branch 2-1er: kein Ergebnis-Save"
+  ],
+  "softs": [],
+  "merge_save_captured": false
+}

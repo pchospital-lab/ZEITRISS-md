@@ -1,0 +1,931 @@
+[18:09:48] === PHASE START: phase3-5er-wallet-organisch ===
+[18:09:48] Spieler: ['astra', 'blitz', 'cipher', 'dusk', 'echo_p']
+[18:09:48] Max turns: 70
+[18:09:48] >>> GRUPPE: Spiel laden:
+
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "campaign": {
+    "episode": 12,
+    "mission": 10,
+    "px": 3,
+    "px_state": "stable",
+    "mode": "preserve",
+    "rift_seeds": [],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "AGENT-A",
+      "name": "Astra",
+      "callsign": "ECHO",
+      "rank": "Operator IX",
+      "lvl": 912,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Analytik & Spurensicherung"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 7,
+        "INT": 9,
+        "CHA": 5,
+        "TEMP": 6,
+        "SYS": 5
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 5,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Astra (ECHO) - erfahrener ITI-Operator, Rolle: Analytik & Spurensicherung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 60400,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
+    },
+    {
+      "id": "AGENT-B",
+      "name": "Blitz",
+      "callsign": "STORM",
+      "rank": "Operator IX",
+      "lvl": 905,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "CQB & Sturmangriff"
+      },
+      "attr": {
+        "STR": 9,
+        "GES": 8,
+        "INT": 4,
+        "CHA": 4,
+        "TEMP": 7,
+        "SYS": 3
+      },
+      "lp": 26,
+      "lp_max": 26,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 3,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Blitz (STORM) - erfahrener ITI-Operator, Rolle: CQB & Sturmangriff.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 6900,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      }
+    },
+    {
+      "id": "AGENT-C",
+      "name": "Cipher",
+      "callsign": "GHOST",
+      "rank": "Operator IX",
+      "lvl": 933,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltration & Hacking"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 8,
+        "INT": 8,
+        "CHA": 5,
+        "TEMP": 5,
+        "SYS": 9
+      },
+      "lp": 19,
+      "lp_max": 19,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Cipher (GHOST) - erfahrener ITI-Operator, Rolle: Infiltration & Hacking.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 8100,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      }
+    },
+    {
+      "id": "AGENT-D",
+      "name": "Dusk",
+      "callsign": "VEIL",
+      "rank": "Operator IX",
+      "lvl": 918,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Verdeckte Aufklaerung"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 7,
+        "INT": 6,
+        "CHA": 8,
+        "TEMP": 6,
+        "SYS": 4
+      },
+      "lp": 21,
+      "lp_max": 21,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 4,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Dusk (VEIL) - erfahrener ITI-Operator, Rolle: Verdeckte Aufklaerung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 7600,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
+    },
+    {
+      "id": "AGENT-E",
+      "name": "Echo",
+      "callsign": "RELAY",
+      "rank": "Operator IX",
+      "lvl": 901,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Support & Feldtechnik"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 6,
+        "INT": 7,
+        "CHA": 6,
+        "TEMP": 5,
+        "SYS": 7
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Echo (RELAY) - erfahrener ITI-Operator, Rolle: Support & Feldtechnik.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 80,
+        "fraktionen": {}
+      },
+      "wallet": 7050,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        }
+      }
+    }
+  ],
+  "economy": {
+    "wallets": {
+      "AGENT-A": {
+        "balance": 60400,
+        "name": "Astra"
+      },
+      "AGENT-B": {
+        "balance": 6900,
+        "name": "Blitz"
+      },
+      "AGENT-C": {
+        "balance": 8100,
+        "name": "Cipher"
+      },
+      "AGENT-D": {
+        "balance": 7600,
+        "name": "Dusk"
+      },
+      "AGENT-E": {
+        "balance": 7050,
+        "name": "Echo"
+      }
+    }
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "economy_audit",
+        "target_range": {
+          "level_band": "900+"
+        }
+      }
+    ],
+    "artifact_log": [],
+    "market": [],
+    "notes": [],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": [],
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false
+    },
+    "hud": [],
+    "psi": [],
+    "arena_psi": []
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; Chronopolis-Embargo"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 12,
+      "mission": 10,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "save_id": "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person",
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    }
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "none",
+    "tier": 0,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "low"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "standard"
+  }
+}
+
+[18:09:48] 
+--- Turn 1 ---
+[18:10:16] <<< SL (62152p/1215c/28.4s, cum=63367): `Kodex: Save erkannt — v7 · ZEITRISS 4.2.6 · Branch ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL`  `Kodex: Fü
+[18:10:20] >>> ASTRA (Astra): Gut, wir sind zurück. Bevor wir ins Briefing springen — checkt alle kurz euer Lo
+[18:10:26] >>> BLITZ (Blitz): Alter, 6.900 CU — das reicht doch hinten und vorne nicht für ordentliches Gear. 
+[18:10:29] >>> CIPHER (Cipher): Kurze Frage bevor wir weitermachen — Astra, hast du mal kurz Blick auf deine Wal
+[18:10:31] >>> DUSK (Dusk): Alles grün bei mir. Kurz durchatmen, dann Briefing — ich will wissen, was mit KA
+[18:10:34] >>> ECHO_P (Echo): Alright, alle Werte grün bei mir. Echo checkt kurz den Verbrauchsstand bevor wir
+[18:10:35] 
+--- Turn 2 ---
+[18:11:05] <<< SL (68148p/1010c/30.4s, cum=132525): Die Zero Time Lounge ist ruhig um diese Stunde. Irgendwo surrt das Kühlsystem des Sprung-Gate-Arrays
+[18:11:10] >>> ASTRA (Astra): Blitz, ich schieb dir 2.000 rüber — hol dir ordentliche Panzerung und eine neue 
+[18:11:13] >>> BLITZ (Blitz): Okay, 6.900 — ich dachte ich hab mehr. Ich geh zum Quartiermeister, Tier-3-Waffe
+[18:11:18] >>> CIPHER (Cipher): "Astra, ich würd sagen 2–3k an jeden von uns wäre fair — bringt alle ins grüne B
+[18:11:21] >>> DUSK (Dusk): Mein Stand ist okay. Echo, ich nehm einen Med-Patch, falls du einen abgeben kann
+[18:11:23] >>> ECHO_P (Echo): Ich leg schon mal aus — Med-Patch und Rauchgranate gehen an Blitz, der braucht d
+[18:11:24] 
+--- Turn 3 ---
+[18:12:02] <<< SL (69433p/1273c/37.5s, cum=203231): Der Tisch in der Zero Time Lounge ist jetzt ein improviserter Quartiermeister. Echos Rucksack liegt 
+[18:12:02] ⚠️  FINDING: [WALLET-KAUF] Kauf aus Wallet erkannt — Beat (a) gezündet (manuell prüfen)
+[18:12:02] ⚠️  FINDING: [WALLET-UEBERGABE] CU-Übergabe erkannt — Beat (b) gezündet (manuell prüfen)
+[18:12:04] >>> ASTRA (Astra): Cipher, Dusk — checkt kurz euer Wallet. Wenn ihr unter zehn seid und vor dem Bri
+[18:12:07] >>> BLITZ (Blitz): Sturmkarabiner und Verbundpanzer — beides. Genau das, was ich brauchte. Astra, d
+[18:12:11] >>> CIPHER (Cipher): Astra, fahr die Runde. 2k an alle — dann stehen wir alle gleich, und ich mag gle
+[18:12:13] >>> DUSK (Dusk): Astra, wenn du die Runde fahren willst — ich nehm's. Aber kein Muss, ich komm au
+[18:12:16] >>> ECHO_P (Echo): Carry ist leer — ich hab gegeben was ich hab. Astra, wenn du die Runde fährst, b
+[18:12:17] 
+--- Turn 4 ---
+[18:12:44] <<< SL (70392p/971c/26.8s, cum=274594): `Kodex: Transfer — Astra → Cipher: 2.000 CU.` `Kodex: Transfer — Astra → Dusk: 2.000 CU.` `Kodex: Tr
+[18:12:46] >>> ASTRA (Astra): Echo, geh kurz zum Quartiermeister — Med-Patch und Rauchgranate, die 80 CU steck
+[18:12:50] >>> BLITZ (Blitz): Echo, kauf dir was beim Quartiermeister — 60 Credits, du hast 9k auf der Karte. 
+[18:12:53] >>> CIPHER (Cipher): Echo, geh zum Quartiermeister — 9k im Wallet, 60 CU für Med-Patch und Rauchgrana
+[18:12:54] >>> DUSK (Dusk): Echo — hol dir Patch und Granate. 80 CU, blank ins Feld ist keine Option.
+[18:12:56] >>> ECHO_P (Echo): Kurz zum Quartiermeister, dauert zwei Minuten. Geh nicht blank rein.
+[18:12:57] 
+--- Turn 5 ---
+[18:13:18] <<< SL (72052p/619c/21.1s, cum=347265): Die ganze Runde hat gesprochen. Echo steht bereits auf.  ---  Der Quartiermeister schaut kaum hoch, 
+[18:13:21] >>> ASTRA (Astra): Gut. Alle gleich aufgestellt, niemand mit Lücken. — Dusk, mach die Tür auf. KAIR
+[18:13:24] >>> BLITZ (Blitz): Gut. Alle versorgt, keiner geht blank rein — das ist schon mal was. Auf zum Brie
+[18:13:25] >>> CIPHER (Cipher): Sauber. Alle gleich ausgestattet, niemand im Minus — ich bin ready für das Brief
+[18:13:27] >>> DUSK (Dusk): Gut. Gehen wir rein.
+[18:13:32] >>> ECHO_P (Echo): Alles verteilt, alle gleich aufgestellt. Gehen wir rein.
+[18:13:33] 
+--- Turn 6 ---
+[18:14:22] <<< SL (71363p/1832c/48.5s, cum=420460): `EP 12 · MS 10 · SC 00/-- · PHASE Briefing · MODE CORE · COMMS OK · Px 3/5 · Stress 0/10 · Obj: KAIR
+[18:14:29] >>> ASTRA (Astra): Westbahnhof 2031 ist dicht — Kameras überall, Zivilisten, kein Spielraum für Feh
+[18:14:33] >>> BLITZ (Blitz): Renier sagt keine Leichen — check. Aber wenn der Kurier Ärger macht, red ich nic
+[18:14:36] >>> CIPHER (Cipher): „Bevor wir planen — was haben wir aktuell in der Kasse? Will wissen ob wir uns Z
+[18:14:39] >>> DUSK (Dusk): „Option drei klingt sauber — Echo rein, Fach auf, Paket raus, kein Sichtkontakt.
+[18:14:41] >>> ECHO_P (Echo): Ich schau mir Route 3 nochmal an — wenn ich über das Gebäude-Netz reinkomme, kan
+[18:14:42] 
+--- Turn 7 ---
+[18:15:10] <<< SL (75632p/872c/27.2s, cum=496964): Renier hört zu, während die Runde sich selbst brieft. Er korrigiert nichts. Das ist ein gutes Zeiche
+[18:15:12] >>> ASTRA (Astra): Cipher, wenn du noch Gear brauchst — sag was. Ich schieß dir CU rüber, kein Them
+[18:15:16] >>> BLITZ (Blitz): 8.100 CU — ernsthaft? Ich kann mir davon nicht mal eine anständige Sturmplatte k
+[18:15:20] >>> CIPHER (Cipher): Kamera-Jammer und ein Override-Kit — ich nehm das aus meiner Kasse, zusammen was
+[18:15:23] >>> DUSK (Dusk): Timing-Signal läuft über Kurzpuls auf taktischer Frequenz — einmal kurz heißt Ku
+[18:15:26] >>> ECHO_P (Echo): Punkt zwei — ich brauche jemanden an meiner Seite beim Reinkommen. Cipher, wenn 
+[18:15:27] 
+--- Turn 8 ---
+[18:16:00] <<< SL (76812p/1168c/33.1s, cum=574944): `Kodex: Briefing läuft — Rollenverteilung wird finalisiert.`  ---  Renier hört zu, sagt nichts. Er l
+[18:16:03] >>> ASTRA (Astra): Das Comlink-Modul übernehme ich — 150 CU sind aus meinem Wallet raus, kein Thema
+[18:16:08] >>> BLITZ (Blitz): Nehm das Mod. Günstiger, ich bleib beweglich — und im Gewölbe will ich nicht wie
+[18:16:11] >>> CIPHER (Cipher): Jammer und Override-Kit — ja, kauf ich. Zum Relais: Echos Toolkit ist ein Kompro
+[18:16:14] >>> DUSK (Dusk): Das Relais kaufen. 150 CU — wenn das Signal bricht, läuft nicht nur ich blind, d
+[18:16:17] >>> ECHO_P (Echo): Ich nehm das Comlink-Modul — 150 aus meinem Wallet, kein Diskussion. Im Beton bi
+[18:16:18] 
+--- Turn 9 ---
+[18:16:57] <<< SL (78023p/1403c/38.9s, cum=654370): Astra und Echo sprechen gleichzeitig. Kurze Pause. Dann lacht Echo einmal kurz auf — das erste Mal s
+[18:17:00] >>> ASTRA (Astra): Neunzehn Minuten. Ich schaue einmal in die Runde — Blitz, Cipher, Dusk, Echo — d
+[18:17:02] >>> BLITZ (Blitz): Keramik sitzt. Nineteen Minuten — ich bin bereit. Sprung.
+[18:17:06] >>> CIPHER (Cipher): Cipher checkt die Wallet-Übersicht noch einmal durch, nickt einmal kurz. „88k ge
+[18:17:08] >>> DUSK (Dusk): Neunzehn Minuten. Gut.
+[18:17:11] >>> ECHO_P (Echo): Das Comlink-Modul wiegt in der Tasche. Gut so.
+
+„Renier — Sicherheitspräsenz auf
+[18:17:12] 
+--- Turn 10 ---
+[18:17:49] <<< SL (80095p/1288c/37.4s, cum=735753): Renier schaut kurz auf den Holotisch. Tippt einmal.  *„Westbahnhof 2031 hat ein privates Sicherheits
+[18:17:52] >>> ASTRA (Astra): Cipher, Schloss — jetzt. Alle rein, Tür zu, bevor er um die Ecke kommt. Blitz, d
+[18:17:57] >>> BLITZ (Blitz): Cipher, knack das Schloss — jetzt, wir haben keine zwanzig Sekunden. Alle rein, 
+[18:18:00] >>> CIPHER (Cipher): „Option 1 — ich bin an der Tür. Echo, deck mich ab, fall mir nicht in den Arm. J
+[18:18:02] >>> DUSK (Dusk): „Cipher — Tür auf, jetzt. Alle rein, leise. Wachmann-Rhythmus lernen wir drinnen
+[18:18:04] >>> ECHO_P (Echo): „Cipher, Schloss. Ich halte die Tür — alle rein, kein Lärm. Blitz, Timer läuft."
+[18:18:05] 
+--- Turn 11 ---
+[18:18:43] <<< SL (80977p/1301c/37.7s, cum=818031): Cipher ist bereits an der Tür, bevor Astra den Satz zu Ende gesprochen hat.  Das Override-Kit kommt 
+[18:18:46] >>> ASTRA (Astra): Bevor wir uns trennen, will ich wissen wo der zweite Mann ist. Dusk, hast du ihn
+[18:18:48] >>> BLITZ (Blitz): Ich geh mit Astra und Dusk — Bahnhofsebene ist mein Revier. Aber bevor wir uns t
+[18:18:50] >>> CIPHER (Cipher): „Bevor wir uns trennen — wo ist Wachmann zwei? Ich lauf nicht blind in den Wartu
+[18:18:53] >>> DUSK (Dusk): Zweiten Wachmann lokalisieren, bevor wir uns aufteilen. Ich will nicht, dass uns
+[18:18:55] >>> ECHO_P (Echo): „Cipher, geh schon vor — ich folge in fünf. Ich will erst kurz in den Lagerraum,
+[18:18:56] 
+--- Turn 12 ---
+[18:19:37] <<< SL (82820p/1501c/40.8s, cum=902352): Dusk lehnt sich an die Wand, Ohr zur Tür. Dreißig Sekunden. Er zählt innerlich.  Der erste Wachmann 
+[18:19:41] >>> ASTRA (Astra): Cipher, Jammer an — aber leise, kein Piepen beim Aktivieren. Dusk, du bleibst im
+[18:19:44] >>> BLITZ (Blitz): Option B. Ich übernehm ihn — lautlos, bevor er auch nur blinzelt. Cipher, du jam
+[18:19:46] >>> CIPHER (Cipher): Option C. Ich jammere die Bodycam, dann gehen Echo und ich rein — kontrolliert, 
+[18:19:49] >>> DUSK (Dusk): „Option A mit Cipher als Backup. Ich locke ihn raus — einfacher Vorwand, falsche
+[18:19:52] >>> ECHO_P (Echo): Ich bin für Ablenkung. Dusk oder Astra zieht ihn raus — ich geh mit Cipher rein,
+[18:19:53] 
+--- Turn 13 ---
+[18:20:41] <<< SL (84775p/1737c/47.6s, cum=988864): Die Crew hat drei verschiedene Meinungen — und dreißig Sekunden um sich zu einigen.  Dusk hält zwei 
+[18:20:45] >>> ASTRA (Astra): Astra und Blitz halten Position am Treppenhaus. Wir rühren uns nicht bevor Echo 
+[18:20:48] >>> BLITZ (Blitz): Ich halt die Stellung hier. Aber die neunzig Sekunden laufen — Astra, du und ich
+[18:20:51] >>> CIPHER (Cipher): *„Echo, fang an. Ich steh an der Tür."*
+
+Sie zieht die Tür einen Spalt auf, Auge
+[18:20:53] >>> DUSK (Dusk): *„Echo, du hast neunzig Sekunden. Ich halte ihn drüben — sag mir wenn du drin bi
+[18:20:56] >>> ECHO_P (Echo): *„Ich bin drin. Cipher, Tür."*
+
+Er klemmt die Kabelrolle direkt ans Terminal-Por
+[18:20:57] 
+--- Turn 14 ---
+[18:21:37] <<< SL (86789p/1467c/40.5s, cum=1077120): Cipher zieht die Tür zu — einen Zentimeter offen, Auge am Spalt. Der Korridor draußen: Dusk steht lo
+[18:21:40] >>> ASTRA (Astra): Blitz, wir bewegen uns jetzt — Treppenhaus, direkt zum Schließfach. Echo, sauber
+[18:21:46] >>> BLITZ (Blitz): Blitz ins Comlink, knapp:
+
+„Astra, ich bin schon im Treppenhaus. Geh vor, ich de
+[18:21:48] >>> CIPHER (Cipher): *„Echo, Terminal sauber lassen — keine Spuren. Wir nehmen Strang A, jetzt. Dusk,
+[18:21:51] >>> DUSK (Dusk): „Echo, Cipher — raus, jetzt. Ich übernehme den Wachmann, dreißig Sekunden. Astra
+[18:21:54] >>> ECHO_P (Echo): „Cipher, wir gehen jetzt — Toolkit ist weg, ich bin sauber. Dusk, halt ihn nicht
+[18:21:55] 
+--- Turn 15 ---
+[18:22:30] <<< SL (88841p/1177c/34.8s, cum=1167138): Alle bewegen sich gleichzeitig. Das ist der Moment, wo ein Plan entweder hält oder bricht.  Er hält.
+[18:22:33] >>> ASTRA (Astra): Blitz, Hand weg von der Tür. Wir warten.
+
+Er nimmt das Paket, geht raus — und wi
+[18:22:35] >>> BLITZ (Blitz): *Comlink, Flüstern:*
+
+„Astra — geh rein, zivil, jetzt. Ich deck die Tür ab, fall
+[18:22:38] >>> CIPHER (Cipher): *ins Comlink, kaum hörbar:*
+
+„Wartet. Vier — wir folgen ihm raus. Hier drin sind
+[18:22:40] >>> DUSK (Dusk): *„Lasst ihn nehmen. Wir folgen raus."*
+
+Kurze Pause.
+
+*„Drinnen habt ihr ein Dut
+[18:22:43] >>> ECHO_P (Echo): Comlink, leise: „Vier. Lasst ihn das Paket nehmen und führt ihn raus — draußen i
+[18:22:44] 
+--- Turn 16 ---
+[18:23:21] <<< SL (90128p/1166c/37.3s, cum=1258432): Der Plan kristallisiert sich. Alle fünf auf derselben Linie — ohne ein Wort zu viel.  Astra lässt di
+[18:23:24] >>> ASTRA (Astra): Cipher, jetzt — sein Comlink tot. Dusk, Blitz, ihr nehmt die Gasse von beiden En
+[18:23:26] >>> BLITZ (Blitz): Zange. Jetzt. Dusk links, ich rechts — der hat keinen Ausweg mehr.
+[18:23:28] >>> CIPHER (Cipher): GHOST: Comlink-Jammer läuft. Er ruft niemanden.
+[18:23:29] >>> DUSK (Dusk): „Cipher, jetzt den Funk sperren. Astra — du redest. Wir halten die Flanken."
+[18:23:32] >>> ECHO_P (Echo): Cipher, jammer sein Comlink — jetzt. Ich halte den Rückweg frei, falls er doch b
+[18:23:33] 
+--- Turn 17 ---
+[18:24:12] <<< SL (91392p/1122c/39.5s, cum=1350946): Der Plan läuft in Echtzeit.  Cipher drückt den Jammer-Knopf — kein Piepen, keine Warnung. Das Gerät 
+[18:24:16] >>> ASTRA (Astra): Blitz, Rucksack. Jetzt.
+
+Dann, zu dem Kurier, einen halben Schritt näher — ruhig
+[18:24:18] >>> BLITZ (Blitz): Der ist zu ruhig. Ich sichere den Rucksack — jetzt, bevor er irgendeinen Scheiß 
+[18:24:21] >>> CIPHER (Cipher): „Kamera-Loop hält noch ~60 Sekunden. Rucksack sichern, *dann* reden — wenn er ei
+[18:24:23] >>> DUSK (Dusk): Ich stehe links, Augen auf seine Hände. Diese Ruhe gefällt mir nicht — er wartet
+[18:24:26] >>> ECHO_P (Echo): Gassenöffnung ist sauber, keine Passanten in Sichtlinie — ihr habt etwa 50 Sekun
+[18:24:27] 
+--- Turn 18 ---
+[18:25:04] <<< SL (93330p/1325c/37.4s, cum=1445601): Blitz bewegt sich.  Nicht schnell — keine Hektik, kein Gerempel. Zwei Schritte, eine Hand an den Ruc
+[18:25:08] >>> ASTRA (Astra): Dusk, was siehst du in dem Fenster — genau jetzt. Blitz, Paket bleibt zu bis wir
+[18:25:10] >>> BLITZ (Blitz): „Dusk — Fenster, jetzt. Ich pack den Kurier, wir ziehen in 20 raus."
+[18:25:12] >>> CIPHER (Cipher): „Dusk — Fenster, jetzt. Ich schaue mir das Paket an, 20 Sekunden."
+[18:25:14] >>> DUSK (Dusk): Fenster zuerst. Ich schaue rüber, bevor der Loop bricht.
+[18:25:17] >>> ECHO_P (Echo): „Dusk, das Fenster — ich kümmere mich um den Kurier, halt ihn nah."
+[18:25:18] 
+--- Turn 19 ---
+[18:25:54] <<< SL (94759p/1287c/36.6s, cum=1541647): `Kodex: Kamera-Loop — ~15 Sekunden verbleibend. Danach: Meridian-Kontrollraum live.`  Dusk schaut rü
+[18:25:58] >>> ASTRA (Astra): Drei zuerst — schnell. Dann raus.
+
+Blitz, halt ihn ruhig. Kurier: wer sitzt da o
+[18:26:00] >>> BLITZ (Blitz): „Fotograf zuerst — ich geh rauf. Cipher, du hast den Kurier. Zwei Minuten, ich b
+[18:26:03] >>> CIPHER (Cipher): „Option 3 zuerst — einer Minute. Kurier weiß wer da oben sitzt, bevor wir blind 
+[18:26:06] >>> DUSK (Dusk): „Einer oben, professionell — die Bilder sind schon weg. Exfil jetzt, Fotograf lä
+[18:26:09] >>> ECHO_P (Echo): „Ich geh rauf. Zwei Minuten reichen. Blitz, halt den Kurier — Astra, Cipher, ber
+[18:26:10] 
+--- Turn 20 ---
+[18:26:39] <<< SL (96475p/929c/28.9s, cum=1639051): Die Gasse steht still. Blitz' Hand liegt an der Schulter des Kuriers. Astra einen halben Schritt dav
+[18:26:42] >>> ASTRA (Astra): Echo, stop.
+
+Wir haben dreißig Sekunden, keinen Namen und einen Fotografen der m
+[18:26:46] >>> BLITZ (Blitz): Echo, lass es. Wir haben den Kurier — das ist genug für heute. Raus hier, bevor 
+[18:26:49] >>> CIPHER (Cipher): Echo, wart kurz. Wenn der Typ Ex-ITI ist, hab ich vielleicht was in der Datenban
+[18:26:54] >>> DUSK (Dusk): Echo, warte.
+
+Dreißig Sekunden, ein Zimmer das vielleicht leer ist — das ist kei
+[18:26:56] >>> ECHO_P (Echo): „Ich geh rauf. Zwei Minuten, nicht mehr. Wenn ich nicht unten bin — fahrt ohne m
+[18:26:57] 
+--- Turn 21 ---
+[18:27:34] <<< SL (97903p/1240c/36.7s, cum=1738194): Der Faden zieht Echo nach oben. Aber Astra ist schneller mit dem Wort.  *„Echo. Stop."*  Keine Disku
+[18:27:37] >>> ASTRA (Astra): K-7 ist eine Kennung — ex-militärisch, Führungsebene, alt genug um zu wissen wie
+[18:27:41] >>> BLITZ (Blitz): „Aufzug. Jetzt. Kurier kommt mit — solange wir nicht wissen wer K-7 ist, ist er 
+[18:27:43] >>> CIPHER (Cipher): „K-7 läuft durch meine Datenbank — nichts. Paket öffnen kostet uns Zeit die wir 
+[18:27:48] >>> DUSK (Dusk): „K-7 war der Auftraggeber, nicht der Fotograf. Ich bin nicht sicher — aber das B
+[18:27:50] >>> ECHO_P (Echo): „Aufzugsschacht. Kurier kommt mit — er ist noch nicht fertig mit uns."
+[18:27:51] 
+--- Turn 22 ---
+[18:28:31] <<< SL (98075p/1388c/40.3s, cum=1837657): `Kodex: Exfil-Fenster — IA Güteraufzugsschacht B2 · RW armierbar, Weg ~90 Sekunden. Standard-Fenster
+[18:28:35] >>> ASTRA (Astra): Omega. K-7. Er weiß mehr als er glaubt — frag ihn, woher er das Paket hatte. Wer
+[18:28:38] >>> BLITZ (Blitz): „Omega — kennst du den Namen? Ja oder nein, schnell."
+[18:28:40] >>> CIPHER (Cipher): „Omega und K-7 — sagt dir einer von beiden was? Zehn Sekunden."
+[18:28:43] >>> DUSK (Dusk): Er wusste es nicht — heißt, er ist nur ein Glied. Nehmt ihn mit, aber haltet ihn
+[18:28:46] >>> ECHO_P (Echo): Ich nehm den Zettel — Foto, dann Original ins Kit. Kurier kommt mit, zumindest b
+[18:28:47] 
+--- Turn 23 ---
+[18:29:18] <<< SL (100956p/1022c/31.3s, cum=1939635): Der Schacht riecht nach Schmieröl und Kalkstaub. Irgendwo über ihnen rauscht der Bahnhof weiter.  Bl
+[18:29:21] >>> ASTRA (Astra): Bratislava sagt mir genug. Er weiß nichts mehr als das.
+
+Blitz, lass ihn laufen 
+[18:29:23] >>> BLITZ (Blitz): „Bratislava liegt auf dem Tisch — der Typ weiß nix mehr, lass ihn laufen. Wir sp
+[18:29:26] >>> CIPHER (Cipher): „Bratislava, vier Tage — das bedeutet K-7 hatte unsere Bewegungen schon im Vorfe
+[18:29:28] >>> DUSK (Dusk): *„Bratislava kostet uns nichts extra — lass ihn laufen. Wir haben den Faden, wir
+[18:29:31] >>> ECHO_P (Echo): „Kurier laufen lassen. Er hat gegeben was er hat — mehr ist da nicht."
+
+Kurze Pa
+[18:29:32] 
+--- Turn 24 ---
+[18:30:32] <<< SL (101236p/2390c/60.3s, cum=2043261): Blitz lässt die Schulter des Kuriers los. Einen Schritt zurück. Keine Worte.  Der Kurier schaut die 
+[18:30:32] 🛑 Stop-Hint erkannt: 'PHASE Debrief' — Phase beendet
+[18:30:32] 
+=== PHASE ENDE: Stop-Hint: PHASE Debrief ===
+[18:30:32] Report: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-16-1809-phase3-5er-wallet/_bericht.md
+[18:30:32] Tokens: 2043261 (peak prompt: 101236)
+[18:30:32] Findings: 2

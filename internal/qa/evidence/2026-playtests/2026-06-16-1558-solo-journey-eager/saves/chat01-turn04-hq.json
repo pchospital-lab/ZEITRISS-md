@@ -1,0 +1,217 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-01-01T00:00:00Z-HQ-RASK-CHARGEN",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 0,
+    "px": 0,
+    "px_state": "stable",
+    "heat": 0,
+    "mode": "mixed",
+    "epoch": null,
+    "rift_seeds": [],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "CHR-RASK-01",
+      "name": "Silva Rask",
+      "callsign": "RASK",
+      "rank": "Rekrut",
+      "lvl": 1,
+      "xp": 0,
+      "origin": {
+        "epoch": "1987",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Forensische Anthropologin / Interpol-Verbindungsagentin"
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 4,
+        "INT": 6,
+        "CHA": 3,
+        "TEMP": 2,
+        "SYS": 1
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "name": "Tatortanalyse",
+          "tier": "Basis",
+          "effect": "+2 auf INT-Proben bei forensischer Aufklärung, Spurensicherung und Lageeinschätzung. Triviale Anwendungen gelingen automatisch."
+        },
+        {
+          "name": "Verdeckte Bewegung",
+          "tier": "Basis",
+          "effect": "+2 auf GES-Proben beim Schleichen und Beschatten. Im Normalverkehr keine Probe nötig."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Beretta M9",
+          "type": "weapon",
+          "tier": 1
+        },
+        {
+          "name": "Leichte Kevlarweste (unter Kleidung)",
+          "type": "armor",
+          "tier": 1
+        },
+        {
+          "name": "Handscanner (Forensik-Multitool)",
+          "type": "gadget",
+          "tier": 1
+        },
+        {
+          "name": "Comlink (Knochenleitung)",
+          "type": "gadget",
+          "tier": 0
+        },
+        {
+          "name": "Dietrich-Set (mechanisch)",
+          "type": "gadget",
+          "tier": 0
+        }
+      ],
+      "implants": [],
+      "history": {
+        "background": "Forensische Anthropologin aus Kopenhagen, drei Jahre Interpol-Felddienst. Stieß auf zeitlich inkonsistente Artefakte und Fingerabdrücke — das ITI machte ihr ein Angebot. Sie sagte ja. Aus Neugier.",
+        "milestones": []
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-RASK-01",
+          "name": "ITI-Standardfahrzeug (Epoche ausstehend)",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 3,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 0,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 100,
+      "level_history": {}
+    }
+  ],
+  "economy": {
+    "wallets": {}
+  },
+  "research": {
+    "projects": []
+  },
+  "logs": {
+    "trace": [],
+    "hud": [],
+    "psi": [],
+    "arena_psi": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 1,
+      "mission": 0,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    },
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "single",
+    "tier": 1,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "none"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "sim"
+  }
+}

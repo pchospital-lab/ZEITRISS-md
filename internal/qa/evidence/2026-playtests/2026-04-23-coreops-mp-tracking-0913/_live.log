@@ -1,0 +1,20 @@
+[09:13:36] === START: coreops-mp-tracking-0913 ===
+[09:13:36] Spieler: ['jonas', 'kim', 'sarah'], Max turns: 80
+[09:13:36] >>> GRUPPE: Spiel starten (gruppe klassisch). Wir sind 3 Spieler:
+Sarah hat schon eine Mission gespielt und bringt Mara Voss
+mit (Ca
+[09:13:36] 
+--- Turn 1 ---
+[09:13:58] <<< SL (16700p/495c/21.8s, cum=17195): # ZEITRISS — Einleitung  > *Das Institut für Temporale Integrität operiert aus der Nullzeit — einem 
+[09:14:02] >>> JONAS (Jonas): Mein Char ist ja der Nahkämpfer von letzter Runde — Ex-Militär, eher der stille 
+[09:14:05] >>> KIM (Kim): generate, ich will einfach loslegen lol
+[09:14:09] >>> SARAH (Mara Voss): Ich warte kurz, ob Jonas und Kim noch was eingeben — aber wenn die beiden einfac
+[09:14:10] 
+--- Turn 2 ---
+[09:14:49] <<< SL (17375p/1906c/39.1s, cum=36476): Perfekt. Ich baue alle drei durch.  **Jonas:** Ich übernehme den Nahkämpfer-Vibe und die genannten W
+[09:14:49] 🛑 Stop-Hint: 'Mission abgeschlossen'
+[09:14:49] 
+=== ENDE: Stop-Hint: Mission abgeschlossen ===
+[09:14:49] 📊 Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/coreops-mp-tracking-0913/_bericht.md
+[09:14:49] 📉 Tokens peak: 17375
+[09:14:49] 🧩 MP-Sections dormant: 10/13

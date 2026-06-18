@@ -1,0 +1,52 @@
+`EP 1 · MS 1 · SC --/-- · PHASE HQ · MODE CORE · COMMS OK · Lvl 2 ▓▓░░░░░░░░ · Px 0/5 · Stress 0/10 · Obj — · Exfil —`
+
+---
+
+`Kodex: Save geladen — SAVE-2026-01-01T01:00:00Z-HQ-RASK-MS1 · branch ANCHOR-main`
+`Kodex: Charakter — Silva Rask · Lvl 2 · STR 2 · GES 4 · INT 6 · CHA 3 · TEMP 2 · SYS 1 · LP 10/10 · Stress 0/10`
+`Kodex: Würfelschwellen — INT 6: W6. Alle Attribute unter 11. Kein W10 aktiv.`
+`Kodex: Talente — Tatortanalyse (Basis) · Verdeckte Bewegung (Basis) · Verhörführung (Basis)`
+`Kodex: Level-History — Lvl 2: Verhörführung (Basis) · MS1`
+`Kodex: Wallet — 280 CU`
+`Kodex: Research — Koffer-Inhalt (anachronistische Fracht): 0/1 Einsätze · status: active`
+`Kodex: Seit letzter Mission neu — Verhörführung (Basis) freigeschaltet (Lvl 2, MS1)`
+`Kodex: HQ-Stand stabil. Deepsave möglich.`
+
+---
+
+## Kontinuitätsrückblick — EP 1, nach MS 1
+
+Die Nullzeit riecht nach Kaffee und Kühlmittel. Irgendwo im Hangar-Axis läuft ein Kalibrierungsdurchlauf — ein gleichmäßiges Summen, das durch die Wände dringt wie ein ferner Puls.
+
+**Wien, April 1962.** Du hast Zimmer 214 der Pension Blaustein betreten, Josef Varga zur Kooperation bewogen und den Koffer mit anachronistischer Fracht gesichert, bevor er seinen Empfänger erreichen konnte. Varga weiß nicht, was er transportiert hat. Franz Bauer — Deckname, echter Name unbekannt — wartet noch immer auf seine Lieferung im Café Schwarzenberg. Er wird lange warten.
+
+Der Koffer liegt im ITI-Labor. Die Materialsignatur ist rund dreißig Jahre zu früh für 1962. Was das bedeutet, weiß noch niemand.
+
+**Offene Fäden:**
+- Wer ist Bauer — und für wen arbeitet er?
+- Was steckt in der Fracht?
+- Wer hat den Koffer ursprünglich in Bratislava aufgegeben?
+
+---
+
+`Kodex: Research — Koffer-Inhalt: 0/1 Einsätze · Ergebnis nach MS2 abholbereit.`
+`Kodex: NPC aktiv-beobachtet — Franz Bauer (Café Schwarzenberg) · Josef Varga (Pension Blaustein)`
+
+---
+
+## HQ · Operations-Deck
+
+Du stehst im Operations-Deck, die Raumzeitkarte dreht sich langsam über dem Holotisch. Wien 1962 leuchtet noch schwach — ein abgeschlossener Strang, aber mit losen Enden. Der Duty-Desk-Offizier nickt dir kurz zu. Mira hat eine Nachricht hinterlassen: *„Labor hat Erstscan abgeschlossen. Nichts, was nicht warten kann — aber du willst das sehen, wenn es fertig ist."*
+
+`Kodex: HQ-Stand stabil. Deepsave möglich.`
+`Kodex: Sync vor Übergang empfohlen — !save für Stand sichern.`
+`Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+
+---
+
+**Was möchtest du tun?**
+
+1. **HQ erkunden** — Quartiermeisterei, Med-Lab, Archiv, Mira aufsuchen
+2. **Schnell-HQ** — Kurzrast, Ausrüstung prüfen, bereit für nächstes Briefing
+3. **Briefing anfordern** — MS 2, Wien 1962 (Bauer-Spur / Koffer-Faden)
+4. **`!save`** — Stand sichern, JSON exportieren

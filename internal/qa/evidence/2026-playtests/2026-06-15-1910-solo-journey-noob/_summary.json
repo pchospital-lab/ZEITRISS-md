@@ -1,0 +1,10 @@
+{
+  "persona": "noob",
+  "turns": 60,
+  "chats": 4,
+  "stop_reason": "max_turns",
+  "cum_cost_est_usd": 14.496,
+  "findings": [],
+  "last_save_mode": "hq",
+  "saves_captured": 3
+}

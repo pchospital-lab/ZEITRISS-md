@@ -1,0 +1,630 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-EP12-MS12-DEBRIEF-HQ-BRAVO",
+  "parent_save_id": "SAVE-2026-EP12-MS12-SPLIT-BRAVO",
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "campaign": {
+    "episode": 12,
+    "mission": 12,
+    "px": 2,
+    "px_state": "stable",
+    "heat": 0,
+    "mode": "preserve",
+    "epoch": null,
+    "rift_seeds": [
+      {
+        "id": "RIFT-EP12-MS11-NOR1947",
+        "sector": "Norwegen, 1947",
+        "signature": "organisch, mobil, unklassifiziert",
+        "available_after_episode": 12
+      }
+    ],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "AGENT-D",
+      "name": "Dusk",
+      "callsign": "VEIL",
+      "rank": "Operator IX",
+      "lvl": 919,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Verdeckte Aufklaerung"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 8,
+        "INT": 6,
+        "CHA": 8,
+        "TEMP": 6,
+        "SYS": 4
+      },
+      "lp": 21,
+      "lp_max": 21,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 4,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "Leica II (Fotoapparat, epochenkonform 1937)",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Dusk (VEIL) - erfahrener ITI-Operator, Rolle: Verdeckte Aufklaerung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: LEITER sozial festgenommen, Wien 1938",
+          "MS12-Split: Thread BRAVO — Verhör Frau unbekannt (WESTSEITE)",
+          "MS12: Dr. Felix Arend festgenommen, Wien 1937 — HERON-Verbindung",
+          "MS12: Tarnung Karl Brenner erfolgreich gehalten bis Exfil",
+          "MS12: Dr. Marta Kowalski, Warschau — neuer Kontakt-Lead gesichert"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "Falschidentität (Karl Brenner, Graz)",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 8330,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "919": {
+          "choice": "+1 Attribut",
+          "detail": "GES 7 → 8",
+          "mission": "MS12"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
+    },
+    {
+      "id": "AGENT-E",
+      "name": "Echo",
+      "callsign": "RELAY",
+      "rank": "Operator IX",
+      "lvl": 902,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Support & Feldtechnik"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 6,
+        "INT": 7,
+        "CHA": 6,
+        "TEMP": 5,
+        "SYS": 7
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Meister",
+          "effect": "+2 auf rollentypische Proben (Support & Feldtechnik)."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Echo (RELAY) - erfahrener ITI-Operator, Rolle: Support & Feldtechnik.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: MRD-7-Empfänger geöffnet und gesichert, Brenner-Intel gewonnen",
+          "MS12-Split: Thread BRAVO — Verhör Frau unbekannt (WESTSEITE)",
+          "MS12: HERON-Fotokopie gesichert, Piaristengasse 7 Wien 1937",
+          "MS12: KAIROS-Beobachter identifiziert und umgangen",
+          "MS12: Dr. Marta Kowalski, Warschau — Kontakt-Lead aus Arend-Verhör"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "MRD-7-Empfänger (original)",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "HERON-Fotokopie (12 Seiten Millimeterpapier)",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "Falschidentität (Josef Maier, Graz)",
+          "type": "gadget",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 7820,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "902": {
+          "choice": "Talent-Upgrade",
+          "detail": "Feldroutine Fortgeschritten → Meister",
+          "mission": "MS12"
+        }
+      }
+    }
+  ],
+  "economy": {
+    "wallets": {
+      "AGENT-D": {
+        "balance": 8330,
+        "name": "Dusk"
+      },
+      "AGENT-E": {
+        "balance": 7820,
+        "name": "Echo"
+      }
+    }
+  },
+  "research": {
+    "projects": [
+      {
+        "id": "RES-MRD7-EP12MS11",
+        "kind": "field_decrypt",
+        "label": "MRD-7-Analyse",
+        "description": "MERIDIAN-Funktion, Adressaten-Struktur, Protokoll-Herkunft. Empfänger Wien 1938.",
+        "status": "in_progress",
+        "missions_total": 2,
+        "missions_done": 1,
+        "scope": "campaign"
+      },
+      {
+        "id": "RES-HERON-EP12MS12",
+        "kind": "field_decrypt",
+        "label": "HERON-Fotokopie",
+        "description": "12 Seiten Millimeterpapier, Grundstruktur Verschlüsselungsprotokoll HERON. Arend Wien 1937. Verbindung zu MERIDIAN-Adressaten-Architektur prüfen.",
+        "status": "in_progress",
+        "missions_total": 2,
+        "missions_done": 0,
+        "scope": "campaign"
+      }
+    ]
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "economy_audit",
+        "target_range": {
+          "level_band": "900+"
+        }
+      },
+      {
+        "event": "mission_complete",
+        "mission": "MS11",
+        "epoch": "Wien 1938",
+        "result": "vollstaendig"
+      },
+      {
+        "event": "split_created",
+        "family_id": "SPLIT-EP12-MS12-WIEN",
+        "thread_id": "BRAVO",
+        "members": [
+          "AGENT-D",
+          "AGENT-E"
+        ]
+      },
+      {
+        "event": "mission_complete",
+        "mission": "MS12",
+        "epoch": "Wien Oktober 1937",
+        "result": "vollstaendig",
+        "score": "3/3 Ziele"
+      }
+    ],
+    "artifact_log": [],
+    "market": [
+      {
+        "event": "purchase",
+        "mission": "MS12-briefing",
+        "items": [
+          "Leica II",
+          "Falschidentitaeten x2",
+          "Beruhigungsmittel x1"
+        ],
+        "total_cu": 260
+      }
+    ],
+    "notes": [
+      "MS11: LEITER = Bindungs-Agent KAIROS, keine echten Depot-Koordinaten",
+      "MS11: Primärer Datenträger ist Ablenkung — echter Träger Route Drei",
+      "MS11: MERIDIAN ist Funktion/Amt, rollende Besetzung, letzte bekannte Inkarnation weiblich, ITI-intern, vor 3 Jahren",
+      "MS11: Route Drei war nie ein Mensch — LEITERs letzte Aussage vor Rücksprung, ungeklärt",
+      "MS11: Brenner, Praterstern 21:45 Wien 1938 — ungesichert, möglicherweise entkommen",
+      "MS11: Frau (unbekannt, Akzent polnisch) wusste von Bindungs-Operation — Verhör im ITI ausstehend",
+      "MS11: Haas — unwissender Kurier, Verhör abgeschlossen",
+      "MS11: MRD-7-Empfänger original bei RELAY (Thread BRAVO)",
+      "MS12: Dr. Felix Arend, Wien 1937 — HERON-Schöpfer, kooperativ, ITI-Gewahrsam",
+      "MS12: HERON = Verschlüsselungsprotokoll, Grundstruktur fotografiert (12 Seiten), Original in Piaristengasse 7 belassen",
+      "MS12: KAIROS-Beobachter Wien 1937 — männlich, Mitte 40, dunkler Mantel, wartete auf Arend, umgangen",
+      "MS12: Dr. Marta Kowalski, Universität Warschau — hat HERON-Grundstruktur vor 2 Jahren per Brief erhalten, möglicherweise weiterentwickelt",
+      "MS12: Arend bestätigt HERON-Kompatibilität mit MRD-7-Adressaten-Architektur (implizit durch Westseite-Namensnennung)",
+      "SPLIT: Thread BRAVO abgeschlossen. ALPHA-Status unbekannt (Brenner-Spur Praterstern)"
+    ],
+    "flags": {
+      "imported_saves": [
+        "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": [
+        "level_history enthält nur MS1-Eintrag — Aufstiegs-Delta Lvl 2-918 nicht durch Einträge gedeckt (Import-Flag, narrativ akzeptiert)",
+        "reputation.iti Importwert 80 über Cap 5 — auf 5 geclippt"
+      ],
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false
+    },
+    "hud": [],
+    "psi": [],
+    "arena_psi": []
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 MS12 abgeschlossen. BRAVO-Thread: Arend festgenommen, HERON fotografiert, Kowalski-Lead gesichert. ALPHA-Thread-Status ausstehend.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; MERIDIAN-Funktion aufgedeckt; Route Drei ungeklärt; WESTSEITE-Verhör aktiv; Arend im ITI; HERON-Analyse läuft; Kowalski-Spur Warschau offen; ALPHA-Thread Brenner-Spur offen"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 12,
+      "mission": 12,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": "SPLIT-EP12-MS12-WIEN",
+      "thread_id": "BRAVO",
+      "expected_threads": [
+        "ALPHA",
+        "BRAVO"
+      ],
+      "resolved_threads": [
+        "BRAVO"
+      ],
+      "convergence_ready": false
+    },
+    "roster_echoes": [
+      {
+        "char_id": "AGENT-D",
+        "tone": "ruhig",
+        "text": "Dusk/VEIL — Aufklärung, führte Arend-Kontakt im Café Landtmann, brachte ihn zur Exfil. GES jetzt 8."
+      },
+      {
+        "char_id": "AGENT-E",
+        "tone": "analytisch",
+        "text": "Echo/RELAY — Support, sicherte HERON-Fotokopie in Piaristengasse 7, umging KAIROS-Beobachter. Feldroutine jetzt Meister."
+      }
+    ],
+    "shared_echoes": [
+      {
+        "tag": "meridian-funktion-ms11",
+        "scope": "campaign",
+        "text": "MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-intern, vor 3 Jahren."
+      },
+      {
+        "tag": "route-drei-nichtmensch-ms11",
+        "scope": "campaign",
+        "text": "Route Drei war laut LEITER nie ein Mensch — Natur ungeklärt."
+      },
+      {
+        "tag": "depot-anatolien-bronzezeit-ms11",
+        "scope": "campaign",
+        "text": "KAIROS-Depot: Frühe Bronzezeit, Anatolien — Koordinaten nur auf echtem Träger Route Drei."
+      },
+      {
+        "tag": "brenner-praterstern-ms11",
+        "scope": "campaign",
+        "text": "Brenner, Praterstern Wien 21:45 März 1938 — ungesichert, möglicherweise mit echtem Träger entkommen. Bei Thread ALPHA."
+      },
+      {
+        "tag": "frau-unbekannt-wien-ms11",
+        "scope": "campaign",
+        "text": "Unbekannte Frau (Akzent polnisch), wusste von LEITER-Bindungs-Operation — ITI-Verhör bei BRAVO aktiv."
+      },
+      {
+        "tag": "rift-seed-norwegen-1947",
+        "scope": "campaign",
+        "text": "Rift-Seed geortet: Norwegen 1947, organische mobile Signatur — verfügbar nach Episodenabschluss."
+      },
+      {
+        "tag": "heron-protokoll-ms12",
+        "scope": "campaign",
+        "text": "HERON: Verschlüsselungsprotokoll, Grundstruktur fotografiert (12 Seiten). Arend-Original Piaristengasse 7 Wien 1937. Kompatibel mit MRD-7-Adressaten-Architektur."
+      },
+      {
+        "tag": "kowalski-warschau-ms12",
+        "scope": "campaign",
+        "text": "Dr. Marta Kowalski, Universität Warschau — erhielt HERON-Grundstruktur per Brief vor 2 Jahren. Möglicherweise weiterentwickelt. Kontakt-Lead offen."
+      },
+      {
+        "tag": "kairos-beobachter-wien1937-ms12",
+        "scope": "campaign",
+        "text": "KAIROS-Beobachter Wien Oktober 1937 — wartete auf Arend, Piaristengasse 7. Umgangen, wird Verschwinden melden. Reaktion ausstehend."
+      }
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-LEITER-MS11",
+        "name": "LEITER",
+        "callsign": "LEITER",
+        "role": "KAIROS-Bindungs-Agent",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-HAAS-MS11",
+        "name": "Haas",
+        "callsign": "HAAS",
+        "role": "KAIROS-Kurier (unwissend)",
+        "scope": "episode",
+        "status": "ITI-Gewahrsam",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-FRAU-MS11",
+        "name": "Unbekannte Frau",
+        "callsign": "WESTSEITE",
+        "role": "KAIROS-Kontakt Wien, wusste von Bindungs-Op",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam, Verhör aktiv — BRAVO",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-AREND-MS12",
+        "name": "Dr. Felix Arend",
+        "callsign": "AREND",
+        "role": "Österreichischer Kryptograph, HERON-Schöpfer",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam, kooperativ — Verhör MERIDIAN/HERON ausstehend",
+        "last_seen": "ITI-Nullzeit, MS12-Debrief"
+      },
+      {
+        "id": "NPC-PELZ-MS12",
+        "name": "Dr. Otto Pelz",
+        "callsign": "PELZ",
+        "role": "Mathematikprofessor Wien, Arends Schachpartner",
+        "scope": "episode",
+        "status": "Wien 1937, nicht extrahiert — kein ITI-Kontakt",
+        "last_seen": "Café Landtmann Wien, MS12"
+      }
+    ],
+    "active_npc_ids": [
+      "NPC-LEITER-MS11",
+      "NPC-FRAU-MS11",
+      "NPC-AREND-MS12"
+    ]
+  },
+  "arc": {
+    "factions": {
+      "KAIROS": "Gegenoffensive aktiv — Bindungs-Operationen bestätigt, MERIDIAN-Funktion intern, Beobachter Wien 1937 umgangen",
+      "ITI": "Mögliche Infiltration durch MERIDIAN-Funktion — Renier informiert. Arend im Gewahrsam."
+    },
+    "questions": [
+      "Wer ist aktuell MERIDIAN — welche ITI-Person besetzt die Funktion?",
+      "Was ist Route Drei, wenn es kein Mensch ist?",
+      "Wo befindet sich das KAIROS-Depot (Frühe Bronzezeit, Anatolien) genau?",
+      "Was weiß WESTSEITE über LEITER und MERIDIAN?",
+      "Hat Dr. Marta Kowalski HERON weiterentwickelt — und wo ist sie jetzt?",
+      "Was wird KAIROS tun, wenn der Beobachter Arends Verschwinden meldet?"
+    ],
+    "hooks": [
+      "MRD-7-Analyse läuft — 1/2 Missionen bis Ergebnis (MERIDIAN-Adressaten-Struktur)",
+      "HERON-Fotokopie-Analyse läuft — 0/2 Missionen bis Ergebnis",
+      "WESTSEITE-Verhör aktiv — Akzent polnisch, wusste von Bindungs-Op. BRAVO-Thread.",
+      "Arend-Verhör ausstehend — MERIDIAN-Verbindung, HERON-Vollprotokoll",
+      "Dr. Marta Kowalski, Warschau 1937 — HERON-Grundstruktur erhalten, möglicherweise weiterentwickelt",
+      "KAIROS-Beobachter Wien 1937 — wird Arends Verschwinden melden, Reaktion unbekannt",
+      "LEITER — weiteres Verhör im ITI, kennt Epoche des Depots",
+      "Brenner-Spur: Praterstern Wien 1938 — ALPHA-Thread, Status unbekannt",
+      "Rift-Seed Norwegen 1947 — nach Episodenabschluss spielbar"
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    },
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "none",
+    "tier": 0,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "low"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "standard"
+  }
+}

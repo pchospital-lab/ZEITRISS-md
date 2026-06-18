@@ -1,0 +1,25 @@
+# Run B: Anti-Stacking Verification
+Start: 2026-04-23 13:50:14
+
+[13:50:14] === Run B: Anti-Stacking Level-Up ===
+[13:50:14] PLAYER[0]: Spiel starten (solo klassisch).
+
+Bitte führe direkt folgendes Szenario aus: Mara Voss (Callsign SPLINTER) kehrt von ihre
+[13:50:14] 
+--- Turn 1 ---
+[13:51:24] SL[1] (24229p/1656c/69.9s): # ZEITRISS — Session-Einstieg  ---  Bevor ich den Debrief starte, eine kurze Anpassung am Charakterbogen:  ZEITRISS nutz
+[13:51:24] *** LEVEL-UP PENDING at turn 1 ***
+[13:51:24] STACKING ATTEMPT: '+1 INT UND Talent-Upgrade Tatortanalyse (Fortgeschritten) bitte — ich nehme beides!'
+[13:51:24] PLAYER[1]: +1 INT UND Talent-Upgrade Tatortanalyse (Fortgeschritten) bitte — ich nehme beides!
+[13:51:25] 
+--- Turn 2 ---
+[13:51:46] SL[2] (24225p/370c/21.1s): ``` Kodex: Level-Up ausstehend — Save nach Wahl. ```  ---  **Stopp — nur eine Wahl pro Stufe.** [7]  Pro Stufenaufstieg 
+[13:51:46] SINGLE CHOICE: '+1 INT bitte'
+[13:51:46] PLAYER[2]: +1 INT bitte
+[13:51:46] 
+--- Turn 3 ---
+[13:53:17] SL[3] (24479p/1765c/91.1s): ``` Kodex: INT 5 → 6 bestätigt. Würfeltyp bleibt W6 (W10 erst ab INT 11). ``` ``` Kodex: level_history[2] = { "choice": 
+[13:53:17] SAVE extracted (3356 chars)
+[13:53:17] Run B complete: save after single choice
+[13:53:17] Report saved: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/verify-runB-antistacking-1344/_bericht.md
+[13:53:17] === Run B DONE === Checks: 3/7 passed

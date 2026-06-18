@@ -1,0 +1,25 @@
+# Run C: Save/Reload Flow
+Start: 2026-04-23 13:55:41
+
+[13:55:41] === Run C: Save/Reload Flow ===
+[13:55:41] Using save from Run B: 3356 chars
+[13:55:41] Expected char: Mara Voss
+[13:55:41] Expected level: None
+[13:55:41] Expected level_history: None
+[13:55:41] 
+=== STEP 2: Loading save in NEW chat ===
+[13:55:41] LOAD MSG sent (3398 chars)
+[13:55:41] 
+--- Turn 1 ---
+[13:56:16] SL[1] (25950p/1058c/35.1s): `Kodex: Save erkannt — CHR-VOSS-01 · SPLINTER · Lvl 2 · EP 1 · MS 1 abgeschlossen. Load-Sequenz läuft.`  ---  ``` EP 1 ·
+[13:56:16] PLAYER[1]: Danke! Briefing für nächste Mission bitte.
+[13:56:17] 
+--- Turn 2 ---
+[13:56:58] SL[2] (23178p/1471c/41.3s): `Kodex: Szene 0 — HQ Briefingraum · Nullzeit.`  ``` EP 1 · MS 2 · SC 00/-- · PHASE Briefing · MODE CORE · COMMS OK Lvl 2
+[13:56:58] PLAYER[2]: Los geht's, Briefing bitte!
+[13:56:58] 
+--- Turn 3 ---
+[13:57:15] SL[3] (26010p/333c/16.9s): `Kodex: Szene 0 — HQ Briefingraum · Nullzeit. Sprung-Vorbereitung läuft.`  ---  Der Briefingraum ist derselbe wie immer.
+[13:57:15] Load verified, mission starting at turn 3
+[13:57:15] Report saved: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/verify-runC-savereload-1344/_bericht.md
+[13:57:15] === Run C DONE === Checks: 3/7 passed

@@ -1,0 +1,58 @@
+# Run D: Group-Split/Merge Flow
+Start: 2026-04-23 13:55:44
+
+[13:55:44] === Run D: Group-Split/Merge Flow ===
+[13:55:44] 
+--- STEP 1: Creating initial group save ---
+[13:55:44] Group save created: 3628 chars
+[13:55:44] 
+--- STEP 2: Splitting into per-char saves ---
+[13:55:44] Per-char saves created
+[13:55:44] 
+--- STEP 3: Solo chats ---
+[13:55:44] 
+  --- Solo Chat: VOSS ---
+[13:56:14]   SL[1] (24919p/849c): `Kodex: Save 'solo-splinter-runD' erkannt. Import läuft.`  ---  **ZEITRISS · Loa
+[13:56:14]   PLAYER[1]: Ich übergebe die Scanner-Daten an Dr. Veith.
+[13:56:30]   SL[2] (22507p/399c): Die Nachricht geht raus — aber bevor wir in die nächste Szene springen, steht no
+[13:56:30]   PLAYER[2]: Gut. Wann ist der nächste Einsatz?
+[13:56:42]   SL[3] (23210p/238c): Die Level-Up-Wahl steht noch aus, Splinter.  Dr. Veith hat die Scanner-Daten — d
+[13:56:42]   PLAYER[3]: !save
+[13:56:57]   SL SAVE[3] (23393p/278c): `Kodex: Level-Up ausstehend — Save nach Wahl. Speichern blockiert.`  ---  Splint
+[13:56:57]   WARNING: No save from solo chat for voss, using modified initial save
+[13:56:57] 
+  --- Solo Chat: KASPAR ---
+[13:57:36]   SL[1] (24650p/1394c): # ZEITRISS — Save geladen  `Kodex: Session-Anker gesetzt. Save solo-rampart-runD
+[13:57:36]   PLAYER[1]: Ich gehe zur Ausrüstungs-Kammer und frage nach einem Messer-Upgrade.
+[13:58:06]   SL[2] (22651p/861c): ``` EP ? · MS 1 abgeschlossen · SC 00/-- · PHASE HQ · MODE CORE COMMS OK · Lvl 1
+[13:58:06]   PLAYER[2]: Ich bezahle mit meinen CU. Kaspar nimmt das Upgrade.
+[13:58:26]   SL[3] (25308p/514c): `Kodex: Wallet 100 CU — Taktisches Klingenwerk kostet 180 CU. Budget unzureichen
+[13:58:26]   PLAYER[3]: !save
+[13:59:01]   SL SAVE[3] (24627p/1669c): `Kodex: HQ-Zustand stabil. Deepsave möglich.` `Kodex: Für sauberen Missionsbetri
+[13:59:01]   SAVE extracted from !save response (3847 chars)
+[13:59:01]   Solo save saved for kaspar
+[13:59:01] 
+  --- Solo Chat: DELACROIX ---
+[13:59:29]   SL[1] (24415p/885c): `Kodex: Save "solo-moth-runD" erkannt. Schema v7 — Migration läuft.`  `Kodex: At
+[13:59:29]   PLAYER[1]: Ich aktiviere Telepathie — wie viel PP kostet das?
+[13:59:42]   SL[2] (23824p/388c): Gute Frage — lass mich das direkt aus den Regelwerk-Daten ziehen.  Das Regelwerk
+[13:59:42]   PLAYER[2]: Dann Prekognition: Ich versuche einen kurzen Blick auf die nächste Mission. Prekog aktivieren!
+[14:00:06]   SL[3] (23524p/520c): `Kodex: Präkognition-Anforderung — Ziel: "nächste Mission". Temporale Grenze akt
+[14:00:06]   PLAYER[3]: !save
+[14:00:39]   SL SAVE[3] (23665p/1573c): `Kodex: HQ-Zustand stabil. Deepsave wird erzeugt.`  `Kodex: Schema-Migration abg
+[14:00:39]   SAVE extracted from !save response (3688 chars)
+[14:00:39]   Solo save saved for delacroix
+[14:00:39] 
+--- STEP 4: Merging in new group chat ---
+[14:00:39] Merge message: 9615 chars
+[14:00:39] 
+  --- Merge Turn 1 ---
+[14:03:34]   SL[1] (22711p/5996c/174.6s): # ZEITRISS — Gruppen-Load · Drei Saves erkannt  `Kodex: Session-Anker gesetzt → SPLINTER (Sarah) · Index 0.` `Kodex: RAM
+[14:03:34]   MERGED SAVE extracted (8365 chars)
+[14:03:34]   PLAYER[1]: Danke! Kurze Intro-Szene bitte, alle drei kommen zusammen ins Atrium.
+[14:03:34] 
+  --- Merge Turn 2 ---
+[14:03:51]   SL[2] (30810p/367c/16.3s): Die Intro-Szene mit allen drei im Atrium habe ich bereits direkt im vorigen Schritt ausgespielt — sie ist der letzte Blo
+[14:03:51] Merge verified, stopping
+[14:03:51] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-23/verify-runD-groupsplit-1344/_bericht.md
+[14:03:51] === Run D DONE === Checks: 5/6 passed

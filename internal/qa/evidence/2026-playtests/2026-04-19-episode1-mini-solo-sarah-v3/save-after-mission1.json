@@ -1,0 +1,231 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-01-08T22:00:00Z-HQ-WIRE-003",
+  "parent_save_id": "SAVE-2026-01-01T01:00:00Z-HQ-WIRE-002",
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 1,
+    "px": 1,
+    "px_state": "stable",
+    "mode": "mixed",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-WIRE-001",
+      "name": "Lena Voss",
+      "callsign": "Wire",
+      "rank": "Feldagent",
+      "lvl": 2,
+      "xp": 0,
+      "origin": {
+        "epoch": "Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Feldinformatikerin & Infiltratorin"
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 5,
+        "INT": 5,
+        "CHA": 2,
+        "TEMP": 2,
+        "SYS": 2
+      },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 2,
+      "talents": [
+        {
+          "name": "Systemzugriff",
+          "tier": "Basis",
+          "effect": "+2 auf INT-Proben bei Hacking und Technik-Analyse"
+        },
+        {
+          "name": "Schattenschritt",
+          "tier": "Upgrade",
+          "effect": "Schleichen bis SG 7 automatischer Erfolg in Dunkelheit/bekanntem Terrain. +3 auf GES-Proben bei Schleichen und Verbergen."
+        }
+      ],
+      "equipment": [
+        { "name": "Kompakte Automatikpistole", "type": "weapon", "tier": 1 },
+        { "name": "Taktische Leichtrüstung", "type": "armor", "tier": 1 },
+        { "name": "Multitool-Rig", "type": "gadget", "tier": 1 },
+        { "name": "Comlink Mk.II", "type": "gadget", "tier": 1 },
+        { "name": "Rauchgranate", "type": "consumable", "tier": 0, "quantity": 2 },
+        { "name": "Medkit (einfach)", "type": "consumable", "tier": 1, "quantity": 1 }
+      ],
+      "implants": [
+        {
+          "name": "Retina-HUD",
+          "sys_cost": 1,
+          "effect": "Echtzeit-Overlay, Kodex-Link, Karten-Ping"
+        },
+        {
+          "name": "Subkutaner Jammer",
+          "sys_cost": 1,
+          "effect": "Kurzzeitig lokale Signale stören"
+        }
+      ],
+      "history": {
+        "background": "Randzonen-Kind, Autodidaktin. Vom ITI rekrutiert nach einem Archiveinbruch, der die falschen Leute neugierig machte.",
+        "milestones": [
+          "Zero Time Lounge: Erstes Gespräch mit Peel. Herkunft angedeutet — spontaner Riss in der Wohnung, Griff ins Unbekannte. Peel fragte nach dem Riss-Inhalt und den 'falschen Leuten'. Antwort steht noch aus.",
+          "Mission 1 — Operation Stille Frequenz: LAUTLOS (Klaus Brenner) aus Berlin 1973 extrahiert. Notizbuch mit zeitlinien-übergreifender Liste gesichert. Rostock-Intel: Hafenspeicher 7, Untergeschoss. Novak — ehem. Kurier, blieb als Ablenkung zurück. Status unbekannt."
+        ]
+      },
+      "carry": [
+        { "name": "Abteilung-XII-Papiere", "type": "intel", "tier": 1, "hot": true },
+        { "name": "Foto Brenner-Familie", "type": "personal", "tier": 0 }
+      ],
+      "quarters_stash": [
+        { "name": "Notizbuch LAUTLOS", "type": "intel", "tier": 2 }
+      ],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-WIRE-001",
+          "name": "Standard-Feldfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 3
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 1,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 320
+    }
+  ],
+  "economy": {
+    "hq_pool": 0
+  },
+  "logs": {
+    "trace": [
+      "MS1: LAUTLOS extrahiert. Notizbuch gesichert. Rostock-Intel. Novak — Status unbekannt."
+    ],
+    "market": [],
+    "artifact_log": [],
+    "notes": [
+      "Peel — Barkeeper Zero Time Lounge. Ehem. Feldagent, Rift-Ops. Schulter-Verwundung Konstantinopel. Beobachtet scharf, fragt präzise.",
+      "Kessler — Agent, sitzt allein an der Bar. Team nicht zurückgekommen. Status unbekannt.",
+      "Novak, Tomas — ehem. Kurier, Ostblock-Netzwerk. Kannte LAUTLOS persönlich. Blieb in Berlin 1973 als Ablenkung zurück. Status unbekannt.",
+      "Brenner, Klaus / LAUTLOS — extrahiert, in ITI-Klinik. Liste enthält seinen Namen mit Datum 14.10.1973 und Vermerk 'abgeschlossen'.",
+      "Die Liste — zeitlinien-übergreifend. Namen, Daten, Koordinaten. Jahreszahlen 1987/1991/2003/2019. Unbekannte Fraktion dahinter. Original: Rostock, Hafenspeicher 7, Untergeschoss.",
+      "Unbekannte Fraktion — 5 Personen, koordiniert, nicht Stasi, nicht Volkspolizei. Kein bekanntes Profil."
+    ],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": "EP1: Zeitlinien-übergreifende Liste aufgetaucht. LAUTLOS extrahiert. Rostock-Intel gesichert. Unbekannte Fraktion aktiv. Novak-Status offen."
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 1,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-PEEL-001",
+        "name": "Peel",
+        "callsign": null,
+        "role": "Barkeeper / ehem. Feldagent",
+        "scope": "HQ",
+        "status": "active"
+      },
+      {
+        "id": "NPC-KESSLER-001",
+        "name": "Kessler",
+        "callsign": null,
+        "role": "Feldagent",
+        "scope": "HQ",
+        "status": "active"
+      },
+      {
+        "id": "NPC-NOVAK-001",
+        "name": "Tomas Novak",
+        "callsign": null,
+        "role": "Ehem. Kurier / Ostblock-Netzwerk",
+        "scope": "field",
+        "status": "unknown",
+        "last_seen": "Berlin, 14.10.1973"
+      },
+      {
+        "id": "NPC-BRENNER-001",
+        "name": "Klaus Brenner",
+        "callsign": "LAUTLOS",
+        "role": "ITI-Informant / extrahiert",
+        "scope": "HQ",
+        "status": "active",
+        "last_seen": "ITI-Klinik"
+      }
+    ],
+    "active_npc_ids": [
+      "NPC-PEEL-001",
+      "NPC-KESSLER-001",
+      "NPC-BRENNER-001"
+    ]
+  },
+  "arc": {
+    "factions": {
+      "unbekannte_fraktion": "5 Personen, koordiniert, nicht Stasi/BND. Interesse an der Liste. Kein Profil."
+    },
+    "questions": [
+      "Was war auf der anderen Seite des Risses in Wires Wohnung?",
+      "Wer sind die 'falschen Leute', die nach Wire gesucht haben?",
+      "Was bedeutet 'abgeschlossen' neben Brenners Namen auf der Liste?",
+      "Wer hat die zeitlinien-übergreifende Liste angelegt — und warum?",
+      "Was ist in Rostock, Hafenspeicher 7?",
+      "Was ist mit Novak passiert?"
+    ],
+    "hooks": [
+      "Peel kennt offenbar mehr über spontane Riss-Kontakte als ein normaler Barkeeper sollte.",
+      "Rostock — Hafenspeicher 7, Untergeschoss. Das Original der Liste wartet.",
+      "Die unbekannte Fraktion war schnell in Berlin. Wissen sie von Rostock?"
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

@@ -1,0 +1,488 @@
+[08:57:00] === PHASE START: phase2c-group-mission1-full ===
+[08:57:00] Spieler: ['jonas', 'kim', 'sarah']
+[08:57:00] Max turns: 80
+[08:57:00] >>> GRUPPE: Spiel starten (gruppe klassisch)
+[08:57:00] 
+--- Turn 1 ---
+[08:57:20] <<< SL (21098p/542c/19.5s, cum=21640): `EP 01 · MS 00 · SC 00/-- · PHASE Briefing · MODE CORE · COMMS OK · Px 0/5`  ---  # ZEITRISS — Grupp
+[08:57:24] >>> JONAS (Jonas): Hey, cool — ich bin dabei! Wir sind zu zweit, ich und Sarah.
+
+Für mich: `custom 
+[08:57:28] >>> KIM (Kim): okay warte ich check das noch nicht ganz 😅 also ich bin eine von diesen Zeitreis
+[08:57:32] >>> SARAH (Mara Voss): Ich spiel solo heute, bin allein dabei. Und ich hab meinen Char schon — Mara Vos
+[08:57:33] 
+--- Turn 2 ---
+[08:58:55] <<< SL (21924p/847c/82.3s, cum=44411): `EP 01 · MS 00 · SC 00/-- · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  Drei Spieler, drei 
+[08:59:00] >>> JONAS (Jonas): Epoche: modern oder nah-Zukunft, beides passt mir. Name: "Rask" — klingt nach je
+[08:59:09] >>> KIM (Kim): okay wow das ist viel text 😅
+
+ich will jemanden der gut reden kann? so eine die 
+[08:59:13] >>> SARAH (Mara Voss): Hey, ich bin Sarah! Mara Voss, GES 5 / INT 5, Callsign SPLINTER, Infiltration & 
+[08:59:14] 
+--- Turn 3 ---
+[09:00:07] <<< SL (22730p/2885c/52.8s, cum=70026): `EP 01 · MS 00 · SC 00/-- · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  Alle drei Eingaben 
+[09:00:13] >>> JONAS (Jonas): Okay, RASK gefällt mir richtig gut — das Konzept trifft es genau.
+
+Kurze Regelfr
+[09:00:16] >>> KIM (Kim): okay wow das ist viel text 😅 aber ich glaub ich hab meinen charakter gesehen?? d
+[09:00:20] >>> SARAH (Mara Voss): Okay cool, der Import-Check sieht gut aus! Kurze Frage noch — das mit dem Echo-T
+[09:00:21] 
+--- Turn 4 ---
+[09:01:03] <<< SL (25990p/1027c/41.7s, cum=97043): `EP 01 · MS 00 · SC 00/-- · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  Alle drei Fragen — 
+[09:01:06] >>> JONAS (Jonas): Okay, das macht Sinn — also maximal einmal explodieren, dann Deckel drauf. Wie L
+[09:01:09] >>> KIM (Kim): okay ja das passt! sie redet sich also durch alles durch 😄
+
+aber ich brauch noch
+[09:01:14] >>> SARAH (Mara Voss): Ok alles klar, danke! Und ja, Tatortanalyse passt perfekt — Voss ist halt die di
+[09:01:15] 
+--- Turn 5 ---
+[09:01:42] <<< SL (27619p/787c/27.7s, cum=125449): `EP 01 · MS 00 · SC 00/-- · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  Drei Fragen, drei k
+[09:01:47] >>> JONAS (Jonas): Okay, verstanden — der Bonus ist immer drin, egal ob ich gegen festen SG oder ge
+[09:01:49] >>> KIM (Kim): okay VELVET klingt total cool aber ich glaub ich nehm einfach KIM 😄 weniger zum 
+[09:01:53] >>> SARAH (Mara Voss): Okay nice, das mit dem Scanner macht Sinn — Lesen vs. Einbrechen, got it. Voss i
+[09:01:54] 
+--- Turn 6 ---
+[09:02:44] <<< SL (27822p/1352c/50.0s, cum=154623): `EP 01 · MS 00 · SC 00/-- · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  Alle drei Rückmeldu
+[09:02:49] >>> JONAS (Jonas): Alles klar, Opposed Roll hab ich verstanden — klingt ähnlich wie Extended Tests 
+[09:02:51] >>> KIM (Kim): gemeinsame szene klingt gut! ich will die anderen kennenlernen 😄
+
+aber was ist e
+[09:02:55] >>> SARAH (Mara Voss): Gemeinsame Szene klingt gut, dann lernen wir uns gleich in-universe kennen. Star
+[09:02:56] 
+--- Turn 7 ---
+[09:03:42] <<< SL (29000p/1296c/46.3s, cum=184919): `EP 01 · MS 00 · SC 00/-- · PHASE Chargen · MODE CORE · COMMS OK · Px 0/5`  ---  ## Für Kim — Save-G
+[09:03:47] >>> JONAS (Jonas): Okay ich bin SPLINTER — meine Frage an Mira:
+
+*"Was genau ist das ITI, und was e
+[09:03:50] >>> KIM (Kim): puh, okay. Was soll ich jetzt machen? 😅 also ich frag sie: "was ist das ITI über
+[09:03:54] >>> SARAH (Mara Voss): Voss lehnt sich minimal vor und sagt ruhig: "Was genau meinen Sie mit 'warum wir
+[09:03:55] 
+--- Turn 8 ---
+[09:04:37] <<< SL (31529p/1313c/41.6s, cum=217761): `EP 01 · MS 00 · SC 01/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:04:42] >>> JONAS (Jonas): Ich nehm den Comlink. Dann, bevor sie geht:
+
+„Eine letzte Frage — was passiert, 
+[09:04:45] >>> KIM (Kim): okay ich nehm das ding 😅
+
+aber warte — "leere Akte"?? was stand denn da drin bev
+[09:04:51] >>> SARAH (Mara Voss): Voss nimmt den Comlink, dreht ihn kurz zwischen den Fingern.
+
+"Noch eine Frage —
+[09:04:52] 
+--- Turn 9 ---
+[09:06:05] <<< SL (32746p/1256c/72.8s, cum=251763): `EP 01 · MS 00 · SC 01/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:06:12] >>> JONAS (Jonas): Ich schaue kurz zu den anderen zwei, dann auf den Comlink in meiner Hand.
+
+"Okay
+[09:06:14] >>> KIM (Kim): okay wow sie ist einfach weg lol
+
+ich pack mal den comlink aus? ich glaub ich so
+[09:06:21] >>> SARAH (Mara Voss): Voss dreht den Comlink zwischen den Fingern, sagt nichts sofort. Dann, ruhig, zu
+[09:06:22] 
+--- Turn 10 ---
+[09:07:06] <<< SL (34691p/1663c/44.1s, cum=288117): `EP 01 · MS 00 · SC 02/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:07:10] >>> JONAS (Jonas): Okay, ich les gerade meinen eigenen Bogen. STR 5, GES 4 — das bin ich, richtig? 
+[09:07:15] >>> KIM (Kim): puh, okay. Was ist TEMP? Das steht bei mir und ich versteh nicht was das bedeute
+[09:07:19] >>> SARAH (Mara Voss): Voss liest die Fraktionsliste ein drittes Mal. Ordo Mnemonika. Kausalklingen. *"
+[09:07:20] 
+--- Turn 11 ---
+[09:07:55] <<< SL (36853p/1061c/34.1s, cum=326031): `EP 01 · MS 00 · SC 02/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:07:58] >>> JONAS (Jonas): Okay, STR 6 hab ich mir gemerkt — danke für die Korrektur. Türrahmen und so.
+
+Ic
+[09:08:02] >>> KIM (Kim): okay warte kurz - TEMP ist also sowas wie ein Zeitgefühl? das ist eigentlich coo
+[09:08:08] >>> SARAH (Mara Voss): Ich geh mit. Option 1.
+
+Voss sagt auf dem Weg zur Tür: "RASK, du hast recht mit 
+[09:08:09] 
+--- Turn 12 ---
+[09:08:52] <<< SL (38305p/1425c/42.5s, cum=365761): `EP 01 · MS 00 · SC 02/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:08:52] ⚠️  FINDING: [TERMINOLOGIE] SL nutzt 'HP' statt 'LP'
+[09:09:00] >>> JONAS (Jonas): Okay, danke — SC als Szenen-Counter macht Sinn, hatte das kurz mit nem Track ver
+[09:09:04] >>> KIM (Kim): okay warte — "Deepsave"? ist das was ich anklicken muss oder passiert das einfac
+[09:09:07] >>> SARAH (Mara Voss): !save
+
+und danach direkt ins Briefing wenn alle ready sind — ich will wissen was
+[09:09:08] 
+--- Turn 13 ---
+[09:10:18] <<< SL (39839p/5025c/70.3s, cum=410625): `EP 01 · MS 00 · SC 03/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:10:22] >>> JONAS (Jonas): Warte, der JSON ist abgeschnitten — soll ich trotzdem schon kopieren was da ist,
+[09:10:24] >>> KIM (Kim): okay ich glaub ich hab die hälfte davon nicht verstanden 😅 muss ich das alles le
+[09:10:27] >>> SARAH (Mara Voss): okay warte ich les noch kurz — also ich kopier einfach meinen Block wenn er komm
+[09:10:28] 
+--- Turn 14 ---
+[09:10:51] <<< SL (44830p/516c/23.0s, cum=455971): `EP 01 · MS 00 · SC 03/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:10:55] >>> JONAS (Jonas): Okay cool, danke für die Bestätigung mit dem Namen — hab den Save-Block kopiert 
+[09:11:00] >>> KIM (Kim): okay warte was ist ein "Save"? ist das wie ein Spielstand?
+[09:11:02] >>> SARAH (Mara Voss): okay cool, danke für die Erklärung! dann geh ich mit Option 1 — direkt ins Brief
+[09:11:03] 
+--- Turn 15 ---
+[09:11:42] <<< SL (45038p/1472c/39.4s, cum=502481): `EP 01 · MS 01 · SC 01/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:11:49] >>> JONAS (Jonas): Okay, Wien 1936, Überwachungsmission, kein Eingreifen. Verstanden soweit.
+
+Ich h
+[09:11:53] >>> KIM (Kim): okay warte mal kurz 😅 wir sollen einfach NUR gucken? und wenn der typ das Gift v
+[09:12:00] >>> SARAH (Mara Voss): Voss lehnt sich leicht vor und schaut auf das Foto. "Wir wollen nicht eingreifen
+[09:12:01] 
+--- Turn 16 ---
+[09:13:37] <<< SL (47334p/1512c/95.2s, cum=551327): `EP 01 · MS 01 · SC 01/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:13:42] >>> JONAS (Jonas): Warte kurz — bevor wir die Kisten nehmen, noch zwei Sachen:
+
+Erstens zu Vargas: 
+[09:13:47] >>> KIM (Kim): puh, okay. Also ich hab jetzt verstanden dass wir den Käufer finden sollen und n
+[09:13:53] >>> SARAH (Mara Voss): Voss nimmt die Kiste mit dem Callsign und stellt sie vor sich auf den Tisch, mac
+[09:13:54] 
+--- Turn 17 ---
+[09:14:30] <<< SL (49518p/1209c/36.1s, cum=602054): `EP 01 · MS 01 · SC 01/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:14:35] >>> JONAS (Jonas): Die Rollenverteilung klingt für mich logisch — ich geh mit RASK, Außenbeobachtun
+[09:14:39] >>> KIM (Kim): okay ich mach das mit der sozialen tarnung, klingt als wäre das genau mein ding 
+[09:14:43] >>> SARAH (Mara Voss): Rollenverteilung klingt gut für mich, Innenbeobachtung passt zu SPLINTER. Aber i
+[09:14:44] 
+--- Turn 18 ---
+[09:15:24] <<< SL (51162p/1343c/40.5s, cum=654559): `EP 01 · MS 01 · SC 01/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:15:30] >>> JONAS (Jonas): Okay, STR 6 — hab ich korrigiert, danke.
+
+Ich mach die Kiste auf. RASK prüft ers
+[09:15:36] >>> KIM (Kim): puh, okay. Ich mach die Kiste auf lol. Und was ist nochmal ein "Comlink"? Liegt 
+[09:15:43] >>> SARAH (Mara Voss): Okay, Kiste aufmachen — Voss checkt Equipment durch, besonders den Handscanner. 
+[09:15:44] 
+--- Turn 19 ---
+[09:16:41] <<< SL (52392p/1766c/57.1s, cum=708717): `EP 01 · MS 01 · SC 02/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:16:47] >>> JONAS (Jonas): RASK zieht den Mantel an und tippt kurz:
+
+"Sitzt gut. Gewicht vom Schulterholste
+[09:16:50] >>> KIM (Kim): okay puh, das ist viel text 😅
+
+aber das kleid ist cute?? und ich bin jetzt schwe
+[09:17:00] >>> SARAH (Mara Voss): Voss dreht die Uhr noch einmal um, lässt die Gravur mit dem Daumen nach. Dann hä
+[09:17:01] 
+--- Turn 20 ---
+[09:17:54] <<< SL (55073p/1035c/52.9s, cum=764825): `EP 01 · MS 01 · SC 02/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:17:59] >>> JONAS (Jonas): Alright, Beat zum Ziehen macht Sinn — kein Problem, ich plan das mit ein. Wie SR
+[09:18:05] >>> KIM (Kim): okay ich glaub ich hab das mit dem Beat nicht ganz verstanden aber egal 😅 ich bi
+[09:18:09] >>> SARAH (Mara Voss): Okay, Rauchgranaten kommen ins Gepäck, nicht an den Körper — verstanden.
+
+Voss n
+[09:18:10] 
+--- Turn 21 ---
+[09:19:03] <<< SL (55222p/1821c/52.7s, cum=821868): `EP 01 · MS 01 · SC 02/12 · PHASE Briefing · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:19:10] >>> JONAS (Jonas): Okay, Wien 1936. Das ist... surreal. Der Geruch ist echt.
+
+Ich würde sagen wir g
+[09:19:12] >>> KIM (Kim): okay wir sind jetzt wirklich in wien 1936?? das ist so weird
+
+gehen wir zu dem l
+[09:19:18] >>> SARAH (Mara Voss): Okay wow. Das riecht also wirklich nach 1936. Voss dreht sich langsam einmal um 
+[09:19:19] 
+--- Turn 22 ---
+[09:19:55] <<< SL (58235p/1146c/36.2s, cum=881249): `EP 01 · MS 01 · SC 03/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:20:01] >>> JONAS (Jonas): Ich würde Option 2 machen — kurz beobachten bevor wir klingeln. RASK lehnt sich 
+[09:20:04] >>> KIM (Kim): okay wow der milchwagen hat mich kurz vergessen lassen dass das ein spiel ist 😭
+
+[09:20:08] >>> SARAH (Mara Voss): Ich würd kurz warten und die Straße lesen — Voss schaut sich das Haus von der an
+[09:20:09] 
+--- Turn 23 ---
+[09:20:48] <<< SL (59685p/1299c/39.0s, cum=942233): `EP 01 · MS 01 · SC 03/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:20:53] >>> JONAS (Jonas): Okay, verstanden — passiv vs. aktiv ist klar, wie Wahrnehmungsproben bei SR die 
+[09:20:56] >>> KIM (Kim): puh, okay. ich glaub ich klingel einfach? das ist doch der plan oder
+[09:21:00] >>> SARAH (Mara Voss): Voss sagt leise zu KIM: "Kurz warten." Gibt dann über Comlink durch: "SPLINTER a
+[09:21:01] 
+--- Turn 24 ---
+[09:21:40] <<< SL (61560p/1175c/39.3s, cum=1004968): `EP 01 · MS 01 · SC 03/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:21:45] >>> JONAS (Jonas): Ich bleib draußen und halte das Fenster im Dritten im Blick — Option 3. Wenn die
+[09:21:48] >>> KIM (Kim): okay puh. also da ist jemand im dritten stock der uns beobachtet und wir sollen 
+[09:21:57] >>> SARAH (Mara Voss): Okay, das mit dem dritten OG macht mir Bauchschmerzen. Voss flüstert über Comlin
+[09:21:58] 
+--- Turn 25 ---
+[09:22:35] <<< SL (62311p/1201c/37.3s, cum=1068480): `EP 01 · MS 01 · SC 04/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:22:41] >>> JONAS (Jonas): RASK hält Position, kein Input von mir nötig gerade. Aber kurze Frage an die Run
+[09:22:44] >>> KIM (Kim): okay er fragt wer uns schickt, oder? dann sag ich einfach den namen! "Vargas sch
+[09:22:48] >>> SARAH (Mara Voss): Voss antwortet, ruhig, ohne Zögern: *„Niemand schickt uns. Wir kommen wegen der 
+[09:22:49] 
+--- Turn 26 ---
+[09:23:13] <<< SL (64535p/669c/23.9s, cum=1133684): `EP 01 · MS 01 · SC 04/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:23:16] >>> JONAS (Jonas): Ich glaube KIM sollte das übernehmen. Vargas ist der echte Name, das ist konkret
+[09:23:19] >>> KIM (Kim): okay ich sag einfach "Vargas. Der Name ist echt." - das stimmt doch oder?? er IS
+[09:23:24] >>> SARAH (Mara Voss): Voss tritt einen kleinen Schritt vor und sagt ruhig durchs Fenster: "Beide. Eine
+[09:23:25] 
+--- Turn 27 ---
+[09:23:59] <<< SL (65377p/953c/33.5s, cum=1200014): `EP 01 · MS 01 · SC 04/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:24:04] >>> JONAS (Jonas): Kurze Frage bevor ich antworte — ich spiele ja SPLINTER, oder? Den Nahkampf-Type
+[09:24:07] >>> KIM (Kim): okay wow er ist drin!! 😮
+
+ich schau mich kurz um während Voss die Uhr-Sache erkl
+[09:24:14] >>> SARAH (Mara Voss): Voss lässt die Frage kurz in der Luft hängen — nicht zu lang, nur genug damit Le
+[09:24:15] 
+--- Turn 28 ---
+[09:24:54] <<< SL (66621p/1329c/39.7s, cum=1267964): `EP 01 · MS 01 · SC 04/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:24:59] >>> JONAS (Jonas): Draußen alles ruhig, drittes OG keine Bewegung. Ich halt die Position.
+
+Kurze Fr
+[09:25:02] >>> KIM (Kim): "warte kurz — ich bin KIM oder SPLINTER? ich check das grad nicht ganz 😅 und sol
+[09:25:07] >>> SARAH (Mara Voss): Voss nickt kurz in Richtung Karte. "Der vierte — Uhrzeit? Und kam er vom Kanal o
+[09:25:08] 
+--- Turn 29 ---
+[09:25:48] <<< SL (68702p/882c/39.9s, cum=1337548): `EP 01 · MS 01 · SC 04/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:25:54] >>> JONAS (Jonas): okay ich hab alles mitgehört
+
+RASK meldet sich kurz über Comlink: *"Die zweite r
+[09:25:57] >>> KIM (Kim): okay er wartet auf mich oder? ich frag einfach nach dem vierten mann
+
+"und wer w
+[09:26:06] >>> SARAH (Mara Voss): Okay, ich nehm mir die Karte vor — Voss tritt einen Schritt näher und schaut sic
+[09:26:07] 
+--- Turn 30 ---
+[09:26:50] <<< SL (69823p/1439c/42.6s, cum=1408810): `EP 01 · MS 01 · SC 04/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:26:56] >>> JONAS (Jonas): Okay, ich folge dem über Comlink — interessant, dass die zweite Nadel ein Wegpun
+[09:26:59] >>> KIM (Kim): okay puh. das ist viel text 😅
+
+ich frag ihn einfach ob er ne Idee hat wer das se
+[09:27:04] >>> SARAH (Mara Voss): Okay das mit dem Wegpunkt ist fies — ich hätte das ohne den Explosionswurf wahrs
+[09:27:05] 
+--- Turn 31 ---
+[09:28:12] <<< SL (70959p/1201c/67.0s, cum=1480970): `EP 01 · MS 01 · SC 05/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:28:22] >>> JONAS (Jonas): Okay, die Drittpartei klingt fast wie eine freie Söldner-Fraktion — kein festes 
+[09:28:25] >>> KIM (Kim): okay er schaut mich an, das heißt ich soll zu dem Wirt oder? ich geh hin und red
+[09:28:29] >>> SARAH (Mara Voss): Voss nickt kurz zu Kim — das ist ihr Einsatz, klar.
+
+Aber erst: "Ich frag noch s
+[09:28:30] 
+--- Turn 32 ---
+[09:29:49] <<< SL (72650p/1104c/79.3s, cum=1554724): `EP 01 · MS 01 · SC 05/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:30:02] >>> JONAS (Jonas): Ich würde sagen Option 3 — aufteilen. KIM geht zu Horak, wir zwei beziehen schon
+[09:30:05] >>> KIM (Kim): okay also ich geh zu dem Horak? Journalistin die eine Runde ausgibt, das klingt 
+[09:30:12] >>> SARAH (Mara Voss): Voss lehnt sich kurz vor. "Herr Lenz — der Verkäufer vor sieben Monaten. Hatte e
+[09:30:13] 
+--- Turn 33 ---
+[09:31:09] <<< SL (74030p/1273c/56.0s, cum=1630027): `EP 01 · MS 01 · SC 05/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:31:18] >>> JONAS (Jonas): Gut, Aufteilung macht Sinn. Ich geh zum Lagerhaus mit Voss.
+
+Kurze Frage bevor w
+[09:31:21] >>> KIM (Kim): okay ich geh zu Horak! aber — was soll ich ihn genau fragen? einfach "hey wer ha
+[09:31:26] >>> SARAH (Mara Voss): Ich würd erst KIM kurz briefen bevor wir uns trennen. Voss sagt leise: „Horak so
+[09:31:27] 
+--- Turn 34 ---
+[09:32:21] <<< SL (76024p/1877c/53.6s, cum=1707928): `EP 01 · MS 01 · SC 05/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:32:29] >>> JONAS (Jonas): Okay, die Situation checke ich kurz — zwei Wachen außen, obwohl die eigentlich i
+[09:32:31] >>> KIM (Kim): ja kaffee! und dann frag ich ihn nach dem Horak typ
+[09:32:36] >>> SARAH (Mara Voss): okay die Tatortanalyse hat ja schön gezogen 👀
+
+Voss flüstert zu RASK: *„Wachablö
+[09:32:37] 
+--- Turn 35 ---
+[09:33:25] <<< SL (78048p/1572c/48.0s, cum=1787548): `EP 01 · MS 01 · SC 06/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:33:30] >>> JONAS (Jonas): Okay, passiv vs. aktiv hab ich verstanden — wie bei SR wenn du einfach auf Wahrn
+[09:33:32] >>> KIM (Kim): okay puh 😅 ich glaub ich frag ihn einfach wer nach ihm gefragt hat? das klingt w
+[09:33:36] >>> SARAH (Mara Voss): Okay, Voss schüttelt den Kopf Richtung RASK und flüstert: "Zu viel Mauer. Wir br
+[09:33:37] 
+--- Turn 36 ---
+[09:34:29] <<< SL (80656p/1728c/51.9s, cum=1869932): `EP 01 · MS 01 · SC 06/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:34:34] >>> JONAS (Jonas): Okay, das Untergeschoss ist neu — stand definitiv nicht im Briefing. Ich würde s
+[09:34:37] >>> KIM (Kim): okay der typ hat gelogen aber der fremde hat's geschluckt?? das ist doch mega ve
+[09:34:41] >>> SARAH (Mara Voss): Voss flüstert über Comlink: „SPLINTER an alle — Nordwand gescannt. Drei Signatur
+[09:34:42] 
+--- Turn 37 ---
+[09:35:22] <<< SL (82117p/1371c/40.4s, cum=1953420): `EP 01 · MS 01 · SC 06/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:35:26] >>> JONAS (Jonas): RASK — Position halten, Rhythmus beobachten.
+
+Das vierte Signal macht mir mehr S
+[09:35:29] >>> KIM (Kim): okay der typ klingt irgendwie gruselig? "hände eines mannes der nicht arbeitet" 
+[09:35:35] >>> SARAH (Mara Voss): Okay, Voss zieht die Konsequenz aus dem Rhythmus — 20 Sekunden Fenster, Ladeluke
+[09:35:36] 
+--- Turn 38 ---
+[09:36:17] <<< SL (84393p/1432c/41.3s, cum=2039245): `EP 01 · MS 01 · SC 07/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:36:24] >>> JONAS (Jonas): Ich meld das mal weiter und wechsel dann Position Richtung Haupteingang — will s
+[09:36:27] >>> KIM (Kim): okay wow der hat echt angst oder? das spür ich richtig
+
+ich frag ihn ob er die z
+[09:36:32] >>> SARAH (Mara Voss): Okay das mit dem Schacht ist interessant aber der Countdown macht mir mehr Sorge
+[09:36:33] 
+--- Turn 39 ---
+[09:37:12] <<< SL (86185p/1328c/38.6s, cum=2126758): `EP 01 · MS 01 · SC 07/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:37:21] >>> JONAS (Jonas): RASK hält Position. Wenn da gleich jemand ankommt, will ich wissen wer — bevor i
+[09:37:26] >>> KIM (Kim): okay wow der schaut mich so an 😅
+
+ich glaub ich sag ihm die teilwahrheit? also o
+[09:37:31] >>> SARAH (Mara Voss): Okay für Voss: Option 3 — ich geh zurück zur Einfahrt, RASK bleibt am Tor und be
+[09:37:32] 
+--- Turn 40 ---
+[09:38:18] <<< SL (87792p/1546c/46.2s, cum=2216096): `EP 01 · MS 01 · SC 07/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:38:23] >>> JONAS (Jonas): RASK hält Position. Ich beobachte ob und wann der Mann wieder rauskommt — Verwei
+[09:38:25] >>> KIM (Kim): ich nehm das buch natürlich!! und dann frag ich ihn ob noch jemand weiß dass ers
+[09:38:30] >>> SARAH (Mara Voss): Voss flüstert zurück ins Comlink: „RASK, halt Position. Ich will wissen wie lang
+[09:38:31] 
+--- Turn 41 ---
+[09:39:12] <<< SL (89807p/1325c/41.0s, cum=2307228): `EP 01 · MS 01 · SC 07/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:39:26] >>> JONAS (Jonas): Okay, wir warten — macht Sinn, der kommt gleich raus. Ich halte Position und mac
+[09:39:29] >>> KIM (Kim): okay puh. viel text 😅
+
+ich frag Horak ob er irgendwo hinkommt wo er sicher ist. 
+[09:39:32] >>> SARAH (Mara Voss): Okay, ich warte mit RASK auf den Ankömmling — Gesicht sehen ist Priorität. RASK 
+[09:39:33] 
+--- Turn 42 ---
+[09:40:15] <<< SL (91328p/1381c/42.4s, cum=2399937): `EP 01 · MS 01 · SC 08/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:40:21] >>> JONAS (Jonas): Okay, Ankömmling ist identifiziert — Ziel erreicht soweit. Ich würde sagen RASK 
+[09:40:25] >>> KIM (Kim): okay ich glaub ich folge dem typ? also KIM läuft raus und versucht irgendwie zu 
+[09:40:30] >>> SARAH (Mara Voss): Okay, Verfolgungsfenster schließt — wir können nicht warten. Voss flüstert ins C
+[09:40:31] 
+--- Turn 43 ---
+[09:41:09] <<< SL (92732p/1155c/38.3s, cum=2493824): `EP 01 · MS 01 · SC 08/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:41:17] >>> JONAS (Jonas): Okay, die SG 10 ist heftig — er ist wirklich aufmerksam. Meine GES 4 gibt mir ⌊4
+[09:41:19] >>> KIM (Kim): puh, okay. ich geh einfach vor zur Brücke? als wäre ich einfach auf dem Weg irge
+[09:41:27] >>> SARAH (Mara Voss): Okay, auf der Brücke ohne Deckung mit erhöhter Awareness — das ist zu riskant fü
+[09:41:28] 
+--- Turn 44 ---
+[09:42:03] <<< SL (94876p/1097c/35.2s, cum=2589797): `EP 01 · MS 01 · SC 08/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:42:10] >>> JONAS (Jonas): RASK wartet erstmal — ich will KIM nicht noch mehr Aufmerksamkeit bringen wenn e
+[09:42:17] >>> KIM (Kim): okay ich hab ihn fast erwischt aber er hat mich gehört oder? 😬
+
+ich geh einfach 
+[09:42:22] >>> SARAH (Mara Voss): Okay, Voss bleibt in der Gasse und gibt leise über Comlink durch: "KIM, er hat u
+[09:42:23] 
+--- Turn 45 ---
+[09:43:03] <<< SL (95867p/1020c/39.5s, cum=2686684): `EP 01 · MS 01 · SC 08/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:43:08] >>> JONAS (Jonas): Ich geh weiter Richtung Brücke, normales Tempo — als würde ich einfach die Strec
+[09:43:12] >>> KIM (Kim): okay puh. sie dreht sich um? als hätte sie was vergessen? ich will nochmal auf d
+[09:43:19] >>> SARAH (Mara Voss): Voss hält Position und flüstert ins Comlink: "Habt ihr das Objekt auch gesehen? 
+[09:43:20] 
+--- Turn 46 ---
+[09:43:54] <<< SL (97394p/1115c/34.0s, cum=2785193): `EP 01 · MS 01 · SC 08/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:44:16] >>> JONAS (Jonas): Schade, hab ihn verpasst. Aber die Handhaltung von Kim ist interessant — Zählges
+[09:44:19] >>> KIM (Kim): okay warte ich hab gekuckt aber was genau hab ich gesehen? seine hand irgendwie 
+[09:44:24] >>> SARAH (Mara Voss): Mist, Scanner hat nichts. Aber KIMs Beobachtung ist gold — Zählgeste, flaches ru
+[09:44:25] 
+--- Turn 47 ---
+[09:45:03] <<< SL (99329p/1082c/37.6s, cum=2885604): `EP 01 · MS 01 · SC 08/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:45:11] >>> JONAS (Jonas): Okay ich überleg kurz — RASK ist auf der Parallelstraße, er kennt mich noch nich
+[09:45:13] >>> KIM (Kim): okay puh. er hat mich gemerkt oder? ich geh nicht rein, das wäre blöd oder. schi
+[09:45:19] >>> SARAH (Mara Voss): Comlink, ruhig: "Kim, bleib an der Ecke. Ich geh rein — er kennt dich, mich nich
+[09:45:20] 
+--- Turn 48 ---
+[09:46:00] <<< SL (100511p/1355c/39.5s, cum=2987470): `EP 01 · MS 01 · SC 09/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:46:06] >>> JONAS (Jonas): RASK hält die Position — ich warte auf Voss' Signal. Wenn er die Tür nimmt, lauf
+[09:46:11] >>> KIM (Kim): puh, okay. ich geh rein! also KIM geht in die Gasse rein, als Ablenkung oder so?
+[09:46:19] >>> SARAH (Mara Voss): Okay Moment, ich lese das kurz —
+
+Also Voss steht da, er schaut sie an, 15 Sekun
+[09:46:20] 
+--- Turn 49 ---
+[09:46:54] <<< SL (102282p/963c/33.5s, cum=3090715): `EP 01 · MS 01 · SC 09/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:46:58] >>> JONAS (Jonas): RASK — Option 2, Schweigen und Position halten.
+
+Ich stehe da, Arme locker, bloc
+[09:47:01] >>> KIM (Kim): okay er fragt einfach?? der ist so ruhig das ist creepy lol
+
+ich bleib an der Ec
+[09:47:06] >>> SARAH (Mara Voss): RASK hält — kein Wort, kein Schritt vor, nur Position. Voss übernimmt.
+
+Voss tri
+[09:47:07] 
+--- Turn 50 ---
+[09:47:42] <<< SL (103422p/1056c/35.1s, cum=3195193): `EP 01 · MS 01 · SC 09/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:47:46] >>> JONAS (Jonas): RASK — weiter schweigen, Position halten. Voss hat das Wort, ich bin die Wand.
+
+
+[09:47:52] >>> KIM (Kim): puh okay. also ich steh an der ecke und... warte einfach? kann ich nicht reingeh
+[09:48:03] >>> SARAH (Mara Voss): Ich geh mit Option 1, Teilwahrheit. Voss muss ihm erstmal was geben bevor sie me
+[09:48:04] 
+--- Turn 51 ---
+[09:48:43] <<< SL (104965p/1060c/39.2s, cum=3301218): `EP 01 · MS 01 · SC 09/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:48:47] >>> JONAS (Jonas): RASK — Option 1, weiter schweigen. Position halten, Voss den Raum lassen.
+
+Kurze
+[09:48:49] >>> KIM (Kim): okay ich bleib also draußen, verstanden 😅
+
+aber ich hör zu! was sagt Voss jetzt?
+[09:48:58] >>> SARAH (Mara Voss): Voss hält seinem Blick stand, sagt nichts für zwei Sekunden. Dann, ruhig:
+
+„Wir 
+[09:48:59] 
+--- Turn 52 ---
+[09:50:31] <<< SL (106141p/1253c/91.5s, cum=3408612): `EP 01 · MS 01 · SC 09/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:50:36] >>> JONAS (Jonas): RASK macht einen Schritt zurück. Nicht viel — vielleicht einen halben Meter. Hän
+[09:50:39] >>> KIM (Kim): okay warte kurz 😅 was ist eine Kodex-Abfrage? soll ich da irgendwas eintippen?
+[09:50:44] >>> SARAH (Mara Voss): Okay der hat uns voll durchschaut, respekt. Ich geh mit Option 1 — zugeben und d
+[09:50:45] 
+--- Turn 53 ---
+[09:51:30] <<< SL (107764p/1173c/45.4s, cum=3517549): `EP 01 · MS 01 · SC 09/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:51:36] >>> JONAS (Jonas): **RASK:** „Kovač — woher weißt du das mit dem Keller? Eigene Beobachtung, oder h
+[09:51:47] >>> KIM (Kim): okay warte kurz
+
+er hat zwei von dem zeug?? und vargas hat uns das nicht gesagt?
+[09:51:54] >>> SARAH (Mara Voss): Voss lässt kurz die Schultern fallen — nicht viel, aber genug. Dann ruhig: „Kova
+[09:51:55] 
+--- Turn 54 ---
+[09:52:39] <<< SL (109347p/1318c/43.5s, cum=3628214): `EP 01 · MS 01 · SC 10/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:52:43] >>> JONAS (Jonas): Ich würfel — das klingt zu konsistent um geblufft zu sein, aber ich will's wisse
+[09:52:45] >>> KIM (Kim): ok der teil mit dem bruder... das hat mich erwischt. der klingt echt.
+
+kann ich 
+[09:52:50] >>> SARAH (Mara Voss): Voss lässt Kovač kurz stehen, tritt einen halben Schritt zurück und flüstert ins
+[09:52:51] 
+--- Turn 55 ---
+[09:53:41] <<< SL (110790p/1551c/50.4s, cum=3740555): `EP 01 · MS 01 · SC 10/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:53:48] >>> JONAS (Jonas): Okay, ich kann ihn nicht richtig lesen — könnte beides sein.
+
+Aber die Geschicht
+[09:53:53] >>> KIM (Kim): okay wow der arme mann. sein bruder und so 😭
+
+ich würd sagen wir gehen rein mit 
+[09:53:58] >>> SARAH (Mara Voss): Okay die zweite Charge ist das was mich gerade am meisten stört — das stand defi
+[09:53:59] 
+--- Turn 56 ---
+[09:54:56] <<< SL (112793p/1351c/57.2s, cum=3854699): `EP 01 · MS 01 · SC 10/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:55:05] >>> JONAS (Jonas): RASK hält Kovač kurz im Blick, dann nickt er einmal — knapp, keine große Geste.
+
+[09:55:08] >>> KIM (Kim): okay warte ich les das nochmal 😅
+
+die zeichnung ist echt oder? also kovač ist do
+[09:55:15] >>> SARAH (Mara Voss): Voss dreht die Zeichnung kurz um, schaut auf die Rückseite — alte Gewohnheit. Da
+[09:55:16] 
+--- Turn 57 ---
+[09:55:57] <<< SL (115061p/1243c/40.2s, cum=3971003): `EP 01 · MS 01 · SC 10/12 · PHASE Intel · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 · St
+[09:56:02] >>> JONAS (Jonas): Ich würd Option 3 nehmen — Lagerhaus-Außenbeobachtung. Wachenwechsel dokumentier
+[09:56:08] >>> KIM (Kim): ich geh zu brenner ins café. ich kann reden, das ist doch genau mein ding oder?
+[09:56:20] >>> SARAH (Mara Voss): Ich würd das aufteilen — RASK zum Lagerhaus, der soll Wachen zählen und Kovačs G
+[09:56:21] 
+--- Turn 58 ---
+[09:57:09] <<< SL (116335p/1647c/47.6s, cum=4088985): `EP 01 · MS 01 · SC 11/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:57:16] >>> JONAS (Jonas): Okay krass, "Dritter" — das ändert die ganze Ausgangsannahme. Und das mit F.H. u
+[09:57:26] >>> KIM (Kim): okay das mit dem "dritter" macht mir angst ehrlich gesagt
+
+können wir nicht einf
+[09:57:34] >>> SARAH (Mara Voss): Okay wow, "Floridsdorf" als letzter Eintrag drei Tage vor seinem Tod — das ist k
+[09:57:35] 
+--- Turn 59 ---
+[09:58:09] <<< SL (118609p/1063c/34.3s, cum=4208657): `EP 01 · MS 01 · SC 11/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:58:17] >>> JONAS (Jonas): Ich schreib kurz was ins Comlink:
+
+„RASK hier. Lage: Jemand war vor uns da, Kipp
+[09:58:19] >>> KIM (Kim): okay ich klingel einfach. wir haben keine zeit zum warten oder?
+[09:58:24] >>> SARAH (Mara Voss): Voss sagt leise zu KIM: "Wir klingeln — aber du gehst vor, wirkst harmloser." Wi
+[09:58:25] 
+--- Turn 60 ---
+[09:59:01] <<< SL (120078p/1065c/36.7s, cum=4329800): `EP 01 · MS 01 · SC 11/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:59:12] >>> JONAS (Jonas): Okay kurze Frage bevor wir weitermachen — das Kuvert ist ungeöffnet, Novak drauf
+[09:59:18] >>> KIM (Kim): okay wow sie hat einfach aufgemacht 😭 ich nehm das kuvert
+[09:59:22] >>> SARAH (Mara Voss): Voss tritt einen Schritt vor, schaut den Kuvert an ohne ihn zu berühren. "Das Ri
+[09:59:23] 
+--- Turn 61 ---
+[09:59:51] <<< SL (120803p/810c/28.3s, cum=4451413): `EP 01 · MS 01 · SC 11/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[09:59:57] >>> JONAS (Jonas): Ich würd sagen Kuvert mitnehmen. Hier aufmachen vor ihr wirkt irgendwie... rücks
+[10:00:02] >>> KIM (Kim): ich frag sie noch — hat sie den Fremden beschrieben? den der das Kuvert holen so
+[10:00:12] >>> SARAH (Mara Voss): Ich nehme Option 2 — Voss lehnt sich leicht vor und fragt ruhig: "Der Mann der d
+[10:00:13] 
+--- Turn 62 ---
+[10:01:04] <<< SL (122105p/1064c/51.3s, cum=4574582): `EP 01 · MS 01 · SC 11/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[10:01:10] >>> JONAS (Jonas): Warte kurz — sie hat das sieben Monate gehalten ohne zu wissen für wen. Wenn jet
+[10:01:13] >>> KIM (Kim): ich nehm das kuvert und sag ihr sie soll vorsichtig sein. irgendwie fühlt sich d
+[10:01:30] >>> SARAH (Mara Voss): Voss nimmt das Kuvert ruhig vom Tisch und sagt leise: "Danke, Francesca. Sie hab
+[10:01:31] 
+--- Turn 63 ---
+[10:02:11] <<< SL (124066p/1070c/40.1s, cum=4699718): `EP 01 · MS 01 · SC 11/12 · PHASE Konflikt · MODE CORE · COMMS OK · Lvl 1 ▓░░░░░░░░░ 0/10 · Px 0/5 ·
+[10:02:11] 🛑 Stop-Hint erkannt: 'SC 12/12' — Phase beendet
+[10:02:11] 
+=== PHASE ENDE: Stop-Hint: SC 12/12 ===
+[10:02:11] Report: /home/altair/.openclaw/workspace-cloud/playtests/2026-04-22/phase2c-group-mission1/_bericht.md
+[10:02:11] Tokens: 4699718 (peak prompt: 124066)
+[10:02:11] Findings: 1

@@ -1,0 +1,58 @@
+diff --git a/core/sl-referenz.md b/core/sl-referenz.md
+index f1586397..7fb75fa1 100644
+--- a/core/sl-referenz.md
++++ b/core/sl-referenz.md
+@@ -1451,6 +1451,11 @@ arena?: { wins, losses, tier }          // nur wenn Arena genutzt
+ > `arc.hooks` max 18, `history.milestones` max 20 pro Charakter.
+ > **Kontinuitäts-Budget:** `roster_echoes` max 5, `shared_echoes` max 6,
+ > `convergence_tags` max 4, `npc_roster` max 6, `active_npc_ids` max 4.
++> **`shared_echoes`-Abgrenzung:** enger flüchtiger Topf für Split/Merge-Folgespuren +
++> kurzlebige Ereignis-Echos (max 6, ältere verdichtet/gepruned). Der epochenübergreifende
++> Verschwörungs-Strang gehört NICHT hierher, sondern in `research.projects[]`
++> (`scope:"campaign"`, kein Cap) und/oder `summaries.summary_active_arcs`; neue Rift-Hinweise
++> in `campaign.rift_seeds[]`. Siehe Masterprompt §I.
+ > NPC-Scope bleibt `personal|session|iti`, NPC-Status
+ > `attached|hq|assigned|recovering|missing|rival`.
+ > Join/Leave-Guard: `personal` folgt `owner_id`, `session` bleibt am
+diff --git a/meta/masterprompt_v6.md b/meta/masterprompt_v6.md
+index 95aa6f33..5f42e22d 100644
+--- a/meta/masterprompt_v6.md
++++ b/meta/masterprompt_v6.md
+@@ -1174,6 +1174,20 @@ klassischer Pfad" und macht klassisch weiter).
+   Merge-Guard in `test_v7_schema_consistency.js` und `test_continuity_output_contract.js`. Beim Merge mehrerer Saves:
+   Echos gleichen `tag`-Werts deduplizieren, `scope`-Konflikte via Priorität `shared > campaign > rumor > personal`
+   auflösen.
++- **`shared_echoes`-Abgrenzung (WICHTIG — kein Sammelbecken):** `shared_echoes[]` ist die **enge,
++  flüchtige** Ablage für **Split/Merge-Folgespuren** (verfehlte Thread-Ziele, Tag-Format
++  `folgespur-ms<n>-<thread_id>`) und kurzlebige gruppenrelevante Ereignis-Echos — Budget max 6, ältere
++  werden beim HQ-`!save` verdichtet/gepruned (gewollt). Es ist **NICHT** der Speicher für den
++  epochenübergreifenden Verschwörungs-Strang. Ermittlungs-Erkenntnisse, die über die Episode hinaus
++  reifen (Identität/Funktion einer Fraktion, Natur eines Prozesses/Objekts, langfristige Spuren,
++  Personen-/Ort-Hinweise des roten Fadens) gehören **nicht** als Einzel-Echos hierher, sondern:
++  → in **`research.projects[]`** mit `scope: "campaign"` (laufender Strang, **kein Cap**, reift über
++    Epochenwechsel, siehe §C Research-Fortschritt-Pflichtgate), und/oder verdichtet in
++    **`summaries.summary_active_arcs`** (kompakte Strang-Zusammenfassung, kein Item-Cap).
++  → Neu entdeckte Rift-Hinweise gehören in **`campaign.rift_seeds[]`**, nicht in `shared_echoes`.
++  Faustregel beim Debrief-`!save`: Ist die Erkenntnis eine **kurzlebige Split/Merge-Folgespur**? → `shared_echoes`.
++  Reift sie als **Faden über die Episode hinaus**? → `research`(`scope:"campaign"`)/`summary_active_arcs`.
++  So bleibt `shared_echoes` schlank und der rote Faden geht nie durch den 6er-Prune verloren.
+ - **`roster_echoes`-Pflichtformat (Split/Merge, ACHTUNG: andere Struktur als `shared_echoes`):** Jedes Item in
+   `continuity.roster_echoes[]` MUSS ein Objekt mit mindestens `char_id` (Referenz auf `characters[].id`) sein.
+   Vollständiges Format: `{ "char_id": "<CHR-ID>", "tone": "<stimmung>", "text": "<1-Satz-Recap: wer ist das, was
+diff --git a/systems/gameflow/speicher-fortsetzung.md b/systems/gameflow/speicher-fortsetzung.md
+index c1493f19..0cfebca5 100644
+--- a/systems/gameflow/speicher-fortsetzung.md
++++ b/systems/gameflow/speicher-fortsetzung.md
+@@ -1088,6 +1088,12 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
+ - `split`: `{family_id, thread_id, expected_threads[], resolved_threads[], convergence_ready}` für kanonische Core-Splits.
+ - `roster_echoes[]` (max 5), `shared_echoes[]` (max 6), `convergence_tags[]` (max 4).
+ - **Pflichtformat `shared_echoes[]`:** Jedes Item MUSS Objekt mit mindestens `tag` sein, empfohlen vollständig `{ "tag": "<slug>", "scope": "shared|rumor|campaign|personal", "text": "<kurz>" }`. Bindung: **Ereignis/Erkenntnis**, nicht Figur.
++- **`shared_echoes`-Abgrenzung (kein Sammelbecken für den roten Faden):** `shared_echoes[]` ist eng und
++  flüchtig — für **Split/Merge-Folgespuren** (`folgespur-ms<n>-<thread_id>`) und kurzlebige Ereignis-Echos,
++  Budget max 6, ältere werden beim HQ-`!save` verdichtet/gepruned. Der **epochenübergreifende
++  Verschwörungs-Strang** gehört NICHT als Einzel-Echos hierher, sondern in `research.projects[]`
++  (`scope: "campaign"`, kein Cap, reift über Epochen) und/oder verdichtet in `summaries.summary_active_arcs`;
++  neue Rift-Hinweise in `campaign.rift_seeds[]`. Siehe Masterprompt §I `shared_echoes`-Abgrenzung.
+ - **Pflichtformat `roster_echoes[]` (andere Struktur!):** Jedes Item MUSS Objekt mit mindestens `char_id` sein, empfohlen vollständig `{ "char_id": "<CHR-ID>", "tone": "<stimmung>", "text": "<1-Satz-Recap>" }`. Bindung: **eine Figur**, nicht ein Ereignis. Niemals mit `shared_echoes`-Format vermischen.
+ - **Gemeinsam**: Rohstrings (`["Lagerhaus gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) sind in beiden Arrays Schema-Verletzung und werden von `test_v7_schema_consistency.js` + `test_continuity_output_contract.js` abgelehnt. Siehe Masterprompt §D.
+ - **Persistente NPC-Chrononauten:**

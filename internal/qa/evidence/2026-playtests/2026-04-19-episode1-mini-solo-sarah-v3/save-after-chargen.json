@@ -1,0 +1,154 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-01-01T00:00:00Z-HQ-WIRE-001",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "episode": 1,
+    "mission": 0,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "mixed",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "id": "CHR-WIRE-001",
+      "name": "Lena Voss",
+      "callsign": "Wire",
+      "rank": "Rekrut",
+      "lvl": 1,
+      "xp": 0,
+      "origin": {
+        "epoch": "Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Feldinformatikerin & Infiltratorin"
+      },
+      "attr": {
+        "STR": 2,
+        "GES": 5,
+        "INT": 5,
+        "CHA": 2,
+        "TEMP": 2,
+        "SYS": 2
+      },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 2,
+      "talents": [
+        {
+          "name": "Systemzugriff",
+          "tier": "Basis",
+          "effect": "+2 auf INT-Proben bei Hacking und Technik-Analyse"
+        },
+        {
+          "name": "Schattenschritt",
+          "tier": "Basis",
+          "effect": "+2 auf GES-Proben bei Schleichen und Verbergen"
+        }
+      ],
+      "equipment": [
+        { "name": "Kompakte Automatikpistole", "type": "weapon", "tier": 1 },
+        { "name": "Taktische Leichtrüstung", "type": "armor", "tier": 1 },
+        { "name": "Multitool-Rig", "type": "gadget", "tier": 1 },
+        { "name": "Comlink Mk.II", "type": "gadget", "tier": 1 },
+        { "name": "Rauchgranate", "type": "consumable", "tier": 0, "quantity": 2 },
+        { "name": "Medkit (einfach)", "type": "consumable", "tier": 1, "quantity": 1 }
+      ],
+      "implants": [
+        { "name": "Retina-HUD", "sys_cost": 1, "effect": "Echtzeit-Overlay, Kodex-Link, Karten-Ping" },
+        { "name": "Subkutaner Jammer", "sys_cost": 1, "effect": "Kurzzeitig lokale Signale stören" }
+      ],
+      "history": {
+        "background": "Randzonen-Kind, Autodidaktin. Vom ITI rekrutiert nach einem Archiveinbruch, der die falschen Leute neugierig machte.",
+        "milestones": []
+      },
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-WIRE-001",
+          "name": "Standard-Feldfahrzeug",
+          "type": "vehicle",
+          "tier": 1,
+          "upgrades": []
+        },
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 0,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 100
+    }
+  ],
+  "economy": {
+    "hq_pool": 0
+  },
+  "logs": {
+    "trace": [],
+    "market": [],
+    "artifact_log": [],
+    "notes": [],
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
+    }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 1,
+      "mission": 0,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": [],
+    "npc_roster": [],
+    "active_npc_ids": []
+  },
+  "arc": {
+    "factions": {},
+    "questions": [],
+    "hooks": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  }
+}

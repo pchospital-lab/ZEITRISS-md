@@ -1,0 +1,924 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-EP12-MS11-DEBRIEF-HQ",
+  "parent_save_id": "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "merge_id": null,
+  "branch_id": "ANCHOR-SAVEGAME_V7_5ER_HQ_HIGHLEVEL",
+  "campaign": {
+    "episode": 12,
+    "mission": 11,
+    "px": 0,
+    "px_state": "consumed",
+    "heat": 0,
+    "mode": "preserve",
+    "epoch": null,
+    "rift_seeds": [
+      {
+        "id": "RIFT-EP12-MS11-NOR1947",
+        "sector": "Norwegen, 1947",
+        "signature": "organisch, mobil, unklassifiziert",
+        "available_after_episode": 12
+      }
+    ],
+    "entry_choice_skipped": false,
+    "episode_start": null,
+    "episode_end": null
+  },
+  "characters": [
+    {
+      "id": "AGENT-A",
+      "name": "Astra",
+      "callsign": "ECHO",
+      "rank": "Operator IX",
+      "lvl": 913,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Analytik & Spurensicherung"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 7,
+        "INT": 9,
+        "CHA": 5,
+        "TEMP": 6,
+        "SYS": 5
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 5,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Astra (ECHO) - erfahrener ITI-Operator, Rolle: Analytik & Spurensicherung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: LEITER als Bindungs-Agent enttarnt, MERIDIAN-Funktion aufgedeckt"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 60630,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "913": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS11"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
+    },
+    {
+      "id": "AGENT-B",
+      "name": "Blitz",
+      "callsign": "STORM",
+      "rank": "Operator IX",
+      "lvl": 906,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "CQB & Sturmangriff"
+      },
+      "attr": {
+        "STR": 9,
+        "GES": 8,
+        "INT": 4,
+        "CHA": 4,
+        "TEMP": 7,
+        "SYS": 3
+      },
+      "lp": 26,
+      "lp_max": 26,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 3,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Blitz (STORM) - erfahrener ITI-Operator, Rolle: CQB & Sturmangriff.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: Haas gesichert, Verhör abgeschlossen"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 7130,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "906": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS11"
+        }
+      }
+    },
+    {
+      "id": "AGENT-C",
+      "name": "Cipher",
+      "callsign": "GHOST",
+      "rank": "Operator IX",
+      "lvl": 934,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Infiltration & Hacking"
+      },
+      "attr": {
+        "STR": 4,
+        "GES": 8,
+        "INT": 8,
+        "CHA": 5,
+        "TEMP": 5,
+        "SYS": 9
+      },
+      "lp": 19,
+      "lp_max": 19,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Cipher (GHOST) - erfahrener ITI-Operator, Rolle: Infiltration & Hacking.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: Datenträger gesichert, MRD-7-Spiegelung auf Träger"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "Datenträger (Ablenkung, Wien 1938)",
+          "type": "gadget",
+          "tier": 2
+        },
+        {
+          "name": "MRD-7-Spiegelung",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 8330,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "934": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS11"
+        }
+      }
+    },
+    {
+      "id": "AGENT-D",
+      "name": "Dusk",
+      "callsign": "VEIL",
+      "rank": "Operator IX",
+      "lvl": 919,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Verdeckte Aufklaerung"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 7,
+        "INT": 6,
+        "CHA": 8,
+        "TEMP": 6,
+        "SYS": 4
+      },
+      "lp": 21,
+      "lp_max": 21,
+      "stress": 0,
+      "has_psi": true,
+      "sys_installed": 4,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Dusk (VEIL) - erfahrener ITI-Operator, Rolle: Verdeckte Aufklaerung.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: LEITER sozial festgenommen, Wien 1938"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 7830,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "919": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS11"
+        }
+      },
+      "psi_heat": 0,
+      "pp": 4,
+      "psi_abilities": [
+        {
+          "name": "Praekognitiver Blick",
+          "tier": "Basis",
+          "effect": "Einmal pro Szene eine Probe wiederholen."
+        }
+      ]
+    },
+    {
+      "id": "AGENT-E",
+      "name": "Echo",
+      "callsign": "RELAY",
+      "rank": "Operator IX",
+      "lvl": 902,
+      "xp": 0,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Support & Feldtechnik"
+      },
+      "attr": {
+        "STR": 5,
+        "GES": 6,
+        "INT": 7,
+        "CHA": 6,
+        "TEMP": 5,
+        "SYS": 7
+      },
+      "lp": 20,
+      "lp_max": 20,
+      "stress": 0,
+      "has_psi": false,
+      "sys_installed": 6,
+      "talents": [
+        {
+          "name": "Veteranen-Reflex",
+          "tier": "Meister",
+          "effect": "+2 auf Initiative und Reaktionsproben."
+        },
+        {
+          "name": "Feldroutine",
+          "tier": "Fortgeschritten",
+          "effect": "+1 auf rollentypische Proben."
+        }
+      ],
+      "equipment": [
+        {
+          "name": "Standard-Dienstwaffe",
+          "type": "weapon",
+          "tier": 2
+        },
+        {
+          "name": "Adaptiv-Panzerung",
+          "type": "armor",
+          "tier": 2
+        },
+        {
+          "name": "Feld-Toolkit",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "implants": [
+        {
+          "name": "Neuro-Sync Mk III",
+          "sys_cost": 1,
+          "effect": "+1 Initiative"
+        }
+      ],
+      "history": {
+        "background": "Echo (RELAY) - erfahrener ITI-Operator, Rolle: Support & Feldtechnik.",
+        "milestones": [
+          "Episode 12 abgeschlossen",
+          "HQ-Kernteam",
+          "MS11: MRD-7-Empfänger geöffnet und gesichert, Brenner-Intel gewonnen"
+        ]
+      },
+      "carry": [
+        {
+          "name": "Med-Patch",
+          "type": "consumable",
+          "tier": 2
+        },
+        {
+          "name": "Rauchgranate",
+          "type": "consumable",
+          "tier": 1
+        },
+        {
+          "name": "MRD-7-Empfänger (original)",
+          "type": "gadget",
+          "tier": 2
+        }
+      ],
+      "quarters_stash": [
+        {
+          "name": "Ersatzmagazin",
+          "type": "consumable",
+          "tier": 2
+        }
+      ],
+      "vehicles": {
+        "epoch_vehicle": null,
+        "availability": {
+          "ready_every_missions": 4,
+          "next_ready_in": 0
+        },
+        "legendary_temporal_ship": null
+      },
+      "reputation": {
+        "iti": 5,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 7280,
+      "level_history": {
+        "1": {
+          "choice": "+1 Attribut",
+          "detail": "Start",
+          "mission": "MS1"
+        },
+        "902": {
+          "choice": "AUSSTEHEND",
+          "detail": "",
+          "mission": "MS11"
+        }
+      }
+    }
+  ],
+  "economy": {
+    "wallets": {
+      "AGENT-A": {
+        "balance": 60630,
+        "name": "Astra"
+      },
+      "AGENT-B": {
+        "balance": 7130,
+        "name": "Blitz"
+      },
+      "AGENT-C": {
+        "balance": 8330,
+        "name": "Cipher"
+      },
+      "AGENT-D": {
+        "balance": 7830,
+        "name": "Dusk"
+      },
+      "AGENT-E": {
+        "balance": 7280,
+        "name": "Echo"
+      }
+    }
+  },
+  "research": {
+    "projects": [
+      {
+        "id": "RES-MRD7-EP12MS11",
+        "kind": "field_decrypt",
+        "label": "MRD-7-Analyse",
+        "description": "MERIDIAN-Funktion, Adressaten-Struktur, Protokoll-Herkunft. Empfänger Wien 1938.",
+        "status": "in_progress",
+        "missions_total": 2,
+        "missions_done": 0,
+        "scope": "campaign"
+      }
+    ]
+  },
+  "logs": {
+    "trace": [
+      {
+        "event": "economy_audit",
+        "target_range": {
+          "level_band": "900+"
+        }
+      },
+      {
+        "event": "mission_complete",
+        "mission": "MS11",
+        "epoch": "Wien 1938",
+        "result": "vollstaendig"
+      }
+    ],
+    "artifact_log": [],
+    "market": [],
+    "notes": [
+      "MS11: LEITER = Bindungs-Agent KAIROS, keine echten Depot-Koordinaten",
+      "MS11: Primärer Datenträger ist Ablenkung — echter Träger Route Drei",
+      "MS11: MERIDIAN ist Funktion/Amt, rollende Besetzung, letzte bekannte Inkarnation weiblich, ITI-intern, vor 3 Jahren",
+      "MS11: Route Drei war nie ein Mensch — LEITERs letzte Aussage vor Rücksprung, ungeklärt",
+      "MS11: Brenner, Praterstern 21:45 Wien 1938 — ungesichert, möglicherweise entkommen",
+      "MS11: Frau (unbekannt, Akzent polnisch) wusste von Bindungs-Operation — Verhör im ITI ausstehend",
+      "MS11: Haas — unwissender Kurier, Verhör abgeschlossen",
+      "MS11: MRD-7-Empfänger original bei RELAY, Spiegelung bei GHOST",
+      "MS11: Px 3+2=5 → ClusterCreate — Rift-Seed Norwegen 1947 geortet, organische Signatur",
+      "MS11: Px-Reset auf 0 nach ClusterCreate"
+    ],
+    "flags": {
+      "imported_saves": [
+        "SAVE-FIXTURE-SAVEGAME_V7_5ER_HQ_HIGHLEVEL"
+      ],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "continuity_conflicts": [
+        "level_history enthält nur MS1-Eintrag — Aufstiegs-Delta Lvl 2-912 nicht durch Einträge gedeckt (Import-Flag, narrativ akzeptiert)",
+        "reputation.iti Importwert 80 über Cap 5 — auf 5 geclippt",
+        "Level-Up-Wahlen MS11 ausstehend x5 — noch nicht persistiert"
+      ],
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false
+    },
+    "hud": [],
+    "psi": [],
+    "arena_psi": []
+  },
+  "summaries": {
+    "summary_last_episode": "Episode 12 abgeschlossen, HQ stabil.",
+    "summary_last_rift": "Letzte Rift-Op ohne Px-Verbrauch beendet.",
+    "summary_active_arcs": "KAIROS-Gegenoffensive; MERIDIAN-Funktion aufgedeckt; Route Drei ungeklärt; Chronopolis-Embargo"
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "hq",
+      "episode": 12,
+      "mission": 11,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [
+      {
+        "char_id": "AGENT-A",
+        "tone": "fokussiert",
+        "text": "Astra/ECHO — Analytikerin, deckte MERIDIAN-Funktion auf, Psi aktiv."
+      },
+      {
+        "char_id": "AGENT-B",
+        "tone": "direkt",
+        "text": "Blitz/STORM — CQB-Spezialist, sicherte Haas im Hinterhof Wien."
+      },
+      {
+        "char_id": "AGENT-C",
+        "tone": "präzise",
+        "text": "Cipher/GHOST — Infiltration, sicherte Datenträger und MRD-7-Spiegelung."
+      },
+      {
+        "char_id": "AGENT-D",
+        "tone": "ruhig",
+        "text": "Dusk/VEIL — Aufklärung, hielt LEITER sozial unter Kontrolle."
+      },
+      {
+        "char_id": "AGENT-E",
+        "tone": "analytisch",
+        "text": "Echo/RELAY — Support, öffnete MRD-7-Empfänger, sicherte Brenner-Intel."
+      }
+    ],
+    "shared_echoes": [
+      {
+        "tag": "meridian-funktion-ms11",
+        "scope": "campaign",
+        "text": "MERIDIAN ist eine Funktion/Amt, rollende Besetzung — letzte bekannte Inkarnation weiblich, ITI-intern, vor 3 Jahren."
+      },
+      {
+        "tag": "route-drei-nichtmensch-ms11",
+        "scope": "campaign",
+        "text": "Route Drei war laut LEITER nie ein Mensch — Natur ungeklärt."
+      },
+      {
+        "tag": "depot-anatolien-bronzezeit-ms11",
+        "scope": "campaign",
+        "text": "KAIROS-Depot: Frühe Bronzezeit, Anatolien — Koordinaten nur auf echtem Träger Route Drei."
+      },
+      {
+        "tag": "brenner-praterstern-ms11",
+        "scope": "campaign",
+        "text": "Brenner, Praterstern Wien 21:45 März 1938 — ungesichert, möglicherweise mit echtem Träger entkommen."
+      },
+      {
+        "tag": "frau-unbekannt-wien-ms11",
+        "scope": "campaign",
+        "text": "Unbekannte Frau (Akzent polnisch), wusste von LEITER-Bindungs-Operation — ITI-Verhör ausstehend."
+      },
+      {
+        "tag": "rift-seed-norwegen-1947",
+        "scope": "campaign",
+        "text": "Rift-Seed geortet: Norwegen 1947, organische mobile Signatur — verfügbar nach Episodenabschluss."
+      }
+    ],
+    "convergence_tags": [],
+    "npc_roster": [
+      {
+        "id": "NPC-LEITER-MS11",
+        "name": "LEITER",
+        "callsign": "LEITER",
+        "role": "KAIROS-Bindungs-Agent",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-HAAS-MS11",
+        "name": "Haas",
+        "callsign": "HAAS",
+        "role": "KAIROS-Kurier (unwissend)",
+        "scope": "episode",
+        "status": "ITI-Gewahrsam",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      },
+      {
+        "id": "NPC-FRAU-MS11",
+        "name": "Unbekannte Frau",
+        "callsign": "WESTSEITE",
+        "role": "KAIROS-Kontakt Wien, wusste von Bindungs-Op",
+        "scope": "campaign",
+        "status": "ITI-Gewahrsam, Verhör ausstehend",
+        "last_seen": "ITI-Nullzeit, MS11-Debrief"
+      }
+    ],
+    "active_npc_ids": [
+      "NPC-LEITER-MS11",
+      "NPC-HAAS-MS11",
+      "NPC-FRAU-MS11"
+    ]
+  },
+  "arc": {
+    "factions": {
+      "KAIROS": "Gegenoffensive aktiv — Bindungs-Operationen bestätigt, MERIDIAN-Funktion intern",
+      "ITI": "Mögliche Infiltration durch MERIDIAN-Funktion — Renier informiert"
+    },
+    "questions": [
+      "Wer ist aktuell MERIDIAN — welche ITI-Person besetzt die Funktion?",
+      "Was ist Route Drei, wenn es kein Mensch ist?",
+      "Wo befindet sich das KAIROS-Depot (Frühe Bronzezeit, Anatolien) genau?",
+      "Hat Brenner den echten Träger aus Wien herausgebracht?"
+    ],
+    "hooks": [
+      "MRD-7-Analyse läuft — 2 Missionen bis Ergebnis (MERIDIAN-Adressaten-Struktur)",
+      "Frau unbekannt — Verhör im ITI, Akzent polnisch, wusste von Bindungs-Op",
+      "LEITER — weiteres Verhör im ITI, kennt Epoche des Depots",
+      "Rift-Seed Norwegen 1947 — nach Episodenabschluss spielbar",
+      "Aufstiegswahlen x5 ausstehend — vor nächster Mission eintragen"
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "action_mode": "uncut",
+    "intro_seen": true,
+    "dice": {
+      "debug_rolls": true
+    },
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal",
+    "voice_profile": "gm_second_person"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "queue_state": "idle",
+    "mode": "none",
+    "tier": 0,
+    "previous_mode": null,
+    "resume_token": null,
+    "contract_id": null,
+    "streak": 0,
+    "pending_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0,
+      "multiplier": 1,
+      "risk": "low"
+    },
+    "banked_rewards": {
+      "cu": 0,
+      "xp": 0,
+      "arena_rep": 0
+    },
+    "rewarded_runs_this_contract": 0,
+    "first_wins": {},
+    "defeated_types": [],
+    "last_reward_episode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "match_policy": "standard"
+  }
+}

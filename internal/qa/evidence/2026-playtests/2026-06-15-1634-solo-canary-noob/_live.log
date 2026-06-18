@@ -1,0 +1,11 @@
+[16:34:38] === START Solo-Canary persona=noob max_turns=3 ===
+[16:34:38] SL temp-chat_id=local:playtest-4df28ddace
+[16:34:38] >>> Sarah (Opener): Spiel starten (solo klassisch)
+[16:35:10] [turn 1] SL (3102 chars, 59387+1099 tok, 31.7s, RAG=5 files, ~$0.19)
+[16:35:13] >>> Sarah: ok das klingt mega cool, einfach 1 bitte ich will sofort loslegen 😄
+[16:35:47] [turn 2] SL (2489 chars, 59580+1083 tok, 33.3s, RAG=5 files, ~$0.39)
+[16:35:50] >>> Sarah: bestätigt!! obwohl — was ist SYS und warum hab ich da nur 1? ist das schlimm? 😅
+[16:36:07] [turn 3] SL (1214 chars, 58766+494 tok, 17.5s, RAG=6 files, ~$0.57)
+[16:36:10] >>> Sarah: okay okay ich hab die hälfte nicht verstanden aber klingt gut 😄 ja los geht's!!
+[16:36:10] === ENDE === Turns=3 ~$0.57 Findings=0
+[16:36:10] Artefakte: /home/altair/.openclaw/workspace-cloud/playtests/zeitriss/runs/2026-06-15-1634-solo-canary-noob
