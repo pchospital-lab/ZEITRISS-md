@@ -1048,6 +1048,8 @@ def _run_coverage_check(
     client: "APIClient",
     kb_id: str,
     expected_files: list[str],
+    repo: Optional[Path] = None,
+    manifest: Optional[dict] = None,
 ) -> bool:
     """Prüft deterministisch, dass JEDE erwartete Wissensdatei wirklich in der
     KB liegt — nicht über das (verrauschte) Vektor-Ranking, sondern über die
@@ -1086,16 +1088,90 @@ def _run_coverage_check(
         )
         return True
 
-    in_kb: set[str] = set()
-    for f in files:
-        meta = f.get("meta") or {}
-        if meta.get("collection_name") == kb_id:
-            nm = meta.get("name") or f.get("filename")
-            if nm:
-                in_kb.add(str(nm).replace("\\", "/").split("/")[-1])
+    def _collect_in_kb(file_list: list) -> set[str]:
+        acc: set[str] = set()
+        for f in file_list:
+            meta = f.get("meta") or {}
+            if meta.get("collection_name") == kb_id:
+                nm = meta.get("name") or f.get("filename")
+                if nm:
+                    acc.add(str(nm).replace("\\", "/").split("/")[-1])
+        return acc
 
+    in_kb = _collect_in_kb(files)
     missing = sorted(expected - in_kb)
     print_info(f"Abgedeckt: {len(expected & in_kb)}/{len(expected)} Dateien in der KB")
+
+    if missing:
+        # Self-Healing: Die häufigste Ursache für Coverage-rot bei VORHANDENEM
+        # Content ist eine VERWAISTE Verknüpfung — die Datei wurde hochgeladen
+        # (File-Entity existiert, Content stimmt), aber `meta.collection_name`
+        # zeigt auf die eigene File-ID statt die KB. Das passiert, wenn OpenWebUI
+        # auf `file/add` HTTP 200 meldet, den Link aber nicht persistiert
+        # (beobachtet 2026-06-21 nach Re-Upload einer geänderten Datei). In dem
+        # Fall heilt `--sync` NICHT, weil der MD5-Match die Datei überspringt
+        # → der Nutzer säße in einer Endlos-rot-Schleife ohne Ausweg außer Reset.
+        # Darum hängen wir die fehlenden, aber bereits vorhandenen File-Entities
+        # hier direkt (erneut) in die KB ein und prüfen danach neu.
+        missing_set = set(missing)
+        # Pro Basename das FRISCHESTE Entity wählen (created_at/updated_at),
+        # statt blind auf die list_files()-Iterationsreihenfolge zu vertrauen
+        # — OpenWebUI sortiert nicht vertraglich nach Erstelldatum.
+        cand: dict[str, tuple[float, str]] = {}
+        for f in files:
+            nm = (f.get("meta") or {}).get("name") or f.get("filename")
+            fid = f.get("id")
+            if not nm or not fid:
+                continue
+            base = str(nm).replace("\\", "/").split("/")[-1]
+            if base not in missing_set:
+                continue
+            ts = f.get("updated_at") or f.get("created_at") or 0
+            try:
+                ts = float(ts)
+            except (TypeError, ValueError):
+                ts = 0.0
+            if base not in cand or ts >= cand[base][0]:
+                cand[base] = (ts, fid)
+        repairable = {base: fid for base, (_ts, fid) in cand.items()}
+
+        if repairable:
+            print_warn(
+                f"Coverage-rot, aber {len(repairable)} fehlende Datei(en) "
+                f"existieren bereits als File-Entity — versuche Re-Link in die KB "
+                f"(verwaiste Verknüpfung heilen)..."
+            )
+            healed: dict[str, str] = {}
+            for base, fid in repairable.items():
+                ok = client.add_file_to_knowledge(kb_id, fid)
+                if not ok:
+                    time.sleep(1)
+                    ok = client.add_file_to_knowledge(kb_id, fid)
+                if ok:
+                    print_ok(f"     ↺ re-linked: {base}")
+                    healed[base] = fid
+                else:
+                    print_warn(f"     ✗ Re-Link fehlgeschlagen: {base}")
+            # Manifest mitziehen: der Re-Link kann eine andere (frischere)
+            # File-ID verknüpft haben als die im Manifest vermerkte (z.B. wenn
+            # ein alter Eintrag auf ein gelöschtes Entity zeigte). Ohne dieses
+            # Update bliebe eine stille ID-Drift, die den nächsten --sync-Lauf
+            # eine tote ID entlinken ließe. Nur die md5 erhalten, falls vorhanden.
+            if healed and repo is not None and manifest is not None:
+                kbm = manifest.setdefault("kb_files", {})
+                for base, fid in healed.items():
+                    entry = kbm.get(base) or {}
+                    entry["file_id"] = fid
+                    kbm[base] = entry
+                _save_sync_manifest(repo, manifest)
+            # Neu einlesen und Coverage erneut bestimmen.
+            files = client.list_files()
+            in_kb = _collect_in_kb(files)
+            missing = sorted(expected - in_kb)
+            print_info(
+                f"Abgedeckt nach Re-Link: {len(expected & in_kb)}/{len(expected)} "
+                f"Dateien in der KB"
+            )
 
     if missing:
         print_error(
@@ -1107,6 +1183,8 @@ def _run_coverage_check(
         print_info(
             "     Diese Module sind NICHT in der KB — die KI-SL würde mit "
             "Lücken spielen (anderes, kaputtes Spiel).\n"
+            "     Der automatische Re-Link hat nicht gegriffen — die Datei fehlt "
+            "also wirklich (nicht nur verwaist).\n"
             "     Reparatur (holt nur die fehlenden Dateien nach):\n"
             "       python setup.py --sync\n"
             "     Bei wiederholtem Fehler / langsamer Hardware:\n"
@@ -2074,7 +2152,9 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # sonst meldet das Update "alles aktuell", während ein Modul fehlt.
         if not opts.get("no_verify"):
             print()
-            if not _run_coverage_check(client, kb_id, [fp.name for fp in kb_files]):
+            if not _run_coverage_check(
+                client, kb_id, [fp.name for fp in kb_files], repo, manifest
+            ):
                 sys.exit(1)
         print()
         print_header("Sync abgeschlossen — alles aktuell.")
@@ -2242,7 +2322,9 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # abgebrochener Lauf). Fehlende Datei → harter Exit, damit Launcher [4]
     # nicht fälschlich "fertig" meldet.
     print()
-    if not _run_coverage_check(client, kb_id, [fp.name for fp in kb_files]):
+    if not _run_coverage_check(
+        client, kb_id, [fp.name for fp in kb_files], repo, manifest
+    ):
         sys.exit(1)
 
 
@@ -2714,7 +2796,9 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     coverage_ok = True
     if not opts.get("no_verify"):
         print()
-        coverage_ok = _run_coverage_check(client, kb_id, [fp.name for fp in kb_files])
+        coverage_ok = _run_coverage_check(
+            client, kb_id, [fp.name for fp in kb_files], repo, sync_manifest_out
+        )
 
     # ── Summary ──────────────────────────────────────────────────────
     print()
