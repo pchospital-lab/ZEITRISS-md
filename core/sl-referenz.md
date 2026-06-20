@@ -133,14 +133,14 @@ Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
 Vor jeder Mission zeigt das HUD den Transfer-Countdown
 (`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h`).
-Nach dem Primärziel öffnet sich das Exfil-Fenster (TTL/Stress).
+Nach dem Primärziel — das im **Akt-C-Klimax** (`SC 10–12`) liegt, nicht in Akt A (siehe Masterprompt §C Mission-Integrität-Pflichtgate Regel 6, Akt-B-Aufbau-Pflicht) — öffnet sich das Exfil-Fenster (TTL/Stress).
 Beim Abzug zeigt das HUD den Rückkehr-Frame
 (`Fenster stabil · <TTL> · Return 3…2…1`), danach Schnitt ins HQ,
 Debrief und Save (HQ-only).
 
 > **Transfer:** Jede Mission startet mit `Nullzeit-Puffer · Transfer 3…2…1`.
 > Beim Abzug folgt `Fenster stabil · <TTL> · Return 3…2…1`.
-> **Nach dem Primärziel:** Exfil-Fenster mit **TTL**.
+> **Nach dem Primärziel (Akt-C-Klimax, nicht Akt A):** Exfil-Fenster mit **TTL**.
 > Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**.
 > Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht nur mit aktivierter
 > Px-Verlust-Regel ein **Px-1**.
@@ -1118,7 +1118,12 @@ Entscheidung - nicht automatisch im selben Zug.
   wiedererkennbaren ITI-Anker.
 - **Dienstweg-Guard:** Erstkontakt für Rekruten/Feldagenten läuft im Alltag
   über Dienstpersonal, Duty-Desk, Med-Techs, Quartiermeisterei oder
-  Hangar-Dispo; Renier ist kein Standard-Erstkontakt.
+  Hangar-Dispo; Renier ist kein Standard-Erstkontakt. **Auch im Feld
+  (Mid-Mission):** Renier meldet sich über Comlink ausschließlich bei echten
+  Eskalations-Events auf Missionsabbruch-Level (ITI-Notfall-Exfil,
+  strategische Kursänderung der ganzen Operation); er autorisiert keine
+  taktischen Einzelentscheidungen der Crew via Funk. Mid-Mission-Comlink
+  läuft über Duty-Desk/HQ-Operatoren, nicht über die strategische Leitung.
 - **HQ-Definition (Save/Service):** Zum HQ zählen der sichere ITI-Kern,
   alle ITI-Decks und der Pre-City-Hub. Chronopolis läuft als eigener
   Status `CITY` und ist kein Savepunkt.

@@ -242,6 +242,85 @@ def at_hq_savepoint(text: str) -> bool:
     return bool(_HQ_SAVE_RE.search(text))
 
 
+# ─── Phasen-Header-Erkennung (robust statt Stichwort-Heuristik, 2026-06-20) ────
+# Die SL führt in JEDEM Output einen Status-Header: "PHASE <X> · SC nn/12 · MODE <Y>".
+# Dieser Header ist die EINZIGE verlässliche Wahrheit über den Spielzustand —
+# Fließtext und Auswahlmenüs ("... Mission abgeschlossen." als Option) lügen.
+#
+# Speicherbar (Mission ENDE) ist die Crew nur in PHASE Debrief / HQ bzw. MODE HQ.
+# Solange PHASE Infil/Intel/Konflikt/Exfil/Briefing läuft, ist sie NICHT fertig —
+# egal welche Stichworte im Prosa-Teil stehen.
+#
+# Zwei Bugs, die das hier killt:
+#   (1) Briefing-Recap-Falle: "Debrief MS01 abgeschlossen" im MS02-Briefing.
+#   (2) Menü-Options-Falle: "1. Sprung jetzt ... Mission abgeschlossen." bei SC 11/12.
+_PHASE_HEADER_RE = re.compile(r"PHASE\s+([A-Za-zÄÖÜäöü]+)", re.IGNORECASE)
+# SC-Token im HUD: "SC 03/12" = Mission läuft (Szene 3 von 12). "SC --/--" =
+# Debrief/HQ (keine laufende Szene). Das ist die zweite maschinelle Wahrheit.
+_SC_TOKEN_RE = re.compile(r"SC\s*([\d]{1,2})\s*/\s*(?:12|--)", re.IGNORECASE)
+_SAVEABLE_PHASES = {"debrief", "hq"}
+_INMISSION_PHASES = {"briefing", "infil", "intel", "konflikt", "exfil", "kampf", "boss"}
+
+
+def latest_phase(text: str) -> str | None:
+    """Letzter PHASE-Marker im SL-Output (der Status-Header steht meist oben,
+    aber wir nehmen den letzten, falls die SL mehrere Header schreibt)."""
+    hits = _PHASE_HEADER_RE.findall(text)
+    return hits[-1].lower() if hits else None
+
+
+def mission_scene_active(text: str) -> bool:
+    """True, wenn ein laufendes Szenen-Token "SC nn/12" mit nn < 12 sichtbar ist.
+    Hartes Veto gegen einen Save: solange eine Szene läuft, ist KEIN HQ-Zustand."""
+    for m in _SC_TOKEN_RE.finditer(text):
+        try:
+            if int(m.group(1)) >= 1:
+                return True
+        except ValueError:
+            continue
+    return False
+
+
+def at_mission_end(text: str) -> bool:
+    """True NUR, wenn der Phasen-Header die Mission explizit als beendet ausweist
+    (PHASE Debrief/HQ). KEINE Wort-Heuristik-Fallback mehr (Lektion 2026-06-20,
+    Lauf #3: ein header-loser Turn mit dem Wort "Debrief"/"HQ" im Fließtext
+    triggerte den Save-Zwang mitten in SC 03/12). Wahrheit = HUD-Header, sonst nichts.
+
+    Zusätzliches Veto: selbst bei passendem PHASE-Wort gilt die Mission als
+    laufend, wenn gleichzeitig ein aktives Szenen-Token "SC nn/12" (nn>=1)
+    sichtbar ist (Menü-/Recap-Header können mehrere PHASE-Marker mischen).
+
+    Mixed-Header-Fix (Lektion 2026-06-20, Proof-Lauf #2): Wenn die SL eine
+    Mission flott durchtreibt, hängt sie ans Debrief im SELBEN Output schon das
+    Briefing der NÄCHSTEN Mission ("## PHASE Debrief … ## PHASE Briefing —
+    Episode N+1"). Dann ist der LETZTE Marker "briefing", obwohl die Mission
+    real am Debrief endete. Darum: nicht nur den letzten Marker prüfen, sondern
+    ob ÜBERHAUPT ein Debrief/HQ-Header vorkommt — das Debrief IST das Ende,
+    auch wenn schon ein neues Briefing dranhängt. (Prosa-Erwähnungen sind
+    sicher: _PHASE_HEADER_RE matcht nur "PHASE <wort>"-Header, kein Fließtext.)"""
+    hits = [h.lower() for h in _PHASE_HEADER_RE.findall(text)]
+    if not hits:
+        return False
+    # Aktives Szenen-Token (SC nn/12, nn>=1) → Mission läuft noch, kein Ende.
+    if mission_scene_active(text):
+        return False
+    # Mission gilt als beendet, sobald ein Debrief/HQ-Header vorkommt — auch in
+    # einem gemischten Debrief+Briefing-Turn (erstes Debrief gewinnt).
+    return any(h in _SAVEABLE_PHASES for h in hits)
+
+
+def in_early_phase(text: str) -> bool:
+    """Mission läuft noch (inkl. Briefing) — kein speicherbarer HQ-Zustand.
+    Greift sowohl bei In-Mission-PHASE als auch bei aktivem Szenen-Token."""
+    if mission_scene_active(text):
+        return True
+    phase = latest_phase(text)
+    if phase is not None:
+        return phase in _INMISSION_PHASES
+    return False
+
+
 # ─── Run-Logging ──────────────────────────────────────────────────────────────
 class Run:
     def __init__(self, tag: str):
@@ -370,14 +449,24 @@ def request_save(run: Run, sl: OWUIChat, phase: str, want: int = 1,
     return saves
 
 
-def validate_and_store(run: Run, save: dict, name: str, phase: str) -> MA.Result:
+def validate_and_store(run: Run, save: dict, name: str, phase: str,
+                       require_hq: bool = True) -> MA.Result:
     sp = run.saves_dir / f"{name}.json"
     sp.write_text(json.dumps(save, ensure_ascii=False, indent=2))
-    run.log(f"  💾 Save '{name}' (mode={save_mode(save)}, "
+    mode = save_mode(save)
+    run.log(f"  💾 Save '{name}' (mode={mode}, "
             f"{len(save.get('characters', []))} chars) -> {sp.name}")
     res = MA.validate_export(save, name)
     res.merge(MA.check_echo_formats(save, name))
     res.merge(MA.check_seed_cap(save, name))
+    # HARD-GATE (Lektion 2026-06-20): Die einzige maschinell zuverlässige
+    # Save-Wahrheit ist continuity.last_seen.mode == "hq" im JSON selbst.
+    # Ein Ergebnis-Save (Mission/Merge) außerhalb des HQ ist ein echter
+    # Save-Bug, kein Test-Artefakt — darum FAIL statt nur Log.
+    if require_hq and mode != "hq":
+        run.finding("SAVE-MODE", "FAIL",
+                    f"{name}: last_seen.mode={mode!r} statt 'hq' — Save nicht im HQ-Zustand",
+                    phase)
     run.add_findings(res, phase)
     return res
 
@@ -404,29 +493,37 @@ def play_mission(run: Run, load_save: dict, persona_keys: list[str], section: st
     def roll_summary() -> str:
         return "\n".join(history_lines[-ROLL_SUMMARY_TURNS:])
 
-    # Schwelle, ab der die Crew aktiv Richtung Exfil/Abschluss geschubst wird,
-    # damit die Mission verlässlich einen HQ-Savepoint erreicht (Save geht NUR
-    # im HQ — Mid-Mission-Save blockt der SaveGuard korrekt).
-    push_from = max(4, int(max_turns * 0.6))
+    # KEINE SL-Regie, KEINE Crew-Steuerung (Lektion Flo 2026-06-20):
+    # Der Harness darf der SL NIEMALS inhaltlich vorschreiben, die Mission
+    # abzuschließen oder Szenen zu raffen. Die Kern-Vision ist: die KI-SL muss
+    # den Spieler von SICH AUS durchtreiben. Wenn eine Mission gegen Ende lahm
+    # wird und nicht zum Debrief kommt, ist das ein ECHTER Datensatz-/Pacing-
+    # Befund über die SL — kein Test-Artefakt, das man wegnudgen darf.
+    # Personas spielen autonom ihre Persona; die SL macht ihren Job ungeschoben.
+    # max_turns ist nur ein Kosten-Sicherheitscap; wird er ohne HQ erreicht,
+    # wird das als MISSION-INCOMPLETE-Finding ehrlich protokolliert.
     reached_hq = False
+    # Mindestzahl ECHT gespielter Mission-Turns, bevor ein HQ-Savepoint als
+    # Missions-ENDE akzeptiert wird. Schützt gegen die Briefing-Recap-Falle
+    # (Briefing der neuen Mission referenziert den Debrief der vorigen).
+    min_mission_turns = 4
     for i in range(max_turns):
-        # HQ-Savepoint erreicht? (kommt erst ab Exfil -> Debrief -> HQ)
-        if at_hq_savepoint(txt) and run.turn > 3:
-            run.log(f"  🏁 [{section}] HQ-Savepoint-Marker erkannt -> Mission-Ende-Save")
+        # HQ-Savepoint erreicht? Wahrheit ist der PHASE-Header (Debrief/HQ),
+        # NICHT Stichworte im Fließtext/Menü. Zusätzlich: genug echte
+        # Mission-Turns gespielt UND nicht (mehr) in einer In-Mission-Phase.
+        if (at_mission_end(txt) and i >= min_mission_turns
+                and not in_early_phase(txt)):
+            run.log(f"  🏁 [{section}] Debrief/HQ-Phase erkannt (Mission-Turn {i}, "
+                    f"PHASE={latest_phase(txt)}) -> Mission-Ende-Save")
             reached_hq = True
             break
 
-        nudge = ""
-        if i >= push_from:
-            nudge = ("\n\n(Spielleitung-Hinweis vom Testrahmen an die Crew: Bringt die "
-                     "Mission jetzt zum Abschluss — Ziel sichern, Exfil einleiten und "
-                     "zurück ins HQ, damit der Einsatz sauber im Debrief endet.)")
-
-        # Personas antworten (gebündelt)
+        # Personas antworten (gebündelt) — rein aus ihrer Persona heraus, ohne
+        # jede Abschluss-/Exfil-Regie vom Testrahmen.
         parts = []
         for k in persona_keys:
             try:
-                pt = persona_turn(PERSONAS[k], txt + nudge, roll_summary())
+                pt = persona_turn(PERSONAS[k], txt, roll_summary())
             except Exception as e:  # noqa: BLE001
                 run.finding("PERSONA-ERROR", "SOFT", f"{k}: {str(e)[:120]}", section)
                 pt = "(hört zu)"
@@ -440,9 +537,6 @@ def play_mission(run: Run, load_save: dict, persona_keys: list[str], section: st
         if not parts:
             parts.append("(Die Crew wartet ab — mach weiter.)")
         combined = "\n\n".join(parts)
-        if i >= push_from:
-            combined += ("\n\n(Die Crew strebt jetzt zum Exfil und zurück ins HQ, "
-                         "um den Einsatz abzuschließen.)")
         run.jlog({"turn": run.turn, "phase": section, "players": combined})
 
         try:
