@@ -1448,11 +1448,20 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
 ### Adaptive Opposition {#adaptive-opposition}
 
-Steigt der Paradoxon-Index während einer Mission auf 3 oder höher, reagieren
-Antagonisten aktiver. Jeder wichtige Gegner erhält einmalig einen kleinen
-taktischen Vorteil - etwa einen Drohnen-Sweep oder einen vorbereiteten
-Hinterhalt. Diese Routine verändert den Grund-Schwierigkeitsgrad nicht, sorgt
-aber für glaubwürdig agierende Gegenspieler.
+Steigt **Heat** auf 3 oder höher, reagieren Antagonisten aktiver. Jeder
+wichtige Gegner erhält einmalig einen kleinen taktischen Vorteil - etwa einen
+Drohnen-Sweep oder einen vorbereiteten Hinterhalt. Diese Routine verändert den
+Grund-Schwierigkeitsgrad nicht, sorgt aber für glaubwürdig agierende
+Gegenspieler.
+
+Der Trigger ist bewusst **Heat**, nicht der Paradoxon-Index: Heat ist die
+Risiko-/Fahndungs-Achse, die durch laute Aktionen mid-mission steigt und
+save-getragen persistent ist (siehe Heat-Eskalations-Pflichtgate im
+Masterprompt §F). Px dagegen ist ein reines **Belohnungssystem** und darf
+**nie** Gegenwehr auslösen (Masterprompt §D: „Px steigt = gut, nie negativ
+framen“). Adaptive Opposition ist damit die kampftaktische Ausformung der
+**Heat-3-Schwelle** („die Welt wird wachsam“) — kein eigenständiges
+Schwellen-System daneben.
 
 ### Zeitlinien-Verzweigungen
 

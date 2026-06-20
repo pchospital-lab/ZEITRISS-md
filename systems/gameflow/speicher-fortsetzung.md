@@ -1026,6 +1026,19 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
    HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
    aus. Die Runde springt ohne Nachfrage in den HQ-Load-Router
    (Schnell-HQ/HQ manuell/Briefing/Chronopolis/Rift/Arena-Router).
+   **Resonanz-Banner beim Laden (Rift-Sog, Pflicht):** Direkt nach dem Recap
+   spielt die SL einen **kurzen, positiven** Resonanz-Beat aus, der den
+   aktuellen Px-Stand als wachsende Riss-Ortung sichtbar macht - **nie** als
+   Bedrohung („es braut sich zusammen“ ist verboten). In-World-Logik: Para-
+   Anomalien existieren immer, nur unsichtbar; indem die Crew die Zeitlinie
+   stabil hält, baut das ITI Resonanz auf und ortet damit Schritt für Schritt,
+   **wo** der ChronoGlobe Risse zeigt. Dosierung nach Px-Nähe:
+   - **Px 0–3:** vage Ahnung - `` `Kodex: ITI-Resonanz <px>/5. Die Raumzeitkarte verdichtet sich langsam.` ``
+   - **Px 4–5 oder offene Rift-Seeds vorhanden:** konkreter, als ITI-Leistung/Erfolg geframt - `` `Kodex: ITI-Resonanz <px>/5. Resonanz stark genug — Sektor <Ort/Epoche> tritt aus dem Rauschen, eine Anomalie wird ortbar.` ``
+   Der Banner ist **kein** Zahlen-Tick und ändert **keine** Mechanik
+   (TEMP-Kadenz, Px-5-Reset, ClusterCreate bleiben unverändert) - er macht den
+   Rift-Sog beim Wiedereinstieg erlebbar, konsistent mit dem Px-Resonanz-
+   Pflichtgate (Masterprompt §F, Resonanz-Beat im Debrief).
    Arena-Router-Regel: `!arena resume` nur mit `arena.resume_token` und
    `queue_state=idle|completed`; aktive Queue-Stati (`searching|matched|staging|active`)
    bleiben vor Resume blockiert.
