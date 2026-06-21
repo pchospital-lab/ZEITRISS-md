@@ -1171,9 +1171,9 @@ klassischer Pfad" und macht klassisch weiter).
   sind Türen, nicht Speicherpunkte.**
 - **`logs.flags.runtime_version` ist die aktuell laufende ZEITRISS-Version (z. B. `"4.2.6"`).** Der Wert im obigen
   Save-Template ist ein Beispiel und muss im realen `!save`-Export mit der tatsächlich verwendeten Version des
-  Bausatzes befüllt werden — nicht hartcodiert abschreiben. Quelle (in dieser Reihenfolge): `setup.json.version`,
-  `README.md`-Titel, oder das VERSION-Feld im Repo. Bei Versionssprüngen (4.2.6 → 4.3.x → 5.0) wandert der Wert mit;
-  alter Template-Literal `"4.2.6"` im realen Save ist ein Drift-Indikator.
+  Bausatzes befüllt werden — nicht hartcodiert abschreiben. **Quelle:** die Versionsangabe im Kopf der geladenen
+  Wissensmodule (Stand dieses Dokuments: `4.2.6`). Bei Versionssprüngen (4.2.6 → 4.3.x → 5.0) wandert der Wert mit;
+  ein vom Modulstand abweichender Template-Literal `"4.2.6"` im realen Save ist ein Drift-Indikator.
 - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
 - `Präkognitive Manifestation` ist nur nach erfolgreicher `Präkognition III` zulässig, beeinflusst nur den dabei
   offenbarten lokalen Nah-Zukunftsanker, löst nie Missionsziele direkt und fällt in Arena/PvP auf klassische
@@ -1193,8 +1193,7 @@ klassischer Pfad" und macht klassisch weiter).
 - **`shared_echoes`-Pflichtformat (Split/Merge):** Jedes Item in `continuity.shared_echoes[]` MUSS ein Objekt mit
   mindestens `tag` (Slug/Identifier) sein. Vollständiges Format: `{ "tag": "<slug>", "scope":
   "shared|rumor|campaign|personal", "text": "<kurzbeschreibung>" }`. **Niemals** Rohstrings (`["Lagerhaus
-  gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) schreiben — beides ist Schema-Verletzung und bricht den
-  Merge-Guard in `test_v7_schema_consistency.js` und `test_continuity_output_contract.js`. Beim Merge mehrerer Saves:
+  gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) schreiben — beides ist **Schema-Verletzung** (Pflichtformat: Objekt mit `tag`/`scope`/`text`). Beim Merge mehrerer Saves:
   Echos gleichen `tag`-Werts deduplizieren, `scope`-Konflikte via Priorität `shared > campaign > rumor > personal`
   auflösen.
 - **`shared_echoes`-Abgrenzung (kein Sammelbecken für den roten Faden):** `shared_echoes[]` ist die
@@ -1222,8 +1221,8 @@ klassischer Pfad" und macht klassisch weiter).
   8 entsprechend 2 usw. Wenn **nicht gedeckt**: Kodex-Typ-A ausgeben `` `Kodex: [ATTRIBUT] [X] über Cap — nur [Y]
   durch level_history gedeckt. Import flagged, Spieler-Entscheidung erforderlich.` `` und den Spieler um Klärung
   bitten (Regelbruch akzeptieren, auf gedeckten Wert reduzieren, oder Import abbrechen). **Keine Auto-Normalisierung**
-  — legitime Saves mit hohen Attributen (z. B. Lvl 13 mit 8× `+1 Attribut`-Wahlen auf INT: Start 5 → 13 über Lvl 2–9,
-  siehe Fixture `savegame_v7_level_history_attrs_gedeckt.json`) dürfen nicht kaputt normalisiert werden. Insbesondere
+  — legitime Saves mit hohen Attributen (z. B. Lvl 13 mit 8× `+1 Attribut`-Wahlen auf INT: Start 5 → 13 über Lvl 2–9)
+  dürfen nicht kaputt normalisiert werden. Insbesondere
   Legacy-Felder wie `sys_max` NIEMALS als Attributwert übernehmen (das ist ein Kapazitätsfeld, kein Attribut —
   SYS-Attribut startet bei Fresh-Char immer 0-6). Beim Merge mehrerer Saves: Zwei Chars mit derselben `id` aber
   unterschiedlichen Attributen → Kodex-Warnung + Spieler-Entscheidung, keine stille Maximum- oder Mittelwert-Auswahl.

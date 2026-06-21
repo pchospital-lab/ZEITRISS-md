@@ -293,7 +293,7 @@ bei Power-Fantasy, ausgespielter Mini-Beat bei Setting-Treue.
 - `init_casefile_tracker()` startet Rift-Casefiles auf `Tatort`; HUD zeigt
   `CASE STAGE` und hält den Wechsel in `logs.casefile[]` fest.
 - Verankere das 14er-Template ausdrücklich: **Tatort → Leads → Boss-Encounter → Auflösung**.
-  Die Runtime zieht die Stufen automatisch aus dem Szenenzähler (1-4 Tatort,
+  Die Spielleitung zieht die Stufen automatisch aus dem Szenenzähler (1-4 Tatort,
   5-9 Leads, 10 Boss-Encounter, 11-14 Auflösung); bei Sprüngen kannst du mit
   `set_casefile_stage('leads'|'boss'|'resolution')` nachziehen und Stage/Hooks
   im HUD nennen (`MODE RIFT · CASE … · HOOK … · STAGE …`).
@@ -461,16 +461,15 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
     Serie geladen wird.
     PvP bleibt ein optionales Endgame-Modul außerhalb der Kernkampagne.
 
-> **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
-> HUD-Badge `GATE 2/2` und den Toast `GATE 2/2 · FS 0/x` an `scene_overlay()` und
-> speichert den Status in `logs.flags.foreshadow_gate_*`. Ohne laufende Runtime
-> spiegelt ihr Badge und Toast per `hud_tag('GATE 2/2')` +
-> `hud_toast('GATE 2/2 · FS 0/x','BOSS')` manuell, damit HUD und Save denselben
-> Gate-Snapshot behalten.
+> **HUD-Pflicht:** Nach Missionstart blendet die Spielleitung das HUD-Badge
+> `GATE 2/2` und den Toast `GATE 2/2 · FS 0/x` ein (per `hud_tag('GATE 2/2')` +
+> `hud_toast('GATE 2/2 · FS 0/x','BOSS')`) und hält den Status in
+> `logs.flags.foreshadow_gate_*`, damit HUD und Save denselben Gate-Snapshot
+> behalten.
 
-> **Runtime-Hinweis:** `phase_strike_cost()` ruft intern `log_phase_strike_event()` auf. Ohne
-> laufende Runtime übernimmt ihr denselben Logger-Aufbau manuell, damit Ability, Basiswert,
-> Steuer, Gesamtwert und Modus im Saveblock identisch erscheinen.
+> **Log-Pflicht:** Bei `phase_strike_cost()` schreibt die Spielleitung denselben
+> Logger-Eintrag (`log_phase_strike_event()`), damit Ability, Basiswert, Steuer,
+> Gesamtwert und Modus im Saveblock identisch erscheinen.
 
 #### Schnittstellen (Foreshadow & Arena)
 
@@ -580,7 +579,7 @@ if not char.get("psi") and not char.get("has_psi"):
   `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`.
   Dieser aufgerundete Durchschnitt steuert Px-ETA und TEMP-basierte
   Verfügbarkeiten (z. B. Fuhrpark).
-- Die Runtime ruft nach jedem stabilisierten Verlauf `completeMission()` auf.
+- Die Spielleitung ruft nach jedem stabilisierten Verlauf `completeMission()` auf.
   Dadurch erhöht sich der Paradoxon-Index automatisch, sobald genügend
   Erfolge gesammelt wurden. Der Debrief zeigt diese Systemmeldungen als
   strukturierte Kodex-Ausgabe, z. B.:
@@ -637,7 +636,7 @@ sichtbar.`; der Trace `cluster_create` enthält px_before/after, seed_ids,
   - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`).
     Der KI-SL bestätigt die Vorgaben, passt die Wallets an und hält Besonderheiten
     im Missionsprotokoll fest.
-    - Auch ohne Runtime-Stub führt der KI-SL diese Schritte manuell aus:
+    - Die KI-SL führt diese Schritte aus:
       Wallet-Balancen aktualisieren, Gruppenkasse (Summe) nennen, Entscheidung nachhalten.
     - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`,
       `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile;
@@ -651,7 +650,7 @@ sichtbar.`; der Trace `cluster_create` enthält px_before/after, seed_ids,
   Rufe `NextScene(loc, objective, seed_id, pressure=None, total=12,
 role="Ankunft")` bei Core-Ops, `NextScene(loc, objective, seed_id,
 pressure=None, total=14, role="Ankunft")` bei Rift-Ops, um die Gesamtzahl
-  korrekt anzuzeigen. Die Runtime setzt `campaign.type` und
+  korrekt anzuzeigen. Die Spielleitung setzt `campaign.type` und
   `campaign.scene_total` missionstypisch auf **12** (Core via
   `launch_mission()`) bzw. **14** (Rift via `launch_rift()`), sodass HUD und
   Logs nach einem Missionswechsel keine alten `SC …/14`-Zähler mitnehmen.
@@ -905,7 +904,7 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 > Rift-Ops behalten damit `runtime_phase: rift` und `SC …/14` im HUD sowie in
 > Runtime-/Trace-Daten, Core-Ops `runtime_phase: core` mit `SC …/12`. Beim Save nach dem
 > Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten. Seeds
-> geben lediglich den Missionstyp vor; die Runtime setzt `runtime_phase`
+> geben lediglich den Missionstyp vor; die Spielleitung setzt `runtime_phase`
 > automatisch in Kleinbuchstaben (`core|transfer|rift`).
 > **Normalization-Guard:** Alle `runtime_phase`-Felder (Runtime, Seeds,
 > Logs) werden beim Laden/Speichern auf lowercase gezogen und fallen bei
@@ -1012,7 +1011,7 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
 
 ## Start Dispatcher ⟨#start-dispatcher}
 
-### KI-SL-Start-Dispatcher (ohne externe Runtime)
+### KI-SL-Start-Dispatcher
 
 **Parsingregel (case-insensitive, natürliche Sprache):**
 
@@ -1702,7 +1701,8 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 
 ---
 
-> **Runtime-Makros:** Die technischen Makro- und Pseudocode-Definitionen für die
-> KI-Spielleitung befinden sich in einer separaten Datei
-> (`internal/runtime/toolkit-runtime-makros.md`). Sie enthalten keine Spielregeln und
-> dienen ausschließlich der internen Runtime-Verifikation.
+> **Hinweis:** Die hier verwendeten Makro-Kurzschreibweisen (z. B. `hud_tag()`,
+> `scene_overlay()`) sind reine Notations-Anker für die Spielleitung — sie
+> beschreiben, *was* auszugeben ist, nicht ein externes Programm. Es gibt keinen
+> separaten Programm-Layer, der im Spiel mitläuft; die Spielleitung setzt diese
+> Ausgaben direkt.

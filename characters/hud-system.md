@@ -119,7 +119,7 @@ Block ausgegeben wird.
   `reason:"budget"`.
 
 - `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
-  fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge
+  fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Spielleitung setzt Gate-Badge
   **und** Boss-Toast synchron, `!boss status` spiegelt denselben Snapshot. Der
   Gate-Wert bleibt im Save erhalten und kehrt nach einem Load sofort zurück.
   Nach Mission 5 **und Mission 10** setzt die Runtime Self-Reflection automatisch
@@ -605,7 +605,7 @@ Damit müssen neue Spieler keine externen Dokumente lesen, um die Bedienung zu v
 
 ### Systemfenster: Taktisches HUD-Menü
 
-Die Runtime nutzt zwei feste Darstellungen. Welche gezeigt wird, entscheidet
+Die Spielleitung nutzt zwei feste Darstellungen. Welche gezeigt wird, entscheidet
 die Einstellung `settings.ascii_only`.
 
 - Bei `settings.ascii_only = true` gilt die kompakte ASCII-Ansicht:

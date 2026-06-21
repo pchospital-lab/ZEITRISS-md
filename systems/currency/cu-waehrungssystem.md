@@ -465,7 +465,7 @@ Toolkit diesen Helper auf. Er sorgt dafür, dass jeder Einkauf als strukturierte
 | `cost_cu`   | Abgerechnete Kosten in Chrono Units.                                   |
 | `px_clause` | Optionaler Hinweis, ob Px-Klauseln oder Sonderrabatte gegriffen haben. |
 
-Die Runtime hält die letzten **24** Einkäufe im Log und schneidet ältere Einträge automatisch ab -
+Die Spielleitung hält die letzten **24** Einkäufe im Log und schneidet ältere Einträge automatisch ab -
 ähnlich wie beim `logs.offline[]`-Verlauf. Vor dem Speichern normalisiert `sanitize_market_entries()`
 alle Felder (z.B. ISO-Format, Trimmen von Item-Namen), damit der Trace konsistent bleibt. Dadurch
 bleibt das Savefile schlank, ohne dass wichtige Belege verloren gehen. Im Debrief liest

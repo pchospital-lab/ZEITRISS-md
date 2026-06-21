@@ -227,7 +227,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und auf
     Bestätigung warten.
 
-### Start & Load - KI-SL-Dispatcher (ohne externe Runtime)
+### Start & Load - KI-SL-Dispatcher
 
 Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für Startbefehle.
 
@@ -330,7 +330,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   ist die berechnete Summe daraus. Union-/Merge-
   Konflikte werden über `logs.flags.continuity_conflicts[]` (`field='wallet'`)
   dokumentiert.
-- **Legacy-Spiegel für KI-SL (ohne runtime.js):** Alte Root-Schlüssel wie
+- **Legacy-Spiegel für die KI-SL:** Alte Root-Schlüssel wie
   `sys`, `sys_used`, `sys_installed`, `sys_runtime`, `stress`, `psi_heat` oder
   `cooldowns` werden beim Import in `character{}` überführt. Diese Abbildung
   ist reine Import-Kompatibilität und erzeugt anschließend stets das
@@ -484,7 +484,7 @@ Details: [Exfil-Stress-Pflichtgate](../gameplay/kampagnenstruktur.md#exfil-stres
 
 _(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz und nicht für Spieler gedacht.)_
 
-Die Runtime spiegelt das Fenster parallel nach
+Die Spielleitung spiegelt das Fenster parallel nach
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`.
 Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deepsave mit
 "SaveGuard: Exfil aktiv - HQ-Save gesperrt.". Nach der Rückkehr ins HQ setzt `campaign.exfil`
@@ -1172,7 +1172,7 @@ Entscheidung - nicht automatisch im selben Zug.
   Die Wegführung ist absichtlich als **Schlauchlevel** gesetzt: Einstieg nur
   über die Eingangsschleuse im Pre-City-Hub, Rückweg nur über die
   gegenüberliegende Ausgangsschleuse nach vollständigem Ringlauf.
-  Die Runtime setzt `campaign.loc = "CITY"` (Runtime-only, wird nicht gespeichert),
+  Die Spielleitung setzt `campaign.loc = "CITY"` (Runtime-only, wird nicht gespeichert),
   Speichern bleibt während des Stadtlaufs blockiert — SaveGuard greift.
 - **Stimmungswechsel:** Chronopolis hat immer die gleiche Stadtstruktur, aber
   Bevölkerung, Atmosphäre und Angebot wechseln in die Epoche der aktiven
@@ -1220,7 +1220,7 @@ Entscheidung - nicht automatisch im selben Zug.
 - Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-
   gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
 - Slot-Matrix pro Tag: 1 Temporal Ship, 3 Never-Was Gadgets und 4 Era-Skins
-  rollen gleichzeitig; die Runtime spiegelt exakt diese Verteilung im Save.
+  rollen gleichzeitig; die Spielleitung spiegelt exakt diese Verteilung im Save.
 - Fahrzeug-SSOT (Leitung): pro Charakter genau ein HQ-Technoir-Fahrzeug.
   Standardfahrzeuge springen nicht physisch durch den Riss; das ITI manipuliert
   stattdessen den Zeitstrang kleinteilig (Bauteile, Verfügbarkeit,

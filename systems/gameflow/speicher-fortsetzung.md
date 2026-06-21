@@ -552,7 +552,7 @@ enthält mindestens `event`, `at` (ISO), `location`, `phase`,
 `foreshadow{progress,required,tokens,expected}`. Optionale Felder fassen HUD-
 Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (Gruppenkasse = Σ `characters[].wallet`), FR-Bias
 und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
-`boss{type,dr,toast}` (mini|arc|rift) beim Missionsstart. Die Runtime ruft
+`boss{type,dr,toast}` (mini|arc|rift) beim Missionsstart. Die Spielleitung ruft
 `record_trace()` bei `StartMission()`, `launch_rift()` und `arenaStart()` auf,
 begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save.
 Beim HQ-Save schreibt die Runtime zusätzlich
@@ -1139,7 +1139,7 @@ ZEITRISS behandelt Mehrfach-Loads nicht mehr als reinen Host-Import, sondern als
   "campaign"` bleibt eine Split-Folgespur in `shared_echoes` (scope = Dedup-Marke, nicht Speicherort).
   Siehe Masterprompt §I `shared_echoes`-Abgrenzung.
 - **Pflichtformat `roster_echoes[]` (andere Struktur!):** Jedes Item MUSS Objekt mit mindestens `char_id` sein, empfohlen vollständig `{ "char_id": "<CHR-ID>", "tone": "<stimmung>", "text": "<1-Satz-Recap>" }`. Bindung: **eine Figur**, nicht ein Ereignis. Niemals mit `shared_echoes`-Format vermischen.
-- **Gemeinsam**: Rohstrings (`["Lagerhaus gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) sind in beiden Arrays Schema-Verletzung und werden von `test_v7_schema_consistency.js` + `test_continuity_output_contract.js` abgelehnt. Siehe Masterprompt §D.
+- **Gemeinsam**: Rohstrings (`["Lagerhaus gesichert"]`) oder Fremdkeys (`[{"echo": "..."}]`) sind in beiden Arrays **Schema-Verletzung** und dürfen nie geschrieben werden (Pflichtformat: Objekt mit den oben genannten Feldern). Siehe Masterprompt §D.
 - **Persistente NPC-Chrononauten:**
   - `npc_roster[]` (max 6) mit kompakten Feldern
     `id,name,callsign,role,trait,scope,owner_id,bond,status,last_seen,offscreen,hook`
@@ -1193,8 +1193,7 @@ Zusätzlich werden **frische Talente, Equipment-Einträge und Implantate aus
 dem letzten Debrief** (Schritt 4: XP/Skills) explizit als *„seit letzter
 Mission neu“*-Liste benannt, sofern `character.level_history[<lvl>]`
 einen Eintrag enthält, dessen `mission`-Feld die zuletzt abgeschlossene
-Mission-ID identifiziert (Schema: `choice`, `detail`, `mission` — siehe
-`saveGame.v7.schema.json` §level_history).
+Mission-ID identifiziert (Schema je Eintrag: `choice`, `detail`, `mission`).
 
 **Save-State-Pflichtgate (Anti-Default-Overlay):**
 
@@ -1664,7 +1663,7 @@ die Debrief-Zeilen.
   beschreiben und die Werte in den Saveblock übertragen, damit Koop-Teams ihre
   CU-Historie nachvollziehen können.
 
-**Legacy-Normalisierung (ohne runtime.js)**
+**Legacy-Normalisierung (rein durch die Spielleitung)**
 
 - Encounter mit Alt-Saves laufen vollständig im KI-SL - es gibt keine
   JavaScript-Hooks im Produktivbetrieb. Deshalb erstellt die Spielleitung bei
@@ -1734,7 +1733,7 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 - `DelayConflict(4)` - verschiebt Konfliktszenen bis zur vierten Szene.
 - `ShowComplianceOnce()` - bleibt als leerer Kompatibilitäts-Hook bestehen und
   setzt keine Flags mehr. `SkipEntryChoice()` markiert parallel
-  `flags.runtime.skip_entry_choice=true`; die Runtime übernimmt das Flag
+  `flags.runtime.skip_entry_choice=true`; die Spielleitung übernimmt das Flag
   unverändert in den Einsatz.
 - `Chronopolis-Warnung` - `start_chronopolis()` erzeugt einmalig einen
   In-World-Warnhinweis und setzt `logs.flags.chronopolis_warn_seen=true`, damit
