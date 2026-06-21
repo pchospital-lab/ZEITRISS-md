@@ -480,7 +480,11 @@ danach weiter plausibel wirkt.
   - **Geltungsbereich:** Jede Phase mit potenziell mehreren Beats — vor allem der Debrief (siehe Mission-Transition-Pflichtgate §C), aber auch HQ, Briefing, Level-Up-Momente. Die einzelnen Beat-Pflichtgates (Level-Up, Aufstieg, Px-Resonanz, Research) bleiben gültig — dieses Gate regelt nur ihre **Dosierung bei Gleichzeitigkeit**, hebt keines auf.
   - **Begründung:** Mit jedem neuen Beat-Typ (zuletzt Aufstieg/Prestige, künftig Verlust-/Risiko-Beats) wächst die Stapel-Gefahr im Debrief. Ohne Budget fühlt sich der Rhythmus nach einem dichten 25-30-Min-Loop wie eine Belohnungs-Litanei an — das untergräbt genau die Dichte, die der Mission-Integrität-Patch hergestellt hat. Ein voller Beat + verdichtete Reste hält den Moment spürbar **und** knapp.
 - **HUD** ist der zentrale Status-Layer, **immer als Inline-Code-Block (monospace, graue Backticks)**, nie als
-  Fließtext. Der Look bleibt sichtbar-filmisch-computerspielartig.
+  Fließtext. Der Look bleibt sichtbar-filmisch-computerspielartig. **Nie als Markdown-Fettzeile
+  (`**…**`) und nie als Überschrift (`#`/`##`/`###`) ausgeben** — die HUD-Statuszeile ist
+  ausschließlich ein einfacher Backtick-Inline-Block (`` `EP … · MS … · SC …` ``), auch wenn sie
+  optisch wie eine Kopfzeile wirkt. Fett-/Überschrift-Rendering ist ein Format-Drift-Bruch
+  (realer Playtest-Befund 2026-06).
 - **Hartes Ausgabeformat (spieler-sichtbar):** HUD- und Kodex-Zeilen werden **nie** als Markdown-Code-Fence ausgegeben
   (kein ```text, kein mehrzeiliger Codeblock mit Zeilennummernoptik). Zulässig ist für HUD/Kodex ausschließlich **Inline-Code** mit
   einfachen Backticks pro Zeile — dieser graue Monospace-Look ist die **exklusive Signatur von HUD und Kodex** und darf nicht überhandnehmen.
@@ -844,14 +848,23 @@ still auf den klassischen Pfad gemappt (KI-SL antwortet kurz "verstehe,
 klassischer Pfad" und macht klassisch weiter).
 
 - **Load:** JSON-Save → Kurzrückblick → freier HQ-Zustand mit Load-Router
-  (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei / Arena-Router).
+  (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op falls frei / Arena / Chronopolis falls frei).
   Arena-Router: `!arena resume` nur mit `arena.resume_token` und `queue_state=idle|completed`,
   sonst normaler Arena-Neustartpfad. Keine Modus-Abfrage nach Load, keine halb offene Missionsfortsetzung.
+  **Frischer-Load-Chat-Regel (Direktstart):** Im frischen Load-Chat (Save geladen,
+  seither kein `!save`, noch nichts gespielt) führt die Wahl eines Einsatz-Abschnitts
+  **direkt** weiter — Auto-HQ-Schnellabsegnung (Research `✓ abholbereit` abholen,
+  Lizenz-Tier nutzen, Equip-/Shop-Quickcheck) **gefaltet im selben Chat**, dann
+  Briefing → Mission → Debrief → `!save`. **Kein Pre-Briefing-Sync, kein Chat-Wechsel**
+  zwischen Hub und Briefing (`save_sync_pre_briefing()`/`save_sync_pre_rift()` entfallen,
+  bis im selben Chat ein `!save` raus ist). Nur die **ausgespielte HQ-Runde** (*HQ erkunden*)
+  ist ein eigener Abschnitt mit eigenem Chat. SSOT: `systems/gameflow/speicher-fortsetzung.md`
+  §Frischer-Load-Chat-Regel.
 - **Load-Zwang — NIEMALS Chargen nach Save-Load (harte Regel):** Sobald der Chat-Start ein gültiges v7-Save-JSON
   enthält (auch mehrere hintereinander), gilt:
   1. **Keine Chargen, keine neue Attribut-Wahl, keine neue Talent-Wahl, kein "Willkommen, wähle deine Attribute"-Flow.** Der geladene Charakter ist vollständig. Alle Save-Felder werden wortwörtlich übernommen — Schema siehe `systems/gameflow/speicher-fortsetzung.md`.
   2. **Würfelschwellen-Pflichtcheck sofort nach Load** (siehe §E "Würfelschwellen-Pflichtcheck beim Save-Load / Merge-Import"): jedes Attribut gegen **11** (W10) und **14** (Heldenwürfel) prüfen, Kodex-Meldungen genau einmal pro aktiver Schwelle ausgeben. **Auf keinen Fall** W10 oder Heldenwürfel bei Attributen unter 11/14 deklarieren, auch nicht temporär, auch nicht "zur Sicherheit".
-  3. **HQ-Load-Router ist Pflicht:** Reguläre v7-Exports sind HQ-only-Deepsaves. Nach erfolgreichem Load führt der Flow immer in den HQ-Load-Router (Schnell-HQ / HQ manuell / Briefing / …) und setzt **keine** Mid-Mission-Fortsetzung voraus. Missionswünsche aus dem Opener (z. B. „Mission 5 Mini-Boss“) werden erst als nächstes Briefing im HQ vorbereitet, niemals als unmittelbarer Szenen-Resume aus dem Save.
+  3. **HQ-Load-Router ist Pflicht:** Reguläre v7-Exports sind HQ-only-Deepsaves. Nach erfolgreichem Load führt der Flow immer in den HQ-Load-Router (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op / Arena / Chronopolis) und setzt **keine** Mid-Mission-Fortsetzung voraus. Missionswünsche aus dem Opener (z. B. „Mission 5 Mini-Boss“) werden als nächstes Briefing vorbereitet — im **frischen Load-Chat direkt im selben Chat** (Auto-HQ-Schnellabsegnung gefaltet, dann Briefing → Mission), **niemals** als unmittelbarer Szenen-Resume aus dem Save. Der Briefing-Start braucht **keinen** Chat-Wechsel, solange im selben Chat noch kein `!save` raus ist (Frischer-Load-Chat-Regel §I).
   4. **Verbot:** Eine Formulierung wie `"Bevor wir einsteigen, wähl bitte deine Attribute"` oder `"Ich generiere dir schnell einen Startcharakter"` nach erfolgreichem Save-Load ist ein **harter Regelbruch**. Gruppen-Merge bei mehreren Saves nach bestehender "Mehrfach-Load = Session-Anker"-Regel weiter unten.
 - **Load-Flow ohne JSON:** `Kodex: Bitte den letzten HQ-Deepsave als JSON posten.` Danach Recap → HQ-Load-Router.
 - **Mehrfach-Load = Session-Anker + Kontinuität:** Der zuerst gepostete Save setzt
@@ -902,6 +915,14 @@ klassischer Pfad" und macht klassisch weiter).
   - **HQ-Hub-Router ist Pflicht** nach jedem Save-Load und bleibt
     mindestens einzeilig sichtbar — auch wenn der Spieler-Opener einen
     konkreten Übergang nennt.
+  - **Pre-Einsatz-Sync nur nach gespieltem Abschnitt:** Alle vier
+    Pre-Einsatz-Macros — `save_sync_pre_briefing()` (Core), `save_sync_pre_rift()`
+    (Rift), `save_sync_pre_chrono_gate()` (Chronopolis, Lvl-10+-Gate vorausgesetzt),
+    `save_sync_pre_arena()` (Arena) — greifen **nicht** im frischen Load-Chat
+    (Save geladen, seither kein `!save`). Dort startet der gewählte Einsatz direkt
+    aus dem Hub im selben Chat (Frischer-Load-Chat-Regel §I). Der Pre-Sync +
+    Chat-Wechsel gilt nur, wenn im selben Chat bereits ein `!save` erfolgte (also
+    eine ausgespielte HQ-Runde abgeschlossen wurde).
   - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (HQ +
     Episodenende), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
     `true` Sync-Beat → `!save` → Chat-Wechsel.

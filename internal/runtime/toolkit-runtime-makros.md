@@ -1483,6 +1483,12 @@ HQ-Overlay).
      KI-SL ruft das passende save_sync_pre_*-Macro AUS DEM HQ heraus, vor dem
      Übergangsbefehl. Bei Rift zusätzlich der bestehende
      chrono_can_launch_rift()-Gate-Check VOR dem Sync.
+     AUSNAHME Frischer-Load-Chat: Ist der aktuelle Chat ein frischer Load-Chat
+     (Save geladen, seither kein !save, noch nichts gespielt), entfällt der
+     save_sync_pre_*-Aufruf komplett — der gewählte Einsatz startet direkt aus
+     dem HQ-Hub im selben Chat (SSOT: systems/gameflow/speicher-fortsetzung.md
+     §Frischer-Load-Chat-Regel). Der Pre-Sync gilt erst, wenn im selben Chat
+     bereits ein !save raus ist.
    - Nach Debrief-Tür-auf (Standard/Chronopolis/Arena) ruft die KI-SL beim
      Eintritt in die freie HQ-Phase das passende save_sync_post_*-Macro,
      bevor der nächste Spielerwunsch (Briefing/Erkunden/Arena/Chrono) bedient

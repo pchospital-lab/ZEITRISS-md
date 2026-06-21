@@ -939,9 +939,13 @@ Erst nach dieser Gruppenentscheidung wird die Erzählung fortgesetzt.
   - `Recap()` abspielen.
   - **HQ-Load-Standard:** HQ-Saves landen immer im freien HQ-Zustand, nie in
     einer halb offenen Missionsfortsetzung.
-  - Danach kurzer Router: **Schnell-HQ**, **HQ manuell**, **Briefing
-    anfordern**, **Chronopolis** (falls frei), **Rift-Board** (falls frei),
-    **Arena-Router** (falls relevant).
+  - Danach kurzer Router (**Abschnitt-Wähler**): **HQ erkunden** (ausgespielte
+    HQ-Runde, eigener Chat), **Schnell-HQ**, **Core-Ops**, **Rift-Op** (falls
+    frei), **Arena** (falls relevant), **Chronopolis** (falls frei).
+    **Frischer-Load-Chat:** Wählt der Spieler hier (kein `!save` seit Load) einen
+    Einsatz, läuft die Auto-HQ-Schnellabsegnung gefaltet im selben Chat und es
+    geht direkt ins Briefing — kein Pre-Sync, kein Chat-Wechsel (SSOT:
+    `systems/gameflow/speicher-fortsetzung.md` §Frischer-Load-Chat-Regel).
     - Mit `arena.resume_token` + `queue_state=idle|completed`: `!arena resume`
       anbieten (ohne neue Gebühr).
     - Mit `queue_state=searching|matched|staging|active`: kein Arena-Resume;
@@ -1023,8 +1027,10 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
    - Mismatch → "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
      HQ-Migration veranlassen."
    - Nach Erfolg: kurze Rückblende, dann in den HQ-Load-Router
-     (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei /
-     Rift-Board falls frei / Arena-Router).
+     (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op falls frei / Arena /
+     Chronopolis falls frei). Im frischen Load-Chat startet ein gewählter Einsatz
+     direkt im selben Chat (Auto-HQ-Absegnung gefaltet → Briefing → Mission),
+     kein Pre-Sync, kein Chat-Wechsel.
      Kein impliziter Briefing-Autostart und keine Nachfrage "klassisch/schnell".
 2. Enthält einen klaren Neustart-Wunsch (natürliche Sprache oder `Spiel starten (...)`) → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.

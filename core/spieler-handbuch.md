@@ -205,10 +205,14 @@ Save geladen, und es geht weiter.
 
 ```text
 Chargen → !save → neuer Chat → Save laden
-       → HQ-Runde → !save → neuer Chat → Save laden
+   → [Hub] Einsatz wählen → Auto-HQ-Absegnung
        → Briefing + Mission + Debrief → !save → neuer Chat → Save laden
-       → HQ-Runde → !save → neuer Chat → Save laden
-       → Briefing + Mission + Debrief → !save → …
+   → [Hub] Einsatz wählen → Auto-HQ-Absegnung
+       → Briefing + Mission + Debrief → !save → ...
+
+   Optional (wenn du Bock auf HQ-Leben hast):
+   → [Hub] HQ erkunden → RP / Operationen / Equip / NPC-Crew
+       → !save → neuer Chat → Save laden
 ```
 
 ### Die fünf Abschnittstypen
@@ -221,9 +225,15 @@ Chargen → !save → neuer Chat → Save laden
 | **Chronopolis-Lauf** | Schleuse, Stadtinfiltration der gescheiterten Zeitlinie, Rückkehr. | Schleusen-Debrief abgeschlossen, `!save` im HQ. |
 | **Arena-Match** | Match-Setup → Kampf → Match-Debrief. | Match-Debrief abgeschlossen, `!save` im HQ. |
 
-Die Abschnitte sind **nicht vermischbar**. HQ-Runde, Mission, Chronopolis
-und Arena sind getrennte Spielräume mit eigenem Chat — auch wenn man
-theoretisch mehrere hintereinander spielen könnte. Das ist Absicht.
+Die Abschnitte sind **nicht vermischbar**. Die **ausgespielte HQ-Runde**,
+Mission, Chronopolis und Arena sind getrennte Spielräume mit eigenem Chat —
+auch wenn man theoretisch mehrere hintereinander spielen könnte. Das ist
+Absicht. **Eine Ausnahme, die keine ist:** Die kurze Auto-HQ-Absegnung beim
+Wiedereinstieg (Research abholen, Tier nutzen, Equipment-Quickcheck) ist
+**kein eigener Abschnitt** — sie ist der HQ-Teil deines Mission-Zyklus und
+läuft im selben Chat wie Briefing + Mission. Nur wenn du **HQ erkunden** wählst
+(RP, Operationen, lange Equip-Sessions, NPC-Crew), ist das HQ ein eigener
+Abschnitt mit eigenem Chat.
 
 > **Begriffshinweis.** „HQ-Runde" meint hier den **großen Spielabschnitt**
 > mit eigenem Chat (Equip, Klinik, Werkstatt, RP, Bar). Innerhalb einer
@@ -262,25 +272,39 @@ Die Trennung zwischen **HQ-Runde** (vorbereitend) und **Briefing**
   Px-Verlust und **keine** Eskalation. Setting-Treue ist eine Spielweise,
   High-Tech-Power-Fantasy ist eine andere — beide funktionieren.
 
-### Warum HQ-Runde immer ein eigener Abschnitt ist
+### Wann die HQ-Runde ein eigener Abschnitt ist — und wann nicht
 
-Frühere Versionen behandelten das HQ als kurzen Service-Stop nach Missionen —
-Auto-Equip durch Kodex, dann direkt die nächste Mission. Das ist **vorbei**.
-Die HQ-Runde ist heute ein vollwertiger Spielabschnitt:
+Es gibt **zwei** Wege durch das HQ, und du entscheidest jedes Mal frisch:
 
-- **Du entscheidest, was du tust.** Equipment ändern, dich operieren lassen,
-  in die Bar gehen und reden, einen Kontakt anrufen, Gerüchte ziehen, deinen
-  Charakter feinschleifen. Niemand drängt dich zur nächsten Mission.
-- **Es frisst Kontext.** Equipment-Wechsel, Klinik-Dialoge, Werkstatt-Upgrades
-  und Roleplay produzieren viele Tokens. Wenn das im selben Chat wie die
-  nächste Mission läuft, hat die KI-Spielleitung am Ende der Mission keine
-  Regelkapazität mehr. Eigener Chat heißt: voller Regelzugriff für jeden
-  Abschnitt.
+**Schneller Weg (Standard, ungestörter Powerlevel-Flow):** Du lädst deinen
+Save, landest im Hub und wählst direkt einen Einsatz (Core-Ops, Rift-Op,
+Arena, Chronopolis). Was sich seit dem letzten Mal angestaut hat — fertige
+Forschung zum Abholen, ein frisch freigeschaltetes Lizenz-Tier, ein schneller
+Equip-/Shop-Check — serviert dir der Kodex als **kurze Absegnungs-Liste**:
+durchklicken, abnicken, fertig. Dann **direkt** Briefing → Mission → Debrief →
+`!save`, **alles im selben Chat**. Kein Umweg, kein Zwischen-Save. Bäm, nächste
+Instanz. Das ist das X-COM-Base-Gefühl: reinkommen, kurz alles regeln, wieder
+raus — nichts unterbricht den Sog.
+
+**Ausgespielter Weg (wenn du Bock auf HQ-Leben hast):** Manchmal hat sich genug
+angesammelt, dass du es *ausspielen* willst — in die Bar gehen und reden,
+Gerüchte ziehen, mitgebrachtes Material oder eine Person genauer untersuchen,
+deine Ausrüstung in Ruhe feintunen, deine NPC-Crew anheuern, umstellen,
+ausrüsten. Dafür wählst du im Hub **HQ erkunden**. Das ist ein **vollwertiger
+eigener Abschnitt** mit eigenem Chat — du beendest ihn mit `!save` und lädst im
+nächsten Chat neu. Kein Pflicht-Stop nach jeder Mission; du nimmst ihn dir,
+wenn du den Kontrast brauchst.
+
+Warum die ausgespielte HQ-Runde einen eigenen Chat bekommt:
+
+- **Es frisst Kontext.** Lange Equip-Dialoge, Klinik-Sessions, Werkstatt und
+  Roleplay produzieren viele Tokens. Im selben Chat wie eine Mission hätte die
+  KI-Spielleitung am Ende keine Regelkapazität mehr. Eigener Chat heißt: voller
+  Regelzugriff. (Die *kurze* Auto-HQ-Absegnung im schnellen Weg ist dagegen
+  schlank — sie passt problemlos mit in den Mission-Chat.)
 - **Der Save bildet den HQ-Stand sauber ab.** Equipment, Implantate, Wallet,
-  ITI-Ruf, Fraktionsstand — alles, was du in der HQ-Runde geändert hast,
-  steht im JSON. Nimmst du das in den Mission-Chat mit, startet die Mission
-  mit dem korrekten Stand. Das ist die Garantie, dass nichts „aus dem Ruder
-  läuft".
+  ITI-Ruf, Fraktionsstand — alles, was du in der HQ-Runde geändert hast, steht
+  im JSON und reist sauber in den nächsten Chat mit.
 
 ### Warum nach jeder Mission ebenfalls neuer Chat
 
@@ -342,11 +366,13 @@ weil der Kodex den Sync vor jedem Übergang aktiv anbietet.
    Gruppen stapelt ihr eure Saves nacheinander; der erste setzt den
    Session-Anker.
 6. **HQ-Hub-Router.** Nach jedem Save-Load öffnet sich automatisch der
-   HQ-Hub mit allen Wahl-Optionen (Briefing anfordern, HQ erkunden,
-   Schnell-HQ, Chronopolis-Schleuse falls Lvl 10+, Rift-Board falls
-   Episodenende, Arena-Router). Du entscheidest frisch, was als nächstes
-   kommt — auch „doch nochmal HQ, ich hab was vergessen" ist eine
-   gültige Wahl.
+   HQ-Hub als **Abschnitt-Wähler** (HQ erkunden, Schnell-HQ, Core-Ops,
+   Rift-Op falls Episodenende, Arena, Chronopolis-Schleuse falls Lvl 10+).
+   Wählst du einen **Einsatz**, läuft die kurze Auto-HQ-Absegnung gefaltet im
+   selben Chat und es geht **direkt** ins Briefing — kein Zwischen-Save, kein
+   Chat-Wechsel. Wählst du **HQ erkunden**, ist das die ausgespielte HQ-Runde
+   (eigener Chat, endet mit `!save`). Du entscheidest frisch, was als nächstes
+   kommt — auch „doch nochmal HQ, ich hab was vergessen" ist eine gültige Wahl.
 
 ### Wann darf man im selben Chat bleiben?
 
@@ -660,8 +686,8 @@ den State weiter (Typ A/B/C).
   `generate` / `custom generate` / manuell; Saves können danach im Lobby-Flow
   gepostet werden
 - `Spiel laden` - Deepsave → Kodex-Recap → freier HQ-Zustand mit Router
-  (Schnell-HQ / HQ manuell / Briefing / Chronopolis falls frei / Rift-Board falls frei /
-  Arena-Router mit Resume-Check), EntryChoice übersprungen
+  (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op falls frei / Arena mit Resume-Check /
+  Chronopolis falls frei), EntryChoice übersprungen
   (`campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
 Wenn die Absicht klar ist, reichen auch Formulierungen wie
