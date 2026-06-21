@@ -64,16 +64,25 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
   1. **Charaktererschaffung → HQ-Hub** (Chargen-Save-Gate, klassischer Pfad —
      bestehende Mechanik, kein neues Macro).
   2. **HQ → Briefing (Core-Mission)**: Pre-Mission-Sync — Sprungvorbereitung.
-     Macro: `save_sync_pre_briefing()`.
+     Macro: `save_sync_pre_briefing()`. **Entfällt im frischen Load-Chat**
+     (Save geladen, seither kein `!save`, noch nichts gespielt) — dort startet
+     das Briefing direkt aus dem HQ-Hub im selben Chat (siehe
+     Frischer-Load-Chat-Regel unten).
   3. **HQ → Briefing (Rift-Op)**: Pre-Rift-Sync — eigener Macro
      `save_sync_pre_rift()` mit Rift-Lore-Beat („Rift-Koordinate aktiviert").
      **Reihenfolge**: erst `chrono_can_launch_rift()`-Gate (HQ-Loc +
      Episodenende), bei `false` höflicher Refusal-Beat (kein Sync); bei
-     `true` Sync-Beat → Save → Chat-Wechsel.
+     `true` Sync-Beat → Save → Chat-Wechsel. **Entfällt ebenfalls im frischen
+     Load-Chat** (Gate vorausgesetzt) — die Rift-Op startet dann direkt aus
+     dem HQ-Hub im selben Chat (Frischer-Load-Chat-Regel unten).
   4. **HQ → Chronopolis-Schleuse**: Pre-Schleuse-Sync (atmosphärischer Beat,
-     Textbaustein unten). Macro: `save_sync_pre_chrono_gate()`.
+     Textbaustein unten). Macro: `save_sync_pre_chrono_gate()`. **Entfällt im
+     frischen Load-Chat** (Lvl-10+-Gate vorausgesetzt) — die Schleuse startet
+     dann direkt aus dem HQ-Hub im selben Chat (Frischer-Load-Chat-Regel unten).
   5. **HQ → Arena-Match**: Pre-Match-Sync (Arena-Lobby-Beat). Macro:
-     `save_sync_pre_arena()`.
+     `save_sync_pre_arena()`. **Entfällt im frischen Load-Chat** — das Match
+     startet dann direkt aus dem HQ-Hub im selben Chat (Frischer-Load-Chat-Regel
+     unten).
   6. **Standard-Debrief abgeschlossen → freie HQ-Phase**: Post-Mission-Sync
      (Heimkehr-Beat), nach Score-Screen + Level-Up-Wahl. Macro:
      `save_sync_post_debrief()`.
@@ -99,9 +108,28 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
      öffnet sich der HQ-Hub."). Kein neues Briefing, kein Match-Start, keine
      Schleuse im selben Chat nach Save.
 - **HQ-Hub-Router (Pflicht nach jedem Save-Load):** Der Router ist immer
-  da, auch wenn der Spieler direkt einen Übergang anfordern würde. Optionen
-  bleiben wie etabliert (Schnell-HQ / HQ manuell / Briefing / Chronopolis
-  falls frei / Rift-Board falls frei / Arena-Router falls relevant).
+  da, auch wenn der Spieler direkt einen Übergang anfordern würde. Der Hub ist
+  ein **Abschnitt-Wähler** (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op falls
+  frei / Arena / Chronopolis falls frei): *HQ erkunden* ist die ausgespielte
+  HQ-Runde (eigener Abschnitt), alle übrigen Optionen sind Einsatz-Abschnitte.
+  Details siehe `core/sl-referenz.md` §HQ-Load-Standard.
+- **Frischer-Load-Chat-Regel (Direktstart aus dem Hub):** Ein Chat, in dem
+  gerade ein Save geladen wurde und seither **kein `!save`** erfolgte und
+  **kein Abschnitt gespielt** wurde, ist ein *frischer Load-Chat*. Wählt der
+  Spieler dort einen Einsatz-Abschnitt (Core-Ops / Rift-Op / Arena /
+  Chronopolis), läuft die **Auto-HQ-Schnellabsegnung** (Research
+  `✓ abholbereit` abholen, freigeschaltetes Lizenz-Tier nutzen,
+  Equip-/Shop-Quickcheck) **gefaltet im selben Chat** — danach **direkt**
+  Briefing → Mission → Debrief → `!save`. **Kein Pre-Briefing-Sync, kein
+  Chat-Wechsel** zwischen Hub und Briefing; `save_sync_pre_briefing()` /
+  `save_sync_pre_rift()` entfallen hier (sie greifen erst, wenn im selben Chat
+  schon ein `!save` raus ist). So bleibt der Powerlevel-Rhythmus ungestört:
+  laden → kurz absegnen → Einsatz. Die **ausgespielte HQ-Runde** (RP,
+  Operationen, mitgebrachtes Material/Personen analysieren, Equip-Feintuning,
+  NPC-Crew anheuern/umstellen/ausrüsten) wählt man bewusst über *HQ erkunden*
+  und beendet sie mit `!save` → eigener Chat. **Ein Mission-Zyklus** (Hub-
+  Absegnung + Briefing + Mission + Debrief) **ist ein Abschnitt = ein Chat**;
+  die ausgespielte HQ-Runde ist ihr eigener Abschnitt.
   Details siehe `core/sl-referenz.md` §HQ-Load-Standard.
 - **Chronopolis & Arena (SaveGuards bleiben):** Chronopolis zählt als City
   und blockiert Saves. PvP-Arena speichert ebenfalls nicht — Sync-Punkte
@@ -1025,7 +1053,7 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 4. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
    HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
    aus. Die Runde springt ohne Nachfrage in den HQ-Load-Router
-   (Schnell-HQ/HQ manuell/Briefing/Chronopolis/Rift/Arena-Router).
+   (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op / Arena / Chronopolis).
    **Resonanz-Banner beim Laden (Rift-Sog, Pflicht):** Direkt nach dem Recap
    spielt die SL einen **kurzen, positiven** Resonanz-Beat aus, der den
    aktuellen Px-Stand als wachsende Riss-Ortung sichtbar macht - **nie** als

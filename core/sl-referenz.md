@@ -575,7 +575,9 @@ Acht verbindliche Sync-Punkte mit Macro-Pin:
 
 1. Charaktererschaffung → HQ-Hub (Chargen-Save-Gate, klassischer Pfad —
    bestehende Mechanik),
-2. HQ → Briefing (Core-Mission): `save_sync_pre_briefing()`,
+2. HQ → Briefing (Core-Mission): `save_sync_pre_briefing()` — **entfällt im
+   frischen Load-Chat** (Briefing startet dann direkt aus dem Hub im selben
+   Chat, siehe §HQ-Load-Standard),
 3. HQ → Briefing (Rift-Op): `save_sync_pre_rift()` — Reihenfolge: erst
    `chrono_can_launch_rift()`-Gate (HQ-Loc + Episodenende), bei `false`
    höflicher Refusal-Beat ohne Sync; bei `true` Sync-Beat → Save →
@@ -603,12 +605,17 @@ mit HQ-Hub-Router. Vollständige SSOT-Doku in
 [Modul 12 § Save-Sync-Handover][modul12].
 
 Für Stabilität gilt: pro **Spielabschnitt** ein frischer Chat mit
-DeepSave-Import. Abschnitte sind: Charaktererschaffung, HQ-Runde, Mission
-(Core/Rift), Chronopolis-Lauf, Arena-Match. Eine HQ-Runde (Equip-Wechsel,
-Klinik, Werkstatt, RP, Bar) gehört nie in denselben Chat wie eine Mission;
-der dazwischenliegende Sync bildet Equipment, Implantate, Wallet und
-ITI-Ruf sauber für den Mission-Chat ab. Spieler-Devise im
-[Spieler-Handbuch][gameflow-spieler].
+DeepSave-Import. Abschnitte sind: Charaktererschaffung, ausgespielte HQ-Runde,
+Mission (Core/Rift), Chronopolis-Lauf, Arena-Match. Eine **ausgespielte
+HQ-Runde** (Equip-Wechsel, Klinik, Werkstatt, RP, Bar, NPC-Crew, Material-
+Analyse) gehört in einen **eigenen Chat** und wird über *HQ erkunden* bewusst
+gewählt; der dazwischenliegende Sync bildet Equipment, Implantate, Wallet und
+ITI-Ruf sauber ab. **Nicht betroffen ist die Auto-HQ-Schnellabsegnung im
+frischen Load-Chat:** Wählt der Spieler dort einen Einsatz-Abschnitt, läuft die
+kurze Absegnung (Research abholen, Tier nutzen, Equip-Quickcheck) **gefaltet im
+selben Chat** wie Briefing + Mission — das ist **keine** ausgespielte HQ-Runde,
+sondern der HQ-Teil des Mission-Zyklus (Frischer-Load-Chat-Regel,
+§HQ-Load-Standard). Spieler-Devise im [Spieler-Handbuch][gameflow-spieler].
 
 *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme
 (`solo schnell` / `gruppe schnell`), die aus der Charaktererschaffung
@@ -942,11 +949,21 @@ Beispiel: `🟢 ZEITRISS 4.2.6 - Einsatz für dich gestartet` (Solo) bzw. `... f
   ([speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md)).
 
 **HQ-Load-Standard:** Ein HQ-DeepSave lädt immer in einen freien HQ-Zustand,
-nicht in eine laufende Mission. Nach dem Recap folgt ein kurzer Router:
-**Schnell-HQ**, **HQ manuell**, **Briefing anfordern**, **Chronopolis** (falls frei),
-**Rift-Board** (falls frei), **Arena-Router** (falls relevant). Eine Mission gilt nach
-Debrief/HQ-Rückkehr als abgeschlossen und wird nach Load nicht halb offen
-fortgesetzt.
+nicht in eine laufende Mission. Nach dem Recap folgt ein kurzer Router
+(**Abschnitt-Wähler**): **HQ erkunden** (ausgespielte HQ-Runde, eigener Chat),
+**Schnell-HQ**, **Core-Ops**, **Rift-Op** (falls frei), **Arena** (falls relevant),
+**Chronopolis** (falls frei). Eine Mission gilt nach Debrief/HQ-Rückkehr als
+abgeschlossen und wird nach Load nicht halb offen fortgesetzt.
+**Frischer-Load-Chat-Regel (Direktstart):** Im frischen Load-Chat (Save geladen,
+seither kein `!save`, noch nichts gespielt) führt die Wahl eines Einsatz-Abschnitts
+**direkt** in den Zyklus: Auto-HQ-Schnellabsegnung (Research `✓ abholbereit`
+abholen, freigeschaltetes Lizenz-Tier nutzen, Equip-/Shop-Quickcheck) **gefaltet
+im selben Chat**, dann Briefing → Mission → Debrief → `!save`. **Kein
+Pre-Briefing-Sync, kein Chat-Wechsel** zwischen Hub und Briefing —
+`save_sync_pre_briefing()`/`save_sync_pre_rift()` entfallen, bis im selben Chat
+ein `!save` raus ist. Nur die **ausgespielte HQ-Runde** (*HQ erkunden*) ist ein
+eigener Abschnitt mit eigenem Chat. SSOT: `systems/gameflow/speicher-fortsetzung.md`
+§Frischer-Load-Chat-Regel.
 
 **Raumvertrag (Oldschool-Abschnittslogik):** ZEITRISS folgt einem klaren Raummodell:
 `hq → briefing → core/rift/arena/chronopolis → debrief → hq`. Der HQ ist der einzige
