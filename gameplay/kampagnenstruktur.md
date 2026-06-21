@@ -47,7 +47,7 @@ Das ZEITRISS-System unterscheidet klar vier Ebenen:
 - **Undercover bleibt vollständig:** Auch verdeckte Einsätze durchlaufen alle Kernphasen.
   Übersprungene Schritte werden später als Komplikationen eingebracht (z. B. plötzlicher Scan,
   Schichtwechsel, Verdachtsmoment), damit Spannung und Belohnungslogik konsistent bleiben.
-- **Szenen-Mindestmaß:** Die Runtime öffnet `Sicherung`/`Flucht` erst nach **6-7** vollwertigen
+- **Szenen-Mindestmaß:** Die Spielleitung öffnet `Sicherung`/`Flucht` erst nach **6-7** vollwertigen
   Szenen und füllt fehlende Abschnitte mit Twists oder Gegenangriffen auf, bis der Zielkorridor
   (12 Core / 14 Rift) erreicht ist. **Kurzschnitte zählen nicht** - jede Szene muss eine Phase
   oder klare Wendung abbilden, damit das Gate nicht zum Aufsplitten von Missionen verleitet.
@@ -452,13 +452,13 @@ Herausforderungen — nicht nur steigende Zahlenwerte.
 
 ##### Tier-Übergangs-Regeln
 
-- **Freier Zugriff ab Level 1:** Alle Seeds sind jederzeit spielbar; die Runtime
+- **Freier Zugriff ab Level 1:** Alle Seeds sind jederzeit spielbar; die Spielleitung
   passt Gegner, Auflagen und Belohnungen an Squad-Level und Teamgröße an.
   Das Tier-System ist ein **Balancing-Hinweis**, kein Gating.
 - **Tier-Aufstieg:** Sobald das Squad-Level die Obergrenze eines Tiers
   überschreitet, erscheinen Seeds des nächsten Tiers bevorzugt in
   `ClusterCreate()`. Bereits offene Seeds behalten ihren ursprünglichen Tier-Tag.
-- **Skalierung:** Die Runtime skaliert Gegner-LP, DR und Spezialmechaniken
+- **Skalierung:** Die Spielleitung skaliert Gegner-LP, DR und Spezialmechaniken
   anhand des Seed-Tiers. Niedrig-Tier-Seeds in High-Level-Squads erhalten
   einen leichten Buff, bleiben aber unter dem Schwierigkeitsgrad des
   aktuellen Squad-Tiers.
@@ -471,7 +471,7 @@ und spiegeln als `arc.open_seeds[]` denselben Eintrag.
   `cluster_hint: 1-25|25-80|80-200|200-500|500-1000` und ein freies
   `level_hint` (z. B. „ab Lvl 80 empfohlen"), um das gewünschte Power-Level
   abzubilden. Sie dienen nur dem Debrief/Arc-Dashboard, nicht als Gating-Flag;
-  die Runtime zieht weiterhin Squad-Level und Teamgröße heran.
+  die Spielleitung zieht weiterhin Squad-Level und Teamgröße heran.
 
 Seeds liegen immer als Objekte mit `id/label/status/seed_tier/hook` vor; der
 Normalizer ergänzt fehlende Felder aus dem Seed-Katalog, damit Casefile-Overlays
@@ -482,7 +482,7 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 `apply_rift_mods_next_episode()` zählt ausschließlich **offene** Seeds für
 `sg_bonus = min(3; offene Seeds)` und `cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`,
 sodass Gruppen ihren Schwellen- und Loot-Faktor bewusst über gelagerte Seeds steuern können.
-`launch_rift()` bleibt bis zum Episodenabschluss gesperrt: Runtime und Toolkit prüfen
+`launch_rift()` bleibt bis zum Episodenabschluss gesperrt: Die Spielleitung prüft
 `campaign.episode_completed` bzw. `mission_in_episode ≥ 10`, bevor ein Seed
 gestartet werden darf.
 
@@ -768,7 +768,7 @@ nie manuell editiert werden.
 > Dieser Status kann **nicht** vor Episodenende auf `"closed"`
 > oder `"open"` gesetzt werden. Erst nach Abschluss der Episode
 > (`campaign.episode_completed` bzw. `mission_in_episode ≥ 10`)
-> wandelt die Runtime alle `locked_until_episode_end`-Seeds in
+> wandelt die Spielleitung alle `locked_until_episode_end`-Seeds in
 > `status: "open"` um.
 >
 > **SaveGuard-Hinweis:** Seeds mit `status: locked_until_episode_end`
@@ -876,7 +876,7 @@ Debrief liegen beide in der **Nullzeit/HQ** und werden **nicht** mitgezählt:
   frei im HQ steht (`!save`). Speichern ist **HQ-exklusiv** und weder
   während der Einsatzzeit noch während des Debrief-Auto-Cuts zulässig.
 
-Für die Runtime heißt das: `SC 12/12` (bzw. `SC 14/14`) ist **nicht** der
+Für die Spielleitung heißt das: `SC 12/12` (bzw. `SC 14/14`) ist **nicht** der
 End-Marker der Mission. Der kanonische End-Marker ist der Übergang in den
 Debrief-Auto-Cut bzw. das `Save empfohlen`-Signal des HUDs nach Abschluss
 der HQ-Pflichtschritte.
@@ -2437,9 +2437,8 @@ Danach ruft die KI-SL nach jeder bedeutsamen Aktion genau einmal
 `chrono_next_beat(...)` auf; bei starkem Gewinn (inkl. Boss-Encounter) setzt
 `chrono_mark_big_win(...)` den Exit-Druck.
 
-Die Maintainer-Blaupause (Asset-Budgets, Mod-Kit, Build-Roadmap) bleibt bewusst
-außerhalb des Runtime-Wissensspeichers in
-`docs/dev/chronopolis-map-blueprint.md`.
+Die Maintainer-Blaupause (Asset-Budgets, Mod-Kit, Build-Roadmap) wird separat
+in der Maintainer-Dokumentation gepflegt und ist nicht Teil des Spiel-Wissensspeichers.
 
 ## Fazit
 

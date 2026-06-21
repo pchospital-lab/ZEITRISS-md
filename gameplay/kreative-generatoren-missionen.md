@@ -326,7 +326,7 @@ Zeitreise-Spot, nicht ein Mondfeld.
 - Das 14er-Template folgt der Ermittlungslogik: **Tatort (1-4)** → **Leads
   (5-9)** → **Boss-Encounter (10)** → **Boss-Resolution (11-14)**.
 - HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss/Auflösung`; der
-  Casefile-Tracker spiegelt den Wechsel. Die Runtime setzt die Stufe automatisch
+  Casefile-Tracker spiegelt den Wechsel. Die Spielleitung setzt die Stufe automatisch
   anhand des Szenenzählers (1-4 Tatort, 5-9 Leads, 10 Boss-Encounter, 11-14
   Boss-Resolution).
 - One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),

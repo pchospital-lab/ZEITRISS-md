@@ -1166,7 +1166,7 @@ Artefakten und temporaler Abweichungen.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
   starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
-  `STAGE Tatort/Leads/Boss/Auflösung`; die Runtime zieht die Stages automatisch
+  `STAGE Tatort/Leads/Boss/Auflösung`; die Spielleitung zieht die Stages automatisch
   aus der 14-Szenen-Map (Sz 1-4 Tatort, 5-9 Leads, 10 Boss-Encounter,
   11-14 Auflösung). HQ-only für Rift-
   Seeds; kein paralleler Rift-Betrieb.
