@@ -19,6 +19,15 @@ vollständiges Rollenspielsystem mit Würfelproben, Charakterentwicklung,
 Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
 Loot und Debrief.
 
+Architektonisch ist **ZEITRISS eine portable LLM-RPG-Engine**: Masterprompt
+plus 19 Wissensmodule, mit Retrieval, Save-JSON und hoher Regeltreue als
+Kernanforderungen. Die Runtime ist kein fester Server und keine feste App,
+sondern das LLM deiner Wahl — solange deine Plattform projektweite
+Anweisungen, Wissensdateien/Quellen und zuverlässiges Retrieval unterstützt.
+Dadurch spielt sich ZEITRISS je nach Modell und Plattform leicht anders,
+bleibt aber über den Save portabel: wie ein Charakterbogen, den du an einen
+anderen Pen-&-Paper-Tisch mitnimmst.
+
 Die Spielleitung zieht aus einem ganzen Orchester von Generatoren —
 Settings, NSC-Pools, Preserve-/Trigger-Seeds, Paradox-Events und
 Rift-Koordinaten — und webt daraus jede Kampagne neu. Kein Playthrough
@@ -105,8 +114,11 @@ Textzusammenfassung der wichtigsten Eckdaten.
 
 ## Setup
 
-ZEITRISS ist ein Datensatz (Masterprompt + 19 Wissensmodule). Ein
-**Launcher** bringt ihn in deine Chat-Umgebung:
+ZEITRISS ist ein portabler Datensatz (Masterprompt + 19 Wissensmodule). Du
+kannst ihn auf zwei Wegen in eine Runtime bringen:
+
+1. **Golden Setup / Referenz:** OpenWebUI + Launcher.
+2. **Deine Plattform:** Export-Paket + manuelle Projekteinrichtung.
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
@@ -121,12 +133,25 @@ Dauer beim ersten Mal: **30–60 Minuten** (inkl. Docker/Python, falls neu).
 **Voraussetzungen und die kompletten Schritt-für-Schritt-Details stehen
 im [Setup-Guide](docs/setup-guide.md).**
 
-### Andere Chat-Plattform?
+### Auf deiner eigenen Chat-Plattform spielen
 
-Im Launcher **[2] Regelwerk woanders nutzen** erzeugt dir ein
-Export-Paket für jede Plattform, die System-Prompts und Wissensdateien
-verwaltet. ⚠️ Ohne Gewähr — wir testen nur gegen OpenWebUI, Regel-
-Glitches sind auf anderen Plattformen möglich.
+ZEITRISS kann auf jeder Plattform laufen, die drei Dinge sauber unterstützt:
+
+- projektweite Anweisungen oder einen System-Prompt,
+- projektweite Wissensdateien/Quellen mit Retrieval,
+- ein starkes Modell mit genug Kontext und Regeltreue.
+
+Im Launcher erzeugt **[2] Regelwerk woanders nutzen** ein Export-Paket für
+solche Plattformen. Der Idealfall ist: Masterprompt in die
+Projekt-Anweisungen/System-Prompt, die 19 Wissensmodule in das
+Projektwissen. Wenn das Anweisungsfeld zu klein ist, nutze die
+Bootstrap-Anweisung aus `meta/project_bootstrap_instructions.md` und lade
+den Masterprompt zusätzlich als projektweite Quelle hoch. Wichtig: Wissen
+immer in die **Projektquellen / das Projektwissen** hochladen — nicht nur
+als Datei in einen einzelnen Chat.
+
+OpenWebUI bleibt das getestete Golden Setup. Andere Plattformen sind
+technisch möglich, aber nicht gegen die vollständige Regel-QA kalibriert.
 Details: [Portabler Export](docs/setup-guide.md#portabler-export-ohne-gewähr).
 
 ## Modell-Empfehlung

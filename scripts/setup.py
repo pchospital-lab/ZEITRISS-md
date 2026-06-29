@@ -716,8 +716,19 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
     shutil.copy2(mp_path, sys_dir / "SYSTEM_PROMPT_ONLY.md")
     print_ok(f"System prompt: system/SYSTEM_PROMPT_ONLY.md")
 
+    bootstrap_exported = False
+    bootstrap_rel = cfg.get("project_bootstrap_instructions")
+    if bootstrap_rel:
+        bootstrap_path = repo / bootstrap_rel
+        if bootstrap_path.exists():
+            shutil.copy2(bootstrap_path, sys_dir / "PROJECT_BOOTSTRAP_INSTRUCTIONS.md")
+            bootstrap_exported = True
+            print_ok("Project bootstrap: system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md")
+        else:
+            print_warn(f"Project bootstrap not found: {bootstrap_rel}")
+
     # Generate setup instructions
-    _write_setup_readme(dest, cfg, len(kb_files), flat)
+    _write_setup_readme(dest, cfg, len(kb_files), flat, has_bootstrap=bootstrap_exported)
     print_ok("Setup instructions: SETUP-ANLEITUNG.md")
 
     print()
@@ -732,7 +743,9 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
         gitignore.write_text("*\n", encoding="utf-8")
 
 
-def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> None:
+def _write_setup_readme(
+    dest: Path, cfg: dict, file_count: int, flat: bool, has_bootstrap: bool = False
+) -> None:
     """Write a human-readable setup guide into the export pack."""
     project = cfg["project"]
     params = cfg.get("params", {})
@@ -749,47 +762,100 @@ def _write_setup_readme(dest: Path, cfg: dict, file_count: int, flat: bool) -> N
             "  perfekt für Plattformen die keine Unterordner unterstützen.\n"
         )
 
+    bootstrap_line = (
+        "- `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` — kurze "
+        "Projekt-Anweisung, falls dein Anweisungsfeld für den Masterprompt "
+        "zu klein ist"
+        if has_bootstrap
+        else "- Optionaler Bootstrap fehlt im Export; nutze bei Bedarf "
+        "`meta/project_bootstrap_instructions.md` aus dem Repo"
+    )
+
     lines = [
         f"# {project} – Setup-Anleitung",
         "",
-        f"Dieses Paket enthält alles, um {project} auf einer beliebigen",
-        "KI-Plattform einzurichten.",
+        f"Dieses Paket enthält alles, um {project} auf einer geeigneten",
+        "KI-/Chat-Plattform als portable LLM-RPG-Engine einzurichten.",
         "",
         "## Inhalt",
         "",
-        f"- `knowledge/` — {file_count} Wissensdateien → ins **Projektwissen**",
+        "- `system/SYSTEM_PROMPT_ONLY.md` — vollständiger Masterprompt",
+        bootstrap_line,
+        f"- `knowledge/` — {file_count} Wissensmodule",
     ]
     if flat_note:
         lines.append(flat_note.rstrip())
     lines += [
-        "- `system/SYSTEM_PROMPT_ONLY.md` → in die **Projekt-Anweisungen**",
-        "- Diese Anleitung (`SETUP-ANLEITUNG.md`) → nur für dich, nicht hochladen",
+        "- Diese Anleitung (`SETUP-ANLEITUNG.md`) — nur für dich, nicht hochladen",
         "",
-        "**Wichtig:** Nur den Inhalt von `knowledge/` ins Projektwissen laden.",
-        "Die Datei `SYSTEM_PROMPT_ONLY.md` und diese Anleitung gehören **nicht**",
-        "in den Wissensspeicher. Wenn deine Plattform einen externen Ordner (z.B.",
-        "Cloud-Drive) mit dem Projektwissen verknüpft, verknüpfe nur den Ordner mit",
-        "den Wissensdateien — nicht diesen Export-Ordner.",
+        "**Wichtig:** Dateien gehören in projektweite Quellen / Projektwissen /",
+        "Knowledge Base. Reine Chat-Anhänge zählen bei vielen Plattformen nur",
+        f"für den aktuellen Chat und sind für {project} nicht ausreichend.",
         "",
-        "## Einrichtung (allgemein)",
+        "## Einrichtung: Wähle den passenden Runtime-Weg",
         "",
-        "1. **Neues Projekt / Custom AI / Preset erstellen**",
+        "### Weg A — Ideal: langer System-Prompt / lange Projekt-Anweisungen",
+        "",
+        "1. Neues Projekt / Custom AI / Assistant / Preset erstellen.",
         f"   Name: `{preset_name}`",
+        "2. Inhalt von `system/SYSTEM_PROMPT_ONLY.md` vollständig in das Feld",
+        "   für System-Prompt, Projekt-Anweisungen oder Instructions einfügen.",
+        "3. Alle Dateien aus `knowledge/` in das projektweite Wissen / die",
+        "   projektweiten Quellen hochladen.",
+        "4. Nichts anderes hochladen: keine README, keine SETUP-ANLEITUNG,",
+        "   keine Archivdateien.",
+        f"5. Neuen Chat im Projekt starten und `{start_cmd}` schreiben.",
         "",
-        "2. **Projekt-Anweisungen / System-Prompt setzen**",
-        "   Inhalt von `system/SYSTEM_PROMPT_ONLY.md` komplett einfügen.",
+        "### Weg B — Kleines Anweisungsfeld: Bootstrap + Masterprompt als Projektquelle",
         "",
-        "3. **Projektwissen / Knowledge Base bestücken**",
-        "   Alle Dateien aus `knowledge/` hochladen — sonst nichts.",
+        "Nutze diesen Weg, wenn das Anweisungsfeld zu klein für den vollständigen",
+        "Masterprompt ist, die Plattform aber projektweite Quellen / Projektwissen",
+        "mit Retrieval unterstützt.",
         "",
-        "4. **Parameter (falls einstellbar)**",
-        f"   - Temperature: {params.get('temperature', 0.8)}",
-        f"   - Top-P: {params.get('top_p', 0.9)}",
-        f"   - Frequency Penalty: {params.get('frequency_penalty', 0.3)}",
-        f"   - Max Tokens: {params.get('max_tokens', 64000)}",
+        "1. Inhalt von `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` in die",
+        "   Projekt-Anweisungen einfügen.",
+        "2. Alle Dateien aus `knowledge/` in das projektweite Wissen / die",
+        "   projektweiten Quellen hochladen.",
+        "3. Zusätzlich `system/SYSTEM_PROMPT_ONLY.md` als projektweite Quelle hochladen.",
+        "4. Wichtig: Diese Dateien müssen in den projektweiten Quellen / im",
+        "   Projektwissen liegen, nicht nur als Dateianhang in einem einzelnen Chat.",
+        f"5. Neuen Chat im Projekt starten und `{start_cmd}` schreiben.",
         "",
-        "5. **Starten**",
-        f"   Neuen Chat öffnen → `{start_cmd}`",
+        "Falls `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` nicht vorhanden ist, nutze",
+        "`meta/project_bootstrap_instructions.md` aus dem Repo.",
+        "",
+        "### Weg C — Kein dauerhaftes Anweisungsfeld",
+        "",
+        "Nutze diesen Weg nur, wenn deine Plattform kein persistentes",
+        "System-/Projekt-Anweisungsfeld hat.",
+        "",
+        "1. Falls möglich, die 19 Dateien aus `knowledge/` als projektweite",
+        "   Quellen hochladen.",
+        "2. Den Masterprompt **nicht zusätzlich** in das Wissen hochladen.",
+        "3. Stattdessen den vollständigen Inhalt von `system/SYSTEM_PROMPT_ONLY.md`",
+        "   als erste Nachricht in jeden neuen Spielabschnitts-Chat einfügen.",
+        "4. Danach Save oder Startbefehl senden.",
+        "",
+        "## Was die Zielplattform können muss",
+        "",
+        "Die Zielplattform braucht mindestens:",
+        "",
+        "- persistente Projekt-Anweisungen oder einen verlässlichen Weg, den",
+        "  Masterprompt pro Chat vorzuschalten,",
+        "- projektweite Quellen / Knowledge Base mit Retrieval,",
+        "- genug Dateispeicher für 19 Wissensmodule, bei Weg B für 20 Dateien",
+        "  inklusive Masterprompt,",
+        "- ein starkes Modell mit ausreichend Kontext und stabiler Regelbefolgung.",
+        "",
+        "Plattformen ohne projektweites Wissen/Quellen oder ohne Retrieval "
+        f"sind für {project} ungeeignet.",
+        "",
+        "## Parameter (falls einstellbar)",
+        "",
+        f"- Temperature: {params.get('temperature', 0.8)}",
+        f"- Top-P: {params.get('top_p', 0.9)}",
+        f"- Frequency Penalty: {params.get('frequency_penalty', 0.3)}",
+        f"- Max Tokens: {params.get('max_tokens', 64000)}",
         "",
         "> ⚠️ **Kalibriert wird ausschließlich gegen das Komplett-Setup in",
         "> OpenWebUI (Sonnet 4.6 + LiteLLM).** Alle anderen Plattformen laufen",
