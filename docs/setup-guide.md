@@ -26,9 +26,15 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 ## Überblick: Wie ZEITRISS läuft
 
-ZEITRISS ist **Daten, kein Programm**. Das Spiel besteht aus einem
-Masterprompt und 19 Wissensmodulen. Gespielt wird in **OpenWebUI**,
-einer Chat-Oberfläche. Ein Python-Script richtet alles ein.
+ZEITRISS ist **eine portable LLM-RPG-Engine**, kein klassisches Programm.
+Das Spiel besteht aus einem Masterprompt, 19 Wissensmodulen, Retrieval-Logik,
+Save-JSON und einem klaren Spielrhythmus. Die Runtime ist ein geeignetes LLM
+in einer geeigneten Chat-/Projektplattform.
+
+Das getestete Golden Setup läuft über OpenWebUI + OpenRouter/LiteLLM.
+Alternativ kann ZEITRISS auf anderen Plattformen laufen, wenn diese
+projektweite Anweisungen, projektweite Quellen/Knowledge und Retrieval
+sauber unterstützen.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -82,11 +88,14 @@ wir, und darauf entwickeln wir weiter. →
 [Komplett-Setup in OpenWebUI unten](#komplett-setup-in-openwebui-empfohlen)
 
 **[2] Regelwerk woanders nutzen (Export-Paket, ohne Gewähr).** Du
-willst auf einer anderen Chat-Plattform spielen, die System-Prompts
-und Wissensdateien verwaltet? Der Launcher erzeugt dir ein
-Export-Paket. Du importierst es manuell in deine Plattform. **Wir
-testen nicht gegen andere Plattformen, Regel-Glitches sind
-möglich** — das ist Do-it-yourself-Terrain. →
+willst auf einer anderen Chat-Plattform spielen, die projektweite
+Anweisungen/System-Prompt und Wissensdateien/Quellen verwaltet? Der
+Launcher erzeugt dir ein Export-Paket. Wenn das Anweisungsfeld zu klein
+für den Masterprompt ist, liefert das Export-Paket eine kurze
+Bootstrap-Anweisung; der Masterprompt wird dann als projektweite Quelle
+genutzt. Du importierst es manuell in deine Plattform. **Wir testen nicht
+gegen andere Plattformen, Regel-Glitches sind möglich** — das ist
+Do-it-yourself-Terrain. →
 [Portabler Export unten](#portabler-export-ohne-gewähr)
 
 ### Getestet / ungetestet
@@ -704,8 +713,14 @@ Embedding-Modell) ist verfügbar, OpenWebUI kann Ollama erreichen.
 
 Du willst ZEITRISS auf einer anderen Chat-Plattform nutzen? Der
 Launcher erzeugt dir ein **Wissenspaket** (Masterprompt + 19
-Wissensmodule), das du in jede Plattform hochladen kannst, die einen
-langen System-Prompt und den Upload von Wissensdateien unterstützt.
+Wissensmodule), das du in jede Plattform hochladen kannst, die
+projektweite Anweisungen, Quellen/Knowledge und Retrieval unterstützt.
+
+Der portable Export ist für Plattformen gedacht, auf denen du ein eigenes
+Projekt, einen eigenen Assistant, eine Custom AI oder ein Preset mit
+projektweiten Quellen anlegen kannst. Wichtig ist nicht der Markenname der
+Plattform, sondern die Runtime-Fähigkeit: Anweisungen, Quellen, Retrieval,
+Kontext und Regeltreue.
 
 > ⚠️ **Wir testen nur gegen OpenWebUI.** Auf anderen Plattformen kann
 > ZEITRISS funktionieren, aber Regel-Glitches sind möglich — z. B.
@@ -734,17 +749,40 @@ Plattform-spezifischen Tipps.
 
 #### Was die Zielplattform können muss
 
-- **Langer System-Prompt / Projekt-Anweisung** (mind. ~60 KB) — für
-  den Masterprompt.
-- **Upload von mehreren Wissens-/Projekt-Dateien** — für die 19
-  Wissensmodule.
-- **Retrieval über die hochgeladenen Dateien** — ohne das halluziniert
-  das Modell die Regeln, statt sie nachzuschlagen.
-- Idealerweise ein **Claude-Sonnet-4.6-Klasse-Modell** oder besser;
-  mit schwächeren Modellen bricht die Regeltreue.
+- **Projektweite Anweisungen oder System-Prompt.** Ideal: Der vollständige
+  Masterprompt passt hinein. Fallback: kurze Bootstrap-Anweisung hinein,
+  Masterprompt als projektweite Quelle.
+- **Projektweite Wissens-/Quell-Dateien.** Die 19 Wissensmodule müssen
+  projektweit verfügbar sein, nicht nur als Dateianhang in einem einzelnen
+  Chat.
+- **Retrieval über diese Dateien.** Ohne Retrieval erfindet das Modell Regeln,
+  statt sie aus den Modulen zu ziehen.
+- **Genug Datei-Slots.** Mindestens 19 Dateien; beim Bootstrap-Fallback
+  20 Dateien, weil der Masterprompt zusätzlich als Quelle liegt.
+- **Starkes Modell mit genug Kontext.** Schwächere Modelle können spielen,
+  aber HUD, Save, Paradoxon-Logik, Kampfregeln und Missionstaktung werden
+  schneller instabil.
 
-Plattformen ohne eines dieser vier Features sind für ZEITRISS
-ungeeignet — wir können dir dabei nicht helfen.
+Plattformen ohne projektweites Wissen/Quellen oder ohne Retrieval sind für
+ZEITRISS nicht geeignet.
+
+#### Masterprompt: wohin damit?
+
+1. **Langes Anweisungsfeld vorhanden:** `SYSTEM_PROMPT_ONLY.md` komplett als
+   Projekt-Anweisung/System-Prompt einfügen. Nur die 19 Wissensmodule ins
+   Projektwissen.
+2. **Anweisungsfeld zu klein:** `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` bzw.
+   `meta/project_bootstrap_instructions.md` als Projekt-Anweisung einfügen.
+   Die 19 Wissensmodule plus `SYSTEM_PROMPT_ONLY.md` als projektweite Quellen
+   hochladen.
+3. **Kein dauerhaftes Anweisungsfeld:** Masterprompt als erste Nachricht in
+   jeden neuen Abschnitts-Chat einfügen. Den Masterprompt dann nicht
+   zusätzlich ins Wissen hochladen.
+
+Bei Plattformen mit getrennten Bereichen für „Chat-Dateien“ und
+„Projektquellen“ immer die Projektquellen nutzen. Chat-Dateien gelten häufig
+nur für den aktuellen Chat und brechen beim Abschnittswechsel den
+ZEITRISS-Gameflow.
 
 #### Für CLI-Fans: direkt via `setup.py --export`
 

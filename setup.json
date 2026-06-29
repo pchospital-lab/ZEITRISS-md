@@ -5,6 +5,7 @@
   "kb_description": "Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6",
   "preset_description": "Tech-Noir Zeitreise-RPG mit KI-Spielleitung. Chrononauten, explodierende Würfel, cinematisches HUD. 18+.",
   "masterprompt": "meta/masterprompt_v6.md",
+  "project_bootstrap_instructions": "meta/project_bootstrap_instructions.md",
   "default_model": "anthropic/claude-sonnet-4.6",
   "params": {
     "temperature": 0.8,
@@ -33,7 +34,7 @@
     "start_label": "Spiel starten",
     "start_hint": "In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'\noder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'.",
     "farewell": "Bis bald, Chrononaut.",
-    "export_intro": "Ich packe das ZEITRISS-Regelwerk (Masterprompt + Wissensmodule)",
+    "export_intro": "Ich packe die portable ZEITRISS-Engine (Masterprompt + Wissensmodule + Projekt-Bootstrap)",
     "lore_moment": "Bergungs-Moment",
     "lore_label": "eingerahmt als ITI-Bergung"
   },
