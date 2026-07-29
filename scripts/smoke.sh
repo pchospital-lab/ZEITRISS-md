@@ -173,6 +173,10 @@ grep "upload-snapshot-watchguard-ok" out/upload_snapshot_watchguard.log
 node tools/test_process_compactness_watchguard.js > out/process_compactness_watchguard.log
 grep "process-compactness-watchguard-ok" out/process_compactness_watchguard.log
 
+# Project-Bootstrap-Watchguard (Runtime-Kernel, SSOT, 8k-Budget, Textmodus)
+node tools/test_project_bootstrap_watchguard.js > out/project_bootstrap_watchguard.log
+grep "project-bootstrap-watchguard-ok" out/project_bootstrap_watchguard.log
+
 # Watchguard-Loader-Consistency (keine lokalen Resolver-Resthelfer)
 node tools/test_watchguard_loader_consistency.js > out/watchguard_loader_consistency.log
 grep "watchguard-loader-consistency-ok" out/watchguard_loader_consistency.log
