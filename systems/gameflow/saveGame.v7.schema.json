@@ -139,6 +139,152 @@
                 }
               }
             }
+          },
+          "visual_identity": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "v",
+              "status",
+              "revision",
+              "appearance",
+              "performance",
+              "locks",
+              "avoid"
+            ],
+            "properties": {
+              "v": {
+                "type": "integer",
+                "const": 1
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "locked"
+                ]
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "appearance": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "apparent_age",
+                  "stature",
+                  "face",
+                  "eyes",
+                  "hair",
+                  "skin",
+                  "distinctive",
+                  "visible_implants"
+                ],
+                "properties": {
+                  "apparent_age": {
+                    "type": "string",
+                    "maxLength": 80
+                  },
+                  "stature": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "face": {
+                    "type": "string",
+                    "maxLength": 420
+                  },
+                  "eyes": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "hair": {
+                    "type": "string",
+                    "maxLength": 220
+                  },
+                  "skin": {
+                    "type": "string",
+                    "maxLength": 180
+                  },
+                  "distinctive": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 180
+                    }
+                  },
+                  "visible_implants": {
+                    "type": "array",
+                    "maxItems": 8,
+                    "items": {
+                      "type": "string",
+                      "maxLength": 180
+                    }
+                  }
+                }
+              },
+              "performance": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "voice",
+                  "movement"
+                ],
+                "properties": {
+                  "voice": {
+                    "type": "string",
+                    "maxLength": 240
+                  },
+                  "movement": {
+                    "type": "string",
+                    "maxLength": 240
+                  }
+                }
+              },
+              "locks": {
+                "type": "array",
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "maxLength": 180
+                }
+              },
+              "avoid": {
+                "type": "array",
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "maxLength": 180
+                }
+              },
+              "reference": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "asset_id"
+                ],
+                "properties": {
+                  "asset_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "file": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[A-Fa-f0-9]{64}$"
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 300
+                  }
+                }
+              }
+            }
           }
         }
       }

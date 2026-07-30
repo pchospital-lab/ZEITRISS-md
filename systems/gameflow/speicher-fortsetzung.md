@@ -250,7 +250,7 @@ campaign { episode, mission, px, px_state, mode, rift_seeds[], entry_choice_skip
 characters[] { id, name, callsign, rank, lvl, xp, origin, attr, lp, lp_max,
                stress, has_psi, sys_installed, psi_heat?, pp?, psi_abilities?,
                talents[], equipment[], implants[], history, carry[],
-               quarters_stash[], vehicles, artifact?, reputation, wallet,
+               quarters_stash[], vehicles, artifact?, visual_identity?, reputation, wallet,
                level_history },
 economy { wallets{ <id>:{balance,name} } },
 research { projects[] { id, label, kind, scope, missions_total, missions_done, status, source?, reward_hint? } },
@@ -374,8 +374,23 @@ immer auf **Root-Ebene** (nicht unter einem Charakter).
   - `quarters_stash[{name,type,tier}]` (max 24, HQ-Lager je Charakter)
   - `vehicles{epoch_vehicle, availability, legendary_temporal_ship?}`
   - `artifact?: {name, tier, effect}` (max 1)
+  - `visual_identity?: {v:1, status:draft|locked, revision>=1, appearance:{apparent_age,stature,face,eyes,hair,skin,distinctive[],visible_implants[]}, performance:{voice,movement}, locks[], avoid[], reference?:{asset_id,file?,sha256?,note?}}`
+    (optional bis zur bewussten Creator-Festlegung; danach bei jedem normalen `!save` vollständig und unverändert;
+    `reference` nur Sidecar-Metadaten, niemals Base64/Binärdaten). Keine Modellnamen, Seeds, Kamera-, Seitenverhältnis-,
+    Beleuchtungs-, Kunststil- oder Providerparameter; keine Duplikation von Equipment/epochenabhängiger Kleidung.
+    Der Block erzeugt niemals Boni, Mali, Werte, Talente oder sonstige Mechanik. `locked` bleibt im Spielbetrieb
+    wortgetreu; neue sichtbare Implantate/Verletzungen werden höchstens für Creator-Abgleich markiert.
   - `reputation.{iti, faction, factions:{}}`
   - `wallet`
+
+**Creator-Metadatenrevision (`Look Lock`):** Nur ein vollständiger, gültiger v7-HQ-Save als Quelle bei aktivem
+Creator-Bootstrap darf auf Wunsch als vollständige reine Metadatenrevision ausgegeben werden. Zulässige Änderungen
+sind genau der betroffene `visual_identity`-Block, `parent_save_id` = bisherige `save_id` und eine neue eindeutige
+`save_id` mit Suffix `-VIS-R<revision>`. `branch_id` und `merge_id` bleiben unverändert, alle Gameplay-Felder semantisch
+wertgleich. Dies ist kein `!save`, kein Spielzug und keine Fortschrittsänderung. Für unvollständiges, invalides oder
+nicht-HQ-basiertes Material ist nur ein nicht ladbarer `CREATOR_PATCH` mit `source_save_id`, `char_id` und
+`visual_identity` erlaubt.
+
 - `economy.{wallets}` (Runtime-Cache; gespeicherte Geld-SSOT ist `characters[].wallet`)
 - `research.{projects[]}` — laufende HQ-Forschungen UND Mission-Funde, die im Labor entschlüsselt/analysiert werden. Jeder Eintrag:
   `{id, label, kind: "hq_research"|"field_decrypt", scope: "episode"|"campaign", missions_total, missions_done, status: "in_progress"|"ready"|"collected", source?, reward_hint?}`.
@@ -1576,6 +1591,11 @@ Präzedenzgraph (deterministisch, Session-Anker):
 3. **Charakterdaten:** `characters[]` wird über `id` dedupliziert; pro ID
    gewinnt der neueste persönliche Stand. Divergenzen werden als
    `logs.flags.continuity_conflicts[]` protokolliert.
+   `visual_identity?` reist dabei mit der ID und besitzt getrennte Autorität: fehlt es in einem Zweig, gewinnt der
+   vorhandene Block; bei verschiedenen Revisionen ausschließlich die **höhere Visual-Revision**, unabhängig vom Alter
+   der Gameplay-Felder. Gleiche Revision und gleicher Inhalt werden dedupliziert. Gleiche Revision bei verschiedenem
+   Inhalt erzeugt einen strukturierten Kontinuitätskonflikt samt Spielerentscheidung; nie still mischen, mitteln oder
+   per Maximum wählen.
 4. **Arena/Resume-Zustand:** Vor HQ-Save immer auf HQ-safe normalisieren
    (`arena.active=false`, `queue_state=idle|completed`, `previous_mode` bereinigt).
 5. **Chronopolis-Markt/City-Logs:** bleiben als Nachweis in `logs.market[]`
