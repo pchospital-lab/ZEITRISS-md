@@ -1136,6 +1136,7 @@ Regel: einmal pro erreichtem Zustand, kein Spam.
   Gate-Missionen (5/10) und spielt bei Bedarf den Boss-Toast (`BOSS`).
 - Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header
   EP·MS·SC/total·Mode·Objective setzen.
+- **Kozyrev-Transfer-Beat:** Reguläre Personaltransfers folgen der Transfer-SSOT aus `core/sl-referenz.md`. Bei aktivem `legendary_temporal_ship` wechselt die Crew stattdessen nach dem Briefing zur Hangar-Axis; das Schiff springt mit eigenem Chrono-Antrieb, ohne Personal-Spiegelkreis.
 - Vor jedem Briefing genau **ein** personalisierter Relevanzsatz aus
   Kontinuitätsdaten (`history.milestones`, `reputation`,
   `continuity.roster_echoes`, `continuity.shared_echoes`,
