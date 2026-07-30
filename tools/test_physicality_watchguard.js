@@ -28,8 +28,40 @@ const checks = [
     ]
   },
   {
+    relPath: 'meta/masterprompt_v6.md',
+    mustHave: [
+      /Kontrollierter Nullzeit-Sprung \(Pflichtbeat\)/i,
+      /Kozyrev-Spiegel[\s\S]{0,420}allzeitliche Unendlichkeit/i,
+      /Kreis → Spiegel-Unendlichkeit → Ruck → Schnitt/i,
+      /Spiegelung ist reine Kalibrierungsoptik/i,
+      /Spiegel bleiben ITI-Hardware in der Nullzeit[\s\S]{0,180}Exfil\/Rückholung[\s\S]{0,100}nur der schmale Riss/i
+    ],
+    mustNotHave: [
+      /Kozyrev-Spiegel[\s\S]{0,180}alternative Ichs (?:zeigen|offenbaren)/i
+    ]
+  },
+  {
+    relPath: 'core/sl-referenz.md',
+    mustHave: [
+      /Transfer-Beat \(SSOT, ohne Zusatzregeln\)/i,
+      /Ziel-Lock → Kozyrev-Kreis → Spiegel-Unendlichkeit → Ruck → Schnitt/i,
+      /keine alternativen Ichs, kein Multiversum, keine Prophezeiung/i,
+      /Kozyrev-Spiegel bleiben ITI-Hardware in der Nullzeit/i,
+      /Exfil\/Transfer-Back[\s\S]{0,120}nur der schmale Riss/i
+    ],
+    mustNotHave: [
+      /Exfil\/Transfer-Back[\s\S]{0,120}Kozyrev-Kreis/i
+    ]
+  },
+  {
     relPath: 'systems/gameflow/cinematic-start.md',
-    mustHave: [/linsengebundene\s+HUD-Lichtbilder/i, /Briefingfl[äa]chen/i],
+    mustHave: [
+      /linsengebundene\s+HUD-Lichtbilder/i,
+      /Briefingfl[äa]chen/i,
+      /Kozyrev-Spiegel[\s\S]{0,320}allzeitliche Unendlichkeit/i,
+      /letzten Countdown-Takt[\s\S]{0,200}metallischen Ruck/i,
+      /Spiegel bleiben im Quarzatrium[\s\S]{0,160}Rückholung im Feld[\s\S]{0,80}allein der schmale Riss/i
+    ],
     mustNotHave: [
       /Hologramm-Begleiter/i,
       /schwebende\s+holografische\s+Displays/i,
@@ -38,10 +70,31 @@ const checks = [
   },
   {
     relPath: 'core/zeitriss-core.md',
-    mustHave: [/Holosuite/i, /Retina-HUD/i, /Handgelenk-HUDs/i],
+    mustHave: [
+      /Holosuite/i,
+      /Retina-HUD/i,
+      /Handgelenk-HUDs/i,
+      /Sprungkammer des Quarzatriums/i,
+      /Kozyrev-Spiegelsegmente[\s\S]{0,420}allzeitliche Unendlichkeit/i,
+      /Ziel-Lock → Kozyrev-Kreis → Spiegel-Unendlichkeit → Ruck → Schnitt/i,
+      /Exfil\/Rückholung zeigt im Feld nur den Riss/i,
+      /Rückholungen werden vom selben Kozyrev-Array in der Nullzeit adressiert[\s\S]{0,100}am Einsatzort öffnet sich nur der Riss/i
+    ],
     mustNotHave: [
       /freischwebende\s+Hologramm-UI/i,
       /Handgelenk-Projektor-UI\s+als\s+Default/i
+    ]
+  },
+  {
+    relPath: 'core/spieler-handbuch.md',
+    mustHave: [
+      /Kozyrev-Spiegelsegmente[\s\S]{0,420}allzeitliche Unendlichkeit/i,
+      /metallischen Ruck aus der Symmetrie/i,
+      /Spiegel bleiben als ITI-Hardware in der Nullzeit/i,
+      /Rücksprung im Feld[\s\S]{0,100}kein Ring[\s\S]{0,100}nur der schmale Schnitt/i
+    ],
+    mustNotHave: [
+      /Sprungkreise\s+in\s+perfekter\s+Ruhe/i
     ]
   }
 ];
