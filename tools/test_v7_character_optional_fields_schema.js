@@ -22,6 +22,7 @@ for (const [label, schema] of schemas) {
   const characterProps = character.properties || {};
   assert(characterProps.visual_identity, `${label}: visual_identity fehlt`);
   assert(!(character.required || []).includes('visual_identity'), `${label}: visual_identity darf nicht required sein`);
+  assert(character.additionalProperties === (label === 'Import'), `${label}: Character-AdditionalProperties driftet`);
 
   const visual = characterProps.visual_identity;
   const required = ['v', 'status', 'revision', 'appearance', 'performance', 'locks', 'avoid'];
@@ -38,7 +39,39 @@ for (const [label, schema] of schemas) {
   assert(visual.properties.avoid.maxItems === 12, `${label}: avoid-Cap driftet`);
   assert(visual.properties.reference.required.includes('asset_id'), `${label}: reference.asset_id muss required sein`);
   assert(visual.properties.reference.properties.sha256.pattern === '^[A-Fa-f0-9]{64}$', `${label}: SHA-Pattern driftet`);
+
+  const appearance = visual.properties.appearance.properties;
+  const expectedStringLimits = {
+    apparent_age: 80,
+    stature: 180,
+    face: 420,
+    eyes: 180,
+    hair: 220,
+    skin: 180,
+  };
+  for (const [key, maxLength] of Object.entries(expectedStringLimits)) {
+    assert(appearance[key].maxLength === maxLength, `${label}: ${key}-Stringlimit driftet`);
+  }
+  for (const key of ['voice', 'movement']) {
+    assert(visual.properties.performance.properties[key].maxLength === 240, `${label}: ${key}-Stringlimit driftet`);
+  }
+  for (const key of ['distinctive', 'visible_implants']) {
+    assert(appearance[key].items.maxLength === 180, `${label}: ${key}-Itemlimit driftet`);
+  }
+  for (const key of ['locks', 'avoid']) {
+    assert(visual.properties[key].items.maxLength === 180, `${label}: ${key}-Itemlimit driftet`);
+  }
+  const reference = visual.properties.reference.properties;
+  assert(reference.asset_id.minLength === 1 && reference.asset_id.maxLength === 100, `${label}: reference.asset_id-Stringlimits driften`);
+  assert(reference.file.maxLength === 200, `${label}: reference.file-Stringlimit driftet`);
+  assert(reference.note.maxLength === 300, `${label}: reference.note-Stringlimit driftet`);
 }
+
+const importVisual = schemas[0][1].properties.characters.items.properties.visual_identity;
+assert(importVisual.additionalProperties === true, 'Import: visual_identity muss tolerant sein');
+assert(importVisual.properties.appearance.additionalProperties === true, 'Import: appearance muss tolerant sein');
+assert(importVisual.properties.performance.additionalProperties === true, 'Import: performance muss tolerant sein');
+assert(importVisual.properties.reference.additionalProperties === true, 'Import: reference muss tolerant sein');
 
 const exportCharacterProps = schemas[1][1].properties.characters.items.properties;
 for (const key of ['psi_heat', 'pp', 'psi_abilities', 'artifact']) {

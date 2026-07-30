@@ -188,6 +188,7 @@ assert.ok(Array.isArray(minimalData.arc_dashboard.offene_seeds));
 assert.equal(minimalData.arc_dashboard.offene_seeds.length, 0);
 assert.ok(Array.isArray(minimalData.arc_dashboard.fragen));
 assert.equal(typeof minimalData.arc_dashboard.fraktionen, 'object');
+assert.equal(Object.prototype.hasOwnProperty.call(minimalData.character, 'visual_identity'), false);
 
 const missingTrace = JSON.parse(rt.save_deep({ ...base, logs: { ...base.logs, trace: [] } }));
 delete missingTrace.logs.trace;
@@ -216,13 +217,62 @@ assert.equal(migrated.ui.gm_style, 'verbose');
 assert.equal(migrated.ui.intro_seen, false);
 assert.equal(migrated.logs.flags.runtime_version, rt.ZR_VERSION);
 
+const alphaVisual = {
+  v: 1,
+  status: 'locked',
+  revision: 3,
+  appearance: {
+    apparent_age: '29',
+    stature: 'groß und drahtig',
+    face: 'kantiges Gesicht mit hoher Stirn',
+    eyes: 'bernsteinfarben',
+    hair: 'kurzes kupferrotes Haar',
+    skin: 'hell mit Sommersprossen',
+    distinctive: ['feine Narbe am Kinn'],
+    visible_implants: ['goldene Schnittstelle hinter dem linken Ohr']
+  },
+  performance: { voice: 'klarer Tenor', movement: 'schnell und federnd' },
+  locks: ['bernsteinfarbene Augen', 'kupferrotes Haar'],
+  avoid: ['keine Gesichtsbehaarung'],
+  reference: {
+    asset_id: 'REF-ALPHA-R3',
+    file: 'alpha-r3.png',
+    sha256: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    note: 'Freigegebener Alpha-Sidecar.'
+  }
+};
+const betaVisual = {
+  v: 1,
+  status: 'draft',
+  revision: 5,
+  appearance: {
+    apparent_age: '46',
+    stature: 'kompakt und kräftig',
+    face: 'rundes Gesicht mit ausgeprägten Wangen',
+    eyes: 'dunkelbraun',
+    hair: 'silbergraue Locken',
+    skin: 'dunkler Teint',
+    distinctive: ['Muttermal an der rechten Wange'],
+    visible_implants: ['mattschwarze Fingerprothesen links']
+  },
+  performance: { voice: 'rauer Bariton', movement: 'ruhig und bedächtig' },
+  locks: ['silbergraue Locken', 'Muttermal rechts'],
+  avoid: ['keine leuchtenden Implantate'],
+  reference: {
+    asset_id: 'REF-BETA-R5',
+    file: 'beta-r5.webp',
+    sha256: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    note: 'Freigegebener Beta-Sidecar.'
+  }
+};
+
 const wrapperRosterSource = {
   ...data,
   party: {},
   team: {},
   Charaktere: [
-    { id: 'alpha', callsign: 'Alpha' },
-    { id: 'beta', callsign: 'Beta' }
+    { id: 'alpha', callsign: 'Alpha', visual_identity: alphaVisual },
+    { id: 'beta', callsign: 'Beta', visual_identity: betaVisual }
   ]
 };
 const wrapperNormalized = rt.migrate_save(wrapperRosterSource);
@@ -234,12 +284,33 @@ assert.deepStrictEqual(
   wrapperNormalized.team.members.map(entry => entry.id),
   ['alpha', 'beta']
 );
+assert.deepStrictEqual(wrapperNormalized.party.characters[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(wrapperNormalized.party.characters[1].visual_identity, betaVisual);
+assert.deepStrictEqual(wrapperNormalized.team.members[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(wrapperNormalized.team.members[1].visual_identity, betaVisual);
 const wrapperSaved = JSON.parse(rt.save_deep(wrapperNormalized));
 assert.deepStrictEqual(
   wrapperSaved.party.characters.map(entry => entry.id),
   ['alpha', 'beta']
 );
+assert.deepStrictEqual(wrapperSaved.party.characters[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(wrapperSaved.party.characters[1].visual_identity, betaVisual);
+if (wrapperSaved.team?.members) {
+  assert.deepStrictEqual(wrapperSaved.team.members[0].visual_identity, alphaVisual);
+  assert.deepStrictEqual(wrapperSaved.team.members[1].visual_identity, betaVisual);
+}
 assert.equal(Object.prototype.hasOwnProperty.call(wrapperSaved, 'Charaktere'), false);
+
+rt.load_deep(JSON.stringify(wrapperSaved));
+assert.deepStrictEqual(rt.state.party.characters[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(rt.state.party.characters[1].visual_identity, betaVisual);
+assert.deepStrictEqual(rt.state.team.members[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(rt.state.team.members[1].visual_identity, betaVisual);
+const wrapperResaved = JSON.parse(rt.save_deep(rt.state));
+assert.deepStrictEqual(wrapperResaved.party.characters[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(wrapperResaved.party.characters[1].visual_identity, betaVisual);
+assert.deepStrictEqual(wrapperResaved.team.members[0].visual_identity, alphaVisual);
+assert.deepStrictEqual(wrapperResaved.team.members[1].visual_identity, betaVisual);
 
 const loadInput = {
   ...data,
