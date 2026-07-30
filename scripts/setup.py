@@ -866,7 +866,7 @@ def _write_setup_readme(
             "1. Neues separates Projekt / Custom AI / Assistant anlegen.",
             "2. Ausschließlich `CREATOR_BOOTSTRAP_INSTRUCTIONS.md` ins",
             "   Instructions-Feld einfügen.",
-            "3. Die 19 Wissensmodule plus `SYSTEM_PROMPT_ONLY.md` ins",
+            f"3. Die {file_count} Wissensmodule plus `SYSTEM_PROMPT_ONLY.md` ins",
             "   Projektwissen hochladen.",
             "4. Benötigte Bild-/Video-/Sprachfähigkeiten nach Plattform aktivieren.",
             "5. Save, Transkript und Referenzassets laden.",
