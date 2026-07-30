@@ -43,19 +43,29 @@ assert.ok(
   byteCount <= 8000,
   `Creator-Bootstrap überschreitet 8000 UTF-8-Bytes: ${byteCount}.`
 );
+assert.ok(creator.endsWith('\n'), 'Creator-Bootstrap muss mit finalem Newline enden.');
+assert.ok(!creator.includes('\r'), 'Creator-Bootstrap muss LF-only sein.');
+assert.ok(!/\n{3,}/.test(creator), 'Creator-Bootstrap enthält unnötige Mehrfach-Leerzeilen.');
 
 const requiredAnchors = [
   ['creator-role', /ZEITRISS® Creator Studio/i],
+  ['masterprompt-retrieval', /Vor der ersten quellengebundenen Antwort[\s\S]{0,180}# ZEITRISS - System Prompt/i],
+  ['save-continuity-retrieval', /Vor Save-Prüfung[\s\S]{0,180}Save-\/Continuity-Modul/i],
+  ['retrieval-fail-closed', /Fehlt eine Pflichtquelle[\s\S]{0,180}keinen ladbaren Save/i],
   ['mode-boundary', /Im Creator-Modus wird \*\*nicht gespielt\*\*/i],
   ['play-redirect', /separates Projekt[\s\S]{0,100}PROJECT_BOOTSTRAP_INSTRUCTIONS\.md/i],
   ['source-save', /v7-Save-JSON\(s\)[\s\S]{0,100}Quellenkorpus/i],
+  ['private-default', /Ohne Angabe arbeite als `privat`[\s\S]{0,220}Veröffentlichung, Monetarisierung/i],
   ['creator-board', /Creator Board[\s\S]{0,260}Hero Asset[\s\S]{0,260}Story Cut[\s\S]{0,260}Growth Asset/i],
   ['canon-ledger', /\*\*KANON\*\*[\s\S]{0,180}\*\*ADAPTIERT\*\*[\s\S]{0,180}\*\*KONZEPT\*\*/i],
   ['no-fake-quotes', /Keine „Originalzitate“ ohne Transkript/i],
   ['visual-identity', /characters\[\]\.visual_identity/i],
   ['visual-shape', /appearance:\{apparent_age:[\s\S]{0,300}performance:\{voice:[\s\S]{0,220}locks:\[\],avoid:\[\]/i],
-  ['look-lock', /Bei \*\*Look Lock\*\*[\s\S]{0,300}keine Gameplay-Werte ändern/i],
-  ['metadata-revision', /reine Metadatenrevision[\s\S]{0,240}parent_save_id[\s\S]{0,240}-VIS-R/i],
+  ['look-lock', /Bei \*\*Look Lock\*\*[\s\S]{0,260}revision:1[\s\S]{0,120}revision \+1/i],
+  ['metadata-revision', /Metadatenrevision[\s\S]{0,260}parent_save_id[\s\S]{0,220}-VIS-R/i],
+  ['target-only-revision', /Nur Ziel-`visual_identity`, `save_id`, `parent_save_id` ändern/i],
+  ['output-validation', /validiere Visual-Block und Gesamtsave vor Ausgabe/i],
+  ['patch-source-contract', /CREATOR_PATCH[\s\S]{0,100}source_save_id[\s\S]{0,80}char_id[\s\S]{0,80}visual_identity/i],
   ['sidecar', /Binärdateien nie in Saves einbetten/i],
   ['continuity-qa', /Continuity QA[\s\S]{0,220}`PASS`[\s\S]{0,120}`DRIFT`/i],
   ['media-fallback', /fehlt das Medium[\s\S]{0,100}Prompt-\/Storyboard-Paket/i],
@@ -115,6 +125,14 @@ assert.ok(
 assert.ok(
   setupPy.includes('CREATOR_BOOTSTRAP_INSTRUCTIONS.md'),
   'Export-Drift: Creator-Bootstrap wird nicht exportiert.'
+);
+assert.ok(
+  /cfg\.get\(["']creator_bootstrap_instructions["']\)/.test(setupPy),
+  'Export-Drift: Creator-Key muss optional per cfg.get(...) gelesen werden.'
+);
+assert.ok(
+  /has_creator_bootstrap:\s*bool\s*=\s*False/.test(setupPy),
+  'Export-Drift: has_creator_bootstrap muss rückwärtskompatibel False defaulten.'
 );
 
 for (const [name, text] of [

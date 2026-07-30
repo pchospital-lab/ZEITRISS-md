@@ -16,7 +16,13 @@ const index = JSON.parse(readText('master-index.json'));
 const creatorSource = getDocText(setup.creator_bootstrap_instructions);
 const playSource = getDocText(setup.project_bootstrap_instructions);
 const masterSource = getDocText(setup.masterprompt);
-const expectedKnowledgeCount = (index.modules || []).filter((entry) => entry.slot === true).length;
+const expectedKnowledgePaths = (index.modules || [])
+  .filter((entry) => entry.slot === true)
+  .map((entry) => String(entry.path || '').split('#')[0].replace(/\\/g, '/'))
+  .filter(Boolean)
+  .sort();
+const expectedKnowledgeCount = expectedKnowledgePaths.length;
+const setupPy = readText('scripts/setup.py');
 
 function walk(dir) {
   const out = [];
@@ -31,6 +37,19 @@ function walk(dir) {
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zeitriss-creator-export-'));
 const requestedDest = path.join(tempRoot, 'pack');
 const python = process.env.PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
+
+assert.ok(
+  /cfg\.get\(["']creator_bootstrap_instructions["']\)/.test(setupPy),
+  'Creator-Export: Creator-Key muss optional per cfg.get(...) gelesen werden.'
+);
+assert.ok(
+  /has_creator_bootstrap:\s*bool\s*=\s*False/.test(setupPy),
+  'Creator-Export: has_creator_bootstrap braucht Default False.'
+);
+assert.ok(
+  /f["']3\. Die \{file_count\} Wissensmodule plus/.test(setupPy),
+  'Creator-Export: Setup-Anleitung muss die dynamische Modulzahl verwenden.'
+);
 
 try {
   execFileSync(
@@ -71,6 +90,14 @@ try {
   assert.strictEqual(fs.readFileSync(exportedCreator, 'utf8'), creatorSource, 'Creator-Export: Creator-Bootstrap wurde verändert.');
 
   const knowledgeFiles = walk(knowledgeDir).filter((file) => fs.statSync(file).isFile());
+  const actualKnowledgePaths = knowledgeFiles
+    .map((file) => path.relative(knowledgeDir, file).split(path.sep).join('/'))
+    .sort();
+  assert.deepStrictEqual(
+    actualKnowledgePaths,
+    expectedKnowledgePaths,
+    'Creator-Export: exportierte Wissensmodule weichen von den slot:true-Pfaden ab.'
+  );
   assert.strictEqual(
     knowledgeFiles.length,
     expectedKnowledgeCount,
@@ -80,6 +107,11 @@ try {
   const setupText = fs.readFileSync(setupGuides[0], 'utf8');
   assert.ok(/Creator Studio/i.test(setupText), 'Creator-Export: Creator-Studio-Weg fehlt in der Setup-Anleitung.');
   assert.ok(/CREATOR_BOOTSTRAP_INSTRUCTIONS\.md/i.test(setupText), 'Creator-Export: Creator-Dateiname fehlt in der Setup-Anleitung.');
+  assert.ok(/PROJECT_BOOTSTRAP_INSTRUCTIONS\.md/i.test(setupText), 'Creator-Export: Spiel-Bootstrap fehlt in der Setup-Anleitung.');
+  assert.ok(
+    setupText.includes(`Die ${expectedKnowledgeCount} Wissensmodule plus`),
+    'Creator-Export: dynamische Modulzahl fehlt im Creator-Setup.'
+  );
   assert.ok(
     /Spiel- und Creator-Bootstrap niemals kombinieren;\s+das Creator Studio ist ein separates Projekt\./i.test(setupText),
     'Creator-Export: Modustrennung fehlt in der Setup-Anleitung.'
@@ -88,4 +120,5 @@ try {
   fs.rmSync(tempRoot, { recursive: true, force: true });
 }
 
+assert.ok(!fs.existsSync(tempRoot), 'Creator-Export: temporäres Exportverzeichnis wurde nicht entfernt.');
 console.log('creator-export-watchguard-ok');
