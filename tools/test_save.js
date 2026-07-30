@@ -13,6 +13,30 @@ const base = {
     psi_heat: 0,
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_installed: 1, SYS_runtime: 1, SYS_used: 1 },
+    visual_identity: {
+      v: 1,
+      status: 'locked',
+      revision: 2,
+      appearance: {
+        apparent_age: '34',
+        stature: 'athletisch, 1,76 m',
+        face: 'markantes Kinn und schmale Wangen',
+        eyes: 'graugrün',
+        hair: 'schwarzer Bob',
+        skin: 'olivfarbener Teint',
+        distinctive: ['Narbe über der linken Braue'],
+        visible_implants: ['schmale Chromlinie am rechten Schläfenbein']
+      },
+      performance: { voice: 'ruhiger Alt', movement: 'präzise und kontrolliert' },
+      locks: ['graugrüne Augen', 'Narbe links'],
+      avoid: ['keine wechselnde Augenfarbe'],
+      reference: {
+        asset_id: 'REF-CHR-0001-R2',
+        file: 'chr-0001-look-r2.png',
+        sha256: '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+        note: 'Freigegebenes Referenzbild; Sidecar, nicht im Save eingebettet.'
+      }
+    },
     quarters: {
       id: 'QTR-A17',
       preset: ' custom ',
@@ -97,6 +121,9 @@ assert.equal(data.logs.field_notes[0].note, 'Quick Memo');
 assert.equal(data.logs.field_notes[1].mission, 'Testmission');
 assert.equal(data.character.quarters.preset, 'custom');
 assert.equal(data.character.quarters.layout_tags[1], 'analyst_cell');
+assert.deepStrictEqual(data.character.visual_identity, base.character.visual_identity);
+assert.deepStrictEqual(Object.keys(data.character.visual_identity.reference).sort(), ['asset_id', 'file', 'note', 'sha256']);
+assert(!JSON.stringify(data.character.visual_identity.reference).includes('base64'));
 
 assert.throws(
   () => {
@@ -239,6 +266,7 @@ const loadInput = {
 loadInput.arc_dashboard.offene_seeds = ['  Kontakt: Altes Archiv  ', { id: 'Seed-88', status: 'aktiv' }];
 
 rt.load_deep(JSON.stringify(loadInput));
+assert.deepStrictEqual(rt.state.character.visual_identity, base.character.visual_identity);
 assert.equal(rt.state.logs.flags.compliance_shown_today, false);
 assert.equal(rt.state.campaign.compliance_shown_today, false);
 assert.equal(rt.state.logs.flags.chronopolis_warn_seen, false);
@@ -247,6 +275,7 @@ assert(rt.on_command('!boss status').includes('Mission FS 1/4'));
 assert.equal(rt.state.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
 assert.equal(rt.state.arc_dashboard.offene_seeds[1].id, 'Seed-88');
 const roundtrip = JSON.parse(rt.save_deep(rt.state));
+assert.deepStrictEqual(roundtrip.character.visual_identity, base.character.visual_identity);
 assert.equal(roundtrip.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
 assert.equal(roundtrip.arc_dashboard.offene_seeds[1].id, 'Seed-88');
 const arenaLoad = {
