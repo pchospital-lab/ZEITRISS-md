@@ -148,8 +148,11 @@ Debrief und Save (HQ-only).
 
 **Spielleitung – Transfer-Beat (SSOT, ohne Zusatzregeln):**
 
-- Riss reißt als Schnitt auf, nicht als Portal.
-- Kurzer Sog, Ohrendruck, Kälte, dann harter Versatz.
+- **Transfer-Out aus der Nullzeit:** Nach Zielzeit-/Zielort-Lock schließen sich die beweglichen Kozyrev-Spiegel der Sprungkammer im Quarzatrium zu einem vollkommenen Kreis um Chrononaut oder Crew.
+- Für einen Herzschlag vervielfacht sich das Spiegelbild in alle Richtungen bis in eine allzeitliche Unendlichkeit; mit dem letzten Countdown-Takt kippen die Segmente ruckartig aus der Symmetrie und der Zeitriss schneidet die Zielrealität auf.
+- Die Spiegelung ist Kalibrierungsoptik — keine alternativen Ichs, kein Multiversum, keine Prophezeiung. Formulierungen dürfen variieren; die Reihenfolge `Ziel-Lock → Kozyrev-Kreis → Spiegel-Unendlichkeit → Ruck → Schnitt` bleibt.
+- Die Kozyrev-Spiegel bleiben ITI-Hardware in der Nullzeit. Bei Exfil/Transfer-Back erscheint im Feld nur der schmale Riss, niemals die Spiegelkammer.
+- Riss = Schnitt, nicht Portal. Danach: kurzer Sog, Ohrendruck, Kälte, harter Versatz.
 - Auswurf im Winkel, Riss sofort zu, ein Atemzug Sortieren.
 - TEMP nur als Vibe: hohe Werte kontrollierter, niedrige Werte ruppiger.
 - Team eng halten; Passagiere nur im direkten Griff/Harness mitziehen.

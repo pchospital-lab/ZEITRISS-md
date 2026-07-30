@@ -47,8 +47,10 @@ Im HQ erscheinen Einsatzdaten auf festen **Briefingflächen** im Raum statt als
 freischwebende Menüs.
 Beim Sprung zeigt das HUD stets:
 `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
+Sobald Zielzeit und Zielort verriegelt sind, drehen sich die **Kozyrev-Spiegel** rings um euch zu einem vollkommenen Kreis. Für einen Herzschlag spiegelt ihr euch in alle Richtungen bis in eine allzeitliche Unendlichkeit; auf dem letzten Countdown-Takt kippen sämtliche Segmente mit einem metallischen Ruck aus der Symmetrie, und genau dort schneidet der Zeitriss die Zielrealität auf.
+Das Spiegelbild ist nur Kalibrierungsoptik — keine anderen Versionen von euch. Die Spiegel bleiben im Quarzatrium; bei der Rückholung im Feld erscheint allein der schmale Riss.
 Kältezug und Druck auf den Ohren begleiten das kurze Umschalten.
-Der Riss reißt auf — zu nah, zu hell, zu kalt. Ihr werdet mit einem Ruck
+Der Schnitt reißt auf — zu nah, zu hell, zu kalt. Ihr werdet mit einem Ruck
 mitgenommen, die Welt kippt einmal über sich selbst, und die Zielrealität
 spuckt euch schief aus. Ein Atemzug Sortieren, dann erst beginnt der
 Establishing Shot der Epoche.
