@@ -727,8 +727,29 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
         else:
             print_warn(f"Project bootstrap not found: {bootstrap_rel}")
 
+    creator_bootstrap_exported = False
+    creator_bootstrap_rel = cfg.get("creator_bootstrap_instructions")
+    if creator_bootstrap_rel:
+        creator_bootstrap_path = repo / creator_bootstrap_rel
+        if creator_bootstrap_path.exists():
+            shutil.copy2(
+                creator_bootstrap_path,
+                sys_dir / "CREATOR_BOOTSTRAP_INSTRUCTIONS.md",
+            )
+            creator_bootstrap_exported = True
+            print_ok("Creator bootstrap: system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md")
+        else:
+            print_warn(f"Creator bootstrap not found: {creator_bootstrap_rel}")
+
     # Generate setup instructions
-    _write_setup_readme(dest, cfg, len(kb_files), flat, has_bootstrap=bootstrap_exported)
+    _write_setup_readme(
+        dest,
+        cfg,
+        len(kb_files),
+        flat,
+        has_bootstrap=bootstrap_exported,
+        has_creator_bootstrap=creator_bootstrap_exported,
+    )
     print_ok("Setup instructions: SETUP-ANLEITUNG.md")
 
     print()
@@ -744,7 +765,12 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
 
 
 def _write_setup_readme(
-    dest: Path, cfg: dict, file_count: int, flat: bool, has_bootstrap: bool = False
+    dest: Path,
+    cfg: dict,
+    file_count: int,
+    flat: bool,
+    has_bootstrap: bool = False,
+    has_creator_bootstrap: bool = False,
 ) -> None:
     """Write a human-readable setup guide into the export pack."""
     project = cfg["project"]
@@ -770,6 +796,12 @@ def _write_setup_readme(
         else "- Optionaler Bootstrap fehlt im Export; nutze bei Bedarf "
         "`meta/project_bootstrap_instructions.md` aus dem Repo"
     )
+    creator_bootstrap_line = (
+        "- `system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` — separate "
+        "Projekt-Anweisung für das Creator Studio"
+        if has_creator_bootstrap
+        else None
+    )
 
     lines = [
         f"# {project} – Setup-Anleitung",
@@ -781,8 +813,10 @@ def _write_setup_readme(
         "",
         "- `system/SYSTEM_PROMPT_ONLY.md` — vollständiger Masterprompt",
         bootstrap_line,
-        f"- `knowledge/` — {file_count} Wissensmodule",
     ]
+    if creator_bootstrap_line:
+        lines.append(creator_bootstrap_line)
+    lines.append(f"- `knowledge/` — {file_count} Wissensmodule")
     if flat_note:
         lines.append(flat_note.rstrip())
     lines += [
@@ -824,6 +858,24 @@ def _write_setup_readme(
         "Falls `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` nicht vorhanden ist, nutze",
         "`meta/project_bootstrap_instructions.md` aus dem Repo.",
         "",
+    ]
+    if has_creator_bootstrap:
+        lines += [
+            "### Creator Studio – separates Projekt",
+            "",
+            "1. Neues separates Projekt / Custom AI / Assistant anlegen.",
+            "2. Ausschließlich `CREATOR_BOOTSTRAP_INSTRUCTIONS.md` ins",
+            "   Instructions-Feld einfügen.",
+            "3. Die 19 Wissensmodule plus `SYSTEM_PROMPT_ONLY.md` ins",
+            "   Projektwissen hochladen.",
+            "4. Benötigte Bild-/Video-/Sprachfähigkeiten nach Plattform aktivieren.",
+            "5. Save, Transkript und Referenzassets laden.",
+            "6. Mit `Creator Board` starten.",
+            "",
+            "**Spiel- und Creator-Bootstrap niemals kombinieren; das Creator Studio ist ein separates Projekt.**",
+            "",
+        ]
+    lines += [
         "### Weg C — Kein dauerhaftes Anweisungsfeld",
         "",
         "Nutze diesen Weg nur, wenn deine Plattform kein persistentes",

@@ -177,6 +177,14 @@ grep "process-compactness-watchguard-ok" out/process_compactness_watchguard.log
 node tools/test_project_bootstrap_watchguard.js > out/project_bootstrap_watchguard.log
 grep "project-bootstrap-watchguard-ok" out/project_bootstrap_watchguard.log
 
+# Creator-Bootstrap-Watchguard (Modustrennung, Visual Identity, Lizenz)
+node tools/test_creator_bootstrap_watchguard.js > out/creator_bootstrap_watchguard.log
+grep "creator-bootstrap-watchguard-ok" out/creator_bootstrap_watchguard.log
+
+# Creator-Export-Watchguard (vollständiges portables Dual-Bootstrap-Paket)
+node tools/test_creator_export_watchguard.js > out/creator_export_watchguard.log
+grep "creator-export-watchguard-ok" out/creator_export_watchguard.log
+
 # Watchguard-Loader-Consistency (keine lokalen Resolver-Resthelfer)
 node tools/test_watchguard_loader_consistency.js > out/watchguard_loader_consistency.log
 grep "watchguard-loader-consistency-ok" out/watchguard_loader_consistency.log

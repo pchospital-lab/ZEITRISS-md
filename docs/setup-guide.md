@@ -713,8 +713,9 @@ Embedding-Modell) ist verfügbar, OpenWebUI kann Ollama erreichen.
 
 Du willst ZEITRISS auf einer anderen Chat-Plattform nutzen? Der
 Launcher erzeugt dir ein **Wissenspaket** (Masterprompt + 19
-Wissensmodule), das du in jede Plattform hochladen kannst, die
-projektweite Anweisungen, Quellen/Knowledge und Retrieval unterstützt.
+Wissensmodule + Spiel- und Creator-Bootstrap), das du in jede Plattform
+hochladen kannst, die projektweite Anweisungen, Quellen/Knowledge und
+Retrieval unterstützt.
 
 Der portable Export ist für Plattformen gedacht, auf denen du ein eigenes
 Projekt, einen eigenen Assistant, eine Custom AI oder ein Preset mit
@@ -778,6 +779,17 @@ ZEITRISS nicht geeignet.
 3. **Kein dauerhaftes Anweisungsfeld:** Masterprompt als erste Nachricht in
    jeden neuen Abschnitts-Chat einfügen. Den Masterprompt dann nicht
    zusätzlich ins Wissen hochladen.
+
+#### Creator Studio als separates Projekt
+
+Das Exportpaket enthält `CREATOR_BOOTSTRAP_INSTRUCTIONS.md`. Für das Creator
+Studio immer ein separates Projekt anlegen: ausschließlich diesen
+Creator-Bootstrap ins Instructions-Feld einfügen und den Masterprompt aus
+`SYSTEM_PROMPT_ONLY.md` zusammen mit allen 19 Wissensmodulen ins
+Projektwissen laden. Bild-, Video- oder Sprachfähigkeiten nur in diesem
+Creator-Projekt und nur nach Plattform und Bedarf aktivieren.
+
+**Spiel- und Creator-Bootstrap niemals kombinieren; das Creator Studio ist ein separates Projekt.**
 
 Bei Plattformen mit getrennten Bereichen für „Chat-Dateien“ und
 „Projektquellen“ immer die Projektquellen nutzen. Chat-Dateien gelten häufig

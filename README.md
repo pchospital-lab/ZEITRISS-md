@@ -154,6 +154,13 @@ OpenWebUI bleibt das getestete Golden Setup. Andere Plattformen sind
 technisch möglich, aber nicht gegen die vollständige Regel-QA kalibriert.
 Details: [Portabler Export](docs/setup-guide.md#portabler-export-ohne-gewähr).
 
+## Creator Studio
+
+Das [ZEITRISS® Creator Studio](docs/creator-mode.md) setzt Saves, Transkripte
+und autorisierte Referenzassets in Medienkonzepte und Creator-Pakete um. Es
+läuft strikt getrennt als eigenes Projekt, führt den normalen reinen
+Text-Spielbetrieb nicht fort und verändert keinen Spielfortschritt.
+
 ## Modell-Empfehlung
 
 **Standard-Stack: `anthropic/claude-sonnet-4.6` + LiteLLM.** Sonnet 4.6 ist
