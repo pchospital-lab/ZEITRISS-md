@@ -895,22 +895,26 @@ ganz gleich, wie sehr sich die Welt draußen verändert.
 
 ### Nullzeit-Sprungfenster & ITI-Hub
 
-Kontrollierte ITI-Sprünge beginnen in der **Sprungkammer des Quarzatriums**. Sobald Zielzeit und Zielort verriegelt sind, schließen sich bewegliche **Kozyrev-Spiegelsegmente** zu einem vollkommenen Kreis um Chrononaut oder Crew; für einen Herzschlag vervielfacht sich ihr Bild in alle Richtungen bis in eine allzeitliche Unendlichkeit. Dann kippt der Ring mit einem metallischen Ruck aus der Symmetrie — und genau in diesem gebrochenen Kreis schneidet der Zeitriss die Zielrealität auf. Die Spiegelung ist Kalibrierungsoptik, kein Blick auf alternative Ichs oder andere Zeitlinien.
+Reguläre ITI-Personaltransfers beginnen in der **Sprungkammer des Quarzatriums**. Sobald Zielzeit und Zielort verriegelt sind, schließen sich bewegliche **Kozyrev-Spiegelsegmente** zu einem vollkommenen Kreis um Chrononaut oder Crew; für einen Herzschlag vervielfacht sich ihr Bild in alle Richtungen bis in eine allzeitliche Unendlichkeit. Dann kippt der Ring mit einem metallischen Ruck aus der Symmetrie — und genau in diesem gebrochenen Kreis schneidet der Zeitriss die Zielrealität auf. Die Spiegelung ist Kalibrierungsoptik, kein Blick auf alternative Ichs oder andere Zeitlinien.
 
 Ein Zeitriss ist kein Portal im klassischen Sinne — kein Tunnel, kein Tor,
 kein Stargate. Er sieht aus wie ein Riss in der Tapete der Realität: ein
 schmaler, schimmernder Spalt, durch den die andere Epoche hindurchscheint.
-Risse erscheinen an unberechenbaren Stellen — zwei Meter über dem Boden an
+Der Ziel-Lock fixiert Zielzeit und einen räumlichen Zielkorridor. Welche
+verfügbare Fläche der Riss innerhalb dieses Korridors anschneidet und in
+welchem Winkel er auswirft, bleibt unberechenbar: zwei Meter über dem Boden an
 einer Hauswand, im Asphalt einer Kreuzung, halb eingebettet in eine
-Leitplanke. Der Austrittswinkel ist nie vorhersagbar: Wer unachtsam
-hindurchtritt, landet auf den Knien, kopfüber oder seitlich im Gestrüpp.
+Leitplanke. Wer unachtsam hindurchtritt, landet auf den Knien, kopfüber oder
+seitlich im Gestrüpp.
 Der Sprung fühlt sich nie sauber an: kurzer Sog, Druck auf den Ohren,
 Kälte im Brustkorb, dann ein harter Versatz im Körpergefühl.
 Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
 
 **Transfer-SSOT (ohne Zusatzregeln):**
 
-- Transfer-Out: `Ziel-Lock → Kozyrev-Kreis → Spiegel-Unendlichkeit → Ruck → Schnitt`.
+- Regulärer Personaltransfer: `Ziel-Lock → Kozyrev-Kreis → Spiegel-Unendlichkeit → Ruck → Schnitt`.
+- Ziel-Lock = Zielzeit + räumlicher Korridor; Austrittsfläche und -winkel bleiben unberechenbar.
+- Ausnahme: Ein aktives `legendary_temporal_ship` startet von der Hangar-Axis mit eigenem Chrono-Antrieb; kein Personal-Spiegelkreis. Standardfahrzeuge springen nie mit.
 - Die Kozyrev-Spiegel bleiben in der Nullzeit; Exfil/Rückholung zeigt im Feld nur den Riss.
 - Riss reißt auf: Schnitt in der Luft, nicht „Portal".
 - Sog setzt sofort ein: kurz, unangenehm, kompromisslos.
