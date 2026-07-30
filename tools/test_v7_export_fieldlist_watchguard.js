@@ -27,7 +27,8 @@ const requiredSnippets = [
   'research { projects[]',
   'kind, scope, missions_total, missions_done, status',
   'ui.intro_seen', 'ui.dice.debug_rolls',
-  'has_psi', 'psi_heat', 'pp', 'psi_abilities', 'artifact?',
+  'has_psi', 'psi_heat', 'pp', 'psi_abilities', 'artifact?', 'visual_identity?',
+  'draft|locked', 'revision', 'appearance', 'performance', 'locks', 'avoid', 'reference',
   'arena.active', 'arena.phase', 'arena.queue_state',
   'arena.contract_id', 'arena.streak',
   'arena.pending_rewards', 'arena.banked_rewards',
@@ -37,6 +38,9 @@ const requiredSnippets = [
 for (const snippet of requiredSnippets) {
   assert(doc.text.includes(snippet), `v7-watchguard: Pflichtfeld fehlt: ${snippet}`);
 }
+
+assert(doc.text.includes('höhere Visual-Revision'), 'v7-watchguard: Mergeanker höhere Visual-Revision fehlt.');
+assert(doc.text.includes('Gleiche Revision') && doc.text.includes('Kontinuitätskonflikt'), 'v7-watchguard: Konfliktanker bei gleicher Revision fehlt.');
 
 assert(!doc.text.includes('`arena?`'), 'v7-watchguard: Verbotenes optionales arena?-Feld gefunden.');
 assert(!/Arena nur wenn genutzt/.test(doc.text), 'v7-watchguard: Restdrift "Arena nur wenn genutzt" gefunden.');

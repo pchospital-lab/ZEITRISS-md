@@ -1000,8 +1000,8 @@ klassischer Pfad" und macht klassisch weiter).
   KI-SL einmal kurz Split-/Weiterpfade anbieten (Gruppe zusammenhalten,
   Save+Split für neue Gruppe, solo weiter). Kein Auto-Weiterleitungsdruck ins
   nächste Briefing im selben Chat.
-- **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle Felder Pflicht,
-  Werte aus dem aktuellen Spielstand füllen - kein Feld weglassen):
+- **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle gezeigten **Basisfelder** sind Pflicht und
+  werden aus dem aktuellen Spielstand gefüllt; deklarierte optionale Character-Felder sind zusätzlich zulässig):
 
 ```json
 {
@@ -1183,11 +1183,25 @@ klassischer Pfad" und macht klassisch weiter).
   frei/generativ sein, wenn Wirkung und Tier plausibel bleiben.
 - Charakterbogen-Minimum (persistiert): `history{background,milestones[]}`, `carry[]` (max 6), `quarters_stash[]` (max
   24) und `vehicles{epoch_vehicle,availability,legendary_temporal_ship?}`.
+- **`visual_identity?` (optional, mechanikfrei):** Bis zur ersten bewussten Creator-Festlegung fehlt der Block. Ist er
+  vorhanden, trägt jeder normale `!save` ihn vollständig und unverändert weiter. Vertrag:
+  `{v:1, status:draft|locked, revision>=1, appearance:{apparent_age,stature,face,eyes,hair,skin,distinctive[],visible_implants[]}, performance:{voice,movement}, locks[], avoid[], reference?}`.
+  `revision` steigt nur durch ausdrücklichen Look-Lock. `reference` enthält ausschließlich Sidecar-Metadaten
+  `{asset_id,file?,sha256?,note?}`, niemals Base64 oder Binärdaten. Plattform-/Providerparameter wie Modellname,
+  Seed, Kamera, Seitenverhältnis, Beleuchtung und Kunststil sind verboten. Equipment und epochenabhängige Kleidung
+  bleiben in ihren bestehenden Character-/Szenenfeldern. Aus `visual_identity` entstehen niemals Boni, Mali, Werte,
+  Talente oder andere Mechanik. Ein `locked`-Block bleibt im normalen Spielbetrieb wortgetreu; neue sichtbare
+  Implantate oder Verletzungen dürfen nur als möglicher Creator-Abgleich markiert, nie still hineingeschrieben werden.
 - Fahrzeug-SSOT: `epoch_vehicle` ist pro Charakter Pflicht; `legendary_temporal_ship` ist optional und bleibt ein
   seltener Zusatzslot. Verfügbarkeit folgt TEMP-Tabelle (1-2 alle 4 Missionen, 3-5 alle 3, 6-8 alle 2, ab 9 jede
   Mission).
 - Split/Merge: `history/carry/quarters_stash/vehicles` reisen immer mit dem Charakter in `characters[]`;
   Schiffs-Dubletten werden beim Merge über `id` dedupliziert.
+- **Visual-Split/Merge:** `visual_identity?` reist mit `characters[].id`. Fehlt der Block in einem Zweig, gewinnt
+  der vorhandene. Bei unterschiedlichen Revisionen gewinnt ausschließlich die **höhere Visual-Revision**, unabhängig
+  von neueren Gameplay-Feldern des anderen Zweigs. Gleiche Revision plus identischer Inhalt wird dedupliziert; gleiche
+  Revision plus verschiedener Inhalt erzeugt einen strukturierten Kontinuitätskonflikt und eine Spielerentscheidung —
+  niemals still mischen, mitteln oder per Maximum wählen.
 - Lineage-Metadaten sind Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
 - Merge-Guard: Bei doppeltem `save_id` im selben Importlauf Merge abbrechen und Hinweis geben (`duplicate_branch_detected=true`).
 - **`shared_echoes`-Pflichtformat (Split/Merge):** Jedes Item in `continuity.shared_echoes[]` MUSS ein Objekt mit
@@ -1229,6 +1243,15 @@ klassischer Pfad" und macht klassisch weiter).
 - Charakter-Autorität: Pro `characters[].id` gewinnt der neueste Charakterstand persönliche Felder (`lvl`, `xp`,
   `wallet`, `equipment`, `carry`, `artifact`, Ruf, History).
   Divergente Doppelstände werden als strukturierte Einträge in `logs.flags.continuity_conflicts[]` protokolliert.
+  `visual_identity` folgt davon getrennt stets seiner eigenen Visual-Revision und nie dem Alter persönlicher
+  Gameplay-Felder.
+- **Creator-Metadatenrevision (`Look Lock`):** Nur mit vollständigem, gültigem v7-HQ-Save als Quelle und aktivem
+  Creator-Bootstrap darf auf Wunsch ein vollständiger v7-Save als reine Metadatenrevision entstehen. Geändert werden
+  genau der betroffene `visual_identity`-Block und die Lineage: `parent_save_id` erhält die bisherige `save_id`, eine
+  neue eindeutige `save_id` endet auf `-VIS-R<revision>`. `branch_id` und `merge_id` bleiben unverändert; alle
+  Gameplay-Felder bleiben semantisch wertgleich. Das ist kein `!save`, kein Spielzug und keine Fortschrittsänderung.
+  Bei unvollständiger, invalider oder nicht-HQ-basierter Quelle ist ausschließlich ein nicht ladbarer `CREATOR_PATCH`
+  mit `source_save_id`, `char_id` und `visual_identity` zulässig.
 - **Save-Budgets + Prune-Regeln:** → `systems/gameflow/speicher-fortsetzung.md`.
   Bei HQ-`!save` ältere Einträge verdichten, nicht löschen.
 - **NPC-Kontinuität (Kurzregel):** `continuity.npc_roster[]` speichert kompakte
