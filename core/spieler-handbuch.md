@@ -1003,13 +1003,11 @@ zerbrochenen Möglichkeitswelten. Sie aufzuspüren und einzudämmen ist die ulti
 Verantwortung eines Chrononauten, damit aus einem einzelnen Zeitfehler kein
 Flächenbrand der Realität wird.
 
-Im Quarzatrium des ITI schweben die Sprungkreise in perfekter Ruhe. Laser
-zeichnen das nächste Sprungziel auf die Startplattform, bereit für den Moment,
-in dem dein neues Körperprofil stabilisiert wird. Erst wenn Körper und Retina-Linse
-hochfahren, koppelt sich das HUD ein und zieht den Einsatzcode aus dem offenen
-Ops-Pool.
+Im Quarzatrium ruhen bewegliche **Kozyrev-Spiegelsegmente** rings um die Startplattform, während Laser das Ziel auf den Boden zeichnen. Erst wenn Körperprofil, Retina-Linse, Zielzeit und Zielort verriegelt sind, schließen sich die Segmente zu einem vollkommenen Kreis; für einen Herzschlag vervielfacht sich dein Bild in jede Richtung bis in eine allzeitliche Unendlichkeit. Dann kippt der Ring mit einem metallischen Ruck aus der Symmetrie — und genau in diesem gebrochenen Kreis schneidet der Zeitriss die Zielrealität auf.
 
 #### Der Sprung durch den Zeitriss (so fühlt es sich an)
+
+Die Spiegel bleiben als ITI-Hardware in der Nullzeit. Beim Rücksprung im Feld erscheint kein Ring: Dort reißt nur der schmale Schnitt auf, der euch zum Quarzatrium zurückholt.
 
 Ein Zeitriss ist kein Portal, durch das man einfach hindurchgeht. Wenn er
 aufreißt, zieht er. Das HUD zählt runter, dann kommt dieser kurze, unangenehme

@@ -62,6 +62,7 @@ Macht euch bereit für ein noch lebendigeres Zeitreise-Erlebnis. Im Folgenden st
   Riss; das Standardfahrzeug nicht. Das ITI manipuliert den Zeitstrang
   kleinteilig (Bauteile hier, Schrauben dort, Werkstattkette später), sodass in
   der Zielzeit eine passende Einsatzform derselben Plattform auftaucht.
+- **Transferort-SSOT:** Reguläre Personaltransfers laufen über die Kozyrev-Sprungkammer im Quarzatrium; Standardfahrzeuge bleiben gemäß Form-Mapping zurück. Nur ein aktiv geführtes `legendary_temporal_ship` ist die Ausnahme: Die Crew steigt in der Hangar-Axis ein, das Schiff nutzt dort eine Sprungplattform und seinen eigenen Chrono-Antrieb. Dabei entsteht kein Personal-Spiegelkreis; der Schiffs-Riss bleibt ein Schnitt statt eines Portals.
 - **Form-Mapping pro Zeitband:**
   - Vergangenheit → historische Variante,
   - Gegenwart/nahe Zukunft → moderne Variante,
