@@ -1152,7 +1152,13 @@ klassischer Pfad" und macht klassisch weiter).
 
 **Schema v7 Regeln:**
 
-- `characters[]`: Solo = 1 Eintrag. Gruppe = Array, Session-Anker-Charakter = Index 0.
+- `characters[]`: Der **interne Sitzungsstand** darf mehrere Figuren führen;
+  dabei setzt der zuerst geladene persönliche Save den Anker. Auch ein
+  **Legacy-Sammelimport** darf mehrere Einträge enthalten. Jeder **neue
+  persönliche HQ-Export** ist dagegen ein vollständiger v7-JSON-Block mit
+  genau einem Eintrag (dem Owner); bei einer Gruppe werden entsprechend mehrere
+  getrennte JSON-Blöcke ausgegeben. Index 0 eines Sammelstands ist daher nur
+  Sitzungs-/Legacy-Anker, niemals der neue Gruppen-Exportvertrag.
 - `attr.SYS` = SYS_max. Nur `sys_installed` als Zusatzfeld (permanent belegte Slots).
 - **Template-Werte sind Platzhalter, nicht Defaults:** Im obigen Save-Template stehen `"attr": {STR:3,GES:3,...}` als
   **gültiges Lvl-1-Beispiel** (Summe 18, alle 1-6). Im realen `!save`-Export **nach** Charaktererschaffung die

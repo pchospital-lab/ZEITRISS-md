@@ -1,50 +1,51 @@
 'use strict';
 
-// Deterministischer CI-Helfer fuer den dokumentierten Exportvertrag. Dies ist
-// weder Loader noch Spielengine: Er projiziert vorgegebene HQ-Abschlussdeltas.
+// Deterministische CI-Pruefhilfe fuer den dokumentierten Exportvertrag. Sie
+// simuliert keine Regeln, sondern uebernimmt ausschliesslich vorgegebene,
+// bereits abgeschlossene HQ-Zustaende.
 const clone = (value) => JSON.parse(JSON.stringify(value));
+const canonical = (value) => {
+  if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
+  if (value && typeof value === 'object') return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`;
+  return JSON.stringify(value);
+};
 
 function openSession(saves) {
   if (!Array.isArray(saves) || saves.length === 0) throw new Error('Mindestens ein Save erforderlich.');
   const byCharacter = new Map();
+  const bySaveId = new Map();
   const order = [];
   for (const source of saves) {
+    const fingerprint = canonical(source);
+    if (bySaveId.has(source.save_id)) {
+      if (bySaveId.get(source.save_id) !== fingerprint) throw new Error(`Abweichender Inhalt fuer save_id ${source.save_id}`);
+      continue;
+    }
+    bySaveId.set(source.save_id, fingerprint);
     for (const character of source.characters || []) {
-      const previous = byCharacter.get(character.id);
-      if (previous && previous.save.save_id !== source.save_id) {
-        throw new Error(`Widerspruechlicher Stand fuer ${character.id}`);
-      }
-      if (!previous) order.push(character.id);
+      if (byCharacter.has(character.id)) throw new Error(`Widerspruechlicher Stand fuer ${character.id}`);
+      order.push(character.id);
       byCharacter.set(character.id, { save: clone(source), character: clone(character) });
     }
   }
-  return { anchorId: order[0], order, byCharacter, importedSaveIds: new Set(saves.map((s) => s.save_id)) };
+  return { anchorId: order[0], order, byCharacter, importedSaveIds: new Set(bySaveId.keys()) };
 }
 
 function projectPersonalSaves(session, completion = {}) {
   if (completion.hq !== true) throw new Error('SaveGuard: Speichern nur im HQ');
-  const uniqueItemOwners = new Map();
   return session.order.map((id) => {
     const origin = session.byCharacter.get(id);
     const out = clone(origin.save);
-    const delta = completion.personal?.[id] || {};
-    const character = clone(origin.character);
-    character.xp = (character.xp || 0) + (delta.xp || 0);
-    character.wallet = (character.wallet || 0) + (delta.cu || 0);
-    character.carry = character.carry || [];
-    for (const item of delta.items || []) {
-      if (uniqueItemOwners.has(item.id)) throw new Error(`Einzigartige Beute doppelt: ${item.id}`);
-      uniqueItemOwners.set(item.id, id);
-      character.carry.push(clone(item));
+    const final = completion.personal?.[id];
+    if (final?.character) origin.character = clone(final.character);
+    out.characters = [clone(origin.character)];
+    // Nur der Anker bekommt explizit vorgegebene Kampagnen-Roots. Gast-Roots
+    // stammen weiterhin vollstaendig aus ihrer persoenlichen Vorgaengerkette.
+    if (id === session.anchorId) {
+      for (const [root, value] of Object.entries(completion.anchorRoots || {})) out[root] = clone(value);
     }
-    character.history = character.history || { background: '', milestones: [] };
-    character.history.milestones = character.history.milestones || [];
-    if (completion.memory) character.history.milestones.push(completion.memory);
-    out.characters = [character];
-    // Jeder Export beginnt beim importierten persoenlichen Rootzustand. Nur die
-    // Ankerkampagne erhaelt den definierten Kampagnenabschluss.
-    if (id === session.anchorId && completion.anchorCampaign) out.campaign = clone(completion.anchorCampaign);
-    out.economy.wallets = { [id]: { balance: character.wallet, name: character.name } };
+    for (const [root, value] of Object.entries(final?.roots || {})) out[root] = clone(value);
+    out.economy.wallets = { [id]: { balance: out.characters[0].wallet, name: out.characters[0].name } };
     out.continuity.npc_roster = out.continuity.npc_roster.filter(
       (npc) => npc.scope !== 'personal' || npc.owner_id === id
     );

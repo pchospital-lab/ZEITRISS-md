@@ -955,9 +955,10 @@ Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
 Arena-Gebühr über `arenaStart()` (aus dem Wallet des eintretenden Charakters) →
 Debrief `apply_wallet_split()`.
 
-1. **Solo-Save laden.** `characters[]` enthält initial den Protagonisten.
-   Zusätzliche Crew-Saves dürfen nur Charaktere (inkl. Wallet), Loadouts und
-   zulässige Inventar-/Statusfelder beisteuern.
+1. **Solo-Save laden.** `characters[]` enthält initial den Protagonisten und
+   setzt den Sitzungsrahmen. Zusätzliche persönliche Crew-Saves bringen ihre
+   vollständigen pausierten Stände als spätere Exportbasis mit; in der aktiven
+   Sitzung wirken daraus nur Figur, persönliche Kontinuität und erlaubte Deltas.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs.
@@ -967,11 +968,13 @@ Debrief `apply_wallet_split()`.
 4. **Zurück nach HQ.** Nach Arena-Exit bleibt `campaign.px` unverändert;
    Rewards laufen direkt als Wallet-Split auf `characters[].wallet`.
 
-**Session-Anker-Priorität (SSOT):** Bei Merge/Import bleibt der Session-Anker
-führend für `campaign`, `arc` und globale `logs.flags`. Wallets folgen pro
-`characters[].id` dem jeweiligen Owner (nichts wird zusammengelegt).
-Gaststände liefern persönliche Wahrheit plus erlaubte Branch-Anteile. Konflikte
-werden in `logs.flags.continuity_conflicts[]` dokumentiert.
+**Session-Anker-Priorität (SSOT):** Bei Merge/Import führt der erste Save den
+aktiven Sitzungsrahmen (`campaign`, Sitzungs-`arc`, globale Sitzungsflags).
+Daneben bleibt jeder vollständige persönliche Gaststand unverändert als
+Exportbasis erhalten. Wallets folgen ihrem Owner; Gastkampagne, Gast-`arc`,
+Forschung, Zusammenfassungen, Logs und persönliche Kontinuität werden beim
+persönlichen Export wieder aus dieser Basis projiziert. Konflikte stehen in
+`logs.flags.continuity_conflicts[]`.
 
 ### Cross-Mode-Transfer-Matrix {#cross-mode-transfer}
 
@@ -982,8 +985,8 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 | Richtung              | Übernommene Felder                                                                                                                                                                                                  | Verworfene/Zurückgesetzte Felder                                                                                                                | Besonderheiten                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
-| **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert. Wallets bleiben pro `characters[].id` beim Owner. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
+| **Solo → Koop**       | Erster Save setzt den aktiven Sitzungsrahmen. Jeder Gast bringt seinen vollständigen persönlichen v7-Stand als pausierte Exportbasis mit; Figur, Wallet und persönliche Kontinuität wirken in der Sitzung. | Nichts aus der persönlichen Exportbasis; fremde Kampagnen-Roots werden lediglich nicht zum aktiven Sitzungsrahmen. | Pro-ID-Deltas kommen auf den jeweiligen Vollstand, nur die Ankerkampagne schreitet fort. |
+| **Koop → Solo**       | Der zuerst geladene persönliche Vollstand setzt die aktive Kampagne; `characters[]` enthält im neuen Export genau seinen Owner. | Nur fremde Figuren aus diesem persönlichen JSON; keine Rücksetzung von Kampagne, Fäden, Forschung, Logs oder Kontinuität auf Defaults. | Ein anderer erster Save kann im neuen Chat seine eigene pausierte Kampagne zum Anker machen. |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten; Arena läuft nur als Runtime-Zustand (`runtime_phase='arena'` + `arena.*`).                                                                                | -                                                                                                                                               | Nach Arena-Exit bleibt `campaign.mode` der Kampagnenmodus (`mixed\|preserve\|trigger`); `arena.previous_mode` wird als Rückkehr-Referenz genutzt und danach geleert.     |
 | **PvP → zurück**      | Kampagnenmodus bleibt/kehrt auf `arena.previous_mode` zurück (`mixed\|preserve\|trigger`). Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
