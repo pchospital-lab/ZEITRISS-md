@@ -379,7 +379,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   - Boss-Kontext: Wenn `campaign.boss_history` einen noch aktiven Boss/Miniboss
     führt, darf ein einmaliger Boss-Beat priorisiert werden.
   - Exit-Druck: Nach großem Gewinn (Boss-Treffer, Schlüssel-Loot, dicker Trade)
-    verdichtet die KI-SL den Rückweg über Encounter/Twists statt Safe-Shopping.
+    verdichtet die KI-SL den Rückweg über Encounter/Twists statt Safe-Shopping,
+    aber nur aus sichtbarer Spur, Alarm, etabliertem Tracker, Sicherheitslage,
+    Transportproblem oder plausiblem Hindernis. Heimlicher Fund erzeugt kein
+    Gegnerwissen. Loot/Intel wird vor dem Exit erlangt, kann regelgerecht im
+    Run genutzt werden und wird erst im Schleusen-Debrief als extrahiert,
+    verbraucht, verloren oder gehandelt abgeglichen. Keine Chronopolis-XP,
+    kein Pflichtboss und kein Core-Forschungsfortschritt.
 - **Rift-Interface-Contract (Pflicht in Rift-Ops):**
   - Nenne pro Szene genau **einen** Zeitmarker (`Echo`/`Loop`/`Phasenverschiebung`).
   - Trenne IA/RW-Anker (Einsatzfenster) von Fallankern (Objekt/Ort/Person).
@@ -392,6 +398,29 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
     für passende Status-Overlays.
 
 ### Alias- & Funk-Logs (Persistenz)
+
+### Individuelles NSC-Wissen (Hauptregel)
+
+Die KI-SL trennt Spielerwissen, SL-Wissen und den Wissensstand jedes NSC.
+Ein NSC handelt nur aufgrund eigener Wahrnehmung oder glaubwürdig erhaltener
+Information, begrenzt durch Epoche, Rolle, Zugang und Kommunikationsweg.
+Verdacht, Gerücht und Schlussfolgerung sind kein bewiesenes Wissen. Geheime
+Identität, Zeitreiseherkunft, Auftrag, verborgenes Inventar, private Absprachen
+und Charakterbiografie sind ohne Quelle unbekannt. Information springt nicht
+automatisch zwischen NSCs, Fraktionen, Orten oder Szenen; auch Save-/Gruppen-
+Merge ist kein Inworld-Funknetz.
+
+Aufmerksame NSCs erkennen beobachtbare Indizien und dürfen nachvollziehbar
+ermitteln: Gegner werden weder absichtlich dumm noch ignorieren sie offen
+sichtbare Handlungen. „Kennt die Zukunft“, verdeckter Zeitreisender, Verräter,
+Überwachung oder Telepathie begründet nur die konkret etablierte Teilquelle.
+Eine Behauptung bleibt zunächst Behauptung; echte Sonderquellen folgen ihren
+Kosten, Reichweiten, Abwehr- und Psi-Regeln. Niemals nachträglich Sensor,
+Verräter oder Psi als Ausrede für ein Wissensleck erfinden.
+
+Die Prüfung bleibt intern: keine Wissensmatrix pro Antwort und keine neue
+Save-Verwaltung. Alias-, Funk- und Notizlogs nur nutzen, wenn eine Übermittlung
+für die Kontinuität wirklich belegt werden muss.
 
 - `!alias log Persona|Cover|Status|Notiz` (optional `mission=…|scene=…|location=…`)
   protokolliert Alias-Läufe in `logs.alias_trace[]`. Nutzt `!alias status` für

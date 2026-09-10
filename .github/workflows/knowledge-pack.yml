@@ -1,0 +1,26 @@
+name: Knowledge pack
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export clean knowledge pack
+        run: python3 scripts/setup.py --export --require-clean --out "$RUNNER_TEMP/export"
+      - name: Verify export and ZIP
+        run: node tools/test_player_feedback_watchguard.js
+      - name: Name artifact
+        id: artifact
+        run: echo "name=zeitriss-knowledge-pack-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact.outputs.name }}
+          path: ${{ runner.temp }}/export/*.zip
+          if-no-files-found: error
+          retention-days: 14

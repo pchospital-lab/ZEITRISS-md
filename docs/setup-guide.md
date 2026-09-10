@@ -15,7 +15,7 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
 2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
-3. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
+3. [Komplett-Setup in OpenWebUI (Referenz/Selfhosting)](#komplett-setup-in-openwebui-empfohlen)
 4. [Updates und Wartung](#updates-und-wartung)
 5. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
    — Gruppenspiel, Lokal-GPU-Variante, Export
@@ -23,6 +23,91 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 7. [Referenz](#referenz)
 
 ---
+
+## Browser-Einstieg ohne Installation
+
+**Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
+bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
+ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
+und bewahre ihn mit dem Paket auf. Das Quell-ZIP ist kein bereinigtes
+Upload-Paket; daraus wählst du nur die folgenden 19 `slot:true`-Dateien, deren
+einzige maschinenlesbare Quelle `master-index.json` bleibt:
+
+1. `core/spieler-handbuch.md`
+2. `core/zeitriss-core.md`
+3. `core/wuerfelmechanik.md`
+4. `core/sl-referenz.md`
+5. `characters/charaktererschaffung-grundlagen.md`
+6. `characters/ausruestung-cyberware.md`
+7. `systems/kp-kraefte-psi.md`
+8. `characters/zustaende.md`
+9. `characters/hud-system.md`
+10. `gameplay/kampagnenstruktur.md`
+11. `gameplay/kampagnenuebersicht.md`
+12. `gameplay/kreative-generatoren-missionen.md`
+13. `gameplay/kreative-generatoren-begegnungen.md`
+14. `gameplay/fahrzeuge-konflikte.md`
+15. `gameplay/massenkonflikte.md`
+16. `systems/currency/cu-waehrungssystem.md`
+17. `systems/gameflow/speicher-fortsetzung.md`
+18. `systems/gameflow/cinematic-start.md`
+19. `systems/toolkit-gpt-spielleiter.md`
+
+Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
+`knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
+`19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
+`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` und
+`SETUP-ANLEITUNG.md`.
+
+### Zwei getrennte Varianten
+
+- **Direkt:** Kopiere `SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
+  Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
+- **Kleines Anweisungsfeld:** Kopiere ausschließlich
+  `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` ins Anweisungsfeld. Lade die 19 Module
+  **plus** `SYSTEM_PROMPT_ONLY.md` als 20 Projektquellen. Das bleibt ein
+  Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
+
+Nicht beide Anweisungen stapeln und keine Datei still kürzen. Einzelchat-
+Anhänge sind kein Ersatz für dauerhafte Projektquellen. Plattformen ohne
+persistentes Anweisungsfeld können den vollständigen Masterprompt als erste
+Nachricht jedes Abschnitts erhalten; dieser nachgeordnete Fallback ist
+ungeprüft und verliert seine Wirkung leicht beim Chatwechsel.
+
+Nicht als Spielwissen laden: `README.md`, `AGENTS.md`, `master-index.json`,
+`docs/`, `internal/`, `runtime.js`, Tests, QA-Artefakte, Archive,
+`BUILD-MANIFEST.json` oder `SETUP-ANLEITUNG.md`. Der Creator-Bootstrap ist nur
+für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
+
+### Kurzer Einstiegstest
+
+1. Sichtbare Projektquellen einzeln gegen die obige Liste prüfen.
+2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
+   „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
+   bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
+3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
+   aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
+4. Einen neuen Chat im selben Projekt öffnen und Schritt 2 wiederholen.
+
+„Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
+nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
+Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
+Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
+
+**ChatGPT-Projekte (UI-Beispiel, Stand 10.09.2026):** Die offizielle
+[OpenAI-Hilfe](https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt)
+dokumentiert Projektdateien und Projektanweisungen sowie derzeit 25 Dateien
+für Plus/Go und höchstens zehn Uploads gleichzeitig. Limits und Menüs vor
+abweichenden Angaben erneut offiziell prüfen; die Dateizahl ist kein
+ZEITRISS-Qualitätssiegel.
+
+**Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
+wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
+128k beziehungsweise unbrauchbar voller Kontext gemeldet; für Flo derzeit
+nicht brauchbar spielbar. Vermutet wird eine abweichende Datei-/Retrieval-
+Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
+Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
+Reparaturzusage durch den Bootstrap.
 
 ## Überblick: Wie ZEITRISS läuft
 

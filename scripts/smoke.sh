@@ -176,6 +176,8 @@ grep "process-compactness-watchguard-ok" out/process_compactness_watchguard.log
 # Project-Bootstrap-Watchguard (Runtime-Kernel, SSOT, 8k-Budget, Textmodus)
 node tools/test_project_bootstrap_watchguard.js > out/project_bootstrap_watchguard.log
 grep "project-bootstrap-watchguard-ok" out/project_bootstrap_watchguard.log
+node tools/test_player_feedback_watchguard.js > out/player_feedback_watchguard.log
+grep "player-feedback-watchguard-ok" out/player_feedback_watchguard.log
 
 # Creator-Bootstrap-Watchguard (Modustrennung, Visual Identity, Lizenz)
 node tools/test_creator_bootstrap_watchguard.js > out/creator_bootstrap_watchguard.log

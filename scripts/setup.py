@@ -25,12 +25,14 @@ import os
 import platform
 import shutil
 import ssl
+import subprocess
 import sys
 import textwrap
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import zipfile
 from datetime import datetime
 from getpass import getpass
 from pathlib import Path
@@ -672,7 +674,13 @@ class APIClient:
 
 # ── Export mode ─────────────────────────────────────────────────────
 
-def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str] = None) -> None:
+def run_export(
+    repo: Path,
+    cfg: dict,
+    flat: bool = False,
+    out_dir: Optional[str] = None,
+    require_clean: bool = False,
+) -> Path:
     """Export a knowledge pack for manual setup on alternative chat platforms."""
     project = cfg["project"]
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -683,6 +691,9 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
     sys_dir = dest / "system"
 
     kb_files = discover_knowledge_files(repo, cfg)
+    if len(kb_files) != 19:
+        print_error(f"Export erwartet 19 eindeutige slot:true-Module, gefunden: {len(kb_files)}")
+        sys.exit(1)
     mp_path = repo / cfg["masterprompt"]
 
     if not mp_path.exists():
@@ -693,12 +704,14 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
 
     know_dir.mkdir(parents=True, exist_ok=True)
     sys_dir.mkdir(parents=True, exist_ok=True)
+    source_map: dict[str, str] = {}
 
     if flat:
         # Flat mode: numbered files, no subdirs
         for i, fp in enumerate(kb_files, 1):
             dst = know_dir / f"{i:02d}-{fp.name}"
             shutil.copy2(fp, dst)
+            source_map[dst.relative_to(dest).as_posix()] = fp.relative_to(repo).as_posix()
             print_ok(f"[{i}/{len(kb_files)}] {dst.name}")
     else:
         # Structured: preserve relative paths
@@ -710,10 +723,12 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
             dst = know_dir / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(fp, dst)
+            source_map[dst.relative_to(dest).as_posix()] = fp.relative_to(repo).as_posix()
             print_ok(f"[{i}/{len(kb_files)}] {rel}")
 
     # Copy masterprompt
     shutil.copy2(mp_path, sys_dir / "SYSTEM_PROMPT_ONLY.md")
+    source_map["system/SYSTEM_PROMPT_ONLY.md"] = mp_path.relative_to(repo).as_posix()
     print_ok(f"System prompt: system/SYSTEM_PROMPT_ONLY.md")
 
     bootstrap_exported = False
@@ -722,10 +737,12 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
         bootstrap_path = repo / bootstrap_rel
         if bootstrap_path.exists():
             shutil.copy2(bootstrap_path, sys_dir / "PROJECT_BOOTSTRAP_INSTRUCTIONS.md")
+            source_map["system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md"] = bootstrap_path.relative_to(repo).as_posix()
             bootstrap_exported = True
             print_ok("Project bootstrap: system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md")
         else:
-            print_warn(f"Project bootstrap not found: {bootstrap_rel}")
+            print_error(f"Project bootstrap not found: {bootstrap_rel}")
+            sys.exit(1)
 
     creator_bootstrap_exported = False
     creator_bootstrap_rel = cfg.get("creator_bootstrap_instructions")
@@ -736,10 +753,12 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
                 creator_bootstrap_path,
                 sys_dir / "CREATOR_BOOTSTRAP_INSTRUCTIONS.md",
             )
+            source_map["system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md"] = creator_bootstrap_path.relative_to(repo).as_posix()
             creator_bootstrap_exported = True
             print_ok("Creator bootstrap: system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md")
         else:
-            print_warn(f"Creator bootstrap not found: {creator_bootstrap_rel}")
+            print_error(f"Creator bootstrap not found: {creator_bootstrap_rel}")
+            sys.exit(1)
 
     # Generate setup instructions
     _write_setup_readme(
@@ -752,6 +771,49 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
     )
     print_ok("Setup instructions: SETUP-ANLEITUNG.md")
 
+    try:
+        commit = subprocess.check_output(
+            ["git", "-C", str(repo), "rev-parse", "HEAD"], text=True
+        ).strip()
+        dirty = bool(subprocess.check_output(
+            ["git", "-C", str(repo), "status", "--porcelain"], text=True
+        ).strip())
+    except (OSError, subprocess.CalledProcessError) as exc:
+        print_error(f"Git-Herkunft konnte nicht bestimmt werden: {exc}")
+        shutil.rmtree(dest, ignore_errors=True)
+        sys.exit(1)
+    if require_clean and dirty:
+        print_error("Veröffentlichungsbuild abgebrochen: Arbeitsbaum ist nicht sauber.")
+        shutil.rmtree(dest, ignore_errors=True)
+        sys.exit(1)
+
+    files = []
+    for path in sorted(p for p in dest.rglob("*") if p.is_file()):
+        files.append({
+            "path": path.relative_to(dest).as_posix(),
+            "source": source_map.get(path.relative_to(dest).as_posix()),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "bytes": path.stat().st_size,
+        })
+    manifest = {
+        "format": "zeitriss-knowledge-pack-v1",
+        "project_version": cfg.get("version"),
+        "source_commit": commit,
+        "source_dirty": dirty,
+        "knowledge_slots": len(kb_files),
+        "files": files,
+    }
+    (dest / "BUILD-MANIFEST.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print_ok("Build manifest: BUILD-MANIFEST.json")
+
+    zip_path = dest.with_suffix(".zip")
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(p for p in dest.rglob("*") if p.is_file()):
+            archive.write(path, Path(dest.name) / path.relative_to(dest))
+    print_ok(f"ZIP: {zip_path}")
+
     print()
     print_info(f"Export complete: {dest}")
     print_info(f"Knowledge files: {len(kb_files)}")
@@ -762,6 +824,7 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
     gitignore = base / ".gitignore"
     if not gitignore.exists():
         gitignore.write_text("*\n", encoding="utf-8")
+    return dest
 
 
 def _write_setup_readme(
@@ -821,6 +884,7 @@ def _write_setup_readme(
         lines.append(flat_note.rstrip())
     lines += [
         "- Diese Anleitung (`SETUP-ANLEITUNG.md`) — nur für dich, nicht hochladen",
+        "- `BUILD-MANIFEST.json` — Herkunft und SHA-256-Prüfsummen; nicht hochladen",
         "",
         "**Wichtig:** Dateien gehören in projektweite Quellen / Projektwissen /",
         "Knowledge Base. Reine Chat-Anhänge zählen bei vielen Plattformen nur",
@@ -881,12 +945,12 @@ def _write_setup_readme(
         "Nutze diesen Weg nur, wenn deine Plattform kein persistentes",
         "System-/Projekt-Anweisungsfeld hat.",
         "",
-        "1. Falls möglich, die 19 Dateien aus `knowledge/` als projektweite",
+        "1. Falls möglich, die Dateien aus `knowledge/` als projektweite",
         "   Quellen hochladen.",
-        "2. Den Masterprompt **nicht zusätzlich** in das Wissen hochladen.",
-        "3. Stattdessen den vollständigen Inhalt von `system/SYSTEM_PROMPT_ONLY.md`",
+        "2. Den vollständigen Inhalt von `system/SYSTEM_PROMPT_ONLY.md`",
         "   als erste Nachricht in jeden neuen Spielabschnitts-Chat einfügen.",
-        "4. Danach Save oder Startbefehl senden.",
+        "3. Danach Save oder Startbefehl senden. Dieser nachgeordnete Weg ist",
+        "   ungeprüft und muss in jedem neuen Abschnitt wiederholt werden.",
         "",
         "## Was die Zielplattform können muss",
         "",
@@ -3251,6 +3315,11 @@ def main() -> None:
         help="Output directory for export (default: .exports/)",
     )
     parser.add_argument(
+        "--require-clean",
+        action="store_true",
+        help="Export nur aus einem sauberen, eindeutig identifizierten Git-Arbeitsbaum",
+    )
+    parser.add_argument(
         "--embedding",
         choices=["default", "ollama"],
         help=(
@@ -3339,7 +3408,7 @@ def main() -> None:
     cfg = load_config(repo)
 
     if args.export:
-        run_export(repo, cfg, flat=args.flat, out_dir=args.output)
+        run_export(repo, cfg, flat=args.flat, out_dir=args.output, require_clean=args.require_clean)
     elif args.install_litellm:
         run_install_litellm(
             repo,

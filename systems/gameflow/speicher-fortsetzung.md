@@ -1736,6 +1736,17 @@ Neue Sessions starten dadurch automatisch mit sichtbaren Würfen, bis ihr per
 `!bogen` (Alias `!charakterbogen`) erzeugt eine **lesbare Pen-&-Paper-Übersicht**
 mit Team-/Charakterwerten statt JSON. Der Befehl ist für den Live-Chat gedacht,
 wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
+Die Ansicht zeigt immer den aktuellen nachvollziehbaren Stand, verändert keine
+Werte und ist weder JSON-Export noch erlaubter Mid-Mission-DeepSave.
+
+**Chronopolis-Besitz beim v7-Save:** Erst der Schleusen-Debrief macht
+mitgebrachte Funde zu Besitz. Verbrauch, Verlust, Abgabe sowie Kauf/Verkauf und
+CU werden einmal abgeglichen; Import, Join und Merge buchen sie nicht erneut.
+Verworfene Runs werden beim Gruppen-Reload vollständig zurückgerollt. Legitime
+gleichnamige Gegenstände werden nicht nur nach Namen dedupliziert, ein
+einmaliger Fund aber auch nicht vervielfacht. Nutze vorhandene Notiz- und
+Kontinuitätsanker; `equipment[]` bleibt exakt `{name,type,tier}`, Save v7 bleibt
+unverändert.
 
 **Inhalt der Ausgabe**
 

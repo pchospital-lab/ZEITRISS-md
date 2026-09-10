@@ -6,6 +6,14 @@ tags: [core]
 
 ## Überblick
 
+> **Einrichtung kurz:** ZEITRISS braucht eine geeignete Chatplattform mit
+> dauerhaften Projektanweisungen, 19 projektweiten Wissensquellen und
+> verlässlichem Retrieval. Nutze den vollständigen Masterprompt als Anweisung
+> oder bei kleinem Feld ausschließlich den Project-Bootstrap und den
+> Masterprompt als zusätzliche Quelle. Dafür ist nicht automatisch eine lokale
+> OpenWebUI-/Python-Installation nötig; ein vorhandener Modellzugang ist aber
+> keine Funktions- oder Regeltreuegarantie.
+
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil. Ihr
 spielt operative Chrononauten - Agenten des ITI - in euren echten, physischen
 Körpern. Bereits zu Beginn entscheidet ihr euch für eine genetische
@@ -122,6 +130,11 @@ menschlicheren Zukunftsspur gefolgt sind.
 - **Merksatz:** Chronopolis ist kein sicherer Stadt-Hub, sondern ein freier
   Infiltrationslauf in der gescheiterten Zeitlinie: unauffällig hinein,
   Chancen lesen, Loot/Intel/Kontakte sichern und lebend wieder hinaus.
+- Vor Eintritt gilt: **Hier wächst nicht dein XP-Balken. Du riskierst einen
+  Run für besondere Beute oder Wissen und musst sie wieder herausbringen.**
+  Der Fund geschieht vor dem Exit und kann bei erfüllten normalen Regeln schon
+  im Run helfen; erst der Schleusen-Debrief gleicht Verbrauch, Verlust, Käufe,
+  CU und tatsächlich extrahierten Besitz ab. Es gibt keinen Pflichtboss.
 - **Lore-Hinweis (ITI-Forschung):** Interne Memos (Stichwort **ABSOLUT-7/CITY** als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell)
   deuten an, dass Kodex keine klassische Simulation erzeugt, sondern einen
   physisch wirksamen Quanten-Resonanzraum der gescheiterten Zeitlinie. Für die

@@ -1209,6 +1209,12 @@ Entscheidung - nicht automatisch im selben Zug.
   `para-creature`/`urban-myth`. Nach dem ersten starken Gewinn kippt die
   Regie spürbar Richtung Exit-Druck; Boss/Hunter selten und bevorzugt auf
   Rückweg oder Ausgangssektor.
+- **Chronopolis-Lootvertrag:** Vor Eintritt XP-freien Risiko-Run ansagen; Ziel
+  benennen, Loot/Intel vor dem Exit erlangen und regelgerecht nutzbar machen.
+  Extraktionsdruck braucht eine wahrnehmbare Ursache, nicht Gegner-Allwissen;
+  nichtkämpferische Lösungen gelten, Boss bleibt optional. Im Schleusen-
+  Debrief Besitz, Verbrauch/Verlust und CU genau einmal abgleichen;
+  `equipment[{name,type,tier}]` und Save v7 bleiben unverändert.
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
   aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier
   Infiltrationslauf mit Reaktionsdruck statt als sicherer Freizeit-Hub.
