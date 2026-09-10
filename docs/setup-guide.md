@@ -13,14 +13,15 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 ## Inhalt
 
-1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
-2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
-3. [Komplett-Setup in OpenWebUI (Referenz/Selfhosting)](#komplett-setup-in-openwebui-empfohlen)
-4. [Updates und Wartung](#updates-und-wartung)
-5. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
+1. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
+2. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
+3. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
+4. [Komplett-Setup in OpenWebUI (Referenz/Selfhosting)](#komplett-setup-in-openwebui-empfohlen)
+5. [Updates und Wartung](#updates-und-wartung)
+6. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
    — Gruppenspiel, Lokal-GPU-Variante, Export
-6. [Troubleshooting](#troubleshooting)
-7. [Referenz](#referenz)
+7. [Troubleshooting](#troubleshooting)
+8. [Referenz](#referenz)
 
 ---
 
@@ -59,13 +60,19 @@ Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
 `system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` und
 `SETUP-ANLEITUNG.md`.
 
+| Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
+| --- | --- | --- |
+| **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
+| **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
+
 ### Zwei getrennte Varianten
 
-- **Direkt:** Kopiere `SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
+- **Direkt:** Kopiere beim Quell-ZIP `meta/masterprompt_v6.md`, beim fertigen
+  Paket `system/SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
   Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
-- **Kleines Anweisungsfeld:** Kopiere ausschließlich
-  `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` ins Anweisungsfeld. Lade die 19 Module
-  **plus** `SYSTEM_PROMPT_ONLY.md` als 20 Projektquellen. Das bleibt ein
+- **Kleines Anweisungsfeld:** Kopiere ausschließlich den zur Tabellenzeile
+  passenden Bootstrap ins Anweisungsfeld. Lade die 19 Module **plus** den dort
+  genannten vollständigen Masterprompt als 20 Projektquellen. Das bleibt ein
   Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
 
 Nicht beide Anweisungen stapeln und keine Datei still kürzen. Einzelchat-
@@ -94,6 +101,13 @@ nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
 Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
 Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
 
+Zum Spielen danach einen neuen Chat im Projekt öffnen: entweder
+`Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
+Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
+`!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine
+automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
+dauerhaften Regelwissens.
+
 **ChatGPT-Projekte (UI-Beispiel, Stand 10.09.2026):** Die offizielle
 [OpenAI-Hilfe](https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt)
 dokumentiert Projektdateien und Projektanweisungen sowie derzeit 25 Dateien
@@ -109,6 +123,19 @@ Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
 Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
 Reparaturzusage durch den Bootstrap.
 
+### Download- und Freigabestatus
+
+Zum Prüfzeitpunkt 10.09.2026 ist kein GitHub-Release mit dauerhaft
+freigegebenem Upload-Paket bestätigt. Ein noch nicht gebautes oder nur 14 Tage
+aufbewahrtes Actions-Artefakt ist kein öffentlicher Release-Download. Deshalb
+bleibt der oben beschriebene Quell-ZIP-Weg mit bewusst gewähltem Commit/Tag der
+funktionierende Browser-Fallback; es wird keine erfundene Asset-URL genannt.
+
+Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
+→ genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
+über Freigabe und Veröffentlichung → erst danach echte Release-/Asset-Links
+eintragen. Der Workflow veröffentlicht nichts automatisch.
+
 ## Überblick: Wie ZEITRISS läuft
 
 ZEITRISS ist **eine portable LLM-RPG-Engine**, kein klassisches Programm.
@@ -116,7 +143,8 @@ Das Spiel besteht aus einem Masterprompt, 19 Wissensmodulen, Retrieval-Logik,
 Save-JSON und einem klaren Spielrhythmus. Die Runtime ist ein geeignetes LLM
 in einer geeigneten Chat-/Projektplattform.
 
-Das getestete Golden Setup läuft über OpenWebUI + OpenRouter/LiteLLM.
+Das dokumentierte Entwicklungs-/Referenzsetup läuft über OpenWebUI +
+OpenRouter/LiteLLM.
 Alternativ kann ZEITRISS auf anderen Plattformen laufen, wenn diese
 projektweite Anweisungen, projektweite Quellen/Knowledge und Retrieval
 sauber unterstützen.
@@ -139,12 +167,12 @@ sauber unterstützen.
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-| Komponente | Pflicht? | Wofür |
+| Komponente des optionalen Referenz-/Selfhosting-Wegs | Dort nötig? | Wofür |
 | --- | --- | --- |
-| **OpenWebUI** (Docker-Container) | ✅ Pflicht | Chat-Oberfläche, hier spielt ihr |
-| **ZEITRISS-Repo + Python** | ✅ Pflicht | Regelwerk + Setup-Script |
-| **OpenRouter-Key** | ✅ Pflicht¹ | Modellzugang (Cloud, günstig pay-per-token) |
-| **OpenWebUI-API-Key** | ✅ Pflicht | damit Setup-Script Preset + KB schreiben kann |
+| **OpenWebUI** (Docker-Container) | ✅ nötig | Chat-Oberfläche dieses Wegs |
+| **ZEITRISS-Repo + Python** | ✅ nötig | Regelwerk + Setup-Script dieses Wegs |
+| **OpenRouter-Key** | ✅ nötig¹ | Modellzugang dieses Wegs |
+| **OpenWebUI-API-Key** | ✅ nötig | damit Setup-Script Preset + KB schreiben kann |
 | **LiteLLM** (Docker-Container) | ✅ Pflicht (Golden Setup) | Prompt-Cache für Sonnet 4.6 (~90 % Ersparnis); bleibt auch bei Lokal-GPU-Variante aktiv, damit du jederzeit zwischen Cloud und Lokal umschalten kannst |
 | **Ollama** | ⚪ Optional (ungetestet) | Lokal-GPU-Variante: Sprachmodell **und/oder** Embedding |
 
@@ -162,8 +190,9 @@ sauber unterstützen.
 
 ## Was der Launcher dir anbietet
 
-Der Launcher (`python scripts/zeitriss.py`) ist der zentrale Einstieg
-für alles Setup-Bezogene. Er bietet zwei Installationswege:
+Der Launcher (`python scripts/zeitriss.py`) ist der zentrale Einstieg **nur
+für den optionalen lokalen Referenz-/Selfhosting- und Maintainerweg**. Für den
+Browser-Hauptweg ist er weder erforderlich noch der Einstieg. Er bietet:
 
 **[1] Komplett-Setup in OpenWebUI (empfohlen).** Der offiziell
 getestete Referenzpfad — OpenWebUI + OpenRouter + Claude Sonnet 4.6 +

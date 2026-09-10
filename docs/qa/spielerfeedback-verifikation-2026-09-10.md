@@ -76,6 +76,26 @@ Runtime, kein Missionssimulator und kein Kampagnen-Verwaltungssystem.
    gab weder kostenpflichtigen Modellaufruf noch Plattforminstallation,
    lokalen Harness oder Workflow-Auslösung.
 
-Paketgenerator, Launcher und Pyrokinese sind damit ausdrücklich nicht
-nachgebessert oder freigegeben; ihre bekannten Punkte bleiben außerhalb dieses
-Laufs offen. Dieser Befund ist keine Gesamt-Mergefreigabe.
+## Nachbesserung: Browser- und Upload-Paket
+
+Der deterministische Paket-Watchguard erzeugt strukturierte und flache Pakete,
+prüft jeweils exakt 19 Indexmodule sowie alle Manifestgrößen und SHA-256-Werte
+gegen die vollständig gelesenen ZIP-Bytes. Zusätzlich deckt er Quellkopien ohne
+Git-Metadaten, striktes `--require-clean`, fehlende Slot-/Promptdateien,
+beschädigte ZIPs, getrennte Paketnamen, Lizenz-/Creator-Trennung und den
+Launcher-Fehlerpfad ab. Im manuellen Workflow wird dasselbe Prüfprogramm mit
+`PACK_ZIP` auf genau das anschließend hochzuladende ZIP angewendet.
+
+Die korrigierten A–E-Fixtures führen bei regulären Neuexporten kein
+`economy.cu` mehr. Jeder persönliche HQ-Output wird auf Kampagnen-/`last_seen`-
+Anker, Owner-Wallet-Cache und genau eine Figur geprüft; der widersprüchliche
+Negativfall muss an derselben Inhaltsprüfung scheitern. Ein Legacy-Sammelinput
+prüft separat, dass vorhandene Character-Wallets ownergebunden projiziert und
+der alte Pool nicht als zweite Geldwahrheit kopiert wird. Ein Vorher-/Nachher-
+Vergleich schützt die unveränderte Eingabe des Projektionshelfers.
+
+Diese Nachbesserung ist statische/deterministische Evidenz und synthetische
+Redaktion, kein echter Modell- oder Plattform-Playtest. Es wurden weder ein
+Workflow noch Release oder Veröffentlichung ausgelöst. Pyrokinese bleibt
+ausdrücklich außerhalb dieses Laufs und offen; der Befund ist keine
+Gesamt-Mergefreigabe.

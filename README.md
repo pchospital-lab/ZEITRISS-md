@@ -124,7 +124,11 @@ Funktionen oder Regeltreue nicht.
 Bis ein freigegebenes Upload-ZIP existiert, nutze im Browser **Code → Download
 ZIP** für einen nachvollziehbaren Commit oder Tag, entpacke das Repository und
 wähle die 19 Dateien exakt nach der Liste im [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation).
-Das Quell-ZIP selbst ist **kein** bereinigtes Spielpaket. Ein Maintainer kann
+Im **Quell-ZIP** heißen die Anweisungsdateien `meta/masterprompt_v6.md` und
+`meta/project_bootstrap_instructions.md`; im **erzeugten Upload-Paket** heißen
+dieselben Inhalte `system/SYSTEM_PROMPT_ONLY.md` und
+`system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`. Das Quell-ZIP selbst ist **kein**
+bereinigtes Spielpaket. Ein Maintainer kann
 das fertige Paket mit `scripts/setup.py --export --require-clean` erzeugen;
 es enthält `knowledge/...`, `system/SYSTEM_PROMPT_ONLY.md`,
 `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`, `SETUP-ANLEITUNG.md`, Manifest und ZIP.
@@ -135,6 +139,12 @@ Feld ausschließlich den Project-Bootstrap als Anweisung und die 19 Module plus
 Masterprompt als 20 Quelldateien. Nicht stapeln und nichts abschneiden. Der
 aktuelle v7-Save ist beim Laden ein eigener Zustandsanker; alte widersprüchliche
 Saves desselben Charakters gehören nicht daneben.
+
+Danach einen **neuen Spielchat** öffnen: mit `Spiel starten (solo klassisch)`
+neu beginnen oder den extern aufbewahrten persönlichen Save direkt einfügen
+und `Spiel laden`/`!laden` verwenden. `!save`/`!speichern` erzeugt den
+persönlichen JSON-Save im Chat, aber keine automatische Dateiablage. Saves
+gehören nicht dauerhaft zu den Regelquellen.
 
 OpenWebUI + Sonnet 4.6 bleibt das referenzgetestete Entwicklungssetup; dessen
 Docker-/Python-Voraussetzungen stehen nachgeordnet im [Setup-Guide](docs/setup-guide.md#komplett-setup-in-openwebui-empfohlen).

@@ -6,13 +6,9 @@ tags: [core]
 
 ## Überblick
 
-> **Einrichtung kurz:** ZEITRISS braucht eine geeignete Chatplattform mit
-> dauerhaften Projektanweisungen, 19 projektweiten Wissensquellen und
-> verlässlichem Retrieval. Nutze den vollständigen Masterprompt als Anweisung
-> oder bei kleinem Feld ausschließlich den Project-Bootstrap und den
-> Masterprompt als zusätzliche Quelle. Dafür ist nicht automatisch eine lokale
-> OpenWebUI-/Python-Installation nötig; ein vorhandener Modellzugang ist aber
-> keine Funktions- oder Regeltreuegarantie.
+> **Nur bei ausdrücklicher Out-of-Game-Einrichtungsfrage:** Verweise auf den
+> Setup-Guide. Technische Plattforminstallation ist kein Teil der Spielregeln;
+> Save-/Load-Befehle und persönliche v7-Saves bleiben dagegen Spielwissen.
 
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil. Ihr
 spielt operative Chrononauten - Agenten des ITI - in euren echten, physischen

@@ -37,8 +37,8 @@ function projectPersonalSaves(session, completion = {}) {
     const origin = session.byCharacter.get(id);
     const out = clone(origin.save);
     const final = completion.personal?.[id];
-    if (final?.character) origin.character = clone(final.character);
-    out.characters = [clone(origin.character)];
+    const completedCharacter = final?.character ? clone(final.character) : clone(origin.character);
+    out.characters = [completedCharacter];
     // Nur der Anker bekommt explizit vorgegebene Kampagnen-Roots. Gast-Roots
     // stammen weiterhin vollstaendig aus ihrer persoenlichen Vorgaengerkette.
     if (id === session.anchorId) {
@@ -46,6 +46,9 @@ function projectPersonalSaves(session, completion = {}) {
     }
     for (const [root, value] of Object.entries(final?.roots || {})) out[root] = clone(value);
     out.economy.wallets = { [id]: { balance: out.characters[0].wallet, name: out.characters[0].name } };
+    // v7-Neuexporte haben genau eine Geldwahrheit: Character-Wallet plus
+    // ownergebundener Wallet-Cache. `economy.cu` bleibt nur Legacy-Input.
+    delete out.economy.cu;
     out.continuity.npc_roster = out.continuity.npc_roster.filter(
       (npc) => npc.scope !== 'personal' || npc.owner_id === id
     );
