@@ -882,6 +882,72 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 - Die Load-Pipeline nutzt dafür explizit `migrate_save()` als Legacy-Bridge,
   bevor `load_deep()` Pflichtfelder validiert und Defaults ergänzt.
 
+## Persönliche Saves und Kampagnen im Gruppenchat {#personal-save-contract}
+
+**Drei getrennte Ebenen:** Eine persönliche Figur umfasst Werte, Wallet, Ausrüstung,
+Fähigkeiten, Geschichte und persönliche Begleiter. Ihr persönlicher Save trägt außerdem
+ihre eigene Kampagne (Episode, Missionsstand, Epoche und offene Fäden). Die gemeinsame
+Sitzung umfasst nur die anwesenden Figuren und die Kampagne des **zuerst geladenen
+gültigen Saves**. Weitere Saves sind Gäste mit pausierenden eigenen Kampagnen; spätere
+Imports wechseln den Anker in diesem Chat nicht. Im nächsten neuen Chat bestimmt wieder
+der erste Save. Level, XP oder eine Gesamtzahl gespielter Missionen rekonstruieren niemals
+einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits;
+ausdrücklich gesetzte `continuity.split`-Mechaniken bleiben davon unberührt.
+
+**Load-Vertrag:** `!laden`, „Spiel laden“ und JSON-First führen in denselben Load-Flow.
+`!laden` ohne JSON fordert den HQ-Save an und erfindet nichts. Bei angekündigtem
+Mehrfachimport sammelt die KI-SL alle Saves im HQ, ohne dazwischen Einsatz oder
+Belohnung, und nennt danach knapp Teilnehmer und aktive Kampagne. Gleiche `save_id`
+oder ein identischer Import wird nicht erneut gebucht; widersprüchliche Stände derselben
+`character.id` werden weder addiert noch still überschrieben, sondern zur Klärung
+markiert. Gemeinsame `branch_id` allein bedeutet kein Duplikat. Legacy-Sammelsaves
+bleiben ladbar; nicht enthaltene frühere Privatkampagnen werden transparent als unbekannt
+behandelt, nicht erfunden.
+
+**Export-Vertrag:** `!save` und `!speichern` sind identische, ausdrücklich ausgelöste
+HQ-Save-Pfade; `!bogen` bleibt nur Ansicht. Ein Befehl erzeugt genau **einen vollständigen
+v7-JSON-Block je beteiligter Spielerfigur**, jeweils mit genau dieser Figur in
+`characters[]` und allen Root-Pflichtblöcken. Überschrift mit Name/Callsign steht
+außerhalb des JSON. Es gibt standardmäßig weder Sammel-/Host-Save noch manuelle
+Nacharbeit. Alle Blöcke bilden denselben abgeschlossenen Übergabestand ab. Wird die
+Ausgabegrenze erreicht, kennzeichnet die KI-SL fehlende Blöcke offen und liefert sie ohne
+Spielzug nach; sie meldet den Export erst danach als vollständig. Persönliche Saves werden
+extern aufbewahrt und direkt in den Spielchat eingefügt, nie als Regelwerkswissen; die
+Plattformablage wird nicht versprochen. Nullzeit/HQ ist Übergabeort, kein Mid-Mission-Save
+oder Mission-Skip.
+
+**Pro-ID-Projektion statt Root-Kopie:** Beim Import hält die KI-SL pro `character.id`
+den vollständigen persönlichen Ausgangssave samt eigener Kampagne im Sitzungszustand.
+Beim Export wird jeder Save von genau diesem Ausgangsstand projiziert:
+
+- Der Anker erhält den ausgespielten Fortschritt seiner Kampagne; Gäste behalten
+  `campaign`, `arc`, kampagnenbezogene `summaries`, `research`, `continuity`, `logs`,
+  `arena`, `ui` sowie Cache-/Legacy-Kontext ihrer pausierenden Kampagne, soweit diese
+  Blöcke kampagnenbezogen sind. Sie erhalten **nicht** pauschal die Anker-Roots.
+- Jede Figur erhält nur ihre tatsächlich erspielten persönlichen XP, CU, Beute, Ruf,
+  Fähigkeiten und kompakten Erinnerungen. Gruppen-HUD und Gruppenkasse sind berechnete
+  Ansichten. Einzigartige Beute/Auszahlungen haben genau einen Owner und werden nicht
+  vervielfacht; gemeinsame Erinnerungen dürfen passend bei allen stehen.
+- Kampagnenanteile und persönliche Anteile in gemischten Root-Blöcken werden nach ihrer
+  Zuständigkeit bewahrt. Gast-Erinnerungen verdrängen im Save-Budget weder offene eigene
+  Fäden noch Beziehungen; keine Fremdbiografien oder Transkripte werden kopiert. Jeder
+  Export bleibt allein in einem frischen Chat vollständig ladbar.
+- `save_id`/`parent_save_id` werden je persönlicher Kette fortgeführt. Es entsteht kein
+  dauerhafter Fremdkampagnen-Ordner.
+
+**Begleiter:** Persönliche `continuity.npc_roster[]`-Einträge bleiben anhand
+`scope:"personal"` und `owner_id` im Save ihres Owners erhalten, auch wenn sie gerade
+`hq`, `assigned`, `recovering`, `missing` oder sonst nicht aktiv sind. Fünf Menschen lassen
+keinen aktiven NPC-Feldplatz; das löscht keinen Begleiter. Session-/ITI-NPCs werden nicht
+persönlicher Besitz, Abwesende nicht ungefragt NPCs, und ein Load belebt niemanden wieder
+oder erzeugt neue Crew.
+
+**Erzählkontinuität:** Die KI-SL darf belegte Kontakte, Entscheidungen, Hinweise und
+Beziehungen anwesender Figuren gezielt anschließen. Ein Gruppeneinsatz bleibt eine
+Mission statt fünf Pflicht-Nebenhandlungen. Importierte private Biografie ist weder
+Inworld-Nachricht noch automatisch Spieler- oder NSC-Wissen; keine Vergangenheit,
+Epochenwechsel oder Verschwörung wird hinzuerfunden.
+
 ### Cross-Mode Import - Solo → Koop/Arena {#cross-mode-import}
 
 Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):

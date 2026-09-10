@@ -343,6 +343,10 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 
 **Quick-Hilfe:** `!help start` - listet alle vier Befehle mit Kurzbeschreibung.
 
+### Persönlicher Gruppen-Save-Vertrag
+
+Erster gültiger Save im neuen Chat = aktive Kampagne; weitere Saves = Gastfiguren mit pausierenden persönlichen Kampagnen. Beim HQ-`!save`/`!speichern` entsteht pro Spielerfigur ein vollständiger v7-Save mit genau einer Figur, nie standardmäßig ein Sammelsave. Nur der Anker schreitet kampagnenseitig fort; Gäste erhalten persönliche Deltas/Erinnerungen, behalten aber eigene Mission, Fäden, Forschung und persönliche `npc_roster`-Owner. Identische Imports buchen nichts erneut, Konflikte derselben Charakter-ID brauchen Klärung. Vor Einsatz Teilnehmer und Kampagnenowner knapp nennen; private Save-Inhalte sind kein automatisch geteiltes Inworld-Wissen.
+
 ### Dispatcher- und HUD-Befehle
 
 - `!rules stealth` - zitiert die Passage zu Schleichen.

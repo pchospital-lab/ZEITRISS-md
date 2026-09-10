@@ -6,6 +6,10 @@ tags: [gameplay, core]
 
 # ZEITRISS 4.2.6 - Modul 6: Kampagnenstruktur für langfristige Einsätze
 
+## Persönliche Kampagne und Gastspiel
+
+Eine Gruppensitzung spielt genau die Kampagne des zuerst geladenen persönlichen Saves. Gastmissionen verändern persönliche Werte nach bestehenden Regeln, aber nicht automatisch Episode oder Missionsstand der pausierenden Gastkampagne. Nach legalem HQ-Export kann jede neue 3/2-, Duo- oder Solorunde durch ihren ersten Save eine andere persönliche Kampagne wählen; dies ist ohne ausdrückliche Split-Metadaten kein kanonischer Parallel-Split.
+
 ## Gameplay-Index
 
 - Einführung
