@@ -25,12 +25,14 @@ import os
 import platform
 import shutil
 import ssl
+import subprocess
 import sys
 import textwrap
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import zipfile
 from datetime import datetime
 from getpass import getpass
 from pathlib import Path
@@ -201,14 +203,20 @@ def discover_knowledge_files(repo: Path, cfg: dict) -> list[Path]:
     if idx_path.exists():
         with open(idx_path, encoding="utf-8") as f:
             idx = json.load(f)
+        seen: set[str] = set()
         for mod in idx.get("modules", []):
             if mod.get("slot") is True:
                 rel = mod["path"].split("#")[0]  # strip anchors
+                if rel in seen:
+                    print_error(f"Duplicate slot file in master-index.json: {rel}")
+                    sys.exit(1)
+                seen.add(rel)
                 fp = repo / rel
                 if fp.exists():
                     files.append(fp)
                 else:
-                    print_warn(f"Slot file missing: {rel}")
+                    print_error(f"Required slot file missing: {rel}")
+                    sys.exit(1)
         if files:
             return files
 
@@ -672,33 +680,92 @@ class APIClient:
 
 # ── Export mode ─────────────────────────────────────────────────────
 
-def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str] = None) -> None:
+def run_export(
+    repo: Path,
+    cfg: dict,
+    flat: bool = False,
+    out_dir: Optional[str] = None,
+    require_clean: bool = False,
+) -> Path:
     """Export a knowledge pack for manual setup on alternative chat platforms."""
     project = cfg["project"]
+    repo = repo.resolve()
+    # Herkunft vor dem Schreiben in den Ausgabeordner feststellen. Nur ein
+    # Git-Worktree, dessen Toplevel exakt dieses Projekt ist, gilt als belegt.
+    commit: Optional[str] = None
+    dirty: Optional[bool] = None
+    provenance = "unconfirmed"
+    try:
+        git_root = Path(subprocess.check_output(
+            ["git", "-C", str(repo), "rev-parse", "--show-toplevel"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()).resolve()
+        if git_root == repo and (repo / ".git").exists():
+            commit = subprocess.check_output(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"], text=True
+            ).strip()
+            dirty = bool(subprocess.check_output(
+                ["git", "-C", str(repo), "status", "--porcelain"], text=True
+            ).strip())
+            provenance = "confirmed-git"
+    except (OSError, subprocess.CalledProcessError, ValueError):
+        pass
+    if require_clean and (provenance != "confirmed-git" or dirty is not False):
+        print_error(
+            "Veröffentlichungsbuild abgebrochen: Herkunft und sauberer "
+            "Git-Arbeitsbaum müssen eindeutig bestätigt sein."
+        )
+        sys.exit(1)
+
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     base = Path(out_dir) if out_dir else repo / ".exports"
     slug = project.lower().replace(" ", "-")
-    dest = base / f"{slug}-knowledge-pack-{stamp}"
+    layout = "flat" if flat else "structured"
+    stem = f"{slug}-knowledge-pack-{layout}-{stamp}"
+    dest = base / stem
+    suffix = 2
+    while dest.exists() or dest.with_suffix(".zip").exists():
+        dest = base / f"{stem}-{suffix}"
+        suffix += 1
     know_dir = dest / "knowledge"
     sys_dir = dest / "system"
 
     kb_files = discover_knowledge_files(repo, cfg)
+    if len(kb_files) != 19:
+        print_error(f"Export erwartet 19 eindeutige slot:true-Module, gefunden: {len(kb_files)}")
+        sys.exit(1)
     mp_path = repo / cfg["masterprompt"]
 
     if not mp_path.exists():
         print_error(f"Masterprompt not found: {cfg['masterprompt']}")
         sys.exit(1)
 
+    required_sources = [repo / "LICENSE"]
+    for key, label in (
+        ("project_bootstrap_instructions", "Project bootstrap"),
+        ("creator_bootstrap_instructions", "Creator bootstrap"),
+    ):
+        rel = cfg.get(key)
+        if rel and not (repo / rel).is_file():
+            print_error(f"{label} not found: {rel}")
+            sys.exit(1)
+    for required in required_sources:
+        if not required.is_file():
+            print_error(f"Required license notice not found: {required.name}")
+            sys.exit(1)
+
     print_header(f"{project} – Export Knowledge Pack")
 
     know_dir.mkdir(parents=True, exist_ok=True)
     sys_dir.mkdir(parents=True, exist_ok=True)
+    source_map: dict[str, str] = {}
 
     if flat:
         # Flat mode: numbered files, no subdirs
         for i, fp in enumerate(kb_files, 1):
             dst = know_dir / f"{i:02d}-{fp.name}"
             shutil.copy2(fp, dst)
+            source_map[dst.relative_to(dest).as_posix()] = fp.relative_to(repo).as_posix()
             print_ok(f"[{i}/{len(kb_files)}] {dst.name}")
     else:
         # Structured: preserve relative paths
@@ -710,11 +777,17 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
             dst = know_dir / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(fp, dst)
+            source_map[dst.relative_to(dest).as_posix()] = fp.relative_to(repo).as_posix()
             print_ok(f"[{i}/{len(kb_files)}] {rel}")
 
     # Copy masterprompt
     shutil.copy2(mp_path, sys_dir / "SYSTEM_PROMPT_ONLY.md")
+    source_map["system/SYSTEM_PROMPT_ONLY.md"] = mp_path.relative_to(repo).as_posix()
     print_ok(f"System prompt: system/SYSTEM_PROMPT_ONLY.md")
+
+    shutil.copy2(repo / "LICENSE", dest / "LICENSE")
+    source_map["LICENSE"] = "LICENSE"
+    print_ok("License notice: LICENSE")
 
     bootstrap_exported = False
     bootstrap_rel = cfg.get("project_bootstrap_instructions")
@@ -722,10 +795,12 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
         bootstrap_path = repo / bootstrap_rel
         if bootstrap_path.exists():
             shutil.copy2(bootstrap_path, sys_dir / "PROJECT_BOOTSTRAP_INSTRUCTIONS.md")
+            source_map["system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md"] = bootstrap_path.relative_to(repo).as_posix()
             bootstrap_exported = True
             print_ok("Project bootstrap: system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md")
         else:
-            print_warn(f"Project bootstrap not found: {bootstrap_rel}")
+            print_error(f"Project bootstrap not found: {bootstrap_rel}")
+            sys.exit(1)
 
     creator_bootstrap_exported = False
     creator_bootstrap_rel = cfg.get("creator_bootstrap_instructions")
@@ -736,10 +811,12 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
                 creator_bootstrap_path,
                 sys_dir / "CREATOR_BOOTSTRAP_INSTRUCTIONS.md",
             )
+            source_map["system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md"] = creator_bootstrap_path.relative_to(repo).as_posix()
             creator_bootstrap_exported = True
             print_ok("Creator bootstrap: system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md")
         else:
-            print_warn(f"Creator bootstrap not found: {creator_bootstrap_rel}")
+            print_error(f"Creator bootstrap not found: {creator_bootstrap_rel}")
+            sys.exit(1)
 
     # Generate setup instructions
     _write_setup_readme(
@@ -747,10 +824,40 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
         cfg,
         len(kb_files),
         flat,
+        knowledge_files=[p for p in source_map if p.startswith("knowledge/")],
         has_bootstrap=bootstrap_exported,
         has_creator_bootstrap=creator_bootstrap_exported,
     )
     print_ok("Setup instructions: SETUP-ANLEITUNG.md")
+
+    files = []
+    for path in sorted(p for p in dest.rglob("*") if p.is_file()):
+        files.append({
+            "path": path.relative_to(dest).as_posix(),
+            "source": source_map.get(path.relative_to(dest).as_posix()),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "bytes": path.stat().st_size,
+        })
+    manifest = {
+        "format": "zeitriss-knowledge-pack-v1",
+        "project_version": cfg.get("version"),
+        "source_commit": commit,
+        "source_dirty": dirty,
+        "source_provenance": provenance,
+        "source_confirmed": provenance == "confirmed-git",
+        "knowledge_slots": len(kb_files),
+        "files": files,
+    }
+    (dest / "BUILD-MANIFEST.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print_ok("Build manifest: BUILD-MANIFEST.json")
+
+    zip_path = dest.with_suffix(".zip")
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(p for p in dest.rglob("*") if p.is_file()):
+            archive.write(path, Path(dest.name) / path.relative_to(dest))
+    print_ok(f"ZIP: {zip_path}")
 
     print()
     print_info(f"Export complete: {dest}")
@@ -762,6 +869,7 @@ def run_export(repo: Path, cfg: dict, flat: bool = False, out_dir: Optional[str]
     gitignore = base / ".gitignore"
     if not gitignore.exists():
         gitignore.write_text("*\n", encoding="utf-8")
+    return dest
 
 
 def _write_setup_readme(
@@ -769,6 +877,7 @@ def _write_setup_readme(
     cfg: dict,
     file_count: int,
     flat: bool,
+    knowledge_files: Optional[list[str]] = None,
     has_bootstrap: bool = False,
     has_creator_bootstrap: bool = False,
 ) -> None:
@@ -821,6 +930,12 @@ def _write_setup_readme(
         lines.append(flat_note.rstrip())
     lines += [
         "- Diese Anleitung (`SETUP-ANLEITUNG.md`) — nur für dich, nicht hochladen",
+        "- `BUILD-MANIFEST.json` — Herkunft und SHA-256-Prüfsummen; nicht hochladen",
+        "- `LICENSE` — erforderlicher Lizenzhinweis; nicht als Spielwissen hochladen",
+        "",
+        "### Enthaltene Wissensmodule",
+        "",
+        *[f"- `{path}`" for path in (knowledge_files or [])],
         "",
         "**Wichtig:** Dateien gehören in projektweite Quellen / Projektwissen /",
         "Knowledge Base. Reine Chat-Anhänge zählen bei vielen Plattformen nur",
@@ -839,6 +954,8 @@ def _write_setup_readme(
         "4. Nichts anderes hochladen: keine README, keine SETUP-ANLEITUNG,",
         "   keine Archivdateien.",
         f"5. Neuen Chat im Projekt starten und `{start_cmd}` schreiben.",
+        "6. Alternativ einen persönlichen Save direkt in diesen neuen Chat",
+        "   einfügen und `Spiel laden` oder `!laden` schreiben.",
         "",
         "### Weg B — Kleines Anweisungsfeld: Bootstrap + Masterprompt als Projektquelle",
         "",
@@ -854,6 +971,8 @@ def _write_setup_readme(
         "4. Wichtig: Diese Dateien müssen in den projektweiten Quellen / im",
         "   Projektwissen liegen, nicht nur als Dateianhang in einem einzelnen Chat.",
         f"5. Neuen Chat im Projekt starten und `{start_cmd}` schreiben.",
+        "6. Alternativ einen persönlichen Save direkt in diesen neuen Chat",
+        "   einfügen und `Spiel laden` oder `!laden` schreiben.",
         "",
         "Falls `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` nicht vorhanden ist, nutze",
         "`meta/project_bootstrap_instructions.md` aus dem Repo.",
@@ -881,12 +1000,12 @@ def _write_setup_readme(
         "Nutze diesen Weg nur, wenn deine Plattform kein persistentes",
         "System-/Projekt-Anweisungsfeld hat.",
         "",
-        "1. Falls möglich, die 19 Dateien aus `knowledge/` als projektweite",
+        "1. Falls möglich, die Dateien aus `knowledge/` als projektweite",
         "   Quellen hochladen.",
-        "2. Den Masterprompt **nicht zusätzlich** in das Wissen hochladen.",
-        "3. Stattdessen den vollständigen Inhalt von `system/SYSTEM_PROMPT_ONLY.md`",
+        "2. Den vollständigen Inhalt von `system/SYSTEM_PROMPT_ONLY.md`",
         "   als erste Nachricht in jeden neuen Spielabschnitts-Chat einfügen.",
-        "4. Danach Save oder Startbefehl senden.",
+        "3. Danach Save oder Startbefehl senden. Dieser nachgeordnete Weg ist",
+        "   ungeprüft und muss in jedem neuen Abschnitt wiederholt werden.",
         "",
         "## Was die Zielplattform können muss",
         "",
@@ -901,6 +1020,16 @@ def _write_setup_readme(
         "",
         "Plattformen ohne projektweites Wissen/Quellen oder ohne Retrieval "
         f"sind für {project} ungeeignet.",
+        "",
+        "## Regelquellen und persönliche Saves",
+        "",
+        "Die Regelmodule bleiben dauerhaft im Projektwissen. `!speichern` /",
+        "`!save` erzeugt im HQ pro Spielerfigur einen persönlichen JSON-Save im",
+        "Chat; bewahre ihn extern auf. Für den nächsten Abschnitt fügst du genau",
+        "diesen Save in einen neuen Spielchat ein und nutzt `!laden`, `Spiel laden`",
+        "oder direktes Einfügen als Ladeauftrag. ZEITRISS verspricht keine",
+        "automatische Dateiablage. Saves gehören nicht dauerhaft zwischen die",
+        "Regelquellen.",
         "",
         "## Parameter (falls einstellbar)",
         "",
@@ -926,32 +1055,14 @@ def _write_setup_readme(
         "",
         "## Spielstände verwalten",
         "",
-        "Beim Speichern (`!save` im HQ) erzeugt die KI einen JSON-Block.",
-        "Je nach Plattform wird dieser entweder als Datei im Chat-/Projektwissen",
-        "abgelegt oder muss manuell gespeichert werden — prüfe das Verhalten",
-        "deiner Plattform nach dem ersten `!save`.",
-        "",
-        "### Solo",
-        "",
-        "Beim Laden in einem neuen Chat: **Alten Spielstand vorher entfernen**,",
-        "falls noch einer im Chat-Wissen liegt. Sonst sieht die KI zwei Stände",
-        "und versucht zu mergen statt sauber zu laden.",
-        "Faustregel: Immer nur der **aktuelle** Spielstand im Chat-Wissen.",
-        "",
-        "### Gruppe",
-        "",
-        f"{project} ist ein Gruppenspiel! Mehrere Spielstände gleichzeitig",
-        "einfügen ist gewollt — der erste Save setzt den Kampagnenrahmen,",
-        "jeder weitere bringt seinen Charakter mit (Merge).",
-        "",
-        "Aber: **Nur aktuelle Stände einfügen.** Veraltete JSONs aus früheren",
-        "Sessions vorher aus dem Chat-/Projektwissen löschen, sonst mischt",
-        "die KI alte und neue Daten zusammen.",
-        "",
-        "### Aufräumen",
-        "",
-        "Nach längeren Spielphasen das Projektwissen prüfen und veraltete",
-        "Spielstände löschen — nur den jeweils neuesten pro Charakter behalten.",
+        "Beim Speichern (`!save` oder `!speichern` im HQ) erzeugt die KI je",
+        "Spielerfigur einen vollständigen persönlichen v7-JSON-Block. Bewahre",
+        "diese Saves extern auf und füge sie beim Laden direkt in den Chat ein;",
+        "Save-Dateien gehören nicht ins Projektwissen und werden nicht automatisch abgelegt.",
+        "`!laden`, `Spiel laden` und JSON-First nutzen denselben Load-Pfad.",
+        "Der erste gültige Save eines neuen Chats wählt seine Kampagne; weitere",
+        "Figuren sind Gäste und behalten ihre pausierenden eigenen Kampagnen.",
+        "Identische Saves nicht mehrfach einfügen; Konflikte derselben Figur klären.",
         ]
 
     lines += [
@@ -3251,6 +3362,11 @@ def main() -> None:
         help="Output directory for export (default: .exports/)",
     )
     parser.add_argument(
+        "--require-clean",
+        action="store_true",
+        help="Export nur aus einem sauberen, eindeutig identifizierten Git-Arbeitsbaum",
+    )
+    parser.add_argument(
         "--embedding",
         choices=["default", "ollama"],
         help=(
@@ -3339,7 +3455,7 @@ def main() -> None:
     cfg = load_config(repo)
 
     if args.export:
-        run_export(repo, cfg, flat=args.flat, out_dir=args.output)
+        run_export(repo, cfg, flat=args.flat, out_dir=args.output, require_clean=args.require_clean)
     elif args.install_litellm:
         run_install_litellm(
             repo,

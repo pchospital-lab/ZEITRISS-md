@@ -6,6 +6,10 @@ tags: [gameplay, core]
 
 # ZEITRISS 4.2.6 - Modul 6: Kampagnenstruktur für langfristige Einsätze
 
+## Persönliche Kampagne und Gastspiel
+
+Eine Gruppensitzung spielt genau die Kampagne des zuerst geladenen persönlichen Saves. Gastmissionen verändern persönliche Werte nach bestehenden Regeln, aber nicht automatisch Episode oder Missionsstand der pausierenden Gastkampagne. Nach legalem HQ-Export kann jede neue 3/2-, Duo- oder Solorunde durch ihren ersten Save eine andere persönliche Kampagne wählen; dies ist ohne ausdrückliche Split-Metadaten kein kanonischer Parallel-Split.
+
 ## Gameplay-Index
 
 - Einführung
@@ -2356,6 +2360,42 @@ den Runtime-Wissensspeicher.
   Stadt auf Präsenz, Gier, Lärm und sichtbare Spuren.
 - **Regie-Default:** social/hazard zuerst, combat als Folge.
   Chronopolis soll freier als Core/Rift wirken, aber nie harmlos erscheinen.
+- **Ansage vor Eintritt:** „Hier wächst nicht dein XP-Balken. Du riskierst
+  einen Run für besondere Beute oder Wissen und musst sie wieder herausbringen.“
+  Chronopolis vergibt keine XP, ist kein verborgenes Missionsäquivalent und
+  zählt nicht als Core-Forschungsfortschritt; Arena-Training bleibt getrennt.
+- **Run-Bogen:** (1) Solo oder Gruppe benennt ein verständliches Loot-/Intel-
+  Ziel. (2) Die begehrte Beute wird deutlich vor abgeschlossener Extraktion
+  wirklich erlangt. (3) Sie darf im Run benutzt werden, wenn Voraussetzungen,
+  Ausstattung, Traglast, Kosten und Nutzungsgrenzen erfüllt sind; Fund ersetzt
+  keine Analyse, Installation oder Freigabe. (4) Danach beeinflusst sie Risiko
+  und Extraktionsentscheidung.
+- Höhere Güte/Wirkung nach vorhandenen Equipment-Tiers und Encounter-Risiken
+  verlangt eine erkennbar anspruchsvollere Extraktion, ohne neue Seltenheit
+  oder Universalformel. Gruppengröße, Fortschritt und reale Beutewirkung zählen.
+- Eskalation braucht eine etablierte Ursache: Spur, Alarm, Tracker,
+  Sicherheitsumgebung, Transportproblem oder plausibles Hindernis. Ein
+  heimlicher Fund informiert Gegner nicht automatisch. Gefahr wird
+  telegraphiert; Schleichen, Täuschung, Umweg, Handel und Kontakte sind gültig.
+  Keine Pflicht-Horden, kein Pflichtboss, keine willkürlich unentrinnbare Strafe.
+
+#### Besitz- und Wissensvertrag
+
+- Im Run getragen oder gesichert ist noch nicht extrahiert. Beim Schleusen-
+  Debrief werden mitgebracht, benutzt/verbraucht, verloren, zurückgelassen,
+  abgegeben sowie Käufe/Verkäufe samt tatsächlicher CU-Folge einmal abgeglichen.
+- Verbrauchtes kehrt nicht unbenutzt zurück; Verlorenes wird nicht extrahiert.
+  Besitzwechsel wird einmal verbucht, nicht erneut bei Import/Join/Merge.
+- Equipment bleibt `{name,type,tier}` in Save v7. Nicht allein nach Namen
+  deduplizieren: gleiche legitime Gegenstände bleiben möglich, derselbe
+  einmalige Fund wird über vorhandene Besitz-/Kontinuitäts-/Notizanker nicht
+  vervielfacht. Es entsteht weder Großledger noch Serverökonomie-Versprechen.
+- Gruppen-Reload ist vollständiger Rollback: keine alten Ressourcen mit Loot
+  eines verworfenen Runs mischen.
+- Intel eröffnet eine konkrete Verwendung (Zugang, Kontakt, belegte
+  Schwachstelle oder Hook). Erlerntes Wissen bleibt erinnerbar, auch wenn sein
+  Datenträger verloren geht; keine automatische Gedächtnislöschung.
+- Frühe City-Beute ändert weder Core-Hauptziel noch Missionspacing.
 
 ### 4B | Reaktionslogik ohne Counter (SSOT für Runtime-Beat-Loop)
 

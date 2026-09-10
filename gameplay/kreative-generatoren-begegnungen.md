@@ -32,6 +32,16 @@ Hindernis - hilft es ungemein, einen spannenden NSC aus dem Hut zu zaubern. Dies
 euch im Schnellverfahren einen Nichtspielercharakter mit Persönlichkeit, indem er **Rolle**,
 **Persönlichkeit** und **Besonderheit** kombiniert.
 
+Ergänzt intern eine **Wissensquelle**: Was hat dieser NSC selbst wahrgenommen,
+wer hat ihm was glaubwürdig übermittelt, und welche Epoche, Rolle, Zugänge und
+Kommunikationswege begrenzen das? „Kennt die Zukunft“, Zeitreisender incognito,
+Verräter, Sensor oder Telepathie ist eine begrenzte Besonderheit, kein Allwissen.
+Eine Behauptung bleibt eine Behauptung. Ohne etablierte Quelle kennt der NSC
+weder Tarnnamen-Auflösung noch Auftrag, verborgenes Inventar, Privatgespräch
+oder Biografie der Crew. Sichtbare Indizien dürfen dagegen echten Verdacht und
+nachvollziehbare Ermittlungen auslösen (Hauptregel: Toolkit §Individuelles
+NSC-Wissen).
+
 Wählt oder würfelt je eine Option aus jeder Kategorie:
 
 - **Rolle/Archetyp:**

@@ -882,6 +882,72 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 - Die Load-Pipeline nutzt dafür explizit `migrate_save()` als Legacy-Bridge,
   bevor `load_deep()` Pflichtfelder validiert und Defaults ergänzt.
 
+## Persönliche Saves und Kampagnen im Gruppenchat {#personal-save-contract}
+
+**Drei getrennte Ebenen:** Eine persönliche Figur umfasst Werte, Wallet, Ausrüstung,
+Fähigkeiten, Geschichte und persönliche Begleiter. Ihr persönlicher Save trägt außerdem
+ihre eigene Kampagne (Episode, Missionsstand, Epoche und offene Fäden). Die gemeinsame
+Sitzung umfasst nur die anwesenden Figuren und die Kampagne des **zuerst geladenen
+gültigen Saves**. Weitere Saves sind Gäste mit pausierenden eigenen Kampagnen; spätere
+Imports wechseln den Anker in diesem Chat nicht. Im nächsten neuen Chat bestimmt wieder
+der erste Save. Level, XP oder eine Gesamtzahl gespielter Missionen rekonstruieren niemals
+einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits;
+ausdrücklich gesetzte `continuity.split`-Mechaniken bleiben davon unberührt.
+
+**Load-Vertrag:** `!laden`, „Spiel laden“ und JSON-First führen in denselben Load-Flow.
+`!laden` ohne JSON fordert den HQ-Save an und erfindet nichts. Bei angekündigtem
+Mehrfachimport sammelt die KI-SL alle Saves im HQ, ohne dazwischen Einsatz oder
+Belohnung, und nennt danach knapp Teilnehmer und aktive Kampagne. Gleiche `save_id`
+oder ein identischer Import wird nicht erneut gebucht; widersprüchliche Stände derselben
+`character.id` werden weder addiert noch still überschrieben, sondern zur Klärung
+markiert. Gemeinsame `branch_id` allein bedeutet kein Duplikat. Legacy-Sammelsaves
+bleiben ladbar; nicht enthaltene frühere Privatkampagnen werden transparent als unbekannt
+behandelt, nicht erfunden.
+
+**Export-Vertrag:** `!save` und `!speichern` sind identische, ausdrücklich ausgelöste
+HQ-Save-Pfade; `!bogen` bleibt nur Ansicht. Ein Befehl erzeugt genau **einen vollständigen
+v7-JSON-Block je beteiligter Spielerfigur**, jeweils mit genau dieser Figur in
+`characters[]` und allen Root-Pflichtblöcken. Überschrift mit Name/Callsign steht
+außerhalb des JSON. Es gibt standardmäßig weder Sammel-/Host-Save noch manuelle
+Nacharbeit. Alle Blöcke bilden denselben abgeschlossenen Übergabestand ab. Wird die
+Ausgabegrenze erreicht, kennzeichnet die KI-SL fehlende Blöcke offen und liefert sie ohne
+Spielzug nach; sie meldet den Export erst danach als vollständig. Persönliche Saves werden
+extern aufbewahrt und direkt in den Spielchat eingefügt, nie als Regelwerkswissen; die
+Plattformablage wird nicht versprochen. Nullzeit/HQ ist Übergabeort, kein Mid-Mission-Save
+oder Mission-Skip.
+
+**Pro-ID-Projektion statt Root-Kopie:** Beim Import hält die KI-SL pro `character.id`
+den vollständigen persönlichen Ausgangssave samt eigener Kampagne im Sitzungszustand.
+Beim Export wird jeder Save von genau diesem Ausgangsstand projiziert:
+
+- Der Anker erhält den ausgespielten Fortschritt seiner Kampagne; Gäste behalten
+  `campaign`, `arc`, kampagnenbezogene `summaries`, `research`, `continuity`, `logs`,
+  `arena`, `ui` sowie Cache-/Legacy-Kontext ihrer pausierenden Kampagne, soweit diese
+  Blöcke kampagnenbezogen sind. Sie erhalten **nicht** pauschal die Anker-Roots.
+- Jede Figur erhält nur ihre tatsächlich erspielten persönlichen XP, CU, Beute, Ruf,
+  Fähigkeiten und kompakten Erinnerungen. Gruppen-HUD und Gruppenkasse sind berechnete
+  Ansichten. Einzigartige Beute/Auszahlungen haben genau einen Owner und werden nicht
+  vervielfacht; gemeinsame Erinnerungen dürfen passend bei allen stehen.
+- Kampagnenanteile und persönliche Anteile in gemischten Root-Blöcken werden nach ihrer
+  Zuständigkeit bewahrt. Gast-Erinnerungen verdrängen im Save-Budget weder offene eigene
+  Fäden noch Beziehungen; keine Fremdbiografien oder Transkripte werden kopiert. Jeder
+  Export bleibt allein in einem frischen Chat vollständig ladbar.
+- `save_id`/`parent_save_id` werden je persönlicher Kette fortgeführt. Es entsteht kein
+  dauerhafter Fremdkampagnen-Ordner.
+
+**Begleiter:** Persönliche `continuity.npc_roster[]`-Einträge bleiben anhand
+`scope:"personal"` und `owner_id` im Save ihres Owners erhalten, auch wenn sie gerade
+`hq`, `assigned`, `recovering`, `missing` oder sonst nicht aktiv sind. Fünf Menschen lassen
+keinen aktiven NPC-Feldplatz; das löscht keinen Begleiter. Session-/ITI-NPCs werden nicht
+persönlicher Besitz, Abwesende nicht ungefragt NPCs, und ein Load belebt niemanden wieder
+oder erzeugt neue Crew.
+
+**Erzählkontinuität:** Die KI-SL darf belegte Kontakte, Entscheidungen, Hinweise und
+Beziehungen anwesender Figuren gezielt anschließen. Ein Gruppeneinsatz bleibt eine
+Mission statt fünf Pflicht-Nebenhandlungen. Importierte private Biografie ist weder
+Inworld-Nachricht noch automatisch Spieler- oder NSC-Wissen; keine Vergangenheit,
+Epochenwechsel oder Verschwörung wird hinzuerfunden.
+
 ### Cross-Mode Import - Solo → Koop/Arena {#cross-mode-import}
 
 Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
@@ -889,9 +955,10 @@ Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
 Arena-Gebühr über `arenaStart()` (aus dem Wallet des eintretenden Charakters) →
 Debrief `apply_wallet_split()`.
 
-1. **Solo-Save laden.** `characters[]` enthält initial den Protagonisten.
-   Zusätzliche Crew-Saves dürfen nur Charaktere (inkl. Wallet), Loadouts und
-   zulässige Inventar-/Statusfelder beisteuern.
+1. **Solo-Save laden.** `characters[]` enthält initial den Protagonisten und
+   setzt den Sitzungsrahmen. Zusätzliche persönliche Crew-Saves bringen ihre
+   vollständigen pausierten Stände als spätere Exportbasis mit; in der aktiven
+   Sitzung wirken daraus nur Figur, persönliche Kontinuität und erlaubte Deltas.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs.
@@ -901,11 +968,13 @@ Debrief `apply_wallet_split()`.
 4. **Zurück nach HQ.** Nach Arena-Exit bleibt `campaign.px` unverändert;
    Rewards laufen direkt als Wallet-Split auf `characters[].wallet`.
 
-**Session-Anker-Priorität (SSOT):** Bei Merge/Import bleibt der Session-Anker
-führend für `campaign`, `arc` und globale `logs.flags`. Wallets folgen pro
-`characters[].id` dem jeweiligen Owner (nichts wird zusammengelegt).
-Gaststände liefern persönliche Wahrheit plus erlaubte Branch-Anteile. Konflikte
-werden in `logs.flags.continuity_conflicts[]` dokumentiert.
+**Session-Anker-Priorität (SSOT):** Bei Merge/Import führt der erste Save den
+aktiven Sitzungsrahmen (`campaign`, Sitzungs-`arc`, globale Sitzungsflags).
+Daneben bleibt jeder vollständige persönliche Gaststand unverändert als
+Exportbasis erhalten. Wallets folgen ihrem Owner; Gastkampagne, Gast-`arc`,
+Forschung, Zusammenfassungen, Logs und persönliche Kontinuität werden beim
+persönlichen Export wieder aus dieser Basis projiziert. Konflikte stehen in
+`logs.flags.continuity_conflicts[]`.
 
 ### Cross-Mode-Transfer-Matrix {#cross-mode-transfer}
 
@@ -916,8 +985,8 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 | Richtung              | Übernommene Felder                                                                                                                                                                                                  | Verworfene/Zurückgesetzte Felder                                                                                                                | Besonderheiten                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Solo → Koop**       | Erster Save setzt den Session-Anker für `campaign` (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern persönliche Wahrheit (`character` + `loadout` + `wallet` + History) innerhalb von `characters[]`. | Gast-`campaign` außerhalb des Ankers, Gast-`logs` (außer continuity_conflicts)                                               | Session-Anker-Kampagnenblock hat Vorrang; persönliche Felder pro ID folgen dem neuesten Stand. |
-| **Koop → Solo**       | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`).                                                                                                                                | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert. Wallets bleiben pro `characters[].id` beim Owner. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers.                           |
+| **Solo → Koop**       | Erster Save setzt den aktiven Sitzungsrahmen. Jeder Gast bringt seinen vollständigen persönlichen v7-Stand als pausierte Exportbasis mit; Figur, Wallet und persönliche Kontinuität wirken in der Sitzung. | Nichts aus der persönlichen Exportbasis; fremde Kampagnen-Roots werden lediglich nicht zum aktiven Sitzungsrahmen. | Pro-ID-Deltas kommen auf den jeweiligen Vollstand, nur die Ankerkampagne schreitet fort. |
+| **Koop → Solo**       | Der zuerst geladene persönliche Vollstand setzt die aktive Kampagne; `characters[]` enthält im neuen Export genau seinen Owner. | Nur fremde Figuren aus diesem persönlichen JSON; keine Rücksetzung von Kampagne, Fäden, Forschung, Logs oder Kontinuität auf Defaults. | Ein anderer erster Save kann im neuen Chat seine eigene pausierte Kampagne zum Anker machen. |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten; Arena läuft nur als Runtime-Zustand (`runtime_phase='arena'` + `arena.*`).                                                                                | -                                                                                                                                               | Nach Arena-Exit bleibt `campaign.mode` der Kampagnenmodus (`mixed\|preserve\|trigger`); `arena.previous_mode` wird als Rückkehr-Referenz genutzt und danach geleert.     |
 | **PvP → zurück**      | Kampagnenmodus bleibt/kehrt auf `arena.previous_mode` zurück (`mixed\|preserve\|trigger`). Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert.                                                                              | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen.                                                    | Fehlt `previous_mode` (Legacy), Fallback auf `"mixed"`.                                     |
 
@@ -1736,6 +1805,19 @@ Neue Sessions starten dadurch automatisch mit sichtbaren Würfen, bis ihr per
 `!bogen` (Alias `!charakterbogen`) erzeugt eine **lesbare Pen-&-Paper-Übersicht**
 mit Team-/Charakterwerten statt JSON. Der Befehl ist für den Live-Chat gedacht,
 wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
+Die Ansicht zeigt immer den aktuellen nachvollziehbaren Stand, verändert keine
+Werte und ist weder JSON-Export noch erlaubter Mid-Mission-DeepSave.
+
+**Chronopolis-Besitz beim v7-Save:** Im Run besteht tatsächlicher vorläufiger
+Besitz: normale Nutzung, Verbrauch, Verlust und Käufe wirken sofort. Der
+Schleusen-Debrief bestätigt die erfolgreiche Extraktion und gleicht diesen
+Stand ab; er bucht weder Verbrauch noch CU ein zweites Mal. Erst danach folgt
+der persistente persönliche HQ-Export. Import, Join und Merge buchen nichts erneut.
+Verworfene Runs werden beim Gruppen-Reload vollständig zurückgerollt. Legitime
+gleichnamige Gegenstände werden nicht nur nach Namen dedupliziert, ein
+einmaliger Fund aber auch nicht vervielfacht. Nutze vorhandene Notiz- und
+Kontinuitätsanker; `equipment[]` bleibt exakt `{name,type,tier}`, Save v7 bleibt
+unverändert.
 
 **Inhalt der Ausgabe**
 

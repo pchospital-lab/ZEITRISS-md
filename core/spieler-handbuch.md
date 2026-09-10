@@ -6,6 +6,10 @@ tags: [core]
 
 ## Überblick
 
+> **Nur bei ausdrücklicher Out-of-Game-Einrichtungsfrage:** Verweise auf den
+> Setup-Guide. Technische Plattforminstallation ist kein Teil der Spielregeln;
+> Save-/Load-Befehle und persönliche v7-Saves bleiben dagegen Spielwissen.
+
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil. Ihr
 spielt operative Chrononauten - Agenten des ITI - in euren echten, physischen
 Körpern. Bereits zu Beginn entscheidet ihr euch für eine genetische
@@ -122,6 +126,13 @@ menschlicheren Zukunftsspur gefolgt sind.
 - **Merksatz:** Chronopolis ist kein sicherer Stadt-Hub, sondern ein freier
   Infiltrationslauf in der gescheiterten Zeitlinie: unauffällig hinein,
   Chancen lesen, Loot/Intel/Kontakte sichern und lebend wieder hinaus.
+- Vor Eintritt gilt: **Hier wächst nicht dein XP-Balken. Du riskierst einen
+  Run für besondere Beute oder Wissen und musst sie wieder herausbringen.**
+  Der Fund geschieht vor dem Exit und kann bei erfüllten normalen Regeln schon
+  im Run als vorläufiger Besitz helfen, verbraucht werden oder verloren gehen.
+  Der Schleusen-Debrief bestätigt die Extraktion und gleicht den Stand ab, ohne
+  Verbrauch oder CU erneut zu buchen; danach folgt der persönliche HQ-Save.
+  Es gibt keinen Pflichtboss.
 - **Lore-Hinweis (ITI-Forschung):** Interne Memos (Stichwort **ABSOLUT-7/CITY** als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell)
   deuten an, dass Kodex keine klassische Simulation erzeugt, sondern einen
   physisch wirksamen Quanten-Resonanzraum der gescheiterten Zeitlinie. Für die
@@ -316,6 +327,8 @@ voller Regelzugriff für die HQ-Runde, ohne dass alte Mission-Tokens den Platz
 blockieren.
 
 ### Wie sich daraus „MMO-Feeling ohne Server" ergibt
+
+**Persönliche Kampagnen in Gruppen:** Jede Spielerfigur besitzt einen eigenen vollständigen Save samt eigener Kampagne. Im neuen Chat wählt der zuerst eingefügte Save die Kampagne; alle weiteren Figuren spielen dort als Gäste und ihre eigenen Missionsstände pausieren. Im HQ erzeugen `!save` und `!speichern` automatisch je anwesender Spielerfigur einen getrennten JSON-Block. Persönliche Fortschritte und Erinnerungen reisen mit, fremde Kampagnenstände, Auszahlungen und einzigartige Beute werden nicht kopiert. `!laden` oder direkt eingefügte JSONs laden; `!bogen` zeigt nur den Bogen. Saves außerhalb des Chats aufbewahren, nicht als Regelwissen einrichten.
 
 Der Save-JSON ist dein **Charakterkontinuum**, das HQ ist deine **räumliche
 Kontinuität**, der NPC-Roster und die Echos sind deine **soziale

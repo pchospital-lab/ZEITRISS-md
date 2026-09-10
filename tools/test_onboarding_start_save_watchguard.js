@@ -1,8 +1,16 @@
 const path = require('path');
+const fs = require('fs');
 const assert = require('assert');
 const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const ROOT = path.join(__dirname, '..');
+
+// Persönliche Saves bleiben Chatdaten, kein dauerhaftes Regelwissen. Der
+// generierte Setup-Text muss denselben Alias-/JSON-First-Vertrag nennen.
+const setupSource = fs.readFileSync(path.join(ROOT, 'scripts/setup.py'), 'utf8');
+assert.match(setupSource, /`!save` oder `!speichern` im HQ/);
+assert.match(setupSource, /`!laden`, `Spiel laden` und JSON-First/);
+assert.match(setupSource, /gehören nicht ins Projektwissen/);
 
 const { readText, getDocText } = createDocTextLoader({
   root: ROOT,

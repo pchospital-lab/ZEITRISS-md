@@ -13,16 +13,126 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 ## Inhalt
 
-1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
-2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
-3. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
-4. [Updates und Wartung](#updates-und-wartung)
-5. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
+1. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
+2. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
+3. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
+4. [Komplett-Setup in OpenWebUI (Referenz/Selfhosting)](#komplett-setup-in-openwebui-empfohlen)
+5. [Updates und Wartung](#updates-und-wartung)
+6. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
    — Gruppenspiel, Lokal-GPU-Variante, Export
-6. [Troubleshooting](#troubleshooting)
-7. [Referenz](#referenz)
+7. [Troubleshooting](#troubleshooting)
+8. [Referenz](#referenz)
 
 ---
+
+## Browser-Einstieg ohne Installation
+
+**Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
+bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
+ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
+und bewahre ihn mit dem Paket auf. Das Quell-ZIP ist kein bereinigtes
+Upload-Paket; daraus wählst du nur die folgenden 19 `slot:true`-Dateien, deren
+einzige maschinenlesbare Quelle `master-index.json` bleibt:
+
+1. `core/spieler-handbuch.md`
+2. `core/zeitriss-core.md`
+3. `core/wuerfelmechanik.md`
+4. `core/sl-referenz.md`
+5. `characters/charaktererschaffung-grundlagen.md`
+6. `characters/ausruestung-cyberware.md`
+7. `systems/kp-kraefte-psi.md`
+8. `characters/zustaende.md`
+9. `characters/hud-system.md`
+10. `gameplay/kampagnenstruktur.md`
+11. `gameplay/kampagnenuebersicht.md`
+12. `gameplay/kreative-generatoren-missionen.md`
+13. `gameplay/kreative-generatoren-begegnungen.md`
+14. `gameplay/fahrzeuge-konflikte.md`
+15. `gameplay/massenkonflikte.md`
+16. `systems/currency/cu-waehrungssystem.md`
+17. `systems/gameflow/speicher-fortsetzung.md`
+18. `systems/gameflow/cinematic-start.md`
+19. `systems/toolkit-gpt-spielleiter.md`
+
+Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
+`knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
+`19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
+`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` und
+`SETUP-ANLEITUNG.md`.
+
+| Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
+| --- | --- | --- |
+| **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
+| **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
+
+### Zwei getrennte Varianten
+
+- **Direkt:** Kopiere beim Quell-ZIP `meta/masterprompt_v6.md`, beim fertigen
+  Paket `system/SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
+  Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
+- **Kleines Anweisungsfeld:** Kopiere ausschließlich den zur Tabellenzeile
+  passenden Bootstrap ins Anweisungsfeld. Lade die 19 Module **plus** den dort
+  genannten vollständigen Masterprompt als 20 Projektquellen. Das bleibt ein
+  Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
+
+Nicht beide Anweisungen stapeln und keine Datei still kürzen. Einzelchat-
+Anhänge sind kein Ersatz für dauerhafte Projektquellen. Plattformen ohne
+persistentes Anweisungsfeld können den vollständigen Masterprompt als erste
+Nachricht jedes Abschnitts erhalten; dieser nachgeordnete Fallback ist
+ungeprüft und verliert seine Wirkung leicht beim Chatwechsel.
+
+Nicht als Spielwissen laden: `README.md`, `AGENTS.md`, `master-index.json`,
+`docs/`, `internal/`, `runtime.js`, Tests, QA-Artefakte, Archive,
+`BUILD-MANIFEST.json` oder `SETUP-ANLEITUNG.md`. Der Creator-Bootstrap ist nur
+für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
+
+### Kurzer Einstiegstest
+
+1. Sichtbare Projektquellen einzeln gegen die obige Liste prüfen.
+2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
+   „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
+   bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
+3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
+   aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
+4. Einen neuen Chat im selben Projekt öffnen und Schritt 2 wiederholen.
+
+„Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
+nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
+Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
+Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
+
+Zum Spielen danach einen neuen Chat im Projekt öffnen: entweder
+`Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
+Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
+`!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine
+automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
+dauerhaften Regelwissens.
+
+**ChatGPT-Projekte (UI-Beispiel, Stand 10.09.2026):** Die offizielle
+[OpenAI-Hilfe](https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt)
+dokumentiert Projektdateien und Projektanweisungen sowie derzeit 25 Dateien
+für Plus/Go und höchstens zehn Uploads gleichzeitig. Limits und Menüs vor
+abweichenden Angaben erneut offiziell prüfen; die Dateizahl ist kein
+ZEITRISS-Qualitätssiegel.
+
+**Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
+wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
+128k beziehungsweise unbrauchbar voller Kontext gemeldet; für Flo derzeit
+nicht brauchbar spielbar. Vermutet wird eine abweichende Datei-/Retrieval-
+Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
+Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
+Reparaturzusage durch den Bootstrap.
+
+### Download- und Freigabestatus
+
+Das öffentliche Repository ist bereits veröffentlicht und sein Quell-ZIP mit
+bewusst gewähltem Commit/Tag ist ein funktionierender Browser-Download. Ein
+zusätzliches, bereinigtes Upload-Paket ist eine optionale Bequemlichkeit; ein
+GitHub-Release ist weder Voraussetzung für Spielbarkeit noch für den Merge.
+
+Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
+→ genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
+optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automatisch.
 
 ## Überblick: Wie ZEITRISS läuft
 
@@ -31,7 +141,8 @@ Das Spiel besteht aus einem Masterprompt, 19 Wissensmodulen, Retrieval-Logik,
 Save-JSON und einem klaren Spielrhythmus. Die Runtime ist ein geeignetes LLM
 in einer geeigneten Chat-/Projektplattform.
 
-Das getestete Golden Setup läuft über OpenWebUI + OpenRouter/LiteLLM.
+Das dokumentierte Entwicklungs-/Referenzsetup läuft über OpenWebUI +
+OpenRouter/LiteLLM.
 Alternativ kann ZEITRISS auf anderen Plattformen laufen, wenn diese
 projektweite Anweisungen, projektweite Quellen/Knowledge und Retrieval
 sauber unterstützen.
@@ -54,12 +165,12 @@ sauber unterstützen.
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-| Komponente | Pflicht? | Wofür |
+| Komponente des optionalen Referenz-/Selfhosting-Wegs | Dort nötig? | Wofür |
 | --- | --- | --- |
-| **OpenWebUI** (Docker-Container) | ✅ Pflicht | Chat-Oberfläche, hier spielt ihr |
-| **ZEITRISS-Repo + Python** | ✅ Pflicht | Regelwerk + Setup-Script |
-| **OpenRouter-Key** | ✅ Pflicht¹ | Modellzugang (Cloud, günstig pay-per-token) |
-| **OpenWebUI-API-Key** | ✅ Pflicht | damit Setup-Script Preset + KB schreiben kann |
+| **OpenWebUI** (Docker-Container) | ✅ nötig | Chat-Oberfläche dieses Wegs |
+| **ZEITRISS-Repo + Python** | ✅ nötig | Regelwerk + Setup-Script dieses Wegs |
+| **OpenRouter-Key** | ✅ nötig¹ | Modellzugang dieses Wegs |
+| **OpenWebUI-API-Key** | ✅ nötig | damit Setup-Script Preset + KB schreiben kann |
 | **LiteLLM** (Docker-Container) | ✅ Pflicht (Golden Setup) | Prompt-Cache für Sonnet 4.6 (~90 % Ersparnis); bleibt auch bei Lokal-GPU-Variante aktiv, damit du jederzeit zwischen Cloud und Lokal umschalten kannst |
 | **Ollama** | ⚪ Optional (ungetestet) | Lokal-GPU-Variante: Sprachmodell **und/oder** Embedding |
 
@@ -77,8 +188,9 @@ sauber unterstützen.
 
 ## Was der Launcher dir anbietet
 
-Der Launcher (`python scripts/zeitriss.py`) ist der zentrale Einstieg
-für alles Setup-Bezogene. Er bietet zwei Installationswege:
+Der Launcher (`python scripts/zeitriss.py`) ist der zentrale Einstieg **nur
+für den optionalen lokalen Referenz-/Selfhosting- und Maintainerweg**. Für den
+Browser-Hauptweg ist er weder erforderlich noch der Einstieg. Er bietet:
 
 **[1] Komplett-Setup in OpenWebUI (empfohlen).** Der offiziell
 getestete Referenzpfad — OpenWebUI + OpenRouter + Claude Sonnet 4.6 +
@@ -631,18 +743,18 @@ alle weiteren bringen ihre Charaktere mit. Die SL mergt automatisch.
 **Pausen**: Der Chat läuft nicht weiter, solange niemand tippt. Klo-Pause
 ist problemlos.
 
-**Ende des Abends**: `!save` im HQ, die SL gibt den Gruppen-JSON zurück.
-Text in eine Datei kopieren und an alle verteilen. Beim nächsten Abend
-einfach `Spiel laden` und einfügen.
+**Ende des Abends**: `!save` oder `!speichern` im HQ gibt für jede
+Spielerfigur einen getrennten vollständigen JSON-Block zurück. Jede Person
+bewahrt ihren Save extern auf; Save-JSONs gehören nicht ins Projektwissen.
+Beim nächsten Abend direkt einfügen oder zuvor `!laden`/`Spiel laden` senden.
+Der erste Save wählt erneut die Kampagne, Gastkampagnen bleiben pausiert.
 
-**Split für Solo-Weiterspielen**: Nach Debrief im HQ bietet die SL
-Split-Pfade an. Einfach sagen: "Ich möchte mit Kira solo weiterspielen."
-Die SL gibt einen Solo-Save aus - nur diese Figur + Kampagnen-Anker.
-Solo-Erlebnisse fließen beim nächsten Gruppenabend wieder ein.
+**Neue Solo- oder Teilgruppe**: Nach dem HQ-Save in einem neuen Chat nur die
+gewünschten persönlichen Saves einfügen. Der erste davon setzt die Kampagne;
+ein normaler 3/2-Wechsel ist nicht automatisch ein kanonischer Parallel-Split.
 
-> 💡 **Save früh, save oft**: Macht nach jeder Mission einen gemeinsamen
-> Save. Save = Charakter; nicht gesichert = im nächsten Browser-Crash
-> weg.
+> 💡 **Save nach abgeschlossenen Abschnitten**: HQ-only; kein Mid-Mission-
+>Deepsave. Save = Figur plus persönliche Kampagne.
 
 ### Lokal-GPU-Variante (Ollama, ungetestet)
 
@@ -818,7 +930,7 @@ Wenn ihr das Script nicht nutzen wollt:
 | --- | --- |
 | **core** | `spieler-handbuch.md`, `zeitriss-core.md`, `wuerfelmechanik.md`, `sl-referenz.md` |
 | **characters** | `charaktererschaffung-grundlagen.md`, `ausruestung-cyberware.md`, `zustaende.md`, `hud-system.md` |
-| **gameplay** | `kampagnenstruktur.md`, `kampagnenübersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
+| **gameplay** | `kampagnenstruktur.md`, `kampagnenuebersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
 | **systems** | `kp-kraefte-psi.md`, `cu-waehrungssystem.md`, `speicher-fortsetzung.md`, `cinematic-start.md`, `toolkit-gpt-spielleiter.md` |
 
 **Nicht hochladen**: `README.md`, `master-index.json`, Archiv-Dateien.
@@ -861,8 +973,12 @@ bewusst im Spiel haben wollt.
 
 ### "Die SL antwortet, aber Regeln klingen falsch"
 
-Das Retrieval zieht vermutlich keine Regeln aus der KB. Erst Script
-noch einmal laufen lassen:
+Prüfe zuerst im Browser/Projekt die sichtbaren dauerhaften Quellen einzeln
+gegen die 19er-Liste und kontrolliere, ob die richtige Anweisung vollständig
+gesetzt ist. Eine erfolgreiche Stichprobe beweist weder die Einbindung aller
+Dateien noch die Erreichbarkeit sämtlicher Regeln.
+
+Nur beim optionalen OpenWebUI-Weg danach das Script erneut laufen lassen:
 
 ```bash
 python scripts/setup.py
@@ -881,9 +997,9 @@ baut alles neu auf.
 ### "Das Script meldet Fehler beim Verknüpfen der Dateien"
 
 Der Verknüpfungs-Endpunkt von OpenWebUI meldet manchmal spurious
-HTTP-Fehler. Entscheidend ist der **Retrieval-Check** am Ende: Solange
-dort `KB-Retrieval funktioniert` steht, sind alle Dateien korrekt
-eingebunden.
+HTTP-Fehler. Der **Retrieval-Check** am Ende ist eine nützliche Stichprobe,
+aber kein Beweis, dass alle Dateien korrekt eingebunden oder sämtliche Regeln
+zuverlässig erreichbar sind. Zusätzlich die Quellenliste im Projekt prüfen.
 
 ### "Ich habe einen komplett zerschossenen Zustand"
 

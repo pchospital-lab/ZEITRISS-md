@@ -24,7 +24,8 @@ tags: [system, psi, optional]
 - **Charakter-Gating (`has_psi`):** Ob ein Charakter Psi-Kräfte aktiv nutzen kann, ist individuell und wird über `has_psi` gesteuert.
 - **Spielfluss:** Gruppen ohne aktive Psi-Charaktere bleiben voll spielbar; Schlüsselszenen benötigen stets mindestens einen nicht-psionischen Lösungsweg.
 
-- Effekt unter 1 Sekunde kostet 0 SYS.
+- Effekt unter 1 Sekunde kostet 0 SYS; ausgenommen ist nur die ausdrücklich
+  kraftspezifische Mindest-Fokuslast der [Pyrokinese](#pyrokinese).
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0-3 m, Mittel 3-15 m mit +1 auf die Schwelle, Fern 15-50 m nur erzaehlerisch.
 - Nahkampf-Telekinese nutzt [TK-Melee()](toolkit-gpt-spielleiter.md#tk-melee-macro); SR ≥ 2 erhöht die SG um +1.
@@ -40,7 +41,7 @@ tags: [system, psi, optional]
 > **Psi-Kosten auf einen Blick:**
 >
 > - **PP (Power-Punkte)** = Energiepool, wird verbraucht. Pool = TEMP-Wert. Regeneriert nach jedem Konflikt.
-> - **SYS (Systemlast)** = wird temporär belegt, solange eine Kraft aktiv ist. Kurze Effekte (<1 Sekunde) kosten 0 SYS.
+> - **SYS (Systemlast)** = wird temporär belegt, solange eine Kraft aktiv ist. Kurze Effekte (<1 Sekunde) kosten 0 SYS; die ausdrücklich kraftspezifische Mindest-Fokuslast der [Pyrokinese](#pyrokinese) bleibt davon unberührt.
 > - Jede Psi-Kraft hat PP-Kosten (einmalig beim Wirken) und SYS-Kosten (temporär belegt bei anhaltenden Effekten).
 > - Faustregel: PP bezahlen die Aktivierung, SYS begrenzt wie viel gleichzeitig laufen kann.
 
@@ -162,6 +163,72 @@ Px 5 + Debrief/HQ.
 Katalog. Die SL darf neue Psi-Kräfte generieren — Name und Flavor frei,
 aber PP-Kosten, SYS-Last, Cooldowns und Psi-Heat MÜSSEN dem bestehenden
 Kostensystem folgen. Keine neuen Ressourcen oder Mechaniken erfinden.)_
+
+### Pyrokinese (optionale gelernte Kraft) {#pyrokinese}
+
+Pyrokinese ist eine einzelne Kraft mit drei Leistungsstufen, kein Talentbaum.
+Sie setzt `has_psi=true`, das Talent **Psioniker** und den regulären Erwerb
+dieser Kraft voraus; kein Psioniker erhält sie automatisch. „Nicht
+entflammbares Feuer“ meint nur fiktive psionische Hitze/Flammenerscheinung:
+keine Brennstoffflamme, keine selbstlaufende Verbrennung und keinen
+automatischen Umgebungsbrand.
+
+| Voraussetzung | Stufe | PP | SYS | Probe / SG | Reichweite | Ziele | Dauer | Effekt / Schaden | Cooldown | Psi-Heat |
+| --- | --- | ---: | ---: | --- | --- | ---: | --- | --- | ---: | ---: |
+| Psioniker 1, TEMP 3 | Low | 1 | 0 | TEMP, SG 9 | 0–3 m | 1 | Fokus bis zum Impuls (<1 s) | begrenzte psionische Hitze; gegen Wesen höchstens 1 LP | 1 Runde | +1 |
+| Psioniker 2, TEMP 5 | Medium | 2 | 1 frei | TEMP, SG 12 | 0–15 m | 1 | Fokus bis zum Impuls (<1 s) | fokussierter Treffer, 3 LP | 2 Runden | +1 |
+| Psioniker 3, TEMP 7 | High | 3 | 2 frei | TEMP, SG 15 | 0–15 m | 1 | Fokus bis zum Impuls (<1 s) | starker fokussierter Treffer, 5 LP | 3 Runden | +1 |
+
+Pyrokinese hat ausdrücklich eine kraftspezifische Mindest-Fokuslast. SYS ist
+Kapazität, kein Verbrauchspool: Low benötigt 0, Medium/High benötigen beim
+Ansagen 1/2 **freie** SYS und belegen sie trotz der kurzen Impulsdauer nur
+während des Fokus bis zum Impuls. Danach werden sie sofort frei, auch bei
+Fehlschlag oder Unterbrechung; die allgemeine 0-SYS-Impulsregel hebt diese
+Mindest-Fokuslast nicht auf. Das SYS-Maximum ändert sich nicht. Die sichtbare
+Hitzeerscheinung darf danach
+noch kurz abklingen, hält aber weder Fokus noch SYS-Belegung aufrecht. Alle drei
+Stufen treffen genau ein Ziel; aus Squad-
+Buffs entsteht kein kostenloses Mehrfachziel.
+
+**Probe, Zielzugriff und Abwehr:** Die eine TEMP-Aktivierungsprobe gegen den
+Tabellen-SG entscheidet den Treffer; es folgt **keine zweite Ausweichprobe**.
+Das Ziel muss sichtbar, innerhalb der Reichweite und nicht vollständig durch
+geschlossene Deckung, Panzerglas oder eine andere feste Barriere abgeschirmt
+sein. Teildeckung erhöht wie beim Fernangriff den SG, vorhandene Rüstung/SR
+mindert den LP-Schaden nach den normalen Schadensregeln. Ein vorhandenes
+Anti-Psi-Gitter erhöht den SG um +2; eine ausdrücklich undurchlässige
+Anti-Psi-Barriere blockiert den Zugriff. Der ITI-Psi-Puffer gilt weiterhin nur
+für seine genannten telepathischen Angriffe, `mind_control` und die besondere
+Phase-Strike-Regel – nicht pauschal gegen Pyrokinese.
+
+Fehlen Kraft/Talent, PP oder freie SYS, oder ist das Ziel ungültig, wird nicht
+gewürfelt: keine PP, keine Belegung, kein Heat und kein Cooldown. Sobald die
+gültige Aktivierung angesagt ist, werden PP verbraucht, SYS bis zum Impuls
+belegt und Heat/Cooldown ausgelöst. Misslingt die Probe oder wird der Fokus vor
+dem Impuls unterbrochen, entstehen 0 LP und kein Brand; SYS wird frei, PP,
+Heat und Cooldown bleiben. Ein kritischer Patzer kann weiterhin die bestehende
+Backlash-Tabelle auslösen.
+
+**Balancevergleich:** Low liegt unter einem normalen Waffentreffer und dient
+vor allem kontrollierter Hitze. Medium (3 LP) liegt im Bereich leichter
+Waffenwirkung; High (5 LP) bleibt ein begrenzter Einzelzieltreffer. TK-Melee
+ist ein auf einmal pro Szene begrenzter Nahkampfangriff ohne Exploding, mit
+eigener SR-/Deckungsgrenze und optionaler SYS-Folgeaktion; Pyrokinese ist
+stattdessen ein fester Einzelzielschaden mit PP, Heat und Stufen-Cooldown.
+Anders als Psi-Waffenmanifestation (1 PP/1 SYS für
+eine trainierte Grundwaffe) manifestiert sie keine wiederholt nutzbare Waffe;
+jeder Treffer verlangt Probe und PP, benötigt die angegebene freie
+SYS-Kapazität, belegt sie bis zum Impuls und löst Heat und Cooldown neu aus.
+
+**Rechenbeispiel:** Agentin Rhea (`has_psi=true`, Psioniker 2, TEMP 5,
+PP 5/5, SYS 4, davon 3 frei, Heat 0) nutzt Medium auf ein sichtbares Ziel in
+10 m. Vorher: PP 5, SYS-Belegung 1/4. Während des Fokus: 2 PP werden verbraucht
+und 1 freie SYS wird belegt (2/4). `1W6=4 + ⌊TEMP 5/2⌋=2 + Talent 2 = 8`
+gegen SG 12: Fehlschlag. Danach: 0 LP, PP 3, SYS-Belegung wieder 1/4, Heat 1
+und Cooldown 2 Runden; ein kritischer Patzer prüfte zusätzlich Backlash. Bei
+einer gewürfelten 6 wäre die Summe `6 + 2 + 2 = 10` (Exploding wird normal
+fortgesetzt); erreicht das Endergebnis 12, verursacht sie 3 LP vor normaler
+Rüstungsminderung. In keinem Ausgang brennt etwas selbstständig weiter.
 
 - **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels.
   _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.
@@ -865,7 +932,7 @@ Implantate herunterregeln zu müssen.
 
 | Effektart                  | SYS          | Hinweis                              |
 | -------------------------- | ------------ | ------------------------------------ |
-| Impuls unter 1 Sekunde     | 0            | kein Slotverbrauch                   |
+| Impuls unter 1 Sekunde     | 0            | kein Slotverbrauch; Ausnahme: [Pyrokinese](#pyrokinese) |
 | Aktiv bis 1 Runde          | 1            | blockiert 1 SYS während der Wirkzeit |
 | Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten          |
 

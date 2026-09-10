@@ -343,6 +343,10 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 
 **Quick-Hilfe:** `!help start` - listet alle vier Befehle mit Kurzbeschreibung.
 
+### Persönlicher Gruppen-Save-Vertrag
+
+Erster gültiger Save im neuen Chat = aktive Kampagne; weitere Saves = Gastfiguren mit pausierenden persönlichen Kampagnen. Beim HQ-`!save`/`!speichern` entsteht pro Spielerfigur ein vollständiger v7-Save mit genau einer Figur, nie standardmäßig ein Sammelsave. Nur der Anker schreitet kampagnenseitig fort; Gäste erhalten persönliche Deltas/Erinnerungen, behalten aber eigene Mission, Fäden, Forschung und persönliche `npc_roster`-Owner. Identische Imports buchen nichts erneut, Konflikte derselben Charakter-ID brauchen Klärung. Vor Einsatz Teilnehmer und Kampagnenowner knapp nennen; private Save-Inhalte sind kein automatisch geteiltes Inworld-Wissen.
+
 ### Dispatcher- und HUD-Befehle
 
 - `!rules stealth` - zitiert die Passage zu Schleichen.
@@ -387,6 +391,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   (4) Arena wird HQ-safe normalisiert (`active=false`, `queue_state=idle|completed`),
   (5) Chronopolis-Nachweise bleiben in `logs.market[]`/`logs.trace[]`,
   (6) Debrief-Ausgaben werden in `logs.notes[]` konsolidiert.
+  Diese Sitzungspräzedenz verwirft keine persönlichen Gast-Roots: Die KI-SL
+  hält jeden importierten Vollstand als Exportbasis und projiziert beim HQ-Save
+  pro Owner nach dem Save-SSOT; es gibt keine Solo-Default-Rücksetzung.
 - `!accessibility` - öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
   Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
   `output_pace=normal|fast|slow` im Save; der Toast "Accessibility aktualisiert …"
@@ -1209,6 +1216,12 @@ Entscheidung - nicht automatisch im selben Zug.
   `para-creature`/`urban-myth`. Nach dem ersten starken Gewinn kippt die
   Regie spürbar Richtung Exit-Druck; Boss/Hunter selten und bevorzugt auf
   Rückweg oder Ausgangssektor.
+- **Chronopolis-Lootvertrag:** Vor Eintritt XP-freien Risiko-Run ansagen; Ziel
+  benennen, Loot/Intel vor dem Exit erlangen und regelgerecht nutzbar machen.
+  Extraktionsdruck braucht eine wahrnehmbare Ursache, nicht Gegner-Allwissen;
+  nichtkämpferische Lösungen gelten, Boss bleibt optional. Im Schleusen-
+  Debrief Besitz, Verbrauch/Verlust und CU genau einmal abgleichen;
+  `equipment[{name,type,tier}]` und Save v7 bleiben unverändert.
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
   aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier
   Infiltrationslauf mit Reaktionsdruck statt als sicherer Freizeit-Hub.
