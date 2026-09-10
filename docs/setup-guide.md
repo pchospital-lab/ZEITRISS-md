@@ -125,16 +125,14 @@ Reparaturzusage durch den Bootstrap.
 
 ### Download- und Freigabestatus
 
-Zum Prüfzeitpunkt 10.09.2026 ist kein GitHub-Release mit dauerhaft
-freigegebenem Upload-Paket bestätigt. Ein noch nicht gebautes oder nur 14 Tage
-aufbewahrtes Actions-Artefakt ist kein öffentlicher Release-Download. Deshalb
-bleibt der oben beschriebene Quell-ZIP-Weg mit bewusst gewähltem Commit/Tag der
-funktionierende Browser-Fallback; es wird keine erfundene Asset-URL genannt.
+Das öffentliche Repository ist bereits veröffentlicht und sein Quell-ZIP mit
+bewusst gewähltem Commit/Tag ist ein funktionierender Browser-Download. Ein
+zusätzliches, bereinigtes Upload-Paket ist eine optionale Bequemlichkeit; ein
+GitHub-Release ist weder Voraussetzung für Spielbarkeit noch für den Merge.
 
 Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
 → genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
-über Freigabe und Veröffentlichung → erst danach echte Release-/Asset-Links
-eintragen. Der Workflow veröffentlicht nichts automatisch.
+optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automatisch.
 
 ## Überblick: Wie ZEITRISS läuft
 
@@ -932,7 +930,7 @@ Wenn ihr das Script nicht nutzen wollt:
 | --- | --- |
 | **core** | `spieler-handbuch.md`, `zeitriss-core.md`, `wuerfelmechanik.md`, `sl-referenz.md` |
 | **characters** | `charaktererschaffung-grundlagen.md`, `ausruestung-cyberware.md`, `zustaende.md`, `hud-system.md` |
-| **gameplay** | `kampagnenstruktur.md`, `kampagnenübersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
+| **gameplay** | `kampagnenstruktur.md`, `kampagnenuebersicht.md`, `kreative-generatoren-missionen.md`, `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`, `massenkonflikte.md` |
 | **systems** | `kp-kraefte-psi.md`, `cu-waehrungssystem.md`, `speicher-fortsetzung.md`, `cinematic-start.md`, `toolkit-gpt-spielleiter.md` |
 
 **Nicht hochladen**: `README.md`, `master-index.json`, Archiv-Dateien.
@@ -975,8 +973,12 @@ bewusst im Spiel haben wollt.
 
 ### "Die SL antwortet, aber Regeln klingen falsch"
 
-Das Retrieval zieht vermutlich keine Regeln aus der KB. Erst Script
-noch einmal laufen lassen:
+Prüfe zuerst im Browser/Projekt die sichtbaren dauerhaften Quellen einzeln
+gegen die 19er-Liste und kontrolliere, ob die richtige Anweisung vollständig
+gesetzt ist. Eine erfolgreiche Stichprobe beweist weder die Einbindung aller
+Dateien noch die Erreichbarkeit sämtlicher Regeln.
+
+Nur beim optionalen OpenWebUI-Weg danach das Script erneut laufen lassen:
 
 ```bash
 python scripts/setup.py
@@ -995,9 +997,9 @@ baut alles neu auf.
 ### "Das Script meldet Fehler beim Verknüpfen der Dateien"
 
 Der Verknüpfungs-Endpunkt von OpenWebUI meldet manchmal spurious
-HTTP-Fehler. Entscheidend ist der **Retrieval-Check** am Ende: Solange
-dort `KB-Retrieval funktioniert` steht, sind alle Dateien korrekt
-eingebunden.
+HTTP-Fehler. Der **Retrieval-Check** am Ende ist eine nützliche Stichprobe,
+aber kein Beweis, dass alle Dateien korrekt eingebunden oder sämtliche Regeln
+zuverlässig erreichbar sind. Zusätzlich die Quellenliste im Projekt prüfen.
 
 ### "Ich habe einen komplett zerschossenen Zustand"
 

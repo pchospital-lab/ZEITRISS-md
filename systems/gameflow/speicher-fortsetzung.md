@@ -1808,9 +1808,11 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 Die Ansicht zeigt immer den aktuellen nachvollziehbaren Stand, verändert keine
 Werte und ist weder JSON-Export noch erlaubter Mid-Mission-DeepSave.
 
-**Chronopolis-Besitz beim v7-Save:** Erst der Schleusen-Debrief macht
-mitgebrachte Funde zu Besitz. Verbrauch, Verlust, Abgabe sowie Kauf/Verkauf und
-CU werden einmal abgeglichen; Import, Join und Merge buchen sie nicht erneut.
+**Chronopolis-Besitz beim v7-Save:** Im Run besteht tatsächlicher vorläufiger
+Besitz: normale Nutzung, Verbrauch, Verlust und Käufe wirken sofort. Der
+Schleusen-Debrief bestätigt die erfolgreiche Extraktion und gleicht diesen
+Stand ab; er bucht weder Verbrauch noch CU ein zweites Mal. Erst danach folgt
+der persistente persönliche HQ-Export. Import, Join und Merge buchen nichts erneut.
 Verworfene Runs werden beim Gruppen-Reload vollständig zurückgerollt. Legitime
 gleichnamige Gegenstände werden nicht nur nach Namen dedupliziert, ein
 einmaliger Fund aber auch nicht vervielfacht. Nutze vorhandene Notiz- und
