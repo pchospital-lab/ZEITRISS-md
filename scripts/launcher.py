@@ -1559,20 +1559,33 @@ def action_export() -> None:
     else:
         modes = [False, True]
 
+    results = []
     try:
         for flat in modes:
-            setup_module.run_export(REPO, cfg, flat=flat, out_dir=out_dir)
-    except SystemExit:
-        pass
+            results.append(setup_module.run_export(REPO, cfg, flat=flat, out_dir=out_dir))
+    except SystemExit as exc:
+        print(red(f"\n  Export abgebrochen (Exitcode {exc.code})."))
+        if results:
+            print(yellow("  Bereits erfolgreich erzeugt; fehlgeschlagene Variante fehlt:"))
+            for result in results:
+                print(yellow(f"   • {result.name} ({result.with_suffix('.zip').name})"))
+        _pause()
+        return
     except Exception as e:
         print(red(f"\n  Export fehlgeschlagen: {e.__class__.__name__}: {e}"))
         _pause()
         return
 
+    print("\n  Erfolgreich erzeugt:")
+    for result in results:
+        print(green(f"   ✓ {result.name}"))
+        print(green(f"     {result.with_suffix('.zip').name}"))
     print()
     print(bold("  Hinweise für den Import in deine Zielplattform:"))
-    print("   • masterprompt.md kommt als SYSTEMPROMPT / Projekt-Anweisung")
-    print("     in die Zielplattform — NICHT als Wissensdokument.")
+    print("   • Direkter Weg: system/SYSTEM_PROMPT_ONLY.md vollständig als")
+    print("     Projekt-Anweisung; dann nicht zusätzlich als Wissensdokument.")
+    print("   • Bootstrap-Weg: system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md als")
+    print("     Anweisung und SYSTEM_PROMPT_ONLY.md zusätzlich als Projektquelle.")
     print("   • Die Wissensmodule gehen als 'Wissen' / 'Projekt-Dateien' /")
     print("     'Knowledge' rein — je nachdem wie die Plattform das nennt.")
     print("   • Ohne retrieval-fähige Plattform wird's unzuverlässig.")

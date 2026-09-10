@@ -203,14 +203,20 @@ def discover_knowledge_files(repo: Path, cfg: dict) -> list[Path]:
     if idx_path.exists():
         with open(idx_path, encoding="utf-8") as f:
             idx = json.load(f)
+        seen: set[str] = set()
         for mod in idx.get("modules", []):
             if mod.get("slot") is True:
                 rel = mod["path"].split("#")[0]  # strip anchors
+                if rel in seen:
+                    print_error(f"Duplicate slot file in master-index.json: {rel}")
+                    sys.exit(1)
+                seen.add(rel)
                 fp = repo / rel
                 if fp.exists():
                     files.append(fp)
                 else:
-                    print_warn(f"Slot file missing: {rel}")
+                    print_error(f"Required slot file missing: {rel}")
+                    sys.exit(1)
         if files:
             return files
 
@@ -683,10 +689,44 @@ def run_export(
 ) -> Path:
     """Export a knowledge pack for manual setup on alternative chat platforms."""
     project = cfg["project"]
+    repo = repo.resolve()
+    # Herkunft vor dem Schreiben in den Ausgabeordner feststellen. Nur ein
+    # Git-Worktree, dessen Toplevel exakt dieses Projekt ist, gilt als belegt.
+    commit: Optional[str] = None
+    dirty: Optional[bool] = None
+    provenance = "unconfirmed"
+    try:
+        git_root = Path(subprocess.check_output(
+            ["git", "-C", str(repo), "rev-parse", "--show-toplevel"],
+            text=True, stderr=subprocess.DEVNULL,
+        ).strip()).resolve()
+        if git_root == repo and (repo / ".git").exists():
+            commit = subprocess.check_output(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"], text=True
+            ).strip()
+            dirty = bool(subprocess.check_output(
+                ["git", "-C", str(repo), "status", "--porcelain"], text=True
+            ).strip())
+            provenance = "confirmed-git"
+    except (OSError, subprocess.CalledProcessError, ValueError):
+        pass
+    if require_clean and (provenance != "confirmed-git" or dirty is not False):
+        print_error(
+            "Veröffentlichungsbuild abgebrochen: Herkunft und sauberer "
+            "Git-Arbeitsbaum müssen eindeutig bestätigt sein."
+        )
+        sys.exit(1)
+
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     base = Path(out_dir) if out_dir else repo / ".exports"
     slug = project.lower().replace(" ", "-")
-    dest = base / f"{slug}-knowledge-pack-{stamp}"
+    layout = "flat" if flat else "structured"
+    stem = f"{slug}-knowledge-pack-{layout}-{stamp}"
+    dest = base / stem
+    suffix = 2
+    while dest.exists() or dest.with_suffix(".zip").exists():
+        dest = base / f"{stem}-{suffix}"
+        suffix += 1
     know_dir = dest / "knowledge"
     sys_dir = dest / "system"
 
@@ -699,6 +739,20 @@ def run_export(
     if not mp_path.exists():
         print_error(f"Masterprompt not found: {cfg['masterprompt']}")
         sys.exit(1)
+
+    required_sources = [repo / "LICENSE"]
+    for key, label in (
+        ("project_bootstrap_instructions", "Project bootstrap"),
+        ("creator_bootstrap_instructions", "Creator bootstrap"),
+    ):
+        rel = cfg.get(key)
+        if rel and not (repo / rel).is_file():
+            print_error(f"{label} not found: {rel}")
+            sys.exit(1)
+    for required in required_sources:
+        if not required.is_file():
+            print_error(f"Required license notice not found: {required.name}")
+            sys.exit(1)
 
     print_header(f"{project} – Export Knowledge Pack")
 
@@ -730,6 +784,10 @@ def run_export(
     shutil.copy2(mp_path, sys_dir / "SYSTEM_PROMPT_ONLY.md")
     source_map["system/SYSTEM_PROMPT_ONLY.md"] = mp_path.relative_to(repo).as_posix()
     print_ok(f"System prompt: system/SYSTEM_PROMPT_ONLY.md")
+
+    shutil.copy2(repo / "LICENSE", dest / "LICENSE")
+    source_map["LICENSE"] = "LICENSE"
+    print_ok("License notice: LICENSE")
 
     bootstrap_exported = False
     bootstrap_rel = cfg.get("project_bootstrap_instructions")
@@ -766,26 +824,11 @@ def run_export(
         cfg,
         len(kb_files),
         flat,
+        knowledge_files=[p for p in source_map if p.startswith("knowledge/")],
         has_bootstrap=bootstrap_exported,
         has_creator_bootstrap=creator_bootstrap_exported,
     )
     print_ok("Setup instructions: SETUP-ANLEITUNG.md")
-
-    try:
-        commit = subprocess.check_output(
-            ["git", "-C", str(repo), "rev-parse", "HEAD"], text=True
-        ).strip()
-        dirty = bool(subprocess.check_output(
-            ["git", "-C", str(repo), "status", "--porcelain"], text=True
-        ).strip())
-    except (OSError, subprocess.CalledProcessError) as exc:
-        print_error(f"Git-Herkunft konnte nicht bestimmt werden: {exc}")
-        shutil.rmtree(dest, ignore_errors=True)
-        sys.exit(1)
-    if require_clean and dirty:
-        print_error("Veröffentlichungsbuild abgebrochen: Arbeitsbaum ist nicht sauber.")
-        shutil.rmtree(dest, ignore_errors=True)
-        sys.exit(1)
 
     files = []
     for path in sorted(p for p in dest.rglob("*") if p.is_file()):
@@ -800,6 +843,8 @@ def run_export(
         "project_version": cfg.get("version"),
         "source_commit": commit,
         "source_dirty": dirty,
+        "source_provenance": provenance,
+        "source_confirmed": provenance == "confirmed-git",
         "knowledge_slots": len(kb_files),
         "files": files,
     }
@@ -832,6 +877,7 @@ def _write_setup_readme(
     cfg: dict,
     file_count: int,
     flat: bool,
+    knowledge_files: Optional[list[str]] = None,
     has_bootstrap: bool = False,
     has_creator_bootstrap: bool = False,
 ) -> None:
@@ -885,6 +931,11 @@ def _write_setup_readme(
     lines += [
         "- Diese Anleitung (`SETUP-ANLEITUNG.md`) — nur für dich, nicht hochladen",
         "- `BUILD-MANIFEST.json` — Herkunft und SHA-256-Prüfsummen; nicht hochladen",
+        "- `LICENSE` — erforderlicher Lizenzhinweis; nicht als Spielwissen hochladen",
+        "",
+        "### Enthaltene Wissensmodule",
+        "",
+        *[f"- `{path}`" for path in (knowledge_files or [])],
         "",
         "**Wichtig:** Dateien gehören in projektweite Quellen / Projektwissen /",
         "Knowledge Base. Reine Chat-Anhänge zählen bei vielen Plattformen nur",
@@ -903,6 +954,8 @@ def _write_setup_readme(
         "4. Nichts anderes hochladen: keine README, keine SETUP-ANLEITUNG,",
         "   keine Archivdateien.",
         f"5. Neuen Chat im Projekt starten und `{start_cmd}` schreiben.",
+        "6. Alternativ einen persönlichen Save direkt in diesen neuen Chat",
+        "   einfügen und `Spiel laden` oder `!laden` schreiben.",
         "",
         "### Weg B — Kleines Anweisungsfeld: Bootstrap + Masterprompt als Projektquelle",
         "",
@@ -918,6 +971,8 @@ def _write_setup_readme(
         "4. Wichtig: Diese Dateien müssen in den projektweiten Quellen / im",
         "   Projektwissen liegen, nicht nur als Dateianhang in einem einzelnen Chat.",
         f"5. Neuen Chat im Projekt starten und `{start_cmd}` schreiben.",
+        "6. Alternativ einen persönlichen Save direkt in diesen neuen Chat",
+        "   einfügen und `Spiel laden` oder `!laden` schreiben.",
         "",
         "Falls `PROJECT_BOOTSTRAP_INSTRUCTIONS.md` nicht vorhanden ist, nutze",
         "`meta/project_bootstrap_instructions.md` aus dem Repo.",
@@ -965,6 +1020,16 @@ def _write_setup_readme(
         "",
         "Plattformen ohne projektweites Wissen/Quellen oder ohne Retrieval "
         f"sind für {project} ungeeignet.",
+        "",
+        "## Regelquellen und persönliche Saves",
+        "",
+        "Die Regelmodule bleiben dauerhaft im Projektwissen. `!speichern` /",
+        "`!save` erzeugt im HQ pro Spielerfigur einen persönlichen JSON-Save im",
+        "Chat; bewahre ihn extern auf. Für den nächsten Abschnitt fügst du genau",
+        "diesen Save in einen neuen Spielchat ein und nutzt `!laden`, `Spiel laden`",
+        "oder direktes Einfügen als Ladeauftrag. ZEITRISS verspricht keine",
+        "automatische Dateiablage. Saves gehören nicht dauerhaft zwischen die",
+        "Regelquellen.",
         "",
         "## Parameter (falls einstellbar)",
         "",

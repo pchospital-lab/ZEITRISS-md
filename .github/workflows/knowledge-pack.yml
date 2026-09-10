@@ -14,7 +14,10 @@ jobs:
       - name: Export clean knowledge pack
         run: python3 scripts/setup.py --export --require-clean --out "$RUNNER_TEMP/export"
       - name: Verify export and ZIP
-        run: node tools/test_player_feedback_watchguard.js
+        run: |
+          PACK_ZIP=$(find "$RUNNER_TEMP/export" -maxdepth 1 -type f -name '*.zip' -print -quit)
+          test -n "$PACK_ZIP"
+          PACK_ZIP="$PACK_ZIP" node tools/test_player_feedback_watchguard.js
       - name: Name artifact
         id: artifact
         run: echo "name=zeitriss-knowledge-pack-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
