@@ -14,14 +14,40 @@ const slotSources = [...new Set(index.modules.filter((m) => m.slot === true)
   .map((m) => m.path.split('#')[0]))];
 assert.strictEqual(slotSources.length, 19, 'master-index.json muss 19 eindeutige Slot-Quellen liefern');
 const { getDocText: getRepoDocText } = createDocTextLoader({ root, scopeLabel: 'Player Feedback Watchguard' });
-const pyro = getRepoDocText('systems/kp-kraefte-psi.md')
+const psi = getRepoDocText('systems/kp-kraefte-psi.md');
+const pyro = psi
   .split('### Pyrokinese')[1].split('\n### ')[0];
 for (const contract of [
   /\| Psioniker 1, TEMP 3 \| Low \| 1 \| 0 \|/, /Medium \| 2 \| 1 frei \|/, /High \| 3 \| 2 frei \|/,
+  /kraftspezifische Mindest-Fokuslast/, /allgemeine 0-SYS-Impulsregel hebt diese\s+Mindest-Fokuslast nicht auf/,
   /keine zweite Ausweichprobe/, /Anti-Psi-Gitter erhöht den SG um \+2/, /SYS wird frei, PP,/,
   /kritischer Patzer kann weiterhin die bestehende\s+Backlash-Tabelle/, /kein Brand/, /selbstständig weiter/,
   /⌊TEMP 5\/2⌋=2/, /SYS-Belegung wieder 1\/4/,
 ]) assert.match(pyro, contract, `Pyrokinese-Vertrag fehlt: ${contract}`);
+
+const generalCosts = psi.slice(0, psi.indexOf('### Pyrokinese'));
+assert.strictEqual((generalCosts.match(/\[Pyrokinese\]\(#pyrokinese\)/g) || []).length, 2,
+  'beide allgemeinen Kosten-Kurzstellen müssen die Pyrokinese-Ausnahme verlinken');
+assert.match(generalCosts, /Effekt unter 1 Sekunde kostet 0 SYS; ausgenommen[^\n]*\n[^\n]*Mindest-Fokuslast/);
+assert.match(generalCosts, /Kurze Effekte \(<1 Sekunde\) kosten 0 SYS;[^\n]*Mindest-Fokuslast/);
+const sysShortRule = psi.split('### Psi-SYS-Kurzregel')[1].split('\n### ')[0];
+assert.match(sysShortRule, /Impuls unter 1 Sekunde[^\n]*\[Pyrokinese\]\(#pyrokinese\)/,
+  'die allgemeine Impuls-Tabelle muss die Pyrokinese-Ausnahme nennen');
+assert.match(psi, /Der Stoß ist <1 Sekunde, daher \*\*0 SYS\*\*/,
+  'der telekinetische Impuls muss unverändert 0 SYS belegen');
+
+// Redaktionelle Zustandsrechnung, keine Kampfengine und kein Modell-Playtest.
+const pyroActivation = ({ pp, freeSys, ppCost, sysLoad }) => ({
+  possible: pp >= ppCost && freeSys >= sysLoad,
+  duringActivation: pp >= ppCost && freeSys >= sysLoad ? sysLoad : 0,
+  afterActivation: 0,
+});
+assert.deepStrictEqual(pyroActivation({ pp: 2, freeSys: 1, ppCost: 2, sysLoad: 1 }),
+  { possible: true, duringActivation: 1, afterActivation: 0 });
+assert.strictEqual(pyroActivation({ pp: 2, freeSys: 0, ppCost: 2, sysLoad: 1 }).possible, false,
+  'Medium bleibt bei 0 freien SYS gesperrt, obwohl der Impuls unter 1 Sekunde dauert');
+assert.strictEqual(pyroActivation({ pp: 3, freeSys: 1, ppCost: 3, sysLoad: 2 }).possible, false,
+  'High bleibt bei nur 1 freier SYS gesperrt');
 
 function expectedFiles(flat) {
   const expected = new Map();

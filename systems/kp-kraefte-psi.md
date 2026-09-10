@@ -24,7 +24,8 @@ tags: [system, psi, optional]
 - **Charakter-Gating (`has_psi`):** Ob ein Charakter Psi-Kräfte aktiv nutzen kann, ist individuell und wird über `has_psi` gesteuert.
 - **Spielfluss:** Gruppen ohne aktive Psi-Charaktere bleiben voll spielbar; Schlüsselszenen benötigen stets mindestens einen nicht-psionischen Lösungsweg.
 
-- Effekt unter 1 Sekunde kostet 0 SYS.
+- Effekt unter 1 Sekunde kostet 0 SYS; ausgenommen ist nur die ausdrücklich
+  kraftspezifische Mindest-Fokuslast der [Pyrokinese](#pyrokinese).
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0-3 m, Mittel 3-15 m mit +1 auf die Schwelle, Fern 15-50 m nur erzaehlerisch.
 - Nahkampf-Telekinese nutzt [TK-Melee()](toolkit-gpt-spielleiter.md#tk-melee-macro); SR ≥ 2 erhöht die SG um +1.
@@ -40,7 +41,7 @@ tags: [system, psi, optional]
 > **Psi-Kosten auf einen Blick:**
 >
 > - **PP (Power-Punkte)** = Energiepool, wird verbraucht. Pool = TEMP-Wert. Regeneriert nach jedem Konflikt.
-> - **SYS (Systemlast)** = wird temporär belegt, solange eine Kraft aktiv ist. Kurze Effekte (<1 Sekunde) kosten 0 SYS.
+> - **SYS (Systemlast)** = wird temporär belegt, solange eine Kraft aktiv ist. Kurze Effekte (<1 Sekunde) kosten 0 SYS; die ausdrücklich kraftspezifische Mindest-Fokuslast der [Pyrokinese](#pyrokinese) bleibt davon unberührt.
 > - Jede Psi-Kraft hat PP-Kosten (einmalig beim Wirken) und SYS-Kosten (temporär belegt bei anhaltenden Effekten).
 > - Faustregel: PP bezahlen die Aktivierung, SYS begrenzt wie viel gleichzeitig laufen kann.
 
@@ -178,10 +179,13 @@ automatischen Umgebungsbrand.
 | Psioniker 2, TEMP 5 | Medium | 2 | 1 frei | TEMP, SG 12 | 0–15 m | 1 | Fokus bis zum Impuls (<1 s) | fokussierter Treffer, 3 LP | 2 Runden | +1 |
 | Psioniker 3, TEMP 7 | High | 3 | 2 frei | TEMP, SG 15 | 0–15 m | 1 | Fokus bis zum Impuls (<1 s) | starker fokussierter Treffer, 5 LP | 3 Runden | +1 |
 
-SYS ist Kapazität, kein Verbrauchspool: Low benötigt 0, Medium/High benötigen
-beim Ansagen 1/2 **freie** SYS und belegen sie nur während des Fokus bis zum
-Impuls. Danach werden sie sofort frei, auch bei Fehlschlag oder Unterbrechung;
-das SYS-Maximum ändert sich nicht. Die sichtbare Hitzeerscheinung darf danach
+Pyrokinese hat ausdrücklich eine kraftspezifische Mindest-Fokuslast. SYS ist
+Kapazität, kein Verbrauchspool: Low benötigt 0, Medium/High benötigen beim
+Ansagen 1/2 **freie** SYS und belegen sie trotz der kurzen Impulsdauer nur
+während des Fokus bis zum Impuls. Danach werden sie sofort frei, auch bei
+Fehlschlag oder Unterbrechung; die allgemeine 0-SYS-Impulsregel hebt diese
+Mindest-Fokuslast nicht auf. Das SYS-Maximum ändert sich nicht. Die sichtbare
+Hitzeerscheinung darf danach
 noch kurz abklingen, hält aber weder Fokus noch SYS-Belegung aufrecht. Alle drei
 Stufen treffen genau ein Ziel; aus Squad-
 Buffs entsteht kein kostenloses Mehrfachziel.
@@ -213,7 +217,8 @@ eigener SR-/Deckungsgrenze und optionaler SYS-Folgeaktion; Pyrokinese ist
 stattdessen ein fester Einzelzielschaden mit PP, Heat und Stufen-Cooldown.
 Anders als Psi-Waffenmanifestation (1 PP/1 SYS für
 eine trainierte Grundwaffe) manifestiert sie keine wiederholt nutzbare Waffe;
-jeder Treffer zahlt Probe, PP, SYS, Heat und Cooldown neu.
+jeder Treffer verlangt Probe und PP, benötigt die angegebene freie
+SYS-Kapazität, belegt sie bis zum Impuls und löst Heat und Cooldown neu aus.
 
 **Rechenbeispiel:** Agentin Rhea (`has_psi=true`, Psioniker 2, TEMP 5,
 PP 5/5, SYS 4, davon 3 frei, Heat 0) nutzt Medium auf ein sichtbares Ziel in
@@ -927,7 +932,7 @@ Implantate herunterregeln zu müssen.
 
 | Effektart                  | SYS          | Hinweis                              |
 | -------------------------- | ------------ | ------------------------------------ |
-| Impuls unter 1 Sekunde     | 0            | kein Slotverbrauch                   |
+| Impuls unter 1 Sekunde     | 0            | kein Slotverbrauch; Ausnahme: [Pyrokinese](#pyrokinese) |
 | Aktiv bis 1 Runde          | 1            | blockiert 1 SYS während der Wirkzeit |
 | Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten          |
 

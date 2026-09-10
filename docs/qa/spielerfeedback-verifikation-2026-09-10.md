@@ -119,3 +119,22 @@ synthetische Redaktion ausdrücklich von echten Modell-/Plattformtests. Letztere
 wurden ebenso wenig wie Workflow, Release oder Veröffentlichung ausgeführt.
 Das Repository bleibt der vorhandene öffentliche Downloadweg; ein zusätzliches
 fertiges Upload-Paket ist eine optionale Maintainerentscheidung.
+
+## Nachtrag: Pyrokinese-SYS-Kurzregel
+
+Die kraftspezifische Mindest-Fokuslast der Pyrokinese ist nun ausdrücklich von
+der allgemeinen 0-SYS-Regel für Impulse unter einer Sekunde abgegrenzt: Low
+benötigt 0, Medium 1 und High 2 freie SYS; Medium/High belegen diese Kapazität
+nur während der Aktivierung und geben sie danach frei. Allgemeine kurze
+Impulskräfte bleiben unverändert, insbesondere der telekinetische Stoß mit
+0 SYS.
+
+Der Player-Feedback-Watchguard prüft die Verweise beider allgemeinen
+Kosten-Kurzstellen sowie der SYS-Kurzregel auf die Pyrokinese-Ausnahme. Seine
+redaktionelle Zustandsrechnung bestätigt Medium mit 1 freier SYS einschließlich
+Freigabe sowie die Ablehnung von Medium mit 0 und High mit nur 1 freier SYS.
+Das sind statische Textprüfungen und deterministische redaktionelle Rechnungen,
+keine echten Modell-Playtests. Ausgeführt wurden
+`node tools/test_player_feedback_watchguard.js`, `bash scripts/smoke.sh` und
+`git diff --check`; alle drei Prüfungen waren erfolgreich. Es wurden keine
+Modell-, Plattform- oder Release-Tests durchgeführt.
