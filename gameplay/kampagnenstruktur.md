@@ -356,9 +356,11 @@ der Core-Ops; Relikte bleiben Core-exklusiv. Ein Artefaktwurf erfolgt ausschlie�
 nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar).
 Epiloge bleiben würfelfrei, Stoppuhr-Artefakte gelten nur als Plot-Schwachstellen.
 Damit bleibt die Belohnungslogik über alle Rift-Ops hinweg balancestabil.
-**Spielgefühl Rift-Ops:** Mystery-Casefile / Monster-Hunt im Agenten-Thriller-Rahmen. Eine
-Kreatur oder Anomalie pro Mission, die mit einem einzigen Zeit-Marker verbunden ist
-(Echo, Loop, Phasenverschiebung). Der Rest der Mission ist bodenständige Ermittlung,
+**Spielgefühl Rift-Ops:** Mystery-Casefile / Monster-Hunt im Agenten-Thriller-
+Rahmen. Ein zusammenhängender außergewöhnlicher Fallkern pro Mission; er kann Boss,
+Brut/Rudel, Befallene und zugehörige physische Gegner umfassen. Sein `time_marker`
+erklärt die Ursache, ist aber weder sichtbarer Dauer-Effekt noch Pflichtziel. Der
+Rest der Mission ist bodenständige Ermittlung,
 Jagd und Konfrontation. Beispiel: Ein Zukunfts-Rift führt in ein Raumschiff — die
 Besatzung muss gerettet werden, Raptoren in den Lüftungsschächten stammen von einer
 Fremdfraktion. Das HAT mit der Zeitlinie zu tun, braucht aber KEINE Zeiteffekte als
@@ -376,9 +378,10 @@ gilt für Briefing, Szenenleitung und Tech-Aktionen dieser Contract:
 > Signalpfad) gilt in **allen** Modi. Rift-Ops ergänzen hier nur die
 > zeitspezifischen Zusatzguards.
 
-- **Zeitmarker klar benennen:** Pro Rift-Op genau **ein** Zeitmarker
-  (`Echo`, `Loop` oder `Phasenverschiebung`) als Phänomen, nicht als
-  „Netzwerkebene".
+- **Zeitursache intern klar halten:** Pro Rift-Op genau ein zusammenhängender
+  Fallkern; `time_marker` darf ihn als Metadatum klassifizieren. Nur wenn der Marker
+  in einer konkreten Szene tatsächlich wirkt, wird er benannt — kein Pflicht-Effekt
+  und keine temporale Analysepflicht.
 - **Anker-Begriffe trennen:**
   - **IA/RW-Anker** = Einsatzfenster (Insertion Anchor/Return Window).
   - **Fallanker** = konkreter Bezug im Fall (Objekt, Ort oder Person).
@@ -395,7 +398,7 @@ gilt für Briefing, Szenenleitung und Tech-Aktionen dieser Contract:
   sondern nur mit ausreichendem `TEMP` oder PSI-Freigabe zulässig.
 
 **Kurzformat pro Rift-Szene (Pflicht bei Tech-Moves):**
-`Zeitmarker · Fallanker · Schnittstelle · Signalpfad · Risiko bei Fehlschlag`
+`Fallkern/konkrete Spur · Fallanker · Schnittstelle · Signalpfad · Risiko bei Fehlschlag`
 
 Rift-Seeds sind **Narben früherer Fehlgriffe** - ob durch Fremdfraktionen,
 fehlgeleitete Chrono-Teams oder eigene Fehlentscheidungen. Sie erscheinen auf
@@ -449,10 +452,10 @@ Herausforderungen — nicht nur steigende Zahlenwerte.
 | Tier  | Levelbreich | Seed-Tag    | Neue Mechaniken & Herausforderungen                                                                                                                                                                                        |
 | ----- | ----------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **1** | 1–24        | `early`     | Basis-Paramonster, einfache Anomalien; Fokus auf Erkundung und erste Rift-Erfahrung.                                                                                                                                       |
-| **2** | 25–79       | `early-mid` | **Zwischenstufe:** Paramonster mit Phasen-Mechaniken (Enrage, Phasenwechsel); Umgebungseffekte (Zeitregen, Schwerkraft-Flimmern) als permanente Szenen-Modifier. Erste Cluster-Events möglich.                             |
+| **2** | 25–79       | `early-mid` | **Zwischenstufe:** Paramonster mit Phasen-Mechaniken (Enrage, Phasenwechsel); Zeitregen oder Schwerkraft-Flimmern sind begrenzte optionale Ausprägungen desselben Fallkerns, keine permanenten Pflichtmodifikatoren. Physische/taktische Ansätze tragen die höhere Schwierigkeit. Erste Cluster-Events möglich. |
 | **3** | 80–199      | `mid`       | Multi-Phase-Bosse mit Schwachstellen-Rotation; Rift-Instabilitäten erzwingen taktische Repositionierung; Seed-Kombinationen (zwei Seeds interagieren).                                                                     |
-| **4** | 200–499     | `mid-late`  | **Zwischenstufe:** Bosse nutzen eingeschränkte Chrono-Tricks (Zeitschleife einer Runde, Echo-Doppelgänger); Para-Fauna als permanente Begleittruppen; Cluster-Rifts mit parallelen Zielen (Containment + Neutralisierung). |
-| **5** | 500–1000    | `late`      | Apex-Paramonster mit voller Chrono-Suite; Seed-Ketten (Abschluss eines Seeds öffnet den nächsten); Rift-Kern-Zerstörung als Multi-Szenen-Showdown mit eigener Foreshadow-Sequenz.                                          |
+| **4** | 200–499     | `mid-late`  | **Zwischenstufe:** Bosse dürfen optional einen begrenzten Chrono-Trick (z. B. eine Runde Zeitschleife oder einen Echo-Doppelgänger) innerhalb des gemeinsamen Fallkern-/Effektbudgets nutzen; andere Phasen bleiben physisch/taktisch. Para-Fauna kann als zugehörige Begleittruppe auftreten; Cluster-Rifts behalten ihre bestehenden parallelen Funktionen. |
+| **5** | 500–1000    | `late`      | Apex-Paramonster mit physischen/taktischen Spezialitäten und optional einem begrenzten Zeittrick; Seed-Ketten (Abschluss eines Seeds öffnet den nächsten); Rift-Kern-Zerstörung als Multi-Szenen-Showdown mit eigener Foreshadow-Sequenz.                                          |
 
 ##### Tier-Übergangs-Regeln
 
@@ -626,7 +629,7 @@ Bedrohung oder Umgebungsdynamik, die in dieser Phase aktiv ist und Crew zu
 | **Crew-Mali**          | Rauchgranate (Sicht ≤ 3m, GES-Proben SG +2), Tinnitus (Comlink ausgefallen 1 Phase), Stress-Druck (+1 pro Beat) |
 | **Add-Spawn**          | 2 Standard-Gegner pro Crew-Runde, müssen Aufmerksamkeit teilen; Add-Welle 1×/Phase                              |
 | **Umgebungs-Effekt**   | Brennende Vorhänge (Beat 3: Sicht runter), Bodenriss (Beat 5: Bewegung SG +1), kollabierendes Dach (Beat 6: 1W6 Schaden) |
-| **Zeit-Spezial**       | Episoden-Boss: 1× kurzer Chrono-Effekt (Initiative-Reset, 1 Runde Slow-Motion); Rift-Boss: voller Chrono-Suite |
+| **Zeit-Spezial**       | Episoden-Boss: 1× kurzer Chrono-Effekt (Initiative-Reset, 1 Runde Slow-Motion); neu generierter Rift-Boss: optional höchstens 1 klar begrenzter, angekündigter und abwehrbarer Zeittrick in einer Phase; übrige Phasen nutzen andere Kategorien |
 | **Heal-Threshold**     | Boss heilt 1–3 LP, wenn Crew einen Beat lang nicht angreift (zwingt zu Dauerdruck)                              |
 | **Druckmittel**        | Boss greift nach Geisel/MacGuffin — Crew muss aufteilen (Boss bekämpfen vs. Geisel sichern)                     |
 
@@ -728,7 +731,8 @@ Der Signaturtell ersetzt keine Boss-Mechanik; er macht Vorbereitung spürbar.
 
 Rift-Casefiles führen drei Beweisachsen: **Bio**, **Material**, **Temporal**.
 Sichert das Team mindestens **2 von 3** Achsen sauber, gilt der Fall als
-klassifiziert und die Spielleitung gibt den Kern klar frei.
+klassifiziert und die Spielleitung gibt den Kern klar frei. **Bio + Material**
+reichen ausdrücklich aus; Temporal ist keine Builder-Pflicht.
 
 Payoff bei 2/3 oder 3/3:
 

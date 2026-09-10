@@ -165,21 +165,26 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
 - **Rift-Briefing paritätisch:** Rift-Ops nutzen denselben Anchor/Objective-Baukasten,
   ziehen jedoch eher Objekt-Anker (≤ 60 %). Ein verdeckter Twist aus dem Rift-Seed bleibt
   bis Szene 8 reserviert. **Rift-Pacing:** Starte mit einem mysteriösen Detail
-  (Fundort, Zeuge, Anomalie-Spur), nicht mit dem Monster — Entdeckung vor
-  Eskalation, wie in einem guten X-Files-Film. Starte mit `riff_briefing(seed_id, risk)` oder setze die Felder
+  (Fundort, Zeuge, konkrete Spur), nicht mit dem Monster — frühe körperliche
+  Gefahr und Spurarbeit laufen parallel; Entdeckung vor Enthüllung bedeutet nicht
+  neun passive Szenen vor der Action. Starte mit `riff_briefing(seed_id, risk)` oder setze die Felder
   manuell (`seed_id/anchor/objective/twist/fr_beat`). HUD-Toast: `MODE RIFT · CASE <ID> ·
 <Anchor>/<Objective> · R<Risk>`.
 - **Urban-Legend-Flavor:** Standardmäßig liefert `riff_briefing()` eine bodenständige
   Urban-Legende (verlassene U-Bahn, Waldstück, Hinterhofkeller) plus ein einzelnes
   Para-Wesen als Ursache. Default-Auftrag: `neutralize`, falls nichts gesetzt ist. Das
-  Wesen besitzt oft eine Zeit-Signatur (Freeze/Replay/Phase) und eine greifbare Schwach-
-  stelle (Artefakt-Stoppuhr, Opferprofil, Nest). Relikte bleiben Core-Beute; Rift-Boss
+  Wesen ist körperlich und besitzt keine aktive Zeitmanipulation oder höchstens
+  einen begrenzten, erkennbaren Zeittrick. Schwächen bevorzugen Verletzungsmuster,
+  Wege/Nester, normale Ausrüstung, Vorbereitung und Terrain; Psi/Frequenz/Ritual
+  sind optionale Sonderwege, nie ungefragt die einzige Lösung. Relikte bleiben Core-Beute; Rift-Boss
   (Szene 10) erlaubt den einzigen Artefaktwurf (z. B. `1W6 → 6`), kein Epilog-Wurf.
   Debrief betont, wie der Alltag wieder normal wird (Pendler kehren zurück, Fluss beruhigt
   sich, Opferliste stoppt).
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template, mit
-  Casefile-Overlay (Tatort → Leads → Boss-Encounter → Auflösung) und genau **einem** Anomalie-Element
-  pro Rift; restliche Effekte bleiben physisch/rational.
+  Casefile-Overlay (Tatort → Leads → Boss-Encounter → Auflösung) und genau **einem
+  zusammenhängenden außergewöhnlichen Fallkern** pro Rift. Boss, Brut/Rudel oder
+  Befallene können zu ihm gehören, ohne weitere Anomalien zu erzeugen; unverbundene
+  Monster bleiben verboten.
 - **EntryChoice prompten:** Szene 0/1 fragt aktiv nach dem Einstieg - Core
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Falls
   `state.flags.runtime.skip_entry_choice` oder `campaign.entry_choice_skipped`
@@ -207,8 +212,9 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Auslöser (`Sensor pingt`, `Relais klickt`, `Linse flackert`). Ziel 80 % Szene/
   20 % HUD, Limit 2 Toasts pro Szene; Gate/FS/Boss-Strings unverändert lassen.
 - **One-Weird-Thing-Budget:** Core: 0 echte Anomalien, nur Täuschungen.
-  Rift: Budget 1 (ein Para-Element), weitere Effekte rationalisieren oder
-  über Technik erklären.
+  Rift: Budget 1 (ein zusammenhängender Para-Fallkern). Zugehörige körperliche
+  Gegnergruppen sind erlaubt, aber keine eigene Zeitkraft pro Untergegner. Technik
+  darf Falschspuren erklären, nicht die echte Para-Bedrohung wegdefinieren.
   > Rift-Gates spiegeln Core: Physicality-Gear für Scans/Hacks/Comms, Voice-Lock in 3rd Person,
   > HUD-Slim (Limit 2 Toasts) und `MODE RIFT` pro Szene. `StartMission(total=14, type='rift', …)`
   > setzt die Tags; `NextScene()` hält Foreshadow/Boss-Gate bei. 5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
@@ -391,12 +397,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
     verbraucht, verloren oder gehandelt abgeglichen. Keine Chronopolis-XP,
     kein Pflichtboss und kein Core-Forschungsfortschritt.
 - **Rift-Interface-Contract (Pflicht in Rift-Ops):**
-  - Nenne pro Szene genau **einen** Zeitmarker (`Echo`/`Loop`/`Phasenverschiebung`).
+  - Halte genau einen Fallkern; nenne einen Zeitmarker nur in Szenen, in denen er
+    tatsächlich wahrnehmbar oder handlungsrelevant ist.
   - Trenne IA/RW-Anker (Einsatzfenster) von Fallankern (Objekt/Ort/Person).
   - Ein Hack gilt nur mit **Gerät + benannter Schnittstelle + Signalpfad**.
   - „Kabel in Wand/Riss" ist kein Zugriff ohne benannte Schnittstelle (Port/Buchse/Konsole/Relais).
   - Zeithacks nur mit hoher TEMP-Affinität oder PSI-Freigabe, nie als Default-Techmove.
-  - **Ansageformat:** `Zeitmarker · Fallanker · Schnittstelle · Signalpfad · Risiko`.
+  - **Ansageformat bei Tech-Moves:** `konkrete Spur · Fallanker · Schnittstelle · Signalpfad · Risiko`.
   - **Siehe auch:** [HUD & Comms - Spezifikation](../characters/hud-system.md#hud-comms-spec)
     und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/hud-system.md#hud-icons)
     für passende Status-Overlays.

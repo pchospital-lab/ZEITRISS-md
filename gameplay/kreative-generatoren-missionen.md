@@ -329,8 +329,12 @@ Zeitreise-Spot, nicht ein Mondfeld.
   Casefile-Tracker spiegelt den Wechsel. Die Spielleitung setzt die Stufe automatisch
   anhand des Szenenzählers (1-4 Tatort, 5-9 Leads, 10 Boss-Encounter, 11-14
   Boss-Resolution).
-- One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),
-  restliche Effekte rationalisieren (Tech, Psi, Zeitphysik).
+- **One-Weird-Thing-Budget:** genau **ein zusammenhängender außergewöhnlicher
+  Ursprung/Fallkern** (einmal über `register_anomaly()` registriert). Er darf Boss,
+  Brut/Rudel, Befallene und räumlich zugehörige physische Gegner erklären; diese
+  werden nicht als eigene Anomalien registriert. Keine Sammlung unverbundener
+  Monster oder Zeitkräfte. Das Zeitphänomen erklärt die Existenz des Falls, muss
+  aber weder ständig sichtbar noch Hauptaufgabe sein.
 - Rift-Casefiles sind abgeschlossene Sonderfälle und spielen als eigene
   Einsatzfilme ohne Pflichtbezug zu laufender Core-Mission, Episode oder Arc.
 
@@ -1814,7 +1818,21 @@ weiterverwendbar oder als Muster für eigene Fraktionen:
 
 ### Rift-Seed Catalogue {#rift-seed-catalogue}
 
-Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen aus maximal fünf Stichpunkten, Boss-Notes enthalten exakt eine Weirdness. `time_marker` beschreibt das aktive Phänomen; Urban-Myth-Täuschungen sind nur erlaubt, wenn die Rift-Casefile-Edition die echte Kreatur liefert.
+Kanonischer Pool für Casefiles mit **einem zusammenhängenden Fallkern**. Briefings
+bestehen aus maximal fünf Stichpunkten und verraten Kreatur, Schwäche und Ursprung
+nicht vor der Spurarbeit. `time_marker` bleibt Ursachenmetadatum; er erzwingt weder
+einen sichtbaren Effekt in jeder Szene noch einen aktiven Zeit-Skill. Neu generierte
+Bosse besitzen **keine** aktive Zeitmanipulation oder höchstens **einen** klar
+begrenzten, angekündigten und nach bestehenden Regeln abwehrbaren Zeittrick. Ihre
+übrigen Phasen-Spezialitäten sind physisch, taktisch oder umgebungsbezogen.
+
+**Rift-Proben:** Eine `TEMP-Probe gegen SG 12` prüft zeitliche Wahrnehmung oder
+Widerstand mit der normalen Würfelformel; SG 12 ist der Zielwert, kein
+Attributsmindestwert. Sie steht auch Figuren mit `has_psi=false` offen. Technische
+oder forensische Analyse nutzt INT mit passendem Talent/Gerät, Willens- und
+Stressfälle passend CHA. Das Erkennen oder Abwehren eines Effekts gewährt keine
+aktive Zeitmanipulation. Aktive Psi-Kräfte setzen weiterhin `has_psi`, den Erwerb
+der konkreten Kraft sowie deren ausgewiesene PP- und SYS-Kosten voraus.
 
 ```yaml
 - rift_id: "RIFT-BUTCHER"
@@ -1830,11 +1848,11 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     - Zeugen hören Stimmfragmente aus den Fluren
   leads:
     - Investigation 12: Frame-Brüche an Wänden bilden Weg zum Uhr-Anchor
-    - Mind 12: Opferstimme hallt im Psi-Scan exakt 00:13:17 nach
+    - TEMP-Probe gegen SG 12: Opferstimme und Frame-Brüche wiederholen sich exakt um 00:13:17
     - Tech 11: Überwachung zeigt zwei Schatten pro Bewegung
   boss_private:
     truth: Zeitversetzter Serienmörder in Stutter-Schleife, an Uhr gebunden
-    weakness: Anchor-Uhr exakt 00:13:17 stellen und im Stutter zerstören (Psi-Impuls Mind 12)
+    weakness: Das Fenster per TEMP-Wahrnehmung gegen SG 12 oder durch Abgleich der Überwachungsbilder (INT/Tech gegen SG 11) erkennen; dann die Taschenuhr im erkannten Moment mit passender normaler Ausrüstung festsetzen und zerstören (riskante Handgriffe nach normaler Probe)
     anomaly: Frame Lunge (GES-Save SG 12, 3 LP + Panik)
     boss_stat_hint: "LP 11 | Armor 1 | GES 8 | TEMP 6"
 
@@ -1854,7 +1872,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     - Investigation 11: Flugbahn wiederholt Baumaufschlag
   boss_private:
     truth: Para-Chimäre kreist um verfluchte Familienreste
-    weakness: Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11)
+    weakness: Anchor-Knochen aus dem Wurzelbau lösen und im vorbereiteten Feuer vernichten (Survival 11 oder Tech 11); geweihter Kupferdraht erleichtert nur das Sichern
     anomaly: Loop Reset (setzt Ini zurück, Anchor schützt)
     boss_stat_hint: "LP 8 | Armor 1 | GES 8 | TEMP 4"
 
@@ -1875,7 +1893,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   boss_private:
     truth: Echo-Manifestation des Unfallbusses, gebunden an Fahrgast-Anker
     weakness: Blackbox bergen + Anker verarzten
-    anomaly: Echo Surge (Psi-Save 12, Stress +1)
+    anomaly: Echo Surge (TEMP-Widerstandsprobe gegen SG 12 für alle Chrononauten; Erfolg widersteht dem Echo, Misserfolg Stress +1)
     boss_stat_hint: "LP 9 | Armor 0 | INT 6 | TEMP 6"
 
 - rift_id: "RIFT-ORCHID"
@@ -1894,7 +1912,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     - Investigation 10: Kartendaten zeigen sich verschiebende Pfade
   boss_private:
     truth: Symbionten-Schwarm springt zwischen Phasen
-    weakness: Feuer + Stabilisierung des Zeitmarkers mit Salzlinie
+    weakness: Brennstoffschneise legen und den freigelegten Symbiontenkern verbrennen (Survival oder Tech gegen SG 12); eine Salzlinie kann die Schneise sichern, ist aber kein Ritualtor
     anomaly: Slip Bloom (GES-Save SG 12, immobilisiert 1 Rd.)
     boss_stat_hint: "LP 12 | Armor 1 | STR 6 | TEMP 6"
 
@@ -1914,27 +1932,32 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     - Medicine 12: Opfergewebe zeigt Vakuumverbrennungen
   boss_private:
     truth: Null-G-Raubtier springt phasenweise, jagt auf Atemluft
-    weakness: Druckschott schließen + Psi-Signatur spiegeln (Mind 13)
+    weakness: Jagdkorridor über Druckschotts abteilen und die verletzliche Atemmembran im Unterdruckfenster treffen (Engineering oder Tech gegen SG 13; riskante Treffer folgen den normalen Kampfproben)
     anomaly: Stutter Pounce (GES-Save SG 13, 3 LP, Stress+2 bei W6=6)
     boss_stat_hint: "LP 14 | Armor 2 | GES 12 | TEMP 8"
 ```
 
 ### Rift-Casefile Builder
 
-Schablone für vollständige Fallakten mit exakt **einer** Weirdness (Guard bleibt aktiv, keine
-zweite Anomalie und keine "es war nur Tech"-Auflösung). Nutze den Builder für Low/Mid/High-Seeds
+Schablone für vollständige Fallakten mit exakt **einem zusammenhängenden Fallkern**
+(Guard bleibt aktiv, keine zweite unabhängige Anomalie und keine "es war nur Tech"-
+Auflösung). Zugehörige Brut, Rudel oder Befallene zählen zum selben Kern. Nutze den Builder für Low/Mid/High-Seeds
 und mappe ihn direkt auf das 14-Szenen-Template.
 
 1. **CASE** - `ID | Epoche | Seed-Tier | time_marker`.
-2. **VISUAL HOOK** - 1 Satz mit Anchor + Marker, der sofort im HUD auftaucht.
+2. **VISUAL HOOK** - 1 Satz mit Fallanker + konkreter beobachtbarer Spur. Ein
+   bereits bekannter relevanter Marker darf im HUD erscheinen; `time_marker` allein
+   erzwingt weder sichtbaren Effekt noch Pflichtziel.
 3. **BRIEFING PUBLIC** - max. 5 Bullets; Witness + Gefahrenhinweis, keine zweite Weirdness.
 4. **OBJECTIVES** - `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`, optional `Recover
 Sample`.
 5. **CASE OVERLAY** - HUD `MODE RIFT · CASE <ID> · HOOK <Label> · WEIRD 1/1` +
    `register_anomaly()` nur einmal.
-6. **TRUTH** - kurzer Absatz, warum Marker aktiv bleibt.
+6. **TRUTH** - kurzer Absatz zum Fallkern und dazu, wie `time_marker` dessen
+   Existenz erklärt; kein Zwang zu einem dauerhaft aktiven Effekt.
 7. **LEADS PRIVATE** - 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
-8. **BOSS PRIVATE** - Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
+8. **BOSS PRIVATE** - Stat-Hinweis + **keine oder höchstens eine** begrenzte,
+   erkennbare Zeit-Signaturfähigkeit; Weakness namentlich und ohne Psi-Pflicht.
    **Phasen-Pflicht (Bosskampf-Pflichtgate):** Rift-Bosse haben **3 Phasen** mit LP pro
    Phase 8–11 (Para-Tier-3+: 9–12), Phasen-Switch via narrativem Reveal, je 1
    Phase-Spezialität. Builder-Felder: `phase_1`/`phase_2`/`phase_3` mit
@@ -1943,11 +1966,14 @@ Sample`.
 
 **14-Szenen-Map (Tatort → Leads → Boss-Encounter → Auflösung)**
 
-- **Tatort (1-4):** Einstieg + erster Hinweis auf Anchor/Marker, Witness-Bullet anspielen.
-- **Leads (5-9):** Drei Würfel-Checks aus "Leads Private" platzieren, je einer deckt den
-  Anchor, den Marker und die Weakness ab; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
-- **Boss-Encounter (10):** Weakness sichtbar machen, Marker-Bedingung für Abschluss prüfen,
-  Boss-Fähigkeit (Weirdness) maximal einmal pro Runde einsetzen. **Drei Phasen Pflicht**
+- **Tatort (1-4):** Einstieg + erster konkreter Hinweis auf Fallanker oder Gefahr,
+  Witness-Bullet anspielen und eine frühe Bedrohung ermöglichen.
+- **Leads (5-9):** Drei Würfel-Checks aus "Leads Private" in Rettung, Jagd,
+  Umgehung oder Gefecht platzieren. Gemeinsam decken sie Weg/Nest, Fallanker und
+  Weakness ab; temporale Analyse ist nicht verpflichtend; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
+- **Boss-Encounter (10):** Weakness spielbar machen; falls der Boss einen
+  Zeittrick besitzt, dessen erkennbare Abwehrbedingung prüfen und ihn höchstens
+  einmal pro Runde einsetzen. **Drei Phasen Pflicht**
   (siehe `gameplay/kampagnenstruktur.md` §Bossphasen-System): Phasen-Switch via narrativem Reveal,
   Phase-Spezialität pro Phase, LP pro Phase 8–11 (Boss-DR aus Teamgröße-Tabelle).
   Rift-Boss-Zeitfähigkeit zählt als Phase-Spezialität einer Phase, nicht aller.
@@ -1958,17 +1984,44 @@ Sample`.
 
 ```markdown
 CASE <ID> - <Epoche> - <Seed-Tier> - time_marker <Marker>
-VISUAL HOOK: <Anchor + Marker>
+VISUAL HOOK: <Fallanker + konkrete beobachtbare Spur>
 BRIEFING PUBLIC: • <Bullet 1> • <Bullet 2> • <Bullet 3> (max. 5)
 OBJECTIVES: Secure Anchor · Trace Leads · Neutralize Weakness · Recover Sample (optional)
 CASE OVERLAY: MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1
-TRUTH: <Kurzabsatz, warum Marker aktiv bleibt>
+TRUTH: <Kurzabsatz zu Fallkern und Zeitursache; kein sichtbarer Dauereffekt nötig>
 LEADS PRIVATE:
 
 - <Skill/Schwierigkeit + Fund> → Anchor/Weakness sichtbar
-- <Skill/Schwierigkeit + Fund> → Zeitmarker erklärt
+- <Skill/Schwierigkeit + konkrete Spur> → Weg/Nest oder Fallkern eingegrenzt
 - <Skill/Schwierigkeit + Fund> → Boss-Setup oder Safe-Approach
-  BOSS PRIVATE: <Stat-Hinweis> · <eine Zeitfähigkeit> · Weakness: <klarer Schritt>
+  BOSS PRIVATE: <Stat-Hinweis> · <kein oder ein begrenzter Zeittrick> · Weakness: <mit normaler Ausrüstung, Vorbereitung oder Terrain nutzbarer Schritt>
 ```
+
+### Drei Variationsmuster (keine Pflichtplots)
+
+- **Zukunft – „Stille auf Station Nadir“ (ohne aktiven Zeit-Skill):** Auftrag:
+  Überlebende aus einer abgeschotteten Orbitalstation retten. Verbogenes
+  Schott, Blutspur zum Hydroponikring und ausgeweidete Filter weisen den Weg.
+  Ein körperliches Jagdrudel und sein gepanzerter Nestboss stammen aus demselben
+  Rift-Fallkern. Kühlmittel und Wartungsschotts legen die weiche Atemmembran frei;
+  nach Rettung und Probe folgt der reguläre Rücksprung.
+- **Historisch – „Unter den Glocken von Rabensteg“:** Auftrag: Gefangene aus
+  Katakomben unter einem bedrohten Dorf holen. Kratzspuren am Beinhaus, ein
+  blutiger Fluchtweg und Aussagen über nächtliche Glockenschläge führen hinab.
+  Bewohner nennen die Brut Dämonen; mehrere zusammenhängende Gefechte führen zum
+  körperlichen Gruftboss. Einsturzstützen und Lampenöl öffnen einen taktischen
+  Zugang zu seiner ungepanzerten Flanke; die Geretteten kehren ins Dorf zurück.
+- **Moderne – „Die langen Schritte von Kestrel Hollow“:** Auftrag: eine Zeugin
+  schützen und die Mordserie in den Appalachen stoppen. Schuhlose Doppelfährten,
+  Harzfasern an realen Fundorten und übereinstimmende Jagdzeiten führen vom
+  Forstweg zum Kalksteinnest. Der Nightcrawler besitzt als einzigen Zeittrick
+  einen angekündigten kurzen Bewegungsslip, den er einmal im gesamten Encounter
+  in der festgelegten zweiten Bossphase nutzen kann; Licht,
+  Engstellen und eine vorbereitete Fanglinie machen den Boss angreifbar. Nach
+  Konfrontation werden Zeugin, Fundorte und Probe gesichert.
+
+Diese Muster zeigen nur die Variationsrichtung. Schauplatz, Kreatur, Spuren und
+Lösung werden weiterhin neu kombiniert; ferne Raumfahrt erzwingt weder Rift-Modus
+noch Zeitkonstrukt-Gegner.
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
