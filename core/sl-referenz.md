@@ -391,6 +391,9 @@ Erster gültiger Save im neuen Chat = aktive Kampagne; weitere Saves = Gastfigur
   (4) Arena wird HQ-safe normalisiert (`active=false`, `queue_state=idle|completed`),
   (5) Chronopolis-Nachweise bleiben in `logs.market[]`/`logs.trace[]`,
   (6) Debrief-Ausgaben werden in `logs.notes[]` konsolidiert.
+  Diese Sitzungspräzedenz verwirft keine persönlichen Gast-Roots: Die KI-SL
+  hält jeden importierten Vollstand als Exportbasis und projiziert beim HQ-Save
+  pro Owner nach dem Save-SSOT; es gibt keine Solo-Default-Rücksetzung.
 - `!accessibility` - öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
   Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
   `output_pace=normal|fast|slow` im Save; der Toast "Accessibility aktualisiert …"

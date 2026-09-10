@@ -5,6 +5,7 @@ const { execFileSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const smoke = path.join(ROOT, 'scripts', 'smoke.sh');
+const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/smoke.yml'), 'utf8');
 const text = fs.readFileSync(smoke, 'utf8');
 const lines = text.split(/\r?\n/);
 
@@ -15,6 +16,7 @@ assert.ok(!text.includes('verankerte HQ-Projektion) node'), 'smoke.sh: Kommentar
 assert.ok(text.includes('set -euo pipefail'), 'smoke.sh: set -euo pipefail fehlt.');
 assert.ok(lines.every((line) => line.length < 500), 'smoke.sh: mindestens eine Monsterzeile >500 Zeichen.');
 assert.ok(!/#[^\n]{120,}\b(node|python3|grep)\b/.test(text), 'smoke.sh: Kommentarzeile kollabiert mit ausführbarem Kommando.');
+assert.match(workflow, /set -o pipefail\s*\n\s*bash scripts\/smoke\.sh 2>&1 \| tee smoke\.log/, 'Workflow muss Smoke-Fehler vor tee weitergeben und beide Ausgabekanäle loggen.');
 
 execFileSync('bash', ['-n', smoke], { stdio: 'pipe' });
 

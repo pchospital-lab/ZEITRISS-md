@@ -35,7 +35,16 @@ rechenbare Evidenz; es wurde kein Mini-Spielinterpreter ergänzt.
 
 ## Nachbesserung: persönliche Kampagnen-Saves
 
-Der deterministische Projektionsfall modelliert fünf vollständige v7-HQ-Saves
+**Historischer Befund (Reviewstand `5d3b7ac`, festgestellt 10.09.2026):** Die
+bisherige Aussage „vollständiger CI-Smoke grün“ war falsch. Der Personal-Test
+schrieb `v7-personal-campaign-export-ok`, während `smoke.sh`
+`v7-personal-export-ok` erwartete. Zusätzlich konnte die Workflow-Pipeline ohne
+explizites `pipefail` den Abbruch vor `tee` als erfolgreichen Schritt melden.
+Die Historie bleibt unverändert; der korrigierte Stand vereinheitlicht den
+Marker und reicht den Pipeline-Exitcode durch.
+
+Der deterministische Projektionsfall modelliert fünf gegen das strikte
+Export-Schema validierte, vollständige v7-HQ-Saves
 mit getrennten Kampagnen A–E auf Missionsständen 4/2/7/1/6, Geschichten,
 Wallets, Forschungsständen, offenen Fäden und persönlichen Begleitern. Nach
 einem definierten Einsatz mit A als erstem Save prüft er fünf persönliche
@@ -56,9 +65,17 @@ Runtime, kein Missionssimulator und kein Kampagnen-Verwaltungssystem.
    `node tools/test_v7_personal_export.js`,
    `node tools/test_npc_continuity_consistency.js`,
    `node tools/test_onboarding_start_save_watchguard.js`,
-   `git diff --check` und `bash scripts/smoke.sh`.
+   `git diff --check` und `bash scripts/smoke.sh`. Zusätzlich validiert der
+   Personal-Test Inputs und Outputs nach A-, D/E- und B-Ankerfolge sowie
+   Negativfälle (Pflichtfelder, unbekanntes `campaign.id`, inkonsistente
+   Missionswerte, ID-/Inhaltskonflikte). Die isolierte Pipeline-Negativkontrolle
+   bestätigt einen Nichtnull-Exitcode vor `tee`.
 2. **Synthetische Redaktionsfälle:** Die oben beschriebenen A–E-Fälle nutzen
    definierte Abschlussdeltas und Output-Assertions, keine simulierte Mission.
 3. **Echte Modell-Playtests:** Für diese Nachbesserung nicht durchgeführt. Es
    gab weder kostenpflichtigen Modellaufruf noch Plattforminstallation,
    lokalen Harness oder Workflow-Auslösung.
+
+Paketgenerator, Launcher und Pyrokinese sind damit ausdrücklich nicht
+nachgebessert oder freigegeben; ihre bekannten Punkte bleiben außerhalb dieses
+Laufs offen. Dieser Befund ist keine Gesamt-Mergefreigabe.

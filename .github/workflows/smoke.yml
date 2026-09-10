@@ -22,7 +22,10 @@ jobs:
         run: python3 -m unittest -q
 
       - name: Run smoke
-        run: bash scripts/smoke.sh | tee smoke.log
+        shell: bash
+        run: |
+          set -o pipefail
+          bash scripts/smoke.sh 2>&1 | tee smoke.log
 
       - name: Generate LINT catalog
         run: python3 scripts/generate_lint_catalog.py
