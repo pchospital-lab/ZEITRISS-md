@@ -76,11 +76,11 @@ klassischen Pen & Paper.
 - **Teilbar:** Gruppen splitten, spielen getrennt weiter, mergen danach.
 - **Dein Besitz:** Kein Account, kein Lock-in. **MMO ohne Server.**
 
-**Multiplayer funktioniert so:** Eine Person hostet den Chat. Im HQ speichert
-ihr mit `!save` — der JSON enthält alle Charaktere. Jeder kann seinen Stand
-mitnehmen, solo weiterspielen und beim nächsten Gruppenabend wieder einsteigen.
-Der erste gepostete Save setzt den Kampagnenrahmen, jeder weitere Charakter
-bringt seinen persönlichen Fortschritt mit.
+**Multiplayer funktioniert so:** Eine Person hostet den Chat. Im HQ erzeugen
+`!save` und `!speichern` automatisch je Spielerfigur einen vollständigen
+persönlichen JSON-Save. Der erste gepostete Save setzt seine Kampagne als
+Sitzungsrahmen; weitere Figuren bringen ihren persönlichen Fortschritt mit,
+während ihre eigenen Kampagnen pausieren.
 Wenn sich Gruppen trennen und später wieder zusammentreffen, verweben sich die
 einzelnen Handlungsstränge wieder zu einem gemeinsamen Zeitnetz.
 

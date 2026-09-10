@@ -716,18 +716,18 @@ alle weiteren bringen ihre Charaktere mit. Die SL mergt automatisch.
 **Pausen**: Der Chat läuft nicht weiter, solange niemand tippt. Klo-Pause
 ist problemlos.
 
-**Ende des Abends**: `!save` im HQ, die SL gibt den Gruppen-JSON zurück.
-Text in eine Datei kopieren und an alle verteilen. Beim nächsten Abend
-einfach `Spiel laden` und einfügen.
+**Ende des Abends**: `!save` oder `!speichern` im HQ gibt für jede
+Spielerfigur einen getrennten vollständigen JSON-Block zurück. Jede Person
+bewahrt ihren Save extern auf; Save-JSONs gehören nicht ins Projektwissen.
+Beim nächsten Abend direkt einfügen oder zuvor `!laden`/`Spiel laden` senden.
+Der erste Save wählt erneut die Kampagne, Gastkampagnen bleiben pausiert.
 
-**Split für Solo-Weiterspielen**: Nach Debrief im HQ bietet die SL
-Split-Pfade an. Einfach sagen: "Ich möchte mit Kira solo weiterspielen."
-Die SL gibt einen Solo-Save aus - nur diese Figur + Kampagnen-Anker.
-Solo-Erlebnisse fließen beim nächsten Gruppenabend wieder ein.
+**Neue Solo- oder Teilgruppe**: Nach dem HQ-Save in einem neuen Chat nur die
+gewünschten persönlichen Saves einfügen. Der erste davon setzt die Kampagne;
+ein normaler 3/2-Wechsel ist nicht automatisch ein kanonischer Parallel-Split.
 
-> 💡 **Save früh, save oft**: Macht nach jeder Mission einen gemeinsamen
-> Save. Save = Charakter; nicht gesichert = im nächsten Browser-Crash
-> weg.
+> 💡 **Save nach abgeschlossenen Abschnitten**: HQ-only; kein Mid-Mission-
+>Deepsave. Save = Figur plus persönliche Kampagne.
 
 ### Lokal-GPU-Variante (Ollama, ungetestet)
 

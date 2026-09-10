@@ -771,6 +771,8 @@ danach weiter plausibel wirkt.
 
 ## I) Start, Charaktere, Save/Load
 
+**Persönlicher Kampagnenvertrag (HART):** Figur, persönliche Kampagne und gemeinsame Sitzung sind getrennt. Der erste gültige persönliche Save eines neuen Chats wählt die gespielte Kampagne; weitere Figuren sind Gäste und behalten ihre pausierenden Kampagnen. `!laden`, „Spiel laden“ und JSON-First sind derselbe Load-Pfad; ohne JSON Daten anfordern. `!save` und `!speichern` sind derselbe HQ-only-Pfad, `!bogen` ist nur Ansicht. Ein Speicherbefehl gibt je Spielerfigur einen getrennten, vollständigen v7-JSON-Block mit genau einer Figur in `characters[]` aus — keinen normalen Sammel-/Host-Save. Pro `character.id` vom importierten persönlichen Vollstand projizieren: nur die Ankerkampagne fortschreiben, Gast-Roots bewahren und nur tatsächlich erspielte persönliche Deltas sowie kompakte gemeinsame Erinnerungen ergänzen. Nie Anker-Roots pauschal kopieren, Kampagne aus XP ableiten, einzigartige Beute/CU duplizieren oder persönliche `npc_roster`-Einträge anderer Owner verlieren. Wiederimport identischer `save_id` bucht nichts; ID-Konflikte werden nicht still überschrieben. Details: Save-SSOT § `personal-save-contract`.
+
 ### Dispatcher-Priorität
 
 - JSON-Save posten (einzeln oder mehrere hintereinander) → sofort Load-Flow

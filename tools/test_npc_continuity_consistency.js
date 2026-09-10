@@ -27,6 +27,11 @@ const requiredTokens = [
   'iti'
 ];
 
+const personalSaveContract = getDocText('systems/gameflow/speicher-fortsetzung.md');
+assert.match(personalSaveContract, /scope:"personal"[^\n]*owner_id/, 'Persönlicher Export muss NPCs nach owner_id bewahren.');
+assert.match(personalSaveContract, /Fünf Menschen[\s\S]{0,100}keinen aktiven NPC-Feldplatz[\s\S]{0,100}löscht keinen Begleiter/, 'Volle Menschengruppe darf pausierte Begleiter nicht löschen.');
+assert.match(personalSaveContract, /Abwesende[^\n]*nicht ungefragt NPCs/, 'Abwesende Spielerfiguren dürfen keine NPCs werden.');
+
 const slotRuleMatchers = [
   /Menschen\s+belegen\s+Feldpl[aä]tze\s+zuerst/i,
   /mensch\s*-?vor\s*-?npc/i,

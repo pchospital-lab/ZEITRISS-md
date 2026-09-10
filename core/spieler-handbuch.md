@@ -330,6 +330,8 @@ blockieren.
 
 ### Wie sich daraus „MMO-Feeling ohne Server" ergibt
 
+**Persönliche Kampagnen in Gruppen:** Jede Spielerfigur besitzt einen eigenen vollständigen Save samt eigener Kampagne. Im neuen Chat wählt der zuerst eingefügte Save die Kampagne; alle weiteren Figuren spielen dort als Gäste und ihre eigenen Missionsstände pausieren. Im HQ erzeugen `!save` und `!speichern` automatisch je anwesender Spielerfigur einen getrennten JSON-Block. Persönliche Fortschritte und Erinnerungen reisen mit, fremde Kampagnenstände, Auszahlungen und einzigartige Beute werden nicht kopiert. `!laden` oder direkt eingefügte JSONs laden; `!bogen` zeigt nur den Bogen. Saves außerhalb des Chats aufbewahren, nicht als Regelwissen einrichten.
+
 Der Save-JSON ist dein **Charakterkontinuum**, das HQ ist deine **räumliche
 Kontinuität**, der NPC-Roster und die Echos sind deine **soziale
 Kontinuität**. Zusammen ergibt sich ein durchgehendes Spielgefühl, obwohl

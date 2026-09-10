@@ -7,6 +7,10 @@ default_modus: mission-fokus
 
 # ZEITRISS 4.2.6 - Modul 16: Toolkit: KI-Spielleitung
 
+## Persönliche Gruppenprojektion (Kurzregel)
+
+Erster persönlicher Save setzt pro neuem Chat den Kampagnenanker; Joiner behalten ihre pausierenden Kampagnen. HQ-`!save`/`!speichern` exportiert je Spieler-ID einen vollständigen v7-Save mit genau einem `characters[]`-Eintrag. Vom je ID importierten Vollstand projizieren, nicht Anker-Roots klonen: nur Ankerkampagne fortschreiben, persönliche Deltas/Erinnerungen ergänzen, Owner-NPCs bewahren und einmalige Besitzansprüche nicht duplizieren. Details im Save-SSOT.
+
 ## SSOT-Anker (Systems-Pass)
 
 - **MUSS:** Core- und Rift-Loop bleiben kanonisch gekoppelt: Px 5 triggert
