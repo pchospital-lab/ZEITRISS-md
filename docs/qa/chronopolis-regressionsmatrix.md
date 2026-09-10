@@ -21,3 +21,20 @@
 ## Pflichtcheck
 
 - `bash scripts/smoke.sh`
+
+## Spielerfeedback-Patch 2026-09-10: Loot und Extraktion
+
+| Fall | Prüfsoll |
+| --- | --- |
+| R1 | Loot wird vor dem Exit erlangt und bei erfüllten Regeln im Run benutzt. |
+| R2 | Verbrauch oder Verlust fehlt danach korrekt im Extraktionsbesitz. |
+| R3 | Höhere vorhandene Tier-/Wirkungsqualität erzeugt erkennbar höheren, plausibel verursachten Extraktionsdruck. |
+| R4 | Heimlicher Fund ohne Alarm erzeugt kein Gegnerwissen. |
+| R5 | Schleichen/Täuschung/Umweg kann ohne Pflichtboss erfolgreich extrahieren. |
+| R6 | Exit vergibt keine XP; HQ-v7-Save enthält nur abgeglichenen Besitz. |
+| R7 | Load/Join/Merge dupliziert weder einmaligen Fund noch CU-Buchung. |
+| R8 | Gruppen-Reload rollt den verworfenen Run vollständig zurück. |
+
+Diese Sollfälle sind Redaktionsfälle, kein Beleg für Modellverhalten. Die
+statischen Anker und der erzeugte Paketinhalt laufen im Smoke-Watchguard;
+echte Modell-Playtests werden separat protokolliert.

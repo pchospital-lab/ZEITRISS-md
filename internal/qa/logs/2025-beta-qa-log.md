@@ -4967,3 +4967,11 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 - [x] Wissensmodule gespiegelt: Spieler-Handbuch, SL-Referenz und
   Toolkit-Makros dokumentieren den Ausschluss in Rift-Ops.
 ```
+
+## 2026-09-10 – Gezielter Spielerfeedback-Patch
+
+- Browser-Onboarding und einheitlicher Paketexport, individuelle NSC-
+  Wissensgrenzen, Chronopolis-Besitzvertrag und Pyrokinese-Designvorschlag
+  redaktionell verankert.
+- Evidenz und ausdrücklich nicht ausgeführte Modelltests:
+  `docs/qa/spielerfeedback-verifikation-2026-09-10.md`.

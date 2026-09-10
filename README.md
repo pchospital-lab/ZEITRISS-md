@@ -112,47 +112,35 @@ Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
 Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
 Textzusammenfassung der wichtigsten Eckdaten.
 
-## Setup
+## Setup: vorhandene Chatplattform nutzen
 
-ZEITRISS ist ein portabler Datensatz (Masterprompt + 19 Wissensmodule). Du
-kannst ihn auf zwei Wegen in eine Runtime bringen:
+**Mach deine geeignete KI-Chatplattform zu ZEITRISS.** Der einfache Weg ist:
+**Download → entpacken → dauerhafte Projektquellen → eine Anweisung → Start.**
+Dafür brauchst du weder Git, Terminal, Python, Docker noch einen zusätzlichen
+API-Key, wenn dein vorhandener Modellzugang Projektquellen, dauerhafte
+Anweisungen und Retrieval unterstützt. Ein Abo allein garantiert diese
+Funktionen oder Regeltreue nicht.
 
-1. **Golden Setup / Referenz:** OpenWebUI + Launcher.
-2. **Deine Plattform:** Export-Paket + manuelle Projekteinrichtung.
+Bis ein freigegebenes Upload-ZIP existiert, nutze im Browser **Code → Download
+ZIP** für einen nachvollziehbaren Commit oder Tag, entpacke das Repository und
+wähle die 19 Dateien exakt nach der Liste im [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation).
+Das Quell-ZIP selbst ist **kein** bereinigtes Spielpaket. Ein Maintainer kann
+das fertige Paket mit `scripts/setup.py --export --require-clean` erzeugen;
+es enthält `knowledge/...`, `system/SYSTEM_PROMPT_ONLY.md`,
+`system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`, `SETUP-ANLEITUNG.md`, Manifest und ZIP.
 
-```bash
-git clone https://github.com/pchospital-lab/ZEITRISS-md.git
-cd ZEITRISS-md
-python scripts/zeitriss.py
-```
+Es gibt genau zwei Projektvarianten: **(A)** vollständigen Masterprompt ins
+dauerhafte Anweisungsfeld und 19 Module als Quellen; **(B)** bei zu kleinem
+Feld ausschließlich den Project-Bootstrap als Anweisung und die 19 Module plus
+Masterprompt als 20 Quelldateien. Nicht stapeln und nichts abschneiden. Der
+aktuelle v7-Save ist beim Laden ein eigener Zustandsanker; alte widersprüchliche
+Saves desselben Charakters gehören nicht daneben.
 
-Im Menü **[1] Komplett-Setup in OpenWebUI** wählen — der Launcher führt
-dich durch Docker, OpenWebUI, Regelwerk und den LiteLLM-Prompt-Cache.
-Dauer beim ersten Mal: **30–60 Minuten** (inkl. Docker/Python, falls neu).
-
-**Voraussetzungen und die kompletten Schritt-für-Schritt-Details stehen
-im [Setup-Guide](docs/setup-guide.md).**
-
-### Auf deiner eigenen Chat-Plattform spielen
-
-ZEITRISS kann auf jeder Plattform laufen, die drei Dinge sauber unterstützt:
-
-- projektweite Anweisungen oder einen System-Prompt,
-- projektweite Wissensdateien/Quellen mit Retrieval,
-- ein starkes Modell mit genug Kontext und Regeltreue.
-
-Im Launcher erzeugt **[2] Regelwerk woanders nutzen** ein Export-Paket für
-solche Plattformen. Der Idealfall ist: Masterprompt in die
-Projekt-Anweisungen/System-Prompt, die 19 Wissensmodule in das
-Projektwissen. Wenn das Anweisungsfeld zu klein ist, nutze die
-Bootstrap-Anweisung aus `meta/project_bootstrap_instructions.md` und lade
-den Masterprompt zusätzlich als projektweite Quelle hoch. Wichtig: Wissen
-immer in die **Projektquellen / das Projektwissen** hochladen — nicht nur
-als Datei in einen einzelnen Chat.
-
-OpenWebUI bleibt das getestete Golden Setup. Andere Plattformen sind
-technisch möglich, aber nicht gegen die vollständige Regel-QA kalibriert.
-Details: [Portabler Export](docs/setup-guide.md#portabler-export-ohne-gewähr).
+OpenWebUI + Sonnet 4.6 bleibt das referenzgetestete Entwicklungssetup; dessen
+Docker-/Python-Voraussetzungen stehen nachgeordnet im [Setup-Guide](docs/setup-guide.md#komplett-setup-in-openwebui-empfohlen).
+Andere Plattformen sind nicht pauschal abgenommen. Ein Spielerbericht belegt
+eine vollständige erste Episode in einem ChatGPT-Projekt, aber keine allgemeine
+Plattform- oder Modellgarantie.
 
 ## Creator Studio
 

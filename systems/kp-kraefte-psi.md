@@ -163,6 +163,52 @@ Katalog. Die SL darf neue Psi-Kräfte generieren — Name und Flavor frei,
 aber PP-Kosten, SYS-Last, Cooldowns und Psi-Heat MÜSSEN dem bestehenden
 Kostensystem folgen. Keine neuen Ressourcen oder Mechaniken erfinden.)_
 
+### Pyrokinese (optionale gelernte Kraft) {#pyrokinese}
+
+Pyrokinese ist eine einzelne Kraft mit drei Leistungsstufen, kein Talentbaum.
+Sie setzt `has_psi=true`, das Talent **Psioniker** und den regulären Erwerb
+dieser Kraft voraus; kein Psioniker erhält sie automatisch. „Nicht
+entflammbares Feuer“ meint nur fiktive psionische Hitze/Flammenerscheinung:
+keine Brennstoffflamme, keine selbstlaufende Verbrennung und keinen
+automatischen Umgebungsbrand.
+
+| Voraussetzung | Stufe | PP | SYS | Probe / SG | Reichweite | Ziele | Dauer | Effekt / Schaden | Cooldown | Psi-Heat |
+| --- | --- | ---: | ---: | --- | --- | ---: | --- | --- | ---: | ---: |
+| Psioniker 1, TEMP 3 | Low | 1 | 0 | TEMP, SG 9 | 0–3 m | 1 | Impuls <1 s | kontrolliert erwärmen/entzünden eines offen zugänglichen, kleinen brennbaren Objekts; gegen Wesen höchstens 1 LP | 1 Runde | +1 |
+| Psioniker 2, TEMP 5 | Medium | 2 | 1 | TEMP, SG 12 | 0–15 m | 1 | Impuls <1 s | fokussierter Treffer, 3 LP | 2 Runden | +1 |
+| Psioniker 3, TEMP 7 | High | 3 | 2 | TEMP, SG 15 | 0–15 m | 1 | Impuls <1 s | starker fokussierter Treffer, 5 LP | 3 Runden | +1 |
+
+SYS ist hier die Belastung des kampftauglichen Fokus, nicht eine fortlaufende
+Belegung: Low ist ein kurzer kontrollierter Impuls (0 SYS), Medium/High zahlen
+ihre tabellierte 1/2 SYS sofort. Die allgemeine Dauer-Kurzregel senkt diese
+expliziten Kosten nicht. Alle drei Stufen treffen genau ein Ziel; aus Squad-
+Buffs entsteht kein kostenloses Mehrfachziel.
+
+**Zielzugriff und Abwehr:** Sichtlinie und regelgerechter Zugriff sind nötig.
+Wirksame Deckung, Rüstung und Anti-Psi-Abwehr gelten; Pyrokinese durchdringt
+nichts automatisch. Ein Ziel wehrt wie gegen einen Psi-Fernangriff ab, und die
+Spielleitung berücksichtigt vorhandene SR/Deckungsmodifikatoren beim SG bzw.
+Schaden. Außer Reichweite oder ohne Zugriff bricht die Aktivierung vor Kosten
+ab. Bei abgelegter, aber misslungener Probe werden PP, SYS und Heat bezahlt,
+es entsteht kein Schaden und kein Brand-Folgeeffekt. Wird der Fokus vor dem
+Impuls unterbrochen, gilt das ebenfalls als Fehlschlag. Keine Schadensfolge,
+Brandzähler oder anatomisch-grafische Beschreibung.
+
+**Balancevergleich:** Low liegt unter einem normalen Waffentreffer und dient
+vor allem kontrollierter Hitze. Medium (3 LP) liegt im Bereich leichter
+Waffenwirkung; High (5 LP) bleibt ein begrenzter Einzelzieltreffer. Anders als
+TK-Melee ignoriert Pyrokinese weder Exploding-/SR-Grenzen noch Deckung und hat
+keine Gratis-Folgeaktion. Anders als Psi-Waffenmanifestation (1 PP/1 SYS für
+eine trainierte Grundwaffe) manifestiert sie keine wiederholt nutzbare Waffe;
+jeder Treffer zahlt Probe, PP, SYS, Heat und Cooldown neu.
+
+**Rechenbeispiel:** Agentin Rhea (`has_psi=true`, Psioniker 2, TEMP 5,
+PP 5/5, SYS 4, Heat 0) nutzt Medium auf ein sichtbares Ziel in 10 m. `1W6=4 +
+TEMP 5/2 + Talent 2 = 8` gegen SG 12: Fehlschlag. Sie verursacht 0 LP,
+zahlt 2 PP und 1 SYS, steigt auf Heat 1 und wartet 2 Runden. Wäre die Summe 12,
+verursachte sie vor geltender Rüstungs-/Abwehrminderung 3 LP; nichts brennt
+danach selbstständig weiter.
+
 - **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels.
   _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.
 - **Präkognition (Talentlinie):** Sekundenkurzer Blick in einen wahrscheinlichen
