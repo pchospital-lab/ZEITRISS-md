@@ -612,10 +612,12 @@ Schwachpunkt-Jagd belohnt. Armor erhöht **nicht** den SG (wie die 💀-Skala), 
 nur die Zähigkeit. Boss-DR (Teamgrößen-Tabelle) und Para-Armor stapeln nicht — bei
 Boss-Encountern gilt die Boss-DR.
 
-**Faustregel für die SL:** Eine Rift-Op hat mindestens **2–3 handfeste**
-Para-Begegnungen vor dem Boss (physische Kerngefechte), gerne garniert mit
-flüchtigen Schwärmen für Druck. Reine Glaskanonen-Reihen sind kein Horror-Action-
-Kampf, sondern Zielscheiben-Schießen.
+**Faustregel für die SL:** Plane **2–3 handfeste Bedrohungsbegegnungen** vor
+ dem Boss (physische Kerngefechte), gerne garniert mit flüchtigen Schwärmen für
+ Druck. Zwinge aber keinen Kampf herbei, wenn Schleichen, Umgehen, Rettung oder eine
+ gut vorbereitete Falle gelungen ist; diese Entscheidungen lösen die Begegnung
+ wirksam. Reine Glaskanonen-Reihen sind kein Horror-Action-Kampf, sondern
+ Zielscheiben-Schießen.
 
 Diese Kreaturen (und viele mehr) könnt ihr einbauen, um euren Abenteuern Würze und Mysterium zu
 verleihen. Wichtig ist, sie **sparsam und gezielt** einzusetzen - jede besondere Begegnung soll sich
@@ -631,39 +633,41 @@ birgt unendliche Überraschungen.**
 ## Para-Creature-Generator: Rift Casefile Edition {#para-creature-generator}
 
 Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles.
-Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein** Zeitphänomen,
-**ein** Anchor (Ort/Person), **drei bis fünf** sichtbare Tells und **eine**
-Schwäche.
-Keine zweite Anomalie, keine "es war nur Tech"-Auflösung in Rifts;
-zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
+Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein zusammenhängender
+außergewöhnlicher Ursprung/Fallkern**, **ein** Fallanker (Ort/Person/Objekt),
+**drei bis fünf** konkrete Tells und **eine** nutzbare Schwäche. Boss, Brut/Rudel,
+Befallene oder zugehörige physische Gegner dürfen aus diesem Kern stammen; sie
+sind keine zusätzlichen Anomalien. Keine unverbundene Monstersammlung und keine
+"es war nur Tech"-Auflösung in Rifts.
 
 ### Guard & Struktur
 
-- Nutze `register_anomaly()` nur für das eine Zeitphänomen
-  (Echo, Loop, Stutter, Anker-Zeitversatz).
+- Nutze `register_anomaly()` einmal für den Fallkern. `time_marker` dokumentiert
+  dessen Zeitursache (etwa Echo, Loop, Stutter oder Anker-Zeitversatz), ist aber
+  kein Pflichtziel und muss nicht in jeder Szene sichtbar werden.
   HUD-Overlay: `MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1`.
-- Jede Kreatur bindet einen **Zeitmarker**
-  (Echo/Loop/Stutter/Static/Slip/Anchor-Tether).
-  Der Marker erklärt, warum das Wesen im Strom sichtbar bleibt.
+- Ein neu generierter Boss hat keine aktive Zeitmanipulation oder höchstens
+  **einen** erkennbaren, begrenzten und nach vorhandenen Regeln abwehrbaren
+  Zeittrick. Keine eigene Zeitfähigkeit pro Untergegner und keine neue Suite je
+  Bossphase; weitere Spezialitäten sind körperlich, taktisch oder räumlich.
 - Der Anchor ist eine reale Person, ein Ort oder ein Artefakt,
   das als "Zeuge" oder "Bollwerk" fungiert.
   Wird der Anchor befreit/zerstört, löst sich die Anomalie.
-- **Tells:** 3-5 wiedererkennbare Signale
-  (Geruch, Geräusch, Schatten, Temperatur, EM-Spitzen).
-- **Weakness:** eine eindeutige Abschaltbedingung
-  (Material, Frequenz, Ritual, spezifisches Werkzeug).
-  Ohne Weakness kein Abschluss.
+- **Tells:** 3–5 wiedererkennbare Beobachtungen; bevorzuge Verletzungen,
+  Fährten, Fraß-/Kratzspuren, beschädigte Türen, Tierreaktionen, Zeugenaussagen,
+  Materialreste, Jagdzeiten, Wege, Nester und Opfermuster. Mehrere Tells dürfen
+  denselben Kern belegen.
+- **Weakness:** ein nachvollziehbarer Handlungsansatz. Normale Ausrüstung,
+  Vorbereitung, Terrain und vorhandene Proben müssen sinnvoll wirken; Frequenz,
+  Ritual oder Psi darf besondere Option, nie ungefragt einzige Lösung sein.
 
 ### Schrittfolge
 
-1. **Epoche (W6)**
-   - 1 Frühe Neuzeit
-   - 2 Industrialisierung
-   - 3 Weltkriege
-   - 4 Kalter Krieg
-   - 5 Digitale Anfänge
-   - 6 Near-Future
-2. **Zeitmarker (W6)**
+1. **Epoche/Setting**
+   - Ziehe aus dem vorhandenen Epochen-/Setting-Rahmen des Missionsgenerators;
+     historische Katakomben und ferne Raumfahrt sind ausdrücklich möglich.
+     Ein Zukunftsort erzwingt keinen Zeitkonstrukt-Gegner.
+2. **Ursachenmarker (optional sichtbar, W6)**
    - 1 Echo-Schleife (verzögerte Schatten)
    - 2 Loop 30 Sek.
    - 3 Stutter (Zeitsprünge in Frames)
@@ -677,49 +681,50 @@ zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
    - 4 Artefakt/Container
    - 5 Familienlinie/Blutanker
    - 6 Forschungslog/Blackbox
-4. **Tells (3-5 aus W10 wiederholen, keine Duplikate)**
-   - 1 Frosthauch
-   - 2 verzerrter Funk
-   - 3 bläulicher Schleier
-   - 4 Geruch nach Ozon/Metall
-   - 5 scharfe Schatten gegen die Lichtquelle
-   - 6 Tierpanik
-   - 7 Uhren laufen rückwärts
-   - 8 Audiospur mit Flüstern
-   - 9 zweiter Nachhall jeder Bewegung
-   - 10 kurzes "Bildflackern" im HUD
+4. **Tells (3–5 aus W10 wiederholen, keine Duplikate)**
+   - 1 Verletzungs- oder Opfermuster
+   - 2 Fährten zum nächsten Schauplatz
+   - 3 Fraß-/Kratzspuren
+   - 4 beschädigte Tür oder Barrikade
+   - 5 Materialrest/Faser/Sekret
+   - 6 Tierpanik oder verändertes Verhalten
+   - 7 glaubhafte Zeugenaussage
+   - 8 wiederkehrende Jagdzeit
+   - 9 Weg, Nest oder Rückzugsort
+   - 10 sensorischer Tell (Geruch, Geräusch, Temperatur oder EM-Spitze)
 5. **Weakness (W6)**
-   - 1 bestimmte Frequenz (z. B. 18 Hz Infraschall)
-   - 2 geheiligtes Material (Salz/Quecksilber)
-   - 3 Anchor neutralisieren (Zeuge befreien, Container öffnen)
-   - 4 Zeitsiegel (Ritualkreis + Sensor)
-   - 5 Schockfrost/Hitze
-   - 6 Psi-Signatur spiegeln (Mind-Wurf gegen Psi-Sig)
+   - 1 Deckung/Engstelle vorbereiten
+   - 2 empfindliche Körperstelle durch gezielten Treffer nutzen
+   - 3 Fallanker sichern (Zeuge befreien, Container öffnen)
+   - 4 Terrain auslösen (Licht, Druck, Wasser, Feuer oder Einsturz)
+   - 5 Schockfrost/Hitze mit verfügbarer Ausrüstung
+   - 6 besondere Frequenz/Ritual/Psi **oder** gleichwertiger physischer Ansatz
 6. **Stat-Block**
    - Nach Risikostufe (S/M/L/XL) bauen.
-   - Fähigkeitspalette um den Zeitmarker herum bauen
-     (Teleport = Stutter, Versteinerung = Static etc.).
+   - Physische/taktische Fähigkeitspalette bauen; optional genau einen begrenzten
+     Zeittrick ergänzen. Er darf Entscheidungen, Schaden, Besitz oder ganze Szenen
+     nicht heimlich rückabwickeln.
 
 ### Casefile-Schablone
 
 - **CASE:** `RIFT-<ID> | Epoche | Seed-Tier (low/mid/high)`
-- **VISUAL HOOK:** 1 Satz mit Anchor + Zeitmarker
-  (`"Echoender Schatten hinter jedem Zeugen"`).
+- **VISUAL HOOK:** 1 Satz mit Fallanker + konkreter Spur
+  (`"Kratzspuren enden an der verriegelten Krankenstation"`).
 - **BRIEFING PUBLIC (max. 5 Bulletpoints):**
   Witness-Reports, Schauplatz, Gefahrenhinweis.
 - **OBJECTIVES:**
-  `Secure Anchor`, `Identify Time Marker`, `Neutralize Weakness`,
+  `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`,
   optional `Recover Sample`.
 - **CASE OVERLAY:**
   HUD-Tag `CASEFILE <ID> · HOOK <Label> · TIME <Marker>` + `WEIRD 1/1` Toast.
 - **TRUTH:**
-  kurzer Absatz mit Ursache (Para-Kreatur) und
-  warum der Zeitmarker aktiv bleibt.
+  kurzer Absatz mit Para-Ursprung, zugehörigen Gegnern und `time_marker` als
+  Ursachenmetadatum; kein Zwang, ihn dauerhaft sichtbar zu halten.
 - **LEADS PRIVATE:**
   3 Hinweise mit Würfelbezug (z. B. Investigation 12, Medicine 10, Tech 11)
   und Verknüpfung zum Anchor.
 - **BOSS PRIVATE:**
-  Mini-Statblock + Zeitfähigkeit (nur **eine** Weirdness).
+  Mini-Statblock + keine oder höchstens eine begrenzte Zeit-Signaturfähigkeit.
   Wenn Urban-Myth-Generator genutzt wird, liegt hier die echte Para-Kreatur,
   der Mythos ist nur ein Deckmantel.
 
@@ -730,7 +735,7 @@ zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
 - **Epoche/Marker:** 1997, Digitale Anfänge · **Stutter** (Tatort-Sequenzen brechen in Frame-Sprüngen ab).
 - **Anchor:** Ermittlungsakte mit blutgetränkter Taschenuhr des ersten Opfers (Zeitbrand hält Stutter offen).
 - **Tells:** Blutlachen fließen kurz rückwärts, Funksprüche knacken mit Opferstimme, Schatten reißen versetzt.
-- **Weakness:** Anchor-Uhr auf 00:13:17 stellen und im Stutter-Fenster zerstören (gleichzeitiger Psi-Impuls Mind 12).
+- **Weakness:** Uhr im beobachteten Stutter-Fenster verkeilen und zerstören (Tech 12 oder passende normale Ausrüstung); Psi Mind 12 kann das Fenster optional verlängern.
 - **Boss Private:** **LP 11 | Armor 1 | STR 6 | GES 8 | INT 6 | TEMP 6** - _Frame Lunge_ (GES-Save SG 12, sonst 3 LP, verursacht Panik), _Cut In/Out_ (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
 
 **Jersey Devil - "Flügelschlag im Pine Barren" (Seed-Tier low)**
@@ -745,13 +750,15 @@ zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
 
 ## Urban-Myth-Generator (False Lead)
 
-Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleichen HUD-Rahmen (MODE/CASE/HOOK) und respektiert den One-Weird-Thing-Guard: die Mythos-Erklärung darf **nicht** zur zweiten Anomalie werden. Sobald klar ist, dass nur Tech/Manipulation dahintersteckt, muss das eigentliche Para-Phänomen aus der Rift-Casefile-Edition sichtbar werden.
+Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleichen HUD-Rahmen (MODE/CASE/HOOK) und respektiert den One-Weird-Thing-Guard: die Mythos-Erklärung darf **nicht** zur zweiten Anomalie werden. Die echte Para-
+Bedrohung bleibt körperlich; Technik erklärt höchstens eine Falschspur, niemals den
+gesamten Rift-Fall weg.
 
 ### Vorgehen
 
 1. **Epoche (W6)** - identisch zur Rift-Edition.
 2. **Urban-Myth-Motiv (W20)** - nutzt Hardware/Linsen statt Lichtbilder.
-3. **Zeitmarker setzen** (Echo/Loop/Stutter etc.), um den "Riss" sichtbar zu halten, und bei echter Weirdness `register_anomaly()` loggen.
+3. **Fallkern registrieren:** `time_marker` als Ursachenmetadatum führen; kein sichtbarer Zeitmarker pro Szene. Die Falschspur darf weder die echte Para-Bedrohung entzaubern noch zur zweiten Anomalie werden.
 4. **Stat-Block** nach Risiko; alles Technische als Shadow-Op erklären (keine VR-Illusionen, nur Sensorik/Implantate).
 
 ```markdown
