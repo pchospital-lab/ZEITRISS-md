@@ -456,9 +456,10 @@ Funktion rand_event:
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
 Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten.
-Öffnet sich ein Rift, spawnt es ein Wesen, das zur laufenden Epoche passt.
-Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus -
-reine Zeitkonstrukte mit genau einem Zeiteffekt.
+Öffnet sich ein Rift, kann ihm ein Wesen entspringen, das zur laufenden Epoche und
+zum Fallkern passt. Das gilt ebenso für Zukunftsmissionen: Körperliche Para-Kreaturen
+ohne aktive Zeitfähigkeit sind dort zulässig. Die hier gelisteten Zeitkonstrukte
+bleiben besondere Beispiele; Rift-Ursprung wird nicht pauschal als Technik erklärt.
 
 Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block.
 Jedes Wesen trägt einen **Schwierigkeitswert** von 💀 bis 💀💀💀💀💀,
@@ -650,9 +651,12 @@ sind keine zusätzlichen Anomalien. Keine unverbundene Monstersammlung und keine
   **einen** erkennbaren, begrenzten und nach vorhandenen Regeln abwehrbaren
   Zeittrick. Keine eigene Zeitfähigkeit pro Untergegner und keine neue Suite je
   Bossphase; weitere Spezialitäten sind körperlich, taktisch oder räumlich.
-- Der Anchor ist eine reale Person, ein Ort oder ein Artefakt,
-  das als "Zeuge" oder "Bollwerk" fungiert.
-  Wird der Anchor befreit/zerstört, löst sich die Anomalie.
+- Der Fallanker ist eine reale Person, ein Ort oder ein Artefakt und schafft einen
+  greifbaren Bezug zum Fall, etwa als Zeuge, Beweis oder Bollwerk. Nur wenn ein
+  Casefile eine konkrete kausale Bindung etabliert, beeinflusst sein Sichern oder
+  Zerstören die Anomalie entsprechend. Eine Zeugin retten, einen Beweis bergen oder
+  einen Container öffnen entfernt nicht automatisch Gegner und überspringt keine
+  Bossphase; gelungene Rettung, Täuschung und Umgehung verändern die Lage weiterhin.
 - **Tells:** 3–5 wiedererkennbare Beobachtungen; bevorzuge Verletzungen,
   Fährten, Fraß-/Kratzspuren, beschädigte Türen, Tierreaktionen, Zeugenaussagen,
   Materialreste, Jagdzeiten, Wege, Nester und Opfermuster. Mehrere Tells dürfen
@@ -660,6 +664,12 @@ sind keine zusätzlichen Anomalien. Keine unverbundene Monstersammlung und keine
 - **Weakness:** ein nachvollziehbarer Handlungsansatz. Normale Ausrüstung,
   Vorbereitung, Terrain und vorhandene Proben müssen sinnvoll wirken; Frequenz,
   Ritual oder Psi darf besondere Option, nie ungefragt einzige Lösung sein.
+
+**TEMP und Psi trennen:** Normale zeitliche Wahrnehmung oder Resistenz ist eine
+`TEMP-Probe gegen SG 12` (oder den genannten SG) nach der bestehenden Würfelformel;
+der SG ist ein Zielwert und kein Mindestwert des Attributs. Auch `has_psi=false`
+darf würfeln. Aktive Psi-Kräfte entstehen daraus nicht: Sie erfordern weiterhin
+`has_psi`, eine gelernte Kraft und deren ausgewiesene PP-/SYS-Kosten.
 
 ### Schrittfolge
 
@@ -735,7 +745,7 @@ sind keine zusätzlichen Anomalien. Keine unverbundene Monstersammlung und keine
 - **Epoche/Marker:** 1997, Digitale Anfänge · **Stutter** (Tatort-Sequenzen brechen in Frame-Sprüngen ab).
 - **Anchor:** Ermittlungsakte mit blutgetränkter Taschenuhr des ersten Opfers (Zeitbrand hält Stutter offen).
 - **Tells:** Blutlachen fließen kurz rückwärts, Funksprüche knacken mit Opferstimme, Schatten reißen versetzt.
-- **Weakness:** Uhr im beobachteten Stutter-Fenster verkeilen und zerstören (Tech 12 oder passende normale Ausrüstung); Psi Mind 12 kann das Fenster optional verlängern.
+- **Weakness:** Das Stutter-Fenster per TEMP-Wahrnehmung gegen SG 12 oder durch Abgleich der Überwachungsbilder (INT/Tech gegen SG 11) erkennen; dann die Uhr im erkannten Moment mit passender normaler Ausrüstung verkeilen und zerstören (riskante Handgriffe nach normaler Probe). Erkennen und Nutzen verlängert das Fenster nicht.
 - **Boss Private:** **LP 11 | Armor 1 | STR 6 | GES 8 | INT 6 | TEMP 6** - _Frame Lunge_ (GES-Save SG 12, sonst 3 LP, verursacht Panik), _Cut In/Out_ (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
 
 **Jersey Devil - "Flügelschlag im Pine Barren" (Seed-Tier low)**
@@ -743,7 +753,7 @@ sind keine zusätzlichen Anomalien. Keine unverbundene Monstersammlung und keine
 - **Epoche/Marker:** 1909, Industrialisierung · **Loop** (30-Sek-Flugbahn wiederholt sich an Bäumen).
 - **Anchor:** Verkohlte Überreste der "13th Child"-Legende in einer Wurzelhöhle (Familienfluch hält Loop stabil).
 - **Tells:** Schwefelgeruch, schreiender Wind, Kratzspuren spiralförmig, Tiere fliehen den Pfad.
-- **Weakness:** Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11, dann Loop kollabiert).
+- **Weakness:** Anchor-Knochen aus dem Wurzelbau lösen und im vorbereiteten Feuer vernichten (Survival 11 oder Tech 11, dann kollabiert der Loop); geweihter Kupferdraht erleichtert nur das Sichern.
 - **Boss Private:** **LP 8 | Armor 1 | STR 6 | GES 8 | INT 4 | TEMP 4** – _Dive Bomb_ (GES-Save SG 11, sonst 2 LP), _Loop Reset_ (setzt Initiative zurück, wenn Anchor unberührt).
 
 <a id="urban-myth-generator"></a>
@@ -756,7 +766,7 @@ gesamten Rift-Fall weg.
 
 ### Vorgehen
 
-1. **Epoche (W6)** - identisch zur Rift-Edition.
+1. **Epoche/Setting** - aus dem vorhandenen Epochen-/Setting-Rahmen des Missionsgenerators.
 2. **Urban-Myth-Motiv (W20)** - nutzt Hardware/Linsen statt Lichtbilder.
 3. **Fallkern registrieren:** `time_marker` als Ursachenmetadatum führen; kein sichtbarer Zeitmarker pro Szene. Die Falschspur darf weder die echte Para-Bedrohung entzaubern noch zur zweiten Anomalie werden.
 4. **Stat-Block** nach Risiko; alles Technische als Shadow-Op erklären (keine VR-Illusionen, nur Sensorik/Implantate).
