@@ -174,40 +174,56 @@ automatischen Umgebungsbrand.
 
 | Voraussetzung | Stufe | PP | SYS | Probe / SG | Reichweite | Ziele | Dauer | Effekt / Schaden | Cooldown | Psi-Heat |
 | --- | --- | ---: | ---: | --- | --- | ---: | --- | --- | ---: | ---: |
-| Psioniker 1, TEMP 3 | Low | 1 | 0 | TEMP, SG 9 | 0–3 m | 1 | Impuls <1 s | kontrolliert erwärmen/entzünden eines offen zugänglichen, kleinen brennbaren Objekts; gegen Wesen höchstens 1 LP | 1 Runde | +1 |
-| Psioniker 2, TEMP 5 | Medium | 2 | 1 | TEMP, SG 12 | 0–15 m | 1 | Impuls <1 s | fokussierter Treffer, 3 LP | 2 Runden | +1 |
-| Psioniker 3, TEMP 7 | High | 3 | 2 | TEMP, SG 15 | 0–15 m | 1 | Impuls <1 s | starker fokussierter Treffer, 5 LP | 3 Runden | +1 |
+| Psioniker 1, TEMP 3 | Low | 1 | 0 | TEMP, SG 9 | 0–3 m | 1 | Fokus bis zum Impuls (<1 s) | begrenzte psionische Hitze; gegen Wesen höchstens 1 LP | 1 Runde | +1 |
+| Psioniker 2, TEMP 5 | Medium | 2 | 1 frei | TEMP, SG 12 | 0–15 m | 1 | Fokus bis zum Impuls (<1 s) | fokussierter Treffer, 3 LP | 2 Runden | +1 |
+| Psioniker 3, TEMP 7 | High | 3 | 2 frei | TEMP, SG 15 | 0–15 m | 1 | Fokus bis zum Impuls (<1 s) | starker fokussierter Treffer, 5 LP | 3 Runden | +1 |
 
-SYS ist hier die Belastung des kampftauglichen Fokus, nicht eine fortlaufende
-Belegung: Low ist ein kurzer kontrollierter Impuls (0 SYS), Medium/High zahlen
-ihre tabellierte 1/2 SYS sofort. Die allgemeine Dauer-Kurzregel senkt diese
-expliziten Kosten nicht. Alle drei Stufen treffen genau ein Ziel; aus Squad-
+SYS ist Kapazität, kein Verbrauchspool: Low benötigt 0, Medium/High benötigen
+beim Ansagen 1/2 **freie** SYS und belegen sie nur während des Fokus bis zum
+Impuls. Danach werden sie sofort frei, auch bei Fehlschlag oder Unterbrechung;
+das SYS-Maximum ändert sich nicht. Die sichtbare Hitzeerscheinung darf danach
+noch kurz abklingen, hält aber weder Fokus noch SYS-Belegung aufrecht. Alle drei
+Stufen treffen genau ein Ziel; aus Squad-
 Buffs entsteht kein kostenloses Mehrfachziel.
 
-**Zielzugriff und Abwehr:** Sichtlinie und regelgerechter Zugriff sind nötig.
-Wirksame Deckung, Rüstung und Anti-Psi-Abwehr gelten; Pyrokinese durchdringt
-nichts automatisch. Ein Ziel wehrt wie gegen einen Psi-Fernangriff ab, und die
-Spielleitung berücksichtigt vorhandene SR/Deckungsmodifikatoren beim SG bzw.
-Schaden. Außer Reichweite oder ohne Zugriff bricht die Aktivierung vor Kosten
-ab. Bei abgelegter, aber misslungener Probe werden PP, SYS und Heat bezahlt,
-es entsteht kein Schaden und kein Brand-Folgeeffekt. Wird der Fokus vor dem
-Impuls unterbrochen, gilt das ebenfalls als Fehlschlag. Keine Schadensfolge,
-Brandzähler oder anatomisch-grafische Beschreibung.
+**Probe, Zielzugriff und Abwehr:** Die eine TEMP-Aktivierungsprobe gegen den
+Tabellen-SG entscheidet den Treffer; es folgt **keine zweite Ausweichprobe**.
+Das Ziel muss sichtbar, innerhalb der Reichweite und nicht vollständig durch
+geschlossene Deckung, Panzerglas oder eine andere feste Barriere abgeschirmt
+sein. Teildeckung erhöht wie beim Fernangriff den SG, vorhandene Rüstung/SR
+mindert den LP-Schaden nach den normalen Schadensregeln. Ein vorhandenes
+Anti-Psi-Gitter erhöht den SG um +2; eine ausdrücklich undurchlässige
+Anti-Psi-Barriere blockiert den Zugriff. Der ITI-Psi-Puffer gilt weiterhin nur
+für seine genannten telepathischen Angriffe, `mind_control` und die besondere
+Phase-Strike-Regel – nicht pauschal gegen Pyrokinese.
+
+Fehlen Kraft/Talent, PP oder freie SYS, oder ist das Ziel ungültig, wird nicht
+gewürfelt: keine PP, keine Belegung, kein Heat und kein Cooldown. Sobald die
+gültige Aktivierung angesagt ist, werden PP verbraucht, SYS bis zum Impuls
+belegt und Heat/Cooldown ausgelöst. Misslingt die Probe oder wird der Fokus vor
+dem Impuls unterbrochen, entstehen 0 LP und kein Brand; SYS wird frei, PP,
+Heat und Cooldown bleiben. Ein kritischer Patzer kann weiterhin die bestehende
+Backlash-Tabelle auslösen.
 
 **Balancevergleich:** Low liegt unter einem normalen Waffentreffer und dient
 vor allem kontrollierter Hitze. Medium (3 LP) liegt im Bereich leichter
-Waffenwirkung; High (5 LP) bleibt ein begrenzter Einzelzieltreffer. Anders als
-TK-Melee ignoriert Pyrokinese weder Exploding-/SR-Grenzen noch Deckung und hat
-keine Gratis-Folgeaktion. Anders als Psi-Waffenmanifestation (1 PP/1 SYS für
+Waffenwirkung; High (5 LP) bleibt ein begrenzter Einzelzieltreffer. TK-Melee
+ist ein auf einmal pro Szene begrenzter Nahkampfangriff ohne Exploding, mit
+eigener SR-/Deckungsgrenze und optionaler SYS-Folgeaktion; Pyrokinese ist
+stattdessen ein fester Einzelzielschaden mit PP, Heat und Stufen-Cooldown.
+Anders als Psi-Waffenmanifestation (1 PP/1 SYS für
 eine trainierte Grundwaffe) manifestiert sie keine wiederholt nutzbare Waffe;
 jeder Treffer zahlt Probe, PP, SYS, Heat und Cooldown neu.
 
 **Rechenbeispiel:** Agentin Rhea (`has_psi=true`, Psioniker 2, TEMP 5,
-PP 5/5, SYS 4, Heat 0) nutzt Medium auf ein sichtbares Ziel in 10 m. `1W6=4 +
-TEMP 5/2 + Talent 2 = 8` gegen SG 12: Fehlschlag. Sie verursacht 0 LP,
-zahlt 2 PP und 1 SYS, steigt auf Heat 1 und wartet 2 Runden. Wäre die Summe 12,
-verursachte sie vor geltender Rüstungs-/Abwehrminderung 3 LP; nichts brennt
-danach selbstständig weiter.
+PP 5/5, SYS 4, davon 3 frei, Heat 0) nutzt Medium auf ein sichtbares Ziel in
+10 m. Vorher: PP 5, SYS-Belegung 1/4. Während des Fokus: 2 PP werden verbraucht
+und 1 freie SYS wird belegt (2/4). `1W6=4 + ⌊TEMP 5/2⌋=2 + Talent 2 = 8`
+gegen SG 12: Fehlschlag. Danach: 0 LP, PP 3, SYS-Belegung wieder 1/4, Heat 1
+und Cooldown 2 Runden; ein kritischer Patzer prüfte zusätzlich Backlash. Bei
+einer gewürfelten 6 wäre die Summe `6 + 2 + 2 = 10` (Exploding wird normal
+fortgesetzt); erreicht das Endergebnis 12, verursacht sie 3 LP vor normaler
+Rüstungsminderung. In keinem Ausgang brennt etwas selbstständig weiter.
 
 - **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels.
   _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.

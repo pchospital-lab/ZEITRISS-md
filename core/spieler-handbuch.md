@@ -129,8 +129,10 @@ menschlicheren Zukunftsspur gefolgt sind.
 - Vor Eintritt gilt: **Hier wächst nicht dein XP-Balken. Du riskierst einen
   Run für besondere Beute oder Wissen und musst sie wieder herausbringen.**
   Der Fund geschieht vor dem Exit und kann bei erfüllten normalen Regeln schon
-  im Run helfen; erst der Schleusen-Debrief gleicht Verbrauch, Verlust, Käufe,
-  CU und tatsächlich extrahierten Besitz ab. Es gibt keinen Pflichtboss.
+  im Run als vorläufiger Besitz helfen, verbraucht werden oder verloren gehen.
+  Der Schleusen-Debrief bestätigt die Extraktion und gleicht den Stand ab, ohne
+  Verbrauch oder CU erneut zu buchen; danach folgt der persönliche HQ-Save.
+  Es gibt keinen Pflichtboss.
 - **Lore-Hinweis (ITI-Forschung):** Interne Memos (Stichwort **ABSOLUT-7/CITY** als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell)
   deuten an, dass Kodex keine klassische Simulation erzeugt, sondern einen
   physisch wirksamen Quanten-Resonanzraum der gescheiterten Zeitlinie. Für die

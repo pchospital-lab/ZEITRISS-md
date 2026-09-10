@@ -2,6 +2,7 @@
 const assert = require('assert');
 const schema = require('../systems/gameflow/saveGame.v7.export.schema.json');
 const { openSession, projectPersonalSaves } = require('./lib/personal_save_projection');
+const { migrate_save } = require('../runtime');
 const clone = (v) => JSON.parse(JSON.stringify(v));
 
 // Begrenzte Schema-Prüfung für genau die im Exportvertrag verwendeten Keywords;
@@ -46,13 +47,14 @@ const ids = ['A', 'B', 'C', 'D', 'E'];
 const missions = [4, 2, 7, 1, 6];
 function character(id, mission) {
   return { id, name: `Agent ${id}`, callsign: `Echo-${id}`, rank: 'Agent', lvl: 1, xp: mission * 10,
-    origin: { epoch: '2026', role: 'Feldagent' }, attr: { STR: 3, GES: 3, INT: 3, CHA: 3, TEMP: 3, SYS: 3 },
+    origin: { epoch: '2026', hominin: 'Homo sapiens sapiens', role: 'Feldagent' }, attr: { STR: 3, GES: 3, INT: 3, CHA: 3, TEMP: 3, SYS: 3 },
     lp: 10, lp_max: 10, stress: 0, has_psi: false, sys_installed: 0, talents: [],
     equipment: [{ name: 'ITI-Kommunikator', type: 'gadget', tier: 1 }], implants: [],
     history: { background: `Geschichte ${id}`, milestones: [] }, carry: [{ name: `Marker ${id}`, type: 'gadget', tier: 1 }],
     quarters_stash: [{ name: 'Standardkit', type: 'gear', tier: 1 }],
-    vehicles: { active_id: `VEH-${id}`, owned: [{ id: `VEH-${id}`, name: `ITI-Shuttle ${id}`, tier: 1 }] },
-    reputation: { iti: mission, chronopolis: 0 },
+    vehicles: { epoch_vehicle: { id: `VEH-${id}`, name: `Feldmotorrad ${id}`, type: 'vehicle', tier: 1, upgrades: [] },
+      availability: { ready_every_missions: 3, next_ready_in: 0 }, legendary_temporal_ship: null },
+    reputation: { iti: 0, faction: 'Ordo Mnemonika', factions: { ordo_mnemonika: 0, chrono_symmetriker: 0, kausalklingen: 0, zerbrechliche_ewigkeit: 0 } },
     wallet: mission * 100, level_history: {} };
 }
 function save(id, mission) {
@@ -71,6 +73,15 @@ function save(id, mission) {
 
 const originals = ids.map((id, i) => save(id, missions[i]));
 originals.forEach((s, i) => valid(s, `Input ${ids[i]}`));
+originals.forEach((s) => {
+  const c = s.characters[0];
+  assert.strictEqual(c.vehicles.epoch_vehicle.type, 'vehicle');
+  assert.deepStrictEqual(c.vehicles.availability, { ready_every_missions: 3, next_ready_in: 0 });
+  assert.strictEqual(c.vehicles.legendary_temporal_ship, null);
+  assert(c.reputation.iti >= 0 && c.reputation.iti <= 5, 'ITI-Ruf-Cap');
+  assert.strictEqual(c.origin.hominin, 'Homo sapiens sapiens');
+  assert.strictEqual(s.continuity.npc_roster[0].owner_id, c.id);
+});
 const originalsBeforeProjection = clone(originals);
 const finalCharacters = Object.fromEntries(originals.map((s, i) => {
   const c = clone(s.characters[0]); c.xp += 5 + i; c.wallet += 10 + i; c.history.milestones.push('Gemeinsamer Einsatz in Kampagne A.');
@@ -102,10 +113,24 @@ assert.strictEqual(openSession([exportsA[0], exportsA[0]]).order.length, 1);
 assert.throws(() => openSession([exportsA[0], { ...clone(exportsA[0]), branch_id: 'ANDERS' }]), /Abweichender Inhalt/);
 assert.throws(() => openSession([save('X', 1), { ...save('X', 2), save_id: 'OTHER-X' }]), /Widerspruechlicher/);
 assert.strictEqual(openSession(originals).order.length, 5, 'gemeinsame branch_id darf Gäste nicht verwerfen');
-const legacy = save('L1', 3); legacy.save_id = 'LEGACY-GROUP'; legacy.characters.push(character('L2', 8)); legacy.economy.wallets.L2 = { balance: 800, name: 'Agent L2' }; legacy.economy.cu = 999;
-const migratedLegacy = projectPersonalSaves(openSession([legacy]), { hq: true });
+// Echter Runtime-Migrationspfad zuerst, danach erst die Projektion bereits
+// normalisierter v7-Daten. Der Projektionshelfer ist absichtlich kein Loader.
+const legacyBase = save('L1', 3); legacyBase.save_id = 'LEGACY-GROUP';
+const legacyL2 = character('L2', 8);
+const rawLegacy = { save_version: 6, party: { characters: [clone(legacyBase.characters[0]), legacyL2] },
+  economy: { hq_pool: 999 }, campaign: clone(legacyBase.campaign), logs: clone(legacyBase.logs), ui: clone(legacyBase.ui), arena: clone(legacyBase.arena) };
+const runtimeMigrated = migrate_save(clone(rawLegacy));
+assert.strictEqual(runtimeMigrated.party.characters[0].wallet, 1299, 'Legacy-Pool genau einmal im Anker-Wallet');
+assert.strictEqual(runtimeMigrated.party.characters[1].wallet, 800, 'Gast-Wallet unverändert');
+assert(!Object.hasOwn(runtimeMigrated.economy, 'hq_pool'), 'Legacy-Pool nach Migration entfernt');
+const normalizedLegacy = clone(legacyBase);
+normalizedLegacy.characters = clone(runtimeMigrated.party.characters);
+normalizedLegacy.economy = { wallets: clone(runtimeMigrated.economy.wallets) };
+const migratedLegacy = projectPersonalSaves(openSession([normalizedLegacy]), { hq: true });
 assert.strictEqual(migratedLegacy.length, 2);
-migratedLegacy.forEach((s) => validPersonalContent(s, 'Legacy-Sammelimport'));
+migratedLegacy.forEach((s) => validPersonalContent(s, 'normalisierter Legacy-Sammelimport'));
+assert.deepStrictEqual(migratedLegacy.map((s) => s.characters[0].wallet), [1299, 800]);
+assert.strictEqual(migratedLegacy.reduce((sum, s) => sum + s.characters[0].wallet, 0), 2099, 'Betrag bleibt genau einmal erhalten');
 assert.strictEqual(projectPersonalSaves(openSession([originals[0]]), { hq: true }).length, 1);
 assert.strictEqual(projectPersonalSaves(openSession(originals.slice(0, 2)), { hq: true }).length, 2);
 assert.throws(() => projectPersonalSaves(openSession(originals), { hq: false }), /SaveGuard/);

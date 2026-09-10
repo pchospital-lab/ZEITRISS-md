@@ -121,15 +121,17 @@ API-Key, wenn dein vorhandener Modellzugang Projektquellen, dauerhafte
 Anweisungen und Retrieval unterstützt. Ein Abo allein garantiert diese
 Funktionen oder Regeltreue nicht.
 
-Bis ein freigegebenes Upload-ZIP existiert, nutze im Browser **Code → Download
-ZIP** für einen nachvollziehbaren Commit oder Tag, entpacke das Repository und
+Das öffentliche Repository ist bereits der nutzbare Downloadweg: Nutze im
+Browser **Code → Download ZIP** für einen nachvollziehbaren Commit oder Tag,
+entpacke das Repository und
 wähle die 19 Dateien exakt nach der Liste im [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation).
 Im **Quell-ZIP** heißen die Anweisungsdateien `meta/masterprompt_v6.md` und
 `meta/project_bootstrap_instructions.md`; im **erzeugten Upload-Paket** heißen
 dieselben Inhalte `system/SYSTEM_PROMPT_ONLY.md` und
 `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`. Das Quell-ZIP selbst ist **kein**
 bereinigtes Spielpaket. Ein Maintainer kann
-das fertige Paket mit `scripts/setup.py --export --require-clean` erzeugen;
+zusätzlich ein bequemeres fertiges Paket mit
+`scripts/setup.py --export --require-clean` erzeugen;
 es enthält `knowledge/...`, `system/SYSTEM_PROMPT_ONLY.md`,
 `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`, `SETUP-ANLEITUNG.md`, Manifest und ZIP.
 

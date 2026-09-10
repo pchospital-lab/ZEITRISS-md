@@ -94,8 +94,28 @@ prüft separat, dass vorhandene Character-Wallets ownergebunden projiziert und
 der alte Pool nicht als zweite Geldwahrheit kopiert wird. Ein Vorher-/Nachher-
 Vergleich schützt die unveränderte Eingabe des Projektionshelfers.
 
-Diese Nachbesserung ist statische/deterministische Evidenz und synthetische
-Redaktion, kein echter Modell- oder Plattform-Playtest. Es wurden weder ein
-Workflow noch Release oder Veröffentlichung ausgelöst. Pyrokinese bleibt
-ausdrücklich außerhalb dieses Laufs und offen; der Befund ist keine
-Gesamt-Mergefreigabe.
+## Abschluss: begrenzte Reviewlücken
+
+Der Paket-Watchguard leitet seine Soll-Liste unabhängig aus `master-index.json`
+und `setup.json` ab. Vier Negativ-ZIPs entfernen den Masterprompt, ersetzen ein
+Slotmodul bei gleicher Anzahl, entfernen eine Pflicht-Quellzuordnung oder
+beschädigen Bytes; alle laufen durch dieselbe `verifyZip()`-Funktion.
+
+Pyrokinese wurde als gelernte Einzelkraft statisch für Low/Medium/High,
+PP, freie SYS-Kapazität und Freigabe, Abrundung, Fehlschlag, Backlash,
+Deckung/Anti-Psi sowie ausbleibenden selbstlaufenden Brand gegengeprüft. Das
+ist ein deterministischer Textvertrag, keine Kampfsimulation.
+
+**Synthetische Quellen-/Ablauffälle:** (1) Ein uninformierter NSC kennt ein
+Geheimnis nicht. Nach einer im Log nachvollziehbaren Übermittlung darf ein
+zweiter NSC informiert handeln; bloßes SL-Wissen genügt nicht. (2) Ein
+Chronopolis-Fund wird vor dem Exit genutzt und dabei verbraucht. Der Verbrauch
+wirkt sofort; Schleusen-Extraktion und späterer persönlicher HQ-Save buchen
+weder Gegenstand noch CU erneut. Diese Fälle sind redaktionelle Sollprüfungen,
+keine ausgeführten Modell-Playtests und enthalten keine Erfolgsquote.
+
+Diese Nachbesserung trennt statische Tests, deterministische Rechenfälle und
+synthetische Redaktion ausdrücklich von echten Modell-/Plattformtests. Letztere
+wurden ebenso wenig wie Workflow, Release oder Veröffentlichung ausgeführt.
+Das Repository bleibt der vorhandene öffentliche Downloadweg; ein zusätzliches
+fertiges Upload-Paket ist eine optionale Maintainerentscheidung.

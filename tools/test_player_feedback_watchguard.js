@@ -8,8 +8,35 @@ const { execFileSync, spawnSync } = require('child_process');
 const { createDocTextLoader } = require('./watchguard_doc_loader');
 
 const root = path.resolve(__dirname, '..');
+const setup = JSON.parse(fs.readFileSync(path.join(root, 'setup.json')));
+const index = JSON.parse(fs.readFileSync(path.join(root, 'master-index.json')));
+const slotSources = [...new Set(index.modules.filter((m) => m.slot === true)
+  .map((m) => m.path.split('#')[0]))];
+assert.strictEqual(slotSources.length, 19, 'master-index.json muss 19 eindeutige Slot-Quellen liefern');
+const { getDocText: getRepoDocText } = createDocTextLoader({ root, scopeLabel: 'Player Feedback Watchguard' });
+const pyro = getRepoDocText('systems/kp-kraefte-psi.md')
+  .split('### Pyrokinese')[1].split('\n### ')[0];
+for (const contract of [
+  /\| Psioniker 1, TEMP 3 \| Low \| 1 \| 0 \|/, /Medium \| 2 \| 1 frei \|/, /High \| 3 \| 2 frei \|/,
+  /keine zweite Ausweichprobe/, /Anti-Psi-Gitter erhöht den SG um \+2/, /SYS wird frei, PP,/,
+  /kritischer Patzer kann weiterhin die bestehende\s+Backlash-Tabelle/, /kein Brand/, /selbstständig weiter/,
+  /⌊TEMP 5\/2⌋=2/, /SYS-Belegung wieder 1\/4/,
+]) assert.match(pyro, contract, `Pyrokinese-Vertrag fehlt: ${contract}`);
 
-function verifyZip(zip, expectedRoot = root) {
+function expectedFiles(flat) {
+  const expected = new Map();
+  slotSources.forEach((source, i) => expected.set(flat
+    ? `knowledge/${String(i + 1).padStart(2, '0')}-${path.basename(source)}`
+    : `knowledge/${source}`, source));
+  expected.set('system/SYSTEM_PROMPT_ONLY.md', setup.masterprompt);
+  expected.set('system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md', setup.project_bootstrap_instructions);
+  expected.set('system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md', setup.creator_bootstrap_instructions);
+  expected.set('SETUP-ANLEITUNG.md', null); // von run_export() erzeugt
+  expected.set('LICENSE', 'LICENSE');
+  return expected;
+}
+
+function verifyZip(zip, expectedRoot = root, requireConfirmed = false) {
   const checked = JSON.parse(execFileSync('python3', ['-c', [
     'import hashlib,json,pathlib,sys,zipfile',
     'with zipfile.ZipFile(sys.argv[1]) as z:',
@@ -25,19 +52,45 @@ function verifyZip(zip, expectedRoot = root) {
   const { names, prefix, manifest } = checked;
   assert(names.length > 0, 'ZIP ist leer oder beschädigt');
   assert(names.every((name) => name.startsWith(prefix)), 'uneinheitliches ZIP-Wurzelverzeichnis');
-  assert.strictEqual(manifest.project_version, '4.2.6');
+  assert.strictEqual(manifest.project_version, setup.version);
   assert.strictEqual(manifest.knowledge_slots, 19);
-  assert.strictEqual(manifest.files.filter((f) => f.path.startsWith('knowledge/')).length, 19);
+  const flat = manifest.files.some((f) => /^knowledge\/01-/.test(f.path));
+  const expected = expectedFiles(flat);
+  const actual = new Map(manifest.files.map((f) => [f.path, f]));
+  assert.strictEqual(actual.size, manifest.files.length, 'Manifestpfade müssen eindeutig sein');
+  assert.deepStrictEqual([...actual.keys()].sort(), [...expected.keys()].sort(),
+    'Manifest entspricht nicht der unabhängigen Soll-Liste');
+  for (const [target, source] of expected) {
+    const item = actual.get(target);
+    if (source === null) assert.strictEqual(item.source, null, `${target}: generierte Anleitung ohne Quellkopie`);
+    else assert.strictEqual(item.source, source, `${target}: falsche oder fehlende Quellzuordnung`);
+  }
   assert.deepStrictEqual(names.slice().sort(), ['BUILD-MANIFEST.json', ...manifest.files.map((f) => f.path)]
     .map((name) => prefix + name).sort(), 'Manifest-Dateiliste stimmt nicht mit ZIP überein');
   assert(names.includes(prefix + 'LICENSE'), 'Lizenzhinweis fehlt');
   assert(!names.some((n) => /(^|\/)(\.env|runtime\.js|internal|docs|AGENTS\.md)(\/|$)/.test(n)));
+  assert(['confirmed-git', 'unconfirmed'].includes(manifest.source_provenance));
+  assert.strictEqual(manifest.source_confirmed, manifest.source_provenance === 'confirmed-git');
+  if (manifest.source_provenance === 'confirmed-git') {
+    assert.strictEqual(typeof manifest.source_dirty, 'boolean');
+    assert.match(manifest.source_commit, /^[0-9a-f]{40}$/);
+    if (expectedRoot && fs.existsSync(path.join(expectedRoot, '.git'))) {
+      assert.strictEqual(manifest.source_commit, execFileSync('git', ['rev-parse', 'HEAD'], { cwd: expectedRoot, encoding: 'utf8' }).trim());
+    }
+  } else {
+    assert.strictEqual(manifest.source_commit, null);
+    assert.strictEqual(manifest.source_dirty, null);
+  }
+  if (requireConfirmed) {
+    assert.strictEqual(manifest.source_provenance, 'confirmed-git', 'strenger Build braucht bestätigte Herkunft');
+    assert.strictEqual(manifest.source_dirty, false, 'strenger Build muss sauber sein');
+  }
   return manifest;
 }
 
 // Im Workflow wird genau das hochzuladende Artefakt geprüft, nicht ein zweiter Export.
 if (process.env.PACK_ZIP) {
-  verifyZip(path.resolve(process.env.PACK_ZIP));
+  verifyZip(path.resolve(process.env.PACK_ZIP), root, true);
   console.log('player-feedback-pack-zip-ok');
   process.exit(0);
 }
@@ -54,7 +107,7 @@ try {
   assert(dirs.some((n) => n.includes('-structured-')) && dirs.some((n) => n.includes('-flat-')));
   for (const name of dirs) {
     const pack = path.join(tmp, name);
-    const manifest = verifyZip(`${pack}.zip`);
+    const manifest = verifyZip(`${pack}.zip`, root);
     assert.strictEqual(manifest.source_provenance, 'confirmed-git');
     assert.match(manifest.source_commit, /^[0-9a-f]{40}$/);
     const { getDocText } = createDocTextLoader({ root: pack, scopeLabel: 'Player Feedback Watchguard' });
@@ -76,6 +129,29 @@ try {
   assert.strictEqual(noGitManifest.source_provenance, 'unconfirmed');
   assert.strictEqual(noGitManifest.source_commit, null);
   assert.notStrictEqual(spawnSync('python3', ['scripts/setup.py', '--export', '--require-clean', '--out', path.join(tmp, 'reject')], { cwd: sourceZip }).status, 0);
+  verifyZip(`${noGitPack}.zip`, sourceZip);
+
+  const goodZip = `${path.join(tmp, dirs[0])}.zip`;
+  const mutateZip = (name, script) => {
+    const output = path.join(tmp, `${name}.zip`);
+    execFileSync('python3', ['-c', [
+      'import io,json,sys,zipfile',
+      'src,dst,mode=sys.argv[1:]',
+      'with zipfile.ZipFile(src) as zin:',
+      ' files={n:zin.read(n) for n in zin.namelist() if not n.endswith("/")}',
+      'prefix=next(iter(files)).split("/")[0]+"/"',
+      'manifest=json.loads(files[prefix+"BUILD-MANIFEST.json"])',
+      script,
+      'files[prefix+"BUILD-MANIFEST.json"]=(json.dumps(manifest)+"\\n").encode()',
+      'with zipfile.ZipFile(dst,"w",zipfile.ZIP_DEFLATED) as zout:',
+      ' for n,data in files.items(): zout.writestr(n,data)',
+    ].join('\n'), goodZip, output, name]);
+    assert.throws(() => verifyZip(output, root), `${name} muss durch dieselbe verifyZip-Funktion scheitern`);
+  };
+  mutateZip('missing-masterprompt', 'item=next(x for x in manifest["files"] if x["path"]=="system/SYSTEM_PROMPT_ONLY.md")\nmanifest["files"].remove(item)\ndel files[prefix+item["path"]]');
+  mutateZip('replaced-slot', 'item=next(x for x in manifest["files"] if x["path"].startswith("knowledge/"))\ndata=files.pop(prefix+item["path"])\nitem["path"]="knowledge/ersatz.md"\nfiles[prefix+item["path"]]=data');
+  mutateZip('missing-source', 'next(x for x in manifest["files"] if x["path"]=="LICENSE").pop("source",None)');
+  mutateZip('damaged-content', 'item=next(x for x in manifest["files"] if x["path"].startswith("knowledge/"))\nfiles[prefix+item["path"]]+=b"\\nBESCHAEDIGT"');
 
   for (const [missing, message] of [
     ['meta/project_bootstrap_instructions.md', /Project bootstrap not found/],
