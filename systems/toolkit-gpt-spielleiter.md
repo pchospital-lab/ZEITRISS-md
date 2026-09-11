@@ -73,9 +73,8 @@ gm_second_person`, Du/Ihr im Präsens). `gm_third_person` und `gm_observer`
   sein; andere Werte werden auf das Default zurückgesetzt.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
   HUD. Rift-Ops bleiben ein **HQ-gesteuerter Nebenpfad** (`MODE RIFT`) und
-  können bei freigegebenem Split-Family-Flow auch innerhalb derselben Episode
-  starten (`continuity.split.family_id` als Kanon-Anker). Seeds bleiben
-  HQ-only bis zur Episodepause.
+  können nach vollständigem Debrief im nächsten frischen freien HQ-Chat auch innerhalb derselben Episode
+  starten. Auswahl und Start bleiben an den freien HQ-Router gebunden.
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
 covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
@@ -600,13 +599,10 @@ if not char.get("psi") and not char.get("has_psi"):
 - TRACK Paradoxon-Index (0-5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht - neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
-  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte),
-  sind aber erst **nach Episodenabschluss** spielbar.
-  Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
-  Einträge gehen automatisch an ITI-NPC-Teams und erscheinen sowohl im
-  Trace-Event `rift_seed_merge_cap_applied` (kept/overflow) als auch im
-  Merge-Trace (`merge_conflicts.rift_merge`) plus Merge-Konflikt `field='rift_merge'`
-  inklusive `selection_rule`.
+  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte)
+  und sind nach vollständigem Debrief im nächsten frischen freien HQ-Chat spielbar.
+  Zwölf offene Rifts sind nur das persönliche Neuerwerbslimit; Altbestand wird
+  beim Gruppenimport weder vereinigt noch gekürzt.
   Kritische Fehlschläge oder Patzer lassen den Px-Stand im Default unverändert und
   setzen keinen automatischen Resonanzverlust aus; dokumentiere stattdessen
   Konsequenzen über Stress/Heat/CU/Storydruck im Debrief.
@@ -1519,9 +1515,12 @@ macro StartGroupContinuity(players = [], keep_scene = false):
 Nutze `keep_scene=true` nur für Mid-Session-Beitritte. Der laufende Einsatz
 bleibt dann intakt; es gibt weder Px-Reset noch Seed-Verlust.
 
-## Mixed-Split Importmodell (Präzedenzgraph)
+## Historisches Mixed-Split-Importmodell (Legacy-Präzedenzgraph)
 
-Für Mischpfade ohne Branch-Protokoll (Rift/PvP/Chronopolis/Abort) gilt:
+Die folgenden Regeln gelten ausschließlich beim Import historischer Mischpfade
+ohne Branch-Protokoll (Rift/PvP/Chronopolis/Abort). Reguläre Sitzungen erzeugen
+keine Split-Familien oder Konvergenzprotokolle; gewöhnliche Gruppenwechsel
+brauchen keinen Abgleich früherer Gruppenzusammensetzungen.
 
 1. `session_anchor` bleibt führend für den aktuellen Kampagnenrahmen (`campaign`/`arc`/globale Flags).
 2. Branch-lokale Fortschritte werden nur über Allowlist importiert
@@ -1598,7 +1597,7 @@ danach öffnet sich das HQ-Menü:
 3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
    NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
 4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
-5. Im Hangar startet auf Wunsch eine Rift-Op (nach Episodenende).
+5. Im Hangar startet auf Wunsch eine Rift-Op (nach vollständigem Debrief im nächsten freien HQ-Chat).
 6. Ruhe in den Quartieren setzt Stress zurück.
 7. **Pflicht-Heimkehr-Beat:** Nach Load oder Mission 2-4 Sätze Heimatraum
    (Ankunftsort, sichtbares Dienstpersonal, kleine Lageveränderung) plus
@@ -1610,8 +1609,8 @@ danach öffnet sich das HQ-Menü:
    Danach **kein automatischer Sprung** ins nächste Briefing; Briefing startet
    nur als bewusste Spielerentscheidung.
 9. Direkt nach Debrief + HQ-Heimkehr wird bei Gruppen/Koop optional ein
-   kurzer **Split-Angebot-Block** gezeigt (z. B. "als Gruppe weiterspielen",
-   "für neue Gruppe speichern/splitten", "solo weiter").
+   kurzer **Gruppenwechsel-Angebot-Block** gezeigt (z. B. „als Gruppe
+   weiterspielen“, „persönlich speichern und Gruppe wechseln“, „solo weiter“).
 
 #### Pre-City-Hub Transit (Optional)
 
@@ -1747,3 +1746,15 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 > beschreiben, *was* auszugeben ist, nicht ein externes Programm. Es gibt keinen
 > separaten Programm-Layer, der im Spiel mitläuft; die Spielleitung setzt diese
 > Ausgaben direkt.
+
+## Kompakter HQ-Router: Leader-Rifts
+
+Im frischen HQ-Load setzt der erste gültige persönliche Save unveränderlich den
+Leader dieses Chats. Zeige nur dessen offene Rifts; ein leerer Leader-Bestand
+hat keinen Gast-Fallback. Nach kurzem Absegnen darf Core oder ein gewählter
+Leader-Rift direkt starten, auch mitten in der Episode. Vor Core/Rift snapshotte
+Leader-`n`, `SG +min(3,n)` und `CU ×min(1,6;1+0,2n)` gemeinsam bis zur
+Abrechnung. Nach jedem Debrief: Px-5 einmal erzeugen/unter Teilnehmer mit freiem
+persönlichem Platz verlosen, Px 0 bestätigen, persönliche Saves ausgeben und
+die freie nächste Aktivität nennen. Gast-Abgabe nur auf Besitzerwunsch im
+freien HQ, ohne Wurf oder Ökonomie.

@@ -1457,12 +1457,15 @@ HQ-Overlay).
 
 ⟨# LINT:CHRONO_RIFT_GATE #⟩
 ⟨% macro chrono_can_launch_rift() -%⟩
-⟪ 'true' if (campaign.loc=='HQ' and campaign.episode_completed) else 'false' ⟫
+⟨% set free = campaign.loc=='HQ' and (phase or 'hq')|lower == 'hq' %⟩
+⟨% set queue_free = not arena.active and (arena.queue_state or 'idle') in ['idle','completed'] %⟩
+⟨% set own_open = (campaign.rift_seeds or [])|selectattr('status','equalto','open')|list %⟩
+⟪ 'true' if free and queue_free and own_open|length > 0 else 'false' ⟫
 ⟨%- endmacro %⟩
 
 ⟨% macro chrono_launch_rift(seed_id) -%⟩
 ⟨% if chrono_can_launch_rift() != 'true' %⟩
-⟪ hud_tag('Rift-Start blockiert - erst im HQ nach Episodenende') ⟫⟨% return %⟩
+⟪ hud_tag('Rift-Start blockiert - nur im freien HQ') ⟫⟨% return %⟩
 ⟨% endif %⟩
 ⟨% set ep_use = (chrono and chrono.epoch) or campaign.epoch %⟩
 ⟪ hud_tag('Rift-Koordinate aktiviert: ' ~ seed_id) ⟫
@@ -1567,7 +1570,7 @@ HQ-Hub. Wohin?
 - Schnell-HQ (kompakter Service-Stop)
 - Auto-HQ (Auto-Abwicklung der HQ-Pflichtschritte)
 - Chronopolis-Schleuse ⟪ '(verfügbar)' if (character.lvl or 1) >= 10 else '(ab Lvl 10)' ⟫
-- Rift-Board ⟪ '(verfügbar)' if campaign.episode_completed else '(nach Episodenende)' ⟫
+- Rift-Board ⟪ '(verfügbar im freien HQ)' ⟫
 - Arena-Router (PvP)
 ⟨%- endmacro %⟩
 
@@ -1827,7 +1830,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 ⟨% if campaign.fr_observer_note %⟩⟪ log_intervention('FR-Echo: SG +1 auf einen Check') ⟫⟨% endif %⟩
 ⟨% if campaign.mission_in_episode == 10 %⟩
 ⟨% set campaign.episode_completed = true %⟩
-⟪ apply_rift_mods_next_episode() ⟫
+⟪ apply_rift_mods_at_mission_start() ⟫
 ⟨% endif %⟩
 ⟨%- endmacro %⟩
 
@@ -2221,48 +2224,48 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% macro can_launch_rift(seed_id=None) -%⟩
 ⟨% set loc = (location or campaign.loc or 'HQ')|upper %⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩
-⟨% set mission_in_episode = campaign.mission_in_episode or 0 %⟩
-⟨% set episode_done = campaign.episode_completed or mission_in_episode >= 10 %⟩
+⟨% set phase_free = (phase or 'hq')|lower == 'hq' %⟩
+⟨% set arena_free = not arena.active and (arena.queue_state or 'idle') in ['idle','completed'] %⟩
 ⟨% set open = false %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
-⟨% if status != 'closed' %⟩
+⟨% if status == 'open' %⟩
 ⟨% set sid = (seed.id or seed.seed_id or seed.label or seed)|string %⟩
 ⟨% if seed_id is none or sid == (seed_id|string) %⟩
 ⟨% set open = true %⟩⟨% break %⟩
 ⟨% endif %⟩
 ⟨% endif %⟩
 ⟨% endfor %⟩
-⟪ 'true' if (loc == 'HQ' and episode_done and open) else 'false' ⟫
+⟪ 'true' if (loc == 'HQ' and phase_free and arena_free and open) else 'false' ⟫
 ⟨%- endmacro %⟩
 
-⟨% macro apply_rift_mods_next_episode() -%⟩
+⟨% macro apply_rift_mods_at_mission_start() -%⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩
 ⟨% set open_seeds = [] %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
-⟨% if status != 'closed' %⟩
+⟨% if status == 'open' %⟩
 ⟨% do open_seeds.append(seed) %⟩
 ⟨% endif %⟩
 ⟨% endfor %⟩
 ⟨% set n = open_seeds|length %⟩
 ⟨% set sg_bonus = [n, 3]|min %⟩
 ⟨% set cu_multi = [1.0 + 0.2*n, 1.6]|min %⟩
-⟨% set campaign.next_episode = {'sg_bonus': sg_bonus, 'cu_multi': cu_multi} %⟩
+⟨% set mission.rift_mods = {'open_rifts': n, 'sg_bonus': sg_bonus, 'cu_multi': cu_multi} %⟩
 ⟨%- endmacro %⟩
 
-### launch_rift Macro (Gate: nur im HQ & nach Episodenende)
+### launch_rift Macro (Gate: nur im freien HQ)
 
 ⟨% macro launch_rift(id=None) -%⟩
 ⟨% if can_launch_rift(id) != 'true' %⟩
-⟪ hud_tag('Rift-Start blockiert - erst nach Episodenende & im HQ') ⟫
+⟪ hud_tag('Rift-Start blockiert - freie HQ-Phase und offene eigene Leader-ID erforderlich') ⟫
 ⟨% return %⟩
 ⟨% endif %⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩
 ⟨% set target = None %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
-⟨% if status != 'closed' %⟩
+⟨% if status == 'open' %⟩
 ⟨% set sid = (seed.id or seed.seed_id or seed.label or seed)|string %⟩
 ⟨% if id is none or sid == (id|string) %⟩⟨% set target = seed %⟩⟨% break %⟩⟨% endif %⟩
 ⟨% endif %⟩

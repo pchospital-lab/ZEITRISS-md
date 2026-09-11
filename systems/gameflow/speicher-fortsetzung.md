@@ -70,8 +70,8 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
      Frischer-Load-Chat-Regel unten).
   3. **HQ → Briefing (Rift-Op)**: Pre-Rift-Sync — eigener Macro
      `save_sync_pre_rift()` mit Rift-Lore-Beat („Rift-Koordinate aktiviert").
-     **Reihenfolge**: erst `chrono_can_launch_rift()`-Gate (HQ-Loc +
-     Episodenende), bei `false` höflicher Refusal-Beat (kein Sync); bei
+     **Reihenfolge**: erst `chrono_can_launch_rift()`-Gate (freies HQ + eigene offene Leader-ID;
+     kein Briefing/Debrief/Transfer/Exfil und keine Arena-Queue), bei `false` höflicher Refusal-Beat (kein Sync); bei
      `true` Sync-Beat → Save → Chat-Wechsel. **Entfällt ebenfalls im frischen
      Load-Chat** (Gate vorausgesetzt) — die Rift-Op startet dann direkt aus
      dem HQ-Hub im selben Chat (Frischer-Load-Chat-Regel unten).
@@ -397,7 +397,9 @@ nicht-HQ-basiertes Material ist nur ein nicht ladbarer `CREATOR_PATCH` mit `sour
   `missions_total` = Anzahl Core-Missionen bis fertig (0 = sofort beim nächsten Debrief, 5 = 5 Core-Missionen). Research kennt **kein** `tier`-Feld — Dauer wird **ausschließlich** in Einsätzen (`missions_total`) gemessen; „Tier" ist im Spiel allein der Lizenz-/Ausrüstungs-Begriff. `scope: "episode"` = der Fund/das Projekt gehört zur laufenden Episode und **muss vor dem Episoden-Boss (MS10) fertig werden, damit es im Finale einsetzbar ist** → `missions_total` wird beim Anlegen so gedeckelt, dass es spätestens beim MS9-Debrief `ready` wird (`missions_total = min(Wunsch-Dauer, 9 − aktuelle_Mission)`, siehe Masterprompt §C). `scope: "campaign"` = episodenübergreifender Verschwörungs-Strang, darf länger laufen (kein Cap). `missions_done` tickt **+1 pro abgeschlossenem Core-Mission-Debrief**, beginnend beim **nächsten** Debrief nach dem Anlegen (nicht der laufenden Mission). `status` wird `ready`, sobald `missions_done >= missions_total`. Leeres Array, wenn nichts läuft. **Migration:** Ein Projekt ohne `scope` (Alt-Stand) wird als `scope: "campaign"` behandelt (kein rückwirkendes Cap). Ein Alt-Save mit `tier`-Feld (vor der Tier-Elimination): `tier` wird **ignoriert** — die Dauer kommt ausschließlich aus `missions_total`; beim nächsten `!save` fällt das `tier`-Feld weg.
 - `logs.{trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
-- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
+- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`;
+  `split` dient nur der Importkompatibilität historischer kanonischer Core-Splits.
+  Normale Gruppenwechsel und Perspektiven derselben Mission benötigen es nicht.
 - `arc.{factions:{}, questions:[], hooks:[]}`
 - `ui.{gm_style, suggest_mode, action_mode, intro_seen, dice{debug_rolls}, contrast, badge_density, output_pace, voice_profile}`
   - Pflicht-Unterfeld: `ui.dice.debug_rolls`
@@ -527,18 +529,11 @@ Phase-Strike-Events separat vom regulären `logs.psi[]`.
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
-Solo-/Px-5-Runs stapeln neue Seeds ohne Solo-Hardcap. Für die spielerseitig
-sichtbare Liste gilt beim HQ-Merge/Group-Import ein Cap von 12 offenen Seeds;
-überschüssige Seeds gehen als Hand-off an ITI-NPC-Teams. Der Merge schreibt
-dazu ein Trace `rift_seed_merge_cap_applied`
-(kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge` inklusive
-`kept[]`/`overflow[]`, `handoff_to` und `selection_rule`, damit Debriefs den
-Hand-off
-transparent nachverfolgen können.
+Neue Instanzen werden einmalig einzeln und gleichverteilt an tatsächliche Spieler-Teilnehmer mit weniger als zwölf eigenen offenen Rifts vergeben. Zwölf ist nur ein Neuerwerbslimit; Altbestand bleibt unangetastet. Sind alle voll, übernimmt ITI ausschließlich die neuen Überschüsse.
 
 > **Spieler-Sprache:** `ClusterCreate()` ist der Moment, wo ihr eure Belohnung
 > bekommt. Px 5 erreicht → 1-2 neue Rift-Missionen erscheinen auf der Karte →
-> nach der aktuellen Episode könnt ihr sie spielen. Das ist der Loot für gutes Spielen.
+> nach dem vollständigen Debrief könnt ihr sie im nächsten frischen freien HQ-Chat spielen. Das ist der Loot für gutes Spielen.
 
 **Single Source "Save v7":** Modul 12 führt das _einzige_ kanonische Schema für
 HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
@@ -891,8 +886,22 @@ Sitzung umfasst nur die anwesenden Figuren und die Kampagne des **zuerst geladen
 gültigen Saves**. Weitere Saves sind Gäste mit pausierenden eigenen Kampagnen; spätere
 Imports wechseln den Anker in diesem Chat nicht. Im nächsten neuen Chat bestimmt wieder
 der erste Save. Level, XP oder eine Gesamtzahl gespielter Missionen rekonstruieren niemals
-einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits;
-ausdrücklich gesetzte `continuity.split`-Mechaniken bleiben davon unberührt.
+einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits und
+benötigen kein Split-Protokoll. Vorhandene `continuity.split`-Felder bleiben ausschließlich
+für historische Imports lesbar; reguläre Sitzungen erzeugen sie nicht neu.
+
+Aktuelle Charakterwerte, Wallet, Besitz, Begleiter und die Anker der eigenen Kampagne
+bleiben dabei verbindlich. `history`, `summaries` und `continuity` tragen nur ausgewählte
+Erinnerungen, Beziehungen und offene Anschlüsse: Für gewöhnliche gemeinsame Erlebnisse
+genügen oft ein bis zwei aussagekräftige Anker, ohne feste Quote pro Mission oder
+unbegrenzt wachsende Liste. Älteres wird passend verdichtet, darf aber wichtige eigene
+Kampagnenfäden und Beziehungen nicht verdrängen. Fehlende alte Details werden nicht als
+sichere Vergangenheit erfunden; geladene Geschichte oder Logs lösen weder Auszahlung
+noch Rift-Erzeugung oder Fortschrittsbuchung erneut aus. Ein gemeinsames Erinnerungsstück
+macht private Informationen nicht automatisch für andere Figuren oder NSCs bekannt.
+Trace-Grenzen sind Maximalwerte, keine Sollgrößen; vollständige alte Rift-Casefiles oder
+Chattranskripte werden nicht aus bloßer Vollständigkeit konserviert. Dafür sind keine
+neuen Szenen-, Beziehungs- oder Erinnerungs-IDs und keine Spieler-Protokollpflege nötig.
 
 **Load-Vertrag:** `!laden`, „Spiel laden“ und JSON-First führen in denselben Load-Flow.
 `!laden` ohne JSON fordert den HQ-Save an und erfindet nichts. Bei angekündigtem
@@ -1598,98 +1607,32 @@ Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.
 
 ## Team-Split & Team-Merge {#team-split-merge}
 
-### Kanonischer Split-Standard
+### Persönlicher Gruppenwechsel-Standard
 
-Split/Merge ist kanonisch für **Core-Parallelpfade** und **separate Rift-Ops**,
-sofern pro Branch ein eigenständiger Save geführt wird. Bei
-Core-Parallelpfaden ist `continuity.split.family_id` Pflicht. Die SL erstellt
-pro Teilgruppe einen eigenen Save:
+Normale Gruppenwechsel erfolgen ausschließlich nach abgeschlossenem Abschnitt
+im freien HQ. Jede Figur erhält ihren vollständigen persönlichen v7-Save. Im
+neuen Chat setzt der erste Save Leader, Kampagne, Px und Rift-Auswahl; weitere
+Saves liefern Figurenstände, ohne Rifts oder Kampagnenblöcke zu vereinigen. Zwei
+getrennte Rift-Gruppen benötigen daher zwei Leader mit jeweils eigenen Rifts.
+Zwei Rifts desselben Besitzers werden nicht kopiert.
 
-1. **Characters aufteilen:** Jede Teilgruppe bekommt ihre `characters[]`.
-   Session-Anker des neuen Saves = erster Character im Array.
-2. **Wallets reisen mit:** Es wird **nichts** geteilt. Jeder Charakter nimmt
-   sein `characters[].wallet` unverändert in den Save seiner Teilgruppe mit.
-   Die Gruppenkasse jeder Teilgruppe ergibt sich automatisch als Summe ihrer
-   mitgereisten Wallets.
-3. **Seeds zuweisen:** Jede Teilgruppe bekommt den/die Seeds, die sie spielen
-   will. Seed-Status wechselt auf `"active"`. Seeds, die niemand nimmt, bleiben
-   `"open"` und kommen in beide Saves.
-4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
-5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
-6. **campaign.px + px_state:** Px und `px_state` werden in beide Saves kopiert (nicht aufgeteilt).
-6a. **campaign.heat:** Heat ist Crew-/Welt-weit und wird wie `px` **in beide Saves kopiert, nicht aufgeteilt** (die Welt fahndet nach der ganzen Crew, egal welcher Thread). Beim Merge wird der **höhere** Heat-Wert beider Threads übernommen (max), nicht summiert — die wachsamste Welt-Reaktion gilt, kein Doppel-Anstieg durch zwei Threads.
-7. **Episode/Stress bei Rift-Splits:** Rift-Branches behalten dieselbe
-   `campaign.episode` wie der Core-Anker; beim Transfer zurück ins HQ wird
-   missionsbedingter Stress auf den gespeicherten HQ-Basiswert zurückgesetzt.
+**Kleine v7-Ablage für den persönlichen Rift-Vertrag:** Eigentum, Instanz-ID und Zustand liegen ausschließlich in `campaign.rift_seeds[]` des jeweiligen persönlichen Saves (`id`, `status: open|closed`; eine Abgabe schreibt `closed` und ein `logs.trace[]`-Event `rift_handoff`). Der einmalige Px-5-Payoff wird als kompaktes `logs.trace[]`-Event `rift_payoff` mit `debrief_id`, persönlich zugewiesenen `assigned`-IDs und etwaiger `iti_handoff`-Liste belegt. Seine stabile `payoff_id` verbindet die Leader-ID mit der bereits beim Einsatz festgelegten Abschluss-/Trace-ID; sie entsteht nie aus Loglänge oder Arrayposition. Der letzte Beleg bleibt zusätzlich kompakt als `logs.flags.last_rift_payoff_id` über die Trace-Kürzung erhalten. Der gerade abgerechnete Leader-Payoff gilt als `px=0`, `px_state=consumed`; erst der nächste tatsächlich Px-berechtigte Core-Abschluss wechselt zu `stable` und bucht den regulären TEMP-Zuwachs. Historische Nachweise verhindern nur dieselbe Buchung, Gast-Nachweise verändern Leader-Px nicht. Bekannte Instanz- oder Abschluss-IDs werden nicht nochmals vergeben; gleiche Vorlage mit neuer Instanz-ID ist zulässig. Geschlossene Instanzen werden durch ältere Kopien nicht wieder geöffnet.
 
-> **Konkrete Anwendung:** Eine narrative Variante des Core-Splits ist der
-> [Multi-Zeit-Sicht-Split](../../gameplay/kampagnenstruktur.md#multi-zeit-sicht-split)
-> — eine Mission aus zwei Zeit-Sichten desselben Arcs parallel erzählt.
+**Projektionsreihenfolge im vollständigen persönlichen HQ-Export:** (1) jeden persönlichen Eingangssave als Basis behalten, (2) abgeschlossene Core-Wurzeln nur auf den Leader und persönliche Figuren-/Wallet-/Begleiter-Deltas nur auf ihren Besitzer anwenden, (3) neue Rift-Zuweisungen und Statusänderungen auf dem jeweiligen persönlichen `campaign.rift_seeds[]` darüberlegen, (4) zuletzt Leader-Px-Reset und `rift_payoff`-Trace festschreiben. Dadurch überschreibt kein älterer Abschlussblock neue Seeds oder den Reset; Gast-Rifts können sich ändern, ohne Gast-Core oder Gast-Px vom Leader zu erben. Widersprüchliche Kopien derselben Figur werden abgewiesen statt addiert; der Vertrag verspricht keine globale Erkennung isolierter Kopien.
 
-### Kanonischer Merge (Core + Rift)
+Taktische Teilgruppen innerhalb eines laufenden Core-/Rift-Einsatzes bleiben im
+selben Chat, derselben Szenenzählung und derselben Missionsabrechnung. Dafür
+werden keine Teilgruppen-Saves erzeugt. Legacy-Lineage kann gelesen werden, ist
+aber kein neuer Pflichtablauf.
 
-Beim Rejoin im HQ werden die Branch-Saves wieder zusammengeführt:
+### Legacy-Branch-Importe
 
-1. **Characters mergen:** Alle `characters[]` in ein Array.
-   Session-Anker-Charakter = Index 0 (aus dem Save des ursprünglichen
-   Session-Ankers).
-2. **Wallets zusammenführen:** Jeder bringt sein Wallet mit; nichts wird
-   summiert oder umverteilt. Die Gruppenkasse ist automatisch die Summe aller
-   `characters[].wallet` im gemergten Roster.
-3. **Seeds: Union:** Alle Seeds beider Saves zusammenführen (closed + open).
-4. **Px-State zuerst, dann Wert:** Priorität `consumed > pending_reset > stable`.
-   Daraus folgt: `consumed => px=0`, `pending_reset => px=5`,
-   `stable => max(px aus stable-Branches, Bereich 0-4)`.
-5. **Logs mergen:** Trace-Events, Artifact-Logs und Notes zusammenführen.
-6. **arc mergen:** Factions, Questions, Hooks vereinigen. Bei Konflikten: beide behalten.
-7. **Transparentes Protokoll:** Die SL zeigt eine Merge-Tabelle, die jede
-   Entscheidung nachvollziehbar macht.
-
-### Branch-Importe ohne Split-Protokoll
-
-Parallele Core-Missions-Branches innerhalb derselben Episode bleiben
-**kanonisch**, wenn sie dieselbe `continuity.split.family_id` tragen.
-Gemischte Split-Pfade ohne gemeinsames Split-Protokoll (z. B. Rift + PvP +
-Chronopolis + Abort) laufen als Branch-Import. Es gilt folgender
-Präzedenzgraph (deterministisch, Session-Anker):
-
-1. **Globale Kampagne:** Session-Anker bleibt führend für `campaign`, `arc` und globale
-   `logs.flags`.
-2. **Branch-lokale Progression:** Import nur über Allowlist-Felder
-   `wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`.
-3. **Charakterdaten:** `characters[]` wird über `id` dedupliziert; pro ID
-   gewinnt der neueste persönliche Stand. Divergenzen werden als
-   `logs.flags.continuity_conflicts[]` protokolliert.
-   `visual_identity?` reist dabei mit der ID und besitzt getrennte Autorität: fehlt es in einem Zweig, gewinnt der
-   vorhandene Block; bei verschiedenen Revisionen ausschließlich die **höhere Visual-Revision**, unabhängig vom Alter
-   der Gameplay-Felder. Gleiche Revision und gleicher Inhalt werden dedupliziert. Gleiche Revision bei verschiedenem
-   Inhalt erzeugt einen strukturierten Kontinuitätskonflikt samt Spielerentscheidung; nie still mischen, mitteln oder
-   per Maximum wählen.
-4. **Arena/Resume-Zustand:** Vor HQ-Save immer auf HQ-safe normalisieren
-   (`arena.active=false`, `queue_state=idle|completed`, `previous_mode` bereinigt).
-5. **Chronopolis-Markt/City-Logs:** bleiben als Nachweis in `logs.market[]`
-   und `logs.trace[]`, ohne den Session-Anker-Kampagnenfortschritt zu überschreiben.
-6. **Debrief-Outputs:** Konsolidierung in `logs.notes[]` mit Merge-Hinweis.
-
-Zusatzregeln:
-
-- `campaign.px_state` wird beim Import strikt beibehalten; ein bereits
-  verbrauchter Px-5-Stand (`consumed`) darf durch Alt-Branches nicht
-  wieder als offener Px-5-Cluster erscheinen.
-- Die SL muss den Hinweistext ausgeben: _"Nicht-kanonischer Branch-Import:
-  Kampagnenfortschritt bleibt beim Session-Anker; persönliche Rückkehrerstände wurden
-  übernommen."_
-- `logs.flags.imported_saves[]` muss pro Branch den `status` und `reason`
-  (`non_canonical_branch`) dokumentieren.
-
-#### Mischpfad-Beispiele (Dokustandard)
-
-- **Rift + PvP → Merge:** Session-Anker-Kampagne bleibt, Rift-Seeds/Wallets werden
-  importiert, Arena wird auf `idle|completed` normalisiert.
-- **Abort + HQ-Rückkehr → Save → Merge:** Abort-Branch liefert nur
-  `abort_marker` + Charakterzustand; kein Episoden-/Missionssprung.
-- **Chronopolis-Run + HQ-Branch → Merge:** Chronopolis-Ausgaben/Markt bleiben
-  als Log-Nachweis, Kampagnenfortschritt folgt weiterhin dem Session-Anker.
+Nur **historische** Saves, die bereits `continuity.split.family_id`, Branch-Marker oder `non_canonical_branch` tragen, nutzen den alten Split-Import. Dessen Allowlist (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`) und Konflikthinweise dienen ausschließlich der Lesbarkeit dieser Altstände. Ein gewöhnlicher heutiger Gruppenwechsel mit persönlichen v7-Saves ist kein nichtkanonischer Branch, verlangt keine solche Meldung und führt insbesondere keinen `rift_merge` aus.
+Bei Legacy-Zweigen reist `visual_identity?` mit der Figuren-ID: Fehlt der Block
+in einem Zweig, bleibt der vorhandene erhalten; bei verschiedenen Revisionen
+gewinnt die **höhere Visual-Revision**. Gleiche Revision und abweichender
+Inhalt erzeugen einen Kontinuitätskonflikt samt Spielerentscheidung statt
+stiller Mischung.
 
 #### Klarstellung: Mid-Episode-Trennung (5er → 3/2)
 
@@ -1843,11 +1786,13 @@ unverändert.
 - `ClusterCreate()` - legt bei Paradoxon 5 neue Rift-Seeds an.
 - `ClusterDashboard()` - zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
 - `launch_rift(id)` - startet eine Rift-Mission aus einem Seed, sobald der
-  Rift-Flow im HQ freigegeben wurde (auch innerhalb derselben Episode möglich,
-  wenn `continuity.split.family_id` den Core-Parallelpfad zusammenhält).
+  eigene offene Leader-Rift im freien HQ gewählt wurde; der bestehende
+  Abschnittsrhythmus gilt, ein Episodenabschluss ist nicht nötig.
   Der Aufruf erhöht `campaign.episode` dabei **nicht**; stattdessen läuft der
   Einsatz als `phase:"rift"` innerhalb der laufenden Episode.
-- `resolve_rifts(ids)` - markiert Seeds als geschlossen und passt Belohnungen an.
+- `resolve_rifts(ids)` - gibt eigene Seeds kostenlos ab und markiert sie als
+  geschlossen. Nur Bestand und der künftige Rift-SG-/CU-Zusatz ändern sich;
+  es erfolgt keine zusätzliche Abrechnung.
 - `seed_to_hook(id)` - liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
 
 ### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
@@ -1880,8 +1825,8 @@ Stress, Heat, Ressourcen und Storydruck.
   „anhängig" (`px_reset_pending=true`, `px_reset_confirm=false`). Das Trace
   `cluster_create` hält px_before/after, `seed_ids`, Episode/Mission/Scene/Loc +
   `campaign_type` sowie die aktuelle Anzahl offener Seeds fest.
-- Rift-Seeds sind erst nach Episodenende spielbar.
-- Nach der Rift-Phase setzt der Debrief im HQ den Index auf 0, schreibt ein
+- Rift-Seeds sind nach vollständigem Debrief im nächsten frischen HQ-Chat spielbar.
+- Im erzeugenden Debrief setzt das HQ den Index nach der Zuweisung auf 0, schreibt ein
   `logs.trace[]`-Event (`px_reset`) und bestätigt den Reset via
   `px_reset_confirm=true` und HUD-Toast „Px Reset → 0", sobald die Crew im HQ
   ankommt.
@@ -1892,11 +1837,11 @@ Stress, Heat, Ressourcen und Storydruck.
   und nutzt `campaign.px` als einzige Quelle.
 - **Px 5:** `ClusterCreate()` erzeugt 1–2 Seeds, markiert den Reset als
   ausstehend. HUD/Debrief notieren „Paradoxon-Index 5 erreicht – neue Rifts
-  sichtbar". Nach der Rift-Op springt der Wert auf 0 und der Reset-Toast
+  sichtbar". Im erzeugenden Debrief springt der Wert auf 0 und der Reset-Toast
   bestätigt dies.
 
-Jeder weitere Px‑5‑Treffer **stapelt** Seeds im Pool – ein Limit existiert nicht.
-`apply_rift_mods_next_episode()` liest ausschließlich **offene** Seeds aus und
+Jeder weitere Px‑5‑Treffer vergibt Seeds persönlich; Neuerwerb stoppt bei zwölf offenen Rifts je Figur.
+`apply_rift_mods_at_mission_start()` (kompatibler Legacy-Alias: `apply_rift_mods_next_episode()`) liest unmittelbar vor jedem Core-/Rift-Start ausschließlich **offene Leader-Seeds** aus und
 setzt `sg_bonus = min(3; offene Seeds)` sowie
 `cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`, damit der Pool gezielt als
 Schwellen- oder Loot-Hebel genutzt werden kann.
@@ -1998,3 +1943,49 @@ Vertragsanker (rein deklarativ, **kein** kopierfähiges JSON):
 - `save_game()` exportiert ausschließlich das v7-Schema.
 - V6-Beispiele in diesem Dokument dienen ausschließlich der Migrationserklärung
   und sind **kein** alternatives Speicherformat.
+
+## Persönlicher Leader-Rift-Vertrag {#persoenlicher-leader-rift-vertrag}
+
+Jeder Speicherbefehl im freien HQ exportiert weiterhin **ein vollständiges
+v7-JSON je Spielerfigur**; fünf Figuren ergeben fünf JSONs, niemals einen
+Gruppencontainer. `campaign.rift_seeds[]` im Ein-Figur-Save ist der persönliche
+Bestand dieser Figur. Der zuerst geladene Save ist Leader und liefert allein
+aktive Kampagne, Px und Rift-Board; weitere Saves behalten Kampagne, Px und
+Rifts getrennt für ihre spätere persönliche Projektion. Identische Reimports
+buchen nichts neu, Konfliktstände derselben Figur werden nicht addiert.
+
+Neue Px-5-Instanzen werden im Debrief vor dem Export genau einmal anhand einer
+stabilen Debrief-/Trace-ID verteilt. Jede Instanz erhält eine stabile eindeutige
+ID, auch wenn dieselbe Katalogvorlage erneut gezogen wurde. Nur tatsächliche
+Spieler-Teilnehmer, keine NPCs, Duplikate oder späteren Joiner, sind
+aufnahmefähig; pro Instanz gilt das persönliche Neuerwerbslimit zwölf. Ein Gast
+kann so einen eigenen Rift erhalten, ohne Leader-`campaign`, Core-Missionsstand
+oder Px zu erben. Sind alle voll, übernimmt ITI ohne Reserve oder Ersatz und der
+Leader-Px-Zyklus endet dennoch mit `px_state=consumed`, Px 0.
+
+`consumed` ist ausschließlich der Abschlussmarker dieses Px-5-Payoffs. Beim
+nächsten tatsächlich Px-berechtigten Core-Abschluss beginnt der Folgezylus als
+`stable` mit dem unveränderten TEMP-Zuwachs; ein historischer Nachweis verhindert
+nur die erneute Buchung desselben Payoffs. Gast-Nachweise setzen Leader-Px oder
+Leader-Zyklus nicht zurück. Beim Export werden Abschlusswerte zuerst auf die
+persönliche Ausgangsbasis gelegt, danach konkrete neue Rift-Zuweisungen und
+Statuswechsel; Logs werden über ihre Payoff-Identität konsolidiert. Der kompakte
+Trace behält höchstens 200 jüngste Einträge einschließlich der neu geschriebenen
+Nachweise, statt das Journal unbegrenzt wachsen zu lassen.
+
+Legacy-`locked_until_episode_end` wird beim legalen HQ-Load zu `open`
+normalisiert, ohne neue Belohnung. Eindeutig persönliche Altbestände bleiben
+beim Besitzer; echte alte Sammeldaten werden nur einmal und bei unklarer
+Eigentümerschaft erst nach kurzer Klärung übernommen. Altbestände über zwölf
+bleiben vollständig, blockieren aber neue Vergaben. Abgeschlossene oder
+abgegebene IDs werden durch alte Kopien nicht reaktiviert. Es entsteht weder
+Pool, Lease, Claim noch globales Transaktionsbuch.
+
+Nach einem HQ-Abschluss dürfen sich Gruppen neu bilden, solo, in Arena oder
+getrennt weiterspielen. Jeder nimmt ausschließlich seinen persönlichen Save;
+im neuen Chat bestimmt erneut der erste Save Leader und Kampagne. Taktisches
+Aufteilen innerhalb einer Mission bleibt Szenenführung im selben Chat mit einer
+Spielleitung und einer Abrechnung: keine Teilgruppen-Saves und keine
+Cross-Chat-Core-Konvergenz. Alte Split-/Lineage-Felder bleiben importierbar,
+sind aber kein Normalablauf. Ohne Server können isolierte Kopien desselben Saves
+nicht global gesperrt werden; regulär läuft eine Figur nur in einem Einsatz.

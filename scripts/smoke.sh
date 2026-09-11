@@ -94,6 +94,8 @@ grep "save-ok" out/save.log
 # Load path
 node tools/test_load.js | tee out/load.log
 grep "load-ok" out/load.log
+node tools/test_rift_hq_flow.js | tee out/rift_hq_flow.log
+grep "rift-hq-flow-ok" out/rift_hq_flow.log
 
 # Startoptionen, Accessibility und Chronopolis-Gate
 node tools/test_start.js > out/start.log

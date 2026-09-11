@@ -332,13 +332,13 @@ _Kodex:_
 > Ihr habt genug Resonanz erzeugt.
 > **Paradoxon 5 erreicht - neue Rift-Koordinaten verfügbar.**
 > Kodex vermerkt **1-2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
-> nach Episodenende freigeschaltet.
+> nach vollständigem Debrief im nächsten freien HQ-Chat freigeschaltet.
 
 _Kodex:_
 
 > `Clusterpunkt erreicht - Zugriffspfade gesetzt`
 > `Paradoxon-Index zurückgesetzt`
-> `Rift α-beta Koordinaten gespeichert - Zugriff nach Episodenende`
+> `Rift α-beta Koordinaten gespeichert - Zugriff nach vollständigem Debrief im nächsten freien HQ-Chat`
 
 🎖 Optional:
 

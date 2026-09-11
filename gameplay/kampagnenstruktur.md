@@ -334,7 +334,7 @@ Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
 - **MUSS:** Der Boss-Rhythmus bleibt invariant (Core: Mini-Boss Mission 5,
   Episoden-Boss Mission 10; Rift: Boss in Szene 10).
 - **SOLL:** Core-Ops bilden den Standardpfad innerhalb einer Episode;
-  Rift-Ops folgen als Bonus-Missionen nach Episodenabschluss.
+  Rift-Ops sind nach ihrem vollständigen Debrief im nächsten frischen freien HQ-Chat verfügbar.
 - **KANN:** Optionale Darstellungsvarianten (z. B. Tonalität oder
   Präsentationsdetails) sind zulässig, solange keine der MUSS-Invarianten
   verändert wird.
@@ -419,11 +419,9 @@ Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
 Erreicht sie Px 5, enthüllt `ClusterCreate()` 1-2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand als `rift_seeds` und lassen sich über das
 **ClusterDashboard** einsehen. Jede weitere Px-5-Stufe **stapelt** zusätzliche Seeds
-im Pool; beim Merge/Group-Import greift eine Deckelung (max. 12 offene Seeds),
-Überschuss geht automatisch an ITI-NPC-Teams und triggert das Trace
-`rift_seed_merge_cap_applied` plus einen `merge_conflicts`-Eintrag (`rift_merge`).
+im persönlichen Bestand; die Grenze von zwölf offenen Rifts gilt nur beim Neuerwerb je Figur.
 🌀 PX 5/5 - ClusterCreate aktiviert · Neue Seeds: #011, #015
-Erst nach Abschluss der Episode kann die Gruppe
+Bereits nach dem vollständigen Debrief kann der Leader im nächsten frischen HQ-Chat
 einen Eintrag via `launch_rift(seed_id)` als eigenständige Rift-Op starten und danach
 zum Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische
 Einzelmissionen und zählen nicht zur Missionsanzahl einer Episode.
@@ -484,21 +482,19 @@ Seeds liegen immer als Objekte mit `id/label/status/seed_tier/hook` vor; der
 Normalizer ergänzt fehlende Felder aus dem Seed-Katalog, damit Casefile-Overlays
 (`CASE <ID>: <Label> · HOOK …`) konsistent bleiben.
 
-Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
+Offene Seeds bleiben im persönlichen Leader-Bestand und wirken ab dem nächsten Einsatz.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
-`apply_rift_mods_next_episode()` zählt ausschließlich **offene** Seeds für
+`apply_rift_mods_at_mission_start()` zählt ausschließlich **offene** Seeds für
 `sg_bonus = min(3; offene Seeds)` und `cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`,
 sodass Gruppen ihren Schwellen- und Loot-Faktor bewusst über gelagerte Seeds steuern können.
-`launch_rift()` bleibt bis zum Episodenabschluss gesperrt: Die Spielleitung prüft
-`campaign.episode_completed` bzw. `mission_in_episode ≥ 10`, bevor ein Seed
-gestartet werden darf.
+`launch_rift()` ist nach vollständigem Debrief im nächsten frischen HQ-Chat erlaubt; ein Episodenabschluss ist kein Gate.
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakt-Plot
 
 - **Paradoxon-Index/Resonanz 0-5:** Anstieg gemäß TEMP-Progresstabelle.
   Bei Px 5 enthüllt `ClusterCreate()` 1-2 neue Seeds und setzt beide Werte auf 0.
-- **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
-  Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
+- **Persönlicher Bestand:** Offene Leader-Seeds bestimmen den nächsten Einsatz-Snapshot.
+  Ein Seed lässt sich nach vollständigem Debrief via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
 - **Artefakt-Drops nur am Rift-Boss:** Core-Ops liefern Relikte und regulären Gear-Loot; Rift-Ops
   nutzen denselben Gear-Pool, bekommen aber **nur nach dem Boss (Szene 10)** einen Artefaktwurf
   (z. B. `1W6 → 6` = seltenes Artefakt). Stoppuhr-Artefakte bleiben als Plot-
@@ -767,46 +763,18 @@ Jeder Eintrag enthält mindestens `id`, `epoch`, `label` und
 automatisch aus `campaign.rift_seeds[]` synchronisiert und darf
 nie manuell editiert werden.
 
-> **Seed-Sperre bis Episodenende:**
-> `ClusterCreate()` erzeugt Seeds und speichert sie in
-> `campaign.rift_seeds[]`. Seeds sind **GESPERRT** bis zum
-> Episodenende. Die Spielleitung darf Seeds vor Episodenende
-> **NICHT** anbieten, auch nicht als Vorschau oder Teaser.
-> Neu erzeugte Seeds erhalten `status: "locked_until_episode_end"`.
-> Dieser Status kann **nicht** vor Episodenende auf `"closed"`
-> oder `"open"` gesetzt werden. Erst nach Abschluss der Episode
-> (`campaign.episode_completed` bzw. `mission_in_episode ≥ 10`)
-> wandelt die Spielleitung alle `locked_until_episode_end`-Seeds in
-> `status: "open"` um.
->
-> **SaveGuard-Hinweis:** Seeds mit `status: locked_until_episode_end`
-> können nicht vor Episodenende auf `available` gesetzt werden.
-> Der Serializer bricht mit einem Guard-Fehler ab, wenn ein Seed
-> mit diesem Status und `campaign.episode_completed == false`
-> einen anderen Status als `locked_until_episode_end` führt.
+> **HQ-Freigabe:** Neue Seeds erhalten sofort `status: "open"`. Sie werden im
+> erzeugenden Debrief persönlich zugewiesen und sind nach Save/Chatwechsel aus
+> dem freien HQ startbar. Legacy-`locked_until_episode_end` wird dort einmalig
+> zu `open` normalisiert; dies erzeugt weder Seed noch Belohnung.
 
 ```pseudocode
-threshold = 5
-if jitter_on:
-    threshold += random.choice([-1, 0, 1])
-
-if paradox_level >= threshold:
-    num = roll(1,2)
-    cluster = []
-    for i in range(num):
-        seed = roll_from("RiftSeedTable", focus="external")
-        cluster.append({id: seed.id, epoch: seed.epoch,
-                        label: seed.label,
-                        status: "locked_until_episode_end"})
-    campaign.rift_seeds.extend(cluster)
-    arc.open_seeds = campaign.rift_seeds  # Spiegel
-    paradox_level = 0
-
-# Episodenende: Seeds freischalten
-if episode_completed:
-    for seed in campaign.rift_seeds:
-        if seed.status == "locked_until_episode_end":
-            seed.status = "open"
+if leader_px >= 5 and not debrief.processed:
+    for seed in ClusterCreate(roll(1,2), unique_instance_id=True):
+        eligible = unique_player_participants_with_open_rifts_below(12)
+        assign_to(random_equal(eligible), seed) if eligible else hand_to_ITI(seed)
+    leader_px = 0
+    debrief.processed = true
 ```
 
 #### Mission-Schema
@@ -1088,13 +1056,17 @@ taktische Variation (3+ Beats = 2+ Aktionsarten), NSC-Stimmen ab dem 3. Beat
 Protokolle — jeder Kampf-Beat soll im Kopf des Spielers wie ein Filmschnitt
 ablaufen.
 
-Rifts spawnen separat zwischen den Episoden und werden einzeln gelistet (siehe Rift-Loop unten).
+Der bestehende Px-5-Payoff erzeugt Rift-Koordinaten, die im zugehörigen Debrief
+persönlich zugewiesen werden. Nach dessen Abschluss sind sie im nächsten
+frischen freien HQ-Chat wählbar, auch innerhalb der laufenden Core-Episode
+(siehe Rift-Loop unten).
 
 ### Epoch-Lock & Rift-Loop
 
 Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach rund 10 zusammen-
 hängenden Missionen springt die Handlung weiter. Je höher der Paradoxon-Index,
-desto mehr Rifts entstehen und beeinflussen die folgende Episode.
+desto mehr Rifts entstehen. Offene Leader-Rifts bestimmen den bereits
+geregelten SG-/CU-Snapshot des nächsten Core- oder Rift-Einsatzes.
 
 #### Grundablauf
 
@@ -1102,8 +1074,8 @@ desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 graph LR
 A[Missionsepisode] --> C[HQ-Phase]
 C --> B[Paradoxon-Index]
-B -->|Px 5| D[Rift-Pool]
-  D -->|Episodenende Bonus| E[Schwierigkeitsgrad & CU-Multi]
+B -->|Px 5 + Debrief| D[Persönliche Rift-Zuweisung]
+  D -->|n offene Leader-Rifts beim Start| E[SG/CU-Snapshot]
 E --> A
 ```
 
@@ -1142,9 +1114,9 @@ flowchart TD
     rewards --> px[Paradoxon-Index & offene Seeds]
     px -->|Px 5| rift[Rift-Pool/ClusterCreate()]
     px --> next[Mission N+1]
-    rift --> epi[Episodenende]
-    epi --> optional[Optionale Rift-Operation(en)]
-    optional --> reset[Seed-Multi neu setzen]
+    rift --> hq[Neuer frischer freier HQ-Chat]
+    hq --> optional[Optionale eigene Leader-Rift-Operation]
+    optional --> reset[Snapshot beim Folgeeinsatz neu setzen]
     reset --> next
 ```
 
@@ -1154,21 +1126,18 @@ flowchart TD
 | Foreshadow-Gate     | 4 eindeutige Marker vor Boss                                                                                                                        | 2 eindeutige Marker vor Boss                               |
 | Boss-Rhythmus       | Mini-Boss Mission 5, Episoden-Boss Mission 10                                                                                                       | Boss in Szene 10 jeder Rift-Op                             |
 | Loot/Belohnungen    | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU                                                                                            | Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief  |
-| Paradoxon & Seeds   | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende                                                                                          | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen |
-| HQ-Pflichtschritte  | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → ITI-Ruf-Update (optional Fraktionssignal); dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts erst nach Episodenende              |
+| Paradoxon & Seeds   | Px 5 ⇒ persönliche `ClusterCreate()`-Vergabe; Snapshot wirkt ab dem nächsten Einsatz                                                                                          | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen |
+| HQ-Pflichtschritte  | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → ITI-Ruf-Update (optional Fraktionssignal); dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts nach Debrief im nächsten freien HQ-Chat              |
 
 **HQ-Kurzcheck nach jeder Mission:**
 
 - Auto-Screen zeigen (Bewertung → Loot → CU → XP/Level-Up → ITI-Ruf-Update) — **immer automatisch**.
-- Offene Seeds und Paradoxon-Index anzeigen; Seed-Multi fürs Episodenende im Blick behalten.
+- Offene Seeds und Paradoxon-Index anzeigen; SG-/CU-Snapshot für den nächsten Core-/Rift-Start aus offenen Leader-Rifts anzeigen.
 - HQ-Menü anbieten: Schnell-HQ (schnell wieder raus), Manuell (volle Szenen) oder Auto & Save.
 
 #### Offene Rifts
 
-In der HQ-Phase, nach Abschluss der Episode, entscheidet das Team pro Seed,
-ob es eindringt und ihn versiegelt oder bis später warten will.
-Der Bonus auf Probe-Schwelle und CU-Belohnung durch offene Rifts greift erst nach Beendigung der Episode.
-Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed entfernt wird.
+Im nächsten frischen freien HQ-Chat nach dem vollständigen Debrief entscheidet die Runde über eine ausdrücklich gewählte offene Instanz des Leaders. Ein Episodenabschluss ist nicht nötig. Vor jedem Core- oder Rift-Start werden Probe-Schwelle und CU-Faktor gemeinsam aus dem dann offenen Leader-Bestand fixiert. Dieser Snapshot gilt bis zur Abrechnung; spätere Schließungen oder neue Debrief-Seeds ändern ihn nicht rückwirkend.
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
 | ------------ | ---------------- | -------------- |
@@ -1193,20 +1162,12 @@ Solo/Buddy-Teams **1,5×**.
 Seeds können bis zum Ende einer Episode oder sogar bis nach der Kampagne im
 Pool liegen bleiben. Nach **jeder Mission** folgt jedoch die Pflicht-HQ-Phase.
 Dort kann die Runde ein ITI-Einsatzkommando per `resolve_rifts(ids)`
-losschicken oder die Seeds für spätere Einsätze aufheben. Eigene Rift-Ops
-dürfen erst nach Abschluss der aktuellen Episode gestartet werden.
+losschicken oder die Seeds für spätere Einsätze aufheben. Eigene Leader-Rift-Ops dürfen im nächsten frischen HQ-Chat gestartet werden.
 
-Der Bericht würfelt ein 50/50-Ergebnis aus. Fällt es negativ aus, verliert die
-Gruppe CU in Höhe ihres Spielerlevels (niemals unter 0). Bei einem positiven
-Ergebnis erhalten sie ein Item im Wert von **CU × Spielerlevel**. Offene Seeds
-werden nach jedem Entfernen neu verrechnet, sodass der Schwierigkeitsgrad stets
-aktuell bleibt. Es gibt dabei **kein Solo-Hardcap** für offene Seeds; eine
-Deckelung auf **max. 12** greift ausschließlich beim **HQ-Merge/Group-Import**.
+Die ausdrücklich gewünschte Abgabe eigener Seeds ans ITI erfolgt im freien HQ endgültig, ohne Wurf, Kosten, Belohnung oder weitere Folge. Sie ändert nur den persönlichen Bestand und damit den Snapshot des Folgeeinsatzes; aktive oder fremde Instanzen bleiben unangetastet. Zwölf ist ausschließlich ein persönliches **Neuerwerbslimit**: Figuren mit zwölf oder mehr offenen Rifts erhalten aus einem neuen Payoff nichts, vorhandener Altbestand wird nie gekürzt. Sind alle tatsächlichen Spieler-Teilnehmer voll, übernimmt ITI nur die neuen überschüssigen Instanzen.
 
-> **Beispiel** - _Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
-> einmal miterleben zu müssen, aber das ist nun mal der Lauf der Dinge. Dafür
-> haben wir den Mothman dingfest gemacht; der wird der Zeitlinie keinen Ärger
-> mehr bereiten. Leider hat sich Sarah W. verletzt, das kostet euch 3 CU."_
+> **Beispiel** - _Seargent Meyer: „Instanz #015 wird kostenlos und endgültig
+> ans ITI abgegeben. Der persönliche Bestand ist aktualisiert.“_
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
@@ -1248,70 +1209,7 @@ Paradoxon-Wert variieren.
 
 #### Multi-Zeit-Sicht-Split {#multi-zeit-sicht-split}
 
-Eine seltene, aber kraftvolle Erzähltechnik: Eine Mission im selben Arc
-wird **aus zwei Zeit-Sichten parallel erzählt**. Beispiel: Nach Mission 3
-einer Berlin-Episode bietet die Aufklärung zwei Hebel — eine Subgruppe
-greift in **2049** ein, eine andere in **2016**. Beide Threads gehören
-zur selben Story-Linie (z. B. der Wissenschaftler in unterschiedlichen
-Lebensphasen), nicht zu zwei separaten Episoden.
-
-**Wann gilt das?**
-
-- Beide Threads liegen im selben Arc/Hotspot (Berlin/Wissenschaftler X,
-  nicht Berlin 1943 ↔ Babylon 600 v. Chr.).
-- **Arc-Lock-konform:** Aus Arc-Sicht ist das **ein** chronologischer
-  Rücksprung (eine Zeit-Sicht ist die Vorgeschichte der anderen), nicht
-  zwei unabhängige Sprünge. Die „ein einzelner Rücksprung pro Arc"-Regel
-  bleibt gewahrt.
-- Selbst-Begegnung bleibt durch `redirect_same_slot()` ausgeschlossen
-  (Δt ≥ 6h). Bei Multi-Zeit-Sicht ist der Abstand definitionsgemäß
-  groß genug.
-- Bei zwei *unabhängigen* Stories oder Epochenwechsel handelt es sich
-  um einen Arc-Sprung, **nicht** um Multi-Zeit-Sicht.
-
-**Mechanik (Schema deckt's vollständig — siehe `systems/gameflow/speicher-fortsetzung.md` §Kanonischer Split-Standard):**
-
-- Beide Subgruppen erhalten denselben `continuity.split.family_id` und
-  dieselbe `expected_threads`-Liste (z. B. `["zeit_2049", "zeit_2016"]`).
-- Sync-Punkt nach Mission 3 (Standard-Debrief). Beide Subgruppen
-  speichern mit `family_id`-Tag, gehen in eigene Chats, spielen ihren
-  Thread bis zum Mission-Ziel.
-- Beim Rejoin: Saves zusammenführen, `convergence_ready=true` wenn
-  beide `resolved_threads` voll sind.
-- **Mission-Counter:** Beide Threads zählen zusammen als **eine Mission
-  im Episoden-Counter** — sie sind narrativ eine Mission, nur aus zwei
-  Sichten erzählt. `logs.notes[]` und `convergence_tags[]` halten beide
-  Stränge fest.
-- **Px-Behandlung:** Px folgt dem Standard-Split-Standard — wird beim
-  Split kopiert, beim Merge nach Priorität konsolidiert
-  (`consumed > pending_reset > stable`). Kein Doppel-Gewinn durch zwei
-  Threads.
-- **Boss-Beats (Mission 5/10):** Bei Multi-Zeit-Sicht erscheint der
-  Mini-/Episoden-Boss in **einer** Zeit-Sicht (kanonisch in der
-  Mission-Hauptzeit), nicht in beiden. Die andere Sicht trägt
-  Vorgeschichte oder Konsequenz, nicht den Boss-Encounter.
-
-**Erzählerische Pflichten (KI-SL):**
-
-- **Ankündigung:** Vor dem Split eine kurze Inworld-Übergabe ("Was wisst
-  ihr aus 2016, was die anderen in 2049 niemals wissen können?").
-- **Pacing-Stil frei:** Threads können abwechselnd erzählt werden
-  (Cross-Cut) oder erst Thread A bis Cliffhanger, dann Thread B
-  (Sequenz). Entscheidung der SL nach Tisch.
-- **Echo-Pflicht zwischen Threads** (zusätzlich zur Standard-Echo-Pflicht
-  aus Modul 12, nicht ersetzend): Thread A produziert eine konkrete
-  Spur, die in Thread B auftauchen *kann* (z. B. „der Wissenschaftler
-  trägt 2049 immer noch die Uhr aus 2016"). Mindestens ein Echo-Eintrag
-  pro Thread, der beim Merge sichtbar wird — das ist der MMO-Effekt.
-- **Selbst-Begegnungs-Sperre bleibt aktiv:** `redirect_same_slot()`
-  verhindert weiterhin Selbstkontakt unter 6h, auch wenn die Threads
-  zeitlich konvergieren würden.
-
-**Abgrenzung gegen Mid-Mission-Split:** Multi-Zeit-Sicht passiert
-**zwischen** Missionen (an einem Sync-Punkt), niemals innerhalb einer
-laufenden Mission. Squad-Manöver in einer Szene (einer klopft, andere
-in den Keller) bleiben Pen-and-Paper-Standard ohne technischen Split
-(siehe [Modul 12 §Pflichtbeats für Split/Rejoin](../systems/gameflow/speicher-fortsetzung.md#save-sync-handover)).
+Mehrere Zeit-Sichten derselben Core-Mission sind eine **Szenenführung im selben Chat**: dieselbe Mission, dieselbe 12-Szenen-Zählung und eine gemeinsame Abrechnung. Die KI-SL darf zwischen Perspektiven crosscutten oder sie bis zu einem Cliffhanger sequenzieren; räumliche oder zeitliche Teilgruppen erzeugen dabei weder Teil-Saves noch eine Cross-Chat-Konvergenz. Boss Mission 5/10 erscheint nur einmal im gemeinsamen Ablauf. Historische Saves mit `continuity.split`/`family_id` bleiben als Legacy-Lineage importierbar, begründen aber keinen neuen Split-Pflichtpfad.
 
 #### Rift-Side-Ops
 
@@ -2507,3 +2405,44 @@ dem Gefühl, Teil etwas Großem zu sein. Viel Erfolg und vor allem viel Spaß be
 eigenen ZEITRISS-Saga!
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
+
+## Leader-Rift-Flow im HQ {#leader-rift-flow}
+
+Der zuerst geladene gültige persönliche v7-Save bestimmt für diesen Chat die
+**Einsatzleitung (Leader)**, die Core-Kampagne, Px und den aktiven Rift-Bestand.
+Spätere Imports wechseln den Leader nicht. Am Rift-Board sind ausschließlich
+dessen offene `campaign.rift_seeds[]` startbar; Gastbestände werden weder
+vereinigt noch kopiert. Für einen Gast-Rift beginnt ein neuer HQ-Chat mit dessen
+Save zuerst. Solo folgt derselben Regel, NPC-Begleiter besitzen keine Rifts.
+
+Nach jedem vollständig abgerechneten Einsatz ist im HQ die nächste Aktivität
+frei: Core, offener Leader-Rift, Arena, Pause oder neue Gruppe. Ein offener Rift
+ist bereits im nächsten frischen HQ-Chat spielbar, auch mitten in einer
+Core-Episode. Er tickt weder Core-Mission noch Forschung und verändert weder
+Core-Epoche noch Bossrhythmus oder offene Kampagnenfäden. Briefing, laufender
+Einsatz, Exfil, Debrief und City-Run bleiben als Wechsel- und Save-Zeitpunkte
+gesperrt; nach ausgegebenem Save wird im selben Chat kein Abschnitt gestartet.
+
+Ein Px-5-Payoff wird im zugehörigen Core-Debrief genau einmal abgeschlossen:
+`ClusterCreate()` erzeugt 1–2 eindeutig identifizierte Instanzen, verteilt jede
+einzeln und gleichverteilt unter den tatsächlich beteiligten Spielerfiguren mit
+weniger als zwölf eigenen offenen Rifts und prüft vor der zweiten Instanz die
+Kapazität neu. Gast-Px und Gastkampagne bleiben dabei unverändert. Ist niemand
+aufnahmefähig, übernimmt ITI den Fund ohne Ersatz; Px wird trotzdem auf 0
+gesetzt und der Debrief als verarbeitet markiert. Die Grenze zwölf ist nur ein
+Neuerwerbslimit pro Figur; Altbestände über zwölf werden nicht gelöscht.
+
+Unmittelbar vor einem Core- oder Rift-Start wird nur der offene Leader-Bestand
+`n` gezählt (beim gewählten Rift noch einschließlich dieser Instanz) und im
+Einsatz-/Tracekontext fixiert: `sg_bonus=min(3,n)` und
+`cu_multi=min(1.6,1+0.2*n)`. Anzeige: „Einsatzleitung: <Name> · n offene Rifts ·
+SG +x · CU ×y.“ Der Snapshot gilt bis zur CU-Abrechnung; Schließen und neue
+Debrief-Seeds wirken erst auf den nächsten Einsatz. Arena und Chronopolis
+bekommen keinen Rift-Zusatz.
+
+Im freien HQ darf jede Figur auf eigenen ausdrücklichen Wunsch offene Rifts mit
+`resolve_rifts(ids)` endgültig dem ITI übergeben. Das ist idempotent, würfel- und
+kostenfrei und ändert weder Wallet, XP, Ruf, Heat, Forschung noch Gegenstände.
+Fremde oder aktive Rifts sind so nicht löschbar. Zwei getrennte Rift-Gruppen
+brauchen zwei Leader mit eigenen Rifts; zwei Instanzen desselben Besitzers
+werden nicht dupliziert.

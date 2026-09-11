@@ -593,7 +593,7 @@ def main() -> int:
     req(r"LINT:PX5_SEED_GATE", tk, "Px5-HUD Tag", fails)
     req(r"can_launch_rift", tk, "can_launch_rift Macro vorhanden", fails)
     req(r"episode_completed\s*=\s*true", tk, "Episodenabschluss markiert", fails)
-    req(r"apply_rift_mods_next_episode", tk, "Episoden-Boni werden gequeued", fails)
+    req(r"apply_rift_mods_at_mission_start", tk, "Rift-Snapshot wird beim Missionsstart gesetzt", fails)
     req(r"launch_rift", tk, "launch_rift Gate vorhanden", fails)
 
     # Artefakt-Gate

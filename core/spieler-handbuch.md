@@ -768,11 +768,8 @@ Sprache startet die KI-SL dennoch denselben Pfad.
 - **Nur-HQ-Save** - Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
 - **Ausstieg in Mission** - Möglich, aber ohne Speichern. Gear darf übergeben werden.
   Nächster Save im HQ.
-- **Paradoxon & Rifts** - Px 5 ⇒ `ClusterCreate()` (1-2 Rift-Seeds; spielbar nach
-  Episodenende; danach Reset). Jeder erneute Px-5-Treffer legt weitere Seeds oben
-  drauf - es gibt **kein Hard-Limit**. Rift-Starts sind HQ-gebunden
-  (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
-  (`campaign.episode_completed` oder `campaign.mission ≥ 10`) und greifen
+- **Paradoxon & Rifts** - Px 5 ⇒ `ClusterCreate()` (1-2 persönliche Rift-Seeds; nach Debrief im nächsten HQ-Chat spielbar; danach Reset). Jeder erneute Px-5-Treffer vergibt neue Instanzen einzeln an tatsächliche Spieler-Teilnehmer mit weniger als zwölf eigenen offenen Rifts; Altbestand über zwölf bleibt erhalten. Rift-Starts sind an ein freies HQ im nächsten frischen Chat gebunden
+  (`location='HQ'`; kein Briefing, Debrief, Transfer, Exfil oder Arena-Queue), ohne Episodengate, und greifen
   ausschließlich auf objektförmige `campaign.rift_seeds[]`
   (id/label/status/seed_tier/hook/time_marker, optional `discovered_at`,
   cluster-/level-Hints) zurück; der
@@ -1175,7 +1172,7 @@ Artefakten und temporaler Abweichungen.
 - **Voice-Lock:** Erzählinstanz = zweite Person (`Du`/`Ihr`). Solo nutzt `Du`,
   Gruppe nutzt `Ihr`. Konsistent durchhalten - kein Wechsel mitten in der Szene.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
-  starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
+  starten erst nach vollständigem Debrief im nächsten freien HQ-Chat als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
   `STAGE Tatort/Leads/Boss/Auflösung`; die Spielleitung zieht die Stages automatisch
   aus der 14-Szenen-Map (Sz 1-4 Tatort, 5-9 Leads, 10 Boss-Encounter,

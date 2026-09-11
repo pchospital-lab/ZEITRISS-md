@@ -140,4 +140,26 @@ const badCampaign = clone(originals[0]); badCampaign.campaign.id = 'NICHT-KANONI
 const inconsistent = clone(originals[0]); inconsistent.continuity.last_seen.mission = 99;
 assert.throws(() => validPersonalContent(inconsistent, 'Widerspruch'), /Missionsanker/);
 
-console.log('v7-personal-export-ok');
+// Ausdrücklich übergebene Abschlusslogs sind die aktuelle persönliche Wahrheit;
+// ein anschließender Basis-Merge und ein neuer Load dürfen sie nicht zurückdrehen.
+const logged = clone(originals[0]);
+logged.logs.trace.push({ event: 'rift_payoff', payoff_id: 'A:CORE-OLD', debrief_id: 'OLD' });
+const currentLogs = clone(logged.logs);
+currentLogs.notes = ['Neue Abschlussnotiz'];
+currentLogs.market = [{ id: 'BUY-NOW' }];
+currentLogs.artifact_log = [{ id: 'ART-NOW' }];
+currentLogs.flags.chronopolis_unlocked = true;
+currentLogs.trace.push({ event: 'mission_end', debrief_id: 'NOW' });
+const loggedExport = projectPersonalSaves(openSession([logged]), { hq: true, anchorRoots: { logs: currentLogs } })[0];
+const loggedReload = openSession(JSON.parse(JSON.stringify([loggedExport]))).byCharacter.get('A').save;
+assert.deepStrictEqual(loggedReload.logs.notes, ['Neue Abschlussnotiz']);
+assert.deepStrictEqual(loggedReload.logs.market, [{ id: 'BUY-NOW' }]);
+assert.deepStrictEqual(loggedReload.logs.artifact_log, [{ id: 'ART-NOW' }]);
+assert.strictEqual(loggedReload.logs.flags.chronopolis_unlocked, true);
+assert.ok(loggedReload.logs.trace.some((entry) => entry.debrief_id === 'NOW'));
+assert.ok(loggedReload.logs.trace.some((entry) => entry.payoff_id === 'A:CORE-OLD'));
+const unchangedLogs = projectPersonalSaves(openSession([logged]), { hq: true })[0].logs;
+assert.deepStrictEqual(unchangedLogs, logged.logs, 'ohne Abschlussänderung bleibt der Logstand erhalten');
+
+module.exports = { errors, valid, validPersonalContent, character, save };
+if (require.main === module) console.log('v7-personal-export-ok');

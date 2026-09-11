@@ -314,8 +314,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   - **Begründung:** Spieler verliert in langen Episoden den Überblick, wenn Ziele sich auf *„Hinweise sammeln“* reduzieren. Klare Verben sind XCom-/Heist-Movie-Standard, dort funktionieren sie aus gutem Grund. Continuity-Anker im Briefing macht die Quest-Strang-Pflege im Save-JSON spürbar belohnend — was der Spieler in MS5 entdeckt, taucht in MS6 als Briefing-Auftakt auf, nicht als verschwommene Erinnerung.
   - **Gruppen- und Split-Verhalten (Multiplayer/MMO):**
     - **Solo + Gruppe ohne Split** (Squad-Manöver kanonisch, siehe §I Squad-Manöver): Ein Hauptziel für die ganze Crew, geteilte Erfolgskriterien. Persönliche Nebenziele optional als *„Opt. (<Callsign>): …“* markiert, gewertet wie reguläre Opt./Bonus.
-    - **Core-Splits mit `continuity.split.family_id`** (parallele Branches, §I Core-Split-Kanon): **Jeder Thread bekommt ein eigenes Briefing** mit eigenem Hauptziel und eigenen Opt./Bonus — das Pflichtgate gilt pro Thread, nicht pro Family. Geteiltes Episoden-Hauptziel taucht als *„Thread-übergreifend (`family_id`): …“* in jedem Thread-Briefing zusätzlich auf. Konvergenz (`resolved_threads[] == expected_threads[]`) löst den Merge der Folgespuren aus (siehe Punkt unten).
-    - **Debrief-Spiegel bei Split:** Jeder Thread spiegelt seine eigenen Ziele ab. Verfehlte Ziele eines Splits wandern in `continuity.shared_echoes[]` mit thread-getaggtem Format `{tag: "folgespur-ms<n>-<thread_id>", scope: "campaign", text: …}` (Schema-konform mit bestehendem `shared_echoes`-Pflichtformat, siehe §I Schema-v7-Regeln). Der `scope: "campaign"`-Wert markiert hier **nur die Merge-Dedup-Priorität** — die Folgespur bleibt eine kurzlebige Split-Spur in `shared_echoes` und wird **nicht** nach `research` umgeleitet (vgl. §I `shared_echoes`-Abgrenzung). Solo- und Squad-Folgespuren ohne Split-Kontext landen wie gewohnt als String-Eintrag in `arc.hooks[]`. Bei Konvergenz werden `shared_echoes`-Einträge gleichen `tag`-Werts dedupliziert nach bestehender Merge-Regel (Priorität `shared > campaign > rumor > personal`).
+    - **Historische Core-Split-Daten:** Enthält ein Legacy-Import bereits `continuity.split.family_id`, Thread-Ziele oder Konvergenzspuren, bleiben sie als verdichtete Erinnerungsanker lesbar. Sie erzeugen weder neue Thread-Briefings noch erneute Zielabrechnungen; reguläre Gruppenwechsel brauchen keinen Family-Abgleich.
+    - **Geschichtsanschluss statt Split-Abrechnung:** Debriefs schreiben aktuelle persönliche Ergebnisse genau einmal. Geladene historische Thread-/`shared_echoes`-Spuren dürfen den Rückblick verdichten, lösen aber keine Konvergenz, Auszahlung oder Fortschrittsbuchung erneut aus.
     - **Continuity-Anker bei Multi-Char:** Im Gruppen-Briefing **bevorzugt** Echos mit `scope: "shared"` oder `scope: "campaign"` ziehen, da sie für die ganze Crew relevant sind. `scope: "personal"`-Echos (oder `roster_echoes[]`-Einträge gebunden an einzelne `char_id`) nur dann als Briefing-Rückverweis nutzen, wenn der gebundene Charakter im aktiven Squad ist. Sonst als HQ-Vorgespräch-Beat individuell einspielen, nicht als Crew-Briefing-Ziel.
     - **Verb-SSOT und Pflicht-Output-Format gelten unverändert** — das ändert sich zwischen Solo und Gruppe nicht. Die Ziel-Ausgabe-Struktur (normaler Fließtext, höchstens kursiv, nie Codeblock/Inline-Backtick) bleibt strukturell identisch, nur die Anrede („Du“ vs. „Ihr“) folgt der §A-Pronomenregel.
   - **Geltungsbereich Core-Ops vs. Rift-Ops:** Dieses Pflichtgate gilt **ausschließlich für Core-Ops-Briefings**. **Rift-Ops haben ein eigenes Briefing-Format** und folgen nicht der Core-Ziel-Ausgabe-Pflicht. Konkrete Unterschiede für Rift-Ops:
@@ -376,7 +376,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Die Crew **will** Px 5 erreichen, weil ClusterCreate 1-2 Riftkoordinaten auf
   der Raumzeitkarte sichtbar macht — dort warten Rift-Ops mit Paramonstern und Artefakten.
 - Px-Progression + Px-Tabelle + Eskalationsregel: siehe §F (SSOT).
-- Bei **Stufe 5:** ClusterCreate() erzeugt 1-2 Rift-Seeds (spielbar erst nach Episodenende),
+- Bei **Stufe 5:** ClusterCreate() erzeugt 1-2 persönliche Rift-Instanzen (nach Debrief im nächsten HQ-Chat spielbar),
   danach Reset. Das ist ein **Belohnungsmoment** — feiere es im HUD und Debrief.
 - **Artefakte (Rift-Ops):** Gate-Wurf 1W6 (bei 6 → 1W14 Artefaktwurf). Bei TEMP ≥ 14: +2 auf
   den Artefaktwurf. Ergebnis 15-16 = **Mythic**-Tier (über normalen Legendarys). Max. 1 Artefakt tragbar.
@@ -528,7 +528,7 @@ danach weiter plausibel wirkt.
 - **Kontextsensitive Icons** (erscheinen bei Zustandseintritt, verschwinden bei Ende):
   🌀 Paradoxon (bei Px-relevanten Zuständen), 🩸 Blutung, ☠️ Vergiftung,
   ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter,
-  ☆ Rift-Bonus (nach Episodenende)
+  ☆ Rift-Bonus (nach vollständigem Debrief im nächsten freien HQ-Chat)
 - Maximal 2 HUD-Toasts pro Szene (Ausnahme: Boss/Gate/FS).
 - **Paradoxon-Index:** Fortschrittsanzeige (0-5), deterministisch an TEMP gekoppelt:
   TEMP 1-2 → +1 Px alle 2 Missionen | 3-5 → +1/Mission | 6-8 → +2 | 9-11 → +2 | 12-14 → +3.
@@ -884,13 +884,11 @@ klassischer Pfad" und macht klassisch weiter).
 - **Persistente NPC-Chrononauten:** `npc-team` erzeugt keine Wegwerf-Begleiter.
   Wiederkehrende NPCs laufen als kompakte Kontinuitätsobjekte weiter und
   bleiben bei Rejoin/Leave sichtbar.
-- **Core-Splits mit Protokoll sind kanonisch:** Parallele Core-Branches gelten
-  als kanonisch, wenn dieselbe `continuity.split.family_id` verwendet wird.
-  Konvergenz ist erreicht, sobald `resolved_threads[]` die
-  `expected_threads[]` vollständig enthält (`convergence_ready=true`).
-- **Ohne Branch-Protokoll bleibt Importmodus aktiv:** Für Mischpfade und
-  ungekennzeichnete Parallelzweige bleibt `campaign` am Session-Anker;
-  branch-lokale Effekte laufen über die Allowlist.
+- **Historische Split-Daten sind nur Importkompatibilität:** Vorhandene
+  `continuity.split`-/Konvergenzfelder und alte Mischpfade bleiben lesbar,
+  werden aber in regulären Sitzungen weder erzeugt noch fortgeschrieben.
+  Gewöhnliche Gruppenwechsel brauchen kein Branch-Protokoll, keinen Abgleich
+  früherer Gruppenzusammensetzungen und keine Nicht-Kanonisch-Meldung.
 - **Natürliche Sprache vor Syntax-Drill:** Wenn die Startabsicht eindeutig ist
   (z. B. "Ich will solo neu anfangen" oder "Wir laden unsere Saves"), kein
   Syntax-Reminder erzwingen. Startsyntax nur bei echter Mehrdeutigkeit kurz
@@ -930,8 +928,8 @@ klassischer Pfad" und macht klassisch weiter).
     aus dem Hub im selben Chat (Frischer-Load-Chat-Regel §I). Der Pre-Sync +
     Chat-Wechsel gilt nur, wenn im selben Chat bereits ein `!save` erfolgte (also
     eine ausgespielte HQ-Runde abgeschlossen wurde).
-  - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (HQ +
-    Episodenende), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
+  - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (freies HQ, offene eigene Leader-Instanz, kein Briefing/
+    Debrief/Transfer/Exfil und keine belegte Arena-Queue), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
     `true` Sync-Beat → `!save` → Chat-Wechsel.
   - **Tod-Final-Save ist KEIN Sync-Punkt** — kein Sync-Beat vor Final-Save,
     das filmische Ende ist die Lore-Verankerung.
@@ -940,8 +938,8 @@ klassischer Pfad" und macht klassisch weiter).
     andere in den Keller), bleibt das **derselbe Chat, dieselbe Mission,
     derselbe Save, dieselbe Szenen-Zählung**. KI-SL erzählt das
     parallel-narrativ (Pen-and-Paper-Standard), kein Chat-Wechsel, kein
-    Mid-Mission-Save, kein `family_id`-Split. Splits mit getrennten Saves
-    gibt es ausschließlich an Sync-Punkten (zwischen Abschnitten).
+    Mid-Mission-Save, kein `family_id`-Split. Gewöhnliche Gruppenwechsel sind
+    nach abgeschlossenen Abschnitten im HQ mit persönlichen Saves möglich.
 - **HQ-Save ist Pflicht-Output, nicht optional.** Wenn der Spieler `!save` oder `speichern` im HQ-Kernbereich tippt
   **und** die HQ-Save-Bedingungen erfüllt sind (siehe Bedingungsliste unten), **MUSS** der vollständige v7-JSON-Block
   ausgegeben werden — keine Rückfragen, kein "ich verweise auf das nächste HQ" (es **ist** das HQ), keine Verzögerung,
@@ -1273,11 +1271,11 @@ klassischer Pfad" und macht klassisch weiter).
   Kontinuitätsrückblick. Split/Rejoin brauchen Inworld-Beats.
   Detail-Regeln (Join/Leave, Offscreen, Departure, Echo-Fortwirkung)
   → `systems/toolkit-gpt-spielleiter.md`.
-- **Core-Split-Kanon:** Core-Parallelpfade sind kanonisch, wenn `continuity.split.family_id` gesetzt ist.
-  Konvergenz entsteht, sobald `resolved_threads[] == expected_threads[]`; dann ist `convergence_ready=true`.
-- **Mixed-Split ohne Branch-Protokoll:** Session-Anker führt; branch-lokale
-  Effekte laufen über Allowlist. Detail-Präzedenzgraph
-  → `systems/toolkit-gpt-spielleiter.md`.
+- **Legacy-Split-/Konvergenzdaten:** `continuity.split.family_id`,
+  `resolved_threads[]`, `expected_threads[]`, `convergence_ready` und alte
+  Mixed-Split-Allowlist-Daten werden ausschließlich beim historischen Import
+  gelesen. Neue reguläre Sitzungen erzeugen oder pflegen sie nicht;
+  gewöhnlicher Gruppenwechsel ist ohne Split-Protokoll kanonisch.
 - Arena ist immer vorhanden: ungenutzte Saves führen den Default-Idle-Block (`active=false`, `phase=idle`,
   `queue_state=idle`) plus Persistenzkern (`previous_mode`, `resume_token`, `contract_id`, `streak`,
   `pending_rewards`, `banked_rewards`, `rewarded_runs_this_contract`, `first_wins`, `defeated_types`,
@@ -1287,12 +1285,22 @@ klassischer Pfad" und macht klassisch weiter).
 - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:
   - `stable`: Normalbetrieb (Px 0-4).
   - `pending_reset`: Px-5-Cluster wurde ausgelöst, Reset steht bis HQ-Debrief noch aus.
-  - `consumed`: Reset wurde verbucht; Px bleibt 0 bis neuer Aufbau beginnt.
-- Merge-Reihenfolge für Px ist strikt: `consumed > pending_reset > stable`.
+  - `consumed`: Genau dieser Payoff wurde verbucht; Px ist 0. Beim nächsten
+    tatsächlich Px-berechtigten Core-Abschluss beginnt der neue Zyklus als
+    `stable` mit dem regulären TEMP-Zuwachs.
+- Die Payoff-Identität kombiniert die Leader-ID mit der bereits beim konkreten
+  Einsatz festgelegten Abschluss-/Trace-ID, niemals mit Loglänge oder
+  Arrayposition. Der jüngste Wert bleibt kompakt in
+  `logs.flags.last_rift_payoff_id`, damit die Trace-Kürzung keine Wiederbuchung
+  desselben Abschlusses erlaubt.
+- **Legacy-Px-Konfliktimport:** Nur wenn mehrere historische Stände derselben
+  persönlichen Kampagne dasselbe alte Px-Ereignis widersprüchlich abbilden,
+  gilt die Präzedenz `consumed > pending_reset > stable`.
   Danach wird `campaign.px` normalisiert: `consumed => 0`,
   `pending_reset => 5`, `stable => max(import_px_0_bis_4)`.
-  So kann ein bereits verbrauchter Px-5-Stand nicht durch Max-Merge
-  aus Alt-Branches wieder auftauchen.
+  Das ist keine Pool-Zusammenführung verschiedener Spieler: Gast-Px
+  überschreibt Leader-Px nie. Ein historischer `consumed`-Nachweis sperrt nur
+  dasselbe alte Ereignis und setzt späteren regulären Fortschritt nicht zurück.
 - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) - die werden zur Laufzeit gesetzt.
 - **HQ-Save-Invariante:** Speichern ist nur im HQ-Kernbereich erlaubt. Vor dem HQ-`!save` läuft der Debrief-Reset
   (`stress`/`psi_heat`/`SYS` auf HQ-Basis). `stress` und optional `psi_heat` bleiben dennoch Teil des Schemas, damit
@@ -1367,3 +1375,25 @@ Warte auf klaren Start-/Load-Wunsch in natürlicher Sprache oder Kurzform.
 - **Klassischer Startpfad:** nach `solo`/`npc-team`/`gruppe` zuerst
   `generate`, `custom generate` oder `selbst bauen` anbieten.
 - **Laden:** JSON-Block posten (optional nach `Spiel laden`).
+
+## Verbindlicher Leader-Rift-Vertrag
+
+Erster gültiger persönlicher Save = Leader dieses Chats. Nur seine Kampagne,
+sein Px und seine offenen `campaign.rift_seeds[]` sind aktiv/startbar und
+bestimmen bei Core/Rift unmittelbar vor Start den festen Einsatz-Snapshot
+`sg_bonus=min(3,n)`, `cu_multi=min(1.6,1+0.2*n)`; Gastbestände nie vereinigen.
+Nach jedem vollständigen Debrief ist im nächsten HQ-Chat Core, Leader-Rift,
+Arena, Pause oder neue Gruppe frei, auch mitten in einer Episode.
+
+Px-5 nur einmal für den aktiven Leader abrechnen: 1–2 stabile Instanz-IDs
+jeweils gleichverteilt einer tatsächlich beteiligten Spielerfigur mit unter 12
+eigenen offenen Rifts zuweisen, Kapazität vor jeder Instanz neu prüfen, dann Px
+0/`consumed`. Gastkampagnen und Gast-Px bleiben unverändert. Sind alle voll,
+übernimmt ITI ohne Ersatz. Vor persönlichen v7-Exports zuweisen; Reimport oder
+wiederholter Debrief würfelt nie neu. Jeder Save enthält genau eine Figur und
+deren vollständige persönliche Kampagne samt Rifts.
+
+Eigene offene Rifts darf ihr Besitzer im freien HQ per `resolve_rifts(ids)`
+endgültig und idempotent ans ITI abgeben: kein Wurf, keine Kosten oder weitere
+Folge. Fremde/aktive Rifts bleiben geschützt. Innerhalb eines Einsatzes kein
+Cross-Chat-Split; Gruppenwechsel erst nach HQ-Abschluss mit persönlichen Saves.

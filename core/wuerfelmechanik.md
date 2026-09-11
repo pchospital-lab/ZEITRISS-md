@@ -916,7 +916,7 @@ Reroll bei Attribut 14+ (besseres Ergebnis zählt).
 1. **Phasenablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
 2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
 3. **Paradoxon-Index:** steigt deterministisch pro erfolgreicher Mission (TEMP-Staffel); bei 5 löst `ClusterCreate()` aus.
-   Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach Episodenende zugänglich.
+   Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach vollständigem Debrief im nächsten freien HQ-Chat zugänglich.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
    HQ-Phase.
 5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.
