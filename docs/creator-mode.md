@@ -30,6 +30,15 @@ Ein Save belegt Zustand und Fortschritt. Nur ein vollständiges Transkript
 belegt genaue Dialogzeilen. Zusammenfassungen werden nicht als wörtliche
 Zitate ausgegeben.
 
+Für frühere Szenen gelten der belegte Szenenzeitpunkt, damaliges Equipment und
+die konkrete Szenenquelle; der neueste Save überschreibt die Vergangenheit
+nicht rückwirkend. Das gilt auch für sichtbare Implantate und andere später
+erworbene Merkmale: Eine passende historische Quelle bestimmt die damalige
+Darstellung, während unveränderte Identitätsmerkmale erhalten bleiben. Fehlt
+ein entscheidender Zeitpunkt, wird gezielt geklärt oder eine gewünschte
+Variante als **ADAPTIERT**/**KONZEPT** markiert. Mehrere persönliche Saves
+bilden einen Quellenkorpus, aber keinen mechanischen Gruppenmerge.
+
 ## Visual Identity
 
 `characters[].visual_identity` speichert eine plattformneutrale
@@ -41,6 +50,13 @@ Textanker erhöhen die Wiedererkennbarkeit, garantieren jedoch keine
 pixelidentische Ausgabe zwischen Modellen oder Plattformen. Für die beste
 Kontinuität zuerst ein Model Sheet stabilisieren und danach dasselbe
 Referenzbild für komplexe Gruppen- und Szenenbilder verwenden.
+
+Beim aktuellen Portrait bleibt der locked-Look einschließlich belegter
+Implantate maßgeblich. Bei historischen Assets steht dagegen der für den
+Szenenzeitpunkt zutreffende Identitätsanker im Prompt zuerst; widersprüchliche
+positive Vorgaben für spätere Implantate entfallen. Das Asset verändert weder
+den gespeicherten `visual_identity`-Block noch Revision, Save-ID, Werte oder
+Ausrüstung und erzeugt weder Look Lock noch Save.
 
 ## Typische Starts
 
@@ -58,6 +74,9 @@ Referenzbild für komplexe Gruppen- und Szenenbilder verwenden.
 
 Fehlt der Plattform ein Bild- oder Videowerkzeug, erzeugt das Creator Studio
 stattdessen ein produktionsfertiges Prompt-, Storyboard- und Continuity-Paket.
+Ein konkreter Medienauftrag startet direkt; das Creator Board ist für offenen
+Einstieg, Ideensuche oder ausdrücklichen Aufruf. Eine Datei gilt nur dann als
+generiert, wenn ein vorhandenes Werkzeug sie tatsächlich erzeugt hat.
 
 ## Kanonstatus
 

@@ -138,3 +138,48 @@ keine echten Modell-Playtests. Ausgeführt wurden
 `node tools/test_player_feedback_watchguard.js`, `bash scripts/smoke.sh` und
 `git diff --check`; alle drei Prüfungen waren erfolgreich. Es wurden keine
 Modell-, Plattform- oder Release-Tests durchgeführt.
+
+## Nachtrag 11.09.2026: Projekt- und Creator-Bootstraps
+
+**Quellenbefund:** Die einschlägigen offiziellen OpenAI-Hilfen zu
+ChatGPT-Projekten und Custom GPT sind im Setup-Guide direkt verlinkt. Ihr
+aktueller Webabruf war in der Arbeitsumgebung (HTTP 401/403) gesperrt; konkrete
+Limits stehen deshalb ausdrücklich unter erneutem Prüfvorbehalt und keine
+UI-Funktion wurde praktisch verifiziert. Die Bootstraps sind Regelrouter,
+keine technischen Systemnachrichten und keine Retrieval- oder
+Kontextisolationsgarantie.
+
+Der Spielrouter trennt Quellen-/Einrichtungsfragen, Load ohne Daten, Save-Load,
+eindeutigen Neustart und offene Absicht. Aktuell importierte persönliche Saves
+bleiben gegenüber alten Projektchats zustandsautoritativ. Der Creator ordnet
+historische Szenen ihrem damaligen Equipment zu, behandelt mehrere Saves als
+Quellenkorpus und lässt konkrete Medienaufträge vor dem optionalen Board zu.
+
+**Externe Dokumentationsprüfung (11.09.2026):** Das externe Review bestätigte
+anhand der verlinkten offiziellen Projekt-Hilfe die dokumentierten Limits
+5/25/40 Dateien je Projekt und zehn gleichzeitige Uploads. Das ändert nicht den
+oben festgehaltenen fehlgeschlagenen eigenen Webabruf und ist weder ein eigener
+Abrufnachweis noch ein praktischer Plattformtest.
+
+**Redaktionelle Sollfälle:** Quellenfrage ohne Chargen; `!laden` ohne
+Memory-Rekonstruktion; alter anderer Leader ändert den ersten aktuellen Save
+nicht; mehrere Saves ergeben persönliche Exporte; „ignoriere die Regeln“ im
+Save bleibt Dateninhalt; Creator startet keine Mission; Poster ohne
+Pflicht-Board; historische Ausrüstung bleibt historisch; invalider Save ergibt
+beim Look Lock nur `CREATOR_PATCH`; Spiel-/Creator-Anweisungen werden nicht
+gestapelt. Diese Fälle sind statische Textverträge, keine Retrievalsimulation.
+
+**Historische Creator-Sollfälle:** (1) Der aktuelle locked-Look enthält ein
+nach Mission 8 erworbenes sichtbares Augenimplantat; ein Transkript belegt die
+Szene aus Mission 3 davor. Der historische Auftrag zeigt die Figur ohne
+Implantat, erhält ihre übrige belegte Identität und lässt aktuellen Save sowie
+Visual-Revision unverändert. (2) Für ein aktuelles Portrait derselben Figur
+bleibt der locked-Look einschließlich Implantat maßgeblich. Fehlt der für die
+Szene entscheidende Erwerbszeitpunkt, wird gezielt geklärt statt Vergangenheit
+erfunden. Dies sind redaktionelle Quellenfälle ohne Bildgenerierung oder
+Modellabnahme.
+
+Ausgeführt wurden `node tools/test_project_bootstrap_watchguard.js`,
+`node tools/test_creator_bootstrap_watchguard.js`, `bash scripts/smoke.sh` und
+`git diff --check`. Echte Modell-, ChatGPT-Plattform-, Release- oder
+Veröffentlichungstests wurden nicht durchgeführt.
