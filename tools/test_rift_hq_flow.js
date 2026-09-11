@@ -1,21 +1,15 @@
 'use strict';
 const assert = require('assert');
-const fs = require('fs');
-const path = require('path');
 const rt = require('../runtime');
 const { openSession, projectPersonalSaves, leaderRiftBoard, assignRiftPayoff } = require('./lib/personal_save_projection');
+const { save: completeSave, valid, validPersonalContent, errors } = require('./test_v7_personal_export');
 const seed = (id, status = 'open') => ({ id, label: id, status, epoch: 1984 });
-const base = JSON.parse(fs.readFileSync(path.join(__dirname, '../internal/qa/fixtures/savegame_v7_personal_export_from_group.json')));
-delete base.fixture_kind;
 const save = (id, count, px = 0) => {
-  const out = JSON.parse(JSON.stringify(base));
-  const oldId = out.characters[0].id;
-  out.save_id = `SAVE-${id}`; out.parent_save_id = null; out.branch_id = `BRANCH-${id}`;
-  out.characters[0].id = id; out.characters[0].name = `Agent ${id}`; out.characters[0].wallet = 100 + id.charCodeAt(0);
+  const out = completeSave(id, {A:4,B:2,C:7,D:1,E:6}[id] || 1);
+  out.save_id = `SAVE-${id}`; out.branch_id = `BRANCH-${id}`;
   out.campaign.px = px; out.campaign.px_state = 'stable';
   out.campaign.rift_seeds = Array.from({length: count}, (_, i) => seed(`${id}-R${i+1}`));
-  out.economy.wallets = { [id]: { balance: out.characters[0].wallet, name: out.characters[0].name } };
-  for (const npc of out.continuity.npc_roster || []) if (npc.owner_id === oldId) npc.owner_id = id;
+  valid(out, `Input ${id}`); validPersonalContent(out, `Input ${id}`);
   return out;
 };
 
@@ -38,12 +32,19 @@ assert.equal(assignRiftPayoff(session, { debriefId: 'DB-1', seeds: [seed('NOPE')
 const staleCampaign = {...save('A', 2, 5).campaign, mission: 4};
 const personalExports = projectPersonalSaves(session, { hq: true, anchorRoots: {campaign: staleCampaign} });
 assert.equal(personalExports.length, 5); assert.ok(personalExports.every(out => out.characters.length === 1));
+personalExports.forEach((out, i) => { valid(out, `Payoff-Export ${session.order[i]}`); validPersonalContent(out, `Payoff-Export ${session.order[i]}`); });
 assert.equal(personalExports[0].campaign.px, 0); assert.equal(personalExports[0].campaign.rift_seeds.length, 2);
 // Echter Roundtrip: serialisieren, alte Session verwerfen und neu öffnen.
 session = openSession(JSON.parse(JSON.stringify(personalExports)));
 assert.equal(assignRiftPayoff(session, { debriefId: 'DB-1', seeds: [seed('NOPE')], participants: session.order }).repeated, true);
 assert.deepStrictEqual(session.order.map(id => session.byCharacter.get(id).save.campaign.rift_seeds.length), [2,1,12,12,12]);
-session.byCharacter.get('A').save.campaign.px = 5;
+// Regulärer Folgeabschluss: consumed endet, +1 bleibt über Export und Load.
+const nextCampaign = JSON.parse(JSON.stringify(session.byCharacter.get('A').save.campaign));
+nextCampaign.px = 1; nextCampaign.px_state = 'stable';
+let nextExports = projectPersonalSaves(session, { hq: true, anchorRoots: { campaign: nextCampaign } });
+assert.equal(nextExports[0].campaign.px, 1); session = openSession(JSON.parse(JSON.stringify(nextExports)));
+assert.equal(session.byCharacter.get('A').save.campaign.px, 1);
+session.byCharacter.get('A').save.campaign.px = 5; session.byCharacter.get('A').save.campaign.px_state = 'stable';
 assert.equal(assignRiftPayoff(session, { debriefId: 'DB-2', seeds: [seed('NEXT-CYCLE')], participants: ['A'], random: () => 0 }).repeated, false);
 
 // Alle voll: ITI übernimmt, Bestand bleibt, Payoff endet.
@@ -78,6 +79,38 @@ assert.equal(JSON.stringify({character:rt.state.character,campaign:{...rt.state.
 rt.state.personal_saves = { B: { campaign: { rift_seeds: [seed('B-OWN'), seed('B-ACTIVE')] } } };
 assert.deepStrictEqual(rt.resolve_rifts(['B-OWN'], 'B'), ['B-OWN']);
 assert.equal(rt.state.personal_saves.B.campaign.rift_seeds.find(s => s.id === 'B-OWN').status, 'closed');
+
+// Die frühere QA-Datei bleibt ausdrücklich ein Fragment und kein Vollsave.
+const fragment = require('../internal/qa/fixtures/savegame_v7_personal_export_from_group.json');
+assert.ok(errors(fragment).length > 0, 'Fragment muss vom strikten v7-Schema abgelehnt werden');
+
+// P1/P2: historische Leader- oder reine Gast-Nachweise sperren aktuelle Px-Werte nicht.
+const historical = save('A', 1, 0); historical.logs.trace.push({event:'rift_payoff',payoff_id:'A:0:ALT',debrief_id:'ALT'});
+let projected = projectPersonalSaves(openSession([historical]), {hq:true, anchorRoots:{campaign:{...historical.campaign,px:1,px_state:'stable'}}});
+assert.equal(projected[0].campaign.px, 1);
+const cleanLeader = save('A', 1, 2); const historicalGuest = save('B', 0, 0);
+historicalGuest.logs.trace.push({event:'rift_payoff',payoff_id:'B:0:DB-1',debrief_id:'DB-1'});
+projected = projectPersonalSaves(openSession([cleanLeader,historicalGuest]), {hq:true, anchorRoots:{campaign:{...cleanLeader.campaign,px:3}}});
+assert.equal(projected[0].campaign.px, 3);
+
+// P3/P4: aktueller Abschluss schließt R1 und neue Logs bleiben neben Nachweisen erhalten.
+const closing = save('A', 1, 0); closing.logs.trace.push({event:'rift_payoff',payoff_id:'A:0:OLD',debrief_id:'OLD'});
+const closingCampaign = JSON.parse(JSON.stringify(closing.campaign)); closingCampaign.rift_seeds[0].status = 'closed';
+projected = projectPersonalSaves(openSession([closing]), {hq:true, anchorRoots:{campaign:closingCampaign,logs:{...closing.logs,trace:[{event:'mission_end',debrief_id:'NOW'}]}}});
+assert.equal(projected[0].campaign.rift_seeds[0].status, 'closed');
+assert.deepStrictEqual(projected[0].logs.trace.map(e=>e.event).sort(), ['mission_end','rift_payoff']);
+
+// P5: veralteter Gast-Abschlussblock darf die gerade zugewiesene Instanz nicht entfernen.
+let guestProjection = openSession([save('A',0,5),save('B',0,0)]); const staleGuestCampaign = JSON.parse(JSON.stringify(guestProjection.byCharacter.get('B').save.campaign));
+assignRiftPayoff(guestProjection,{debriefId:'GUEST-ASSIGN',seeds:[seed('B-NEW')],participants:['B'],random:()=>0});
+projected = projectPersonalSaves(guestProjection,{hq:true,personal:{B:{roots:{campaign:staleGuestCampaign}}}});
+assert.ok(projected[1].campaign.rift_seeds.some(s=>s.id==='B-NEW'));
+
+// Das Trace-Budget behält den jüngsten benötigten Nachweis.
+const budget = save('A',0,0); budget.logs.trace = Array.from({length:205},(_,i)=>({event:'note',debrief_id:`N-${i}`}));
+budget.logs.trace.push({event:'rift_payoff',payoff_id:'A:0:KEEP',debrief_id:'KEEP'});
+projected = projectPersonalSaves(openSession([budget]),{hq:true,anchorRoots:{logs:{...budget.logs,trace:[]}}});
+assert.equal(projected[0].logs.trace.length,200); assert.ok(projected[0].logs.trace.some(e=>e.payoff_id==='A:0:KEEP'));
 
 // Legacy-Sperrstatus wird beim Normalisieren offen; Überbestand wird nicht gekürzt.
 rt.state.campaign.rift_seeds = [seed('LEGACY','locked_until_episode_end'), ...Array.from({length:12},(_,i)=>seed(`OLD-${i}`))];

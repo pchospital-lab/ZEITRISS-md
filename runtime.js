@@ -3964,7 +3964,8 @@ function normalize_rift_seed_entry(entry){
   const id = pickString(entry.id, entry.seed_id, entry.label, entry.name);
   if (!id) return null;
   const statusRaw = pickString(entry.status, entry.state) || 'open';
-  const status = statusRaw.toLowerCase() === 'closed' ? 'closed' : 'open';
+  const normalizedStatus = statusRaw.toLowerCase();
+  const status = ['closed', 'active'].includes(normalizedStatus) ? normalizedStatus : 'open';
   const seedTierRaw = pickString(entry.seed_tier);
   const seedTier = seedTierRaw ? seedTierRaw.toLowerCase() : null;
   const clusterHint = pickString(entry.cluster_hint);
@@ -4344,9 +4345,18 @@ function ClusterCreate(ctx = {}){
     }));
   }
   let merged = seedsBefore;
-  if (Array.isArray(ctx.personal_saves) && Array.isArray(ctx.participants)){
-    const records = new Map(ctx.personal_saves.map((save) => [save?.characters?.[0]?.id, save]));
-    const participants = [...new Set(ctx.participants)].filter((id) => records.has(id));
+  {
+    const explicit = Array.isArray(ctx.personal_saves) ? ctx.personal_saves : null;
+    const leaderId = state.character?.id;
+    const runtimeRecords = leaderId
+      ? [{ characters: [{ id: leaderId }], campaign: state.campaign },
+        ...Object.entries(state.personal_saves || {}).map(([id, save]) => ({ ...save, characters: save.characters || [{ id }] }))]
+      : [];
+    const records = new Map((explicit || runtimeRecords).map((save) => [save?.characters?.[0]?.id, save]));
+    const requested = Array.isArray(ctx.participants)
+      ? ctx.participants
+      : [leaderId, ...(state.party?.characters || []).map((c) => c?.id)].filter(Boolean);
+    const participants = [...new Set(requested)].filter((id) => records.has(id));
     if (!participants.length) throw new Error('ClusterCreate benötigt tatsächliche Spieler-Teilnehmer.');
     for (const seed of created){
       const eligible = participants.filter((id) =>
@@ -4357,9 +4367,6 @@ function ClusterCreate(ctx = {}){
       records.get(ownerId).campaign.rift_seeds.push(clone_plain_object(seed));
     }
     merged = normalize_rift_seed_list(state.campaign.rift_seeds || []);
-  } else {
-    merged = normalize_rift_seed_list([...seedsBefore, ...created]);
-    state.campaign.rift_seeds = merged;
   }
   state.campaign.px_reset_pending = true;
   state.campaign.px_reset_confirm = false;
@@ -7342,11 +7349,11 @@ function find_open_rift_seed(seedId = null){
   if (seedId && typeof seedId === 'string'){
     const target = seedId.trim().toLowerCase();
     const match = seeds.find((seed) =>
-      seed?.id && seed.id.toLowerCase() === target && seed.status !== 'closed'
+      seed?.id && seed.id.toLowerCase() === target && seed.status === 'open'
     );
     return match || null;
   }
-  return seeds.find((seed) => seed && seed.status !== 'closed') || null;
+  return seeds.find((seed) => seed && seed.status === 'open') || null;
 }
 
 function can_launch_rift(seedId = null){
@@ -9573,6 +9580,9 @@ function load_deep(raw){
   const migrated = migrate_save(normalized);
   migrated.zr_version = migrated.zr_version || migrated.ZR_VERSION || ZR_VERSION;
   validate_save_schema(migrated);
+  // Die persönliche, migrierte Gastbasis wird vor allen Session-Anker-
+  // Überschreibungen gesichert. Nur die anschließende Laufzeitansicht folgt A.
+  const incomingPersonalBase = clone_plain_object(migrated);
   const runtimeSemver = majorMinor(ZR_VERSION);
   const saveSemver = majorMinor(migrated.zr_version);
   if (saveSemver && saveSemver !== runtimeSemver){
@@ -9622,6 +9632,8 @@ function load_deep(raw){
     });
   }
   if (hostCampaign && migrated.campaign){
+    const guestId = incomingPersonalBase.character?.id;
+    if (guestId) personalSaves[guestId] = incomingPersonalBase;
     const phaseKeys = [
       'mission',
       'mission_in_episode',
@@ -9670,11 +9682,8 @@ function load_deep(raw){
       }
     });
     const hostSeeds = normalize_rift_seed_list(hostCampaign.rift_seeds || []);
-    const incomingSeeds = normalize_rift_seed_list(migrated.campaign.rift_seeds || []);
     // Persönliche Rift-Bestände werden beim Gruppenimport nie vereinigt. Der
     // zuerst geladene Save bleibt Leader und damit einzige aktive Seed-Quelle.
-    const guestId = migrated.character?.id;
-    if (guestId) personalSaves[guestId] = clone_plain_object(migrated);
     migrated.campaign.rift_seeds = hostSeeds;
   }
   const incomingEconomy = prepare_save_economy(migrated.economy);
@@ -10027,7 +10036,7 @@ function set_campaign_mode_command(raw){
 function snapshot_rift_modifiers(){
   const missionType = resolve_mission_type();
   if (!['core', 'rift'].includes(missionType) || state.arena?.active) return null;
-  const n = ensure_rift_seeds().filter((seed) => seed.status !== 'closed').length;
+  const n = ensure_rift_seeds().filter((seed) => seed.status === 'open').length;
   const snapshot = { open_rifts: n, sg_bonus: Math.min(3, n), cu_multi: Math.min(1.6, 1 + 0.2 * n) };
   ensure_mission().rift_mods = snapshot;
   record_trace('rift_mods_snapshot', { channel: 'RIFT', ...snapshot });

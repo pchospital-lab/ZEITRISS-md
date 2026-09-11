@@ -19,6 +19,7 @@ Playtests wurden nicht durchgeführt.
 | persönliche Abgabe | `gameplay/kampagnenstruktur.md` §Rifts sammeln | Leader- und Gastbesitzer, aktiv/fremd geschützt |
 | persönlicher Export | `systems/gameflow/speicher-fortsetzung.md` §Projektionsreihenfolge | fünf strikte v7-Exporte und JSON-Neuladen |
 | Gruppenwechsel | `systems/gameflow/speicher-fortsetzung.md` §Persönlicher Gruppenwechsel | B/C sowie A/E ohne Pool-Union |
+| Projektionsreihenfolge | `systems/gameflow/speicher-fortsetzung.md` §Persönlicher Leader-Rift-Vertrag | P1–P5 und Trace-Budget |
 
 ## Abgedeckte Fälle
 
@@ -33,6 +34,9 @@ Playtests wurden nicht durchgeführt.
   auf den Folgeeinsatz.
 - Kostenfreie idempotente Besitzer-Abgabe sowie Legacy-Öffnung und Erhalt eines
   Altbestands über zwölf.
+- Historischer Payoff vor neuem Leader-Fortschritt, Payoff nur beim Gast,
+  aktuelle Rift-Schließung, Log-Konsolidierung und Gast-Zuweisung gegen einen
+  veralteten Abschlussblock (P1–P5) sowie das Trace-Budget.
 
 Die synthetische Folge verwendet vollständige v7-Fixtures, definierte
 Abschlussdaten, Projektion, JSON-Serialisierung und eine tatsächlich neu
@@ -42,10 +46,12 @@ geöffnete Session. Sie simuliert weder Kampf noch Match.
 
 - **Deterministische Zustandsfälle:** persönliche Projektion, Runtime-Guards,
   Snapshot, Abgabe und erneuter Import.
-- **Statische Checks:** Schema-/Inhaltsvalidatoren, geladene Textanker und
-  verbotene aktive Gegengates.
+- **Statische Checks:** Schema-/Inhaltsvalidatoren sowie Textanker in den laut
+  `master-index.json` geladenen 19 Slots und im Masterprompt; `internal/` ist
+  dafür keine Ersatzquelle.
 - **Synthetische Redaktion:** die oben beschriebenen fest vorgegebenen
   Abschlussdaten; keine Aussage über Modellverhalten.
+- **Echte Modell-/Plattformtests:** nicht durchgeführt.
 
 ## Ausführung
 

@@ -1287,12 +1287,15 @@ klassischer Pfad" und macht klassisch weiter).
 - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:
   - `stable`: Normalbetrieb (Px 0-4).
   - `pending_reset`: Px-5-Cluster wurde ausgelöst, Reset steht bis HQ-Debrief noch aus.
-  - `consumed`: Reset wurde verbucht; Px bleibt 0 bis neuer Aufbau beginnt.
+  - `consumed`: Genau dieser Payoff wurde verbucht; Px ist 0. Beim nächsten
+    tatsächlich Px-berechtigten Core-Abschluss beginnt der neue Zyklus als
+    `stable` mit dem regulären TEMP-Zuwachs.
 - Merge-Reihenfolge für Px ist strikt: `consumed > pending_reset > stable`.
   Danach wird `campaign.px` normalisiert: `consumed => 0`,
   `pending_reset => 5`, `stable => max(import_px_0_bis_4)`.
   So kann ein bereits verbrauchter Px-5-Stand nicht durch Max-Merge
-  aus Alt-Branches wieder auftauchen.
+  aus Alt-Branches wieder auftauchen. Historische Payoff-Nachweise sperren nur
+  dasselbe Ereignis; Gast-Nachweise verändern Leader-Px und -Zyklus nie.
 - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) - die werden zur Laufzeit gesetzt.
 - **HQ-Save-Invariante:** Speichern ist nur im HQ-Kernbereich erlaubt. Vor dem HQ-`!save` läuft der Debrief-Reset
   (`stress`/`psi_heat`/`SYS` auf HQ-Basis). `stress` und optional `psi_heat` bleiben dennoch Teil des Schemas, damit

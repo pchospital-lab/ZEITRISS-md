@@ -1945,6 +1945,16 @@ kann so einen eigenen Rift erhalten, ohne Leader-`campaign`, Core-Missionsstand
 oder Px zu erben. Sind alle voll, übernimmt ITI ohne Reserve oder Ersatz und der
 Leader-Px-Zyklus endet dennoch mit `px_state=consumed`, Px 0.
 
+`consumed` ist ausschließlich der Abschlussmarker dieses Px-5-Payoffs. Beim
+nächsten tatsächlich Px-berechtigten Core-Abschluss beginnt der Folgezylus als
+`stable` mit dem unveränderten TEMP-Zuwachs; ein historischer Nachweis verhindert
+nur die erneute Buchung desselben Payoffs. Gast-Nachweise setzen Leader-Px oder
+Leader-Zyklus nicht zurück. Beim Export werden Abschlusswerte zuerst auf die
+persönliche Ausgangsbasis gelegt, danach konkrete neue Rift-Zuweisungen und
+Statuswechsel; Logs werden über ihre Payoff-Identität konsolidiert. Der kompakte
+Trace behält höchstens 200 jüngste Einträge einschließlich der neu geschriebenen
+Nachweise, statt das Journal unbegrenzt wachsen zu lassen.
+
 Legacy-`locked_until_episode_end` wird beim legalen HQ-Load zu `open`
 normalisiert, ohne neue Belohnung. Eindeutig persönliche Altbestände bleiben
 beim Besitzer; echte alte Sammeldaten werden nur einmal und bei unklarer

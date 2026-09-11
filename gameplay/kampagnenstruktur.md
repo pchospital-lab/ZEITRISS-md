@@ -1162,10 +1162,8 @@ losschicken oder die Seeds für spätere Einsätze aufheben. Eigene Leader-Rift-
 
 Die ausdrücklich gewünschte Abgabe eigener Seeds ans ITI erfolgt im freien HQ endgültig, ohne Wurf, Kosten, Belohnung oder weitere Folge. Sie ändert nur den persönlichen Bestand und damit den Snapshot des Folgeeinsatzes; aktive oder fremde Instanzen bleiben unangetastet. Zwölf ist ausschließlich ein persönliches **Neuerwerbslimit**: Figuren mit zwölf oder mehr offenen Rifts erhalten aus einem neuen Payoff nichts, vorhandener Altbestand wird nie gekürzt. Sind alle tatsächlichen Spieler-Teilnehmer voll, übernimmt ITI nur die neuen überschüssigen Instanzen.
 
-> **Beispiel** - _Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
-> einmal miterleben zu müssen, aber das ist nun mal der Lauf der Dinge. Dafür
-> haben wir den Mothman dingfest gemacht; der wird der Zeitlinie keinen Ärger
-> mehr bereiten. Sarah W. wurde verletzt; ihr Zustand wird im persönlichen Save fortgeführt."_
+> **Beispiel** - _Seargent Meyer: „Instanz #015 wird kostenlos und endgültig
+> ans ITI abgegeben. Der persönliche Bestand ist aktualisiert.“_
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
