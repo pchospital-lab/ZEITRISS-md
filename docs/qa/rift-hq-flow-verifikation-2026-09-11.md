@@ -13,9 +13,9 @@ Playtests wurden nicht durchgeführt.
 | erster Save wählt Leader | `systems/gameflow/speicher-fortsetzung.md` §Persönlicher Gruppenwechsel | A/B/C/D/E-Roundtrip |
 | persönliche Einzelvergabe | `systems/gameflow/speicher-fortsetzung.md` §Kleine v7-Ablage | DB-1 weist B und C zu |
 | Neuerwerbslimit/ITI | `gameplay/kampagnenstruktur.md` §Rifts sammeln | alle voll / letzter Platz |
-| Px-Reset und neuer Zyklus | `systems/gameflow/speicher-fortsetzung.md` §Paradoxon-Index | DB-1-Roundtrip, danach DB-2 |
+| Px-Reset und neuer Zyklus | `systems/gameflow/speicher-fortsetzung.md` §Paradoxon-Index | stabile Abschluss-IDs, Budget-Roundtrip, danach neuer Folgeabschluss |
 | Startguard und konkrete ID | `core/spieler-handbuch.md` §Start-/Load-Regeln | unbekannt/geschlossen/Übergang/Arena |
-| SG-/CU-Einsatz-Snapshot | `gameplay/kampagnenstruktur.md` §Offene Rifts | n=2, Schließung, Folgeeinsatz |
+| SG-/CU-Einsatz-Snapshot | `gameplay/kampagnenstruktur.md` §Offene Rifts | tatsächlicher `launch_rift('A-R1')`, n=2, legaler Debrief, Folgeeinsatz |
 | persönliche Abgabe | `gameplay/kampagnenstruktur.md` §Rifts sammeln | Leader- und Gastbesitzer, aktiv/fremd geschützt |
 | persönlicher Export | `systems/gameflow/speicher-fortsetzung.md` §Projektionsreihenfolge | fünf strikte v7-Exporte und JSON-Neuladen |
 | Gruppenwechsel | `systems/gameflow/speicher-fortsetzung.md` §Persönlicher Gruppenwechsel | B/C sowie A/E ohne Pool-Union |
@@ -26,7 +26,7 @@ Playtests wurden nicht durchgeführt.
 - Mid-Episode-HQ-Start eines offenen Rifts und unveränderte Core-Zähler.
 - Erster Save als Leader; Gastbestände beeinflussen weder Board noch SG/CU.
 - Kontrollierte Einzelvergabe B/C mit erneuter Kapazitätsprüfung, Ausschluss
-  voller Figuren und stabilem Debrief-Schlüssel.
+  voller Figuren und stabiler Leader-/Einsatz-Abschlussidentität.
 - Voller Bestand: ITI-Übernahme ohne Löschen oder Ersatz, Px-Abschluss auf 0.
 - Fünf persönliche Exporte statt Gruppencontainer; Gastkampagnen/Px bleiben
   erhalten und getrennte Folgegruppen vereinigen keine Rift-Bestände.
@@ -35,12 +35,16 @@ Playtests wurden nicht durchgeführt.
 - Kostenfreie idempotente Besitzer-Abgabe sowie Legacy-Öffnung und Erhalt eines
   Altbestands über zwölf.
 - Historischer Payoff vor neuem Leader-Fortschritt, Payoff nur beim Gast,
-  aktuelle Rift-Schließung, Log-Konsolidierung und Gast-Zuweisung gegen einen
-  veralteten Abschlussblock (P1–P5) sowie das Trace-Budget.
+  aktuelle Rift-Schließung, aktuelle Notiz-/Markt-/Artefakt-/Flag-Daten,
+  Log-Konsolidierung und Gast-Zuweisung gegen einen veralteten Abschlussblock
+  (P1–P5). Das Trace-Budget wurde außerdem mit 200 alten plus 200 neueren
+  Ereignissen und einem Payoff-Roundtrip an der Kürzungsgrenze ausgeführt.
 
 Die synthetische Folge verwendet vollständige v7-Fixtures, definierte
-Abschlussdaten, Projektion, JSON-Serialisierung und eine tatsächlich neu
-geöffnete Session. Sie simuliert weder Kampf noch Match.
+Abschlussdaten, Projektion, JSON-Serialisierung, eine tatsächlich neu geöffnete
+Session sowie den echten Runtime-Pfad `launch_rift()` mit anschließendem
+`debrief()`. Sie simuliert weder Kampf noch Match. Eine Modell- oder
+Plattformausführung wird daraus ausdrücklich nicht abgeleitet.
 
 ## Prüfebenen
 
