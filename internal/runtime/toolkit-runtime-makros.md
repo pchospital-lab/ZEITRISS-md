@@ -1457,12 +1457,12 @@ HQ-Overlay).
 
 ⟨# LINT:CHRONO_RIFT_GATE #⟩
 ⟨% macro chrono_can_launch_rift() -%⟩
-⟪ 'true' if (campaign.loc=='HQ' and campaign.episode_completed) else 'false' ⟫
+⟪ 'true' if campaign.loc=='HQ' else 'false' ⟫
 ⟨%- endmacro %⟩
 
 ⟨% macro chrono_launch_rift(seed_id) -%⟩
 ⟨% if chrono_can_launch_rift() != 'true' %⟩
-⟪ hud_tag('Rift-Start blockiert - erst im HQ nach Episodenende') ⟫⟨% return %⟩
+⟪ hud_tag('Rift-Start blockiert - nur im freien HQ') ⟫⟨% return %⟩
 ⟨% endif %⟩
 ⟨% set ep_use = (chrono and chrono.epoch) or campaign.epoch %⟩
 ⟪ hud_tag('Rift-Koordinate aktiviert: ' ~ seed_id) ⟫
@@ -1567,7 +1567,7 @@ HQ-Hub. Wohin?
 - Schnell-HQ (kompakter Service-Stop)
 - Auto-HQ (Auto-Abwicklung der HQ-Pflichtschritte)
 - Chronopolis-Schleuse ⟪ '(verfügbar)' if (character.lvl or 1) >= 10 else '(ab Lvl 10)' ⟫
-- Rift-Board ⟪ '(verfügbar)' if campaign.episode_completed else '(nach Episodenende)' ⟫
+- Rift-Board ⟪ '(verfügbar im freien HQ)' ⟫
 - Arena-Router (PvP)
 ⟨%- endmacro %⟩
 
@@ -1827,7 +1827,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 ⟨% if campaign.fr_observer_note %⟩⟪ log_intervention('FR-Echo: SG +1 auf einen Check') ⟫⟨% endif %⟩
 ⟨% if campaign.mission_in_episode == 10 %⟩
 ⟨% set campaign.episode_completed = true %⟩
-⟪ apply_rift_mods_next_episode() ⟫
+⟪ apply_rift_mods_at_mission_start() ⟫
 ⟨% endif %⟩
 ⟨%- endmacro %⟩
 
@@ -2251,11 +2251,11 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% set campaign.next_episode = {'sg_bonus': sg_bonus, 'cu_multi': cu_multi} %⟩
 ⟨%- endmacro %⟩
 
-### launch_rift Macro (Gate: nur im HQ & nach Episodenende)
+### launch_rift Macro (Gate: nur im freien HQ)
 
 ⟨% macro launch_rift(id=None) -%⟩
 ⟨% if can_launch_rift(id) != 'true' %⟩
-⟪ hud_tag('Rift-Start blockiert - erst nach Episodenende & im HQ') ⟫
+⟪ hud_tag('Rift-Start blockiert - erst nach vollständigem Debrief im nächsten freien HQ-Chat & im HQ') ⟫
 ⟨% return %⟩
 ⟨% endif %⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩

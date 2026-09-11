@@ -150,9 +150,7 @@ gehören nicht dauerhaft zu den Regelquellen.
 
 OpenWebUI + Sonnet 4.6 bleibt das referenzgetestete Entwicklungssetup; dessen
 Docker-/Python-Voraussetzungen stehen nachgeordnet im [Setup-Guide](docs/setup-guide.md#komplett-setup-in-openwebui-empfohlen).
-Andere Plattformen sind nicht pauschal abgenommen. Ein Spielerbericht belegt
-eine vollständige erste Episode in einem ChatGPT-Projekt, aber keine allgemeine
-Plattform- oder Modellgarantie.
+Andere Plattformen sind nicht pauschal abgenommen.
 
 ## Creator Studio
 

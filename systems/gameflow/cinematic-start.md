@@ -68,7 +68,7 @@ bremsen den Anstieg. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer
 Vorgang. Auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
-erscheinen 1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind. Der
+erscheinen 1–2 Rift-Seeds, die erst nach vollständigem Debrief im nächsten freien HQ-Chat erreichbar sind. Der
 Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode. Die Spieler
 können ein Rift offen lassen und die Core-Operation fortsetzen. Sie riskieren
 während des Arcs keinen höheren SG.

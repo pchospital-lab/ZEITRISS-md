@@ -10,21 +10,18 @@ const { readMarkdown } = createDocTextLoader({
 
 const { text: saveText } = readMarkdown(
   'systems/gameflow/speicher-fortsetzung.md',
-  [/Split\/Merge ist kanonisch/i, /continuity\.split\.family_id/i],
+  [/Persönlicher Gruppenwechsel-Standard/i, /keine Teilgruppen-Saves/i],
   'Hard-Final-Review-Watchguard (Save)'
 );
 assert.ok(
-  /Split\/Merge ist kanonisch[\s\S]{0,220}Core-Parallelpfade[\s\S]{0,220}separate Rift-Ops/i.test(saveText),
-  'Split-/Merge-Kanon fehlt oder driftet: Core-Parallelpfade + separate Rift-Ops müssen explizit kanonisch sein.'
+  /Jede Figur erhält ihren vollständigen persönlichen v7-Save/i.test(saveText),
+  'Persönliche Saves beim Gruppenwechsel fehlen.'
 );
 assert.ok(
-  /Core-Parallelpfaden[\s\S]{0,120}continuity\.split\.family_id[\s\S]{0,120}Pflicht/i.test(saveText),
-  'Split-/Merge-Kanon driftet: continuity.split.family_id muss bei Core-Parallelpfaden als Pflicht verankert sein.'
+  /Taktische Teilgruppen[\s\S]{0,220}selben Chat[\s\S]{0,220}keine Teilgruppen-Saves/i.test(saveText),
+  'Cross-Chat-Teilmissionssplit muss ausgeschlossen bleiben.'
 );
-assert.ok(
-  !/standardmäßig[\s\S]{0,80}nur[\s\S]{0,80}nach Episodenende[\s\S]{0,80}Rift-Ops[\s\S]{0,80}kanonisch/i.test(saveText),
-  'Legacy-Drift: alter Rift-only-Standardsatz zum Split-/Merge-Kanon ist wieder aufgetaucht.'
-);
+assert.ok(!/Seeds: Union/i.test(saveText), 'Rift-Pool-Union darf nicht wieder aktiv werden.');
 
 const { text: cinematicText } = readMarkdown(
   'systems/gameflow/cinematic-start.md',
