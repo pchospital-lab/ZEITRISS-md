@@ -57,13 +57,17 @@ einzige maschinenlesbare Quelle `master-index.json` bleibt:
 Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
 `knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
 `19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
-`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` und
-`SETUP-ANLEITUNG.md`.
+`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`,
+`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` und `SETUP-ANLEITUNG.md`.
 
 | Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
 | --- | --- | --- |
 | **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
 | **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
+
+Der Creator-Bootstrap heißt im Quell-ZIP
+`meta/creator_bootstrap_instructions.md`, im Paket
+`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md`.
 
 ### Zwei getrennte Varianten
 
@@ -108,12 +112,33 @@ Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
 automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
 dauerhaften Regelwissens.
 
-**ChatGPT-Projekte (UI-Beispiel, Stand 10.09.2026):** Die offizielle
-[OpenAI-Hilfe](https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt)
-dokumentiert Projektdateien und Projektanweisungen sowie derzeit 25 Dateien
-für Plus/Go und höchstens zehn Uploads gleichzeitig. Limits und Menüs vor
-abweichenden Angaben erneut offiziell prüfen; die Dateizahl ist kein
-ZEITRISS-Qualitätssiegel.
+**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Lege zwei
+Projekte an: **ZEITRISS – Spiel** und **ZEITRISS – Creator**, nicht eines pro
+Mission. Beide erhalten denselben konsistenten Regelstand. Beim Bootstrap-Weg
+liegen 19 Module plus vollständiger Masterprompt in den Projektquellen; ins
+Anweisungsfeld kommt je Projekt ausschließlich der passende Bootstrap. Der
+direkte Masterprompt-Spielweg oben bleibt eine getrennte Alternative. Im
+Creator-Projekt ist der Masterprompt Referenz, keine zweite Spielanweisung.
+
+Die offizielle [Projekt-Hilfe](https://help.openai.com/en/articles/10169521-projects-in-chatgpt)
+nennt planabhängig 5 Dateien (Free), 25 (Go/Plus) oder 40
+(Edu/Pro/Business/Enterprise) pro Projekt und höchstens zehn gleichzeitige
+Uploads. Vor Einrichtung erneut prüfen. Projektbezogenes Gedächtnis kann als
+Kontextoption nützlich sein, garantiert aber weder Kontextisolation noch
+Regeltreue und ersetzt keinen Save. Spiel-Saves gehören direkt in den
+Spielchat, nicht ins dauerhafte Regelwissen. Creator bekommt nur ausgewählte
+Saves, Transkripte und Referenzen als Arbeitsmaterial; sie werden nicht zu
+Regeln.
+
+Wer ein Projekt freigibt, macht dessen Chats, Dateien und Anweisungen den
+Projektmitgliedern zugänglich; ein geteiltes Projekt ist trotzdem kein
+synchroner gemeinsamer Spielchat. Projekte werden vom Nutzer eingerichtet und
+sind nicht die Konfigurationsoberfläche eines Custom GPT. Dessen getrennte
+[GPT-Hilfe](https://help.openai.com/en/articles/8554397-creating-a-gpt)
+beschreibt Instructions, Knowledge und Capabilities. Deshalb keine
+Projekt-Schalter oder automatische Einrichtung für Bild/Video voraussetzen.
+Bei Regelupdates alte und neue Fassungen nicht parallel als gleichrangige
+Quellen behalten.
 
 **Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
 wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
@@ -894,12 +919,14 @@ ZEITRISS nicht geeignet.
 
 #### Creator Studio als separates Projekt
 
-Das Exportpaket enthält `CREATOR_BOOTSTRAP_INSTRUCTIONS.md`. Für das Creator
+Das Exportpaket enthält `system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` (Quelle:
+`meta/creator_bootstrap_instructions.md`). Für das Creator
 Studio immer ein separates Projekt anlegen: ausschließlich diesen
 Creator-Bootstrap ins Instructions-Feld einfügen und den Masterprompt aus
 `SYSTEM_PROMPT_ONLY.md` zusammen mit allen 19 Wissensmodulen ins
-Projektwissen laden. Bild-, Video- oder Sprachfähigkeiten nur in diesem
-Creator-Projekt und nur nach Plattform und Bedarf aktivieren.
+Projektwissen laden. Ausgewählte Saves, Transkripte und Referenzen sind
+Arbeitsmaterial, keine Regeln. Vorhandene Medienfähigkeiten dort nach Bedarf
+nutzen; keine unbestätigten Projektschalter voraussetzen.
 
 **Spiel- und Creator-Bootstrap niemals kombinieren; das Creator Studio ist ein separates Projekt.**
 

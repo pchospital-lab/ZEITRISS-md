@@ -51,14 +51,18 @@ const requiredAnchors = [
   ['creator-role', /ZEITRISS® Creator Studio/i],
   ['masterprompt-retrieval', /Vor der ersten quellengebundenen Antwort[\s\S]{0,180}# ZEITRISS - System Prompt/i],
   ['save-continuity-retrieval', /Vor Save-Prüfung[\s\S]{0,180}Save-\/Continuity-Modul/i],
-  ['retrieval-fail-closed', /Fehlt eine Pflichtquelle[\s\S]{0,180}keinen ladbaren Save/i],
+  ['retrieval-fail-closed', /Fehlt eine Pflichtquelle[\s\S]{0,180}(?:keinen|oder) ladbaren Save/i],
   ['mode-boundary', /Im Creator-Modus wird \*\*nicht gespielt\*\*/i],
   ['play-redirect', /separates Projekt[\s\S]{0,100}PROJECT_BOOTSTRAP_INSTRUCTIONS\.md/i],
   ['source-save', /v7-Save-JSON\(s\)[\s\S]{0,100}Quellenkorpus/i],
-  ['private-default', /Ohne Angabe arbeite als `privat`[\s\S]{0,220}Veröffentlichung, Monetarisierung/i],
+  ['private-default', /Ohne Angabe arbeite als `privat`[\s\S]{0,220}(?:Veröffentlichung|Monetarisierung)/i],
   ['creator-board', /Creator Board[\s\S]{0,260}Hero Asset[\s\S]{0,260}Story Cut[\s\S]{0,260}Growth Asset/i],
+  ['board-nur-offen', /Nur bei offenem Einstieg, Ideensuche oder ausdrücklichem Aufruf[\s\S]{0,180}Creator Board/i],
+  ['konkreter-auftrag-vorrang', /konkreter Medienauftrag hat Vorrang/i],
   ['canon-ledger', /\*\*KANON\*\*[\s\S]{0,180}\*\*ADAPTIERT\*\*[\s\S]{0,180}\*\*KONZEPT\*\*/i],
   ['no-fake-quotes', /Keine „Originalzitate“ ohne Transkript/i],
+  ['historisches-equipment', /frühere[n]? gespielte[n]? Szene[\s\S]{0,260}damaliges Equipment[\s\S]{0,260}(?:nicht|niemals) automatisch rückwirkend/i],
+  ['kein-gruppenmerge', /persönliche Saves sind Quellenkorpus, kein mechanischer Gruppenmerge/i],
   ['visual-identity', /characters\[\]\.visual_identity/i],
   ['visual-shape', /appearance:\{apparent_age:[\s\S]{0,300}performance:\{voice:[\s\S]{0,220}locks:\[\],avoid:\[\]/i],
   ['look-lock', /Bei \*\*Look Lock\*\*[\s\S]{0,260}revision:1[\s\S]{0,120}revision \+1/i],
@@ -68,7 +72,8 @@ const requiredAnchors = [
   ['patch-source-contract', /CREATOR_PATCH[\s\S]{0,100}source_save_id[\s\S]{0,80}char_id[\s\S]{0,80}visual_identity/i],
   ['sidecar', /Binärdateien nie in Saves einbetten/i],
   ['continuity-qa', /Continuity QA[\s\S]{0,220}`PASS`[\s\S]{0,120}`DRIFT`/i],
-  ['media-fallback', /fehlt das Medium[\s\S]{0,100}Prompt-\/Storyboard-Paket/i],
+  ['media-fallback', /Fehlt (?:das Medium|die Fähigkeit)[\s\S]{0,140}Prompt-\/Storyboard-Paket/i],
+  ['keine-falsche-datei', /Behaupte keine generierte Datei für einen Textentwurf/i],
   ['comic', /\*\*Comic Cut:\*\*/i],
   ['motion', /\*\*Motion Cut:\*\*/i],
   ['creator-kit', /\*\*Creator Kit:\*\*/i],
@@ -154,6 +159,23 @@ assert.ok(
 assert.ok(
   /Spiel- und Creator-Bootstrap niemals kombinieren;\s+das Creator Studio ist ein separates Projekt\./i.test(setupGuide),
   'Setup-Guide muss die verbindliche Modustrennung enthalten.'
+);
+assert.ok(
+  /ZEITRISS – Spiel[\s\S]{0,80}ZEITRISS – Creator/i.test(setupGuide),
+  'Setup-Guide muss das praktische Zwei-Projekte-Beispiel enthalten.'
+);
+assert.ok(
+  /Projektgedächtnis ersetzt keinen portablen v7-Save/i.test(setupGuide) &&
+    /Projektbezogenes Gedächtnis[\s\S]{0,180}ersetzt keinen Save/i.test(setupGuide),
+  'Setup-Guide muss Projektgedächtnis als Kontext statt Save-Autorität erklären.'
+);
+assert.ok(
+  /meta\/creator_bootstrap_instructions\.md[\s\S]{0,120}system\/CREATOR_BOOTSTRAP_INSTRUCTIONS\.md/i.test(setupGuide),
+  'Setup-Guide muss beide Creator-Bootstrap-Pfade zuordnen.'
+);
+assert.ok(
+  /geteiltes Projekt ist trotzdem kein[\s\S]{0,40}synchroner gemeinsamer Spielchat/i.test(setupGuide),
+  'Setup-Guide darf Projektfreigabe nicht als synchronen Spielchat darstellen.'
 );
 
 console.log('creator-bootstrap-watchguard-ok');
