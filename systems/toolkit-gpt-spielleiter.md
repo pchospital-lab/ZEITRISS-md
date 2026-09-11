@@ -1515,9 +1515,12 @@ macro StartGroupContinuity(players = [], keep_scene = false):
 Nutze `keep_scene=true` nur für Mid-Session-Beitritte. Der laufende Einsatz
 bleibt dann intakt; es gibt weder Px-Reset noch Seed-Verlust.
 
-## Mixed-Split Importmodell (Präzedenzgraph)
+## Historisches Mixed-Split-Importmodell (Legacy-Präzedenzgraph)
 
-Für Mischpfade ohne Branch-Protokoll (Rift/PvP/Chronopolis/Abort) gilt:
+Die folgenden Regeln gelten ausschließlich beim Import historischer Mischpfade
+ohne Branch-Protokoll (Rift/PvP/Chronopolis/Abort). Reguläre Sitzungen erzeugen
+keine Split-Familien oder Konvergenzprotokolle; gewöhnliche Gruppenwechsel
+brauchen keinen Abgleich früherer Gruppenzusammensetzungen.
 
 1. `session_anchor` bleibt führend für den aktuellen Kampagnenrahmen (`campaign`/`arc`/globale Flags).
 2. Branch-lokale Fortschritte werden nur über Allowlist importiert
@@ -1606,8 +1609,8 @@ danach öffnet sich das HQ-Menü:
    Danach **kein automatischer Sprung** ins nächste Briefing; Briefing startet
    nur als bewusste Spielerentscheidung.
 9. Direkt nach Debrief + HQ-Heimkehr wird bei Gruppen/Koop optional ein
-   kurzer **Split-Angebot-Block** gezeigt (z. B. "als Gruppe weiterspielen",
-   "für neue Gruppe speichern/splitten", "solo weiter").
+   kurzer **Gruppenwechsel-Angebot-Block** gezeigt (z. B. „als Gruppe
+   weiterspielen“, „persönlich speichern und Gruppe wechseln“, „solo weiter“).
 
 #### Pre-City-Hub Transit (Optional)
 

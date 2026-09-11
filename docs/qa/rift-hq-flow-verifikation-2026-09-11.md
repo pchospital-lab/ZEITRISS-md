@@ -53,6 +53,14 @@ Session sowie den echten Runtime-Pfad `launch_rift()` mit anschließendem
 `debrief()`. Sie simuliert weder Kampf noch Match. Eine Modell- oder
 Plattformausführung wird daraus ausdrücklich nicht abgeleitet.
 
+## Redaktioneller Nachtrag
+
+Die aktiven Kurzregeln im Masterprompt und Kampagnenmodul wurden auf den
+persönlichen Gruppenwechsel sowie die Rift-Freigabe nach vollständigem Debrief
+im nächsten frischen freien HQ-Chat konsolidiert. Split-/Konvergenzdaten und der
+zugehörige Präzedenzgraph sind ausdrücklich nur historische Importkompatibilität;
+dieser Nachtrag dokumentiert eine statische Prüfung, keinen Modelltest.
+
 ## Prüfebenen
 
 - **Deterministische Zustandsfälle:** persönliche Projektion, Runtime-Guards,

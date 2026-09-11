@@ -1056,13 +1056,17 @@ taktische Variation (3+ Beats = 2+ Aktionsarten), NSC-Stimmen ab dem 3. Beat
 Protokolle — jeder Kampf-Beat soll im Kopf des Spielers wie ein Filmschnitt
 ablaufen.
 
-Rifts spawnen separat zwischen den Episoden und werden einzeln gelistet (siehe Rift-Loop unten).
+Der bestehende Px-5-Payoff erzeugt Rift-Koordinaten, die im zugehörigen Debrief
+persönlich zugewiesen werden. Nach dessen Abschluss sind sie im nächsten
+frischen freien HQ-Chat wählbar, auch innerhalb der laufenden Core-Episode
+(siehe Rift-Loop unten).
 
 ### Epoch-Lock & Rift-Loop
 
 Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach rund 10 zusammen-
 hängenden Missionen springt die Handlung weiter. Je höher der Paradoxon-Index,
-desto mehr Rifts entstehen und beeinflussen die folgende Episode.
+desto mehr Rifts entstehen. Offene Leader-Rifts bestimmen den bereits
+geregelten SG-/CU-Snapshot des nächsten Core- oder Rift-Einsatzes.
 
 #### Grundablauf
 

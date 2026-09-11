@@ -886,8 +886,9 @@ Sitzung umfasst nur die anwesenden Figuren und die Kampagne des **zuerst geladen
 gültigen Saves**. Weitere Saves sind Gäste mit pausierenden eigenen Kampagnen; spätere
 Imports wechseln den Anker in diesem Chat nicht. Im nächsten neuen Chat bestimmt wieder
 der erste Save. Level, XP oder eine Gesamtzahl gespielter Missionen rekonstruieren niemals
-einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits;
-ausdrücklich gesetzte `continuity.split`-Mechaniken bleiben davon unberührt.
+einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits und
+benötigen kein Split-Protokoll. Vorhandene `continuity.split`-Felder bleiben ausschließlich
+für historische Imports lesbar; reguläre Sitzungen erzeugen sie nicht neu.
 
 Aktuelle Charakterwerte, Wallet, Besitz, Begleiter und die Anker der eigenen Kampagne
 bleiben dabei verbindlich. `history`, `summaries` und `continuity` tragen nur ausgewählte
