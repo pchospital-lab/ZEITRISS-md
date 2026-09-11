@@ -22,6 +22,14 @@ assert.ok(
   'Cross-Chat-Teilmissionssplit muss ausgeschlossen bleiben.'
 );
 assert.ok(!/Seeds: Union/i.test(saveText), 'Rift-Pool-Union darf nicht wieder aktiv werden.');
+const macroOverview = saveText.split('## Makros im Überblick')[1].split('\n### ')[0];
+const launchRiftShortRef = macroOverview.split('`launch_rift(id)`')[1].split('`resolve_rifts(ids)`')[0];
+assert.ok(/eigene offene Leader-Rift[\s\S]{0,120}freien HQ/i.test(launchRiftShortRef),
+  'launch_rift-Kurzverweis muss eigenen offenen Leader-Rift und freies HQ nennen.');
+assert.ok(!/continuity\.split|family_id/i.test(launchRiftShortRef),
+  'launch_rift-Kurzverweis darf keinen Split-Family-Zwang setzen.');
+assert.ok(/historische[\s\S]{0,100}continuity\.split\.family_id/i.test(saveText),
+  'Historische Split-Importfelder müssen weiterhin zulässig bleiben.');
 assert.ok(/rift_payoff[\s\S]{0,180}debrief_id/i.test(saveText), 'Persistenter Payoff-Beleg fehlt.');
 assert.ok(/payoff_id[\s\S]{0,220}Leader-ID[\s\S]{0,220}Abschluss-\/Trace-ID/i.test(saveText),
   'Stabile, einsatzgebundene Payoff-Identität fehlt.');

@@ -397,7 +397,9 @@ nicht-HQ-basiertes Material ist nur ein nicht ladbarer `CREATOR_PATCH` mit `sour
   `missions_total` = Anzahl Core-Missionen bis fertig (0 = sofort beim nächsten Debrief, 5 = 5 Core-Missionen). Research kennt **kein** `tier`-Feld — Dauer wird **ausschließlich** in Einsätzen (`missions_total`) gemessen; „Tier" ist im Spiel allein der Lizenz-/Ausrüstungs-Begriff. `scope: "episode"` = der Fund/das Projekt gehört zur laufenden Episode und **muss vor dem Episoden-Boss (MS10) fertig werden, damit es im Finale einsetzbar ist** → `missions_total` wird beim Anlegen so gedeckelt, dass es spätestens beim MS9-Debrief `ready` wird (`missions_total = min(Wunsch-Dauer, 9 − aktuelle_Mission)`, siehe Masterprompt §C). `scope: "campaign"` = episodenübergreifender Verschwörungs-Strang, darf länger laufen (kein Cap). `missions_done` tickt **+1 pro abgeschlossenem Core-Mission-Debrief**, beginnend beim **nächsten** Debrief nach dem Anlegen (nicht der laufenden Mission). `status` wird `ready`, sobald `missions_done >= missions_total`. Leeres Array, wenn nichts läuft. **Migration:** Ein Projekt ohne `scope` (Alt-Stand) wird als `scope: "campaign"` behandelt (kein rückwirkendes Cap). Ein Alt-Save mit `tier`-Feld (vor der Tier-Elimination): `tier` wird **ignoriert** — die Dauer kommt ausschließlich aus `missions_total`; beim nächsten `!save` fällt das `tier`-Feld weg.
 - `logs.{trace[], hud[], psi[], arena_psi[], market[], artifact_log[], notes[], flags:{}}`
 - `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
-- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`
+- `continuity.{last_seen, split, roster_echoes[], shared_echoes[], convergence_tags[], npc_roster[], active_npc_ids[]}`;
+  `split` dient nur der Importkompatibilität historischer kanonischer Core-Splits.
+  Normale Gruppenwechsel und Perspektiven derselben Mission benötigen es nicht.
 - `arc.{factions:{}, questions:[], hooks:[]}`
 - `ui.{gm_style, suggest_mode, action_mode, intro_seen, dice{debug_rolls}, contrast, badge_density, output_pace, voice_profile}`
   - Pflicht-Unterfeld: `ui.dice.debug_rolls`
@@ -886,6 +888,19 @@ Imports wechseln den Anker in diesem Chat nicht. Im nächsten neuen Chat bestimm
 der erste Save. Level, XP oder eine Gesamtzahl gespielter Missionen rekonstruieren niemals
 einen Kampagnenstand. Normale Gruppenwechsel sind keine kanonischen Parallel-Splits;
 ausdrücklich gesetzte `continuity.split`-Mechaniken bleiben davon unberührt.
+
+Aktuelle Charakterwerte, Wallet, Besitz, Begleiter und die Anker der eigenen Kampagne
+bleiben dabei verbindlich. `history`, `summaries` und `continuity` tragen nur ausgewählte
+Erinnerungen, Beziehungen und offene Anschlüsse: Für gewöhnliche gemeinsame Erlebnisse
+genügen oft ein bis zwei aussagekräftige Anker, ohne feste Quote pro Mission oder
+unbegrenzt wachsende Liste. Älteres wird passend verdichtet, darf aber wichtige eigene
+Kampagnenfäden und Beziehungen nicht verdrängen. Fehlende alte Details werden nicht als
+sichere Vergangenheit erfunden; geladene Geschichte oder Logs lösen weder Auszahlung
+noch Rift-Erzeugung oder Fortschrittsbuchung erneut aus. Ein gemeinsames Erinnerungsstück
+macht private Informationen nicht automatisch für andere Figuren oder NSCs bekannt.
+Trace-Grenzen sind Maximalwerte, keine Sollgrößen; vollständige alte Rift-Casefiles oder
+Chattranskripte werden nicht aus bloßer Vollständigkeit konserviert. Dafür sind keine
+neuen Szenen-, Beziehungs- oder Erinnerungs-IDs und keine Spieler-Protokollpflege nötig.
 
 **Load-Vertrag:** `!laden`, „Spiel laden“ und JSON-First führen in denselben Load-Flow.
 `!laden` ohne JSON fordert den HQ-Save an und erfindet nichts. Bei angekündigtem
@@ -1770,11 +1785,13 @@ unverändert.
 - `ClusterCreate()` - legt bei Paradoxon 5 neue Rift-Seeds an.
 - `ClusterDashboard()` - zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
 - `launch_rift(id)` - startet eine Rift-Mission aus einem Seed, sobald der
-  Rift-Flow im HQ freigegeben wurde (auch innerhalb derselben Episode möglich,
-  wenn `continuity.split.family_id` den Core-Parallelpfad zusammenhält).
+  eigene offene Leader-Rift im freien HQ gewählt wurde; der bestehende
+  Abschnittsrhythmus gilt, ein Episodenabschluss ist nicht nötig.
   Der Aufruf erhöht `campaign.episode` dabei **nicht**; stattdessen läuft der
   Einsatz als `phase:"rift"` innerhalb der laufenden Episode.
-- `resolve_rifts(ids)` - markiert Seeds als geschlossen und passt Belohnungen an.
+- `resolve_rifts(ids)` - gibt eigene Seeds kostenlos ab und markiert sie als
+  geschlossen. Nur Bestand und der künftige Rift-SG-/CU-Zusatz ändern sich;
+  es erfolgt keine zusätzliche Abrechnung.
 - `seed_to_hook(id)` - liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
 
 ### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
