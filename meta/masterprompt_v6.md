@@ -1290,6 +1290,11 @@ klassischer Pfad" und macht klassisch weiter).
   - `consumed`: Genau dieser Payoff wurde verbucht; Px ist 0. Beim nächsten
     tatsächlich Px-berechtigten Core-Abschluss beginnt der neue Zyklus als
     `stable` mit dem regulären TEMP-Zuwachs.
+- Die Payoff-Identität kombiniert die Leader-ID mit der bereits beim konkreten
+  Einsatz festgelegten Abschluss-/Trace-ID, niemals mit Loglänge oder
+  Arrayposition. Der jüngste Wert bleibt kompakt in
+  `logs.flags.last_rift_payoff_id`, damit die Trace-Kürzung keine Wiederbuchung
+  desselben Abschlusses erlaubt.
 - Merge-Reihenfolge für Px ist strikt: `consumed > pending_reset > stable`.
   Danach wird `campaign.px` normalisiert: `consumed => 0`,
   `pending_reset => 5`, `stable => max(import_px_0_bis_4)`.

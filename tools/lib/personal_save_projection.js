@@ -30,6 +30,9 @@ function openSession(saves) {
   }
   const processedDebriefs = new Set();
   for (const { save } of byCharacter.values()) {
+    if (typeof save.logs?.flags?.last_rift_payoff_id === 'string') {
+      processedDebriefs.add(save.logs.flags.last_rift_payoff_id);
+    }
     for (const entry of save.logs?.trace || []) {
       if (entry?.event === 'rift_payoff' && typeof (entry.payoff_id || entry.debrief_id) === 'string') {
         processedDebriefs.add(entry.payoff_id || entry.debrief_id);
@@ -48,15 +51,11 @@ function leaderRiftBoard(session) {
   return { leader_id: session.anchorId, seeds, sg_bonus: Math.min(3, n), cu_multi: Math.min(1.6, 1 + 0.2 * n) };
 }
 
-function assignRiftPayoff(session, { debriefId, seeds, participants, random = Math.random }) {
+function assignRiftPayoff(session, { debriefId, completionId, seeds, participants, random = Math.random }) {
   if (!debriefId) throw new Error('Stabile Debrief-ID erforderlich.');
+  if (!completionId) throw new Error('Stabile Abschluss-ID erforderlich.');
   const leaderRecord = session.byCharacter.get(session.anchorId);
-  const leaderPayoffs = (leaderRecord?.save?.logs?.trace || []).filter((entry) =>
-    entry?.event === 'rift_payoff' && (entry.payoff_id || '').startsWith(`${session.anchorId}:`));
-  const cycle = leaderRecord?.save?.campaign?.px_state === 'consumed'
-    ? Math.max(0, leaderPayoffs.length - 1)
-    : leaderPayoffs.length;
-  const payoffId = `${session.anchorId}:${cycle}:${debriefId}`;
+  const payoffId = `${session.anchorId}:${completionId}`;
   if (session.processedDebriefs.has(payoffId)) return { assigned: [], handedToIti: [], repeated: true };
   if (!leaderRecord || leaderRecord.save.campaign?.px !== 5) throw new Error('Rift-Payoff erfordert Leader-Px 5.');
   if (!Array.isArray(seeds) || seeds.length < 1 || seeds.length > 2) throw new Error('Rift-Payoff erfordert ein oder zwei Instanzen.');
@@ -84,6 +83,8 @@ function assignRiftPayoff(session, { debriefId, seeds, participants, random = Ma
   for (const { save } of session.byCharacter.values()) {
     save.logs ||= {};
     save.logs.trace ||= [];
+    save.logs.flags ||= {};
+    save.logs.flags.last_rift_payoff_id = payoffId;
     save.logs.trace.push({ event: 'rift_payoff', payoff_id: payoffId, debrief_id: debriefId,
       assigned: assigned.filter((entry) => entry.owner_id === save.characters?.[0]?.id).map((entry) => entry.seed_id),
       iti_handoff: handedToIti });
@@ -103,12 +104,16 @@ function projectPersonalSaves(session, completion = {}) {
     // Nur der Anker bekommt explizit vorgegebene Kampagnen-Roots. Gast-Roots
     // stammen weiterhin vollstaendig aus ihrer persoenlichen Vorgaengerkette.
     const mergeLogs = (older, newer) => {
-      const merged = clone(older || {}); merged.trace ||= [];
+      const merged = { ...clone(older || {}), ...clone(newer || {}) };
+      if (older?.flags || newer?.flags) {
+        merged.flags = { ...clone(older?.flags || {}), ...clone(newer?.flags || {}) };
+      }
+      merged.trace = clone(older?.trace || []);
       const identity = (entry) => entry?.payoff_id || `${entry?.event || ''}:${entry?.debrief_id || ''}:${canonical(entry)}`;
       const seen = new Set(merged.trace.map(identity));
       for (const entry of newer?.trace || []) if (!seen.has(identity(entry))) { merged.trace.push(clone(entry)); seen.add(identity(entry)); }
       if (merged.trace.length > 200) merged.trace = merged.trace.slice(-200);
-      return { ...clone(newer || {}), ...merged, trace: merged.trace };
+      return merged;
     };
     const applyRoots = (roots) => {
       for (const [root, value] of Object.entries(roots || {})) {
@@ -132,7 +137,9 @@ function projectPersonalSaves(session, completion = {}) {
     if (origin.save.campaign?.px !== origin.initialSave.campaign?.px || origin.save.campaign?.px_state !== origin.initialSave.campaign?.px_state) {
       out.campaign.px = origin.save.campaign.px; out.campaign.px_state = origin.save.campaign.px_state;
     }
-    out.logs = mergeLogs(out.logs, origin.save.logs);
+    // Die Ausgangsbasis ist hier historisch; bereits projizierte, ausdrückliche
+    // Abschlussfelder bleiben auch beim zweiten Merge die neuere Autorität.
+    out.logs = mergeLogs(origin.save.logs, out.logs);
     out.economy.wallets = { [id]: { balance: out.characters[0].wallet, name: out.characters[0].name } };
     // v7-Neuexporte haben genau eine Geldwahrheit: Character-Wallet plus
     // ownergebundener Wallet-Cache. `economy.cu` bleibt nur Legacy-Input.

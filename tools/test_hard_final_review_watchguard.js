@@ -23,6 +23,9 @@ assert.ok(
 );
 assert.ok(!/Seeds: Union/i.test(saveText), 'Rift-Pool-Union darf nicht wieder aktiv werden.');
 assert.ok(/rift_payoff[\s\S]{0,180}debrief_id/i.test(saveText), 'Persistenter Payoff-Beleg fehlt.');
+assert.ok(/payoff_id[\s\S]{0,220}Leader-ID[\s\S]{0,220}Abschluss-\/Trace-ID/i.test(saveText),
+  'Stabile, einsatzgebundene Payoff-Identität fehlt.');
+assert.ok(/px=0[\s\S]{0,40}px_state=consumed/i.test(saveText), 'Payoff-Lebenszyklus driftet.');
 assert.ok(/Projektionsreihenfolge[\s\S]{0,500}Rift-Zuweisungen[\s\S]{0,300}Px-Reset/i.test(saveText),
   'Persönliche Projektionsreihenfolge ist nicht geladen erklärt.');
 assert.ok(!/HQ-Merge\/Group-Import ein Cap von 12/i.test(saveText), 'Alte Merge-Deckelung ist wieder aktiv.');
