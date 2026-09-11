@@ -969,12 +969,15 @@ Letzteres, wird der bisherige Missions-Context als _abgeschlossen_ archiviert, e
 Missions-Manifest geöffnet und die verlassene Zeitlinie als "versiegelt" markiert - keine weiteren
 Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf
 endgültig beendet und in einen neuen Kampagnenstrang führt.
+Ein regulärer Rift-/Arena-Ausflug oder ein Gastspiel ist dagegen kein solcher
+Pfadwechsel: Die persönliche Core-Kampagne pausiert und wird dadurch nicht beendet.
 
 ## Paradoxon & Pararifts {#paradoxon--pararifts}
 
 Erreicht der **Paradoxon-Index** Px 5, notiert das ITI 1-2 neue **Rift-Seeds**.
-Sie erscheinen nach der Mission im HQ auf der Raumzeitkarte, sind aber erst
-nach **Episodenabschluss** spielbar. Der Reset des Index wird im Debrief/HQ
+Sie erscheinen nach der Mission im HQ auf der Raumzeitkarte und sind nach dem
+vollständigen Debrief im nächsten frischen freien HQ-Chat spielbar, auch mitten
+in einer Episode. Der Reset des Index wird im Debrief/HQ
 bestätigt (`px_reset_pending/confirm`).
 
 ## Paradoxon-Index (Positive Feedback Gauge)
@@ -1018,8 +1021,8 @@ als Backlash-Marker).
 | **5** | ▢ grün    | `Px 5/5 — ClusterCreate!`     | 1-2 Rift-Seeds vorgemerkt, Index → 0 |
 
 > **ClusterCreate:** Bei Px ≥ 5 pulsiert das HUD grün.
-> Das ITI merkt nach Missionsende 1-2 Rift-Seeds vor (spielbar nach
-> Episodenabschluss). Der Rücksetzer erfolgt im Debrief/HQ und bestätigt den
+> Das ITI merkt nach Missionsende 1-2 Rift-Seeds vor (nach vollständigem
+> Debrief im nächsten frischen freien HQ-Chat spielbar). Der Rücksetzer erfolgt im Debrief/HQ und bestätigt den
 > Reset auf **0** — Überschuss über 5 verfällt. Danach beginnt der Loop erneut.
 
 **Design-Ziel:** Der Px ist eine Fortschrittsanzeige mit einem klaren Payoff

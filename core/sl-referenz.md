@@ -811,7 +811,7 @@ Wenn der HUD-Block ausgegeben wird, gelten folgende Icon-Regeln:
 - **Zustands-Icons** (bei Eintritt → bei Ende weg): 🌀 Paradoxon (Px-relevant),
   🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown
 - **Situations-Icons**: 💀 bei Boss-Encounters (Szene 10 Core/Rift),
-  ☆ nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts)
+  ☆ beim Einsatz-Snapshot (SG-Bonus/Loot-Multi durch offene Leader-Rifts)
 
 Das HUD bleibt clean — nie alle Icons gleichzeitig, nur was gerade relevant ist.
 

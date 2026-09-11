@@ -140,4 +140,5 @@ const badCampaign = clone(originals[0]); badCampaign.campaign.id = 'NICHT-KANONI
 const inconsistent = clone(originals[0]); inconsistent.continuity.last_seen.mission = 99;
 assert.throws(() => validPersonalContent(inconsistent, 'Widerspruch'), /Missionsanker/);
 
-console.log('v7-personal-export-ok');
+module.exports = { errors, valid, validPersonalContent, character, save };
+if (require.main === module) console.log('v7-personal-export-ok');

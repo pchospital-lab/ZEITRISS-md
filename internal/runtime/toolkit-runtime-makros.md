@@ -1457,7 +1457,10 @@ HQ-Overlay).
 
 ⟨# LINT:CHRONO_RIFT_GATE #⟩
 ⟨% macro chrono_can_launch_rift() -%⟩
-⟪ 'true' if campaign.loc=='HQ' else 'false' ⟫
+⟨% set free = campaign.loc=='HQ' and (phase or 'hq')|lower == 'hq' %⟩
+⟨% set queue_free = not arena.active and (arena.queue_state or 'idle') in ['idle','completed'] %⟩
+⟨% set own_open = (campaign.rift_seeds or [])|selectattr('status','equalto','open')|list %⟩
+⟪ 'true' if free and queue_free and own_open|length > 0 else 'false' ⟫
 ⟨%- endmacro %⟩
 
 ⟨% macro chrono_launch_rift(seed_id) -%⟩
@@ -2226,7 +2229,7 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% set open = false %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
-⟨% if status != 'closed' %⟩
+⟨% if status == 'open' %⟩
 ⟨% set sid = (seed.id or seed.seed_id or seed.label or seed)|string %⟩
 ⟨% if seed_id is none or sid == (seed_id|string) %⟩
 ⟨% set open = true %⟩⟨% break %⟩
@@ -2241,7 +2244,7 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% set open_seeds = [] %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
-⟨% if status != 'closed' %⟩
+⟨% if status == 'open' %⟩
 ⟨% do open_seeds.append(seed) %⟩
 ⟨% endif %⟩
 ⟨% endfor %⟩
@@ -2262,7 +2265,7 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% set target = None %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
-⟨% if status != 'closed' %⟩
+⟨% if status == 'open' %⟩
 ⟨% set sid = (seed.id or seed.seed_id or seed.label or seed)|string %⟩
 ⟨% if id is none or sid == (id|string) %⟩⟨% set target = seed %⟩⟨% break %⟩⟨% endif %⟩
 ⟨% endif %⟩

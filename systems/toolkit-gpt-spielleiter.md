@@ -73,9 +73,8 @@ gm_second_person`, Du/Ihr im Präsens). `gm_third_person` und `gm_observer`
   sein; andere Werte werden auf das Default zurückgesetzt.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
   HUD. Rift-Ops bleiben ein **HQ-gesteuerter Nebenpfad** (`MODE RIFT`) und
-  können bei freigegebenem Split-Family-Flow auch innerhalb derselben Episode
-  starten (`continuity.split.family_id` als Kanon-Anker). Seeds bleiben
-  HQ-only bis zur Episodepause.
+  können nach vollständigem Debrief im nächsten frischen freien HQ-Chat auch innerhalb derselben Episode
+  starten. Auswahl und Start bleiben an den freien HQ-Router gebunden.
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
 covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
@@ -600,13 +599,10 @@ if not char.get("psi") and not char.get("has_psi"):
 - TRACK Paradoxon-Index (0-5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht - neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
-  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte),
-  sind aber erst **nach Episodenabschluss** spielbar.
-  Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
-  Einträge gehen automatisch an ITI-NPC-Teams und erscheinen sowohl im
-  Trace-Event `rift_seed_merge_cap_applied` (kept/overflow) als auch im
-  Merge-Trace (`merge_conflicts.rift_merge`) plus Merge-Konflikt `field='rift_merge'`
-  inklusive `selection_rule`.
+  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte)
+  und sind nach vollständigem Debrief im nächsten frischen freien HQ-Chat spielbar.
+  Zwölf offene Rifts sind nur das persönliche Neuerwerbslimit; Altbestand wird
+  beim Gruppenimport weder vereinigt noch gekürzt.
   Kritische Fehlschläge oder Patzer lassen den Px-Stand im Default unverändert und
   setzen keinen automatischen Resonanzverlust aus; dokumentiere stattdessen
   Konsequenzen über Stress/Heat/CU/Storydruck im Debrief.
