@@ -53,7 +53,7 @@ const requiredAnchors = [
   ['save-continuity-retrieval', /Vor Save-Prüfung[\s\S]{0,180}Save-\/Continuity-Modul/i],
   ['retrieval-fail-closed', /Fehlt eine Pflichtquelle[\s\S]{0,180}(?:keinen|oder) ladbaren Save/i],
   ['mode-boundary', /Im Creator-Modus wird \*\*nicht gespielt\*\*/i],
-  ['play-redirect', /separates Projekt[\s\S]{0,100}PROJECT_BOOTSTRAP_INSTRUCTIONS\.md/i],
+  ['play-redirect', /separate[sn]? Projekt[\s\S]{0,100}PROJECT_BOOTSTRAP_INSTRUCTIONS\.md/i],
   ['source-save', /v7-Save-JSON\(s\)[\s\S]{0,100}Quellenkorpus/i],
   ['private-default', /Ohne Angabe arbeite als `privat`[\s\S]{0,220}(?:Veröffentlichung|Monetarisierung)/i],
   ['creator-board', /Creator Board[\s\S]{0,260}Hero Asset[\s\S]{0,260}Story Cut[\s\S]{0,260}Growth Asset/i],
@@ -61,9 +61,11 @@ const requiredAnchors = [
   ['konkreter-auftrag-vorrang', /konkreter Medienauftrag hat Vorrang/i],
   ['canon-ledger', /\*\*KANON\*\*[\s\S]{0,180}\*\*ADAPTIERT\*\*[\s\S]{0,180}\*\*KONZEPT\*\*/i],
   ['no-fake-quotes', /Keine „Originalzitate“ ohne Transkript/i],
-  ['historisches-equipment', /frühere[n]? gespielte[n]? Szene[\s\S]{0,260}damaliges Equipment[\s\S]{0,260}(?:nicht|niemals) automatisch rückwirkend/i],
+  ['historisches-equipment', /frühere[n]?(?: gespielte[n]?)? Szenen?[\s\S]{0,260}damaliges Equipment[\s\S]{0,260}(?:nicht|nie|niemals) automatisch rückwirkend/i],
   ['kein-gruppenmerge', /persönliche Saves sind Quellenkorpus, kein mechanischer Gruppenmerge/i],
   ['visual-identity', /characters\[\]\.visual_identity/i],
+  ['historische-visual-identity', /historische Darstellungen[\s\S]{0,240}belegte Szenenzeitpunkt[\s\S]{0,300}spätere Implantate[\s\S]{0,500}gespeicherte Quelle bleibt unverändert/i],
+  ['historische-ansicht-ohne-persistenz', /historische Ansichten? ändern weder aktuellen `visual_identity`-Block noch `revision`, `save_id`, Werte oder Ausrüstung[\s\S]{0,180}lösen weder Look Lock noch (?:neuen )?Save aus/i],
   ['visual-shape', /appearance:\{apparent_age:[\s\S]{0,300}performance:\{voice:[\s\S]{0,220}locks:\[\],avoid:\[\]/i],
   ['look-lock', /Bei \*\*Look Lock\*\*[\s\S]{0,260}revision:1[\s\S]{0,120}revision \+1/i],
   ['metadata-revision', /Metadatenrevision[\s\S]{0,260}parent_save_id[\s\S]{0,220}-VIS-R/i],
@@ -166,7 +168,8 @@ assert.ok(
 );
 assert.ok(
   /Projektgedächtnis ersetzt keinen portablen v7-Save/i.test(setupGuide) &&
-    /Projektbezogenes Gedächtnis[\s\S]{0,180}ersetzt keinen Save/i.test(setupGuide),
+    /Project-only Memory[\s\S]{0,100}nicht Chats innerhalb desselben Projekts/i.test(setupGuide) &&
+    /aktuell importierte Saves bleiben maßgeblich/i.test(setupGuide),
   'Setup-Guide muss Projektgedächtnis als Kontext statt Save-Autorität erklären.'
 );
 assert.ok(

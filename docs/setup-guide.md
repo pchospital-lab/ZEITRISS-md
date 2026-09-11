@@ -112,9 +112,10 @@ Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
 automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
 dauerhaften Regelwissens.
 
-**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Lege zwei
-Projekte an: **ZEITRISS – Spiel** und **ZEITRISS – Creator**, nicht eines pro
-Mission. Beide erhalten denselben konsistenten Regelstand. Beim Bootstrap-Weg
+**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Zum Spielen
+genügt **ZEITRISS – Spiel**. Nur bei Creator-Nutzung kommt das separate Projekt
+**ZEITRISS – Creator** hinzu; keines wird pro Mission angelegt. Beide erhalten
+dann denselben konsistenten Regelstand. Beim Bootstrap-Weg
 liegen 19 Module plus vollständiger Masterprompt in den Projektquellen; ins
 Anweisungsfeld kommt je Projekt ausschließlich der passende Bootstrap. Der
 direkte Masterprompt-Spielweg oben bleibt eine getrennte Alternative. Im
@@ -123,9 +124,10 @@ Creator-Projekt ist der Masterprompt Referenz, keine zweite Spielanweisung.
 Die offizielle [Projekt-Hilfe](https://help.openai.com/en/articles/10169521-projects-in-chatgpt)
 nennt planabhängig 5 Dateien (Free), 25 (Go/Plus) oder 40
 (Edu/Pro/Business/Enterprise) pro Projekt und höchstens zehn gleichzeitige
-Uploads. Vor Einrichtung erneut prüfen. Projektbezogenes Gedächtnis kann als
-Kontextoption nützlich sein, garantiert aber weder Kontextisolation noch
-Regeltreue und ersetzt keinen Save. Spiel-Saves gehören direkt in den
+Uploads. Vor Einrichtung erneut prüfen. Project-only Memory grenzt Kontext
+nach außen ab, isoliert aber nicht Chats innerhalb desselben Projekts. Es
+garantiert weder korrekte ZEITRISS-Zustandsführung noch Regeltreue und ersetzt
+keinen Save; aktuell importierte Saves bleiben maßgeblich. Spiel-Saves gehören direkt in den
 Spielchat, nicht ins dauerhafte Regelwissen. Creator bekommt nur ausgewählte
 Saves, Transkripte und Referenzen als Arbeitsmaterial; sie werden nicht zu
 Regeln.
