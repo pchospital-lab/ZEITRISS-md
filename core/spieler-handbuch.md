@@ -768,10 +768,8 @@ Sprache startet die KI-SL dennoch denselben Pfad.
 - **Nur-HQ-Save** - Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
 - **Ausstieg in Mission** - Möglich, aber ohne Speichern. Gear darf übergeben werden.
   Nächster Save im HQ.
-- **Paradoxon & Rifts** - Px 5 ⇒ `ClusterCreate()` (1-2 persönliche Rift-Seeds; nach Debrief im nächsten HQ-Chat spielbar; danach Reset). Jeder erneute Px-5-Treffer legt weitere Seeds oben
-  drauf - es gibt **kein Hard-Limit**. Rift-Starts sind HQ-gebunden
-  (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
-  (`campaign.episode_completed` oder `campaign.mission ≥ 10`) und greifen
+- **Paradoxon & Rifts** - Px 5 ⇒ `ClusterCreate()` (1-2 persönliche Rift-Seeds; nach Debrief im nächsten HQ-Chat spielbar; danach Reset). Jeder erneute Px-5-Treffer vergibt neue Instanzen einzeln an tatsächliche Spieler-Teilnehmer mit weniger als zwölf eigenen offenen Rifts; Altbestand über zwölf bleibt erhalten. Rift-Starts sind an ein freies HQ im nächsten frischen Chat gebunden
+  (`location='HQ'`; kein Briefing, Debrief, Transfer, Exfil oder Arena-Queue), ohne Episodengate, und greifen
   ausschließlich auf objektförmige `campaign.rift_seeds[]`
   (id/label/status/seed_tier/hook/time_marker, optional `discovered_at`,
   cluster-/level-Hints) zurück; der
@@ -1407,11 +1405,3 @@ spielerfreundliche Noir-Varianten übersetzt.
 [llm-ready-badge]: https://img.shields.io/badge/KI-SL--Ready-%E2%9C%85-success
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
-
-> **Leader-Rift-Klarstellung:** Im neuen Chat bestimmt der zuerst geladene
-> persönliche Save Leader, aktive Kampagne, Px und allein startbare Rifts.
-> Persönliche Gastbestände bleiben getrennt. Neue Rifts werden beim Px-5-
-> Debrief einmalig einzelnen beteiligten Figuren (Neuerwerbslimit: zwölf offen)
-> zugewiesen und sind im nächsten freien HQ-Chat auch mitten in der Episode
-> spielbar. SG-/CU-Rift-Zusatz wird aus offenen Leader-Rifts vor Core/Rift-Start
-> gemeinsam fixiert; Arena und Chronopolis bleiben ausgenommen.

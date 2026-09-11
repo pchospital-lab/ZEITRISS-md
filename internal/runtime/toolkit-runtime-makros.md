@@ -2221,8 +2221,8 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% macro can_launch_rift(seed_id=None) -%⟩
 ⟨% set loc = (location or campaign.loc or 'HQ')|upper %⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩
-⟨% set mission_in_episode = campaign.mission_in_episode or 0 %⟩
-⟨% set episode_done = campaign.episode_completed or mission_in_episode >= 10 %⟩
+⟨% set phase_free = (phase or 'hq')|lower == 'hq' %⟩
+⟨% set arena_free = not arena.active and (arena.queue_state or 'idle') in ['idle','completed'] %⟩
 ⟨% set open = false %⟩
 ⟨% for seed in seeds %⟩
 ⟨% set status = (seed.status or 'open')|lower %⟩
@@ -2233,10 +2233,10 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% endif %⟩
 ⟨% endif %⟩
 ⟨% endfor %⟩
-⟪ 'true' if (loc == 'HQ' and episode_done and open) else 'false' ⟫
+⟪ 'true' if (loc == 'HQ' and phase_free and arena_free and open) else 'false' ⟫
 ⟨%- endmacro %⟩
 
-⟨% macro apply_rift_mods_next_episode() -%⟩
+⟨% macro apply_rift_mods_at_mission_start() -%⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩
 ⟨% set open_seeds = [] %⟩
 ⟨% for seed in seeds %⟩
@@ -2248,14 +2248,14 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 ⟨% set n = open_seeds|length %⟩
 ⟨% set sg_bonus = [n, 3]|min %⟩
 ⟨% set cu_multi = [1.0 + 0.2*n, 1.6]|min %⟩
-⟨% set campaign.next_episode = {'sg_bonus': sg_bonus, 'cu_multi': cu_multi} %⟩
+⟨% set mission.rift_mods = {'open_rifts': n, 'sg_bonus': sg_bonus, 'cu_multi': cu_multi} %⟩
 ⟨%- endmacro %⟩
 
 ### launch_rift Macro (Gate: nur im freien HQ)
 
 ⟨% macro launch_rift(id=None) -%⟩
 ⟨% if can_launch_rift(id) != 'true' %⟩
-⟪ hud_tag('Rift-Start blockiert - erst nach vollständigem Debrief im nächsten freien HQ-Chat & im HQ') ⟫
+⟪ hud_tag('Rift-Start blockiert - freie HQ-Phase und offene eigene Leader-ID erforderlich') ⟫
 ⟨% return %⟩
 ⟨% endif %⟩
 ⟨% set seeds = campaign.rift_seeds or [] %⟩

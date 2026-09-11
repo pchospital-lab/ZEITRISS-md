@@ -28,10 +28,18 @@ function openSession(saves) {
       byCharacter.set(character.id, { save: clone(source), character: clone(character) });
     }
   }
-  return { anchorId: order[0], order, byCharacter, importedSaveIds: new Set(bySaveId.keys()), processedDebriefs: new Set() };
+  const processedDebriefs = new Set();
+  for (const { save } of byCharacter.values()) {
+    for (const entry of save.logs?.trace || []) {
+      if (entry?.event === 'rift_payoff' && typeof entry.debrief_id === 'string') {
+        processedDebriefs.add(entry.debrief_id);
+      }
+    }
+  }
+  return { anchorId: order[0], order, byCharacter, importedSaveIds: new Set(bySaveId.keys()), processedDebriefs };
 }
 
-const openRifts = (save) => (save.campaign?.rift_seeds || []).filter((seed) => seed.status !== 'closed');
+const openRifts = (save) => (save.campaign?.rift_seeds || []).filter((seed) => seed.status === 'open');
 
 function leaderRiftBoard(session) {
   const leader = session.byCharacter.get(session.anchorId);
@@ -43,7 +51,16 @@ function leaderRiftBoard(session) {
 function assignRiftPayoff(session, { debriefId, seeds, participants, random = Math.random }) {
   if (!debriefId) throw new Error('Stabile Debrief-ID erforderlich.');
   if (session.processedDebriefs.has(debriefId)) return { assigned: [], handedToIti: [], repeated: true };
+  const leaderRecord = session.byCharacter.get(session.anchorId);
+  if (!leaderRecord || leaderRecord.save.campaign?.px !== 5) throw new Error('Rift-Payoff erfordert Leader-Px 5.');
+  if (!Array.isArray(seeds) || seeds.length < 1 || seeds.length > 2) throw new Error('Rift-Payoff erfordert ein oder zwei Instanzen.');
+  const seedIds = seeds.map((entry) => entry?.id).filter((id) => typeof id === 'string' && id.trim());
+  if (seedIds.length !== seeds.length || new Set(seedIds).size !== seedIds.length) throw new Error('Rift-Instanzen benötigen eindeutige IDs.');
+  const knownIds = new Set([...session.byCharacter.values()].flatMap(({ save }) =>
+    (save.campaign?.rift_seeds || []).map((entry) => entry?.id).filter(Boolean)));
+  if (seedIds.some((id) => knownIds.has(id))) throw new Error('Bekannte Rift-Instanz darf nicht erneut vergeben werden.');
   const unique = [...new Set(participants || [])].filter((id) => session.byCharacter.has(id));
+  if (!unique.length) throw new Error('Mindestens ein tatsächlicher Spieler-Teilnehmer erforderlich.');
   const assigned = [];
   const handedToIti = [];
   for (const source of seeds || []) {
@@ -51,13 +68,20 @@ function assignRiftPayoff(session, { debriefId, seeds, participants, random = Ma
     if (!eligible.length) { handedToIti.push(source.id); continue; }
     const ownerId = eligible[Math.min(eligible.length - 1, Math.floor(random() * eligible.length))];
     const origin = session.byCharacter.get(ownerId);
-    origin.save.campaign.rift_seeds.push(clone(source));
+    origin.save.campaign.rift_seeds.push({ ...clone(source), status: 'open' });
     assigned.push({ seed_id: source.id, owner_id: ownerId });
   }
   const leader = session.byCharacter.get(session.anchorId).save.campaign;
   leader.px = 0;
-  leader.paradoxon_index = 0;
-  leader.px_state = 'consumed';
+  delete leader.paradoxon_index;
+  leader.px_state = 'stable';
+  for (const { save } of session.byCharacter.values()) {
+    save.logs ||= {};
+    save.logs.trace ||= [];
+    save.logs.trace.push({ event: 'rift_payoff', debrief_id: debriefId,
+      assigned: assigned.filter((entry) => entry.owner_id === save.characters?.[0]?.id).map((entry) => entry.seed_id),
+      iti_handoff: handedToIti });
+  }
   session.processedDebriefs.add(debriefId);
   return { assigned, handedToIti, repeated: false };
 }
@@ -73,7 +97,18 @@ function projectPersonalSaves(session, completion = {}) {
     // Nur der Anker bekommt explizit vorgegebene Kampagnen-Roots. Gast-Roots
     // stammen weiterhin vollstaendig aus ihrer persoenlichen Vorgaengerkette.
     if (id === session.anchorId) {
-      for (const [root, value] of Object.entries(completion.anchorRoots || {})) out[root] = clone(value);
+      for (const [root, value] of Object.entries(completion.anchorRoots || {})) {
+        if (root !== 'campaign') out[root] = clone(value);
+      }
+      if (completion.anchorRoots?.campaign) {
+        const projected = clone(completion.anchorRoots.campaign);
+        projected.rift_seeds = clone(out.campaign.rift_seeds);
+        if (session.processedDebriefs.size) {
+          projected.px = out.campaign.px;
+          projected.px_state = out.campaign.px_state;
+        }
+        out.campaign = projected;
+      }
     }
     for (const [root, value] of Object.entries(final?.roots || {})) out[root] = clone(value);
     out.economy.wallets = { [id]: { balance: out.characters[0].wallet, name: out.characters[0].name } };

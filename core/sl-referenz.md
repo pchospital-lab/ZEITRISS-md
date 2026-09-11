@@ -75,17 +75,12 @@ tags: [core, reference, gm]
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Normalisierer lassen
   die Labels unangetastet. Erreicht der
-  Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
-  Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ mit dem HUD-Toast
+  Paradoxon-Index Px 5, informiert der Kodex, dass persönlich vergebene Seeds nach vollständigem Debrief im nächsten frischen freien HQ-Chat spielbar sind; der Px-Reset wird im Debrief/HQ mit dem HUD-Toast
   "Px Reset → 0" bestätigt (`px_reset_pending/confirm`). `ClusterCreate()`
   schreibt ein `cluster_create`-Trace (px_before/after, Seeds,
   Episode/Mission/Scene/Loc + campaign_type, `open_seeds_count`) und
   normalisiert `campaign.rift_seeds` beim Lauf und beim Laden als
-  Objekt-Liste. Solo-/Px-5-Runs stapeln Seeds ohne Hard-Limit; das Cap 12
-  greift ausschließlich beim HQ-Merge. Der Merge schreibt neben
-  `rift_seed_merge_cap_applied` (kept/overflow/handoff) auch einen
-  `merge_conflicts`-Eintrag (`field='rift_merge'`) mit denselben Feldern plus
-  `selection_rule`, damit Trace und Flags synchron bleiben.
+  Objekt-Liste. Neue Instanzen werden einzeln an beteiligte Spieler mit weniger als zwölf offenen eigenen Rifts vergeben. Zwölf ist nur das Neuerwerbslimit; Altbestand bleibt erhalten, und bei voller Runde übernimmt ITI ausschließlich neue Überschüsse.
   HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
   Low-Priority-Texte, während Critical-Tags (u. a. OFFLINE/SAVE/SCHEMA/ARENA/
   GATE/FS/BOSS/ENTRY) vorrangig bleiben und kein Budget verbrauchen. Jede
@@ -318,10 +313,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Reset-/Resume-Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und
   dedupliziert identische Konflikt-Records, damit Cross-Mode-Imports
   einheitliche Belege liefern.
-- Solo-/Px-5-Runs stapeln offene `campaign.rift_seeds[]` ohne Hard-Limit; beim
-  HQ-Merge deckelt die Runtime den offenen Pool auf 12, schiebt Überschüsse an
-  ITI-NPC-Teams und schreibt sowohl ein `rift_seed_merge_cap_applied`-Trace
-  (kept/overflow) als auch einen `merge_conflicts`-Eintrag (`field='rift_merge'`).
+- Persönliche Rift-Bestände werden beim Gruppenwechsel nie vereinigt oder gekürzt. Neue Px-5-Instanzen gehen nur an beteiligte Spieler mit weniger als zwölf offenen eigenen Rifts; voller Altbestand bleibt erhalten.
 - Arena-Resets setzen immer einen HUD-Toast "Merge-Konflikt: Arena-Status
   verworfen" und hinterlegen den Konflikt im Trace; `reset_arena_after_load()`
   priorisiert `arena.previous_mode` und `resume_token.previous_mode`, damit der
@@ -591,7 +583,7 @@ Acht verbindliche Sync-Punkte mit Macro-Pin:
    frischen Load-Chat** (Briefing startet dann direkt aus dem Hub im selben
    Chat, siehe §HQ-Load-Standard),
 3. HQ → Briefing (Rift-Op): `save_sync_pre_rift()` — Reihenfolge: erst
-   `chrono_can_launch_rift()`-Gate (HQ-Loc + Episodenende), bei `false`
+   `chrono_can_launch_rift()`-Gate (freies HQ + offene eigene Leader-ID; keine Übergangsphase/Arena-Queue), bei `false`
    höflicher Refusal-Beat ohne Sync; bei `true` Sync-Beat → Save →
    Chat-Wechsel,
 4. HQ → Chronopolis-Schleuse: `save_sync_pre_chrono_gate()`
@@ -1530,11 +1522,3 @@ Neuer Eintrag? Prüfe kurz, ob der Text bereits in einer anderen Liste steht.
 `objective` und `twist` sollten sich nicht doppeln. Falls du denselben Satz in
 beiden Feldern findest, wähle eine Variante oder streiche ihn.
 ```
-
-> **Leader-Rift-Klarstellung:** Im neuen Chat bestimmt der zuerst geladene
-> persönliche Save Leader, aktive Kampagne, Px und allein startbare Rifts.
-> Persönliche Gastbestände bleiben getrennt. Neue Rifts werden beim Px-5-
-> Debrief einmalig einzelnen beteiligten Figuren (Neuerwerbslimit: zwölf offen)
-> zugewiesen und sind im nächsten freien HQ-Chat auch mitten in der Episode
-> spielbar. SG-/CU-Rift-Zusatz wird aus offenen Leader-Rifts vor Core/Rift-Start
-> gemeinsam fixiert; Arena und Chronopolis bleiben ausgenommen.

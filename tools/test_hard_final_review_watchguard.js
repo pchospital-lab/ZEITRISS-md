@@ -22,6 +22,10 @@ assert.ok(
   'Cross-Chat-Teilmissionssplit muss ausgeschlossen bleiben.'
 );
 assert.ok(!/Seeds: Union/i.test(saveText), 'Rift-Pool-Union darf nicht wieder aktiv werden.');
+assert.ok(/rift_payoff[\s\S]{0,180}debrief_id/i.test(saveText), 'Persistenter Payoff-Beleg fehlt.');
+assert.ok(/Projektionsreihenfolge[\s\S]{0,500}Rift-Zuweisungen[\s\S]{0,300}Px-Reset/i.test(saveText),
+  'Persönliche Projektionsreihenfolge ist nicht geladen erklärt.');
+assert.ok(!/HQ-Merge\/Group-Import ein Cap von 12/i.test(saveText), 'Alte Merge-Deckelung ist wieder aktiv.');
 
 const { text: cinematicText } = readMarkdown(
   'systems/gameflow/cinematic-start.md',
@@ -38,6 +42,9 @@ const { text: campaignText } = readMarkdown(
   [/HQ-Kernbereich/i],
   'Hard-Final-Review-Watchguard (Campaign)'
 );
+assert.ok(/Ein Episodenabschluss ist nicht nötig/i.test(campaignText), 'Rift-Start hängt wieder am Episodenende.');
+assert.ok(/Neuerwerbslimit/i.test(campaignText) && /Altbestand/i.test(campaignText), 'Persönliche Kapazitätsregel fehlt.');
+assert.ok(/Multi-Zeit-Sicht-Split[\s\S]{0,300}selben Chat/i.test(campaignText), 'Multi-Zeit-Sicht verlangt wieder getrennte Chats.');
 assert.ok(
   !/Weiterentwicklung eines gemeinsamen Hauptquartiers/i.test(campaignText),
   'HQ-Kanon-Drift: kampagnenstruktur.md enthält wieder die Formulierung "Weiterentwicklung eines gemeinsamen Hauptquartiers".'
