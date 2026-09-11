@@ -19,6 +19,7 @@ Playtests wurden nicht durchgeführt.
 | persönliche Abgabe | `gameplay/kampagnenstruktur.md` §Rifts sammeln | Leader- und Gastbesitzer, aktiv/fremd geschützt |
 | persönlicher Export | `systems/gameflow/speicher-fortsetzung.md` §Projektionsreihenfolge | fünf strikte v7-Exporte und JSON-Neuladen |
 | Gruppenwechsel | `systems/gameflow/speicher-fortsetzung.md` §Persönlicher Gruppenwechsel | B/C sowie A/E ohne Pool-Union |
+| schlanke Kontinuität | `systems/gameflow/speicher-fortsetzung.md` §Persönliche Saves | eigene Kampagne → zwei Gastmissionen → Save → andere Gruppe → Wiedersehen |
 | Projektionsreihenfolge | `systems/gameflow/speicher-fortsetzung.md` §Persönlicher Leader-Rift-Vertrag | P1–P5 und Trace-Budget |
 
 ## Abgedeckte Fälle
@@ -34,6 +35,12 @@ Playtests wurden nicht durchgeführt.
   auf den Folgeeinsatz.
 - Kostenfreie idempotente Besitzer-Abgabe sowie Legacy-Öffnung und Erhalt eines
   Altbestands über zwölf.
+- **Synthetischer Redaktionsfall:** Eine Figur wechselt aus ihrer eigenen Kampagne
+  für zwei Gastmissionen in eine Gruppe, nimmt ihren persönlichen Save in eine
+  andere Gruppe mit und trifft die frühere Gruppe später wieder. Eigene Kampagne
+  und persönliche Fortschritte bleiben erhalten; ein verdichteter gemeinsamer
+  Erinnerungsanker genügt für den Anschluss, ohne Branch-Abgleich. Dies ist kein
+  Modelltest.
 - Historischer Payoff vor neuem Leader-Fortschritt, Payoff nur beim Gast,
   aktuelle Rift-Schließung, aktuelle Notiz-/Markt-/Artefakt-/Flag-Daten,
   Log-Konsolidierung und Gast-Zuweisung gegen einen veralteten Abschlussblock
