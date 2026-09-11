@@ -332,13 +332,13 @@ _Kodex:_
 > Ihr habt genug Resonanz erzeugt.
 > **Paradoxon 5 erreicht - neue Rift-Koordinaten verfügbar.**
 > Kodex vermerkt **1-2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
-> nach Episodenende freigeschaltet.
+> nach vollständigem Debrief im nächsten freien HQ-Chat freigeschaltet.
 
 _Kodex:_
 
 > `Clusterpunkt erreicht - Zugriffspfade gesetzt`
 > `Paradoxon-Index zurückgesetzt`
-> `Rift α-beta Koordinaten gespeichert - Zugriff nach Episodenende`
+> `Rift α-beta Koordinaten gespeichert - Zugriff nach vollständigem Debrief im nächsten freien HQ-Chat`
 
 🎖 Optional:
 
@@ -806,3 +806,11 @@ Spaß beim Experimentieren mit Zuständen, Zeit und Technologie - möge euer nä
 **packend** wie erfolgreich sein!
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
+
+> **Leader-Rift-Klarstellung:** Im neuen Chat bestimmt der zuerst geladene
+> persönliche Save Leader, aktive Kampagne, Px und allein startbare Rifts.
+> Persönliche Gastbestände bleiben getrennt. Neue Rifts werden beim Px-5-
+> Debrief einmalig einzelnen beteiligten Figuren (Neuerwerbslimit: zwölf offen)
+> zugewiesen und sind im nächsten freien HQ-Chat auch mitten in der Episode
+> spielbar. SG-/CU-Rift-Zusatz wird aus offenen Leader-Rifts vor Core/Rift-Start
+> gemeinsam fixiert; Arena und Chronopolis bleiben ausgenommen.

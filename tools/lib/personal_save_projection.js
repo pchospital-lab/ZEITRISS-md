@@ -28,7 +28,38 @@ function openSession(saves) {
       byCharacter.set(character.id, { save: clone(source), character: clone(character) });
     }
   }
-  return { anchorId: order[0], order, byCharacter, importedSaveIds: new Set(bySaveId.keys()) };
+  return { anchorId: order[0], order, byCharacter, importedSaveIds: new Set(bySaveId.keys()), processedDebriefs: new Set() };
+}
+
+const openRifts = (save) => (save.campaign?.rift_seeds || []).filter((seed) => seed.status !== 'closed');
+
+function leaderRiftBoard(session) {
+  const leader = session.byCharacter.get(session.anchorId);
+  const seeds = clone(openRifts(leader.save));
+  const n = seeds.length;
+  return { leader_id: session.anchorId, seeds, sg_bonus: Math.min(3, n), cu_multi: Math.min(1.6, 1 + 0.2 * n) };
+}
+
+function assignRiftPayoff(session, { debriefId, seeds, participants, random = Math.random }) {
+  if (!debriefId) throw new Error('Stabile Debrief-ID erforderlich.');
+  if (session.processedDebriefs.has(debriefId)) return { assigned: [], handedToIti: [], repeated: true };
+  const unique = [...new Set(participants || [])].filter((id) => session.byCharacter.has(id));
+  const assigned = [];
+  const handedToIti = [];
+  for (const source of seeds || []) {
+    const eligible = unique.filter((id) => openRifts(session.byCharacter.get(id).save).length < 12);
+    if (!eligible.length) { handedToIti.push(source.id); continue; }
+    const ownerId = eligible[Math.min(eligible.length - 1, Math.floor(random() * eligible.length))];
+    const origin = session.byCharacter.get(ownerId);
+    origin.save.campaign.rift_seeds.push(clone(source));
+    assigned.push({ seed_id: source.id, owner_id: ownerId });
+  }
+  const leader = session.byCharacter.get(session.anchorId).save.campaign;
+  leader.px = 0;
+  leader.paradoxon_index = 0;
+  leader.px_state = 'consumed';
+  session.processedDebriefs.add(debriefId);
+  return { assigned, handedToIti, repeated: false };
 }
 
 function projectPersonalSaves(session, completion = {}) {
@@ -61,4 +92,4 @@ function projectPersonalSaves(session, completion = {}) {
   });
 }
 
-module.exports = { openSession, projectPersonalSaves };
+module.exports = { openSession, projectPersonalSaves, leaderRiftBoard, assignRiftPayoff };

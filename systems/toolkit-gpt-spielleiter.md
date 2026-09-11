@@ -1598,7 +1598,7 @@ danach öffnet sich das HQ-Menü:
 3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
    NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
 4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
-5. Im Hangar startet auf Wunsch eine Rift-Op (nach Episodenende).
+5. Im Hangar startet auf Wunsch eine Rift-Op (nach vollständigem Debrief im nächsten freien HQ-Chat).
 6. Ruhe in den Quartieren setzt Stress zurück.
 7. **Pflicht-Heimkehr-Beat:** Nach Load oder Mission 2-4 Sätze Heimatraum
    (Ankunftsort, sichtbares Dienstpersonal, kleine Lageveränderung) plus
@@ -1747,3 +1747,15 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 > beschreiben, *was* auszugeben ist, nicht ein externes Programm. Es gibt keinen
 > separaten Programm-Layer, der im Spiel mitläuft; die Spielleitung setzt diese
 > Ausgaben direkt.
+
+## Kompakter HQ-Router: Leader-Rifts
+
+Im frischen HQ-Load setzt der erste gültige persönliche Save unveränderlich den
+Leader dieses Chats. Zeige nur dessen offene Rifts; ein leerer Leader-Bestand
+hat keinen Gast-Fallback. Nach kurzem Absegnen darf Core oder ein gewählter
+Leader-Rift direkt starten, auch mitten in der Episode. Vor Core/Rift snapshotte
+Leader-`n`, `SG +min(3,n)` und `CU ×min(1,6;1+0,2n)` gemeinsam bis zur
+Abrechnung. Nach jedem Debrief: Px-5 einmal erzeugen/unter Teilnehmer mit freiem
+persönlichem Platz verlosen, Px 0 bestätigen, persönliche Saves ausgeben und
+die freie nächste Aktivität nennen. Gast-Abgabe nur auf Besitzerwunsch im
+freien HQ, ohne Wurf oder Ökonomie.

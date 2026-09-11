@@ -768,8 +768,7 @@ Sprache startet die KI-SL dennoch denselben Pfad.
 - **Nur-HQ-Save** - Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
 - **Ausstieg in Mission** - Möglich, aber ohne Speichern. Gear darf übergeben werden.
   Nächster Save im HQ.
-- **Paradoxon & Rifts** - Px 5 ⇒ `ClusterCreate()` (1-2 Rift-Seeds; spielbar nach
-  Episodenende; danach Reset). Jeder erneute Px-5-Treffer legt weitere Seeds oben
+- **Paradoxon & Rifts** - Px 5 ⇒ `ClusterCreate()` (1-2 persönliche Rift-Seeds; nach Debrief im nächsten HQ-Chat spielbar; danach Reset). Jeder erneute Px-5-Treffer legt weitere Seeds oben
   drauf - es gibt **kein Hard-Limit**. Rift-Starts sind HQ-gebunden
   (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
   (`campaign.episode_completed` oder `campaign.mission ≥ 10`) und greifen
@@ -1175,7 +1174,7 @@ Artefakten und temporaler Abweichungen.
 - **Voice-Lock:** Erzählinstanz = zweite Person (`Du`/`Ihr`). Solo nutzt `Du`,
   Gruppe nutzt `Ihr`. Konsistent durchhalten - kein Wechsel mitten in der Szene.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
-  starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
+  starten erst nach vollständigem Debrief im nächsten freien HQ-Chat als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
   `STAGE Tatort/Leads/Boss/Auflösung`; die Spielleitung zieht die Stages automatisch
   aus der 14-Szenen-Map (Sz 1-4 Tatort, 5-9 Leads, 10 Boss-Encounter,
@@ -1408,3 +1407,11 @@ spielerfreundliche Noir-Varianten übersetzt.
 [llm-ready-badge]: https://img.shields.io/badge/KI-SL--Ready-%E2%9C%85-success
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
+
+> **Leader-Rift-Klarstellung:** Im neuen Chat bestimmt der zuerst geladene
+> persönliche Save Leader, aktive Kampagne, Px und allein startbare Rifts.
+> Persönliche Gastbestände bleiben getrennt. Neue Rifts werden beim Px-5-
+> Debrief einmalig einzelnen beteiligten Figuren (Neuerwerbslimit: zwölf offen)
+> zugewiesen und sind im nächsten freien HQ-Chat auch mitten in der Episode
+> spielbar. SG-/CU-Rift-Zusatz wird aus offenen Leader-Rifts vor Core/Rift-Start
+> gemeinsam fixiert; Arena und Chronopolis bleiben ausgenommen.

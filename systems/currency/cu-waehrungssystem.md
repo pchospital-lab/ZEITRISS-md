@@ -749,3 +749,11 @@ Geschehen spannend, stimmig und Teil der großen Geschichte. Kein trockenes Zahl
 **lebendiges System**, das die Abenteuer der Chrononauten um aufregende Facetten erweitert.
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
+
+> **Leader-Rift-Klarstellung:** Im neuen Chat bestimmt der zuerst geladene
+> persönliche Save Leader, aktive Kampagne, Px und allein startbare Rifts.
+> Persönliche Gastbestände bleiben getrennt. Neue Rifts werden beim Px-5-
+> Debrief einmalig einzelnen beteiligten Figuren (Neuerwerbslimit: zwölf offen)
+> zugewiesen und sind im nächsten freien HQ-Chat auch mitten in der Episode
+> spielbar. SG-/CU-Rift-Zusatz wird aus offenen Leader-Rifts vor Core/Rift-Start
+> gemeinsam fixiert; Arena und Chronopolis bleiben ausgenommen.

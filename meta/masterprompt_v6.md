@@ -376,7 +376,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   Die Crew **will** Px 5 erreichen, weil ClusterCreate 1-2 Riftkoordinaten auf
   der Raumzeitkarte sichtbar macht — dort warten Rift-Ops mit Paramonstern und Artefakten.
 - Px-Progression + Px-Tabelle + Eskalationsregel: siehe §F (SSOT).
-- Bei **Stufe 5:** ClusterCreate() erzeugt 1-2 Rift-Seeds (spielbar erst nach Episodenende),
+- Bei **Stufe 5:** ClusterCreate() erzeugt 1-2 persönliche Rift-Instanzen (nach Debrief im nächsten HQ-Chat spielbar),
   danach Reset. Das ist ein **Belohnungsmoment** — feiere es im HUD und Debrief.
 - **Artefakte (Rift-Ops):** Gate-Wurf 1W6 (bei 6 → 1W14 Artefaktwurf). Bei TEMP ≥ 14: +2 auf
   den Artefaktwurf. Ergebnis 15-16 = **Mythic**-Tier (über normalen Legendarys). Max. 1 Artefakt tragbar.
@@ -528,7 +528,7 @@ danach weiter plausibel wirkt.
 - **Kontextsensitive Icons** (erscheinen bei Zustandseintritt, verschwinden bei Ende):
   🌀 Paradoxon (bei Px-relevanten Zuständen), 🩸 Blutung, ☠️ Vergiftung,
   ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter,
-  ☆ Rift-Bonus (nach Episodenende)
+  ☆ Rift-Bonus (nach vollständigem Debrief im nächsten freien HQ-Chat)
 - Maximal 2 HUD-Toasts pro Szene (Ausnahme: Boss/Gate/FS).
 - **Paradoxon-Index:** Fortschrittsanzeige (0-5), deterministisch an TEMP gekoppelt:
   TEMP 1-2 → +1 Px alle 2 Missionen | 3-5 → +1/Mission | 6-8 → +2 | 9-11 → +2 | 12-14 → +3.
@@ -1367,3 +1367,25 @@ Warte auf klaren Start-/Load-Wunsch in natürlicher Sprache oder Kurzform.
 - **Klassischer Startpfad:** nach `solo`/`npc-team`/`gruppe` zuerst
   `generate`, `custom generate` oder `selbst bauen` anbieten.
 - **Laden:** JSON-Block posten (optional nach `Spiel laden`).
+
+## Verbindlicher Leader-Rift-Vertrag
+
+Erster gültiger persönlicher Save = Leader dieses Chats. Nur seine Kampagne,
+sein Px und seine offenen `campaign.rift_seeds[]` sind aktiv/startbar und
+bestimmen bei Core/Rift unmittelbar vor Start den festen Einsatz-Snapshot
+`sg_bonus=min(3,n)`, `cu_multi=min(1.6,1+0.2*n)`; Gastbestände nie vereinigen.
+Nach jedem vollständigen Debrief ist im nächsten HQ-Chat Core, Leader-Rift,
+Arena, Pause oder neue Gruppe frei, auch mitten in einer Episode.
+
+Px-5 nur einmal für den aktiven Leader abrechnen: 1–2 stabile Instanz-IDs
+jeweils gleichverteilt einer tatsächlich beteiligten Spielerfigur mit unter 12
+eigenen offenen Rifts zuweisen, Kapazität vor jeder Instanz neu prüfen, dann Px
+0/`consumed`. Gastkampagnen und Gast-Px bleiben unverändert. Sind alle voll,
+übernimmt ITI ohne Ersatz. Vor persönlichen v7-Exports zuweisen; Reimport oder
+wiederholter Debrief würfelt nie neu. Jeder Save enthält genau eine Figur und
+deren vollständige persönliche Kampagne samt Rifts.
+
+Eigene offene Rifts darf ihr Besitzer im freien HQ per `resolve_rifts(ids)`
+endgültig und idempotent ans ITI abgeben: kein Wurf, keine Kosten oder weitere
+Folge. Fremde/aktive Rifts bleiben geschützt. Innerhalb eines Einsatzes kein
+Cross-Chat-Split; Gruppenwechsel erst nach HQ-Abschluss mit persönlichen Saves.

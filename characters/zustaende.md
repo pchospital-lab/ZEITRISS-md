@@ -424,7 +424,7 @@ reinen Fortschrittsfluss ohne Heil- oder Gruppenboni.
 | **5** | Resonanzpeak erreicht               | **ClusterCreate()** enthüllt 1-2 Rifts; Index 0 |
 
 Nach Px 5 setzt `ClusterCreate()` den Paradoxon-Index auf 0 und legt 1-2 neue Rift-Seeds auf der
-Raumzeitkarte ab. Diese sind erst nach Episodenende vom HQ aus erreichbar.
+Raumzeitkarte ab. Diese sind erst nach vollständigem Debrief im nächsten freien HQ-Chat vom HQ aus erreichbar.
 
 ### Raumzeitkarte {#raumzeitkarte}
 
@@ -558,3 +558,11 @@ mit Zuständen, Zeit und Technologie - möge euer nächster Einsatz ebenso **pac
 sein!
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
+
+> **Leader-Rift-Klarstellung:** Im neuen Chat bestimmt der zuerst geladene
+> persönliche Save Leader, aktive Kampagne, Px und allein startbare Rifts.
+> Persönliche Gastbestände bleiben getrennt. Neue Rifts werden beim Px-5-
+> Debrief einmalig einzelnen beteiligten Figuren (Neuerwerbslimit: zwölf offen)
+> zugewiesen und sind im nächsten freien HQ-Chat auch mitten in der Episode
+> spielbar. SG-/CU-Rift-Zusatz wird aus offenen Leader-Rifts vor Core/Rift-Start
+> gemeinsam fixiert; Arena und Chronopolis bleiben ausgenommen.

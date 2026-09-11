@@ -68,7 +68,6 @@ const RIFT_SEED_CATALOG = {
   }
 };
 
-const RIFT_SEED_MERGE_CAP = 12;
 
 function helper_delay_text(){
   return [
@@ -4024,75 +4023,6 @@ function normalize_rift_seed_list(list){
     .filter(Boolean);
 }
 
-function merge_rift_seed_pools(hostSeeds, incomingSeeds, cap = RIFT_SEED_MERGE_CAP){
-  const combined = [];
-  const seen = new Set();
-  const pushSeed = (seed) => {
-    const id = seed?.id ? seed.id.trim() : '';
-    if (!id) return;
-    const key = id.toLowerCase();
-    if (seen.has(key)) return;
-    seen.add(key);
-    combined.push(seed);
-  };
-  normalize_rift_seed_list(hostSeeds).forEach(pushSeed);
-  normalize_rift_seed_list(incomingSeeds).forEach(pushSeed);
-  const openSeeds = combined
-    .map((seed, index) => ({ seed, index }))
-    .filter(({ seed }) => seed.status !== 'closed');
-  const tierWeight = (seed) => {
-    const tier = typeof seed.seed_tier === 'string' ? seed.seed_tier.trim().toLowerCase() : '';
-    if (tier === 'late') return 3;
-    if (tier === 'mid') return 2;
-    if (tier === 'early') return 1;
-    return 0;
-  };
-  const parseDiscoveredAt = (seed) => {
-    const raw = typeof seed.discovered_at === 'string' ? seed.discovered_at.trim() : '';
-    if (!raw) return null;
-    const parsed = Date.parse(raw);
-    return Number.isFinite(parsed) ? parsed : null;
-  };
-  const openSorted = [...openSeeds].sort((a, b) => {
-    const tierDiff = tierWeight(b.seed) - tierWeight(a.seed);
-    if (tierDiff) return tierDiff;
-    const aDiscovered = parseDiscoveredAt(a.seed);
-    const bDiscovered = parseDiscoveredAt(b.seed);
-    if (aDiscovered !== null || bDiscovered !== null){
-      if (aDiscovered === null) return 1;
-      if (bDiscovered === null) return -1;
-      if (aDiscovered !== bDiscovered) return aDiscovered - bDiscovered;
-    }
-    const aMarker = typeof a.seed.time_marker === 'string' ? a.seed.time_marker : '';
-    const bMarker = typeof b.seed.time_marker === 'string' ? b.seed.time_marker : '';
-    if (aMarker !== bMarker){
-      return aMarker.localeCompare(bMarker, 'de');
-    }
-    const aId = typeof a.seed.id === 'string' ? a.seed.id : '';
-    const bId = typeof b.seed.id === 'string' ? b.seed.id : '';
-    if (aId !== bId){
-      return aId.localeCompare(bId, 'de');
-    }
-    return a.index - b.index;
-  });
-  const keptOpen = openSorted.slice(0, cap).map((entry) => entry.seed);
-  const keptIds = new Set(keptOpen.map((seed) => seed.id.toLowerCase()));
-  const kept = combined.filter(
-    (seed) => seed.status === 'closed' || keptIds.has(seed.id.toLowerCase())
-  );
-  const overflow = openSorted.slice(cap).map((entry) => entry.seed);
-  const selectionRule =
-    'seed_tier: late>mid>early · discovered_at (asc) · time_marker · id · session_anchor_order';
-  return {
-    seeds: kept,
-    kept_open: keptOpen,
-    overflow,
-    open_total: openSeeds.length,
-    cap,
-    selection_rule: selectionRule
-  };
-}
-
 function ensure_rift_seeds(){
   ensure_campaign();
   const seeds = Array.isArray(state.campaign.rift_seeds)
@@ -4398,10 +4328,14 @@ function ClusterCreate(ctx = {}){
     ? clamp(ctx.px_after, 0, 5)
     : clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
   const seedsBefore = normalize_rift_seed_list(state.campaign.rift_seeds);
-  const count = 1 + Math.floor(Math.random() * 2);
+  const count = Number.isFinite(ctx.count)
+    ? Math.max(1, Math.min(2, Math.floor(ctx.count)))
+    : 1 + Math.floor(Math.random() * 2);
   const created = [];
   for (let i = 0; i < count; i++){
-    const id = `R-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    const id = typeof ctx.id_factory === 'function'
+      ? String(ctx.id_factory(i))
+      : `R-${Date.now().toString(36).toUpperCase()}-${i + 1}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
     created.push(normalize_rift_seed_entry({
       id,
       label: 'Uncharted Rift',
@@ -7408,12 +7342,6 @@ function can_launch_rift(seedId = null){
   if (arenaActive){
     return { ok: false, reason: 'Arena aktiv – Rift-Start blockiert.' };
   }
-  const episodeDone = state.campaign?.episode_completed === true;
-  const missionInEpisode = Number(state.campaign?.mission_in_episode);
-  const episodeReady = episodeDone || (Number.isFinite(missionInEpisode) && missionInEpisode >= 10);
-  if (!episodeReady){
-    return { ok: false, reason: 'Rift-Start blockiert – erst nach Episodenende im HQ.' };
-  }
   const seed = find_open_rift_seed(seedId);
   if (!seed){
     return { ok: false, reason: 'Keine offenen Rift-Seeds verfügbar.' };
@@ -9636,8 +9564,6 @@ function load_deep(raw){
     : [];
   const initialConflictCount = mergeConflicts.length;
   let mergeConflictsChanged = false;
-  let riftMergeReport = null;
-  let riftMergeCapTrace = null;
   const noteConflict = (payload) => {
     const before = mergeConflicts.length;
     mergeConflicts = push_merge_conflict(mergeConflicts, payload);
@@ -9719,58 +9645,20 @@ function load_deep(raw){
         migrated.campaign[key] = hostValue;
       }
     });
-    const hostSeeds = Array.isArray(hostCampaign.rift_seeds)
-      ? hostCampaign.rift_seeds
-      : [];
-    const incomingSeeds = Array.isArray(migrated.campaign.rift_seeds)
-      ? migrated.campaign.rift_seeds
-      : [];
-    if (hostSeeds.length || incomingSeeds.length){
-      const normalizedHost = normalize_rift_seed_list(hostSeeds);
-      const normalizedIncoming = normalize_rift_seed_list(incomingSeeds);
-      const mergeResult = merge_rift_seed_pools(normalizedHost, normalizedIncoming);
-      const capApplied = mergeResult.overflow.length > 0;
-      const overflowCount = mergeResult.overflow.length;
-      const incomingHasSeeds = normalizedIncoming.length > 0;
-      const diff = incomingHasSeeds
-        && JSON.stringify(normalizedHost) !== JSON.stringify(normalizedIncoming);
-      if (diff || overflowCount){
-        noteConflict({
-          field: 'rift_merge',
-          source: normalizedIncoming.length,
-          target: normalizedHost.length,
-          mode: 'merge',
-          note: overflowCount
-            ? `Rift-Pool gekappt (${mergeResult.cap}) – Überschuss an ITI-NPC-Teams`
-            : 'Session-Anker-Seeds priorisiert',
-          kept: mergeResult.kept_open.map((seed) => seed.id),
-          overflow: mergeResult.overflow.map((seed) => seed.id),
-          selection_rule: mergeResult.selection_rule,
-          handoff_to: overflowCount ? 'ITI-NPC-Teams' : undefined
-        });
-      }
-      migrated.campaign.rift_seeds = mergeResult.seeds;
-      if (diff || overflowCount){
-        riftMergeReport = {
-          cap: mergeResult.cap,
-          open_total: mergeResult.open_total,
-          kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
-          handoff_seed_ids: mergeResult.overflow.map((seed) => seed.id),
-          selection_rule: mergeResult.selection_rule,
-          handoff_to: 'ITI-NPC-Teams'
-        };
-      }
-      if (capApplied){
-        riftMergeCapTrace = {
-          cap: mergeResult.cap,
-          open_total: mergeResult.open_total,
-          kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
-          overflow_seed_ids: mergeResult.overflow.map((seed) => seed.id),
-          selection_rule: mergeResult.selection_rule,
-          handoff_to: 'ITI-NPC-Teams'
-        };
-      }
+    const hostSeeds = normalize_rift_seed_list(hostCampaign.rift_seeds || []);
+    const incomingSeeds = normalize_rift_seed_list(migrated.campaign.rift_seeds || []);
+    // Persönliche Rift-Bestände werden beim Gruppenimport nie vereinigt. Der
+    // zuerst geladene Save bleibt Leader und damit einzige aktive Seed-Quelle.
+    if (JSON.stringify(hostSeeds) !== JSON.stringify(incomingSeeds)){
+      noteConflict({
+        field: 'rift_owner_separation',
+        source: incomingSeeds.length,
+        target: hostSeeds.length,
+        mode: 'personal',
+        note: 'Gastbestand getrennt erhalten; Leader-Seeds bleiben aktiv'
+      });
     }
+    migrated.campaign.rift_seeds = hostSeeds;
   }
   const incomingEconomy = prepare_save_economy(migrated.economy);
   if (hostEconomy){
@@ -9956,13 +9844,6 @@ function load_deep(raw){
   if (arenaConflictLogged){
     hud_toast('Merge-Konflikt: Arena-Status verworfen', 'HUD');
   }
-  if (riftMergeCapTrace){
-    record_trace('rift_seed_merge_cap_applied', {
-      channel: 'LOAD',
-      ...riftMergeCapTrace,
-      conflict_fields: mergeConflicts.map((entry) => entry.field).filter(Boolean)
-    });
-  }
   const conflictCount = mergeConflicts.length;
   const conflictsAdded = Math.max(0, conflictCount - initialConflictCount);
   const conflictFields = mergeConflicts.map((entry) => entry.field).filter(Boolean);
@@ -9982,7 +9863,6 @@ function load_deep(raw){
         reset: arenaReset.wasActive || false,
         resume_token: !!arenaReset.resume_token
       },
-      rift_merge: riftMergeReport,
       merge_conflicts: conflictCount,
       conflicts_added: conflictsAdded,
       conflict_fields: conflictFields
@@ -10126,11 +10006,22 @@ function set_campaign_mode_command(raw){
   return `Kampagnenmodus gesetzt: ${mode.toUpperCase()} (persistiert im HQ-Save).`;
 }
 
-function launch_mission(){
+function snapshot_rift_modifiers(){
+  const missionType = resolve_mission_type();
+  if (!['core', 'rift'].includes(missionType) || state.arena?.active) return null;
+  const n = ensure_rift_seeds().filter((seed) => seed.status !== 'closed').length;
+  const snapshot = { open_rifts: n, sg_bonus: Math.min(3, n), cu_multi: Math.min(1.6, 1 + 0.2 * n) };
+  ensure_mission().rift_mods = snapshot;
+  record_trace('rift_mods_snapshot', { channel: 'RIFT', ...snapshot });
+  return snapshot;
+}
+
+function launch_mission(type = 'core'){
   state.phase = 'transfer';
   ensure_campaign();
-  state.campaign.type = 'core';
-  state.campaign.phase = 'core';
+  state.campaign.type = type === 'rift' ? 'rift' : 'core';
+  state.campaign.phase = state.campaign.type;
+  snapshot_rift_modifiers();
   StartMission();
   return 'mission-launched';
 }
@@ -10169,7 +10060,28 @@ function launch_rift(seedId = null){
       status: seed?.status || 'open'
     }
   });
-  return launch_mission();
+  return launch_mission('rift');
+}
+
+function resolve_rifts(ids, ownerId = null){
+  const location = typeof state.location === 'string' ? state.location.trim().toUpperCase() : '';
+  if (location !== 'HQ' || state.arena?.active || ['briefing', 'debrief', 'exfil', 'transfer', 'rift', 'core'].includes(state.phase)){
+    throw new Error('Rift-Abgabe nur im freien HQ erlaubt.');
+  }
+  const owner = ownerId || state.character?.id;
+  if (ownerId && ownerId !== state.character?.id){
+    throw new Error('Nur der ausdrückliche Besitzer darf eigene Rifts abgeben.');
+  }
+  const wanted = new Set((Array.isArray(ids) ? ids : [ids]).filter(Boolean).map((id) => String(id).toLowerCase()));
+  const resolved = [];
+  ensure_rift_seeds().forEach((seed) => {
+    if (seed.status !== 'closed' && wanted.has(seed.id.toLowerCase())){
+      seed.status = 'closed';
+      resolved.push(seed.id);
+    }
+  });
+  if (resolved.length) record_trace('rift_handoff', { channel: 'RIFT', owner_id: owner, seed_ids: resolved });
+  return resolved;
 }
 
 function debrief(st){
@@ -10454,7 +10366,7 @@ function on_command(command){
             + ' (persistiert im Save).',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
           'SaveGuard: Speichern nur im HQ – HQ-Save gesperrt. '
-            + 'Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
+            + 'Px 5 ⇒ ClusterCreate() (Rift-Seeds nach vollständigem Debrief im nächsten freien HQ-Chat).'
         ].join('\n');
       }
     if (
@@ -10668,6 +10580,8 @@ module.exports = {
   record_trace,
   ensure_rift_seeds,
   can_launch_rift,
+  snapshot_rift_modifiers,
+  resolve_rifts,
   startSolo,
   setupNpcTeam,
   startGroup,
