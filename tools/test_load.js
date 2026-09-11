@@ -126,4 +126,11 @@ const mergeSave = { save_version: 6, location: 'HQ', phase: 'core',
 const mergeRes = rt.load_deep(mergeSave);
 assert.equal(mergeRes.status, 'ok');
 assert.deepStrictEqual(rt.state.campaign.rift_seeds.map((seed) => seed.id), ['R-H-1', 'R-H-2']);
+assert.deepStrictEqual(
+  rt.state.personal_saves.IMPORT.campaign.rift_seeds.map((seed) => seed.id),
+  incomingSeeds.map((seed) => seed.id),
+  'vollständiger Gastbestand bleibt als persönliche Exportbasis erhalten'
+);
+assert(!rt.state.logs.flags.merge_conflicts?.some((entry) => entry.field === 'rift_owner_separation'),
+  'normale Besitzertrennung ist kein Konflikt');
 console.log('rift-owner-separation');

@@ -930,8 +930,8 @@ klassischer Pfad" und macht klassisch weiter).
     aus dem Hub im selben Chat (Frischer-Load-Chat-Regel §I). Der Pre-Sync +
     Chat-Wechsel gilt nur, wenn im selben Chat bereits ein `!save` erfolgte (also
     eine ausgespielte HQ-Runde abgeschlossen wurde).
-  - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (HQ +
-    Episodenende), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
+  - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (freies HQ, offene eigene Leader-Instanz, kein Briefing/
+    Debrief/Transfer/Exfil und keine belegte Arena-Queue), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
     `true` Sync-Beat → `!save` → Chat-Wechsel.
   - **Tod-Final-Save ist KEIN Sync-Punkt** — kein Sync-Beat vor Final-Save,
     das filmische Ende ist die Lore-Verankerung.

@@ -68,10 +68,7 @@ bremsen den Anstieg. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer
 Vorgang. Auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
-erscheinen 1–2 Rift-Seeds, die erst nach vollständigem Debrief im nächsten freien HQ-Chat erreichbar sind. Der
-Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode. Die Spieler
-können ein Rift offen lassen und die Core-Operation fortsetzen. Sie riskieren
-während des Arcs keinen höheren SG.
+erscheinen 1–2 Rift-Seeds, die erst nach vollständigem Debrief im nächsten freien HQ-Chat erreichbar sind. Der SG-/CU-Zusatz wird beim nächsten Core- oder Rift-Start aus den offenen Rifts des Leaders fixiert und gilt bis zur Abrechnung. Die Spieler können ein Rift offen lassen und die Core-Operation fortsetzen; dann wirkt der höhere SG bereits in diesem Folgeeinsatz.
 
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
 

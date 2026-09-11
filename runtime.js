@@ -4343,8 +4343,24 @@ function ClusterCreate(ctx = {}){
       status: 'open'
     }));
   }
-  const merged = normalize_rift_seed_list([...seedsBefore, ...created]);
-  state.campaign.rift_seeds = merged;
+  let merged = seedsBefore;
+  if (Array.isArray(ctx.personal_saves) && Array.isArray(ctx.participants)){
+    const records = new Map(ctx.personal_saves.map((save) => [save?.characters?.[0]?.id, save]));
+    const participants = [...new Set(ctx.participants)].filter((id) => records.has(id));
+    if (!participants.length) throw new Error('ClusterCreate benötigt tatsächliche Spieler-Teilnehmer.');
+    for (const seed of created){
+      const eligible = participants.filter((id) =>
+        normalize_rift_seed_list(records.get(id).campaign?.rift_seeds || []).filter((entry) => entry.status === 'open').length < 12);
+      if (!eligible.length) continue;
+      const roll = typeof ctx.random === 'function' ? ctx.random() : Math.random();
+      const ownerId = eligible[Math.min(eligible.length - 1, Math.floor(roll * eligible.length))];
+      records.get(ownerId).campaign.rift_seeds.push(clone_plain_object(seed));
+    }
+    merged = normalize_rift_seed_list(state.campaign.rift_seeds || []);
+  } else {
+    merged = normalize_rift_seed_list([...seedsBefore, ...created]);
+    state.campaign.rift_seeds = merged;
+  }
   state.campaign.px_reset_pending = true;
   state.campaign.px_reset_confirm = false;
   state.campaign.px_reset_scheduled_at = new Date().toISOString();
@@ -7328,7 +7344,7 @@ function find_open_rift_seed(seedId = null){
     const match = seeds.find((seed) =>
       seed?.id && seed.id.toLowerCase() === target && seed.status !== 'closed'
     );
-    if (match) return match;
+    return match || null;
   }
   return seeds.find((seed) => seed && seed.status !== 'closed') || null;
 }
@@ -7338,7 +7354,12 @@ function can_launch_rift(seedId = null){
   if (location !== 'HQ'){
     return { ok: false, reason: 'Rift-Start nur im HQ erlaubt.' };
   }
-  const arenaActive = !!state.arena?.active;
+  const blockedPhases = new Set(['briefing', 'debrief', 'transfer', 'exfil', 'core', 'rift']);
+  if (blockedPhases.has(String(state.phase || '').toLowerCase())){
+    return { ok: false, reason: 'HQ ist noch durch Einsatz oder Übergang belegt.' };
+  }
+  const arenaActive = !!state.arena?.active
+    || !['', 'idle', 'completed'].includes(String(state.arena?.queue_state || '').toLowerCase());
   if (arenaActive){
     return { ok: false, reason: 'Arena aktiv – Rift-Start blockiert.' };
   }
@@ -9545,6 +9566,9 @@ function load_deep(raw){
   const hostCampaign = hostHasState && state?.campaign ? clone_plain_object(state.campaign) : null;
   const hostUi = hostHasState && state?.ui ? prepare_save_ui(state.ui) : null;
   const hostEconomy = hostHasState && state?.economy ? prepare_save_economy(state.economy) : null;
+  const personalSaves = hostHasState && state?.personal_saves
+    ? clone_plain_object(state.personal_saves)
+    : {};
   const normalized = normalize_save_v6(source);
   const migrated = migrate_save(normalized);
   migrated.zr_version = migrated.zr_version || migrated.ZR_VERSION || ZR_VERSION;
@@ -9649,15 +9673,8 @@ function load_deep(raw){
     const incomingSeeds = normalize_rift_seed_list(migrated.campaign.rift_seeds || []);
     // Persönliche Rift-Bestände werden beim Gruppenimport nie vereinigt. Der
     // zuerst geladene Save bleibt Leader und damit einzige aktive Seed-Quelle.
-    if (JSON.stringify(hostSeeds) !== JSON.stringify(incomingSeeds)){
-      noteConflict({
-        field: 'rift_owner_separation',
-        source: incomingSeeds.length,
-        target: hostSeeds.length,
-        mode: 'personal',
-        note: 'Gastbestand getrennt erhalten; Leader-Seeds bleiben aktiv'
-      });
-    }
+    const guestId = migrated.character?.id;
+    if (guestId) personalSaves[guestId] = clone_plain_object(migrated);
     migrated.campaign.rift_seeds = hostSeeds;
   }
   const incomingEconomy = prepare_save_economy(migrated.economy);
@@ -9810,6 +9827,7 @@ function load_deep(raw){
   }
   migrated.location = 'HQ';
   hydrate_state(migrated);
+  state.personal_saves = personalSaves;
   ensure_economy();
   // Legacy-Topf-Faltung passiert bereits in migrate_save (Daten-Ebene, vor
   // prepare_save_economy). Hier nur noch der normale Wallet-Sync via ensure_economy.
@@ -10047,9 +10065,7 @@ function launch_rift(seedId = null){
   } else if ('active_seed_hook' in state.campaign){
     delete state.campaign.active_seed_hook;
   }
-  if (Number.isFinite(seed?.epoch)){
-    state.campaign.epoch = seed.epoch;
-  }
+  state.campaign.active_seed_epoch = seed?.epoch ?? null;
   record_trace('rift_launch', {
     channel: 'RIFT',
     hud: seed?.label ? `Rift ${seed.id}: ${seed.label}` : null,
@@ -10069,23 +10085,32 @@ function resolve_rifts(ids, ownerId = null){
     throw new Error('Rift-Abgabe nur im freien HQ erlaubt.');
   }
   const owner = ownerId || state.character?.id;
-  if (ownerId && ownerId !== state.character?.id){
-    throw new Error('Nur der ausdrückliche Besitzer darf eigene Rifts abgeben.');
-  }
+  const ownerCampaign = owner === state.character?.id
+    ? state.campaign
+    : state.personal_saves?.[owner]?.campaign;
+  if (!ownerCampaign) throw new Error('Unbekannter persönlicher Besitzer.');
   const wanted = new Set((Array.isArray(ids) ? ids : [ids]).filter(Boolean).map((id) => String(id).toLowerCase()));
   const resolved = [];
-  ensure_rift_seeds().forEach((seed) => {
-    if (seed.status !== 'closed' && wanted.has(seed.id.toLowerCase())){
+  const seeds = normalize_rift_seed_list(ownerCampaign.rift_seeds || []);
+  const activeId = owner === state.character?.id ? state.campaign?.active_seed_id : null;
+  seeds.forEach((seed) => {
+    if (seed.status === 'open' && seed.id !== activeId && wanted.has(seed.id.toLowerCase())){
       seed.status = 'closed';
       resolved.push(seed.id);
     }
   });
+  ownerCampaign.rift_seeds = seeds;
   if (resolved.length) record_trace('rift_handoff', { channel: 'RIFT', owner_id: owner, seed_ids: resolved });
   return resolved;
 }
 
 function debrief(st){
-  const outcome = st || {};
+  let outcome = st || {};
+  const snap = state.mission?.rift_mods;
+  if (snap && outcome.cu_is_final !== true){
+    const baseCu = extractCuReward(outcome);
+    if (baseCu !== null) outcome = { ...outcome, cu_reward: Math.round(baseCu * snap.cu_multi), cu_is_final: true };
+  }
   const cuReward = extractCuReward(outcome);
   const result = completeMission(outcome);
   const lines = [];
