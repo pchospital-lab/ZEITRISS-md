@@ -30,6 +30,12 @@ Ein Save belegt Zustand und Fortschritt. Nur ein vollständiges Transkript
 belegt genaue Dialogzeilen. Zusammenfassungen werden nicht als wörtliche
 Zitate ausgegeben.
 
+Für frühere Szenen gelten der belegte Szenenzeitpunkt, damaliges Equipment und
+die konkrete Szenenquelle; der neueste Save überschreibt die Vergangenheit
+nicht rückwirkend. Mehrere persönliche Saves bilden einen Quellenkorpus, aber
+keinen Auftrag zum mechanischen Gruppenmerge. Bei Widersprüchen wird nur die
+für das gewünschte Asset nötige Version geklärt.
+
 ## Visual Identity
 
 `characters[].visual_identity` speichert eine plattformneutrale
@@ -58,6 +64,9 @@ Referenzbild für komplexe Gruppen- und Szenenbilder verwenden.
 
 Fehlt der Plattform ein Bild- oder Videowerkzeug, erzeugt das Creator Studio
 stattdessen ein produktionsfertiges Prompt-, Storyboard- und Continuity-Paket.
+Ein konkreter Medienauftrag startet direkt; das Creator Board ist für offenen
+Einstieg, Ideensuche oder ausdrücklichen Aufruf. Eine Datei gilt nur dann als
+generiert, wenn ein vorhandenes Werkzeug sie tatsächlich erzeugt hat.
 
 ## Kanonstatus
 
