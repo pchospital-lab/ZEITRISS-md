@@ -2777,8 +2777,8 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # Size check
     for fp in kb_files:
         sz = fp.stat().st_size
-        if sz > 150_000:
-            print_warn(f"{fp.name}: {sz/1024:.0f} KB — über 150 KB, Indexierung könnte fehlschlagen")
+        if sz > 1_000_000:
+            print_info(f"{fp.name}: {sz/1024:.0f} KB — große Datei, Embedding dauert etwas länger (aktuelles OpenWebUI hat kein Dateigrößen-Limit)")
 
     # ── Presets aufräumen (alle Varianten dieses Laufs) ─────────────
     # Jede Variante hat ihre eigene preset_id; wir räumen genau die auf, die

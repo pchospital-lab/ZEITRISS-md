@@ -1495,6 +1495,13 @@ def _start_openwebui() -> None:
             "--restart", "always",
             "-p", "8080:8080",
             "-v", "open-webui:/app/backend/data",
+            # ENABLE_API_KEYS=true: seit neueren OpenWebUI-Versionen (ab 0.11.x)
+            # ist die API-Key-Erstellung per Default deaktiviert. Ohne dieses
+            # Flag kann der User keinen OpenWebUI-API-Key erzeugen, den der
+            # Launcher aber zwingend braucht, um Preset + Knowledge Base
+            # anzulegen. Muss beim FIRST-Boot gesetzt sein (PersistentConfig
+            # auth.enable_api_keys wird danach in der DB eingefroren).
+            "-e", "ENABLE_API_KEYS=true",
             "ghcr.io/open-webui/open-webui:main",
         ]
         subprocess.run(cmd, check=False)
