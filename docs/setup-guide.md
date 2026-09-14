@@ -942,7 +942,7 @@ ZEITRISS-Gameflow.
 ```bash
 python scripts/setup.py --export           # strukturiert
 python scripts/setup.py --export --flat    # flache Nummerierung
-python scripts/setup.py --export --out DIR # eigener Ausgabe-Ordner
+python scripts/setup.py --export --output DIR # eigener Ausgabe-Ordner
 ```
 
 Macht intern genau das, was der Launcher-Menüpunkt [2] macht.
@@ -950,6 +950,14 @@ Macht intern genau das, was der Launcher-Menüpunkt [2] macht.
 ### Manuelles Setup ohne Script
 
 Wenn ihr das Script nicht nutzen wollt:
+
+**0. OpenWebUI starten** (falls noch nicht läuft):
+
+```bash
+docker run -d --name open-webui -p 127.0.0.1:8080:8080 -v open-webui:/app/backend/data -e ENABLE_API_KEYS=true --restart always ghcr.io/open-webui/open-webui:main
+```
+
+Danach Admin-Account + API-Key anlegen — im Browser (Einstellungen → Konto → API-Keys) oder headless per REST: `POST /api/v1/auths/signup` (erster Account = Admin), dann `POST /api/v1/auths/api_key`.
 
 **1. Knowledge Base** in OpenWebUI anlegen (Name: `ZEITRISS 4.2.6 Regelwerk`).
 19 Wissensmodule aus dem Repo hochladen (welche das sind, bestimmt
@@ -999,6 +1007,10 @@ bewusst im Spiel haben wollt.
 ---
 
 ## Troubleshooting
+
+### "Preset erstellt, aber `/api/models` zeigt es nicht"
+
+`/api/models` listet Presets erst mit aktiver Modell-Connection (LiteLLM/OpenRouter). Das Preset selbst prüfst du direkt: `GET /api/v1/models/model?id=<preset-id>`.
 
 ### "Die SL antwortet, aber Regeln klingen falsch"
 
@@ -1133,6 +1145,7 @@ Ausführlichere LiteLLM-Doku:
 | `--reset-embeddings` | Verwaiste Vektor-Collections löschen vor Rebuild |
 | `--no-verify` | Retrieval-Check überspringen (nicht empfohlen) |
 | `--strict` | Exit-Code 2 bei fehlgeschlagenem Retrieval-Check (CI/CD) |
+| `--no-litellm` | LiteLLM-Schritt nach dem Setup überspringen (Headless-Tests, eigener Proxy) |
 
 ### Umgebungsvariablen
 

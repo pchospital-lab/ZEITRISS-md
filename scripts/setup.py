@@ -2312,44 +2312,38 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     kb_files = discover_knowledge_files(repo, cfg)
     files_manifest = dict(manifest.get("kb_files", {}))  # copy
 
-    # Server-Side-Drift-Check: Hole die tatsächlich in der KB verlinkten File-IDs
-    # und markiere im Manifest alle Enträge, deren `file_id` serverseitig fehlt,
-    # als "verloren" (file_id wird entfernt). Das triggert Re-Upload im
-    # Delta-Check, auch wenn lokal nichts geändert wurde — fängt den Fall ab,
-    # dass jemand in der OpenWebUI-UI manuell eine KB-Datei entfernt hat.
+    # Server-Side-Drift-Check: erkenne KB-Dateien, die laut Manifest "in der KB"
+    # sind, aber serverseitig fehlen, und forciere ihren Re-Upload im Delta-Check
+    # — auch wenn sich der MD5 lokal nicht geändert hat. Fängt manuell in der UI
+    # gelöschte Dateien UND stille Migrations-Verluste ab (z.B. beim
+    # nomic→MiniLM-Reindex: eine Datei fehlte in der KB, --sync übersprang sie
+    # wegen MD5-Match, der Coverage-Check konnte sie nur re-linken, nicht neu
+    # hochladen → Endlos-rot ohne Ausweg).
     #
-    # WICHTIG: OpenWebUI 0.8.x+ gibt bei `GET /knowledge/{id}` das `files`-Feld
-    # regelmäßig als `null` zurück (bekannter Bug, kommentiert auch in run_setup).
-    # In dem Fall dürfen wir **nicht** alle Manifest-Einträge als "lost" markieren,
-    # sonst triggern wir False-Positive-Re-Uploads bei jedem Sync. Deshalb: nur
-    # wenn der Server eine **nicht-leere** Liste liefert, vertrauen wir ihr.
-    server_kb_code, server_kb_data = client.get(f"/api/v1/knowledge/{kb_id}")
-    if server_kb_code == 200 and isinstance(server_kb_data, dict):
-        server_files = server_kb_data.get("files")
-        if isinstance(server_files, list) and server_files:
-            server_file_ids = {
-                f.get("id") for f in server_files if isinstance(f, dict) and f.get("id")
-            }
-            lost = []
-            for name, entry in list(files_manifest.items()):
-                fid = entry.get("file_id") if isinstance(entry, dict) else None
-                if fid and fid not in server_file_ids:
-                    # Manifest sagt "in KB", Server sagt "nein" → Re-Upload forcieren
-                    lost.append(name)
-                    files_manifest.pop(name, None)
-            if lost:
-                print_warn(
-                    f"Server-Drift: {len(lost)} Datei(en) laut Manifest in KB, "
-                    f"aber serverseitig nicht verlinkt — werden neu hochgeladen: "
-                    f"{', '.join(lost)}"
-                )
-        # Falls `server_files is None` oder leer: OWUI-Bug → Server-Drift-Check
-        # stillschweigend überspringen, Manifest bleibt Wahrheit.
-    elif server_kb_code >= 400:
-        print_warn(
-            f"Server-Drift-Check nicht möglich (HTTP {server_kb_code}) — "
-            f"Manifest bleibt Wahrheit."
-        )
+    # WICHTIG: NICHT über `GET /knowledge/{id}.files` bestimmen — OpenWebUI 0.11.x
+    # liefert dieses Feld leer/None (Shape-Wechsel: Files hängen an
+    # /api/v1/files/ mit meta.collection_name). Die Wahrheit steht in list_files()
+    # gefiltert nach collection_name (dieselbe Quelle wie der Coverage-Check).
+    # Nur wenn wir überhaupt KB-Files sehen, vertrauen wir der Liste — sonst
+    # (leere Antwort/Endpoint-Problem) still überspringen, um False-Positive-
+    # Massen-Re-Uploads zu vermeiden.
+    in_kb_names = {
+        str((f.get("meta") or {}).get("name") or f.get("filename") or "")
+        .replace("\\", "/").split("/")[-1]
+        for f in (client.list_files() or [])
+        if isinstance(f, dict) and (f.get("meta") or {}).get("collection_name") == kb_id
+    }
+    in_kb_names.discard("")
+    if in_kb_names:
+        lost = [name for name in list(files_manifest.keys()) if name not in in_kb_names]
+        for name in lost:
+            files_manifest.pop(name, None)
+        if lost:
+            print_warn(
+                f"Server-Drift: {len(lost)} Datei(en) laut Manifest in KB, "
+                f"aber serverseitig nicht vorhanden — werden neu hochgeladen: "
+                f"{', '.join(lost)}"
+            )
 
     print()
     print_info(f"Prüfe {len(kb_files)} KB-Dateien auf Änderungen…")
@@ -2443,8 +2437,17 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # nach manuellem Full-Setup), Namens-Kollision in der globalen Files-Liste
         # prüfen und ggf. entfernen.
         if not old_file_id:
+            # Namens-Kollision NUR innerhalb DIESER KB aufloesen, nicht global.
+            # Bausaetze auf einer geteilten OpenWebUI-Instanz teilen sich
+            # Dateinamen (z.B. kreative-generatoren-begegnungen.md in mehreren
+            # KBs). Ein globaler filename-Match wuerde die gleichnamige Datei
+            # eines ANDEREN Bausatzes mitloeschen (Cross-KB-Datenverlust,
+            # beobachtet 2026-09-14). Deshalb auf meta.collection_name == kb_id
+            # einschraenken.
             same_name = [
-                f for f in client.list_files() if f.get("filename") == fp.name
+                f for f in client.list_files()
+                if f.get("filename") == fp.name
+                and (f.get("meta") or {}).get("collection_name") == kb_id
             ]
             for dup in same_name:
                 dup_id = dup.get("id")
