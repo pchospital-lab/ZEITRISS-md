@@ -15,7 +15,7 @@ from pathlib import Path
 from collections import Counter
 
 API_KEY = os.environ["OPENWEBUI_API_KEY"]
-BASE = "http://127.0.0.1:3000/api/chat/completions"
+BASE = "http://127.0.0.1:8080/api/chat/completions"
 MODEL = "anthropic/claude-sonnet-4.6"
 N_RUNS = 10
 

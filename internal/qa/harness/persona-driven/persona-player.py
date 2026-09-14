@@ -2,7 +2,7 @@
 """
 Persona-Playtest-Harness v1 für ZEITRISS.
 
-SL-Turns: OWUI /api/chat/completions → Preset zeitriss-v426-uncut-cached
+SL-Turns: OWUI /api/chat/completions → Preset zeitriss-v426-uncut
 Persona-Turns: OpenRouter direkt → anthropic/claude-sonnet-4.6
 
 Alle externen Calls: requests.Timeout(10, 180), 3 Retries mit exp. Backoff.
@@ -37,7 +37,7 @@ RUNNING_DIR = HOME / ".openclaw" / "workspace-cloud" / "tmp" / "running"
 RUNNING_DIR.mkdir(parents=True, exist_ok=True)
 
 OWUI_BASE = "http://127.0.0.1:8080"
-OWUI_MODEL = "zeitriss-v426-uncut-cached"
+OWUI_MODEL = "zeitriss-v426-uncut"
 OWUI_ENV_FILE = HOME / ".openwebui_env"
 
 OR_BASE = "https://openrouter.ai/api/v1/chat/completions"

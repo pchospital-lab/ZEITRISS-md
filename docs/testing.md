@@ -45,8 +45,14 @@ Matrix, Preflight-Regeln, Cross-Findings-Mechanik.
   mit Prompt-Cache). `base_model: zeitriss-sonnet` (LiteLLM-Modell-Alias auf
   `127.0.0.1:4000` → OpenRouter → Anthropic Sonnet 4.6).
 - **KB-ID wechselt bei jedem Rebuild** — aktuelle ID steht im Harness-Header
-  des `group-harness.py`. Bei Mismatch: Preflight-Kritiker schlägt an,
-  Harness nicht starten.
+  (`KB_ID`-Konstante). Live-ID am Preset holen:
+  `curl -s "$OPENWEBUI_URL/api/models" -H "Authorization: Bearer $OPENWEBUI_API_KEY" | jq -r '.data[]|select(.id=="zeitriss-v426-uncut").info.meta.knowledge[].id'`.
+  Bei Mismatch: Harness-`KB_ID` nachziehen, nicht starten.
+  **0.11.x-Quirk:** `knowledge.files` / `data.file_ids` sind über die API leer,
+  obwohl die KB gefüllt ist — nicht als „leere KB" fehldeuten. Ground-Truth ist
+  die File↔Collection-Verknüpfung (`file.meta.collection_name`) bzw. die
+  Vektor-Collection (ChromaDB, Dimension 384 = MiniLM). Stand 2026-09-14:
+  KB `9ad88aff` = 19 Files / 1313 Embeddings / 384-dim.
 - **Masterprompt-MD5** gegen Repo-Version prüfen (`meta/masterprompt_v6.md`),
   nie gegen eine Preset-Kopie vertrauen.
 
@@ -91,9 +97,9 @@ python3 episode1-mini.py                 # Solo-Smoke
 | `episode1-mini.py`      | Solo-Smoke (Noob-Persona)             | ~10 Min     | dito (Hinweis: Port 3000 hardcoded)  |
 | `w10-schwelle-probe.py` | W10-Schwellen-Regel-Regression        | ~5 Min      | dito (Hinweis: Port 3000 hardcoded)  |
 
-*Die zwei Port-3000-Scripts sind ein offener Fix, seit OpenWebUI auf 8080
-migriert wurde (0.9.1). Für den Einsatz entsprechend Env anpassen oder
-vorher Script patchen.*
+*Port-Hinweis: `episode1-mini.py` nutzt `OPENWEBUI_URL` (Default 8080),
+`w10-schwelle-probe.py` wurde 2026-09-14 von hardcoded Port 3000 auf 8080
+gezogen. Der frühere Port-3000-Drift (Migration 0.9.1) ist damit erledigt.*
 
 **Begriffe im Guide:**
 
@@ -266,15 +272,21 @@ reporten:
 
 Vor jedem Playtest **> $5 Kosten oder > 40 Turns**:
 
-1. **Preset-Anzahl** in OpenWebUI — Abfrage:
+1. **Preset-Anzahl** in OpenWebUI — Abfrage (ab OWUI 0.11.x; der alte
+   `/api/chat/preset`-Endpoint existiert nicht mehr, CustomAI-Presets liegen
+   unter `/api/models` mit gesetztem `info.base_model_id`):
 
    ```bash
-   curl -s "$OPENWEBUI_URL/api/chat/preset" \
-     -H "Authorization: Bearer $OPENWEBUI_API_KEY" | jq 'length'
+   curl -s "$OPENWEBUI_URL/api/models" \
+     -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
+     | jq '[.data[] | select(.info.base_model_id)] | length'
    ```
 
-   Soll: **5 aktive CustomAI-Presets**. Mehr = Drift-Kandidat
-   (Beispiel: `-cached`-Kopie vom 2026-04-23, aufgelöst am 2026-04-27).
+   Soll (Stand 2026-09-14): **7 aktive CustomAI-Presets** — 5 Bausätze als
+   Mistral-Variante (ARXION, Privacy Odyssey, ACCILOG, SEKRA, ZEITRISS) plus
+   ZEITRISS zusätzlich als `zeitriss-v426-uncut` (Sonnet) und
+   `zeitriss-v426-deepseek` (Budget). Unerwartete Extras = Drift-Kandidat
+   (historisch: `-cached`-Kopie vom 2026-04-23, aufgelöst am 2026-04-27).
 
 2. **MP-MD5** gegen frischen `main`-Pull:
 
@@ -287,7 +299,7 @@ Vor jedem Playtest **> $5 Kosten oder > 40 Turns**:
 
 3. **Preset-`base_model`** ist `zeitriss-sonnet` (LiteLLM-Alias), nicht
    direkt `anthropic/claude-sonnet-4.6` — sonst geht der Cache über
-   OpenRouter verloren. Prüfung im Preset-Payload (`/api/chat/preset`).
+   OpenRouter verloren. Prüfung im Preset-Payload (`/api/models`, Feld `info.base_model_id`).
 
 4. **Single-Turn-Cache-Check** über LiteLLM: Einen Test-Call absetzen,
    dann im Response-JSON `.usage.prompt_tokens_details.cached_tokens`
