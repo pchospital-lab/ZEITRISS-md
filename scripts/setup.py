@@ -1092,7 +1092,7 @@ def _dir_size_human(path: Path) -> str:
 
 # ── Setup mode (OpenWebUI) ─────────────────────────────────────────
 
-DEFAULT_EMBED_ENGINE = "sentence-transformers"
+DEFAULT_EMBED_ENGINE = ""  # OWUI built-in SentenceTransformers/MiniLM = leerer Engine-String (get_ef feuert nur bei engine=="")
 DEFAULT_EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
@@ -1151,8 +1151,8 @@ def _ensure_embedding_engine(
         _apply_and_verify(
             "Default (MiniLM)",
             {
-                "embedding_engine": DEFAULT_EMBED_ENGINE,
-                "embedding_model": DEFAULT_EMBED_MODEL,
+                "RAG_EMBEDDING_ENGINE": DEFAULT_EMBED_ENGINE,
+                "RAG_EMBEDDING_MODEL": DEFAULT_EMBED_MODEL,
             },
             DEFAULT_EMBED_ENGINE,
             DEFAULT_EMBED_MODEL,
@@ -1168,8 +1168,8 @@ def _ensure_embedding_engine(
         _apply_and_verify(
             f"Ollama ({target_model} via {target_url})",
             {
-                "embedding_engine": "ollama",
-                "embedding_model": target_model,
+                "RAG_EMBEDDING_ENGINE": "ollama",
+                "RAG_EMBEDDING_MODEL": target_model,
                 "ollama_config": {"url": target_url, "key": ""},
             },
             "ollama",
