@@ -47,7 +47,7 @@ BASE_URL = os.environ.get("OPENWEBUI_URL", "http://127.0.0.1:8080")
 API_KEY = os.environ.get("OPENWEBUI_API_KEY", "")
 SL_MODEL = "zeitriss-v426-uncut"
 PLAYER_MODEL = "anthropic/claude-sonnet-4.6"
-KB_ID = "a56706c9-e427-4c6c-9dcb-0eb7cea095c0"
+KB_ID = "9ad88aff-f881-4920-9fca-75094294ead8"  # live Preset-KB (ZEITRISS 4.2.6 Regelwerk: 19 Files, 1313 Emb, 384-dim MiniLM; verifiziert 2026-09-14)
 
 PRICE_IN, PRICE_OUT = 3.0, 15.0     # Sonnet-4.6 USD/1M, nur Anzeige
 SL_TEXT_CAP = 16000                 # G2: großzügig (Briefings/Saves sprengen 4k)

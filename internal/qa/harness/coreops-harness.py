@@ -27,8 +27,8 @@ Zwei-KI-Architektur:
   - Spieler: Persona-Sub-Agents (Sonnet 4.6, stateless)
 
 Differenz zu group-harness.py:
-  - Port 8080 (OpenWebUI 0.9.1)
-  - KB `bb266c62...` (22.04. Recovery-Build)
+  - Port 8080 (OpenWebUI 0.11.3)
+  - KB `9ad88aff...` (live Preset-KB, MiniLM-Reindex, verifiziert 2026-09-14)
   - CoreOps-Szenario ohne vordefinierte Mission (frei interpretiert)
   - MP-Usage-Tracking: pro Turn markieren welche Regeln/Abschnitte triggern
   - Timeout-Guards + PID-File
@@ -48,7 +48,7 @@ BASE_URL = os.environ.get("OPENWEBUI_URL", "http://127.0.0.1:8080")
 API_KEY  = os.environ["OPENWEBUI_API_KEY"]
 SL_MODEL = "zeitriss-v426-uncut"
 PLAYER_MODEL = "anthropic/claude-sonnet-4.6"
-KB_ID = "bb266c62-31c4-4fbd-b332-fd991dd8aaba"  # 22.04. Recovery-KB, 19 Files, Canary 4/4
+KB_ID = "9ad88aff-f881-4920-9fca-75094294ead8"  # live Preset-KB (ZEITRISS 4.2.6 Regelwerk: 19 Files, 1313 Emb, 384-dim MiniLM; verifiziert 2026-09-14)
 
 STAMP = time.strftime("%Y-%m-%d")
 # --- Pfade (2026-04-27 Cleanup: env-überschreibbar, Default = neue Workspace-Struktur) ---

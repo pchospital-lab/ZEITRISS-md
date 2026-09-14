@@ -44,7 +44,7 @@ API_KEY = os.environ.get("OPENWEBUI_API_KEY", "")
 
 SL_MODEL = "zeitriss-v426-uncut"                 # OWUI-Preset (Masterprompt)
 PLAYER_MODEL = "anthropic/claude-sonnet-4.6"     # Persona, direkt
-KB_ID = "a56706c9-e427-4c6c-9dcb-0eb7cea095c0"   # live Preset-KB (verifiziert 2026-06-15)
+KB_ID = "9ad88aff-f881-4920-9fca-75094294ead8"  # live Preset-KB (ZEITRISS 4.2.6 Regelwerk: 19 Files, 1313 Emb, 384-dim MiniLM; verifiziert 2026-09-14)
 
 COST_LIMIT_USD = 4.0                              # harter Watchdog-Stop (Solo ist billig)
 # grobe Sonnet-4.6-Preise (USD/1M tok), nur fürs Watchdog-Schätzen:
