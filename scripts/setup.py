@@ -1822,34 +1822,23 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     opts = opts or {}
     project = cfg["project"]
     # Container-Name folgt der Repo-Konvention (docker-compose.litellm.yml:
-    # container_name: litellm-<project>). Aus project abgeleitet, damit
-    # Fehlertexte in jeder Blaupause-Kopie den richtigen Container nennen.
+    # container_name: litellm-<project>). Aus project abgeleitet und via
+    # LITELLM_CONTAINER_NAME in die generierte .env geschrieben — die YAML
+    # templated darauf, damit Fehlertexte UND der echte Container in jeder
+    # Blaupause-Kopie übereinstimmen (siehe .env-Schreibschritt unten).
     litellm_container = f"litellm-{project.lower()}"
     # Routing-Modell früh berechnen: der Cache-Test (Schritt 7) braucht es
     # bereits, nicht erst beim Connection-Rewire (Schritt 8).
     routing_model = _litellm_routing_model_id(repo, cfg)
     # Port aus setup.json (litellm.port), Default 4000. setup.py nutzt ihn für
-    # alle eigenen Calls + die OWUI-Connection-URL. ACHTUNG: docker-compose
-    # bindet den Port selbst — stimmt cfg-Port nicht mit dem Compose-Port
-    # überein, warnen wir unten.
+    # alle eigenen Calls + die OWUI-Connection-URL. Wird zusätzlich als
+    # LITELLM_PORT in die .env geschrieben — docker-compose.litellm.yml
+    # templated ports/--port/Healthcheck darauf, kein manuelles YAML-Edit
+    # mehr nötig (siehe .env-Schreibschritt unten).
     litellm_port = int((cfg.get("litellm") or {}).get("port", 4000))
     litellm_base = f"http://127.0.0.1:{litellm_port}"
 
     print_header(f"{project} — LiteLLM-Proxy einrichten")
-
-    # Compose-Port-Drift-Check (best-effort, kein Auto-Edit).
-    _compose_for_port = repo / "scripts" / "litellm" / "docker-compose.litellm.yml"
-    if litellm_port != 4000 and _compose_for_port.is_file():
-        try:
-            _ctext = _compose_for_port.read_text(encoding="utf-8")
-            if f":{litellm_port}:" not in _ctext and "4000:4000" in _ctext:
-                print_warn(
-                    f"setup.json litellm.port={litellm_port}, aber docker-compose.litellm.yml "
-                    f"bindet noch 4000. Passe dort `ports:` auf "
-                    f"'127.0.0.1:{litellm_port}:{litellm_port}' und `--port {litellm_port}` an."
-                )
-        except OSError:
-            pass
 
     lite_dir = repo / "scripts" / "litellm"
     if not lite_dir.is_dir():
@@ -1932,6 +1921,12 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
         "# Diese Datei enthält Secrets — bitte nicht committen.\n"
         f"OPENROUTER_API_KEY={or_key}\n"
         f"LITELLM_MASTER_KEY={master_key}\n"
+        # Templaten von container_name/ports/--port/Healthcheck in
+        # docker-compose.litellm.yml via Compose-Interpolation
+        # (${VAR:-default}) — macht Blaupause-Forks/Mehr-Instanz-Betrieb
+        # kollisionsfrei, ohne die YAML manuell anzufassen.
+        f"LITELLM_CONTAINER_NAME={litellm_container}\n"
+        f"LITELLM_PORT={litellm_port}\n"
     )
     env_file.write_text(env_content, encoding="utf-8")
     try:
