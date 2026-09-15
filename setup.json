@@ -10,9 +10,16 @@
   "default_model": "anthropic/claude-sonnet-4.6",
   "params": {
     "temperature": 0.8,
-    "top_p": 0.9,
-    "frequency_penalty": 0.3,
     "max_tokens": 64000
+  },
+  "capabilities": {
+    "vision": true,
+    "file_upload": true,
+    "image_generation": false,
+    "code_interpreter": false,
+    "web_search": false,
+    "citations": false,
+    "usage": false
   },
   "suggestions": [
     "Spiel starten (solo klassisch)",
@@ -50,7 +57,8 @@
       "preset_name": "ZEITRISS v4.2.6 Uncut",
       "model": "openrouter/anthropic/claude-sonnet-4.6",
       "litellm_routing": "zeitriss-sonnet",
-      "cache": true
+      "cache": true,
+      "reasoning_effort": "low"
     },
     "deepseek": {
       "preset_id": "zeitriss-v426-deepseek",

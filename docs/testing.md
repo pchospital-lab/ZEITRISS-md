@@ -307,6 +307,25 @@ Vor jedem Playtest **> $5 Kosten oder > 40 Turns**:
    Anthropic-`cache_read_input_tokens` direkt). Erwartung: ab Turn 2
    > 0; bei stabilem Langlauf > 80 % Hit-Rate.
 
+5. **Golden-Setup-Check** (`zeitriss-v426-uncut`, Capabilities +
+   Params im Preset-Payload):
+
+   ```bash
+   curl -s "$OPENWEBUI_URL/api/models" \
+     -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
+     | jq '.data[] | select(.id=="zeitriss-v426-uncut") | {capabilities: .info.meta.capabilities, params: .info.params}'
+   ```
+
+   Soll: `capabilities` = `{vision:true, file_upload:true,
+   image_generation:false, code_interpreter:false, web_search:false,
+   citations:false, usage:false}`; `params.temperature` = `0.8`,
+   `params.max_tokens` = `64000`, `params.reasoning_effort` = `"low"`
+   (nur bei Anthropic-Varianten — `zeitriss-v426-deepseek` hat **keinen**
+   `reasoning_effort`-Key). `top_p`/`frequency_penalty` dürfen **nicht**
+   mehr im Payload stehen. Drift = veraltetes Preset, Fix über
+   `python scripts/setup.py` (ohne `--sync` — siehe
+   [setup-guide.md](setup-guide.md#golden-setup-preset-params--capabilities)).
+
 Fängt Drift-Probleme, die einen $14-Run ruinieren können.
 
 ---
