@@ -700,22 +700,20 @@ Pro lokalem Repo-Clone wird genau ein Manifest geführt. Wer gegen
 mehrere OpenWebUI-Instanzen syncen will (zwei Rechner, zwei Server),
 braucht getrennte Clones.
 
-**⚠️ Warnung für Blaupausen-Forks / parallele Installationen auf demselben
-Host:** `scripts/litellm/docker-compose.litellm.yml` hat `container_name:
-litellm-zeitriss` und den Port `127.0.0.1:4000:4000` **hart kodiert** —
-diese Werte werden **nicht** automatisch aus dem `project`-Feld in
-`setup.json` abgeleitet, obwohl `setup.py` intern einen passenden
-`litellm-<project>`-Namen berechnet (nur für Compose-Projektname und
-Log-/Fehlertexte, nicht für die YAML selbst). Wer dieses Repo forkt
-(README bewirbt das explizit als "Blaupause für eigene Projekte") und in
-`setup.json` ein eigenes `project` oder einen abweichenden `litellm.port`
-setzt, **muss** `scripts/litellm/docker-compose.litellm.yml` manuell
-mitziehen: `container_name`, `ports`, und falls vorhanden `--port`-Arg /
-Healthcheck-URL. Sonst kollidiert der neue Fork beim Start mit jeder
-anderen `litellm-zeitriss`-Installation auf demselben Host (Name- und/oder
-Port-Konflikt). Der eingebaute Port-Drift-Check in `setup.py` warnt nur
-bei abweichendem `litellm.port`, wenn die YAML noch `4000:4000` bindet —
-er deckt **nicht** den Containernamen ab.
+**Blaupausen-Forks / parallele Installationen auf demselben Host:**
+`scripts/litellm/docker-compose.litellm.yml` templated `container_name`,
+`ports`, `--port`-Arg und Healthcheck-URL über Compose-Interpolation
+(`${LITELLM_CONTAINER_NAME:-litellm-zeitriss}` /
+`${LITELLM_PORT:-4000}`). `setup.py --install-litellm` schreibt beide
+Werte automatisch aus `setup.json` (`project`, `litellm.port`) in die
+generierte `scripts/litellm/.env`, die per `--env-file` an
+`docker compose` übergeben wird. Wer dieses Repo forkt (README bewirbt
+das explizit als "Blaupause für eigene Projekte") und in `setup.json`
+ein eigenes `project` oder einen abweichenden `litellm.port` setzt,
+bekommt automatisch einen eindeutigen Container-Namen und Port — **kein
+manuelles Editieren von `docker-compose.litellm.yml` mehr nötig.** Ohne
+gesetzte Env-Vars (z. B. `docker compose ... config` direkt) bleiben die
+Defaults `litellm-zeitriss` / `4000` erhalten.
 
 ---
 

@@ -11,14 +11,14 @@
 services:
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
-    container_name: litellm-zeitriss
+    container_name: ${LITELLM_CONTAINER_NAME:-litellm-zeitriss}
     restart: unless-stopped
 
     # Loopback-only: Der Proxy ist von außen nicht erreichbar, nur vom
     # selben Host (da wo OpenWebUI auch läuft). Das ist Absicht — LiteLLM
     # hat keinen eigenen Auth-Layer über den master_key hinaus.
     ports:
-      - "127.0.0.1:4000:4000"
+      - "127.0.0.1:${LITELLM_PORT:-4000}:${LITELLM_PORT:-4000}"
 
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
@@ -32,7 +32,7 @@ services:
       - "--config"
       - "/app/config.yaml"
       - "--port"
-      - "4000"
+      - "${LITELLM_PORT:-4000}"
       - "--num_workers"
       - "1"
 
@@ -44,7 +44,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          'python3 -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen(''http://127.0.0.1:4000/health/liveness'', timeout=3).status==200 else 1)" || exit 1'
+          'python3 -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen(''http://127.0.0.1:${LITELLM_PORT:-4000}/health/liveness'', timeout=3).status==200 else 1)" || exit 1'
         ]
       interval: 30s
       timeout: 5s
