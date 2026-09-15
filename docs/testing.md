@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS — Testing-Guide (Persona-Playtest)"
-version: 1.1.0
+version: 1.2.0
 tags: [meta]
 ---
 
@@ -330,6 +330,220 @@ Fängt Drift-Probleme, die einen $14-Run ruinieren können.
 
 ---
 
+## Schema F: Manuell nachvollziehbare Szenariomatrix (OWUI-Chat, ohne Harness)
+
+> **Zielgruppe dieses Abschnitts:** ein Agent (oder Mensch) mit **nur
+> Repo-Zugriff**, ohne Altair-Runtime, ohne `internal/qa/harness/`
+> (Python-Orchestrierung, `agent_mp`) — die liegt außerhalb dieses Repos
+> und ist hier bewusst nicht beschrieben. Jedes Szenario unten ist
+> stattdessen **manuell im OWUI-Chat gegen das Preset `zeitriss-v426-uncut`
+> reproduzierbar**: Chat öffnen, Prompts wie beschrieben eintippen, Antwort
+> und `!save`-Output prüfen. Kein Script nötig.
+
+**Vorbedingung für alle Szenarien** (einmalig prüfen, dann für jedes
+Szenario voraussetzen):
+
+- Preset `zeitriss-v426-uncut` existiert und ist per
+  [Preflight-Checkliste](#preflight-checkliste-pflicht-vor-teuren-runs)
+  oben Golden-Setup-konform (Capabilities, Params, `reasoning_effort:
+  low`, KB verlinkt).
+- **Ein Preset für alle Szenarien** — `reasoning_effort: low` ist global
+  am Preset gesetzt, es gibt **keine** Szenario-spezifische Preset-Variante
+  (kein "Low für Solo, High für Gruppe"). Wer testet, wechselt nur den
+  Chat-Inhalt, nie das Preset.
+- Frischer Chat pro Abschnittswechsel (Chargen/HQ/Mission/Debrief), wie im
+  [Gameflow](../core/spieler-handbuch.md#gameflow-chat-wechsel) beschrieben
+  — das ist Spielregel, kein Test-Artefakt.
+
+**Save-Modell (gilt für alle Szenarien unten):** ZEITRISS speichert **pro
+Figur einen eigenständigen, vollständigen v7-Save-Block** (`!save` /
+`!speichern`). Der Leader-Save ist der Anker beim Laden (bestimmt, welche
+Kampagne der neue Chat fortsetzt); alle weiteren Figuren-Saves werden als
+**Join-Import** in denselben Chat eingefügt und spielen dort als Gäste
+weiter, mit pausiertem eigenem Kampagnenstand. Es gibt **keinen**
+Sammel-Merge, der aus 5 Einzel-Saves einen einzigen Gruppen-Save macht —
+im HQ erzeugt `!save` automatisch **je anwesender Figur einen eigenen,
+getrennten JSON-Block**.
+
+### F1 — Solo-Journey (1 Charakter: Chargen → HQ → Mission → Save)
+
+**Vorbedingung:** frischer Chat, keine Vorab-Saves.
+
+**Schritte:**
+
+1. Prompt: `Spiel starten (solo klassisch)`.
+2. Charaktererschaffung bis zum Ende durchspielen (Origin, Attribute,
+   Echo-Talent, Ausrüstung).
+3. Nach Heimkehrbeat: Chargen-Save-Gate abwarten, `!save` eintippen.
+4. **Neuen Chat öffnen**, den JSON-Block aus Schritt 3 einfügen (lädt).
+5. HQ-Briefing abwarten, eine Mission annehmen und bis zum Debrief
+   durchspielen.
+6. Im HQ nach Debrief: `!save`.
+
+**Pass-Kriterien:**
+
+- Schritt 3: Save hat `last_seen.mode: "hq"` (**nicht** `"char-gen"`) —
+  Chargen-Save-Gate-Invariante.
+- Schritt 3 + 6: Save ist valides v7-JSON: `v: 7`, `characters[]` (genau 1
+  Eintrag), `attr{}`, `reputation{}`, `characters[0].wallet` (kein
+  Top-Level-`economy`-Geldfeld), `level_history[]`.
+- Schritt 5: Erstkontakt im HQ-Preamble ist **Mira**, nicht Renier
+  (Mira-vor-Renier-Invariante).
+- Würfelwürfe in der Mission folgen `1W6 + ⌊Attribut/2⌋ + Talent + Gear`
+  (Floor-Division, nicht `/2` ohne Abrundung); Exploding 6 bei W6.
+- HUD erscheint nur bei Gate-Triggern (LP/Stress/PP/SYS-Änderung,
+  Phasenwechsel, Schwellenmeldung), nicht pro Turn.
+
+**Save-Crossing-Check:** Save aus Schritt 3 in einen **komplett neuen**
+Chat einfügen (nicht denselben Chat weiterspielen) — muss ohne
+Nachfragen laden und beim HQ-Briefing fortsetzen. Save aus Schritt 6
+ebenso in einem dritten Chat gegenprüfen.
+
+### F2 — HQ-Runde (Einkauf/Wallet/Ausrüstung)
+
+**Vorbedingung:** ein valider Save aus F1 (Schritt 3 oder 6), frischer Chat.
+
+**Schritte:**
+
+1. Save einfügen (lädt im HQ).
+2. Ausrüstung kaufen/wechseln (Werkstatt-Upgrade oder Cyberware laut
+   Spieler-Handbuch-Abschnitt HQ-Runde).
+3. `!save`.
+
+**Pass-Kriterien:**
+
+- `characters[0].wallet` sinkt um exakt den Kaufpreis, kein negativer
+  Wallet-Wert.
+- Equipment-Einträge im Save folgen dem einheitlichen Format
+  `{name, type, tier}`.
+- Kein `economy`-Geldfeld auf Top-Level — Wallet lebt ausschließlich unter
+  `characters[].wallet`.
+
+**Save-Crossing-Check:** Save aus Schritt 3 in neuem Chat laden — neuer
+Ausrüstungsstand muss übernommen sein, alter Stand aus F1 darf nicht mehr
+auftauchen.
+
+### F3 — Einzelmission (Briefing → Konflikt → Debrief)
+
+**Vorbedingung:** valider HQ-Save (aus F1 oder F2), frischer Chat.
+
+**Schritte:**
+
+1. Save einfügen, Mission annehmen.
+2. Briefing → Infiltration → Konflikt → Exfiltration → Debrief
+   durchspielen (12 Szenen bei Core-Ops).
+3. `!save` im HQ nach Debrief.
+
+**Pass-Kriterien:**
+
+- Core-Mission hat **12 Szenen**, Mini-Boss bei Szene 5, Boss bei Szene 10
+  (Boss-Timing-Invariante).
+- Px-Fortschritt folgt der Px-Tabelle (TEMP-Stufe-abhängige Increments,
+  siehe [AGENTS.md](../AGENTS.md#pflicht-invarianten-nicht-brechen)).
+- Psi-Einsätze zeigen immer **beide** Kosten (PP **und** SYS), nie nur
+  eine.
+- `level_history[]` hat einen neuen Eintrag für die abgeschlossene
+  Mission.
+
+**Save-Crossing-Check:** wie F1/F2 — Save in neuem Chat laden, HQ-Zustand
+muss dem Debrief-Endstand entsprechen.
+
+### F4 — Faithful 5er (Gruppe, getrennte Saves, autonome Mission)
+
+**Vorbedingung:** 5 valide Solo-Saves (aus je einem eigenen F1-Durchlauf,
+oder aus vorhandenen `internal/qa/harness/fixtures/`-Beispielen als
+Referenzformat — nicht als Testdaten dieses Szenarios selbst
+verwenden, sondern nur um das erwartete v7-Schema zu vergleichen).
+
+**Schritte:**
+
+1. Prompt: `Spiel starten (gruppe klassisch)` **oder**: Leader fügt seinen
+   Single-Char-JSON-Save direkt ein (bestimmt die Kampagne).
+2. Die 4 weiteren Spieler fügen nacheinander ihre eigenen Saves als
+   **Join-Import** in denselben Chat ein — sie spielen ab jetzt als Gäste
+   in der Leader-Kampagne, ihr eigener Kampagnenstand pausiert.
+3. SL führt den Merge der 5 Figuren **selbst** durch (kein manueller
+   Merge-Schritt, keine externe Zusammenführung) — Gruppe befindet sich
+   danach gemeinsam im HQ.
+4. Autonome Mission durchspielen (Gruppe agiert gemeinsam durch Briefing →
+   Konflikt → Debrief).
+5. Zurück im HQ: `!save`.
+
+**Pass-Kriterien:**
+
+- Schritt 3: alle 5 Figuren sind in derselben Szene/demselben
+  HQ-Zustand, keine Figur bleibt in ihrem alten Solo-Kontext hängen.
+- Schritt 5: `!save` erzeugt **5 getrennte v7-JSON-Blöcke**, einen pro
+  anwesender Figur — **kein** einzelner "5-in-1"-Sammel-Save.
+- Jeder der 5 Blöcke ist für sich ein vollständiges v7-Save (`v: 7`,
+  `characters[]` mit genau **1** Eintrag — der jeweils eigenen Figur —,
+  `attr{}`, `reputation{}`, `wallet`, `level_history[]`).
+- Persönliche Fortschritte/Erinnerungen reisen je Figur mit; fremde
+  Kampagnenstände, Auszahlungen und einzigartige Beute anderer Figuren
+  werden **nicht** in die eigenen Saves kopiert.
+- Mira-vor-Renier und HUD-Disziplin gelten unverändert wie in F1.
+
+**Save-Crossing-Check:** einen der 5 Einzel-Saves in einem **neuen, leeren**
+Chat laden (ohne die anderen 4) — muss als eigenständiger Solo-Fortsetzung
+funktionieren, mit dem persönlichen Fortschritt aus der Gruppensession,
+aber ohne Abhängigkeit von den anderen 4 Saves.
+
+### F5 — Split/Merge (nur Legacy-Import-Kompatibilität, KEINE Gruppen-Mechanik)
+
+> **Einordnung, wichtig:** Split/Merge (`family_id`, `thread_id`,
+> `team_split`/`team_merge`-Traces, siehe Regressions-Matrix oben) ist
+> **kein** aktiver Gruppen-Spielweg für neue Sessions. Es ist
+> **Kompatibilität für den Import bestehender/älterer Split/Merge-Saves**
+> (z. B. aus vor-F4-Kampagnen oder externen Quellen). Der aktive,
+> empfohlene Gruppen-Weg für neue Sessions ist **F4 (Faithful 5er)** mit
+> getrennten Saves, nicht Split/Merge.
+
+**Vorbedingung:** ein vorhandener Split/Merge-Legacy-Save (`family_id`
+gesetzt) — z. B. aus einer älteren Kampagne oder aus den Referenzformaten
+unter `internal/qa/harness/fixtures/` (nur als Formatreferenz, nicht als
+lebendiger Testweg).
+
+**Schritte:**
+
+1. Legacy-Split-Save in einen Chat importieren.
+2. Prüfen, ob die SL den Import als Legacy-Kontinuität erkennt
+   (`continuity.split.family_id` im geladenen Save wird respektiert, nicht
+   überschrieben).
+3. Weiterspielen bis zu einem Convergence-Punkt (Rejoin), `!save`.
+
+**Pass-Kriterien:**
+
+- Import wird als Legacy-Fall behandelt, nicht als aktiver neuer Split —
+  die SL bietet keinen neuen Split über diesen Mechanismus als
+  Standard-Gruppenweg an.
+- `family_id`/`thread_id`/`expected_threads`/`resolved_threads` bleiben
+  aus dem importierten Save konsistent, kein stiller Reset.
+- Merge-Ergebnis (falls Rejoin gespielt wird): `characters[]`,
+  `characters[].wallet` (Wallets reisen mit, kein Pool-Merge).
+
+**Save-Crossing-Check:** entfällt für reine Import-Prüfung (Legacy-Save
+wird nicht durch dieses Szenario neu erzeugt, nur gelesen/fortgesetzt).
+
+### DEFERRED (noch nicht getestet, nicht Teil dieser Matrix)
+
+Folgende Modi sind **nicht** Teil der oben abgedeckten Szenarien und
+wurden im Rahmen dieser Doku-Erweiterung **nicht** verifiziert:
+
+- **PvP** (Arena-Match-Mechanik als kompetitiver Modus)
+- **Rift-2/3** (Rift-Ops Stage 2 und 3, jenseits der in F1-F5 geprüften
+  Core-Ops)
+- **Chronopolis-Raid**
+- **Arena** (allgemein, über den in F5 genannten Legacy-Kontext hinaus)
+
+Wer diese Modi testet, sollte einen eigenen Schema-F-Nachtrag mit
+derselben Struktur (Vorbedingung · Schritte · Pass-Kriterien ·
+Save-Crossing-Check) ergänzen, statt Annahmen aus F1-F5 zu übertragen —
+die Timing-/Save-Invarianten dieser Modi sind an anderer Stelle in der
+Regressions-Matrix (P1-2, P1-3, P2-1 oben) nur teilweise abgedeckt und
+nicht Gegenstand dieses Abschnitts.
+
+---
+
 ## Cross-Findings: ZEITRISS als Leitmotiv
 
 Wenn bei einem ZEITRISS-Playtest etwas auffällt, das **strukturell oder
@@ -427,3 +641,8 @@ Sonst landet ein Bug im Playtest, der eigentlich schon in der CI auffällt.
   wurde, dass der Persona-basierte Workflow wiederholt genug läuft, um eine
   kanonische Anleitung zu rechtfertigen. Ergänzt den manuellen Tester-Briefing
   um den Agent-automatisierten Pfad.
+- **2026-09-16** — Abschnitt "Schema F" ergänzt: manuell im OWUI-Chat
+  nachvollziehbare Szenariomatrix (Solo-Journey, HQ-Runde, Einzelmission,
+  Faithful 5er, Split/Merge als Legacy-Import-Kompatibilität, DEFERRED-Liste)
+  für Agenten mit reinem Repo-Zugriff, ohne den privaten
+  `internal/qa/harness/`-Python-Orchestrator vorauszusetzen.

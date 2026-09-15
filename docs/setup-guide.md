@@ -700,6 +700,23 @@ Pro lokalem Repo-Clone wird genau ein Manifest geführt. Wer gegen
 mehrere OpenWebUI-Instanzen syncen will (zwei Rechner, zwei Server),
 braucht getrennte Clones.
 
+**⚠️ Warnung für Blaupausen-Forks / parallele Installationen auf demselben
+Host:** `scripts/litellm/docker-compose.litellm.yml` hat `container_name:
+litellm-zeitriss` und den Port `127.0.0.1:4000:4000` **hart kodiert** —
+diese Werte werden **nicht** automatisch aus dem `project`-Feld in
+`setup.json` abgeleitet, obwohl `setup.py` intern einen passenden
+`litellm-<project>`-Namen berechnet (nur für Compose-Projektname und
+Log-/Fehlertexte, nicht für die YAML selbst). Wer dieses Repo forkt
+(README bewirbt das explizit als "Blaupause für eigene Projekte") und in
+`setup.json` ein eigenes `project` oder einen abweichenden `litellm.port`
+setzt, **muss** `scripts/litellm/docker-compose.litellm.yml` manuell
+mitziehen: `container_name`, `ports`, und falls vorhanden `--port`-Arg /
+Healthcheck-URL. Sonst kollidiert der neue Fork beim Start mit jeder
+anderen `litellm-zeitriss`-Installation auf demselben Host (Name- und/oder
+Port-Konflikt). Der eingebaute Port-Drift-Check in `setup.py` warnt nur
+bei abweichendem `litellm.port`, wenn die YAML noch `4000:4000` bindet —
+er deckt **nicht** den Containernamen ab.
+
 ---
 
 ## Weiterführendes: Gruppenspiel, Ollama, portabler Export
@@ -985,16 +1002,19 @@ bewusst im Spiel haben wollt.
 - System-Prompt: Inhalt von `meta/masterprompt_v6.md` komplett einfügen
   (**nicht** in den Wissensspeicher!)
 - Wissensbasis: `ZEITRISS 4.2.6 Regelwerk` verknüpfen
-- Capabilities: Vision und Usage **aus**
+- Capabilities: **Vision und File-Upload an**, Rest (Image-Generation,
+  Code-Interpreter, Web-Search, Citations, Usage) **aus** — siehe
+  [Golden Setup](#golden-setup-preset-params--capabilities) unten, das ist
+  hier keine Sonderregel, sondern derselbe Stand wie im Launcher-Pfad.
 
-**3. Parameter**:
+**3. Parameter** (identisch zum Golden Setup, siehe unten — **kein**
+`Top-P`/`Frequency Penalty` mehr setzen, beide Keys komplett weglassen):
 
 | Parameter | Wert |
 | --- | --- |
 | Temperature | 0.8 |
-| Top-P | 0.9 |
-| Frequency Penalty | 0.3 |
 | Max Tokens | 64000 |
+| Reasoning Effort | `low` (nur bei Anthropic-Sonnet-Varianten) |
 
 **4. Spielen**: Neuer Chat → Preset wählen → `Spiel starten (solo klassisch)`.
 
@@ -1146,6 +1166,38 @@ Ausführlichere LiteLLM-Doku:
 | `--no-verify` | Retrieval-Check überspringen (nicht empfohlen) |
 | `--strict` | Exit-Code 2 bei fehlgeschlagenem Retrieval-Check (CI/CD) |
 | `--no-litellm` | LiteLLM-Schritt nach dem Setup überspringen (Headless-Tests, eigener Proxy) |
+| `--variant VARIANT` | Nur diese eine Variante (Preset) anlegen/syncen. Default ohne Flag: `default_variant` aus `setup.json` |
+| `--all-variants` | Alle in `setup.json` definierten Varianten anlegen/syncen (KB einmal, N Presets) |
+| `--list` | Zeigt, welche Varianten-Presets + die geteilte KB aktuell in OpenWebUI liegen (read-only) |
+| `--delete VARIANT` | Löscht das Preset dieser Variante in OpenWebUI. KB bleibt (außer `--delete-kb`) |
+| `--delete-kb` | ⚠️ **Destruktiv, nur mit `--delete`:** löscht zusätzlich die geteilte Knowledge Base — nur wenn keine andere Variante sie noch braucht. Betrifft die für **alle** Varianten geteilte KB, nicht nur die gelöschte |
+| `--add-variant` | Interaktiver Assistent: neue Variante (Preset) aus Modell-Katalog oder freier ID anlegen |
+
+### Mehrere Varianten/Presets verwalten
+
+ZEITRISS kann mehrere Presets (Varianten, z. B. `sonnet`/`deepseek`) parallel
+in derselben OpenWebUI-Instanz pflegen — alle Varianten teilen sich eine
+Knowledge Base, jede hat ihr eigenes Preset mit eigenem Base-Modell.
+`setup.json` definiert die Varianten und welche `default_variant` ohne
+`--variant`-Flag gebaut wird.
+
+```bash
+python scripts/setup.py --list                    # Ist-Zustand read-only prüfen
+python scripts/setup.py --variant deepseek         # nur diese eine Variante bauen/syncen
+python scripts/setup.py --all-variants             # alle Varianten in einem Lauf
+python scripts/setup.py --add-variant              # interaktiv neue Variante anlegen
+python scripts/setup.py --delete deepseek          # Preset dieser Variante löschen, KB bleibt
+```
+
+**⚠️ Warnung zu `--delete --delete-kb`:** `--delete-kb` löscht die
+**geteilte** Knowledge Base, nicht eine variantenspezifische Kopie. Prüft
+vorher mit `--list`, ob noch andere Varianten dieselbe KB nutzen — sonst
+verlieren alle Presets gleichzeitig ihre Wissensbasis.
+
+Das ist unabhängig vom [Multi-Install](#multi-install)-Szenario weiter
+unten: Varianten sind mehrere Presets **in derselben** OpenWebUI-Instanz,
+Multi-Install ist ein **eigener** Repo-Clone gegen eine **andere**
+OpenWebUI-Instanz.
 
 ### Umgebungsvariablen
 
