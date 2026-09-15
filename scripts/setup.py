@@ -39,6 +39,28 @@ from pathlib import Path
 from typing import Any, Optional
 
 
+# Golden preset defaults — live-verified 2026-09 against OpenWebUI chat UI.
+# Fallback only: setup.json's own `capabilities` block (if present) wins.
+GOLDEN_CAPABILITIES = {
+    "vision": True,
+    "file_upload": True,
+    "image_generation": False,
+    "code_interpreter": False,
+    "web_search": False,
+    "citations": False,
+    "usage": False,
+}
+
+
+def is_anthropic_model(model: str) -> bool:
+    """True if the model id references an Anthropic model (any provider prefix).
+
+    `reasoning_effort` is an Anthropic-specific param — forcing it onto
+    OpenRouter models like DeepSeek or Mistral breaks those variants.
+    """
+    return "anthropic" in model.lower()
+
+
 # ── Helpers ─────────────────────────────────────────────────────────
 
 def find_repo_root() -> Path:
@@ -185,6 +207,34 @@ def variant_base_model(repo: Path, cfg: dict, variant_key: str) -> str:
     if model.startswith("openrouter/"):
         model = model[len("openrouter/"):]
     return model
+
+
+def variant_capabilities(cfg: dict, variant_key: str) -> dict:
+    """Effective capabilities dict for a variant.
+
+    Precedence: per-variant override > setup.json-level `capabilities` >
+    GOLDEN_CAPABILITIES fallback. Same dict for Create and Update since both
+    paths build the payload from this one function.
+    """
+    v = cfg["variants"][variant_key]
+    return v.get("capabilities", cfg.get("capabilities", GOLDEN_CAPABILITIES))
+
+
+def variant_reasoning_effort(cfg: dict, variant_key: str) -> Optional[str]:
+    """Effective `reasoning_effort` for a variant, or None to omit it entirely.
+
+    Precedence: per-variant override > setup.json-level default > "low" for
+    Anthropic models. Returns None for non-Anthropic models (DeepSeek,
+    Mistral, ...) so the param is never forced onto them.
+    """
+    v = cfg["variants"][variant_key]
+    if "reasoning_effort" in v:
+        return v["reasoning_effort"]
+    if "reasoning_effort" in cfg:
+        return cfg["reasoning_effort"]
+    if is_anthropic_model(v["model"]):
+        return "low"
+    return None
 
 
 # ── Knowledge file discovery ────────────────────────────────────────
@@ -1034,8 +1084,6 @@ def _write_setup_readme(
         "## Parameter (falls einstellbar)",
         "",
         f"- Temperature: {params.get('temperature', 0.8)}",
-        f"- Top-P: {params.get('top_p', 0.9)}",
-        f"- Frequency Penalty: {params.get('frequency_penalty', 0.3)}",
         f"- Max Tokens: {params.get('max_tokens', 64000)}",
         "",
         "> ⚠️ **Kalibriert wird ausschließlich gegen das Komplett-Setup in",
@@ -2959,6 +3007,14 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     for vk in variant_keys:
         v = cfg["variants"][vk]
         v_base_model = variant_base_model(repo, cfg, vk)
+        v_reasoning_effort = variant_reasoning_effort(cfg, vk)
+        v_params = {
+            "system": system_prompt,
+            "temperature": params.get("temperature", 0.8),
+            "max_tokens": params.get("max_tokens", 64000),
+        }
+        if v_reasoning_effort:
+            v_params["reasoning_effort"] = v_reasoning_effort
         payload = {
             "id": v["preset_id"],
             "name": v["preset_name"],
@@ -2966,7 +3022,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             "meta": {
                 "description": v.get("preset_description", cfg.get("preset_description", "")),
                 "profile_image_url": profile_image_url,
-                "capabilities": None,
+                "capabilities": variant_capabilities(cfg, vk),
                 # OpenWebUI 0.9.1+ needs type='collection' to trigger KB retrieval in chat.
                 # Without it, middleware.py line ~2334 falls through the `else` branch
                 # and the KB reference never hits the retrieval pipeline.
@@ -2975,13 +3031,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 ],
                 "suggestion_prompts": suggestions,
             },
-            "params": {
-                "system": system_prompt,
-                "temperature": params.get("temperature", 0.8),
-                "top_p": params.get("top_p", 0.9),
-                "frequency_penalty": params.get("frequency_penalty", 0.3),
-                "max_tokens": params.get("max_tokens", 64000),
-            },
+            "params": v_params,
         }
         success, action = client.upsert_model(payload)
         if success:
@@ -3041,12 +3091,13 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     )
     print(f"  Presets:       {len(created_presets)} (geteilte Knowledge Base)")
     for vk, v_base in created_presets:
-        print(f"    • {cfg['variants'][vk]['preset_name']}  [{vk}]  →  {v_base}")
+        reff = variant_reasoning_effort(cfg, vk)
+        reff_label = f", reasoning_effort={reff}" if reff else ""
+        print(f"    • {cfg['variants'][vk]['preset_name']}  [{vk}]  →  {v_base}{reff_label}")
     print(f"  Knowledge:     {len(kb_files)} Dateien")
     print(f"  Temperature:   {params.get('temperature', 0.8)}")
-    print(f"  Top-P:         {params.get('top_p', 0.9)}")
-    print(f"  Freq-Penalty:  {params.get('frequency_penalty', 0.3)}")
     print(f"  Max Tokens:    {params.get('max_tokens', 64000)}")
+    print(f"  Capabilities:  vision+file_upload an; image_generation/code_interpreter/web_search/citations/usage aus")
     print()
 
     # HARTER Abbruch bei fehlenden Wissensdateien VOR der Spielstart-Anleitung:

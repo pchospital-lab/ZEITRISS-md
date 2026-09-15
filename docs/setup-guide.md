@@ -1202,29 +1202,49 @@ Historischer Vergleich (GLM-Familie, DeepSeek) aus dem Playtest vom
 wird aber nicht mehr gepflegt. Budget-Modelle können atmosphärisch
 erzählen, erfinden aber eigene Würfelsysteme, wenn man sie lässt.
 
-### Modell-Parameter-Profile
+### Golden Setup (Preset-Params + Capabilities)
 
-`setup.json` transportiert die Preset-Parameter (`temperature`, `top_p`,
-`frequency_penalty`, `max_tokens`). Die gelieferten Werte sind auf
+`setup.json` transportiert die Preset-Parameter (`temperature`, `max_tokens`)
+und — pro Variante — `reasoning_effort`. Die gelieferten Werte sind auf
 **Sonnet 4.6 via LiteLLM/OpenWebUI** kalibriert - also auf den Referenz-Stack,
 auf dem das Regelwerk getestet wurde. Wer den getesteten Weg fährt, muss
-hier **nichts** anpassen.
+hier **nichts** anpassen. `scripts/setup.py` setzt sie identisch bei
+**Install und Update** (`upsert_model` baut denselben Payload für Create UND
+Update).
 
-Die folgenden Profile sind Starthilfen für **nicht-kalibrierte Stacks**,
-wenn jemand das Preset in einer anderen Plattform oder mit einem anderen
-Modell betreibt. Anpassung über OpenWebUI → Preset → _Advanced Params_
-(Script nicht erneut laufen lassen). Ohne Gewähr, kein Hilfeversprechen:
+**Golden-Werte (live verifiziert):**
 
-| Profil | Wofür | `frequency_penalty` | `max_tokens` | Begründung |
-| --- | --- | --- | --- | --- |
-| **sonnet_46_dev (Default, getestet)** | Sonnet 4.6 + LiteLLM | `0.3` | `64000` | Ausbalanciert, Ausgaben atmosphärisch, lange Szenen möglich |
-| **portable_default** (ungetestet) | andere Provider / striktere Output-Limits | `0.1` | `8000`-`16000` | Regel-Terminologie stabiler, kleine Output-Caps |
-| **rules_strict** (ungetestet) | Regel-Tests, Gates | `0.0` | `8000` | Maximale Terminologiekonsistenz, kein Drift bei wiederholten Begriffen |
+- `temperature`: `0.8`
+- `max_tokens`: `64000`
+- `reasoning_effort`: `low` — **nur für Anthropic-Varianten** (`sonnet`).
+  Bei OpenRouter-Varianten ohne Anthropic-Backend (DeepSeek, Mistral, ...)
+  wird der Key komplett weggelassen, nicht auf einen Fallback-Wert gesetzt.
+- `top_p` / `frequency_penalty` werden **nicht mehr gesetzt** (früher `0.9`
+  / `0.3`) — beide Keys sind aus Payload und `setup.json` entfernt.
 
-**Faustregel:** `frequency_penalty` > 0.3 lass - zerstreut Regelterme
-(`SaveGuard`, `SG`, `PP`, `Px`). `max_tokens` > 32000 nur auf Stacks, die das
-echte Output-Budget wirklich liefern; OpenRouter/LiteLLM reichen praktisch
-~16k effektiv durch.
+**Capabilities-Checkliste** (`meta.capabilities` im Preset-Payload):
+
+| Capability | Soll |
+| --- | :---: |
+| `vision` | ✅ an |
+| `file_upload` | ✅ an |
+| `image_generation` | ❌ aus |
+| `code_interpreter` | ❌ aus |
+| `web_search` | ❌ aus |
+| `citations` | ❌ aus |
+| `usage` | ❌ aus |
+
+Vorher stand `capabilities: null` im Payload (OpenWebUI-Default, undefiniert
+und instabil zwischen Versionen). Der Golden-Block in `setup.json` (Top-Level
+`capabilities`, optional pro Variante überschreibbar) macht das Verhalten
+deterministisch und wird bei jedem `python scripts/setup.py`-Lauf gesetzt —
+egal ob das Preset dabei neu angelegt (Create) oder bereits existiert
+(Update); `upsert_model` baut in beiden Fällen denselben Payload.
+**Ausnahme:** `--sync` (inkrementeller Modus) patcht ausschließlich
+`params.system` (Masterprompt-Text) am bestehenden Remote-Preset und lässt
+Capabilities/übrige Params unangetastet — für eine Golden-Setup-Korrektur an
+einem bereits laufenden Preset ist ein normaler `setup.py`-Lauf (ohne
+`--sync`) nötig.
 
 ### Sicherheit
 
