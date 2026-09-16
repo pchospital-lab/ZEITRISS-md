@@ -647,11 +647,17 @@ class APIClient:
             return code == 200, "created"
 
     def delete_model(self, model_id: str) -> tuple[bool, bool]:
-        """Delete a model preset by id. Returns (existed, ok)."""
-        code, _ = self.delete(f"/api/v1/models/model/delete?id={model_id}")
+        """Delete a model preset by id. Returns (existed, ok).
+
+        OWUI 0.11.x: Model-Delete ist POST auf /models/model/delete mit
+        JSON-Body {"id": ...}; das alte DELETE ?id= liefert 405. Ein
+        nicht-existentes Modell antwortet 404/401 — für die
+        delete-if-exists-Semantik kein Fehler.
+        """
+        code, _ = self.post_json("/api/v1/models/model/delete", {"id": model_id})
         if code == 200:
             return True, True
-        if code == 404:
+        if code in (404, 401):
             return False, True
         return False, False
 
