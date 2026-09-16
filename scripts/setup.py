@@ -23,6 +23,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shutil
 import ssl
 import subprocess
@@ -59,6 +60,20 @@ def is_anthropic_model(model: str) -> bool:
     OpenRouter models like DeepSeek or Mistral breaks those variants.
     """
     return "anthropic" in model.lower()
+
+
+def _docker_slug(s: str) -> str:
+    """Docker-taugliches Slug aus einem Projektnamen ableiten.
+
+    Docker-Ressourcennamen (Container, Compose-Projekt) erlauben nur
+    `[a-z0-9_-]`. Projektnamen mit Leerzeichen/Sonderzeichen (z.B.
+    "Privacy Odyssey") erzeugen sonst ungültige Namen wie
+    "litellm-privacy odyssey". Alles außerhalb der erlaubten Zeichen wird
+    zu einem `-` zusammengefasst, führende/trailing `-` werden entfernt.
+    Für einwortige Namen (z.B. "ZEITRISS") ist das Ergebnis identisch zum
+    bisherigen `.lower()` — idempotent.
+    """
+    return re.sub(r"[^a-z0-9_-]+", "-", s.lower()).strip("-")
 
 
 # ── Helpers ─────────────────────────────────────────────────────────
@@ -1826,7 +1841,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     # LITELLM_CONTAINER_NAME in die generierte .env geschrieben — die YAML
     # templated darauf, damit Fehlertexte UND der echte Container in jeder
     # Blaupause-Kopie übereinstimmen (siehe .env-Schreibschritt unten).
-    litellm_container = f"litellm-{project.lower()}"
+    litellm_container = f"litellm-{_docker_slug(project)}"
     # Routing-Modell früh berechnen: der Cache-Test (Schritt 7) braucht es
     # bereits, nicht erst beim Connection-Rewire (Schritt 8).
     routing_model = _litellm_routing_model_id(repo, cfg)
@@ -2202,7 +2217,12 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Incremental sync mode: update only what changed since last setup/sync.
 
     Compares local files (via MD5) against the persisted manifest, then:
-    - Pushes the Masterprompt via PATCH on `params.system` if it changed.
+    - Patcht je betroffener Variante das komplette Preset (params.system =
+      Masterprompt, params aus cfg["params"] + reasoning_effort,
+      meta.capabilities) in-place gegen den gewünschten Zustand aus
+      setup.json — idempotent, ein 2. Lauf ohne lokale Änderungen patcht 0
+      Presets. Alles andere in meta (KB-Link, profile_image_url,
+      description, suggestion_prompts) bleibt unangetastet.
     - Uploads changed KB files, links them, unlinks+deletes the old entries.
     - Leaves untouched files alone — no embedding rebuild, no preset destroy.
 
@@ -2260,7 +2280,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print_ok(f"Preset gefunden: {preset.get('name', preset_id)} (Variante '{primary_vk}')")
     if len(sync_variant_keys) > 1:
         print_info(
-            f"Masterprompt-Patch geht an {len(sync_variant_keys)} Varianten: "
+            f"Preset-Sync geht an {len(sync_variant_keys)} Varianten: "
             f"{', '.join(sync_variant_keys)} (KB-Delta nur einmal — geteilte KB)."
         )
 
@@ -2278,6 +2298,12 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         )
         sys.exit(1)
     print_ok(f"Knowledge Base verknüpft: {kb_id}")
+
+    # Die KB ist über alle Varianten GETEILT. Das komplette knowledge-Objekt des
+    # Primär-Presets (nicht nur die id) wird unten in JEDE Varianten-Preset-meta
+    # gespiegelt, damit auch Nebenvarianten (z.B. Budget-Modell) dieselbe KB
+    # retrieven — sonst hängt ein Variant-Preset ohne RAG in der Luft.
+    shared_knowledge = (preset.get("meta") or {}).get("knowledge") or []
 
     manifest = _load_sync_manifest(repo)
     if not manifest:
@@ -2300,53 +2326,82 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     )
     mp_md5_last = manifest.get("masterprompt_md5", "")
 
-    if mp_md5_local == mp_md5_remote and len(sync_variant_keys) == 1:
+    if mp_md5_local == mp_md5_remote:
         print_ok(f"Masterprompt synchron (MD5 {mp_md5_local[:8]}).")
     else:
-        if mp_md5_local != mp_md5_remote:
-            print_info(
-                f"Masterprompt-Drift: lokal {mp_md5_local[:8]} vs. OpenWebUI {mp_md5_remote[:8]} "
-                f"(zuletzt gesynct: {mp_md5_last[:8] or '—'}). Patche Preset(s)…"
+        print_info(
+            f"Masterprompt-Drift: lokal {mp_md5_local[:8]} vs. OpenWebUI {mp_md5_remote[:8]} "
+            f"(zuletzt gesynct: {mp_md5_last[:8] or '—'})."
+        )
+
+    # Preset-Sync läuft für JEDE betroffene Variante — unabhängig davon, ob
+    # oben Masterprompt-Drift erkannt wurde. Der obige MD5-Vergleich betrifft
+    # nur das primäre Preset und ist rein informativ; er darf den Sync von
+    # Capabilities/Params NICHT überspringen, sonst kommen Params/Caps nie an,
+    # solange der Masterprompt zufällig schon synchron ist.
+    #
+    # Golden-Zustand je Variante = Masterprompt (geteilt, params.system) +
+    # cfg["params"] (temperature, max_tokens, …) + reasoning_effort (nur wenn
+    # variant_reasoning_effort() nicht None liefert) + variant_capabilities().
+    # Remote-params werden NICHT übernommen — dadurch fallen veraltete Keys
+    # (z.B. top_p, frequency_penalty aus älteren Preset-Ständen) beim Sync weg,
+    # statt für immer stehen zu bleiben. meta wird sonst vollständig vom
+    # Remote-Preset übernommen (KB-Link, profile_image_url, description,
+    # suggestion_prompts) — nur meta.capabilities wird ersetzt.
+    #
+    # Minimal-Payload (NICHT das komplette GET-Dict) — strengere OWUI-
+    # Versionen lehnen user_id/created_at/access_grants mit 422 ab.
+    for vk in sync_variant_keys:
+        v_pid = cfg["variants"][vk]["preset_id"]
+        v_preset = preset if v_pid == preset_id else client.get_model(v_pid)
+        if v_preset is None:
+            print_warn(f"Variante '{vk}': Preset '{v_pid}' nicht gefunden — übersprungen.")
+            continue
+
+        remote_meta = dict(v_preset.get("meta") or {})
+        remote_params = dict(v_preset.get("params") or {})
+
+        desired_params = dict(cfg.get("params", {}))
+        desired_params["system"] = mp_text
+        reff = variant_reasoning_effort(cfg, vk)
+        if reff is not None:
+            desired_params["reasoning_effort"] = reff
+        else:
+            # Nicht-Anthropic-Varianten dürfen den Key nicht tragen — sonst
+            # bleibt er von einem früheren (falschen) Sync-Stand stehen.
+            desired_params.pop("reasoning_effort", None)
+
+        desired_caps = variant_capabilities(cfg, vk)
+        desired_meta = dict(remote_meta)
+        desired_meta["capabilities"] = desired_caps
+        # Geteilte KB an jede Variante spiegeln (idempotent — nur wenn vorhanden).
+        if shared_knowledge:
+            desired_meta["knowledge"] = shared_knowledge
+
+        if remote_params == desired_params and remote_meta == desired_meta:
+            print_ok(f"Variante '{vk}': Preset bereits synchron (Masterprompt+Params+Caps+KB).")
+            continue
+
+        payload = {
+            "id": v_preset.get("id") or v_pid,
+            "name": v_preset.get("name") or cfg["variants"][vk]["preset_name"],
+            "base_model_id": v_preset.get("base_model_id"),
+            "meta": desired_meta,
+            "params": desired_params,
+        }
+        if not payload["base_model_id"]:
+            print_error(
+                f"Variante '{vk}': Preset hat kein `base_model_id` — vermutlich "
+                f"inkonsistenter Zustand. Bitte `python scripts/setup.py --variant {vk}` "
+                f"(Full-Rebuild) laufen lassen."
             )
-        # Masterprompt in JEDES betroffene Varianten-Preset patchen. Der
-        # Masterprompt ist für alle Varianten identisch (geteilt) — wir holen
-        # je Preset das aktuelle meta/params, um base_model_id + KB-Link zu
-        # erhalten, und ersetzen nur params.system.
-        # Minimal-Payload (NICHT das komplette GET-Dict) — strengere OWUI-
-        # Versionen lehnen user_id/created_at/access_grants mit 422 ab.
-        for vk in sync_variant_keys:
-            v_pid = cfg["variants"][vk]["preset_id"]
-            v_preset = preset if v_pid == preset_id else client.get_model(v_pid)
-            if v_preset is None:
-                print_warn(f"Variante '{vk}': Preset '{v_pid}' nicht gefunden — übersprungen.")
-                continue
-            v_remote_md5 = _text_md5((v_preset.get("params") or {}).get("system", "") or "")
-            if v_remote_md5 == mp_md5_local:
-                print_ok(f"Variante '{vk}': Masterprompt bereits synchron.")
-                continue
-            preset_meta = dict(v_preset.get("meta") or {})
-            preset_params = dict(v_preset.get("params") or {})
-            preset_params["system"] = mp_text
-            payload = {
-                "id": v_preset.get("id") or v_pid,
-                "name": v_preset.get("name") or cfg["variants"][vk]["preset_name"],
-                "base_model_id": v_preset.get("base_model_id"),
-                "meta": preset_meta,
-                "params": preset_params,
-            }
-            if not payload["base_model_id"]:
-                print_error(
-                    f"Variante '{vk}': Preset hat kein `base_model_id` — vermutlich "
-                    f"inkonsistenter Zustand. Bitte `python scripts/setup.py --variant {vk}` "
-                    f"(Full-Rebuild) laufen lassen."
-                )
-                sys.exit(1)
-            success, action = client.upsert_model(payload)
-            if success:
-                print_ok(f"Variante '{vk}': Masterprompt gepatcht (Preset {action}).")
-            else:
-                print_error(f"Variante '{vk}': Masterprompt-Patch fehlgeschlagen — Sync abgebrochen.")
-                sys.exit(1)
+            sys.exit(1)
+        success, action = client.upsert_model(payload)
+        if success:
+            print_ok(f"Variante '{vk}': Preset gepatcht (Masterprompt+Params+Caps+KB, Preset {action}).")
+        else:
+            print_error(f"Variante '{vk}': Preset-Patch fehlgeschlagen — Sync abgebrochen.")
+            sys.exit(1)
 
     manifest["masterprompt_md5"] = mp_md5_local
     manifest["masterprompt_path"] = cfg["masterprompt"]
@@ -2704,7 +2759,7 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             if compose.exists() and shutil.which("docker"):
                 # `-p` muss dem `up`-Projektnamen entsprechen (litellm-<project>),
                 # sonst findet `down` den falschen/keinen Stack. Siehe up-Schritt.
-                _proj = f"litellm-{cfg['project'].lower()}"
+                _proj = f"litellm-{_docker_slug(cfg['project'])}"
                 subprocess.run(
                     ["docker", "compose", "-p", _proj, "-f", str(compose), "down"],
                     capture_output=True, text=True, timeout=30,
