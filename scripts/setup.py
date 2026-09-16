@@ -67,11 +67,11 @@ def _docker_slug(s: str) -> str:
 
     Docker-Ressourcennamen (Container, Compose-Projekt) erlauben nur
     `[a-z0-9_-]`. Projektnamen mit Leerzeichen/Sonderzeichen (z.B.
-    "Privacy Odyssey") erzeugen sonst ungültige Namen wie
-    "litellm-privacy odyssey". Alles außerhalb der erlaubten Zeichen wird
+    "Mein Projekt") erzeugen sonst ungültige Namen wie
+    "litellm-mein projekt". Alles außerhalb der erlaubten Zeichen wird
     zu einem `-` zusammengefasst, führende/trailing `-` werden entfernt.
-    Für einwortige Namen (z.B. "ZEITRISS") ist das Ergebnis identisch zum
-    bisherigen `.lower()` — idempotent.
+    Für einwortige Namen ist das Ergebnis identisch zum bisherigen
+    `.lower()` — idempotent.
     """
     return re.sub(r"[^a-z0-9_-]+", "-", s.lower()).strip("-")
 

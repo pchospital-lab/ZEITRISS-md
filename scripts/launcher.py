@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 """Generischer Plattform-unabhängiger Setup-Launcher für OpenWebUI-Bausätze.
 
-EIN Launcher-Core für alle Bausätze (ZEITRISS, ARXION, ACCILOG, Privacy
-Odyssey, SEKRA). Projekt-Identität (Name, Tagline, „Starten"-Wording,
-Begrüßung) kommt aus dem optionalen `launcher`-Block in setup.json — der
-Code selbst ist projekt-agnostisch und in allen Repos byte-identisch.
+EIN Launcher-Core für beliebige OpenWebUI-Bausätze. Projekt-Identität
+(Name, Tagline, „Starten"-Wording, Begrüßung) kommt aus dem optionalen
+`launcher`-Block in setup.json — der Code selbst ist projekt-agnostisch
+und in allen Repos byte-identisch.
 
 Menü-Launcher für Windows / macOS / Linux. Ein Script, ein Menü:
 
     [1] Komplett-Setup in OpenWebUI (empfohlen)
-    [L] Lore-Setup — nur wenn scripts/rite.py existiert (z.B. ZEITRISS)
+    [L] Lore-Setup — nur wenn scripts/rite.py existiert
     [2] Inhalt woanders nutzen (Export-Paket erzeugen)
     [3] Starten (Browser öffnen)
     [4] Aktualisieren (git pull + Sync)
@@ -357,8 +357,8 @@ def meta() -> dict:
             f"Ich packe den {name}-Inhalt (Masterprompt + Wissensmodule)",
         ),
         # Begriff fürs Lore-Setup-Erlebnis ([L]) — projektgerecht, da das
-        # narrative Framing pro Bausatz anders ist (ZEITRISS: Bergung,
-        # Privacy Odyssey: Link-Aufschaltung). Nur relevant, wenn rite.py da ist.
+        # narrative Framing pro Bausatz unterschiedlich ist. Nur relevant,
+        # wenn rite.py da ist.
         "lore_moment": lb.get("lore_moment", "Lore-Moment"),
         # Kurzes Framing-Label hinter dem [L]-Menüpunkt ("eingerahmt als …").
         "lore_label": lb.get("lore_label", "narrativ eingerahmt"),
@@ -368,7 +368,7 @@ def meta() -> dict:
 
 
 def _detect_install_state() -> str:
-    """Erkennt, ob ZEITRISS in OpenWebUI bereits eingerichtet ist.
+    """Erkennt, ob der Bausatz in OpenWebUI bereits eingerichtet ist.
 
     Fünf Zustände — bewusst defensiv klassifiziert. Bei Unsicherheit ist
     "unreachable" der ehrlichste Default, damit Caller den User explizit
@@ -534,7 +534,7 @@ def action_install_lore() -> None:
     klassischen Flow — damit er nicht rätselt, warum er plötzlich im
     Standard-Setup-Screen steht.
 
-    Idempotenz-Check vorab (analog zu action_install): Wenn ZEITRISS
+    Idempotenz-Check vorab (analog zu action_install): Wenn der Bausatz
     bereits installiert ist, leiten wir auf [4] Update um — ohne Lore-
     Rahmung, weil das Update kein Bergungs-Narrativ ist, sondern Routine.
     Lore-Setup ist explizit der Bergungs-Moment; das gibt es nur einmal.
