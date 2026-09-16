@@ -8,6 +8,16 @@
 # Oder bequemer: `python scripts/setup.py --install-litellm`
 # legt .env mit generiertem Master-Key an und startet den Container.
 
+# Compose-Projektname explizit an den eindeutigen Container-Namen binden.
+# Jeder Bausatz hat ein `scripts/litellm/`-Verzeichnis; ohne diese Zeile leitet
+# Compose den Projektnamen vom Ordner ab und der heißt bei ALLEN `litellm`. Folge:
+# alle Bausätze teilen das Projekt `litellm`, und ein rohes `docker compose
+# up/down` ohne `-p` reißt die Container der anderen Bausätze mit ab (nur
+# der zuletzt erzeugte überlebt; Vorfälle 2026-06-10 und 2026-09-14).
+# Compose lädt `./.env` automatisch, daher greift der eindeutige Wert auch
+# ohne `--env-file`. setup.py setzt zusätzlich `-p` mit demselben Wert.
+name: ${LITELLM_CONTAINER_NAME:-litellm-zeitriss}
+
 services:
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
