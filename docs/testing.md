@@ -282,11 +282,11 @@ Vor jedem Playtest **> $5 Kosten oder > 40 Turns**:
      | jq '[.data[] | select(.info.base_model_id)] | length'
    ```
 
-   Soll (Stand 2026-09-14): **7 aktive CustomAI-Presets** — 5 Bausätze als
-   Mistral-Variante (ARXION, Privacy Odyssey, ACCILOG, SEKRA, ZEITRISS) plus
-   ZEITRISS zusätzlich als `zeitriss-v426-uncut` (Sonnet) und
-   `zeitriss-v426-deepseek` (Budget). Unerwartete Extras = Drift-Kandidat
-   (historisch: `-cached`-Kopie vom 2026-04-23, aufgelöst am 2026-04-27).
+   Soll (Stand 2026-09-14): die ZEITRISS-eigenen CustomAI-Presets aktiv —
+   `zeitriss-v426-uncut` (Sonnet) und `zeitriss-v426-deepseek` (Budget),
+   ggf. zusätzlich eine Mistral-Variante (`zeitriss-*-mistral`).
+   Unerwartete Extras = Drift-Kandidat (historisch: `-cached`-Kopie vom
+   2026-04-23, aufgelöst am 2026-04-27).
 
 2. **MP-MD5** gegen frischen `main`-Pull:
 
