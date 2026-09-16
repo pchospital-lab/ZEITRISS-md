@@ -84,6 +84,10 @@ während ihre eigenen Kampagnen pausieren.
 Wenn sich Gruppen trennen und später wieder zusammentreffen, verweben sich die
 einzelnen Handlungsstränge wieder zu einem gemeinsamen Zeitnetz.
 
+**Zu mehreren spielen:** Wie ihr ZEITRISS gemeinsam online oder am Tisch
+spielt (Save posten, Gruppe bilden, zusammen einen Abschnitt spielen), steht
+im [Koop- & Online-Leitfaden](docs/koop-online-spielen.md).
+
 **Spielrhythmus: ein Abschnitt = ein Chat.** ZEITRISS spielt sich in
 sauber abgeschlossenen Spielabschnitten — Charaktererschaffung, HQ-Runde,
 Mission, Chronopolis, Arena. Am Ende jedes Abschnitts ein `!save`, dann

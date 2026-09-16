@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zeitriss.workspace.local/persona-state.schema.json",
+  "title": "ZEITRISS Playtest — Persona State v2",
+  "description": "Ein Zustandsobjekt pro Spieler-Persona. Trennt einen festen Identitaetskern (FIX) von einem evolvierenden Spielerzustand (EVOLVIEREND). v2 uebernimmt nicht nur den additiv-toleranten Stil des ZEITRISS-Charakter-Saves (v7), sondern die konkreten Wachstums-Mechanismen: keyed-Append mit Anti-Doppelzaehl-Gate (Vorbild characters[].level_history), Cap+Prune (Vorbild continuity.shared_echoes, max 6) und Verdichtung alter Inhalte in ein kompaktes summary-Feld (Vorbild summaries.summary_last_episode/_last_rift/_active_arcs). Additiv-tolerant: fehlende evolvierende Felder = Defaults (Migrationsregel siehe PERSONA-STATE.md).",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "v",
+    "persona_key",
+    "real_name",
+    "archetype",
+    "play_style",
+    "charwunsch",
+    "plays_char"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 2,
+      "description": "FIX. Schema-Version des Persona-State (nicht zu verwechseln mit dem ZEITRISS Save-v7 'v'). Entspricht Save v7 'v' (Versionsfeld + additive-tolerante Migration). v1-Staende (history[]-Array, kein round_history, kein Cap) werden beim Laden nach der in PERSONA-STATE.md dokumentierten Regel auf v2 migriert."
+    },
+    "persona_key": {
+      "type": "string",
+      "enum": ["cqb", "sniper", "face", "pyro", "tech"],
+      "description": "FIX. Stabiler Schluessel, identisch zu PERSONAS in harness/solo_journey.py. Entspricht characters[].id als unveraenderlicher Identitaetsanker."
+    },
+    "real_name": {
+      "type": "string",
+      "description": "FIX. Name der simulierten Spielperson (z.B. 'Deniz')."
+    },
+    "archetype": {
+      "type": "string",
+      "description": "FIX. Kurzbeschreibung des Spielertyps, z.B. 'Aggro-Draufgaenger'."
+    },
+    "play_style": {
+      "type": "string",
+      "description": "FIX. Kurzer Spielstil-Deskriptor."
+    },
+    "charwunsch": {
+      "type": "string",
+      "description": "FIX. Der vorgegebene Klassen- + Rassen-Wunsch aus ROSTER-2026-09-16.md."
+    },
+    "plays_char": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["save_file", "character_id", "name", "callsign"],
+      "description": "FIX. Verweis auf den erspielten Charakter in personas/roster-*/<key>.json.",
+      "properties": {
+        "save_file": {
+          "type": "string",
+          "description": "Dateiname des zugrundeliegenden Roster-Saves, z.B. 'cqb.json'."
+        },
+        "character_id": {
+          "type": "string",
+          "description": "characters[0].id aus dem Roster-Save, z.B. 'CHR-KRAG-001'."
+        },
+        "name": {
+          "type": "string",
+          "description": "characters[0].name aus dem Roster-Save."
+        },
+        "callsign": {
+          "type": "string",
+          "description": "characters[0].callsign aus dem Roster-Save."
+        }
+      }
+    },
+    "rounds_played": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "EVOLVIEREND, KEIN CAP (monoton wachsender Zaehler). Entspricht dem Fortschrittszaehler hinter Save v7 level_history: die AUTORITATIVE Quelle fuer 'wie viele Runden wurden bereits verarbeitet', unabhaengig davon, wie viele Detail-Eintraege in round_history noch vorhanden sind (die werden gecapt/gepruned, dieser Zaehler nicht). Update-on-Progress: wird NUR erhoeht, wenn tatsaechlich eine neue Runde verarbeitet wurde (Anti-Stacking-Gate, siehe round_history)."
+    },
+    "round_history": {
+      "type": "object",
+      "default": {},
+      "description": "EVOLVIEREND, GECAPT (Detail-Fenster: letzte 6 Runden, ROUND_HISTORY_CAP=6). Keyed-Append pro Runde, Key = Rundennummer als String ('1','2',...) — direktes Vorbild: characters[].level_history (Key = Level als String). Pflicht fuer das Anti-Doppelzaehl-Gate: genau EIN Eintrag pro tatsaechlich gespielter Runde. VOR dem Schreiben eines neuen Eintrags fuer Runde N PRUEFEN: ist N <= rounds_played? -> STOPP, Runde wurde bereits verarbeitet, kein zweiter Eintrag (Analogie zum Level-Up-Exklusivitaets-Pflichtgate: 'Ist fuer das aktuelle Level bereits eine Wahl eingetragen -> STOPP'). Ist N == rounds_played + 1 (bzw. N=1 bei leerem State) -> Eintrag schreiben, rounds_played auf N setzen (Update-on-Progress). Beim Ueberschreiten des Caps (mehr als 6 Keys) wird der AELTESTE Eintrag aus round_history entfernt und sein Kerninhalt in summary.rounds_summary nachgetragen/verdichtet (Vorbild: Save-Groessenbudget-Pruning + summaries.summary_last_episode-Verdichtung) — nicht ersatzlos verworfen.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["datum", "kernereignis"],
+        "properties": {
+          "datum": {
+            "type": "string",
+            "description": "ISO-Datum, z.B. '2026-09-16'."
+          },
+          "kernereignis": {
+            "type": "string",
+            "description": "Ein Satz: was in dieser Runde fuer diese Persona zaehlte."
+          },
+          "mission": {
+            "type": "string",
+            "description": "Optionaler Missions-/Szenen-Bezug (z.B. 'group-lobby', 'MS1'), analog dem optionalen 'mission'-Feld in level_history-Eintraegen."
+          }
+        }
+      }
+    },
+    "learnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "maxItems": 10,
+      "description": "EVOLVIEREND, GECAPT (LEARNINGS_CAP=10) — direktes Vorbild: continuity.shared_echoes (maxItems 6, beim HQ-Save geprunt). Neue Erkenntnisse werden angehaengt. Wird beim Fortschreiben die Grenze von 10 ueberschritten, wird der AELTESTE Eintrag entfernt und knapp in summary.learnings_summary nachgetragen (Verdichtung statt Verlust, Vorbild: summaries.summary_active_arcs). So bleibt die Detail-Liste ueber viele Runden schlank."
+    },
+    "relationships": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "default": {},
+      "description": "EVOLVIEREND, NATUERLICH BEGRENZT (kein expliziter Cap noetig — durch die feste Cast-Groesse von 5 persona_key + wenige NPC-Kuerzel analog begrenzt, wie roster_echoes durch die Charakterzahl begrenzt ist). Map anderer persona_key -> kurze Einschaetzung. Wird pro Key ueberschrieben (aktuellste Einschaetzung), nicht angehaengt — daher kein Wachstumsproblem."
+    },
+    "goals": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "maxItems": 8,
+      "description": "EVOLVIEREND, LEICHT GECAPT (GOALS_CAP=8, analog dem Rolling-Cap-Prinzip von arc.questions/arc.hooks). Offene Vorhaben. Erledigte/ueberholte Ziele werden beim Fortschreiben entfernt (kein Verdichtungs-Feld noetig — anders als learnings sind erledigte Ziele keine Erkenntnis, die es wert ist, aufgehoben zu werden). Wird die Grenze dennoch ueberschritten, faellt schlicht das aelteste offene Ziel weg."
+    },
+    "tactics_notes": {
+      "type": "string",
+      "default": "",
+      "description": "EVOLVIEREND, KEIN CAP NOETIG (Einzelfeld, wird pro Runde ueberschrieben statt angehaengt). Kurzer taktischer Merksatz fuer die naechste Runde."
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "default": {},
+      "description": "EVOLVIEREND, KOMPAKT (waechst langsam, bleibt Fliesstext statt Liste) — direktes Vorbild: summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}. Nimmt die Verdichtung dessen auf, was aus round_history/learnings wegen des Caps herausfaellt, damit nichts ersatzlos verloren geht.",
+      "properties": {
+        "rounds_summary": {
+          "type": "string",
+          "default": "",
+          "description": "Kompakte, fortlaufend nachgetragene Verdichtung der aus round_history gecappten (aeltesten) Runden. Analog summaries.summary_last_episode."
+        },
+        "learnings_summary": {
+          "type": "string",
+          "default": "",
+          "description": "Kompakte, fortlaufend nachgetragene Verdichtung der aus learnings gecappten (aeltesten) Erkenntnisse. Analog summaries.summary_active_arcs."
+        }
+      }
+    },
+    "last_updated": {
+      "type": "string",
+      "description": "EVOLVIEREND. ISO-Datum der letzten Aktualisierung dieses States."
+    }
+  }
+}

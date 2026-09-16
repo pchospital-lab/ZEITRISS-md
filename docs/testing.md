@@ -646,3 +646,73 @@ Sonst landet ein Bug im Playtest, der eigentlich schon in der CI auffällt.
   Faithful 5er, Split/Merge als Legacy-Import-Kompatibilität, DEFERRED-Liste)
   für Agenten mit reinem Repo-Zugriff, ohne den privaten
   `internal/qa/harness/`-Python-Orchestrator vorauszusetzen.
+
+---
+
+## Multiplayer-/Koop-Playtest-Methode
+
+Für Runs mit mehreren Spieler-Personas gleichzeitig (statt einer Solo-Persona)
+gilt zusätzlich zu Schema F diese Methode. Sie spiegelt exakt das, was ein
+menschlicher Tisch laut [Koop- & Online-Leitfaden](koop-online-spielen.md)
+tut — nur mit Sub-Agenten statt Menschen an den Reglern.
+
+### Anker+Join / Personal-Save-Contract
+
+Jede Persona bringt ihren eigenen `!save`-JSON mit. Der **zuerst gepostete
+Save** setzt den **Anker** (Episode, Mission, Standort) für die gemeinsame
+Sitzung; alle weiteren Personas steigen dort als Gäste ein, ihre eigene
+Kampagne **pausiert** für die Dauer der Runde. Am Ende eines Abschnitts erzeugt
+das Gruppen-`!save` **pro anwesender Figur einen eigenen, vollständigen
+v7-Block** — bei N Figuren also N getrennte Saves, nie ein gemeinsames Objekt.
+
+### Koordinations-Layer
+
+Die Personas brauchen einen Absprache-Kanal getrennt vom eigentlichen SL-Chat.
+Ein **rotierender Leader** übernimmt für die Runde die Tastatur und postet an
+die Spielleitung. Zwei Modi, siehe Koop-Leitfaden §5:
+
+- **tell** — die Runde bespricht jede Aktion im Kanal, der Leader
+  interpretiert und formuliert.
+- **strict** — jede Persona postet direkt, was ihre Figur tut, der Leader
+  übernimmt unverändert.
+
+In beiden Fällen gilt: Der Leader postet **eine einzige konsolidierte
+Nachricht** an die Spielleitung, nie N Einzelnachrichten der Personas
+nacheinander.
+
+### Spieler-Persona-State
+
+Zusätzlich zum Charakter-Save führt jede Spieler-Persona einen eigenen
+**Persona-State** (JSON, Schema-Version `v: 2`) — ein Zustandsobjekt für
+das, was der Charakter-Save nicht abbildet: wie die Persona als Spieler:in
+über Runden hinweg lernt. Der Persona-State spiegelt bewusst dieselben
+Wachstums-Mechanismen wie der ZEITRISS-Save selbst:
+
+- **`round_history`** ist keyed wie `characters[].level_history` (ein Eintrag
+  pro Runde, additiv, mit Anti-Doppelzähl-Gate gegen erneutes Schreiben
+  derselben Runde).
+- **Cap+Prune** wie `continuity.shared_echoes` (begrenzte Liste, älteste
+  Einträge fallen raus statt unbegrenzt zu wachsen).
+- **Verdichtung** wie `summaries.summary_last_episode`/`_last_rift`: alte
+  Rundeninhalte wandern komprimiert in ein `summary`-Feld statt für immer
+  roh mitgeschleppt zu werden.
+- **Versionierung** additiv-tolerant wie Save v7: fehlende Felder in älteren
+  Persona-States sind Defaults, kein harter Bruch.
+
+Damit trägt der Persona-State das Meta-Lernen der Persona (Beziehungen zu
+den anderen Figuren, taktische Notizen, offene Ziele), ohne den
+Charakter-Save mit spielfremden Feldern zu verunreinigen.
+
+### Template & Live-Daten
+
+- **Persona-State-Schema** (das stabile Template) unter
+  `internal/qa/fixtures/persona-state.schema.json`.
+- Die **evolvierenden Playtest-Daten** — die authentisch erspielten
+  Roster-Saves, die laufenden Persona-States, der Python-Harness und die
+  Run-Artefakte — liegen **bewusst nicht im Repo** (sie ändern sich mit jedem
+  Lauf und würden das Repo mit Lauf-Zustand vollmüllen), sondern auf internem,
+  automatisch gesichertem Storage außerhalb des Repos. Das Repo trägt nur das
+  stabile Template; der lebende Zustand bleibt außerhalb.
+
+Für den menschlichen Blick auf denselben Ablauf (ohne Sub-Agenten-Details):
+[docs/koop-online-spielen.md](koop-online-spielen.md).
