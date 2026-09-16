@@ -1030,6 +1030,18 @@ bewusst im Spiel haben wollt.
 
 `/api/models` listet Presets erst mit aktiver Modell-Connection (LiteLLM/OpenRouter). Das Preset selbst prüfst du direkt: `GET /api/v1/models/model?id=<preset-id>`.
 
+### "`/api/v1/knowledge/` zeigt eine andere Dateizahl als der Coverage-Check"
+
+Das ist eine bekannte OpenWebUI-Eigenheit: `knowledge.files` in der API-Antwort
+läuft dem tatsächlichen Verknüpfungsstand manchmal hinterher. Maßgeblich ist
+der **Coverage-Check** des Scripts (nutzt `list_files()` + `collection_name`
+direkt, nicht das ggf. veraltete `knowledge.files`-Feld). Bei echtem Zweifel
+einfach erneut synchronisieren:
+
+```bash
+python scripts/setup.py --sync
+```
+
 ### "Die SL antwortet, aber Regeln klingen falsch"
 
 Prüfe zuerst im Browser/Projekt die sichtbaren dauerhaften Quellen einzeln

@@ -327,29 +327,29 @@ def _c(code: str, text: str) -> str:
 
 
 def print_ok(msg: str) -> None:
-    print(f"  {_c('32', '✓')}  {msg}")
+    print(f"  {_c('32', '✓')}  {msg}", flush=True)
 
 
 def print_warn(msg: str) -> None:
-    print(f"  {_c('33', '⚠')}  {msg}")
+    print(f"  {_c('33', '⚠')}  {msg}", flush=True)
 
 
 def print_error(msg: str) -> None:
-    print(f"  {_c('31', '✗')}  {msg}", file=sys.stderr)
+    print(f"  {_c('31', '✗')}  {msg}", file=sys.stderr, flush=True)
 
 
 def print_info(msg: str) -> None:
-    print(f"  {_c('36', 'ℹ')}  {msg}")
+    print(f"  {_c('36', 'ℹ')}  {msg}", flush=True)
 
 
 def print_header(text: str) -> None:
     width = max(len(text) + 6, 40)
     border = "═" * (width - 2)
-    print()
-    print(f"  {_c('1', '╔' + border + '╗')}")
-    print(f"  {_c('1', '║')}  {text.ljust(width - 4)}  {_c('1', '║')}")
-    print(f"  {_c('1', '╚' + border + '╝')}")
-    print()
+    print(flush=True)
+    print(f"  {_c('1', '╔' + border + '╗')}", flush=True)
+    print(f"  {_c('1', '║')}  {text.ljust(width - 4)}  {_c('1', '║')}", flush=True)
+    print(f"  {_c('1', '╚' + border + '╝')}", flush=True)
+    print(flush=True)
 
 
 # ── HTTP client (stdlib only) ──────────────────────────────────────
@@ -2183,7 +2183,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print(f"  Container-Logs:    docker logs {litellm_container}")
 
 
-def _auto_load_owui_env() -> None:
+def _auto_load_owui_env() -> bool:
     """Lade ~/.openwebui_env in os.environ, wenn Keys fehlen.
 
     Unterstützt beide Formate:
@@ -2193,12 +2193,17 @@ def _auto_load_owui_env() -> None:
     Bestehende Umgebungs-Werte werden NICHT überschrieben — die Env-Datei
     ist Fallback, nicht Override. Fehler werden geschluckt (die Datei ist
     optional).
+
+    Rückgabe: True, wenn mindestens ein Key aus der Datei tatsächlich in
+    os.environ geschrieben wurde (Aufrufer kann das nutzen, um sichtbar zu
+    machen, dass die effektive Instanz aus dem Fallback-File stammt).
     """
     if os.environ.get("OPENWEBUI_API_KEY", "").strip():
-        return
+        return False
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
-        return
+        return False
+    loaded = False
     try:
         for line in home_env.read_text("utf-8").splitlines():
             line = line.strip()
@@ -2213,10 +2218,12 @@ def _auto_load_owui_env() -> None:
             v = v.strip().strip('"').strip("'")
             if k and v and not os.environ.get(k):
                 os.environ[k] = v
+                loaded = True
     except OSError:
         # Stumm — wir versuchen unser Bestes; wenn die Datei nicht lesbar ist,
         # fällt das Script gleich auf die normale Env-fehlt-Fehlermeldung zurück.
-        pass
+        return False
+    return loaded
 
 
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -2278,9 +2285,15 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     preset_id = cfg["variants"][primary_vk]["preset_id"]
     preset = client.get_model(preset_id)
     if preset is None:
+        hint = "Für Erstinstallation bitte `python scripts/setup.py` (ohne --sync) nutzen."
+        if len(cfg["variants"]) > 1:
+            hint += (
+                " Bei mehreren installierten Varianten: `python scripts/setup.py --all-variants` "
+                "(sonst wandert der KB-Link-Bruch nur zur anderen Variante)."
+            )
         print_error(
             f"Preset „{preset_id}“ (Variante '{primary_vk}') existiert nicht in OpenWebUI. "
-            f"Für Erstinstallation bitte `python scripts/setup.py` (ohne --sync) nutzen."
+            f"{hint}"
         )
         sys.exit(1)
     print_ok(f"Preset gefunden: {preset.get('name', preset_id)} (Variante '{primary_vk}')")
@@ -2298,10 +2311,13 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         if isinstance(first, dict):
             kb_id = first.get("id")
     if not kb_id:
-        print_error(
-            "Preset hat keine verknüpfte Knowledge Base. "
-            "Für Reparatur bitte `python scripts/setup.py` (Full-Rebuild) nutzen."
-        )
+        hint = "Für Reparatur bitte `python scripts/setup.py` (Full-Rebuild) nutzen."
+        if len(cfg["variants"]) > 1:
+            hint += (
+                " Bei mehreren installierten Varianten: `python scripts/setup.py --all-variants` "
+                "(sonst wandert der KB-Link-Bruch nur zur anderen Variante)."
+            )
+        print_error(f"Preset hat keine verknüpfte Knowledge Base. {hint}")
         sys.exit(1)
     print_ok(f"Knowledge Base verknüpft: {kb_id}")
 
@@ -2793,7 +2809,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Interactive OpenWebUI setup: KB + files + preset."""
     opts = opts or {}
     project = cfg["project"]
-    _auto_load_owui_env()
+    env_loaded = _auto_load_owui_env()
 
     print_header(f"{project} – OpenWebUI Setup")
 
@@ -2829,11 +2845,13 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     client = APIClient(url, api_key)
 
     # ── Connectivity ─────────────────────────────────────────────────
+    if env_loaded:
+        print_info(f"Zugangsdaten aus ~/.openwebui_env geladen (URL: {url})")
     print_info("Verbindung prüfen...")
     if not client.check_health():
         print_error(f"OpenWebUI nicht erreichbar: {url}")
         sys.exit(1)
-    print_ok("OpenWebUI erreichbar")
+    print_ok(f"OpenWebUI erreichbar: {url}")
 
     if not client.check_auth():
         print_error("API-Key ungültig oder nicht autorisiert.")
@@ -3097,6 +3115,45 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             print_error(f"Preset für Variante '{vk}' konnte nicht erstellt/aktualisiert werden.")
             sys.exit(1)
 
+    # ── KB-Link-Nachzug für nicht-adressierte, aber installierte Varianten ──
+    # variant_keys oben deckt nur die in diesem Lauf gewählten Varianten ab
+    # (Default: default_variant, oder --variant/--all-variants). Eine bereits
+    # installierte Nebenvariante, die HIER nicht adressiert wurde, würde sonst
+    # weiter auf die ALTE (gelöschte) KB zeigen. Wir ziehen hier NUR meta.knowledge
+    # nach — Masterprompt/Params/Capabilities der Fremdvariante bleiben unangetastet,
+    # damit bewusster Drift des Nutzers (z.B. manuell geändertes Base-Model) erhalten
+    # bleibt.
+    other_vks = [vk for vk in cfg["variants"] if vk not in variant_keys]
+    for vk in other_vks:
+        v = cfg["variants"][vk]
+        v_pid = v["preset_id"]
+        existing = client.get_model(v_pid)
+        if existing is None:
+            continue  # nicht installiert — nichts nachzuziehen
+        remote_meta = dict(existing.get("meta") or {})
+        remote_meta["knowledge"] = [{"id": kb_id, "name": kb_name, "type": "collection"}]
+        payload = {
+            "id": v_pid,
+            "name": existing.get("name") or v["preset_name"],
+            "base_model_id": existing.get("base_model_id"),
+            "meta": remote_meta,
+            "params": existing.get("params") or {},
+        }
+        # Direktes Update statt upsert_model(): Letzteres prüft Existenz über
+        # /api/models (nur LIVE Base-Models). Eine installierte Nebenvariante,
+        # deren Base-Model gerade nicht geroutet ist (typisch für die Budget-
+        # Variante), fehlt dort — upsert würde dann fälschlich `create` auf eine
+        # existierende ID versuchen und scheitern. get_model oben hat die Existenz
+        # bereits autoritativ bestätigt, also updaten wir direkt (idempotent).
+        code, _ = client.post_json("/api/v1/models/model/update", payload)
+        if code == 200:
+            print_ok(f"Variante '{vk}': bestehenden KB-Link auf neue KB nachgezogen.")
+        else:
+            print_warn(
+                f"Variante '{vk}': KB-Link-Nachzug fehlgeschlagen (HTTP {code}) — bitte "
+                f"'python scripts/setup.py --all-variants' laufen lassen."
+            )
+
     # ── Sync-Manifest schreiben (für spätere --sync-Läufe) ──────────────────
     # Nach erfolgreichem Full-Setup ist Masterprompt synchron und alle
     # uploaded_map-Files sind in der KB verlinkt. Das Manifest hier zu schreiben
@@ -3241,7 +3298,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
 def _connect_owui_or_exit() -> "APIClient":
     """Baue einen APIClient aus Env/~/.openwebui_env. Klarer Exit ohne Traceback,
     wenn URL/Key fehlen oder OpenWebUI nicht erreichbar/autorisiert ist."""
-    _auto_load_owui_env()
+    loaded = _auto_load_owui_env()
     url = (os.environ.get("OPENWEBUI_URL") or "http://localhost:8080").strip()
     api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
     if not api_key:
@@ -3258,6 +3315,9 @@ def _connect_owui_or_exit() -> "APIClient":
     if not client.check_auth():
         print_error("API-Key ungültig oder ohne Rechte.")
         sys.exit(1)
+    if loaded:
+        print_info(f"Zugangsdaten aus ~/.openwebui_env geladen (URL: {url})")
+    print_ok(f"OpenWebUI: {url}")
     return client
 
 
@@ -3278,15 +3338,24 @@ def run_list(repo: Path, cfg: dict) -> None:
     print(f"  Geteilte Knowledge Base '{kb_name}': "
           + ("✓ vorhanden" if kb_exists else "✗ fehlt"))
     print()
-    print(f"  {'Variante':<14}{'preset_id':<28}{'live?':<8}{'Base-Model (live)'}")
-    print(f"  {'-'*13:<14}{'-'*27:<28}{'-'*7:<8}{'-'*30}")
+    # "installiert?" prüft das Preset selbst (get_model), "live?" prüft nur,
+    # ob das dahinterliegende Base-Model über /api/models erreichbar ist —
+    # ein Preset kann installiert, aber (falsch verknüpftes Base-Model) nicht
+    # live sein, und umgekehrt taucht ein gelöschtes Preset nie in list_models() auf.
+    variant_col = max((len(vk) + len(" (default)") for vk in cfg["variants"]), default=8) + 2
+    variant_col = max(variant_col, 10)
+    print(f"  {'Variante':<{variant_col}}{'preset_id':<28}{'installiert?':<14}{'live?':<8}{'Base-Model'}")
+    print(f"  {'-'*(variant_col-1):<{variant_col}}{'-'*27:<28}{'-'*13:<14}{'-'*7:<8}{'-'*30}")
     for vk, v in cfg["variants"].items():
         pid = v["preset_id"]
+        preset = client.get_model(pid)
+        installed = preset is not None
         live = live_models.get(pid)
-        mark = "✓" if live else "✗"
-        base = (live.get("base_model_id") if live else "—") or "—"
+        installed_mark = "✓" if installed else "✗"
+        live_mark = "✓" if live else "✗"
+        base = ((preset or live or {}).get("base_model_id")) or "—"
         flag = " (default)" if vk == cfg["default_variant"] else ""
-        print(f"  {vk + flag:<14}{pid:<28}{mark:<8}{base}")
+        print(f"  {vk + flag:<{variant_col}}{pid:<28}{installed_mark:<14}{live_mark:<8}{base}")
     print()
 
 
