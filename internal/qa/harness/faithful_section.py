@@ -369,6 +369,15 @@ def run(args) -> int:
     print(f"REPORT: {report}")
     print(f"ANCHOR_COMPLETE: {anchor_complete}")
     channel.close(); rep.close(); sl_full.close()
+
+    # Lesbares Voll-Transkript erzeugen (channel.md + sl_full.jsonl gemerged →
+    # TRANSCRIPT.md): eine durchgehende Datei je Session statt drei parallel.
+    try:
+        import make_transcript
+        make_transcript.main(str(out))
+    except Exception as e:  # noqa: BLE001 — Transkript ist Komfort, kein Blocker
+        print(f"(TRANSCRIPT.md konnte nicht erzeugt werden: {e})", flush=True)
+
     return 0 if anchor_complete else 1
 
 
