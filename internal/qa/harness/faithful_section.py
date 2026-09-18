@@ -175,6 +175,9 @@ def run(args) -> int:
     for pk in players[1:]:
         r = sl.say("Ein weiterer Spieler tritt als Gast bei:\n```json\n" + compact(saves[pk]) + "\n```")
     log(f"## Setup — Anker {names[leader]} + {len(players)-1} Join(s)\nSL:\n{r['content'][:400]}\n")
+    # Volle Setup-Antwort ungekürzt sichern (HQ-Hub-Angebot war bisher durch [:400] unsichtbar).
+    # Reine Logging-Ergänzung, kein Spielfluss-Eingriff.
+    log_full("setup", r["content"])
 
     def one_turn(t: int) -> dict:
         """Eine Absprache-Runde: Personas schlagen vor, FIXER Leader konsolidiert,
@@ -259,7 +262,13 @@ def run(args) -> int:
             highest_scene = sc
         if not mission_started and ((ph and not ph.startswith("HQ")) or sc >= 1):
             mission_started = True
-        if mission_started and (ph.startswith("HQ") or ph.startswith("DEBRIEF")):
+        if mission_started and (ph.startswith("HQ") or ph.startswith("DEBRIEF") or ph.startswith("D")):
+            reached_mission_end = True
+        # Save-Dump = Debrief/HQ-Ende: die SL gibt die N Personal-Saves NUR im
+        # HQ-Debrief aus (kein Mid-Mission-Save), also ist 5/5-Ernte der zuverlässige
+        # Missionsende-Beweis — robuster als die HUD-PHASE-Zeile (die z.B. als "PHASE D"
+        # abgekürzt sein kann). Behebt FINDINGS-Detektor-Lücke (MS4/MS5 False trotz Debrief).
+        if mission_started and len(collected) == len(players):
             reached_mission_end = True
         if len(collected) == len(players):
             log(f"\n## Alle {len(players)} v7-Saves eingesammelt in Turn {t} → Anker erreicht.")
