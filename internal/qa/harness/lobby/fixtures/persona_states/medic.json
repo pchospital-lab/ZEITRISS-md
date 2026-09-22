@@ -1,0 +1,22 @@
+{
+  "v": 2,
+  "persona_key": "medic",
+  "real_name": "Noor",
+  "archetype": "SIMULIERT/FIXTURE — fuersorglich, pragmatisch",
+  "play_style": "SIMULIERT/FIXTURE — unterstuetzend, risikoscheu",
+  "charwunsch": "Unterstuetzungs-Klasse, menschlich",
+  "plays_char": {
+    "save_file": "medic.json",
+    "character_id": "CHR-MEDIC-001",
+    "name": "Noor",
+    "callsign": "MEDIC"
+  },
+  "rounds_played": 0,
+  "round_history": {},
+  "learnings": [],
+  "relationships": {},
+  "goals": [],
+  "tactics_notes": "",
+  "summary": {"rounds_summary": "", "learnings_summary": ""},
+  "last_updated": ""
+}

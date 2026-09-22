@@ -1,0 +1,13 @@
+{
+  "v": 7,
+  "save_id": "fixture-cqb-initial-001",
+  "_fixture_note": "SIMULIERT/FIXTURE — synthetischer Initial-Save fuer den Lobby/Tisch-Durchstich, kein echter Spielstand.",
+  "characters": [
+    {
+      "char_id": "CHR-CQB-001",
+      "id": "CHR-CQB-001",
+      "name": "Krag",
+      "callsign": "CQB"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — Offer/Consent-Log, Tisch-Groesse 2. sniper bietet an, tech nimmt an.",
+  "events": [
+    {"type": "offer", "id": "off-1", "from": "sniper", "wants": ["tech"], "proposal": "Lust auf einen ruhigen Zweier-Trupp?", "ts": "2026-09-21T09:10:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "tech", "accept": true, "ts": "2026-09-21T09:11:00"}
+  ]
+}

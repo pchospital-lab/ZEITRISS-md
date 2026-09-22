@@ -1,0 +1,13 @@
+{
+  "v": 7,
+  "save_id": "fixture-face-initial-001",
+  "_fixture_note": "SIMULIERT/FIXTURE",
+  "characters": [
+    {
+      "char_id": "CHR-FACE-001",
+      "id": "CHR-FACE-001",
+      "name": "Elias",
+      "callsign": "FACE"
+    }
+  ]
+}

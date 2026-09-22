@@ -1,0 +1,6 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — Offer/Consent-Log, Solo-Tisch (Groesse 1). face bietet sich selbst an, keine Gaeste gewuenscht -> trivial vollstaendig.",
+  "events": [
+    {"type": "offer", "id": "off-1", "from": "face", "wants": [], "proposal": "Ich gehe den Abschnitt solo an.", "ts": "2026-09-21T09:00:00"}
+  ]
+}

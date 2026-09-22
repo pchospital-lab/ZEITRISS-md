@@ -1,0 +1,10 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — wie table2_pair.json, aber der zweite v7-Block traegt eine char_id, die zu KEINEM Mitglied dieses Tisches gehoert (falsch zugeordneter/fremder Save). Darf NICHT als techs Save akzeptiert werden.",
+  "turns": [
+    {"content": "HQ-Hub. Anker-Save von Yael \"Sniper\" (CHR-SNIPER-001) geladen."},
+    {"content": "Ein weiterer Chrononaut tritt bei: Kaede \"Tech\" (CHR-TECH-001) importiert."},
+    {
+      "content": "Debrief abgeschlossen, zurueck im HQ:\n```json\n{\"v\": 7, \"save_id\": \"fixture-sniper-after-004\", \"characters\": [{\"char_id\": \"CHR-SNIPER-001\", \"id\": \"CHR-SNIPER-001\", \"name\": \"Yael\", \"callsign\": \"SNIPER\"}]}\n```\n```json\n{\"v\": 7, \"save_id\": \"fixture-foreign-001\", \"characters\": [{\"char_id\": \"CHR-UNKNOWN-999\", \"id\": \"CHR-UNKNOWN-999\", \"name\": \"Fremd\", \"callsign\": \"???\"}]}\n```\nGut gemacht, Team.\nSECTION-ABSCHLUSS-BESTAETIGT"
+    }
+  ]
+}

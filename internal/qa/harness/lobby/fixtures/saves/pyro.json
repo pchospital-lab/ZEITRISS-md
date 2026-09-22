@@ -1,0 +1,13 @@
+{
+  "v": 7,
+  "save_id": "fixture-pyro-initial-001",
+  "_fixture_note": "SIMULIERT/FIXTURE",
+  "characters": [
+    {
+      "char_id": "CHR-PYRO-001",
+      "id": "CHR-PYRO-001",
+      "name": "Kira",
+      "callsign": "PYRO"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — Plan-Critic-Auflage 1 (Dissenter). off-1: ghost widerspricht ausdruecklich und darf NICHT Teil der Gruppe werden, Konsens darf NICHT kuenstlich (durch stilles Herausfiltern von ghost aus off-1) hergestellt werden. off-2 zeigt den einzig legitimen Weg zu einer Gruppe: eine NEUE, vollstaendig konsentierte Offer ohne ghost.",
+  "events": [
+    {"type": "offer", "id": "off-1", "from": "medic", "wants": ["scout", "ghost"], "proposal": "Nebenmission zu dritt?", "ts": "2026-09-21T09:00:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "scout", "accept": true, "ts": "2026-09-21T09:01:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "ghost", "accept": false, "reason": "Ich habe heute keine Lust/Zeit auf diese Mission.", "ts": "2026-09-21T09:02:00"},
+    {"type": "offer", "id": "off-2", "from": "medic", "wants": ["scout"], "proposal": "Nebenmission nur zu zweit, ohne ghost.", "ts": "2026-09-21T09:05:00"},
+    {"type": "consent", "offer_id": "off-2", "from": "scout", "accept": true, "ts": "2026-09-21T09:06:00"}
+  ]
+}

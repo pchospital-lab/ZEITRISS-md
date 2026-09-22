@@ -1,0 +1,6 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — Log ohne jede vollstaendig angenommene Offer (Offer nie konsentiert). Muss zu 0 abgeleiteten Mitgliedern fuehren -> Tisch-Erstellung abgelehnt.",
+  "events": [
+    {"type": "offer", "id": "off-1", "from": "scout", "wants": ["medic"], "proposal": "Waere jemand fuer einen Zweier dabei?", "ts": "2026-09-21T09:40:00"}
+  ]
+}

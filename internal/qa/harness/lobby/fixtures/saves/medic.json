@@ -1,0 +1,13 @@
+{
+  "v": 7,
+  "save_id": "fixture-medic-initial-001",
+  "_fixture_note": "SIMULIERT/FIXTURE",
+  "characters": [
+    {
+      "char_id": "CHR-MEDIC-001",
+      "id": "CHR-MEDIC-001",
+      "name": "Noor",
+      "callsign": "MEDIC"
+    }
+  ]
+}
