@@ -1,0 +1,13 @@
+{
+  "v": 7,
+  "save_id": "fixture-sniper-initial-001",
+  "_fixture_note": "SIMULIERT/FIXTURE",
+  "characters": [
+    {
+      "char_id": "CHR-SNIPER-001",
+      "id": "CHR-SNIPER-001",
+      "name": "Yael",
+      "callsign": "SNIPER"
+    }
+  ]
+}

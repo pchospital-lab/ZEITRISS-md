@@ -1,0 +1,22 @@
+{
+  "v": 2,
+  "persona_key": "face",
+  "real_name": "Elias",
+  "archetype": "SIMULIERT/FIXTURE — charismatisch, Vermittler",
+  "play_style": "SIMULIERT/FIXTURE — sozial, deeskalierend",
+  "charwunsch": "Support-Klasse, menschlich",
+  "plays_char": {
+    "save_file": "face.json",
+    "character_id": "CHR-FACE-001",
+    "name": "Elias",
+    "callsign": "FACE"
+  },
+  "rounds_played": 0,
+  "round_history": {},
+  "learnings": [],
+  "relationships": {},
+  "goals": [],
+  "tactics_notes": "",
+  "summary": {"rounds_summary": "", "learnings_summary": ""},
+  "last_updated": ""
+}

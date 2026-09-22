@@ -1,0 +1,9 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — gecannte SL-Ausgaben fuer den Solo-Tisch von medic (R5-Zusatzpersona jenseits der historischen fuenf). Kein echter SL-Call.",
+  "turns": [
+    {"content": "HQ-Hub. Anker-Save von Noor \"Medic\" (CHR-MEDIC-001) geladen. Der Abschnitt beginnt."},
+    {
+      "content": "Debrief abgeschlossen, zurueck im HQ. Hier ist dein aktualisierter Chrononaut-Save:\n```json\n{\"v\": 7, \"save_id\": \"fixture-medic-after-001\", \"characters\": [{\"char_id\": \"CHR-MEDIC-001\", \"id\": \"CHR-MEDIC-001\", \"name\": \"Noor\", \"callsign\": \"MEDIC\"}]}\n```\nGut gemacht, Team.\nSECTION-ABSCHLUSS-BESTAETIGT"
+    }
+  ]
+}

@@ -22,8 +22,8 @@
     },
     "persona_key": {
       "type": "string",
-      "enum": ["cqb", "sniper", "face", "pyro", "tech"],
-      "description": "FIX. Stabiler Schluessel, identisch zu PERSONAS in harness/solo_journey.py. Entspricht characters[].id als unveraenderlicher Identitaetsanker."
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "FIX. Stabiler Schluessel. Fuer die historischen fuenf (cqb, sniper, face, pyro, tech aus harness/solo_journey.py) UNVERAENDERT gueltig; R5 loest die Identitaetsgrenze von einem geschlossenen Enum auf ein Pattern, weil die Fuenfer-Grenze auf aktive Tischplaetze gehoert, nicht auf Persona-Identitaet (siehe fixtures/personas.json fuer die Acht-Personen-Lobby). Validierung bleibt aktiv. Entspricht characters[].id als unveraenderlicher Identitaetsanker."
     },
     "real_name": {
       "type": "string",

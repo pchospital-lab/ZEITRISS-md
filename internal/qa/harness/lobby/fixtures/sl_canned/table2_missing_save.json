@@ -1,0 +1,10 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — wie table2_pair.json, aber der Debrief liefert NUR den Save von sniper. techs Save fehlt (SL-Fehlverhalten simuliert). Der Harness darf das NICHT reparieren/fuellen, sondern muss den Abschluss als unvollstaendig werten.",
+  "turns": [
+    {"content": "HQ-Hub. Anker-Save von Yael \"Sniper\" (CHR-SNIPER-001) geladen."},
+    {"content": "Ein weiterer Chrononaut tritt bei: Kaede \"Tech\" (CHR-TECH-001) importiert."},
+    {
+      "content": "Debrief abgeschlossen. Nur ein v7-Block diesmal:\n```json\n{\"v\": 7, \"save_id\": \"fixture-sniper-after-003\", \"characters\": [{\"char_id\": \"CHR-SNIPER-001\", \"id\": \"CHR-SNIPER-001\", \"name\": \"Yael\", \"callsign\": \"SNIPER\"}]}\n```\n(techs Save fehlt in dieser Ausgabe.)\nSECTION-ABSCHLUSS-BESTAETIGT"
+    }
+  ]
+}

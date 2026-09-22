@@ -1,0 +1,6 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — vorab formulierte, generische Leader-Entscheidungstexte (kein zur Laufzeit vom Controller erfundener Persona-O-Ton). Der tatsaechliche, laufabhaengige Save-Inhalt wird NICHT hier eingebettet, sondern von section.py getrennt als strukturierte Payload (SimulatedLeaderMessage.save_payload) neben dieser Nachricht transportiert und im sl_log-Eintrag separat gespeichert. persona_key + Quellenverweis (dieser Datei-Pfad + Schluessel, siehe section.run_section) sind der Herkunftsbeleg, welche Persona-Entscheidung ein Turn simulieren soll.",
+  "anchor_text": "Ich lege meinen Chrononaut-Save als Anker fuer diesen Abschnitt vor.",
+  "guest_text": "Ich trete diesem Tisch als weiterer Chrononaut bei und lege meinen Save vor.",
+  "debrief_text": "!save"
+}

@@ -1,0 +1,22 @@
+{
+  "v": 2,
+  "persona_key": "sniper",
+  "real_name": "Yael",
+  "archetype": "SIMULIERT/FIXTURE — praezise, geduldig",
+  "play_style": "SIMULIERT/FIXTURE — taktisch, distanziert",
+  "charwunsch": "Fernkampf-Klasse, menschlich",
+  "plays_char": {
+    "save_file": "sniper.json",
+    "character_id": "CHR-SNIPER-001",
+    "name": "Yael",
+    "callsign": "SNIPER"
+  },
+  "rounds_played": 0,
+  "round_history": {},
+  "learnings": [],
+  "relationships": {},
+  "goals": [],
+  "tactics_notes": "",
+  "summary": {"rounds_summary": "", "learnings_summary": ""},
+  "last_updated": ""
+}
