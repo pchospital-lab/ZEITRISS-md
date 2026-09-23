@@ -1,0 +1,10 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — Offer/Consent-Log, Tisch-Groesse 5 (Maximum inkl. Leader). cqb bietet an, alle vier anderen nehmen an.",
+  "events": [
+    {"type": "offer", "id": "off-1", "from": "cqb", "wants": ["sniper", "face", "pyro", "tech"], "proposal": "Kompletter Fuenfer-Trupp fuer den Abschnitt?", "ts": "2026-09-21T09:20:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "sniper", "accept": true, "ts": "2026-09-21T09:21:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "face", "accept": true, "ts": "2026-09-21T09:22:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "pyro", "accept": true, "ts": "2026-09-21T09:23:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "tech", "accept": true, "ts": "2026-09-21T09:24:00"}
+  ]
+}

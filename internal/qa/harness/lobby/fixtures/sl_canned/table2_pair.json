@@ -1,0 +1,14 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — gecannte SL-Ausgaben fuer den Zweier-Tisch (sniper Leader + tech Gast). Kein echter SL-Call.",
+  "turns": [
+    {
+      "content": "HQ-Hub. Anker-Save von Yael \"Sniper\" (CHR-SNIPER-001) geladen."
+    },
+    {
+      "content": "Ein weiterer Chrononaut tritt bei: Kaede \"Tech\" (CHR-TECH-001) importiert."
+    },
+    {
+      "content": "Debrief abgeschlossen, zurueck im HQ. Zwei getrennte v7-Bloecke, einer pro Figur:\n```json\n{\"v\": 7, \"save_id\": \"fixture-sniper-after-001\", \"characters\": [{\"char_id\": \"CHR-SNIPER-001\", \"id\": \"CHR-SNIPER-001\", \"name\": \"Yael\", \"callsign\": \"SNIPER\"}]}\n```\n```json\n{\"v\": 7, \"save_id\": \"fixture-tech-after-001\", \"characters\": [{\"char_id\": \"CHR-TECH-001\", \"id\": \"CHR-TECH-001\", \"name\": \"Kaede\", \"callsign\": \"TECH\"}]}\n```\nGut gemacht, Team.\nSECTION-ABSCHLUSS-BESTAETIGT"
+    }
+  ]
+}

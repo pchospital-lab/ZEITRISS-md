@@ -1,0 +1,13 @@
+{
+  "v": 7,
+  "save_id": "fixture-tech-initial-001",
+  "_fixture_note": "SIMULIERT/FIXTURE",
+  "characters": [
+    {
+      "char_id": "CHR-TECH-001",
+      "id": "CHR-TECH-001",
+      "name": "Kaede",
+      "callsign": "TECH"
+    }
+  ]
+}

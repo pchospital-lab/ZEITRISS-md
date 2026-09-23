@@ -1,0 +1,22 @@
+{
+  "v": 2,
+  "persona_key": "cqb",
+  "real_name": "Deniz",
+  "archetype": "SIMULIERT/FIXTURE — Aggro-Draufgaenger",
+  "play_style": "SIMULIERT/FIXTURE — direkt, wenig Zoegern",
+  "charwunsch": "Nahkampf-Klasse, menschlich",
+  "plays_char": {
+    "save_file": "cqb.json",
+    "character_id": "CHR-CQB-001",
+    "name": "Krag",
+    "callsign": "CQB"
+  },
+  "rounds_played": 0,
+  "round_history": {},
+  "learnings": [],
+  "relationships": {},
+  "goals": [],
+  "tactics_notes": "",
+  "summary": {"rounds_summary": "", "learnings_summary": ""},
+  "last_updated": ""
+}

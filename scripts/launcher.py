@@ -83,6 +83,15 @@ except ImportError:
     # Rite ist optional — ohne läuft der Launcher weiter wie bisher.
     rite_module = None  # type: ignore[assignment]
 
+try:
+    # Optionaler Projekt-Einstieg-Hook (P2/MMO-Sim, PLAN.md §2/§4 M3): der
+    # generische Launcher-Core kennt keine MMO-Sim-Sonderfälle, nur diesen
+    # einen optionalen Hook. Ohne das Modul läuft der Launcher unverändert
+    # weiter (analog zum rite_module-Muster oben).
+    import mmo_sim_launcher_hook as project_hook  # noqa: E402
+except ImportError:
+    project_hook = None  # type: ignore[assignment]
+
 
 # ── Darstellung (Unicode-sparsam, Windows-cmd-kompatibel) ────────────
 
@@ -1633,6 +1642,7 @@ def main() -> int:
     _ensure_owui_env()
     m = meta()
     has_lore = rite_module is not None
+    has_mmo_sim = project_hook is not None
     while True:
         banner()
         print_status_block()
@@ -1647,6 +1657,8 @@ def main() -> int:
         print()
         print(dim("  ── Im Betrieb ───────────────────────────────"))
         print(f"   [3]  {m['start_label']} (Browser öffnen)")
+        if has_mmo_sim:
+            print("   [M]  ZEITRISS MMO-Sim (Terminal, kein Browser)")
         print("   [4]  Aktualisieren (git pull + Sync)")
         print("   [5]  API-Keys ändern")
         print("   [6]  Bei mir läuft was nicht (Diagnose)")
@@ -1664,6 +1676,8 @@ def main() -> int:
             action_export()
         elif choice == "3":
             action_play()
+        elif choice == "m" and has_mmo_sim:
+            project_hook.launch()
         elif choice == "4":
             action_update()
         elif choice == "5":

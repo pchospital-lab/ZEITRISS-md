@@ -1,0 +1,13 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — gecannte SL-Ausgaben fuer den vollen Fuenfer-Tisch (cqb Leader + 4 Gaeste). Kein echter SL-Call.",
+  "turns": [
+    {"content": "HQ-Hub. Anker-Save von Krag \"CQB\" (CHR-CQB-001) geladen."},
+    {"content": "Ein weiterer Chrononaut tritt bei: Yael \"Sniper\" (CHR-SNIPER-001) importiert."},
+    {"content": "Ein weiterer Chrononaut tritt bei: Elias \"Face\" (CHR-FACE-001) importiert."},
+    {"content": "Ein weiterer Chrononaut tritt bei: Kira \"Pyro\" (CHR-PYRO-001) importiert."},
+    {"content": "Ein weiterer Chrononaut tritt bei: Kaede \"Tech\" (CHR-TECH-001) importiert."},
+    {
+      "content": "Debrief abgeschlossen, zurueck im HQ. Fuenf getrennte v7-Bloecke, einer pro Figur:\n```json\n{\"v\": 7, \"save_id\": \"fixture-cqb-after-001\", \"characters\": [{\"char_id\": \"CHR-CQB-001\", \"id\": \"CHR-CQB-001\", \"name\": \"Krag\", \"callsign\": \"CQB\"}]}\n```\n```json\n{\"v\": 7, \"save_id\": \"fixture-sniper-after-002\", \"characters\": [{\"char_id\": \"CHR-SNIPER-001\", \"id\": \"CHR-SNIPER-001\", \"name\": \"Yael\", \"callsign\": \"SNIPER\"}]}\n```\n```json\n{\"v\": 7, \"save_id\": \"fixture-face-after-002\", \"characters\": [{\"char_id\": \"CHR-FACE-001\", \"id\": \"CHR-FACE-001\", \"name\": \"Elias\", \"callsign\": \"FACE\"}]}\n```\n```json\n{\"v\": 7, \"save_id\": \"fixture-pyro-after-001\", \"characters\": [{\"char_id\": \"CHR-PYRO-001\", \"id\": \"CHR-PYRO-001\", \"name\": \"Kira\", \"callsign\": \"PYRO\"}]}\n```\n```json\n{\"v\": 7, \"save_id\": \"fixture-tech-after-002\", \"characters\": [{\"char_id\": \"CHR-TECH-001\", \"id\": \"CHR-TECH-001\", \"name\": \"Kaede\", \"callsign\": \"TECH\"}]}\n```\nGut gemacht, Team.\nSECTION-ABSCHLUSS-BESTAETIGT"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — Offer/Consent-Log mit 6 vollstaendig zustimmenden Personas (Leader + 5 Gaeste). Muss bei der Tisch-Erstellung hart abgelehnt werden (Tisch-Grenze 1-5), OHNE Mitgliedschaften/Saves zu aendern und OHNE Ersatz-Tisch/-Spieler.",
+  "events": [
+    {"type": "offer", "id": "off-1", "from": "cqb", "wants": ["sniper", "face", "pyro", "tech", "medic"], "proposal": "Sechser-Trupp (ueberzeichnet, testet die harte Tisch-Grenze).", "ts": "2026-09-21T09:30:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "sniper", "accept": true, "ts": "2026-09-21T09:31:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "face", "accept": true, "ts": "2026-09-21T09:32:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "pyro", "accept": true, "ts": "2026-09-21T09:33:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "tech", "accept": true, "ts": "2026-09-21T09:34:00"},
+    {"type": "consent", "offer_id": "off-1", "from": "medic", "accept": true, "ts": "2026-09-21T09:35:00"}
+  ]
+}

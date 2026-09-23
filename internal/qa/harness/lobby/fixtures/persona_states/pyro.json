@@ -1,0 +1,22 @@
+{
+  "v": 2,
+  "persona_key": "pyro",
+  "real_name": "Kira",
+  "archetype": "SIMULIERT/FIXTURE — impulsiv, risikofreudig",
+  "play_style": "SIMULIERT/FIXTURE — offensiv, laut",
+  "charwunsch": "Flaechen-Klasse, menschlich",
+  "plays_char": {
+    "save_file": "pyro.json",
+    "character_id": "CHR-PYRO-001",
+    "name": "Kira",
+    "callsign": "PYRO"
+  },
+  "rounds_played": 0,
+  "round_history": {},
+  "learnings": [],
+  "relationships": {},
+  "goals": [],
+  "tactics_notes": "",
+  "summary": {"rounds_summary": "", "learnings_summary": ""},
+  "last_updated": ""
+}

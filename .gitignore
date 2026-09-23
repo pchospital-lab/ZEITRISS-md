@@ -25,6 +25,12 @@ node_modules/
 
 # Test-Artefakte
 out/
+internal/mmo_sim_data/
+
+# P2-Restintegration: E2E-Logs sind Testartefakte, kein Quellcode -- ein
+# Testlauf darf den Diff nicht mehr veraendern (WEGKARTE §0/§4).
+tests/mmo_sim/e2e_offline_player_dialog.log
+tests/mmo_sim/e2e_real_subprocess_dialog.log
 
 # Dev-Notizen & Export-Packs
 .dev/

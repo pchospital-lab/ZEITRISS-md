@@ -1,0 +1,61 @@
+{
+  "_fixture_note": "SIMULIERT/FIXTURE — synthetische Lobby-Personas fuer den P1-Durchstich. Kein natuerliches Verhalten, keine echten Spieler.",
+  "personas": [
+    {
+      "persona_key": "cqb",
+      "real_name": "Deniz",
+      "chrononaut_id": "CHR-CQB-001",
+      "canon_persona_state": true,
+      "fixture_note": "SIMULIERT — persona_key deckungsgleich mit dem bestehenden 5er-Cast aus solo_journey.PERSONAS, damit persona-state.schema.json (enum-beschraenkt) unveraendert wiederverwendbar bleibt."
+    },
+    {
+      "persona_key": "sniper",
+      "real_name": "Yael",
+      "chrononaut_id": "CHR-SNIPER-001",
+      "canon_persona_state": true,
+      "fixture_note": "SIMULIERT"
+    },
+    {
+      "persona_key": "face",
+      "real_name": "Elias",
+      "chrononaut_id": "CHR-FACE-001",
+      "canon_persona_state": true,
+      "fixture_note": "SIMULIERT"
+    },
+    {
+      "persona_key": "pyro",
+      "real_name": "Kira",
+      "chrononaut_id": "CHR-PYRO-001",
+      "canon_persona_state": true,
+      "fixture_note": "SIMULIERT"
+    },
+    {
+      "persona_key": "tech",
+      "real_name": "Kaede",
+      "chrononaut_id": "CHR-TECH-001",
+      "canon_persona_state": true,
+      "fixture_note": "SIMULIERT"
+    },
+    {
+      "persona_key": "medic",
+      "real_name": "Noor",
+      "chrononaut_id": "CHR-MEDIC-001",
+      "canon_persona_state": false,
+      "fixture_note": "SIMULIERT — Zusatzpersona jenseits des historischen 5er-Casts; seit R5 (persona-state.schema.json: Enum -> Pattern) durchlaeuft medic den vollen Offline-Lifecycle inkl. persona_state.save_state()-Persistenz (s. test_8_medic_extra_persona_full_lifecycle)."
+    },
+    {
+      "persona_key": "scout",
+      "real_name": "Ilya",
+      "chrononaut_id": "CHR-SCOUT-001",
+      "canon_persona_state": false,
+      "fixture_note": "SIMULIERT — Lobby-only-Fixture (anders als medic durchlaeuft scout in diesem Slice keinen vollen Offline-Lifecycle/keine persona_state.save_state()-Persistenz)."
+    },
+    {
+      "persona_key": "ghost",
+      "real_name": "Priya",
+      "chrononaut_id": "CHR-GHOST-001",
+      "canon_persona_state": false,
+      "fixture_note": "SIMULIERT — Dissenter-Fixture (Plan-Critic-Auflage 1): widerspricht in fixtures/offers/dissent_log.json dem Tisch-Wunsch und darf NICHT Teil der resultierenden Gruppe werden."
+    }
+  ]
+}

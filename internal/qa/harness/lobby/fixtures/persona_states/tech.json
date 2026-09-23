@@ -1,0 +1,22 @@
+{
+  "v": 2,
+  "persona_key": "tech",
+  "real_name": "Kaede",
+  "archetype": "SIMULIERT/FIXTURE — analytisch, vorsichtig",
+  "play_style": "SIMULIERT/FIXTURE — planend, unterstuetzend",
+  "charwunsch": "Tech-Klasse, menschlich",
+  "plays_char": {
+    "save_file": "tech.json",
+    "character_id": "CHR-TECH-001",
+    "name": "Kaede",
+    "callsign": "TECH"
+  },
+  "rounds_played": 0,
+  "round_history": {},
+  "learnings": [],
+  "relationships": {},
+  "goals": [],
+  "tactics_notes": "",
+  "summary": {"rounds_summary": "", "learnings_summary": ""},
+  "last_updated": ""
+}
