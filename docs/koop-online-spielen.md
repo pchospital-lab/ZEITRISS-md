@@ -12,8 +12,49 @@ verteilt findet. Es braucht **keinen zentralen Server**, keine Registrierung und
 keine App. Alles läuft über die eine Sache, die du sowieso schon hast: **deinen
 Spielstand als JSON.**
 
-> **Kurz gesagt:** Dein `!save`-JSON *ist* dein Charakter. Solange du es hast,
-> kannst du überall mitspielen — und du verlierst es nie.
+> **Kurz gesagt:** Dein persönlicher `!save`-JSON enthält den zuletzt
+> gespeicherten Stand deiner Figur. Bewahre eine eigene gültige Kopie auf,
+> damit du sie in einer geeigneten ZEITRISS-Runde weiterverwenden kannst.
+> Das ist keine Garantie gegen Datenverlust und kein vollständiges Community-Backup.
+
+---
+
+## Zwei Wege: Chat-Multiplayer und lokaler Terminal-Client
+
+Dieser Leitfaden beschreibt vor allem den **Chat-/JSON-Weg** unten: Jeder
+spielt auf seiner eigenen Plattform, trifft sich über einen geteilten Chat
+(z. B. Discord) und postet `!save`-JSON-Blöcke. Das ist weiterhin der
+breiter abgenommene Weg und funktioniert plattformunabhängig.
+
+Zusätzlich gibt es den **lokalen Terminalclient** (`python3 scripts/
+mmo_sim.py`, siehe [mmo-sim.md](mmo-sim.md), Status kontrolliert offline
+geprüft, 2026-10-02): Solo oder mit mehreren Menschen an **einem** Gerät
+(geteiltes Terminal, eigener Eingabeprompt je Zug), mit freiwilligen
+KI-Spieler-Personas statt/zusätzlich zu echten Mitspielern. KI-SL,
+NSCs/In-Game-Charaktere und Spieler-Personas sind dabei drei verschiedene
+Dinge: die KI-SL leitet immer; eine Spieler-Persona ist ein eigener,
+freiwillig entscheidender simulierter Mitspieler mit eigener Figur, kein
+NSC und kein automatischer Lückenfüller. „Ohne weitere Menschen" ist
+normales Solo mit möglichen KI-Mitspielern am selben Terminal — ein
+ausdrücklich gestarteter, separat dokumentierter Labormodus ganz ohne
+anwesenden Menschen ist davon zu unterscheiden. Private Tische bleiben 1–5
+Spieler inklusive Leader, Menschen und KI-Personas gemischt; jeder Mensch
+wählt/erschafft/importiert seine eigene Figur.
+
+Eine bekannte, bereits spielende Persona kann über den Terminalclient einer
+ausdrücklichen Einladung zu einem **gemeinsamen Level-1-Frischstart**
+zustimmen, ablehnen oder pausieren — nimmt sie an, erschafft sie einen
+ZUSÄTZLICHEN eigenen Chrononauten über denselben regulären
+Erschaffungsdialog wie ein Mensch; ihre bisherige Figur, die Community und
+fremde Persona-Daten bleiben davon unberührt. Teilnehmergedächtnis
+(„wir kennen uns als Mitspieler") und Figurenwissen (In-World-Geheimnisse
+der alten Figur) sind dabei getrennt — Letzteres wird nicht automatisch in
+die neue Figur übernommen.
+
+**Natives LAN-/Remote-Mitspielen über den Terminalclient ist noch nicht
+ausgeliefert** — die bisherige Chat-/Bildschirm-/Voice-Nutzung unten bleibt
+dafür bewusst der aktuelle Weg für „gemeinsam über das Netz". Ein lokaler
+Fokuswechsel am geteilten Terminal ist kein „online verbunden".
 
 ---
 
@@ -99,10 +140,10 @@ Rift-Op · Episoden-Boss-Run in Aussicht · 1 offener Rift · Level 9
 suche 1–2 Leute · Modus: strict
 ```
 
-Und ganz ehrlich: Zeig ruhig, was du hast. Ein harter Rift, ein Level, auf
-das du stolz bist, ein Charakter mit Geschichte — **posten ist ausdrücklich
-auch zum Angeben da.** Du gibst dabei nichts von dir preis, was dir schadet
-(siehe [Du verlierst nie etwas](#8-du-verlierst-nie-etwas), unten).
+Ein harter Rift, ein Level, auf das du stolz bist, ein Charakter mit
+Geschichte — du kannst deinen Stand mit der Runde teilen. Prüfe vorher,
+welche persönlichen Angaben und Inhalte dein Save enthält, und teile ihn
+bewusst (siehe [Spielstand behalten und bewusst teilen](#8-spielstand-behalten-und-bewusst-teilen)).
 
 > **Für Neugierige:** Ein gepostetes JSON kann man kurz in einen JSON-Viewer
 > (oder einfach den Browser) werfen und nachsehen, was jemand für ein Szenario
@@ -257,20 +298,25 @@ sauber seinen eigenen Stand.
 
 ---
 
-## 8. Du verlierst nie etwas
+## 8. Spielstand behalten und bewusst teilen
 
-Das ist der Kern, der das Ganze entspannt macht:
+Bewahre deinen letzten gültigen persönlichen Save selbst auf. Eine eigene
+Kopie ermöglicht die Fortsetzung vom darin gespeicherten Stand, auch wenn
+eine Runde endet oder ihr den Leader wechselt. Noch nicht gespeicherter
+Fortschritt ist dadurch nicht gesichert; eine beschädigte oder verlorene
+Kopie lässt sich nicht allein durch ihre Portabilität wiederherstellen.
 
-- **Dein JSON gehört dir.** Es zu posten gibt nichts von dir preis, was dir
-  schadet — es ist eine Kopie, das Original bleibt bei dir.
-- **Eine Gruppe zerbricht mitten im Spiel?** Kein Drama. Du hast dein letztes
-  gespeichertes JSON. Nimm es und such dir eine neue Runde — oder spiel solo
-  weiter.
-- **Der Leader ist weg?** Dein Stand ist trotzdem sicher, sobald zuletzt
-  gespeichert wurde. Deshalb speichert man an Abschnittsgrenzen.
+Ein Save kann persönliche Angaben und Inhalte enthalten. Teile deinen
+eigenen Save bewusst; Zugangsdaten und private Erinnerungen anderer
+Personas gehören nicht in eine geteilte Datei.
 
-Es gibt keinen Account, der gesperrt werden kann, und keinen Server, der
-abstürzt. Solange du dein JSON hast, bist du im Spiel.
+**Persönlicher Save, lokaler Communitybestand und getestete Sicherung sind
+verschiedene Dinge.** Der Save einer Figur ersetzt nicht die Gemeinschaft
+mit Persona-Identitäten, Erinnerungen, anderen Figuren sowie ihren
+Auftrags- und Fortsetzungsdaten. Eine vollständige Sicherung und
+Wiederherstellung dieses Verbunds ist im hier beschriebenen lokalen
+Terminal-Entwicklungsstand noch nicht durchgängig nachgewiesen. Nativer
+LAN-/Remote-Join ist davon nochmals getrennt.
 
 ---
 

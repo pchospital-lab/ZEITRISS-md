@@ -66,6 +66,24 @@ klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
 | Multiplayer  | Begrenzt         | Am Tisch       | Drop-in/out per Save |
 | Regelwerk    | Keins            | Buch (100+ S.) | Im Wissensspeicher   |
 
+## Zwei Spielwege
+
+Es gibt zwei zusammenhängende, aber getrennte Wege, ZEITRISS zu spielen:
+
+- **Lokaler Terminal-Client** (`python3 scripts/mmo_sim.py`): bündelt Einstieg,
+  Figuren, Lobby, Tisch und Spielstandsverwaltung an einem Ort — Status und
+  Umfang stehen zusammenhängend im Abschnitt [Terminal-Client](#terminal-client-lokal-entwicklungskandidat)
+  weiter unten.
+- **Portabler Chat-/JSON-Weg** (eine beliebige, geeignete Chatplattform +
+  `!save`-JSON): plattformunabhängig, weiterhin der breiter abgenommene Weg —
+  beschrieben in [Setup: vorhandene Chatplattform nutzen](#setup-vorhandene-chatplattform-nutzen)
+  und im [Koop- & Online-Leitfaden](docs/koop-online-spielen.md).
+
+Die beiden folgenden Abschnitte ("Dein Save IST dein Charakter",
+"Bestehendes Charaktermaterial mitbringen") beschreiben Save-/Mehrspieler-
+Grundkonzepte, die für BEIDE Wege gelten, bevor sie unten je einzeln vertieft
+werden.
+
 ## Dein Save IST dein Charakter
 
 **Save = Charakter.** Euer Fortschritt hängt nicht an einem Server. Der
@@ -115,6 +133,30 @@ Startcharakter übersetzt.
 Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
 Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
 Textzusammenfassung der wichtigsten Eckdaten.
+
+## Terminal-Client (lokal, Entwicklungskandidat)
+
+ZEITRISS ist ein KI-geleitetes Zeitreise-Rollenspiel. Ein lokaler
+Terminalclient (`python3 scripts/mmo_sim.py`, siehe [mmo-sim.md](docs/mmo-sim.md))
+bündelt zusätzlich Einstieg, Figuren, Lobby, Tisch und Spielstandsverwaltung
+über der oben beschriebenen Masterprompt-/RAG-Engine — die portable
+Chatnutzung (Setup/Multiplayer oben) bleibt davon unverändert erhalten und
+ist weiterhin der breiter abgenommene Weg.
+
+> **Status (2026-10-02, kontrolliert offline geprüft, kein Live-/Install-/
+> LAN-PASS):** Solo lokal; mehrere Menschen an einem Gerät (geteiltes
+> Terminal, eigener Eingabeprompt je Zug); freiwillige KI-Spieler-Personas
+> mit echtem Einladungs-/Zustimmungsvertrag (Annahme/Ablehnung/Pause); eine
+> bekannte, bereits spielende Persona kann auf ausdrückliche Einladung einen
+> zusätzlichen eigenen Chrononauten erschaffen, damit Mensch und Persona
+> gemeinsam frisch auf Level 1 beginnen — alte Figuren, Community und
+> fremde Persona-Daten bleiben dabei unverändert erhalten. JSON-Import/
+> -Export ohne manuelles Dateihandling. Beide Provider-Profile (lokale
+> CLI-Isolation und API/LiteLLM-Profil) sind an ihrer echten Adaptergrenze
+> mit markierten Test-Doubles geprüft (`tests/mmo_sim/run_all.py`), **kein
+> echter Modellaufruf in dieser Prüfung**. Natives LAN-/Remote-Mitspielen
+> über das Netzwerk ist noch nicht ausgeliefert; echte Installation/
+> Abo-Kompatibilität für Endnutzer ist nicht Teil dieser Prüfung.
 
 ## Setup: vorhandene Chatplattform nutzen
 
