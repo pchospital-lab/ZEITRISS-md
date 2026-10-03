@@ -63,14 +63,18 @@ class SLSession:
                 encoding="utf-8",
             )
 
-    def turn(self, turn_idx: int, user_text: str) -> dict:
+    def turn(self, turn_idx: int, user_text: str, output_limit_tokens: float | None = None) -> dict:
         """Schickt user_text an die SL, persistiert Turn, gibt Ergebnis zurück.
 
         Rückgabe-Vertrag identisch zu OWUIChat.say(): {content, usage,
         sources, latency_s, chat_id} — Save-Detection/Quality-Checks aus dem
         bestehenden Harness lassen sich unverändert darauf anwenden.
+
+        E4 (Auflage 4, MAIN-ENTSCHEIDUNG I2-Nachzug GM-Weg): `output_limit_tokens`
+        additiv durchgereicht an `OWUIChat.say()` -- Default `None` sendet
+        keinen `max_tokens`-Body-Key (unveraendertes P1-Verhalten).
         """
-        res = self.chat.say(user_text)
+        res = self.chat.say(user_text, output_limit_tokens=output_limit_tokens)
         ptok = res["usage"].get("prompt_tokens", 0)
         ctok = res["usage"].get("completion_tokens", 0)
         cost = ptok / 1e6 * PRICE_IN + ctok / 1e6 * PRICE_OUT

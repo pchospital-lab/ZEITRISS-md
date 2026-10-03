@@ -75,11 +75,20 @@ class OWUIChat:
         raise last_err  # type: ignore[misc]
 
     # ── ein SL-Turn ───────────────────────────────────────────────────────
-    def say(self, user_text: str) -> dict:
+    def say(self, user_text: str, output_limit_tokens: float | None = None) -> dict:
         """Schickt eine Nutzer-Nachricht, gibt {content, usage, sources, latency} zurück.
 
         Fährt den Browser-Pfad: parent_id/user_message + messages[]-Historie,
         files:[collection] -> OWUI macht RAG selbst.
+
+        E4 (Auflage 4, MAIN-ENTSCHEIDUNG I2-Nachzug GM-Weg): `output_limit_tokens`
+        ist additiv und optional (Default `None`) -- ohne Angabe traegt der
+        Body KEINEN `max_tokens`-Key, exakt das bisherige P1-Verhalten (die
+        sechs bestehenden `.say(user_text)`-Einzelargument-Aufrufer bleiben
+        unveraendert). Nur wenn ein Aufrufer eine ECHTE, konfigurierte Grenze
+        kennt (s. `mmo_sim/adapters/gm_owui.py`), wird sie -- analog
+        `stateless_completion`s festem `max_tokens=300` -- real im Body
+        gesendet.
         """
         self.history.append({"role": "user", "content": user_text})
         # WICHTIG: KEIN parent_id/user_message senden. Das würde is_new_chat=True
@@ -94,6 +103,8 @@ class OWUIChat:
         }
         if self.kb_id:
             body["files"] = [{"type": "collection", "id": self.kb_id}]
+        if output_limit_tokens:
+            body["max_tokens"] = output_limit_tokens
 
         t0 = time.time()
         resp = self._post("/api/chat/completions", body)
