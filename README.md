@@ -70,7 +70,8 @@ klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
 
 Es gibt zwei zusammenhängende, aber getrennte Wege, ZEITRISS zu spielen:
 
-- **Lokaler Terminal-Client** (`python3 scripts/mmo_sim.py`): bündelt Einstieg,
+- **Lokaler Terminal-Client** (`python3 scripts/mmo_sim.py`, direkter
+  Einstieg: [Spielerstart](docs/spielerstart.md)): bündelt Einstieg,
   Figuren, Lobby, Tisch und Spielstandsverwaltung an einem Ort — Status und
   Umfang stehen zusammenhängend im Abschnitt [Terminal-Client](#terminal-client-lokal-entwicklungskandidat)
   weiter unten.
@@ -137,7 +138,9 @@ Textzusammenfassung der wichtigsten Eckdaten.
 ## Terminal-Client (lokal, Entwicklungskandidat)
 
 ZEITRISS ist ein KI-geleitetes Zeitreise-Rollenspiel. Ein lokaler
-Terminalclient (`python3 scripts/mmo_sim.py`, siehe [mmo-sim.md](docs/mmo-sim.md))
+Terminalclient (`python3 scripts/mmo_sim.py`, Spieleranleitung:
+[docs/spielerstart.md](docs/spielerstart.md), Betriebsdoku:
+[mmo-sim.md](docs/mmo-sim.md))
 bündelt zusätzlich Einstieg, Figuren, Lobby, Tisch und Spielstandsverwaltung
 über der oben beschriebenen Masterprompt-/RAG-Engine — die portable
 Chatnutzung (Setup/Multiplayer oben) bleibt davon unverändert erhalten und

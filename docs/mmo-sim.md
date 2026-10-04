@@ -1,5 +1,8 @@
 # ZEITRISS MMO-Sim — Bedien-/Betriebsdoku (lokaler Entwicklungskandidat)
 
+> **Diese Seite ist Entwickler-/Betriebsdoku**, keine Spieleranleitung.
+> Willst du einfach spielen: [docs/spielerstart.md](spielerstart.md).
+
 > **Status (2026-10-03):** Ausgewählte lokale Funktionsumfänge sind
 > kontrolliert offline geprüft. IA-1 (Schutz von Current und inaktivem
 > eigenen Figurenarchiv beim Resume) ist auf Quellstand `48ff6409`
