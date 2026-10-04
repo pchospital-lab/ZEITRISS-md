@@ -27,7 +27,8 @@ spielt auf seiner eigenen Plattform, trifft sich über einen geteilten Chat
 breiter abgenommene Weg und funktioniert plattformunabhängig.
 
 Zusätzlich gibt es den **lokalen Terminalclient** (`python3 scripts/
-mmo_sim.py`, siehe [mmo-sim.md](mmo-sim.md), Status kontrolliert offline
+mmo_sim.py`, Spieleranleitung: [spielerstart.md](spielerstart.md),
+Betriebsdoku: [mmo-sim.md](mmo-sim.md), Status kontrolliert offline
 geprüft, 2026-10-02): Solo oder mit mehreren Menschen an **einem** Gerät
 (geteiltes Terminal, eigener Eingabeprompt je Zug), mit freiwilligen
 KI-Spieler-Personas statt/zusätzlich zu echten Mitspielern. KI-SL,
