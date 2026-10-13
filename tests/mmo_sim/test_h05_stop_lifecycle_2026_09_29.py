@@ -929,6 +929,7 @@ class _ObserverDrain:
     Zeile) kommt aus den Sammelpuffern."""
 
     def __init__(self, proc):
+        self._proc = proc
         self._out: list[str] = []
         self._err: list[str] = []
         self._first_output = threading.Event()
@@ -977,6 +978,31 @@ class _ObserverDrain:
             raise AssertionError("P3: Observer-Reader-Thread nach join noch aktiv -- Stream nicht sauber abgenommen")
         self._raise_reader_errors()
         return "".join(self._out), "".join(self._err)
+
+    def diagnostics(self):
+        """Macht einen ausbleibenden Startfehler auswertbar, ohne die Ausgabe
+        erst nach Cleanup/Kill als rechtzeitige Startbestaetigung zu zaehlen:
+        aktueller poll()/Exitstatus, bisher abgenommene stdout-Menge, stderr-
+        Tail und etwaige Reader-Thread-Fehler -- keine Credentials/Fremddaten."""
+        err_text = "".join(self._err)
+        return {
+            "poll": self._proc.poll(),
+            "stdout_bytes": sum(len(c) for c in self._out),
+            "stdout_lines": len(self._out),
+            "stderr_tail": err_text[-800:],
+            "reader_errors": [repr(e) for e in self._errors],
+        }
+
+
+def _assert_first_output(drain, proc, timeout, who):
+    """Startbestaetigung mit auswertbarem Fehlerpfad: schlaegt wait_first_output
+    fehl, wird der reale Kindzustand (poll/stderr/stdout-Menge/Readerfehler)
+    in die Fehlermeldung gehoben, statt nur generisch zu melden."""
+    if not drain.wait_first_output(timeout):
+        raise AssertionError(
+            f"P3: {who} haette mindestens eine Ausgabezeile liefern muessen, "
+            f"bevor EOF/SIGINT gesendet wird -- Kinddiagnose: {drain.diagnostics()}"
+        )
 
 
 def test_p3_observer_end():
@@ -1061,7 +1087,7 @@ def test_p3_observer_end():
                 env=observer_env, cwd=str(_REPO_ROOT),
             )
             observer_a_drain = _ObserverDrain(observer_a)
-            assert observer_a_drain.wait_first_output(20), "P3: Observer A haette mindestens eine Ausgabezeile liefern muessen, bevor EOF gesendet wird"
+            _assert_first_output(observer_a_drain, observer_a, 20, "Observer A")
             observer_a.stdin.close()  # echtes stdin-EOF ueber die eigene Pipe -- kein --max-updates.
             try:
                 observer_a_rc = observer_a.wait(timeout=8)
@@ -1091,7 +1117,7 @@ def test_p3_observer_end():
                 env=observer_env, cwd=str(_REPO_ROOT),
             )
             observer_b_drain = _ObserverDrain(observer_b)
-            assert observer_b_drain.wait_first_output(20), "P3: Observer B haette mindestens eine Ausgabezeile liefern muessen, bevor SIGINT gesendet wird"
+            _assert_first_output(observer_b_drain, observer_b, 20, "Observer B")
             observer_b.send_signal(signal.SIGINT)
             _log_signal_event(case, "observer_b_sigint", pid=observer_b.pid, sig=signal.SIGINT, note="P3 Observerende")
             try:
@@ -1163,6 +1189,57 @@ def test_p3_observer_end():
             "status": "PASS", "controller_returncode": proc.returncode,
             "observer_a_rc": observer_a_rc, "observer_b_rc": observer_b_rc,
         })
+
+
+def test_p3_observer_capture_contract():
+    """Gezielte, vom P3-Gesamtaufbau unabhaengige Regression fuer `_ObserverDrain`
+    (Fehlerpfad + Rueckstau), damit die P3-Capture-Zusagen nicht erst im vollen
+    Controller-/Persona-Aufbau brechen:
+      1) erste ECHTE Ausgabe wird prompt als Startbestaetigung sichtbar;
+      2) ein Ausgabeschub > Pipe-Buffer (~64KB) fuehrt NICHT zu Rueckstau/Deadlock;
+      3) stdin-EOF beendet das Kind selbststaendig mit rc=0, collect() liefert die
+         VOLLSTAENDIGE Ausgabe (inkl. erster Zeile);
+      4) ein stilles Kind macht den Startfehler ueber diagnostics() auswertbar und
+         wird sauber eingesammelt (keine zurueckgelassenen Prozesse)."""
+    obs_src = (
+        "import sys, select\n"
+        "sys.stdout.write('START\\n'); sys.stdout.flush()\n"
+        "for _ in range(500):\n"
+        "    sys.stdout.write('Z'*400+'\\n'); sys.stdout.flush()\n"
+        "while True:\n"
+        "    r,_,_ = select.select([sys.stdin],[],[],0.1)\n"
+        "    if r and sys.stdin.readline()=='':\n"
+        "        sys.exit(0)\n"
+        "    sys.stdout.write('tick\\n'); sys.stdout.flush()\n"
+    )
+    p = subprocess.Popen([sys.executable, "-c", obs_src], stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    try:
+        drain = _ObserverDrain(p)
+        _assert_first_output(drain, p, 10, "Regression-Observer")
+        p.stdin.close()
+        rc = p.wait(timeout=8)
+        out, _err = drain.collect()
+        assert rc == 0, f"Regression: Kind haette bei stdin-EOF rc=0 liefern muessen: {rc}"
+        assert len(out) > 64 * 1024, f"Regression: grosser Schub nicht vollstaendig abgenommen: {len(out)} Bytes"
+        assert out.startswith("START"), "Regression: erste Zeile fehlt im Gesamt-Capture"
+    finally:
+        if p.poll() is None:
+            p.kill(); p.wait(timeout=10)
+
+    # Stilles Kind: ausbleibende Startausgabe bleibt ueber diagnostics() auswertbar,
+    # Prozess/Reader werden sauber eingesammelt.
+    q = subprocess.Popen([sys.executable, "-c", "import time\ntime.sleep(30)\n"], stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    qdrain = _ObserverDrain(q)
+    try:
+        assert qdrain.wait_first_output(2) is False, "Regression: stilles Kind haette keine Startausgabe zeigen duerfen"
+        diag = qdrain.diagnostics()
+        assert diag["stdout_bytes"] == 0 and diag["reader_errors"] == [], f"Regression: unerwartete Startdiagnose: {diag}"
+    finally:
+        if q.poll() is None:
+            q.kill(); q.wait(timeout=10)
+        qdrain.collect()
 
 
 # ---------------------------------------------------------------------------
@@ -1706,6 +1783,7 @@ if __name__ == "__main__":
         test_p2_reflection_stop_api,
         test_p2_reflection_stop_hybrid,
         test_p3_observer_end,
+        test_p3_observer_capture_contract,
         test_p4_controller_sigint_api,
         test_p4_controller_sigterm_hybrid,
         test_p5_hard_interrupt_resume,
