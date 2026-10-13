@@ -45,6 +45,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.adapters.fakes import FakeHTTPServer  # noqa: E402
 from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
@@ -65,10 +67,7 @@ ANSWER = "SYNTHETIC_CONTINUITY_A1: Ich waehle einen Karabiner."
 
 
 def _block(pk: str, stage: str = "created") -> dict:
-    return {
-        "v": 7, "save_id": f"SYNTHETIC-{stage}-{pk}",
-        "characters": [{"char_id": f"chrono-{pk}", "name": f"Synthetic {pk}", "callsign": pk.upper(), "level": 1}],
-    }
+    return full_v7_save(f"chrono-{pk}", name=f"Synthetic {pk}", callsign=pk.upper(), level=1, save_id=f"SYNTHETIC-{stage}-{pk}")
 
 
 def _fenced(block: dict) -> str:
@@ -110,7 +109,7 @@ def _ready_coherent(base: Path, pk: str) -> bool:
         return False
     if current is None:
         return False
-    char_id = current["characters"][0]["char_id"]
+    char_id = current["characters"][0]["id"]
     active = catalog.active_chrononaut_id(base / "catalog", pk)
     persona_state = PS.load_state(pk, states_dir=base / "states")
     entries = catalog.list_for_participant(base / "catalog", pk)

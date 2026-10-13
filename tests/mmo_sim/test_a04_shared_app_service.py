@@ -20,6 +20,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import app_service, store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
@@ -42,19 +44,35 @@ class _MarkerGm:
     """Liefert den Abschluss-Marker SOFORT auf den ersten Turn -- der
     Zweck dieses Tests ist der BEWEIS des gemeinsamen Call-Pfads, nicht ein
     vollstaendiger Spieldurchlauf (der wird separat in
-    test_p2_offline_player_journey.py gefuehrt)."""
+    test_p2_offline_player_journey.py gefuehrt).
 
-    def __init__(self):
+    W50 NEW_FLOW_SEQUENCE (Savegate-Harvest, 02_TEAM_UND_QUELLRAHMEN.md
+    "Testfixtures versus Schutzassertionen"): die SL-Antwort muss seit dem
+    Savegate-Umbau (`core.runtime.run_full_section.finalize`) einen echten,
+    vollschema-gueltigen v7-Save-Block fuer die abgeschlossene Figur
+    ENTHALTEN, sonst gilt die Ernte als unvollstaendig und
+    `save_correction.pursue_group_save_correction` fragt bis zu drei
+    zusaetzliche Male bei der SL nach -- der alte bloße-Marker-Fake loeste
+    das (ungewollt) aus und liess `gm.calls`/`gm_b.calls` auf 4 statt 1
+    laufen, obwohl dieser Test ausschliesslich den gemeinsamen Call-Pfad
+    beweisen soll, nicht die Korrekturschleife. `save_text` liefert optional
+    genau diesen Block (fenced JSON, VOR dem Marker, also ausserhalb des
+    Marker-Fence -- `core.completion_marker.top_level_lines` zaehlt die
+    Markerzeile weiterhin unveraendert)."""
+
+    def __init__(self, save_text: str = ""):
         self.calls = 0
         # E1/E2 (MAIN-ENTSCHEIDUNG I2-Nachzug GM-Weg): konfigurierte
         # Ausgabegrenze nachgebildet -- ohne dieses Attribut wuerde das jetzt
         # korrekt durchgesetzte Q07-Prinzip (kein erkennbares Limit + hartes
         # `max_usd` -> ablehnen) diese reine Call-Path-Spy-Fixture blockieren.
         self.output_limit_tokens = 2000
+        self._save_text = save_text
 
     def turn(self, turn_idx: int, user_text: str, output_limit_tokens: float | None = None) -> dict:
         self.calls += 1
-        return {"content": COMPLETION_MARKER, "usage": {}, "sources": [], "latency_s": 0.0, "chat_id": "fake"}
+        content = f"{self._save_text}\n{COMPLETION_MARKER}" if self._save_text else COMPLETION_MARKER
+        return {"content": content, "usage": {}, "sources": [], "latency_s": 0.0, "chat_id": "fake"}
 
 
 class _OneShotDriver:
@@ -100,7 +118,7 @@ def test_lab_and_tui_call_the_same_run_play_session():
                 {"lab_pk": "chrono-a04"},
             )
             assert table is not None
-            gm = _MarkerGm()
+            gm = _MarkerGm(save_text=full_v7_block_text("chrono-a04", name="Test"))
             driver = _OneShotDriver()
             controller = TableController("lab_pk", {"lab_pk": driver})
             lab = LabRunner(run_dir, LabBudget(max_turns=100, max_seconds=1000, max_usd=10.0))
@@ -113,7 +131,14 @@ def test_lab_and_tui_call_the_same_run_play_session():
             )
             lab.release()
         assert len(calls) == 1, "Lab-Pfad haette run_play_session GENAU EINMAL aufrufen muessen"
-        assert driver.calls == 1
+        # W50 NEW_FLOW_SEQUENCE (Pflicht-Reflexion, Plan §1 Punkt 6 /
+        # PLAN-CRITIC-DURCHSTICH.md, core.runtime._collect_reflections):
+        # der zweite `decide()`-Aufruf ist die fuer KI-Personas VORGESEHENE
+        # (Pflicht-)Reflexion NACH dem Abschluss-Marker, kein zweiter
+        # Spielzug -- derselbe Call-Pfad-Beweis bleibt unberuehrt, da auch
+        # die Reflexion ausschliesslich ueber `controller.collect_decision`
+        # desselben Treibers laeuft.
+        assert driver.calls == 2
         assert gm.calls == 1
 
         # ── (b) TUI-Pfad (`l`, lokale Runde) ────────────────────────────
@@ -122,12 +147,12 @@ def test_lab_and_tui_call_the_same_run_play_session():
             schema_path, states_dir, run_dir, ps_store = _setup_env(root_b, "p_tui")
             onboarding_dir = root_b / "onboarding"
             catalog_dir = root_b / "catalog"
-            save_block = {"v": 7, "characters": [{"char_id": "chrono-a04", "name": "Test"}]}
+            save_block = full_v7_save("chrono-a04", name="Test")
             onboarding.start_or_resume(onboarding_dir, "p_tui")
             onboarding.complete_with_save(
                 onboarding_dir, "p_tui", save_block, ZeitrissHarvestValidator(), "chrono-a04",
             )
-            gm_b = _MarkerGm()
+            gm_b = _MarkerGm(save_text=full_v7_block_text("chrono-a04", name="Test"))
             scripted = iter(["Meine Aktion."])
 
             def _input_fn(prompt=""):

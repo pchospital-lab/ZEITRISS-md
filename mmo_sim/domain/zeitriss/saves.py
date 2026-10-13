@@ -28,23 +28,49 @@ def _try_v7(blob: str) -> dict | None:
     return None
 
 
-def extract_all_saves(text: str) -> list[dict]:
-    """Alle v7-Save-Bloecke aus einem SL-Antworttext ziehen (dedupliziert)."""
+def extract_all_saves_raw(text: str) -> list[dict]:
+    """G02/SC06 (01_AUFTRAG_SAVEGATE.md §A): wie `extract_all_saves`, aber
+    OHNE jede Dedup/'erster gewinnt' -- JEDER einzelne gefundene v7-Block
+    bleibt erhalten, auch wenn er mit einem anderen Treffer dieselbe
+    `save_id`/`char_id` teilt. Mehrdeutigkeit (zwei Bloecke derselben ID mit
+    ABWEICHENDEM Inhalt) darf vor der eigentlichen Pruefung NICHT
+    unsichtbar werden -- das ist der strikte Rohextraktionspfad, den der
+    Annahmepunkt (`save_validation.extract_checked_single` und die
+    Korrektur-/Gruppenharvest-Aufrufer in `core/save_correction.py`)
+    AUSWERTET, BEVOR irgendeine Auswahl getroffen wird. Reine Funktion,
+    identische Erkennungsregeln wie `extract_all_saves` (fenced ```json
+    Bloecke, sonst ein einzelner lockerer `{...}`-Fallback)."""
     out: list[dict] = []
-    seen: set[str] = set()
     for m in re.finditer(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL):
         obj = _try_v7(m.group(1))
         if obj is not None:
-            key = obj.get("save_id") or json.dumps(obj, sort_keys=True)[:80]
-            if key not in seen:
-                seen.add(key)
-                out.append(obj)
+            out.append(obj)
     if not out and '"v"' in text:
         start, end = text.find("{"), text.rfind("}")
         if 0 <= start < end:
             obj = _try_v7(text[start:end + 1])
             if obj is not None:
                 out.append(obj)
+    return out
+
+
+def extract_all_saves(text: str) -> list[dict]:
+    """Alle v7-Save-Bloecke aus einem SL-Antworttext ziehen (dedupliziert).
+
+    Verhalten UNVERAENDERT (bewusst weiterhin 'erster gewinnt' bei
+    gleicher `save_id`) -- dieser lockere Altparser bleibt fuer die
+    zahlreichen unbeteiligten bestehenden Aufrufer (Tests, interne QA-
+    Harness, sonstige Diagnoseausgaben) bytegleich; NUR auf
+    `extract_all_saves_raw` (s.o.) umgestellt, um die Erkennungsregex nicht
+    zweimal zu pflegen. Der strikte, mehrdeutigkeitssichere Annahmepfad
+    (SC06) nutzt NIE diese Funktion, sondern `extract_all_saves_raw` direkt."""
+    out: list[dict] = []
+    seen: set[str] = set()
+    for obj in extract_all_saves_raw(text):
+        key = obj.get("save_id") or json.dumps(obj, sort_keys=True)[:80]
+        if key not in seen:
+            seen.add(key)
+            out.append(obj)
     return out
 
 

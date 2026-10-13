@@ -44,16 +44,34 @@ class SLSession:
     """
 
     def __init__(self, run_dir: Path, sl_model: str | None = None,
-                 kb_id: str | None = None, timeout: int = TIMEOUT_SL):
+                 kb_id: str | None = None, timeout: int = TIMEOUT_SL,
+                 max_retries: int | None = None, backoff: float | None = None):
         if not API_KEY:
             raise RuntimeError(
                 "OPENWEBUI_API_KEY fehlt — erst: set -a; . ~/.openwebui_env; set +a")
         self.run_dir = Path(run_dir)
         self.md_path = self.run_dir / "sl_history.md"
         self.jsonl_path = self.run_dir / "sl_history.jsonl"
+        # W51 (01_RESTAUFTRAG.md §3, 03_LIVE3_FUENFER_UND_LAUFZEIT.md
+        # "hoechstens EIN Transportversuch je Liveaktion ... keine
+        # zusaetzlichen HTTP-Retries bei unklarem Ausgang"): `max_retries`/
+        # `backoff` sind additiv und OPTIONAL (Default `None`) -- nur
+        # explizit uebergeben (per-Run-Threading, SCOPE.json
+        # semantic_constraints.adapters), sonst behaelt `OWUIChat` SEINEN
+        # eigenen Default (3 Versuche mit Backoff, P1-Verhalten fuer jeden
+        # bestehenden Aufrufer dieses Harness-Clients UNVERAENDERT). Fuer
+        # LIVE3 konstruiert `mmo_sim/adapters/gm_owui.py` mit `max_retries=1`
+        # -- EIN physischer POST pro `.turn()`-Aufruf, kein automatischer
+        # Zweitversand bei einer bereits serverseitig moeglicherweise
+        # ausgefuehrten, nur clientseitig unklar beantworteten Anfrage.
+        owui_kwargs: dict = {}
+        if max_retries is not None:
+            owui_kwargs["max_retries"] = max_retries
+        if backoff is not None:
+            owui_kwargs["backoff"] = backoff
         self.chat = OWUIChat(
             BASE_URL, API_KEY, sl_model or SL_MODEL,
-            kb_id=kb_id or KB_ID, timeout=timeout,
+            kb_id=kb_id or KB_ID, timeout=timeout, **owui_kwargs,
         )
         self.cum_cost = 0.0
         if not self.md_path.exists():
@@ -115,7 +133,8 @@ class SLSession:
 
     @classmethod
     def from_history(cls, run_dir: Path, sl_model: str | None = None,
-                     kb_id: str | None = None, timeout: int = TIMEOUT_SL) -> "SLSession":
+                     kb_id: str | None = None, timeout: int = TIMEOUT_SL,
+                     max_retries: int | None = None, backoff: float | None = None) -> "SLSession":
         """Rekonstruiert eine SLSession aus sl_history.jsonl (M1-Fix).
 
         Schliesst die in ORCHESTRATION.md §2 selbst benannte Luecke: bei einem
@@ -126,8 +145,15 @@ class SLSession:
         naechsten .turn()-Aufruf. Korrupte Zeilen werden uebersprungen, nicht
         fatal. Ohne diese Funktion muesste jeder Turn die fehleranfaellige
         Handrekonstruktion wiederholen.
+
+        `max_retries`/`backoff`: wie `__init__` additiv/optional durchgereicht
+        (W51, s. dortiger Docstring) -- ein fortgesetzter Abschnitt behaelt
+        dieselbe Transportkonfiguration wie sein erster Aufruf.
         """
-        sess = cls(run_dir, sl_model=sl_model, kb_id=kb_id, timeout=timeout)
+        sess = cls(
+            run_dir, sl_model=sl_model, kb_id=kb_id, timeout=timeout,
+            max_retries=max_retries, backoff=backoff,
+        )
         if not sess.jsonl_path.exists():
             return sess
         history: list[dict] = []
@@ -155,9 +181,15 @@ class SLSession:
 
 
 def new_sl_session(run_dir: str | Path, sl_model: str | None = None,
-                    kb_id: str | None = None) -> SLSession:
-    """Convenience-Factory, wie new_sl_chat() in solo_journey.py."""
-    return SLSession(Path(run_dir), sl_model=sl_model, kb_id=kb_id)
+                    kb_id: str | None = None, timeout: int = TIMEOUT_SL,
+                    max_retries: int | None = None, backoff: float | None = None) -> SLSession:
+    """Convenience-Factory, wie new_sl_chat() in solo_journey.py. `timeout`/
+    `max_retries`/`backoff` additiv/optional durchgereicht (W51, s.
+    `SLSession.__init__`)."""
+    return SLSession(
+        Path(run_dir), sl_model=sl_model, kb_id=kb_id, timeout=timeout,
+        max_retries=max_retries, backoff=backoff,
+    )
 
 
 if __name__ == "__main__":

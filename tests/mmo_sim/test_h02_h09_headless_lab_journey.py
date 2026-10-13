@@ -44,7 +44,7 @@ from mmo_sim.domain.zeitriss.policy import COMPLETION_MARKER, ZeitrissTableSizeP
 from mmo_sim.lab import runner as lab_runner  # noqa: E402
 
 from test_l01_l10_lobby_initiative import (  # noqa: E402
-    _FIX, _bootstrap_community, _make_ready, _persona_http_server, _session,
+    _bootstrap_community, _load_fixture_save, _make_ready, _persona_http_server, _session,
 )
 
 _MMO_SIM = _REPO_ROOT / "scripts" / "mmo_sim.py"
@@ -94,7 +94,7 @@ def test_h02_h07_full_journey_start_then_resume_real_subprocess_loopback():
         assert len(offers_after_p1) == 1, "genau EIN Angebot nach 'lab start' erwartet"
         offer_id = offers_after_p1[0]["offer_id"]
         table_id, section_id = "lobby-sniper-tech", "lobby-sniper-tech-section"
-        final_saves = {pk: json.loads((_FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in keys}
+        final_saves = {pk: _load_fixture_save(pk) for pk in keys}
         debrief_blocks = "\n".join(
             f"```json\n{json.dumps(b, ensure_ascii=False)}\n```" for b in final_saves.values()
         )

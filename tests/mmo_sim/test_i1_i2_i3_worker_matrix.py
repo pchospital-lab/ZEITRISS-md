@@ -23,6 +23,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import upgrade_narrow_save  # noqa: E402
+
 from mmo_sim.adapters.base import (  # noqa: E402
     ParticipantDecision,
     interpret_decision_contract,
@@ -62,7 +64,7 @@ def _seed(base: Path, members: dict[str, str]):
     catalog = base / "catalog"
     saves = {}
     for pid, fx in members.items():
-        save = json.loads((_FIX / "saves" / f"{fx}.json").read_text())
+        save = upgrade_narrow_save(json.loads((_FIX / "saves" / f"{fx}.json").read_text()))
         saves[pid] = save
         ps = PersonaStateStore(_SCHEMA)
         st = json.loads((_FIX / "persona_states" / f"{fx}.json").read_text())
@@ -70,7 +72,11 @@ def _seed(base: Path, members: dict[str, str]):
         st["round_history"] = {}
         st.pop("current_save_version", None)
         ps.save_state(pid, st, states_dir=states)
-        it = iter([json.dumps(save), "ENDE"])
+        # TEST-DELTA (G02/P12): Erstimport verlangt jetzt eine eigene
+        # ausdruckliche Ja-Bestaetigung vor dem Write (s. W5-REPORT.md) --
+        # dieselbe Schutzwirkung (Figur wird uebernommen) bleibt erhalten,
+        # die Eingabesequenz bekommt dafuer ein zusaetzliches 'j'.
+        it = iter([json.dumps(save), "ENDE", "j"])
         TuiSession(
             onboard, catalog, pid, input_fn=lambda prompt="": next(it), print_fn=lambda x: None,
             run_dir=run, states_dir=states, schema_path=_SCHEMA,

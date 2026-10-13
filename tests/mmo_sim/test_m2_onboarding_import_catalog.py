@@ -17,13 +17,15 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_save  # noqa: E402
+
 from mmo_sim.domain.zeitriss import catalog, import_export, onboarding  # noqa: E402
 from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator  # noqa: E402
 from mmo_sim.registry.participants import ApplicationRecordRef, ParticipantRegistry  # noqa: E402
 
 
 def _v7_block(char_id: str, level: int = 1) -> dict:
-    return {"v": 7, "characters": [{"char_id": char_id, "level": level, "name": "Test"}]}
+    return full_v7_save(char_id, name="Test", level=level)
 
 
 # ── A17: geführte Einzel-Erschaffung, resumable, kein Dummy vor Save ────────────

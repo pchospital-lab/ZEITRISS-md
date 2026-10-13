@@ -29,6 +29,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 import mmo_sim.core.store as store  # noqa: E402
+from _full_v7_fixture import full_v7_save  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.domain.zeitriss.policy import (  # noqa: E402
     NullHarvestValidator,
@@ -105,11 +106,14 @@ def test_zeitriss_policy_still_rejects_missing_char_id():
         validator = ZeitrissHarvestValidator()
         # Kein "v":7, keine "characters" -- muss abgelehnt werden.
         assert validator.validate_block({"kind": "dummy-record"}, "chrono-1") is False
-        # Falsche char_id trotz gueltigem v7-Block -- muss abgelehnt werden.
-        v7_block = {"v": 7, "characters": [{"char_id": "other-id"}]}
-        assert validator.validate_block(v7_block, "chrono-1") is False
-        # Korrekte char_id -- muss akzeptiert werden.
-        v7_ok = {"v": 7, "characters": [{"char_id": "chrono-1"}]}
+        # Falsche Identitaet trotz ANSONSTEN voll schemakonformem v7-Block
+        # (B1: beide v7-Schemas) -- muss wegen Identitaets-Mismatch
+        # abgelehnt werden, nicht bloss wegen fehlender Pflichtfelder.
+        wrong_identity = full_v7_save("other-id", name="Testfigur A01")
+        assert validator.validate_block(wrong_identity, "chrono-1") is False
+        # Korrekte Identitaet, voll schemakonformer v7-Block -- muss
+        # akzeptiert werden (positive ZEITRISS-Kontrolle, B1 strikt).
+        v7_ok = full_v7_save("chrono-1", name="Testfigur A01")
         assert validator.validate_block(v7_ok, "chrono-1") is True
 
 

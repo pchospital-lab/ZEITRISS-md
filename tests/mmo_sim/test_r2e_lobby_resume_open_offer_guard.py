@@ -100,7 +100,7 @@ def _child_main(args: argparse.Namespace) -> None:
     hits: list[dict] = []
 
     def gm_transport_factory(tid: str):
-        saves = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in ("sniper", "tech")}
+        saves = {pk: l01._load_fixture_save(pk) for pk in ("sniper", "tech")}
         for pk, s in saves.items():
             s["save_id"] = f"repo-regression-open-offer-guard-{tid}-{pk}"
         gm = l01._TableGM(tid, f"{tid}-section", saves, turns_before_marker=3)

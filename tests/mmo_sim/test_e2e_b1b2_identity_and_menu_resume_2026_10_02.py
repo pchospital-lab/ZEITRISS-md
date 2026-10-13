@@ -53,6 +53,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
+
 from mmo_sim.core import store as core_store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
@@ -70,8 +72,7 @@ _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.js
 
 
 def _v7_block(char_id: str, name: str, **extra) -> str:
-    body = {"v": 7, "characters": [{"char_id": char_id, "name": name, "callsign": name.upper(), "level": 1, **extra}]}
-    return "```json\n" + json.dumps(body) + "\n```"
+    return full_v7_block_text(char_id, name=name, **extra)
 
 
 def _give_existing_figure(states_dir, run_dir, catalog_dir, onboarding_dir, participant_id, char_id, name):
@@ -83,9 +84,7 @@ def _give_existing_figure(states_dir, run_dir, catalog_dir, onboarding_dir, part
                         "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN"},
         "rounds_played": 1,
     }, states_dir=states_dir)
-    save = {"v": 7, "save_id": f"fixture-{char_id}", "characters": [
-        {"char_id": char_id, "id": char_id, "name": name, "callsign": name.upper(), "level": 7},
-    ]}
+    save = full_v7_save(char_id, name=name, level=7, save_id=f"fixture-{char_id}")
     onboarding.start_or_resume(onboarding_dir, participant_id)
     onboarding.complete_with_save(onboarding_dir, participant_id, save, ZeitrissHarvestValidator(), char_id)
     onboarding.ensure_participant_persona_state(ps_store, states_dir, participant_id, char_id, save)
@@ -203,7 +202,7 @@ def test_e2e_b_foreign_equal_bytes_human_holds_ownership():
         after = _current(paths, "flo_human")
         ids = [e.chrononaut_id for e in catalog.list_for_participant(cat, "flo_human")]
         assert "medic-old" not in ids, f"fremde ID darf NICHT im eigenen Katalog landen: {ids}"
-        assert after["characters"][0]["char_id"] != "medic-old", "Current darf NICHT die fremde Figur uebernehmen"
+        assert after["characters"][0]["id"] != "medic-old", "Current darf NICHT die fremde Figur uebernehmen"
         assert catalog.load_figure_save(cat, "medic", "medic-old") == foreign, "Fremdarchiv bleibt unveraendert"
 
 
@@ -227,7 +226,7 @@ def test_e2e_b_foreign_equal_bytes_persona_holds_ownership():
         ids = [e.chrononaut_id for e in catalog.list_for_participant(cat, "medic")]
         assert "human-old" not in ids, f"fremde ID darf NICHT im eigenen Katalog landen: {ids}"
         after = _current(paths, "medic")
-        assert after["characters"][0]["char_id"] != "human-old"
+        assert after["characters"][0]["id"] != "human-old"
         assert catalog.load_figure_save(cat, "flo_human", "human-old") == foreign, "Fremdarchiv bleibt unveraendert"
 
 

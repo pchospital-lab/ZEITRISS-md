@@ -20,12 +20,13 @@ Objekte von aussen (`harvest_extractor`, `marker`) — dieser Kern kennt sie
 nicht (A1-Konsistenz)."""
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from dataclasses import dataclass, field
 from typing import Callable
 
-from . import request_ledger, store
+from . import _section_completion_recovery, request_ledger, save_correction, store
 from .admission import read_admission_block, reservation_for_request, reservation_for_wire_text
 from .completion_marker import completion_marker_matches
 from .controller import TableController
@@ -87,6 +88,7 @@ class SectionRuntime:
         persona_state_store: PersonaStateStore,
         harvest_extractor: HarvestExtractor,
         event_log: EventLog | None = None,
+        status_fn: Callable[[str], None] | None = None,
     ):
         self.lobby = lobby
         self.table = table
@@ -96,6 +98,15 @@ class SectionRuntime:
         self.persona_state_store = persona_state_store
         self.harvest_extractor = harvest_extractor
         self.event_log = event_log
+        # W51 (01_RESTAUFTRAG.md §3, SCOPE.json semantic_constraints.ui
+        # "pending save/correction status and controls"): additiv, OPTIONAL
+        # (Default `None` -> No-op) -- `lab/runner.py` (headless) konstruiert
+        # ohne `status_fn` und bleibt dadurch unveraendert stumm; NUR
+        # `ui/tui.py` reicht `self._print` durch (s. `app_service.
+        # run_play_session`). Kein neuer EventLog-Eintragstyp (events.py
+        # bleibt IMMUTABLE, s. Kommentar bei `pursue_group_save_correction`
+        # unten) -- reiner Text-Statuskanal, getrennt vom strukturierten Log.
+        self._status_fn = status_fn or (lambda _s: None)
         # A8 (WEGKARTE §6, groesstes Restrisiko): Resume-Phasenpersistenz.
         # `table` kann bereits einen persistierten `sl_log` mitbringen (ein
         # frischer Prozess laedt den Tisch ueber `store.create_table_from_
@@ -112,10 +123,42 @@ class SectionRuntime:
         self._guests_imported = {m for m in table.members if m != table.leader and m in origins}
         self._consolidated_message_count = len(table.table_messages)
         self._current_section_id: str | None = None
+        # R12-AUTORECOVERY: wird in `run_full_section` auf den dort
+        # uebergebenen `states_dir` gesetzt -- `submit()` braucht ihn, um
+        # VOR jedem SL-Versand den additiven `current_save_version`-
+        # Schnappschuss zu erheben (s. `store.current_save_ref_snapshot`).
+        self._states_dir = None
 
     def _emit(self, event_type: str, ts: str, actor: str | None = None, payload: dict | None = None) -> None:
         if self.event_log is not None:
             self.event_log.append(event_type, ts, actor=actor, payload=payload)
+
+    def _group_correction_status_emit(self, kind: str, payload: dict) -> None:
+        """W51: uebersetzt die bereits bestehenden `save_correction.
+        pursue_group_save_correction`-`emit`-Benachrichtigungen (bisher an
+        keinen Aufrufer durchgereicht) in die vom Terminal ehrlich
+        erwartete Statuszeile -- ueber `self._status_fn` (No-op ohne `ui/
+        tui.py`). `save_correction_hold` traegt hier KEIN `attempt_no`
+        (Gruppenpfad haelt den Zaehler pro Mitglied, nicht pro Runde) --
+        reiner Text, keine neue Zustandslogik."""
+        if kind == "save_correction_attempt":
+            members = ", ".join(payload.get("members", []))
+            self._status_fn(
+                f"SL korrigiert Format (Gruppenabschluss, Runde {payload.get('round')}) "
+                f"fuer: {members} ..."
+            )
+        elif kind == "save_correction_hold":
+            pk = payload.get("persona_key")
+            suffix = f" ({pk})" if pk else ""
+            # G03/SC15/SC17 (W54-Fix): NIE der rohe `payload['reason']`
+            # (kann `str(exc)` einer Fremdantwort/Transportausnahme sein,
+            # s. `core.save_correction.send_correction_turn`) -- NUR die
+            # feste, oeffentliche Kategorie. Der volle Rohgrund bleibt im
+            # geschuetzten Korrekturdatensatz erhalten (`mark_hold`'s
+            # `last_reason`-Feld).
+            self._status_fn(
+                f"Speicherkorrektur HOLD{suffix}: {save_correction.public_hold_reason(payload.get('reason'))}."
+            )
 
     def _route_for(self, driver: object) -> str | None:
         """Q03 (PLAN-CRITIC F5/Auflage): die tatsaechliche Zielroute dieser
@@ -477,12 +520,32 @@ class SectionRuntime:
             turn_idx=self._turn_idx,
             participant=origin_persona_key if origin_persona_key is not None else actor_persona_key,
         )
+        # R12-AUTORECOVERY: der additive Generations-Schnappschuss wird HIER
+        # erhoben -- VOR dem Versand, BEVOR irgendjemand weiss, ob DIESE
+        # Antwort den Abschluss-Marker tragen wird -- und unten in GENAU
+        # demselben `submit_to_sl`-Write durabel gebunden wie die Antwort
+        # selbst (s. dort). `self._states_dir` ist `None`, solange
+        # `run_full_section` ihn noch nicht gesetzt hat (sollte in der
+        # Praxis nie vorkommen, da `submit()` nur aus `run_full_section`
+        # heraus aufgerufen wird) -- dann bleibt der Schnappschuss `None`
+        # (kein Auto-Recovery-Kandidat fuer diesen Turn, kein Fehler).
+        expected_prev_ref_by_member = (
+            store.current_save_ref_snapshot(self.table, self.persona_state_store, self._states_dir)
+            if self._states_dir is not None else None
+        )
         t0 = time.monotonic()
         try:
             result = store.submit_to_sl(
                 self.table, actor_persona_key, self.gm_transport, self._turn_idx, text,
                 origin_persona_key=origin_persona_key, origin_source=origin_source,
                 save_payload=save_payload, output_limit_tokens=gm_output_limit,
+                section_id=self._current_section_id,
+                expected_prev_ref_by_member=expected_prev_ref_by_member,
+                # AR3 (01_ORIGINALREQUEST_VERTRAG.md Teil B): dieselbe bereits
+                # VOR dem Transport gebundene `request_id` wird additiv in
+                # GENAU diesem sl_log-Write mitgegeben -- kein zweiter
+                # Checkpoint-Write NACH der Antwortpersistenz (s. store.py).
+                gm_request_id=request_id,
             )
         except Exception as exc:
             request_ledger.finish_error(self.lobby.run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
@@ -491,8 +554,22 @@ class SectionRuntime:
         # `result["usage"]` (GM-Transport-Vertrag) fliesst als Audit-Beleg in
         # den Requestdatensatz ein -- `turns_used`/`usd_spent` wurden bereits
         # in `begin()` committet (kein Doppel-Anrechnen, Auflage 6).
+        #
+        # R12-AUTORECOVERY/AR2 (01_ABSCHLUSSVERTRAG.md Teil A): `result_text`
+        # nutzt den dafuer bereits VORHANDENEN `finish_received`-Parameter --
+        # `request_ledger.py` bleibt dadurch UNVERAENDERT. Der tatsaechlich
+        # empfangene GM-Antworttext wird damit IM SELBEN ersten Ledger-Write
+        # (Uebergang nach `state=received`, s. `finish_received`-Docstring)
+        # durabel an GENAU diese Requestidentitaet (Tisch/Section/Turn/
+        # Teilnehmer) gebunden -- `_request_binding_error` unten (Auto-
+        # Recovery-Pruefung) liest diesen Beleg ueber das bereits bestehende
+        # `request_ledger.find_durable_result` zurueck und vergleicht ihn mit
+        # dem im `sl_log` persistierten `content`, um eine veraenderte/
+        # fremde/fehlende/nicht abgeschlossene Original-Antwort zu erkennen
+        # (AR04/AR05/AR11, kein Vertrauen auf ein blosses Marker-Match).
         request_ledger.finish_received(
             self.lobby.run_dir, request_id, usage=result.get("usage"), seconds=time.monotonic() - t0,
+            result_text=result.get("content"),
         )
         self._emit("sl_turn", ts, actor=actor_persona_key, payload={
             "turn_idx": self._turn_idx,
@@ -556,6 +633,11 @@ class SectionRuntime:
         max_turns = DEFAULT_MAX_TURNS if max_turns is None else max_turns
         leader = self.table.leader
         self._current_section_id = section_id
+        # R12-AUTORECOVERY: `submit()` braucht `states_dir`, um VOR jedem
+        # SL-Versand den additiven Generations-Schnappschuss zu erheben (s.
+        # dort) -- derselbe `states_dir`, den dieser Aufruf bereits fuer
+        # Ernte/Reflexion erhaelt, kein zweiter Parameter/Vertrag.
+        self._states_dir = states_dir
         debrief_text = ""
         turns_taken = 0
 
@@ -568,7 +650,10 @@ class SectionRuntime:
             self._emit("play_paused", ts, payload={"section_id": section_id, "reason": reason})
             return SectionOutcome(completion=completion, harvested={}, debrief_text=debrief_text)
 
-        def finalize(text: str, resume_section_id: str | None = None) -> SectionOutcome:
+        def finalize(
+            text: str, resume_section_id: str | None = None,
+            prev_ref_override: dict[str, dict | None] | None = None,
+        ) -> SectionOutcome:
             sid = resume_section_id if resume_section_id is not None else section_id
             cid_to_pk = self.table.chrononaut_id_to_persona()
             harvested = self.harvest_extractor(text, cid_to_pk) if text else {}
@@ -584,10 +669,43 @@ class SectionRuntime:
             # (A1/D5, Test 07) ist bereits ein `__plan.json` gepinnt --
             # `complete_section` nimmt dann den idempotenten Resume-Zweig
             # und ignoriert `harvested` (leer, da kein neuer GM-Turn noetig).
+            # R12-AUTORECOVERY: `prev_ref_override` wird NUR vom neuen
+            # Auto-Recovery-Aufruf unten (durabel VOR dem Marker-Treffer
+            # gebundener Schnappschuss) gesetzt -- der normale `marker_hit`-
+            # Pfad uebergibt weiterhin `None` (unveraendertes Verhalten,
+            # `complete_section` liest dann wie bisher frisch).
             harvest_completion = store.complete_section(
                 self.lobby, self.table, sid, harvested, states_dir, today,
                 self.harvest_validator, self.persona_state_store,
+                prev_ref_override=prev_ref_override,
             )
+            # W48 (01_AUFTRAG_SAVEGATE.md §B): fehlende/ungueltige Personal-
+            # Saves werden -- NUR solange fuer `sid` noch KEIN Abschluss-
+            # Auftrag gepinnt ist (ein bereits gepinnter Plan ist eine
+            # COMMITTETE Entscheidung, Resume-Faelle werden NICHT
+            # angefasst) -- gezielt bei der SL ueber denselben Leader-/
+            # Tisch-Kanal nachgefordert (max. 3 zusaetzliche Ausgaben je
+            # Figur, admission-/ledger-gebunden, s. core.save_correction).
+            if (
+                not harvest_completion.success and harvest_completion.missing
+                and store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id) is None
+            ):
+                # Kein eigener EventLog-Eintrag hier: `events.KNOWN_EVENT_TYPES`
+                # ist IMMUTABLE (nicht in SCOPE.json allowed_existing_exact) --
+                # Sichtbarkeit fuer HOLD-Faelle laeuft stattdessen ueber die
+                # bestehende, bereits unten emittierte `section_completion_
+                # rejected` (`reason` traegt dann den HOLD-Grund der
+                # Korrekturschleife, s. `core.save_correction`). Der
+                # Korrekturdatensatz je Figur (`run_dir/save_corrections/`)
+                # bleibt die vollstaendige, nachpruefbare Spur.
+                harvested, harvest_completion = save_correction.pursue_group_save_correction(
+                    lobby=self.lobby, table=self.table, section_id=sid, harvested=harvested,
+                    harvest_completion=harvest_completion, states_dir=states_dir, today=today,
+                    harvest_validator=self.harvest_validator, persona_state_store=self.persona_state_store,
+                    gm_transport=self.gm_transport, cid_to_pk=cid_to_pk,
+                    harvest_extractor=self.harvest_extractor,
+                    emit=self._group_correction_status_emit,
+                )
             if not harvest_completion.success:
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": harvest_completion.reason})
                 return SectionOutcome(completion=harvest_completion, harvested=harvested, debrief_text=text)
@@ -709,6 +827,179 @@ class SectionRuntime:
         open_section_id = store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id)
         if open_section_id is not None:
             return finalize("", resume_section_id=open_section_id)
+
+        # R12-AUTORECOVERY (01_AUFTRAG_AUTORECOVERY.md, CASES AR02/AR03):
+        # KEIN offener Abschluss-Auftrag (s.o.) heisst noch NICHT "kein
+        # Abschluss faellig" -- das engste Crash-/Pause-Fenster liegt GENAU
+        # dazwischen: die SL-Antwort ist bereits durabel im sl_log (inkl.
+        # additivem Generations-Schnappschuss, s. `store.submit_to_sl`),
+        # aber weder Marker-Pruefung noch Plan-Pinnung haben je stattgefunden
+        # (Prozessabbruch ODER Admission-Gate-Pause direkt nach dem
+        # GM-Request, noch VOR der naechsten Zeile im Normalpfad unten).
+        # Ohne diesen Schritt wuerde die folgende Anker-/Import-/Turn-
+        # Schleife JETZT einen NEUEN, unnoetigen GM-/Persona-Turn erzeugen,
+        # obwohl die gueltige Antwort bereits vorliegt (Doppelspiel). Die
+        # Suche selbst ist reines Lesen (kein privater Recoveryadapter, kein
+        # manuelles `complete_section`-Seeding) -- `_section_completion_
+        # recovery.find_recoverable_entry` liefert nur dann einen Treffer,
+        # wenn die exakte, bereits bestehende `completion_marker_matches`-
+        # Grammatik auf GENAU den `content` dieses Tisches/dieser Section
+        # zutrifft UND ein frueh gebundener Generations-Schnappschuss
+        # vorliegt -- sonst `None` (kontrollierter Stopp, AR05/AR06/AR11).
+        def _request_binding_error(entry: dict) -> str | None:
+            """AR3 (01_ORIGINALREQUEST_VERTRAG.md Teile A/B/C/D): POSITIVE
+            Kopplung der gefundenen SL-Antwort an die konkrete ursprüngliche
+            GM-Operation -- NICHT mehr über den zuletzt passenden Treffer
+            von `find_durable_result` (das war AR2-F03: eine zweite, gleich
+            lautende Antwort konnte einen fehlenden/fehlerhaften Original-
+            record stillschweigend ersetzen), sondern über die VOR dem
+            Transport reservierte `request_id` (`core/runtime.py:
+            SectionRuntime.submit`), additiv im SELBEN sl_log-Write wie die
+            Antwort selbst gebunden (`entry['gm_request_id']`, s. `store.
+            submit_to_sl`). `request_ledger.load_request` ist ein bereits
+            bestehender, unveraenderter oeffentlicher Leser (`request_ledger.py`
+            bleibt komplett unangetastet).
+
+            Teil B: fehlt die ID (Legacy-Eintrag aus der Zeit vor diesem
+            additiven Feld, oder ein Aufrufer ohne R12-AUTORECOVERY-Bindung)
+            -- unzureichend gebunden, HOLD, keine Migration/kein Ersatz durch
+            eine andere (z.B. zuletzt reservierte) Antwort fuer dieselbe
+            Identitaet. Ein zweiter, gleich lautender Record mit ANDERER ID
+            (legitimer alter Fehlversuch/Duplikat) beeinflusst diese exakte
+            ID-Bindung nicht -- kein pauschales Retry-Verbot.
+
+            Teil D: ein bekannter Lese-/Einordnungsfehler des konkret
+            gebundenen Requestdatensatzes (`request_ledger.
+            IndeterminateRequestRecordError` -- z.B. fehlender
+            `content_sha256`-Pflichtschluessel) wird eng abgefangen und als
+            verstaendlicher HOLD zurueckgegeben, NICHT als ungefangener
+            Traceback im Normaleinstieg und NICHT als catch-all fuer jeden
+            Programmfehler.
+
+            Danach GENAU die Original-Requestoperation pruefen: Identitaet
+            (Rolle/Tisch/Section/Turn/Teilnehmer) MUSS zur `entry` passen
+            (eine fremde `origin_persona_key`-Zuordnung o.ae. findet sonst
+            trotzdem eine exakt gebundene ID -- die Identitaet muss UNABHAENGIG
+            davon nochmal stimmen); kein terminaler `error`; Teil C: NUR
+            `state == 'accounted'` traegt automatische Ernte -- `sent`
+            (AR03-Vor-Ledger-Fenster) UND `received` (Kosten-/Latenzbuchung
+            noch offen, `find_durable_result`s eigener Docstring fordert vor
+            Weiterverwendung eine gesonderte Abschlussbehandlung, die dieser
+            enge Auto-Recoveryauftrag NICHT leistet) HOLDen gleichermassen,
+            ohne neue Buchung/Settlement/Refund. Teil A: der tatsaechlich
+            gesendete Originalinput (`entry['leader_message']`, NIEMALS
+            `entry['content']` -- das ist die SL-Antwort, kein Input) wird
+            exakt als UTF-8 gehasht/gezaehlt und gegen `content_sha256`/
+            `content_chars` DIESES Requestdatensatzes verglichen -- kein
+            `strip()`, keine Normalisierung; eine echte leere Eingabe ist
+            dabei ein normaler, positiver Vergleichsfall (kein Truthiness-
+            Check). Zuletzt bleibt die bereits bestehende Antwortdrift-
+            Pruefung (`result_text` vs. `entry['content']`) erhalten."""
+            request_id = entry.get("gm_request_id")
+            if request_id is None:
+                return (
+                    "Kein durabel gebundener Original-Requestbeleg (fehlende "
+                    "'gm_request_id' -- Legacy-Eintrag aus der Zeit vor der additiven "
+                    "Original-ID-Bindung oder Aufrufer ohne R12-AUTORECOVERY-Vertrag) -- "
+                    "unzureichende Bindung, kontrollierter HOLD, keine Migration."
+                )
+            try:
+                record = request_ledger.load_request(self.lobby.run_dir, request_id)
+            except request_ledger.IndeterminateRequestRecordError as exc:
+                return (
+                    f"Der an diese Antwort gebundene Original-Requestdatensatz "
+                    f"({request_id!r}) ist vorhanden, aber nicht eindeutig einordenbar "
+                    f"({exc}) -- kontrollierter HOLD statt Behandlung als abwesend/"
+                    "abgeschlossen oder ungefangener Fehler."
+                )
+            if record is None:
+                return (
+                    f"Der an diese Antwort gebundene Original-Requestdatensatz "
+                    f"({request_id!r}) existiert nicht (mehr) -- kontrollierter HOLD, "
+                    "kein Ersatz durch einen anderen, lediglich inhaltsgleichen Treffer."
+                )
+            expected_identity = (
+                self.table.table_id, section_id, "gm_turn",
+                entry.get("turn_idx"), entry.get("origin_persona_key"),
+            )
+            actual_identity = (
+                record.get("table_id"), record.get("section_id"), record.get("role"),
+                record.get("turn_idx"), record.get("participant"),
+            )
+            if actual_identity != expected_identity:
+                return (
+                    f"Original-Requestbeleg ({request_id!r}) gebunden, aber Rollen-/Tisch-/"
+                    f"Section-/Turn-/Teilnehmerbezug stimmt nicht mit dieser Antwort "
+                    f"ueberein (erwartet {expected_identity!r}, gefunden {actual_identity!r}) "
+                    "-- kontrollierter HOLD."
+                )
+            if record.get("error") is not None:
+                return (
+                    f"Original-Requestbeleg ({request_id!r}) trug einen terminalen Fehler "
+                    f"({record['error']!r}) trotz gebundener Antwort -- kontrollierter HOLD, "
+                    "kein Vertrauen auf einen anderen, lediglich gleich lautenden Record."
+                )
+            if record.get("state") != "accounted":
+                return (
+                    f"Original-Requestbeleg ({request_id!r}) ist noch nicht vollstaendig "
+                    f"verbucht (state={record.get('state')!r}, nicht 'accounted') -- "
+                    "'empfangen' allein (sent/received) traegt in diesem engen "
+                    "Auto-Recoveryauftrag keine automatische Ernte/Reflexion/Finalisierung; "
+                    "kontrollierter HOLD, kein neues Settlement/Refund."
+                )
+            if record.get("result_text") != entry.get("content"):
+                return (
+                    "Der im sl_log persistierte Antworttext weicht vom durabel im "
+                    "Requestledger gebundenen Original-Ergebnis ab (Antwortdrift nach "
+                    "der Pause) -- kontrollierter HOLD, kein Vertrauen auf den "
+                    "veraenderten Inhalt."
+                )
+            leader_message = entry.get("leader_message") or ""
+            exact_hash = hashlib.sha256(leader_message.encode("utf-8")).hexdigest()
+            if record.get("content_sha256") != exact_hash:
+                return (
+                    f"Original-Requestbeleg ({request_id!r}): der gebundene "
+                    "'content_sha256' stimmt nicht mit dem exakten UTF-8-Hash des "
+                    "tatsaechlich gesendeten 'leader_message' ueberein -- kontrollierter "
+                    "HOLD vor jeder Zustandsaenderung (falscher Hash oder veraenderter "
+                    "Wire-Text)."
+                )
+            if record.get("content_chars") != len(leader_message):
+                return (
+                    f"Original-Requestbeleg ({request_id!r}): die gebundene "
+                    "'content_chars'-Zeichenlaenge stimmt nicht mit der tatsaechlichen "
+                    "Laenge des gesendeten 'leader_message' ueberein -- kontrollierter "
+                    "HOLD vor jeder Zustandsaenderung."
+                )
+            return None
+
+        recoverable, hold_reason = _section_completion_recovery.find_recoverable_entry(
+            self.table.sl_log, section_id, self.table.table_id, self.marker,
+            completion_marker_matches, request_binding_error=_request_binding_error,
+        )
+        if hold_reason is not None:
+            self._status_fn(f"Speicherabschluss HOLD: {hold_reason}")
+            self._emit("section_completion_rejected", ts, payload={"section_id": section_id, "reason": hold_reason})
+            completion = store.CompletionResult(
+                success=False, already_completed=False, written=False,
+                members_completed=[], missing=[], reason=hold_reason,
+            )
+            return SectionOutcome(completion=completion, harvested={}, debrief_text="")
+        if recoverable is not None:
+            self._status_fn("Speicherabschluss wird fortgesetzt (bereits empfangene Antwort) ...")
+            try:
+                # F3: dieselbe Schranke wie der Normalpfad ("vor Publish/
+                # Reflexion") -- ein aktiver STOP/Budget-Block verhindert die
+                # automatische Ernte genauso wie einen neuen Turn (AR04); bei
+                # sauberer Pause und spaeter frischer Autorisierung greift
+                # dieser Zweig dann beim naechsten Aufruf erneut.
+                self._check_gate()
+            except _GateBlocked as e:
+                return blocked_outcome(e.reason)
+            return finalize(
+                recoverable["content"], resume_section_id=section_id,
+                prev_ref_override=recoverable.get("expected_prev_ref_by_member"),
+            )
 
         try:
             # Leader-Anker -- nur, wenn dieser Tisch (Resume, A8) noch keinen

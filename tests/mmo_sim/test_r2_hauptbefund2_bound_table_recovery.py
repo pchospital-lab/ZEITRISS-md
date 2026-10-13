@@ -135,7 +135,7 @@ def _child_main(args: argparse.Namespace) -> None:
         if args.mode == "gm-init-failure" and not hits:
             hits.append({"seam": "real gm factory construction", "error": "RuntimeError"})
             raise RuntimeError("SYNTHETIC GM constructor temporarily unavailable")
-        saves = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in ("sniper", "tech")}
+        saves = {pk: l01._load_fixture_save(pk) for pk in ("sniper", "tech")}
         for pk, s in saves.items():
             s["save_id"] = f"repo-regression-hauptbefund2-{tid}-{pk}"
         gm = l01._TableGM(tid, f"{tid}-section", saves, turns_before_marker=3)

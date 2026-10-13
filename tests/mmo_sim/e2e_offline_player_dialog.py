@@ -42,6 +42,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import upgrade_narrow_save  # noqa: E402
+
 from mmo_sim.adapters.fakes import FakeHTTPServer  # noqa: E402
 from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
 from mmo_sim.core import store  # noqa: E402
@@ -107,8 +109,8 @@ def main() -> int:
         # jetzt JEDE Entscheidung (auch die des menschlichen Leaders).
         write_test_profile(run_dir)
 
-        sniper_save = json.loads((FIX / "saves" / "sniper.json").read_text())
-        tech_save = json.loads((FIX / "saves" / "tech.json").read_text())
+        sniper_save = upgrade_narrow_save(json.loads((FIX / "saves" / "sniper.json").read_text()))
+        tech_save = upgrade_narrow_save(json.loads((FIX / "saves" / "tech.json").read_text()))
         sniper_state = json.loads((FIX / "persona_states" / "sniper.json").read_text())
         tech_state = json.loads((FIX / "persona_states" / "tech.json").read_text())
         for st in (sniper_state, tech_state):
@@ -126,8 +128,10 @@ def main() -> int:
         shown: list[str] = []
         # Kein Konfliktfall (frischer Teilnehmer, keine bekannte Char-ID) --
         # `_cmd_import` fragt daher NICHT nach einer Konfliktwahl (s. sein
-        # Docstring), das Skript braucht kein zusaetzliches Wahl-Token.
-        script_iter = iter(import_lines + ["ENDE"])
+        # Docstring). TEST-DELTA (W5/G02/P12): die neue, eigene Erstimport-
+        # Bestaetigung ('j') gilt aber unabhaengig von der Konfliktwahl --
+        # ohne sie wuerde der Entwurf nach der Vorschau verworfen, kein Write.
+        script_iter = iter(import_lines + ["ENDE", "j"])
 
         def input_fn(prompt: str = "") -> str:
             try:

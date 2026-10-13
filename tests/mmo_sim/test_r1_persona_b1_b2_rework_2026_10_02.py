@@ -38,6 +38,7 @@ EINER Datei zu simulieren, analog den bestehenden Gegenproben/Testfixturen
 in diesem Repo, z.B. `tests/mmo_sim/test_n1_n7_...py:test_n5_...`)."""
 from __future__ import annotations
 
+import json
 import sys
 import tempfile
 import traceback
@@ -48,6 +49,8 @@ _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
+
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
 
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
@@ -61,12 +64,7 @@ _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.js
 
 
 def _v7_block(char_id: str, name: str) -> str:
-    return (
-        "```json\n"
-        f'{{"v": 7, "characters": [{{"char_id": "{char_id}", "name": "{name}", '
-        f'"callsign": "{name.upper()}", "level": 1}}]}}\n'
-        "```"
-    )
+    return full_v7_block_text(char_id, name=name, level=1)
 
 
 def _new_env(root: Path):
@@ -94,9 +92,7 @@ def _give_existing_figure(schema_path, states_dir, run_dir, catalog_dir, onboard
                         "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN"},
         "rounds_played": 1,
     }, states_dir=states_dir)
-    save = {"v": 7, "save_id": f"fixture-{char_id}", "characters": [
-        {"char_id": char_id, "id": char_id, "name": name, "callsign": name.upper(), "level": 7},
-    ]}
+    save = full_v7_save(char_id, name=name, level=7, save_id=f"fixture-{char_id}")
     onboarding.start_or_resume(onboarding_dir, participant_id)
     onboarding.complete_with_save(onboarding_dir, participant_id, save, ZeitrissHarvestValidator(), char_id)
     onboarding.ensure_participant_persona_state(ps_store, states_dir, participant_id, char_id, save)
@@ -235,9 +231,11 @@ def test_r1_b2_persona_additional_creation_holds_on_rogue_identity_collision():
         # char_id 'medic-second' erneut, aber mit ABWEICHENDEM Inhalt.
         colliding_block = (
             "```json\n"
-            '{"v": 7, "characters": [{"char_id": "medic-second", "name": "ROGUE", '
-            '"callsign": "ROGUE", "level": 9, "wallet": {"credits": 999999}, "inventory": ["COLLISION_MARK"]}]}\n'
-            "```"
+            + json.dumps(full_v7_save(
+                "medic-second", name="ROGUE", callsign="ROGUE", level=9, wallet=999999,
+                carry=["COLLISION_MARK"],
+            ))
+            + "\n```"
         )
         gm2 = _GM(colliding_block)
         outcome2 = advance_additional_persona_creation(
@@ -260,7 +258,7 @@ def test_r1_b2_persona_additional_creation_holds_on_rogue_identity_collision():
         archived_after = catalog.load_figure_save(catalog_dir, "medic", "medic-second")
         current_after = core_store.load_current_save_or_raise(run_dir, "medic", ps_store, states_dir)
         assert archived_after == original_second_save, "Archiv darf durch das HOLD NICHT veraendert worden sein"
-        assert current_after["characters"][0]["char_id"] == "medic-old", (
+        assert current_after["characters"][0]["id"] == "medic-old", (
             "Current haette unveraendert bei 'medic-old' bleiben muessen, nicht den Rogue-Inhalt uebernehmen"
         )
         assert current_after["characters"][0].get("inventory") != ["COLLISION_MARK"], (

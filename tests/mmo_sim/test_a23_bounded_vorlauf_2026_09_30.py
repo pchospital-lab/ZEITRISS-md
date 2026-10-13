@@ -49,7 +49,11 @@ def _traps(case):
 
 
 def _import_run(root,case,pid,save,tail,env,*,switch=False,confirm=False):
-    prefix=['i',json.dumps(save),'ENDE']+(['w'] if switch else [])
+    # TEST-DELTA (G02/P12, wie bei den I4-Sequenzen): zusaetzliches 'j' fuer
+    # die neue Erstimport-Bestaetigung ("jetzt uebernehmen und speichern?
+    # [j/n]:"), direkt nach 'ENDE' und vor einem evtl. folgenden 'w'/'b'-
+    # Aktivwechsel. Das Ja-Gate selbst bleibt unveraendert bestehen.
+    prefix=['i',json.dumps(save),'ENDE','j']+(['w'] if switch else [])
     steps=[(prefix,'Wahl [w/v/s]: ','post-import')]
     if confirm:
         # tail includes v/profile/selection/five limits, then ja/nein/EOF and exit.
@@ -132,8 +136,14 @@ def _assert_full_journey_parity_both_profiles(
     Deckt fuer BEIDE ausgewaehlten Personas (sniper, tech):
       * Tisch/Completion/Locks (via `h02._assert_full_journey_final_state`:
         `table.status=='closed'`, Leader, Mitglieder, `_read_locks(run_dir)=={}`).
-      * Vollstaendiger eigener Endsave (`_h02_end_marker`, `save_id` != Start-
-        Fixture) -- bereits vorhandene Pruefung, hier nur zentral aufgerufen.
+      * Vollstaendiger eigener Endsave (`save_id` == erwarteter h02end-Suffix,
+        `save_id` != Start-Fixture) -- bereits vorhandene Pruefung, hier nur
+        zentral aufgerufen. R12-Savegate-Nachzug: der fruehere zusaetzliche
+        `_h02_end_marker`-Root-Schluessel verletzte `additionalProperties:
+        false` im (immutable) v7-Export-Schema und wurde aus
+        `h02._distinguishable_final_saves` entfernt -- `save_id` traegt
+        dieselbe Unterscheidungsinformation bereits schemakonform
+        (s. `h02._expected_h02_end_save_id`).
       * GENAU EINE verbuchte Runde (`rounds_played==1`, woertlich aus dem
         eigenen `PersonaStateStore`-State gelesen -- exakt das Feld, das der
         gegebene 1->8-Reviewwrapper post-hoc veraendert; eine dauerhafte
@@ -148,7 +158,7 @@ def _assert_full_journey_parity_both_profiles(
     for pk in h02.SELECTED:
         current = core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir)
         assert current is not None, f"kein veroeffentlichter Endsave fuer {pk}"
-        assert current.get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{table_id}-{section_id}", current
+        assert current.get("save_id") == h02._expected_h02_end_save_id(pk, table_id, section_id), current
         assert current.get("save_id") != sup.load_fixture_save(pk)["save_id"], (
             f"Current von {pk} ist bytegleich zur Start-Fixture geblieben"
         )

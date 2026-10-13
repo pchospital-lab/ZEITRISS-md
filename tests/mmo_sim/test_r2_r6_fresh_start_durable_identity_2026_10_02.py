@@ -51,6 +51,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.adapters.fakes import FakeCLIProcess  # noqa: E402
 from mmo_sim.adapters.persona_claude_code import ClaudeCodeConfig, PersonaClaudeCodeDriver  # noqa: E402
@@ -81,12 +83,7 @@ def _new_env(root: Path):
 
 
 def _v7_block(char_id: str, name: str, level: int = 1) -> str:
-    return (
-        "```json\n"
-        f'{{"v": 7, "characters": [{{"char_id": "{char_id}", "name": "{name}", '
-        f'"callsign": "{name.upper()}", "level": {level}}}]}}\n'
-        "```"
-    )
+    return full_v7_block_text(char_id, name=name, level=level)
 
 
 def _give_existing_figure(states_dir, run_dir, catalog_dir, onboarding_dir, participant_id, char_id, name):
@@ -100,9 +97,7 @@ def _give_existing_figure(states_dir, run_dir, catalog_dir, onboarding_dir, part
         },
         "rounds_played": 2,
     }, states_dir=states_dir)
-    save = {"v": 7, "characters": [{
-        "char_id": char_id, "id": char_id, "name": name, "callsign": name.upper(), "level": 1,
-    }]}
+    save = full_v7_save(char_id, name=name, level=1)
     onboarding.start_or_resume(onboarding_dir, participant_id)
     onboarding.complete_with_save(onboarding_dir, participant_id, save, ZeitrissHarvestValidator(), char_id)
     onboarding.ensure_participant_persona_state(ps_store, states_dir, participant_id, char_id, save)
@@ -235,15 +230,15 @@ def test_r2_two_deliberate_new_creations_preserve_first_figure_progress():
         # Die ZWEITE neue Figur ist jetzt aktiv und startet ehrlich bei Level 1.
         assert catalog.active_chrononaut_id(catalog_dir, "flo_human") == "human-fresh-2"
         current = core_store.load_current_save_or_raise(run_dir, "flo_human", ps_store, states_dir)
-        assert current["characters"][0]["char_id"] == "human-fresh-2"
-        assert current["characters"][0].get("level", 1) == 1
+        assert current["characters"][0]["id"] == "human-fresh-2"
+        assert current["characters"][0].get("lvl", 1) == 1
 
         # A->B->A (03_NACHWEISE_UND_TEAM.md R2-Zeile): Rueckwahl auf die
         # ERSTE neue Figur zeigt weiterhin ihren letzten (progressed) Stand.
         make_session(["human-fresh-1"])._cmd_new_or_switch_character()
         assert len(factory_calls) == 2, "eine blosse Aktivierung ruft KEINEN neuen SL-Dialog auf"
         a_again = core_store.load_current_save_or_raise(run_dir, "flo_human", ps_store, states_dir)
-        assert a_again["characters"][0]["char_id"] == "human-fresh-1"
+        assert a_again["characters"][0]["id"] == "human-fresh-1"
         assert a_again["characters"][0]["level"] == 4
         assert a_again["characters"][0]["wallet"] == {"credits": 123456}
 
@@ -473,15 +468,18 @@ def test_r6_real_wire_bytes_exclude_all_prior_generations_and_foreign_secrets():
         workdir.mkdir(parents=True, exist_ok=True)
 
         def _secret_save(char_id: str, name: str, tag: str, level: int = 7) -> dict:
-            return {
-                "v": 7, "save_id": f"fixture-{char_id}",
-                "characters": [{
-                    "char_id": char_id, "id": char_id, "name": name, "callsign": name.upper(), "level": level,
-                    "wallet": {"credits": 13579},
-                    "inventory": [f"R6_ARTEFAKT_{tag}"],
-                    "in_world_secret": f"R6_GEHEIMNIS_{tag}",
-                }],
-            }
+            # W45 FIXTURE_ONLY: `wallet` muss gegen das strikte Export-Schema
+            # ein Zahlenwert sein (nicht mehr das alte, nie schemakonforme
+            # `{"credits": 13579}`-Objekt); `inventory`/`in_world_secret` sind
+            # keine schemazulaessigen Figurfelder (additionalProperties:false)
+            # und wandern in bereits erlaubte freie Felder (`carry`/`history`)
+            # -- dieselben Werte/Sentinel-Strings bleiben unveraendert
+            # durchsuchbar.
+            return full_v7_save(
+                char_id, name=name, level=level, save_id=f"fixture-{char_id}",
+                wallet=13579, carry=[f"R6_ARTEFAKT_{tag}"],
+                history={"in_world_secret": f"R6_GEHEIMNIS_{tag}"},
+            )
 
         def _give_secret_figure(participant_id: str, char_id: str, name: str, tag: str):
             ps_store = PersonaStateStore(schema_path=_SCHEMA)
@@ -564,9 +562,9 @@ def test_r6_real_wire_bytes_exclude_all_prior_generations_and_foreign_secrets():
 
         # Bestand: ALLE Altfiguren (beide eigenen Generationen + fremde
         # Persona) bleiben unveraendert lesbar.
-        assert catalog.load_figure_save(catalog_dir, "pyro6", "chrono-pyro6-gen1")["characters"][0]["in_world_secret"] == "R6_GEHEIMNIS_PYRO6GEN1"
-        assert catalog.load_figure_save(catalog_dir, "pyro6", "chrono-pyro6-gen2")["characters"][0]["in_world_secret"] == "R6_GEHEIMNIS_PYRO6GEN2"
-        assert catalog.load_figure_save(catalog_dir, "medic6", "chrono-medic6-foreign")["characters"][0]["in_world_secret"] == "R6_GEHEIMNIS_MEDIC6FOREIGN"
+        assert catalog.load_figure_save(catalog_dir, "pyro6", "chrono-pyro6-gen1")["characters"][0]["history"]["in_world_secret"] == "R6_GEHEIMNIS_PYRO6GEN1"
+        assert catalog.load_figure_save(catalog_dir, "pyro6", "chrono-pyro6-gen2")["characters"][0]["history"]["in_world_secret"] == "R6_GEHEIMNIS_PYRO6GEN2"
+        assert catalog.load_figure_save(catalog_dir, "medic6", "chrono-medic6-foreign")["characters"][0]["history"]["in_world_secret"] == "R6_GEHEIMNIS_MEDIC6FOREIGN"
 
 
 def main() -> int:

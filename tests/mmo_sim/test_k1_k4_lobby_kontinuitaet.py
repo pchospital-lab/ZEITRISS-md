@@ -155,7 +155,11 @@ def test_k2_new_window_after_completed_table_binds_resolution_no_stale_reuse():
             l01._make_ready(onboarding_dir, states_dir, run_dir, pk)
 
         table_id, section_id = "lobby-sniper-tech", "lobby-sniper-tech-section"
-        final_saves = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in keys}
+        # W57 FIXTURE_ONLY: kanonisch ueber `l01._load_fixture_save`
+        # (-> `upgrade_narrow_save`) statt rohem Legacy-JSON -- der
+        # schmale Block bestand nicht die strikte Export-Schemapruefung
+        # des Produkt-Close-Gates (`core/store.py:_validate_harvest`).
+        final_saves = {pk: l01._load_fixture_save(pk) for pk in keys}
         debrief = "\n".join(f"```json\n{json.dumps(b, ensure_ascii=False)}\n```" for b in final_saves.values())
 
         with _persona_http_server([
@@ -282,7 +286,11 @@ def test_k3_leader_nomination_accepted_creates_table_with_nominee_as_leader():
             l01._make_ready(onboarding_dir, states_dir, run_dir, pk)
 
         table_id, section_id = "lobby-sniper-tech", "lobby-sniper-tech-section"
-        final_saves = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in keys}
+        # W57 FIXTURE_ONLY: kanonisch ueber `l01._load_fixture_save`
+        # (-> `upgrade_narrow_save`) statt rohem Legacy-JSON -- der
+        # schmale Block bestand nicht die strikte Export-Schemapruefung
+        # des Produkt-Close-Gates (`core/store.py:_validate_harvest`).
+        final_saves = {pk: l01._load_fixture_save(pk) for pk in keys}
         gm = l01._TableGM(table_id, section_id, final_saves, turns_before_marker=3)
         sniper_driver = l01._ScriptedDriver("sniper", [
             json.dumps({"action": "propose", "wants": ["tech"], "leader": "tech"}),

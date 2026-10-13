@@ -4,6 +4,12 @@ tests/mmo_sim/e2e_real_subprocess_dialog.py — echter durchgaengiger
 Offline-Prozess-Beleg gegen den TATSAECHLICHEN `scripts/mmo_sim.py`-
 Einstiegspunkt (WEGKARTE §3, P2-Vertragsabschluss).
 
+TEST-DELTA (W5/G02/P12): jede `i\\n<save>\\nENDE\\n`-Eingabesequenz bekam ein
+zusaetzliches `j\\n` fuer die neue Erstimport-Bestaetigung (s.
+W-REPORT.md/TEST-DELTA.md) -- dieselbe Schutzwirkung (Save wird uebernommen)
+bleibt erhalten, nur der Dialog braucht jetzt ein ausdruecklich bestaetigtes
+Ja vor dem Write.
+
 Unterschied zu `e2e_offline_player_dialog.py` (bleibt unveraendert, deckt den
 In-Prozess-`TuiSession`-Pfad ab): DIESES Skript startet fuer JEDEN
 Teilnehmer + JEDEN "neuen Prozess"-Schritt einen ECHTEN, EIGENSTAENDIGEN
@@ -40,6 +46,8 @@ _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
+
+from _full_v7_fixture import upgrade_narrow_save  # noqa: E402
 
 from mmo_sim.core import store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
@@ -147,8 +155,8 @@ def positive_scenario() -> None:
     with tempfile.TemporaryDirectory() as td:
         data_dir = Path(td)
         write_test_profile(data_dir / "run")
-        sniper_save = json.loads((FIX / "sniper.json").read_text())
-        tech_save = json.loads((FIX / "tech.json").read_text())
+        sniper_save = upgrade_narrow_save(json.loads((FIX / "sniper.json").read_text()))
+        tech_save = upgrade_narrow_save(json.loads((FIX / "tech.json").read_text()))
         table_id, section_id = "local-sniper-tech", "local-sniper-tech-section"
 
         with SmartGmServer({"sniper": sniper_save, "tech": tech_save}, table_id, section_id, complete_after=4) as gm_srv, \
@@ -174,7 +182,7 @@ def positive_scenario() -> None:
             # ueber SEIN EIGENES echtes Menue (eigener Subprozess) --
             # keine Vorbereitung NEBEN der UI. ────────────────────────────
             log("=== Schritt 1a: 'tech' importiert (echter Subprozess) ===")
-            tech_stdin = "i\n" + json.dumps(tech_save) + "\nENDE\nx\n"
+            tech_stdin = "i\n" + json.dumps(tech_save) + "\nENDE\nj\nx\n"
             p_tech = run_process(data_dir, "tech", tech_stdin, env)
             assert p_tech.returncode == 0, f"tech-Import-Prozess fehlgeschlagen: {p_tech.stderr}"
             assert "Uebernahme abgeschlossen" in p_tech.stdout, p_tech.stdout
@@ -184,7 +192,7 @@ def positive_scenario() -> None:
             # (Persona) ein, spielt mehrere Szenen, schliesst ab. ─────────
             log("=== Schritt 1b+3+4+5: 'sniper' importiert + ladet Persona ein + spielt ab (echter Subprozess) ===")
             sniper_stdin = (
-                "i\n" + json.dumps(sniper_save) + "\nENDE\n"
+                "i\n" + json.dumps(sniper_save) + "\nENDE\nj\n"
                 "l persona:tech\n"
                 "Wir betreten den Sektor vorsichtig.\n"
                 "Wir folgen der Spur weiter.\n"
@@ -265,8 +273,8 @@ def negative_scenario() -> None:
     with tempfile.TemporaryDirectory() as td:
         data_dir = Path(td)
         write_test_profile(data_dir / "run")
-        sniper_save = json.loads((FIX / "sniper.json").read_text())
-        tech_save = json.loads((FIX / "tech.json").read_text())
+        sniper_save = upgrade_narrow_save(json.loads((FIX / "sniper.json").read_text()))
+        tech_save = upgrade_narrow_save(json.loads((FIX / "tech.json").read_text()))
         table_id = "local-sniper-tech"
         with SmartGmServer({"sniper": sniper_save}, table_id, f"{table_id}-section", complete_after=999) as gm_srv, \
              _persona_server([(500, {"error": "SYNTHETIC_REJECTION"})]) as persona_srv:
@@ -275,9 +283,9 @@ def negative_scenario() -> None:
                 "MMO_SIM_PERSONA_API_BASE_URL": persona_srv.base_url,
                 "MMO_SIM_PERSONA_API_KEY": "SYNTHETIC_E2E_KEY", "MMO_SIM_PERSONA_API_MODEL": "synthetic-e2e",
             }
-            p_tech = run_process(data_dir, "tech", "i\n" + json.dumps(tech_save) + "\nENDE\nx\n", env)
+            p_tech = run_process(data_dir, "tech", "i\n" + json.dumps(tech_save) + "\nENDE\nj\nx\n", env)
             assert p_tech.returncode == 0, p_tech.stderr
-            sniper_stdin = "i\n" + json.dumps(sniper_save) + "\nENDE\nl persona:tech\nIch warte ab.\nx\n"
+            sniper_stdin = "i\n" + json.dumps(sniper_save) + "\nENDE\nj\nl persona:tech\nIch warte ab.\nx\n"
             p_sniper = run_process(data_dir, "sniper", sniper_stdin, env)
             assert p_sniper.returncode == 0, f"sniper-Prozess fehlgeschlagen: {p_sniper.stderr}"
             assert "nicht zustande gekommen" in p_sniper.stdout, (
@@ -303,8 +311,8 @@ def http200_refusal_scenario() -> None:
     with tempfile.TemporaryDirectory() as td:
         data_dir = Path(td)
         write_test_profile(data_dir / "run")
-        sniper_save = json.loads((FIX / "sniper.json").read_text())
-        tech_save = json.loads((FIX / "tech.json").read_text())
+        sniper_save = upgrade_narrow_save(json.loads((FIX / "sniper.json").read_text()))
+        tech_save = upgrade_narrow_save(json.loads((FIX / "tech.json").read_text()))
         table_id = "local-sniper-tech"
         with SmartGmServer({"sniper": sniper_save}, table_id, f"{table_id}-section", complete_after=999) as gm_srv, \
              _persona_server([(200, {"choices": [{"message": {"content": "Nein. Ich lehne die Einladung ab."}}]})]) as persona_srv:
@@ -313,9 +321,9 @@ def http200_refusal_scenario() -> None:
                 "MMO_SIM_PERSONA_API_BASE_URL": persona_srv.base_url,
                 "MMO_SIM_PERSONA_API_KEY": "SYNTHETIC_E2E_KEY", "MMO_SIM_PERSONA_API_MODEL": "synthetic-e2e",
             }
-            p_tech = run_process(data_dir, "tech", "i\n" + json.dumps(tech_save) + "\nENDE\nx\n", env)
+            p_tech = run_process(data_dir, "tech", "i\n" + json.dumps(tech_save) + "\nENDE\nj\nx\n", env)
             assert p_tech.returncode == 0, p_tech.stderr
-            sniper_stdin = "i\n" + json.dumps(sniper_save) + "\nENDE\nl persona:tech\nIch warte ab.\nx\n"
+            sniper_stdin = "i\n" + json.dumps(sniper_save) + "\nENDE\nj\nl persona:tech\nIch warte ab.\nx\n"
             p_sniper = run_process(data_dir, "sniper", sniper_stdin, env)
             assert p_sniper.returncode == 0, f"sniper-Prozess fehlgeschlagen: {p_sniper.stderr}"
             assert persona_srv.calls, "Persona-Server haette real per HTTP 200 angesprochen werden muessen"
@@ -347,10 +355,10 @@ def default_identity_scenario() -> None:
     einen schema-inkonformen Bindestrich-Key)."""
     with tempfile.TemporaryDirectory() as td:
         data_dir = Path(td)
-        sniper_save = json.loads((FIX / "sniper.json").read_text())
+        sniper_save = upgrade_narrow_save(json.loads((FIX / "sniper.json").read_text()))
         cmd = [sys.executable, str(_REPO_ROOT / "scripts" / "mmo_sim.py"), "--data-dir", str(data_dir)]
         p = subprocess.run(
-            cmd, input="i\n" + json.dumps(sniper_save) + "\nENDE\nx\n",
+            cmd, input="i\n" + json.dumps(sniper_save) + "\nENDE\nj\nx\n",
             capture_output=True, text=True, cwd=str(data_dir), timeout=20,
         )
         assert p.returncode == 0, f"Default-Identitaets-Import fehlgeschlagen: {p.stderr}"

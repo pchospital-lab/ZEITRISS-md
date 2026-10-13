@@ -86,14 +86,14 @@ from mmo_sim.domain.zeitriss import onboarding  # noqa: E402
 from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community  # noqa: E402
 from mmo_sim.domain.zeitriss.community_creation import advance_one_persona_creation  # noqa: E402
 from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator  # noqa: E402
+from _full_v7_fixture import full_v7_save  # noqa: E402
 
 SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
 PS = PersonaStateStore(schema_path=SCHEMA)
 PK = "a1rest_persona"
 Q = "SYNTHETIC: Welche Ausruestung waehlst du?"
 A = "SYNTHETIC: Ich waehle leichte Ruestung."
-SAVE = {"v": 7, "save_id": "SYNTHETIC-A1REST-SAVE",
-        "characters": [{"char_id": "SYNTHETIC-A1REST-CHR", "name": "Synthetic", "callsign": "A1REST", "level": 1}]}
+SAVE = full_v7_save("SYNTHETIC-A1REST-CHR", name="Synthetic", callsign="A1REST", level=1, save_id="SYNTHETIC-A1REST-SAVE")
 ST = "```json\n" + json.dumps(SAVE) + "\n```"
 
 

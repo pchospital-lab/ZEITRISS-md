@@ -57,6 +57,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.adapters.fakes import FakeCLIProcess, FakeHTTPServer  # noqa: E402
 from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
@@ -98,29 +100,30 @@ def _new_env(root: Path):
 
 
 def _v7_block(char_id: str, name: str = "Nova", level: int = 1) -> str:
-    return (
-        "```json\n"
-        f'{{"v": 7, "characters": [{{"char_id": "{char_id}", "name": "{name}", '
-        f'"callsign": "{name.upper()}", "level": {level}}}]}}\n'
-        "```"
-    )
+    return full_v7_block_text(char_id, name=name, level=level)
 
 
 def _old_fixture_save(char_id: str, name: str) -> dict:
     """Vollstaendiger ALTER Save mit erkennbaren, eindeutig NUR dieser alten
     Figur zugehoerigen Geheimnissen/Wallet (N6: diese duerfen NICHT
-    automatisch in die neue Zusatzfigur-Erschaffung uebernommen werden)."""
-    return {
-        "v": 7, "save_id": f"fixture-{char_id}-old-001",
-        "_fixture_note": "SIMULIERT/FIXTURE (N1-N7-Testfixture, ALTE Figur).",
-        "characters": [{
-            "char_id": char_id, "id": char_id, "name": name, "callsign": name.upper(),
-            "level": 7,
-            "wallet": {"credits": 9001},
-            "inventory": ["ALT_GEHEIMES_ARTEFAKT_SENTINEL_" + char_id.upper()],
-            "in_world_secret": "ALT_FIGURENGEHEIMNIS_SENTINEL_" + char_id.upper(),
-        }],
-    }
+    automatisch in die neue Zusatzfigur-Erschaffung uebernommen werden).
+
+    W45 FIXTURE_ONLY: `wallet` muss gegen das strikte Export-Schema ein
+    Zahlenwert sein (nicht mehr das alte, nie schemakonforme `{"credits":
+    9001}`-Objekt) -- der Betrag 9001 bleibt als Zahl erhalten, weiterhin
+    als Teilstring in der serialisierten Save-Antwort auffindbar (s.
+    `test_n6_...: "9001" not in ctx_text`). Die beiden alten freien
+    Zusatzschluessel `inventory`/`in_world_secret` sind keine
+    schemazulaessigen Figurfelder (additionalProperties:false) -- sie
+    wandern in bereits vom Schema erlaubte freie Felder (`carry`: Liste,
+    `history`: freies Objekt), dieselben SENTINEL-Strings bleiben dabei
+    unveraendert durchsuchbar."""
+    return full_v7_save(
+        char_id, name=name, level=7, save_id=f"fixture-{char_id}-old-001",
+        wallet=9001,
+        carry=["ALT_GEHEIMES_ARTEFAKT_SENTINEL_" + char_id.upper()],
+        history={"in_world_secret": "ALT_FIGURENGEHEIMNIS_SENTINEL_" + char_id.upper()},
+    )
 
 
 def _give_existing_figure(
@@ -399,28 +402,35 @@ def _assert_n1_outcome(run_dir, states_dir, catalog_dir, onboarding_dir, schema_
     assert catalog.active_chrononaut_id(catalog_dir, "medic") == "chrono-medic-fresh"
     assert catalog.active_chrononaut_id(catalog_dir, leader_id) == "chrono-flo-fresh"
     medic_current = core_store.load_current_save_or_raise(run_dir, "medic", ps_store, states_dir=states_dir)
-    assert medic_current["characters"][0]["char_id"] == "chrono-medic-fresh"
+    assert medic_current["characters"][0]["id"] == "chrono-medic-fresh"
     flo_current = core_store.load_current_save_or_raise(run_dir, leader_id, ps_store, states_dir=states_dir)
-    assert flo_current["characters"][0]["char_id"] == "chrono-flo-fresh"
+    assert flo_current["characters"][0]["id"] == "chrono-flo-fresh"
 
     # KEIN level=1-Patch an einem alten Save, KEINE Uebernahme alter
     # Wallet-/Inventar-/Save-Refs (02 'Level'): die neue Figur ist ein
     # komplett EIGENER, von der KI-SL gelieferter Block ohne Wallet/
     # Inventar der alten Figur.
-    assert "wallet" not in medic_current["characters"][0]
+    # W45 TEST-DELTA (NEW_FLOW_SEQUENCE): `wallet` ist seit der R12-
+    # Vollschema-Annahmegrenze ein PFLICHTFELD jeder gueltigen Figur
+    # (saveGame.v7.export.schema.json `required`) -- "kein wallet-Schluessel"
+    # ist dadurch kein moegliches Signal mehr. Dieselbe Schutzabsicht (der
+    # alte Wallet-WERT 9001 wird NICHT uebernommen) bleibt WORTGLEICH
+    # geprueft, nur am tatsaechlichen Wert statt an Schluesselabwesenheit;
+    # ebenso `lvl` (Schemafeld) statt des nie vom Schema verlangten `level`.
+    assert medic_current["characters"][0]["wallet"] != 9001, "alter Wallet-Wert darf nicht uebernommen werden"
     assert "inventory" not in medic_current["characters"][0]
-    assert medic_current["characters"][0].get("level", 1) == 1
+    assert medic_current["characters"][0].get("lvl", 1) == 1
 
     # Gleiche Personen-/Community-ID (die Persona bleibt "medic", keine
     # neue Identitaet/neue Community), neue technische Auftragsidentitaet
     # (eigene Onboarding-Scratchdatei, getrennt vom alten, laengst
     # abgeschlossenen Auftrag).
-    assert onboarding.peek(onboarding_dir, "medic").final_save["characters"][0]["char_id"] == "chrono-medic-old", (
+    assert onboarding.peek(onboarding_dir, "medic").final_save["characters"][0]["id"] == "chrono-medic-old", (
         "die ALTE Onboarding-Auftragsidentitaet von 'medic' bleibt unangetastet"
     )
     additional_state = onboarding.peek(onboarding_dir, _additional_onboarding_key("medic", 2))
     assert additional_state is not None and additional_state.status == "completed"
-    assert additional_state.final_save["characters"][0]["char_id"] == "chrono-medic-fresh"
+    assert additional_state.final_save["characters"][0]["id"] == "chrono-medic-fresh"
 
     assert any("Zusatzfigur erschaffen" in line or "tischbereit" in line for line in printed)
 

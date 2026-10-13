@@ -33,6 +33,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision, ProviderUnavailableError  # noqa: E402
 from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
 from mmo_sim.core import app_service, store  # noqa: E402
@@ -52,7 +54,7 @@ _DUMMY_SCHEMA = (
 
 
 def _save_block(char_id: str) -> dict:
-    return {"v": 7, "characters": [{"char_id": char_id, "name": "Journey"}]}
+    return full_v7_save(char_id, name="Journey")
 
 
 class _MultiTurnGm:
@@ -183,7 +185,7 @@ def test_tui_journey_export_writes_file_and_restart_reuses_participant():
         session._cmd_export()
         export_path = data_dir / "exports" / f"{pid1}.json"
         assert export_path.is_file(), "Export haette eine Datei schreiben muessen (I3)"
-        assert json.loads(export_path.read_text(encoding="utf-8"))["characters"][0]["char_id"] == "chrono-export"
+        assert json.loads(export_path.read_text(encoding="utf-8"))["characters"][0]["id"] == "chrono-export"
 
 
 def test_lab_stop_during_running_section_blocks_next_request_not_just_before_start():

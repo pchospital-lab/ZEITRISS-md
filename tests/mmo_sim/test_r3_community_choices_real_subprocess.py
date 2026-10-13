@@ -54,6 +54,7 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community  # noqa: E402
@@ -78,10 +79,14 @@ class _Handler(BaseHTTPRequestHandler):
             ident = server.ids.setdefault(body["chat_id"], len(server.ids) + 1)
             last = body["messages"][-1]["content"]
             if last == ANSWER:
-                save = {"v": 7, "save_id": f"SYNTHETIC-CHOICE-{ident}",
-                        "characters": [{"char_id": f"SYNTHETIC-CHOICE-CHR-{ident}", "name": "Synthetic",
-                                        "callsign": str(ident), "level": 1}]}
-                text = "```json\n" + json.dumps(save) + "\n```"
+                # R12 Savegate (B1): beide v7-Schemas muessen VOR Annahme
+                # passen -- der alte Minimalfake (nur 4 Felder) ist gegen
+                # beide Schemas ungueltig. Gleiche Identitaet, jetzt
+                # vollstaendig schemakonform.
+                text = full_v7_block_text(
+                    f"SYNTHETIC-CHOICE-CHR-{ident}", name="Synthetic", callsign=str(ident), level=1,
+                    save_id=f"SYNTHETIC-CHOICE-{ident}",
+                )
             else:
                 text = "SYNTHETIC QUESTION: Welche Grundausstattung?"
         raw = json.dumps({"choices": [{"message": {"content": text}}],

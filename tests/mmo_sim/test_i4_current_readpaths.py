@@ -213,7 +213,10 @@ def test_local_round_guest_blocks_on_known_current_version_read_error():
         base = Path(td)
         r, anew = _setup(base)
         tech_save = t4._sv("tech")
-        r.ui(p="tech", inputs=[json.dumps(tech_save), "ENDE"])._cmd_import()
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' fuer die neue Erstimport-
+        # Bestaetigung (dieselbe Schutzwirkung, tech bekommt weiterhin
+        # einen eigenen Current).
+        r.ui(p="tech", inputs=[json.dumps(tech_save), "ENDE", "j"])._cmd_import()
         assert _cur(base, "tech") == tech_save, "Testaufbau: tech muss einen eigenen Current haben"
         guest_version_path = _version_path(base, "tech")
         gm = t4._GM(["Die synthetische Szene bleibt offen."])
@@ -257,7 +260,8 @@ def test_switch_blocks_on_run_id_read_error_and_preserves_state():
         r, anew = _setup(base)
         tech = t4._sv("tech")
         tech_id = saves.block_char_id(tech)
-        r.ui(inputs=[json.dumps(tech), "ENDE", "b"])._cmd_import()  # tech inaktiv registrieren
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'.
+        r.ui(inputs=[json.dumps(tech), "ENDE", "j", "b"])._cmd_import()  # tech inaktiv registrieren
         run_id_path = base / "run" / "run_id.json"
         before_run_id = json.loads(run_id_path.read_text(encoding="utf-8"))["run_id"]
         entries = catalog.list_for_participant(r.cat, "sniper")
@@ -276,7 +280,8 @@ def test_switch_blocks_on_persona_state_transient_error_and_preserves_state():
         r, anew = _setup(base)
         tech = t4._sv("tech")
         tech_id = saves.block_char_id(tech)
-        r.ui(inputs=[json.dumps(tech), "ENDE", "b"])._cmd_import()  # tech inaktiv registrieren
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'.
+        r.ui(inputs=[json.dumps(tech), "ENDE", "j", "b"])._cmd_import()  # tech inaktiv registrieren
         state_path = base / "states" / "sniper.json"
         entries = catalog.list_for_participant(r.cat, "sniper")
         with _inject_state_open_error(state_path) as hit:
@@ -303,7 +308,9 @@ def test_genuine_first_setup_stays_none_without_run_id_init_and_allows_first_imp
         shown: list = []
         ui = TuiSession(
             base / "onboarding", base / "catalog", "sniper",
-            input_fn=t4._script([json.dumps(initial), "ENDE"]),
+            # TEST-DELTA (G02/P12): zusaetzliches 'j' fuer die neue
+            # Erstimport-Bestaetigung.
+            input_fn=t4._script([json.dumps(initial), "ENDE", "j"]),
             print_fn=shown.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
         )

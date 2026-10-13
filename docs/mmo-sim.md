@@ -61,6 +61,11 @@ python3 internal/qa/harness/lobby/test_lobby_tables.py
 # diesen Worktree, --output-dir AUSSERHALB des Repos):
 python3 <auftragspaket>/reference/p1-regressions/run_checks.py \
   --repo-root <dieser-worktree> --output-dir <externes-verzeichnis>
+
+# Spielbarer Offlinezugang (G06, s. Abschnitt weiter unten): echter
+# scripts/mmo_sim.py-Prozess, isolierte Fake-SL, interaktiv am echten
+# Terminal -- Leader+Gast+Abschnittsabschluss ohne Live-Anbindung:
+python3 tests/mmo_sim/manual_offline_harness.py
 ```
 
 ## Provider-Profile (03_PROVIDER_UND_BETRIEB.md)
@@ -783,8 +788,17 @@ innerhalb `_cmd_local_round`/`run`/`render_boot_menu` bzw. neuen
   `ParticipantRegistry` bewusst neu registrieren, zeigt pro Mensch die eigene
   Figur aus vorhandenen Zuordnungen (`_resolve_member`) und laesst sie
   ausdruecklich bestaetigen (keine Dummyfigur, keine Autoauswahl aus fremdem
-  Current — eine fehlende Figur fuehrt zu einem klaren Rueckweg ueber den
-  eigenen `[n]`/`[i]`-Durchgang), zeigt die ausgewaehlten KIs, den
+  Current). Fuer eine WAEHREND dieser Einrichtung per `neu:<Name>` frisch
+  registrierte Person (`_local_round_connect_new_person_to_own_figure`,
+  Q04-Nachzug, UX07): eine fehlende Figur fuehrt NICHT mehr zu einem
+  Abbruch der GESAMTEN Einrichtung mit Verweis auf einen separaten eigenen
+  Durchgang (so der Stand VOR Q04) — stattdessen verbindet derselbe Schritt
+  jetzt die bestehende Fokusuebergabe (`_local_round_handoff`) direkt mit
+  der vorhandenen Erschaffungs-/Import-Flaeche (`_cmd_menu_charaktere`)
+  UNTER GENAU der neuen Teilnehmer-ID: die Person schliesst ihre Figur noch
+  WAEHREND der laufenden `[g]`-Einrichtung fertig ab, kein separater
+  Teilnehmerdurchgang mehr noetig. Lehnt sie die Fokusuebergabe ab, bleibt
+  das weiterhin ein klarer Ruckweg (kein KI-Ersatz). Zeigt die ausgewaehlten KIs, den
   angefragten Leader (der aufrufende Mensch ODER eine angefragte KI) und eine
   Zusammenfassung von 1–5 Gesamtspielern einschliesslich Leader zur letzten
   bewussten Startwahl. Diese Auswahl ist noch KEINE KI-Zustimmung und keine
@@ -845,3 +859,146 @@ innerhalb `_cmd_local_round`/`run`/`render_boot_menu` bzw. neuen
   vollstaendig angelegt und `active` (NICHT `closed`), `sl_log` echt
   partiell. Reine Testinfrastruktur, kein Produktverhalten.
 <!-- A24-LOCAL-ROUND-END -->
+
+## G04/G06 — Korrekter Eingabezweck bei der Abschlussnotiz, `/stand`/`/verlauf` am geteilten Terminal, Offlinezugang fuer T (2026-10-05)
+
+Drei eng begrenzte Korrekturen in `mmo_sim/ui/tui.py` (`_HumanDriver.decide`,
+`_readline_with_controls`, `_build_resume_card`), keine neuen Produktprompts/
+Spielregeln:
+
+- **Abschlussnotiz-Empfaenger korrigiert (P05)**: `core/runtime.py:
+  _collect_reflections` ruft fuer die freiwillige lokale Abschlussnotiz
+  denselben `_HumanDriver.decide()`-Mechanismus wie ein echter Spielzug auf
+  -- vorher zeigte die Notizabfrage deshalb faelschlich dieselbe Zeile wie
+  der vorausgehende Spielzug (z. B. "Empfaenger: Spielleitung (SL)"), obwohl
+  die Notiz tatsaechlich NIE an SL/Tisch geht, sondern ausschliesslich lokal
+  unter `reflections.jsonl` (`kind=human_note`) landet. `decide()` erkennt
+  jetzt den von `_collect_reflections` bereits gesetzten typisierten Marker
+  (`context["system"] == "PRIVATE_REFLECTION_SENTINEL"`) und zeigt
+  stattdessen die tatsaechlich zutreffende Zeile: "Empfaenger: eigene lokale
+  Notiz (NICHT an Spielleitung/Tisch, freiwillig, leer = keine Notiz, keine
+  Vertraulichkeitszusage bei geteiltem Bildschirm)." Leere Notiz blockiert
+  weiterhin nichts; Hilfe (`?`/`/hilfe`) an dieser Stelle verbraucht weiterhin
+  keinen Reflexionsturn.
+- **`/stand` bindet an die gerade eingebende Person**: an einem geteilten
+  Terminal (mehrere Menschen an einem Tisch) zeigte `/stand` bisher immer
+  den Stand des Teilnehmers, der den Prozess urspruenglich gestartet hat --
+  auch waehrend des Zugs eines anderen, bereits uebernommenen Gasts.
+  `_readline_with_controls`/`_build_resume_card` erhalten dafuer einen rein
+  additiven, optionalen `speaker_pid`/`participant_id`-Parameter (Default
+  unveraendert); `_HumanDriver.decide()` uebergibt dabei ihre eigene
+  Teilnehmer-ID.
+- **`/verlauf` zeigt die vollstaendige Historie statt still `history[-10:]`**:
+  eine wiederholte `/verlauf`-Eingabe an derselben Stelle blaettert jetzt in
+  10er-Seiten weiter zurueck, bis "Anfang des Verlaufs erreicht" gemeldet
+  wird -- keine Kuerzung des an das Modell gehenden Kontexts, nur die
+  Anzeige blaettert.
+- **Offlinezugang fuer T (G06)**: `tests/mmo_sim/manual_offline_harness.py`
+  startet den ECHTEN `scripts/mmo_sim.py`-Prozess interaktiv (geerbtes
+  stdin/stdout) mit genau einer isolierten Fake an der aeusseren SL-/GM-
+  HTTP-Grenze (derselbe `SmartGmServer` wie `tests/mmo_sim/
+  e2e_real_subprocess_dialog.py`) -- kein Fake-Client, kein Produkt-
+  Offlinefallback. Leader UND ein zweiter, vorab real registrierter,
+  abgeschlossener lokaler Teilnehmer existieren in derselben Registry; T
+  navigiert den echten, unveraenderten Client normal und erreicht einen
+  echten, inhaltsgebunden ausgeloesten Abschnittsabschluss. Start:
+  `python3 tests/mmo_sim/manual_offline_harness.py`.
+  R06-Korrektur (REVIEW.md §R06, UX23): das Start-Banner nannte zuvor VOR
+  dem ersten Clientkontakt die exakte Eingabefolge (`l <gast-id>`, `j`,
+  Zugtexte) -- das war kein unbeeinflusster Erstversuch mehr. Banner/stdout
+  nennen jetzt nur noch die eigene Teilnehmer-ID und eine ehrliche
+  Testumgebungsnotiz; der zweite Teilnehmer ist ueber den normalen
+  Produktweg ("spielen" -> "mehrere Menschen") auffindbar, kein Rezept mehr
+  in Docstring-`--help` oder Brief. Das technische Funktionsprinzip (SmartGmServer,
+  Registrierung beider Figuren vorab) bleibt hier als historische Belegnotiz
+  unveraendert dokumentiert.
+  **W19-Nachzug (F03, 2026-10-06) -- Korrektur dieser historischen
+  Belegnotiz:** der Harness hat seither KEINEN vorab registrierten zweiten
+  Teilnehmer mehr. T ist jetzt alleiniger lokaler Teilnehmer (Solo-Fokus)
+  und erschafft die eigene Figur ECHT ueber das Hauptmenue (kein
+  `onboard_human_figure`-Save-Injektions-Shortcut mehr); die Fake-SL
+  (`CreationCapableSmartGmServer`,
+  `tests/mmo_sim/_ux1_r5_synthetic_creation_support.py`) deckt zusaetzlich
+  die Erschaffungsgrenze ab (eine Frage, dann ein gueltiger v7-Save). Der
+  Absatz oben beschreibt den Stand VOR diesem Nachzug und bleibt nur als
+  historische Belegnotiz stehen, nicht als heutiges Verhalten.
+
+## R5 — Sicherheitsnachzug, vollständiger Eingabevertrag, endliche synthetische Erschaffung, verbundene Reisen (W17–W21, 2026-10-06)
+
+> Status: kontrolliert offline geprüft (reale Subprozesse/echte Dialoge
+> gegen inhaltsgebundene synthetische Gegenstellen), kein Livebetrieb, keine
+> neue Gesamtabnahme. Diese Runde ist eine Testverbindungs-/
+> Dokukonsolidierung, **keine neue Doku-Hauptrunde**.
+
+Vier aufeinander aufbauende Schritte, einzige Produktänderung in
+`mmo_sim/ui/tui.py` (W17, s. unten), danach ausschließlich neue/verbundene
+Tests:
+
+- **W17 (Sicherheitsnachzug):** `_redact_creation_status_text` bekommt ein
+  optionales `reason`-Argument; nur `status == "blocked"` wird zusätzlich
+  gegen sechs mehrwortige, aus `community_creation.py` entnommene
+  Ankerphrasen geprüft. Stellt die unter R4 verlorene, sichtbare
+  Unterscheidung zwischen echtem IA-1-Archiv-HOLD (muss „Archiv" zeigen)
+  und generischem Admission-Block (darf es nicht) wieder her, ohne rohen
+  `reason` durchzulassen. Details + unabhängige Gegenprüfung (C7,
+  GATE_PASS): `SECURITY-HOLD-PAIR.md` (Worker-Austauschordner, nicht Teil
+  dieses Repos).
+- **W18 (vollständiger Spieler-Eingabevertrag):** die bis dahin rohen
+  Prompts (Figurwahl inkl. neuem Name/Nummer-Resolver, beide
+  Importkonflikte, Frischstart-Einladung, Herkunftswahl, KI-Vorlauf-
+  Angebot) sind jetzt an den zentralen Steuervertrag
+  (`_readline_with_controls`) gebunden. Volle Matrix:
+  `INPUT-CONTRACT-MATRIX.md` (Worker-Austauschordner, nicht Teil dieses
+  Repos).
+- **W19 (endliche synthetische Erschaffung):** `tests/mmo_sim/
+  manual_offline_harness.py` lässt T die eigene Figur jetzt ECHT über das
+  Hauptmenü erschaffen (kein Save-Injektions-Shortcut mehr, s. Korrektur
+  oben); neue, content-gebundene Fake-SL
+  (`_ux1_r5_synthetic_creation_support.py`) für Erschaffung UND Spiel in
+  einem Server.
+- **W20 (verbundene Runden-/Kommunikationsreisen):** drei neue
+  Testdateien verbinden bereits vorhandene, korrekt verdrahtete
+  Bausteine (zwei neue Personen in einer Setupzeile, 5-Menschen-/2+3-KI-
+  Policy-Grenzen, echter OS-Prozessneustart mitten in einer
+  Mehrmenschen-Runde) zu durchgängigen Reisen, OHNE Produktcodeänderung.
+- **W21 (diese Konsolidierung):** ehrliche Endfall-Zuordnung aller 24
+  Fälle (`RESULTS.json`, Worker-Austauschordner: 16 PASS / 8 PARTIAL, kein
+  Blanket-PASS) gestützt auf die obigen Belege; W17–W21-Testdelta
+  (`TEST-DELTA.md`); neutrales Tester-Startmaterial ohne Rezept
+  (`tester-start/`). **UX23** (T löst Kernaufgaben ohne Anleitung) bleibt
+  ausdrücklich PARTIAL „needs tester operation" — kein automatisierter Test
+  kann das beanspruchen, echte Kohortenbedienung (T6–T8) steht aus.
+
+Vollständige Regression unverändert grün über alle vier Schritte: IA-1
+17/17, R4-Redaktion 6/6 funktional, r5-Redaktion 8/8, r5-Input-Contract
+30/30, r5-synthetic 4/4+2/2, r5-round-journey 4/4+2/2+1/1 (zusätzlich voller
+Sweep 96/96 Testdateien). Details/Rohlogs: Worker-Austauschordner
+(W17–W21-Ledger), nicht Teil dieses Repos.
+
+## R7 Phase C — letzte Beitrittsgrenze verifiziert, Hilfetext an gespeicherten Stand gebunden (2026-10-06)
+
+Zwei eng begrenzte Befunde, kein neuer Spielweg:
+
+- **Beitrittsfrage der lokalen Runde (`_cmd_local_round`, „… dieser
+  lokalen Runde beitreten? [j/n]"):** real über
+  `tests/mmo_sim/test_ux1_r05_adapter_pause_2026_10_05.py`
+  (`test_a24_r05_human_b_pauses_consent_distinguishable_from_reject`,
+  echter Subprozess) verifiziert — diese Frage nutzt bereits den zentralen
+  Steuervertrag (`_readline_with_controls`); `/zurueck`, `/abbrechen` und
+  `/pause` erzeugen dort keine Zusage und keinen Tisch mit dieser
+  Besetzung, statt unterschiedslos als ungültige Eingabe zu verschwinden.
+  Kein neuer Code nötig, nur Beleg nachgezogen.
+- **Genereller Hilfe-Footer (`_control_help_text`, `mmo_sim/ui/tui.py`):**
+  die `/pause`-Teilzeile warb bisher mit einer nackten Pauschale („kein
+  Datenverlust") statt zu sagen, WAS erhalten bleibt. Jetzt bindet sie an
+  denselben Wortlaut wie der bereits korrigierte Speicherfehler-Hinweis:
+  „kontrolliert pausieren — der zuletzt gültige, bereits gespeicherte
+  Stand bleibt erhalten, kein Datenverlust". Zielnachweis:
+  `tests/mmo_sim/test_ux1_r7_help_footer_pause_binds_to_saved_state_2026_10_06.py`.
+  Ausschliesslich diese eine Teilzeile geändert, keine flächige
+  Textsanierung.
+
+
+## Automatische Wiederaufnahme nach dem Abschluss-Spielzug (R12-AUTORECOVERY)
+
+Technischer Hinweis: Der gemeinsame Produktpfad (`core/runtime.py:SectionRuntime.submit`) persistiert die SL-Antwort jetzt zusammen mit einem additiven Generations-Schnappschuss (`section_id`, `chat_id`, `expected_prev_ref_by_member`) UND der VOR dem Versand bei `request_ledger.begin()` reservierten Original-Request-ID (`gm_request_id`) in GENAU demselben `sl_log`-Write — kein zweites Crash-Fenster zwischen Rohantwort und Checkpoint. Faellt ein Prozess danach aus, oder pausiert das Admission-Gate genau zwischen Response und Markerpruefung (Abschluss-Marker bereits durabel aufgezeichnet, aber noch kein Completion-Plan gepinnt), erkennt `run_full_section` dies beim naechsten gewoehnlichen Fortsetzen-Aufruf automatisch: Vor jedem neuen Spiel-/GM-Turn wird zuerst geprueft, ob fuer die aktuelle `section_id` bereits eine durabel empfangene, noch unverplante Markerantwort vorliegt (`completion_marker_matches` unveraendert, nur auf dem SL-eigenen `content`-Feld — Leader-/Operatorinput zaehlt nie als Treffer). Trifft das zu, wird GENAU der ueber `gm_request_id` gebundene Original-Requestdatensatz gegengeprueft: Rollen-/Tisch-/Section-/Turn-/Teilnehmerbezug, der tatsaechlich gesendete Originalinput (exakter UTF-8-Hash + Zeichenlaenge des gesendeten `leader_message`, kein `strip()`/keine Normalisierung) UND der unveraenderte Antworttext MUESSEN uebereinstimmen, UND der Requestdatensatz MUSS vollstaendig `accounted` (fehlerfrei) sein — eine lediglich *empfangene*, aber noch nicht vollstaendig verbuchte Antwort (`state=received`, z.B. nach einem Fehler bei der nachgelagerten Kosten-/Latenzbuchung) traegt noch KEINE automatische Ernte. Erst wenn ALLE diese Bedingungen zutreffen, erntet der bestehende `store.complete_section`-/Reflexions-/Finalisierungspfad die ORIGINAL gebundene Generationserwartung — ohne manuelles Seeding, ohne privaten Recoveryadapter, ohne neuen Spiel-/GM-Turn; eine zwischenzeitlich veroeffentlichte neuere Figurgeneration wird dabei weiterhin erkannt und nicht ueberschrieben. Fehlt der Schnappschuss/die Original-ID (z.B. ein Altbestand aus der Zeit vor dieser Aenderung), ist die Herkunft mehrdeutig/fremd, oder ist der gebundene Original-Request noch nicht vollstaendig verbucht, haelt der Fortsetzen-Aufruf kontrolliert (kein automatisches Nachadoptieren erfundener Provenienz, kein Ersatz eines fehlenden/fehlerhaften Original-Records durch einen bloss inhaltsgleichen zweiten Treffer, kein neues Settlement/Refund). Diese Automatik ist bislang nur durch synthetische Offline-Proben belegt, getrennt von der bereits abgenommenen, betreiberassistierten nativen Live-Recovery — keine Zusage auf exactly-once-Zustellung.

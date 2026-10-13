@@ -20,6 +20,10 @@ _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
+if str(_HERE) not in sys.path:
+    sys.path.insert(0, str(_HERE))
+
+from _full_v7_fixture import full_v7_save  # noqa: E402
 
 import mmo_sim.core.store as store  # noqa: E402
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
@@ -82,7 +86,12 @@ def _make_env(root: Path) -> Env:
 
 
 def _save_block(char_id: str) -> dict:
-    return {"v": 7, "characters": [{"char_id": char_id, "name": "Test"}]}
+    """W57 FIXTURE_ONLY: kanonischer v7-Block (`_full_v7_fixture.full_v7_
+    save`) statt frueherer schmaler Minimalfake -- erhaelt char_id, besteht
+    aber jetzt auch die strikte Export-Schemapruefung des Produkt-Close-
+    Gates (`core/store.py:_validate_harvest`), sowohl als Anker-`save_
+    payload` als auch als SL-Debrief-Block."""
+    return full_v7_save(char_id, name="Test")
 
 
 def _seed_persona_state(ps_store: PersonaStateStore, states_dir: Path, pk: str, char_id: str) -> None:

@@ -40,6 +40,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import upgrade_narrow_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import lobby_service  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
@@ -57,6 +59,14 @@ from mmo_sim.ui.tui import TuiSession  # noqa: E402
 _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
 _FIX = _REPO_ROOT / "internal" / "qa" / "harness" / "lobby" / "fixtures" / "saves"
 _FIXTURE_PERSONAS = ("sniper", "tech", "cqb", "face", "medic", "pyro")
+
+
+def _load_fixture_save(persona_key: str) -> dict:
+    """W45 FIXTURE_ONLY: Legacy-Fixture ueber `upgrade_narrow_save` auf
+    volles v7 gehoben -- EINE Quelle fuer `_make_ready` (Publikation) UND
+    jede `final_saves`-Erwartung in dieser Datei, damit beide Seiten
+    konsistent denselben kanonischen Block verwenden."""
+    return upgrade_narrow_save(json.loads((_FIX / f"{persona_key}.json").read_text(encoding="utf-8")))
 
 
 class _ScriptedDriver:
@@ -139,8 +149,8 @@ def _make_ready(onboarding_dir, states_dir, run_dir, persona_key: str) -> str:
     Karriereskript als Produktfunktion; nutzt ausschliesslich vorhandene
     Produktfunktionen (`onboarding`/`core.store.publish_current_save`),
     genau wie bestehende P1/P2-Tests (`test_p2_community_creation.py`)."""
-    save = json.loads((_FIX / f"{persona_key}.json").read_text(encoding="utf-8"))
-    chrono_id = save["characters"][0]["char_id"]
+    save = _load_fixture_save(persona_key)
+    chrono_id = save["characters"][0]["id"]
     ps_store = PersonaStateStore(schema_path=_SCHEMA)
     onboarding.start_or_resume(onboarding_dir, persona_key)
     onboarding.complete_with_save(onboarding_dir, persona_key, save, ZeitrissHarvestValidator(), chrono_id)
@@ -354,7 +364,7 @@ def test_l05_l06_l07_full_lobby_to_table_positive_journey_real_factories_loopbac
 
         table_id = "lobby-sniper-tech"
         section_id = f"{table_id}-section"
-        final_saves = {pk: json.loads((_FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in keys}
+        final_saves = {pk: _load_fixture_save(pk) for pk in keys}
         gm = _TableGM(table_id, section_id, final_saves, turns_before_marker=3)
         sniper_driver = _ScriptedDriver("sniper", [
             json.dumps({"action": "propose", "wants": ["tech"]}),
@@ -551,7 +561,7 @@ def test_l08_real_restart_process_resumes_open_offer_without_duplicate_offer():
         assert len(offers_after_p1) == 1, "genau EIN Angebot nach Prozess 1 erwartet"
         offer_id = offers_after_p1[0]["offer_id"]
         table_id, section_id = "lobby-sniper-tech", "lobby-sniper-tech-section"
-        final_saves = {pk: json.loads((_FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in keys}
+        final_saves = {pk: _load_fixture_save(pk) for pk in keys}
         debrief_blocks = "\n".join(f"```json\n{json.dumps(b, ensure_ascii=False)}\n```" for b in final_saves.values())
 
         with _persona_http_server([
@@ -653,7 +663,7 @@ def test_l10_manual_l_path_uses_same_shared_admitted_decision_service():
         for pk in keys:
             _make_ready(onboarding_dir, states_dir, run_dir, pk)
 
-        final_saves = {pk: json.loads((_FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in keys}
+        final_saves = {pk: _load_fixture_save(pk) for pk in keys}
         gm = _TableGM("local-sniper-tech", "local-sniper-tech-section", final_saves, turns_before_marker=1)
         tech_driver = _ScriptedDriver("tech", [
             "ENTSCHEIDUNG offer_id=invite-sniper-tech participant_id=tech decision=accept explanation=Dabei.",

@@ -350,11 +350,11 @@ def test_p1_gm_stop_api():
 
                 stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-gm-stop"]
                 stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-gm-stop-repeat"]
-                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
                 assert "Stop angefordert" in p_stop1.stdout, p_stop1.stdout
-                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -508,10 +508,10 @@ def test_p1_gm_stop_hybrid():
 
             stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-hybrid-gm-stop"]
             stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-hybrid-gm-stop-repeat"]
-            p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+            p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
             h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
             assert p_stop1.returncode == 0, p_stop1.stderr
-            p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+            p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
             h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
             assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -631,7 +631,7 @@ def test_p2_reflection_stop_api():
                 # Natuerliche Phase-1-Ernte bereits erfolgt: neue Currents mit
                 # unterscheidbarem G4-Endmarker, Tisch noch NICHT geschlossen.
                 for pk in ("sniper", "tech"):
-                    assert state_before_stop["currents"][pk].get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{TABLE_ID}-{SECTION_ID}", (
+                    assert state_before_stop["currents"][pk].get("save_id") == h02journey._expected_h02_end_save_id(pk, TABLE_ID, SECTION_ID), (
                         f"P2: Phase-1-Ernte haette den Current von {pk} bereits vor der Reflexionsbarriere publiziert haben muessen: "
                         f"{state_before_stop['currents'][pk]}"
                     )
@@ -640,10 +640,10 @@ def test_p2_reflection_stop_api():
 
                 stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-reflection-stop"]
                 stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-reflection-stop-repeat"]
-                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
-                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -817,16 +817,16 @@ def test_p2_reflection_stop_hybrid():
                 ledger_before_stop = _ledger_records_snapshot(run_dir)
                 sup.write_json(case / "state-1-before-stop.json", state_before_stop)
                 for pk in ("sniper", "tech"):
-                    assert state_before_stop["currents"][pk].get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{TABLE_ID}-{SECTION_ID}"
+                    assert state_before_stop["currents"][pk].get("save_id") == h02journey._expected_h02_end_save_id(pk, TABLE_ID, SECTION_ID)
                 assert state_before_stop["tables"][f"{TABLE_ID}.json"]["status"] == "active"
                 assert state_before_stop["reflections_count"] == 0
 
                 stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-hybrid-reflection-stop"]
                 stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-hybrid-reflection-stop-repeat"]
-                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
-                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -960,7 +960,32 @@ def test_p3_observer_end():
             assert status_before_observers is not None and status_before_observers.running is True
             assert status_before_observers.pid == controller_pid
 
-            observer_env = sup.minimal_lab_env({}, tmp_root=root / "kidtmp_observer_eof", guard_dir=guard_dir)
+            # W55-Nachzug (G05, 01_ENTSCHEIDUNG_UND_REPARATUR.md §W55): beide
+            # `lab attach --follow`-Observer unten sind eigene, echte
+            # Kindprozesse mit demselben isolierten `minimal_lab_env` wie
+            # jeder andere Lab-Subprozess -- derselbe Sichtbarkeitsaufbau
+            # (Hashbeleg, keine Installation, ueber die vorhandene
+            # `H02_REAL_USER_SITE_PACKAGES`-Bindung) muss deshalb auch hier
+            # gelten, sonst scheitert `scripts/mmo_sim.py lab attach` bereits
+            # beim Modulimport (`policy -> save_validation` importiert
+            # `jsonschema`/`referencing` zwingend), BEVOR ueberhaupt eine
+            # erste Beobachtungszeile ausgegeben werden kann.
+            observer_schema_dependency_dir, _observer_dependency_manifest = sup.copy_dependency_visibility(
+                root / "kidtmp_observer_eof" / "schema-dependency-visibility"
+            )
+            observer_env = sup.minimal_lab_env(
+                {}, tmp_root=root / "kidtmp_observer_eof", guard_dir=guard_dir,
+                schema_dependency_dir=observer_schema_dependency_dir,
+            )
+            _observer_schema_dependency_proof = sup.probe_schema_dependency(observer_env)
+            assert (
+                _observer_schema_dependency_proof.get("available") is True
+                and _observer_schema_dependency_proof.get("functional_validate_ok") is True
+            ), (
+                "W55/C3: benoetigte Schema-Dependency (jsonschema) im echten Observer-Kind-Env fuer P3 "
+                f"nicht importierbar/funktional nutzbar: {_observer_schema_dependency_proof} "
+                f"(manifest={_observer_dependency_manifest})"
+            )
             attach_args = ["attach", "--data-dir", str(root), "--follow", "--interval-seconds", "0.1"]
 
             # Observer A: eigene Pipe, EOF NACH der ersten beobachteten Ausgabe.
@@ -1519,6 +1544,7 @@ def test_p5_hard_interrupt_resume():
         try:
             p_resume = h02journey._run_lab(
                 resume_args, env_extra=resume_env_extra, tmp_root=root / "kidtmp_resume_run", guard_dir=guard_dir, timeout=60,
+                require_schema_dependency=True,
             )
         finally:
             h05sup.stop_http_server(dead_persona_srv, dead_persona_thread)
