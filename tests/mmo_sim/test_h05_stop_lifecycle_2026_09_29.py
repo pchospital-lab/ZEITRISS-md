@@ -913,6 +913,72 @@ def test_p2_reflection_stop_hybrid():
 # Barriere; danach wird der Controller regulaer (Freigabe) beendet.
 # ---------------------------------------------------------------------------
 
+class _ObserverDrain:
+    """P3-Rueckstau-Fix: stdout UND stderr eines `lab attach --follow`-Observers
+    ab Prozessstart fortlaufend in Hintergrund-Threads abnehmen, damit ein voller
+    ~64KB-Pipe-Buffer den Observer nicht im write()/flush() blockiert, BEVOR er
+    sein stdin-EOF (Observer A) bzw. SIGINT (Observer B) verarbeitet. stdin wird
+    hier NIE angefasst -- Observer B behaelt seine offene Pipe, kein
+    versehentliches EOF durch die Capturemethode.
+
+    Absicherungen: `wait_first_output` bestaetigt ECHTE stdout-Ausgabe (eine
+    nichtleere Zeile), nicht blossen Threadstart/Streamende; ein Reader-Fehler
+    verschwindet nicht im Thread, sondern wird in den Testthread re-geraist;
+    `collect()` liefert erst nach vollstaendig beendeten Readern und prueft nach
+    dem join zusaetzlich `is_alive()`. Die VOLLSTAENDIGE Ausgabe (inkl. erster
+    Zeile) kommt aus den Sammelpuffern."""
+
+    def __init__(self, proc):
+        self._out: list[str] = []
+        self._err: list[str] = []
+        self._first_output = threading.Event()
+        self._errors: list[BaseException] = []
+        self._t_out = threading.Thread(target=self._pump, args=(proc.stdout, self._out, True), daemon=True)
+        self._t_err = threading.Thread(target=self._pump, args=(proc.stderr, self._err, False), daemon=True)
+        self._t_out.start()
+        self._t_err.start()
+
+    def _pump(self, stream, sink, mark_first):
+        try:
+            if stream is None:
+                return
+            for line in iter(stream.readline, ""):
+                sink.append(line)
+                if mark_first and line.strip():
+                    self._first_output.set()  # nur ECHTE stdout-Ausgabe, kein Threadstart/Streamende
+        except BaseException as exc:  # Reader-Fehler nicht im Thread verschlucken
+            self._errors.append(exc)
+        finally:
+            try:
+                if stream is not None:
+                    stream.close()
+            except Exception:
+                pass
+
+    def _raise_reader_errors(self):
+        if self._errors:
+            raise AssertionError(f"P3: Observer-Reader-Thread-Fehler (nicht im Thread verschluckt): {self._errors!r}")
+
+    def wait_first_output(self, timeout):
+        waited = 0.0
+        step = 0.2
+        while waited < timeout:
+            self._raise_reader_errors()
+            if self._first_output.wait(step):
+                return True
+            waited += step
+        self._raise_reader_errors()
+        return False
+
+    def collect(self, join_timeout: float = 10.0):
+        self._t_out.join(join_timeout)
+        self._t_err.join(join_timeout)
+        if self._t_out.is_alive() or self._t_err.is_alive():
+            raise AssertionError("P3: Observer-Reader-Thread nach join noch aktiv -- Stream nicht sauber abgenommen")
+        self._raise_reader_errors()
+        return "".join(self._out), "".join(self._err)
+
+
 def test_p3_observer_end():
     case = sup.case_dir("P3_observer_end")
     with tempfile.TemporaryDirectory() as td:
@@ -994,25 +1060,22 @@ def test_p3_observer_end():
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
                 env=observer_env, cwd=str(_REPO_ROOT),
             )
-            first_line_a = observer_a.stdout.readline()
-            assert first_line_a, "P3: Observer A haette mindestens eine Ausgabezeile liefern muessen, bevor EOF gesendet wird"
+            observer_a_drain = _ObserverDrain(observer_a)
+            assert observer_a_drain.wait_first_output(20), "P3: Observer A haette mindestens eine Ausgabezeile liefern muessen, bevor EOF gesendet wird"
             observer_a.stdin.close()  # echtes stdin-EOF ueber die eigene Pipe -- kein --max-updates.
             try:
                 observer_a_rc = observer_a.wait(timeout=8)
-                observer_a_out = observer_a.stdout.read()
-                observer_a_err = observer_a.stderr.read()
                 observer_a_timed_out = False
             except subprocess.TimeoutExpired:
                 observer_a_timed_out = True
                 observer_a.kill()
                 observer_a_rc = observer_a.wait(timeout=10)
-                observer_a_out = observer_a.stdout.read()
-                observer_a_err = observer_a.stderr.read()
+            observer_a_out, observer_a_err = observer_a_drain.collect()
             sup.append_jsonl(case / "invocations.json", {
                 "name": "attach_observer_a_stdin_eof", "argv": attach_args, "pid": observer_a.pid,
                 "returncode": observer_a_rc, "timed_out_and_killed": observer_a_timed_out,
             })
-            (case / "stdout.attach_observer_a.txt").write_text(first_line_a + observer_a_out, encoding="utf-8")
+            (case / "stdout.attach_observer_a.txt").write_text(observer_a_out, encoding="utf-8")
             (case / "stderr.attach_observer_a.txt").write_text(observer_a_err, encoding="utf-8")
 
             # Observer B: eigener zweiter, unabhaengiger Prozess -- SIGINT statt
@@ -1027,26 +1090,23 @@ def test_p3_observer_end():
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
                 env=observer_env, cwd=str(_REPO_ROOT),
             )
-            first_line_b = observer_b.stdout.readline()
-            assert first_line_b, "P3: Observer B haette mindestens eine Ausgabezeile liefern muessen, bevor SIGINT gesendet wird"
+            observer_b_drain = _ObserverDrain(observer_b)
+            assert observer_b_drain.wait_first_output(20), "P3: Observer B haette mindestens eine Ausgabezeile liefern muessen, bevor SIGINT gesendet wird"
             observer_b.send_signal(signal.SIGINT)
             _log_signal_event(case, "observer_b_sigint", pid=observer_b.pid, sig=signal.SIGINT, note="P3 Observerende")
             try:
                 observer_b_rc = observer_b.wait(timeout=8)
-                observer_b_out = observer_b.stdout.read()
-                observer_b_err = observer_b.stderr.read()
                 observer_b_timed_out = False
             except subprocess.TimeoutExpired:
                 observer_b_timed_out = True
                 observer_b.kill()
                 observer_b_rc = observer_b.wait(timeout=10)
-                observer_b_out = observer_b.stdout.read()
-                observer_b_err = observer_b.stderr.read()
+            observer_b_out, observer_b_err = observer_b_drain.collect()
             sup.append_jsonl(case / "invocations.json", {
                 "name": "attach_observer_b_sigint", "argv": attach_args, "pid": observer_b.pid,
                 "returncode": observer_b_rc, "timed_out_and_killed": observer_b_timed_out,
             })
-            (case / "stdout.attach_observer_b.txt").write_text(first_line_b + observer_b_out, encoding="utf-8")
+            (case / "stdout.attach_observer_b.txt").write_text(observer_b_out, encoding="utf-8")
             (case / "stderr.attach_observer_b.txt").write_text(observer_b_err, encoding="utf-8")
 
             # Controller bleibt waehrend BEIDER Observerenden derselbe lebende
