@@ -40,9 +40,18 @@ def test_boot_menu_renders_resume_card_when_present():
 
 
 def test_boot_menu_without_resume_card_shows_fresh_options():
+    """TEST-DELTA (W7/G01, REVIEW.md §G01): `render_boot_menu` zeigt seit dem
+    G01-Fix NUR MEHR die EINE KISS-Hierarchie, nicht mehr zusaetzlich den
+    alten Einzelbuchstaben-Hotkeybaum ('[c] Neue Spielgemeinschaft' war ein
+    Kompatibilitaets-Hotkey-Zeilenbeleg) -- die alten Hotkeys bleiben laut
+    02 §A dispatchbar, aber unsichtbar (s. `test_old_single_letter_hotkeys_
+    still_work_unchanged` in test_ux1_kiss_menu.py). Ersetzt durch den
+    entsprechenden NEUEN sichtbaren KISS-Eintrag, gleiche Schutzwirkung
+    (Menue zeigt ohne Stand einen funktionierenden frischen Einstieg)."""
     text = render_boot_menu(None)
     assert "Fortsetzen" not in text
-    assert "[c] Neue Spielgemeinschaft" in text
+    assert "[spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)" in text
+    assert "[c] Neue Spielgemeinschaft" not in text, "alter Hotkeybaum darf in der Normalansicht nicht mehr sichtbar sein (G01)"
 
 
 def test_tui_eof_during_menu_pauses_cleanly_no_crash():
@@ -92,8 +101,11 @@ def test_tui_scripted_onboarding_real_sl_dialog_completes_with_valid_save():
     anzeigen, Antwort SOFORT persistieren (Crash-Sicherheit), bis die
     SL-Antwort einen gueltigen v7-Save-Block enthaelt."""
     import json
+
+    from _full_v7_fixture import upgrade_narrow_save
+
     save_path = _REPO_ROOT / "internal" / "qa" / "harness" / "lobby" / "fixtures" / "saves" / "sniper.json"
-    save_block = json.loads(save_path.read_text(encoding="utf-8"))
+    save_block = upgrade_narrow_save(json.loads(save_path.read_text(encoding="utf-8")))
 
     class _FakeCreationGm:
         def __init__(self):
@@ -193,9 +205,11 @@ def test_tui_local_round_ai_leader_requires_real_consent_then_consolidates():
     from mmo_sim.domain.zeitriss import onboarding as ob
     from mmo_sim.domain.zeitriss.policy import COMPLETION_MARKER
 
+    from _full_v7_fixture import upgrade_narrow_save
+
     fix = _REPO_ROOT / "internal" / "qa" / "harness" / "lobby" / "fixtures" / "saves"
-    sniper_save = json.loads((fix / "sniper.json").read_text(encoding="utf-8"))
-    tech_save = json.loads((fix / "tech.json").read_text(encoding="utf-8"))
+    sniper_save = upgrade_narrow_save(json.loads((fix / "sniper.json").read_text(encoding="utf-8")))
+    tech_save = upgrade_narrow_save(json.loads((fix / "tech.json").read_text(encoding="utf-8")))
 
     class _FakeLeaderDriver:
         def __init__(self):
@@ -303,9 +317,11 @@ def test_tui_local_round_ai_leader_actually_consolidates_guest_table_proposal():
     from mmo_sim.domain.zeitriss import onboarding as ob
     from mmo_sim.domain.zeitriss.policy import COMPLETION_MARKER
 
+    from _full_v7_fixture import upgrade_narrow_save
+
     fix = _REPO_ROOT / "internal" / "qa" / "harness" / "lobby" / "fixtures" / "saves"
-    sniper_save = json.loads((fix / "sniper.json").read_text(encoding="utf-8"))
-    tech_save = json.loads((fix / "tech.json").read_text(encoding="utf-8"))
+    sniper_save = upgrade_narrow_save(json.loads((fix / "sniper.json").read_text(encoding="utf-8")))
+    tech_save = upgrade_narrow_save(json.loads((fix / "tech.json").read_text(encoding="utf-8")))
 
     GUEST_PROPOSAL = "Vorschlag: wir schleichen an der Falle vorbei statt sie zu sprengen."
 
@@ -451,16 +467,17 @@ def test_tui_import_of_higher_level_save_offers_bounded_ai_preflight():
     Mock-`LabRunner.start()`/`release()` ohne Communitypruefung)."""
     import json
 
-    higher_save = {
-        "v": 7, "save_id": "fixture-veteran-001", "_fixture_note": "SIMULIERT/FIXTURE",
-        "characters": [{"char_id": "CHR-VETERAN-001", "id": "CHR-VETERAN-001", "name": "Rho", "callsign": "VETERAN", "level": 5}],
-    }
+    from _full_v7_fixture import full_v7_save
+
+    higher_save = full_v7_save("CHR-VETERAN-001", name="Rho", callsign="VETERAN", level=5, save_id="fixture-veteran-001")
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         printed = []
         session = TuiSession(
             onboarding_dir=d / "onboarding", catalog_dir=d / "catalog", participant_id="p1",
-            input_fn=_scripted_input(["i", json.dumps(higher_save), "ENDE", "w", "x"]),
+            # TEST-DELTA (G02/P12): zusaetzliches 'j' fuer die neue
+            # Erstimport-Bestaetigung vor der Level-Preflight-Wahl.
+            input_fn=_scripted_input(["i", json.dumps(higher_save), "ENDE", "j", "w", "x"]),
             print_fn=printed.append,
             run_dir=d / "run", states_dir=d / "states",
             schema_path=_REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json",
@@ -476,7 +493,9 @@ def test_tui_import_of_higher_level_save_offers_bounded_ai_preflight():
         printed = []
         session = TuiSession(
             onboarding_dir=d / "onboarding", catalog_dir=d / "catalog", participant_id="p1",
-            input_fn=_scripted_input(["i", json.dumps(higher_save), "ENDE", "v", "x"]),
+            # TEST-DELTA (G02/P12): zusaetzliches 'j' fuer die neue
+            # Erstimport-Bestaetigung vor der Level-Preflight-Wahl.
+            input_fn=_scripted_input(["i", json.dumps(higher_save), "ENDE", "j", "v", "x"]),
             print_fn=printed.append,
             run_dir=d / "run", states_dir=d / "states",
             schema_path=_REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json",

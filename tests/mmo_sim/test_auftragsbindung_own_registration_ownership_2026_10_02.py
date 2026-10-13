@@ -40,6 +40,7 @@ Exitcode."""
 from __future__ import annotations
 
 import copy
+from _ia1_v7_fixture import make_v7_fixture, advance_v7_fixture
 import json
 import sys
 import tempfile
@@ -66,7 +67,7 @@ _HUMAN_FRESH_ATTEMPT_KEY = "human-fresh-create::flo_human"
 
 
 def _v7_block(char_id: str, name: str, **extra) -> str:
-    body = {"v": 7, "characters": [{"char_id": char_id, "name": name, "callsign": name.upper(), "level": 1, **extra}]}
+    body = make_v7_fixture(char_id, name, lvl=1, **extra)
     return "```json\n" + json.dumps(body) + "\n```"
 
 
@@ -79,9 +80,7 @@ def _give_existing_figure(states_dir, run_dir, catalog_dir, onboarding_dir, part
                         "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN"},
         "rounds_played": 1,
     }, states_dir=states_dir)
-    save = {"v": 7, "save_id": f"fixture-{char_id}", "characters": [
-        {"char_id": char_id, "id": char_id, "name": name, "callsign": name.upper(), "level": 7},
-    ]}
+    save = make_v7_fixture(char_id, name, lvl=7, save_id=f"fixture-{char_id}")
     onboarding.start_or_resume(onboarding_dir, participant_id)
     onboarding.complete_with_save(onboarding_dir, participant_id, save, ZeitrissHarvestValidator(), char_id)
     onboarding.ensure_participant_persona_state(ps_store, states_dir, participant_id, char_id, save)
@@ -238,7 +237,7 @@ def test_ab_o2_h_missing_archive_does_not_authorize_current_reset():
 
         archived = copy.deepcopy(catalog.load_figure_save(cat, "flo_human", "human-new-1"))
         progressed = copy.deepcopy(_current(paths, "flo_human"))
-        progressed["characters"][0].update(level=4, wallet={"credits": 86420}, inventory=["KEEP_CURRENT_WITHOUT_ARCHIVE"])
+        advance_v7_fixture(progressed, lvl=4, wallet=86420, equipment=['KEEP_CURRENT_WITHOUT_ARCHIVE'])
         core_store.publish_current_save(run, "flo_human", progressed, PersonaStateStore(schema_path=_SCHEMA), states)
 
         figure_file = cat / "figures" / "flo_human__human-new-1.json"
@@ -283,7 +282,7 @@ def test_ab_o2_p_missing_archive_does_not_authorize_current_reset():
 
         archived = copy.deepcopy(catalog.load_figure_save(cat, "medic", "medic-new-1"))
         progressed = copy.deepcopy(_current(paths, "medic"))
-        progressed["characters"][0].update(level=4, wallet={"credits": 86420}, inventory=["KEEP_CURRENT_WITHOUT_ARCHIVE_PERSONA"])
+        advance_v7_fixture(progressed, lvl=4, wallet=86420, equipment=['KEEP_CURRENT_WITHOUT_ARCHIVE_PERSONA'])
         core_store.publish_current_save(run, "medic", progressed, PersonaStateStore(schema_path=_SCHEMA), states)
 
         figure_file = cat / "figures" / "medic__medic-new-1.json"
@@ -328,8 +327,8 @@ def test_ab_positive_genuinely_new_id_still_works_human_and_persona():
         assert "human-new-1" in [e.chrononaut_id for e in catalog.list_for_participant(cat, "flo_human")]
         assert "medic-new-1" in [e.chrononaut_id for e in catalog.list_for_participant(cat, "medic")]
         assert not any("angehalten" in s for s in prints), "keine HOLD-Meldung fuer echte neue IDs erwartet"
-        assert _current(paths, "flo_human")["characters"][0]["char_id"] == "human-new-1"
-        assert _current(paths, "medic")["characters"][0]["char_id"] == "medic-new-1"
+        assert _current(paths, "flo_human")["characters"][0]['id'] == "human-new-1"
+        assert _current(paths, "medic")["characters"][0]['id'] == "medic-new-1"
 
 
 def test_ab_positive_partial_resume_completes_without_second_model_turn():
@@ -565,13 +564,11 @@ def _cc1_case(actor: str, progress: bool) -> dict:
             # echten oeffentlichen Wechselweg aktiviert, KEIN zweiter
             # SL-Dialog.
             _sess(paths, factory, driver, ["n", cid, "x"], prints).run()
-        assert _current(paths, who)["characters"][0]["char_id"] == cid
+        assert _current(paths, who)["characters"][0]['id'] == cid
 
         before = copy.deepcopy(_current(paths, who))
         if progress:
-            before["characters"][0].update(
-                level=4, wallet={"credits": 87654}, inventory=["KEEP_PROGRESS_DURING_OPEN_ATTEMPT"],
-            )
+            advance_v7_fixture(before, lvl=4, wallet=87654, equipment=['KEEP_PROGRESS_DURING_OPEN_ATTEMPT'])
             # Dieselbe autoritative Store-Operation wie ein real erspielter,
             # von diesem offenen Auftrag UNABHAENGIGER spaeterer Abschnitt.
             core_store.publish_current_save(run, who, before, PersonaStateStore(schema_path=_SCHEMA), states)
@@ -611,9 +608,9 @@ def test_cc1_h_progressed_current_protected_on_claim_resume():
     assert r["after_invites"] == r["before_invites"], "kein zweiter Einladungsaufruf beim Resume erwartet"
     assert r["after"] != r["initial"], "Testannahme: Erstsave (L1) und spaeterer Fortschritt (L4) sind verschieden"
     assert r["after"] == r["before"], "der spaeter erspielte Fortschritt darf NICHT auf den Erstsave zurueckfallen"
-    assert r["after"]["characters"][0]["level"] == 4
-    assert r["after"]["characters"][0]["wallet"] == {"credits": 87654}
-    assert r["after"]["characters"][0]["inventory"] == ["KEEP_PROGRESS_DURING_OPEN_ATTEMPT"]
+    assert r["after"]["characters"][0]['lvl'] == 4
+    assert r["after"]["characters"][0]["wallet"] == 87654
+    assert r["after"]["characters"][0]['equipment'] == ["KEEP_PROGRESS_DURING_OPEN_ATTEMPT"]
     assert r["after_binding"] == r["cid"]
     assert any("angehalten" in s for s in r["prints"]), "sichtbares HOLD erwartet, kein stilles Ueberschreiben"
 
@@ -628,9 +625,9 @@ def test_cc1_p_progressed_current_protected_on_claim_resume():
     assert r["after_invites"] == r["before_invites"], "kein zweiter Einladungsaufruf beim Resume erwartet"
     assert r["after"] != r["initial"], "Testannahme: Erstsave (L1) und spaeterer Fortschritt (L4) sind verschieden"
     assert r["after"] == r["before"], "der spaeter erspielte Fortschritt darf NICHT auf den Erstsave zurueckfallen"
-    assert r["after"]["characters"][0]["level"] == 4
-    assert r["after"]["characters"][0]["wallet"] == {"credits": 87654}
-    assert r["after"]["characters"][0]["inventory"] == ["KEEP_PROGRESS_DURING_OPEN_ATTEMPT"]
+    assert r["after"]["characters"][0]['lvl'] == 4
+    assert r["after"]["characters"][0]["wallet"] == 87654
+    assert r["after"]["characters"][0]['equipment'] == ["KEEP_PROGRESS_DURING_OPEN_ATTEMPT"]
     assert r["after_binding"] == r["cid"]
     assert any("blocked" in s or "angehalten" in s for s in r["prints"]), "sichtbares HOLD erwartet"
 
@@ -705,25 +702,23 @@ def test_cc1_h_archive_protected_through_switch_sync_and_second_resume():
         assert json.loads(pending_path.read_text())["resolved"] is False
 
         archive_after_first_pass = copy.deepcopy(catalog.load_figure_save(cat, who, cid))
-        assert archive_after_first_pass["characters"][0]["level"] == 1
+        assert archive_after_first_pass["characters"][0]['lvl'] == 1
 
         # Aktivierung ueber den echten Wechselweg (bereits katalogisierte,
         # aber inaktive Figur -- kein zweiter SL-Dialog).
         _sess(paths, factory, driver, ["n", cid, "x"], prints).run()
-        assert _current(paths, who)["characters"][0]["char_id"] == cid
+        assert _current(paths, who)["characters"][0]['id'] == cid
 
         # Echter, von diesem Auftrag UNABHAENGIGER spaeterer Fortschritt.
         progressed = copy.deepcopy(_current(paths, who))
-        progressed["characters"][0].update(
-            level=4, wallet={"credits": 87654}, inventory=["KEEP_PROGRESS_AFTER_SECOND_RESUME"],
-        )
+        advance_v7_fixture(progressed, lvl=4, wallet=87654, equipment=['KEEP_PROGRESS_AFTER_SECOND_RESUME'])
         core_store.publish_current_save(run, who, progressed, PersonaStateStore(schema_path=_SCHEMA), states)
 
         # Wechsel WEG und wieder ZURUECK -- synchronisiert das Archiv ueber
         # den bestehenden `_sync_outgoing_active_figure`-Weg auf Level 4.
         _sess(paths, factory, driver, ["n", "human-old", "x"], prints).run()
         archive_after_switch_away = copy.deepcopy(catalog.load_figure_save(cat, who, cid))
-        assert archive_after_switch_away["characters"][0]["level"] == 4, (
+        assert archive_after_switch_away["characters"][0]['lvl'] == 4, (
             "Testannahme: switch-away-Sync muss das Archiv auf den echten Fortschritt heben"
         )
         _sess(paths, factory, driver, ["n", cid, "x"], prints).run()
@@ -739,10 +734,10 @@ def test_cc1_h_archive_protected_through_switch_sync_and_second_resume():
 
         assert len(calls) == before_calls, "Resume nutzt `state.final_save`, kein neuer GM-Turn erwartet"
         assert len(driver.invites) == before_invites, "kein zweiter Einladungsaufruf erwartet"
-        assert after_current["characters"][0]["level"] == 4, "Current bleibt (CC-1) geschuetzt"
-        assert after_archive["characters"][0]["level"] == 4, "G1: eigenes Archiv darf nicht transient zurueckfallen"
-        assert after_archive["characters"][0]["wallet"] == {"credits": 87654}
-        assert after_archive["characters"][0]["inventory"] == ["KEEP_PROGRESS_AFTER_SECOND_RESUME"]
+        assert after_current["characters"][0]['lvl'] == 4, "Current bleibt (CC-1) geschuetzt"
+        assert after_archive["characters"][0]['lvl'] == 4, "G1: eigenes Archiv darf nicht transient zurueckfallen"
+        assert after_archive["characters"][0]["wallet"] == 87654
+        assert after_archive["characters"][0]['equipment'] == ["KEEP_PROGRESS_AFTER_SECOND_RESUME"]
 
 
 def _ia1_case(actor: str, progress: bool) -> dict:
@@ -793,13 +788,11 @@ def _ia1_case(actor: str, progress: bool) -> dict:
             # echten oeffentlichen Wechselweg aktiviert, KEIN zweiter
             # SL-Dialog.
             _sess(paths, factory, driver, ["n", cid, "x"], prints).run()
-        assert _current(paths, who)["characters"][0]["char_id"] == cid
+        assert _current(paths, who)["characters"][0]['id'] == cid
 
         progressed = copy.deepcopy(_current(paths, who))
         if progress:
-            progressed["characters"][0].update(
-                level=4, wallet={"credits": 87654}, inventory=["KEEP_INACTIVE_ARCHIVE_PROGRESS"],
-            )
+            advance_v7_fixture(progressed, lvl=4, wallet=87654, equipment=['KEEP_INACTIVE_ARCHIVE_PROGRESS'])
             # Dieselbe autoritative Store-Operation wie ein real erspielter,
             # von diesem offenen Auftrag UNABHAENGIGER spaeterer Abschnitt.
             core_store.publish_current_save(run, who, progressed, PersonaStateStore(schema_path=_SCHEMA), states)
@@ -812,7 +805,7 @@ def _ia1_case(actor: str, progress: bool) -> dict:
         _sess(paths, factory, driver, ["n", old, "x"], prints, who=who).run()
         before_current = copy.deepcopy(_current(paths, who))
         before_archive = copy.deepcopy(catalog.load_figure_save(cat, who, cid))
-        assert before_current["characters"][0]["char_id"] == old
+        assert before_current["characters"][0]['id'] == old
         assert before_archive == progressed, (
             "Testannahme: switch-away-Sync muss das Archiv auf den echten Fortschritt heben"
         )
@@ -869,15 +862,15 @@ def test_ia1_h_progressed_archive_protected_on_inactive_resume():
     assert r["after_invites"] == r["before_invites"], "kein zweiter Einladungsaufruf beim Resume erwartet"
     assert r["after_ids"] == r["before_ids"], "keine neue Katalogregistrierung erwartet"
     assert r["after_current"] == r["before_current"], "Current (aktuell 'old') bleibt unveraendert"
-    assert r["after_current"]["characters"][0]["char_id"] != r["cid"], "cid bleibt INAKTIV, keine Fehlaktivierung"
+    assert r["after_current"]["characters"][0]['id'] != r["cid"], "cid bleibt INAKTIV, keine Fehlaktivierung"
     assert r["after_archive"] == r["progressed"], "IA-1: eigenes Archiv darf nicht auf den Erstsave zurueckfallen"
-    assert r["after_archive"]["characters"][0]["level"] == 4
+    assert r["after_archive"]["characters"][0]['lvl'] == 4
     assert r["pending_after"]["resolved"] is False, "HOLD darf die Generation NICHT als erledigt markieren"
     assert any("angehalten" in s and "Archiv" in s for s in r["prints"]), "sichtbares IA-1-HOLD erwartet"
     # Ein weiterer normaler Wechsel darf das (bereits korrekte) Archiv NICHT
     # erneut beschaedigen.
     assert r["after_cycle_archive"] == r["progressed"]
-    assert r["after_cycle_current"]["characters"][0]["level"] == 4
+    assert r["after_cycle_current"]["characters"][0]['lvl'] == 4
 
 
 def test_ia1_p_progressed_archive_protected_on_inactive_resume():
@@ -889,13 +882,13 @@ def test_ia1_p_progressed_archive_protected_on_inactive_resume():
     assert r["after_invites"] == r["before_invites"], "kein zweiter Einladungsaufruf beim Resume erwartet"
     assert r["after_ids"] == r["before_ids"], "keine neue Katalogregistrierung erwartet"
     assert r["after_current"] == r["before_current"], "Current (aktuell 'old') bleibt unveraendert"
-    assert r["after_current"]["characters"][0]["char_id"] != r["cid"], "cid bleibt INAKTIV, keine Fehlaktivierung"
+    assert r["after_current"]["characters"][0]['id'] != r["cid"], "cid bleibt INAKTIV, keine Fehlaktivierung"
     assert r["after_archive"] == r["progressed"], "IA-1: eigenes Archiv darf nicht auf den Erstsave zurueckfallen"
-    assert r["after_archive"]["characters"][0]["level"] == 4
+    assert r["after_archive"]["characters"][0]['lvl'] == 4
     assert r["pending_after"]["resolved"] is False, "HOLD darf die Generation NICHT als erledigt markieren"
     assert any("blocked" in s and "Archiv" in s for s in r["prints"]), "sichtbares IA-1-HOLD erwartet"
     assert r["after_cycle_archive"] == r["progressed"]
-    assert r["after_cycle_current"]["characters"][0]["level"] == 4
+    assert r["after_cycle_current"]["characters"][0]['lvl'] == 4
 
 
 def test_ia1_h_unchanged_resume_still_completes_fully():
@@ -905,7 +898,7 @@ def test_ia1_h_unchanged_resume_still_completes_fully():
     maskiertes HOLD."""
     r = _ia1_case("human", False)
     assert r["after_calls"] == r["before_calls"]
-    assert r["after_current"]["characters"][0]["char_id"] == r["cid"], "echter Abschluss aktiviert die Figur wieder"
+    assert r["after_current"]["characters"][0]['id'] == r["cid"], "echter Abschluss aktiviert die Figur wieder"
     assert r["after_current"] == r["initial"] == r["progressed"]
     assert r["after_archive"] == r["initial"]
     assert r["pending_after"]["resolved"] is True
@@ -917,7 +910,7 @@ def test_ia1_p_unchanged_resume_still_completes_fully():
     """IA-1-P Positivkontrolle: dieselbe Garantie wie IA-1-H am Persona-Pfad."""
     r = _ia1_case("persona", False)
     assert r["after_calls"] == r["before_calls"]
-    assert r["after_current"]["characters"][0]["char_id"] == r["cid"]
+    assert r["after_current"]["characters"][0]['id'] == r["cid"]
     assert r["after_current"] == r["initial"] == r["progressed"]
     assert r["after_archive"] == r["initial"]
     assert r["pending_after"]["resolved"] is True

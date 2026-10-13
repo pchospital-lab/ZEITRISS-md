@@ -41,6 +41,7 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text  # noqa: E402
 from mmo_sim.adapters.fakes import FakeHTTPServer  # noqa: E402
 from mmo_sim.core import store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
@@ -69,11 +70,14 @@ class _CreationGmHandler(BaseHTTPRequestHandler):
         self.server.calls.append(body)  # type: ignore[attr-defined]
         n = len(self.server.calls)  # type: ignore[attr-defined]
         if n >= 2:
-            content = (
-                "```json\n"
-                '{"v": 7, "characters": [{"char_id": "chrono-e2e-community", '
-                '"name": "E2ECreated", "callsign": "E2E", "level": 1}]}\n'
-                "```"
+            # R12 Savegate (B1): beide v7-Schemas muessen VOR Annahme passen
+            # -- der alte Minimalfake (nur 4 Felder, kein `_full_v7_fixture`)
+            # ist gegen beide Schemas ungueltig. `full_v7_block_text` liefert
+            # denselben fenced-JSON-SL-Antworttext, jetzt vollstaendig
+            # schemakonform, mit identischer Identitaet (char_id/name/
+            # callsign/level unveraendert).
+            content = full_v7_block_text(
+                "chrono-e2e-community", name="E2ECreated", callsign="E2E", level=1,
             )
         else:
             content = "Welche Grundausstattung waehlst du fuer deinen ersten Einsatz?"
@@ -162,7 +166,12 @@ def test_real_subprocess_c_command_creates_exactly_one_persona_within_budget():
             assert len(ready) == 1, f"Budget haette GENAU EINE spielbereite Persona erlauben duerfen, war: {ready}"
             ready_pk = ready[0]
             current = store.load_current_save_or_raise(data_dir / "run", ready_pk, ps_store, states_dir=data_dir / "states")
-            assert current["characters"][0]["char_id"] == "chrono-e2e-community"
+            # Darstellungsmigration (02_TESTVERTRAG.md): `current` ist ein
+            # GELESENER persoenlicher Save (store.load_current_save_or_raise),
+            # das strikte Export-Schema kennt auf Figurenebene nur `id`
+            # (additionalProperties:false), kein zusaetzliches `char_id`.
+            # Gleiche Identitaet/gleicher Wert, nur der Feldname wechselt.
+            assert current["characters"][0]["id"] == "chrono-e2e-community"
 
             # ECHTER NEUER Interpreterprozess (Reentry): kein zusaetzlicher
             # Request fuer die bereits fertige Persona, Fortschritt bleibt.

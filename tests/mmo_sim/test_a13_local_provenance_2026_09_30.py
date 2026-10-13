@@ -754,7 +754,12 @@ def test_p13_2_standard_uses_actual_a23_api_and_hybrid_journeys():
                 ref=g[f"section_{side}_save_source"];raw=(info["run_dir"]/ref["path"]).read_bytes()
                 assert hashlib.sha256(raw).hexdigest()==ref["sha256"]
                 assert json.loads(raw)==g[f"section_{side}_save"]
-                assert json.loads(raw)["characters"][0]["char_id"]==r["table"]["chrononaut_ids"][pk]
+                # W45-Migration (R12-Savegate, `_full_v7_fixture.upgrade_narrow_save`):
+                # das volle v7-Export-Schema kennt auf Figurenebene nur `id`,
+                # keinen zusaetzlichen `char_id`-Schluessel mehr -- echte
+                # geerntete Saves (ab hier zum ersten Mal real durchlaufen,
+                # vorher durch den A23-Hang nie erreicht) tragen nur `id`.
+                assert json.loads(raw)["characters"][0]["id"]==r["table"]["chrononaut_ids"][pk]
         index=json.loads((out/"source-index.json").read_text())
         for ref in index["files"]:
             assert _sha256_file(info["run_dir"]/ref["path"])==ref["sha256"]

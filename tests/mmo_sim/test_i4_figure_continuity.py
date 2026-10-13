@@ -43,6 +43,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import upgrade_narrow_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import app_service, store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
@@ -59,7 +61,10 @@ _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.js
 
 
 def _sv(pk: str) -> dict:
-    return json.loads((_FIX / "saves" / f"{pk}.json").read_text(encoding="utf-8"))
+    """W45 FIXTURE_ONLY: Legacy-Fixture ueber `upgrade_narrow_save` auf
+    volles, gegen BEIDE v7-Schemas gueltiges v7 gehoben -- id/name/callsign
+    unveraendert erhalten."""
+    return upgrade_narrow_save(json.loads((_FIX / "saves" / f"{pk}.json").read_text(encoding="utf-8")))
 
 
 def _script(lines):
@@ -141,8 +146,11 @@ class Rig:
         )
 
     def import_all(self) -> None:
+        # TEST-DELTA (G02/P12): Erstimport verlangt jetzt eine eigene
+        # ausdruckliche Ja-Bestaetigung vor dem Write -- dieselbe
+        # Schutzwirkung (Figur wird uebernommen) bleibt erhalten.
         for p, b in self.saves.items():
-            self.ui(p, inputs=[json.dumps(b), "ENDE"])._cmd_import()
+            self.ui(p, inputs=[json.dumps(b), "ENDE", "j"])._cmd_import()
 
     def table(self, tid="pair"):
         lobby = store.Lobby(self.run, ZeitrissTableSizePolicy())
@@ -205,7 +213,10 @@ def test_weg1_same_process_second_tuisession_retains_a_neu_after_a_b_a():
         a_id = r.ids["sniper"]
 
         # B inaktiv importieren ('b' behalten -- A bleibt aktiv).
-        r.ui(inputs=[json.dumps(b), "ENDE", "b"])._cmd_import()
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'
+        # (Aktivwechsel-Rueckfrage) -- die inaktive Zweitregistrierung
+        # braucht jetzt ebenfalls die neue Erstimport-Bestaetigung.
+        r.ui(inputs=[json.dumps(b), "ENDE", "j", "b"])._cmd_import()
         # Aktivwechsel zu B, dann zurueck zu A -- innerhalb DIESES Prozesses.
         r.ui(inputs=[b_id])._cmd_new_or_switch_character()
         r.ui(inputs=[a_id])._cmd_new_or_switch_character()
@@ -239,7 +250,10 @@ def test_weg3_inactive_figure_identical_reimport_is_noop():
         b = _sv("tech")
         b_id = saves.block_char_id(b)
         # Erster Import von B: inaktiv registrieren (A bleibt aktiv, 'b').
-        r.ui(inputs=[json.dumps(b), "ENDE", "b"])._cmd_import()
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'
+        # (Aktivwechsel-Rueckfrage) -- die inaktive Zweitregistrierung
+        # braucht jetzt ebenfalls die neue Erstimport-Bestaetigung.
+        r.ui(inputs=[json.dumps(b), "ENDE", "j", "b"])._cmd_import()
         assert catalog.load_figure_save(r.cat, "sniper", b_id) == b
 
         # Identischer Re-Import derselben inaktiven Figur B: MUSS als No-op
@@ -260,7 +274,10 @@ def test_weg3_inactive_figure_divergent_reimport_needs_explicit_choice():
         r.import_all()
         b = _sv("tech")
         b_id = saves.block_char_id(b)
-        r.ui(inputs=[json.dumps(b), "ENDE", "b"])._cmd_import()
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'
+        # (Aktivwechsel-Rueckfrage) -- die inaktive Zweitregistrierung
+        # braucht jetzt ebenfalls die neue Erstimport-Bestaetigung.
+        r.ui(inputs=[json.dumps(b), "ENDE", "j", "b"])._cmd_import()
 
         b_changed = copy.deepcopy(b)
         b_changed["save_id"] = "i4-test-tech-changed"
@@ -346,7 +363,10 @@ def test_weg4_stale_catalog_active_id_does_not_corrupt_outgoing_figure():
         a_id = r.ids["sniper"]
 
         # B inaktiv importieren ('b' behalten -- A bleibt aktiv).
-        r.ui(inputs=[json.dumps(b), "ENDE", "b"])._cmd_import()
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'
+        # (Aktivwechsel-Rueckfrage) -- die inaktive Zweitregistrierung
+        # braucht jetzt ebenfalls die neue Erstimport-Bestaetigung.
+        r.ui(inputs=[json.dumps(b), "ENDE", "j", "b"])._cmd_import()
         assert catalog.active_chrononaut_id(r.cat, "sniper") == a_id
         assert catalog.load_figure_save(r.cat, "sniper", b_id) == b
 

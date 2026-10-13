@@ -1,0 +1,6 @@
+# CI-Abhaengigkeiten fuer den ZEITRISS CI-Smoke-Workflow (.github/workflows/smoke.yml).
+# mmo_sim/domain/zeitriss/save_validation.py importiert jsonschema UND referencing direkt;
+# ohne diese Pakete scheitert bereits das Einsammeln der Testmodule (ModuleNotFoundError).
+# Transitiv automatisch mitinstalliert: attrs, jsonschema-specifications, rpds-py, typing-extensions.
+jsonschema==4.26.0
+referencing==0.37.0

@@ -35,6 +35,8 @@ if str(_REPO_ROOT) not in sys.path:
 if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
+from _full_v7_fixture import full_v7_save, upgrade_narrow_save  # noqa: E402
+
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.domain.zeitriss import onboarding  # noqa: E402
 from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community  # noqa: E402
@@ -184,9 +186,14 @@ def make_ready(onboarding_dir: Path, states_dir: Path, run_dir: Path, persona_ke
     """Identisch zu `test_l01_l10_lobby_initiative._make_ready` (Produktweg:
     `onboarding` + `core.store.publish_current_save`) -- eigene Kopie hier,
     damit diese Supportdatei self-contained bleibt (kein Cross-Test-Import
-    fuer eine so zentrale Fixturefunktion)."""
-    save = json.loads((_FIX / f"{persona_key}.json").read_text(encoding="utf-8"))
-    chrono_id = save["characters"][0]["char_id"]
+    fuer eine so zentrale Fixturefunktion).
+
+    W45 FIXTURE_ONLY: die rohe Legacy-Fixture wird ueber
+    `upgrade_narrow_save` auf einen vollen, gegen BEIDE v7-Schemas
+    gueltigen Block gehoben, BEVOR sie an den echten Produktweg geht --
+    char_id/name/callsign bleiben unveraendert erhalten."""
+    save = load_fixture_save(persona_key)
+    chrono_id = save["characters"][0]["id"]
     ps_store = PersonaStateStore(schema_path=_SCHEMA)
     onboarding.start_or_resume(onboarding_dir, persona_key)
     onboarding.complete_with_save(onboarding_dir, persona_key, save, ZeitrissHarvestValidator(), chrono_id)
@@ -196,7 +203,13 @@ def make_ready(onboarding_dir: Path, states_dir: Path, run_dir: Path, persona_ke
 
 
 def load_fixture_save(persona_key: str) -> dict:
-    return json.loads((_FIX / f"{persona_key}.json").read_text(encoding="utf-8"))
+    """W45 FIXTURE_ONLY: liefert die Legacy-Fixture bereits ueber
+    `upgrade_narrow_save` auf volles v7 gehoben -- EINE Quelle, die sowohl
+    `make_ready`/`onboard_human_figure` beim Publizieren ALS AUCH jeder
+    Aufrufer, der hierueber `expected_current`/`final_saves` bildet,
+    gleichermassen verwendet (self-consistent, keine zwei Fassungen
+    desselben Fixture-Inhalts)."""
+    return upgrade_narrow_save(json.loads((_FIX / f"{persona_key}.json").read_text(encoding="utf-8")))
 
 
 def own_figure_marker(persona_key: str) -> str:
@@ -254,7 +267,7 @@ def onboard_human_figure(registry_dir: Path, persona_key: str, onboarding_dir: P
     Registry-Identitaet die Figur auch sichtbar referenziert."""
     registry = ParticipantRegistry(registry_dir)
     save = synthetic_human_save()
-    chrono_id = save["characters"][0]["char_id"]
+    chrono_id = save["characters"][0]["id"]
     ps_store = PersonaStateStore(schema_path=_SCHEMA)
     onboarding.start_or_resume(onboarding_dir, persona_key)
     onboarding.complete_with_save(onboarding_dir, persona_key, save, ZeitrissHarvestValidator(), chrono_id)
@@ -833,12 +846,12 @@ def synthetic_human_save(char_id: str = "CHR-HUMAN-OPS-001", name: str = "Operat
     """A01/H09: eigene vollstaendige, von den sechs KI-Fixtures unterschiedene
     v7-Save-Identitaet fuer den menschlichen Community-Slot -- selbes v7-
     Schema wie die bestehenden Fixtures (`_FIX/*.json`), nur eigener
-    char_id/name/callsign (keine Wiederverwendung einer KI-Identitaet)."""
-    return {
-        "v": 7, "save_id": f"fixture-{char_id.lower()}-initial-001",
-        "_fixture_note": "SIMULIERT/FIXTURE (H02-Vollreise, menschlicher Community-Slot)",
-        "characters": [{"char_id": char_id, "id": char_id, "name": name, "callsign": callsign}],
-    }
+    char_id/name/callsign (keine Wiederverwendung einer KI-Identitaet).
+
+    W45 FIXTURE_ONLY: voller, gegen BEIDE v7-Schemas gueltiger Block
+    (`full_v7_save`) statt der alten schmalen Drei-Feld-Figur -- char_id/
+    name/callsign unveraendert erhalten."""
+    return full_v7_save(char_id, name=name, callsign=callsign, save_id=f"fixture-{char_id.lower()}-initial-001")
 
 
 # --------------------------------------------------------------------------

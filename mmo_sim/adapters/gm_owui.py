@@ -98,7 +98,10 @@ class GmOwuiTransport:
     def __init__(self, sl_client_path: str | Path, run_dir: str | Path,
                  table_id: str | None = None,
                  sl_model: str | None = None, kb_id: str | None = None,
-                 gm_output_limit_tokens: float | None = None):
+                 gm_output_limit_tokens: float | None = None,
+                 transport_max_retries: int | None = None,
+                 transport_backoff: float | None = None,
+                 transport_timeout: int | None = None):
         # B2 (MAIN-KORREKTUR I2-Nacharbeit 2026-09-24): Wertegueltigkeit VOR
         # jedem Seiteneffekt (Modulladen/Session-Aufbau/Verzeichnisanlage)
         # pruefen -- eine erkennbare Fehlkonfiguration bricht sofort ab, statt
@@ -109,14 +112,42 @@ class GmOwuiTransport:
         effective_dir = run_dir / "gm_sessions" / _safe_component(table_id) if table_id else run_dir
         effective_dir.mkdir(parents=True, exist_ok=True)
         history_path = effective_dir / "sl_history.jsonl"
+        # W51 (01_RESTAUFTRAG.md §3, 03_LIVE3_FUENFER_UND_LAUFZEIT.md
+        # "hoechstens EIN Transportversuch je Liveaktion"; SCOPE.json
+        # semantic_constraints.adapters "per-run timeout/retry threading"):
+        # `transport_max_retries`/`transport_backoff` sind additiv und
+        # OPTIONAL (Default `None`) -- ohne Angabe bleibt JEDER bestehende
+        # Aufrufer (`adapters.factories.default_gm_transport_factory`, jeder
+        # bestehende Test) unveraendert beim P1-Default des Harness-Clients
+        # (3 Versuche mit Backoff). Fuer einen LIVE3-Lauf uebergibt der
+        # Aufrufer explizit `transport_max_retries=1` -- EIN physischer POST
+        # pro `.turn()`, kein automatischer, vom Client selbst ausgeloester
+        # Zweitversand bei unklarem Ausgang (s. `operator/`-Skripte).
+        # `timeout` traegt denselben additiv/optionalen Charakter wie
+        # `max_retries`/`backoff` (s.o.) -- ohne Angabe bleibt `SLSession`s
+        # eigener Default (`TIMEOUT_SL=420`) unveraendert; ein Offline-
+        # Beleg (s. `operator/resume_proof.py`) kann hierueber ein kurzes,
+        # deterministisches Fenster erzwingen, ohne den echten LIVE3-Default
+        # zu beruehren.
+        timeout_kwargs: dict = {}
+        if transport_timeout is not None:
+            timeout_kwargs["timeout"] = transport_timeout
         if history_path.exists():
             # I6/A7: unterbrochener Abschnitt -- lokale Verlaufsdatei im
             # effective_dir vorhanden -> denselben Chat samt Historie
             # fortsetzen (GENAU dieses Tisches, kein fremder Verlauf).
-            self._session = module.SLSession.from_history(effective_dir, sl_model=sl_model, kb_id=kb_id)
+            self._session = module.SLSession.from_history(
+                effective_dir, sl_model=sl_model, kb_id=kb_id,
+                max_retries=transport_max_retries, backoff=transport_backoff,
+                **timeout_kwargs,
+            )
         else:
             # Echter neuer Abschnitt -- keine Verlaufsdatei -> neuer Chat.
-            self._session = module.new_sl_session(effective_dir, sl_model=sl_model, kb_id=kb_id)
+            self._session = module.new_sl_session(
+                effective_dir, sl_model=sl_model, kb_id=kb_id,
+                max_retries=transport_max_retries, backoff=transport_backoff,
+                **timeout_kwargs,
+            )
         # E1 (Auflage 1, MAIN-ENTSCHEIDUNG I2-Nachzug GM-Weg): optionale, vom
         # Aufrufer der `gm_transport_factory` konfigurierte GM-Ausgabegrenze
         # -- analog `sl_model`/`kb_id`, NICHT ueber `lab.status.json`/

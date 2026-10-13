@@ -18,8 +18,16 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Install dependencies
+        # --user: jsonschema muss ins HOME-gebundene User-Site (site.getusersitepackages()),
+        # damit die mmo_sim-C3-Regressionen (fresh-HOME-Kindprozesse) weiter fail-closed greifen.
+        run: python3 -m pip install --user -r requirements-ci.txt
+
       - name: Run unit tests
         run: python3 -m unittest -q
+
+      - name: Run mmo_sim regression tests
+        run: python3 -u tests/mmo_sim/run_all.py
 
       - name: Run smoke
         shell: bash

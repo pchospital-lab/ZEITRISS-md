@@ -342,3 +342,6 @@ Die Spielmechanik hinter dem Gruppenspiel (getrennte Saves, Session-Anker,
 Splits & Merges, Gruppen-Px, Tod in der Gruppe) steht im
 [Spieler-Handbuch](../core/spieler-handbuch.md) unter „MMO-Feeling ohne Server"
 und „Der Gameflow".
+
+
+Hinweis zur Wiederaufnahme: Bricht eine Gruppenrunde genau zwischen dem Abschluss-Spielzug der Spielleitung und den Pflicht-Reflexionen ab, erntet der naechste normale Fortsetzen-Aufruf die bereits erzeugten Spielstaende automatisch (ohne neuen Spielzug) — aber nur, wenn die Antwort eindeutig und vollstaendig zur urspruenglichen Anfrage passt (Original-Input, Original-ID, vollstaendig verbucht, kein offener Fehler). Ist der Versand noch unbekannt/unvollstaendig oder die Buchung noch offen, haelt die Wiederaufnahme statt dessen kontrolliert, ohne deinen Spielstand zu veraendern. Danach (bei erfolgreicher Ernte) folgen wie bisher die fuenf echten KI-Reflexionen und der Abschluss.

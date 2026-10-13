@@ -160,6 +160,14 @@ ist weiterhin der breiter abgenommene Weg.
 > echter Modellaufruf in dieser Prüfung**. Natives LAN-/Remote-Mitspielen
 > über das Netzwerk ist noch nicht ausgeliefert; echte Installation/
 > Abo-Kompatibilität für Endnutzer ist nicht Teil dieser Prüfung.
+>
+> **Nachzug (2026-10-06):** zusätzlicher Sicherheits-/Eingabevertrags-
+> nachzug (gekoppelte Fehlerredaktion mit wieder sichtbarem Archiv-HOLD,
+> vollständig zentral gebundene Spieler-Eingabeprompts, endliche
+> synthetische Figur-Erschaffung bis zum ersten gültigen Spielstand,
+> verbundene Mehrmenschen-Spielreisen) — Details im Abschnitt „R5 —
+> Sicherheitsnachzug..." in [docs/mmo-sim.md](docs/mmo-sim.md). Ändert
+> nichts an obigem Status (kein Live-/Install-/LAN-PASS).
 
 ## Setup: vorhandene Chatplattform nutzen
 
@@ -290,3 +298,8 @@ Sicherheitsmeldungen: [SECURITY.md](SECURITY.md).
 
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 [llm-ready-link]: core/spieler-handbuch.md
+
+
+## Hinweis: Automatische Wiederaufnahme nach dem Abschluss-Spielzug (Stand 2026-10)
+
+Wird eine Gruppen-Sitzung genau nach dem Abschluss-Spielzug der Spielleitung, aber vor den Pflicht-Reflexionen unterbrochen (Prozessabbruch oder Admission-Pause), erntet der naechste gewoehnliche Fortsetzen-Aufruf die bereits **vollstaendig lokal verbuchte** Antwort automatisch — aber NUR, wenn sie eindeutig zur urspruenglichen Anfrage passt (exakt derselbe Original-Input, dieselbe Original-ID, Rollen-/Tisch-/Section-/Turn-/Teilnehmerbezug) UND ohne manuelles `store.complete_section`-Seeding oder einen neuen Spiel-/GM-Turn. Eine Antwort, die lediglich *empfangen*, aber noch nicht vollstaendig verbucht ist, oder deren Herkunft unklar/fremd/unvollstaendig gebunden ist, wird NICHT automatisch geerntet — stattdessen haelt der naechste Fortsetzen-Aufruf kontrolliert, ohne den Spielzustand zu veraendern. Danach (bei erfolgreicher Ernte) laufen die fuenf KI-Reflexionen und der endgueltige Abschluss wie im ununterbrochenen Normalfall. Die Speicher-, Schema- und Zustimmungs-Pruefungen bleiben dabei unveraendert aktiv; eine zwischenzeitlich veroeffentlichte neuere Figurgeneration wird weiterhin erkannt und nicht ueberschrieben. Diese Automatik ist bislang nur durch synthetische Offline-Proben belegt, getrennt von der bereits abgenommenen, betreiberassistierten nativen Live-Recovery — keine Zusage auf exactly-once-Zustellung.

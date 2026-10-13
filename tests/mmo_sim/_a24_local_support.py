@@ -50,6 +50,7 @@ if str(_HERE) not in sys.path:
 # _h02_vollreise_support as sup`) -- `_h02_vollreise_support.py` selbst
 # bleibt bytegleich, hier NIE geschrieben.
 import _h02_vollreise_support as _h02sup  # noqa: E402
+from _full_v7_fixture import full_v7_save, upgrade_narrow_save  # noqa: E402
 
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
@@ -159,9 +160,16 @@ def bootstrap_six_persona_community(root: Path, community_id: str, persona_keys=
 def make_ready(onboarding_dir: Path, states_dir: Path, run_dir: Path, persona_key: str) -> str:
     """AI-Persona erhaelt ihre volle, bereits abgeschlossene v7-Figur ueber
     den Produktweg (`onboarding` + `core.store.publish_current_save`) --
-    identisches Muster wie die bestehenden permanenten H02-Tests."""
-    save = load_fixture_save(persona_key)
-    chrono_id = save["characters"][0]["char_id"]
+    identisches Muster wie die bestehenden permanenten H02-Tests.
+
+    W45 FIXTURE_ONLY: die rohe Legacy-Fixture (`load_fixture_save`, nur
+    `id`/`name`/`callsign`) wird ueber `upgrade_narrow_save` auf einen
+    vollen, gegen BEIDE v7-Schemas gueltigen Block gehoben, BEVOR sie an
+    den echten Produktweg (`onboarding.complete_with_save` ->
+    `ZeitrissHarvestValidator.validate_block` -> volle Schemapruefung)
+    geht -- char_id/name/callsign bleiben unveraendert erhalten."""
+    save = upgrade_narrow_save(load_fixture_save(persona_key))
+    chrono_id = save["characters"][0]["id"]
     ps_store = PersonaStateStore(schema_path=SCHEMA)
     onboarding.start_or_resume(onboarding_dir, persona_key)
     onboarding.complete_with_save(onboarding_dir, persona_key, save, ZeitrissHarvestValidator(), chrono_id)
@@ -174,16 +182,36 @@ def load_fixture_save(persona_key: str) -> dict:
     return json.loads((FIX / f"{persona_key}.json").read_text(encoding="utf-8"))
 
 
+def load_fixture_save_upgraded(persona_key: str) -> dict:
+    """W63-Fix (R12-Restreparatur, G6: 'current differs from expected
+    operation actor'): dieselbe Anhebung wie `make_ready()` oben
+    (`upgrade_narrow_save`, W45 FIXTURE_ONLY) -- fuer die UNABHAENGIGE G6-
+    Erwartung (`expected_context_for_case(final_saves=...)`) MUSS derselbe
+    volle, bereits via `make_ready()` tatsaechlich publizierte Current-Stand
+    verwendet werden wie der eigentliche Wert, den der echte Produktpfad
+    beim Einladungs-/Spielturn einbettet -- die rohe, schmale Fixture
+    (`load_fixture_save`, nur `char_id`/`id`/`name`/`callsign`) weicht
+    sonst vom tatsaechlich geladenen/publizierten vollen Current ab und
+    laesst den G6-Gate schon an der ERSTEN Operation (Einladung) scheitern
+    (nachgewiesen per Debug-Nachbau: `current != own` in
+    `_g6_check_operation`). `load_fixture_save` selbst bleibt UNVERAENDERT
+    (andere, nicht zu diesem Scope gehoerende Aufrufer lesen weiterhin die
+    rohe Fixture) -- nur dieser neue, zusaetzliche Lesezugriff liefert die
+    bereits an anderer Stelle etablierte angehobene Form (char_id/id/name/
+    callsign unveraendert)."""
+    return upgrade_narrow_save(load_fixture_save(persona_key))
+
+
 def synthetic_human_save(char_id: str, name: str, callsign: str) -> dict:
     """A01/11 §8: eigene vollstaendige, von allen KI-Fixturen UND vom
     jeweils anderen Menschen unterschiedene v7-Save-Identitaet fuer einen
     menschlichen Community-Slot -- dasselbe v7-Schema wie die KI-Fixtures,
-    nur eigener char_id/name/callsign."""
-    return {
-        "v": 7, "save_id": f"fixture-{char_id.lower()}-initial-001",
-        "_fixture_note": "SIMULIERT/FIXTURE (A24-Nachweis, menschlicher Teilnehmer)",
-        "characters": [{"char_id": char_id, "id": char_id, "name": name, "callsign": callsign}],
-    }
+    nur eigener char_id/name/callsign.
+
+    W45 FIXTURE_ONLY: voller, gegen BEIDE v7-Schemas gueltiger Block
+    (`full_v7_save`) statt der alten schmalen Drei-Feld-Figur -- char_id/
+    name/callsign unveraendert erhalten."""
+    return full_v7_save(char_id, name=name, callsign=callsign, save_id=f"fixture-{char_id.lower()}-initial-001")
 
 
 def register_human(registry_dir: Path, display_name: str):
@@ -205,7 +233,7 @@ def onboard_human_figure(
     nicht nur impliziter Chrononaut-Bezug)."""
     registry = ParticipantRegistry(registry_dir)
     save = synthetic_human_save(char_id, name, callsign)
-    chrono_id = save["characters"][0]["char_id"]
+    chrono_id = save["characters"][0]["id"]
     ps_store = PersonaStateStore(schema_path=SCHEMA)
     onboarding.start_or_resume(onboarding_dir, participant_id)
     onboarding.complete_with_save(onboarding_dir, participant_id, save, ZeitrissHarvestValidator(), chrono_id)
@@ -1787,10 +1815,16 @@ def end_save_for(base_save: dict, tag: str, run_tag: str) -> dict:
     UNTERSCHIEDENE Kopie desselben v7-Blocks (gleicher `char_id` -- der
     Routingschluessel `zeitriss_saves.block_char_id` darf sich nicht aendern
     -- aber eigener, eindeutiger `save_id`), die der GM-Debrief tatsaechlich
-    sendet. Reiner Testfixture-Helfer, keine Produktaenderung."""
+    sendet. Reiner Testfixture-Helfer, keine Produktaenderung.
+
+    R12-Fix: der frueher hier angehaengte Root-Key `_a24_end_save_note`
+    verstiess gegen `additionalProperties:false` am Export-Schema-Root und
+    liess jeden darauf aufbauenden Harvest/Close scheitern. Die Notiz
+    (SIMULIERT/FIXTURE -- synthetischer Endstand nach A24-Testrunde, kein
+    Ausgangspayload) lebt nur noch als dieser Docstring-Hinweis, nicht mehr
+    in der Save-Huelle; kein Test liest den frueheren Key zurueck."""
     end = json.loads(json.dumps(base_save, ensure_ascii=False))
     end["save_id"] = f"{base_save.get('save_id', 'save')}-END-{tag}-{run_tag}"
-    end["_a24_end_save_note"] = "SIMULIERT/FIXTURE -- synthetischer Endstand nach A24-Testrunde, kein Ausgangspayload."
     return end
 
 

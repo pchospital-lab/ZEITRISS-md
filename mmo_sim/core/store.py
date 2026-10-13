@@ -442,6 +442,9 @@ def submit_to_sl(
     table: Table, actor_persona_key: str, gm_transport, turn_idx: int, text: str,
     origin_persona_key: str | None = None, origin_source: str | None = None,
     save_payload: dict | None = None, output_limit_tokens: float | None = None,
+    *, section_id: str | None = None,
+    expected_prev_ref_by_member: dict[str, dict | None] | None = None,
+    gm_request_id: str | None = None,
 ) -> dict:
     """Transport fuehrt eine vom Leader freigegebene Nachricht aus. `gm_transport`
     ist ein beliebiges Objekt mit `.turn(turn_idx, text) -> {content, usage,
@@ -453,7 +456,36 @@ def submit_to_sl(
     wenn der Aufrufer (`core.runtime.SectionRuntime.submit`) tatsaechlich eine
     konfigurierte Grenze duck-typed vom Transport gelesen hat -- bestehende
     Test-Fakes mit der alten Zweiargument-Signatur (`.turn(idx, text)`, kein
-    `**kwargs`) bleiben dadurch unveraendert aufrufbar (P1/Regressionsschutz)."""
+    `**kwargs`) bleiben dadurch unveraendert aufrufbar (P1/Regressionsschutz).
+
+    R12-AUTORECOVERY (additiv, KEYWORD-ONLY, Default `None` -- bestehende
+    Aufrufer aus `save_correction.py`/der P1-QA-Fassade bleiben unveraendert):
+    `section_id` und `expected_prev_ref_by_member` werden -- falls vom
+    Aufrufer mitgegeben -- IN GENAU DEMSELBEN sl_log-Append + `persist()`-
+    Write wie die rohe SL-Antwort selbst gespeichert, zusammen mit dem
+    bereits vom Transport gelieferten `chat_id`. Das schliesst das
+    Crash-Fenster "Rohantwort durabel, aber Checkpoint fehlt noch" komplett
+    -- es gibt keinen zweiten Schreibvorgang, der dazwischen scheitern
+    koennte. `expected_prev_ref_by_member` ist ein reiner Schnappschuss (s.
+    `current_save_ref_snapshot`) des `current_save_version`-Standes JE
+    Mitglied, erhoben VOM AUFRUFER, BEVOR diese Antwort ueberhaupt auf einen
+    Abschluss-Marker geprueft wird -- nicht die beim Abschluss-Auftrag
+    (`complete_section`) sonst frisch gelesene Fassung. `core/runtime.py:
+    SectionRuntime.run_full_section` nutzt genau diesen frueh gebundenen
+    Stand, um nach einem Neustart dieselbe urspruengliche Generations-
+    erwartung zu pruefen, statt sie zur Recoveryzeit neu zu erfinden.
+
+    AR3 (01_ORIGINALREQUEST_VERTRAG.md Teil B, additiv, KEYWORD-ONLY, Default
+    `None` -- bestehende Aufrufer aus `save_correction.py`/der P1-QA-Fassade
+    bleiben unveraendert aufrufbar): `gm_request_id` ist die von
+    `request_ledger.begin()` VOR diesem Versand reservierte `request_id`
+    (`core/runtime.py:SectionRuntime.submit` bindet sie hier). Sie wird IN
+    GENAU DEMSELBEN sl_log-Append + `persist()`-Write wie die Antwort selbst
+    gespeichert -- kein zweiter Checkpoint-Write NACH der Antwortpersistenz,
+    kein neuer Crashspalt. Recovery (`core/runtime.py:_request_binding_error`)
+    liest darueber GENAU den originalen Requestdatensatz (`request_ledger.
+    load_request`, bereits bestehender oeffentlicher Leser, unveraendert) statt
+    den zuletzt passenden Treffer ueber `find_durable_result` zu erraten."""
     if actor_persona_key != table.leader:
         raise LeaderOnlySendError(
             f"Nur der Leader ({table.leader}) darf an die SL senden, nicht '{actor_persona_key}'."
@@ -489,6 +521,16 @@ def submit_to_sl(
         "origin_source": origin_source,
         "save_payload": save_payload,
         "content": result["content"],
+        # R12-AUTORECOVERY (additiv): dieselbe Schreiboperation wie "content"
+        # oben -- kein zweites Crash-Fenster. `chat_id` kommt unveraendert aus
+        # dem bestehenden Transport-Vertrag (s. Docstring), war bisher aber
+        # nicht Teil des dauerhaften sl_log-Eintrags selbst.
+        "section_id": section_id,
+        "chat_id": result.get("chat_id"),
+        "expected_prev_ref_by_member": expected_prev_ref_by_member,
+        # AR3 (additiv): dieselbe Schreiboperation wie die Felder oben -- kein
+        # zweiter Write, kein neuer Crashspalt (s. Docstring).
+        "gm_request_id": gm_request_id,
     })
     current.persist()
     table.sl_log = current.sl_log
@@ -1141,6 +1183,36 @@ def load_current_save_or_raise(
         ) from e
 
 
+def current_save_ref_snapshot(
+    table: Table, persona_state_store: PersonaStateStore, states_dir: str | Path,
+) -> dict[str, dict | None]:
+    """R12-AUTORECOVERY: reiner Lese-Schnappschuss von `_CURRENT_SAVE_REF_FIELD`
+    JE Mitglied von `table`, AKTUELL zum Zeitpunkt des Aufrufs -- keine
+    Validierung, keine Domaenenregel (A1/A27 bleiben unberuehrt), kein
+    Schreibzugriff. `core/runtime.py:SectionRuntime.submit` ruft dies
+    UNMITTELBAR VOR dem Versand einer Leader-Nachricht an die SL auf und
+    bindet das Ergebnis additiv in denselben sl_log-Eintrag ein, der auch die
+    Antwort selbst traegt (s. `submit_to_sl`) -- das ist dieselbe Referenz,
+    die `_resume_and_harvest` spaeter (beim tatsaechlichen Abschluss) gegen
+    den dann AKTUELLEN Stand vergleicht, hier aber bereits VOR jeder
+    Markerpruefung/Plan-Pinnung durabel gebunden, statt sie erst beim
+    Recovery frisch (und damit potenziell bereits driftend) zu lesen.
+
+    Ein fehlender Persona-State (`FileNotFoundError`, z.B. ein Mitglied ohne
+    jede bisherige Veroeffentlichung) liefert `None` fuer dieses Mitglied --
+    exakt dieselbe Bedeutung wie `identity_states[pk].get(_CURRENT_SAVE_REF_FIELD)`
+    an jeder bestehenden Aufrufstelle."""
+    snapshot: dict[str, dict | None] = {}
+    for pk in table.members:
+        try:
+            state = persona_state_store.load_state(pk, states_dir=states_dir)
+        except FileNotFoundError:
+            snapshot[pk] = None
+            continue
+        snapshot[pk] = state.get(_CURRENT_SAVE_REF_FIELD)
+    return snapshot
+
+
 def _validate_harvest(
     table: Table, harvest: dict[str, dict], states_dir: str | Path,
     harvest_validator: HarvestValidator, persona_state_store: PersonaStateStore,
@@ -1328,17 +1400,102 @@ def finalize_section_after_reflection(
     )
 
 
+def _valid_prev_ref_value(value: dict | None) -> bool:
+    """AR2 (01_ABSCHLUSSVERTRAG.md Teil B): ein sauber typisierter Vorgaenger-
+    bezug ist entweder explizit `None` (legitime, positiv belegte ERSTE
+    Generation) oder ein Dict mit genau der Form, die `current_save_ref_
+    snapshot`/`complete_section` selbst schreiben (`{"run_id": str, "seq":
+    int}`). Jeder andere Typ (Liste, String, Zahl, Dict ohne diese Felder)
+    ist eine defekt typisierte Referenz -- der Aufrufer haelt das als HOLD,
+    nie als geratene/ersetzte Erwartung."""
+    if value is None:
+        return True
+    return (
+        isinstance(value, dict)
+        and isinstance(value.get("run_id"), str)
+        and isinstance(value.get("seq"), int) and not isinstance(value.get("seq"), bool)
+    )
+
+
+def _prev_ref_override_hold_reason(
+    table: "Table", prev_ref_override: dict[str, dict | None] | None,
+) -> str | None:
+    """AR2 (01_ABSCHLUSSVERTRAG.md Teil B, GENERATION-OBSERVATIONS.json
+    missing_leader_ref/empty_all_refs): ein vom Aufrufer (R12-AUTORECOVERY-
+    Pfad in `core/runtime.py`) mitgegebener Checkpoint-Override MUSS die
+    EXAKTE damalige Mitglieder-/Figurenmenge binden -- ein FEHLENDER
+    Mitgliedsschluessel ist NICHT dasselbe wie ein bewusst gesetztes `None`
+    (das bleibt eine legitime, positiv belegte erste Generation). Teilmap,
+    eine leere Map bei tatsaechlich vorhandenen Mitgliedern, fremde Keys
+    oder ein defekter Referenztyp sind alle eine unzureichend gebundene
+    Erwartung -- `complete_section` haelt das kontrolliert an (HOLD, kein
+    neuer Plan), STATT (wie vor diesem Fix) den fehlenden Wert aus dem beim
+    Recovery FRISCH gelesenen aktuellen Stand zu erraten -- genau das liess
+    eine bereits neuere Currentgeneration mit der aelteren, durabel
+    gebundenen Antwort ueberschreiben (AR06-Bruch). Normale alte `complete_
+    section`-Aufrufer OHNE jeden Override (`prev_ref_override is None`)
+    bleiben von dieser Pruefung komplett unberuehrt -- sie behalten ihren
+    bisherigen, bereits bestehenden Weg (frisch gelesener `identity_states`-
+    Stand) unveraendert."""
+    if prev_ref_override is None:
+        return None
+    if not isinstance(prev_ref_override, dict):
+        return (
+            "Checkpoint-Override ist kein Objekt (defekter Referenztyp) -- "
+            "kontrollierter HOLD statt geratener Vorgaengererwartung."
+        )
+    members = set(table.members)
+    override_keys = set(prev_ref_override.keys())
+    missing_members = members - override_keys
+    if missing_members:
+        return (
+            "Checkpoint-Override bindet nicht ALLE damaligen Mitglieder -- fehlende "
+            f"Vorgaengerreferenz fuer: {sorted(missing_members)} (ein fehlender Schluessel "
+            "ist NICHT dasselbe wie ein bewusst gesetztes None) -- kontrollierter HOLD, kein "
+            "Ersatzwert aus dem beim Recovery frisch gelesenen aktuellen Stand."
+        )
+    foreign_keys = override_keys - members
+    if foreign_keys:
+        return (
+            "Checkpoint-Override bindet fremde Mitgliedsschluessel ausserhalb dieses "
+            f"Tisches: {sorted(foreign_keys)} -- widerspruechliche Zuordnung, kontrollierter HOLD."
+        )
+    for pk in table.members:
+        if not _valid_prev_ref_value(prev_ref_override.get(pk)):
+            return (
+                f"Checkpoint-Override traegt fuer {pk!r} eine defekt typisierte "
+                f"Vorgaengerreferenz ({prev_ref_override.get(pk)!r}) -- kontrollierter HOLD."
+            )
+    return None
+
+
 def complete_section(
     lobby: Lobby, table: Table, section_id: str,
     harvested_saves: dict[str, dict], states_dir: str | Path, today: str,
     harvest_validator: HarvestValidator, persona_state_store: PersonaStateStore,
+    *, prev_ref_override: dict[str, dict | None] | None = None,
 ) -> CompletionResult:
     """Wertet eine Save-Ernte fuer `section_id` aus. Ablauf/Idempotenz-Logik
     IDENTISCH zu P1 `rooms.complete_section` — Domaenenwissen (v7/char-id) ist
     jedoch komplett in `harvest_validator` ausgelagert (A1).
 
     A5 (bindend): `today` hat KEINEN Default mehr — jeder Aufrufer MUSS das
-    reale Tagesdatum explizit uebergeben."""
+    reale Tagesdatum explizit uebergeben.
+
+    R12-AUTORECOVERY (additiv, KEYWORD-ONLY, Default `None` -- alle
+    bestehenden Aufrufer unveraendert): `prev_ref_override` wirkt NUR auf dem
+    Zweig, der HIER UNTEN einen NEUEN `__plan.json` erst anlegt (ein bereits
+    gepinnter Plan bleibt wie bisher die alleinige Autoritaet, s.
+    `plan_path.exists()`-Zweig oben -- UNVERAENDERT). Ist er gesetzt, ersetzt
+    er je Mitglied den sonst HIER FRISCH (zur Aufrufzeit) gelesenen
+    `expected_prev_ref` durch den vom Aufrufer mitgegebenen, bereits VOR der
+    Markerpruefung durabel gebundenen Original-Stand (s. `core/runtime.py:
+    SectionRuntime.run_full_section`s Auto-Recovery-Pfad, `store.
+    current_save_ref_snapshot`). Das verhindert, dass eine erst NACH einem
+    Prozessabbruch (und damit potenziell bereits driftende) frisch gelesene
+    Erwartung in den Plan einfliesst -- `_resume_and_harvest`s bestehende
+    Drift-Pruefung (`expected_prev_ref != actual_prev_ref`) bleibt dadurch
+    exakt so scharf wie im ununterbrochenen Normalfall."""
     if not _SECTION_ID_RE.match(section_id):
         return CompletionResult(
             success=False, already_completed=False, written=False,
@@ -1440,13 +1597,36 @@ def complete_section(
             reason=f"fehlende/falsch zugeordnete/falsch identifizierte Saves fuer: {missing} — kein Abschluss.",
         )
 
+    # AR2 (Teil B): ein mitgegebener Checkpoint-Override muss VOLLSTAENDIG
+    # und sauber typisiert sein, sonst HOLD -- s. `_prev_ref_override_hold_
+    # reason`-Docstring. Die beschaedigte Eingangsquelle (der sl_log-
+    # Eintrag/`prev_ref_override`) bleibt dabei unveraendert fuer die
+    # Diagnose erhalten; es wird hier nichts repariert/erraten/geschrieben.
+    override_hold_reason = _prev_ref_override_hold_reason(table, prev_ref_override)
+    if override_hold_reason is not None:
+        return CompletionResult(
+            success=False, already_completed=False, written=False,
+            members_completed=[], missing=[],
+            reason=override_hold_reason,
+        )
+
     plan_data = {
         "table_id": table.table_id,
         "members": {
             pk: {
                 "round_no": identity_states[pk].get("rounds_played", 0) + 1,
                 "save": harvested_saves[pk],
-                "expected_prev_ref": identity_states[pk].get(_CURRENT_SAVE_REF_FIELD),
+                "expected_prev_ref": (
+                    # AR2: `override_hold_reason` ist oben bereits `None` --
+                    # bei einem UEBERGEBENEN Override ist JEDER `pk` jetzt
+                    # GARANTIERT (per Pflichtvalidierung) als Schluessel
+                    # vorhanden; kein Fallback auf den frisch gelesenen
+                    # `identity_states`-Stand mehr fuer einen vorhandenen
+                    # Override (das war der AR06-Bruch). Aufrufer OHNE jeden
+                    # Override (`None`) behalten ihren alten Weg unveraendert.
+                    prev_ref_override[pk] if prev_ref_override is not None
+                    else identity_states[pk].get(_CURRENT_SAVE_REF_FIELD)
+                ),
             }
             for pk in table.members
         },
@@ -1508,6 +1688,21 @@ def chrononaut_active_binding(run_dir: str | Path, chrononaut_id: str) -> bool:
     False` in `ui/tui.py:_cmd_import`. Sicher auch ohne existierenden
     `run_dir` (noch keine Lobby angelegt) -- `_read_locks` liefert dann `{}`."""
     return _read_locks(Path(run_dir)).get(chrononaut_id) is not None
+
+
+def locked_table_id(run_dir: str | Path, chrononaut_id: str) -> str | None:
+    """G03/P03 (ZEITRISS Terminal UX-1, Korrekturzyklus 2): rein lesender
+    Begleiter zu `chrononaut_active_binding` -- liefert nicht nur das
+    Vorhandensein (bool), sondern die tatsaechliche `table_id`, an die
+    `chrononaut_id` aktuell gebunden ist (derselbe `_read_locks`-Datensatz,
+    kein zweiter Speicherort, kein Write). `ui/tui.py:_build_resume_card`
+    nutzt dies, um die offene Abschnitts-ID auf der Fortsetzen-Karte
+    anzuzeigen, statt sie durch den Platzhaltertext 'aktiv' zu verdecken;
+    `_cmd_menu_fortsetzen` nutzt denselben Wert, um GENAU diesen Tisch (nicht
+    einen falschen Solo-Namensraum) als Dispatch-Ziel aufzuloesen (P09).
+    Sicher auch ohne existierenden `run_dir` -- `_read_locks` liefert dann
+    `{}`, also `None`."""
+    return _read_locks(Path(run_dir)).get(chrononaut_id)
 
 
 def chrononaut_open_completion_order(run_dir: str | Path, chrononaut_id: str) -> bool:

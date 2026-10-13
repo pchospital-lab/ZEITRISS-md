@@ -23,6 +23,7 @@ _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
 sys.path[:0] = [str(_REPO_ROOT), str(_HERE)]
 import _h02_vollreise_support as sup
+from _full_v7_fixture import full_v7_save
 from mmo_sim.core.persona_state import PersonaStateStore
 from mmo_sim.core import store
 from mmo_sim.registry.participants import ApplicationRecordRef, ParticipantRegistry
@@ -30,9 +31,24 @@ MMO_SIM = sup.MMO_SIM
 
 
 def higher_level_human_save(char_id='CHR-A23-HUMAN-001', name='A23Operator', callsign='A23OPS', level=5):
-    return {'v':7, 'save_id':f'fixture-{char_id.lower()}-initial-001',
-            '_fixture_note':'SIMULIERT/FIXTURE (A23-Vorlauf-Test, menschlicher Import)',
-            'characters':[{'char_id':char_id,'id':char_id,'name':name,'callsign':callsign,'level':level}]}
+    # W50 FIXTURE_ONLY (R12-Savegate, 02_TEAM_UND_QUELLRAHMEN.md
+    # "Testfixtures versus Schutzassertionen"): die alte winzige Fixture
+    # (nur v/save_id/EIN Figureneintrag + freierfundener Root-Schluessel
+    # `_fixture_note`) wird vom REALEN TUI-Subprozess seit der jetzt
+    # durchgesetzten R12-Vollschema-Pruefung beim Echtimport abgelehnt --
+    # der Subprozess blieb dadurch im Importdialog haengen (nie erreichtes
+    # 'Wahl [w/v/s]:'), `run_tui`/`pump` liefen deshalb in den vollen
+    # 150s-Timeout (`subprocess.TimeoutExpired`) statt eines schnellen
+    # Fails. Ueber den gemeinsamen Helfer `full_v7_save` auf volle v7
+    # gehoben, Identitaet (char_id/id, Name, Callsign, Level) unveraendert
+    # erhalten. `_fixture_note` entfaellt (von KEINEM Test dieser Datei
+    # gelesen, s. `_full_v7_fixture.upgrade_narrow_save`-Docstring) --
+    # das strikte Exportschema hat `additionalProperties: false` auf
+    # Root-Ebene.
+    return full_v7_save(
+        char_id, name=name, callsign=callsign, level=level,
+        save_id=f'fixture-{char_id.lower()}-initial-001',
+    )
 
 
 def sha(data):
@@ -85,7 +101,13 @@ def attach_imported_human(root: Path, pid: str) -> None:
     ps = PersonaStateStore(schema_path=sup._SCHEMA)
     current = store.load_current_save_or_raise(root/'run',pid,ps,states_dir=root/'states')
     assert current is not None, 'human import did not publish a real Current'
-    char_id = current['characters'][0]['char_id']
+    # W50 FIXTURE_ONLY: ein real publizierter Current-Save folgt zwingend
+    # dem strikten Exportschema (`characters[].id`, kein `char_id`-Schluessel
+    # -- additionalProperties:false) -- der alte `['char_id']`-Zugriff war
+    # latent tot, bisher nie erreicht (vorheriger narrow-Fixture-Reject
+    # liess den Subprozess vorher haengen/scheitern, bevor dieser Code
+    # ueberhaupt lief).
+    char_id = current['characters'][0]['id']
     registry.add_record_ref(pid, ApplicationRecordRef(record_id=char_id,schema='zeitriss-v7',version='7',owner_participant_id=pid,source='extern importiert'))
     p=registry.load_participant(pid)
     assert p.kind=='human' and any(r.record_id==char_id and r.owner_participant_id==pid for r in p.record_refs)

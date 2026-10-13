@@ -40,6 +40,8 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
+
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import request_ledger  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
@@ -108,12 +110,7 @@ class _FakePersonaDriver:
 
 
 def _v7_block(char_id: str, name: str = "Nova", level: int = 1) -> str:
-    return (
-        "```json\n"
-        f'{{"v": 7, "characters": [{{"char_id": "{char_id}", "name": "{name}", '
-        f'"callsign": "{name.upper()}", "level": {level}}}]}}\n'
-        "```"
-    )
+    return full_v7_block_text(char_id, name=name, level=level)
 
 
 def _scripted_then_eof_input(*answers: str):
@@ -245,7 +242,7 @@ def test_two_personas_get_independent_multi_step_creation_dialogs_real_receiver(
         ps_store = PersonaStateStore(schema_path=schema_path)
         for pk, cid in (("cqb", "chrono-cqb"), ("sniper", "chrono-sniper")):
             current = core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir)
-            assert current is not None and current["characters"][0]["char_id"] == cid
+            assert current is not None and current["characters"][0]["id"] == cid
             entries = catalog.list_for_participant(catalog_dir, pk)
             assert any(e.chrononaut_id == cid for e in entries)
             assert catalog.active_chrononaut_id(catalog_dir, pk) == cid
@@ -668,7 +665,7 @@ def test_ready_persona_joins_existing_local_round_via_invitation_path_with_conse
         # Code fuer den Tischanschluss.
         leader_id = "leader_human"
         leader_onboard = onboarding.start_or_resume(onboarding_dir, leader_id)
-        leader_save = {"v": 7, "characters": [{"char_id": "chrono-leader", "name": "Leader", "callsign": "LEAD", "level": 1}]}
+        leader_save = full_v7_save("chrono-leader", name="Leader", callsign="LEAD", level=1)
         from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator
         onboarding.complete_with_save(onboarding_dir, leader_id, leader_save, ZeitrissHarvestValidator(), "chrono-leader")
         catalog.register(catalog_dir, catalog.CatalogEntry(participant_id=leader_id, chrononaut_id="chrono-leader", persona_key=leader_id))
@@ -741,7 +738,7 @@ def test_ready_persona_rejects_invitation_stays_rejected_no_table():
         assert outcome.status == "completed"
 
         leader_id = "leader_human_two"
-        leader_save = {"v": 7, "characters": [{"char_id": "chrono-leader2", "name": "Leader2", "callsign": "L2", "level": 1}]}
+        leader_save = full_v7_save("chrono-leader2", name="Leader2", callsign="L2", level=1)
         from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator
         onboarding.start_or_resume(onboarding_dir, leader_id)
         onboarding.complete_with_save(onboarding_dir, leader_id, leader_save, ZeitrissHarvestValidator(), "chrono-leader2")
@@ -777,7 +774,7 @@ def test_unrelated_human_and_other_community_untouched():
         write_test_profile(run_dir)
 
         # Ein Mensch mit eigener Figur, unabhaengig von der Community.
-        human_save = {"v": 7, "characters": [{"char_id": "chrono-human", "name": "Mensch", "callsign": "M", "level": 3}]}
+        human_save = full_v7_save("chrono-human", name="Mensch", callsign="M", level=3)
         from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator
         onboarding.start_or_resume(onboarding_dir, "human_x")
         onboarding.complete_with_save(onboarding_dir, "human_x", human_save, ZeitrissHarvestValidator(), "chrono-human")

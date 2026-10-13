@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from . import save_validation as save_validation_lib
 from . import saves as save_lib
 
 COMPLETION_MARKER = "SECTION-ABSCHLUSS-BESTAETIGT"
@@ -32,9 +33,30 @@ class ZeitrissTableSizePolicy:
 
 @dataclass
 class ZeitrissHarvestValidator:
-    """v7-Save-Semantik (genau 1 Figur pro Block, passende char_id) — reine
-    ZEITRISS-Regel. `core/store.py` ruft nur `validate_block`/`validate_identity`
-    auf und kennt den Inhalt dieser Pruefung nicht (A1/A27)."""
+    """v7-Save-Semantik (genau 1 Figur pro Block, passende char_id, UND --
+    R12-Savegate, 01_AUFTRAG_SAVEGATE.md §A/§B -- volle lokale Schema-
+    Validierung gegen BEIDE unveraenderten v7-Schemas) — reine ZEITRISS-
+    Regel. `core/store.py` ruft nur `validate_block`/`validate_identity` auf
+    und kennt den Inhalt dieser Pruefung nicht (A1/A27).
+
+    R12-Fix (SC01 "Milder Harvest darf den Vollschemafehler nicht
+    uebersteuern"): vorher pruefte diese Methode nur v7/Ein-Figur/char_id
+    (milde Pruefung) -- ein Save, der diese drei Bedingungen erfuellt, aber
+    strukturell gegen die v7-Schemas verstoesst (z.B. `economy.wallets.
+    <id>` als blanke Zahl statt `{"balance": ...}`-Objekt), wurde bisher
+    trotzdem als `completed`/Harvest-faehig akzeptiert. Jetzt delegiert
+    diese Methode die volle Pruefung an `save_validation.validate_save_
+    block` (Schema BEIDER Dateien + Bindung) -- `accepted` ist nur dann
+    wahr, wenn WEDER die milde Pruefung NOCH die volle Schemapruefung einen
+    Fehler findet. Dieser EINE Aufrufpunkt gilt fuer ALLE Nutzer dieser
+    Klasse gleich: menschliche Erschaffung (`ui/tui.py`), Persona-
+    Erst-/Zusatzfigur (`domain/zeitriss/community_creation.py`,
+    `core/creation_service.py`), Import/Zusatzfigur-Uebernahme (`ui/tui.py`)
+    UND der Fuenfer-Gruppenharvest vor Abschnittsabschluss
+    (`core/lobby_flow.py` -> `core/app_service.py` -> `core/runtime.py` ->
+    `core/store.py:_validate_harvest`/`complete_section`) -- `core/store.py`
+    selbst bleibt dabei UNVERAENDERT (dieselben zwei generischen Protokoll-
+    Methoden, A1/A27)."""
 
     def validate_block(self, block: dict | None, expected_chrononaut_id: str) -> bool:
         if block is None:
@@ -44,7 +66,9 @@ class ZeitrissHarvestValidator:
         if save_lib.single_character_count(block) != 1:
             return False
         cid = save_lib.block_char_id(block)
-        return cid == expected_chrononaut_id
+        if cid != expected_chrononaut_id:
+            return False
+        return save_validation_lib.validate_save_block(block, expected_chrononaut_id).accepted
 
     def validate_identity(self, state: dict, persona_key: str, expected_chrononaut_id: str) -> bool:
         return (

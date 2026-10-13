@@ -255,8 +255,10 @@ def test_genuine_first_participant_in_existing_community_allowed():
         shown: list = []
         # `_ui` baut die Session fuer 'sniper' -- ein zweiter Teilnehmer
         # braucht eine eigene Session-Instanz mit passender participant_id.
+        # TEST-DELTA (G02/P12): zusaetzliches 'j' fuer die neue
+        # Erstimport-Bestaetigung.
         TuiSession(
-            base / "onboarding", base / "catalog", pk, input_fn=t4._script([json.dumps(initial), "ENDE"]),
+            base / "onboarding", base / "catalog", pk, input_fn=t4._script([json.dumps(initial), "ENDE", "j"]),
             print_fn=shown.append, run_dir=base / "run", states_dir=base / "states", schema_path=_SCHEMA,
         )._cmd_import()
 

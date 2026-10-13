@@ -91,7 +91,21 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
     einen echten `GmOwuiTransport` gegen den bestehenden P1-SL-Client. Ohne
     live konfigurierte SL-Anbindung wirft die Konstruktion eine klare
     Fehlermeldung -- kein stiller Fallback, keine echte Inferenz bei blossem
-    Programmstart oder Statusabfrage."""
+    Programmstart oder Statusabfrage.
+
+    W56 (SCOPE.json semantic_constraints.adapters "only explicit
+    correction-context and per-run timeout/retry threading"; 03_LIVE3_
+    FUENFER_UND_LAUFZEIT.md "hoechstens EIN Transportversuch je
+    Liveaktion"): `MMO_SIM_GM_TRANSPORT_MAX_RETRIES`/`_BACKOFF`/`_TIMEOUT`
+    sind additiv und OPTIONAL (Default `None`, identisches Muster zu
+    `MMO_SIM_GM_OUTPUT_LIMIT_TOKENS` oben) -- ohne Angabe bleibt JEDER
+    bestehende Aufrufer dieser Factory (TUI/Lab) unveraendert beim P1-Default
+    des Harness-Clients (3 Versuche mit Backoff, `TIMEOUT_SL=420`). Ein
+    LIVE3-Lauf setzt `MMO_SIM_GM_TRANSPORT_MAX_RETRIES=1` explizit, bevor
+    diese FACTORY (nicht nur `GmOwuiTransport` isoliert) den Adapter baut --
+    das schliesst die vorher offene Luecke, dass die tatsaechlich von
+    TUI/Lab verwendete Default-Factory die additiven W51-Konstruktorparameter
+    von `GmOwuiTransport` nie gesetzt hat."""
 
     def factory(table_id: str):
         from .gm_owui import GmOwuiTransport
@@ -106,9 +120,28 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
                     f"MMO_SIM_GM_OUTPUT_LIMIT_TOKENS={raw_limit!r} ist nicht als Zahl lesbar -- "
                     f"fail-closed, kein stiller Fallback auf unbegrenzt (B2)."
                 ) from None
+
+        def _optional_number(env_name: str, caster):
+            raw = os.environ.get(env_name)
+            if raw is None or not raw.strip():
+                return None
+            try:
+                return caster(raw.strip())
+            except ValueError:
+                raise ValueError(
+                    f"{env_name}={raw!r} ist nicht lesbar -- fail-closed, kein stiller "
+                    f"Fallback auf den Harness-Client-Default (W56)."
+                ) from None
+
+        transport_max_retries = _optional_number("MMO_SIM_GM_TRANSPORT_MAX_RETRIES", int)
+        transport_backoff = _optional_number("MMO_SIM_GM_TRANSPORT_BACKOFF", float)
+        transport_timeout = _optional_number("MMO_SIM_GM_TRANSPORT_TIMEOUT", int)
         return GmOwuiTransport(
             sl_client_path, data_dir / "run", table_id=table_id,
             gm_output_limit_tokens=gm_output_limit_tokens,
+            transport_max_retries=transport_max_retries,
+            transport_backoff=transport_backoff,
+            transport_timeout=transport_timeout,
         )
 
     return factory

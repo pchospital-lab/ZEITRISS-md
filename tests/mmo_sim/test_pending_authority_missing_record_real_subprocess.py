@@ -73,6 +73,7 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text  # noqa: E402
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import store  # noqa: E402
 from mmo_sim.core import request_ledger as ledger  # noqa: E402
@@ -92,9 +93,15 @@ GENERATION = 1
 SECTION_ID = f"gen{GENERATION}"
 Q = "SYNTHETIC: Welche Ausruestung waehlst du?"
 A = "SYNTHETIC: Ich waehle leichte Ruestung."
-SAVE = {"v": 7, "save_id": "SYNTHETIC-PENDAUTH-SAVE",
-        "characters": [{"char_id": "SYNTHETIC-PENDAUTH-CHR", "name": "Synthetic", "callsign": "PENDAUTH", "level": 1}]}
-ST = "```json\n" + json.dumps(SAVE) + "\n```"
+# R12 Savegate (B1): beide v7-Schemas muessen VOR Annahme passen -- der
+# alte Minimalfake (nur 4 Felder) ist gegen beide Schemas ungueltig.
+# `full_v7_block_text` liefert denselben fenced-JSON-SL-Antworttext,
+# vollstaendig schemakonform, mit identischer Identitaet (char_id/name/
+# callsign/level/save_id unveraendert).
+ST = full_v7_block_text(
+    "SYNTHETIC-PENDAUTH-CHR", name="Synthetic", callsign="PENDAUTH", level=1,
+    save_id="SYNTHETIC-PENDAUTH-SAVE",
+)
 
 
 def _setup_community(b: Path) -> None:

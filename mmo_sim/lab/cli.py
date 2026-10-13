@@ -274,7 +274,14 @@ def _cmd_attach(args) -> int:
         while True:
             payload = _status_payload(run_dir)
             payload["recent_public_events"] = _public_offer_log_tail(run_dir)
-            print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
+            # flush=True: bei umgeleitetem stdout (Pipe/Datei statt TTY) ist der
+            # Stream block-gepuffert -- ohne explizites Flush wird die erste
+            # Statuszeile erst sichtbar, wenn der ~8KB-Puffer gefuellt ist (vom
+            # Zeilengewicht und der Python-/Umgebungs-Pufferung abhaengig). Ein
+            # --follow-Beobachter (H05 P3) muss seine erste echte Ausgabe aber
+            # SOFORT liefern, bevor der aufrufende Prozess stdin-EOF/SIGINT
+            # schickt. Kein Verhalten ausser der Ausgabesichtbarkeit aendert sich.
+            print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True), flush=True)
             updates += 1
             if not args.follow:
                 return 0

@@ -115,10 +115,19 @@ def test_a24_case1_human_leader_api_full_journey():
         # VOR dem Subprozessstart -- Vergleich s. unten nach `run_process`.
         protected_before = sup.capture_protected_authorities(states_dir, registry_dir, onboarding_dir, catalog_dir)
 
+        # W63-Fix (R12-Restreparatur): `sup.load_fixture_save_upgraded` statt
+        # der rohen `sup.load_fixture_save` -- `make_ready()` oben hat den
+        # tatsaechlich publizierten Current je KI-Persona bereits ueber
+        # `upgrade_narrow_save` angehoben (W45 FIXTURE_ONLY); die unabhaengige
+        # G6-Erwartung (`expected_context_for_case`) muss denselben vollen
+        # Stand verwenden, sonst scheitert die ERSTE Operation (Einladung)
+        # am G6-Gate (`current != own`, char_id/id/name/callsign bleiben
+        # dabei unveraendert). Betrifft nur diese Lesestelle, nicht
+        # `load_fixture_save` selbst.
         final_saves = {
             leader_id: onb_a["save"], human_b_id: onb_b["save"],
-            "sniper": sup.load_fixture_save("sniper"), "tech": sup.load_fixture_save("tech"),
-            "medic": sup.load_fixture_save("medic"),
+            "sniper": sup.load_fixture_save_upgraded("sniper"), "tech": sup.load_fixture_save_upgraded("tech"),
+            "medic": sup.load_fixture_save_upgraded("medic"),
         }
         expected_char_ids = {zeitriss_saves.block_char_id(b) for b in final_saves.values()}
         assert len(expected_char_ids) == 5, "fuenf unterscheidbare Figuren erwartet"
@@ -438,8 +447,8 @@ def test_a24_r3_midwait_active_table_snapshot():
 
         final_saves = {
             leader_id: onb_a["save"], human_b_id: onb_b["save"],
-            "sniper": sup.load_fixture_save("sniper"), "tech": sup.load_fixture_save("tech"),
-            "medic": sup.load_fixture_save("medic"),
+            "sniper": sup.load_fixture_save_upgraded("sniper"), "tech": sup.load_fixture_save_upgraded("tech"),
+            "medic": sup.load_fixture_save_upgraded("medic"),
         }
         expected_char_ids = {zeitriss_saves.block_char_id(b) for b in final_saves.values()}
         assert len(expected_char_ids) == 5, "fuenf unterscheidbare Figuren erwartet"
@@ -680,8 +689,8 @@ def test_a24_case2_ai_leader_hybrid_full_journey():
         section_id = f"{table_id}-section"
 
         final_saves = {
-            leader_id: sup.load_fixture_save("tech"), human_a_id: onb_a["save"], human_b_id: onb_b["save"],
-            "sniper": sup.load_fixture_save("sniper"), "medic": sup.load_fixture_save("medic"),
+            leader_id: sup.load_fixture_save_upgraded("tech"), human_a_id: onb_a["save"], human_b_id: onb_b["save"],
+            "sniper": sup.load_fixture_save_upgraded("sniper"), "medic": sup.load_fixture_save_upgraded("medic"),
         }
         expected_char_ids = {zeitriss_saves.block_char_id(b) for b in final_saves.values()}
         assert len(expected_char_ids) == 5
@@ -1057,8 +1066,8 @@ def test_a24_guided_setup_g_path_human_leader_with_handoff():
 
         final_saves = {
             leader_id: onb_a["save"], human_b_id: onb_b["save"],
-            "sniper": sup.load_fixture_save("sniper"), "tech": sup.load_fixture_save("tech"),
-            "medic": sup.load_fixture_save("medic"),
+            "sniper": sup.load_fixture_save_upgraded("sniper"), "tech": sup.load_fixture_save_upgraded("tech"),
+            "medic": sup.load_fixture_save_upgraded("medic"),
         }
         expected_char_ids = {zeitriss_saves.block_char_id(b) for b in final_saves.values()}
         assert len(expected_char_ids) == 5, "fuenf unterscheidbare Figuren erwartet"
@@ -1468,8 +1477,8 @@ def test_a24_guided_setup_g_path_ai_leader_hybrid_with_handoff():
         section_id = f"{table_id}-section"
 
         final_saves = {
-            leader_id: sup.load_fixture_save("tech"), human_a_id: onb_a["save"], human_b_id: onb_b["save"],
-            "sniper": sup.load_fixture_save("sniper"), "medic": sup.load_fixture_save("medic"),
+            leader_id: sup.load_fixture_save_upgraded("tech"), human_a_id: onb_a["save"], human_b_id: onb_b["save"],
+            "sniper": sup.load_fixture_save_upgraded("sniper"), "medic": sup.load_fixture_save_upgraded("medic"),
         }
         expected_char_ids = {zeitriss_saves.block_char_id(b) for b in final_saves.values()}
         assert len(expected_char_ids) == 5
@@ -1814,8 +1823,8 @@ def test_a24_negative_six_players_rejected():
             leader=leader_id, members=sup.sorted_table_members(leader_id, targets),
             table_id=sup.compute_table_id(leader_id, targets),
             section_id=f"{sup.compute_table_id(leader_id, targets)}-section",
-            final_saves={leader_id: onb_a["save"], "sniper": sup.load_fixture_save("sniper"),
-                         "tech": sup.load_fixture_save("tech"), "medic": sup.load_fixture_save("medic")},
+            final_saves={leader_id: onb_a["save"], "sniper": sup.load_fixture_save_upgraded("sniper"),
+                         "tech": sup.load_fixture_save_upgraded("tech"), "medic": sup.load_fixture_save_upgraded("medic")},
             offer_ids=[offer_id],
         )
 
@@ -1893,8 +1902,13 @@ def test_a24_negative_six_players_rejected():
             # Keine stille Kuerzung/Ersatzwahl: alle drei Menschen bleiben bei
             # ihrer unveraenderten Baseline-Figur (keine neue Runde/State-
             # Version jenseits des Onboarding-Baselines).
+            # W63-Fix (Darstellungsmigration, 02_TESTVERTRAG.md): `ref["save"]`
+            # ist ein ueber `full_v7_save` gebauter, gelesener Figur-Save --
+            # das Export-Schema kennt auf Figurenebene nur `id`, kein
+            # zusaetzliches `char_id` (additionalProperties:false). Reine
+            # Wahrheitspruefung (nicht-leerer Wert), Identitaet unveraendert.
             for ref in onbs:
-                assert ref["save"]["characters"][0]["char_id"]
+                assert ref["save"]["characters"][0]["id"]
 
 
 # ---------------------------------------------------------------------------
@@ -1927,8 +1941,8 @@ def test_a24_negative_human_b_declines():
             leader=leader_id, members=sup.sorted_table_members(leader_id, targets),
             table_id=sup.compute_table_id(leader_id, targets),
             section_id=f"{sup.compute_table_id(leader_id, targets)}-section",
-            final_saves={"sniper": sup.load_fixture_save("sniper"), "tech": sup.load_fixture_save("tech"),
-                         "medic": sup.load_fixture_save("medic")},
+            final_saves={"sniper": sup.load_fixture_save_upgraded("sniper"), "tech": sup.load_fixture_save_upgraded("tech"),
+                         "medic": sup.load_fixture_save_upgraded("medic")},
             offer_ids=[offer_id],
         )
 
@@ -2011,8 +2025,8 @@ def test_a24_negative_ai_guest_declines():
             leader=leader_id, members=sup.sorted_table_members(leader_id, targets),
             table_id=sup.compute_table_id(leader_id, targets),
             section_id=f"{sup.compute_table_id(leader_id, targets)}-section",
-            final_saves={"sniper": sup.load_fixture_save("sniper"), "tech": sup.load_fixture_save("tech"),
-                         "medic": sup.load_fixture_save("medic")},
+            final_saves={"sniper": sup.load_fixture_save_upgraded("sniper"), "tech": sup.load_fixture_save_upgraded("tech"),
+                         "medic": sup.load_fixture_save_upgraded("medic")},
             offer_ids=[offer_id],
         )
 

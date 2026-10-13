@@ -12,6 +12,8 @@ test_a04_shared_app_service.py` (A4, neuer eigener Test) belegt per Spy, dass
 beide Wege ueber DIESE Funktion laufen."""
 from __future__ import annotations
 
+from typing import Callable
+
 from .events import EventLog
 from .persona_state import PersonaStateStore
 from .runtime import SectionOutcome, SectionRuntime
@@ -34,14 +36,22 @@ def run_play_session(
     harvest_extractor,
     event_log: EventLog | None = None,
     max_turns: int | None = None,
+    status_fn: Callable[[str], None] | None = None,
 ) -> SectionOutcome:
     """EIN gemeinsamer Einstiegspunkt fuer "einen Abschnitt an einem Tisch
     spielen". Baut die `SectionRuntime` und delegiert an
     `run_full_section` — TUI und Lab rufen NUR diese Funktion auf, nicht
-    `SectionRuntime` je eigenstaendig (I1/A4)."""
+    `SectionRuntime` je eigenstaendig (I1/A4).
+
+    W51 (01_RESTAUFTRAG.md §3): `status_fn`, additiv und OPTIONAL (Default
+    `None`), reicht nur die menschlich lesbaren Korrektur-Statuszeilen des
+    bestehenden `save_correction.pursue_group_save_correction`-`emit`-Hooks
+    an den Aufrufer durch (s. `SectionRuntime`-Docstring) -- `lab/runner.py`
+    (headless, Persona-only) uebergibt es nicht und bleibt dadurch
+    unveraendert stumm; `ui/tui.py` reicht `self._print`."""
     runtime = SectionRuntime(
         lobby, table, gm_transport, marker, harvest_validator,
-        persona_state_store, harvest_extractor, event_log=event_log,
+        persona_state_store, harvest_extractor, event_log=event_log, status_fn=status_fn,
     )
     return runtime.run_full_section(
         controller, section_id, contexts_by_persona, states_dir, today, ts, max_turns=max_turns,

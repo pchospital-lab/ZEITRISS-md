@@ -49,6 +49,7 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+from _full_v7_fixture import full_v7_block_text  # noqa: E402
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 import mmo_sim.adapters.base as _adapters_base  # noqa: E402
 from mmo_sim.core import store  # noqa: E402
@@ -64,9 +65,15 @@ PS = PersonaStateStore(schema_path=SCHEMA)
 PK = "settlement_persona"
 Q = "SYNTHETIC: Welche Ausruestung?"
 A = "SYNTHETIC: Ich waehle leichte Ruestung."
-SAVE = {"v": 7, "save_id": "SYNTHETIC-SETTLEMENT-SAVE",
-        "characters": [{"char_id": "SYNTHETIC-SETTLEMENT-CHR", "name": "Synthetic", "callsign": "SETTLE", "level": 1}]}
-ST = "```json\n" + json.dumps(SAVE) + "\n```"
+# R12 Savegate (B1): beide v7-Schemas muessen VOR Annahme passen -- der
+# alte Minimalfake (nur 4 Felder) ist gegen beide Schemas ungueltig.
+# `full_v7_block_text` liefert denselben fenced-JSON-SL-Antworttext,
+# vollstaendig schemakonform, mit identischer Identitaet (char_id/name/
+# callsign/level/save_id unveraendert).
+ST = full_v7_block_text(
+    "SYNTHETIC-SETTLEMENT-CHR", name="Synthetic", callsign="SETTLE", level=1,
+    save_id="SYNTHETIC-SETTLEMENT-SAVE",
+)
 
 
 def _setup(b: Path) -> None:

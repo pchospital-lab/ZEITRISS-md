@@ -86,7 +86,10 @@ def _seed_and_import(base: Path, spec: dict):
         ps.save_state(pid, st, states_dir=states)
     for pid, fx in spec.items():
         save = json.loads((_FIX / "saves" / f"{fx}.json").read_text())
-        it = iter([json.dumps(save), "ENDE"])
+        # TEST-DELTA (G02/P12): Erstimport verlangt jetzt eine eigene
+        # ausdruckliche Ja-Bestaetigung vor dem Write -- dieselbe
+        # Schutzwirkung (Figur wird uebernommen) bleibt erhalten.
+        it = iter([json.dumps(save), "ENDE", "j"])
         TuiSession(onboard, cat, pid, input_fn=lambda prompt="": next(it), print_fn=lambda x: None,
                    run_dir=run, states_dir=states, schema_path=_SCHEMA)._cmd_import()
     return run, states, onboard, cat

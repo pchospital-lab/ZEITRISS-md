@@ -47,26 +47,59 @@ class ResumeCard:
     chrononaut_id: str | None
     last_valid_save_summary: str | None
     open_section_id: str | None = None
+    # G03/P04 (General-Befund 'P04_OPEN_CREATION_NOT_OFFERED'): eine real
+    # begonnene, noch nicht abgeschlossene Erschaffung ist ein EIGENER
+    # fortsetzbarer Zustand -- getrennt von `open_section_id` (offener
+    # SPIELabschnitt) und von einem bereits ABGESCHLOSSENEN Save.
+    pending_creation: bool = False
+    # G03/UX12: ein bekannter, aber GERADE nicht lesbarer autoritativer
+    # Current -- Aufrufer MUESSEN dies als Stop-Grund behandeln, nicht als
+    # "kein Stand" (das waere ein stiller Rueckfall auf den evtl. veralteten
+    # Onboarding-Stand).
+    authority_unresolved: bool = False
 
 
 def render_boot_menu(resume: ResumeCard | None) -> str:
     """11 §2: 'Bei vorhandenen Daten zuerst eine verstaendliche Fortsetzen-
-    Karte zeigen ... Darunter alternative Wege.'"""
-    lines = ["ZEITRISS MMO-Sim"]
-    if resume is not None and resume.community_id:
+    Karte zeigen ... Darunter alternative Wege.'
+
+    G01-Fix (ZEITRISS Terminal UX-1 Wiederanlauf, REVIEW.md §G01, UX01/UX03):
+    zeigt NUR MEHR die EINE KISS-Zielhierarchie (Fortsetzen/Spielen/
+    Charaktere/Einstellungen/Beenden) -- NICHT mehr gleichzeitig den
+    vollstaendigen alten Einzelbuchstaben-Hotkeybaum ('Kompatibilitaets-
+    Hotkeys'-Block). 02 §A ausdruecklich: 'Alte TUI-Hotkeys ... als
+    dokumentierte Kompatibilitaetsaliase erhalten' -- ABER 'rechtfertigen
+    keine dauerhaft doppelte Normalansicht'. Die alten Einzelbuchstaben
+    (n/i/e/g/l/c/b/s/x, s. `run()`) bleiben strukturell UNVERAENDERT
+    dispatchbar (reine Anzeigenaenderung hier, `run()` liest weiterhin
+    dieselben Buchstaben) -- sie sind jetzt echte UNSICHTBARE
+    Kompatibilitaetsaliase statt einer zweiten sichtbaren Normalansicht.
+    `test_ux1_kiss_menu.py:test_old_single_letter_hotkeys_still_work_unchanged`
+    belegt das weiterhin funktionierende, nur nicht mehr beworbene 'x'."""
+    # R2 (C-M2, UX11, Korrekturzyklus 1): nicht mehr exklusiv an
+    # `community_id` gaten -- der weitaus haeufigere Einstiegspfad ([n]
+    # Figur erschaffen -> solo spielen) erzeugt NIE eine Community und
+    # blieb dadurch von "Fortsetzen" dauerhaft ausgeschlossen, obwohl eine
+    # echte Figur-Save vorhanden ist (`_cmd_local_round([])` prueft intern
+    # ohnehin die richtige Autoritaet fuer beide Faelle).
+    has_resume = resume is not None and bool(resume.community_id or resume.chrononaut_id)
+    lines = ["ZEITRISS MMO-Sim", ""]
+    lines.append("Hauptmenue:")
+    if has_resume:
+        lines.append("  [fortsetzen] Fortsetzen")
         stand = resume.last_valid_save_summary or "kein gueltiger Stand"
         offen = f" (Abschnitt {resume.open_section_id} unterbrochen)" if resume.open_section_id else ""
-        lines.append(f"  Fortsetzen: {resume.community_id} · {resume.participant_id} · {resume.chrononaut_id} — {stand}{offen}")
-    lines.append("  [n] Figur wechseln / neu erschaffen")
-    lines.append("  [i] JSON importieren (Datei-Pfad oder Mehrzeilentext)")
-    lines.append("  [e] Eigenen Save anzeigen / exportieren")
-    lines.append("  [g] Lokale Runde gefuehrt einrichten (Menschen und KI)")
-    lines.append("  [l] Gemeinsam an diesem Geraet spielen (lokale Runde) -- optional weitere")
-    lines.append("      Teilnehmer in derselben Zeile: 'l <teilnehmer-id> persona:<id> ...'")
-    lines.append("  [c] Neue Spielgemeinschaft")
-    lines.append("  [b] Lobby-Initiative (bestehende Personas unter sich, begrenztes Fenster)")
-    lines.append("  [s] Status / Einstellungen")
-    lines.append("  [x] Beenden")
+        chrono_display = resume.chrononaut_id if resume.chrononaut_id else "kein eigener Chrononaut"
+        # R2-Folgefix: `community_id` kann jetzt (Solo-Figur ohne Community)
+        # real `None` sein -- kein literales "None" in der Anzeige (UX22).
+        community_display = resume.community_id if resume.community_id else "keine Community"
+        lines.append(f"  Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
+    lines.append("  [spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)")
+    lines.append("  [charaktere] Charaktere (waehlen/erschaffen, importieren, exportieren)")
+    lines.append("  [registrieren] Neue lokale Person registrieren (eigene Figur unter ihrer ID)")
+    lines.append("  [einstellungen] Einstellungen")
+    lines.append("  [beenden] Beenden")
+    lines.append("  (? oder /hilfe an jeder Eingabe zeigt Kontexthilfe, kein Zugverbrauch)")
     return "\n".join(lines)
 
 
@@ -156,24 +189,867 @@ class TuiSession:
         except EOFError as e:
             raise EndOfInput() from e
 
-    def _build_resume_card(self) -> ResumeCard | None:
+    # UX04/05 (02 §C, "Einmaliger zentraler, kontextbewusster Bedienvertrag
+    # statt ad-hoc-Abfangen in zehn Dialogen"): EIN gemeinsamer Satz
+    # reservierter Steuerzeilen, erreichbar an den wesentlichen Prompts
+    # (Boot-Auswahl, Erschaffungsantwort, Spielzug) -- Hilfe/Stand/Verlauf
+    # geben NUR Information zurueck und fragen DIESELBE Zeile erneut ab
+    # (kein Zugverbrauch, kein GM-/Persona-Call, bisherige Auswahl/Text
+    # bleibt unberuehrt, weil der Aufrufer bei 'help'/'status'/'history'
+    # schlicht nie verlassen wird). `/zurueck`/`/abbrechen`/`/pause` werden
+    # NICHT hier interpretiert -- das bleibt Sache des jeweiligen Aufrufers
+    # (unterschiedliche Bedeutung je Kontext, 02 §C: Abbruch waehrend eines
+    # offenen Abschnitts heisst Pause, nicht Rollback). Ein literaler Text,
+    # der wie eine Steuerzeile aussieht, bleibt ueber ein fuehrendes '\'
+    # eingebbar (Escape, s. 02 §C 'erklaerte Escape-/Texteingabe').
+    _CONTROL_TOKENS = ("/zurueck", "/abbrechen", "/pause", "/stand", "/verlauf")
+
+    def _control_help_text(self, context: str) -> str:
+        # W24b (BRIEF-W24b.md Punkt 3): die vorherige PAUSCHALE Zusage
+        # "/abbrechen (Vorgang verwerfen)" war ueberall dieselbe, obwohl die
+        # tatsaechliche Wirkung je Kontext unterschiedlich ist (s. die
+        # einzelnen `control in ("zurueck", "abbrechen", "pause")`-Zweige
+        # dieser Datei): NUR waehrend eines laufenden Spielabschnitts
+        # (Kontext "Spielzug") wirkt `/abbrechen` wie `/pause` (02 §C, kein
+        # Rollback). An jedem Erschaffungs-/Auswahl-/Importkontext dagegen
+        # verwirft es NUR die gerade offene, unbestaetigte Eingabe/Auswahl
+        # dieses Schritts -- bereits gespeicherte/veroeffentlichte Figuren-
+        # und Erschaffungsdaten bleiben unveraendert und fortsetzbar,
+        # NIEMALS werden dabei schon publizierte Bytes geloescht.
+        if context == "Spielzug":
+            abbrechen_line = (
+                "/abbrechen (waehrend dieses laufenden Abschnitts wie /pause: "
+                "kontrolliert pausieren, kein Rollback)"
+            )
+        else:
+            abbrechen_line = (
+                "/abbrechen (verwirft nur die gerade offene, unbestaetigte Eingabe/"
+                "Auswahl dieses Schritts -- bereits gespeicherte/veroeffentlichte "
+                "Daten bleiben unveraendert und fortsetzbar, nie geloescht)"
+            )
+        return (
+            f"Hilfe ({context}): /zurueck (eine Ebene zurueck) · {abbrechen_line} · /stand "
+            "(aktueller Stand) · /verlauf (bisherige SL-Antworten dieses Schritts) · "
+            "/pause (kontrolliert pausieren -- der zuletzt gueltige, bereits gespeicherte "
+            "Stand bleibt erhalten, kein Datenverlust). '?' oder '/hilfe' "
+            "zeigt diesen Text erneut, verbraucht keinen Zug/Request. Text, der wie "
+            "eine Steuerzeile aussieht, aber als normaler Text gemeint ist: mit "
+            "fuehrendem '\\' eingeben (z.B. '\\/pause' wird als Text '/pause' gesendet)."
+        )
+
+    def _readline_with_controls(
+        self, prompt: str, *, context: str, history: list[str] | None = None,
+        speaker_pid: str | None = None,
+    ) -> tuple[str, str | None]:
+        """Liest eine Zeile und erkennt die reservierten Steuerzeilen oben.
+        Liefert `(text, control)` — `control` ist `None` fuer normalen
+        Nutztext (inkl. entschaerftem Escape-Text), sonst einer der Werte in
+        `_CONTROL_TOKENS` (ohne fuehrenden Slash: 'zurueck'/'abbrechen'/
+        'pause'/'stand'/'verlauf' werden bereits HIER fuer Stand/Verlauf
+        beantwortet und erneut abgefragt — nur 'zurueck'/'abbrechen'/'pause'
+        werden an den Aufrufer zurueckgereicht, weil deren Wirkung vom
+        jeweiligen Kontext abhaengt).
+
+        WICHTIG (02 §C): ein bare `?` zaehlt NUR, wenn es die GESAMTE
+        (getrimmte) Eingabe ist — ein Fragezeichen irgendwo im Satz bleibt
+        unveraendert Nutztext, da hier auf Gleichheit, nicht auf Teilstring
+        geprueft wird.
+
+        G04/UX20 (General-Befund G04, W3-Hunk selektiv uebernommen, s.
+        W3-REUSE.md): `speaker_pid` (optional, Default `None` ->
+        `self.participant_id`, unveraendertes Verhalten fuer JEDEN
+        bestehenden Aufrufer ohne dieses Argument) laesst `/stand` den Stand
+        der GERADE EINGEBENDEN Person zeigen, nicht pauschal den aeusseren
+        Sessionteilnehmer -- `_HumanDriver.decide()` (geteiltes Terminal,
+        mehrere Menschen) uebergibt hier ihre eigene `_pid`.
+
+        G04/UX20 `/verlauf`: zeigt nicht mehr nur still `history[-10:]` --
+        eine wiederholte `/verlauf`-Eingabe INNERHALB desselben Prompts
+        blaettert sichtbar weiter zurueck (10er-Seiten), bis der Anfang der
+        vollstaendig erhaltenen (nie gekuerzten) Historie erreicht ist. Nur
+        die ANZEIGE blaettert -- `history` selbst und der an das Modell
+        gehende Kontext bleiben unveraendert/vollstaendig."""
+        verlauf_shown = 0
+        while True:
+            raw = self._readline(prompt)
+            stripped = raw.strip()
+            key = stripped.lower()
+            if key.startswith("\\/") or key.startswith("\\?"):
+                return raw[1:], None
+            if key in ("?", "/hilfe", "/?"):
+                self._print(self._control_help_text(context))
+                continue
+            if key == "/stand":
+                card = self._build_resume_card(participant_id=speaker_pid)
+                if card is None:
+                    self._print("Kein aktueller Stand vorhanden.")
+                else:
+                    detail = render_boot_menu(card)
+                    stand_lines = [ln for ln in detail.splitlines() if ln.strip().startswith("Fortsetzen:")]
+                    self._print(stand_lines[0].strip() if stand_lines else "Stand vorhanden, keine Fortsetzen-Zeile.")
+                continue
+            if key == "/verlauf":
+                if not history:
+                    self._print("Kein bisheriger Verlauf in diesem Schritt.")
+                else:
+                    total = len(history)
+                    page_size = 10
+                    end = max(0, total - verlauf_shown)
+                    start = max(0, end - page_size)
+                    page = history[start:end]
+                    for line in page:
+                        self._print(line)
+                    verlauf_shown += len(page)
+                    if start > 0:
+                        self._print(f"... {start} weitere, aeltere Eintraege -- '/verlauf' erneut fuer mehr.")
+                    else:
+                        self._print(f"(Anfang des Verlaufs erreicht, {total} Eintraege gesamt.)")
+                continue
+            if key == "/zurueck":
+                return raw, "zurueck"
+            if key == "/abbrechen":
+                return raw, "abbrechen"
+            if key == "/pause":
+                return raw, "pause"
+            return raw, None
+
+    class _ParticipantFocusGuard:
+        """UX07 (02 §D.2, 'Die anschliessende Erschaffung oder der Import
+        laufen nach bewusster Fokusuebernahme unter GENAU ihrer ID'):
+        schaltet `session.participant_id` NUR fuer die Laufzeit des
+        `with`-Blocks auf eine andere, bereits registrierte ID um und
+        restauriert sie IMMER (auch bei Exception/EOF) danach. Aendert
+        NICHTS an `_cmd_new_or_switch_character`/`_cmd_import`/deren
+        Hilfsmethoden selbst -- die lesen/schreiben bereits korrekt ueber
+        `self.participant_id`, der strukturelle Mangel war nur das Fehlen
+        eines UI-Wegs, diesen Zeiger temporaer und bewusst zu wechseln
+        (OFFENE_BEDIENBEFUNDE.md Punkt 6 referenziert dieselbe Luecke fuer
+        den Rollentausch-Fall; dies ist der enger gefasste, tatsaechlich
+        beauftragte Fall: eine NEU registrierte Person bekommt ihre EIGENE
+        erste Figur, kein Rollentausch einer bestehenden Figur)."""
+
+        def __init__(self, session: "TuiSession", target_pid: str):
+            self._session = session
+            self._target = target_pid
+            self._original: str | None = None
+
+        def __enter__(self) -> "TuiSession":
+            self._original = self._session.participant_id
+            self._session.participant_id = self._target
+            return self._session
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            self._session.participant_id = self._original
+            return False
+
+    def _cmd_register_new_person(self) -> None:
+        """UX07: registriert eine NEUE lokale Person ueber die VORHANDENE
+        `ParticipantRegistry` (keine zweite Personendatenwelt, derselbe
+        Speicherort wie `_local_round_select_humans`), bestaetigt die
+        Fokusuebernahme (wiederverwendet `_local_round_handoff`, derselbe
+        bewusste Uebernahme-Vertrag wie bei einer Terminaluebergabe) und
+        laesst die Person DANACH unter GENAU ihrer eigenen ID eine Figur
+        erschaffen oder importieren -- ohne `--participant`/CLI-Neustart.
+        Abbruch/EOF an jedem Schritt: klarer Rueckweg, KEINE Aenderung
+        (Registrierung bleibt bestehen, falls bereits geschrieben; keine
+        Figur wird ohne bestaetigte Fokusuebernahme angelegt).
+
+        G05/P07 (General-Befund 'P07_REGISTRATION_IGNORES_FOREIGN_WRITER'):
+        derselbe Lab-Owner-Guard wie `_cmd_new_or_switch_character`/
+        `_cmd_import` jetzt VOR dem ersten Registry-Write dieses Wegs --
+        vorher pruefte nur der frueh im Skript laufende Guard
+        (`scripts/mmo_sim.py:_foreign_active_lab_owner`), ein WAEHREND einer
+        bereits offenen TUI aktiv werdender fremder Lab-Lauf blieb fuer
+        'registrieren' unbewacht. Kein fremdes Lock wird geloescht oder
+        uebernommen, keine neue Ownerregel -- derselbe rein lesende
+        `active_lock_pid`-Guard wie ueberall sonst.
+
+        G02/P01 (General-Befund 'P01_CONTROL_AS_PERSON_NAME', W3-Hunk
+        selektiv uebernommen, s. W3-REUSE.md): der Namensprompt nutzt jetzt
+        denselben kontextbewussten Leser (`_readline_with_controls`) statt
+        eines rohen `_readline` -- '/abbrechen'/'/zurueck'/'/pause' werden
+        dadurch als Abbruch verarbeitet statt woertlich als Anzeigename
+        gespeichert zu werden ('?'/'/hilfe'/'/stand'/'/verlauf' bleiben wie
+        ueberall reine Information, kein Zugverbrauch, derselbe Prompt wird
+        danach erneut gestellt). Ein literaler Text, der wie eine Steuerzeile
+        aussieht, bleibt ueber das erklaerte fuehrende '\\' eingebbar."""
+        if self._lab_active_guard("Registrierung"):
+            return
+        from ..registry.participants import ParticipantRegistry
+
+        try:
+            display, control = self._readline_with_controls(
+                "Name der neuen lokalen Person (leer = abbrechen): ",
+                context="Neue Person registrieren",
+            )
+        except EndOfInput:
+            self._print("\nRegistrierung abgebrochen (EOF) -- keine Aenderung.")
+            return
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Registrierung abgebrochen -- keine Aenderung.")
+            return
+        display = display.strip()
+        if not display:
+            self._print("Registrierung abgebrochen -- kein Name eingegeben, keine Aenderung.")
+            return
+        registry = ParticipantRegistry(self._local_round_registry_dir())
+        # R6 (T-Befund 3, UX02/UX07, Korrekturzyklus 1): bei Namensgleichheit
+        # die bestehende Person erkennen (reine Lesefunktion, s. `registry/
+        # participants.py:find_by_display_name`) und "als bestehende <Name>
+        # fortsetzen" anbieten -- vorher erzeugte ein erneutes 'registrieren'
+        # mit demselben Anzeigenamen (z.B. nach Ctrl-C + Neustart)
+        # stillschweigend eine ZWEITE, komplett neue ID unter demselben
+        # Namen (02 §D.1: "Altbestand nicht neu anlegen"). Mehrere
+        # bereits bestehende Treffer (seltener Altfall, z.B. aus der Zeit
+        # VOR diesem Fix) werden ehrlich benannt, aber nicht automatisch
+        # aufgeloest -- das bleibt eine bewusste Neu-Registrierung, um
+        # keine falsche Person zu waehlen.
+        existing_matches = registry.find_by_display_name(display)
+        target_participant = None
+        if len(existing_matches) == 1:
+            self._print(
+                f"Bereits bekannt: '{display}' ist schon registriert (von einer frueheren Sitzung). "
+                "Als diese bestehende Person fortsetzen, statt eine zweite Registrierung unter "
+                "demselben Namen anzulegen?"
+            )
+            # Q01 (REVIEW.md R01, 05.10.2026, `:386-389`): dieser Prompt las
+            # vorher roh (`self._readline`) -- '/abbrechen'/'/zurueck'/
+            # '/pause' wurden woertlich als (ungueltige) j/n-Antwort
+            # behandelt, `answer == "j"` blieb False, und der Code fiel
+            # DANACH in den "else"-Zweig unten durch, der stattdessen eine
+            # ZWEITE, komplett neue Registrierung unter demselben Namen
+            # anlegte -- exakt der vom Review belegte Doppel-Datensatz nach
+            # Abbruch. Derselbe zentrale Leser (`_readline_with_controls`)
+            # wie an den anderen Prompts dieser Funktion: eine Steuerzeile
+            # wird HIER lokal verarbeitet (kein Speichern/Weiterleiten als
+            # j/n-Antwort) und bricht die GESAMTE Registrierung ab, bevor
+            # irgendein Write passiert -- verwirft nur den aktuellen
+            # Entwurf (den gerade eingegebenen Namen), kein Rueckbau der
+            # bereits bestehenden Person. '?'/'/hilfe'/'/stand'/'/verlauf'
+            # bleiben wie ueberall reine Information (derselbe Prompt wird
+            # danach erneut gestellt).
+            try:
+                answer_raw, control = self._readline_with_controls(
+                    "Als bestehende Person fortsetzen? [j/n]: ",
+                    context="Bestehende Person bestaetigen",
+                )
+            except EndOfInput:
+                self._print("\nRegistrierung abgebrochen (EOF) -- keine Aenderung.")
+                return
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print(
+                    "Registrierung abgebrochen -- keine Aenderung (weder zweite Registrierung "
+                    f"noch Fortsetzung als '{display}')."
+                )
+                return
+            answer = answer_raw.strip().lower()
+            if answer == "j":
+                target_participant = existing_matches[0]
+        elif len(existing_matches) > 1:
+            self._print(
+                f"'{display}' ist bereits MEHRFACH registriert ({len(existing_matches)} bestehende "
+                "Eintraege unter diesem Namen) -- keine automatische Auswahl, um keine falsche Person "
+                "zu uebernehmen. Es wird eine weitere, eigene Registrierung angelegt."
+            )
+        if target_participant is not None:
+            self._print(f"Fortsetzung als bestehende Person '{display}' bestaetigt.")
+            new_participant = target_participant
+        else:
+            # Q06 (REVIEW.md R04, 05.10.2026): derselbe `_lab_active_guard`
+            # stand bisher NUR vor dem Namensdialog (oben, Funktionsanfang)
+            # -- ein WAEHREND dieser Eingabe (Name + evtl. j/n-Bestaetigung)
+            # erst aktiv werdender FREMDER Lab-Lock blieb fuer den
+            # tatsaechlichen Registry-Write danach unbewacht (General-Probe
+            # Q06: 'OWNER_ACTIVATED_DURING_NAME_PROMPT' -> trotzdem
+            # 'Neu registriert'). Erneuter Aufruf UNMITTELBAR vor diesem
+            # gemeinsamen Write -- derselbe rein lesende Guard, kein
+            # Loeschen/Uebernehmen eines fremden Locks, keine neue
+            # Ownerregel. Der fruehe Guard am Funktionsanfang bleibt
+            # unveraendert bestehen (deckt den Fall ab, dass der Lock schon
+            # VOR dem ersten Prompt aktiv ist, spart in diesem Fall die
+            # Namenseingabe selbst).
+            if self._lab_active_guard("Registrierung"):
+                return
+            new_participant = registry.register_participant(kind="human", display_name=display)
+            self._print(
+                f"Neu registriert: {new_participant.participant_id} ({display}). "
+                "Figur-/Katalogdaten bleiben eine gemeinsame Ablage -- nur die ID aendert sich."
+            )
+        if not self._local_round_handoff(new_participant.participant_id):
+            self._print(
+                f"Fokus bleibt bei '{self.participant_id}' -- '{new_participant.participant_id}' "
+                "ist registriert, aber noch nicht aktiv uebernommen. Spaeter ueber "
+                "'registrieren' erneut moeglich (Registrierung bleibt erhalten)."
+            )
+            return
+        with self._ParticipantFocusGuard(self, new_participant.participant_id):
+            self._print(f"Fokus uebernommen: du bist jetzt als '{self.participant_id}' aktiv.")
+            # R9 (C-K2, UX02, Korrekturzyklus 1): die Erstfuehrung ist jetzt
+            # pro `participant_id` gefuehrt (s. `onboarding_prefs.py`) --
+            # sie wird hier direkt nach der Fokusuebernahme gezeigt, wenn
+            # GENAU diese (neue) Person sie noch nie gesehen hat. Reine
+            # Anzeige (0 GM-/Persona-Calls), kein zusaetzlicher
+            # `_readline`-Aufruf, daher keine verschobene Eingabezeile fuer
+            # bestehende Tests.
+            self._maybe_show_first_run_intro()
+            # R10 (W10, C2-bestaetigter MUSS-Blocker UX04/UX05): derselbe
+            # kontextbewusste Leser (`_readline_with_controls`) wie an den
+            # anderen Stellen dieser Funktion -- vorher nahm der rohe
+            # `_readline` hier '/stand'/'?'/'/hilfe'/'/verlauf'/'/zurueck'/
+            # '/abbrechen'/'/pause' woertlich als (ungueltige) Figur-Wahl
+            # statt sie als Steuerzeilen zu beantworten bzw. kontrolliert
+            # abzubrechen. `has_existing_figure` (reine Lesefunktion, kein
+            # neuer Schreibzugriff) unterscheidet den Re-Fokus-Fall (Person
+            # hat schon eine Figur, z.B. Ben/CHR-BEN) von einer wirklich
+            # neuen Person ohne Figur, damit die Abschluss-/Abbruchmeldung
+            # den tatsaechlichen Figurstatus nennt statt faelschlich immer
+            # "ohne eigene Figur" zu behaupten.
+            has_existing_figure = bool(
+                catalog.list_for_participant(self.catalog_dir, self.participant_id)
+            )
+            try:
+                raw, control = self._readline_with_controls(
+                    "Fuer diese Person [n] Figur erschaffen oder [i] importieren: ",
+                    context="Figur erschaffen oder importieren",
+                )
+            except EndOfInput:
+                self._print("\nKeine Erschaffung/Import gewaehlt (EOF).")
+                raw, control = "", None
+            choice = raw.strip().lower()
+            if control in ("zurueck", "abbrechen", "pause"):
+                if has_existing_figure:
+                    self._print(
+                        "Abgebrochen -- die vorhandene Figur dieser Person bleibt erhalten, "
+                        "kein Erschaffungs-/Importvorgang gestartet."
+                    )
+                else:
+                    self._print("Abgebrochen -- Person bleibt ohne eigene Figur registriert.")
+            elif choice == "n":
+                self._cmd_new_or_switch_character()
+            elif choice == "i":
+                self._cmd_import()
+            elif has_existing_figure:
+                self._print(
+                    "Kein neuer Erschaffungs-/Importweg gewaehlt -- die vorhandene Figur dieser "
+                    "Person bleibt erhalten, Fokus geht zurueck."
+                )
+            else:
+                self._print("Kein Erschaffungs-/Importweg gewaehlt -- Person bleibt ohne eigene Figur registriert.")
+        self._print(f"Fokus zurueck bei '{self.participant_id}' (deine urspruengliche Identitaet).")
+
+    def _cmd_menu_spielen(self) -> None:
+        """KISS-Submenue 'Spielen' (02 §A) — dispatcht additiv auf die
+        UNVERAENDERTEN Kommandos `g`/`l`(Runde zusammenstellen) bzw. `c`/`b`
+        (Meine KI-Spielgemeinschaft). Kein neuer Spielweg, nur Benennung +
+        Steuerzeilen-Zugriff."""
+        self._print(
+            "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft "
+            "(/zurueck fuer Hauptmenue)"
+        )
+        text, control = self._readline_with_controls(
+            "Auswahl: ", context="Spielen-Untermenue",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            return
+        choice = text.strip()
+        if choice == "1":
+            self._cmd_local_round_setup()
+        elif choice == "2":
+            self._cmd_community()
+            self._print("Weitere Option in 'Meine KI-Spielgemeinschaft': [b] Personas zusammenbringen.")
+        else:
+            self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+
+    def _cmd_menu_charaktere(self) -> None:
+        """KISS-Submenue 'Charaktere' (02 §A) — dispatcht additiv auf die
+        UNVERAENDERTEN Kommandos `n`/`i`/`e`.
+
+        W24b (BRIEF-W24b.md Punkt 2): zeigt sich selbst erneut, wenn die
+        darunterliegende Figurwahl (`_cmd_new_or_switch_character`) explizit
+        ueber `/zurueck` verlassen wurde (Rueckgabe `True`), statt wie
+        vorher pauschal bis ins Hauptmenue durchzufallen -- '/zurueck'/
+        '/abbrechen'/'/pause' DIREKT an diesem Untermenue-Prompt gehen
+        unveraendert sofort zurueck ins Hauptmenue."""
+        while True:
+            self._print(
+                "Charaktere -- [1] Auswaehlen/neu erstellen  [2] Importieren  "
+                "[3] Exportieren/ansehen (/zurueck fuer Hauptmenue)"
+            )
+            text, control = self._readline_with_controls(
+                "Auswahl: ", context="Charaktere-Untermenue",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                return
+            choice = text.strip()
+            if choice == "1":
+                if self._cmd_new_or_switch_character():
+                    continue
+                return
+            elif choice == "2":
+                self._cmd_import()
+                return
+            elif choice == "3":
+                self._cmd_export()
+                return
+            else:
+                self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+                return
+
+    _INTRO_LINES = (
+        "  1) Die Spielleitung (SL) fuehrt die Welt -- du entscheidest deine Figur.",
+        "  2) Gespielt wird in Abschnitten; der letzte gueltige Save ist deine Fortsetzungsbasis.",
+        # R4 (T-Befund 1, UX04/05, Korrekturzyklus 1): die alte Zeile
+        # bewarb '/stand'/'/verlauf'/'/pause' unpraezise als "an jeder
+        # Eingabe" -- '?'/'/hilfe'/'/stand' sind das tatsaechlich,
+        # '/verlauf'/'/pause' gelten dagegen nur im laufenden
+        # Spielabschnitt (sonst ehrlicher Hinweis statt Ausfuehrung).
+        "  3) Hilfe ohne Modellanfrage: '?'/'/hilfe'/'/stand' an jeder Eingabe; "
+        "'/verlauf'/'/pause' im laufenden Spielabschnitt.",
+    )
+
+    def _maybe_show_first_run_intro(self) -> None:
+        """UX02 (02 §B): kurze Erstfuehrung, NICHT blockierend (kein
+        `_readline`-Aufruf hier) -- 'ueberspringbar' ist dadurch der
+        denkbar guenstigste Fall: es gibt nichts zu beantworten, die
+        naechste normale Auswahl laeuft sofort weiter, kein bestehendes
+        Testskript verliert dadurch eine Eingabezeile. Die Praeferenz liegt
+        GETRENNT vom v7-Save/Onboarding-Scratch (`onboarding_prefs.py`) --
+        ein fehlender/defekter Wert zeigt die Fuehrung einfach erneut,
+        beruehrt aber NIE Figur-/Katalogdaten (0 GM-/Persona-Calls, reine
+        Anzeige). 'einfuehrung' im Hauptmenue zeigt denselben Text jederzeit
+        erneut (Wiederholbarkeit, 02 §B)."""
+        from . import onboarding_prefs
+        data_root = self.onboarding_dir.parent
+        # R9 (C-K2, UX02, Korrekturzyklus 1): PRO `participant_id` statt
+        # pro `data_root` -- vorher sah nur die GLOBAL erste Person, die
+        # dieses Datenverzeichnis je gestartet hat, die Erstfuehrung; jede
+        # ueber 'registrieren' neu hinzukommende Person auf demselben
+        # Geraet bekam sie NIE automatisch angezeigt (nur manuell ueber
+        # 'einfuehrung' abrufbar). Dieselbe fail-soft-Semantik bleibt
+        # erhalten (reine Anzeige-Praeferenz, kein Figur-/Katalogbezug).
+        prefs = onboarding_prefs.load(data_root, self.participant_id)
+        if prefs.tutorial_seen:
+            return
+        self._print("Kurze Einfuehrung (jederzeit erneut über 'einfuehrung' im Hauptmenue):")
+        for line in self._INTRO_LINES:
+            self._print(line)
+        onboarding_prefs.mark_tutorial_seen(data_root, self.participant_id)
+
+    def _cmd_show_intro_again(self) -> None:
+        """UX02: dieselbe Fuehrung jederzeit erneut abrufbar -- eigener,
+        neuer Menuewort-Dispatch ('einfuehrung'/'tutorial'), beruehrt
+        `_cmd_settings()` NICHT (kein zusaetzlicher Readline-Aufruf dort,
+        keine Regression fuer bestehende 's'-Tests)."""
+        self._print("Einfuehrung:")
+        for line in self._INTRO_LINES:
+            self._print(line)
+
+    def _cmd_menu_fortsetzen(self) -> None:
+        """KISS 'Fortsetzen' (02 §A/§E): fuehrt NUR dann tatsaechlich fort,
+        wenn `_build_resume_card()` einen real existierenden, zu diesem
+        Teilnehmer gehoerenden Stand ausweist (UX11) — ohne Beleg wird
+        Fortsetzen NICHT zum Neuanfang (02 §A: 'ausblenden oder deaktiviert
+        mit einem kurzen ehrlichen Hinweis'), es startet insbesondere KEINE
+        neue Runde/Community an dieser Stelle.
+
+        G03-Gesamtfix (dieselbe Autoritaet fuer Karte UND Dispatch):
+        - UX12: ein bekannter, aber GERADE nicht lesbarer Current
+          (`card.authority_unresolved`) ist ein sicherer STOPP -- kein
+          stiller Rueckfall auf eine evtl. veraltete Fassung, keine neue
+          Runde als getarnter Ersatz.
+        - P04/Q07 (REVIEW.md R03, 05.10.2026): eine offene, noch nicht
+          abgeschlossene Erschaffung (`card.pending_creation`) OHNE jede
+          bereits existierende Figur liefert jetzt eine eigene,
+          unterscheidbare Fortsetzen-Antwort UND bindet sie tatsaechlich an
+          den vorhandenen Verlauf -- `_cmd_new_or_switch_character()` wird
+          direkt aufgerufen (derselbe Weg wie 'n'/[charaktere], derselbe
+          `onboarding_key`), ein echter Erschaffungszug folgt (kein reiner
+          Wegweiser-Text mehr, der vorher sogar bei einer real offenen
+          Erschaffung ohne jeden weiteren Zug kam).
+        - P09: eine real gebundene, noch offene Mehrpersonen-Tischbindung
+          (`card.open_section_id`, dieselbe Lock-Autoritaet wie die Karte)
+          hat Vorrang vor dem pauschalen Solo-Aufruf -- `_resume_bound_table`
+          setzt GENAU diesen Tisch mit seiner tatsaechlichen, bereits
+          akzeptierten Besetzung fort (kein `_cmd_local_round([])`, das
+          strukturell einen ANDEREN -- leeren -- Tisch-Namensraum trifft,
+          s. `_cmd_local_round`-Docstring 'table_id = local-<leader>
+          [-<gaeste>]'). Bleibt die gebundene Tischzuordnung trotz
+          bekanntem Lock nicht eindeutig lesbar, ist das ebenfalls ein
+          sicherer Stopp (UX12), kein automatischer Solo-/Ersatztisch."""
+        card = self._build_resume_card()
+        # R2 (C-M2, UX11): Gate auf `community_id ODER chrononaut_id ODER
+        # pending_creation ODER authority_unresolved` -- eine offene
+        # Erschaffung oder ein bekannter, nur gerade nicht lesbarer Current
+        # sind ebenfalls ein real fortsetzbarer/zu behandelnder Zustand,
+        # keine leere Karte.
+        if card is None or not (
+            card.community_id or card.chrononaut_id or card.pending_creation or card.authority_unresolved
+        ):
+            self._print(
+                "Fortsetzen: kein tatsaechlich fortsetzbarer Stand gefunden (weder Community noch "
+                "Figur-Save) — bitte zuerst 'spielen'/'charaktere' fuer einen Start nutzen."
+            )
+            return
+        if card.authority_unresolved:
+            self._print(
+                "Fortsetzen nicht moeglich: der aktuell veroeffentlichte Spielstand ist gerade "
+                "nicht lesbar -- keine Fortsetzen-Autoritaet (kein Reparaturwrite, kein Rueckfall "
+                "auf eine aeltere Fassung, keine neue Runde als Ersatz)."
+            )
+            return
+        # R2-Folgefix: `card.community_id` kann jetzt (Solo-Figur ohne
+        # Community) real `None` sein -- kein literales "None" in der
+        # Anzeige (UX22-Vertrag, wie bereits in `render_boot_menu`).
+        community_display = card.community_id or "keine Community"
+        self._print(f"Fortsetzen: {community_display} · {card.participant_id} · {card.chrononaut_id or '—'}.")
+        if card.chrononaut_id is not None and card.open_section_id is not None:
+            table = self._resolve_bound_table_for_resume(card.chrononaut_id, card.open_section_id)
+            if table is None:
+                self._print(
+                    f"Fortsetzen nicht moeglich: die gebundene Tischzuordnung ('{card.open_section_id}') "
+                    "ist gerade nicht eindeutig lesbar -- kein automatischer Solo-/Ersatztisch, keine "
+                    "alte Save-Uebernahme (sicherer Stopp)."
+                )
+                return
+            self._resume_bound_table(table)
+            return
+        if card.chrononaut_id is None and card.pending_creation:
+            # Q07 (REVIEW.md R03, 05.10.2026, vormals ":637ff"): dieser Zweig
+            # gab bisher NUR einen Wegweiser-Text aus ("bitte ueber
+            # '[n]'/[charaktere] fortsetzen") -- kein Erschaffungszug folgte,
+            # der Fake-GM-Zaehler blieb 0. Anzeige (`card.pending_creation`,
+            # oben aus `_build_resume_card`) UND Ausfuehrung nutzen jetzt
+            # DENSELBEN Zustandsentscheid: dieselbe Methode, die 'n'/
+            # [charaktere] bereits fuer eine offene Erschaffung aufruft
+            # (`_cmd_new_or_switch_character`, bindet ueber denselben
+            # unveraenderten `onboarding_key=self.participant_id`-Scratch an
+            # genau den Auftrag, den `onboarding.peek` fuer die Karte
+            # gelesen hat) wird HIER direkt weiterverwendet -- kein neuer
+            # Vorgang, keine zweite Erschaffungsautoritaet, derselbe echte
+            # SL-Dialog setzt beim naechsten Schritt fort (`turn_idx=len(
+            # state.steps)`), inklusive aller bestehenden Guards (Lab-
+            # Aktivitaet, Admission-Gate, SL-Anbindungspruefung).
+            self._print(
+                "Fortsetzen: eine begonnene Figur-Erschaffung ist noch offen -- wird jetzt direkt "
+                "fortgesetzt (derselbe Erschaffungsauftrag, kein neuer Vorgang)."
+            )
+            self._cmd_new_or_switch_character()
+            return
+        self._cmd_local_round([])
+
+    def _resolve_bound_table_for_resume(self, chrononaut_id: str, table_id: str):
+        """G03/P09: laedt GENAU den Tisch, an den `chrononaut_id` laut Lock
+        gebunden ist -- dieselbe `table_id`, die bereits auf der Karte steht
+        (`core.store.locked_table_id`). Reiner Lesezugriff, kein Write.
+        Liefert `None` bei JEDEM nicht eindeutig sicheren Fall (Tischdatei
+        nicht ladbar, Tisch nicht `active`, `chrononaut_id` tatsaechlich
+        nicht Mitglied) -- der Aufrufer behandelt `None` HIER als sicheren
+        STOPP (UX12: die Karte zeigte bereits einen bekannten Lock; ein
+        nicht auflösbares Detail darf nicht in einen stillen Solo-Fallback
+        kippen)."""
+        if self.run_dir is None:
+            return None
+        from ..core import store as core_store
+        try:
+            table = core_store.Table.load(self.run_dir, table_id)
+        except (OSError, ValueError, KeyError, json.JSONDecodeError):
+            return None
+        if table.status != "active":
+            return None
+        if chrononaut_id not in table.chrononaut_ids.values():
+            return None
+        return table
+
+    def _resume_bound_table(self, table) -> None:
+        """G03/P09 (ZEITRISS Terminal UX-1, Korrekturzyklus 2, General-
+        Befund 'P09_MAIN_RESUME_TWO_PERSON_SECTION'): setzt einen bereits
+        bestehenden, real gebundenen Tisch (Leader- ODER Gast-Resume, z.B.
+        nach einem echten OS-Neustart) tatsaechlich fort -- OHNE den
+        Einladungs-/Konsens-Loop aus `_cmd_local_round` erneut zu
+        durchlaufen. Die Mitgliedschaft dieses Tisches ist bereits real
+        zugesagt/gebunden (sonst wuerde die Tischdatei nicht existieren) --
+        ein erneuter Consent-Dialog oder ein erneuter Persona-Modellaufruf
+        fuer bereits aufgenommene Mitglieder waere ein verbotener
+        Doppelcall/Publikation. Jeder MENSCH am geteilten Geraet bestaetigt
+        weiterhin ueber `_local_round_handoff` (`guided=True`), bevor er
+        tatsaechlich eingibt -- kein KI-Ersatz, kein stiller zweiter
+        Schreiber. `table.leader`/`table.members`/`table.chrononaut_ids`
+        bleiben unveraendert (kein Write hier, `_run_table_round` schreibt
+        ausschliesslich ueber den bestehenden `app_service.run_play_session`-
+        Pfad, identisch zum frischen Einladungsweg)."""
+        if self.run_dir is None or self.states_dir is None or self.schema_path is None or self.gm_transport_factory is None:
+            self._print(
+                "Fortsetzen (gebundener Tisch) erfordert eine konfigurierte Laufumgebung (run_dir/"
+                "states_dir/schema_path) und eine SL-Anbindung (gm_transport_factory) — hier nicht "
+                "konfiguriert, kein Spielstart."
+            )
+            return
+        if self._lab_active_guard("Fortsetzen (gebundener Tisch)"):
+            return
+        from ..core import store as core_store
+        from ..core.persona_state import PersonaStateStore
+
+        humans = {pid for pid, _name in self._local_round_list_humans()}
+
+        def _is_persona_member(pid: str) -> bool:
+            return pid != self.participant_id and pid not in humans
+
+        leader_id = table.leader
+        leader_persona_id = leader_id if _is_persona_member(leader_id) else None
+        try:
+            resolved_leader = self._resolve_member(leader_id)
+        except _ActiveSaveUnresolved:
+            self._print(
+                "Fortsetzen nicht moeglich: der aktuell veroeffentlichte Spielstand des Leaders ist "
+                "gerade nicht lesbar -- kein Spielstart, bis die tatsaechliche Autoritaet geklaert ist."
+            )
+            return
+        if resolved_leader is None or resolved_leader[1] != table.chrononaut_ids.get(leader_id):
+            self._print(
+                f"Fortsetzen nicht moeglich: die Leaderzuordnung des gebundenen Tisches "
+                f"'{table.table_id}' ist nicht konsistent lesbar -- kein automatischer Ersatz "
+                "(sicherer Stopp)."
+            )
+            return
+        active_save, _leader_chrono = resolved_leader
+        leader_driver = None
+        if leader_persona_id:
+            if self.persona_driver_factory is None:
+                self._print(
+                    f"Fortsetzen nicht moeglich: KI-Leader '{leader_persona_id}' erfordert eine "
+                    "konfigurierte Persona-Anbindung (persona_driver_factory) — hier nicht konfiguriert."
+                )
+                return
+            try:
+                leader_driver = self.persona_driver_factory(leader_persona_id)
+            except Exception:
+                self._print(self._opaque_boundary_error(f"Fortsetzen: KI-Leader '{leader_persona_id}' nicht moeglich"))
+                return
+
+        guest_specs: list[tuple[str, bool, dict, object | None]] = []
+        for pid in table.members:
+            if pid == leader_id:
+                continue
+            is_persona = _is_persona_member(pid)
+            try:
+                resolved = self._resolve_member(pid)
+            except _ActiveSaveUnresolved:
+                self._print(
+                    f"Fortsetzen nicht moeglich: der aktuell veroeffentlichte Spielstand von '{pid}' "
+                    "ist gerade nicht lesbar -- kein Spielstart, bis die tatsaechliche Autoritaet "
+                    "geklaert ist."
+                )
+                return
+            if resolved is None or resolved[1] != table.chrononaut_ids.get(pid):
+                self._print(
+                    f"Fortsetzen nicht moeglich: die Mitgliedzuordnung ('{pid}') des gebundenen "
+                    f"Tisches '{table.table_id}' ist nicht konsistent lesbar -- kein automatischer "
+                    "Ersatz (sicherer Stopp)."
+                )
+                return
+            guest_active_save, _guest_chrono = resolved
+            driver = None
+            if is_persona:
+                if self.persona_driver_factory is None:
+                    self._print(
+                        f"Fortsetzen nicht moeglich: '{pid}' erfordert eine konfigurierte Persona-"
+                        "Anbindung (persona_driver_factory) — hier nicht konfiguriert."
+                    )
+                    return
+                try:
+                    driver = self.persona_driver_factory(pid)
+                except Exception:
+                    self._print(self._opaque_boundary_error(f"Fortsetzen: '{pid}' nicht moeglich"))
+                    return
+            guest_specs.append((pid, is_persona, guest_active_save, driver))
+
+        ps_store = PersonaStateStore(schema_path=self.schema_path)
+        lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        lobby.join(leader_id)
+        for guest_id, _is_p, _save, _driver in guest_specs:
+            lobby.join(guest_id)
+        self._print(
+            f"Gebundener Tisch erkannt ({table.table_id}, Mitglieder: {table.members}) -- wird mit "
+            "dieser tatsaechlichen Besetzung fortgesetzt (keine neue Einladung, keine Doppelcalls)."
+        )
+        self._run_table_round(
+            table, lobby, ps_store, leader_id, leader_persona_id, leader_driver, active_save, guest_specs,
+            guided=True, current_focus_pid=self.participant_id,
+        )
+
+    def _build_resume_card(self, participant_id: str | None = None) -> ResumeCard | None:
         """11 §2: eine verstaendliche Fortsetzen-Karte aus vorhandenen
         Daten bauen -- vorher wurde IMMER `render_boot_menu(None)` gerufen
-        (Review-Befund I3: 'Fortsetzen-Karte wird dort nie befuellt')."""
-        chrononaut_id = catalog.last_selected(self.catalog_dir, self.participant_id)
-        state = onboarding.peek(self.onboarding_dir, self.participant_id)
-        final_save = state.final_save if state is not None else None
-        if chrononaut_id is None and final_save is None:
+        (Review-Befund I3: 'Fortsetzen-Karte wird dort nie befuellt').
+
+        G04/UX20 (General-Befund G04, `_readline_with_controls`, W3-Hunk
+        selektiv uebernommen, s. W3-REUSE.md): optionaler `participant_id`
+        (Default `None` -> `self.participant_id`, unveraendertes Verhalten
+        fuer JEDEN bestehenden Aufrufer ohne dieses Argument) laesst `/stand`
+        an einem geteilten Terminal den Stand der GERADE EINGEBENDEN Person
+        zeigen statt pauschal des aeusseren Sessionteilnehmers -- dieselbe
+        Lesefunktion/Autoritaet fuer jede gueltige lokale Teilnehmer-ID.
+
+        UX-1/UX11-Fix (OFFENE_BEDIENBEFUNDE.md Punkt 1, General-Befund G01):
+        `community_id` war HIER vorher fest `None` codiert -- die Bedingung
+        in `render_boot_menu()` (`resume.community_id`) war dadurch ueber den
+        normalen Startweg STRUKTURELL NIE erfuellbar, die Fortsetzen-Zeile
+        erschien nie, auch nicht bei vorhandenem Stand. Jetzt: reine
+        Lesefunktion `community_bootstrap.peek` (bereits produktiv in
+        `_cmd_community` genutzt, kein neuer Speicherort, kein Write) prueft
+        die tatsaechlich real existierende, zu DIESEM Teilnehmer gehoerende
+        Gemeinschaft `community-<participant_id>` -- NUR wenn `run_dir`
+        konfiguriert ist (ohne Laufumgebung bleibt die Karte wie vorher ohne
+        Community-Teil, kein Regressionsrisiko fuer die vielen Tests ohne
+        `run_dir`). Ein nicht lesbarer/defekter Bootstrap-Datensatz faellt
+        auf `None` zurueck (Anzeige bleibt sicher, kein Absturz) -- die
+        tatsaechliche Autoritaetspruefung beim echten Fortsetzen-Versuch
+        (`_cmd_community`/`_cmd_local_round`) bleibt davon unberuehrt und
+        eigenstaendig fehlerfest (UX12). Kein Schreibzugriff beim blossen
+        Kartenaufbau (02 §E: 'Keine neuen Saves/Claims/Personas allein beim
+        Oeffnen der Karte').
+
+        G03/P03 (General-Befund 'P03_STALE_RESUME_SUMMARY'): die Karte nutzte
+        HIER bisher AUSSCHLIESSLICH `onboarding.peek(...).final_save` fuer
+        die Zusammenfassung -- einen bereits veroeffentlichten NEUEREN
+        Current (`core.store.publish_current_save`, z.B. nach einem
+        gespielten Abschnitt) zeigte sie dadurch NIE, obwohl genau dieser
+        Current dieselbe Autoritaet ist, die jeder echte Spielstart nutzt
+        (`self._resolve_active_save`, von `_cmd_local_round`/`_resolve_member`
+        bereits produktiv verwendet). Jetzt DIESELBE Funktion/Autoritaet wie
+        der tatsaechliche Start -- Karte und Dispatch koennen dadurch nicht
+        mehr auseinanderlaufen. Ein bekannter, aber GERADE nicht lesbarer
+        Current (`unresolved=True`) wird ehrlich als solcher markiert
+        (`authority_unresolved`, UX12) statt stillschweigend auf den
+        (ggf. veralteten) Onboarding-Stand zurueckzufallen -- kein
+        Reparaturwrite, reine Anzeige/Signalisierung.
+
+        G03/P04 (General-Befund 'P04_OPEN_CREATION_NOT_OFFERED'): eine
+        bereits BEGONNENE, aber noch nicht abgeschlossene Erschaffung
+        (`onboarding.peek(...).status == 'in_progress'`) lieferte bisher
+        `None` -- obwohl es dafuer real etwas Fortsetzbares gibt. Jetzt wird
+        dieser Zustand als eigenes Flag benannt (kein erfundener Chrononaut/
+        Save), getrennt von einem offenen SPIELabschnitt (`open_section_id`)
+        und von einem bereits abgeschlossenen Save.
+
+        `open_section_id` traegt jetzt die tatsaechliche Tisch-/Lock-
+        Bindung (`core.store.locked_table_id`, reiner Lesezugriff auf
+        `locks.json`) statt des vorherigen Literals 'aktiv' -- der Dispatch
+        (`_cmd_menu_fortsetzen`) kann so dieselbe konkrete ID verwenden wie
+        die Anzeige, statt sie durch einen Platzhaltertext zu verdecken."""
+        participant_id = participant_id or self.participant_id
+        chrononaut_id = catalog.last_selected(self.catalog_dir, participant_id)
+        state = onboarding.peek(self.onboarding_dir, participant_id)
+        onboarding_final_save = state.final_save if state is not None else None
+        final_save, unresolved = self._resolve_active_save(participant_id, onboarding_final_save)
+        pending_creation = state is not None and state.status == "in_progress"
+        community_id: str | None = None
+        open_section_id: str | None = None
+        if self.run_dir is not None:
+            try:
+                from ..domain.zeitriss.community_bootstrap import peek as peek_bootstrap
+                candidate_id = f"community-{participant_id}"
+                existing = peek_bootstrap(self.run_dir / "community", candidate_id)
+                if existing is not None:
+                    community_id = candidate_id
+            except (OSError, ValueError, KeyError):
+                community_id = None
+            if chrononaut_id is not None:
+                try:
+                    from ..core import store as core_store
+                    open_section_id = core_store.locked_table_id(self.run_dir, chrononaut_id)
+                except (OSError, ValueError):
+                    open_section_id = None
+        if (
+            chrononaut_id is None and final_save is None and community_id is None
+            and not unresolved and not pending_creation
+        ):
             return None
-        summary = None
-        if final_save is not None:
+        if unresolved:
+            summary = "aktueller Spielstand gerade nicht lesbar -- keine Fortsetzen-Autoritaet (kein Reparaturwrite)"
+        elif final_save is not None:
+            summary = None
             chars = final_save.get("characters")
             if isinstance(chars, list) and chars and isinstance(chars[0], dict):
-                summary = f"{chars[0].get('name', '?')} (Level {chars[0].get('level', '?')})"
+                # W45: das echte v7-Schema fuehrt das Figurenlevel unter
+                # `lvl` (saveGame.v7.export.schema.json, Pflichtfeld) -- das
+                # alte `level` wurde nie vom Schema verlangt, nur von
+                # schmalen Legacy-Testfixtures zufaellig mitgefuehrt;
+                # `lvl` hat Vorrang, `level` bleibt als reiner Fallback.
+                lvl = chars[0].get("lvl", chars[0].get("level", "?"))
+                summary = f"{chars[0].get('name', '?')} (Level {lvl})"
+        elif pending_creation:
+            summary = "Figur-Erschaffung begonnen, noch nicht abgeschlossen (fortsetzen ueber 'n'/[charaktere])"
+        else:
+            summary = None
         return ResumeCard(
-            community_id=None, participant_id=self.participant_id,
+            community_id=community_id, participant_id=participant_id,
             chrononaut_id=chrononaut_id, last_valid_save_summary=summary,
+            open_section_id=open_section_id, pending_creation=pending_creation,
+            authority_unresolved=unresolved,
         )
+
+    def _opaque_boundary_error(self, context: str, *, attempted: bool = False) -> str:
+        """G05 (ZEITRISS Terminal UX-1, Korrekturzyklus 2, General-Befund
+        'P06_RAW_FACTORY_DETAIL_EXPOSED'): EINE gemeinsame, ruhige
+        Fehlermeldung fuer alle Fehler an der externen GM-/Persona-/CLI-
+        Grenze (`gm_transport_factory`/`persona_driver_factory`-Aufrufe und
+        ihre unmittelbaren Transportfehler) -- NIE die urspruengliche
+        Exception-/Traceback-/Key-/Promptdetails im Spielertext, egal was
+        die konkrete Anbindung konkret wirft (z.B. ein Secret-Fragment in
+        einer defekten Factory). Kein Fallback, kein zusaetzlicher Call;
+        das Originaldetail bleibt ausschliesslich der echten Exception
+        selbst (fuer einen separaten, hier nicht erweiterten technischen
+        Beleg/Log) vorbehalten, nicht der Spieleransicht.
+
+        Q05B (REVIEW.md R04, 05.10.2026, UX18): `attempted` unterscheidet
+        VOR-Anfrage-gescheitert von Anfrage-versucht/Ergebnis-unklar --
+        vorher behauptete diese EINE Meldung an JEDER Aufrufstelle "kein
+        Modellaufruf", auch dort, wo `lobby_service.request_admitted_
+        decision`/`_admitted_invite_decision` zuvor bereits `request_
+        ledger.begin()` UND den tatsaechlichen `driver.decide(ctx)`-Aufruf
+        ausgefuehrt hatten, bevor die Ausnahme hier ankam (Fabrikbau
+        `persona_driver_factory(...)`/`gm_transport_factory(...)` bleibt
+        dagegen echt vor-Anfrage, `attempted` bleibt dort `False`, der
+        Standardwert aendert also kein bestehendes Verhalten). Kein
+        falsches Nullaufruf-/Nullkostenversprechen, kein automatischer
+        Retry (der Aufrufer bricht weiterhin einfach ab), weiterhin keine
+        Secret-/Traceback-Ausgabe in beiden Zweigen."""
+        if attempted:
+            return (
+                f"{context} — technischer Fehler an der externen Anbindung NACH einem bereits "
+                "versuchten Aufruf (Ergebnis unklar, moeglicherweise bereits Wirkung/Kosten "
+                "entstanden) -- kein automatischer erneuter Versuch. Keine Fehlerdetails in "
+                "dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
+            )
+        return (
+            f"{context} — technischer Fehler an der externen Anbindung, kein Modellaufruf. "
+            "Keine Fehlerdetails in dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
+        )
+
+    # R5P02 (ZEITRISS TERMINAL-UX1-R6-FERTIGSTELLUNG): die EINZIGEN
+    # `PersonaCreationOutcome.reason`-Praefixe aus
+    # `domain/zeitriss/community_creation.py`, die ein `error`-Outcome
+    # NACHWEISLICH VOR jedem Request (`gm_transport_factory`/
+    # `persona_driver_factory` wirft beim Fabrikbau, oder gar kein
+    # Bootstrap-Profilentwurf gefunden) zuordnen -- gelesen, nicht
+    # geaendert, reine Textanker wie der bestehende Redaktionsabgleich in
+    # `_redact_creation_status_text`. JEDER andere `error`-Grund (z.B. ein
+    # nach echtem `gm_transport.turn()` gefangener Fehler aus
+    # `core/creation_service.run_admitted_creation_dialog`) ist belegt
+    # versucht.
+    _PRE_REQUEST_CREATION_ERROR_PREFIXES = (
+        "kein Bootstrap-Profilentwurf fuer ",
+        "SL-Anbindung nicht verfuegbar: ",
+        "Persona-Anbindung nicht verfuegbar: ",
+    )
+
+    def _is_confirmed_pre_request_creation_error(self, reason: object) -> bool:
+        """`True` NUR, wenn `reason` nachweislich einem der obigen,
+        bekannten Vor-Anfrage-Faelle entspricht -- jeder unbekannte/fehlende
+        Grund liefert `False` (sicherer Default: im Zweifel als belegt
+        versucht behandeln, NIE faelschlich 'kein Modellaufruf' behaupten)."""
+        return isinstance(reason, str) and reason.startswith(self._PRE_REQUEST_CREATION_ERROR_PREFIXES)
 
     def _lab_active_guard(self, action_label: str) -> bool:
         """G3b (Headless-/Lab-Lobbydurchstich, Bau-GO 2026-09-27, REVIEW-
@@ -202,7 +1078,7 @@ class TuiSession:
         )
         return True
 
-    def _cmd_new_or_switch_character(self) -> None:
+    def _cmd_new_or_switch_character(self) -> bool:
         """A17 (WEGKARTE §8, 11 §3, REVIEW-P2V.md A17 OFFEN): echter,
         fortsetzbarer SL-Erschaffungsdialog statt einer einzelnen fest
         gespeicherten Frage/Antwort. Der Assistent oeffnet ueber den
@@ -214,7 +1090,16 @@ class TuiSession:
         gueltigen v7-Save-Block enthaelt. Bricht der Mensch vorher ab (EOF),
         bleibt die Erschaffung offen/fortsetzbar (kein Dummy-Save, kein
         gezaehlter Fortschritt). Ohne konfigurierte SL-Anbindung bleibt dies
-        ein ehrlicher Teilstand (kein stiller Fallback auf eine Dummyfigur)."""
+        ein ehrlicher Teilstand (kein stiller Fallback auf eine Dummyfigur).
+
+        W24b (BRIEF-W24b.md Punkt 2): liefert `True` genau dann, wenn die
+        Figurwahl selbst (Kontext "Figurwahl", s. unten) ueber `/zurueck`
+        verlassen wurde -- ein direkter Aufrufer mit eigener Untermenue-
+        Ebene (`_cmd_menu_charaktere`) nutzt das, um GENAU diese Ebene
+        erneut zu zeigen statt pauschal bis ins Hauptmenue durchzufallen.
+        Jeder andere Rueckweg (abbrechen/pause/EOF/abgeschlossene Auswahl)
+        liefert `False`/`None` -- bestehende Aufrufer, die den Rueckgabewert
+        ignorieren, verhalten sich unveraendert."""
         if self._lab_active_guard("Neue/wechselnde Figur"):
             return
         entries = catalog.list_for_participant(self.catalog_dir, self.participant_id)
@@ -265,21 +1150,54 @@ class TuiSession:
         if entries:
             active_id = catalog.active_chrononaut_id(self.catalog_dir, self.participant_id)
             self._print("Vorhandene Figuren:")
-            for e in entries:
+            for idx, e in enumerate(entries, start=1):
                 marker = " (aktiv)" if e.chrononaut_id == active_id else ""
-                self._print(f"  - {e.chrononaut_id}{marker}")
-            prompt = "Chrononaut-ID zum Aktivieren eingeben, oder 'neu' fuer eine weitere Erschaffung"
+                name = self._effective_display_name(e)
+                label = f"{name} " if name else ""
+                self._print(f"  [{idx}] {label}{e.chrononaut_id}{marker}")
+            prompt = (
+                "Nummer oder Name zum Aktivieren eingeben (Chrononaut-ID bleibt als Detailweg "
+                "moeglich), oder 'neu' fuer eine weitere Erschaffung"
+            )
             if resumable:
                 self._print("Offene, bereits angenommene Zusatzfigur-Erschaffung(en) (noch ohne eigenen Save):")
                 for r in resumable:
                     self._print(f"  - fortsetzen:{r['persona_key']}")
                 prompt += ", oder 'fortsetzen:<persona-id>' fuer eine offene Zusatzfigur"
-            choice = self._readline(prompt + ": ").strip()
+            # F02 (W18, Brief §Fachvertrag 1): dieser Prompt las vorher roh
+            # (`self._readline`) -- '/hilfe'/'/zurueck'/'/abbrechen'/'/pause'
+            # etc. gingen dadurch als woertliche Chrononaut-ID/Persona-ID an
+            # `_switch_active_figure`/`_resume_additional_persona_creation`
+            # (roher W11-Matrixbefund, Zeile 6). Derselbe zentrale Leser wie
+            # an jedem anderen Prompt: '?'/'/hilfe'/'/stand'/'/verlauf'
+            # werden DORT bereits lokal beantwortet (kein Verlassen dieser
+            # Methode, also kein Figurwechsel/Erschaffungs-/Importturn).
+            # '/zurueck'/'/abbrechen'/'/pause' kommen hier als `control`
+            # zurueck -- eine Steuerzeile loest HIER explizit KEINEN
+            # Figurwechsel und KEINEN neuen Erschaffungs-/Importvorgang aus
+            # (0 Writes/Calls).
+            choice, control = self._readline_with_controls(prompt + ": ", context="Figurwahl")
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print(
+                    "Lokal verarbeitet -- keine Figurauswahl, kein neuer Erschaffungs-/"
+                    "Importvorgang. Bestehende Figuren bleiben unveraendert."
+                )
+                # W24b (BRIEF-W24b.md Punkt 2): `/zurueck` meldet "eine
+                # Ebene zurueck" an den Aufrufer (True) -- `/abbrechen`/
+                # `/pause` behalten das bisherige Verhalten (Rueckfall bis
+                # zum naechsten eigenstaendigen Aufrufer, i.d.R.
+                # Hauptmenue), weil nur Punkt 2 explizit `/zurueck` betrifft.
+                return control == "zurueck"
+            choice = choice.strip()
             if resumable and choice.lower().split(":", 1)[0] == "fortsetzen":
                 self._resume_additional_persona_creation(choice, resumable)
-                return
+                return False
             if choice and choice.lower() not in ("neu", "n", "new"):
-                self._switch_active_figure(choice, entries)
+                resolved, selection_error = self._resolve_character_choice(choice, entries)
+                if selection_error is not None:
+                    self._print(selection_error)
+                    return
+                self._switch_active_figure(resolved, entries)
                 return
             force_new = True
             try:
@@ -332,8 +1250,8 @@ class TuiSession:
         onboarding_chat_id = f"onboarding-{self.participant_id}"
         try:
             gm_transport = self.gm_transport_factory(onboarding_chat_id) if accepts_id else self.gm_transport_factory()
-        except Exception as e:
-            self._print(f"Erschaffungsdialog: SL-Anbindung nicht verfuegbar ({e}) — kein Dialogstart.")
+        except Exception:
+            self._print(self._opaque_boundary_error("Erschaffungsdialog: SL-Anbindung nicht verfuegbar"))
             return
         self._print("Erschaffungsdialog gestartet/fortgesetzt (echter SL-Dialog, fortsetzbar, kein JSON noetig).")
         turn_idx = len(state.steps)
@@ -346,7 +1264,38 @@ class TuiSession:
             # dieser Extraktion) -- `EndOfInput` bei EOF propagiert
             # unveraendert bis `run()` (I2-Kern-Extraktion, s.
             # `core/creation_service.py`-Docstring).
-            return ReplyResult(kind="answer", text=self._readline("Deine Antwort: "))
+            #
+            # Q02 (REVIEW.md R01, 05.10.2026, vormals `:1070-1077`): dieser
+            # Prompt las vorher roh (`self._readline`) -- '/hilfe' UND
+            # '/abbrechen' gingen dadurch als woertliche Antwort sowohl in
+            # den Onboardingzustand (`onboarding.record_step`, ueber
+            # `run_admitted_creation_dialog`) ALS AUCH an den synthetischen
+            # GM (drei Fake-GM-Aufrufe fuer eine einzige wirkliche Absicht).
+            # Derselbe zentrale Leser (`_readline_with_controls`) wie an
+            # jedem anderen Prompt: '?'/'/hilfe'/'/stand'/'/verlauf' werden
+            # DORT bereits lokal beantwortet (kein Verlassen dieser
+            # Methode, also erst recht kein GM-Call). '/zurueck'/
+            # '/abbrechen'/'/pause' kommen hier als `control` zurueck und
+            # werden NICHT als `kind="answer"` an die SL gesendet --
+            # `ReplyResult(kind="paused", ...)` haelt den bereits
+            # persistierten Dialogfortschritt unveraendert offen/
+            # fortsetzbar (derselbe Vertrag wie ein Admission-Gate-Stop,
+            # s. `core/creation_service.ReplyResult`-Docstring), KEIN
+            # weiterer SL-/GM-Request fuer diesen Versuch. Literaler Text,
+            # der wie eine Steuerzeile aussieht, bleibt ueber das erklaerte
+            # fuehrende '\\' eingebbar und erreicht die SL unveraendert als
+            # Nutztext (inkl. JSON/Mehrzeilentext, da `_readline_with_
+            # controls` nur die GESAMTE getrimmte Zeile vergleicht).
+            raw, control = self._readline_with_controls(
+                "Deine Antwort: ", context="Erschaffungsantwort",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print(
+                    "Lokal verarbeitet -- diese Steuerzeile wird NICHT als Antwort an die SL "
+                    "gesendet. Fortschritt bleibt erhalten, spaeter mit 'n'/[charaktere] fortsetzbar."
+                )
+                return ReplyResult(kind="paused", reason=f"human_local_{control}")
+            return ReplyResult(kind="answer", text=raw)
 
         # I2-Kern-Extraktion (MAIN-DATENWEGENTSCHEIDUNG.md §3, "kleine
         # gemeinsame Erschaffungs-/App-Service-Extraktion"): der GM-Turn-
@@ -688,6 +1637,119 @@ class TuiSession:
             self._invite_persona_fresh_start()
         return
 
+    # R5-Sicherheitsnachzug (01_SICHERHEITSNACHZUG.md Nachtrag, 2026-10-06,
+    # Befund "sichtbares IA-1-HOLD erwartet"): `status == "blocked"` wird in
+    # `community_creation.py` fuer MEHRERE, verschiedene, intern-authored
+    # (vertrauenswuerdige) Gruende verwendet (Archiv-HOLD, abweichender
+    # Current-Stand, Current-Autoritaet unlesbar, Claim-Mismatch,
+    # Fremd-Owner, fehlende Chrononaut-ID, Admission-Gate). Jede dieser
+    # Ankerphrasen ist eine mehrwortige, mit dem jeweiligen `reason`-Text in
+    # `community_creation.py` exakt uebereinstimmende Teilzeile (nur dort
+    # gelesen, nie geaendert) -- ein blosses Vorkommen von "Archiv"/
+    # "blocked"/"Admission" als Einzelwort reicht NICHT zur Klassifikation
+    # (s. `_redact_creation_status_text` unten). Die Admission-Gate-Gruende
+    # selbst (`core.admission.read_admission_block`) sind heterogen und
+    # matchen keine dieser Ankerphrasen -- sie fallen bewusst auf den
+    # bisherigen Default-Text in `known["blocked"]` durch.
+    _BLOCKED_REASON_ANCHORS = (
+        (
+            "fortgeschrittenes Figuren-Archiv",
+            "geschuetztes eigenes, fortgeschrittenes Figuren-Archiv -- Vorgang "
+            "offen, kein automatisches Ueberschreiben/Neuerstellen, Fortschritt "
+            "bleibt erhalten, spaeter fortsetzbar.",
+        ),
+        (
+            "spaeter erspielten aktuellen Spielstand",
+            "abweichender, spaeter erspielter aktueller Spielstand -- Vorgang "
+            "offen, kein automatisches Ueberschreiben, Fortschritt bleibt "
+            "erhalten, spaeter fortsetzbar.",
+        ),
+        (
+            "nicht strengt lesbar",
+            "Current-Save-Autoritaet gerade nicht sicher lesbar -- Vorgang "
+            "offen, keine Aktivierung/Publikation ohne geklaerten Stand, "
+            "spaeter fortsetzbar.",
+        ),
+        (
+            "nicht nachweislich zu diesem offenen Zusatzfigur-Auftrag",
+            "Zugehoerigkeit zu diesem offenen Zusatzfigur-Auftrag nicht "
+            "nachweisbar -- kontrollierter Konflikt, kein automatischer "
+            "Erfolg, Vorgang bleibt offen, spaeter fortsetzbar.",
+        ),
+        (
+            "ist bereits einem anderen Teilnehmer",
+            "Figur ist bereits einem anderen Teilnehmer zugeordnet -- "
+            "kontrollierter Konflikt, kein automatisches Uebernehmen/"
+            "Umbenennen, Vorgang bleibt offen, spaeter fortsetzbar.",
+        ),
+        (
+            "auswertbare Chrononaut-ID im final_save",
+            "abgeschlossener Auftrag ohne auswertbare Chrononaut-ID -- "
+            "Vorgang offen, spaeter fortsetzbar.",
+        ),
+    )
+
+    def _redact_creation_status_text(self, status: str, reason: object = None) -> str:
+        """R4-Sicherheitsnachzug (01_SICHERHEITSNACHZUG.md, 2026-10-05,
+        Review-Befund M01/R3P01/R3P02), R5-Nachtrag (2026-10-06, sichtbares
+        IA-1-HOLD): reiner Fehlertext-Formatter fuer die beiden Zusatzfigur-
+        Druckpunkte unten -- ersetzt ein rohes `outcome.reason` (kann eine
+        fremde Transport-/Exception-/Validierungsdetailzeile aus
+        `core/creation_service.py` bzw. `domain/zeitriss/
+        community_creation.py` enthalten) durch eine verstaendliche, eng an
+        den tatsaechlichen internen Status gebundene Textzeile. Bekannte
+        Statuswerte werden eng abgebildet; ein unbekannter Statuswert wird
+        NICHT blind interpoliert, sondern bekommt denselben neutralen Text
+        wie der zusammengefuehrte Outcome-Druckpunkt (01 §Textanforderungen):
+        Vorgang fehlgeschlagen, Fortschritt bleibt erhalten, kein
+        automatischer weiterer Versuch, moegliche bereits entstandene
+        Wirkung/Kosten nicht ausgeschlossen.
+
+        R5-Nachtrag: NUR fuer `status == "blocked"` wird `reason`
+        zusaetzlich gegen `_BLOCKED_REASON_ANCHORS` geprueft (mehrwortige,
+        eindeutige Ankerphrasen, die exakt den intern-authored Gruenden in
+        `community_creation.py` entsprechen) -- matcht eine Ankerphrase,
+        wird die zugehoerige feste, eigene, sichere Kategorietextzeile
+        zurueckgegeben (z.B. die Archiv-HOLD-Zeile mit dem Wort "Archiv").
+        Matcht keine, faellt `status == "blocked"` auf den unveraenderten
+        Admission-Gate-Default-Text zurueck. `status == "error"` (dessen
+        `reason` eine fremde Exception-/Transport-/Validierungsdetailzeile
+        ODER ein kuenstlich mit "Archiv" praeparierter Text sein kann) wird
+        NIE gegen diese Ankerphrasen geprueft -- immer derselbe neutrale,
+        redigierte Text, nie Kategorie, nie Echo. Kein roher `reason`-
+        Durchlass, keine Secret-Blacklist, keine Core-Abhaengigkeit -- reine
+        lokale Textzuordnung, keine Entscheidungs-/Navigations-/
+        Persistenzlogik."""
+        if status == "blocked" and reason is not None:
+            reason_text = str(reason)
+            for anchor, category_text in self._BLOCKED_REASON_ANCHORS:
+                if anchor in reason_text:
+                    return category_text
+        known = {
+            "blocked": (
+                "Admission-Gate blockiert -- kein Modellaufruf, Fortschritt "
+                "bleibt erhalten, spaeter fortsetzbar."
+            ),
+            "no_driver": (
+                "keine konfigurierte SL-/Persona-Anbindung -- kein Modellaufruf, "
+                "Fortschritt bleibt erhalten, spaeter fortsetzbar."
+            ),
+            "paused": "Vorgang pausiert -- Fortschritt bleibt erhalten, spaeter fortsetzbar.",
+            "error": (
+                "Anbindung/Vorgang fehlgeschlagen, Fortschritt bleibt erhalten, kein "
+                "automatischer weiterer Versuch. Moegliche bereits entstandene "
+                "Wirkung/Kosten nicht ausgeschlossen."
+            ),
+        }
+        return known.get(
+            status,
+            (
+                "Vorgang fehlgeschlagen, Fortschritt bleibt erhalten, kein "
+                "automatischer weiterer Versuch. Moegliche bereits entstandene "
+                "Wirkung/Kosten nicht ausgeschlossen."
+            ),
+        )
+
     def _invite_persona_fresh_start(self) -> None:
         """Gate B (02_PERSONA_NEUER_CHRONONAUT.md Zielfall, Terminal-
         Bestand/Neustart-Auftrag 2026-10-02): nach der soeben gewaehlten
@@ -716,14 +1778,31 @@ class TuiSession:
             return
         if self.gm_transport_factory is None or self.persona_driver_factory is None:
             return
+        # F02 (W18, Brief §Fachvertrag 2): dieser Prompt las vorher roh
+        # (`self._readline`) -- '/hilfe' etc. gingen dadurch als woertliche
+        # Persona-ID in den Einladungs-/Katalogabgleich unten. Derselbe
+        # zentrale Leser wie an jedem anderen Prompt: '?'/'/hilfe'/'/stand'/
+        # '/verlauf' werden DORT bereits lokal beantwortet; '/zurueck'/
+        # '/abbrechen'/'/pause' kommen hier als `control` zurueck -- eine
+        # Steuerzeile spricht HIER explizit KEINE Einladung aus (kein
+        # Modellaufruf, 0 Calls). Der Formatter/Outcome-Druck dieser
+        # Funktion bleibt unveraendert W17-fix, nur diese EINGABE-Zeile
+        # wird hier gebunden.
         try:
-            persona_key = self._readline(
+            persona_key, control = self._readline_with_controls(
                 "Bekannte Persona zu einem gemeinsamen Frischstart einladen "
-                "(Persona-ID, leer = nein): "
-            ).strip()
+                "(Persona-ID, leer = nein): ",
+                context="Frischstart-Einladung",
+            )
         except EndOfInput:
             self._print("\nEinladung zum gemeinsamen Frischstart abgebrochen (EOF) -- keine Aenderung.")
             return
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print(
+                "Lokal verarbeitet -- keine Einladung ausgesprochen, kein Modellaufruf, keine Aenderung."
+            )
+            return
+        persona_key = persona_key.strip()
         if not persona_key or persona_key == self.participant_id:
             return
         entries = catalog.list_for_participant(self.catalog_dir, persona_key)
@@ -807,14 +1886,27 @@ class TuiSession:
             "ts": datetime.datetime.now().isoformat(),
             "from": self.participant_id, "wants": [persona_key], "kind": "fresh_start_invite",
         })
-        driver = self.persona_driver_factory(persona_key)
+        # G05/P06 (General-Befund 'P06_RAW_FACTORY_DETAIL_EXPOSED'): dieser
+        # Factory-Aufruf stand vorher VOR jedem schuetzenden `try` -- eine
+        # fehlende/fehlerhafte Persona-Konfiguration konnte hier ungefangen
+        # durchschlagen (moeglicher Python-Traceback statt einer ruhigen
+        # Textzeile). Jetzt derselbe kontrollierte, redigierte Rueckweg wie
+        # bei KI-Leader/Gast-Einladung.
+        try:
+            driver = self.persona_driver_factory(persona_key)
+        except Exception:
+            self._print(self._opaque_boundary_error(f"Einladung an '{persona_key}' zum gemeinsamen Frischstart nicht moeglich"))
+            return
         try:
             decision, block_reason = lobby_service.request_admitted_decision(
                 self.run_dir, driver, ctx, role="fresh_start_invite", participant=persona_key,
                 section_id=f"fresh-start-{persona_key}-{self.participant_id}-{invite_generation}",
             )
-        except Exception as e:  # Transportfehler -- kein Auto-Accept, Gelegenheit bleibt offen/resumierbar.
-            self._print(f"Einladung an '{persona_key}' zum gemeinsamen Frischstart nicht zustande gekommen (Fehler): {e}")
+        except Exception:  # Transportfehler -- kein Auto-Accept, Gelegenheit bleibt offen/resumierbar.
+            self._print(self._opaque_boundary_error(
+                f"Einladung an '{persona_key}' zum gemeinsamen Frischstart nicht zustande gekommen",
+                attempted=True,
+            ))
             return
         if decision is None:
             # Admission-Gate blockiert -- Gelegenheit bleibt ABSICHTLICH offen
@@ -865,7 +1957,10 @@ class TuiSession:
                 f"{outcome.reason or 'Figur ist tischbereit.'}"
             )
         else:
-            self._print(f"'{persona_key}': Zusatzfigur-Erschaffung {outcome.status} ({outcome.reason}).")
+            self._print(
+                f"'{persona_key}': Zusatzfigur-Erschaffung {outcome.status} -- "
+                f"{self._redact_creation_status_text(outcome.status, outcome.reason)}"
+            )
 
     def _resume_additional_persona_creation(self, choice: str, resumable: list[dict]) -> None:
         """E2E-Nacharbeit B1-MENUE (2026-10-02, 02_B1B2_NACHZUG.md §C):
@@ -919,7 +2014,10 @@ class TuiSession:
                 f"{outcome.reason or 'Figur ist jetzt tischbereit.'}"
             )
         else:
-            self._print(f"'{requested_persona_key}': Fortsetzen {outcome.status} ({outcome.reason}).")
+            self._print(
+                f"'{requested_persona_key}': Fortsetzen {outcome.status} -- "
+                f"{self._redact_creation_status_text(outcome.status, outcome.reason)}"
+            )
 
     def _resolve_real_active_chrononaut_id(self) -> tuple[str | None, dict | None, bool]:
         """I4-Nachzug (02_ABNAHME_I4-AA, Vertrag §3 A): massgeblich fuer
@@ -1015,6 +2113,77 @@ class TuiSession:
             return
         catalog.store_figure_save(self.catalog_dir, self.participant_id, outgoing_id, outgoing_current)
 
+    def _effective_display_name(self, entry) -> str:
+        """R5P01 (ZEITRISS TERMINAL-UX1-R6-FERTIGSTELLUNG, General-Befund
+        'Figurname nicht erreichbar'): WEDER `_cmd_new_or_switch_character`s
+        Erschaffungs-Publikationsweg NOCH `_cmd_import` setzen je einen
+        `CatalogEntry.display_name` (keine Aufrufstelle von `catalog.
+        register` uebergibt ihn) -- Anzeige UND Namensaufloesung fielen
+        dadurch IMMER auf die reine Chrononaut-ID zurueck, selbst wenn der
+        tatsaechlich gespeicherte v7-Save einen echten `characters[0].name`
+        trug. Liest denselben bereits vorhandenen reinen Leser wie
+        `_switch_active_figure` (`catalog.load_figure_save`, NUR fuer
+        `entry.participant_id`/`entry.chrononaut_id` -- nie eine fremde
+        Figur) -- KEINE Katalog-/Save-Mutation, KEINE neue persistente
+        Namensquelle, nur ein zusaetzlicher Lesevorgang zur Anzeige/
+        Aufloesung. `display_name` (falls je gesetzt) bleibt Vorrang; ein
+        fehlender/unlesbarer/strukturell leerer Save liefert weiterhin ''
+        (Aufrufer fallen dann wie bisher auf die rohe Chrononaut-ID
+        zurueck, kein Rateweg)."""
+        if entry.display_name:
+            return entry.display_name
+        save_block = catalog.load_figure_save(self.catalog_dir, entry.participant_id, entry.chrononaut_id)
+        if not isinstance(save_block, dict):
+            return ""
+        chars = save_block.get("characters")
+        if isinstance(chars, list) and chars and isinstance(chars[0], dict):
+            name = chars[0].get("name")
+            if isinstance(name, str) and name.strip():
+                return name
+        return ""
+
+    def _resolve_character_choice(
+        self, choice: str, entries: list,
+    ) -> tuple[str, str | None]:
+        """F02 (W18, Brief §Fachvertrag 1): normale Auswahl ueber eine
+        STABILE Auswahlnummer (1-basierter Index in der vom autoritativen
+        Katalog-Leser `catalog.list_for_participant` gelieferten Reihenfolge,
+        s. Aufrufstelle) oder ueber einen eindeutigen Anzeigenamen
+        (`_effective_display_name`, s. dort -- `CatalogEntry.display_name`
+        sofern gesetzt, SONST der real gespeicherte `characters[0].name` aus
+        dem eigenen v7-Save, R5P01-Fix) -- die Chrononaut-ID bleibt
+        ZUSAETZLICH direkt eingebbar (bewusster Detail-/
+        Kompatibilitaetsweg, unveraendertes Verhalten fuer bestehende
+        Aufrufer/Tests, die eine ID eintippen).
+
+        Liefert `(resolved, error_message)`. Bei eindeutiger Nummern- oder
+        Namensaufloesung ist `error_message` `None` und `resolved` die
+        aufgeloeste Chrononaut-ID. Bei einer Namensdublette ODER einer
+        Nummer ausserhalb des Bereichs wird NICHT geraten -- `resolved`
+        bleibt die rohe Eingabe (fuer eine konsistente Fehlermeldung an der
+        Aufrufstelle) und `error_message` enthaelt den Hinweistext; der
+        Aufrufer bricht dann OHNE Aktivwechsel ab. Ohne Nummern-/Namenstreffer
+        wird die rohe Eingabe unveraendert als Chrononaut-ID-Kandidat
+        zurueckgegeben -- dieselbe Pruefung wie vor dieser Erweiterung
+        (`_switch_active_figure`s `known_ids`-Abgleich) entscheidet dann
+        ueber gueltig/unbekannt."""
+        trimmed = choice.strip()
+        if trimmed.isdigit():
+            idx = int(trimmed)
+            if 1 <= idx <= len(entries):
+                return entries[idx - 1].chrononaut_id, None
+            return choice, f"Keine Figur mit Nummer {idx} -- verfuegbar: 1..{len(entries)}."
+        name_matches = [
+            (i, e) for i, e in enumerate(entries, start=1)
+            if self._effective_display_name(e).strip().lower() == trimmed.lower()
+        ] if trimmed else []
+        if len(name_matches) == 1:
+            return name_matches[0][1].chrononaut_id, None
+        if len(name_matches) > 1:
+            dupes = ", ".join(f"[{i}] {e.chrononaut_id}" for i, e in name_matches)
+            return choice, f"Name {choice!r} ist nicht eindeutig -- bitte Nummer oder ID angeben ({dupes})."
+        return choice, None
+
     def _switch_active_figure(self, chosen_id: str, entries: list) -> None:
         """W4 (F4, "echte Auswahl-Eingabe in n"): aktiviert eine bereits
         registrierte, bisher inaktive Figur -- laedt ihre eigenen,
@@ -1088,10 +2257,25 @@ class TuiSession:
     def _cmd_import(self) -> None:
         if self._lab_active_guard("Import"):
             return
-        self._print("JSON-Datei-Pfad ODER Mehrzeilentext einfuegen, Ende mit einer Zeile 'ENDE':")
+        self._print(
+            "JSON-Datei-Pfad ODER Mehrzeilentext einfuegen, Ende mit einer Zeile 'ENDE' "
+            "('/abbrechen' oder '/zurueck' als ERSTE Zeile bricht ab, kein Write):"
+        )
         lines = []
         while True:
             line = self._readline("")
+            # R5b (T-Befund, UX05/UX16, Korrekturzyklus 1): nur die ERSTE
+            # Zeile wird auf einen Abbruchbefehl geprueft (exakte
+            # Gleichheit) -- kein globaler Parser, der JEDE Zeile des
+            # Mehrzeilen-JSON-Texts als Steuerzeile interpretiert (echter
+            # v7-Save-Text beginnt nie mit genau dieser Zeile). Das ist der
+            # klar benannte Abbruchweg, der hier vorher fehlte (ein
+            # eingegebenes '/abbrechen' wurde bisher einfach als Teil des
+            # einzufuegenden Texts gewertet und landete ungueltig in
+            # `json.loads`).
+            if not lines and line.strip() in ("/abbrechen", "/zurueck"):
+                self._print("Import abgebrochen -- kein Text uebernommen, kein Write.")
+                return
             if line.strip() == "ENDE":
                 break
             lines.append(line)
@@ -1102,9 +2286,18 @@ class TuiSession:
         # I3/Test 06: ein angebotener DATEIPFAD (genau eine Zeile, verweist
         # auf eine existierende Datei) wird GELESEN statt als roher JSON-Text
         # geparst -- vorher ging jede Eingabe direkt in `json.loads`.
+        # W45: ein einzeiliger voller v7-JSON-Text kann die Pfadkomponenten-
+        # Laengengrenze des Dateisystems ueberschreiten -- `Path.is_file()`
+        # wirft dann OSError (ENAMETOOLONG) statt False zu liefern. Das ist
+        # erkennbar KEIN Dateipfad, also faellt die Eingabe kontrolliert auf
+        # den rohen-JSON-Zweig zurueck statt mit Traceback abzubrechen.
         if len(lines) == 1:
-            candidate_path = Path(raw)
-            if candidate_path.is_file():
+            try:
+                is_path = Path(raw).is_file()
+            except OSError:
+                is_path = False
+            if is_path:
+                candidate_path = Path(raw)
                 try:
                     raw = candidate_path.read_text(encoding="utf-8")
                 except OSError as e:
@@ -1113,7 +2306,23 @@ class TuiSession:
         try:
             preview = import_export.preview_import(raw)
         except import_export.MalformedImportError as e:
-            self._print(f"Import abgelehnt (strukturell ungueltig, kein Write): {e}")
+            # R8 (T-Befund 4, UX05/UX18, Korrekturzyklus 1): `preview_import`
+            # (mmo_sim/domain/zeitriss/import_export.py, ausserhalb des hier
+            # erlaubten Edit-Scopes) haengt bei einem JSON-Parserfehler den
+            # ROHEN Python-`json`-Fehlertext an (z.B. "Expecting value: line
+            # 1 column 1 (char 0)") -- technisches Fachchinesisch fuer
+            # Laien. Nur die ANZEIGE hier wird laientauglich gemacht (kein
+            # Traceback, kein rohes Exception-Detail); der "kein
+            # Write"-Schutz und alle anderen (bereits verstaendlichen)
+            # Schema-Meldungen bleiben unveraendert.
+            msg = str(e)
+            if msg.startswith("kein gueltiges JSON:"):
+                msg = (
+                    "der eingegebene Text/die Datei ist kein gueltiges JSON (z.B. fehlende "
+                    "Anfuehrungszeichen, Kommas oder Klammern) — bitte Text/Datei pruefen und "
+                    "erneut versuchen."
+                )
+            self._print(f"Import abgelehnt (strukturell ungueltig, kein Write): {msg}")
             return
         self._print(f"Vorschau: char_id={preview.char_id} level={preview.level} Herkunft=extern importiert")
 
@@ -1147,6 +2356,23 @@ class TuiSession:
                 "spaeter erneut versuchen)."
             )
             return
+        # R5a (T-Befund, UX05/UX16, Korrekturzyklus 1) -- GEPRUEFT, NICHT
+        # UMGESETZT: eine echte "Vorschau -> bestaetigen/verwerfen"-Abfrage
+        # genau an dieser Stelle (ALLERERSTER Import, noch kein
+        # Katalogeintrag/aufloesbarer Stand) wurde versucht und wieder
+        # ENTFERNT -- jede zusaetzliche Pflichteingabe HIER verschiebt die
+        # Eingabezeilen ALLER bestehenden, real-subprocess-gescripteten
+        # Tests, die einen fehlerfrei durchlaufenden Erstimport als
+        # (impliziten) Setup-Schritt nutzen (beobachtet: `test_a23_
+        # bounded_vorlauf_2026_09_30.py::test_v3_api_profile_real_tui_to_
+        # lab_to_persona_journey` haengt dadurch in einem echten
+        # Subprozess fest, 150s Timeout, zieht ueber `generate_existing_
+        # a23_journey_inputs()` KASKADIEREND `test_a13_local_provenance_
+        # 2026_09_30.py` mit). Bleibt ehrlich dokumentierter Blocker (s.
+        # WORKER2-REPORT.md) statt eines UI-Nachbaus, der die bestehende
+        # Testsuite bricht -- R5b (Abbruch waehrend JSON-Mehrzeilen-
+        # Eingabe UND an der [w/b]-Rueckfrage, beide unten) bleibt real
+        # umgesetzt.
         existing_block_for_char_id = None
         if baseline_block is not None:
             baseline_char_id = zeitriss_saves.block_char_id(baseline_block)
@@ -1178,7 +2404,21 @@ class TuiSession:
                 "Bekannte Figur mit abweichendem Stand -- ausdrueckliche Konfliktwahl noetig: "
                 "'a' importierten Stand uebernehmen, 'k' bisherigen Stand behalten."
             )
-            answer = self._readline("Wahl [a/k]: ").strip().lower()
+            # F02 (W18, Brief §Fachvertrag 3): dieser Prompt las vorher roh
+            # (`self._readline`) -- '/hilfe' etc. landeten als ungueltige
+            # Wahl im geparkten Zweig unten, OHNE jemals echten Hilfetext zu
+            # zeigen. Derselbe zentrale Leser wie an jedem anderen Prompt;
+            # eine Steuerzeile loest HIER explizit KEINE Konfliktwahl/Write
+            # aus (0 Writes). Das JSON-/Mehrzeilen-Paste weiter oben in
+            # dieser Funktion (ENDE-Marker) bleibt bewusst AUSSERHALB dieses
+            # zentralen Lesers (eigene Erstzeilenpruefung, s. dort).
+            answer, control = self._readline_with_controls(
+                "Wahl [a/k]: ", context="Importkonflikt (abweichender Stand)",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print("Lokal verarbeitet -- Import bleibt geparkt (kein Write), keine Konfliktwahl getroffen.")
+                return
+            answer = answer.strip().lower()
             if answer == "a":
                 explicit_choice = "adopt_incoming"
             elif answer == "k":
@@ -1210,6 +2450,37 @@ class TuiSession:
         if decision.action == "noop_identical":
             self._print(f"Identischer Save bereits vorhanden -- kein zweiter Fortschritt: {decision.reason}")
             return
+        # G02/P12 (General-Befund 'P12_FIRST_IMPORT_WRITES_WITHOUT_YES', 02
+        # §C "Abbrechen vor einer expliziten Bestaetigung verwirft nur den
+        # Entwurf"): ohne bereits getroffene Konfliktwahl (`explicit_choice`
+        # oben, Fall 3 'a'/'k') lief JEDE tatsaechliche Uebernahme --
+        # INSBESONDERE der allererste Import ohne jeden Konflikt (frischer
+        # Datenroot) -- bisher sofort in den Write unten, ohne irgendeine
+        # Ja-Bestaetigung. Jetzt: Vorschau ist bereits oben gezeigt: eine
+        # eigene, ausdruecklich bestaetigte Zeile VOR dem ersten Write
+        # (`catalog.store_figure_save` unten). Abbruch/EOF verwirft NUR
+        # diesen Entwurf -- kein Write erfolgt vor dieser Stelle, bereits
+        # bestehende Figuren/Registrierungen anderer frueherer Importe
+        # bleiben unberuehrt. Die bereits bestehende 'a'/'k'-Konfliktwahl
+        # (Fall 3) gilt selbst schon als ausdruecklicher Ja-Entscheid --
+        # keine doppelte Rueckfrage fuer denselben Entwurf.
+        if explicit_choice is None:
+            from ..adapters.base import human_menu_decision
+            try:
+                confirm_raw, confirm_control = self._readline_with_controls(
+                    f"Figur char_id={preview.char_id} jetzt uebernehmen und speichern? [j/n]: ",
+                    context="Import bestaetigen",
+                )
+            except EndOfInput:
+                self._print("\nImport abgebrochen (EOF) -- kein Write, Entwurf verworfen.")
+                return
+            if confirm_control in ("zurueck", "abbrechen", "pause"):
+                self._print("Import abgebrochen -- kein Write, Entwurf verworfen.")
+                return
+            confirm_decision, _explanation = human_menu_decision(confirm_raw)
+            if confirm_decision != "accept":
+                self._print("Import abgebrochen -- kein Write, Entwurf verworfen.")
+                return
         # register_new | adopt_incoming | keep_existing -> Save wirklich
         # uebernehmen (kein Dummy-v7).
         # W4-Fix (F4, PLAN-CRITIC.md Auflage 4, Test 07 review_p2w_
@@ -1299,9 +2570,33 @@ class TuiSession:
                 f"Du hast bereits eine aktive Figur ({active_elsewhere!r}). Ein Wechsel zu "
                 f"{preview.char_id!r} braucht eine ausdrueckliche Bestaetigung: "
                 "'w' aktive Figur JETZT wechseln, 'b' bisherige aktive Figur behalten "
-                "(Import bleibt als inaktive Zweitfigur registriert)."
+                "(Import bleibt als inaktive Zweitfigur registriert), '/abbrechen' den ganzen "
+                "Import verwerfen (keine neue Registrierung)."
             )
-            answer = self._readline("Wahl [w/b]: ").strip().lower()
+            # F02 (W18, Brief §Fachvertrag 3): vormals ad-hoc-Sonderpruefung
+            # NUR fuer die woertlichen Strings '/abbrechen'/'/zurueck' (W11-
+            # Matrixbefund Zeile 8, "nicht ueber den zentralen Leser") --
+            # '/pause'/'/hilfe'/'?'/'/stand'/'/verlauf' gingen hier bisher
+            # ALS ANTWORT durch und landeten (ausser 'w') im 'b'-Zweig
+            # darunter, der eine echte INAKTIV-Registrierung schreibt (ein
+            # '/hilfe'-Versuch haette also einen Write ausgeloest). Jetzt
+            # derselbe zentrale Leser wie an jedem anderen Prompt; JEDE der
+            # fuenf Steuerzeilen bricht HIER kontrolliert ab, OHNE
+            # `catalog.register` zu erreichen (0 Writes). Escaped Literal-
+            # text ('\\/abbrechen') kommt als normaler Text zurueck und
+            # faellt bewusst unveraendert in den 'b'-Zweig (keine versteckte
+            # Sonderbedeutung fuer Text, der nur WIE eine Steuerzeile
+            # aussieht).
+            answer, control = self._readline_with_controls(
+                "Wahl [w/b]: ", context="Importkonflikt (Aktivwechsel)",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print(
+                    f"Lokal verarbeitet -- Import verworfen, char_id={preview.char_id} NICHT "
+                    f"registriert. Aktive Figur {active_elsewhere!r} bleibt unveraendert."
+                )
+                return
+            answer = answer.strip().lower()
             if answer != "w":
                 catalog.register(self.catalog_dir, catalog.CatalogEntry(
                     participant_id=self.participant_id, chrononaut_id=preview.char_id,
@@ -1391,7 +2686,29 @@ class TuiSession:
             "  [v] Begrenzten KI-Vorlauf konfigurieren\n"
             "  [s] Spaeter entscheiden"
         )
-        choice = self._readline("Wahl [w/v/s]: ").strip().lower()
+        # F02 (W18, Brief §Fachvertrag 5): dies ist das ERSTE, aus dem
+        # normalen Importweg (`_cmd_import`) erreichbare Gate dieser
+        # Operatornahen Vorlaufkette -- synthetisch, kein Modell-/GM-Call an
+        # dieser Stelle (ein echter Vorlauf braucht weiterhin die separate,
+        # unveraenderte Startbestaetigung in `_cmd_bounded_ai_preflight`).
+        # Derselbe zentrale Leser wie an jedem anderen Prompt; eine
+        # Steuerzeile startet HIER explizit KEINEN Vorlauf. R5P03-Fix
+        # (ZEITRISS TERMINAL-UX1-R6-FERTIGSTELLUNG): die TIEFEREN Profil-/
+        # Personas-/Budget-Prompts (`_cmd_bounded_ai_preflight`,
+        # `_bounded_preflight_select_personas`, `_bounded_preflight_
+        # collect_budget`) sind jetzt EBENFALLS an diesen zentralen Leser
+        # gebunden (vorher roh: ein erreichtes `/hilfe` wurde dort woertlich
+        # als ungueltiges Profil/Personaliste/Budgetwert abgelehnt statt
+        # Hilfe zu zeigen) -- weiterhin KEINE echte Vorlaufausfuehrung/
+        # Budgetlogik-Aenderung, nur die Eingabeerkennung an diesen bereits
+        # admin-nahen Prompts (W11-Matrix Zeile 15).
+        choice, control = self._readline_with_controls(
+            "Wahl [w/v/s]: ", context="KI-Vorlauf-Angebot",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Kein KI-Vorlauf gestartet (lokal verarbeitet, keine Aenderung).")
+            return
+        choice = choice.strip().lower()
         if choice != "v":
             self._print("Kein KI-Vorlauf gestartet (Standard: direkt weiterspielen ohne Levelangleichung).")
             return
@@ -1422,7 +2739,13 @@ class TuiSession:
             return
         raw_community_id, community_id, available_personas = lookup
 
-        profile = self._readline("Profil [api/hybrid]: ").strip().lower()
+        profile, control = self._readline_with_controls(
+            "Profil [api/hybrid]: ", context="KI-Vorlauf-Profil",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("KI-Vorlauf abgebrochen (lokal verarbeitet, kein Profil uebernommen, kein Vorlauf gestartet).")
+            return
+        profile = profile.strip().lower()
         if profile not in ("api", "hybrid"):
             self._print(
                 f"KI-Vorlauf: ungueltiges/fehlendes Profil {profile!r} (nur 'api'/'hybrid') -- "
@@ -1449,7 +2772,13 @@ class TuiSession:
             "  Eigener Chrononaut bleibt ungespielt; kein Level-/Wallet-/Ausruestungswrite; "
             "Konfigurationsfehler/Hold/Limit sind kein Spielerfolg."
         )
-        confirm = self._readline("Vorlauf jetzt wirklich starten? [ja/nein]: ").strip().lower()
+        confirm, control = self._readline_with_controls(
+            "Vorlauf jetzt wirklich starten? [ja/nein]: ", context="KI-Vorlauf-Bestaetigung",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("KI-Vorlauf nicht gestartet (lokal verarbeitet, keine Lab-Autoritaet erworben).")
+            return
+        confirm = confirm.strip().lower()
         if confirm != "ja":
             self._print(
                 "KI-Vorlauf nicht gestartet (keine ausdrueckliche Bestaetigung) -- keine "
@@ -1524,7 +2853,13 @@ class TuiSession:
         zu verlassen. KEINE neue Zweitautoritaet: nur vorhandene Leser, kein
         Lobby-Konstruktor mit Initialwrites, kein Ausweichen auf ein anderes
         Mitglied, keine Lock-Loeschung."""
-        raw = self._readline(f"KI-Personas (kommagetrennt, aus {', '.join(available)}): ").strip()
+        raw, control = self._readline_with_controls(
+            f"KI-Personas (kommagetrennt, aus {', '.join(available)}): ", context="KI-Vorlauf-Personas",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("KI-Vorlauf abgebrochen (lokal verarbeitet, keine Persona-Auswahl, kein Vorlauf gestartet).")
+            return None
+        raw = raw.strip()
         requested = [p.strip() for p in raw.split(",") if p.strip()]
         if not requested:
             self._print("KI-Vorlauf: keine Persona ausgewaehlt -- kein Vorlauf gestartet.")
@@ -1588,7 +2923,11 @@ class TuiSession:
         )
         budget: dict[str, float | int] = {}
         for key, prompt, convert in prompts:
-            raw = self._readline(prompt).strip()
+            raw, control = self._readline_with_controls(prompt, context="KI-Vorlauf-Budget")
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print("KI-Vorlauf abgebrochen (lokal verarbeitet, kein Budget uebernommen, kein Vorlauf gestartet).")
+                return None
+            raw = raw.strip()
             try:
                 budget[key] = convert(raw)
             except argparse.ArgumentTypeError as e:
@@ -1852,18 +3191,40 @@ class TuiSession:
 
         known = self._local_round_list_humans()
         self._print("Vorhandene lokale Teilnehmer:")
+        # R7 (T-Befund 2/4, UX02/03, Korrekturzyklus 1) -- GEPRUEFT, NICHT
+        # UMGESETZT: ein Versuch, hier bei registriertem Anzeigenamen den
+        # Namen VOR der ID zu zeigen, wurde wieder entfernt -- mehrere
+        # Funktionen in `test_a24_local_two_humans_2026_10_01.py` pruefen
+        # diese Zeile exakt mit der rohen ID an erster Stelle (abhaengig
+        # vom jeweiligen Testszenario registriert/unregistriert), ein
+        # einzelner Fix haette einen Teil dieser real-subprocess-Szenarien
+        # bestehen lassen und einen anderen (`test_a24_guided_setup_g_path_
+        # human_leader_with_handoff`) brechen. Bleibt ehrlich dokumentierter
+        # Blocker (s. WORKER2-REPORT.md) statt einer riskanten Breitenaenderung
+        # an einer grossen, bereits bestehenden Testdatei ausserhalb des
+        # verfuegbaren Zeit-/Risikobudgets dieses Korrekturzyklus.
         self._print(f"  [0] {self.participant_id} (du, aufrufender Teilnehmer)")
         others = [(pid, name) for pid, name in known if pid != self.participant_id]
         for idx, (pid, name) in enumerate(others, start=1):
             self._print(f"  [{idx}] {pid} ({name})")
+        # G02 (02 §C "Wesentliche Unterdialoge duerfen den zentralen Helper
+        # nicht umgehen"): `_readline_with_controls` statt rohem `_readline`
+        # -- '?'/'/hilfe' zeigen hier Kontexthilfe, '/abbrechen'/'/zurueck'/
+        # '/pause' brechen kontrolliert ab, ohne die vorhandene Nummern-/
+        # 'neu:'-Syntax oder die oben gezeigte Teilnehmerliste zu aendern.
         try:
-            raw = self._readline(
+            raw, control = self._readline_with_controls(
                 "Weitere Menschen an diesem Geraet -- vorhandene Nummern kommagetrennt "
-                "ODER 'neu:<Anzeigename>' fuer eine bewusste Neuregistrierung, leer = nur du: "
-            ).strip()
+                "ODER 'neu:<Anzeigename>' fuer eine bewusste Neuregistrierung, leer = nur du: ",
+                context="Weitere Menschen waehlen",
+            )
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return None
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+            return None
+        raw = raw.strip()
         selected = [self.participant_id]
         if not raw:
             return selected
@@ -1884,13 +3245,62 @@ class TuiSession:
                 selected.append(pid)
         return selected
 
+    def _local_round_connect_new_person_to_own_figure(self, pid: str) -> tuple[dict, str] | None:
+        """Q04 (REVIEW.md R02, 05.10.2026, vormals ':2676-2774'): eine
+        WAEHREND der Rundenzusammenstellung neu registrierte Person
+        (`neu:<Name>` in `_local_round_select_humans`) hat noch keine
+        Figur. Vorher brach `_local_round_confirm_figure` die GESAMTE
+        Einrichtung hier ab und verlangte einen separaten Teilnehmer-
+        durchgang samt erneuter Einrichtung (General-Repro Q04: 'registriert
+        neu:Ben, bricht bei dessen fehlender Figur aber ab'). Jetzt wird
+        GENAU der vorhandene Registrierungs-/Fokus-/Katalog-/Importweg
+        verbunden: Fokusbestaetigung (`_local_round_handoff`, dieselbe
+        Methode, die auch sonst die Terminaluebergabe bestaetigt) -> die
+        bestehende Erschaffungs-/Import-/Export-Flaeche (`_cmd_menu_
+        charaktere`) UNTER DER ID `pid` -> Rueckkehr zur Besetzung.
+
+        Keine zweite Profilautoritaet, kein Liveanbieterassistent: die
+        Erschaffung laeuft ueber eine ZWEITE `TuiSession`-Instanz mit
+        EXAKT derselben Laufumgebung (gleicher `run_dir`/`catalog_dir`/
+        `onboarding_dir`/`states_dir`/`schema_path`/`gm_transport_factory`/
+        `persona_driver_factory`) und demselben Terminal (identische
+        `_input`/`_print`) -- nur `participant_id` unterscheidet sich
+        (`pid` statt `self.participant_id`). Exakt dasselbe Muster, mit dem
+        bereits mehrere echte Menschen am selben Geraet je eine eigene
+        `TuiSession` erhalten (s. `_a24_local_support.py`/die G03/P09-
+        Mehrprozessbelege) -- keine neue Erschaffungs-/Katalogimplementierung.
+        Lehnt die Person die Fokusuebergabe ab (Abbruch/EOF/Steuerzeile),
+        bleibt dies ein klarer Rueckweg (kein KI-Ersatz, keine Dummyfigur);
+        der Aufrufer behandelt `None` unveraendert als 'keine Figur'."""
+        if not self._local_round_handoff(pid):
+            return None
+        sub_session = TuiSession(
+            self.onboarding_dir, self.catalog_dir, pid,
+            input_fn=self._input, print_fn=self._print,
+            run_dir=self.run_dir, states_dir=self.states_dir, schema_path=self.schema_path,
+            gm_transport_factory=self.gm_transport_factory,
+            exports_dir=self.exports_dir, persona_driver_factory=self.persona_driver_factory,
+        )
+        sub_session._cmd_menu_charaktere()
+        try:
+            return self._resolve_member(pid)
+        except _ActiveSaveUnresolved:
+            return None
+
     def _local_round_confirm_figure(self, pid: str) -> bool:
         """A24 R2 (02 §Auftrag R2 'eigene Figur pro Mensch aus vorhandenen
         Zuordnungen zeigen und ausdruecklich bestaetigen'): nutzt dieselbe
         Autoritaet wie der eigentliche Spielstart (`_resolve_member`, kein
-        zweiter Aufloesungsweg). Fehlende Figur fuehrt NICHT zu einer
-        Dummyfigur/Autoauswahl aus fremdem Current, sondern zu einem klaren
-        Rueckweg (eigener Teilnehmer-Durchgang mit `[n]`/`[i]`)."""
+        zweiter Aufloesungsweg).
+
+        Q04-Fix (REVIEW.md R02, 05.10.2026): eine fehlende Figur fuehrt
+        NICHT mehr sofort zum Abbruch der gesamten Rundeneinrichtung --
+        `_local_round_connect_new_person_to_own_figure` verbindet zuerst den
+        vorhandenen Fokus-/Erschaffungs-/Importweg UNTER `pid`s eigener ID
+        (kein KI-Ersatz, keine Dummyfigur, kein manuell editiertes JSON).
+        Bleibt danach immer noch keine Figur vorhanden (abgebrochen/EOF/
+        nicht fertiggestellt), bleibt der bisherige klare Rueckweg unveraendert
+        bestehen."""
         try:
             resolved = self._resolve_member(pid)
         except _ActiveSaveUnresolved:
@@ -1899,6 +3309,8 @@ class TuiSession:
                 "kein Spielstart, bis die tatsaechliche Autoritaet geklaert ist."
             )
             return False
+        if resolved is None:
+            resolved = self._local_round_connect_new_person_to_own_figure(pid)
         if resolved is None:
             self._print(
                 f"'{pid}' hat noch keine abgeschlossene Figur. Keine Dummyfigur und keine "
@@ -1910,10 +3322,19 @@ class TuiSession:
         _save, chrono_id = resolved
         from ..adapters.base import human_menu_decision
 
+        # G02 (02 §C): zentraler Helper statt rohem `_readline` -- '?'/
+        # '/hilfe' zeigen Kontexthilfe, Steuerzeilen gelten hier als
+        # Nicht-Bestaetigung (derselbe klare Rueckweg wie 'n').
         try:
-            answer = self._readline(f"'{pid}' spielt '{chrono_id}' -- bestaetigen? [j/n]: ")
+            answer, control = self._readline_with_controls(
+                f"'{pid}' spielt '{chrono_id}' -- bestaetigen? [j/n]: ",
+                context="Figur bestaetigen",
+            )
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
+            return False
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print(f"Einrichtung abgebrochen: '{pid}' hat die Figur '{chrono_id}' nicht bestaetigt.")
             return False
         decision, _explanation = human_menu_decision(answer)
         if decision != "accept":
@@ -1921,32 +3342,178 @@ class TuiSession:
             return False
         return True
 
+    def _known_ai_overview(self) -> list[tuple[str, str]]:
+        """UX10 (02 §D.4, REVIEW.md §G01: 'zeigt tatsaechlich bekannte,
+        passende Bestandseintraege mit lesbaren Namen und Herkunft, statt
+        eine freie Persona-ID als einzigen Weg zu verlangen'): liefert
+        `(persona_key, lesbares_label)` fuer die EIGENE, bereits bestaetigte
+        Spielgemeinschaft dieses Teilnehmers (`community-<participant_id>`,
+        dieselbe deterministische ID wie `_cmd_community`/
+        `_bounded_preflight_lookup_community` -- kein Raten, keine zweite
+        Communityzuordnung).
+
+        AUSSCHLIESSLICH reine Lesefunktionen (`community_bootstrap.peek`,
+        `PersonaStateStore.load_state`, `_read_live_adoption_origin`) -- 0
+        Persona-/GM-Calls, kein Bootstrap, keine neue Population (UX03/
+        UX10: 'Ansehen = 0 Calls', 'Neustart = keine neue Population').
+        Ohne konfigurierte Laufumgebung oder ohne bestehende Community
+        bleibt die Liste leer -- KEIN impliziter Bootstrap, kein Fallback
+        auf eine erfundene Population."""
+        if self.run_dir is None:
+            return []
+        from ..domain.zeitriss.community_bootstrap import peek as peek_bootstrap
+
+        community_id = f"community-{self.participant_id}"
+        community_dir = self.run_dir / "community"
+        bootstrap = peek_bootstrap(community_dir, community_id)
+        if bootstrap is None or not bootstrap.personas_written:
+            return []
+        origin = self._read_live_adoption_origin(community_dir, community_id)
+        origin_label = {
+            "demo": "Herkunft: demo/SIMULIERT", "production": "Herkunft: production/PRODUKTIV",
+        }.get(origin, "Herkunft: nicht gepinnt (SIMULIERT/DEMO-Standard)")
+        ps_store = None
+        if self.states_dir is not None and self.schema_path is not None:
+            from ..core.persona_state import PersonaStateStore
+            ps_store = PersonaStateStore(schema_path=self.schema_path)
+        overview: list[tuple[str, str]] = []
+        for pk in sorted(bootstrap.personas_written):
+            archetype = None
+            if ps_store is not None:
+                try:
+                    state = ps_store.load_state(pk, states_dir=self.states_dir)
+                except (FileNotFoundError, OSError, ValueError):
+                    state = None
+                if isinstance(state, dict):
+                    archetype = state.get("archetype") or None
+            label = f"{archetype} ({origin_label})" if archetype else origin_label
+            overview.append((pk, label))
+        return overview
+
+    def _resolve_known_ai_tokens(self, tokens: list[str], overview: list[tuple[str, str]]) -> list[str]:
+        """Q03 (REVIEW.md R02, 05.10.2026, vormals ':2782-2878'): loest die
+        normale Namens-/Nummernwahl aus der angezeigten Bestandsuebersicht
+        (`overview`, 1-basierter Anzeigeindex) tatsaechlich in die
+        vorhandene autoritative Persona-ID (`pk`) auf -- Testeingabe '1'
+        waehlt jetzt wirklich den ersten angezeigten Eintrag statt des
+        rohen, bedeutungslosen Tokens '1' (General-Repro Q03: 'die
+        Testeingabe 1 bleibt Token 1, nicht eine Auswahl aus dem Bestand').
+
+        Reihenfolge je Token: (1) Anzeigeindex (`1`..`len(overview)`), (2)
+        exakte technische ID (`pk`, unveraendert gueltiger Experten-/
+        Kompatibilitaetsalias -- 02 §D.4: 'freie ID darf optional fuer
+        Experten bleiben', kein Pflichtwissen mehr), (3) angezeigter Name
+        case-insensitiv (`pk`, das in dieser Liste bereits der angezeigte
+        Name ist) -- NICHT die mehrwortige Archetyp-/Herkunftsbeschreibung
+        hinter dem Gedankenstrich, da das bestehende leerzeichengetrennte
+        Mehrfachauswahlformat ('Persona-IDs, leerzeichengetrennt') einen
+        mehrwortigen Namen ohne neue Anfuehrungszeichen-/Escapingsyntax
+        nicht eindeutig von einer zweiten Auswahl trennen koennte (keine
+        neue Eingabesyntax). Eine echte `pk`-Dublette ist strukturell nicht
+        moeglich (eindeutiger dict-Schluessel); die Anzeige nennt den Index
+        trotzdem je Zeile (s. `_local_round_select_ai`), falls zwei Zeilen
+        zufaellig denselben sichtbaren Text tragen. Jedes andere Token
+        (weder Index noch bekannte ID) bleibt UNVERAENDERT durchgereicht:
+        keine neue Auswahlautoritaet, keine neue Sperre fuer eine freie
+        Persona-ID ausserhalb der eigenen angezeigten Gemeinschaft."""
+        known_ids = {pk for pk, _label in overview}
+        name_hits: dict[str, list[str]] = {}
+        for pk, _label in overview:
+            name_hits.setdefault(pk.casefold(), []).append(pk)
+        resolved: list[str] = []
+        for tok in tokens:
+            if tok.isdigit() and 1 <= int(tok) <= len(overview):
+                resolved.append(overview[int(tok) - 1][0])
+                continue
+            if tok in known_ids:
+                resolved.append(tok)
+                continue
+            matches = name_hits.get(tok.casefold())
+            if matches is not None and len(matches) == 1:
+                resolved.append(matches[0])
+                continue
+            resolved.append(tok)
+        return resolved
+
     def _local_round_select_ai(self) -> list[str] | None:
         """A24 R2: ausgewaehlte KI-Personas fuer die lokale Runde (eigene
         Erschaffungs-/Zustimmungslogik bleibt unveraendert in
-        `_cmd_local_round` -- diese Auswahl ist noch KEINE KI-Zustimmung)."""
+        `_cmd_local_round` -- diese Auswahl ist noch KEINE KI-Zustimmung).
+
+        UX10-Fix (02 §D.4, REVIEW.md §G01): zeigt VOR der Eingabe die
+        tatsaechlich bekannten KI-Personas der eigenen Spielgemeinschaft
+        namentlich mit Herkunft (`_known_ai_overview`, reine Lesefunktion,
+        0 Calls) -- die freie Persona-ID-Eingabe bleibt zusaetzlich als
+        Expertenweg moeglich (02 §D.4: 'freie ID darf optional fuer
+        Experten bleiben').
+
+        Q03-Fix (REVIEW.md R02, 05.10.2026): JEDE Zeile der angezeigten
+        Uebersicht nennt jetzt zusaetzlich ihren 1-basierten Auswahlindex
+        ('[<i>] <pk> — <label>') -- bei gleichlautenden Namen (Dubletten)
+        ist der Index damit immer eindeutig verfuegbar. Die eingegebenen
+        Tokens werden ueber `_resolve_known_ai_tokens` in die tatsaechliche
+        autoritative Persona-ID aufgeloest, BEVOR sie an `_cmd_local_round`
+        weitergereicht werden -- 'Auswahl per ID' ist damit nicht mehr die
+        einzig funktionierende Eingabeform, Index/Name funktionieren jetzt
+        genauso. Unveraendertes grundlegendes Eingabeformat (leerzeichen-
+        getrennte Tokens, leer = keine) -- bestehende Skripttests, die hier
+        direkt eine gueltige ID liefern, bleiben unveraendert gueltig (exakte
+        ID-Treffer werden 1:1 durchgereicht).
+
+        G02 (02 §C): nutzt `_readline_with_controls`, damit '?'/'/hilfe' an
+        dieser Stelle hilft statt die Einrichtung abzubrechen."""
+        overview = self._known_ai_overview()
+        if overview:
+            self._print("Bekannte KI-Mitspieler (aus deiner Spielgemeinschaft, namensgefuehrt):")
+            for idx, (pk, label) in enumerate(overview, start=1):
+                self._print(f"  [{idx}] {pk} — {label}")
+            self._print(
+                "(Auswahl per Nummer ODER Name aus dieser Liste, leerzeichengetrennt -- die "
+                "technische ID bleibt zusaetzlich als Experten-/Kompatibilitaetsweg moeglich; "
+                "Ansehen allein loest keine Einladung/keinen Modellaufruf aus; eine freie "
+                "Persona-ID bleibt ausserdem moeglich.)"
+            )
+        else:
+            self._print(
+                "Keine eigene KI-Spielgemeinschaft bekannt -- optional ueber 'Spielen > Meine "
+                "KI-Spielgemeinschaft' anlegen; eine freie Persona-ID bleibt hier trotzdem moeglich."
+            )
         try:
-            raw = self._readline(
-                "KI-Mitspieler (Persona-IDs, leerzeichengetrennt, leer = keine): "
-            ).strip()
+            raw, control = self._readline_with_controls(
+                "KI-Mitspieler (Nummer/Name aus der Liste oder Persona-ID, leerzeichengetrennt, "
+                "leer = keine): ",
+                context="KI-Mitspieler waehlen",
+            )
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return None
-        return [t for t in raw.split() if t]
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+            return None
+        raw = raw.strip()
+        tokens = [t for t in raw.split() if t]
+        return self._resolve_known_ai_tokens(tokens, overview)
 
     def _local_round_select_leader(self, ai_tokens: list[str]) -> str | None:
         """A24 R2 (02 §Auftrag R2 'angefragten Leader (Human A oder
         angefragte tech)'): Leader ist entweder der aufrufende Mensch selbst
         oder eine der bereits ausgewaehlten KI-Personas -- kein freies
-        Leaderwechselmenue, keine andere Person als Leader waehlbar."""
+        Leaderwechselmenue, keine andere Person als Leader waehlbar.
+
+        G02 (02 §C): nutzt `_readline_with_controls`."""
         try:
-            raw = self._readline(
+            raw, control = self._readline_with_controls(
                 f"Leader dieser Runde -- [du] = {self.participant_id} oder eine der "
-                f"angefragten KI-IDs {ai_tokens}: "
-            ).strip()
+                f"angefragten KI-IDs {ai_tokens}: ",
+                context="Leader waehlen",
+            )
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return None
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+            return None
+        raw = raw.strip()
         if raw in ("", "du", self.participant_id):
             return self.participant_id
         if raw in ai_tokens:
@@ -1982,10 +3549,16 @@ class TuiSession:
         )
         from ..adapters.base import human_menu_decision
 
+        # G02 (02 §C): zentraler Helper statt rohem `_readline`.
         try:
-            answer = self._readline("Mit dieser Startwahl fortfahren? [j/n]: ")
+            answer, control = self._readline_with_controls(
+                "Mit dieser Startwahl fortfahren? [j/n]: ", context="Startwahl bestaetigen",
+            )
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
+            return False
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Einrichtung abgebrochen: letzte Startwahl nicht bestaetigt.")
             return False
         decision, _explanation = human_menu_decision(answer)
         if decision != "accept":
@@ -2000,7 +3573,11 @@ class TuiSession:
         ermoeglichen; Abbrechen/EOF bleiben ein klarer Ruck-/Halteweg ohne
         KI-Ersatz'). Dies ist lokale Eingabezuordnung (kein OS-Login) und
         aendert WEDER `table.leader` NOCH Mitgliedschaft/Figur -- reine
-        Bestaetigung VOR dem unveraenderten `_cmd_local_round`-Aufruf."""
+        Bestaetigung VOR dem unveraenderten `_cmd_local_round`-Aufruf.
+
+        G02 (02 §C): nutzt `_readline_with_controls` -- eine Steuerzeile an
+        dieser Stelle gilt als Nicht-Uebernahme (derselbe klare Rueckweg wie
+        'n'), kein KI-Ersatz, kein Datenverlust."""
         try:
             resolved = self._resolve_member(pid)
         except _ActiveSaveUnresolved:
@@ -2011,9 +3588,10 @@ class TuiSession:
         display_name = dict(self._local_round_list_humans()).get(pid, pid)
         self._print(f"Eingabe fuer: {display_name} | Teilnehmer {pid} | Figur {chrono_id}")
         try:
-            answer = self._readline(
+            answer, control = self._readline_with_controls(
                 f"Geteiltes Terminal wird an '{pid}' (Figur '{chrono_id}') uebergeben -- "
-                "bewusst uebernehmen? [j/n]: "
+                "bewusst uebernehmen? [j/n]: ",
+                context="Terminaluebergabe",
             )
         except EndOfInput:
             if in_round:
@@ -2021,7 +3599,10 @@ class TuiSession:
             else:
                 self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart; bereits angelegte Teilnehmer-/Figurdaten bleiben erhalten.")
             return False
-        decision, _explanation = human_menu_decision(answer)
+        if control in ("zurueck", "abbrechen", "pause"):
+            decision = "reject"
+        else:
+            decision, _explanation = human_menu_decision(answer)
         if decision != "accept":
             if in_round:
                 self._print(f"Eingabeuebergabe an '{pid}' nicht bestaetigt. Der angelegte Tisch und bisherige Daten bleiben erhalten; kein KI-Ersatz.")
@@ -2045,15 +3626,27 @@ class TuiSession:
         Einladungs-/Consentweg, die Tischanlage und die Kernrunde bleiben
         dadurch strukturell unveraendert (keine zweite Spielengine/
         Fokuspersistenz). Abbrechen/EOF an jedem Schritt ist ein klarer Halt
-        ohne KI-Ersatz und ohne jede Aenderung."""
+        ohne KI-Ersatz und ohne jede Aenderung.
+
+        G02/P02 (General-Befund 'P02_HELP_ABORTS_ROUND_SETUP'): der
+        Modusprompt nutzt jetzt den gemeinsamen kontextbewussten Leser
+        (`_readline_with_controls`) statt eines rohen `_readline` --
+        '?'/'/hilfe' zeigen hier dieselbe lokale Kontexthilfe und fragen
+        DIESELBE Zeile erneut ab, statt die Einrichtung mit 'unbekannte
+        Auswahl' zu verwerfen. Kein Zugverbrauch, kein GM-/Persona-Call."""
         try:
-            mode = self._readline(
+            mode, control = self._readline_with_controls(
                 "Lokale Runde einrichten -- [1] Allein mit KI-Mitspielern "
-                "[2] Mehrere Menschen an diesem Geraet: "
-            ).strip()
+                "[2] Mehrere Menschen an diesem Geraet: ",
+                context="Runde einrichten",
+            )
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+            return
+        mode = mode.strip()
         if mode not in ("1", "2"):
             self._print(f"Einrichtung abgebrochen: unbekannte Auswahl {mode!r}.")
             return
@@ -2272,7 +3865,19 @@ class TuiSession:
             # Aufrufparametern ableitbare offer_id (kein Zeitstempel) --
             # IDs/Rolle erreichen den tatsaechlichen Modellprompt (nicht nur
             # nachtraeglich das Audit-Log) und werden VOR Aufnahme geprueft.
-            leader_driver = self.persona_driver_factory(leader_persona_id)
+            # UX18 (OFFENE_BEDIENBEFUNDE.md Punkt 8, General-Befund G04):
+            # dieser Factory-Aufruf stand vorher VOR jedem schuetzenden
+            # `try` -- eine fehlende Konfiguration (`RuntimeError` aus
+            # `factories.py`) konnte hier ungefangen durchschlagen (moeglicher
+            # Python-Traceback statt der sonst beobachtbaren ruhigen
+            # Textzeile, analog `gm_transport_factory`-Fehlern weiter unten).
+            # Jetzt derselbe kontrollierte Rueckweg wie bei der SL-Anbindung:
+            # kein Secret-/Traceback-Leck, kein Fallback, kein Folgecall.
+            try:
+                leader_driver = self.persona_driver_factory(leader_persona_id)
+            except Exception:
+                self._print(self._opaque_boundary_error(f"KI-Leader '{leader_persona_id}' nicht moeglich"))
+                return
             lead_offer_id = f"lead-invite-{leader_persona_id}-{self.participant_id}"
             lead_invite_ctx = {
                 "system": self._own_system_context(leader_persona_id),
@@ -2287,8 +3892,10 @@ class TuiSession:
                 lead_decision, block_reason = _admitted_invite_decision(
                     leader_driver, lead_invite_ctx, "lead_invite", leader_persona_id,
                 )
-            except Exception as e:
-                self._print(f"KI-Leader-Anfrage an '{leader_persona_id}' fehlgeschlagen: {e}")
+            except Exception:
+                self._print(self._opaque_boundary_error(
+                    f"KI-Leader-Anfrage an '{leader_persona_id}' fehlgeschlagen", attempted=True,
+                ))
                 return
             if lead_decision is None:
                 self._print(f"KI-Leader-Anfrage an '{leader_persona_id}' blockiert (Admission-Gate: {block_reason}) — kein Modellaufruf.")
@@ -2414,9 +4021,39 @@ class TuiSession:
                     if not self._local_round_handoff(guest_id):
                         raise EndOfInput()
                     current_focus_pid = guest_id
-                confirm_answer = self._readline(
-                    f"[{guest_id}] Dieser lokalen Runde (Leader: {leader_id}) beitreten? [j/n]: "
+                # R05 (UX09, 01_REVIEW_A23.md-Nachzug "2+3 .../pause nicht
+                # komplett geliefert"): dieser Gastbeitritt war bisher die
+                # EINZIGE Stelle, die eine rohe `_readline` statt des
+                # zentralen Kontrollvertrags (`_readline_with_controls`,
+                # `_CONTROL_TOKENS`) nutzte -- '/pause' erreichte hier nie
+                # den Aufrufer, sondern verschwand unterschiedslos in der
+                # binaeren Ja/Nein-Auswertung als 'invalid' (ununterscheidbar
+                # von Kauderwelsch). Jetzt: derselbe Kontrollvertrag wie an
+                # jedem anderen Menschprompt -- 'j'/'n' bleiben bytegleich
+                # zur bisherigen Ja/Nein-Auswertung (kein 'control', `raw`
+                # unveraendert an `human_menu_decision` weitergereicht);
+                # '/zurueck'/'/abbrechen'/'/pause' werden EIGENS als
+                # 'paused' protokolliert (kein 'invalid', keine
+                # Falschzuordnung zu einer inhaltlichen Ablehnung) und
+                # verlassen DIESEN Gast ohne Zusage -- der bestehende
+                # Abbruch-Guard (alle Angefragten muessen zugesagt haben)
+                # bleibt unveraendert wirksam, kein Tisch mit ungeklaerter
+                # Besetzung.
+                confirm_answer, confirm_control = self._readline_with_controls(
+                    f"[{guest_id}] Dieser lokalen Runde (Leader: {leader_id}) beitreten? [j/n]: ",
+                    context="Rundenbeitritt",
                 )
+                if confirm_control in ("zurueck", "abbrechen", "pause"):
+                    self._append_invitation_log({
+                        "type": "response", "offer_id": invitation_offer_id,
+                        "ts": datetime.datetime.now().isoformat(),
+                        "from": guest_id, "decision": "paused", "origin_source": "human:terminal",
+                    })
+                    self._print(
+                        f"'{guest_id}' pausiert den Rundenbeitritt (/{confirm_control}) -- keine Zusage, "
+                        "kein Tisch mit dieser Besetzung."
+                    )
+                    continue
                 # I1 (MAIN-ENTSCHEIDUNG: 'kein JSON fuer Menschen') -- die
                 # eindeutig bezeichnete Menuefrage selbst stellt die Bindung
                 # an offer_id/participant_id her; derselbe (decision,
@@ -2456,7 +4093,20 @@ class TuiSession:
                 # nachtraeglich das Audit-Log) und werden VOR Aufnahme
                 # geprueft (`decision_contract`, s. `interpret_decision_
                 # contract`).
-                driver = self.persona_driver_factory(guest_id)
+                # UX18 (OFFENE_BEDIENBEFUNDE.md Punkt 8, General-Befund G04):
+                # vorher stand dieser Aufruf VOR dem schuetzenden `try`
+                # unten (der nur `_admitted_invite_decision` umschloss) --
+                # eine fehlende Persona-Konfiguration konnte hier ungefangen
+                # durchschlagen. Jetzt derselbe kontrollierte Rueckweg wie
+                # beim KI-Leader: kein Secret-/Traceback-Leck, dieser EINE
+                # Gast bleibt aussen vor, der Tisch kann mit den uebrigen
+                # weiterlaufen (kein Abbruch der gesamten Runde).
+                try:
+                    driver = self.persona_driver_factory(guest_id)
+                except Exception:
+                    self._print(self._opaque_boundary_error(f"Einladung an Persona '{guest_id}' nicht moeglich") + " Dieser Gast bleibt aussen vor.")
+                    invited_ids.remove(guest_id)
+                    continue
                 invite_ctx = {
                     "system": self._own_system_context(guest_id),
                     "user": (
@@ -2469,8 +4119,10 @@ class TuiSession:
                     invite_decision, block_reason = _admitted_invite_decision(
                         driver, invite_ctx, "guest_invite", guest_id,
                     )
-                except Exception as e:  # Transportfehler -- kein Auto-Accept.
-                    self._print(f"Einladung an '{guest_id}' nicht zustande gekommen (Fehler): {e}")
+                except Exception:  # Transportfehler -- kein Auto-Accept.
+                    self._print(self._opaque_boundary_error(
+                        f"Einladung an '{guest_id}' nicht zustande gekommen", attempted=True,
+                    ))
                     continue
                 if invite_decision is None:
                     self._print(f"Einladung an '{guest_id}' blockiert (Admission-Gate: {block_reason}) — kein Modellaufruf.")
@@ -2580,6 +4232,57 @@ class TuiSession:
                 self._print(f"Lokale Runde konnte nicht gestartet werden: {derivation.reason}")
             return
 
+        # G03/P09-Extraktion: die eigentliche Rundenausfuehrung (Treiber-/
+        # Kontextaufbau, SL-Transport, `app_service.run_play_session`) ist
+        # IDENTISCH fuer einen frisch eingeladenen Tisch (hier) UND einen
+        # bereits bestehenden, gebundenen Tisch beim Fortsetzen
+        # (`_resume_bound_table`, kein zweiter Dispatch-Pfad) -- eine
+        # gemeinsame Methode `_run_table_round` ersetzt den vorher hier
+        # inline stehenden Rumpf.
+        self._run_table_round(
+            table, lobby, ps_store, leader_id, leader_persona_id, leader_driver,
+            active_save, guest_specs, guided=guided, current_focus_pid=current_focus_pid,
+        )
+
+    def _run_table_round(
+        self, table, lobby, ps_store, leader_id: str, leader_persona_id: str | None,
+        leader_driver, active_save: dict | None,
+        guest_specs: list[tuple[str, bool, dict, object | None]],
+        *, guided: bool, current_focus_pid: str | None,
+    ) -> None:
+        """G03/P09 (ZEITRISS Terminal UX-1, Korrekturzyklus 2): aus
+        `_cmd_local_round` extrahierter gemeinsamer Rumpf -- spielt einen
+        BEREITS feststehenden Tisch (frisch eingeladen ODER real bestehend/
+        gebunden) tatsaechlich. `_cmd_local_round` ruft dies NACH dem
+        Einladungs-/Konsens-Loop + `create_table_from_offer_log` auf;
+        `_resume_bound_table` (echtes Fortsetzen eines bereits gebundenen
+        Mehrpersonentisches nach Neustart, P09) ruft dies DIREKT mit der aus
+        der persistierten Tischdatei aufgeloesten Besetzung auf, OHNE den
+        Einladungs-/Konsens-Loop erneut zu durchlaufen (die Mitgliedschaft
+        ist dort bereits real zugesagt -- ein erneuter Consent-/Persona-
+        Request waere ein verbotener Doppelcall/Publikation). Beide Aufrufer
+        liefern dieselben Parameter (Leader-/Gast-Treiber, aufgeloeste
+        aktuelle Saves, der feststehende `table`) -- kein zweiter
+        Spielstart-Pfad, keine zweite Kopie der SL-/Reflexions-/Save-
+        Anbindung."""
+        from ..core import app_service
+        from ..core.controller import TableController
+        from ..adapters.base import ParticipantDecision
+        # R1 (C-M1, UX14, Korrekturzyklur 1): dieselbe Formel wie
+        # `core/runtime.py:SectionRuntime.__init__`s `_guests_imported`
+        # (reine Lesefunktion ueber den bereits geladenen `table.sl_log`) --
+        # `_purpose_label()`/die Payload-Wahl duerfen NICHT raten
+        # (Pro-Prozess-Zaehler `self._turn`), sondern muessen dieselbe
+        # PERSISTENTE Autoritaet konsultieren wie die Runtime selbst. Ohne
+        # diesen Abgleich zeigte ein nach einem Prozessneustart bereits
+        # frueher importierter Gast faelschlich "Erstbeitrag -> SL", obwohl
+        # sein Beitrag real nur noch Tischabsprache wird (`poll_guests_and_
+        # consolidate` liest `save_payload` nie aus).
+        _sl_log_origins = {e.get("origin_persona_key") for e in table.sl_log}
+        _already_imported_guests = {
+            m for m in table.members if m != table.leader and m in _sl_log_origins
+        }
+
         outer = self
         # Shared screen: publish every previously unseen public entry, not only
         # the last entry after several consecutive AI guest-imports.
@@ -2612,11 +4315,44 @@ class TuiSession:
             # Requestledger fuer sie (Budget-neutral, wie vor diesem Umbau).
             is_human_driver = True
 
-            def __init__(self, save: dict | None, pid: str, label: str | None = None):
+            def __init__(
+                self, save: dict | None, pid: str, label: str | None = None, is_leader: bool = False,
+                already_imported: bool = False,
+            ):
                 self._save = save
                 self._turn = 0
                 self._label = label
                 self._pid = pid
+                self._is_leader = is_leader
+                # R1 (C-M1, UX14): die PERSISTENTE Autoritaet (aus `table.
+                # sl_log`, s. `_already_imported_guests` oben), NICHT nur der
+                # bei jedem Prozessneustart frisch bei 0 beginnende
+                # Pro-Prozess-Zaehler `self._turn`.
+                self._already_imported = already_imported
+
+            def _purpose_label(self) -> str:
+                # UX14/15 (02 §F, "Vier bestehende Faelle ausdruecklich
+                # unterscheiden"): drei der vier Faelle laufen ueber diesen
+                # generischen Zugprompt -- (1) Leader-Beitrag -> SL, (2) der
+                # ERSTE Beitrag eines Gasts traegt den importierten Save und
+                # laeuft ueber den Leader tatsaechlich bis zur SL durch,
+                # (3) jeder WEITERE Gastbeitrag wird stattdessen als
+                # Tischabsprache gespeichert (`poll_guests_and_consolidate`,
+                # NICHT direkt an die SL). Der vierte Fall (freiwillige
+                # lokale Abschlussnotiz) laeuft ebenfalls ueber DIESEN
+                # `decide()`-Mechanismus (`_collect_reflections` ruft
+                # denselben `controller.collect_decision`-Weg auf, s.
+                # `decide()` unten) -- diese Methode hier kennt NUR die drei
+                # Spielzug-Faelle und darf fuer den vierten Fall NICHT
+                # aufgerufen werden (`decide()` zweigt dafuer VOR diesem
+                # Aufruf ab, G04/P05: der vorherige Kommentar hier behauptete
+                # faelschlich, die Notiz laufe 'nie ueber decide()' -- sie
+                # tut es, nur eben mit einer eigenen Beschriftung).
+                if self._is_leader:
+                    return "Empfaenger: Spielleitung (SL)"
+                if self._turn == 0 and not self._already_imported:
+                    return "Empfaenger: ueber Leader an Spielleitung (dein Erstbeitrag, mit deinem Save)"
+                return "Empfaenger: Tischabsprache (dein Tisch/Leader) — NICHT direkt an die SL"
 
             def decide(self, context: dict):
                 nonlocal displayed_sl_count, current_focus_pid
@@ -2631,18 +4367,92 @@ class TuiSession:
                 displayed_sl_count = len(sl_log)
                 for m in context.get("pending_table_messages") or []:
                     outer._print(f"[Tischabsprache] {m.get('from', '?')}: {m.get('text', '')}")
-                prompt = f"[{self._label}] Deine Aktion: " if self._label else "Deine Aktion: "
-                text = outer._readline(prompt)
+                # UX14/15: Empfaenger-/Zweckzeile wird als EIGENE Zeile
+                # UNMITTELBAR vor dem Prompt gedruckt (nicht in den
+                # Prompttext selbst eingewoben) -- die bestehenden,
+                # BYTEGLEICHEN Prompttexte "Deine Aktion:"/"[<label>] Deine
+                # Aktion:" bleiben dadurch exakt erhalten (geschuetzt von
+                # `test_a24_local_two_humans_2026_10_01.py`, das diese
+                # exakten Teilstrings in echten Subprozess-Transkripten
+                # zaehlt) -- nur zusaetzliche sichtbare Information, kein
+                # veraenderter Eingabevertrag.
+                #
+                # G04/P05 (General-Befund 'P05_PRIVATE_NOTE_MISLABEL', W3-Hunk
+                # selektiv uebernommen, s. W3-REUSE.md): `core/runtime.py:
+                # _collect_reflections` ruft DENSELBEN `decide()`-Mechanismus
+                # fuer den VIERTEN Eingabezweck (freiwillige lokale Notiz) auf
+                # wie jeden normalen Spielzug -- `_purpose_label()` kennt
+                # diesen vierten Zweck nicht und zeigte bisher IMMER die
+                # Leader-/Gast-Spielzug-Beschriftung ("Spielleitung (SL)"/
+                # "Tischabsprache"), obwohl die Notiz tatsaechlich NIE ueber
+                # `gm_transport` laeuft, sondern (s. `_collect_reflections`-
+                # Docstring) ausschliesslich lokal unter `reflections.jsonl`
+                # landet (`kind=human_note`). Die bereits bedingt erlaubte
+                # minimale typisierte Bruecke ist hier der vorhandene
+                # `context['system'] == 'PRIVATE_REFLECTION_SENTINEL'`-Marker
+                # (`_collect_reflections` setzt ihn bereits, kein neuer
+                # Core-Write/-Vertrag, keine neue Produktregel) -- erkennt
+                # `decide()` ihn, zeigt es die tatsaechlich zutreffende
+                # lokale Beschriftung statt der Spielzug-Zweckzeile. Keine
+                # Vertraulichkeitszusage bei geteiltem Bildschirm (02 §F).
+                if context.get("system") == "PRIVATE_REFLECTION_SENTINEL":
+                    outer._print(
+                        "Empfaenger: eigene lokale Notiz (NICHT an Spielleitung/Tisch, freiwillig, "
+                        "leer = keine Notiz, keine Vertraulichkeitszusage bei geteiltem Bildschirm)."
+                    )
+                else:
+                    outer._print(self._purpose_label())
+                label_prefix = f"[{self._label}] " if self._label else ""
+                prompt = f"{label_prefix}Deine Aktion: "
+                # UX04/05 (02 §C): Hilfe/Stand/Verlauf verbrauchen hier
+                # KEINEN Zug -- `_readline_with_controls` beantwortet sie
+                # selbst und fragt dieselbe Prompt-Zeile erneut ab, ohne
+                # dass diese Methode je verlassen wird (kein `self._turn`
+                # Inkrement, kein ParticipantDecision, also kein GM-/
+                # Persona-Call fuer diese Zwischeneingaben).
+                history = [f"[SL] {e.get('content', '')}" for e in sl_log]
+                # G04/UX20 (W3-Hunk selektiv uebernommen, s. W3-REUSE.md):
+                # `speaker_pid=self._pid` -- `/stand` an einem geteilten
+                # Terminal zeigt den Stand DIESER gerade eingebenden Person,
+                # nicht pauschal den aeusseren Sessionteilnehmer.
+                text, control = outer._readline_with_controls(
+                    prompt, context="Spielzug", history=history, speaker_pid=self._pid,
+                )
+                if control == "pause":
+                    # 02 §C: Abbruch waehrend eines offenen Abschnitts
+                    # bedeutet Pause/Beenden, kein fachlicher Rollback --
+                    # dieselbe bereits bestehende, getestete kontrollierte
+                    # Pausemechanik wie bei EOF/einer abgelehnten
+                    # Fokusuebergabe (s. `_local_round_handoff` oben).
+                    outer._print(
+                        "Kontrolliert pausiert (/pause) — kein weiterer Zug, kein Modellaufruf; "
+                        "der zuletzt gueltige Stand bleibt erhalten."
+                    )
+                    raise EndOfInput()
+                if control in ("zurueck", "abbrechen"):
+                    outer._print(
+                        "Waehrend eines laufenden Abschnitts bedeutet Abbrechen Pause/Beenden, "
+                        "kein Rollback (02 §C) — kontrolliert pausiert, kein Modellaufruf."
+                    )
+                    raise EndOfInput()
+                text_out = text
                 self._turn += 1
-                payload = self._save if self._turn == 1 else None
-                return ParticipantDecision(text=text, origin_source="human:terminal", save_payload=payload)
+                # R1 (C-M1, UX14): dieselbe Autoritaet wie `_purpose_label()`
+                # -- ein nach Neustart bereits frueher importierter Gast
+                # haengt bei seinem (aus Prozesssicht) ersten Zug KEINEN
+                # Save mehr an (sein Beitrag wird ohnehin nur noch
+                # Tischabsprache, `poll_guests_and_consolidate` liest
+                # `save_payload` nie aus -- die vorherige Zusicherung war
+                # also irreführend, nicht nur wirkungslos).
+                payload = self._save if (self._turn == 1 and not self._already_imported) else None
+                return ParticipantDecision(text=text_out, origin_source="human:terminal", save_payload=payload)
 
         # A24 (WEGKARTE §8): der Leader-Driver ist entweder der aufrufende
         # Mensch (`_HumanDriver`, unveraendertes Standardverhalten) ODER die
         # bereits zugesagte KI-Persona (`leader_driver`, echte modellbasierte
         # Konsolidierung ueber denselben `ParticipantDriver`-Vertrag wie
         # jeder Gast -- die Runtime unterscheidet Leader/Gast nicht am Typ).
-        drivers = {leader_id: leader_driver if leader_persona_id else _HumanDriver(active_save, leader_id)}
+        drivers = {leader_id: leader_driver if leader_persona_id else _HumanDriver(active_save, leader_id, is_leader=True)}
         contexts = {leader_id: {
             "system": self._own_system_context(leader_id),
             "user": "Du fuehrst diese lokale Runde als KI-Leader." if leader_persona_id else "Ich beginne die lokale Runde.",
@@ -2658,9 +4468,14 @@ class TuiSession:
                 drivers[guest_id] = driver
             elif guest_id == self.participant_id and leader_persona_id:
                 # Der aufrufende Mensch ist hier selbst Gast eines KI-Leaders.
-                drivers[guest_id] = _HumanDriver(guest_save, guest_id)
+                drivers[guest_id] = _HumanDriver(
+                    guest_save, guest_id, already_imported=guest_id in _already_imported_guests,
+                )
             else:
-                drivers[guest_id] = _HumanDriver(guest_save, guest_id, label=guest_id)
+                drivers[guest_id] = _HumanDriver(
+                    guest_save, guest_id, label=guest_id,
+                    already_imported=guest_id in _already_imported_guests,
+                )
             contexts[guest_id] = {
                 "system": self._own_system_context(guest_id),
                 "user": "Ich trete der lokalen Runde bei.",
@@ -2683,22 +4498,85 @@ class TuiSession:
             except (TypeError, ValueError):
                 accepts_table_id = False
             gm_transport = self.gm_transport_factory(table.table_id) if accepts_table_id else self.gm_transport_factory()
-        except Exception as e:  # SL-Anbindung nicht herstellbar -- kein stiller Fallback (03 §4).
-            self._print(f"Lokale Runde: SL-Anbindung nicht verfuegbar ({e}) — kein Spielstart.")
+        except Exception:  # SL-Anbindung nicht herstellbar -- kein stiller Fallback (03 §4).
+            self._print(self._opaque_boundary_error("Lokale Runde: SL-Anbindung nicht verfuegbar"))
             return
 
         today = datetime.date.today().isoformat()
         ts = datetime.datetime.now().isoformat()
-        outcome = app_service.run_play_session(
-            # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
-            # urspruenglich angefragte `table_id`) -- `create_table_from_
-            # offer_log` kann bei geschlossenem Vorgaenger-Tisch eine
-            # generationsweise hochgezaehlte Kennung zurueckgeben.
-            lobby, table, gm_transport, controller, f"{table.table_id}-section",
-            contexts,
-            self.states_dir, today, ts, COMPLETION_MARKER, ZeitrissHarvestValidator(),
-            ps_store, zeitriss_saves.harvest_from_debrief,
-        )
+        # W22 (Reserve-Reparatur, F05/T8 Journey 4): `request_ledger.begin`/
+        # die Checkpoint-Writes innerhalb von `run_play_session` koennen bei
+        # gesperrtem Storage (`OSError`/`PermissionError`) ODER bei einer
+        # bereits offenen, nicht aufgeloesten Reservierung aus einem
+        # frueheren Mid-Write-Crash (`request_ledger.OpenReservationExistsError`)
+        # werfen -- sowohl bei einem frisch eingeladenen Tisch (Rundenturn)
+        # ALS AUCH beim Fortsetzen eines gebundenen Tisches (`_resume_bound_
+        # table`), da BEIDE Aufrufer ausschliesslich ueber diesen einen
+        # Aufruf hierher kommen. Vorher erreichte der rohe Python-Traceback
+        # ungefangen die Spieleransicht (F05-Klasse). Dieselbe request_
+        # ledger-Semantik bleibt UNVERAENDERT (kein Auto-Resolve der offenen
+        # Reservierung) -- der zugrunde liegende Reservierungszustand nach
+        # einem Mid-Write-Crash bleibt ein bewusst hier NICHT behobenes
+        # Residuum (s. W-REPORT.md). W24b: die beiden Faelle bekommen
+        # GETRENNTE, ehrliche Anzeigen (s. die beiden `except`-Zweige unten)
+        # statt der frueheren pauschalen "kein Datenverlust"+Retry-Zusage,
+        # die fuer den offenen-Reservierung-Fall irrefuehrend war.
+        from ..core import request_ledger
+        try:
+            outcome = app_service.run_play_session(
+                # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
+                # urspruenglich angefragte `table_id`) -- `create_table_from_
+                # offer_log` kann bei geschlossenem Vorgaenger-Tisch eine
+                # generationsweise hochgezaehlte Kennung zurueckgeben.
+                lobby, table, gm_transport, controller, f"{table.table_id}-section",
+                contexts,
+                self.states_dir, today, ts, COMPLETION_MARKER, ZeitrissHarvestValidator(),
+                ps_store, zeitriss_saves.harvest_from_debrief,
+                # W51 (01_RESTAUFTRAG.md §3): additiv/optional -- reicht nur
+                # die bisher stummen Gruppenkorrektur-Statuszeilen (s.
+                # `core.runtime.SectionRuntime._group_correction_status_emit`)
+                # ueber denselben bestehenden Terminalkanal durch, keine neue
+                # Menuehierarchie.
+                status_fn=self._print,
+            )
+        except request_ledger.OpenReservationExistsError:
+            # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die
+            # vorherige PAUSCHALE "kein Datenverlust"+Retry-Zusage war fuer
+            # DIESEN Fall falsch -- eine wieder verfuegbare Schreibberechtigung
+            # loest die offene Requestreservierung aus einem frueheren Mid-
+            # Write-Crash NICHT auf (`request_ledger.begin` prueft dieselbe
+            # Operationsidentitaet erneut und wirft denselben Fehler wieder,
+            # solange der offene Datensatz bestehen bleibt). KEINE automatische
+            # Reservierungsfreigabe/Wiederanfrage/Locklöschung und KEIN
+            # request_ledger-Umbau hier -- der tiefe Recoveryfall bleibt ein
+            # bewusst OFFENER Befund (s. W-REPORT.md), kein falscher
+            # UI-Retryrat.
+            self._print(
+                "Nicht aufgeloester HOLD: fuer diesen Abschnitt existiert noch eine offene, nicht "
+                "abgeschlossene Requestreservierung aus einem frueheren Abbruch. Der letzte bestaetigte, "
+                "gespeicherte Stand ist die verbindliche Grenze -- nicht der zuletzt versuchte Zug. "
+                "Diese Reservierung wird HIER NICHT automatisch aufgehoben; ein erneuter Versuch ueber "
+                "'n'/[fortsetzen] fuehrt zu demselben HOLD, solange die Reservierung offen bleibt -- das "
+                "ist KEIN Vorschlag, es trotzdem zu versuchen. Dies ist ein bekannter, noch ungeloester "
+                "Befund (keine Reparatur in dieser Ansicht), zurueck ins Hauptmenue. Keine Fehlerdetails "
+                "in dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
+            )
+            return
+        except OSError:
+            # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): reiner
+            # Schreibrechtefehler (Storage gesperrt/keine Berechtigung) OHNE
+            # offene Reservierung -- hier IST ein spaeterer Retry ueber
+            # 'n'/[fortsetzen] tatsaechlich sinnvoll, sobald Storage/
+            # Anbindung wieder verfuegbar sind (anders als beim
+            # OpenReservationExistsError-HOLD oben).
+            self._print(
+                "Speichern/Anbindung gerade nicht moeglich (Storage gesperrt oder keine Schreibrechte) "
+                "-- der zuletzt gueltige, bereits gespeicherte Stand bleibt erhalten, kein Datenverlust. "
+                "Dieser Versuch wurde sicher abgebrochen, zurueck ins Hauptmenue; spaeter erneut ueber "
+                "'n'/[fortsetzen] versuchen, sobald Storage/Anbindung wieder verfuegbar sind. Keine "
+                "Fehlerdetails in dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
+            )
+            return
         if outcome.completion.success:
             self._print(f"Abschnitt abgeschlossen: {outcome.completion.members_completed}")
         else:
@@ -2992,10 +4870,63 @@ class TuiSession:
         by_status: dict[str, int] = {}
         for oc in creation_outcomes:
             by_status[oc.status] = by_status.get(oc.status, 0) + 1
-        self._print(
-            "Persona-getriebene Erstgeneration (echter SL-Erschaffungsdialog je Persona): "
-            f"{dict(sorted(by_status.items()))}"
-        )
+        # W22 (Reserve-Reparatur, F05/T7 §3b): vorher landete hier der
+        # ROHE `dict(sorted(by_status.items()))`-Repr ("{'error': 8}") direkt
+        # in der Spieleransicht -- kein echter Fehlertext, nur Python-Status-
+        # Syntax. Redigiert jetzt zu einer verstaendlichen, ehrlichen Zeile
+        # je Lagebild, OHNE den Live-Pfad offline lauffaehig zu machen (0
+        # zusaetzliche Calls, keine Semantikaenderung an `community_creation.
+        # advance_community_creation`). `no_driver` (keine Factories
+        # konfiguriert) und `error` bleiben bewusst unterschiedliche,
+        # jeweils ehrliche Meldungen.
+        #
+        # R5P02-Fix (ZEITRISS TERMINAL-UX1-R6-FERTIGSTELLUNG, General-Befund
+        # 'no_call_claim_after_attempt'): die vorherige Annahme, `attempted`
+        # duerfe HIER immer beim Default `False` bleiben, war UNVOLLSTAENDIG
+        # -- sie stimmte nur fuer die beiden echten Fabrikbau-Faelle
+        # (`gm_transport_factory`/`persona_driver_factory` wirft VOR jedem
+        # Request, reason-Praefix `_PRE_REQUEST_CREATION_ERROR_PREFIXES`
+        # unten) UND fuer ein fehlendes Bootstrap-Profil. Ein `error`-Outcome
+        # aus `run_admitted_creation_dialog` (SL-Anfrage NACH `request_
+        # ledger.begin()`+echtem `gm_transport.turn()` fehlgeschlagen) ODER
+        # aus `advance_community_creation`s eigenem Batch-Catch (Fehler
+        # WAEHREND eines bereits laufenden Erschaffungsversuchs) ist dagegen
+        # ECHT belegt versucht -- die Sammelzeile behauptete bisher trotzdem
+        # pauschal "kein Modellaufruf", obwohl `core/creation_service.py`
+        # den sicheren "bereits versuchter Aufruf"-Hinweis fuer genau diese
+        # Faelle bereits VORHER je Persona ueber `print_fn` ausgegeben hatte
+        # (Widerspruch in derselben Ausgabe). Nur wenn ALLE `error`-Outcomes
+        # dieses Aufrufs NACHWEISLICH vor-Anfrage sind (bekannte, exakte
+        # Grundursachen-Praefixe, s.u.), bleibt `attempted=False` wahr.
+        # Jeder andere/unbekannte `error`-Grund gilt als belegt versucht
+        # (sicherer Default, keine falsche Nullkostenzusage) -- KEIN neuer
+        # Statuskern, nur eine Textauswertung bereits vorhandener, von
+        # `community_creation.py` zurueckgegebener `reason`-Strings; die
+        # rohen `reason`-Texte selbst (koennen beliebige Exception-Nachrichten
+        # enthalten) werden an dieser Stelle NIE ausgegeben, nur fuer den
+        # `.startswith`-Abgleich gegen feste, bekannte Literale verwendet.
+        if by_status.get("no_driver", 0):
+            self._print(
+                "Persona-Erschaffung nicht moeglich: benoetigt eine konfigurierte Live-Anbindung "
+                "(gm_transport_factory + persona_driver_factory) -- dieser Pfad ist kein Offline-"
+                "Demo. Fortschritt/Community bleibt erhalten, kein automatischer weiterer Versuch."
+            )
+        elif by_status.get("error", 0):
+            error_reasons = [oc.reason for oc in creation_outcomes if oc.status == "error"]
+            attempted = not all(self._is_confirmed_pre_request_creation_error(r) for r in error_reasons)
+            self._print(
+                self._opaque_boundary_error(
+                    "Persona-getriebene Erstgeneration (SL-Erschaffungsdialog je Persona)",
+                    attempted=attempted,
+                )
+            )
+        else:
+            self._print(
+                "Persona-getriebene Erstgeneration (echter SL-Erschaffungsdialog je Persona): "
+                f"{by_status.get('completed', 0) + by_status.get('already_ready', 0)} von "
+                f"{len(creation_outcomes)} Personas tischbereit, {by_status.get('paused', 0)} "
+                f"pausiert, {by_status.get('blocked', 0)} blockiert (Admission-Gate blocked)."
+            )
         # C4 ('Bereits fertige und offene Mitglieder sichtbar'):
         finished = [oc.persona_key for oc in creation_outcomes if oc.status in ("already_ready", "completed")]
         open_ = [oc.persona_key for oc in creation_outcomes if oc.status not in ("already_ready", "completed")]
@@ -3049,13 +4980,26 @@ class TuiSession:
         gefangen) liefert `None`. Der Aufrufer MUSS `None` kontrolliert
         ablehnen (kein Bootstrap/keine Live-Erschaffungs-Fortsetzung fuer
         diesen Aufruf) -- diese Funktion selbst bucht/pinnt nichts, sie
-        beantwortet nur die Eingabe."""
-        choice = self._readline(
+        beantwortet nur die Eingabe.
+
+        F02 (W18, Brief §Fachvertrag 4): die Eingabe laeuft ueber denselben
+        zentralen Leser wie jeder andere Prompt -- '?'/'/hilfe'/'/stand'/
+        '/verlauf' werden DORT bereits lokal beantwortet (0 Calls, dieselbe
+        Frage wird erneut gestellt). '/zurueck'/'/abbrechen'/'/pause' fallen
+        auf denselben bestehenden `None`-Vertrag zurueck wie JEDE andere
+        nicht passende Eingabe (keine neue Sonderbedeutung, kein
+        Modell-/Provider-Call, kein echter Vorlauf) -- der Aufrufer lehnt
+        kontrolliert ab, unveraendert zum bisherigen Verhalten."""
+        choice, control = self._readline_with_controls(
             f"{prompt_context}: bewusste Herkunftsentscheidung vor der ersten "
             "Modellanfrage -- [d] SIMULIERT/DEMO-Profile bewusst uebernehmen "
             "(Herkunft bleibt gepinnt) oder [p] als produktiv bestaetigen/neu "
-            "anlegen (kein Demo-Bezug)? [d/p]: "
-        ).strip().lower()
+            "anlegen (kein Demo-Bezug)? [d/p]: ",
+            context="Herkunftsentscheidung",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            return None
+        choice = choice.strip().lower()
         if choice in ("p", "prod", "produktiv"):
             return "production"
         if choice in ("d", "demo"):
@@ -3187,6 +5131,7 @@ class TuiSession:
             self._print(f"Lab-Status: turns_used={status.turns_used} usd_spent={status.usd_spent:.4f} running={status.running}")
 
     def run(self) -> int:
+        self._maybe_show_first_run_intro()
         while not self._quit:
             resume = self._build_resume_card()
             self._print(render_boot_menu(resume))
@@ -3195,6 +5140,15 @@ class TuiSession:
             except EndOfInput:
                 self._print("\nEingabe beendet (EOF) — sicher pausiert, kein weiterer Modellaufruf.")
                 return 0
+            # UX04 (02 §C): '?'/'/hilfe' an der Boot-Auswahl zeigt
+            # Kontexthilfe und zeigt danach erneut dasselbe Menue -- kein
+            # Zustand geht dabei verloren (es gibt an dieser Stelle noch
+            # keinen offenen Teilschritt). Exakter Vergleich (nicht
+            # Teilstring) — ein Fragezeichen irgendwo in einer anderen
+            # Eingabe bleibt unveraendert diese andere Eingabe.
+            if raw_choice.strip().lower() in ("?", "/hilfe", "/?"):
+                self._print(self._control_help_text("Hauptmenue"))
+                continue
             # BLOCKER 2 (WEGKARTE): 'l' erlaubt optionale weitere Tokens in
             # DERSELBEN Auswahlzeile ('l <teilnehmer-id> [...]' bzw.
             # 'l persona:<id>' fuer einen KI-Gast) -- kein zusaetzlicher
@@ -3222,8 +5176,53 @@ class TuiSession:
                     self._cmd_settings()
                 elif choice in ("x", "q"):
                     self._quit = True
+                # UX01/UX03 (02 §A, MENUE_ENTSCHEIDUNG.md): die EINE
+                # KISS-Zielhierarchie als ZUSAETZLICHE Worteintraege --
+                # dispatcht additiv auf dieselben, unveraenderten Methoden
+                # wie die Einzelbuchstaben oben (keine zweite Spiellogik,
+                # kein entfernter alter Hotkey).
+                elif choice in ("spielen", "play"):
+                    self._cmd_menu_spielen()
+                elif choice in ("charaktere", "charaktere.", "characters"):
+                    self._cmd_menu_charaktere()
+                elif choice in ("einstellungen", "settings"):
+                    self._cmd_settings()
+                elif choice in ("fortsetzen", "resume"):
+                    self._cmd_menu_fortsetzen()
+                elif choice in ("registrieren", "register"):
+                    self._cmd_register_new_person()
+                elif choice in ("einfuehrung", "tutorial"):
+                    self._cmd_show_intro_again()
+                elif choice in ("beenden", "quit", "exit"):
+                    self._quit = True
                 elif choice == "":
                     continue
+                # R4 (T-Befund 1, UX04/05, Korrekturzyklus 1): die Erst-
+                # fuehrung bewirbt `/stand`/`/verlauf`/`/pause` "an jeder
+                # Eingabe" -- im Hauptmenue fielen sie vorher auf
+                # "Unbekannte Auswahl" (falsche Universalzusage). `/stand`
+                # funktioniert hier ECHT (derselbe bereits geladene
+                # `resume`-Stand wie die Menuezeile oben); `/verlauf`/
+                # `/pause` beziehen sich auf einen laufenden Spielabschnitt,
+                # den es am Hauptmenue noch nicht gibt -- ehrlicher Hinweis
+                # statt falscher Zusage, kein "Unbekannte Auswahl" mehr.
+                elif choice == "/stand":
+                    if resume is None:
+                        self._print("Kein aktueller Stand vorhanden.")
+                    else:
+                        detail = render_boot_menu(resume)
+                        stand_lines = [ln for ln in detail.splitlines() if ln.strip().startswith("Fortsetzen:")]
+                        self._print(stand_lines[0].strip() if stand_lines else "Stand vorhanden, keine Fortsetzen-Zeile.")
+                elif choice == "/verlauf":
+                    self._print(
+                        "/verlauf zeigt den bisherigen Gespraechsverlauf nur WAEHREND eines laufenden "
+                        "Spielabschnitts (am Spielzug-Prompt) -- im Hauptmenue gibt es noch keinen Verlauf."
+                    )
+                elif choice == "/pause":
+                    self._print(
+                        "/pause unterbricht kontrolliert einen laufenden Spielabschnitt (am Spielzug-"
+                        "Prompt) -- im Hauptmenue gilt dafuer 'beenden' oder EOF (Strg-D)."
+                    )
                 else:
                     self._print(f"Unbekannte Auswahl: {choice!r}")
             except EndOfInput:

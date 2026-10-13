@@ -102,7 +102,7 @@ def _child_main(args: argparse.Namespace) -> None:
         # tatsaechlich entstandener Tisch (mode='journey'/'pause' NACH
         # Wiederaufnahme) muss real bis zum Abschluss gespielt werden
         # koennen, kein pauschales "kein GM-Call erwartet".
-        saves = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in ("sniper", "tech")}
+        saves = {pk: l01._load_fixture_save(pk) for pk in ("sniper", "tech")}
         for pk, s in saves.items():
             s["save_id"] = f"repo-regression-{tid}-{pk}"
         gm = l01._TableGM(tid, f"{tid}-section", saves, turns_before_marker=3)
@@ -353,7 +353,7 @@ def test_r13_corrupted_per_entry_window_state_fails_closed_no_reask_no_collision
         for pk in ("sniper", "tech"):
             l01._make_ready(onboarding_dir, states_dir, run_dir, pk)
 
-        saves1 = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in ("sniper", "tech")}
+        saves1 = {pk: l01._load_fixture_save(pk) for pk in ("sniper", "tech")}
         gm1 = l01._TableGM("lobby-sniper-tech", "lobby-sniper-tech-section", saves1, turns_before_marker=2)
         drivers1 = {
             "sniper": l01._ScriptedDriver("sniper", [json.dumps({"action": "propose", "wants": ["tech"]})]),
@@ -496,7 +496,7 @@ def test_r32_agreed_activity_reaches_nominated_leaders_first_real_table_decision
         _seed(root)
 
         table_id, section_id = "lobby-sniper-tech", "lobby-sniper-tech-section"
-        final_saves = {pk: json.loads((l01._FIX / f"{pk}.json").read_text(encoding="utf-8")) for pk in ("sniper", "tech")}
+        final_saves = {pk: l01._load_fixture_save(pk) for pk in ("sniper", "tech")}
         gm = l01._TableGM(table_id, section_id, final_saves, turns_before_marker=3)
         sniper_driver = l01._ScriptedDriver("sniper", [
             json.dumps({"action": "propose", "wants": ["tech"], "leader": "tech", "activity": ACTIVITY}),

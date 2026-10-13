@@ -221,12 +221,13 @@ def _setup(base: Path, include_c: bool = False):
     anew = t4._progressed(r)
     b = t4._sv("tech")
     bid = saves.block_char_id(b)
-    r.ui(inputs=[json.dumps(b), "ENDE", "b"])._cmd_import()
+    # TEST-DELTA (G02/P12): zusaetzliches 'j' vor dem bestehenden 'b'.
+    r.ui(inputs=[json.dumps(b), "ENDE", "j", "b"])._cmd_import()
     cid = None
     if include_c:
         c = t4._sv("face")
         cid = saves.block_char_id(c)
-        r.ui(inputs=[json.dumps(c), "ENDE", "b"])._cmd_import()
+        r.ui(inputs=[json.dumps(c), "ENDE", "j", "b"])._cmd_import()
     return r, anew, b, bid, cid
 
 

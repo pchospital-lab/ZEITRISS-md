@@ -26,9 +26,11 @@ from pathlib import Path
 from typing import Callable
 
 from . import request_ledger
+from . import save_correction
 from .admission import read_admission_block, reservation_for_wire_text
 from ..domain.zeitriss import onboarding as onboarding_lib
 from ..domain.zeitriss import saves as zeitriss_saves
+from ..domain.zeitriss import save_validation
 
 
 @dataclass
@@ -299,7 +301,12 @@ def run_admitted_creation_dialog(
                         result = gm_transport.turn(turn_idx, outgoing)
                 except Exception as e:
                     request_ledger.finish_error(run_dir, request_id, error=e, seconds=time.monotonic() - t0)
-                    print_fn(f"Erschaffungsdialog: SL-Anfrage fehlgeschlagen ({e}) — Fortschritt bleibt erhalten, spaeter fortsetzbar.")
+                    print_fn(
+                        "Erschaffungsdialog: SL-Anfrage technisch fehlgeschlagen nach einem bereits "
+                        "versuchten Aufruf (Ergebnis unklar, moeglicherweise bereits Wirkung/Kosten "
+                        "entstanden) — Fortschritt bleibt erhalten, spaeter fortsetzbar, kein "
+                        "automatischer erneuter Versuch. Keine Fehlerdetails in dieser Ansicht."
+                    )
                     return CreationDialogOutcome(status="error", reason=str(e))
                 sl_text = result.get("content", "")
                 # C2: der empfangene Text wird BEREITS HIER (im selben
@@ -320,19 +327,99 @@ def run_admitted_creation_dialog(
                 onboarding_lib.record_pending_reply(
                     onboarding_dir, participant_id, sl_reply=sl_text, sl_request_id=request_id,
                 )
-        save_blocks = zeitriss_saves.extract_all_saves(sl_text)
-        candidate_char_id = zeitriss_saves.block_char_id(save_blocks[0]) if save_blocks else None
-        if save_blocks and candidate_char_id is not None:
-            try:
-                onboarding_lib.complete_with_save(
-                    onboarding_dir, participant_id, save_blocks[0],
-                    harvest_validator, candidate_char_id,
+        # G02/SC06 (W54-Fix): strikter, mehrdeutigkeitssicherer
+        # Extraktionspfad -- sieht ALLE rohen Kandidaten fuer die
+        # vorlaeufig per erstem Rohtreffer bestimmte `candidate_char_id`,
+        # BEVOR irgendeine Auswahl getroffen wird (statt des
+        # verlustbehafteten 'erster gewinnt' aus `saves.extract_all_saves`).
+        raw_blocks = zeitriss_saves.extract_all_saves_raw(sl_text)
+        candidate_char_id = zeitriss_saves.block_char_id(raw_blocks[0]) if raw_blocks else None
+        checked_block, extraction_conflicts = (
+            save_validation.extract_checked_single(sl_text, candidate_char_id)
+            if candidate_char_id is not None else (None, [])
+        )
+        if candidate_char_id is not None and (checked_block is not None or extraction_conflicts):
+            # W48 (01_AUFTRAG_SAVEGATE.md §C): ein ungueltiger Entwurf
+            # beendet den Dialog NICHT mehr sofort -- bis zu 3
+            # zusaetzliche SL-Ausgaben werden ueber DIESELBE Session
+            # (`gm_transport`) angefordert, request-/admission-gebunden
+            # und restart-fest gezaehlt (`core.save_correction`), bevor
+            # kontrolliert HOLD gemeldet wird.
+            def _correction_status_emit(kind: str, payload: dict) -> None:
+                # W51 (01_RESTAUFTRAG.md §3): uebersetzt die additiven,
+                # bereits ledger-/zustandsneutralen `emit`-Benachrichtigungen
+                # aus `core.save_correction.pursue_single_figure_correction`
+                # in genau die beiden vom Terminal ehrlich erwarteten
+                # Statuszeilen -- ueber denselben bereits bestehenden
+                # `print_fn`-Kanal wie jede andere Ausgabe in dieser
+                # Funktion. Der terminale HOLD-Fall bleibt UNVERAENDERT
+                # unten (eigener, bereits vorhandener `print_fn`-Aufruf) --
+                # hier wird HOLD bewusst NICHT doppelt ausgegeben.
+                if kind == "save_validation_check":
+                    print_fn("Speicherstand wird geprueft ...")
+                elif kind == "save_correction_attempt":
+                    print_fn(
+                        f"SL korrigiert Format, Versuch {payload['attempt_no']}/{payload['max_attempts']} ..."
+                    )
+
+            def _attempt_correction(candidate_block, forced_conflicts=None):
+                return save_correction.pursue_single_figure_correction(
+                    run_dir=run_dir, participant_id=participant_id,
+                    expected_chrononaut_id=candidate_char_id, candidate_block=candidate_block,
+                    gm_transport=gm_transport, table_id=table_id, section_id=section_id,
+                    emit=_correction_status_emit, forced_conflicts=forced_conflicts,
+                    original_request_id=(
+                        onboarding_lib.peek(onboarding_dir, participant_id).pending_step.get("sl_request_id")
+                        if onboarding_lib.peek(onboarding_dir, participant_id) is not None
+                        and onboarding_lib.peek(onboarding_dir, participant_id).pending_step is not None
+                        else None
+                    ),
+                    original_evidence=candidate_block,
+                    original_role=role, original_turn_idx=turn_idx,
                 )
-            except ValueError as e:
-                print_fn(f"SL-Erschaffungsergebnis ungueltig ({e}) — Dialog bleibt offen, keine Uebernahme.")
-                return CreationDialogOutcome(status="error", reason=str(e))
+
+            if checked_block is not None:
+                try:
+                    onboarding_lib.complete_with_save(
+                        onboarding_dir, participant_id, checked_block,
+                        harvest_validator, candidate_char_id,
+                    )
+                except ValueError:
+                    correction = _attempt_correction(checked_block)
+                else:
+                    return CreationDialogOutcome(
+                        status="completed", save_block=checked_block, chrononaut_id=candidate_char_id,
+                    )
+            else:
+                # G02/SC06: >=2 rohe Bloecke fuer `candidate_char_id` mit
+                # ABWEICHENDEM Inhalt in dieser EINEN Antwort -- KEINER
+                # davon darf als Kandidat gelten ('darf NIE als einer der
+                # Bloecke erfolgreich uebernommen werden'). Derselbe
+                # budget-/request-gebundene Korrekturpfad wie ein
+                # gewoehnlicher Schemafehler, aber mit der tatsaechlichen
+                # Mehrdeutigkeitsmeldung an die SL statt eines erfundenen
+                # 'fehlender Block'-Textes.
+                correction = _attempt_correction(None, forced_conflicts=extraction_conflicts)
+
+            if correction.status != "accepted":
+                print_fn(
+                    "SL-Erschaffungsergebnis ungueltig (Korrekturbudget ausgeschoepft oder "
+                    "Transport-/Admission-Blockade) — Dialog bleibt offen, keine Uebernahme, "
+                    # G03/SC15/SC17 (W54-Fix): NIE der rohe `correction.reason`
+                    # (kann `str(exc)` einer Fremdantwort/Transportausnahme
+                    # sein, s. `core.save_correction.send_correction_turn`) --
+                    # NUR die feste, oeffentliche Kategorie. Der volle
+                    # Rohgrund bleibt im geschuetzten Korrekturdatensatz
+                    # (`save_corrections/<repair_key>.json`) erhalten.
+                    f"Grund: {save_correction.public_hold_reason(correction.reason)}."
+                )
+                return CreationDialogOutcome(status="paused", reason=correction.reason)
+            onboarding_lib.complete_with_save(
+                onboarding_dir, participant_id, correction.block,
+                harvest_validator, candidate_char_id,
+            )
             return CreationDialogOutcome(
-                status="completed", save_block=save_blocks[0], chrononaut_id=candidate_char_id,
+                status="completed", save_block=correction.block, chrononaut_id=candidate_char_id,
             )
         if pending_step is not None and pending_step.get("persona_answer") is not None:
             reply_text = pending_step["persona_answer"]

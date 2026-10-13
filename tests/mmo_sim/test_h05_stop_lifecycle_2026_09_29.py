@@ -350,11 +350,11 @@ def test_p1_gm_stop_api():
 
                 stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-gm-stop"]
                 stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-gm-stop-repeat"]
-                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
                 assert "Stop angefordert" in p_stop1.stdout, p_stop1.stdout
-                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -508,10 +508,10 @@ def test_p1_gm_stop_hybrid():
 
             stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-hybrid-gm-stop"]
             stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P1-hybrid-gm-stop-repeat"]
-            p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+            p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
             h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
             assert p_stop1.returncode == 0, p_stop1.stderr
-            p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+            p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
             h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
             assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -631,7 +631,7 @@ def test_p2_reflection_stop_api():
                 # Natuerliche Phase-1-Ernte bereits erfolgt: neue Currents mit
                 # unterscheidbarem G4-Endmarker, Tisch noch NICHT geschlossen.
                 for pk in ("sniper", "tech"):
-                    assert state_before_stop["currents"][pk].get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{TABLE_ID}-{SECTION_ID}", (
+                    assert state_before_stop["currents"][pk].get("save_id") == h02journey._expected_h02_end_save_id(pk, TABLE_ID, SECTION_ID), (
                         f"P2: Phase-1-Ernte haette den Current von {pk} bereits vor der Reflexionsbarriere publiziert haben muessen: "
                         f"{state_before_stop['currents'][pk]}"
                     )
@@ -640,10 +640,10 @@ def test_p2_reflection_stop_api():
 
                 stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-reflection-stop"]
                 stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-reflection-stop-repeat"]
-                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
-                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -817,16 +817,16 @@ def test_p2_reflection_stop_hybrid():
                 ledger_before_stop = _ledger_records_snapshot(run_dir)
                 sup.write_json(case / "state-1-before-stop.json", state_before_stop)
                 for pk in ("sniper", "tech"):
-                    assert state_before_stop["currents"][pk].get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{TABLE_ID}-{SECTION_ID}"
+                    assert state_before_stop["currents"][pk].get("save_id") == h02journey._expected_h02_end_save_id(pk, TABLE_ID, SECTION_ID)
                 assert state_before_stop["tables"][f"{TABLE_ID}.json"]["status"] == "active"
                 assert state_before_stop["reflections_count"] == 0
 
                 stop1_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-hybrid-reflection-stop"]
                 stop2_args = ["stop", "--data-dir", str(root), "--reason", "H05-P2-hybrid-reflection-stop-repeat"]
-                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = h02journey._run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
-                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = h02journey._run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 h02journey._log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
 
@@ -913,6 +913,98 @@ def test_p2_reflection_stop_hybrid():
 # Barriere; danach wird der Controller regulaer (Freigabe) beendet.
 # ---------------------------------------------------------------------------
 
+class _ObserverDrain:
+    """P3-Rueckstau-Fix: stdout UND stderr eines `lab attach --follow`-Observers
+    ab Prozessstart fortlaufend in Hintergrund-Threads abnehmen, damit ein voller
+    ~64KB-Pipe-Buffer den Observer nicht im write()/flush() blockiert, BEVOR er
+    sein stdin-EOF (Observer A) bzw. SIGINT (Observer B) verarbeitet. stdin wird
+    hier NIE angefasst -- Observer B behaelt seine offene Pipe, kein
+    versehentliches EOF durch die Capturemethode.
+
+    Absicherungen: `wait_first_output` bestaetigt ECHTE stdout-Ausgabe (eine
+    nichtleere Zeile), nicht blossen Threadstart/Streamende; ein Reader-Fehler
+    verschwindet nicht im Thread, sondern wird in den Testthread re-geraist;
+    `collect()` liefert erst nach vollstaendig beendeten Readern und prueft nach
+    dem join zusaetzlich `is_alive()`. Die VOLLSTAENDIGE Ausgabe (inkl. erster
+    Zeile) kommt aus den Sammelpuffern."""
+
+    def __init__(self, proc):
+        self._proc = proc
+        self._out: list[str] = []
+        self._err: list[str] = []
+        self._first_output = threading.Event()
+        self._errors: list[BaseException] = []
+        self._t_out = threading.Thread(target=self._pump, args=(proc.stdout, self._out, True), daemon=True)
+        self._t_err = threading.Thread(target=self._pump, args=(proc.stderr, self._err, False), daemon=True)
+        self._t_out.start()
+        self._t_err.start()
+
+    def _pump(self, stream, sink, mark_first):
+        try:
+            if stream is None:
+                return
+            for line in iter(stream.readline, ""):
+                sink.append(line)
+                if mark_first and line.strip():
+                    self._first_output.set()  # nur ECHTE stdout-Ausgabe, kein Threadstart/Streamende
+        except BaseException as exc:  # Reader-Fehler nicht im Thread verschlucken
+            self._errors.append(exc)
+        finally:
+            try:
+                if stream is not None:
+                    stream.close()
+            except Exception:
+                pass
+
+    def _raise_reader_errors(self):
+        if self._errors:
+            raise AssertionError(f"P3: Observer-Reader-Thread-Fehler (nicht im Thread verschluckt): {self._errors!r}")
+
+    def wait_first_output(self, timeout):
+        waited = 0.0
+        step = 0.2
+        while waited < timeout:
+            self._raise_reader_errors()
+            if self._first_output.wait(step):
+                return True
+            waited += step
+        self._raise_reader_errors()
+        return False
+
+    def collect(self, join_timeout: float = 10.0):
+        self._t_out.join(join_timeout)
+        self._t_err.join(join_timeout)
+        if self._t_out.is_alive() or self._t_err.is_alive():
+            raise AssertionError("P3: Observer-Reader-Thread nach join noch aktiv -- Stream nicht sauber abgenommen")
+        self._raise_reader_errors()
+        return "".join(self._out), "".join(self._err)
+
+    def diagnostics(self):
+        """Macht einen ausbleibenden Startfehler auswertbar, ohne die Ausgabe
+        erst nach Cleanup/Kill als rechtzeitige Startbestaetigung zu zaehlen:
+        aktueller poll()/Exitstatus, bisher abgenommene stdout-Menge, stderr-
+        Tail und etwaige Reader-Thread-Fehler -- keine Credentials/Fremddaten."""
+        err_text = "".join(self._err)
+        return {
+            "poll": self._proc.poll(),
+            "stdout_bytes": sum(len(c) for c in self._out),
+            "stdout_lines": len(self._out),
+            "stderr_tail": err_text[-800:],
+            "reader_errors": [repr(e) for e in self._errors],
+        }
+
+
+def _assert_first_output(drain, proc, timeout, who):
+    """Startbestaetigung mit auswertbarem Fehlerpfad: schlaegt wait_first_output
+    fehl, wird der reale Kindzustand (poll/stderr/stdout-Menge/Readerfehler)
+    in die Fehlermeldung gehoben, statt nur generisch zu melden."""
+    if not drain.wait_first_output(timeout):
+        raise AssertionError(
+            f"P3: {who} haette mindestens eine Ausgabezeile liefern muessen, "
+            f"bevor EOF/SIGINT gesendet wird -- Kinddiagnose: {drain.diagnostics()}"
+        )
+
+
 def test_p3_observer_end():
     case = sup.case_dir("P3_observer_end")
     with tempfile.TemporaryDirectory() as td:
@@ -960,7 +1052,32 @@ def test_p3_observer_end():
             assert status_before_observers is not None and status_before_observers.running is True
             assert status_before_observers.pid == controller_pid
 
-            observer_env = sup.minimal_lab_env({}, tmp_root=root / "kidtmp_observer_eof", guard_dir=guard_dir)
+            # W55-Nachzug (G05, 01_ENTSCHEIDUNG_UND_REPARATUR.md §W55): beide
+            # `lab attach --follow`-Observer unten sind eigene, echte
+            # Kindprozesse mit demselben isolierten `minimal_lab_env` wie
+            # jeder andere Lab-Subprozess -- derselbe Sichtbarkeitsaufbau
+            # (Hashbeleg, keine Installation, ueber die vorhandene
+            # `H02_REAL_USER_SITE_PACKAGES`-Bindung) muss deshalb auch hier
+            # gelten, sonst scheitert `scripts/mmo_sim.py lab attach` bereits
+            # beim Modulimport (`policy -> save_validation` importiert
+            # `jsonschema`/`referencing` zwingend), BEVOR ueberhaupt eine
+            # erste Beobachtungszeile ausgegeben werden kann.
+            observer_schema_dependency_dir, _observer_dependency_manifest = sup.copy_dependency_visibility(
+                root / "kidtmp_observer_eof" / "schema-dependency-visibility"
+            )
+            observer_env = sup.minimal_lab_env(
+                {}, tmp_root=root / "kidtmp_observer_eof", guard_dir=guard_dir,
+                schema_dependency_dir=observer_schema_dependency_dir,
+            )
+            _observer_schema_dependency_proof = sup.probe_schema_dependency(observer_env)
+            assert (
+                _observer_schema_dependency_proof.get("available") is True
+                and _observer_schema_dependency_proof.get("functional_validate_ok") is True
+            ), (
+                "W55/C3: benoetigte Schema-Dependency (jsonschema) im echten Observer-Kind-Env fuer P3 "
+                f"nicht importierbar/funktional nutzbar: {_observer_schema_dependency_proof} "
+                f"(manifest={_observer_dependency_manifest})"
+            )
             attach_args = ["attach", "--data-dir", str(root), "--follow", "--interval-seconds", "0.1"]
 
             # Observer A: eigene Pipe, EOF NACH der ersten beobachteten Ausgabe.
@@ -969,25 +1086,22 @@ def test_p3_observer_end():
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
                 env=observer_env, cwd=str(_REPO_ROOT),
             )
-            first_line_a = observer_a.stdout.readline()
-            assert first_line_a, "P3: Observer A haette mindestens eine Ausgabezeile liefern muessen, bevor EOF gesendet wird"
+            observer_a_drain = _ObserverDrain(observer_a)
+            _assert_first_output(observer_a_drain, observer_a, 20, "Observer A")
             observer_a.stdin.close()  # echtes stdin-EOF ueber die eigene Pipe -- kein --max-updates.
             try:
                 observer_a_rc = observer_a.wait(timeout=8)
-                observer_a_out = observer_a.stdout.read()
-                observer_a_err = observer_a.stderr.read()
                 observer_a_timed_out = False
             except subprocess.TimeoutExpired:
                 observer_a_timed_out = True
                 observer_a.kill()
                 observer_a_rc = observer_a.wait(timeout=10)
-                observer_a_out = observer_a.stdout.read()
-                observer_a_err = observer_a.stderr.read()
+            observer_a_out, observer_a_err = observer_a_drain.collect()
             sup.append_jsonl(case / "invocations.json", {
                 "name": "attach_observer_a_stdin_eof", "argv": attach_args, "pid": observer_a.pid,
                 "returncode": observer_a_rc, "timed_out_and_killed": observer_a_timed_out,
             })
-            (case / "stdout.attach_observer_a.txt").write_text(first_line_a + observer_a_out, encoding="utf-8")
+            (case / "stdout.attach_observer_a.txt").write_text(observer_a_out, encoding="utf-8")
             (case / "stderr.attach_observer_a.txt").write_text(observer_a_err, encoding="utf-8")
 
             # Observer B: eigener zweiter, unabhaengiger Prozess -- SIGINT statt
@@ -1002,26 +1116,23 @@ def test_p3_observer_end():
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
                 env=observer_env, cwd=str(_REPO_ROOT),
             )
-            first_line_b = observer_b.stdout.readline()
-            assert first_line_b, "P3: Observer B haette mindestens eine Ausgabezeile liefern muessen, bevor SIGINT gesendet wird"
+            observer_b_drain = _ObserverDrain(observer_b)
+            _assert_first_output(observer_b_drain, observer_b, 20, "Observer B")
             observer_b.send_signal(signal.SIGINT)
             _log_signal_event(case, "observer_b_sigint", pid=observer_b.pid, sig=signal.SIGINT, note="P3 Observerende")
             try:
                 observer_b_rc = observer_b.wait(timeout=8)
-                observer_b_out = observer_b.stdout.read()
-                observer_b_err = observer_b.stderr.read()
                 observer_b_timed_out = False
             except subprocess.TimeoutExpired:
                 observer_b_timed_out = True
                 observer_b.kill()
                 observer_b_rc = observer_b.wait(timeout=10)
-                observer_b_out = observer_b.stdout.read()
-                observer_b_err = observer_b.stderr.read()
+            observer_b_out, observer_b_err = observer_b_drain.collect()
             sup.append_jsonl(case / "invocations.json", {
                 "name": "attach_observer_b_sigint", "argv": attach_args, "pid": observer_b.pid,
                 "returncode": observer_b_rc, "timed_out_and_killed": observer_b_timed_out,
             })
-            (case / "stdout.attach_observer_b.txt").write_text(first_line_b + observer_b_out, encoding="utf-8")
+            (case / "stdout.attach_observer_b.txt").write_text(observer_b_out, encoding="utf-8")
             (case / "stderr.attach_observer_b.txt").write_text(observer_b_err, encoding="utf-8")
 
             # Controller bleibt waehrend BEIDER Observerenden derselbe lebende
@@ -1078,6 +1189,57 @@ def test_p3_observer_end():
             "status": "PASS", "controller_returncode": proc.returncode,
             "observer_a_rc": observer_a_rc, "observer_b_rc": observer_b_rc,
         })
+
+
+def test_p3_observer_capture_contract():
+    """Gezielte, vom P3-Gesamtaufbau unabhaengige Regression fuer `_ObserverDrain`
+    (Fehlerpfad + Rueckstau), damit die P3-Capture-Zusagen nicht erst im vollen
+    Controller-/Persona-Aufbau brechen:
+      1) erste ECHTE Ausgabe wird prompt als Startbestaetigung sichtbar;
+      2) ein Ausgabeschub > Pipe-Buffer (~64KB) fuehrt NICHT zu Rueckstau/Deadlock;
+      3) stdin-EOF beendet das Kind selbststaendig mit rc=0, collect() liefert die
+         VOLLSTAENDIGE Ausgabe (inkl. erster Zeile);
+      4) ein stilles Kind macht den Startfehler ueber diagnostics() auswertbar und
+         wird sauber eingesammelt (keine zurueckgelassenen Prozesse)."""
+    obs_src = (
+        "import sys, select\n"
+        "sys.stdout.write('START\\n'); sys.stdout.flush()\n"
+        "for _ in range(500):\n"
+        "    sys.stdout.write('Z'*400+'\\n'); sys.stdout.flush()\n"
+        "while True:\n"
+        "    r,_,_ = select.select([sys.stdin],[],[],0.1)\n"
+        "    if r and sys.stdin.readline()=='':\n"
+        "        sys.exit(0)\n"
+        "    sys.stdout.write('tick\\n'); sys.stdout.flush()\n"
+    )
+    p = subprocess.Popen([sys.executable, "-c", obs_src], stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    try:
+        drain = _ObserverDrain(p)
+        _assert_first_output(drain, p, 10, "Regression-Observer")
+        p.stdin.close()
+        rc = p.wait(timeout=8)
+        out, _err = drain.collect()
+        assert rc == 0, f"Regression: Kind haette bei stdin-EOF rc=0 liefern muessen: {rc}"
+        assert len(out) > 64 * 1024, f"Regression: grosser Schub nicht vollstaendig abgenommen: {len(out)} Bytes"
+        assert out.startswith("START"), "Regression: erste Zeile fehlt im Gesamt-Capture"
+    finally:
+        if p.poll() is None:
+            p.kill(); p.wait(timeout=10)
+
+    # Stilles Kind: ausbleibende Startausgabe bleibt ueber diagnostics() auswertbar,
+    # Prozess/Reader werden sauber eingesammelt.
+    q = subprocess.Popen([sys.executable, "-c", "import time\ntime.sleep(30)\n"], stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    qdrain = _ObserverDrain(q)
+    try:
+        assert qdrain.wait_first_output(2) is False, "Regression: stilles Kind haette keine Startausgabe zeigen duerfen"
+        diag = qdrain.diagnostics()
+        assert diag["stdout_bytes"] == 0 and diag["reader_errors"] == [], f"Regression: unerwartete Startdiagnose: {diag}"
+    finally:
+        if q.poll() is None:
+            q.kill(); q.wait(timeout=10)
+        qdrain.collect()
 
 
 # ---------------------------------------------------------------------------
@@ -1519,6 +1681,7 @@ def test_p5_hard_interrupt_resume():
         try:
             p_resume = h02journey._run_lab(
                 resume_args, env_extra=resume_env_extra, tmp_root=root / "kidtmp_resume_run", guard_dir=guard_dir, timeout=60,
+                require_schema_dependency=True,
             )
         finally:
             h05sup.stop_http_server(dead_persona_srv, dead_persona_thread)
@@ -1620,6 +1783,7 @@ if __name__ == "__main__":
         test_p2_reflection_stop_api,
         test_p2_reflection_stop_hybrid,
         test_p3_observer_end,
+        test_p3_observer_capture_contract,
         test_p4_controller_sigint_api,
         test_p4_controller_sigterm_hybrid,
         test_p5_hard_interrupt_resume,

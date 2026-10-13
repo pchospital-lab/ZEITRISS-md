@@ -35,6 +35,7 @@ if str(_REPO_ROOT) not in sys.path:
 if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
+from _full_v7_fixture import full_v7_save  # noqa: E402
 from _h02_vollreise_support import bootstrap_six_persona_community, make_ready  # noqa: E402
 from mmo_sim.core.store import (  # noqa: E402
     Lobby, Table, complete_section, finalize_section_after_reflection,
@@ -61,16 +62,26 @@ _TURN1_LEADER_MESSAGE = "Wir schliessen den Abschnitt kontrolliert ab."
 
 
 def _debrief_text(sniper_cid: str, tech_cid: str) -> str:
-    sniper_final = {
-        "v": 7, "save_id": "a13-reportfixture-sniper-final-001",
-        "_fixture_note": "SIMULIERT/FIXTURE (A13-Quellenbericht-Testsupport, KEINE gespielte Karriere)",
-        "characters": [{"char_id": sniper_cid, "id": sniper_cid, "name": "Yael", "callsign": "SNIPER"}],
-    }
-    tech_final = {
-        "v": 7, "save_id": "a13-reportfixture-tech-final-001",
-        "_fixture_note": "SIMULIERT/FIXTURE (A13-Quellenbericht-Testsupport, KEINE gespielte Karriere)",
-        "characters": [{"char_id": tech_cid, "id": tech_cid, "name": "Kaede", "callsign": "TECH"}],
-    }
+    # W50 FIXTURE_ONLY (R12-Savegate, 02_TEAM_UND_QUELLRAHMEN.md
+    # "Testfixtures versus Schutzassertionen"): die alten winzigen Save-
+    # Fakes (nur v/save_id/EIN Figureneintrag) scheitern an der jetzt
+    # durchgesetzten R12-Vollschema-Pruefung (`save_validation.
+    # validate_structure`, Teil von `ZeitrissHarvestValidator.
+    # validate_block`) -- `complete_section` verwarf beide Figuren als
+    # "fehlende/falsch zugeordnete/falsch identifizierte Saves". Ueber den
+    # gemeinsamen Helfer `full_v7_save` auf volle v7 gehoben, Identitaet
+    # (char_id/id, Name, Callsign) unveraendert erhalten. Der alte, nie
+    # geprueft gewesene Root-Schluessel `_fixture_note` entfaellt bewusst
+    # (wird von KEINEM Test dieser Datei/Downstream gelesen, s. `_full_v7_
+    # fixture.upgrade_narrow_save`-Docstring fuer dasselbe Vorgehen) --
+    # das strikte Exportschema hat `additionalProperties: false` auf
+    # Root-Ebene.
+    sniper_final = full_v7_save(
+        sniper_cid, name="Yael", callsign="SNIPER", save_id="a13-reportfixture-sniper-final-001",
+    )
+    tech_final = full_v7_save(
+        tech_cid, name="Kaede", callsign="TECH", save_id="a13-reportfixture-tech-final-001",
+    )
     return (
         f"```json\n{json.dumps(sniper_final, ensure_ascii=False)}\n```\n"
         f"```json\n{json.dumps(tech_final, ensure_ascii=False)}\n```\n"

@@ -206,19 +206,36 @@ def _distinguishable_final_saves(table_id: str, section_id: str, keys=SELECTED) 
     bereits als `current` publiziert hatte (Review-Befund: '`_final_saves()`
     verwendet dieselben Start-Fixturewerte, sodass bloßes Wiederverwenden
     des alten Current nicht sicher unterscheidbar ist'). Jede Kopie bekommt
-    hier einen NEUEN `save_id` und ein zusaetzliches `_h02_end_marker`-Feld
-    -- beide Aenderungen stammen AUSSCHLIESSLICH aus dieser synthetischen
-    GM-Antwort (kein Nachschreiben der Ergebnisdateien nach dem Lauf, s.
-    Aufrufer). `v`/`characters[0].char_id` bleiben unveraendert (Schema-/
-    Identitaetspflicht, `ZeitrissHarvestValidator.validate_block` prueft
-    genau diese zwei Felder)."""
+    hier einen NEUEN `save_id` -- die einzige Aenderung stammt AUSSCHLIESSLICH
+    aus dieser synthetischen GM-Antwort (kein Nachschreiben der
+    Ergebnisdateien nach dem Lauf, s. Aufrufer). `v`/`characters[0].char_id`
+    bleiben unveraendert (Schema-/Identitaetspflicht,
+    `ZeitrissHarvestValidator.validate_block` prueft genau diese zwei Felder).
+
+    R12-Savegate-Nachzug: ein fruehers zusaetzliches `_h02_end_marker`-Feld
+    auf Root-Ebene wurde entfernt -- `saveGame.v7.export.schema.json` ist
+    `additionalProperties: false` (immutable, `systems/`-Praefix), die volle
+    Schemapruefung in `ZeitrissHarvestValidator.validate_block` (SC01,
+    delegiert an `save_validation.validate_save_block`) lehnt seither JEDEN
+    unbekannten Root-Schluessel ab -- der Marker haette den ECHTEN
+    Gruppenharvest (`core/store.py:_validate_harvest`) IMMER scheitern
+    lassen. Die bereits vorhandene `save_id`-Suffigierung (`-h02end-...`)
+    traegt dieselbe Unterscheidungsinformation schemakonform; Aufrufer
+    pruefen jetzt exakt gegen den hier berechneten `save_id`-Wert statt
+    gegen den entfernten Marker."""
     out: dict[str, dict] = {}
     for pk in keys:
         save = copy.deepcopy(sup.load_fixture_save(pk))
         save["save_id"] = f"{save['save_id']}-h02end-{table_id}-{section_id}"
-        save["_h02_end_marker"] = f"H02-VOLLREISE-ENDSAVE-{pk}-{table_id}-{section_id}"
         out[pk] = save
     return out
+
+
+def _expected_h02_end_save_id(pk: str, table_id: str, section_id: str) -> str:
+    """Schemakonformer Ersatz fuer den entfernten `_h02_end_marker`: derselbe
+    `save_id`-Suffix, den `_distinguishable_final_saves` tatsaechlich
+    schreibt -- EINE Berechnungsstelle fuer Erzeuger UND Pruefer."""
+    return f"{sup.load_fixture_save(pk)['save_id']}-h02end-{table_id}-{section_id}"
 
 
 _G0_TEXT = "Ihr steht bereit im HQ. Was ist der erste Schritt? [G0-ENDMARKER-lobby-sniper-tech]"
@@ -1164,8 +1181,15 @@ def test_a_api_profile_full_journey_two_processes():
                 assert own_reflection_text[other_pk] not in c["system"], (
                     f"R1/A07: fremde Reflexion von {other_pk} leckte in {pk}s eigenen Kontext"
                 )
-                assert f"H02-VOLLREISE-ENDSAVE-{pk}-{table_id}-{section_id}" in c["system"], (
-                    f"A09: neuer eigener Current (Endmarker) fehlt im neuen Fenster-Kontext von {pk}"
+                # R12-Savegate-Nachzug (W52b): der Root-Marker `_h02_end_marker`
+                # wurde entfernt (schema-verboten, s. `_distinguishable_final_
+                # saves`-Docstring) -- `_own_system_context` (`ui/tui.py`) haengt
+                # den VOLLEN eigenen Current als JSON an c["system"] an
+                # (`json.dumps(current, ..., sort_keys=True)`), darin ist der
+                # unterscheidbare `save_id`-Suffix als woertlicher Substring
+                # enthalten (gleiche Eigenschaft, schemakonformer Trager).
+                assert _expected_h02_end_save_id(pk, table_id, section_id) in c["system"], (
+                    f"A09: neuer eigener Current (Endmarker/save_id) fehlt im neuen Fenster-Kontext von {pk}"
                 )
                 # A09/R2 (Review H02 2026-09-28 §3, M2-Mutationsprobe "+7
                 # Runden"): die Kopfzeile aus `render_for_prompt` traegt
@@ -1189,7 +1213,7 @@ def test_a_api_profile_full_journey_two_processes():
         ps_store = PersonaStateStore(schema_path=schema_path)
         for pk in SELECTED:
             current = core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir)
-            assert current.get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{table_id}-{section_id}", (
+            assert current.get("save_id") == _expected_h02_end_save_id(pk, table_id, section_id), (
                 f"unterscheidbarer Endmarker fehlt im veroeffentlichten Current von {pk}: {current}"
             )
             assert current.get("save_id") != sup.load_fixture_save(pk)["save_id"], (
@@ -1264,7 +1288,7 @@ def test_a_api_profile_full_journey_two_processes():
          "verified_by": "_assert_sl_log_leader_only_and_origin (exakter Textvergleich + Negativpruefung guest_raw_suggestions)",
          "evidence": "final_table_state.json#sl_log"},
         {"id": "A09", "claim": "unterscheidbare GM-End-Saves erreichen Current; eigene Reflexion (R1) UND neuer Current im naechsten Fenster",
-         "verified_by": "current['_h02_end_marker']==erwartet UND save_id!=Start-Fixture; pause_entries own_reflection_text-Check",
+         "verified_by": "current['save_id']==erwarteter h02end-Suffix UND save_id!=Start-Fixture; pause_entries own_reflection_text-Check",
          "evidence": "classified-persona-wires.json"},
         {"id": "A10", "claim": "nicht ausgewaehlte Personas + Mensch bytegleich",
          "verified_by": "after_hashes[rel]==before_hashes[rel] fuer alle NOT_SELECTED+human", "evidence": "before/after state_hashes.json"},
@@ -1518,8 +1542,12 @@ def test_b_hybrid_profile_full_journey_single_process():
             assert own_reflection_text[other_pk] not in c["system"], (
                 f"R1/A07: fremde Reflexion von {other_pk} leckte in {pk}s eigenen Kontext (Hybrid)"
             )
-            assert f"H02-VOLLREISE-ENDSAVE-{pk}-{table_id}-{section_id}" in c["system"], (
-                f"A09: neuer eigener Current (Endmarker) fehlt im neuen Fenster-Kontext von {pk} (Hybrid)"
+            # R12-Savegate-Nachzug (W52b, analog test_a): `_own_system_context`
+            # haengt den vollen eigenen Current als JSON an c["system"] an --
+            # der unterscheidbare `save_id`-Suffix ist darin woertlich enthalten
+            # (schemakonformer Trager statt des entfernten Root-Markers).
+            assert _expected_h02_end_save_id(pk, table_id, section_id) in c["system"], (
+                f"A09: neuer eigener Current (Endmarker/save_id) fehlt im neuen Fenster-Kontext von {pk} (Hybrid)"
             )
             # A09/R2 (End-Critic-Nacharbeit 2026-09-28, Befund 1: M2-Mutationsklasse
             # "+7 Runden" blieb im Hybrid-Profil unentdeckt, weil hier -- anders als
@@ -1536,7 +1564,7 @@ def test_b_hybrid_profile_full_journey_single_process():
         ps_store = PersonaStateStore(schema_path=schema_path)
         for pk in SELECTED:
             current = core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir)
-            assert current.get("_h02_end_marker") == f"H02-VOLLREISE-ENDSAVE-{pk}-{table_id}-{section_id}", (
+            assert current.get("save_id") == _expected_h02_end_save_id(pk, table_id, section_id), (
                 f"unterscheidbarer Endmarker fehlt im veroeffentlichten Current von {pk} (Hybrid): {current}"
             )
             assert current.get("save_id") != sup.load_fixture_save(pk)["save_id"], (
@@ -1594,7 +1622,7 @@ def test_b_hybrid_profile_full_journey_single_process():
         {"id": "A05/A06", "claim": "G0-G4 vollstaendig, lange unterscheidbare Endmarker, korrekter SL-Praefix an allen 9 Tischentscheidungen", "verified_by": "_assert_public_sl_prefix_and_reflections_exact", "evidence": "classified-persona-wires.json, gm-receipts.jsonl"},
         {"id": "A07", "claim": "eigene/fremde Privattrennung im CLI-STDIN", "verified_by": "own_reflection_text[other_pk] not in c['system']", "evidence": "classified-persona-wires.json"},
         {"id": "A08", "claim": "nur Leader sendet an SL, origin_persona_key korrekt", "verified_by": "_assert_sl_log_leader_only_and_origin", "evidence": "final_table_state.json#sl_log"},
-        {"id": "A09", "claim": "unterscheidbare GM-End-Saves -> Current; eigene Reflexion+Current im neuen Fenster (Hybrid)", "verified_by": "current['_h02_end_marker'] + pause_entries-Check", "evidence": "classified-persona-wires.json"},
+        {"id": "A09", "claim": "unterscheidbare GM-End-Saves -> Current; eigene Reflexion+Current im neuen Fenster (Hybrid)", "verified_by": "current['save_id']==erwarteter h02end-Suffix + pause_entries-Check", "evidence": "classified-persona-wires.json"},
         {"id": "A10", "claim": "nicht ausgewaehlte Personas + Mensch bytegleich", "verified_by": "after_hashes==before_hashes fuer NOT_SELECTED+human", "evidence": "before/after state_hashes.json"},
         {"id": "A11", "claim": "echte Isolationsflags belegt, CLI-stdin [SYSTEM]/[USER], cwd korrekt", "verified_by": "argv/stdin/cwd-Check je cli_calls-Eintrag", "evidence": "cli-receipts.jsonl"},
         {"id": "A12", "claim": "max_usd=5 (GM-Rolle), CLI-Quota bleibt unbekannt, provider_free vor/nach True", "verified_by": "status.max_usd==5, provider_free-Checks", "evidence": "result.json"},
@@ -1714,7 +1742,7 @@ def test_y_n1_hybrid_cli_failure_no_api_fallback():
                 "--personas", "sniper,tech", "--max-requests", "10", "--max-seconds", "60",
                 "--max-usd", "5", "--max-idle-windows", "1",
             ]
-            p = _run_lab(start_args, env_extra=env, tmp_root=root / "kidtmp", guard_dir=guard_dir)
+            p = _run_lab(start_args, env_extra=env, tmp_root=root / "kidtmp", guard_dir=guard_dir, require_schema_dependency=True)
             _log_invocation(case, "start", start_args, env, p)
             assert p.returncode == 0, p.stdout + p.stderr  # geordneter Stop, kein Absturz.
             assert "fehlgeschlagen" in p.stdout, p.stdout
@@ -1792,7 +1820,7 @@ def test_y_n2_api_error_401_no_fallback():
                 "--personas", "sniper,tech", "--max-requests", "10", "--max-seconds", "60",
                 "--max-usd", "5", "--max-idle-windows", "1",
             ]
-            p = _run_lab(start_args, env_extra=env, tmp_root=root / "kidtmp", guard_dir=guard_dir)
+            p = _run_lab(start_args, env_extra=env, tmp_root=root / "kidtmp", guard_dir=guard_dir, require_schema_dependency=True)
             _log_invocation(case, "start", start_args, env, p)
             assert p.returncode == 0, p.stdout + p.stderr
             assert "fehlgeschlagen" in p.stdout, p.stdout
@@ -1858,7 +1886,7 @@ def test_y_n3_missing_gm_output_bound_blocks_under_hard_budget():
                 "--personas", "sniper,tech", "--max-requests", "10", "--max-seconds", "60",
                 "--max-usd", "5", "--max-idle-windows", "1",
             ]
-            p = _run_lab(start_args, env_extra=env, tmp_root=root / "kidtmp", guard_dir=guard_dir)
+            p = _run_lab(start_args, env_extra=env, tmp_root=root / "kidtmp", guard_dir=guard_dir, require_schema_dependency=True)
             _log_invocation(case, "start", start_args, env, p)
             assert p.returncode == 0, p.stdout + p.stderr
             assert gm_srv.calls == [], f"0 GM-Receipts erwartet (Kontrollpunkt VOR Versand): {len(gm_srv.calls)}"
@@ -1930,7 +1958,7 @@ def test_y_n4_test_authority_blocks_non_loopback_route():
             "--personas", "sniper,tech", "--max-requests", "10", "--max-seconds", "15",
             "--max-usd", "5", "--max-idle-windows", "1",
         ]
-        p = _run_lab(start_args, env_extra=env, timeout=30, tmp_root=root / "kidtmp", guard_dir=guard_dir)
+        p = _run_lab(start_args, env_extra=env, timeout=30, tmp_root=root / "kidtmp", guard_dir=guard_dir, require_schema_dependency=True)
         _log_invocation(case, "start", start_args, env, p)
         assert p.returncode == 0, p.stdout + p.stderr
         assert "gestoppt (Admission-Gate" in p.stdout, p.stdout
@@ -2202,10 +2230,32 @@ def test_n_stop_separate_process_in_flight_barrier():
         thread.start()
         try:
             base_url = f"http://{srv.server_address[0]}:{srv.server_address[1]}"
+            # W55-Nachzug (G05, 01_ENTSCHEIDUNG_UND_REPARATUR.md §W55): dieser
+            # langlebige Controller wird NICHT ueber `_run_lab` gestartet (das
+            # blockierend `communicate()` aufruft) -- derselbe isolierte
+            # Sichtbarkeitsaufbau (Hashbeleg, keine Installation, ueber die
+            # vorhandene `H02_REAL_USER_SITE_PACKAGES`-Bindung) wie dort muss
+            # deshalb hier direkt erfolgen: `policy -> save_validation`
+            # importiert `jsonschema`/`referencing` seit R12 zwingend schon
+            # beim Modulimport von `scripts/mmo_sim.py` -- ohne sichtbare
+            # Kopie scheitert dieser reale Kindprozess VOR jedem fachlichen
+            # In-Flight-Barriereversuch mit `ModuleNotFoundError`.
+            schema_dependency_dir, _schema_dependency_manifest = sup.copy_dependency_visibility(
+                root / "kidtmp1" / "schema-dependency-visibility"
+            )
             env = sup.minimal_lab_env({
                 "MMO_SIM_PERSONA_API_BASE_URL": base_url,
                 "MMO_SIM_PERSONA_API_KEY": "SYNTH-H02-NOT-A-REAL-KEY", "MMO_SIM_PERSONA_API_MODEL": "synthetic-nstop",
-            }, tmp_root=root / "kidtmp1", guard_dir=guard_dir)
+            }, tmp_root=root / "kidtmp1", guard_dir=guard_dir, schema_dependency_dir=schema_dependency_dir)
+            _schema_dependency_proof = sup.probe_schema_dependency(env)
+            assert (
+                _schema_dependency_proof.get("available") is True
+                and _schema_dependency_proof.get("functional_validate_ok") is True
+            ), (
+                "W55/C3: benoetigte Schema-Dependency (jsonschema) im echten, gleich anschliessend fuer den "
+                f"Controller verwendeten Kind-Env fuer N-STOP nicht importierbar/funktional nutzbar: "
+                f"{_schema_dependency_proof} (manifest={_schema_dependency_manifest})"
+            )
             proc1 = subprocess.Popen(
                 [sys.executable, str(_MMO_SIM), "lab", "start", "--data-dir", str(root),
                  "--community", "nstop", "--profile", "api", "--personas", "sniper,tech",
@@ -2231,7 +2281,7 @@ def test_n_stop_separate_process_in_flight_barrier():
                 # Passive status/attach aus SEPARATEN Prozessen, waehrend der
                 # Controller lebt -- keine Produktwrites, kein privater
                 # Kontexttransfer.
-                p_status = _run_lab(status_args, tmp_root=root / "kidtmp_status", guard_dir=guard_dir)
+                p_status = _run_lab(status_args, tmp_root=root / "kidtmp_status", guard_dir=guard_dir, require_schema_dependency=True)
                 _log_invocation(case, "status_while_inflight", status_args, {}, p_status)
                 assert p_status.returncode == 0, p_status.stderr
                 status_payload = json.loads(p_status.stdout)
@@ -2244,7 +2294,7 @@ def test_n_stop_separate_process_in_flight_barrier():
                 )
 
                 snapshot_before_attach = _authority_hash_snapshot(run_dir)
-                p_attach = _run_lab(attach_args, tmp_root=root / "kidtmp_attach", guard_dir=guard_dir)
+                p_attach = _run_lab(attach_args, tmp_root=root / "kidtmp_attach", guard_dir=guard_dir, require_schema_dependency=True)
                 _log_invocation(case, "attach_while_inflight", attach_args, {}, p_attach)
                 assert p_attach.returncode == 0, p_attach.stderr
                 snapshot_after_attach = _authority_hash_snapshot(run_dir)
@@ -2272,7 +2322,7 @@ def test_n_stop_separate_process_in_flight_barrier():
                 )
 
                 # Separater 'lab stop'-Prozess -- idempotente Stopanforderung.
-                p_stop1 = _run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir)
+                p_stop1 = _run_lab(stop1_args, tmp_root=root / "kidtmp_stop1", guard_dir=guard_dir, require_schema_dependency=True)
                 _log_invocation(case, "stop_1", stop1_args, {}, p_stop1)
                 assert p_stop1.returncode == 0, p_stop1.stderr
                 assert "Stop angefordert" in p_stop1.stdout, p_stop1.stdout
@@ -2289,7 +2339,7 @@ def test_n_stop_separate_process_in_flight_barrier():
                 # Wiederholter Stop -- idempotent, keine zweite Fortschrittswirkung
                 # (R4: explizit auf UNVERAENDERTES turns_used geprueft, nicht
                 # nur auf rc0+Textmarker).
-                p_stop2 = _run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir)
+                p_stop2 = _run_lab(stop2_args, tmp_root=root / "kidtmp_stop2", guard_dir=guard_dir, require_schema_dependency=True)
                 _log_invocation(case, "stop_2", stop2_args, {}, p_stop2)
                 assert p_stop2.returncode == 0, p_stop2.stderr
                 turns_used_after_stop2 = lab_runner.read_status(run_dir).turns_used
