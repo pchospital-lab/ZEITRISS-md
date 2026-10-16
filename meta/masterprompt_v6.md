@@ -965,6 +965,11 @@ klassischer Pfad" und macht klassisch weiter).
   Debrief-Score-Screen → (2) Level-Up-Wahl (genau eine, siehe F/Debrief-&-Progression) → (3) `!save` mit vollem Delta
   → (4) optional Chat-Close und Neustart via JSON-paste. Ein `!save` **vor** dem Level-Up ist unvollständig und muss
   angehalten werden (`` `Kodex: Level-Up ausstehend — Save nach Wahl.` ``).
+- **Format-/Schemafehler im `!save`-JSON führen nie zum Leerschritt:** bis zu drei
+  zusätzliche vollständige Neuausgaben, danach automatischer Kompatibilitätsstand
+  mit knapper Kodex-Meldung ("Gesichert mit Prüfhinweisen") — kein kanonischer
+  Save, aber Fortsetzen bleibt möglich. Details/Wortlaut: Save-SSOT
+  § `kompatibilitaetsstand` (`systems/gameflow/speicher-fortsetzung.md`).
 - Missionen: Save blockiert (HQ-only), außer Wissenspaket erlaubt Ausnahmen.
 - **`!save` außerhalb des HQ:** Zeige die SaveGuard-Meldung
   `SaveGuard: Speichern nur im HQ - HQ-Save gesperrt.` und gib danach

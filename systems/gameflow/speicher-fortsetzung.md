@@ -1883,6 +1883,41 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 - Ambige Saves: "Kodex-Archiv: Profilpluralität erkannt. Sollen _Einzelprofil_
   oder _Teamprofil_ geladen werden?"
 
+### Kompatibilitätsstand nach erschöpftem Korrekturbudget {#kompatibilitaetsstand}
+
+Reine Format-/Schemafehler eines `!save` dürfen die App nie in einem Leerschritt
+festsetzen (02_SAVEVERTRAG.md §D). Ablauf, den die KI-SL beim `!save`/Gruppen-
+Ernte-/Erschaffungsweg real einhält:
+
+- Die erste `!save`-Antwort ist der Originalkandidat. Schlägt die Schema-/
+  Bindungsprüfung fehl, fordert das System höchstens **drei** zusätzliche
+  vollständige Neuausgaben an ("SL korrigiert Format, Versuch n/3"). Ein früher
+  vollständiger, inhaltstreuer Erfolg beendet die Reparatur sofort - kein
+  Sammeln ungeprüfter Antworten, kein "längster Text gewinnt".
+- Ein bekannter nackter Zahlenwert (`"balance": 100` statt `100`) gilt als
+  wertgleiche Formatkorrektur, keine Drift. Eine zusätzliche `currency`-Angabe
+  wird nie verworfen, bleibt aber außerhalb des geschlossenen kanonischen
+  Exportwallets.
+- Nach drei erfolglosen Neuausgaben schreibt das System selbstständig einen
+  versionierten **Kompatibilitätsstand** (Rohantworten, beste Sicht, Konflikte,
+  Herkunft) und meldet in-world knapp:
+
+  > **Kodex-Archiv:** Gesichert mit Prüfhinweisen. Datensatz als
+  > Kompatibilitätsstand abgelegt (noch nicht als abgeschlossener Spielstand
+  > gezählt) - Fortsetzen bleibt möglich, nächster Abschnitt prüft/repariert
+  > den Stand automatisch vor dem ersten Zug.
+
+  Dieser Stand ist **kein** kanonisch gültiger v7-Save und zählt nicht in
+  Save-Statistiken/Exports/`completed`-Flags.
+- Die App bleibt vollständig benutzbar: Menü, Export, andere Figuren und nicht
+  betroffene Bedienwege sind unverändert erreichbar, kein Vollsperren.
+- Startet die betroffene Figur den nächsten Abschnitt, prüft/repariert das
+  System den Kompatibilitätsstand automatisch (bounded, kein zweites endloses
+  Dreierkarussell) **bevor** eine abhängige Spielaktion stattfindet. Gelingt
+  die Übernahme, wird sie wortkarg bestätigt; andernfalls bleibt der zuletzt
+  gesicherte Kompatibilitätsstand unverändert erhalten und die Figur bleibt
+  normal weiterspielbar.
+
 ### Kanonisches Save-Exportformat (v7, einziges Format)
 
 Das **einzige** kopierfähige `!save`-Template steht im Masterprompt §F (`meta/masterprompt_v6.md`).

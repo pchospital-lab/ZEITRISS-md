@@ -86,7 +86,10 @@ deinem Gerät an. Ein neuer Spielchat lädt den Save mit `Spiel laden` oder
 Save und schreibt ihn in eine Datei. Während einer Runde pausierst du mit
 `/pause`; nach einem Neustart verwendest du `fortsetzen`. Maßgeblich ist der
 zuletzt tatsächlich geschriebene gültige Stand, keine pauschale Zusage gegen
-jeden Datenverlust.
+jeden Datenverlust. Bleibt ein `!save` nach wiederholten Formatfehlern ohne
+gültigen Stand, sichert das Terminal automatisch einen Kompatibilitätsstand
+("Gesichert mit Prüfhinweisen") und übernimmt ihn beim nächsten Fortsetzen
+geprüft — Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
 
 ## Eine Szene am Spieltisch
 

@@ -413,6 +413,29 @@ def run_admitted_creation_dialog(
                     # (`save_corrections/<repair_key>.json`) erhalten.
                     f"Grund: {save_correction.public_hold_reason(correction.reason)}."
                 )
+                # R-SCF-A (02_SAVEVERTRAG.md §D): wenn das additive
+                # Re-Export-Budget echt erschoepft ist (NICHT bei Drift/
+                # Blockade -- `compat_export_path` bleibt dafuer `None`,
+                # s. `core.save_correction.CorrectionOutcome`-Docstring),
+                # bekommt der Teilnehmer die dokumentierte Meldung, dass ein
+                # Kompatibilitaetsstand gesichert wurde. R4-Redaktionsfix
+                # (test_ux1_r4_creation_error_redaction_2026_10_05.py):
+                # NIE den rohen Pfad drucken -- `compat_export_path` liegt
+                # unter `save_compat/<repair_key>/...` und `repair_key`
+                # (`creation_repair_key(participant_id, char_id)`) enthaelt
+                # die rohe `participant_id` (s. G03/SC15/SC17-Praezedenz
+                # oben fuer `correction.reason`, dieselbe Disziplin gilt
+                # hier). Die reale Datei bleibt im geschuetzten Lauf-
+                # verzeichnis erreichbar (naechster Fortsetzen-Aufruf greift
+                # sie ueber `ui.tui._apply_pending_compat_load` wieder auf,
+                # OHNE dass der Pfad je durch diesen Druckpunkt musste);
+                # hier nur die feste, pfadfreie Meldung.
+                if correction.compat_export_path:
+                    print_fn(
+                        "Gesichert mit Pruefhinweisen (Kompatibilitaetsstand -- NICHT kanonisch, "
+                        "zaehlt nicht als abgeschlossener Save; naechster Fortsetzen-Aufruf nutzt "
+                        "den Kompatibilitaetsladeweg)."
+                    )
                 return CreationDialogOutcome(status="paused", reason=correction.reason)
             onboarding_lib.complete_with_save(
                 onboarding_dir, participant_id, correction.block,
