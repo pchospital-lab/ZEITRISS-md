@@ -1,233 +1,104 @@
-# ZEITRISS®-md Zeitreise-RPG
+# ZEITRISS® — Dein Einsatz beginnt hier
 
 <p align="center">
   <img src="docs/gameicon.png" alt="ZEITRISS" width="200">
 </p>
 
-[![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
+> **Ein Tech-Noir-Zeitreise-Rollenspiel mit KI-Spielleitung.**
+> Erschaffe deinen Chrononauten, stelle deine Runde zusammen und entscheide,
+> welchen Preis die Geschichte wert ist. Würfelproben, Missionen und ein
+> persönlicher Spielstand begleiten dich durch die Zeit. **18+, Uncut.**
 
-> **Tech-Noir-Zeitreise-RPG mit KI-Spielleitung.** Ihr spielt Chrononauten
-> des ITI — Elite-Agenten, die durch die Zeit springen, um die Hauptzeitlinie
-> zu stabilisieren. Explodierende Würfel, HUD-Overlay, persistente Saves.
-> **18+, Uncut.**
+**[Im Terminal starten](docs/spielerstart.md)** ·
+**[Im Chat spielen](docs/setup-guide.md#browser-einstieg-ohne-installation)** ·
+**[Gemeinsam spielen](docs/koop-online-spielen.md)**
 
-## Was ist ZEITRISS?
+## Ein Rollenspiel. Deine Entscheidungen.
 
-Ein Pen-&-Paper-RPG, bei dem die **KI eure Spielleitung ist**. Kein
-vorgefertigtes Text-Adventure, kein Choose-Your-Own-Adventure — ein
-vollständiges Rollenspielsystem mit Würfelproben, Charakterentwicklung,
-Kampagnenfortschritt und einer KI, die alles leitet: Szenen, NSCs, Kämpfe,
-Loot und Debrief.
+Du spielst einen Chrononauten des ITI. Deine Aufträge führen dich in andere
+Zeiten, mitten in Konflikte um die Hauptzeitlinie. Die KI übernimmt die
+Spielleitung: Sie beschreibt Szenen, spielt Nebenfiguren und führt durch
+Proben, Kämpfe und Debriefings. Du bestimmst, was deine Figur versucht.
 
-Architektonisch ist **ZEITRISS eine portable LLM-RPG-Engine**: Masterprompt
-plus 19 Wissensmodule, mit Retrieval, Save-JSON und hoher Regeltreue als
-Kernanforderungen. Die Runtime ist kein fester Server und keine feste App,
-sondern das LLM deiner Wahl — solange deine Plattform projektweite
-Anweisungen, Wissensdateien/Quellen und zuverlässiges Retrieval unterstützt.
-Dadurch spielt sich ZEITRISS je nach Modell und Plattform leicht anders,
-bleibt aber über den Save portabel: wie ein Charakterbogen, den du an einen
-anderen Pen-&-Paper-Tisch mitnimmst.
+ZEITRISS ist kein fest verzweigtes Text-Adventure. Regelwerk, Spielanweisungen
+und Wissensmodule bilden die Grundlage; deine Runde entwickelt die Geschichte
+im Spiel. Ihr müsst vor dem Start nicht das Regelwerk lesen. Fragen zu Welt,
+Ausrüstung oder einer Probe könnt ihr direkt an die Spielleitung stellen.
+Der Standard-Ladepfad verwendet den Spielleiter-Masterprompt und **19 Wissensmodule**;
+der [Setup-Guide](docs/setup-guide.md) führt durch die Einrichtung.
 
-Die Spielleitung zieht aus einem ganzen Orchester von Generatoren —
-Settings, NSC-Pools, Preserve-/Trigger-Seeds, Paradox-Events und
-Rift-Koordinaten — und webt daraus jede Kampagne neu. Kein Playthrough
-gleicht dem anderen.
+## MMO ohne Server — dein Spielstand reist mit
 
-Ihr müsst vor dem ersten Run nicht das Regelwerk lesen — einrichten,
-Preset wählen, losspielen. **Regeln, Welt, Skillung, Taktik** lernt ihr
-**spielerisch im Chat** — fragt einfach die Spielleitung („wie levele ich
-am besten?", „was macht TEMP?", „was ist ein Rift-Op?"), sie antwortet
-in-world, ohne die vierte Wand zu brechen. Kein Computerspiel und kein
-klassisches Pen-&-Paper erklärt euch die Welt so beiläufig wie ZEITRISS:
-**nichts bleibt ungeklärt**, weil ihr jederzeit fragen könnt.
+Ein zentraler ZEITRISS-Spielserver ist für den Austausch deiner Figur nicht nötig:
+Du nimmst ihren gültigen JSON-Save in eine andere geeignete Runde mit.
+„MMO ohne Server“ beschreibt dieses Spiel- und Savekonzept, nicht eine bereits
+veröffentlichte Terminal-Netzwerklobby. Für KI-Spielleitung und optionale
+KI-Mitspieler brauchst du weiterhin die jeweils eingerichteten Modelldienste.
 
-### So sieht das aus
+## Wähle deinen Spielweg
 
-🎬 `EP 01 · MS 03 · SC 07/12 · MODE CORE · Objective: Dossier sichern`\
-🧠 `Stress 3 · Px █░░░░ (1/5) · Lvl 3 ▓▓▓░░░░░░░ · Rank Operator · SYS 1/4 (free 3)`
+| Spielweg | Das brauchst du | Dein Einstieg |
+| --- | --- | --- |
+| **Lokales Terminal** | Python, eingerichtete KI-Spielleitung und ein freigegebenes Modellbudget; für KI-Mitspieler zusätzlich eine Persona-Anbindung | [Spielerstart](docs/spielerstart.md) |
+| **Chat und JSON-Save** | Eine geeignete Chatplattform mit dauerhaften Anweisungen, Wissensquellen und Retrieval | [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation) |
 
-> Der Wachmann dreht sich um. Seine Hand geht zum
-> Holster. Du bist schneller.
+Am Terminal spielst du solo oder mit anderen Menschen an einem Gerät.
+Freiwillige KI-Mitspieler können deine Runde ergänzen. Gemeinsames Spiel
+über getrennte Geräte beschreibt der Chat-Leitfaden; eine native
+Netzwerk-Lobby im Terminal ist noch nicht ausgeliefert.
 
-`Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 8 vs SG 8 → TREFFER`
+<a id="terminal-client-lokal-entwicklungskandidat"></a>
 
-> Dein Ellbogen trifft seinen Kehlkopf. Er klappt
-> zusammen, lautlos.
+## Dein erster Terminal-Einsatz
 
-`Kodex: Wachmann neutralisiert. Stress +1.`
+Starte im entpackten Projektordner mit eingerichteter Python-Umgebung:
 
-### Ähnlich, aber anders
+```bash
+python3 scripts/mmo_sim.py
+```
 
-|              | KI-Chat-RPGs     | Pen & Paper    | **ZEITRISS**         |
-| ------------ | ---------------- | -------------- | -------------------- |
-| Spielleitung | KI, keine Regeln | Mensch         | KI, regelgebunden    |
-| Würfel       | Keine            | Ja             | W6/W10, Exploding    |
-| Persistenz   | Nur im Chat      | Manuell        | JSON-Save, portabel  |
-| Multiplayer  | Begrenzt         | Am Tisch       | Drop-in/out per Save |
-| Regelwerk    | Keins            | Buch (100+ S.) | Im Wissensspeicher   |
+Über **`charaktere`** wählst du eine Figur, erschaffst eine neue oder
+importierst einen vorhandenen Save. **`spielen`** führt dich zur
+Zusammenstellung deiner Runde. **`fortsetzen`** bringt dich später zu deinem
+vorhandenen Stand zurück. **`?`** öffnet die Hilfe zum aktuellen Schritt.
 
-## Zwei Spielwege
+Installation, Spielleiter-Anbindung, Import und die genaue Menüführung:
+**[Spielerstart im Terminal](docs/spielerstart.md)**.
 
-Es gibt zwei zusammenhängende, aber getrennte Wege, ZEITRISS zu spielen:
+> **Terminalstatus:** Die Oberfläche und einzelne Livewege sind geprüft;
+> die vollständige Fünf-Figuren-Reise über zwei aufeinanderfolgende Abschnitte
+> ist noch nicht live abgenommen. Der aktuelle Integrationsstand wird deshalb
+> nicht als Stable-Release bezeichnet. [Stand und Umfang](docs/terminal-status.md)
 
-- **Lokaler Terminal-Client** (`python3 scripts/mmo_sim.py`, direkter
-  Einstieg: [Spielerstart](docs/spielerstart.md)): bündelt Einstieg,
-  Figuren, Lobby, Tisch und Spielstandsverwaltung an einem Ort — Status und
-  Umfang stehen zusammenhängend im Abschnitt [Terminal-Client](#terminal-client-lokal-entwicklungskandidat)
-  weiter unten.
-- **Portabler Chat-/JSON-Weg** (eine beliebige, geeignete Chatplattform +
-  `!save`-JSON): plattformunabhängig, weiterhin der breiter abgenommene Weg —
-  beschrieben in [Setup: vorhandene Chatplattform nutzen](#setup-vorhandene-chatplattform-nutzen)
-  und im [Koop- & Online-Leitfaden](docs/koop-online-spielen.md).
+## Save = Charakter
 
-Die beiden folgenden Abschnitte ("Dein Save IST dein Charakter",
-"Bestehendes Charaktermaterial mitbringen") beschreiben Save-/Mehrspieler-
-Grundkonzepte, die für BEIDE Wege gelten, bevor sie unten je einzeln vertieft
-werden.
+Dein persönlicher JSON-Save enthält den zuletzt gespeicherten Stand deiner
+Figur. Bewahre eine eigene gültige Kopie auf. Du kannst ihn als Charakterbogen
+zu einer anderen geeigneten ZEITRISS-Runde mitnehmen; die jeweilige Plattform
+muss das Regelwerk und den Save korrekt laden können.
 
-## Dein Save IST dein Charakter
+**Im Chat:** `!save` beziehungsweise `!speichern` erzeugt den Save im Chat.
+Speichere ihn selbst als Datei; das Kommando allein legt keine Datei auf
+deinem Gerät an. Ein neuer Spielchat lädt den Save mit `Spiel laden` oder
+`!laden`. Spielstände gehören nicht dauerhaft neben die Regelquellen.
 
-**Save = Charakter.** Euer Fortschritt hängt nicht an einem Server. Der
-Charakter liegt als JSON-Speicherstand vor — wie ein Datenblatt beim
-klassischen Pen & Paper.
+**Im Terminal:** Die Exportfunktion unter `charaktere` zeigt den aktuellen
+Save und schreibt ihn in eine Datei. Während einer Runde pausierst du mit
+`/pause`; nach einem Neustart verwendest du `fortsetzen`. Maßgeblich ist der
+zuletzt tatsächlich geschriebene gültige Stand, keine pauschale Zusage gegen
+jeden Datenverlust.
 
-- **Mitnehmbar:** Denselben Charakter in jedem neuen Chat laden.
-- **Teilbar:** Gruppen splitten, spielen getrennt weiter, mergen danach.
-- **Dein Besitz:** Kein Account, kein Lock-in. **MMO ohne Server.**
+## Eine Szene am Spieltisch
 
-**Multiplayer funktioniert so:** Eine Person hostet den Chat. Im HQ erzeugen
-`!save` und `!speichern` automatisch je Spielerfigur einen vollständigen
-persönlichen JSON-Save. Der erste gepostete Save setzt seine Kampagne als
-Sitzungsrahmen; weitere Figuren bringen ihren persönlichen Fortschritt mit,
-während ihre eigenen Kampagnen pausieren.
-Wenn sich Gruppen trennen und später wieder zusammentreffen, verweben sich die
-einzelnen Handlungsstränge wieder zu einem gemeinsamen Zeitnetz.
+*Illustratives Spielbeispiel, kein Protokoll eines abgenommenen Livetests:*
 
-**Zu mehreren spielen:** Wie ihr ZEITRISS gemeinsam online oder am Tisch
-spielt (Save posten, Gruppe bilden, zusammen einen Abschnitt spielen), steht
-im [Koop- & Online-Leitfaden](docs/koop-online-spielen.md).
+> Der Wachmann dreht sich um. Seine Hand geht zum Holster.
+> Du bist schneller.
 
-**Spielrhythmus: ein Abschnitt = ein Chat.** ZEITRISS spielt sich in
-sauber abgeschlossenen Spielabschnitten — Charaktererschaffung, HQ-Runde,
-Mission, Chronopolis, Arena. Am Ende jedes Abschnitts ein `!save`, dann
-neuer Chat, Save laden, weiter im HQ-Hub. Klingt ungewohnt, fühlt sich
-nach zwei Runden völlig natürlich an: kein Kontext-Overflow, sauberer
-Regelzugriff, klarer Schnitt zwischen den Beats. Mehr dazu im
-[Spieler-Handbuch](core/spieler-handbuch.md#gameflow-chat-wechsel).
-
-**Hinweis zu Saves:** Ausformulierte Vorgeschichten dürfen ausführlich sein,
-der Save bleibt trotzdem kompakt. Beim HQ-`!save` können ältere
-Freitext-Details in `summaries.*` verdichtet werden; der spielrelevante Kern
-bleibt im strukturierten Charakterstand erhalten.
-
-## Bestehendes Charaktermaterial mitbringen
-
-Du hast bereits eine Figur aus einem anderen Pen-&-Paper oder eine ältere
-Kampagnen-Biografie? Dann kannst du vorhandene Notizen, Bögen oder eine
-Kurzbiografie als Ausgangsmaterial nutzen.
-
-ZEITRISS übernimmt dabei **keine fremden Regeln 1:1**. Übernommen werden vor
-allem **Rolle, Vibe, Hintergrund, Motive, Stärken, Schwächen und
-Ausrüstungsrichtung**. Alles andere wird in einen ZEITRISS-kompatiblen
-Startcharakter übersetzt.
-
-Wenn deine Runtime Bildinput unterstützt, kannst du auch einen Scan oder ein
-Foto als Referenz nutzen. Der robusteste Weg bleibt trotzdem eine kurze
-Textzusammenfassung der wichtigsten Eckdaten.
-
-## Terminal-Client (lokal, Entwicklungskandidat)
-
-ZEITRISS ist ein KI-geleitetes Zeitreise-Rollenspiel. Ein lokaler
-Terminalclient (`python3 scripts/mmo_sim.py`, Spieleranleitung:
-[docs/spielerstart.md](docs/spielerstart.md), Betriebsdoku:
-[mmo-sim.md](docs/mmo-sim.md))
-bündelt zusätzlich Einstieg, Figuren, Lobby, Tisch und Spielstandsverwaltung
-über der oben beschriebenen Masterprompt-/RAG-Engine — die portable
-Chatnutzung (Setup/Multiplayer oben) bleibt davon unverändert erhalten und
-ist weiterhin der breiter abgenommene Weg.
-
-> **Status (2026-10-02, kontrolliert offline geprüft, kein Live-/Install-/
-> LAN-PASS):** Solo lokal; mehrere Menschen an einem Gerät (geteiltes
-> Terminal, eigener Eingabeprompt je Zug); freiwillige KI-Spieler-Personas
-> mit echtem Einladungs-/Zustimmungsvertrag (Annahme/Ablehnung/Pause); eine
-> bekannte, bereits spielende Persona kann auf ausdrückliche Einladung einen
-> zusätzlichen eigenen Chrononauten erschaffen, damit Mensch und Persona
-> gemeinsam frisch auf Level 1 beginnen — alte Figuren, Community und
-> fremde Persona-Daten bleiben dabei unverändert erhalten. JSON-Import/
-> -Export ohne manuelles Dateihandling. Beide Provider-Profile (lokale
-> CLI-Isolation und API/LiteLLM-Profil) sind an ihrer echten Adaptergrenze
-> mit markierten Test-Doubles geprüft (`tests/mmo_sim/run_all.py`), **kein
-> echter Modellaufruf in dieser Prüfung**. Natives LAN-/Remote-Mitspielen
-> über das Netzwerk ist noch nicht ausgeliefert; echte Installation/
-> Abo-Kompatibilität für Endnutzer ist nicht Teil dieser Prüfung.
->
-> **Nachzug (2026-10-06):** zusätzlicher Sicherheits-/Eingabevertrags-
-> nachzug (gekoppelte Fehlerredaktion mit wieder sichtbarem Archiv-HOLD,
-> vollständig zentral gebundene Spieler-Eingabeprompts, endliche
-> synthetische Figur-Erschaffung bis zum ersten gültigen Spielstand,
-> verbundene Mehrmenschen-Spielreisen) — Details im Abschnitt „R5 —
-> Sicherheitsnachzug..." in [docs/mmo-sim.md](docs/mmo-sim.md). Ändert
-> nichts an obigem Status (kein Live-/Install-/LAN-PASS).
-
-## Setup: vorhandene Chatplattform nutzen
-
-**Mach deine geeignete KI-Chatplattform zu ZEITRISS.** Der einfache Weg ist:
-**Download → entpacken → dauerhafte Projektquellen → eine Anweisung → Start.**
-Dafür brauchst du weder Git, Terminal, Python, Docker noch einen zusätzlichen
-API-Key, wenn dein vorhandener Modellzugang Projektquellen, dauerhafte
-Anweisungen und Retrieval unterstützt. Ein Abo allein garantiert diese
-Funktionen oder Regeltreue nicht.
-
-Das öffentliche Repository ist bereits der nutzbare Downloadweg: Nutze im
-Browser **Code → Download ZIP** für einen nachvollziehbaren Commit oder Tag,
-entpacke das Repository und
-wähle die 19 Dateien exakt nach der Liste im [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation).
-Im **Quell-ZIP** heißen die Anweisungsdateien `meta/masterprompt_v6.md` und
-`meta/project_bootstrap_instructions.md`; im **erzeugten Upload-Paket** heißen
-dieselben Inhalte `system/SYSTEM_PROMPT_ONLY.md` und
-`system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`. Das Quell-ZIP selbst ist **kein**
-bereinigtes Spielpaket. Ein Maintainer kann
-zusätzlich ein bequemeres fertiges Paket mit
-`scripts/setup.py --export --require-clean` erzeugen;
-es enthält `knowledge/...`, `system/SYSTEM_PROMPT_ONLY.md`,
-`system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`, `SETUP-ANLEITUNG.md`, Manifest und ZIP.
-
-Es gibt genau zwei Projektvarianten: **(A)** vollständigen Masterprompt ins
-dauerhafte Anweisungsfeld und 19 Module als Quellen; **(B)** bei zu kleinem
-Feld ausschließlich den Project-Bootstrap als Anweisung und die 19 Module plus
-Masterprompt als 20 Quelldateien. Nicht stapeln und nichts abschneiden. Der
-aktuelle v7-Save ist beim Laden ein eigener Zustandsanker; alte widersprüchliche
-Saves desselben Charakters gehören nicht daneben.
-
-Danach einen **neuen Spielchat** öffnen: mit `Spiel starten (solo klassisch)`
-neu beginnen oder den extern aufbewahrten persönlichen Save direkt einfügen
-und `Spiel laden`/`!laden` verwenden. `!save`/`!speichern` erzeugt den
-persönlichen JSON-Save im Chat, aber keine automatische Dateiablage. Saves
-gehören nicht dauerhaft zu den Regelquellen.
-
-OpenWebUI + Sonnet 4.6 bleibt das referenzgetestete Entwicklungssetup; dessen
-Docker-/Python-Voraussetzungen stehen nachgeordnet im [Setup-Guide](docs/setup-guide.md#komplett-setup-in-openwebui-empfohlen).
-Andere Plattformen sind nicht pauschal abgenommen.
-
-## Creator Studio
-
-Das [ZEITRISS® Creator Studio](docs/creator-mode.md) setzt Saves, Transkripte
-und autorisierte Referenzassets in Medienkonzepte und Creator-Pakete um. Es
-läuft strikt getrennt als eigenes Projekt, führt den normalen reinen
-Text-Spielbetrieb nicht fort und verändert keinen Spielfortschritt.
-
-## Modell-Empfehlung
-
-**Standard-Stack: `anthropic/claude-sonnet-4.6` + LiteLLM.** Sonnet 4.6 ist
-aktuell das einzige getestete Modell mit vollständiger Regeltreue und
-stärkstem Noir-Ton. Der LiteLLM-Proxy (Docker, Teil des Standard-Setups) aktiviert
-den Anthropic-Prompt-Cache und senkt die Kosten um **~90 %** — ZEITRISS
-wird damit **spürbar günstiger** ohne Abstrich bei der Regeltreue.
-
-> In OpenWebUI taucht das Modell nach der LiteLLM-Installation als
-> `zeitriss-sonnet` im Dropdown auf. Das ist nur ein LiteLLM-Alias für
-> `anthropic/claude-sonnet-4.6` — gleiches Modell, kürzerer Name.
-> ZEITRISS wird automatisch auf diesen Alias eingestellt.
+```text
+EP 01 · MS 03 · SC 07/12 · MODE CORE · Objective: Dossier sichern
+Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 8 vs SG 8 → TREFFER
+```
 
 ## Das Spielsystem in Kürze
 
@@ -274,6 +145,32 @@ Charakter“ oder „zeig meinen Bogen“ — die Spielleitung reagiert in-world
 Schnellstart, FAQ
 → **[SL-Referenz](core/sl-referenz.md)** — Tabellen, Befehle, Systemdetails
 
+## Einrichtung und Referenzsetup
+
+Für den Chatweg gibt es zwei Varianten: den vollständigen Masterprompt als
+dauerhafte Anweisung mit 19 Wissensmodulen, oder bei kleinerem Anweisungsfeld
+den Project-Bootstrap mit Masterprompt und Modulen als Quellen. Beide
+Varianten werden im [Setup-Guide](docs/setup-guide.md) beschrieben. Nicht
+miteinander stapeln und den Masterprompt nicht abschneiden.
+
+Der dokumentierte Entwicklungs-Referenzstack verwendet OpenWebUI, LiteLLM
+und `anthropic/claude-sonnet-4.6`. Ein passendes Modell und korrektes Retrieval
+sind Voraussetzungen, keine Garantie für fehlerfreie Spielleitung.
+Prompt-Caching kann Eingabekosten senken; daraus folgt keine pauschale
+90-Prozent-Ersparnis für eine gesamte Runde. Tatsächliche Kosten hängen von
+Anfragen, Ausgaben, Cachetreffern und dem verwendeten Anbieterweg ab.
+
+## Mehr aus deiner Runde machen
+
+Vorhandene Biografien, Bögen und Notizen können als Ausgangspunkt für eine
+neue Figur dienen. Rolle, Hintergrund und Motive werden in einen
+ZEITRISS-kompatiblen Startcharakter übertragen; fremde Regeln werden nicht
+unverändert übernommen.
+
+Das [Creator Studio](docs/creator-mode.md) hilft bei Medienkonzepten aus
+Saves, Transkripten und autorisierten Referenzen. Es ist ein separates
+Projekt und verändert keinen Spielfortschritt.
+
 ## Lizenz
 
 - **Inhalte** (Texte, Illustrationen, Regeln) — CC BY-NC 4.0 mit
@@ -296,10 +193,3 @@ Sicherheitsmeldungen: [SECURITY.md](SECURITY.md).
 
 © 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.
 
-[llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
-[llm-ready-link]: core/spieler-handbuch.md
-
-
-## Hinweis: Automatische Wiederaufnahme nach dem Abschluss-Spielzug (Stand 2026-10)
-
-Wird eine Gruppen-Sitzung genau nach dem Abschluss-Spielzug der Spielleitung, aber vor den Pflicht-Reflexionen unterbrochen (Prozessabbruch oder Admission-Pause), erntet der naechste gewoehnliche Fortsetzen-Aufruf die bereits **vollstaendig lokal verbuchte** Antwort automatisch — aber NUR, wenn sie eindeutig zur urspruenglichen Anfrage passt (exakt derselbe Original-Input, dieselbe Original-ID, Rollen-/Tisch-/Section-/Turn-/Teilnehmerbezug) UND ohne manuelles `store.complete_section`-Seeding oder einen neuen Spiel-/GM-Turn. Eine Antwort, die lediglich *empfangen*, aber noch nicht vollstaendig verbucht ist, oder deren Herkunft unklar/fremd/unvollstaendig gebunden ist, wird NICHT automatisch geerntet — stattdessen haelt der naechste Fortsetzen-Aufruf kontrolliert, ohne den Spielzustand zu veraendern. Danach (bei erfolgreicher Ernte) laufen die fuenf KI-Reflexionen und der endgueltige Abschluss wie im ununterbrochenen Normalfall. Die Speicher-, Schema- und Zustimmungs-Pruefungen bleiben dabei unveraendert aktiv; eine zwischenzeitlich veroeffentlichte neuere Figurgeneration wird weiterhin erkannt und nicht ueberschrieben. Diese Automatik ist bislang nur durch synthetische Offline-Proben belegt, getrennt von der bereits abgenommenen, betreiberassistierten nativen Live-Recovery — keine Zusage auf exactly-once-Zustellung.

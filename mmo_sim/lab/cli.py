@@ -26,6 +26,7 @@ import sys
 import time
 from pathlib import Path
 
+from . import recovery_cli
 from . import runner as lab_runner
 from .runner import LabBudget, LabRunner, LabRunnerRestartError, SingletonViolationError
 from ..core import lobby_flow
@@ -555,6 +556,15 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
 
 
 def main(argv: list[str], repo_root: Path) -> int:
+    # R-P3/R-P5 (ZR-RECOVERY-OFFLINE-20261015-R1, 03_RECOVERY_VERTRAG.md):
+    # 'recovery' delegiert VOR dem bestehenden start/resume/status/stop/
+    # attach-Parser an `recovery_cli.main` -- derselbe Dispatch-VOR-Parser-
+    # Stil wie `scripts/mmo_sim.py`s fuehrendes 'lab'-Subkommando (s.
+    # dortigen Docstring: "ein Aufruf OHNE dieses Subkommando bleibt exakt
+    # die unveraenderte TUI"), kein zweiter argparse-Subparserbaum und keine
+    # Aenderung an `build_parser()`s bestehenden fuenf Subkommandos.
+    if argv and argv[0] == "recovery":
+        return recovery_cli.main(argv[1:])
     parser = build_parser()
     args = parser.parse_args(argv)
     try:

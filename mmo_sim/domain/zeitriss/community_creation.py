@@ -279,8 +279,26 @@ def _persona_get_reply_factory(
         # Reservierung AUS Input+Output, nicht die starre Pauschale.
         reserved_usd, output_bound_known = reservation_for_request(persona_driver, ctx)
         route = getattr(getattr(persona_driver, "config", None), "base_url", None)
+        # HY-A-Fix (ZR-HYBRID-LIVEQUALIFIKATION-20261016-R1, konkreter
+        # Fehlerbeleg: `qualifikation.py dry-run --profile hybrid` endete mit
+        # `FAIL_CREATION_INCOMPLETE`, alle 5 Personas `status=paused`, KEIN
+        # Persona-Request im Ledger): `dollar_billed` wurde hier -- anders als
+        # bei JEDEM anderen Persona-Request im Produkt (`core.runtime.
+        # SectionRuntime._admitted_decision`/`core.lobby_service.
+        # request_admitted_decision`, beide `getattr(driver, 'is_dollar_billed',
+        # True)`) -- NIE aus dem tatsaechlich verwendeten Treiber ermittelt und
+        # blieb am `read_admission_block`/`request_ledger.begin`-Default
+        # `dollar_billed=True` haengen. Fuer `PersonaClaudeCodeDriver`
+        # (`is_dollar_billed=False`, `ClaudeCodeConfig` hat kein `max_tokens`
+        # -> `output_bound_known=False`) lehnte das Q07-Fail-Closed-Gate JEDE
+        # Erschaffungsanfrage unter dem (von `qualifikation.py`/jedem Lab-Lauf
+        # IMMER gesetzten) harten `max_usd` ab -- Hybrid-Profil erreichte den
+        # Erschaffungsschritt nie. Minimale Parameterweitergabe, identisches
+        # Muster wie die bereits korrekten Lobby-Aufrufer.
+        dollar_billed = getattr(persona_driver, "is_dollar_billed", True)
         blocked, reason = read_admission_block(
             run_dir, reserved_usd=reserved_usd, output_bound_known=output_bound_known, route=route,
+            dollar_billed=dollar_billed,
         )
         if blocked:
             return ReplyResult(kind="paused", reason=str(reason))
@@ -290,6 +308,7 @@ def _persona_get_reply_factory(
             output_limit_tokens=getattr(getattr(persona_driver, "config", None), "max_tokens", None),
             table_id=community_id, section_id=section_id,
             turn_idx=turn_idx, participant=onboarding_participant_key,
+            dollar_billed=dollar_billed,
         )
         t0 = time.monotonic()
         try:
