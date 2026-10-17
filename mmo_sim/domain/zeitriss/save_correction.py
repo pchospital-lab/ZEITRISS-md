@@ -171,7 +171,59 @@ def _is_allowed_amount_wrap(
     key = candidate[len(prefix):]
     if "/" in key or key not in _AMOUNT_WRAP_KEYS:
         return False
-    if new_leaves[candidate] != old_value:
+    new_value = new_leaves[candidate]
+    if isinstance(new_value, bool) or new_value != old_value:
+        return False
+    consumed_new.add(candidate)
+    return True
+
+
+def _is_allowed_required_key_rename(
+    old_path: str, old_value: object, old_leaves: dict[str, object],
+    new_leaves: dict[str, object], consumed_new: set[str], error_paths: set[str],
+) -> bool:
+    """F1/F2 (01_AUFTRAG.md §A "amount:100 -> balance:100"): erlaubt GENAU
+    den engen wertgleichen GESCHWISTER-Key-Rename innerhalb EINES
+    Elternobjekts, das laut `error_paths` (required/additionalProperties)
+    schema-ungueltig war -- der alte Blattschluessel verschwindet, ein NEUER
+    schema-naher Blattschluessel (`_AMOUNT_WRAP_KEYS`) erscheint am selben
+    Elternpfad mit byte-identischem Wert. Anders als `_is_allowed_amount_wrap`
+    (Zahl wird zu geschachteltem Objekt, alter Pfad bleibt Praefix des neuen)
+    behandelt dies den Fall, dass beide Blattpfade GESCHWISTER desselben
+    Elternknotens sind (alter Schluessel weg, neuer Schluessel da).
+
+    KEIN Blanket "schema-gueltig -> annehmen": beide Schluesselnamen (alt
+    UND neu) muessen aus der festen, engen `_AMOUNT_WRAP_KEYS`-Menge stammen
+    (verhindert Namens-/Fortschritts-/Alias-Umbenennungen), der Elternpfad
+    muss ein TATSAECHLICH gemeldeter Fehlerpfad sein, der Wert muss
+    byte-identisch bleiben (boolesche Scheinzahlen ausgeschlossen), und es
+    darf GENAU EIN neuer, noch nicht vorhandener Geschwisterschluessel
+    auftauchen (ein zusaetzlicher unbegruendeter Zusatzschluessel neben dem
+    Rename laesst `len(candidates) != 1` scheitern -- bleibt Drift)."""
+    if not isinstance(old_value, (int, float)) or isinstance(old_value, bool):
+        return False
+    sep = old_path.rfind("/")
+    if sep <= 0:
+        return False
+    parent = old_path[:sep]
+    old_key = old_path[sep + 1:]
+    if old_key not in _AMOUNT_WRAP_KEYS:
+        return False
+    if parent not in error_paths:
+        return False
+    prefix = parent + "/"
+    candidates = [
+        p for p in new_leaves
+        if p.startswith(prefix) and "/" not in p[len(prefix):] and p not in old_leaves
+    ]
+    if len(candidates) != 1:
+        return False
+    candidate = candidates[0]
+    new_key = candidate[len(prefix):]
+    if new_key not in _AMOUNT_WRAP_KEYS:
+        return False
+    new_value = new_leaves[candidate]
+    if isinstance(new_value, bool) or new_value != old_value:
         return False
     consumed_new.add(candidate)
     return True
@@ -190,10 +242,18 @@ def detect_unjustified_drift(
     nicht-leeres Ergebnis als HOLD ("Unklarer Sinn -> HOLD statt raten"),
     NIEMALS als stille Übernahme.
 
-    Ausnahme: ein reiner wertgleicher Zahl->Objekt-Wrap (s.
+    Ausnahme 1: ein reiner wertgleicher Zahl->Objekt-Wrap (s.
     `_is_allowed_amount_wrap`) ist auch AUSSERHALB von `error_paths` erlaubt
     (Beispiel 01_AUFTRAG_SAVEGATE.md §A), weil der tatsächliche Betrag
-    nachweislich unverändert bleibt."""
+    nachweislich unverändert bleibt.
+
+    Ausnahme 2 (F1/F2): ein enger wertgleicher Geschwister-Key-Rename (s.
+    `_is_allowed_required_key_rename`), der einen laut `error_paths`
+    schema-fehlerhaften Elternknoten gültig macht -- z.B.
+    '/economy/wallets/X/amount' (100) -> '/economy/wallets/X/balance' (100).
+    KEIN Blanket "schema-gültig ⇒ annehmen": Betragsänderung (100 -> 1000),
+    Namens-/Fortschritts-/Alias-Umbenennung und unbegründete Zusatzschlüssel
+    bleiben Drift (s. Docstring dort)."""
     if not isinstance(original, dict) or not isinstance(corrected, dict):
         return [] if original == corrected else [("/", original, corrected)]
 
@@ -206,6 +266,8 @@ def detect_unjustified_drift(
         if path in new_leaves:
             continue  # im zweiten Durchgang behandelt (gleicher Pfad in beiden)
         if _is_allowed_amount_wrap(path, old_value, new_leaves, consumed_new):
+            continue
+        if _is_allowed_required_key_rename(path, old_value, old_leaves, new_leaves, consumed_new, error_paths):
             continue
         if path in error_paths:
             continue  # Struktur wurde an genau dieser gemeldeten Stelle korrigiert

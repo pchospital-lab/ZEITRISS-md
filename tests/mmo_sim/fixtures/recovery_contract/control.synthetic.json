@@ -1,0 +1,15 @@
+{
+  "schema": "zeitriss-recovery-public-fixture-control/1",
+  "note": "Neutrale Repo-Testfixture (KEIN historisches privates Auftrags-CONTROL) -- liefert nur die beiden Felder, die test_recovery_ops_r1.py::test_candidate_scope_and_source_modes_bound strukturell liest (allowed_existing_candidate_paths/allowed_new_candidate_paths), gebunden an die tatsaechlichen oeffentlichen Produkt-/Testpfade dieses Pakets.",
+  "allowed_existing_candidate_paths": [
+    "mmo_sim/core/request_ledger.py",
+    "mmo_sim/core/save_correction.py",
+    "mmo_sim/lab/cli.py"
+  ],
+  "allowed_new_candidate_paths": [
+    "mmo_sim/core/recovery_ops.py",
+    "mmo_sim/lab/recovery_cli.py",
+    "tests/mmo_sim/test_recovery_ops_r1.py",
+    "tests/mmo_sim/_recovery_ops_r1_fixtures.py"
+  ]
+}

@@ -38,6 +38,7 @@ from ..core.creation_service import ReplyResult, run_admitted_creation_dialog
 from ..domain.zeitriss import catalog, import_export, onboarding
 from ..domain.zeitriss import saves as zeitriss_saves
 from ..domain.zeitriss.policy import COMPLETION_MARKER, ZeitrissHarvestValidator, ZeitrissTableSizePolicy
+from . import rendering
 
 
 @dataclass
@@ -161,12 +162,33 @@ class TuiSession:
         gm_transport_factory: Callable[[], object] | None = None,
         exports_dir: str | Path | None = None,
         persona_driver_factory: Callable[[str], object] | None = None,
+        ascii_fallback: bool = False,
     ):
         self.onboarding_dir = Path(onboarding_dir)
         self.catalog_dir = Path(catalog_dir)
         self.participant_id = participant_id
         self._input = input_fn or input
-        self._print = print_fn or print
+        # R12-SAVECOMPAT (03_TERMINAL_UND_BILD.md): derselbe `print_fn`-
+        # Rohaufruf wie bisher ("l print_fn or print"), aber JEDER Aufruf
+        # geht zusaetzlich durch `rendering.render_for_terminal` -- EIN
+        # Minimalrenderer fuer die bestehende Produktanzeige (Markdown-
+        # Subset -> ANSI, gefaehrliche rohe Steuerzeichen aus Modelltext
+        # entfernt), OHNE das an `onboarding`/`sl_log`/Save-Dateien
+        # geschriebene Protokoll zu veraendern (die bekommen den
+        # unveraenderten Rohtext weiterhin VOR diesem Aufruf, s. z.B.
+        # `core.creation_service.run_admitted_creation_dialog`s
+        # `onboarding_lib.record_pending_reply(..., sl_reply=sl_text, ...)`
+        # VOR `print_fn(f"[SL] {sl_text}")`). `ascii_fallback` ist ein
+        # expliziter, vom Aufrufer gesetzter Opt-in (Konstruktorparameter
+        # ODER `MMO_SIM_TUI_ASCII_FALLBACK=1`, kein stiller Default-Verlust).
+        ascii_fallback_env = os.environ.get("MMO_SIM_TUI_ASCII_FALLBACK") == "1"
+        self._ascii_fallback = bool(ascii_fallback) or ascii_fallback_env
+        raw_print = print_fn or print
+
+        def _rendered_print(text: str) -> None:
+            raw_print(rendering.render_for_terminal(text, ascii_fallback=self._ascii_fallback))
+
+        self._print = _rendered_print
         self.exit_code = 0
         self._quit = False
         # Optionale Laufumgebung/SL-Anbindung fuer `l` (lokale Runde, I1/A4)
@@ -3060,9 +3082,158 @@ class TuiSession:
                 )
             except core_store.CurrentSaveUnavailableError:
                 return None, True
+            # R-SCF-A (02_SAVEVERTRAG.md §D "naechster Abschnitt startet
+            # ueber den Kompatibilitaetsladeweg ... VOR davon abhaengigen
+            # Spielaktionen"): schliesst die in GAPS.md/review/INTAKE.md
+            # dokumentierte Luecke -- bisher wurde ein noch nicht
+            # adoptierter Kompatibilitaetsumschlag (s. `core.save_correction.
+            # _write_compat_export_on_exhaustion`) von keinem Consumer je
+            # wieder aufgegriffen. Bewusst VOR dem `current`-Rueckfall
+            # geprueft (nicht nur, wenn `current is None`): ein kanonischer
+            # Current wird NUR beim allerersten Veroeffentlichen (Ende der
+            # Erschaffung, `_finish_new_character_creation`) geschrieben und
+            # bleibt danach UNVERAENDERT, solange ein SPAETERER Abschnitt am
+            # Budget scheitert -- ein reiner `current is None`-Gate wuerde
+            # den dabei entstandenen (neueren) Kompatibilitaetsstand nie
+            # erreichen und den Spielerfortschritt dieses Abschnitts still
+            # unter den Tisch fallen lassen (genau der "stille Schwund",
+            # den 02_SAVEVERTRAG verbietet). Ohne vorhandenen Umschlag (der
+            # ueberwiegende bestehende Fall, inkl. JEDER bestehenden
+            # Regression -- `_find_latest_pending_compat_export` liefert
+            # dann `None`) ist dieser Zweig ein reiner No-Op, identisches
+            # Verhalten zu vorher; ein bereits ADOPTIERTER Umschlag liefert
+            # idempotent denselben, laengst im Store stehenden Block
+            # zurueck (kein Doppel-Publish, s. `attempt_compat_load`-
+            # Restart-Sicherheit); ein (noch) nicht reparierbarer Umschlag
+            # (`status="hold"`) laesst den bisherigen `current`/
+            # `onboarding_final_save`-Rueckfall unten unveraendert
+            # bestehen ("App bleibt benutzbar, letzter valider Stand
+            # bleibt erhalten", 02.D).
+            compat_block = self._apply_pending_compat_load(persona_key)
+            if compat_block is not None:
+                return compat_block, False
             if current is not None:
                 return current, False
         return onboarding_final_save, False
+
+    def _find_latest_pending_compat_export(self, persona_key: str) -> dict | None:
+        """R-SCF-A (02_SAVEVERTRAG.md §D): reiner Lesescan von `run_dir/
+        save_compat/*/<version>.json` (additive Ablage, s. `core.
+        save_correction._write_compat_export_on_exhaustion`) nach dem
+        NEUESTEN Umschlag fuer GENAU `persona_key` -- unabhaengig davon, ob
+        der schreibende Aufrufer die Einzelfigur-Ableitung
+        (`creation_repair_key`, Erschaffungsweg) oder die Gruppen-Ableitung
+        (`group_repair_key`, normaler `!save`/Fuenfer-Ernte-Weg am
+        Abschnittsende) verwendet hat -- BEIDE schreiben `participant_id`/
+        `char_id`/`repair_key` bereits als Teil des Umschlags selbst (s.
+        `domain.zeitriss.save_compatibility.build_compat_envelope`), diese
+        Funktion muss daher KEINE der beiden Ableitungsformeln kennen/neu
+        nachbauen. Deckt insbesondere den Fall ab, dass eine Erschaffung nie
+        erfolgreich abgeschlossen wurde (`onboarding_final_save is None`,
+        also auch KEIN `char_id` ueber den Onboarding-Stand verfuegbar) --
+        der Umschlag selbst traegt seine eigene `char_id`. Kein Write, keine
+        Rekursion (nur zwei Verzeichnisebenen), bounded durch die Anzahl
+        tatsaechlich vorhandener Kompatibilitaetsexporte."""
+        import json
+
+        base = Path(self.run_dir) / "save_compat"
+        if not base.is_dir():
+            return None
+        best: dict | None = None
+        for repair_dir in sorted(base.iterdir()):
+            if not repair_dir.is_dir():
+                continue
+            versions = sorted(
+                (p for p in repair_dir.glob("*.json") if p.stem.isdigit()), key=lambda p: int(p.stem),
+            )
+            if not versions:
+                continue
+            try:
+                data = json.loads(versions[-1].read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            if not isinstance(data, dict) or data.get("participant_id") != persona_key:
+                continue
+            if best is None or (data.get("created_ts") or 0) >= (best.get("created_ts") or 0):
+                best = data
+        return best
+
+    def _apply_pending_compat_load(self, persona_key: str) -> dict | None:
+        """R-SCF-A (02_SAVEVERTRAG.md §D): treibt den bereits vorhandenen,
+        bounded Kompatibilitaetsladeweg (`core.save_compatibility.
+        attempt_compat_load`) fuer `persona_key` an, WENN (und nur wenn)
+        `_find_latest_pending_compat_export` einen noch nicht adoptierten
+        Kompatibilitaetsumschlag findet. `repair_key`/`char_id` kommen
+        DIREKT aus dem gefundenen Umschlag (NIE neu berechnet) -- derselbe
+        Bindungsschluessel, unter dem der jeweilige Schreiber (Einzelfigur-
+        ODER Gruppenpfad) den Export tatsaechlich angelegt hat. Liefert den
+        kanonisch uebernommenen Block bei Erfolg, sonst `None` (kein
+        Umschlag vorhanden ODER Reparatur innerhalb des bounded Budgets
+        nicht moeglich -- der Aufrufer faellt in BEIDEN Faellen unveraendert
+        auf den bisherigen `onboarding_final_save`-Pfad zurueck, kein neuer
+        Fehlerzustand).
+
+        R-SCF-A (ZR-SCF-HYBRID-DURCHSTICH-20261017-R1, Fix A): die
+        `repair_fn` kommt jetzt von `core.compat_load_service.
+        build_compat_repair_fn` -- sie versucht ZUERST weiterhin dieselbe
+        lokale, wertgleiche Wallet-Projektion (02.B, kein Modellaufruf,
+        unveraendertes Verhalten fuer jede bestehende Wallet-Regression),
+        erreicht bei anderen behebbaren Strukturfehlern aber zusaetzlich
+        die TATSAECHLICH konfigurierte SL (`self.gm_transport_factory`,
+        exakt dieselbe Konstruktion wie fuer jeden anderen echten GM-Turn
+        in dieser Klasse) -- derselbe fachliche Ladevertrag fuer die
+        normale TUI UND den Headless-/Hybridpfad (beide konstruieren ihren
+        `gm_transport` ueber dieselbe Factory). Ohne konfigurierte
+        Laufumgebung/SL-Anbindung (`gm_transport_factory is None`, z.B.
+        dieses Offline-Paket ohne Env) bleibt `gm_transport=None` -- die
+        Fabrik liefert dann eine Funktion, die NUR noch die Wallet-
+        Projektion versucht (identisches Verhalten zur alten
+        `_offline_repair`, kein stiller Versuch, eine nicht konfigurierte
+        SL anzusprechen)."""
+        from ..core import compat_load_service
+        from ..core import save_compatibility as save_compat_core
+
+        envelope = self._find_latest_pending_compat_export(persona_key)
+        if envelope is None:
+            return None
+        repair_key = envelope.get("repair_key")
+        char_id = envelope.get("char_id")
+        if not repair_key or not char_id:
+            return None
+
+        gm_transport = None
+        if self.gm_transport_factory is not None:
+            import inspect
+
+            accepts_arg = len(inspect.signature(self.gm_transport_factory).parameters) >= 1
+            table_id = envelope.get("table_id") or f"compat-load-{persona_key}"
+            gm_transport = (
+                self.gm_transport_factory(table_id) if accepts_arg else self.gm_transport_factory()
+            )
+
+        repair_fn = compat_load_service.build_compat_repair_fn(
+            self.run_dir, repair_key=repair_key, char_id=char_id, participant_id=persona_key,
+            gm_transport=gm_transport, table_id=envelope.get("table_id"), section_id=envelope.get("section_id"),
+        )
+
+        outcome = save_compat_core.attempt_compat_load(
+            self.run_dir, repair_key=repair_key, char_id=char_id, participant_id=persona_key,
+            states_dir=self.states_dir, schema_path=self.schema_path, envelope=envelope,
+            repair_fn=repair_fn,
+        )
+        if outcome.status == "adopted":
+            self._print(
+                f"Kompatibilitaetsladeweg: Spielstand fuer {char_id} aus dem Kompatibilitaetsstand "
+                "repariert und uebernommen (02_SAVEVERTRAG.md §D)."
+            )
+            return outcome.block
+        if outcome.status == "hold":
+            self._print(
+                "Kompatibilitaetsladeweg: Spielstand bleibt im gesicherten Kompatibilitaetsstand "
+                f"(Grund: {outcome.reason or 'offene Pruefhinweise'}) -- App bleibt benutzbar, "
+                "kein automatischer Neustart."
+            )
+        return None
 
     def _own_system_context(self, persona_key: str) -> str:
         """D3/A7 (K7, WEGKARTE §6, PLAN-CRITIC-ABSCHLUSS.md HINWEIS):
