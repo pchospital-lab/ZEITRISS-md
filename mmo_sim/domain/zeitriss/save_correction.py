@@ -137,7 +137,14 @@ def group_repair_key(table_id: str, section_id: str, char_id: str) -> str:
 
 def _flatten(obj: object, prefix: str = "") -> list[tuple[str, object]]:
     """Zerlegt ein JSON-Objekt in (Pfad, Blattwert)-Paare, Pfadformat
-    identisch zu `save_validation.SchemaError.path` ('/a/b/0')."""
+    identisch zu `save_validation.SchemaError.path` ('/a/b/0'). Ein LEERES
+    Objekt/Array erzeugt bewusst KEINEN eigenen Blattpfad (unveraendert --
+    ein globales Umstellen hierauf traf frueher ÜBERALL im Dokument
+    unveraendert gebliebene leere Container, z.B. `economy:{}` in einem
+    komplett neu generierten, inhaltlich unverwandten Korrekturversuch, als
+    falsch-positive Drift). Die S3-Pruefung gegen ÜBERSEHENE leere
+    Zusatzfelder lebt deshalb gezielt in `_sibling_keys_match` (raue
+    Original-Objektschluessel am betroffenen Elternknoten, NICHT global)."""
     out: list[tuple[str, object]] = []
     if isinstance(obj, dict):
         for key in obj:
@@ -154,13 +161,64 @@ def _leaves(obj: object) -> dict[str, object]:
     return dict(_flatten(obj))
 
 
+def _node_at(obj: object, path: str) -> object | None:
+    """Navigiert `path` (Format wie `_flatten`, z.B. '/a/b/0') im
+    ROHEN (nicht geflatteten) `obj` und liefert den dort stehenden
+    (Teil-)Knoten -- `None`, wenn der Pfad darin nicht existiert/navigierbar
+    ist. S3-Hilfsfunktion: macht auch leere Geschwisterobjekte/-arrays
+    sichtbar, die `_flatten` bewusst NICHT als eigenen Blattpfad fuehrt."""
+    if path in ("", "/"):
+        return obj
+    node = obj
+    for part in path.strip("/").split("/"):
+        if isinstance(node, dict):
+            if part not in node:
+                return None
+            node = node[part]
+        elif isinstance(node, list):
+            try:
+                idx = int(part)
+            except ValueError:
+                return None
+            if not (0 <= idx < len(node)):
+                return None
+            node = node[idx]
+        else:
+            return None
+    return node
+
+
+def _sibling_keys_match(
+    original: object, corrected: object, parent: str, removed_key: str, added_key: str,
+) -> bool:
+    """S3-Fix (ZR-N2-STABILISIERUNG-WEITERLAUF-2026-10-17-R1): verifiziert
+    am ROHEN Elternobjekt (nicht an den geflatteten Blattpfaden), dass sich
+    an `parent` AUSSER dem einen Rename (`removed_key` weg, `added_key` neu)
+    KEIN weiterer Schluessel geaendert hat -- INSBESONDERE kein zusaetzlicher
+    leeres Objekt/Array-Zusatzfeld, das `_flatten` unsichtbar liesse (01_
+    AUFTRAG.md §S3: "Leere Zusatzobjekte/-listen duerfen den Driftvertrag
+    nicht passieren"). Erwartete neue Schluesselmenge = (alte Schluessel ohne
+    `removed_key`) + `added_key`; jede Abweichung (fehlender Geschwister-
+    schluessel, z.B. durch einen KONKURRIERENDEN zweiten Alias-Rename auf
+    denselben `added_key` verbraucht, ODER ein unbegruendeter zusaetzlicher
+    Schluessel jeder Art) scheitert hier."""
+    old_parent = _node_at(original, parent)
+    new_parent = _node_at(corrected, parent)
+    if not isinstance(old_parent, dict) or not isinstance(new_parent, dict):
+        return False
+    expected = (set(old_parent.keys()) - {removed_key}) | {added_key}
+    return set(new_parent.keys()) == expected
+
+
 def _is_allowed_amount_wrap(
     old_path: str, old_value: object, new_leaves: dict[str, object], consumed_new: set[str],
+    original: object, corrected: object,
 ) -> bool:
     """Erlaubt GENAU den wertgleichen Zahl->Objekt-Wrap an EINEM einzigen
     neuen Unterpfad (z.B. '/economy/wallets/X' (100) -> '/economy/wallets/X/
     balance' (100)) -- jede Wertänderung (100 -> 1000) oder jeder zusätzliche
-    Unterschlüssel bleibt eine abzulehnende Drift."""
+    Unterschlüssel (S3: AUCH ein leeres Objekt/Array, s. `_sibling_keys_
+    match`) bleibt eine abzulehnende Drift."""
     if not isinstance(old_value, (int, float)) or isinstance(old_value, bool):
         return False
     prefix = old_path + "/"
@@ -174,6 +232,9 @@ def _is_allowed_amount_wrap(
     new_value = new_leaves[candidate]
     if isinstance(new_value, bool) or new_value != old_value:
         return False
+    new_parent = _node_at(corrected, old_path)
+    if not isinstance(new_parent, dict) or set(new_parent.keys()) != {key}:
+        return False
     consumed_new.add(candidate)
     return True
 
@@ -181,6 +242,7 @@ def _is_allowed_amount_wrap(
 def _is_allowed_required_key_rename(
     old_path: str, old_value: object, old_leaves: dict[str, object],
     new_leaves: dict[str, object], consumed_new: set[str], error_paths: set[str],
+    original: object, corrected: object,
 ) -> bool:
     """F1/F2 (01_AUFTRAG.md §A "amount:100 -> balance:100"): erlaubt GENAU
     den engen wertgleichen GESCHWISTER-Key-Rename innerhalb EINES
@@ -199,7 +261,22 @@ def _is_allowed_required_key_rename(
     byte-identisch bleiben (boolesche Scheinzahlen ausgeschlossen), und es
     darf GENAU EIN neuer, noch nicht vorhandener Geschwisterschluessel
     auftauchen (ein zusaetzlicher unbegruendeter Zusatzschluessel neben dem
-    Rename laesst `len(candidates) != 1` scheitern -- bleibt Drift)."""
+    Rename laesst `len(candidates) != 1` scheitern -- bleibt Drift).
+
+    S3-Fix (ZR-N2-STABILISIERUNG-WEITERLAUF-2026-10-17-R1), ZWEI Luecken:
+    (a) eine bereits VERBRAUCHTE neue Blattbindung (`consumed_new`) darf
+    NICHT nochmal als Kandidat fuer einen ANDEREN alten Geschwister-
+    schluessel gelten -- sonst mappen zwei alte Aliasse (z.B. `amount:100`
+    UND `credits:100`) unabhaengig voneinander beide "eindeutig" auf
+    DENSELBEN neuen `balance:100`-Schluessel (jeweils `len(candidates)==1`
+    fuer sich betrachtet) und werden faelschlich BEIDE als wertgleicher
+    1:1-Rename durchgelassen, obwohl die Zuordnung alt->neu nicht mehr
+    eindeutig ist; (b) `candidates` beruht auf den GEFLATTETEN Blattpfaden
+    -- ein zusaetzliches LEERES Geschwisterobjekt/-array (`{}`/`[]`) hat
+    dort gar keinen eigenen Blattpfad und bleibt so unsichtbar. Die
+    zusaetzliche rohe `_sibling_keys_match`-Pruefung unten schliesst BEIDE
+    Luecken strukturell (exakter Rohschluessel-Mengenvergleich am
+    tatsaechlichen Elternobjekt, nicht nur an den geflatteten Blaettern)."""
     if not isinstance(old_value, (int, float)) or isinstance(old_value, bool):
         return False
     sep = old_path.rfind("/")
@@ -214,7 +291,8 @@ def _is_allowed_required_key_rename(
     prefix = parent + "/"
     candidates = [
         p for p in new_leaves
-        if p.startswith(prefix) and "/" not in p[len(prefix):] and p not in old_leaves
+        if p.startswith(prefix) and "/" not in p[len(prefix):]
+        and p not in old_leaves and p not in consumed_new
     ]
     if len(candidates) != 1:
         return False
@@ -224,6 +302,8 @@ def _is_allowed_required_key_rename(
         return False
     new_value = new_leaves[candidate]
     if isinstance(new_value, bool) or new_value != old_value:
+        return False
+    if not _sibling_keys_match(original, corrected, parent, old_key, new_key):
         return False
     consumed_new.add(candidate)
     return True
@@ -265,9 +345,11 @@ def detect_unjustified_drift(
     for path, old_value in old_leaves.items():
         if path in new_leaves:
             continue  # im zweiten Durchgang behandelt (gleicher Pfad in beiden)
-        if _is_allowed_amount_wrap(path, old_value, new_leaves, consumed_new):
+        if _is_allowed_amount_wrap(path, old_value, new_leaves, consumed_new, original, corrected):
             continue
-        if _is_allowed_required_key_rename(path, old_value, old_leaves, new_leaves, consumed_new, error_paths):
+        if _is_allowed_required_key_rename(
+            path, old_value, old_leaves, new_leaves, consumed_new, error_paths, original, corrected,
+        ):
             continue
         if path in error_paths:
             continue  # Struktur wurde an genau dieser gemeldeten Stelle korrigiert

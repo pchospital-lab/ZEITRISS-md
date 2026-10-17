@@ -32,8 +32,9 @@ import stat
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Protocol
+from typing import Callable, Protocol
 
+from . import _section_completion_recovery
 from .persona_state import PersonaStateStore
 
 # K1/K1-Nachzug: additives Current-Save-Ref-Feld im Persona-State — traegt EIN
@@ -673,6 +674,8 @@ def _member_bound_by_open_order(run_dir: str | Path, chrononaut_id: str) -> bool
 
 def find_bound_active_unplayed_table(
     run_dir: str | Path, ready_chrononaut_ids: dict[str, str], bound_table_ids: dict[str, str],
+    *, marker: str | None = None,
+    marker_matches: "Callable[[str, str, str, str], bool] | None" = None,
 ) -> "Table | None":
     """R2-Nachzug (Hauptbefund 2, MAIN-DATENWEGENTSCHEIDUNG-TISCHWIEDERAUFNAHME.md
     Punkt 1-2): liefert einen bereits angelegten, `active`, noch NICHT
@@ -694,6 +697,30 @@ def find_bound_active_unplayed_table(
     Mitglieder). Beide kommen unveraendert aus `lobby_service.
     community_roster` -- kein zweiter Save-/Lock-Leser.
 
+    R12-AUTORECOVERY-Nachzug (S2, ZR-N2-STABILISIERUNG-WEITERLAUF-2026-10-17):
+    `marker`/`marker_matches` sind OPTIONAL und domain-neutral injiziert (A1 --
+    kein ZEITRISS-Importat in diesem Modul), analog `TableSizePolicy`/
+    `HarvestValidator`. Ohne beide Parameter bleibt das bisherige Verhalten
+    (JEDES nicht-leere `sl_log` gilt als "schon gespielt") unveraendert --
+    bestehende Aufrufer/Regressionen sind nicht betroffen. NUR wenn BEIDE
+    gesetzt sind, wird ein nicht-leeres `sl_log` zusaetzlich gegen
+    `_section_completion_recovery.find_recoverable_entry` fuer die
+    deterministische Resume-Section-ID (`f"{table_id}-section"`, s.
+    `lobby_flow.py:play_bound_table`) geprueft: liefert diese Pruefung einen
+    EINDEUTIG positiv gebundenen Eintrag (kein `hold_reason`, volle AR2-
+    Bindungspruefung -- Section-Bindung, Marker-Treffer, Generations-
+    Schnappschuss), ist der Tisch trotz `sl_log` weiterhin "unplayed" im
+    Sinne dieses Helfers: der bereits dauerhaft empfangene Abschluss wurde
+    NIE geerntet (kein `__plan.json`, s.u.), nur die Antwort selbst ist
+    schon durabel. Die Original-Request-Bindung (`request_ledger`) wird HIER
+    bewusst NICHT nochmal geprueft -- das bleibt alleinige Aufgabe von
+    `core/runtime.py:SectionRuntime.run_full_section`, das denselben Fund
+    unmittelbar danach ERNEUT und vollstaendig (inkl. Request-Ledger-Bindung)
+    prueft, bevor irgendetwas finalisiert wird. Jede Mehrdeutigkeit/jeder
+    HOLD-Grund an dieser Stelle bleibt darum weiterhin `None` (konservativ
+    reserviert, kein Teil-Vertrauen) -- echte Mehrdeutigkeit wird NICHT hier,
+    sondern beim tatsaechlichen Resume-Versuch sichtbar gemacht.
+
     Liefert `None` (kontrolliert "nicht zuverlaessig zuordenbar"), wenn:
     - die gebundenen Mitglieder auf mehr als eine Tisch-ID verweisen
       (uneindeutig -- kein Raten, welcher der "der" Tisch ist);
@@ -706,7 +733,9 @@ def find_bound_active_unplayed_table(
     - der Tisch bereits ein `__final.json` traegt (widerspruechlicher
       Status, fail-closed);
     - der Tisch bereits echte SL-Historie hat (`sl_log`), also schon
-      gespielt wurde;
+      gespielt wurde -- AUSSER die neue, optionale R12-AUTORECOVERY-Pruefung
+      oben erkennt darin eindeutig NUR einen noch nicht geernteten,
+      dauerhaft gebundenen Abschlussbeleg fuer genau diesen Tisch;
     - `Table.chrononaut_ids` NICHT exakt mit den uebergebenen bereiten
       chrononaut_ids UND dem gebundenen Mitgliederkreis uebereinstimmt
       (Konsistenzabgleich -- kein fremder/zufaellig gleichnamiger Tisch,
@@ -727,7 +756,14 @@ def find_bound_active_unplayed_table(
     if _open_completion_order_for_table(run_dir, table_id) is not None:
         return None
     if table.sl_log:
-        return None
+        if marker is None or marker_matches is None:
+            return None
+        candidate_section_id = f"{table_id}-section"
+        recoverable_entry, _hold_reason = _section_completion_recovery.find_recoverable_entry(
+            table.sl_log, candidate_section_id, table_id, marker, marker_matches,
+        )
+        if recoverable_entry is None:
+            return None
     for pk, cid in table.chrononaut_ids.items():
         if ready_chrononaut_ids.get(pk) != cid:
             return None

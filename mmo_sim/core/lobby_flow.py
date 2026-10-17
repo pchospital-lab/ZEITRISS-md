@@ -248,12 +248,14 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
     from . import store as core_store
     from .scheduler import FairScheduler
     from ..domain.zeitriss.community_bootstrap import peek as peek_bootstrap
+    from ..domain.zeitriss.policy import COMPLETION_MARKER
     from ..adapters.base import (
         decision_contract_instruction,
         initiative_proposal_contract_instruction,
         interpret_decision_contract,
         interpret_initiative_proposal,
     )
+    from .completion_marker import completion_marker_matches
     from ..ui.tui import _ActiveSaveUnresolved
 
     community_id = f"community-{session.participant_id}"
@@ -318,6 +320,8 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
                 session.run_dir,
                 {r.persona_key: r.chrononaut_id for r in roster if r.ready},
                 bound,
+                marker=COMPLETION_MARKER,
+                marker_matches=completion_marker_matches,
             )
             lobby_service.clear_window_open(session.run_dir, community_id, window_section_id)
             if resumable is not None:
