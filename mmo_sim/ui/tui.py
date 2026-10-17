@@ -3173,15 +3173,25 @@ class TuiSession:
         auf den bisherigen `onboarding_final_save`-Pfad zurueck, kein neuer
         Fehlerzustand).
 
-        `_offline_repair` ist die einzige in diesem Offline-Paket verfuegbare
-        Reparaturfunktion: KEIN Modellaufruf/keine Persona-API (harte
-        Grenze dieses Pakets) -- wendet ausschliesslich die bereits
-        bestehende, wertgleiche Wallet-Projektion (02.B) an. Liefert sie
-        keine Verbesserung, bricht der Ladeweg kontrolliert mit `status=
-        "hold"` ab (ehrlich als Offline-Ersatz benannt, s. worker/REPORT.md
-        -- kein Vortaeuschen einer echten KI-SL-Reparatur)."""
+        R-SCF-A (ZR-SCF-HYBRID-DURCHSTICH-20261017-R1, Fix A): die
+        `repair_fn` kommt jetzt von `core.compat_load_service.
+        build_compat_repair_fn` -- sie versucht ZUERST weiterhin dieselbe
+        lokale, wertgleiche Wallet-Projektion (02.B, kein Modellaufruf,
+        unveraendertes Verhalten fuer jede bestehende Wallet-Regression),
+        erreicht bei anderen behebbaren Strukturfehlern aber zusaetzlich
+        die TATSAECHLICH konfigurierte SL (`self.gm_transport_factory`,
+        exakt dieselbe Konstruktion wie fuer jeden anderen echten GM-Turn
+        in dieser Klasse) -- derselbe fachliche Ladevertrag fuer die
+        normale TUI UND den Headless-/Hybridpfad (beide konstruieren ihren
+        `gm_transport` ueber dieselbe Factory). Ohne konfigurierte
+        Laufumgebung/SL-Anbindung (`gm_transport_factory is None`, z.B.
+        dieses Offline-Paket ohne Env) bleibt `gm_transport=None` -- die
+        Fabrik liefert dann eine Funktion, die NUR noch die Wallet-
+        Projektion versucht (identisches Verhalten zur alten
+        `_offline_repair`, kein stiller Versuch, eine nicht konfigurierte
+        SL anzusprechen)."""
+        from ..core import compat_load_service
         from ..core import save_compatibility as save_compat_core
-        from ..domain.zeitriss import save_compatibility as save_compatibility_domain
 
         envelope = self._find_latest_pending_compat_export(persona_key)
         if envelope is None:
@@ -3191,14 +3201,25 @@ class TuiSession:
         if not repair_key or not char_id:
             return None
 
-        def _offline_repair(candidate: dict, _open_issues: list[str]) -> dict | None:
-            projection = save_compatibility_domain.project_wallets_in_block(candidate)
-            return projection.canonical_candidate if projection.changed else None
+        gm_transport = None
+        if self.gm_transport_factory is not None:
+            import inspect
+
+            accepts_arg = len(inspect.signature(self.gm_transport_factory).parameters) >= 1
+            table_id = envelope.get("table_id") or f"compat-load-{persona_key}"
+            gm_transport = (
+                self.gm_transport_factory(table_id) if accepts_arg else self.gm_transport_factory()
+            )
+
+        repair_fn = compat_load_service.build_compat_repair_fn(
+            self.run_dir, repair_key=repair_key, char_id=char_id, participant_id=persona_key,
+            gm_transport=gm_transport, table_id=envelope.get("table_id"), section_id=envelope.get("section_id"),
+        )
 
         outcome = save_compat_core.attempt_compat_load(
             self.run_dir, repair_key=repair_key, char_id=char_id, participant_id=persona_key,
             states_dir=self.states_dir, schema_path=self.schema_path, envelope=envelope,
-            repair_fn=_offline_repair,
+            repair_fn=repair_fn,
         )
         if outcome.status == "adopted":
             self._print(
