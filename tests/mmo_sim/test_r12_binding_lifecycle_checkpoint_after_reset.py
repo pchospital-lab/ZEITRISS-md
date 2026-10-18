@@ -91,6 +91,12 @@ def test_resume_after_persisted_conflict_reset_uses_durable_original_not_caller_
         # beiden Faelle nicht unterscheiden.
         swapped_caller_draft = wallet_as_number(char_id, name="Swapped Caller Draft")
         format_fixed_original = full_v7_save(char_id, name="Original Testfigur")
+        # F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): wertgleicher
+        # Betrag (500) wie `original_draft`/`wallet_as_number`, nur gueltig
+        # geformt -- sonst wertet der F-WALLET-LOSS-Fix das ersatzlose
+        # Verschwinden des Wallets zu Recht als Drift statt als gueltige
+        # Formatkorrektur.
+        format_fixed_original["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm = ScriptedGm([
             "```json\n" + json.dumps(format_fixed_original) + "\n```",
         ])

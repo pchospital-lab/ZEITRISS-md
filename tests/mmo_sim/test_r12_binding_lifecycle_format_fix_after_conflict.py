@@ -63,6 +63,8 @@ def test_ambiguous_conflict_then_same_identity_format_fix_is_accepted():
         # Dieselbe Identitaet/Name/Wallet-WERT -- NUR die Wallet-STRUKTUR
         # wird korrigiert (genau der zuvor gemeldete Schemafehler).
         format_fixed = full_v7_save(char_id, name="Original Testfigur")
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `original_draft`.
+        format_fixed["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm = ScriptedGm([
             _ambiguous_text(char_id),
             "```json\n" + json.dumps(format_fixed) + "\n```",

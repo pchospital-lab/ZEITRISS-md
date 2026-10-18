@@ -234,11 +234,22 @@ _CHILD_ENV_ALLOWLIST = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "TERM", "SHE
 
 
 class _RealProcessRunner:
+    # F-PROCESS-EVIDENCE (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): `timeout` war
+    # vorher hart auf 120s verdrahtet -- additiv/optional jetzt konfigurierbar
+    # (identisches Muster zu `gm_owui.GmOwuiTransport`s `transport_timeout`:
+    # "additiv und OPTIONAL, Default unveraendert -- ohne Angabe bleibt jeder
+    # bestehende Aufrufer beim alten Wert"). `PersonaClaudeCodeDriver`
+    # konstruiert den Default-Runner mit `config.process_timeout_seconds`
+    # (Default weiterhin 120) -- jeder bestehende Aufrufer ohne explizite
+    # Angabe verhaelt sich byte-identisch zu vorher.
+    def __init__(self, timeout: int = 120):
+        self._timeout = timeout
+
     def run(
         self, argv: list[str], stdin: str = "", env: dict | None = None, cwd: str | None = None,
     ) -> tuple[int, str, str]:
         proc = subprocess.run(
-            argv, input=stdin, capture_output=True, text=True, env=env, cwd=cwd, timeout=120,
+            argv, input=stdin, capture_output=True, text=True, env=env, cwd=cwd, timeout=self._timeout,
         )
         return proc.returncode, proc.stdout, proc.stderr
 
@@ -248,6 +259,10 @@ class ClaudeCodeConfig:
     binary: str = "claude"
     isolated_workdir: str | None = None  # eigener Arbeitsbereich ohne Altair-Dateien
     extra_isolation_flags: list[str] = field(default_factory=list)  # z.B. echte, real existierende Flags
+    # F-PROCESS-EVIDENCE: additiv/optional, Default 120 (unveraendert ggue.
+    # dem vorherigen hart verdrahteten Wert) -- nur ein explizit kuerzerer
+    # Wert (z.B. ein Offline-Belegtest fuer einen echten Timeout) weicht ab.
+    process_timeout_seconds: int = 120
 
 
 class PersonaClaudeCodeDriver:
@@ -269,7 +284,7 @@ class PersonaClaudeCodeDriver:
     def __init__(self, config: ClaudeCodeConfig, persona_key: str, process_runner=None):
         self.config = config
         self.persona_key = persona_key
-        self._runner = process_runner or _RealProcessRunner()
+        self._runner = process_runner or _RealProcessRunner(timeout=config.process_timeout_seconds)
         self._isolation_checked = False
 
     def check_isolation(self) -> dict:

@@ -84,6 +84,8 @@ def test_a_fully_bound_legacy_record_resumes_same_slot_and_is_accepted():
         before_requests = len(request_ledger._all_records(run_dir))
 
         valid_block = full_v7_save(char_id, name="Flo")  # reine Formatkorrektur, gleiche Identitaet/Name
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `original_draft`.
+        valid_block["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm = ScriptedGm(["```json\n" + json.dumps(valid_block) + "\n```"])
         outcome = save_correction.pursue_single_figure_correction(
             run_dir=run_dir, participant_id=participant_id, expected_chrononaut_id=char_id,

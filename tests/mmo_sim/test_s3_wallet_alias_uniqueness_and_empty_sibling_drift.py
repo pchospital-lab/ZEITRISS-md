@@ -138,23 +138,130 @@ def test_unrelated_untouched_empty_containers_elsewhere_stay_driftfree():
     assert drift == [], drift
 
 
-def test_fully_regenerated_unrelated_block_with_now_empty_economy_stays_driftfree():
+def test_fully_regenerated_unrelated_block_with_now_empty_unrelated_container_stays_driftfree():
     """Regressionsbeleg fuer den w48/`test_sc04`-Fall, der WAEHREND der
-    Entwicklung dieses Fixes real brach: ein komplett NEU generierter,
+    Entwicklung des S3-Fixes real brach: ein komplett NEU generierter,
     inhaltlich unverwandter Korrekturversuch (SL ignoriert den defekten
     Entwurf komplett und liefert einen frischen gueltigen Save), bei dem
-    `economy` dadurch von einem (fehlerhaft befuellten) Objekt zu einem
-    LEEREN Objekt wird, bleibt weiterhin driftfrei -- der S3-Fix darf
-    NICHT jeden irgendwo neu entstehenden leeren Container global als
-    Drift behandeln, nur den gezielten Geschwisterfall am Rename-/Wrap-
-    Elternknoten selbst."""
+    ein NICHT-monetaerer Container (`logs.flags.imported_saves`) dadurch von
+    einem befuellten zu einem LEEREN Array wird, bleibt weiterhin
+    driftfrei -- der S3-Fix darf NICHT jeden irgendwo neu entstehenden
+    leeren Container global als Drift behandeln, nur den gezielten
+    Geschwisterfall am Rename-/Wrap-Elternknoten selbst.
+
+    F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): dieser Test hiess
+    vorher `..._with_now_empty_economy_stays_driftfree` und benutzte GENAU
+    das Beispiel, das sich als der eigentliche Wallet-Verlust-Fund
+    herausstellte (ein bekannter Walletbetrag 500, der durch eine komplette
+    Neugenerierung ERSATZLOS in einem leeren `economy={}` verschwindet, OHNE
+    jeden wertgleichen Wrap/Rename). Dieser Test verwechselte damit zwei
+    verschiedene Dinge: 'eine voellig unverwandte Neugenerierung darf keine
+    False-Positive-Drift an einem harmlosen leeren Container ausloesen' (die
+    hier WEITERHIN geprueft wird, jetzt an einem nicht-monetaeren Feld) und
+    'ein bekannter Geldbetrag darf ersatzlos verschwinden' (das ist ein
+    echter Datenverlust, NICHT driftfrei -- s. die neue
+    `test_fully_regenerated_block_that_silently_drops_a_known_wallet_
+    amount_is_now_rejected_as_drift` unten, die GENAU das urspruengliche
+    Economy/500-Szenario mit der jetzt KORREKTEN Erwartung weiterfuehrt."""
+    before = full_v7_save(CHAR_ID, name="Ren Okafor")
+    before["logs"]["flags"]["imported_saves"] = ["legacy-import-1"]
+    after = full_v7_save(CHAR_ID, name="Ren Okafor")
+    assert after["logs"]["flags"]["imported_saves"] == []
+    error_paths = {e.path for e in save_correction_domain.evaluate(before, CHAR_ID).structure.errors}
+    drift = save_correction_domain.detect_unjustified_drift(before, after, error_paths)
+    assert drift == [], drift
+
+
+def test_fully_regenerated_block_that_silently_drops_a_known_wallet_amount_is_now_rejected_as_drift():
+    """F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1), echter Fund: eine
+    Figur mit Wallet 500 (`economy.wallets[CHAR_ID]=500`, schema-ungueltig
+    als blanke Zahl -- derselbe gemeldete Fehlerpfad wie beim F1/F2-
+    Zahl->Objekt-Wrap); ein komplett NEU generierter, inhaltlich
+    unverwandter Korrekturversuch liefert `economy={}` -- der bekannte
+    Betrag verschwindet ERSATZLOS (kein wertgleicher Wrap/Rename irgendwo im
+    neuen Block). Das ist GENAU der Datenverlust, den `01_AUFTRAG_SAVEGATE.
+    md §A` ausdruecklich verbietet ('Wallet ... duerfen bei reiner
+    Schemareparatur NICHT still umgeschrieben werden') -- VOR diesem Fix
+    wertete `detect_unjustified_drift` jede Abweichung an einem bereits
+    gemeldeten Fehlerpfad pauschal als 'Struktur wurde korrigiert' und liess
+    den Verlust durch (reproduziert in der Git-Historie dieses Tests als
+    `..._with_now_empty_economy_stays_driftfree`, dort faelschlich
+    `drift == []`). Jetzt: ein verschwindender Walletbetrag bleibt Drift,
+    AUCH wenn sein Elternpfad schema-ungueltig war -- der Aufrufer
+    (`core.save_correction.pursue_single_figure_correction`/`_group`) haelt
+    dadurch terminal bei `unjustified_semantic_drift` (HOLD), OHNE den
+    verlustbehafteten Block je zu adoptieren; der zuletzt bekannte Entwurf
+    mit dem echten Betrag 500 bleibt unveraendert im Korrekturdatensatz
+    stehen (kein stiller Nullsetz, keine kuenstliche Gutschrift)."""
     before = full_v7_save(CHAR_ID, name="Ren Okafor")
     before["economy"] = {"wallets": {CHAR_ID: 500}}
     after = full_v7_save(CHAR_ID, name="Ren Okafor")
     assert after["economy"] == {}
     error_paths = {e.path for e in save_correction_domain.evaluate(before, CHAR_ID).structure.errors}
+    assert f"/economy/wallets/{CHAR_ID}" in error_paths, error_paths
+    drift = save_correction_domain.detect_unjustified_drift(before, after, error_paths)
+    assert drift, "ersatzloses Verschwinden eines bekannten Walletbetrags MUSS als Drift erkannt werden (HOLD)"
+    drifted_paths = {row[0] for row in drift}
+    assert f"/economy/wallets/{CHAR_ID}" in drifted_paths, drift
+    drifted_row = next(row for row in drift if row[0] == f"/economy/wallets/{CHAR_ID}")
+    assert drifted_row[1] == 500, drifted_row  # der bekannte Betrag bleibt im Driftbeleg sichtbar, nicht verworfen.
+
+
+def test_same_leaf_wallet_value_substitution_at_reported_error_path_is_drift():
+    """N2L-A-R (F-WALLET-LOSS-RESIDUAL-SAME-LEAF-SUBSTITUTION, vom N2L-C-
+    Critic belegt): der Wallet-Blattpfad SELBST (`.../balance`) ist der
+    gemeldete Schemafehler (String statt `type: number`) -- die "Korrektur"
+    behebt zwar den Typ, schmuggelt dabei aber einen ANDEREN Betrag ein
+    (500 -> 300). Die ZWEITE Schleife in `detect_unjustified_drift` hatte
+    bisher KEINE Wallet-Ausnahme (nur die erste, fuer ersatzlos
+    verschwindende Blaetter) und liess das pauschal als "Struktur an
+    gemeldetem Fehlerpfad korrigiert" durch (`drift == []`, kein HOLD).
+    Jetzt: ein echter Wertwechsel am Wallet-Blatt bleibt Drift, AUCH wenn
+    genau dieser Blattpfad selbst der gemeldete Fehlerpfad war."""
+    before = _wallet_block(CHAR_ID, {"balance": "500"})
+    after = copy.deepcopy(before)
+    after["economy"]["wallets"][CHAR_ID]["balance"] = 300
+    error_paths = {e.path for e in save_correction_domain.evaluate(before, CHAR_ID).structure.errors}
+    assert f"/economy/wallets/{CHAR_ID}/balance" in error_paths, error_paths
+    drift = save_correction_domain.detect_unjustified_drift(before, after, error_paths)
+    assert drift, "echter Wertwechsel am Wallet-Blatt MUSS als Drift erkannt werden (HOLD)"
+    drifted_paths = {row[0] for row in drift}
+    assert f"/economy/wallets/{CHAR_ID}/balance" in drifted_paths, drift
+    drifted_row = next(row for row in drift if row[0] == f"/economy/wallets/{CHAR_ID}/balance")
+    assert drifted_row[1] == "500", drifted_row  # der alte Betrag bleibt im Driftbeleg sichtbar.
+
+
+def test_same_leaf_wallet_value_preserving_type_correction_stays_driftfree():
+    """Gegenstueck zum Test oben: EXAKT dieselbe Typkorrektur am selben
+    Wallet-Blatt-Fehlerpfad, aber WERTGLEICH (`"500"` -> `500`, identischer
+    Betrag) -- bleibt WEITERHIN akzeptiert (kein Drift). Sonst wuerde die
+    Nachbesserung den legitimen Schema-Reparatur-Happy-Path brechen (01_
+    AUFTRAG_SAVEGATE.md §A: Typkorrektur bei gleichem Betrag ist erlaubt)."""
+    before = _wallet_block(CHAR_ID, {"balance": "500"})
+    after = copy.deepcopy(before)
+    after["economy"]["wallets"][CHAR_ID]["balance"] = 500
+    error_paths = {e.path for e in save_correction_domain.evaluate(before, CHAR_ID).structure.errors}
+    assert f"/economy/wallets/{CHAR_ID}/balance" in error_paths, error_paths
     drift = save_correction_domain.detect_unjustified_drift(before, after, error_paths)
     assert drift == [], drift
+
+
+def test_newly_introduced_wallet_leaf_at_reported_error_path_is_drift():
+    """Optional (Brief): ein NEU eingefuehrtes Wallet-Blatt an einem
+    gemeldeten Fehlerpfad (kein alter Wert vorhanden, der es wertgleich
+    rechtfertigen koennte) bleibt Drift -- es gibt keinen wertgleichen
+    Vorwert, der die Einfuehrung decken wuerde, und keine der bestehenden
+    Wrap-/Rename-Ausnahmen (beide verlangen einen vorhandenen alten Wert)
+    greift hier."""
+    before = full_v7_save(CHAR_ID, name="Ren Okafor", callsign="S3")
+    before["economy"] = {"wallets": {}}
+    after = copy.deepcopy(before)
+    after["economy"]["wallets"][CHAR_ID] = {"balance": 777}
+    error_paths = {f"/economy/wallets/{CHAR_ID}/balance"}
+    drift = save_correction_domain.detect_unjustified_drift(before, after, error_paths)
+    assert drift, "neu eingefuehrtes Wallet-Leaf an gemeldetem Fehlerpfad MUSS Drift bleiben"
+    drifted_paths = {row[0] for row in drift}
+    assert f"/economy/wallets/{CHAR_ID}/balance" in drifted_paths, drift
 
 
 def _run(name: str, fn) -> bool:
@@ -186,8 +293,16 @@ if __name__ == "__main__":
          test_empty_sibling_next_to_scalar_to_object_wrap_is_now_rejected),
         ("test_unrelated_untouched_empty_containers_elsewhere_stay_driftfree",
          test_unrelated_untouched_empty_containers_elsewhere_stay_driftfree),
-        ("test_fully_regenerated_unrelated_block_with_now_empty_economy_stays_driftfree",
-         test_fully_regenerated_unrelated_block_with_now_empty_economy_stays_driftfree),
+        ("test_fully_regenerated_unrelated_block_with_now_empty_unrelated_container_stays_driftfree",
+         test_fully_regenerated_unrelated_block_with_now_empty_unrelated_container_stays_driftfree),
+        ("test_fully_regenerated_block_that_silently_drops_a_known_wallet_amount_is_now_rejected_as_drift",
+         test_fully_regenerated_block_that_silently_drops_a_known_wallet_amount_is_now_rejected_as_drift),
+        ("test_same_leaf_wallet_value_substitution_at_reported_error_path_is_drift",
+         test_same_leaf_wallet_value_substitution_at_reported_error_path_is_drift),
+        ("test_same_leaf_wallet_value_preserving_type_correction_stays_driftfree",
+         test_same_leaf_wallet_value_preserving_type_correction_stays_driftfree),
+        ("test_newly_introduced_wallet_leaf_at_reported_error_path_is_drift",
+         test_newly_introduced_wallet_leaf_at_reported_error_path_is_drift),
     ]
     ok_all = [_run(name, fn) for name, fn in tests]
     sys.exit(0 if all(ok_all) else 1)

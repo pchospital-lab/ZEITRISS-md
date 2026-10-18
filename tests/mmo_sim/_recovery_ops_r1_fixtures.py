@@ -106,12 +106,24 @@ def make_p5_drift_hold(run_dir: Path, *, persona_key="flo_p5", char_id="CHR-P5-0
 
     Liefert `repair_key`, den gueltigen Vergleichs-Save (`valid_save`, vom
     REALEN unveraenderten Validator akzeptierbar) und den urspruenglichen
-    schemaungueltigen Entwurf (`invalid_candidate`)."""
+    schemaungueltigen Entwurf (`invalid_candidate`).
+
+    F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): `valid_save` trug
+    frueher KEIN Wallet (`economy={}` per `full_v7_save`-Default) --
+    unbeabsichtigt derselbe Walletbetrag-verschwindet-ersatzlos-Fall, den
+    der F-WALLET-LOSS-Fix jetzt korrekt als Drift ablehnt (dieses Fixture
+    testet P5-Grant-/Recovery-Mechanik, nicht Wallet-Inhalt -- der
+    Walletbetrag muss deshalb wertgleich WEITERGEFUEHRT werden, nicht
+    verschwinden). `valid_save` erhaelt jetzt denselben Betrag (500) im
+    gueltigen `{"balance": 500}`-Objekt -- byte-identischer Wert, nur
+    gueltig geformt, exakt wie `drifted`s Wallet (nur ohne den zusaetzlich
+    gedrifteten Namen)."""
     invalid_candidate = full_v7_save(char_id, name="Flo")
     invalid_candidate["economy"] = {"wallets": {char_id: 500}}
     drifted = full_v7_save(char_id, name="DRIFTED-NAME")
     drifted["economy"] = {"wallets": {char_id: {"balance": 500}}}
     valid_save = full_v7_save(char_id, name="Flo")
+    valid_save["economy"] = {"wallets": {char_id: {"balance": 500}}}
 
     gm = ScriptedGm([_as_json_block(drifted)])
     outcome = save_correction.pursue_single_figure_correction(

@@ -149,6 +149,93 @@ def _fresh_start_invite_attempt_key(participant_id: str, persona_key: str) -> st
     return f"fresh-start-invite::{participant_id}::{persona_key}"
 
 
+class NonInteractiveImportError(ValueError):
+    """F-PROCESS-GAP (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1, DELIVERABLE 5):
+    `import_save_for_participant_noninteractive` deckt bewusst NUR den
+    EINEN Fall ab, den ein frischer Hybrid-2+3-Lauf tatsaechlich braucht
+    (allererster Import, keine bekannte Char-ID, keine aktive Bindung,
+    kein Konflikt) -- jeder andere Fall (Konflikt/Sperre/Mehrdeutigkeit)
+    bricht HIER laut ab, statt ihn zu raten/automatisch aufzuloesen."""
+
+
+def import_save_for_participant_noninteractive(
+    *, catalog_dir: Path, onboarding_dir: Path, run_dir: Path | None, participant_id: str,
+    raw_save_text: str, harvest_validator: ZeitrissHarvestValidator,
+    states_dir: Path | None = None, persona_state_store=None,
+):
+    """Nicht-interaktives Gegenstueck zu `TuiSession._cmd_import` fuer GENAU
+    den allerersten, konfliktfreien Import EINER Figur fuer einen NOCH
+    FRISCHEN Teilnehmer (DELIVERABLE 5, 'normaler Produktimport' fuer
+    p01_latch/p02_breach im Hybrid-2+3-Treiber): ruft DIESELBEN
+    Produktfunktionen in DERSELBEN Reihenfolge wie die interaktive
+    `_cmd_import` (`import_export.preview_import` ->
+    `import_export.resolve_import` -> `catalog.store_figure_save` ->
+    `onboarding.complete_with_save`) -- KEINE zweite Importregelimplementierung,
+    NUR die TTY-Rueckfragen (Konfliktwahl/Bestaetigung) entfallen, weil
+    dieser Aufrufer per Definition keinen der Faelle konstruiert, die eine
+    Rueckfrage ausloesen wuerden (frischer `onboarding_dir`/`catalog_dir`,
+    keine bekannte Char-ID, keine aktive Tischbindung).
+
+    Wirft `NonInteractiveImportError`, wenn die Eingabe tatsaechlich einen
+    der interaktiven Faelle (Konflikt/Sperre/Mehrdeutigkeit/Parken)
+    trifft -- kein stilles Raten einer Wahl, die ein Mensch sonst am
+    Prompt treffen wuerde.
+
+    `states_dir`/`persona_state_store` (additiv, optional -- `None` =
+    unveraendertes Verhalten, nur Katalog/Onboarding, kein `PersonaCreation
+    Outcome`): wenn BEIDE gesetzt sind, wird NACH dem Import dieselbe
+    Publikations-Abgleichfunktion aufgerufen, die `advance_community_
+    creation` fuer jede ERSCHAFFENE Figur nutzt (`domain.zeitriss.
+    community_creation._publication_reconcile` -- Current-Save-
+    Veroeffentlichung, Persona-State, aktive Bindung), damit eine
+    IMPORTIERTE Figur fuer den nachfolgenden Lobby-/Tischweg GENAU GLEICH
+    'bereit' ist wie eine neu erschaffene -- kein zweiter, abweichender
+    Bereitschaftsbegriff. Liefert dann ein `PersonaCreationOutcome`
+    (`status='completed'`), sonst (ohne beide Parameter) den rohen,
+    tatsaechlich uebernommenen Save-Block."""
+    try:
+        preview = import_export.preview_import(raw_save_text)
+    except import_export.MalformedImportError as e:
+        raise NonInteractiveImportError(f"Import strukturell ungueltig, kein Write: {e}") from e
+    incoming_block = json.loads(raw_save_text)
+    known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(catalog_dir, participant_id)}
+    if preview.char_id in known_char_ids:
+        raise NonInteractiveImportError(
+            f"char_id={preview.char_id!r} ist fuer {participant_id!r} bereits bekannt -- "
+            "dieser Helfer deckt nur den allerersten, konfliktfreien Import ab."
+        )
+    active_binding = False
+    open_completion_order = False
+    if run_dir is not None and preview.char_id is not None:
+        from ..core import store as core_store
+        active_binding = core_store.chrononaut_active_binding(run_dir, preview.char_id)
+        open_completion_order = core_store.chrononaut_open_completion_order(run_dir, preview.char_id)
+    decision = import_export.resolve_import(
+        incoming_block, known_char_ids=known_char_ids, existing_block_for_char_id=None,
+        active_binding=active_binding, open_completion_order=open_completion_order,
+    )
+    if decision.action != "register_new":
+        raise NonInteractiveImportError(
+            f"erwartete Entscheidung 'register_new' fuer einen frischen Import, bekommen: "
+            f"{decision.action!r} ({decision.reason})."
+        )
+    catalog.store_figure_save(catalog_dir, participant_id, preview.char_id, decision.block)
+    onboarding.start_or_resume(onboarding_dir, participant_id)
+    onboarding.complete_with_save(
+        onboarding_dir, participant_id, decision.block, harvest_validator, preview.char_id,
+    )
+    catalog.register(catalog_dir, catalog.CatalogEntry(
+        participant_id=participant_id, chrononaut_id=preview.char_id, persona_key=participant_id,
+    ))
+    if states_dir is not None and persona_state_store is not None and run_dir is not None:
+        from ..domain.zeitriss.community_creation import _publication_reconcile
+        return _publication_reconcile(
+            run_dir=run_dir, states_dir=states_dir, onboarding_dir=onboarding_dir, catalog_dir=catalog_dir,
+            persona_key=participant_id, final_save=decision.block, ps_store=persona_state_store,
+        )
+    return decision.block
+
+
 class TuiSession:
     def __init__(
         self,

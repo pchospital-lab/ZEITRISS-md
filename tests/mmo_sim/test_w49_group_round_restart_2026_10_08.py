@@ -181,7 +181,12 @@ def test_w49a_crash_before_send_reuses_same_round_on_restart():
         # "Neustart": frischer Aufruf mit einem funktionsfaehigen Transport
         # -- MUSS dieselbe (bereits eroeffnete) Runde fortsetzen, GENAU
         # EINEN realen Transport-Call ausloesen.
+        # F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): wertgleicher
+        # Betrag (500) wie `guest_invalid`, nur gueltig geformt -- sonst
+        # wertet der F-WALLET-LOSS-Fix das ersatzlose Verschwinden des
+        # Wallets zu Recht als Drift statt als gueltige Korrektur.
         guest_valid = full_v7_save("chrono-guest", name="Flo")
+        guest_valid["economy"] = {"wallets": {"chrono-guest": {"balance": 500}}}
         gm = _CountingGm([f"```json\n{json.dumps(guest_valid)}\n```"])
         harvested_after, completion_after = save_correction.pursue_group_save_correction(
             lobby=lobby, table=table, section_id="section-w49a", harvested=dict(harvested),
@@ -242,7 +247,9 @@ def test_w49b_crash_after_response_before_checkpoint_reuses_durable_result():
         # `accounted`, Antwort durabel) -- DANACH "crasht" der Prozess, bevor
         # `record_correction_received`/die Harvest-Uebernahme je aufgerufen
         # wird (Marker bleibt bewusst offen).
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `guest_invalid`.
         guest_valid = full_v7_save("chrono-guest", name="Flo")
+        guest_valid["economy"] = {"wallets": {"chrono-guest": {"balance": 500}}}
         real_gm = _CountingGm([f"```json\n{json.dumps(guest_valid)}\n```"])
         message = save_correction_domain.build_group_correction_message(
             table_id=table.table_id, section_id="section-w49b", requests=[{
@@ -316,8 +323,11 @@ def test_w49c_partial_adoption_mid_round_resumes_both_members_without_resend():
             {"persona_key": "guest_pk", "char_id": "chrono-guest", "original_block": guest_invalid},
         ])
 
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `leader_invalid`/`guest_invalid`.
         leader_valid = full_v7_save("chrono-leader", name="Leader")
+        leader_valid["economy"] = {"wallets": {"chrono-leader": {"balance": 500}}}
         guest_valid = full_v7_save("chrono-guest", name="Guest")
+        guest_valid["economy"] = {"wallets": {"chrono-guest": {"balance": 500}}}
         real_gm = _CountingGm([
             f"```json\n{json.dumps(leader_valid)}\n```\n```json\n{json.dumps(guest_valid)}\n```",
         ])
@@ -388,7 +398,9 @@ def test_w49d_resume_after_successful_publication_is_a_clean_noop():
             lobby, table, "section-w49d", harvested, states_dir, "2026-10-08",
             ZeitrissHarvestValidator(), ps_store,
         )
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `guest_invalid`.
         guest_valid = full_v7_save("chrono-guest", name="Flo")
+        guest_valid["economy"] = {"wallets": {"chrono-guest": {"balance": 500}}}
         gm = _CountingGm([f"```json\n{json.dumps(guest_valid)}\n```"])
         harvested_done, completion_done = save_correction.pursue_group_save_correction(
             lobby=lobby, table=table, section_id="section-w49d", harvested=dict(harvested),

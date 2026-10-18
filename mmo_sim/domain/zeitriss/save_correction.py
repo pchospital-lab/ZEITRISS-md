@@ -18,6 +18,7 @@ kein I/O, kein Modellaufruf)."""
 from __future__ import annotations
 
 import json
+import re
 
 from . import save_validation as save_validation_lib
 
@@ -35,6 +36,29 @@ ROLE_GROUP = "save_correction_group"
 #: Objekt gewrappt werden darf (01_AUFTRAG_SAVEGATE.md §A Beispiel: "Wallet
 #: Zahl 100 -> Objekt mit balance 100 erlaubt; 100 -> 1000 nicht").
 _AMOUNT_WRAP_KEYS = frozenset({"balance", "amount", "credits", "value"})
+
+#: F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): jeder Blattpfad
+#: unterhalb von `/economy/wallets/<char_id>` (der Betrag selbst ODER ein
+#: Unterfeld wie `/balance`) gilt als bekannter, besonders geschuetzter
+#: Geldbetrag (01_AUFTRAG_SAVEGATE.md §A: "Wallet ... duerfen bei reiner
+#: Schemareparatur NICHT still umgeschrieben werden"). `[^/]+` bindet an
+#: GENAU EINE Figur (kein Praefixtreffer auf eine andere char_id).
+_WALLET_AMOUNT_PATH_RE = re.compile(r"^/economy/wallets/[^/]+(/.*)?$")
+
+
+def _is_wallet_amount_path(path: str) -> bool:
+    """F-WALLET-LOSS: True fuer jeden Pfad unter einem Figuren-Wallet.
+    Wird NUR benutzt, um die generelle 'Pfad liegt in error_paths'-Ausnahme
+    unten (`detect_unjustified_drift`) fuer Wallet-Pfade zu VERENGEN -- ein
+    bekannter Geldbetrag, der ersatzlos verschwindet (kein wertgleicher
+    Wrap/Rename nach `_is_allowed_amount_wrap`/`_is_allowed_required_key_
+    rename`), bleibt Drift, AUCH wenn der Elternpfad schema-ungueltig war.
+    Jede andere (nicht-monetaere) Strukturkorrektur an einem gemeldeten
+    Fehlerpfad bleibt von dieser Verengung unberuehrt (01_AUFTRAG_SAVEGATE.
+    md §A gilt wortgleich fuer Identitaet/Name/Callsign/Level/Attribute/
+    Inventar/Fortschritt, aber diese Pruefung ist bewusst auf den hier
+    konkret belegten Wallet-Fund begrenzt, kein Blanket-Umbau)."""
+    return bool(_WALLET_AMOUNT_PATH_RE.match(path))
 
 
 def evaluate(block: dict | None, expected_chrononaut_id: str) -> save_validation_lib.AcceptanceResult:
@@ -309,6 +333,42 @@ def _is_allowed_required_key_rename(
     return True
 
 
+def _wallet_amount_values_equal(old_value: object, new_value: object) -> bool:
+    """N2L-A-R (F-WALLET-LOSS-RESIDUAL-SAME-LEAF-SUBSTITUTION): True fuer
+    einen wertgleichen Typ-/Formwechsel am SELBEN Wallet-Blattpfad (z.B.
+    `"500"` (String) -> `500` (Zahl), identischer Betrag) -- NICHT fuer
+    einen echten, zahlenmaessig ANDEREN Betrag (`500` -> `300`, `"500"` ->
+    `300`, `500` -> `500.01`; der Critic-Fund spricht ausdruecklich von
+    'ANY DIFFERENT NUMERIC value', s. N2L-C-VERDICT.json). Beide Seiten
+    werden dazu auf eine Zahl normalisiert (`bool` zaehlt bewusst NICHT als
+    Zahl, ein Geldbetrag ist nie ein Wahrheitswert). Laesst sich eine der
+    beiden Seiten UEBERHAUPT NICHT auf eine Zahl normalisieren (kein
+    numerischer Betragsersatz im engeren Sinn des Critic-Funds), bleibt die
+    bisherige allgemeine `error_paths`-Ausnahme unveraendert anwendbar --
+    ein solcher Ersatzwert ist ohnehin niemals `type: number`-schema-gueltig
+    und kann dadurch nie stillschweigend adoptiert werden (das Annahme-Gate
+    in `core/save_correction.py` laeuft NACH dieser Pruefung); NUR ein
+    tatsaechlich zahlenmaessig abweichender Betrag gilt hier als NICHT
+    wertgleich (= Drift)."""
+    def _to_number(value: object) -> int | float | None:
+        if isinstance(value, bool):
+            return None
+        if isinstance(value, (int, float)):
+            return value
+        if isinstance(value, str):
+            try:
+                return float(value)
+            except ValueError:
+                return None
+        return None
+
+    old_num = _to_number(old_value)
+    new_num = _to_number(new_value)
+    if old_num is None or new_num is None:
+        return True
+    return old_num == new_num
+
+
 def detect_unjustified_drift(
     original: dict, corrected: dict, error_paths: set[str],
 ) -> list[tuple[str, object, object]]:
@@ -333,7 +393,31 @@ def detect_unjustified_drift(
     '/economy/wallets/X/amount' (100) -> '/economy/wallets/X/balance' (100).
     KEIN Blanket "schema-gültig ⇒ annehmen": Betragsänderung (100 -> 1000),
     Namens-/Fortschritts-/Alias-Umbenennung und unbegründete Zusatzschlüssel
-    bleiben Drift (s. Docstring dort)."""
+    bleiben Drift (s. Docstring dort).
+
+    F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): die generelle
+    'Pfad liegt in error_paths' Ausnahme (unten) erlaubte bisher auch, dass
+    ein bekannter Walletbetrag ERSATZLOS verschwindet (z.B. ein komplett neu
+    generierter Block mit `economy={}`), SOLANGE der alte Walletpfad
+    irgendeinen gemeldeten Schemafehler trug -- unabhaengig davon, ob der
+    Betrag irgendwo wertgleich erhalten blieb. Fuer Pfade unter
+    `/economy/wallets/<char_id>` (s. `_is_wallet_amount_path`) greift diese
+    Ausnahme jetzt NICHT mehr pauschal -- nur noch die beiden oben bereits
+    gepruefeten wertgleichen Ausnahmen (Wrap/Rename) duerfen einen
+    Walletbetrag ueberhaupt verschwinden lassen. Jede andere Pfadkategorie
+    bleibt von dieser Verengung unberuehrt.
+
+    N2L-A-R (F-WALLET-LOSS-RESIDUAL-SAME-LEAF-SUBSTITUTION): dieselbe
+    Verengung gilt jetzt auch in der ZWEITEN Schleife unten (Pfad existiert
+    in BEIDEN Blaettern, mit unterschiedlichem ODER neu hinzugekommenem
+    Wert) -- sonst konnte der Wallet-Blattpfad selbst der gemeldete
+    Schemafehler sein (z.B. `balance:"500"` gegen `type:number`) und die
+    Korrektur am selben Pfad einen ANDEREN Betrag einschmuggeln (`500 ->
+    300`), OHNE dass die erste Schleife (die nur ersatzlos VERSCHWUNDENE
+    Blaetter sieht) das je zu Gesicht bekommt. Ein wertgleicher Typwechsel
+    am selben Wallet-Blatt (`"500" -> 500`, s. `_wallet_amount_values_equal`)
+    bleibt weiterhin driftfrei; nur ein zahlenmaessig ANDERER Wert wird
+    Drift."""
     if not isinstance(original, dict) or not isinstance(corrected, dict):
         return [] if original == corrected else [("/", original, corrected)]
 
@@ -351,8 +435,8 @@ def detect_unjustified_drift(
             path, old_value, old_leaves, new_leaves, consumed_new, error_paths, original, corrected,
         ):
             continue
-        if path in error_paths:
-            continue  # Struktur wurde an genau dieser gemeldeten Stelle korrigiert
+        if path in error_paths and not _is_wallet_amount_path(path):
+            continue  # Struktur wurde an genau dieser gemeldeten Stelle korrigiert (kein Geldbetrag).
         drift.append((path, old_value, "<entfernt/umstrukturiert>"))
 
     for path in sorted(set(old_leaves) | set(new_leaves)):
@@ -366,10 +450,13 @@ def detect_unjustified_drift(
             if old_leaves[path] == new_leaves[path]:
                 continue
             if path in error_paths:
-                continue
+                if not _is_wallet_amount_path(path) or _wallet_amount_values_equal(
+                    old_leaves[path], new_leaves[path],
+                ):
+                    continue
             drift.append((path, old_leaves[path], new_leaves[path]))
         else:
-            if path in error_paths:
+            if path in error_paths and not _is_wallet_amount_path(path):
                 continue
             drift.append((path, "<nicht vorhanden>", new_leaves[path]))
     return drift

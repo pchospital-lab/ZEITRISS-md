@@ -112,6 +112,13 @@ def _never_called_gm() -> _ScriptedGm:
 # ---------------------------------------------------------------------------
 
 def test_sc04_single_figure_correction_same_session_no_manual_json():
+    """F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): `valid_block` trug
+    frueher KEIN Wallet (`economy={}` per `full_v7_save`-Default) -- der
+    bekannte Betrag (500) aus `invalid_block` verschwand damit ERSATZLOS,
+    unbeabsichtigt derselbe Fall, den der F-WALLET-LOSS-Fix jetzt korrekt
+    als Drift/HOLD erkennt (dieser Test prueft Session-Fortsetzung ohne
+    manuelles JSON, nicht Wallet-Inhalt -- der Betrag muss deshalb
+    wertgleich WEITERGEFUEHRT werden, nicht verschwinden)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         run_dir, onboarding_dir = root / "run", root / "onboarding"
@@ -121,6 +128,7 @@ def test_sc04_single_figure_correction_same_session_no_manual_json():
 
         invalid_block = _wallet_as_number("CHR-SC04-01")
         valid_block = full_v7_save("CHR-SC04-01", name="Flo")
+        valid_block["economy"] = {"wallets": {"CHR-SC04-01": {"balance": 500}}}
         gm = _ScriptedGm([
             "```json\n" + json.dumps(invalid_block) + "\n```",
             "```json\n" + json.dumps(valid_block) + "\n```",
@@ -337,6 +345,10 @@ def test_sc11_group_only_missing_member_renotified_valid_untouched():
     leader_save = full_v7_save("chrono-leader", name="Leader")
     guest_invalid = _wallet_as_number("chrono-guest")
     guest_valid = full_v7_save("chrono-guest", name="Flo")  # dieselbe Identitaet wie guest_invalid (SC05: keine Namensdrift)
+    # F-WALLET-LOSS: wertgleicher Betrag (500) wie `guest_invalid`, nur
+    # gueltig geformt -- sonst wertet der F-WALLET-LOSS-Fix das ersatzlose
+    # Verschwinden des Wallets zu Recht als Drift (s. test_sc04 oben).
+    guest_valid["economy"] = {"wallets": {"chrono-guest": {"balance": 500}}}
 
     debrief = (
         "Abschnitt beendet.\n"
