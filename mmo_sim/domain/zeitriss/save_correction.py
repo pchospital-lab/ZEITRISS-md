@@ -462,6 +462,126 @@ def detect_unjustified_drift(
     return drift
 
 
+def _deref(schema: dict, node: object) -> object:
+    """Löst lokale (`#/...`) `$ref` im selben Schemadokument auf -- rein
+    lesend, kein Netzabruf (genau wie `save_validation._local_registry`
+    garantiert). Ein unauflösbarer/fremder `$ref` wird unverändert
+    zurückgegeben; eine Zyklenbremse verhindert Endlosschleifen."""
+    seen = 0
+    while isinstance(node, dict) and isinstance(node.get("$ref"), str) and node["$ref"].startswith("#/"):
+        target: object = schema
+        for part in node["$ref"][2:].split("/"):
+            if not isinstance(target, dict) or part not in target:
+                return node
+            target = target[part]
+        node = target
+        seen += 1
+        if seen > 16:
+            break
+    return node
+
+
+def _resolve_schema_path(schema: dict, path: str) -> dict | None:
+    """Navigiert `path` (Instanzpfadformat wie `save_validation.SchemaError.
+    path`, z.B. '/economy/wallets/<id>' oder '/characters/0/callsign') im
+    übergebenen Schemabaum und liefert den dort geltenden Schemaknoten.
+    Nur `properties`/`items`/`additionalProperties`-Navigation plus
+    `$ref`-Deref -- es wird NICHTS am Schema geändert. `None`, wenn der Pfad
+    im Schema nicht navigierbar ist."""
+    node = _deref(schema, schema)
+    for seg in [s for s in path.strip("/").split("/") if s != ""]:
+        if not isinstance(node, dict):
+            return None
+        props = node.get("properties")
+        if isinstance(props, dict) and seg in props:
+            node = _deref(schema, props[seg])
+        elif seg.isdigit() and isinstance(node.get("items"), dict):
+            node = _deref(schema, node["items"])
+        elif isinstance(node.get("additionalProperties"), dict):
+            node = _deref(schema, node["additionalProperties"])
+        else:
+            return None
+    return node if isinstance(node, dict) else None
+
+
+def _schema_node_for_path(path: str) -> dict | None:
+    """Liefert den Schemaknoten für `path` aus den bereits in
+    `save_validation` geladenen, meta-geprüften und UNVERÄNDERTEN v7-Schemas
+    (zuerst Export, dann tolerant als Rückfall). Reiner Lesezugriff auf das
+    bestehende Schemaobjekt -- keine zweite Schemaquelle, kein `cu`-/Alias-
+    Whitelisting, keine Lockerung des Driftwächters."""
+    for schema in (save_validation_lib._EXPORT_SCHEMA, save_validation_lib._TOLERANT_SCHEMA):
+        node = _resolve_schema_path(schema, path)
+        if node is not None:
+            return node
+    return None
+
+
+def _describe_expected_shape(node: dict | None) -> str | None:
+    """Fasst EINEN Schemaknoten in einen knappen, schema-abgeleiteten
+    deutschen Zielhinweis (Typ, Pflichtfelder + deren Typen, Verbot
+    zusätzlicher Felder, enum/const). Rein beschreibend -- erfindet keine
+    Felder, nennt keinen konkreten Wert über das Schema hinaus und lockert
+    nichts. `None`, wenn der Knoten keine verwertbare Typ-/Strukturangabe
+    trägt."""
+    if not isinstance(node, dict):
+        return None
+    if "const" in node:
+        return f"fester Wert {json.dumps(node['const'], ensure_ascii=False)}"
+    if isinstance(node.get("enum"), list) and node["enum"]:
+        allowed = ", ".join(json.dumps(v, ensure_ascii=False) for v in node["enum"])
+        return f"einer der erlaubten Werte: {allowed}"
+    typ = node.get("type")
+    if typ == "object":
+        required = node.get("required") or []
+        props = node.get("properties") or {}
+        fields = []
+        for key in required:
+            sub = props.get(key) if isinstance(props, dict) else None
+            sub_t = sub.get("type") if isinstance(sub, dict) else None
+            fields.append(f"`{key}`" + (f" ({sub_t})" if isinstance(sub_t, str) else ""))
+        parts = ["Objekt"]
+        if fields:
+            parts.append("mit Pflichtfeld(ern) " + ", ".join(fields))
+        if node.get("additionalProperties") is False:
+            parts.append("ohne zusätzliche Felder")
+        return " ".join(parts)
+    if typ == "array":
+        items = node.get("items") if isinstance(node.get("items"), dict) else {}
+        it = items.get("type") if isinstance(items, dict) else None
+        return "Liste" + (f" von {it}-Einträgen" if isinstance(it, str) else "")
+    if isinstance(typ, list):
+        return "einer der Typen: " + ", ".join(str(t) for t in typ)
+    if typ == "string":
+        return ("Zeichenkette (ein nicht gesetzter Wert ist die leere Zeichenkette "
+                "\"\", keine erfundene/neue Angabe)")
+    if isinstance(typ, str):
+        return {"integer": "Ganzzahl", "number": "Zahl", "boolean": "Wahrheitswert",
+                "null": "null"}.get(typ, typ)
+    return None
+
+
+def _schema_target_hints(acceptance: save_validation_lib.AcceptanceResult | None) -> list[str]:
+    """Baut je gemeldetem STRUKTUR-Fehlerpfad genau einen schema-abgeleiteten
+    Zielhinweis (de-dupliziert über den Pfad, Reihenfolge erhalten). Reine
+    Bindungsfehler (`binding_errors`) bekommen bewusst keinen Formhinweis --
+    sie sind keine Schemaform, sondern eine Identitäts-/char_id-Frage. Nur
+    tatsächlich gemeldete Pfade erscheinen; es wird nichts frei erfunden."""
+    hints: list[str] = []
+    seen: set[str] = set()
+    errors = acceptance.structure.errors if acceptance is not None else []
+    for err in errors:
+        path = getattr(err, "path", None)
+        if not path or path in seen:
+            continue
+        shape = _describe_expected_shape(_schema_node_for_path(path))
+        if shape is None:
+            continue
+        seen.add(path)
+        hints.append(f"- {path}: erwartet {shape}")
+    return hints
+
+
 _HEADER = (
     "TECHNISCHE SPEICHERKORREKTUR -- kein neuer Spielzug, keine neue Szene "
     "und keine Belohnung."
@@ -487,6 +607,13 @@ def build_correction_message(
     nur auf diesen EINEN Block bezogen) -- keine eigene Fehlerausgabe."""
     feedback_items = acceptance.feedback_items if acceptance is not None else []
     feedback_text = "\n".join(f"- {item}" for item in feedback_items) or "- (keine strukturierten Einzelpunkte)"
+    target_hints = _schema_target_hints(acceptance)
+    target_text = (
+        "Erwartete Zielstruktur (aus dem unveränderten v7-Exportschema abgeleitet -- genau diese "
+        "gemeldeten Stellen minimal schema-gültig machen, sonst nichts):\n"
+        + "\n".join(target_hints) + "\n"
+        if target_hints else ""
+    )
     original_json = (
         json.dumps(original_block, ensure_ascii=False, indent=2) if original_block is not None else "null"
     )
@@ -497,12 +624,14 @@ def build_correction_message(
         "Die folgende ORIGINAL-Ausgabe wurde NICHT als neuer gültiger Spielstand übernommen. Bitte "
         "gib genau den vollständigen persönlichen v7-JSON-Save dieser EINEN Figur erneut aus, als "
         "EIN fenced ```json Block.\n"
-        "Ändere AUSSCHLIESSLICH die unten beanstandeten Strukturen/Felder. Identität, Name, "
-        "Callsign, Fortschritt, Werte, Inventar und Geldbeträge bleiben unverändert. Keine andere "
-        "Figur, keine weitere Geschichte, keine Story-/Würfel-/Belohnungsaktion. Ist die "
-        "beabsichtigte Bedeutung aus dem bisherigen Verlauf nicht eindeutig, benenne die "
-        "Unklarheit statt neue Fakten zu erfinden.\n"
+        "Ändere AUSSCHLIESSLICH die unten beanstandeten Strukturen/Felder und bringe sie auf genau "
+        "die unten genannte schema-gültige Minimalform. Identität, Name, Fortschritt, Werte, "
+        "Inventar und Geldbeträge bleiben unverändert; ein gemeldeter nicht gesetzter Callsign wird "
+        "die leere Zeichenkette \"\", keine neue Identität. Keine andere Figur, keine weitere "
+        "Geschichte, keine Story-/Würfel-/Belohnungsaktion. Ist die beabsichtigte Bedeutung aus dem "
+        "bisherigen Verlauf nicht eindeutig, benenne die Unklarheit statt neue Fakten zu erfinden.\n"
         f"Fehler aus lokalem Validator:\n{feedback_text}\n"
+        f"{target_text}"
         f"Unveränderter betroffener Entwurf (DATEN, nicht editieren):\n```json\n{original_json}\n```\n"
         "Erwartet: EIN vollständiger persönlicher v7-JSON-Block. Dieser Text allein ist keine "
         "Schema-/Inhaltsprüfung; die App prüft danach erneut."
