@@ -61,6 +61,35 @@ def _is_wallet_amount_path(path: str) -> bool:
     return bool(_WALLET_AMOUNT_PATH_RE.match(path))
 
 
+#: N2R5-DRIFTFIX (ZR-N2R-ANSCHLUSS-20261019-R4): bei einem Erschaffungs-
+#: entwurf, der SELBST noch nie ein kanonischer Vorzustand war (die
+#: Vergleichsbasis ist der eigene, zuletzt abgelehnte SL-Entwurf DIESES
+#: Dialogs, nicht ein bestehender Spielerstand -- s. `detect_unjustified_
+#: drift`-Parameter `restrict_to_core_identity`), bleiben NUR Pfade dieser
+#: festen, engen Kategorie Drift: char_id/name/callsign/level/Attribute/
+#: Inventar/Fortschritt (wortgleich die vom Review benannte Liste). Ein
+#: Wallet-Betrag ist davon unabhaengig bereits ueber `_is_wallet_amount_path`
+#: UNCONDITIONAL geschuetzt (nicht Teil dieser Liste, aber gleichwertig
+#: wirksam -- s. `_is_core_identity_path`). JEDER andere Blattpfad
+#: (Hintergrundtext, Herkunftsflavor, Talentbeschreibung, ...) gilt bei
+#: einem solchen Entwurf NICHT als Drift -- die GM-Neuformulierung von
+#: Flavor zwischen zwei Erschaffungsentwuerfen ist erwuenschtes Verhalten.
+_CORE_IDENTITY_PATH_RE = re.compile(
+    r"^/characters/[^/]+/(id|name|callsign|lvl|xp|lp|lp_max"
+    r"|attr(/.*)?|equipment(/.*)?|carry(/.*)?|implants(/.*)?)$"
+)
+
+
+def _is_core_identity_path(path: str) -> bool:
+    """N2R5-DRIFTFIX: True fuer jeden Blattpfad aus der festen Kategorie
+    Identitaet/Kerninhalt (s. `_CORE_IDENTITY_PATH_RE`-Docstring) ODER einen
+    Wallet-Betragspfad (`_is_wallet_amount_path`, bereits unconditional
+    geschuetzt). Wird NUR von `detect_unjustified_drift` mit
+    `restrict_to_core_identity=True` benutzt -- der Standardpfad (Gruppen-
+    korrektur, bestehende Saves) bleibt unveraendert Blatt-fuer-Blatt."""
+    return bool(_CORE_IDENTITY_PATH_RE.match(path)) or _is_wallet_amount_path(path)
+
+
 def evaluate(block: dict | None, expected_chrononaut_id: str) -> save_validation_lib.AcceptanceResult:
     """Dünner Zugriff auf den vollen `save_validation`-Annahmepunkt (BEIDE
     v7-Schemas + Bindung) -- im Gegensatz zu `policy.ZeitrissHarvestValidator.
@@ -371,6 +400,7 @@ def _wallet_amount_values_equal(old_value: object, new_value: object) -> bool:
 
 def detect_unjustified_drift(
     original: dict, corrected: dict, error_paths: set[str],
+    *, restrict_to_core_identity: bool = False,
 ) -> list[tuple[str, object, object]]:
     """01_AUFTRAG_SAVEGATE.md §A: "Nur Fehlerpfade und nachweislich
     notwendige Strukturkorrekturen freigeben." Vergleicht `original` (der
@@ -417,7 +447,26 @@ def detect_unjustified_drift(
     Blaetter sieht) das je zu Gesicht bekommt. Ein wertgleicher Typwechsel
     am selben Wallet-Blatt (`"500" -> 500`, s. `_wallet_amount_values_equal`)
     bleibt weiterhin driftfrei; nur ein zahlenmaessig ANDERER Wert wird
-    Drift."""
+    Drift.
+
+    N2R5-DRIFTFIX (ZR-N2R-ANSCHLUSS-20261019-R4): `restrict_to_core_identity`,
+    additiv und OPTIONAL (Default `False` -> unveraendertes Verhalten jedes
+    bestehenden Aufrufers, insb. `pursue_group_save_correction` und jeder
+    Testfixture, die diesen Parameter nicht kennt). Nur gesetzt, wenn `original`
+    SELBST niemals ein kanonischer Vorzustand war (der eigene, zuletzt
+    abgelehnte Entwurf DIESES Erschaffungsdialogs, s. Aufrufer `core.
+    save_correction.pursue_single_figure_correction`-Parameter gleichen
+    Namens) -- dann wird das Ergebnis VOR der Rueckgabe auf Pfade aus
+    `_is_core_identity_path` verengt (char_id/name/callsign/level/Attribute/
+    Inventar/Fortschritt/Wallet-Betrag). Jede andere Flavor-Abweichung
+    zwischen zwei Erschaffungsentwuerfen (Hintergrundtext, Herkunft,
+    Talentbeschreibung, ...) ist dann NICHT mehr Drift -- der Aufrufer
+    behandelt sie wie jede andere schema-/bindungsungueltige Antwort (neuer
+    Korrekturversuch bis `MAX_ADDITIONAL_REQUESTS`, erst danach HOLD). Bei
+    einem BESTEHENDEN Spielerstand (A_R2/A_R3, `pursue_group_save_correction`)
+    bleibt der Parameter `False` -- JEDE Abweichung ausserhalb der
+    Fehlerpfade bleibt dort weiterhin terminal (01_AUFTRAG_SAVEGATE.md §A
+    unveraendert)."""
     if not isinstance(original, dict) or not isinstance(corrected, dict):
         return [] if original == corrected else [("/", original, corrected)]
 
@@ -459,6 +508,8 @@ def detect_unjustified_drift(
             if path in error_paths and not _is_wallet_amount_path(path):
                 continue
             drift.append((path, "<nicht vorhanden>", new_leaves[path]))
+    if restrict_to_core_identity:
+        drift = [d for d in drift if _is_core_identity_path(d[0])]
     return drift
 
 
@@ -629,7 +680,7 @@ def build_correction_message(
         "Inventar und Geldbeträge bleiben unverändert; ein gemeldeter nicht gesetzter Callsign wird "
         "die leere Zeichenkette \"\", keine neue Identität. Keine andere Figur, keine weitere "
         "Geschichte, keine Story-/Würfel-/Belohnungsaktion. Ist die beabsichtigte Bedeutung aus dem "
-        "bisherigen Verlauf nicht eindeutig, benenne die Unklarheit statt neue Fakten zu erfinden.\n"
+        "unten gezeigten unveränderten betroffenen Entwurf nicht eindeutig, benenne die Unklarheit statt neue Fakten zu erfinden.\n"
         f"Fehler aus lokalem Validator:\n{feedback_text}\n"
         f"{target_text}"
         f"Unveränderter betroffener Entwurf (DATEN, nicht editieren):\n```json\n{original_json}\n```\n"

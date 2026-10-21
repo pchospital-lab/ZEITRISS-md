@@ -439,6 +439,110 @@ def _table_has_final(run_dir: str | Path, table_id: str) -> bool:
     return False
 
 
+def sections_played_by_participant(run_dir: str | Path) -> dict[str, int]:
+    """SPIELFLUSS-SPEC.md "Abschnitts-Zaehler" -- reiner Lese-Helfer, KEIN
+    neuer Schreibspeicher: zaehlt, wie viele Abschnitte (`completion/
+    *__final.json`) JEDE Person (Mensch oder Persona, ueber das dortige
+    `members`-Feld -- `finalize_section_after_reflection` schreibt dort
+    IMMER `list(table.members)`, kein Unterschied zwischen Mensch/KI)
+    bereits vollstaendig abgeschlossen hat. Eine Person, die noch nie in
+    einem `__final.json` auftaucht, fehlt im Rueckgabe-Dict (Aufrufer nutzt
+    `.get(pk, 0)`, kein erfundener Nulleintrag fuer die ganze Community)."""
+    run_dir = Path(run_dir)
+    completion_dir = run_dir / "completion"
+    counts: dict[str, int] = {}
+    if not completion_dir.exists():
+        return counts
+    for p in completion_dir.glob("*__final.json"):
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        for member in data.get("members") or []:
+            counts[member] = counts.get(member, 0) + 1
+    return counts
+
+
+def table_progress_lengths(run_dir: str | Path) -> dict[str, int]:
+    """Reiner Lese-Helfer: `sl_log`-Laenge je Tisch als Fortschrittsmass --
+    oeffentliche Fassung der bisher privaten, nur in `lab/cli.py` lebenden
+    `_table_sl_lengths`-Mechanik (R4-Fix3), jetzt auch fuer
+    `core.catchup.run_catch_up` wiederverwendbar (EIN Lesepfad statt zwei
+    Kopien, "Reuse vor Neubau"). Ein nicht lesbarer/teilweiser Tisch zaehlt
+    als 0 und blockiert die Messung nicht."""
+    run_dir = Path(run_dir)
+    tables_dir = run_dir / "tables"
+    lengths: dict[str, int] = {}
+    if not tables_dir.exists():
+        return lengths
+    for p in tables_dir.glob("*.json"):
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        tid = data.get("table_id") or p.stem
+        sl_log = data.get("sl_log")
+        lengths[tid] = len(sl_log) if isinstance(sl_log, list) else 0
+    return lengths
+
+
+def current_or_recent_table_members(run_dir: str | Path, persona_key: str) -> set[str]:
+    """SPIELFLUSS-SPEC.md Schluessel-Invariante -- reiner Lese-Helfer: liefert
+    die Mitglieder des Tisches, an dem `persona_key` GERADE gebunden ist
+    (aktiv, ueber `locks.json`), oder -- falls aktuell frei (der normale
+    Fall direkt NACH einem abgeschlossenen Abschnitt, der Chrononaut-Lock
+    wird bei `finalize_section_after_reflection` sofort freigegeben) -- die
+    Mitglieder des zuletzt GESCHLOSSENEN Tisches, an dem `persona_key`
+    beteiligt war. "Zuletzt" wird ueber die echte Dateisystem-mtime der
+    Tischdatei bestimmt (kein neues Zeitstempelfeld, kein Raten) -- ein
+    bewusster, ehrlicher Recency-Beleg, kein harter Datensatz. Liefert eine
+    leere Menge, wenn weder ein aktiver noch ein geschlossener Tisch mit
+    `persona_key` gefunden wird (kein erfundener Tisch).
+
+    M2-Fix (BL1-FIX-SPEC.md, CRITIC-REPORT-R3.md): bei einem mtime-
+    Gleichstand zwischen mehreren geschlossenen Tischen entscheidet NICHT
+    mehr die (dateisystemabhaengige, nicht deterministische) Glob-
+    Iterationsreihenfolge -- ein Gleichstand wird deterministisch ueber
+    `table_id` aufgeloest (kleinste ID gewinnt), unabhaengig davon, in
+    welcher Reihenfolge die Tischdateien gelesen wurden."""
+    run_dir = Path(run_dir)
+    tables_dir = run_dir / "tables"
+    if not tables_dir.exists():
+        return set()
+    locks = _read_locks(run_dir)
+    best_closed_members: set[str] | None = None
+    best_closed_mtime = -1.0
+    best_closed_table_id: str | None = None
+    for p in tables_dir.glob("*.json"):
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        members = data.get("members") or []
+        if persona_key not in members:
+            continue
+        status = data.get("status", "active")
+        chrono_ids = data.get("chrononaut_ids") or {}
+        own_cid = chrono_ids.get(persona_key)
+        if status == "active" and own_cid is not None and locks.get(own_cid) == data.get("table_id"):
+            return set(members)
+        if status == "closed":
+            try:
+                mtime = p.stat().st_mtime
+            except OSError:
+                continue
+            table_id = data.get("table_id") or p.stem
+            is_new_best = mtime > best_closed_mtime or (
+                mtime == best_closed_mtime
+                and (best_closed_table_id is None or table_id < best_closed_table_id)
+            )
+            if is_new_best:
+                best_closed_mtime = mtime
+                best_closed_members = set(members)
+                best_closed_table_id = table_id
+    return best_closed_members or set()
+
+
 def submit_to_sl(
     table: Table, actor_persona_key: str, gm_transport, turn_idx: int, text: str,
     origin_persona_key: str | None = None, origin_source: str | None = None,
@@ -676,6 +780,7 @@ def find_bound_active_unplayed_table(
     run_dir: str | Path, ready_chrononaut_ids: dict[str, str], bound_table_ids: dict[str, str],
     *, marker: str | None = None,
     marker_matches: "Callable[[str, str, str, str], bool] | None" = None,
+    ai_personas: "frozenset[str] | None" = None,
 ) -> "Table | None":
     """R2-Nachzug (Hauptbefund 2, MAIN-DATENWEGENTSCHEIDUNG-TISCHWIEDERAUFNAHME.md
     Punkt 1-2): liefert einen bereits angelegten, `active`, noch NICHT
@@ -696,6 +801,19 @@ def find_bound_active_unplayed_table(
     Mapping (persona_key -> Tisch-ID aus `locks.json`, nur bereits gebundene
     Mitglieder). Beide kommen unveraendert aus `lobby_service.
     community_roster` -- kein zweiter Save-/Lock-Leser.
+
+    BL1-FIX (BL1-FIX-SPEC.md, R4-Nachzug 2026-10-21): `ai_personas` ist
+    OPTIONAL (Default `None` = unveraendertes Verhalten fuer Alt-Aufrufer,
+    analog zum bereits bestehenden Gate in `lobby_flow.play_bound_table`).
+    Wenn gesetzt: ein ansonsten gefundener Tisch, dessen Mitglieder NICHT
+    VOLLSTAENDIG in `ai_personas` liegen (also in DIESEM Aufrufkontext
+    ohnehin nicht ohne menschliche/fremde Entscheidung spielbar), wird NICHT
+    als "der" eindeutige wiederaufnehmbare Tisch zurueckgegeben (`None`) --
+    PRE-STEP faellt dann durch zu STEP 1 (freie Initiative der tatsaechlich
+    auswaehlbaren Figuren), statt einen fuer DIESEN Aufruf irrelevanten
+    gebundenen Tisch jedes Fenster erneut zu "gewinnen" (BL1,
+    CRITIC-REPORT-R3.md: starvt sonst die gesamte Catch-up-/Vorspiel-
+    Initiative fuer die tatsaechlich ausgewaehlten Kandidaten).
 
     R12-AUTORECOVERY-Nachzug (S2, ZR-N2-STABILISIERUNG-WEITERLAUF-2026-10-17):
     `marker`/`marker_matches` sind OPTIONAL und domain-neutral injiziert (A1 --
@@ -770,7 +888,119 @@ def find_bound_active_unplayed_table(
     for pk in bound_table_ids:
         if pk not in table.members:
             return None
+    if ai_personas is not None and set(table.members) - set(ai_personas):
+        return None
     return table
+
+
+def find_bound_active_continuable_table(
+    run_dir: str | Path, ready_chrononaut_ids: dict[str, str], bound_table_ids: dict[str, str],
+    *,
+    ai_personas: "frozenset[str] | None" = None,
+) -> "Table | None":
+    """R4-Fix1 (02_JETZT_ENTWICKELN.md §1 "Den Ein-Zug-Stillstand beheben",
+    ABSCHNITT-A-ROOTCAUSE.md §5), erweitert um R4-FixB1 (B1-FIX-SPEC.md
+    "Multi-Tisch-Fortsetzung"): liefert einen bereits angelegten, `active`,
+    BEREITS BEGONNENEN (nicht-leeres `sl_log`), aber noch NICHT abgeschlossenen
+    Tisch, dem die ZU IHM gebundenen Community-Mitglieder eindeutig zugeordnet
+    sind -- damit ein begonnener organischer Tisch in jedem weiteren
+    Lobbyfenster einen WEITEREN regulaeren Zug bekommt, statt nach genau einem
+    Zug stillzustehen.
+
+    MULTI-TISCH (R4-FixB1): anders als die urspruengliche Fix1-Fassung ist
+    `bound_table_ids` HIER NICHT mehr auf eine einzige Tisch-ID beschraenkt --
+    es werden ALLE DISTINCTen Tisch-IDs in `bound_table_ids.values()`
+    durchsucht (mehrere organische Tische koennen gleichzeitig aktiv/
+    fortsetzbar sein). Unter allen fortsetzbaren Kandidaten gewinnt der mit
+    dem KLEINSTEN `len(sl_log)` (am wenigsten fortgeschritten -- faire
+    Round-Robin-Progression statt dass ein einziger Tisch immer weiter vorab
+    gespielt wird); Ties werden deterministisch nach `table_id` aufgeloest
+    (kleinste ID zuerst durchsucht). Jeder Tisch wird FAIL-CLOSED PRO TISCH
+    geprueft -- ein inkonsistenter/fremder/abgeschlossener Tisch wird
+    uebersprungen, bricht aber NICHT die Suche nach den anderen Kandidaten ab.
+
+    BEWUSSTE ABGRENZUNG zu `find_bound_active_unplayed_table` (NORMALE
+    FORTSETZUNG getrennt von Wiederherstellung und einmaliger Endsave-Ernte,
+    02 §1): diese Funktion deckt GENAU den Mid-Play-Fall ab --
+    - `sl_log` ist NICHT leer (ein leerer `sl_log` ist der unplayed-/Recovery-
+      Fall B1/B2 und bleibt alleinige Sache von `find_bound_active_unplayed_
+      table`; diese Funktion gibt dafuer `None` zurueck);
+    - KEIN `__final.json` (ein abgeschlossener Tisch wird NIE wiederbelebt);
+    - KEIN offener Abschnitts-Record (`__plan.json` ohne `__final.json`) -- das
+      ist der bereits bestehende, hier NICHT angefasste Finalisierungs-/Ernte-
+      Resume-Pfad fuer einen bereits geernteten Abschluss.
+    Die noch nicht geerntete R12-Abschlussbindung (durabler Marker im `sl_log`
+    OHNE `__plan.json`) wird von `find_bound_active_unplayed_table` abgedeckt
+    und von DIESEM Helfer bewusst NICHT dupliziert: der Aufrufer ruft erst
+    jene Funktion (Recovery/Ernte), und NUR wenn sie `None` liefert, diese
+    (reine Mid-Play-Fortsetzung) -- so bleibt die Ernte-Recovery strikt
+    vorrangig (s. `lobby_flow.run_lobby_window`).
+
+    Konsistenzpruefung PRO TISCH (fail-closed, kein fremder/teilgebundener
+    Tisch, kein Raten bei widersprechenden Bindungen):
+    - die zu GENAU diesem `table_id` gebundenen Mitglieder muessen eine
+      Teilmenge von `table.members` sein;
+    - KEIN Mitglied von `table.members`, das laut `bound_table_ids` an einen
+      ANDEREN Tisch gebunden ist (widerspruechliche/ueberlappende Bindung --
+      derselbe Schutz wie die urspruengliche Einzeltisch-Mehrdeutigkeitspruefung,
+      jetzt pro Tisch statt global);
+    - fuer jedes `pk` in `table.chrononaut_ids` muss `ready_chrononaut_ids.
+      get(pk) == cid` gelten (Charakter-Identitaet, kein veralteter/ersetzter
+      Spielstand).
+
+    Die eigentliche Spielentscheidung bleibt unveraendert bei
+    `play_bound_table`/`run_full_section` (resume-aware: `self._turn_idx =
+    len(table.sl_log)`); dieser Helfer OEFFNET nur die Tuer zum erneuten
+    Aufruf."""
+    run_dir = Path(run_dir)
+    candidate_table_ids = sorted(set(bound_table_ids.values()))
+    best_table: "Table | None" = None
+    for table_id in candidate_table_ids:
+        try:
+            table = Table.load(run_dir, table_id)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if table.status != "active":
+            continue
+        if _table_has_final(run_dir, table_id):
+            continue
+        if _open_completion_order_for_table(run_dir, table_id) is not None:
+            continue
+        if not table.sl_log:
+            # Leer -> unplayed-/Recovery-Fall, NICHT hier (s. Docstring).
+            continue
+        if ai_personas is not None and set(table.members) - set(ai_personas):
+            # R4-FixB1-STEP2-SYMMETRIE (Critic-R4-Restluecke): analog zum
+            # ai_personas-Filter in `find_bound_active_unplayed_table` (PRE-STEP).
+            # Ein Tisch, dessen Mitglieder NICHT vollstaendig in der aktuellen
+            # Auswahl (`ai_personas`) liegen, ist in DIESEM Aufrufkontext ohnehin
+            # nicht ohne fremde/menschliche Entscheidung spielbar -- er darf die
+            # Fortsetzungsphase (STEP 2) fuer die tatsaechlich auswaehlbaren
+            # Figuren NICHT an sich reissen (sonst dasselbe Starvation-/
+            # WAITING_HUMAN-Muster wie BL1, nur ueber einen mid-play-Fremdtisch).
+            # ai_personas=None (TUI-Default = alle freien) laesst alles unveraendert.
+            continue
+        members_bound_here = {pk for pk, tid in bound_table_ids.items() if tid == table_id}
+        if not members_bound_here <= set(table.members):
+            continue
+        conflicting_binding = False
+        for pk in table.members:
+            other_tid = bound_table_ids.get(pk)
+            if other_tid is not None and other_tid != table_id:
+                conflicting_binding = True
+                break
+        if conflicting_binding:
+            continue
+        chrononaut_mismatch = False
+        for pk, cid in table.chrononaut_ids.items():
+            if ready_chrononaut_ids.get(pk) != cid:
+                chrononaut_mismatch = True
+                break
+        if chrononaut_mismatch:
+            continue
+        if best_table is None or len(table.sl_log) < len(best_table.sl_log):
+            best_table = table
+    return best_table
 
 
 def _current_save_versions_dir(current_saves_dir: Path, persona_key: str) -> Path:

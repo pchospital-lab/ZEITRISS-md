@@ -577,6 +577,7 @@ def pursue_single_figure_correction(
     max_attempts: int = MAX_ADDITIONAL_REQUESTS, emit=None, forced_conflicts: list | None = None,
     original_request_id: str | None = None, original_evidence: dict | None = None,
     original_role: str | None = None, original_turn_idx: int | None = None, original_generation: int | None = None,
+    restrict_drift_to_core_identity: bool = False,
 ) -> CorrectionOutcome:
     """Treibt bis zu `max_attempts` zusätzliche SL-Ausgaben für EINE Figur
     (01_AUFTRAG_SAVEGATE.md §C) -- wiederaufnehmbar (Restart lädt denselben
@@ -656,7 +657,27 @@ def pursue_single_figure_correction(
     echte Erstanlage/Mehrdeutigkeit), bleibt `bound_block=None` unveraendert
     `current_block=None` (keine Drift-Baseline, weil nie eine existierte).
     NIE aus dem heutigen `candidate_block` dieses Aufrufs eine alte Bindung
-    erfinden, NIE eine D-ID-Allowlist."""
+    erfinden, NIE eine D-ID-Allowlist.
+
+    N2R5-DRIFTFIX (ZR-N2R-ANSCHLUSS-20261019-R4): `restrict_drift_to_core_
+    identity`, additiv und OPTIONAL (Default `False` -> unveraendertes
+    Verhalten jedes bestehenden Aufrufers, insb. `pursue_group_save_
+    correction` und jeder direkte Testfixture ohne diesen Parameter, z.B.
+    A_R2_CREATION/A_R2_GROUP). NUR der echte Erschaffungsdialog (`core.
+    creation_service.run_admitted_creation_dialog`s `_attempt_correction`)
+    setzt ihn `True` -- dort ist `current_block` (die Vergleichsbasis fuer
+    `detect_unjustified_drift`, s.u.) IMMER der eigene, zuletzt abgelehnte
+    SL-Entwurf DIESES Dialogs, NIE ein bestehender kanonischer Spielerstand
+    (ein solcher existiert fuer eine brandneue Figur per Definition noch
+    nicht). Durchgereicht an `detect_unjustified_drift`s gleichnamigen
+    Parameter -- verengt dort das Ergebnis auf Identitaet/Kerninhalt
+    (char_id/name/callsign/level/Attribute/Inventar/Fortschritt/Wallet-
+    Betrag); jede andere Flavor-Abweichung zwischen zwei Erschaffungs-
+    entwuerfen bleibt dann NICHT mehr Drift und faellt durch dieselbe,
+    bereits bestehende Schleife unten in `_reset_for_next_attempt` (neuer
+    Korrekturversuch, verbraucht ein Attempt-Budget-Slot, erst nach
+    `MAX_ADDITIONAL_REQUESTS` HOLD `attempt_budget_exhausted`) -- KEIN
+    neuer Zustand, KEIN Bypass von Budget/Admission/Transport."""
     emit = emit or (lambda *_a, **_k: None)
     repair_key = save_correction_domain.creation_repair_key(participant_id, expected_chrononaut_id)
     if forced_conflicts:
@@ -855,7 +876,30 @@ def pursue_single_figure_correction(
             record["updated_ts"] = time.time()
             _write_record(run_dir, repair_key, record)
         elif record_identity != caller_identity or not _window.is_resumable_pre_send_pause(run_dir, record):
-            return CorrectionOutcome(status="hold", reason=record.get("last_reason") or "hold")
+            last_reason = record.get("last_reason") or "hold"
+            # N2R5-BESTEFFORT: ein Prozess-Neustart GENAU zwischen diesem
+            # `mark_hold(..., reason="attempt_budget_exhausted")` (s.o.) und
+            # der Finalisierung durch den Aufrufer darf den bereits dort
+            # gebundenen Best-Effort-Kandidaten (`bound_block`) NICHT
+            # verlieren -- NUR fuer GENAU diesen Grund; jeder andere
+            # terminale Grund (insbesondere `unjustified_semantic_drift`)
+            # bleibt UNVERAENDERT ohne `block`.
+            #
+            # R4-CALLER-BINDUNG (02_JETZT_ENTWICKELN.md §2): der Best-Effort-
+            # Block darf NUR an GENAU DENSELBEN Aufrufer zurueckgegeben werden,
+            # der den `attempt_budget_exhausted`-Hold erzeugt hat
+            # (`record_identity == caller_identity`). Wir erreichen diesen elif
+            # auch bei einem FREMDEN Aufrufer (`record_identity !=
+            # caller_identity`, erster Oder-Zweig oben) -- ein solcher Fremd-
+            # Caller darf KEINEN uebernehmbaren Block erhalten (sonst
+            # fremde Caller-Bindung, 02 §2). Nur der passende Resume
+            # desselben Callers behaelt Best-Effort.
+            resumed_block = (
+                record.get("bound_block")
+                if last_reason == "attempt_budget_exhausted" and record_identity == caller_identity
+                else None
+            )
+            return CorrectionOutcome(status="hold", reason=last_reason, block=resumed_block)
         else:
             # R12-W75 (F02-SHAPE): `record["attempts_used"]` wird unten DIREKT
             # als `attempt_no` wiederverwendet (der Resume-Zweig des `while`
@@ -1017,8 +1061,22 @@ def pursue_single_figure_correction(
                     best_view=current_block, errors=current_acceptance.feedback_items,
                     reason="attempt_budget_exhausted",
                 )
+                # N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-
+                # FINALRUN3): `block=current_block` ist additiv (Default
+                # `None`, kein bestehender Aufrufer liest `.block` bei
+                # `status="hold"`) -- liefert dem EINZIGEN vorgesehenen
+                # Konsumenten (`core.creation_service.
+                # run_admitted_creation_dialog`) den letzten Kandidaten
+                # dieser Figur, damit er ihn best-effort finalisieren kann,
+                # statt terminal zu pausieren. `current_block` ist hier NIE
+                # ein durch Drift abgelehnter Kandidat (der fuehrt weiter
+                # unten zu einem eigenen `unjustified_semantic_drift`-HOLD
+                # OHNE `block`, UNVERAENDERT terminal) -- nur `None`, wenn
+                # es (G02/SC06-Mehrdeutigkeitskonflikt) nie einen
+                # wohldefinierten EINEN Kandidaten gab; der Aufrufer bleibt
+                # dann unveraendert terminal HOLD.
                 return CorrectionOutcome(
-                    status="hold", reason="attempt_budget_exhausted",
+                    status="hold", reason="attempt_budget_exhausted", block=current_block,
                     compat_export_path=str(compat_path) if compat_path else None,
                 )
             record = begin_attempt(run_dir, repair_key, original_block=current_block)
@@ -1198,6 +1256,7 @@ def pursue_single_figure_correction(
             error_paths = {e.path for e in base_acceptance.structure.errors}
             drift = save_correction_domain.detect_unjustified_drift(
                 current_block_for_check, new_candidate_for_check, error_paths,
+                restrict_to_core_identity=restrict_drift_to_core_identity,
             )
         if drift:
             mark_hold(run_dir, repair_key, reason="unjustified_semantic_drift")

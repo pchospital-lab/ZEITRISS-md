@@ -37,6 +37,13 @@ class OnboardingState:
     # ist -- reines Scratch-Feld, kein zweites Archiv (`steps` bleibt die
     # einzige dauerhafte Dialoghistorie).
     pending_step: dict | None = None
+    # N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-FINALRUN3):
+    # additiv, Default `False` -> kein bestehender Leser/Schreiber dieser
+    # Datei aendert sein Verhalten. Nur `complete_with_save_best_effort`
+    # (s.u.) setzt dieses Feld auf `True` -- markiert EHRLICH, dass
+    # `final_save` NICHT durch `harvest_validator.validate_block` lief
+    # (Korrekturbudget erschoepft, reiner Schema-Imperfekt, KEINE Drift).
+    final_save_best_effort: bool = False
 
 
 def _path(onboarding_dir: Path, participant_id: str) -> Path:
@@ -209,6 +216,36 @@ def complete_with_save(
         raise ValueError(f"kein Erschaffungsauftrag fuer {participant_id!r} — start_or_resume() zuerst aufrufen")
     state.status = "completed"
     state.final_save = save_block
+    state.pending_step = None
+    _write(path, state)
+    return state
+
+
+def complete_with_save_best_effort(
+    onboarding_dir: str | Path, participant_id: str, save_block: dict,
+) -> OnboardingState:
+    """N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-FINALRUN3):
+    Gegenstueck zu `complete_with_save` fuer den `attempt_budget_exhausted`-
+    Pfad (`core.save_correction.pursue_single_figure_correction`, reiner
+    Schema-Imperfekt -- NICHT `unjustified_semantic_drift`, der bleibt
+    UNVERAENDERT terminal, s. `core.creation_service`). Flo woertlich: 'beim
+    4. Mal -- passend ODER NICHT -- muss es TROTZDEM WEITERLAUFEN; den Rest
+    korrigiert der GM automatisch beim Laden'.
+
+    Ueberspringt deshalb BEWUSST `harvest_validator.validate_block` (das ist
+    exakt die Pruefung, die hier bereits dreimal nicht gelang, s.
+    `save_correction.MAX_ADDITIONAL_REQUESTS`) -- markiert den Abschluss
+    aber EHRLICH ueber `final_save_best_effort=True` (kein Fake-DONE, nie
+    stillschweigend als perfekt behauptet), damit ein spaeterer Cold-Load-/
+    Anzeigepfad den Unterschied kennt."""
+    onboarding_dir = Path(onboarding_dir)
+    path = _path(onboarding_dir, participant_id)
+    state = _load(path)
+    if state is None:
+        raise ValueError(f"kein Erschaffungsauftrag fuer {participant_id!r} — start_or_resume() zuerst aufrufen")
+    state.status = "completed"
+    state.final_save = save_block
+    state.final_save_best_effort = True
     state.pending_step = None
     _write(path, state)
     return state

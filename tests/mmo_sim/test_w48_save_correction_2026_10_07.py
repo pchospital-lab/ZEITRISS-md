@@ -180,7 +180,15 @@ def test_sc07_max_three_additional_requests_then_hold_restart_does_not_reset():
             gm_transport=gm, get_reply=_never_called_get_reply,
             harvest_validator=ZeitrissHarvestValidator(), role="creation_dialog",
         )
-        assert outcome.status == "paused" and outcome.reason == "attempt_budget_exhausted", outcome
+        # TEST-DELTA (N2R5-BESTEFFORT, Flo-Design, ZR-N2R-ANSCHLUSS-20261020-
+        # FINALRUN3): `core.creation_service.run_admitted_creation_dialog`
+        # finalisiert ein erschoepftes Korrekturbudget (reiner Schema-
+        # Imperfekt, KEINE Drift) jetzt best-effort statt terminal HOLD
+        # (s. Docstring `onboarding.complete_with_save_best_effort`). Die
+        # interne Korrektur-Buchhaltung (unten, `save_correction.
+        # load_record`) bleibt UNVERAENDERT `hold`/`attempt_budget_
+        # exhausted` -- nur dieser Aufrufer-Outcome aendert sich.
+        assert outcome.status == "completed" and outcome.reason == "attempt_budget_exhausted_best_effort", outcome
         assert len(gm.calls) == 4, f"genau 1 Initialturn + 3 zusaetzliche Ausgaben, nicht mehr/weniger -- {gm.calls}"
 
         repair_key = save_correction_domain.creation_repair_key(participant_id, "CHR-SC07-01")

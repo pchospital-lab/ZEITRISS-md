@@ -263,6 +263,14 @@ class ClaudeCodeConfig:
     # dem vorherigen hart verdrahteten Wert) -- nur ein explizit kuerzerer
     # Wert (z.B. ein Offline-Belegtest fuer einen echten Timeout) weicht ab.
     process_timeout_seconds: int = 120
+    # N2R5-TIMEOUTFIX (ZR-N2R-ANSCHLUSS-20261019-R4, Timeout-Propagation-
+    # Fix): additiv/optional, Default 0 (unveraendert -- `decide()` verhaelt
+    # sich byte-identisch zu vorher, wenn dieses Feld nicht explizit gesetzt
+    # wird). Ein Wert > 0 erlaubt genau so viele zusaetzliche Versuche NACH
+    # einem `subprocess.TimeoutExpired` DESSELBEN Calls (kein Re-Dispatch
+    # bei rc!=0/anderen Exceptions -- die bleiben ehrlich fehlerhaft, s.
+    # `decide()`-Docstring).
+    max_timeout_retries: int = 0
 
 
 class PersonaClaudeCodeDriver:
@@ -541,18 +549,34 @@ class PersonaClaudeCodeDriver:
         # an die Persona-CLI weitergereicht.
         env = {k: v for k, v in os.environ.items() if k in _CHILD_ENV_ALLOWLIST}
         env["CLAUDE_WORKDIR"] = self.config.isolated_workdir or ""
-        try:
-            rc, out, err = self._runner.run(
-                argv, stdin=stdin_payload, env=env, cwd=self.config.isolated_workdir,
-            )
-        except FileNotFoundError as e:
-            raise ProviderUnavailableError(
-                f"persona_claude_code[{self.persona_key}]: Binary nicht gefunden: {e}"
-            ) from e
-        except subprocess.TimeoutExpired as e:
-            raise ProviderUnavailableError(
-                f"persona_claude_code[{self.persona_key}]: Zeitueberschreitung: {e}"
-            ) from e
+        # N2R5-TIMEOUTFIX: NUR `subprocess.TimeoutExpired` ist retrybar (ein
+        # einzelner langsamer Call soll nicht die ganze Section terminal
+        # killen, s. Klassendocstring `max_timeout_retries`) -- `rc!=0` UND
+        # `FileNotFoundError` bleiben nach dem ERSTEN Fehlschlag sofort ein
+        # ehrlicher `ProviderUnavailableError` (keine stille Fehlermaskierung
+        # eines nicht-transienten Defekts).
+        attempt = 0
+        while True:
+            try:
+                rc, out, err = self._runner.run(
+                    argv, stdin=stdin_payload, env=env, cwd=self.config.isolated_workdir,
+                )
+                break
+            except FileNotFoundError as e:
+                raise ProviderUnavailableError(
+                    f"persona_claude_code[{self.persona_key}]: Binary nicht gefunden: {e}"
+                ) from e
+            except subprocess.TimeoutExpired as e:
+                if attempt >= self.config.max_timeout_retries:
+                    raise ProviderUnavailableError(
+                        f"persona_claude_code[{self.persona_key}]: Zeitueberschreitung nach "
+                        f"{attempt + 1} Versuch(en): {e}"
+                    ) from e
+                attempt += 1
+                _LOG.warning(
+                    "persona_claude_code[%s]: Zeitueberschreitung, Re-Dispatch (Versuch %d/%d): %s",
+                    self.persona_key, attempt, self.config.max_timeout_retries, e,
+                )
         if rc != 0:
             raise ProviderUnavailableError(
                 f"persona_claude_code[{self.persona_key}]: Prozess rc={rc}: {err[:300]}"

@@ -376,6 +376,15 @@ def run_admitted_creation_dialog(
                     ),
                     original_evidence=candidate_block,
                     original_role=role, original_turn_idx=turn_idx,
+                    # N2R5-DRIFTFIX (ZR-N2R-ANSCHLUSS-20261019-R4): hier, und
+                    # NUR hier, ist die Vergleichsbasis fuer die Drift-
+                    # Pruefung der eigene, zuletzt abgelehnte SL-Entwurf
+                    # DIESES Erschaffungsdialogs -- nie ein bestehender
+                    # kanonischer Spielerstand (eine brandneue Figur hat per
+                    # Definition noch keinen). detect_unjustified_drift
+                    # verengt sich dadurch auf Identitaet/Kerninhalt statt
+                    # jedes Flavor-Blatts (s. Parameter-Docstring dort).
+                    restrict_drift_to_core_identity=True,
                 )
 
             if checked_block is not None:
@@ -401,6 +410,36 @@ def run_admitted_creation_dialog(
                 # 'fehlender Block'-Textes.
                 correction = _attempt_correction(None, forced_conflicts=extraction_conflicts)
 
+            # N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-
+            # FINALRUN3): `attempt_budget_exhausted` (reiner Schema-
+            # Imperfekt NACH 3 erschoepften Korrekturversuchen, s.
+            # `core.save_correction.pursue_single_figure_correction`) ist
+            # AB SOFORT KEIN terminaler HOLD mehr -- Flo woertlich: 'beim
+            # 4. Mal -- passend ODER NICHT -- muss es TROTZDEM
+            # WEITERLAUFEN; den Rest korrigiert der GM automatisch beim
+            # Laden'. NUR dieser eine Grund, NUR wenn `correction.block`
+            # tatsaechlich einen Kandidaten traegt (additiv dort gesetzt,
+            # s. `save_correction.py` -- bleibt `None` bei einem echten
+            # G02/SC06-Mehrdeutigkeitskonflikt ohne EINEN wohldefinierten
+            # Kandidaten; dieser Fall faellt bewusst durch in den
+            # unveraenderten terminalen HOLD-Zweig unten).
+            # `unjustified_semantic_drift` (A_R2-Integritaet, GM hat
+            # Identitaet umgeschrieben statt nur das Format korrigiert)
+            # bleibt UNVERAENDERT terminal -- dieser Zweig greift NIE dafuer.
+            if correction.status != "accepted" and correction.reason == "attempt_budget_exhausted" \
+                    and correction.block is not None:
+                print_fn(
+                    "SL-Korrekturbudget erschoepft -- Figur wird mit dem letzten (ggf. nicht ganz "
+                    "korrekten) SL-Entwurf best-effort abgeschlossen; der GM gleicht das beim "
+                    "naechsten Laden automatisch ab."
+                )
+                onboarding_lib.complete_with_save_best_effort(
+                    onboarding_dir, participant_id, correction.block,
+                )
+                return CreationDialogOutcome(
+                    status="completed", save_block=correction.block, chrononaut_id=candidate_char_id,
+                    reason="attempt_budget_exhausted_best_effort",
+                )
             if correction.status != "accepted":
                 print_fn(
                     "SL-Erschaffungsergebnis ungueltig (Korrekturbudget ausgeschoepft oder "

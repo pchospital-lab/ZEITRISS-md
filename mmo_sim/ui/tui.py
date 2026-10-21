@@ -291,6 +291,13 @@ class TuiSession:
         # ohne Konfiguration bleibt eine Persona-Einladung eine ehrliche
         # Fehlermeldung statt eines stillen Fallbacks (03 §4).
         self.persona_driver_factory = persona_driver_factory
+        # SPIELFLUSS-SPEC.md ("Aktive Gruppe / Ausschluss"): rein In-Memory
+        # fuer DIESE Sitzung -- KEINE neue Community-Struktur, nur eine
+        # Markierung, welche bereits bestaetigten Community-Personas fuer
+        # "Personas spielen lassen" (Catch-up/Vorspielen) NIE Kandidat sind.
+        # Ausgeschlossene Personas nerven/blocken nie, sie sind einfach
+        # nicht Teil des Catch-up-/Vorspiel-Pools dieser Sitzung.
+        self._excluded_personas: set[str] = set()
 
     def _readline(self, prompt: str) -> str:
         try:
@@ -650,9 +657,23 @@ class TuiSession:
         """KISS-Submenue 'Spielen' (02 §A) — dispatcht additiv auf die
         UNVERAENDERTEN Kommandos `g`/`l`(Runde zusammenstellen) bzw. `c`/`b`
         (Meine KI-Spielgemeinschaft). Kein neuer Spielweg, nur Benennung +
-        Steuerzeilen-Zugriff."""
+        Steuerzeilen-Zugriff.
+
+        [3]/[4] (SPIELFLUSS-SPEC.md Abschnitt 3, 2026-10-21): "Personas
+        spielen lassen" (Catch-up, spielergesteuert, NIE automatisch) und
+        die "aktive Gruppe"-Ausschluss-Bedienung. [5] (M1-Fix, BL1-FIX-
+        SPEC.md 2026-10-21): "Vorspielen" ist derselbe Orchestrator
+        (`core.catchup.run_catch_up`, `max_rounds=1`), aber ein EIGENER,
+        klar benannter Ausloese-Moment -- vorher war `max_rounds` im
+        gesamten Produktpfad nie erreichbar (M1: bei bereits erreichter
+        Paritaet tat [3] nichts, obwohl genau das der Vorspielen-Fall der
+        Spec ist, "du musst mal weg"). Dein eigenes Tischspiel ([1]/[2])
+        bleibt dadurch UNVERAENDERT nie geblockt -- alles rein additive,
+        vom Spieler ausgeloeste Aktionen."""
         self._print(
-            "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft "
+            "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft  "
+            "[3] Personas spielen lassen (Catch-up)  [4] Aktive Gruppe/Ausschluss  "
+            "[5] Personas vorspielen lassen (1 Abschnitt vor -- du spielst danach deinen) "
             "(/zurueck fuer Hauptmenue)"
         )
         text, control = self._readline_with_controls(
@@ -666,8 +687,165 @@ class TuiSession:
         elif choice == "2":
             self._cmd_community()
             self._print("Weitere Option in 'Meine KI-Spielgemeinschaft': [b] Personas zusammenbringen.")
+        elif choice == "3":
+            self._cmd_catch_up_personas()
+        elif choice == "4":
+            self._cmd_active_group_settings()
+        elif choice == "5":
+            self._cmd_catch_up_personas(vorspielen=True)
         else:
             self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+
+    def _cmd_catch_up_personas(self, vorspielen: bool = False) -> None:
+        """SPIELFLUSS-SPEC.md Abschnitt 3 ("Personas spielen lassen"): EINE
+        vom Spieler ausgeloeste Aktion, Catch-up UND Vorspielen sind
+        mechanisch DIESELBE Maschine (`core.catchup.run_catch_up`), nur ein
+        anderer Ausloese-Moment -- `vorspielen=False` (Menuepunkt [3],
+        Default) zielt auf DEINE aktuelle Abschnittszahl (`target=None`,
+        nur Kandidaten, die HINTER dir liegen). Kandidaten = bereite
+        Community-Personas MINUS du selbst MINUS ausgeschlossen
+        (`self._excluded_personas`) MINUS Mitglieder deines aktuellen/
+        zuletzt gespielten Tisches (Schluessel-Invariante, `core.store.
+        current_or_recent_table_members`) MINUS bereits auf deiner
+        Abschnittszahl. Reuse: `core.catchup.run_catch_up` ist die einzige
+        Spielmechanik hier -- keine zweite Tisch-/GM-Logik.
+
+        M1-Fix (BL1-FIX-SPEC.md 2026-10-21): `vorspielen=True` (Menuepunkt
+        [5]) ist der vorher im gesamten Produktpfad unerreichbare
+        `max_rounds`-Pfad -- jede wahlbare Persona spielt JETZT GENAU EINEN
+        Abschnitt UEBER ihre eigene Zahl hinaus (`max_rounds=1`),
+        UNABHAENGIG davon, ob sie vor/hinter/gleichauf mit dir ist (anders
+        als Catch-up gibt es hier keine "hinter mir"-Vorbedingung -- genau
+        der von der Spec verlangte "ich muss mal weg, lass die Personas
+        ihren Abschnitt vorspielen"-Fall, der bei bereits erreichter
+        Paritaet ueber [3] bisher wirkungslos war)."""
+        if self.run_dir is None or self.states_dir is None or self.schema_path is None:
+            self._print(
+                "Personas spielen lassen erfordert eine konfigurierte Laufumgebung (run_dir/"
+                "states_dir/schema_path) -- hier nicht konfiguriert, keine Aktion."
+            )
+            return
+        from ..lab.runner import active_lock_pid
+        pid = active_lock_pid(self.run_dir, exclude_pid=os.getpid())
+        if pid is not None:
+            self._print(
+                f"Personas spielen lassen: ein aktiver Lab-Lauf (pid={pid}) kontrolliert diese "
+                "Datenablage — kein zweiter schreibender Controller (H-D)."
+            )
+            return
+
+        from ..core import catchup, store as core_store
+        ready_keys = catchup.ready_persona_keys(self)
+        current_table = core_store.current_or_recent_table_members(self.run_dir, self.participant_id)
+        eligible_pool = ready_keys - {self.participant_id} - self._excluded_personas - current_table
+        if not eligible_pool:
+            self._print(
+                "Personas spielen lassen: aktuell keine wahlbaren Kandidaten (alle entweder an "
+                "deinem Tisch, ausgeschlossen oder noch nicht spielbereit)."
+            )
+            return
+
+        counts = core_store.sections_played_by_participant(self.run_dir)
+        if vorspielen:
+            # M1-Fix: Vorspielen hat KEINE "hinter mir"-Vorbedingung -- jede
+            # wahlbare Persona darf unabhaengig von ihrer eigenen Zahl einen
+            # Abschnitt vorlegen (`run_catch_up`s `max_rounds` traegt das
+            # bereits: `per_target = eigene_zahl + max_rounds`, IMMER > eigene
+            # Zahl).
+            behind = sorted(eligible_pool)
+            action_label = "Vorspielen (je 1 Abschnitt ueber die eigene Zahl hinaus)"
+        else:
+            my_count = counts.get(self.participant_id, 0)
+            behind = sorted(pk for pk in eligible_pool if counts.get(pk, 0) < my_count)
+            if not behind:
+                self._print(
+                    f"Personas spielen lassen: alle wahlbaren Kandidaten sind bereits bei deiner "
+                    f"Abschnittszahl ({my_count}) -- kein Catch-up noetig (fuer Vorspielen vor "
+                    "deinem naechsten Abschnitt: Menuepunkt [5])."
+                )
+                return
+            action_label = f"Catch-up (bis zu deiner Abschnittszahl {my_count})"
+
+        self._print(
+            f"Wahlbare Kandidaten fuer {action_label} (Abschnitte bisher): "
+            + ", ".join(f"{pk}({counts.get(pk, 0)})" for pk in behind)
+        )
+        raw, control = self._readline_with_controls(
+            f"Welche jetzt spielen lassen? (kommagetrennt, leer = alle {behind}): ",
+            context="Personas-spielen-lassen-Auswahl",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Personas spielen lassen abgebrochen -- kein Fenster gestartet.")
+            return
+        raw = raw.strip()
+        if not raw:
+            chosen = set(behind)
+        else:
+            requested = {p.strip() for p in raw.split(",") if p.strip()}
+            unknown = requested - set(behind)
+            if unknown:
+                self._print(
+                    f"Personas spielen lassen: {sorted(unknown)} sind keine wahlbaren Kandidaten "
+                    f"(wahlbar: {behind}) -- kein Fenster gestartet."
+                )
+                return
+            chosen = requested
+
+        self._print(
+            f"⏳ Das spielt jetzt den/die Abschnitt(e) von {sorted(chosen)} -- du wartest "
+            "(dein eigenes Tischspiel ist davon unberuehrt)."
+        )
+        report = catchup.run_catch_up(
+            self, selected=chosen, current_table_members=current_table,
+            target=None, max_rounds=1 if vorspielen else None,
+        )
+        for note in report.notes:
+            self._print(f"  {note}")
+        self._print(
+            f"Personas spielen lassen beendet: Start {report.start_counts} -> Ende "
+            f"{report.end_counts} (Fenster: {report.windows_run}, gestoppt: {report.stopped}"
+            f"{' (' + report.stopped_reason + ')' if report.stopped_reason else ''}, "
+            f"blockiert/kein Fortschritt: {report.blocked or '(keine)'})."
+        )
+
+    def _cmd_active_group_settings(self) -> None:
+        """SPIELFLUSS-SPEC.md Abschnitt 3 ("aktive Gruppe/Ausschluss"):
+        einfache Umschalt-Bedienung -- Reuse der bestehenden Teilmengen-
+        Auswahl-Idee (`lab/cli.py --personas`/`ai_personas`), KEINE neue
+        Community-Struktur. Ausgeschlossene Personas sind fuer 'Personas
+        spielen lassen' NIE Kandidat (s. `_cmd_catch_up_personas`)."""
+        if self.run_dir is None:
+            self._print("Aktive Gruppe erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        from ..core import catchup
+        ready_keys = sorted(catchup.ready_persona_keys(self) - {self.participant_id})
+        if not ready_keys:
+            self._print("Aktive Gruppe: keine spielbereiten Personas in deiner Community.")
+            return
+        active = [pk for pk in ready_keys if pk not in self._excluded_personas]
+        excluded = [pk for pk in ready_keys if pk in self._excluded_personas]
+        self._print(
+            f"Aktive Gruppe (nimmt an Catch-up/Vorspielen teil): {active or '(keine)'}\n"
+            f"Ausgeschlossen (nie Kandidat, blockt/nervt nie): {excluded or '(keine)'}"
+        )
+        raw, control = self._readline_with_controls(
+            "Persona ausschliessen/wieder aufnehmen (Name eingeben zum Umschalten, leer = "
+            "unveraendert zurueck): ", context="Aktive-Gruppe-Einstellung",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            return
+        raw = raw.strip()
+        if not raw:
+            return
+        if raw not in ready_keys:
+            self._print(f"Aktive Gruppe: {raw!r} ist keine bekannte spielbereite Persona ({ready_keys}).")
+            return
+        if raw in self._excluded_personas:
+            self._excluded_personas.discard(raw)
+            self._print(f"'{raw}' wieder in der aktiven Gruppe.")
+        else:
+            self._excluded_personas.add(raw)
+            self._print(f"'{raw}' ausgeschlossen -- nie mehr Catch-up-/Vorspiel-Kandidat, bis wieder aufgenommen.")
 
     def _cmd_menu_charaktere(self) -> None:
         """KISS-Submenue 'Charaktere' (02 §A) — dispatcht additiv auf die

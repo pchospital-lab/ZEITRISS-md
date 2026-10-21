@@ -539,35 +539,43 @@ def test_t5_persona_validation_error_invalid_block_real_invite_path_neutral():
         session._invite_persona_fresh_start()
 
         # W50 NEW_FLOW_SEQUENCE (R12-Savegate, 02_TEAM_UND_QUELLRAHMEN.md
-        # "Testfixtures versus Schutzassertionen"): derselbe Druckpunkt wie
+        # "Testfixtures versus Schutzassertionen"); TEST-DELTA weiter
+        # ueberschrieben durch N2R5-BESTEFFORT (Flo-Design, ZR-N2R-
+        # ANSCHLUSS-20261020-FINALRUN3): derselbe Druckpunkt wie
         # `test_ux1_r4_...:test_r4_...` -- seit dem SAVEGATE-Umbau
         # (01_AUFTRAG_SAVEGATE.md §C) durchlaeuft ein strukturell
         # ungueltiger Entwurf zuerst bis zu drei zusaetzliche SL-Versuche
-        # (`core.save_correction.pursue_single_figure_correction`), bevor
-        # der Dialog mit `status="paused"` terminiert -- nicht mehr sofort
-        # `status="error"`. `_TwoCharacterBlockGm` liefert bei jedem Versuch
-        # denselben ungueltigen Block, das Budget erschoepft sich
-        # deterministisch (1 initial + 3 Korrekturversuche).
+        # (`core.save_correction.pursue_single_figure_correction`), das
+        # Budget erschoepft sich deterministisch (1 initial + 3 Korrektur-
+        # versuche). N2R5-BESTEFFORT: ein erschoepftes Budget (reiner
+        # Schema-Imperfekt, KEINE Drift) ist KEIN `status="paused"` mehr --
+        # `core.creation_service.run_admitted_creation_dialog` finalisiert
+        # die Zusatzfigur jetzt best-effort und druckt dabei EHRLICH die
+        # neue, redaktionssichere Hinweiszeile (statt des alten TUI-
+        # Formatter-Druckpunkts fuer `status="paused"`, der fuer diesen
+        # Grund nicht mehr erreicht wird).
         assert len(gm.calls) == 4, gm.calls
-        assert any(
-            f"'{persona_key}': Zusatzfigur-Erschaffung paused --" in p and "Vorgang pausiert" in p
-            for p in printed
-        ), printed
-        # Das normale `[SL] ...`-Echo der rohen Spielantwort ist KEIN
-        # Exception-/Reason-Druckpunkt und nicht Gegenstand dieses Nachzugs
-        # (s. `test_ux1_r4_...:_TwoCharacterBlockGm`-Docstring) -- hier wird
-        # NUR der TUI-Formatter-Druckpunkt (dieser Nachzug) selbst geprueft:
-        # er darf keine rohen Validator-/char_id-Details durchlassen.
-        formatter_line = next(p for p in printed if p.startswith(f"'{persona_key}': Zusatzfigur-Erschaffung paused --"))
-        assert "CHR-T5-FIRST" not in formatter_line and "CHR-T5-SECOND" not in formatter_line, formatter_line
-        assert "Save-Block" not in formatter_line, formatter_line
-        assert "Archiv" not in formatter_line, formatter_line
-        # Keine unzulaessige Saveuebernahme: der Zusatzfigur-Onboarding-
-        # Scratch bleibt NICHT completed.
+        best_effort_notice = (
+            "SL-Korrekturbudget erschoepft -- Figur wird mit dem letzten (ggf. nicht ganz "
+            "korrekten) SL-Entwurf best-effort abgeschlossen; der GM gleicht das beim "
+            "naechsten Laden automatisch ab."
+        )
+        assert best_effort_notice in printed, printed
+        # Dieselbe Redaktionsdisziplin wie zuvor fuer den Formatter-
+        # Druckpunkt gilt jetzt fuer die Best-Effort-Hinweiszeile selbst:
+        # keine rohen char_id-/Validator-Details.
+        assert "CHR-T5-FIRST" not in best_effort_notice and "CHR-T5-SECOND" not in best_effort_notice
+        assert "Save-Block" not in best_effort_notice
+        assert "Archiv" not in best_effort_notice
+        # Saveuebernahme erfolgt jetzt (N2R5-BESTEFFORT), aber NUR EHRLICH
+        # als best-effort/imperfekt markiert -- der Zusatzfigur-Onboarding-
+        # Scratch wird `completed`, nicht stillschweigend als perfekt
+        # behauptet.
         generation = 2  # erste Zusatzfigur-Generation (len(entries)+1, eine bestehende Figur)
         additional_key = _additional_onboarding_key(persona_key, generation)
         state = onboarding.peek(onboarding_dir, additional_key)
-        assert state is not None and state.status == "in_progress", state
+        assert state is not None and state.status == "completed", state
+        assert state.final_save_best_effort is True, state
 
 
 # ---------------------------------------------------------------------------

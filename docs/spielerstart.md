@@ -117,6 +117,35 @@ Die Herkunft einer Community aus Demo- oder Produktionsprofilen entscheidet
 nicht darüber, ob die anschließende Erschaffung echte Modellkosten erzeugt.
 Auch Demo-Profile sind kein allgemeiner Kostenlosmodus.
 
+## Personas nachziehen oder vorspielen lassen
+
+Du wirst beim Spielen **nie ausgebremst**: Deine eigenen Abschnitte spielst du,
+wann du willst, ohne auf KI-Personas zu warten. Ob und wann deren eigene
+Abschnitte laufen, entscheidest allein du — nie automatisch im Hintergrund,
+nie mit ständigem Nachfragen.
+
+Im begrenzten Lobbyfenster stehen dafür drei bewusste Aktionen:
+
+- **`[3]` Personas spielen lassen (Catch-up):** die von dir gewählten Personas
+  spielen ihre Abschnitte nach, bis sie gleich **viele** Abschnitte gespielt
+  haben wie du. (Fair ist die gleiche *Anzahl* Abschnitte — welchen Inhalt oder
+  welches Level dabei herauskommt, ist egal und darf sich unterscheiden.)
+- **`[5]` Personas vorspielen lassen:** die gewählten Personas legen **jetzt
+  einen Abschnitt vor** (praktisch, wenn du kurz weg musst) — du spielst
+  danach deinen und gruppierst dich wieder.
+- **`[4]` Aktive Gruppe / Ausschluss:** nimm eine Persona aus deiner Gruppe
+  heraus oder wieder auf. Eine ausgeschlossene Persona wird **nie** nachgezogen,
+  taucht nie als Kandidat auf und stört dich nie. So spielst du die Kampagne
+  z. B. nur mit deiner Stammgruppe.
+
+Bei `[3]`/`[5]` wählst du, **welche** Personas mitmachen (kommagetrennt, leer =
+alle in Frage kommenden) und bekommst vorher einen klaren Hinweis, dass du
+währenddessen **wartest**. Personas, die gerade **mit dir am selben Tisch**
+gespielt haben, werden nie nachgezogen — sie sind ohnehin schon gleichauf.
+Im Normalfall brauchst du das alles gar nicht: spiel einfach mit deiner
+Gruppe weiter, und zieh die anderen höchstens mal in einer eigenen Spielpause
+nach.
+
 ## Wer empfängt deine Eingabe?
 
 Die Empfängerzeile vor dem Zug ist maßgeblich. Der Leader sendet an die
