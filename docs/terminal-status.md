@@ -29,6 +29,23 @@ Folgezug (zweiter Abschluss). Die Abschluss-Erkennung ist an das
 der jeweiligen Formulierung der Spielleitung. Das ersetzt NICHT die unten
 genannte vollständige Mehrfiguren-Live-Abnahme.
 
+Stand 22. Oktober 2026 (R4-Mehrspieler-Anschluss, ehrlicher Zwischenstand):
+Ein zusätzlicher Erstharvest-Savekonflikt wurde behoben — zwei abweichende,
+jeweils gültige Speicherstände derselben Figur in einer Spielleitungsantwort
+werden jetzt VOR jeder Abschlussveröffentlichung erkannt und der Abschnitt
+gehalten, statt still den ersten zu übernehmen (identische Wiederholungen
+bleiben zulässig). Ein realer, bezahlter Mehrfiguren-Livelauf hat alle fünf
+regulären Bestandsfiguren tatsächlich erschaffen bzw. importiert und zwei
+organische Tische gebildet; ein struktureller Abschluss der Abschnitte A/B
+wurde dabei NICHT erreicht. Ursache ist kein Fehler im geprüften Produktcode,
+sondern ein reproduzierbares Verhalten der automatisierten Persona-Befehlszeile
+als Mitspieler: für einen sehr großen abschnittsinternen Entscheidungs-Prompt
+lieferte sie unter den gebundenen Isolationsflags keine verwertbare
+Entscheidung (wiederholte Zeitüberschreitungen sowie leere Endergebnisse bei
+Rückgabecode 0). Der kommandobasierte Abschnittsabschluss und der
+Savekonflikt-Fix bleiben in der synthetischen Fünf-Figuren-A/B-Prüfung und im
+Einzelspieler-Livebeleg bestätigt.
+
 ## Was für eine vollständige Live-Abnahme noch fehlt
 
 Ein tatsächlich durchgespielter Lauf mit fünf regulär erschaffenen Figuren,
