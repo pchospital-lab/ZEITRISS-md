@@ -47,6 +47,32 @@ from ..domain.zeitriss.policy import (
 from . import rendering
 
 
+#: R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): kleine, fixe Terminal-
+#: Bedienungsnotiz, die JEDEM Persona-Systemkontext vorangestellt wird (s.
+#: `TuiSession._own_system_context`). Grund (live belegt): Personas spawnen
+#: pro Zug zustandslos und sehen zwar den vollen Abschnitts-`sl_log`, aber die
+#: Terminal-Kommando-Konvention ist KEIN Spielleitungs-/Weltwissen -- die SL
+#: kann/soll sie nicht lehren. Das einzige App-wirksame Kommando, das der
+#: Spieler aktiv absetzen MUSS (und das die SL nur unzuverlaessig/narrativ
+#: ancued), ist `!save`/`!speichern` am HQ-Abschnittsende. `!bogen` u.ae. sind
+#: reine Ingame-Ansichtsbefehle (kein App-Trigger) und gehoeren bewusst NICHT
+#: hierher. Bewusst minimal gehalten -- alles Spielerische lernt die Persona
+#: organisch ueber SL + Spielverlauf.
+_TERMINAL_COMMAND_NOTE = (
+    "[TERMINAL-BEDIENUNG - Client, nicht Spielwelt]\n"
+    "Du spielst ueber einen Terminal-Client. Es gibt genau EIN Client-Kommando, das "
+    "die Spielleitung NICHT kennt und das der Tisch-Leader aktiv absetzen muss: das "
+    "Speicherkommando am HQ-Abschnittsende. Wenn du die Leader-Rolle hast, am HQ bist "
+    "und die Spielleitung signalisiert, dass der Abschnitt bzw. die Mission "
+    "abgeschlossen ist, dann besteht deine GESAMTE Antwort fuer diesen einen Zug "
+    "AUSSCHLIESSLICH aus der Zeichenfolge !save (oder !speichern) als ALLEINIGE "
+    "Nachricht - exakt diese eine Zeile, NICHTS davor, NICHTS danach: keine "
+    "Begruendung, keine Anfuehrungszeichen, kein Fliesstext, keine Rolle, nur dieses "
+    "eine Wort. Das speichert und beendet den Abschnitt. Ausserhalb des HQ ist es "
+    "nicht noetig; dort lehnt die Spielleitung es ohnehin korrekt ab."
+)
+
+
 @dataclass
 class ResumeCard:
     community_id: str | None
@@ -3575,7 +3601,16 @@ class TuiSession:
                 f"{text}\nEigener aktueller Spielstand (Current, vollstaendig): "
                 f"{json.dumps(current, ensure_ascii=False, sort_keys=True)}"
             )
-        return text
+        # R4-MEHRSPIELER: die fixe Terminal-Kommando-Notiz (nur `!save`/
+        # `!speichern`, HQ, alleinige Nachricht) wird JEDEM Persona-Zug
+        # ANGEHAENGT -- unabhaengig davon, ob/wie die SL das Kommando ancued
+        # (s. `_TERMINAL_COMMAND_NOTE`). Kein Spielinhalt, reine Client-UX.
+        # Bewusst ANGEHAENGT (nicht vorangestellt): der Kontext beginnt weiter
+        # mit der `render_for_prompt`-Kopfzeile, und der abschliessende eigene
+        # Current-JSON-Block bleibt per `raw_decode` sauber lesbar (die Notiz
+        # nach dem JSON wird dort ignoriert) -- so bleibt die bestehende
+        # Kontextstruktur fuer alle Leser unveraendert.
+        return f"{text}\n\n{_TERMINAL_COMMAND_NOTE}"
 
     def _append_invitation_log(self, record: dict) -> None:
         """W1 (F..., "Angebot+Antworten VOR Tischanlage festhalten"):
