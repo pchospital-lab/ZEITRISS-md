@@ -159,6 +159,7 @@ def play_bound_table(
     from ..domain.zeitriss.policy import (
         COMPLETION_MARKER,
         ZeitrissHarvestValidator,
+        build_harvest_conflict_detector,
         build_save_command_completion_fallback,
     )
 
@@ -214,6 +215,7 @@ def play_bound_table(
         # + bindbarer v7-Save schliesst den Abschnitt GLEICHWERTIG zum
         # Top-Level-Marker -- der Marker-Pfad bleibt unveraendert.
         completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
+        harvest_conflict_detector=build_harvest_conflict_detector(),
     )
     if outcome.completion.success:
         reason = (

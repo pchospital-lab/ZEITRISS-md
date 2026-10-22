@@ -119,6 +119,7 @@ class SectionRuntime:
         event_log: EventLog | None = None,
         status_fn: Callable[[str], None] | None = None,
         completion_fallback: Callable[[str, str | None], bool] | None = None,
+        harvest_conflict_detector: Callable[[str, dict[str, str]], list[str]] | None = None,
     ):
         self.lobby = lobby
         self.table = table
@@ -138,6 +139,20 @@ class SectionRuntime:
         # policy.build_save_command_completion_fallback` und reicht es ueber
         # `core.app_service.run_play_session` durch.
         self.completion_fallback = completion_fallback
+        # G1_RAW_SAVE_CONFLICT (02-AUFTRAG.md §1, 01-SAVE-CODE-REVIEW.md §G1):
+        # injizierbarer Rohkonflikt-Detektor `(gm_text, cid_to_pk) -> list[str]`
+        # (Konfliktmeldungen; leer = kein Konflikt). Default `None` -> No-op =
+        # exakt bisheriges Verhalten. Die Runtime bleibt domaenen-neutral (wie
+        # `marker`/`harvest_extractor`/`completion_fallback`): sie kennt nur,
+        # OB der ROHE GM-Text widerspruechliche, jeweils gueltige Bloecke
+        # DERSELBEN Figur enthaelt -- NICHT die v7-Regel dahinter. ZEITRISS baut
+        # ihn ueber `domain.zeitriss.policy.build_harvest_conflict_detector`
+        # (Reuse von `save_validation.extract_checked_single`/
+        # `find_duplicate_save_ids`) und reicht ihn durch `app_service.
+        # run_play_session`. Greift VOR `complete_section`, solange fuer den
+        # Abschnitt noch KEIN `__plan.json` gepinnt ist (ein gepinnter Plan =
+        # committete Entscheidung, Resume-Zweig bleibt unangetastet).
+        self.harvest_conflict_detector = harvest_conflict_detector
         # W51 (01_RESTAUFTRAG.md §3, SCOPE.json semantic_constraints.ui
         # "pending save/correction status and controls"): additiv, OPTIONAL
         # (Default `None` -> No-op) -- `lab/runner.py` (headless) konstruiert
@@ -709,6 +724,35 @@ class SectionRuntime:
             sid = resume_section_id if resume_section_id is not None else section_id
             cid_to_pk = self.table.chrononaut_id_to_persona()
             harvested = self.harvest_extractor(text, cid_to_pk) if text else {}
+            # G1_RAW_SAVE_CONFLICT (02-AUFTRAG.md §1): der Erstharvest oben
+            # dedupliziert nach 'erster gewinnt' (`harvest_from_debrief`) --
+            # zwei jeweils gueltige, aber ABWEICHENDE Bloecke DERSELBEN Figur
+            # wuerden damit still auf den ersten reduziert und (bei sonst
+            # vollstaendiger Gruppe) als erfolgreicher Abschnitt veroeffentlicht,
+            # BEVOR die strengere Rohkonfliktpruefung der Korrekturschleife je
+            # erreicht wird. Darum den ROHEN GM-Text VOR `complete_section`
+            # (Plan-Pinnung/Veroeffentlichung) auf solche Konflikte pruefen --
+            # aber NUR beim erstmaligen Abschluss (noch KEIN `__plan.json`
+            # gepinnt; derselbe `open_completion_order_for_table(...) is None`-
+            # Gate wie die W48-Korrektur unten). Ein bereits gepinnter Plan ist
+            # eine committete Entscheidung (Resume/Recovery-Zweig) und wird NICHT
+            # erneut blockiert. Konflikt => HALTEN: kein Gewinner, kein Pin, kein
+            # Lock-Release, kein seq-Fortschritt -- der Abschnitt bleibt offen/
+            # wiederaufnehmbar, bis die SL sauber neu ausgibt. Identische
+            # Wiederholungen sind KEIN Konflikt (s. `extract_checked_single`).
+            if (
+                text and self.harvest_conflict_detector is not None
+                and store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id) is None
+            ):
+                conflicts = self.harvest_conflict_detector(text, cid_to_pk)
+                if conflicts:
+                    reason = "Save-Rohkonflikt (Erstharvest, kein stilles 'erster gewinnt'): " + "; ".join(conflicts)
+                    self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": reason})
+                    held = store.CompletionResult(
+                        success=False, already_completed=False, written=False,
+                        members_completed=[], missing=[], reason=reason,
+                    )
+                    return SectionOutcome(completion=held, harvested=harvested, debrief_text=text)
             # A3/D5 (PLAN-CRITIC-ABSCHLUSS.md BLOCKER, WEGKARTE §6, Test
             # 10): `complete_section` erledigt jetzt NUR NOCH PHASE 1
             # (Saves/States ernten, idempotent gepinnt) -- der endgueltige

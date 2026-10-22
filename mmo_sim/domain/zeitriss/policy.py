@@ -65,6 +65,37 @@ def build_save_command_completion_fallback(table, harvest_extractor=save_lib.har
     return _fallback
 
 
+def build_harvest_conflict_detector(extract_checked_single=save_validation_lib.extract_checked_single):
+    """G1_RAW_SAVE_CONFLICT (02-AUFTRAG.md §1, 01-SAVE-CODE-REVIEW.md §G1):
+    baut den injizierbaren Rohkonflikt-Detektor `(gm_text, cid_to_pk) ->
+    list[str]` fuer `core.runtime.SectionRuntime(harvest_conflict_detector=
+    ...)`. Die Runtime bleibt domaenen-neutral (kennt nur die Konfliktmeldungen,
+    nicht die v7-Regel). Wiederverwendung der VORHANDENEN Rohpruefung --
+    `save_validation.extract_checked_single` sieht je erwarteter Figur ALLE
+    rohen, noch UNDEDUPLIZIERTEN v7-Kandidaten (`extract_all_saves_raw`, VOR
+    jedem 'erster gewinnt') und wendet `find_duplicate_save_ids` darauf an:
+
+    - zwei ABWEICHENDE Bloecke derselben Figur (gleiche ODER verschiedene
+      `save_id`) -> `(None, konflikte)`, die Meldungen fliessen hier in die
+      Rueckgabe und halten den Abschnitt (kein stilles 'erster gewinnt');
+    - identische Wiederholung -> `(block, [])`, KEIN Konflikt;
+    - kein Kandidat fuer die Figur -> `(None, [])`, KEIN Konflikt.
+
+    Keine neue Saveautoritaet, kein Protokollumbau: reine Erkennung am ERSTEN
+    Annahmepunkt. Jede aktuelle Tisch-Chrononauten-ID (`cid_to_pk`, vom
+    Aufrufer identisch zu `harvest_extractor` uebergeben) wird einzeln geprueft
+    -- Gruppenpersonen bleiben getrennt."""
+
+    def _detect(gm_text: str, cid_to_pk: dict[str, str]) -> list[str]:
+        messages: list[str] = []
+        for chrononaut_id in cid_to_pk:
+            _, conflicts = extract_checked_single(gm_text, chrononaut_id)
+            messages.extend(err.message for err in conflicts)
+        return messages
+
+    return _detect
+
+
 @dataclass
 class ZeitrissTableSizePolicy:
     """Fuenfer-Tischgrenze (02 §4 / 11 §8): 1-5 Spieler insgesamt, Leader

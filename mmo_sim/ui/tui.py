@@ -41,6 +41,7 @@ from ..domain.zeitriss.policy import (
     COMPLETION_MARKER,
     ZeitrissHarvestValidator,
     ZeitrissTableSizePolicy,
+    build_harvest_conflict_detector,
     build_save_command_completion_fallback,
 )
 from . import rendering
@@ -5004,6 +5005,7 @@ class TuiSession:
                 # GLEICHWERTIG zum Top-Level-Marker -- derselbe Wiring-Punkt
                 # wie `core/lobby_flow.py:play_bound_table`.
                 completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
+                harvest_conflict_detector=build_harvest_conflict_detector(),
             )
         except request_ledger.OpenReservationExistsError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die
