@@ -37,6 +37,7 @@ def run_play_session(
     event_log: EventLog | None = None,
     max_turns: int | None = None,
     status_fn: Callable[[str], None] | None = None,
+    completion_fallback: Callable[[str, str | None], bool] | None = None,
 ) -> SectionOutcome:
     """EIN gemeinsamer Einstiegspunkt fuer "einen Abschnitt an einem Tisch
     spielen". Baut die `SectionRuntime` und delegiert an
@@ -48,10 +49,16 @@ def run_play_session(
     bestehenden `save_correction.pursue_group_save_correction`-`emit`-Hooks
     an den Aufrufer durch (s. `SectionRuntime`-Docstring) -- `lab/runner.py`
     (headless, Persona-only) uebergibt es nicht und bleibt dadurch
-    unveraendert stumm; `ui/tui.py` reicht `self._print`."""
+    unveraendert stumm; `ui/tui.py` reicht `self._print`.
+
+    OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): `completion_fallback`, additiv
+    und OPTIONAL (Default `None` -> unveraendertes Marker-only-Verhalten),
+    wird 1:1 an `SectionRuntime` durchgereicht -- reiner Durchreicher, diese
+    Funktion kennt den Inhalt des Praedikats nicht (A1-Konsistenz)."""
     runtime = SectionRuntime(
         lobby, table, gm_transport, marker, harvest_validator,
         persona_state_store, harvest_extractor, event_log=event_log, status_fn=status_fn,
+        completion_fallback=completion_fallback,
     )
     return runtime.run_full_section(
         controller, section_id, contexts_by_persona, states_dir, today, ts, max_turns=max_turns,

@@ -72,6 +72,35 @@ def _embed_json_block(text: str, payload: dict) -> str:
     return f"{text}\n\n```json\n{json.dumps(payload, ensure_ascii=False)}\n```"
 
 
+def save_command_entry_matches(entry: dict, leader: str, completion_fallback) -> bool:
+    """OPTION2-CMD: modulweite, direkt testbare Fassung der kommando-
+    gestuetzten Crash-Recovery-Pruefung (B1/M1 aus CRITIC-REPORT-CMD.md). Die
+    Closure `_entry_matches` in `run_full_section` delegiert hierher, damit
+    Live-Pfad, Recovery-Pfad UND Tests DIESELBE Logik treffen (kein
+    Spiegel-Drift -- genau der Drift, der B1/M1 erst durchrutschen liess).
+
+    - `completion_fallback is None` -> False (Default, Alt-Verhalten).
+    - B1: NUR ein Eintrag vom LEADER (`origin_persona_key == leader`) kann ein
+      kommando-gestuetzter Abschluss sein. Gast-Import-Turns laufen ueber den
+      Leader-SL-Kanal (`origin_persona_key` traegt die echte Urheberschaft),
+      duerfen aber NIE als Leader-`!save` gelten -- sonst Import-sicher-
+      Invariante im R12-AUTORECOVERY-Fenster verletzt. Dieselbe Leader-only-
+      Regel wie die Live-Haertung in `act()`.
+    - M1: den ROHEN, nicht eingebetteten Input (`origin_raw_input`) lesen, NICHT
+      den um ein Save-JSON ergaenzten `leader_message` -- sonst exakter
+      `!save`-Match-Fehlschlag bei einem Leader-Anker-/Importturn (false
+      negative). Fallback auf `leader_message` nur fuer alt-formatige Eintraege
+      ohne das additive Feld."""
+    if completion_fallback is None:
+        return False
+    if entry.get("origin_persona_key") != leader:
+        return False
+    raw_input = entry.get("origin_raw_input")
+    if raw_input is None:
+        raw_input = entry.get("leader_message", "")
+    return completion_fallback(entry.get("content", ""), raw_input)
+
+
 class SectionRuntime:
     """Ein Abschnittslauf ueber einem Tisch. Gemeinsam von `ui/tui.py`
     (Mensch-Eingabe) und `lab/runner.py` (Persona-only) verwendet — beide
@@ -89,6 +118,7 @@ class SectionRuntime:
         harvest_extractor: HarvestExtractor,
         event_log: EventLog | None = None,
         status_fn: Callable[[str], None] | None = None,
+        completion_fallback: Callable[[str, str | None], bool] | None = None,
     ):
         self.lobby = lobby
         self.table = table
@@ -98,6 +128,16 @@ class SectionRuntime:
         self.persona_state_store = persona_state_store
         self.harvest_extractor = harvest_extractor
         self.event_log = event_log
+        # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): injizierbares Zusatz-
+        # Praedikat `(gm_text, leader_input) -> bool` fuer einen
+        # Abschnittsabschluss OHNE den Top-Level-Marker -- Default `None`
+        # ergibt exakt das bisherige Marker-only-Verhalten (kein Alt-Test/
+        # Aufrufer betroffen). Die Runtime kennt den Inhalt des Praedikats
+        # nicht (A1-Konsistenz, wie `marker`/`harvest_extractor` bereits
+        # injiziert werden) -- ZEITRISS baut es ueber `domain.zeitriss.
+        # policy.build_save_command_completion_fallback` und reicht es ueber
+        # `core.app_service.run_play_session` durch.
+        self.completion_fallback = completion_fallback
         # W51 (01_RESTAUFTRAG.md §3, SCOPE.json semantic_constraints.ui
         # "pending save/correction status and controls"): additiv, OPTIONAL
         # (Default `None` -> No-op) -- `lab/runner.py` (headless) konstruiert
@@ -489,6 +529,7 @@ class SectionRuntime:
         self, controller: TableController, actor_persona_key: str, text: str, ts: str,
         origin_persona_key: str | None = None, origin_source: str | None = None,
         save_payload: dict | None = None, reserved_usd: float | None = None,
+        origin_raw_input: str | None = None,
     ) -> dict:
         """Fuehrt EINEN Turn aus. `actor_persona_key` muss der Leader sein
         (durchgereicht an `store.submit_to_sl`, das die Leader-only-Pruefung
@@ -546,6 +587,11 @@ class SectionRuntime:
                 # GENAU diesem sl_log-Write mitgegeben -- kein zweiter
                 # Checkpoint-Write NACH der Antwortpersistenz (s. store.py).
                 gm_request_id=request_id,
+                # OPTION2-CMD: der rohe Origin-Input dieses Turns (vor jedem
+                # Embedding) durabel mitschreiben -- die kommando-gestuetzte
+                # Crash-Recovery (`_entry_matches`) matcht darauf exakt wie
+                # der Live-Pfad.
+                origin_raw_input=origin_raw_input,
             )
         except Exception as exc:
             request_ledger.finish_error(self.lobby.run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
@@ -640,6 +686,12 @@ class SectionRuntime:
         self._states_dir = states_dir
         debrief_text = ""
         turns_taken = 0
+        # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3): der ROHE, vom Leader
+        # getippte Text dieses Turns (z.B. "!save") -- NICHT der an die SL
+        # gesendete `wire_text` (der bei Anker-/Importturns den eingebetteten
+        # v7-Save traegt). Wird in `act()` VOR dem Embedding gesetzt, bevor
+        # `completion_hit`/`entry_matches` ihn lesen.
+        last_leader_input: str | None = None
 
         def blocked_outcome(reason: str | None) -> SectionOutcome:
             completion = store.CompletionResult(
@@ -731,8 +783,20 @@ class SectionRuntime:
         def marker_hit(text: str) -> bool:
             return completion_marker_matches(text, self.marker, self.table.table_id, section_id)
 
+        def completion_hit(text: str) -> bool:
+            """OPTION2-CMD: OR-Semantik -- der Marker-Pfad bleibt
+            gleichwertig, das injizierte Fallback-Praedikat (Default `None`,
+            s. `__init__`) ist eine ZUSAETZLICHE, nie eine ersetzende
+            Bedingung. `last_leader_input` ist der ROHE Leader-Text dieses
+            Turns (von `act()` VOR dem Embedding gesetzt)."""
+            if marker_hit(text):
+                return True
+            if self.completion_fallback is not None and self.completion_fallback(text, last_leader_input):
+                return True
+            return False
+
         def act(pk: str, base_context: dict, attach_import_save: bool = False) -> None:
-            nonlocal debrief_text, turns_taken
+            nonlocal debrief_text, turns_taken, last_leader_input
             ctx = dict(base_context)
             ctx["table_view"] = store.persona_view(self.table, pk)
             if pk == leader:
@@ -756,6 +820,24 @@ class SectionRuntime:
             # die tatsaechlich zum Empfaenger geht.
             record = self._admitted_decision("persona_decision", controller, pk, ctx)
             self._check_gate()  # F3: zwischen Persona-Request und GM-Request.
+            if pk == leader:
+                # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3): der ROHE getippte
+                # Text VOR jedem Embedding festhalten -- `wire_text` kann bei
+                # Anker-/Importturns gleich darunter einen eingebetteten
+                # v7-Save-Block anhaengen, der NICHT Teil des Leader-Inputs
+                # selbst ist.
+                last_leader_input = record.decision.text
+            else:
+                # OPTION2-CMD Haertung: ein Nicht-Leader-Turn (Gast-Import/
+                # -Poll) ist NIE ein Leader-Save-Kommando. `last_leader_input`
+                # hier zuruecksetzen, damit ein frueher gesendetes (ggf. per
+                # SaveGuard verweigertes) Leader-`!save` nicht als stale
+                # Zustand haengen bleibt und ein unmittelbar folgender
+                # Gast-Importturn, dessen GM-Antwort einen bindbaren v7-Block
+                # echot, faelschlich den Abschnitt schliesst. Invariante: das
+                # Save-Kommando-Fallback greift ausschliesslich fuer den
+                # Leader-Turn, in dem der Leader TATSAECHLICH `!save` sandte.
+                last_leader_input = None
             wire_text = record.decision.text
             save_payload = record.decision.save_payload
             if save_payload is None and attach_import_save:
@@ -792,6 +874,10 @@ class SectionRuntime:
                 controller, leader, wire_text, ts,
                 origin_persona_key=pk, origin_source=record.decision.origin_source,
                 save_payload=save_payload, reserved_usd=gm_reserved,
+                # OPTION2-CMD: der ROHE getippte Turn-Input (vor dem Embedding
+                # in `wire_text`) -- wird durabel im sl_log abgelegt, damit die
+                # Crash-Recovery exakt wie der Live-Pfad auf `!save` matcht.
+                origin_raw_input=record.decision.text,
             )
             if pk == leader:
                 self._consolidated_message_count = len(self.table.table_messages)
@@ -973,9 +1059,21 @@ class SectionRuntime:
                 )
             return None
 
+        def _entry_matches(entry: dict) -> bool:
+            """OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3 + CRITIC-REPORT-CMD.md
+            B1/M1): kommando-gestuetzte Crash-Recovery -- ein per `!save`
+            abgeschlossener, aber unterbrochener Abschnitt wird GENAUSO
+            wiederaufgenommen wie ein per Marker abgeschlossener. Delegiert an
+            die modulweite, direkt getestete `save_command_entry_matches`
+            (Leader-only-Gate + roher `origin_raw_input`) -- so treffen
+            Live-Pfad, Recovery-Pfad und Tests DIESELBE Logik (kein
+            Spiegel-Drift)."""
+            return save_command_entry_matches(entry, self.table.leader, self.completion_fallback)
+
         recoverable, hold_reason = _section_completion_recovery.find_recoverable_entry(
             self.table.sl_log, section_id, self.table.table_id, self.marker,
             completion_marker_matches, request_binding_error=_request_binding_error,
+            entry_matches=_entry_matches,
         )
         if hold_reason is not None:
             self._status_fn(f"Speicherabschluss HOLD: {hold_reason}")
@@ -1007,7 +1105,7 @@ class SectionRuntime:
             if not self._leader_anchored:
                 act(leader, contexts_by_persona[leader], attach_import_save=True)
                 self._check_gate()  # F3: vor Publish/Reflexion.
-                if marker_hit(debrief_text):
+                if completion_hit(debrief_text):
                     return finalize(debrief_text)
 
             # Gaeste einzeln (Import) -- nur die, die noch nicht importiert haben.
@@ -1016,7 +1114,7 @@ class SectionRuntime:
                     continue
                 act(pk, contexts_by_persona[pk], attach_import_save=True)
                 self._check_gate()  # F3: vor Publish/Reflexion.
-                if marker_hit(debrief_text):
+                if completion_hit(debrief_text):
                     return finalize(debrief_text)
 
             # Weitere echte Spiel-/Abspracheturns, bis Marker/Admission-Block/max_turns.
@@ -1027,7 +1125,7 @@ class SectionRuntime:
                     poll_guests_and_consolidate()
                 act(leader, debrief_ctx)
                 self._check_gate()  # F3: vor Publish/Reflexion.
-                if marker_hit(debrief_text):
+                if completion_hit(debrief_text):
                     return finalize(debrief_text)
                 ongoing_round += 1
         except _GateBlocked as e:

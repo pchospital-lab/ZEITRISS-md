@@ -543,6 +543,38 @@ def current_or_recent_table_members(run_dir: str | Path, persona_key: str) -> se
     return best_closed_members or set()
 
 
+def current_active_table_members(run_dir: str | Path, persona_key: str) -> set[str]:
+    """BL1-FIX-SPEC-R4 (P1) -- reiner Lese-Helfer: liefert NUR die Mitglieder
+    eines Tisches, an dem `persona_key` GERADE AKTIV gebunden ist
+    (`status == "active"` UND `locks.get(own_cid) == table_id`, identische
+    Aktiv-Erkennung wie in `current_or_recent_table_members`). KEIN Closed-
+    Fallback -- anders als `current_or_recent_table_members` liefert dieser
+    Helfer eine leere Menge, sobald `persona_key` an keinem aktiv gebundenen
+    Tisch sitzt, auch wenn ein zuletzt geschlossener Tisch existiert. Zweck:
+    Vorspielen (TUI-Menuepunkt [5]) darf die Mitglieder eines bereits
+    abgeschlossenen gemeinsamen Abschnitts wieder als Kandidaten sehen --
+    nur ein WIRKLICH laufender gemeinsamer Abschnitt soll geschuetzt sein."""
+    run_dir = Path(run_dir)
+    tables_dir = run_dir / "tables"
+    if not tables_dir.exists():
+        return set()
+    locks = _read_locks(run_dir)
+    for p in tables_dir.glob("*.json"):
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        members = data.get("members") or []
+        if persona_key not in members:
+            continue
+        status = data.get("status", "active")
+        chrono_ids = data.get("chrononaut_ids") or {}
+        own_cid = chrono_ids.get(persona_key)
+        if status == "active" and own_cid is not None and locks.get(own_cid) == data.get("table_id"):
+            return set(members)
+    return set()
+
+
 def submit_to_sl(
     table: Table, actor_persona_key: str, gm_transport, turn_idx: int, text: str,
     origin_persona_key: str | None = None, origin_source: str | None = None,
@@ -550,6 +582,7 @@ def submit_to_sl(
     *, section_id: str | None = None,
     expected_prev_ref_by_member: dict[str, dict | None] | None = None,
     gm_request_id: str | None = None,
+    origin_raw_input: str | None = None,
 ) -> dict:
     """Transport fuehrt eine vom Leader freigegebene Nachricht aus. `gm_transport`
     ist ein beliebiges Objekt mit `.turn(turn_idx, text) -> {content, usage,
@@ -636,6 +669,13 @@ def submit_to_sl(
         # AR3 (additiv): dieselbe Schreiboperation wie die Felder oben -- kein
         # zweiter Write, kein neuer Crashspalt (s. Docstring).
         "gm_request_id": gm_request_id,
+        # OPTION2-CMD (additiv, Default None): der ROHE, NICHT eingebettete
+        # Origin-Input dieses Turns (`leader_message` oben ist der gesendete
+        # Wire-Text, bei Anker-/Importturns inkl. eingebettetem Save-JSON).
+        # Die kommando-gestuetzte Crash-Recovery (`core.runtime` `_entry_
+        # matches`) liest DIESES Feld (exakter `!save`-Match wie der Live-Pfad
+        # ueber `last_leader_input`), nicht den eingebetteten `leader_message`.
+        "origin_raw_input": origin_raw_input,
     })
     current.persist()
     table.sl_log = current.sl_log

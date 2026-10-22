@@ -19,6 +19,16 @@ Prozessneustart und die Originalantwortbindung beim Abschnittsabschluss
 bestehen in den bezeichneten synthetischen Prüfungen. Die neue
 CLI-Kontextkorrektur ist ein separat zu integrierender Kandidat.
 
+Stand 22. Oktober 2026 (R4-Anschluss, neuer Livebeleg): Für einen
+**einzelnen** Spieler ist der vollständige Abschnitts-Schluss jetzt live
+gegen die gehostete Spielleitung belegt — `!save` im HQ erntet den
+Save-Block strukturell in den Store (`__final.json`, Save-Versionszähler
+steigt), über einen echten Prozessneustart hinweg und mit wirksamem
+Folgezug (zweiter Abschluss). Die Abschluss-Erkennung ist an das
+`!save`-Kommando plus den Save-Block gebunden und damit unabhängig von
+der jeweiligen Formulierung der Spielleitung. Das ersetzt NICHT die unten
+genannte vollständige Mehrfiguren-Live-Abnahme.
+
 ## Was für eine vollständige Live-Abnahme noch fehlt
 
 Ein tatsächlich durchgespielter Lauf mit fünf regulär erschaffenen Figuren,

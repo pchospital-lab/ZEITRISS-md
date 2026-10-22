@@ -156,7 +156,11 @@ def play_bound_table(
     from .controller import TableController
     from .persona_state import PersonaStateStore
     from ..domain.zeitriss import saves as zeitriss_saves
-    from ..domain.zeitriss.policy import COMPLETION_MARKER, ZeitrissHarvestValidator
+    from ..domain.zeitriss.policy import (
+        COMPLETION_MARKER,
+        ZeitrissHarvestValidator,
+        build_save_command_completion_fallback,
+    )
 
     agreed_activity = None
     if source_offer_id:
@@ -206,6 +210,10 @@ def play_bound_table(
         lobby, table, gm_transport, controller, section_id,
         contexts, session.states_dir, today, ts, COMPLETION_MARKER, ZeitrissHarvestValidator(),
         ps_store, zeitriss_saves.harvest_from_debrief,
+        # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): Leader-`!save`/`!speichern`
+        # + bindbarer v7-Save schliesst den Abschnitt GLEICHWERTIG zum
+        # Top-Level-Marker -- der Marker-Pfad bleibt unveraendert.
+        completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
     )
     if outcome.completion.success:
         reason = (
@@ -464,11 +472,17 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
         # gebunden/aktiv/fortsetzbar bleibt (B1: Fix1 gewann bisher
         # STRUKTURELL immer gegen Fix2, solange ein gebundener Tisch
         # aktiv war). Nur die fuer DIESEN Lauf tatsaechlich spielbaren
-        # freien Figuren (ai_personas-Schnitt) zaehlen hier; `free`
-        # (ALLE spielbereiten, ungebundenen Mitglieder) bleibt fuer
-        # Lobby-Sichtbarkeit/Beitrittsliste/`candidate_ids` unveraendert
-        # massgeblich (s. G1-Kommentar unten). TUI-Default `ai_personas
-        # is None` aendert nichts (identisch zu allen freien Mitgliedern).
+        # freien Figuren (ai_personas-Schnitt) zaehlen hier; `free` (ALLE
+        # spielbereiten, ungebundenen Mitglieder) bleibt fuer die Lobby-
+        # Sichtbarkeit/Beitrittsliste massgeblich. `candidate_ids` (unten,
+        # STEP 1) nutzt seit dem P2-Fix (BL1-FIX-SPEC-R4 2026-10-21)
+        # DIESES `free_selectable` statt `free` -- eine ausgewaehlte
+        # Persona darf nur noch andere AUSGEWAEHLTE Personas einladen,
+        # sonst blieb ein Angebot an eine ausgeschlossene/nicht ausgewaehlte
+        # freie Persona offen stehen (sie ist nicht im `scheduler_pool`,
+        # ihre Zustimmung wird nie eingeholt) und hielt die ausgewaehlte
+        # Gruppe bis zur Idle-Grenze fest. TUI-Default `ai_personas is
+        # None` aendert nichts (identisch zu allen freien Mitgliedern).
         free_selectable = [
             r for r in free if ai_personas is None or r.persona_key in ai_personas
         ]
@@ -557,7 +571,13 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
                             section_id=window_section_id, turn_idx=turn_idx,
                         )
                     else:
-                        candidate_ids = [r.persona_key for r in free if r.persona_key != pk]
+                        # P2-Fix (BL1-FIX-SPEC-R4 2026-10-21): `candidate_ids`
+                        # (die Einladungs-/Wunschliste) nutzt `free_selectable`
+                        # (bereits auf `ai_personas` beschraenkt, s. Kommentar
+                        # oben) statt `free` -- sonst kann eine ausgewaehlte
+                        # Persona eine ausgeschlossene/nicht ausgewaehlte freie
+                        # Persona in `wants` einladen.
+                        candidate_ids = [r.persona_key for r in free_selectable if r.persona_key != pk]
                         ctx = {
                             "system": own_ctx,
                             "user": initiative_proposal_contract_instruction(candidate_ids),

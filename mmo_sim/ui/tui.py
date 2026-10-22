@@ -37,7 +37,12 @@ from typing import Callable
 from ..core.creation_service import ReplyResult, run_admitted_creation_dialog
 from ..domain.zeitriss import catalog, import_export, onboarding
 from ..domain.zeitriss import saves as zeitriss_saves
-from ..domain.zeitriss.policy import COMPLETION_MARKER, ZeitrissHarvestValidator, ZeitrissTableSizePolicy
+from ..domain.zeitriss.policy import (
+    COMPLETION_MARKER,
+    ZeitrissHarvestValidator,
+    ZeitrissTableSizePolicy,
+    build_save_command_completion_fallback,
+)
 from . import rendering
 
 
@@ -704,11 +709,13 @@ class TuiSession:
         Default) zielt auf DEINE aktuelle Abschnittszahl (`target=None`,
         nur Kandidaten, die HINTER dir liegen). Kandidaten = bereite
         Community-Personas MINUS du selbst MINUS ausgeschlossen
-        (`self._excluded_personas`) MINUS Mitglieder deines aktuellen/
-        zuletzt gespielten Tisches (Schluessel-Invariante, `core.store.
-        current_or_recent_table_members`) MINUS bereits auf deiner
-        Abschnittszahl. Reuse: `core.catchup.run_catch_up` ist die einzige
-        Spielmechanik hier -- keine zweite Tisch-/GM-Logik.
+        (`self._excluded_personas`) MINUS Mitglieder deines Tisches
+        (Catch-up: `core.store.current_or_recent_table_members` --
+        aktuell/zuletzt gespielt; Vorspielen: `core.store.
+        current_active_table_members` -- NUR ein wirklich aktiv laufender
+        Tisch, s. P1-Fix unten) MINUS bereits auf deiner Abschnittszahl.
+        Reuse: `core.catchup.run_catch_up` ist die einzige Spielmechanik
+        hier -- keine zweite Tisch-/GM-Logik.
 
         M1-Fix (BL1-FIX-SPEC.md 2026-10-21): `vorspielen=True` (Menuepunkt
         [5]) ist der vorher im gesamten Produktpfad unerreichbare
@@ -718,7 +725,16 @@ class TuiSession:
         als Catch-up gibt es hier keine "hinter mir"-Vorbedingung -- genau
         der von der Spec verlangte "ich muss mal weg, lass die Personas
         ihren Abschnitt vorspielen"-Fall, der bei bereits erreichter
-        Paritaet ueber [3] bisher wirkungslos war)."""
+        Paritaet ueber [3] bisher wirkungslos war).
+
+        P1-Fix (BL1-FIX-SPEC-R4 2026-10-21): `current_or_recent_table_
+        members` lieferte fuer Vorspielen faelschlich auch die Mitglieder
+        des zuletzt GESCHLOSSENEN Tisches -- direkt NACH einem
+        abgeschlossenen Gruppenabschnitt waren cqb/face damit fuer [5]
+        unerreichbar, obwohl ihr gemeinsamer Abschnitt bereits fertig war.
+        Vorspielen zieht jetzt `current_active_table_members` ab (nur ein
+        WIRKLICH laufender Abschnitt schuetzt), Catch-up bleibt bei der
+        breiteren `current_or_recent_table_members`-Abzugsmenge."""
         if self.run_dir is None or self.states_dir is None or self.schema_path is None:
             self._print(
                 "Personas spielen lassen erfordert eine konfigurierte Laufumgebung (run_dir/"
@@ -736,7 +752,16 @@ class TuiSession:
 
         from ..core import catchup, store as core_store
         ready_keys = catchup.ready_persona_keys(self)
-        current_table = core_store.current_or_recent_table_members(self.run_dir, self.participant_id)
+        # M1-Fix (BL1-FIX-SPEC-R4, P1): Vorspielen [5] schuetzt NUR einen
+        # WIRKLICH aktiv laufenden gemeinsamen Abschnitt (current_active_
+        # table_members, KEIN Closed-Fallback) -- die Mitglieder eines
+        # bereits geschlossenen Tisches sind fuer Vorspielen wieder
+        # wahlbar. Catch-up [3] behaelt den breiteren Schutz (current_or_
+        # recent_table_members) unveraendert.
+        if vorspielen:
+            current_table = core_store.current_active_table_members(self.run_dir, self.participant_id)
+        else:
+            current_table = core_store.current_or_recent_table_members(self.run_dir, self.participant_id)
         eligible_pool = ready_keys - {self.participant_id} - self._excluded_personas - current_table
         if not eligible_pool:
             self._print(
@@ -4974,6 +4999,11 @@ class TuiSession:
                 # ueber denselben bestehenden Terminalkanal durch, keine neue
                 # Menuehierarchie.
                 status_fn=self._print,
+                # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): Leader-`!save`/
+                # `!speichern` + bindbarer v7-Save schliesst den Abschnitt
+                # GLEICHWERTIG zum Top-Level-Marker -- derselbe Wiring-Punkt
+                # wie `core/lobby_flow.py:play_bound_table`.
+                completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
             )
         except request_ledger.OpenReservationExistsError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die

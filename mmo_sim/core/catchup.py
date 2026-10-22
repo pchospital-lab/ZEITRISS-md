@@ -73,7 +73,16 @@ class CatchUpReport:
     menschlich lesbar (wie `LobbyWindowOutcome.reason`), `blocked` ist
     maschinenlesbar (persona_keys, die ihr `per_target` NICHT erreicht
     haben -- leer heisst vollstaendiger Erfolg, sofern `stopped` auch
-    `False` ist)."""
+    `False` ist).
+
+    P3-Fix (BL1-FIX-SPEC-R4 2026-10-21): `unready` (ANS ENDE angehaengt,
+    Default `[]` -- bestehende Positionsargument-Konstruktionen bleiben
+    unveraendert aufrufbar) listet die ausgewaehlten (`selected`)
+    Mitglieder, die NICHT spielbereit sind (`sorted(set(selected) -
+    ready_keys)`), in JEDEM Rueckgabepfad gesetzt. Zweck: `lab/cli.py`
+    kann damit eine leere `candidates`-Menge ehrlich von echter
+    Abschnitts-Paritaet unterscheiden (sonst unbeschraenkter Null-Arbeits-
+    Loop, s. dortiger Fix)."""
 
     candidates: list[str]
     start_counts: dict[str, int]
@@ -84,6 +93,7 @@ class CatchUpReport:
     stopped_reason: str | None
     blocked: list[str]
     notes: list[str] = field(default_factory=list)
+    unready: list[str] = field(default_factory=list)
 
     @property
     def reached_target(self) -> bool:
@@ -160,12 +170,13 @@ def run_catch_up(
             candidates=[], start_counts={}, end_counts={}, per_target={},
             windows_run=0, stopped=True,
             stopped_reason="keine Laufumgebung konfiguriert (run_dir fehlt) -- kein Catch-up.",
-            blocked=[],
+            blocked=[], unready=sorted(selected),
         )
 
     run_dir = session.run_dir
     counts = core_store.sections_played_by_participant(run_dir)
     ready_keys = ready_persona_keys(session)
+    unready = sorted(set(selected) - ready_keys)
     base_candidates = (set(selected) & ready_keys) - set(current_table_members)
 
     if target is not None:
@@ -180,10 +191,32 @@ def run_catch_up(
     start_counts = {pk: counts.get(pk, 0) for pk in candidates}
 
     if not candidates:
+        # P3-Fix: den leeren-Kandidaten-Fall ehrlich differenzieren -- leer
+        # WEIL (mindestens teilweise) unbereit, statt pauschal "bereits
+        # Paritaet" (das war fuer vollstaendig unbereite Auswahlen falsch
+        # und fuehrte im Lab-Loop zu einem unbeschraenkten Null-Arbeits-
+        # Loop mit falschem DONE, s. `lab/cli.py`).
+        if base_candidates:
+            note = (
+                f"Keine Kandidaten unter Ziel -- bereits Paritaet fuer die spielbereiten "
+                f"ausgewaehlten Teilnehmer ({sorted(base_candidates)}), kein Catch-up noetig."
+            )
+            if unready:
+                note += f" Nicht spielbereit (unberuehrt, kein Ziel gesetzt): {unready}."
+        elif unready:
+            note = (
+                f"Keine spielbereiten ausgewaehlten Teilnehmer (unready={unready}) -- nichts "
+                "ausfuehrbar, kein Catch-up/Vorspielen moeglich."
+            )
+        else:
+            note = (
+                "Keine Kandidaten -- alle ausgewaehlten Mitglieder sind Teil des aktuellen/"
+                "zuletzt gespielten Tisches (Schluessel-Invariante), kein Catch-up noetig."
+            )
         return CatchUpReport(
             candidates=[], start_counts={}, end_counts={}, per_target={},
             windows_run=0, stopped=False, stopped_reason=None, blocked=[],
-            notes=["Keine Kandidaten unter Ziel -- bereits Paritaet, kein Catch-up noetig."],
+            notes=[note], unready=unready,
         )
 
     notes: list[str] = []
@@ -315,5 +348,5 @@ def run_catch_up(
     return CatchUpReport(
         candidates=candidates, start_counts=start_counts, end_counts=end_counts,
         per_target=per_target, windows_run=windows_run, stopped=stopped,
-        stopped_reason=stopped_reason, blocked=blocked, notes=notes,
+        stopped_reason=stopped_reason, blocked=blocked, notes=notes, unready=unready,
     )

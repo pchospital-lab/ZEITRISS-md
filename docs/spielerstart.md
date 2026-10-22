@@ -140,8 +140,13 @@ Im begrenzten Lobbyfenster stehen dafür drei bewusste Aktionen:
 
 Bei `[3]`/`[5]` wählst du, **welche** Personas mitmachen (kommagetrennt, leer =
 alle in Frage kommenden) und bekommst vorher einen klaren Hinweis, dass du
-währenddessen **wartest**. Personas, die gerade **mit dir am selben Tisch**
-gespielt haben, werden nie nachgezogen — sie sind ohnehin schon gleichauf.
+währenddessen **wartest**. Personas, mit denen du gerade an einem
+**laufenden** gemeinsamen Abschnitt gebunden bist, werden währenddessen weder
+nachgezogen noch vorgespielt — euer Abschnitt läuft ja noch. Ist der gemeinsame
+Abschnitt **abgeschlossen**, kannst du dieselben Mitspieler über `[5]` aber
+bewusst ihren **nächsten eigenen** Abschnitt vorspielen lassen (genau der
+Pausen-Fall von oben); fürs Nachziehen `[3]` sind sie dann ohnehin schon
+gleichauf.
 Im Normalfall brauchst du das alles gar nicht: spiel einfach mit deiner
 Gruppe weiter, und zieh die anderen höchstens mal in einer eigenen Spielpause
 nach.
@@ -171,6 +176,15 @@ Starte später denselben Client mit derselben Datenablage und wähle
 `fortsetzen`. Ein eigener gültiger Save kann auch ohne Community fortsetzbar
 sein. Bei einer nur begonnenen Erschaffung weist die Fortsetzen-Karte auf
 `charaktere` beziehungsweise `n` hin; sie behauptet keinen fertigen Save.
+
+Gespeichert wird im HQ mit `!save` (oder `!speichern`): die Spielleitung
+gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn,
+schließt damit den laufenden Abschnitt ab und fragt, ob du weiterspielen
+oder zum Tisch zurück willst. `!bogen` zeigt nur den Charakterbogen an und
+speichert nicht. In Briefing, Einsatz und Debrief ist Speichern gesperrt
+(SaveGuard) — erst zurück im HQ. Die Save-Erkennung haengt am `!save`-
+Kommando und am tatsächlichen Save-Block, nicht an einer festen
+Formulierung der Spielleitung.
 
 Bei einem unterbrochenen Abschnittsabschluss kann eine bereits vollständig
 lokal verbuchte und eindeutig zugeordnete Originalantwort wiederverwendet

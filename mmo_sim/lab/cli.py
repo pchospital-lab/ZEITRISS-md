@@ -544,6 +544,26 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
             )
             for note in report.notes:
                 print(f"Lab-Fenster: {note}")
+            # P3-Fix (BL1-FIX-SPEC-R4 2026-10-21): `windows_run == 0` UND
+            # KEINE Kandidaten (leere `candidates`, kein einziges ausgewaehltes
+            # Mitglied spielbereit genug fuer DIESE Runde) bedeutet NULL
+            # ausfuehrbare Arbeit -- vorher wertete die Schleife das als
+            # abgeschlossene Paritaetsrunde (keine `should_stop()`-Grenze
+            # greift, da kein Request verbraucht wurde) und begann SOFORT die
+            # naechste Runde: ein unbeschraenkter Null-Arbeits-/CPU-Loop OHNE
+            # Wall-Cap, mit faelschlich als "abgeschlossen" gemeldeten
+            # unbereiten Teilnehmern. Geordneter Stop statt Endlosschleife,
+            # `report.unready` benennt ehrlich, wer nicht spielbereit war.
+            if report.windows_run == 0 and not report.candidates:
+                _persist_stop(
+                    f"Keine spielbereiten ausgewaehlten Teilnehmer (unready={report.unready}) -- "
+                    "nichts ausfuehrbar, geordneter Stop; kein Null-Arbeits-Loop."
+                )
+                print(
+                    f"Lab: Paritaetsrunde (Ziel {round_target}) ohne ausfuehrbare Arbeit "
+                    f"(unready={report.unready}) — geordneter Stop."
+                )
+                break
             if report.stopped:
                 # M3 (CRITIC-REPORT-R2.md): ein vom Orchestrator explizit
                 # gesurfacetes `STOPPED` (echter Transportfehler/Admission-
@@ -574,7 +594,16 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
                 )
                 print("Lab: Paritaetsrunde blockiert — geordneter Stop.")
                 break
-            print(f"Lab: Paritaetsrunde (Ziel {round_target}) abgeschlossen fuer {sorted(selected)}.")
+            # P3-Fix: ehrliche Abschlussmeldung -- tatsaechlich bespielte/
+            # erreichte Teilnehmer (`report.candidates`), NICHT pauschal die
+            # GESAMTE Auswahl (`selected`, vorher faelschlich auch unbereite
+            # Mitglieder als "erledigt" ausgewiesen). Unbereite werden
+            # separat genannt, nicht als erfolgreich verschwiegen.
+            print(
+                f"Lab: Paritaetsrunde (Ziel {round_target}) abgeschlossen fuer {report.candidates}"
+                + (f" (nicht spielbereit, unberuehrt: {report.unready})" if report.unready else "")
+                + "."
+            )
     except KeyboardInterrupt:
         lab.stop("Ctrl-C/SIGTERM — Pause angefordert, kein erfundener Abschluss (H-C).")
         print("\nLab pausiert (Ctrl-C/SIGTERM) — kein weiterer Modellaufruf, spaeteres 'lab resume' moeglich.")

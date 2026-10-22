@@ -18,6 +18,52 @@ from . import saves as save_lib
 
 COMPLETION_MARKER = "SECTION-ABSCHLUSS-BESTAETIGT"
 
+SAVE_COMMANDS = frozenset({"!save", "!speichern"})
+"""OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md, 2026-10-22): die dokumentierten
+Save-Kommandos (`meta/project_bootstrap_instructions.md` §"`!save` und
+`!speichern`"). `!bogen` ist NUR Ansicht und zaehlt NICHT als Save-Trigger."""
+
+
+def is_save_command(text: str | None) -> bool:
+    """True, wenn `text` (getrimmt, case-insensitiv) GENAU einem der
+    `SAVE_COMMANDS` entspricht -- der Leader-Input dieses Turns, NICHT die
+    GM-Antwort (s. `build_save_command_completion_fallback`)."""
+    return (text or "").strip().casefold() in {c.casefold() for c in SAVE_COMMANDS}
+
+
+def build_save_command_completion_fallback(table, harvest_extractor=save_lib.harvest_from_debrief):
+    """OPTION2-CMD: baut das injizierbare `Callable[[str, str | None], bool]`-
+    Fallback-Praedikat fuer `core.runtime.SectionRuntime(completion_fallback=
+    ...)` (Runtime bleibt domaenen-neutral -- sie kennt nur das Ergebnis,
+    nicht diese Kommando-/Bindungsregel). `table` wird PER CLOSURE gebunden
+    (nicht erst beim Aufruf uebergeben), weil `core/app_service.py`/
+    `core/lobby_flow.py`/`ui/tui.py` den Tisch bereits zur Konstruktionszeit
+    kennen -- derselbe Wiring-Punkt wie `marker`/`harvest_validator`/
+    `harvest_extractor`.
+
+    Ersetzt die PHRASEN-basierte Variante (FIX-SPEC-OPTION2.md, verworfen):
+    der live gehostete GM formuliert die Save-Bestaetigung FREI
+    ("Deepsave wird ausgegeben"/"ausgegeben"/"exportiert") -- Prosa-Matching
+    ist tot (live3). Der Trigger haengt jetzt an SEINEM `!save`-Kommando
+    (`is_save_command`) + den tatsaechlichen Save-Bloecken, NICHT an
+    GM-Worten: zusaetzlich zum Kommando muss `harvest_extractor` (Default
+    `saves.harvest_from_debrief`) auf dem GM-Text mindestens einen Save
+    liefern, der sich an einen AKTUELLEN Tisch-Chrononauten (`table.
+    chrononaut_id_to_persona()`) binden laesst -- das schuetzt gegen ein
+    blosses `!save` ohne echten Save (SaveGuard-Verweigerung ausserhalb HQ)
+    UND gegen einen fremden/historischen Block, den `harvest_extractor`
+    nicht an die aktuelle Bindung knuepfen kann (FIX-SPEC-OPTION2-CMD.md
+    §Zielverhalten)."""
+
+    def _fallback(gm_text: str, leader_input: str | None) -> bool:
+        if not is_save_command(leader_input):
+            return False
+        cid_to_pk = table.chrononaut_id_to_persona()
+        harvested = harvest_extractor(gm_text, cid_to_pk) if gm_text else {}
+        return bool(harvested)
+
+    return _fallback
+
 
 @dataclass
 class ZeitrissTableSizePolicy:
