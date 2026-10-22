@@ -271,6 +271,15 @@ class ClaudeCodeConfig:
     # bei rc!=0/anderen Exceptions -- die bleiben ehrlich fehlerhaft, s.
     # `decide()`-Docstring).
     max_timeout_retries: int = 0
+    # R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): Personas spielen MITspieler,
+    # keine Spielleitung. Ein Mitspieler antwortet kurz und schnell -- er soll
+    # NICHT extended-thinking betreiben (das verlangsamt jeden Tischzug spuerbar
+    # und laesst die CLI bei grossen abschnittsinternen Prompts Zeit/Token in
+    # Planung statt in eine finale Textantwort stecken). Default `0` setzt
+    # `MAX_THINKING_TOKENS=0` im Kind-Env -> extended thinking AUS. Nur auf den
+    # GM wartet man im Spiel; auf Mitspieler nicht. Ein Wert > 0 erlaubt einem
+    # kuenftigen Aufrufer explizit wieder Thinking (additiv/optional).
+    thinking_tokens: int = 0
 
 
 class PersonaClaudeCodeDriver:
@@ -549,6 +558,11 @@ class PersonaClaudeCodeDriver:
         # an die Persona-CLI weitergereicht.
         env = {k: v for k, v in os.environ.items() if k in _CHILD_ENV_ALLOWLIST}
         env["CLAUDE_WORKDIR"] = self.config.isolated_workdir or ""
+        # R4-MEHRSPIELER: Mitspieler-Persona ohne extended thinking (s.
+        # ClaudeCodeConfig.thinking_tokens). Explizit gesetzt -- die Allowlist
+        # reicht ein geerbtes MAX_THINKING_TOKENS NICHT durch, der Default-0-Wert
+        # muss also aktiv in das kuratierte Kind-Env geschrieben werden.
+        env["MAX_THINKING_TOKENS"] = str(self.config.thinking_tokens)
         # N2R5-TIMEOUTFIX: NUR `subprocess.TimeoutExpired` ist retrybar (ein
         # einzelner langsamer Call soll nicht die ganze Section terminal
         # killen, s. Klassendocstring `max_timeout_retries`) -- `rc!=0` UND
