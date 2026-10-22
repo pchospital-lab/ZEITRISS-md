@@ -29,22 +29,28 @@ Folgezug (zweiter Abschluss). Die Abschluss-Erkennung ist an das
 der jeweiligen Formulierung der Spielleitung. Das ersetzt NICHT die unten
 genannte vollständige Mehrfiguren-Live-Abnahme.
 
-Stand 22. Oktober 2026 (R4-Mehrspieler-Anschluss, ehrlicher Zwischenstand):
-Ein zusätzlicher Erstharvest-Savekonflikt wurde behoben — zwei abweichende,
-jeweils gültige Speicherstände derselben Figur in einer Spielleitungsantwort
-werden jetzt VOR jeder Abschlussveröffentlichung erkannt und der Abschnitt
-gehalten, statt still den ersten zu übernehmen (identische Wiederholungen
-bleiben zulässig). Ein realer, bezahlter Mehrfiguren-Livelauf hat alle fünf
-regulären Bestandsfiguren tatsächlich erschaffen bzw. importiert und zwei
-organische Tische gebildet; ein struktureller Abschluss der Abschnitte A/B
-wurde dabei NICHT erreicht. Ursache ist kein Fehler im geprüften Produktcode,
-sondern ein reproduzierbares Verhalten der automatisierten Persona-Befehlszeile
-als Mitspieler: für einen sehr großen abschnittsinternen Entscheidungs-Prompt
-lieferte sie unter den gebundenen Isolationsflags keine verwertbare
-Entscheidung (wiederholte Zeitüberschreitungen sowie leere Endergebnisse bei
-Rückgabecode 0). Der kommandobasierte Abschnittsabschluss und der
-Savekonflikt-Fix bleiben in der synthetischen Fünf-Figuren-A/B-Prüfung und im
-Einzelspieler-Livebeleg bestätigt.
+Stand 22. Oktober 2026 (R4-Mehrspieler-Anschluss, Endstand): Ein zusätzlicher
+Erstharvest-Savekonflikt wurde behoben — zwei abweichende, jeweils gültige
+Speicherstände derselben Figur in einer Spielleitungsantwort werden jetzt VOR
+jeder Abschlussveröffentlichung erkannt und der Abschnitt gehalten, statt still
+den ersten zu übernehmen (identische Wiederholungen bleiben zulässig). Für den
+Mehrfiguren-Weg wurden zwei weitere Ursachen adressiert: die KI-Mitspieler laufen
+jetzt standardmäßig ohne erweitertes Nachdenken (deutlich schnellere, kurze
+Spielerzüge; in einem realen Livelauf lösten sich die zuvor beobachteten
+Zeitüberschreitungen vollständig auf), und die Mitspieler-Personas erhalten eine
+knappe Terminal-Bedienungsnotiz, damit sie das Speicherkommando am
+Abschnittsende selbst absetzen (zuvor umschrieben sie es nur narrativ). In
+realen, bezahlten Liveläufen wurden daraufhin alle fünf regulären
+Bestandsfiguren tatsächlich erschaffen bzw. importiert und eine organische
+Gruppe spielte eine vollständige Mission bis zur HQ-Rückkehr. Ein strukturell
+abgeschlossener Mehrfiguren-Abschnitt (Abschnitts-Finalrecord live) wurde dabei
+noch NICHT erreicht — die Ursache liegt NICHT im geprüften Produktcode, sondern
+in einem eng umrissenen Verhalten des privaten Test-Treibers (ein gutartiges
+Zeitfenster-Ende eines Einzelschritts wird derzeit als terminaler Halt
+fehlklassifiziert) zusammen mit dem begrenzten Live-Budget dieses Zyklus. Der
+kommandobasierte Abschnittsabschluss, der Savekonflikt-Fix und die
+Save-Kommando-Erkennung bleiben durch den Einzelspieler-Livebeleg, die
+synthetische Fünf-Figuren-A/B-Prüfung und gezielte Komponententests bestätigt.
 
 ## Was für eine vollständige Live-Abnahme noch fehlt
 
