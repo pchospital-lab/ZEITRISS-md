@@ -52,6 +52,26 @@ kommandobasierte Abschnittsabschluss, der Savekonflikt-Fix und die
 Save-Kommando-Erkennung bleiben durch den Einzelspieler-Livebeleg, die
 synthetische Fünf-Figuren-A/B-Prüfung und gezielte Komponententests bestätigt.
 
+Stand 23. Oktober 2026 (R4-Gruppenabschluss-Anschluss, beobachteter Stand): In
+einem realen, bezahlten Mehrspieler-Lauf wurden alle fünf regulären
+Bestandsfiguren tatsächlich bereitgestellt (zwei über den Importweg, drei
+organisch erschaffen), eine organische Gruppe bildete einen Zweier- und einen
+Dreiertisch, und der Dreiertisch spielte Abschnitt A bis in den Speicher- und
+Abschlussablauf: das Leader-Speicherkommando wurde ausgelöst, die
+Gruppen-Speicherstände der Mitglieder wurden geerntet und schema-korrigiert und
+der Abschluss-Plan wurde geschrieben. Ein strukturell abgeschlossener Abschnitt
+(Abschnitts-Finalrecord, danach Prozessneustart und zweiter Abschnitt) wurde in
+diesem Lauf noch nicht erreicht: der Lauf endete an einer einzelnen
+vorübergehenden Störung des isolierten Mitspieler-Prozesses (Exitcode ungleich
+null ohne jede Fehlerausgabe), während der Abschnitt bereits finalisiert wurde.
+Die Ursache liegt nicht im geprüften Produktcode, sondern war eine transiente
+Infrastruktur-Störung; der private Test-Treiber behandelt eine solche
+vorübergehende Störung in der Abschnittsphase jetzt wie eine Zeitpause (begrenzte
+Wiederaufnahme im nächsten Schritt) statt als endgültigen Halt. Der vollständige
+strukturelle Mehrfiguren-Abschluss über zwei Abschnitte bleibt damit der noch
+offene Live-Nachweis und ist durch das verbleibende Live-Budget dieses Zyklus
+begrenzt, nicht durch einen Produkt- oder Regelfehler.
+
 ## Was für eine vollständige Live-Abnahme noch fehlt
 
 Ein tatsächlich durchgespielter Lauf mit fünf regulär erschaffenen Figuren,
