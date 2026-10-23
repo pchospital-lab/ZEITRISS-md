@@ -5020,6 +5020,16 @@ class TuiSession:
         # statt der frueheren pauschalen "kein Datenverlust"+Retry-Zusage,
         # die fuer den offenen-Reservierung-Fall irrefuehrend war.
         from ..core import request_ledger
+        # FIX5B (Review-Blocker Punkt 1, CRITIC-FIX5-REVIEW.md): dies ist
+        # GENAU der eine Aufrufpunkt von `app_service.run_play_session`, den
+        # sowohl ein frischer Einladungsweg (`_cmd_local_round`) ALS AUCH ein
+        # gebundener Tisch-Resume (`_resume_bound_table`) durchlaufen (s.
+        # Moduldocstring `run_play_session` oben) -- EIN Catch deckt also
+        # Einzel- UND Gruppen-/Lobby-Spiel ab. Vorher erreichte eine echte
+        # Kontingent-/Budgetpause (402/429 GM-Route, Abo-Sitzungslimit
+        # Persona-Route) ungefangen den rohen Python-Traceback auf dem
+        # Spielerterminal.
+        from ..adapters.base import ProviderQuotaPausedError, quota_pause_player_message, quota_pause_reset_hint
         try:
             outcome = app_service.run_play_session(
                 # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
@@ -5087,6 +5097,24 @@ class TuiSession:
                 "'n'/[fortsetzen] versuchen, sobald Storage/Anbindung wieder verfuegbar sind. Keine "
                 "Fehlerdetails in dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
             )
+            return
+        except ProviderQuotaPausedError as exc:
+            # FIX5B (Review-Blocker Punkt 1): ein NORMALES, erholbares
+            # Ereignis (Abo-Sitzungslimit der Persona-Route ODER Geldlimit
+            # der GM-Route) -- KEIN echter Defekt. Ruhige, nicht-technische
+            # Meldung ueber den normalen Terminal-Ausgabeweg (`self._print`,
+            # derselbe Kanal wie jede andere Spielermeldung hier), KEIN
+            # Stacktrace/Crash-Look, keine Secrets -- dieselbe Textquelle
+            # wie der private Lab-/Harness-Driver (`adapters.base.
+            # quota_pause_player_message`, eine Quelle, keine Dopplung).
+            # Kontrollierter Abbruch VOR jeder Completion-/Save-Logik
+            # (`outcome.completion`-Zweig unten wird nicht mehr erreicht) --
+            # der letzte dauerhafte Save + ein offener Completion-Plan
+            # bleiben unveraendert; ein spaeterer Neustart/Fortsetzen nimmt
+            # ueber die bestehenden idempotenten Resume-Pfade (offener-Plan-
+            # Resume, `_resume_bound_table`/`load_current_save`) genau hier
+            # wieder auf -- kein erzwungenes Finalisieren, kein Korrumpieren.
+            self._print(quota_pause_player_message(quota_pause_reset_hint(str(exc))))
             return
         if outcome.completion.success:
             self._print(f"Abschnitt abgeschlossen: {outcome.completion.members_completed}")

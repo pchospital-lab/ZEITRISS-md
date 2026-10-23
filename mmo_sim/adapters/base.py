@@ -14,6 +14,7 @@ Adapter, der diesen Vertrag nicht exakt erfuellt, ist nicht austauschbar.
 """
 from __future__ import annotations
 
+import ast
 import json
 import re
 from dataclasses import dataclass, field
@@ -32,6 +33,73 @@ class ProviderQuotaError(RuntimeError):
 class ProviderUnavailableError(RuntimeError):
     """CLI/Client nicht vorhanden oder Isolation nicht herstellbar — Adapter
     liefert `unavailable`, kein unsicherer Betrieb (03 §5)."""
+
+
+class ProviderQuotaPausedError(ProviderUnavailableError):
+    """FIX5 (Kontingent-/Budgetpause): Abo-Session-Limit der Persona-Route
+    ODER Geldlimit der GM-Route erkannt -- ein NORMALES, erholbares Ereignis
+    mitten im Spiel, KEIN echter Defekt. Bleibt eine `ProviderUnavailableError`-
+    Unterklasse (jeder bestehende generische `except ProviderUnavailableError`
+    -Fang bleibt unveraendert wirksam), traegt aber eine EIGENE, distinkte
+    Klassensignatur: der Lab-Step-Caller (`driver.integrated.py`) erkennt
+    eine Kontingent-Pause GETYPT am Klassennamen im Subprozess-Traceback
+    (`_is_quota_paused_lab_crash`), statt einen freien Text-/Schluesselwort-
+    Scan ueber beliebige Fehlermeldungen zu fahren. Ausgeloest von
+    `persona_claude_code.PersonaClaudeCodeDriver.decide` (strukturiertes
+    `result`-Feld traegt ein Kontingent-/Limit-Vokabular) und
+    `gm_owui.GmOwuiTransport.turn` (HTTP 402/429 bzw. `insufficient_quota`)."""
+
+
+# FIX5B (Review-Blocker Punkt 1, CRITIC-FIX5-REVIEW.md): die ruhige
+# Spielermeldung lebte bisher AUSSCHLIESSLICH in `driver.integrated.py`
+# (privater Lab-/Harness-Driver) -- der echte Endnutzer-Terminalpfad
+# (`mmo_sim/ui/tui.py` -> `scripts/mmo_sim.py`) hatte dadurch gar keinen
+# Zugriff auf denselben Text. Beide Produkt-/Harness-Stellen nutzen ab
+# jetzt GENAU diese eine Quelle (keine zweite, abweichende Kopie).
+_QUOTA_RESET_HINT_IN_MESSAGE_RE = re.compile(
+    r"reset_hint=(\"(?:[^\"\\]|\\.)*\"|'(?:[^'\\]|\\.)*')"
+)
+
+
+def quota_pause_reset_hint(message: str | None) -> str | None:
+    """Liest -- rein informativ fuers Terminal-UX -- den optionalen
+    `reset_hint='...'`-Anhang aus der Exception-Message einer
+    `ProviderQuotaPausedError` (von Persona-/GM-Adapter je nach verfuegbarem
+    Reset-Zeitpunkt angehaengt, s. `persona_claude_code._quota_reset_hint_
+    suffix`). `None` ohne Treffer -- z.B. eine GM-Kontingent-Pause, die
+    keinen Reset-Zeitpunkt kennt, oder eine Persona-Pause ohne Reset-Angabe
+    im Signal."""
+    m = _QUOTA_RESET_HINT_IN_MESSAGE_RE.search(message or "")
+    if not m:
+        return None
+    try:
+        hint = ast.literal_eval(m.group(1))
+    except (ValueError, SyntaxError):
+        return None
+    if not isinstance(hint, str):
+        return None
+    hint = hint.strip()
+    return hint or None
+
+
+def quota_pause_player_message(reset_hint: str | None) -> str:
+    """EINZIGE Quelle fuer die ruhige, nicht-technische Spielermeldung bei
+    einer Kontingent-/Budgetpause -- WAS (KI-Kontingent/Guthaben erschoepft),
+    WANN/WIE (Reset-Zeitpunkt falls bekannt, sonst 'bitte Guthaben/Abo
+    aufladen'), BERUHIGUNG (Fortschritt ist gespeichert), WIE WEITER (einfach
+    fortsetzen, es geht genau hier weiter). Kein Stacktrace, kein Crash-Look,
+    keine Secrets. Genutzt vom ECHTEN TUI-Spielerpfad (`mmo_sim.ui.tui`,
+    FIX5B) UND vom privaten Lab-/Harness-Driver (`driver.integrated.py`,
+    der hierher delegiert) -- eine Quelle, keine Dopplung."""
+    wann = (
+        f"Verfuegbar wieder ab: {reset_hint}." if reset_hint
+        else "Kein Reset-Zeitpunkt im Signal -- bitte Guthaben/Abo aufladen."
+    )
+    return (
+        "KI-Kontingent/Guthaben ist aktuell erschoepft (Abo-Sitzungslimit oder Guthabenlimit). "
+        f"{wann} Dein Fortschritt ist gespeichert. Sobald wieder verfuegbar: einfach fortsetzen -- "
+        "es geht genau hier weiter."
+    )
 
 
 @dataclass

@@ -21,10 +21,39 @@ from __future__ import annotations
 
 import importlib.util
 import math
+import re
 import sys
 from pathlib import Path
 
-from .base import GMTransport
+from .base import GMTransport, ProviderQuotaPausedError
+
+# FIX5 (GM-Seite, net-new -- dieser Adapter hatte zuvor KEINE Quota-/
+# Ratelimit-Behandlung): derselbe getypte Pausen-Zustand wie beim Persona-
+# Adapter (s. adapters.base.ProviderQuotaPausedError), aber an der fuer den
+# HTTP-Transport passenden Struktur erkannt -- dem von
+# `agent_mp/sl_client.py`/`owui_client.OWUIChat._post` IMMER deterministisch
+# als `f"HTTP {code}: {body}"` formatierten Fehlertext (der numerische
+# Statuscode ist hier das strukturierte Feld, keine freie Wortsuche) ODER
+# dem literalen, provider-standardisierten Fehlertyp-Token
+# `insufficient_quota` (OpenAI-/OpenRouter-Fehlerschema) im Response-Body.
+# Jeder andere Transportfehler (401/403/404/Netzwerk/unerwartete Struktur)
+# bleibt unveraendert ein gewoehnlicher, durchgereichter Fehler.
+_GM_QUOTA_HTTP_CODES = frozenset({402, 429})
+_GM_QUOTA_HTTP_CODE_RE = re.compile(r"^HTTP (\d+):")
+_GM_QUOTA_BODY_MARKERS = ("insufficient_quota",)
+
+
+def _gm_quota_pause_detail(exc: Exception) -> str | None:
+    """Liefert eine (auf 300 Zeichen begrenzte, secret-freie) Detailzeile,
+    wenn `exc` eine Kontingent-/Ratelimit-Antwort des GM-Transports traegt,
+    sonst `None`."""
+    text = str(exc)
+    m = _GM_QUOTA_HTTP_CODE_RE.match(text)
+    if m and int(m.group(1)) in _GM_QUOTA_HTTP_CODES:
+        return text[:300]
+    if any(marker in text for marker in _GM_QUOTA_BODY_MARKERS):
+        return text[:300]
+    return None
 
 
 def _validate_gm_output_limit_tokens(value: object) -> int | None:
@@ -168,7 +197,15 @@ class GmOwuiTransport:
         return getattr(getattr(self._session, "chat", None), "base", None)
 
     def turn(self, turn_idx: int, user_text: str, output_limit_tokens: float | None = None) -> dict:
-        return self._session.turn(turn_idx, user_text, output_limit_tokens=output_limit_tokens)
+        try:
+            return self._session.turn(turn_idx, user_text, output_limit_tokens=output_limit_tokens)
+        except Exception as exc:  # noqa: BLE001 -- typisierte Reklassifikation, s. _gm_quota_pause_detail.
+            quota_detail = _gm_quota_pause_detail(exc)
+            if quota_detail is not None:
+                raise ProviderQuotaPausedError(
+                    f"gm_owui: Kontingent-/Budgetpause erkannt: {quota_detail}"
+                ) from exc
+            raise
 
     def usage_summary(self) -> dict:
         return self._session.usage_summary()

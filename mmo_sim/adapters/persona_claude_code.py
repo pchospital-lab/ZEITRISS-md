@@ -36,11 +36,17 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .base import ParticipantDecision, ProviderUnavailableError, render_public_wire_text
+from .base import (
+    ParticipantDecision,
+    ProviderQuotaPausedError,
+    ProviderUnavailableError,
+    render_public_wire_text,
+)
 
 _LOG = logging.getLogger(__name__)
 
@@ -231,6 +237,51 @@ def _is_known_isolation_flag(flag: str, allow_synthetic_convention: bool) -> boo
 # geerbten Rollen-Key, z.B. `OPENWEBUI_API_KEY`, in den Kindprozess
 # durchreichte, Test 11 `child_has_sl_role_key`).
 _CHILD_ENV_ALLOWLIST = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "TERM", "SHELL")
+
+
+# FIX5 (Kontingent-/Budgetende der Abo-Session-Route ist ein NORMALES,
+# erholbares Ereignis, KEIN echter Defekt -- s. adapters.base.
+# ProviderQuotaPausedError-Docstring): geschlossenes, eng kuratiertes
+# Vokabular, GEGEN DAS BEREITS STRUKTURIERTE `result`-Feld der
+# `--output-format json`-Fehlerhuelle (`is_error=True result=...`) geprueft
+# -- KEIN freier Substring-Scan ueber STDOUT/STDERR insgesamt, NUR dieses
+# eine, bereits per `json.loads` dekodierte Feld. Jedes andere
+# `is_error=True` (Auth-/Input-/Binary-Defekt) OHNE dieses Vokabular bleibt
+# ein gewoehnlicher `ProviderUnavailableError` (terminal, Fix4 unveraendert).
+_QUOTA_SIGNATURE_MARKERS = ("session limit", "usage limit", "rate limit", "quota", "resets")
+
+# Extrahiert -- rein informativ fuers Terminal-UX (FIX5B) -- den Text NACH
+# 'resets ' aus dem strukturierten `result`-Feld, falls vorhanden (z.B.
+# "... resets 5:30pm (Europe/Berlin)" -> "5:30pm (Europe/Berlin)"). Ohne
+# Treffer faellt das Terminal-UX auf "bitte Guthaben aufladen" zurueck (s.
+# driver.integrated._quota_pause_player_message).
+_QUOTA_RESET_HINT_RE = re.compile(r"resets\s+(.+)", re.IGNORECASE)
+
+
+def is_quota_pause_result_text(result_text: str | None) -> bool:
+    """`True` NUR, wenn `result_text` (das bereits aus der JSON-Huelle
+    dekodierte, strukturierte `result`-Feld) mindestens einen der oben
+    genannten Kontingent-/Limit-Marker traegt. Wird SOWOHL von diesem
+    Adapter selbst (rc!=0- UND rc==0-is_error-Zweig unten) ALS AUCH --
+    retroaktiv, auf bereits persistierte Evidence angewandt -- von der eng
+    gegateten Driver-Migration (`driver.integrated._quota_migration_
+    eligibility`) importiert/verwendet, damit beide Stellen GENAU dieselbe
+    Klassifikation teilen (keine zweite, abweichende Vokabular-Kopie)."""
+    text = (result_text or "").lower()
+    return any(marker in text for marker in _QUOTA_SIGNATURE_MARKERS)
+
+
+def _quota_reset_hint_suffix(result_text: str | None) -> str:
+    """Baut -- falls ein Reset-Zeitpunkt im strukturierten `result`-Feld
+    steht -- einen zusaetzlichen, maschinell wieder auslesbaren
+    `reset_hint='...'`-Anhang fuer die Exception-Message (vom Lab-Step-
+    Caller per Regex extrahiert, s. `driver.integrated._reset_hint_from_
+    stderr`). Liefert eine leere Zeichenkette ohne Treffer."""
+    m = _QUOTA_RESET_HINT_RE.search(result_text or "")
+    if not m:
+        return ""
+    hint = m.group(1).strip().strip("\"'")
+    return f", reset_hint={hint!r}" if hint else ""
 
 
 class _RealProcessRunner:
@@ -633,6 +684,16 @@ class PersonaClaudeCodeDriver:
                 detail = f"stdout={out_text[:300]!r} stderr={err_text[:300]!r}"
             else:
                 detail = "leer (kein stdout/stderr)"
+            # FIX5A: ein getyptes `is_error=True`, dessen strukturiertes
+            # `result`-Feld das geschlossene Kontingent-/Limit-Vokabular
+            # traegt, ist eine erholbare Kontingent-Pause -- DISTINKT vom
+            # gewoehnlichen `ProviderUnavailableError` (Auth/Input/Binary-
+            # Defekt, bleibt terminal) UND vom H4-transienten leeren Blip.
+            if structured_is_error and is_quota_pause_result_text(structured_result):
+                raise ProviderQuotaPausedError(
+                    f"persona_claude_code[{self.persona_key}]: Kontingent-/Budgetpause erkannt "
+                    f"(Prozess rc={rc}: {detail}{_quota_reset_hint_suffix(structured_result)})"
+                )
             raise ProviderUnavailableError(
                 f"persona_claude_code[{self.persona_key}]: Prozess rc={rc}: {detail}"
             )
@@ -649,9 +710,17 @@ class PersonaClaudeCodeDriver:
             payload = None
         if isinstance(payload, dict) and "result" in payload:
             if payload.get("is_error"):
+                result_text = str(payload.get("result"))[:300]
+                # FIX5A: dieselbe getypte Klassifikation wie im rc!=0-Zweig
+                # oben -- rc==0 MIT is_error=True ist strukturell derselbe
+                # CLI-Fehlerhuellen-Fall, nur ohne nicht-null Returncode.
+                if is_quota_pause_result_text(result_text):
+                    raise ProviderQuotaPausedError(
+                        f"persona_claude_code[{self.persona_key}]: Kontingent-/Budgetpause erkannt "
+                        f"(CLI meldet is_error: {result_text}{_quota_reset_hint_suffix(result_text)})"
+                    )
                 raise ProviderUnavailableError(
-                    f"persona_claude_code[{self.persona_key}]: CLI meldet is_error: "
-                    f"{str(payload.get('result'))[:300]}"
+                    f"persona_claude_code[{self.persona_key}]: CLI meldet is_error: {result_text}"
                 )
             text = payload.get("result", "")
             meta["usage"] = payload.get("usage") or {}
