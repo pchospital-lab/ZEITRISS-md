@@ -592,8 +592,49 @@ class PersonaClaudeCodeDriver:
                     self.persona_key, attempt, self.config.max_timeout_retries, e,
                 )
         if rc != 0:
+            # FIX4 (01-CODE-REVIEW.md §3, 01-LIVE-BEFUNDE.md §4): vorher NUR
+            # `err[:300]` -- `stdout` wurde komplett VERWORFEN, UND die
+            # JSON-/`is_error`-Auswertung (s. unten im Erfolgszweig) lief
+            # NIE fuer `rc!=0`. Ein leerer `err` beweist damit nur leeres
+            # STDERR, NICHT leere CLI-Ausgabe insgesamt und NICHT einen
+            # transienten Fehler -- ein konkreter, strukturierter Fehler
+            # (Auth/Kontext/Input), den die CLI auf STDOUT meldet, wurde so
+            # unsichtbar und erschien wie ein "leerer" Blip (belegtes
+            # Crashinput: 1.330.915 Zeichen, `Prozess rc=1: ` komplett ohne
+            # Signatur). Jetzt: STDOUT wird AUCH bei `rc!=0` auf dieselbe
+            # `--output-format json`-Huelle geprueft (`is_error`/`result`,
+            # genau wie im Erfolgszweig) -- ein strukturierter CLI-Fehler
+            # wird GETYPT in die Exception-Message eingebettet. Ohne
+            # auswertbares JSON bleiben die tatsaechlichen, jeweils auf 300
+            # Zeichen begrenzten STDOUT- UND STDERR-Ausschnitte erhalten
+            # (keine Zugangsdaten -- dieselbe Laengengrenze wie bisher fuer
+            # `err`, keine neue Datenquelle). NUR wenn STDOUT UND STDERR
+            # beide TATSAECHLICH leer sind, bleibt die Signatur die leere
+            # `"leer (kein stdout/stderr)"`-Markierung -- GENAU diese
+            # bleibt fuer `driver.integrated._is_resumable_persona_lab_
+            # crash` (H4) die einzige als transient/resumbar erkannte
+            # Form; jede andere (strukturiert ODER unstrukturiert
+            # nicht-leer) Form gilt dort jetzt als getypter, NICHT
+            # resumbarer permanenter Fehler.
+            out_text = out.strip()
+            err_text = err.strip()
+            structured_is_error = None
+            structured_result = None
+            try:
+                out_payload_on_error = json.loads(out)
+            except (json.JSONDecodeError, ValueError):
+                out_payload_on_error = None
+            if isinstance(out_payload_on_error, dict) and "is_error" in out_payload_on_error:
+                structured_is_error = bool(out_payload_on_error.get("is_error"))
+                structured_result = str(out_payload_on_error.get("result"))[:300]
+            if structured_is_error is not None:
+                detail = f"is_error={structured_is_error} result={structured_result!r}"
+            elif out_text or err_text:
+                detail = f"stdout={out_text[:300]!r} stderr={err_text[:300]!r}"
+            else:
+                detail = "leer (kein stdout/stderr)"
             raise ProviderUnavailableError(
-                f"persona_claude_code[{self.persona_key}]: Prozess rc={rc}: {err[:300]}"
+                f"persona_claude_code[{self.persona_key}]: Prozess rc={rc}: {detail}"
             )
         # I2/Test 03: die --output-format-json-Huelle DEKODIEREN statt als
         # rohen stdout durchzureichen. Faellt das Parsen aus (aeltere CLI

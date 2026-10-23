@@ -1043,6 +1043,98 @@ def find_bound_active_continuable_table(
     return best_table
 
 
+def find_bound_active_open_plan_table(
+    run_dir: str | Path, ready_chrononaut_ids: dict[str, str], bound_table_ids: dict[str, str],
+    *, ai_personas: "frozenset[str] | None" = None,
+) -> "Table | None":
+    """R4-Fix-OffenerPlan (01-CODE-REVIEW.md §1 Hauptblocker, 02-AUFTRAG.md
+    §1, 01-LIVE-BEFUNDE.md §2): liefert einen bereits angelegten, `active`
+    Tisch mit einem bereits GEPINNTEN, aber noch NICHT finalisierten
+    Abschluss-Auftrag (`__plan.json` ohne `__final.json`, s.
+    `_open_completion_order_for_table`), dem die ZU IHM gebundenen
+    Community-Mitglieder eindeutig zugeordnet sind.
+
+    BEWUSSTE ABGRENZUNG zu `find_bound_active_unplayed_table` (reine
+    Recovery/Ernte VOR jedem ersten GM-Turn) und `find_bound_active_
+    continuable_table` (Mid-Play-Fortsetzung): BEIDE Helfer geben fuer einen
+    Tisch mit offenem Abschluss-Auftrag ausdruecklich `None` zurueck (s.
+    deren Docstrings) -- ein solcher Tisch ist weder "noch nicht gespielt"
+    noch "normaler naechster Spielzug", sondern wartet NUR noch auf den
+    bereits vorhandenen idempotenten Runtime-Resume (`core/runtime.py:
+    run_full_section`, der bei `open_section_id is not None` SOFORT
+    `finalize("", resume_section_id=open_section_id)` aufruft -- KEIN neuer
+    GM-Turn, KEINE doppelte Reflexion/Ernte). Ohne DIESEN dritten Helfer
+    erreichte der Lobby-Dispatch diesen bereits vorhandenen Resume-Zweig im
+    beobachteten Mehrtisch-Zustand NIE (01-CODE-REVIEW.md §1): `find_bound_
+    active_unplayed_table` verlangt zusaetzlich GENAU EINEN gebundenen Tisch
+    insgesamt (`len(candidate_ids) != 1: return None`) -- bei zwei
+    gleichzeitig gebundenen Tischen (hier: Trio mit offenem Plan, Duo ohne)
+    liefert sie bereits VOR der Plan-Pruefung `None`. `find_bound_active_
+    continuable_table` iteriert zwar bereits ueber ALLE gebundenen
+    Tisch-IDs, schliesst den Tisch mit offenem Plan aber ausdruecklich aus
+    und waehlt unter den VERBLEIBENDEN den am wenigsten fortgeschrittenen --
+    das erklaert die beobachteten 81 weiteren Requests fuer den ANDEREN
+    (Duo-)Tisch, waehrend der Trio-Tisch mit offenem Plan nie wieder
+    aufgerufen wurde.
+
+    Iteriert daher -- wie `find_bound_active_continuable_table` -- ueber
+    ALLE DISTINCTen Tisch-IDs in `bound_table_ids.values()`; fail-closed PRO
+    TISCH (ein inkonsistenter/fremder Tisch wird uebersprungen, bricht aber
+    nicht die Suche nach anderen Kandidaten ab). Deterministisch nach
+    `table_id` aufgeloest, falls mehrere Tische gleichzeitig einen offenen
+    Plan haben (seltener Fall, kein Produktanspruch auf eine bestimmte
+    Reihenfolge zwischen ihnen -- nur Determinismus).
+
+    Konsistenzpruefung PRO TISCH (identisch zu `find_bound_active_
+    continuable_table`, s. dortiger Docstring): die zu GENAU diesem
+    `table_id` gebundenen Mitglieder muessen eine Teilmenge von
+    `table.members` sein; KEIN Mitglied von `table.members`, das laut
+    `bound_table_ids` an einen ANDEREN Tisch gebunden ist; fuer jedes `pk`
+    in `table.chrononaut_ids` muss `ready_chrononaut_ids.get(pk) == cid`
+    gelten -- eine Mehrdeutigkeit/ein fremder Zustand gibt `None`, NIE das
+    aeltere/andere der widerspruechlichen Mitglieder. `ai_personas`
+    (optional): ein Tisch, dessen Mitglieder NICHT VOLLSTAENDIG in
+    `ai_personas` liegen, wird NICHT zurueckgegeben (H-F, analog beiden
+    anderen Helfern) -- der Resume selbst darf genau wie ein normaler
+    Spielzug keinen KI-Treiber fuer ein nicht ausgewaehltes/menschliches
+    Mitglied konstruieren."""
+    run_dir = Path(run_dir)
+    candidate_table_ids = sorted(set(bound_table_ids.values()))
+    for table_id in candidate_table_ids:
+        try:
+            table = Table.load(run_dir, table_id)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if table.status != "active":
+            continue
+        if _table_has_final(run_dir, table_id):
+            continue
+        if _open_completion_order_for_table(run_dir, table_id) is None:
+            continue
+        if ai_personas is not None and set(table.members) - set(ai_personas):
+            continue
+        members_bound_here = {pk for pk, tid in bound_table_ids.items() if tid == table_id}
+        if not members_bound_here <= set(table.members):
+            continue
+        conflicting_binding = False
+        for pk in table.members:
+            other_tid = bound_table_ids.get(pk)
+            if other_tid is not None and other_tid != table_id:
+                conflicting_binding = True
+                break
+        if conflicting_binding:
+            continue
+        chrononaut_mismatch = False
+        for pk, cid in table.chrononaut_ids.items():
+            if ready_chrononaut_ids.get(pk) != cid:
+                chrononaut_mismatch = True
+                break
+        if chrononaut_mismatch:
+            continue
+        return table
+    return None
+
+
 def _current_save_versions_dir(current_saves_dir: Path, persona_key: str) -> Path:
     return current_saves_dir / f"{persona_key}__versions"
 

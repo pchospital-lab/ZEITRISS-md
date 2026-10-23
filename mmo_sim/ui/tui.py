@@ -43,6 +43,7 @@ from ..domain.zeitriss.policy import (
     ZeitrissTableSizePolicy,
     build_harvest_conflict_detector,
     build_save_command_completion_fallback,
+    is_save_command,
 )
 from . import rendering
 
@@ -5041,6 +5042,13 @@ class TuiSession:
                 # wie `core/lobby_flow.py:play_bound_table`.
                 completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
                 harvest_conflict_detector=build_harvest_conflict_detector(),
+                # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben"):
+                # derselbe Wiring-Punkt wie `core/lobby_flow.py:
+                # play_bound_table` -- ein explizites, eigenstaendiges
+                # Leader-`!save`/`!speichern` loest IMMER einen begrenzten
+                # Abschluss-/Korrekturversuch aus, auch ohne sofort
+                # bindbaren Export in der GM-Antwort.
+                explicit_completion_attempt=is_save_command,
             )
         except request_ledger.OpenReservationExistsError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die

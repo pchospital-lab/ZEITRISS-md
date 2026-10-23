@@ -120,6 +120,7 @@ class SectionRuntime:
         status_fn: Callable[[str], None] | None = None,
         completion_fallback: Callable[[str, str | None], bool] | None = None,
         harvest_conflict_detector: Callable[[str, dict[str, str]], list[str]] | None = None,
+        explicit_completion_attempt: Callable[[str | None], bool] | None = None,
     ):
         self.lobby = lobby
         self.table = table
@@ -153,6 +154,26 @@ class SectionRuntime:
         # Abschnitt noch KEIN `__plan.json` gepinnt ist (ein gepinnter Plan =
         # committete Entscheidung, Resume-Zweig bleibt unangetastet).
         self.harvest_conflict_detector = harvest_conflict_detector
+        # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben", 01-LIVE-
+        # BEFUNDE.md §3): injizierbares Praedikat `(leader_input) -> bool`
+        # fuer "dies war ein EXPLIZITES, eigenstaendiges Leader-Save-
+        # Kommando" -- UNABHAENGIG davon, ob `completion_fallback` fuer
+        # DIESE Antwort bereits `True` lieferte. Default `None` -> No-op =
+        # exakt bisheriges Verhalten (kein Alt-Aufrufer betroffen). Die
+        # Runtime bleibt domaenen-neutral (wie `completion_fallback`
+        # bereits) -- ZEITRISS baut es aus `domain.zeitriss.policy.
+        # is_save_command` und reicht es ueber `core.app_service.
+        # run_play_session` durch. Zweck: ein `!save`, auf das die SL OHNE
+        # neuen bindbaren Export antwortet ("bereits gespeichert"), darf
+        # NICHT als gewoehnlicher Spielzug durchgehen und unbegrenzt
+        # weitere Runden ausloesen (belegt: Duo-Tisch, Turns 17/18/21/22)
+        # -- stattdessen loest es GENAU DENSELBEN begrenzten Abschluss-/
+        # Korrekturversuch wie ein echter Marker-Treffer aus (`finalize()`
+        # -> `store.complete_section` + dessen bereits bestehender
+        # begrenzter W48-Nachforderpfad). Kein neuer Mechanismus, keine
+        # Substring-Erkennung (die Praedikat-Implementierung selbst bleibt
+        # bei `is_save_command`s strikter Exakt-/Trim-/Casefold-Pruefung).
+        self.explicit_completion_attempt = explicit_completion_attempt
         # W51 (01_RESTAUFTRAG.md §3, SCOPE.json semantic_constraints.ui
         # "pending save/correction status and controls"): additiv, OPTIONAL
         # (Default `None` -> No-op) -- `lab/runner.py` (headless) konstruiert
@@ -359,6 +380,33 @@ class SectionRuntime:
         Eintrag). Vor dem eigentlichen Turn wird darum `reflections.jsonl`
         auf einen bereits vorhandenen `kind=ai_required_reflection`-Eintrag
         fuer `(pk, section_id)` geprueft."""
+        # FIX1-Korrolar (01-CODE-REVIEW.md §1, test_h05_stop_lifecycle_
+        # 2026_09_29.py:test_p5_hard_interrupt_resume): FIX1 macht diesen
+        # Resume-Zweig ueber den normalen Lobby-/Catchup-/`lab resume`-Pfad
+        # jetzt ERREICHBAR, wo er vorher (Dispatchluecke) nie ankam -- ein
+        # vorheriger Lauf kann hier mitten in EINER Mitglieds-Reflexion hart
+        # unterbrochen worden sein (`request_ledger`-Datensatz `state=sent`,
+        # Antwort unbekannt/offen). `request_ledger.begin()`s eigene
+        # Identitaetspruefung (`OpenReservationExistsError`) haelt zwar GENAU
+        # DIESES eine Mitglied sicher an -- OHNE diese zusaetzliche Schranke
+        # wuerde die Schleife unten trotzdem ungerührt zum NAECHSTEN
+        # Mitglied weiterlaufen und fuer DIESES einen echten NEUEN Request
+        # ausloesen, obwohl der Abschnitt als Ganzes noch eine ungeklaerte
+        # offene Anfrage hat (kein Teil-Vertrauen, konservativ reserviert --
+        # derselbe Grundsatz wie die bestehende R12-AUTORECOVERY-Pruefung
+        # fuer `role=gm_turn`). Reiner Lesecheck, kein neuer Zustand: findet
+        # `open_requests()` IRGENDEINEN nicht-`accounted` Datensatz fuer
+        # GENAU (table_id, section_id, role='reflection'), haelt die GESAMTE
+        # Reflexionsrunde kontrolliert offen, OHNE auch nur EIN Mitglied neu
+        # zu befragen -- der naechste Aufruf (nach Aufloesung der
+        # Mehrdeutigkeit) sieht denselben Zustand erneut.
+        for existing in request_ledger.open_requests(self.lobby.run_dir):
+            if (
+                existing.get("role") == "reflection"
+                and existing.get("table_id") == self.table.table_id
+                and existing.get("section_id") == section_id
+            ):
+                return False
         ok = True
         path = self.lobby.run_dir / "reflections.jsonl"
         already_reflected: set[str] = set()
@@ -832,10 +880,33 @@ class SectionRuntime:
             gleichwertig, das injizierte Fallback-Praedikat (Default `None`,
             s. `__init__`) ist eine ZUSAETZLICHE, nie eine ersetzende
             Bedingung. `last_leader_input` ist der ROHE Leader-Text dieses
-            Turns (von `act()` VOR dem Embedding gesetzt)."""
+            Turns (von `act()` VOR dem Embedding gesetzt).
+
+            FIX2 (02-AUFTRAG.md §1, 01-LIVE-BEFUNDE.md §3): ZUSAETZLICH
+            (dritte OR-Bedingung) gilt ein expliziter, eigenstaendiger
+            Leader-Save-Befehl (`explicit_completion_attempt`, Default
+            `None` -> No-op) bereits als "Abschlussversuch faellig" --
+            UNABHAENGIG davon, ob `completion_fallback` fuer GENAU DIESE
+            Antwort schon einen bindbaren Export erkannt hat. Ohne diese
+            dritte Bedingung blieb ein `!save`, auf das die SL OHNE neuen
+            Export antwortete ("bereits gespeichert"), bisher ein
+            gewoehnlicher, folgenloser Spielzug -- die Schleife lief
+            unbegrenzt mit weiteren normalen Runden weiter (belegt: Duo-
+            Tisch, Turns 17/18/21/22). `finalize()` (der Aufrufer dieser
+            Funktion) traegt bereits die vollstaendige begrenzte Ernte-/
+            Korrekturpruefung (`store.complete_section` + dessen W48-
+            Nachforderpfad) -- ein hier ausgeloester Versuch OHNE
+            bindbaren Save fuehrt dort zu einer BEGRENZTEN Nachforderung
+            oder einem kontrollierten HOLD, NIE zu einem synthetischen
+            Erfolg und NIE zu einer weiteren unbegrenzten normalen Runde."""
             if marker_hit(text):
                 return True
             if self.completion_fallback is not None and self.completion_fallback(text, last_leader_input):
+                return True
+            if (
+                self.explicit_completion_attempt is not None
+                and self.explicit_completion_attempt(last_leader_input)
+            ):
                 return True
             return False
 

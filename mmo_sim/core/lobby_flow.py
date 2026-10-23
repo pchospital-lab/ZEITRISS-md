@@ -161,6 +161,7 @@ def play_bound_table(
         ZeitrissHarvestValidator,
         build_harvest_conflict_detector,
         build_save_command_completion_fallback,
+        is_save_command,
     )
 
     agreed_activity = None
@@ -216,6 +217,14 @@ def play_bound_table(
         # Top-Level-Marker -- der Marker-Pfad bleibt unveraendert.
         completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
         harvest_conflict_detector=build_harvest_conflict_detector(),
+        # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben"): ein
+        # explizites, eigenstaendiges Leader-`!save`/`!speichern` loest
+        # IMMER einen begrenzten Abschluss-/Korrekturversuch aus, auch wenn
+        # der obige `completion_fallback` fuer DIESE Antwort (noch) keinen
+        # bindbaren Export erkennt (GM-Prosa "bereits gespeichert" ohne
+        # neuen Export) -- `is_save_command` bleibt dieselbe strikte Exakt-
+        # pruefung, kein Substring-Trigger.
+        explicit_completion_attempt=is_save_command,
     )
     if outcome.completion.success:
         reason = (
@@ -457,6 +466,64 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
         # Chancen fuer die Auswahl, faelschliches `blocked`).
         # `ai_personas=None` (TUI-Default, alle freien) aendert nichts.
         if bound:
+            # R4-Fix-OffenerPlan (01-CODE-REVIEW.md §1 Hauptblocker,
+            # 02-AUFTRAG.md §1): ein Tisch mit bereits GEPINNTEM, aber noch
+            # NICHT finalisiertem Abschluss-Auftrag (`__plan.json` ohne
+            # `__final.json`) ist VORRANGIG vor jedem anderen PRE-STEP-/
+            # STEP-2-Fund dieses Fensters -- sowohl `find_bound_active_
+            # unplayed_table` (verlangt zusaetzlich GENAU EINEN insgesamt
+            # gebundenen Tisch) als auch `find_bound_active_continuable_
+            # table` (STEP 2 unten, schliesst Tische mit offenem Plan
+            # ausdruecklich aus) erreichen diesen Fall bei MEHREREN
+            # gleichzeitig gebundenen Tischen NIE (s. `find_bound_active_
+            # open_plan_table`-Docstring) -- genau das beobachtete
+            # 65-Minuten-Stocken/81-Fremdrequests-Muster. Der eigentliche
+            # Resume bleibt unveraendert `_resume_bound_table` ->
+            # `play_bound_table` -> `core.runtime.run_full_section`, dessen
+            # bereits bestehender erster Check (`open_section_id is not
+            # None`) idempotent nur den fehlenden Abschlussschritt
+            # (Ernte/Reflexion bereits geschehen NICHT erneut, Finalisierung
+            # fehlt) fortsetzt -- kein neuer GM-Turn, kein Doppelspiel.
+            open_plan_resumable = core_store.find_bound_active_open_plan_table(
+                session.run_dir,
+                {r.persona_key: r.chrononaut_id for r in roster if r.ready},
+                bound,
+                ai_personas=ai_personas,
+            )
+            if open_plan_resumable is not None:
+                # H05-P5-Korrolar (bestehende Regression: test_h05_stop_
+                # lifecycle_2026_09_29.py:test_p5_hard_interrupt_resume):
+                # ein noch UNGEKLAERTER (state != 'accounted', also
+                # 'sent'/'received') Requestdatensatz FUER GENAU DIESEN
+                # Tisch/diese Section bedeutet, dass eine FRUEHERE Operation
+                # (z.B. eine Reflexion) hart unterbrochen wurde und ihr
+                # Ausgang unbekannt/offen ist -- ein automatischer Resume-
+                # Versuch darf diesen Tisch dann NICHT beruehren (kein
+                # Teil-Vertrauen, konservativ reserviert, derselbe Grundsatz
+                # wie die bestehende R12-AUTORECOVERY-Pruefung fuer
+                # `role=gm_turn`). `request_ledger.begin()`s eigene
+                # Identitaetspruefung haelt zwar GENAU die unterbrochene
+                # Operation sicher an -- OHNE diese zusaetzliche, vorgelagerte
+                # Schranke wuerde `_resume_bound_table` trotzdem fuer ANDERE
+                # Mitglieder dieses Tisches echte NEUE Requests ausloesen
+                # (belegt: test_p5 schickte sonst tech's Reflexion an den
+                # eigentlich toten Empfaenger). Faellt bewusst OHNE
+                # Resume-Versuch durch zu den unveraenderten bestehenden
+                # Pfaden -- dieselbe ehrliche "bereits gebunden ...
+                # kontrolliert offen"-Rueckmeldung wie vor diesem Fix.
+                from . import request_ledger as _request_ledger
+
+                open_section_id = core_store.open_completion_order_for_table(
+                    session.run_dir, open_plan_resumable.table_id,
+                )
+                has_ambiguous_request = open_section_id is not None and any(
+                    existing.get("table_id") == open_plan_resumable.table_id
+                    and existing.get("section_id") == open_section_id
+                    for existing in _request_ledger.open_requests(session.run_dir)
+                )
+                if not has_ambiguous_request:
+                    return _resume_bound_table(open_plan_resumable)
+
             resumable = core_store.find_bound_active_unplayed_table(
                 session.run_dir,
                 {r.persona_key: r.chrononaut_id for r in roster if r.ready},
