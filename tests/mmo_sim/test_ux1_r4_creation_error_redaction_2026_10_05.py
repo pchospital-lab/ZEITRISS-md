@@ -371,34 +371,38 @@ def test_r4_validation_error_after_synthetic_sl_result_no_marker_no_improper_sav
 
         assert not any(_MARKER in p for p in printed), printed
         # W50 NEW_FLOW_SEQUENCE (R12-Savegate, 02_TEAM_UND_QUELLRAHMEN.md
-        # "Testfixtures versus Schutzassertionen"): `core/creation_service.
-        # py`s ValueError-Zweig bei genau diesem Druckpunkt (:332) ruft seit
-        # dem SAVEGATE-Umbau (01_AUFTRAG_SAVEGATE.md §C, `core.save_
-        # correction.pursue_single_figure_correction`) NICHT mehr sofort
-        # `status="error"` -- ein strukturell ungueltiger Entwurf bekommt
-        # jetzt bis zu `MAX_ADDITIONAL_REQUESTS` zusaetzliche SL-Versuche
-        # UEBER DIESELBE Session, bevor kontrolliert HOLD gemeldet wird.
-        # Der synthetische `_TwoCharacterBlockGm` liefert bei jedem Versuch
-        # denselben strukturell ungueltigen Zwei-Figuren-Block zurueck --
-        # das Budget erschoepft sich also deterministisch, terminaler
-        # Zustand ist `status="paused"`/`reason="attempt_budget_exhausted"`
-        # (derselbe generische Terminalcode wie in jedem anderen SAVEGATE-
-        # Korrekturpfad, s. `core.save_correction.pursue_single_figure_
-        # correction`/`pursue_group_save_correction`). Die eigentlichen
-        # drei Sicherheitszusagen des Testnamens bleiben ALLE unveraendert
-        # bestehen: kein Marker im Spielertext (oben), kein unzulaessiger
-        # Statuswechsel auf `error` ohne Begruendung, keine Saveuebernahme
-        # (unten) -- nur der konkrete Statuscode wandert von `error` auf den
-        # neuen, absichtlich generischen SAVEGATE-Terminalcode.
-        assert outcome.status == "paused", outcome
-        assert outcome.reason == "attempt_budget_exhausted", outcome.reason
+        # "Testfixtures versus Schutzassertionen"); TEST-DELTA weiter
+        # ueberschrieben durch N2R5-BESTEFFORT (Flo-Design, ZR-N2R-
+        # ANSCHLUSS-20261020-FINALRUN3): `core/creation_service.py`s
+        # ValueError-Zweig ruft seit dem SAVEGATE-Umbau (01_AUFTRAG_
+        # SAVEGATE.md §C, `core.save_correction.pursue_single_figure_
+        # correction`) NICHT mehr sofort `status="error"` -- ein strukturell
+        # ungueltiger Entwurf bekommt bis zu `MAX_ADDITIONAL_REQUESTS`
+        # zusaetzliche SL-Versuche UEBER DIESELBE Session. Der synthetische
+        # `_TwoCharacterBlockGm` liefert bei jedem Versuch denselben
+        # strukturell ungueltigen Zwei-Figuren-Block zurueck -- das Budget
+        # erschoepft sich deterministisch. N2R5-BESTEFFORT: Flo woertlich
+        # 'beim 4. Mal -- passend ODER NICHT -- muss es TROTZDEM
+        # WEITERLAUFEN; den Rest korrigiert der GM automatisch beim Laden'
+        # -- ein erschoepftes Budget (reiner Schema-Imperfekt, KEINE Drift)
+        # ist deshalb KEIN terminaler `status="paused"` mehr, sondern wird
+        # best-effort finalisiert. Die eigentlichen Sicherheitszusagen des
+        # Testnamens bleiben bestehen: kein Marker im Spielertext (oben),
+        # kein unzulaessiger `status="error"` ohne Begruendung, und die
+        # Saveuebernahme bleibt EHRLICH als best-effort markiert (unten) --
+        # kein stillschweigender Fake-DONE-Abschluss.
+        assert outcome.status == "completed", outcome
+        assert outcome.reason == "attempt_budget_exhausted_best_effort", outcome.reason
         # Jeder der (1 initial + bis zu 3 Korrektur-)Versuche ging ueber
         # denselben Fake-GM, kein stiller zusaetzlicher/ausgelassener Call.
         assert len(gm.calls) == 4, gm.calls
-        # Keine unzulaessige Saveuebernahme: Dialog bleibt NICHT `completed`.
+        # Saveuebernahme erfolgt jetzt (N2R5-BESTEFFORT), aber NUR EHRLICH
+        # als best-effort/imperfekt markiert -- kein stillschweigend
+        # perfekter Abschluss eines nie gueltig gewordenen Entwurfs.
         state = onboarding.peek(onboarding_dir, participant_id)
-        assert state is not None and state.status == "in_progress", state
-        assert state.final_save is None, state.final_save
+        assert state is not None and state.status == "completed", state
+        assert state.final_save_best_effort is True, state
+        assert not any(_MARKER in p for p in printed), printed
 
 
 # ---------------------------------------------------------------------------

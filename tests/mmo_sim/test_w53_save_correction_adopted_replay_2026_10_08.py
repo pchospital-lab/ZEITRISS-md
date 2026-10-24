@@ -304,7 +304,12 @@ def test_w53f_mixed_adopted_replay_and_fresh_round_for_other_member():
             run_dir, table, "section-w53f", "guest_pk", "chrono-guest", guest_invalid, guest_valid,
         )
 
+        # F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): wertgleicher
+        # Betrag (500) wie `leader_invalid`, nur gueltig geformt -- sonst
+        # wertet der F-WALLET-LOSS-Fix das ersatzlose Verschwinden des
+        # Wallets zu Recht als Drift statt als gueltige Korrektur.
         leader_valid = full_v7_save("chrono-leader", name="Leader")
+        leader_valid["economy"] = {"wallets": {"chrono-leader": {"balance": 500}}}
         gm = _CountingGm([f"```json\n{json.dumps(leader_valid)}\n```"])
         harvested_after, completion_after = save_correction.pursue_group_save_correction(
             lobby=lobby, table=table, section_id="section-w53f", harvested=dict(harvested),

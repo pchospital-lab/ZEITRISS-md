@@ -27,6 +27,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from . import _section_completion_recovery, request_ledger, save_correction, store
+from ..adapters.base import ProviderQuotaPausedError
 from .admission import read_admission_block, reservation_for_request, reservation_for_wire_text
 from .completion_marker import completion_marker_matches
 from .controller import TableController
@@ -72,6 +73,35 @@ def _embed_json_block(text: str, payload: dict) -> str:
     return f"{text}\n\n```json\n{json.dumps(payload, ensure_ascii=False)}\n```"
 
 
+def save_command_entry_matches(entry: dict, leader: str, completion_fallback) -> bool:
+    """OPTION2-CMD: modulweite, direkt testbare Fassung der kommando-
+    gestuetzten Crash-Recovery-Pruefung (B1/M1 aus CRITIC-REPORT-CMD.md). Die
+    Closure `_entry_matches` in `run_full_section` delegiert hierher, damit
+    Live-Pfad, Recovery-Pfad UND Tests DIESELBE Logik treffen (kein
+    Spiegel-Drift -- genau der Drift, der B1/M1 erst durchrutschen liess).
+
+    - `completion_fallback is None` -> False (Default, Alt-Verhalten).
+    - B1: NUR ein Eintrag vom LEADER (`origin_persona_key == leader`) kann ein
+      kommando-gestuetzter Abschluss sein. Gast-Import-Turns laufen ueber den
+      Leader-SL-Kanal (`origin_persona_key` traegt die echte Urheberschaft),
+      duerfen aber NIE als Leader-`!save` gelten -- sonst Import-sicher-
+      Invariante im R12-AUTORECOVERY-Fenster verletzt. Dieselbe Leader-only-
+      Regel wie die Live-Haertung in `act()`.
+    - M1: den ROHEN, nicht eingebetteten Input (`origin_raw_input`) lesen, NICHT
+      den um ein Save-JSON ergaenzten `leader_message` -- sonst exakter
+      `!save`-Match-Fehlschlag bei einem Leader-Anker-/Importturn (false
+      negative). Fallback auf `leader_message` nur fuer alt-formatige Eintraege
+      ohne das additive Feld."""
+    if completion_fallback is None:
+        return False
+    if entry.get("origin_persona_key") != leader:
+        return False
+    raw_input = entry.get("origin_raw_input")
+    if raw_input is None:
+        raw_input = entry.get("leader_message", "")
+    return completion_fallback(entry.get("content", ""), raw_input)
+
+
 class SectionRuntime:
     """Ein Abschnittslauf ueber einem Tisch. Gemeinsam von `ui/tui.py`
     (Mensch-Eingabe) und `lab/runner.py` (Persona-only) verwendet — beide
@@ -89,6 +119,10 @@ class SectionRuntime:
         harvest_extractor: HarvestExtractor,
         event_log: EventLog | None = None,
         status_fn: Callable[[str], None] | None = None,
+        completion_fallback: Callable[[str, str | None], bool] | None = None,
+        harvest_conflict_detector: Callable[[str, dict[str, str]], list[str]] | None = None,
+        explicit_completion_attempt: Callable[[str | None], bool] | None = None,
+        save_guard_rejection_detector: Callable[[str], bool] | None = None,
     ):
         self.lobby = lobby
         self.table = table
@@ -98,6 +132,63 @@ class SectionRuntime:
         self.persona_state_store = persona_state_store
         self.harvest_extractor = harvest_extractor
         self.event_log = event_log
+        # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): injizierbares Zusatz-
+        # Praedikat `(gm_text, leader_input) -> bool` fuer einen
+        # Abschnittsabschluss OHNE den Top-Level-Marker -- Default `None`
+        # ergibt exakt das bisherige Marker-only-Verhalten (kein Alt-Test/
+        # Aufrufer betroffen). Die Runtime kennt den Inhalt des Praedikats
+        # nicht (A1-Konsistenz, wie `marker`/`harvest_extractor` bereits
+        # injiziert werden) -- ZEITRISS baut es ueber `domain.zeitriss.
+        # policy.build_save_command_completion_fallback` und reicht es ueber
+        # `core.app_service.run_play_session` durch.
+        self.completion_fallback = completion_fallback
+        # G1_RAW_SAVE_CONFLICT (02-AUFTRAG.md §1, 01-SAVE-CODE-REVIEW.md §G1):
+        # injizierbarer Rohkonflikt-Detektor `(gm_text, cid_to_pk) -> list[str]`
+        # (Konfliktmeldungen; leer = kein Konflikt). Default `None` -> No-op =
+        # exakt bisheriges Verhalten. Die Runtime bleibt domaenen-neutral (wie
+        # `marker`/`harvest_extractor`/`completion_fallback`): sie kennt nur,
+        # OB der ROHE GM-Text widerspruechliche, jeweils gueltige Bloecke
+        # DERSELBEN Figur enthaelt -- NICHT die v7-Regel dahinter. ZEITRISS baut
+        # ihn ueber `domain.zeitriss.policy.build_harvest_conflict_detector`
+        # (Reuse von `save_validation.extract_checked_single`/
+        # `find_duplicate_save_ids`) und reicht ihn durch `app_service.
+        # run_play_session`. Greift VOR `complete_section`, solange fuer den
+        # Abschnitt noch KEIN `__plan.json` gepinnt ist (ein gepinnter Plan =
+        # committete Entscheidung, Resume-Zweig bleibt unangetastet).
+        self.harvest_conflict_detector = harvest_conflict_detector
+        # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben", 01-LIVE-
+        # BEFUNDE.md §3): injizierbares Praedikat `(leader_input) -> bool`
+        # fuer "dies war ein EXPLIZITES, eigenstaendiges Leader-Save-
+        # Kommando" -- UNABHAENGIG davon, ob `completion_fallback` fuer
+        # DIESE Antwort bereits `True` lieferte. Default `None` -> No-op =
+        # exakt bisheriges Verhalten (kein Alt-Aufrufer betroffen). Die
+        # Runtime bleibt domaenen-neutral (wie `completion_fallback`
+        # bereits) -- ZEITRISS baut es aus `domain.zeitriss.policy.
+        # is_save_command` und reicht es ueber `core.app_service.
+        # run_play_session` durch. Zweck: ein `!save`, auf das die SL OHNE
+        # neuen bindbaren Export antwortet ("bereits gespeichert"), darf
+        # NICHT als gewoehnlicher Spielzug durchgehen und unbegrenzt
+        # weitere Runden ausloesen (belegt: Duo-Tisch, Turns 17/18/21/22)
+        # -- stattdessen loest es GENAU DENSELBEN begrenzten Abschluss-/
+        # Korrekturversuch wie ein echter Marker-Treffer aus (`finalize()`
+        # -> `store.complete_section` + dessen bereits bestehender
+        # begrenzter W48-Nachforderpfad). Kein neuer Mechanismus, keine
+        # Substring-Erkennung (die Praedikat-Implementierung selbst bleibt
+        # bei `is_save_command`s strikter Exakt-/Trim-/Casefold-Pruefung).
+        self.explicit_completion_attempt = explicit_completion_attempt
+        # P3 (R4-Rundenabschluss): injizierbares Praedikat `(gm_text) ->
+        # bool` -- "die GM-/SL-Antwort DIESES Turns ist eine ausdrueckliche
+        # SaveGuard-/HQ-Verweigerung". Default `None` -> No-op = exakt
+        # bisheriges Verhalten (kein Alt-Aufrufer betroffen). Die Runtime
+        # bleibt domaenen-neutral (wie `completion_fallback`/`explicit_
+        # completion_attempt`) -- ZEITRISS baut es aus `domain.zeitriss.
+        # policy.is_saveguard_rejection` und reicht es ueber `core.
+        # app_service.run_play_session` durch. Zweck: `explicit_completion_
+        # attempt` alleine sieht nur den Leader-Input (`!save`), NICHT die
+        # GM-Antwort -- ein exaktes `!save`, das die SL/SaveGuard
+        # ausdruecklich ABLEHNT (keine HQ-Erlaubnis), darf trotzdem NICHT
+        # als Abschlussversuch gelten (s. `completion_hit`).
+        self.save_guard_rejection_detector = save_guard_rejection_detector
         # W51 (01_RESTAUFTRAG.md §3, SCOPE.json semantic_constraints.ui
         # "pending save/correction status and controls"): additiv, OPTIONAL
         # (Default `None` -> No-op) -- `lab/runner.py` (headless) konstruiert
@@ -265,8 +356,24 @@ class SectionRuntime:
     def _collect_reflections(
         self, controller: TableController, section_id: str, ts: str,
         contexts_by_persona: dict, states_dir,
-    ) -> bool:
-        """Plan §1 Punkt 6: 'bei explizitem gueltigem Abschluss: private
+    ) -> tuple[bool, str | None]:
+        """Rueckgabe `(ok, pause_reason)`: `pause_reason` ist NUR gesetzt,
+        wenn ein getypter Admission-Stop (`_GateBlocked`) die Runde beendet
+        hat -- der Aufrufer (`finalize`) nutzt das, um diesen Fall von der
+        allgemeinen "mindestens eine Pflichtreflexion fehlgeschlagen"-
+        Meldung zu unterscheiden (P1, R4-Rundenabschluss: eine bestaetigte
+        Kontingent-/Admission-Pause darf NICHT im generischen Fehlerpfad
+        kollabieren). Eine `ProviderQuotaPausedError` wird HIER NICHT
+        gefangen/archiviert-und-weiter, sondern nach dem Archiveintrag
+        erneut geworfen (`raise`) -- sie durchlaeuft `finalize()`/
+        `run_full_section()` ungefangen bis zum selben `except
+        ProviderQuotaPausedError`-Pausenpfad, den ein gewoehnlicher Spielzug
+        bereits erreicht (`ui/tui.py`), statt als `pending_recovery` zu
+        verschwinden. Beide Pausentypen beenden die Runde SOFORT (kein
+        weiteres Mitglied wird mehr angefragt); bereits empfangene/
+        committete Reflexionen bleiben unangetastet.
+
+        Plan §1 Punkt 6: 'bei explizitem gueltigem Abschluss: private
         (Persona-)Reflexion bzw. freiwillige menschliche Notiz' — KEIN
         optionales Reportfeature (Plan §4: 'fehlende persoenliche
         Reflexionen sind aber KEINE optionale Reportauswertung'). Geht NICHT
@@ -304,7 +411,35 @@ class SectionRuntime:
         Eintrag). Vor dem eigentlichen Turn wird darum `reflections.jsonl`
         auf einen bereits vorhandenen `kind=ai_required_reflection`-Eintrag
         fuer `(pk, section_id)` geprueft."""
+        # FIX1-Korrolar (01-CODE-REVIEW.md §1, test_h05_stop_lifecycle_
+        # 2026_09_29.py:test_p5_hard_interrupt_resume): FIX1 macht diesen
+        # Resume-Zweig ueber den normalen Lobby-/Catchup-/`lab resume`-Pfad
+        # jetzt ERREICHBAR, wo er vorher (Dispatchluecke) nie ankam -- ein
+        # vorheriger Lauf kann hier mitten in EINER Mitglieds-Reflexion hart
+        # unterbrochen worden sein (`request_ledger`-Datensatz `state=sent`,
+        # Antwort unbekannt/offen). `request_ledger.begin()`s eigene
+        # Identitaetspruefung (`OpenReservationExistsError`) haelt zwar GENAU
+        # DIESES eine Mitglied sicher an -- OHNE diese zusaetzliche Schranke
+        # wuerde die Schleife unten trotzdem ungerührt zum NAECHSTEN
+        # Mitglied weiterlaufen und fuer DIESES einen echten NEUEN Request
+        # ausloesen, obwohl der Abschnitt als Ganzes noch eine ungeklaerte
+        # offene Anfrage hat (kein Teil-Vertrauen, konservativ reserviert --
+        # derselbe Grundsatz wie die bestehende R12-AUTORECOVERY-Pruefung
+        # fuer `role=gm_turn`). Reiner Lesecheck, kein neuer Zustand: findet
+        # `open_requests()` IRGENDEINEN nicht-`accounted` Datensatz fuer
+        # GENAU (table_id, section_id, role='reflection'), haelt die GESAMTE
+        # Reflexionsrunde kontrolliert offen, OHNE auch nur EIN Mitglied neu
+        # zu befragen -- der naechste Aufruf (nach Aufloesung der
+        # Mehrdeutigkeit) sieht denselben Zustand erneut.
+        for existing in request_ledger.open_requests(self.lobby.run_dir):
+            if (
+                existing.get("role") == "reflection"
+                and existing.get("table_id") == self.table.table_id
+                and existing.get("section_id") == section_id
+            ):
+                return False, None
         ok = True
+        pause_reason: str | None = None
         path = self.lobby.run_dir / "reflections.jsonl"
         already_reflected: set[str] = set()
         # A4/R08-Restintegrationsfix (WEGKARTE §7 A4, REVIEW-P2R.md R-D):
@@ -361,14 +496,41 @@ class SectionRuntime:
                     # `_admitted_decision`.
                     record = self._admitted_decision("reflection", controller, pk, ctx, section_id=section_id)
                 except _GateBlocked as e:
+                    # P1 (R4-Rundenabschluss): getypter Admission-Stop --
+                    # erhalten statt im generischen Pfad zu kollabieren, UND
+                    # die Runde SOFORT beenden (kein weiteres Mitglied mehr
+                    # anfragen). `pause_reason` gesetzt signalisiert dem
+                    # Aufrufer (`finalize`), die spezifische Meldung statt
+                    # der allgemeinen Reflexionsfehler-Meldung zu zeigen.
                     ok = False
+                    pause_reason = e.reason
                     with path.open("a", encoding="utf-8") as fh:
                         fh.write(json.dumps({
                             "persona_key": pk, "section_id": section_id, "ts": ts,
                             "status": "pending_recovery",
                             "error": f"Admission-Gate blockiert: {e.reason}",
                         }, ensure_ascii=False) + "\n")
-                    continue
+                    break
+                except ProviderQuotaPausedError as exc:
+                    # P1 (R4-Rundenabschluss): eine getypte Kontingent-/
+                    # Budgetpause darf NICHT im generischen `except
+                    # Exception` als bloßes `pending_recovery` enden (das
+                    # naechste Mitglied wuerde trotzdem angefragt). Den
+                    # Archivbeleg schreiben, DANN erneut werfen -- die
+                    # Exception durchlaeuft `finalize()`/`run_full_section()`
+                    # ungefangen (dort wird nur `_GateBlocked` gefangen) bis
+                    # zum selben `except ProviderQuotaPausedError`-Pausenpfad,
+                    # den ein gewoehnlicher Spielzug bereits erreicht
+                    # (`ui/tui.py`). Schon empfangene/committete Reflexionen
+                    # bleiben im Archiv/State bestehen (oben bereits
+                    # geschrieben), kein weiteres Mitglied wird angefragt.
+                    with path.open("a", encoding="utf-8") as fh:
+                        fh.write(json.dumps({
+                            "persona_key": pk, "section_id": section_id, "ts": ts,
+                            "status": "pending_recovery",
+                            "error": f"Kontingent-/Budgetpause erkannt: {exc}",
+                        }, ensure_ascii=False) + "\n")
+                    raise
                 except Exception as exc:
                     ok = False
                     with path.open("a", encoding="utf-8") as fh:
@@ -472,23 +634,30 @@ class SectionRuntime:
         # Schleifendurchlauf mehr faellig), darf `finalize_section_after_
         # reflection` trotzdem nicht mehr erreichen. Die bereits erhaltene
         # Antwort bleibt im Archiv erhalten (oben bereits geschrieben);
-        # nur die endgueltige Finalisierung wird verhindert.
-        try:
-            self._check_gate()
-        except _GateBlocked as e:
-            ok = False
-            with path.open("a", encoding="utf-8") as fh:
-                fh.write(json.dumps({
-                    "persona_key": None, "section_id": section_id, "ts": ts,
-                    "status": "pending_recovery",
-                    "error": f"Admission-Gate blockiert nach letzter Reflexion: {e.reason}",
-                }, ensure_ascii=False) + "\n")
-        return ok
+        # nur die endgueltige Finalisierung wird verhindert. P1 (R4-
+        # Rundenabschluss): wenn die Schleife oben bereits wegen eines
+        # Admission-Stops abgebrochen ist (`pause_reason` bereits gesetzt),
+        # ist dieser Check redundant (das Gate ist bereits bekannt
+        # blockiert) -- NICHT erneut pruefen, kein doppelter Archivbeleg.
+        if pause_reason is None:
+            try:
+                self._check_gate()
+            except _GateBlocked as e:
+                ok = False
+                pause_reason = e.reason
+                with path.open("a", encoding="utf-8") as fh:
+                    fh.write(json.dumps({
+                        "persona_key": None, "section_id": section_id, "ts": ts,
+                        "status": "pending_recovery",
+                        "error": f"Admission-Gate blockiert nach letzter Reflexion: {e.reason}",
+                    }, ensure_ascii=False) + "\n")
+        return ok, pause_reason
 
     def submit(
         self, controller: TableController, actor_persona_key: str, text: str, ts: str,
         origin_persona_key: str | None = None, origin_source: str | None = None,
         save_payload: dict | None = None, reserved_usd: float | None = None,
+        origin_raw_input: str | None = None,
     ) -> dict:
         """Fuehrt EINEN Turn aus. `actor_persona_key` muss der Leader sein
         (durchgereicht an `store.submit_to_sl`, das die Leader-only-Pruefung
@@ -546,6 +715,11 @@ class SectionRuntime:
                 # GENAU diesem sl_log-Write mitgegeben -- kein zweiter
                 # Checkpoint-Write NACH der Antwortpersistenz (s. store.py).
                 gm_request_id=request_id,
+                # OPTION2-CMD: der rohe Origin-Input dieses Turns (vor jedem
+                # Embedding) durabel mitschreiben -- die kommando-gestuetzte
+                # Crash-Recovery (`_entry_matches`) matcht darauf exakt wie
+                # der Live-Pfad.
+                origin_raw_input=origin_raw_input,
             )
         except Exception as exc:
             request_ledger.finish_error(self.lobby.run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
@@ -640,6 +814,12 @@ class SectionRuntime:
         self._states_dir = states_dir
         debrief_text = ""
         turns_taken = 0
+        # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3): der ROHE, vom Leader
+        # getippte Text dieses Turns (z.B. "!save") -- NICHT der an die SL
+        # gesendete `wire_text` (der bei Anker-/Importturns den eingebetteten
+        # v7-Save traegt). Wird in `act()` VOR dem Embedding gesetzt, bevor
+        # `completion_hit`/`entry_matches` ihn lesen.
+        last_leader_input: str | None = None
 
         def blocked_outcome(reason: str | None) -> SectionOutcome:
             completion = store.CompletionResult(
@@ -657,6 +837,35 @@ class SectionRuntime:
             sid = resume_section_id if resume_section_id is not None else section_id
             cid_to_pk = self.table.chrononaut_id_to_persona()
             harvested = self.harvest_extractor(text, cid_to_pk) if text else {}
+            # G1_RAW_SAVE_CONFLICT (02-AUFTRAG.md §1): der Erstharvest oben
+            # dedupliziert nach 'erster gewinnt' (`harvest_from_debrief`) --
+            # zwei jeweils gueltige, aber ABWEICHENDE Bloecke DERSELBEN Figur
+            # wuerden damit still auf den ersten reduziert und (bei sonst
+            # vollstaendiger Gruppe) als erfolgreicher Abschnitt veroeffentlicht,
+            # BEVOR die strengere Rohkonfliktpruefung der Korrekturschleife je
+            # erreicht wird. Darum den ROHEN GM-Text VOR `complete_section`
+            # (Plan-Pinnung/Veroeffentlichung) auf solche Konflikte pruefen --
+            # aber NUR beim erstmaligen Abschluss (noch KEIN `__plan.json`
+            # gepinnt; derselbe `open_completion_order_for_table(...) is None`-
+            # Gate wie die W48-Korrektur unten). Ein bereits gepinnter Plan ist
+            # eine committete Entscheidung (Resume/Recovery-Zweig) und wird NICHT
+            # erneut blockiert. Konflikt => HALTEN: kein Gewinner, kein Pin, kein
+            # Lock-Release, kein seq-Fortschritt -- der Abschnitt bleibt offen/
+            # wiederaufnehmbar, bis die SL sauber neu ausgibt. Identische
+            # Wiederholungen sind KEIN Konflikt (s. `extract_checked_single`).
+            if (
+                text and self.harvest_conflict_detector is not None
+                and store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id) is None
+            ):
+                conflicts = self.harvest_conflict_detector(text, cid_to_pk)
+                if conflicts:
+                    reason = "Save-Rohkonflikt (Erstharvest, kein stilles 'erster gewinnt'): " + "; ".join(conflicts)
+                    self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": reason})
+                    held = store.CompletionResult(
+                        success=False, already_completed=False, written=False,
+                        members_completed=[], missing=[], reason=reason,
+                    )
+                    return SectionOutcome(completion=held, harvested=harvested, debrief_text=text)
             # A3/D5 (PLAN-CRITIC-ABSCHLUSS.md BLOCKER, WEGKARTE §6, Test
             # 10): `complete_section` erledigt jetzt NUR NOCH PHASE 1
             # (Saves/States ernten, idempotent gepinnt) -- der endgueltige
@@ -711,19 +920,35 @@ class SectionRuntime:
                 return SectionOutcome(completion=harvest_completion, harvested=harvested, debrief_text=text)
 
             store.return_to_lobby(self.lobby, self.table)
-            reflections_ok = self._collect_reflections(controller, sid, ts, contexts_by_persona, states_dir)
+            reflections_ok, reflections_pause_reason = self._collect_reflections(
+                controller, sid, ts, contexts_by_persona, states_dir,
+            )
             if reflections_ok:
                 completion = store.finalize_section_after_reflection(self.lobby, self.table, sid)
                 self._emit("section_completed", ts, payload={"section_id": sid, "members": completion.members_completed})
             else:
-                completion = store.CompletionResult(
-                    success=False, already_completed=False, written=harvest_completion.written,
-                    members_completed=harvest_completion.members_completed, missing=[],
-                    reason=(
+                # P1 (R4-Rundenabschluss): ein getypter Admission-Stop
+                # waehrend der Pflichtreflexion bekommt eine EIGENE, vom
+                # Stopgrund getragene Meldung -- er kollabiert NICHT in die
+                # allgemeine "mindestens eine Pflichtreflexion
+                # fehlgeschlagen"-Meldung (die weiterhin fuer leere
+                # Antworten/Statewrite-Fehler gilt).
+                if reflections_pause_reason is not None:
+                    reason = (
+                        f"Admission-Gate blockiert: {reflections_pause_reason} — Saves/States wurden "
+                        "geerntet, Abschnitt bleibt offen/wiederaufnehmbar (kein endgueltiger Abschluss, "
+                        "kein Lock-Release, kein Doppelspiel bei Recovery)."
+                    )
+                else:
+                    reason = (
                         "Saves/States wurden geerntet, aber mindestens eine Pflicht-KI-Reflexion "
                         "ist fehlgeschlagen — Abschnitt bleibt offen/wiederaufnehmbar (kein "
                         "endgueltiger Abschluss, kein Lock-Release, kein Doppelspiel bei Recovery)."
-                    ),
+                    )
+                completion = store.CompletionResult(
+                    success=False, already_completed=False, written=harvest_completion.written,
+                    members_completed=harvest_completion.members_completed, missing=[],
+                    reason=reason,
                 )
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": completion.reason})
             return SectionOutcome(completion=completion, harvested=harvested, debrief_text=text)
@@ -731,8 +956,60 @@ class SectionRuntime:
         def marker_hit(text: str) -> bool:
             return completion_marker_matches(text, self.marker, self.table.table_id, section_id)
 
+        def completion_hit(text: str) -> bool:
+            """OPTION2-CMD: OR-Semantik -- der Marker-Pfad bleibt
+            gleichwertig, das injizierte Fallback-Praedikat (Default `None`,
+            s. `__init__`) ist eine ZUSAETZLICHE, nie eine ersetzende
+            Bedingung. `last_leader_input` ist der ROHE Leader-Text dieses
+            Turns (von `act()` VOR dem Embedding gesetzt).
+
+            FIX2 (02-AUFTRAG.md §1, 01-LIVE-BEFUNDE.md §3): ZUSAETZLICH
+            (dritte OR-Bedingung) gilt ein expliziter, eigenstaendiger
+            Leader-Save-Befehl (`explicit_completion_attempt`, Default
+            `None` -> No-op) bereits als "Abschlussversuch faellig" --
+            UNABHAENGIG davon, ob `completion_fallback` fuer GENAU DIESE
+            Antwort schon einen bindbaren Export erkannt hat. Ohne diese
+            dritte Bedingung blieb ein `!save`, auf das die SL OHNE neuen
+            Export antwortete ("bereits gespeichert"), bisher ein
+            gewoehnlicher, folgenloser Spielzug -- die Schleife lief
+            unbegrenzt mit weiteren normalen Runden weiter (belegt: Duo-
+            Tisch, Turns 17/18/21/22). `finalize()` (der Aufrufer dieser
+            Funktion) traegt bereits die vollstaendige begrenzte Ernte-/
+            Korrekturpruefung (`store.complete_section` + dessen W48-
+            Nachforderpfad) -- ein hier ausgeloester Versuch OHNE
+            bindbaren Save fuehrt dort zu einer BEGRENZTEN Nachforderung
+            oder einem kontrollierten HOLD, NIE zu einem synthetischen
+            Erfolg und NIE zu einer weiteren unbegrenzten normalen Runde.
+
+            P3 (R4-Rundenabschluss): die dritte Bedingung sah bisher NUR
+            den Leader-Input, NICHT die GM-Antwort -- ein exaktes `!save`,
+            das die SL/SaveGuard ausdruecklich ABLEHNT (keine HQ-Erlaubnis),
+            wurde dadurch trotzdem als Abschlussversuch gewertet (faelschlich
+            finalisiert bzw. in exporterzwingende Korrekturanfragen
+            gewechselt). `save_guard_rejection_detector` (Default `None` ->
+            No-op, unveraendertes Verhalten) macht diese dritte Bedingung
+            jetzt zusaetzlich antwortbewusst: eine ausdrueckliche SaveGuard-
+            Verweigerung UNTERDRUECKT NUR diesen dritten Zweig -- der
+            positive Fall "zulaessige Speicherung, aber fehlender Export/
+            'bereits gespeichert'" (KEINE SaveGuard-Ablehnung im Text)
+            bleibt unveraendert ueber dieselbe Bedingung abgedeckt."""
+            if marker_hit(text):
+                return True
+            if self.completion_fallback is not None and self.completion_fallback(text, last_leader_input):
+                return True
+            if (
+                self.explicit_completion_attempt is not None
+                and self.explicit_completion_attempt(last_leader_input)
+                and not (
+                    self.save_guard_rejection_detector is not None
+                    and self.save_guard_rejection_detector(text)
+                )
+            ):
+                return True
+            return False
+
         def act(pk: str, base_context: dict, attach_import_save: bool = False) -> None:
-            nonlocal debrief_text, turns_taken
+            nonlocal debrief_text, turns_taken, last_leader_input
             ctx = dict(base_context)
             ctx["table_view"] = store.persona_view(self.table, pk)
             if pk == leader:
@@ -756,6 +1033,24 @@ class SectionRuntime:
             # die tatsaechlich zum Empfaenger geht.
             record = self._admitted_decision("persona_decision", controller, pk, ctx)
             self._check_gate()  # F3: zwischen Persona-Request und GM-Request.
+            if pk == leader:
+                # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3): der ROHE getippte
+                # Text VOR jedem Embedding festhalten -- `wire_text` kann bei
+                # Anker-/Importturns gleich darunter einen eingebetteten
+                # v7-Save-Block anhaengen, der NICHT Teil des Leader-Inputs
+                # selbst ist.
+                last_leader_input = record.decision.text
+            else:
+                # OPTION2-CMD Haertung: ein Nicht-Leader-Turn (Gast-Import/
+                # -Poll) ist NIE ein Leader-Save-Kommando. `last_leader_input`
+                # hier zuruecksetzen, damit ein frueher gesendetes (ggf. per
+                # SaveGuard verweigertes) Leader-`!save` nicht als stale
+                # Zustand haengen bleibt und ein unmittelbar folgender
+                # Gast-Importturn, dessen GM-Antwort einen bindbaren v7-Block
+                # echot, faelschlich den Abschnitt schliesst. Invariante: das
+                # Save-Kommando-Fallback greift ausschliesslich fuer den
+                # Leader-Turn, in dem der Leader TATSAECHLICH `!save` sandte.
+                last_leader_input = None
             wire_text = record.decision.text
             save_payload = record.decision.save_payload
             if save_payload is None and attach_import_save:
@@ -792,6 +1087,10 @@ class SectionRuntime:
                 controller, leader, wire_text, ts,
                 origin_persona_key=pk, origin_source=record.decision.origin_source,
                 save_payload=save_payload, reserved_usd=gm_reserved,
+                # OPTION2-CMD: der ROHE getippte Turn-Input (vor dem Embedding
+                # in `wire_text`) -- wird durabel im sl_log abgelegt, damit die
+                # Crash-Recovery exakt wie der Live-Pfad auf `!save` matcht.
+                origin_raw_input=record.decision.text,
             )
             if pk == leader:
                 self._consolidated_message_count = len(self.table.table_messages)
@@ -973,9 +1272,21 @@ class SectionRuntime:
                 )
             return None
 
+        def _entry_matches(entry: dict) -> bool:
+            """OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3 + CRITIC-REPORT-CMD.md
+            B1/M1): kommando-gestuetzte Crash-Recovery -- ein per `!save`
+            abgeschlossener, aber unterbrochener Abschnitt wird GENAUSO
+            wiederaufgenommen wie ein per Marker abgeschlossener. Delegiert an
+            die modulweite, direkt getestete `save_command_entry_matches`
+            (Leader-only-Gate + roher `origin_raw_input`) -- so treffen
+            Live-Pfad, Recovery-Pfad und Tests DIESELBE Logik (kein
+            Spiegel-Drift)."""
+            return save_command_entry_matches(entry, self.table.leader, self.completion_fallback)
+
         recoverable, hold_reason = _section_completion_recovery.find_recoverable_entry(
             self.table.sl_log, section_id, self.table.table_id, self.marker,
             completion_marker_matches, request_binding_error=_request_binding_error,
+            entry_matches=_entry_matches,
         )
         if hold_reason is not None:
             self._status_fn(f"Speicherabschluss HOLD: {hold_reason}")
@@ -1007,7 +1318,7 @@ class SectionRuntime:
             if not self._leader_anchored:
                 act(leader, contexts_by_persona[leader], attach_import_save=True)
                 self._check_gate()  # F3: vor Publish/Reflexion.
-                if marker_hit(debrief_text):
+                if completion_hit(debrief_text):
                     return finalize(debrief_text)
 
             # Gaeste einzeln (Import) -- nur die, die noch nicht importiert haben.
@@ -1016,7 +1327,7 @@ class SectionRuntime:
                     continue
                 act(pk, contexts_by_persona[pk], attach_import_save=True)
                 self._check_gate()  # F3: vor Publish/Reflexion.
-                if marker_hit(debrief_text):
+                if completion_hit(debrief_text):
                     return finalize(debrief_text)
 
             # Weitere echte Spiel-/Abspracheturns, bis Marker/Admission-Block/max_turns.
@@ -1027,7 +1338,7 @@ class SectionRuntime:
                     poll_guests_and_consolidate()
                 act(leader, debrief_ctx)
                 self._check_gate()  # F3: vor Publish/Reflexion.
-                if marker_hit(debrief_text):
+                if completion_hit(debrief_text):
                     return finalize(debrief_text)
                 ongoing_round += 1
         except _GateBlocked as e:

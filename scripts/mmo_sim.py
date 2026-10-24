@@ -41,6 +41,10 @@ sys.path.insert(0, _REPO_ROOT_STR)
 
 from mmo_sim.core import identity  # noqa: E402
 from mmo_sim.ui.tui import TuiSession  # noqa: E402
+from mmo_sim.adapters.base import (  # noqa: E402
+    ProviderQuotaPausedError, quota_pause_is_rate_limited, quota_pause_player_message,
+    quota_pause_reset_hint,
+)
 from mmo_sim.adapters.factories import (  # noqa: E402
     default_gm_transport_factory as _default_gm_transport_factory,
     default_persona_driver_factory as _default_persona_driver_factory,
@@ -139,6 +143,20 @@ def main(argv: list[str] | None = None) -> int:
     except KeyboardInterrupt:
         print("\n  Pausiert (Ctrl-C) — kein weiterer Modellaufruf.")
         return 130
+    except ProviderQuotaPausedError as exc:
+        # FIX5B (Review-Blocker Punkt 1, CRITIC-FIX5-REVIEW.md): Backstop
+        # neben dem primaeren Fang in `mmo_sim/ui/tui.py` (um den einen
+        # `app_service.run_play_session`-Aufrufpunkt) -- faengt dieselbe
+        # getypte Kontingent-/Budgetpause hier ZUSAETZLICH ab, falls sie je
+        # ueber einen anderen, noch nicht gewachten Pfad bis zu `session.
+        # run()` durchschlagen sollte. Kein Traceback, kein Crash-Look;
+        # derselbe Save-Stand bleibt die verbindliche Grenze, kein
+        # erzwungenes Finalisieren -- ein Neustart setzt ueber die
+        # bestehenden Resume-Pfade genau hier fort.
+        print(quota_pause_player_message(
+            quota_pause_reset_hint(str(exc)), rate_limited=quota_pause_is_rate_limited(str(exc)),
+        ))
+        return 0
 
 
 if __name__ == "__main__":

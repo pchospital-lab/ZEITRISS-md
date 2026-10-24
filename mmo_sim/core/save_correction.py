@@ -43,10 +43,14 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import recovery_ops
 from . import request_ledger, store
 from . import _save_correction_window as _window
+from . import save_compatibility as save_compatibility_core
+from ..adapters.base import ProviderQuotaPausedError
 from .admission import _atomic_write_json, read_admission_block, reservation_for_wire_text
 from ..domain.zeitriss import save_correction as save_correction_domain
+from ..domain.zeitriss import save_compatibility as save_compatibility_domain
 
 STATE_VALIDATING = "validating"
 STATE_CORRECTION_PENDING = "correction_pending"
@@ -391,6 +395,19 @@ def send_correction_turn(
             result = gm_transport.turn(turn_idx, outgoing_text, output_limit_tokens=gm_output_limit)
         else:
             result = gm_transport.turn(turn_idx, outgoing_text)
+    except ProviderQuotaPausedError as exc:
+        # P2 (R4-Rundenabschluss): eine getypte Kontingent-/Budgetpause ist
+        # HIER bereits vollstaendig verbucht (`finish_error` bucht die
+        # Reservierung unveraendert nach `accounted`, s. `request_ledger.
+        # finish_error`-Docstring) -- aber SEMANTISCH keine unklare
+        # Versandsituation und kein gewoehnlicher Transportdefekt. Eigener,
+        # getypt erkannter Reason-Praefix (`quota_paused:`, NICHT
+        # `transport_error:`) laesst den Aufrufer (`pursue_group_save_
+        # correction`) diesen Fall VON der generischen terminalen
+        # Behandlung unterscheiden, ohne `request_ledger.py` selbst
+        # anzufassen.
+        request_ledger.finish_error(run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
+        return SendOutcome(blocked=True, reason=f"quota_paused:{exc}")
     except Exception as exc:
         request_ledger.finish_error(run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
         return SendOutcome(blocked=True, reason=f"transport_error:{exc}")
@@ -410,6 +427,16 @@ class CorrectionOutcome:
     block: dict | None = None
     reason: str = ""
     drift: list = field(default_factory=list)
+    # R-SCF-A (02_SAVEVERTRAG.md §D, additiv/OPTIONAL -- Default `None`
+    # aendert KEIN bestehendes Aufruferverhalten/keine Dataclass-Gleichheit
+    # gegen einen Vergleichswert ohne dieses Feld): Pfad des versionierten
+    # Kompatibilitaetsumschlags, NUR gesetzt, wenn das additive Re-Export-
+    # Budget dieses Laufs tatsaechlich erschoepft wurde (s.
+    # `_write_compat_export_on_exhaustion` unten) -- "Nach drei erfolglosen
+    # Neuausgaben: weiter, aber nicht luegen" (02.D). `None` bei jedem
+    # anderen HOLD-Grund (Drift/Blockade/Fensterpause/Mehrdeutigkeit) --
+    # diese sind KEIN Schema-/Kompatibilitaetsfehler.
+    compat_export_path: str | None = None
 
 
 def _verify_legacy_provenance(
@@ -524,12 +551,47 @@ def _verify_legacy_provenance(
     return original_evidence
 
 
+def _write_compat_export_on_exhaustion(
+    run_dir: str | Path, *, repair_key: str, participant_id: str, char_id: str, role: str,
+    table_id: str | None, section_id: str | None, best_view: dict | None, errors: list[str],
+    reason: str,
+) -> Path | None:
+    """R-SCF-A (02_SAVEVERTRAG.md §D, additiv/zusaetzlich -- schliesst die
+    in GAPS.md/review/INTAKE.md dokumentierte Luecke "Compat-Kernfunktionen
+    werden nur aus Tests gerufen, nicht aus normalen Consumern"): wird NUR
+    an den bereits bestehenden, terminalen Re-Export-Budget-Erschoepfungs-
+    HOLD-Stellen unten aufgerufen (NICHT bei Drift/Blockade/Fensterpause --
+    02.D beschreibt ausdruecklich den Fall "reine Schema-/Kompatibilitaets-
+    fehler"). Reiner additiver Seiteneffekt (schreibt eine NEUE versionierte
+    Datei, s. `core.save_compatibility.build_and_write_compat_export`) --
+    AENDERT NICHT die bestehende Rueckgabe/den bestehenden Kontrollfluss
+    dieser Datei, nur `CorrectionOutcome.compat_export_path` (additiv,
+    Default `None`) traegt das Ergebnis weiter. Best-effort: ein Fehler beim
+    Export (z.B. strukturell ungueltiges `best_view`) darf den bestehenden,
+    bereits korrekten HOLD-Rueckgabepfad NICHT verdecken -- wird geschluckt,
+    `None` zurueckgegeben (Aufrufer behandelt das wie "kein Export
+    geschrieben", niemals wie ein zusaetzlicher Fehlerzustand)."""
+    try:
+        _envelope, path = save_compatibility_core.build_and_write_compat_export(
+            run_dir, repair_key=repair_key, char_id=char_id, participant_id=participant_id,
+            operation_key=role, table_id=table_id, section_id=section_id,
+            best_view=best_view, last_valid=None, progress_evidence=[], conflicts=[],
+            extensions={}, errors=list(errors or []),
+            provenance={"source": "core.save_correction", "reason": reason},
+            created_ts=time.time(),
+        )
+    except (ValueError, OSError):
+        return None
+    return path
+
+
 def pursue_single_figure_correction(
     *, run_dir: str | Path, participant_id: str, expected_chrononaut_id: str, candidate_block: dict | None,
     gm_transport, role: str = ROLE_CREATION, table_id: str | None = None, section_id: str | None = None,
     max_attempts: int = MAX_ADDITIONAL_REQUESTS, emit=None, forced_conflicts: list | None = None,
     original_request_id: str | None = None, original_evidence: dict | None = None,
     original_role: str | None = None, original_turn_idx: int | None = None, original_generation: int | None = None,
+    restrict_drift_to_core_identity: bool = False,
 ) -> CorrectionOutcome:
     """Treibt bis zu `max_attempts` zusätzliche SL-Ausgaben für EINE Figur
     (01_AUFTRAG_SAVEGATE.md §C) -- wiederaufnehmbar (Restart lädt denselben
@@ -609,7 +671,27 @@ def pursue_single_figure_correction(
     echte Erstanlage/Mehrdeutigkeit), bleibt `bound_block=None` unveraendert
     `current_block=None` (keine Drift-Baseline, weil nie eine existierte).
     NIE aus dem heutigen `candidate_block` dieses Aufrufs eine alte Bindung
-    erfinden, NIE eine D-ID-Allowlist."""
+    erfinden, NIE eine D-ID-Allowlist.
+
+    N2R5-DRIFTFIX (ZR-N2R-ANSCHLUSS-20261019-R4): `restrict_drift_to_core_
+    identity`, additiv und OPTIONAL (Default `False` -> unveraendertes
+    Verhalten jedes bestehenden Aufrufers, insb. `pursue_group_save_
+    correction` und jeder direkte Testfixture ohne diesen Parameter, z.B.
+    A_R2_CREATION/A_R2_GROUP). NUR der echte Erschaffungsdialog (`core.
+    creation_service.run_admitted_creation_dialog`s `_attempt_correction`)
+    setzt ihn `True` -- dort ist `current_block` (die Vergleichsbasis fuer
+    `detect_unjustified_drift`, s.u.) IMMER der eigene, zuletzt abgelehnte
+    SL-Entwurf DIESES Dialogs, NIE ein bestehender kanonischer Spielerstand
+    (ein solcher existiert fuer eine brandneue Figur per Definition noch
+    nicht). Durchgereicht an `detect_unjustified_drift`s gleichnamigen
+    Parameter -- verengt dort das Ergebnis auf Identitaet/Kerninhalt
+    (char_id/name/callsign/level/Attribute/Inventar/Fortschritt/Wallet-
+    Betrag); jede andere Flavor-Abweichung zwischen zwei Erschaffungs-
+    entwuerfen bleibt dann NICHT mehr Drift und faellt durch dieselbe,
+    bereits bestehende Schleife unten in `_reset_for_next_attempt` (neuer
+    Korrekturversuch, verbraucht ein Attempt-Budget-Slot, erst nach
+    `MAX_ADDITIONAL_REQUESTS` HOLD `attempt_budget_exhausted`) -- KEIN
+    neuer Zustand, KEIN Bypass von Budget/Admission/Transport."""
     emit = emit or (lambda *_a, **_k: None)
     repair_key = save_correction_domain.creation_repair_key(participant_id, expected_chrononaut_id)
     if forced_conflicts:
@@ -618,6 +700,20 @@ def pursue_single_figure_correction(
         acceptance = save_correction_domain.evaluate(candidate_block, expected_chrononaut_id)
     if acceptance.accepted:
         return CorrectionOutcome(status="accepted", block=candidate_block)
+    # R12-SAVECOMPAT (02_SAVEVERTRAG.md §B): KEIN Wallet-Projektionsfallback
+    # an DIESER Stelle (v.a. bewusst anders als ein frueherer Entwurf dieses
+    # Fixes) -- diese Stelle laeuft fuer JEDEN Erstkandidaten, bevor
+    # ueberhaupt ein Korrekturdatensatz existiert, und zahlreiche bestehende
+    # Regressionstests nutzen GENAU einen bloss-zahligen Wallet-Fixture-Wert
+    # als generischen, bequemen Ausloeser fuer eine beliebige Korrektur-
+    # Zustandsmaschine (Legacy-Provenance/Generation-Mismatch/Window-Pause/
+    # HOLD-vor-Transport etc.) -- ein hier eingebauter Sofort-Accept wuerde
+    # deren gesamten Zustandsmaschinenpfad ueberspringen (empirisch durch
+    # einen vollen `run_all.py`-Lauf erhaert: 24 vorher gruene Testdateien
+    # schlugen fehl). Die wertgleiche Wallet-Normalisierung greift deshalb
+    # NUR innerhalb des bereits laufenden Korrekturzyklus (s. unten, nach
+    # einer tatsaechlich empfangenen SL-Antwort) -- dort, wo 02.B den realen
+    # Fehlerfall (p01-Teilstand, GENERALREVIEW.md) tatsaechlich zeigte.
 
     record = load_or_init_record(
         run_dir, repair_key, persona_key=participant_id, char_id=expected_chrononaut_id,
@@ -696,86 +792,207 @@ def pursue_single_figure_correction(
             record.get("table_id"), record.get("section_id"),
         )
         caller_identity = (participant_id, expected_chrononaut_id, role, table_id, section_id)
-        if record_identity != caller_identity or not _window.is_resumable_pre_send_pause(run_dir, record):
-            return CorrectionOutcome(status="hold", reason=record.get("last_reason") or "hold")
-        # R12-W75 (F02-SHAPE): `record["attempts_used"]` wird unten DIREKT
-        # als `attempt_no` wiederverwendet (der Resume-Zweig des `while`
-        # unten erreicht den `STATE_VALIDATING`-Zweig NICHT, der sonst
-        # `begin_attempt` vor jedem Versand aufruft) -- ein korrupter Wert
-        # (bool statt int, oder ausserhalb des gueltigen offenen Slotbereichs
-        # 1..max_attempts, z.B. `4`) darf deshalb HIER, VOR jedem Transport,
-        # nicht unbemerkt durchrutschen (W74-Bug: ein solcher Wert erreichte
-        # bisher den synthetischen Transport-Versuch und hinterliess einen
-        # `sent`-Ledger-Record, bevor der Ledger selbst den Typ ablehnte).
-        resumed_attempts_used = record.get("attempts_used")
-        if (
-            not isinstance(resumed_attempts_used, int) or isinstance(resumed_attempts_used, bool)
-            or not (1 <= resumed_attempts_used <= max_attempts)
-        ):
-            mark_hold(run_dir, repair_key, reason="invalid_resume_slot_shape")
-            emit("save_correction_hold", {
-                "participant_id": participant_id, "char_id": expected_chrononaut_id,
-                "reason": "invalid_resume_slot_shape",
-            })
-            return CorrectionOutcome(status="hold", reason="invalid_resume_slot_shape")
-        # F02 Entwurfs-/Original-Bindung: die Drift-Baseline fuer DIESEN
-        # Resume ist der durabel GEBUNDENE Originalentwurf -- NIE der
-        # (evtl. ausgetauschte) `candidate_block` dieses Aufrufs. Ein
-        # Datensatz unter diesem Fix traegt `"bound_block"` IMMER (auch als
-        # `None`, s. `load_or_init_record`/`begin_attempt`/`_reset_for_
-        # next_attempt`); nur ein echter VOR diesem Fix geschriebener
-        # Legacy-Datensatz hat den Schluessel GAR NICHT.
-        #
-        # R12-W76 (F02-NULL-BINDING-Fix, 01_POSITIVE_WIEDERAUFNAHMEBINDUNG.md
-        # §A): `bound_block is None` (Schluessel vorhanden ODER abwesend) ist
-        # KEIN Beweis fuer eine erlaubte freie Neuerstellung -- nur die
-        # Schluessel-ABWESENHEIT allein darf laenger den caller-gelieferten
-        # `_verify_legacy_provenance`-Rueckfall ausloesen (C36s verworfene
-        # Lesart). Die Fallunterscheidung (b) vs (c) haengt daran, ob der
-        # Aufrufer UEBERHAUPT eine Herkunftsbehauptung mitbringt
-        # (`original_request_id`/`original_evidence`, mind. eines gesetzt --
-        # NICHT der heutige `candidate_block`, KEINE D-ID-Allowlist):
-        #   (b) Behauptung vorhanden (die Figur ist nachweislich KEINE
-        #       Erstanlage, z.B. ein bereits belegter Entwurf/Fehler) ->
-        #       DIESELBE positive Verifikation wie beim echten Legacy-Pfad;
-        #       scheitert sie, kontrolliertes HOLD -- NIE ein Drift-Skip.
-        #   (c) KEINE Behauptung (beide `None`) -> echte Erstanlage/
-        #       Mehrdeutigkeitskonflikt (`forced_conflicts`/fehlender
-        #       Erstkandidat) bleibt UNBERUEHRT ueber den bestehenden Weg
-        #       korrigierbar (`current_block=None` -> `acceptance` dieses
-        #       Aufrufs, keine Drift-Pruefung -- es gab nie eine
-        #       wohldefinierte Baseline, s.u.).
-        needs_legacy_verification = "bound_block" not in record or (
-            record.get("bound_block") is None
-            and (original_request_id is not None or original_evidence is not None)
+        # R-P5 (ZR-RECOVERY-OFFLINE-20261015-R1, 03_RECOVERY_VERTRAG.md
+        # §R-P5): ein TERMINALER Drift-Hold (state=hold, last_reason=
+        # unjustified_semantic_drift) ist per Konstruktion NIE ein
+        # `_window.is_resumable_pre_send_pause`-Fall (das deckt nur NACHWEISLICH
+        # unversandte Deadline-vor-Versand-Bloecke ab) -- ohne eine vom
+        # Betreiber bewusst ueber `recovery_ops.apply_p5` erteilte, exakt
+        # gebundene Einmalautorisierung bleibt er deshalb unveraendert
+        # terminal (naechster Zweig unten). `try_consume_p5_allowance`
+        # liefert NUR dann `True`, wenn genau EINE solche, noch nicht fuer
+        # einen ANDEREN Vorzustand verbrauchte Autorisierung existiert --
+        # KEIN Anheben von `MAX_ADDITIONAL_REQUESTS`, KEIN Reset des
+        # Zaehlers. `recovery_extra_attempt` wird additiv im Datensatz
+        # mitgefuehrt, damit ein Neustart NACH diesem Punkt (record bereits
+        # `validating`, s.u.) den while-Loop weiterhin auf GENAU diesen
+        # einen zusaetzlichen Versuch begrenzt (s. `recovery_extra_attempt_
+        # opened` vor dem Loop) -- "bloss HOLD->validating" alleine wuerde
+        # sonst das alte Mehrversuchsverhalten (bis `MAX_ADDITIONAL_
+        # REQUESTS`) reaktivieren.
+        # R2-GATE-Fix (GENERALREVIEW.md §5, 04_NAECHSTER_BAU_R2.md "GATE";
+        # Originalbeleg `probe_p5_gates.py`s `stop_before_consume`): ein
+        # bereits GESETZTER Stop / ein abgelaufenes Fenster / ein bekannt
+        # unzureichendes Budget/Requestcap muss VOR jedem Grantverbrauch
+        # UND VOR jeder `attempts_used`-Aenderung blockieren, mit NULL
+        # physischen Requests (03_RECOVERY_VERTRAG.md §GATE). Im R1 wurde
+        # `recovery_ops.try_consume_p5_allowance` (markiert den Grant
+        # `consumed=True`) hier bereits aufgerufen, OBWOHL der naechste
+        # `begin_attempt` (erhoeht `attempts_used`) und der eigentliche
+        # `send_correction_turn` erst SPAETER im `while`-Loop unten auf das
+        # Gate treffen -- ein bereits gesetzter Stop liess den Grant/Slot
+        # trotzdem bereits verbraucht zurueck (Beleg: `consumed=true`/
+        # `attempts_used=2` VOR dem Stop-Check persistiert). Der Fix prueft
+        # das GENAU DIESELBE schreibfreie Gate (`read_admission_block`, auch
+        # von `send_correction_turn` selbst verwendet) VOR dem P5-eligiblen
+        # Zweig -- blockiert es, wird GAR NICHTS verbraucht/veraendert
+        # (Grant bleibt unberuehrt, `attempts_used` bleibt unveraendert),
+        # und es wird sofort HOLD zurueckgegeben.
+        p5_grant_eligible = (
+            record["state"] == STATE_HOLD and record_identity == caller_identity
+            and record.get("last_reason") == recovery_ops.P5_REQUIRED_REASON
         )
-        if needs_legacy_verification:
-            verified_block = _verify_legacy_provenance(
-                run_dir, record=record, participant_id=participant_id,
-                expected_chrononaut_id=expected_chrononaut_id, table_id=table_id, section_id=section_id,
-                original_request_id=original_request_id, original_evidence=original_evidence,
-                original_role=original_role, original_turn_idx=original_turn_idx,
-                original_generation=original_generation,
+        p5_consumed = False
+        if p5_grant_eligible:
+            gm_output_limit = getattr(gm_transport, "output_limit_tokens", None)
+            gm_route = getattr(gm_transport, "base_url", None)
+            # R2-N1-Fix (GENERALREVIEW.md §4 GATE, `p5_known_reservation_
+            # insufficient`): die vorige Fassung rief `read_admission_block`
+            # OHNE `reserved_usd` auf -- das faellt dort auf die PAUSCHALE
+            # Ein-Turn-Schaetzung zurueck (`_synthetic_prices()[1]`), NICHT
+            # auf die tatsaechlich fuer DIESEN P5-Zusatzversuch beabsichtigte
+            # Reservierung. Ein Restbudget, das fuer die Pauschale reicht,
+            # aber NICHT fuer den echten, deutlich teureren Korrekturtext
+            # (realer Wiretext + Outputlimit), liess den Grant/`attempts_
+            # used` dadurch VOR dem eigentlichen, spaeteren Dispatchguard in
+            # `send_correction_turn` bereits verbrauchen (Originalbeleg:
+            # `max_usd=0.11791`, tatsaechliche Reserve `1.50291` ->
+            # faelschlich `consumed=true`/`attempts_used=2`, erst danach
+            # HOLD). Fix: dieselbe Nachricht, die `send_correction_turn`
+            # GLEICH NACH diesem Gate fuer GENAU diesen Versuch senden wuerde
+            # (`save_correction_domain.build_correction_message`, identischer
+            # `attempt_no`/`acceptance`/`original_block` wie im folgenden
+            # `while`-Loop), wird HIER VORAB mit derselben `reservation_for_
+            # wire_text`-Funktion wie jeder reale Versand reserviert UND vor
+            # jedem Grant-/`attempts_used`-Verbrauch gegen Stop/Deadline/
+            # Budget/Requestcap geprueft -- keine neue Preisannahme, keine
+            # Timeoutaenderung, nur dieselbe bereits bestehende
+            # Reservationsfunktion mit dem tatsaechlich beabsichtigten Text.
+            pending_block = record.get("bound_block")
+            pending_acceptance = (
+                save_correction_domain.evaluate(pending_block, expected_chrononaut_id)
+                if pending_block is not None else acceptance
             )
-            if verified_block is _LEGACY_PROVENANCE_REJECTED:
-                # R12-W75/W76 (F02-PROVENANCE): fehlende/fremde/beschaedigte/
-                # widersprüchliche Herkunft ist ein kontrollierter HOLD VOR
-                # jedem Transport/jeder Adoption -- NICHT `current_block=
-                # None` mit uebersprungener Drift-Pruefung (C36s Auslegung
-                # ausdruecklich verworfen, s. Docstring).
-                mark_hold(run_dir, repair_key, reason="legacy_provenance_unverified")
+            pending_attempt_no = record.get("attempts_used", 0) + 1
+            pending_message = save_correction_domain.build_correction_message(
+                persona_key=participant_id, char_id=expected_chrononaut_id,
+                operation_label=f"{role}:{participant_id}", acceptance=pending_acceptance,
+                original_block=pending_block, attempt_no=pending_attempt_no, max_attempts=max_attempts,
+            )
+            pending_reserved_usd = reservation_for_wire_text(pending_message, output_limit_tokens=gm_output_limit)
+            gate_blocked, gate_reason = read_admission_block(
+                run_dir, reserved_usd=pending_reserved_usd,
+                output_bound_known=(gm_output_limit is not None), route=gm_route,
+            )
+            if gate_blocked:
+                return CorrectionOutcome(status="hold", reason=f"gate_blocked_before_consume:{gate_reason}")
+            p5_consumed = recovery_ops.try_consume_p5_allowance(run_dir, repair_key=repair_key, record=record)
+        if p5_consumed:
+            current_block = record.get("bound_block")
+            current_acceptance = (
+                save_correction_domain.evaluate(current_block, expected_chrononaut_id)
+                if current_block is not None else acceptance
+            )
+            record = dict(record)
+            record["state"] = STATE_VALIDATING
+            record["recovery_extra_attempt"] = True
+            record["errors"] = list(current_acceptance.feedback_items)
+            record["updated_ts"] = time.time()
+            _write_record(run_dir, repair_key, record)
+        elif record_identity != caller_identity or not _window.is_resumable_pre_send_pause(run_dir, record):
+            last_reason = record.get("last_reason") or "hold"
+            # N2R5-BESTEFFORT: ein Prozess-Neustart GENAU zwischen diesem
+            # `mark_hold(..., reason="attempt_budget_exhausted")` (s.o.) und
+            # der Finalisierung durch den Aufrufer darf den bereits dort
+            # gebundenen Best-Effort-Kandidaten (`bound_block`) NICHT
+            # verlieren -- NUR fuer GENAU diesen Grund; jeder andere
+            # terminale Grund (insbesondere `unjustified_semantic_drift`)
+            # bleibt UNVERAENDERT ohne `block`.
+            #
+            # R4-CALLER-BINDUNG (02_JETZT_ENTWICKELN.md §2): der Best-Effort-
+            # Block darf NUR an GENAU DENSELBEN Aufrufer zurueckgegeben werden,
+            # der den `attempt_budget_exhausted`-Hold erzeugt hat
+            # (`record_identity == caller_identity`). Wir erreichen diesen elif
+            # auch bei einem FREMDEN Aufrufer (`record_identity !=
+            # caller_identity`, erster Oder-Zweig oben) -- ein solcher Fremd-
+            # Caller darf KEINEN uebernehmbaren Block erhalten (sonst
+            # fremde Caller-Bindung, 02 §2). Nur der passende Resume
+            # desselben Callers behaelt Best-Effort.
+            resumed_block = (
+                record.get("bound_block")
+                if last_reason == "attempt_budget_exhausted" and record_identity == caller_identity
+                else None
+            )
+            return CorrectionOutcome(status="hold", reason=last_reason, block=resumed_block)
+        else:
+            # R12-W75 (F02-SHAPE): `record["attempts_used"]` wird unten DIREKT
+            # als `attempt_no` wiederverwendet (der Resume-Zweig des `while`
+            # unten erreicht den `STATE_VALIDATING`-Zweig NICHT, der sonst
+            # `begin_attempt` vor jedem Versand aufruft) -- ein korrupter Wert
+            # (bool statt int, oder ausserhalb des gueltigen offenen Slotbereichs
+            # 1..max_attempts, z.B. `4`) darf deshalb HIER, VOR jedem Transport,
+            # nicht unbemerkt durchrutschen (W74-Bug: ein solcher Wert erreichte
+            # bisher den synthetischen Transport-Versuch und hinterliess einen
+            # `sent`-Ledger-Record, bevor der Ledger selbst den Typ ablehnte).
+            resumed_attempts_used = record.get("attempts_used")
+            if (
+                not isinstance(resumed_attempts_used, int) or isinstance(resumed_attempts_used, bool)
+                or not (1 <= resumed_attempts_used <= max_attempts)
+            ):
+                mark_hold(run_dir, repair_key, reason="invalid_resume_slot_shape")
                 emit("save_correction_hold", {
                     "participant_id": participant_id, "char_id": expected_chrononaut_id,
-                    "reason": "legacy_provenance_unverified",
+                    "reason": "invalid_resume_slot_shape",
                 })
-                return CorrectionOutcome(status="hold", reason="legacy_provenance_unverified")
-            current_block = verified_block
-        else:
-            current_block = record.get("bound_block")
-        current_acceptance = (
-            save_correction_domain.evaluate(current_block, expected_chrononaut_id)
-            if current_block is not None else acceptance
-        )
+                return CorrectionOutcome(status="hold", reason="invalid_resume_slot_shape")
+            # F02 Entwurfs-/Original-Bindung: die Drift-Baseline fuer DIESEN
+            # Resume ist der durabel GEBUNDENE Originalentwurf -- NIE der
+            # (evtl. ausgetauschte) `candidate_block` dieses Aufrufs. Ein
+            # Datensatz unter diesem Fix traegt `"bound_block"` IMMER (auch als
+            # `None`, s. `load_or_init_record`/`begin_attempt`/`_reset_for_
+            # next_attempt`); nur ein echter VOR diesem Fix geschriebener
+            # Legacy-Datensatz hat den Schluessel GAR NICHT.
+            #
+            # R12-W76 (F02-NULL-BINDING-Fix, 01_POSITIVE_WIEDERAUFNAHMEBINDUNG.md
+            # §A): `bound_block is None` (Schluessel vorhanden ODER abwesend) ist
+            # KEIN Beweis fuer eine erlaubte freie Neuerstellung -- nur die
+            # Schluessel-ABWESENHEIT allein darf laenger den caller-gelieferten
+            # `_verify_legacy_provenance`-Rueckfall ausloesen (C36s verworfene
+            # Lesart). Die Fallunterscheidung (b) vs (c) haengt daran, ob der
+            # Aufrufer UEBERHAUPT eine Herkunftsbehauptung mitbringt
+            # (`original_request_id`/`original_evidence`, mind. eines gesetzt --
+            # NICHT der heutige `candidate_block`, KEINE D-ID-Allowlist):
+            #   (b) Behauptung vorhanden (die Figur ist nachweislich KEINE
+            #       Erstanlage, z.B. ein bereits belegter Entwurf/Fehler) ->
+            #       DIESELBE positive Verifikation wie beim echten Legacy-Pfad;
+            #       scheitert sie, kontrolliertes HOLD -- NIE ein Drift-Skip.
+            #   (c) KEINE Behauptung (beide `None`) -> echte Erstanlage/
+            #       Mehrdeutigkeitskonflikt (`forced_conflicts`/fehlender
+            #       Erstkandidat) bleibt UNBERUEHRT ueber den bestehenden Weg
+            #       korrigierbar (`current_block=None` -> `acceptance` dieses
+            #       Aufrufs, keine Drift-Pruefung -- es gab nie eine
+            #       wohldefinierte Baseline, s.u.).
+            needs_legacy_verification = "bound_block" not in record or (
+                record.get("bound_block") is None
+                and (original_request_id is not None or original_evidence is not None)
+            )
+            if needs_legacy_verification:
+                verified_block = _verify_legacy_provenance(
+                    run_dir, record=record, participant_id=participant_id,
+                    expected_chrononaut_id=expected_chrononaut_id, table_id=table_id, section_id=section_id,
+                    original_request_id=original_request_id, original_evidence=original_evidence,
+                    original_role=original_role, original_turn_idx=original_turn_idx,
+                    original_generation=original_generation,
+                )
+                if verified_block is _LEGACY_PROVENANCE_REJECTED:
+                    # R12-W75/W76 (F02-PROVENANCE): fehlende/fremde/beschaedigte/
+                    # widersprüchliche Herkunft ist ein kontrollierter HOLD VOR
+                    # jedem Transport/jeder Adoption -- NICHT `current_block=
+                    # None` mit uebersprungener Drift-Pruefung (C36s Auslegung
+                    # ausdruecklich verworfen, s. Docstring).
+                    mark_hold(run_dir, repair_key, reason="legacy_provenance_unverified")
+                    emit("save_correction_hold", {
+                        "participant_id": participant_id, "char_id": expected_chrononaut_id,
+                        "reason": "legacy_provenance_unverified",
+                    })
+                    return CorrectionOutcome(status="hold", reason="legacy_provenance_unverified")
+                current_block = verified_block
+            else:
+                current_block = record.get("bound_block")
+            current_acceptance = (
+                save_correction_domain.evaluate(current_block, expected_chrononaut_id)
+                if current_block is not None else acceptance
+            )
     if record["state"] == STATE_ADOPTED:
         # G01/SC03/SC09/SC13/SC14 (W54-Fix, analog W53-SS7 im Gruppenpfad
         # unten): ein Neustart darf NIE den (hier erneut vom Aufrufer
@@ -818,6 +1035,18 @@ def pursue_single_figure_correction(
     # block`/`acceptance` dieses Aufrufs, fuer einen RESUME aus HOLD/
     # WINDOW_PAUSED der durabel GEBUNDENE Originalentwurf (NIE der hier
     # erneut uebergebene `candidate_block`, s. Kommentar oben).
+    #
+    # R-P5 (03_RECOVERY_VERTRAG.md §R-P5, "Einmaligkeit muss auch den
+    # internen while-Loop begrenzen"): additiv im Datensatz gebunden (s.
+    # `recovery_ops.try_consume_p5_allowance`-Aufrufstelle oben) -- RESTART-
+    # FEST, weil `record.get("recovery_extra_attempt")` hier NEU aus dem
+    # (ggf. erst jetzt frisch geladenen) Datensatz gelesen wird, nicht nur
+    # innerhalb desselben Aufrufs gesetzt. Ein auf diesem Weg eroeffneter
+    # Slot ist IMMER der letzte -- jedes Ergebnis ausser einer vollstaendig
+    # akzeptierten Antwort fuehrt unten direkt zu HOLD, NIE zu einem
+    # weiteren `_reset_for_next_attempt`/dritten Versand, unabhaengig vom
+    # verbleibenden `MAX_ADDITIONAL_REQUESTS`-Budget.
+    recovery_extra_attempt_opened = bool(record.get("recovery_extra_attempt"))
     while True:
         # Restart-Sicherheit (SC09/SC13): `state` unterscheidet "noch kein
         # Slot fuer die naechste Antwort eroeffnet" (`validating` -- gilt
@@ -840,7 +1069,30 @@ def pursue_single_figure_correction(
                     "participant_id": participant_id, "char_id": expected_chrononaut_id,
                     "reason": "attempt_budget_exhausted",
                 })
-                return CorrectionOutcome(status="hold", reason="attempt_budget_exhausted")
+                compat_path = _write_compat_export_on_exhaustion(
+                    run_dir, repair_key=repair_key, participant_id=participant_id,
+                    char_id=expected_chrononaut_id, role=role, table_id=table_id, section_id=section_id,
+                    best_view=current_block, errors=current_acceptance.feedback_items,
+                    reason="attempt_budget_exhausted",
+                )
+                # N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-
+                # FINALRUN3): `block=current_block` ist additiv (Default
+                # `None`, kein bestehender Aufrufer liest `.block` bei
+                # `status="hold"`) -- liefert dem EINZIGEN vorgesehenen
+                # Konsumenten (`core.creation_service.
+                # run_admitted_creation_dialog`) den letzten Kandidaten
+                # dieser Figur, damit er ihn best-effort finalisieren kann,
+                # statt terminal zu pausieren. `current_block` ist hier NIE
+                # ein durch Drift abgelehnter Kandidat (der fuehrt weiter
+                # unten zu einem eigenen `unjustified_semantic_drift`-HOLD
+                # OHNE `block`, UNVERAENDERT terminal) -- nur `None`, wenn
+                # es (G02/SC06-Mehrdeutigkeitskonflikt) nie einen
+                # wohldefinierten EINEN Kandidaten gab; der Aufrufer bleibt
+                # dann unveraendert terminal HOLD.
+                return CorrectionOutcome(
+                    status="hold", reason="attempt_budget_exhausted", block=current_block,
+                    compat_export_path=str(compat_path) if compat_path else None,
+                )
             record = begin_attempt(run_dir, repair_key, original_block=current_block)
 
         attempt_no = record["attempts_used"]
@@ -884,6 +1136,22 @@ def pursue_single_figure_correction(
 
         record = record_correction_received(run_dir, repair_key, request_id=outcome.request_id)
 
+        # R-SCF-A (02_SAVEVERTRAG.md §A "Alle Antworten, inklusive
+        # abgeschnittener, vor der Weiterverarbeitung dauerhaft und
+        # append-only mit Run/Figur/Abschnitt/Requestbindung sichern"):
+        # JEDE tatsaechlich empfangene rohe SL-Antwort dieser Figur wird
+        # HIER archiviert, BEVOR irgendeine Extraktion/Annahme/Drift-
+        # Pruefung stattfindet -- unabhaengig davon, ob sie spaeter
+        # akzeptiert/verworfen/mehrdeutig eingestuft wird. Reiner additiver
+        # Seiteneffekt (append-only Datei, s. `core.save_compatibility.
+        # archive_raw_response`), AENDERT NICHTS am bestehenden `record`/
+        # Kontrollfluss.
+        save_compatibility_core.archive_raw_response(
+            run_dir, repair_key=repair_key, char_id=expected_chrononaut_id, section_id=section_id,
+            table_id=table_id, attempt_no=attempt_no, request_id=outcome.request_id,
+            raw_text=outcome.text or "",
+        )
+
         # G02/SC06 (W54-Fix): strikter, mehrdeutigkeitssicherer
         # Extraktionspfad fuer die Korrekturantwort -- sieht ALLE rohen
         # Kandidaten fuer `expected_chrononaut_id` in dieser EINEN Antwort,
@@ -917,12 +1185,57 @@ def pursue_single_figure_correction(
                 # deshalb weiterhin annehmbar; eine echte Umbenennung bleibt
                 # weiterhin Drift.
                 current_acceptance = save_correction_domain.forced_conflict_acceptance(new_conflicts)
+            if recovery_extra_attempt_opened:
+                # R-P5: der ueber `recovery_ops` gebundene zusaetzliche Slot ist
+                # IMMER der letzte -- eine unauswertbare/mehrdeutige Antwort
+                # darauf ist KEIN dritter automatischer Korrekturversuch (03
+                # §R-P5: "sicherer Abschluss/HOLD ohne automatische dritte
+                # Korrekturanfrage").
+                mark_hold(run_dir, repair_key, reason="recovery_extra_attempt_exhausted")
+                emit("save_correction_hold", {
+                    "participant_id": participant_id, "char_id": expected_chrononaut_id,
+                    "reason": "recovery_extra_attempt_exhausted",
+                })
+                compat_path = _write_compat_export_on_exhaustion(
+                    run_dir, repair_key=repair_key, participant_id=participant_id,
+                    char_id=expected_chrononaut_id, role=role, table_id=table_id, section_id=section_id,
+                    best_view=current_block, errors=current_acceptance.feedback_items,
+                    reason="recovery_extra_attempt_exhausted",
+                )
+                return CorrectionOutcome(
+                    status="hold", reason="recovery_extra_attempt_exhausted",
+                    compat_export_path=str(compat_path) if compat_path else None,
+                )
             record = _reset_for_next_attempt(
                 run_dir, repair_key, errors=current_acceptance.feedback_items, original_block=current_block,
             )
             continue
 
-        new_acceptance = save_correction_domain.evaluate(new_candidate, expected_chrononaut_id)
+        # R12-SAVECOMPAT (02_SAVEVERTRAG.md §B, GENERALREVIEW.md): BEVOR die
+        # neue Antwort gegen die bestehende Drift-/Annahmepruefung laeuft,
+        # wird sie durch die reine, wertgleiche CU-Retention-Projektion
+        # gereicht (ZEITRISS-eigene `currency:"CU"` aus dem geschlossenen
+        # Exportwallet entfernt, NIE verworfen -- bleibt in der Rettungs-
+        # sicht; der tatsaechlich im p01-Teilstand aufgetretene Fehler).
+        # BEWUSST NUR diese eine Regel (NICHT der zusaetzliche Zahl->
+        # balance-Wrap, `save_compatibility_domain.RULE_NUMBER_TO_BALANCE`
+        # -- der ist bereits lange vor diesem Fix durch die unveraenderte
+        # `detect_unjustified_drift`/`_is_allowed_amount_wrap`-Ausnahme
+        # abgedeckt UND zahlreiche bestehende Regressionstests verwenden
+        # einen DURCHGAENGIG bloss-zahligen Wallet-Fixturewert gezielt als
+        # 'die SL liefert NIE eine gueltige Korrektur'-Ausloeser fuer
+        # Budget-Erschoepfungs-/HOLD-Pfade, die mit Wallets nichts zu tun
+        # haben -- eine zusaetzliche automatische Zahl-Wrap-Projektion
+        # GENAU hier wuerde deren Fixture canceln, empirisch belegt durch
+        # einen vollen `run_all.py`-Lauf). `new_candidate_for_check`
+        # ersetzt den Rohkandidaten NUR fuer die Annahme-/Drift-/
+        # Adoptionslogik dieses Versuchs; die Projektion ist durch
+        # Konstruktion wertgleich (keine neue Drift-Kategorie noetig).
+        new_projection = save_compatibility_domain.project_wallets_in_block(
+            new_candidate, rules=save_compatibility_domain.CU_ONLY_RULES,
+        )
+        new_candidate_for_check = new_projection.canonical_candidate
+        new_acceptance = save_correction_domain.evaluate(new_candidate_for_check, expected_chrononaut_id)
         # G02/SC06: `current_block` ist `None`, wenn der zuletzt
         # ausgewertete Slot ein erkannter Mehrdeutigkeitskonflikt war (kein
         # einzelner Caller-Kandidat, s. oben) -- es gibt dann KEINE
@@ -934,6 +1247,16 @@ def pursue_single_figure_correction(
         if current_block is None:
             drift = []
         else:
+            # R12-SAVECOMPAT: dieselbe (engere, CU-only) Wallet-Projektion
+            # wird SYMMETRISCH auch auf die Vergleichsbasis angewendet --
+            # sonst wuerde ein bereits im Vorgaengerentwurf vorhandenes
+            # CU-Feld eine kuenstliche Drift gegenueber der frisch
+            # normalisierten neuen Antwort erzeugen (genau der reale Fehler,
+            # der den p01-Teilstand in `last_reason=unjustified_semantic_
+            # drift` festsetzte, obwohl Betrag und Save unveraendert waren).
+            current_block_for_check = save_compatibility_domain.project_wallets_in_block(
+                current_block, rules=save_compatibility_domain.CU_ONLY_RULES,
+            ).canonical_candidate
             # R12-W77 (F02-LIFECYCLE-Fix): `error_paths` IMMER frisch aus
             # `current_block` selbst neu ausgewertet (NIE aus dem evtl. durch
             # einen Konfliktzwischenschritt ueberschriebenen
@@ -943,9 +1266,12 @@ def pursue_single_figure_correction(
             # echte Formatkorrektur nach einer Konfliktantwort (z.B. gleicher
             # Walletwert + gueltiger campaign.mode nach echtem Schemafehler)
             # bleibt dadurch annehmbar; eine Umbenennung bleibt Drift.
-            base_acceptance = save_correction_domain.evaluate(current_block, expected_chrononaut_id)
+            base_acceptance = save_correction_domain.evaluate(current_block_for_check, expected_chrononaut_id)
             error_paths = {e.path for e in base_acceptance.structure.errors}
-            drift = save_correction_domain.detect_unjustified_drift(current_block, new_candidate, error_paths)
+            drift = save_correction_domain.detect_unjustified_drift(
+                current_block_for_check, new_candidate_for_check, error_paths,
+                restrict_to_core_identity=restrict_drift_to_core_identity,
+            )
         if drift:
             mark_hold(run_dir, repair_key, reason="unjustified_semantic_drift")
             emit("save_correction_hold", {
@@ -962,9 +1288,34 @@ def pursue_single_figure_correction(
             # complete_with_save`-Aufruf des Aufrufers findet den gueltigen
             # Block bei Wiederaufnahme durabel wieder (s. STATE_ADOPTED-
             # Zweig oben), statt den unvalidierten Caller-Kandidaten
-            # zurueckzuspielen.
-            mark_adopted(run_dir, repair_key, adopted_block=new_candidate)
-            return CorrectionOutcome(status="accepted", block=new_candidate)
+            # zurueckzuspielen. R12-SAVECOMPAT: der adoptierte/zurueck-
+            # gegebene Block ist `new_candidate_for_check` (die kanonische,
+            # wertgleiche Projektion) -- NIE der rohe `new_candidate`, damit
+            # kein CU-Feld in den kanonischen Store gelangt.
+            mark_adopted(run_dir, repair_key, adopted_block=new_candidate_for_check)
+            return CorrectionOutcome(status="accepted", block=new_candidate_for_check)
+
+        if recovery_extra_attempt_opened:
+            # R-P5: dieselbe Einmaligkeitsgrenze wie oben -- eine schema-/
+            # bindungsungueltige (aber driftfreie) Antwort auf den gebundenen
+            # zusaetzlichen Slot bleibt ein sicherer Abschluss, KEIN dritter
+            # Versand, unabhaengig vom verbleibenden `MAX_ADDITIONAL_REQUESTS`-
+            # Budget.
+            mark_hold(run_dir, repair_key, reason="recovery_extra_attempt_exhausted")
+            emit("save_correction_hold", {
+                "participant_id": participant_id, "char_id": expected_chrononaut_id,
+                "reason": "recovery_extra_attempt_exhausted",
+            })
+            compat_path = _write_compat_export_on_exhaustion(
+                run_dir, repair_key=repair_key, participant_id=participant_id,
+                char_id=expected_chrononaut_id, role=role, table_id=table_id, section_id=section_id,
+                best_view=new_candidate_for_check, errors=new_acceptance.feedback_items,
+                reason="recovery_extra_attempt_exhausted",
+            )
+            return CorrectionOutcome(
+                status="hold", reason="recovery_extra_attempt_exhausted",
+                compat_export_path=str(compat_path) if compat_path else None,
+            )
 
         current_block = new_candidate
         current_acceptance = new_acceptance
@@ -1243,6 +1594,43 @@ def pursue_group_save_correction(
                 # erreicht; die Skip-Bedingung bleibt trotzdem als
                 # Verteidigungslinie bestehen.
                 if record["state"] in (STATE_HOLD, STATE_ADOPTED, STATE_WINDOW_PAUSED) or attempts_exhausted(record, max_attempts):
+                    # R-SCF-A (02_SAVEVERTRAG.md §D/§E "Fuenfer-Ernte"):
+                    # additiver Seiteneffekt, NUR ein Datei-Write in einem
+                    # eigenen Verzeichnis (`save_compat/...`) -- RUEHRT
+                    # `record`/`state`/`attempts_used`/die bestehende
+                    # Skip-/Resume-Logik dieser Funktion NICHT an (bewusst
+                    # KEIN `mark_hold` hier, s. Modulkommentar oben zu
+                    # empirisch belegten Breitenregressionen durch
+                    # Kontrollfluss-Aenderungen an dieser Stelle). Erfasst
+                    # genau den Fall "echtes Re-Export-Budget dieser Figur
+                    # in dieser Gruppenoperation erschoepft" (nicht HOLD/
+                    # ADOPTED/WINDOW_PAUSED, die haben ihre eigene, bereits
+                    # bestehende Behandlung).
+                    if (
+                        record["state"] not in (STATE_HOLD, STATE_ADOPTED, STATE_WINDOW_PAUSED)
+                        and save_compatibility_core.latest_compat_export(run_dir, repair_key) is None
+                    ):
+                        # Nur EINMAL je `repair_key` gebaut (Idempotenz-
+                        # Check ueber den bereits vorhandenen, nie
+                        # ueberschreibenden Exportspeicher selbst) -- ein
+                        # wiederholter Aufruf dieser Funktion (z.B. erneuter
+                        # `store.complete_section`-Poll) haeuft sonst
+                        # identische Exportversionen fuer unveraendertes
+                        # `bound_block` an.
+                        # R-SCF-A: `record.get("bound_block")` ist im
+                        # Gruppenpfad strukturell IMMER `None` (weder
+                        # `load_or_init_record` noch `begin_attempt` erhalten
+                        # hier je einen `original_block`-Parameter, anders
+                        # als im Einzelfigurpfad) -- `harvested.get(pk)` ist
+                        # die tatsaechliche, zuletzt empfangene (wenn auch
+                        # nicht akzeptierte) Antwort fuer `pk` und damit die
+                        # einzig sinnvolle `best_view`.
+                        _write_compat_export_on_exhaustion(
+                            run_dir, repair_key=repair_key, participant_id=pk, char_id=char_id,
+                            role=ROLE_GROUP, table_id=table.table_id, section_id=section_id,
+                            best_view=harvested.get(pk), errors=[],
+                            reason="group_attempt_budget_exhausted",
+                        )
                     if record["state"] == STATE_ADOPTED and record.get("adopted_block") is not None:
                         # W53-SS7 (CARRY-FORWARD seit W48/W49): dieser
                         # Kandidat wurde in einer frueheren, dann gecrashten
@@ -1331,6 +1719,42 @@ def pursue_group_save_correction(
                     "section_id": section_id, "table_id": table.table_id, "reason": reason,
                 })
                 break
+            # P2 (R4-Rundenabschluss): eine sicher beobachtete, vollstaendig
+            # verbuchte Kontingent-/Budgetablehnung (`send_correction_turn`
+            # erkennt `ProviderQuotaPausedError` getypt, kein Freitext-
+            # Substring, s. dort) ist WEDER ein unklarer Versand NOCH ein
+            # gewoehnlicher Transportdefekt -- `request_ledger.finish_error`
+            # hat den Request bereits abschliessend `accounted` gebucht
+            # (Reservierung/Verbrauch bleiben unangetastet, KEIN Refund).
+            # Die offene Runde (Mitgliederset + original_block je Figur)
+            # bleibt darum ERHALTEN -- NICHT `mark_hold`, NICHT `_clear_
+            # open_round`. Ein NEUER `round_no` (reine Request-IDENTITAET,
+            # s. `_next_round_no`-Modulkommentar oben -- NICHT das pro-
+            # Figur-Korrekturbudget `attempts_used`) macht den naechsten
+            # regulaeren Aufruf wieder sendefaehig: `request_ledger.begin`
+            # erlaubt einen frischen Request fuer eine bereits `accounted`
+            # Identitaet (nur eine OFFENE/nicht-`accounted` Reservierung
+            # blockiert `begin`); `begin_attempt` wird hier NICHT erneut
+            # aufgerufen -- kein zusaetzlicher Korrekturslot wird verbraucht,
+            # keine alte Request-ID/kein alter Verbrauch/kein erfolgreicher
+            # Save wird ueberschrieben. Erneutes Werfen (statt nur `break`)
+            # laesst diese Pause denselben Pfad erreichen wie eine Quota-
+            # Pause im gewoehnlichen Zug/der Pflichtreflexion -- `finalize`/
+            # `run_full_section` fangen `ProviderQuotaPausedError` NICHT
+            # (nur `_GateBlocked`), sie durchlaeuft ungefangen bis zum
+            # bestehenden `except ProviderQuotaPausedError`-Pausenpfad
+            # (`ui/tui.py`) -- dieselbe ruhige Spielermeldung wie jede
+            # andere Kontingentpause, kein stilles "nicht abgeschlossen".
+            if reason.startswith("quota_paused:"):
+                new_round_no = _next_round_no(run_dir, table.table_id, section_id)
+                _write_open_round(run_dir, table.table_id, section_id, new_round_no, [
+                    {"persona_key": c["persona_key"], "char_id": c["char_id"], "original_block": c["original_block"]}
+                    for c in candidates
+                ])
+                emit("save_correction_hold", {
+                    "section_id": section_id, "table_id": table.table_id, "reason": reason,
+                })
+                raise ProviderQuotaPausedError(reason[len("quota_paused:"):])
             for c in candidates:
                 mark_hold(run_dir, c["repair_key"], reason=reason)
             _clear_open_round(run_dir, table.table_id, section_id)
@@ -1341,6 +1765,18 @@ def pursue_group_save_correction(
 
         for c in candidates:
             record_correction_received(run_dir, c["repair_key"], request_id=outcome.request_id)
+            # R-SCF-A (02_SAVEVERTRAG.md §A/§E "Fuenfer-Ernte"): dieselbe
+            # append-only Rohsicherung wie im Einzelfigurpfad -- JEDES
+            # Gruppenmitglied dieser Runde bekommt die EINE empfangene
+            # Rundenantwort (`outcome.text`, gemeinsam fuer alle `candidates`
+            # dieser Runde) unter der EIGENEN `repair_key`/`char_id`-Bindung
+            # archiviert, BEVOR Extraktion/Konfliktpruefung/Adoption
+            # stattfindet. Reiner additiver Seiteneffekt.
+            save_compatibility_core.archive_raw_response(
+                run_dir, repair_key=c["repair_key"], char_id=c["char_id"], section_id=section_id,
+                table_id=table.table_id, attempt_no=c["attempt_no"], request_id=outcome.request_id,
+                raw_text=outcome.text or "",
+            )
 
         new_saves = harvest_extractor(outcome.text or "", cid_to_pk)
         # G02/SC06 (W54-Fix): der (unveraenderte, injizierbare)

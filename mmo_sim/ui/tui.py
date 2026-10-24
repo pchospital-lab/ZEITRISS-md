@@ -37,7 +37,42 @@ from typing import Callable
 from ..core.creation_service import ReplyResult, run_admitted_creation_dialog
 from ..domain.zeitriss import catalog, import_export, onboarding
 from ..domain.zeitriss import saves as zeitriss_saves
-from ..domain.zeitriss.policy import COMPLETION_MARKER, ZeitrissHarvestValidator, ZeitrissTableSizePolicy
+from ..domain.zeitriss.policy import (
+    COMPLETION_MARKER,
+    ZeitrissHarvestValidator,
+    ZeitrissTableSizePolicy,
+    build_harvest_conflict_detector,
+    build_save_command_completion_fallback,
+    is_save_command,
+    is_saveguard_rejection,
+)
+from . import rendering
+
+
+#: R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): kleine, fixe Terminal-
+#: Bedienungsnotiz, die JEDEM Persona-Systemkontext vorangestellt wird (s.
+#: `TuiSession._own_system_context`). Grund (live belegt): Personas spawnen
+#: pro Zug zustandslos und sehen zwar den vollen Abschnitts-`sl_log`, aber die
+#: Terminal-Kommando-Konvention ist KEIN Spielleitungs-/Weltwissen -- die SL
+#: kann/soll sie nicht lehren. Das einzige App-wirksame Kommando, das der
+#: Spieler aktiv absetzen MUSS (und das die SL nur unzuverlaessig/narrativ
+#: ancued), ist `!save`/`!speichern` am HQ-Abschnittsende. `!bogen` u.ae. sind
+#: reine Ingame-Ansichtsbefehle (kein App-Trigger) und gehoeren bewusst NICHT
+#: hierher. Bewusst minimal gehalten -- alles Spielerische lernt die Persona
+#: organisch ueber SL + Spielverlauf.
+_TERMINAL_COMMAND_NOTE = (
+    "[TERMINAL-BEDIENUNG - Client, nicht Spielwelt]\n"
+    "Du spielst ueber einen Terminal-Client. Es gibt genau EIN Client-Kommando, das "
+    "die Spielleitung NICHT kennt und das der Tisch-Leader aktiv absetzen muss: das "
+    "Speicherkommando am HQ-Abschnittsende. Wenn du die Leader-Rolle hast, am HQ bist "
+    "und die Spielleitung signalisiert, dass der Abschnitt bzw. die Mission "
+    "abgeschlossen ist, dann besteht deine GESAMTE Antwort fuer diesen einen Zug "
+    "AUSSCHLIESSLICH aus der Zeichenfolge !save (oder !speichern) als ALLEINIGE "
+    "Nachricht - exakt diese eine Zeile, NICHTS davor, NICHTS danach: keine "
+    "Begruendung, keine Anfuehrungszeichen, kein Fliesstext, keine Rolle, nur dieses "
+    "eine Wort. Das speichert und beendet den Abschnitt. Ausserhalb des HQ ist es "
+    "nicht noetig; dort lehnt die Spielleitung es ohnehin korrekt ab."
+)
 
 
 @dataclass
@@ -148,6 +183,93 @@ def _fresh_start_invite_attempt_key(participant_id: str, persona_key: str) -> st
     return f"fresh-start-invite::{participant_id}::{persona_key}"
 
 
+class NonInteractiveImportError(ValueError):
+    """F-PROCESS-GAP (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1, DELIVERABLE 5):
+    `import_save_for_participant_noninteractive` deckt bewusst NUR den
+    EINEN Fall ab, den ein frischer Hybrid-2+3-Lauf tatsaechlich braucht
+    (allererster Import, keine bekannte Char-ID, keine aktive Bindung,
+    kein Konflikt) -- jeder andere Fall (Konflikt/Sperre/Mehrdeutigkeit)
+    bricht HIER laut ab, statt ihn zu raten/automatisch aufzuloesen."""
+
+
+def import_save_for_participant_noninteractive(
+    *, catalog_dir: Path, onboarding_dir: Path, run_dir: Path | None, participant_id: str,
+    raw_save_text: str, harvest_validator: ZeitrissHarvestValidator,
+    states_dir: Path | None = None, persona_state_store=None,
+):
+    """Nicht-interaktives Gegenstueck zu `TuiSession._cmd_import` fuer GENAU
+    den allerersten, konfliktfreien Import EINER Figur fuer einen NOCH
+    FRISCHEN Teilnehmer (DELIVERABLE 5, 'normaler Produktimport' fuer
+    p01_latch/p02_breach im Hybrid-2+3-Treiber): ruft DIESELBEN
+    Produktfunktionen in DERSELBEN Reihenfolge wie die interaktive
+    `_cmd_import` (`import_export.preview_import` ->
+    `import_export.resolve_import` -> `catalog.store_figure_save` ->
+    `onboarding.complete_with_save`) -- KEINE zweite Importregelimplementierung,
+    NUR die TTY-Rueckfragen (Konfliktwahl/Bestaetigung) entfallen, weil
+    dieser Aufrufer per Definition keinen der Faelle konstruiert, die eine
+    Rueckfrage ausloesen wuerden (frischer `onboarding_dir`/`catalog_dir`,
+    keine bekannte Char-ID, keine aktive Tischbindung).
+
+    Wirft `NonInteractiveImportError`, wenn die Eingabe tatsaechlich einen
+    der interaktiven Faelle (Konflikt/Sperre/Mehrdeutigkeit/Parken)
+    trifft -- kein stilles Raten einer Wahl, die ein Mensch sonst am
+    Prompt treffen wuerde.
+
+    `states_dir`/`persona_state_store` (additiv, optional -- `None` =
+    unveraendertes Verhalten, nur Katalog/Onboarding, kein `PersonaCreation
+    Outcome`): wenn BEIDE gesetzt sind, wird NACH dem Import dieselbe
+    Publikations-Abgleichfunktion aufgerufen, die `advance_community_
+    creation` fuer jede ERSCHAFFENE Figur nutzt (`domain.zeitriss.
+    community_creation._publication_reconcile` -- Current-Save-
+    Veroeffentlichung, Persona-State, aktive Bindung), damit eine
+    IMPORTIERTE Figur fuer den nachfolgenden Lobby-/Tischweg GENAU GLEICH
+    'bereit' ist wie eine neu erschaffene -- kein zweiter, abweichender
+    Bereitschaftsbegriff. Liefert dann ein `PersonaCreationOutcome`
+    (`status='completed'`), sonst (ohne beide Parameter) den rohen,
+    tatsaechlich uebernommenen Save-Block."""
+    try:
+        preview = import_export.preview_import(raw_save_text)
+    except import_export.MalformedImportError as e:
+        raise NonInteractiveImportError(f"Import strukturell ungueltig, kein Write: {e}") from e
+    incoming_block = json.loads(raw_save_text)
+    known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(catalog_dir, participant_id)}
+    if preview.char_id in known_char_ids:
+        raise NonInteractiveImportError(
+            f"char_id={preview.char_id!r} ist fuer {participant_id!r} bereits bekannt -- "
+            "dieser Helfer deckt nur den allerersten, konfliktfreien Import ab."
+        )
+    active_binding = False
+    open_completion_order = False
+    if run_dir is not None and preview.char_id is not None:
+        from ..core import store as core_store
+        active_binding = core_store.chrononaut_active_binding(run_dir, preview.char_id)
+        open_completion_order = core_store.chrononaut_open_completion_order(run_dir, preview.char_id)
+    decision = import_export.resolve_import(
+        incoming_block, known_char_ids=known_char_ids, existing_block_for_char_id=None,
+        active_binding=active_binding, open_completion_order=open_completion_order,
+    )
+    if decision.action != "register_new":
+        raise NonInteractiveImportError(
+            f"erwartete Entscheidung 'register_new' fuer einen frischen Import, bekommen: "
+            f"{decision.action!r} ({decision.reason})."
+        )
+    catalog.store_figure_save(catalog_dir, participant_id, preview.char_id, decision.block)
+    onboarding.start_or_resume(onboarding_dir, participant_id)
+    onboarding.complete_with_save(
+        onboarding_dir, participant_id, decision.block, harvest_validator, preview.char_id,
+    )
+    catalog.register(catalog_dir, catalog.CatalogEntry(
+        participant_id=participant_id, chrononaut_id=preview.char_id, persona_key=participant_id,
+    ))
+    if states_dir is not None and persona_state_store is not None and run_dir is not None:
+        from ..domain.zeitriss.community_creation import _publication_reconcile
+        return _publication_reconcile(
+            run_dir=run_dir, states_dir=states_dir, onboarding_dir=onboarding_dir, catalog_dir=catalog_dir,
+            persona_key=participant_id, final_save=decision.block, ps_store=persona_state_store,
+        )
+    return decision.block
+
+
 class TuiSession:
     def __init__(
         self,
@@ -161,12 +283,33 @@ class TuiSession:
         gm_transport_factory: Callable[[], object] | None = None,
         exports_dir: str | Path | None = None,
         persona_driver_factory: Callable[[str], object] | None = None,
+        ascii_fallback: bool = False,
     ):
         self.onboarding_dir = Path(onboarding_dir)
         self.catalog_dir = Path(catalog_dir)
         self.participant_id = participant_id
         self._input = input_fn or input
-        self._print = print_fn or print
+        # R12-SAVECOMPAT (03_TERMINAL_UND_BILD.md): derselbe `print_fn`-
+        # Rohaufruf wie bisher ("l print_fn or print"), aber JEDER Aufruf
+        # geht zusaetzlich durch `rendering.render_for_terminal` -- EIN
+        # Minimalrenderer fuer die bestehende Produktanzeige (Markdown-
+        # Subset -> ANSI, gefaehrliche rohe Steuerzeichen aus Modelltext
+        # entfernt), OHNE das an `onboarding`/`sl_log`/Save-Dateien
+        # geschriebene Protokoll zu veraendern (die bekommen den
+        # unveraenderten Rohtext weiterhin VOR diesem Aufruf, s. z.B.
+        # `core.creation_service.run_admitted_creation_dialog`s
+        # `onboarding_lib.record_pending_reply(..., sl_reply=sl_text, ...)`
+        # VOR `print_fn(f"[SL] {sl_text}")`). `ascii_fallback` ist ein
+        # expliziter, vom Aufrufer gesetzter Opt-in (Konstruktorparameter
+        # ODER `MMO_SIM_TUI_ASCII_FALLBACK=1`, kein stiller Default-Verlust).
+        ascii_fallback_env = os.environ.get("MMO_SIM_TUI_ASCII_FALLBACK") == "1"
+        self._ascii_fallback = bool(ascii_fallback) or ascii_fallback_env
+        raw_print = print_fn or print
+
+        def _rendered_print(text: str) -> None:
+            raw_print(rendering.render_for_terminal(text, ascii_fallback=self._ascii_fallback))
+
+        self._print = _rendered_print
         self.exit_code = 0
         self._quit = False
         # Optionale Laufumgebung/SL-Anbindung fuer `l` (lokale Runde, I1/A4)
@@ -182,6 +325,13 @@ class TuiSession:
         # ohne Konfiguration bleibt eine Persona-Einladung eine ehrliche
         # Fehlermeldung statt eines stillen Fallbacks (03 §4).
         self.persona_driver_factory = persona_driver_factory
+        # SPIELFLUSS-SPEC.md ("Aktive Gruppe / Ausschluss"): rein In-Memory
+        # fuer DIESE Sitzung -- KEINE neue Community-Struktur, nur eine
+        # Markierung, welche bereits bestaetigten Community-Personas fuer
+        # "Personas spielen lassen" (Catch-up/Vorspielen) NIE Kandidat sind.
+        # Ausgeschlossene Personas nerven/blocken nie, sie sind einfach
+        # nicht Teil des Catch-up-/Vorspiel-Pools dieser Sitzung.
+        self._excluded_personas: set[str] = set()
 
     def _readline(self, prompt: str) -> str:
         try:
@@ -541,9 +691,23 @@ class TuiSession:
         """KISS-Submenue 'Spielen' (02 §A) — dispatcht additiv auf die
         UNVERAENDERTEN Kommandos `g`/`l`(Runde zusammenstellen) bzw. `c`/`b`
         (Meine KI-Spielgemeinschaft). Kein neuer Spielweg, nur Benennung +
-        Steuerzeilen-Zugriff."""
+        Steuerzeilen-Zugriff.
+
+        [3]/[4] (SPIELFLUSS-SPEC.md Abschnitt 3, 2026-10-21): "Personas
+        spielen lassen" (Catch-up, spielergesteuert, NIE automatisch) und
+        die "aktive Gruppe"-Ausschluss-Bedienung. [5] (M1-Fix, BL1-FIX-
+        SPEC.md 2026-10-21): "Vorspielen" ist derselbe Orchestrator
+        (`core.catchup.run_catch_up`, `max_rounds=1`), aber ein EIGENER,
+        klar benannter Ausloese-Moment -- vorher war `max_rounds` im
+        gesamten Produktpfad nie erreichbar (M1: bei bereits erreichter
+        Paritaet tat [3] nichts, obwohl genau das der Vorspielen-Fall der
+        Spec ist, "du musst mal weg"). Dein eigenes Tischspiel ([1]/[2])
+        bleibt dadurch UNVERAENDERT nie geblockt -- alles rein additive,
+        vom Spieler ausgeloeste Aktionen."""
         self._print(
-            "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft "
+            "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft  "
+            "[3] Personas spielen lassen (Catch-up)  [4] Aktive Gruppe/Ausschluss  "
+            "[5] Personas vorspielen lassen (1 Abschnitt vor -- du spielst danach deinen) "
             "(/zurueck fuer Hauptmenue)"
         )
         text, control = self._readline_with_controls(
@@ -557,8 +721,185 @@ class TuiSession:
         elif choice == "2":
             self._cmd_community()
             self._print("Weitere Option in 'Meine KI-Spielgemeinschaft': [b] Personas zusammenbringen.")
+        elif choice == "3":
+            self._cmd_catch_up_personas()
+        elif choice == "4":
+            self._cmd_active_group_settings()
+        elif choice == "5":
+            self._cmd_catch_up_personas(vorspielen=True)
         else:
             self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+
+    def _cmd_catch_up_personas(self, vorspielen: bool = False) -> None:
+        """SPIELFLUSS-SPEC.md Abschnitt 3 ("Personas spielen lassen"): EINE
+        vom Spieler ausgeloeste Aktion, Catch-up UND Vorspielen sind
+        mechanisch DIESELBE Maschine (`core.catchup.run_catch_up`), nur ein
+        anderer Ausloese-Moment -- `vorspielen=False` (Menuepunkt [3],
+        Default) zielt auf DEINE aktuelle Abschnittszahl (`target=None`,
+        nur Kandidaten, die HINTER dir liegen). Kandidaten = bereite
+        Community-Personas MINUS du selbst MINUS ausgeschlossen
+        (`self._excluded_personas`) MINUS Mitglieder deines Tisches
+        (Catch-up: `core.store.current_or_recent_table_members` --
+        aktuell/zuletzt gespielt; Vorspielen: `core.store.
+        current_active_table_members` -- NUR ein wirklich aktiv laufender
+        Tisch, s. P1-Fix unten) MINUS bereits auf deiner Abschnittszahl.
+        Reuse: `core.catchup.run_catch_up` ist die einzige Spielmechanik
+        hier -- keine zweite Tisch-/GM-Logik.
+
+        M1-Fix (BL1-FIX-SPEC.md 2026-10-21): `vorspielen=True` (Menuepunkt
+        [5]) ist der vorher im gesamten Produktpfad unerreichbare
+        `max_rounds`-Pfad -- jede wahlbare Persona spielt JETZT GENAU EINEN
+        Abschnitt UEBER ihre eigene Zahl hinaus (`max_rounds=1`),
+        UNABHAENGIG davon, ob sie vor/hinter/gleichauf mit dir ist (anders
+        als Catch-up gibt es hier keine "hinter mir"-Vorbedingung -- genau
+        der von der Spec verlangte "ich muss mal weg, lass die Personas
+        ihren Abschnitt vorspielen"-Fall, der bei bereits erreichter
+        Paritaet ueber [3] bisher wirkungslos war).
+
+        P1-Fix (BL1-FIX-SPEC-R4 2026-10-21): `current_or_recent_table_
+        members` lieferte fuer Vorspielen faelschlich auch die Mitglieder
+        des zuletzt GESCHLOSSENEN Tisches -- direkt NACH einem
+        abgeschlossenen Gruppenabschnitt waren cqb/face damit fuer [5]
+        unerreichbar, obwohl ihr gemeinsamer Abschnitt bereits fertig war.
+        Vorspielen zieht jetzt `current_active_table_members` ab (nur ein
+        WIRKLICH laufender Abschnitt schuetzt), Catch-up bleibt bei der
+        breiteren `current_or_recent_table_members`-Abzugsmenge."""
+        if self.run_dir is None or self.states_dir is None or self.schema_path is None:
+            self._print(
+                "Personas spielen lassen erfordert eine konfigurierte Laufumgebung (run_dir/"
+                "states_dir/schema_path) -- hier nicht konfiguriert, keine Aktion."
+            )
+            return
+        from ..lab.runner import active_lock_pid
+        pid = active_lock_pid(self.run_dir, exclude_pid=os.getpid())
+        if pid is not None:
+            self._print(
+                f"Personas spielen lassen: ein aktiver Lab-Lauf (pid={pid}) kontrolliert diese "
+                "Datenablage — kein zweiter schreibender Controller (H-D)."
+            )
+            return
+
+        from ..core import catchup, store as core_store
+        ready_keys = catchup.ready_persona_keys(self)
+        # M1-Fix (BL1-FIX-SPEC-R4, P1): Vorspielen [5] schuetzt NUR einen
+        # WIRKLICH aktiv laufenden gemeinsamen Abschnitt (current_active_
+        # table_members, KEIN Closed-Fallback) -- die Mitglieder eines
+        # bereits geschlossenen Tisches sind fuer Vorspielen wieder
+        # wahlbar. Catch-up [3] behaelt den breiteren Schutz (current_or_
+        # recent_table_members) unveraendert.
+        if vorspielen:
+            current_table = core_store.current_active_table_members(self.run_dir, self.participant_id)
+        else:
+            current_table = core_store.current_or_recent_table_members(self.run_dir, self.participant_id)
+        eligible_pool = ready_keys - {self.participant_id} - self._excluded_personas - current_table
+        if not eligible_pool:
+            self._print(
+                "Personas spielen lassen: aktuell keine wahlbaren Kandidaten (alle entweder an "
+                "deinem Tisch, ausgeschlossen oder noch nicht spielbereit)."
+            )
+            return
+
+        counts = core_store.sections_played_by_participant(self.run_dir)
+        if vorspielen:
+            # M1-Fix: Vorspielen hat KEINE "hinter mir"-Vorbedingung -- jede
+            # wahlbare Persona darf unabhaengig von ihrer eigenen Zahl einen
+            # Abschnitt vorlegen (`run_catch_up`s `max_rounds` traegt das
+            # bereits: `per_target = eigene_zahl + max_rounds`, IMMER > eigene
+            # Zahl).
+            behind = sorted(eligible_pool)
+            action_label = "Vorspielen (je 1 Abschnitt ueber die eigene Zahl hinaus)"
+        else:
+            my_count = counts.get(self.participant_id, 0)
+            behind = sorted(pk for pk in eligible_pool if counts.get(pk, 0) < my_count)
+            if not behind:
+                self._print(
+                    f"Personas spielen lassen: alle wahlbaren Kandidaten sind bereits bei deiner "
+                    f"Abschnittszahl ({my_count}) -- kein Catch-up noetig (fuer Vorspielen vor "
+                    "deinem naechsten Abschnitt: Menuepunkt [5])."
+                )
+                return
+            action_label = f"Catch-up (bis zu deiner Abschnittszahl {my_count})"
+
+        self._print(
+            f"Wahlbare Kandidaten fuer {action_label} (Abschnitte bisher): "
+            + ", ".join(f"{pk}({counts.get(pk, 0)})" for pk in behind)
+        )
+        raw, control = self._readline_with_controls(
+            f"Welche jetzt spielen lassen? (kommagetrennt, leer = alle {behind}): ",
+            context="Personas-spielen-lassen-Auswahl",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Personas spielen lassen abgebrochen -- kein Fenster gestartet.")
+            return
+        raw = raw.strip()
+        if not raw:
+            chosen = set(behind)
+        else:
+            requested = {p.strip() for p in raw.split(",") if p.strip()}
+            unknown = requested - set(behind)
+            if unknown:
+                self._print(
+                    f"Personas spielen lassen: {sorted(unknown)} sind keine wahlbaren Kandidaten "
+                    f"(wahlbar: {behind}) -- kein Fenster gestartet."
+                )
+                return
+            chosen = requested
+
+        self._print(
+            f"⏳ Das spielt jetzt den/die Abschnitt(e) von {sorted(chosen)} -- du wartest "
+            "(dein eigenes Tischspiel ist davon unberuehrt)."
+        )
+        report = catchup.run_catch_up(
+            self, selected=chosen, current_table_members=current_table,
+            target=None, max_rounds=1 if vorspielen else None,
+        )
+        for note in report.notes:
+            self._print(f"  {note}")
+        self._print(
+            f"Personas spielen lassen beendet: Start {report.start_counts} -> Ende "
+            f"{report.end_counts} (Fenster: {report.windows_run}, gestoppt: {report.stopped}"
+            f"{' (' + report.stopped_reason + ')' if report.stopped_reason else ''}, "
+            f"blockiert/kein Fortschritt: {report.blocked or '(keine)'})."
+        )
+
+    def _cmd_active_group_settings(self) -> None:
+        """SPIELFLUSS-SPEC.md Abschnitt 3 ("aktive Gruppe/Ausschluss"):
+        einfache Umschalt-Bedienung -- Reuse der bestehenden Teilmengen-
+        Auswahl-Idee (`lab/cli.py --personas`/`ai_personas`), KEINE neue
+        Community-Struktur. Ausgeschlossene Personas sind fuer 'Personas
+        spielen lassen' NIE Kandidat (s. `_cmd_catch_up_personas`)."""
+        if self.run_dir is None:
+            self._print("Aktive Gruppe erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        from ..core import catchup
+        ready_keys = sorted(catchup.ready_persona_keys(self) - {self.participant_id})
+        if not ready_keys:
+            self._print("Aktive Gruppe: keine spielbereiten Personas in deiner Community.")
+            return
+        active = [pk for pk in ready_keys if pk not in self._excluded_personas]
+        excluded = [pk for pk in ready_keys if pk in self._excluded_personas]
+        self._print(
+            f"Aktive Gruppe (nimmt an Catch-up/Vorspielen teil): {active or '(keine)'}\n"
+            f"Ausgeschlossen (nie Kandidat, blockt/nervt nie): {excluded or '(keine)'}"
+        )
+        raw, control = self._readline_with_controls(
+            "Persona ausschliessen/wieder aufnehmen (Name eingeben zum Umschalten, leer = "
+            "unveraendert zurueck): ", context="Aktive-Gruppe-Einstellung",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            return
+        raw = raw.strip()
+        if not raw:
+            return
+        if raw not in ready_keys:
+            self._print(f"Aktive Gruppe: {raw!r} ist keine bekannte spielbereite Persona ({ready_keys}).")
+            return
+        if raw in self._excluded_personas:
+            self._excluded_personas.discard(raw)
+            self._print(f"'{raw}' wieder in der aktiven Gruppe.")
+        else:
+            self._excluded_personas.add(raw)
+            self._print(f"'{raw}' ausgeschlossen -- nie mehr Catch-up-/Vorspiel-Kandidat, bis wieder aufgenommen.")
 
     def _cmd_menu_charaktere(self) -> None:
         """KISS-Submenue 'Charaktere' (02 §A) — dispatcht additiv auf die
@@ -3060,9 +3401,158 @@ class TuiSession:
                 )
             except core_store.CurrentSaveUnavailableError:
                 return None, True
+            # R-SCF-A (02_SAVEVERTRAG.md §D "naechster Abschnitt startet
+            # ueber den Kompatibilitaetsladeweg ... VOR davon abhaengigen
+            # Spielaktionen"): schliesst die in GAPS.md/review/INTAKE.md
+            # dokumentierte Luecke -- bisher wurde ein noch nicht
+            # adoptierter Kompatibilitaetsumschlag (s. `core.save_correction.
+            # _write_compat_export_on_exhaustion`) von keinem Consumer je
+            # wieder aufgegriffen. Bewusst VOR dem `current`-Rueckfall
+            # geprueft (nicht nur, wenn `current is None`): ein kanonischer
+            # Current wird NUR beim allerersten Veroeffentlichen (Ende der
+            # Erschaffung, `_finish_new_character_creation`) geschrieben und
+            # bleibt danach UNVERAENDERT, solange ein SPAETERER Abschnitt am
+            # Budget scheitert -- ein reiner `current is None`-Gate wuerde
+            # den dabei entstandenen (neueren) Kompatibilitaetsstand nie
+            # erreichen und den Spielerfortschritt dieses Abschnitts still
+            # unter den Tisch fallen lassen (genau der "stille Schwund",
+            # den 02_SAVEVERTRAG verbietet). Ohne vorhandenen Umschlag (der
+            # ueberwiegende bestehende Fall, inkl. JEDER bestehenden
+            # Regression -- `_find_latest_pending_compat_export` liefert
+            # dann `None`) ist dieser Zweig ein reiner No-Op, identisches
+            # Verhalten zu vorher; ein bereits ADOPTIERTER Umschlag liefert
+            # idempotent denselben, laengst im Store stehenden Block
+            # zurueck (kein Doppel-Publish, s. `attempt_compat_load`-
+            # Restart-Sicherheit); ein (noch) nicht reparierbarer Umschlag
+            # (`status="hold"`) laesst den bisherigen `current`/
+            # `onboarding_final_save`-Rueckfall unten unveraendert
+            # bestehen ("App bleibt benutzbar, letzter valider Stand
+            # bleibt erhalten", 02.D).
+            compat_block = self._apply_pending_compat_load(persona_key)
+            if compat_block is not None:
+                return compat_block, False
             if current is not None:
                 return current, False
         return onboarding_final_save, False
+
+    def _find_latest_pending_compat_export(self, persona_key: str) -> dict | None:
+        """R-SCF-A (02_SAVEVERTRAG.md §D): reiner Lesescan von `run_dir/
+        save_compat/*/<version>.json` (additive Ablage, s. `core.
+        save_correction._write_compat_export_on_exhaustion`) nach dem
+        NEUESTEN Umschlag fuer GENAU `persona_key` -- unabhaengig davon, ob
+        der schreibende Aufrufer die Einzelfigur-Ableitung
+        (`creation_repair_key`, Erschaffungsweg) oder die Gruppen-Ableitung
+        (`group_repair_key`, normaler `!save`/Fuenfer-Ernte-Weg am
+        Abschnittsende) verwendet hat -- BEIDE schreiben `participant_id`/
+        `char_id`/`repair_key` bereits als Teil des Umschlags selbst (s.
+        `domain.zeitriss.save_compatibility.build_compat_envelope`), diese
+        Funktion muss daher KEINE der beiden Ableitungsformeln kennen/neu
+        nachbauen. Deckt insbesondere den Fall ab, dass eine Erschaffung nie
+        erfolgreich abgeschlossen wurde (`onboarding_final_save is None`,
+        also auch KEIN `char_id` ueber den Onboarding-Stand verfuegbar) --
+        der Umschlag selbst traegt seine eigene `char_id`. Kein Write, keine
+        Rekursion (nur zwei Verzeichnisebenen), bounded durch die Anzahl
+        tatsaechlich vorhandener Kompatibilitaetsexporte."""
+        import json
+
+        base = Path(self.run_dir) / "save_compat"
+        if not base.is_dir():
+            return None
+        best: dict | None = None
+        for repair_dir in sorted(base.iterdir()):
+            if not repair_dir.is_dir():
+                continue
+            versions = sorted(
+                (p for p in repair_dir.glob("*.json") if p.stem.isdigit()), key=lambda p: int(p.stem),
+            )
+            if not versions:
+                continue
+            try:
+                data = json.loads(versions[-1].read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            if not isinstance(data, dict) or data.get("participant_id") != persona_key:
+                continue
+            if best is None or (data.get("created_ts") or 0) >= (best.get("created_ts") or 0):
+                best = data
+        return best
+
+    def _apply_pending_compat_load(self, persona_key: str) -> dict | None:
+        """R-SCF-A (02_SAVEVERTRAG.md §D): treibt den bereits vorhandenen,
+        bounded Kompatibilitaetsladeweg (`core.save_compatibility.
+        attempt_compat_load`) fuer `persona_key` an, WENN (und nur wenn)
+        `_find_latest_pending_compat_export` einen noch nicht adoptierten
+        Kompatibilitaetsumschlag findet. `repair_key`/`char_id` kommen
+        DIREKT aus dem gefundenen Umschlag (NIE neu berechnet) -- derselbe
+        Bindungsschluessel, unter dem der jeweilige Schreiber (Einzelfigur-
+        ODER Gruppenpfad) den Export tatsaechlich angelegt hat. Liefert den
+        kanonisch uebernommenen Block bei Erfolg, sonst `None` (kein
+        Umschlag vorhanden ODER Reparatur innerhalb des bounded Budgets
+        nicht moeglich -- der Aufrufer faellt in BEIDEN Faellen unveraendert
+        auf den bisherigen `onboarding_final_save`-Pfad zurueck, kein neuer
+        Fehlerzustand).
+
+        R-SCF-A (ZR-SCF-HYBRID-DURCHSTICH-20261017-R1, Fix A): die
+        `repair_fn` kommt jetzt von `core.compat_load_service.
+        build_compat_repair_fn` -- sie versucht ZUERST weiterhin dieselbe
+        lokale, wertgleiche Wallet-Projektion (02.B, kein Modellaufruf,
+        unveraendertes Verhalten fuer jede bestehende Wallet-Regression),
+        erreicht bei anderen behebbaren Strukturfehlern aber zusaetzlich
+        die TATSAECHLICH konfigurierte SL (`self.gm_transport_factory`,
+        exakt dieselbe Konstruktion wie fuer jeden anderen echten GM-Turn
+        in dieser Klasse) -- derselbe fachliche Ladevertrag fuer die
+        normale TUI UND den Headless-/Hybridpfad (beide konstruieren ihren
+        `gm_transport` ueber dieselbe Factory). Ohne konfigurierte
+        Laufumgebung/SL-Anbindung (`gm_transport_factory is None`, z.B.
+        dieses Offline-Paket ohne Env) bleibt `gm_transport=None` -- die
+        Fabrik liefert dann eine Funktion, die NUR noch die Wallet-
+        Projektion versucht (identisches Verhalten zur alten
+        `_offline_repair`, kein stiller Versuch, eine nicht konfigurierte
+        SL anzusprechen)."""
+        from ..core import compat_load_service
+        from ..core import save_compatibility as save_compat_core
+
+        envelope = self._find_latest_pending_compat_export(persona_key)
+        if envelope is None:
+            return None
+        repair_key = envelope.get("repair_key")
+        char_id = envelope.get("char_id")
+        if not repair_key or not char_id:
+            return None
+
+        gm_transport = None
+        if self.gm_transport_factory is not None:
+            import inspect
+
+            accepts_arg = len(inspect.signature(self.gm_transport_factory).parameters) >= 1
+            table_id = envelope.get("table_id") or f"compat-load-{persona_key}"
+            gm_transport = (
+                self.gm_transport_factory(table_id) if accepts_arg else self.gm_transport_factory()
+            )
+
+        repair_fn = compat_load_service.build_compat_repair_fn(
+            self.run_dir, repair_key=repair_key, char_id=char_id, participant_id=persona_key,
+            gm_transport=gm_transport, table_id=envelope.get("table_id"), section_id=envelope.get("section_id"),
+        )
+
+        outcome = save_compat_core.attempt_compat_load(
+            self.run_dir, repair_key=repair_key, char_id=char_id, participant_id=persona_key,
+            states_dir=self.states_dir, schema_path=self.schema_path, envelope=envelope,
+            repair_fn=repair_fn,
+        )
+        if outcome.status == "adopted":
+            self._print(
+                f"Kompatibilitaetsladeweg: Spielstand fuer {char_id} aus dem Kompatibilitaetsstand "
+                "repariert und uebernommen (02_SAVEVERTRAG.md §D)."
+            )
+            return outcome.block
+        if outcome.status == "hold":
+            self._print(
+                "Kompatibilitaetsladeweg: Spielstand bleibt im gesicherten Kompatibilitaetsstand "
+                f"(Grund: {outcome.reason or 'offene Pruefhinweise'}) -- App bleibt benutzbar, "
+                "kein automatischer Neustart."
+            )
+        return None
 
     def _own_system_context(self, persona_key: str) -> str:
         """D3/A7 (K7, WEGKARTE §6, PLAN-CRITIC-ABSCHLUSS.md HINWEIS):
@@ -3113,7 +3603,16 @@ class TuiSession:
                 f"{text}\nEigener aktueller Spielstand (Current, vollstaendig): "
                 f"{json.dumps(current, ensure_ascii=False, sort_keys=True)}"
             )
-        return text
+        # R4-MEHRSPIELER: die fixe Terminal-Kommando-Notiz (nur `!save`/
+        # `!speichern`, HQ, alleinige Nachricht) wird JEDEM Persona-Zug
+        # ANGEHAENGT -- unabhaengig davon, ob/wie die SL das Kommando ancued
+        # (s. `_TERMINAL_COMMAND_NOTE`). Kein Spielinhalt, reine Client-UX.
+        # Bewusst ANGEHAENGT (nicht vorangestellt): der Kontext beginnt weiter
+        # mit der `render_for_prompt`-Kopfzeile, und der abschliessende eigene
+        # Current-JSON-Block bleibt per `raw_decode` sauber lesbar (die Notiz
+        # nach dem JSON wird dort ignoriert) -- so bleibt die bestehende
+        # Kontextstruktur fuer alle Leser unveraendert.
+        return f"{text}\n\n{_TERMINAL_COMMAND_NOTE}"
 
     def _append_invitation_log(self, record: dict) -> None:
         """W1 (F..., "Angebot+Antworten VOR Tischanlage festhalten"):
@@ -4522,6 +5021,19 @@ class TuiSession:
         # statt der frueheren pauschalen "kein Datenverlust"+Retry-Zusage,
         # die fuer den offenen-Reservierung-Fall irrefuehrend war.
         from ..core import request_ledger
+        # FIX5B (Review-Blocker Punkt 1, CRITIC-FIX5-REVIEW.md): dies ist
+        # GENAU der eine Aufrufpunkt von `app_service.run_play_session`, den
+        # sowohl ein frischer Einladungsweg (`_cmd_local_round`) ALS AUCH ein
+        # gebundener Tisch-Resume (`_resume_bound_table`) durchlaufen (s.
+        # Moduldocstring `run_play_session` oben) -- EIN Catch deckt also
+        # Einzel- UND Gruppen-/Lobby-Spiel ab. Vorher erreichte eine echte
+        # Kontingent-/Budgetpause (402/429 GM-Route, Abo-Sitzungslimit
+        # Persona-Route) ungefangen den rohen Python-Traceback auf dem
+        # Spielerterminal.
+        from ..adapters.base import (
+            ProviderQuotaPausedError, quota_pause_is_rate_limited, quota_pause_player_message,
+            quota_pause_reset_hint,
+        )
         try:
             outcome = app_service.run_play_session(
                 # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
@@ -4538,6 +5050,25 @@ class TuiSession:
                 # ueber denselben bestehenden Terminalkanal durch, keine neue
                 # Menuehierarchie.
                 status_fn=self._print,
+                # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): Leader-`!save`/
+                # `!speichern` + bindbarer v7-Save schliesst den Abschnitt
+                # GLEICHWERTIG zum Top-Level-Marker -- derselbe Wiring-Punkt
+                # wie `core/lobby_flow.py:play_bound_table`.
+                completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
+                harvest_conflict_detector=build_harvest_conflict_detector(),
+                # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben"):
+                # derselbe Wiring-Punkt wie `core/lobby_flow.py:
+                # play_bound_table` -- ein explizites, eigenstaendiges
+                # Leader-`!save`/`!speichern` loest IMMER einen begrenzten
+                # Abschluss-/Korrekturversuch aus, auch ohne sofort
+                # bindbaren Export in der GM-Antwort.
+                explicit_completion_attempt=is_save_command,
+                # P3 (R4-Rundenabschluss): ein exaktes `!save`, das die
+                # SL/SaveGuard ausdruecklich ablehnt (keine HQ-Erlaubnis),
+                # darf NICHT ueber die dritte `explicit_completion_attempt`-
+                # Bedingung finalisieren bzw. in exporterzwingende
+                # Korrekturanfragen wechseln.
+                save_guard_rejection_detector=is_saveguard_rejection,
             )
         except request_ledger.OpenReservationExistsError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die
@@ -4576,6 +5107,26 @@ class TuiSession:
                 "'n'/[fortsetzen] versuchen, sobald Storage/Anbindung wieder verfuegbar sind. Keine "
                 "Fehlerdetails in dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
             )
+            return
+        except ProviderQuotaPausedError as exc:
+            # FIX5B (Review-Blocker Punkt 1): ein NORMALES, erholbares
+            # Ereignis (Abo-Sitzungslimit der Persona-Route ODER Geldlimit
+            # der GM-Route) -- KEIN echter Defekt. Ruhige, nicht-technische
+            # Meldung ueber den normalen Terminal-Ausgabeweg (`self._print`,
+            # derselbe Kanal wie jede andere Spielermeldung hier), KEIN
+            # Stacktrace/Crash-Look, keine Secrets -- dieselbe Textquelle
+            # wie der private Lab-/Harness-Driver (`adapters.base.
+            # quota_pause_player_message`, eine Quelle, keine Dopplung).
+            # Kontrollierter Abbruch VOR jeder Completion-/Save-Logik
+            # (`outcome.completion`-Zweig unten wird nicht mehr erreicht) --
+            # der letzte dauerhafte Save + ein offener Completion-Plan
+            # bleiben unveraendert; ein spaeterer Neustart/Fortsetzen nimmt
+            # ueber die bestehenden idempotenten Resume-Pfade (offener-Plan-
+            # Resume, `_resume_bound_table`/`load_current_save`) genau hier
+            # wieder auf -- kein erzwungenes Finalisieren, kein Korrumpieren.
+            self._print(quota_pause_player_message(
+                quota_pause_reset_hint(str(exc)), rate_limited=quota_pause_is_rate_limited(str(exc)),
+            ))
             return
         if outcome.completion.success:
             self._print(f"Abschnitt abgeschlossen: {outcome.completion.members_completed}")

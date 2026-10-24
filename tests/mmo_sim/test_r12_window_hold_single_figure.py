@@ -116,6 +116,8 @@ def test_a_fresh_deadline_pre_send_pause_resumes_same_slot_when_window_reopens()
         # versucht, kein neuer Slot, kein begin_attempt.
         open_window(run_dir)
         valid_block = full_v7_save(char_id, name="Flo")
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `_wallet_as_number`.
+        valid_block["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm2 = _ScriptedGm(["```json\n" + json.dumps(valid_block) + "\n```"])
         outcome2 = save_correction.pursue_single_figure_correction(
             run_dir=run_dir, participant_id=participant_id, expected_chrononaut_id=char_id,
