@@ -59,6 +59,13 @@ class ProviderQuotaPausedError(ProviderUnavailableError):
 _QUOTA_RESET_HINT_IN_MESSAGE_RE = re.compile(
     r"reset_hint=(\"(?:[^\"\\]|\\.)*\"|'(?:[^'\\]|\\.)*')"
 )
+# P4 (R4-Rundenabschluss): dasselbe maschinell auslesbare Anhang-Muster wie
+# `reset_hint=...` oben, NUR von `adapters.gm_owui` angehaengt, wenn die
+# HTTP-Antwort GENAU 429 OHNE das Guthaben-/Limit-Markerwort
+# `insufficient_quota` im Body war (reines Ratenlimit, KEIN Guthaben-
+# problem, s. `gm_owui._gm_quota_pause_detail`). Jede Persona-Pause und
+# jede 402-/Guthaben-GM-Pause laesst diesen Anhang weg (Default `False`).
+_QUOTA_RATE_LIMITED_IN_MESSAGE_RE = re.compile(r"rate_limited=(True|False)")
 
 
 def quota_pause_reset_hint(message: str | None) -> str | None:
@@ -82,23 +89,44 @@ def quota_pause_reset_hint(message: str | None) -> str | None:
     return hint or None
 
 
-def quota_pause_player_message(reset_hint: str | None) -> str:
+def quota_pause_is_rate_limited(message: str | None) -> bool:
+    """Liest -- rein informativ fuers Terminal-UX -- den optionalen
+    `rate_limited=True`-Anhang aus der Exception-Message einer
+    `ProviderQuotaPausedError` (P4, R4-Rundenabschluss). `False` ohne
+    Treffer (Default fuer jede Persona-Pause und jede 402-/Guthaben-GM-
+    Pause)."""
+    m = _QUOTA_RATE_LIMITED_IN_MESSAGE_RE.search(message or "")
+    return bool(m and m.group(1) == "True")
+
+
+def quota_pause_player_message(reset_hint: str | None, *, rate_limited: bool = False) -> str:
     """EINZIGE Quelle fuer die ruhige, nicht-technische Spielermeldung bei
     einer Kontingent-/Budgetpause -- WAS (KI-Kontingent/Guthaben erschoepft),
-    WANN/WIE (Reset-Zeitpunkt falls bekannt, sonst 'bitte Guthaben/Abo
-    aufladen'), BERUHIGUNG (Fortschritt ist gespeichert), WIE WEITER (einfach
-    fortsetzen, es geht genau hier weiter). Kein Stacktrace, kein Crash-Look,
-    keine Secrets. Genutzt vom ECHTEN TUI-Spielerpfad (`mmo_sim.ui.tui`,
-    FIX5B) UND vom privaten Lab-/Harness-Driver (`driver.integrated.py`,
-    der hierher delegiert) -- eine Quelle, keine Dopplung."""
-    wann = (
-        f"Verfuegbar wieder ab: {reset_hint}." if reset_hint
-        else "Kein Reset-Zeitpunkt im Signal -- bitte Guthaben/Abo aufladen."
-    )
+    WANN/WIE (Reset-Zeitpunkt falls bekannt, sonst je nach `rate_limited`
+    ein Warte-/Retry-Hinweis ODER 'bitte Guthaben/Abo aufladen'),
+    BERUHIGUNG (der zuletzt bestaetigte, dauerhaft gespeicherte Stand ist
+    erhalten -- KEINE Behauptung, dieser Zug selbst sei gespeichert worden,
+    P4), WIE WEITER (einfach fortsetzen, es geht genau hier weiter). Kein
+    Stacktrace, kein Crash-Look, keine Secrets. Genutzt vom ECHTEN TUI-
+    Spielerpfad (`mmo_sim.ui.tui`, FIX5B) UND vom privaten Lab-/Harness-
+    Driver (`driver.integrated.py`, der hierher delegiert) -- eine Quelle,
+    keine Dopplung.
+
+    P4 (R4-Rundenabschluss): `rate_limited=True` (NUR vom GM-Adapter bei
+    einem reinen HTTP-429-Ratenlimit OHNE Guthabenproblem gesetzt, s.
+    `quota_pause_is_rate_limited`) zeigt einen Warte-/Retry-Hinweis statt
+    des Aufladehinweises -- Stoppen bleibt in BEIDEN Faellen konservativ
+    (kein automatischer Retry), nur der Text unterscheidet sich."""
+    if reset_hint:
+        wann = f"Verfuegbar wieder ab: {reset_hint}."
+    elif rate_limited:
+        wann = "Reines Ratenlimit, kein Guthabenproblem -- bitte in Kuerze erneut versuchen."
+    else:
+        wann = "Kein Reset-Zeitpunkt im Signal -- bitte Guthaben/Abo aufladen."
     return (
         "KI-Kontingent/Guthaben ist aktuell erschoepft (Abo-Sitzungslimit oder Guthabenlimit). "
-        f"{wann} Dein Fortschritt ist gespeichert. Sobald wieder verfuegbar: einfach fortsetzen -- "
-        "es geht genau hier weiter."
+        f"{wann} Der zuletzt bestaetigte, dauerhaft gespeicherte Stand ist erhalten. Sobald wieder "
+        "verfuegbar: einfach fortsetzen -- es geht genau hier weiter."
     )
 
 

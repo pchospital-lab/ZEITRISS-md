@@ -44,6 +44,7 @@ from ..domain.zeitriss.policy import (
     build_harvest_conflict_detector,
     build_save_command_completion_fallback,
     is_save_command,
+    is_saveguard_rejection,
 )
 from . import rendering
 
@@ -5029,7 +5030,10 @@ class TuiSession:
         # Kontingent-/Budgetpause (402/429 GM-Route, Abo-Sitzungslimit
         # Persona-Route) ungefangen den rohen Python-Traceback auf dem
         # Spielerterminal.
-        from ..adapters.base import ProviderQuotaPausedError, quota_pause_player_message, quota_pause_reset_hint
+        from ..adapters.base import (
+            ProviderQuotaPausedError, quota_pause_is_rate_limited, quota_pause_player_message,
+            quota_pause_reset_hint,
+        )
         try:
             outcome = app_service.run_play_session(
                 # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
@@ -5059,6 +5063,12 @@ class TuiSession:
                 # Abschluss-/Korrekturversuch aus, auch ohne sofort
                 # bindbaren Export in der GM-Antwort.
                 explicit_completion_attempt=is_save_command,
+                # P3 (R4-Rundenabschluss): ein exaktes `!save`, das die
+                # SL/SaveGuard ausdruecklich ablehnt (keine HQ-Erlaubnis),
+                # darf NICHT ueber die dritte `explicit_completion_attempt`-
+                # Bedingung finalisieren bzw. in exporterzwingende
+                # Korrekturanfragen wechseln.
+                save_guard_rejection_detector=is_saveguard_rejection,
             )
         except request_ledger.OpenReservationExistsError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die
@@ -5114,7 +5124,9 @@ class TuiSession:
             # ueber die bestehenden idempotenten Resume-Pfade (offener-Plan-
             # Resume, `_resume_bound_table`/`load_current_save`) genau hier
             # wieder auf -- kein erzwungenes Finalisieren, kein Korrumpieren.
-            self._print(quota_pause_player_message(quota_pause_reset_hint(str(exc))))
+            self._print(quota_pause_player_message(
+                quota_pause_reset_hint(str(exc)), rate_limited=quota_pause_is_rate_limited(str(exc)),
+            ))
             return
         if outcome.completion.success:
             self._print(f"Abschnitt abgeschlossen: {outcome.completion.members_completed}")

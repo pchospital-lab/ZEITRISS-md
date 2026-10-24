@@ -42,7 +42,8 @@ sys.path.insert(0, _REPO_ROOT_STR)
 from mmo_sim.core import identity  # noqa: E402
 from mmo_sim.ui.tui import TuiSession  # noqa: E402
 from mmo_sim.adapters.base import (  # noqa: E402
-    ProviderQuotaPausedError, quota_pause_player_message, quota_pause_reset_hint,
+    ProviderQuotaPausedError, quota_pause_is_rate_limited, quota_pause_player_message,
+    quota_pause_reset_hint,
 )
 from mmo_sim.adapters.factories import (  # noqa: E402
     default_gm_transport_factory as _default_gm_transport_factory,
@@ -152,7 +153,9 @@ def main(argv: list[str] | None = None) -> int:
         # derselbe Save-Stand bleibt die verbindliche Grenze, kein
         # erzwungenes Finalisieren -- ein Neustart setzt ueber die
         # bestehenden Resume-Pfade genau hier fort.
-        print(quota_pause_player_message(quota_pause_reset_hint(str(exc))))
+        print(quota_pause_player_message(
+            quota_pause_reset_hint(str(exc)), rate_limited=quota_pause_is_rate_limited(str(exc)),
+        ))
         return 0
 
 

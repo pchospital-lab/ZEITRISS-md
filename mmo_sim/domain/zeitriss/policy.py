@@ -31,6 +31,26 @@ def is_save_command(text: str | None) -> bool:
     return (text or "").strip().casefold() in {c.casefold() for c in SAVE_COMMANDS}
 
 
+def is_saveguard_rejection(gm_text: str | None) -> bool:
+    """P3 (R4-Rundenabschluss): True, wenn `gm_text` (die GM-/SL-Antwort
+    dieses Turns) die KANONISCHE SaveGuard-Verweigerungsmeldung enthaelt --
+    `meta/masterprompt_v6.md` §"`!save` ausserhalb des HQ" schreibt dem GM
+    GENAU das feste Format `"SaveGuard: <Grund> - HQ-Save gesperrt."` vor
+    (`systems/gameflow/speicher-fortsetzung.md`: "Alle SaveGuards haengen
+    ihren Grund konsistent an das Suffix '- HQ-Save gesperrt.'"). Geprueft
+    wird das Zusammentreffen BEIDER fester Protokoll-Tokens -- kein freies
+    Prosa-/Substring-Matching auf irgendeinen Text, der nur "save" oder
+    "SaveGuard" enthaelt (das waere dieselbe verworfene Phrasen-Heuristik
+    wie die alte, tote Prosa-Variante des Completion-Triggers, s.
+    `build_save_command_completion_fallback`-Docstring). Ein exaktes
+    `!save` (`is_save_command`), auf das der GM mit dieser Meldung
+    antwortet, ist eine ausdrueckliche SaveGuard-/HQ-Verweigerung -- KEIN
+    Abschlussversuch (s. `core.runtime.SectionRuntime.completion_hit`s
+    dritte OR-Bedingung)."""
+    text = gm_text or ""
+    return "SaveGuard:" in text and "HQ-Save gesperrt" in text
+
+
 def build_save_command_completion_fallback(table, harvest_extractor=save_lib.harvest_from_debrief):
     """OPTION2-CMD: baut das injizierbare `Callable[[str, str | None], bool]`-
     Fallback-Praedikat fuer `core.runtime.SectionRuntime(completion_fallback=

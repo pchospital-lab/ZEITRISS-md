@@ -40,6 +40,7 @@ def run_play_session(
     completion_fallback: Callable[[str, str | None], bool] | None = None,
     harvest_conflict_detector: Callable[[str, dict[str, str]], list[str]] | None = None,
     explicit_completion_attempt: Callable[[str | None], bool] | None = None,
+    save_guard_rejection_detector: Callable[[str], bool] | None = None,
 ) -> SectionOutcome:
     """EIN gemeinsamer Einstiegspunkt fuer "einen Abschnitt an einem Tisch
     spielen". Baut die `SectionRuntime` und delegiert an
@@ -63,6 +64,7 @@ def run_play_session(
         completion_fallback=completion_fallback,
         harvest_conflict_detector=harvest_conflict_detector,
         explicit_completion_attempt=explicit_completion_attempt,
+        save_guard_rejection_detector=save_guard_rejection_detector,
     )
     return runtime.run_full_section(
         controller, section_id, contexts_by_persona, states_dir, today, ts, max_turns=max_turns,

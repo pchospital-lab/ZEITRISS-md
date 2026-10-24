@@ -162,6 +162,7 @@ def play_bound_table(
         build_harvest_conflict_detector,
         build_save_command_completion_fallback,
         is_save_command,
+        is_saveguard_rejection,
     )
 
     agreed_activity = None
@@ -225,6 +226,11 @@ def play_bound_table(
         # neuen Export) -- `is_save_command` bleibt dieselbe strikte Exakt-
         # pruefung, kein Substring-Trigger.
         explicit_completion_attempt=is_save_command,
+        # P3 (R4-Rundenabschluss): ein exaktes `!save`, das die SL/SaveGuard
+        # ausdruecklich ablehnt (keine HQ-Erlaubnis), darf NICHT ueber die
+        # dritte `explicit_completion_attempt`-Bedingung finalisieren bzw.
+        # in exporterzwingende Korrekturanfragen wechseln.
+        save_guard_rejection_detector=is_saveguard_rejection,
     )
     if outcome.completion.success:
         reason = (

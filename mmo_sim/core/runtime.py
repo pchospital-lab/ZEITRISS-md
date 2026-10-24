@@ -27,6 +27,7 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from . import _section_completion_recovery, request_ledger, save_correction, store
+from ..adapters.base import ProviderQuotaPausedError
 from .admission import read_admission_block, reservation_for_request, reservation_for_wire_text
 from .completion_marker import completion_marker_matches
 from .controller import TableController
@@ -121,6 +122,7 @@ class SectionRuntime:
         completion_fallback: Callable[[str, str | None], bool] | None = None,
         harvest_conflict_detector: Callable[[str, dict[str, str]], list[str]] | None = None,
         explicit_completion_attempt: Callable[[str | None], bool] | None = None,
+        save_guard_rejection_detector: Callable[[str], bool] | None = None,
     ):
         self.lobby = lobby
         self.table = table
@@ -174,6 +176,19 @@ class SectionRuntime:
         # Substring-Erkennung (die Praedikat-Implementierung selbst bleibt
         # bei `is_save_command`s strikter Exakt-/Trim-/Casefold-Pruefung).
         self.explicit_completion_attempt = explicit_completion_attempt
+        # P3 (R4-Rundenabschluss): injizierbares Praedikat `(gm_text) ->
+        # bool` -- "die GM-/SL-Antwort DIESES Turns ist eine ausdrueckliche
+        # SaveGuard-/HQ-Verweigerung". Default `None` -> No-op = exakt
+        # bisheriges Verhalten (kein Alt-Aufrufer betroffen). Die Runtime
+        # bleibt domaenen-neutral (wie `completion_fallback`/`explicit_
+        # completion_attempt`) -- ZEITRISS baut es aus `domain.zeitriss.
+        # policy.is_saveguard_rejection` und reicht es ueber `core.
+        # app_service.run_play_session` durch. Zweck: `explicit_completion_
+        # attempt` alleine sieht nur den Leader-Input (`!save`), NICHT die
+        # GM-Antwort -- ein exaktes `!save`, das die SL/SaveGuard
+        # ausdruecklich ABLEHNT (keine HQ-Erlaubnis), darf trotzdem NICHT
+        # als Abschlussversuch gelten (s. `completion_hit`).
+        self.save_guard_rejection_detector = save_guard_rejection_detector
         # W51 (01_RESTAUFTRAG.md §3, SCOPE.json semantic_constraints.ui
         # "pending save/correction status and controls"): additiv, OPTIONAL
         # (Default `None` -> No-op) -- `lab/runner.py` (headless) konstruiert
@@ -341,8 +356,24 @@ class SectionRuntime:
     def _collect_reflections(
         self, controller: TableController, section_id: str, ts: str,
         contexts_by_persona: dict, states_dir,
-    ) -> bool:
-        """Plan §1 Punkt 6: 'bei explizitem gueltigem Abschluss: private
+    ) -> tuple[bool, str | None]:
+        """Rueckgabe `(ok, pause_reason)`: `pause_reason` ist NUR gesetzt,
+        wenn ein getypter Admission-Stop (`_GateBlocked`) die Runde beendet
+        hat -- der Aufrufer (`finalize`) nutzt das, um diesen Fall von der
+        allgemeinen "mindestens eine Pflichtreflexion fehlgeschlagen"-
+        Meldung zu unterscheiden (P1, R4-Rundenabschluss: eine bestaetigte
+        Kontingent-/Admission-Pause darf NICHT im generischen Fehlerpfad
+        kollabieren). Eine `ProviderQuotaPausedError` wird HIER NICHT
+        gefangen/archiviert-und-weiter, sondern nach dem Archiveintrag
+        erneut geworfen (`raise`) -- sie durchlaeuft `finalize()`/
+        `run_full_section()` ungefangen bis zum selben `except
+        ProviderQuotaPausedError`-Pausenpfad, den ein gewoehnlicher Spielzug
+        bereits erreicht (`ui/tui.py`), statt als `pending_recovery` zu
+        verschwinden. Beide Pausentypen beenden die Runde SOFORT (kein
+        weiteres Mitglied wird mehr angefragt); bereits empfangene/
+        committete Reflexionen bleiben unangetastet.
+
+        Plan §1 Punkt 6: 'bei explizitem gueltigem Abschluss: private
         (Persona-)Reflexion bzw. freiwillige menschliche Notiz' — KEIN
         optionales Reportfeature (Plan §4: 'fehlende persoenliche
         Reflexionen sind aber KEINE optionale Reportauswertung'). Geht NICHT
@@ -406,8 +437,9 @@ class SectionRuntime:
                 and existing.get("table_id") == self.table.table_id
                 and existing.get("section_id") == section_id
             ):
-                return False
+                return False, None
         ok = True
+        pause_reason: str | None = None
         path = self.lobby.run_dir / "reflections.jsonl"
         already_reflected: set[str] = set()
         # A4/R08-Restintegrationsfix (WEGKARTE §7 A4, REVIEW-P2R.md R-D):
@@ -464,14 +496,41 @@ class SectionRuntime:
                     # `_admitted_decision`.
                     record = self._admitted_decision("reflection", controller, pk, ctx, section_id=section_id)
                 except _GateBlocked as e:
+                    # P1 (R4-Rundenabschluss): getypter Admission-Stop --
+                    # erhalten statt im generischen Pfad zu kollabieren, UND
+                    # die Runde SOFORT beenden (kein weiteres Mitglied mehr
+                    # anfragen). `pause_reason` gesetzt signalisiert dem
+                    # Aufrufer (`finalize`), die spezifische Meldung statt
+                    # der allgemeinen Reflexionsfehler-Meldung zu zeigen.
                     ok = False
+                    pause_reason = e.reason
                     with path.open("a", encoding="utf-8") as fh:
                         fh.write(json.dumps({
                             "persona_key": pk, "section_id": section_id, "ts": ts,
                             "status": "pending_recovery",
                             "error": f"Admission-Gate blockiert: {e.reason}",
                         }, ensure_ascii=False) + "\n")
-                    continue
+                    break
+                except ProviderQuotaPausedError as exc:
+                    # P1 (R4-Rundenabschluss): eine getypte Kontingent-/
+                    # Budgetpause darf NICHT im generischen `except
+                    # Exception` als bloßes `pending_recovery` enden (das
+                    # naechste Mitglied wuerde trotzdem angefragt). Den
+                    # Archivbeleg schreiben, DANN erneut werfen -- die
+                    # Exception durchlaeuft `finalize()`/`run_full_section()`
+                    # ungefangen (dort wird nur `_GateBlocked` gefangen) bis
+                    # zum selben `except ProviderQuotaPausedError`-Pausenpfad,
+                    # den ein gewoehnlicher Spielzug bereits erreicht
+                    # (`ui/tui.py`). Schon empfangene/committete Reflexionen
+                    # bleiben im Archiv/State bestehen (oben bereits
+                    # geschrieben), kein weiteres Mitglied wird angefragt.
+                    with path.open("a", encoding="utf-8") as fh:
+                        fh.write(json.dumps({
+                            "persona_key": pk, "section_id": section_id, "ts": ts,
+                            "status": "pending_recovery",
+                            "error": f"Kontingent-/Budgetpause erkannt: {exc}",
+                        }, ensure_ascii=False) + "\n")
+                    raise
                 except Exception as exc:
                     ok = False
                     with path.open("a", encoding="utf-8") as fh:
@@ -575,18 +634,24 @@ class SectionRuntime:
         # Schleifendurchlauf mehr faellig), darf `finalize_section_after_
         # reflection` trotzdem nicht mehr erreichen. Die bereits erhaltene
         # Antwort bleibt im Archiv erhalten (oben bereits geschrieben);
-        # nur die endgueltige Finalisierung wird verhindert.
-        try:
-            self._check_gate()
-        except _GateBlocked as e:
-            ok = False
-            with path.open("a", encoding="utf-8") as fh:
-                fh.write(json.dumps({
-                    "persona_key": None, "section_id": section_id, "ts": ts,
-                    "status": "pending_recovery",
-                    "error": f"Admission-Gate blockiert nach letzter Reflexion: {e.reason}",
-                }, ensure_ascii=False) + "\n")
-        return ok
+        # nur die endgueltige Finalisierung wird verhindert. P1 (R4-
+        # Rundenabschluss): wenn die Schleife oben bereits wegen eines
+        # Admission-Stops abgebrochen ist (`pause_reason` bereits gesetzt),
+        # ist dieser Check redundant (das Gate ist bereits bekannt
+        # blockiert) -- NICHT erneut pruefen, kein doppelter Archivbeleg.
+        if pause_reason is None:
+            try:
+                self._check_gate()
+            except _GateBlocked as e:
+                ok = False
+                pause_reason = e.reason
+                with path.open("a", encoding="utf-8") as fh:
+                    fh.write(json.dumps({
+                        "persona_key": None, "section_id": section_id, "ts": ts,
+                        "status": "pending_recovery",
+                        "error": f"Admission-Gate blockiert nach letzter Reflexion: {e.reason}",
+                    }, ensure_ascii=False) + "\n")
+        return ok, pause_reason
 
     def submit(
         self, controller: TableController, actor_persona_key: str, text: str, ts: str,
@@ -855,19 +920,35 @@ class SectionRuntime:
                 return SectionOutcome(completion=harvest_completion, harvested=harvested, debrief_text=text)
 
             store.return_to_lobby(self.lobby, self.table)
-            reflections_ok = self._collect_reflections(controller, sid, ts, contexts_by_persona, states_dir)
+            reflections_ok, reflections_pause_reason = self._collect_reflections(
+                controller, sid, ts, contexts_by_persona, states_dir,
+            )
             if reflections_ok:
                 completion = store.finalize_section_after_reflection(self.lobby, self.table, sid)
                 self._emit("section_completed", ts, payload={"section_id": sid, "members": completion.members_completed})
             else:
-                completion = store.CompletionResult(
-                    success=False, already_completed=False, written=harvest_completion.written,
-                    members_completed=harvest_completion.members_completed, missing=[],
-                    reason=(
+                # P1 (R4-Rundenabschluss): ein getypter Admission-Stop
+                # waehrend der Pflichtreflexion bekommt eine EIGENE, vom
+                # Stopgrund getragene Meldung -- er kollabiert NICHT in die
+                # allgemeine "mindestens eine Pflichtreflexion
+                # fehlgeschlagen"-Meldung (die weiterhin fuer leere
+                # Antworten/Statewrite-Fehler gilt).
+                if reflections_pause_reason is not None:
+                    reason = (
+                        f"Admission-Gate blockiert: {reflections_pause_reason} — Saves/States wurden "
+                        "geerntet, Abschnitt bleibt offen/wiederaufnehmbar (kein endgueltiger Abschluss, "
+                        "kein Lock-Release, kein Doppelspiel bei Recovery)."
+                    )
+                else:
+                    reason = (
                         "Saves/States wurden geerntet, aber mindestens eine Pflicht-KI-Reflexion "
                         "ist fehlgeschlagen — Abschnitt bleibt offen/wiederaufnehmbar (kein "
                         "endgueltiger Abschluss, kein Lock-Release, kein Doppelspiel bei Recovery)."
-                    ),
+                    )
+                completion = store.CompletionResult(
+                    success=False, already_completed=False, written=harvest_completion.written,
+                    members_completed=harvest_completion.members_completed, missing=[],
+                    reason=reason,
                 )
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": completion.reason})
             return SectionOutcome(completion=completion, harvested=harvested, debrief_text=text)
@@ -898,7 +979,20 @@ class SectionRuntime:
             Nachforderpfad) -- ein hier ausgeloester Versuch OHNE
             bindbaren Save fuehrt dort zu einer BEGRENZTEN Nachforderung
             oder einem kontrollierten HOLD, NIE zu einem synthetischen
-            Erfolg und NIE zu einer weiteren unbegrenzten normalen Runde."""
+            Erfolg und NIE zu einer weiteren unbegrenzten normalen Runde.
+
+            P3 (R4-Rundenabschluss): die dritte Bedingung sah bisher NUR
+            den Leader-Input, NICHT die GM-Antwort -- ein exaktes `!save`,
+            das die SL/SaveGuard ausdruecklich ABLEHNT (keine HQ-Erlaubnis),
+            wurde dadurch trotzdem als Abschlussversuch gewertet (faelschlich
+            finalisiert bzw. in exporterzwingende Korrekturanfragen
+            gewechselt). `save_guard_rejection_detector` (Default `None` ->
+            No-op, unveraendertes Verhalten) macht diese dritte Bedingung
+            jetzt zusaetzlich antwortbewusst: eine ausdrueckliche SaveGuard-
+            Verweigerung UNTERDRUECKT NUR diesen dritten Zweig -- der
+            positive Fall "zulaessige Speicherung, aber fehlender Export/
+            'bereits gespeichert'" (KEINE SaveGuard-Ablehnung im Text)
+            bleibt unveraendert ueber dieselbe Bedingung abgedeckt."""
             if marker_hit(text):
                 return True
             if self.completion_fallback is not None and self.completion_fallback(text, last_leader_input):
@@ -906,6 +1000,10 @@ class SectionRuntime:
             if (
                 self.explicit_completion_attempt is not None
                 and self.explicit_completion_attempt(last_leader_input)
+                and not (
+                    self.save_guard_rejection_detector is not None
+                    and self.save_guard_rejection_detector(text)
+                )
             ):
                 return True
             return False

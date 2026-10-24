@@ -47,6 +47,7 @@ from . import recovery_ops
 from . import request_ledger, store
 from . import _save_correction_window as _window
 from . import save_compatibility as save_compatibility_core
+from ..adapters.base import ProviderQuotaPausedError
 from .admission import _atomic_write_json, read_admission_block, reservation_for_wire_text
 from ..domain.zeitriss import save_correction as save_correction_domain
 from ..domain.zeitriss import save_compatibility as save_compatibility_domain
@@ -394,6 +395,19 @@ def send_correction_turn(
             result = gm_transport.turn(turn_idx, outgoing_text, output_limit_tokens=gm_output_limit)
         else:
             result = gm_transport.turn(turn_idx, outgoing_text)
+    except ProviderQuotaPausedError as exc:
+        # P2 (R4-Rundenabschluss): eine getypte Kontingent-/Budgetpause ist
+        # HIER bereits vollstaendig verbucht (`finish_error` bucht die
+        # Reservierung unveraendert nach `accounted`, s. `request_ledger.
+        # finish_error`-Docstring) -- aber SEMANTISCH keine unklare
+        # Versandsituation und kein gewoehnlicher Transportdefekt. Eigener,
+        # getypt erkannter Reason-Praefix (`quota_paused:`, NICHT
+        # `transport_error:`) laesst den Aufrufer (`pursue_group_save_
+        # correction`) diesen Fall VON der generischen terminalen
+        # Behandlung unterscheiden, ohne `request_ledger.py` selbst
+        # anzufassen.
+        request_ledger.finish_error(run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
+        return SendOutcome(blocked=True, reason=f"quota_paused:{exc}")
     except Exception as exc:
         request_ledger.finish_error(run_dir, request_id, error=exc, seconds=time.monotonic() - t0)
         return SendOutcome(blocked=True, reason=f"transport_error:{exc}")
@@ -1705,6 +1719,42 @@ def pursue_group_save_correction(
                     "section_id": section_id, "table_id": table.table_id, "reason": reason,
                 })
                 break
+            # P2 (R4-Rundenabschluss): eine sicher beobachtete, vollstaendig
+            # verbuchte Kontingent-/Budgetablehnung (`send_correction_turn`
+            # erkennt `ProviderQuotaPausedError` getypt, kein Freitext-
+            # Substring, s. dort) ist WEDER ein unklarer Versand NOCH ein
+            # gewoehnlicher Transportdefekt -- `request_ledger.finish_error`
+            # hat den Request bereits abschliessend `accounted` gebucht
+            # (Reservierung/Verbrauch bleiben unangetastet, KEIN Refund).
+            # Die offene Runde (Mitgliederset + original_block je Figur)
+            # bleibt darum ERHALTEN -- NICHT `mark_hold`, NICHT `_clear_
+            # open_round`. Ein NEUER `round_no` (reine Request-IDENTITAET,
+            # s. `_next_round_no`-Modulkommentar oben -- NICHT das pro-
+            # Figur-Korrekturbudget `attempts_used`) macht den naechsten
+            # regulaeren Aufruf wieder sendefaehig: `request_ledger.begin`
+            # erlaubt einen frischen Request fuer eine bereits `accounted`
+            # Identitaet (nur eine OFFENE/nicht-`accounted` Reservierung
+            # blockiert `begin`); `begin_attempt` wird hier NICHT erneut
+            # aufgerufen -- kein zusaetzlicher Korrekturslot wird verbraucht,
+            # keine alte Request-ID/kein alter Verbrauch/kein erfolgreicher
+            # Save wird ueberschrieben. Erneutes Werfen (statt nur `break`)
+            # laesst diese Pause denselben Pfad erreichen wie eine Quota-
+            # Pause im gewoehnlichen Zug/der Pflichtreflexion -- `finalize`/
+            # `run_full_section` fangen `ProviderQuotaPausedError` NICHT
+            # (nur `_GateBlocked`), sie durchlaeuft ungefangen bis zum
+            # bestehenden `except ProviderQuotaPausedError`-Pausenpfad
+            # (`ui/tui.py`) -- dieselbe ruhige Spielermeldung wie jede
+            # andere Kontingentpause, kein stilles "nicht abgeschlossen".
+            if reason.startswith("quota_paused:"):
+                new_round_no = _next_round_no(run_dir, table.table_id, section_id)
+                _write_open_round(run_dir, table.table_id, section_id, new_round_no, [
+                    {"persona_key": c["persona_key"], "char_id": c["char_id"], "original_block": c["original_block"]}
+                    for c in candidates
+                ])
+                emit("save_correction_hold", {
+                    "section_id": section_id, "table_id": table.table_id, "reason": reason,
+                })
+                raise ProviderQuotaPausedError(reason[len("quota_paused:"):])
             for c in candidates:
                 mark_hold(run_dir, c["repair_key"], reason=reason)
             _clear_open_round(run_dir, table.table_id, section_id)

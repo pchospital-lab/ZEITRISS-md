@@ -248,7 +248,21 @@ _CHILD_ENV_ALLOWLIST = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "TERM", "SHE
 # eine, bereits per `json.loads` dekodierte Feld. Jedes andere
 # `is_error=True` (Auth-/Input-/Binary-Defekt) OHNE dieses Vokabular bleibt
 # ein gewoehnlicher `ProviderUnavailableError` (terminal, Fix4 unveraendert).
-_QUOTA_SIGNATURE_MARKERS = ("session limit", "usage limit", "rate limit", "quota", "resets")
+_QUOTA_SIGNATURE_MARKERS = ("session limit", "usage limit", "rate limit")
+# P4 (R4-Rundenabschluss): die BLOSSEN Woerter "quota"/"resets" waren zu
+# breit -- ein strukturierter Config-Error wie `result="Config error:
+# please check your quota settings in the admin panel"` enthaelt "quota",
+# ist aber KEINE Kontingentpause (Generalreview, Fix5B verengte nur den
+# historischen Wrapper, nicht diesen gemeinsamen Matcher). Ein ECHTES
+# Limitschema paart "quota" IMMER mit einem Erschoepfungswort
+# (exceeded/limit/reached/exhausted) ODER "resets" MIT einem tatsaechlichen
+# Reset-Wert (Datum/Uhrzeit, s. `_quota_reset_hint_suffix`s eigene
+# Dokumentation des Formats "... resets 5:30pm ..."), NIE das blosse Wort
+# allein.
+_QUOTA_WORD_SIGNATURE_RE = re.compile(
+    r"quota\s+(?:exceeded|limit|reached|exhausted)|over\s+quota|out\s+of\s+quota", re.IGNORECASE,
+)
+_QUOTA_RESET_WITH_VALUE_RE = re.compile(r"resets\s+\S", re.IGNORECASE)
 
 # Extrahiert -- rein informativ fuers Terminal-UX (FIX5B) -- den Text NACH
 # 'resets ' aus dem strukturierten `result`-Feld, falls vorhanden (z.B.
@@ -266,9 +280,22 @@ def is_quota_pause_result_text(result_text: str | None) -> bool:
     retroaktiv, auf bereits persistierte Evidence angewandt -- von der eng
     gegateten Driver-Migration (`driver.integrated._quota_migration_
     eligibility`) importiert/verwendet, damit beide Stellen GENAU dieselbe
-    Klassifikation teilen (keine zweite, abweichende Vokabular-Kopie)."""
+    Klassifikation teilen (keine zweite, abweichende Vokabular-Kopie).
+
+    P4 (R4-Rundenabschluss): "quota"/"resets" zaehlen NUR noch im echten
+    Limitschema (`_QUOTA_WORD_SIGNATURE_RE`/`_QUOTA_RESET_WITH_VALUE_RE`
+    oben) -- ein beliebiger Config-Fehler, der zufaellig das blosse Wort
+    "quota" enthaelt (z.B. "Config error: please check your quota
+    settings in the admin panel"), legitimiert dadurch KEINEN Kontingent-
+    Resume mehr."""
     text = (result_text or "").lower()
-    return any(marker in text for marker in _QUOTA_SIGNATURE_MARKERS)
+    if any(marker in text for marker in _QUOTA_SIGNATURE_MARKERS):
+        return True
+    if _QUOTA_WORD_SIGNATURE_RE.search(text):
+        return True
+    if _QUOTA_RESET_WITH_VALUE_RE.search(text):
+        return True
+    return False
 
 
 def _quota_reset_hint_suffix(result_text: str | None) -> str:
