@@ -1359,6 +1359,30 @@ class SectionRuntime:
             debrief_ctx = contexts_by_persona.get(f"{leader}__debrief", contexts_by_persona[leader])
             ongoing_round = 0
             while turns_taken < max_turns:
+                # FIX2 (R4-Duo-Anschluss, 02-FRESH-MAIN-AUFTRAG.md "Reparatur 2:
+                # unerledigte Abschlussarbeit dauerhaft erkennen"): Nach dem
+                # ERSTEN, nicht abschliessenden Zug dieser Schleife (ongoing_
+                # round > 0) NICHT in wiederholte reine Story-/Persona-Zuege
+                # weiterlaufen, wenn fuer diese Section eine ERSCHOEPFTE,
+                # unerledigte Gruppenkorrektur vorliegt (Marker via
+                # `_clear_open_round` geloescht, Mitglieds-Datensaetze aber
+                # `validating`/`attempts_used=MAX`, kein Plan/Final). Der erste
+                # Zug (sowie Anker/Import/ein etwaiger Compat-/Resume-Ladeweg
+                # oben) hatte seine Chance, den Abschnitt regulaer bzw. ueber die
+                # Recovery abzuschliessen -- tat er das nicht, ist jeder weitere
+                # Zug nur Erzaehlung: GENAU der belegte Duo-B-Defekt (14
+                # unnoetige GM-Zuege nach zwei erfolglosen Korrekturen), den der
+                # markerbasierte Check oben nach der Budgeterschoepfung nicht
+                # mehr sieht. Statt weiterzuerzaehlen den idempotenten,
+                # fortsetzbaren Abschluss-/Recoveryzweig fuehren (bei weiterhin
+                # ungueltigem/erschoepftem Stand ein ehrliches HOLD ohne weiteren
+                # GM-Story-Transport). BEWUSST erst ab dem zweiten Durchlauf,
+                # damit der legitime erste Abschluss-/Compat-/Folgespielzug
+                # (z.B. `test_savecompat_*`) NICHT vorzeitig geblockt wird.
+                if ongoing_round > 0 and save_correction.has_unfinished_group_round(
+                    self.lobby.run_dir, self.table.table_id, section_id
+                ):
+                    return finalize("", resume_section_id=section_id)
                 if ongoing_round > 0:
                     poll_guests_and_consolidate()
                 act(leader, debrief_ctx)

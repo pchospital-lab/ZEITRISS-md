@@ -600,7 +600,15 @@ def _describe_expected_shape(node: dict | None) -> str | None:
     if typ == "array":
         items = node.get("items") if isinstance(node.get("items"), dict) else {}
         it = items.get("type") if isinstance(items, dict) else None
-        return "Liste" + (f" von {it}-Einträgen" if isinstance(it, str) else "")
+        desc = "Liste" + (f" von {it}-Einträgen" if isinstance(it, str) else "")
+        limits = []
+        if isinstance(node.get("maxItems"), int):
+            limits.append(f"hoechstens {node['maxItems']} Eintraege")
+        if isinstance(node.get("minItems"), int):
+            limits.append(f"mindestens {node['minItems']} Eintraege")
+        if limits:
+            desc += " (" + ", ".join(limits) + ")"
+        return desc
     if isinstance(typ, list):
         return "einer der Typen: " + ", ".join(str(t) for t in typ)
     if typ == "string":

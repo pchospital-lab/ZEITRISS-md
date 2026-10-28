@@ -1433,6 +1433,60 @@ def has_open_group_round(run_dir: str | Path, table_id: str, section_id: str) ->
     return _load_open_round(run_dir, table_id, section_id) is not None
 
 
+#: FIX2 (R4-Duo-Anschluss): Zustaende einer Gruppen-Korrektur, die eine noch
+#: OFFENE (nicht-adoptierte, nicht terminal gehaltene) Abschlussarbeit
+#: bedeuten. WINDOW_PAUSED hat seinen eigenen marker-gebundenen Resume
+#: (`has_open_group_round`), HOLD/ADOPTED/ABORTED sind terminal.
+_OPEN_GROUP_CORRECTION_STATES = frozenset({
+    STATE_VALIDATING, STATE_CORRECTION_PENDING, STATE_CORRECTION_RECEIVED,
+})
+
+
+def has_unfinished_group_round(
+    run_dir: str | Path, table_id: str, section_id: str, max_attempts: int = MAX_ADDITIONAL_REQUESTS,
+) -> bool:
+    """FIX2 (R4-Duo-Anschluss, 02-FRESH-MAIN-AUFTRAG.md "Reparatur 2:
+    unerledigte Abschlussarbeit dauerhaft erkennen"): marker-UNABHAENGIGER,
+    rein lesender Nachweis einer ERSCHOEPFTEN, aber noch nicht abgeschlossenen
+    Gruppenkorrektur fuer GENAU diesen Tisch/diese Section. Deckt das Fenster
+    ab, das `has_open_group_round` NICHT sieht: nach ausgeschoepftem
+    Korrekturbudget (`attempts_used >= MAX_ADDITIONAL_REQUESTS`) loescht
+    `pursue_group_save_correction` den `.open.json`-Marker (`_clear_open_round`),
+    die Mitglieds-Korrekturdatensaetze bleiben jedoch in einem offenen,
+    NICHT-adoptierten Zustand (`validating`/`correction_pending`/
+    `correction_received`) OHNE gepinnten Plan/Final. Genau dann darf der
+    normale Spieleinstieg KEINEN Storyzug starten (belegter Duo-B-Fall:
+    attempts_used=3, danach 14 unnoetige GM-Zuege), sondern muss den
+    idempotenten Abschluss-/Recoveryzweig fuehren.
+
+    BEWUSST eng auf ERSCHOEPFTE Datensaetze beschraenkt: ein offener, aber
+    noch NICHT erschoepfter Korrekturzustand mit verbleibendem Budget gehoert
+    entweder zum markergebundenen Resume (`has_open_group_round`) oder zu einem
+    regulaeren Korrekturzug/Folgespielzug mit verbleibendem Budget (z.B. die
+    Kompat-/Folgespiel-Faelle in `test_savecompat_*`, die nach erfolgreicher
+    Reparatur regulaer weiterspielen) -- fuer die darf hier KEIN HOLD erzwungen
+    werden. Reiner Lesezugriff (kein `mkdir`, keine Mutation); terminale
+    Zustaende (adopted/hold/aborted) zaehlen NICHT als offen."""
+    records_dir = Path(run_dir) / "save_corrections"
+    if not records_dir.is_dir():
+        return False
+    for path in sorted(records_dir.glob("*.json")):
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if (
+            isinstance(record, dict)
+            and record.get("operation_key") == ROLE_GROUP
+            and record.get("table_id") == table_id
+            and record.get("section_id") == section_id
+            and record.get("state") in _OPEN_GROUP_CORRECTION_STATES
+            and attempts_exhausted(record, max_attempts)
+        ):
+            return True
+    return False
+
+
 def pursue_group_save_correction(
     *, lobby, table, section_id: str, harvested: dict, harvest_completion,
     states_dir, today: str, harvest_validator, persona_state_store, gm_transport,
