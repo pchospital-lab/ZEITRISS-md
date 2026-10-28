@@ -1127,6 +1127,31 @@ class SectionRuntime:
         if open_section_id is not None:
             return finalize("", resume_section_id=open_section_id)
 
+        # FIX1 (R4-Rundenabschluss, 01-PRODUCT-REVIEW.md "Ein verbliebener
+        # Produktblocker: offene Korrektur vor dem naechsten Spielzug
+        # dispatchen"): solange die Ernte unvollstaendig ist, pinnt
+        # `store.complete_section` (s.o.) KEIN `__plan.json` -- der obige
+        # Check sieht eine bereits NEU eroeffnete, aber noch nicht
+        # vollstaendig verarbeitete Gruppenkorrekturrunde (`save_correction.
+        # _group_rounds/<tisch>__<section>.open.json`) deshalb NICHT. Die
+        # R12-AUTORECOVERY-Suche unten sieht nur den JUENGSTEN sl_log-
+        # Eintrag und findet die Runde nach weiteren normalen Folgeturns
+        # NIE wieder (belegter Duo-B-Fall: 33 normale Folgeturns nach der
+        # durch eine Admission-/Wall-Clock-Pause unterbrochenen Korrektur).
+        # Dieser bereits identitaets-/mitgliedergebundene Korrekturzustand
+        # ist deshalb GENAUSO wenig ein normaler Spielzug wie ein gepinnter
+        # Plan -- derselbe bereits bestehende, idempotente Resume-Zweig
+        # (`finalize` -> `store.complete_section` -> dessen W48-
+        # Nachforderpfad `save_correction.pursue_group_save_correction`)
+        # wird hier VOR jedem weiteren Anker-/Import-/Spielzug erneut
+        # erreicht -- kein `finalize("")` nur WEIL die Datei existiert:
+        # `pursue_group_save_correction` prueft Marker-/Mitglieder-
+        # Identitaet, Slot-Shape und Admissionsfenster unveraendert VOR
+        # jedem Transport, bereits gueltig geerntete Mitglieder bleiben
+        # dabei unangetastet (R12-W75/W76, s. dort).
+        if save_correction.has_open_group_round(self.lobby.run_dir, self.table.table_id, section_id):
+            return finalize("", resume_section_id=section_id)
+
         # R12-AUTORECOVERY (01_AUFTRAG_AUTORECOVERY.md, CASES AR02/AR03):
         # KEIN offener Abschluss-Auftrag (s.o.) heisst noch NICHT "kein
         # Abschluss faellig" -- das engste Crash-/Pause-Fenster liegt GENAU

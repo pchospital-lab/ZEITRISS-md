@@ -331,6 +331,7 @@ class SendOutcome:
 def send_correction_turn(
     run_dir: str | Path, *, role: str, table_id: str | None, section_id: str | None,
     participant: str, turn_idx: int, outgoing_text: str, gm_transport, table=None,
+    output_limit_tokens_override: float | None = None,
 ) -> SendOutcome:
     """EIN request-gebundener Korrektur-Einzelversand -- derselbe Weg wie
     jeder andere Modellschritt (s. Moduldocstring). `table`, falls übergeben
@@ -339,7 +340,16 @@ def send_correction_turn(
     schreibt denselben `sl_log` fort -- "dieselbe SL-Session/denselben
     historischen Chatkontext"). Ohne `table` (Erschaffungsdialog, noch kein
     Tisch) wird `gm_transport.turn(...)` direkt aufgerufen, exakt wie
-    `core.creation_service.run_admitted_creation_dialog`."""
+    `core.creation_service.run_admitted_creation_dialog`.
+
+    FIX2 (R4-Rundenabschluss, 01-PRODUCT-REVIEW.md "Die tatsaechliche
+    Nachforderung muss in die Ausgabe passen"): `output_limit_tokens_
+    override`, additiv und OPTIONAL (Default `None`), ersetzt -- NUR fuer
+    GENAU DIESEN Versand -- das sonst von `gm_transport.output_limit_
+    tokens` gelesene Limit (`pursue_group_save_correction` skaliert es mit
+    der Mitgliederzahl der aktuellen Runde). `None` (Default, JEDER
+    bestehende Aufrufer inkl. `pursue_single_figure_correction`) belaesst
+    das bisherige Verhalten vollstaendig unveraendert."""
     recovered = request_ledger.find_durable_result(
         run_dir, table_id=table_id, section_id=section_id, role=role,
         turn_idx=turn_idx, participant=participant,
@@ -357,7 +367,11 @@ def send_correction_turn(
     if answered_without_text is not None:
         return SendOutcome(blocked=True, reason="altformat_unresolved_missing_result_text")
 
-    gm_output_limit = getattr(gm_transport, "output_limit_tokens", None)
+    gm_output_limit = (
+        output_limit_tokens_override
+        if output_limit_tokens_override is not None
+        else getattr(gm_transport, "output_limit_tokens", None)
+    )
     gm_route = getattr(gm_transport, "base_url", None)
     reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
     blocked, reason = read_admission_block(
@@ -1403,6 +1417,22 @@ def _clear_open_round(run_dir: str | Path, table_id: str, section_id: str) -> No
         p.unlink()
 
 
+def has_open_group_round(run_dir: str | Path, table_id: str, section_id: str) -> bool:
+    """FIX1 (R4-Rundenabschluss, 01-PRODUCT-REVIEW.md "Ein verbliebener
+    Produktblocker"): oeffentlicher, reiner Lesezugriff auf `_load_open_
+    round` fuer den NORMALEN Spieler-/Lobby-Aufrufer (`core.runtime.
+    SectionRuntime.run_full_section`) -- eine bereits NEU eroeffnete, aber
+    noch nicht vollstaendig verarbeitete Gruppenkorrekturrunde (Marker +
+    Mitgliederset, s. Modulkommentar oben) ist GENAUSO ein dauerhaft
+    gebundener Korrekturzustand wie ein gepinnter `__plan.json` -- OHNE
+    dass der Aufrufer diesen Zustand selbst interpretiert/veraendert.
+    Identitaets-/Slot-/Admissionspruefung bleiben ausschliesslich in
+    `pursue_group_save_correction` (derselben Funktion, die diese Runde
+    auch geschrieben hat); diese Funktion liefert NUR die blosse
+    Anwesenheit des Markers."""
+    return _load_open_round(run_dir, table_id, section_id) is not None
+
+
 def pursue_group_save_correction(
     *, lobby, table, section_id: str, harvested: dict, harvest_completion,
     states_dir, today: str, harvest_validator, persona_state_store, gm_transport,
@@ -1691,10 +1721,33 @@ def pursue_group_save_correction(
             "section_id": section_id, "table_id": table.table_id,
             "members": [c["persona_key"] for c in candidates], "round": round_no,
         })
+        # FIX2 (01-PRODUCT-REVIEW.md "Die tatsaechliche Nachforderung muss
+        # in die Ausgabe passen"): mehrere vollstaendige v7-Personal-Saves
+        # in EINER Nachricht, aber demselben EINEN konfigurierten Outputbound
+        # anzufordern, trunkiert nachweislich (belegter 12.000-Token-Cap,
+        # BREACH-Export mitten im JSON abgeschnitten, waehrend MAHLBERG
+        # denselben Rahmen bereits verbraucht hatte). Reine Transport-
+        # Grenze, GENAU fuer DIESEN Versand (keine Breitenaenderung an
+        # `gm_transport.output_limit_tokens` selbst, kein Einfluss auf
+        # andere Rollen/Turns): das deklarierte Limit skaliert mit der
+        # Mitgliederzahl DIESER Runde, damit der Transport nachweislich
+        # genug Raum fuer ALLE angeforderten vollstaendigen Bloecke
+        # deklariert -- bei genau EINEM Mitglied (der ueberwiegende Fall,
+        # inkl. jedes bestehenden Resume-Tests) bleibt das Verhalten exakt
+        # unveraendert (kein Override, `send_correction_turn` faellt auf
+        # `gm_transport.output_limit_tokens` zurueck). Ohne ermittelbaren
+        # Basiswert (Fake-/Testtransport ohne `output_limit_tokens`) bleibt
+        # ebenfalls unveraendert `None` (kein erfundenes Limit).
+        base_output_limit = getattr(gm_transport, "output_limit_tokens", None)
+        output_limit_override = (
+            base_output_limit * len(candidates)
+            if base_output_limit is not None and len(candidates) > 1
+            else None
+        )
         outcome = send_correction_turn(
             run_dir, role=ROLE_GROUP, table_id=table.table_id, section_id=section_id,
             participant=table.leader, turn_idx=round_no, outgoing_text=message,
-            gm_transport=gm_transport, table=table,
+            gm_transport=gm_transport, table=table, output_limit_tokens_override=output_limit_override,
         )
         if outcome.blocked:
             reason = outcome.reason or "blocked"
