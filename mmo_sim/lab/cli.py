@@ -97,6 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--max-idle-windows", required=True, type=_positive_int, help="max. aufeinanderfolgende Fenster ohne Fortschritt")
         p.add_argument("--max-wall-seconds", default=None, type=_finite_positive_float, help="reale Laufzeitgrenze (Wall-Clock, getrennt von --max-seconds)")
         p.add_argument("--personas", default=None, help="Kommagetrennte Teilmenge der Community (Default: gesamte bestaetigte Community)")
+        p.add_argument("--resume-only-table", default=None, help="Table-ID eines bereits gebundenen Tisches -- beschraenkt die KI-Auswahl auf dessen Mitglieder (R4-Duo-Anschluss: Scope ohne Mitwirkung anderer gebundener Tische). Schliesst sich mit --personas aus.")
 
     p_status = sub.add_parser("status", help="nur lesend: aktuellen Laufzustand anzeigen")
     _add_data_dir_arg(p_status)
@@ -394,6 +395,11 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
         )
 
     selected: set[str] = set(bootstrap.personas_written)
+    resume_only_table = getattr(args, "resume_only_table", None)
+    if args.personas and resume_only_table:
+        raise LabConfigError(
+            "--personas und --resume-only-table schliessen sich aus (eindeutige Auswahlquelle, H-F)."
+        )
     if args.personas:
         requested = {p.strip() for p in args.personas.split(",") if p.strip()}
         unknown = requested - selected
@@ -402,10 +408,35 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
                 f"--personas enthaelt Mitglieder ausserhalb der bestaetigten Community: {sorted(unknown)}"
             )
         selected = requested
+    elif resume_only_table:
+        # R4-Duo-Anschluss (2026-10-28): derselbe `selected`/`ai_personas`-Gate
+        # wie oben bei `--personas`, nur aus einer gebundenen Tischdatei
+        # abgeleitet, statt Personanamen von Hand aufzuzaehlen -- bindet den
+        # Scope explizit an EINEN bereits bestehenden Tisch (`core.store.
+        # Table.load`), kein neuer Dispatch-/Auswahlcode. Dieselbe Garantie
+        # wie `--personas` greift danach unveraendert: `core.lobby_flow.
+        # play_bound_table` haelt JEDEN Tisch mit einem Mitglied ausserhalb
+        # dieser Menge VOR jeder Treiberkonstruktion an (WAITING_HUMAN).
+        table_id = resume_only_table.strip()
+        table_path = run_dir / "tables" / f"{table_id}.json"
+        if not table_path.is_file():
+            raise LabConfigError(
+                f"--resume-only-table verweist auf keinen vorhandenen gebundenen Tisch: {table_id!r} "
+                f"(erwartet unter {table_path})."
+            )
+        table = core_store.Table.load(run_dir, table_id)
+        requested = set(table.members)
+        unknown = requested - selected
+        if unknown:
+            raise LabConfigError(
+                f"--resume-only-table {table_id!r} enthaelt Mitglieder ausserhalb der bestaetigten "
+                f"Community: {sorted(unknown)}"
+            )
+        selected = requested
     if not selected:
         raise LabConfigError(
-            "--personas ergibt eine leere KI-Auswahl -- mindestens eine ausdruecklich gewaehlte "
-            "Persona ist Pflicht (H-F)."
+            "--personas/--resume-only-table ergibt eine leere KI-Auswahl -- mindestens eine "
+            "ausdruecklich gewaehlte Persona ist Pflicht (H-F)."
         )
 
     budget = LabBudget(
