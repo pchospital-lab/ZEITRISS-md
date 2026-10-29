@@ -44,10 +44,21 @@ derter Antworttext) positiv UND widerspruchsfrei gebunden ist, sonst einen
 menschenlesbaren HOLD-Grund."""
 
 
+EntryMatchCheck = Callable[[dict], bool]
+"""Vom Aufrufer gebaute, reine OPTIONALE Zusatzpruefung (OPTION2-CMD,
+FIX-SPEC-OPTION2-CMD.md §3): nimmt den gefundenen sl_log-Eintrag, liefert
+True, wenn er -- UNABHAENGIG von `marker_matches` -- als kommando-gestuetzter
+Abschlussbeleg gilt (z.B. `leader_message` war ein Save-Kommando UND
+`content` traegt einen bindbaren Save-Block). Default `None` ergibt exakt
+das bisherige Marker-only-Verhalten (bestehende Marker-Aufrufe/Tests
+unveraendert)."""
+
+
 def find_recoverable_entry(
     sl_log: list[dict], section_id: str, table_id: str, marker: str,
     marker_matches: Callable[[str, str, str, str], bool],
     *, request_binding_error: RequestBindingCheck | None = None,
+    entry_matches: EntryMatchCheck | None = None,
 ) -> tuple[dict | None, str | None]:
     """Liefert `(entry, hold_reason)` -- s. Moduldocstring fuer die drei
     moeglichen Kombinationen.
@@ -73,9 +84,11 @@ def find_recoverable_entry(
     4. GENAU der `content` DIESES Eintrags (niemals `leader_message` oder
        ein Tisch-Chat-Eintrag -- Leader-/Operatorinput ist KEINE SL-Antwort)
        erfuellt `marker_matches(content, marker, table_id, section_id)`,
-       exakt dieselbe Grammatikpruefung wie im ununterbrochenen Normalfall.
-       Kein Treffer => `(None, None)` (die Szene laeuft einfach weiter,
-       kein Abschlussbeleg vorhanden).
+       exakt dieselbe Grammatikpruefung wie im ununterbrochenen Normalfall --
+       ODER (OPTION2-CMD, additiv) ein uebergebenes `entry_matches(entry)`
+       liefert True (kommando-gestuetzter Abschlussbeleg, s. `EntryMatchCheck`).
+       Keiner der beiden Treffer => `(None, None)` (die Szene laeuft einfach
+       weiter, kein Abschlussbeleg vorhanden).
     5. Traegt der Treffer ueberhaupt KEINE Section-Bindung (`entry_section
        is None`, Schritt 3), ist er -- UNABHAENGIG von jedem weiteren Feld
        -- per Definition unzureichend gebunden: `(None, hold_reason)`
@@ -96,7 +109,10 @@ def find_recoverable_entry(
     if entry_section not in (section_id, None):
         return None, None
     content = entry.get("content") or ""
-    if not marker_matches(content, marker, table_id, section_id):
+    matched = marker_matches(content, marker, table_id, section_id)
+    if not matched and entry_matches is not None:
+        matched = entry_matches(entry)
+    if not matched:
         return None, None
     if entry_section is None:
         # AR2 (Teil C): ein Legacy-Eintrag OHNE jede Section-Bindung ist per

@@ -83,6 +83,7 @@ _EXPECTED_KEYWORDS = frozenset({
     "enum", "const", "type", "pattern", "maxLength", "minLength",
     "maxItems", "minItems", "minimum", "maximum", "additionalProperties",
 })
+_LENGTH_KEYWORDS = frozenset({"maxItems", "minItems", "maxLength", "minLength"})
 _MAX_MESSAGE_LENGTH = 500
 
 
@@ -99,6 +100,7 @@ class SchemaError:
     check: str
     message: str
     expected: object = None
+    actual: object = None  # bei Laengenregeln (maxItems/minItems/maxLength/minLength): tatsaechliche Laenge der Instanz
 
 
 @dataclass(frozen=True)
@@ -138,7 +140,7 @@ class AcceptanceResult:
         Schemaauszug'). Enthaelt ausschliesslich Fehlerpfade/erwartete
         Werte dieses Blocks -- keine fremden Daten, kein roher Python-
         Traceback (SC17)."""
-        items = [f"[{e.schema}]{e.path}: {e.message}" for e in self.structure.errors]
+        items = [_format_schema_feedback(e) for e in self.structure.errors]
         items += [f"[binding:{e.code}] {e.message}" for e in self.binding_errors]
         return items
 
@@ -152,10 +154,34 @@ def _classify(error, schema_name: str) -> SchemaError:
         expected = m.group(1) if m is not None else error.validator_value
     elif keyword in _EXPECTED_KEYWORDS:
         expected = error.validator_value
+    actual = None
+    if keyword in _LENGTH_KEYWORDS:
+        try:
+            actual = len(error.instance)
+        except TypeError:
+            actual = None
     message = error.message
     if len(message) > _MAX_MESSAGE_LENGTH:
         message = message[:_MAX_MESSAGE_LENGTH] + "…(gekuerzt)"
-    return SchemaError(schema=schema_name, path=path or "/", check=keyword, message=message, expected=expected)
+    return SchemaError(schema=schema_name, path=path or "/", check=keyword, message=message, expected=expected, actual=actual)
+
+
+def _format_schema_feedback(e: SchemaError) -> str:
+    """Stellt Pfad, Regel, erlaubte Grenze und tatsaechliche Laenge VOR den evtl.
+    auf _MAX_MESSAGE_LENGTH gekuerzten Validator-Text, damit die entscheidende
+    Regel-/Grenzangabe (z.B. 'regel=maxItems erlaubt=6 ist=7') die SL auch dann
+    erreicht, wenn der rohe jsonschema-Text (grosse Instanz-Repr) abgeschnitten
+    wurde. Lockert nichts: schneidet keinen Spielfakt ab, zaehlt keinen Fehler
+    weg -- der vollstaendige (ggf. gekuerzte) Originaltext bleibt angehaengt."""
+    facts = ["regel=" + e.check]
+    if e.check == "required":
+        if e.expected is not None:
+            facts.append("fehlendes_pflichtfeld=" + repr(e.expected))
+    elif e.expected is not None:
+        facts.append("erlaubt=" + str(e.expected))
+    if e.actual is not None:
+        facts.append("ist=" + str(e.actual))
+    return "[" + e.schema + "]" + e.path + ": " + " ".join(facts) + " -- " + e.message
 
 
 def validate_structure(block: dict) -> StructureReport:

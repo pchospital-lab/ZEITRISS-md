@@ -63,10 +63,37 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
             Path(isolated_workdir).mkdir(parents=True, exist_ok=True)
             extra_flags_raw = os.environ.get("MMO_SIM_PERSONA_ISOLATION_FLAGS", "")
             extra_flags = [f for f in extra_flags_raw.split(",") if f]
-            config = ClaudeCodeConfig(
-                binary=use_cli, isolated_workdir=isolated_workdir,
-                extra_isolation_flags=extra_flags,
-            )
+            # N2R5-TIMEOUTFIX (ZR-N2R-ANSCHLUSS-20261019-R4): additiv/optional,
+            # identisches Muster zu `MMO_SIM_GM_TRANSPORT_MAX_RETRIES` unten --
+            # Default `None`/unveraendert, ohne Angabe bleibt JEDER bestehende
+            # Aufrufer beim bisherigen `ClaudeCodeConfig`-Default (120s/0
+            # Retries). Schliesst den vorher offenen Fund, dass LAUNCH-SPEC
+            # `timing.persona_timeout_seconds` bis hierher NIE ankam (der
+            # reale Subprozess-Timeout blieb immer am hartverdrahteten
+            # Default, unabhaengig vom konfigurierten Wert).
+            config_kwargs: dict = {
+                "binary": use_cli, "isolated_workdir": isolated_workdir,
+                "extra_isolation_flags": extra_flags,
+            }
+            raw_timeout = os.environ.get("MMO_SIM_PERSONA_TIMEOUT_SECONDS")
+            if raw_timeout is not None and raw_timeout.strip():
+                try:
+                    config_kwargs["process_timeout_seconds"] = int(float(raw_timeout.strip()))
+                except ValueError:
+                    raise ValueError(
+                        f"MMO_SIM_PERSONA_TIMEOUT_SECONDS={raw_timeout!r} ist nicht als Zahl "
+                        "lesbar -- fail-closed, kein stiller Fallback auf den Default."
+                    ) from None
+            raw_retries = os.environ.get("MMO_SIM_PERSONA_TIMEOUT_RETRIES")
+            if raw_retries is not None and raw_retries.strip():
+                try:
+                    config_kwargs["max_timeout_retries"] = int(raw_retries.strip())
+                except ValueError:
+                    raise ValueError(
+                        f"MMO_SIM_PERSONA_TIMEOUT_RETRIES={raw_retries!r} ist nicht als Zahl "
+                        "lesbar -- fail-closed, kein stiller Fallback auf den Default."
+                    ) from None
+            config = ClaudeCodeConfig(**config_kwargs)
             return PersonaClaudeCodeDriver(config, persona_key)
         if use_api:
             from .persona_api import PersonaApiConfig, PersonaApiDriver

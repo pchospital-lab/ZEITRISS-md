@@ -18,6 +18,103 @@ from . import saves as save_lib
 
 COMPLETION_MARKER = "SECTION-ABSCHLUSS-BESTAETIGT"
 
+SAVE_COMMANDS = frozenset({"!save", "!speichern"})
+"""OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md, 2026-10-22): die dokumentierten
+Save-Kommandos (`meta/project_bootstrap_instructions.md` §"`!save` und
+`!speichern`"). `!bogen` ist NUR Ansicht und zaehlt NICHT als Save-Trigger."""
+
+
+def is_save_command(text: str | None) -> bool:
+    """True, wenn `text` (getrimmt, case-insensitiv) GENAU einem der
+    `SAVE_COMMANDS` entspricht -- der Leader-Input dieses Turns, NICHT die
+    GM-Antwort (s. `build_save_command_completion_fallback`)."""
+    return (text or "").strip().casefold() in {c.casefold() for c in SAVE_COMMANDS}
+
+
+def is_saveguard_rejection(gm_text: str | None) -> bool:
+    """P3 (R4-Rundenabschluss): True, wenn `gm_text` (die GM-/SL-Antwort
+    dieses Turns) die KANONISCHE SaveGuard-Verweigerungsmeldung enthaelt --
+    `meta/masterprompt_v6.md` §"`!save` ausserhalb des HQ" schreibt dem GM
+    GENAU das feste Format `"SaveGuard: <Grund> - HQ-Save gesperrt."` vor
+    (`systems/gameflow/speicher-fortsetzung.md`: "Alle SaveGuards haengen
+    ihren Grund konsistent an das Suffix '- HQ-Save gesperrt.'"). Geprueft
+    wird das Zusammentreffen BEIDER fester Protokoll-Tokens -- kein freies
+    Prosa-/Substring-Matching auf irgendeinen Text, der nur "save" oder
+    "SaveGuard" enthaelt (das waere dieselbe verworfene Phrasen-Heuristik
+    wie die alte, tote Prosa-Variante des Completion-Triggers, s.
+    `build_save_command_completion_fallback`-Docstring). Ein exaktes
+    `!save` (`is_save_command`), auf das der GM mit dieser Meldung
+    antwortet, ist eine ausdrueckliche SaveGuard-/HQ-Verweigerung -- KEIN
+    Abschlussversuch (s. `core.runtime.SectionRuntime.completion_hit`s
+    dritte OR-Bedingung)."""
+    text = gm_text or ""
+    return "SaveGuard:" in text and "HQ-Save gesperrt" in text
+
+
+def build_save_command_completion_fallback(table, harvest_extractor=save_lib.harvest_from_debrief):
+    """OPTION2-CMD: baut das injizierbare `Callable[[str, str | None], bool]`-
+    Fallback-Praedikat fuer `core.runtime.SectionRuntime(completion_fallback=
+    ...)` (Runtime bleibt domaenen-neutral -- sie kennt nur das Ergebnis,
+    nicht diese Kommando-/Bindungsregel). `table` wird PER CLOSURE gebunden
+    (nicht erst beim Aufruf uebergeben), weil `core/app_service.py`/
+    `core/lobby_flow.py`/`ui/tui.py` den Tisch bereits zur Konstruktionszeit
+    kennen -- derselbe Wiring-Punkt wie `marker`/`harvest_validator`/
+    `harvest_extractor`.
+
+    Ersetzt die PHRASEN-basierte Variante (FIX-SPEC-OPTION2.md, verworfen):
+    der live gehostete GM formuliert die Save-Bestaetigung FREI
+    ("Deepsave wird ausgegeben"/"ausgegeben"/"exportiert") -- Prosa-Matching
+    ist tot (live3). Der Trigger haengt jetzt an SEINEM `!save`-Kommando
+    (`is_save_command`) + den tatsaechlichen Save-Bloecken, NICHT an
+    GM-Worten: zusaetzlich zum Kommando muss `harvest_extractor` (Default
+    `saves.harvest_from_debrief`) auf dem GM-Text mindestens einen Save
+    liefern, der sich an einen AKTUELLEN Tisch-Chrononauten (`table.
+    chrononaut_id_to_persona()`) binden laesst -- das schuetzt gegen ein
+    blosses `!save` ohne echten Save (SaveGuard-Verweigerung ausserhalb HQ)
+    UND gegen einen fremden/historischen Block, den `harvest_extractor`
+    nicht an die aktuelle Bindung knuepfen kann (FIX-SPEC-OPTION2-CMD.md
+    §Zielverhalten)."""
+
+    def _fallback(gm_text: str, leader_input: str | None) -> bool:
+        if not is_save_command(leader_input):
+            return False
+        cid_to_pk = table.chrononaut_id_to_persona()
+        harvested = harvest_extractor(gm_text, cid_to_pk) if gm_text else {}
+        return bool(harvested)
+
+    return _fallback
+
+
+def build_harvest_conflict_detector(extract_checked_single=save_validation_lib.extract_checked_single):
+    """G1_RAW_SAVE_CONFLICT (02-AUFTRAG.md §1, 01-SAVE-CODE-REVIEW.md §G1):
+    baut den injizierbaren Rohkonflikt-Detektor `(gm_text, cid_to_pk) ->
+    list[str]` fuer `core.runtime.SectionRuntime(harvest_conflict_detector=
+    ...)`. Die Runtime bleibt domaenen-neutral (kennt nur die Konfliktmeldungen,
+    nicht die v7-Regel). Wiederverwendung der VORHANDENEN Rohpruefung --
+    `save_validation.extract_checked_single` sieht je erwarteter Figur ALLE
+    rohen, noch UNDEDUPLIZIERTEN v7-Kandidaten (`extract_all_saves_raw`, VOR
+    jedem 'erster gewinnt') und wendet `find_duplicate_save_ids` darauf an:
+
+    - zwei ABWEICHENDE Bloecke derselben Figur (gleiche ODER verschiedene
+      `save_id`) -> `(None, konflikte)`, die Meldungen fliessen hier in die
+      Rueckgabe und halten den Abschnitt (kein stilles 'erster gewinnt');
+    - identische Wiederholung -> `(block, [])`, KEIN Konflikt;
+    - kein Kandidat fuer die Figur -> `(None, [])`, KEIN Konflikt.
+
+    Keine neue Saveautoritaet, kein Protokollumbau: reine Erkennung am ERSTEN
+    Annahmepunkt. Jede aktuelle Tisch-Chrononauten-ID (`cid_to_pk`, vom
+    Aufrufer identisch zu `harvest_extractor` uebergeben) wird einzeln geprueft
+    -- Gruppenpersonen bleiben getrennt."""
+
+    def _detect(gm_text: str, cid_to_pk: dict[str, str]) -> list[str]:
+        messages: list[str] = []
+        for chrononaut_id in cid_to_pk:
+            _, conflicts = extract_checked_single(gm_text, chrononaut_id)
+            messages.extend(err.message for err in conflicts)
+        return messages
+
+    return _detect
+
 
 @dataclass
 class ZeitrissTableSizePolicy:

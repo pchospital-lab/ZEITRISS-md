@@ -1,7 +1,41 @@
-# ZEITRISS MMO-Sim — Bedien-/Betriebsdoku (lokaler Entwicklungskandidat)
+# ZEITRISS MMO-Sim — Bedien-/Betriebsdoku (lokale Beta)
 
 > **Diese Seite ist Entwickler-/Betriebsdoku**, keine Spieleranleitung.
 > Willst du einfach spielen: [docs/spielerstart.md](spielerstart.md).
+
+> **Doku-Stand (2026-10-29, R4-Anschluss):** Die aktuelle Gegenwartsübersicht
+> zum Terminal-Speicher-/Gruppenabschlussstand (fünf Figuren in Duo und Trio
+> mit je zwei geschlossenen Runden, fünf Kaltload-Bindungen und wirksame
+> Duo-Folgeaktion; unabhängig abgenommener lokaler R4-Umfang) steht gebündelt im
+> [Terminalstatus](terminal-status.md). Die folgenden Runner-/LA1-Abschnitte
+> dieser Seite bleiben als eigene historische Teilabnahmen mit ihrem
+> jeweiligen Datum/Scope unverändert gültig; dieser Hinweis ersetzt sie nicht.
+
+> **Iststand Runner (2026-10-15, S1D-Anschluss):** Der Launcher
+> `launch_and_drain.py` (`157dcbea…`) ist jetzt **im synthetischen
+> Offline-Launcherscope unabhängig angenommen** (`S1D_SCOPED_OFFLINE_ACCEPTED`,
+> 2026-10-15). Der zuvor offene, zweimal reproduzierte Rest
+> (`S1D-PENDING-STOP-BEFORE-DRAIN`: `launch_and_drain.py` arbeitete einen
+> vorgemerkten kooperativen Stop ab, bevor die Ausgabe-Reader liefen — ein
+> kooperatives Kind mit Antwort über Pipekapazität blockierte dadurch und
+> wurde statt kooperativ beendet hart gekillt, Marker verloren) ist damit
+> geschlossen. Acht weitere Helper sind **bytegleich zum eingefrorenen
+> Freeze** (sha256-Abgleich). Das ist **keine native Installation und keine
+> Liveabnahme** dieses Launchers — der Umfang bleibt der synthetische
+> Offline-Scope. Funktions-/Belegmatrix dieses Anschlusses:
+>
+> | Bereich | Status | Beleg |
+> |---|---|---|
+> | R4-R3 Frist-/Rollenproben (S2, R1) | weiterhin **positiv**, unverändert erhalten | historische Bytes/Proben dieser Datei, unten unverändert |
+> | General-MUSS `S1D-PENDING-STOP-BEFORE-DRAIN` | **angenommen behoben** (Fix in `launch_and_drain.py`, Reader-Start vor jeder Pause-Behandlung, direkter Signalpfad entsprechend gegated) | Generalprobe (Baseline `broken`, Kandidat `fixed`) + disjunkte Zusatzproben + erneut gelaufene R1-Erhaltung, s. Generalreview 2026-10-15 |
+> | Acht weitere Helper | bytegleich zum eingefrorenen Freeze | sha256-Vergleich, s. Generalreview 2026-10-15 |
+> | Abnahmestatus | synthetischer Offline-Scope unabhängig angenommen; **keine** native Installation/Liveabnahme | Entscheidung/Scope sind in den Projektunterlagen gehalten, nicht Teil dieses Repos |
+>
+> Spielerrelevant bleibt ausschließlich das Bedien-Handbuch:
+> [Spielerstart](spielerstart.md). Die restlichen Abschnitte dieser Seite
+> (ab „Status (2026-10-03)") sind unverändert gültige historische Teilabnahmen
+> mit ihrem jeweils eigenen Datum/Scope — dieser Block ersetzt sie nicht,
+> er ordnet nur den aktuellen Runner-Stand davor ein.
 
 > **Status (2026-10-03):** Ausgewählte lokale Funktionsumfänge sind
 > kontrolliert offline geprüft. IA-1 (Schutz von Current und inaktivem
@@ -14,6 +48,127 @@
 > bleiben getrennte offene Nachweise. Die folgenden Bedienbeschreibungen
 > ersetzen diese Freigaben nicht; historische Statusabschnitte behalten
 > ihren jeweils angegebenen Zeitpunkt und Umfang.
+
+## LA1 — Live-Alltagsabnahme (2026-10-13)
+
+Ein reales, **betreiberunterstütztes Live-Experiment mit Teilnachweisen**
+des Terminal-Clients gegen ein reales OpenWebUI/LiteLLM-Backend (reale,
+budgetpflichtige Modellaufrufe, kein Test-Double) — kein Gesamturteil
+„erste echte Live-Abnahme". Ergebnisstufe: **LIVE_ASSISTED_PARTIAL**
+(notwendige Betreiberhilfen bei der Figurenerschaffung, Kernlauf über zwei
+Abschnitte nicht erreicht — keine unassistierte Endnutzerbehauptung, kein
+Soloersatz/keine verkleinerte Gruppe). Unabhängig gegengeprüft: beide
+gepinnten v7-Schemas für die drei gelieferten Katalogsaves plus eigene
+Ledger-/Hashrekonstruktion (read-only) — **kein voller Produkt-
+Validatorlauf**, keine Prüfung fehlender Current-Versionbytes. Teameigene
+Validator-Checks bleiben als solche gekennzeichnet, nicht dem General
+zugeschrieben.
+
+**Source-/Backend-/Konfigurationsstand:** `main` detached auf
+`36ab8b747f5c981c7aafb72513212ea4e7fda511` (= `origin/main`, keine
+Divergenz), SL-Preset `zeitriss-v426-uncut` → `anthropic/claude-sonnet-4.6`
+(LiteLLM-Alias, Prompt-Cache aktiv), Golden-Parameter `temperature=0.8`,
+`max_tokens=64000`, `reasoning_effort=low`. Python 3.12.3 in einer
+**normalen venv** (kein `--user`, s. „Installation" in
+[spielerstart.md](spielerstart.md)).
+
+**Laufumfang (2026-10-13):**
+
+| Fall | Ergebnis | Reichweite |
+|---|---|---|
+| LA01 Start/Bedienung | **TEILBELEGT** | Belegt: Sauberer Checkout+venv-Start, Hauptmenü, Kontexthilfe erreicht; fail-closed Admission-Gate live beobachtet (Modellaufruf ohne Budgetfreigabe korrekt verweigert, 0 Requests). Figuren-/Spielen-Untermenü, Save-Exportansicht und Fortsetzen wurden navigiert, aber ein erfolgreicher Export, eine Rundenwahl oder ein Fortsetzen mit echtem Fortschritt sind daraus NICHT belegt. Automatisierter Terminaltreiber (simulierte Bedienung), kein unabhängiger Menschentest. Kein OpenWebUI/LiteLLM-Neuinstall behauptet — Backend war bereits vorhanden. |
+| LA02 Figurenerschaffung | **PARTIAL 3/5** | Drei Figuren real über den echten Produktweg (`domain.zeitriss.community_creation.advance_community_creation`, derselbe Kern wie `ui/tui.py:_cmd_community`) mit echter KI-Spielleitung erschaffen und v7-schemavalide: `la1_p1→CHR-LATCH-001`, `la1_p2→CHR-BREACH-001`, `la1_p4→CHR-VERA-SOLT`. Zwei genuin blockiert (s. Interventionen unten), kein Umgehen, kein erfundener Fortschritt. |
+| LA03 Zwei Spielabschnitte | **NOT_RUN/BLOCKED** | Gebriefte Fünferbesetzung mit 3/5 nicht ehrlich erfüllbar; Community-Bootstrap ist permanent auf 5 Personas gepinnt, kein Ersatz ohne neue Community-ID. |
+| LA04 Beenden/Fortsetzen | **NOT_RUN** | Abhängig von LA03. |
+| LA05 Live-Recovery | **NOT_RUN** | Abhängig von LA03/LA04. Kein automatischer Live-Recovery-Nachweis in diesem Fenster. |
+| LA06 Readback/Kosten | Kostenrekonstruktion **TEILBELEGT**, Abschnittsreadback **NOT_RUN** | Budget-/Kostenrekonstruktion bis auf den Cent nachvollzogen (s. u.), aber ohne unabhängig abgeglichene Providerrechnung; Content-Readback-Vergleich abhängig von LA03-05. |
+
+**Kostenbasis (datierter historischer Bericht zu diesem Fenster, 2026-10-13,
+kein heutiger freier Deckel):** 63 lokal exportierte Request-IDs = 62
+`accounted` + 1 `sent`/Antwort unbekannt (P3, s. u.). Die 62 `accounted`
+Requests ergeben aus ihren lokal exportierten `actual_cost_usd`-Feldern
+aufsummiert **2,724705 USD**; `provider_id` in den exportierten Records ist
+`null`, es gibt keine unabhängig abgeglichene Providerrechnung. Die
+Budgetautorität `usd_spent=9,4797195` ist eine davon **getrennte**
+konservative Reservierung/Deltasumme, kein zweiter Kostenwert zum
+Addieren. Die darin bereits enthaltene Reservierung für P3 beträgt
+0,252204 USD; tatsächlicher Ausgang und tatsächliche Kosten dieses
+Requests bleiben ungeklärt (s. u.). Für dieses historische LA1-Fenster
+galt der seither versiegelte Gesamtdeckel von 250 USD. Aktuelle
+Anschlussaufträge benötigen eigene, ausdrücklich genannte Budgets
+(s. Projektunterlagen außerhalb dieses Repos). Differenz = konservative Pauschalreservierung je Request,
+keine Doppelbuchung (unabhängig bis auf 10 signifikante Stellen
+nachgerechnet). 1261,9 von 86.400 zulässigen Requestsekunden verbraucht.
+
+**Besondere Interventionen:**
+- Die Figuren-Chargenerschaffung (LA02) wird von `lab start`/`resume`
+  **nicht** automatisch ausgelöst (dessen Fensterschleife ruft nur
+  `core.lobby_flow.run_lobby_window`). Sie wurde stattdessen über ein
+  separates Harness-Skript angestoßen, das **dieselbe** Domänenfunktion
+  (`advance_community_creation`) mit denselben Factories aufruft wie der
+  TUI-Menüpunkt „Meine KI-Spielgemeinschaft" — kein Produktcode-Edit, kein
+  Bypass der Admission-/Ledger-Gates.
+- **la1_p3** (gebundener Originalrequest `bd3526794af849c9a2115dc7ecdee01a`)
+  blieb mit einem gesendeten, aber bis heute **unbekannten** Antwortstatus
+  hängen (`state=sent`, Antwort unbekannt — nicht „nirgendwo rekonstruierbar",
+  auch nicht „Server sicher erreicht"): das eigene Erschaffungs-Harness
+  hatte keinen SIGTERM-Handler (anders als `mmo_sim/lab/cli.py`), ein
+  äußerer Timeout-Kill traf mitten im Transportversuch. Das Produkt selbst
+  verhinderte korrekt einen zweiten Versand (`OpenReservationExistsError`).
+  Eine vollständige historische Ursache ist damit NICHT bewiesen; die
+  frühere Einstufung „Harness-Defekt, kein Produktfehler" ist eine zu
+  absolute Aussage und wird hier nicht wiederholt. Der heutige Launcherfix
+  (s. „Iststand Runner" oben) macht diesen Altrequest weder ungesendet noch
+  abrechnungsfrei. Die Reservierung bleibt offen; kein Resend, kein Refund,
+  kein Settlement in diesem oder einem späteren Block ohne eigenen,
+  ausdrücklich dafür erteilten Auftrag.
+- **la1_p5** blieb an einer deterministischen, zweifach reproduzierten
+  Ablehnung durch den `ZeitrissHarvestValidator` hängen
+  (`unjustified_semantic_drift`) — **ein** Korrekturversuch, kein
+  ausgeschöpftes Dreierbudget; der terminale Hold nach diesem einen Versuch
+  ist Produktverhalten, nicht Harness-Erschöpfung. Der ursprüngliche
+  Wallet-Wert war die Zahl `100`; die Korrekturantwort lieferte
+  `{"balance":100,"currency":"CU"}`. Diese Antwort besteht das tolerante
+  Schema, nicht aber das strikte Exportschema. Die Drift-Ausnahme für
+  einen wertgleichen Zahl-zu-Objekt-Wechsel deckt nur das einzelne
+  Betragsblatt ab, nicht zusätzlich `currency`. Die synthetische
+  Gegenkontrolle `{"balance":100}` wurde **nicht** als echter Spielstand
+  oder neue SL-Antwort übernommen. Diese konkrete Abweisung ist damit
+  geklärt, keine offene Validatorbaustelle. Daraus folgen weder
+  Entsperrung noch Savekorrektur, Neugeneration oder Schemaänderung.
+- Schutzbestand (zwei ältere, geschützte Pilot-Datenbestände): historische
+  Teambeobachtung von Dateizahlen/Hashmultiset vor/nach LA1 identisch — das
+  ist keine vollständige pfadgebundene Vorher/Nachher- oder Backupabnahme.
+  Eine gesondert datierte native Inventur (2026-10-15) bestätigt denselben
+  Hashstand für die vier Dokus und die neun Runner-Helper; sie erzeugt aber
+  keine fehlende historische Pfad-Baseline nachträglich.
+
+**Reproduzierbarer Start (dasselbe Referenzsetup):**
+
+```bash
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements-ci.txt   # jsonschema/referencing, s. spielerstart.md
+python3 scripts/mmo_sim.py --participant <teilnehmer-id> --data-dir <eigenes-datenverzeichnis>
+```
+
+Echtes Spielen (statt reiner Navigation) braucht zusätzlich eine
+eingerichtete SL-/Persona-Anbindung, s. [Setup-Guide](setup-guide.md).
+
+**Nicht behauptet:** kein „bugfrei", keine Aussage über „alle Modelle/
+Plattformen", kein LAN-PASS, kein unabhängiger Menschen-Usability-Test
+(automatisierter Treiber = simulierte Bedienung), kein automatischer
+Live-Recovery-PASS (LA05 nicht gelaufen), keine abgeschlossene
+Mehrspieler-Live-Abnahme über zwei Abschnitte.
+
+Vollständige Belege (Ledger, Validator-Re-Checks, Critic-Verdikt): privates
+Reviewbundle, nicht Teil dieses Repos.
+
+> Die folgenden Abschnitte dieser Datei (ab „## Architektur") sind laufende
+> Entwickler-/Baustandsnotizen **vor** LA1: zuerst strukturelle Referenz
+> (Architektur, Starten, Tests, Provider-Profile, undatiert), danach datierte
+> Status-/Prüfabschnitte, die ihren jeweiligen Offline-Prüfumfang selbst
+> ausweisen — sie sind historische Belege, keine aktuellen Blocker. Der
+> aktuelle, extern gegengeprüfte Stand steht oben unter „LA1 — Live-Alltagsabnahme".
 
 ## Architektur
 

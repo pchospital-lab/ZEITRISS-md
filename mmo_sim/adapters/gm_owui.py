@@ -21,10 +21,51 @@ from __future__ import annotations
 
 import importlib.util
 import math
+import re
 import sys
 from pathlib import Path
 
-from .base import GMTransport
+from .base import GMTransport, ProviderQuotaPausedError
+
+# FIX5 (GM-Seite, net-new -- dieser Adapter hatte zuvor KEINE Quota-/
+# Ratelimit-Behandlung): derselbe getypte Pausen-Zustand wie beim Persona-
+# Adapter (s. adapters.base.ProviderQuotaPausedError), aber an der fuer den
+# HTTP-Transport passenden Struktur erkannt -- dem von
+# `agent_mp/sl_client.py`/`owui_client.OWUIChat._post` IMMER deterministisch
+# als `f"HTTP {code}: {body}"` formatierten Fehlertext (der numerische
+# Statuscode ist hier das strukturierte Feld, keine freie Wortsuche) ODER
+# dem literalen, provider-standardisierten Fehlertyp-Token
+# `insufficient_quota` (OpenAI-/OpenRouter-Fehlerschema) im Response-Body.
+# Jeder andere Transportfehler (401/403/404/Netzwerk/unerwartete Struktur)
+# bleibt unveraendert ein gewoehnlicher, durchgereichter Fehler.
+_GM_QUOTA_HTTP_CODES = frozenset({402, 429})
+_GM_QUOTA_HTTP_CODE_RE = re.compile(r"^HTTP (\d+):")
+_GM_QUOTA_BODY_MARKERS = ("insufficient_quota",)
+# P4 (R4-Rundenabschluss): 429 ALLEIN ist ein reines Ratenlimit (zu viele
+# Anfragen in kurzer Zeit), KEIN Guthaben-/Kontingentproblem -- anders als
+# 402 ODER ein 429 MIT dem Guthaben-/Limit-Marker `insufficient_quota` im
+# Body. Stoppen bleibt in BEIDEN Faellen konservativ (`ProviderQuotaPausedError`
+# unveraendert), nur der Spielermeldungstext unterscheidet sich (s.
+# `adapters.base.quota_pause_player_message`).
+_GM_RATE_LIMIT_ONLY_HTTP_CODE = 429
+
+
+def _gm_quota_pause_detail(exc: Exception) -> tuple[str, bool] | None:
+    """Liefert `(detail, is_rate_limit_only)` -- `detail` eine (auf 300
+    Zeichen begrenzte, secret-freie) Detailzeile, wenn `exc` eine
+    Kontingent-/Ratelimit-Antwort des GM-Transports traegt, sonst `None`.
+    `is_rate_limit_only=True` NUR bei HTTP 429 OHNE den Guthaben-/Limit-
+    Marker `insufficient_quota` im Body (reines Ratenlimit) -- 402 ODER
+    ein 429 MIT diesem Marker bleibt `False` (Guthaben-/Kontingentpause)."""
+    text = str(exc)
+    has_quota_body_marker = any(marker in text for marker in _GM_QUOTA_BODY_MARKERS)
+    m = _GM_QUOTA_HTTP_CODE_RE.match(text)
+    if m and int(m.group(1)) in _GM_QUOTA_HTTP_CODES:
+        is_rate_limit_only = int(m.group(1)) == _GM_RATE_LIMIT_ONLY_HTTP_CODE and not has_quota_body_marker
+        return text[:300], is_rate_limit_only
+    if has_quota_body_marker:
+        return text[:300], False
+    return None
 
 
 def _validate_gm_output_limit_tokens(value: object) -> int | None:
@@ -168,7 +209,22 @@ class GmOwuiTransport:
         return getattr(getattr(self._session, "chat", None), "base", None)
 
     def turn(self, turn_idx: int, user_text: str, output_limit_tokens: float | None = None) -> dict:
-        return self._session.turn(turn_idx, user_text, output_limit_tokens=output_limit_tokens)
+        try:
+            return self._session.turn(turn_idx, user_text, output_limit_tokens=output_limit_tokens)
+        except Exception as exc:  # noqa: BLE001 -- typisierte Reklassifikation, s. _gm_quota_pause_detail.
+            quota_detail = _gm_quota_pause_detail(exc)
+            if quota_detail is not None:
+                detail, is_rate_limit_only = quota_detail
+                # P4: `rate_limited=True`-Anhang NUR beim reinen 429-
+                # Ratenlimit (s. `adapters.base.quota_pause_is_rate_limited`/
+                # `quota_pause_player_message`) -- weggelassen (Default
+                # `False`) bei 402/Guthaben, identisch zum bestehenden
+                # `reset_hint=...`-Anhangmuster.
+                rate_limit_suffix = ", rate_limited=True" if is_rate_limit_only else ""
+                raise ProviderQuotaPausedError(
+                    f"gm_owui: Kontingent-/Budgetpause erkannt: {detail}{rate_limit_suffix}"
+                ) from exc
+            raise
 
     def usage_summary(self) -> dict:
         return self._session.usage_summary()

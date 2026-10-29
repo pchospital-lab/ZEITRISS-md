@@ -287,6 +287,51 @@ def test_claude_code_real_process_runner_actually_uses_cwd_and_inherited_env():
         assert lines[1] != "", "PATH fehlt im Kindprozess — env wurde ersetzt statt ergaenzt (B2)"
 
 
+def test_claude_code_persona_defaults_to_no_thinking():
+    """R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): eine Mitspieler-Persona
+    laeuft standardmaessig OHNE extended thinking -- das Kind-Env traegt
+    `MAX_THINKING_TOKENS=0` (schnelle, kurze Spielerantwort; man wartet im Spiel
+    nur auf den GM, nicht auf Mitspieler). Ein explizit konfigurierter Wert > 0
+    wird 1:1 durchgereicht (additiv/optional)."""
+    with tempfile.TemporaryDirectory() as workdir:
+        env_clean = {k: v for k, v in os.environ.items() if k not in
+                     ("ANTHROPIC_API_KEY", "OPENROUTER_API_KEY", "CLAUDE_API_KEY", "MAX_THINKING_TOKENS")}
+        # (a) Default: thinking_tokens nicht gesetzt -> MAX_THINKING_TOKENS=0.
+        fake = FakeCLIProcess([
+            (0, "claude-code 1.2.3", ""), (0, "usage: ... [--strict-mcp-config]", ""),
+            (0, json.dumps({"type": "result", "subtype": "success", "is_error": False,
+                             "result": "kurze Spielhandlung", "usage": {}}), ""),
+        ])
+        driver = PersonaClaudeCodeDriver(
+            ClaudeCodeConfig(binary="claude", isolated_workdir=workdir,
+                              extra_isolation_flags=["--strict-mcp-config"]), "p1", process_runner=fake,
+        )
+        with patch.dict(os.environ, env_clean, clear=True):
+            driver.decide({"user": "Die SL beschreibt eine Tuer. Was tust du?"})
+        assert fake.calls[-1].env.get("MAX_THINKING_TOKENS") == "0", (
+            "Mitspieler-Persona muss standardmaessig OHNE extended thinking laufen "
+            f"(MAX_THINKING_TOKENS=0), war: {fake.calls[-1].env.get('MAX_THINKING_TOKENS')!r}."
+        )
+
+        # (b) explizit konfiguriert -> exakt dieser Wert.
+        fake2 = FakeCLIProcess([
+            (0, "claude-code 1.2.3", ""), (0, "usage: ... [--strict-mcp-config]", ""),
+            (0, json.dumps({"type": "result", "subtype": "success", "is_error": False,
+                             "result": "mit thinking", "usage": {}}), ""),
+        ])
+        driver2 = PersonaClaudeCodeDriver(
+            ClaudeCodeConfig(binary="claude", isolated_workdir=workdir,
+                              extra_isolation_flags=["--strict-mcp-config"], thinking_tokens=4000), "p2",
+            process_runner=fake2,
+        )
+        with patch.dict(os.environ, env_clean, clear=True):
+            driver2.decide({"user": "x"})
+        assert fake2.calls[-1].env.get("MAX_THINKING_TOKENS") == "4000", (
+            f"konfigurierter thinking_tokens-Wert muss 1:1 ins Kind-Env, war: "
+            f"{fake2.calls[-1].env.get('MAX_THINKING_TOKENS')!r}."
+        )
+
+
 def main() -> int:
     tests = [v for k, v in list(globals().items()) if k.startswith("test_")]
     failed = 0

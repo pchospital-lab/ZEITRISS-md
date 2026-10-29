@@ -255,18 +255,27 @@ def _never_called_get_reply(turn_idx: int, sl_text: str) -> ReplyResult:
 
 
 def test_sc03_invalid_full_save_blocks_completion_no_catalog_write():
-    """TEST-DELTA (W48, NEW_FLOW_SEQUENCE): vor W48 beendete ein strukturell
-    ungueltiger Erstsave die Erschaffung SOFORT mit `status="error"`. W48
-    haengt genau an dieser Annahmegrenze die request-/admission-gebundene
-    Korrekturschleife ein (01_AUFTRAG_SAVEGATE.md §C) -- `_FakeGm` liefert
-    hier bewusst IMMER denselben ungueltigen Block (kein Korrekturfortschritt
-    moeglich), wodurch das Budget (max. 3 zusaetzliche Ausgaben) nach drei
-    Korrekturrunden erschoepft wird und der Dialog kontrolliert mit
-    `status="paused"`/`reason="attempt_budget_exhausted"` haelt --
-    `status="error"` war der alte, jetzt abgeloeste Sofort-Fehlpfad. Die
-    eigentliche SC03-Schutzabsicht (KEIN `completed`, KEIN `final_save` fuer
-    einen nie gueltig gewordenen Entwurf) bleibt UNVERAENDERT bestehen und
-    wird unten weiterhin voll geprueft."""
+    """TEST-DELTA (W48, NEW_FLOW_SEQUENCE; weiter ueberschrieben durch
+    N2R5-BESTEFFORT, Flo-Design, ZR-N2R-ANSCHLUSS-20261020-FINALRUN3): vor
+    W48 beendete ein strukturell ungueltiger Erstsave die Erschaffung
+    SOFORT mit `status="error"`. W48 haengte genau an dieser Annahmegrenze
+    die request-/admission-gebundene Korrekturschleife ein (01_AUFTRAG_
+    SAVEGATE.md §C) -- `_FakeGm` liefert hier bewusst IMMER denselben
+    ungueltigen Block (kein Korrekturfortschritt moeglich), wodurch das
+    Budget (max. 3 zusaetzliche Ausgaben) nach drei Korrekturrunden
+    erschoepft wird. W48 hielt dann kontrolliert mit `status="paused"`/
+    `reason="attempt_budget_exhausted"`.
+
+    N2R5-BESTEFFORT aendert GENAU diesen letzten Schritt: Flo woertlich
+    'beim 4. Mal -- passend ODER NICHT -- muss es TROTZDEM WEITERLAUFEN;
+    den Rest korrigiert der GM automatisch beim Laden' -- ein reiner
+    Schema-Imperfekt (KEINE Drift) ist kein terminaler HOLD mehr, sondern
+    wird best-effort finalisiert (`onboarding.complete_with_save_best_
+    effort`). Die eigentliche SC03-Schutzabsicht ('KEIN stillschweigend-
+    perfekter Abschluss fuer einen nie gueltig gewordenen Entwurf') bleibt
+    bestehen, nur das Instrument wechselt von 'kein `completed`' auf
+    'EHRLICH als `final_save_best_effort=True` markiertes `completed`' --
+    kein Fake-DONE, der Unterschied bleibt maschinenlesbar."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         run_dir, onboarding_dir = root / "run", root / "onboarding"
@@ -282,13 +291,16 @@ def test_sc03_invalid_full_save_blocks_completion_no_catalog_write():
             gm_transport=_FakeGm(gm_text), get_reply=_never_called_get_reply,
             harvest_validator=ZeitrissHarvestValidator(), role="creation_dialog",
         )
-        assert outcome.status == "paused" and outcome.reason == "attempt_budget_exhausted", (
+        assert outcome.status == "completed" and outcome.reason == "attempt_budget_exhausted_best_effort", (
             "ein durchgaengig strukturell ungueltiger Save muss nach Ausschoepfung des W48-"
-            f"Korrekturbudgets kontrolliert HOLDen (status='paused') -- outcome={outcome}"
+            f"Korrekturbudgets best-effort abschliessen (N2R5-BESTEFFORT) -- outcome={outcome}"
         )
         state = onboarding.peek(onboarding_dir, participant_id)
-        assert state.status == "in_progress", "kein completed-Status fuer einen ungueltigen Entwurf (SC03)."
-        assert state.final_save is None, "kein final_save fuer einen ungueltigen Entwurf -- kein Dummy-Fortschritt."
+        assert state.status == "completed", state
+        assert state.final_save_best_effort is True, (
+            "muss EHRLICH als best-effort/imperfekt markiert sein -- kein stillschweigend perfekter Abschluss."
+        )
+        assert state.final_save == invalid_block, "best-effort-Save ist der letzte (unveraenderte) Kandidat."
 
 
 def test_sc03_valid_full_save_completes_normally_positive_control():

@@ -157,7 +157,10 @@ def test_f_group_deadline_pause_preserves_round_marker_and_resumes_without_doubl
         # begin_attempt (kein Doppelzaehlen), genau EIN Ledger-Datensatz
         # fuer die gesamte Runde.
         open_window(run_dir)
+        # F-WALLET-LOSS (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): wertgleicher
+        # Betrag (500) wie `guest_invalid`, nur gueltig geformt.
         guest_valid = full_v7_save("chrono-guest", name="Flo")
+        guest_valid["economy"] = {"wallets": {"chrono-guest": {"balance": 500}}}
         gm = _CountingGm([f"```json\n{json.dumps(guest_valid)}\n```"])
         harvested_after, completion_after = save_correction.pursue_group_save_correction(
             lobby=lobby, table=table, section_id="section-f", harvested=dict(harvested),

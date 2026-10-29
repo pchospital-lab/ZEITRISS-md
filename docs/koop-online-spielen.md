@@ -28,8 +28,12 @@ breiter abgenommene Weg und funktioniert plattformunabhängig.
 
 Zusätzlich gibt es den **lokalen Terminalclient** (`python3 scripts/
 mmo_sim.py`, Spieleranleitung: [spielerstart.md](spielerstart.md),
-Betriebsdoku: [mmo-sim.md](mmo-sim.md), Status kontrolliert offline
-geprüft, 2026-10-02): Solo oder mit mehreren Menschen an **einem** Gerät
+Betriebsdoku: [mmo-sim.md](mmo-sim.md); Start/Bedienung/Budget-Gate live
+geprüft; der abgenommene lokale R4-Referenzlauf umfasst fünf Figuren in
+Duo und Trio mit je zwei geschlossenen Runden, fünf geladene Endsaves und
+eine wirksame Duo-Folgeaktion. Aktueller Stand und Grenzen: [Terminalstatus](terminal-status.md); historischer LA1-Testlauf
+(3/5 Figuren, 2026-10-13): [mmo-sim.md § LA1](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13)):
+Solo oder mit mehreren Menschen an **einem** Gerät
 (geteiltes Terminal, eigener Eingabeprompt je Zug), mit freiwilligen
 KI-Spieler-Personas statt/zusätzlich zu echten Mitspielern. KI-SL,
 NSCs/In-Game-Charaktere und Spieler-Personas sind dabei drei verschiedene
@@ -52,10 +56,31 @@ fremde Persona-Daten bleiben davon unberührt. Teilnehmergedächtnis
 der alten Figur) sind dabei getrennt — Letzteres wird nicht automatisch in
 die neue Figur übernommen.
 
+**Zum LA1-Testlauf (2026-10-13):** Die Figurenerschaffung mit echter
+KI-Spielleitung wurde mit fünf simulierten KI-Personas angespielt (3/5
+real abgeschlossen) — das ist ein automatisierter Testlauf mit
+KI-Personas, **kein** fünfköpfiger unabhängiger Menschentest und **kein**
+LAN-/Netzwerk-PASS. Ein vollständiger gemeinsamer Abschnitt über zwei
+aufeinanderfolgende Spielabschnitte (inkl. Speichern/Fortsetzen über
+mehrere Prozessstarts) wurde in diesem Lauf **nicht** abgeschlossen;
+dieser Leitfaden macht dazu keine Erfolgsaussage. Details:
+[mmo-sim.md § LA1](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13).
+
 **Natives LAN-/Remote-Mitspielen über den Terminalclient ist noch nicht
 ausgeliefert** — die bisherige Chat-/Bildschirm-/Voice-Nutzung unten bleibt
 dafür bewusst der aktuelle Weg für „gemeinsam über das Netz". Ein lokaler
-Fokuswechsel am geteilten Terminal ist kein „online verbunden".
+Fokuswechsel am geteilten Terminal ist kein „online verbunden". Portabilität
+(derselbe Save läuft auf jeder passenden Plattform weiter) ist dabei etwas
+anderes als Netzwerksynchronisation (mehrere Geräte live über ein Netz
+verbunden) — der portable Save ersetzt keinen Netzwerk-Join, und ein
+Netzwerk-Join ist hier (Stand dieses Leitfadens) nicht das, was geliefert
+wird.
+
+**Ergebnisstufe LA1 (2026-10-13): `LIVE_ASSISTED_PARTIAL`** — notwendige
+Betreiberhilfen bei der Figurenerschaffung, Kernlauf über zwei Abschnitte
+nicht erreicht. Das ist keine Endnutzer-Gesamtabnahme des Terminalclients
+und keine Aussage zum Chat-/JSON-Weg oben, der unabhängig davon der breiter
+abgenommene Weg bleibt.
 
 ---
 
@@ -344,4 +369,4 @@ Splits & Merges, Gruppen-Px, Tod in der Gruppe) steht im
 und „Der Gameflow".
 
 
-Hinweis zur Wiederaufnahme: Bricht eine Gruppenrunde genau zwischen dem Abschluss-Spielzug der Spielleitung und den Pflicht-Reflexionen ab, erntet der naechste normale Fortsetzen-Aufruf die bereits erzeugten Spielstaende automatisch (ohne neuen Spielzug) — aber nur, wenn die Antwort eindeutig und vollstaendig zur urspruenglichen Anfrage passt (Original-Input, Original-ID, vollstaendig verbucht, kein offener Fehler). Ist der Versand noch unbekannt/unvollstaendig oder die Buchung noch offen, haelt die Wiederaufnahme statt dessen kontrolliert, ohne deinen Spielstand zu veraendern. Danach (bei erfolgreicher Ernte) folgen wie bisher die fuenf echten KI-Reflexionen und der Abschluss.
+Hinweis zur Wiederaufnahme: Bricht eine Gruppenrunde genau zwischen dem Abschluss-Spielzug der Spielleitung und den Pflicht-Reflexionen ab, erntet der naechste normale Fortsetzen-Aufruf die bereits erzeugten Spielstaende automatisch (ohne neuen Spielzug) — aber nur, wenn die Antwort eindeutig und vollstaendig zur urspruenglichen Anfrage passt (Original-Input, Original-ID, vollstaendig verbucht, kein offener Fehler). Ist der Versand noch unbekannt/unvollstaendig oder die Buchung noch offen, haelt die Wiederaufnahme statt dessen kontrolliert, ohne deinen Spielstand zu veraendern. Danach (bei erfolgreicher Ernte) folgen wie bisher die erforderlichen Reflexionen der beteiligten KI-Mitspieler und der Abschluss.

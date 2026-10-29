@@ -36,11 +36,17 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .base import ParticipantDecision, ProviderUnavailableError, render_public_wire_text
+from .base import (
+    ParticipantDecision,
+    ProviderQuotaPausedError,
+    ProviderUnavailableError,
+    render_public_wire_text,
+)
 
 _LOG = logging.getLogger(__name__)
 
@@ -233,12 +239,95 @@ def _is_known_isolation_flag(flag: str, allow_synthetic_convention: bool) -> boo
 _CHILD_ENV_ALLOWLIST = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR", "TERM", "SHELL")
 
 
+# FIX5 (Kontingent-/Budgetende der Abo-Session-Route ist ein NORMALES,
+# erholbares Ereignis, KEIN echter Defekt -- s. adapters.base.
+# ProviderQuotaPausedError-Docstring): geschlossenes, eng kuratiertes
+# Vokabular, GEGEN DAS BEREITS STRUKTURIERTE `result`-Feld der
+# `--output-format json`-Fehlerhuelle (`is_error=True result=...`) geprueft
+# -- KEIN freier Substring-Scan ueber STDOUT/STDERR insgesamt, NUR dieses
+# eine, bereits per `json.loads` dekodierte Feld. Jedes andere
+# `is_error=True` (Auth-/Input-/Binary-Defekt) OHNE dieses Vokabular bleibt
+# ein gewoehnlicher `ProviderUnavailableError` (terminal, Fix4 unveraendert).
+_QUOTA_SIGNATURE_MARKERS = ("session limit", "usage limit", "rate limit")
+# P4 (R4-Rundenabschluss): die BLOSSEN Woerter "quota"/"resets" waren zu
+# breit -- ein strukturierter Config-Error wie `result="Config error:
+# please check your quota settings in the admin panel"` enthaelt "quota",
+# ist aber KEINE Kontingentpause (Generalreview, Fix5B verengte nur den
+# historischen Wrapper, nicht diesen gemeinsamen Matcher). Ein ECHTES
+# Limitschema paart "quota" IMMER mit einem Erschoepfungswort
+# (exceeded/limit/reached/exhausted) ODER "resets" MIT einem tatsaechlichen
+# Reset-Wert (Datum/Uhrzeit, s. `_quota_reset_hint_suffix`s eigene
+# Dokumentation des Formats "... resets 5:30pm ..."), NIE das blosse Wort
+# allein.
+_QUOTA_WORD_SIGNATURE_RE = re.compile(
+    r"quota\s+(?:exceeded|limit|reached|exhausted)|over\s+quota|out\s+of\s+quota", re.IGNORECASE,
+)
+_QUOTA_RESET_WITH_VALUE_RE = re.compile(r"resets\s+\S", re.IGNORECASE)
+
+# Extrahiert -- rein informativ fuers Terminal-UX (FIX5B) -- den Text NACH
+# 'resets ' aus dem strukturierten `result`-Feld, falls vorhanden (z.B.
+# "... resets 5:30pm (Europe/Berlin)" -> "5:30pm (Europe/Berlin)"). Ohne
+# Treffer faellt das Terminal-UX auf "bitte Guthaben aufladen" zurueck (s.
+# driver.integrated._quota_pause_player_message).
+_QUOTA_RESET_HINT_RE = re.compile(r"resets\s+(.+)", re.IGNORECASE)
+
+
+def is_quota_pause_result_text(result_text: str | None) -> bool:
+    """`True` NUR, wenn `result_text` (das bereits aus der JSON-Huelle
+    dekodierte, strukturierte `result`-Feld) mindestens einen der oben
+    genannten Kontingent-/Limit-Marker traegt. Wird SOWOHL von diesem
+    Adapter selbst (rc!=0- UND rc==0-is_error-Zweig unten) ALS AUCH --
+    retroaktiv, auf bereits persistierte Evidence angewandt -- von der eng
+    gegateten Driver-Migration (`driver.integrated._quota_migration_
+    eligibility`) importiert/verwendet, damit beide Stellen GENAU dieselbe
+    Klassifikation teilen (keine zweite, abweichende Vokabular-Kopie).
+
+    P4 (R4-Rundenabschluss): "quota"/"resets" zaehlen NUR noch im echten
+    Limitschema (`_QUOTA_WORD_SIGNATURE_RE`/`_QUOTA_RESET_WITH_VALUE_RE`
+    oben) -- ein beliebiger Config-Fehler, der zufaellig das blosse Wort
+    "quota" enthaelt (z.B. "Config error: please check your quota
+    settings in the admin panel"), legitimiert dadurch KEINEN Kontingent-
+    Resume mehr."""
+    text = (result_text or "").lower()
+    if any(marker in text for marker in _QUOTA_SIGNATURE_MARKERS):
+        return True
+    if _QUOTA_WORD_SIGNATURE_RE.search(text):
+        return True
+    if _QUOTA_RESET_WITH_VALUE_RE.search(text):
+        return True
+    return False
+
+
+def _quota_reset_hint_suffix(result_text: str | None) -> str:
+    """Baut -- falls ein Reset-Zeitpunkt im strukturierten `result`-Feld
+    steht -- einen zusaetzlichen, maschinell wieder auslesbaren
+    `reset_hint='...'`-Anhang fuer die Exception-Message (vom Lab-Step-
+    Caller per Regex extrahiert, s. `driver.integrated._reset_hint_from_
+    stderr`). Liefert eine leere Zeichenkette ohne Treffer."""
+    m = _QUOTA_RESET_HINT_RE.search(result_text or "")
+    if not m:
+        return ""
+    hint = m.group(1).strip().strip("\"'")
+    return f", reset_hint={hint!r}" if hint else ""
+
+
 class _RealProcessRunner:
+    # F-PROCESS-EVIDENCE (ZR-N2-LIVEBUNDLE-FRESH-20261018-R1): `timeout` war
+    # vorher hart auf 120s verdrahtet -- additiv/optional jetzt konfigurierbar
+    # (identisches Muster zu `gm_owui.GmOwuiTransport`s `transport_timeout`:
+    # "additiv und OPTIONAL, Default unveraendert -- ohne Angabe bleibt jeder
+    # bestehende Aufrufer beim alten Wert"). `PersonaClaudeCodeDriver`
+    # konstruiert den Default-Runner mit `config.process_timeout_seconds`
+    # (Default weiterhin 120) -- jeder bestehende Aufrufer ohne explizite
+    # Angabe verhaelt sich byte-identisch zu vorher.
+    def __init__(self, timeout: int = 120):
+        self._timeout = timeout
+
     def run(
         self, argv: list[str], stdin: str = "", env: dict | None = None, cwd: str | None = None,
     ) -> tuple[int, str, str]:
         proc = subprocess.run(
-            argv, input=stdin, capture_output=True, text=True, env=env, cwd=cwd, timeout=120,
+            argv, input=stdin, capture_output=True, text=True, env=env, cwd=cwd, timeout=self._timeout,
         )
         return proc.returncode, proc.stdout, proc.stderr
 
@@ -248,6 +337,27 @@ class ClaudeCodeConfig:
     binary: str = "claude"
     isolated_workdir: str | None = None  # eigener Arbeitsbereich ohne Altair-Dateien
     extra_isolation_flags: list[str] = field(default_factory=list)  # z.B. echte, real existierende Flags
+    # F-PROCESS-EVIDENCE: additiv/optional, Default 120 (unveraendert ggue.
+    # dem vorherigen hart verdrahteten Wert) -- nur ein explizit kuerzerer
+    # Wert (z.B. ein Offline-Belegtest fuer einen echten Timeout) weicht ab.
+    process_timeout_seconds: int = 120
+    # N2R5-TIMEOUTFIX (ZR-N2R-ANSCHLUSS-20261019-R4, Timeout-Propagation-
+    # Fix): additiv/optional, Default 0 (unveraendert -- `decide()` verhaelt
+    # sich byte-identisch zu vorher, wenn dieses Feld nicht explizit gesetzt
+    # wird). Ein Wert > 0 erlaubt genau so viele zusaetzliche Versuche NACH
+    # einem `subprocess.TimeoutExpired` DESSELBEN Calls (kein Re-Dispatch
+    # bei rc!=0/anderen Exceptions -- die bleiben ehrlich fehlerhaft, s.
+    # `decide()`-Docstring).
+    max_timeout_retries: int = 0
+    # R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): Personas spielen MITspieler,
+    # keine Spielleitung. Ein Mitspieler antwortet kurz und schnell -- er soll
+    # NICHT extended-thinking betreiben (das verlangsamt jeden Tischzug spuerbar
+    # und laesst die CLI bei grossen abschnittsinternen Prompts Zeit/Token in
+    # Planung statt in eine finale Textantwort stecken). Default `0` setzt
+    # `MAX_THINKING_TOKENS=0` im Kind-Env -> extended thinking AUS. Nur auf den
+    # GM wartet man im Spiel; auf Mitspieler nicht. Ein Wert > 0 erlaubt einem
+    # kuenftigen Aufrufer explizit wieder Thinking (additiv/optional).
+    thinking_tokens: int = 0
 
 
 class PersonaClaudeCodeDriver:
@@ -269,7 +379,7 @@ class PersonaClaudeCodeDriver:
     def __init__(self, config: ClaudeCodeConfig, persona_key: str, process_runner=None):
         self.config = config
         self.persona_key = persona_key
-        self._runner = process_runner or _RealProcessRunner()
+        self._runner = process_runner or _RealProcessRunner(timeout=config.process_timeout_seconds)
         self._isolation_checked = False
 
     def check_isolation(self) -> dict:
@@ -526,21 +636,93 @@ class PersonaClaudeCodeDriver:
         # an die Persona-CLI weitergereicht.
         env = {k: v for k, v in os.environ.items() if k in _CHILD_ENV_ALLOWLIST}
         env["CLAUDE_WORKDIR"] = self.config.isolated_workdir or ""
-        try:
-            rc, out, err = self._runner.run(
-                argv, stdin=stdin_payload, env=env, cwd=self.config.isolated_workdir,
-            )
-        except FileNotFoundError as e:
-            raise ProviderUnavailableError(
-                f"persona_claude_code[{self.persona_key}]: Binary nicht gefunden: {e}"
-            ) from e
-        except subprocess.TimeoutExpired as e:
-            raise ProviderUnavailableError(
-                f"persona_claude_code[{self.persona_key}]: Zeitueberschreitung: {e}"
-            ) from e
+        # R4-MEHRSPIELER: Mitspieler-Persona ohne extended thinking (s.
+        # ClaudeCodeConfig.thinking_tokens). Explizit gesetzt -- die Allowlist
+        # reicht ein geerbtes MAX_THINKING_TOKENS NICHT durch, der Default-0-Wert
+        # muss also aktiv in das kuratierte Kind-Env geschrieben werden.
+        env["MAX_THINKING_TOKENS"] = str(self.config.thinking_tokens)
+        # N2R5-TIMEOUTFIX: NUR `subprocess.TimeoutExpired` ist retrybar (ein
+        # einzelner langsamer Call soll nicht die ganze Section terminal
+        # killen, s. Klassendocstring `max_timeout_retries`) -- `rc!=0` UND
+        # `FileNotFoundError` bleiben nach dem ERSTEN Fehlschlag sofort ein
+        # ehrlicher `ProviderUnavailableError` (keine stille Fehlermaskierung
+        # eines nicht-transienten Defekts).
+        attempt = 0
+        while True:
+            try:
+                rc, out, err = self._runner.run(
+                    argv, stdin=stdin_payload, env=env, cwd=self.config.isolated_workdir,
+                )
+                break
+            except FileNotFoundError as e:
+                raise ProviderUnavailableError(
+                    f"persona_claude_code[{self.persona_key}]: Binary nicht gefunden: {e}"
+                ) from e
+            except subprocess.TimeoutExpired as e:
+                if attempt >= self.config.max_timeout_retries:
+                    raise ProviderUnavailableError(
+                        f"persona_claude_code[{self.persona_key}]: Zeitueberschreitung nach "
+                        f"{attempt + 1} Versuch(en): {e}"
+                    ) from e
+                attempt += 1
+                _LOG.warning(
+                    "persona_claude_code[%s]: Zeitueberschreitung, Re-Dispatch (Versuch %d/%d): %s",
+                    self.persona_key, attempt, self.config.max_timeout_retries, e,
+                )
         if rc != 0:
+            # FIX4 (01-CODE-REVIEW.md §3, 01-LIVE-BEFUNDE.md §4): vorher NUR
+            # `err[:300]` -- `stdout` wurde komplett VERWORFEN, UND die
+            # JSON-/`is_error`-Auswertung (s. unten im Erfolgszweig) lief
+            # NIE fuer `rc!=0`. Ein leerer `err` beweist damit nur leeres
+            # STDERR, NICHT leere CLI-Ausgabe insgesamt und NICHT einen
+            # transienten Fehler -- ein konkreter, strukturierter Fehler
+            # (Auth/Kontext/Input), den die CLI auf STDOUT meldet, wurde so
+            # unsichtbar und erschien wie ein "leerer" Blip (belegtes
+            # Crashinput: 1.330.915 Zeichen, `Prozess rc=1: ` komplett ohne
+            # Signatur). Jetzt: STDOUT wird AUCH bei `rc!=0` auf dieselbe
+            # `--output-format json`-Huelle geprueft (`is_error`/`result`,
+            # genau wie im Erfolgszweig) -- ein strukturierter CLI-Fehler
+            # wird GETYPT in die Exception-Message eingebettet. Ohne
+            # auswertbares JSON bleiben die tatsaechlichen, jeweils auf 300
+            # Zeichen begrenzten STDOUT- UND STDERR-Ausschnitte erhalten
+            # (keine Zugangsdaten -- dieselbe Laengengrenze wie bisher fuer
+            # `err`, keine neue Datenquelle). NUR wenn STDOUT UND STDERR
+            # beide TATSAECHLICH leer sind, bleibt die Signatur die leere
+            # `"leer (kein stdout/stderr)"`-Markierung -- GENAU diese
+            # bleibt fuer `driver.integrated._is_resumable_persona_lab_
+            # crash` (H4) die einzige als transient/resumbar erkannte
+            # Form; jede andere (strukturiert ODER unstrukturiert
+            # nicht-leer) Form gilt dort jetzt als getypter, NICHT
+            # resumbarer permanenter Fehler.
+            out_text = out.strip()
+            err_text = err.strip()
+            structured_is_error = None
+            structured_result = None
+            try:
+                out_payload_on_error = json.loads(out)
+            except (json.JSONDecodeError, ValueError):
+                out_payload_on_error = None
+            if isinstance(out_payload_on_error, dict) and "is_error" in out_payload_on_error:
+                structured_is_error = bool(out_payload_on_error.get("is_error"))
+                structured_result = str(out_payload_on_error.get("result"))[:300]
+            if structured_is_error is not None:
+                detail = f"is_error={structured_is_error} result={structured_result!r}"
+            elif out_text or err_text:
+                detail = f"stdout={out_text[:300]!r} stderr={err_text[:300]!r}"
+            else:
+                detail = "leer (kein stdout/stderr)"
+            # FIX5A: ein getyptes `is_error=True`, dessen strukturiertes
+            # `result`-Feld das geschlossene Kontingent-/Limit-Vokabular
+            # traegt, ist eine erholbare Kontingent-Pause -- DISTINKT vom
+            # gewoehnlichen `ProviderUnavailableError` (Auth/Input/Binary-
+            # Defekt, bleibt terminal) UND vom H4-transienten leeren Blip.
+            if structured_is_error and is_quota_pause_result_text(structured_result):
+                raise ProviderQuotaPausedError(
+                    f"persona_claude_code[{self.persona_key}]: Kontingent-/Budgetpause erkannt "
+                    f"(Prozess rc={rc}: {detail}{_quota_reset_hint_suffix(structured_result)})"
+                )
             raise ProviderUnavailableError(
-                f"persona_claude_code[{self.persona_key}]: Prozess rc={rc}: {err[:300]}"
+                f"persona_claude_code[{self.persona_key}]: Prozess rc={rc}: {detail}"
             )
         # I2/Test 03: die --output-format-json-Huelle DEKODIEREN statt als
         # rohen stdout durchzureichen. Faellt das Parsen aus (aeltere CLI
@@ -555,9 +737,17 @@ class PersonaClaudeCodeDriver:
             payload = None
         if isinstance(payload, dict) and "result" in payload:
             if payload.get("is_error"):
+                result_text = str(payload.get("result"))[:300]
+                # FIX5A: dieselbe getypte Klassifikation wie im rc!=0-Zweig
+                # oben -- rc==0 MIT is_error=True ist strukturell derselbe
+                # CLI-Fehlerhuellen-Fall, nur ohne nicht-null Returncode.
+                if is_quota_pause_result_text(result_text):
+                    raise ProviderQuotaPausedError(
+                        f"persona_claude_code[{self.persona_key}]: Kontingent-/Budgetpause erkannt "
+                        f"(CLI meldet is_error: {result_text}{_quota_reset_hint_suffix(result_text)})"
+                    )
                 raise ProviderUnavailableError(
-                    f"persona_claude_code[{self.persona_key}]: CLI meldet is_error: "
-                    f"{str(payload.get('result'))[:300]}"
+                    f"persona_claude_code[{self.persona_key}]: CLI meldet is_error: {result_text}"
                 )
             text = payload.get("result", "")
             meta["usage"] = payload.get("usage") or {}

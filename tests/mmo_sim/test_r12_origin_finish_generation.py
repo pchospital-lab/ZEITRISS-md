@@ -92,6 +92,8 @@ def test_pos_consistent_generation_on_both_sides_is_accepted():
         _build_null_bound_hold_record_with_generation(run_dir, repair_key, participant_id, char_id, 5)
 
         valid_block = full_v7_save(char_id, name="Flo")
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `draft`.
+        valid_block["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm = ScriptedGm(["```json\n" + json.dumps(valid_block) + "\n```"])
         outcome = save_correction.pursue_single_figure_correction(
             run_dir=run_dir, participant_id=participant_id, expected_chrononaut_id=char_id,
@@ -188,6 +190,8 @@ def test_missing_caller_generation_is_not_required_and_is_accepted():
         _build_null_bound_hold_record_with_generation(run_dir, repair_key, participant_id, char_id, None)
 
         valid_block = full_v7_save(char_id, name="Flo")
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `draft`.
+        valid_block["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm = ScriptedGm(["```json\n" + json.dumps(valid_block) + "\n```"])
         outcome = save_correction.pursue_single_figure_correction(
             run_dir=run_dir, participant_id=participant_id, expected_chrononaut_id=char_id,
@@ -224,6 +228,8 @@ def test_missing_record_generation_is_not_required_and_is_accepted():
         _build_null_bound_hold_record_with_generation(run_dir, repair_key, participant_id, char_id, None)
 
         valid_block = full_v7_save(char_id, name="Flo")
+        # F-WALLET-LOSS: wertgleicher Betrag (500) wie `draft`.
+        valid_block["economy"] = {"wallets": {char_id: {"balance": 500}}}
         gm = ScriptedGm(["```json\n" + json.dumps(valid_block) + "\n```"])
         outcome = save_correction.pursue_single_figure_correction(
             run_dir=run_dir, participant_id=participant_id, expected_chrononaut_id=char_id,

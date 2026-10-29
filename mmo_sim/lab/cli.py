@@ -26,9 +26,12 @@ import sys
 import time
 from pathlib import Path
 
+from . import recovery_cli
 from . import runner as lab_runner
 from .runner import LabBudget, LabRunner, LabRunnerRestartError, SingletonViolationError
+from ..core import catchup
 from ..core import lobby_flow
+from ..core import store as core_store
 
 
 class LabConfigError(ValueError):
@@ -94,6 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--max-idle-windows", required=True, type=_positive_int, help="max. aufeinanderfolgende Fenster ohne Fortschritt")
         p.add_argument("--max-wall-seconds", default=None, type=_finite_positive_float, help="reale Laufzeitgrenze (Wall-Clock, getrennt von --max-seconds)")
         p.add_argument("--personas", default=None, help="Kommagetrennte Teilmenge der Community (Default: gesamte bestaetigte Community)")
+        p.add_argument("--resume-only-table", default=None, help="Table-ID eines bereits gebundenen Tisches -- beschraenkt die KI-Auswahl auf dessen Mitglieder (R4-Duo-Anschluss: Scope ohne Mitwirkung anderer gebundener Tische). Schliesst sich mit --personas aus.")
 
     p_status = sub.add_parser("status", help="nur lesend: aktuellen Laufzustand anzeigen")
     _add_data_dir_arg(p_status)
@@ -144,6 +148,12 @@ def _write_last_window(run_dir: Path, *, community_id: str, outcome) -> None:
         "ts": time.time(),
     }
     _last_window_path(run_dir).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+
+# R4-Fix3-Mechanik (sl_log-Laenge je Tisch als Fortschrittsmass) lebt jetzt
+# oeffentlich in `core.store.table_progress_lengths` (SPIELFLUSS-SPEC.md,
+# "Reuse vor Neubau") -- `core.catchup.run_catch_up` nutzt sie fuer seinen
+# eigenen Fortschritts-/Idle-Cap, kein zweiter Lesepfad mehr hier.
 
 
 def _status_payload(run_dir: Path) -> dict:
@@ -385,6 +395,11 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
         )
 
     selected: set[str] = set(bootstrap.personas_written)
+    resume_only_table = getattr(args, "resume_only_table", None)
+    if args.personas and resume_only_table:
+        raise LabConfigError(
+            "--personas und --resume-only-table schliessen sich aus (eindeutige Auswahlquelle, H-F)."
+        )
     if args.personas:
         requested = {p.strip() for p in args.personas.split(",") if p.strip()}
         unknown = requested - selected
@@ -393,10 +408,35 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
                 f"--personas enthaelt Mitglieder ausserhalb der bestaetigten Community: {sorted(unknown)}"
             )
         selected = requested
+    elif resume_only_table:
+        # R4-Duo-Anschluss (2026-10-28): derselbe `selected`/`ai_personas`-Gate
+        # wie oben bei `--personas`, nur aus einer gebundenen Tischdatei
+        # abgeleitet, statt Personanamen von Hand aufzuzaehlen -- bindet den
+        # Scope explizit an EINEN bereits bestehenden Tisch (`core.store.
+        # Table.load`), kein neuer Dispatch-/Auswahlcode. Dieselbe Garantie
+        # wie `--personas` greift danach unveraendert: `core.lobby_flow.
+        # play_bound_table` haelt JEDEN Tisch mit einem Mitglied ausserhalb
+        # dieser Menge VOR jeder Treiberkonstruktion an (WAITING_HUMAN).
+        table_id = resume_only_table.strip()
+        table_path = run_dir / "tables" / f"{table_id}.json"
+        if not table_path.is_file():
+            raise LabConfigError(
+                f"--resume-only-table verweist auf keinen vorhandenen gebundenen Tisch: {table_id!r} "
+                f"(erwartet unter {table_path})."
+            )
+        table = core_store.Table.load(run_dir, table_id)
+        requested = set(table.members)
+        unknown = requested - selected
+        if unknown:
+            raise LabConfigError(
+                f"--resume-only-table {table_id!r} enthaelt Mitglieder ausserhalb der bestaetigten "
+                f"Community: {sorted(unknown)}"
+            )
+        selected = requested
     if not selected:
         raise LabConfigError(
-            "--personas ergibt eine leere KI-Auswahl -- mindestens eine ausdruecklich gewaehlte "
-            "Persona ist Pflicht (H-F)."
+            "--personas/--resume-only-table ergibt eine leere KI-Auswahl -- mindestens eine "
+            "ausdruecklich gewaehlte Persona ist Pflicht (H-F)."
         )
 
     budget = LabBudget(
@@ -487,13 +527,12 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
     # unbedingt wiederhergestellt (keine globale Prozess-/Signalpolitik).
     _prior_sigterm_handler = signal.signal(signal.SIGTERM, _sigterm_as_keyboard_interrupt)
     try:
-        idle_windows = 0
         while True:
             # F2-Fix (Critic-Nacharbeit, Bau-GO 2026-09-27): `lab.should_stop()`
             # deckt jetzt AUCH die Wall-Clock-Deadline ab (`LabRunner.start()`
             # persistiert sie, `compute_stop_state`/`core.admission.
             # read_admission_block` pruefen sie frisch von der Platte vor
-            # JEDEM Request, nicht nur hier zwischen zwei Fenstern) -- der
+            # JEDEM Request, nicht nur hier zwischen zwei Runden) -- der
             # vorherige separate, rein lokale `time.monotonic()`-Vergleich an
             # dieser Stelle entfaellt, weil er dieselbe Grenze nur EINMAL PRO
             # FENSTER pruefte, nie waehrend eines laufenden Requests
@@ -504,46 +543,98 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
                 _persist_stop(reason or "Budget erschoepft")
                 print(f"Lab: Stop/Budget erreicht ({reason}) — kein weiterer Request.")
                 break
-            outcome = lobby_flow.run_lobby_window(session, ai_personas=frozenset(selected))
-            print(f"Lab-Fenster: {outcome.kind.value} — {outcome.reason}")
-            # Diagnose-Ergaenzung (Bau-GO 2026-09-27, REVIEW-HEADLESS-
-            # BETRIEBSGRENZEN.md §6): das bereits vorhandene `LobbyWindowOutcome`
-            # (Table/Section/Window/Request-Bezug) fuer `lab status`/`lab
-            # attach` persistieren -- NUR der Controller schreibt dies (kein
-            # Nebenwrite durch Beobachter).
-            _write_last_window(run_dir, community_id=community_id, outcome=outcome)
-            if outcome.kind == lobby_flow.LobbyOutcomeKind.SECTION_COMPLETED:
-                idle_windows = 0
-                continue
-            if outcome.kind == lobby_flow.LobbyOutcomeKind.STOPPED:
-                _persist_stop(outcome.reason)
+            # SPIELFLUSS-SPEC.md Abschnitt 4 ("Headless-Lab: Loop-Ziel =
+            # Paritaet ueber die (ausgewaehlten) Teilnehmer; ersetzt die
+            # Idle-Fenster-Heuristik als Primaer-Terminierung"): statt EINES
+            # einzelnen Fensters pro Iteration treibt jede Runde den
+            # DENSELBEN Catch-up-Orchestrator (`core.catchup.run_catch_up`,
+            # auch von der TUI fuer "Personas spielen lassen" genutzt -- kein
+            # zweiter Fortschritts-/Fairnesscode), bis ALLE ausgewaehlten
+            # Personas `round_target` (aktuelles Maximum + 1) erreichen.
+            # `current_table_members=set()`, weil es im Headless-Betrieb
+            # keinen "auslösenden menschlichen Spieler" mit eigenem Tisch
+            # gibt, von dem abzugrenzen waere. Budget (oben) UND der per-
+            # Runde durchgereichte Idle-/Fenster-Sicherheits-Cap (unten)
+            # bleiben SICHERHEITS-CAPS (Fix3-Charakter), NICHT mehr die
+            # primaere Terminierung -- die ist jetzt "Paritaet erreicht".
+            counts = core_store.sections_played_by_participant(run_dir)
+            round_target = max((counts.get(pk, 0) for pk in selected), default=0) + 1
+            report = catchup.run_catch_up(
+                session, selected=set(selected), current_table_members=set(),
+                target=round_target, max_windows=max(50, len(selected) * 20),
+                idle_safety_cap=args.max_idle_windows,
+                # Diagnose-Ergaenzung (Bau-GO 2026-09-27, REVIEW-HEADLESS-
+                # BETRIEBSGRENZEN.md §6, unveraendert): das bereits
+                # vorhandene `LobbyWindowOutcome` fuer `lab status`/`lab
+                # attach` NACH JEDEM einzelnen internen Fenster persistieren
+                # (nicht erst nach der ganzen Runde) -- NUR der Controller
+                # schreibt dies (kein Nebenwrite durch Beobachter).
+                on_window=lambda outcome: _write_last_window(
+                    run_dir, community_id=community_id, outcome=outcome,
+                ),
+            )
+            for note in report.notes:
+                print(f"Lab-Fenster: {note}")
+            # P3-Fix (BL1-FIX-SPEC-R4 2026-10-21): `windows_run == 0` UND
+            # KEINE Kandidaten (leere `candidates`, kein einziges ausgewaehltes
+            # Mitglied spielbereit genug fuer DIESE Runde) bedeutet NULL
+            # ausfuehrbare Arbeit -- vorher wertete die Schleife das als
+            # abgeschlossene Paritaetsrunde (keine `should_stop()`-Grenze
+            # greift, da kein Request verbraucht wurde) und begann SOFORT die
+            # naechste Runde: ein unbeschraenkter Null-Arbeits-/CPU-Loop OHNE
+            # Wall-Cap, mit faelschlich als "abgeschlossen" gemeldeten
+            # unbereiten Teilnehmern. Geordneter Stop statt Endlosschleife,
+            # `report.unready` benennt ehrlich, wer nicht spielbereit war.
+            if report.windows_run == 0 and not report.candidates:
+                _persist_stop(
+                    f"Keine spielbereiten ausgewaehlten Teilnehmer (unready={report.unready}) -- "
+                    "nichts ausfuehrbar, geordneter Stop; kein Null-Arbeits-Loop."
+                )
+                print(
+                    f"Lab: Paritaetsrunde (Ziel {round_target}) ohne ausfuehrbare Arbeit "
+                    f"(unready={report.unready}) — geordneter Stop."
+                )
+                break
+            if report.stopped:
+                # M3 (CRITIC-REPORT-R2.md): ein vom Orchestrator explizit
+                # gesurfacetes `STOPPED` (echter Transportfehler/Admission-
+                # Block) haelt den Lab-Lauf sofort an -- kein Weiterversuchen.
+                _persist_stop(report.stopped_reason or "Catch-up gestoppt (STOPPED)")
+                print(f"Lab: Stop (Orchestrator) — {report.stopped_reason}")
                 break
             # Diagnose-Ergaenzung (Bau-GO 2026-09-27, REVIEW-HEADLESS-
-            # BETRIEBSGRENZEN.md Probe 08): ein WAEHREND dieses Fensters
-            # bereits extern angeforderter Stop (z.B. `lab stop` waehrend
-            # einer laufenden GM-Antwort -- der naechste Gate-Check INNERHALB
-            # `run_full_section` faengt ihn ab und liefert `OPEN_WITH_REASON`,
-            # NICHT `STOPPED`) muss VOR der Fenster-/Leerlaufgrenzen-Bewertung
-            # unten erneut geprueft werden. Sonst wuerde die generische
-            # Leerlaufgrenzen-Meldung unten denselben `lab.stop`-Datentraeger
-            # (`_persist_stop`/`LabRunner.stop` schreiben dieselbe Datei) NOCH
-            # IN DERSELBEN ITERATION mit einem generischen Text ueberschreiben
-            # und den urspruenglichen, spezifischen Betreiber-Stopgrund
-            # verdecken.
+            # BETRIEBSGRENZEN.md Probe 08, unveraendert): ein WAEHREND dieser
+            # Runde bereits extern angeforderter Stop muss VOR der naechsten
+            # Runde erneut geprueft werden, sonst ueberschreibt eine
+            # nachfolgende generische Meldung denselben `lab.stop`-
+            # Datentraeger mit einem weniger spezifischen Text.
             already_stop, already_reason = lab.should_stop()
             if already_stop:
                 _persist_stop(already_reason or "Budget erschoepft")
                 print(f"Lab: Stop/Budget erreicht ({already_reason}) — kein weiterer Request.")
                 break
-            # NO_CONSENSUS / OPEN_WITH_REASON / WAITING_HUMAN: kein Fortschritt
-            # in diesem Fenster -- zaehlt gegen die Fenster-/Leerlaufgrenze
-            # (H-B: "endliche Fenster-/Leerlaufgrenze"; H03: "erschoepftes
-            # Initiativ-/Fensterlimit bleibt ein Betriebsstopp, kein Erfolg").
-            idle_windows += 1
-            if idle_windows >= args.max_idle_windows:
-                _persist_stop(f"Fenster-/Leerlaufgrenze erreicht ({args.max_idle_windows} Fenster ohne Fortschritt)")
-                print("Lab: Fenster-/Leerlaufgrenze erreicht — geordneter Stop.")
+            if report.blocked:
+                # Sicherheits-Cap (Fix3-Nachfolger): kein Fortschritt mehr
+                # fuer mindestens eine ausgewaehlte Persona in dieser Runde
+                # moeglich (idle_safety_cap/max_windows erreicht, z.B. weil
+                # ein Tisch dauerhaft auf eine menschliche Entscheidung
+                # wartet) -- geordneter Stop statt endlosem Weiterversuchen.
+                _persist_stop(
+                    f"Paritaetsrunde (Ziel {round_target}) ohne weiteren Fortschritt fuer "
+                    f"{report.blocked} -- Sicherheits-Cap erreicht, geordneter Stop."
+                )
+                print("Lab: Paritaetsrunde blockiert — geordneter Stop.")
                 break
+            # P3-Fix: ehrliche Abschlussmeldung -- tatsaechlich bespielte/
+            # erreichte Teilnehmer (`report.candidates`), NICHT pauschal die
+            # GESAMTE Auswahl (`selected`, vorher faelschlich auch unbereite
+            # Mitglieder als "erledigt" ausgewiesen). Unbereite werden
+            # separat genannt, nicht als erfolgreich verschwiegen.
+            print(
+                f"Lab: Paritaetsrunde (Ziel {round_target}) abgeschlossen fuer {report.candidates}"
+                + (f" (nicht spielbereit, unberuehrt: {report.unready})" if report.unready else "")
+                + "."
+            )
     except KeyboardInterrupt:
         lab.stop("Ctrl-C/SIGTERM — Pause angefordert, kein erfundener Abschluss (H-C).")
         print("\nLab pausiert (Ctrl-C/SIGTERM) — kein weiterer Modellaufruf, spaeteres 'lab resume' moeglich.")
@@ -555,6 +646,15 @@ def _run_controller(args, repo_root: Path, *, resume: bool) -> int:
 
 
 def main(argv: list[str], repo_root: Path) -> int:
+    # R-P3/R-P5 (ZR-RECOVERY-OFFLINE-20261015-R1, 03_RECOVERY_VERTRAG.md):
+    # 'recovery' delegiert VOR dem bestehenden start/resume/status/stop/
+    # attach-Parser an `recovery_cli.main` -- derselbe Dispatch-VOR-Parser-
+    # Stil wie `scripts/mmo_sim.py`s fuehrendes 'lab'-Subkommando (s.
+    # dortigen Docstring: "ein Aufruf OHNE dieses Subkommando bleibt exakt
+    # die unveraenderte TUI"), kein zweiter argparse-Subparserbaum und keine
+    # Aenderung an `build_parser()`s bestehenden fuenf Subkommandos.
+    if argv and argv[0] == "recovery":
+        return recovery_cli.main(argv[1:])
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
