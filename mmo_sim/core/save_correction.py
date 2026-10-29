@@ -149,8 +149,25 @@ def load_or_init_record(
     return data
 
 
+#: FIX3 (R4-Duo-Anschluss, START-FRESH): Obergrenze fuer eine ausdruecklich
+#: beauftragte, EINMALIGE bounded Zusatzkorrektur eines bereits erschoepften
+#: Korrekturdatensatzes ("begrenzte Zusatzkorrektur" ohne Counter-Reset). Ein
+#: `record["recovery_extra_attempts"]` darueber hinaus wird hart gedeckelt.
+MAX_RECOVERY_EXTRA_ATTEMPTS = 3
+
+
 def attempts_exhausted(record: dict, max_attempts: int = MAX_ADDITIONAL_REQUESTS) -> bool:
-    return record.get("attempts_used", 0) >= max_attempts
+    """`attempts_used >= max_attempts` -- mit EINER Ausnahme: traegt der
+    Datensatz ein ausdruecklich (recovery-)gesetztes `recovery_extra_attempts`
+    (int, 0..MAX_RECOVERY_EXTRA_ATTEMPTS), wird die Schwelle um GENAU diesen
+    gedeckelten Betrag angehoben. `attempts_used` selbst bleibt dabei
+    unveraendert/wahr (KEIN Counter-Reset) -- die Historie der bisherigen
+    Versuche bleibt vollstaendig erhalten, es werden lediglich zusaetzliche,
+    bounded Korrekturrunden zugelassen (FIX3, R4-Duo-Anschluss)."""
+    extra = record.get("recovery_extra_attempts")
+    bonus = extra if (isinstance(extra, int) and not isinstance(extra, bool) and extra > 0) else 0
+    bonus = min(bonus, MAX_RECOVERY_EXTRA_ATTEMPTS)
+    return record.get("attempts_used", 0) >= max_attempts + bonus
 
 
 def begin_attempt(run_dir: str | Path, repair_key: str, *, original_block=_UNSET_ORIGINAL_BLOCK) -> dict:
