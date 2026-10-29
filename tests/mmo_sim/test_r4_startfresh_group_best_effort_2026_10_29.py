@@ -49,6 +49,7 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
+import time
 import traceback
 from pathlib import Path
 
@@ -62,10 +63,11 @@ if str(_REPO_ROOT) not in sys.path:
 from _full_v7_fixture import full_v7_save  # noqa: E402
 from _r12_window_hold_fixture import open_window  # noqa: E402
 from _section_completion_resume_fixtures import (  # noqa: E402
-    ScriptedGmTransport, build_two_member_table, make_env,
+    ExplodingGmTransport, ScriptedGmTransport, build_two_member_table, make_env,
 )
 
 import mmo_sim.core.save_correction as sc  # noqa: E402
+import mmo_sim.core.save_compatibility as save_compat_core  # noqa: E402
 import mmo_sim.core.store as store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.domain.zeitriss import save_correction as domain  # noqa: E402
@@ -494,6 +496,133 @@ def test_nonwallet_type_error_candidate_gets_no_best_effort_maxitems_still_does(
         assert completion_out2.success, completion_out2
         plan_path2 = store._completion_plan_path(env2.run_dir, section_id2)
         assert plan_path2.exists() and json.loads(plan_path2.read_text(encoding="utf-8")).get("best_effort") is True
+
+
+# ---------------------------------------------------------------------------
+# (g)/(h) RECONCILIATION-V4 (Resume-Fall): ein bereits ERSCHOEPFTER Record
+#     OHNE `best_candidate_block` (z.B. aus einem fruehren Prozess, dessen
+#     Antwortverarbeitung `update_best_candidate` nie erreichte) greift auf
+#     den bereits persistierten Compat-Export (`best_view`) zurueck -- KEIN
+#     neuer GM-Call, KEIN `begin_attempt`. Gegenprobe: existiert WEDER ein
+#     `best_candidate_block` NOCH ein Compat-Export, bleibt es HOLD.
+# ---------------------------------------------------------------------------
+
+def _exhaust_without_best_candidate_tracking(run_dir, table_id, section_id, pk, char_id):
+    """Treibt einen Korrekturdatensatz ausschliesslich ueber `begin_attempt`
+    bis zur Budgeterschoepfung, OHNE je `update_best_candidate` aufzurufen
+    -- simuliert GENAU den Resume-Fall: ein frueherer Prozess hat die
+    Antwortverarbeitung (die `update_best_candidate` aufruft) fuer KEINEN
+    Versuch dieses Records vollstaendig erreicht, der Record traegt deshalb
+    `attempts_used=MAX`, aber KEIN `best_candidate_block`."""
+    repair_key = domain.group_repair_key(table_id, section_id, char_id)
+    sc.load_or_init_record(
+        run_dir, repair_key, persona_key=pk, char_id=char_id,
+        operation_key=sc.ROLE_GROUP, table_id=table_id, section_id=section_id,
+    )
+    for _ in range(sc.MAX_ADDITIONAL_REQUESTS):
+        sc.begin_attempt(run_dir, repair_key)
+    record = sc.load_record(run_dir, repair_key)
+    assert record["attempts_used"] == sc.MAX_ADDITIONAL_REQUESTS and sc.attempts_exhausted(record), record
+    assert record.get("best_candidate_block") is None, record
+    return repair_key
+
+
+def test_resume_exhausted_record_without_tracked_candidate_falls_back_to_compat_export():
+    with tempfile.TemporaryDirectory() as td:
+        env, lobby, table, ps_store = _build(Path(td), "t-besteffort-g")
+        section_id = "section-besteffort-g"
+
+        leader_key = _exhaust_without_best_candidate_tracking(
+            env.run_dir, table.table_id, section_id, "leader_pk", _LEADER_CID,
+        )
+        guest_key = _exhaust_without_best_candidate_tracking(
+            env.run_dir, table.table_id, section_id, "guest_pk", _GUEST_CID,
+        )
+        overcap_leader = _overlong_invalid(_LEADER_CID, name="Leader")
+        overcap_guest = _overlong_invalid(_GUEST_CID, name="Guest")
+        save_compat_core.build_and_write_compat_export(
+            env.run_dir, repair_key=leader_key, char_id=_LEADER_CID, participant_id="leader_pk",
+            operation_key=sc.ROLE_GROUP, table_id=table.table_id, section_id=section_id,
+            best_view=overcap_leader, last_valid=None, created_ts=time.time(),
+        )
+        save_compat_core.build_and_write_compat_export(
+            env.run_dir, repair_key=guest_key, char_id=_GUEST_CID, participant_id="guest_pk",
+            operation_key=sc.ROLE_GROUP, table_id=table.table_id, section_id=section_id,
+            best_view=overcap_guest, last_valid=None, created_ts=time.time(),
+        )
+
+        harvested: dict = {}
+        harvest_completion = store.complete_section(
+            lobby, table, section_id, harvested, env.states_dir, "2026-10-28",
+            ZeitrissHarvestValidator(), ps_store,
+        )
+        assert not harvest_completion.success and set(harvest_completion.missing) == {"leader_pk", "guest_pk"}
+
+        never_called_gm = ExplodingGmTransport()
+        harvested_out, completion_out = sc.pursue_group_save_correction(
+            lobby=lobby, table=table, section_id=section_id, harvested=harvested,
+            harvest_completion=harvest_completion, states_dir=env.states_dir, today="2026-10-28",
+            harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
+            gm_transport=never_called_gm, cid_to_pk=_CID_TO_PK, harvest_extractor=zeitriss_saves.harvest_from_debrief,
+        )
+
+        # KEIN neuer GM-Call: beide Mitglieder sind bereits erschoepft und
+        # werden im Fresh-Zweig uebersprungen, `candidates` bleibt sofort leer.
+        assert never_called_gm.calls == 0, never_called_gm.calls
+        assert completion_out.success, completion_out
+        assert harvested_out["leader_pk"] == overcap_leader
+        assert harvested_out["guest_pk"] == overcap_guest
+        leader_record = sc.load_record(env.run_dir, leader_key)
+        guest_record = sc.load_record(env.run_dir, guest_key)
+        assert leader_record["state"] == "adopted" and leader_record.get("best_effort") is True, leader_record
+        assert guest_record["state"] == "adopted" and guest_record.get("best_effort") is True, guest_record
+        # Kein Counter-Reset -- die Versuchshistorie bleibt unveraendert.
+        assert leader_record["attempts_used"] == sc.MAX_ADDITIONAL_REQUESTS
+        plan_path = store._completion_plan_path(env.run_dir, section_id)
+        plan_data = json.loads(plan_path.read_text(encoding="utf-8"))
+        assert plan_data.get("best_effort") is True
+        assert plan_data["members"]["leader_pk"].get("best_effort") is True
+
+
+def test_resume_exhausted_record_without_candidate_or_export_stays_hold():
+    with tempfile.TemporaryDirectory() as td:
+        env, lobby, table, ps_store = _build(Path(td), "t-besteffort-h")
+        section_id = "section-besteffort-h"
+
+        leader_key = _exhaust_without_best_candidate_tracking(
+            env.run_dir, table.table_id, section_id, "leader_pk", _LEADER_CID,
+        )
+        guest_key = _exhaust_without_best_candidate_tracking(
+            env.run_dir, table.table_id, section_id, "guest_pk", _GUEST_CID,
+        )
+        # BEWUSST KEIN Compat-Export geschrieben -- weder getracktes
+        # `best_candidate_block` noch Compat-Export existiert fuer dieses
+        # Mitglied.
+
+        harvested: dict = {}
+        harvest_completion = store.complete_section(
+            lobby, table, section_id, harvested, env.states_dir, "2026-10-28",
+            ZeitrissHarvestValidator(), ps_store,
+        )
+        assert not harvest_completion.success and set(harvest_completion.missing) == {"leader_pk", "guest_pk"}
+
+        never_called_gm = ExplodingGmTransport()
+        harvested_out, completion_out = sc.pursue_group_save_correction(
+            lobby=lobby, table=table, section_id=section_id, harvested=harvested,
+            harvest_completion=harvest_completion, states_dir=env.states_dir, today="2026-10-28",
+            harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
+            gm_transport=never_called_gm, cid_to_pk=_CID_TO_PK, harvest_extractor=zeitriss_saves.harvest_from_debrief,
+        )
+
+        assert never_called_gm.calls == 0, never_called_gm.calls
+        assert not completion_out.success, completion_out
+        assert set(completion_out.missing) == {"leader_pk", "guest_pk"}, completion_out
+        leader_record = sc.load_record(env.run_dir, leader_key)
+        guest_record = sc.load_record(env.run_dir, guest_key)
+        assert leader_record["state"] == "correction_pending" and not leader_record.get("best_effort"), leader_record
+        assert guest_record["state"] == "correction_pending" and not guest_record.get("best_effort"), guest_record
+        assert not store._completion_plan_path(env.run_dir, section_id).exists()
+        assert not store._completion_final_path(env.run_dir, section_id).exists()
 
 
 def _run_all() -> int:

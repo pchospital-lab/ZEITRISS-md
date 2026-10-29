@@ -1976,6 +1976,31 @@ def pursue_group_save_correction(
                     member_record = load_record(run_dir, member_repair_key)
                     best_block = member_record.get("best_candidate_block") if member_record is not None else None
                     if best_block is None:
+                        # RECONCILIATION-V4 (Owner-/Lead-Entscheidung,
+                        # 2026-10-29, Resume-Fall): ein bereits ERSCHOEPFTER
+                        # Record aus einem FRUEHEREN Prozess (`attempts_used
+                        # >= max_attempts`, kein weiterer Schleifendurchlauf
+                        # in DIESEM Aufruf -> `update_best_candidate` wurde
+                        # fuer DIESEN Prozess nie erreicht) traegt deshalb
+                        # KEIN `best_candidate_block`. Der zuletzt tatsaechlich
+                        # vom GM produzierte Kandidat ist in GENAU diesem
+                        # Fall bereits persistiert: `_write_compat_export_on_
+                        # exhaustion` (weiter oben in diesem selben Zweig,
+                        # UNVERAENDERT) schreibt `best_view=harvested[pk]`
+                        # nach `run_dir/save_compat/<repair_key>/<version>.
+                        # json`, sobald ein Mitglied erschoepft UND noch kein
+                        # Export vorhanden ist. Reiner Lesezugriff ueber den
+                        # bereits bestehenden `latest_compat_export` --- KEIN
+                        # neuer GM-Call, KEIN `begin_attempt`. `best_view`
+                        # ist IMMER der zuletzt in `harvested[pk]` gelandete
+                        # Kandidat, NIE ein per `detect_unjustified_drift`
+                        # abgelehnter (ein solcher landet nie in `harvested`,
+                        # s. Antwortverarbeitung unten -- `best_view` stammt
+                        # ausschliesslich aus `harvested.get(pk)` zum
+                        # Erschoepfungszeitpunkt).
+                        compat_export = save_compatibility_core.latest_compat_export(run_dir, member_repair_key)
+                        best_block = compat_export.get("best_view") if compat_export is not None else None
+                    if best_block is None:
                         all_missing_have_candidate = False
                         continue
                     if not has_residual_structural_cap_overflow(best_block, char_id):
