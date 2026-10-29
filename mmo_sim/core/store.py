@@ -1614,18 +1614,39 @@ def current_save_ref_snapshot(
 def _validate_harvest(
     table: Table, harvest: dict[str, dict], states_dir: str | Path,
     harvest_validator: HarvestValidator, persona_state_store: PersonaStateStore,
-) -> tuple[list[str], dict[str, dict]]:
+    *, best_effort_pks: frozenset[str] = frozenset(),
+) -> tuple[list[str], dict[str, dict], set[str]]:
     """A1/A27: alle Domaenenregeln (v7/char-id/Ein-Figur o.ae.) leben
     ausschliesslich in `harvest_validator` — dieser Kern ruft nur die zwei
-    generischen Protokoll-Methoden auf."""
+    generischen Protokoll-Methoden auf.
+
+    R4-STARTFRESH (Owner-Vertrag, additiv/OPTIONAL, Default leere Menge --
+    JEDER bestehende Aufrufer ohne dieses Keyword bleibt bytegleich):
+    `best_effort_pks` benennt Mitglieder, fuer die ein scheiterndes
+    `validate_block` NICHT zu `missing` fuehrt (harter Reject uebersprungen)
+    -- ein fehlender Block (`blk is None`) bleibt dabei IMMER `missing`,
+    unabhaengig von `best_effort_pks` (es gibt nichts best-effort
+    zu tolerieren). `validate_identity` bleibt fuer JEDES Mitglied
+    UNVERAENDERT scharf -- der Bypass gilt NUR fuer die reine Schema-/
+    Strukturpruefung. Der dritte Rueckgabewert nennt genau die Mitglieder,
+    fuer die der Bypass TATSAECHLICH gegriffen hat (Teilmenge von
+    `best_effort_pks ∩ table.members`, nur wenn `validate_block` fuer sie
+    wirklich fehlschlug) -- der Aufrufer persistiert das ehrlich
+    (`complete_section`s Plan-/Final-Markierung)."""
     missing: list[str] = []
     identity_states: dict[str, dict] = {}
+    best_effort_applied: set[str] = set()
     for pk in table.members:
         expected_id = table.chrononaut_ids[pk]
         blk = harvest.get(pk)
-        if blk is None or not harvest_validator.validate_block(blk, expected_id):
+        if blk is None:
             missing.append(pk)
             continue
+        if not harvest_validator.validate_block(blk, expected_id):
+            if pk not in best_effort_pks:
+                missing.append(pk)
+                continue
+            best_effort_applied.add(pk)
         try:
             state = persona_state_store.load_state(pk, states_dir=states_dir)
         except FileNotFoundError:
@@ -1635,7 +1656,7 @@ def _validate_harvest(
             missing.append(pk)
             continue
         identity_states[pk] = state
-    return missing, identity_states
+    return missing, identity_states, best_effort_applied
 
 
 def _resume_and_harvest(
@@ -1659,8 +1680,21 @@ def _resume_and_harvest(
     members_plan: dict[str, dict] = plan_data.get("members", {})
 
     pinned_harvest = {pk: entry.get("save") for pk, entry in members_plan.items()}
-    missing, identity_states = _validate_harvest(
+    # R4-STARTFRESH (Owner-Vertrag): ein bereits GEPINNTER Plan ist eine
+    # committete Entscheidung (s. Funktionsdocstring oben/`complete_section`s
+    # `plan_path.exists()`-Zweig) -- trug er beim urspruenglichen Pinnen
+    # (`complete_section`s Fresh-Zweig) fuer ein Mitglied bereits ehrlich
+    # `"best_effort": True`, bleibt DIESELBE Toleranz bei jedem Resume
+    # bestehen (sonst wuerde ein wiederaufgenommener best-effort-Abschluss
+    # beim naechsten Prozess faelschlich wieder `missing`). Rein aus dem
+    # bereits persistierten Plan abgeleitet -- KEIN neuer Parameter hier,
+    # KEIN Vertrauen auf einen (ggf. gar nicht mitgegebenen) Aufrufer-Flag.
+    best_effort_pks = frozenset(
+        pk for pk, entry in members_plan.items() if isinstance(entry, dict) and entry.get("best_effort")
+    )
+    missing, identity_states, _best_effort_applied = _validate_harvest(
         table, pinned_harvest, states_dir, harvest_validator, persona_state_store,
+        best_effort_pks=best_effort_pks,
     )
     if missing:
         return CompletionResult(
@@ -1757,7 +1791,16 @@ def finalize_section_after_reflection(
     `closed` -- exakt das, was `_resume_and_harvest`s Vorgaenger
     (`_resume_and_finalize`) vorher ATOMAR mit der Save-Ernte erledigte.
     Idempotent: existiert der `__final`-Marker bereits, ist ein weiterer
-    Aufruf ein No-op-Erfolg (kein doppeltes Lock-Release/Doppel-`closed`)."""
+    Aufruf ein No-op-Erfolg (kein doppeltes Lock-Release/Doppel-`closed`).
+
+    R4-STARTFRESH (Owner-Vertrag): traegt der bereits gepinnte Plan
+    (`__plan.json`, s. `complete_section`s `best_effort`-Zweig) fuer
+    mindestens ein Mitglied `"best_effort": True`, wird das additiv UND
+    ehrlich in dasselbe `__final.json` uebernommen (`best_effort`/
+    `best_effort_members`) -- KEIN Fake-DONE, der best-effort-Abschluss
+    bleibt auch im geschriebenen Final sichtbar. Ein ganz normaler Abschluss
+    (kein Mitglied best-effort) schreibt GENAU dieselbe `__final.json`-Form
+    wie vor diesem Fix (keine neuen Schluessel)."""
     run_dir = lobby.run_dir
     final_path = _completion_final_path(run_dir, section_id)
     if final_path.exists():
@@ -1779,11 +1822,27 @@ def finalize_section_after_reflection(
         )
     for pk in table.members:
         lobby.release_chrononaut(table.chrononaut_ids[pk], table.table_id)
+    best_effort_members: list[str] = []
+    plan_path = _completion_plan_path(run_dir, section_id)
+    if plan_path.exists():
+        try:
+            plan_data = json.loads(plan_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            plan_data = {}
+        if plan_data.get("table_id") == table.table_id:
+            best_effort_members = [
+                pk for pk, entry in (plan_data.get("members") or {}).items()
+                if isinstance(entry, dict) and entry.get("best_effort")
+            ]
+    final_payload: dict = {
+        "section_id": section_id, "table_id": table.table_id,
+        "members": list(table.members),
+    }
+    if best_effort_members:
+        final_payload["best_effort"] = True
+        final_payload["best_effort_members"] = best_effort_members
     final_path.write_text(
-        json.dumps({
-            "section_id": section_id, "table_id": table.table_id,
-            "members": list(table.members),
-        }, ensure_ascii=False, indent=2),
+        json.dumps(final_payload, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
     persisted = Table.load(run_dir, table.table_id)
@@ -1871,7 +1930,7 @@ def complete_section(
     lobby: Lobby, table: Table, section_id: str,
     harvested_saves: dict[str, dict], states_dir: str | Path, today: str,
     harvest_validator: HarvestValidator, persona_state_store: PersonaStateStore,
-    *, prev_ref_override: dict[str, dict | None] | None = None,
+    *, prev_ref_override: dict[str, dict | None] | None = None, best_effort: bool = False,
 ) -> CompletionResult:
     """Wertet eine Save-Ernte fuer `section_id` aus. Ablauf/Idempotenz-Logik
     IDENTISCH zu P1 `rooms.complete_section` — Domaenenwissen (v7/char-id) ist
@@ -1879,6 +1938,24 @@ def complete_section(
 
     A5 (bindend): `today` hat KEINEN Default mehr — jeder Aufrufer MUSS das
     reale Tagesdatum explizit uebergeben.
+
+    R4-STARTFRESH (Owner-Vertrag, additiv/KEYWORD-ONLY, Default `False` --
+    JEDER bestehende Aufrufer ohne dieses Keyword bleibt bytegleich): wirkt
+    NUR auf dem Zweig, der HIER UNTEN einen NEUEN `__plan.json` pinnt (ein
+    bereits gepinnter Plan bleibt -- wie bei `prev_ref_override` -- die
+    alleinige, bereits beim urspruenglichen Pinnen entschiedene Autoritaet,
+    s. `_resume_and_harvest`s eigene Ableitung aus dem persistierten Plan).
+    `best_effort=True` laesst Mitglieder, deren Block `harvest_validator.
+    validate_block` NICHT besteht, TROTZDEM zu (harter Reject uebersprungen,
+    `validate_identity` bleibt UNVERAENDERT scharf) -- jedes so angenommene
+    Mitglied wird ehrlich `"best_effort": True` im Plan markiert (pro
+    Mitglied) und `finalize_section_after_reflection` uebernimmt diese
+    Markierung additiv in `__final.json` (`best_effort`/`best_effort_
+    members`, s. dort). Ein fehlender Block (`None`) bleibt IMMER `missing`,
+    unabhaengig von `best_effort` -- es gibt nichts best-effort zu
+    tolerieren. KEIN Fake-DONE: ein Mitglied, das AUCH mit Bypass noch
+    `missing` bleibt (z.B. `validate_identity` scheitert), haelt den
+    gesamten Abschluss unveraendert `success=False`.
 
     R12-AUTORECOVERY (additiv, KEYWORD-ONLY, Default `None` -- alle
     bestehenden Aufrufer unveraendert): `prev_ref_override` wirkt NUR auf dem
@@ -1985,8 +2062,9 @@ def complete_section(
             reason=f"Tisch {table.table_id} besitzt nicht mehr alle Chrononaut-Locks (veraltetes Tisch-Handle): {stale_members}.",
         )
 
-    missing, identity_states = _validate_harvest(
+    missing, identity_states, best_effort_applied = _validate_harvest(
         table, harvested_saves, states_dir, harvest_validator, persona_state_store,
+        best_effort_pks=frozenset(table.members) if best_effort else frozenset(),
     )
     if missing:
         return CompletionResult(
@@ -2025,10 +2103,19 @@ def complete_section(
                     prev_ref_override[pk] if prev_ref_override is not None
                     else identity_states[pk].get(_CURRENT_SAVE_REF_FIELD)
                 ),
+                # R4-STARTFRESH: NUR gesetzt, wenn dieses Mitglied den
+                # `validate_block`-Bypass tatsaechlich gebraucht hat (s.
+                # `_validate_harvest`) -- ein normal valider Mitgliedsstand
+                # traegt diesen Schluessel GAR NICHT (byte-identische
+                # Plaenemenge wie vor diesem Fix, solange `best_effort_
+                # applied` leer ist, also IMMER fuer `best_effort=False`).
+                **({"best_effort": True} if pk in best_effort_applied else {}),
             }
             for pk in table.members
         },
     }
+    if best_effort_applied:
+        plan_data["best_effort"] = True
     plan_path.write_text(json.dumps(plan_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     return _resume_and_harvest(

@@ -19,6 +19,49 @@ Zustandsmaschine je Korrekturdatensatz (01_AUFTRAG_SAVEGATE.md §C):
     validating, bis akzeptiert ODER Budget erschöpft) -> adopted
                                                         -> hold / aborted
 
+R4-STARTFRESH (Owner-Vertrag, 2026-10-28 -- ueberschreibt die fruehere §C-
+Formulierung "kein kuenstlicher Erfolg", die ein General-Drift war): der
+Save-Gate ist BEST-EFFORT. Pro Chrononaut gibt die KI-SL bis zu
+`MAX_ADDITIONAL_REQUESTS` Nachbesserungen aus. Bleiben danach noch Schema-
+Imperfektionen, nimmt die App den MAXIMAL-KONFORMEN Kandidaten (= die
+waehrend der Schleife beobachtete Antwort mit den WENIGSTEN Strukturfehlern,
+s. `update_best_candidate`) und schliesst den Abschnitt ab -- ehrlich als
+`best_effort=True` geflaggt (KEIN Fake-DONE, s. `mark_adopted`/`store.
+complete_section`). Das gilt sowohl fuer den Einzelfigurpfad
+(`pursue_single_figure_correction`s `attempt_budget_exhausted`-Zweig, bereits
+bestehend, s. `core.creation_service.run_admitted_creation_dialog` ->
+`onboarding.complete_with_save_best_effort`) ALS AUCH -- NEU, dieser Fix --
+fuer den GRUPPENPFAD (`pursue_group_save_correction`s erschoepfter-Budget-
+Zweig unten). Ein per `detect_unjustified_drift` abgelehnter Kandidat bleibt
+in BEIDEN Pfaden terminal HOLD (KEIN best-effort) -- Drift ist kein Schema-/
+Kompatibilitaetsfehler, sondern ein inhaltlicher Vertrauensbruch.
+
+RECONCILIATION-V3 (Owner-/Lead-Entscheidung, 2026-10-29, verfeinert
+RECONCILIATION-V2): Prinzip -- SAVECOMPAT = Wert-/Form-/Typ-Reparatur
+(Wallet-Zahl->balance, CU-currency-Entfernung, modellgestuetzte
+Typkorrektur ueber `core.compat_load_service.build_compat_repair_fn`); JEDER
+dieser Fehler hat einen deterministisch ODER per SL ableitbaren KORREKTEN
+Einzelwert. Best-Effort im Gruppenpfad = NUR fuer strukturelle Cap-
+Ueberlaeufe (`maxItems`/`minItems`, z.B. zu viele `continuity.
+shared_echoes`/`npc_roster`-Eintraege) -- kein korrekter Einzelwert, die SL
+prunt das beim naechsten Laden/Speichern selbst (s. `has_residual_
+structural_cap_overflow`/`STRUCTURAL_CAP_OVERFLOW_CHECKS`). Der Diskriminator
+wendet ZUERST dieselbe deterministische Wallet-Projektion an, die `core.
+compat_load_service.build_compat_repair_fn`s `_repair` als ERSTEN,
+kostenlosen Schritt faehrt (ein reiner Wallet-Fall zaehlt dadurch GAR NICHT
+erst als 'Rest'), und prueft DANACH, ob der best-konforme Kandidat noch
+MINDESTENS einen `maxItems`/`minItems`-Fehler traegt (`any(...)`, nicht
+"ausschliesslich diese Klasse"). Trifft das zu -> Best-Effort. Sonst (schon
+wallet-projiziert gueltig, ODER Rest-Fehler sind Typ-/Wert-/required-/enum-
+Fehler ohne Cap-Ueberlauf) -> KEIN Best-Effort, der bestehende Zwei-Prozess-
+Compat-Ladeweg (`_write_compat_export_on_exhaustion` -> `core.save_
+compatibility.attempt_compat_load`) bleibt die ALLEINIGE Bruecke. Die
+Pruefung erfolgt SYNCHRON an der Erschoepfungsstelle (`pursue_group_save_
+correction`, kein zusaetzlicher Transportaufruf -- die Wallet-Projektion ist
+reine, lokale Funktion; ein echter modellgestuetzter Reparaturversuch
+findet hier NICHT statt, der bleibt dem spaeteren Compat-Ladeweg
+vorbehalten).
+
 Persistiert unter `run_dir/save_corrections/<repair_key>.json`, atomar über
 dieselbe Hilfsfunktion wie `lab.status.json`/`request_ledger`
 (`core.admission._atomic_write_json` -- `request_ledger.py` importiert sie
@@ -149,25 +192,17 @@ def load_or_init_record(
     return data
 
 
-#: FIX3 (R4-Duo-Anschluss, START-FRESH): Obergrenze fuer eine ausdruecklich
-#: beauftragte, EINMALIGE bounded Zusatzkorrektur eines bereits erschoepften
-#: Korrekturdatensatzes ("begrenzte Zusatzkorrektur" ohne Counter-Reset). Ein
-#: `record["recovery_extra_attempts"]` darueber hinaus wird hart gedeckelt.
-MAX_RECOVERY_EXTRA_ATTEMPTS = 3
-
-
 def attempts_exhausted(record: dict, max_attempts: int = MAX_ADDITIONAL_REQUESTS) -> bool:
-    """`attempts_used >= max_attempts` -- mit EINER Ausnahme: traegt der
-    Datensatz ein ausdruecklich (recovery-)gesetztes `recovery_extra_attempts`
-    (int, 0..MAX_RECOVERY_EXTRA_ATTEMPTS), wird die Schwelle um GENAU diesen
-    gedeckelten Betrag angehoben. `attempts_used` selbst bleibt dabei
-    unveraendert/wahr (KEIN Counter-Reset) -- die Historie der bisherigen
-    Versuche bleibt vollstaendig erhalten, es werden lediglich zusaetzliche,
-    bounded Korrekturrunden zugelassen (FIX3, R4-Duo-Anschluss)."""
-    extra = record.get("recovery_extra_attempts")
-    bonus = extra if (isinstance(extra, int) and not isinstance(extra, bool) and extra > 0) else 0
-    bonus = min(bonus, MAX_RECOVERY_EXTRA_ATTEMPTS)
-    return record.get("attempts_used", 0) >= max_attempts + bonus
+    """`attempts_used >= max_attempts`.
+
+    R4-STARTFRESH (Owner-Vertrag, Revert von FIX3): die vormalige FIX3-
+    Zusatzkorrektur ("`record['recovery_extra_attempts']` hebt die Schwelle
+    an") ist entfernt -- der Owner-Vertrag ist best-effort NACH den
+    bestehenden `MAX_ADDITIONAL_REQUESTS` Versuchen (s. `pursue_single_
+    figure_correction`s `attempt_budget_exhausted`-Zweig/`pursue_group_save_
+    correction`s best-effort-Abschluss unten), NICHT "mehr Versuche
+    zulassen". `MAX_RECOVERY_EXTRA_ATTEMPTS` existiert deshalb nicht mehr."""
+    return record.get("attempts_used", 0) >= max_attempts
 
 
 def begin_attempt(run_dir: str | Path, repair_key: str, *, original_block=_UNSET_ORIGINAL_BLOCK) -> dict:
@@ -208,7 +243,9 @@ def record_correction_received(run_dir: str | Path, repair_key: str, *, request_
     return record
 
 
-def mark_adopted(run_dir: str | Path, repair_key: str, *, adopted_block: dict | None = None) -> dict:
+def mark_adopted(
+    run_dir: str | Path, repair_key: str, *, adopted_block: dict | None = None, best_effort: bool = False,
+) -> dict:
     """`adopted_block`, falls uebergeben, wird ATOMAR zusammen mit
     `state="adopted"` als neues internes Corrector-Metadatum persistiert
     (W53-SS7, 01_AUFTRAG_SAVEGATE.md §C-Bruecke "neue interne Corrector-
@@ -216,11 +253,22 @@ def mark_adopted(run_dir: str | Path, repair_key: str, *, adopted_block: dict | 
     zulaessig") -- ermoeglicht `pursue_group_save_correction`, einen bereits
     akzeptierten Block nach einem Absturz GENAU zwischen `_clear_open_round`
     und `store.complete_section` beim naechsten Aufruf aus DIESEM Datensatz
-    zurueckzuspielen, statt ihn dauerhaft zu verlieren (s. dort)."""
+    zurueckzuspielen, statt ihn dauerhaft zu verlieren (s. dort).
+
+    R4-STARTFRESH (Owner-Vertrag, additiv/OPTIONAL, Default `False` -- JEDER
+    bestehende Aufrufer ohne dieses Keyword bleibt bytegleich): `best_effort
+    =True` markiert ehrlich, dass `adopted_block` NICHT die volle Schema-/
+    Bindungspruefung bestanden hat, sondern der waehrend der Korrekturschleife
+    beobachtete, maximal-konforme (wenigste Strukturfehler, NICHT per
+    `detect_unjustified_drift` abgelehnte) Kandidat ist (`pursue_group_save_
+    correction`s erschoepfter-Budget-Zweig, s. dort) -- KEIN Fake-DONE, nur
+    eine ehrliche Flagge im Korrekturdatensatz selbst."""
     record = dict(load_record(run_dir, repair_key))
     record["state"] = STATE_ADOPTED
     if adopted_block is not None:
         record["adopted_block"] = adopted_block
+    if best_effort:
+        record["best_effort"] = True
     record["updated_ts"] = time.time()
     _write_record(run_dir, repair_key, record)
     return record
@@ -246,6 +294,80 @@ def mark_hold(run_dir: str | Path, repair_key: str, *, reason: str) -> dict:
     record["updated_ts"] = time.time()
     _write_record(run_dir, repair_key, record)
     return record
+
+
+def update_best_candidate(run_dir: str | Path, repair_key: str, *, block: dict, error_count: int) -> dict:
+    """R4-STARTFRESH (Owner-Vertrag, best-effort Gruppenabschluss, s.
+    Moduldocstring-Nachtrag unten bei `pursue_group_save_correction`):
+    persistiert je Korrekturdatensatz den bislang beobachteten, am wenigsten
+    strukturfehlerhaften Kandidaten -- `error_count` ist IMMER
+    `save_correction_domain.evaluate(block, char_id).structure.
+    total_error_count` (0 bei einem vollstaendig schema-validen Block),
+    NIE eine andere Fehlermetrik. Bei Gleichstand gewinnt der SPAETERE
+    Aufruf (`<=`, nicht `<`) -- der chronologisch juengste Kandidat ist bei
+    gleicher Fehlerzahl die naechstliegende/aktuellste Information.
+
+    Der Aufrufer (`pursue_group_save_correction`) ruft dies NUR fuer einen
+    tatsaechlich empfangenen, extrahierbaren, NICHT per `detect_
+    unjustified_drift` abgelehnten Kandidaten auf -- ein gedrifteter oder
+    nie empfangener/mehrdeutiger Kandidat darf hier NIE ankommen, sonst
+    wuerde ein best-effort-Abschluss faelschlich auch fuer ein Mitglied
+    ohne sauberen Einzelkandidaten moeglich. Reiner additiver
+    Seitenzustand -- aendert NICHT `state`/`attempts_used`/`adopted_block`."""
+    record = dict(load_record(run_dir, repair_key))
+    current_best = record.get("best_candidate_error_count")
+    if current_best is None or error_count <= current_best:
+        record["best_candidate_block"] = block
+        record["best_candidate_error_count"] = error_count
+    record["updated_ts"] = time.time()
+    _write_record(run_dir, repair_key, record)
+    return record
+
+
+#: RECONCILIATION-V3 (Owner-/Lead-Entscheidung, 2026-10-29): SAVECOMPAT
+#: (Wert-/Form-/Typ-Reparatur -- Wallet-Zahl->balance, CU-currency-
+#: Entfernung, modellgestuetzte Typkorrektur ueber `core.compat_load_
+#: service`) deckt JEDEN Fehler ab, fuer den es einen deterministisch ODER
+#: per SL ableitbaren KORREKTEN Einzelwert gibt. Best-Effort ist NUR fuer
+#: die Fehlerklasse zustaendig, die SAVECOMPAT STRUKTURELL NICHT reparieren
+#: kann: Cap-Ueberlaeufe (`maxItems`/`minItems` -- "zu viele Echos/NPCs",
+#: kein korrekter Einzelwert, die SL prunt das beim naechsten Laden/
+#: Speichern selbst).
+STRUCTURAL_CAP_OVERFLOW_CHECKS = frozenset({"maxItems", "minItems"})
+
+
+def has_residual_structural_cap_overflow(block: dict, expected_chrononaut_id: str) -> bool:
+    """RECONCILIATION-V3 (Owner-/Lead-Entscheidung, Verfeinerung des
+    SAVECOMPAT-Vorrang-Diskriminators): wendet ZUERST dieselbe
+    deterministische Wallet-Projektion an, die `core.compat_load_service.
+    build_compat_repair_fn`s `_repair` als ERSTEN, kostenlosen Schritt
+    faehrt (`domain.zeitriss.save_compatibility.project_wallets_in_block`)
+    -- ein reiner Wallet-Fall (Zahl->balance, CU-currency-Entfernung) zaehlt
+    dadurch GAR NICHT erst als 'Rest'. Prueft DANACH die verbleibenden
+    Strukturfehler (`save_correction_domain.evaluate(...).structure.
+    errors`, Feld `check`) auf MINDESTENS einen Treffer in
+    `STRUCTURAL_CAP_OVERFLOW_CHECKS` -- `any(...)`, NICHT "ausschliesslich
+    diese Klasse" (ein Kandidat mit `maxItems` PLUS einem weiteren Typfehler
+    gilt ebenfalls als best-effort-faehig, s. Owner-Vorgabe).
+
+    Liefert `False` (= KEIN Best-Effort, SAVECOMPAT bleibt zustaendig),
+    wenn die Wallet-Projektion den Kandidaten bereits vollstaendig schema-
+    gueltig macht (dann gibt es gar keinen Rest) ODER wenn die
+    verbleibenden Fehler ALLE einer anderen Klasse angehoeren (Typ/
+    required/enum/const/... -- SAVECOMPATs modellgestuetzte Reparaturbruecke,
+    `core.compat_load_service.build_compat_repair_fn`, bleibt fuer DIESE
+    Klasse zustaendig, auch wenn sie HIER am Erschoepfungspunkt noch keinen
+    echten Reparaturversuch unternimmt -- der Zwei-Prozess-Compat-Ladeweg
+    tut das spaeter)."""
+    try:
+        projection = save_compatibility_domain.project_wallets_in_block(block)
+        projected_block = projection.canonical_candidate
+    except TypeError:
+        projected_block = block
+    acceptance = save_correction_domain.evaluate(projected_block, expected_chrononaut_id)
+    if acceptance.accepted:
+        return False
+    return any(e.check in STRUCTURAL_CAP_OVERFLOW_CHECKS for e in acceptance.structure.errors)
 
 
 def mark_window_paused(run_dir: str | Path, repair_key: str, *, reason: str) -> dict:
@@ -1522,6 +1644,19 @@ def pursue_group_save_correction(
     sobald entweder `complete_section` erfolgreich ist, kein Mitglied mehr
     Budget hat, oder ein Versand admission-/transportseitig blockiert.
 
+    R4-STARTFRESH (Owner-Vertrag, 2026-10-28, s. Moduldocstring oben --
+    ueberschreibt die fruehere §C-Formulierung "kein kuenstlicher Erfolg",
+    die ein General-Drift war): "kein Mitglied mehr Budget hat" fuehrt NICHT
+    mehr automatisch zu einem unveraenderten HOLD-Abbruch. Traegt JEDES noch
+    fehlende Mitglied einen waehrend der Schleife beobachteten, NICHT per
+    `detect_unjustified_drift` abgelehnten Kandidaten (`best_candidate_
+    block`), wird DIESER maximal-konforme (wenigste Strukturfehler) Kandidat
+    best-effort uebernommen -- `store.complete_section(..., best_effort=
+    True)` toleriert dann verbleibende Schema-Imperfektionen und flaggt sie
+    ehrlich (KEIN Fake-DONE). Hat auch nur EIN noch fehlendes Mitglied keinen
+    solchen Kandidaten (reiner Drift-/Konflikt-Fall), bleibt die GESAMTE
+    Runde unveraendert terminal HOLD (altes Verhalten).
+
     NUR aufzurufen, solange für `section_id` noch KEIN Abschluss-Auftrag
     gepinnt ist (`store.open_completion_order_for_table(...) is None`,
     vom Aufrufer VOR diesem Call geprüft) -- ein bereits gepinnter Plan
@@ -1666,6 +1801,7 @@ def pursue_group_save_correction(
                 })
         else:
             restored_from_adopted = False
+            restored_best_effort = False
             for pk in harvest_completion.missing:
                 char_id = table.chrononaut_ids.get(pk)
                 if char_id is None:
@@ -1749,6 +1885,15 @@ def pursue_group_save_correction(
                         # `complete_section`-Pruefung sichtbar gemacht.
                         harvested[pk] = record["adopted_block"]
                         restored_from_adopted = True
+                        if record.get("best_effort"):
+                            # R4-STARTFRESH: ein zurueckgespielter Best-
+                            # Effort-Kandidat (s. unten) braucht denselben
+                            # Store-seitigen Bypass wie bei seiner
+                            # urspruenglichen Adoption -- sonst wuerde der
+                            # idempotente Replay-`complete_section`-Aufruf
+                            # unten ihn faelschlich erneut als `missing`
+                            # zurueckmelden.
+                            restored_best_effort = True
                     continue
                 original_block = harvested.get(pk)
                 acceptance = save_correction_domain.evaluate(original_block, char_id)
@@ -1768,6 +1913,94 @@ def pursue_group_save_correction(
                     # ungenutzt zu verwerfen (s. Modulkommentar oben).
                     harvest_completion = store.complete_section(
                         lobby, table, section_id, harvested, states_dir, today, harvest_validator, persona_state_store,
+                        best_effort=restored_best_effort,
+                    )
+                    continue
+                # R4-STARTFRESH (Owner-Vertrag, 2026-10-28, ueberschreibt die
+                # fruehere §C-Formulierung "kein kuenstlicher Erfolg" -- ein
+                # General-Drift, s. Moduldocstring oben; RECONCILIATION-V2,
+                # 2026-10-29: SAVECOMPAT hat Vorrang, Best-Effort ist NUR
+                # Fallback, s. Modulkommentar unten): Budget fuer JEDES noch
+                # fehlende Mitglied erschoepft. Statt unveraendert HOLD
+                # zurueckzugeben, wird GEPRUEFT, ob JEDES noch fehlende
+                # Mitglied einen waehrend der Schleife beobachteten, NICHT per
+                # `detect_unjustified_drift` abgelehnten Kandidaten traegt
+                # (`best_candidate_block`, s. `update_best_candidate`/die
+                # Verarbeitung unten) UND dieser Kandidat NICHT bereits durch
+                # die bestehende, deterministische SAVECOMPAT-Wallet-
+                # Projektion (`save_compatibility_domain.evaluate_with_
+                # wallet_projection` -- EXAKT dieselbe reine Funktion, die
+                # `core.compat_load_service.build_compat_repair_fn`s `_repair`
+                # als ERSTEN Schritt vor jedem SL-gestuetzten Reparaturversuch
+                # anwendet) schema-gueltig gemacht werden koennte. SAVECOMPAT
+                # erzeugt in diesem Fall einen ECHTEN, vollstaendig gueltigen
+                # Save (ueber den bereits bestehenden Zwei-Prozess-Compat-
+                # Ladeweg, `_write_compat_export_on_exhaustion` schreibt den
+                # Umschlag bereits weiter oben UNVERAENDERT) -- das ist
+                # STRIKT besser als ein best-effort-imperfekter Save. Best-
+                # Effort ist deshalb NUR der Fallback fuer die EINE
+                # Fehlerklasse, die SAVECOMPAT STRUKTURELL NICHT beheben
+                # kann: Cap-Ueberlaeufe (`maxItems`/`minItems`, z.B.
+                # `continuity.shared_echoes` -- "zu viele Echos", kein
+                # korrekter Einzelwert, s. `has_residual_structural_cap_
+                # overflow`/`STRUCTURAL_CAP_OVERFLOW_CHECKS` oben). JEDER
+                # andere Rest-Fehler (Typ/required/enum/const/...) hat einen
+                # deterministisch ODER per SL ableitbaren KORREKTEN
+                # Einzelwert -- SAVECOMPAT (Wallet-Projektion ODER die
+                # modellgestuetzte Reparaturbruecke, `core.compat_load_
+                # service.build_compat_repair_fn`) bleibt dafuer zustaendig.
+                #
+                # NUR wenn fuer ALLE noch fehlenden Mitglieder sowohl ein
+                # Kandidat existiert ALS AUCH dieser Kandidat NACH der
+                # Wallet-Projektion noch mindestens einen `maxItems`/
+                # `minItems`-Fehler traegt, wird best-effort abgeschlossen --
+                # sonst wuerde `store.complete_section(best_effort=True)`s
+                # blanket Bypass (JEDES schema-fehlerhafte `harvested[pk]`
+                # wird toleriert) auch ein Mitglied OHNE sauberen
+                # Einzelkandidaten (reiner Drift-/Konflikt-Fall) ODER ein
+                # SAVECOMPAT-reparierbares Mitglied faelschlich mit
+                # durchschleifen. Ein solches Mitglied bleibt deshalb --
+                # unveraendert -- terminal HOLD (der `break` unten), die
+                # GESAMTE Runde dann ohne jeden best-effort-Abschluss (der
+                # bereits geschriebene Compat-Umschlag bleibt die Bruecke
+                # zum spaeteren Zwei-Prozess-Ladeweg).
+                missing_pks = list(harvest_completion.missing)
+                best_effort_candidates: dict[str, tuple[str, dict]] = {}
+                all_missing_have_candidate = True
+                for pk in missing_pks:
+                    char_id = table.chrononaut_ids.get(pk)
+                    if char_id is None:
+                        all_missing_have_candidate = False
+                        continue
+                    member_repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, char_id)
+                    member_record = load_record(run_dir, member_repair_key)
+                    best_block = member_record.get("best_candidate_block") if member_record is not None else None
+                    if best_block is None:
+                        all_missing_have_candidate = False
+                        continue
+                    if not has_residual_structural_cap_overflow(best_block, char_id):
+                        # SAVECOMPAT (deterministische Wallet-Projektion ODER
+                        # die modellgestuetzte Reparaturbruecke) bleibt fuer
+                        # diesen Kandidaten zustaendig -- entweder bereits
+                        # jetzt schema-gueltig (Wallet-Projektion) ODER die
+                        # verbleibenden Fehler sind Wert-/Form-/Typfehler mit
+                        # einem ableitbaren korrekten Einzelwert, KEIN
+                        # Cap-Ueberlauf. KEIN Best-Effort fuer dieses
+                        # Mitglied -- der bestehende Zwei-Prozess-Compat-
+                        # Ladeweg liegt strikt vorne.
+                        all_missing_have_candidate = False
+                        continue
+                    best_effort_candidates[pk] = (member_repair_key, best_block)
+                if all_missing_have_candidate and best_effort_candidates:
+                    for pk, (member_repair_key, best_block) in best_effort_candidates.items():
+                        harvested[pk] = best_block
+                        mark_adopted(run_dir, member_repair_key, adopted_block=best_block, best_effort=True)
+                        emit("save_correction_best_effort", {
+                            "section_id": section_id, "table_id": table.table_id, "persona_key": pk,
+                        })
+                    harvest_completion = store.complete_section(
+                        lobby, table, section_id, harvested, states_dir, today, harvest_validator, persona_state_store,
+                        best_effort=True,
                     )
                     continue
                 break  # Budget fuer jedes noch fehlende Mitglied erschoepft -- ehrliches HOLD beim Aufrufer
@@ -1954,6 +2187,18 @@ def pursue_group_save_correction(
                     })
                     continue  # alten (ungueltigen) Stand NICHT durch die gedriftete Antwort ersetzen
             harvested[pk] = new_block
+            # R4-STARTFRESH (Owner-Vertrag, best-effort Gruppenabschluss):
+            # dieser Kandidat hat die Drift-/Konfliktpruefung oben
+            # UNVERAENDERT bestanden -- unabhaengig davon, ob er GLEICH
+            # akzeptiert wird oder einen weiteren Versuch braucht, wird er
+            # hier als (bislang) maximal-konformer Kandidat gespeichert
+            # (s. `update_best_candidate`/den erschoepften-Budget-Zweig
+            # oben), damit ein spaeterer best-effort-Abschluss den
+            # tatsaechlich am wenigsten strukturfehlerhaften Stand waehlt,
+            # NICHT bloss den zuletzt empfangenen.
+            update_best_candidate(
+                run_dir, c["repair_key"], block=new_block, error_count=new_acceptance.structure.total_error_count,
+            )
             if new_acceptance.accepted:
                 mark_adopted(run_dir, c["repair_key"], adopted_block=new_block)
             else:

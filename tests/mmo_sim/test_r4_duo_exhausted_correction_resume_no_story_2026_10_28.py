@@ -18,18 +18,34 @@ Korrekturen), statt den unerledigten Abschluss zu erkennen und zu halten.
 Dieser Test geht -- wie `test_r4_duo_open_group_correction_resume_2026_10_28`
 -- ueber den ECHTEN normalen Aufrufer (`app_service.run_play_session`, je
 Phase NEU konstruiert = frischer Prozess auf demselben persistierten
-`run_dir`). Er beweist:
-  - Nach echter Budgeterschoepfung ist der `.open.json`-Marker weg, die
-    Datensaetze sind aber noch `validating`/`attempts_used=MAX` (kein Plan/
-    Final) -- und `save_correction.has_unfinished_group_round` erkennt genau
-    das (marker-UNABHAENGIG).
-  - Der naechste normale Spieleinstieg startet dann KEINEN Storyzug: weder ein
-    GM-Transport-Call (`ExplodingGmTransport`) noch eine neue Persona-
-    Entscheidung (`ExplodingDriver`) -- er fuehrt den idempotenten
-    Abschluss-/Recoveryzweig und meldet ein ehrliches, unvollstaendiges
-    Ergebnis (kein `success`, keine Finalisierung).
-  - Vorheriger Zustand bleibt erhalten (kein Counter-Reset, kein manuell
-    geschriebenes Final): `attempts_used` bleibt MAX, `state` bleibt offen.
+`run_dir`).
+
+R4-STARTFRESH-NACHTRAG (Owner-Vertrag, 2026-10-28/29, `mmo_sim/core/save_
+correction.py`-Moduldocstring): der urspruengliche FIX2-Befund oben ("WEDER
+ein `__plan.json` gepinnt NOCH ein `__final.json` geschrieben") beschrieb
+GENAU den General-Drift, den der Owner-Vertrag jetzt ausdruecklich
+ueberschreibt ("kein kuenstlicher Erfolg" war KEIN bindender Vertrag,
+sondern eine damals ungeprueft uebernommene Annahme). Das hier verwendete
+Exhaustionsszenario (beide Mitglieder liefern ueber mehrere Runden denselben
+schema-ungueltigen, aber sauber extrahierbaren, NICHT gedrifteten Kandidaten
+-- `_overlong_invalid`, 7 `shared_echoes` gegen `maxItems:6`) ist EXAKT der
+Fall, fuer den der Owner-Vertrag jetzt einen best-effort-Abschluss verlangt
+(`pursue_group_save_correction`s erschoepfter-Budget-Zweig). Die beiden
+Tests unten sind deshalb AKTUALISIERT (nicht geloescht -- die eigentliche
+FIX2-Kernaussage "kein wiederholter Storyzug nach Erschoepfung" bleibt
+unveraendert gueltig und wird weiterhin geprueft):
+  - Nach echter Budgeterschoepfung ist der `.open.json`-Marker weg, BEIDE
+    Mitglieder sind jetzt `adopted`/`best_effort=True` (NICHT mehr
+    `validating`) -- `__plan.json`/`__final.json` sind jetzt gepinnt/
+    geschrieben (best-effort, ehrlich geflaggt), `has_unfinished_group_
+    round` meldet deshalb korrekt `False` (der Abschnitt ist nicht mehr
+    offen).
+  - Ein nachfolgender normaler Spieleinstieg sieht den Abschnitt bereits
+    final abgeschlossen und startet KEINEN Storyzug (die eigentliche FIX2-
+    Garantie bleibt bestehen, nur die Art des Abschlusses hat sich
+    geaendert).
+  - `attempts_used` bleibt unveraendert MAX (kein Counter-Reset) -- der
+    best-effort-Abschluss aendert NICHTS an der Versuchshistorie.
 
 Geldfrei per Konstruktion: ausschliesslich In-Process-Fakes, kein realer
 Transport, keine echte CLI, keine echte GM-Route."""
@@ -107,8 +123,14 @@ def _drive_group_correction_to_exhaustion(env, lobby, table, ps_store, section_i
     """Treibt eine Gruppenkorrektur BEIDER Mitglieder ueber ein direktes
     `pursue_group_save_correction` bis zur echten Budgeterschoepfung: der
     GM-Fake liefert `MAX_ADDITIONAL_REQUESTS` Mal DENSELBEN ungueltigen Block
-    je Figur (kein Fortschritt, keine Drift). Danach ist der Marker weg, beide
-    Datensaetze sind `validating`/`attempts_used=MAX`."""
+    je Figur (kein Fortschritt, keine Drift).
+
+    R4-STARTFRESH (Owner-Vertrag): dieser ungueltige, aber sauber
+    extrahierbare, NICHT gedriftete Block ist jetzt GENAU der Fall, den der
+    Owner-Vertrag best-effort abschliesst -- `pursue_group_save_correction`
+    liefert deshalb `success=True`, BEIDE Mitglieder sind `adopted`/`best_
+    effort=True` (NICHT mehr `validating`), `attempts_used` bleibt
+    unveraendert MAX."""
     harvested: dict = {}
     harvest_completion = store.complete_section(
         lobby, table, section_id, harvested, env.states_dir, "2026-10-28",
@@ -131,8 +153,12 @@ def _drive_group_correction_to_exhaustion(env, lobby, table, ps_store, section_i
         harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
         gm_transport=gm, cid_to_pk=_CID_TO_PK, harvest_extractor=zeitriss_saves.harvest_from_debrief,
     )
-    assert not completion_out.success, completion_out
-    # Genau MAX gesendete Korrekturrunden -- Budget tatsaechlich erschoepft.
+    # R4-STARTFRESH: best-effort-Abschluss statt ehrlichem HOLD -- der
+    # maximal-konforme (hier: der einzige je beobachtete) Kandidat wird
+    # adoptiert, PHASE 1 (`store.complete_section`) ist jetzt erfolgreich.
+    assert completion_out.success, completion_out
+    # Genau MAX gesendete Korrekturrunden -- Budget tatsaechlich erschoepft
+    # (der best-effort-Abschluss aendert NICHTS an der Versuchszahl).
     assert len(gm.calls) == max_attempts, gm.calls
     return max_attempts
 
@@ -147,25 +173,32 @@ def test_exhausted_group_correction_is_detected_without_marker():
 
         max_attempts = _drive_group_correction_to_exhaustion(env, lobby, table, ps_store, section_id)
 
-        # Marker ist nach Erschoepfung weg -- der alte markerbasierte Zweig
-        # waere jetzt blind.
+        # Marker ist nach Erschoepfung weg -- erwartet, UNVERAENDERT (FIX2).
         marker = sc._open_round_path(env.run_dir, table.table_id, section_id)
         assert not marker.exists(), "Nach Budgeterschoepfung ist der .open.json-Marker geloescht."
         assert not sc.has_open_group_round(env.run_dir, table.table_id, section_id)
 
-        # Datensaetze sind OFFEN (validating) mit erschoepftem Budget, nicht
-        # adoptiert -- und FIX2 erkennt genau das.
+        # R4-STARTFRESH: Datensaetze sind jetzt `adopted`/`best_effort=True`
+        # mit erschoepftem (unveraendertem) Budget -- NICHT mehr offen.
         for cid in (_LEADER_CID, _GUEST_CID):
             rec = sc.load_record(env.run_dir, domain.group_repair_key(table.table_id, section_id, cid))
-            assert rec["state"] == "validating", rec
+            assert rec["state"] == "adopted" and rec.get("best_effort") is True, rec
             assert rec["attempts_used"] == max_attempts, rec
-        assert sc.has_unfinished_group_round(env.run_dir, table.table_id, section_id), (
-            "FIX2: die unerledigte, erschoepfte Gruppenkorrektur muss marker-unabhaengig erkannt werden."
+        assert not sc.has_unfinished_group_round(env.run_dir, table.table_id, section_id), (
+            "R4-STARTFRESH: nach best-effort-Abschluss ist die Gruppenkorrektur NICHT mehr offen."
         )
 
-        # Kein Plan/Final -- die Section ist nachweislich nicht abgeschlossen.
-        assert store.open_completion_order_for_table(env.run_dir, table.table_id) is None
-        assert not (env.run_dir / "completion" / f"{section_id}__final.json").exists()
+        # PHASE 1 ist best-effort erfolgreich -- ein Abschluss-Auftrag ist
+        # jetzt gepinnt (PHASE 2/Reflexion steht noch aus, bewusst nicht
+        # Teil dieses Tests).
+        assert store.open_completion_order_for_table(env.run_dir, table.table_id) == section_id
+        plan_data = json.loads(
+            (env.run_dir / "completion" / f"{section_id}__plan.json").read_text(encoding="utf-8")
+        )
+        assert plan_data.get("best_effort") is True, plan_data
+        assert not (env.run_dir / "completion" / f"{section_id}__final.json").exists(), (
+            "PHASE 2 (Reflexion/Finalize) ist bewusst noch nicht gelaufen -- kein Final ohne sie."
+        )
 
 
 def _append_anchor_origins(run_dir, table_id: str, section_id: str) -> None:
@@ -188,11 +221,18 @@ def _append_anchor_origins(run_dir, table_id: str, section_id: str) -> None:
 
 
 def test_normal_entry_after_exhaustion_halts_repeated_story_turns():
-    """FIX2-Kern: Nach erschoepfter Korrektur (Marker weg, Records offen) darf
-    der bereits geankerte Resume NICHT in eine Kette reiner Story-/Persona-
-    Zuege laufen (belegt: 14). Der neue In-Loop-Guard laesst hoechstens den
-    einen ersten Abschluss-/Recoveryversuch der Schleife zu und haelt danach
-    fortsetzbar an -- kein Weitererzaehlen bis `max_turns`."""
+    """FIX2-Kern (weiterhin gueltig): Nach erschoepfter Korrektur darf der
+    bereits geankerte Resume NICHT in eine Kette reiner Story-/Persona-Zuege
+    laufen (belegt: 14 unnoetige GM-Zuege). Mit dem urspruenglichen FIX2
+    (Marker weg, Records offen) hielt der In-Loop-Guard danach HOLD; mit
+    R4-STARTFRESH (Owner-Vertrag, best-effort Gruppenabschluss) ist PHASE 1
+    jetzt bereits best-effort erfolgreich -- der normale Resume erkennt den
+    bereits gepinnten Abschluss-Auftrag (`open_completion_order_for_table`)
+    und fuehrt NUR noch die ausstehende PHASE 2 (Pflicht-Reflexion/Finalize)
+    aus, OHNE jeden neuen Story-/GM-Zug. Beide Varianten erfuellen dieselbe
+    Kerngarantie ("kein Weitererzaehlen bis `max_turns`"), nur das Resultat
+    (HOLD vs. best-effort-Abschluss) hat sich mit dem Owner-Vertrag
+    geaendert."""
     with tempfile.TemporaryDirectory() as td:
         env = make_env(Path(td))
         lobby, table, ps_store = build_two_member_table(env, table_id="t-duo-exhausted-resume")
@@ -206,9 +246,9 @@ def test_normal_entry_after_exhaustion_halts_repeated_story_turns():
         _append_anchor_origins(env.run_dir, table.table_id, section_id)
 
         # === NEUER normaler Spieleinstieg (frischer Prozess). Der GM-Fake wuerde
-        # BIS ZU max_turns reine Erzaehlung liefern (kein Abschlussmarker).
-        # Ohne den Fix liefe die Schleife bis `max_turns` (viele Story-GM-Calls);
-        # MIT dem Fix bricht sie nach dem ersten, nicht abschliessenden Zug ab. ===
+        # BIS ZU max_turns reine Erzaehlung liefern (kein Abschlussmarker) --
+        # wenn der Resume faelschlich in einen normalen Story-/Persona-Zug
+        # zurueckfiele, wuerde GENAU dieser Fake das aufdecken. ===
         table2 = store.Table.load(env.run_dir, table.table_id)
         gm2 = ScriptedGmTransport(scripted_contents=["Reine Erzaehlung, kein Abschluss."] * 10)
         controller2 = TableController(leader_key="leader_pk", drivers={
@@ -221,22 +261,31 @@ def test_normal_entry_after_exhaustion_halts_repeated_story_turns():
         })
         outcome = _run(lobby, table2, ps_store, gm2, controller2, section_id, env.states_dir, "2026-10-28T09:30:00")
 
-        # Beschraenkter Abbruch statt Story-Kette: hoechstens EIN Zug (der erste
-        # Schleifendurchlauf), danach fortsetzbarer HOLD -- NICHT bis max_turns.
-        assert len(gm2.calls) <= 1, (
-            f"Nach erschoepfter Korrektur duerfen keine wiederholten Story-Zuege laufen: {len(gm2.calls)}"
+        # KEIN einziger neuer Story-/GM-Zug -- der Resume ging direkt in
+        # PHASE 2 (Reflexion/Finalize) des bereits best-effort gepinnten
+        # Abschluss-Auftrags, nicht in eine Story-Kette.
+        assert len(gm2.calls) == 0, (
+            f"Nach best-effort-Abschluss duerfen keine neuen Story-Zuege laufen: {len(gm2.calls)}"
         )
-        assert not outcome.completion.success, outcome.completion
-        assert not (env.run_dir / "completion" / f"{section_id}__final.json").exists()
+        # R4-STARTFRESH: PHASE 2 schliesst den bereits best-effort gepinnten
+        # Auftrag jetzt ehrlich ab (kein Fake-DONE -- `best_effort` bleibt
+        # im Final sichtbar, s. Assertion unten).
+        assert outcome.completion.success, outcome.completion
+        final_path = env.run_dir / "completion" / f"{section_id}__final.json"
+        assert final_path.exists()
+        final_data = json.loads(final_path.read_text(encoding="utf-8"))
+        assert final_data.get("best_effort") is True, final_data
+        assert set(final_data.get("best_effort_members") or []) == {"leader_pk", "guest_pk"}, final_data
 
-        # Vorheriger Zustand bleibt erhalten (kein Reset, kein manuelles Final).
+        # Kein Counter-Reset -- die volle Versuchshistorie bleibt erhalten,
+        # auch nach dem best-effort-Abschluss.
         for rk in (guest_repair_key, leader_repair_key):
             rec = sc.load_record(env.run_dir, rk)
-            assert rec["state"] == "validating", rec
+            assert rec["state"] == "adopted" and rec.get("best_effort") is True, rec
             assert rec["attempts_used"] == max_attempts, rec
-        # Der offene Abschluss bleibt weiterhin marker-unabhaengig erkennbar
-        # (eine autorisierte enge Zusatzkorrektur-Recovery kann hier ansetzen).
-        assert sc.has_unfinished_group_round(env.run_dir, table.table_id, section_id)
+        # Der Abschluss ist jetzt vollstaendig final -- keine offene
+        # Gruppenkorrektur mehr (marker-unabhaengig).
+        assert not sc.has_unfinished_group_round(env.run_dir, table.table_id, section_id)
 
 
 def main() -> int:
