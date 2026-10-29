@@ -65,11 +65,12 @@ vorhandenen Stand zurück. **`?`** öffnet die Hilfe zum aktuellen Schritt.
 Installation, Spielleiter-Anbindung, Import und die genaue Menüführung:
 **[Spielerstart im Terminal](docs/spielerstart.md)**.
 
-> **Terminalstatus:** Die Oberfläche und einzelne Livewege sind geprüft; ein
-> organischer Duo-Tisch hat Abschnitt A und B lokal mit Best Effort
-> abgeschlossen. Die vollständige Fünf-Figuren-Reise und die Generalabnahme
-> stehen weiterhin aus; der aktuelle Integrationsstand wird deshalb nicht als
-> Stable-Release bezeichnet. [Stand und Umfang](docs/terminal-status.md)
+> **Terminalstatus — lokale Beta:** Der lokale R4-Speicher- und
+> Fortsetzungsweg ist im beschriebenen Umfang unabhängig abgenommen
+> (29. Oktober 2026). Der vorhandene Referenzlauf umfasst fünf Figuren in
+> einem Duo und einem Trio mit je zwei geschlossenen Runden; abschließend
+> wurden fünf Endsaves in einem frischen Prozess geladen und eine wirksame
+> Duo-Folgeaktion belegt. [Stand und Grenzen](docs/terminal-status.md)
 
 ## Save = Charakter
 

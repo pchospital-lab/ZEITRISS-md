@@ -1,12 +1,12 @@
-# ZEITRISS MMO-Sim — Bedien-/Betriebsdoku (lokaler Entwicklungskandidat)
+# ZEITRISS MMO-Sim — Bedien-/Betriebsdoku (lokale Beta)
 
 > **Diese Seite ist Entwickler-/Betriebsdoku**, keine Spieleranleitung.
 > Willst du einfach spielen: [docs/spielerstart.md](spielerstart.md).
 
 > **Doku-Stand (2026-10-29, R4-Anschluss):** Die aktuelle Gegenwartsübersicht
-> zum Terminal-Speicher-/Gruppenabschlussstand (Duo-B mit `best_effort=true`
-> geschlossen, fünf Kaltload-Bindungen, Best Effort vs. SAVECOMPAT,
-> Generalabnahme weiterhin ausstehend) steht gebündelt im
+> zum Terminal-Speicher-/Gruppenabschlussstand (fünf Figuren in Duo und Trio
+> mit je zwei geschlossenen Runden, fünf Kaltload-Bindungen und wirksame
+> Duo-Folgeaktion; unabhängig abgenommener lokaler R4-Umfang) steht gebündelt im
 > [Terminalstatus](terminal-status.md). Die folgenden Runner-/LA1-Abschnitte
 > dieser Seite bleiben als eigene historische Teilabnahmen mit ihrem
 > jeweiligen Datum/Scope unverändert gültig; dieser Hinweis ersetzt sie nicht.

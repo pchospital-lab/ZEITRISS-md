@@ -1,8 +1,8 @@
 # Terminalstatus und Prüfstand
 
-Stand dieser Dokumentationsvorlage: 15. Oktober 2026.
-Die Vorlage gehört zu einem privaten Integrationskandidaten, nicht zu einer
-bereits veröffentlichten neuen Terminalversion.
+Stand: 29. Oktober 2026. Die Gegenwartsübersicht beschreibt die unabhängig
+abgenommene lokale Beta-Etappe. Frühere Zwischenstände stehen getrennt
+unter „Historische Zwischenstände“.
 
 ## Gegenwartsübersicht (Stand 29. Oktober 2026)
 
@@ -14,20 +14,23 @@ nicht Teil dieser Übersicht.
 
 Tatsächlich belegter Umfang aus dem jüngsten geprüften R4-Anschluss:
 
-- **Abschnitt A und Abschnitt B** wurden an einem organischen Duo-Tisch
-  (zwei Figuren) durchgespielt.
+- Der vorhandene Referenzlauf umfasst **fünf Figuren in einem Duo und einem
+  Trio mit je zwei geschlossenen Runden**. Die beiden Trio-Abschlüsse waren
+  bereits vor dem abschließenden Duo-B-Nachtrag erreicht und bleiben als
+  Teilfortschritt anerkannt.
 - **Duo-B wurde mit `best_effort=true` gespeichert und geschlossen** — ein
   freigegebener, geeigneter Kandidat mit strukturellen Listenwarnungen wurde
   dafür übernommen. Das ist ein autorisierter Produktabschluss, **kein**
   Schema-PASS (Details unten unter „Best Effort und SAVECOMPAT").
-- **Fünf Endsave-/Kaltload-Bindungen** sind belegt: Die Duo-Endsaves luden
-  über fünf getrennte Kaltstarts hinweg erfolgreich.
+- **Fünf Endsave-/Kaltload-Bindungen** sind belegt: Die fünf Figuren-Saves
+  wurden in einem frischen Prozess über den Produktleser geladen. Ihre
+  Hash- und Figurenbindungen stimmen.
 - **Eine wirksame Duo-Folgeaktion** an einem regulären neuen Tisch nach der
   Wiederaufnahme ist belegt. Ein zweiter strukturell abgeschlossener
   Abschnitt an diesem Folgetisch wird damit **nicht** behauptet.
-- Der zuvor dokumentierte **Dreier-/Trio-Tisch** bleibt auf seinem bisher
-  festgehaltenen Stand erhalten; er ist von dieser Duo-Aktualisierung
-  ausgeschlossen und wird hier nicht als fortgeschritten ausgewiesen.
+- Der gezielte, formal gebundene **A→B-Fortsetzungsnachweis** wurde am Duo
+  geführt. Die zwei bereits geschlossenen Trio-Runden bleiben daneben
+  erhalten; die abschließende neue Folgeaktion betrifft den Duo-Tisch.
 
 **Best-Effort-Grenze:** Nach höchstens drei zusätzlichen Korrekturversuchen
 übernimmt das System den besten zulässigen Kandidaten; ein früherer
@@ -38,12 +41,12 @@ automatischer Crash-Recovery-Pfad ist dabei **nicht** live abgenommen —
 belegt ist ausschließlich ein regulärer Kaltstart mit anschließender
 Folgeaktion.
 
-Diese Etappe ist eine begrenzte, ausdrücklich lokale Zwischenstufe. „Beta"
-bezeichnet hier nur diesen begrenzten Umfang und folgt nicht allein aus
-`DONE` oder einem grünen Transportreader. **Die Generalabnahme ist
-weiterhin ausstehend** und wird durch diese Übersicht nicht vorweggenommen.
-Keine pauschale Zusage für Remote-/LAN-Mitspiel, alle Modellanbieter, alle
-Betriebssysteme oder einen Stable-Release.
+Der hier beschriebene lokale R4-Umfang ist am 29. Oktober 2026 unabhängig
+abgenommen und bildet die lokale Beta-Etappe. Grundlage sind die geprüften
+Produktkorrekturen und Originalbelege für Speicherung, Kaltladen und
+wirksame Fortsetzung. Weitergehende Livewege bleiben gesondert zu prüfen.
+Daraus folgt keine pauschale Zusage für Remote-/LAN-Mitspiel, alle
+Modellanbieter, alle Betriebssysteme oder einen Stable-Release.
 
 ### Best Effort und SAVECOMPAT
 
@@ -54,8 +57,9 @@ Listenwarnungen kann den Abschluss ermöglichen — die Warnung bleibt eine
 Warnung, **kein** Schema-PASS; der nächste Load hat damit nicht garantiert
 schon alles bereinigt.
 
-Nicht übernehmbare Kandidaten bleiben als **SAVECOMPAT** samt Herkunft
-erhalten — Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
+Ein **SAVECOMPAT**-Stand bewahrt nicht direkt übernehmbare Daten samt
+Herkunft; er ist selbst noch kein abgeschlossener Abschnitt — Details:
+`systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
 Die Prüfung kann gemischte Typfehler **und** Überlänge gemeinsam tolerieren;
 die Aussage „Typfehler gehen immer ausschließlich nach SAVECOMPAT" ist
 deshalb **falsch** und wird hier nicht behauptet. Welcher Stand beim
@@ -64,7 +68,14 @@ Store-/Resume-Verhalten; es gibt keine pauschale Garantie für verlustfreie
 oder vollständig schemagültige Exporte. Spielerseitige Kurzerklärung:
 [Spielerstart § Best Effort und SAVECOMPAT](spielerstart.md#best-effort-und-savecompat).
 
-## Was vorhanden ist
+<a id="was-vorhanden-ist"></a>
+
+## Historische Zwischenstände (15.–23. Oktober 2026)
+
+Die folgenden datierten Teilstände dokumentieren die damaligen Ergebnisse
+und offenen Punkte. Für den heutigen lokalen R4-Umfang gilt die
+Gegenwartsübersicht oben; alte Zwischenstände werden nicht rückwirkend
+umgeschrieben.
 
 Lokaler Einstieg, Figurenwahl und -erschaffung, Import und Export,
 Rundenzusammenstellung, lokale Mehrpersonenführung und Wiederaufnahme sind
@@ -134,21 +145,32 @@ begrenzt, nicht durch einen Produkt- oder Regelfehler.
 
 Stand 23. Oktober 2026 (R4-Beta-Anschluss, beobachteter Stand): Der Generalreview der Rohbelege identifizierte vier konkrete Produktursachen (offener Abschlussplan wurde im Lobby-Resume nicht fortgesetzt; ein alleinstehendes Leader-Speicherkommando ohne nutzbaren Export lief in weitere Spielrunden; die A/B-Bindung erkannte den zweiten Abschnitt nicht an die beobachtete Gruppe; der Mitspieler-Adapter verwarf bei Fehlern den Standardausgabekanal). Diese vier Ursachen wurden am normalen Produktpfad behoben und sind durch gezielte Tests belegt. Zusätzlich fängt das Terminal ein Kontingent-/Budgetende mitten im Spiel (Abo- bzw. OpenRouter-Limit) jetzt als klaren, speichernden Pausenhinweis ab und ist danach nahtlos fortsetzbar, statt mit einem Fehler abzubrechen. In einem realen, bezahlten Lauf wurde Abschnitt A strukturell abgeschlossen, der Prozess regulär neu gestartet und Abschnitt B tatsächlich weitergespielt (fortgeschriebene Speicherstände über den Prozessneustart hinweg); ein Mitspieler-Prozess traf dabei real ein Kontingentende, das der neue Pausenhinweis sauber abfing. Ein strukturell abgeschlossener zweiter Abschnitt (Finalrecord für Abschnitt B) wurde in diesem Lauf noch nicht erreicht: im langen Abschnitts-B-Kontext wichen einzelne Mitspieler-Antworten in erklärende Meta-Kommentare aus, sodass das abschließende Speicherkommando am Abschnittsende ausblieb; dies ist der präzise benannte, noch offene Punkt für eine gezielte Folgeiteration und keine Aussage über vollständige Stable-Reife. Produktseitig sind die genannten Korrekturen und der Kontingent-Pausenhinweis in diesem Stand enthalten.
 
-## Was für eine vollständige Live-Abnahme noch fehlt
+<a id="was-für-eine-vollständige-live-abnahme-noch-fehlt"></a>
 
-Ein tatsächlich durchgespielter Lauf mit fünf regulär erschaffenen Figuren,
-zwei aufeinanderfolgenden Abschnitten, den Endsaves aus A als Startsaves von
-B, regulärem Prozessneustart und getrennt belegter Abschlusswiederaufnahme.
-Erschaffung ist dabei noch kein Spielabschnitt; fünf Endsaves zählen nicht
-zweimal als zehn eigenständige Ergebnisse.
+## Historische Zielstrecke und weitergehende Nachweise
 
-Skriptierte Testantworten, nachträglich eingesetzte Endstände oder ein
-sauberer Prozess-Exit allein belegen keine Live-Spielbarkeit. Eine
-vollständige Runde umfasst echte Entscheidungen und sichtbare Folgen sowie
-nachvollziehbar gespeicherten Fortschritt. Die konkrete Modellroute,
-Anfragen- und Kostengrenzen gehören zum jeweiligen Livebeleg.
+Die frühere Zielbeschreibung verband fünf reguläre Figuren, zwei
+aufeinanderfolgende Abschnitte, gespeicherten A→B-Fortschritt,
+Prozessneustart und gesonderte Abschlusswiederaufnahme. Im fortgesetzten
+R4-Referenzlauf stehen jetzt vier geschlossene Gruppentische: Duo A/B und
+Trio A/B. Hinzu kommen die fünf geladenen Endsaves und die belegte
+wirksame Duo-Folgeaktion. Diese erreichten Teile bleiben anerkannt.
 
-## Bestehender LA1-Lauf und neue Testkampagne
+Die ursprüngliche formale A-Baseline band den Duo-Tisch; dessen gezielter
+Fortsetzungsnachweis ergänzt die bereits erreichten Trio-Abschlüsse. Die
+Belege stammen aus dem vorhandenen, fortgesetzten R4-Lauf. Der abschließende
+Code-Nachtrag wurde mit gezielten geldfreien Regressionen geprüft.
+
+Weitergehende Nachweise betreffen insbesondere zusätzliche automatische
+Crash-Recovery-Pfade, andere Modellanbieter und Betriebssysteme,
+vollständiges Community-Backup/Restore sowie native Remote-/LAN-Nutzung.
+Sie erweitern den beschriebenen lokalen Beta-Umfang. Die konkrete
+Modellroute und die Kostenhistorie bleiben dem jeweiligen Livebeleg
+zugeordnet.
+
+<a id="bestehender-la1-lauf-und-neue-testkampagne"></a>
+
+## Historischer LA1-Lauf und getrennte spätere Kampagnen
 
 Im eingefrorenen LA1-Bestand bleibt P3s Originalrequest gesendet mit
 unbekanntem Ausgang. Ein additiver Audit löst diese Sperre nicht. P5 bleibt
@@ -176,12 +198,12 @@ eröffnet.
 
 ## Reifeaussagen
 
-Der Integrationsstand ist noch kein Stable-Release. Eine bestandene
-Offlineprüfung belegt ihren jeweiligen Umfang, nicht automatische
-Live-Reife, plattformweite Regeltreue, LAN-Spielbarkeit oder vollständige
-Backup-/Restore-Fähigkeit. Nach tatsächlichem Liveabschluss wird diese
-Seite anhand der konkreten Ergebnisse aktualisiert; die Kennzeichnung
-ändert sich nicht allein wegen einer schöneren README.
+Der beschriebene lokale Beta-Umfang ist kein allgemeiner Stable-Release.
+Eine bestandene Offlineprüfung belegt ihren jeweiligen Umfang, nicht
+automatische Live-Reife, plattformweite Regeltreue, LAN-Spielbarkeit oder
+vollständige Backup-/Restore-Fähigkeit. Maßgeblich für die aktuelle Etappe
+sind die Gegenwartsübersicht und ihre geprüften Originalbelege; historische
+Teilabnahmen erweitern diesen Umfang nicht automatisch.
 
 Historische Details: [Betriebsdokumentation](mmo-sim.md), insbesondere der
 [LA1-Abschnitt](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13).

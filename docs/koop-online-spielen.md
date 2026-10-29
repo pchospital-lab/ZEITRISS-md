@@ -29,9 +29,9 @@ breiter abgenommene Weg und funktioniert plattformunabhängig.
 Zusätzlich gibt es den **lokalen Terminalclient** (`python3 scripts/
 mmo_sim.py`, Spieleranleitung: [spielerstart.md](spielerstart.md),
 Betriebsdoku: [mmo-sim.md](mmo-sim.md); Start/Bedienung/Budget-Gate live
-geprüft, ein organischer Duo-Tisch hat Abschnitt A und B lokal mit Best
-Effort abgeschlossen (Generalabnahme weiterhin ausstehend), aktueller Stand
-+ Grenzen: [Terminalstatus](terminal-status.md); historischer LA1-Testlauf
+geprüft; der abgenommene lokale R4-Referenzlauf umfasst fünf Figuren in
+Duo und Trio mit je zwei geschlossenen Runden, fünf geladene Endsaves und
+eine wirksame Duo-Folgeaktion. Aktueller Stand und Grenzen: [Terminalstatus](terminal-status.md); historischer LA1-Testlauf
 (3/5 Figuren, 2026-10-13): [mmo-sim.md § LA1](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13)):
 Solo oder mit mehreren Menschen an **einem** Gerät
 (geteiltes Terminal, eigener Eingabeprompt je Zug), mit freiwilligen
