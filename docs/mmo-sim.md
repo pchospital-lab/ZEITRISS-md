@@ -3,6 +3,14 @@
 > **Diese Seite ist Entwickler-/Betriebsdoku**, keine Spieleranleitung.
 > Willst du einfach spielen: [docs/spielerstart.md](spielerstart.md).
 
+> **Doku-Stand (2026-10-29, R4-Anschluss):** Die aktuelle Gegenwartsübersicht
+> zum Terminal-Speicher-/Gruppenabschlussstand (Duo-B mit `best_effort=true`
+> geschlossen, fünf Kaltload-Bindungen, Best Effort vs. SAVECOMPAT,
+> Generalabnahme weiterhin ausstehend) steht gebündelt im
+> [Terminalstatus](terminal-status.md). Die folgenden Runner-/LA1-Abschnitte
+> dieser Seite bleiben als eigene historische Teilabnahmen mit ihrem
+> jeweiligen Datum/Scope unverändert gültig; dieser Hinweis ersetzt sie nicht.
+
 > **Iststand Runner (2026-10-15, S1D-Anschluss):** Der Launcher
 > `launch_and_drain.py` (`157dcbea…`) ist jetzt **im synthetischen
 > Offline-Launcherscope unabhängig angenommen** (`S1D_SCOPED_OFFLINE_ACCEPTED`,

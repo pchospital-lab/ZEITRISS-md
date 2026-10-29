@@ -4,6 +4,66 @@ Stand dieser Dokumentationsvorlage: 15. Oktober 2026.
 Die Vorlage gehört zu einem privaten Integrationskandidaten, nicht zu einer
 bereits veröffentlichten neuen Terminalversion.
 
+## Gegenwartsübersicht (Stand 29. Oktober 2026)
+
+**Anerkannter lokaler Referenzweg:** Der lokale Terminal-Client an einem
+Gerät beziehungsweise geteilten Terminal (`python3 scripts/mmo_sim.py`,
+solo oder mit mehreren Menschen/KI-Personas am selben Gerät) ist der aktuell
+belegte Weg. Eine native LAN-/Remote-Lobby ist davon weiterhin getrennt und
+nicht Teil dieser Übersicht.
+
+Tatsächlich belegter Umfang aus dem jüngsten geprüften R4-Anschluss:
+
+- **Abschnitt A und Abschnitt B** wurden an einem organischen Duo-Tisch
+  (zwei Figuren) durchgespielt.
+- **Duo-B wurde mit `best_effort=true` gespeichert und geschlossen** — ein
+  freigegebener, geeigneter Kandidat mit strukturellen Listenwarnungen wurde
+  dafür übernommen. Das ist ein autorisierter Produktabschluss, **kein**
+  Schema-PASS (Details unten unter „Best Effort und SAVECOMPAT").
+- **Fünf Endsave-/Kaltload-Bindungen** sind belegt: Die Duo-Endsaves luden
+  über fünf getrennte Kaltstarts hinweg erfolgreich.
+- **Eine wirksame Duo-Folgeaktion** an einem regulären neuen Tisch nach der
+  Wiederaufnahme ist belegt. Ein zweiter strukturell abgeschlossener
+  Abschnitt an diesem Folgetisch wird damit **nicht** behauptet.
+- Der zuvor dokumentierte **Dreier-/Trio-Tisch** bleibt auf seinem bisher
+  festgehaltenen Stand erhalten; er ist von dieser Duo-Aktualisierung
+  ausgeschlossen und wird hier nicht als fortgeschritten ausgewiesen.
+
+**Best-Effort-Grenze:** Nach höchstens drei zusätzlichen Korrekturversuchen
+übernimmt das System den besten zulässigen Kandidaten; ein früherer
+brauchbarer Erfolg beendet die Reparatur sofort. Eine verbleibende
+strukturelle Warnung bleibt eine Warnung und ist **kein** Schema-PASS; der
+nächste Load bereinigt den Stand nicht garantiert vollständig. Ein
+automatischer Crash-Recovery-Pfad ist dabei **nicht** live abgenommen —
+belegt ist ausschließlich ein regulärer Kaltstart mit anschließender
+Folgeaktion.
+
+Diese Etappe ist eine begrenzte, ausdrücklich lokale Zwischenstufe. „Beta"
+bezeichnet hier nur diesen begrenzten Umfang und folgt nicht allein aus
+`DONE` oder einem grünen Transportreader. **Die Generalabnahme ist
+weiterhin ausstehend** und wird durch diese Übersicht nicht vorweggenommen.
+Keine pauschale Zusage für Remote-/LAN-Mitspiel, alle Modellanbieter, alle
+Betriebssysteme oder einen Stable-Release.
+
+### Best Effort und SAVECOMPAT
+
+Bis zu drei zusätzliche vollständige Korrekturen werden angefordert; bei
+einem früheren brauchbaren Erfolg geht es sofort weiter. Eine ausdrücklich
+freigegebene Übernahme eines geeigneten Kandidaten **mit** strukturellen
+Listenwarnungen kann den Abschluss ermöglichen — die Warnung bleibt eine
+Warnung, **kein** Schema-PASS; der nächste Load hat damit nicht garantiert
+schon alles bereinigt.
+
+Nicht übernehmbare Kandidaten bleiben als **SAVECOMPAT** samt Herkunft
+erhalten — Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
+Die Prüfung kann gemischte Typfehler **und** Überlänge gemeinsam tolerieren;
+die Aussage „Typfehler gehen immer ausschließlich nach SAVECOMPAT" ist
+deshalb **falsch** und wird hier nicht behauptet. Welcher Stand beim
+nächsten Start tatsächlich lädt, folgt dem final akzeptierten
+Store-/Resume-Verhalten; es gibt keine pauschale Garantie für verlustfreie
+oder vollständig schemagültige Exporte. Spielerseitige Kurzerklärung:
+[Spielerstart § Best Effort und SAVECOMPAT](spielerstart.md#best-effort-und-savecompat).
+
 ## Was vorhanden ist
 
 Lokaler Einstieg, Figurenwahl und -erschaffung, Import und Export,

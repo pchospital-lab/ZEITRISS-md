@@ -29,8 +29,10 @@ breiter abgenommene Weg und funktioniert plattformunabhängig.
 Zusätzlich gibt es den **lokalen Terminalclient** (`python3 scripts/
 mmo_sim.py`, Spieleranleitung: [spielerstart.md](spielerstart.md),
 Betriebsdoku: [mmo-sim.md](mmo-sim.md); Start/Bedienung/Budget-Gate live
-geprüft, Figurenerschaffung mit KI-Spielleitung angespielt (3/5 im
-Testlauf), Status + Grenzen: [mmo-sim.md § LA1](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13)):
+geprüft, ein organischer Duo-Tisch hat Abschnitt A und B lokal mit Best
+Effort abgeschlossen (Generalabnahme weiterhin ausstehend), aktueller Stand
++ Grenzen: [Terminalstatus](terminal-status.md); historischer LA1-Testlauf
+(3/5 Figuren, 2026-10-13): [mmo-sim.md § LA1](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13)):
 Solo oder mit mehreren Menschen an **einem** Gerät
 (geteiltes Terminal, eigener Eingabeprompt je Zug), mit freiwilligen
 KI-Spieler-Personas statt/zusätzlich zu echten Mitspielern. KI-SL,
@@ -367,4 +369,4 @@ Splits & Merges, Gruppen-Px, Tod in der Gruppe) steht im
 und „Der Gameflow".
 
 
-Hinweis zur Wiederaufnahme: Bricht eine Gruppenrunde genau zwischen dem Abschluss-Spielzug der Spielleitung und den Pflicht-Reflexionen ab, erntet der naechste normale Fortsetzen-Aufruf die bereits erzeugten Spielstaende automatisch (ohne neuen Spielzug) — aber nur, wenn die Antwort eindeutig und vollstaendig zur urspruenglichen Anfrage passt (Original-Input, Original-ID, vollstaendig verbucht, kein offener Fehler). Ist der Versand noch unbekannt/unvollstaendig oder die Buchung noch offen, haelt die Wiederaufnahme statt dessen kontrolliert, ohne deinen Spielstand zu veraendern. Danach (bei erfolgreicher Ernte) folgen wie bisher die fuenf echten KI-Reflexionen und der Abschluss.
+Hinweis zur Wiederaufnahme: Bricht eine Gruppenrunde genau zwischen dem Abschluss-Spielzug der Spielleitung und den Pflicht-Reflexionen ab, erntet der naechste normale Fortsetzen-Aufruf die bereits erzeugten Spielstaende automatisch (ohne neuen Spielzug) — aber nur, wenn die Antwort eindeutig und vollstaendig zur urspruenglichen Anfrage passt (Original-Input, Original-ID, vollstaendig verbucht, kein offener Fehler). Ist der Versand noch unbekannt/unvollstaendig oder die Buchung noch offen, haelt die Wiederaufnahme statt dessen kontrolliert, ohne deinen Spielstand zu veraendern. Danach (bei erfolgreicher Ernte) folgen wie bisher die erforderlichen Reflexionen der beteiligten KI-Mitspieler und der Abschluss.

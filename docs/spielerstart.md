@@ -10,9 +10,10 @@ Hier findest du den Weg von der Einrichtung bis zu deiner nächsten Runde:
 **starten → Figur wählen → spielen → speichern → fortsetzen**.
 Für den Spielweg ohne Terminal nutze den [Chat-Setup-Guide](setup-guide.md).
 
-> Der Terminalclient befindet sich in der Integrationsprüfung. Die
-> vollständige Mehrspieler-Live-Reise über zwei Abschnitte ist noch nicht
-> abgenommen. [Prüfstand und Grenzen](terminal-status.md)
+> Der Terminalclient befindet sich in der Integrationsprüfung. Ein
+> organischer Duo-Tisch hat Abschnitt A und B lokal mit Best Effort
+> abgeschlossen; die vollständige Fünf-Figuren-Reise und die
+> Generalabnahme stehen weiterhin aus. [Prüfstand und Grenzen](terminal-status.md)
 
 ## Installation
 
@@ -192,6 +193,27 @@ werden. Bei unklarem Ausgang bleibt die Runde angehalten, statt denselben
 Zug auf Verdacht erneut zu senden. Der Automatismus ist offline geprüft;
 seine vollständige Live-Abnahme steht separat aus.
 
+## Best Effort und SAVECOMPAT
+
+Schlägt ein `!save`-Kandidat die Schema-/Bindungsprüfung fehl, fordert das
+System höchstens **drei** zusätzliche vollständige Korrekturen an; ein
+früherer brauchbarer Erfolg beendet das sofort. Ein ausdrücklich
+freigegebener, geeigneter Kandidat **mit** strukturellen Listenwarnungen
+kann den Abschluss trotzdem ermöglichen. Als Spieler siehst du dafür nur
+eine kurze Meldung: **"Gesichert mit Prüfhinweisen"** — danach spielst du
+normal weiter, ohne eigenen Eingriff. Eine solche Warnung bleibt eine
+Warnung, **kein** bestandener Schema-Check, und der nächste Load bereinigt
+den Stand nicht garantiert vollständig.
+
+Lässt sich kein Kandidat so übernehmen, legt das System stattdessen einen
+**SAVECOMPAT**-Stand samt Herkunft ab (nicht Teil von Exports/`completed`-
+Zählungen) — Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
+Welche Fehlerart wie behandelt wird, hängt vom Einzelfall ab: Es gibt
+**keine** pauschale Regel wie „Typfehler landen immer bei SAVECOMPAT", und
+keine Garantie für einen verlustfreien oder vollständig schemagültigen
+Export beim nächsten Start. Maßgeblich ist, was dein Terminal beim
+tatsächlichen Laden/Fortsetzen übernimmt.
+
 ## Wenn der Start nicht gelingt
 
 Eine fehlende Spielleiter- oder Persona-Anbindung wird als solche gemeldet.
@@ -206,9 +228,10 @@ Es gibt noch keine native öffentliche Netzwerk-Lobby im Terminal und kein
 nachgewiesenes Remote-Mitspielen über getrennte Geräte. Für gemeinsames
 Online-Spiel nutze den [Koop-/Chat-Leitfaden](koop-online-spielen.md).
 
-Die bisherigen Livebelege und die offene Fünf-Figuren-Abnahme stehen im
-[Terminalstatus](terminal-status.md). Ein persönlicher Save ersetzt kein
-vollständiges Community-Backup.
+Die bisherigen Livebelege (inklusive des lokal mit Best Effort
+abgeschlossenen Duo-Abschnitts A/B) und die weiterhin offene
+Fünf-Figuren-/Generalabnahme stehen im [Terminalstatus](terminal-status.md).
+Ein persönlicher Save ersetzt kein vollständiges Community-Backup.
 
 ## Vorhandene Tastenkürzel
 

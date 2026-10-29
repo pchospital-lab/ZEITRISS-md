@@ -65,10 +65,11 @@ vorhandenen Stand zurück. **`?`** öffnet die Hilfe zum aktuellen Schritt.
 Installation, Spielleiter-Anbindung, Import und die genaue Menüführung:
 **[Spielerstart im Terminal](docs/spielerstart.md)**.
 
-> **Terminalstatus:** Die Oberfläche und einzelne Livewege sind geprüft;
-> die vollständige Fünf-Figuren-Reise über zwei aufeinanderfolgende Abschnitte
-> ist noch nicht live abgenommen. Der aktuelle Integrationsstand wird deshalb
-> nicht als Stable-Release bezeichnet. [Stand und Umfang](docs/terminal-status.md)
+> **Terminalstatus:** Die Oberfläche und einzelne Livewege sind geprüft; ein
+> organischer Duo-Tisch hat Abschnitt A und B lokal mit Best Effort
+> abgeschlossen. Die vollständige Fünf-Figuren-Reise und die Generalabnahme
+> stehen weiterhin aus; der aktuelle Integrationsstand wird deshalb nicht als
+> Stable-Release bezeichnet. [Stand und Umfang](docs/terminal-status.md)
 
 ## Save = Charakter
 
@@ -89,7 +90,9 @@ zuletzt tatsächlich geschriebene gültige Stand, keine pauschale Zusage gegen
 jeden Datenverlust. Bleibt ein `!save` nach wiederholten Formatfehlern ohne
 gültigen Stand, sichert das Terminal automatisch einen Kompatibilitätsstand
 ("Gesichert mit Prüfhinweisen") und übernimmt ihn beim nächsten Fortsetzen
-geprüft — Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
+geprüft — kurz erklärt (Best Effort vs. SAVECOMPAT) unter
+[Spielerstart](docs/spielerstart.md#best-effort-und-savecompat), technische
+Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
 
 ## Eine Szene am Spieltisch
 

@@ -358,7 +358,16 @@ def has_residual_structural_cap_overflow(block: dict, expected_chrononaut_id: st
     `core.compat_load_service.build_compat_repair_fn`, bleibt fuer DIESE
     Klasse zustaendig, auch wenn sie HIER am Erschoepfungspunkt noch keinen
     echten Reparaturversuch unternimmt -- der Zwei-Prozess-Compat-Ladeweg
-    tut das spaeter)."""
+    tut das spaeter).
+
+    HAERTUNG (ZR-N2R-ANSCHLUSS-20261019-R4, PRODUCT-REVIEW.md §Haertung):
+    liefert ebenfalls `False`, sobald `acceptance.binding_errors` NICHT
+    leer ist -- ein `maxItems`/`minItems`-Treffer in `acceptance.structure.
+    errors` allein darf einen tatsaechlich FALSCH GEBUNDENEN Envelope
+    (falsche/fremde char_id-Bindung) NICHT best-effort-faehig machen, bloss
+    weil er GLEICHZEITIG ueberlang ist. KEIN Umbau des Speichersystems --
+    reiner zusaetzlicher Check auf dem bereits vorhandenen
+    `AcceptanceResult` an genau diesem Annahmepunkt."""
     try:
         projection = save_compatibility_domain.project_wallets_in_block(block)
         projected_block = projection.canonical_candidate
@@ -366,6 +375,8 @@ def has_residual_structural_cap_overflow(block: dict, expected_chrononaut_id: st
         projected_block = block
     acceptance = save_correction_domain.evaluate(projected_block, expected_chrononaut_id)
     if acceptance.accepted:
+        return False
+    if acceptance.binding_errors:
         return False
     return any(e.check in STRUCTURAL_CAP_OVERFLOW_CHECKS for e in acceptance.structure.errors)
 
@@ -1897,6 +1908,32 @@ def pursue_group_save_correction(
                     continue
                 original_block = harvested.get(pk)
                 acceptance = save_correction_domain.evaluate(original_block, char_id)
+                # P2-FIX (ZR-N2R-ANSCHLUSS-20261019-R4, PRODUCT-REVIEW.md
+                # §P2): der bereits eindeutig gebundene, konfliktfreie
+                # Ursprungskandidat (die erste GM-Ausgabe VOR jeder
+                # Nachbesserung, hier `harvested[pk]` an genau dieser
+                # Stelle) nimmt sonst NIE an der Bestwertspur teil -- der
+                # einzige produktive `update_best_candidate`-Aufruf stand
+                # bisher NUR nach einer empfangenen Korrekturantwort (s.
+                # unten), wodurch eine schlechtere Nachbesserung faelschlich
+                # gewinnen konnte. `record["attempts_used"] == 0` ist GENAU
+                # "VOR der ersten Nachbesserung" (vor dem folgenden
+                # `begin_attempt`); Wiederaufnahme (`open_round is not
+                # None`-Zweig oben) erreicht diesen Codepfad NICHT erneut
+                # und setzt dadurch auch KEINEN vorhandenen Kandidaten
+                # zurueck. Dieselbe vollstaendige Fehlermetrik
+                # (`acceptance.structure.total_error_count`) wie der
+                # bestehende Aufruf unten -- `update_best_candidate`s
+                # eigene Gleichstandsregel (spaetere gewinnt) bleibt
+                # unveraendert. Ein fehlender Ursprung (`original_block is
+                # None`, z.B. die Gruppe hat bisher ueberhaupt noch nichts
+                # geliefert) wird NICHT registriert -- kein Kandidat ohne
+                # tatsaechlich gebundenen Block.
+                if record["attempts_used"] == 0 and original_block is not None:
+                    update_best_candidate(
+                        run_dir, repair_key, block=original_block,
+                        error_count=acceptance.structure.total_error_count,
+                    )
                 candidates.append({
                     "persona_key": pk, "char_id": char_id, "repair_key": repair_key,
                     "acceptance": acceptance, "original_block": original_block,
@@ -1974,7 +2011,47 @@ def pursue_group_save_correction(
                         continue
                     member_repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, char_id)
                     member_record = load_record(run_dir, member_repair_key)
-                    best_block = member_record.get("best_candidate_block") if member_record is not None else None
+                    # P1-FIX (ZR-N2R-ANSCHLUSS-20261019-R4, PRODUCT-REVIEW.md
+                    # §P1): ein bereits terminal HOLD/WINDOW_PAUSED-Mitglied
+                    # (z.B. `unjustified_semantic_drift`, ein ungeklaerter
+                    # Requestzustand oder bereits ADOPTED) darf durch DIESEN
+                    # Best-Effort-Fallback NIE aufgeloest werden -- auch
+                    # dann nicht, wenn ein FRUEHERER `best_candidate_block`
+                    # existiert (seit P2 oben kann das sogar schon der
+                    # allererste, VOR der ersten Nachbesserung registrierte
+                    # Ursprungskandidat sein). Ein explizit terminaler
+                    # Kontrollflussentscheid bleibt terminal, unabhaengig
+                    # davon, ob der aeltere Kandidat inhaltlich besser ist.
+                    # Nur ein echt ERSCHOEPFTER, NICHT terminal abgelehnter
+                    # Zustand (`attempts_used >= max_attempts`, state WEDER
+                    # HOLD NOCH WINDOW_PAUSED NOCH ADOPTED NOCH ABORTED) ist
+                    # fuer diesen Fallback ueberhaupt zulaessig -- GENAU der
+                    # vom Owner-Vertrag gemeinte "waehrend der Schleife
+                    # beobachtete, NICHT per `detect_unjustified_drift`
+                    # abgelehnte" Fall. Diese Pruefung muss fuer ALLE
+                    # betroffenen Mitglieder erfolgreich sein, BEVOR das
+                    # erste `mark_adopted` unten passiert (`all_missing_
+                    # have_candidate` bleibt dafuer EINE gemeinsame Flagge
+                    # ueber die gesamte Schleife) -- kein teilweise
+                    # umetikettierter Gruppenstand. Fehlt der Record selbst
+                    # (sollte hier defensiv nie vorkommen), gilt dasselbe:
+                    # kein zulaessiger Fallback. Die bestehende Wiederaufnahme
+                    # bereits ADOPTED gespeicherter Bloecke (`restored_from_
+                    # adopted`-Zweig oben) bleibt davon unberuehrt -- ein
+                    # ADOPTED-Mitglied erreicht diesen Zweig ueberhaupt nicht
+                    # (s. `continue` dort), diese Pruefung ist eine reine
+                    # Verteidigungslinie.
+                    member_fallback_eligible = (
+                        member_record is not None
+                        and member_record.get("state") not in (
+                            STATE_HOLD, STATE_WINDOW_PAUSED, STATE_ADOPTED, STATE_ABORTED,
+                        )
+                        and attempts_exhausted(member_record, max_attempts)
+                    )
+                    if not member_fallback_eligible:
+                        all_missing_have_candidate = False
+                        continue
+                    best_block = member_record.get("best_candidate_block")
                     if best_block is None:
                         # RECONCILIATION-V4 (Owner-/Lead-Entscheidung,
                         # 2026-10-29, Resume-Fall): ein bereits ERSCHOEPFTER

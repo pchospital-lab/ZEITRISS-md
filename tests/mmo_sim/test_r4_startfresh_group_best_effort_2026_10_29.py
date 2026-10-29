@@ -263,7 +263,18 @@ def test_drift_candidate_stays_terminal_hold_without_best_effort():
             guest_record
         )
         assert not guest_record.get("best_effort")
-        assert guest_record.get("best_candidate_block") is None, (
+        # P2 (ZR-N2R-ANSCHLUSS-20261019-R4): seit dem P2-Fix registriert
+        # `pursue_group_save_correction` den konfliktfreien Ursprungs-
+        # kandidaten (hier `guest_old_invalid`) bereits VOR der ersten
+        # Nachbesserung in der Bestwertspur -- `best_candidate_block` ist
+        # deshalb jetzt NICHT mehr `None`. Die hier eigentlich gepruefte
+        # Invariante bleibt unveraendert gueltig: die GEDRIFTETE Antwort
+        # selbst (`guest_drifted`) wird NIE als best-effort-Kandidat
+        # gespeichert, UND (P1) ein terminaler HOLD wird dadurch trotzdem
+        # nicht freigeschaltet (s. Assertions oben: `state == "hold"`,
+        # kein Plan/Final).
+        assert guest_record.get("best_candidate_block") == guest_old_invalid, guest_record
+        assert guest_record.get("best_candidate_block") != guest_drifted, (
             "ein per Drift abgelehnter Kandidat darf NIE als best-effort-Kandidat gespeichert werden."
         )
 
