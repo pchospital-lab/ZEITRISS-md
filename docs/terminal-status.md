@@ -207,3 +207,30 @@ Teilabnahmen erweitern diesen Umfang nicht automatisch.
 
 Historische Details: [Betriebsdokumentation](mmo-sim.md), insbesondere der
 [LA1-Abschnitt](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13).
+
+## Showcase-Szene — Herkunft
+
+Die Szene in der [README](../README.md#eine-echte-szene-aus-dem-terminal) ist
+kein ausgedachtes Beispiel, sondern ein **Replay unveränderter Originaltexte**
+aus einem abgenommenen R4-Lauf. Herkunft und Prüfsummen zum Nachvollziehen:
+
+- Tisch: `lobby-p01_latch-p02_breach__3` (Episode 1, Mission 3). Repostand der
+  Aufnahme: `2e3c263f92241e03d4b1719794e2930c387b75ff`.
+- HQ-Eröffnung (Leader, freie Sprache): Quelltext-SHA256
+  `d270264af7cafdfd1d8f2ce7cdd914cf9452033c51be4b1f32576d757bad0a9d`.
+- Spielzug Bürotrakt (Leader, freie Sprache): Quelltext-SHA256
+  `593794bba6831ea2a0dddd4d39f611ab456fc7050108e177d62e84fbefc3aa52`.
+- Reaktion der Spielleitung (gm_turn, Request `b87610e4…`): `result_text`-SHA256
+  `f320fe76f8a0e1513b9e5c7f80842cd4bb440534ce19d7f24695889a6e1c8a35`.
+
+Dargestellt über den unveränderten Produkt-Renderer
+`mmo_sim.ui.rendering.render_for_terminal`. Die gezeigte Reaktion der
+Spielleitung ist die tatsächliche Antwort auf den Spielzug im Bürotrakt, nicht
+auf die HQ-Eröffnung — die beiden Spielermomente stehen nebeneinander, damit
+freie Planung und freie Feldaktion sichtbar werden. Für die README wurden die
+Texte nur gekürzt (Auslassungen mit `[…]` markiert), nicht umformuliert.
+
+Technische Randnotiz: Der Renderer setzt `**fett**` und `_kursiv_` in
+Terminalattribute um; einzelne `*…*` bleiben als Zeichen stehen. Für die README
+wurden bewusst Textfenster ohne solche Stellen gewählt, damit der Ausschnitt den
+tatsächlichen Terminalausdruck zeigt und keine Markup-Reste.

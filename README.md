@@ -84,28 +84,101 @@ Speichere ihn selbst als Datei; das Kommando allein legt keine Datei auf
 deinem Gerät an. Ein neuer Spielchat lädt den Save mit `Spiel laden` oder
 `!laden`. Spielstände gehören nicht dauerhaft neben die Regelquellen.
 
-**Im Terminal:** Die Exportfunktion unter `charaktere` zeigt den aktuellen
-Save und schreibt ihn in eine Datei. Während einer Runde pausierst du mit
-`/pause`; nach einem Neustart verwendest du `fortsetzen`. Maßgeblich ist der
-zuletzt tatsächlich geschriebene gültige Stand, keine pauschale Zusage gegen
-jeden Datenverlust. Bleibt ein `!save` nach wiederholten Formatfehlern ohne
-gültigen Stand, sichert das Terminal automatisch einen Kompatibilitätsstand
-("Gesichert mit Prüfhinweisen") und übernimmt ihn beim nächsten Fortsetzen
-geprüft — kurz erklärt (Best Effort vs. SAVECOMPAT) unter
+**Im Terminal:** Freie Handlungen und Gespräche schreibst du als normale
+Sprache — dafür brauchst du kein Kommando. Zum *zuverlässigen* Abschließen und
+Speichern einer Runde sendet der Leader **im HQ `!save` (oder `!speichern`) als
+eigene, einzelne Nachricht**; die Spielleitung gibt darauf deinen Stand als
+Save-Block aus, den der Client erntet. „Speichere meinen Charakter“ ist am
+Terminal *kein* gleichwertiger Auslöser — die Save-Erkennung hängt am
+`!save`-Kommando und am tatsächlichen Save-Block, nicht an einer Formulierung
+der Spielleitung. Gespeichert wird nur im HQ; in Briefing, Einsatz und Debrief
+ist Speichern gesperrt (SaveGuard). Den internen Abschlussmarker musst du weder
+kennen noch eingeben. Die Exportfunktion unter `charaktere` schreibt deinen
+bereits aktuellen Stand, `/pause` hält die Runde an, nach einem Neustart setzt
+`fortsetzen` fort — keine dieser Aktionen ersetzt einen fehlenden
+Abschnittsabschluss. Maßgeblich ist der zuletzt tatsächlich geschriebene gültige
+Stand, keine pauschale Zusage gegen jeden Datenverlust.
+
+Bleibt ein `!save` nach wiederholten Formatfehlern ohne gültigen Stand, sichert
+das Terminal automatisch einen **Kompatibilitätsstand** (Best Effort /
+SAVECOMPAT, „Gesichert mit Prüfhinweisen“). Eine verbleibende strukturelle
+Warnung ist **kein** bestandener Schema-Check, und der nächste Start bereinigt
+den Stand nicht garantiert vollständig — Best Effort und SAVECOMPAT sind
+verschiedene Dinge. Kurz erklärt unter
 [Spielerstart](docs/spielerstart.md#best-effort-und-savecompat), technische
 Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
 
-## Eine Szene am Spieltisch
+## Eine echte Szene aus dem Terminal
 
-*Illustratives Spielbeispiel, kein Protokoll eines abgenommenen Livetests:*
+Kein ausgedachtes Beispiel: unveränderte Originaltexte aus einem abgenommenen
+R4-Lauf (Episode 1, Mission 3), erneut durch den echten Terminal-Renderer
+dargestellt (Replay). Für die README gekürzt — Auslassungen sind mit `[…]`
+markiert, der Wortlaut ist nicht verändert. Lange Zeilen bricht dein Terminal
+selbst auf die Fensterbreite um. Herkunft und Prüfsummen:
+[Terminalstatus § Showcase-Szene](docs/terminal-status.md#showcase-szene--herkunft).
 
-> Der Wachmann dreht sich um. Seine Hand geht zum Holster.
-> Du bist schneller.
+**Im HQ — du planst den Einsatz, in freier Sprache:**
 
 ```text
-EP 01 · MS 03 · SC 07/12 · MODE CORE · Objective: Dossier sichern
-Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 8 vs SG 8 → TREFFER
+[…]
+
+MAHLBERG — MS3, Eröffnung
+
+Zwei Dinge in dieser Reihenfolge, und die Reihenfolge ist nicht Geschmack.
+
+Erstens Lager B. Wir gehen ohne Papier hinein. BREACH zählt — Stückzahlen, Umrisse, Positionen, was auf Paletten steht und was nicht auf Paletten steht. Ich messe: lichte Weite, Regalhöhe, Gangbreite, Abstand zur Brandwand. Zentimeter, keine Schätzungen. […]
 ```
+
+**Mitten im Einsatz — deine Entscheidung, in freier Sprache:**
+
+```text
+Option 3 — der Ordner im selben Raum. Das ist mein Zug.
+
+MAHLBERG — Lager B, Bürotrakt, 07:19
+
+Der Bericht ist fotografiert, bevor ich irgendetwas anderes anfasse. Sieben Bilder: Deckblatt mit Berichtszeitraum, letzte Seite vollständig, dann die Namenszeile einzeln — schräg, zweimal, mit und ohne Streiflicht. Das Bleistiftdatum einzeln. Der Klemmhefter bleibt zu, der Bericht bleibt liegen, der Pappbecher wird nicht verschoben. […]
+```
+
+**Und die KI-Spielleitung antwortet — HUD, Fund und neue Lage:**
+
+```text
+EP 1 · MS 3 · SC 02/12 · PHASE Infil · MODE CORE · COMMS OK · Lvl 2 ▓▓░░░░░░░░ · Px 1/5 · Stress 0/10 · Obj: Lager B → Hendrich & Co. · Exfil —
+
+Kodex: Szene 2 läuft — Bürotrakt · 07:20 Uhr. Zeitgrenze 07:25.
+
+---
+
+BREACH zieht die Tür auf drei Fingerbreit und stellt sich mit dem Rücken zur Wand. Von dort hat er die Treppenhaustür im Blick und den Gang bis zur Nordzugangsecke. Er sagt nichts.
+
+Du nimmst den Ordner heraus. Rücken zur Wand zeigt links, er steht zweiter von links, Unterkante auf der mittleren Regallippe. Du erinnerst dir an alles davon.
+
+[…]
+
+Die Treppenhaustür hat sich bewegt — kein Geräusch, aber Lichtveränderung im Spalt. Jemand ist im Treppenhaus. Noch nicht im Gang.
+
+---
+
+[…]
+
+---
+
+Drei Optionen
+
+1. Jetzt raus, Nordzugang. […]
+
+2. Stehenbleiben, Cover halten. […]
+
+3. Raus, aber nicht Nordzugang. […]
+
+Freie Aktion — wenn ihr etwas anderes tut.
+```
+
+Du handelst in freier Sprache; die Spielleitung führt Szene, Nebenfiguren,
+Proben und Konsequenzen — und gibt die Entscheidung an dich zurück. Die
+HQ-Eröffnung und der Spielzug sind zwei echte Spielermomente; die Reaktion
+darunter ist die tatsächliche Antwort der Spielleitung auf den Spielzug im
+Bürotrakt. Der Ausschnitt zeigt eine Infiltration; ein gespeicherter echter
+Kampf liegt als Terminalbeleg noch nicht vor und wird hier nicht behauptet.
 
 ## Das Spielsystem in Kürze
 
@@ -144,9 +217,14 @@ Probe: Nahkampf → W6: [5] + STR 4/2 + Talent 1 = 8 vs SG 8 → TREFFER
 6. **Boss-Rhythmus.** Mission 5 = Mini-Boss, Mission 10 = Episoden-Boss.
 7. **Persistenz.** `!save` im HQ, JSON mitnehmen, im nächsten Chat laden.
 
-**Makros sind Komfort, keine Pflicht:** `!save`, `!bogen` oder `!menü` sind
-Shortcuts. Ihr könnt genauso natürlich schreiben wie „speichere meinen
-Charakter“ oder „zeig meinen Bogen“ — die Spielleitung reagiert in-world.
+**Freie Sprache zuerst — mit einer Terminal-Ausnahme:** Aktionen und Gespräche
+formulierst du frei. Im **Chat** sind `!save`, `!bogen` oder `!menü` nur bequeme
+Kurzformen; du kannst genauso natürlich „speichere meinen Charakter“ oder „zeig
+meinen Bogen“ schreiben, die Spielleitung reagiert in-world. **Im Terminal** gilt
+für den *zuverlässigen* Abschnittsabschluss dagegen: der Leader sendet im HQ
+`!save` (oder `!speichern`) als eigene Nachricht — eine freie Speicherbitte ist
+dort kein gleichwertiger technischer Befehl (siehe
+[Save = Charakter](#save--charakter)).
 
 → **[Spieler-Handbuch](core/spieler-handbuch.md)** — Einleitung, Regeln,
 Schnellstart, FAQ
