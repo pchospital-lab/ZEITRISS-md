@@ -298,7 +298,7 @@ def test_atomic_generation_crash_between_publish_and_latest_is_recoverable():
         pb._copy_files_to_staging(staging_dir, fx.roots, files)
         (staging_dir / "manifest.json").write_bytes(json.dumps(manifest).encode("utf-8"))
         assert not pb._verify_staging(staging_dir, manifest)
-        pb._publish_generation(backup_root, staging_dir, gid)
+        pb._publish_generation(backup_root, staging_dir, gid, manifest)
 
         assert pb.read_latest(backup_root) is None, "Testannahme: Crash-Fenster VOR Latest-Update"
 

@@ -45,6 +45,8 @@ Nachzug F1-F6 (gegenueber der R1-Erstfassung ergaenzt):
   zuverlaessig ausgeschlossen und auditierbar vermerkt."""
 from __future__ import annotations
 
+import ctypes
+import errno
 import fnmatch
 import hashlib
 import json
@@ -246,6 +248,29 @@ def _is_safe_regular_file(path: Path) -> bool:
     return stat.S_ISREG(st.st_mode)
 
 
+def _raise_walk_error(exc: OSError) -> None:
+    """F3 (CODE-REVIEW R2): `os.walk` meldet einen Traversierungsfehler (z.B.
+    ein wegen Berechtigung nicht betretbares Unterverzeichnis einer rekursiven
+    Rolle) normalerweise STILL und laesst den betroffenen Unterbaum einfach
+    weg. Das wuerde eine hashkorrekte TEILpopulation als vollstaendig gesichert
+    erscheinen lassen. Stattdessen wird der Fehler hochgereicht und von der
+    aeusseren Backup-I/O-Barriere in ein kontrolliert fehlgeschlagenes Backup
+    uebersetzt -- kein stiller Scanverlust."""
+    raise exc
+
+
+def _scan_kind_strict(path: Path) -> str:
+    """'regular' fuer eine echte reguläre Datei auf Linkebene, 'skip' fuer einen
+    Symlink/eine Spezialdatei (FIFO/Device/Socket -- bewusste, auditierbare
+    Auslassung). WIRFT bei einem echten Zugriffs-/I/O-Fehler des `lstat`
+    (Berechtigung, I/O) -- F3: eine unlesbare BENOETIGTE Datei darf NICHT
+    stillschweigend als 'uebersprungene Spezialdatei' aus dem angeblich
+    vollstaendigen Snapshot verschwinden. `lstat` folgt keinem Symlink, ein
+    kaputter Symlink liefert also weiterhin sauber 'skip'."""
+    st = os.lstat(path)  # kein try/except: Zugriffsfehler propagieren (F3)
+    return "regular" if stat.S_ISREG(st.st_mode) else "skip"
+
+
 def _iter_root_files(
     root: Path, *, recursive: bool, globs: tuple[str, ...] | None = None,
 ) -> tuple[list[Path], list[Path], list[Path]]:
@@ -256,8 +281,9 @@ def _iter_root_files(
     (`_collect_population_files_and_excluded`/`_fingerprint` rufen ausschliesslich
     diese Funktion) -- ein Symlink/eine Spezialdatei wird hier NIE geoeffnet
     oder dereferenziert, eine Auth-/Secret-Datei (F6) wird nie gelesen; beide
-    werden nur uebersprungen und getrennt zurueckgemeldet, damit der Aufrufer
-    sie auditierbar im Manifest unter `excluded` vermerken kann."""
+    werden nur uebersprungen und getrennt zurueckgemeldet. Ein echter Zugriffs-/
+    Traversierungsfehler (F3) wird dagegen NICHT verschluckt, sondern als
+    `OSError` hochgereicht (kein stiller Verlust eines benoetigten Unterbaums)."""
     if not root.exists():
         return [], [], []
     safe: list[Path] = []
@@ -273,9 +299,9 @@ def _iter_root_files(
             if _is_auth_excluded_name(p.name):
                 auth_excluded.append(p)
                 continue
-            (safe if _is_safe_regular_file(p) else skipped).append(p)
+            (safe if _scan_kind_strict(p) == "regular" else skipped).append(p)
         return sorted(safe), sorted(skipped), sorted(auth_excluded)
-    for dirpath, dirnames, filenames in os.walk(root):
+    for dirpath, dirnames, filenames in os.walk(root, onerror=_raise_walk_error):
         dirnames[:] = [d for d in dirnames if not _is_excluded_name(d)]
         for fn in filenames:
             if _is_excluded_name(fn):
@@ -284,7 +310,7 @@ def _iter_root_files(
             if _is_auth_excluded_name(fn):
                 auth_excluded.append(p)
                 continue
-            (safe if _is_safe_regular_file(p) else skipped).append(p)
+            (safe if _scan_kind_strict(p) == "regular" else skipped).append(p)
     return sorted(safe), sorted(skipped), sorted(auth_excluded)
 
 
@@ -659,16 +685,30 @@ def _verify_staging(staging_dir: Path, manifest: dict) -> list[str]:
     return problems
 
 
-def _publish_generation(backup_root: Path, staging_dir: Path, generation_id: str) -> Path:
-    """Atomarer Rename staging -> generations/<generation_id>. Existiert das
-    Ziel bereits (Absturz NACH einem frueheren erfolgreichen Rename, VOR dem
-    Taskdatensatz-'done'), ist das idempotent OK -- das Staging dieses
-    Versuchs wird dann verworfen, nicht fehlerhaft ueberschrieben."""
+def _publish_generation(backup_root: Path, staging_dir: Path, generation_id: str, manifest: dict) -> Path:
+    """Atomarer Rename staging -> generations/<generation_id>.
+
+    Existiert das Ziel bereits (Absturz NACH einem frueheren erfolgreichen
+    Rename, VOR dem Taskdatensatz-'done'), wird es jetzt GEPRUEFT, bevor das
+    frisch validierte Staging verworfen wird (F2b/CODE-REVIEW R2): nur wenn der
+    vorhandene Zielinhalt vollstaendig+hashkorrekt zu DIESEM Manifest passt, ist
+    das idempotent OK und das Staging wird verworfen. Ist das vorhandene Ziel
+    beschaedigt/unvollstaendig, wird es NICHT als gute Sicherung behandelt,
+    sondern durch das frisch gepruefte Staging ersetzt -- sonst wuerde Latest/
+    Done auf defekte Zielbytes zeigen, waehrend die gute Kopie weggeworfen
+    wird."""
     _generations_dir(backup_root).mkdir(parents=True, exist_ok=True)
     target = _generations_dir(backup_root) / generation_id
     if target.exists():
-        shutil.rmtree(staging_dir, ignore_errors=True)
-        return target
+        if not _verify_staging(target, manifest):
+            # Vorhandenes Ziel ist vollstaendig + hashkorrekt -> idempotenter
+            # Erfolg, eigenes Staging verwerfen.
+            shutil.rmtree(staging_dir, ignore_errors=True)
+            return target
+        # Vorhandenes Ziel ist beschaedigt/unvollstaendig -> durch das frisch
+        # gepruefte Staging ersetzen (G0 anderer Generationen bleibt unberuehrt,
+        # nur genau dieses defekte Ziel wird korrigiert).
+        shutil.rmtree(target, ignore_errors=True)
     os.replace(staging_dir, target)
     _fsync_dir(_generations_dir(backup_root))
     return target
@@ -710,6 +750,7 @@ def _generation_already_valid(backup_root: Path, generation_id: str) -> dict | N
 def generate_population_backup(
     roots: PopulationRoots, generation_key: GenerationKey, backup_root: Path,
     *, producer_code_anchor: str, created_at_utc: str, product_commit: str | None = None,
+    capture_is_at_completion: bool = False,
 ) -> BackupOutcome:
     """Haupteinstieg (whole_population + atomic_generation + retry_idempotence
     + F1-Konsistenz + F3-I/O-Fehlertrennung). Wiederholt aufrufbar fuer
@@ -730,7 +771,7 @@ def generate_population_backup(
         return _generate_population_backup_inner(
             roots, generation_key, backup_root, generation_id,
             producer_code_anchor=producer_code_anchor, created_at_utc=created_at_utc,
-            product_commit=product_commit,
+            product_commit=product_commit, capture_is_at_completion=capture_is_at_completion,
         )
     except RootOverlapError:
         # Fehlkonfiguration (Rekursionsschutz): bleibt eine harte, laut
@@ -755,14 +796,32 @@ def generate_population_backup(
         return BackupOutcome(status="failed", generation_id=generation_id, error=reason)
 
 
+def _staged_roots(staging_dir: Path) -> PopulationRoots:
+    """PopulationRoots, die auf die TATSAECHLICH kopierten Bytes im Staging
+    zeigen (F1a): die Rollen liegen dort unter ihrem Rollennamen als
+    Unterordner (`_copy_files_to_staging`)."""
+    staging_dir = Path(staging_dir)
+    return PopulationRoots(
+        onboarding_dir=staging_dir / "onboarding", catalog_dir=staging_dir / "catalog",
+        run_dir=staging_dir / "run", states_dir=staging_dir / "states",
+        registry_dir=staging_dir / "registry", prefs_root=staging_dir / "prefs",
+    )
+
+
 def _generate_population_backup_inner(
     roots: PopulationRoots, generation_key: GenerationKey, backup_root: Path,
     generation_id: str, *, producer_code_anchor: str, created_at_utc: str,
-    product_commit: str | None,
+    product_commit: str | None, capture_is_at_completion: bool = False,
 ) -> BackupOutcome:
     task = _read_task(backup_root, generation_id)
     if task is not None and task.get("status") == "done":
-        return BackupOutcome(status="already_done", generation_id=generation_id, manifest=task.get("manifest"))
+        # F2b: 'done' allein bescheinigt KEINEN Erfolg -- die veroeffentlichte
+        # Generation muss tatsaechlich noch vollstaendig+hashkorrekt vorliegen.
+        # Fehlt sie oder ist sie beschaedigt, ist die Sicherung nicht gut; nicht
+        # faelschlich `already_done` melden, sondern frisch neu aufnehmen (die
+        # neue gepruefte Kopie ersetzt dann das defekte Ziel in `_publish_generation`).
+        if _generation_already_valid(backup_root, generation_id) is not None:
+            return BackupOutcome(status="already_done", generation_id=generation_id, manifest=task.get("manifest"))
 
     already = _generation_already_valid(backup_root, generation_id)
     if already is not None:
@@ -777,15 +836,14 @@ def _generate_population_backup_inner(
         })
         return BackupOutcome(status="resumed_publish", generation_id=generation_id, manifest=already)
 
-    # F1: semantische Konsistenz VOR jeder Aufnahme pruefen -- ein pausierter
-    # mehrteiliger Produktwrite fuehrt zu kontrolliert fehlgeschlagenem Backup,
-    # NIE zu einer veroeffentlichten Mischgeneration.
+    # F1: semantische Konsistenz der lebenden Quellen VOR der Aufnahme (fruehe
+    # Ablehnung schon sichtbarer Mischstaende). Die massgebliche Pruefung an den
+    # tatsaechlich kopierten Bytes folgt zusaetzlich nach dem Staging (F1a).
     inconsistencies = verify_population_consistency(roots)
     if inconsistencies:
         reason = "Populationsstand nicht konsistent (kein veroeffentlichbarer Schnitt): " + "; ".join(
             inconsistencies
         )
-        # completion_fingerprint eines frueheren Versuchs erhalten (F2).
         _try_write_task(backup_root, generation_id, {
             "generation_key": generation_key.as_string(), "generation_id": generation_id,
             "status": "failed", "last_error": reason,
@@ -797,35 +855,44 @@ def _generate_population_backup_inner(
     files, dynamic_excluded_notes = _collect_population_files_and_excluded(roots)
     content_fp = _content_fingerprint_sha256(files)
 
-    # F2: Beim ERSTEN Taskwrite fuer diesen Abschluss wird der aufgenommene
-    # Stand als `completion_fingerprint` gebunden. Ein spaeterer Retry behaelt
-    # diesen Wert und kann so ehrlich zeigen, ob er denselben oder einen
-    # SPAETEREN Stand gesichert hat (keine stille Umetikettierung von B als A).
-    completion_fp = (task or {}).get("completion_fingerprint") or content_fp
+    # F2a: ehrliche Abschlussbindung. Nur ein TATSAECHLICH dauerhaft gebundener
+    # Abschlussfingerprint (prior_fp) ODER eine SYNCHRON beim Abschluss erfolgte
+    # Aufnahme (capture_is_at_completion) begruendet eine Gleichheitsaussage. Eine
+    # nachgeholte Aufnahme ohne solche Bindung (rekonstruierter Task; erster
+    # Taskwrite nie persistiert) laesst den historischen Bezug ausdruecklich
+    # UNBEKANNT -- niemals ein aus dem neuen Inhalt selbst berechnetes `true`.
+    prior_fp = (task or {}).get("completion_fingerprint")
+    if prior_fp:
+        completion_fp: str | None = prior_fp
+        matches: bool | None = (content_fp == prior_fp)
+        completion_known = True
+    elif capture_is_at_completion:
+        completion_fp = content_fp
+        matches = True
+        completion_known = True
+    else:
+        completion_fp = None
+        matches = None
+        completion_known = False
+
+    def _task_fields(status: str, **extra: object) -> dict:
+        base = {
+            "generation_key": generation_key.as_string(), "generation_id": generation_id,
+            "status": status, "completion_fingerprint": completion_fp,
+            "completion_fingerprint_known": completion_known,
+        }
+        base.update(extra)
+        return base
 
     def _fail(status: str, reason: str, staging: Path | None) -> BackupOutcome:
-        # F2: JEDE Fehlerrueckgabe einer begonnenen Aufnahme traegt den bereits
-        # ermittelten `completion_fingerprint` -- ein spaeterer Retry kann so nie
-        # einen abweichenden Stand faelschlich als Abschlussstand ausweisen. F3:
-        # best-effort geschrieben (haengt nicht vom defekten Ziel ab). Staging
-        # wird in jedem Fehlerfall entfernt (keine verwaisten Verzeichnisse).
         if staging is not None:
             shutil.rmtree(staging, ignore_errors=True)
-        _try_write_task(backup_root, generation_id, {
-            "generation_key": generation_key.as_string(), "generation_id": generation_id,
-            "status": "failed", "last_error": reason, "completion_fingerprint": completion_fp,
-        })
+        _try_write_task(backup_root, generation_id, _task_fields("failed", last_error=reason))
         return BackupOutcome(status=status, generation_id=generation_id, error=reason)
 
     staging_dir: Path | None = None
     try:
-        # F2/F3: der initiale `pending`-Taskwrite liegt INNERHALB dieses Blocks,
-        # damit auch ein I/O-Fehler hier den `completion_fingerprint` bindet (der
-        # aeussere Handler kaeme sonst ohne diesen Wert aus).
-        _write_task(backup_root, generation_id, {
-            "generation_key": generation_key.as_string(), "generation_id": generation_id,
-            "status": "pending", "completion_fingerprint": completion_fp,
-        })
+        _write_task(backup_root, generation_id, _task_fields("pending"))
 
         prev = read_latest(backup_root)
         prev_generation_id = prev.get("generation_id") if prev else None
@@ -833,13 +900,19 @@ def _generate_population_backup_inner(
         capture = {
             "capture_fingerprint_sha256": content_fp,
             "completion_fingerprint_sha256": completion_fp,
-            "captured_state_matches_section_completion": content_fp == completion_fp,
+            "completion_binding_known": completion_known,
+            "captured_state_matches_section_completion": matches,
             "captured_at_utc": created_at_utc,
         }
-        if content_fp != completion_fp:
+        if not completion_known:
             capture["note"] = (
-                "SPAETER nachgeholte Aufnahme: der gesicherte Stand weicht vom Stand bei "
-                "Abschnittsabschluss ab (ehrliche Kennzeichnung, kein Umetikettieren)."
+                "Historischer Abschlussbezug UNBEKANNT: nachgeholte Aufnahme ohne dauerhaft "
+                "gebundenen Abschlussfingerprint -- keine Gleichheitszusage zum Abschlussstand."
+            )
+        elif matches is False:
+            capture["note"] = (
+                "SPAETER nachgeholte Aufnahme: der gesicherte Stand weicht vom gebundenen Stand "
+                "bei Abschnittsabschluss ab (ehrliche Kennzeichnung, kein Umetikettieren)."
             )
         manifest = build_manifest(
             generation_key=generation_key, files=files, roots=roots, created_at_utc=created_at_utc,
@@ -854,10 +927,6 @@ def _generate_population_backup_inner(
         try:
             _copy_files_to_staging(staging_dir, roots, files)
         except OSError as exc:
-            # Quelldatei verschwand WAEHREND der Aufnahme (FileNotFoundError) ODER
-            # ein echter Schreibfehler im Staging (Platte voll, Berechtigung) --
-            # beides ein kontrolliert fehlgeschlagenes Backup, NIE eine
-            # veroeffentlichte Teilgeneration.
             return _fail("failed", f"Schreibfehler waehrend der Aufnahme: {exc}", staging_dir)
 
         post_fingerprint = _fingerprint(roots)
@@ -869,6 +938,19 @@ def _generate_population_backup_inner(
                 staging_dir,
             )
 
+        # F1a: Konsistenz an den TATSAECHLICH kopierten Bytes pruefen -- faengt
+        # den Mischstand eines Mehrdateiwriters, der ERST NACH der Vorpruefung
+        # pausierte und so in genau diese Kopie geriet. Kein `created` fuer einen
+        # inkonsistenten Schnitt.
+        staged_problems = verify_population_consistency(_staged_roots(staging_dir))
+        if staged_problems:
+            return _fail(
+                "failed_inconsistent",
+                "Aufgenommene Bytes nicht konsistent (kein veroeffentlichbarer Schnitt): "
+                + "; ".join(staged_problems),
+                staging_dir,
+            )
+
         manifest_bytes = json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8")
         (staging_dir / "manifest.json").write_bytes(manifest_bytes)
         _fsync_file(staging_dir / "manifest.json")
@@ -877,16 +959,11 @@ def _generate_population_backup_inner(
         if problems:
             return _fail("failed", "Selbstpruefung im Staging fehlgeschlagen: " + "; ".join(problems), staging_dir)
 
-        _publish_generation(backup_root, staging_dir, generation_id)
+        _publish_generation(backup_root, staging_dir, generation_id, manifest)
         _update_latest_pointer(backup_root, generation_id)
-        _write_task(backup_root, generation_id, {
-            "generation_key": generation_key.as_string(), "generation_id": generation_id,
-            "status": "done", "manifest": manifest, "completion_fingerprint": completion_fp,
-        })
+        _write_task(backup_root, generation_id, _task_fields("done", manifest=manifest))
         return BackupOutcome(status="created", generation_id=generation_id, manifest=manifest)
     except OSError as exc:
-        # F2+F3: ein I/O-Fehler an pending-Taskwrite, Manifestwrite, Publish,
-        # Latest oder Done -- Fingerprint bleibt gebunden, Staging aufgeraeumt.
         return _fail("failed", f"Backup-I/O-Fehler waehrend der Aufnahme: {exc}", staging_dir)
 
 
@@ -907,6 +984,44 @@ def retry_population_backup(
         roots, generation_key, backup_root, producer_code_anchor=producer_code_anchor,
         created_at_utc=created_at_utc, product_commit=product_commit,
     )
+
+
+def _table_status(run_dir: Path, table_id: str) -> str | None:
+    """Liest `run_dir/tables/<table_id>.json["status"]` direkt (kein store-Import,
+    vermeidet eine Importkante). `None`, wenn Datei/Feld fehlt oder unlesbar."""
+    if not isinstance(table_id, str) or not table_id or "/" in table_id or "\\" in table_id \
+            or table_id in (".", "..") or "\x00" in table_id:
+        return None
+    data = _read_json_or_none(Path(run_dir) / "tables" / f"{table_id}.json")
+    if data is None:
+        return None
+    status = data.get("status")
+    return status if isinstance(status, str) else None
+
+
+def _safe_component(value: str) -> str:
+    """Spiegelt `store._safe_component` (b8908318): nur `/` -> `_`. Fuer die
+    Finalmarker-Dateinamen `completion/<section>__final.json`."""
+    return str(value).replace("/", "_")
+
+
+def section_completion_consistent(run_dir: Path, table_id: str, section_id: str) -> bool:
+    """F1b (CODE-REVIEW R2): ein echter konsistenter Abschnittsabschluss liegt
+    NUR vor, wenn SOWOHL der Finalmarker `completion/<section>__final.json`
+    existiert ALS AUCH der zugehoerige Tisch tatsaechlich `status="closed"`
+    persistiert ist. Der unveraenderte Abschlusswriter schreibt den Finalmarker
+    VOR dem persistierten Tischstatus (`store.finalize_section_after_reflection`,
+    STORE 1844-1851); ein Absturz dazwischen hinterlaesst einen Finalmarker ohne
+    konsistenten Abschluss. Eine Rekonstruktion/ein Backup darf daraus KEINE gute
+    Generation ableiten. Unbeteiligte offene Tische bleiben davon unberuehrt."""
+    run_dir = Path(run_dir)
+    final_path = run_dir / "completion" / f"{_safe_component(section_id)}__final.json"
+    if not final_path.is_file():
+        return False
+    final = _read_json_or_none(final_path)
+    if final is None or final.get("table_id") != table_id:
+        return False
+    return _table_status(run_dir, table_id) == "closed"
 
 
 def reconstruct_missing_backup_tasks(roots: PopulationRoots, backup_root: Path) -> list[str]:
@@ -939,6 +1054,11 @@ def reconstruct_missing_backup_tasks(roots: PopulationRoots, backup_root: Path) 
         section_id = data.get("section_id")
         table_id = data.get("table_id")
         if not isinstance(section_id, str) or not isinstance(table_id, str):
+            continue
+        # F1b: nur rekonstruieren, wenn der Abschluss tatsaechlich konsistent ist
+        # (Finalmarker UND persistierter Tischstatus `closed`). Ein Absturz nach
+        # dem Finalmarker, aber vor dem Tischabschluss, ist KEIN fertiger Abschnitt.
+        if _table_status(run_dir, table_id) != "closed":
             continue
         key = GenerationKey(run_id=run_id, table_id=table_id, section_id=section_id)
         generation_id = key.generation_id()
@@ -1005,11 +1125,24 @@ def backup_after_section_completed(
     Exception verlassen werden."""
     if not completion_success:
         return None
+    # F1b: echte Abschlussgrenze -- der ausloesende Abschnitt muss tatsaechlich
+    # konsistent abgeschlossen sein (Finalmarker UND persistierter Tischstatus
+    # `closed`). Im regulaeren Live-Pfad trifft `completion_success` erst zu,
+    # NACHDEM `finalize_section_after_reflection` beides geschrieben hat -- der
+    # Check ist dann erfuellt. Faellt er (z.B. Abbruch zwischen Finalmarker und
+    # Tischabschluss, Hook dennoch aufgerufen), wird KEIN Backup fuer einen
+    # unfertigen Abschluss erzeugt.
+    try:
+        if not section_completion_consistent(roots.run_dir, table_id, section_id):
+            return None
+    except OSError as exc:
+        return BackupHookResult(attempted=True, succeeded=False, error=str(exc))
     key = GenerationKey(run_id=run_id, table_id=table_id, section_id=section_id)
     try:
         outcome = generate_population_backup(
             roots, key, Path(backup_root), producer_code_anchor=producer_code_anchor,
             created_at_utc=created_at_utc, product_commit=product_commit,
+            capture_is_at_completion=True,
         )
     except (PopulationBackupError, OSError) as exc:
         return BackupHookResult(attempted=True, succeeded=False, error=str(exc))
@@ -1103,6 +1236,15 @@ def validate_generation_for_restore(backup_root: Path, generation_id: str | None
     entries = manifest.get("files")
     if not isinstance(entries, list):
         raise RestoreRejectedError(f"Generation {generation_id!r}: Manifest hat kein 'files'-Array.")
+    # F4 (CODE-REVIEW R2): ein formal passendes, aber LEERES Manifest darf keinen
+    # leeren Bestand aktivieren. Eine reale Population ist nie leer; eine einzelne
+    # legitim leere OPTIONALE Rolle bleibt dagegen zulaessig (sie hat schlicht
+    # keine Zeilen, waehrend andere Rollen Daten tragen).
+    if not entries:
+        raise RestoreRejectedError(
+            f"Generation {generation_id!r}: leeres Manifest (files=[]) -- eine leere Population ist "
+            "kein gueltiger Restore-Bestand."
+        )
 
     manifest_keys: set[tuple[str, str]] = set()
     target_keys: dict[str, tuple[str, str]] = {}
@@ -1132,6 +1274,21 @@ def validate_generation_for_restore(backup_root: Path, generation_id: str | None
         target_keys[tkey] = (role, rel_path)
 
         p = gen_dir / role / rel_path
+        # F4 (CODE-REVIEW R2): NICHT nur das Blatt, auch jeder VORFAHRE im
+        # Generationsbaum muss ein echtes Verzeichnis sein -- ein Symlink-Vorfahr
+        # (z.B. `states` als Link nach aussen) wuerde sonst beim Kopieren
+        # dereferenziert. `lstat` folgt keinem Link.
+        ancestor = gen_dir
+        for part in (Path(role) / rel_path).parts[:-1]:
+            ancestor = ancestor / part
+            try:
+                if stat.S_ISLNK(os.lstat(ancestor).st_mode):
+                    raise RestoreRejectedError(
+                        f"Generation {generation_id!r}: Symlink-Vorfahre {part!r} im Pfad "
+                        f"{role}/{rel_path} — abgelehnt (kein Pfadausbruch ueber Verzeichnislink)."
+                    )
+            except FileNotFoundError:
+                break  # fehlender Vorfahr -> die Blattpruefung unten meldet 'Datei fehlt'
         # F5/C5: Symlink/Spezialdatei in der Generation (`is_file()` wuerde
         # Symlinks folgen) -- `_is_safe_regular_file` nutzt lstat.
         if not _is_safe_regular_file(p):
@@ -1207,6 +1364,63 @@ def _require_referenced_payload(
                 f"verweist auf current_save_version seq {seq_i}, aber {needed[1]} ist nicht "
                 "gesichert (unvollstaendige Generation)."
             )
+        # F4 (CODE-REVIEW R2): die direkte current-Datei gehoert ebenfalls zum
+        # tragenden Produktbezug (publish_current_save/Ernte schreiben sie). Fehlt
+        # sie, ist der restaurierte current-Save fachlich unvollstaendig.
+        direct_needed = ("run", f"current_saves/{pk}.json")
+        if direct_needed not in manifest_keys:
+            raise RestoreRejectedError(
+                f"Generation {generation_id!r}: benoetigte Referenz fehlt -- persona-state {pk} "
+                f"verweist auf einen current-Save, aber {direct_needed[1]} ist nicht gesichert "
+                "(unvollstaendige Generation)."
+            )
+
+
+_RENAME_NOREPLACE = 1  # linux/glibc RENAME_NOREPLACE
+_AT_FDCWD = -100
+
+
+def _activate_no_replace(staging: Path, target: Path) -> None:
+    """F4 (CODE-REVIEW R2): aktiviert `staging` als `target` mit ECHTER atomarer
+    Nichtueberschreibungssemantik. `os.rename` ersetzt unter POSIX ein bereits
+    bestehendes LEERES Zielverzeichnis -- ein zwischen Vorpruefung und Aktivierung
+    fremd angelegtes (auch leeres) Ziel darf aber NIE angetastet werden. Daher
+    `renameat2(RENAME_NOREPLACE)`: schlaegt fehl, sobald `target` in irgendeiner
+    Form existiert (leer oder nicht). Bei EEXIST -> kontrollierte Ablehnung, das
+    fremde Ziel bleibt unberuehrt.
+
+    Fallback (Kernel/Dateisystem ohne RENAME_NOREPLACE, ENOSYS/EINVAL): exklusiver
+    Namenserwerb via `os.mkdir(target)` (atomar, scheitert wenn `target` existiert),
+    dann Verschieben der Staginginhalte -- ebenfalls ohne je ein fremdes Ziel zu
+    ueberschreiben."""
+    try:
+        libc = ctypes.CDLL(None, use_errno=True)
+        renameat2 = libc.renameat2
+        renameat2.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+        res = renameat2(_AT_FDCWD, os.fsencode(str(staging)), _AT_FDCWD, os.fsencode(str(target)), _RENAME_NOREPLACE)
+        if res == 0:
+            return
+        err = ctypes.get_errno()
+        if err == errno.EEXIST:
+            raise RestoreRejectedError(
+                f"Zielordner {target} existiert bereits (atomar erkannt) -- fremder Bestand bleibt "
+                "unangetastet, kein Ueberschreiben."
+            )
+        if err not in (errno.ENOSYS, errno.EINVAL):
+            raise OSError(err, os.strerror(err))
+    except AttributeError:
+        pass  # renameat2 im libc-Symbolsatz nicht vorhanden -> Fallback
+    # Fallback: exklusiver Namenserwerb, dann Inhalte verschieben.
+    try:
+        os.mkdir(target, 0o700)
+    except FileExistsError as exc:
+        raise RestoreRejectedError(
+            f"Zielordner {target} existiert bereits -- fremder Bestand bleibt unangetastet "
+            "(exklusiver Erwerb fehlgeschlagen)."
+        ) from exc
+    for child in sorted(os.listdir(staging)):
+        os.replace(staging / child, target / child)
+    os.rmdir(staging)
 
 
 @dataclass
@@ -1269,16 +1483,11 @@ def restore_population(backup_root: Path, target_root: Path, generation_id: str 
             if _sha256_file(dst) != entry["sha256"]:
                 raise RestoreRejectedError(f"Restore-Kopie weicht vom Manifest ab: {role}/{rel_path}.")
         _fsync_dir(staging)
-        # Atomare Aktivierung. `os.rename` auf ein bestehendes, nichtleeres Ziel
-        # schlaegt fehl (ENOTEMPTY/ENOTDIR) -> kontrollierte Ablehnung; wir
-        # entfernen NUR unser eigenes Staging, NIE das (fremde) Ziel.
-        try:
-            os.rename(staging, target_root)
-        except OSError as exc:
-            raise RestoreRejectedError(
-                f"Zielordner {target_root} konnte nicht atomar aktiviert werden -- vermutlich "
-                f"zwischenzeitlich anderweitig angelegt ({exc}); fremder Bestand bleibt unangetastet."
-            ) from exc
+        # F4: Atomare Aktivierung mit echter Nichtueberschreibung -- auch ein
+        # zwischenzeitlich fremd angelegtes LEERES Ziel wird nicht ersetzt
+        # (`_activate_no_replace` nutzt renameat2 RENAME_NOREPLACE). Wir entfernen
+        # in jedem Fehlerfall NUR unser eigenes Staging, NIE das (fremde) Ziel.
+        _activate_no_replace(staging, target_root)
     except BaseException:
         # NUR das selbst erworbene Staging bereinigen -- niemals `target_root`.
         shutil.rmtree(staging, ignore_errors=True)

@@ -179,6 +179,7 @@ def test_f2_retry_captures_later_state_and_labels_it_honestly():
         try:
             out_a = pb.generate_population_backup(
                 fx.roots, key, br, producer_code_anchor=pf.PRODUCER_ANCHOR, created_at_utc=_AT,
+                capture_is_at_completion=True,
             )
         finally:
             pb._copy_files_to_staging = orig_copy
@@ -586,6 +587,7 @@ def test_f2_completion_fingerprint_survives_io_failure_at_task_or_publish():
             try:
                 out_a = pb.generate_population_backup(
                     fx.roots, key, br, producer_code_anchor=pf.PRODUCER_ANCHOR, created_at_utc=_AT,
+                    capture_is_at_completion=True,
                 )
             finally:
                 setattr(pb, phase, orig)

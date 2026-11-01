@@ -220,9 +220,15 @@ def play_section_to_success(fx: Fixture):
     return outcome
 
 
-def run_backup(fx: Fixture, *, created_at_utc: str = "2026-11-01T00:00:00+00:00"):
+def run_backup(fx: Fixture, *, created_at_utc: str = "2026-11-01T00:00:00+00:00",
+               capture_is_at_completion: bool = True):
+    # Modelliert die Sicherung DIREKT beim Abschnittsabschluss (wie der reale
+    # Hook): `capture_is_at_completion=True` bindet den Abschlussfingerprint
+    # synchron. Retry-/Nachhol-Faelle rufen die Produkt-API mit dem Default
+    # (False) bzw. ueber `retry_population_backup`.
     return population_backup.generate_population_backup(
         fx.roots,
         population_backup.GenerationKey(run_id=fx.run_id, table_id=fx.table_id, section_id=fx.section_id),
         backup_root_for(fx), producer_code_anchor=PRODUCER_ANCHOR, created_at_utc=created_at_utc,
+        capture_is_at_completion=capture_is_at_completion,
     )
