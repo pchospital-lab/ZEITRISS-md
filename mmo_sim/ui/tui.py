@@ -34,6 +34,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
+from ..core import population_backup
 from ..core.creation_service import ReplyResult, run_admitted_creation_dialog
 from ..domain.zeitriss import catalog, import_export, onboarding
 from ..domain.zeitriss import saves as zeitriss_saves
@@ -3664,6 +3665,122 @@ class TuiSession:
         `<data-dir>/registry` anlegen."""
         return self.onboarding_dir.parent / "registry"
 
+    def _population_backup_roots(self) -> population_backup.PopulationRoots:
+        """ZR-POPULATION-BACKUP-RESTORE-20261101-R1: dieselben sechs Rollen
+        wie `delivery/preflight-inventory.md` -- `registry_dir`/`prefs_root`
+        sind hier abgeleitet (derselbe Stil wie `_local_round_registry_dir`/
+        `exports_dir`), da `TuiSession.__init__` dafuer keine eigenen
+        Konstruktorparameter hat."""
+        return population_backup.PopulationRoots(
+            onboarding_dir=self.onboarding_dir, catalog_dir=self.catalog_dir,
+            run_dir=self.run_dir, states_dir=self.states_dir,
+            registry_dir=self._local_round_registry_dir(), prefs_root=self.onboarding_dir.parent,
+        )
+
+    def _population_backup_root_dir(self) -> Path:
+        """Privates Backup-Ziel, Geschwister des Datenroots (NIE innerhalb
+        von onboarding/catalog/run/states/registry -- s.
+        `population_backup._assert_no_overlap`)."""
+        return self.onboarding_dir.parent / "population_backups"
+
+    def _maybe_backup_after_section(
+        self, lobby, table, section_id: str,
+    ) -> "population_backup.BackupHookResult | None":
+        """Direkt NACH `outcome.completion.success` aufgerufen (01_AUFTRAG.md
+        §2) -- `None`, wenn der Abschnitt nicht final abgeschlossen wurde."""
+        return population_backup.backup_after_section_completed(
+            completion_success=True, run_id=lobby.run_id, table_id=table.table_id,
+            section_id=section_id, roots=self._population_backup_roots(),
+            backup_root=self._population_backup_root_dir(),
+            producer_code_anchor="mmo_sim/ui/tui.py:TuiSession._run_table_round",
+            created_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        )
+
+    def _print_backup_hook_result(
+        self, backup_result: "population_backup.BackupHookResult | None",
+    ) -> None:
+        """01_AUFTRAG.md §4: getrennte Meldung, Primaersave bleibt davon
+        unberuehrt -- kein Verdecken durch die generische Erfolgsmeldung."""
+        if backup_result is None or backup_result.succeeded:
+            return
+        self._print(
+            "Spielstand gespeichert; Zusatzsicherung (Populationsbackup) fehlgeschlagen "
+            f"({backup_result.error}) — letzter guter Sicherungsstand bleibt erhalten, "
+            "Wiederholung ueber 'backup retry'."
+        )
+
+    def _cmd_backup(self, extra_tokens: list[str]) -> None:
+        """Bedienoberflaeche fuer Populationsbackup-Status/-Retry
+        (01_AUFTRAG.md §4: 'ein begrenzter Wiederholungsweg bleibt
+        erkennbar'). 'backup' allein zeigt den Status, 'backup retry'
+        versucht JEDE offene/fehlgeschlagene Sicherung genau einmal erneut
+        -- niemals einen neuen Spielzug/Reflexion/Ernte (die Signatur von
+        `retry_population_backup` kennt ohnehin keine Spielzustaende)."""
+        backup_root = self._population_backup_root_dir()
+        sub = extra_tokens[0].lower() if extra_tokens else "status"
+        if sub == "retry":
+            status = population_backup.read_backup_status(backup_root, self._population_backup_roots())
+            if not status["open_tasks"]:
+                self._print("Keine offene Zusatzsicherung -- nichts zu wiederholen.")
+                return
+            for task in status["open_tasks"]:
+                parts = str(task.get("generation_key", "")).split("|")
+                if len(parts) != 3:
+                    gid = task.get("generation_id")
+                    self._print(f"Ungueltiger Taskdatensatz uebersprungen: {gid}")
+                    continue
+                run_id, table_id, section_id = parts
+                key = population_backup.GenerationKey(
+                    run_id=run_id, table_id=table_id, section_id=section_id,
+                )
+                outcome = population_backup.retry_population_backup(
+                    self._population_backup_roots(), key, backup_root,
+                    producer_code_anchor="mmo_sim/ui/tui.py:TuiSession._cmd_backup(retry)",
+                    created_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                )
+                suffix = f" ({outcome.error})" if outcome.error else ""
+                self._print(f"Retry {task.get('generation_id')}: {outcome.status}{suffix}")
+            return
+        status = population_backup.read_backup_status(backup_root, self._population_backup_roots())
+        self._print(f"Letzte gute Generation: {status['latest_generation_id'] or '(keine)'}")
+        if status["open_tasks"]:
+            self._print(
+                f"Offene/fehlgeschlagene Sicherungen: {len(status['open_tasks'])} -- "
+                "'backup retry' versucht sie erneut."
+            )
+        else:
+            self._print("Keine offenen Sicherungsauftraege.")
+
+    def _cmd_restore(self, extra_tokens: list[str]) -> None:
+        """Bedienoberflaeche fuer den bedienbaren Restore-Weg (01_AUFTRAG.md
+        §5: 'ein bedienbarer Restore-Weg bleibt erkennbar') -- duenner
+        Wrapper um `population_backup.restore_population`, analog zu
+        `_cmd_backup`. 'restore <ziel-root> [generation-id]': `ziel-root`
+        muss ein noch NICHT existierender Ordner sein (`restore_population`
+        lehnt ein bestehendes Ziel bereits selbst hart ab, keine zweite
+        Pruefung hier); fehlt `generation-id`, wird die neueste Generation
+        verwendet. Reiner Lesepfad auf eine bereits validierte Generation --
+        kein Beenden fremder Prozesse, keine Lock-Uebernahme, keine neue
+        Save-/Spielautoritaet."""
+        if not extra_tokens:
+            self._print(
+                "Benutzung: 'restore <ziel-root> [generation-id]' -- ziel-root muss ein noch "
+                "nicht existierender Ordner sein; generation-id optional (Default: neueste)."
+            )
+            return
+        target_root = Path(extra_tokens[0])
+        generation_id = extra_tokens[1] if len(extra_tokens) > 1 else None
+        backup_root = self._population_backup_root_dir()
+        try:
+            outcome = population_backup.restore_population(backup_root, target_root, generation_id)
+        except population_backup.PopulationBackupError as exc:
+            self._print(f"Restore abgelehnt: {exc}")
+            return
+        self._print(
+            f"Restore abgeschlossen: Generation {outcome.generation_id} nach "
+            f"{outcome.target_root} wiederhergestellt."
+        )
+
     def _local_round_list_humans(self) -> list[tuple[str, str]]:
         """Liest die VORHANDENE `ParticipantRegistry`-Dateiablage direkt
         (keine zweite Speicherwelt, kein neuer Store) und liefert alle
@@ -5130,6 +5247,10 @@ class TuiSession:
             return
         if outcome.completion.success:
             self._print(f"Abschnitt abgeschlossen: {outcome.completion.members_completed}")
+            backup_result = self._maybe_backup_after_section(
+                lobby, table, f"{table.table_id}-section",
+            )
+            self._print_backup_hook_result(backup_result)
         else:
             self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
 
@@ -5725,6 +5846,10 @@ class TuiSession:
                     self._cmd_lobby_initiative()
                 elif choice == "s":
                     self._cmd_settings()
+                elif choice == "backup":
+                    self._cmd_backup(extra_tokens)
+                elif choice == "restore":
+                    self._cmd_restore(extra_tokens)
                 elif choice in ("x", "q"):
                     self._quit = True
                 # UX01/UX03 (02 §A, MENUE_ENTSCHEIDUNG.md): die EINE
