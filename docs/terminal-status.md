@@ -207,3 +207,60 @@ Teilabnahmen erweitern diesen Umfang nicht automatisch.
 
 Historische Details: [Betriebsdokumentation](mmo-sim.md), insbesondere der
 [LA1-Abschnitt](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13).
+
+## Showcase-Szenen — Herkunft
+
+Die beiden Szenen in der
+[README](../README.md#so-spielt-sich-das-im-terminal) sind keine ausgedachten
+Beispiele, sondern **gekürzte Original-Spieltexte** aus echten Playtest-Läufen.
+Beide sind **keine** Terminal-Bildschirmaufnahmen: persistierte Spieltexte, für
+die README display-normalisiert (Markdown-Betonung entfernt) und zusätzlich durch
+den unveränderten Produkt-Renderer `mmo_sim.ui.rendering.render_for_terminal`
+gegengeprüft (keine Markup-Reste). Herkunft und Prüfsummen zum Nachvollziehen:
+
+**Szene 1 — R4-Team-Zug (Duo, Infiltration).** Gekürzter Original-Spieltext aus
+dem lokal abgenommenen R4-Kampagnenlauf (Duo-A, Episode 1, Mission 1), **kein**
+Live-Mitschnitt des Terminal-Clients (`scripts/mmo_sim.py`).
+
+- Quelle: R4-Tisch `lobby-p01_latch-p02_breach` aus dem abgenommenen
+  R4-Rundenabschluss (28. Oktober 2026).
+- Tisch-SHA256: `6992719841ec12ac4adba2139d6bf88ad0ef0b514912313d308219fbaa572ea8`
+- Gezeigte Felder, lesbar getrennt und ohne Umetikettierung: BREACHs Wortmeldung
+  (`table_messages[2]`, from `p02_breach`), MAHLBERGs eigene Entscheidung
+  (`sl_log[6].leader_message`, origin `p01_latch`) und die GM-Auflösung
+  (`sl_log[6].content`, GM-Request `859240d5…`). Der kritische explodierende Wurf
+  ist der **nächste** Zug (`sl_log[7]`, GM-Request `f19abd13…`) und als solcher
+  gekennzeichnet, nicht still in Zug 6 geschnitten.
+- Inhalt: MAHLBERG zieht den Aufseher mit einem Fachgespräch nach vorn, BREACH
+  entnimmt in der Lücke still das Originaldokument; zwei erfolgreiche Proben, dann
+  ein kritischer explodierender Wurf beim Auslesen der zweiten Spur. Kein Kampf,
+  kein Schuss.
+- Die ursprünglichen nativen Pfade in den Datenfeldern bleiben Herkunftsnachweis.
+  Historische Plan-Mode-/Meta-Vorsätze der Persona-Antworten sind als markierte
+  Auslassungen weggelassen, nicht als vollständige Rohantwort ausgegeben.
+
+**Szene 2 — Solo-Konfliktzug (historischer Chat-Playtest).** Solo-Chat-Playtest,
+Episode 1, Mission 2, Rostock 1973 — historischer Spieltext, kein aktueller
+Terminal-Client-Mitschnitt.
+
+- Quelldatei:
+  `internal/qa/evidence/2026-playtests/2026-04-19-episode1-mini-solo-sarah-v3/chat5-mission3.md`
+- Datei-SHA256: `55f8eaaf4b4a1b23c6d1270121fbc1573b08867f5febd10354d914c570a6c46a`
+- Gezeigter Ausschnitt: der vollständige erste Konfliktzug (Quellzeilen 585–665) —
+  echter Spielerinput, Initiative aller drei Beteiligten, Fernkampf mit
+  explodierendem Würfel, LP-Schaden, Reaktion der Gegner. Runde eins endet mit
+  **offener** Lage; ein endgültiger Dokumentverlust wird **nicht** behauptet (im
+  selben Quelllauf folgt die Verfolgung mit erfolgreichem Schuss und greifbarem
+  Dokument, Zeilen 678–775). Jede Auslassung mit `[…]`.
+
+**Grenze zur Sichtprüfung.** Die README zeigt den Spieltext in lesbarer Textform;
+die dargestellten Zeichen (Icons, Farben, Zeilenumbruch) sind durch den Renderer
+gegengeprüft, aber **nicht** durch eine echte Terminal-Bildschirmaufnahme oder
+einen PTY-/Cast-Mitschnitt belegt. Eine solche visuelle Terminalaufnahme ist
+ausdrücklich Folgepflege für spätere Terminal-UX-Playtests und kein Vorbehalt
+gegen diesen Dokumentationsstand.
+
+Technische Randnotiz: Der Renderer setzt `**fett**` und `_kursiv_` in
+Terminalattribute um; einzelne `*…*` bleiben als Zeichen stehen. Für die README
+wurde die Markdown-Betonung der Quelltexte für die Anzeige entfernt und bewusst auf
+Textfenster ohne solche Reste geachtet.
