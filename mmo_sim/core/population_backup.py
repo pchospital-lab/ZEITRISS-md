@@ -732,35 +732,29 @@ def read_latest(backup_root: Path) -> dict | None:
 
 def _generation_already_valid(backup_root: Path, generation_id: str) -> dict | None:
     """Die EINE hinreichende Gueltigkeitsdefinition einer veroeffentlichten
-    Generation (F2/CODE-REVIEW R3) -- konsistent genutzt von Publish, Status,
-    Retry und Resume. Gueltig ist `generations/<generation_id>` nur, wenn:
-      - das EIGENE `manifest.json` vorhanden+lesbar ist (nicht nur die Payloads),
-      - `schema_version` stimmt und `manifest.generation_id == generation_id`
-        (Identitaetsbindung -- ein fremdes/falsches Manifest gilt nicht),
-      - alle im eigenen Manifest gelisteten Payloads vollstaendig+hashkorrekt
-        auf der Platte liegen.
-    Gibt das gelesene Manifest zurueck, sonst `None`. Damit kann derselbe Ordner
-    nicht einmal als defekt (manifest-only-Schaden) und spaeter nur wegen
-    passender Payloaddateien als gut gelten."""
+    Generation -- GEMEINSAM genutzt von Publish, Wiederverwendung, done/Resume,
+    Status und Retry (F2/CODE-REVIEW R4).
+
+    Entscheidend: hier wird GENAU DER vorhandene, hinreichende Restorevalidator
+    `validate_generation_for_restore` benutzt (reine Pruefung, OHNE Aktivierung),
+    statt einer schwaecheren Parallelliste. So werden gleiche Bytes bei allen
+    diesen Entscheidungen gleich behandelt wie beim Restore: eigenes Manifest +
+    Schema + Identitaet + Nichtleerheit + Vollinventar + Capturebindung + alle
+    weiteren Restorebedingungen. Eine Generation, die der Restore ablehnen wuerde
+    (z.B. `files=[]`, entfernte aufgenommene Figur, Identitaetswiderspruch), gilt
+    damit auch nicht mehr als 'letzte gute'/wiederverwendbar/erledigt.
+
+    Format-/Lesefehler oder eine Ablehnung ergeben kontrolliert `None`
+    (= ungueltige Generation, ehrlicher Status). Die eigentliche Restore-
+    Aktivierung bleibt in `restore_population` getrennt; dieser Aufruf aktiviert
+    nichts. Gibt das validierte Manifest zurueck, sonst `None`."""
     gen_dir = _generations_dir(backup_root) / generation_id
-    manifest_path = gen_dir / "manifest.json"
-    if not manifest_path.is_file():
+    if not (gen_dir / "manifest.json").is_file():
         return None
     try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+        return validate_generation_for_restore(backup_root, generation_id)
+    except (RestoreRejectedError, OSError, json.JSONDecodeError, KeyError, ValueError):
         return None
-    if not isinstance(manifest, dict):
-        return None
-    if manifest.get("schema_version") != SCHEMA_VERSION:
-        return None
-    if manifest.get("generation_id") != generation_id:
-        return None
-    if not isinstance(manifest.get("files"), list):
-        return None
-    if _verify_staging(gen_dir, manifest):
-        return None
-    return manifest
 
 
 def generate_population_backup(
