@@ -210,25 +210,52 @@ Historische Details: [Betriebsdokumentation](mmo-sim.md), insbesondere der
 
 ## Showcase-Szene — Herkunft
 
-Die Szene in der [README](../README.md#eine-echte-szene-aus-dem-terminal) ist
-kein ausgedachtes Beispiel, sondern ein **Replay unveränderter Originaltexte**
-aus einem abgenommenen R4-Lauf. Herkunft und Prüfsummen zum Nachvollziehen:
+Die beiden Szenen in der
+[README](../README.md#so-spielt-sich-das-ein-zugriff-im-terminal) sind keine
+ausgedachten Beispiele, sondern **Replays unveränderter Originaltexte** aus
+echten Playtest-Läufen. Herkunft und Prüfsummen zum Nachvollziehen:
 
-- Tisch: `lobby-p01_latch-p02_breach__3` (Episode 1, Mission 3). Repostand der
-  Aufnahme: `2e3c263f92241e03d4b1719794e2930c387b75ff`.
-- HQ-Eröffnung (Leader, freie Sprache): Quelltext-SHA256
-  `d270264af7cafdfd1d8f2ce7cdd914cf9452033c51be4b1f32576d757bad0a9d`.
-- Spielzug Bürotrakt (Leader, freie Sprache): Quelltext-SHA256
-  `593794bba6831ea2a0dddd4d39f611ab456fc7050108e177d62e84fbefc3aa52`.
-- Reaktion der Spielleitung (gm_turn, Request `b87610e4…`): `result_text`-SHA256
-  `f320fe76f8a0e1513b9e5c7f80842cd4bb440534ce19d7f24695889a6e1c8a35`.
+**Szene 1 — Crew-Zugriff (Fünfer, PHASE Konflikt).** Automatisierter
+Fünf-Personas-Playtest, Episode 12, Mission 11.
 
-Dargestellt über den unveränderten Produkt-Renderer
-`mmo_sim.ui.rendering.render_for_terminal`. Die gezeigte Reaktion der
-Spielleitung ist die tatsächliche Antwort auf den Spielzug im Bürotrakt, nicht
-auf die HQ-Eröffnung — die beiden Spielermomente stehen nebeneinander, damit
-freie Planung und freie Feldaktion sichtbar werden. Für die README wurden die
-Texte nur gekürzt (Auslassungen mit `[…]` markiert), nicht umformuliert.
+- Quelldatei:
+  `internal/qa/evidence/2026-playtests/2026-06-17-0939-coreops-split-merge/_transkript.md`
+- Datei-SHA256: `47dc2d47626dd2a1e4c34920436dc458ef298539a50a20d227ab4c2acde1981a`
+- Lauf-Typ: SL-Engine `zeitriss-v426-uncut` über OWUI-RAG, Mitspieler
+  `anthropic/claude-sonnet-4.6` (fünf Personas), Harness-Protokoll in
+  `turns.jsonl`. **Kein Live-Mitschnitt des Terminal-Clients** (`scripts/mmo_sim.py`),
+  sondern derselbe automatisierte Persona-Playtest-Zugang wie unter
+  [`docs/testing.md`](testing.md) beschrieben.
+- Ehrlicher Vorbehalt: Der Lauf startete auf einem High-Level-Fixture-Save; die
+  Engine flaggte dessen Prestige-Werte (Lvl 901–933) selbst als über dem
+  Regel-Cap (Lvl 100). Diese Zahlen stehen unverändert im gezeigten HUD. Das
+  `_summary.json` des Gesamtlaufs endet auf `verdict: FAIL` — die Fehler
+  betreffen spätere Split/Merge-Save-Phasen, nicht die hier gezeigte frühe
+  Zugriffsszene (M1-5er).
+- Gezeigter Ausschnitt: Zeilen 518–612 (Crew-Abstimmung, HUD aller fünf
+  Charaktere, Hinterhof-Zugriff mit zwei Proben, Café-Festnahme mit explodierendem
+  Würfel; zwei parallele Schauplätze, in der Quelle als „gleichzeitig" markiert).
+  Jede Auslassung mit `[…]`.
+
+**Szene 2 — Solo-Feuergefecht (PHASE Konflikt).** Manueller Solo-Chat-Playtest
+(Sonnet-SL), Episode 1, Mission 2, Rostock 17.10.1973.
+
+- Quelldatei:
+  `internal/qa/evidence/2026-playtests/2026-04-19-episode1-mini-solo-sarah-v3/chat5-mission3.md`
+- Datei-SHA256: `55f8eaaf4b4a1b23c6d1270121fbc1573b08867f5febd10354d914c570a6c46a`
+- Gezeigter Ausschnitt: Zeilen 593–702 (HUD, Initiative aller drei Beteiligten,
+  Fernkampf mit explodierendem Würfel, LP-Schaden, Wollpullovers Flucht mit dem
+  Dokument, Magazin-Zählung, ein Sprint-MISS mit Konsequenz). Jede Auslassung
+  mit `[…]`.
+
+Beide Szenen sind über den unveränderten Produkt-Renderer
+`mmo_sim.ui.rendering.render_for_terminal` dargestellt; die README zeigt den
+Terminalausdruck in lesbarer Textform (ANSI-Attribute entfallen in Markdown).
+Für die README wurden die Texte nur gekürzt (jede Auslassung mit `[…]` markiert),
+nicht umformuliert. Ehrlich getrennt: Beide Szenen sind Playtests — Szene 1 ein
+automatisierter Fünf-Personas-Lauf (OWUI-RAG), Szene 2 ein manueller
+Solo-Chat-Playtest. Beide authentisch, beide über denselben Produkt-Renderer
+dargestellt, aber keines ein Live-Mitschnitt des Terminal-Clients.
 
 Technische Randnotiz: Der Renderer setzt `**fett**` und `_kursiv_` in
 Terminalattribute um; einzelne `*…*` bleiben als Zeichen stehen. Für die README
