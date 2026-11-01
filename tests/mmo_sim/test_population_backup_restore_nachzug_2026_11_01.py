@@ -46,12 +46,18 @@ def _leader_ref_seq(fx) -> int:
     return int(state[pb._CURRENT_SAVE_REF_FIELD]["seq"])
 
 
-def _make_generation(backup_root: Path, gid: str, entries: list[tuple[str, str, bytes]],
+def _make_generation(backup_root: Path, label: str, entries: list[tuple[str, str, bytes]],
                      *, extra_manifest_files: list[dict] | None = None) -> Path:
     """Baut eine synthetische Generation (gen_dir + manifest.json) fuer die
     gezielten Restore-Validierungs-Negativfaelle. `entries` = (role, rel_path,
     content). `extra_manifest_files` erlaubt Manifestzeilen OHNE passende
-    Datei (z.B. fehlende benoetigte Referenz)."""
+    Datei (z.B. fehlende benoetigte Referenz). Die generation_id wird
+    IDENTITAETSKONSISTENT aus einer GenerationKey abgeleitet (sonst wuerde die
+    neue R3-Identitaetsbindung zuerst greifen) -- so testet jeder Fall genau
+    seinen beabsichtigten Ablehnungsgrund. Aufrufer verwenden `gen_dir.name`
+    als generation_id."""
+    key = pb.GenerationKey(run_id=f"run-{label}", table_id=f"t-{label}", section_id=f"s-{label}")
+    gid = key.generation_id()
     gen_dir = backup_root / "generations" / gid
     files_meta: list[dict] = []
     for role, rel_path, content in entries:
@@ -66,7 +72,7 @@ def _make_generation(backup_root: Path, gid: str, entries: list[tuple[str, str, 
         files_meta.extend(extra_manifest_files)
     manifest = {
         "schema_version": pb.SCHEMA_VERSION, "generation_id": gid,
-        "run_id": "r", "table_id": "t", "section_id": "s",
+        "run_id": key.run_id, "table_id": key.table_id, "section_id": key.section_id,
         "created_at_utc": _AT, "producer_code_anchor": "test", "product_commit": "x",
         "prev_generation_id": None, "roots": sorted(pb.ROLES), "excluded": [],
         "files": files_meta,
@@ -369,29 +375,29 @@ def test_c5_validation_rejects_missing_reference_collision_symlink_and_extra():
         state_bytes = json.dumps(
             {"v": 2, "persona_key": "pk", "rounds_played": 1, "current_save_version": {"run_id": "r", "seq": 7}}
         ).encode("utf-8")
-        _make_generation(br, "gen-missingref", [("states", "pk.json", state_bytes)])
-        _assert_reject(br, "gen-missingref", "benoetigte Referenz")
+        gen_mr = _make_generation(br, "gen-missingref", [("states", "pk.json", state_bytes)])
+        _assert_reject(br, gen_mr.name, "benoetigte Referenz")
 
         # (2) kollidierender Zielpfad: role run `x.json` und role prefs
         # `run/x.json` zeigen auf dieselbe Zieldatei (prefs hat keinen Subdir).
-        _make_generation(br, "gen-collide", [
+        gen_col = _make_generation(br, "gen-collide", [
             ("run", "x.json", b"{}"),
             ("prefs", "run/x.json", b"{}"),
         ])
-        _assert_reject(br, "gen-collide", "kollidierender Restore-Zielpfad")
+        _assert_reject(br, gen_col.name, "kollidierender Restore-Zielpfad")
 
         # (3) Symlink in der Generation (wo eine regulaere Datei erwartet wird).
         gen = _make_generation(br, "gen-symlink", [("states", "good.json", b"{}")])
         victim = gen / "states" / "good.json"
         victim.unlink()
         victim.symlink_to(Path(td) / "outside_target.txt")
-        _assert_reject(br, "gen-symlink", "Symlink")
+        _assert_reject(br, gen.name, "Symlink")
 
         # (4) im Manifest nicht verzeichnete Zusatzdatei (unvollstaendiges/
         # inkonsistentes Manifest).
         gen_extra = _make_generation(br, "gen-extra", [("states", "a.json", b"{}")])
         (gen_extra / "states" / "surprise.json").write_text("{}", encoding="utf-8")
-        _assert_reject(br, "gen-extra", "nicht verzeichnet")
+        _assert_reject(br, gen_extra.name, "nicht verzeichnet")
 
 
 def _assert_reject(backup_root: Path, gid: str, needle: str) -> None:

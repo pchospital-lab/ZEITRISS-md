@@ -700,14 +700,15 @@ def _publish_generation(backup_root: Path, staging_dir: Path, generation_id: str
     _generations_dir(backup_root).mkdir(parents=True, exist_ok=True)
     target = _generations_dir(backup_root) / generation_id
     if target.exists():
-        if not _verify_staging(target, manifest):
-            # Vorhandenes Ziel ist vollstaendig + hashkorrekt -> idempotenter
-            # Erfolg, eigenes Staging verwerfen.
+        # F2/CODE-REVIEW R3: das vorhandene Ziel wird gegen die EINE hinreichende
+        # Gueltigkeitsdefinition geprueft (eigenes Manifest + Schema + Identitaet
+        # + eigene Payloadhashes), NICHT nur gegen die Payloads des neuen
+        # Manifests. Ein manifest-only-Schaden (eigenes manifest.json fehlt/kaputt,
+        # Payloads zufaellig intakt) gilt damit NICHT als gut -> das frisch
+        # gepruefte Staging ersetzt das defekte Ziel, statt verworfen zu werden.
+        if _generation_already_valid(backup_root, generation_id) is not None:
             shutil.rmtree(staging_dir, ignore_errors=True)
             return target
-        # Vorhandenes Ziel ist beschaedigt/unvollstaendig -> durch das frisch
-        # gepruefte Staging ersetzen (G0 anderer Generationen bleibt unberuehrt,
-        # nur genau dieses defekte Ziel wird korrigiert).
         shutil.rmtree(target, ignore_errors=True)
     os.replace(staging_dir, target)
     _fsync_dir(_generations_dir(backup_root))
@@ -730,10 +731,17 @@ def read_latest(backup_root: Path) -> dict | None:
 
 
 def _generation_already_valid(backup_root: Path, generation_id: str) -> dict | None:
-    """Prueft, ob `generations/<generation_id>` bereits vollstaendig+hash-
-    korrekt auf der Platte liegt (Resume-Fall: Generation wurde publiziert,
-    aber `latest.json`/Taskdatensatz wurden davor noch nicht aktualisiert).
-    Gibt das gelesene Manifest zurueck, oder `None`."""
+    """Die EINE hinreichende Gueltigkeitsdefinition einer veroeffentlichten
+    Generation (F2/CODE-REVIEW R3) -- konsistent genutzt von Publish, Status,
+    Retry und Resume. Gueltig ist `generations/<generation_id>` nur, wenn:
+      - das EIGENE `manifest.json` vorhanden+lesbar ist (nicht nur die Payloads),
+      - `schema_version` stimmt und `manifest.generation_id == generation_id`
+        (Identitaetsbindung -- ein fremdes/falsches Manifest gilt nicht),
+      - alle im eigenen Manifest gelisteten Payloads vollstaendig+hashkorrekt
+        auf der Platte liegen.
+    Gibt das gelesene Manifest zurueck, sonst `None`. Damit kann derselbe Ordner
+    nicht einmal als defekt (manifest-only-Schaden) und spaeter nur wegen
+    passender Payloaddateien als gut gelten."""
     gen_dir = _generations_dir(backup_root) / generation_id
     manifest_path = gen_dir / "manifest.json"
     if not manifest_path.is_file():
@@ -741,6 +749,14 @@ def _generation_already_valid(backup_root: Path, generation_id: str) -> dict | N
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(manifest, dict):
+        return None
+    if manifest.get("schema_version") != SCHEMA_VERSION:
+        return None
+    if manifest.get("generation_id") != generation_id:
+        return None
+    if not isinstance(manifest.get("files"), list):
         return None
     if _verify_staging(gen_dir, manifest):
         return None
@@ -1079,16 +1095,27 @@ def reconstruct_missing_backup_tasks(roots: PopulationRoots, backup_root: Path) 
 
 
 def read_backup_status(backup_root: Path, roots: PopulationRoots | None = None) -> dict:
-    """Fuer eine 'backup status'-Bedienoberflaeche: letzte gute Generation +
-    alle Taskdatensaetze, die NICHT 'done' sind (= retrybar). Wird `roots`
-    uebergeben, werden zuerst fehlende Auftraege aus den Abschlussrecords
-    rekonstruiert (F2), damit auch ein Abbruch vor dem ersten Taskwrite als
-    offener Auftrag sichtbar/retrybar wird."""
+    """Fuer eine 'backup status'-Bedienoberflaeche: letzte TATSAECHLICH gute
+    Generation + alle retrybaren Auftraege. Wird `roots` uebergeben, werden
+    zuerst fehlende Auftraege aus den Abschlussrecords rekonstruiert (F2).
+
+    F2/CODE-REVIEW R3 -- hinreichende Gueltigkeit bis in Status/Retry:
+      - Ein `done`-Task, dessen veroeffentlichte Generation entzogen/beschaedigt
+        ist (`_generation_already_valid` -> None), wird NICHT verschwiegen,
+        sondern als offener, retrybarer Auftrag ausgewiesen (`backup retry`
+        kann ihn nachholen). So erscheint eine fehlende Sicherung nicht laenger
+        faelschlich als erledigt.
+      - `latest_generation_id` meldet nur eine wirklich gueltige Generation als
+        'letzte gute'; zeigt Latest auf eine defekte/fehlende Generation, wird
+        `None` zurueckgegeben (plus `latest_invalid_generation_id` als Hinweis)."""
     backup_root = Path(backup_root)
     if roots is not None:
         reconstruct_missing_backup_tasks(roots, backup_root)
     latest = read_latest(backup_root)
-    pending_or_failed = []
+    latest_gid = latest.get("generation_id") if latest else None
+    latest_valid = latest_gid is not None and _generation_already_valid(backup_root, latest_gid) is not None
+
+    open_tasks = []
     tasks_dir = _backup_tasks_dir(backup_root)
     if tasks_dir.is_dir():
         for p in sorted(tasks_dir.glob("*.json")):
@@ -1097,8 +1124,21 @@ def read_backup_status(backup_root: Path, roots: PopulationRoots | None = None) 
             except (OSError, json.JSONDecodeError):
                 continue
             if data.get("status") != "done":
-                pending_or_failed.append(data)
-    return {"latest_generation_id": latest.get("generation_id") if latest else None, "open_tasks": pending_or_failed}
+                open_tasks.append(data)
+                continue
+            # done-Task: nur dann NICHT retrybar, wenn die Generation wirklich
+            # gueltig vorliegt. Sonst (entzogen/beschaedigt) als offen ausweisen.
+            gid = data.get("generation_id")
+            if gid is None or _generation_already_valid(backup_root, gid) is None:
+                data = dict(data, status="failed",
+                            last_error="veroeffentlichte Generation fehlt/ist beschaedigt "
+                                       "(done-Task ohne gueltige Zielbytes) -- per 'backup retry' nachholbar")
+                open_tasks.append(data)
+    return {
+        "latest_generation_id": latest_gid if latest_valid else None,
+        "latest_invalid_generation_id": None if latest_valid else latest_gid,
+        "open_tasks": open_tasks,
+    }
 
 
 # ── Hook nach section_completed ──────────────────────────────────────────
@@ -1319,6 +1359,43 @@ def validate_generation_for_restore(backup_root: Path, generation_id: str | None
             f"nicht verzeichnet (unvollstaendiges/inkonsistentes Manifest), z.B. {sorted(extra)[0]}."
         )
 
+    # F4 (CODE-REVIEW R3): Identitaetsbindung -- die Generation-ID MUSS der
+    # deterministischen Ableitung aus (run_id, table_id, section_id) des Manifests
+    # entsprechen. Damit traegt die Run-/Tisch-/Abschnittsidentitaet die Pruefung
+    # mit, nicht nur der Ordnername.
+    bound = GenerationKey(
+        run_id=str(manifest.get("run_id")), table_id=str(manifest.get("table_id")),
+        section_id=str(manifest.get("section_id")),
+    ).generation_id()
+    if bound != generation_id:
+        raise RestoreRejectedError(
+            f"Generation {generation_id!r}: Identitaetsbindung verletzt -- aus "
+            f"(run_id,table_id,section_id) abgeleitete ID {bound!r} weicht ab "
+            "(run-/tisch-/abschnittsfremdes oder manipuliertes Manifest)."
+        )
+
+    # F4 (CODE-REVIEW R3): das aufgenommene Inventar ist durch den beim Backup
+    # gebundenen Capture-Fingerprint abgedeckt. Beim Restore wird er aus der
+    # tatsaechlichen Dateiliste NACHGERECHNET und gegen den im Manifest
+    # festgehaltenen Wert geprueft. Entfernt jemand eine nachweislich aufgenommene
+    # Datei (z.B. eine inaktive Figur) samt ihrer Manifestzeile, passt die
+    # Dateiliste nicht mehr zum gebundenen Aufnahmestand -> kontrollierte
+    # Ablehnung. KEINE pauschale Savepflicht pro Katalogeintrag, KEINE
+    # Signaturinfrastruktur: es wird nur der ohnehin vorhandene Fingerprint des
+    # TATSAECHLICH aufgenommenen Standes nachgerechnet.
+    capture = manifest.get("capture")
+    if isinstance(capture, dict) and capture.get("capture_fingerprint_sha256"):
+        recomputed = _content_fingerprint_sha256([
+            FileRecord(role=e["role"], rel_path=e["rel_path"], size=e["size"], sha256=e["sha256"])
+            for e in entries
+        ])
+        if recomputed != capture["capture_fingerprint_sha256"]:
+            raise RestoreRejectedError(
+                f"Generation {generation_id!r}: Dateiliste stimmt nicht mit dem gebundenen "
+                "Aufnahme-Fingerprint ueberein (capture_fingerprint_sha256) -- aufgenommenes "
+                "Inventar unvollstaendig/veraendert, kein aktivierbarer Gesamtbestand."
+            )
+
     # F5/C5: benoetigte Produktreferenzen -- eine persona-state-Ref
     # `current_save_version={run_id,seq}` setzt voraus, dass die referenzierte
     # Versionsdatei (`run/current_saves/<pk>__versions/<seq>.json`) ebenfalls
@@ -1389,38 +1466,36 @@ def _activate_no_replace(staging: Path, target: Path) -> None:
     Form existiert (leer oder nicht). Bei EEXIST -> kontrollierte Ablehnung, das
     fremde Ziel bleibt unberuehrt.
 
-    Fallback (Kernel/Dateisystem ohne RENAME_NOREPLACE, ENOSYS/EINVAL): exklusiver
-    Namenserwerb via `os.mkdir(target)` (atomar, scheitert wenn `target` existiert),
-    dann Verschieben der Staginginhalte -- ebenfalls ohne je ein fremdes Ziel zu
-    ueberschreiben."""
+    Fallback (Kernel/Dateisystem ohne RENAME_NOREPLACE: ENOSYS/EINVAL oder
+    fehlendes Symbol): KEINE nicht-atomare Ersatzaktivierung. Es wird VOR jeder
+    Zielanlage kontrolliert abgelehnt (`RestoreRejectedError`) -- so entsteht kein
+    sichtbarer Teilroot und kein Eingriff in ein fremdes Ziel (F4/CODE-REVIEW R3:
+    'ein kontrolliertes nicht-atomar-unterstuetzt vor Anlage des Zielroots
+    genuegt')."""
     try:
         libc = ctypes.CDLL(None, use_errno=True)
         renameat2 = libc.renameat2
-        renameat2.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
-        res = renameat2(_AT_FDCWD, os.fsencode(str(staging)), _AT_FDCWD, os.fsencode(str(target)), _RENAME_NOREPLACE)
-        if res == 0:
-            return
-        err = ctypes.get_errno()
-        if err == errno.EEXIST:
-            raise RestoreRejectedError(
-                f"Zielordner {target} existiert bereits (atomar erkannt) -- fremder Bestand bleibt "
-                "unangetastet, kein Ueberschreiben."
-            )
-        if err not in (errno.ENOSYS, errno.EINVAL):
-            raise OSError(err, os.strerror(err))
     except AttributeError:
-        pass  # renameat2 im libc-Symbolsatz nicht vorhanden -> Fallback
-    # Fallback: exklusiver Namenserwerb, dann Inhalte verschieben.
-    try:
-        os.mkdir(target, 0o700)
-    except FileExistsError as exc:
         raise RestoreRejectedError(
-            f"Zielordner {target} existiert bereits -- fremder Bestand bleibt unangetastet "
-            "(exklusiver Erwerb fehlgeschlagen)."
-        ) from exc
-    for child in sorted(os.listdir(staging)):
-        os.replace(staging / child, target / child)
-    os.rmdir(staging)
+            f"Zielaktivierung fuer {target} auf diesem System nicht atomar unterstuetzt "
+            "(renameat2-Symbol fehlt) -- kontrolliert abgelehnt VOR Zielanlage, kein Teilroot."
+        )
+    renameat2.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+    res = renameat2(_AT_FDCWD, os.fsencode(str(staging)), _AT_FDCWD, os.fsencode(str(target)), _RENAME_NOREPLACE)
+    if res == 0:
+        return
+    err = ctypes.get_errno()
+    if err == errno.EEXIST:
+        raise RestoreRejectedError(
+            f"Zielordner {target} existiert bereits (atomar erkannt) -- fremder Bestand bleibt "
+            "unangetastet, kein Ueberschreiben."
+        )
+    if err in (errno.ENOSYS, errno.EINVAL):
+        raise RestoreRejectedError(
+            f"Zielaktivierung fuer {target} auf diesem Dateisystem nicht atomar unterstuetzt "
+            f"(renameat2 {os.strerror(err)}) -- kontrolliert abgelehnt VOR Zielanlage, kein Teilroot."
+        )
+    raise OSError(err, os.strerror(err))
 
 
 @dataclass
