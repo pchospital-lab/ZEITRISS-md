@@ -12,91 +12,82 @@
 **[Im Chat spielen](docs/setup-guide.md#browser-einstieg-ohne-installation)** ·
 **[Gemeinsam spielen](docs/koop-online-spielen.md)**
 
-## So spielt sich das: ein Zugriff im Terminal
+## Was du spielst
 
-Kein Werbetext — unveränderter Originaltext aus einem echten Spiellauf
-(Episode 12, eine Fünfer-Crew mit KI-Mitspielern, Mission „LEITER festnehmen"),
-durch den echten Terminal-Renderer dargestellt (Replay). Für die README gekürzt,
-jede Auslassung mit `[…]` markiert, der Wortlaut ist nicht verändert. Zwei
-Schauplätze laufen `gleichzeitig` — der Zugriff im Hinterhof und die
-Festnahme im Café. So reden deine Mitspieler miteinander, so entscheidet das
-Würfelsystem, so spricht der Kodex:
+ZEITRISS ist ein textbasiertes Rollenspiel mit KI-Spielleitung: Du spielst einen
+Chrononauten des ITI, handelst in freier Sprache, und eine KI führt Szene,
+Figuren und Würfe. Du spielst solo, mit Menschen an einem Gerät oder mit
+optionalen KI-Mitspielern — deine Figur bleibt als Save erhalten. Wie du
+startest, steht in den Links oben. So fühlt sich ein echter Zug an:
+
+## So spielt sich das im Terminal
+
+Kein Werbetext, sondern ein gekürzter Original-Spieltext aus dem R4-Kampagnenlauf
+(Duo-Tisch, Episode 1, Infiltration einer Raffinerie). Zwei Chrononauten holen ein
+Originaldokument aus dem gesicherten Trakt: MAHLBERG (Leitung) zieht den Aufseher
+mit einem Fachgespräch nach vorn, BREACH nimmt in der entstehenden Lücke still
+das Papier. So stimmen sich deine Mitspieler ab, so entscheidet das Würfelsystem,
+so spricht der Kodex. Textauszug aus dem Spiellauf — keine Bildschirmaufnahme;
+Markdown-Betonung für die Anzeige entfernt, jede Auslassung mit […] markiert, der
+Wortlaut ist nicht verändert:
 
 ```text
 […]
-Cipher [Lena]: RELAY, bleib wo du bist — drei Zugriffe durch unbekannten Winkel bei 45 Sekunden Puffer ist zu viel Variable. STORM hat Haas, ich habe die Frau, das war der Plan und der bleibt.
-Dusk [Tarek]: Gruppe, ich halte LEITER an der Theke — sozial, kein Lärm, er geht nicht durch diese Tür bevor wir den Datenträger haben. ECHO, Café bleibt dir, Auge auf den Ausgang.
-Echo [Sven]: Verstanden, bleibe auf Position Malzgasse — Frau Westseite im Auge, Winkel zur Einfahrt frei. Wenn das Signal läuft das ich nicht gesehen habe, könnte sie früher reagieren als erwartet — GHOST, rechne damit dass sie sich bewegt bevor Haas die Mitte erreicht.
+BREACH: Sauer dreht sich zur Leuchte, Rücken zum D-Trakt, das Original liegt sechs Meter hinter ihm auf dem Tisch. Die Spielleitung hat das Fenster explizit mir gegeben. […] Ich gehe nicht in dem Moment, in dem er sich dreht. Ich gehe eine halbe Sekunde später — wenn er anfängt zu reden. […] Das Papier zuerst, der Mann danach.
+
+MAHLBERG: Option 2. Ich ziehe ihn nach vorn. […] „Kommen Sie mal mit nach vorne. Zwölf Meter, ich zeig's Ihnen." […] Ein Mann, dem man sagt, dass sein Fachgebiet an dieser Stelle einen Fehler hat, kommt mit. Er will es sehen. Und er diskutiert, weil Fachleute diskutieren, und jedes Wort, das er diskutiert, ist Breachs Zeit.
+
+EP 1 · MS 1 · SC 03/12 · PHASE Infil · MODE CORE · COMMS OK · Px 0/5 · Obj: Rheinau-D-2011 sichern · Exfil: T-18:00
+MAHLBERG LP 10/10 · Stress 0/10 · 👁️ verdeckt — Social aktiv
+BREACH LP 10/10 · Stress 0/10 · 👁️ verdeckt
+
+Kodex: Probe-Template — Systemnaht erkennen / CHA · W6 + ⌊CHA 2/2⌋ + Talent +2.
+Probe: Sauer zur Fuge ziehen → W6: [4] + 1 + 2 = 7 vs SG 6 → ERFOLG
+Kodex: Probe-Template — Stilles Entnehmen / GES · W6 + ⌊GES 3/2⌋ (SG reduziert durch aktive Ablenkung).
+Probe: BREACH Original sichern → W6: [5] + 1 = 6 vs SG 4 → ERFOLG
+
+[…] Er greift nach rechts, hebt den blauen Deckel — und darunter liegt Rheinau-D-2011. Handschrift, schwarz, zwei Seiten, gefaltet. […]
+
+Kodex: Rheinau-D-2011 Original — gesichert. Adresse identifiziert: Ludwigshafener Str. 14, 2. OG, Eingang B · 20:00 Uhr · heute. Zweite Handschrift — nicht Sauer, nicht Kessmann (unbekannt). Blatt liegt noch auf dem Tisch.
+```
+
+Im nächsten Zug liest MAHLBERG das zurückgebliebene zweite Blatt aus — und der
+Würfel explodiert:
+
+```text
+EP 1 · MS 1 · SC 04/12 · PHASE Intel · MODE CORE · COMMS OK · Px 0/5 · Obj: Rheinau-D-2011 ✓ · Exfil: T-18:00
+MAHLBERG LP 10/10 · Stress 0/10 · 👁️ getarnt
+BREACH LP 10/10 · Stress 0/10 · 👁️ verdeckt
+
+Kodex: Probe-Template — Prüfprotokolle lesen / INT · W6 + ⌊INT 6/2⌋ + Talent +2 · SG 5 (Sauer präsent, abgelenkt, kein Zeitdruck).
+Probe: Dokument einordnen → W6: [6] + 3 + 2 = 11 vs SG 5 → ERFOLG (Exploding: [3] → 14) → KRITISCH
 
 […]
 
-EP 12 · MS 11 · SC 04/12 · PHASE Konflikt · MODE CORE · COMMS OK
-ECHO Lvl 912 · LP 20/20 · Stress 0/10 · 👁️ Getarnt
-STORM Lvl 905 · LP 26/26 · Stress 0/10 · 👁️ Getarnt
-GHOST Lvl 933 · LP 19/19 · Stress 0/10 · 👁️ Getarnt
-VEIL Lvl 918 · LP 21/21 · Stress 0/10 · 👁️ Getarnt
-RELAY Lvl 901 · LP 20/20 · Stress 0/10 · 👁️ Getarnt
-Obj: LEITER festnehmen + Datenträger sichern · Exfil: T-02:22
-
-Hinterhof, Kleine Sperlgasse — 21:15 Uhr
-
-Haas kommt durch die Einfahrt.
-
-Er geht schnell, Schultern hochgezogen, die Schiebermütze tief. Zwölf Pflastersteine bis zur Mitte des Durchgangs. Er kennt den Weg — keine Zögerung, kein Blick zurück. Auf der Westseite löst die Frau sich vom Waschhaus-Vorsprung. Drei Schritte nach vorn, rechte Hand kommt unter dem Mantel.
-
-Haas hebt die Hand. Kleine Bewegung, Handfläche nach oben.
-
-[…]
-
-STORM tritt aus dem Schatten der Mauereinfahrt. Kein Lauf — ein gezielter Schritt, der Haas' Blickwinkel schneidet, bevor er reagieren kann. […] und dann ist er an der Wand, Wange auf Stein, Arm auf dem Rücken.
-
-Probe: Nahkampf / Festhalten → STORM
-Kodex: Probe-Template — 1W6 + ⌊STR 9/2⌋ + Feldroutine +1.
-W6: [5] + 4 + 1 = 10 vs SG 7 → ERFOLG
-
-[…]
-
-Probe: Einschüchterung / Druck → GHOST
-Kodex: Probe-Template — 1W6 + ⌊GES 8/2⌋ + Veteranen-Reflex +2.
-W6: [3] + 4 + 2 = 9 vs SG 8 → ERFOLG
-
-[…]
-
-Kodex: Haas gesichert — STORM, Arm auf Rücken, keine Gegenwehr. Frau Westseite angehalten — GHOST, Druck gehalten, Datenträger in ihrer Hand, nicht übergeben. Tarnstatus: gehalten (kein Lärm, keine Zeugen).
-
-Café Stefanie, gleichzeitig
-
-VEIL ist aufgestanden.
-
-[…]
-
-Probe: CHA / Einschüchterung → VEIL
-Kodex: Probe-Template — 1W6 + ⌊CHA 8/2⌋ + Feldroutine +1.
-W6: [6] + 4 + 1 = 11 — Exploding: W6: [2] = 13 vs SG 9 → ERFOLG (stark)
-
-[…]
-
-Kodex: LEITER unter Kontrolle — VEIL, soziale Festnahme, kein Lärm. Café-Status: unauffällig. Tarnstatus: gehalten.
+Kodex: Kritischer Erfolg — […] Adresse vollständig notiert. Keine Firmenidentifikation möglich — Notizbuch ist privat. […]
 ```
 
 Das ist kein Menü mit Knöpfen. Deine Mitspieler — am selben Terminal oder als
-KI-Personas — stimmen sich in eigenen Worten ab, du handelst in freier Sprache,
-und wenn es drauf ankommt, entscheidet ein Wurf: `1W6`, plus halbes Attribut,
-plus Talent, gegen einen Schwierigkeitsgrad. Eine `6` explodiert und würfelt
-nach (VEILs `11 → 13`). Der Kodex ist die Stimme des Spiels — er sagt dir, was
-dein Zug bewirkt hat, nicht, was du tun sollst. Hier fällt kein Schuss: Die Crew
-nimmt einen bewaffneten Mann im Griff, bricht den zweiten mit einem Blick. Das
-ist ZEITRISS — tech-noir, kalt, präzise, erwachsen.
+KI-Personas — stimmen sich in eigenen Worten ab, du handelst in freier Sprache, und
+wenn es drauf ankommt, entscheidet ein Wurf: `1W6`, plus halbes Attribut, plus
+Talent, gegen einen Schwierigkeitsgrad. Eine `6` explodiert und würfelt nach (hier
+`11 → 14`, ein kritischer Erfolg). Der Kodex ist die Stimme des Spiels — er sagt
+dir, was dein Zug bewirkt hat, nicht, was du tun sollst. Hier fällt kein Schuss:
+Täuschung und ein ruhiger Griff holen das Dokument, ein kritischer Wurf liest die
+zweite Spur aus. Das ist ZEITRISS — tech-noir, kalt, präzise, erwachsen.
 
-Herkunft und Prüfsummen:
-[Terminalstatus § Showcase-Szenen](docs/terminal-status.md#showcase-szene--herkunft).
+Dieser Ausschnitt stammt aus dem lokal abgenommenen R4-Kampagnenlauf; es ist ein
+gekürzter Spieltext, kein Terminal-Screenshot. Herkunft, Prüfsummen und die Grenze
+zur echten Bildschirmaufnahme:
+[Terminalstatus § Showcase-Szenen](docs/terminal-status.md#showcase-szenen--herkunft).
 
 ### Und wenn es doch eng wird — Solo, Episode 1
 
-Dieselbe Mechanik, andere Tonlage. Ein echter Solo-Playtest, Rostock 1973, ein
-Lagerraum im Hafenspeicher — Initiative, Fernkampf mit explodierendem Würfel, ein
-Treffer, der sitzt, und ein verpasster Sprint, der dir den Mann mit dem Dokument
-kostet. Unverändert, `[…]` markiert jede Kürzung:
+Dieselbe Mechanik, andere Tonlage. Ein Solo-Chat-Playtest, Rostock 1973, ein
+Lagerraum im Hafenspeicher — ein erster Konfliktzug mit echtem Spielerinput:
+Initiative, ein Fernkampf mit explodierendem Würfel, ein Treffer, der sitzt. Runde
+eins endet offen; die Verfolgung läuft danach weiter. Unverändert, […] markiert
+jede Kürzung:
 
 ```text
 EP 1 · MS 2 · SC 5/12 · PHASE Konflikt · MODE CORE · COMMS JAM · Lvl 2 ▓▓░░░░░░░░ 0/1 XP · Px 1/5 · Stress 0/10 · Obj: Liste + Hartmann · Exfil — · 💀 Konflikt
@@ -139,17 +130,13 @@ Er hat die Tasche. Er dreht sich zur hinteren Wand — dort, wo du es im Grundri
 […]
 
 Kodex: Magazin 11/12. Noise: kritisch. Zeitfenster kollabiert.
-
-[…]
-
-Probe: Sprint → W6: [5] + GES 5/2 = 7 vs SG 8 → MISS
-
-Er hat Vorsprung und kennt den Weg. Du gewinnst nicht genug Boden im Korridor — seine Schritte hämmern die Rampe hoch und dann ist er draußen, Südseite, Hafengelände offen vor ihm.
 ```
 
-Ein `MISS` wird nicht wegretuschiert. Kompetenz ist keine Garantie, und ein
-verpasster Wurf verändert die Lage — hier entkommt der Mann samt Dokument. Genau
-das meint „deine Entscheidungen zählen".
+Ein `MISS` oder ein geglückter Wurf wird nicht wegretuschiert — Kompetenz ist keine
+Garantie. Runde eins endet mit offener Lage: ein Gegner ist raus, der zweite bricht
+mit der Aktentasche zu einer versteckten Tür durch, und du nimmst die Verfolgung
+auf. Wie es weitergeht, hängt an den nächsten Würfen und deinen Entscheidungen —
+genau das meint „deine Entscheidungen zählen“.
 
 ## Wer bist du in dieser Verschwörung?
 
@@ -224,9 +211,12 @@ Der lokale R4-Speicher- und Fortsetzungsweg ist im beschriebenen Umfang
 unabhängig abgenommen (29. Oktober 2026): fünf Figuren in einem Duo und einem
 Trio mit je zwei geschlossenen Runden; abschließend wurden fünf Endsaves in
 einem frischen Prozess geladen und eine wirksame Duo-Folgeaktion belegt.
-Die oben gezeigten Konflikt-Szenen stammen aus eigenen Playtests, nicht aus
-diesem Abnahmelauf — Herkunft und Prüfsummen im
-[Terminalstatus](docs/terminal-status.md#showcase-szene--herkunft).
+Die oben gezeigten Spielszenen sind gekürzte Original-Spieltexte — der
+Team-Zug aus dem abgenommenen R4-Kampagnenlauf, der Solo-Beat aus einem
+historischen Chat-Playtest. Herkunft und Prüfsummen im
+[Terminalstatus](docs/terminal-status.md#showcase-szenen--herkunft).
+Eine echte Terminal-Bildschirmaufnahme (Icons, Farben, Umbruch) ist noch nicht
+Teil dieser Belege und für spätere Terminal-UX-Playtests vorgesehen.
 [Stand und Grenzen](docs/terminal-status.md)
 
 </details>
@@ -273,13 +263,15 @@ Debrief ist Speichern gesperrt (SaveGuard). Maßgeblich ist der zuletzt
 tatsächlich geschriebene gültige Stand, keine pauschale Zusage gegen jeden
 Datenverlust.
 
-Bleibt ein `!save` nach wiederholten Formatfehlern ohne gültigen Stand, sichert
-das Terminal automatisch einen **Kompatibilitätsstand** (Best Effort /
-SAVECOMPAT, „Gesichert mit Prüfhinweisen"). Eine verbleibende strukturelle
-Warnung ist **kein** bestandener Schema-Check — Best Effort und SAVECOMPAT sind
-verschiedene Dinge. Kurz erklärt unter
-[Spielerstart](docs/spielerstart.md#best-effort-und-savecompat), technische
-Details: `systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
+Bleibt ein `!save` nach wiederholten Formatfehlern ohne gültigen Stand, kann das
+Terminal den besten zulässigen Kandidaten als **Best-Effort-Abschluss** übernehmen
+und die Runde schließen; eine verbleibende strukturelle Warnung ist dabei **kein**
+bestandener Schema-Check, und der nächste Load bereinigt den Stand nicht garantiert
+vollständig. Davon getrennt bewahrt ein **SAVECOMPAT**-Stand nicht direkt
+übernehmbare Daten samt Herkunft auf — er ist selbst noch kein abgeschlossener
+Abschnitt und keine Zusage gegen Datenverlust. Kurz erklärt unter
+[Spielerstart](docs/spielerstart.md#best-effort-und-savecompat), technische Details:
+`systems/gameflow/speicher-fortsetzung.md#kompatibilitaetsstand`.
 
 ## Einrichtung und Referenzsetup
 

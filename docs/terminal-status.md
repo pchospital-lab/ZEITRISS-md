@@ -208,56 +208,59 @@ Teilabnahmen erweitern diesen Umfang nicht automatisch.
 Historische Details: [Betriebsdokumentation](mmo-sim.md), insbesondere der
 [LA1-Abschnitt](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13).
 
-## Showcase-Szene — Herkunft
+## Showcase-Szenen — Herkunft
 
 Die beiden Szenen in der
-[README](../README.md#so-spielt-sich-das-ein-zugriff-im-terminal) sind keine
-ausgedachten Beispiele, sondern **Replays unveränderter Originaltexte** aus
-echten Playtest-Läufen. Herkunft und Prüfsummen zum Nachvollziehen:
+[README](../README.md#so-spielt-sich-das-im-terminal) sind keine ausgedachten
+Beispiele, sondern **gekürzte Original-Spieltexte** aus echten Playtest-Läufen.
+Beide sind **keine** Terminal-Bildschirmaufnahmen: persistierte Spieltexte, für
+die README display-normalisiert (Markdown-Betonung entfernt) und zusätzlich durch
+den unveränderten Produkt-Renderer `mmo_sim.ui.rendering.render_for_terminal`
+gegengeprüft (keine Markup-Reste). Herkunft und Prüfsummen zum Nachvollziehen:
 
-**Szene 1 — Crew-Zugriff (Fünfer, PHASE Konflikt).** Automatisierter
-Fünf-Personas-Playtest, Episode 12, Mission 11.
+**Szene 1 — R4-Team-Zug (Duo, Infiltration).** Gekürzter Original-Spieltext aus
+dem lokal abgenommenen R4-Kampagnenlauf (Duo-A, Episode 1, Mission 1), **kein**
+Live-Mitschnitt des Terminal-Clients (`scripts/mmo_sim.py`).
 
-- Quelldatei:
-  `internal/qa/evidence/2026-playtests/2026-06-17-0939-coreops-split-merge/_transkript.md`
-- Datei-SHA256: `47dc2d47626dd2a1e4c34920436dc458ef298539a50a20d227ab4c2acde1981a`
-- Lauf-Typ: SL-Engine `zeitriss-v426-uncut` über OWUI-RAG, Mitspieler
-  `anthropic/claude-sonnet-4.6` (fünf Personas), Harness-Protokoll in
-  `turns.jsonl`. **Kein Live-Mitschnitt des Terminal-Clients** (`scripts/mmo_sim.py`),
-  sondern derselbe automatisierte Persona-Playtest-Zugang wie unter
-  [`docs/testing.md`](testing.md) beschrieben.
-- Ehrlicher Vorbehalt: Der Lauf startete auf einem High-Level-Fixture-Save; die
-  Engine flaggte dessen Prestige-Werte (Lvl 901–933) selbst als über dem
-  Regel-Cap (Lvl 100). Diese Zahlen stehen unverändert im gezeigten HUD. Das
-  `_summary.json` des Gesamtlaufs endet auf `verdict: FAIL` — die Fehler
-  betreffen spätere Split/Merge-Save-Phasen, nicht die hier gezeigte frühe
-  Zugriffsszene (M1-5er).
-- Gezeigter Ausschnitt: Zeilen 518–612 (Crew-Abstimmung, HUD aller fünf
-  Charaktere, Hinterhof-Zugriff mit zwei Proben, Café-Festnahme mit explodierendem
-  Würfel; zwei parallele Schauplätze, in der Quelle als „gleichzeitig" markiert).
-  Jede Auslassung mit `[…]`.
+- Quelle: R4-Tisch `lobby-p01_latch-p02_breach` aus dem abgenommenen
+  R4-Rundenabschluss (28. Oktober 2026).
+- Tisch-SHA256: `6992719841ec12ac4adba2139d6bf88ad0ef0b514912313d308219fbaa572ea8`
+- Gezeigte Felder, lesbar getrennt und ohne Umetikettierung: BREACHs Wortmeldung
+  (`table_messages[2]`, from `p02_breach`), MAHLBERGs eigene Entscheidung
+  (`sl_log[6].leader_message`, origin `p01_latch`) und die GM-Auflösung
+  (`sl_log[6].content`, GM-Request `859240d5…`). Der kritische explodierende Wurf
+  ist der **nächste** Zug (`sl_log[7]`, GM-Request `f19abd13…`) und als solcher
+  gekennzeichnet, nicht still in Zug 6 geschnitten.
+- Inhalt: MAHLBERG zieht den Aufseher mit einem Fachgespräch nach vorn, BREACH
+  entnimmt in der Lücke still das Originaldokument; zwei erfolgreiche Proben, dann
+  ein kritischer explodierender Wurf beim Auslesen der zweiten Spur. Kein Kampf,
+  kein Schuss.
+- Die ursprünglichen nativen Pfade in den Datenfeldern bleiben Herkunftsnachweis.
+  Historische Plan-Mode-/Meta-Vorsätze der Persona-Antworten sind als markierte
+  Auslassungen weggelassen, nicht als vollständige Rohantwort ausgegeben.
 
-**Szene 2 — Solo-Feuergefecht (PHASE Konflikt).** Manueller Solo-Chat-Playtest
-(Sonnet-SL), Episode 1, Mission 2, Rostock 17.10.1973.
+**Szene 2 — Solo-Konfliktzug (historischer Chat-Playtest).** Solo-Chat-Playtest,
+Episode 1, Mission 2, Rostock 1973 — historischer Spieltext, kein aktueller
+Terminal-Client-Mitschnitt.
 
 - Quelldatei:
   `internal/qa/evidence/2026-playtests/2026-04-19-episode1-mini-solo-sarah-v3/chat5-mission3.md`
 - Datei-SHA256: `55f8eaaf4b4a1b23c6d1270121fbc1573b08867f5febd10354d914c570a6c46a`
-- Gezeigter Ausschnitt: Zeilen 593–702 (HUD, Initiative aller drei Beteiligten,
-  Fernkampf mit explodierendem Würfel, LP-Schaden, Wollpullovers Flucht mit dem
-  Dokument, Magazin-Zählung, ein Sprint-MISS mit Konsequenz). Jede Auslassung
-  mit `[…]`.
+- Gezeigter Ausschnitt: der vollständige erste Konfliktzug (Quellzeilen 585–665) —
+  echter Spielerinput, Initiative aller drei Beteiligten, Fernkampf mit
+  explodierendem Würfel, LP-Schaden, Reaktion der Gegner. Runde eins endet mit
+  **offener** Lage; ein endgültiger Dokumentverlust wird **nicht** behauptet (im
+  selben Quelllauf folgt die Verfolgung mit erfolgreichem Schuss und greifbarem
+  Dokument, Zeilen 678–775). Jede Auslassung mit `[…]`.
 
-Beide Szenen sind über den unveränderten Produkt-Renderer
-`mmo_sim.ui.rendering.render_for_terminal` dargestellt; die README zeigt den
-Terminalausdruck in lesbarer Textform (ANSI-Attribute entfallen in Markdown).
-Für die README wurden die Texte nur gekürzt (jede Auslassung mit `[…]` markiert),
-nicht umformuliert. Ehrlich getrennt: Beide Szenen sind Playtests — Szene 1 ein
-automatisierter Fünf-Personas-Lauf (OWUI-RAG), Szene 2 ein manueller
-Solo-Chat-Playtest. Beide authentisch, beide über denselben Produkt-Renderer
-dargestellt, aber keines ein Live-Mitschnitt des Terminal-Clients.
+**Grenze zur Sichtprüfung.** Die README zeigt den Spieltext in lesbarer Textform;
+die dargestellten Zeichen (Icons, Farben, Zeilenumbruch) sind durch den Renderer
+gegengeprüft, aber **nicht** durch eine echte Terminal-Bildschirmaufnahme oder
+einen PTY-/Cast-Mitschnitt belegt. Eine solche visuelle Terminalaufnahme ist
+ausdrücklich Folgepflege für spätere Terminal-UX-Playtests und kein Vorbehalt
+gegen diesen Dokumentationsstand.
 
 Technische Randnotiz: Der Renderer setzt `**fett**` und `_kursiv_` in
 Terminalattribute um; einzelne `*…*` bleiben als Zeichen stehen. Für die README
-wurden bewusst Textfenster ohne solche Stellen gewählt, damit der Ausschnitt den
-tatsächlichen Terminalausdruck zeigt und keine Markup-Reste.
+wurde die Markdown-Betonung der Quelltexte für die Anzeige entfernt und bewusst auf
+Textfenster ohne solche Reste geachtet.
