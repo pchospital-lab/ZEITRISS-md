@@ -753,7 +753,12 @@ def _generation_already_valid(backup_root: Path, generation_id: str) -> dict | N
         return None
     try:
         return validate_generation_for_restore(backup_root, generation_id)
-    except (RestoreRejectedError, OSError, json.JSONDecodeError, KeyError, ValueError):
+    except (RestoreRejectedError, OSError, json.JSONDecodeError, KeyError, ValueError,
+            AttributeError, TypeError):
+        # AttributeError/TypeError zusaetzlich defensiv: ein nicht objektfoermiges
+        # Manifest wird zwar bereits kontrolliert im Validator abgelehnt
+        # (F2/R5-Eingangsgrenze), aber der Helper fuehrt die Zusage "Format-/
+        # Lesefehler -> kontrolliert ungueltig" unabhaengig davon zu Ende.
         return None
 
 
@@ -1247,6 +1252,20 @@ def validate_generation_for_restore(backup_root: Path, generation_id: str | None
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise RestoreRejectedError(f"Generation {generation_id!r}: Manifest unlesbar/beschaedigt ({exc}).") from exc
+
+    # Kontrollierte Eingangsgrenze fuer nicht objektfoermige Manifeste
+    # (F2_MANIFEST_ROOT_TYPE_REGRESSION / CODE-REVIEW R5): syntaktisch gueltiges
+    # JSON kann auch `[]` oder `null` sein. Vor dem ERSTEN Objektzugriff (`.get`)
+    # muss geprueft werden, dass die Manifestwurzel ein Objekt ist -- sonst wuerde
+    # der folgende `manifest.get(...)` einen ungefangenen `AttributeError` werfen,
+    # der ueber Helper/Status/Retry propagiert und den Bedienweg vor der Reparatur
+    # blockiert. Diese kontrollierte Ablehnung uebersetzt `_generation_already_valid`
+    # weiterhin in "Generation ungueltig".
+    if not isinstance(manifest, dict):
+        raise RestoreRejectedError(
+            f"Generation {generation_id!r}: Manifestwurzel ist kein Objekt "
+            f"(Typ {type(manifest).__name__}, z.B. [] oder null) -- ungueltiges Manifest."
+        )
 
     # Das Manifest-Feld `generation_id` ist Dateiinhalt (potenziell manipuliert)
     # und wird von `restore_population` fuer den Kopier-Pfad wiederverwendet. Es
