@@ -15,8 +15,13 @@ abgegrenzt und ausdrücklich als noch nicht geliefert gekennzeichnet.
 
 - **Wurzel A — Gastgerät, ohne Hoststack.** Der Gast besitzt den Terminal-Client
   und seine eigenen JSON-Dateien, aber keinen eigenen Spielleitungs-/Persona-
-  Stack. A kann die eigene Figur anlegen, exportieren und später wieder
-  importieren.
+  Stack. Ohne Spielleitungsanbindung kann A **keine Figur eigenständig
+  erschaffen** — der Erschaffungsdialog läuft über denselben GM-Transport wie
+  das Spiel und bleibt ohne ihn ein ehrlicher Teilstand. A nutzt eine bereits
+  host-/stackgestützt angelegte Figur und exportiert bzw. importiert sie von
+  dort nur noch. Die vom Betreiber freigegebene, hostgestützte Gast-Erschaffung
+  ohne fertiges JSON ist unter „Betreiber- und Mischbetriebsplan" beschrieben
+  und ausdrücklich noch nicht geliefert.
 - **Wurzel B — Hostgerät, voller Stack.** Der Host betreibt Spielleitung und
   eigene Personas. Nur auf B wird ein Tisch tatsächlich gespielt.
 - **Die Figur ist das Reisegut, nicht der Spieler.** Der admittierte Gast spielt
