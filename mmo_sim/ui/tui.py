@@ -2958,7 +2958,11 @@ class TuiSession:
             for w in preview.warnings:
                 self._print(f"  - {w}")
             self._print(
-                "Der Rest wird beim naechsten Laden/Speichern bereinigt (kein Fake-DONE). "
+                "Dieser tolerierte Cap-Ueberlauf-Rest verschwindet NICHT schon durch "
+                "den Import: er wird erst beim naechsten tatsaechlichen Speichern aus "
+                "einer echten Spiel-/Hostsitzung ueber den normalen Speicherweg "
+                "bereinigt -- und nur dieser benannte Rest, keine pauschale Zusage, "
+                "dass jede Restwarnung automatisch verschwindet (kein Fake-DONE). "
                 f"Zur Bestaetigung deine Teilnehmer-ID eintippen ({self.participant_id!r}):"
             )
             try:

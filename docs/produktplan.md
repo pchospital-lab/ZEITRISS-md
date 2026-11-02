@@ -149,10 +149,17 @@ als neue Spielbeweise.
 - **J4_FOREIGN_JOURNEY_VALID_AND_TOLERATED — fremde Reise, gültig und
   toleriert.** Ein **regulär gültiger** A→B→A-Lauf (Export aus A, Annahme/Spiel/
   Abschluss/Export auf B, Wiederannahme in A durch einen frischen Prozess; Level
-  real 2 → 3) und ein **tolerierter** Warnungsstand als getrennter Fall: Letzterer
-  wird über den **echten Produktweg** importiert, geladen, gespielt und
-  gespeichert (nicht nur die tolerante Vorschau), mit sichtbar mitgeführter
-  Restwarnung, und von einem frischen Prozess zurückgelesen.
+  real 2 → 3) und ein **tolerierter** Warnungsstand (unveränderter Cap-Überlauf-
+  Stand aus dem Originalauftrag) als getrennter Fall: Letzterer wird über den
+  **echten Produktweg** importiert — mit sichtbar mitgeführter Restwarnung und
+  ausdrücklicher namentlicher Bestätigung — und dann an einer **tatsächlich
+  bereitgestellten Spielleitung** (einem eigenen eingerichteten Hoststack, **nicht**
+  als hoststack-loser Solo-Gast) real geladen, gespielt und über den normalen
+  Spiel-/Speicherweg gespeichert (nicht nur die tolerante Vorschau) sowie von einem
+  frischen Prozess zurückgelesen. Der tolerierte Cap-Überlauf-Rest besteht
+  unmittelbar nach dem Import noch und wird erst mit diesem echten Speichern
+  bereinigt — **keine** pauschale Zusage, dass jede Restwarnung automatisch
+  verschwindet; die exportierte Ausgangsfassung bleibt byteidentisch erhalten.
 - **J5_RETURNING_GUEST_REPLACES_ACTIVE_COPY — erneut anreisender Gast.** Dieselbe
   Figur reist ein zweites Mal; B zeigt die alte **und** die neue Kopie (Level 2
   bzw. 3), die extern fortgeschrittene Fassung ersetzt via `adopt_incoming` nur
