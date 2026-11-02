@@ -304,6 +304,93 @@ def close_table(run_dir: str | Path, *, table_key: str, host_id: str) -> dict:
     return record
 
 
+def find_admission_for_section(run_dir: str | Path, section_id: str) -> tuple[str | None, str | None]:
+    """R3-Nachzug (F2 §2): reine Reverse-Lesefunktion -- findet `(table_key,
+    host_id)` des EINEN Records, der tatsaechlich auf `section_id` gebunden
+    ist (`record["section_id"] == section_id`), UNABHAENGIG vom aktuellen
+    `state` (auch ein bereits `closed` liegender Record wird gefunden --
+    der Aufrufer ruft `close_table` idempotent, kein Fehler). Bewusst OHNE
+    Host-Filter: ein Gast-Resume (`_resume_bound_table` ist Leader- UND
+    Gast-erreichbar) muss dieselbe Bindung finden koennen wie ein
+    Host-Resume -- die tatsaechliche `close_table`-Transition bleibt
+    trotzdem host_id-gebunden (geprueft GEGEN den hier zurueckgelieferten,
+    bereits persistierten `record["host_id"]`, NIE gegen einen Aufrufer-
+    Glauben). `(None, None)`, wenn kein Record auf `section_id` gebunden
+    ist."""
+    d = Path(run_dir) / "table_admission"
+    if not d.is_dir():
+        return None, None
+    for path in sorted(d.glob("*.json")):
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if record.get("section_id") == section_id:
+            return record.get("table_key"), record.get("host_id")
+    return None, None
+
+
+def find_open_host_table(run_dir: str | Path, host_id: str) -> str | None:
+    """R3-Nachzug (F3 §2): reine Lesefunktion -- `table_key` des EINEN
+    Records, dessen tatsaechlicher Betreiber `host_id` IST (persistiertes
+    `record["host_id"] == host_id`) und der aktuell noch aktiv ist
+    (`state` in {open, started}), sonst `None`. Spiegelbildlich zu dem
+    Zielhost-Check in `ui/tui.py:_cmd_table_request_persona` (F3 §1): dort
+    darf die EIGENE Persona nur am EIGENEN/host-freien Tisch anfragen; hier
+    wird in Gegenrichtung erkannt, ob eine als Persona zu TREIBENDE freie ID
+    selbst ein aktiver (fremder) Betreiber ist -- ein Alias darf keinen
+    anderen aktiven Bestand als Persona freigeben (F3 §2). Wie
+    `find_admission_for_section` eine reine Reverse-Lesefunktion: KEIN Write,
+    keine Transition, kein 0-Reset. Ein bereits `closed` liegender Record
+    zaehlt NICHT (der fruehere Betreiber ist nicht mehr aktiv)."""
+    d = Path(run_dir) / "table_admission"
+    if not d.is_dir():
+        return None
+    for path in sorted(d.glob("*.json")):
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if record.get("host_id") == host_id and record.get("state") in (STATE_OPEN, STATE_STARTED):
+            return record.get("table_key")
+    return None
+
+
+def reopen_table(run_dir: str | Path, *, table_key: str, host_id: str) -> dict:
+    """HOST-ONLY (R3-Nachzug F2 §3): setzt einen `state="started"`-Record
+    OHNE JEMALS gebundene `section_id` zurueck auf `state="open"` --
+    GENAU der Fall, dass eine Startvorbedingung (Laufumgebung/Figur/
+    Zustimmung, geprueft innerhalb des bestehenden Spielpfads) scheiterte,
+    BEVOR je ein Abschnitt real angelegt wurde (`store.create_table_from_
+    offer_log`). Ohne diesen Rueckbau bliebe der Tisch in einer unwahren
+    'gestartet'-Sackgasse eingefroren -- jede weitere `request_join`/
+    `accept_request` lehnt `_require_open` sonst dauerhaft ab, obwohl NIE
+    real gespielt wurde.
+
+    Sicherheitsgrenze: ist BEREITS eine `section_id` gebunden, ist das KEIN
+    fehlgeschlagener Start mehr, sondern eine reale, pausierte Teilnahme --
+    `reopen_table` wirft dann `TableAdmissionError` (kein Rueckbau; der
+    Aufrufer behandelt das defensiv, s. `ui/tui.py:_cmd_table_start`). No-op
+    (liefert den Record unveraendert), wenn der Zustand bereits NICHT
+    `state="started"` ist (idempotent/restart-fest wie jede andere
+    Transition hier)."""
+    record = dict(_require_existing(run_dir, table_key))
+    _require_host(record, host_id)
+    if record["state"] != STATE_STARTED:
+        return record
+    if record.get("section_id"):
+        raise TableAdmissionError(
+            f"Tisch {table_key!r} hat bereits eine gebundene Abschnittskennung "
+            f"({record['section_id']!r}) -- kein Rueckbau auf 'open' (reale Teilnahme, "
+            "kein fehlgeschlagener Start)."
+        )
+    record["state"] = STATE_OPEN
+    record["updated_ts"] = time.time()
+    _append_log(record, actor=host_id, action="reopen_table", target=None)
+    _write_record(run_dir, table_key, record)
+    return record
+
+
 def start_table(run_dir: str | Path, *, table_key: str, host_id: str) -> dict:
     """HOST-ONLY; `state="started"`, friert roster/requests ein (jede
     weitere `request_join`/`accept_request`/`reject_request`-Mutation lehnt

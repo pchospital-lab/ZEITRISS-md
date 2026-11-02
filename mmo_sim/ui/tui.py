@@ -158,6 +158,13 @@ def render_boot_menu(
         lines.append(f"  Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
     lines.append("  [spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)")
     lines.append("  [charaktere] Charaktere (waehlen/erschaffen, importieren, exportieren)")
+    # R3-Nachzug (F1 §1, 02_NACHZUG.md §A "Binde den vorhandenen Suche-/
+    # Anfrage-Baustein verstaendlich in die normale Gastfuehrung ein"):
+    # der vorhandene Tischdienst (`tisch-suchen`/`tisch-anfragen`/...) war
+    # bisher NUR als Wortalias erreichbar, nicht im normalen Boot-/
+    # Spielen-Menue sichtbar -- fuer Host UND Gast gleich sichtbar (beide
+    # duerfen suchen/anfragen).
+    lines.append("  [tisch] Tisch suchen / anfragen (bei einem anderen Host mitspielen)")
     lines.append("  [registrieren] Neue lokale Person registrieren (eigene Figur unter ihrer ID)")
     lines.append("  [einstellungen] Einstellungen")
     lines.append("  [beenden] Beenden")
@@ -218,6 +225,51 @@ def _fresh_start_invite_attempt_key(participant_id: str, persona_key: str) -> st
     dort bewusst verschluckt) und von `catalog.list_for_participant`s
     Kataloganzahl."""
     return f"fresh-start-invite::{participant_id}::{persona_key}"
+
+
+def _table_guest_offer_path(run_dir: str | Path, table_key: str, guest_id: str) -> Path:
+    """R3-Nachzug (F1 §1, 02_NACHZUG.md §A, independent-r2-review.md F1):
+    schmaler, domain-freier Sidecar NEBEN `table_admission.py` (dieses
+    Modul selbst bleibt per Vertrag ZEITRISS-feldnamenfrei, s. dessen
+    Moduldocstring) -- transportiert GENAU die vom Gast selbst gewaehlte
+    Figur/Fassung (`chrononaut_id`+`save`) EINER konkreten Anfrage, bis der
+    Host sie nach ausdruecklicher Annahme uebernimmt (`_cmd_table_accept`).
+    Liegt unter `run_dir` (derselbe ohnehin fuer die Admission GETEILTE
+    Ablage, KEIN Zugriff auf Host-Onboarding/-Katalog)."""
+    safe_table = table_key.replace("/", "_")
+    safe_guest = guest_id.replace("/", "_")
+    d = Path(run_dir) / "table_guest_offers"
+    d.mkdir(parents=True, exist_ok=True)
+    return d / f"{safe_table}__{safe_guest}.json"
+
+
+def _write_table_guest_offer(
+    run_dir: str | Path, table_key: str, guest_id: str, *, chrononaut_id: str, save: dict,
+) -> None:
+    from ..core.admission import _atomic_write_json
+
+    _atomic_write_json(
+        _table_guest_offer_path(run_dir, table_key, guest_id),
+        {"table_key": table_key, "guest_id": guest_id, "chrononaut_id": chrononaut_id, "save": save},
+    )
+
+
+def _read_table_guest_offer(run_dir: str | Path, table_key: str, guest_id: str) -> dict | None:
+    p = _table_guest_offer_path(run_dir, table_key, guest_id)
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def _clear_table_guest_offer(run_dir: str | Path, table_key: str, guest_id: str) -> None:
+    p = _table_guest_offer_path(run_dir, table_key, guest_id)
+    try:
+        p.unlink()
+    except OSError:
+        pass
 
 
 class NonInteractiveImportError(ValueError):
@@ -384,6 +436,35 @@ class TuiSession:
         # pausierte Rundenausfuehrung, s. `_cmd_local_round`-Kommentar an der
         # Zuweisungsstelle.
         self._pending_section_id: str | None = None
+        # R3-Nachzug (F1 §1, 02_NACHZUG.md §A): schmaler, EHRLICH
+        # gekennzeichneter In-Process-Teilnehmeranschluss (s. `register_
+        # guest_terminal`-Docstring) -- bildet fuer EINEN angenommenen
+        # Gast dessen EIGENE `TuiSession` (eigenes `input_fn`/`print_fn`,
+        # NIEMALS diese Hostsession) ab, damit `_run_table_round`s
+        # `_HumanDriver` seine Spielzug-Ein-/Ausgabe tatsaechlich AN
+        # DIESEN Gast-Client richten kann, statt jeden Menschen ueber
+        # dasselbe geteilte Hostterminal zu bedienen (design.md §1 "kein
+        # Host-Fake, der alle Menschen ersetzt"). Leer per Default -- jeder
+        # bestehende Aufrufer ohne `register_guest_terminal` bleibt
+        # unveraendert beim geteilten-Terminal-Verhalten.
+        self._table_guest_terminals: dict[str, "TuiSession"] = {}
+
+    def register_guest_terminal(self, guest_id: str, guest_session: "TuiSession") -> None:
+        """R3-Nachzug (F1 §1, 02_NACHZUG.md §A "eine schmale direkte/
+        in-process Schnittstelle darf ... Teilnehmerentscheidungen ...
+        transportieren"): registriert `guest_session` (eine EIGENSTAENDIGE
+        `TuiSession` mit ihrem EIGENEN privaten `onboarding_dir`/
+        `catalog_dir`/`input_fn`/`print_fn`, `host_capable=False`) als den
+        tatsaechlichen Ein-/Ausgabeweg fuer `guest_id` WAEHREND der
+        naechsten `_run_table_round`-Ausfuehrung dieser (Host-)Session.
+        EHRLICH gekennzeichneter In-Process-Adapter (02_NACHZUG.md §A):
+        steht fuer einen separaten lokalen Teilnehmer-Client, NICHT fuer
+        einen Host-Fake, der alle Menschen ersetzt -- `guest_session`
+        bleibt ihre eigene, von dieser Hostsession komplett unabhaengige
+        Instanz; diese Methode schreibt NICHTS, sie verdrahtet nur, WESSEN
+        `_print`/`_readline_with_controls` `_HumanDriver.decide()` fuer
+        GENAU diesen Teilnehmer aufruft (s. dort)."""
+        self._table_guest_terminals[guest_id] = guest_session
 
     def _readline(self, prompt: str) -> str:
         try:
@@ -988,6 +1069,53 @@ class TuiSession:
                 self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
                 return
 
+    def _cmd_menu_tisch(self) -> None:
+        """KISS-Submenue 'Tisch' (R3-Nachzug F1 §1, 02_NACHZUG.md §A):
+        bindet den bisher nur als Wortalias erreichbaren Tischdienst
+        (`tisch-suchen`/`tisch-anfragen`/`tisch-zurueckziehen`/
+        `tisch-status`) verstaendlich in die normale Gastfuehrung ein --
+        'ein neuer reiner Gast kann ein lokales Angebot auswaehlen, seine
+        Figur/Fassung zur Aufnahme anbieten, die Anfrage zurueckziehen und
+        die Hostentscheidung sehen.' Dispatcht additiv auf dieselben,
+        UNVERAENDERTEN gegateten/ungegateten Methoden (kein zweiter
+        Admission-Pfad) -- fuer Host UND Gast gleich erreichbar, da Suche/
+        Anfrage/Ruecknahme/Status ausdruecklich NICHT host-only sind."""
+        while True:
+            self._print(
+                "Tisch -- [1] Offene Tische suchen  [2] Tisch anfragen  "
+                "[3] Anfrage zurueckziehen  [4] Status/Hostentscheidung ansehen "
+                "(/zurueck fuer Hauptmenue; 'tisch-anbieten'/'tisch-annehmen'/'tisch-start' "
+                "bleiben Experten-/Hostaliase)"
+            )
+            text, control = self._readline_with_controls(
+                "Auswahl: ", context="Tisch-Untermenue",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                return
+            choice = text.strip()
+            if choice == "1":
+                self._cmd_table_search([])
+                continue
+            if choice in ("2", "3", "4"):
+                key_raw, key_control = self._readline_with_controls(
+                    "Welcher Tisch (table_key)? ", context="Tisch-Untermenue",
+                )
+                if key_control in ("zurueck", "abbrechen", "pause"):
+                    continue
+                table_key = key_raw.strip()
+                if not table_key:
+                    self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
+                    continue
+                if choice == "2":
+                    self._cmd_table_request_join([table_key])
+                elif choice == "3":
+                    self._cmd_table_withdraw([table_key])
+                else:
+                    self._cmd_table_status([table_key])
+                continue
+            self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+            return
+
     _INTRO_LINES = (
         "  1) Die Spielleitung (SL) fuehrt die Welt -- du entscheidest deine Figur.",
         "  2) Gespielt wird in Abschnitten; der letzte gueltige Save ist deine Fortsetzungsbasis.",
@@ -1281,6 +1409,38 @@ class TuiSession:
             table, lobby, ps_store, leader_id, leader_persona_id, leader_driver, active_save, guest_specs,
             guided=True, current_focus_pid=self.participant_id,
         )
+        # R3-Nachzug (F2 §2, independent-r2-review.md F2 "der normale
+        # Fortsetzenweg enthaelt KEINE Admission-Abschlussbuchung"): dieser
+        # Methode erreichen ZWEI Aufrufer (`_cmd_menu_fortsetzen`s normaler
+        # Fortsetzen-Menueweg UND `_cmd_table_start`s eigener Reconcile-
+        # Zweig oben) -- beide muessen DIESELBE Admission nachfuehren,
+        # sobald der real gebundene Abschnitt tatsaechlich schliesst,
+        # sonst bleibt die Admission nach genau DIESEM Weg fuer immer
+        # faelschlich `state="started"` (der konkrete, in der Review
+        # benannte Fall). Reine Reverse-Lookup (`find_admission_for_
+        # section`, host-id-frei) + idempotenter `close_table`-Aufruf MIT
+        # dem dort tatsaechlich persistierten `host_id` (NIE geraten) --
+        # ein Gast-Resume darf diese Buchfuehrung genauso ausloesen wie ein
+        # Host-Resume, ohne selbst Hostautoritaet zu bekommen. Kein Effekt,
+        # wenn der Abschnitt noch offen ist oder gar keine Admission dafuer
+        # existiert (z.B. ein Tisch, der nie ueber `table_admission`
+        # angeboten wurde).
+        if self.run_dir is not None:
+            try:
+                reloaded_status = core_store.Table.load(self.run_dir, table.table_id).status
+            except (OSError, ValueError, KeyError, json.JSONDecodeError):
+                reloaded_status = None
+            if reloaded_status == "closed":
+                admission_table_key, admission_host_id = table_admission.find_admission_for_section(
+                    self.run_dir, table.table_id,
+                )
+                if admission_table_key is not None and admission_host_id is not None:
+                    try:
+                        table_admission.close_table(
+                            self.run_dir, table_key=admission_table_key, host_id=admission_host_id,
+                        )
+                    except table_admission.TableAdmissionError:
+                        pass
 
     def _build_resume_card(self, participant_id: str | None = None) -> ResumeCard | None:
         """11 §2: eine verstaendliche Fortsetzen-Karte aus vorhandenen
@@ -4037,7 +4197,22 @@ class TuiSession:
             )
 
     def _cmd_table_request_join(self, args: list[str]) -> None:
-        """Gast-erlaubt, NICHT gegatet (design.md §1 `request_join`)."""
+        """Gast-erlaubt, NICHT gegatet (design.md §1 `request_join`).
+
+        R3-Nachzug (F1 §1, 02_NACHZUG.md §A, independent-r2-review.md F1
+        "Anfrage/Vorschau importiert nicht still den aktiven Hostsave"):
+        bindet, SOFERN der Aufrufer bereits eine EIGENE abgeschlossene
+        Figur hat (`self._resolve_member(self.participant_id)`, liest
+        AUSSCHLIESSLICH die eigenen `onboarding_dir`/`catalog_dir`/
+        `states_dir` des Aufrufers -- NIE Hostwurzeln), die TATSAECHLICH
+        gewaehlte eigene Figur/Fassung an GENAU diese Anfrage (Sidecar
+        unter `run_dir/table_guest_offers/`, s. `_write_table_guest_
+        offer`) -- kein stilles Importieren des aktiven Hostsaves. Ohne
+        eigene abgeschlossene Figur bleibt die Anfrage eine reine
+        ID-Admission-Buchung wie bisher (unveraendertes Verhalten fuer den
+        reinen Suche-/Anfrage-/Status-Probe-Fall ohne eigenen Bestand,
+        s. `test_f1_narrow_guest_connector_private_catalog_never_touches_
+        host_catalog`)."""
         if self.run_dir is None:
             self._print("Tisch-Anfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
             return
@@ -4045,9 +4220,28 @@ class TuiSession:
         if table_key is None:
             return
         try:
+            own_offer = self._resolve_member(self.participant_id)
+        except _ActiveSaveUnresolved:
+            self._print(
+                "Tisch-Anfrage abgelehnt: dein aktuell veroeffentlichter Spielstand ist gerade "
+                "nicht lesbar -- keine Anfrage ohne geklaerte eigene Figur/Fassung."
+            )
+            return
+        try:
             record = table_admission.request_join(self.run_dir, table_key=table_key, guest_id=self.participant_id)
         except table_admission.TableAdmissionError as e:
             self._print(f"Tisch-Anfrage abgelehnt: {e}")
+            return
+        if own_offer is not None:
+            own_save, own_chrononaut_id = own_offer
+            _write_table_guest_offer(
+                self.run_dir, table_key, self.participant_id,
+                chrononaut_id=own_chrononaut_id, save=own_save,
+            )
+            self._print(
+                f"Anfrage an Tisch '{table_key}' gestellt (offene Anfragen: {record['requests']}) -- "
+                f"eigene Figur '{own_chrononaut_id}' zur Aufnahme angeboten (kein Hostsave-Import)."
+            )
             return
         self._print(f"Anfrage an Tisch '{table_key}' gestellt (offene Anfragen: {record['requests']}).")
 
@@ -4067,15 +4261,30 @@ class TuiSession:
         self._print(f"Anfrage an Tisch '{table_key}' zurueckgezogen (offene Anfragen: {record['requests']}).")
 
     def _cmd_table_request_persona(self, args: list[str]) -> None:
-        """HOST-ONLY (F3 §1, independent-r1-review.md F3): Persona-Anfrage
-        und Hostentscheidung bleiben GETRENNTE Vorgaenge -- diese Methode
-        ist die Anfrageseite fuer EINE der EIGENEN bestaetigten
-        Hostpersonas (`self._known_ai_overview()`, derselbe Bestand wie
-        die Einladung in `_run_table_round`); `_cmd_table_accept` bleibt
-        die unveraenderte Entscheidungsseite. Eine FREMDE/unbekannte
+        """HOST-ONLY (F3 §1, independent-r1-review.md F3, R3-Nachzug
+        independent-r2-review.md F3): Persona-Anfrage und Hostentscheidung
+        bleiben GETRENNTE Vorgaenge -- diese Methode ist die Anfrageseite
+        fuer EINE der EIGENEN bestaetigten Hostpersonas
+        (`self._known_ai_overview()`, derselbe Bestand wie die Einladung
+        in `_run_table_round`); `_cmd_table_accept` bleibt die
+        unveraenderte Entscheidungsseite. Eine FREMDE/unbekannte
         Persona-ID wird HIER abgewiesen, BEVOR `table_admission` mutiert
         wird (0 Writes) -- 'die Persona darf nur an den Betreiber ihres
-        bestaetigten Bestands anfragen' (02_NACHZUG §F3)."""
+        bestaetigten Bestands anfragen' (02_NACHZUG §F3).
+
+        R3-Nachzug (independent-r2-review.md F3 Abs. 1 "vergleicht nicht
+        den Host des angefragten Tisches mit dem Betreiber dieses
+        Personabestands"): der Eigenbestand-Check allein reicht NICHT --
+        eine EIGENE bestaetigte Persona gehoert zu GENAU `self.
+        participant_id` (die einzige Hostidentitaet, unter der
+        `_known_ai_overview` je etwas liefert). Ein `table_key`, dessen
+        Record einen ANDEREN `host_id` traegt, ist ein FREMDER Tisch --
+        die Anfrage wird HIER (vor jedem `table_admission`-Write)
+        abgelehnt, auch wenn `persona_id` die eigene bestaetigte Persona
+        ist. Reine Lesefunktion (`load_record`), KEIN Write vor der
+        Ablehnung; ein (noch) nicht existierender `table_key` faellt
+        unveraendert auf den bestehenden `request_join`-Fehlerpfad
+        zurueck (unten)."""
         self._require_host("Persona-Anfrage stellen (eigener Bestand)")
         if self.run_dir is None:
             self._print("Persona-Anfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -4089,6 +4298,14 @@ class TuiSession:
             self._print(
                 f"Persona-Anfrage abgelehnt: '{persona_id}' ist keine eigene bestaetigte "
                 "Hostpersona (kein Modellaufruf, kein Write)."
+            )
+            return
+        target_record = table_admission.load_record(self.run_dir, table_key)
+        if target_record is not None and target_record.get("host_id") != self.participant_id:
+            self._print(
+                f"Persona-Anfrage abgelehnt: Tisch '{table_key}' gehoert einem fremden Betreiber "
+                f"('{target_record.get('host_id')}') -- die eigene Persona '{persona_id}' darf nur "
+                "am eigenen Tisch anfragen (kein Write, kein Modellaufruf)."
             )
             return
         try:
@@ -4168,7 +4385,24 @@ class TuiSession:
         )
 
     def _cmd_table_accept(self, args: list[str]) -> None:
-        """HOST-ONLY (design.md §1 `accept_request`)."""
+        """HOST-ONLY (design.md §1 `accept_request`).
+
+        R3-Nachzug (F1 §1, 02_NACHZUG.md §A, independent-r2-review.md F1):
+        hat der Gast bei seiner Anfrage die eigene Figur/Fassung gebunden
+        (`_cmd_table_request_join`, Sidecar unter `run_dir/
+        table_guest_offers/`), uebernimmt der HOST sie JETZT -- NACH
+        ausdruecklicher Annahme, hostseitig, unter der EIGENEN
+        `states_dir` (`onboarding.ensure_participant_persona_state` +
+        `core_store.publish_current_save`, dieselben Produktfunktionen wie
+        jeder andere Import) -- damit `_resolve_member(guest_id)` beim
+        spaeteren `tisch-start` die TATSAECHLICH angebotene Fassung findet,
+        statt stillschweigend den eigenen aktiven Hostsave zu verwenden.
+        Fehlt der Sidecar (alter/einfacher Weg ohne eigene Anfragefigur,
+        z.B. geteiltes Terminal mit gemeinsamer Datenwurzel), bleibt das
+        Verhalten UNVERAENDERT (kein Publish hier, Resolve laeuft wie
+        bisher ueber die gemeinsame Wurzel). Fehlt dem Host dafuer
+        `states_dir`/`schema_path`, wird VOR jeder Admission-Mutation
+        abgelehnt (0 Writes) -- kein halb uebernommener Gast."""
         self._require_host("Tisch-Anfrage annehmen (accept_request)")
         if self.run_dir is None:
             self._print("Anfrage annehmen erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -4177,12 +4411,51 @@ class TuiSession:
             self._print("Benutzung: 'tisch-annehmen <table_key> <guest_id>'.")
             return
         table_key, guest_id = args[0], args[1]
+        guest_offer = _read_table_guest_offer(self.run_dir, table_key, guest_id)
+        if guest_offer is not None and (self.states_dir is None or self.schema_path is None):
+            self._print(
+                f"Anfrage von '{guest_id}' nicht angenommen: die mitgebrachte eigene Figur "
+                "erfordert eine konfigurierte Laufumgebung (states_dir/schema_path) -- kein "
+                "halb uebernommener Gast."
+            )
+            return
         try:
             record = table_admission.accept_request(
                 self.run_dir, table_key=table_key, host_id=self.participant_id, guest_id=guest_id,
             )
         except table_admission.TableAdmissionError as e:
             self._print(f"Anfrage von '{guest_id}' nicht angenommen: {e}")
+            return
+        if guest_offer is not None:
+            # "Der Host fuehrt die erlaubten Vorgaenge an seinen EIGENEN
+            # Wurzeln aus" (02_NACHZUG.md §A): die konkreten Gastbytes
+            # landen jetzt hostseitig unter `self.onboarding_dir`/
+            # `self.catalog_dir`/`self.states_dir` (NICHT unter der
+            # PRIVATEN Wurzel des Gasts) -- `_resolve_member(guest_id)`,
+            # das spaetere `_cmd_table_start` fuer jedes Rostermitglied
+            # gegen GENAU diese Hostwurzeln aufruft, braucht zuerst einen
+            # Onboarding-Eintrag (`onboarding.peek`-Gate), sonst bliebe
+            # der Gast trotz veroeffentlichtem Current unresolvierbar.
+            onboarding.start_or_resume(self.onboarding_dir, guest_id)
+            onboarding.complete_with_save(
+                self.onboarding_dir, guest_id, guest_offer["save"], ZeitrissHarvestValidator(),
+                guest_offer["chrononaut_id"],
+            )
+            catalog.register(self.catalog_dir, catalog.CatalogEntry(
+                participant_id=guest_id, chrononaut_id=guest_offer["chrononaut_id"], persona_key=guest_id,
+            ))
+            from ..core.persona_state import PersonaStateStore
+            ps_store = PersonaStateStore(schema_path=self.schema_path)
+            onboarding.ensure_participant_persona_state(
+                ps_store, self.states_dir, guest_id, guest_offer["chrononaut_id"], guest_offer["save"],
+            )
+            from ..core import store as core_store
+            core_store.publish_current_save(self.run_dir, guest_id, guest_offer["save"], ps_store, self.states_dir)
+            _clear_table_guest_offer(self.run_dir, table_key, guest_id)
+            self._print(
+                f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}) -- "
+                f"eigene Figur '{guest_offer['chrononaut_id']}' hostseitig uebernommen."
+            )
             return
         self._print(f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}).")
 
@@ -4268,6 +4541,54 @@ class TuiSession:
         table_key = self._table_key_from_args(args, "'tisch-start <table_key>'")
         if table_key is None:
             return
+        # R3-Nachzug (F2 §1/§2, independent-r2-review.md F2): VOR jedem
+        # Zustandsuebergang die bereits gebundene Abschnittsidentitaet
+        # abgleichen (Reconcile) -- dieselbe Startoperation darf NIE einen
+        # stillen Folgeabschnitt ('__2') erzeugen, nur weil der normale
+        # Fortsetzenweg (`_cmd_menu_fortsetzen`->`_resume_bound_table`) den
+        # echten Abschluss bereits erreicht, die Admission das aber nie
+        # nachgefuehrt hatte. Nur fuer den TATSAECHLICHEN Host dieses
+        # Records relevant -- ein Fremdaufruf faellt unveraendert auf den
+        # bestehenden `start_table`-Pfad zurueck, der ihn ueber
+        # `HostAuthorityError` ablehnt.
+        existing_record = table_admission.load_record(self.run_dir, table_key)
+        if existing_record is not None and existing_record.get("host_id") == self.participant_id:
+            bound_section_id = existing_record.get("section_id")
+            if bound_section_id:
+                from ..core import store as core_store
+                try:
+                    bound_section = core_store.Table.load(self.run_dir, bound_section_id)
+                except (OSError, ValueError, KeyError, json.JSONDecodeError):
+                    bound_section = None
+                if bound_section is not None and bound_section.status == "closed":
+                    # Echter Abschluss ist bereits passiert (z.B. ueber den
+                    # normalen Fortsetzenweg) -- Admission ehrlich
+                    # nachfuehren statt blind idempotent weiterzulaufen;
+                    # KEIN neuer Abschnitt, KEIN '__2'.
+                    table_admission.close_table(
+                        self.run_dir, table_key=table_key, host_id=self.participant_id,
+                    )
+                    self._print(
+                        f"Tischstart abgelehnt: Tisch '{table_key}' ist geschlossen "
+                        f"(Abschnitt '{bound_section_id}' bereits abgeschlossen) -- neues Angebot "
+                        "noetig."
+                    )
+                    return
+                if bound_section is not None and existing_record.get("state") == table_admission.STATE_STARTED:
+                    # Noch real offen/aktiv: derselbe gebundene Abschnitt
+                    # wird ueber den BESTEHENDEN Fortsetzen-/Recoveryweg
+                    # fortgesetzt (`_resume_bound_table`, dieselbe Methode
+                    # wie der normale 'Fortsetzen'-Menueweg) -- kein
+                    # frischer `_cmd_local_round`-Aufruf, kein zweiter
+                    # Spielkern, keine erneute Einladung/Zustimmung fuer
+                    # eine bereits real zugesagte Besetzung.
+                    self._print(
+                        f"Tisch '{table_key}': bereits gebundener Abschnitt '{bound_section_id}' ist "
+                        "noch offen -- wird ueber den bestehenden Fortsetzen-/Recoveryweg fortgesetzt "
+                        "(kein neuer Abschnitt, dieselbe Besetzung)."
+                    )
+                    self._resume_bound_table(bound_section)
+                    return
         try:
             record = table_admission.start_table(self.run_dir, table_key=table_key, host_id=self.participant_id)
         except table_admission.TableAdmissionError as e:
@@ -4300,6 +4621,24 @@ class TuiSession:
                 )
             raise
         if section_id is None:
+            # R3-Nachzug (F2 §3, independent-r2-review.md F2 Abs. "zusaetzlich
+            # wird 'started' bereits vor ... Pruefung gesetzt"): ein
+            # gescheiterter Start (fehlende Laufumgebung/Figur/Zustimmung,
+            # Groessenpolitik-Ablehnung -- JEDER fruehe `return` in
+            # `_cmd_local_round` VOR `create_table_from_offer_log`) darf
+            # KEINE eingefrorene 'gestartet'-Sackgasse hinterlassen.
+            # `reopen_table` selbst verweigert den Rueckbau, falls doch
+            # schon eine `section_id` gebunden wurde (reale Teilnahme statt
+            # gescheitertem Start) -- dann bewusst NICHTS tun (idempotent
+            # unveraendert, kein Fehlertext fuer den Host).
+            try:
+                table_admission.reopen_table(self.run_dir, table_key=table_key, host_id=self.participant_id)
+                self._print(
+                    f"Tischstart nicht zustande gekommen: Tisch '{table_key}' bleibt offen (kein "
+                    "eingefrorener Zustand, erneuter 'tisch-start' moeglich)."
+                )
+            except table_admission.TableAdmissionError:
+                pass
             return
         table_admission.bind_section(
             self.run_dir, table_key=table_key, host_id=self.participant_id, section_id=section_id,
@@ -4611,6 +4950,17 @@ class TuiSession:
             if matches is not None and len(matches) == 1:
                 resolved.append(matches[0])
                 continue
+            # Jedes andere Token bleibt UNVERAENDERT durchgereicht (reine
+            # Auswahl-/Anzeigeaufloesung, keine Bestands-/Spielautoritaet):
+            # eine fremde registrierte Persona (ux1_r5: andere Teilnehmer, die
+            # zustimmen und wirklich spielen) muss hier als freie ID
+            # durchgehen, eine unbekannte freie ID (q03/g02) ebenso. Die
+            # tatsaechliche Bestandsgrenze (F3 §2) wird NICHT an der Auswahl,
+            # sondern am wirksamen Treiberpfad in `_cmd_local_round`
+            # durchgesetzt (Betreiber-Vorpruefung ueber
+            # `table_admission.find_open_host_table`, VOR jedem Write/Call --
+            # eine zu treibende freie ID, die selbst fremder aktiver Betreiber
+            # ist, wird dort abgelehnt).
             resolved.append(tok)
         return resolved
 
@@ -5016,6 +5366,46 @@ class TuiSession:
             tokens = tokens[1:]
         leader_id = leader_persona_id if leader_persona_id else self.participant_id
 
+        # R3-Nachzug (F3 §2 -- independent-r2-review.md §3 F3; 02_NACHZUG §B/F3:
+        # "Die gleiche Bestandsgrenze gilt fuer freie IDs ... persona: und
+        # lead:persona:. Ein Alias darf eine bekannte ID auswaehlen, aber keinen
+        # anderen Bestand freigeben"). Die Grenze ist SYMMETRISCH zum Zielhost-
+        # Check in `_cmd_table_request_persona` (F3 §1): dort darf die eigene
+        # Persona nur am EIGENEN/host-freien Tisch anfragen; HIER darf ein Alias
+        # (`persona:<id>` ODER `lead:persona:<id>`, direkt eingegeben ODER ueber
+        # den gefuehrten Auswahlweg -- beide Wege muenden in genau diesen
+        # `_cmd_local_round`) keine freie ID als Persona treiben, die SELBST ein
+        # aktiver FREMDER Betreiber ist (ein `table_admission`-Record mit
+        # `host_id == <id>`, state offen/gestartet). Das ist eine echte
+        # Sicherheitsgrenze (Marionettenspiel eines anderen Betreibers), nicht
+        # bloss eine Namens-/Sichtbarkeitsregel. REINE Lesepruefung
+        # (`find_open_host_table`) VOR jedem Audit-Logwrite, Consent- oder
+        # Modellaufruf -- 0 Writes, 0 Calls bei Ablehnung.
+        #
+        # Erhalten (Review: "eigenes Persona-Spiel ... und Leader-ohne-
+        # Hostrechte erhalten"; Baseline-Sweep s2-baseline-sweep.md: KEIN legitim
+        # getriebener Persona-Token ist zugleich eigener Betreiber): die
+        # eigene/freie Experten-Persona OHNE eigenen Betreibertisch
+        # (a24/ux1_r5/p1/r4/i1/g03) UND der aufrufende Teilnehmer selbst
+        # (`<id> == self.participant_id` faellt nie unter die Grenze). Eine
+        # unbekannte freie ID bleibt auf dem unveraenderten
+        # `_resolve_member`->None-Negativpfad weiter unten.
+        _persona_drive_ids = [t.split(":", 1)[1] for t in tokens if t.startswith("persona:")]
+        if leader_persona_id:
+            _persona_drive_ids.append(leader_persona_id)
+        for _drive_id in _persona_drive_ids:
+            if not _drive_id or _drive_id == self.participant_id:
+                continue
+            _foreign_table = table_admission.find_open_host_table(self.run_dir, _drive_id)
+            if _foreign_table is not None:
+                self._print(
+                    f"Lokale Runde abgelehnt: '{_drive_id}' ist selbst aktiver Betreiber eines "
+                    f"eigenen Tisches ('{_foreign_table}') -- ein Alias darf diesen fremden "
+                    "Bestand nicht als Persona treiben (kein Write, kein Modellaufruf). Eine "
+                    "eigene/freie Persona ohne eigenen Betreibertisch bleibt zulaessig."
+                )
+                return
+
         # 01_AUFTRAG §4 A: `self._resolve_member` (extrahierte Methode, s.
         # dortiger Docstring) ersetzt die vorherige lokale Closure -- auch
         # `_cmd_lobby_initiative` nutzt dieselbe Methode, keine zweite Kopie.
@@ -5191,6 +5581,17 @@ class TuiSession:
             guest_id = token.split(":", 1)[1] if is_persona else token
             if not guest_id or guest_id == leader_id:
                 continue
+            # R3-Nachzug (F3 §2): die Betreiber-Bestandsgrenze fuer `persona:`-
+            # (und `lead:persona:`-) Treiber ist bereits OBERHALB dieser Schleife
+            # durchgesetzt (`table_admission.find_open_host_table`, VOR dem
+            # `_append_invitation_log`-Offerwrite -- 0 Writes/0 Calls bei
+            # Ablehnung): ein `guest_id`, der selbst aktiver fremder Betreiber
+            # ist, hat diese Runde schon dort abgebrochen. Erreicht ein
+            # `persona:`-Token HIER, ist es eine eigene/freie Persona ohne
+            # eigenen Betreibertisch (i1/a24: bestaetigte Persona an EIGENEN
+            # Tisch; ux1_r5: zustimmende fremde Mitspieler). Die weitere
+            # Autoritaetspruefung bleibt der unveraenderte Consent-Vertrag +
+            # Admission-Gate (`_admitted_invite_decision`) unten.
             try:
                 resolved_guest = _resolve_member(guest_id)
             except _ActiveSaveUnresolved:
@@ -5600,17 +6001,27 @@ class TuiSession:
 
             def decide(self, context: dict):
                 nonlocal displayed_sl_count, current_focus_pid
-                if guided and current_focus_pid != self._pid:
+                # R3-Nachzug (F1 §1, 02_NACHZUG.md §A): ein ANGENOMMENER
+                # Gast mit registriertem `register_guest_terminal` bedient
+                # sich ueber die EIGENE `TuiSession` (`io`, eigenes
+                # `input_fn`/`print_fn`) -- NICHT ueber `outer` (die
+                # Hostsession), sonst waere das genau der verbotene
+                # "Host-Fake, der alle Menschen ersetzt". Kein geteiltes
+                # Terminal/keine Fokusuebergabe fuer einen so angeschlossenen
+                # Gast (`guided`-Handoff ist NUR fuer das geteilte
+                # Hostterminal gedacht, s. `_local_round_handoff`-Docstring).
+                io = outer._table_guest_terminals.get(self._pid, outer)
+                if io is outer and guided and current_focus_pid != self._pid:
                     if not outer._local_round_handoff(self._pid, in_round=True):
                         raise EndOfInput()
                     current_focus_pid = self._pid
                 table_view = context.get("table_view") or {}
                 sl_log = table_view.get("sl_log") or []
                 for entry in sl_log[displayed_sl_count:]:
-                    outer._print(f"[SL] {entry.get('content', '')}")
+                    io._print(f"[SL] {entry.get('content', '')}")
                 displayed_sl_count = len(sl_log)
                 for m in context.get("pending_table_messages") or []:
-                    outer._print(f"[Tischabsprache] {m.get('from', '?')}: {m.get('text', '')}")
+                    io._print(f"[Tischabsprache] {m.get('from', '?')}: {m.get('text', '')}")
                 # UX14/15: Empfaenger-/Zweckzeile wird als EIGENE Zeile
                 # UNMITTELBAR vor dem Prompt gedruckt (nicht in den
                 # Prompttext selbst eingewoben) -- die bestehenden,
@@ -5640,12 +6051,12 @@ class TuiSession:
                 # lokale Beschriftung statt der Spielzug-Zweckzeile. Keine
                 # Vertraulichkeitszusage bei geteiltem Bildschirm (02 §F).
                 if context.get("system") == "PRIVATE_REFLECTION_SENTINEL":
-                    outer._print(
+                    io._print(
                         "Empfaenger: eigene lokale Notiz (NICHT an Spielleitung/Tisch, freiwillig, "
                         "leer = keine Notiz, keine Vertraulichkeitszusage bei geteiltem Bildschirm)."
                     )
                 else:
-                    outer._print(self._purpose_label())
+                    io._print(self._purpose_label())
                 label_prefix = f"[{self._label}] " if self._label else ""
                 prompt = f"{label_prefix}Deine Aktion: "
                 # UX04/05 (02 §C): Hilfe/Stand/Verlauf verbrauchen hier
@@ -5658,8 +6069,11 @@ class TuiSession:
                 # G04/UX20 (W3-Hunk selektiv uebernommen, s. W3-REUSE.md):
                 # `speaker_pid=self._pid` -- `/stand` an einem geteilten
                 # Terminal zeigt den Stand DIESER gerade eingebenden Person,
-                # nicht pauschal den aeusseren Sessionteilnehmer.
-                text, control = outer._readline_with_controls(
+                # nicht pauschal den aeusseren Sessionteilnehmer. Bei einem
+                # angeschlossenen Gast (`io is not outer`) ist `io` ohnehin
+                # bereits GENAU diese Person -- dieselbe Methode, derselbe
+                # Vertrag.
+                text, control = io._readline_with_controls(
                     prompt, context="Spielzug", history=history, speaker_pid=self._pid,
                 )
                 if control == "pause":
@@ -5668,13 +6082,13 @@ class TuiSession:
                     # dieselbe bereits bestehende, getestete kontrollierte
                     # Pausemechanik wie bei EOF/einer abgelehnten
                     # Fokusuebergabe (s. `_local_round_handoff` oben).
-                    outer._print(
+                    io._print(
                         "Kontrolliert pausiert (/pause) — kein weiterer Zug, kein Modellaufruf; "
                         "der zuletzt gueltige Stand bleibt erhalten."
                     )
                     raise EndOfInput()
                 if control in ("zurueck", "abbrechen"):
-                    outer._print(
+                    io._print(
                         "Waehrend eines laufenden Abschnitts bedeutet Abbrechen Pause/Beenden, "
                         "kein Rollback (02 §C) — kontrolliert pausiert, kein Modellaufruf."
                     )
@@ -5689,7 +6103,12 @@ class TuiSession:
                 # `save_payload` nie aus -- die vorherige Zusicherung war
                 # also irreführend, nicht nur wirkungslos).
                 payload = self._save if (self._turn == 1 and not self._already_imported) else None
-                return ParticipantDecision(text=text_out, origin_source="human:terminal", save_payload=payload)
+                # R3-Nachzug (F1 §1): `origin_source` unterscheidet den
+                # tatsaechlich benutzten Eingabeweg -- ehrlich beobachtbar
+                # ALS Gast-Client-Eingabe, wenn ein Gastanschluss aktiv war
+                # (kein verdeckter Host-Fake).
+                origin = "human:guest_client" if io is not outer else "human:terminal"
+                return ParticipantDecision(text=text_out, origin_source=origin, save_payload=payload)
 
         # A24 (WEGKARTE §8): der Leader-Driver ist entweder der aufrufende
         # Mensch (`_HumanDriver`, unveraendertes Standardverhalten) ODER die
@@ -6532,6 +6951,8 @@ class TuiSession:
                     self._cmd_menu_spielen()
                 elif choice in ("charaktere", "charaktere.", "characters"):
                     self._cmd_menu_charaktere()
+                elif choice == "tisch":
+                    self._cmd_menu_tisch()
                 elif choice in ("einstellungen", "settings"):
                     self._cmd_settings()
                 elif choice in ("fortsetzen", "resume"):
