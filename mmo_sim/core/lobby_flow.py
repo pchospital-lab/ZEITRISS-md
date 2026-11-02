@@ -153,6 +153,7 @@ def play_bound_table(
             )
 
     from . import app_service
+    from . import population_backup
     from .controller import TableController
     from .persona_state import PersonaStateStore
     from ..domain.zeitriss import saves as zeitriss_saves
@@ -238,6 +239,31 @@ def play_bound_table(
             "Lobbyfenster jederzeit ueber 'b' moeglich (kein automatischer zweiter Abschnitt)."
         )
         session._print(reason)
+        # ZR-POPULATION-BACKUP-RESTORE-20261101-R1 (01_AUFTRAG.md §2): derselbe
+        # Hook-Aufruf wie `ui/tui.py:_run_table_round` -- direkt NACH dem
+        # bestaetigten `outcome.completion.success` (Phase 2/finaler
+        # Abschluss), damit TUI-Lobby UND Lab (dieselbe Funktion, s.
+        # Moduldocstring) gleichermassen gesichert werden. Fehler hier werden
+        # NIE an den obigen Primaerabschluss-Erfolg gebunden.
+        backup_roots = population_backup.PopulationRoots(
+            onboarding_dir=session.onboarding_dir, catalog_dir=session.catalog_dir,
+            run_dir=session.run_dir, states_dir=session.states_dir,
+            registry_dir=session.onboarding_dir.parent / "registry",
+            prefs_root=session.onboarding_dir.parent,
+        )
+        backup_result = population_backup.backup_after_section_completed(
+            completion_success=True, run_id=lobby.run_id, table_id=table.table_id,
+            section_id=section_id, roots=backup_roots,
+            backup_root=session.onboarding_dir.parent / "population_backups",
+            producer_code_anchor="mmo_sim/core/lobby_flow.py:play_bound_table",
+            created_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        )
+        if backup_result is not None and not backup_result.succeeded:
+            session._print(
+                "Spielstand gespeichert; Zusatzsicherung (Populationsbackup) fehlgeschlagen "
+                f"({backup_result.error}) — letzter guter Sicherungsstand bleibt erhalten, "
+                "Wiederholung ueber 'backup retry'."
+            )
         return LobbyWindowOutcome(
             kind=LobbyOutcomeKind.SECTION_COMPLETED, reason=reason,
             table_id=table.table_id, section_id=section_id,
