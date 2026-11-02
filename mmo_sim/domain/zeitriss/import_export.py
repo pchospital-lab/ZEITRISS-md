@@ -33,6 +33,11 @@ class ImportPreview:
     n_characters: int
     single_char_ok: bool
     source_label: str = "extern importiert"
+    # Teilpaket C (J4, RECONCILIATION-V3): additive Felder, Default haelt
+    # JEDEN bestehenden Aufrufer bytegleich. `tolerated=True` nur ueber
+    # `preview_import_tolerant` erreichbar, NIE ueber `preview_import`.
+    tolerated: bool = False
+    warnings: tuple[str, ...] = ()
 
 
 def preview_import(raw_text: str) -> ImportPreview:
@@ -86,6 +91,77 @@ def preview_import(raw_text: str) -> ImportPreview:
         # zufaellig mitgefuehrt; `lvl` hat Vorrang, `level` bleibt Fallback.
         level = chars[0].get("lvl", chars[0].get("level"))
     return ImportPreview(char_id=cid, level=level, n_characters=n, single_char_ok=True)
+
+
+def preview_import_tolerant(raw_text: str) -> ImportPreview:
+    """Teilpaket C (J4, RECONCILIATION-V3-Diskriminator-Reuse): wie
+    `preview_import`, aber mit EINER zusaetzlichen, schmalen Toleranzstufe
+    fuer genau die Fehlerklasse, die SAVECOMPAT strukturell nicht reparieren
+    kann (Cap-Ueberlauf `maxItems`/`minItems`, s. `core.save_correction.
+    has_residual_structural_cap_overflow`/`STRUCTURAL_CAP_OVERFLOW_CHECKS`).
+
+    Ruft zuerst `preview_import(raw_text)` unveraendert auf -- bei Erfolg
+    exakt deren `ImportPreview` (nur `tolerated=False` zusaetzlich gesetzt,
+    additiv). Erst bei `MalformedImportError` wird HIER erneut geprueft, ob
+    der Ablehnungsgrund AUSSCHLIESSLICH der tolerierbare Cap-Ueberlauf ist:
+
+    Die milden Haertchecks (gueltiges JSON / v==7+'characters' / genau 1
+    Figur) werden dafuer NOCHMAL durchlaufen und BLEIBEN hart -- schlaegt
+    einer von ihnen fehl, wird die URSPRUENGLICHE `MalformedImportError`
+    (identischer Text) unveraendert erneut geworfen, KEINE neue/geloskerte
+    Fehlermeldung. Nur wenn diese drei Checks UND `validate_structure`
+    (voller v7-Schemacheck) erneut denselben `structure.valid=False` wie in
+    `preview_import` ergeben, entscheidet `has_residual_structural_cap_
+    overflow(obj, char_id)`:
+      - True  -> `ImportPreview(tolerated=True, warnings=<Restfehler>)`,
+        die Restwarnung bleibt SICHTBAR (keine stille Freigabe).
+      - False (fehlgebundener/fremder char_id-Envelope, nicht-Cap-
+        Strukturfehler, unvollstaendiger Umschlag) -> die URSPRUENGLICHE
+        `MalformedImportError` wird erneut geworfen (harte Ablehnung
+        bleibt, HAERTUNG ueber `binding_errors` in der Diskriminatorfunktion
+        selbst)."""
+    try:
+        return preview_import(raw_text)
+    except MalformedImportError as err:
+        original_error = err
+
+    try:
+        obj = json.loads(raw_text)
+    except (json.JSONDecodeError, ValueError):
+        raise original_error from None
+    if not isinstance(obj, dict) or obj.get("v") != 7 or "characters" not in obj:
+        raise original_error from None
+    n = save_lib.single_character_count(obj)
+    if n != 1:
+        raise original_error from None
+    structure = save_validation_lib.validate_structure(obj)
+    if structure.valid:
+        raise original_error from None
+
+    cid = save_lib.block_char_id(obj)
+
+    # Importzyklus-Entscheidung (belegt im Report): `core.save_correction`
+    # importiert bereits `domain.zeitriss.{save_correction,save_
+    # compatibility}` modulweit -- NICHT `domain.zeitriss.import_export`
+    # (dieses Modul), also kein Ruecklauf/Zyklus zu diesem Modul. Lazy statt
+    # Modulkopf-Import trotzdem bewusst: dieser Toleranzpfad ist der EINZIGE
+    # Ort in `domain.zeitriss`, der `core` ueberhaupt braucht -- `import_
+    # export.py` bleibt dadurch beim blossen Import (Erfolgs-/Hartablehnungs-
+    # pfad) frei von einer staendigen `core`-Abhaengigkeit.
+    from ...core.save_correction import has_residual_structural_cap_overflow
+
+    if not has_residual_structural_cap_overflow(obj, cid):
+        raise original_error from None
+
+    level = None
+    chars = obj.get("characters")
+    if isinstance(chars, list) and chars and isinstance(chars[0], dict):
+        level = chars[0].get("lvl", chars[0].get("level"))
+    warnings = tuple(f"{e.schema}:{e.path} ({e.check})" for e in structure.errors)
+    return ImportPreview(
+        char_id=cid, level=level, n_characters=n, single_char_ok=True,
+        tolerated=True, warnings=warnings,
+    )
 
 
 @dataclass

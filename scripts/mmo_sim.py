@@ -90,6 +90,33 @@ def _foreign_active_lab_owner(data_dir: Path) -> int | None:
     return active_lock_pid(data_dir / "run", exclude_pid=os.getpid())
 
 
+def _resolve_host_capable(explicit: bool | None) -> bool:
+    """ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2):
+    explizite Herleitung von `TuiSession(host_capable=...)` -- BEWUSST NICHT
+    aus `gm_transport_factory is not None` (beide Factory-Closures sind
+    lazy, s. `mmo_sim/adapters/factories.py`: `default_gm_transport_
+    factory`/`default_persona_driver_factory` liefern IMMER ein Callable,
+    unabhaengig von echter Env-Konfiguration -- `is not None` beweist also
+    NIE Hostfaehigkeit).
+
+    Stattdessen eine EXPLIZITE, am Launcher getroffene Deploy-Entscheidung
+    (`--host-capable`/`--no-host-capable`, sonst `MMO_SIM_HOST_CAPABLE`
+    env, sonst Default `True`): 'Gastinstall' (design.md §2 'Wurzel A,
+    kein Hoststack') ist ein SEPARATER Deploy-/Startkontext, der sich
+    bewusst als Gast deklariert -- kein Sniffing lazy-konfigurierbarer
+    Persona-/GM-Env (das wuerde einen echten Host, der z.B. nie Personas
+    einlaedt und darum MMO_SIM_PERSONA_CLI/_API_BASE_URL nie setzt,
+    faelschlich als Gast einordnen). Default `True` haelt JEDEN
+    bestehenden Start (kein neues Flag/Env gesetzt) bytegleich beim
+    bisherigen Hostverhalten."""
+    if explicit is not None:
+        return explicit
+    raw = os.environ.get("MMO_SIM_HOST_CAPABLE")
+    if raw is None or not raw.strip():
+        return True
+    return raw.strip().lower() not in ("0", "false", "no", "guest")
+
+
 def main(argv: list[str] | None = None) -> int:
     raw_argv = list(sys.argv[1:] if argv is None else argv)
     if raw_argv and raw_argv[0] == "report":
@@ -108,9 +135,23 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--participant", default=None, help="bestehende Teilnehmer-ID (sonst wird die zuletzt genutzte wiederverwendet bzw. beim allerersten Lauf eine neue erzeugt)")
     parser.add_argument("--data-dir", default=str(_REPO_ROOT / "internal" / "mmo_sim_data"),
                          help="Datenverzeichnis fuer Onboarding-/Katalog-Journale")
+    # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2): explizite
+    # Deploy-Entscheidung, s. `_resolve_host_capable`-Docstring -- Default
+    # `None` (weder Flag gesetzt) faellt auf `MMO_SIM_HOST_CAPABLE`-Env,
+    # sonst auf `True` zurueck (bytegleich zu jedem bestehenden Start).
+    host_capable_group = parser.add_mutually_exclusive_group()
+    host_capable_group.add_argument(
+        "--host-capable", dest="host_capable", action="store_true", default=None,
+        help="diese Installation besitzt einen echten Hoststack (Default, sofern MMO_SIM_HOST_CAPABLE nicht anders gesetzt ist)",
+    )
+    host_capable_group.add_argument(
+        "--no-host-capable", dest="host_capable", action="store_false",
+        help="Gastinstall ohne Hoststack (Wurzel A, design.md §2) -- nur eigene Figur verwalten/Tische anfragen/spielen nach Annahme",
+    )
     args = parser.parse_args(argv)
 
     data_dir = Path(args.data_dir)
+    host_capable = _resolve_host_capable(args.host_capable)
     foreign_pid = _foreign_active_lab_owner(data_dir)
     if foreign_pid is not None:
         print(
@@ -137,6 +178,7 @@ def main(argv: list[str] | None = None) -> int:
         # Umgebungskonfiguration liefert der erste Persona-Einladungsversuch
         # eine klare Fehlermeldung (s. `_default_persona_driver_factory`).
         persona_driver_factory=_default_persona_driver_factory(data_dir),
+        host_capable=host_capable,
     )
     try:
         return session.run()
