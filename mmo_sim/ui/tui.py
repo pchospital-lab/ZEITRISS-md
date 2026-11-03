@@ -281,6 +281,189 @@ class NonInteractiveImportError(ValueError):
     bricht HIER laut ab, statt ihn zu raten/automatisch aufzuloesen."""
 
 
+@dataclass
+class ParticipantSaveIntakeOutcome:
+    """R4-Nachzug (02_NACHZUG.md §A, Briefing A Punkt 1, Generalbefund
+    F1/F5): rohes Ergebnis von `_decide_participant_save_intake` -- jeder
+    Aufrufer entscheidet SELBST, wie er eine nicht-`register_new`-
+    Entscheidung behandelt (ehrlich lokal anzeigen wie `_cmd_table_accept`,
+    oder werfend wie der bestehende `import_save_for_participant_
+    noninteractive`-Wrapper)."""
+    action: str  # "register_new" | "noop_identical" | "parked"
+    reason: str
+    char_id: str | None = None
+    block: dict | None = None
+    tolerated: bool = False
+
+
+def _decide_participant_save_intake(
+    *, catalog_dir: Path, onboarding_dir: Path, run_dir: Path | None, participant_id: str,
+    raw_save_text: str, states_dir: Path | None = None, schema_path: Path | None = None,
+) -> ParticipantSaveIntakeOutcome:
+    """R4-Nachzug (02_NACHZUG.md §A, Briefing A Punkt 1, Generalbefund
+    F1/F5 "Annahme umgeht Importvertrag"): GEMEINSAME, REIN LESENDE
+    Entscheidungs-Op fuer EINEN Teilnehmer, extrahiert aus `_cmd_import`s
+    automatischem (nicht-interaktivem) Entscheidungsteil -- dieselben
+    Produktfunktionen in DERSELBEN Reihenfolge wie dort:
+    `import_export.preview_import_tolerant` -> Konfliktbasis (wie
+    `_resolve_active_save`: zuerst der real veroeffentlichte Current-Save
+    via `core_store.load_current_save_or_raise`, dann der
+    Onboarding-Slot, zuletzt der getrennte `catalog.load_figure_save`-
+    Figurenspeicher) -> Fremdzuordnungscheck `catalog.find_registration`
+    (R2-Nachzug F5, NACH der Konfliktbasis -- `known_char_ids` kann durch
+    die Konfliktbasis zusaetzlich ergaenzt worden sein, exakt wie bei
+    `_cmd_import`) -> Aktivbindungs-/Abschlussauftragscheck
+    (`core_store.chrononaut_active_binding`/`chrononaut_open_completion_
+    order`) -> `import_export.resolve_import`. KEINE zweite
+    Importregelimplementierung -- nur EIN gemeinsamer Entscheidungspunkt
+    fuer beide Aufrufer unten. `states_dir`/`schema_path` sind additiv/
+    optional (fehlen beide, bleibt die Konfliktbasis wie zuvor rein
+    Onboarding-/Katalog-basiert -- `import_save_for_participant_
+    noninteractive` deckt per Vertrag ohnehin nur frische Teilnehmer ohne
+    jede Baseline ab und laesst sie daher weg).
+
+    Deckt NUR die drei OHNE Rueckfrage automatisch erreichbaren
+    Entscheidungen ab (`register_new`/`noop_identical`/`parked`) -- Fall 3
+    (bekannte Char-ID, abweichender Stand) braucht laut `11 §5` IMMER eine
+    ausdruecklich GETROFFENE Konfliktwahl ('a'/'k'), die hier bewusst NICHT
+    geraten wird; ohne `explicit_choice` bleibt er (wie bei
+    `import_export.resolve_import`) automatisch `parked` -- kein
+    automatisches Hochleveln/Mischen, kein Raten einer Wahl, die ein Mensch
+    sonst treffen wuerde. Ein gerade NICHT lesbarer, aber bekannter
+    Current (`core_store.CurrentSaveUnavailableError`, wie bei
+    `_cmd_import`s `baseline_unresolved`) liefert ebenfalls `"parked"`
+    (kontrolliert gehalten, keine Entscheidung auf Basis einer
+    moeglicherweise veralteten Fassung).
+
+    SCHREIBT NICHTS (R4-Generalnachschaerfung, Briefing A Nachtrag
+    "keine wirksame halbe Aufnahme"): bewusst von
+    `_write_participant_save_intake` GETRENNT, damit ein Aufrufer, der
+    eine aeussere Zustandsmutation (z.B. `table_admission.accept_request`s
+    Roster-Buchung) an eine ERFOLGREICHE Figurenuebernahme koppeln muss,
+    diese Entscheidung VORHER read-only treffen kann -- eine geparkte
+    Figur darf so NIE zu einer bereits wirksamen aeusseren Mutation ohne
+    tatsaechlich uebernommene Figur fuehren (`_cmd_table_accept` nutzt
+    genau das: Entscheidung VOR `accept_request`, Schreiben NACH
+    `accept_request`, s. dort)."""
+    preview = import_export.preview_import_tolerant(raw_save_text)
+    incoming_block = json.loads(raw_save_text)
+    known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(catalog_dir, participant_id)}
+    # Konfliktbasis wie `_cmd_import`s `_resolve_active_save`: zuerst der
+    # real veroeffentlichte Stand, NUR wenn dafuer (noch) keine Version
+    # existiert faellt dies auf den reinen Onboarding-Stand zurueck.
+    onboarding_state = onboarding.peek(onboarding_dir, participant_id)
+    baseline_block = onboarding_state.final_save if onboarding_state is not None else None
+    if run_dir is not None and states_dir is not None and schema_path is not None:
+        from ..core.persona_state import PersonaStateStore
+        from ..core import store as core_store
+        ps_store = PersonaStateStore(schema_path=schema_path)
+        try:
+            current = core_store.load_current_save_or_raise(run_dir, participant_id, ps_store, states_dir=states_dir)
+        except core_store.CurrentSaveUnavailableError:
+            return ParticipantSaveIntakeOutcome(
+                action="parked", char_id=preview.char_id,
+                reason=(
+                    "der aktuell veroeffentlichte Spielstand ist gerade nicht lesbar -- keine "
+                    "Konfliktentscheidung ohne geklaerte Autoritaet (kein Write)."
+                ),
+            )
+        if current is not None:
+            baseline_block = current
+    existing_block_for_char_id = None
+    if baseline_block is not None:
+        baseline_char_id = zeitriss_saves.block_char_id(baseline_block)
+        if baseline_char_id is not None:
+            known_char_ids.add(baseline_char_id)
+            if baseline_char_id == preview.char_id:
+                existing_block_for_char_id = baseline_block
+    if existing_block_for_char_id is None and preview.char_id in known_char_ids:
+        existing_block_for_char_id = catalog.load_figure_save(catalog_dir, participant_id, preview.char_id)
+    # R2-Nachzug (F5 §2, independent-r1-review.md F5): Fremdzuordnungs-
+    # Konflikt VOR jedem Write -- identischer Check wie `_cmd_import`,
+    # NACH der obigen Konfliktbasis (dieselbe Reihenfolge).
+    if preview.char_id is not None and preview.char_id not in known_char_ids:
+        foreign_entry = catalog.find_registration(catalog_dir, preview.char_id)
+        if foreign_entry is not None and foreign_entry.participant_id != participant_id:
+            return ParticipantSaveIntakeOutcome(
+                action="parked", char_id=preview.char_id,
+                reason=(
+                    f"char_id={preview.char_id} ist bereits einem anderen Teilnehmer "
+                    f"({foreign_entry.participant_id!r}) zugeordnet -- Fremdzuordnungs-"
+                    "Konflikt, auch ohne aktiven Tischlock (kein Write)."
+                ),
+            )
+    active_binding = False
+    open_completion_order = False
+    if run_dir is not None and preview.char_id is not None:
+        from ..core import store as core_store
+        active_binding = core_store.chrononaut_active_binding(run_dir, preview.char_id)
+        open_completion_order = core_store.chrononaut_open_completion_order(run_dir, preview.char_id)
+    decision = import_export.resolve_import(
+        incoming_block, known_char_ids=known_char_ids,
+        existing_block_for_char_id=existing_block_for_char_id,
+        active_binding=active_binding, open_completion_order=open_completion_order,
+    )
+    if decision.action != "register_new":
+        return ParticipantSaveIntakeOutcome(action=decision.action, reason=decision.reason, char_id=preview.char_id)
+    return ParticipantSaveIntakeOutcome(
+        action="register_new", reason=decision.reason, char_id=preview.char_id,
+        block=decision.block, tolerated=preview.tolerated,
+    )
+
+
+def _write_participant_save_intake(
+    outcome: ParticipantSaveIntakeOutcome, *, catalog_dir: Path, onboarding_dir: Path,
+    participant_id: str, harvest_validator: ZeitrissHarvestValidator,
+) -> None:
+    """R4-Nachzug (Briefing A Nachtrag): fuehrt die tatsaechlichen Writes
+    fuer eine BEREITS getroffene `"register_new"`-Entscheidung aus
+    (Katalog-Figursave + Onboarding-Slot + Katalogregistrierung) --
+    GETRENNT von `_decide_participant_save_intake` aufrufbar, damit ein
+    Aufrufer seine eigene aeussere Mutation (Roster-Accept) ZWISCHEN
+    Entscheidung und Schreiben platzieren kann. Nur fuer
+    `action="register_new"` sinnvoll; jeder andere Wert ist ein
+    Aufrufer-Fehler (interner Vertrag, kein Nutzerpfad)."""
+    if outcome.action != "register_new":
+        raise ValueError(
+            f"_write_participant_save_intake erwartet action='register_new', bekommen: "
+            f"{outcome.action!r} -- Aufrufer-Fehler, kein Nutzerpfad."
+        )
+    catalog.store_figure_save(catalog_dir, participant_id, outcome.char_id, outcome.block)
+    onboarding.start_or_resume(onboarding_dir, participant_id)
+    if outcome.tolerated:
+        onboarding.complete_with_save_best_effort(onboarding_dir, participant_id, outcome.block)
+    else:
+        onboarding.complete_with_save(
+            onboarding_dir, participant_id, outcome.block, harvest_validator, outcome.char_id,
+        )
+    catalog.register(catalog_dir, catalog.CatalogEntry(
+        participant_id=participant_id, chrononaut_id=outcome.char_id, persona_key=participant_id,
+    ))
+
+
+def _apply_participant_save_intake(
+    *, catalog_dir: Path, onboarding_dir: Path, run_dir: Path | None, participant_id: str,
+    raw_save_text: str, harvest_validator: ZeitrissHarvestValidator,
+) -> ParticipantSaveIntakeOutcome:
+    """Duenner Komfort-Wrapper: `_decide_participant_save_intake` +
+    (nur bei `"register_new"`) `_write_participant_save_intake` in einem
+    Aufruf -- fuer Aufrufer, die KEINE aeussere Mutation zwischen
+    Entscheidung und Schreiben benoetigen (`import_save_for_participant_
+    noninteractive`). `_cmd_table_accept` nutzt die beiden getrennten
+    Funktionen DIREKT (s. dort), weil dort eine aeussere Roster-Mutation
+    NICHT wirksam werden darf, solange die Figur geparkt bleibt."""
+    outcome = _decide_participant_save_intake(
+        catalog_dir=catalog_dir, onboarding_dir=onboarding_dir, run_dir=run_dir,
+        participant_id=participant_id, raw_save_text=raw_save_text,
+    )
+    if outcome.action == "register_new":
+        _write_participant_save_intake(
+            outcome, catalog_dir=catalog_dir, onboarding_dir=onboarding_dir,
+            participant_id=participant_id, harvest_validator=harvest_validator,
+        )
+    return outcome
+
+
 def import_save_for_participant_noninteractive(
     *, catalog_dir: Path, onboarding_dir: Path, run_dir: Path | None, participant_id: str,
     raw_save_text: str, harvest_validator: ZeitrissHarvestValidator,
@@ -315,48 +498,41 @@ def import_save_for_participant_noninteractive(
     'bereit' ist wie eine neu erschaffene -- kein zweiter, abweichender
     Bereitschaftsbegriff. Liefert dann ein `PersonaCreationOutcome`
     (`status='completed'`), sonst (ohne beide Parameter) den rohen,
-    tatsaechlich uebernommenen Save-Block."""
+    tatsaechlich uebernommenen Save-Block.
+
+    R4-Nachzug (Briefing A Punkt 1): die eigentliche Entscheidungs-+
+    Uebernahme-Op (Fremdzuordnungscheck/Konfliktbasis/Bindungscheck/
+    `resolve_import`/tolerierter Pfad) ist jetzt in die GEMEINSAME
+    `_apply_participant_save_intake` extrahiert (auch von
+    `TuiSession._cmd_table_accept`s gebundener Gastannahme genutzt, s.
+    dort) -- diese Funktion bleibt der werfende Wrapper fuer ihren EINEN
+    dokumentierten Fall: Erfolg NUR bei `register_new`, jede andere
+    Entscheidung (jetzt zusaetzlich inkl. des Fremdzuordnungschecks)
+    bricht weiterhin mit `NonInteractiveImportError` ab. Additiv/neu
+    gegenueber der vorherigen, bytegleichen Implementierung: ein
+    tolerierbarer Cap-Ueberlauf-Rest (`preview_import_tolerant` statt dem
+    vorherigen harten `preview_import`) scheitert jetzt nicht mehr blind
+    an diesem EINEN Fall, sondern laeuft -- wie bei `_cmd_import` -- ueber
+    den bestehenden `complete_with_save_best_effort`-Pfad durch."""
     try:
-        preview = import_export.preview_import(raw_save_text)
+        outcome = _apply_participant_save_intake(
+            catalog_dir=catalog_dir, onboarding_dir=onboarding_dir, run_dir=run_dir,
+            participant_id=participant_id, raw_save_text=raw_save_text, harvest_validator=harvest_validator,
+        )
     except import_export.MalformedImportError as e:
         raise NonInteractiveImportError(f"Import strukturell ungueltig, kein Write: {e}") from e
-    incoming_block = json.loads(raw_save_text)
-    known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(catalog_dir, participant_id)}
-    if preview.char_id in known_char_ids:
-        raise NonInteractiveImportError(
-            f"char_id={preview.char_id!r} ist fuer {participant_id!r} bereits bekannt -- "
-            "dieser Helfer deckt nur den allerersten, konfliktfreien Import ab."
-        )
-    active_binding = False
-    open_completion_order = False
-    if run_dir is not None and preview.char_id is not None:
-        from ..core import store as core_store
-        active_binding = core_store.chrononaut_active_binding(run_dir, preview.char_id)
-        open_completion_order = core_store.chrononaut_open_completion_order(run_dir, preview.char_id)
-    decision = import_export.resolve_import(
-        incoming_block, known_char_ids=known_char_ids, existing_block_for_char_id=None,
-        active_binding=active_binding, open_completion_order=open_completion_order,
-    )
-    if decision.action != "register_new":
+    if outcome.action != "register_new":
         raise NonInteractiveImportError(
             f"erwartete Entscheidung 'register_new' fuer einen frischen Import, bekommen: "
-            f"{decision.action!r} ({decision.reason})."
+            f"{outcome.action!r} ({outcome.reason})."
         )
-    catalog.store_figure_save(catalog_dir, participant_id, preview.char_id, decision.block)
-    onboarding.start_or_resume(onboarding_dir, participant_id)
-    onboarding.complete_with_save(
-        onboarding_dir, participant_id, decision.block, harvest_validator, preview.char_id,
-    )
-    catalog.register(catalog_dir, catalog.CatalogEntry(
-        participant_id=participant_id, chrononaut_id=preview.char_id, persona_key=participant_id,
-    ))
     if states_dir is not None and persona_state_store is not None and run_dir is not None:
         from ..domain.zeitriss.community_creation import _publication_reconcile
         return _publication_reconcile(
             run_dir=run_dir, states_dir=states_dir, onboarding_dir=onboarding_dir, catalog_dir=catalog_dir,
-            persona_key=participant_id, final_save=decision.block, ps_store=persona_state_store,
+            persona_key=participant_id, final_save=outcome.block, ps_store=persona_state_store,
         )
-    return decision.block
+    return outcome.block
 
 
 class TuiSession:
@@ -465,6 +641,77 @@ class TuiSession:
         `_print`/`_readline_with_controls` `_HumanDriver.decide()` fuer
         GENAU diesen Teilnehmer aufruft (s. dort)."""
         self._table_guest_terminals[guest_id] = guest_session
+
+    def _writeback_registered_guest_saves(self, members_completed: list[str]) -> None:
+        """R4-Nachzug (Briefing A Punkt 2, Generalbefund F1 "persoenliche
+        Save-Rueckgabe fehlt"): SYMMETRISCHES Gegenstueck zu
+        `register_guest_terminal` -- liest NACH echtem Abschluss
+        (`_run_table_round`, `outcome.completion.success`) den JUST
+        hostseitig veroeffentlichten Current-Save eines ueber
+        `register_guest_terminal` angeschlossenen Gasts
+        (`core_store.load_current_save_or_raise` unter DIESEM
+        (Host-)`run_dir`/`states_dir`, derselbe Lese-/Autoritaetsweg wie
+        jede andere Current-Lektuere) und schreibt ihn in GENAU DESSEN
+        EIGENEN privaten Bestand zurueck (`guest_session.onboarding_dir`/
+        `catalog_dir`, dieselben Produktfunktionen wie jede andere
+        Uebernahme: `catalog.store_figure_save`+`catalog.register`+
+        `onboarding.complete_with_save`) -- damit ein SPAETERER, frischer
+        Leser auf der PRIVATEN Gastwurzel (neue `TuiSession`, Prozessende,
+        KEINE Objektreferenz auf diese Hostsession) die tatsaechliche
+        ABSCHLUSSfassung findet, nicht mehr die Startfassung. Betrifft NUR
+        Teilnehmer mit `register_guest_terminal` (eigener privater
+        Bestand, getrennt vom Host) -- der Host selbst UND ein Gast am
+        geteilten Terminal (keine eigene `TuiSession`) bleiben
+        UNVERAENDERT (ihr 'privater' Bestand IST der Hostbestand, kein
+        zweiter Schreibvorgang noetig). Hat `guest_session` ZUSAETZLICH
+        ihr EIGENES `states_dir`/`schema_path` konfiguriert (additiv,
+        heute von keinem bestehenden Aufrufer gesetzt), wird dort
+        ZUSAETZLICH derselbe Persona-State/Current-Publikationsweg
+        (`onboarding.ensure_participant_persona_state`+`core_store.
+        publish_current_save`) unter der EIGENEN Gastwurzel nachgezogen --
+        kein GM-/Persona-Provideraufruf, reine Dateischreibvorgaenge."""
+        if self.run_dir is None or self.states_dir is None or self.schema_path is None:
+            return
+        from ..core.persona_state import PersonaStateStore
+        from ..core import store as core_store
+        host_ps_store = PersonaStateStore(schema_path=self.schema_path)
+        for guest_id, guest_session in self._table_guest_terminals.items():
+            if guest_id not in members_completed:
+                continue
+            try:
+                completed_block = core_store.load_current_save_or_raise(
+                    self.run_dir, guest_id, host_ps_store, states_dir=self.states_dir,
+                )
+            except core_store.CurrentSaveUnavailableError:
+                # Gerade nicht lesbar -- kein Rueckschreiben eines
+                # moeglicherweise veralteten/falschen Stands (dieselbe
+                # Vorsicht wie `_resolve_active_save`s `unresolved`-Pfad).
+                continue
+            if completed_block is None:
+                continue
+            char_id = zeitriss_saves.block_char_id(completed_block)
+            if char_id is None:
+                continue
+            onboarding.start_or_resume(guest_session.onboarding_dir, guest_id)
+            onboarding.complete_with_save(
+                guest_session.onboarding_dir, guest_id, completed_block, ZeitrissHarvestValidator(), char_id,
+            )
+            catalog.store_figure_save(guest_session.catalog_dir, guest_id, char_id, completed_block)
+            catalog.register(guest_session.catalog_dir, catalog.CatalogEntry(
+                participant_id=guest_id, chrononaut_id=char_id, persona_key=guest_id,
+            ))
+            if (
+                guest_session.run_dir is not None
+                and guest_session.states_dir is not None
+                and guest_session.schema_path is not None
+            ):
+                guest_ps_store = PersonaStateStore(schema_path=guest_session.schema_path)
+                onboarding.ensure_participant_persona_state(
+                    guest_ps_store, guest_session.states_dir, guest_id, char_id, completed_block,
+                )
+                core_store.publish_current_save(
+                    guest_session.run_dir, guest_id, completed_block, guest_ps_store, guest_session.states_dir,
+                )
 
     def _readline(self, prompt: str) -> str:
         try:
@@ -4406,7 +4653,35 @@ class TuiSession:
         Verhalten UNVERAENDERT (kein Publish hier, Resolve laeuft wie
         bisher ueber die gemeinsame Wurzel). Fehlt dem Host dafuer
         `states_dir`/`schema_path`, wird VOR jeder Admission-Mutation
-        abgelehnt (0 Writes) -- kein halb uebernommener Gast."""
+        abgelehnt (0 Writes) -- kein halb uebernommener Gast.
+
+        R4-Nachzug (Briefing A Punkt 1, Generalbefund F1/F5 "Annahme
+        umgeht Importvertrag"): die konkrete Uebernahme der mitgebrachten
+        Figur laeuft jetzt NICHT mehr direkt in den harten
+        `onboarding.complete_with_save`-Pfad, sondern durch dieselbe
+        GETEILTE Entscheidungs-Op wie der reguläre `_cmd_import`
+        (`_decide_participant_save_intake`, s. dort) -- Fremdzuordnung
+        (`catalog.find_registration`), aktive Bindung/offener
+        Abschlussauftrag UND ein bekannter, abweichender Stand werden
+        jetzt VOR jedem Figur-Write geprueft; ein toleranter Restfehler
+        (Cap-Ueberlauf) laeuft ueber `complete_with_save_best_effort`
+        statt am harten `complete_with_save` zu scheitern.
+
+        R4-Generalnachschaerfung (Briefing A Nachtrag "keine wirksame
+        halbe Aufnahme"): eine geparkte Figurenuebernahme darf NIE zu
+        einem bereits angenommenen Rostermitglied OHNE uebernommene Figur
+        fuehren -- die Entscheidung (`_decide_participant_save_intake`,
+        REIN LESEND) laeuft deshalb JETZT VOR `table_admission.
+        accept_request` (die eigentliche Roster-Mutation). Bei `parked`
+        wird `accept_request` GAR NICHT aufgerufen -- die Anfrage bleibt
+        ehrlich OFFEN/pending (Gast NICHT im Roster, Sidecar bleibt
+        erhalten, 0 Writes). Erst wenn die Figur tatsaechlich uebernehmbar
+        ist (`register_new`/`noop_identical`), wird `accept_request`
+        aufgerufen -- der eigentliche Figur-Write
+        (`_write_participant_save_intake`) erfolgt dann ERST NACH dessen
+        Erfolg. Der figurlose Fall (kein Sidecar/geteiltes Terminal)
+        bleibt UNVERAENDERT: `accept_request` lief dort schon immer ohne
+        jede Figurenbedingung."""
         self._require_host("Tisch-Anfrage annehmen (accept_request)")
         if self.run_dir is None:
             self._print("Anfrage annehmen erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -4423,6 +4698,34 @@ class TuiSession:
                 "halb uebernommener Gast."
             )
             return
+        intake: ParticipantSaveIntakeOutcome | None = None
+        if guest_offer is not None:
+            # READ-ONLY Vorabpruefung der Figuren-Uebernahmefaehigkeit --
+            # VOR jeder Roster-Mutation (s. Docstring oben). Noch KEIN
+            # Write; `_decide_participant_save_intake` schreibt nichts.
+            try:
+                intake = _decide_participant_save_intake(
+                    catalog_dir=self.catalog_dir, onboarding_dir=self.onboarding_dir, run_dir=self.run_dir,
+                    participant_id=guest_id, raw_save_text=json.dumps(guest_offer["save"]),
+                    states_dir=self.states_dir, schema_path=self.schema_path,
+                )
+            except import_export.MalformedImportError as e:
+                self._print(
+                    f"Anfrage von '{guest_id}' nicht angenommen: die mitgebrachte Figur ist "
+                    f"strukturell ungueltig (kein Write): {e}"
+                )
+                return
+            if intake.action == "parked":
+                # KEINE Roster-Mutation -- die Anfrage bleibt ehrlich
+                # offen/pending (Gast NICHT angenommen), Sidecar bleibt
+                # erhalten (retry-faehig, falls sich Sperre/Lage spaeter
+                # loest). Keine angenommene halbe Besetzung.
+                self._print(
+                    f"Anfrage von '{guest_id}' nicht angenommen: eigene Figur NICHT uebernehmbar "
+                    f"(geparkt, kein Write) -- Anfrage bleibt OFFEN, kein Rostermitglied ohne "
+                    f"uebernommene Figur: {intake.reason}"
+                )
+                return
         try:
             record = table_admission.accept_request(
                 self.run_dir, table_key=table_key, host_id=self.participant_id, guest_id=guest_id,
@@ -4433,32 +4736,48 @@ class TuiSession:
         if guest_offer is not None:
             # "Der Host fuehrt die erlaubten Vorgaenge an seinen EIGENEN
             # Wurzeln aus" (02_NACHZUG.md §A): die konkreten Gastbytes
-            # landen jetzt hostseitig unter `self.onboarding_dir`/
+            # landen (bei Erfolg) hostseitig unter `self.onboarding_dir`/
             # `self.catalog_dir`/`self.states_dir` (NICHT unter der
             # PRIVATEN Wurzel des Gasts) -- `_resolve_member(guest_id)`,
             # das spaetere `_cmd_table_start` fuer jedes Rostermitglied
             # gegen GENAU diese Hostwurzeln aufruft, braucht zuerst einen
             # Onboarding-Eintrag (`onboarding.peek`-Gate), sonst bliebe
             # der Gast trotz veroeffentlichtem Current unresolvierbar.
-            onboarding.start_or_resume(self.onboarding_dir, guest_id)
-            onboarding.complete_with_save(
-                self.onboarding_dir, guest_id, guest_offer["save"], ZeitrissHarvestValidator(),
-                guest_offer["chrononaut_id"],
+            assert intake is not None  # oben bereits getroffen, 'parked' hat schon via return verlassen.
+            if intake.action == "noop_identical":
+                # A20-Analogon: identischer Retry loest KEINEN zweiten
+                # Fortschritt aus -- der Sidecar gilt trotzdem als
+                # abgearbeitet (derselbe Stand liegt bereits hostseitig
+                # vor), also wie beim Erfolgsfall geloescht.
+                _clear_table_guest_offer(self.run_dir, table_key, guest_id)
+                self._print(
+                    f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}) -- "
+                    f"eigene Figur bereits identisch hinterlegt, kein zweiter Fortschritt: {intake.reason}"
+                )
+                return
+            # register_new: der Figur-Write erfolgt ERST JETZT, NACH dem
+            # erfolgreichen Roster-Accept oben (keine Schreibwirkung ohne
+            # wirksame Annahme).
+            _write_participant_save_intake(
+                intake, catalog_dir=self.catalog_dir, onboarding_dir=self.onboarding_dir,
+                participant_id=guest_id, harvest_validator=ZeitrissHarvestValidator(),
             )
-            catalog.register(self.catalog_dir, catalog.CatalogEntry(
-                participant_id=guest_id, chrononaut_id=guest_offer["chrononaut_id"], persona_key=guest_id,
-            ))
+            # Dieselben Publikationsschritte wie zuvor
+            # (`onboarding.ensure_participant_persona_state` +
+            # `core_store.publish_current_save`), nur jetzt NACH der
+            # geteilten Entscheidungs-+Schreib-Op statt direkt am harten
+            # Pfad.
             from ..core.persona_state import PersonaStateStore
             ps_store = PersonaStateStore(schema_path=self.schema_path)
             onboarding.ensure_participant_persona_state(
-                ps_store, self.states_dir, guest_id, guest_offer["chrononaut_id"], guest_offer["save"],
+                ps_store, self.states_dir, guest_id, intake.char_id, intake.block,
             )
             from ..core import store as core_store
-            core_store.publish_current_save(self.run_dir, guest_id, guest_offer["save"], ps_store, self.states_dir)
+            core_store.publish_current_save(self.run_dir, guest_id, intake.block, ps_store, self.states_dir)
             _clear_table_guest_offer(self.run_dir, table_key, guest_id)
             self._print(
                 f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}) -- "
-                f"eigene Figur '{guest_offer['chrononaut_id']}' hostseitig uebernommen."
+                f"eigene Figur '{intake.char_id}' hostseitig uebernommen."
             )
             return
         self._print(f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}).")
@@ -6311,6 +6630,12 @@ class TuiSession:
             return
         if outcome.completion.success:
             self._print(f"Abschnitt abgeschlossen: {outcome.completion.members_completed}")
+            # R4-Nachzug (Briefing A Punkt 2): symmetrischer Rueckkanal zu
+            # `register_guest_terminal` -- schreibt den soeben hostseitig
+            # veroeffentlichten ABSCHLUSS-Save jedes angeschlossenen
+            # Gasts in dessen EIGENEN privaten Bestand zurueck (s.
+            # `_writeback_registered_guest_saves`-Docstring).
+            self._writeback_registered_guest_saves(outcome.completion.members_completed)
             backup_result = self._maybe_backup_after_section(
                 lobby, table, f"{table.table_id}-section",
             )
