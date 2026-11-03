@@ -172,7 +172,38 @@ def test_two_humans_three_ai_real_consent_and_real_turn_one_new_person():
         leader = sup.register_human(registry_dir, "LeaderAI")
         leader_id = leader.participant_id
         sup.onboard_human_figure(registry_dir, leader_id, onboarding_dir, states_dir, run_dir, "CHR-W20AI-L", "LA", "LAOPS")
-        for pk in ("sniper", "tech", "medic"):
+        # R4-Nachzug (F3-Rest, Generalklaerung): alle drei KI-Personas
+        # muessen eigene bestaetigte Hostpersonas von `leader_id` sein
+        # (`_known_ai_overview()`), sonst haelt der Bestandscheck in
+        # `_cmd_local_round` die Einladung an, BEVOR der hier eigentlich
+        # geprufte Consentweg (`decision_contract`) erreicht wird. EIN
+        # gemeinsamer `bootstrap_community`-Aufruf fuer ALLE drei Keys
+        # (statt dreimal `g03._bootstrap_own_persona` -- `bootstrap_
+        # community` schliesst die Community bereits nach dem ERSTEN Aufruf
+        # ab; ein zweiter Aufruf fuer dieselbe `community_id` liefert dann
+        # nur noch den laengst abgeschlossenen, NICHT erweiterten
+        # Personabestand zurueck). Reihenfolge zwingend VOR `_make_ready`.
+        from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+        from mmo_sim.core.persona_state import PersonaStateStore
+        ai_keys = ("sniper", "tech", "medic")
+        _ps_store_bootstrap = PersonaStateStore(schema_path=g03._SCHEMA)
+        _drafts = {
+            pk: {
+                "real_name": pk, "archetype": "Test-Archetyp", "play_style": "SIMULIERT/DEMO",
+                "charwunsch": "SIMULIERT/DEMO (ux1-r5-Testfixture).",
+                "plays_char": {
+                    "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                    "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+                },
+            }
+            for pk in ai_keys
+        }
+        _bootstrap_result = bootstrap_community(
+            run_dir / "community", f"community-{leader_id}", 1, _drafts, _ps_store_bootstrap, states_dir,
+            today="2026-11-03",
+        )
+        assert set(ai_keys).issubset(_bootstrap_result.personas_written), _bootstrap_result.reason
+        for pk in ai_keys:
             g03._make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, pk)
 
         class _AcceptAndPlayDriver:

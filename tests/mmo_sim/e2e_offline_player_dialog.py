@@ -119,6 +119,28 @@ def main() -> int:
             st.pop("current_save_version", None)
 
         ps_store = PersonaStateStore(schema_path=SCHEMA)
+        # R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+        # Alias-Pfad treibt eine normale KI-Persona nur noch aus dem
+        # EIGENEN bestaetigten Bestand des einladenden Hosts (`sniper`,
+        # `self._known_ai_overview()`) -- 'tech' muss daher VOR dem
+        # eigentlichen Persona-State-Write unter `community-sniper`
+        # bootstrapped sein (umgekehrte Reihenfolge ueberschreibt den
+        # gleich danach gesetzten echten State wieder mit dem
+        # Bootstrap-Entwurf).
+        from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+        bootstrap_result = bootstrap_community(
+            run_dir / "community", "community-sniper", 1, {
+                "tech": {
+                    "real_name": "tech", "archetype": "Test-Archetyp", "play_style": "SIMULIERT/DEMO",
+                    "charwunsch": "SIMULIERT/DEMO (e2e-offline-Testfixture).",
+                    "plays_char": {
+                        "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                        "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+                    },
+                },
+            }, ps_store, states_dir, today="2026-11-03",
+        )
+        assert "tech" in bootstrap_result.personas_written, bootstrap_result.reason
         ps_store.save_state("sniper", sniper_state, states_dir=states_dir)
         ps_store.save_state("tech", tech_state, states_dir=states_dir)
 

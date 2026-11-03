@@ -652,12 +652,23 @@ def test_l10_manual_l_path_uses_same_shared_admitted_decision_service():
     """L10 (Erhalt): der manuelle `l`-Weg bleibt unveraendert benutzbar UND
     nutzt jetzt real denselben Dienst (`lobby_service.request_admitted_
     decision`) wie die neue Lobbyinitiative -- kein stiller Wechsel von
-    Mensch auf Persona, keine zweite Kontrollvertragsimplementierung."""
+    Mensch auf Persona, keine zweite Kontrollvertragsimplementierung.
+
+    R4-Nachzug (F3-Rest, Generalklaerung): im Unterschied zu den L01-L09-
+    Faellen oben (die ausschliesslich ueber `_cmd_lobby_initiative` laufen)
+    treibt dieser Test 'tech' direkt ueber den `_cmd_local_round`-Alias-Weg
+    ('persona:tech') -- `_known_ai_overview()` liest den Bestand des
+    einladenden Hosts explizit unter `community-<participant_id>`
+    ('community-sniper', NICHT dem sonst in dieser Datei verwendeten
+    generischen 'community-op'). 'tech' muss daher hier unter der ECHTEN
+    Host-Community-ID bootstrapped sein, sonst haelt der neue Bestandscheck
+    die Einladung schon VOR dem hier eigentlich gepruefchten
+    request_admitted_decision-Pfad an."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         keys = ["sniper", "tech"]
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _bootstrap_community(
-            root, "community-op", keys,
+            root, "community-sniper", keys,
         )
         write_test_profile(run_dir)
         for pk in keys:
@@ -720,7 +731,7 @@ def test_l10_manual_l_path_repeated_invite_same_group_is_asked_again():
         root = Path(td)
         keys = ["sniper", "tech"]
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _bootstrap_community(
-            root, "community-op", keys,
+            root, "community-sniper", keys,
         )
         write_test_profile(run_dir)
         for pk in keys:

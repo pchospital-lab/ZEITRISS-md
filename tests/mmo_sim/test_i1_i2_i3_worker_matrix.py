@@ -55,15 +55,52 @@ def _scripted_input(answers):
     return read
 
 
-def _seed(base: Path, members: dict[str, str]):
+def _bootstrap_own_persona(run_dir: Path, states_dir: Path, host_id: str, persona_key: str) -> None:
+    """R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+    Alias-Pfad treibt eine normale KI-Persona nur noch aus dem EIGENEN
+    bestaetigten Bestand des einladenden Hosts (`self._known_ai_overview()`,
+    `community-<host_id>`) -- ready+Import allein (`_seed` unten) begruendet
+    KEINE Zugehoerigkeit. Muster identisch zu `test_r3_f3_host_persona_
+    authority.py:_bootstrap_own_persona`; MUSS VOR dem eigentlichen Import
+    laufen (umgekehrte Reihenfolge ueberschreibt den frisch importierten
+    Spielstand im PersonaStateStore wieder mit dem Bootstrap-Entwurf)."""
+    from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+    ps_store = PersonaStateStore(_SCHEMA)
+    community_dir = run_dir / "community"
+    drafts = {
+        persona_key: {
+            "real_name": persona_key, "archetype": "Test-Archetyp",
+            "play_style": "SIMULIERT/DEMO", "charwunsch": "SIMULIERT/DEMO (i1-i2-i3-Testfixture).",
+            "plays_char": {
+                "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+            },
+        },
+    }
+    result = bootstrap_community(community_dir, f"community-{host_id}", 1, drafts, ps_store, states_dir, today="2026-11-03")
+    assert persona_key in result.personas_written, result.reason
+
+
+def _seed(base: Path, members: dict[str, str], *, bestand: dict[str, str] | None = None):
     """members: {participant_id: fixture_key}. Importiert real ueber die TUI
-    (kein Vorbaubypass), analog `helpers_p2r.py:Rig.import_all`."""
+    (kein Vorbaubypass), analog `helpers_p2r.py:Rig.import_all`.
+
+    R4-Nachzug (F3-Rest): `bestand` (optional) ist {persona_key: host_id} --
+    fuer jeden dort genannten `persona_key` wird VOR dem eigentlichen Import
+    `_bootstrap_own_persona(host_id, persona_key)` aufgerufen, damit diese
+    Persona echt zum eigenen bestaetigten Bestand des genannten Hosts
+    gehoert (sonst haelt der neue Bestandscheck in `_cmd_local_round` jeden
+    Alias-Treiberversuch auf diese Persona an, BEVOR der jeweilige Test
+    seine eigentliche Pruefabsicht -- Admission/Isolation/Kontrollvertrag --
+    ueberhaupt erreicht)."""
     run = base / "run"
     states = base / "states"
     onboard = base / "onboarding"
     catalog = base / "catalog"
     saves = {}
     for pid, fx in members.items():
+        if bestand and pid in bestand:
+            _bootstrap_own_persona(run, states, bestand[pid], pid)
         save = upgrade_narrow_save(json.loads((_FIX / "saves" / f"{fx}.json").read_text()))
         saves[pid] = save
         ps = PersonaStateStore(_SCHEMA)
@@ -141,7 +178,7 @@ def test_i1_case_02_style_compound_sentence_is_not_a_valid_contract():
 def test_i1_positive_api_accept_via_typed_contract_creates_table():
     with tempfile.TemporaryDirectory() as td:
         base = Path(td)
-        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"})
+        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"}, bestand={"tech": "sniper"})
         write_test_profile(run)
         expected_offer_id = "invite-sniper-tech"
         with FakeHTTPServer([_http_response(
@@ -169,7 +206,7 @@ def test_i1_positive_api_accept_via_typed_contract_creates_table():
 def test_i1_positive_hybrid_accept_via_typed_contract_creates_table():
     with tempfile.TemporaryDirectory() as td:
         base = Path(td)
-        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"})
+        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"}, bestand={"tech": "sniper"})
         write_test_profile(run)
         expected_offer_id = "invite-sniper-tech"
         contract_text = (
@@ -209,7 +246,7 @@ def test_a3_mixed_consent_no_partial_group_under_new_contract():
     Restgruppen-Tisch entsteht, die Runde bricht kontrolliert ab."""
     with tempfile.TemporaryDirectory() as td:
         base = Path(td)
-        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"})
+        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"}, bestand={"tech": "sniper"})
         write_test_profile(run)
         expected_offer_id = "invite-sniper-tech"
         # tech bekommt eine gueltige typisierte Zusage, ABER als zweiter
@@ -245,7 +282,7 @@ def test_a4_isolated_hybrid_without_authorization_is_still_blocked():
     diesem Fall gar nicht erst aufgerufen werden (Gate VOR dem Request)."""
     with tempfile.TemporaryDirectory() as td:
         base = Path(td)
-        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"})
+        run, states, onboard, catalog, saves = _seed(base, {"sniper": "sniper", "tech": "tech"}, bestand={"tech": "sniper"})
         # BEWUSST: kein write_test_profile(run) -- keine Freigabe.
         blocked_api, reason_api = read_admission_block(run)
         assert blocked_api, "API-Rolle ohne Freigabe muss blockieren"

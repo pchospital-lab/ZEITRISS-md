@@ -55,6 +55,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 from _full_v7_fixture import full_v7_save  # noqa: E402
 
+from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
 from mmo_sim.core import lobby_service  # noqa: E402
 from mmo_sim.core import table_admission  # noqa: E402
@@ -63,7 +64,7 @@ from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.domain.zeitriss import catalog, onboarding  # noqa: E402
 from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community  # noqa: E402
 from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator  # noqa: E402
-from mmo_sim.ui.tui import TuiSession  # noqa: E402
+from mmo_sim.ui.tui import EndOfInput, TuiSession  # noqa: E402
 
 _SCHEMA_PATH = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
 
@@ -306,10 +307,15 @@ def test_f3_local_round_guided_tokens_for_foreign_operator_hit_same_gate():
 def test_f3_local_round_preserves_own_operators_self_persona_drive():
     """F3 §2 Erhaltungsprobe (Self-Exemption): betreibt der AUFRUFER selbst
     einen eigenen offenen Tisch, bleibt sein EIGENER Persona-Alias
-    (`persona:<self>`) zulaessig -- die Betreiber-Grenze trifft nur FREMDE
-    aktive Betreiber. Nachgewiesen ohne Modellaufruf: ein zusaetzlich
-    angefragter, nicht-existenter Gast stoppt die Runde SPAETER sauber, der
-    Betreiber-Gate darf den eigenen Alias davor NICHT abweisen."""
+    (`persona:<self>`) zulaessig -- die Betreiber-Grenze UND die R4-Nachzug-
+    Bestandsgrenze treffen nur FREMDE IDs, nie `self.participant_id` selbst.
+
+    R4-Nachzug (F3-Rest): der zusaetzlich angefragte 'ghostguest' ist eine
+    unbekannte freie ID (kein eigener Bestand, keine Figur) -- er stoppt die
+    Runde jetzt BEREITS am neuen Bestandsgate (VOR jedem Treiber-/
+    Modellaufruf), nicht mehr erst an der spaeteren Figurpruefung
+    (`_resolve_member`->None). Nachgewiesen ohne Modellaufruf; der eigene
+    Alias wird davor weiterhin NICHT abgewiesen."""
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         run_dir, states_dir = d / "run", d / "states"
@@ -323,14 +329,18 @@ def test_f3_local_round_preserves_own_operators_self_persona_drive():
         host_session = _host_session(onboarding_dir, catalog_dir, run_dir, states_dir, "host1")
         printed: list[str] = []
         host_session._print = printed.append
-        # Eigener Persona-Alias + ein nicht-existenter Gast (stoppt sauber bei
-        # der Figurpruefung, VOR jedem Treiber-/Modellaufruf).
+        # Eigener Persona-Alias + eine unbekannte freie ID (stoppt jetzt sauber
+        # am Bestandsgate, VOR jedem Treiber-/Modellaufruf).
         host_session._cmd_local_round(["persona:host1", "persona:ghostguest"])
 
         # Der eigene Alias wurde NICHT betreiber-gesperrt ...
         assert not any("aktiver Betreiber" in p for p in printed), printed
-        # ... die Runde stoppt stattdessen am fehlenden Gast, ohne Modellaufruf.
-        assert any("ghostguest" in p and "keine abgeschlossene Figur" in p for p in printed), printed
+        # ... die Runde stoppt stattdessen am Bestandsgate fuer die unbekannte
+        # freie ID, ohne Modellaufruf -- NICHT (mehr) an der Figurpruefung.
+        assert any(
+            "ghostguest" in p and "keine eigene bestaetigte" in p for p in printed
+        ), printed
+        assert not any("keine abgeschlossene Figur" in p for p in printed), printed
         assert host_session.gm_transport_factory.calls == 0, printed
         assert host_session.persona_driver_factory.calls == 0, printed
         # Eigener Tisch unveraendert.
@@ -338,60 +348,152 @@ def test_f3_local_round_preserves_own_operators_self_persona_drive():
         assert rec["state"] == table_admission.STATE_OPEN and rec["roster"] == ["host1"], rec
 
 
-def test_f3_direct_alias_free_persona_stays_consent_gated_not_betreiber_blocked():
-    """F3 §2 Erhaltungsprobe (Narrowness): der direkte Expertenalias
-    `l persona:<id>` einer freien, NICHT-betreibenden Persona wird NICHT
-    durch die Betreiber-Grenze gesperrt -- er erreicht weiter den
-    unveraenderten Consent-/Admission-Gate-Weg und endet dort (keine
-    Autorisierung), NICHT in einer Betreiber-Abweisung. So bleiben die
-    i1/a24-Basisregressionen (eigene/zustimmende Persona an den EIGENEN
-    Tisch) strukturell unberuehrt."""
+def test_f3_local_round_rejects_driving_foreign_known_persona_without_own_table_valid_admission():
+    """F3-Rest (Generalbefund F3, Negativ Bestandsgrenze): eine fremde, REAL
+    existierende Persona (echte, aufloesbare Figur), die KEIN eigener
+    bestaetigter Bestand von `host1` ist (`_known_ai_overview` liefert sie
+    NICHT) UND KEINEN eigenen Betreibertisch fuehrt (`find_open_host_table`
+    findet nichts), wird jetzt am Bestandsgate gehalten -- VOR jedem Write/
+    Modellaufruf (0 Writes, 0 Calls).
+
+    GUELTIGE Admission (`write_test_profile`) ist hier bewusst gesetzt: die
+    Ablehnung darf NICHT nur daran liegen, dass kein Admissionprofil
+    existiert. Nachgewiesener Gegensatz zum unveraenderten R3-Code (s.
+    B-report.md, Gap-Proof): dort erreicht GENAU dieser Fall bei gueltiger
+    Admission tatsaechlich den `persona_driver_factory`-Aufruf (1 Call) --
+    der reine Betreiber-Check `find_open_host_table` reicht NICHT, um die
+    beauftragte Bestandsfrage zu beantworten."""
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         run_dir, states_dir = d / "run", d / "states"
         onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
-        # BEWUSST keine `write_test_profile` -> keine Autorisierung.
+        write_test_profile(run_dir, max_turns=200)  # GUELTIGE Admission.
         _register_own_figure(onboarding_dir, catalog_dir, "host1", "CHR-HOST1", run_dir=run_dir, states_dir=states_dir)
         # 'freepersona' hat eine ECHTE, aufloesbare Figur, ist aber KEIN
-        # Betreiber (kein eigener table_admission-Record).
+        # eigener Bestand von host1 (keine `_bootstrap_own_persona`) UND KEIN
+        # eigener Betreiber (kein `table_admission`-Record).
         _register_own_figure(onboarding_dir, catalog_dir, "freepersona", "CHR-FREE", run_dir=run_dir, states_dir=states_dir)
         assert table_admission.find_open_host_table(run_dir, "freepersona") is None
 
         before = _table_files(run_dir)
-        model_calls = {"n": 0}
-
-        class _ConsentSpyGm:
-            def turn(self, *a, **kw):
-                model_calls["n"] += 1
-                raise AssertionError("GM-turn darf bei Admission-Gate-Block nicht erreicht werden")
-
-        class _ConsentSpyDriver:
-            def decide(self, *a, **kw):
-                model_calls["n"] += 1
-                raise AssertionError("persona decide darf bei Admission-Gate-Block nicht erreicht werden")
-
-            def turn(self, *a, **kw):
-                model_calls["n"] += 1
-                raise AssertionError("persona turn darf bei Admission-Gate-Block nicht erreicht werden")
-
-        host_session = TuiSession(
-            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="host1",
-            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
-            gm_transport_factory=lambda: _ConsentSpyGm(),
-            persona_driver_factory=lambda pk: _ConsentSpyDriver(),
-            host_capable=True,
-        )
+        host_session = _host_session(onboarding_dir, catalog_dir, run_dir, states_dir, "host1")
         printed: list[str] = []
         host_session._print = printed.append
         host_session._cmd_local_round(["persona:freepersona"])
 
-        # Der Alias wird NICHT betreiber-gesperrt ...
+        # Der Alias wird NICHT betreiber-gesperrt (kein eigener Tisch von
+        # 'freepersona') ...
         assert not any("aktiver Betreiber" in p for p in printed), printed
-        # ... sondern am echten Autoritaets-/Consentweg (Admission-Gate) gestoppt,
-        # VOR jedem Modellaufruf.
-        assert any("Admission-Gate" in p for p in printed), printed
-        assert model_calls["n"] == 0, model_calls
+        # ... sondern am neuen Bestandsgate abgewiesen, VOR jedem Write/Call.
+        assert any(
+            "freepersona" in p and "keine eigene bestaetigte" in p for p in printed
+        ), printed
+        assert host_session.gm_transport_factory.calls == 0, printed
+        assert host_session.persona_driver_factory.calls == 0, printed
+        assert lobby_service.read_offer_log(run_dir) == [], "kein Offer-/Audit-Write vor Abweisung"
         assert _table_files(run_dir) == before, _table_files(run_dir)
+
+
+def test_f3_direct_alias_own_confirmed_persona_reaches_consent_valid_admission():
+    """F3-Rest (Generalbefund F3, Positiv): die EIGENE bestaetigte Persona
+    (`_known_ai_overview()` liefert sie, NICHT der aufrufende Teilnehmer
+    selbst) wird durch die neue Bestandsgrenze NICHT blockiert -- bei sonst
+    GUELTIGER Admission/Host-Config erreicht der direkte Expertenalias
+    `persona:<eigen>` tatsaechlich den realen Consent-/Spielweg: der Persona-
+    Treiber wird am Modellrand fuer die Einladungsentscheidung
+    (`decision_contract`) aufgerufen, die Zusage wird als 'accept'
+    protokolliert, ein echter Tisch entsteht (`run_dir/tables/*.json`).
+
+    Ersetzt die vorherige, UNVOLLSTAENDIGE Einrichtung dieses Tests (die
+    Testpersona 'freepersona' war zuvor KEIN eigener Bestand von `host1` --
+    s. B-report.md): die jetzige 'ownbot' ist ueber `_bootstrap_own_persona`
+    ausdruecklich als eigene bestaetigte Hostpersona von `host1` angelegt.
+    So bleiben die i1/a24-Basisregressionen (eigene/zustimmende Persona an
+    den EIGENEN Tisch) strukturell unberuehrt."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)  # GUELTIGE Admission.
+        _register_own_figure(onboarding_dir, catalog_dir, "host1", "CHR-HOST1", run_dir=run_dir, states_dir=states_dir)
+        # 'ownbot' hat eine ECHTE, aufloesbare Figur UND ist eine EIGENE
+        # bestaetigte Hostpersona von host1 -- der positive Fall, den die
+        # Bestandsgrenze zulassen muss.
+        _bootstrap_own_persona(run_dir, states_dir, "host1", "ownbot")
+        _register_own_figure(onboarding_dir, catalog_dir, "ownbot", "CHR-OWNBOT", run_dir=run_dir, states_dir=states_dir)
+
+        before = _table_files(run_dir)
+
+        class _AcceptDriver:
+            """Nimmt jede Einladungsentscheidung (`decision_contract`) real
+            an -- derselbe Produktvertrag (`adapters.base.ParticipantDecision`)
+            wie `_AcceptAllDriver` in `test_r4_organic_player_flow_2026_10_21.
+            py`, hier lokal gehalten (kein Importzyklus ueber Testmodule)."""
+
+            def __init__(self, pk: str):
+                self.pk = pk
+                self.calls: list[dict] = []
+
+            def decide(self, ctx: dict) -> ParticipantDecision:
+                self.calls.append(ctx)
+                if "decision_contract" in ctx:
+                    c = ctx["decision_contract"]
+                    text = f"ENTSCHEIDUNG offer_id={c['offer_id']} participant_id={self.pk} decision=accept"
+                    return ParticipantDecision(text=text, origin_source=f"accepttest:{self.pk}")
+                return ParticipantDecision(text="Wir beobachten die Lage.", origin_source=f"accepttest:{self.pk}")
+
+        drivers: dict[str, "_AcceptDriver"] = {}
+
+        def persona_driver_factory(pk):
+            drv = _AcceptDriver(pk)
+            drivers[pk] = drv
+            return drv
+
+        class _NoOpGm:
+            def __init__(self):
+                self.calls = 0
+
+            def turn(self, *a, **kw):
+                self.calls += 1
+                return {
+                    "content": "Ihr beobachtet die Lage. Was tut ihr als naechstes?",
+                    "usage": {}, "sources": [], "latency_s": 0.0, "chat_id": "t",
+                }
+
+        gm = _NoOpGm()
+        host_session = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="host1",
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
+            gm_transport_factory=lambda: gm,
+            persona_driver_factory=persona_driver_factory,
+            host_capable=True,
+        )
+        printed: list[str] = []
+        host_session._print = printed.append
+        try:
+            host_session._cmd_local_round(["persona:ownbot"])
+        except EndOfInput:
+            # Kontrollierte Pause am menschlichen Eigenzug des Testharness
+            # (Default-`input_fn` liefert EOF) -- kein Fehlschlag, s. 02 §C.
+            pass
+
+        # Die eigene bestaetigte Persona wird NICHT am neuen Bestandsgate ...
+        assert not any("keine eigene bestaetigte" in p for p in printed), printed
+        # ... und NICHT an der Betreiber-Grenze abgewiesen.
+        assert not any("aktiver Betreiber" in p for p in printed), printed
+        # Der echte Consentweg wurde erreicht: der Persona-Treiber bekam die
+        # Einladungsentscheidung (decision_contract) ...
+        assert "ownbot" in drivers and drivers["ownbot"].calls, printed
+        assert any("decision_contract" in c for c in drivers["ownbot"].calls), drivers["ownbot"].calls
+        # ... und die Zusage wurde real als 'accept' protokolliert.
+        offer_log = lobby_service.read_offer_log(run_dir)
+        assert any(
+            e.get("type") == "response" and e.get("from") == "ownbot" and e.get("decision") == "accept"
+            for e in offer_log
+        ), offer_log
+        # Der Spielweg wurde tatsaechlich erreicht (ein echter Tisch ist
+        # entstanden) -- nicht mehr am Admission-/Bestandsgate blockiert.
+        assert _table_files(run_dir) != before, _table_files(run_dir)
 
 
 def main() -> int:

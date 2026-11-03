@@ -5231,6 +5231,53 @@ class TuiSession:
             overview.append((pk, label))
         return overview
 
+    def _run_shared_bestand_personas(self) -> set[str]:
+        """R4-Nachzug (F3-Rest, Generalklaerung): ergaenzt `_known_ai_
+        overview()` fuer den Mehrmenschen-Fall (a24/ux1_r5 "mitspielender
+        MENSCH am selben Geraet"/SPIELFLUSS-SPEC.md Zwei-Menschen-Fall) --
+        `community_bootstrap.bootstrap_community` haelt GENAU EINE Community
+        pro `run_dir` (eine ZWEITE, abweichende `community_id` im selben
+        `community_dir` wird dort ausdruecklich verweigert, "keine Neuanlage
+        unter fremder ID"/"Kollision, kein Ueberschreiben eines fremden
+        Plans" -- echte, vom Produkt selbst gesetzte Architekturgrenze,
+        keine neue Erfindung hier). Ein ZWEITER Mensch am selben `run_dir`
+        (eigene Figur, aber KEINE eigene Community unter `community-<seine
+        ID>`) hat dadurch bauartbedingt NIE einen eigenen `_known_ai_
+        overview()`-Treffer, obwohl der EINE geteilte Bestand dieses Laufs
+        real existiert und bereits bestaetigt ist -- fuer ihn ist dieser
+        geteilte Bestand die einzige echte, schon vorhandene Zuordnung.
+
+        Liest NUR die bereits von `community_bootstrap` geschriebene
+        `community_id` direkt aus der vorhandenen Abschluss-/Plandatei
+        (reiner Lesezugriff auf ein bereits bestehendes Feld, kein Raten,
+        keine zweite Namensableitung) und delegiert die eigentliche
+        Bestandspruefung an dieselbe `peek_bootstrap`-Lesefunktion wie
+        `_known_ai_overview` -- 0 Calls, kein Write, KEIN impliziter
+        Bootstrap, keine neue Community-/Populationserzeugung, kein neues
+        Autoritaetssystem (nur die EINE bereits bestaetigte Community
+        dieses Laufs, falls vorhanden; sonst leere Menge)."""
+        if self.run_dir is None:
+            return set()
+        import json
+        from ..domain.zeitriss.community_bootstrap import peek as peek_bootstrap
+
+        community_dir = self.run_dir / "community"
+        final_path = community_dir / "bootstrap__final.json"
+        plan_path = community_dir / "bootstrap__plan.json"
+        source_path = final_path if final_path.exists() else plan_path if plan_path.exists() else None
+        if source_path is None:
+            return set()
+        try:
+            recorded_community_id = json.loads(source_path.read_text(encoding="utf-8")).get("community_id")
+        except (OSError, ValueError, KeyError, json.JSONDecodeError):
+            return set()
+        if not recorded_community_id:
+            return set()
+        bootstrap = peek_bootstrap(community_dir, recorded_community_id)
+        if bootstrap is None:
+            return set()
+        return set(bootstrap.personas_written)
+
     def _resolve_known_ai_tokens(self, tokens: list[str], overview: list[tuple[str, str]]) -> list[str]:
         """Q03 (REVIEW.md R02, 05.10.2026, vormals ':2782-2878'): loest die
         normale Namens-/Nummernwahl aus der angezeigten Bestandsuebersicht
@@ -5705,14 +5752,48 @@ class TuiSession:
         # (`find_open_host_table`) VOR jedem Audit-Logwrite, Consent- oder
         # Modellaufruf -- 0 Writes, 0 Calls bei Ablehnung.
         #
+        # R4-Nachzug (F3-Rest, Generalbefund F3): der Betreiber-Check allein
+        # beantwortet NICHT die eigentlich beauftragte Frage ("treibt dieser
+        # Alias eine EIGENE bestaetigte Persona dieses Hosts?") -- er lehnt nur
+        # ab, wenn `<id>` SELBST einen fremden Tisch betreibt. Eine fremde, real
+        # existierende (aber nicht-betreibende) Persona ODER eine unbekannte
+        # freie ID passierte diesen Check bisher unveraendert bis zum Admission-/
+        # Modellrand. SYMMETRISCH zu `_cmd_table_request_persona` (F3 §1, dort
+        # `own_personas = {pk for pk, _label in self._known_ai_overview()}`)
+        # wird JEDE freie ID, die den Betreiber-Check oben passiert hat (also
+        # KEIN fremder aktiver Betreiber ist) UND nicht die eigene
+        # `self.participant_id` ist, ZUSAETZLICH gegen denselben eigenen
+        # bestaetigten Bestand geprueft -- reine Lesefunktion
+        # (`_known_ai_overview`, 0 Calls), VOR jedem Write/Modellaufruf, 0
+        # Writes/0 Calls bei Ablehnung. Die Reihenfolge (Betreiber-Check
+        # ZUERST) erhaelt die spezifischere "Marionettenspiel"-Meldung
+        # unveraendert fuer den Fall, dass `<id>` zugleich fremder aktiver
+        # Betreiber ist; die neue Bestandsgrenze greift fuer alle anderen
+        # freien IDs, die KEIN eigener bestaetigter Bestand sind.
+        #
         # Erhalten (Review: "eigenes Persona-Spiel ... und Leader-ohne-
         # Hostrechte erhalten"; Baseline-Sweep s2-baseline-sweep.md: KEIN legitim
         # getriebener Persona-Token ist zugleich eigener Betreiber): die
-        # eigene/freie Experten-Persona OHNE eigenen Betreibertisch
+        # eigene/freie bestaetigte Persona OHNE eigenen Betreibertisch
         # (a24/ux1_r5/p1/r4/i1/g03) UND der aufrufende Teilnehmer selbst
         # (`<id> == self.participant_id` faellt nie unter die Grenze). Eine
-        # unbekannte freie ID bleibt auf dem unveraenderten
+        # fremde bekannte Persona ODER eine unbekannte freie ID bleibt jetzt am
+        # Bestandsgate gehalten, erreicht NICHT mehr den unveraenderten
         # `_resolve_member`->None-Negativpfad weiter unten.
+        #
+        # R4-Nachzug (Generalklaerung, Mehrmenschen-Erhalt): `own_personas`
+        # vereint den EIGENEN Bestand (`_known_ai_overview`) MIT dem einen
+        # geteilten Laufbestand (`_run_shared_bestand_personas`, s. dortiger
+        # Docstring zur Ein-Community-pro-run_dir-Architekturgrenze) -- fuer
+        # einen Mehrmenschen-Lauf (a24/ux1_r5 "mitspielender MENSCH am
+        # selben Geraet"/SPIELFLUSS-SPEC.md Zwei-Menschen-Fall, z.B. ein
+        # ZWEITER Mensch ohne eigene Community, der eine bereits bestaetigte
+        # KI-Persona des GETEILTEN Laufs treibt) ist das die einzige echte,
+        # schon bestehende Zuordnung -- in jedem Solo-Lauf (EIN Mensch pro
+        # run_dir, der Normalfall) ist beide Mengen identisch, kein
+        # Verhaltensunterschied. Beide Quellen bleiben reine
+        # Lesefunktionen, 0 Calls, kein neues Autoritaetssystem.
+        own_personas = {pk for pk, _label in self._known_ai_overview()} | self._run_shared_bestand_personas()
         _persona_drive_ids = [t.split(":", 1)[1] for t in tokens if t.startswith("persona:")]
         if leader_persona_id:
             _persona_drive_ids.append(leader_persona_id)
@@ -5726,6 +5807,13 @@ class TuiSession:
                     f"eigenen Tisches ('{_foreign_table}') -- ein Alias darf diesen fremden "
                     "Bestand nicht als Persona treiben (kein Write, kein Modellaufruf). Eine "
                     "eigene/freie Persona ohne eigenen Betreibertisch bleibt zulaessig."
+                )
+                return
+            if _drive_id not in own_personas:
+                self._print(
+                    f"Lokale Runde abgelehnt: '{_drive_id}' ist keine eigene bestaetigte "
+                    "Hostpersona (kein Modellaufruf, kein Write) -- ein Alias darf nur den "
+                    "eigenen bestaetigten Bestand als Persona treiben (F3 §1, symmetrisch)."
                 )
                 return
 

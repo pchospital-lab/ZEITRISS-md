@@ -125,6 +125,17 @@ def test_two_plus_three_real_subprocess_restart_to_real_completion_note():
             registry_dir, zweit_id, onboarding_dir, states_dir, run_dir,
             "CHR-W25-ZWEIT", "Zweit", "ZWEITOPS",
         )
+        # R4-Nachzug (F3-Rest, Generalklaerung): die drei KI muessen eigene
+        # bestaetigte Hostpersonas von `leader_id` sein (`_known_ai_
+        # overview()`), sonst haelt der Bestandscheck in `_cmd_local_round`
+        # die Einladung an, BEVOR der hier eigentlich geprufte Consentweg
+        # (echte HTTP-Zusage) erreicht wird. `sup.bootstrap_six_persona_
+        # community` (vorhandene Produktfunktion `bootstrap_community`,
+        # bereits genutzt von anderen A24-Tests) EINMAL fuer alle drei Keys
+        # zusammen -- ein zweiter `bootstrap_community`-Aufruf fuer
+        # dieselbe `community_id` wuerde den bereits abgeschlossenen
+        # Bestand NICHT mehr erweitern.
+        sup.bootstrap_six_persona_community(root, f"community-{leader_id}", _AI_KEYS)
         # Drei bekannte synthetische KI -- ECHTE Bestandsfixtures
         # (`internal/qa/harness/lobby/fixtures/saves/*.json`, je mit
         # `_fixture_note` == "SIMULIERT/FIXTURE" markiert), ueber denselben
@@ -327,6 +338,9 @@ def test_named_ai_invite_real_rejection_does_not_form_table():
             registry_dir, leader_id, onboarding_dir, states_dir, run_dir,
             "CHR-W25-REJLEAD", "RejLead", "REJLEADOPS",
         )
+        # R4-Nachzug (F3-Rest, Generalklaerung): 'cqb' muss eigene
+        # bestaetigte Hostpersona von `leader_id` sein, s. Begruendung oben.
+        sup.bootstrap_six_persona_community(root, f"community-{leader_id}", ["cqb"])
         sup.make_ready(onboarding_dir, states_dir, run_dir, "cqb")
         table_id = sup.compute_table_id(leader_id, ["cqb"])
         section_id = f"{table_id}-section"

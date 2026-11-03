@@ -49,6 +49,7 @@ from mmo_sim.core import store as core_store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.domain.zeitriss import onboarding  # noqa: E402
+from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community  # noqa: E402
 from mmo_sim.domain.zeitriss.policy import (  # noqa: E402
     COMPLETION_MARKER, ZeitrissHarvestValidator, ZeitrissTableSizePolicy,
 )
@@ -300,6 +301,34 @@ class _CompletingTableGM:
         return {"content": content, "usage": {}, "sources": [], "latency_s": 0.0, "chat_id": "table"}
 
 
+def _bootstrap_own_persona(run_dir: Path, states_dir: Path, host_id: str, persona_key: str) -> None:
+    """R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+    Alias-Pfad treibt eine normale KI-Persona nur noch aus dem EIGENEN
+    bestaetigten Bestand des einladenden Hosts (`self._known_ai_overview()`,
+    `community-<host_id>`) -- ready+Consent allein (`_make_ready` unten
+    setzt nur Save/State/Katalog) begruendet KEINE Zugehoerigkeit. `tech`
+    muss daher hier ausdruecklich als eigene bestaetigte Hostpersona von
+    'sniper' angelegt werden, BEVOR `_make_ready` die echte Figur
+    vervollstaendigt (umgekehrte Reihenfolge ueberschreibt den bereits
+    publizierten Spielstand im PersonaStateStore und macht `tech` fuer
+    `_resolve_member` unlesbar -- empirisch beobachtet). Muster identisch zu
+    `test_r3_f3_host_persona_authority.py:_bootstrap_own_persona`."""
+    ps_store = PersonaStateStore(schema_path=_SCHEMA)
+    community_dir = run_dir / "community"
+    drafts = {
+        persona_key: {
+            "real_name": persona_key, "archetype": "Test-Archetyp",
+            "play_style": "SIMULIERT/DEMO", "charwunsch": "SIMULIERT/DEMO (g03-P09-Testfixture).",
+            "plays_char": {
+                "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+            },
+        },
+    }
+    result = bootstrap_community(community_dir, f"community-{host_id}", 1, drafts, ps_store, states_dir, today="2026-11-03")
+    assert persona_key in result.personas_written, result.reason
+
+
 def _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, persona_key: str) -> dict:
     save = upgrade_narrow_save(json.loads((_FIX / f"{persona_key}.json").read_text(encoding="utf-8")))
     ps_store = PersonaStateStore(schema_path=_SCHEMA)
@@ -330,6 +359,10 @@ def _child_setup(args: argparse.Namespace) -> None:
     states_dir.mkdir(parents=True, exist_ok=True)
     run_dir.mkdir(parents=True, exist_ok=True)
     _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "sniper")
+    # R4-Nachzug (F3-Rest): 'tech' muss eigene bestaetigte Hostpersona von
+    # 'sniper' sein, BEVOR die Figur vervollstaendigt wird -- s. Docstring
+    # von `_bootstrap_own_persona`.
+    _bootstrap_own_persona(run_dir, states_dir, "sniper", "tech")
     _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "tech")
     write_test_profile(run_dir)
 
