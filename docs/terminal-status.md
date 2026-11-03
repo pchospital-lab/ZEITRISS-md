@@ -12,6 +12,11 @@ solo oder mit mehreren Menschen/KI-Personas am selben Gerät) ist der aktuell
 belegte Weg. Eine native LAN-/Remote-Lobby ist davon weiterhin getrennt und
 nicht Teil dieser Übersicht.
 
+Der terminalbasierte Produktpfad „Figurenreise am Tisch" (Tisch anbieten/suchen,
+Hostentscheidung, Spielen, Rückreise der eigenen Figur über getrennte Datenwurzeln
+A → B → A) ist als einzige Planstelle in [`produktplan.md`](produktplan.md)
+beschrieben.
+
 Tatsächlich belegter Umfang aus dem jüngsten geprüften R4-Anschluss:
 
 - Der vorhandene Referenzlauf umfasst **fünf Figuren in einem Duo und einem

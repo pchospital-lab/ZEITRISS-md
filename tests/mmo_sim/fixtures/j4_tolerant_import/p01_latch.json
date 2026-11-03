@@ -1,0 +1,474 @@
+{
+  "arc": {
+    "factions": {
+      "rheinau_netz": "Auftragsstruktur — Leser 7 als eingerichteter Dauerzugang, drei formal unmögliche Berechtigungen, eine formal korrekte (nie benutzt), Werkschutz-Kennung über zwei Jahre gepflegt, zweite Organisation Hendrich & Co."
+    },
+    "hooks": [
+      "Lager B — fremder Wert zuerst, vier Papierspalten danach (Hauptauftrag MS3)",
+      "Hendrich & Co. GmbH — Rechnungen ohne Wartungsbericht, Zahler und Kostenstelle",
+      "Drei Buchungen ohne Kartennummer — Zählweise-Klärung ausstehend",
+      "Prüfstelle — Meldungsquote 2016–2019 ausstehend",
+      "Wengler-Datensatz — höhere Zugriffsebene nötig, Reroll verfügbar",
+      "Sauer — Leitungsbeobachtung auf eingehend erweitert",
+      "Ludwigshafener Str. 14 — Zustandslesung durch BREACH erforderlich",
+      "Grünwald — Pensionär, einmal verwendbar, nicht vor Lager-B-Befund"
+    ],
+    "questions": [
+      "Wer hat Wulff beauftragt? Das Verfahren ist eingespielt.",
+      "Was stand in Anlage 6 — und wer hat sie entnommen?",
+      "Wem gehört die siebenstellige Kennung?",
+      "Wer hat Parics fünf Besuche bezahlt?",
+      "Was lagert seit Februar 2016 in Lager B?"
+    ]
+  },
+  "arena": {
+    "active": false,
+    "banked_rewards": {
+      "arena_rep": 0,
+      "cu": 0,
+      "xp": 0
+    },
+    "contract_id": null,
+    "defeated_types": [],
+    "first_wins": {},
+    "last_reward_episode": null,
+    "match_policy": "sim",
+    "mode": "single",
+    "pending_rewards": {
+      "arena_rep": 0,
+      "cu": 0,
+      "multiplier": 1,
+      "risk": "none",
+      "xp": 0
+    },
+    "phase": "idle",
+    "previous_mode": null,
+    "queue_state": "idle",
+    "resume_token": null,
+    "rewarded_runs_this_contract": 0,
+    "streak": 0,
+    "tier": 1,
+    "wins_opponent": 0,
+    "wins_player": 0
+  },
+  "branch_id": "ANCHOR-main",
+  "campaign": {
+    "entry_choice_skipped": false,
+    "episode": 1,
+    "episode_end": null,
+    "episode_start": "MS1",
+    "epoch": "frühes 21. Jahrhundert (1995–2025)",
+    "heat": 0,
+    "mission": 2,
+    "mode": "mixed",
+    "px": 1,
+    "px_state": "stable",
+    "rift_seeds": []
+  },
+  "characters": [
+    {
+      "attr": {
+        "CHA": 2,
+        "GES": 4,
+        "INT": 6,
+        "STR": 2,
+        "SYS": 1,
+        "TEMP": 3
+      },
+      "callsign": "MAHLBERG",
+      "carry": [
+        "Comlink (Knochenleitung)",
+        "Beretta 92F (verdeckt)",
+        "Feldjacke mit Sub-Derm-Polsterung",
+        "Prüfset Mechanik",
+        "Arbeitsnotebook 2014",
+        "Feldnotizblock und Druckbleistift"
+      ],
+      "equipment": [
+        {
+          "name": "Comlink (Knochenleitung, Nahfunk)",
+          "note": "Unauffällig tragbar. Nahfunk zu HQ-Operatoren.",
+          "tier": 0,
+          "type": "gadget"
+        },
+        {
+          "ammo": "15/15",
+          "damage": "2-3 LP",
+          "name": "Beretta 92F",
+          "note": "Verdeckt unter Jacke.",
+          "tier": 0,
+          "type": "weapon"
+        },
+        {
+          "dr": 1,
+          "name": "Feldjacke mit Sub-Derm-Polsterung",
+          "note": "Epochenkonform 1980–2030.",
+          "tier": 0,
+          "type": "armor"
+        },
+        {
+          "name": "ITI-Grundausrüstung",
+          "note": "Verbandmaterial, Einweghandschuhe, kleines Brecheisen, zwei Kabelbinder, Taschenlampe.",
+          "tier": 0,
+          "type": "gadget"
+        },
+        {
+          "bonus": "+1 GES bei physischen Zugangssystemen",
+          "name": "Prüfset Mechanik",
+          "note": "Professionelles Schloss- und Sicherungsanalysewerkzeug.",
+          "tier": 0,
+          "type": "gadget"
+        },
+        {
+          "bonus": "+1 INT bei Dokumentenanalyse und Datenbankrecherche (moderne Epochen)",
+          "name": "Arbeitsnotebook (2014er Modell)",
+          "note": "Datenbankzugang zur ehemaligen Behörde (noch aktiv). Logeinträge unter AZ RH-NP-2019-04. Notebook-Strang für MS2-Sitzung geschlossen.",
+          "tier": 0,
+          "type": "gadget"
+        },
+        {
+          "name": "Feldnotizblock und Druckbleistift",
+          "note": "Epochenneutral. Notiert: Becker M., Paric J., Steinhoff C., Wengler, Grünwald T. / 18 Buchungen / 4 Karten / 14.03.–17.03.–28.03.2018.",
+          "tier": 0,
+          "type": "gadget"
+        }
+      ],
+      "has_psi": false,
+      "history": {
+        "background": "Prüferin für Betriebssicherheit, Jahrgang 1974, Duisburg-Meiderich. Ausbildung Mitte der Neunziger an Kesselanlagen und Druckbehältern, Ruhrgebiet. Ab 2003 Rhein-Neckar-Region. Zwanzig Jahre Begehungen, Protokolle, Nachprüfungen. Nie gekündigt, nie befördert. Rekrutiert mit 45, nicht wegen eines Talents, sondern wegen einer Aktenlage.",
+        "milestones": [
+          {
+            "id": "MS1-TOTE-KARTEI",
+            "label": "Tanklager Rheinau-Süd, 21.10.2019",
+            "note": "Rheinau-D-2011 gesichert. Wulff als Intermediär identifiziert. Kessmann und Wulff getrennt beauftragt, kein Kontakt untereinander. Das zweihunderterste Protokoll ist das erste, auf dem der Name steht, weil etwas getan wurde."
+          },
+          {
+            "id": "MS2-HQ-AKTENSTRANG",
+            "label": "Quarzatrium, Aktenstrang Leser 7",
+            "note": "18 Buchungen, vier Stufe-B-Karten aus EGL-2016-047, kein Wartungsmuster. Nur Wenglers Ausstellung mit Werkschutz-Gegenzeichnung — die einzige formal haltbare, die einzige nie benutzte. Siebenstellige Kennung: abgezeichnet 12.09.2016, geändert 17.03.2018 im Departurefenster. Steinhoff Sachbearbeiterin auf Rheinau-D-2011. Anlage 6 fehlt ohne Entnahmevermerk. Sauer hat eine Nummer, die in keiner Akte steht. Methode: Pflichtfelder leer lassen, Grenzwerte nicht aushängen. Kein einziger Datenpunkt selbst gemessen — Lager B ändert das."
+          }
+        ]
+      },
+      "id": "CHR-MAHLBERG-1974",
+      "implants": [],
+      "level_history": {
+        "2": {
+          "choice": "Talent/Upgrade",
+          "detail": "Zutrittswege lesen → Fortgeschritten (+3, Reroll 1x/Mission, Buchung ohne Gegenbuchung)",
+          "mission": "MS1"
+        }
+      },
+      "lp": 10,
+      "lp_max": 10,
+      "lvl": 2,
+      "name": "Katrin Mahlberg",
+      "origin": {
+        "epoch": "Frühes 21. Jahrhundert",
+        "hominin": "Homo sapiens sapiens",
+        "role": "Prüferin für Betriebssicherheit"
+      },
+      "quarters_stash": [
+        "ITI-Grundausrüstung (Verbandmaterial, Brecheisen, Kabelbinder, Taschenlampe)"
+      ],
+      "rank": "Feldagent",
+      "reputation": {
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "ordo_mnemonika": 0,
+          "zerbrechliche_ewigkeit": 0
+        },
+        "iti": 1
+      },
+      "stress": 0,
+      "sys_installed": 0,
+      "talents": [
+        {
+          "bonus": 2,
+          "description": "+2 auf Proben bei Dokumentation/Betriebsunterlagen auf Abweichungen, Lücken, Inkonsistenzen. Routinedurchsicht bekannter Protokolltypen gelingt automatisch.",
+          "name": "Prüfprotokolle lesen",
+          "tier": "basis",
+          "type": "echo"
+        },
+        {
+          "bonus": 3,
+          "description": "+3 auf Proben zu Zugängen, Sicherheitszonen, Fluchtrouten, Bewegungsroutinen. Benennt bei Erfolg wer eine Zugangslücke ohne Gegenzeichnung regelmäßig nutzt. Routineanalyse bekannter Gebäudetypen automatisch.",
+          "name": "Zutrittswege lesen",
+          "reroll": "1x/Mission — verfügbar (Reset nach MS2)",
+          "tier": "fortgeschritten",
+          "type": "free"
+        },
+        {
+          "bonus": 2,
+          "description": "+2 auf Proben zur Verbindungsstelle zwischen zwei Systemen/Protokollen/Bauperioden. Garantiert bei Erfolg eine konkret nutzbare Information.",
+          "name": "Systemnaht erkennen",
+          "tier": "basis",
+          "type": "free"
+        }
+      ],
+      "vehicles": {
+        "availability": {
+          "next_ready_in": 2,
+          "ready_every_missions": 3
+        },
+        "epoch_vehicle": {
+          "id": "VEH-MAHLBERG-001",
+          "name": "Dienstwagen (kompakter Mittelklasse, 2011er Modell)",
+          "tier": 1,
+          "type": "vehicle",
+          "upgrades": []
+        },
+        "legendary_temporal_ship": null
+      },
+      "wallet": 400,
+      "xp": 0
+    }
+  ],
+  "continuity": {
+    "active_npc_ids": [
+      "NPC-KOORDINATORIN-001"
+    ],
+    "convergence_tags": [],
+    "last_seen": {
+      "episode": 1,
+      "location": "HQ — Quarzatrium",
+      "mission": 2,
+      "mode": "hq"
+    },
+    "npc_roster": [
+      {
+        "id": "NPC-KOORDINATORIN-001",
+        "name": "Koordinatorin (Name unbekannt)",
+        "note": "AZ RH-NP-2019-04 eingerichtet, bevor gefragt wurde. Leitungsbeobachtung Sauer auf eingehend erweitert. Rufnummernabgleich negativ.",
+        "role": "Einsatzkoordination HQ",
+        "scope": "hq",
+        "status": "aktiv"
+      },
+      {
+        "id": "NPC-SAUER-ERIK",
+        "name": "Sauer, Erik",
+        "note": "38 Sek. ausgehend, 9 Sek. eingehend ohne Wort. Gegennummer nicht in Betriebsunterlagen. Der Fall war vorbesprochen.",
+        "role": "Messtechnik-Dienstleister, Rahmenvertrag Rheinau-Süd",
+        "scope": "episode",
+        "status": "Leitungsbeobachtung aktiv"
+      },
+      {
+        "id": "NPC-WULFF-GERHARD",
+        "name": "Wulff, Gerhard",
+        "note": "Vollmacht 2012, Widerruf nie eingetragen (Unterlassung). Zwei Leser-7-Buchungen ohne Gegenbuchung 2017/2018. Ludwigshafener Str. 14, 2. OG, Eingang B.",
+        "role": "Ehem. Betriebsleiter-Stellvertreter Rheinau-Süd, Jg. 1956",
+        "scope": "episode",
+        "status": "identifiziert — nicht kontaktiert"
+      },
+      {
+        "id": "NPC-KESSMANN-VOLKER",
+        "name": "Kessmann, Volker",
+        "note": "Abholer. Kennt Wulff nicht, kennt Sauer nicht.",
+        "role": "Externer Logistikberater",
+        "scope": "episode",
+        "status": "beobachtet — kein Zugriff"
+      },
+      {
+        "id": "NPC-BECKER-M",
+        "name": "Becker, M.",
+        "note": "Stufe-B-Karte 2016, unbefristet, ohne Werkschutz-Gegenzeichnung. Leser 7, 22.08.2019 09:45, keine Ausbuchung.",
+        "role": "unbekannt",
+        "scope": "episode",
+        "status": "aktenkundig — Identifizierung zurückgestellt"
+      },
+      {
+        "id": "NPC-PARIC-JANA",
+        "name": "Paric, Jana",
+        "note": "Rahmenvertrag Hendrich & Co. GmbH. Fünf vollständige Leser-7-Paare 2016–2018, 40–90 min, kein Begleitdokument, in keinem Hendrich-Bericht.",
+        "role": "Einzelunternehmerin Technische Dokumentation",
+        "scope": "episode",
+        "status": "identifiziert — Adresse Mannheim-Lindenhof, kein Zugriff"
+      },
+      {
+        "id": "NPC-STEINHOFF-CLAUDIA",
+        "name": "Steinhoff, Claudia",
+        "note": "Name auf Original. Karte 2016 ohne Gegenzeichnung. Besuch Juni 2017, 55 min — Akte war im D-Trakt. Anlage 6 fehlt.",
+        "role": "Rentnerin; ehem. Bezirksamt Ludwigshafen, Sachgebiet Betriebsgenehmigungen",
+        "scope": "episode",
+        "status": "Sachbearbeiterin auf Rheinau-D-2011 bestätigt"
+      },
+      {
+        "id": "NPC-WENGLER",
+        "name": "Wengler",
+        "note": "Kein Vorname, Personalnummer leer, Datensatz maskiert. Null Buchungen. Siebenstellige Kennung: Gegenzeichnung 12.09.2016, Änderung 17.03.2018. Gebaut, damit es eine Prüfung übersteht.",
+        "role": "unbekannt",
+        "scope": "episode",
+        "status": "Priorität — einzige formal korrekte Berechtigung"
+      },
+      {
+        "id": "NPC-GRUENWALD-T",
+        "name": "Grünwald, T.",
+        "note": "Letzter AT 14.03.2018, Rechteentzug 28.03.2018, Rechte am 17.03. noch aktiv. Einziger unter vier Abgängen, der sein Fenster benutzt hat. Zuständigkeit, nicht Gelegenheit.",
+        "role": "Ehem. Abteilungsleitung Werkschutz; Projektleiter Datenbankzusammenführung 2015",
+        "scope": "episode",
+        "status": "identifiziert — Pensionär, nicht als Täter oder Spitze geführt"
+      },
+      {
+        "id": "NPC-EGLOFF-RENATA",
+        "name": "Egloff, Renata",
+        "note": "Kennung EGL-2016-047. Drei der vier Ausstellungen ohne Werkschutz-Gegenzeichnung. Das Papier, nicht die Hand. Reserve-Zeuge Referatspraxis 2016.",
+        "role": "Sachbearbeiterin Personalreferat 2016, ausgeschieden 2018",
+        "scope": "episode",
+        "status": "identifiziert — bewusst nicht kontaktiert"
+      },
+      {
+        "id": "NPC-HENDRICH-CO",
+        "name": "Hendrich & Co. GmbH",
+        "note": "Rahmen für Parics fünf Besuche, die in Hendrichs eigenen Berichten fehlen. Rechnungen ohne Bericht: Zahler und Kostenstelle.",
+        "role": "Gebäudedienstleistung, Wartungsvertrag Rheinau-Süd 2014–2018",
+        "scope": "episode",
+        "status": "Hauptstrang MS3 — Buchhaltung nicht angefasst"
+      }
+    ],
+    "roster_echoes": [
+      {
+        "char_id": "CHR-BREACH-001",
+        "text": "Daro Renne, Callsign BREACH. Fragt nie nach der Person — nach dem Zugangspunkt, dem Format, der Zahl. Zählen ja, schätzen nein. Der fremde Wert ist der Prüfstein.",
+        "tone": "verlässlich"
+      }
+    ],
+    "shared_echoes": [
+      {
+        "scope": "shared",
+        "tag": "folgespur-ms2-leser7-abschluss",
+        "text": "Leser 7: 18 Buchungen, vier Karten, kein Wartungsmuster. Drei ohne Werkschutz-Gegenzeichnung (formal unmöglich), Wengler mit — die einzige nie benutzte. Siebenstellige Kennung: Sept. 2016 + März 2018."
+      },
+      {
+        "scope": "shared",
+        "tag": "folgespur-ms2-departurefenster",
+        "text": "Grünwald-Fenster: letzter AT 14.03., Rechteentzug 28.03., Änderung 17.03.2018. Vier Abgänge geprüft, nur dieses benutzt. Eine Person mit Planung, kein Hausmuster."
+      },
+      {
+        "scope": "shared",
+        "tag": "folgespur-ms2-rheinau-d2011-anlage6",
+        "text": "Rheinau-D-2011: Steinhoff Sachbearbeiterin, Akte Juni 2017 im D-Trakt. Anlage 6 (Lager-B-Erweiterung, genehmigt Feb. 2016) eingetragen, nicht beiliegend, kein Entnahmevermerk."
+      },
+      {
+        "scope": "shared",
+        "tag": "folgespur-ms2-sauer-signal",
+        "text": "Sauer: 38 Sek. ausgehend, 9 Sek. eingehend ohne Wort. Gegennummer nicht in Betriebsunterlagen. Der Fall war vorbesprochen."
+      },
+      {
+        "scope": "shared",
+        "tag": "folgespur-ms3-hendrich",
+        "text": "Hendrich & Co. GmbH, Wartungsvertrag Rheinau-Süd 2014–2018. Parics fünf Besuche unter Rahmenvertrag, fehlen in Hendrichs eigenen Berichten. MS3: Rechnungen ohne Bericht, Zahler, Kostenstelle."
+      },
+      {
+        "scope": "shared",
+        "tag": "folgespur-ms3-lager-b",
+        "text": "Lager B: Soll (Genehmigung + Anlage 6) gegen Ist (Bestandsnachweis). Fremder Wert zuerst — Stückzahlen BREACH, Zentimeter Mahlberg. Prüfbericht mit nächstem Datum zum kritischen Bestand. Leute im Gang nicht ansprechen, bevor gemessen."
+      },
+      {
+        "scope": "campaign",
+        "tag": "folgespur-ms1-wulff-auftraggeber",
+        "text": "Wer hat Wulff beauftragt? Verfahren ist eingespielt — nicht bei Rheinau-D-2011 angefangen."
+      }
+    ],
+    "split": {
+      "convergence_ready": false,
+      "expected_threads": [],
+      "family_id": null,
+      "resolved_threads": [],
+      "thread_id": null
+    }
+  },
+  "economy": {
+    "wallets": {
+      "CHR-MAHLBERG-1974": {
+        "balance": 400
+      }
+    }
+  },
+  "logs": {
+    "arena_psi": [],
+    "artifact_log": [],
+    "flags": {
+      "chronopolis_unlocked": false,
+      "continuity_conflicts": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false,
+      "imported_saves": [],
+      "runtime_version": "4.2.6"
+    },
+    "hud": [],
+    "market": [],
+    "notes": [
+      {
+        "id": "N-METHODE",
+        "label": "Bauweise des Vorgangs",
+        "note": "Pflichtfelder leer lassen, Grenzwerte nicht aushängen. Kein Netzwerk nötig — nur Betriebskenntnis. Niemand ist verantwortlich, weil Nichtstun keinen Verfasser hat."
+      },
+      {
+        "id": "N-BREACH-METHODIK",
+        "label": "BREACHs Arbeitsprinzip",
+        "note": "Fragt nie nach der Person. Zählt Umrisse, weil er nur Umrisse hat. Zählen ja, schätzen nein. Der fremde Wert (Stückzahlen im Raum) ist der einzige Prüfstein, der nicht aus dem Haus kommt."
+      },
+      {
+        "id": "N-LAGER-B-SPERRE",
+        "label": "Lager B — Reihenfolge als Methode",
+        "note": "Erst der fremde Wert (Umriss, Stückzahlen), dann die Hausdokumente dagegen. Nicht umgekehrt. Wenn ich mit der Genehmigung in der Hand in den Gang gehe und schon weiß, was ich sehen werde, ist die Nachmessung keine Messung mehr, sondern eine Bestätigung. Leute im Gang nicht ansprechen, bevor gemessen ist."
+      },
+      {
+        "id": "N-ABFRAGEDICHTE",
+        "label": "Abfragedichte AZ RH-NP-2019-04",
+        "note": "Ein Vorgang kann sich erklären und seine Dichte nicht. Notebook-Strang bewusst geschlossen. Hendrich-Buchhaltung ist der nächste Griff — Privatfirma protokolliert keine Abfragen."
+      }
+    ],
+    "psi": [],
+    "trace": [
+      {
+        "id": "T-MS1-001",
+        "label": "MS1 Tanklager Rheinau-Süd",
+        "note": "Einstieg Nordwartungstür 17:01. Sauer angetroffen, Social-Cover. Rheinau-D-2011 Original durch BREACH gesichert (D-Trakt). Ludwigshafener Str. 14, 2. OG, Eingang B, 20:00 abgeschrieben. Wulff 19:44 identifiziert. Kessmann-Wulff-Nichtbegegnung. Exfil 17:08, kein Alarm."
+      },
+      {
+        "id": "T-MS2-HQ-001",
+        "label": "MS2 Quarzatrium — Aktenstrang vollständig",
+        "note": "AZ RH-NP-2019-04. Leser 7: 18 Buchungen, 4 Karten, kein Wartungsmuster. Drei ohne Werkschutz-Gegenzeichnung (formal unmöglich), Wengler mit siebenstelliger Kennung (12.09.2016 + 17.03.2018). Grünwald: letzter AT 14.03., Rechteentzug 28.03., Änderung 17.03.2018 — Rechte noch aktiv, einziges benutztes Fenster unter vier Abgängen. Steinhoff Sachbearbeiterin auf Rheinau-D-2011, Akte im D-Trakt Juni 2017. Anlage 6 eingetragen, nicht beiliegend, kein Entnahmevermerk. Sauer: 38 Sek. ausgehend, 9 Sek. eingehend ohne Wort. Notebook-Strang geschlossen (Abfragedichte). Lager B: fremder Wert zuerst — Stückzahlen BREACH, Zentimeter Mahlberg, Papierspalten danach."
+      }
+    ]
+  },
+  "merge_id": null,
+  "parent_save_id": "SAVE-2026-MAHLBERG-MS2-LESER7-005",
+  "research": {
+    "projects": [
+      {
+        "description": "AZ RH-NP-2019-04. Eigenauswertung abgeschlossen. Leser 7 gesamt 18 Buchungen, vier Stufe-B-Karten, kein Wartungsmuster. Paric 5 vollständige Paare, Steinhoff 1 Paar Juni 2017, Becker 1 ohne Gegenbuchung, Wengler null. Drei Buchungen ohne zugeordnete Kartennummer — Zählweise-Klärung ausstehend. Formale Vollausgabe des Kanals ausstehend.",
+        "id": "RES-RHEINAU-ZUTRITTSLISTEN",
+        "kind": "field_decrypt",
+        "label": "Zutrittslisten Rheinau-Süd 2016–2019 (formaler Kanal)",
+        "missions_done": 0,
+        "missions_total": 1,
+        "scope": "episode",
+        "status": "in_progress"
+      }
+    ]
+  },
+  "save_id": "SAVE-2026-MAHLBERG-MS2-HQ-001",
+  "summaries": {
+    "summary_active_arcs": "Rheinau-Süd-Strang: Leser 7 als eingerichteter Dauerzugang, 18 Buchungen, vier Karten, kein Wartungsmuster. Nur Wenglers Karte formal korrekt — die einzige nie benutzte. Siebenstellige Werkschutz-Kennung über zwei Jahre gepflegt (Sept. 2016 + März 2018 im Departurefenster). Steinhoff Sachbearbeiterin auf Rheinau-D-2011, Anlage 6 fehlt ohne Datum. Sauer hat Nummer außerhalb der Akten. Hendrich & Co. GmbH: Hauptstrang MS3. Lager B: erster selbst gemessener Datenpunkt des Vorgangs.",
+    "summary_last_episode": "MS1 Tote Kartei: Rheinau-D-2011 gesichert. Wulff als Intermediär identifiziert. Verfahren eingespielt: Beauftragung ohne gegenseitigen Kontakt, Nichtbegegnung als Protokoll.",
+    "summary_last_rift": ""
+  },
+  "ui": {
+    "action_mode": "uncut",
+    "badge_density": "standard",
+    "contrast": "standard",
+    "dice": {
+      "debug_rolls": true
+    },
+    "gm_style": "verbose",
+    "intro_seen": true,
+    "output_pace": "normal",
+    "suggest_mode": false,
+    "voice_profile": "gm_second_person"
+  },
+  "v": 7,
+  "zr": "4.2.6"
+}

@@ -44,6 +44,36 @@ def _synthetic_save(char_id: str, name: str) -> dict:
     return full_v7_save(char_id, name=name, save_id=f"fixture-{char_id.lower()}-initial-001")
 
 
+def _bootstrap_own_persona(run_dir: Path, states_dir: Path, host_id: str, persona_key: str) -> None:
+    """R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+    Alias-Pfad (`persona:`/`lead:persona:`) treibt eine normale KI-Persona
+    nur noch aus dem EIGENEN bestaetigten Bestand des einladenden Hosts
+    (`self._known_ai_overview()`, `community-<host_id>`) -- `_make_ready`
+    unten (reine Figur-/Save-Registrierung) begruendet KEINE Zugehoerigkeit.
+    MUSS VOR `_make_ready` fuer dieselbe `persona_key` laufen (umgekehrte
+    Reihenfolge ueberschreibt den gleich danach publizierten Spielstand
+    wieder mit dem Bootstrap-Entwurf). Dieser Test PRUEFT ausdruecklich den
+    kaputten-Factory-Pfad (UX18) -- die Persona muss den Bestandscheck
+    unbeschadet passieren, damit ueberhaupt `persona_driver_factory`
+    (hier: `_broken_persona_factory`) erreicht wird. Identisches Muster zu
+    `test_r3_f3_host_persona_authority.py:_bootstrap_own_persona`."""
+    from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+    ps_store = PersonaStateStore(schema_path=_SCHEMA_PATH)
+    community_dir = run_dir / "community"
+    drafts = {
+        persona_key: {
+            "real_name": persona_key, "archetype": "Test-Archetyp", "play_style": "SIMULIERT/DEMO",
+            "charwunsch": "SIMULIERT/DEMO (UX18-Testfixture).",
+            "plays_char": {
+                "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+            },
+        },
+    }
+    result = bootstrap_community(community_dir, f"community-{host_id}", 1, drafts, ps_store, states_dir, today="2026-11-03")
+    assert persona_key in result.personas_written, result.reason
+
+
 def _make_ready(onboarding_dir: Path, states_dir: Path, run_dir: Path, persona_key: str) -> None:
     """Dieselbe Produktwegfolge wie `_a24_local_support.make_ready`
     (`onboarding` + `core.store.publish_current_save`), hier mit einem
@@ -97,6 +127,10 @@ def test_ai_leader_invite_with_broken_persona_factory_is_caught_honestly():
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         write_test_profile(d / "run")
+        # R4-Nachzug (F3-Rest, Generalklaerung): 'broken_leader' muss eigene
+        # bestaetigte Hostpersona von 'p1' sein, s. Docstring von
+        # `_bootstrap_own_persona` (VOR `_make_ready`).
+        _bootstrap_own_persona(d / "run", d / "states", "p1", "broken_leader")
         _make_ready(d / "onboarding", d / "states", d / "run", "broken_leader")
         printed: list[str] = []
         gm = _FakeCreationGm()
@@ -124,6 +158,10 @@ def test_guest_invite_with_broken_persona_factory_is_caught_and_table_continues(
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         write_test_profile(d / "run")
+        # R4-Nachzug (F3-Rest, Generalklaerung): 'broken_guest' muss eigene
+        # bestaetigte Hostpersona von 'p1' sein, s. Docstring von
+        # `_bootstrap_own_persona` (VOR `_make_ready`).
+        _bootstrap_own_persona(d / "run", d / "states", "p1", "broken_guest")
         _make_ready(d / "onboarding", d / "states", d / "run", "broken_guest")
         printed: list[str] = []
         gm = _FakeCreationGm()

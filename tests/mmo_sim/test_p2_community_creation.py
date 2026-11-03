@@ -641,8 +641,19 @@ def test_ready_persona_joins_existing_local_round_via_invitation_path_with_conse
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         keys = ["joiner"]
+        # R4-Nachzug (F3-Rest, Generalklaerung): `_known_ai_overview()` liest
+        # den Bestand des einladenden Hosts unter `community-<leader_id>`
+        # (EIN `community_dir`-Bootstrap pro `run_dir`, s. `community_
+        # bootstrap.bootstrap_community`-Docstring "keine Neuanlage unter
+        # fremder ID"). 'joiner' muss daher UNTER DER COMMUNITY-ID DES
+        # SPAETER EINLADENDEN LEADERS ('leader_human') angelegt werden,
+        # NICHT unter einem freien Testlabel -- sonst haelt der neue
+        # Bestandscheck in `_cmd_local_round` die Einladung an, BEVOR der
+        # hier eigentlich geprufte Einladungs-/Consentweg ueberhaupt
+        # erreicht wird.
+        leader_id = "leader_human"
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir, result = _bootstrap(
-            root, "community-join", _draft_personas(keys),
+            root, f"community-{leader_id}", _draft_personas(keys),
         )
         write_test_profile(run_dir)
 
@@ -655,7 +666,7 @@ def test_ready_persona_joins_existing_local_round_via_invitation_path_with_conse
         outcome = advance_one_persona_creation(
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             onboarding_dir=onboarding_dir, catalog_dir=catalog_dir,
-            community_id="community-join", generation=1, persona_key="joiner",
+            community_id=f"community-{leader_id}", generation=1, persona_key="joiner",
             gm_transport_factory=gm_factory, persona_driver_factory=persona_factory,
         )
         assert outcome.status == "completed"
@@ -663,7 +674,6 @@ def test_ready_persona_joins_existing_local_round_via_invitation_path_with_conse
         # Leader (Mensch) laedt die fertige Persona ueber den BESTEHENDEN
         # `_cmd_local_round`-Weg ein -- kein neues JSON-Einfuegen, kein neuer
         # Code fuer den Tischanschluss.
-        leader_id = "leader_human"
         leader_onboard = onboarding.start_or_resume(onboarding_dir, leader_id)
         leader_save = full_v7_save("chrono-leader", name="Leader", callsign="LEAD", level=1)
         from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator
@@ -723,21 +733,30 @@ def test_ready_persona_rejects_invitation_stays_rejected_no_table():
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         keys = ["shy"]
+        # R4-Nachzug (F3-Rest, Generalklaerung): wie im 'joiner'-Testfall
+        # oben muss 'shy' unter der Community-ID des SPAETER einladenden
+        # Leaders ('leader_human_two') angelegt werden -- sonst haelt der
+        # neue Bestandscheck die Einladung an, BEVOR der hier eigentlich
+        # geprufte Ablehnungs-/Consentweg (`decide()` mit `invite_decision=
+        # "reject"`) ueberhaupt erreicht wird, und dieser Test wuerde aus
+        # dem FALSCHEN Grund (Bestandsgate statt echter Ablehnung) gruen
+        # bleiben.
+        leader_id = "leader_human_two"
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir, result = _bootstrap(
-            root, "community-shy", _draft_personas(keys),
+            root, f"community-{leader_id}", _draft_personas(keys),
         )
         write_test_profile(run_dir)
 
+        shy_driver = _FakePersonaDriver("shy", ["Bereit."])
         outcome = advance_one_persona_creation(
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             onboarding_dir=onboarding_dir, catalog_dir=catalog_dir,
-            community_id="community-shy", generation=1, persona_key="shy",
+            community_id=f"community-{leader_id}", generation=1, persona_key="shy",
             gm_transport_factory=lambda chat_id: _GM([_v7_block("chrono-shy", "Shy")]),
-            persona_driver_factory=lambda pk: _FakePersonaDriver(pk, ["Bereit."]),
+            persona_driver_factory=lambda pk: shy_driver,
         )
         assert outcome.status == "completed"
 
-        leader_id = "leader_human_two"
         leader_save = full_v7_save("chrono-leader2", name="Leader2", callsign="L2", level=1)
         from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator
         onboarding.start_or_resume(onboarding_dir, leader_id)
@@ -749,18 +768,30 @@ def test_ready_persona_rejects_invitation_stays_rejected_no_table():
         core_store.publish_current_save(run_dir, leader_id, leader_save, ps_store, states_dir)
         catalog.bind_for_section(catalog_dir, leader_id, "chrono-leader2", has_open_section=False)
 
+        reject_driver = _FakePersonaDriver("shy", [], invite_decision="reject")
+        shown: list[str] = []
         session = TuiSession(
             onboarding_dir, catalog_dir, leader_id,
             input_fn=lambda prompt="": (_ for _ in ()).throw(EOFError()),
-            print_fn=lambda s: None,
+            print_fn=shown.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             gm_transport_factory=lambda *_a, **_kw: _GM(["sollte nie erreicht werden"]),
-            persona_driver_factory=lambda pk: _FakePersonaDriver(pk, [], invite_decision="reject"),
+            persona_driver_factory=lambda pk: reject_driver,
         )
         session._cmd_local_round(["persona:shy"])
         assert not (run_dir / "tables" / f"local-{leader_id}-shy.json").exists(), (
             "abgelehnte Persona darf keinen Tisch entstehen lassen"
         )
+        # R4-Nachzug (F3-Rest): belegt, dass kein Tisch HIER tatsaechlich
+        # wegen einer echten Ablehnung ausbleibt (nicht etwa zufaellig aus
+        # einem ANDEREN Grund, z.B. dem Bestandsgate) -- der Treiber muss
+        # die typisierte Einladungsentscheidung (`decision_contract`)
+        # wirklich erreicht haben, UND die Ablehnung muss sichtbar sein.
+        assert reject_driver.calls and any("decision_contract" in c for c in reject_driver.calls), (
+            "die Einladung muss den echten Consentweg erreichen, nicht am Bestandsgate enden"
+        )
+        assert not any("keine eigene bestaetigte" in s for s in shown), shown
+        assert any("nicht angenommen" in s for s in shown), shown
 
 
 # ── Lokale Menschen/andere Communities bleiben unveraendert ────────────────

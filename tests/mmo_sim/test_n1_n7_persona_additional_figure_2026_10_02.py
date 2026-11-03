@@ -99,6 +99,33 @@ def _new_env(root: Path):
     return schema_path, states_dir, run_dir, onboarding_dir, catalog_dir
 
 
+def _bootstrap_own_persona(run_dir: Path, states_dir: Path, host_id: str, persona_key: str) -> None:
+    """R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+    Alias-Pfad treibt eine normale KI-Persona nur noch aus dem EIGENEN
+    bestaetigten Bestand des einladenden Hosts (`self._known_ai_overview()`,
+    `community-<host_id>`) -- eine bereits etablierte Figur allein
+    (`_give_existing_figure` unten) begruendet KEINE Zugehoerigkeit. MUSS
+    VOR `_give_existing_figure` fuer dieselbe `persona_key` aufgerufen
+    werden (umgekehrte Reihenfolge ueberschreibt den etablierten
+    Persona-State wieder mit dem Bootstrap-Entwurf, s. identisches Muster
+    in `test_r3_f3_host_persona_authority.py:_bootstrap_own_persona`)."""
+    from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+    ps_store = PersonaStateStore(schema_path=_SCHEMA)
+    community_dir = run_dir / "community"
+    drafts = {
+        persona_key: {
+            "real_name": persona_key, "archetype": "Test-Archetyp",
+            "play_style": "SIMULIERT/DEMO", "charwunsch": "SIMULIERT/DEMO (N1-N7-Testfixture).",
+            "plays_char": {
+                "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+            },
+        },
+    }
+    result = bootstrap_community(community_dir, f"community-{host_id}", 1, drafts, ps_store, states_dir, today="2026-11-03")
+    assert persona_key in result.personas_written, result.reason
+
+
 def _v7_block(char_id: str, name: str = "Nova", level: int = 1) -> str:
     return full_v7_block_text(char_id, name=name, level=level)
 
@@ -256,7 +283,13 @@ def _reject_contract_json(offer_id: str, persona_key: str) -> str:
 def test_n1_fresh_start_cli_profile_full_journey():
     """Persona-Seite ueber den ECHTEN `claude_code_local`-Adapter
     (`PersonaClaudeCodeDriver`) gegen eine reale Fake-CLI-Prozessgrenze
-    (`adapters.fakes.FakeCLIProcess`, ersetzt NUR `subprocess.run`/`Popen`)."""
+    (`adapters.fakes.FakeCLIProcess`, ersetzt NUR `subprocess.run`/`Popen`).
+
+    R4-Nachzug (F3-Rest, Generalklaerung): diese Variante (im Unterschied
+    zur API-Variante unten) prueft zusaetzlich den regulaeren Tischbeitritt
+    (`_assert_table_join_with_fresh_figures`), der 'medic' real ueber
+    `_cmd_local_round(['persona:medic'])` treibt -- 'medic' muss dafuer
+    eine eigene bestaetigte Hostpersona von `leader_id` sein."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _new_env(root)
@@ -266,6 +299,10 @@ def test_n1_fresh_start_cli_profile_full_journey():
 
         leader_id = "flo_human"
         _give_existing_figure(schema_path, states_dir, run_dir, catalog_dir, onboarding_dir, leader_id, "chrono-flo-old", "FloOld")
+        # R4-Nachzug: VOR der etablierten Figur bootstrappen (s. Docstring
+        # von `_bootstrap_own_persona`) -- sonst ueberschreibt der
+        # Bootstrap-Entwurf den gleich danach etablierten Persona-State.
+        _bootstrap_own_persona(run_dir, states_dir, leader_id, "medic")
         old_medic_save = _give_existing_figure(
             schema_path, states_dir, run_dir, catalog_dir, onboarding_dir, "medic", "chrono-medic-old", "MedicOld",
         )

@@ -261,6 +261,11 @@ def test_tui_local_round_ai_leader_requires_real_consent_then_consolidates():
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         ps_store = PersonaStateStore(schema_path=schema_path)
+        # R4-Nachzug (F3-Rest, Generalklaerung): 'tech' wird hier als
+        # KI-LEADER getrieben (`lead:persona:tech`) -- muss eigene
+        # bestaetigte Hostpersona von 'sniper' sein, s. Docstring von
+        # `_bootstrap_own_persona` (VOR der Erschaffung/Registrierung).
+        _bootstrap_own_persona(d / "run", d / "states", "sniper", "tech")
         for pid, save in (("sniper", sniper_save), ("tech", tech_save)):
             char_id = _block_char_id(save)
             ob.start_or_resume(d / "onboarding", pid)
@@ -379,6 +384,11 @@ def test_tui_local_round_ai_leader_actually_consolidates_guest_table_proposal():
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         ps_store = PersonaStateStore(schema_path=schema_path)
+        # R4-Nachzug (F3-Rest, Generalklaerung): 'tech' wird hier als
+        # KI-LEADER getrieben (`lead:persona:tech`) -- muss eigene
+        # bestaetigte Hostpersona von 'sniper' sein, s. Docstring von
+        # `_bootstrap_own_persona` (VOR der Erschaffung/Registrierung).
+        _bootstrap_own_persona(d / "run", d / "states", "sniper", "tech")
         for pid, save in (("sniper", sniper_save), ("tech", tech_save)):
             char_id = _block_char_id(save)
             ob.start_or_resume(d / "onboarding", pid)
@@ -437,6 +447,37 @@ def test_tui_local_round_ai_leader_actually_consolidates_guest_table_proposal():
 def _block_char_id(block: dict) -> str:
     from mmo_sim.domain.zeitriss import saves as zeitriss_saves
     return zeitriss_saves.block_char_id(block)
+
+
+def _bootstrap_own_persona(run_dir: Path, states_dir: Path, host_id: str, persona_key: str) -> None:
+    """R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+    Alias-Pfad (`lead:persona:<id>` eingeschlossen) treibt eine normale
+    KI-Persona nur noch aus dem EIGENEN bestaetigten Bestand des
+    einladenden Hosts (`self._known_ai_overview()`, `community-<host_id>`)
+    -- die reine Erschaffungs-/Save-Registrierung ueber `onboarding`
+    (s. die beiden `test_tui_local_round_ai_leader_...`-Tests unten)
+    begruendet KEINE Zugehoerigkeit. MUSS VOR der Erschaffung/Registrierung
+    DIESER `persona_key` laufen (umgekehrte Reihenfolge ueberschreibt den
+    gleich danach publizierten Persona-State wieder mit dem Bootstrap-
+    Entwurf). Identisches Muster zu `test_r3_f3_host_persona_authority.py:
+    _bootstrap_own_persona`."""
+    from mmo_sim.core.persona_state import PersonaStateStore
+    from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+    schema_path = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
+    ps_store = PersonaStateStore(schema_path=schema_path)
+    community_dir = run_dir / "community"
+    drafts = {
+        persona_key: {
+            "real_name": persona_key, "archetype": "Test-Archetyp", "play_style": "SIMULIERT/DEMO",
+            "charwunsch": "SIMULIERT/DEMO (test_m3_tui-Testfixture).",
+            "plays_char": {
+                "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+            },
+        },
+    }
+    result = bootstrap_community(community_dir, f"community-{host_id}", 1, drafts, ps_store, states_dir, today="2026-11-03")
+    assert persona_key in result.personas_written, result.reason
 
 
 def _ZeitrissHarvestValidator():

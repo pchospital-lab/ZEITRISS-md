@@ -63,6 +63,37 @@ def log(msg: str) -> None:
     LOG.append(msg)
 
 
+def _bootstrap_own_persona(data_dir: Path, host_id: str, persona_key: str) -> None:
+    """R4-Nachzug (F3-Rest, Generalklaerung): `_cmd_local_round`s freier
+    Alias-Pfad treibt eine normale KI-Persona nur noch aus dem EIGENEN
+    bestaetigten Bestand des einladenden Hosts (`self._known_ai_overview()`,
+    `community-<host_id>`) -- der echte Subprozess-Import von 'tech' allein
+    (`i`-Menuekommando in dessen eigenem Prozess) begruendet KEINE
+    Zugehoerigkeit. MUSS VOR dem jeweiligen `run_process(data_dir, persona_
+    key, ...)`-Aufruf laufen (umgekehrte Reihenfolge ueberschreibt den
+    gerade importierten Persona-State wieder mit dem Bootstrap-Entwurf,
+    identisches Muster zu `test_r3_f3_host_persona_authority.py:
+    _bootstrap_own_persona`). `run_dir`/`states_dir` folgen derselben
+    Konvention wie `scripts/mmo_sim.py` (`data_dir / \"run\"` / `\"states\"`)."""
+    from mmo_sim.core.persona_state import PersonaStateStore
+    from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community
+    run_dir, states_dir = data_dir / "run", data_dir / "states"
+    schema_path = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
+    ps_store = PersonaStateStore(schema_path=schema_path)
+    drafts = {
+        persona_key: {
+            "real_name": persona_key, "archetype": "Test-Archetyp", "play_style": "SIMULIERT/DEMO",
+            "charwunsch": "SIMULIERT/DEMO (e2e-real-subprocess-Testfixture).",
+            "plays_char": {
+                "save_file": "NOCH_NICHT_ERSCHAFFEN", "character_id": "NOCH_NICHT_ERSCHAFFEN",
+                "name": "NOCH_NICHT_ERSCHAFFEN", "callsign": "NOCH_NICHT_ERSCHAFFEN",
+            },
+        },
+    }
+    result = bootstrap_community(run_dir / "community", f"community-{host_id}", 1, drafts, ps_store, states_dir, today="2026-11-03")
+    assert persona_key in result.personas_written, result.reason
+
+
 class _SmartGmHandler(BaseHTTPRequestHandler):
     """Simuliert die OWUI-`/api/chat/completions`-Antwortform, die
     `internal/qa/harness/owui_client.OWUIChat` erwartet. Prueft VOR jedem
@@ -183,6 +214,10 @@ def positive_scenario() -> None:
             # keine Vorbereitung NEBEN der UI. ────────────────────────────
             log("=== Schritt 1a: 'tech' importiert (echter Subprozess) ===")
             tech_stdin = "i\n" + json.dumps(tech_save) + "\nENDE\nj\nx\n"
+            # R4-Nachzug (F3-Rest, Generalklaerung): 'tech' muss eigene
+            # bestaetigte Hostpersona von 'sniper' sein, s. Docstring von
+            # `_bootstrap_own_persona` (VOR dem tech-Importprozess).
+            _bootstrap_own_persona(data_dir, "sniper", "tech")
             p_tech = run_process(data_dir, "tech", tech_stdin, env)
             assert p_tech.returncode == 0, f"tech-Import-Prozess fehlgeschlagen: {p_tech.stderr}"
             assert "Uebernahme abgeschlossen" in p_tech.stdout, p_tech.stdout
@@ -283,6 +318,10 @@ def negative_scenario() -> None:
                 "MMO_SIM_PERSONA_API_BASE_URL": persona_srv.base_url,
                 "MMO_SIM_PERSONA_API_KEY": "SYNTHETIC_E2E_KEY", "MMO_SIM_PERSONA_API_MODEL": "synthetic-e2e",
             }
+            # R4-Nachzug (F3-Rest, Generalklaerung): 'tech' muss eigene
+            # bestaetigte Hostpersona von 'sniper' sein, s. Docstring von
+            # `_bootstrap_own_persona` (VOR dem tech-Importprozess).
+            _bootstrap_own_persona(data_dir, "sniper", "tech")
             p_tech = run_process(data_dir, "tech", "i\n" + json.dumps(tech_save) + "\nENDE\nj\nx\n", env)
             assert p_tech.returncode == 0, p_tech.stderr
             sniper_stdin = "i\n" + json.dumps(sniper_save) + "\nENDE\nj\nl persona:tech\nIch warte ab.\nx\n"
@@ -321,6 +360,10 @@ def http200_refusal_scenario() -> None:
                 "MMO_SIM_PERSONA_API_BASE_URL": persona_srv.base_url,
                 "MMO_SIM_PERSONA_API_KEY": "SYNTHETIC_E2E_KEY", "MMO_SIM_PERSONA_API_MODEL": "synthetic-e2e",
             }
+            # R4-Nachzug (F3-Rest, Generalklaerung): 'tech' muss eigene
+            # bestaetigte Hostpersona von 'sniper' sein, s. Docstring von
+            # `_bootstrap_own_persona` (VOR dem tech-Importprozess).
+            _bootstrap_own_persona(data_dir, "sniper", "tech")
             p_tech = run_process(data_dir, "tech", "i\n" + json.dumps(tech_save) + "\nENDE\nj\nx\n", env)
             assert p_tech.returncode == 0, p_tech.stderr
             sniper_stdin = "i\n" + json.dumps(sniper_save) + "\nENDE\nj\nl persona:tech\nIch warte ab.\nx\n"

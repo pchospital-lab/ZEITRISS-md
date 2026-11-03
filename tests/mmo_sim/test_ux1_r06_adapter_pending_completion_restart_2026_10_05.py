@@ -149,6 +149,12 @@ def _child_setup_pending(args: argparse.Namespace) -> None:
     states_dir.mkdir(parents=True, exist_ok=True)
     run_dir.mkdir(parents=True, exist_ok=True)
     g03._make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "sniper")
+    # R4-Nachzug (F3-Rest, Generalklaerung): 'tech' muss eigene bestaetigte
+    # Hostpersona von 'sniper' sein, BEVOR die Figur vervollstaendigt wird
+    # (s. Docstring von `g03._bootstrap_own_persona`), sonst haelt der
+    # Bestandscheck in `_cmd_local_round` die Einladung an, BEVOR der hier
+    # eigentlich geprufte Pending-Abschluss-/Restart-Pfad erreicht wird.
+    g03._bootstrap_own_persona(run_dir, states_dir, "sniper", "tech")
     g03._make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "tech")
     write_test_profile(root / "run")
 

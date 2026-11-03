@@ -115,6 +115,12 @@ def test_r6p01_negative_fixed_solo_marker_rejected_then_positive_dynamic_binding
             registry_dir, leader_id, onboarding_dir, states_dir, run_dir,
             "CHR-W27-LEAD", "LeadW27", "LEADOPS",
         )
+        # R4-Nachzug (F3-Rest, Generalklaerung): `_AI_GUEST` muss eigene
+        # bestaetigte Hostpersona von `leader_id` sein, sonst haelt der
+        # Bestandscheck in `_cmd_local_round` die Einladung an, BEVOR der
+        # hier eigentlich geprufte dynamische Tischbindungs-/Abschlussweg
+        # erreicht wird.
+        sup.bootstrap_six_persona_community(root, f"community-{leader_id}", [_AI_GUEST])
         sup.make_ready(onboarding_dir, states_dir, run_dir, _AI_GUEST)
 
         guest_tokens = [f"persona:{_AI_GUEST}"]
