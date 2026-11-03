@@ -289,16 +289,18 @@ class ParticipantSaveIntakeOutcome:
     Entscheidung behandelt (ehrlich lokal anzeigen wie `_cmd_table_accept`,
     oder werfend wie der bestehende `import_save_for_participant_
     noninteractive`-Wrapper)."""
-    action: str  # "register_new" | "noop_identical" | "parked"
+    action: str  # "register_new" | "noop_identical" | "parked" | "adopt_incoming" | "keep_existing"
     reason: str
     char_id: str | None = None
     block: dict | None = None
     tolerated: bool = False
+    conflict_choice_available: bool = False
 
 
 def _decide_participant_save_intake(
     *, catalog_dir: Path, onboarding_dir: Path, run_dir: Path | None, participant_id: str,
     raw_save_text: str, states_dir: Path | None = None, schema_path: Path | None = None,
+    explicit_choice: str | None = None,
 ) -> ParticipantSaveIntakeOutcome:
     """R4-Nachzug (02_NACHZUG.md §A, Briefing A Punkt 1, Generalbefund
     F1/F5 "Annahme umgeht Importvertrag"): GEMEINSAME, REIN LESENDE
@@ -322,18 +324,29 @@ def _decide_participant_save_intake(
     noninteractive` deckt per Vertrag ohnehin nur frische Teilnehmer ohne
     jede Baseline ab und laesst sie daher weg).
 
-    Deckt NUR die drei OHNE Rueckfrage automatisch erreichbaren
-    Entscheidungen ab (`register_new`/`noop_identical`/`parked`) -- Fall 3
-    (bekannte Char-ID, abweichender Stand) braucht laut `11 §5` IMMER eine
-    ausdruecklich GETROFFENE Konfliktwahl ('a'/'k'), die hier bewusst NICHT
-    geraten wird; ohne `explicit_choice` bleibt er (wie bei
-    `import_export.resolve_import`) automatisch `parked` -- kein
+    Deckt die OHNE Rueckfrage automatisch erreichbaren Entscheidungen ab
+    (`register_new`/`noop_identical`/`parked`) UND, genau wie
+    `import_export.resolve_import`, die beiden ausdruecklich GETROFFENEN
+    Konfliktwahlen fuer Fall 3 (bekannte Char-ID, abweichender Stand, `11
+    §5`): `explicit_choice="adopt_incoming"`/`"keep_existing"` wird 1:1 an
+    `resolve_import` durchgereicht (exakt wie `_cmd_import`). Ohne
+    `explicit_choice` bleibt Fall 3 automatisch `parked` -- kein
     automatisches Hochleveln/Mischen, kein Raten einer Wahl, die ein Mensch
     sonst treffen wuerde. Ein gerade NICHT lesbarer, aber bekannter
     Current (`core_store.CurrentSaveUnavailableError`, wie bei
     `_cmd_import`s `baseline_unresolved`) liefert ebenfalls `"parked"`
     (kontrolliert gehalten, keine Entscheidung auf Basis einer
     moeglicherweise veralteten Fassung).
+
+    R5-Nachzug (Briefing A Punkt 1, Generalbefund F5 "bewusste Uebernahme
+    am Host-Annahmeweg unerreichbar"): `ParticipantSaveIntakeOutcome.
+    conflict_choice_available` markiert GENAU den Fall-3-Unterfall
+    (aufloesbar durch 'a'/'k') unter den `parked`-Ergebnissen -- die
+    beiden NICHT-waehlbaren `parked`-Gruende oben (Fremdzuordnung,
+    `CurrentSaveUnavailableError`) geben bereits VOR `resolve_import`
+    zurueck und tragen daher (Dataclass-Default) `False`. KEINE zweite
+    Importregel -- dieselbe Fall-3-Bedingung wie `_cmd_import` (tui.py
+    3303), nur hier am Outcome gespeichert statt lokal verbraucht.
 
     SCHREIBT NICHTS (R4-Generalnachschaerfung, Briefing A Nachtrag
     "keine wirksame halbe Aufnahme"): bewusst von
@@ -402,13 +415,30 @@ def _decide_participant_save_intake(
         incoming_block, known_char_ids=known_char_ids,
         existing_block_for_char_id=existing_block_for_char_id,
         active_binding=active_binding, open_completion_order=open_completion_order,
+        explicit_choice=explicit_choice,
     )
-    if decision.action != "register_new":
-        return ParticipantSaveIntakeOutcome(action=decision.action, reason=decision.reason, char_id=preview.char_id)
-    return ParticipantSaveIntakeOutcome(
-        action="register_new", reason=decision.reason, char_id=preview.char_id,
-        block=decision.block, tolerated=preview.tolerated,
-    )
+    if decision.action in ("register_new", "adopt_incoming"):
+        return ParticipantSaveIntakeOutcome(
+            action=decision.action, reason=decision.reason, char_id=preview.char_id,
+            block=decision.block, tolerated=preview.tolerated,
+        )
+    if decision.action == "keep_existing":
+        return ParticipantSaveIntakeOutcome(
+            action="keep_existing", reason=decision.reason, char_id=preview.char_id,
+            block=decision.block,
+        )
+    if decision.action == "parked":
+        conflict_choice_available = (
+            explicit_choice is None
+            and preview.char_id in known_char_ids
+            and existing_block_for_char_id is not None
+            and existing_block_for_char_id != incoming_block
+        )
+        return ParticipantSaveIntakeOutcome(
+            action="parked", reason=decision.reason, char_id=preview.char_id,
+            conflict_choice_available=conflict_choice_available,
+        )
+    return ParticipantSaveIntakeOutcome(action=decision.action, reason=decision.reason, char_id=preview.char_id)
 
 
 def _write_participant_save_intake(
@@ -420,12 +450,25 @@ def _write_participant_save_intake(
     (Katalog-Figursave + Onboarding-Slot + Katalogregistrierung) --
     GETRENNT von `_decide_participant_save_intake` aufrufbar, damit ein
     Aufrufer seine eigene aeussere Mutation (Roster-Accept) ZWISCHEN
-    Entscheidung und Schreiben platzieren kann. Nur fuer
-    `action="register_new"` sinnvoll; jeder andere Wert ist ein
+    Entscheidung und Schreiben platzieren kann.
+
+    R5-Nachzug (Briefing A Punkt 2, bewusste Konfliktwahl F5): zusaetzlich
+    gueltig fuer `"adopt_incoming"` -- GENAU DIESELBEN Writes wie
+    `"register_new"`, nur mit dem ausdruecklich gewaehlten `outcome.block`
+    (= incoming block, von `_decide_participant_save_intake` bereits so
+    gesetzt) als aktiver Kopie. `"keep_existing"` schreibt NICHTS: B
+    behaelt bewusst die bereits bei ihm REGISTRIERTE Fassung (dieselben
+    Bytes stehen laut `11 §5`/`resolve_import` bereits unveraendert in
+    `catalog`/`onboarding` -- kein erneutes Schreiben identischer Bytes,
+    keine erneute Harvest-Validierung einer schon einmal gueltig
+    gespeicherten Fassung). Jeder andere `outcome.action`-Wert ist ein
     Aufrufer-Fehler (interner Vertrag, kein Nutzerpfad)."""
-    if outcome.action != "register_new":
+    if outcome.action == "keep_existing":
+        return
+    if outcome.action not in ("register_new", "adopt_incoming"):
         raise ValueError(
-            f"_write_participant_save_intake erwartet action='register_new', bekommen: "
+            f"_write_participant_save_intake erwartet action in "
+            f"('register_new', 'adopt_incoming', 'keep_existing'), bekommen: "
             f"{outcome.action!r} -- Aufrufer-Fehler, kein Nutzerpfad."
         )
     catalog.store_figure_save(catalog_dir, participant_id, outcome.char_id, outcome.block)
@@ -4676,12 +4719,33 @@ class TuiSession:
         wird `accept_request` GAR NICHT aufgerufen -- die Anfrage bleibt
         ehrlich OFFEN/pending (Gast NICHT im Roster, Sidecar bleibt
         erhalten, 0 Writes). Erst wenn die Figur tatsaechlich uebernehmbar
-        ist (`register_new`/`noop_identical`), wird `accept_request`
-        aufgerufen -- der eigentliche Figur-Write
-        (`_write_participant_save_intake`) erfolgt dann ERST NACH dessen
-        Erfolg. Der figurlose Fall (kein Sidecar/geteiltes Terminal)
-        bleibt UNVERAENDERT: `accept_request` lief dort schon immer ohne
-        jede Figurenbedingung."""
+        ist (`register_new`/`noop_identical`/`adopt_incoming`/
+        `keep_existing`), wird `accept_request` aufgerufen -- der
+        eigentliche Figur-Write (`_write_participant_save_intake`) erfolgt
+        dann ERST NACH dessen Erfolg. Der figurlose Fall (kein Sidecar/
+        geteiltes Terminal) bleibt UNVERAENDERT: `accept_request` lief dort
+        schon immer ohne jede Figurenbedingung.
+
+        R5-Nachzug (Briefing A Punkt 3, Generalbefund F5 "bewusste
+        Uebernahme am Host-Annahmeweg unerreichbar"): ein `parked`, fuer
+        das `conflict_choice_available` True ist (bekannte Char-ID,
+        abweichender Stand, Fall 3 aus `11 §5`), kehrt NICHT mehr sofort
+        zurueck -- derselbe 'a'/'k'-Konfliktdialog wie `_cmd_import`
+        (`_readline_with_controls`, s. dort) wird gezeigt. Steuerzeile/
+        ungueltige Wahl verwirft NUR diesen Dialog (Anfrage bleibt OFFEN,
+        0 Writes, kein Roster, Sidecar bleibt erhalten -- derselbe
+        Rueckzugsweg wie `_cmd_import`s Konfliktdialog). 'a' entscheidet
+        NEU mit `explicit_choice="adopt_incoming"` (aktive Kopie = die neu
+        angebotene Fassung), 'k' mit `explicit_choice="keep_existing"`
+        (B behaelt seine bereits registrierte Fassung) -- beide Male GENAU
+        EINE neue Figur, NIE eine Summierung von XP/Geld/Items. Faellt die
+        Neuentscheidung TROTZ Wahl erneut auf `parked` (z.B. zwischenzeitig
+        entstandene aktive Bindung), bleibt die Anfrage unveraendert offen
+        (kein Roster, kein Write) -- dieselbe geschuetzte Semantik wie bei
+        Fremdzuordnung/Aktivbindung oben, keine zweite Importarchitektur.
+        Die NICHT-waehlbaren `parked`-Gruende (Fremdzuordnung, aktive
+        Bindung/offener Abschluss, Current nicht lesbar) fragen WEITERHIN
+        nicht nach -- `conflict_choice_available` bleibt dort `False`."""
         self._require_host("Tisch-Anfrage annehmen (accept_request)")
         if self.run_dir is None:
             self._print("Anfrage annehmen erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -4715,17 +4779,70 @@ class TuiSession:
                     f"strukturell ungueltig (kein Write): {e}"
                 )
                 return
-            if intake.action == "parked":
-                # KEINE Roster-Mutation -- die Anfrage bleibt ehrlich
-                # offen/pending (Gast NICHT angenommen), Sidecar bleibt
-                # erhalten (retry-faehig, falls sich Sperre/Lage spaeter
-                # loest). Keine angenommene halbe Besetzung.
+            if intake.action == "parked" and not intake.conflict_choice_available:
+                # NICHT-waehlbarer parked-Grund (Fremdzuordnung, aktive
+                # Bindung/offener Abschluss, Current nicht lesbar) -- KEINE
+                # Roster-Mutation, die Anfrage bleibt ehrlich offen/pending
+                # (Gast NICHT angenommen), Sidecar bleibt erhalten
+                # (retry-faehig, falls sich Sperre/Lage spaeter loest).
+                # Keine angenommene halbe Besetzung.
                 self._print(
                     f"Anfrage von '{guest_id}' nicht angenommen: eigene Figur NICHT uebernehmbar "
                     f"(geparkt, kein Write) -- Anfrage bleibt OFFEN, kein Rostermitglied ohne "
                     f"uebernommene Figur: {intake.reason}"
                 )
                 return
+            if intake.action == "parked" and intake.conflict_choice_available:
+                # Fall 3 (11 §5): bekannte Char-ID, abweichender Stand --
+                # derselbe ausdruckliche 'a'/'k'-Konfliktdialog wie
+                # `_cmd_import` (3303 ff.), hier an der Gast-Annahmegrenze.
+                self._print(
+                    f"Anfrage von '{guest_id}': bekannte Figur mit abweichendem Stand -- "
+                    "ausdruecklich waehlen: 'a' neu angebotenen Stand uebernehmen, "
+                    "'k' bisherigen (hostseitig registrierten) Stand behalten."
+                )
+                answer, control = self._readline_with_controls(
+                    "Wahl [a/k]: ", context="Gastannahme-Konflikt (abweichende Fassung)",
+                )
+                if control in ("zurueck", "abbrechen", "pause"):
+                    self._print(
+                        f"Anfrage von '{guest_id}' nicht angenommen: Konfliktwahl lokal verarbeitet "
+                        "-- Anfrage bleibt OFFEN (kein Write), keine Wahl getroffen."
+                    )
+                    return
+                answer = answer.strip().lower()
+                if answer == "a":
+                    explicit_choice = "adopt_incoming"
+                elif answer == "k":
+                    explicit_choice = "keep_existing"
+                else:
+                    self._print(
+                        f"Anfrage von '{guest_id}' nicht angenommen: keine gueltige Konfliktwahl "
+                        "getroffen -- Anfrage bleibt OFFEN (kein Write)."
+                    )
+                    return
+                try:
+                    intake = _decide_participant_save_intake(
+                        catalog_dir=self.catalog_dir, onboarding_dir=self.onboarding_dir, run_dir=self.run_dir,
+                        participant_id=guest_id, raw_save_text=json.dumps(guest_offer["save"]),
+                        states_dir=self.states_dir, schema_path=self.schema_path,
+                        explicit_choice=explicit_choice,
+                    )
+                except import_export.MalformedImportError as e:
+                    self._print(
+                        f"Anfrage von '{guest_id}' nicht angenommen: die mitgebrachte Figur ist "
+                        f"strukturell ungueltig (kein Write): {e}"
+                    )
+                    return
+                if intake.action == "parked":
+                    # Verteidigend (z.B. zwischenzeitlich entstandene
+                    # aktive Bindung) -- die Wahl loest den Konflikt NICHT,
+                    # Anfrage bleibt unveraendert offen, 0 Writes.
+                    self._print(
+                        f"Anfrage von '{guest_id}' nicht angenommen: eigene Figur trotz Konfliktwahl "
+                        f"NICHT uebernehmbar (geparkt, kein Write) -- Anfrage bleibt OFFEN: {intake.reason}"
+                    )
+                    return
         try:
             record = table_admission.accept_request(
                 self.run_dir, table_key=table_key, host_id=self.participant_id, guest_id=guest_id,
@@ -4755,9 +4872,11 @@ class TuiSession:
                     f"eigene Figur bereits identisch hinterlegt, kein zweiter Fortschritt: {intake.reason}"
                 )
                 return
-            # register_new: der Figur-Write erfolgt ERST JETZT, NACH dem
-            # erfolgreichen Roster-Accept oben (keine Schreibwirkung ohne
-            # wirksame Annahme).
+            # register_new/adopt_incoming/keep_existing: der Figur-Write
+            # (bei `keep_existing` ein No-op, s. `_write_participant_
+            # save_intake`) erfolgt ERST JETZT, NACH dem erfolgreichen
+            # Roster-Accept oben (keine Schreibwirkung ohne wirksame
+            # Annahme).
             _write_participant_save_intake(
                 intake, catalog_dir=self.catalog_dir, onboarding_dir=self.onboarding_dir,
                 participant_id=guest_id, harvest_validator=ZeitrissHarvestValidator(),
@@ -4766,7 +4885,9 @@ class TuiSession:
             # (`onboarding.ensure_participant_persona_state` +
             # `core_store.publish_current_save`), nur jetzt NACH der
             # geteilten Entscheidungs-+Schreib-Op statt direkt am harten
-            # Pfad.
+            # Pfad. Fuer `keep_existing` ist `intake.block` die bestehende
+            # (nicht die eingehende) Fassung -- B veroeffentlicht so
+            # weiterhin bewusst seinen eigenen Stand als aktiv.
             from ..core.persona_state import PersonaStateStore
             ps_store = PersonaStateStore(schema_path=self.schema_path)
             onboarding.ensure_participant_persona_state(
@@ -4775,9 +4896,15 @@ class TuiSession:
             from ..core import store as core_store
             core_store.publish_current_save(self.run_dir, guest_id, intake.block, ps_store, self.states_dir)
             _clear_table_guest_offer(self.run_dir, table_key, guest_id)
+            if intake.action == "adopt_incoming":
+                outcome_note = "ausdruecklich uebernommen (bewusste Konfliktwahl: neuer Stand)"
+            elif intake.action == "keep_existing":
+                outcome_note = "bisheriger hostseitig registrierter Stand bewusst behalten (Konfliktwahl)"
+            else:
+                outcome_note = "hostseitig uebernommen"
             self._print(
                 f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}) -- "
-                f"eigene Figur '{intake.char_id}' hostseitig uebernommen."
+                f"eigene Figur '{intake.char_id}' {outcome_note}."
             )
             return
         self._print(f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}).")

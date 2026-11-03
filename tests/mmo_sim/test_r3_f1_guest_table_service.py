@@ -603,6 +603,235 @@ def test_f1_f5_rejected_request_leaves_current_save_unchanged():
         assert published is None, "Eine abgelehnte Annahme haette KEINEN Current-Save veroeffentlichen duerfen."
 
 
+def _advance_private_figure(
+    onboarding_dir: Path, participant_id: str, char_id: str, *, save_id: str, level: int, wallet: float = 0.0,
+) -> dict:
+    """Simuliert externen Fortschritt am GENAU EINEN Onboarding-Slot des
+    Gasts (R5-Nachzug Briefing A Punkt F5, `02_NACHZUG.md §A`): dieselbe
+    Char-ID wie zuvor, aber abweichende Savebytes (neue `save_id`/`lvl`/
+    `wallet`) -- kein zweiter Importpfad, derselbe Produktweg wie
+    `_register_private_figure`, nur ein zweiter Aufruf desselben EINEN
+    Slots (`onboarding.py`: 'ein Slot pro Teilnehmer')."""
+    save = full_v7_save(char_id, name=participant_id, save_id=save_id, level=level, wallet=wallet)
+    onboarding.start_or_resume(onboarding_dir, participant_id)
+    onboarding.complete_with_save(onboarding_dir, participant_id, save, ZeitrissHarvestValidator(), char_id)
+    return save
+
+
+def _conflict_choice_input(choice: str):
+    """Promptbewusste Eingabefunktion NUR fuer den neuen 'Wahl [a/k]'-
+    Dialog an `_cmd_table_accept` (derselbe Prompttext wie `_cmd_import`s
+    Konfliktdialog, hier an der Gast-Annahmegrenze) -- jeder andere Prompt
+    waere in diesen Tests ein Vertragsbruch (es wird NIE ein normaler
+    Spielzug ausgeloest, der Host trifft nur die Konfliktwahl)."""
+
+    def _fn(prompt: str = "") -> str:
+        if "Wahl [a/k]" in prompt:
+            return choice
+        raise AssertionError(f"Unerwarteter Prompt in Konfliktwahl-Test: {prompt!r}")
+    return _fn
+
+
+def _setup_known_guest_with_returning_conflict():
+    """Gemeinsamer Aufbau fuer die vier F5-Konfliktwahl-Gegenproben unten:
+    Host kennt CHR-GUEST1 bereits (register_new an einem ersten Tisch),
+    der Gast reist danach mit einer EXTERN fortgeschrittenen, abweichenden
+    Fassung DERSELBEN Figur zu einem zweiten Tisch zurueck. Liefert
+    `(dirs, host_kwargs, guest_kwargs, new_save, start_save)`."""
+    td = tempfile.TemporaryDirectory()
+    d = Path(td.name)
+    run_dir, states_dir = d / "run", d / "states"
+    host_onboarding, host_catalog = d / "host_onboarding", d / "host_catalog"
+    guest_onboarding, guest_catalog = d / "guest_onboarding", d / "guest_catalog"
+    write_test_profile(run_dir, max_turns=200)
+    _register_host_figure(host_onboarding, host_catalog, run_dir, states_dir, "host1", "CHR-HOST1")
+    start_save = _register_private_figure(guest_onboarding, guest_catalog, "guest1", "CHR-GUEST1", level=1)
+
+    host_session = TuiSession(
+        onboarding_dir=host_onboarding, catalog_dir=host_catalog, participant_id="host1",
+        run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH, host_capable=True,
+    )
+    guest_session = TuiSession(
+        onboarding_dir=guest_onboarding, catalog_dir=guest_catalog, participant_id="guest1",
+        run_dir=run_dir, host_capable=False,
+    )
+    # Erster Tisch: regulaere Erstannahme -- B kennt CHR-GUEST1 jetzt
+    # (level 1).
+    host_session._cmd_table_offer(["mesaF5know"])
+    guest_session._cmd_table_request_join(["mesaF5know"])
+    host_session._cmd_table_accept(["mesaF5know", "guest1"])
+    assert catalog.load_figure_save(host_catalog, "guest1", "CHR-GUEST1") == start_save
+
+    # Externer Fortschritt: der Gast spielt (extern) weiter -- DIESELBE
+    # Char-ID, abweichende Savebytes (hoeheres Level, anderes Wallet,
+    # neue save_id).
+    new_save = _advance_private_figure(
+        guest_onboarding, "guest1", "CHR-GUEST1", save_id="fixture-guest1-f5-002", level=7, wallet=321.0,
+    )
+    assert new_save != start_save
+
+    # Zweiter Tisch: der Gast reist mit der NEUEN Fassung erneut zu B.
+    host_session._cmd_table_offer(["mesaF5return"])
+    guest_session._cmd_table_request_join(["mesaF5return"])
+
+    return td, host_session, guest_session, run_dir, states_dir, host_catalog, guest_catalog, new_save, start_save
+
+
+def test_f5_table_accept_conflict_choice_adopt_incoming_activates_new_version():
+    """(a) R5-Nachzug Briefing A: bekannte Char-ID, abweichende neu
+    angebotene Fassung -- 'a' uebernimmt BEWUSST die neue Fassung. Aktiver
+    Stand = incoming (char-fields der neuen Fassung, KEINE Summierung),
+    Gast landet im Roster, ein frischer GM-/Resolve-Zugriff sieht die neue
+    Fassung."""
+    td, host_session, guest_session, run_dir, states_dir, host_catalog, guest_catalog, new_save, start_save = (
+        _setup_known_guest_with_returning_conflict()
+    )
+    try:
+        host_session._input = _conflict_choice_input("a")
+        printed: list[str] = []
+        host_session._print = printed.append
+        host_session._cmd_table_accept(["mesaF5return", "guest1"])
+
+        assert any("ausdruecklich uebernommen" in p for p in printed), printed
+        record = table_admission.load_record(run_dir, "mesaF5return")
+        assert "guest1" in record["roster"], record
+
+        # Aktiver Figur-Stand ist jetzt der NEU angebotene -- kein
+        # Summieren (lvl/wallet entsprechen GENAU der neuen Fassung, nicht
+        # Start+Delta).
+        stored = catalog.load_figure_save(host_catalog, "guest1", "CHR-GUEST1")
+        assert stored == new_save, (stored, new_save)
+        ps_store = PersonaStateStore(schema_path=_SCHEMA_PATH)
+        published = core_store.load_current_save_or_raise(run_dir, "guest1", ps_store, states_dir=states_dir)
+        assert published == new_save, published
+        assert published["characters"][0]["lvl"] == 7, published
+        assert published["characters"][0]["wallet"] == 321.0, published
+
+        # Frischer GM-/Resolve-Zugriff (neue Session, dateibasiert) sieht
+        # die neue Fassung.
+        fresh = TuiSession(
+            onboarding_dir=host_session.onboarding_dir, catalog_dir=host_catalog, participant_id="host1",
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH, host_capable=True,
+        )
+        resolved = fresh._resolve_member("guest1")
+        assert resolved is not None
+        resolved_save, resolved_char = resolved
+        assert resolved_char == "CHR-GUEST1"
+        assert resolved_save == new_save, resolved_save
+
+        from mmo_sim.ui.tui import _read_table_guest_offer
+        assert _read_table_guest_offer(run_dir, "mesaF5return", "guest1") is None, (
+            "Sidecar haette nach erfolgreicher Konfliktuebernahme geloescht werden muessen."
+        )
+    finally:
+        td.cleanup()
+
+
+def test_f5_table_accept_conflict_choice_keep_existing_retains_hostside_version():
+    """(b) R5-Nachzug Briefing A: 'k' behaelt die BESTEHENDE hostseitig
+    registrierte Fassung -- KEINE incoming-Bytes werden aktiv, der Gast
+    wird trotzdem (mit der bestehenden Fassung) ins Roster aufgenommen."""
+    td, host_session, guest_session, run_dir, states_dir, host_catalog, guest_catalog, new_save, start_save = (
+        _setup_known_guest_with_returning_conflict()
+    )
+    try:
+        host_session._input = _conflict_choice_input("k")
+        printed: list[str] = []
+        host_session._print = printed.append
+        host_session._cmd_table_accept(["mesaF5return", "guest1"])
+
+        assert any("bewusst behalten" in p for p in printed), printed
+        record = table_admission.load_record(run_dir, "mesaF5return")
+        assert "guest1" in record["roster"], record
+
+        # Die bestehende (alte) Fassung bleibt aktiv -- KEINE Uebernahme
+        # der neu angebotenen Bytes.
+        stored = catalog.load_figure_save(host_catalog, "guest1", "CHR-GUEST1")
+        assert stored == start_save, (stored, start_save)
+        assert stored != new_save
+        ps_store = PersonaStateStore(schema_path=_SCHEMA_PATH)
+        published = core_store.load_current_save_or_raise(run_dir, "guest1", ps_store, states_dir=states_dir)
+        assert published == start_save, published
+        assert published["characters"][0]["lvl"] == 1, published
+
+        from mmo_sim.ui.tui import _read_table_guest_offer
+        assert _read_table_guest_offer(run_dir, "mesaF5return", "guest1") is None, (
+            "Sidecar haette nach erfolgreicher Konfliktwahl geloescht werden muessen."
+        )
+    finally:
+        td.cleanup()
+
+
+def test_f5_table_accept_conflict_choice_invalid_leaves_request_open_zero_writes():
+    """(c) R5-Nachzug Briefing A: ungueltige/keine Konfliktwahl -- Anfrage
+    bleibt OFFEN, 0 Writes am massgeblichen Figurenstand, kein Roster."""
+    td, host_session, guest_session, run_dir, states_dir, host_catalog, guest_catalog, new_save, start_save = (
+        _setup_known_guest_with_returning_conflict()
+    )
+    try:
+        host_session._input = _conflict_choice_input("x")  # ungueltige Wahl
+        printed: list[str] = []
+        host_session._print = printed.append
+        host_session._cmd_table_accept(["mesaF5return", "guest1"])
+
+        assert any("keine gueltige Konfliktwahl" in p and "OFFEN" in p for p in printed), printed
+        record = table_admission.load_record(run_dir, "mesaF5return")
+        assert "guest1" not in record["roster"], (
+            f"Ungueltige Konfliktwahl haette KEINE Roster-Buchung ausloesen duerfen: {record}"
+        )
+        assert "guest1" in record["requests"], (
+            f"Die Anfrage haette ehrlich offen/pending bleiben muessen: {record}"
+        )
+        # 0 Writes: der hostseitig registrierte Stand bleibt UNVERAENDERT
+        # die alte Startfassung.
+        stored = catalog.load_figure_save(host_catalog, "guest1", "CHR-GUEST1")
+        assert stored == start_save, (stored, start_save)
+        from mmo_sim.ui.tui import _read_table_guest_offer
+        assert _read_table_guest_offer(run_dir, "mesaF5return", "guest1") is not None, (
+            "Sidecar haette bei abgebrochener Konfliktwahl erhalten bleiben muessen (retry-faehig)."
+        )
+    finally:
+        td.cleanup()
+
+
+def test_f5_table_accept_conflict_choice_identical_repeat_adopt_is_noop_identical():
+    """(d) R5-Nachzug Briefing A: nach einer bewussten Uebernahme ('a')
+    loest eine identische Wiederholung (derselbe Gast bringt DIESELBE neue
+    Fassung ERNEUT mit) keinen zweiten Fortschritt aus -- `noop_identical`,
+    kein zweiter Figur-Write."""
+    td, host_session, guest_session, run_dir, states_dir, host_catalog, guest_catalog, new_save, start_save = (
+        _setup_known_guest_with_returning_conflict()
+    )
+    try:
+        host_session._input = _conflict_choice_input("a")
+        host_session._cmd_table_accept(["mesaF5return", "guest1"])
+        assert catalog.load_figure_save(host_catalog, "guest1", "CHR-GUEST1") == new_save
+        figure_write_time_first = (host_catalog / "figures" / "guest1__CHR-GUEST1.json").stat().st_mtime_ns
+
+        # Gast verlaesst/bringt dieselbe (jetzt bereits aktive) Fassung an
+        # einem DRITTEN Tisch erneut mit -- byte-identisch zur aktiven
+        # Fassung, kein externer Fortschritt seit der Uebernahme oben.
+        host_session._cmd_table_offer(["mesaF5retry3"])
+        guest_session._cmd_table_request_join(["mesaF5retry3"])
+
+        printed: list[str] = []
+        host_session._print = printed.append
+        host_session._input = _conflict_choice_input("sollte-nicht-gefragt-werden")
+        host_session._cmd_table_accept(["mesaF5retry3", "guest1"])
+
+        assert any("identisch" in p for p in printed), printed
+        record = table_admission.load_record(run_dir, "mesaF5retry3")
+        assert "guest1" in record["roster"], record
+        figure_write_time_second = (host_catalog / "figures" / "guest1__CHR-GUEST1.json").stat().st_mtime_ns
+        assert figure_write_time_second == figure_write_time_first, (
+            "Ein identischer Retry (nach bereits erfolgter Uebernahme) haette den Figursave "
+            "NICHT erneut schreiben duerfen (kein Doppeleffekt)."
+        )
+        assert catalog.load_figure_save(host_catalog, "guest1", "CHR-GUEST1") == new_save
+    finally:
+        td.cleanup()
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
