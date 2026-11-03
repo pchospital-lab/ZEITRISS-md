@@ -214,6 +214,12 @@ def complete_with_save(
     state = _load(path)
     if state is None:
         raise ValueError(f"kein Erschaffungsauftrag fuer {participant_id!r} — start_or_resume() zuerst aufrufen")
+    if state.status == "abandoned":
+        raise ValueError(
+            f"Erschaffungsauftrag fuer {participant_id!r} wurde abgebrochen (abandoned) — ein "
+            "spaeter eintreffender Abschluss (verspaetete SL-/Personaantwort, Korrekturpfad, "
+            "frischer Prozess) darf ihn NICHT wiederbeleben (O3/O5-Abbruchdurabilitaet)."
+        )
     state.status = "completed"
     state.final_save = save_block
     state.pending_step = None
@@ -243,6 +249,12 @@ def complete_with_save_best_effort(
     state = _load(path)
     if state is None:
         raise ValueError(f"kein Erschaffungsauftrag fuer {participant_id!r} — start_or_resume() zuerst aufrufen")
+    if state.status == "abandoned":
+        raise ValueError(
+            f"Erschaffungsauftrag fuer {participant_id!r} wurde abgebrochen (abandoned) — ein "
+            "spaeter eintreffender Best-Effort-Abschluss darf ihn NICHT wiederbeleben "
+            "(O3/O5-Abbruchdurabilitaet)."
+        )
     state.status = "completed"
     state.final_save = save_block
     state.final_save_best_effort = True

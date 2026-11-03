@@ -42,6 +42,17 @@ python3 -m scripts.validate_index
 python3 -m scripts.check_lint_anchors
 python3 -m unittest -q
 
+# ZR-BETREIBER-GASTERSCHAFFUNG-20261103-R1 O1-O6 (Stage C, Linus): standalone
+# Assert-Skripte (Konvention der datierten tests/mmo_sim/test_*_2026_*.py --
+# python3 -m unittest -q findet sie NICHT, s. deren Docstrings), hier additiv
+# direkt gestartet.
+python3 tests/mmo_sim/test_zr_betreiber_o1_operator_rollenentkopplung_2026_11_03.py
+python3 tests/mmo_sim/test_zr_betreiber_o2_stop_waehrend_offenem_call_2026_11_03.py
+python3 tests/mmo_sim/test_zr_betreiber_o3_stop_vor_planpin_2026_11_03.py
+python3 tests/mmo_sim/test_zr_betreiber_o4_stop_nach_planpin_2026_11_03.py
+python3 tests/mmo_sim/test_zr_betreiber_o5_erschaffung_abandon_guard_2026_11_03.py
+python3 tests/mmo_sim/test_zr_betreiber_o6_autoritaet_und_spectator_2026_11_03.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

@@ -122,6 +122,41 @@ def _stop_flag_path(run_dir: Path) -> Path:
     return run_dir / "lab.stop"
 
 
+# ZR-BETREIBER O2/O3 (2026-11-03): tisch-adressierter Stop -- die bestehende
+# `lab.stop`-Flag (oben) ist strikt run_dir-weit und kann einen EINZELNEN
+# Betreibertisch nicht gezielt abbrechen. Dieser additive Pfad bindet einen
+# Stop an genau eine (bereits gebundene) Store-`table_id`; er wird VOR der
+# erstmaligen Abschlussbindung (`store.complete_section`, vor dem Plan-Pin)
+# UND an jeder bestehenden Gate-Grenze (`read_admission_block` mit
+# `table_id=`) gelesen. Setzen/Autoritaetspruefung liegt in
+# `table_admission.request_table_stop` (dort die Host-/Operatorbindung).
+def _safe_table_component(table_id: str) -> str:
+    """Begrenzt die `table_id` auf dateinamentaugliche Zeichen (die realen
+    IDs sind `local-<pid>[-<gast>...]` bzw. mit `__N`-Suffix, s. store.py) --
+    kein Pfad-Escape, kein Trennzeichen-Konflikt."""
+    return "".join(ch if (ch.isalnum() or ch in "-_.") else "_" for ch in table_id)
+
+
+def _table_stop_path(run_dir: Path, table_id: str) -> Path:
+    return Path(run_dir) / f"lab.stop.table.{_safe_table_component(table_id)}.json"
+
+
+def read_table_stop(run_dir: str | Path, table_id: str) -> tuple[bool, str | None]:
+    """`(blocked, reason)` fuer genau diesen Tisch. Rein lesend, fail-safe:
+    existiert die Datei, ist der Tisch gestoppt (auch bei beschaedigtem
+    Inhalt -- ein vorhandener Stopmarker gibt NIE still frei)."""
+    path = _table_stop_path(Path(run_dir), table_id)
+    if not path.exists():
+        return False, None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        data = {}
+    if not isinstance(data, dict):
+        data = {}
+    return True, data.get("reason") or "Betreiber-Stop fuer diesen Tisch aktiv (persistiert)"
+
+
 def _status_path(run_dir: Path) -> Path:
     return run_dir / "lab.status.json"
 
@@ -337,6 +372,7 @@ def write_test_profile(
 def read_admission_block(
     run_dir: str | Path, reserved_usd: float | None = None, *,
     output_bound_known: bool = True, route: str | None = None, dollar_billed: bool = True,
+    table_id: str | None = None,
 ) -> tuple[bool, str | None]:
     """Vor JEDEM Modellrequest aufzurufen (I1 Plan §1 Punkt 7). Liefert
     `(blocked, reason)`.
@@ -409,6 +445,16 @@ def read_admission_block(
         except (OSError, json.JSONDecodeError):
             data = {}
         return True, data.get("reason") or "Lab-Stop aktiv (persistiert)"
+
+    # ZR-BETREIBER O2 (2026-11-03): zusaetzlich zum run-weiten `lab.stop` den
+    # tisch-adressierten Stop pruefen, wenn der Aufrufer die konkrete
+    # `table_id` kennt (`core.runtime._check_gate` reicht `self.table.
+    # table_id` durch). Additive Grenze -- gilt UNABHAENGIG von einer
+    # vorhandenen Betreiber-Live-/Budgetfreigabe, genau wie `lab.stop`.
+    if table_id is not None:
+        table_blocked, table_reason = read_table_stop(run_dir, table_id)
+        if table_blocked:
+            return True, table_reason
 
     status_path = _status_path(run_dir)
     if not status_path.exists():

@@ -578,6 +578,121 @@ def import_save_for_participant_noninteractive(
     return outcome.block
 
 
+class _OperatorControlScope:
+    """O2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §1d): Daemon-Kontroll-
+    Thread als Context-Manager -- `__enter__` startet ihn VOR dem
+    blockierenden `app_service.run_play_session`-Aufruf, `__exit__` beendet
+    ihn IMMER (Erfolg UND jede Exception, da ein `with`-Block `__exit__`
+    unabhaengig vom Ausgang garantiert aufruft) -- kein Leak, kein Haengen
+    bei normalem Rundenende. Nur aktiv, wenn `operator_mode` UND ein
+    gebundener `table_key` vorliegen (sonst No-Op: kein Thread, kein
+    Overhead fuer jeden anderen, nicht-Betreiber-Rundenaufruf). Liest EINE
+    Kontrollzeile nach der anderen ueber eine injizierbare Quelle (`session.
+    operator_control_line_source`, Default: echtes Terminal-stdin via
+    `select`, kein Busy-Poll) -- bei '/stop' ruft er `table_admission.
+    request_table_stop` (O6-Autoritaet dort, dieser Thread ist nur die
+    duenne Zuleitung) und beendet sich danach selbst (EIN wirksamer Stop
+    pro Rundenaufruf reicht). '/zuschauer' druckt den aktuellen oeffentlichen
+    Spektator-Stand (`store.spectator_view`, NIE `operator_view`) auf das
+    Betreiberterminal, OHNE den Thread zu beenden -- derselbe Kontrollpfad
+    bedient damit O2 (Stop) UND O4/§2 (Spektatorabruf WAEHREND des offenen
+    Calls)."""
+
+    def __init__(self, session: "TuiSession", *, operator_mode: bool, table_key: str | None,
+                 table_id: str, run_dir, operator_id: str):
+        self._session = session
+        self._active = bool(operator_mode and table_key and run_dir is not None)
+        self._table_key = table_key
+        self._table_id = table_id
+        self._run_dir = run_dir
+        self._operator_id = operator_id
+        self._thread = None
+        self._stop_event = None
+
+    def __enter__(self) -> "_OperatorControlScope":
+        if not self._active:
+            return self
+        import threading
+        self._stop_event = threading.Event()
+        self._thread = threading.Thread(target=self._loop, name="operator-control", daemon=True)
+        self._thread.start()
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> bool:
+        if self._active and self._stop_event is not None:
+            self._stop_event.set()
+            self._thread.join(timeout=0.5)
+        return False
+
+    def _loop(self) -> None:
+        source = self._session.operator_control_line_source or self._default_line_source
+        while not self._stop_event.is_set():
+            try:
+                line = source(self._stop_event)
+            except Exception:
+                return
+            if not line:
+                continue
+            control = line.strip().lower()
+            if control == "/stop":
+                self._handle_stop()
+                return
+            if control == "/zuschauer":
+                self._session._print_spectator_view(self._table_id)
+
+    def _handle_stop(self) -> None:
+        try:
+            table_admission.request_table_stop(
+                self._run_dir, table_key=self._table_key, operator_id=self._operator_id,
+                table_id=self._table_id,
+                reason=f"Betreiber {self._operator_id!r} hat '/stop' waehrend eines offenen Zugs gesetzt.",
+            )
+            self._session._print(
+                "Betreiber-Stop gesetzt (/stop) -- wirksam an der naechsten Grenze, VOR jedem Save."
+            )
+        except table_admission.TableAdmissionError as e:
+            self._session._print(f"Betreiber-Stop abgelehnt: {e}")
+
+    @staticmethod
+    def _default_line_source(stop_event) -> str | None:
+        """Echtes Terminal-stdin, kein Busy-Poll: `select` blockiert bis zu
+        0.2s auf neue Eingabe und prueft danach das `stop_event` erneut --
+        damit liest der Thread NIE weiter, nachdem die Runde zurueckgekehrt
+        ist (kein Wettlauf mit dem naechsten echten Spielzug-Prompt des
+        Hauptthreads).
+
+        Randfall geschlossenes/nicht-interaktives stdin (headless/Service/
+        CI/Docker ohne TTY, vgl. `lab/cli.py` `_RefuseInput`): `select`
+        meldet EOF DAUERHAFT als lesebereit und `readline()` liefert sofort
+        `''` -- ohne Backoff wuerde die `_loop`-Schleife (`continue`) einen
+        CPU-Kern fuer die ganze Dauer eines Modellaufrufs auf 100% pegeln.
+        Darum wird ein echtes EOF (`''`) vom bloss-keine-Eingabe-Fall (`not
+        ready`) unterschieden und ebenfalls mit `stop_event.wait(0.2)`
+        abgefedert; echte zeilenweise Eingabe (TTY wie Pipe) bleibt
+        unveraendert sofort verfuegbar."""
+        import select
+        import sys
+        if stop_event.is_set():
+            return None
+        try:
+            ready, _, _ = select.select([sys.stdin], [], [], 0.2)
+        except (OSError, ValueError):
+            stop_event.wait(0.2)
+            return None
+        if not ready:
+            return None
+        try:
+            line = sys.stdin.readline()
+        except (OSError, ValueError):
+            return None
+        if line == "":
+            # EOF / geschlossenes stdin -- select bleibt sonst sofort
+            # dauerlesebereit -> Backoff statt Heisslauf.
+            stop_event.wait(0.2)
+            return None
+        return line
+
+
 class TuiSession:
     def __init__(
         self,
@@ -655,6 +770,16 @@ class TuiSession:
         # pausierte Rundenausfuehrung, s. `_cmd_local_round`-Kommentar an der
         # Zuweisungsstelle.
         self._pending_section_id: str | None = None
+        # O2 (ZR-BETREIBER-GASTERSCHAFFUNG): schmaler Seitenkanal fuer die
+        # FRUEHE Abschnittsbindung. Setzt `_cmd_table_start` VOR dem Aufruf
+        # von `_cmd_local_round` auf die aktive `table_key`; `_cmd_local_round`
+        # bindet damit die reale Store-`table_id` SOFORT nach `create_table_
+        # from_offer_log` (vor dem ersten blockierenden Play-Request) in den
+        # Admission-Record zurueck -- damit ein `request_table_stop` den Tisch
+        # schon WAEHREND des ersten offenen Modellcalls eindeutig adressieren
+        # kann. `None` fuer alle anderen Aufrufer (`l`/Fortsetzen), deren
+        # Bindung unveraendert ueber den bestehenden Weg laeuft.
+        self._pending_table_key: str | None = None
         # R3-Nachzug (F1 §1, 02_NACHZUG.md §A): schmaler, EHRLICH
         # gekennzeichneter In-Process-Teilnehmeranschluss (s. `register_
         # guest_terminal`-Docstring) -- bildet fuer EINEN angenommenen
@@ -667,6 +792,18 @@ class TuiSession:
         # bestehende Aufrufer ohne `register_guest_terminal` bleibt
         # unveraendert beim geteilten-Terminal-Verhalten.
         self._table_guest_terminals: dict[str, "TuiSession"] = {}
+        # O2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §1d): injizierbare
+        # Kontrollzeilen-Quelle fuer den Daemon-Kontroll-Thread, der WAEHREND
+        # eines offenen Betreiber-Rundenaufrufs (`_run_table_round`) `/stop`
+        # entgegennimmt (der Hauptthread blockiert synchron im GM-/Persona-
+        # Call, s. `core/runtime.py:submit_to_sl`). Signatur: Callable, nimmt
+        # ein `threading.Event` (gesetzt, sobald die Runde zurueckkehrt) und
+        # liefert entweder die naechste Kontrollzeile (str) oder `None` (noch
+        # keine Zeile -- der Thread fragt dann erneut, bis das Event gesetzt
+        # ist). `None` (Default) -- der Thread nutzt dann den eingebauten,
+        # auf echtem Terminal-stdin basierenden Leser. Tests setzen hier eine
+        # deterministische Fake-Quelle (kein echtes TTY noetig, s. Brief O2).
+        self.operator_control_line_source: Callable[["threading.Event"], str | None] | None = None
 
     def register_guest_terminal(self, guest_id: str, guest_session: "TuiSession") -> None:
         """R3-Nachzug (F1 §1, 02_NACHZUG.md §A "eine schmale direkte/
@@ -4678,6 +4815,59 @@ class TuiSession:
             f"roster={record['roster']} offene Anfragen={record['requests']}."
         )
 
+    def _print_spectator_view(self, table_id: str) -> None:
+        """O4/§2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §4): druckt den
+        OEFFENTLICHEN Verlauf/Status eines Tisches auf das Betreiberterminal
+        -- IMMER ueber `store.spectator_view(table)` (strikte Whitelist,
+        s. dortiger Docstring), NIE `operator_view`/`persona_view` (die
+        leaken `chrononaut_ids`/`operator_meta`/den vollen privaten Kanal).
+        Knapp/lesbar/deutsch. Aufrufbar WAEHREND eines offenen Rundenaufrufs
+        (ueber `_OperatorControlScope`s '/zuschauer') UND danach (automatischer
+        Aufruf am Ende eines Betreiber-Rundenaufrufs in `_cmd_local_round`,
+        ODER manuell ueber 'tisch-zuschauer <table_key>'). Fehlt der Tisch
+        (z.B. noch kein erster Zug gespielt), ehrliche Meldung statt Crash."""
+        if self.run_dir is None:
+            self._print("Zuschauerstand erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        from ..core import store as core_store
+        try:
+            table = core_store.Table.load(self.run_dir, table_id)
+        except (OSError, ValueError, KeyError, json.JSONDecodeError):
+            self._print(f"Zuschauerstand fuer '{table_id}' nicht verfuegbar (kein Tisch gefunden).")
+            return
+        view = core_store.spectator_view(table)
+        self._print(
+            f"[Zuschauer] Tisch '{view['table_id']}' (leader={view['leader']}, "
+            f"mitglieder={view['members']}, status={view['status']}):"
+        )
+        if not view["sl_log"]:
+            self._print("[Zuschauer] (noch kein oeffentlicher Verlauf.)")
+            return
+        for entry in view["sl_log"]:
+            self._print(f"[Zuschauer][SL] {entry.get('content', '')}")
+
+    def _cmd_table_zuschauer(self, args: list[str]) -> None:
+        """O4/§2 (design.md §4): Read-only, NICHT host-gegatet (derselbe
+        oeffentliche Lesezugriff wie `_cmd_table_status`/`roster`) -- zeigt
+        den aktuellen Spektator-Stand eines ueber `table_admission` gebundenen
+        Tisches, jederzeit abrufbar (nicht nur innerhalb eines laufenden
+        Betreiber-Rundenaufrufs)."""
+        if self.run_dir is None:
+            self._print("Zuschauerstand erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        table_key = self._table_key_from_args(args, "'tisch-zuschauer <table_key>'")
+        if table_key is None:
+            return
+        record = table_admission.load_record(self.run_dir, table_key)
+        if record is None:
+            self._print(f"Zuschauerstand nicht verfuegbar: kein Tisch-Record fuer '{table_key}'.")
+            return
+        section_id = record.get("section_id")
+        if not section_id:
+            self._print(f"Tisch '{table_key}' hat noch keinen gebundenen Spielabschnitt -- noch kein Verlauf.")
+            return
+        self._print_spectator_view(section_id)
+
     def _cmd_table_accept(self, args: list[str]) -> None:
         """HOST-ONLY (design.md §1 `accept_request`).
 
@@ -5053,9 +5243,14 @@ class TuiSession:
             f"Tisch '{table_key}' gestartet (eingefrorenes roster: {record['roster']}) -- "
             "Uebergabe an den Spielpfad."
         )
+        # O2: die aktive `table_key` fuer die FRUEHE Abschnittsbindung in
+        # `_cmd_local_round` bereitstellen (vor dem ersten blockierenden
+        # Play-Request), dann nach der Runde IMMER zuruecksetzen.
+        self._pending_table_key = table_key
         try:
             section_id = self._cmd_local_round(guest_tokens, guided=True, initial_focus=self.participant_id)
         except EndOfInput:
+            self._pending_table_key = None
             # R2-Nachzug (F2 §1): eine kontrollierte Pause MITTEN im ersten
             # Zug darf die bereits reale Abschnittsbindung nicht verloren
             # gehen lassen -- `_pending_section_id` (gesetzt in
@@ -5070,6 +5265,7 @@ class TuiSession:
                     self.run_dir, table_key=table_key, host_id=self.participant_id, section_id=pending,
                 )
             raise
+        self._pending_table_key = None
         if section_id is None:
             # R3-Nachzug (F2 §3, independent-r2-review.md F2 Abs. "zusaetzlich
             # wird 'started' bereits vor ... Pruefung gesetzt"): ein
@@ -5719,7 +5915,7 @@ class TuiSession:
 
     def _cmd_local_round(
         self, guest_tokens: list[str] | None = None, *, guided: bool = False,
-        initial_focus: str | None = None,
+        initial_focus: str | None = None, allow_operator_mode: bool = False,
     ) -> None:
         """I1/I3: gemeinsam an diesem Geraet spielen. Nutzt -- sofern
         konfiguriert -- GENAU `core.app_service.run_play_session`, denselben
@@ -5857,11 +6053,41 @@ class TuiSession:
         round_section_id = f"local-round-{len(lobby_service.read_offer_log(self.run_dir))}"
 
         tokens = list(guest_tokens or [])
+        # O1 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §2): expliziter
+        # Betreiber-Modus-Schalter -- ein FUEHRENDES Token 'operator' (vor
+        # 'lead:persona:<id>', s. unten) markiert diese Runde als
+        # Betreibertisch: der aufrufende Mensch fuehrt KEINE eigene Figur,
+        # wird NICHT in `tokens`/`table.members`/`chrononaut_ids`
+        # eingeschleust (s. den bestehenden Host-als-Gast-Einschub weiter
+        # unten, jetzt bedingt auf `not operator_mode`) und erzeugt KEIN
+        # Save/Harvest/Phantomspieler (strukturell, weil `complete_section`/
+        # Harvest nur ueber `table.members` laeuft). Kommando-Oberflaeche:
+        # 'l operator lead:persona:<id> [weitere Gast-Tokens]' -- z.B.
+        # 'l operator lead:persona:gm_nova persona:held_anna'.
+        # Der 'operator'-Sentinel wird NUR beim frei getippten 'l ...'-Kommando
+        # ausgewertet (`allow_operator_mode=True`, s. Dispatch in `run()`).
+        # Roster-/Setup-abgeleitete `guest_tokens` (aus `tisch-start` bzw.
+        # `_cmd_local_round_setup`) duerfen ihn NIE triggern -- sonst braechte
+        # ein ganz normaler menschlicher Mitspieler, der zufaellig/bewusst
+        # `--community operator` heisst und als erster Gast gelistet ist, den
+        # kompletten Tischstart ab (Namensraum-Kollision auf einem sonst
+        # freien ID-Raum; `--community` hat keine Reserved-Word-Pruefung).
+        operator_mode = False
+        if allow_operator_mode and tokens and tokens[0] == "operator":
+            operator_mode = True
+            tokens = tokens[1:]
         leader_persona_id: str | None = None
         if tokens and tokens[0].startswith("lead:persona:"):
             leader_persona_id = tokens[0].split(":", 2)[2]
             tokens = tokens[1:]
         leader_id = leader_persona_id if leader_persona_id else self.participant_id
+        if operator_mode and not leader_persona_id:
+            self._print(
+                "Betreibermodus ('operator ...') erfordert eine fuehrende Persona "
+                "('lead:persona:<id>') -- ohne spielende Persona als Leader ergibt "
+                "'Betreiber ohne eigene Figur' keinen Sinn, kein Spielstart."
+            )
+            return
 
         # R3-Nachzug (F3 §2 -- independent-r2-review.md §3 F3; 02_NACHZUG §B/F3:
         # "Die gleiche Bestandsgrenze gilt fuer freie IDs ... persona: und
@@ -6058,7 +6284,9 @@ class TuiSession:
                 return
             # Der Mensch wird selbst zum Gast dieses KI-gefuehrten Tisches --
             # eigene Freigabe liegt bereits durch den Kommandoaufruf vor.
-            if self.participant_id not in tokens:
+            # O1: im Betreibermodus GERADE NICHT -- der Operator fuehrt keine
+            # eigene Figur, bleibt also ausserhalb von `tokens`/`members`.
+            if not operator_mode and self.participant_id not in tokens:
                 tokens = [self.participant_id] + tokens
 
         # Weitere Teilnehmer (Mensch und/oder Persona) aufloesen, BEVOR der
@@ -6406,10 +6634,60 @@ class TuiSession:
         # ANDEREN Aufrufer `l`/`_cmd_menu_fortsetzen`, die diesen Seitenkanal
         # nie lesen).
         self._pending_section_id = table.table_id
+        # O2 (ZR-BETREIBER-GASTERSCHAFFUNG): FRUEHE Abschnittsbindung. Der
+        # Tisch ist hier bereits erzeugt UND persistiert (s. oben), der erste
+        # blockierende Play-Request steht aber noch aus (`_run_table_round`
+        # unten). Ist dieser Lauf ueber `_cmd_table_start` gestartet worden
+        # (`_pending_table_key` gesetzt), wird die reale Store-`table_id`
+        # JETZT -- vor dem ersten offenen Modellcall -- in den Admission-Record
+        # zurueckgebunden, damit `table_admission.request_table_stop` den Tisch
+        # schon WAEHREND des Calls eindeutig adressieren kann (O2: Stop nicht
+        # erst nach Rueckkehr des blockierenden Calls erreichbar). Re-Bind mit
+        # derselben `section_id` spaeter (`_cmd_table_start`-Normal-/Pausepfad)
+        # ist idempotent. Fremde/fehlende Autoritaet faellt still weg -- die
+        # bestehende Spaetbindung bleibt unveraendert der Rueckfallweg.
+        if self._pending_table_key is not None and self.run_dir is not None:
+            try:
+                table_admission.bind_section(
+                    self.run_dir, table_key=self._pending_table_key,
+                    host_id=self.participant_id, section_id=table.table_id,
+                )
+            except table_admission.TableAdmissionError:
+                pass
+        # O1/O2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §2/§1d/§1e):
+        # Betreibertische entstehen oft OHNE den `tisch-anbieten`/
+        # `tisch-start`-Admissionsweg (`_pending_table_key` bleibt dann
+        # `None`) -- fuer den Betreiber-Stop (O2) braucht `request_table_stop`
+        # trotzdem einen gebundenen Admission-Record. `operator_meta.
+        # operator_id` fuehrt den Betreiber GETRENNT von `table.members`
+        # (O1, store.py's `complete_section`/Harvest liest nur `members`).
+        # `operator_table_key` = derselbe/analoge frueh gebundene Schluessel
+        # wie in §1e oben, HIER fuer den Betreiberpfad synthetisch angelegt
+        # (idempotent via `offer_table`), damit der Kontroll-Thread unten den
+        # Tisch waehrend des offenen Calls eindeutig adressieren kann.
+        operator_table_key: str | None = None
+        if operator_mode:
+            table.operator_meta["operator_id"] = self.participant_id
+            table.persist()
+            if self.run_dir is not None:
+                operator_table_key = self._pending_table_key or table.table_id
+                try:
+                    table_admission.offer_table(
+                        self.run_dir, host_id=self.participant_id, table_key=operator_table_key,
+                    )
+                    table_admission.bind_section(
+                        self.run_dir, table_key=operator_table_key,
+                        host_id=self.participant_id, section_id=table.table_id,
+                    )
+                except table_admission.TableAdmissionError:
+                    operator_table_key = None
         self._run_table_round(
             table, lobby, ps_store, leader_id, leader_persona_id, leader_driver,
             active_save, guest_specs, guided=guided, current_focus_pid=current_focus_pid,
+            operator_mode=operator_mode, operator_table_key=operator_table_key,
         )
+        if operator_mode:
+            self._print_spectator_view(table.table_id)
         # Normale (nicht-Pause) Rueckkehr: der Seitenkanal wird NICHT mehr
         # gebraucht, der reguläre Rueckgabewert unten trägt dieselbe
         # `table_id`. `_cmd_table_start` liest `_pending_section_id` NUR,
@@ -6432,6 +6710,7 @@ class TuiSession:
         leader_driver, active_save: dict | None,
         guest_specs: list[tuple[str, bool, dict, object | None]],
         *, guided: bool, current_focus_pid: str | None,
+        operator_mode: bool = False, operator_table_key: str | None = None,
     ) -> None:
         """G03/P09 (ZEITRISS Terminal UX-1, Korrekturzyklus 2): aus
         `_cmd_local_round` extrahierter gemeinsamer Rumpf -- spielt einen
@@ -6750,41 +7029,52 @@ class TuiSession:
             quota_pause_reset_hint,
         )
         try:
-            outcome = app_service.run_play_session(
-                # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
-                # urspruenglich angefragte `table_id`) -- `create_table_from_
-                # offer_log` kann bei geschlossenem Vorgaenger-Tisch eine
-                # generationsweise hochgezaehlte Kennung zurueckgeben.
-                lobby, table, gm_transport, controller, f"{table.table_id}-section",
-                contexts,
-                self.states_dir, today, ts, COMPLETION_MARKER, ZeitrissHarvestValidator(),
-                ps_store, zeitriss_saves.harvest_from_debrief,
-                # W51 (01_RESTAUFTRAG.md §3): additiv/optional -- reicht nur
-                # die bisher stummen Gruppenkorrektur-Statuszeilen (s.
-                # `core.runtime.SectionRuntime._group_correction_status_emit`)
-                # ueber denselben bestehenden Terminalkanal durch, keine neue
-                # Menuehierarchie.
-                status_fn=self._print,
-                # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): Leader-`!save`/
-                # `!speichern` + bindbarer v7-Save schliesst den Abschnitt
-                # GLEICHWERTIG zum Top-Level-Marker -- derselbe Wiring-Punkt
-                # wie `core/lobby_flow.py:play_bound_table`.
-                completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
-                harvest_conflict_detector=build_harvest_conflict_detector(),
-                # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben"):
-                # derselbe Wiring-Punkt wie `core/lobby_flow.py:
-                # play_bound_table` -- ein explizites, eigenstaendiges
-                # Leader-`!save`/`!speichern` loest IMMER einen begrenzten
-                # Abschluss-/Korrekturversuch aus, auch ohne sofort
-                # bindbaren Export in der GM-Antwort.
-                explicit_completion_attempt=is_save_command,
-                # P3 (R4-Rundenabschluss): ein exaktes `!save`, das die
-                # SL/SaveGuard ausdruecklich ablehnt (keine HQ-Erlaubnis),
-                # darf NICHT ueber die dritte `explicit_completion_attempt`-
-                # Bedingung finalisieren bzw. in exporterzwingende
-                # Korrekturanfragen wechseln.
-                save_guard_rejection_detector=is_saveguard_rejection,
-            )
+            # O2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §1d): der Daemon-
+            # Kontroll-Thread umschliesst GENAU diesen blockierenden Aufruf
+            # (nicht die `except`-Zweige darunter) -- `with`s `__exit__`
+            # garantiert den Thread-Stop sowohl beim normalen Rueckgabewert
+            # ALS AUCH bei jeder hier aufsteigenden Exception, bevor sie die
+            # `except`-Klauseln unten erreicht. No-Op (kein Thread) ausserhalb
+            # des Betreibermodus (s. `_OperatorControlScope.__init__`).
+            with _OperatorControlScope(
+                self, operator_mode=operator_mode, table_key=operator_table_key,
+                table_id=table.table_id, run_dir=self.run_dir, operator_id=self.participant_id,
+            ):
+                outcome = app_service.run_play_session(
+                    # D5/A6 (WEGKARTE §6 BLOCKER): `table.table_id` (nicht das
+                    # urspruenglich angefragte `table_id`) -- `create_table_from_
+                    # offer_log` kann bei geschlossenem Vorgaenger-Tisch eine
+                    # generationsweise hochgezaehlte Kennung zurueckgeben.
+                    lobby, table, gm_transport, controller, f"{table.table_id}-section",
+                    contexts,
+                    self.states_dir, today, ts, COMPLETION_MARKER, ZeitrissHarvestValidator(),
+                    ps_store, zeitriss_saves.harvest_from_debrief,
+                    # W51 (01_RESTAUFTRAG.md §3): additiv/optional -- reicht nur
+                    # die bisher stummen Gruppenkorrektur-Statuszeilen (s.
+                    # `core.runtime.SectionRuntime._group_correction_status_emit`)
+                    # ueber denselben bestehenden Terminalkanal durch, keine neue
+                    # Menuehierarchie.
+                    status_fn=self._print,
+                    # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md): Leader-`!save`/
+                    # `!speichern` + bindbarer v7-Save schliesst den Abschnitt
+                    # GLEICHWERTIG zum Top-Level-Marker -- derselbe Wiring-Punkt
+                    # wie `core/lobby_flow.py:play_bound_table`.
+                    completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
+                    harvest_conflict_detector=build_harvest_conflict_detector(),
+                    # FIX2 (02-AUFTRAG.md §1 "Duo-!save-Schleife beheben"):
+                    # derselbe Wiring-Punkt wie `core/lobby_flow.py:
+                    # play_bound_table` -- ein explizites, eigenstaendiges
+                    # Leader-`!save`/`!speichern` loest IMMER einen begrenzten
+                    # Abschluss-/Korrekturversuch aus, auch ohne sofort
+                    # bindbaren Export in der GM-Antwort.
+                    explicit_completion_attempt=is_save_command,
+                    # P3 (R4-Rundenabschluss): ein exaktes `!save`, das die
+                    # SL/SaveGuard ausdruecklich ablehnt (keine HQ-Erlaubnis),
+                    # darf NICHT ueber die dritte `explicit_completion_attempt`-
+                    # Bedingung finalisieren bzw. in exporterzwingende
+                    # Korrekturanfragen wechseln.
+                    save_guard_rejection_detector=is_saveguard_rejection,
+                )
         except request_ledger.OpenReservationExistsError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): die
             # vorherige PAUSCHALE "kein Datenverlust"+Retry-Zusage war fuer
@@ -7446,7 +7736,7 @@ class TuiSession:
                 elif choice == "g":
                     self._cmd_local_round_setup()
                 elif choice == "l":
-                    self._cmd_local_round(extra_tokens)
+                    self._cmd_local_round(extra_tokens, allow_operator_mode=True)
                 elif choice == "c":
                     self._cmd_community()
                 elif choice == "b":
@@ -7482,6 +7772,8 @@ class TuiSession:
                     self._cmd_table_leave(extra_tokens)
                 elif choice == "tisch-status":
                     self._cmd_table_status(extra_tokens)
+                elif choice == "tisch-zuschauer":
+                    self._cmd_table_zuschauer(extra_tokens)
                 elif choice == "tisch-start":
                     self._cmd_table_start(extra_tokens)
                 elif choice in ("x", "q"):

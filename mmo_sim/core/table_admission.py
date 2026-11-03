@@ -37,7 +37,7 @@ import json
 import time
 from pathlib import Path
 
-from .admission import _atomic_write_json
+from .admission import _atomic_write_json, _table_stop_path, read_table_stop
 
 
 class TableAdmissionError(RuntimeError):
@@ -50,6 +50,14 @@ class HostAuthorityError(TableAdmissionError):
     """Eine HOST-ONLY-Transition (`accept_request`/`reject_request`/
     `remove_member`/`start_table`) wurde mit einem `host_id` aufgerufen, der
     NICHT mit dem persistierten `record["host_id"]` übereinstimmt."""
+
+
+class OperatorAuthorityError(TableAdmissionError):
+    """ZR-BETREIBER O6: ein Betreiber-Stop (`request_table_stop`) wurde von
+    einem `operator_id` verlangt, der NICHT der gebundene Betreiber (= Host)
+    dieses Tisches ist, oder fuer einen Tisch, dessen Admission-Record nicht
+    auf die angegebene Store-`table_id` gebunden ist. Ein fremder Aufrufer
+    darf einen fremden Tisch nicht stoppen."""
 
 
 STATE_OPEN = "open"
@@ -414,3 +422,66 @@ def start_table(run_dir: str | Path, *, table_key: str, host_id: str) -> dict:
     _append_log(record, actor=host_id, action="start_table", target=None)
     _write_record(run_dir, table_key, record)
     return record
+
+
+def request_table_stop(
+    run_dir: str | Path, *, table_key: str, operator_id: str, table_id: str,
+    reason: str | None = None,
+) -> dict:
+    """ZR-BETREIBER O2/O3/O6 (2026-11-03): setzt einen DURABLEN, tisch-
+    adressierten Betreiber-Stop fuer genau die Store-`table_id` dieses
+    Tisches. AUTORITAET (O6): `operator_id` MUSS der persistierte Betreiber
+    (= `record["host_id"]`) von `table_key` sein, UND der Record MUSS bereits
+    auf eben diese `table_id` gebunden sein (`record["section_id"] ==
+    table_id`, s. `bind_section` -- die fruehe Identitaetsbindung VOR dem
+    blockierenden Spielaufruf, design.md §1e). Ein fremder `operator_id` oder
+    ein nicht/anders gebundener Tisch -> `OperatorAuthorityError`, KEIN Write.
+
+    Der Stop ist bewusst durabel (eigene Datei auf Platte, s. `admission.
+    _table_stop_path`): er ueberlebt einen frischen Prozess und wird von
+    `store.complete_section` (vor dem Plan-Pin) sowie an jeder Gate-Grenze
+    (`read_admission_block(table_id=...)`) gelesen. Idempotent -- ein bereits
+    gesetzter Stop wird nicht dupliziert, der aelteste Grund bleibt erhalten.
+    Das normale Spiel ruft NIE `clear_table_stop`; ein Abbruch bleibt."""
+    record = dict(_require_existing(run_dir, table_key))
+    if record["host_id"] != operator_id:
+        raise OperatorAuthorityError(
+            f"operator_id={operator_id!r} ist nicht Betreiber von table_key={table_key!r} "
+            f"(tatsaechlicher Betreiber: {record['host_id']!r}) -- Stop abgelehnt."
+        )
+    bound = record.get("section_id")
+    if bound != table_id:
+        raise OperatorAuthorityError(
+            f"Tisch {table_key!r} ist nicht auf table_id={table_id!r} gebunden "
+            f"(gebunden: {bound!r}) -- Stop-Ziel unzulaessig (O6). "
+            "Die Identitaetsbindung (bind_section) muss VOR dem Stop vorliegen."
+        )
+    already, _ = read_table_stop(run_dir, table_id)
+    path = _table_stop_path(Path(run_dir), table_id)
+    if already:
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pass
+    payload = {
+        "schema": "table-stop/1",
+        "table_key": table_key,
+        "table_id": table_id,
+        "operator_id": operator_id,
+        "reason": reason or f"Betreiber {operator_id!r} hat Tisch {table_key!r} gestoppt.",
+        "ts": time.time(),
+    }
+    _atomic_write_json(path, payload)
+    return payload
+
+
+def clear_table_stop(run_dir: str | Path, *, table_id: str) -> bool:
+    """Entfernt den tisch-adressierten Stop. NUR fuer kontrollierte
+    Freigabe/Tests -- der normale Abbruchpfad ruft dies NIE (ein Betreiber-
+    Stop ist durabel, s. `request_table_stop`). `True`, wenn eine Datei
+    entfernt wurde."""
+    path = _table_stop_path(Path(run_dir), table_id)
+    if path.exists():
+        path.unlink()
+        return True
+    return False

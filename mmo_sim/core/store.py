@@ -35,6 +35,7 @@ from pathlib import Path
 from typing import Callable, Protocol
 
 from . import _section_completion_recovery
+from .admission import read_table_stop
 from .persona_state import PersonaStateStore
 
 # K1/K1-Nachzug: additives Current-Save-Ref-Feld im Persona-State — traegt EIN
@@ -742,6 +743,39 @@ def operator_view(table: Table) -> dict:
         "sl_log": list(table.sl_log),
         "table_messages": list(table.table_messages),
         "operator_meta": dict(table.operator_meta),
+    }
+
+
+def spectator_view(table: Table) -> dict:
+    """O6: Oeffentlicher Zuschauer-Feed fuer das Terminal. STRIKTE Whitelist --
+    es wird nur oeffentlicher Spielinhalt projiziert: die GM-/SL-Narration
+    (`content`) je Zug, sowie Tisch-Id, Leader, Mitglieder und Status. Der
+    oeffentliche Verlauf (die SL-Narration je Zug) traegt O1 ("oeffentlicher
+    Zuschauer-Verlauf/-Status, auch wenn nur Personas spielen") vollstaendig.
+
+    Bewusst NIE enthalten (Blacklist waere unsicher, darum Whitelist):
+    - `table_messages` (Tischabsprache) -> interner Koordinations-/Absprache-
+      kanal der Mitspieler, kein oeffentlicher Zuschauer-Inhalt (design.md §4:
+      "privater Absprachekanal"). Ein Zuschauer sieht die gespielte Geschichte
+      (SL-Narration), nicht die strategische Absprache zwischen den Figuren.
+    - `save_payload`, `expected_prev_ref_by_member` -> private Saves/Refs
+    - `chat_id`, `gm_request_id`, `origin_source` -> Auth-/Provider-Daten
+    - `leader_message`, `origin_raw_input` -> Roh-Inputs, koennen auf
+      Anker-/Import-Zuegen eingebettetes Save-JSON tragen
+    - `chrononaut_ids`, `operator_meta` -> interne Identitaets-/Betreiber-Metadaten
+    - Persona-Erinnerungen/Reflexionen liegen ohnehin ausserhalb (`reflections.jsonl`)
+      und sind hier strukturell unerreichbar.
+    """
+    public_log = [
+        {"turn_idx": e.get("turn_idx"), "content": e.get("content")}
+        for e in table.sl_log
+    ]
+    return {
+        "table_id": table.table_id,
+        "leader": table.leader,
+        "members": list(table.members),
+        "status": table.status,
+        "sl_log": public_log,
     }
 
 
@@ -2084,6 +2118,21 @@ def complete_section(
             success=False, already_completed=False, written=False,
             members_completed=[], missing=[],
             reason=override_hold_reason,
+        )
+
+    # O3/O4-Grenze: Ein aktiver Betreiber-Stop fuer DIESEN Tisch verhindert die
+    # ERSTMALIGE Bindung (der Plan-Pin unten ist der Point-of-no-Return). Ein
+    # bereits gepinnter Plan wird oben (Resume-Zweig, plan_path.exists()) schon
+    # abgefangen und zu Ende gefuehrt -> O4 gewinnt dort, hier kein Rollback.
+    # Der Guard sitzt IN complete_section, damit er alle Wege (runtime-Gate,
+    # save_correction-Direktaufrufe) UND frische Prozesse ohne Laufzeit-Gate
+    # gleichermassen durabel abdeckt.
+    stopped, stop_reason = read_table_stop(run_dir, table.table_id)
+    if stopped:
+        return CompletionResult(
+            success=False, already_completed=False, written=False,
+            members_completed=[], missing=[],
+            reason=f"Abschnitt durch Betreiber-Stop abgebrochen: {stop_reason}",
         )
 
     plan_data = {

@@ -349,6 +349,7 @@ class SectionRuntime:
         blocked, reason = read_admission_block(
             self.lobby.run_dir, reserved_usd=reserved_usd,
             output_bound_known=output_bound_known, route=route, dollar_billed=dollar_billed,
+            table_id=self.table.table_id,
         )
         if blocked:
             raise _GateBlocked(reason)

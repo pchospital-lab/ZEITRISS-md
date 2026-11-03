@@ -306,6 +306,11 @@ Zusatzfähigkeit zu warten.
    Fortsetzungsverwaltung bleiben gesonderte Anschlussfähigkeiten, falls danach
    sinnvoll.
 
+**Reihenfolge-Notiz (ZR-BETREIBER-GASTERSCHAFFUNG):** Betreiberetappe →
+README/Doku/selbsterklärendes Terminal (optional Zeit-Gedanken in echten
+Wartephasen) → LAN → optional parallel/Pause-Komfort. Spätere Etappen werden
+hier jetzt nicht vorgezogen implementiert.
+
 Keine Browseroberfläche, keine übergreifende Chatlobby und keine Abrechnung im
 Spiel. Persönlicher Figurensave, Populationsbackup und optionales späteres
 Persona-Reisepaket bleiben getrennt. Keine pauschale Stable- oder
