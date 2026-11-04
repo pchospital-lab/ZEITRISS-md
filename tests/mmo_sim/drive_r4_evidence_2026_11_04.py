@@ -1201,7 +1201,14 @@ def run_family_t4() -> None:
         )
 
         # Frischer Prozess respektiert denselben terminalen Abbruch -- kein
-        # neuer Dialogeintritt, keine Publikation.
+        # neuer Dialogeintritt, keine Publikation. R4 FIX7: der Retry MUSS
+        # ECHT ueber die verdrahtete GAST-FIFO (laeuft als guest1) getrieben
+        # werden, NICHT ueber das Operator-stdin -- sonst bindet
+        # `ensure_valid_grant` faelschlich guest_id=self.participant_id=
+        # 'operator1' (fuer diese ID existiert NIE ein Grant-Record), was
+        # die triviale Ablehnung "keine Erschaffungsanfrage/-freigabe fuer
+        # guest_id='operator1'" ausloest -- BEVOR der echte Stop-Pfad
+        # (`ensure_valid_grant`s gewonnener-Stop-Zweig) je erreicht wird.
         in_fifo_a2 = fifo_dir_a / "guest_in_2.fifo"
         out_fifo_a2 = fifo_dir_a / "guest_out_2.fifo"
         argv_a2 = [
@@ -1210,12 +1217,33 @@ def run_family_t4() -> None:
             "--run-dir", str(run_dir_a), "--states-dir", str(states_dir_a),
             "--guest-terminal", f"guest1:{in_fifo_a2}:{out_fifo_a2}",
         ]
-        result_a2 = _run_real_subprocess(
-            szene, "t4a_fresh_process_retry_respects_stop", argv_a2, cwd=str(_REPO_ROOT), env=env_a,
-            input="gast-erschaffung-dialog operator1\nbeenden\n",
+        utc_start_a2 = _utc(time.time())
+        proc_a2 = subprocess.Popen(
+            argv_a2, cwd=str(_REPO_ROOT), env=env_a, stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1,
         )
-        assert result_a2.returncode == 0, f"T4A: frischer Retry-Prozess ist unerwartet gescheitert: {result_a2.stderr}"
-        assert "kein gueltiger Betreiber-Grant" in result_a2.stdout, result_a2.stdout
+        in_f_a2, out_f_a2 = _open_guest_fifo_pair(in_fifo_a2, out_fifo_a2)
+        _drain(out_f_a2, settle=0.6, overall=10.0)
+        _send_guest(in_f_a2, "gast-erschaffung-dialog operator1")
+        retry_a2_out = _drain(out_f_a2, settle=0.8, overall=15.0)
+        joined_retry_a2 = "".join(retry_a2_out)
+        assert "durch einen adressierten Betreiber-Stop beendet (terminal)" in joined_retry_a2, joined_retry_a2
+        assert "keine Erschaffungsanfrage/-freigabe fuer guest_id='operator1'" not in joined_retry_a2, (
+            joined_retry_a2
+        )
+        assert not (run_dir_a / "current_saves" / "guest1.json").exists(), (
+            "T4A: frischer Retry ueber die echte Gast-FIFO (guest1) darf keinen Current-Write erzeugen."
+        )
+        _send_op(proc_a2, "beenden")
+        stdout_a2, stderr_a2 = proc_a2.communicate(timeout=30)
+        utc_end_a2 = _utc(time.time())
+        in_f_a2.close()
+        out_f_a2.close()
+        _record_background_run(
+            szene, "t4a_fresh_process_retry_respects_stop", argv_a2, str(_REPO_ROOT),
+            utc_start_a2, utc_end_a2, proc_a2.returncode, stdout_a2, stderr_a2,
+        )
+        assert proc_a2.returncode == 0, f"T4A: frischer Retry-Prozess ist unerwartet gescheitert: {stderr_a2}"
 
         utc_end_a = _utc(time.time())
         _send_op(proc_a, "beenden")
@@ -1376,7 +1404,13 @@ def run_family_t4() -> None:
 
         # Prozess 3 (frisch, literaler Launcher): weiterer identischer
         # Retry -- B3/FIX4-Nachweis: Versionsbestand bleibt EXAKT 1 (NICHT
-        # 2), Current-Verweis unveraendert.
+        # 2), Current-Verweis unveraendert. R4 FIX7: der Retry MUSS ECHT
+        # ueber die verdrahtete GAST-FIFO (laeuft als guest2) getrieben
+        # werden, NICHT ueber das Operator-stdin -- sonst bindet
+        # `ensure_valid_grant` faelschlich guest_id=self.participant_id=
+        # 'operator2' (kein Grant-Record je fuer diese ID), lehnt VOR dem
+        # FIX4-Guard ab, und der beobachtete Versionsbestand==1 waere
+        # trivial (kein echter zweiter Finish-Durchlauf).
         in_fifo_b3 = fifo_dir_b / "guest_in_3.fifo"
         out_fifo_b3 = fifo_dir_b / "guest_out_3.fifo"
         argv_b3 = [
@@ -1385,11 +1419,33 @@ def run_family_t4() -> None:
             "--run-dir", str(run_dir_b), "--states-dir", str(states_dir_b),
             "--guest-terminal", f"guest2:{in_fifo_b3}:{out_fifo_b3}",
         ]
-        result_b3 = _run_real_subprocess(
-            szene, "t4b_proc3_identical_retry_version_count_stays_1", argv_b3, cwd=str(_REPO_ROOT), env=env_b,
-            input="gast-erschaffung-dialog operator2\nbeenden\n",
+        utc_start_b3 = _utc(time.time())
+        proc_b3 = subprocess.Popen(
+            argv_b3, cwd=str(_REPO_ROOT), env=env_b, stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1,
         )
-        assert result_b3.returncode == 0, f"T4B: Prozess 3 ist unerwartet gescheitert: {result_b3.stderr}"
+        in_f_b3, out_f_b3 = _open_guest_fifo_pair(in_fifo_b3, out_fifo_b3)
+        _drain(out_f_b3, settle=0.6, overall=10.0)
+        calls_b_before_retry = len(calls_log_b.read_text(encoding="utf-8").splitlines()) if calls_log_b.exists() else 0
+        _send_guest(in_f_b3, "gast-erschaffung-dialog operator2")
+        retry_b3_out = _drain(out_f_b3, settle=0.8, overall=15.0)
+        joined_retry_b3 = "".join(retry_b3_out)
+        calls_b_after_retry = len(calls_log_b.read_text(encoding="utf-8").splitlines()) if calls_log_b.exists() else 0
+        assert calls_b_after_retry == calls_b_before_retry, (
+            "T4B/B3: identischer Retry (echter zweiter Finish-Durchlauf) braucht keinen neuen GM-Turn."
+        )
+        assert "kein gueltiger Betreiber-Grant" not in joined_retry_b3, joined_retry_b3
+        assert "Gast-Erschaffung abgeschlossen" in joined_retry_b3, joined_retry_b3
+        _send_op(proc_b3, "beenden")
+        stdout_b3, stderr_b3 = proc_b3.communicate(timeout=30)
+        utc_end_b3 = _utc(time.time())
+        in_f_b3.close()
+        out_f_b3.close()
+        _record_background_run(
+            szene, "t4b_proc3_identical_retry_version_count_stays_1", argv_b3, str(_REPO_ROOT),
+            utc_start_b3, utc_end_b3, proc_b3.returncode, stdout_b3, stderr_b3,
+        )
+        assert proc_b3.returncode == 0, f"T4B: Prozess 3 ist unerwartet gescheitert: {stderr_b3}"
         version_files_b2 = sorted(versions_dir_b.glob("*.json")) if versions_dir_b.exists() else []
         assert len(version_files_b2) == 1, (
             f"T4B/B3/FIX4: identischer Retry darf KEINE zweite Version erzeugen (erwartet 1, "
@@ -1410,9 +1466,11 @@ def run_family_t4() -> None:
         _export_file(szene, calls_log_b, "t4b_gm_calls.jsonl")
         _write_export_json(szene, "t4b_io_transcript.json", {
             "abbrechen": joined_abbrechen_b, "finish_tail": "".join(finish_b_out),
+            "proc3_retry_tail": joined_retry_b3,
         })
         _write_export_json(szene, "inventory.json", {
             "t4a_decision": decision_a, "t4a_final_tail": joined_final_tail,
+            "t4a_proc2_retry_tail": joined_retry_a2,
             "t4b_before": before_inventory_b,
             "t4b_after_first_finish": {
                 "catalog_entries": catalog_entries_b1, "version_files": [p.name for p in version_files_b1],
@@ -1428,14 +1486,25 @@ def run_family_t4() -> None:
                 "s. _r4_gm_double.py '_run_stop_race'. Die spaete Q2-Antwort UND der finale Save "
                 "wurden korrekt verbucht, aber NICHT publiziert ('Betreiber-Stop beendet (terminal) "
                 "... kein Katalog-/Current-Write').",
+                "T4A/proc2 (R4 FIX7): der frische Retry-Prozess wird ECHT ueber die verdrahtete "
+                "Gast-FIFO getrieben (laeuft als guest1, NICHT ueber das Operator-stdin) -- "
+                "`ensure_valid_grant` findet den echten Grant-Record (operator1/guest1), sieht den "
+                "bereits gewonnenen Stop-Entscheid und lehnt mit der STOP-terminal-Meldung ab ('... "
+                "durch einen adressierten Betreiber-Stop beendet (terminal) ...'), NICHT mit der "
+                "trivialen 'keine Erschaffungsanfrage/-freigabe'-Meldung.",
                 "T4B: Prozess 1 endet real ueber os._exit(94) (Klassen-Monkeypatch auf "
                 "TuiSession._finish_granted_guest_creation, GENAU an der Abbruch-Grenze zwischen den "
                 "beiden Publikationsschritten) -- kein veraenderter Produktpfad.",
                 "G4/B3b real belegt: 'gast-erschaffung-abbrechen' auf einer bereits angenommenen "
                 "(status=='completed') Figur verwirft NICHT mehr; die idempotente Fertigstellung "
                 "(SELBER frischer Prozess) vollzieht das Publizieren real nach, mit 0 neuen GM-Calls.",
-                "B3/FIX4 real belegt: Versionsbestand (current_saves/guest2__versions/) zaehlt nach "
-                "dem identischen Retry weiterhin EXAKT 1 Datei (nicht 2), Current-Verweis unveraendert.",
+                "B3/FIX4 (R4 FIX7): Prozess 3 wird ECHT ueber die verdrahtete Gast-FIFO getrieben "
+                "(laeuft als guest2) -- der Dialog resuemiert den 'completed'-Stand und erreicht "
+                "`_finish_granted_guest_creation` WIRKLICH (0 neue GM-Calls, stdout zeigt den "
+                "idempotenten 'Gast-Erschaffung abgeschlossen'-Pfad, NICHT die Grant-Ablehnung). Der "
+                "FIX4-Lesevergleich (bereits publizierter Current == save_block) ueberspringt danach "
+                "den Write real -- Versionsbestand (current_saves/guest2__versions/) zaehlt deshalb "
+                "ECHT weiterhin EXAKT 1 Datei (nicht 2), Current-/Figur-SHA unveraendert.",
             ],
         })
 
