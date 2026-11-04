@@ -38,6 +38,7 @@ from ..core import population_backup
 from ..core import table_admission
 from ..core.creation_service import ReplyResult, run_admitted_creation_dialog
 from ..domain.zeitriss import catalog, import_export, onboarding
+from ..domain.zeitriss import creation_service as creation_grants
 from ..domain.zeitriss import saves as zeitriss_saves
 from ..domain.zeitriss.policy import (
     COMPLETION_MARKER,
@@ -642,16 +643,40 @@ class _OperatorControlScope:
 
     def _handle_stop(self) -> None:
         try:
-            table_admission.request_table_stop(
+            payload = table_admission.request_table_stop(
                 self._run_dir, table_key=self._table_key, operator_id=self._operator_id,
                 table_id=self._table_id,
                 reason=f"Betreiber {self._operator_id!r} hat '/stop' waehrend eines offenen Zugs gesetzt.",
             )
-            self._session._print(
-                "Betreiber-Stop gesetzt (/stop) -- wirksam an der naechsten Grenze, VOR jedem Save."
-            )
         except table_admission.TableAdmissionError as e:
             self._session._print(f"Betreiber-Stop abgelehnt: {e}")
+            return
+        # R2-Nachzug F3a/F3b (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+        # STOP-BOUNDARY.md B3 "meldet immer 'wirksam ... VOR jedem Save'"):
+        # `payload["decision"]` ist der ECHTE gewonnene Entscheid des
+        # gemeinsamen atomaren Slots (`request_table_stop` wertet
+        # `admission.try_commit_table_decision` bereits VOR diesem Write
+        # aus) -- die alte pauschale Zusage galt auch dann, wenn der
+        # Abschluss (`complete_section`) den Slot BEREITS VOR diesem Stop
+        # gewonnen hatte ('plan_committed'). Jetzt ehrlich nach dem
+        # tatsaechlich gefallenen Entscheid unterscheiden.
+        decided = payload.get("decision")
+        if decided == "stopped":
+            self._session._print(
+                "Betreiber-Stop gesetzt (/stop) -- wirksam an der naechsten Grenze, VOR jedem Save "
+                "(der gemeinsame Entscheid ist gerade JETZT auf 'stopped' gefallen)."
+            )
+        elif decided == "plan_committed":
+            self._session._print(
+                "Betreiber-Stop registriert, ABER der Abschluss hat den gemeinsamen Entscheid "
+                "bereits VOR diesem Stop gewonnen ('plan_committed') -- der bereits angenommene "
+                "Fortschritt wird NICHT zurueckgerollt; nur neue Spielzuege sind ab jetzt gesperrt."
+            )
+        else:
+            self._session._print(
+                f"Betreiber-Stop registriert (gemeinsamer Entscheid bereits auf {decided!r} "
+                "gefallen) -- kein weiterer Effekt auf einen anders entschiedenen Abschnitt."
+            )
 
     @staticmethod
     def _default_line_source(stop_event) -> str | None:
@@ -1832,9 +1857,30 @@ class TuiSession:
             f"Gebundener Tisch erkannt ({table.table_id}, Mitglieder: {table.members}) -- wird mit "
             "dieser tatsaechlichen Besetzung fortgesetzt (keine neue Einladung, keine Doppelcalls)."
         )
+        # R2-Nachzug (Critic-Auflage 2, F1/O2): ein resuemierter gebundener
+        # BETREIBER-Tisch (`operator_meta` traegt einen `operator_id`) muss
+        # Betreibermodus + den bereits gebundenen Admission-Schluessel an die
+        # Runde weiterreichen -- sonst ist `_OperatorControlScope` ein No-Op
+        # und der Betreiber verliert nach Pause/Neustart-Resume real seine
+        # `/stop`-Faehigkeit waehrend eines laufenden GM-/Persona-Calls (O2-
+        # Regression NUR im neuen F1-Operatorpfad). Reiner host-id-freier
+        # Reverse-Lookup (dieselbe Funktion wie der Admission-Reconcile unten),
+        # kein Write, keine Neu-Zuweisung der bereits persistierten
+        # Betreiberidentitaet. `operator_table_key=None` bleibt -- wie im
+        # kanonischen Pfad (`_cmd_local_round`) -- eine zulaessige Kombination.
+        resume_operator_mode = bool(
+            getattr(table, "operator_meta", None) and table.operator_meta.get("operator_id")
+        )
+        resume_operator_table_key: str | None = None
+        if resume_operator_mode and self.run_dir is not None:
+            resume_admission_key, _resume_admission_host = table_admission.find_admission_for_section(
+                self.run_dir, table.table_id,
+            )
+            resume_operator_table_key = resume_admission_key
         self._run_table_round(
             table, lobby, ps_store, leader_id, leader_persona_id, leader_driver, active_save, guest_specs,
             guided=True, current_focus_pid=self.participant_id,
+            operator_mode=resume_operator_mode, operator_table_key=resume_operator_table_key,
         )
         # R3-Nachzug (F2 §2, independent-r2-review.md F2 "der normale
         # Fortsetzenweg enthaelt KEINE Admission-Abschlussbuchung"): dieser
@@ -4771,6 +4817,23 @@ class TuiSession:
             return None
         if section.status == "closed":
             return None
+        # R2-Nachzug F3a (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+        # STOP-BOUNDARY.md B2): der gemeinsame atomare Entscheid-Slot
+        # (`admission.read_table_decision`) ist die FRISCHESTE, durable
+        # Wahrheit -- ein waehrend eines noch offenen Calls bereits
+        # gefallener 'stopped'-Entscheid liegt hier ggf. VOR der (erst nach
+        # Rueckkehr des Calls laufenden) `table.status="closed"`-Nachfuehrung
+        # bereits vor. 'Weiterhin OFFEN -- kein Rollback' waere in diesem
+        # Fenster unehrlich (echter, endgueltiger Verwurf steht bereits
+        # fest, keine Pause).
+        from ..core import admission as core_admission
+        decision = core_admission.read_table_decision(self.run_dir, section.table_id)
+        if isinstance(decision, dict) and decision.get("decision") == "stopped":
+            return (
+                f"Hinweis: der Spielabschnitt '{section_id}' wurde durch Betreiber-Stop VOR der "
+                "Entscheidung wirklich verworfen -- ENDGUELTIG, kein Fortsetzen moeglich. Diese "
+                "Admission-Aenderung ist davon unabhaengig bereits wirksam."
+            )
         return (
             f"Hinweis: der Spielabschnitt '{section_id}' ist am tatsaechlichen Spielkern "
             "weiterhin OFFEN -- diese Admission-Aenderung loescht KEINE Bindung dort. Sicherer "
@@ -5239,6 +5302,57 @@ class TuiSession:
             (f"persona:{member}" if member in own_personas else member)
             for member in record["roster"] if member != record["host_id"]
         ]
+        # R2-Nachzug F1 (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+        # GENERAL-REVIEW.md B1): der NORMALE Angebots-/Annahme-/Startweg
+        # muss AUCH einen Betreiber OHNE eigene Figur tragen. Bisher wurde
+        # der Host hier IMMER zum Leader (`_cmd_local_round`s Default
+        # `leader_id = ... else self.participant_id`), der dann mangels
+        # eigener Figur beim Resolve scheiterte (tui.py `_resolve_member`
+        # weiter unten in `_cmd_local_round`). Erkennung rein LESEND
+        # (`_resolve_member`, dieselbe Autoritaet wie jeder andere Resolve)
+        # -- hat der Betreiber eine EIGENE abgeschlossene Figur, bleibt der
+        # BESTEHENDE mitspielende Hostweg (test_full_a_to_b_to_a_table_
+        # journey) bytegleich UNVERAENDERT: `force_operator_mode` bleibt
+        # `False`, der Host wird wie bisher Leader. Fehlt sie, kommt der
+        # spielende Leader aus dem TATSAECHLICH angenommenen Roster
+        # (Mensch ODER eigene Persona, KEIN Zwang zu 'lead:persona:' mehr
+        # -- 02_NACHZUG F1 §2); der Betreiber bleibt dabei strukturell
+        # ausserhalb von `tokens`/`members`/`chrononaut_ids` (O1, erhalten).
+        round_tokens = guest_tokens
+        round_initial_focus = self.participant_id
+        force_operator_mode = False
+        operator_leader_id: str | None = None
+        # R2-Nachzug F1: `own_figure is None` ist die einzige neue
+        # Abzweigung. Ein ungelesener/ambiger aktueller Save
+        # (`_ActiveSaveUnresolved`) ODER ein vorhandener eigener
+        # Spielstand (`own_figure` ein Tupel) faellt UNVERAENDERT auf den
+        # BESTEHENDEN Weg zurueck (Host wird wie bisher Leader; der
+        # bestehende `_resolve_member(leader_id)`-Fehlerpfad weiter unten
+        # in `_cmd_local_round` greift danach exakt wie vor diesem
+        # Nachzug) -- kein zweiter Fehlertext fuer bereits bestehende
+        # Fehlerfaelle (s. `test_r3_f2_resume_admission_reconcile.py::
+        # test_f2_started_but_never_bound_start_stays_serviceable`, wo der
+        # Host ohne Figur UND ohne Gast ganz bewusst den BESTEHENDEN
+        # "Laufumgebung fehlt"/"bleibt offen"-Pfad treffen muss).
+        try:
+            own_figure = self._resolve_member(self.participant_id)
+        except _ActiveSaveUnresolved:
+            own_figure = "unresolved"
+        if own_figure is None and guest_tokens:
+            force_operator_mode = True
+            leader_token = guest_tokens[0]
+            rest_tokens = guest_tokens[1:]
+            if leader_token.startswith("persona:"):
+                # Erste angenommene Rostermitglied ist eine eigene Persona
+                # -- reuse des bestehenden 'lead:persona:<id>'-Wegs (echte
+                # Leader-Zusage ueber denselben Einladungs-/Gate-Vertrag).
+                round_tokens = [f"lead:persona:{leader_token.split(':', 1)[1]}", *rest_tokens]
+            else:
+                # Erstes angenommenes Rostermitglied ist ein Mensch -- wird
+                # OHNE Persona-Pflicht direkt zum spielenden Leader.
+                operator_leader_id = leader_token
+                round_tokens = rest_tokens
+                round_initial_focus = leader_token
         self._print(
             f"Tisch '{table_key}' gestartet (eingefrorenes roster: {record['roster']}) -- "
             "Uebergabe an den Spielpfad."
@@ -5248,7 +5362,10 @@ class TuiSession:
         # Play-Request), dann nach der Runde IMMER zuruecksetzen.
         self._pending_table_key = table_key
         try:
-            section_id = self._cmd_local_round(guest_tokens, guided=True, initial_focus=self.participant_id)
+            section_id = self._cmd_local_round(
+                round_tokens, guided=True, initial_focus=round_initial_focus,
+                force_operator_mode=force_operator_mode, operator_leader_id=operator_leader_id,
+            )
         except EndOfInput:
             self._pending_table_key = None
             # R2-Nachzug (F2 §1): eine kontrollierte Pause MITTEN im ersten
@@ -5833,6 +5950,279 @@ class TuiSession:
             return False
         return True
 
+    # ZR-BETREIBER-GASTERSCHAFFUNG-20261103-R2 F4 (GENERAL-REVIEW.md §F4):
+    # additiver Gast-Erschaffungs-Befehl/-Dialog -- rein additiv, berührt
+    # KEINE bestehende F1/F3a-Betreiber-Tischlogik oben. Die Autorität
+    # kommt ausschließlich aus `creation_grants` (domain/zeitriss/
+    # creation_service.py, NEU) -- eine ID-Tischanfrage/Prompttext ist
+    # KEINE Freigabe, `host_capable` ist an keiner Stelle ein Bypass.
+    def _cmd_gast_erschaffung_anfragen(self, args: list[str]) -> None:
+        """F4 §1: Gast-erlaubt, NICHT gegatet -- stellt eine KONKRETE
+        Erschaffungsanfrage an EINEN benannten Betreiber. Reine Anfrage,
+        bindet NOCH KEINEN Grant (das macht ausschliesslich die
+        Betreiberentscheidung, s. `_cmd_gast_erschaffung_annehmen`)."""
+        if self.run_dir is None:
+            self._print("Gast-Erschaffungsanfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        if not args:
+            self._print("Benutzung: 'gast-erschaffung-anfragen <operator_id>'.")
+            return
+        operator_id = args[0]
+        record = creation_grants.request_creation(
+            self.run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
+        )
+        self._print(f"Erschaffungsanfrage an Betreiber '{operator_id}' gestellt (status={record['status']}).")
+
+    def _cmd_gast_erschaffung_annehmen(self, args: list[str]) -> None:
+        """HOST-ONLY (F4 §1): bindet GENAU DIESEN Gast + GENAU EINEN
+        Erschaffungsvorgang (Generation) dauerhaft -- die EINZIGE
+        Autoritaet, die `_cmd_gast_erschaffung_dialog` einen GM-Aufruf
+        erlaubt."""
+        self._require_host("Gast-Erschaffung freigeben")
+        if self.run_dir is None:
+            self._print("Freigabe erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        if not args:
+            self._print("Benutzung: 'gast-erschaffung-annehmen <guest_id>'.")
+            return
+        guest_id = args[0]
+        try:
+            record = creation_grants.decide_creation_request(
+                self.run_dir, operator_id=self.participant_id, guest_id=guest_id, approve=True,
+            )
+        except creation_grants.CreationGrantError as e:
+            self._print(f"Freigabe abgelehnt: {e}")
+            return
+        self._print(f"Gast '{guest_id}' freigegeben (Generation {record['generation']}).")
+
+    def _cmd_gast_erschaffung_ablehnen(self, args: list[str]) -> None:
+        """HOST-ONLY (F4 §2 Gegenstueck zu `_cmd_gast_erschaffung_annehmen`)."""
+        self._require_host("Gast-Erschaffung ablehnen")
+        if self.run_dir is None:
+            self._print("Ablehnung erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        if not args:
+            self._print("Benutzung: 'gast-erschaffung-ablehnen <guest_id>'.")
+            return
+        guest_id = args[0]
+        try:
+            creation_grants.decide_creation_request(
+                self.run_dir, operator_id=self.participant_id, guest_id=guest_id, approve=False,
+            )
+        except creation_grants.CreationGrantError as e:
+            self._print(f"Ablehnung nicht moeglich: {e}")
+            return
+        self._print(f"Gast '{guest_id}' abgelehnt.")
+
+    def _cmd_gast_erschaffung_abbrechen(self, args: list[str]) -> None:
+        """F4 §4: expliziter, DURABLER Abbruch GENAU DIESES freigegebenen
+        Erschaffungsvorgangs -- ein EIGENER Befehl, AUSSERHALB des
+        laufenden Dialogprompts. '/abbrechen' INNERHALB des Dialogs
+        (`_cmd_gast_erschaffung_dialog`s `_guest_get_reply`) bleibt
+        UNVERAENDERT der dokumentierte, nur-lokale Verwurf des gerade
+        offenen Schritts (s. `_control_help_text`) -- dieser Befehl hier
+        ist die GEFORDERTE durable Variante: `onboarding.abandon` markiert
+        den Entwurf endgueltig, eine spaetere Antwort/Recovery/Korrektur
+        kann ihn danach NICHT mehr als Figur veroeffentlichen (`onboarding.
+        complete_with_save`s abandoned-Guard), UND `ensure_valid_grant`
+        lehnt eine erneute Wiederaufnahme derselben Generation danach
+        strukturell ab (erneute Betreiberfreigabe erforderlich)."""
+        if self.run_dir is None:
+            self._print("Abbruch erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        if not args:
+            self._print("Benutzung: 'gast-erschaffung-abbrechen <operator_id>'.")
+            return
+        operator_id = args[0]
+        try:
+            generation = creation_grants.ensure_valid_grant(
+                self.run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
+            )
+        except creation_grants.CreationGrantError as e:
+            self._print(f"Abbruch nicht moeglich: {e}")
+            return
+        onboarding_key = creation_grants.guest_onboarding_key(self.participant_id, generation)
+        try:
+            onboarding.abandon(self.onboarding_dir, onboarding_key)
+        except ValueError as e:
+            self._print(f"Abbruch nicht moeglich: {e}")
+            return
+        self._print(
+            "Gast-Erschaffung abgebrochen (durabel) -- dieser Entwurf kann NICHT mehr als Figur "
+            "veroeffentlicht werden, auch nicht durch eine spaete Antwort/Wiederaufnahme."
+        )
+
+    def _cmd_gast_erschaffung_dialog(self, args: list[str]) -> None:
+        """F4 §2/§3: echter Terminaldialog fuer eine Betreiber-freigegebene
+        Gast-Erschaffung OHNE vorab mitgebrachtes JSON. Reuse von
+        `core.creation_service.run_admitted_creation_dialog` (derselbe
+        GM-Turn-/Admission-/Requestledger-/Korrekturmechanismus wie der
+        Hostpfad `_cmd_new_or_switch_character`, KEIN zweiter
+        Erschaffungsloop) -- GENAU EIN zusaetzlicher Unterschied: VOR jedem
+        Aufruf (auch jeder Wiederaufnahme) prueft `creation_grants.ensure_
+        valid_grant` einen durablen Betreiber-Grant. Fehlend/abgelehnt/
+        fremd/veraltet -> kein GM-Aufruf, kein Save (F4 §2). `host_capable`
+        spielt dabei STRUKTURELL keine Rolle (kein Bypass, s. F4-Report)."""
+        if self.run_dir is None:
+            self._print("Gast-Erschaffung erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        if not args:
+            self._print("Benutzung: 'gast-erschaffung-dialog <operator_id>'.")
+            return
+        operator_id = args[0]
+        try:
+            generation = creation_grants.ensure_valid_grant(
+                self.run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
+            )
+        except creation_grants.CreationGrantError as e:
+            self._print(f"Gast-Erschaffung abgelehnt (kein gueltiger Betreiber-Grant): {e}")
+            return
+        onboarding_key = creation_grants.guest_onboarding_key(self.participant_id, generation)
+        state = onboarding.start_or_resume(self.onboarding_dir, onboarding_key)
+        if state.status == "completed":
+            # F4 §5: unterbrochene Veroeffentlichung -- dieselbe, bereits
+            # real erhaltene `final_save`-Fassung idempotent fertigstellen,
+            # KEIN zweiter GM-Aufruf.
+            self._finish_granted_guest_creation(state.final_save, generation)
+            return
+        if self.gm_transport_factory is None:
+            self._print(
+                "Gast-Erschaffung erfordert eine konfigurierte SL-Anbindung (gm_transport_factory) "
+                "fuer den echten Erschaffungsdialog -- hier nicht konfiguriert, kein Dialogstart."
+            )
+            return
+        import inspect
+        try:
+            accepts_id = len(inspect.signature(self.gm_transport_factory).parameters) >= 1
+        except (TypeError, ValueError):
+            accepts_id = False
+        onboarding_chat_id = f"onboarding-{onboarding_key}"
+        try:
+            gm_transport = self.gm_transport_factory(onboarding_chat_id) if accepts_id else self.gm_transport_factory()
+        except Exception:
+            self._print(self._opaque_boundary_error("Gast-Erschaffung: SL-Anbindung nicht verfuegbar"))
+            return
+        self._print("Gast-Erschaffungsdialog gestartet/fortgesetzt (echter SL-Dialog, fortsetzbar, kein JSON noetig).")
+        turn_idx = len(state.steps)
+        initial_outgoing = state.steps[-1]["answer"] if state.steps else (
+            "Ich moechte als Gast einen neuen Chrononauten erschaffen. "
+            "Fuehre mich Schritt fuer Schritt durch die Erschaffung."
+        )
+
+        def _guest_get_reply(_turn_idx: int, _sl_text: str) -> ReplyResult:
+            # F4 §4: derselbe zentrale Leser wie am Hostpfad
+            # (`_readline_with_controls`) -- '?'/'/hilfe'/'/stand'/'/verlauf'
+            # werden DORT bereits lokal beantwortet. '/zurueck'/'/abbrechen'/
+            # '/pause' bleiben HIER bewusst UNVERAENDERT der dokumentierte,
+            # nur-lokale Verwurf des gerade offenen Schritts (s.
+            # `_control_help_text`: "/abbrechen ... verwirft NUR die gerade
+            # offene, unbestaetigte Eingabe ... NIEMALS werden dabei schon
+            # gespeicherte Daten geloescht") -- EXAKT dasselbe Verhalten wie
+            # der bestehende Hostpfad `_human_get_reply`, keine abweichende
+            # Bedeutung dieses dokumentierten Steuertokens. Der DURABLE,
+            # endgueltige Abbruch GENAU dieser Operation (F4 §4) ist ein
+            # EIGENER, expliziter Befehl ausserhalb dieses Prompts (s.
+            # `_cmd_gast_erschaffung_abbrechen`), NICHT dieses Steuertoken.
+            raw, control = self._readline_with_controls(
+                "Deine Antwort: ", context="Gast-Erschaffungsantwort",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print(
+                    "Lokal verarbeitet -- diese Steuerzeile wird NICHT als Antwort an die SL "
+                    "gesendet. Fortschritt bleibt erhalten, spaeter fortsetzbar (fuer einen "
+                    "durablen Abbruch dieses Vorgangs: eigener Befehl 'gast-erschaffung-abbrechen')."
+                )
+                return ReplyResult(kind="paused", reason=f"guest_local_{control}")
+            return ReplyResult(kind="answer", text=raw)
+
+        outcome = run_admitted_creation_dialog(
+            run_dir=self.run_dir, onboarding_dir=self.onboarding_dir, participant_id=onboarding_key,
+            turn_idx_start=turn_idx, initial_outgoing=initial_outgoing, gm_transport=gm_transport,
+            get_reply=_guest_get_reply, harvest_validator=ZeitrissHarvestValidator(),
+            print_fn=self._print, role="creation_dialog",
+        )
+        if outcome.status == "completed":
+            self._finish_granted_guest_creation(outcome.save_block, generation)
+
+    def _finish_granted_guest_creation(self, save_block: dict, generation: int) -> None:
+        """F4 §3/§5: schlanker, idempotenter Publikationsabschluss fuer
+        eine Betreiber-freigegebene Gast-Erschaffung -- reuse derselben
+        Domaenen-Primitiven wie der Hostpfad `_finish_new_character_
+        creation` (catalog.register/store_figure_save/bind_for_section,
+        onboarding.ensure_participant_persona_state, core.store.publish_
+        current_save, Auftragsbindung-Claim `onboarding.record_attempt_
+        claim`/`attempt_claim_matches`) -- ABSICHTLICH eine EIGENE,
+        schlankere Funktion statt desselben Methodenaufrufs:
+        `_finish_new_character_creation` ruft am Ende `_invite_persona_
+        fresh_start()` (reine Hostaktion, `_require_host`-gegated) -- fuer
+        einen Gast (`host_capable=False`) STRUKTURELL nicht erreichbar und
+        ausserhalb des F4-Umfangs. Reuse der Save-Veroeffentlichung bleibt
+        gewahrt (dieselben Primitiven, kein zweiter Publikationsweg) -- nur
+        die host-spezifischen Aktivfiguren-Wechsel-/Sperr-/Einladungsteile
+        entfallen (ein frisch freigegebener Gast hat per Definition noch
+        keine andere aktive Figur zum Wechseln/Sperren)."""
+        candidate_char_id = zeitriss_saves.block_char_id(save_block)
+        if candidate_char_id is None:
+            self._print(
+                "Gast-Erschaffung nicht abschliessbar: der uebernommene Save enthaelt keine "
+                "auswertbare Chrononaut-ID -- kein Katalog-/Current-Write, Vorgang bleibt offen."
+            )
+            return
+        attempt_key = creation_grants.guest_attempt_claim_key(self.participant_id)
+        existing_registration = catalog.find_registration(self.catalog_dir, candidate_char_id)
+        if existing_registration is not None:
+            if existing_registration.participant_id != self.participant_id:
+                self._print(
+                    f"Gast-Erschaffung angehalten: char_id={candidate_char_id} ist bereits einem "
+                    f"anderen Teilnehmer ({existing_registration.participant_id!r}) zugeordnet -- "
+                    "kontrollierter Konflikt, kein automatisches Uebernehmen/Umbenennen."
+                )
+                return
+            if not onboarding.attempt_claim_matches(
+                self.onboarding_dir, attempt_key, generation=generation, char_id=candidate_char_id,
+            ):
+                self._print(
+                    f"Gast-Erschaffung angehalten: char_id={candidate_char_id} gehoert nicht "
+                    "nachweislich zu diesem freigegebenen Erschaffungsvorgang -- kontrollierter "
+                    "Konflikt, kein automatischer Erfolg."
+                )
+                return
+        onboarding.record_attempt_claim(
+            self.onboarding_dir, attempt_key, generation=generation, char_id=candidate_char_id,
+        )
+        own_archive_before = catalog.load_figure_save(self.catalog_dir, self.participant_id, candidate_char_id)
+        if own_archive_before is not None and own_archive_before != save_block:
+            self._print(
+                f"Gast-Erschaffung angehalten: char_id={candidate_char_id} hat bereits ein "
+                "abweichendes, eigenes Figuren-Archiv -- kontrollierter Konflikt, kein "
+                "automatisches Ueberschreiben."
+            )
+            return
+        catalog.register(self.catalog_dir, catalog.CatalogEntry(
+            participant_id=self.participant_id, chrononaut_id=candidate_char_id, persona_key=self.participant_id,
+        ))
+        if own_archive_before is None:
+            catalog.store_figure_save(self.catalog_dir, self.participant_id, candidate_char_id, save_block)
+        if self.run_dir is not None and self.states_dir is not None and self.schema_path is not None:
+            from ..core.persona_state import PersonaStateStore
+            from ..core import store as core_store
+            ps_store = PersonaStateStore(schema_path=self.schema_path)
+            onboarding.ensure_participant_persona_state(
+                ps_store, self.states_dir, self.participant_id, candidate_char_id, save_block,
+            )
+            core_store.publish_current_save(
+                self.run_dir, self.participant_id, save_block, ps_store, self.states_dir,
+            )
+        try:
+            catalog.bind_for_section(self.catalog_dir, self.participant_id, candidate_char_id, has_open_section=False)
+        except catalog.ActiveBindingError:
+            self._print(
+                f"Gast-Erschaffung abgeschlossen: char_id={candidate_char_id}. Aktive Figur hat einen "
+                "offenen Abschnitt -- neue Figur bleibt INAKTIV registriert (Savebytes gesichert)."
+            )
+            return
+        self._print(f"Gast-Erschaffung abgeschlossen: char_id={candidate_char_id}. Figur ist jetzt tischbereit.")
+
     def _cmd_local_round_setup(self) -> None:
         """A24 R2 (02_AUFTRAG_A24_BEDIENGRENZE.md §R2, 11 §8): gefuehrter
         Einrichtungsweg fuer die lokale Runde -- fragt 'allein mit KI' oder
@@ -5916,6 +6306,7 @@ class TuiSession:
     def _cmd_local_round(
         self, guest_tokens: list[str] | None = None, *, guided: bool = False,
         initial_focus: str | None = None, allow_operator_mode: bool = False,
+        force_operator_mode: bool = False, operator_leader_id: str | None = None,
     ) -> None:
         """I1/I3: gemeinsam an diesem Geraet spielen. Nutzt -- sofern
         konfiguriert -- GENAU `core.app_service.run_play_session`, denselben
@@ -6076,18 +6467,85 @@ class TuiSession:
         if allow_operator_mode and tokens and tokens[0] == "operator":
             operator_mode = True
             tokens = tokens[1:]
+        # R2-Nachzug F1 (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+        # GENERAL-REVIEW.md B1): programmatischer Betreiber-Normalweg --
+        # NUR von `_cmd_table_start` gesetzt (niemals vom frei getippten
+        # 'l'-Dispatch, der weiterhin ausschliesslich ueber den 'operator'-
+        # Sentinel oben laeuft, s. Regressionstest). Der Betreiber hat KEINE
+        # eigene Figur (von `_cmd_table_start` bereits read-only geprueft);
+        # `operator_mode` wird hier erzwungen, OHNE den 'operator'-Sentinel
+        # zu benoetigen.
+        if force_operator_mode:
+            operator_mode = True
         leader_persona_id: str | None = None
         if tokens and tokens[0].startswith("lead:persona:"):
             leader_persona_id = tokens[0].split(":", 2)[2]
             tokens = tokens[1:]
-        leader_id = leader_persona_id if leader_persona_id else self.participant_id
-        if operator_mode and not leader_persona_id:
+        # R2-Nachzug F1: `operator_leader_id` (NUR von `_cmd_table_start`
+        # gesetzt, s. oben) macht einen bereits ANGENOMMENEN MENSCHLICHEN
+        # Gast zum spielenden Leader -- keine Pflicht zu 'lead:persona:<id>'
+        # mehr (GENERAL-REVIEW.md B1: 'ein menschlicher Gast als spielender
+        # Leader ist damit nicht vorgesehen' -- jetzt vorgesehen). Eine
+        # eigene Persona bleibt via `lead:persona:` weiterhin eine
+        # zulaessige Variante (Vorrang oben unveraendert).
+        leader_id = leader_persona_id if leader_persona_id else (operator_leader_id or self.participant_id)
+        if operator_mode and leader_id == self.participant_id:
             self._print(
-                "Betreibermodus ('operator ...') erfordert eine fuehrende Persona "
-                "('lead:persona:<id>') -- ohne spielende Persona als Leader ergibt "
-                "'Betreiber ohne eigene Figur' keinen Sinn, kein Spielstart."
+                "Betreibermodus erfordert einen spielenden Leader aus dem angenommenen Roster "
+                "(eigene Persona via 'lead:persona:<id>' ODER ein bereits angenommener "
+                "menschlicher Gast) -- ohne spielende Figur ergibt 'Betreiber ohne eigene "
+                "Figur' keinen Sinn, kein Spielstart."
             )
             return
+        # R2-Nachzug F1 §5 (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+        # GUEST-OPERATOR.md "Eingaberouting"): GEGATET auf `operator_mode`,
+        # VOR jedem Write/Tischanlage (`create_table_from_offer_log`
+        # sperrt bereits Chrononauten, `bind_section` bindet bereits die
+        # Admission) -- eine Verweigerung HIER hinterlaesst 0 Writes, der
+        # bestehende 'section_id is None'-Rueckweg in `_cmd_table_start`
+        # (reopen_table) greift danach normal. WAEHREND `operator_mode`
+        # laeuft `_OperatorControlScope`s Kontroll-Thread NEBENLAEUFIG zum
+        # blockierenden Rundenaufruf und liest standardmaessig rohes
+        # Terminal-stdin (`_default_line_source`). JEDER Mensch (Leader via
+        # `operator_leader_id`/Gast-Token ohne 'persona:'-Praefix), der
+        # NICHT ueber `register_guest_terminal` an eine EIGENE `TuiSession`
+        # (eigener `input_fn`) angeschlossen ist, teilt sich stattdessen
+        # GENAU diese Terminal-Eingabe mit dem Kontroll-Thread
+        # (`_HumanDriver.decide()`: `io = outer._table_guest_terminals.
+        # get(self._pid, outer)` faellt auf `outer` zurueck) -- ein echter
+        # Spielzug und eine Kontrollzeile koennten dieselbe Zeile lesen,
+        # der Gastzug wuerde als unbekannte Steuerzeile verworfen (genau
+        # der in GUEST-OPERATOR.md benannte Eingabewettlauf). Mechanismus/
+        # Entscheidung (Begruendung s. F1-report.md): ein expliziter
+        # separater Terminalkontrollweg ist erlaubt (kein Scheduler/LAN
+        # noetig) -- entweder der Mensch bekommt einen EIGENEN Teilnehmer-
+        # anschluss (`register_guest_terminal`, bereits bestehender,
+        # getesteter In-Process-Mechanismus, s. `test_r3_f1_guest_table_
+        # service.py`) ODER der Betreiber konfiguriert `operator_control_
+        # line_source` auf eine ERKENNBAR ANDERE Quelle als das geteilte
+        # Terminal. Ohne beides wird der Rundenstart kontrolliert
+        # VERWEIGERT statt eine stille Eingabekollision zu riskieren.
+        if operator_mode:
+            shared_terminal_humans = []
+            if leader_persona_id is None and leader_id not in self._table_guest_terminals:
+                shared_terminal_humans.append(leader_id)
+            for _tok in tokens:
+                if _tok.startswith("persona:"):
+                    continue
+                if _tok not in self._table_guest_terminals and _tok not in shared_terminal_humans:
+                    shared_terminal_humans.append(_tok)
+            if shared_terminal_humans and self.operator_control_line_source is None:
+                self._print(
+                    "Betreiber-Rundenstart abgelehnt: der Betreiber-Kontrollthread (/stop) wuerde "
+                    "dieselbe geteilte Terminal-Eingabe lesen wie "
+                    f"{shared_terminal_humans} -- echte Spielantworten koennten als unbekannte "
+                    "Steuerzeilen verloren gehen (Eingaberouting-Kollision). Entweder einen "
+                    "eigenen Teilnehmeranschluss fuer diese Menschen registrieren "
+                    "(`register_guest_terminal`) oder eine eigene Kontrollzeilen-Quelle "
+                    "konfigurieren (`operator_control_line_source`) -- kein Spielstart ohne "
+                    "eindeutige Zuordnung."
+                )
+                return
 
         # R3-Nachzug (F3 §2 -- independent-r2-review.md §3 F3; 02_NACHZUG §B/F3:
         # "Die gleiche Bestandsgrenze gilt fuer freie IDs ... persona: und
@@ -6705,6 +7163,48 @@ class TuiSession:
         # den Rueckgabewert bisher nie auswerteten, veraendert sich.
         return table.table_id
 
+    def _finalize_genuine_table_abort(self, lobby, table, operator_table_key: str | None) -> None:
+        """R2-Nachzug F3a (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+        STOP-BOUNDARY.md B2 "der Stop wird nur zu einem dauerhaften HOLD;
+        der geforderte Abbruch-Lifecycle fehlt"): wird NUR aufgerufen,
+        NACHDEM der gemeinsame atomare Entscheid-Slot dieses Tisches
+        bereits auf `"stopped"` gefallen ist (s. Aufrufer -- `core.
+        admission.try_commit_table_decision`/`read_table_decision`, Main-
+        Kern, hier nur GELESEN). Das ist der fehlende Rest des Abbruch-
+        Lifecycle: ein verworfener Abschnitt darf seine Figurenbindungen
+        nicht fuer immer festhalten, sonst kann der betroffene Teilnehmer
+        NIE wieder an einem neuen Tisch teilnehmen.
+
+        - `Lobby.release_chrononaut(cid, expected_table_id)` prueft selbst,
+          dass NUR eine Bindung an GENAU DIESEN (jetzt toten) Tisch geloescht
+          wird -- eine fremde/neuere Bindung desselben Chrononauten an einen
+          ANDEREN Tisch bleibt unberuehrt (kein Loeschen fremder Locks).
+        - `table.status = "closed"` markiert den Store-Tisch ehrlich als
+          beendet (kein Primaersave ist je entstanden -- dies ist ein
+          Abbruch, keine erfolgreiche Finalisierung, aber `status="closed"`
+          ist das einzige vorhandene 'hier passiert nichts mehr'-Feld, s.
+          `create_table_from_offer_log`s Resume-vs-neue-Generation-Check).
+        - `table_admission.close_table` (HOST-ONLY, idempotent) schliesst
+          den Admission-Record, damit ein erneuter `tisch-start` auf
+          DERSELBEN `table_key` ehrlich auf 'geschlossen -- neues Angebot
+          noetig' trifft, statt den toten Tisch ueber den Resume-Pfad
+          wiederzubeleben (der durable Entscheid-Slot wuerde das zwar
+          ohnehin blocken, aber ohne diese Nachfuehrung bliebe die Admission
+          irrefuehrend 'gestartet'). Kein Effekt, wenn keine Admission-
+          Bindung vorliegt (klassischer ad-hoc-Tisch ohne `table_admission`)."""
+        for cid in table.chrononaut_ids.values():
+            lobby.release_chrononaut(cid, table.table_id)
+        if table.status != "closed":
+            table.status = "closed"
+            table.persist()
+        if operator_table_key is not None and self.run_dir is not None:
+            try:
+                table_admission.close_table(
+                    self.run_dir, table_key=operator_table_key, host_id=self.participant_id,
+                )
+            except table_admission.TableAdmissionError:
+                pass
+
     def _run_table_round(
         self, table, lobby, ps_store, leader_id: str, leader_persona_id: str | None,
         leader_driver, active_save: dict | None,
@@ -6893,22 +7393,64 @@ class TuiSession:
                 text, control = io._readline_with_controls(
                     prompt, context="Spielzug", history=history, speaker_pid=self._pid,
                 )
-                if control == "pause":
-                    # 02 §C: Abbruch waehrend eines offenen Abschnitts
-                    # bedeutet Pause/Beenden, kein fachlicher Rollback --
-                    # dieselbe bereits bestehende, getestete kontrollierte
-                    # Pausemechanik wie bei EOF/einer abgelehnten
-                    # Fokusuebergabe (s. `_local_round_handoff` oben).
+                if control in ("pause", "zurueck"):
+                    # 02 §C: '/pause'/'/zurueck' waehrend eines offenen
+                    # Abschnitts bedeuten Pause/Beenden, kein fachlicher
+                    # Rollback -- dieselbe bereits bestehende, getestete
+                    # kontrollierte Pausemechanik wie bei EOF/einer
+                    # abgelehnten Fokusuebergabe (s. `_local_round_handoff`
+                    # oben). UNVERAENDERT gegenueber vor diesem Nachzug.
                     io._print(
                         "Kontrolliert pausiert (/pause) — kein weiterer Zug, kein Modellaufruf; "
                         "der zuletzt gueltige Stand bleibt erhalten."
                     )
                     raise EndOfInput()
-                if control in ("zurueck", "abbrechen"):
-                    io._print(
-                        "Waehrend eines laufenden Abschnitts bedeutet Abbrechen Pause/Beenden, "
-                        "kein Rollback (02 §C) — kontrolliert pausiert, kein Modellaufruf."
-                    )
+                if control == "abbrechen":
+                    # R2-Nachzug F3a (ZR-BETREIBER-GASTERSCHAFFUNG,
+                    # 2026-11-04, STOP-BOUNDARY.md B2 "menschl. Abbruch
+                    # bleibt Pause ... ohne Verwerfen"): '/pause'/'/zurueck'
+                    # bleiben reine Pause (oben, UNVERAENDERT) -- '/abbrechen'
+                    # ist der ausdrueckliche, menschlich bestaetigte Verwurf-
+                    # Wunsch (02_NACHZUG F3a: 'eine menschlich verstaendliche
+                    # Auswahl/Bestaetigung beendet den noch unverbindlichen
+                    # Abschnitt WIRKLICH'). NUR WIRKSAM an einem Tisch MIT
+                    # gebundenem Admission-Record (`operator_table_key`) --
+                    # DIESELBE Autoritaet wie der dedizierte Kontroll-Thread
+                    # '/stop' (`table_admission.request_table_stop`), KEINE
+                    # zweite Stopautoritaet (die Entscheidung selbst faellt
+                    # dort, nicht hier). Ohne Admission-Bindung (klassischer
+                    # mitspielender Host ohne Betreibertisch) bleibt
+                    # '/abbrechen' UNVERAENDERT eine reine Pause -- dafuer
+                    # existiert keine adressierbare Stopautoritaet.
+                    if operator_table_key is not None and outer.run_dir is not None:
+                        try:
+                            table_admission.request_table_stop(
+                                outer.run_dir, table_key=operator_table_key,
+                                operator_id=outer.participant_id, table_id=table.table_id,
+                                reason=(
+                                    f"'{self._pid}' hat '/abbrechen' am Spielzug bestaetigt -- "
+                                    "echter Verwurf VOR der Entscheidung."
+                                ),
+                            )
+                            outer._finalize_genuine_table_abort(lobby, table, operator_table_key)
+                            io._print(
+                                "Abschnitt wirklich verworfen (/abbrechen) -- ENDGUELTIG, kein "
+                                "Fortsetzen moeglich, kein Rollback bereits angenommenen "
+                                "Fortschritts. Betroffene eigene Figurenbindung wird am sicheren "
+                                "Ende freigegeben; erneute Tischsuche/-anfrage ueber den normalen "
+                                "Produktweg moeglich."
+                            )
+                        except table_admission.TableAdmissionError as e:
+                            io._print(
+                                f"'/abbrechen' konnte den Betreiber-Stop nicht setzen ({e}) -- "
+                                "kontrolliert pausiert, kein Modellaufruf."
+                            )
+                    else:
+                        io._print(
+                            "Waehrend eines laufenden Abschnitts ohne Betreiber-Admissionsbindung "
+                            "bedeutet '/abbrechen' Pause/Beenden, kein Rollback (02 §C) -- "
+                            "kontrolliert pausiert, kein Modellaufruf."
+                        )
                     raise EndOfInput()
                 text_out = text
                 self._turn += 1
@@ -6965,6 +7507,31 @@ class TuiSession:
             self._print(f"Gruppe eingeladen: leader={leader_id} gaeste={[g for g, _p, _s, _d in guest_specs]}")
 
         controller = TableController(leader_id, drivers)
+        # R2-Nachzug F1 §5: Defense-in-depth, dieselbe Pruefung wie der
+        # FRUEHE Eingaberouting-Guard in `_cmd_local_round` (s. dortiger
+        # ausfuehrlicher Kommentar) -- dort GEGATET auf `tokens`/
+        # `leader_id`, VOR jedem Write, also der normale Treffpunkt. Hier
+        # zusaetzlich auf den tatsaechlich instanziierten `drivers`
+        # geprueft, damit ein etwaiger ANDERER Aufrufer von
+        # `_run_table_round` (z.B. ein kuenftiger operator_mode-faehiger
+        # Resume-Pfad) dieselbe Kollision nicht unbemerkt umgeht.
+        if operator_mode:
+            shared_terminal_humans = sorted(
+                pid for pid, drv in drivers.items()
+                if getattr(drv, "is_human_driver", False) and pid not in self._table_guest_terminals
+            )
+            if shared_terminal_humans and self.operator_control_line_source is None:
+                self._print(
+                    "Betreiber-Rundenstart abgelehnt: der Betreiber-Kontrollthread (/stop) wuerde "
+                    "dieselbe geteilte Terminal-Eingabe lesen wie "
+                    f"{shared_terminal_humans} -- echte Spielantworten koennten als unbekannte "
+                    "Steuerzeilen verloren gehen (Eingaberouting-Kollision). Entweder einen "
+                    "eigenen Teilnehmeranschluss fuer diese Menschen registrieren "
+                    "(`register_guest_terminal`) oder eine eigene Kontrollzeilen-Quelle "
+                    "konfigurieren (`operator_control_line_source`) -- kein Spielstart ohne "
+                    "eindeutige Zuordnung."
+                )
+                return
         # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2):
         # Defense-in-depth -- VOR dem `try`, damit ein Gastaufruf nicht als
         # Transportfehler verschluckt wird. Heute (vor dem Stage-5-Wiring
@@ -7146,7 +7713,40 @@ class TuiSession:
             )
             self._print_backup_hook_result(backup_result)
         else:
-            self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
+            # R2-Nachzug F3a/F3b (ZR-BETREIBER-GASTERSCHAFFUNG, 2026-11-04,
+            # STOP-BOUNDARY.md B3 "UI unterscheidet die beiden Entscheidungen
+            # nicht"): die alte pauschale 'kann fortgesetzt werden' versprach
+            # einen falschen Zustand, sobald der gemeinsame atomare
+            # Entscheid-Slot (`admission.read_table_decision`, Main-Kern,
+            # hier nur GELESEN) bereits auf 'stopped' (ECHTER, endgueltiger
+            # Verwurf -- dies ist der Weg, auf dem ein waehrend eines
+            # offenen Calls per Kontroll-Thread gesetztes '/stop' hier
+            # ankommt, s. `_OperatorControlScope`) ODER 'plan_committed'
+            # (Fortschritt bereits angenommen, Restabschluss offen -- F3b,
+            # kein Rollback) gefallen war. Nur OHNE gefallenen Entscheid ist
+            # 'kann fortgesetzt werden' noch wahr (echte Pause/HOLD).
+            from ..core import admission as core_admission
+            decision = (
+                core_admission.read_table_decision(self.run_dir, table.table_id)
+                if self.run_dir is not None else None
+            )
+            decided = decision.get("decision") if isinstance(decision, dict) else None
+            if decided == "stopped":
+                self._finalize_genuine_table_abort(lobby, table, operator_table_key)
+                self._print(
+                    f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) -- durch "
+                    "Betreiber-Stop VOR der Entscheidung wirklich verworfen: ENDGUELTIG, kein "
+                    "Fortsetzen moeglich. Betroffene eigene Figurenbindung freigegeben; erneute "
+                    "Tischsuche/-anfrage ueber den normalen Produktweg moeglich."
+                )
+            elif decided == "plan_committed":
+                self._print(
+                    f"Fortschritt bereits angenommen, Restabschluss (Reflexion/Finalisierung) "
+                    f"noch ausstehend ({outcome.completion.reason}) -- kein Rollback, ein Retry "
+                    "fuehrt denselben Abschluss fort (kein neuer Spielzug)."
+                )
+            else:
+                self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
 
     # A10 (WEGKARTE §8, REVIEW-P2V.md §9/A01-A28-ABGLEICH A10): acht
     # konfigurierbare, DISTINKTE synthetische Start-Personas (02 §3: "Pool
@@ -7776,6 +8376,19 @@ class TuiSession:
                     self._cmd_table_zuschauer(extra_tokens)
                 elif choice == "tisch-start":
                     self._cmd_table_start(extra_tokens)
+                # ZR-BETREIBER-GASTERSCHAFFUNG-20261103-R2 F4: additive
+                # Wortaliase fuer die Gast-Erschaffung, dieselbe gegatete
+                # Methode fuer Dispatch UND jeden spaeteren Aliaseinstieg.
+                elif choice == "gast-erschaffung-anfragen":
+                    self._cmd_gast_erschaffung_anfragen(extra_tokens)
+                elif choice == "gast-erschaffung-annehmen":
+                    self._cmd_gast_erschaffung_annehmen(extra_tokens)
+                elif choice == "gast-erschaffung-ablehnen":
+                    self._cmd_gast_erschaffung_ablehnen(extra_tokens)
+                elif choice == "gast-erschaffung-abbrechen":
+                    self._cmd_gast_erschaffung_abbrechen(extra_tokens)
+                elif choice == "gast-erschaffung-dialog":
+                    self._cmd_gast_erschaffung_dialog(extra_tokens)
                 elif choice in ("x", "q"):
                     self._quit = True
                 # UX01/UX03 (02 §A, MENUE_ENTSCHEIDUNG.md): die EINE

@@ -526,6 +526,7 @@ def send_correction_turn(
     reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
     blocked, reason = read_admission_block(
         run_dir, reserved_usd=reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
+        table_id=table_id,
     )
     if blocked:
         return SendOutcome(blocked=True, reason=f"admission_blocked:{reason}")
@@ -1037,6 +1038,7 @@ def pursue_single_figure_correction(
             gate_blocked, gate_reason = read_admission_block(
                 run_dir, reserved_usd=pending_reserved_usd,
                 output_bound_known=(gm_output_limit is not None), route=gm_route,
+                table_id=table_id,
             )
             if gate_blocked:
                 return CorrectionOutcome(status="hold", reason=f"gate_blocked_before_consume:{gate_reason}")

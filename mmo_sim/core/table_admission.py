@@ -37,7 +37,12 @@ import json
 import time
 from pathlib import Path
 
-from .admission import _atomic_write_json, _table_stop_path, read_table_stop
+from .admission import (
+    _atomic_write_json,
+    _table_stop_path,
+    read_table_stop,
+    try_commit_table_decision,
+)
 
 
 class TableAdmissionError(RuntimeError):
@@ -463,6 +468,19 @@ def request_table_stop(
             return json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             pass
+    # ZR-BETREIBER R2 F2 (2026-11-04): um den gemeinsamen atomaren Entscheid-
+    # Slot konkurrieren, BEVOR der Gate-Stop geschrieben wird. Gewinnt der Stop,
+    # verliert die erstmalige Abschlussbindung (`store.complete_section`) und
+    # bricht ab (O3). Hat der Abschluss den Slot bereits gewonnen
+    # (`plan_committed`), kann der Stop den committeten Abschnitt NICHT mehr
+    # zuruecknehmen (O4) -- der Gate-Stop wird dennoch gesetzt (durable
+    # Betreiberabsicht: keine NEUE Spielaktivitaet), aber `payload["decision"]`
+    # haelt ehrlich fest, dass der Abschluss gewann (Stop-Anforderung vs.
+    # gewonnener Entscheid getrennt, F2 §3).
+    stop_won, decision = try_commit_table_decision(
+        run_dir, table_id, "stopped", table_key=table_key, operator_id=operator_id,
+    )
+    decided = "stopped" if stop_won else str(decision.get("decision", "unknown"))
     payload = {
         "schema": "table-stop/1",
         "table_key": table_key,
@@ -470,6 +488,7 @@ def request_table_stop(
         "operator_id": operator_id,
         "reason": reason or f"Betreiber {operator_id!r} hat Tisch {table_key!r} gestoppt.",
         "ts": time.time(),
+        "decision": decided,
     }
     _atomic_write_json(path, payload)
     return payload

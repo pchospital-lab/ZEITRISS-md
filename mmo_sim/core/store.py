@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Callable, Protocol
 
 from . import _section_completion_recovery
-from .admission import read_table_stop
+from .admission import try_commit_table_decision
 from .persona_state import PersonaStateStore
 
 # K1/K1-Nachzug: additives Current-Save-Ref-Feld im Persona-State — traegt EIN
@@ -2120,21 +2120,6 @@ def complete_section(
             reason=override_hold_reason,
         )
 
-    # O3/O4-Grenze: Ein aktiver Betreiber-Stop fuer DIESEN Tisch verhindert die
-    # ERSTMALIGE Bindung (der Plan-Pin unten ist der Point-of-no-Return). Ein
-    # bereits gepinnter Plan wird oben (Resume-Zweig, plan_path.exists()) schon
-    # abgefangen und zu Ende gefuehrt -> O4 gewinnt dort, hier kein Rollback.
-    # Der Guard sitzt IN complete_section, damit er alle Wege (runtime-Gate,
-    # save_correction-Direktaufrufe) UND frische Prozesse ohne Laufzeit-Gate
-    # gleichermassen durabel abdeckt.
-    stopped, stop_reason = read_table_stop(run_dir, table.table_id)
-    if stopped:
-        return CompletionResult(
-            success=False, already_completed=False, written=False,
-            members_completed=[], missing=[],
-            reason=f"Abschnitt durch Betreiber-Stop abgebrochen: {stop_reason}",
-        )
-
     plan_data = {
         "table_id": table.table_id,
         "members": {
@@ -2165,6 +2150,31 @@ def complete_section(
     }
     if best_effort_applied:
         plan_data["best_effort"] = True
+    # ZR-BETREIBER R2 F2 (2026-11-04): gemeinsamer ATOMARER Entscheid Stop<->
+    # Abschluss. Der Plan-Pin unten ist der Point-of-no-Return; er darf nur
+    # erfolgen, wenn dieser Abschluss den EINEN Entscheid-Slot dieses Tisches
+    # gewinnt. Gewinnt stattdessen der Betreiber-Stop (atomar -- auch bei einem
+    # Interleaving GENAU zwischen Entscheid und Write), wird NICHTS gebunden
+    # (kein Plan, kein Primaersave, kein Lockrelease) -> der Gast behaelt seine
+    # akzeptierte Startdatei mit Originalbytes (O3). Ein bereits committeter
+    # Plan ist oben (Resume-Zweig, plan_path.exists()) abgezweigt; `plan_
+    # committed` HIER bedeutet denselben Abschnitt nach Crash/Neustart ZWISCHEN
+    # Entscheid und Write -> idempotent weiter (kein Rollback, O4). Ein fremder/
+    # beschaedigter Entscheid ('unknown') bindet fail-safe NICHT. Deckt alle
+    # Wege (runtime-Gate, save_correction-Direktaufrufe, frischer Prozess)
+    # durabel ab, da der Entscheid auf Platte liegt.
+    commit_won, decision = try_commit_table_decision(
+        run_dir, table.table_id, "plan_committed", section_id=section_id,
+    )
+    if not commit_won and decision.get("decision") != "plan_committed":
+        return CompletionResult(
+            success=False, already_completed=False, written=False,
+            members_completed=[], missing=[],
+            reason=(
+                "Abschnitt durch Betreiber-Stop abgebrochen (atomarer Entscheid "
+                f"verloren, Slot={decision.get('decision')!r})."
+            ),
+        )
     plan_path.write_text(json.dumps(plan_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     return _resume_and_harvest(

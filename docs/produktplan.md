@@ -8,7 +8,7 @@ Abschnitt schließt, der Gast geht (oder der Host spielt allein weiter), und der
 Gast kehrt später mit seiner **selbst** fortgeschrittenen Figur zurück. Die
 Figur reist dabei real über Export/Import zwischen zwei getrennten Datenwurzeln
 A → B → A. Ein paralleler Fahrplan wird hier bewusst nicht geführt; eine native
-LAN-/Netz-Lobby bleibt getrennt und ist unter „Betreiber- und Mischbetriebsplan"
+LAN-/Netz-Lobby bleibt getrennt und ist unter „Betreiber-, Misch- und Netzbetrieb"
 abgegrenzt und ausdrücklich als noch nicht geliefert gekennzeichnet.
 
 ## Zwei-Wurzel-Modell (A → B → A)
@@ -20,8 +20,8 @@ abgegrenzt und ausdrücklich als noch nicht geliefert gekennzeichnet.
   das Spiel und bleibt ohne ihn ein ehrlicher Teilstand. A nutzt eine bereits
   host-/stackgestützt angelegte Figur und exportiert bzw. importiert sie von
   dort nur noch. Die vom Betreiber freigegebene, hostgestützte Gast-Erschaffung
-  ohne fertiges JSON ist unter „Betreiber- und Mischbetriebsplan" beschrieben
-  und ausdrücklich noch nicht geliefert.
+  ohne fertiges JSON ist mit R2 geliefert (siehe „Geliefert in R2 (Betreiber-
+  Etappe)").
 - **Wurzel B — Hostgerät, voller Stack.** Der Host betreibt Spielleitung und
   eigene Personas. Nur auf B wird ein Tisch tatsächlich gespielt.
 - **Die Figur ist das Reisegut, nicht der Spieler.** Der admittierte Gast spielt
@@ -118,10 +118,11 @@ Store-Tisch real **noch offen** ist, bucht der Admissionsdienst die Roster-
 diese Admissionsbuchung die Bindung am eigentlichen Spielkern **nicht** löst und
 **keinen** Spielstand verwirft oder zurückrollt. Der sichere, kontrollierte Weg
 bleibt der **bestehende** `/pause` am Spielzug-Prompt beziehungsweise ein
-regulärer Debrief/Abschluss. Es gibt hier **keine** automatische
-Bereinigungsgarantie und keinen neuen Abbruchmechanismus; die kontrollierte
-Betreiber-Stop-/Abbruchsteuerung ist Teil der noch nicht gelieferten
-Betreiberetappe (siehe unten).
+regulärer Debrief/Abschluss; zusätzlich steht seit R2 der **kontrollierte
+Betreiber-Stop** und der **echte, nicht-destruktive Abbruch** vor der
+Abschlussentscheidung (siehe „Geliefert in R2 (Betreiber-Etappe)"). Die bloße
+Admissionsbuchung beim Verlassen/Entfernen rollt für sich genommen weiterhin
+nichts zurück.
 
 ### Nachweislage (J1–J8, ursprüngliche Langnamen)
 
@@ -186,6 +187,56 @@ als neue Spielbeweise.
   sowie der reguläre reviewbare PR mit zugeordneter CI sind in der Rückgabe
   (`03_RUECKGABE.md`, `REWORK.json`, `EVIDENCE-MAP.md`) benannt.
 
+## Geliefert in R2 (Betreiber-Etappe)
+
+Die erste Betreiberetappe ist mit R2 **geliefert und gegen echte Ergebnis-Bytes
+belegt**. Sie ergänzt den bestehenden Tisch-/Spielkern chirurgisch; die Spiel-,
+Speicher- und Importpfade bleiben unverändert.
+
+- **Betreiber als eigenständige Rolle am Normalweg** (`mmo_sim/ui/tui.py`,
+  `mmo_sim/core/table_admission.py`). Ein Hostanbieter kann einen Abschnitt für
+  angenommene menschliche Gäste bereitstellen, **ohne selbst mitzuspielen oder
+  eine eigene Spielfigur mitzuführen** — über den **regulären** Tischweg, nicht
+  nur über den Persona-Kurzweg. Die Leitung wird aus dem Roster aufgelöst; ein nur
+  bedienender Betreiber zählt nicht als Mitspieler und erzeugt keinen Phantom-
+  charakter. Die Eingaben von Betreiber-Steuerung und menschlichem Gast werden
+  **eindeutig getrennt geroutet**; eine kollidierende Eingabequelle wird
+  abgewiesen, statt Antworten zu vermischen.
+- **Eine gemeinsame, dauerhafte Stop-/Abschlussentscheidung** (`mmo_sim/core/
+  admission.py`, `mmo_sim/core/store.py`, `mmo_sim/core/table_admission.py`).
+  Zwischen einem Betreiber-Stop und dem Abschnittsabschluss entscheidet **genau
+  ein** neustart-fester atomarer Entscheid pro Tisch (Test-and-Set, Einzel-
+  gewinner) — es gibt kein Zeitfenster, in dem Stop und Abschluss beide „gewinnen".
+  Ein bereits gepinnter Plan bleibt committet (kein Rollback, idempotente
+  Fertigstellung möglich); ein vor dem Pin gewonnener Stop verhindert Plan und
+  Save.
+- **Sauberer Abbruch und sichtbare Speichergrenze.** Vor der verbindlichen
+  Abschlussentscheidung kann der offene Abschnitt **wirklich** abgebrochen werden:
+  Der Gast erhält genau seine vor Spielbeginn gebundene, tatsächlich angenommene
+  Anfangsfassung zurück (Originalbytes, nicht nachgebaut, nicht um ungespeicherte
+  XP/Geld/Items ergänzt), betroffene Bindungen werden gelöst, und er kann erneut
+  teilnehmen — Verwurf ist **nicht** bloß Pause. Ist der Plan bereits angenommen,
+  bleibt der verbindliche Stand erhalten; späte Modellantworten oder Recovery
+  speichern einen wirksam abgebrochenen Abschnitt nicht nachträglich.
+- **Vom Betreiber eng freigegebene Gast-Erschaffung** (`mmo_sim/domain/zeitriss/
+  creation_service.py` als Freigabeschicht + `mmo_sim/ui/tui.py`). Ein Gast ohne
+  fertige Figur stellt eine konkrete Erschaffungsanfrage; der Betreiber bestätigt
+  genau **einen** Erschaffungsvorgang. Erst dieser durable Grant — gegen den
+  persistierten Datensatz geprüft (fehlend/abgelehnt/fremd/veraltet wird vor jedem
+  GM-Aufruf abgewiesen), **ohne** Bezug auf eine Fähigkeitsflagge der aufrufenden
+  Session — erlaubt den bedienten Dialog über **denselben** unveränderten
+  Erschaffungs-/GM-Kern; es entsteht **keine** zweite Erschaffungslogik. Die
+  angenommene Figur wird über den normalen Produktweg gespeichert und ist als
+  persönliches JSON mitnehmbar; ein abgebrochener Entwurf erzeugt keinen
+  erfundenen Save.
+
+Belegt über echte Produkt-/Terminalpfade: deterministische Treiber am Modellrand
+sowie ein persistenter Evidenzlauf, dessen prozessübergreifende Grenzen **echte
+neue `python3`-Interpreter** sind (`subprocess`, inklusive eines harten
+Prozessabbruchs nach dem Plan-Pin und anschließendem idempotentem Abschluss in
+einem frischen Prozess). Gemessene Hashes und äußere Läufe liegen in der Rückgabe
+(`R2-RESOLUTION.json` und das Ergebnis-Manifest).
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
@@ -193,21 +244,26 @@ als neue Spielbeweise.
 - Die Tisch-Geschäftsvorgänge sind so geschnitten, dass sie später transportfähig
   bleiben: ein gemeinsamer, persistenter Admissionsdienst mit klaren Host-only-
   Übergängen, nicht in die Oberfläche eingestreute Sonderfälle.
-- **Keine** automatische Bereinigungsgarantie an der Verlassens-/Pausengrenze
-  (siehe oben). Die kontrollierte Betreiber-Stop-/Abbruchsteuerung ist noch nicht
-  geliefert.
+- Die frühere Lücke an der Verlassens-/Pausengrenze ist mit der jetzt gelieferten
+  Betreiberetappe adressiert: ein kontrollierter Stop und ein echter, nicht-
+  destruktiver Abbruch vor der Abschlussentscheidung stehen (siehe „Geliefert in
+  R2 (Betreiber-Etappe)"). Weiterhin **nicht** geliefert sind LAN/Netz und mehrere
+  gleichzeitige Abschnitte auf einem Host.
 - Kein Billing-, Lobby- oder Netz-Platzhalter wurde eingezogen.
 
-## Betreiber- und Mischbetriebsplan (verbindliche Fortschreibung, noch nicht geliefert)
+## Betreiber-, Misch- und Netzbetrieb (verbindliche Fortschreibung)
 
-Die folgenden Fähigkeiten sind **noch nicht als geliefert oder getestet
-abgenommen**. Sie halten die neue Richtung (Betreiberkontrolle, gemischte
-Terminalplätze) an **dieser** kanonischen Planstelle fest — es gibt keine zweite
+Die **Betreiber-Etappe** dieses Plans — eigenständige Betreiberrolle, erreichbarer
+Stop, sauberer Abbruch vor Commit mit sichtbarer Speichergrenze, vom Betreiber
+freigegebene Gast-Erschaffung — ist mit R2 **geliefert und belegt** (siehe
+„Geliefert in R2 (Betreiber-Etappe)"); die folgenden Absätze halten ihren
+verbindlichen Vertrag fest, der jetzt im Produkt realisiert ist. **Noch nicht als
+geliefert oder getestet abgenommen** bleiben der **Mischbetrieb/LAN** und
+**mehrere gleichzeitige Abschnitte auf einem Host** (am Ende dieses Abschnitts).
+Alles steht an **dieser** einen kanonischen Planstelle — es gibt keine zweite
 dauerhaft gepflegte Repo-Roadmap. Die zugrunde liegende, rein lesende
-Architekturstudie (Betreiberkontrolle und gemischte Clients mit
-risikoorientierten Prüfvorschlägen) liegt als Leseanker im Auftragspaket des
-Nachzugs, **nicht** als Datei im Repository; sie beschreibt geplante Fähigkeiten,
-keine gelaufenen Produktbeweise.
+Architekturstudie liegt als Leseanker im Auftragspaket des Nachzugs, **nicht** als
+Datei im Repository.
 
 **Betreiber ist eine eigenständige Rolle.** Ein Hostanbieter kann einen Abschnitt
 für seine eigenen Personas oder angenommene menschliche Gäste bereitstellen,
@@ -291,17 +347,17 @@ Zusatzfähigkeit zu warten.
 
 ### Feste Reihenfolge
 
-1. R2 schließt den beauftragten lokalen Tisch-/Figurenreiseweg und berichtigt die
-   kanonische Produktprosa; Betreiber- und Mischbetriebsrichtung ist hier jetzt
-   festgehalten.
+1. ✅ **Geliefert (R2):** der beauftragte lokale Tisch-/Figurenreiseweg ist
+   geschlossen und die kanonische Produktprosa berichtigt; Betreiber-, Misch- und
+   Netzbetriebsrichtung ist hier festgehalten.
 2. Die Änderung durchläuft die reguläre Review- und Merge-Freigabe; sie wird
    nicht selbsttätig übernommen.
-3. Eigene Betreiberetappe: Anbieter ohne Spielfigur, öffentliche Zuschaueransicht,
-   erreichbarer Stop, sicherer Abbruch vor Commit, keine Rücksetzung danach,
-   hostgestützte Gast-Erschaffung.
-4. LAN verbindet Terminal-Clients mit demselben Dienst (drei lokale Menschen plus
-   LAN-Gast, gemeinsame/getrennte HQ-Gruppen, erneut angenommene aktuelle
-   Gastfigur, klare Eingabe-/Figurenbindung).
+3. ✅ **Geliefert (R2):** die eigene Betreiberetappe — Anbieter ohne Spielfigur,
+   öffentliche Zuschaueransicht, erreichbarer Stop, sicherer Abbruch vor Commit,
+   keine Rücksetzung danach, hostgestützte Gast-Erschaffung.
+4. **Als Nächstes:** LAN verbindet Terminal-Clients mit demselben Dienst (drei
+   lokale Menschen plus LAN-Gast, gemeinsame/getrennte HQ-Gruppen, erneut
+   angenommene aktuelle Gastfigur, klare Eingabe-/Figurenbindung).
 5. Mehrere parallele Abschnitte auf einem Host und eine mögliche Pause-/Wechsel-/
    Fortsetzungsverwaltung bleiben gesonderte Anschlussfähigkeiten, falls danach
    sinnvoll.
