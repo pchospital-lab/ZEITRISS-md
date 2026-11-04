@@ -237,6 +237,48 @@ Prozessabbruchs nach dem Plan-Pin und anschließendem idempotentem Abschluss in
 einem frischen Prozess). Gemessene Hashes und äußere Läufe liegen in der Rückgabe
 (`R2-RESOLUTION.json` und das Ergebnis-Manifest).
 
+## Geliefert in R3 (Betreiberetappe: erreichbar am Normalweg + prozessfest belegt)
+
+R3 liefert **keine neue Fähigkeit über die Betreiberetappe hinaus**, sondern
+schließt deren Erreichbarkeits- und Dauerhaftigkeitslücke am tatsächlichen
+Terminalstart und belegt sie prozessübergreifend:
+
+- **Erreichbare Betreiber-/Gaststeuerung am echten Launcher** (`scripts/mmo_sim.py`).
+  Die Betriebssteuerung ist jetzt über den **regulären Terminalstart** erreichbar,
+  nicht nur über eine im Test injizierte Kontrollquelle: explizite Kanalflaggen
+  (`--operator-control-fifo`, `--guest-terminal <id>:<in>:<out>`, `--run-dir`,
+  `--states-dir`) binden eine getrennte Kontroll- und eine getrennte Gasteingabe an
+  denselben unveränderten Tisch-/Admissionskern. Ein normaler lokaler Betreiber
+  erreicht damit Stop/Steuerung an einem laufenden Abschnitt; die Eingabetrennung
+  aus R2 bleibt erhalten.
+- **Stop-/Abschluss-/Wiederaufnahmegrenze über echte Prozessgrenzen belegt.** Der
+  dauerhafte Entscheid (Abbruch vor Commit gegen committeten Plan nach Annahme)
+  ist nun in **frischen `python3`-Interpretern** nachgewiesen — inklusive eines
+  harten Prozessabbruchs nach dem Plan-Pin und anschließender idempotenter
+  Fertigstellung in einem neuen Prozess (byteidentische Anfangs-/Primärfassung,
+  kein Phantom-Save, keine Doppelveröffentlichung, kein nachträgliches Speichern
+  eines wirksam abgebrochenen Abschnitts).
+- **Hostlose, vom Betreiber freigegebene Gast-Erschaffung prozessfest belegt.** Der
+  mehrschrittige bediente Erschaffungsdialog über denselben Erschaffungs-/GM-Kern,
+  der durable Grant (fehlend/abgelehnt/fremd/veraltet wird abgewiesen) und der
+  persönliche Save sind über echte neue Prozesse nachgewiesen; ein reiner Gastclient
+  wird dadurch kein eigener GM-Host.
+
+Belegt über vier Ergebnisfamilien (T1–T4) mit **echten privaten Ergebnisdateien**
+und **echten äußeren OS-Läufen** (gemessene Hashes, `argv`/`cwd`/Exit/UTC je Lauf).
+Messwerte und Läufe liegen in der Rückgabe (`R3-RESOLUTION.json` und das
+Ergebnis-Manifest).
+
+**Bekannter offener Vorbefund (nicht durch R3 verursacht, außerhalb des R3-
+Gegenstands).** Der **Tisch-Wiederaufnahme-Komfortweg** (`tisch-start` auf einen
+gebundenen Abschnitt nach Prozess-Neustart) stuft einen über die Admission
+aufgenommenen **menschlichen** Gast-Leiter fälschlich als KI-Persona ein und bricht
+die Fortsetzung ab. Das betrifft den R1-Tisch-/Figurenreiseweg, **nicht** die hier
+belegte Gast-Erschaffung, und blockiert keine gelieferte Betreiber-Etappen-
+Fähigkeit (der prozessfeste Retry läuft über den Abschnitts-/Admissionskern). Er
+ist als offener Vorbefund in `R3-RESOLUTION.json` festgehalten und noch nicht
+behoben.
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
@@ -352,9 +394,14 @@ Zusatzfähigkeit zu warten.
    Netzbetriebsrichtung ist hier festgehalten.
 2. Die Änderung durchläuft die reguläre Review- und Merge-Freigabe; sie wird
    nicht selbsttätig übernommen.
-3. ✅ **Geliefert (R2):** die eigene Betreiberetappe — Anbieter ohne Spielfigur,
-   öffentliche Zuschaueransicht, erreichbarer Stop, sicherer Abbruch vor Commit,
-   keine Rücksetzung danach, hostgestützte Gast-Erschaffung.
+3. ✅ **Geliefert (R2), in R3 am Normalweg erreichbar gemacht und prozessfest
+   belegt:** die eigene Betreiberetappe — Anbieter ohne Spielfigur, öffentliche
+   Zuschaueransicht, erreichbarer Stop, sicherer Abbruch vor Commit, keine
+   Rücksetzung danach, hostgestützte Gast-Erschaffung. R3 bindet die Steuerung an
+   den echten Launcher und weist die Stop-/Abschluss-/Retry-Grenze über echte neue
+   Prozesse nach (siehe „Geliefert in R3"); ein pre-existing, außerhalb des
+   Gegenstands liegender Tisch-Wiederaufnahme-Befund bleibt offen
+   (`R3-RESOLUTION.json`).
 4. **Als Nächstes:** LAN verbindet Terminal-Clients mit demselben Dienst (drei
    lokale Menschen plus LAN-Gast, gemeinsame/getrennte HQ-Gruppen, erneut
    angenommene aktuelle Gastfigur, klare Eingabe-/Figurenbindung).

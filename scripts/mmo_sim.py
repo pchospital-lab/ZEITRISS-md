@@ -21,6 +21,8 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import select
+import stat
 import sys
 from pathlib import Path
 
@@ -117,6 +119,114 @@ def _resolve_host_capable(explicit: bool | None) -> bool:
     return raw.strip().lower() not in ("0", "false", "no", "guest")
 
 
+def _ensure_fifo(path: Path) -> None:
+    """R3 G1 (GUEST-OPERATOR.md B1 "fehlendes Produkt-Wiring"): legt die
+    benannte Pipe fuer `--operator-control-fifo`/`--guest-terminal` an
+    (`os.mkfifo`), falls sie noch nicht existiert -- existiert der Pfad
+    bereits, wird NUR geprueft, dass es tatsaechlich eine FIFO ist (ehrlicher
+    Abbruch statt stillem Fehlverhalten an einer normalen Datei)."""
+    if path.exists():
+        if not stat.S_ISFIFO(path.stat().st_mode):
+            raise SystemExit(f"'{path}' existiert bereits und ist KEINE Named Pipe (FIFO).")
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    os.mkfifo(path)
+
+
+def _fifo_control_line_source(fifo_path: Path):
+    """R3 G1: `TuiSession.operator_control_line_source` ueber eine GETRENNTE
+    lokale Named Pipe statt des mit Spielzuegen geteilten stdin (GUEST-
+    OPERATOR.md B1 "Eingaberouting-Kollision") -- dieselbe nicht-blockierende
+    select()-Backoff-Struktur wie das bestehende `ui/tui.py:_OperatorControl
+    Scope._default_line_source` (0.2s, kein Busy-Spin), nur mit der FIFO statt
+    `sys.stdin` als Quelle. Lazy geoeffnet (`O_NONBLOCK`) beim ERSTEN Aufruf
+    (nicht beim Launcherstart) -- blockiert den Start nicht, falls der
+    Betreiber die Schreibseite der Pipe erst spaeter oeffnet."""
+    state: dict = {"file": None}
+
+    def _source(stop_event) -> str | None:
+        if stop_event.is_set():
+            return None
+        if state["file"] is None:
+            fd = os.open(str(fifo_path), os.O_RDONLY | os.O_NONBLOCK)
+            state["file"] = os.fdopen(fd, "r")
+        f = state["file"]
+        try:
+            ready, _, _ = select.select([f], [], [], 0.2)
+        except (OSError, ValueError):
+            stop_event.wait(0.2)
+            return None
+        if not ready:
+            return None
+        try:
+            line = f.readline()
+        except (OSError, ValueError):
+            return None
+        if line == "":
+            # Kein Schreiber (noch) angeschlossen -- derselbe EOF-Backoff
+            # wie `_default_line_source` bei geschlossenem stdin, kein
+            # Heisslauf.
+            stop_event.wait(0.2)
+            return None
+        return line
+
+    return _source
+
+
+def _fifo_input_fn(fifo_path: Path):
+    """R3 G1: `input_fn` fuer eine getrennte Gast-Client-`TuiSession`
+    (`--guest-terminal`) -- liest Zeilen aus `<in_fifo>` BLOCKIEREND, exakt
+    wie echtes Terminal-stdin dieses Gastes. Lazy geoeffnet beim ERSTEN
+    Aufruf (kein Launcher-Hang, falls der menschliche Gast seine Pipenseite
+    erst spaeter oeffnet). Ein geschlossenes Schreibende (EOF) wird als
+    `EOFError` gemeldet -- derselbe Vertrag wie das eingebaute `input()`
+    (`TuiSession._readline` faengt das bereits in `EndOfInput` um)."""
+    state: dict = {"file": None}
+
+    def _fn(prompt: str = "") -> str:
+        if state["file"] is None:
+            state["file"] = open(fifo_path, "r", encoding="utf-8")
+        line = state["file"].readline()
+        if line == "":
+            raise EOFError(f"Gast-Terminal-FIFO '{fifo_path}' geschlossen (EOF).")
+        return line.rstrip("\n")
+
+    return _fn
+
+
+def _fifo_print_fn(fifo_path: Path):
+    """R3 G1: `print_fn` fuer eine getrennte Gast-Client-`TuiSession`
+    (`--guest-terminal`) -- schreibt nach `<out_fifo>`. `O_RDWR`-geoeffnet
+    (POSIX-Trick fuer benannte Pipes): das Oeffnen selbst blockiert dadurch
+    NICHT darauf, dass bereits ein Leser angeschlossen ist. Das eigentliche
+    Schreiben bleibt unveraendert blockierend, sobald der Pipe-Puffer ohne
+    Leser vollliefe -- identisch zu echtem Terminal-Output an einen (noch)
+    nicht lesenden Client, kein stilles Verwerfen von Ausgaben."""
+    state: dict = {"file": None}
+
+    def _fn(text: str) -> None:
+        if state["file"] is None:
+            fd = os.open(str(fifo_path), os.O_RDWR)
+            state["file"] = os.fdopen(fd, "w", encoding="utf-8")
+        state["file"].write(text + "\n")
+        state["file"].flush()
+
+    return _fn
+
+
+def _parse_guest_terminal_spec(spec: str) -> tuple[str, Path, Path]:
+    """R3 G1: parst `--guest-terminal <guest_id>:<in_fifo>:<out_fifo>` --
+    genau 3 durch ':' getrennte Teile, ehrlicher Abbruch bei falscher Form
+    statt stillem Fehlstart."""
+    parts = spec.split(":")
+    if len(parts) != 3 or not all(parts):
+        raise SystemExit(
+            f"--guest-terminal erwartet '<guest_id>:<in_fifo>:<out_fifo>', bekommen: {spec!r}"
+        )
+    guest_id, in_fifo, out_fifo = parts
+    return guest_id, Path(in_fifo), Path(out_fifo)
+
+
 def main(argv: list[str] | None = None) -> int:
     raw_argv = list(sys.argv[1:] if argv is None else argv)
     if raw_argv and raw_argv[0] == "report":
@@ -135,6 +245,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--participant", default=None, help="bestehende Teilnehmer-ID (sonst wird die zuletzt genutzte wiederverwendet bzw. beim allerersten Lauf eine neue erzeugt)")
     parser.add_argument("--data-dir", default=str(_REPO_ROOT / "internal" / "mmo_sim_data"),
                          help="Datenverzeichnis fuer Onboarding-/Katalog-Journale")
+    # R3 G1 (GUEST-OPERATOR.md B2 "Launcher laesst alle privaten und
+    # Betriebswurzeln gemeinsam aus einem einzigen --data-dir entstehen"):
+    # additive, EINZELN ueberschreibbare Wurzeln -- Default `None` -> wie
+    # bisher aus `--data-dir` abgeleitet (bytegleicher Start ohne diese
+    # Flags). Erlaubt einem Gast einen GENUINELY getrennten privaten
+    # Onboarding-/Katalogbestand (eigenes `--data-dir`) zu behalten, waehrend
+    # er fuer Tischanfragen/-admission dieselbe GETEILTE `run_dir`/
+    # `states_dir` des Anbieters benutzt (die Autoritaet, unter der
+    # `table_admission`/`creation_grants` tatsaechlich entscheiden) -- ohne
+    # dafuer das gesamte `--data-dir` (und damit auch die private
+    # Onboarding-/Katalogwurzel) mit dem Anbieter teilen zu muessen.
+    parser.add_argument(
+        "--run-dir", default=None, metavar="PFAD",
+        help="ueberschreibt die Lauf-/Admissionswurzel einzeln (Default: '<data-dir>/run') -- "
+             "z.B. fuer einen Gast, der dieselbe geteilte Anbieter-run_dir benutzt wie der Host, "
+             "aber eine eigene private '--data-dir' fuer Onboarding/Katalog behaelt.",
+    )
+    parser.add_argument(
+        "--states-dir", default=None, metavar="PFAD",
+        help="ueberschreibt die Persona-State-Wurzel einzeln (Default: '<data-dir>/states').",
+    )
     # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2): explizite
     # Deploy-Entscheidung, s. `_resolve_host_capable`-Docstring -- Default
     # `None` (weder Flag gesetzt) faellt auf `MMO_SIM_HOST_CAPABLE`-Env,
@@ -148,9 +279,36 @@ def main(argv: list[str] | None = None) -> int:
         "--no-host-capable", dest="host_capable", action="store_false",
         help="Gastinstall ohne Hoststack (Wurzel A, design.md §2) -- nur eigene Figur verwalten/Tische anfragen/spielen nach Annahme",
     )
+    # R3 G1 (GUEST-OPERATOR.md B1 "fehlendes Produkt-Wiring"): additive
+    # Launcher-Flags fuer einen auswaehlbaren LOKALEN getrennten Terminal-/
+    # Kontrollanschluss (Named Pipes, kein LAN/Browser/Scheduler) -- Default
+    # `None`/leer -> der normale Start bleibt EXAKT unveraendert (bytegleiches
+    # Solo-/bisheriges Verhalten, s. `_fifo_control_line_source`/
+    # `_fifo_input_fn`/`_fifo_print_fn`-Docstrings).
+    parser.add_argument(
+        "--operator-control-fifo", default=None, metavar="PFAD",
+        help=(
+            "setzt 'session.operator_control_line_source' auf einen Leser, der Kontrollzeilen "
+            "(/stop, /zuschauer) aus DIESER Named Pipe liest statt aus dem mit Spielzuegen "
+            "geteilten stdin -- macht die Betreiberkontrolle waehrend eines offenen Calls "
+            "ueber einen getrennten lokalen Weg erreichbar (G1)."
+        ),
+    )
+    parser.add_argument(
+        "--guest-terminal", dest="guest_terminal", action="append", default=[],
+        metavar="GUEST_ID:IN_FIFO:OUT_FIFO",
+        help=(
+            "wiederholbar -- baut fuer <guest_id> eine getrennte Gast-Client-TuiSession, deren "
+            "Eingabe aus <in_fifo> liest und Ausgabe nach <out_fifo> schreibt, und registriert "
+            "sie via 'register_guest_terminal'. Der menschliche Gast bedient so sein EIGENES "
+            "Terminal (G1)."
+        ),
+    )
     args = parser.parse_args(argv)
 
     data_dir = Path(args.data_dir)
+    run_dir = Path(args.run_dir) if args.run_dir else data_dir / "run"
+    states_dir = Path(args.states_dir) if args.states_dir else data_dir / "states"
     host_capable = _resolve_host_capable(args.host_capable)
     foreign_pid = _foreign_active_lab_owner(data_dir)
     if foreign_pid is not None:
@@ -166,8 +324,8 @@ def main(argv: list[str] | None = None) -> int:
         onboarding_dir=data_dir / "onboarding",
         catalog_dir=data_dir / "catalog",
         participant_id=participant_id,
-        run_dir=data_dir / "run",
-        states_dir=data_dir / "states",
+        run_dir=run_dir,
+        states_dir=states_dir,
         schema_path=schema_path if schema_path.is_file() else None,
         # F5/K2: echter Adapter-Factory (nicht None) -- die tatsaechliche
         # Live-SL-Anbindung (03 §7, OPENWEBUI_API_KEY etc.) bleibt ein
@@ -180,6 +338,34 @@ def main(argv: list[str] | None = None) -> int:
         persona_driver_factory=_default_persona_driver_factory(data_dir),
         host_capable=host_capable,
     )
+    # R3 G1: beide Flags sind additiv und wirken NUR, wenn ausdruecklich
+    # gesetzt -- ein Start ohne sie bleibt die unveraenderte Default-Session
+    # von oben (Solo/bisheriges Verhalten bytegleich).
+    if args.operator_control_fifo:
+        operator_fifo_path = Path(args.operator_control_fifo)
+        _ensure_fifo(operator_fifo_path)
+        session.operator_control_line_source = _fifo_control_line_source(operator_fifo_path)
+    for guest_spec in args.guest_terminal:
+        guest_id, in_fifo_path, out_fifo_path = _parse_guest_terminal_spec(guest_spec)
+        _ensure_fifo(in_fifo_path)
+        _ensure_fifo(out_fifo_path)
+        # Getrennte PRIVATE Onboarding-/Katalogwurzel je Gast (eigener
+        # Figurenbestand) -- `run_dir`/`states_dir` bleiben DIESELBEN wie
+        # die Host-Session (geteilte Tisch-/Admissionskoordination, exakt
+        # derselbe Aufbau wie der bereits bestehende, getestete F1-Mechanismus
+        # in `test_r3_f1_guest_table_service.py`, KEINE zweite Speicherwelt).
+        guest_session = TuiSession(
+            onboarding_dir=data_dir / "guests" / guest_id / "onboarding",
+            catalog_dir=data_dir / "guests" / guest_id / "catalog",
+            participant_id=guest_id,
+            input_fn=_fifo_input_fn(in_fifo_path),
+            print_fn=_fifo_print_fn(out_fifo_path),
+            run_dir=run_dir,
+            states_dir=states_dir,
+            schema_path=schema_path if schema_path.is_file() else None,
+            host_capable=False,
+        )
+        session.register_guest_terminal(guest_id, guest_session)
     try:
         return session.run()
     except KeyboardInterrupt:

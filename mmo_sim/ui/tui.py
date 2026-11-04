@@ -817,6 +817,19 @@ class TuiSession:
         # bestehende Aufrufer ohne `register_guest_terminal` bleibt
         # unveraendert beim geteilten-Terminal-Verhalten.
         self._table_guest_terminals: dict[str, "TuiSession"] = {}
+        # R3 G3 (GUEST-OPERATOR.md B2 "fuehrt die freigegebene Gast-
+        # Erschaffung weiterhin ueber seine eigene GM-Anbindung aus"):
+        # Rueckrichtung zu `_table_guest_terminals` -- `register_guest_
+        # terminal` (s.u.) traegt sich hier auf DIESER (Gast-)Session
+        # unter dem Betreiber-`participant_id` ein, damit ein hostloser
+        # Gast seine eigenen `gast-erschaffung-*`-Befehle auf die
+        # registrierte ANBIETER-Session (`gm_transport_factory`/`run_dir`/
+        # `onboarding_dir`) umleiten kann, OHNE eine eigene SL-Anbindung zu
+        # benoetigen. Leer per Default -- unregistrierte Sessions (jeder
+        # bestehende Aufrufer/Test) bleiben beim alten Verhalten (eigene
+        # `self.run_dir`/`self.onboarding_dir`/`self.gm_transport_factory`,
+        # z.B. geteilte Testwurzeln).
+        self._creation_provider_sessions: dict[str, "TuiSession"] = {}
         # O2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §1d): injizierbare
         # Kontrollzeilen-Quelle fuer den Daemon-Kontroll-Thread, der WAEHREND
         # eines offenen Betreiber-Rundenaufrufs (`_run_table_round`) `/stop`
@@ -844,8 +857,19 @@ class TuiSession:
         bleibt ihre eigene, von dieser Hostsession komplett unabhaengige
         Instanz; diese Methode schreibt NICHTS, sie verdrahtet nur, WESSEN
         `_print`/`_readline_with_controls` `_HumanDriver.decide()` fuer
-        GENAU diesen Teilnehmer aufruft (s. dort)."""
+        GENAU diesen Teilnehmer aufruft (s. dort).
+
+        R3 G3 (GUEST-OPERATOR.md B2, Reuse statt zweiter Registrierungs-
+        methode): derselbe Aufruf traegt zusaetzlich die RUECKRICHTUNG ein
+        (`guest_session._creation_provider_sessions[self.participant_id]
+        = self`), damit `guest_session`s eigene `gast-erschaffung-*`-
+        Befehle (anfragen/abbrechen/dialog) die ANBIETER-Autoritaet
+        (`gm_transport_factory`/`run_dir`/`onboarding_dir` DIESER
+        Hostsession) auffinden koennen, OHNE eine eigene SL-Anbindung zu
+        benoetigen -- derselbe lokale Terminalanschluss bedient beide
+        Zwecke (Tischspiel UND Erschaffung), kein zweiter Mechanismus."""
         self._table_guest_terminals[guest_id] = guest_session
+        guest_session._creation_provider_sessions[self.participant_id] = self
 
     def _writeback_registered_guest_saves(self, members_completed: list[str]) -> None:
         """R4-Nachzug (Briefing A Punkt 2, Generalbefund F1 "persoenliche
@@ -5956,20 +5980,58 @@ class TuiSession:
     # kommt ausschließlich aus `creation_grants` (domain/zeitriss/
     # creation_service.py, NEU) -- eine ID-Tischanfrage/Prompttext ist
     # KEINE Freigabe, `host_capable` ist an keiner Stelle ein Bypass.
+    def _creation_authority(self, operator_id: str) -> tuple["TuiSession", Path | None]:
+        """R3 G3 (GUEST-OPERATOR.md B2 "freigegebene Gast-Erschaffung laeuft
+        ueber den Anbieter, nicht die Gast-eigene GM-Factory"): liefert die
+        Session, deren `run_dir` (Grant-Datei, Admissiongate) und
+        `gm_transport_factory` (tatsaechlicher SL-Aufruf) fuer GENAU diesen
+        `operator_id` massgeblich sind. Ist ueber `register_guest_terminal`
+        eine ANBIETER-Session fuer diesen `operator_id` auf dieser (Gast-)
+        Session registriert, ist das GENAU DIESELBE Autoritaet, unter der
+        `decide_creation_request` entscheidet (symmetrisch zum bestehenden
+        Gast-Tisch-Rueckkanal) -- der Gast braucht dafuer STRUKTURELL keine
+        eigene `gm_transport_factory`/`run_dir`. Ohne Registrierung
+        (Rueckwaertskompatibel, z.B. geteilte Testwurzeln oder ein Gast mit
+        eigenem Host-Stack) bleibt es diese Session selbst -- bytegleiches
+        altes Verhalten.
+
+        BEWUSST NICHT `onboarding_dir`: der Dialog-Scratch/Abschluss bleibt
+        IMMER unter `self.onboarding_dir` (dieser Gast-Session), weil
+        `creation_grants.guest_onboarding_key` fuer die erste Erschaffung
+        (Generation 1) ABSICHTLICH dieselbe PLAIN-Teilnehmerkennung wie
+        `self.participant_id` liefert (s. dessen Docstring: "NUR SO bleiben
+        die bestehenden, an die PLAIN-Teilnehmerkennung gebundenen
+        Lesewege (`_resolve_member`, `_cmd_table_request_join`,
+        `_cmd_export`) fuer die EIGENE Figur eines Gastes nutzbar") -- ein
+        onboarding_dir-Wechsel auf die Anbieterseite wuerde GENAU diese
+        bestehende, bereits korrekte Kopplung brechen (ein frischer Leser
+        auf der privaten Gastwurzel faende die Figur dann nicht mehr)."""
+        provider = self._creation_provider_sessions.get(operator_id)
+        if provider is not None:
+            return provider, provider.run_dir
+        return self, self.run_dir
+
     def _cmd_gast_erschaffung_anfragen(self, args: list[str]) -> None:
         """F4 §1: Gast-erlaubt, NICHT gegatet -- stellt eine KONKRETE
         Erschaffungsanfrage an EINEN benannten Betreiber. Reine Anfrage,
         bindet NOCH KEINEN Grant (das macht ausschliesslich die
         Betreiberentscheidung, s. `_cmd_gast_erschaffung_annehmen`)."""
-        if self.run_dir is None:
-            self._print("Gast-Erschaffungsanfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
-            return
         if not args:
             self._print("Benutzung: 'gast-erschaffung-anfragen <operator_id>'.")
             return
         operator_id = args[0]
+        # R3 G3: die Anfrage bindet unter DERSELBEN `run_dir`-Autoritaet
+        # (ANBIETER, wenn ueber `register_guest_terminal` registriert),
+        # unter der `_cmd_gast_erschaffung_annehmen` (HOST-ONLY, laeuft
+        # bereits auf der Anbieter-Session) spaeter entscheidet -- sonst
+        # saehen Anfrage und Entscheid NICHT denselben Grant (GUEST-
+        # OPERATOR.md B2 "fehlende Verbindung der Datengrenzen").
+        _authority, run_dir = self._creation_authority(operator_id)
+        if run_dir is None:
+            self._print("Gast-Erschaffungsanfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
         record = creation_grants.request_creation(
-            self.run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
+            run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
         )
         self._print(f"Erschaffungsanfrage an Betreiber '{operator_id}' gestellt (status={record['status']}).")
 
@@ -6027,21 +6089,49 @@ class TuiSession:
         complete_with_save`s abandoned-Guard), UND `ensure_valid_grant`
         lehnt eine erneute Wiederaufnahme derselben Generation danach
         strukturell ab (erneute Betreiberfreigabe erforderlich)."""
-        if self.run_dir is None:
-            self._print("Abbruch erfordert eine konfigurierte Laufumgebung (run_dir).")
-            return
         if not args:
             self._print("Benutzung: 'gast-erschaffung-abbrechen <operator_id>'.")
             return
         operator_id = args[0]
+        # R3 G3: dieselbe `run_dir`-Autoritaet wie bei Anfrage/Entscheid/
+        # Dialog (s. `_creation_authority`) -- sonst wuerde ein hostloser,
+        # ueber `register_guest_terminal` angeschlossener Gast hier seine
+        # EIGENE (leere) run_dir pruefen statt der ANBIETER-Grant-Wurzel.
+        # `onboarding_dir` bleibt bewusst `self.onboarding_dir` (s.
+        # `_creation_authority`-Docstring).
+        _authority, run_dir = self._creation_authority(operator_id)
+        if run_dir is None:
+            self._print("Abbruch erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
         try:
             generation = creation_grants.ensure_valid_grant(
-                self.run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
+                run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
             )
         except creation_grants.CreationGrantError as e:
             self._print(f"Abbruch nicht moeglich: {e}")
             return
         onboarding_key = creation_grants.guest_onboarding_key(self.participant_id, generation)
+        # R3 G4/B3b (GUEST-OPERATOR.md B3b "idempotente Fertigstellung
+        # dauerhaft blockiert"): VOR dem durablen `onboarding.abandon` den
+        # Onboarding-State lesen (reine Lesefunktion, kein Seiteneffekt).
+        # Eine bereits ANGENOMMENE Figur (`status=="completed"`, echter
+        # `final_save` vorhanden) darf dieser Befehl NICHT mehr auf
+        # "abandoned" setzen -- sonst lehnt `ensure_valid_grant` danach
+        # jede weitere Wiederaufnahme als "veraltet" ab und der Zweig
+        # `state.status=="completed" -> _finish_granted_guest_creation`
+        # (oben, ~6082-6087) wird nie mehr erreicht (idempotente
+        # Fertigstellung dauerhaft blockiert). Nur ein noch unverbindlicher
+        # Entwurf (in_progress/kein State) wird wie bisher durabel
+        # aufgegeben.
+        state = onboarding.peek(self.onboarding_dir, onboarding_key)
+        if state is not None and state.status == "completed":
+            self._print(
+                "Gast-Erschaffung nicht abbrechbar: die Ergebnisfassung wurde bereits angenommen -- "
+                "ein Entwurfs-Abbruch wuerde die noch offene Fertigstellung blockieren. Mit "
+                f"'gast-erschaffung-dialog {operator_id}' idempotent fertigstellen (KEIN Verwurf "
+                "einer bereits angenommenen Figur)."
+            )
+            return
         try:
             onboarding.abandon(self.onboarding_dir, onboarding_key)
         except ValueError as e:
@@ -6062,17 +6152,31 @@ class TuiSession:
         Aufruf (auch jeder Wiederaufnahme) prueft `creation_grants.ensure_
         valid_grant` einen durablen Betreiber-Grant. Fehlend/abgelehnt/
         fremd/veraltet -> kein GM-Aufruf, kein Save (F4 §2). `host_capable`
-        spielt dabei STRUKTURELL keine Rolle (kein Bypass, s. F4-Report)."""
-        if self.run_dir is None:
-            self._print("Gast-Erschaffung erfordert eine konfigurierte Laufumgebung (run_dir).")
-            return
+        spielt dabei STRUKTURELL keine Rolle (kein Bypass, s. F4-Report).
+
+        R3 G3 (GUEST-OPERATOR.md B2): der Dialog laeuft mit der
+        `gm_transport_factory`/`run_dir` der ANBIETER-Autoritaet aus
+        `_creation_authority` -- bei einem ueber `register_guest_terminal`
+        angeschlossenen hostlosen Gast ist das die registrierte Host-
+        Session; ein Gast mit eigenem Host-Stack (Rueckwaertskompatibel,
+        keine Registrierung) bleibt bei seiner EIGENEN Konfiguration. Die
+        Ein-/Ausgabe (`self._readline_with_controls`/`self._print` in
+        `_guest_get_reply` unten) UND der Dialog-Scratch/Abschluss
+        (`onboarding_dir`, s. `_creation_authority`-Docstring) bleiben
+        IMMER DIESE (Gast-)Session -- der Gast bedient seinen Dialog an
+        seinem EIGENEN Terminal und seiner EIGENEN privaten Onboarding-
+        Wurzel, nur die SL-Anbindung/Grant-Autoritaet kommt vom Anbieter."""
         if not args:
             self._print("Benutzung: 'gast-erschaffung-dialog <operator_id>'.")
             return
         operator_id = args[0]
+        authority, run_dir = self._creation_authority(operator_id)
+        if run_dir is None:
+            self._print("Gast-Erschaffung erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
         try:
             generation = creation_grants.ensure_valid_grant(
-                self.run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
+                run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
             )
         except creation_grants.CreationGrantError as e:
             self._print(f"Gast-Erschaffung abgelehnt (kein gueltiger Betreiber-Grant): {e}")
@@ -6083,22 +6187,28 @@ class TuiSession:
             # F4 §5: unterbrochene Veroeffentlichung -- dieselbe, bereits
             # real erhaltene `final_save`-Fassung idempotent fertigstellen,
             # KEIN zweiter GM-Aufruf.
-            self._finish_granted_guest_creation(state.final_save, generation)
+            self._finish_granted_guest_creation(
+                state.final_save, generation, operator_id, grant_run_dir=run_dir,
+            )
             return
-        if self.gm_transport_factory is None:
+        if authority.gm_transport_factory is None:
             self._print(
                 "Gast-Erschaffung erfordert eine konfigurierte SL-Anbindung (gm_transport_factory) "
-                "fuer den echten Erschaffungsdialog -- hier nicht konfiguriert, kein Dialogstart."
+                "fuer den echten Erschaffungsdialog -- hier nicht konfiguriert (weder eigene noch "
+                "ueber den Anbieter registrierte), kein Dialogstart."
             )
             return
         import inspect
         try:
-            accepts_id = len(inspect.signature(self.gm_transport_factory).parameters) >= 1
+            accepts_id = len(inspect.signature(authority.gm_transport_factory).parameters) >= 1
         except (TypeError, ValueError):
             accepts_id = False
         onboarding_chat_id = f"onboarding-{onboarding_key}"
         try:
-            gm_transport = self.gm_transport_factory(onboarding_chat_id) if accepts_id else self.gm_transport_factory()
+            gm_transport = (
+                authority.gm_transport_factory(onboarding_chat_id)
+                if accepts_id else authority.gm_transport_factory()
+            )
         except Exception:
             self._print(self._opaque_boundary_error("Gast-Erschaffung: SL-Anbindung nicht verfuegbar"))
             return
@@ -6136,15 +6246,20 @@ class TuiSession:
             return ReplyResult(kind="answer", text=raw)
 
         outcome = run_admitted_creation_dialog(
-            run_dir=self.run_dir, onboarding_dir=self.onboarding_dir, participant_id=onboarding_key,
+            run_dir=run_dir, onboarding_dir=self.onboarding_dir, participant_id=onboarding_key,
             turn_idx_start=turn_idx, initial_outgoing=initial_outgoing, gm_transport=gm_transport,
             get_reply=_guest_get_reply, harvest_validator=ZeitrissHarvestValidator(),
             print_fn=self._print, role="creation_dialog",
         )
         if outcome.status == "completed":
-            self._finish_granted_guest_creation(outcome.save_block, generation)
+            self._finish_granted_guest_creation(
+                outcome.save_block, generation, operator_id, grant_run_dir=run_dir,
+            )
 
-    def _finish_granted_guest_creation(self, save_block: dict, generation: int) -> None:
+    def _finish_granted_guest_creation(
+        self, save_block: dict, generation: int, operator_id: str | None = None,
+        *, grant_run_dir: "Path | None" = None,
+    ) -> None:
         """F4 §3/§5: schlanker, idempotenter Publikationsabschluss fuer
         eine Betreiber-freigegebene Gast-Erschaffung -- reuse derselben
         Domaenen-Primitiven wie der Hostpfad `_finish_new_character_
@@ -6160,7 +6275,46 @@ class TuiSession:
         gewahrt (dieselben Primitiven, kein zweiter Publikationsweg) -- nur
         die host-spezifischen Aktivfiguren-Wechsel-/Sperr-/Einladungsteile
         entfallen (ein frisch freigegebener Gast hat per Definition noch
-        keine andere aktive Figur zum Wechseln/Sperren)."""
+        keine andere aktive Figur zum Wechseln/Sperren).
+
+        R3 G4/B3a (GUEST-OPERATOR.md B3a "publiziert OHNE erneute Grant-
+        Pruefung"): der Grant wurde bisher nur EINMAL vor dem (unter
+        Umstaenden mehrschrittigen, GM-blockierenden) Dialog geprueft.
+        Wird der Grant waehrend eines offenen Dialogs/Retries vom Betreiber
+        zwischenzeitlich abgebrochen (`onboarding.abandon` auf derselben
+        Generation), durfte das Ergebnis trotzdem noch publiziert werden.
+        Deshalb hier -- VOR jedem Katalog-/Current-Write -- `creation_
+        grants.ensure_valid_grant` ERNEUT fuer genau (`operator_id`,
+        `self.participant_id`) pruefen; derselbe Grantdienst wie am
+        Dialogeinstieg, keine zweite Autoritaet. `operator_id` additiv mit
+        Default `None` (bestehende direkte Retry-Aufrufer bytegleich, s.
+        `test_zr_betreiber_r2_f4_gast_erschaffung_produktweg_2026_11_04.py`
+        `_finish_granted_guest_creation(block, 1)`): nur WENN der Aufrufer
+        (die beiden echten Produktaufrufstellen oben) den Betreiber kennt
+        und mitgibt, wird erneut geprueft. `grant_run_dir` (R3 G3, additiv,
+        Default `None` -> `self.run_dir`): die ECHTE Grant-`run_dir`-
+        Autoritaet kann bei einem ueber den Anbieter laufenden Dialog
+        (`_creation_authority`) von `self` abweichen (ANBIETER- statt
+        Gast-Wurzel) -- die beiden Aufrufstellen in `_cmd_gast_
+        erschaffung_dialog` geben sie explizit mit; der direkte Testaufruf
+        oben bleibt beim alten Fallback. `onboarding_dir` fuer den
+        Grant-Check bleibt dagegen IMMER `self.onboarding_dir` (dieselbe
+        Begruendung wie in `_creation_authority`: `guest_onboarding_key`
+        bindet Generation 1 an die PLAIN-Gastkennung in der EIGENEN
+        Onboarding-Wurzel)."""
+        if operator_id is not None:
+            try:
+                creation_grants.ensure_valid_grant(
+                    grant_run_dir if grant_run_dir is not None else self.run_dir,
+                    self.onboarding_dir,
+                    operator_id=operator_id, guest_id=self.participant_id,
+                )
+            except creation_grants.CreationGrantError as e:
+                self._print(
+                    f"Gast-Erschaffung nicht publiziert: Grant ist zwischenzeitlich ungueltig "
+                    f"geworden ({e}) -- kein Katalog-/Current-Write, Vorgang bleibt ehrlich offen."
+                )
+                return
         candidate_char_id = zeitriss_saves.block_char_id(save_block)
         if candidate_char_id is None:
             self._print(
@@ -7424,7 +7578,7 @@ class TuiSession:
                     # existiert keine adressierbare Stopautoritaet.
                     if operator_table_key is not None and outer.run_dir is not None:
                         try:
-                            table_admission.request_table_stop(
+                            payload = table_admission.request_table_stop(
                                 outer.run_dir, table_key=operator_table_key,
                                 operator_id=outer.participant_id, table_id=table.table_id,
                                 reason=(
@@ -7432,14 +7586,38 @@ class TuiSession:
                                     "echter Verwurf VOR der Entscheidung."
                                 ),
                             )
-                            outer._finalize_genuine_table_abort(lobby, table, operator_table_key)
-                            io._print(
-                                "Abschnitt wirklich verworfen (/abbrechen) -- ENDGUELTIG, kein "
-                                "Fortsetzen moeglich, kein Rollback bereits angenommenen "
-                                "Fortschritts. Betroffene eigene Figurenbindung wird am sicheren "
-                                "Ende freigegeben; erneute Tischsuche/-anfrage ueber den normalen "
-                                "Produktweg moeglich."
-                            )
+                            # R3 G2 (STOP-BOUNDARY.md §2 "ignoriert den
+                            # Rueckgabewert vollstaendig"): denselben
+                            # gewonnenen `decision`-Entscheid auswerten wie
+                            # `_OperatorControlScope._handle_stop` (663-679)
+                            # -- NUR ein tatsaechlich hier gewonnenes
+                            # 'stopped' darf den echten Verwurf-Lifecycle
+                            # ausloesen. Ein bereits VOR diesem Stop
+                            # gewonnenes 'plan_committed' (der Abschluss hat
+                            # den gemeinsamen atomaren Slot schon gewonnen)
+                            # darf WEDER Locks/Store/Admission schliessen
+                            # NOCH 'verworfen' melden.
+                            decided = payload.get("decision")
+                            if decided == "stopped":
+                                outer._finalize_genuine_table_abort(lobby, table, operator_table_key)
+                                io._print(
+                                    "Abschnitt wirklich verworfen (/abbrechen) -- ENDGUELTIG, kein "
+                                    "Fortsetzen moeglich, kein Rollback bereits angenommenen "
+                                    "Fortschritts. Betroffene eigene Figurenbindung wird am sicheren "
+                                    "Ende freigegeben; erneute Tischsuche/-anfrage ueber den normalen "
+                                    "Produktweg moeglich."
+                                )
+                            elif decided == "plan_committed":
+                                io._print(
+                                    "Spielstand uebernommen; Abschluss noch offen -- kein Rollback; "
+                                    "nur neue Spielzuege gesperrt. Der bereits angenommene Fortschritt "
+                                    "wird regulaer fertiggestellt, KEIN Verwurf."
+                                )
+                            else:
+                                io._print(
+                                    f"'/abbrechen' ohne Wirkung -- der gemeinsame Entscheid ist "
+                                    f"bereits auf {decided!r} gefallen, kein erneuter Verwurf."
+                                )
                         except table_admission.TableAdmissionError as e:
                             io._print(
                                 f"'/abbrechen' konnte den Betreiber-Stop nicht setzen ({e}) -- "
