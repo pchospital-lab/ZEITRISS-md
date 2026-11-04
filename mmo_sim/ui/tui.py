@@ -29,6 +29,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -733,11 +734,35 @@ class TuiSession:
         persona_driver_factory: Callable[[str], object] | None = None,
         ascii_fallback: bool = False,
         host_capable: bool = True,
+        input_ready_fn: Callable[[float], bool] | None = None,
     ):
         self.onboarding_dir = Path(onboarding_dir)
         self.catalog_dir = Path(catalog_dir)
         self.participant_id = participant_id
         self._input = input_fn or input
+        # R4 FIX6 (ZR-BETREIBER-GASTERSCHAFFUNG-20261104-R4, "Keine
+        # konkurrierenden Leser desselben Eingabekanals"): optionaler,
+        # NICHT-konsumierender Bereitschafts-Check ("liegt bereits eine
+        # vollstaendige Zeile zum Lesen vor, OHNE sie zu konsumieren?") fuer
+        # genau DIESEN `input_fn`. Default `None` fuer JEDEN bestehenden
+        # Aufrufer (eingebautes `input`, jeder Test-Stub ohne dieses Keyword)
+        # -- `_readline_guest_menu` unten faellt dann auf den unveraenderten
+        # `_readline` zurueck (bytegleich). Nur `scripts/mmo_sim.py` setzt
+        # dies fuer eine per `--guest-terminal` aufgebaute FIFO-Session
+        # (s. dort `_FifoInputReader.ready`).
+        self._input_ready_fn = input_ready_fn
+        # R4 FIX6: Park-Flag -- waehrend ein host-getriebener Round-/
+        # Dialog-Read fuer GENAU dieses (als Gast-Terminal registrierte)
+        # Teilnehmer-Terminal aktiv ist (s. `_HumanDriver.decide`), signalisiert
+        # dies dem eigenen Menue-Loop-Thread (`_readline_guest_menu`), die
+        # FIFO NICHT zu konsumieren. Default clear, fuer JEDE Session
+        # irrelevant, die nie als Gast-Terminal registriert wird (Default-
+        # Solo/Operator bleibt unberuehrt -- niemand setzt das Flag).
+        self._host_terminal_claimed = threading.Event()
+        # R4 FIX6: erst `register_guest_terminal` (unten) setzt dies auf
+        # `True` -- nur DANN liest `_readline_guest_menu` getimed/Claim-
+        # bewusst statt des bisherigen direkten `_readline`.
+        self._is_registered_guest_terminal = False
         # R12-SAVECOMPAT (03_TERMINAL_UND_BILD.md): derselbe `print_fn`-
         # Rohaufruf wie bisher ("l print_fn or print"), aber JEDER Aufruf
         # geht zusaetzlich durch `rendering.render_for_terminal` -- EIN
@@ -870,6 +895,14 @@ class TuiSession:
         Zwecke (Tischspiel UND Erschaffung), kein zweiter Mechanismus."""
         self._table_guest_terminals[guest_id] = guest_session
         guest_session._creation_provider_sessions[self.participant_id] = self
+        # R4 FIX6 (ZR-BETREIBER-GASTERSCHAFFUNG-20261104-R4, "Keine
+        # konkurrierenden Leser desselben Eingabekanals"): markiert
+        # `guest_session` als registriertes Gast-Terminal -- NUR dann liest
+        # ihr eigener Menue-Loop (`run()` -> `_readline_guest_menu`) getimed
+        # und parkt waehrend eines aktiven `_host_terminal_claimed`-Claims
+        # (s. `_HumanDriver.decide`), statt wie bisher blockierend direkt
+        # gegen dieselbe FIFO zu konkurrieren.
+        guest_session._is_registered_guest_terminal = True
 
     def _writeback_registered_guest_saves(self, members_completed: list[str]) -> None:
         """R4-Nachzug (Briefing A Punkt 2, Generalbefund F1 "persoenliche
@@ -947,6 +980,65 @@ class TuiSession:
             return self._input(prompt)
         except EOFError as e:
             raise EndOfInput() from e
+
+    def _readline_guest_menu(self, prompt: str) -> str:
+        """R4 FIX6 (ZR-BETREIBER-GASTERSCHAFFUNG-20261104-R4, "Keine
+        konkurrierenden Leser desselben Eingabekanals; keine zufaellige
+        Befehlsweitergabe an den GM"): Einzelleser-Koordination fuer den
+        Menue-Loop-Toplevel-Read (`run()`, Boot-Auswahl) EINES per
+        `register_guest_terminal` angeschlossenen Gast-Terminals.
+
+        Hintergrund (Drift-Befund): spielt ein so angeschlossener Gast eine
+        Tischrunde, liest `_HumanDriver.decide()` (Betreiber-Thread) ueber
+        `io._readline_with_controls` DIESELBE `in_fifo` wie dieser Menue-
+        Loop (Gast-Thread) -- zwei konkurrierende Leser auf einem
+        Eingabekanal, eine Rundenantwort konnte zufaellig im Menue-Dispatch
+        statt beim Round-Reader landen.
+
+        Mechanismus (Suspend-Gate): OHNE registriertes Gast-Terminal ODER
+        OHNE einen vom Aufrufer gesetzten `_input_ready_fn` (jeder
+        bestehende Aufrufer/Test, Default-Solo-/Operatorsession) bleibt dies
+        bytegleich der direkte `_readline`-Aufruf. NUR fuer ein registriertes
+        Gast-Terminal MIT `_input_ready_fn` (von `scripts/mmo_sim.py` fuer
+        die FIFO-Eingabe gesetzt): `_input_ready_fn(timeout)` prueft NICHT-
+        KONSUMIEREND (select-basiert, dieselbe 0.2s-Backoff-Kadenz wie der
+        bestehende Kontroll-FIFO-Leser `_fifo_control_line_source`), ob
+        bereits eine vollstaendige Zeile wartet, OHNE sie zu lesen. Ist
+        `_host_terminal_claimed` gesetzt (ein host-getriebener Round-/
+        Dialog-Read fuer GENAU dieses Terminal laeuft gerade, s.
+        `_HumanDriver.decide`), wird NICHT konsumiert -- diese Methode
+        parkt (kurzer Sleep) und prueft erneut, bis der Claim wieder frei
+        ist. Erst wenn der Claim zum Zeitpunkt des tatsaechlichen Konsums
+        (dem nachfolgenden `_readline`-Aufruf) frei ist, wird die Zeile
+        gelesen -- der erneute Claim-Check UNMITTELBAR vor diesem Aufruf
+        schliesst das Fenster, in dem ein Claim genau zwischen Bereitschafts-
+        Check und Konsum dazukommen koennte (Zeile bleibt bis dahin
+        unkonsumiert in der FIFO, kein Verlust, da ein reiner `select`-
+        Bereitschafts-Check nichts liest).
+
+        Kein Hang/Deadlock: der Round-Reader (`_HumanDriver.decide`) claimt
+        VOR seinem eigenen `_readline_with_controls`-Aufruf und clearet IMMER
+        in einem `finally` danach (s. dort) -- der Claim ist also niemals
+        dauerhaft gesetzt, dieser Menue-Loop wartet hoechstens fuer die
+        Dauer EINES echten Spielzugs/einer Reflexion, nie unbegrenzt."""
+        if not self._is_registered_guest_terminal or self._input_ready_fn is None:
+            return self._readline(prompt)
+        while True:
+            if self._host_terminal_claimed.is_set():
+                time.sleep(0.05)
+                continue
+            try:
+                ready = self._input_ready_fn(0.2)
+            except (OSError, ValueError):
+                ready = False
+            if not ready:
+                continue
+            if self._host_terminal_claimed.is_set():
+                # Claim ist genau zwischen Bereitschafts-Check und Konsum
+                # dazugekommen -- NICHT konsumieren (die Zeile bleibt
+                # ungelesen in der FIFO), erneut parken.
+                continue
+            return self._readline(prompt)
 
     # UX04/05 (02 §C, "Einmaliger zentraler, kontextbewusster Bedienvertrag
     # statt ad-hoc-Abfangen in zehn Dialogen"): EIN gemeinsamer Satz
@@ -1787,6 +1879,20 @@ class TuiSession:
         from ..core.persona_state import PersonaStateStore
 
         humans = {pid for pid, _name in self._local_round_list_humans()}
+        # R4 FIX2 (G2, SESSION-AND-CRITIC.md §2): die lokale `Participant
+        # Registry` deckt NUR Menschen am GETEILTEN Geraet (A24) ab -- ein
+        # ueber `register_guest_terminal` admittierter Gast (z.B. ein
+        # menschlicher Tisch-LEADER mit eigenem FIFO-Terminal) steht dort
+        # NIE, weil er nie denselben lokalen Registrierungsweg durchlaeuft.
+        # `_table_guest_terminals` ist dieselbe bereits bestehende, ehrlich
+        # gekennzeichnete Autoritaet (s. `register_guest_terminal`-
+        # Docstring: "EIN EHRLICH gekennzeichneter In-Process-Adapter ...
+        # steht fuer einen separaten lokalen Teilnehmer-Client") -- ein
+        # dort registrierter Schluessel ist PER DEFINITION ein echter
+        # Mensch mit eigenem Terminal, nie eine KI-Persona. Additiv: nimmt
+        # der bestehenden Registry-Quelle nichts weg, erweitert sie nur um
+        # eine zweite, ebenfalls bereits echte Autoritaetsquelle.
+        humans |= set(self._table_guest_terminals.keys())
 
         def _is_persona_member(pid: str) -> bool:
             return pid != self.participant_id and pid not in humans
@@ -6076,6 +6182,58 @@ class TuiSession:
             return
         self._print(f"Gast '{guest_id}' abgelehnt.")
 
+    def _cmd_gast_erschaffung_stop(self, args: list[str]) -> None:
+        """R4 FIX3 (B2/G4, GUEST-OPERATOR.md B2/STOP-BOUNDARY-Kontext):
+        HOST-ONLY -- adressierter Betreiberstop fuer GENAU die bereits
+        freigegebene (`status="approved"`) Generation von `guest_id`,
+        erreichbar waehrend der Erschaffungsrequest noch OFFEN ist (der
+        Gast kann mitten in seinem eigenen, blockierenden Dialogaufruf
+        stecken -- dieser Befehl laeuft trotzdem sofort, weil er NUR den
+        gemeinsamen Entscheid-Slot adressiert, nicht den laufenden
+        GM-Call selbst unterbricht). Anders als `_cmd_gast_erschaffung_
+        ablehnen` (nur fuer eine noch unentschiedene `requested`-Anfrage)
+        wirkt dieser Befehl auf eine BEREITS angenommene Freigabe -- der
+        bisher fehlende Weg, eine `approved`-Generation zu widerrufen
+        (B2 "Grant-Service widerruft nur requested, nicht approved").
+        Reuse des bestehenden Stop-/Entscheidmechanismus (`creation_
+        service.request_creation_stop`, derselbe atomare Slot wie `try_
+        commit_creation_accept` in `_finish_granted_guest_creation`) --
+        gebunden an Operation/Generation statt Tischidentitaet, kein
+        zweiter Erschaffungsloop."""
+        self._require_host("Gast-Erschaffung stoppen")
+        if self.run_dir is None:
+            self._print("Stop erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        if not args:
+            self._print("Benutzung: 'gast-erschaffung-stop <guest_id>'.")
+            return
+        guest_id = args[0]
+        try:
+            payload = creation_grants.request_creation_stop(
+                self.run_dir, operator_id=self.participant_id, guest_id=guest_id,
+            )
+        except creation_grants.CreationGrantError as e:
+            self._print(f"Stop nicht moeglich: {e}")
+            return
+        decided = payload.get("decision")
+        generation = payload.get("generation")
+        if decided == "stopped":
+            self._print(
+                f"Betreiber-Stop fuer Gast '{guest_id}' (Generation {generation}) gesetzt -- "
+                "dieser Entwurf ist jetzt terminal (keine weitere Frage/Publikation)."
+            )
+        elif decided == "accepted":
+            self._print(
+                f"Betreiber-Stop fuer Gast '{guest_id}' (Generation {generation}) registriert, ABER "
+                "die Fertigstellung hat den gemeinsamen Entscheid bereits VOR diesem Stop gewonnen "
+                "('accepted') -- die bereits angenommene Figur wird NICHT zurueckgerollt."
+            )
+        else:
+            self._print(
+                f"Betreiber-Stop fuer Gast '{guest_id}' (Generation {generation}) registriert "
+                f"(gemeinsamer Entscheid bereits auf {decided!r} gefallen) -- kein weiterer Effekt."
+            )
+
     def _cmd_gast_erschaffung_abbrechen(self, args: list[str]) -> None:
         """F4 §4: expliziter, DURABLER Abbruch GENAU DIESES freigegebenen
         Erschaffungsvorgangs -- ein EIGENER Befehl, AUSSERHALB des
@@ -6303,9 +6461,10 @@ class TuiSession:
         bindet Generation 1 an die PLAIN-Gastkennung in der EIGENEN
         Onboarding-Wurzel)."""
         if operator_id is not None:
+            effective_grant_run_dir = grant_run_dir if grant_run_dir is not None else self.run_dir
             try:
                 creation_grants.ensure_valid_grant(
-                    grant_run_dir if grant_run_dir is not None else self.run_dir,
+                    effective_grant_run_dir,
                     self.onboarding_dir,
                     operator_id=operator_id, guest_id=self.participant_id,
                 )
@@ -6313,6 +6472,31 @@ class TuiSession:
                 self._print(
                     f"Gast-Erschaffung nicht publiziert: Grant ist zwischenzeitlich ungueltig "
                     f"geworden ({e}) -- kein Katalog-/Current-Write, Vorgang bleibt ehrlich offen."
+                )
+                return
+            # R4 FIX3 (B2/G4): Stop und verbindliche Annahme ordnen sich an
+            # EINER gemeinsamen dauerhaften Entscheidung -- `ensure_valid_
+            # grant` oben ist nur ein (bereits gefallenen Entscheid lesender)
+            # Fast-Pfad; der eigentliche Race wird HIER atomar entschieden
+            # (`try_commit_table_decision`s `O_CREAT|O_EXCL`, derselbe
+            # Mechanismus wie `store.complete_section` vs. `table_admission.
+            # request_table_stop`). Gewinnt ein zwischenzeitlich gesetzter
+            # Betreiber-Stop (`request_creation_stop`) dieses Rennen, bleibt
+            # dieser Entwurf terminal: die Antwort ist bereits durabel
+            # verbucht (Onboarding-Steps/Request-Ledger, unveraendert), aber
+            # KEIN Katalog-/Current-Write, kein weiterer Dialogschritt
+            # (`ensure_valid_grant` lehnt danach strukturell ab). Ein bereits
+            # EIGENER frueherer Gewinn ('accepted', idempotenter Retry)
+            # laesst die Publikation unveraendert durch.
+            _accept_won, accept_decision = creation_grants.try_commit_creation_accept(
+                effective_grant_run_dir, operator_id=operator_id, guest_id=self.participant_id,
+                generation=generation,
+            )
+            if accept_decision.get("decision") != "accepted":
+                self._print(
+                    f"Gast-Erschaffung nicht publiziert: ein Betreiber-Stop hat den gemeinsamen "
+                    f"Entscheid fuer Generation {generation} bereits gewonnen -- dieser Entwurf ist "
+                    "terminal, kein Katalog-/Current-Write, keine weitere Frage/Erschaffungsrequest."
                 )
                 return
         candidate_char_id = zeitriss_saves.block_char_id(save_block)
@@ -6364,9 +6548,25 @@ class TuiSession:
             onboarding.ensure_participant_persona_state(
                 ps_store, self.states_dir, self.participant_id, candidate_char_id, save_block,
             )
-            core_store.publish_current_save(
-                self.run_dir, self.participant_id, save_block, ps_store, self.states_dir,
-            )
+            # R4 FIX4 (B3/G4, GUEST-OPERATOR.md §6): idempotenter
+            # Kurzschluss -- `publish_current_save` schreibt IMMER eine
+            # NEUE Version + erhoeht `seq`, unabhaengig vom Inhalt (store.py
+            # kennt keinen Vergleich). Ein identischer Retry DIESER bereits
+            # angenommenen Fassung (z.B. erneuter 'gast-erschaffung-dialog'
+            # auf einen schon `completed`-Stand) darf deshalb KEINEN neuen
+            # Current-/Versionsuebergang erzeugen -- reiner Lesevergleich
+            # (derselbe Current-Leseweg wie jede andere Current-Lektuere)
+            # VOR dem Write: traegt der Current fuer GENAU diese Operation
+            # bereits exakt `save_block`, ist nichts zu publizieren. Die
+            # allgemeine `publish_current_save`-Semantik fuer eine ECHTE
+            # neue Publikation (abweichender Inhalt) bleibt unveraendert.
+            already_current = core_store.load_current_save(
+                self.run_dir, self.participant_id, ps_store, self.states_dir,
+            ) == save_block
+            if not already_current:
+                core_store.publish_current_save(
+                    self.run_dir, self.participant_id, save_block, ps_store, self.states_dir,
+                )
         try:
             catalog.bind_for_section(self.catalog_dir, self.participant_id, candidate_char_id, has_open_section=False)
         except catalog.ActiveBindingError:
@@ -7544,9 +7744,27 @@ class TuiSession:
                 # angeschlossenen Gast (`io is not outer`) ist `io` ohnehin
                 # bereits GENAU diese Person -- dieselbe Methode, derselbe
                 # Vertrag.
-                text, control = io._readline_with_controls(
-                    prompt, context="Spielzug", history=history, speaker_pid=self._pid,
-                )
+                #
+                # R4 FIX6 (ZR-BETREIBER-GASTERSCHAFFUNG-20261104-R4, "Keine
+                # konkurrierenden Leser desselben Eingabekanals"): fuer einen
+                # per `register_guest_terminal` angeschlossenen Gast (`io is
+                # not outer`) claimt dieser host-getriebene Read `io`s
+                # Terminal span-genau um den einzigen konsumierenden Aufruf
+                # -- `io`s eigener Menue-Loop-Thread (`_readline_guest_menu`)
+                # parkt waehrend dieses Claims und konsumiert nicht aus
+                # derselben FIFO. Das `finally` claert IMMER, auch bei
+                # Exception (z.B. EndOfInput/'/pause' innerhalb des
+                # Readers) -- niemals ein dauerhaft haengender Claim.
+                claims_guest_terminal = io is not outer
+                if claims_guest_terminal:
+                    io._host_terminal_claimed.set()
+                try:
+                    text, control = io._readline_with_controls(
+                        prompt, context="Spielzug", history=history, speaker_pid=self._pid,
+                    )
+                finally:
+                    if claims_guest_terminal:
+                        io._host_terminal_claimed.clear()
                 if control in ("pause", "zurueck"):
                     # 02 §C: '/pause'/'/zurueck' waehrend eines offenen
                     # Abschnitts bedeuten Pause/Beenden, kein fachlicher
@@ -8483,7 +8701,13 @@ class TuiSession:
                 table_status_lines=self._own_table_status_lines(),
             ))
             try:
-                raw_choice = self._readline("Auswahl: ").strip()
+                # R4 FIX6: Einzelleser-Koordination -- fuer ein per
+                # `register_guest_terminal` angeschlossenes Gast-Terminal
+                # parkt dieser Read waehrend eines aktiven host-getriebenen
+                # Round-/Dialog-Claims (s. `_readline_guest_menu`-Docstring);
+                # jede andere Session (Default/Solo/Operator) bleibt
+                # bytegleich beim bisherigen direkten `_readline`.
+                raw_choice = self._readline_guest_menu("Auswahl: ").strip()
             except EndOfInput:
                 self._print("\nEingabe beendet (EOF) — sicher pausiert, kein weiterer Modellaufruf.")
                 return 0
@@ -8563,6 +8787,8 @@ class TuiSession:
                     self._cmd_gast_erschaffung_annehmen(extra_tokens)
                 elif choice == "gast-erschaffung-ablehnen":
                     self._cmd_gast_erschaffung_ablehnen(extra_tokens)
+                elif choice == "gast-erschaffung-stop":
+                    self._cmd_gast_erschaffung_stop(extra_tokens)
                 elif choice == "gast-erschaffung-abbrechen":
                     self._cmd_gast_erschaffung_abbrechen(extra_tokens)
                 elif choice == "gast-erschaffung-dialog":

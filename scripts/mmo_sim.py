@@ -24,6 +24,7 @@ import os
 import select
 import stat
 import sys
+import threading
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -173,25 +174,61 @@ def _fifo_control_line_source(fifo_path: Path):
     return _source
 
 
-def _fifo_input_fn(fifo_path: Path):
-    """R3 G1: `input_fn` fuer eine getrennte Gast-Client-`TuiSession`
+class _FifoInputReader:
+    """R3 G1 + R4 FIX6 (ZR-BETREIBER-GASTERSCHAFFUNG-20261104-R4, "Keine
+    konkurrierenden Leser desselben Eingabekanals"): `input_fn` (ueber
+    `read_line`) fuer eine getrennte Gast-Client-`TuiSession`
     (`--guest-terminal`) -- liest Zeilen aus `<in_fifo>` BLOCKIEREND, exakt
     wie echtes Terminal-stdin dieses Gastes. Lazy geoeffnet beim ERSTEN
-    Aufruf (kein Launcher-Hang, falls der menschliche Gast seine Pipenseite
-    erst spaeter oeffnet). Ein geschlossenes Schreibende (EOF) wird als
-    `EOFError` gemeldet -- derselbe Vertrag wie das eingebaute `input()`
-    (`TuiSession._readline` faengt das bereits in `EndOfInput` um)."""
-    state: dict = {"file": None}
+    Aufruf (`_ensure_open`, geteilt von `read_line` UND `ready` -- EIN
+    offenes Dateiobjekt, kein zweiter Oeffnungsversuch), kein Launcher-Hang,
+    falls der menschliche Gast seine Pipenseite erst spaeter oeffnet. Ein
+    geschlossenes Schreibende (EOF) wird als `EOFError` gemeldet -- derselbe
+    Vertrag wie das eingebaute `input()` (`TuiSession._readline` faengt das
+    bereits in `EndOfInput` um).
 
-    def _fn(prompt: str = "") -> str:
-        if state["file"] is None:
-            state["file"] = open(fifo_path, "r", encoding="utf-8")
-        line = state["file"].readline()
+    R4 FIX6 ergaenzt `ready(timeout)`: ein NICHT-KONSUMIERENDER
+    Bereitschafts-Check (reines `select.select` auf demselben, bereits
+    geoeffneten Dateiobjekt -- liest NICHTS, verschiebt die Leseposition
+    NICHT) -- `TuiSession._readline_guest_menu` nutzt dies, um VOR jedem
+    tatsaechlichen Konsum zu pruefen, ob eine Zeile wartet, OHNE sie dem
+    parallel moeglichen host-getriebenen Round-Reader (`_HumanDriver.
+    decide`) wegzuschnappen (s. dortiger Claim-Mechanismus)."""
+
+    def __init__(self, fifo_path: Path):
+        self._path = fifo_path
+        self._file = None
+
+    def _ensure_open(self) -> None:
+        if self._file is None:
+            self._file = open(self._path, "r", encoding="utf-8")
+
+    def ready(self, timeout: float) -> bool:
+        self._ensure_open()
+        try:
+            readable, _, _ = select.select([self._file], [], [], timeout)
+        except (OSError, ValueError):
+            return False
+        return bool(readable)
+
+    def read_line(self, prompt: str = "") -> str:
+        self._ensure_open()
+        line = self._file.readline()
         if line == "":
-            raise EOFError(f"Gast-Terminal-FIFO '{fifo_path}' geschlossen (EOF).")
+            raise EOFError(f"Gast-Terminal-FIFO '{self._path}' geschlossen (EOF).")
         return line.rstrip("\n")
 
-    return _fn
+
+def _fifo_input_fn(fifo_path: Path):
+    """Rueckwaerts-kompatibler duenner Wrapper um `_FifoInputReader.
+    read_line` -- unveraenderter Vertrag/Name fuer bestehende Aufrufer, die
+    NUR den konsumierenden `input_fn` brauchen (z.B. `tests/mmo_sim/
+    drive_r3_g5_evidence_2026_11_04.py`, kein FIX6-Claim-Szenario dort,
+    daher kein `ready`-Bedarf). `main()` unten konstruiert fuer
+    `--guest-terminal` stattdessen DIREKT einen `_FifoInputReader`, damit
+    `read_line` UND `ready` dasselbe Dateiobjekt teilen (s. Klassen-
+    Docstring)."""
+    return _FifoInputReader(fifo_path).read_line
 
 
 def _fifo_print_fn(fifo_path: Path):
@@ -345,6 +382,24 @@ def main(argv: list[str] | None = None) -> int:
         operator_fifo_path = Path(args.operator_control_fifo)
         _ensure_fifo(operator_fifo_path)
         session.operator_control_line_source = _fifo_control_line_source(operator_fifo_path)
+    # R4 FIX1 (B1/G3, GUEST-OPERATOR.md §4/B1 "fehlendes Produkt-Wiring"):
+    # eine via `register_guest_terminal` angeschlossene `guest_session`
+    # bekam bisher NIE ihren eigenen Befehlsdispatch -- ihre FIFOs wurden
+    # angelegt/verdrahtet, aber nichts las je aus `in_fifo`/schrieb nach
+    # `out_fifo` (nur `session.run()` des Betreibers unten lief). Jede
+    # registrierte `guest_session` bekommt jetzt NEBENLAEUFIG ihren
+    # eigenen `run()`-Dispatch in einem EIGENEN Thread -- derselbe
+    # bestehende Menue-/Befehlsdispatch (inkl. `gast-erschaffung-*`,
+    # bereits auf die Anbieter-Autoritaet verdrahtet, s. `register_guest_
+    # terminal`), nur nebenlaeufig zum Betreiber-Dispatch statt gar nicht
+    # gestartet. GETRENNTE FIFOs je Teilnehmer (keine konkurrierenden
+    # Leser desselben Kanals) -- kein zweiter Hoststack, kein LAN/Browser/
+    # Netzdienst, nur ein zusaetzlicher lokaler Thread fuer denselben
+    # Prozess. `daemon=True`: ein (noch) unverbundenes/blockierend auf
+    # seiner eigenen FIFO lesendes Gastterminal darf den Prozessaustritt
+    # NIE aufhalten (derselbe Daemon-Stil wie `_OperatorControlScope`s
+    # Kontroll-Thread).
+    guest_threads: list[threading.Thread] = []
     for guest_spec in args.guest_terminal:
         guest_id, in_fifo_path, out_fifo_path = _parse_guest_terminal_spec(guest_spec)
         _ensure_fifo(in_fifo_path)
@@ -354,18 +409,33 @@ def main(argv: list[str] | None = None) -> int:
         # die Host-Session (geteilte Tisch-/Admissionskoordination, exakt
         # derselbe Aufbau wie der bereits bestehende, getestete F1-Mechanismus
         # in `test_r3_f1_guest_table_service.py`, KEINE zweite Speicherwelt).
+        # R4 FIX6: EIN geteilter `_FifoInputReader` liefert sowohl den
+        # konsumierenden `input_fn` (`read_line`) ALS AUCH den nicht-
+        # konsumierenden Bereitschafts-Check (`ready`) fuer dieselbe,
+        # EINMAL geoeffnete FIFO -- `TuiSession._readline_guest_menu`
+        # nutzt `ready` NUR fuer dieses per `register_guest_terminal`
+        # angeschlossene Gast-Terminal, um waehrend eines aktiven
+        # host-getriebenen Round-/Dialog-Claims (s. `_HumanDriver.decide`)
+        # zu parken statt zu konkurrieren.
+        in_fifo_reader = _FifoInputReader(in_fifo_path)
         guest_session = TuiSession(
             onboarding_dir=data_dir / "guests" / guest_id / "onboarding",
             catalog_dir=data_dir / "guests" / guest_id / "catalog",
             participant_id=guest_id,
-            input_fn=_fifo_input_fn(in_fifo_path),
+            input_fn=in_fifo_reader.read_line,
             print_fn=_fifo_print_fn(out_fifo_path),
             run_dir=run_dir,
             states_dir=states_dir,
             schema_path=schema_path if schema_path.is_file() else None,
             host_capable=False,
+            input_ready_fn=in_fifo_reader.ready,
         )
         session.register_guest_terminal(guest_id, guest_session)
+        guest_thread = threading.Thread(
+            target=guest_session.run, name=f"guest-terminal-{guest_id}", daemon=True,
+        )
+        guest_thread.start()
+        guest_threads.append(guest_thread)
     try:
         return session.run()
     except KeyboardInterrupt:
@@ -385,6 +455,14 @@ def main(argv: list[str] | None = None) -> int:
             quota_pause_reset_hint(str(exc)), rate_limited=quota_pause_is_rate_limited(str(exc)),
         ))
         return 0
+    finally:
+        # R4 FIX1: sauberes Shutdown/Join -- ein bereits abgeschlossenes
+        # Gastterminal (z.B. EOF/`beenden`) wird hier eingesammelt; ein
+        # noch blockierend auf seiner eigenen FIFO lesendes Gastterminal
+        # bleibt dank `daemon=True` oben ohne Haengen beim Prozessaustritt
+        # (derselbe kurze Join-Versuch wie `_OperatorControlScope.__exit__`).
+        for guest_thread in guest_threads:
+            guest_thread.join(timeout=0.5)
 
 
 if __name__ == "__main__":

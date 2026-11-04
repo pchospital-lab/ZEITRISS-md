@@ -269,15 +269,43 @@ und **echten äußeren OS-Läufen** (gemessene Hashes, `argv`/`cwd`/Exit/UTC je 
 Messwerte und Läufe liegen in der Rückgabe (`R3-RESOLUTION.json` und das
 Ergebnis-Manifest).
 
-**Bekannter offener Vorbefund (nicht durch R3 verursacht, außerhalb des R3-
-Gegenstands).** Der **Tisch-Wiederaufnahme-Komfortweg** (`tisch-start` auf einen
-gebundenen Abschnitt nach Prozess-Neustart) stuft einen über die Admission
-aufgenommenen **menschlichen** Gast-Leiter fälschlich als KI-Persona ein und bricht
-die Fortsetzung ab. Das betrifft den R1-Tisch-/Figurenreiseweg, **nicht** die hier
-belegte Gast-Erschaffung, und blockiert keine gelieferte Betreiber-Etappen-
-Fähigkeit (der prozessfeste Retry läuft über den Abschnitts-/Admissionskern). Er
-ist als offener Vorbefund in `R3-RESOLUTION.json` festgehalten und noch nicht
-behoben.
+**Dieser in R3 offene Vorbefund ist mit R4 behoben** (siehe „Geliefert in R4").
+Der **Tisch-Wiederaufnahme-Weg** (`tisch-start` auf einen gebundenen Abschnitt nach
+Prozess-Neustart) stufte einen über die Admission aufgenommenen **menschlichen**
+Gast-Leiter fälschlich als KI-Persona ein und brach die Fortsetzung ab. R4 erhält
+beim Wiederaufnehmen die tatsächliche menschliche Mitgliedschaft aus den legitimen
+Rollen-/Anschlussdaten; der normale Fortsetzen-Weg führt wieder bis zum Abschluss
+und zur persönlichen Save-Rückgabe, ohne KI-Persona-Ersatz.
+
+## Geliefert in R4 (Betreiberetappe: normale Bedienwege geschlossen)
+
+R4 liefert **keine neue Fähigkeit über die Betreiberetappe hinaus**, sondern schließt
+die zuletzt offenen normalen Nutzerwege und macht sie prozessfest bedienbar:
+
+- **Gast-Erschaffung am echten Launcher durchgängig bedienbar.** Ein über
+  `--guest-terminal` angeschlossener Gast bedient seine Erschaffungs-/Menübefehle
+  jetzt tatsächlich über sein eigenes Terminal (eigener nebenläufiger Dispatch) auf
+  der mit dem Anbieter verbundenen Autorität — ohne eigenen Hoststack. Pro
+  Gast-Terminal liest zu jedem Zeitpunkt **nur ein** Leser (Menübefehl erreicht das
+  Menü, Tischzug die Runde), keine konkurrierende Fehlzustellung.
+- **Erreichbarer Betreiberstop der offenen Gast-Erschaffung.** Der berechtigte
+  Betreiber kann eine bereits freigegebene Erschaffung während des offenen
+  Anbieterrequests adressiert stoppen (`gast-erschaffung-stop <id>`); Stop und
+  verbindliche Annahme ordnen sich an **einer** gemeinsamen dauerhaften Entscheidung
+  (Operation/Generation). Ein gewonnener Stop macht den Entwurf terminal; eine späte
+  Antwort wird verbucht, aber nicht veröffentlicht.
+- **Einmalige Veröffentlichung auch beim identischen Retry.** Eine bereits
+  vollständig publizierte Erschaffung erzeugt bei identischem Retry **keine** zweite
+  Current-Version mehr; die bereits angenommene Figur bleibt idempotent fertigstellbar.
+- **Normaler menschlicher Gast-Resume bis zum Abschluss** (behobener R3-Vorbefund
+  oben): der menschliche Gast-Leiter überlebt den `tisch-start`-Resume mit richtiger
+  Rolle und erreicht Final plus persönliche Save-Rückgabe.
+
+Belegt über dieselben vier Ergebnisfamilien (T1–T4) am **echten Launcher/Dispatch**
+mit **echten äußeren OS-Läufen** (literale `argv`, `cwd`, Exit, UTC je Lauf) und echten
+privaten Ergebnisdateien; der Anbieter-Modellrand ist dabei eine klar gekennzeichnete
+deterministische Grenzinjektion, kein Live-Modelllauf. Messwerte und Läufe liegen in
+der Rückgabe (`R4-RESOLUTION.json` und das Ergebnis-Manifest).
 
 ## Jetzt (bewusste Grenzen dieser Etappe)
 

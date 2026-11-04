@@ -39,6 +39,7 @@ import time
 from pathlib import Path
 
 from . import onboarding as onboarding_lib
+from ...core.admission import read_table_decision, try_commit_table_decision
 
 
 class CreationGrantError(RuntimeError):
@@ -196,6 +197,19 @@ def decide_creation_request(run_dir: str | Path, *, operator_id: str, guest_id: 
     return record
 
 
+def _creation_decision_id(operator_id: str, guest_id: str, generation: int) -> str:
+    """R4 FIX3 (B2/G4, ZR-BETREIBER-GASTERSCHAFFUNG-20261103-R4): Schluessel
+    des EINEN gemeinsamen atomaren Entscheid-Slots (`core.admission.
+    try_commit_table_decision`/`read_table_decision`, bisher nur fuer
+    Tisch-Stops/`complete_section` genutzt) fuer GENAU diese freigegebene
+    Gast-Operation+Generation -- derselbe generische Mechanismus, nur
+    gebunden an (Betreiber, Gast, Generation) statt an eine Store-
+    `table_id`. Eindeutig, solange `operator_id`/`guest_id` sich nicht
+    GENAU in der Trennzeichenfolge ueberlappen (dieselbe akzeptierte
+    Kollisionsgrenze wie `_safe_table_component`s Zeichenersetzung)."""
+    return f"creation-{operator_id}-{guest_id}-gen{generation}"
+
+
 def ensure_valid_grant(
     run_dir: str | Path, onboarding_dir: str | Path, *, operator_id: str, guest_id: str,
 ) -> int:
@@ -212,7 +226,18 @@ def ensure_valid_grant(
         diesen bewusst aufgegebenen Entwurf NICHT wiederbeleben (nutzt den
         bestehenden `onboarding.complete_with_save`-Abandoned-Guard bereits
         HIER, VOR jedem weiteren Schritt). Eine NEUE Betreiberfreigabe
-        bindet eine NEUE Generation mit eigenem, unberuehrtem Schluessel."""
+        bindet eine NEUE Generation mit eigenem, unberuehrtem Schluessel.
+      - gestoppt (R4 FIX3, B2/G4): ein Betreiber-Stop (`request_creation_
+        stop`) hat den gemeinsamen Entscheid-Slot fuer GENAU diese
+        Generation bereits gewonnen ('stopped', ODER ein beschaedigter/
+        fremder Entscheid -- fail-closed wie `read_table_decision`) --
+        dieser Entwurf ist terminal, weder ein weiterer Dialogschritt
+        (`_cmd_gast_erschaffung_dialog`) noch eine Publikation
+        (`_finish_granted_guest_creation`) ist danach noch moeglich. Ein
+        bereits GEWONNENER Annahme-Entscheid ('accepted', s.
+        `try_commit_creation_accept`) blockiert HIER NICHT -- die
+        Fertigstellung einer bereits angenommenen Figur bleibt idempotent
+        erreichbar (completed-Schutz, R3 G3/R4 FIX4)."""
     run_dir = Path(run_dir)
     record = _load(_grant_path(run_dir, guest_id))
     if record is None:
@@ -235,7 +260,74 @@ def ensure_valid_grant(
             f"Grant fuer guest_id={guest_id!r}/Generation {generation} ist veraltet (dieser "
             "Erschaffungsvorgang wurde abgebrochen) -- erneute Betreiberfreigabe erforderlich."
         )
+    decision = read_table_decision(run_dir, _creation_decision_id(operator_id, guest_id, generation))
+    if decision is not None and decision.get("decision") != "accepted":
+        raise CreationGrantError(
+            f"Grant fuer guest_id={guest_id!r}/Generation {generation} ist durch einen adressierten "
+            "Betreiber-Stop beendet (terminal) -- kein weiterer Dialogschritt/Publikation moeglich."
+        )
     return generation
+
+
+def request_creation_stop(run_dir: str | Path, *, operator_id: str, guest_id: str) -> dict:
+    """R4 FIX3 (B2/G4, ZR-BETREIBER-GASTERSCHAFFUNG-20261103-R4): adressierter
+    Betreiberstop fuer GENAU die bereits gebundene Generation eines
+    freigegebenen Gastes, waehrend der Erschaffungsrequest noch offen ist
+    (vor der Annahme/Publikation). AUTORITAET: `operator_id` MUSS der im
+    Grant-Record gebundene Betreiber sein, der Grant MUSS `status=
+    "approved"` mit einer bereits gebundenen Generation tragen -- Ziel+
+    Generation sind damit SCHON VOR diesem Aufruf durch die urspruengliche
+    Freigabe (`decide_creation_request`) gebunden, nicht erst hier
+    erfunden. Reuse des bestehenden Tisch-Stop-Entscheid-Mechanismus
+    (`core.admission.try_commit_table_decision`, bisher nur fuer Store-
+    `table_id`s genutzt) -- derselbe EINE atomare Entscheid-Slot, den auch
+    `try_commit_creation_accept` (vor jeder Publikation) zu gewinnen
+    versucht. Gewinnt der Stop ('stopped'), ist der Entwurf terminal (s.
+    `ensure_valid_grant`). Hat die Annahme den Slot bereits gewonnen
+    ('accepted'), bleibt der Stop wirkungslos fuer den bereits
+    angenommenen Fortschritt (derselbe 'plan_committed'-Stil wie
+    `table_admission.request_table_stop`) -- der Rueckgabewert nennt den
+    tatsaechlich gefallenen Entscheid ehrlich."""
+    run_dir = Path(run_dir)
+    record = _load(_grant_path(run_dir, guest_id))
+    if record is None or record.get("status") != "approved":
+        raise CreationGrantError(
+            f"kein freigegebener Erschaffungsvorgang fuer guest_id={guest_id!r} -- Stop nicht adressierbar."
+        )
+    if record.get("operator_id") != operator_id:
+        raise CreationGrantError(
+            f"operator_id={operator_id!r} ist nicht Betreiber dieser Freigabe "
+            f"({record.get('operator_id')!r}) -- Stop abgelehnt (fremd)."
+        )
+    generation = record.get("generation")
+    if generation is None:
+        raise CreationGrantError(f"Grant fuer guest_id={guest_id!r} hat keine gebundene Generation.")
+    decision_id = _creation_decision_id(operator_id, guest_id, generation)
+    stop_won, decision = try_commit_table_decision(
+        run_dir, decision_id, "stopped", operator_id=operator_id, guest_id=guest_id, generation=generation,
+    )
+    decided = "stopped" if stop_won else str(decision.get("decision", "unknown"))
+    return {
+        "decision": decided, "generation": generation, "guest_id": guest_id, "operator_id": operator_id,
+    }
+
+
+def try_commit_creation_accept(
+    run_dir: str | Path, *, operator_id: str, guest_id: str, generation: int,
+) -> tuple[bool, dict]:
+    """R4 FIX3 (B2/G4): Gegenstueck zu `request_creation_stop` -- versucht
+    denselben gemeinsamen Entscheid-Slot mit 'accepted' atomar zu
+    gewinnen, GENAU VOR der ersten Katalog-/Current-Publikation in
+    `ui/tui.py:_finish_granted_guest_creation`. `(won, decision)`: bei
+    `won=True` (bzw. `decision["decision"]=="accepted"` bei einem eigenen
+    frueheren idempotenten Gewinn) ist die Publikation zulaessig; gewinnt
+    statt dessen ein bereits gesetzter Stop, liefert `decision["decision"]
+    =="stopped"` -- der Aufrufer veroeffentlicht dann NICHT."""
+    run_dir = Path(run_dir)
+    decision_id = _creation_decision_id(operator_id, guest_id, generation)
+    return try_commit_table_decision(
+        run_dir, decision_id, "accepted", operator_id=operator_id, guest_id=guest_id, generation=generation,
+    )
 
 
 def grant_status(run_dir: str | Path, guest_id: str) -> dict | None:
