@@ -588,7 +588,7 @@ def send_correction_turn(
 
 @dataclass
 class CorrectionOutcome:
-    status: str  # "accepted" | "hold"
+    status: str  # "accepted" | "hold" | "stopped"
     block: dict | None = None
     reason: str = ""
     drift: list = field(default_factory=list)
@@ -757,6 +757,7 @@ def pursue_single_figure_correction(
     original_request_id: str | None = None, original_evidence: dict | None = None,
     original_role: str | None = None, original_turn_idx: int | None = None, original_generation: int | None = None,
     restrict_drift_to_core_identity: bool = False,
+    stop_check=None,
 ) -> CorrectionOutcome:
     """Treibt bis zu `max_attempts` zusätzliche SL-Ausgaben für EINE Figur
     (01_AUFTRAG_SAVEGATE.md §C) -- wiederaufnehmbar (Restart lädt denselben
@@ -1214,6 +1215,16 @@ def pursue_single_figure_correction(
     # verbleibenden `MAX_ADDITIONAL_REQUESTS`-Budget.
     recovery_extra_attempt_opened = bool(record.get("recovery_extra_attempt"))
     while True:
+        # R5 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §2,
+        # GUEST-OPERATOR.md §3): die Korrekturstrecke honoriert denselben
+        # adressierten Betreiber-Stop wie der aeussere Dialogloop -- VOR jedem
+        # weiteren Korrektur-Request (`send_correction_turn` -> `gm_transport.
+        # turn`) fuer genau diese laufende Operation/Generation pruefen. Gewinnt
+        # der Stop, endet die Korrektur terminal ('stopped'); der aeussere
+        # Dialog meldet dann ebenfalls 'stopped' und publiziert nicht. `stop_
+        # check is None` (Mensch-/Community-/jeder bestehende Aufrufer): bytegleich.
+        if stop_check is not None and stop_check():
+            return CorrectionOutcome(status="stopped", reason="operator_creation_stop_committed")
         # Restart-Sicherheit (SC09/SC13): `state` unterscheidet "noch kein
         # Slot fuer die naechste Antwort eroeffnet" (`validating` -- gilt
         # initial UND nach jeder vollstaendig ausgewerteten, nicht

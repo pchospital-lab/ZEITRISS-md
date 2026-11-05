@@ -482,6 +482,93 @@ def run_family_r5c() -> None:
     })
 
 
+# ───────────────── r5d: A / Korrekturstrecke honoriert den Stop ───────────
+
+def run_family_r5d() -> None:
+    """Veras R5-Blocker: der innere Save-Korrektur-Loop
+    (`core.save_correction.pursue_single_figure_correction`) sandte bis zu
+    MAX_ADDITIONAL_REQUESTS=3 Korrektur-Requests OHNE den Stop zu prüfen. r5d
+    belegt am ECHTEN `run_admitted_creation_dialog`-Pfad (reale admission-/
+    request_ledger-Maschinerie auf write_test_profile): nach gewonnenem Stop
+    WÄHREND der Korrektursequenz wird KEIN weiterer Korrektur-Request gesendet
+    und der Dialog endet terminal 'stopped'."""
+    szene = "r5d"
+    utc_start = r4._utc(time.time())
+    import mmo_sim.domain.zeitriss.save_correction as scd
+    from mmo_sim.core.admission import write_test_profile as _wtp
+    from mmo_sim.core.creation_service import run_admitted_creation_dialog as _dialog
+    from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator as _HV
+
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, onboarding_dir = root / "run", root / "onboarding"
+        _wtp(run_dir)
+        participant_id = "guest_r5d"
+        onboarding.start_or_resume(onboarding_dir, participant_id)
+        char_id = "CHR-R5D-01"
+        invalid = full_v7_save(char_id, name="GastR5D")
+        invalid["economy"] = {"wallets": {char_id: 500}}  # schema-ungültig -> Korrekturschleife
+        invalid_text = "```json\n" + json.dumps(invalid, ensure_ascii=False) + "\n```"
+
+        state = {"flag": False, "calls": []}
+
+        class _StopAfterFirstCorrectionGm:
+            # Call 1 (Initialturn) -> ungültiger Save (triggert Korrektur).
+            # Call 2 (erster Korrektur-Request) -> ungültig, DANACH Stop gewonnen.
+            # Call 3+ DARF mit dem R5-Fix NICHT mehr erfolgen.
+            def turn(self, turn_idx, user_text, output_limit_tokens=None):
+                state["calls"].append(turn_idx)
+                content = invalid_text
+                if len(state["calls"]) >= 2:
+                    state["flag"] = True  # Betreiber-Stop ab jetzt gewonnen
+                return {"content": content, "usage": {}, "sources": [], "latency_s": 0.0, "chat_id": "r5d"}
+
+            def usage_summary(self):
+                return {}
+
+        def stop_check():
+            return state["flag"]
+
+        gm = _StopAfterFirstCorrectionGm()
+        outcome = _dialog(
+            run_dir=run_dir, onboarding_dir=onboarding_dir, participant_id=participant_id,
+            turn_idx_start=0, initial_outgoing="Erschaffung starten.",
+            gm_transport=gm, get_reply=lambda ti, sl: None, harvest_validator=_HV(),
+            role="creation_dialog", stop_check=stop_check,
+        )
+        assert outcome.status == "stopped", (
+            f"R5D: nach gewonnenem Stop in der Korrekturstrecke muss der Dialog terminal 'stopped' "
+            f"melden, nicht {outcome.status!r} (reason={outcome.reason!r})."
+        )
+        assert len(state["calls"]) == 2, (
+            f"R5D: GENAU 2 GM-Calls erwartet (Initialturn + 1 Korrektur-Request, dann Stop) -- "
+            f"ohne den Fix liefe die Korrekturschleife bis {scd.MAX_ADDITIONAL_REQUESTS}+1 Calls: {state['calls']}"
+        )
+        # Beleg: der Korrektur-Record wurde angelegt (die Strecke WURDE betreten)
+        repair_key = scd.creation_repair_key(participant_id, char_id)
+        import mmo_sim.core.save_correction as sc
+        rec = sc.load_record(run_dir, repair_key)
+        record_present = rec is not None
+        r4._write_export_json(szene, "r5d_summary.json", {
+            "outcome_status": outcome.status, "outcome_reason": outcome.reason,
+            "gm_call_count": len(state["calls"]), "gm_call_turn_idxs": state["calls"],
+            "max_additional_requests": scd.MAX_ADDITIONAL_REQUESTS,
+            "correction_record_present": record_present,
+            "note": "A/Korrekturstrecke (Veras R5-Blocker geschlossen): pursue_single_figure_correction "
+                    "prüft jetzt vor jedem Korrektur-Request den adressierten Stop (stop_check), gibt bei "
+                    "gewonnenem Stop 'stopped' zurück; run_admitted_creation_dialog meldet 'stopped' und "
+                    "publiziert nicht. Ohne Fix: bis zu MAX_ADDITIONAL_REQUESTS weitere Requests.",
+        })
+    utc_end = r4._utc(time.time())
+    r4._MANIFEST["runs"].append({
+        "szene": szene, "label": "r5d_correction_loop_honors_stop", "argv": [sys.executable, "-B", __file__],
+        "cwd": str(_REPO_ROOT), "utc_start": utc_start, "utc_end": utc_end, "exit": 0,
+        "stdout_path": None, "stderr_path": None,
+        "note": "C/A in-process: run_admitted_creation_dialog mit immer-ungültigem Save + stop_check, das nach "
+                "dem ersten Korrektur-Request umschlägt. Beweis: genau 2 GM-Calls, Dialog 'stopped'.",
+    })
+
+
 def main() -> int:
     import shutil
     if _RESULTS_ROOT.exists():
@@ -489,7 +576,8 @@ def main() -> int:
     _RESULTS_ROOT.mkdir(parents=True)
     r4._MANIFEST["files"] = []
     r4._MANIFEST["runs"] = []
-    families = [("r5a", run_family_r5a), ("r5b", run_family_r5b), ("r5c", run_family_r5c)]
+    families = [("r5a", run_family_r5a), ("r5b", run_family_r5b),
+                ("r5c", run_family_r5c), ("r5d", run_family_r5d)]
     failed = 0
     for name, fn in families:
         try:

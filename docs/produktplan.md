@@ -317,7 +317,8 @@ oben sachlich:
   Entwurf terminal" galt nur für die Publikation: der innere Erschaffungsdialog sandte nach gewonnenem
   Stop noch einen weiteren Anbieterrequest. R5 prüft die gemeinsame Stop-Entscheidung jetzt vor **jedem**
   weiteren Request für genau diese Operation/Generation (`mmo_sim/core/creation_service.py` Loop-Gate +
-  `mmo_sim/domain/zeitriss/creation_service.py:creation_stop_committed`); nach gewonnenem Stop endet der
+  `mmo_sim/domain/zeitriss/creation_service.py:creation_stop_committed`), einschließlich der internen
+  Save-Korrekturschleife (`mmo_sim/core/save_correction.py:pursue_single_figure_correction`); nach gewonnenem Stop endet der
   Weg terminal ohne dritten Request, die bereits offene Antwort bleibt ehrlich verbucht.
 - **Erwartete Generation am Abschluss gebunden.** Der Abschluss prüft jetzt, dass der aktuell gültige
   Grant dieselbe Generation trägt wie der laufende Vorgang; ein neuer Grant einer anderen Generation gibt

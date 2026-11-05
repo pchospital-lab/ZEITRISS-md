@@ -409,6 +409,12 @@ def run_admitted_creation_dialog(
                     # verengt sich dadurch auf Identitaet/Kerninhalt statt
                     # jedes Flavor-Blatts (s. Parameter-Docstring dort).
                     restrict_drift_to_core_identity=True,
+                    # R5 A (01_NACHZUG.md §2, GUEST-OPERATOR.md §3): derselbe
+                    # Stop-Check wie der aeussere Loop -- die interne Korrektur-
+                    # schleife sendet nach gewonnenem Stop KEINEN weiteren
+                    # Request mehr (sonst dieselbe Fehlerklasse wie der geruegte
+                    # dritte Request, eine Ebene tiefer).
+                    stop_check=stop_check,
                 )
 
             if checked_block is not None:
@@ -434,6 +440,18 @@ def run_admitted_creation_dialog(
                 # 'fehlender Block'-Textes.
                 correction = _attempt_correction(None, forced_conflicts=extraction_conflicts)
 
+            # R5 A (01_NACHZUG.md §2, GUEST-OPERATOR.md §3): hat der adressierte
+            # Betreiber-Stop die gemeinsame Entscheidung waehrend der Korrektur-
+            # strecke gewonnen, endet der Dialog terminal -- wie am aeusseren
+            # Loop-Top. KEINE Uebernahme/Publikation, als 'stopped' gemeldet
+            # (NICHT als 'paused'/HOLD, das waere fortsetzbar).
+            if correction.status == "stopped":
+                print_fn(
+                    "Gast-Erschaffungsdialog beendet: ein adressierter Betreiber-Stop hat den "
+                    "gemeinsamen Entscheid waehrend der Save-Korrektur gewonnen -- dieser Weg ist "
+                    "terminal, kein weiterer Korrektur-Request, keine Annahme/Publikation."
+                )
+                return CreationDialogOutcome(status="stopped", reason=correction.reason)
             # N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-
             # FINALRUN3): `attempt_budget_exhausted` (reiner Schema-
             # Imperfekt NACH 3 erschoepften Korrekturversuchen, s.
