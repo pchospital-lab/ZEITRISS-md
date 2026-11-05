@@ -396,7 +396,26 @@ def _decide_participant_save_intake(
     # R2-Nachzug (F5 §2, independent-r1-review.md F5): Fremdzuordnungs-
     # Konflikt VOR jedem Write -- identischer Check wie `_cmd_import`,
     # NACH der obigen Konfliktbasis (dieselbe Reihenfolge).
-    if preview.char_id is not None and preview.char_id not in known_char_ids:
+    #
+    # R7-Nachzug (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R7, 01_NACHZUG.md
+    # §1, STOP-EVIDENCE.md §3): der Check darf NICHT mehr an
+    # `preview.char_id not in known_char_ids` haengen. Ein normaler privater
+    # Gastimport kann dieselbe Char-ID ueber den GEMEINSAMEN Current bereits
+    # als "bekannt" erscheinen lassen (oben :385-391 ergaenzt
+    # `baseline_char_id` in `known_char_ids`); eine im HOSTKATALOG bereits
+    # einem ANDEREN Teilnehmer zugeordnete, gerade inaktive Figur bliebe sonst
+    # ungeprueft und wuerde ueber den R6-`noop_identical`-Hostprojektions-Write
+    # (s. `_cmd_table_accept` :5319-5332) unzulaessig zusaetzlich fuer den Gast
+    # registriert. Die Autoritaetsentscheidung ist `catalog.find_registration`
+    # ueber ALLE Teilnehmer (der Katalogwriter prueft nur die eigene
+    # Teilnehmerdatei) -- sie bleibt fremd, solange der Treffer einem anderen
+    # `participant_id` gehoert. Eine tatsaechlich EIGENE Registrierung
+    # (participant_id == self) ist kein Fremdkonflikt und laeuft wie bisher
+    # weiter (bekannte eigene Figur, A20-Identisch-Retry). Der konfliktfreie
+    # Erstimport VOR der ersten Admission schreibt in den GETRENNTEN privaten
+    # Gastkatalog; im Hostkatalog ist die ID dort noch nicht vergeben
+    # (find_registration == None) und bleibt daher unberuehrt.
+    if preview.char_id is not None:
         foreign_entry = catalog.find_registration(catalog_dir, preview.char_id)
         if foreign_entry is not None and foreign_entry.participant_id != participant_id:
             return ParticipantSaveIntakeOutcome(
@@ -404,7 +423,8 @@ def _decide_participant_save_intake(
                 reason=(
                     f"char_id={preview.char_id} ist bereits einem anderen Teilnehmer "
                     f"({foreign_entry.participant_id!r}) zugeordnet -- Fremdzuordnungs-"
-                    "Konflikt, auch ohne aktiven Tischlock (kein Write)."
+                    "Konflikt, auch ohne aktiven Tischlock und auch wenn der gemeinsame "
+                    "Gast-Current dieselbe Char-ID bereits als bekannt fuehrt (kein Write)."
                 ),
             )
     active_binding = False
