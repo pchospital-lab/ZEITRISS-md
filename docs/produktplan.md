@@ -352,6 +352,40 @@ durch einen gezielt ergänzten Beleg-Test
 (`tests/mmo_sim/test_zr_betreiber_r5_group_save_tischstop_resume_2026_11_05.py`) am echten Code demonstriert.
 Keine Produktcode-Änderung in diesem Teilauftrag; die offenen G5-Restpunkte (T1/T2) bleiben davon unberührt.
 
+## Geliefert in R6 (zwei präzise Produktkanten geschlossen)
+
+R6 liefert **keine neue Fähigkeit**, sondern schließt genau die zwei vom R5-Generalreview an den
+benannten Grenzen belegten Restkanten und präzisiert die dafür zu weit gefasste R5-Aussage oben:
+
+- **Terminal auch bei spät zurückkehrender gültiger Antwort nach gewonnenem Stop.** Die R5-Aussage
+  „terminal ohne dritten Request" galt für das Unterbinden eines *weiteren* Anbieterrequests; sie deckte
+  nicht den Fall, dass der **bereits offene** Request nach dem gewonnenen Stop noch eine *gültige* Antwort
+  zurückliefert. R6 prüft die gemeinsame generationsgebundene Stop-Entscheidung jetzt auch **nach** der
+  ehrlichen Verbuchung dieser spät zurückkehrenden Antwort und **vor** innerer Ergebnisannahme bzw.
+  Folgefrage (`mmo_sim/core/creation_service.py`): die Antwort bleibt verbucht, der Weg ist terminal —
+  keine weitere Gastfrage, keine Annahme/Publikation. Dieselbe Entscheidung greift in der inneren
+  Save-Korrekturschleife für eine **spät gültige** Korrekturantwort (`mmo_sim/core/save_correction.py:
+  pursue_single_figure_correction`): sie wird als `correction_received` verbucht, aber **nicht** mehr
+  adoptiert. Ein gültiger Grant einer anderen Generation gibt einen alten laufenden Versuch weiterhin
+  nicht frei (unveränderte R5-Generationsbindung).
+- **Fehlende Hostaufnahme beim normalen Import vor erster Admission.** Importiert ein hostloser Gast
+  seine vollständige, bereits identisch im gemeinsamen Spielstand liegende Figur **vor** der ersten
+  Tisch-Aufnahme, blieb die Host-Projektion (Onboarding/Katalog) bisher aus, sodass der spätere Tischstart
+  die Figur nicht auflösen konnte. R6 vervollständigt im `noop_identical`-Zweig der Tisch-Annahme genau
+  diese fehlende Host-Projektion (`mmo_sim/ui/tui.py`) — **ohne** zweite Current-Version/Fortschritt und
+  **ohne** Seed-Ersatzaufnahme als Vorbedingung. Die allgemeine Importentscheidung bleibt `noop_identical`
+  (kein Umschlag auf „neu registrieren"); der echte identische Re-Import bleibt idempotent.
+
+Belegt über fünf neue launcher-basierte Nachweisfamilien (`a_dialog`, `a_correction`, `b_import`,
+`c_teilpub`, `d_t2`) am echten `scripts/mmo_sim.py`-Subprozess mit echten äußeren OS-Läufen (literale
+`argv`, `cwd`, Exit, UTC je Lauf) und echten privaten Ergebnisdateien; der Anbieter-Modellrand bleibt
+eine gekennzeichnete deterministische Grenzinjektion, kein Live-Modelllauf. `c_teilpub` und `d_t2` sind
+reine Nachweisfamilien ohne neue Storearbeit: sie liefern die fehlenden Originalkörper der persönlichen
+Teilpublikation bzw. die korrekte Stop-vor-Primärrest-Reihenfolge an der bereits gebauten T2-Grenze.
+Messwerte und Läufe liegen in der Rückgabe (`R6-RESOLUTION.json` und das Ergebnis-Manifest). G1/G2/G3,
+der Gruppen-Save-Schutz und die anerkannten T1/T1d/T2-Ergebnisse bleiben als frühere Ergebnisse
+unverändert anerkannt.
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
