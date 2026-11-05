@@ -339,6 +339,19 @@ Grenzinjektion, kein Live-Modelllauf. Messwerte und Läufe liegen in der Rückga
 und das Ergebnis-Manifest). G2/G3 und der bereits vollständig publizierte identische Retry bleiben als
 R4-Ergebnisse unverändert anerkannt.
 
+**R5-Teilauftrag Tisch-/Gruppen-Save-Pfad (quellseitig bestätigt, kein neuer Patch).** Der im R5-Lauf
+dokumentierte Fund — die Gruppen-Save-Korrektur `mmo_sim/core/save_correction.py:pursue_group_save_correction`
+trägt keinen eigenen lokalen `stop_check` — wurde als enger Teilauftrag gegen die echte Quelle geprüft. Beide
+Zweige (frische Runde und Wiederaufnahme) konvergieren auf **einen** Versand (`send_correction_turn`), der vor
+jedem Transport den tisch-skopierten Betreiber-Stop über `read_admission_block(…, table_id=…)` →
+`mmo_sim/core/admission.py:read_table_stop` liest; eine nachträgliche Publikation des abgebrochenen Vorgangs ist
+ausgeschlossen, weil `mmo_sim/core/store.py:complete_section` die Plan-Fixierung über denselben atomaren
+Entscheidungs-Slot (`try_commit_table_decision`) führt, um den auch der Stop (`request_table_stop`) konkurriert.
+Der Fall ist damit **durch Bauart geschützt**, nicht durch einen fehlenden lokalen Check offen; der Schutz wird
+durch einen gezielt ergänzten Beleg-Test
+(`tests/mmo_sim/test_zr_betreiber_r5_group_save_tischstop_resume_2026_11_05.py`) am echten Code demonstriert.
+Keine Produktcode-Änderung in diesem Teilauftrag; die offenen G5-Restpunkte (T1/T2) bleiben davon unberührt.
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
