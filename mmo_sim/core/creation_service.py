@@ -61,7 +61,7 @@ class ReplyResult:
 
 @dataclass
 class CreationDialogOutcome:
-    status: str  # "completed" | "paused" | "error"
+    status: str  # "completed" | "paused" | "error" | "stopped"
     save_block: dict | None = None
     chrononaut_id: str | None = None
     reason: str = ""
@@ -135,6 +135,7 @@ def run_admitted_creation_dialog(
     role: str = "creation_dialog",
     table_id: str | None = None,
     section_id: str | None = None,
+    stop_check: Callable[[], bool] | None = None,
 ) -> CreationDialogOutcome:
     """Treibt EINEN fortsetzbaren SL-Erschaffungsdialog bis zu einem
     gueltigen v7-Save ODER einer kontrollierten Pause/einem Fehler.
@@ -165,6 +166,29 @@ def run_admitted_creation_dialog(
     turn_idx = turn_idx_start
     outgoing = initial_outgoing
     while True:
+        # R5 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §2,
+        # GUEST-OPERATOR.md §3): VOR jedem weiteren Schritt dieses laufenden
+        # Dialogs pruefen, ob der adressierte Betreiber-Stop die gemeinsame
+        # Entscheidung fuer GENAU diese Operation+Generation bereits gewonnen
+        # hat (`domain.zeitriss.creation_service.creation_stop_committed`,
+        # dieselbe fail-closed-Lesart wie `ensure_valid_grant`s Stop-Zweig).
+        # Gewinnt der Stop, ist der laufende Weg TERMINAL -- KEIN weiterer
+        # GM-/Korrektur-Request, keine neue Gastfrage. Die bis hierher bereits
+        # empfangene/verbuchte Antwort (`record_step` am Ende der vorigen
+        # Iteration, `request_ledger.finish_received`) bleibt ehrlich
+        # gesichert; nur der NAECHSTE Request unterbleibt. Deckt denselben
+        # Loop-Eintritt fuer die Recovery-/pending-step-/Korrekturwege ab
+        # (sie beginnen alle hier), statt die Abweisung nur am Dialogeintritt
+        # (`_cmd_gast_erschaffung_dialog`) zu haben. `stop_check is None`
+        # (Mensch-/Community-Pfad, jeder bestehende Aufrufer): unveraendert.
+        if stop_check is not None and stop_check():
+            print_fn(
+                "Gast-Erschaffungsdialog beendet: ein adressierter Betreiber-Stop hat den "
+                "gemeinsamen Entscheid fuer diese Operation gewonnen -- dieser Weg ist terminal, "
+                "kein weiterer SL-/Korrektur-Request, keine weitere Frage, keine Annahme/Publikation. "
+                "Bereits empfangene Antworten bleiben verbucht."
+            )
+            return CreationDialogOutcome(status="stopped", reason="operator_creation_stop_committed")
         # C2 (P2-Community-Kontinuitaet 2026-09-25, MAIN-DATENWEGENTSCHEIDUNG.md
         # §3): ein bereits empfangener, aber noch nicht in `steps` uebernommener
         # SL-Reply fuer GENAU DIESEN offenen Schritt (`onboarding.pending_step`)
@@ -327,6 +351,32 @@ def run_admitted_creation_dialog(
                 onboarding_lib.record_pending_reply(
                     onboarding_dir, participant_id, sl_reply=sl_text, sl_request_id=request_id,
                 )
+        # R6 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R6, 01_NACHZUG.md §A,
+        # GUEST-PUBLICATION.md §2): die zuletzt empfangene SL-Antwort ist jetzt
+        # ehrlich verbucht (`finish_received`) und -- bei einem echten neuen
+        # Request -- lokal als pending-step gesichert (`record_pending_reply`
+        # oben); der durable `recovered`-Zweig hat sie bereits in einer
+        # frueheren Iteration verbucht. GENAU HIER, nach dieser Verbuchung und
+        # VOR der inneren Ergebnisannahme (`complete_with_save`, s.u.) bzw. VOR
+        # der naechsten Gastfrage (`get_reply`, s.u.), erneut pruefen, ob der
+        # adressierte Betreiber-Stop die gemeinsame Entscheidung fuer GENAU
+        # diese Operation+Generation inzwischen gewonnen hat. Der am Loop-
+        # Eintritt gelesene Stop kann waehrend des gerade zurueckgekehrten
+        # (blockierenden) SL-Requests gewonnen worden sein; ohne diese zweite
+        # Lesung wuerde der Dialog erst nach einer weiteren Gastfrage/-antwort
+        # bzw. nach erfolgter Annahme terminal (genau der geruegte Rest).
+        # Gewinnt der Stop, ist der Weg terminal -- KEINE neue Frage, KEINE
+        # Annahme/Publikation; die bereits empfangene Antwort bleibt verbucht.
+        # Keine zweite Dialogschleife, derselbe generationsgebundene
+        # `stop_check` wie am Loop-Eintritt; `stop_check is None`: bytegleich.
+        if stop_check is not None and stop_check():
+            print_fn(
+                "Gast-Erschaffungsdialog beendet: ein adressierter Betreiber-Stop hat den "
+                "gemeinsamen Entscheid fuer diese Operation gewonnen -- die soeben empfangene "
+                "SL-Antwort bleibt verbucht, aber dieser Weg ist terminal: keine weitere Frage, "
+                "keine Annahme/Publikation."
+            )
+            return CreationDialogOutcome(status="stopped", reason="operator_creation_stop_committed")
         # G02/SC06 (W54-Fix): strikter, mehrdeutigkeitssicherer
         # Extraktionspfad -- sieht ALLE rohen Kandidaten fuer die
         # vorlaeufig per erstem Rohtreffer bestimmte `candidate_char_id`,
@@ -385,6 +435,12 @@ def run_admitted_creation_dialog(
                     # verengt sich dadurch auf Identitaet/Kerninhalt statt
                     # jedes Flavor-Blatts (s. Parameter-Docstring dort).
                     restrict_drift_to_core_identity=True,
+                    # R5 A (01_NACHZUG.md §2, GUEST-OPERATOR.md §3): derselbe
+                    # Stop-Check wie der aeussere Loop -- die interne Korrektur-
+                    # schleife sendet nach gewonnenem Stop KEINEN weiteren
+                    # Request mehr (sonst dieselbe Fehlerklasse wie der geruegte
+                    # dritte Request, eine Ebene tiefer).
+                    stop_check=stop_check,
                 )
 
             if checked_block is not None:
@@ -410,6 +466,18 @@ def run_admitted_creation_dialog(
                 # 'fehlender Block'-Textes.
                 correction = _attempt_correction(None, forced_conflicts=extraction_conflicts)
 
+            # R5 A (01_NACHZUG.md §2, GUEST-OPERATOR.md §3): hat der adressierte
+            # Betreiber-Stop die gemeinsame Entscheidung waehrend der Korrektur-
+            # strecke gewonnen, endet der Dialog terminal -- wie am aeusseren
+            # Loop-Top. KEINE Uebernahme/Publikation, als 'stopped' gemeldet
+            # (NICHT als 'paused'/HOLD, das waere fortsetzbar).
+            if correction.status == "stopped":
+                print_fn(
+                    "Gast-Erschaffungsdialog beendet: ein adressierter Betreiber-Stop hat den "
+                    "gemeinsamen Entscheid waehrend der Save-Korrektur gewonnen -- dieser Weg ist "
+                    "terminal, kein weiterer Korrektur-Request, keine Annahme/Publikation."
+                )
+                return CreationDialogOutcome(status="stopped", reason=correction.reason)
             # N2R5-BESTEFFORT (Flo-Design, ZR-N2R-ANSCHLUSS-20261020-
             # FINALRUN3): `attempt_budget_exhausted` (reiner Schema-
             # Imperfekt NACH 3 erschoepften Korrekturversuchen, s.

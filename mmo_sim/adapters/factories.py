@@ -13,6 +13,7 @@ TUI- und Lab-Start (ANSCHLUSSPLAN-HEADLESS.md: "vorhandene Adapterfactories
 wiederverwenden")."""
 from __future__ import annotations
 
+import importlib
 import os
 from pathlib import Path
 
@@ -112,6 +113,30 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
     return factory
 
 
+def _load_gm_transport_double(spec: str):
+    """FIX5 (R4 TEIL A, Grenzinjektions-Seam am GM-Transportrand): laedt
+    die in `MMO_SIM_GM_TRANSPORT_DOUBLE` benannte `modul.pfad:callable`
+    (dotted Modulpfad, per `importlib.import_module` -- das Double lebt in
+    der TESTDATEI, nicht im Produkt, und muss daher ein importierbares
+    Modul sein, kein `GmOwuiTransport`-interner Dateipfadtrick). Fail-closed
+    bei falscher Form/fehlendem Modul/fehlendem Attribut -- kein stiller
+    Fallback auf den Live-Transport."""
+    module_path, sep, callable_name = spec.partition(":")
+    if not sep or not module_path or not callable_name:
+        raise ValueError(
+            f"MMO_SIM_GM_TRANSPORT_DOUBLE={spec!r} ist nicht als 'modul.pfad:callable' lesbar -- "
+            "fail-closed, kein stiller Fallback auf den Live-Transport (TEST-/GRENZINJEKTIONS-Seam)."
+        )
+    module = importlib.import_module(module_path)
+    try:
+        return getattr(module, callable_name)
+    except AttributeError:
+        raise ValueError(
+            f"MMO_SIM_GM_TRANSPORT_DOUBLE={spec!r}: Modul {module_path!r} hat kein Attribut "
+            f"{callable_name!r} -- fail-closed, kein stiller Fallback auf den Live-Transport."
+        ) from None
+
+
 def default_gm_transport_factory(data_dir: Path, repo_root: Path):
     """Unveraendert aus `scripts/mmo_sim.py` uebernommen (F5/K2/B2, s.
     dortiger frueherer Docstring): baut -- nur bei tatsaechlichem Aufruf --
@@ -132,9 +157,29 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
     diese FACTORY (nicht nur `GmOwuiTransport` isoliert) den Adapter baut --
     das schliesst die vorher offene Luecke, dass die tatsaechlich von
     TUI/Lab verwendete Default-Factory die additiven W51-Konstruktorparameter
-    von `GmOwuiTransport` nie gesetzt hat."""
+    von `GmOwuiTransport` nie gesetzt hat.
+
+    FIX5 (R4 TEIL A, 02_NACHWEISE_UND_RUECKGABE.md §1, GUEST-OPERATOR.md
+    R3-Lehre "keine direkt konstruierten Sessions"): additiv/optional
+    (env-gated, Default unveraendert `None`/nicht gesetzt) -- der ECHTE
+    Launcher-Subprozess (`scripts/mmo_sim.py`) hatte bisher KEINE
+    sanktionierte Stelle, an der ein Evidence-Treiber einen deterministischen
+    Anbieter-Double am GM-Rand einhaengen kann; R3 musste deshalb Sessions
+    direkt konstruieren statt den echten Launcher zu nutzen. Ist
+    `MMO_SIM_GM_TRANSPORT_DOUBLE` gesetzt, liefert `factory(table_id)` das
+    Ergebnis der darin benannten lokalen Factory (s.
+    `_load_gm_transport_double`) statt eines echten `GmOwuiTransport` --
+    der Double selbst lebt in der TESTDATEI, nicht hier. OHNE die
+    env-Variable bleibt JEDER bestehende Aufrufer (TUI/Lab, jeder
+    bestehende Test) bytegleich beim Live-Transport unten."""
 
     def factory(table_id: str):
+        # TEST-/GRENZINJEKTIONS-Seam (02 §1): NUR aktiv, wenn
+        # MMO_SIM_GM_TRANSPORT_DOUBLE gesetzt ist; fuehrt die benannte
+        # lokale Factory aus; kein Live-/Netz-/Produktionspfad.
+        double_spec = os.environ.get("MMO_SIM_GM_TRANSPORT_DOUBLE")
+        if double_spec:
+            return _load_gm_transport_double(double_spec)(table_id)
         from .gm_owui import GmOwuiTransport
         sl_client_path = repo_root / "internal" / "qa" / "harness" / "agent_mp" / "sl_client.py"
         raw_limit = os.environ.get("MMO_SIM_GM_OUTPUT_LIMIT_TOKENS")

@@ -122,6 +122,111 @@ def _stop_flag_path(run_dir: Path) -> Path:
     return run_dir / "lab.stop"
 
 
+# ZR-BETREIBER O2/O3 (2026-11-03): tisch-adressierter Stop -- die bestehende
+# `lab.stop`-Flag (oben) ist strikt run_dir-weit und kann einen EINZELNEN
+# Betreibertisch nicht gezielt abbrechen. Dieser additive Pfad bindet einen
+# Stop an genau eine (bereits gebundene) Store-`table_id`; er wird VOR der
+# erstmaligen Abschlussbindung (`store.complete_section`, vor dem Plan-Pin)
+# UND an jeder bestehenden Gate-Grenze (`read_admission_block` mit
+# `table_id=`) gelesen. Setzen/Autoritaetspruefung liegt in
+# `table_admission.request_table_stop` (dort die Host-/Operatorbindung).
+def _safe_table_component(table_id: str) -> str:
+    """Begrenzt die `table_id` auf dateinamentaugliche Zeichen (die realen
+    IDs sind `local-<pid>[-<gast>...]` bzw. mit `__N`-Suffix, s. store.py) --
+    kein Pfad-Escape, kein Trennzeichen-Konflikt."""
+    return "".join(ch if (ch.isalnum() or ch in "-_.") else "_" for ch in table_id)
+
+
+def _table_stop_path(run_dir: Path, table_id: str) -> Path:
+    return Path(run_dir) / f"lab.stop.table.{_safe_table_component(table_id)}.json"
+
+
+def read_table_stop(run_dir: str | Path, table_id: str) -> tuple[bool, str | None]:
+    """`(blocked, reason)` fuer genau diesen Tisch. Rein lesend, fail-safe:
+    existiert die Datei, ist der Tisch gestoppt (auch bei beschaedigtem
+    Inhalt -- ein vorhandener Stopmarker gibt NIE still frei)."""
+    path = _table_stop_path(Path(run_dir), table_id)
+    if not path.exists():
+        return False, None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        data = {}
+    if not isinstance(data, dict):
+        data = {}
+    return True, data.get("reason") or "Betreiber-Stop fuer diesen Tisch aktiv (persistiert)"
+
+
+# ZR-BETREIBER R2 F2 (2026-11-04): gemeinsamer ATOMARER Entscheid zwischen
+# Betreiber-Stop und erstmaliger Abschlussbindung. Ein blosser Stopfile-Read
+# mit spaeterem ungeschuetztem Plan-Write (R1) laesst ein Interleaving zu, in
+# dem Stop UND Plan beide wirksam erscheinen. Loesung: EIN Entscheid-Slot pro
+# Tisch, den beide Seiten per `O_CREAT|O_EXCL` atomar zu belegen versuchen --
+# genau ein Erzeuger gewinnt, prozess- und neustart-durabel (eine Datei auf
+# Platte). Kein Lock ueber einen Provideraufruf; der Test-and-Set liegt exakt
+# am Entscheidungspunkt. `request_table_stop` (Stop) und `complete_section`
+# (Plan-Pin) konkurrieren um denselben Slot.
+def _table_decision_path(run_dir: Path, table_id: str) -> Path:
+    return Path(run_dir) / f"lab.decide.table.{_safe_table_component(table_id)}.json"
+
+
+def read_table_decision(run_dir: str | Path, table_id: str) -> dict | None:
+    """Liest den Entscheid-Record (oder `None`, wenn noch keiner gefallen ist).
+    Fail-safe: ein vorhandener, aber beschaedigter Record gibt NIE still frei,
+    sondern `{"decision": "unknown"}` -- ein gefallener Entscheid wird nie als
+    'kein Entscheid' fehlinterpretiert."""
+    path = _table_decision_path(Path(run_dir), table_id)
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"decision": "unknown"}
+    if not isinstance(data, dict):
+        return {"decision": "unknown"}
+    return data
+
+
+def try_commit_table_decision(
+    run_dir: str | Path, table_id: str, decision: str, **meta: object
+) -> tuple[bool, dict]:
+    """Atomarer Test-and-Set auf den EINEN Entscheid-Slot dieses Tisches.
+    `O_CREAT|O_EXCL` -> genau ein Aufrufer legt die Datei an und gewinnt; jeder
+    spaetere Aufrufer erhaelt `FileExistsError` und liest den bereits
+    gefallenen Entscheid. Rueckgabe `(won, record)`: bei `won=True` ist
+    `record` der eigene (soeben geschriebene) Entscheid, bei `won=False` der
+    bereits vorhandene fremde Entscheid. Durabel ueber Prozesse/Neustarts."""
+    path = _table_decision_path(Path(run_dir), table_id)
+    record: dict = {
+        "schema": "table-decision/1",
+        "table_id": table_id,
+        "decision": decision,
+        "ts": time.time(),
+    }
+    record.update(meta)
+    blob = json.dumps(record, ensure_ascii=False, indent=2).encode("utf-8")
+    try:
+        fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+    except FileExistsError:
+        existing = read_table_decision(run_dir, table_id)
+        return False, (existing if existing is not None else {"decision": "unknown"})
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(blob)
+            fh.flush()
+            os.fsync(fh.fileno())
+    except Exception:
+        # Falls das Schreiben nach erfolgreichem exklusivem Anlegen scheitert,
+        # den leeren Slot wieder entfernen, damit der Tisch nicht ohne Inhalt
+        # dauerhaft 'entschieden' wirkt.
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
+        raise
+    return True, record
+
+
 def _status_path(run_dir: Path) -> Path:
     return run_dir / "lab.status.json"
 
@@ -337,6 +442,7 @@ def write_test_profile(
 def read_admission_block(
     run_dir: str | Path, reserved_usd: float | None = None, *,
     output_bound_known: bool = True, route: str | None = None, dollar_billed: bool = True,
+    table_id: str | None = None,
 ) -> tuple[bool, str | None]:
     """Vor JEDEM Modellrequest aufzurufen (I1 Plan §1 Punkt 7). Liefert
     `(blocked, reason)`.
@@ -409,6 +515,29 @@ def read_admission_block(
         except (OSError, json.JSONDecodeError):
             data = {}
         return True, data.get("reason") or "Lab-Stop aktiv (persistiert)"
+
+    # ZR-BETREIBER O2 (2026-11-03): zusaetzlich zum run-weiten `lab.stop` den
+    # tisch-adressierten Stop pruefen, wenn der Aufrufer die konkrete
+    # `table_id` kennt (`core.runtime._check_gate` reicht `self.table.
+    # table_id` durch). Additive Grenze -- gilt UNABHAENGIG von einer
+    # vorhandenen Betreiber-Live-/Budgetfreigabe, genau wie `lab.stop`.
+    if table_id is not None:
+        table_blocked, table_reason = read_table_stop(run_dir, table_id)
+        if table_blocked:
+            # ZR-BETREIBER R2 F3b (2026-11-04): Hat der Abschluss den
+            # gemeinsamen Entscheid gewonnen (`plan_committed`, Point-of-no-
+            # Return passiert), darf der Table-Stop die auf den RESTABSCHLUSS
+            # (Reflexion/Finalisierung GENAU dieses gebundenen Abschnitts)
+            # begrenzten Gate-Grenzen nicht mehr blockieren -- sonst bliebe der
+            # bereits committete Abschnitt dauerhaft unvollendbar. Neue Runden
+            # laufen ueber eine neue table_id/Section (eigener Entscheid-Slot)
+            # bzw. sind durch den schliessenden Tisch gesperrt. Der run-weite
+            # `lab.stop` und die `stop_requested`/Budget-Gates (unten) bleiben
+            # unberuehrt -- nur dieser tisch-adressierte Stop wird fuer den
+            # Restabschluss freigegeben.
+            decision = read_table_decision(run_dir, table_id)
+            if not (isinstance(decision, dict) and decision.get("decision") == "plan_committed"):
+                return True, table_reason
 
     status_path = _status_path(run_dir)
     if not status_path.exists():

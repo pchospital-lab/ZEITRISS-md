@@ -526,6 +526,7 @@ def send_correction_turn(
     reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
     blocked, reason = read_admission_block(
         run_dir, reserved_usd=reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
+        table_id=table_id,
     )
     if blocked:
         return SendOutcome(blocked=True, reason=f"admission_blocked:{reason}")
@@ -587,7 +588,7 @@ def send_correction_turn(
 
 @dataclass
 class CorrectionOutcome:
-    status: str  # "accepted" | "hold"
+    status: str  # "accepted" | "hold" | "stopped"
     block: dict | None = None
     reason: str = ""
     drift: list = field(default_factory=list)
@@ -756,6 +757,7 @@ def pursue_single_figure_correction(
     original_request_id: str | None = None, original_evidence: dict | None = None,
     original_role: str | None = None, original_turn_idx: int | None = None, original_generation: int | None = None,
     restrict_drift_to_core_identity: bool = False,
+    stop_check=None,
 ) -> CorrectionOutcome:
     """Treibt bis zu `max_attempts` zusätzliche SL-Ausgaben für EINE Figur
     (01_AUFTRAG_SAVEGATE.md §C) -- wiederaufnehmbar (Restart lädt denselben
@@ -1037,6 +1039,7 @@ def pursue_single_figure_correction(
             gate_blocked, gate_reason = read_admission_block(
                 run_dir, reserved_usd=pending_reserved_usd,
                 output_bound_known=(gm_output_limit is not None), route=gm_route,
+                table_id=table_id,
             )
             if gate_blocked:
                 return CorrectionOutcome(status="hold", reason=f"gate_blocked_before_consume:{gate_reason}")
@@ -1212,6 +1215,16 @@ def pursue_single_figure_correction(
     # verbleibenden `MAX_ADDITIONAL_REQUESTS`-Budget.
     recovery_extra_attempt_opened = bool(record.get("recovery_extra_attempt"))
     while True:
+        # R5 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §2,
+        # GUEST-OPERATOR.md §3): die Korrekturstrecke honoriert denselben
+        # adressierten Betreiber-Stop wie der aeussere Dialogloop -- VOR jedem
+        # weiteren Korrektur-Request (`send_correction_turn` -> `gm_transport.
+        # turn`) fuer genau diese laufende Operation/Generation pruefen. Gewinnt
+        # der Stop, endet die Korrektur terminal ('stopped'); der aeussere
+        # Dialog meldet dann ebenfalls 'stopped' und publiziert nicht. `stop_
+        # check is None` (Mensch-/Community-/jeder bestehende Aufrufer): bytegleich.
+        if stop_check is not None and stop_check():
+            return CorrectionOutcome(status="stopped", reason="operator_creation_stop_committed")
         # Restart-Sicherheit (SC09/SC13): `state` unterscheidet "noch kein
         # Slot fuer die naechste Antwort eroeffnet" (`validating` -- gilt
         # initial UND nach jeder vollstaendig ausgewerteten, nicht
@@ -1315,6 +1328,24 @@ def pursue_single_figure_correction(
             table_id=table_id, attempt_no=attempt_no, request_id=outcome.request_id,
             raw_text=outcome.text or "",
         )
+
+        # R6 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R6, 01_NACHZUG.md §A,
+        # GUEST-PUBLICATION.md §2): die Korrekturantwort ist jetzt durabel
+        # empfangen (`record_correction_received` oben) UND roh archiviert
+        # (`archive_raw_response`) -- ehrlich verbucht. Der Stopcheck am
+        # Loop-Top wird NUR vor einem weiteren Versand erreicht; eine waehrend
+        # GENAU DIESES Korrektur-Requests gewonnene Stopentscheidung wuerde bei
+        # einer nun GUELTIGEN Antwort sonst nicht gesehen, weil der Weg direkt
+        # zu `mark_adopted`/`accepted` (unten) zurueckkehrt, ohne die Schleife
+        # erneut zu durchlaufen. Deshalb GENAU HIER, nach der Verbuchung und VOR
+        # jeder inneren Annahme/Adoption, denselben generationsgebundenen Stop
+        # erneut pruefen. Gewinnt er, endet die Korrektur terminal ('stopped');
+        # die empfangene Antwort bleibt verbucht, wird aber NICHT adoptiert/
+        # publiziert (der aeussere Dialog meldet dann ebenfalls 'stopped').
+        # `stop_check is None` (Mensch-/Community-/jeder bestehende Aufrufer):
+        # bytegleich -- kein zweiter Korrekturloop.
+        if stop_check is not None and stop_check():
+            return CorrectionOutcome(status="stopped", reason="operator_creation_stop_committed")
 
         # G02/SC06 (W54-Fix): strikter, mehrdeutigkeitssicherer
         # Extraktionspfad fuer die Korrekturantwort -- sieht ALLE rohen

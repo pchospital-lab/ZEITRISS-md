@@ -35,6 +35,7 @@ from pathlib import Path
 from typing import Callable, Protocol
 
 from . import _section_completion_recovery
+from .admission import try_commit_table_decision
 from .persona_state import PersonaStateStore
 
 # K1/K1-Nachzug: additives Current-Save-Ref-Feld im Persona-State — traegt EIN
@@ -745,6 +746,39 @@ def operator_view(table: Table) -> dict:
     }
 
 
+def spectator_view(table: Table) -> dict:
+    """O6: Oeffentlicher Zuschauer-Feed fuer das Terminal. STRIKTE Whitelist --
+    es wird nur oeffentlicher Spielinhalt projiziert: die GM-/SL-Narration
+    (`content`) je Zug, sowie Tisch-Id, Leader, Mitglieder und Status. Der
+    oeffentliche Verlauf (die SL-Narration je Zug) traegt O1 ("oeffentlicher
+    Zuschauer-Verlauf/-Status, auch wenn nur Personas spielen") vollstaendig.
+
+    Bewusst NIE enthalten (Blacklist waere unsicher, darum Whitelist):
+    - `table_messages` (Tischabsprache) -> interner Koordinations-/Absprache-
+      kanal der Mitspieler, kein oeffentlicher Zuschauer-Inhalt (design.md §4:
+      "privater Absprachekanal"). Ein Zuschauer sieht die gespielte Geschichte
+      (SL-Narration), nicht die strategische Absprache zwischen den Figuren.
+    - `save_payload`, `expected_prev_ref_by_member` -> private Saves/Refs
+    - `chat_id`, `gm_request_id`, `origin_source` -> Auth-/Provider-Daten
+    - `leader_message`, `origin_raw_input` -> Roh-Inputs, koennen auf
+      Anker-/Import-Zuegen eingebettetes Save-JSON tragen
+    - `chrononaut_ids`, `operator_meta` -> interne Identitaets-/Betreiber-Metadaten
+    - Persona-Erinnerungen/Reflexionen liegen ohnehin ausserhalb (`reflections.jsonl`)
+      und sind hier strukturell unerreichbar.
+    """
+    public_log = [
+        {"turn_idx": e.get("turn_idx"), "content": e.get("content")}
+        for e in table.sl_log
+    ]
+    return {
+        "table_id": table.table_id,
+        "leader": table.leader,
+        "members": list(table.members),
+        "status": table.status,
+        "sl_log": public_log,
+    }
+
+
 # ── Completion-Idempotenz + Save/State-Rueckkehr ────────────────────────────
 
 
@@ -1149,6 +1183,29 @@ def _write_current_save_version(current_saves_dir: Path, persona_key: str, block
     tmp_path.write_text(json.dumps(block, ensure_ascii=False, indent=2), encoding="utf-8")
     tmp_path.replace(version_path)
     return version_path
+
+
+def _newest_current_save_version(current_saves_dir: Path, persona_key: str) -> "tuple[int, dict] | None":
+    """R5 B (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §3,
+    GUEST-OPERATOR.md §4, STATIC-CROSSCHECK (a)): liefert `(seq, block)` der
+    HOECHSTEN vorhandenen Versionsdatei fuer `persona_key`, oder `None`, wenn
+    keine existiert bzw. die hoechste nicht lesbar ist. Reiner Lesevorgang,
+    keine Auswahl-/Rekonstruktionslogik -- dient ausschliesslich der
+    idempotenten Wiederaufnahme eines bereits GESCHRIEBENEN Versionsschritts
+    in `publish_current_save` (Unterbrechung zwischen Versionsdatei und
+    State-Zeiger)."""
+    versions_dir = _current_save_versions_dir(current_saves_dir, persona_key)
+    if not versions_dir.is_dir():
+        return None
+    existing = sorted(int(p.stem) for p in versions_dir.glob("*.json") if p.stem.isdigit())
+    if not existing:
+        return None
+    seq = existing[-1]
+    try:
+        block = json.loads((versions_dir / f"{seq:04d}.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return seq, block
 
 
 class CurrentSaveUnavailableError(RuntimeError):
@@ -2116,6 +2173,31 @@ def complete_section(
     }
     if best_effort_applied:
         plan_data["best_effort"] = True
+    # ZR-BETREIBER R2 F2 (2026-11-04): gemeinsamer ATOMARER Entscheid Stop<->
+    # Abschluss. Der Plan-Pin unten ist der Point-of-no-Return; er darf nur
+    # erfolgen, wenn dieser Abschluss den EINEN Entscheid-Slot dieses Tisches
+    # gewinnt. Gewinnt stattdessen der Betreiber-Stop (atomar -- auch bei einem
+    # Interleaving GENAU zwischen Entscheid und Write), wird NICHTS gebunden
+    # (kein Plan, kein Primaersave, kein Lockrelease) -> der Gast behaelt seine
+    # akzeptierte Startdatei mit Originalbytes (O3). Ein bereits committeter
+    # Plan ist oben (Resume-Zweig, plan_path.exists()) abgezweigt; `plan_
+    # committed` HIER bedeutet denselben Abschnitt nach Crash/Neustart ZWISCHEN
+    # Entscheid und Write -> idempotent weiter (kein Rollback, O4). Ein fremder/
+    # beschaedigter Entscheid ('unknown') bindet fail-safe NICHT. Deckt alle
+    # Wege (runtime-Gate, save_correction-Direktaufrufe, frischer Prozess)
+    # durabel ab, da der Entscheid auf Platte liegt.
+    commit_won, decision = try_commit_table_decision(
+        run_dir, table.table_id, "plan_committed", section_id=section_id,
+    )
+    if not commit_won and decision.get("decision") != "plan_committed":
+        return CompletionResult(
+            success=False, already_completed=False, written=False,
+            members_completed=[], missing=[],
+            reason=(
+                "Abschnitt durch Betreiber-Stop abgebrochen (atomarer Entscheid "
+                f"verloren, Slot={decision.get('decision')!r})."
+            ),
+        )
     plan_path.write_text(json.dumps(plan_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     return _resume_and_harvest(
@@ -2149,8 +2231,26 @@ def publish_current_save(
     current_saves_dir.mkdir(parents=True, exist_ok=True)
     direct_path = current_saves_dir / f"{persona_key}.json"
     direct_path.write_text(json.dumps(block, ensure_ascii=False, indent=2), encoding="utf-8")
-    version_path = _write_current_save_version(current_saves_dir, persona_key, block)
-    new_seq = int(version_path.stem)
+    # R5 B (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §3,
+    # GUEST-OPERATOR.md §4, STATIC-CROSSCHECK (a)): idempotente Wiederaufnahme
+    # eines bereits erreichten Publikationsschritts. Diese Funktion schreibt
+    # direct -> NEUE Versionsdatei -> State-Zeiger. Wird der Prozess GENAU
+    # zwischen Versionsdatei und State-Zeiger unterbrochen, existiert die
+    # hoechste Versionsdatei bereits mit exakt `block`, aber der State-Zeiger
+    # fehlt/zeigt nicht darauf; der tolerante `load_current_save` liefert dann
+    # `None`, und ein normaler Retry legte bisher inhaltsgleich `0002.json` an.
+    # Ist die HOECHSTE vorhandene Version inhaltsgleich zu `block` (genau der
+    # erreichte eigene Schritt DERSELBEN Operation), wird dieser Schritt
+    # UEBERNOMMEN: KEINE zweite Version, der State-Zeiger wird auf die
+    # vorhandene Version gesetzt. Bei abweichendem Inhalt (echte neue
+    # Publikation, z.B. Import eines anderen Stands) bleibt die bisherige
+    # Semantik unveraendert: neue Version + erhoehtes seq.
+    newest = _newest_current_save_version(current_saves_dir, persona_key)
+    if newest is not None and newest[1] == block:
+        new_seq = newest[0]
+    else:
+        version_path = _write_current_save_version(current_saves_dir, persona_key, block)
+        new_seq = int(version_path.stem)
     state = persona_state_store.load_state(persona_key, states_dir=states_dir)
     state[_CURRENT_SAVE_REF_FIELD] = {"run_id": _run_id(run_dir), "seq": new_seq}
     persona_state_store.save_state(persona_key, state, states_dir=states_dir)

@@ -8,7 +8,7 @@ Abschnitt schließt, der Gast geht (oder der Host spielt allein weiter), und der
 Gast kehrt später mit seiner **selbst** fortgeschrittenen Figur zurück. Die
 Figur reist dabei real über Export/Import zwischen zwei getrennten Datenwurzeln
 A → B → A. Ein paralleler Fahrplan wird hier bewusst nicht geführt; eine native
-LAN-/Netz-Lobby bleibt getrennt und ist unter „Betreiber- und Mischbetriebsplan"
+LAN-/Netz-Lobby bleibt getrennt und ist unter „Betreiber-, Misch- und Netzbetrieb"
 abgegrenzt und ausdrücklich als noch nicht geliefert gekennzeichnet.
 
 ## Zwei-Wurzel-Modell (A → B → A)
@@ -20,8 +20,8 @@ abgegrenzt und ausdrücklich als noch nicht geliefert gekennzeichnet.
   das Spiel und bleibt ohne ihn ein ehrlicher Teilstand. A nutzt eine bereits
   host-/stackgestützt angelegte Figur und exportiert bzw. importiert sie von
   dort nur noch. Die vom Betreiber freigegebene, hostgestützte Gast-Erschaffung
-  ohne fertiges JSON ist unter „Betreiber- und Mischbetriebsplan" beschrieben
-  und ausdrücklich noch nicht geliefert.
+  ohne fertiges JSON ist mit R2 geliefert (siehe „Geliefert in R2 (Betreiber-
+  Etappe)").
 - **Wurzel B — Hostgerät, voller Stack.** Der Host betreibt Spielleitung und
   eigene Personas. Nur auf B wird ein Tisch tatsächlich gespielt.
 - **Die Figur ist das Reisegut, nicht der Spieler.** Der admittierte Gast spielt
@@ -118,10 +118,11 @@ Store-Tisch real **noch offen** ist, bucht der Admissionsdienst die Roster-
 diese Admissionsbuchung die Bindung am eigentlichen Spielkern **nicht** löst und
 **keinen** Spielstand verwirft oder zurückrollt. Der sichere, kontrollierte Weg
 bleibt der **bestehende** `/pause` am Spielzug-Prompt beziehungsweise ein
-regulärer Debrief/Abschluss. Es gibt hier **keine** automatische
-Bereinigungsgarantie und keinen neuen Abbruchmechanismus; die kontrollierte
-Betreiber-Stop-/Abbruchsteuerung ist Teil der noch nicht gelieferten
-Betreiberetappe (siehe unten).
+regulärer Debrief/Abschluss; zusätzlich steht seit R2 der **kontrollierte
+Betreiber-Stop** und der **echte, nicht-destruktive Abbruch** vor der
+Abschlussentscheidung (siehe „Geliefert in R2 (Betreiber-Etappe)"). Die bloße
+Admissionsbuchung beim Verlassen/Entfernen rollt für sich genommen weiterhin
+nichts zurück.
 
 ### Nachweislage (J1–J8, ursprüngliche Langnamen)
 
@@ -186,6 +187,248 @@ als neue Spielbeweise.
   sowie der reguläre reviewbare PR mit zugeordneter CI sind in der Rückgabe
   (`03_RUECKGABE.md`, `REWORK.json`, `EVIDENCE-MAP.md`) benannt.
 
+## Geliefert in R2 (Betreiber-Etappe)
+
+Die erste Betreiberetappe ist mit R2 **geliefert und gegen echte Ergebnis-Bytes
+belegt**. Sie ergänzt den bestehenden Tisch-/Spielkern chirurgisch; die Spiel-,
+Speicher- und Importpfade bleiben unverändert.
+
+- **Betreiber als eigenständige Rolle am Normalweg** (`mmo_sim/ui/tui.py`,
+  `mmo_sim/core/table_admission.py`). Ein Hostanbieter kann einen Abschnitt für
+  angenommene menschliche Gäste bereitstellen, **ohne selbst mitzuspielen oder
+  eine eigene Spielfigur mitzuführen** — über den **regulären** Tischweg, nicht
+  nur über den Persona-Kurzweg. Die Leitung wird aus dem Roster aufgelöst; ein nur
+  bedienender Betreiber zählt nicht als Mitspieler und erzeugt keinen Phantom-
+  charakter. Die Eingaben von Betreiber-Steuerung und menschlichem Gast werden
+  **eindeutig getrennt geroutet**; eine kollidierende Eingabequelle wird
+  abgewiesen, statt Antworten zu vermischen.
+- **Eine gemeinsame, dauerhafte Stop-/Abschlussentscheidung** (`mmo_sim/core/
+  admission.py`, `mmo_sim/core/store.py`, `mmo_sim/core/table_admission.py`).
+  Zwischen einem Betreiber-Stop und dem Abschnittsabschluss entscheidet **genau
+  ein** neustart-fester atomarer Entscheid pro Tisch (Test-and-Set, Einzel-
+  gewinner) — es gibt kein Zeitfenster, in dem Stop und Abschluss beide „gewinnen".
+  Ein bereits gepinnter Plan bleibt committet (kein Rollback, idempotente
+  Fertigstellung möglich); ein vor dem Pin gewonnener Stop verhindert Plan und
+  Save.
+- **Sauberer Abbruch und sichtbare Speichergrenze.** Vor der verbindlichen
+  Abschlussentscheidung kann der offene Abschnitt **wirklich** abgebrochen werden:
+  Der Gast erhält genau seine vor Spielbeginn gebundene, tatsächlich angenommene
+  Anfangsfassung zurück (Originalbytes, nicht nachgebaut, nicht um ungespeicherte
+  XP/Geld/Items ergänzt), betroffene Bindungen werden gelöst, und er kann erneut
+  teilnehmen — Verwurf ist **nicht** bloß Pause. Ist der Plan bereits angenommen,
+  bleibt der verbindliche Stand erhalten; späte Modellantworten oder Recovery
+  speichern einen wirksam abgebrochenen Abschnitt nicht nachträglich.
+- **Vom Betreiber eng freigegebene Gast-Erschaffung** (`mmo_sim/domain/zeitriss/
+  creation_service.py` als Freigabeschicht + `mmo_sim/ui/tui.py`). Ein Gast ohne
+  fertige Figur stellt eine konkrete Erschaffungsanfrage; der Betreiber bestätigt
+  genau **einen** Erschaffungsvorgang. Erst dieser durable Grant — gegen den
+  persistierten Datensatz geprüft (fehlend/abgelehnt/fremd/veraltet wird vor jedem
+  GM-Aufruf abgewiesen), **ohne** Bezug auf eine Fähigkeitsflagge der aufrufenden
+  Session — erlaubt den bedienten Dialog über **denselben** unveränderten
+  Erschaffungs-/GM-Kern; es entsteht **keine** zweite Erschaffungslogik. Die
+  angenommene Figur wird über den normalen Produktweg gespeichert und ist als
+  persönliches JSON mitnehmbar; ein abgebrochener Entwurf erzeugt keinen
+  erfundenen Save.
+
+Belegt über echte Produkt-/Terminalpfade: deterministische Treiber am Modellrand
+sowie ein persistenter Evidenzlauf, dessen prozessübergreifende Grenzen **echte
+neue `python3`-Interpreter** sind (`subprocess`, inklusive eines harten
+Prozessabbruchs nach dem Plan-Pin und anschließendem idempotentem Abschluss in
+einem frischen Prozess). Gemessene Hashes und äußere Läufe liegen in der Rückgabe
+(`R2-RESOLUTION.json` und das Ergebnis-Manifest).
+
+## Geliefert in R3 (Betreiberetappe: erreichbar am Normalweg + prozessfest belegt)
+
+R3 liefert **keine neue Fähigkeit über die Betreiberetappe hinaus**, sondern
+schließt deren Erreichbarkeits- und Dauerhaftigkeitslücke am tatsächlichen
+Terminalstart und belegt sie prozessübergreifend:
+
+- **Erreichbare Betreiber-/Gaststeuerung am echten Launcher** (`scripts/mmo_sim.py`).
+  Die Betriebssteuerung ist jetzt über den **regulären Terminalstart** erreichbar,
+  nicht nur über eine im Test injizierte Kontrollquelle: explizite Kanalflaggen
+  (`--operator-control-fifo`, `--guest-terminal <id>:<in>:<out>`, `--run-dir`,
+  `--states-dir`) binden eine getrennte Kontroll- und eine getrennte Gasteingabe an
+  denselben unveränderten Tisch-/Admissionskern. Ein normaler lokaler Betreiber
+  erreicht damit Stop/Steuerung an einem laufenden Abschnitt; die Eingabetrennung
+  aus R2 bleibt erhalten.
+- **Stop-/Abschluss-/Wiederaufnahmegrenze über echte Prozessgrenzen belegt.** Der
+  dauerhafte Entscheid (Abbruch vor Commit gegen committeten Plan nach Annahme)
+  ist nun in **frischen `python3`-Interpretern** nachgewiesen — inklusive eines
+  harten Prozessabbruchs nach dem Plan-Pin und anschließender idempotenter
+  Fertigstellung in einem neuen Prozess (byteidentische Anfangs-/Primärfassung,
+  kein Phantom-Save, keine Doppelveröffentlichung, kein nachträgliches Speichern
+  eines wirksam abgebrochenen Abschnitts).
+- **Hostlose, vom Betreiber freigegebene Gast-Erschaffung prozessfest belegt.** Der
+  mehrschrittige bediente Erschaffungsdialog über denselben Erschaffungs-/GM-Kern,
+  der durable Grant (fehlend/abgelehnt/fremd/veraltet wird abgewiesen) und der
+  persönliche Save sind über echte neue Prozesse nachgewiesen; ein reiner Gastclient
+  wird dadurch kein eigener GM-Host.
+
+Belegt über vier Ergebnisfamilien (T1–T4) mit **echten privaten Ergebnisdateien**
+und **echten äußeren OS-Läufen** (gemessene Hashes, `argv`/`cwd`/Exit/UTC je Lauf).
+Messwerte und Läufe liegen in der Rückgabe (`R3-RESOLUTION.json` und das
+Ergebnis-Manifest).
+
+**Dieser in R3 offene Vorbefund ist mit R4 behoben** (siehe „Geliefert in R4").
+Der **Tisch-Wiederaufnahme-Weg** (`tisch-start` auf einen gebundenen Abschnitt nach
+Prozess-Neustart) stufte einen über die Admission aufgenommenen **menschlichen**
+Gast-Leiter fälschlich als KI-Persona ein und brach die Fortsetzung ab. R4 erhält
+beim Wiederaufnehmen die tatsächliche menschliche Mitgliedschaft aus den legitimen
+Rollen-/Anschlussdaten; der normale Fortsetzen-Weg führt wieder bis zum Abschluss
+und zur persönlichen Save-Rückgabe, ohne KI-Persona-Ersatz.
+
+## Geliefert in R4 (Betreiberetappe: normale Bedienwege geschlossen)
+
+R4 liefert **keine neue Fähigkeit über die Betreiberetappe hinaus**, sondern schließt
+die zuletzt offenen normalen Nutzerwege und macht sie prozessfest bedienbar:
+
+- **Gast-Erschaffung am echten Launcher durchgängig bedienbar.** Ein über
+  `--guest-terminal` angeschlossener Gast bedient seine Erschaffungs-/Menübefehle
+  jetzt tatsächlich über sein eigenes Terminal (eigener nebenläufiger Dispatch) auf
+  der mit dem Anbieter verbundenen Autorität — ohne eigenen Hoststack. Pro
+  Gast-Terminal liest zu jedem Zeitpunkt **nur ein** Leser (Menübefehl erreicht das
+  Menü, Tischzug die Runde), keine konkurrierende Fehlzustellung.
+- **Erreichbarer Betreiberstop der offenen Gast-Erschaffung.** Der berechtigte
+  Betreiber kann eine bereits freigegebene Erschaffung während des offenen
+  Anbieterrequests adressiert stoppen (`gast-erschaffung-stop <id>`); Stop und
+  verbindliche Annahme ordnen sich an **einer** gemeinsamen dauerhaften Entscheidung
+  (Operation/Generation). Ein gewonnener Stop macht den Entwurf terminal; eine späte
+  Antwort wird verbucht, aber nicht veröffentlicht.
+- **Einmalige Veröffentlichung auch beim identischen Retry.** Eine bereits
+  vollständig publizierte Erschaffung erzeugt bei identischem Retry **keine** zweite
+  Current-Version mehr; die bereits angenommene Figur bleibt idempotent fertigstellbar.
+- **Normaler menschlicher Gast-Resume bis zum Abschluss** (behobener R3-Vorbefund
+  oben): der menschliche Gast-Leiter überlebt den `tisch-start`-Resume mit richtiger
+  Rolle und erreicht Final plus persönliche Save-Rückgabe.
+
+Belegt über dieselben vier Ergebnisfamilien (T1–T4) am **echten Launcher/Dispatch**
+mit **echten äußeren OS-Läufen** (literale `argv`, `cwd`, Exit, UTC je Lauf) und echten
+privaten Ergebnisdateien; der Anbieter-Modellrand ist dabei eine klar gekennzeichnete
+deterministische Grenzinjektion, kein Live-Modelllauf. Messwerte und Läufe liegen in
+der Rückgabe (`R4-RESOLUTION.json` und das Ergebnis-Manifest).
+
+## Geliefert in R5 (Betreiberetappe: die drei verbliebenen Grenzfälle geschlossen)
+
+R5 liefert **keine neue Fähigkeit**, sondern schließt genau die drei vom R4-Generalreview belegten
+Restbefunde an den benannten Grenzen und berichtigt die dafür zu weit gefassten R4-Erledigtaussagen
+oben sachlich:
+
+- **Terminaler Stop auch im laufenden inneren Dialog.** Die R4-Aussage „ein gewonnener Stop macht den
+  Entwurf terminal" galt nur für die Publikation: der innere Erschaffungsdialog sandte nach gewonnenem
+  Stop noch einen weiteren Anbieterrequest. R5 prüft die gemeinsame Stop-Entscheidung jetzt vor **jedem**
+  weiteren Request für genau diese Operation/Generation (`mmo_sim/core/creation_service.py` Loop-Gate +
+  `mmo_sim/domain/zeitriss/creation_service.py:creation_stop_committed`), einschließlich der internen
+  Save-Korrekturschleife (`mmo_sim/core/save_correction.py:pursue_single_figure_correction`); nach gewonnenem Stop endet der
+  Weg terminal ohne dritten Request, die bereits offene Antwort bleibt ehrlich verbucht.
+- **Erwartete Generation am Abschluss gebunden.** Der Abschluss prüft jetzt, dass der aktuell gültige
+  Grant dieselbe Generation trägt wie der laufende Vorgang; ein neuer Grant einer anderen Generation gibt
+  einen alten laufenden Versuch nicht frei (`mmo_sim/ui/tui.py:_finish_granted_guest_creation`).
+- **Exklusive Gast-Eingabeübergabe wirklich atomar.** Die R4-Aussage „zu jedem Zeitpunkt nur ein Leser"
+  war quellseitig ein TOCTOU (Check und Konsum nicht atomar mit dem Host-Claim). R5 führt einen
+  gemeinsamen Ausschluss-Lock ein: Claim-Setzen (Host) und Check+Konsum (Gast-Menü) laufen atomar unter
+  demselben Lock, eine Zeile fällt deterministisch genau einem Leser zu (`mmo_sim/ui/tui.py`).
+- **Unterbrochene persönliche Publikation übernimmt den erreichten Schritt.** Wird der Prozess zwischen
+  Versionsdatei und State-Zeiger unterbrochen, übernimmt der normale Retry genau diese verwaiste,
+  inhaltsgleiche Version statt eine zweite anzulegen (`mmo_sim/core/store.py:publish_current_save`); die
+  bereits in R4 belegte vollständig publizierte Wiederholung bleibt unverändert.
+
+Belegt über drei neue Ergebnisfamilien (r5a/r5b/r5c) am echten Launcher/Dispatch bzw. am echten
+`TuiSession`-Leser, mit echten äußeren OS-Läufen (literale `argv`, `cwd`, Exit, UTC) bzw. einer
+deterministischen In-Process-Barriere; der Anbieter-Modellrand bleibt eine gekennzeichnete
+Grenzinjektion, kein Live-Modelllauf. Messwerte und Läufe liegen in der Rückgabe (`R5-RESOLUTION.json`
+und das Ergebnis-Manifest). G2/G3 und der bereits vollständig publizierte identische Retry bleiben als
+R4-Ergebnisse unverändert anerkannt.
+
+**R5-Teilauftrag Tisch-/Gruppen-Save-Pfad (quellseitig bestätigt, kein neuer Patch).** Der im R5-Lauf
+dokumentierte Fund — die Gruppen-Save-Korrektur `mmo_sim/core/save_correction.py:pursue_group_save_correction`
+trägt keinen eigenen lokalen `stop_check` — wurde als enger Teilauftrag gegen die echte Quelle geprüft. Beide
+Zweige (frische Runde und Wiederaufnahme) konvergieren auf **einen** Versand (`send_correction_turn`), der vor
+jedem Transport den tisch-skopierten Betreiber-Stop über `read_admission_block(…, table_id=…)` →
+`mmo_sim/core/admission.py:read_table_stop` liest; eine nachträgliche Publikation des abgebrochenen Vorgangs ist
+ausgeschlossen, weil `mmo_sim/core/store.py:complete_section` die Plan-Fixierung über denselben atomaren
+Entscheidungs-Slot (`try_commit_table_decision`) führt, um den auch der Stop (`request_table_stop`) konkurriert.
+Der Fall ist damit **durch Bauart geschützt**, nicht durch einen fehlenden lokalen Check offen; der Schutz wird
+durch einen gezielt ergänzten Beleg-Test
+(`tests/mmo_sim/test_zr_betreiber_r5_group_save_tischstop_resume_2026_11_05.py`) am echten Code demonstriert.
+Keine Produktcode-Änderung in diesem Teilauftrag; die offenen G5-Restpunkte (T1/T2) bleiben davon unberührt.
+
+## Geliefert in R6 (zwei präzise Produktkanten geschlossen)
+
+R6 liefert **keine neue Fähigkeit**, sondern schließt genau die zwei vom R5-Generalreview an den
+benannten Grenzen belegten Restkanten und präzisiert die dafür zu weit gefasste R5-Aussage oben:
+
+- **Terminal auch bei spät zurückkehrender gültiger Antwort nach gewonnenem Stop.** Die R5-Aussage
+  „terminal ohne dritten Request" galt für das Unterbinden eines *weiteren* Anbieterrequests; sie deckte
+  nicht den Fall, dass der **bereits offene** Request nach dem gewonnenen Stop noch eine *gültige* Antwort
+  zurückliefert. R6 prüft die gemeinsame generationsgebundene Stop-Entscheidung jetzt auch **nach** der
+  ehrlichen Verbuchung dieser spät zurückkehrenden Antwort und **vor** innerer Ergebnisannahme bzw.
+  Folgefrage (`mmo_sim/core/creation_service.py`): die Antwort bleibt verbucht, der Weg ist terminal —
+  keine weitere Gastfrage, keine Annahme/Publikation. Dieselbe Entscheidung greift in der inneren
+  Save-Korrekturschleife für eine **spät gültige** Korrekturantwort (`mmo_sim/core/save_correction.py:
+  pursue_single_figure_correction`): sie wird als `correction_received` verbucht, aber **nicht** mehr
+  adoptiert. Ein gültiger Grant einer anderen Generation gibt einen alten laufenden Versuch weiterhin
+  nicht frei (unveränderte R5-Generationsbindung).
+- **Fehlende Hostaufnahme beim normalen Import vor erster Admission.** Importiert ein hostloser Gast
+  seine vollständige, bereits identisch im gemeinsamen Spielstand liegende Figur **vor** der ersten
+  Tisch-Aufnahme, blieb die Host-Projektion (Onboarding/Katalog) bisher aus, sodass der spätere Tischstart
+  die Figur nicht auflösen konnte. R6 vervollständigt im `noop_identical`-Zweig der Tisch-Annahme genau
+  diese fehlende Host-Projektion (`mmo_sim/ui/tui.py`) — **ohne** zweite Current-Version/Fortschritt und
+  **ohne** Seed-Ersatzaufnahme als Vorbedingung. Die allgemeine Importentscheidung bleibt `noop_identical`
+  (kein Umschlag auf „neu registrieren"); der echte identische Re-Import bleibt idempotent.
+
+Belegt über fünf neue launcher-basierte Nachweisfamilien (`a_dialog`, `a_correction`, `b_import`,
+`c_teilpub`, `d_t2`) am echten `scripts/mmo_sim.py`-Subprozess mit echten äußeren OS-Läufen (literale
+`argv`, `cwd`, Exit, UTC je Lauf) und echten privaten Ergebnisdateien; der Anbieter-Modellrand bleibt
+eine gekennzeichnete deterministische Grenzinjektion, kein Live-Modelllauf. `c_teilpub` und `d_t2` sind
+reine Nachweisfamilien ohne neue Storearbeit: sie liefern die fehlenden Originalkörper der persönlichen
+Teilpublikation bzw. die korrekte Stop-vor-Primärrest-Reihenfolge an der bereits gebauten T2-Grenze.
+Messwerte und Läufe liegen in der Rückgabe (`R6-RESOLUTION.json` und das Ergebnis-Manifest). G1/G2/G3,
+der Gruppen-Save-Schutz und die anerkannten T1/T1d/T2-Ergebnisse bleiben als frühere Ergebnisse
+unverändert anerkannt.
+
+## Geliefert in R7 (eine Produktkante geschlossen, zwei Belege vervollständigt)
+
+R7 liefert **genau eine** Produktkorrektur und vervollständigt die beiden vom R6-Generalreview an den
+benannten Grenzen beanstandeten Belegreste; die R6-Aussagen oben bleiben unverändert gültig.
+
+- **Fremde Hostregistrierung schlägt die Aufnahme, auch wenn der gemeinsame Gast-Current dieselbe
+  Figur-ID bereits kennt.** Die lesende Aufnahme-Entscheidung musste eine bereits einem **anderen**
+  Teilnehmer gehörende Figur-ID im Hostkatalog schützen — auch dann, wenn derselbe ID-Wert über den
+  geteilten Gast-Current schon als „bekannt" geführt wird. Bisher war der autoritative Fremdabgleich
+  (`mmo_sim/domain/zeitriss/catalog.py: find_registration`) im Aufnahmepfad an das
+  `known_char_ids`-Gate gekoppelt; der gemeinsame Gast-Current ergänzte die ID dort, sodass der
+  Fremdtreffer übersprungen und die spätere Hostprojektion unrechtmäßig geschrieben wurde. R7 löst den
+  Fremdabgleich in `mmo_sim/ui/tui.py: _decide_participant_save_intake` vom `known_char_ids`-Gate: er
+  läuft unabhängig und hält den Versuch **vor** jeder Roster-Aufnahme oder Hostprojektion an (geparkt),
+  sobald der Treffer einem anderen `participant_id` gehört; die Anfrage bleibt offen, fremde Körper
+  bleiben byte-unverändert. Die eigene Registrierung (Treffer gehört dem Teilnehmer selbst) und der
+  konfliktfreie normale Erstimport (kein Treffer) bleiben unberührt; der R6-Fix-B-Normalweg bleibt in
+  derselben Lauffamilie funktionsfähig. Es wurde **keine** neue Testfamilie und **keine** zusätzliche
+  O1/G3/D-Kampagne eingezogen.
+- **Ergänzte Belege A und C.** Der A-Beleg (späte gültige Korrekturantwort nach gewonnenem Stop) nutzt
+  jetzt eine **wertgleiche**, schema- und driftzulässige Wrap-Reparatur (Wallet-Zahl → Objekt mit
+  `balance` desselben Betrags) statt des R6-Walletverlusts; ein statischer Vorabbeweis mit denselben
+  Prüfoberflächen wie `mmo_sim/core/save_correction.py: pursue_single_figure_correction` zeigt, dass der
+  reparierte Kandidat **ohne** den Stop angenommen worden wäre — der Weg endet dennoch terminal als
+  `correction_received` und wird **nie** adoptiert; ein Versuchclaim entsteht hier strukturell nicht und
+  wird ehrlich als Abwesenheit erfasst. Der C-Beleg (persönliche Teilpublikation an vier Phasen) liefert
+  jetzt die echten vollen Körper — anerkannte Annahme-Entscheidung, generations-/figurgebundener
+  Versuchclaim, volles privates Onboarding, voller Katalog-/Figurkörper. Empirischer Befund (nicht vorab
+  behauptet): zwischen Unterbrechung und Fertigstellung unterscheiden sich genau der Current-State-Zeiger
+  **und** die Katalog-Aktivbindung, beide an **derselben** Vollendungsgrenze; alle vier Kernkörper sind
+  sonst identisch, es entsteht genau Version 0001, kein zweiter GM-Aufruf, keine zweite Version/Figur/
+  Claimwirkung beim identischen Retry. Direktdatei und autoritativer State-Zeiger werden bewusst getrennt
+  ausgewiesen.
+
+Belegt über drei neue launcher-basierte Nachweisfamilien (`g5_foreign_registration`, `a_correction`,
+`c_teilpub`) am echten `scripts/mmo_sim.py`-Subprozess bzw. dem unveränderten R5-Hardexit-Helper, mit
+echten äußeren OS-Läufen (literale `argv`, `cwd`, Exit, UTC je Lauf) und echten privaten Ergebnisdateien;
+der Anbieter-Modellrand bleibt eine gekennzeichnete deterministische Grenzinjektion, kein Live-Modelllauf.
+Messwerte und Läufe liegen in der Rückgabe (`R7-RESOLUTION.json` und das Ergebnis-Manifest). G1/G2/G3
+(G3 bezieht sich auf T3, nicht auf den T1-Import), der A-Dialog samt Produktschutz, der konfliktfreie
+B-Normalweg, der C-Storefix, D/T2, T1/T1d und der Gruppen-Save-Schutz bleiben als frühere Ergebnisse
+unverändert anerkannt.
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
@@ -193,21 +436,26 @@ als neue Spielbeweise.
 - Die Tisch-Geschäftsvorgänge sind so geschnitten, dass sie später transportfähig
   bleiben: ein gemeinsamer, persistenter Admissionsdienst mit klaren Host-only-
   Übergängen, nicht in die Oberfläche eingestreute Sonderfälle.
-- **Keine** automatische Bereinigungsgarantie an der Verlassens-/Pausengrenze
-  (siehe oben). Die kontrollierte Betreiber-Stop-/Abbruchsteuerung ist noch nicht
-  geliefert.
+- Die frühere Lücke an der Verlassens-/Pausengrenze ist mit der jetzt gelieferten
+  Betreiberetappe adressiert: ein kontrollierter Stop und ein echter, nicht-
+  destruktiver Abbruch vor der Abschlussentscheidung stehen (siehe „Geliefert in
+  R2 (Betreiber-Etappe)"). Weiterhin **nicht** geliefert sind LAN/Netz und mehrere
+  gleichzeitige Abschnitte auf einem Host.
 - Kein Billing-, Lobby- oder Netz-Platzhalter wurde eingezogen.
 
-## Betreiber- und Mischbetriebsplan (verbindliche Fortschreibung, noch nicht geliefert)
+## Betreiber-, Misch- und Netzbetrieb (verbindliche Fortschreibung)
 
-Die folgenden Fähigkeiten sind **noch nicht als geliefert oder getestet
-abgenommen**. Sie halten die neue Richtung (Betreiberkontrolle, gemischte
-Terminalplätze) an **dieser** kanonischen Planstelle fest — es gibt keine zweite
+Die **Betreiber-Etappe** dieses Plans — eigenständige Betreiberrolle, erreichbarer
+Stop, sauberer Abbruch vor Commit mit sichtbarer Speichergrenze, vom Betreiber
+freigegebene Gast-Erschaffung — ist mit R2 **geliefert und belegt** (siehe
+„Geliefert in R2 (Betreiber-Etappe)"); die folgenden Absätze halten ihren
+verbindlichen Vertrag fest, der jetzt im Produkt realisiert ist. **Noch nicht als
+geliefert oder getestet abgenommen** bleiben der **Mischbetrieb/LAN** und
+**mehrere gleichzeitige Abschnitte auf einem Host** (am Ende dieses Abschnitts).
+Alles steht an **dieser** einen kanonischen Planstelle — es gibt keine zweite
 dauerhaft gepflegte Repo-Roadmap. Die zugrunde liegende, rein lesende
-Architekturstudie (Betreiberkontrolle und gemischte Clients mit
-risikoorientierten Prüfvorschlägen) liegt als Leseanker im Auftragspaket des
-Nachzugs, **nicht** als Datei im Repository; sie beschreibt geplante Fähigkeiten,
-keine gelaufenen Produktbeweise.
+Architekturstudie liegt als Leseanker im Auftragspaket des Nachzugs, **nicht** als
+Datei im Repository.
 
 **Betreiber ist eine eigenständige Rolle.** Ein Hostanbieter kann einen Abschnitt
 für seine eigenen Personas oder angenommene menschliche Gäste bereitstellen,
@@ -291,20 +539,30 @@ Zusatzfähigkeit zu warten.
 
 ### Feste Reihenfolge
 
-1. R2 schließt den beauftragten lokalen Tisch-/Figurenreiseweg und berichtigt die
-   kanonische Produktprosa; Betreiber- und Mischbetriebsrichtung ist hier jetzt
-   festgehalten.
+1. ✅ **Geliefert (R2):** der beauftragte lokale Tisch-/Figurenreiseweg ist
+   geschlossen und die kanonische Produktprosa berichtigt; Betreiber-, Misch- und
+   Netzbetriebsrichtung ist hier festgehalten.
 2. Die Änderung durchläuft die reguläre Review- und Merge-Freigabe; sie wird
    nicht selbsttätig übernommen.
-3. Eigene Betreiberetappe: Anbieter ohne Spielfigur, öffentliche Zuschaueransicht,
-   erreichbarer Stop, sicherer Abbruch vor Commit, keine Rücksetzung danach,
-   hostgestützte Gast-Erschaffung.
-4. LAN verbindet Terminal-Clients mit demselben Dienst (drei lokale Menschen plus
-   LAN-Gast, gemeinsame/getrennte HQ-Gruppen, erneut angenommene aktuelle
-   Gastfigur, klare Eingabe-/Figurenbindung).
+3. ✅ **Geliefert (R2), in R3 am Normalweg erreichbar gemacht und prozessfest
+   belegt:** die eigene Betreiberetappe — Anbieter ohne Spielfigur, öffentliche
+   Zuschaueransicht, erreichbarer Stop, sicherer Abbruch vor Commit, keine
+   Rücksetzung danach, hostgestützte Gast-Erschaffung. R3 bindet die Steuerung an
+   den echten Launcher und weist die Stop-/Abschluss-/Retry-Grenze über echte neue
+   Prozesse nach (siehe „Geliefert in R3"); ein pre-existing, außerhalb des
+   Gegenstands liegender Tisch-Wiederaufnahme-Befund bleibt offen
+   (`R3-RESOLUTION.json`).
+4. **Als Nächstes:** LAN verbindet Terminal-Clients mit demselben Dienst (drei
+   lokale Menschen plus LAN-Gast, gemeinsame/getrennte HQ-Gruppen, erneut
+   angenommene aktuelle Gastfigur, klare Eingabe-/Figurenbindung).
 5. Mehrere parallele Abschnitte auf einem Host und eine mögliche Pause-/Wechsel-/
    Fortsetzungsverwaltung bleiben gesonderte Anschlussfähigkeiten, falls danach
    sinnvoll.
+
+**Reihenfolge-Notiz (ZR-BETREIBER-GASTERSCHAFFUNG):** Betreiberetappe →
+README/Doku/selbsterklärendes Terminal (optional Zeit-Gedanken in echten
+Wartephasen) → LAN → optional parallel/Pause-Komfort. Spätere Etappen werden
+hier jetzt nicht vorgezogen implementiert.
 
 Keine Browseroberfläche, keine übergreifende Chatlobby und keine Abrechnung im
 Spiel. Persönlicher Figurensave, Populationsbackup und optionales späteres
