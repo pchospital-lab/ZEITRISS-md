@@ -759,6 +759,21 @@ class TuiSession:
         # irrelevant, die nie als Gast-Terminal registriert wird (Default-
         # Solo/Operator bleibt unberuehrt -- niemand setzt das Flag).
         self._host_terminal_claimed = threading.Event()
+        # R5 C (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §4,
+        # GUEST-OPERATOR.md §5): gemeinsamer Ausschluss-Lock fuer die
+        # tatsaechlich exklusive Besitzuebergabe des EINEN Gast-Eingabekanals
+        # zwischen dem host-getriebenen Round-/Dialog-Read (`_HumanDriver.
+        # decide`, setzt den Claim UNTER diesem Lock) und dem Gast-Menue-Loop
+        # (`_readline_guest_menu`, prueft den Claim UND konsumiert die Zeile
+        # ATOMAR unter demselben Lock). Das `_host_terminal_claimed`-Event
+        # allein ist nur ein Signal, kein gegenseitiger Ausschluss -- es liess
+        # ein Fenster zwischen Claim-Check und Konsum offen (TOCTOU). Der Lock
+        # serialisiert Claim-Setzen und Check+Konsum, sodass eine Zeile
+        # deterministisch GENAU EINEM Leser (dem produktzustandsrichtigen)
+        # zufaellt. Fuer JEDE nie als Gast-Terminal registrierte Session
+        # irrelevant (der Menue-Loop faellt dort bytegleich auf `_readline`
+        # zurueck, s. `_readline_guest_menu`).
+        self._terminal_read_lock = threading.Lock()
         # R4 FIX6: erst `register_guest_terminal` (unten) setzt dies auf
         # `True` -- nur DANN liest `_readline_guest_menu` getimed/Claim-
         # bewusst statt des bisherigen direkten `_readline`.
@@ -1033,12 +1048,22 @@ class TuiSession:
                 ready = False
             if not ready:
                 continue
-            if self._host_terminal_claimed.is_set():
-                # Claim ist genau zwischen Bereitschafts-Check und Konsum
-                # dazugekommen -- NICHT konsumieren (die Zeile bleibt
-                # ungelesen in der FIFO), erneut parken.
-                continue
-            return self._readline(prompt)
+            # R5 C (01_NACHZUG.md §4, GUEST-OPERATOR.md §5): Claim-Recheck UND
+            # Konsum ATOMAR unter dem gemeinsamen Ausschluss-Lock. Der host-
+            # getriebene Read setzt seinen Claim UNTER demselben Lock (s.
+            # `_HumanDriver.decide`) -- damit ist das fruehere TOCTOU-Fenster
+            # geschlossen: entweder haelt dieser Thread den Lock und sieht den
+            # Claim NICHT gesetzt (dann war es zum Konsumzeitpunkt wirklich der
+            # Gast-Lesepfad und genau diese eine Zeile wird hier konsumiert),
+            # ODER der Host hat den Claim bereits (unter dem Lock) gesetzt und
+            # der Recheck parkt erneut, OHNE zu konsumieren (die Zeile bleibt in
+            # der FIFO fuer den Host-Read). Kein Deadlock: der Lock wird nur fuer
+            # den Recheck + den EINEN `_readline`-Konsum gehalten, der Host haelt
+            # ihn nur fuer das kurze Claim-Setzen.
+            with self._terminal_read_lock:
+                if self._host_terminal_claimed.is_set():
+                    continue
+                return self._readline(prompt)
 
     # UX04/05 (02 §C, "Einmaliger zentraler, kontextbewusster Bedienvertrag
     # statt ad-hoc-Abfangen in zehn Dialogen"): EIN gemeinsamer Satz
@@ -6408,6 +6433,14 @@ class TuiSession:
             turn_idx_start=turn_idx, initial_outgoing=initial_outgoing, gm_transport=gm_transport,
             get_reply=_guest_get_reply, harvest_validator=ZeitrissHarvestValidator(),
             print_fn=self._print, role="creation_dialog",
+            # R5 A (01_NACHZUG.md §2): der laufende innere Dialog honoriert VOR
+            # jedem weiteren Request denselben adressierten Betreiber-Stop fuer
+            # GENAU diese Operation+Generation (nicht nur die einmalige
+            # ensure_valid_grant-Pruefung am Dialogeintritt oben). Gewinnt der
+            # Stop, endet der Dialog terminal ('stopped'), KEIN dritter Request.
+            stop_check=lambda: creation_grants.creation_stop_committed(
+                run_dir, operator_id=operator_id, guest_id=self.participant_id, generation=generation,
+            ),
         )
         if outcome.status == "completed":
             self._finish_granted_guest_creation(
@@ -6463,7 +6496,7 @@ class TuiSession:
         if operator_id is not None:
             effective_grant_run_dir = grant_run_dir if grant_run_dir is not None else self.run_dir
             try:
-                creation_grants.ensure_valid_grant(
+                current_generation = creation_grants.ensure_valid_grant(
                     effective_grant_run_dir,
                     self.onboarding_dir,
                     operator_id=operator_id, guest_id=self.participant_id,
@@ -6472,6 +6505,27 @@ class TuiSession:
                 self._print(
                     f"Gast-Erschaffung nicht publiziert: Grant ist zwischenzeitlich ungueltig "
                     f"geworden ({e}) -- kein Katalog-/Current-Write, Vorgang bleibt ehrlich offen."
+                )
+                return
+            # R5 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §2,
+            # GUEST-OPERATOR.md §3 "Erwartete Generation ist am Abschluss nicht
+            # verglichen"): `ensure_valid_grant` liefert die Generation des
+            # AKTUELLEN Grants; die hier abzuschliessende Operation laeuft aber
+            # auf der beim Dialogeintritt gebundenen `generation`. Weicht der
+            # aktuelle Grant (z.B. eine zwischenzeitlich neu freigegebene
+            # Generation derselben Betreiber-/Gastkombination) davon ab, darf er
+            # diesen ALTEN laufenden Versuch NICHT freigeben -- kein Katalog-/
+            # Current-Write, Vorgang bleibt ehrlich offen. Bei identischer
+            # Generation (normaler Fall, idempotenter completed-Retry) aendert
+            # sich nichts. Keine kuenstliche nachtraegliche Invalidierung eines
+            # bereits angenommenen 'completed'-Grants: hier wird nur die
+            # Generationsbindung geprueft, kein 'accepted'-Entscheid widerrufen.
+            if current_generation != generation:
+                self._print(
+                    f"Gast-Erschaffung nicht publiziert: der aktuell gueltige Grant bindet eine "
+                    f"andere Generation ({current_generation}) als dieser laufende Vorgang "
+                    f"(Generation {generation}) -- ein neuer Grant einer anderen Generation gibt "
+                    "diesen alten Versuch nicht frei. Kein Katalog-/Current-Write, Vorgang offen."
                 )
                 return
             # R4 FIX3 (B2/G4): Stop und verbindliche Annahme ordnen sich an
@@ -7757,7 +7811,16 @@ class TuiSession:
                 # Readers) -- niemals ein dauerhaft haengender Claim.
                 claims_guest_terminal = io is not outer
                 if claims_guest_terminal:
-                    io._host_terminal_claimed.set()
+                    # R5 C (01_NACHZUG.md §4, GUEST-OPERATOR.md §5): den Claim
+                    # UNTER dem gemeinsamen Ausschluss-Lock setzen, damit er
+                    # atomar gegenueber dem Check+Konsum des Gast-Menue-Loops
+                    # (`_readline_guest_menu`) ist. Haelt der Gast-Loop den Lock
+                    # gerade fuer seinen einen Konsum, wartet dieses Setzen bis
+                    # danach; anschliessend sieht JEDER weitere Gast-Recheck den
+                    # Claim gesetzt und parkt. Der Read selbst laeuft wie bisher
+                    # ausserhalb des Locks -- der gesetzte Claim gated den Gast.
+                    with io._terminal_read_lock:
+                        io._host_terminal_claimed.set()
                 try:
                     text, control = io._readline_with_controls(
                         prompt, context="Spielzug", history=history, speaker_pid=self._pid,

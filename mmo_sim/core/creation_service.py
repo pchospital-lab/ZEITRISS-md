@@ -61,7 +61,7 @@ class ReplyResult:
 
 @dataclass
 class CreationDialogOutcome:
-    status: str  # "completed" | "paused" | "error"
+    status: str  # "completed" | "paused" | "error" | "stopped"
     save_block: dict | None = None
     chrononaut_id: str | None = None
     reason: str = ""
@@ -135,6 +135,7 @@ def run_admitted_creation_dialog(
     role: str = "creation_dialog",
     table_id: str | None = None,
     section_id: str | None = None,
+    stop_check: Callable[[], bool] | None = None,
 ) -> CreationDialogOutcome:
     """Treibt EINEN fortsetzbaren SL-Erschaffungsdialog bis zu einem
     gueltigen v7-Save ODER einer kontrollierten Pause/einem Fehler.
@@ -165,6 +166,29 @@ def run_admitted_creation_dialog(
     turn_idx = turn_idx_start
     outgoing = initial_outgoing
     while True:
+        # R5 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §2,
+        # GUEST-OPERATOR.md §3): VOR jedem weiteren Schritt dieses laufenden
+        # Dialogs pruefen, ob der adressierte Betreiber-Stop die gemeinsame
+        # Entscheidung fuer GENAU diese Operation+Generation bereits gewonnen
+        # hat (`domain.zeitriss.creation_service.creation_stop_committed`,
+        # dieselbe fail-closed-Lesart wie `ensure_valid_grant`s Stop-Zweig).
+        # Gewinnt der Stop, ist der laufende Weg TERMINAL -- KEIN weiterer
+        # GM-/Korrektur-Request, keine neue Gastfrage. Die bis hierher bereits
+        # empfangene/verbuchte Antwort (`record_step` am Ende der vorigen
+        # Iteration, `request_ledger.finish_received`) bleibt ehrlich
+        # gesichert; nur der NAECHSTE Request unterbleibt. Deckt denselben
+        # Loop-Eintritt fuer die Recovery-/pending-step-/Korrekturwege ab
+        # (sie beginnen alle hier), statt die Abweisung nur am Dialogeintritt
+        # (`_cmd_gast_erschaffung_dialog`) zu haben. `stop_check is None`
+        # (Mensch-/Community-Pfad, jeder bestehende Aufrufer): unveraendert.
+        if stop_check is not None and stop_check():
+            print_fn(
+                "Gast-Erschaffungsdialog beendet: ein adressierter Betreiber-Stop hat den "
+                "gemeinsamen Entscheid fuer diese Operation gewonnen -- dieser Weg ist terminal, "
+                "kein weiterer SL-/Korrektur-Request, keine weitere Frage, keine Annahme/Publikation. "
+                "Bereits empfangene Antworten bleiben verbucht."
+            )
+            return CreationDialogOutcome(status="stopped", reason="operator_creation_stop_committed")
         # C2 (P2-Community-Kontinuitaet 2026-09-25, MAIN-DATENWEGENTSCHEIDUNG.md
         # §3): ein bereits empfangener, aber noch nicht in `steps` uebernommener
         # SL-Reply fuer GENAU DIESEN offenen Schritt (`onboarding.pending_step`)

@@ -1185,6 +1185,29 @@ def _write_current_save_version(current_saves_dir: Path, persona_key: str, block
     return version_path
 
 
+def _newest_current_save_version(current_saves_dir: Path, persona_key: str) -> "tuple[int, dict] | None":
+    """R5 B (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §3,
+    GUEST-OPERATOR.md §4, STATIC-CROSSCHECK (a)): liefert `(seq, block)` der
+    HOECHSTEN vorhandenen Versionsdatei fuer `persona_key`, oder `None`, wenn
+    keine existiert bzw. die hoechste nicht lesbar ist. Reiner Lesevorgang,
+    keine Auswahl-/Rekonstruktionslogik -- dient ausschliesslich der
+    idempotenten Wiederaufnahme eines bereits GESCHRIEBENEN Versionsschritts
+    in `publish_current_save` (Unterbrechung zwischen Versionsdatei und
+    State-Zeiger)."""
+    versions_dir = _current_save_versions_dir(current_saves_dir, persona_key)
+    if not versions_dir.is_dir():
+        return None
+    existing = sorted(int(p.stem) for p in versions_dir.glob("*.json") if p.stem.isdigit())
+    if not existing:
+        return None
+    seq = existing[-1]
+    try:
+        block = json.loads((versions_dir / f"{seq:04d}.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return seq, block
+
+
 class CurrentSaveUnavailableError(RuntimeError):
     """I4-Nachzug Vertrag §3 B: ein BEKANNTER, bereits veroeffentlichter
     Current-Save (gueltige `current_save_version`-Ref mit Sequenznummer)
@@ -2208,8 +2231,26 @@ def publish_current_save(
     current_saves_dir.mkdir(parents=True, exist_ok=True)
     direct_path = current_saves_dir / f"{persona_key}.json"
     direct_path.write_text(json.dumps(block, ensure_ascii=False, indent=2), encoding="utf-8")
-    version_path = _write_current_save_version(current_saves_dir, persona_key, block)
-    new_seq = int(version_path.stem)
+    # R5 B (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §3,
+    # GUEST-OPERATOR.md §4, STATIC-CROSSCHECK (a)): idempotente Wiederaufnahme
+    # eines bereits erreichten Publikationsschritts. Diese Funktion schreibt
+    # direct -> NEUE Versionsdatei -> State-Zeiger. Wird der Prozess GENAU
+    # zwischen Versionsdatei und State-Zeiger unterbrochen, existiert die
+    # hoechste Versionsdatei bereits mit exakt `block`, aber der State-Zeiger
+    # fehlt/zeigt nicht darauf; der tolerante `load_current_save` liefert dann
+    # `None`, und ein normaler Retry legte bisher inhaltsgleich `0002.json` an.
+    # Ist die HOECHSTE vorhandene Version inhaltsgleich zu `block` (genau der
+    # erreichte eigene Schritt DERSELBEN Operation), wird dieser Schritt
+    # UEBERNOMMEN: KEINE zweite Version, der State-Zeiger wird auf die
+    # vorhandene Version gesetzt. Bei abweichendem Inhalt (echte neue
+    # Publikation, z.B. Import eines anderen Stands) bleibt die bisherige
+    # Semantik unveraendert: neue Version + erhoehtes seq.
+    newest = _newest_current_save_version(current_saves_dir, persona_key)
+    if newest is not None and newest[1] == block:
+        new_seq = newest[0]
+    else:
+        version_path = _write_current_save_version(current_saves_dir, persona_key, block)
+        new_seq = int(version_path.stem)
     state = persona_state_store.load_state(persona_key, states_dir=states_dir)
     state[_CURRENT_SAVE_REF_FIELD] = {"run_id": _run_id(run_dir), "seq": new_seq}
     persona_state_store.save_state(persona_key, state, states_dir=states_dir)

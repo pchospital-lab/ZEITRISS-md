@@ -330,6 +330,29 @@ def try_commit_creation_accept(
     )
 
 
+def creation_stop_committed(
+    run_dir: str | Path, *, operator_id: str, guest_id: str, generation: int,
+) -> bool:
+    """R5 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R5, 01_NACHZUG.md §2,
+    GUEST-OPERATOR.md §3): reine Lesepruefung, ob der gemeinsame Entscheid-
+    Slot fuer GENAU diese laufende Operation+Generation bereits durch einen
+    adressierten Betreiber-Stop (bzw. einen fail-closed nicht als 'accepted'
+    lesbaren Entscheid) terminal geworden ist -- derselbe Slot und dieselbe
+    fail-closed-Lesart wie der Stop-Zweig in `ensure_valid_grant` (keine
+    zweite Autoritaet). Gebunden an die ERWARTETE `generation` des gerade
+    laufenden Dialogs, NICHT an den aktuellen Grant-Record -- ein neuer Grant
+    einer ANDEREN Generation darf diesen alten laufenden Versuch nicht
+    freigeben (01_NACHZUG.md §2). Ein bereits GEWONNENER eigener Annahme-
+    Entscheid ('accepted') gilt NICHT als Stop (idempotenter completed-Schutz).
+    `True` bedeutet: der laufende Erschaffungsweg ist terminal -- `core.
+    creation_service.run_admitted_creation_dialog` darf dann KEINEN weiteren
+    GM-/Korrektur-Request mehr senden."""
+    decision = read_table_decision(
+        Path(run_dir), _creation_decision_id(operator_id, guest_id, generation),
+    )
+    return decision is not None and decision.get("decision") != "accepted"
+
+
 def grant_status(run_dir: str | Path, guest_id: str) -> dict | None:
     """Reine Lesefunktion (Status-Anzeige/Tests) -- liefert den
     persistierten Grant-Record unveraendert, `None` wenn (noch) keine

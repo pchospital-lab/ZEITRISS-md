@@ -307,6 +307,37 @@ privaten Ergebnisdateien; der Anbieter-Modellrand ist dabei eine klar gekennzeic
 deterministische Grenzinjektion, kein Live-Modelllauf. Messwerte und Läufe liegen in
 der Rückgabe (`R4-RESOLUTION.json` und das Ergebnis-Manifest).
 
+## Geliefert in R5 (Betreiberetappe: die drei verbliebenen Grenzfälle geschlossen)
+
+R5 liefert **keine neue Fähigkeit**, sondern schließt genau die drei vom R4-Generalreview belegten
+Restbefunde an den benannten Grenzen und berichtigt die dafür zu weit gefassten R4-Erledigtaussagen
+oben sachlich:
+
+- **Terminaler Stop auch im laufenden inneren Dialog.** Die R4-Aussage „ein gewonnener Stop macht den
+  Entwurf terminal" galt nur für die Publikation: der innere Erschaffungsdialog sandte nach gewonnenem
+  Stop noch einen weiteren Anbieterrequest. R5 prüft die gemeinsame Stop-Entscheidung jetzt vor **jedem**
+  weiteren Request für genau diese Operation/Generation (`mmo_sim/core/creation_service.py` Loop-Gate +
+  `mmo_sim/domain/zeitriss/creation_service.py:creation_stop_committed`); nach gewonnenem Stop endet der
+  Weg terminal ohne dritten Request, die bereits offene Antwort bleibt ehrlich verbucht.
+- **Erwartete Generation am Abschluss gebunden.** Der Abschluss prüft jetzt, dass der aktuell gültige
+  Grant dieselbe Generation trägt wie der laufende Vorgang; ein neuer Grant einer anderen Generation gibt
+  einen alten laufenden Versuch nicht frei (`mmo_sim/ui/tui.py:_finish_granted_guest_creation`).
+- **Exklusive Gast-Eingabeübergabe wirklich atomar.** Die R4-Aussage „zu jedem Zeitpunkt nur ein Leser"
+  war quellseitig ein TOCTOU (Check und Konsum nicht atomar mit dem Host-Claim). R5 führt einen
+  gemeinsamen Ausschluss-Lock ein: Claim-Setzen (Host) und Check+Konsum (Gast-Menü) laufen atomar unter
+  demselben Lock, eine Zeile fällt deterministisch genau einem Leser zu (`mmo_sim/ui/tui.py`).
+- **Unterbrochene persönliche Publikation übernimmt den erreichten Schritt.** Wird der Prozess zwischen
+  Versionsdatei und State-Zeiger unterbrochen, übernimmt der normale Retry genau diese verwaiste,
+  inhaltsgleiche Version statt eine zweite anzulegen (`mmo_sim/core/store.py:publish_current_save`); die
+  bereits in R4 belegte vollständig publizierte Wiederholung bleibt unverändert.
+
+Belegt über drei neue Ergebnisfamilien (r5a/r5b/r5c) am echten Launcher/Dispatch bzw. am echten
+`TuiSession`-Leser, mit echten äußeren OS-Läufen (literale `argv`, `cwd`, Exit, UTC) bzw. einer
+deterministischen In-Process-Barriere; der Anbieter-Modellrand bleibt eine gekennzeichnete
+Grenzinjektion, kein Live-Modelllauf. Messwerte und Läufe liegen in der Rückgabe (`R5-RESOLUTION.json`
+und das Ergebnis-Manifest). G2/G3 und der bereits vollständig publizierte identische Retry bleiben als
+R4-Ergebnisse unverändert anerkannt.
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
