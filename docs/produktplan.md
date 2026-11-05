@@ -386,6 +386,49 @@ Messwerte und Läufe liegen in der Rückgabe (`R6-RESOLUTION.json` und das Ergeb
 der Gruppen-Save-Schutz und die anerkannten T1/T1d/T2-Ergebnisse bleiben als frühere Ergebnisse
 unverändert anerkannt.
 
+## Geliefert in R7 (eine Produktkante geschlossen, zwei Belege vervollständigt)
+
+R7 liefert **genau eine** Produktkorrektur und vervollständigt die beiden vom R6-Generalreview an den
+benannten Grenzen beanstandeten Belegreste; die R6-Aussagen oben bleiben unverändert gültig.
+
+- **Fremde Hostregistrierung schlägt die Aufnahme, auch wenn der gemeinsame Gast-Current dieselbe
+  Figur-ID bereits kennt.** Die lesende Aufnahme-Entscheidung musste eine bereits einem **anderen**
+  Teilnehmer gehörende Figur-ID im Hostkatalog schützen — auch dann, wenn derselbe ID-Wert über den
+  geteilten Gast-Current schon als „bekannt" geführt wird. Bisher war der autoritative Fremdabgleich
+  (`mmo_sim/domain/zeitriss/catalog.py: find_registration`) im Aufnahmepfad an das
+  `known_char_ids`-Gate gekoppelt; der gemeinsame Gast-Current ergänzte die ID dort, sodass der
+  Fremdtreffer übersprungen und die spätere Hostprojektion unrechtmäßig geschrieben wurde. R7 löst den
+  Fremdabgleich in `mmo_sim/ui/tui.py: _decide_participant_save_intake` vom `known_char_ids`-Gate: er
+  läuft unabhängig und hält den Versuch **vor** jeder Roster-Aufnahme oder Hostprojektion an (geparkt),
+  sobald der Treffer einem anderen `participant_id` gehört; die Anfrage bleibt offen, fremde Körper
+  bleiben byte-unverändert. Die eigene Registrierung (Treffer gehört dem Teilnehmer selbst) und der
+  konfliktfreie normale Erstimport (kein Treffer) bleiben unberührt; der R6-Fix-B-Normalweg bleibt in
+  derselben Lauffamilie funktionsfähig. Es wurde **keine** neue Testfamilie und **keine** zusätzliche
+  O1/G3/D-Kampagne eingezogen.
+- **Ergänzte Belege A und C.** Der A-Beleg (späte gültige Korrekturantwort nach gewonnenem Stop) nutzt
+  jetzt eine **wertgleiche**, schema- und driftzulässige Wrap-Reparatur (Wallet-Zahl → Objekt mit
+  `balance` desselben Betrags) statt des R6-Walletverlusts; ein statischer Vorabbeweis mit denselben
+  Prüfoberflächen wie `mmo_sim/core/save_correction.py: pursue_single_figure_correction` zeigt, dass der
+  reparierte Kandidat **ohne** den Stop angenommen worden wäre — der Weg endet dennoch terminal als
+  `correction_received` und wird **nie** adoptiert; ein Versuchclaim entsteht hier strukturell nicht und
+  wird ehrlich als Abwesenheit erfasst. Der C-Beleg (persönliche Teilpublikation an vier Phasen) liefert
+  jetzt die echten vollen Körper — anerkannte Annahme-Entscheidung, generations-/figurgebundener
+  Versuchclaim, volles privates Onboarding, voller Katalog-/Figurkörper. Empirischer Befund (nicht vorab
+  behauptet): zwischen Unterbrechung und Fertigstellung unterscheiden sich genau der Current-State-Zeiger
+  **und** die Katalog-Aktivbindung, beide an **derselben** Vollendungsgrenze; alle vier Kernkörper sind
+  sonst identisch, es entsteht genau Version 0001, kein zweiter GM-Aufruf, keine zweite Version/Figur/
+  Claimwirkung beim identischen Retry. Direktdatei und autoritativer State-Zeiger werden bewusst getrennt
+  ausgewiesen.
+
+Belegt über drei neue launcher-basierte Nachweisfamilien (`g5_foreign_registration`, `a_correction`,
+`c_teilpub`) am echten `scripts/mmo_sim.py`-Subprozess bzw. dem unveränderten R5-Hardexit-Helper, mit
+echten äußeren OS-Läufen (literale `argv`, `cwd`, Exit, UTC je Lauf) und echten privaten Ergebnisdateien;
+der Anbieter-Modellrand bleibt eine gekennzeichnete deterministische Grenzinjektion, kein Live-Modelllauf.
+Messwerte und Läufe liegen in der Rückgabe (`R7-RESOLUTION.json` und das Ergebnis-Manifest). G1/G2/G3
+(G3 bezieht sich auf T3, nicht auf den T1-Import), der A-Dialog samt Produktschutz, der konfliktfreie
+B-Normalweg, der C-Storefix, D/T2, T1/T1d und der Gruppen-Save-Schutz bleiben als frühere Ergebnisse
+unverändert anerkannt.
+
 ## Jetzt (bewusste Grenzen dieser Etappe)
 
 - Vollständig terminalbasiert, **kein Netz**. Die Figur reist auf Datenebene
