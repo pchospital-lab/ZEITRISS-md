@@ -1329,6 +1329,24 @@ def pursue_single_figure_correction(
             raw_text=outcome.text or "",
         )
 
+        # R6 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R6, 01_NACHZUG.md §A,
+        # GUEST-PUBLICATION.md §2): die Korrekturantwort ist jetzt durabel
+        # empfangen (`record_correction_received` oben) UND roh archiviert
+        # (`archive_raw_response`) -- ehrlich verbucht. Der Stopcheck am
+        # Loop-Top wird NUR vor einem weiteren Versand erreicht; eine waehrend
+        # GENAU DIESES Korrektur-Requests gewonnene Stopentscheidung wuerde bei
+        # einer nun GUELTIGEN Antwort sonst nicht gesehen, weil der Weg direkt
+        # zu `mark_adopted`/`accepted` (unten) zurueckkehrt, ohne die Schleife
+        # erneut zu durchlaufen. Deshalb GENAU HIER, nach der Verbuchung und VOR
+        # jeder inneren Annahme/Adoption, denselben generationsgebundenen Stop
+        # erneut pruefen. Gewinnt er, endet die Korrektur terminal ('stopped');
+        # die empfangene Antwort bleibt verbucht, wird aber NICHT adoptiert/
+        # publiziert (der aeussere Dialog meldet dann ebenfalls 'stopped').
+        # `stop_check is None` (Mensch-/Community-/jeder bestehende Aufrufer):
+        # bytegleich -- kein zweiter Korrekturloop.
+        if stop_check is not None and stop_check():
+            return CorrectionOutcome(status="stopped", reason="operator_creation_stop_committed")
+
         # G02/SC06 (W54-Fix): strikter, mehrdeutigkeitssicherer
         # Extraktionspfad fuer die Korrekturantwort -- sieht ALLE rohen
         # Kandidaten fuer `expected_chrononaut_id` in dieser EINEN Antwort,

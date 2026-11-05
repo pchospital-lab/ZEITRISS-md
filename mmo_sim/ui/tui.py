@@ -440,6 +440,23 @@ def _decide_participant_save_intake(
             action="parked", reason=decision.reason, char_id=preview.char_id,
             conflict_choice_available=conflict_choice_available,
         )
+    if decision.action == "noop_identical":
+        # R6 B (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R6, 01_NACHZUG.md §B,
+        # STOP-EVIDENCE.md §3): der autoritative Save steht bereits identisch
+        # im gemeinsamen Current -- fuer die blosse Importentscheidung ein
+        # No-op. Damit die Annahme spaeter aber eine VOLLSTAENDIG aufloesbare
+        # HOSTAUFNAHME herstellen kann (die im echten Launcher getrennten
+        # Host-Onboarding-/Katalogwurzeln fehlen bei einem Erstimport VOR der
+        # ersten Admission noch, s. `_cmd_table_accept`), fuehren wir hier den
+        # identischen Block (== `existing_block_for_char_id` == incoming) UND
+        # das `tolerated`-Flag mit. Das bleibt eine reine Lese-/Entscheidungs-
+        # Op (SCHREIBT NICHTS) -- der eigentliche Hostprojektions-Write erfolgt
+        # weiterhin nur ueber `_write_participant_save_intake` NACH dem Roster-
+        # Accept und OHNE zweite Current-Version/Fortschrittswirkung.
+        return ParticipantSaveIntakeOutcome(
+            action="noop_identical", reason=decision.reason, char_id=preview.char_id,
+            block=existing_block_for_char_id, tolerated=preview.tolerated,
+        )
     return ParticipantSaveIntakeOutcome(action=decision.action, reason=decision.reason, char_id=preview.char_id)
 
 
@@ -467,11 +484,19 @@ def _write_participant_save_intake(
     Aufrufer-Fehler (interner Vertrag, kein Nutzerpfad)."""
     if outcome.action == "keep_existing":
         return
-    if outcome.action not in ("register_new", "adopt_incoming"):
+    # R6 B (01_NACHZUG.md §B, STOP-EVIDENCE.md §3): `noop_identical` fuehrt
+    # GENAU DIESELBEN Host-Projektions-Writes aus wie `register_new`/
+    # `adopt_incoming` (Katalog-Figursave + Host-Onboarding-Slot +
+    # Katalogregistrierung). Das ist KEIN zweiter Current/Fortschritt (dieser
+    # Write publiziert den Current ohnehin NICHT -- das bleibt dem Aufrufer
+    # vorbehalten, der ihn fuer `noop_identical` bewusst auslaesst, weil der
+    # Current bereits identisch vorliegt). Der Block ist der identische,
+    # bereits akzeptierte Save (von `_decide_participant_save_intake` gesetzt).
+    if outcome.action not in ("register_new", "adopt_incoming", "noop_identical"):
         raise ValueError(
             f"_write_participant_save_intake erwartet action in "
-            f"('register_new', 'adopt_incoming', 'keep_existing'), bekommen: "
-            f"{outcome.action!r} -- Aufrufer-Fehler, kein Nutzerpfad."
+            f"('register_new', 'adopt_incoming', 'keep_existing', 'noop_identical'), "
+            f"bekommen: {outcome.action!r} -- Aufrufer-Fehler, kein Nutzerpfad."
         )
     catalog.store_figure_save(catalog_dir, participant_id, outcome.char_id, outcome.block)
     onboarding.start_or_resume(onboarding_dir, participant_id)
@@ -5270,10 +5295,45 @@ class TuiSession:
             # der Gast trotz veroeffentlichtem Current unresolvierbar.
             assert intake is not None  # oben bereits getroffen, 'parked' hat schon via return verlassen.
             if intake.action == "noop_identical":
-                # A20-Analogon: identischer Retry loest KEINEN zweiten
-                # Fortschritt aus -- der Sidecar gilt trotzdem als
-                # abgearbeitet (derselbe Stand liegt bereits hostseitig
-                # vor), also wie beim Erfolgsfall geloescht.
+                # R6 B (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R6, 01_NACHZUG.md
+                # §B, STOP-EVIDENCE.md §3): `noop_identical` heisst nur, dass der
+                # autoritative Save bereits identisch im GEMEINSAMEN Current
+                # steht. Im echten Launcher sind Gast- und Host-Onboarding/
+                # Katalog aber getrennt (scripts/mmo_sim.py) -- bei einem
+                # normalen Erstimport VOR der ersten Admission hat der Gast den
+                # Current veroeffentlicht, die fuer `_resolve_member`/Tischstart
+                # noetige HOST-Projektion (Host-Onboarding-Slot + Host-Katalog)
+                # fehlt aber noch. `_resolve_member` kehrt dann sofort mit `None`
+                # zurueck und der normale Tischstart scheitert.
+                #
+                # Diese fehlende Hostprojektion GENAU DANN herstellen, wenn sie
+                # fehlt -- ueber DENSELBEN kanonischen Write-Weg wie
+                # `register_new` (`_write_participant_save_intake`: Katalog +
+                # Host-Onboarding), aber OHNE `publish_current_save`: der Current
+                # ist bereits identisch vorhanden, es entsteht KEINE zweite
+                # Version und KEIN zweiter Fortschritt. Ist die Hostaufnahme
+                # schon vollstaendig (echter A20-Identisch-Retry), bleibt es beim
+                # bisherigen reinen No-op. Fremde Registrierungen, aktive
+                # Bindungen und Konfliktwahlen sind bereits oben
+                # (`_decide_participant_save_intake`) geschuetzt.
+                host_projection = onboarding.peek(self.onboarding_dir, guest_id)
+                if host_projection is None or host_projection.final_save is None:
+                    _write_participant_save_intake(
+                        intake, catalog_dir=self.catalog_dir, onboarding_dir=self.onboarding_dir,
+                        participant_id=guest_id, harvest_validator=ZeitrissHarvestValidator(),
+                    )
+                    _clear_table_guest_offer(self.run_dir, table_key, guest_id)
+                    self._print(
+                        f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}) -- "
+                        f"eigene Figur bereits identisch im gemeinsamen Spielstand; fehlende "
+                        f"Hostaufnahme (Onboarding/Katalog) vervollstaendigt, KEINE zweite Version/"
+                        f"kein zweiter Fortschritt: {intake.reason}"
+                    )
+                    return
+                # A20-Analogon: identischer Retry bei bereits vollstaendiger
+                # Hostaufnahme loest KEINEN zweiten Fortschritt aus -- der Sidecar
+                # gilt trotzdem als abgearbeitet (derselbe Stand liegt bereits
+                # hostseitig vor), also wie beim Erfolgsfall geloescht.
                 _clear_table_guest_offer(self.run_dir, table_key, guest_id)
                 self._print(
                     f"'{guest_id}' an Tisch '{table_key}' aufgenommen (roster: {record['roster']}) -- "

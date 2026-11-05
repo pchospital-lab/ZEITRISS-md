@@ -351,6 +351,32 @@ def run_admitted_creation_dialog(
                 onboarding_lib.record_pending_reply(
                     onboarding_dir, participant_id, sl_reply=sl_text, sl_request_id=request_id,
                 )
+        # R6 A (ZR-BETREIBER-GASTERSCHAFFUNG-20261105-R6, 01_NACHZUG.md §A,
+        # GUEST-PUBLICATION.md §2): die zuletzt empfangene SL-Antwort ist jetzt
+        # ehrlich verbucht (`finish_received`) und -- bei einem echten neuen
+        # Request -- lokal als pending-step gesichert (`record_pending_reply`
+        # oben); der durable `recovered`-Zweig hat sie bereits in einer
+        # frueheren Iteration verbucht. GENAU HIER, nach dieser Verbuchung und
+        # VOR der inneren Ergebnisannahme (`complete_with_save`, s.u.) bzw. VOR
+        # der naechsten Gastfrage (`get_reply`, s.u.), erneut pruefen, ob der
+        # adressierte Betreiber-Stop die gemeinsame Entscheidung fuer GENAU
+        # diese Operation+Generation inzwischen gewonnen hat. Der am Loop-
+        # Eintritt gelesene Stop kann waehrend des gerade zurueckgekehrten
+        # (blockierenden) SL-Requests gewonnen worden sein; ohne diese zweite
+        # Lesung wuerde der Dialog erst nach einer weiteren Gastfrage/-antwort
+        # bzw. nach erfolgter Annahme terminal (genau der geruegte Rest).
+        # Gewinnt der Stop, ist der Weg terminal -- KEINE neue Frage, KEINE
+        # Annahme/Publikation; die bereits empfangene Antwort bleibt verbucht.
+        # Keine zweite Dialogschleife, derselbe generationsgebundene
+        # `stop_check` wie am Loop-Eintritt; `stop_check is None`: bytegleich.
+        if stop_check is not None and stop_check():
+            print_fn(
+                "Gast-Erschaffungsdialog beendet: ein adressierter Betreiber-Stop hat den "
+                "gemeinsamen Entscheid fuer diese Operation gewonnen -- die soeben empfangene "
+                "SL-Antwort bleibt verbucht, aber dieser Weg ist terminal: keine weitere Frage, "
+                "keine Annahme/Publikation."
+            )
+            return CreationDialogOutcome(status="stopped", reason="operator_creation_stop_committed")
         # G02/SC06 (W54-Fix): strikter, mehrdeutigkeitssicherer
         # Extraktionspfad -- sieht ALLE rohen Kandidaten fuer die
         # vorlaeufig per erstem Rohtreffer bestimmte `candidate_char_id`,
