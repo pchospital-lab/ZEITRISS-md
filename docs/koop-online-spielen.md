@@ -137,23 +137,33 @@ python3 scripts/mmo_sim.py \
 
 ### Schritt 2 — Jeder Gast öffnet sein Fenster (gleicher Rechner)
 
-Eine Named Pipe lässt sich nicht in einem einzigen interaktiven `cat` zugleich
-lesen und beschreiben. Praktisch braucht jeder Gast daher Lese- und Schreibseite:
+Jeder Gast bekommt **ein** zusammengehöriges Fenster mit der dünnen
+Anschlusshilfe `scripts/zeitriss-gast-terminal.sh`. Sie verbindet nur die beiden
+FIFO-Kanäle, die der Betreiber in Schritt 1 angegeben hat — Eingabe und Anzeige
+im selben Fenster, mit einer Kopfzeile (Identität, Modus, Figur-Hinweis, Hilfe,
+nächster Schritt, Ende). Sie startet **keinen** eigenen Host und ruft **kein**
+Modell; die ganze Spiel-/Save-/Admissionslogik bleibt im einen Betreiberprozess:
 
 ```bash
-# Gast 1 — Ausgabe mitlesen (läuft dauerhaft)
-cat /tmp/zr-gast1-out.fifo
+# Gast 1 — ein Fenster für Ein- und Ausgabe
+scripts/zeitriss-gast-terminal.sh gast1 /tmp/zr-gast1-in.fifo /tmp/zr-gast1-out.fifo
 ```
+
+Analog für Gast 2 (eigenes Fenster, eigene FIFOs). Die eingeblendeten Fragen,
+Bestätigungen und Empfängerzeilen erscheinen in genau diesem Fenster, **bevor**
+der Gast antwortet.
+
+Wer lieber ohne Hilfsskript arbeitet, kann weiterhin direkt mit `cat` plumben —
+eine Named Pipe lässt sich nicht in einem einzigen `cat` zugleich lesen und
+beschreiben, daher Lese- und Schreibseite getrennt:
 
 ```bash
-# Gast 1 — Eingabe tippen (eine Zeile pro Enter)
-cat > /tmp/zr-gast1-in.fifo
+cat /tmp/zr-gast1-out.fifo          # Ausgabe mitlesen (läuft dauerhaft)
+cat > /tmp/zr-gast1-in.fifo         # Eingabe tippen (eine Zeile pro Enter)
 ```
 
-Analog für Gast 2. Wer nur ein Fenster pro Gast will, legt die Leseseite in den
-Hintergrund (`cat /tmp/zr-gast1-out.fifo &`, danach `cat > /tmp/zr-gast1-in.fifo`)
-— dann mischen sich Eingabe und Ausgabe im selben Fenster. **Es gibt keinen
-komfortablen Gast-Client**; das ist bewusst rohes Pipe-Plumbing.
+Beide Wege sind gleichwertig; die Anschlusshilfe ist nur das bequemere
+Ein-Fenster-Bündel derselben rohen Kanäle.
 
 ### Schritt 3 — Eine Figur pro Gast an den Tisch bringen
 
@@ -187,9 +197,9 @@ Betreiber: `tisch-start mesa1`. Spielen mehrere Menschen mit, **beantwortet jede
 weitere Mensch seine persönliche Beitritts-/Zustimmung an seinem eigenen Kanal
 selbst** — seine Taste auf seinem eigenen Terminal entscheidet, der Betreiber
 tippt keine fremde Zustimmung an seiner Tastatur und sein Prozess blockiert auch
-nicht auf der fremden Tastatur. (Der Fragetext selbst wird derzeit noch nicht in
-die Gast-Ausgabe gespiegelt; der Gast handelt nach diesem dokumentierten Ablauf
-bzw. dem Zuruf des Betreibers, nicht nach einer eingeblendeten Prompt-Zeile.) Der
+nicht auf der fremden Tastatur. (Die Beitritts-/Zustimmungsfrage wird jetzt
+sichtbar in den eigenen Ausgabekanal des Gastes gespiegelt — der Gast antwortet
+auf die in seinem Fenster eingeblendete Frage, nicht auf Zuruf.) Der
 erste angenommene Mensch spielt als Leader;
 jeder weitere Mensch steigt über seine **eigene** Zusage ein. Bleibt eine
 ausdrücklich gewünschte Zusage aus, startet nicht stillschweigend eine
@@ -203,7 +213,24 @@ und neue öffentliche Ausgaben in seiner eigenen Ansicht, auch wenn vorher ein
 anderer Gast gehandelt hat. Mit `/stand` sieht die gerade tippende Person ihren
 eigenen Stand, `?`/`/hilfe` zeigt die Steuerzeilen, ohne einen Zug zu verbrauchen.
 
-### Schritt 6 — Stop bleibt erreichbar
+### Schritt 6 — Regulär abschließen und den eigenen Stand mitnehmen
+
+Der normale Abschluss läuft über das HQ, **bevor** es um Stop/Abbruch geht:
+
+- Im passenden **HQ-Kontext** fordert der menschliche Leader den Abschluss mit
+  `!save` (bzw. `!speichern`). Die Spielleitung nimmt die gültigen **persönlichen
+  Ergebnisse** jeder Person an — jeder Gast behält seinen eigenen Fortschritt.
+- Eine **optionale Endnotiz** ist ausdrücklich eine **eigene lokale Notiz** der
+  jeweiligen Person: kein gemeinsamer Spielstand und keine Modellaktion.
+- Danach nimmt jeder Gast seinen aktuellen Stand über `charaktere` → `3`
+  (**Exportieren**) mit. Der Export liegt als persönliche Save-JSON in der eigenen
+  Katalogwurzel des Gastes; damit steigt dieselbe Person später wieder ein
+  (Import über `charaktere` → `2`).
+
+Der Betreiber bleibt dabei **ohne eigene Figur**. Erst nach diesem regulären
+Abschluss folgen die Abbruch-/Stop-Varianten unten.
+
+### Schritt 7 — Stop bleibt erreichbar
 
 Während die Runde läuft, stoppt bzw. beobachtet der Betreiber jederzeit über den
 getrennten Kontrollkanal:
@@ -223,7 +250,7 @@ Tisch eine strengere Bedeutung als eine bloße Pause:
 - **Ohne** gebundenen Betreiber-Tisch (einfacher Solo-/`registrieren`-Weg ohne
   `tisch-start`): `/abbrechen` bleibt reine Pause, genau wie `/pause`.
 
-### Schritt 7 — Ehrliches Kanalende und saubere Rückkehr
+### Schritt 8 — Ehrliches Kanalende und saubere Rückkehr
 
 **EOF, Pause und Stop sind drei verschiedene Ereignisse** — nicht derselbe
 Zustand unter anderem Namen:
@@ -238,7 +265,7 @@ Zustand unter anderem Namen:
   beenden.
 - **`/stop`** über den Kontrollkanal und ein **bestätigter** `/abbrechen` vor der
   Abschlussentscheidung sind Betreiber-/Abschnittsende, keine bloße Pause (siehe
-  Schritt 6). Ein bestätigter endgültiger Verwurf ist kein „sicher pausiert".
+  Schritt 7). Ein bestätigter endgültiger Verwurf ist kein „sicher pausiert".
 
 Der zuletzt **gespeicherte** persönliche Stand jeder Person bleibt dabei
 erhalten; noch nicht gespeicherter Fortschritt ist dadurch nicht gesichert. Der

@@ -68,9 +68,9 @@ Produktmodellaufrufe)**. Das ist kein neuer Live-/Mehrfiguren-Reifegrad.
   Fokus-/Hilfeführung und Zustimmung an seinem **eigenen** I/O-Kanal selbst —
   seine Taste auf seinem eigenen Terminal entscheidet; der Betreiber tippt keine
   fremde Zustimmung an seiner Tastatur. Der Beitritts-/Zustimmungs-Fragetext wird
-  derzeit noch nicht in die Gast-Ausgabe-FIFO gespiegelt (der Gast folgt dem
-  dokumentierten Ablauf bzw. dem Zuruf); die Routing-/Autoritätstrennung ist davon
-  unberührt.
+  vor dem Warten auf die Antwort sichtbar in die Gast-Ausgabe-FIFO gespiegelt — der
+  Gast antwortet auf die in seinem eigenen Fenster eingeblendete Frage; die
+  Routing-/Autoritätstrennung bleibt davon unberührt.
 - **Öffentlicher Verlauf je Ansicht:** Der Anzeigestand öffentlicher SL-Einträge
   ist an den tatsächlichen Ausgabekanal gebunden; getrennte Gastkanäle teilen
   keinen bereits verbrauchten Cursor. Private Teilnehmernotizen und
