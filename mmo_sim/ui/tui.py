@@ -1137,10 +1137,25 @@ class TuiSession:
         # dieses Schritts -- bereits gespeicherte/veroeffentlichte Figuren-
         # und Erschaffungsdaten bleiben unveraendert und fortsetzbar,
         # NIEMALS werden dabei schon publizierte Bytes geloescht.
+        #
+        # ZR-VOLLENDUNG-OHNE-LAN-20261106-R1 (01_AUFTRAG §4, 02_ABNAHME V4):
+        # die bisherige "Spielzug"-Zeile sagte PAUSCHAL "wie /pause", obwohl
+        # der tatsaechliche `_run_table_round.decide()`-Zweig (s. dort) DREI
+        # Faelle unterscheidet: ohne Betreiber-Admissionsbindung bleibt
+        # '/abbrechen' reine Pause; AN einem Betreiber-Tisch VOR dem
+        # gemeinsamen Abschluss-Entscheid (`request_table_stop` -> decision
+        # 'stopped') ist es ein echter, ENDGUELTIGER Verwurf des Abschnitts;
+        # NACH gewonnenem Entscheid ('plan_committed') nur noch Restabschluss
+        # des bereits angenommenen Fortschritts (kein Rollback). Die Hilfe am
+        # Spielzug-Prompt kennt die aktuelle Tischbindung nicht und nennt
+        # deshalb beide Wege ehrlich nebeneinander, statt nur Pause.
         if context == "Spielzug":
             abbrechen_line = (
-                "/abbrechen (waehrend dieses laufenden Abschnitts wie /pause: "
-                "kontrolliert pausieren, kein Rollback)"
+                "/abbrechen (ohne Betreiber-Tisch waehrend dieses laufenden Abschnitts wie "
+                "/pause: kontrolliert pausieren, kein Rollback; an einem Betreiber-Tisch "
+                "dagegen VOR dem gemeinsamen Abschluss-Entscheid ein echter, ENDGUELTIGER "
+                "Verwurf des Abschnitts und NACH dem Entscheid nur noch Restabschluss des "
+                "bereits angenommenen Fortschritts -- ebenfalls kein Rollback)"
             )
         else:
             abbrechen_line = (
@@ -1718,13 +1733,28 @@ class TuiSession:
         UNVERAENDERTEN gegateten/ungegateten Methoden (kein zweiter
         Admission-Pfad) -- fuer Host UND Gast gleich erreichbar, da Suche/
         Anfrage/Ruecknahme/Status ausdruecklich NICHT host-only sind."""
+        # ZR-VOLLENDUNG-OHNE-LAN-20261106-R1 (01_AUFTRAG §2, 02_ABNAHME V1/V5):
+        # die Betreiber-/Hostaktionen (Anbieten/Annehmen/Ablehnen/Starten/
+        # Zuschauen) waren bisher NUR als "Experten-/Hostaliase" genannt und
+        # damit ohne Quellcode-/Dokusuche nicht auffindbar. Fuer eine
+        # host-faehige Session (`self._host_capable`) stehen sie jetzt als
+        # benannte Menueoptionen [5]-[9] bereit und dispatchen ADDITIV auf
+        # GENAU dieselben, unveraenderten `_require_host`-gegateten Methoden
+        # wie die Wortaliase (kein zweiter Admission-Pfad). Die Gastzeile
+        # [1]-[4] bleibt bytegleich (geschuetzt von
+        # test_r3_f1_tisch_menu_wiring.py); ein reiner Gast sieht die
+        # Hostzeile nicht und wuerde an `_require_host` ohnehin abgewiesen.
         while True:
             self._print(
                 "Tisch -- [1] Offene Tische suchen  [2] Tisch anfragen  "
                 "[3] Anfrage zurueckziehen  [4] Status/Hostentscheidung ansehen "
-                "(/zurueck fuer Hauptmenue; 'tisch-anbieten'/'tisch-annehmen'/'tisch-start' "
-                "bleiben Experten-/Hostaliase)"
+                "(/zurueck fuer Hauptmenue)"
             )
+            if self._host_capable:
+                self._print(
+                    "  Betreiber/Host -- [5] Tisch anbieten  [6] Anfrage annehmen  "
+                    "[7] Anfrage ablehnen  [8] Tisch starten  [9] Zuschauer/Verlauf ansehen"
+                )
             text, control = self._readline_with_controls(
                 "Auswahl: ", context="Tisch-Untermenue",
             )
@@ -1750,6 +1780,38 @@ class TuiSession:
                     self._cmd_table_withdraw([table_key])
                 else:
                     self._cmd_table_status([table_key])
+                continue
+            if self._host_capable and choice in ("5", "6", "7", "8", "9"):
+                key_raw, key_control = self._readline_with_controls(
+                    "Welcher Tisch (table_key)? ", context="Tisch-Untermenue",
+                )
+                if key_control in ("zurueck", "abbrechen", "pause"):
+                    continue
+                table_key = key_raw.strip()
+                if not table_key:
+                    self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
+                    continue
+                if choice in ("6", "7"):
+                    guest_raw, guest_control = self._readline_with_controls(
+                        "Welcher Gast (guest_id)? ", context="Tisch-Untermenue",
+                    )
+                    if guest_control in ("zurueck", "abbrechen", "pause"):
+                        continue
+                    guest_id = guest_raw.strip()
+                    if not guest_id:
+                        self._print("Kein guest_id eingegeben -- zurueck zum Tisch-Untermenue.")
+                        continue
+                    if choice == "6":
+                        self._cmd_table_accept([table_key, guest_id])
+                    else:
+                        self._cmd_table_reject([table_key, guest_id])
+                    continue
+                if choice == "5":
+                    self._cmd_table_offer([table_key])
+                elif choice == "8":
+                    self._cmd_table_start([table_key])
+                else:
+                    self._cmd_table_zuschauer([table_key])
                 continue
             self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
             return

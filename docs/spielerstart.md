@@ -61,6 +61,7 @@ Eine abweichende `--participant`-Angabe ist ein bewusster Teilnehmerwechsel.
 | `spielen` | Eine Runde zusammenstellen oder deine KI-Spielgemeinschaft öffnen |
 | `fortsetzen` | Einen vorhandenen eigenen Stand fortsetzen |
 | `registrieren` | Eine weitere Person am gemeinsamen Terminal aufnehmen |
+| `tisch` | Tisch suchen/anfragen (Gast) oder anbieten/annehmen/starten (Betreiber) — gemeinsames lokales Spielen, siehe [Koop-Leitfaden: Lokal mit Betreiber und Gästen](koop-online-spielen.md) |
 | `einstellungen` | Status und Einstellungen ansehen |
 | `beenden` | Das Hauptmenü verlassen |
 

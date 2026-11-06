@@ -53,6 +53,12 @@ python3 tests/mmo_sim/test_zr_betreiber_o4_stop_nach_planpin_2026_11_03.py
 python3 tests/mmo_sim/test_zr_betreiber_o5_erschaffung_abandon_guard_2026_11_03.py
 python3 tests/mmo_sim/test_zr_betreiber_o6_autoritaet_und_spectator_2026_11_03.py
 
+# ZR-VOLLENDUNG-OHNE-LAN-20261106-R1 (01_AUFTRAG §2/§4, 02_ABNAHME V1/V4/V5):
+# standalone Assert-Skript (python3 -m unittest -q findet die Modulfunktionen
+# NICHT, s. Docstring) -- /abbrechen-Kontexthilfe (3 Faelle) + auffindbares
+# Betreiber-Tischmenue, hier additiv direkt gestartet.
+python3 tests/mmo_sim/test_zr_vollendung_abbrechen_help_und_host_tischmenue_2026_11_06.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log
