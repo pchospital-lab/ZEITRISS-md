@@ -229,7 +229,11 @@ def test_help_during_reflection_consumes_no_turn_no_duplicate_record():
             pass
 
         assert gm.calls == 1, "Hilfe darf keinen zweiten GM-/Modellaufruf ausloesen"
-        assert any("Hilfe (Spielzug)" in p for p in printed), printed
+        # U3a/R3-Stage2: die Notizabfrage zeigt jetzt ihren EIGENEN
+        # Kontextmarker "Abschlussnotiz" statt "Spielzug" (eigener Prompt +
+        # eigener Kontext, s. `_HumanDriver.decide()`), '?' waehrend DIESER
+        # Abfrage zeigt deshalb "Hilfe (Abschlussnotiz)".
+        assert any("Hilfe (Abschlussnotiz)" in p for p in printed), printed
 
         reflections = [
             json.loads(l)

@@ -66,6 +66,13 @@ python3 tests/mmo_sim/test_zr_vollendung_abbrechen_help_und_host_tischmenue_2026
 # additiv direkt gestartet.
 python3 tests/mmo_sim/test_linus_n123_2026_11_06.py
 
+# ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-20261106-R3 (01_NACHZUG §U3b, 02_ABNAHME §C):
+# standalone Assert-Skript (python3 -m unittest -q findet die Modulfunktionen
+# NICHT, s. Docstring) -- dauerhafter Regressionswaechter fuer die
+# Zuschauer-Anzeige nach kontrolliertem Stop (verworfene Spaetantwort darf
+# NICHT als Spielinhalt leaken), hier additiv direkt gestartet.
+python3 tests/mmo_sim/test_zr_u3b_zuschauer_verworfen_nach_stop_2026_11_06.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

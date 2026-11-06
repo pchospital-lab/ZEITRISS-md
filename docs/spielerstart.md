@@ -189,9 +189,11 @@ sein. Bei einer nur begonnenen Erschaffung weist die Fortsetzen-Karte auf
 `charaktere` beziehungsweise `n` hin; sie behauptet keinen fertigen Save.
 
 Gespeichert wird im HQ mit `!save` (oder `!speichern`): die Spielleitung
-gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn,
-schließt damit den laufenden Abschnitt ab und fragt, ob du weiterspielen
-oder zum Tisch zurück willst. `!bogen` zeigt nur den Charakterbogen an und
+gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn und
+schließt damit den laufenden Abschnitt ab. Danach zeigt dir der Client deine
+persönliche **Abschlusskarte** mit den nächsten Schritten als nummerierte
+Auswahl — den eigenen Stand exportieren, zurück zum Tisch/HQ, oder
+weiterspielen. `!bogen` zeigt nur den Charakterbogen an und
 speichert nicht. In Briefing, Einsatz und Debrief ist Speichern gesperrt
 (SaveGuard) — erst zurück im HQ. Die Save-Erkennung haengt am `!save`-
 Kommando und am tatsächlichen Save-Block, nicht an einer festen

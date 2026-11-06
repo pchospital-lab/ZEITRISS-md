@@ -223,8 +223,10 @@ Der normale Abschluss läuft über das HQ, **bevor** es um Stop/Abbruch geht:
 - Eine **optionale Endnotiz** ist ausdrücklich eine **eigene lokale Notiz** der
   jeweiligen Person: kein gemeinsamer Spielstand und keine Modellaktion.
 - Danach nimmt jeder Gast seinen aktuellen Stand über `charaktere` → `3`
-  (**Exportieren**) mit. Der Export liegt als persönliche Save-JSON in der eigenen
-  Katalogwurzel des Gastes; damit steigt dieselbe Person später wieder ein
+  (**Exportieren**) mit. Der Export liegt als persönliche Save-JSON im eigenen
+  Export-Ordner des Gastes — standardmäßig `<Datenablage>/guests/<GAST_ID>/exports/<GAST_ID>.json`.
+  Der Client zeigt beim Export den konkreten Pfad an (`Zusaetzlich als Datei gespeichert: …`);
+  dieser angezeigte Pfad führt die Mitnahme. Damit steigt dieselbe Person später wieder ein
   (Import über `charaktere` → `2`).
 
 Der Betreiber bleibt dabei **ohne eigene Figur**. Erst nach diesem regulären

@@ -52,6 +52,7 @@ if str(_HERE) not in sys.path:
 
 from mmo_sim.core import store as core_store  # noqa: E402
 from mmo_sim.domain.zeitriss import saves as zeitriss_saves  # noqa: E402
+from mmo_sim.ui.tui import TuiSession  # noqa: E402
 
 import _a24_local_support as sup  # noqa: E402
 
@@ -258,10 +259,13 @@ def test_a24_case1_human_leader_api_full_journey():
             # vorhandener Fokus-/Mehrmenschen-Mechanismus, s. `_HumanDriver`).
             labeled_prompt = f"[{human_b_id}] Deine Aktion:"
             unlabeled_count = proc.stdout.count("Deine Aktion:") - proc.stdout.count(labeled_prompt)
-            assert unlabeled_count == len(human_a_lines) + 1, (  # +1 Reflexionsturn
-                f"Leader-Prompts (unlabeled) erwartet={len(human_a_lines) + 1} beobachtet={unlabeled_count}: {proc.stdout}"
+            # U3a/R3-Stage2: die Abschlussnotiz laeuft ueber einen EIGENEN
+            # Prompt ("Deine persoenliche Abschlussnotiz"), zaehlt also NICHT
+            # mehr als "Deine Aktion:" -- kein "+1 Reflexionsturn" mehr.
+            assert unlabeled_count == len(human_a_lines), (
+                f"Leader-Prompts (unlabeled) erwartet={len(human_a_lines)} beobachtet={unlabeled_count}: {proc.stdout}"
             )
-            expected_b_prompts = 1 + len(human_b_poll_lines) + 1  # import + 2 polls + reflection
+            expected_b_prompts = 1 + len(human_b_poll_lines)  # import + 2 polls (Reflexion zaehlt nicht mehr mit)
             assert proc.stdout.count(labeled_prompt) == expected_b_prompts, (
                 f"Human-B-Prompts erwartet={expected_b_prompts} beobachtet={proc.stdout.count(labeled_prompt)}: {proc.stdout}"
             )
@@ -304,7 +308,13 @@ def test_a24_case1_human_leader_api_full_journey():
             )
             last_pos = -1
             for idx, entry in enumerate(sl_log):
-                marker = f"[SL] {entry.get('content', '')}"
+                # U4a/R3-Stage2: die LIVE-Anzeige filtert technische
+                # Bestandteile (Save-JSON/Abschluss-Marker) ueber
+                # `TuiSession._display_sanitize_sl` -- dieselbe Funktion
+                # hier wiederverwenden (eine Quelle), statt die
+                # Erkennungsregeln ein zweites Mal im Test nachzubauen.
+                sanitized_content = TuiSession._display_sanitize_sl(None, entry.get('content', ''))
+                marker = f"[SL] {sanitized_content}"
                 found_pos = proc.stdout.find(marker, last_pos + 1)
                 assert found_pos != -1, f"SL-Eintrag #{idx} nicht vollstaendig als eigener [SL]-Block NACH dem vorherigen im STDOUT gefunden: {entry}"
                 last_pos = found_pos
@@ -571,11 +581,18 @@ def test_a24_r3_midwait_active_table_snapshot():
             steps.append((leader_prompt, human_a_lines[2]))
             steps.append((b_prompt, human_b_poll_lines[1]))
             steps.append((leader_prompt, human_a_lines[3]))
+            # U3a/R3-Stage2: die Abschlussnotiz zeigt einen EIGENEN Prompt
+            # ("Deine persoenliche Abschlussnotiz"), NICHT mehr "Deine
+            # Aktion:" -- die Pacing-Barriere muss diesen neuen Prompttext
+            # abwarten, sonst findet `run_process_paced` den (jetzt nicht
+            # mehr erscheinenden) alten Prompt nie und laeuft in den Timeout.
+            leader_note_prompt = "Deine persoenliche Abschlussnotiz"
+            b_note_prompt = f"[{human_b_id}] Deine persoenliche Abschlussnotiz"
             for m in members_sorted:
                 if m == leader_id:
-                    steps.append((leader_prompt, human_a_reflection))
+                    steps.append((leader_note_prompt, human_a_reflection))
                 elif m == human_b_id:
-                    steps.append((b_prompt, human_b_reflection))
+                    steps.append((b_note_prompt, human_b_reflection))
             steps.append(("Auswahl:", "x"))
 
             if case is not None:
@@ -894,9 +911,12 @@ def test_a24_case2_ai_leader_hybrid_full_journey():
             unlabeled = proc.stdout.count("Deine Aktion:") - proc.stdout.count(labeled_b)
             # Human A ist hier Gast OHNE Label (code: `drivers[guest_id] =
             # _HumanDriver(guest_save)` wenn `guest_id == participant_id` UND
-            # `leader_persona_id` gesetzt ist) -- Import + 2 Polls + Reflexion.
-            assert unlabeled == 4, f"Human-A-Prompts (unlabeled) erwartet=4 beobachtet={unlabeled}: {proc.stdout}"
-            assert proc.stdout.count(labeled_b) == 4, f"Human-B-Prompts erwartet=4 beobachtet={proc.stdout.count(labeled_b)}: {proc.stdout}"
+            # `leader_persona_id` gesetzt ist) -- Import + 2 Polls (keine
+            # Reflexion mehr: U3a/R3-Stage2 haengt die Notiz auf einen
+            # EIGENEN Prompt "Deine persoenliche Abschlussnotiz" um, zaehlt
+            # also nicht mehr als "Deine Aktion:").
+            assert unlabeled == 3, f"Human-A-Prompts (unlabeled) erwartet=3 beobachtet={unlabeled}: {proc.stdout}"
+            assert proc.stdout.count(labeled_b) == 3, f"Human-B-Prompts erwartet=3 beobachtet={proc.stdout.count(labeled_b)}: {proc.stdout}"
 
             table = core_store.Table.load(run_dir, table_id)
             assert table.leader == "tech", f"KI-Leader wurde nicht beibehalten: {table.leader}"
@@ -921,7 +941,13 @@ def test_a24_case2_ai_leader_hybrid_full_journey():
             )
             last_pos = -1
             for idx, entry in enumerate(sl_log):
-                marker = f"[SL] {entry.get('content', '')}"
+                # U4a/R3-Stage2: die LIVE-Anzeige filtert technische
+                # Bestandteile (Save-JSON/Abschluss-Marker) ueber
+                # `TuiSession._display_sanitize_sl` -- dieselbe Funktion
+                # hier wiederverwenden (eine Quelle), statt die
+                # Erkennungsregeln ein zweites Mal im Test nachzubauen.
+                sanitized_content = TuiSession._display_sanitize_sl(None, entry.get('content', ''))
+                marker = f"[SL] {sanitized_content}"
                 found_pos = proc.stdout.find(marker, last_pos + 1)
                 assert found_pos != -1, f"SL-Eintrag #{idx} nicht vollstaendig als eigener [SL]-Block NACH dem vorherigen im STDOUT gefunden: {entry}"
                 last_pos = found_pos
@@ -1272,7 +1298,13 @@ def test_a24_guided_setup_g_path_human_leader_with_handoff():
             )
             last_pos = -1
             for idx, entry in enumerate(sl_log):
-                marker = f"[SL] {entry.get('content', '')}"
+                # U4a/R3-Stage2: die LIVE-Anzeige filtert technische
+                # Bestandteile (Save-JSON/Abschluss-Marker) ueber
+                # `TuiSession._display_sanitize_sl` -- dieselbe Funktion
+                # hier wiederverwenden (eine Quelle), statt die
+                # Erkennungsregeln ein zweites Mal im Test nachzubauen.
+                sanitized_content = TuiSession._display_sanitize_sl(None, entry.get('content', ''))
+                marker = f"[SL] {sanitized_content}"
                 found_pos = proc.stdout.find(marker, last_pos + 1)
                 assert found_pos != -1, f"SL-Eintrag #{idx} nicht vollstaendig als eigener [SL]-Block NACH dem vorherigen im STDOUT gefunden: {entry}"
                 last_pos = found_pos
@@ -1700,8 +1732,11 @@ def test_a24_guided_setup_g_path_ai_leader_hybrid_with_handoff():
 
             labeled_b = f"[{human_b_id}] Deine Aktion:"
             unlabeled = proc.stdout.count("Deine Aktion:") - proc.stdout.count(labeled_b)
-            assert unlabeled == 4, f"Human-A-Prompts (unlabeled) erwartet=4 beobachtet={unlabeled}: {proc.stdout}"
-            assert proc.stdout.count(labeled_b) == 4, f"Human-B-Prompts erwartet=4 beobachtet={proc.stdout.count(labeled_b)}: {proc.stdout}"
+            # U3a/R3-Stage2: die Abschlussnotiz zaehlt nicht mehr als "Deine
+            # Aktion:" (eigener Prompt "Deine persoenliche Abschlussnotiz"),
+            # daher 3 statt vormals 3 Spielzuege + 1 Reflexion.
+            assert unlabeled == 3, f"Human-A-Prompts (unlabeled) erwartet=3 beobachtet={unlabeled}: {proc.stdout}"
+            assert proc.stdout.count(labeled_b) == 3, f"Human-B-Prompts erwartet=3 beobachtet={proc.stdout.count(labeled_b)}: {proc.stdout}"
 
             table = core_store.Table.load(run_dir, table_id)
             assert table.leader == "tech", f"KI-Leader wurde nicht beibehalten: {table.leader}"
@@ -1721,7 +1756,13 @@ def test_a24_guided_setup_g_path_ai_leader_hybrid_with_handoff():
             )
             last_pos = -1
             for idx, entry in enumerate(sl_log):
-                marker = f"[SL] {entry.get('content', '')}"
+                # U4a/R3-Stage2: die LIVE-Anzeige filtert technische
+                # Bestandteile (Save-JSON/Abschluss-Marker) ueber
+                # `TuiSession._display_sanitize_sl` -- dieselbe Funktion
+                # hier wiederverwenden (eine Quelle), statt die
+                # Erkennungsregeln ein zweites Mal im Test nachzubauen.
+                sanitized_content = TuiSession._display_sanitize_sl(None, entry.get('content', ''))
+                marker = f"[SL] {sanitized_content}"
                 found_pos = proc.stdout.find(marker, last_pos + 1)
                 assert found_pos != -1, f"SL-Eintrag #{idx} nicht vollstaendig als eigener [SL]-Block NACH dem vorherigen im STDOUT gefunden: {entry}"
                 last_pos = found_pos

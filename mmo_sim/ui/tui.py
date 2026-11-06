@@ -101,6 +101,7 @@ class ResumeCard:
 def render_boot_menu(
     resume: ResumeCard | None, *, host_capable: bool = True,
     table_status_lines: list[str] | None = None,
+    participant_id: str | None = None,
 ) -> str:
     """11 §2: 'Bei vorhandenen Daten zuerst eine verstaendliche Fortsetzen-
     Karte zeigen ... Darunter alternative Wege.'
@@ -115,6 +116,19 @@ def render_boot_menu(
     bytegleich) zeigt Modus + roster/requests der eigenen Tische (s.
     `TuiSession._own_table_status_lines`, reine Anzeige derselben
     `table_admission`-Records wie 'tisch-status <table_key>').
+
+    ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Kopf-/Statuszeile
+    VOR dem Hauptmenue, auch ohne Resume-Karte"): `participant_id`
+    (keyword-only, Default `None` -- JEDER bestehende Aufrufer ohne dieses
+    Keyword bleibt bytegleich, da KEINE neue Zeile ohne diesen Wert
+    erscheint) zeigt EINE zusaetzliche, immer lesbare Statuszeile
+    (Name/ID, Rolle, eigene Figur oder "noch keine Figur", Tisch oder
+    "kein Tisch") VOR dem Hauptmenue -- unabhaengig davon, ob `resume`
+    `None` ist (eine brandneue Person ohne jeden Stand sieht so trotzdem
+    sofort ihre eigene ID/Rolle, nicht nur Schweigen bis zur ersten
+    Fortsetzen-Karte). Reine Anzeige aus bereits vorhandenen Werten
+    (`resume.chrononaut_id`, `host_capable`, `table_status_lines`) -- kein
+    neues Auth-/Discovery-Protokoll, keine neue Autoritaet.
 
     G01-Fix (ZEITRISS Terminal UX-1 Wiederanlauf, REVIEW.md §G01, UX01/UX03):
     zeigt NUR MEHR die EINE KISS-Zielhierarchie (Fortsetzen/Spielen/
@@ -137,6 +151,18 @@ def render_boot_menu(
     # ohnehin die richtige Autoritaet fuer beide Faelle).
     has_resume = resume is not None and bool(resume.community_id or resume.chrononaut_id)
     lines = ["ZEITRISS MMO-Sim", ""]
+    if participant_id is not None:
+        own_chrono = resume.chrononaut_id if resume is not None else None
+        if not host_capable:
+            rolle = "Gast"
+        elif own_chrono:
+            rolle = "mitspielender Host"
+        else:
+            rolle = "figurfreier Betreiber"
+        figur = own_chrono or "noch keine Figur"
+        tisch = "siehe 'Eigene Tische' unten" if table_status_lines else "kein Tisch"
+        lines.append(f"Du: {participant_id} (Rolle: {rolle}) -- Figur: {figur} -- Tisch: {tisch}")
+        lines.append("")
     if not host_capable:
         lines.append(
             "Gastmodus: nur eigene Figur verwalten, Tische suchen/anfragen, spielen nach "
@@ -158,7 +184,23 @@ def render_boot_menu(
         # real `None` sein -- kein literales "None" in der Anzeige (UX22).
         community_display = resume.community_id if resume.community_id else "keine Community"
         lines.append(f"  Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
-    lines.append("  [spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)")
+    if host_capable:
+        lines.append("  [spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)")
+    else:
+        # ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Rollen-
+        # Gating"): '[spielen]' fuehrt AUSSCHLIESSLICH zu Hostaktionen
+        # (Solo/Einladen/KI-Verwaltung/Catch-up -- alle hinter `_require_
+        # host`, s. `_cmd_local_round`) -- fuer einen reinen Gast sieht die
+        # Zeile sonst wie eine normale spielbare Option aus, die erst tief
+        # im Untermenue am Host-Gate scheitert. Bleibt sichtbar (kein
+        # Verschwinden ohne Erklaerung), aber EHRLICH als nicht verfuegbar
+        # samt Grund + naechstem Schritt markiert, statt scheinbar
+        # spielbar zu wirken -- derselbe `[tisch]`-Weg bleibt der echte
+        # Gastweg zum Mitspielen.
+        lines.append(
+            "  [spielen] Spielen -- als Gast NICHT verfuegbar (Solo/KI-Verwaltung sind "
+            "Hostaktionen); zum Mitspielen: [tisch]"
+        )
     lines.append("  [charaktere] Charaktere (waehlen/erschaffen, importieren, exportieren)")
     # R3-Nachzug (F1 §1, 02_NACHZUG.md §A "Binde den vorhandenen Suche-/
     # Anfrage-Baustein verstaendlich in die normale Gastfuehrung ein"):
@@ -795,6 +837,7 @@ class TuiSession:
         ascii_fallback: bool = False,
         host_capable: bool = True,
         input_ready_fn: Callable[[float], bool] | None = None,
+        zeitgedanken: bool = True,
     ):
         self.onboarding_dir = Path(onboarding_dir)
         self.catalog_dir = Path(catalog_dir)
@@ -853,6 +896,25 @@ class TuiSession:
         # ODER `MMO_SIM_TUI_ASCII_FALLBACK=1`, kein stiller Default-Verlust).
         ascii_fallback_env = os.environ.get("MMO_SIM_TUI_ASCII_FALLBACK") == "1"
         self._ascii_fallback = bool(ascii_fallback) or ascii_fallback_env
+        # U4c (R3 Stage 2, 01_NACHZUG §U4c, "stimmige Zeitatmosphaere in
+        # echten Wartephasen"): EIN opt-out-barer Schalter, exakt nach dem
+        # bestehenden `ascii_fallback`-Muster (Konstruktorparameter ODER
+        # Umgebungsvariable, kein stiller Verlust). Default AN fuer die
+        # Produktatmosphaere; `MMO_SIM_TUI_ZEITGEDANKEN=0` schaltet ihn
+        # hart ab (z.B. fuer voellig deterministische Vergleichslaeufe), ein
+        # anderer gesetzter Wert laesst ihn an. Der Zeitgedanke feuert
+        # HOECHSTENS EINE kurze Zeile je ECHTER Wartephase (s. `_zeitgedanke`
+        # und seine beiden einzigen Aufrufstellen) -- kein Timer, kein Sleep,
+        # kein zusaetzlicher Modellaufruf, keine wachsende Wand, deterministisch
+        # (fester, nur bei echtem Feuern vorrueckender Index, kein Zufall/keine
+        # Uhr). Die Zeilen enthalten bewusst WEDER `[SL] ` NOCH `Deine Aktion:`,
+        # damit die substringzaehlenden Transkripttests unberuehrt bleiben.
+        zeitgedanken_env = os.environ.get("MMO_SIM_TUI_ZEITGEDANKEN")
+        if zeitgedanken_env is not None:
+            self._zeitgedanken = zeitgedanken_env != "0"
+        else:
+            self._zeitgedanken = bool(zeitgedanken)
+        self._zeitgedanke_index = 0
         raw_print = print_fn or print
 
         def _rendered_print(text: str) -> None:
@@ -881,6 +943,16 @@ class TuiSession:
         # Ausgeschlossene Personas nerven/blocken nie, sie sind einfach
         # nicht Teil des Catch-up-/Vorspiel-Pools dieser Sitzung.
         self._excluded_personas: set[str] = set()
+        # ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U2 "Tisch-
+        # Untermenue nummeriert"): rein In-Memory, NUR Anzeige-Zustand
+        # dieser Sitzung (kein Store, keine Autoritaet) -- merkt sich die
+        # zuletzt ueber `_cmd_table_search` gezeigten `table_key`s in
+        # genau der angezeigten Reihenfolge, damit `_cmd_menu_tisch`
+        # "[2] anfragen"/"[3] zurueckziehen"/"[4] status" eine NUMMER
+        # gegen GENAU diese zuletzt gezeigte Liste aufloesen kann, statt
+        # einen rohen `table_key` zu verlangen (der bleibt zusaetzlich als
+        # Experten-/Kompatibilitaetsweg gueltig).
+        self._last_table_search_offers: list[str] = []
         # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2):
         # explizite, vom AUFRUFER (Launcher `scripts/mmo_sim.py`, aus
         # tatsaechlich vorhandener Hoststack-Konfiguration -- NICHT aus
@@ -1098,6 +1170,21 @@ class TuiSession:
         Dauer EINES echten Spielzugs/einer Reflexion, nie unbegrenzt."""
         if not self._is_registered_guest_terminal or self._input_ready_fn is None:
             return self._readline(prompt)
+        # R3 U1 (01_NACHZUG.md §21, schliesst die belegte R2-C1-Prompt-
+        # Timingkante): die richtige Aufforderung EINMAL sichtbar machen,
+        # BEVOR auf Eingabebereitschaft gewartet wird. Vorher gab der
+        # getimede Pfad das Menueprompt erst beim tatsaechlichen Konsum aus
+        # (nach gemeldeter Bereitschaft) -- der per FIFO angeschlossene Gast
+        # sah seine Aufforderung also nie rechtzeitig und musste blind
+        # tippen. Die Zeile wird danach OHNE erneutes Prompt konsumiert
+        # (`self._readline("")`), damit keine doppelt sichtbare Frage am
+        # (geteilten) Gastschirm entsteht. Der Einzelleser-/Claimschutz unten
+        # bleibt unveraendert: uebernimmt spaeter ein host-getriebener Round-/
+        # Dialogleser den Kanal (Claim), parkt der Konsum weiter -- die bereits
+        # gezeigte Aufforderung bleibt die gueltige offene Frage und wird NICHT
+        # erneut ausgegeben.
+        if prompt:
+            self._print(prompt)
         while True:
             if self._host_terminal_claimed.is_set():
                 time.sleep(0.05)
@@ -1123,7 +1210,9 @@ class TuiSession:
             with self._terminal_read_lock:
                 if self._host_terminal_claimed.is_set():
                     continue
-                return self._readline(prompt)
+                # R3 U1: Prompt wurde oben bereits einmal sichtbar gemacht --
+                # hier NUR noch konsumieren, ohne es erneut auszugeben.
+                return self._readline("")
 
     # UX04/05 (02 §C, "Einmaliger zentraler, kontextbewusster Bedienvertrag
     # statt ad-hoc-Abfangen in zehn Dialogen"): EIN gemeinsamer Satz
@@ -1504,32 +1593,58 @@ class TuiSession:
         Paritaet tat [3] nichts, obwohl genau das der Vorspielen-Fall der
         Spec ist, "du musst mal weg"). Dein eigenes Tischspiel ([1]/[2])
         bleibt dadurch UNVERAENDERT nie geblockt -- alles rein additive,
-        vom Spieler ausgeloeste Aktionen."""
-        self._print(
-            "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft  "
-            "[3] Personas spielen lassen (Catch-up)  [4] Aktive Gruppe/Ausschluss  "
-            "[5] Personas vorspielen lassen (1 Abschnitt vor -- du spielst danach deinen) "
-            "(/zurueck fuer Hauptmenue)"
-        )
-        text, control = self._readline_with_controls(
-            "Auswahl: ", context="Spielen-Untermenue",
-        )
-        if control in ("zurueck", "abbrechen", "pause"):
+        vom Spieler ausgeloeste Aktionen.
+
+        ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Rollen-
+        Gating"): ALLE fuenf Optionen fuehren auf `_require_host`-gegatete
+        Methoden (`_cmd_local_round`/`_cmd_community`/`_cmd_catch_up_
+        personas`/`_cmd_active_group_settings` -- Solo/Einladen/KI-
+        Verwaltung/Catch-up sind kategorisch Hostaktionen). Ein reiner
+        Gast (`not self._host_capable`) wuerde sonst erst NACH Anzeige
+        dieses scheinbar normalen Untermenues (und je nach Option erst
+        tief darin) an der Hostgrenze scheitern -- hier VOR der Anzeige
+        ein ehrlicher, klarer Hinweis samt dem tatsaechlichen Gastweg
+        ('[tisch]'), kein neuer Dienst.
+
+        U2 ("konsistentes Zurueck/Tippfehler"): eine ungueltige Auswahl
+        zeigt jetzt dieses Untermenue erneut (Schleife, Vorbild `_cmd_menu_
+        charaktere`), statt den gesamten Aufbau unbegruendet zu verlassen
+        -- jede GUELTIGE Auswahl beendet die Methode weiterhin sofort nach
+        der Aktion (unveraendertes Verhalten)."""
+        if not self._host_capable:
+            self._print(
+                "Spielen ist als Gast nicht verfuegbar (Solo/KI-Verwaltung/Catch-up sind "
+                "Hostaktionen) -- zum Mitspielen bei einem Betreiber: '[tisch]' (suchen/anfragen)."
+            )
             return
-        choice = text.strip()
-        if choice == "1":
-            self._cmd_local_round_setup()
-        elif choice == "2":
-            self._cmd_community()
-            self._print("Weitere Option in 'Meine KI-Spielgemeinschaft': [b] Personas zusammenbringen.")
-        elif choice == "3":
-            self._cmd_catch_up_personas()
-        elif choice == "4":
-            self._cmd_active_group_settings()
-        elif choice == "5":
-            self._cmd_catch_up_personas(vorspielen=True)
-        else:
-            self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+        while True:
+            self._print(
+                "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft  "
+                "[3] Personas spielen lassen (Catch-up)  [4] Aktive Gruppe/Ausschluss  "
+                "[5] Personas vorspielen lassen (1 Abschnitt vor -- du spielst danach deinen) "
+                "(/zurueck fuer Hauptmenue)"
+            )
+            text, control = self._readline_with_controls(
+                "Auswahl: ", context="Spielen-Untermenue",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                return
+            choice = text.strip()
+            if choice == "1":
+                self._cmd_local_round_setup()
+            elif choice == "2":
+                self._cmd_community()
+                self._print("Weitere Option in 'Meine KI-Spielgemeinschaft': [b] Personas zusammenbringen.")
+            elif choice == "3":
+                self._cmd_catch_up_personas()
+            elif choice == "4":
+                self._cmd_active_group_settings()
+            elif choice == "5":
+                self._cmd_catch_up_personas(vorspielen=True)
+            else:
+                self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
+                continue
+            return
 
     def _cmd_catch_up_personas(self, vorspielen: bool = False) -> None:
         """SPIELFLUSS-SPEC.md Abschnitt 3 ("Personas spielen lassen"): EINE
@@ -1650,6 +1765,13 @@ class TuiSession:
             f"⏳ Das spielt jetzt den/die Abschnitt(e) von {sorted(chosen)} -- du wartest "
             "(dein eigenes Tischspiel ist davon unberuehrt)."
         )
+        # U4c (01_NACHZUG §U4c): echte Wartephase #2 -- waehrend andere ihre
+        # Abschnitte spielen, wartest du sichtbar. Genau EINE kurze
+        # Zeit-Atmosphaere-Zeile direkt an diesem bereits markierten Warte-
+        # Indikator (kein Timer/Sleep, kein zusaetzlicher Modellaufruf).
+        _zg = self._zeitgedanke()
+        if _zg:
+            self._print(_zg)
         report = catchup.run_catch_up(
             self, selected=chosen, current_table_members=current_table,
             target=None, max_rounds=1 if vorspielen else None,
@@ -1711,11 +1833,30 @@ class TuiSession:
         ueber `/zurueck` verlassen wurde (Rueckgabe `True`), statt wie
         vorher pauschal bis ins Hauptmenue durchzufallen -- '/zurueck'/
         '/abbrechen'/'/pause' DIREKT an diesem Untermenue-Prompt gehen
-        unveraendert sofort zurueck ins Hauptmenue."""
+        unveraendert sofort zurueck ins Hauptmenue.
+
+        ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Gast-
+        Erschaffung ueber das normale Menue"): fuer einen Gast
+        (`not self._host_capable`) erscheint zusaetzlich `[4] Gast-
+        Erschaffungsanfrage an Betreiber stellen` -- derselbe bestehende,
+        NICHT gegatete Dienst (`_cmd_gast_erschaffung_anfragen`), nur mit
+        einer nummerierten Betreiberauswahl statt der rohen Wortbefehl-
+        Syntax `gast-erschaffung-anfragen <operator_id>` (die bleibt als
+        Experten-/Kompatibilitaetsweg unveraendert bestehen). Fuer einen
+        Host erscheint die Zeile NICHT (eigene Figur entsteht fuer Hosts
+        unveraendert ueber [1]).
+
+        U2 ("konsistentes Zurueck/Tippfehler"): eine ungueltige Auswahl
+        zeigt jetzt dieses Untermenue erneut, statt den gesamten Aufbau
+        unbegruendet zu verlassen -- JEDE gueltige Auswahl beendet die
+        Methode weiterhin sofort nach der Aktion (unveraendert, ausser
+        [1]s bereits bestehender eigener Rueckkehr-Schleife oben)."""
         while True:
             self._print(
                 "Charaktere -- [1] Auswaehlen/neu erstellen  [2] Importieren  "
-                "[3] Exportieren/ansehen (/zurueck fuer Hauptmenue)"
+                "[3] Exportieren/ansehen" + (
+                    "  [4] Gast-Erschaffungsanfrage an Betreiber stellen" if not self._host_capable else ""
+                ) + " (/zurueck fuer Hauptmenue)"
             )
             text, control = self._readline_with_controls(
                 "Auswahl: ", context="Charaktere-Untermenue",
@@ -1733,9 +1874,12 @@ class TuiSession:
             elif choice == "3":
                 self._cmd_export()
                 return
-            else:
-                self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
+            elif choice == "4" and not self._host_capable:
+                self._cmd_gast_erschaffung_anfragen_menu()
                 return
+            else:
+                self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
+                continue
 
     def _cmd_menu_tisch(self) -> None:
         """KISS-Submenue 'Tisch' (R3-Nachzug F1 §1, 02_NACHZUG.md §A):
@@ -1780,15 +1924,33 @@ class TuiSession:
                 self._cmd_table_search([])
                 continue
             if choice in ("2", "3", "4"):
+                # U2 ("[2] anfragen/[3] zurueckziehen/[4] status loesen
+                # eine NUMMER gegen die zuletzt gezeigten Angebote auf"):
+                # dieselbe Liste, die `_cmd_table_search` zuletzt zeigte --
+                # eine rohe `table_key`-Eingabe bleibt unveraendert als
+                # Experten-/Kompatibilitaetsweg gueltig (kein Pflichtwissen
+                # der Nummer).
+                if self._last_table_search_offers:
+                    self._print(
+                        "Zuletzt gezeigte Tische: "
+                        + ", ".join(
+                            f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
+                        )
+                    )
                 key_raw, key_control = self._readline_with_controls(
-                    "Welcher Tisch (table_key)? ", context="Tisch-Untermenue",
+                    "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
+                    context="Tisch-Untermenue",
                 )
                 if key_control in ("zurueck", "abbrechen", "pause"):
                     continue
-                table_key = key_raw.strip()
-                if not table_key:
+                key_raw = key_raw.strip()
+                if not key_raw:
                     self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
                     continue
+                if key_raw.isdigit() and 1 <= int(key_raw) <= len(self._last_table_search_offers):
+                    table_key = self._last_table_search_offers[int(key_raw) - 1]
+                else:
+                    table_key = key_raw
                 if choice == "2":
                     self._cmd_table_request_join([table_key])
                 elif choice == "3":
@@ -1797,25 +1959,59 @@ class TuiSession:
                     self._cmd_table_status([table_key])
                 continue
             if self._host_capable and choice in ("5", "6", "7", "8", "9"):
+                if self._last_table_search_offers:
+                    self._print(
+                        "Zuletzt gezeigte Tische: "
+                        + ", ".join(
+                            f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
+                        )
+                    )
                 key_raw, key_control = self._readline_with_controls(
-                    "Welcher Tisch (table_key)? ", context="Tisch-Untermenue",
+                    "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
+                    context="Tisch-Untermenue",
                 )
                 if key_control in ("zurueck", "abbrechen", "pause"):
                     continue
-                table_key = key_raw.strip()
-                if not table_key:
+                key_raw = key_raw.strip()
+                if not key_raw:
                     self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
                     continue
+                if key_raw.isdigit() and 1 <= int(key_raw) <= len(self._last_table_search_offers):
+                    table_key = self._last_table_search_offers[int(key_raw) - 1]
+                else:
+                    table_key = key_raw
                 if choice in ("6", "7"):
+                    # U2 ("Host [6] annehmen/[7] ablehnen: offene Anfragen
+                    # als nummerierte Liste zeigen, Gast per Nummer
+                    # waehlen"): reine Lesefunktion (`load_record`, 0
+                    # Writes) auf GENAU denselben Record, den `_cmd_table_
+                    # accept`/`_cmd_table_reject` gleich darauf selbst
+                    # wieder laden -- keine neue Autoritaet, nur Anzeige.
+                    # Ein (noch) unbekannter `table_key` zeigt schlicht
+                    # keine Liste; die rohe `guest_id`-Eingabe bleibt
+                    # unveraendert als Experten-/Kompatibilitaetsweg
+                    # gueltig.
+                    record = table_admission.load_record(self.run_dir, table_key) if self.run_dir else None
+                    open_requests = list(record.get("requests", [])) if record else []
+                    if open_requests:
+                        self._print(
+                            "Offene Anfragen: "
+                            + ", ".join(f"[{i}] '{g}'" for i, g in enumerate(open_requests, start=1))
+                        )
                     guest_raw, guest_control = self._readline_with_controls(
-                        "Welcher Gast (guest_id)? ", context="Tisch-Untermenue",
+                        "Welcher Gast (Nummer aus der Liste oben oder guest_id)? ",
+                        context="Tisch-Untermenue",
                     )
                     if guest_control in ("zurueck", "abbrechen", "pause"):
                         continue
-                    guest_id = guest_raw.strip()
-                    if not guest_id:
+                    guest_raw = guest_raw.strip()
+                    if not guest_raw:
                         self._print("Kein guest_id eingegeben -- zurueck zum Tisch-Untermenue.")
                         continue
+                    if guest_raw.isdigit() and 1 <= int(guest_raw) <= len(open_requests):
+                        guest_id = open_requests[int(guest_raw) - 1]
+                    else:
+                        guest_id = guest_raw
                     if choice == "6":
                         self._cmd_table_accept([table_key, guest_id])
                     else:
@@ -1828,8 +2024,13 @@ class TuiSession:
                 else:
                     self._cmd_table_zuschauer([table_key])
                 continue
-            self._print(f"Unbekannte Auswahl: {choice!r} -- zurueck zum Hauptmenue.")
-            return
+            # U2 ("konsistentes Zurueck/Tippfehler"): eine ungueltige
+            # Auswahl zeigt jetzt dasselbe Tisch-Untermenue erneut, statt
+            # den gesamten Aufbau unbegruendet bis ins Hauptmenue zu
+            # verlassen (Vorbild `_cmd_menu_charaktere`). Jede GUELTIGE
+            # Auswahl oben bleibt unveraendert (eigenes `continue`/Dispatch
+            # pro Zweig).
+            self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
 
     _INTRO_LINES = (
         "  1) Die Spielleitung (SL) fuehrt die Welt -- du entscheidest deine Figur.",
@@ -1970,6 +2171,29 @@ class TuiSession:
                 "fortgesetzt (derselbe Erschaffungsauftrag, kein neuer Vorgang)."
             )
             self._cmd_new_or_switch_character()
+            return
+        # ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Resume
+        # rollengerecht"): dieser Solo-Fallback ruft `_cmd_local_round([])`,
+        # dessen ALLERERSTE Anweisung `_require_host(...)` ist (s. dort) --
+        # ein reiner Gast (`not self._host_capable`) OHNE gebundenen Tisch
+        # (sonst waere der obige `card.open_section_id`-Zweig schon
+        # gelaufen) erreichte diese Zeile bisher trotzdem und bekam NUR die
+        # rohe `GuestCapabilityError`-Hostgrenze zu sehen -- "Fortsetzen"
+        # endete im Host-Gate, statt den tatsaechlich moeglichen Weg zu
+        # nennen. Reine Anzeige/Wegweiser, KEIN neuer Dienst: derselbe
+        # bereits bestehende Tischdienst ([tisch]-Menue, `_cmd_table_
+        # search`/`_cmd_table_request_join`) bleibt der einzige Weg fuer
+        # einen figurfuehrenden Gast ohne Tisch, wieder mitzuspielen.
+        if not self._host_capable:
+            figur_hinweis = (
+                f"deine Figur '{card.chrononaut_id}'" if card.chrononaut_id else "deine Figur"
+            )
+            self._print(
+                f"Fortsetzen als Gast nicht moeglich: Solo spielen ist eine Hostaktion. "
+                f"{figur_hinweis} ist aktuell an keinem Tisch gebunden -- nutze '[tisch]' "
+                "(Offene Tische suchen / anfragen), um mit dieser Figur bei einem Betreiber "
+                "wieder mitzuspielen. Keine Aenderung, kein Modellaufruf."
+            )
             return
         self._cmd_local_round([])
 
@@ -4935,19 +5159,32 @@ class TuiSession:
         im Record stehen muss -- genau die in F1 §1 benannte Luecke
         ('ein neuer Gast muss lokale Angebote sehen ... OHNE vorher einen
         table_key zu kennen'). Reine Lesefunktion, 0 Writes, 0 Modell-/
-        Providercalls."""
+        Providercalls.
+
+        ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U2 "Tisch-
+        Untermenue nummeriert"): zeigt jede Zeile jetzt zusaetzlich mit
+        ihrem 1-basierten Anzeigeindex und merkt sich die gezeigte
+        Reihenfolge in `self._last_table_search_offers` -- reine
+        Anzeige-/Merkhilfe dieser Sitzung, damit `_cmd_menu_tisch`
+        '[2]'/'[3]'/'[4]' eine Nummer gegen GENAU diese zuletzt gezeigte
+        Liste aufloesen kann. Der bisherige Zeileninhalt (`'<table_key>'
+        Host=... roster=... offene Anfragen=...`) bleibt dahinter
+        unveraendert bestehen (bestehende Substring-Belege pruefen nur
+        `table_key`/`host_id`, s. `test_r2_f1_f2_f3_tabledienst_2026_
+        11_02.py`)."""
         if self.run_dir is None:
             self._print("Tischsuche erfordert eine konfigurierte Laufumgebung (run_dir).")
             return
         open_tables = table_admission.list_open_tables(self.run_dir)
+        self._last_table_search_offers = [r["table_key"] for r in open_tables]
         if not open_tables:
             self._print("Keine offenen Tische gefunden.")
             return
         self._print(f"Offene Tische ({len(open_tables)}):")
-        for record in open_tables:
+        for idx, record in enumerate(open_tables, start=1):
             self._print(
-                f"  '{record['table_key']}' Host={record['host_id']} roster={record['roster']} "
-                f"offene Anfragen={record['requests']}"
+                f"  [{idx}] '{record['table_key']}' Host={record['host_id']} "
+                f"roster={record['roster']} offene Anfragen={record['requests']}"
             )
 
     def _cmd_table_request_join(self, args: list[str]) -> None:
@@ -5181,10 +5418,82 @@ class TuiSession:
             f"mitglieder={view['members']}, status={view['status']}):"
         )
         if not view["sl_log"]:
-            self._print("[Zuschauer] (noch kein oeffentlicher Verlauf.)")
+            # U4b (R3 Stage 2, 01_NACHZUG §U4b): ruhiger Spielzustand statt
+            # Leerzeile ohne Orientierung -- benennt, WARUM leer ist und den
+            # EINEN realen naechsten Schritt (als Mitglied ueber das Hauptmenue
+            # [l] eine Runde spielen, sonst spaeter erneut schauen). Kein
+            # Fehler, kein Traceback -- ein normaler, erwartbarer Zustand.
+            self._print(
+                "[Zuschauer] Noch kein oeffentlicher Verlauf an diesem Tisch -- es wurde noch "
+                "keine Runde gespielt. Naechster Schritt: als Mitglied ueber das Hauptmenue "
+                "[l] (lokale Runde) spielen, oder spaeter erneut hier hereinschauen."
+            )
+            return
+        # U3b (R3 Stage 2, 01_NACHZUG §U3b, Evidenz B1b_stop_race_open_call):
+        # der gemeinsame atomare Entscheid-Slot (`admission.
+        # read_table_decision`, dieselbe durable Quelle wie T5300/T8721) ist
+        # die Wahrheit darueber, ob dieser Abschnitt ENDGUELTIG verworfen
+        # wurde -- EIN nach dem Stop noch eintreffender Modellcall kann
+        # trotzdem einen weiteren `sl_log`-Eintrag erzeugen (die verworfene
+        # Spaetantwort), der sonst hier als ganz normaler Spielinhalt
+        # erschiene. Ein verworfener Abschnitt zeigt deshalb NIE den
+        # rohen Verlauf, sondern NUR eine klar als technisch/verworfen
+        # markierte Zeile -- die vier Zustaende (kontrolliert unterbrochen/
+        # endgueltig verworfen/offener Restabschluss/erfolgreich gespeichert)
+        # duerfen hier nicht vermischt werden.
+        from ..core import admission as core_admission
+        decision = core_admission.read_table_decision(self.run_dir, table_id)
+        if isinstance(decision, dict) and decision.get("decision") == "stopped":
+            self._print(
+                "[Zuschauer][verworfen -- nach Stop eingetroffen, nicht Teil des Spiels] "
+                "Dieser Abschnitt wurde kontrolliert gestoppt und ENDGUELTIG verworfen -- "
+                "spaeter eingetroffene SL-Antworten sind kein gueltiger Spielinhalt mehr."
+            )
             return
         for entry in view["sl_log"]:
-            self._print(f"[Zuschauer][SL] {entry.get('content', '')}")
+            self._print(f"[Zuschauer][SL] {self._display_sanitize_sl(entry.get('content', ''))}")
+
+    def _display_sanitize_sl(self, content: str) -> str:
+        """U4a (R3 Stage 2, 01_NACHZUG §U4a, PLAYER-UX-REVIEW.md Zeile 52/83
+        "SL-Dump zeigt Save-JSON + 'SECTION-ABSCHLUSS-BESTAETIGT' ... als
+        normalen Spielinhalt"): NUR fuer die LIVE-BILDSCHIRMANZEIGE (die
+        beiden Aufrufer unten) -- der an das Modell gehende History-Block
+        (T ~8405 `history = [f"[SL] {e.get('content', '')}" for e in
+        sl_log]`) UND jeder Export/State bleiben davon komplett unberuehrt,
+        weil sie NIE durch diese Methode laufen (separate Codepfade).
+
+        Erkennt NUR real vorhandene technische Bestandteile und ersetzt
+        GENAU DIESE durch eine ruhige Zustandszeile -- normaler Erzaehltext
+        bleibt unveraendert:
+        - ein fenced v7-Save-JSON-Block, DIESELBE Erkennungsregel (Regex +
+          `v == 7`-Pruefung) wie `domain.zeitriss.saves.
+          extract_all_saves_raw` (kein zweiter, abweichender Parser) ->
+          `[Spielstand gespeichert]` (mehrere Bloecke, einer je Mitglied,
+          werden zu EINER Zeile zusammengefasst, keine N-fache Wiederholung).
+        - die Marker-Zeile `COMPLETION_MARKER` (ggf. mit `table_id=.../
+          section_id=...`-Anhang, s. Evidenz B1b) -> `[Abschnitt bestaetigt]`.
+
+        Offener Befund (ehrlich, nicht behauptet geloest): ein konkretes
+        Request-Roster-/Host-Stack-Rohformat innerhalb von `sl_log`-Content
+        wurde in Code/Evidenz NICHT gefunden (nur die zwei oben genannten
+        Artefakte sind belegt) -- diese Methode filtert bewusst NUR, was
+        tatsaechlich nachweisbar ist, kein Raten an zusaetzlichen Mustern."""
+        import re
+        from ..domain.zeitriss.policy import COMPLETION_MARKER
+
+        def _replace_save_block(m: "re.Match[str]") -> str:
+            try:
+                obj = json.loads(m.group(1))
+            except (json.JSONDecodeError, ValueError):
+                return m.group(0)
+            if isinstance(obj, dict) and obj.get("v") == 7 and "characters" in obj:
+                return "[Spielstand gespeichert]"
+            return m.group(0)
+
+        sanitized = re.sub(r"```(?:json)?\s*(\{.*?\})\s*```", _replace_save_block, content, flags=re.DOTALL)
+        sanitized = re.sub(rf"^{re.escape(COMPLETION_MARKER)}.*$", "[Abschnitt bestaetigt]", sanitized, flags=re.MULTILINE)
+        sanitized = re.sub(r"(?:\[Spielstand gespeichert\]\s*){2,}", "[Spielstand gespeichert]\n", sanitized)
+        return sanitized.strip()
 
     def _cmd_table_zuschauer(self, args: list[str]) -> None:
         """O4/§2 (design.md §4): Read-only, NICHT host-gegatet (derselbe
@@ -5725,7 +6034,21 @@ class TuiSession:
             return
         if section.status == "closed":
             table_admission.close_table(self.run_dir, table_key=table_key, host_id=self.participant_id)
-            self._print(f"Tisch '{table_key}': Abschnitt '{section_id}' abgeschlossen -- Admission geschlossen.")
+            # U3b (R3 Stage 2, 01_NACHZUG §U3b): `section.status == "closed"`
+            # wird AUCH von `_finalize_genuine_table_abort` gesetzt (s.
+            # dortiger Docstring) -- "closed" alleine unterscheidet NICHT
+            # zwischen echtem Erfolg und endgueltigem Verwurf. Dieselbe
+            # durable Quelle wie T5300/T8721 (`admission.
+            # read_table_decision`) entscheidet, welche Meldung ehrlich ist.
+            from ..core import admission as core_admission
+            decision = core_admission.read_table_decision(self.run_dir, section_id)
+            if isinstance(decision, dict) and decision.get("decision") == "stopped":
+                self._print(
+                    f"Tisch '{table_key}': Abschnitt '{section_id}' kontrolliert gestoppt "
+                    "(nicht abgeschlossen), Admission geschlossen."
+                )
+            else:
+                self._print(f"Tisch '{table_key}': Abschnitt '{section_id}' abgeschlossen -- Admission geschlossen.")
 
     def _own_table_status_lines(self) -> list[str]:
         """Briefing (Stage 5 TUI-Wiring): 'Statuskopf zeigt Modus +
@@ -6151,11 +6474,28 @@ class TuiSession:
         oder eine der bereits ausgewaehlten KI-Personas -- kein freies
         Leaderwechselmenue, keine andere Person als Leader waehlbar.
 
-        G02 (02 §C): nutzt `_readline_with_controls`."""
+        G02 (02 §C): nutzt `_readline_with_controls`.
+
+        ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U2 "Leaderwahl per
+        Nummer"): zeigt VOR der Eingabe die bereits zulaessigen Kandidaten
+        nummeriert (`[0]` = du, `[1]..[n]` = GENAU die angefragten KI-IDs in
+        `ai_tokens`, dieselbe Reihenfolge wie im Prompttext) und loest eine
+        eingegebene Nummer gegen GENAU diese Liste auf -- 'nur bereits
+        zulaessige Kandidaten' (keine andere Persona-ID wird dadurch
+        waehlbar). Die bestehenden Eingabeformen (leer/'du'/eigene ID fuer
+        dich selbst, rohe KI-ID als Expertenweg) bleiben unveraendert
+        gueltig. Der Prompttext beginnt weiterhin mit 'Leader dieser Runde'
+        (von mehreren Tests per `prompt.startswith(...)` erkannt, s.
+        `test_ux1_r5_round_journey_group_sizes_2026_10_06.py`)."""
+        if ai_tokens:
+            self._print("Leaderkandidaten:")
+            self._print(f"  [0] du ({self.participant_id})")
+            for idx, tok in enumerate(ai_tokens, start=1):
+                self._print(f"  [{idx}] {tok}")
         try:
             raw, control = self._readline_with_controls(
                 f"Leader dieser Runde -- [du] = {self.participant_id} oder eine der "
-                f"angefragten KI-IDs {ai_tokens}: ",
+                f"angefragten KI-IDs {ai_tokens} (Nummer aus der Liste oben ebenfalls moeglich): ",
                 context="Leader waehlen",
             )
         except EndOfInput:
@@ -6165,8 +6505,10 @@ class TuiSession:
             self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
             return None
         raw = raw.strip()
-        if raw in ("", "du", self.participant_id):
+        if raw in ("", "du", self.participant_id, "0"):
             return self.participant_id
+        if raw.isdigit() and 1 <= int(raw) <= len(ai_tokens):
+            return ai_tokens[int(raw) - 1]
         if raw in ai_tokens:
             return raw
         self._print(f"Einrichtung abgebrochen: '{raw}' ist kein gueltiger Leader (weder du noch angefragte KI).")
@@ -6190,13 +6532,49 @@ class TuiSession:
     def _local_round_show_summary(self, human_ids: list[str], ai_tokens: list[str], leader_choice: str) -> bool:
         """A24 R2 (02 §Auftrag R2 'Zusammenfassung mit 1-5 Gesamtspielern
         einschliesslich Leader und letzte bewusste Startwahl ... Auswahl ist
-        noch keine KI-Zustimmung und keine Tischaufnahme')."""
+        noch keine KI-Zustimmung und keine Tischaufnahme').
+
+        ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U2 "Lesbare
+        Zusammenfassung"): die urspruengliche, rohe Python-Listen-Dump-Zeile
+        (`Menschen={human_ids} KI={ai_tokens} Leader={leader_choice}`) bleibt
+        BYTEGLEICH bestehen (von `test_ux1_g01_five_humans_full_flow_2026_
+        10_05.py`/`test_ux1_r5_round_journey_group_sizes_2026_10_06.py` per
+        Substring auf genau diese Form gepruefte Belegzeile) -- die neue,
+        lesbare Pro-Zeile-Karte darunter ist REIN ADDITIV: Nummer, lesbarer
+        Name (`_local_round_list_humans`, Fallback auf die ID), Mensch/KI,
+        bereits bestaetigte Figur (`_resolve_member`, dieselbe reine
+        Lesefunktion wie `_local_round_handoff`, FEHLT = 'noch keine
+        Figur') bzw. KI-Herkunftslabel (`_known_ai_overview`), Leader-
+        Markierung. 0 neue Writes/Modellaufrufe."""
         total = len(human_ids) + len(ai_tokens)
         self._print(
             f"Zusammenfassung ({total} Spieler einschliesslich Leader): "
             f"Menschen={human_ids} KI={ai_tokens} Leader={leader_choice}. "
             "Diese Auswahl ist noch KEINE KI-Zustimmung und keine Tischaufnahme -- "
             "der bestehende Einladungs-/Consentweg folgt unveraendert danach."
+        )
+        display_names = dict(self._local_round_list_humans())
+        ai_overview = dict(self._known_ai_overview())
+        idx = 1
+        for pid in human_ids:
+            try:
+                resolved = self._resolve_member(pid)
+            except _ActiveSaveUnresolved:
+                resolved = None
+            figur = resolved[1] if resolved is not None else "noch keine Figur"
+            leader_mark = " -- Leitung bei dieser Person" if pid == leader_choice else ""
+            self._print(
+                f"  [{idx}] {display_names.get(pid, pid)} ({pid}) -- Mensch -- Figur: "
+                f"{figur}{leader_mark}"
+            )
+            idx += 1
+        for tok in ai_tokens:
+            leader_mark = " -- Leitung bei dieser Persona" if tok == leader_choice else ""
+            self._print(f"  [{idx}] {tok} -- KI -- {ai_overview.get(tok, 'KI-Persona')}{leader_mark}")
+            idx += 1
+        self._print(
+            f"Leitung: {leader_choice} -- Zustimmung/Tischaufnahme folgt erst nach dieser "
+            "Bestaetigung fuer jede eingeladene KI/jeden eingeladenen Menschen."
         )
         from ..adapters.base import human_menu_decision
 
@@ -6322,6 +6700,60 @@ class TuiSession:
             run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
         )
         self._print(f"Erschaffungsanfrage an Betreiber '{operator_id}' gestellt (status={record['status']}).")
+
+    def _cmd_gast_erschaffung_anfragen_menu(self) -> None:
+        """ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Gast-
+        Erschaffungsanfrage ueber das normale [charaktere]-Menue"):
+        Menue-Vorstufe zu `_cmd_gast_erschaffung_anfragen` -- derselbe
+        unveraenderte Dienst dahinter (keine neue Freigabeautoritaet),
+        nur eine NUMMERIERTE Auswahl der real bekannten Betreiber statt
+        der rohen `gast-erschaffung-anfragen <operator_id>`-Syntax (die
+        bleibt unveraendert als Experten-/Kompatibilitaetsweg gueltig --
+        eine eingegebene rohe ID, die nicht in der Liste steht, wird
+        unveraendert durchgereicht).
+
+        "Real bekannte Betreiber" = die `host_id`s der lokal sichtbaren
+        offenen Tische (`table_admission.list_open_tables`, dieselbe
+        Lesefunktion wie `_cmd_table_search`/'[tisch] suchen') -- kein
+        neues Discovery-/Registrierungsprotokoll, nur Wiederverwendung
+        einer bereits bestehenden, fuer Gaeste freigegebenen Lesequelle."""
+        if self.run_dir is None:
+            self._print("Gast-Erschaffungsanfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        known_operators = sorted({r["host_id"] for r in table_admission.list_open_tables(self.run_dir)})
+        if known_operators:
+            self._print("Bekannte Betreiber (aus offenen Tischen, s. '[tisch] suchen'):")
+            for idx, op in enumerate(known_operators, start=1):
+                self._print(f"  [{idx}] {op}")
+            self._print(
+                "(Nummer aus dieser Liste ODER direkt eine Betreiber-ID eingeben -- die ID bleibt "
+                "als Expertenweg zusaetzlich gueltig.)"
+            )
+        else:
+            self._print(
+                "Keine offenen Tische bekannt -- optional vorher '[tisch] suchen' pruefen. Eine "
+                "Betreiber-ID kann trotzdem direkt eingegeben werden."
+            )
+        try:
+            raw, control = self._readline_with_controls(
+                "Betreiber fuer die Erschaffungsanfrage (Nummer oder ID, leer = abbrechen): ",
+                context="Gast-Erschaffungsanfrage",
+            )
+        except EndOfInput:
+            self._print("\nErschaffungsanfrage abgebrochen (EOF) -- keine Aenderung.")
+            return
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Erschaffungsanfrage abgebrochen -- keine Aenderung.")
+            return
+        raw = raw.strip()
+        if not raw:
+            self._print("Erschaffungsanfrage abgebrochen -- keine Betreiberauswahl.")
+            return
+        if raw.isdigit() and 1 <= int(raw) <= len(known_operators):
+            operator_id = known_operators[int(raw) - 1]
+        else:
+            operator_id = raw
+        self._cmd_gast_erschaffung_anfragen([operator_id])
 
     def _cmd_gast_erschaffung_annehmen(self, args: list[str]) -> None:
         """HOST-ONLY (F4 §1): bindet GENAU DIESEN Gast + GENAU EINEN
@@ -7216,9 +7648,22 @@ class TuiSession:
             return
         if resolved_leader is None:
             if leader_persona_id:
-                self._print(f"KI-Leader '{leader_persona_id}' hat keine abgeschlossene Figur — kein Spielstart.")
+                # U4b (R3 Stage 2, 01_NACHZUG §U4b): ruhiger Spielzustand mit
+                # konkretem naechstem Schritt statt blosser Absage. Der Mensch
+                # kann die KI-Figur nicht in seinem eigenen Durchgang
+                # fertigstellen -- der reale Weg ist, eine bereits fertige Figur
+                # als Leader zu waehlen und die Runde ueber [g] neu einzurichten.
+                self._print(
+                    f"KI-Leader '{leader_persona_id}' hat keine abgeschlossene Figur — kein Spielstart. "
+                    "Naechster Schritt: eine bereits fertige Figur als Leader waehlen und die lokale "
+                    "Runde ueber [g] (Runde einrichten) neu aufsetzen, oder die KI-Figur zuerst "
+                    "vervollstaendigen."
+                )
             else:
-                self._print("Lokale Runde: noch keine abgeschlossene Figur vorhanden — zuerst [n] abschliessen.")
+                self._print(
+                    "Lokale Runde: noch keine abgeschlossene Figur vorhanden — zuerst [n] "
+                    "abschliessen, danach die Runde ueber [g] (Runde einrichten) erneut aufsetzen."
+                )
             return
         active_save, chrononaut_id = resolved_leader
 
@@ -7799,6 +8244,63 @@ class TuiSession:
             except table_admission.TableAdmissionError:
                 pass
 
+    def _print_section_completion_card(self, io, pid: str, saved_now: bool) -> None:
+        """U3c (R3 Stage 2, 01_NACHZUG §U3c, docs/spielerstart.md 191-198
+        "ob du weiterspielen oder zum Tisch zurueck willst" -- bisher von
+        der TUI nicht eingeloest): kurze persoenliche Karte JE Terminal
+        NACH einem ECHT erfolgreichen Abschnittsabschluss. Reine Anzeige/
+        Navigation (kein Zug, kein Modellaufruf) -- nutzt NUR die bereits
+        vorhandene Resume-Autoritaet (`_build_resume_card`, DIESELBE
+        Lesefunktion wie 'fortsetzen'/`/stand`, kein zweiter Export-/Save-
+        Pfad). `saved_now` kommt vom Aufrufer aus `outcome.completion.
+        members_completed` -- NIE selbst erfunden, nur wenn dieser `pid`
+        in dieser Runde tatsaechlich einen neuen gueltigen Save bekam.
+        Platzhaltertexte (Main poliert die finale Prosa).
+
+        WICHTIG: `io._build_resume_card(...)`, NICHT `self._build_resume_
+        card(...)` -- ein ueber `register_guest_terminal` angeschlossener
+        Gast hat SEIN EIGENES privates `onboarding_dir`/`catalog_dir`
+        (s. dortiger Docstring), `self` (Host) wuerde unter `pid` dort
+        nichts/Falsches finden. `_writeback_registered_guest_saves` (s.
+        Aufrufer) hat den frischen Save bereits VOR diesem Aufruf in genau
+        dieses private Verzeichnis zurueckgeschrieben."""
+        card = io._build_resume_card(participant_id=pid)
+        has_character = card is not None and card.chrononaut_id is not None
+        io._print(f"-- Abschlusskarte fuer '{pid}' --")
+        if saved_now and has_character:
+            io._print(
+                f"Gueltiger neuer Spielstand gespeichert ({card.last_valid_save_summary or card.chrononaut_id})."
+            )
+        elif has_character:
+            io._print(f"Figur: {card.chrononaut_id} (aus dieser Runde kein neuer eigener Save).")
+        else:
+            io._print("Keine eigene Figur -- kein persoenlicher Spielstand.")
+        steps = []
+        if has_character:
+            steps.append("Export des eigenen Standes (Hauptmenue -> 'charaktere' -> exportieren)")
+        steps.append("Zurueck zum Tisch/HQ (naechstes Hauptmenue)")
+        steps.append("Weiterspielen (Hauptmenue -> 'spielen')")
+        for i, step in enumerate(steps, start=1):
+            io._print(f"  {i}) {step}")
+
+    def _print_operator_table_completion_card(self, table, operator_table_key: str | None) -> None:
+        """U3c (R3 Stage 2, 01_NACHZUG §U3c "Betreiber ohne eigene Figur
+        ... OHNE erfundenen persoenlichen Save"): der figurfreie Betreiber
+        (O1: landet NIE in `table.members`/`chrononaut_ids`, s.
+        `_run_table_round` oben) bekommt KEINE persoenliche Karte, sondern
+        eine passende Tisch-Abschlusskarte -- keine Figur, kein Spielstand
+        behauptet, nur real verfuegbare naechste Schritte."""
+        self._print(f"-- Tisch-Abschlusskarte (Betreiber, figurfrei) fuer '{table.table_id}' --")
+        self._print("Keine eigene Figur, kein persoenlicher Spielstand -- der Abschnitt ist fuer die Teilnehmer abgeschlossen.")
+        key_hint = operator_table_key if operator_table_key else "<table_key>"
+        steps = [
+            "Neue Admission anbieten ('tisch-anbieten')",
+            f"Zuschauer-Ansicht dieses Tisches ('tisch-zuschauer {key_hint}')",
+            "Beenden",
+        ]
+        for i, step in enumerate(steps, start=1):
+            self._print(f"  {i}) {step}")
+
     def _run_table_round(
         self, table, lobby, ps_store, leader_id: str, leader_persona_id: str | None,
         leader_driver, active_save: dict | None,
@@ -7949,8 +8451,22 @@ class TuiSession:
                 # bekommt dagegen einen eigenen, unabhaengigen Stand.
                 _sl_channel_key = id(io)
                 _sl_already_shown = displayed_sl_count_by_channel.get(_sl_channel_key, 0)
-                for entry in sl_log[_sl_already_shown:]:
-                    io._print(f"[SL] {entry.get('content', '')}")
+                _new_sl_entries = sl_log[_sl_already_shown:]
+                # U4c (01_NACHZUG §U4c): echte Wartephase #1 -- der Spieler hat
+                # seinen Zug eingereicht und auf die Spielleitung gewartet;
+                # JETZT sind neue SL-Eintraege da. Genau EINE kurze
+                # Zeit-Atmosphaere-Zeile VOR der Antwort, nur wenn der Spieler
+                # schon einmal SL-Ausgabe gesehen hat (`_sl_already_shown > 0`)
+                # -- die EROEFFNUNGS-Szene ist keine Wartephase und bleibt
+                # unberuehrt. Respektiert den Schalter des TATSAECHLICHEN
+                # Ausgabekanals `io` (eigenes Gastterminal ODER geteilter
+                # Bildschirm). Keine Zeile, wenn aus oder keine neuen Eintraege.
+                if _sl_already_shown > 0 and _new_sl_entries:
+                    _zg = io._zeitgedanke()
+                    if _zg:
+                        io._print(_zg)
+                for entry in _new_sl_entries:
+                    io._print(f"[SL] {io._display_sanitize_sl(entry.get('content', ''))}")
                 displayed_sl_count_by_channel[_sl_channel_key] = len(sl_log)
                 for m in context.get("pending_table_messages") or []:
                     io._print(f"[Tischabsprache] {m.get('from', '?')}: {m.get('text', '')}")
@@ -7982,7 +8498,15 @@ class TuiSession:
                 # `decide()` ihn, zeigt es die tatsaechlich zutreffende
                 # lokale Beschriftung statt der Spielzug-Zweckzeile. Keine
                 # Vertraulichkeitszusage bei geteiltem Bildschirm (02 §F).
-                if context.get("system") == "PRIVATE_REFLECTION_SENTINEL":
+                # U3a (R3 Stage 2, 01_NACHZUG §U3a): die Notiz laeuft ueber
+                # DIESELBE decide()-Mechanik wie ein normaler Spielzug, soll
+                # aber WEDER den Spielzug-Prompttext "Deine Aktion:" NOCH
+                # den Kontextmarker "Spielzug" tragen -- beide bleiben fuer
+                # den NICHT-Sentinel-Zweig exakt bytegleich (geschuetzt von
+                # `test_a24_local_two_humans_2026_10_01.py`, das "Deine
+                # Aktion:" in echten Transkripten zaehlt).
+                is_private_note = context.get("system") == "PRIVATE_REFLECTION_SENTINEL"
+                if is_private_note:
                     io._print(
                         "Empfaenger: eigene lokale Notiz (NICHT an Spielleitung/Tisch, freiwillig, "
                         "leer = keine Notiz, keine Vertraulichkeitszusage bei geteiltem Bildschirm)."
@@ -7990,7 +8514,10 @@ class TuiSession:
                 else:
                     io._print(self._purpose_label())
                 label_prefix = f"[{self._label}] " if self._label else ""
-                prompt = f"{label_prefix}Deine Aktion: "
+                if is_private_note:
+                    prompt = f"{label_prefix}Deine persoenliche Abschlussnotiz (leer = ueberspringen): "
+                else:
+                    prompt = f"{label_prefix}Deine Aktion: "
                 # UX04/05 (02 §C): Hilfe/Stand/Verlauf verbrauchen hier
                 # KEINEN Zug -- `_readline_with_controls` beantwortet sie
                 # selbst und fragt dieselbe Prompt-Zeile erneut ab, ohne
@@ -8030,7 +8557,9 @@ class TuiSession:
                         io._host_terminal_claimed.set()
                 try:
                     text, control = io._readline_with_controls(
-                        prompt, context="Spielzug", history=history, speaker_pid=self._pid,
+                        prompt,
+                        context=("Abschlussnotiz" if is_private_note else "Spielzug"),
+                        history=history, speaker_pid=self._pid,
                     )
                 finally:
                     if claims_guest_terminal:
@@ -8423,6 +8952,23 @@ class TuiSession:
                 )
             else:
                 self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
+        # U3c (R3 Stage 2, 01_NACHZUG §U3c): rein ADDITIV NACH dem oben
+        # unveraenderten Erfolg/Stop/plan_committed/Pause-Block (der
+        # bleibt bytegleich, NICHT angefasst) -- liest nur das dort
+        # bereits berechnete `outcome.completion.success` erneut, aendert
+        # an dessen Bedeutung/Berechnung nichts. Jedes Terminal mit einer
+        # echten menschlichen Figur sieht NACH echtem Erfolg seine eigene
+        # Abschlusskarte; ein figurfreier Betreiber (O1) sieht stattdessen
+        # die Tisch-Variante. Reine Anzeige -- kein Zug, kein Modellaufruf.
+        if outcome.completion.success:
+            members_completed_set = set(outcome.completion.members_completed)
+            for pid, driver in drivers.items():
+                if not getattr(driver, "is_human_driver", False):
+                    continue
+                io = self._table_guest_terminals.get(pid, self)
+                self._print_section_completion_card(io, pid, pid in members_completed_set)
+            if operator_mode:
+                self._print_operator_table_completion_card(table, operator_table_key)
 
     # A10 (WEGKARTE §8, REVIEW-P2V.md §9/A01-A28-ABGLEICH A10): acht
     # konfigurierbare, DISTINKTE synthetische Start-Personas (02 §3: "Pool
@@ -8956,11 +9502,53 @@ class TuiSession:
         from ..core import lobby_flow
         lobby_flow.run_lobby_window(self)
 
+    # U4c (R3 Stage 2, 01_NACHZUG §U4c): finale Produktprosa (Main/Opus).
+    # Ein kleiner, deterministisch durchlaufener Pool kurzer Zeit-Atmosphaere-
+    # Zeilen fuer echte Wartephasen. BEWUSST epochen-NEUTRAL gehalten: eine
+    # verlaessliche, am TUI-Wartepunkt tatsaechlich vorliegende Epochen-/
+    # Setting-Angabe existiert im Code an diesen Stellen nicht (keine
+    # `setting_lock`-Bindung erreichbar) -- sie wird daher NICHT erfunden
+    # (gleiche Ehrlichkeitsregel wie beim nicht gefundenen Request-Roster in
+    # `_display_sanitize_sl`). Die Zeilen tragen die ZEITRISS-Grundstimmung
+    # (Zeitreise/Chrononen/Zeitlinie), ohne eine bestimmte Epoche zu behaupten.
+    _ZEITGEDANKEN: tuple[str, ...] = (
+        "Waehrend du wartest, summen die Chrononen in der Stille -- die Zeitlinie haelt den Atem an.",
+        "Einen Herzschlag lang steht die Zeit still; irgendwo tickt eine Uhr, die es noch nicht geben duerfte.",
+        "Die Sekunden dehnen sich. In der Ferne hallt ein Echo aus einer Epoche, die noch nicht geschrieben ist.",
+        "Du wartest -- und die Vergangenheit wartet mit dir, geduldig wie Staub auf alten Akten.",
+        "Ein kuehler Luftzug, das Flackern der Konsole: die Gegenwart ordnet sich neu, bevor sie dir antwortet.",
+    )
+
+    def _zeitgedanke(self) -> str | None:
+        """U4c: liefert GENAU EINE kurze Zeit-Atmosphaere-Zeile (mit festem
+        `[Zeitgedanke] `-Praefix) fuer eine echte Wartephase, oder `None`,
+        wenn der Schalter aus ist. Deterministisch: der Index rueckt NUR bei
+        einem echten Feuern vor (kein Zufall, keine Uhr, kein Timer, kein
+        zusaetzlicher Modellaufruf). Die Praefix-/Satzform enthaelt bewusst
+        WEDER `[SL] ` NOCH `Deine Aktion:` -- die substringzaehlenden
+        Transkripttests bleiben dadurch unberuehrt."""
+        if not getattr(self, "_zeitgedanken", False):
+            return None
+        pool = self._ZEITGEDANKEN
+        if not pool:
+            return None
+        line = pool[self._zeitgedanke_index % len(pool)]
+        self._zeitgedanke_index += 1
+        return f"[Zeitgedanke] {line}"
+
     def _cmd_settings(self) -> None:
         """I1/I3: Status/Einstellungen -- reale, lokal verfuegbare Angaben."""
         self._print(f"Teilnehmer-ID: {self.participant_id}")
         entries = catalog.list_for_participant(self.catalog_dir, self.participant_id)
         self._print(f"Katalog-Eintraege: {len(entries)}")
+        # U4c: realer, lokal verfuegbarer Schalterzustand (analog zu den
+        # uebrigen echten Angaben hier). Opt-out ueber Konstruktorparameter
+        # `zeitgedanken=False` ODER `MMO_SIM_TUI_ZEITGEDANKEN=0`.
+        self._print(
+            "Zeitgedanken (Zeit-Atmosphaere in Wartephasen): "
+            + ("an" if getattr(self, "_zeitgedanken", False) else "aus")
+            + " -- abschaltbar via MMO_SIM_TUI_ZEITGEDANKEN=0."
+        )
         if self.run_dir is None:
             self._print("Laufumgebung (run_dir): nicht konfiguriert (kein Lab-Status verfuegbar).")
             return
@@ -8979,6 +9567,7 @@ class TuiSession:
             self._print(render_boot_menu(
                 resume, host_capable=self._host_capable,
                 table_status_lines=self._own_table_status_lines(),
+                participant_id=self.participant_id,
             ))
             try:
                 # R4 FIX6: Einzelleser-Koordination -- fuer ein per

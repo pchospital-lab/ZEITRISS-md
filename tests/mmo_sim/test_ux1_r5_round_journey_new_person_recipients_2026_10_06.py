@@ -498,22 +498,24 @@ def test_local_reflection_note_is_fourth_recipient_purpose_not_leaked():
 
         leader_note = "Notiz: Figur und Ausruestung geprueft (lokal, nicht fuer die SL)."
         printed: list[str] = []
-        # Beide "Deine Aktion: "-Aufrufe des Leaders (Spielzug, dann
-        # Reflexion) tragen denselben Prompttext -- eine kleine
-        # Zustandsmaschine statt einer rein prompttextgebundenen Antwort
-        # unterscheidet sie anhand der Aufrufreihenfolge.
-        calls_to_leader_prompt = {"n": 0}
-
+        # U3a/R3-Stage2: die Abschlussnotiz hat jetzt ihren EIGENEN Prompt
+        # ("Deine persoenliche Abschlussnotiz"), NICHT mehr denselben
+        # Prompttext wie der normale Spielzug ("Deine Aktion: ") --
+        # unterscheidet sich jetzt direkt am Prompttext, keine
+        # Aufrufreihenfolge-Zustandsmaschine mehr noetig.
         def _leader_input(prompt: str = "") -> str:
             if "beitreten? [j/n]" in prompt:
                 return "j"
             if prompt == "Deine Aktion: ":
-                calls_to_leader_prompt["n"] += 1
-                if calls_to_leader_prompt["n"] == 1:
-                    return "Leader-Anker-Zug."
-                return leader_note
-            if "] Deine Aktion: " in prompt:
+                return "Leader-Anker-Zug."
+            # Gelabelte (Gast-)Notizabfrage ZUERST pruefen -- sonst matcht
+            # die generische unlabelte Pruefung darunter faelschlich auch
+            # den Gast (dessen Prompt ebenfalls "Deine persoenliche
+            # Abschlussnotiz" als Teilstring enthaelt, nur mit Label davor).
+            if "] Deine persoenliche Abschlussnotiz" in prompt:
                 return ""  # Gast: leere freiwillige Notiz (zulaessig, kein human_note-Eintrag).
+            if "Deine persoenliche Abschlussnotiz" in prompt:
+                return leader_note
             raise EOFError()
 
         session = TuiSession(

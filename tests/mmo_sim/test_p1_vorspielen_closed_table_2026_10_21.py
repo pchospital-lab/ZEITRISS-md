@@ -143,6 +143,9 @@ def test_p1_vorspielen_sees_members_of_just_closed_table():
         def human_responder(prompt: str = "") -> str:
             if "Deine Aktion" in prompt:
                 return "Wir sichern die Position und beobachten die Umgebung."
+            # U3a/R3-Stage2: eigener Notiz-Prompt statt "Deine Aktion:".
+            if "Deine persoenliche Abschlussnotiz" in prompt:
+                return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
             raise AssertionError(f"unerwarteter Prompt ohne Antwortregel: {prompt!r}")
