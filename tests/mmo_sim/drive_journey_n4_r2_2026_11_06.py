@@ -63,17 +63,28 @@ from mmo_sim.domain.zeitriss import creation_service as creation_grants  # noqa:
 from _full_v7_fixture import full_v7_save  # noqa: E402
 
 _OUT_ROOT = Path("/home/altair/zr-vollendung-20261106/r4-nachzug-r2/run/worker/journey/evidence/journey-n4-r2")
-_SOURCE_COMMIT = "a5d2e1a24e7b69ab5c4696a6569b126907e55de1"
 
 
-def _source_tree() -> str:
+def _git_rev(spec: str) -> str:
     out = subprocess.run(
-        ["git", "-C", str(_WORKTREE), "rev-parse", "HEAD^{tree}"],
+        ["git", "-C", str(_WORKTREE), "rev-parse", spec],
         capture_output=True, text=True, timeout=10,
     )
     return out.stdout.strip() if out.returncode == 0 else "unknown"
 
 
+def _source_commit() -> str:
+    return _git_rev("HEAD")
+
+
+def _source_tree() -> str:
+    return _git_rev("HEAD^{tree}")
+
+
+# Beide Provenienzfelder werden live aus dem tatsaechlichen Worktree-HEAD
+# gelesen, damit jeder Lauf ein konsistentes, am gelieferten Code
+# reproduzierbares (source_commit, source_tree)-Paar schreibt.
+_SOURCE_COMMIT = _source_commit()
 _SOURCE_TREE = _source_tree()
 
 
