@@ -3,8 +3,10 @@
 drive_journey_n4_r2_2026_11_06.py -- ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-
 20261106-R2, Journey-Worker-Nachzug. Kopie + Erweiterung von
 `<worktree>/tests/mmo_sim/drive_journey_n4_2026_11_06.py` gegen den FIXEN
-Produktstand (Head a5d2e1a2, N1-Fix aktiv: `_FifoInputReader.read_line`
-spiegelt den Prompt jetzt sichtbar in die Gast-out-FIFO).
+Produktstand (N1-Fix aktiv: `_FifoInputReader.read_line`
+spiegelt den Prompt jetzt sichtbar in die Gast-out-FIFO). Die konkrete
+Commit-/Tree-Bindung jedes Laufs wird live aus dem Worktree-HEAD gelesen
+(_SOURCE_COMMIT/_SOURCE_TREE), nicht im Text fest kodiert.
 
 Schliesst die drei engen Reste aus
 `evidence/reviews/N1-N4-CODE-EVIDENCE-REVIEW.md` (R1/R2/R4/R5):
@@ -948,9 +950,9 @@ def run_scene_b1b_stop_race_open_call() -> dict:
 def run_scene_b2() -> dict:
     """B2 (BEHALTEN, unveraendert gegenueber dem Original-Treiber ausser
     Pfaden): Briefing/Review einig, dass B2 bereits erledigt ist ("A7 und
-    B2 bleiben erledigt") -- dieser Lauf wird NUR frisch am fixen Stand
-    (Head a5d2e1a2) gefahren, um neue, an diesen Head gebundene
-    Beweisbytes zu liefern (keine inhaltliche Aenderung)."""
+    B2 bleiben erledigt") -- dieser Lauf wird NUR frisch am fixen
+    Produktstand gefahren, um neue, an den aktuellen Worktree-HEAD
+    gebundene Beweisbytes zu liefern (keine inhaltliche Aenderung)."""
     out_dir = _OUT_ROOT / "B2_committed_interrupt_new_process"
     mf = r6.Manifest(out_dir)
     evidence: dict = {"processes": {}}
@@ -1170,8 +1172,8 @@ def run_scene_b2() -> dict:
         mf.write_summary({
             "szene": "B2_committed_interrupt_new_process",
             "aussage": (
-                "BEHALTEN (Briefing/Review: 'A7 und B2 bleiben erledigt') -- frisch am fixen Stand "
-                "(Head a5d2e1a2) gefahren, inhaltlich unveraendert. Verbindliche Annahme (Plan-Pin+"
+                "BEHALTEN (Briefing/Review: 'A7 und B2 bleiben erledigt') -- frisch am fixen "
+                "Produktstand gefahren, inhaltlich unveraendert. Verbindliche Annahme (Plan-Pin+"
                 "Primaersave) real geschrieben (Prozess 1), gezielte Unterbrechung ueber die vorhandene "
                 "Testnaht, GETRENNTER NEUER OS-Prozess (Prozess 2, andere PID) bindet denselben offenen "
                 "Abschluss und beendet ihn regulaer. Identischer Retry (Prozess 3) ohne zweite Wirkung. "
