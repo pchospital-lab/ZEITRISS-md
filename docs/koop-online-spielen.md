@@ -183,10 +183,14 @@ Dieselben Aktionen wie die Wortbefehle, nur menügeführt.
 
 ### Schritt 5 — Spielen: wer tippt wann
 
-Betreiber: `tisch-start mesa1`. Spielen mehrere Menschen mit, bekommt **jeder
-weitere Mensch seine persönliche Beitritts-/Zustimmungsfrage auf seinem eigenen
-Kanal** und beantwortet sie **dort selbst** — der Betreiber tippt keine fremde
-Zustimmung an seiner Tastatur. Der erste angenommene Mensch spielt als Leader;
+Betreiber: `tisch-start mesa1`. Spielen mehrere Menschen mit, **beantwortet jeder
+weitere Mensch seine persönliche Beitritts-/Zustimmung an seinem eigenen Kanal
+selbst** — seine Taste auf seinem eigenen Terminal entscheidet, der Betreiber
+tippt keine fremde Zustimmung an seiner Tastatur und sein Prozess blockiert auch
+nicht auf der fremden Tastatur. (Der Fragetext selbst wird derzeit noch nicht in
+die Gast-Ausgabe gespiegelt; der Gast handelt nach diesem dokumentierten Ablauf
+bzw. dem Zuruf des Betreibers, nicht nach einer eingeblendeten Prompt-Zeile.) Der
+erste angenommene Mensch spielt als Leader;
 jeder weitere Mensch steigt über seine **eigene** Zusage ein. Bleibt eine
 ausdrücklich gewünschte Zusage aus, startet nicht stillschweigend eine
 verkleinerte Runde.
