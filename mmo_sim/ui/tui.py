@@ -176,7 +176,22 @@ def render_boot_menu(
 
 class EndOfInput(Exception):
     """Signalisiert EOF/Pipeline-Ende — vom Aufrufer als kontrollierte Pause
-    zu behandeln (A11/A16: kein Absturz bei Skript-/Pipe-Eingabe)."""
+    zu behandeln (A11/A16: kein Absturz bei Skript-/Pipe-Eingabe).
+
+    N3 (GENERAL-REVIEW.md, "wahrer Stop-/Endstatus"): `reason` ist ein
+    schmaler, optionaler Seitenkanal (Default `None` -- JEDER bestehende
+    Aufrufer, der `EndOfInput()` ohne Argument wirft/faengt, bleibt
+    bytegleich). Nur der bestaetigte endgueltige Verwurf (s.
+    `_HumanDriver.decide()`s '/abbrechen'-Zweig, `decided == "stopped"`)
+    setzt `reason="confirmed_discard"`, damit der oberste Fangpunkt in
+    `run()` ihn ZUTREFFEND von echtem EOF/einer Pause unterscheiden kann,
+    statt ihn pauschal als "sicher pausiert" zu melden -- kein neuer
+    Reconnect-/Pausekomfort, nur eine ehrlichere Meldung desselben
+    bereits gefallenen Entscheids."""
+
+    def __init__(self, reason: str | None = None) -> None:
+        super().__init__()
+        self.reason = reason
 
 
 class _ActiveSaveUnresolved(Exception):
@@ -7396,14 +7411,29 @@ class TuiSession:
             # verhindert damit strukturell jede Tischanlage mit diesem Gast
             # (kein Tisch existiert bereits vor einer Gastentscheidung).
             if not is_persona and guest_id != self.participant_id:
-                # Der aufrufende Mensch selbst hat seine Freigabe bereits
-                # durch den Kommandoaufruf gegeben (auch als Gast eines
-                # KI-Leaders, s. oben) -- nur ZUSAETZLICHE Menschen am
-                # geteilten Geraet bestaetigen per eigener Eingabe.
-                if guided and current_focus_pid != guest_id:
-                    if not self._local_round_handoff(guest_id):
-                        raise EndOfInput()
-                    current_focus_pid = guest_id
+                # N1 (GENERAL-REVIEW.md, "Mehrgast-Consent/Fokus am
+                # richtigen Kanal"): dieselbe io-Auswahl wie bereits in
+                # `_HumanDriver.decide()` (~:7880, `io = outer.
+                # _table_guest_terminals.get(self._pid, outer)`) -- ein
+                # Gast MIT eigenem registriertem Terminal
+                # (`register_guest_terminal`) bestaetigt den Beitritt UND
+                # bekommt jede zugehoerige Ausgabe ueber SEIN EIGENES
+                # Terminal, NICHT ueber die Host-Tastatur, und OHNE
+                # `_local_round_handoff` (kein Fokuswechsel der Host-
+                # Tastatur fuer einen Gast, der gar nicht an ihr sitzt).
+                # NUR ohne registriertes Terminal (geteilter Bildschirm,
+                # `guest_io is self`) bleibt der bestehende beschriftete
+                # `_local_round_handoff`-Weg bytegleich erhalten.
+                guest_io = self._table_guest_terminals.get(guest_id, self)
+                if guest_io is self:
+                    # Der aufrufende Mensch selbst hat seine Freigabe bereits
+                    # durch den Kommandoaufruf gegeben (auch als Gast eines
+                    # KI-Leaders, s. oben) -- nur ZUSAETZLICHE Menschen am
+                    # geteilten Geraet bestaetigen per eigener Eingabe.
+                    if guided and current_focus_pid != guest_id:
+                        if not self._local_round_handoff(guest_id):
+                            raise EndOfInput()
+                        current_focus_pid = guest_id
                 # R05 (UX09, 01_REVIEW_A23.md-Nachzug "2+3 .../pause nicht
                 # komplett geliefert"): dieser Gastbeitritt war bisher die
                 # EINZIGE Stelle, die eine rohe `_readline` statt des
@@ -7422,17 +7452,31 @@ class TuiSession:
                 # Abbruch-Guard (alle Angefragten muessen zugesagt haben)
                 # bleibt unveraendert wirksam, kein Tisch mit ungeklaerter
                 # Besetzung.
-                confirm_answer, confirm_control = self._readline_with_controls(
-                    f"[{guest_id}] Dieser lokalen Runde (Leader: {leader_id}) beitreten? [j/n]: ",
-                    context="Rundenbeitritt",
-                )
+                # N1: derselbe Einzelleser-Claim wie in `_HumanDriver.
+                # decide()` (R4 FIX6, "Keine konkurrierenden Leser desselben
+                # Eingabekanals") -- fuer ein registriertes Gastterminal
+                # (`guest_io is not self`) parkt `guest_io`s eigener Menue-
+                # Loop (`_readline_guest_menu`) waehrend dieses host-
+                # getriebenen Reads, statt um dieselbe FIFO zu konkurrieren.
+                claims_guest_terminal = guest_io is not self
+                if claims_guest_terminal:
+                    with guest_io._terminal_read_lock:
+                        guest_io._host_terminal_claimed.set()
+                try:
+                    confirm_answer, confirm_control = guest_io._readline_with_controls(
+                        f"[{guest_id}] Dieser lokalen Runde (Leader: {leader_id}) beitreten? [j/n]: ",
+                        context="Rundenbeitritt",
+                    )
+                finally:
+                    if claims_guest_terminal:
+                        guest_io._host_terminal_claimed.clear()
                 if confirm_control in ("zurueck", "abbrechen", "pause"):
                     self._append_invitation_log({
                         "type": "response", "offer_id": invitation_offer_id,
                         "ts": datetime.datetime.now().isoformat(),
                         "from": guest_id, "decision": "paused", "origin_source": "human:terminal",
                     })
-                    self._print(
+                    guest_io._print(
                         f"'{guest_id}' pausiert den Rundenbeitritt (/{confirm_control}) -- keine Zusage, "
                         "kein Tisch mit dieser Besetzung."
                     )
@@ -7449,7 +7493,7 @@ class TuiSession:
                     "from": guest_id, "decision": confirm_decision, "origin_source": "human:terminal",
                 })
                 if confirm_decision != "accept":
-                    self._print(
+                    guest_io._print(
                         f"'{guest_id}' hat der lokalen Runde nicht zugestimmt "
                         f"(Eingabe: {confirm_answer!r}, Entscheidung: {confirm_decision})."
                     )
@@ -7798,7 +7842,21 @@ class TuiSession:
         outer = self
         # Shared screen: publish every previously unseen public entry, not only
         # the last entry after several consecutive AI guest-imports.
-        displayed_sl_count = 0
+        # N2 (GENERAL-REVIEW.md, "Oeffentlicher SL-Verlauf pro
+        # Ausgabekanal"): EIN Zaehler-PRO-Kanal statt eines einzigen
+        # geteilten Zaehlers fuer alle Driver -- sonst setzt Gast A den
+        # (vorher einzigen) Zaehler auf N, und Gast B sieht in SEINEM
+        # Terminal nur noch `sl_log[N:]`, verpasst also `sl_log[0:N]`.
+        # Schluessel ist `id(io)` (s. `decide()` unten): ein registriertes
+        # Gastterminal hat sein EIGENES `io`-Objekt -> eigener Cursor;
+        # jeder geteilte-Bildschirm-Driver benutzt dagegen IMMER dasselbe
+        # `outer`-Objekt als `io` -> automatisch EIN gemeinsamer Cursor,
+        # bytegleich zum bisherigen Status quo (kein doppelt gedruckter
+        # Block am geteilten Bildschirm). Nur die oeffentliche SL-Anzeige
+        # (`table_view.sl_log`) ist betroffen; `pending_table_messages`
+        # bleiben unveraendert ungefiltert je Aufruf (keine private
+        # Spiegelung).
+        displayed_sl_count_by_channel: dict[int, int] = {}
         # current_focus_pid deliberately remains the actor confirmed in setup/consent.
         # The first game contribution is not an implicit reset of that actor.
 
@@ -7867,7 +7925,7 @@ class TuiSession:
                 return "Empfaenger: Tischabsprache (dein Tisch/Leader) — NICHT direkt an die SL"
 
             def decide(self, context: dict):
-                nonlocal displayed_sl_count, current_focus_pid
+                nonlocal current_focus_pid
                 # R3-Nachzug (F1 §1, 02_NACHZUG.md §A): ein ANGENOMMENER
                 # Gast mit registriertem `register_guest_terminal` bedient
                 # sich ueber die EIGENE `TuiSession` (`io`, eigenes
@@ -7884,9 +7942,16 @@ class TuiSession:
                     current_focus_pid = self._pid
                 table_view = context.get("table_view") or {}
                 sl_log = table_view.get("sl_log") or []
-                for entry in sl_log[displayed_sl_count:]:
+                # N2: Cursor PRO Ausgabekanal (`id(io)`, s. Kommentar bei
+                # `displayed_sl_count_by_channel`-Deklaration oben) --
+                # dasselbe `outer`-Objekt (geteilter Bildschirm) landet
+                # immer auf demselben Schluessel, ein eigenes Gastterminal
+                # bekommt dagegen einen eigenen, unabhaengigen Stand.
+                _sl_channel_key = id(io)
+                _sl_already_shown = displayed_sl_count_by_channel.get(_sl_channel_key, 0)
+                for entry in sl_log[_sl_already_shown:]:
                     io._print(f"[SL] {entry.get('content', '')}")
-                displayed_sl_count = len(sl_log)
+                displayed_sl_count_by_channel[_sl_channel_key] = len(sl_log)
                 for m in context.get("pending_table_messages") or []:
                     io._print(f"[Tischabsprache] {m.get('from', '?')}: {m.get('text', '')}")
                 # UX14/15: Empfaenger-/Zweckzeile wird als EIGENE Zeile
@@ -7999,6 +8064,15 @@ class TuiSession:
                     # mitspielender Host ohne Betreibertisch) bleibt
                     # '/abbrechen' UNVERAENDERT eine reine Pause -- dafuer
                     # existiert keine adressierbare Stopautoritaet.
+                    # N3 (GENERAL-REVIEW.md): schmaler Zustandsmarker --
+                    # NUR der Zweig unten, der den echten Verwurf-
+                    # Lifecycle tatsaechlich ausloest (`decided ==
+                    # "stopped"`), setzt ihn auf True. Jeder andere Ausgang
+                    # dieses Blocks (plan_committed/ohne Wirkung/Admission-
+                    # Fehler/keine Bindung) bleibt False -- `raise
+                    # EndOfInput()` unten wirft dann weiterhin OHNE Grund
+                    # (bytegleich zum bisherigen Verhalten).
+                    discard_confirmed = False
                     if operator_table_key is not None and outer.run_dir is not None:
                         try:
                             payload = table_admission.request_table_stop(
@@ -8022,6 +8096,7 @@ class TuiSession:
                             # NOCH 'verworfen' melden.
                             decided = payload.get("decision")
                             if decided == "stopped":
+                                discard_confirmed = True
                                 outer._finalize_genuine_table_abort(lobby, table, operator_table_key)
                                 io._print(
                                     "Abschnitt wirklich verworfen (/abbrechen) -- ENDGUELTIG, kein "
@@ -8052,7 +8127,7 @@ class TuiSession:
                             "bedeutet '/abbrechen' Pause/Beenden, kein Rollback (02 §C) -- "
                             "kontrolliert pausiert, kein Modellaufruf."
                         )
-                    raise EndOfInput()
+                    raise EndOfInput(reason="confirmed_discard" if discard_confirmed else None)
                 text_out = text
                 self._turn += 1
                 # R1 (C-M1, UX14): dieselbe Autoritaet wie `_purpose_label()`
@@ -9051,8 +9126,24 @@ class TuiSession:
                     )
                 else:
                     self._print(f"Unbekannte Auswahl: {choice!r}")
-            except EndOfInput:
-                self._print("\nEingabe beendet (EOF) waehrend eines Untermenues — sicher pausiert.")
+            except EndOfInput as _eoi:
+                # N3 (GENERAL-REVIEW.md, "wahrer Stop-/Endstatus"): ein
+                # bereits bestaetigter endgueltiger Verwurf (`reason ==
+                # "confirmed_discard"`, gesetzt NUR am echten '/abbrechen'-
+                # Stopp-Lifecycle, s. `_HumanDriver.decide()`) ist KEIN
+                # EOF und KEINE Pause -- der Betreiber hat den Verwurf
+                # bereits (an seinem eigenen `io`, s. dort) explizit
+                # bestaetigt gesehen. Jeder andere Ausgang (echtes EOF,
+                # '/pause', '/zurueck', abgelehnte Fokusuebergabe, Admission-
+                # Fehler) setzt `reason` nicht (`None`) und bleibt bei der
+                # unveraenderten, bytegleichen Meldung.
+                if _eoi.reason == "confirmed_discard":
+                    self._print(
+                        "\nAbschnitt beendet -- bestaetigter Verwurf (/abbrechen), kein EOF, "
+                        "kein Pause-Fortsetzen moeglich."
+                    )
+                else:
+                    self._print("\nEingabe beendet (EOF) waehrend eines Untermenues — sicher pausiert.")
                 return 0
             except GuestCapabilityError as e:
                 # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md

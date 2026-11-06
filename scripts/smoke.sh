@@ -59,6 +59,13 @@ python3 tests/mmo_sim/test_zr_betreiber_o6_autoritaet_und_spectator_2026_11_03.p
 # Betreiber-Tischmenue, hier additiv direkt gestartet.
 python3 tests/mmo_sim/test_zr_vollendung_abbrechen_help_und_host_tischmenue_2026_11_06.py
 
+# ZR-VOLLENDUNG-R3-NACHZUG-20261106 (GENERAL-REVIEW N1/N2/N3, Linus): standalone
+# Assert-Skript (python3 -m unittest -q findet die Modulfunktionen NICHT, s.
+# Docstring) -- eigene Gast-Beitrittszustimmung am eigenen Kanal (N1), per-Kanal
+# oeffentliche SL-Sicht (N2), EOF/Pause/Stop-Trennung am realen Weg (N3), hier
+# additiv direkt gestartet.
+python3 tests/mmo_sim/test_linus_n123_2026_11_06.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

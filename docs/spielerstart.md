@@ -1,6 +1,6 @@
 ---
 title: "Spielerstart — ZEITRISS im Terminal"
-version: 1.0.0
+version: 1.1.0
 tags: [guide]
 ---
 
@@ -17,6 +17,14 @@ Für den Spielweg ohne Terminal nutze den [Chat-Setup-Guide](setup-guide.md).
 > [Prüfstand und Grenzen](terminal-status.md)
 
 ## Installation
+
+> **Reiner Gast an einem fremden Tisch?** Wenn du nur bei jemandem mitspielst,
+> der den Tisch und die KI-Spielleitung bereitstellt (lokaler
+> Betreiber-/Gast-Tisch), brauchst du **keinen eigenen Modellzugang** und nicht
+> die volle Einrichtung unten — du tippst über deine zugewiesenen Kanäle mit und
+> machst selbst keine Modellaufrufe. Folge direkt dem Gastweg im
+> [Koop-Leitfaden: Lokal mit Betreiber und Gästen](koop-online-spielen.md). Die
+> Installation unten gilt für den eigenen Spiel- oder Betreiberstart.
 
 Die dokumentierte Referenzumgebung verwendet Python 3.12 in einer normalen
 virtuellen Umgebung. Öffne ein Terminal im entpackten ZEITRISS-Projektordner:

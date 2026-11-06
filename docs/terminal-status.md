@@ -53,6 +53,35 @@ wirksame Fortsetzung. Weitergehende Livewege bleiben gesondert zu prüfen.
 Daraus folgt keine pauschale Zusage für Remote-/LAN-Mitspiel, alle
 Modellanbieter, alle Betriebssysteme oder einen Stable-Release.
 
+### Lokale Vollendung vor LAN (Stand 6. November 2026)
+
+Ergänzende Produktkorrekturen am lokalen Betreiber-/Gast-Tisch, **ohne** LAN und
+**ohne** neue Live-Abnahme. Diese Punkte wurden am **realen Launcher** mit den
+normalen Menüs/Eingabekanälen geführt; die KI-Spielleitung lief dabei über einen
+**deterministischen Modelltransport-Rand (null neue kostenpflichtige
+Produktmodellaufrufe)**. Das ist kein neuer Live-/Mehrfiguren-Reifegrad.
+
+- **Der reine Betreiber ohne eigene Figur**, der nur die Spielleitung hält und
+  den Tisch führt, ist der **Normalfall**. Eine eigene Figur ist nur Voraussetzung
+  des bewusst mitspielenden Hosts.
+- **Eigene Gastkanäle:** Jeder weitere Mensch erhält Einladung, Fokus-/Hilfeführung
+  und Zustimmung auf seinem **eigenen** I/O-Kanal und antwortet dort selbst; der
+  Betreiber tippt keine fremde Zustimmung an seiner Tastatur.
+- **Öffentlicher Verlauf je Ansicht:** Der Anzeigestand öffentlicher SL-Einträge
+  ist an den tatsächlichen Ausgabekanal gebunden; getrennte Gastkanäle teilen
+  keinen bereits verbrauchten Cursor. Private Teilnehmernotizen und
+  nicht-öffentliche Figurendaten werden dabei nicht in andere Ansichten gespiegelt.
+- **EOF, Pause und Stop sind verschiedene Ereignisse:** Ein bestätigter
+  endgültiger Verwurf am Betreiber-Tisch erscheint **nicht** mehr als „EOF …
+  sicher pausiert". Ein beendeter Gastdispatch wird nicht allein durch erneutes
+  Öffnen eines Schreibers wieder lebendig — zuverlässig ist kontrollierter Schluss
+  plus vollständiger Neustart. Keine Sofort-Stop-/Wiederanschlussgarantie.
+- **Zwei eng begrenzte Grenzfälle** am normalen Weg belegt: erreichbarer Stop
+  während offener kontrollierter Antwort (bestätigter Verwurf, kein Finalrecord);
+  verbindlich angenommener Plan/Primärsave mit Unterbrechung, den ein **neuer
+  OS-Prozess** über den normalen Wiedereinstieg regulär beendet — ohne Rollback,
+  ohne doppelte Save-/Figuren-/Reflexionswirkung.
+
 ### Best Effort und SAVECOMPAT
 
 Bis zu drei zusätzliche vollständige Korrekturen werden angefordert; bei

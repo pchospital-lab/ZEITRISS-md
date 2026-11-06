@@ -1,6 +1,6 @@
 ---
 title: "Koop & Online zusammen spielen"
-version: 1.2.0
+version: 1.3.0
 tags: [guide]
 ---
 
@@ -104,10 +104,14 @@ normaler Start, nur über die Pipes.
 
 ### Schritt 1 — Betreiber startet den Prozess
 
-Der Betreiber braucht eine eigene Figur (wie im Solo-Weg), einen Kontrollkanal
-für `/stop` und je einen `in`/`out`-FIFO-Pfad pro Gast. Die FIFOs müssen **nicht**
-von Hand angelegt werden — der Launcher legt fehlende Named Pipes selbst an und
-bricht ehrlich ab, falls unter einem Pfad schon eine normale Datei liegt.
+Der Betreiber braucht je einen `in`/`out`-FIFO-Pfad pro Gast und — sobald er
+**selbst mitspielt** — einen Kontrollkanal für `/stop`. **Eine eigene Figur
+braucht der Betreiber nicht:** Der reine Betreiber ohne Figur, der nur die
+KI-Spielleitung hält und den Tisch führt, ist der **Normalfall**. Eine eigene
+Figur ist nur Voraussetzung des bewusst **mitspielenden** Hosts (dann ist der
+Kontrollkanal Pflicht, siehe unten). Die FIFOs müssen **nicht** von Hand
+angelegt werden — der Launcher legt fehlende Named Pipes selbst an und bricht
+ehrlich ab, falls unter einem Pfad schon eine normale Datei liegt.
 
 ```bash
 # Fenster 1 — Betreiber
@@ -179,10 +183,20 @@ Dieselben Aktionen wie die Wortbefehle, nur menügeführt.
 
 ### Schritt 5 — Spielen: wer tippt wann
 
-Betreiber: `tisch-start mesa1`. Danach läuft der normale Rundenablauf. Vor jedem
-Prompt steht eine Empfängerzeile: sie nennt, wessen Zug ansteht. Jeder Mensch
-tippt in seinem **eigenen** Fenster — es gibt keine Eingabekollision, weil jeder
-seinen eigenen Kanal hat. Mit `/stand` sieht die gerade tippende Person ihren
+Betreiber: `tisch-start mesa1`. Spielen mehrere Menschen mit, bekommt **jeder
+weitere Mensch seine persönliche Beitritts-/Zustimmungsfrage auf seinem eigenen
+Kanal** und beantwortet sie **dort selbst** — der Betreiber tippt keine fremde
+Zustimmung an seiner Tastatur. Der erste angenommene Mensch spielt als Leader;
+jeder weitere Mensch steigt über seine **eigene** Zusage ein. Bleibt eine
+ausdrücklich gewünschte Zusage aus, startet nicht stillschweigend eine
+verkleinerte Runde.
+
+Danach läuft der normale Rundenablauf. Vor jedem Prompt steht eine
+Empfängerzeile: sie nennt, wessen Zug ansteht. Jeder Mensch tippt in seinem
+**eigenen** Fenster — es gibt keine Eingabekollision, weil jeder seinen eigenen
+Kanal hat. Jeder Gast sieht die für ihn bestimmte öffentliche SL-Vorgeschichte
+und neue öffentliche Ausgaben in seiner eigenen Ansicht, auch wenn vorher ein
+anderer Gast gehandelt hat. Mit `/stand` sieht die gerade tippende Person ihren
 eigenen Stand, `?`/`/hilfe` zeigt die Steuerzeilen, ohne einen Zug zu verbrauchen.
 
 ### Schritt 6 — Stop bleibt erreichbar
@@ -205,15 +219,39 @@ Tisch eine strengere Bedeutung als eine bloße Pause:
 - **Ohne** gebundenen Betreiber-Tisch (einfacher Solo-/`registrieren`-Weg ohne
   `tisch-start`): `/abbrechen` bleibt reine Pause, genau wie `/pause`.
 
-### Schritt 7 — Saubere Rückkehr
+### Schritt 7 — Ehrliches Kanalende und saubere Rückkehr
 
-- Jeder Gast beendet seine Eingabeseite mit **Strg-D** (EOF) — das pausiert
-  kontrolliert; der zuletzt gültige Stand bleibt erhalten.
-- Der Betreiber beendet über `beenden` im Hauptmenü; die Gast-Sitzungen desselben
-  Prozesses enden mit.
-- Ein späterer Neustart mit demselben `--data-dir` nimmt über `fortsetzen` den
-  zuletzt gespeicherten eigenen Stand jeder Person wieder auf — unverändert zum
-  normalen Fortsetzen-Weg.
+**EOF, Pause und Stop sind drei verschiedene Ereignisse** — nicht derselbe
+Zustand unter anderem Namen:
+
+- **Strg-D (EOF)** auf der Gast-Eingabeseite beendet den **Eingabe-Dispatch
+  dieses Gasts**. Ein so beendeter Gastkanal wird **nicht** allein dadurch wieder
+  lebendig, dass man erneut einen `cat >`-Schreiber öffnet. Zuverlässig für diese
+  Etappe ist ein erklärter kontrollierter Schluss und danach ein **vollständiger
+  Neustart** des Tisches — keine Sofort-Wiederanschlussgarantie an denselben
+  laufenden Dispatch.
+- **`/pause`** am eigenen Prompt hält die Runde kontrolliert an, ohne sie zu
+  beenden.
+- **`/stop`** über den Kontrollkanal und ein **bestätigter** `/abbrechen` vor der
+  Abschlussentscheidung sind Betreiber-/Abschnittsende, keine bloße Pause (siehe
+  Schritt 6). Ein bestätigter endgültiger Verwurf ist kein „sicher pausiert".
+
+Der zuletzt **gespeicherte** persönliche Stand jeder Person bleibt dabei
+erhalten; noch nicht gespeicherter Fortschritt ist dadurch nicht gesichert. Der
+Betreiber beendet den ganzen Prozess über `beenden` im Hauptmenü; die
+Gast-Sitzungen desselben Prozesses enden mit.
+
+**Rückkehr hängt davon ab, was der Tisch zuletzt war** — es gibt **keine
+pauschale `fortsetzen`-Zusage** für jede Rolle nach jedem Ende:
+
+- **Offener, gebundener Tisch** mit denselben Identitäten, Kanälen und
+  Datenwurzeln: der Betreiber nimmt ihn über `tisch-start` **derselben Bindung**
+  wieder auf.
+- **Geschlossener oder verworfener Tisch:** kein stilles Fortsetzen — der
+  Betreiber macht ein **neues Angebot**, und jede Person bringt ihren **aktuellen
+  persönlichen Save** bewusst wieder ein (Gast: `charaktere` → `2`).
+- **Eigener Solo-/Persona-/Angebotsweg:** braucht einen **eigenen Host**; der
+  Betreiber-`tisch-start` ersetzt ihn nicht.
 
 ### Wie viele Fenster?
 
