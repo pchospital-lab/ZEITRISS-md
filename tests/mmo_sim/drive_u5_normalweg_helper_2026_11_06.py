@@ -335,17 +335,47 @@ def run_scene_u5() -> dict:
         r4._wait_for_path(final_path, overall=25.0)
 
         # ── Assertion C: persoenliche Abschlusskarte in BEIDEN Fenstern.
+        #
+        # LINUS-U5-NACHZUG (empirisch, ueber das im Briefing genannte EINE
+        # Label hinaus -- s. Report "Was du veraendert hast" fuer die volle
+        # Herleitung): `drivers` (tui.py `_run_table_round`) listet den
+        # LEADER (hier operator1, mitspielender Host) IMMER ZUERST; die
+        # Abschlusskarten-Schleife (`for pid, driver in drivers.items():
+        # self._print_section_completion_card(io, pid, ...)`) dispatcht pro
+        # Karte GENAU EINEN echten, BLOCKIERENDEN `_readline_with_controls`-
+        # Lesevorgang (R4 U3, "jetzt echt bedienbar" -- zum Zeitpunkt dieses
+        # 2026-11-06-Treibers druckte die Karte nur, ohne zu lesen). Ohne
+        # eine Antwort auf operator1s EIGENE Karte haengt der Prozess GENAU
+        # DORT fest -- guest1s Karte (zweiter Schleifendurchlauf) wird dann
+        # NIE gedruckt, selbst nach beliebig langer Wartezeit (empirisch
+        # mit 40s Drain verifiziert). Operator1 antwortet daher hier mit
+        # '2' (Zurueck zum Hauptmenue, keine Mutation) auf SEINE EIGENE
+        # Karte, bevor guest1s Karte ueberhaupt erwartet werden kann.
         host_finish_tail = r4._drain(host_reader, settle=0.8, overall=10.0)
         host_finish_joined = "".join(host_finish_tail)
+        assert "Abschlusskarte fuer 'operator1'" in host_finish_joined, host_finish_joined
+        r4._send_op(proc, "2")
         guest_finish_tail = r4._drain(guest_reader, settle=0.8, overall=10.0)
         guest_finish_joined = "".join(guest_finish_tail)
-        assert "Abschlusskarte fuer 'operator1'" in host_finish_joined, host_finish_joined
         assert "Abschlusskarte fuer 'guest1'" in guest_finish_joined, guest_finish_joined
-        # Nummerierte Export-/Rueckkehr-/Weiterspielen-Schritte (zusaetzlicher,
+        # Nummerierte Export-/Rueckkehr-/Weitere-Schritte (zusaetzlicher,
         # unabhaengiger Beleg fuer Assertion A im selben Gast-Fenster).
+        # LINUS-U5-NACHZUG: guest1 ist NICHT host-faehig (`io._host_capable
+        # == False`) -- `_print_section_completion_card`s dritte Zeile ist
+        # fuer einen Gast daher LITERAL "Tisch suchen/beitreten (neues
+        # zulaessiges Angebot)" (`is_guest_follow_up=True`), NICHT das hier
+        # ehemals erwartete "Weiterspielen" (das ist die HOST-Variante,
+        # `_cmd_menu_fortsetzen`, fuer guest1 strukturell unerreichbar).
         assert ") Export des eigenen Standes" in guest_finish_joined, guest_finish_joined
-        assert ") Zurueck zum Tisch/HQ" in guest_finish_joined, guest_finish_joined
-        assert ") Weiterspielen" in guest_finish_joined, guest_finish_joined
+        assert ") Zurueck zum Hauptmenue" in guest_finish_joined, guest_finish_joined
+        assert ") Tisch suchen/beitreten" in guest_finish_joined, guest_finish_joined
+        # LINUS-U5-NACHZUG: guest1s eigene Karte blockiert ihrerseits (s.
+        # Begruendung oben) -- dieselbe Antwort ('2', keine Mutation) auf
+        # guest1s EIGENER FIFO, sonst bleibt der Betreiberprozess im zweiten
+        # Schleifendurchlauf dieser Karten-Schleife haengen und 'beenden'
+        # erreicht ihn nie.
+        r4._send_guest(helper.stdin, "2")
+        r4._drain(guest_reader, settle=0.6, overall=5.0)
 
         try:
             r4._send_op(proc, "beenden")
