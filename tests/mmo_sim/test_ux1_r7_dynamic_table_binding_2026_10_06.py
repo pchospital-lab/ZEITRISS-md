@@ -182,6 +182,23 @@ def test_r6p01_negative_fixed_solo_marker_rejected_then_positive_dynamic_binding
                 f"R6P01-Negativ verletzt: Tisch darf bei falschem Marker nicht geschlossen sein: "
                 f"{table1_after.status}"
             )
+            # R4 U4 (01_NACHZUG.md U4 Punkt 2, PLAYER-UX-REVIEW.md F4,
+            # 02_ABNAHME.md D "falscher Marker fuehrt ... jetzt auch zu
+            # keiner neuen sichtbaren Erfolgsaussage"): die Live-SL-Anzeige
+            # (`TuiSession._display_sanitize_sl`) darf den falschen Marker
+            # NICHT durch eine Bestaetigungszeile ueberdecken, obwohl der
+            # GM-Double ihn real gesendet hat (`len(gm1.calls) >= 1` oben).
+            # Weder die alte, zu starke Formulierung noch irgendeine neue
+            # Erfolgsaussage duerfen am falschen Marker auftauchen.
+            assert "[Abschnitt bestaetigt]" not in out1, (
+                f"R6P01-Negativ verletzt: die alte, zu starke Formerkennung haette hier eine "
+                f"Erfolgsaussage behauptet, obwohl der Marker fachlich abgelehnt wurde: {out1[-1500:]}"
+            )
+            assert "bestaetigt" not in out1.lower() and "gespeichert" not in out1.lower(), (
+                f"R6P01-Negativ verletzt: keine Erfolgs-/Speicherbestaetigung allein aus der "
+                f"erkannten Markerform, solange der echte Entscheid den Abschluss ablehnt: "
+                f"{out1[-1500:]}"
+            )
 
         # -----------------------------------------------------------------
         # Prozess 2: R6P01-POSITIV -- ECHTER SEPARATER Subprozess, DIESELBE

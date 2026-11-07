@@ -593,6 +593,17 @@ def test_a24_r3_midwait_active_table_snapshot():
                     steps.append((leader_note_prompt, human_a_reflection))
                 elif m == human_b_id:
                     steps.append((b_note_prompt, human_b_reflection))
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3, PLAYER-UX-REVIEW.md F3): die
+            # jetzt echt bedienbare Abschlusskarte liest nach dem echten
+            # Abschnittsabschluss EINE zusaetzliche Auswahl PRO menschlichem
+            # Terminal (hier: leader_id UND human_b_id, beide mit echter
+            # Figur) -- neutral "Zurueck zum Hauptmenue" (leere Eingabe),
+            # damit die Pacing-Barriere nicht auf einen nie gesendeten
+            # "Auswahl:"-Prompt wartet, waehrend der Kindprozess real auf
+            # diese neue Zeile wartet.
+            completion_card_prompt = "Auswahl (Nummer, leer/zurueck = Hauptmenue):"
+            steps.append((completion_card_prompt, ""))
+            steps.append((completion_card_prompt, ""))
             steps.append(("Auswahl:", "x"))
 
             if case is not None:

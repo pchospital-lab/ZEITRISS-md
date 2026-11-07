@@ -112,6 +112,13 @@ def _smart_input():
             return "j"
         if "Wahl [a/k]" in prompt:
             return "a"
+        # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt ECHT bedienbare
+        # Abschlusskarte liest nach einem erfolgreichen Abschnittsabschluss
+        # eine zusaetzliche Auswahl -- dieser Test prueft die Admission-/
+        # Tischlifecycle-Nachfuehrung, nicht die Kartenbedienung selbst,
+        # daher hier neutral "Zurueck zum Hauptmenue" (leere Eingabe).
+        if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            return ""
         counter["n"] += 1
         return f"Zug {counter['n']}."
     return _fn

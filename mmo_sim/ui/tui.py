@@ -129,7 +129,7 @@ def boot_menu_entries(has_resume: bool, host_capable: bool) -> list[tuple[str, s
         ))
     entries.append(("charaktere", "Charaktere (waehlen/erschaffen, importieren, exportieren)"))
     entries.append(("tisch", "Tisch suchen / anfragen (bei einem anderen Host mitspielen)"))
-    entries.append(("registrieren", "Neue lokale Person registrieren (eigene Figur unter ihrer ID)"))
+    entries.append(("registrieren", "Neue lokale Person registrieren (eigene Figur, eigene ID)"))
     entries.append(("einstellungen", "Einstellungen"))
     entries.append(("beenden", "Beenden"))
     return entries
@@ -230,7 +230,8 @@ def render_boot_menu(
             # real `None` sein -- kein literales "None" in der Anzeige (UX22).
             community_display = resume.community_id if resume.community_id else "keine Community"
             lines.append(f"     Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
-    lines.append("  (Nummer waehlen -- oder Wort/Buchstabe in Klammern. '?' oder /hilfe an jeder Eingabe zeigt Kontexthilfe, kein Zugverbrauch)")
+    lines.append("  (Nummer waehlen -- oder Wort/Buchstabe in Klammern.")
+    lines.append("   '?' oder /hilfe an jeder Eingabe zeigt Kontexthilfe, kein Zugverbrauch)")
     return "\n".join(lines)
 
 
@@ -270,6 +271,21 @@ class GuestCapabilityError(Exception):
     aber eine KAPAZITAETS-/ROLLENGRENZE, keine Transportstoerung. `run()`
     faengt dies zentral neben `EndOfInput` ab (ALLE Aliase/Hotkeys/
     Dispatch-Eintraege teilen denselben Fangpunkt, kein Zweiteinstieg)."""
+
+
+class _SetupStepBack(Exception):
+    """R4 U1-Teil-B (01_NACHZUG.md U1 Punkt 4 'im tatsaechlichen Aufbau
+    Schritt fuer Schritt zurueckkehren, noch nicht bestaetigte Auswahl
+    erhalten'): interne Signalisierung INNERHALB des gefuehrten
+    Rundenaufbaus (`_cmd_local_round_setup` + die `_local_round_select_*`/
+    `_local_round_confirm_figure`/`_local_round_show_summary`-Teilstufen),
+    dass die aktuelle Teilstufe per `/zurueck` verlassen wurde. Davon
+    UNTERSCHIEDEN: `/abbrechen`/`/pause`/EOF beenden weiterhin den
+    GESAMTEN Aufbau (Rueckgabe `None`/`False` wie bisher, s. jeweilige
+    Steuerzeilenbehandlung); eine ungueltige Eingabe bleibt im Schritt und
+    fragt erneut (kein Abbruch, keine Ausnahme). Nur von den Teilstufen
+    dieser gefuehrten Einrichtung geworfen/gefangen -- kein genereller
+    Kontrollfluss anderswo in dieser Datei."""
 
 
 def _human_fresh_attempt_key(participant_id: str) -> str:
@@ -1020,6 +1036,15 @@ class TuiSession:
         # `self.run_dir`/`self.onboarding_dir`/`self.gm_transport_factory`,
         # z.B. geteilte Testwurzeln).
         self._creation_provider_sessions: dict[str, "TuiSession"] = {}
+        # R4 U2 (01_NACHZUG.md U2 Punkt 3, PLAYER-UX-REVIEW.md F2): merkt
+        # sich NUR, an welchen Betreiber diese Session ihre letzte eigene
+        # Erschaffungsanfrage gestellt hat (`_cmd_gast_erschaffung_anfragen`
+        # schreibt dies) -- erlaubt dem `[charaktere]`-Menue, "Eigenen
+        # Erschaffungsdialog fortsetzen" ohne erneute rohe `operator_id`-
+        # Eingabe anzubieten. Reine Anzeige-/Komfortkennung, KEINE eigene
+        # Autoritaet (der tatsaechliche Dialog prueft weiterhin ueber
+        # `creation_grants.ensure_valid_grant`).
+        self._last_creation_request_operator_id: str | None = None
         # O2 (ZR-BETREIBER-GASTERSCHAFFUNG, design.md §1d): injizierbare
         # Kontrollzeilen-Quelle fuer den Daemon-Kontroll-Thread, der WAEHREND
         # eines offenen Betreiber-Rundenaufrufs (`_run_table_round`) `/stop`
@@ -1864,17 +1889,40 @@ class TuiSession:
         Host erscheint die Zeile NICHT (eigene Figur entsteht fuer Hosts
         unveraendert ueber [1]).
 
+        R4 U2 (01_NACHZUG.md U2 Punkt 2/3, PLAYER-UX-REVIEW.md F2 "Die
+        tatsaechliche Betreiber-Annahme/-Ablehnung und der anschliessende
+        Gastdialog sind weiter nur ueber rohe Aliase erreichbar"): fuer
+        einen GAST erscheint zusaetzlich `[5] Eigenen Erschaffungsdialog
+        fortsetzen`, SOBALD diese Session zuvor ueber [4] eine eigene
+        Anfrage gestellt hat (`self._last_creation_request_operator_id`,
+        reine Komfortkennung) -- dispatcht additiv auf den unveraenderten
+        `_cmd_gast_erschaffung_dialog`. Fuer einen HOST-FAEHIGEN Teilnehmer
+        (Host ODER figurfreier Betreiber, `self._host_capable`) erscheint
+        STATTDESSEN `[4] Gast-Erschaffungsanfragen entscheiden (annehmen/
+        ablehnen)` -- dispatcht additiv auf die UNVERAENDERTEN, weiterhin
+        `_require_host`-gegateten `_cmd_gast_erschaffung_annehmen`/
+        `_ablehnen`, nur mit einer nummerierten Auswahl der tatsaechlich an
+        diesen Betreiber gerichteten offenen Anfragen statt der rohen
+        `gast-erschaffung-annehmen/-ablehnen <guest_id>`-Syntax (die bleibt
+        als Experten-/Kompatibilitaetsweg unveraendert bestehen). Kein
+        neues Discovery-/Auth-Protokoll, keine neue Freigabeautoritaet.
+
         U2 ("konsistentes Zurueck/Tippfehler"): eine ungueltige Auswahl
         zeigt jetzt dieses Untermenue erneut, statt den gesamten Aufbau
         unbegruendet zu verlassen -- JEDE gueltige Auswahl beendet die
         Methode weiterhin sofort nach der Aktion (unveraendert, ausser
         [1]s bereits bestehender eigener Rueckkehr-Schleife oben)."""
         while True:
+            extra_lines = ""
+            if not self._host_capable:
+                extra_lines = "  [4] Gast-Erschaffungsanfrage an Betreiber stellen"
+                if self._last_creation_request_operator_id is not None:
+                    extra_lines += "  [5] Eigenen Erschaffungsdialog fortsetzen"
+            elif self.run_dir is not None:
+                extra_lines = "  [4] Gast-Erschaffungsanfragen entscheiden (annehmen/ablehnen)"
             self._print(
                 "Charaktere -- [1] Auswaehlen/neu erstellen  [2] Importieren  "
-                "[3] Exportieren/ansehen" + (
-                    "  [4] Gast-Erschaffungsanfrage an Betreiber stellen" if not self._host_capable else ""
-                ) + " (/zurueck fuer Hauptmenue)"
+                "[3] Exportieren/ansehen" + extra_lines + " (/zurueck fuer Hauptmenue)"
             )
             text, control = self._readline_with_controls(
                 "Auswahl: ", context="Charaktere-Untermenue",
@@ -1894,6 +1942,15 @@ class TuiSession:
                 return
             elif choice == "4" and not self._host_capable:
                 self._cmd_gast_erschaffung_anfragen_menu()
+                return
+            elif (
+                choice == "5" and not self._host_capable
+                and self._last_creation_request_operator_id is not None
+            ):
+                self._cmd_gast_erschaffung_dialog_menu()
+                return
+            elif choice == "4" and self._host_capable and self.run_dir is not None:
+                self._cmd_gast_erschaffung_entscheiden_menu()
                 return
             else:
                 self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
@@ -5481,15 +5538,39 @@ class TuiSession:
         weil sie NIE durch diese Methode laufen (separate Codepfade).
 
         Erkennt NUR real vorhandene technische Bestandteile und ersetzt
-        GENAU DIESE durch eine ruhige Zustandszeile -- normaler Erzaehltext
-        bleibt unveraendert:
+        GENAU DIESE durch eine ruhige, NEUTRALE Zustandszeile -- normaler
+        Erzaehltext bleibt unveraendert:
         - ein fenced v7-Save-JSON-Block, DIESELBE Erkennungsregel (Regex +
           `v == 7`-Pruefung) wie `domain.zeitriss.saves.
           extract_all_saves_raw` (kein zweiter, abweichender Parser) ->
-          `[Spielstand gespeichert]` (mehrere Bloecke, einer je Mitglied,
-          werden zu EINER Zeile zusammengefasst, keine N-fache Wiederholung).
+          `[Technischer Speicherblock ausgeblendet]` (mehrere Bloecke,
+          einer je Mitglied, werden zu EINER Zeile zusammengefasst, keine
+          N-fache Wiederholung).
         - die Marker-Zeile `COMPLETION_MARKER` (ggf. mit `table_id=.../
-          section_id=...`-Anhang, s. Evidenz B1b) -> `[Abschnitt bestaetigt]`.
+          section_id=...`-Anhang, s. Evidenz B1b) ->
+          `[Technischer Abschlussmarker ausgeblendet]`.
+
+        R4 U4 (01_NACHZUG.md U4 Punkt 1/2, PLAYER-UX-REVIEW.md F4, 02_
+        ABNAHME.md D "Erkannte Savekandidaten werden nicht allein wegen
+        JSON-Form als gespeichert behauptet ... Dynamic-table-Negativfall:
+        falscher Marker fuehrt zu keiner neuen sichtbaren Erfolgsaussage"):
+        die beiden Ersatzzeilen behaupteten VORHER bereits Erfolg
+        ("[Spielstand gespeichert]"/"[Abschnitt bestaetigt]") ALLEIN aus
+        der erkannten FORM -- unabhaengig davon, ob die tatsaechliche
+        fachliche Autoritaet (`_run_table_round`s `outcome.completion.
+        success`, s. dort) diesen Block/Marker ueberhaupt angenommen hat.
+        Ein falscher `table_id`/`section_id`-Marker am Dynamic-Table-
+        Negativfall (s. `test_ux1_r7_dynamic_table_binding_2026_10_06.py`
+        R6P01-NEGATIV) zeigte dadurch trotz abgelehntem Abschluss (Tisch
+        bleibt `active`, `"Abschnitt abgeschlossen:"` erscheint NICHT) in
+        DIESER Live-Anzeige bereits "[Abschnitt bestaetigt]" -- eine reine
+        Formerkennung OHNE jede Bindung an die echte Entscheidung. Die
+        Ersatzzeilen sind jetzt bewusst NEUTRAL (kein 'gespeichert'/
+        'bestaetigt') -- die VERBINDLICHE Aussage ueber den eigenen
+        Stand/Abschluss bleibt ausschliesslich die erfolgsgebundene
+        persoenliche Abschlusskarte (`_print_section_completion_card`) bzw.
+        der echte `"Abschnitt abgeschlossen:"`-Text, beide direkt aus
+        `outcome.completion`, NIE aus dieser reinen Anzeigefilterung.
 
         Offener Befund (ehrlich, nicht behauptet geloest): ein konkretes
         Request-Roster-/Host-Stack-Rohformat innerhalb von `sl_log`-Content
@@ -5505,12 +5586,18 @@ class TuiSession:
             except (json.JSONDecodeError, ValueError):
                 return m.group(0)
             if isinstance(obj, dict) and obj.get("v") == 7 and "characters" in obj:
-                return "[Spielstand gespeichert]"
+                return "[Technischer Speicherblock ausgeblendet]"
             return m.group(0)
 
         sanitized = re.sub(r"```(?:json)?\s*(\{.*?\})\s*```", _replace_save_block, content, flags=re.DOTALL)
-        sanitized = re.sub(rf"^{re.escape(COMPLETION_MARKER)}.*$", "[Abschnitt bestaetigt]", sanitized, flags=re.MULTILINE)
-        sanitized = re.sub(r"(?:\[Spielstand gespeichert\]\s*){2,}", "[Spielstand gespeichert]\n", sanitized)
+        sanitized = re.sub(
+            rf"^{re.escape(COMPLETION_MARKER)}.*$", "[Technischer Abschlussmarker ausgeblendet]",
+            sanitized, flags=re.MULTILINE,
+        )
+        sanitized = re.sub(
+            r"(?:\[Technischer Speicherblock ausgeblendet\]\s*){2,}",
+            "[Technischer Speicherblock ausgeblendet]\n", sanitized,
+        )
         return sanitized.strip()
 
     def _cmd_table_zuschauer(self, args: list[str]) -> None:
@@ -5903,18 +5990,38 @@ class TuiSession:
                 except (OSError, ValueError, KeyError, json.JSONDecodeError):
                     bound_section = None
                 if bound_section is not None and bound_section.status == "closed":
-                    # Echter Abschluss ist bereits passiert (z.B. ueber den
-                    # normalen Fortsetzenweg) -- Admission ehrlich
-                    # nachfuehren statt blind idempotent weiterzulaufen;
-                    # KEIN neuer Abschnitt, KEIN '__2'.
+                    # Echter Abschluss ODER ein dauerhafter Betreiber-Stop
+                    # (`_finalize_genuine_table_abort`) setzen BEIDE
+                    # `status="closed"` -- Admission ehrlich nachfuehren
+                    # statt blind idempotent weiterzulaufen; KEIN neuer
+                    # Abschnitt, KEIN '__2'.
                     table_admission.close_table(
                         self.run_dir, table_key=table_key, host_id=self.participant_id,
                     )
-                    self._print(
-                        f"Tischstart abgelehnt: Tisch '{table_key}' ist geschlossen "
-                        f"(Abschnitt '{bound_section_id}' bereits abgeschlossen) -- neues Angebot "
-                        "noetig."
-                    )
+                    # R4 U3 (01_NACHZUG.md U3 Punkt 5, PLAYER-UX-REVIEW.md F3
+                    # "sagt weiterhin 'bereits abgeschlossen', ohne den
+                    # dauerhaften Verwurf-Entscheid zu lesen"): denselben
+                    # bereits bestehenden gemeinsamen Entscheid-Slot lesen
+                    # wie der Outcome-Zweig in `_run_table_round` -- ein
+                    # ENDGUELTIG VERWORFENER Abschnitt (`decided=="stopped"`)
+                    # darf diesen Retry NICHT als Erfolg ("bereits
+                    # abgeschlossen") einordnen. Reine Lesefunktion, kein
+                    # neuer Entscheid, keine Rueckbuchung.
+                    from ..core import admission as core_admission
+                    decision = core_admission.read_table_decision(self.run_dir, bound_section_id)
+                    decided = decision.get("decision") if isinstance(decision, dict) else None
+                    if decided == "stopped":
+                        self._print(
+                            f"Tischstart abgelehnt: Tisch '{table_key}' ist geschlossen -- Abschnitt "
+                            f"'{bound_section_id}' wurde per Betreiber-Stop ENDGUELTIG VERWORFEN (KEIN "
+                            "Erfolg, kein Fortsetzen moeglich) -- neues Angebot noetig."
+                        )
+                    else:
+                        self._print(
+                            f"Tischstart abgelehnt: Tisch '{table_key}' ist geschlossen "
+                            f"(Abschnitt '{bound_section_id}' bereits abgeschlossen) -- neues Angebot "
+                            "noetig."
+                        )
                     return
                 if bound_section is not None and existing_record.get("state") == table_admission.STATE_STARTED:
                     # Noch real offen/aktiv: derselbe gebundene Abschnitt
@@ -6120,8 +6227,31 @@ class TuiSession:
         """A24 R2 (11 §8 'mehrere Menschen an diesem Geraet'): vorhandene
         lokale menschliche Teilnehmer sichtbar auswaehlen ODER nach
         bewusster Eingabe ueber die vorhandene Registry neu registrieren.
-        Liefert `None` bei Abbruch/EOF (klarer Rueckweg, keine Aenderung)."""
+        Liefert `None` bei Abbruch/EOF (klarer Rueckweg, keine Aenderung).
+
+        R4 U1-Teil-B: `/zurueck` wirft `_SetupStepBack` (eine Stufe zurueck
+        im Aufrufer `_cmd_local_round_setup`, statt den gesamten Aufbau zu
+        beenden); eine ungueltige Nummer in der kommagetrennten Liste bleibt
+        jetzt in diesem Schritt (erneute Abfrage derselben Zeile) statt die
+        Einrichtung abzubrechen -- '01_NACHZUG.md' U1 Punkt 4/5.
+
+        R4 U2 (01_NACHZUG.md U2 Punkt 1, PLAYER-UX-REVIEW.md F2 "zeigt beim
+        Auswaehlen weder den zugehoerigen lesbaren Chrononauten noch
+        aktuellen Stand"): jede Zeile nennt zusaetzlich (additiv, als
+        Suffix NACH der bestehenden ID/Namens-Klammer -- die davor
+        geschuetzten exakten Teilstring-Pruefungen bleiben dadurch gueltig)
+        die bereits bestaetigte Figur dieses Menschen (`_resolve_member`,
+        dieselbe reine Lesefunktion wie `_local_round_show_summary`) bzw.
+        ehrlich 'noch keine Figur'/'Stand gerade nicht lesbar'. 0 neue
+        Writes/Modellaufrufe."""
         from ..registry.participants import ParticipantRegistry
+
+        def _figure_suffix(pid: str) -> str:
+            try:
+                resolved = self._resolve_member(pid)
+            except _ActiveSaveUnresolved:
+                return "Stand gerade nicht lesbar"
+            return resolved[1] if resolved is not None else "noch keine Figur"
 
         known = self._local_round_list_humans()
         self._print("Vorhandene lokale Teilnehmer:")
@@ -6137,47 +6267,64 @@ class TuiSession:
         # Blocker (s. WORKER2-REPORT.md) statt einer riskanten Breitenaenderung
         # an einer grossen, bereits bestehenden Testdatei ausserhalb des
         # verfuegbaren Zeit-/Risikobudgets dieses Korrekturzyklus.
-        self._print(f"  [0] {self.participant_id} (du, aufrufender Teilnehmer)")
+        self._print(
+            f"  [0] {self.participant_id} (du, aufrufender Teilnehmer) -- Figur: "
+            f"{_figure_suffix(self.participant_id)}"
+        )
         others = [(pid, name) for pid, name in known if pid != self.participant_id]
         for idx, (pid, name) in enumerate(others, start=1):
-            self._print(f"  [{idx}] {pid} ({name})")
+            self._print(f"  [{idx}] {pid} ({name}) -- Figur: {_figure_suffix(pid)}")
         # G02 (02 §C "Wesentliche Unterdialoge duerfen den zentralen Helper
         # nicht umgehen"): `_readline_with_controls` statt rohem `_readline`
-        # -- '?'/'/hilfe' zeigen hier Kontexthilfe, '/abbrechen'/'/zurueck'/
-        # '/pause' brechen kontrolliert ab, ohne die vorhandene Nummern-/
+        # -- '?'/'/hilfe' zeigen hier Kontexthilfe, '/abbrechen'/'/pause'
+        # brechen kontrolliert ab, '/zurueck' geht EINE Stufe zurueck (R4
+        # U1-Teil-B, `_SetupStepBack`), ohne die vorhandene Nummern-/
         # 'neu:'-Syntax oder die oben gezeigte Teilnehmerliste zu aendern.
-        try:
-            raw, control = self._readline_with_controls(
-                "Weitere Menschen an diesem Geraet -- vorhandene Nummern kommagetrennt "
-                "ODER 'neu:<Anzeigename>' fuer eine bewusste Neuregistrierung, leer = nur du: ",
-                context="Weitere Menschen waehlen",
-            )
-        except EndOfInput:
-            self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
-            return None
-        if control in ("zurueck", "abbrechen", "pause"):
-            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
-            return None
-        raw = raw.strip()
-        selected = [self.participant_id]
-        if not raw:
-            return selected
         registry = ParticipantRegistry(self._local_round_registry_dir())
-        for tok in (t.strip() for t in raw.split(",") if t.strip()):
-            if tok.startswith("neu:"):
-                display = tok.split(":", 1)[1].strip() or "Mensch"
-                new_p = registry.register_participant(kind="human", display_name=display)
-                self._print(f"Neu registriert: {new_p.participant_id} ({display})")
-                if new_p.participant_id not in selected:
-                    selected.append(new_p.participant_id)
-                continue
-            if not tok.isdigit() or not (1 <= int(tok) <= len(others)):
-                self._print(f"Einrichtung abgebrochen: ungueltige Auswahl {tok!r}.")
+        while True:
+            try:
+                raw, control = self._readline_with_controls(
+                    "Weitere Menschen an diesem Geraet -- vorhandene Nummern kommagetrennt "
+                    "ODER 'neu:<Anzeigename>' fuer eine bewusste Neuregistrierung, leer = nur du: ",
+                    context="Weitere Menschen waehlen",
+                )
+            except EndOfInput:
+                self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
                 return None
-            pid, _name = others[int(tok) - 1]
-            if pid not in selected:
-                selected.append(pid)
-        return selected
+            if control == "zurueck":
+                raise _SetupStepBack()
+            if control in ("abbrechen", "pause"):
+                self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+                return None
+            raw = raw.strip()
+            selected = [self.participant_id]
+            if not raw:
+                return selected
+            invalid_tok: str | None = None
+            for tok in (t.strip() for t in raw.split(",") if t.strip()):
+                if tok.startswith("neu:"):
+                    display = tok.split(":", 1)[1].strip() or "Mensch"
+                    new_p = registry.register_participant(kind="human", display_name=display)
+                    self._print(f"Neu registriert: {new_p.participant_id} ({display})")
+                    if new_p.participant_id not in selected:
+                        selected.append(new_p.participant_id)
+                    continue
+                if not tok.isdigit() or not (1 <= int(tok) <= len(others)):
+                    invalid_tok = tok
+                    break
+                pid, _name = others[int(tok) - 1]
+                if pid not in selected:
+                    selected.append(pid)
+            if invalid_tok is not None:
+                # R4 U1-Teil-B (01_NACHZUG.md U1 Punkt 4): bleibt in diesem
+                # Schritt statt die gesamte Einrichtung abzubrechen --
+                # unbekannte Auswahl wird erklaert, dieselbe Zeile erneut
+                # gefragt; bereits registrierte 'neu:'-Personen in dieser
+                # Zeile bleiben erhalten (keine Rueckbuchung einer echten
+                # Registrierung).
+                self._print(f"Unbekannte Auswahl {invalid_tok!r} -- bitte vorhandene Nummer(n) verwenden.")
+                continue
+            return selected
 
     def _local_round_connect_new_person_to_own_figure(self, pid: str) -> tuple[dict, str] | None:
         """Q04 (REVIEW.md R02, 05.10.2026, vormals ':2676-2774'): eine
@@ -6267,7 +6414,12 @@ class TuiSession:
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return False
-        if control in ("zurueck", "abbrechen", "pause"):
+        if control == "zurueck":
+            # R4 U1-Teil-B: eine Stufe zurueck statt Komplettabbruch -- der
+            # Aufrufer (`_cmd_local_round_setup`) entscheidet, ob das die
+            # vorherige Figurbestaetigung oder die Menschenauswahl ist.
+            raise _SetupStepBack()
+        if control in ("abbrechen", "pause"):
             self._print(f"Einrichtung abgebrochen: '{pid}' hat die Figur '{chrono_id}' nicht bestaetigt.")
             return False
         decision, _explanation = human_menu_decision(answer)
@@ -6479,7 +6631,9 @@ class TuiSession:
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return None
-        if control in ("zurueck", "abbrechen", "pause"):
+        if control == "zurueck":
+            raise _SetupStepBack()
+        if control in ("abbrechen", "pause"):
             self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
             return None
         raw = raw.strip()
@@ -6510,27 +6664,31 @@ class TuiSession:
             self._print(f"  [0] du ({self.participant_id})")
             for idx, tok in enumerate(ai_tokens, start=1):
                 self._print(f"  [{idx}] {tok}")
-        try:
-            raw, control = self._readline_with_controls(
-                f"Leader dieser Runde -- [du] = {self.participant_id} oder eine der "
-                f"angefragten KI-IDs {ai_tokens} (Nummer aus der Liste oben ebenfalls moeglich): ",
-                context="Leader waehlen",
-            )
-        except EndOfInput:
-            self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
-            return None
-        if control in ("zurueck", "abbrechen", "pause"):
-            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
-            return None
-        raw = raw.strip()
-        if raw in ("", "du", self.participant_id, "0"):
-            return self.participant_id
-        if raw.isdigit() and 1 <= int(raw) <= len(ai_tokens):
-            return ai_tokens[int(raw) - 1]
-        if raw in ai_tokens:
-            return raw
-        self._print(f"Einrichtung abgebrochen: '{raw}' ist kein gueltiger Leader (weder du noch angefragte KI).")
-        return None
+        while True:
+            try:
+                raw, control = self._readline_with_controls(
+                    f"Leader dieser Runde -- [du] = {self.participant_id} oder eine der "
+                    f"angefragten KI-IDs {ai_tokens} (Nummer aus der Liste oben ebenfalls moeglich): ",
+                    context="Leader waehlen",
+                )
+            except EndOfInput:
+                self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
+                return None
+            if control == "zurueck":
+                raise _SetupStepBack()
+            if control in ("abbrechen", "pause"):
+                self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+                return None
+            raw = raw.strip()
+            if raw in ("", "du", self.participant_id, "0"):
+                return self.participant_id
+            if raw.isdigit() and 1 <= int(raw) <= len(ai_tokens):
+                return ai_tokens[int(raw) - 1]
+            if raw in ai_tokens:
+                return raw
+            # R4 U1-Teil-B: ungueltige Auswahl bleibt in diesem Schritt
+            # (erneute Abfrage) statt die gesamte Einrichtung abzubrechen.
+            self._print(f"Unbekannte Auswahl {raw!r} -- kein gueltiger Leader (weder du noch angefragte KI).")
 
     def _local_round_build_tokens(self, human_ids: list[str], ai_tokens: list[str], leader_choice: str) -> list[str]:
         """Baut ausschliesslich die `guest_tokens`-Parameterliste fuer den
@@ -6604,7 +6762,9 @@ class TuiSession:
         except EndOfInput:
             self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
             return False
-        if control in ("zurueck", "abbrechen", "pause"):
+        if control == "zurueck":
+            raise _SetupStepBack()
+        if control in ("abbrechen", "pause"):
             self._print("Einrichtung abgebrochen: letzte Startwahl nicht bestaetigt.")
             return False
         decision, _explanation = human_menu_decision(answer)
@@ -6717,6 +6877,10 @@ class TuiSession:
         record = creation_grants.request_creation(
             run_dir, self.onboarding_dir, operator_id=operator_id, guest_id=self.participant_id,
         )
+        # R4 U2: merkt sich den zuletzt angefragten Betreiber fuer die
+        # nummerierte "Eigenen Erschaffungsdialog fortsetzen"-Option im
+        # `[charaktere]`-Menue (s. `_cmd_menu_charaktere`).
+        self._last_creation_request_operator_id = operator_id
         self._print(f"Erschaffungsanfrage an Betreiber '{operator_id}' gestellt (status={record['status']}).")
 
     def _cmd_gast_erschaffung_anfragen_menu(self) -> None:
@@ -6772,6 +6936,82 @@ class TuiSession:
         else:
             operator_id = raw
         self._cmd_gast_erschaffung_anfragen([operator_id])
+
+    def _cmd_gast_erschaffung_entscheiden_menu(self) -> None:
+        """R4 U2 (01_NACHZUG.md U2 Punkt 2/3, PLAYER-UX-REVIEW.md F2):
+        Menue-Vorstufe zu `_cmd_gast_erschaffung_annehmen`/`_ablehnen` --
+        derselbe unveraenderte HOST-ONLY-Dienst (keine neue Freigabe-
+        autoritaet, `_require_host` bleibt in beiden Methoden), nur eine
+        nummerierte Auswahl der tatsaechlich AN DIESEN Betreiber
+        gerichteten offenen Anfragen (`creation_service.
+        list_requested_for_operator`, reine Lesefunktion) statt der rohen
+        `gast-erschaffung-annehmen/-ablehnen <guest_id>`-Syntax (die bleibt
+        unveraendert als Experten-/Kompatibilitaetsweg gueltig)."""
+        if self.run_dir is None:
+            self._print("Entscheidung erfordert eine konfigurierte Laufumgebung (run_dir).")
+            return
+        pending = creation_grants.list_requested_for_operator(self.run_dir, self.participant_id)
+        if not pending:
+            self._print("Keine offenen Gast-Erschaffungsanfragen an dich.")
+            return
+        self._print("Offene Gast-Erschaffungsanfragen an dich:")
+        for idx, record in enumerate(pending, start=1):
+            self._print(f"  [{idx}] {record.get('guest_id')}")
+        try:
+            guest_raw, guest_control = self._readline_with_controls(
+                "Welcher Gast (Nummer aus der Liste oben oder guest_id, leer = abbrechen)? ",
+                context="Gast-Erschaffung entscheiden",
+            )
+        except EndOfInput:
+            self._print("\nEntscheidung abgebrochen (EOF) -- keine Aenderung.")
+            return
+        if guest_control in ("zurueck", "abbrechen", "pause"):
+            self._print("Entscheidung abgebrochen -- keine Aenderung.")
+            return
+        guest_raw = guest_raw.strip()
+        if not guest_raw:
+            self._print("Entscheidung abgebrochen -- keine Gastauswahl.")
+            return
+        if guest_raw.isdigit() and 1 <= int(guest_raw) <= len(pending):
+            guest_id = pending[int(guest_raw) - 1]["guest_id"]
+        else:
+            guest_id = guest_raw
+        try:
+            decision_raw, decision_control = self._readline_with_controls(
+                f"'{guest_id}' -- [1] annehmen  [2] ablehnen: ",
+                context="Gast-Erschaffung entscheiden",
+            )
+        except EndOfInput:
+            self._print("\nEntscheidung abgebrochen (EOF) -- keine Aenderung.")
+            return
+        if decision_control in ("zurueck", "abbrechen", "pause"):
+            self._print("Entscheidung abgebrochen -- keine Aenderung.")
+            return
+        decision_raw = decision_raw.strip()
+        if decision_raw in ("1", "annehmen"):
+            self._cmd_gast_erschaffung_annehmen([guest_id])
+        elif decision_raw in ("2", "ablehnen"):
+            self._cmd_gast_erschaffung_ablehnen([guest_id])
+        else:
+            self._print(f"Unbekannte Auswahl {decision_raw!r} -- keine Entscheidung getroffen.")
+
+    def _cmd_gast_erschaffung_dialog_menu(self) -> None:
+        """R4 U2 (01_NACHZUG.md U2 Punkt 3): Menue-Vorstufe zu
+        `_cmd_gast_erschaffung_dialog` fuer den anfragenden Gast selbst --
+        nutzt den bereits bekannten zuletzt angefragten Betreiber
+        (`self._last_creation_request_operator_id`, von `_cmd_gast_
+        erschaffung_anfragen` gesetzt) statt die rohe `gast-erschaffung-
+        dialog <operator_id>`-Syntax zu verlangen. Derselbe unveraenderte
+        Dienst dahinter (`ensure_valid_grant` entscheidet weiterhin allein
+        ueber die tatsaechliche Freigabe, kein Bypass)."""
+        operator_id = self._last_creation_request_operator_id
+        if operator_id is None:
+            self._print(
+                "Keine zuletzt gestellte eigene Erschaffungsanfrage bekannt -- zuerst "
+                "'[charaktere] -> Gast-Erschaffungsanfrage an Betreiber stellen'."
+            )
+            return
+        self._cmd_gast_erschaffung_dialog([operator_id])
 
     def _cmd_gast_erschaffung_annehmen(self, args: list[str]) -> None:
         """HOST-ONLY (F4 §1): bindet GENAU DIESEN Gast + GENAU EINEN
@@ -7238,6 +7478,39 @@ class TuiSession:
             return
         self._print(f"Gast-Erschaffung abgeschlossen: char_id={candidate_char_id}. Figur ist jetzt tischbereit.")
 
+    def _local_round_select_mode(self) -> str | None:
+        """R4 U1-Teil-B (01_NACHZUG.md U1 Punkt 4): eigener Schritt-Helfer
+        fuer die Moduswahl (vorher inline in `_cmd_local_round_setup`) --
+        bleibt bei ungueltiger Eingabe in diesem Schritt (erklaert, fragt
+        dieselbe Zeile erneut), statt die gesamte Einrichtung abzubrechen.
+        '/zurueck' bleibt hier ebenfalls im Schritt, da dies der erste
+        Schritt des gefuehrten Aufbaus ist (kein Vorgaenger).
+
+        G02/P02 (General-Befund 'P02_HELP_ABORTS_ROUND_SETUP'): nutzt den
+        gemeinsamen kontextbewussten Leser (`_readline_with_controls`) --
+        '?'/'/hilfe' zeigen dieselbe lokale Kontexthilfe und fragen DIESELBE
+        Zeile erneut ab. Kein Zugverbrauch, kein GM-/Persona-Call."""
+        while True:
+            try:
+                mode, control = self._readline_with_controls(
+                    "Lokale Runde einrichten -- [1] Allein mit KI-Mitspielern "
+                    "[2] Mehrere Menschen an diesem Geraet: ",
+                    context="Runde einrichten",
+                )
+            except EndOfInput:
+                self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
+                return None
+            if control == "zurueck":
+                self._print("Bereits am ersten Schritt dieser Einrichtung -- keine weitere Stufe zurueck.")
+                continue
+            if control in ("abbrechen", "pause"):
+                self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
+                return None
+            mode = mode.strip()
+            if mode in ("1", "2"):
+                return mode
+            self._print(f"Schritt nicht abgeschlossen -- unbekannte Auswahl {mode!r}. Bitte [1] oder [2] waehlen.")
+
     def _cmd_local_round_setup(self) -> None:
         """A24 R2 (02_AUFTRAG_A24_BEDIENGRENZE.md §R2, 11 §8): gefuehrter
         Einrichtungsweg fuer die lokale Runde -- fragt 'allein mit KI' oder
@@ -7255,12 +7528,21 @@ class TuiSession:
         Fokuspersistenz). Abbrechen/EOF an jedem Schritt ist ein klarer Halt
         ohne KI-Ersatz und ohne jede Aenderung.
 
-        G02/P02 (General-Befund 'P02_HELP_ABORTS_ROUND_SETUP'): der
-        Modusprompt nutzt jetzt den gemeinsamen kontextbewussten Leser
-        (`_readline_with_controls`) statt eines rohen `_readline` --
-        '?'/'/hilfe' zeigen hier dieselbe lokale Kontexthilfe und fragen
-        DIESELBE Zeile erneut ab, statt die Einrichtung mit 'unbekannte
-        Auswahl' zu verwerfen. Kein Zugverbrauch, kein GM-/Persona-Call.
+        R4 U1-Teil-B (01_NACHZUG.md U1 Punkt 4, PLAYER-UX-REVIEW.md F1):
+        vorher eine lineare Kette, die `/zurueck` pauschal wie `/abbrechen`
+        behandelte (Komplettabbruch statt der von der Hilfe versprochenen
+        'eine Ebene zurueck'). Jetzt ein Schrittindex-Zustandsautomat
+        (`STEP_MODE` -> `STEP_HUMANS` (nur Modus 2) -> `STEP_FIGURES`
+        (je Mensch) -> `STEP_AI` -> `STEP_LEADER` -> `STEP_SUMMARY`):
+        jede Teilstufe wirft bei '/zurueck' `_SetupStepBack`, das hier
+        GENAU EINE Stufe zurueckspringt und `human_ids`/`ai_tokens`/
+        `leader_choice` sowie den Fortschritt je Mensch
+        (`figure_idx`) unveraendert haelt -- bereits bestaetigte Figuren
+        werden beim Zuruecklaufen NICHT rueckwirkend geloescht (reiner
+        Lesezugriff `_resolve_member`, kein Write). '/abbrechen'/'/pause'/
+        EOF beenden weiterhin den GESAMTEN Aufbau (unveraendert). Der
+        `_require_host`-Gate, Consent/Save/Tischanlage und der abschliessende
+        `_cmd_local_round`-Aufruf bleiben STRUKTURELL unveraendert.
 
         ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2, Gate-
         Punkt 2): Methodeneintritt-Gate -- Solo-mit-KI UND Anbieten/
@@ -7268,44 +7550,89 @@ class TuiSession:
         VOR jeder Eingabe/jedem Lesezugriff sperrt (Gastmodus: 0 Calls,
         0 Prompts)."""
         self._require_host("Lokale Runde einrichten (Solo mit KI / Mitspieler anbieten)")
-        try:
-            mode, control = self._readline_with_controls(
-                "Lokale Runde einrichten -- [1] Allein mit KI-Mitspielern "
-                "[2] Mehrere Menschen an diesem Geraet: ",
-                context="Runde einrichten",
-            )
-        except EndOfInput:
-            self._print("\nEinrichtung abgebrochen (EOF) -- kein Spielstart, keine Aenderung.")
-            return
-        if control in ("zurueck", "abbrechen", "pause"):
-            self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
-            return
-        mode = mode.strip()
-        if mode not in ("1", "2"):
-            self._print(f"Einrichtung abgebrochen: unbekannte Auswahl {mode!r}.")
-            return
 
-        human_ids = [self.participant_id]
-        if mode == "2":
-            selected = self._local_round_select_humans()
-            if selected is None:
+        STEP_MODE, STEP_HUMANS, STEP_FIGURES, STEP_AI, STEP_LEADER, STEP_SUMMARY = range(6)
+        step = STEP_MODE
+        mode: str | None = None
+        human_ids: list[str] = [self.participant_id]
+        figure_idx = 0
+        ai_tokens: list[str] | None = None
+        leader_choice: str | None = None
+
+        while True:
+            if step == STEP_MODE:
+                mode = self._local_round_select_mode()
+                if mode is None:
+                    return
+                human_ids = [self.participant_id]
+                figure_idx = 0
+                step = STEP_HUMANS if mode == "2" else STEP_FIGURES
+                continue
+
+            if step == STEP_HUMANS:
+                try:
+                    selected = self._local_round_select_humans()
+                except _SetupStepBack:
+                    step = STEP_MODE
+                    continue
+                if selected is None:
+                    return
+                human_ids = selected
+                figure_idx = 0
+                step = STEP_FIGURES
+                continue
+
+            if step == STEP_FIGURES:
+                if figure_idx >= len(human_ids):
+                    step = STEP_AI
+                    continue
+                pid = human_ids[figure_idx]
+                try:
+                    confirmed_figure = self._local_round_confirm_figure(pid)
+                except _SetupStepBack:
+                    if figure_idx > 0:
+                        figure_idx -= 1
+                    else:
+                        step = STEP_HUMANS if mode == "2" else STEP_MODE
+                    continue
+                if not confirmed_figure:
+                    return
+                figure_idx += 1
+                continue
+
+            if step == STEP_AI:
+                try:
+                    selected_ai = self._local_round_select_ai()
+                except _SetupStepBack:
+                    step = STEP_FIGURES
+                    figure_idx = max(0, len(human_ids) - 1)
+                    continue
+                if selected_ai is None:
+                    return
+                ai_tokens = selected_ai
+                step = STEP_LEADER
+                continue
+
+            if step == STEP_LEADER:
+                try:
+                    leader_choice = self._local_round_select_leader(ai_tokens)
+                except _SetupStepBack:
+                    step = STEP_AI
+                    continue
+                if leader_choice is None:
+                    return
+                step = STEP_SUMMARY
+                continue
+
+            # STEP_SUMMARY
+            try:
+                summary_confirmed = self._local_round_show_summary(human_ids, ai_tokens, leader_choice)
+            except _SetupStepBack:
+                step = STEP_LEADER
+                continue
+            if not summary_confirmed:
                 return
-            human_ids = selected
-
-        for pid in human_ids:
-            if not self._local_round_confirm_figure(pid):
-                return
-
-        ai_tokens = self._local_round_select_ai()
-        if ai_tokens is None:
-            return
-
-        leader_choice = self._local_round_select_leader(ai_tokens)
-        if leader_choice is None:
-            return
-
-        if not self._local_round_show_summary(human_ids, ai_tokens, leader_choice):
-            return
+            break
 
         confirmed_focus = self.participant_id
         for pid in human_ids:
@@ -8262,6 +8589,47 @@ class TuiSession:
             except table_admission.TableAdmissionError:
                 pass
 
+    def _dispatch_completion_card_choice(self, io, actions: list[tuple[str, object]]) -> None:
+        """R4 U3 (01_NACHZUG.md U3 Punkt 3, PLAYER-UX-REVIEW.md F3
+        "DRUCKEN ... LESEN/dispatchen aber keine Auswahl"): gemeinsamer
+        Lese-/Dispatch-Rumpf fuer die persoenliche UND die Betreiber-
+        Abschlusskarte -- `actions` ist exakt die bereits gedruckte,
+        nummerierte `(label, handler)`-Liste, GENAU EIN echter Handler pro
+        sichtbarer Nummer (kein zweiter Dispatchpfad, keine Nummer ohne
+        Aktion). Eine ungueltige Eingabe bleibt an dieser Karte (erneute
+        Abfrage, Muster wie `_cmd_menu_charaktere`/`_cmd_menu_tisch`);
+        leer/'/zurueck'/'/abbrechen'/'/pause'/EOF beenden die Karte ohne
+        Aktion (natuerliche Rueckkehr zum naechsten Hauptmenue der
+        aufrufenden Schleife, kein Zugverbrauch, kein Modellaufruf hier).
+
+        Begrenzte Wiederholung (10 ungueltige Versuche): anders als die
+        bestehenden `_cmd_menu_charaktere`/`_cmd_menu_tisch`-Untermenues
+        wird diese Karte NACH einem bereits echt abgeschlossenen Abschnitt
+        gezeigt -- ein dauerhaft falsch beantwortender Kanal (z.B. ein
+        freier Spielzugtext-Generator, der an dieser Stelle nie erwartet
+        wird) wuerde sonst unbegrenzt weiterfragen, OHNE dass das noch ein
+        offener Spielzug/Modellaufruf waere. Nach der Obergrenze kehrt die
+        Karte ohne Aktion zum naechsten Hauptmenue zurueck (derselbe klare
+        Rueckweg wie bei '/zurueck')."""
+        max_attempts = 10
+        for _attempt in range(max_attempts):
+            try:
+                raw, control = io._readline_with_controls(
+                    "Auswahl (Nummer, leer/zurueck = Hauptmenue): ", context="Abschlusskarte",
+                )
+            except EndOfInput:
+                return
+            if control in ("zurueck", "abbrechen", "pause"):
+                return
+            choice = raw.strip()
+            if not choice:
+                return
+            if choice.isdigit() and 1 <= int(choice) <= len(actions):
+                actions[int(choice) - 1][1]()
+                return
+            io._print(f"Unbekannte Auswahl {choice!r} -- bitte erneut waehlen.")
+        io._print(f"Zu viele ungueltige Versuche ({max_attempts}) -- zurueck zum Hauptmenue.")
+
     def _print_section_completion_card(self, io, pid: str, saved_now: bool) -> None:
         """U3c (R3 Stage 2, 01_NACHZUG §U3c, docs/spielerstart.md 191-198
         "ob du weiterspielen oder zum Tisch zurueck willst" -- bisher von
@@ -8281,7 +8649,22 @@ class TuiSession:
         (s. dortiger Docstring), `self` (Host) wuerde unter `pid` dort
         nichts/Falsches finden. `_writeback_registered_guest_saves` (s.
         Aufrufer) hat den frischen Save bereits VOR diesem Aufruf in genau
-        dieses private Verzeichnis zurueckgeschrieben."""
+        dieses private Verzeichnis zurueckgeschrieben.
+
+        R4 U3 (01_NACHZUG.md U3 Punkt 3, PLAYER-UX-REVIEW.md F3 "druckt
+        lediglich ... liest keine Auswahl"): die drei Nummern sind jetzt
+        ECHT bedienbar -- `1` (nur wenn `has_character`) exportiert
+        tatsaechlich ueber `io._cmd_export()` (bestehende Export-
+        Autoritaet), die mittlere Nummer kehrt ohne weitere Aktion zum
+        naechsten Hauptmenue zurueck, die letzte Nummer fuehrt die
+        tatsaechlich zulaessige Folgeaktion aus: fuer einen GAST
+        (`not io._host_capable`) `io._cmd_menu_tisch()` (zulaessige erneute
+        Tischsuche/Beitritt -- NICHT das fuer Gaeste gesperrte 'spielen'),
+        fuer einen HOST-FAEHIGEN Teilnehmer `io._cmd_menu_fortsetzen()`
+        (bestehender persoenlicher Current-Resolver, bewusstes Solo-
+        Fortsetzen). Dispatcht ueber `self._dispatch_completion_card_
+        choice` auf `io` (NICHT `self`), damit ein registrierter Gast
+        seine Auswahl an SEINEM EIGENEN Terminal trifft."""
         card = io._build_resume_card(participant_id=pid)
         has_character = card is not None and card.chrononaut_id is not None
         io._print(f"-- Abschlusskarte fuer '{pid}' --")
@@ -8293,13 +8676,24 @@ class TuiSession:
             io._print(f"Figur: {card.chrononaut_id} (aus dieser Runde kein neuer eigener Save).")
         else:
             io._print("Keine eigene Figur -- kein persoenlicher Spielstand.")
-        steps = []
+        is_guest_follow_up = not io._host_capable
+        actions: list[tuple[str, object]] = []
         if has_character:
-            steps.append("Export des eigenen Standes (Hauptmenue -> 'charaktere' -> exportieren)")
-        steps.append("Zurueck zum Tisch/HQ (naechstes Hauptmenue)")
-        steps.append("Weiterspielen (Hauptmenue -> 'spielen')")
-        for i, step in enumerate(steps, start=1):
-            io._print(f"  {i}) {step}")
+            actions.append(("Export des eigenen Standes (echter Export)", lambda: io._cmd_export()))
+        actions.append(("Zurueck zum Hauptmenue", lambda: None))
+        if is_guest_follow_up:
+            actions.append((
+                "Tisch suchen/beitreten (neues zulaessiges Angebot)",
+                lambda: io._cmd_menu_tisch(),
+            ))
+        else:
+            actions.append((
+                "Solo-Fortsetzen (eigener aktueller Stand)",
+                lambda: io._cmd_menu_fortsetzen(),
+            ))
+        for i, (label, _handler) in enumerate(actions, start=1):
+            io._print(f"  {i}) {label}")
+        self._dispatch_completion_card_choice(io, actions)
 
     def _print_operator_table_completion_card(self, table, operator_table_key: str | None) -> None:
         """U3c (R3 Stage 2, 01_NACHZUG §U3c "Betreiber ohne eigene Figur
@@ -8307,17 +8701,27 @@ class TuiSession:
         (O1: landet NIE in `table.members`/`chrononaut_ids`, s.
         `_run_table_round` oben) bekommt KEINE persoenliche Karte, sondern
         eine passende Tisch-Abschlusskarte -- keine Figur, kein Spielstand
-        behauptet, nur real verfuegbare naechste Schritte."""
+        behauptet, nur real verfuegbare naechste Schritte.
+
+        R4 U3 (01_NACHZUG.md U3 Punkt 3): ebenfalls echt bedienbar und
+        figurfrei -- `1` ruft `self._cmd_table_offer` (neue Admission,
+        gleicher `operator_table_key` wenn bekannt), `2` ruft `self.
+        _cmd_table_zuschauer` fuer GENAU diesen `operator_table_key` (NUR
+        wenn bekannt -- ein `table.table_id` ist KEIN gueltiger
+        `table_key` fuer die Admission-Lesefunktion, kein Rateversuch),
+        `3` kehrt ohne weitere Aktion zum naechsten Hauptmenue zurueck."""
         self._print(f"-- Tisch-Abschlusskarte (Betreiber, figurfrei) fuer '{table.table_id}' --")
         self._print("Keine eigene Figur, kein persoenlicher Spielstand -- der Abschnitt ist fuer die Teilnehmer abgeschlossen.")
+        key_args = [operator_table_key] if operator_table_key else []
         key_hint = operator_table_key if operator_table_key else "<table_key>"
-        steps = [
-            "Neue Admission anbieten ('tisch-anbieten')",
-            f"Zuschauer-Ansicht dieses Tisches ('tisch-zuschauer {key_hint}')",
-            "Beenden",
+        actions: list[tuple[str, object]] = [
+            ("Neue Admission anbieten", lambda: self._cmd_table_offer(key_args)),
+            (f"Zuschauer-Ansicht dieses Tisches ('{key_hint}')", lambda: self._cmd_table_zuschauer(key_args)),
+            ("Beenden (zurueck zum Hauptmenue)", lambda: None),
         ]
-        for i, step in enumerate(steps, start=1):
-            self._print(f"  {i}) {step}")
+        for i, (label, _handler) in enumerate(actions, start=1):
+            self._print(f"  {i}) {label}")
+        self._dispatch_completion_card_choice(self, actions)
 
     def _run_table_round(
         self, table, lobby, ps_store, leader_id: str, leader_persona_id: str | None,
@@ -8470,19 +8874,16 @@ class TuiSession:
                 _sl_channel_key = id(io)
                 _sl_already_shown = displayed_sl_count_by_channel.get(_sl_channel_key, 0)
                 _new_sl_entries = sl_log[_sl_already_shown:]
-                # U4c (01_NACHZUG §U4c): echte Wartephase #1 -- der Spieler hat
-                # seinen Zug eingereicht und auf die Spielleitung gewartet;
-                # JETZT sind neue SL-Eintraege da. Genau EINE kurze
-                # Zeit-Atmosphaere-Zeile VOR der Antwort, nur wenn der Spieler
-                # schon einmal SL-Ausgabe gesehen hat (`_sl_already_shown > 0`)
-                # -- die EROEFFNUNGS-Szene ist keine Wartephase und bleibt
-                # unberuehrt. Respektiert den Schalter des TATSAECHLICHEN
-                # Ausgabekanals `io` (eigenes Gastterminal ODER geteilter
-                # Bildschirm). Keine Zeile, wenn aus oder keine neuen Eintraege.
-                if _sl_already_shown > 0 and _new_sl_entries:
-                    _zg = io._zeitgedanke()
-                    if _zg:
-                        io._print(_zg)
+                # R4 U4 (01_NACHZUG.md U4 Punkt 3, PLAYER-UX-REVIEW.md F4
+                # "feuert NACH beendetem Warten (Nachholanzeige), nicht
+                # waehrend offener Antwort"): die fruehere Zeitgedanke-Zeile
+                # stand GENAU HIER -- zu diesem Zeitpunkt sind `_new_sl_
+                # entries` aber bereits EMPFANGEN (die Antwort liegt vor),
+                # das war also strukturell immer eine Nachholanzeige, nie
+                # eine echte Wartephase. Entfernt; die echte Wartephase
+                # steht jetzt unten, GENAU VOR der Rueckgabe an `core/
+                # runtime.py:act` (das den Transport ERST NACH `collect_
+                # decision` aufruft) -- siehe `goes_to_sl` weiter unten.
                 for entry in _new_sl_entries:
                     io._print(f"[SL] {io._display_sanitize_sl(entry.get('content', ''))}")
                 displayed_sl_count_by_channel[_sl_channel_key] = len(sl_log)
@@ -8676,6 +9077,19 @@ class TuiSession:
                         )
                     raise EndOfInput(reason="confirmed_discard" if discard_confirmed else None)
                 text_out = text
+                # R4 U4 (01_NACHZUG.md U4 Punkt 3): dieselbe Bedingung wie
+                # `_purpose_label()` oben (VOR dem Inkrement unten) -- NUR
+                # ein Beitrag, der tatsaechlich an die SL geht (Leader-Zug
+                # ODER erster Gast-Importzug), loest im Anschluss an diese
+                # Rueckgabe einen echten GM-Request aus (`core/runtime.py:
+                # act` ruft den Transport ERST NACH `collect_decision`).
+                # Ein spaeterer Gastzug wird nur noch lokale Tischabsprache
+                # (KEIN GM-Call), eine freiwillige Notiz geht NIE ueber den
+                # GM-Transport (s. `_collect_reflections`-Docstring) -- fuer
+                # beide waere eine Zeitgedanke-Zeile hier unehrlich.
+                goes_to_sl = not is_private_note and (
+                    self._is_leader or (self._turn == 0 and not self._already_imported)
+                )
                 self._turn += 1
                 # R1 (C-M1, UX14): dieselbe Autoritaet wie `_purpose_label()`
                 # -- ein nach Neustart bereits frueher importierter Gast
@@ -8690,6 +9104,14 @@ class TuiSession:
                 # ALS Gast-Client-Eingabe, wenn ein Gastanschluss aktiv war
                 # (kein verdeckter Host-Fake).
                 origin = "human:guest_client" if io is not outer else "human:terminal"
+                if goes_to_sl:
+                    # R4 U4: GENAU HIER, unmittelbar VOR der Rueckgabe an
+                    # die Runtime -- echte, noch ausstehende Arbeit beginnt
+                    # strukturell direkt im Anschluss (der GM-Request), kein
+                    # Nachholtext mehr.
+                    _zg = io._zeitgedanke()
+                    if _zg:
+                        io._print(_zg)
                 return ParticipantDecision(text=text_out, origin_source=origin, save_payload=payload)
 
         # A24 (WEGKARTE §8): der Leader-Driver ist entweder der aufrufende
@@ -9554,18 +9976,49 @@ class TuiSession:
         self._zeitgedanke_index += 1
         return f"[Zeitgedanke] {line}"
 
-    def _cmd_settings(self) -> None:
-        """I1/I3: Status/Einstellungen -- reale, lokal verfuegbare Angaben."""
+    def _cmd_settings(self, args: list[str] | None = None) -> None:
+        """I1/I3: Status/Einstellungen -- reale, lokal verfuegbare Angaben.
+
+        R4 U4 (01_NACHZUG.md U4 Punkt 4, PLAYER-UX-REVIEW.md F4
+        "`_cmd_settings` zeigt nur den Zustand ... kein bedienbarer
+        Schalter"): optionales `args` (Default `None` -- JEDER bestehende
+        Aufrufer ohne dieses Argument, insbesondere die direkten
+        `_cmd_settings()`-Testaufrufe in `test_ux1_kiss_menu.py`, bleibt
+        bytegleich, KEIN neuer Readline-Aufruf hier) erlaubt denselben
+        Mehrwort-Zeileneinstieg wie 'l <id> ...'/'backup <ziel>' -- 'ein-
+        stellungen zeitgedanken an/aus' (bzw. das Kompatibilitaets-
+        Hotkeywort 's zeitgedanken an/aus') schaltet den bestehenden
+        `self._zeitgedanken`-Schalter OHNE Shellwissen um. Die Umgebungs-
+        variable `MMO_SIM_TUI_ZEITGEDANKEN=0` bleibt ZUSAETZLICH als
+        Betreiberoption gueltig (O57: 'darf zusaetzlich bleiben')."""
         self._print(f"Teilnehmer-ID: {self.participant_id}")
         entries = catalog.list_for_participant(self.catalog_dir, self.participant_id)
         self._print(f"Katalog-Eintraege: {len(entries)}")
+        if args:
+            sub = args[0].strip().lower()
+            if sub in ("zeitgedanken", "zeitgedanke"):
+                if len(args) >= 2 and args[1].strip().lower() in ("aus", "0", "off", "nein", "n"):
+                    self._zeitgedanken = False
+                elif len(args) >= 2 and args[1].strip().lower() in ("an", "1", "on", "ja", "j"):
+                    self._zeitgedanken = True
+                else:
+                    self._zeitgedanken = not getattr(self, "_zeitgedanken", False)
+                self._print(
+                    "Zeitgedanken jetzt " + ("an" if self._zeitgedanken else "aus")
+                    + " (bedienbar ueber 'einstellungen zeitgedanken an/aus', kein Shellwissen noetig)."
+                )
+            else:
+                self._print(
+                    f"Unbekannte Einstellung {args[0]!r} -- bekannt: 'zeitgedanken [an|aus]'."
+                )
         # U4c: realer, lokal verfuegbarer Schalterzustand (analog zu den
         # uebrigen echten Angaben hier). Opt-out ueber Konstruktorparameter
-        # `zeitgedanken=False` ODER `MMO_SIM_TUI_ZEITGEDANKEN=0`.
+        # `zeitgedanken=False`, 'einstellungen zeitgedanken aus' (s. oben)
+        # ODER `MMO_SIM_TUI_ZEITGEDANKEN=0`.
         self._print(
             "Zeitgedanken (Zeit-Atmosphaere in Wartephasen): "
             + ("an" if getattr(self, "_zeitgedanken", False) else "aus")
-            + " -- abschaltbar via MMO_SIM_TUI_ZEITGEDANKEN=0."
+            + " -- umschaltbar ueber 'einstellungen zeitgedanken an/aus' oder MMO_SIM_TUI_ZEITGEDANKEN=0."
         )
         if self.run_dir is None:
             self._print("Laufumgebung (run_dir): nicht konfiguriert (kein Lab-Status verfuegbar).")
@@ -9654,7 +10107,7 @@ class TuiSession:
                 elif choice == "b":
                     self._cmd_lobby_initiative()
                 elif choice == "s":
-                    self._cmd_settings()
+                    self._cmd_settings(extra_tokens)
                 elif choice == "backup":
                     self._cmd_backup(extra_tokens)
                 elif choice == "restore":
@@ -9717,7 +10170,7 @@ class TuiSession:
                 elif choice == "tisch":
                     self._cmd_menu_tisch()
                 elif choice in ("einstellungen", "settings"):
-                    self._cmd_settings()
+                    self._cmd_settings(extra_tokens)
                 elif choice in ("fortsetzen", "resume"):
                     self._cmd_menu_fortsetzen()
                 elif choice in ("registrieren", "register"):

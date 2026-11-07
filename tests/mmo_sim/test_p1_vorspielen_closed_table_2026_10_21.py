@@ -148,6 +148,13 @@ def test_p1_vorspielen_sees_members_of_just_closed_table():
                 return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt ECHT bedienbare
+            # Abschlusskarte liest nach dem echten Abschnittsabschluss
+            # unten eine zusaetzliche Auswahl -- dieser Test prueft
+            # Vorspielen/Catch-up, nicht die Kartenbedienung, daher hier
+            # neutral "Zurueck zum Hauptmenue" (leere Eingabe).
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+                return ""
             raise AssertionError(f"unerwarteter Prompt ohne Antwortregel: {prompt!r}")
 
         session = TuiSession(

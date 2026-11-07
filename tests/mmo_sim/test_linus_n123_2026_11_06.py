@@ -79,6 +79,12 @@ class _DivergingInput:
         if "[j/n]" in prompt:
             self.calls_jn += 1
             return self.jn_answer
+        # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+        # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+        # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue", statt
+        # sie wie einen normalen Spielzug zu beantworten.
+        if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            return ""
         self.calls_turn += 1
         return f"{self.label}-Zug {self.calls_turn}."
 
@@ -204,6 +210,11 @@ def test_n1_gegenprobe_geteilter_bildschirm_bleibt_bytegleich():
         shared_calls = {"n": 0}
 
         def shared_input(prompt: str = "") -> str:
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+            # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+            # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+                return ""
             shared_calls["n"] += 1
             if "[j/n]" in prompt:
                 return "j"

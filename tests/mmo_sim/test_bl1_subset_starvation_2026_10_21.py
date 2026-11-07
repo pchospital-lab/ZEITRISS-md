@@ -197,6 +197,11 @@ def test_bl1_tui_path_partial_selection_with_foreign_bound_unplayed_table():
                 return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+            # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+            # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+                return ""
             raise AssertionError(f"unerwarteter Prompt: {prompt!r}")
 
         session = TuiSession(
@@ -398,6 +403,11 @@ def test_m1_tui_vorspielen_menu_reaches_parity_personas():
                 return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+            # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+            # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+                return ""
             raise AssertionError(f"unerwarteter Prompt: {prompt!r}")
 
         session = TuiSession(
