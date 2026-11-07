@@ -358,3 +358,28 @@ def grant_status(run_dir: str | Path, guest_id: str) -> dict | None:
     persistierten Grant-Record unveraendert, `None` wenn (noch) keine
     Anfrage fuer `guest_id` existiert."""
     return _load(_grant_path(Path(run_dir), guest_id))
+
+
+def list_requested_for_operator(run_dir: str | Path, operator_id: str) -> list[dict]:
+    """R4 U2 (01_NACHZUG.md U2 Punkt 2/3, PLAYER-UX-REVIEW.md F2): read-only
+    Uebersicht aller `status="requested"`-Erschaffungsanfragen, die GENAU AN
+    `operator_id` gerichtet sind -- die lokale Antwort auf "der zustaendige
+    Betreiber sieht die Anfrage und kann sie nummeriert entscheiden", ohne
+    vorher eine `guest_id` kennen zu muessen. Scannt dieselbe Ablage wie
+    `request_creation`/`decide_creation_request` (kein neuer Store), analog
+    `core.table_admission.list_open_tables`. Liefert deterministisch nach
+    `guest_id` sortiert, leer bei fehlendem/leerem `creation_grants`-
+    Verzeichnis oder ohne passende offene Anfrage."""
+    d = Path(run_dir) / "creation_grants"
+    if not d.is_dir():
+        return []
+    out: list[dict] = []
+    for path in sorted(d.glob("*.json")):
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if record.get("status") == "requested" and record.get("operator_id") == operator_id:
+            out.append(record)
+    out.sort(key=lambda r: r.get("guest_id", ""))
+    return out

@@ -163,8 +163,19 @@ def test_organic_player_flow_invariants_a_to_f():
             prompts_seen.append(prompt)
             if prompt.endswith("Deine Aktion: ") or "] Deine Aktion: " in prompt:
                 return moves_queue.pop(0) if moves_queue else "Ich warte kurz ab und beobachte weiter."
+            # U3a/R3-Stage2 (baa6ba22): die freiwillige Abschlussnotiz hat
+            # jetzt einen EIGENEN Prompt ("Deine persoenliche Abschlussnotiz"),
+            # nicht mehr "Deine Aktion:" -- leere Antwort (freiwilliges
+            # Ueberspringen), analog test_bl1_subset_starvation_2026_10_21.py.
+            if "Deine persoenliche Abschlussnotiz" in prompt:
+                return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+            # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+            # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+                return ""
             raise AssertionError(f"Unerwarteter Prompt ohne Antwortregel: {prompt!r}")
 
         session = TuiSession(

@@ -263,9 +263,18 @@ def test_two_plus_three_real_subprocess_restart_to_real_completion_note():
 
             # -- Fachpunkt 6a: echter Abschnittsabschluss (COMPLETION_MARKER
             # UND die menschenlesbare Bestaetigung), NICHT durch /pause.
-            assert COMPLETION_MARKER in out2, out2[-1500:]
+            # U4a/R3-Stage2 (baa6ba22): die LIVE-SL-Anzeige sanitisiert den
+            # rohen COMPLETION_MARKER jetzt zu "[Abschnitt bestaetigt]"
+            # (`TuiSession._display_sanitize_sl`) -- Export/Parser bleiben
+            # dabei VOLLSTAENDIG unveraendert (Commit-Text baa6ba22), der
+            # Marker selbst muss also im gespeicherten `sl_log`, nicht mehr
+            # im Terminal-STDOUT, gesucht werden.
             assert "Abschnitt abgeschlossen:" in out2, out2[-1500:]
             table2 = core_store.Table.load(run_dir, table_id)
+            assert any(COMPLETION_MARKER in e.get("content", "") for e in table2.sl_log), (
+                f"COMPLETION_MARKER erwartet im gespeicherten sl_log (nur die Live-Anzeige "
+                f"sanitisiert, s. o.): {table2.sl_log}"
+            )
             assert table2.status == "closed", table2.status
             assert set(table2.members) == {leader_id, zweit_id, "sniper", "tech", "medic"}, (
                 f"Mitgliedschaft darf sich beim Abschluss NICHT aendern (keine neue Identitaet): {table2.members}"

@@ -7,6 +7,8 @@ tags: [meta, setup]
 
 Ein Terminal (auch "Eingabeaufforderung" oder "Konsole") ist ein Fenster, in dem du Befehle eintippen kannst. So öffnest du es direkt im richtigen Ordner:
 
+> Die Beispielbefehle unten (`python scripts/setup.py`) zeigen nur, wie ein Befehl in diesem Fenster aussieht — sie richten den Chat-/OpenWebUI-Weg ein und starten **kein** ZEITRISS-Terminalspiel. Der Terminal-Spielstart ist `python3 scripts/mmo_sim.py`, beschrieben unter [Spielerstart](spielerstart.md).
+
 ## Windows
 
 1. Öffne den Ordner (z. B. den entpackten ZEITRISS-Ordner) im Explorer

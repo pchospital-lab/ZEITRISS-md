@@ -1,6 +1,6 @@
 ---
 title: "Spielerstart — ZEITRISS im Terminal"
-version: 1.0.0
+version: 1.1.0
 tags: [guide]
 ---
 
@@ -17,6 +17,14 @@ Für den Spielweg ohne Terminal nutze den [Chat-Setup-Guide](setup-guide.md).
 > [Prüfstand und Grenzen](terminal-status.md)
 
 ## Installation
+
+> **Reiner Gast an einem fremden Tisch?** Wenn du nur bei jemandem mitspielst,
+> der den Tisch und die KI-Spielleitung bereitstellt (lokaler
+> Betreiber-/Gast-Tisch), brauchst du **keinen eigenen Modellzugang** und nicht
+> die volle Einrichtung unten — du tippst über deine zugewiesenen Kanäle mit und
+> machst selbst keine Modellaufrufe. Folge direkt dem Gastweg im
+> [Koop-Leitfaden: Lokal mit Betreiber und Gästen](koop-online-spielen.md). Die
+> Installation unten gilt für den eigenen Spiel- oder Betreiberstart.
 
 Die dokumentierte Referenzumgebung verwendet Python 3.12 in einer normalen
 virtuellen Umgebung. Öffne ein Terminal im entpackten ZEITRISS-Projektordner:
@@ -61,6 +69,7 @@ Eine abweichende `--participant`-Angabe ist ein bewusster Teilnehmerwechsel.
 | `spielen` | Eine Runde zusammenstellen oder deine KI-Spielgemeinschaft öffnen |
 | `fortsetzen` | Einen vorhandenen eigenen Stand fortsetzen |
 | `registrieren` | Eine weitere Person am gemeinsamen Terminal aufnehmen |
+| `tisch` | Tisch suchen/anfragen (Gast) oder anbieten/annehmen/starten (Betreiber) — gemeinsames lokales Spielen, siehe [Koop-Leitfaden: Lokal mit Betreiber und Gästen](koop-online-spielen.md) |
 | `einstellungen` | Status und Einstellungen ansehen |
 | `beenden` | Das Hauptmenü verlassen |
 
@@ -180,9 +189,13 @@ sein. Bei einer nur begonnenen Erschaffung weist die Fortsetzen-Karte auf
 `charaktere` beziehungsweise `n` hin; sie behauptet keinen fertigen Save.
 
 Gespeichert wird im HQ mit `!save` (oder `!speichern`): die Spielleitung
-gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn,
-schließt damit den laufenden Abschnitt ab und fragt, ob du weiterspielen
-oder zum Tisch zurück willst. `!bogen` zeigt nur den Charakterbogen an und
+gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn und
+schließt damit den laufenden Abschnitt ab. Danach zeigt dir der Client deine
+persönliche **Abschlusskarte** mit den nächsten Schritten als nummerierte
+Auswahl — den eigenen Stand exportieren und zurück zum Hauptmenü (eine leere
+Eingabe oder `zurück` führt ebenfalls dorthin). Spielst du als Gast an einem
+Tisch mit, kommt eine zulässige Folgeaktion wie einen weiteren Tisch
+suchen/beitreten hinzu. `!bogen` zeigt nur den Charakterbogen an und
 speichert nicht. In Briefing, Einsatz und Debrief ist Speichern gesperrt
 (SaveGuard) — erst zurück im HQ. Die Save-Erkennung haengt am `!save`-
 Kommando und am tatsächlichen Save-Block, nicht an einer festen

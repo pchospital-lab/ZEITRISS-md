@@ -179,13 +179,17 @@ fertige Netzwerklobby.
 
 | Spielweg | Das brauchst du | Dein Einstieg |
 | --- | --- | --- |
-| **Lokales Terminal** | Python und eine eingerichtete KI-Spielleitung | [Spielerstart](docs/spielerstart.md) |
+| **Lokales Terminal — Betreiber** | Python und einen eigenen Host-/Modellstack (KI-Spielleitung, optional KI-Personas) — Voraussetzung für Solo-Spiel, eigene KI-Personas und jedes Anbieten eines Tisches | [Spielerstart](docs/spielerstart.md) |
+| **Lokales Terminal — Gast** | Nur Terminal-Bedienung und einen eigenen, mitgebrachten oder vom Betreiber freigegebenen Save — **keinen** eigenen Host-/Modellstack | [Spielerstart](docs/spielerstart.md) |
 | **Chat und JSON-Save** | Eine geeignete Chatplattform mit dauerhaften Anweisungen und Wissensquellen | [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation) |
 
 Am Terminal spielst du solo oder mit anderen Menschen an einem Gerät;
-freiwillige KI-Mitspieler können deine Runde ergänzen. Gemeinsames Spiel über
-getrennte Geräte beschreibt der [Chat-Leitfaden](docs/koop-online-spielen.md).
-Die genauen Voraussetzungen je Weg stehen im verlinkten Guide.
+freiwillige KI-Mitspieler können deine Runde ergänzen. Ein Gast ohne eigenen
+Hoststack bringt seine Figur per Import mit oder lässt sie sich vom Betreiber
+freigeben erschaffen — Details dazu und zum gemeinsamen lokalen Spielen am Tisch
+stehen im [Koop-Leitfaden](docs/koop-online-spielen.md). Gemeinsames Spiel über
+getrennte Geräte beschreibt derselbe Leitfaden für den Chat-/JSON-Weg. Die
+genauen Voraussetzungen je Weg stehen im verlinkten Guide.
 
 <a id="terminal-client-lokal-entwicklungskandidat"></a>
 

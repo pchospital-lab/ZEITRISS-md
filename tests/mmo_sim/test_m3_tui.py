@@ -50,7 +50,7 @@ def test_boot_menu_without_resume_card_shows_fresh_options():
     (Menue zeigt ohne Stand einen funktionierenden frischen Einstieg)."""
     text = render_boot_menu(None)
     assert "Fortsetzen" not in text
-    assert "[spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)" in text
+    assert ") Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)  [spielen]" in text
     assert "[c] Neue Spielgemeinschaft" not in text, "alter Hotkeybaum darf in der Normalansicht nicht mehr sichtbar sein (G01)"
 
 

@@ -1,6 +1,6 @@
 # Produktplan — Figurenreise am Tisch
 
-Stand: 2. November 2026. Diese Datei ist die **einzige** Planstelle für den
+Stand: 6. November 2026. Diese Datei ist die **einzige** Planstelle für den
 Produktpfad „Figurenreise am Tisch". Sie beschreibt einen zusammenhängenden,
 rein terminalbasierten Weg: Ein Mensch bietet an seinem Gerät einen Tisch an
 oder sucht einen, eine Anfrage wird vom Host entschieden, es wird gespielt, der
@@ -549,20 +549,26 @@ Zusatzfähigkeit zu warten.
    Zuschaueransicht, erreichbarer Stop, sicherer Abbruch vor Commit, keine
    Rücksetzung danach, hostgestützte Gast-Erschaffung. R3 bindet die Steuerung an
    den echten Launcher und weist die Stop-/Abschluss-/Retry-Grenze über echte neue
-   Prozesse nach (siehe „Geliefert in R3"); ein pre-existing, außerhalb des
-   Gegenstands liegender Tisch-Wiederaufnahme-Befund bleibt offen
-   (`R3-RESOLUTION.json`).
-4. **Als Nächstes:** LAN verbindet Terminal-Clients mit demselben Dienst (drei
-   lokale Menschen plus LAN-Gast, gemeinsame/getrennte HQ-Gruppen, erneut
-   angenommene aktuelle Gastfigur, klare Eingabe-/Figurenbindung).
-5. Mehrere parallele Abschnitte auf einem Host und eine mögliche Pause-/Wechsel-/
-   Fortsetzungsverwaltung bleiben gesonderte Anschlussfähigkeiten, falls danach
-   sinnvoll.
+   Prozesse nach (siehe „Geliefert in R3"); der zuvor außerhalb des Gegenstands
+   liegende Tisch-Wiederaufnahme-Vorbefund ist **seit R4 geschlossen** (siehe
+   „Geliefert in R4"), `R3-RESOLUTION.json` bleibt als historische Herkunft erhalten.
+4. **Als Nächstes (diese Etappe):** die vorhandene lokale Fassung vor LAN
+   vollenden und veredeln — stimmige README/Doku und selbsterklärendes Terminal,
+   durchgängige Solo-/Gruppen-/Betreiber-/Gastwege, persönliche Saves, erreichbarer
+   Stop sowie korrekter Abschluss und Wiedereinstieg. Gemeinsames lokales Spielen
+   gehört ausdrücklich dazu.
+5. **Nach Annahme dieser Vollendungsetappe:** LAN verbindet Terminal-Clients mit
+   demselben Dienst (drei lokale Menschen plus LAN-Gast, gemeinsame/getrennte
+   HQ-Gruppen, erneut angenommene aktuelle Gastfigur, klare Eingabe-/Figurenbindung).
+6. Mehrere parallele Abschnitte auf einem Host und eine mögliche Pause-/Wechsel-/
+   Fortsetzungsverwaltung bleiben als **optionaler** späterer Komfort gesonderte
+   Anschlussfähigkeiten, falls danach sinnvoll.
 
-**Reihenfolge-Notiz (ZR-BETREIBER-GASTERSCHAFFUNG):** Betreiberetappe →
-README/Doku/selbsterklärendes Terminal (optional Zeit-Gedanken in echten
-Wartephasen) → LAN → optional parallel/Pause-Komfort. Spätere Etappen werden
-hier jetzt nicht vorgezogen implementiert.
+**Reihenfolge-Notiz (ZR-VOLLENDUNG-OHNE-LAN):** lokale Vollendung (stimmige
+README/Doku, selbsterklärendes Terminal, gemeinsames lokales Spielen; optional
+Zeit-Gedanken in echten Wartephasen) → **nach Annahme** LAN → optionaler
+zusätzlicher Parallel-/Pause-Komfort. Spätere Etappen werden hier jetzt nicht
+vorgezogen implementiert.
 
 Keine Browseroberfläche, keine übergreifende Chatlobby und keine Abrechnung im
 Spiel. Persönlicher Figurensave, Populationsbackup und optionales späteres

@@ -182,6 +182,23 @@ def test_r6p01_negative_fixed_solo_marker_rejected_then_positive_dynamic_binding
                 f"R6P01-Negativ verletzt: Tisch darf bei falschem Marker nicht geschlossen sein: "
                 f"{table1_after.status}"
             )
+            # R4 U4 (01_NACHZUG.md U4 Punkt 2, PLAYER-UX-REVIEW.md F4,
+            # 02_ABNAHME.md D "falscher Marker fuehrt ... jetzt auch zu
+            # keiner neuen sichtbaren Erfolgsaussage"): die Live-SL-Anzeige
+            # (`TuiSession._display_sanitize_sl`) darf den falschen Marker
+            # NICHT durch eine Bestaetigungszeile ueberdecken, obwohl der
+            # GM-Double ihn real gesendet hat (`len(gm1.calls) >= 1` oben).
+            # Weder die alte, zu starke Formulierung noch irgendeine neue
+            # Erfolgsaussage duerfen am falschen Marker auftauchen.
+            assert "[Abschnitt bestaetigt]" not in out1, (
+                f"R6P01-Negativ verletzt: die alte, zu starke Formerkennung haette hier eine "
+                f"Erfolgsaussage behauptet, obwohl der Marker fachlich abgelehnt wurde: {out1[-1500:]}"
+            )
+            assert "bestaetigt" not in out1.lower() and "gespeichert" not in out1.lower(), (
+                f"R6P01-Negativ verletzt: keine Erfolgs-/Speicherbestaetigung allein aus der "
+                f"erkannten Markerform, solange der echte Entscheid den Abschluss ablehnt: "
+                f"{out1[-1500:]}"
+            )
 
         # -----------------------------------------------------------------
         # Prozess 2: R6P01-POSITIV -- ECHTER SEPARATER Subprozess, DIESELBE
@@ -221,9 +238,18 @@ def test_r6p01_negative_fixed_solo_marker_rejected_then_positive_dynamic_binding
             # -- R6P01 POSITIV (Kernbeleg): derselbe Weg (dynamische
             # Ableitung statt fester Qualifier) bindet jetzt den
             # TATSAECHLICHEN Tisch -- echtes closed.
-            assert COMPLETION_MARKER in out2, out2[-1500:]
+            # U4a/R3-Stage2 (baa6ba22): die LIVE-SL-Anzeige sanitisiert den
+            # rohen COMPLETION_MARKER jetzt zu "[Abschnitt bestaetigt]"
+            # (`TuiSession._display_sanitize_sl`) -- Export/Parser bleiben
+            # dabei VOLLSTAENDIG unveraendert (Commit-Text baa6ba22), der
+            # Marker selbst muss also im gespeicherten `sl_log`, nicht mehr
+            # im Terminal-STDOUT, gesucht werden.
             assert "Abschnitt abgeschlossen:" in out2, out2[-1500:]
             table2 = core_store.Table.load(run_dir, expected_table_id)
+            assert any(COMPLETION_MARKER in e.get("content", "") for e in table2.sl_log), (
+                f"COMPLETION_MARKER erwartet im gespeicherten sl_log (nur die Live-Anzeige "
+                f"sanitisiert, s. o.): {table2.sl_log}"
+            )
             assert table2.status == "closed", table2.status
             assert set(table2.members) == {leader_id, _AI_GUEST}, (
                 f"Mitgliedschaft darf sich beim Abschluss NICHT aendern: {table2.members}"
@@ -306,9 +332,18 @@ def test_solo_dynamic_binding_closes_real_section():
             assert p.returncode == 0, f"Prozess fehlgeschlagen: rc={p.returncode}\n{p.stderr}"
             out = p.stdout
 
-            assert COMPLETION_MARKER in out, out[-1500:]
+            # U4a/R3-Stage2 (baa6ba22): die LIVE-SL-Anzeige sanitisiert den
+            # rohen COMPLETION_MARKER jetzt zu "[Abschnitt bestaetigt]"
+            # (`TuiSession._display_sanitize_sl`) -- Export/Parser bleiben
+            # dabei VOLLSTAENDIG unveraendert (Commit-Text baa6ba22), der
+            # Marker selbst muss also im gespeicherten `sl_log`, nicht mehr
+            # im Terminal-STDOUT, gesucht werden.
             assert "Abschnitt abgeschlossen:" in out, out[-1500:]
             table = core_store.Table.load(run_dir, expected_table_id)
+            assert any(COMPLETION_MARKER in e.get("content", "") for e in table.sl_log), (
+                f"COMPLETION_MARKER erwartet im gespeicherten sl_log (nur die Live-Anzeige "
+                f"sanitisiert, s. o.): {table.sl_log}"
+            )
             assert table.status == "closed", table.status
             assert set(table.members) == {leader_id}, table.members
 

@@ -1,6 +1,6 @@
 ---
 title: "Koop & Online zusammen spielen"
-version: 1.2.0
+version: 1.3.0
 tags: [guide]
 ---
 
@@ -81,6 +81,245 @@ Betreiberhilfen bei der Figurenerschaffung, Kernlauf über zwei Abschnitte
 nicht erreicht. Das ist keine Endnutzer-Gesamtabnahme des Terminalclients
 und keine Aussage zum Chat-/JSON-Weg oben, der unabhängig davon der breiter
 abgenommene Weg bleibt.
+
+---
+
+## Lokal mit Betreiber und Gästen am Tisch
+
+Neben dem Chat-/JSON-Weg unten und dem einfachen „ein Gerät, `registrieren`"-Weg
+aus [Spielerstart](spielerstart.md) gibt es einen dritten lokalen Weg: einen
+**Tisch** mit Betreiber und Gästen auf **einem** Rechner. Er ist bewusst roh
+(POSIX-Named-Pipes, kein fertiges Gast-UI) und läuft auf **Linux und macOS**,
+**nicht** auf Windows.
+
+### Grundidee
+
+Ein **einziger** Python-Prozess, gestartet vom Betreiber, hält den ganzen Tisch:
+den Betreiber selbst **und** jeden angeschlossenen Gast als eigene, intern
+verdrahtete Sitzung. Ein Gast läuft **nicht** in einem eigenen
+`scripts/mmo_sim.py`-Prozess — er bedient seine Sitzung über zwei lokale Named
+Pipes (FIFOs), die der Betreiber beim Start angibt. Ein Gast braucht dadurch
+**keinen** eigenen Host-/Modellstack; er sieht dasselbe Hauptmenü wie ein
+normaler Start, nur über die Pipes.
+
+### Schritt 1 — Betreiber startet den Prozess
+
+Der Betreiber braucht je einen `in`/`out`-FIFO-Pfad pro Gast und — sobald er
+**selbst mitspielt** — einen Kontrollkanal für `/stop`. **Eine eigene Figur
+braucht der Betreiber nicht:** Der reine Betreiber ohne Figur, der nur die
+KI-Spielleitung hält und den Tisch führt, ist der **Normalfall**. Eine eigene
+Figur ist nur Voraussetzung des bewusst **mitspielenden** Hosts (dann ist der
+Kontrollkanal Pflicht, siehe unten). Die FIFOs müssen **nicht** von Hand
+angelegt werden — der Launcher legt fehlende Named Pipes selbst an und bricht
+ehrlich ab, falls unter einem Pfad schon eine normale Datei liegt.
+
+```bash
+# Fenster 1 — Betreiber
+python3 scripts/mmo_sim.py \
+  --participant betreiber1 \
+  --data-dir ./internal/mmo_sim_data \
+  --operator-control-fifo /tmp/zr-ctl.fifo \
+  --guest-terminal gast1:/tmp/zr-gast1-in.fifo:/tmp/zr-gast1-out.fifo \
+  --guest-terminal gast2:/tmp/zr-gast2-in.fifo:/tmp/zr-gast2-out.fifo
+```
+
+- `--participant` ist die eigene Teilnehmer-ID des Betreibers.
+- `--data-dir` ist die Datenwurzel; `run`/`states` werden daraus abgeleitet
+  (`--run-dir`/`--states-dir` überschreiben sie bei Bedarf einzeln). Jeder
+  angeschlossene Gast bekommt automatisch eine **private** Unterwurzel für seine
+  eigene Figur, teilt aber dieselbe gemeinsame Tisch-/Admissionswurzel.
+- `--operator-control-fifo PFAD` ist der getrennte Kontrollkanal für `/stop` und
+  `/zuschauer`. Sobald der Betreiber **selbst** mitspielt und seine Züge über das
+  geteilte Betreiber-Terminal eingibt, ist dieser Kanal Pflicht — sonst lehnt der
+  Rundenstart ab, damit `/stop` nicht mit einem Spielzug kollidiert.
+- `--guest-terminal GAST_ID:IN_FIFO:OUT_FIFO` verdrahtet eine Gast-Sitzung
+  (wiederholbar, einmal pro Gast).
+
+### Schritt 2 — Jeder Gast öffnet sein Fenster (gleicher Rechner)
+
+Jeder Gast bekommt **ein** zusammengehöriges Fenster mit der dünnen
+Anschlusshilfe `scripts/zeitriss-gast-terminal.sh`. Sie verbindet nur die beiden
+FIFO-Kanäle, die der Betreiber in Schritt 1 angegeben hat — Eingabe und Anzeige
+im selben Fenster, mit einer Kopfzeile (Identität, Modus, Figur-Hinweis, Hilfe,
+nächster Schritt, Ende). Sie startet **keinen** eigenen Host und ruft **kein**
+Modell; die ganze Spiel-/Save-/Admissionslogik bleibt im einen Betreiberprozess:
+
+```bash
+# Gast 1 — ein Fenster für Ein- und Ausgabe
+scripts/zeitriss-gast-terminal.sh gast1 /tmp/zr-gast1-in.fifo /tmp/zr-gast1-out.fifo
+```
+
+Analog für Gast 2 (eigenes Fenster, eigene FIFOs). Die eingeblendeten Fragen,
+Bestätigungen und Empfängerzeilen erscheinen in genau diesem Fenster, **bevor**
+der Gast antwortet.
+
+Wer lieber ohne Hilfsskript arbeitet, kann weiterhin direkt mit `cat` plumben —
+eine Named Pipe lässt sich nicht in einem einzigen `cat` zugleich lesen und
+beschreiben, daher Lese- und Schreibseite getrennt:
+
+```bash
+cat /tmp/zr-gast1-out.fifo          # Ausgabe mitlesen (läuft dauerhaft)
+cat > /tmp/zr-gast1-in.fifo         # Eingabe tippen (eine Zeile pro Enter)
+```
+
+Beide Wege sind gleichwertig; die Anschlusshilfe ist nur das bequemere
+Ein-Fenster-Bündel derselben rohen Kanäle.
+
+### Schritt 3 — Eine Figur pro Gast an den Tisch bringen
+
+Der normale Weg läuft über das nummerierte **`charaktere`**-Menü im eigenen
+Gast-Fenster — rohe Befehle oder interne IDs musst du dir **nicht** merken, du
+wählst über die angezeigten **Nummern**:
+
+- **Gast hat schon einen Save:** `charaktere` → `[2]` (**Importieren**), wie in
+  [Spielerstart](spielerstart.md) beschrieben.
+- **Gast hat noch keine Figur** (nutzt die Spielleitung des Betreibers, macht
+  selbst **keine** Modellaufrufe):
+  - Gast: `charaktere` → `[4]` (**Gast-Erschaffungsanfrage an Betreiber
+    stellen**) und wählt den Betreiber aus der angezeigten Auswahl.
+  - Betreiber: `charaktere` → `[4]` (**Gast-Erschaffungsanfragen entscheiden**),
+    wählt die Anfrage per Nummer und nimmt sie mit `[1]` an (oder lehnt ab).
+  - Gast: `charaktere` → `[5]` (**Eigenen Erschaffungsdialog fortsetzen**) — der
+    eigentliche Erschaffungsdialog. Diese Zeile erscheint erst nach der eigenen
+    `[4]`-Anfrage.
+
+Dieselben Schritte gibt es optional als **Experten-Wortbefehle**
+(`gast-erschaffung-anfragen`, `-annehmen`/`-ablehnen`, `-dialog`, zum Verwerfen
+eines noch unangenommenen Entwurfs `-abbrechen`, zum Stoppen einer freigegebenen
+offenen Erschaffung `-stop`). Sie sind nur Abkürzungen für Geübte und für den
+normalen Spielweg nicht nötig.
+
+### Schritt 4 — Tisch anbieten, finden, annehmen
+
+Auch der Tisch läuft über das nummerierte **`tisch`**-Menü. Zeile `[1]`–`[4]`
+(Suchen/Anfragen/Zurückziehen/Status) ist für jeden erreichbar; eine zweite,
+**nur für den Betreiber sichtbare** Zeile bietet `[5]` Tisch anbieten, `[6]`
+Anfrage annehmen, `[7]` Anfrage ablehnen, `[8]` Tisch starten, `[9]`
+Zuschauer/Verlauf:
+
+- Betreiber: `tisch` → `[5]` (**Tisch anbieten**) und vergibt einen Tischnamen.
+- Jeder Gast: `tisch` → `[2]` (**Anfragen**) mit diesem Tischnamen (bindet
+  automatisch die eigene Figur des Gasts — kein stiller Fremdimport).
+- Betreiber je Gast: `tisch` → `[6]` (**Anfrage annehmen**) — kein stilles
+  Auto-Annehmen, der Betreiber nimmt jede Anfrage bewusst an.
+- Betreiber: `tisch` → `[8]` (**Tisch starten**).
+
+Für Geübte gibt es dieselben Aktionen optional als Wortbefehle
+(`tisch-anbieten`, `tisch-suchen`, `tisch-anfragen`, `tisch-annehmen`,
+`tisch-start`); sie sind nicht Teil des normalen Spielwegs.
+
+### Schritt 5 — Spielen: wer tippt wann
+
+Betreiber: `tisch` → `[8]` (Tisch starten; Wortalias `tisch-start`). Spielen
+mehrere Menschen mit, **beantwortet jeder
+weitere Mensch seine persönliche Beitritts-/Zustimmung an seinem eigenen Kanal
+selbst** — seine Taste auf seinem eigenen Terminal entscheidet, der Betreiber
+tippt keine fremde Zustimmung an seiner Tastatur und sein Prozess blockiert auch
+nicht auf der fremden Tastatur. (Die Beitritts-/Zustimmungsfrage wird jetzt
+sichtbar in den eigenen Ausgabekanal des Gastes gespiegelt — der Gast antwortet
+auf die in seinem Fenster eingeblendete Frage, nicht auf Zuruf.) Der
+erste angenommene Mensch spielt als Leader;
+jeder weitere Mensch steigt über seine **eigene** Zusage ein. Bleibt eine
+ausdrücklich gewünschte Zusage aus, startet nicht stillschweigend eine
+verkleinerte Runde.
+
+Danach läuft der normale Rundenablauf. Vor jedem Prompt steht eine
+Empfängerzeile: sie nennt, wessen Zug ansteht. Jeder Mensch tippt in seinem
+**eigenen** Fenster — es gibt keine Eingabekollision, weil jeder seinen eigenen
+Kanal hat. Jeder Gast sieht die für ihn bestimmte öffentliche SL-Vorgeschichte
+und neue öffentliche Ausgaben in seiner eigenen Ansicht, auch wenn vorher ein
+anderer Gast gehandelt hat. Mit `/stand` sieht die gerade tippende Person ihren
+eigenen Stand, `?`/`/hilfe` zeigt die Steuerzeilen, ohne einen Zug zu verbrauchen.
+
+### Schritt 6 — Regulär abschließen und den eigenen Stand mitnehmen
+
+Der normale Abschluss läuft über das HQ, **bevor** es um Stop/Abbruch geht:
+
+- Im passenden **HQ-Kontext** fordert der menschliche Leader den Abschluss mit
+  `!save` (bzw. `!speichern`). Die Spielleitung nimmt die gültigen **persönlichen
+  Ergebnisse** jeder Person an — jeder Gast behält seinen eigenen Fortschritt.
+- Eine **optionale Endnotiz** ist ausdrücklich eine **eigene lokale Notiz** der
+  jeweiligen Person: kein gemeinsamer Spielstand und keine Modellaktion.
+- Direkt nach dem Abschluss zeigt der Client jedem Gast **in seinem eigenen
+  Fenster** eine persönliche, nummerierte **Abschlusskarte**: `[1]` den eigenen
+  Stand exportieren, danach zurück zum Hauptmenü (leere Eingabe oder `zurück`
+  führt ebenfalls dorthin), und als Gast zusätzlich einen weiteren Tisch
+  suchen/beitreten. Jeder Gast bedient seine Karte selbst; der Export entspricht
+  dem `charaktere` → `3`-Weg.
+- So nimmt jeder Gast seinen aktuellen Stand mit. Der Export liegt als
+  persönliche Save-JSON im eigenen Export-Ordner des Gastes — standardmäßig
+  `<Datenablage>/guests/<GAST_ID>/exports/<GAST_ID>.json`.
+  Der Client zeigt beim Export den konkreten Pfad an (`Zusaetzlich als Datei gespeichert: …`);
+  dieser angezeigte Pfad führt die Mitnahme. Damit steigt dieselbe Person später wieder ein
+  (Import über `charaktere` → `2`).
+
+Der Betreiber bleibt dabei **ohne eigene Figur**. Erst nach diesem regulären
+Abschluss folgen die Abbruch-/Stop-Varianten unten.
+
+### Schritt 7 — Stop bleibt erreichbar
+
+Während die Runde läuft, stoppt bzw. beobachtet der Betreiber jederzeit über den
+getrennten Kontrollkanal:
+
+```bash
+echo "/stop" > /tmp/zr-ctl.fifo
+echo "/zuschauer" > /tmp/zr-ctl.fifo
+```
+
+`/abbrechen` **am eigenen Spielzug-Prompt** (nicht über den Kontrollkanal) hat am
+Tisch eine strengere Bedeutung als eine bloße Pause:
+
+- **Vor** der gemeinsamen Abschluss-Entscheidung: echter, **endgültiger** Verwurf
+  des ganzen Abschnitts — kein Fortsetzen.
+- **Nach** einer bereits gewonnenen Abschluss-Entscheidung: nur noch regulärer
+  Restabschluss des bereits angenommenen Fortschritts — **kein** Rückgängig.
+- **Ohne** gebundenen Betreiber-Tisch (einfacher Solo-/`registrieren`-Weg ohne
+  `tisch-start`): `/abbrechen` bleibt reine Pause, genau wie `/pause`.
+
+### Schritt 8 — Ehrliches Kanalende und saubere Rückkehr
+
+**EOF, Pause und Stop sind drei verschiedene Ereignisse** — nicht derselbe
+Zustand unter anderem Namen:
+
+- **Strg-D (EOF)** auf der Gast-Eingabeseite beendet den **Eingabe-Dispatch
+  dieses Gasts**. Ein so beendeter Gastkanal wird **nicht** allein dadurch wieder
+  lebendig, dass man erneut einen `cat >`-Schreiber öffnet. Zuverlässig für diese
+  Etappe ist ein erklärter kontrollierter Schluss und danach ein **vollständiger
+  Neustart** des Tisches — keine Sofort-Wiederanschlussgarantie an denselben
+  laufenden Dispatch.
+- **`/pause`** am eigenen Prompt hält die Runde kontrolliert an, ohne sie zu
+  beenden.
+- **`/stop`** über den Kontrollkanal und ein **bestätigter** `/abbrechen` vor der
+  Abschlussentscheidung sind Betreiber-/Abschnittsende, keine bloße Pause (siehe
+  Schritt 7). Ein bestätigter endgültiger Verwurf ist kein „sicher pausiert".
+
+Der zuletzt **gespeicherte** persönliche Stand jeder Person bleibt dabei
+erhalten; noch nicht gespeicherter Fortschritt ist dadurch nicht gesichert. Der
+Betreiber beendet den ganzen Prozess über `beenden` im Hauptmenü; die
+Gast-Sitzungen desselben Prozesses enden mit.
+
+**Rückkehr hängt davon ab, was der Tisch zuletzt war** — es gibt **keine
+pauschale `fortsetzen`-Zusage** für jede Rolle nach jedem Ende:
+
+- **Offener, gebundener Tisch** mit denselben Identitäten, Kanälen und
+  Datenwurzeln: der Betreiber nimmt ihn über `tisch-start` **derselben Bindung**
+  wieder auf.
+- **Geschlossener oder verworfener Tisch:** kein stilles Fortsetzen — der
+  Betreiber macht ein **neues Angebot**, und jede Person bringt ihren **aktuellen
+  persönlichen Save** bewusst wieder ein (Gast: `charaktere` → `2`).
+- **Eigener Solo-/Persona-/Angebotsweg:** braucht einen **eigenen Host**; der
+  Betreiber-`tisch-start` ersetzt ihn nicht.
+
+### Wie viele Fenster?
+
+| Rolle | Mindestens | Komfortabel |
+| --- | --- | --- |
+| Betreiber | 1 (Hauptprozess) | 2 (+1 für den Kontrollkanal `/stop`) |
+| Jeder Gast | 1 (Lesen+Schreiben gemischt) | 2 (Lesen/Schreiben getrennt) |
+
+Für Betreiber + zwei Gäste realistisch **3 bis 7 Terminalfenster** auf einem
+Gerät. Wer das nicht braucht, bleibt beim einfachen `registrieren`-Weg ohne Tisch.
+Mehrere Geräte im LAN folgen erst in einer späteren Ausbaustufe.
 
 ---
 
