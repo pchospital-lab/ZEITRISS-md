@@ -167,33 +167,51 @@ Ein-Fenster-Bündel derselben rohen Kanäle.
 
 ### Schritt 3 — Eine Figur pro Gast an den Tisch bringen
 
-- **Gast hat schon einen Save:** im Gast-Eingabefenster `charaktere` → `2`
-  (Importieren), wie in [Spielerstart](spielerstart.md) beschrieben.
+Der normale Weg läuft über das nummerierte **`charaktere`**-Menü im eigenen
+Gast-Fenster — rohe Befehle oder interne IDs musst du dir **nicht** merken, du
+wählst über die angezeigten **Nummern**:
+
+- **Gast hat schon einen Save:** `charaktere` → `[2]` (**Importieren**), wie in
+  [Spielerstart](spielerstart.md) beschrieben.
 - **Gast hat noch keine Figur** (nutzt die Spielleitung des Betreibers, macht
   selbst **keine** Modellaufrufe):
-  - Gast: `gast-erschaffung-anfragen betreiber1`
-  - Betreiber: `gast-erschaffung-annehmen gast1` (oder `gast-erschaffung-ablehnen gast1`)
-  - Gast: `gast-erschaffung-dialog betreiber1` (der eigentliche Erschaffungsdialog)
-  - Gast will seinen **noch unangenommenen** Entwurf dauerhaft verwerfen:
-    `gast-erschaffung-abbrechen betreiber1`. Betreiber will eine freigegebene,
-    noch offene Erschaffung stoppen: `gast-erschaffung-stop gast1`.
+  - Gast: `charaktere` → `[4]` (**Gast-Erschaffungsanfrage an Betreiber
+    stellen**) und wählt den Betreiber aus der angezeigten Auswahl.
+  - Betreiber: `charaktere` → `[4]` (**Gast-Erschaffungsanfragen entscheiden**),
+    wählt die Anfrage per Nummer und nimmt sie mit `[1]` an (oder lehnt ab).
+  - Gast: `charaktere` → `[5]` (**Eigenen Erschaffungsdialog fortsetzen**) — der
+    eigentliche Erschaffungsdialog. Diese Zeile erscheint erst nach der eigenen
+    `[4]`-Anfrage.
+
+Dieselben Schritte gibt es optional als **Experten-Wortbefehle**
+(`gast-erschaffung-anfragen`, `-annehmen`/`-ablehnen`, `-dialog`, zum Verwerfen
+eines noch unangenommenen Entwurfs `-abbrechen`, zum Stoppen einer freigegebenen
+offenen Erschaffung `-stop`). Sie sind nur Abkürzungen für Geübte und für den
+normalen Spielweg nicht nötig.
 
 ### Schritt 4 — Tisch anbieten, finden, annehmen
 
-- Betreiber: `tisch-anbieten mesa1`
-- Jeder Gast: `tisch-suchen`, dann `tisch-anfragen mesa1` (bindet automatisch die
-  eigene Figur des Gasts — kein stiller Fremdimport)
-- Betreiber je Gast: `tisch-annehmen mesa1 gast1`, `tisch-annehmen mesa1 gast2`
+Auch der Tisch läuft über das nummerierte **`tisch`**-Menü. Zeile `[1]`–`[4]`
+(Suchen/Anfragen/Zurückziehen/Status) ist für jeden erreichbar; eine zweite,
+**nur für den Betreiber sichtbare** Zeile bietet `[5]` Tisch anbieten, `[6]`
+Anfrage annehmen, `[7]` Anfrage ablehnen, `[8]` Tisch starten, `[9]`
+Zuschauer/Verlauf:
 
-Alternativ führt der Hauptmenü-Befehl `tisch` in ein Untermenü: Zeile `[1]`–`[4]`
-(Suchen/Anfragen/Zurückziehen/Status — für jeden erreichbar) und, **nur für den
-Betreiber sichtbar**, eine zweite Zeile `[5]` Tisch anbieten, `[6]` Anfrage
-annehmen, `[7]` Anfrage ablehnen, `[8]` Tisch starten, `[9]` Zuschauer/Verlauf.
-Dieselben Aktionen wie die Wortbefehle, nur menügeführt.
+- Betreiber: `tisch` → `[5]` (**Tisch anbieten**) und vergibt einen Tischnamen.
+- Jeder Gast: `tisch` → `[2]` (**Anfragen**) mit diesem Tischnamen (bindet
+  automatisch die eigene Figur des Gasts — kein stiller Fremdimport).
+- Betreiber je Gast: `tisch` → `[6]` (**Anfrage annehmen**) — kein stilles
+  Auto-Annehmen, der Betreiber nimmt jede Anfrage bewusst an.
+- Betreiber: `tisch` → `[8]` (**Tisch starten**).
+
+Für Geübte gibt es dieselben Aktionen optional als Wortbefehle
+(`tisch-anbieten`, `tisch-suchen`, `tisch-anfragen`, `tisch-annehmen`,
+`tisch-start`); sie sind nicht Teil des normalen Spielwegs.
 
 ### Schritt 5 — Spielen: wer tippt wann
 
-Betreiber: `tisch-start mesa1`. Spielen mehrere Menschen mit, **beantwortet jeder
+Betreiber: `tisch` → `[8]` (Tisch starten; Wortalias `tisch-start`). Spielen
+mehrere Menschen mit, **beantwortet jeder
 weitere Mensch seine persönliche Beitritts-/Zustimmung an seinem eigenen Kanal
 selbst** — seine Taste auf seinem eigenen Terminal entscheidet, der Betreiber
 tippt keine fremde Zustimmung an seiner Tastatur und sein Prozess blockiert auch
@@ -222,9 +240,15 @@ Der normale Abschluss läuft über das HQ, **bevor** es um Stop/Abbruch geht:
   Ergebnisse** jeder Person an — jeder Gast behält seinen eigenen Fortschritt.
 - Eine **optionale Endnotiz** ist ausdrücklich eine **eigene lokale Notiz** der
   jeweiligen Person: kein gemeinsamer Spielstand und keine Modellaktion.
-- Danach nimmt jeder Gast seinen aktuellen Stand über `charaktere` → `3`
-  (**Exportieren**) mit. Der Export liegt als persönliche Save-JSON im eigenen
-  Export-Ordner des Gastes — standardmäßig `<Datenablage>/guests/<GAST_ID>/exports/<GAST_ID>.json`.
+- Direkt nach dem Abschluss zeigt der Client jedem Gast **in seinem eigenen
+  Fenster** eine persönliche, nummerierte **Abschlusskarte**: `[1]` den eigenen
+  Stand exportieren, danach zurück zum Hauptmenü (leere Eingabe oder `zurück`
+  führt ebenfalls dorthin), und als Gast zusätzlich einen weiteren Tisch
+  suchen/beitreten. Jeder Gast bedient seine Karte selbst; der Export entspricht
+  dem `charaktere` → `3`-Weg.
+- So nimmt jeder Gast seinen aktuellen Stand mit. Der Export liegt als
+  persönliche Save-JSON im eigenen Export-Ordner des Gastes — standardmäßig
+  `<Datenablage>/guests/<GAST_ID>/exports/<GAST_ID>.json`.
   Der Client zeigt beim Export den konkreten Pfad an (`Zusaetzlich als Datei gespeichert: …`);
   dieser angezeigte Pfad führt die Mitnahme. Damit steigt dieselbe Person später wieder ein
   (Import über `charaktere` → `2`).

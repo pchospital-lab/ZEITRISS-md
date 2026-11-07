@@ -86,6 +86,33 @@ Produktmodellaufrufe)**. Das ist kein neuer Live-/Mehrfiguren-Reifegrad.
   OS-Prozess** über den normalen Wiedereinstieg regulär beendet — ohne Rollback,
   ohne doppelte Save-/Figuren-/Reflexionswirkung.
 
+### Bediente Spielerführung am lokalen Tisch (Stand 7. November 2026)
+
+Weitere Produktkorrekturen am lokalen Betreiber-/Gast-Tisch, **ohne** LAN und
+**ohne** neue Live-Abnahme. Geführt am **realen Launcher** über die normalen
+Menüs/Eingabekanäle; die KI-Spielleitung lief über einen **deterministischen
+Modelltransport-Rand (null neue kostenpflichtige Produktmodellaufrufe)**. Das
+ist **kein** neuer Live-/Mehrfiguren-Reifegrad.
+
+- **Bediente Nummern-Navigation:** Haupt- und Untermenüs (`charaktere`, `tisch`,
+  Lobby, Abschlusskarte) führen über die angezeigten **Nummern** zu einer
+  tatsächlichen Anschlussaktion — keine Nummer ohne Wirkung. Rohe interne
+  Befehle oder IDs muss ein Spieler nicht kennen; vorhandene Wortaliase bleiben
+  als optionale Experten-Abkürzung erhalten.
+- **Sichtbare Teilnehmer:** Menschen, KI-Personas und die eigene Figur werden in
+  der jeweiligen Ansicht sichtbar geführt, ohne interne Kennungen offenzulegen.
+- **Zwei-Gast-Normalweg mit figurfreiem Betreiber:** Ein Betreiber **ohne eigene
+  Figur** (nicht Leader) führt zwei real gestartete Gasthelfer über **dieselbe**
+  normale Menüführung — **Gast A per Import**, **Gast B per genehmigter
+  Erschaffung** (Anfrage → Betreiberfreigabe → eigener Dialog → persönlicher
+  Save). Beide Gäste bedienen am Ende ihre eigene nummerierte **Abschlusskarte**
+  selbst (Export des eigenen Standes, zurück zum Hauptmenü, als Gast zusätzlich
+  einen weiteren Tisch suchen/beitreten) und nehmen ihren Stand mit; das erneute
+  Laden stimmt mit dem persönlichen Endstand überein. Der Beleg lief über drei
+  vollständig getrennte Originalkanäle (Launcher/Betreiber und beide Gasthelfer).
+- **Ruhige Zeit-Atmosphäre nur in echten Wartephasen** und normal abschaltbar;
+  sie ersetzt keinen Spielinhalt und blendet sich nicht in aktive Züge.
+
 ### Best Effort und SAVECOMPAT
 
 Bis zu drei zusätzliche vollständige Korrekturen werden angefordert; bei
