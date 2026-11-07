@@ -1000,6 +1000,26 @@ class TuiSession:
         # einen rohen `table_key` zu verlangen (der bleibt zusaetzlich als
         # Experten-/Kompatibilitaetsweg gueltig).
         self._last_table_search_offers: list[str] = []
+        # R6-Nachzug (GENERAL-REVIEW.md §3/G-R6-02, 01_NACHZUG.md
+        # Arbeitsblock1 Punkt1b): >0 fuer die GESAMTE Dauer, in der DIESE
+        # Session in (mindestens) einem `_cmd_menu_tisch()`-Aufruf geparkt
+        # ist -- EIN registriertes Gastterminal kann dort auf SEINEM
+        # EIGENEN Thread blockiert bleiben, waehrend ein host-getriebener
+        # Thread auf demselben Terminal (claim-aware) die Abschlusskarte
+        # zeigt/eine Folgeaktion dispatcht, die selbst NOCHMAL (verschachtelt,
+        # anderer Thread, GENAU dieselbe Instanz) `_cmd_menu_tisch()`
+        # aufruft (z.B. die Gastfolge "Tisch suchen/beitreten"). EIN
+        # Zaehler statt eines Bools, weil der verschachtelte Aufruf beim
+        # Zurueckkehren NICHT faelschlich meldet "nicht mehr geparkt", wenn
+        # der AEUSSERE (urspruenglich geparkte) Aufruf tatsaechlich noch
+        # lebt (`+=1` beim Eintritt/`-=1` im `finally`, s. `_cmd_menu_
+        # tisch`). Reine Anzeige-Breadcrumb dieser Sitzung (kein Store,
+        # keine Autoritaet) -- erlaubt `_print_section_completion_card`,
+        # nach der Karte GENAU das Menue erneut zu zeigen, das den naechsten
+        # sichtbaren Tastendruck TATSAECHLICH konsumiert (statt pauschal
+        # `render_boot_menu` zu drucken, waehrend der echte Leser weiterhin
+        # im Tisch-Untermenue haengt).
+        self._tisch_submenu_depth = 0
         # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2):
         # explizite, vom AUFRUFER (Launcher `scripts/mmo_sim.py`, aus
         # tatsaechlich vorhandener Hoststack-Konfiguration -- NICHT aus
@@ -2054,7 +2074,25 @@ class TuiSession:
                 self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
                 continue
 
-    def _cmd_menu_tisch(self) -> None:
+    def _print_tisch_submenu_header(self, show_host_line: bool) -> None:
+        """Gemeinsame Kopfzeile des Tisch-Untermenues -- extrahiert aus
+        `_cmd_menu_tisch` (R6-Nachzug G-R6-02), damit `_print_section_
+        completion_card` nach der Karte GENAU dieselbe Zeile erneut zeigen
+        kann, wenn der tatsaechliche Dispatcher weiterhin dieses
+        Untermenue ist (s. `_tisch_submenu_depth`), statt eines dort
+        irrefuehrenden `render_boot_menu`."""
+        self._print(
+            "Tisch -- [1] Offene Tische suchen  [2] Tisch anfragen  "
+            "[3] Anfrage zurueckziehen  [4] Status/Hostentscheidung ansehen "
+            "(/zurueck fuer Hauptmenue)"
+        )
+        if show_host_line:
+            self._print(
+                "  Betreiber/Host -- [5] Tisch anbieten  [6] Anfrage annehmen  "
+                "[7] Anfrage ablehnen  [8] Tisch starten  [9] Zuschauer/Verlauf ansehen"
+            )
+
+    def _cmd_menu_tisch(self, *, acting_pid: str | None = None) -> None:
         """KISS-Submenue 'Tisch' (R3-Nachzug F1 §1, 02_NACHZUG.md §A):
         bindet den bisher nur als Wortalias erreichbaren Tischdienst
         (`tisch-suchen`/`tisch-anfragen`/`tisch-zurueckziehen`/
@@ -2064,146 +2102,176 @@ class TuiSession:
         die Hostentscheidung sehen.' Dispatcht additiv auf dieselben,
         UNVERAENDERTEN gegateten/ungegateten Methoden (kein zweiter
         Admission-Pfad) -- fuer Host UND Gast gleich erreichbar, da Suche/
-        Anfrage/Ruecknahme/Status ausdruecklich NICHT host-only sind."""
+        Anfrage/Ruecknahme/Status ausdruecklich NICHT host-only sind.
+
+        R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01, 01_NACHZUG.md Arbeitsblock1
+        Punkt1a): neuer optionaler `acting_pid` (Default `None` ->
+        `self.participant_id`, bytegleiches Verhalten fuer JEDEN
+        bestehenden Aufrufer ohne dieses Argument, z.B. `run()`s eigener
+        Worteintrag 'tisch'). NUR `_print_section_completion_card` uebergibt
+        hier die tatsaechliche Kartenperson `pid`, wenn `io is self`
+        (geteilter Bildschirm OHNE eigenes Gastterminal) -- vorher bezog
+        sich jede Aktion in diesem Untermenue IMMER auf `self.
+        participant_id` (die AEUSSERE Person), egal wer gerade an der Karte
+        'Tisch suchen/beitreten' gewaehlt hatte. Jetzt: die Betreiberzeile
+        [5]-[9] erscheint NUR, wenn die tatsaechlich HANDELNDE Person
+        (`acting_pid`) selbst die aeussere, host-faehige Person ist
+        (`effective_host`) -- eine zweite Person am geteilten Terminal
+        bekommt NIE die Hostzeile der ersten. `_cmd_table_request_join`/
+        `_cmd_table_withdraw` binden die tatsaechliche Anfrage/Ruecknahme an
+        `acting_pid`, NICHT an `self.participant_id` (s. dortiger
+        Docstring) -- KEIN globales Umschreiben von `self.participant_id`
+        oder `self._host_capable` (das wuerde parallele Leser/Threads auf
+        dieselbe falsche Person umschalten), nur dieser EINE explizite
+        Parameter wird bis zu den Callees durchgereicht."""
+        acting_pid = self.participant_id if acting_pid is None else acting_pid
+        effective_host = acting_pid == self.participant_id and self._host_capable
         # ZR-VOLLENDUNG-OHNE-LAN-20261106-R1 (01_AUFTRAG §2, 02_ABNAHME V1/V5):
         # die Betreiber-/Hostaktionen (Anbieten/Annehmen/Ablehnen/Starten/
         # Zuschauen) waren bisher NUR als "Experten-/Hostaliase" genannt und
         # damit ohne Quellcode-/Dokusuche nicht auffindbar. Fuer eine
-        # host-faehige Session (`self._host_capable`) stehen sie jetzt als
-        # benannte Menueoptionen [5]-[9] bereit und dispatchen ADDITIV auf
-        # GENAU dieselben, unveraenderten `_require_host`-gegateten Methoden
-        # wie die Wortaliase (kein zweiter Admission-Pfad). Die Gastzeile
-        # [1]-[4] bleibt bytegleich (geschuetzt von
-        # test_r3_f1_tisch_menu_wiring.py); ein reiner Gast sieht die
-        # Hostzeile nicht und wuerde an `_require_host` ohnehin abgewiesen.
-        while True:
-            self._print(
-                "Tisch -- [1] Offene Tische suchen  [2] Tisch anfragen  "
-                "[3] Anfrage zurueckziehen  [4] Status/Hostentscheidung ansehen "
-                "(/zurueck fuer Hauptmenue)"
-            )
-            if self._host_capable:
-                self._print(
-                    "  Betreiber/Host -- [5] Tisch anbieten  [6] Anfrage annehmen  "
-                    "[7] Anfrage ablehnen  [8] Tisch starten  [9] Zuschauer/Verlauf ansehen"
+        # tatsaechlich host-faehige HANDELNDE Person (`effective_host`)
+        # stehen sie jetzt als benannte Menueoptionen [5]-[9] bereit und
+        # dispatchen ADDITIV auf GENAU dieselben, unveraenderten
+        # `_require_host`-gegateten Methoden wie die Wortaliase (kein
+        # zweiter Admission-Pfad). Die Gastzeile [1]-[4] bleibt bytegleich
+        # (geschuetzt von test_r3_f1_tisch_menu_wiring.py); ein reiner Gast
+        # sieht die Hostzeile nicht und wuerde an `_require_host` ohnehin
+        # abgewiesen.
+        self._tisch_submenu_depth += 1
+        try:
+            while True:
+                self._print_tisch_submenu_header(effective_host)
+                text, control = self._readline_with_controls(
+                    "Auswahl: ", context="Tisch-Untermenue", speaker_pid=acting_pid,
                 )
-            text, control = self._readline_with_controls(
-                "Auswahl: ", context="Tisch-Untermenue",
-            )
-            if control in ("zurueck", "abbrechen", "pause"):
-                return
-            choice = text.strip()
-            if choice == "1":
-                self._cmd_table_search([])
-                continue
-            if choice in ("2", "3", "4"):
-                # U2 ("[2] anfragen/[3] zurueckziehen/[4] status loesen
-                # eine NUMMER gegen die zuletzt gezeigten Angebote auf"):
-                # dieselbe Liste, die `_cmd_table_search` zuletzt zeigte --
-                # eine rohe `table_key`-Eingabe bleibt unveraendert als
-                # Experten-/Kompatibilitaetsweg gueltig (kein Pflichtwissen
-                # der Nummer).
-                if self._last_table_search_offers:
-                    self._print(
-                        "Zuletzt gezeigte Tische: "
-                        + ", ".join(
-                            f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
-                        )
-                    )
-                key_raw, key_control = self._readline_with_controls(
-                    "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
-                    context="Tisch-Untermenue",
-                )
-                if key_control in ("zurueck", "abbrechen", "pause"):
+                if control in ("zurueck", "abbrechen", "pause"):
+                    return
+                choice = text.strip()
+                if choice == "1":
+                    self._cmd_table_search([])
                     continue
-                key_raw = key_raw.strip()
-                if not key_raw:
-                    self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
-                    continue
-                if key_raw.isdigit() and 1 <= int(key_raw) <= len(self._last_table_search_offers):
-                    table_key = self._last_table_search_offers[int(key_raw) - 1]
-                else:
-                    table_key = key_raw
-                if choice == "2":
-                    self._cmd_table_request_join([table_key])
-                elif choice == "3":
-                    self._cmd_table_withdraw([table_key])
-                else:
-                    self._cmd_table_status([table_key])
-                continue
-            if self._host_capable and choice in ("5", "6", "7", "8", "9"):
-                if self._last_table_search_offers:
-                    self._print(
-                        "Zuletzt gezeigte Tische: "
-                        + ", ".join(
-                            f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
-                        )
-                    )
-                key_raw, key_control = self._readline_with_controls(
-                    "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
-                    context="Tisch-Untermenue",
-                )
-                if key_control in ("zurueck", "abbrechen", "pause"):
-                    continue
-                key_raw = key_raw.strip()
-                if not key_raw:
-                    self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
-                    continue
-                if key_raw.isdigit() and 1 <= int(key_raw) <= len(self._last_table_search_offers):
-                    table_key = self._last_table_search_offers[int(key_raw) - 1]
-                else:
-                    table_key = key_raw
-                if choice in ("6", "7"):
-                    # U2 ("Host [6] annehmen/[7] ablehnen: offene Anfragen
-                    # als nummerierte Liste zeigen, Gast per Nummer
-                    # waehlen"): reine Lesefunktion (`load_record`, 0
-                    # Writes) auf GENAU denselben Record, den `_cmd_table_
-                    # accept`/`_cmd_table_reject` gleich darauf selbst
-                    # wieder laden -- keine neue Autoritaet, nur Anzeige.
-                    # Ein (noch) unbekannter `table_key` zeigt schlicht
-                    # keine Liste; die rohe `guest_id`-Eingabe bleibt
-                    # unveraendert als Experten-/Kompatibilitaetsweg
-                    # gueltig.
-                    record = table_admission.load_record(self.run_dir, table_key) if self.run_dir else None
-                    open_requests = list(record.get("requests", [])) if record else []
-                    if open_requests:
+                if choice in ("2", "3", "4"):
+                    # U2 ("[2] anfragen/[3] zurueckziehen/[4] status loesen
+                    # eine NUMMER gegen die zuletzt gezeigten Angebote auf"):
+                    # dieselbe Liste, die `_cmd_table_search` zuletzt zeigte --
+                    # eine rohe `table_key`-Eingabe bleibt unveraendert als
+                    # Experten-/Kompatibilitaetsweg gueltig (kein Pflichtwissen
+                    # der Nummer).
+                    if self._last_table_search_offers:
                         self._print(
-                            "Offene Anfragen: "
-                            + ", ".join(f"[{i}] '{g}'" for i, g in enumerate(open_requests, start=1))
+                            "Zuletzt gezeigte Tische: "
+                            + ", ".join(
+                                f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
+                            )
                         )
-                    guest_raw, guest_control = self._readline_with_controls(
-                        "Welcher Gast (Nummer aus der Liste oben oder guest_id)? ",
-                        context="Tisch-Untermenue",
+                    key_raw, key_control = self._readline_with_controls(
+                        "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
+                        context="Tisch-Untermenue", speaker_pid=acting_pid,
                     )
-                    if guest_control in ("zurueck", "abbrechen", "pause"):
+                    if key_control in ("zurueck", "abbrechen", "pause"):
                         continue
-                    guest_raw = guest_raw.strip()
-                    if not guest_raw:
-                        self._print("Kein guest_id eingegeben -- zurueck zum Tisch-Untermenue.")
+                    key_raw = key_raw.strip()
+                    if not key_raw:
+                        self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
                         continue
-                    if guest_raw.isdigit() and 1 <= int(guest_raw) <= len(open_requests):
-                        guest_id = open_requests[int(guest_raw) - 1]
+                    if key_raw.isdigit() and 1 <= int(key_raw) <= len(self._last_table_search_offers):
+                        table_key = self._last_table_search_offers[int(key_raw) - 1]
                     else:
-                        guest_id = guest_raw
-                    if choice == "6":
-                        self._cmd_table_accept([table_key, guest_id])
+                        table_key = key_raw
+                    if choice == "2":
+                        self._cmd_table_request_join([table_key], acting_pid=acting_pid)
+                    elif choice == "3":
+                        self._cmd_table_withdraw([table_key], acting_pid=acting_pid)
                     else:
-                        self._cmd_table_reject([table_key, guest_id])
+                        self._cmd_table_status([table_key])
                     continue
-                if choice == "5":
-                    self._cmd_table_offer([table_key])
-                elif choice == "8":
-                    self._cmd_table_start([table_key])
-                else:
-                    self._cmd_table_zuschauer([table_key])
-                continue
-            # U2 ("konsistentes Zurueck/Tippfehler"): eine ungueltige
-            # Auswahl zeigt jetzt dasselbe Tisch-Untermenue erneut, statt
-            # den gesamten Aufbau unbegruendet bis ins Hauptmenue zu
-            # verlassen (Vorbild `_cmd_menu_charaktere`). Jede GUELTIGE
-            # Auswahl oben bleibt unveraendert (eigenes `continue`/Dispatch
-            # pro Zweig).
-            self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
+                if effective_host and choice in ("5", "6", "7", "8", "9"):
+                    if self._last_table_search_offers:
+                        self._print(
+                            "Zuletzt gezeigte Tische: "
+                            + ", ".join(
+                                f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
+                            )
+                        )
+                    key_raw, key_control = self._readline_with_controls(
+                        "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
+                        context="Tisch-Untermenue", speaker_pid=acting_pid,
+                    )
+                    if key_control in ("zurueck", "abbrechen", "pause"):
+                        continue
+                    key_raw = key_raw.strip()
+                    if not key_raw:
+                        self._print("Kein table_key eingegeben -- zurueck zum Tisch-Untermenue.")
+                        continue
+                    if key_raw.isdigit() and 1 <= int(key_raw) <= len(self._last_table_search_offers):
+                        table_key = self._last_table_search_offers[int(key_raw) - 1]
+                    else:
+                        table_key = key_raw
+                    if choice in ("6", "7"):
+                        # U2 ("Host [6] annehmen/[7] ablehnen: offene Anfragen
+                        # als nummerierte Liste zeigen, Gast per Nummer
+                        # waehlen"): reine Lesefunktion (`load_record`, 0
+                        # Writes) auf GENAU denselben Record, den `_cmd_table_
+                        # accept`/`_cmd_table_reject` gleich darauf selbst
+                        # wieder laden -- keine neue Autoritaet, nur Anzeige.
+                        # Ein (noch) unbekannter `table_key` zeigt schlicht
+                        # keine Liste; die rohe `guest_id`-Eingabe bleibt
+                        # unveraendert als Experten-/Kompatibilitaetsweg
+                        # gueltig.
+                        record = table_admission.load_record(self.run_dir, table_key) if self.run_dir else None
+                        open_requests = list(record.get("requests", [])) if record else []
+                        if open_requests:
+                            self._print(
+                                "Offene Anfragen: "
+                                + ", ".join(f"[{i}] '{g}'" for i, g in enumerate(open_requests, start=1))
+                            )
+                        guest_raw, guest_control = self._readline_with_controls(
+                            "Welcher Gast (Nummer aus der Liste oben oder guest_id)? ",
+                            context="Tisch-Untermenue", speaker_pid=acting_pid,
+                        )
+                        if guest_control in ("zurueck", "abbrechen", "pause"):
+                            continue
+                        guest_raw = guest_raw.strip()
+                        if not guest_raw:
+                            self._print("Kein guest_id eingegeben -- zurueck zum Tisch-Untermenue.")
+                            continue
+                        if guest_raw.isdigit() and 1 <= int(guest_raw) <= len(open_requests):
+                            guest_id = open_requests[int(guest_raw) - 1]
+                        else:
+                            guest_id = guest_raw
+                        if choice == "6":
+                            self._cmd_table_accept([table_key, guest_id])
+                        else:
+                            self._cmd_table_reject([table_key, guest_id])
+                        continue
+                    if choice == "5":
+                        self._cmd_table_offer([table_key])
+                    elif choice == "8":
+                        self._cmd_table_start([table_key])
+                    else:
+                        self._cmd_table_zuschauer([table_key])
+                    continue
+                # U2 ("konsistentes Zurueck/Tippfehler"): eine ungueltige
+                # Auswahl zeigt jetzt dasselbe Tisch-Untermenue erneut, statt
+                # den gesamten Aufbau unbegruendet bis ins Hauptmenue zu
+                # verlassen (Vorbild `_cmd_menu_charaktere`). Jede GUELTIGE
+                # Auswahl oben bleibt unveraendert (eigenes `continue`/Dispatch
+                # pro Zweig).
+                self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
+        finally:
+            # R6-Nachzug (G-R6-02): egal ob regulaer ('zurueck'/'abbrechen'/
+            # 'pause') oder per EndOfInput (EOF) verlassen -- der Zaehler
+            # muss IMMER dekrementiert werden, sonst bliebe eine Session,
+            # die dieses Untermenue bereits verlassen hat, faelschlich als
+            # "noch dort geparkt" markiert. `-=1` statt `= False`: ein
+            # VERSCHACHTELTER Aufruf (z.B. die host-getriebene Gastfolge
+            # waehrend der aeussere, urspruenglich geparkte Gast-Thread noch
+            # in SEINEM EIGENEN `_cmd_menu_tisch()`-Read haengt) darf beim
+            # eigenen Verlassen NICHT den aeusseren, noch lebenden Aufruf
+            # als "nicht mehr geparkt" melden (s. `_tisch_submenu_depth`-
+            # Docstring in `__init__`).
+            self._tisch_submenu_depth -= 1
 
     _INTRO_LINES = (
         "  1) Die Spielleitung (SL) fuehrt die Welt -- du entscheidest deine Figur.",
@@ -5370,7 +5438,7 @@ class TuiSession:
                 f"roster={record['roster']} offene Anfragen={record['requests']}"
             )
 
-    def _cmd_table_request_join(self, args: list[str]) -> None:
+    def _cmd_table_request_join(self, args: list[str], *, acting_pid: str | None = None) -> None:
         """Gast-erlaubt, NICHT gegatet (design.md §1 `request_join`).
 
         R3-Nachzug (F1 §1, 02_NACHZUG.md §A, independent-r2-review.md F1
@@ -5386,7 +5454,16 @@ class TuiSession:
         ID-Admission-Buchung wie bisher (unveraendertes Verhalten fuer den
         reinen Suche-/Anfrage-/Status-Probe-Fall ohne eigenen Bestand,
         s. `test_f1_narrow_guest_connector_private_catalog_never_touches_
-        host_catalog`)."""
+        host_catalog`).
+
+        R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01): neuer optionaler
+        `acting_pid` (Default `None` -> `self.participant_id`, bytegleich
+        fuer JEDEN bestehenden Aufrufer, z.B. den Wortalias 'tisch-
+        anfragen'). `_cmd_menu_tisch` uebergibt hier die tatsaechlich
+        HANDELNDE Person -- die Anfrage/eigene Figur/Save gehoeren jetzt
+        IMMER dieser Person, nicht pauschal der aeusseren `self.
+        participant_id` (geteilter Bildschirm, zweite Person)."""
+        acting_pid = self.participant_id if acting_pid is None else acting_pid
         if self.run_dir is None:
             self._print("Tisch-Anfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
             return
@@ -5394,7 +5471,7 @@ class TuiSession:
         if table_key is None:
             return
         try:
-            own_offer = self._resolve_member(self.participant_id)
+            own_offer = self._resolve_member(acting_pid)
         except _ActiveSaveUnresolved:
             self._print(
                 "Tisch-Anfrage abgelehnt: dein aktuell veroeffentlichter Spielstand ist gerade "
@@ -5402,14 +5479,14 @@ class TuiSession:
             )
             return
         try:
-            record = table_admission.request_join(self.run_dir, table_key=table_key, guest_id=self.participant_id)
+            record = table_admission.request_join(self.run_dir, table_key=table_key, guest_id=acting_pid)
         except table_admission.TableAdmissionError as e:
             self._print(f"Tisch-Anfrage abgelehnt: {e}")
             return
         if own_offer is not None:
             own_save, own_chrononaut_id = own_offer
             _write_table_guest_offer(
-                self.run_dir, table_key, self.participant_id,
+                self.run_dir, table_key, acting_pid,
                 chrononaut_id=own_chrononaut_id, save=own_save,
             )
             self._print(
@@ -5419,8 +5496,13 @@ class TuiSession:
             return
         self._print(f"Anfrage an Tisch '{table_key}' gestellt (offene Anfragen: {record['requests']}).")
 
-    def _cmd_table_withdraw(self, args: list[str]) -> None:
-        """Gast-erlaubt, NICHT gegatet (design.md §1 `withdraw_request`)."""
+    def _cmd_table_withdraw(self, args: list[str], *, acting_pid: str | None = None) -> None:
+        """Gast-erlaubt, NICHT gegatet (design.md §1 `withdraw_request`).
+
+        R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01): neuer optionaler
+        `acting_pid` (Default `None` -> `self.participant_id`, s. `_cmd_
+        table_request_join`-Docstring -- dieselbe Begruendung)."""
+        acting_pid = self.participant_id if acting_pid is None else acting_pid
         if self.run_dir is None:
             self._print("Anfrage-Ruecknahme erfordert eine konfigurierte Laufumgebung (run_dir).")
             return
@@ -5428,7 +5510,7 @@ class TuiSession:
         if table_key is None:
             return
         try:
-            record = table_admission.withdraw_request(self.run_dir, table_key=table_key, guest_id=self.participant_id)
+            record = table_admission.withdraw_request(self.run_dir, table_key=table_key, guest_id=acting_pid)
         except table_admission.TableAdmissionError as e:
             self._print(f"Anfrage-Ruecknahme abgelehnt: {e}")
             return
@@ -6427,12 +6509,25 @@ class TuiSession:
         # U1-Teil-B, `_SetupStepBack`), ohne die vorhandene Nummern-/
         # 'neu:'-Syntax oder die oben gezeigte Teilnehmerliste zu aendern.
         registry = ParticipantRegistry(self._local_round_registry_dir())
+        # R6-Nachzug (GENERAL-REVIEW.md §5/01_NACHZUG.md Arbeitsblock2
+        # Punkt2c "keine weiteren"/"ohne KI" bewusst erreichbar): nur bei
+        # einer ECHTEN Vorauswahl (mehr als nur `self.participant_id`) ist
+        # 'leer' bereits durch 'behalten' belegt -- ein bewusstes
+        # Zuruecksetzen auf 'nur du' braucht deshalb ein EIGENES, von
+        # 'leer' unterscheidbares Wort. 'keine weiteren' ist die klare
+        # vorhandene Konvention (die angezeigte Nummer '[0]' fuer dich
+        # selbst gehoert NICHT zur Nummernliste 1..n der ANDEREN, eine
+        # '0'-Eingabe bleibt deshalb unveraendert als unbekannte Auswahl
+        # abgewiesen statt stillschweigend als Abwahl missverstanden zu
+        # werden).
+        deselect_hint = ", 'keine weiteren' = bewusst auf nur dich zuruecksetzen" if has_prior_selection else ""
         empty_hint = "leer = aktuelle Auswahl behalten (s.o.)" if has_prior_selection else "leer = nur du"
         while True:
             try:
                 raw, control = self._readline_with_controls(
                     "Weitere Menschen an diesem Geraet -- vorhandene Nummern kommagetrennt "
-                    f"ODER 'neu:<Anzeigename>' fuer eine bewusste Neuregistrierung, {empty_hint}: ",
+                    f"ODER 'neu:<Anzeigename>' fuer eine bewusste Neuregistrierung, {empty_hint}"
+                    f"{deselect_hint}: ",
                     context="Weitere Menschen waehlen",
                 )
             except EndOfInput:
@@ -6444,6 +6539,8 @@ class TuiSession:
                 self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
                 return None
             raw = raw.strip()
+            if has_prior_selection and raw.casefold() in ("keine weiteren", "keine"):
+                return [self.participant_id]
             selected = [self.participant_id]
             if not raw:
                 return current if has_prior_selection else selected
@@ -6842,11 +6939,20 @@ class TuiSession:
                 "Keine eigene KI-Spielgemeinschaft bekannt -- optional ueber 'Spielen > Meine "
                 "KI-Spielgemeinschaft' anlegen; eine freie Persona-ID bleibt hier trotzdem moeglich."
             )
+        # R6-Nachzug (GENERAL-REVIEW.md §5/01_NACHZUG.md Arbeitsblock2
+        # Punkt2c "ohne KI" bewusst erreichbar): nur bei einer ECHTEN
+        # NICHTLEEREN Vorauswahl (`current` selbst nicht leer -- eine
+        # bereits vorher bewusst leere Auswahl `current == []` ist schon
+        # 'ohne KI', 'leer' behaelt sie unveraendert) ist 'leer' bereits
+        # durch 'behalten' belegt und braucht ein eigenes Wort fuer das
+        # bewusste Zuruecksetzen.
+        has_nonempty_prior = bool(current)
+        deselect_ai_hint = ", 'ohne KI' = bewusst alle KI-Mitspieler abwaehlen" if has_nonempty_prior else ""
         empty_ai_hint = "leer = aktuelle Auswahl behalten (s.o.)" if has_prior_selection else "leer = keine"
         try:
             raw, control = self._readline_with_controls(
                 "KI-Mitspieler (Nummer/Name aus der Liste oder Persona-ID, leerzeichengetrennt, "
-                f"{empty_ai_hint}): ",
+                f"{empty_ai_hint}{deselect_ai_hint}): ",
                 context="KI-Mitspieler waehlen",
             )
         except EndOfInput:
@@ -6858,6 +6964,8 @@ class TuiSession:
             self._print("Einrichtung abgebrochen -- kein Spielstart, keine Aenderung.")
             return None
         raw = raw.strip()
+        if has_nonempty_prior and raw.casefold() in ("ohne ki", "ohne", "keine"):
+            return []
         if not raw and has_prior_selection:
             return current
         tokens = [t for t in raw.split() if t]
@@ -8841,7 +8949,9 @@ class TuiSession:
             except table_admission.TableAdmissionError:
                 pass
 
-    def _dispatch_completion_card_choice(self, io, actions: list[tuple[str, object]]) -> None:
+    def _dispatch_completion_card_choice(
+        self, io, actions: list[tuple[str, object]], *, speaker_pid: str | None = None,
+    ) -> None:
         """R4 U3 (01_NACHZUG.md U3 Punkt 3, PLAYER-UX-REVIEW.md F3
         "DRUCKEN ... LESEN/dispatchen aber keine Auswahl"): gemeinsamer
         Lese-/Dispatch-Rumpf fuer die persoenliche UND die Betreiber-
@@ -8880,7 +8990,18 @@ class TuiSession:
         zweiter `bypass_claim`-Parameter an jeder verschachtelten Methode
         noetig, UND `io`s eigener Menue-Loop bleibt waehrenddessen
         zuverlaessig geparkt statt mit der Folgeaktion um dieselbe Zeile zu
-        konkurrieren."""
+        konkurrieren.
+
+        R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01, 01_NACHZUG.md Arbeitsblock1
+        Punkt1a "Der Karten-Read reicht zudem keinen `speaker_pid` an die
+        /stand-Kontextsteuerung weiter"): neuer optionaler `speaker_pid`
+        (Default `None` -> bytegleich zum bisherigen Verhalten fuer den
+        einzigen anderen Aufrufer, die figurfreie Betreiberkarte, die hier
+        `speaker_pid=None` nie setzt). `_print_section_completion_card`
+        uebergibt die tatsaechliche Kartenperson `pid` -- tippt diese an
+        EXAKT diesem Read '/stand' (z.B. am geteilten Bildschirm, `io is
+        self`), zeigt `_readline_with_controls` jetzt IHREN eigenen Stand,
+        nicht pauschal `io.participant_id` (die aeussere Person)."""
         claims_guest_terminal = io is not self
         if claims_guest_terminal:
             with io._terminal_read_lock:
@@ -8896,7 +9017,7 @@ class TuiSession:
                     # warten (Deadlock).
                     raw, control = io._readline_with_controls(
                         "Auswahl (Nummer, leer/zurueck = Hauptmenue): ", context="Abschlusskarte",
-                        bypass_claim=True,
+                        speaker_pid=speaker_pid, bypass_claim=True,
                     )
                 except EndOfInput:
                     return
@@ -8996,7 +9117,16 @@ class TuiSession:
         if is_guest_follow_up:
             actions.append((
                 "Tisch suchen/beitreten (neues zulaessiges Angebot)",
-                lambda: io._cmd_menu_tisch(),
+                # R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01): `acting_pid=pid`
+                # -- OHNE dies wuerde `_cmd_menu_tisch()` bei `io is self`
+                # (geteilter Bildschirm, KEIN eigenes Gastterminal) auf
+                # `self.participant_id` (die AEUSSERE Person) zurueckfallen
+                # und deren Hostzeile/Figur statt `pid`s eigener binden
+                # (s. `_cmd_menu_tisch`-Docstring). Fuer ein registriertes
+                # Gastterminal (`io is not self`) ist `io.participant_id`
+                # ohnehin bereits `pid` -- dort bytegleich zum bisherigen
+                # Verhalten.
+                lambda: io._cmd_menu_tisch(acting_pid=pid),
             ))
         else:
             actions.append((
@@ -9005,7 +9135,11 @@ class TuiSession:
             ))
         for i, (label, _handler) in enumerate(actions, start=1):
             io._print(f"  {i}) {label}")
-        self._dispatch_completion_card_choice(io, actions)
+        # R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01): `speaker_pid=pid`
+        # reicht die Kartenperson bis zum Karten-Read selbst durch, damit
+        # ein an DIESEM Read eingegebenes '/stand' `pid`s eigenen Stand
+        # zeigt (s. `_dispatch_completion_card_choice`-Docstring).
+        self._dispatch_completion_card_choice(io, actions, speaker_pid=pid)
         # R5 FIX1 (01_NACHZUG.md Arbeitsblock 1 Punkt 2, "Fokus kontrolliert
         # zurueckgeben und das zustaendige Menue tatsaechlich wieder
         # anzeigen"): `io`s eigener Menue-Loop-Thread (`run()`) ist fuer die
@@ -9015,17 +9149,35 @@ class TuiSession:
         # Menue, sobald die Karte/Folgeaktion zurueckkehrt -- NUR fuer ein
         # registriertes Gastterminal (`io is not self`) ist das relevant;
         # `io is self` kehrt ohnehin bytegleich in densselben `run()`-Thread/
-        # -Loop zurueck, der sein Menue selbst erneut druckt. Druckt hier
-        # EXAKT dieselbe Quelle wie `run()`s eigener Menueausgabe (`render_
-        # boot_menu`/`_own_table_status_lines`), nur auf `io` statt `self`
-        # -- kein neuer Anzeige-/Navigationspfad.
+        # -Loop zurueck, der sein Menue selbst erneut druckt.
+        #
+        # R6-Nachzug (GENERAL-REVIEW.md §3/G-R6-02, 01_NACHZUG.md
+        # Arbeitsblock1 Punkt1b "sichtbare Ebene != wirklicher Dispatcher"):
+        # war `io`s EIGENER Thread (`run()`) VOR dieser Karte bereits in
+        # SEINEM EIGENEN `_cmd_menu_tisch()`-Lesezyklus geparkt (`io.
+        # _tisch_submenu_depth > 0`), bleibt dessen blockierender Read -- NICHT
+        # `run()`s Toplevel-Read -- der tatsaechliche naechste Konsument
+        # jeder hier getippten Zahl. Ein pauschal gedrucktes `render_boot_
+        # menu` waere dann FALSCH ("1 Fortsetzen" sichtbar, aber "Offene
+        # Tische suchen" wirklich ausgefuehrt). Druckt in diesem Fall
+        # stattdessen GENAU dieselbe Kopfzeile, die `_cmd_menu_tisch` selbst
+        # vor jedem ihrer Reads zeigt (`_print_tisch_submenu_header`,
+        # dieselbe Quelle, kein neuer Anzeigepfad) -- sichtbare Ebene und
+        # wirklicher Dispatcher stimmen damit wieder zusammen. Nur OHNE
+        # diesen geparkten Zustand bleibt das bisherige `render_boot_menu`
+        # (EXAKT dieselbe Quelle wie `run()`s eigener Menueausgabe) korrekt,
+        # weil dort `run()`s eigener Toplevel-Read tatsaechlich der naechste
+        # Konsument ist.
         if io is not self:
-            io_resume = io._build_resume_card()
-            io._print(render_boot_menu(
-                io_resume, host_capable=io._host_capable,
-                table_status_lines=io._own_table_status_lines(),
-                participant_id=io.participant_id,
-            ))
+            if io._tisch_submenu_depth > 0:
+                io._print_tisch_submenu_header(io._host_capable)
+            else:
+                io_resume = io._build_resume_card()
+                io._print(render_boot_menu(
+                    io_resume, host_capable=io._host_capable,
+                    table_status_lines=io._own_table_status_lines(),
+                    participant_id=io.participant_id,
+                ))
 
     def _print_operator_table_completion_card(self, table, operator_table_key: str | None) -> None:
         """U3c (R3 Stage 2, 01_NACHZUG §U3c "Betreiber ohne eigene Figur
@@ -9717,12 +9869,40 @@ class TuiSession:
             decided = decision.get("decision") if isinstance(decision, dict) else None
             if decided == "stopped":
                 self._finalize_genuine_table_abort(lobby, table, operator_table_key)
-                self._print(
+                # R6-Nachzug (GENERAL-REVIEW.md §4/G-R6-03, 01_NACHZUG.md
+                # Arbeitsblock3): derselbe Wortlaut wie bisher, NUR einmal
+                # gebaut, kein neuer Textinhalt -- vorher ging dieser
+                # endgueltige Verwurf NUR an den Betreiberkanal (`self.
+                # _print`). Ein betroffener Gast MIT eigenem registriertem
+                # Terminal (`io is not self`) blieb dadurch unverstanden am
+                # Aktionsprompt/Zeitgedanken stehen und sprang im Original
+                # direkt in die naechste Retry-Eingabe, ohne je zu erfahren,
+                # dass dieser Abschnitt bereits vorbei ist (02_ABNAHME.md §C).
+                # Reuse der bereits oben gelesenen `decision`-Autoritaet --
+                # keine zweite Stop-/Adoptionsautoritaet, kein neuer Call.
+                stop_message = (
                     f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) -- durch "
                     "Betreiber-Stop VOR der Entscheidung wirklich verworfen: ENDGUELTIG, kein "
                     "Fortsetzen moeglich. Betroffene eigene Figurenbindung freigegeben; erneute "
                     "Tischsuche/-anfrage ueber den normalen Produktweg moeglich."
                 )
+                self._print(stop_message)
+                # Dieselbe Nachricht JETZT auch an jeden betroffenen
+                # Gastkanal (`io is not self`) -- dieselbe Filterformel wie
+                # unten bei der Erfolgskarte (`drivers.items()`, NUR
+                # tatsaechliche menschliche Tischmitglieder, s. dort):
+                # Betreiber/Zuschauer bleiben unveraendert ausgeschlossen,
+                # `io is self` (Betreiber selbst ODER geteilter Bildschirm
+                # ohne eigenes Gastterminal) sieht die Nachricht bereits
+                # ueber den `self._print` oben (dasselbe physische
+                # Terminal) -- kein Doppeldruck.
+                for _stop_pid, _stop_driver in drivers.items():
+                    if not getattr(_stop_driver, "is_human_driver", False):
+                        continue
+                    _stop_io = self._table_guest_terminals.get(_stop_pid, self)
+                    if _stop_io is self:
+                        continue
+                    _stop_io._print(stop_message)
             elif decided == "plan_committed":
                 self._print(
                     f"Fortschritt bereits angenommen, Restabschluss (Reflexion/Finalisierung) "
