@@ -174,9 +174,16 @@ wählst über die angezeigten **Nummern**:
 - **Gast hat schon einen Save:** `charaktere` → `[2]` (**Importieren**), wie in
   [Spielerstart](spielerstart.md) beschrieben.
 - **Gast hat noch keine Figur** (nutzt die Spielleitung des Betreibers, macht
-  selbst **keine** Modellaufrufe):
+  selbst **keine** Modellaufrufe). **Voraussetzung:** der Betreiber muss
+  vorher **einmal** `tisch` → `[5]` (**Tisch anbieten**, s. Schritt 4 — auch
+  **figurfrei** möglich) ausgeführt haben, sonst ist die Betreiberauswahl
+  unten leer:
   - Gast: `charaktere` → `[4]` (**Gast-Erschaffungsanfrage an Betreiber
-    stellen**) und wählt den Betreiber aus der angezeigten Auswahl.
+    stellen**) und wählt den Betreiber aus der angezeigten Auswahl. Ist die
+    Liste leer, nennt der Client die fehlende Voraussetzung und den
+    nächsten Schritt (kurz mit dem Betreiber abstimmen, danach erneut
+    aufrufen) — eine rohe Betreiber-ID bleibt zusätzlich als Expertenweg
+    möglich, ist aber nicht der normale Weg.
   - Betreiber: `charaktere` → `[4]` (**Gast-Erschaffungsanfragen entscheiden**),
     wählt die Anfrage per Nummer und nimmt sie mit `[1]` an (oder lehnt ab).
   - Gast: `charaktere` → `[5]` (**Eigenen Erschaffungsdialog fortsetzen**) — der
@@ -225,8 +232,11 @@ verkleinerte Runde.
 
 Danach läuft der normale Rundenablauf. Vor jedem Prompt steht eine
 Empfängerzeile: sie nennt, wessen Zug ansteht. Jeder Mensch tippt in seinem
-**eigenen** Fenster — es gibt keine Eingabekollision, weil jeder seinen eigenen
-Kanal hat. Jeder Gast sieht die für ihn bestimmte öffentliche SL-Vorgeschichte
+**eigenen** Fenster. Eingabekollisionen auf demselben Kanal (z. B. während
+der Betreiber kurz über den Kanal eines Gastes eine Abschlusskarte oder ein
+Untermenü bedient) verhindert die eingebaute Claim-Koordination — genau ein
+zuständiger Leser je Kanal zur gleichen Zeit, kein getrenntes Fenster allein
+reicht dafür aus. Jeder Gast sieht die für ihn bestimmte öffentliche SL-Vorgeschichte
 und neue öffentliche Ausgaben in seiner eigenen Ansicht, auch wenn vorher ein
 anderer Gast gehandelt hat. Mit `/stand` sieht die gerade tippende Person ihren
 eigenen Stand, `?`/`/hilfe` zeigt die Steuerzeilen, ohne einen Zug zu verbrauchen.
@@ -242,7 +252,7 @@ Der normale Abschluss läuft über das HQ, **bevor** es um Stop/Abbruch geht:
   jeweiligen Person: kein gemeinsamer Spielstand und keine Modellaktion.
 - Direkt nach dem Abschluss zeigt der Client jedem Gast **in seinem eigenen
   Fenster** eine persönliche, nummerierte **Abschlusskarte**: `[1]` den eigenen
-  Stand exportieren, danach zurück zum Hauptmenü (leere Eingabe oder `zurück`
+  Stand exportieren, danach zurück zum Hauptmenü (leere Eingabe oder `/zurueck`
   führt ebenfalls dorthin), und als Gast zusätzlich einen weiteren Tisch
   suchen/beitreten. Jeder Gast bedient seine Karte selbst; der Export entspricht
   dem `charaktere` → `3`-Weg.

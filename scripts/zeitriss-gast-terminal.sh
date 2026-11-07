@@ -77,7 +77,8 @@ cat <<EOF
  Kanaele    : Eingabe  -> $IN_FIFO
               Anzeige  <- $OUT_FIFO   (Fragen/Bestaetigungen erscheinen hier)
  Figur      : vorhandenen Save importieren -> 'charaktere' dann '2'
-              noch keine Figur -> 'gast-erschaffung-anfragen BETREIBER_ID'
+              noch keine Figur -> 'charaktere' dann '4' (Betreiber aus der
+              angezeigten Auswahl waehlen, keine rohe ID noetig)
  Hilfe      : '?' oder '/hilfe' zeigt die Steuerzeilen (verbraucht keinen Zug)
               '/stand' zeigt deinen eigenen Stand
  Naechster  : auf die unten eingeblendete Frage/Empfaengerzeile warten,

@@ -193,7 +193,7 @@ gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn und
 schließt damit den laufenden Abschnitt ab. Danach zeigt dir der Client deine
 persönliche **Abschlusskarte** mit den nächsten Schritten als nummerierte
 Auswahl — den eigenen Stand exportieren und zurück zum Hauptmenü (eine leere
-Eingabe oder `zurück` führt ebenfalls dorthin). Spielst du als Gast an einem
+Eingabe oder `/zurueck` führt ebenfalls dorthin). Spielst du als Gast an einem
 Tisch mit, kommt eine zulässige Folgeaktion wie einen weiteren Tisch
 suchen/beitreten hinzu. `!bogen` zeigt nur den Charakterbogen an und
 speichert nicht. In Briefing, Einsatz und Debrief ist Speichern gesperrt
