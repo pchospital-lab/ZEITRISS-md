@@ -96,7 +96,7 @@ def test_fortsetzen_visible_and_functional_for_solo_figure_without_community():
         )
         card = session._build_resume_card()
         menu_text = render_boot_menu(card)
-        assert "[fortsetzen] Fortsetzen" in menu_text, menu_text
+        assert ") Fortsetzen  [fortsetzen]" in menu_text, menu_text
         assert "None" not in menu_text, menu_text
 
         session._cmd_menu_fortsetzen()

@@ -72,7 +72,7 @@ def test_resume_card_shows_real_community_id_after_real_c_command():
 
         text = render_boot_menu(card)
         assert "Fortsetzen: community-p1 · p1" in text, text
-        assert "[fortsetzen] Fortsetzen" in text, text
+        assert ") Fortsetzen  [fortsetzen]" in text, text
 
 
 def test_resume_card_different_participant_without_own_community_stays_none():

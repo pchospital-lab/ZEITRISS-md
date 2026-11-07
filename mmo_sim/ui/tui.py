@@ -98,6 +98,43 @@ class ResumeCard:
     authority_unresolved: bool = False
 
 
+def _boot_has_resume(resume: "ResumeCard | None") -> bool:
+    """ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-20261107-R4 (U1): EINE Stelle fuer die
+    'gibt es eine bediente Fortsetzen-Karte?'-Entscheidung -- `render_boot_menu`
+    (Anzeige) UND `run()` (Nummerndispatch) teilen sie, damit die sichtbare
+    Nummernliste und die Nummern->Aktion-Abbildung NIE auseinanderlaufen."""
+    return resume is not None and bool(resume.community_id or resume.chrononaut_id)
+
+
+def boot_menu_entries(has_resume: bool, host_capable: bool) -> list[tuple[str, str]]:
+    """ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-20261107-R4 (U1, GENERAL-REVIEW F1):
+    DIE geordnete Wahrheitsquelle der sichtbaren Hauptmenue-Eintraege als
+    `(choice_key, label)`-Liste in Anzeigereihenfolge. `render_boot_menu`
+    nummeriert sie (1..n), `run()` baut exakt dieselbe Liste und bildet eine
+    getippte Nummer auf denselben `choice_key` ab, den auch der Wortalias
+    benutzt. Dadurch hat JEDE sichtbare Nummer garantiert dieselbe reale,
+    rollengerechte Aktion wie ihr Wort/Buchstabe -- kein zweiter Dispatchpfad,
+    keine Nummer ohne Handler, keine Nummer/Anzeige-Drift. Reine Anzeige-/
+    Reihenfolgenquelle, keine neue Autoritaet."""
+    entries: list[tuple[str, str]] = []
+    if has_resume:
+        entries.append(("fortsetzen", "Fortsetzen"))
+    if host_capable:
+        entries.append(("spielen", "Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)"))
+    else:
+        entries.append((
+            "spielen",
+            "Spielen -- als Gast NICHT verfuegbar (Solo/KI-Verwaltung sind Hostaktionen); "
+            "zum Mitspielen die Tisch-Option waehlen",
+        ))
+    entries.append(("charaktere", "Charaktere (waehlen/erschaffen, importieren, exportieren)"))
+    entries.append(("tisch", "Tisch suchen / anfragen (bei einem anderen Host mitspielen)"))
+    entries.append(("registrieren", "Neue lokale Person registrieren (eigene Figur unter ihrer ID)"))
+    entries.append(("einstellungen", "Einstellungen"))
+    entries.append(("beenden", "Beenden"))
+    return entries
+
+
 def render_boot_menu(
     resume: ResumeCard | None, *, host_capable: bool = True,
     table_status_lines: list[str] | None = None,
@@ -149,7 +186,7 @@ def render_boot_menu(
     # blieb dadurch von "Fortsetzen" dauerhaft ausgeschlossen, obwohl eine
     # echte Figur-Save vorhanden ist (`_cmd_local_round([])` prueft intern
     # ohnehin die richtige Autoritaet fuer beide Faelle).
-    has_resume = resume is not None and bool(resume.community_id or resume.chrononaut_id)
+    has_resume = _boot_has_resume(resume)
     lines = ["ZEITRISS MMO-Sim", ""]
     if participant_id is not None:
         own_chrono = resume.chrononaut_id if resume is not None else None
@@ -175,44 +212,25 @@ def render_boot_menu(
         lines.extend(table_status_lines)
         lines.append("")
     lines.append("Hauptmenue:")
-    if has_resume:
-        lines.append("  [fortsetzen] Fortsetzen")
-        stand = resume.last_valid_save_summary or "kein gueltiger Stand"
-        offen = f" (Abschnitt {resume.open_section_id} unterbrochen)" if resume.open_section_id else ""
-        chrono_display = resume.chrononaut_id if resume.chrononaut_id else "kein eigener Chrononaut"
-        # R2-Folgefix: `community_id` kann jetzt (Solo-Figur ohne Community)
-        # real `None` sein -- kein literales "None" in der Anzeige (UX22).
-        community_display = resume.community_id if resume.community_id else "keine Community"
-        lines.append(f"  Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
-    if host_capable:
-        lines.append("  [spielen] Spielen (Runde zusammenstellen / Meine KI-Spielgemeinschaft)")
-    else:
-        # ZR-VOLLENDUNG-OHNE-LAN-20261106-R3 (01_NACHZUG.md U1 "Rollen-
-        # Gating"): '[spielen]' fuehrt AUSSCHLIESSLICH zu Hostaktionen
-        # (Solo/Einladen/KI-Verwaltung/Catch-up -- alle hinter `_require_
-        # host`, s. `_cmd_local_round`) -- fuer einen reinen Gast sieht die
-        # Zeile sonst wie eine normale spielbare Option aus, die erst tief
-        # im Untermenue am Host-Gate scheitert. Bleibt sichtbar (kein
-        # Verschwinden ohne Erklaerung), aber EHRLICH als nicht verfuegbar
-        # samt Grund + naechstem Schritt markiert, statt scheinbar
-        # spielbar zu wirken -- derselbe `[tisch]`-Weg bleibt der echte
-        # Gastweg zum Mitspielen.
-        lines.append(
-            "  [spielen] Spielen -- als Gast NICHT verfuegbar (Solo/KI-Verwaltung sind "
-            "Hostaktionen); zum Mitspielen: [tisch]"
-        )
-    lines.append("  [charaktere] Charaktere (waehlen/erschaffen, importieren, exportieren)")
-    # R3-Nachzug (F1 §1, 02_NACHZUG.md §A "Binde den vorhandenen Suche-/
-    # Anfrage-Baustein verstaendlich in die normale Gastfuehrung ein"):
-    # der vorhandene Tischdienst (`tisch-suchen`/`tisch-anfragen`/...) war
-    # bisher NUR als Wortalias erreichbar, nicht im normalen Boot-/
-    # Spielen-Menue sichtbar -- fuer Host UND Gast gleich sichtbar (beide
-    # duerfen suchen/anfragen).
-    lines.append("  [tisch] Tisch suchen / anfragen (bei einem anderen Host mitspielen)")
-    lines.append("  [registrieren] Neue lokale Person registrieren (eigene Figur unter ihrer ID)")
-    lines.append("  [einstellungen] Einstellungen")
-    lines.append("  [beenden] Beenden")
-    lines.append("  (? oder /hilfe an jeder Eingabe zeigt Kontexthilfe, kein Zugverbrauch)")
+    # ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-20261107-R4 (U1, GENERAL-REVIEW F1):
+    # sichtbare, rollengerechte NUMMERN aus der EINEN geordneten Quelle
+    # `boot_menu_entries` -- `run()` bildet exakt dieselbe Reihenfolge auf
+    # dieselben `choice_key`s ab (Nummer == Wortalias == reale Aktion). Der
+    # Wort-/Buchstabenalias bleibt in Klammern sichtbar (Expertenkomfort,
+    # "Textbefehle duerfen zusaetzlich bleiben"), ist aber nicht mehr die
+    # einzige Bedienung. Die Fortsetzen-Detailzeile haengt unveraendert am
+    # Fortsetzen-Eintrag.
+    for idx, (key, label) in enumerate(boot_menu_entries(has_resume, host_capable), start=1):
+        lines.append(f"  {idx}) {label}  [{key}]")
+        if key == "fortsetzen" and resume is not None:
+            stand = resume.last_valid_save_summary or "kein gueltiger Stand"
+            offen = f" (Abschnitt {resume.open_section_id} unterbrochen)" if resume.open_section_id else ""
+            chrono_display = resume.chrononaut_id if resume.chrononaut_id else "kein eigener Chrononaut"
+            # R2-Folgefix: `community_id` kann jetzt (Solo-Figur ohne Community)
+            # real `None` sein -- kein literales "None" in der Anzeige (UX22).
+            community_display = resume.community_id if resume.community_id else "keine Community"
+            lines.append(f"     Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
+    lines.append("  (Nummer waehlen -- oder Wort/Buchstabe in Klammern. '?' oder /hilfe an jeder Eingabe zeigt Kontexthilfe, kein Zugverbrauch)")
     return "\n".join(lines)
 
 
@@ -9597,6 +9615,29 @@ class TuiSession:
             tokens = raw_choice.split()
             choice = tokens[0].lower() if tokens else ""
             extra_tokens = tokens[1:]
+            # ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-20261107-R4 (U1, GENERAL-REVIEW
+            # F1): eine ALLEINSTEHENDE Nummer waehlt den n-ten sichtbaren
+            # Hauptmenueeintrag -- exakt dieselbe geordnete Quelle
+            # (`boot_menu_entries`) und derselbe `has_resume`/`host_capable`-
+            # Kontext wie `render_boot_menu`, sodass Anzeige und Auswahl nie
+            # auseinanderlaufen. Die Nummer wird auf denselben `choice`-key wie
+            # ihr Wortalias abgebildet und faellt danach durch die
+            # unveraenderte Dispatch-Kette (kein zweiter Spiel-/Dispatchpfad).
+            # Nur genau ein reines Ziffern-Token steuert hier das Menue; eine
+            # inzwischen ungueltige Nummer erklaert sich und zeigt das Menue
+            # erneut, ohne eine fremde Aktion auszuloesen. Freie Spieltexte mit
+            # Zahlen entstehen erst am Spielzug-Prompt (anderer Leser).
+            if choice.isdigit() and len(tokens) == 1:
+                _entries = boot_menu_entries(_boot_has_resume(resume), self._host_capable)
+                _n = int(choice)
+                if 1 <= _n <= len(_entries):
+                    choice = _entries[_n - 1][0]
+                else:
+                    self._print(
+                        f"Ungueltige Nummer: {_n}. Bitte eine der angezeigten Nummern "
+                        f"1-{len(_entries)} waehlen (oder '?' fuer Kontexthilfe)."
+                    )
+                    continue
             try:
                 if choice == "n":
                     self._cmd_new_or_switch_character()

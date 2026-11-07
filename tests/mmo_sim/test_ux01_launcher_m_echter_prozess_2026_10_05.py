@@ -216,7 +216,7 @@ def test_m_route_reaches_real_mmo_sim_hauptmenue() -> None:
         assert "ZEITRISS MMO-Sim" in out and "Hauptmenue:" in out, (
             f"Echtes mmo_sim-Terminal-Hauptmenue wurde nicht erreicht:\n{out}"
         )
-        assert "[spielen] Spielen" in out, f"mmo_sim-Hauptmenue unvollstaendig/nicht echt:\n{out}"
+        assert ") Spielen" in out and "[spielen]" in out, f"mmo_sim-Hauptmenue unvollstaendig/nicht echt:\n{out}"
 
         # Browserroute NICHT umgebogen: 'm' dispatcht laut Code
         # ausschliesslich auf project_hook.launch(), nie auf action_play().
