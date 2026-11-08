@@ -9391,10 +9391,21 @@ class TuiSession:
         self._print("Keine eigene Figur, kein persoenlicher Spielstand -- der Abschnitt ist fuer die Teilnehmer abgeschlossen.")
         key_args = [operator_table_key] if operator_table_key else []
         key_hint = operator_table_key if operator_table_key else "<table_key>"
+        # R9-Nachzug (01_NACHZUG.md R9-1, GENERAL-REVIEW.md §3 UX-R8-B1):
+        # dasselbe Label-Problem wie bei der persoenlichen Karte (R7-A3
+        # oben) -- der No-op-Handler blieb pauschal "zurueck zum
+        # Hauptmenue" beschriftet, obwohl im normalen Tischmenueweg
+        # (figurfreier Betreiber ruft diese Karte aus seinem EIGENEN
+        # `_cmd_menu_tisch()`-Lesezyklus) die wahre Rueckgabe das
+        # Tisch-Untermenue ist. `_completion_card_back_label(self)` ist
+        # dieselbe Textautoritaet, die der Karten-Readprompt (s. oben,
+        # `_dispatch_completion_card_choice`) fuer GENAU diesen `self`
+        # bereits nutzt -- nur Beschriftung, Verhalten (`lambda: None`)
+        # unveraendert.
         actions: list[tuple[str, object]] = [
             ("Neue Admission anbieten", lambda: self._cmd_table_offer(key_args)),
             (f"Zuschauer-Ansicht dieses Tisches ('{key_hint}')", lambda: self._cmd_table_zuschauer(key_args)),
-            ("Beenden (zurueck zum Hauptmenue)", lambda: None),
+            (f"Beenden (zurueck {self._completion_card_back_label(self)})", lambda: None),
         ]
         for i, (label, _handler) in enumerate(actions, start=1):
             self._print(f"  {i}) {label}")
