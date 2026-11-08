@@ -1,6 +1,7 @@
 # Produktplan — Figurenreise am Tisch
 
-Stand: 6. November 2026. Diese Datei ist die **einzige** Planstelle für den
+Stand: 6. November 2026, Zielgrenze aktualisiert am 8. November 2026 (siehe
+„Aktuelle Zielgrenze" unten). Diese Datei ist die **einzige** Planstelle für den
 Produktpfad „Figurenreise am Tisch". Sie beschreibt einen zusammenhängenden,
 rein terminalbasierten Weg: Ein Mensch bietet an seinem Gerät einen Tisch an
 oder sucht einen, eine Anfrage wird vom Host entschieden, es wird gespielt, der
@@ -8,8 +9,24 @@ Abschnitt schließt, der Gast geht (oder der Host spielt allein weiter), und der
 Gast kehrt später mit seiner **selbst** fortgeschrittenen Figur zurück. Die
 Figur reist dabei real über Export/Import zwischen zwei getrennten Datenwurzeln
 A → B → A. Ein paralleler Fahrplan wird hier bewusst nicht geführt; eine native
-LAN-/Netz-Lobby bleibt getrennt und ist unter „Betreiber-, Misch- und Netzbetrieb"
-abgegrenzt und ausdrücklich als noch nicht geliefert gekennzeichnet.
+LAN-/Netz-Lobby ist unter „Betreiber-, Misch- und Netzbetrieb" historisch
+abgegrenzt und seit der Zielgrenze vom 8. November 2026 **kein aktives
+Produktziel mehr**.
+
+## Aktuelle Zielgrenze (8. November 2026)
+
+Flo hat am 8. November 2026 verbindlich festgelegt: ZEITRISS ist ein lokales
+Terminal-Computerspiel für Linux Mint. Solo, optionale KI-Mitspieler und
+mehrere Menschen am selben Rechner sind das Ziel; die Figurenreise läuft über
+die hier beschriebene persönliche Save-Datei (Export → mitnehmen → auf einem
+anderen eingerichteten ZEITRISS-Rechner importieren). **LAN und Windows
+entfallen als Produktziele — auch als zugesagte spätere Pflichtetappe.** macOS
+ist eine ungeprüfte Nebenkompatibilität ohne Supportversprechen. Lokale Modelle
+bei 24 GB RAM und eine mögliche Steam-Veröffentlichung bleiben spätere,
+ungeprüfte Ideen ohne aktuellen Auftrag. Die folgenden Abschnitte „Betreiber-,
+Misch- und Netzbetrieb" sowie die LAN-Schritte in „Feste Reihenfolge" bleiben
+als historische Planungsstände erhalten, sind aber seit dieser Zielgrenze
+**keine aktiven Folgepflichten mehr**.
 
 ## Zwei-Wurzel-Modell (A → B → A)
 
@@ -443,15 +460,17 @@ unverändert anerkannt.
   gleichzeitige Abschnitte auf einem Host.
 - Kein Billing-, Lobby- oder Netz-Platzhalter wurde eingezogen.
 
-## Betreiber-, Misch- und Netzbetrieb (verbindliche Fortschreibung)
+## Betreiber-, Misch- und Netzbetrieb (Betreiber-Etappe aktiv; Mischbetrieb/LAN seit 8. November 2026 kein aktives Ziel mehr)
 
 Die **Betreiber-Etappe** dieses Plans — eigenständige Betreiberrolle, erreichbarer
 Stop, sauberer Abbruch vor Commit mit sichtbarer Speichergrenze, vom Betreiber
 freigegebene Gast-Erschaffung — ist mit R2 **geliefert und belegt** (siehe
 „Geliefert in R2 (Betreiber-Etappe)"); die folgenden Absätze halten ihren
-verbindlichen Vertrag fest, der jetzt im Produkt realisiert ist. **Noch nicht als
-geliefert oder getestet abgenommen** bleiben der **Mischbetrieb/LAN** und
-**mehrere gleichzeitige Abschnitte auf einem Host** (am Ende dieses Abschnitts).
+verbindlichen Vertrag fest, der jetzt im Produkt realisiert ist. **Nicht
+geliefert, nicht getestet und seit der Zielgrenze vom 8. November 2026 kein
+aktives Ziel mehr** ist der **Mischbetrieb/LAN** (siehe „Aktuelle Zielgrenze");
+**mehrere gleichzeitige Abschnitte auf einem Host** bleiben eine weiterhin
+offene, aber ungeplante Zusatzfähigkeit (am Ende dieses Abschnitts).
 Alles steht an **dieser** einen kanonischen Planstelle — es gibt keine zweite
 dauerhaft gepflegte Repo-Roadmap. Die zugrunde liegende, rein lesende
 Architekturstudie liegt als Leseanker im Auftragspaket des Nachzugs, **nicht** als
@@ -507,8 +526,9 @@ als persönliches JSON mitnehmbar. Hostgestützte Erschaffung macht aus dem rein
 Gastclient keinen eigenen GM-Host; Solo, eigene Personas und selbst Anbieten
 erfordern weiterhin einen eigenen eingerichteten Hoststack.
 
-**Mischbetrieb: drei Menschen lokal, der vierte über LAN (verbindlicher LAN-
-Zielfall).** Drei Menschen teilen einen Terminalplatz, der vierte kommt über LAN;
+**Mischbetrieb: drei Menschen lokal, der vierte über LAN (historischer
+Planungsstand vor der Zielgrenze vom 8. November 2026; seither kein aktives
+Ziel mehr).** Drei Menschen teilen einen Terminalplatz, der vierte kommt über LAN;
 alle vier sind getrennte Teilnehmer mit ihren jeweiligen Figuren am selben Tisch.
 Die Eingabeübergabe am gemeinsamen Gerät bleibt erkennbar; der LAN-Anschluss ist
 ein weiterer Zugang zum **selben** fachlichen Tischdienst — kein „ein Client = ein
@@ -557,18 +577,21 @@ Zusatzfähigkeit zu warten.
    durchgängige Solo-/Gruppen-/Betreiber-/Gastwege, persönliche Saves, erreichbarer
    Stop sowie korrekter Abschluss und Wiedereinstieg. Gemeinsames lokales Spielen
    gehört ausdrücklich dazu.
-5. **Nach Annahme dieser Vollendungsetappe:** LAN verbindet Terminal-Clients mit
-   demselben Dienst (drei lokale Menschen plus LAN-Gast, gemeinsame/getrennte
+5. **Historischer Planungsstand (vor der Zielgrenze vom 8. November 2026,
+   seither kein aktives Ziel mehr):** LAN sollte Terminal-Clients mit demselben
+   Dienst verbinden (drei lokale Menschen plus LAN-Gast, gemeinsame/getrennte
    HQ-Gruppen, erneut angenommene aktuelle Gastfigur, klare Eingabe-/Figurenbindung).
 6. Mehrere parallele Abschnitte auf einem Host und eine mögliche Pause-/Wechsel-/
    Fortsetzungsverwaltung bleiben als **optionaler** späterer Komfort gesonderte
    Anschlussfähigkeiten, falls danach sinnvoll.
 
-**Reihenfolge-Notiz (ZR-VOLLENDUNG-OHNE-LAN):** lokale Vollendung (stimmige
-README/Doku, selbsterklärendes Terminal, gemeinsames lokales Spielen; optional
-Zeit-Gedanken in echten Wartephasen) → **nach Annahme** LAN → optionaler
-zusätzlicher Parallel-/Pause-Komfort. Spätere Etappen werden hier jetzt nicht
-vorgezogen implementiert.
+**Reihenfolge-Notiz (ZR-VOLLENDUNG-OHNE-LAN, aktualisiert 8. November 2026):**
+lokale Vollendung (stimmige README/Doku, selbsterklärendes Terminal, gemeinsames
+lokales Spielen; optional Zeit-Gedanken in echten Wartephasen) ist die aktuelle
+und einzige aktive Etappe. LAN ist seit der Zielgrenze vom 8. November 2026 kein
+nachfolgender Schritt mehr und bleibt historischer Planungsstand; ein optionaler
+späterer Parallel-/Pause-Komfort bleibt wie zuvor ungeplant. Spätere Etappen
+werden hier jetzt nicht vorgezogen implementiert.
 
 Keine Browseroberfläche, keine übergreifende Chatlobby und keine Abrechnung im
 Spiel. Persönlicher Figurensave, Populationsbackup und optionales späteres

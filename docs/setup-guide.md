@@ -27,6 +27,11 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 ## Browser-Einstieg ohne Installation
 
+Das ist der optionale, nachgeordnete Weg, das Regelwerk direkt in einer
+Chat-Plattform auszuprobieren — ohne lokale Installation. Der normale
+Produktstart ist das Terminalspiel auf Linux Mint, siehe
+[Spielerstart](spielerstart.md).
+
 **Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
 bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
 ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
@@ -163,15 +168,20 @@ optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automa
 
 ## Überblick: Wie ZEITRISS läuft
 
-ZEITRISS ist **eine portable LLM-RPG-Engine**, kein klassisches Programm.
-Das Spiel besteht aus einem Masterprompt, 19 Wissensmodulen, Retrieval-Logik,
-Save-JSON und einem klaren Spielrhythmus. Die Runtime ist ein geeignetes LLM
-in einer geeigneten Chat-/Projektplattform.
+ZEITRISS wird als Terminal-Computerspiel für Linux Mint gespielt
+(`python3 scripts/mmo_sim.py`, siehe [Spielerstart](spielerstart.md)). Das
+Regelwerk dahinter ist **keine klassische Spiel-Engine**, sondern ein
+Masterprompt plus 19 Wissensmodule, Retrieval-Logik, Save-JSON und ein
+klarer Spielrhythmus; die KI-Spielleitung läuft als Modellaufruf über den
+unten eingerichteten Backend-Stack. Dasselbe Regelwerk lässt sich
+zusätzlich, nachgeordnet, direkt in einer Chat-/Projektplattform
+ausprobieren.
 
 Das dokumentierte Entwicklungs-/Referenzsetup läuft über OpenWebUI +
-OpenRouter/LiteLLM.
-Alternativ kann ZEITRISS auf anderen Plattformen laufen, wenn diese
-projektweite Anweisungen, projektweite Quellen/Knowledge und Retrieval
+OpenRouter/LiteLLM — dieser Stack wird sowohl für die KI-Spielleitung im
+Terminal als auch für den optionalen Browser-Chat-Weg eingerichtet. Für den
+Chatversuch auf anderen Plattformen kann ZEITRISS zusätzlich laufen, wenn
+diese projektweite Anweisungen, projektweite Quellen/Knowledge und Retrieval
 sauber unterstützen.
 
 ```text
@@ -215,26 +225,33 @@ sauber unterstützen.
 
 ## Was der Launcher dir anbietet
 
-Der Launcher (`python scripts/zeitriss.py`) ist der zentrale Einstieg **nur
-für den optionalen lokalen Referenz-/Selfhosting- und Maintainerweg**. Für den
-Browser-Hauptweg ist er weder erforderlich noch der Einstieg. Er bietet:
+Der Launcher (`python scripts/zeitriss.py`) richtet den gemeinsamen
+Backend-Stack (OpenWebUI + LiteLLM + OpenRouter) ein, den sowohl das
+Terminalspiel als auch der optionale Browser-Chat-Weg brauchen. Nach der
+Einrichtung ist **[M] ZEITRISS spielen (Terminal)** der normale
+Produktstart — siehe [Spielerstart](spielerstart.md). Der Launcher bietet
+außerdem:
 
-**[1] Komplett-Setup in OpenWebUI (empfohlen).** Der offiziell
+**[1] ZEITRISS einrichten (empfohlen).** Der offiziell
 getestete Referenzpfad — OpenWebUI + OpenRouter + Claude Sonnet 4.6 +
 LiteLLM-Cache. Ein Launcher-Klick, der Launcher führt dich durch
 alles. Alle Regel-QA ist gegen diesen Stack kalibriert — darauf testen
 wir, und darauf entwickeln wir weiter. →
 [Komplett-Setup in OpenWebUI unten](#komplett-setup-in-openwebui-empfohlen)
 
-**[2] Regelwerk woanders nutzen (Export-Paket, ohne Gewähr).** Du
-willst auf einer anderen Chat-Plattform spielen, die projektweite
-Anweisungen/System-Prompt und Wissensdateien/Quellen verwaltet? Der
-Launcher erzeugt dir ein Export-Paket. Wenn das Anweisungsfeld zu klein
-für den Masterprompt ist, liefert das Export-Paket eine kurze
-Bootstrap-Anweisung; der Masterprompt wird dann als projektweite Quelle
-genutzt. Du importierst es manuell in deine Plattform. **Wir testen nicht
-gegen andere Plattformen, Regel-Glitches sind möglich** — das ist
-Do-it-yourself-Terrain. →
+**[M] ZEITRISS spielen (Terminal).** Nach der Einrichtung der normale
+Produktstart — startet das Terminalspiel direkt, ohne Browser. →
+[Spielerstart](spielerstart.md)
+
+**[2] Masterprompt und Wissensdateien exportieren (ohne Gewähr).** Du
+willst das Regelwerk zusätzlich auf einer anderen Chat-Plattform
+ausprobieren, die projektweite Anweisungen/System-Prompt und
+Wissensdateien/Quellen verwaltet? Der Launcher erzeugt dir ein
+Export-Paket. Wenn das Anweisungsfeld zu klein für den Masterprompt ist,
+liefert das Export-Paket eine kurze Bootstrap-Anweisung; der Masterprompt
+wird dann als projektweite Quelle genutzt. Du importierst es manuell in
+deine Plattform. **Wir testen nicht gegen andere Plattformen, Regel-Glitches
+sind möglich** — das ist Do-it-yourself-Terrain. →
 [Portabler Export unten](#portabler-export-ohne-gewähr)
 
 ### Getestet / ungetestet
@@ -248,11 +265,10 @@ selbst testen.
 
 - **Andere Chat-Plattformen** (Export-Paket, Menu [2]) — Retrieval- und
   System-Prompt-Verhalten variiert, Regel-Glitches sind möglich.
-- **Lokale Sprachmodelle** via Ollama — ZEITRISS ist regel-komplex,
-  Modelle unter der 70B-Klasse kommen schnell an Grenzen. Consumer-GPUs
-  reichen typischerweise nicht; eine Workstation-Klasse (z.B.
-  Framework-Ryzen-Max-128GB oder vergleichbar) kann das stemmen, sobald
-  fähige Modelle kompakt genug werden. Aktuell keine Test-Abdeckung.
+- **Lokale Sprachmodelle** via Ollama — Hardware-Anforderung aktuell
+  ungeprüft; eine konkrete Modell-/Hardwareprüfung (z. B. für 24 GB RAM)
+  ist eine spätere, noch nicht beauftragte Idee. Aktuell keine
+  Test-Abdeckung.
 - **Lokale Embedding-Engine** via Ollama — reine KB-Indizierung, läuft,
   aber der Default-MiniLM reicht für 19 Dateien ebenso.
 
@@ -371,12 +387,13 @@ Keys als ✓ oder -) und ein Menü, gruppiert in *Einrichtung* und
 
 ```
   ── Einrichtung (wähle einen Weg) ──────────────
-   [1]  Komplett-Setup in OpenWebUI (empfohlen, Golden Setup)
-   [L]  Lore-Setup — wie [1], eingerahmt als ITI-Bergung
-   [2]  Regelwerk woanders nutzen (Export-Paket, ohne Gewähr)
+   [1]  ZEITRISS einrichten (empfohlen, Golden Setup)
+   [L]  Einrichten mit Einstimmung (optional) — wie [1], eingerahmt als ITI-Bergung
+   [2]  Masterprompt und Wissensdateien exportieren (ohne Gewähr)
 
   ── Im Betrieb ──────────────────────────────
-   [3]  Spiel starten (Browser öffnen)
+   [M]  ZEITRISS spielen (Terminal)
+   [3]  Regelwerk im Chat ausprobieren (Browser öffnen)
    [4]  ZEITRISS aktualisieren (git pull + Sync)
    [5]  API-Keys ändern
    [6]  Bei mir läuft was nicht (Diagnose)
@@ -390,7 +407,8 @@ tipp **`1`** und drück Enter.
 
 #### Lore-Setup (optional)
 
-Der Launcher bietet zusätzlich den Menüpunkt **`[L]  Lore-Setup`**.
+Der Launcher bietet zusätzlich den Menüpunkt **`[L]  Einrichten mit
+Einstimmung (optional)`**.
 Da läuft exakt dasselbe Setup wie unter `[1]`, nur in einen kurzen
 Kodex-Funkspruch eingerahmt (Prolog im Terminal vor dem Setup, Welcome-
 Box danach). Pure Kosmetik: die eigentliche Installation, alle Fehler-
@@ -562,10 +580,17 @@ geladen, du musst sie nie wieder eintippen.
 
 ---
 
-### Schritt 7 - Spiel starten
+### Schritt 7 - Weiter geht's: Terminal spielen oder Regelwerk im Chat ausprobieren
 
-Im Launcher-Menü **[3] Spiel starten** wählen. Der Browser öffnet sich
-auf <http://localhost:8080>. Dort:
+Die Einrichtung ist jetzt fertig. Der normale Produktstart ist das
+Terminalspiel: `python3 scripts/mmo_sim.py` bzw. Launcher-Menüpunkt
+**[M] ZEITRISS spielen (Terminal)** — siehe [Spielerstart](spielerstart.md).
+Der hier eingerichtete Backend-Stack (OpenWebUI + LiteLLM + OpenRouter)
+ist auch die KI-Spielleitung für das Terminal.
+
+Zusätzlich, nachgeordnet, lässt sich das Regelwerk direkt im Browser-Chat
+ausprobieren: Im Launcher-Menü **[3] Regelwerk im Chat ausprobieren**
+wählen. Der Browser öffnet sich auf <http://localhost:8080>. Dort:
 
 1. Neuen Chat öffnen.
 2. Oben im Dropdown Preset **ZEITRISS v4.2.6 Uncut** auswählen.
@@ -730,8 +755,9 @@ zusammen um einen Laptop, ein Spieler moderiert, gespielt wird im
 Wechsel - wie am Pen-&-Paper-Tisch, nur mit KI-SL statt Human-SL.
 
 > Remote-Play über Netzwerk (Tailscale, VPN, Multi-User-OpenWebUI) ist
-> möglich, braucht aber eigenes Setup. Ein dedizierter Remote-Guide
-> folgt später.
+> technisch denkbar, aber ungeprüft und kein zugesagter Produktweg. Für
+> gemeinsames Spielen über getrennte Geräte eignet sich heute der
+> [Koop-/Chat-Leitfaden](koop-online-spielen.md).
 
 **Setup für die Gruppe**: Nur eine Person hostet (folgt dem Happy Path).
 Die anderen installieren **nichts** - sie sitzen einfach mit am Rechner.
@@ -812,13 +838,11 @@ Es ist keine separate Installation — du richtest den Standard-Stack
 einmal via Launcher ein und schaltest im OpenWebUI-Preset-Dropdown
 zwischen `zeitriss-sonnet` (Cloud) und deinem Ollama-Modell hin und her.
 
-**Realistische Hardware:** ZEITRISS ist regel-komplex; Modelle unter der
-70B-Klasse kommen schnell an Grenzen. Consumer-GPUs reichen typischerweise
-nicht. Eine Workstation-Klasse (z.B. Framework-Ryzen-Max-128GB oder
-vergleichbar) kann das stemmen, sobald fähige Modelle kompakt genug
-werden. Bis dahin ist der Cloud-Pfad (Sonnet 4.6 via LiteLLM) der einzige
-getestete Weg — und der Punkt, zu dem man per Dropdown-Flip jederzeit
-zurückkehrt.
+**Hardware-Anforderung:** aktuell ungeprüft. Eine konkrete Modell-,
+Kontext-, Hardware- und Qualitätsprüfung — zum Beispiel für lokale Modelle
+bei 24 GB RAM — ist eine spätere, noch nicht beauftragte Idee. Bis dahin
+ist der Cloud-Pfad (Sonnet 4.6 via LiteLLM) der einzige getestete Weg —
+und der Punkt, zu dem man per Dropdown-Flip jederzeit zurückkehrt.
 
 #### Ollama als Sprachmodell
 
@@ -888,7 +912,7 @@ Kontext und Regeltreue.
 python scripts/zeitriss.py
 ```
 
-Im Menü **[2] Regelwerk woanders nutzen (Export-Paket erzeugen)**
+Im Menü **[2] Masterprompt und Wissensdateien exportieren**
 wählen. Der Launcher fragt dich:
 
 1. **Format** — [1] strukturiert (Ordner mit Unterordnern), [2] flach

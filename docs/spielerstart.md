@@ -4,11 +4,14 @@ version: 1.1.0
 tags: [guide]
 ---
 
-# Dein erster Einsatz im Terminal
+# Dein erster Einsatz im Terminal (Linux Mint)
 
-Hier findest du den Weg von der Einrichtung bis zu deiner nächsten Runde:
-**starten → Figur wählen → spielen → speichern → fortsetzen**.
-Für den Spielweg ohne Terminal nutze den [Chat-Setup-Guide](setup-guide.md).
+Hier findest du den Weg von der Einrichtung bis zu deiner nächsten Runde auf
+Linux Mint:
+**starten → Figur wählen → spielen → speichern → fortsetzen**. Nach einem
+abgeschlossenen Abschnitt nimmst du deinen Chrononauten als Save-Datei mit
+und setzt ihn auf einem anderen eingerichteten ZEITRISS-Rechner fort.
+Für das optionale Ausprobieren im Chat nutze den [Chat-Setup-Guide](setup-guide.md).
 
 > Der lokale Speicher- und Fortsetzungsweg ist als begrenzte Beta-Etappe
 > unabhängig abgenommen (29. Oktober 2026). Der vorhandene Referenzlauf
@@ -53,7 +56,7 @@ python3 scripts/mmo_sim.py
 ```
 
 Alternativ startest du `python3 scripts/launcher.py` und wählst dort
-**`[M] ZEITRISS MMO-Sim (Terminal, kein Browser)`**. Die Browserauswahl
+**`[M] ZEITRISS spielen (Terminal)`**. Die Browserauswahl
 `[3]` gehört zum getrennten Chat-Spielweg.
 
 Beim ersten Start erscheint eine kurze Einführung. Mit `einfuehrung` kannst
@@ -90,8 +93,11 @@ angeben. Schließe beides mit einer eigenen Zeile **`ENDE`** ab — auch einen
 Dateipfad. Ohne diese Abschlusszeile wartet die Eingabe weiter.
 
 Beim **Export** wird dein aktueller gültiger Save angezeigt und zusätzlich
-in eine Datei geschrieben. Bewahre eine eigene Kopie auf. Eine begonnene,
-aber noch unvollständige Erschaffung ist noch kein fertiger Spielstand.
+in eine Datei geschrieben. Bewahre eine eigene Kopie auf, zum Beispiel auf
+einem USB-Stick — so nimmst du deinen Chrononauten mit und importierst ihn
+auf einem anderen eingerichteten ZEITRISS-Rechner über denselben Weg. Eine
+begonnene, aber noch unvollständige Erschaffung ist noch kein fertiger
+Spielstand.
 
 ## Solo spielen
 
@@ -238,9 +244,11 @@ fest und nutze die [Betriebsdokumentation](mmo-sim.md).
 
 ## Bekannte Grenzen
 
-Es gibt noch keine native öffentliche Netzwerk-Lobby im Terminal und kein
-nachgewiesenes Remote-Mitspielen über getrennte Geräte. Für gemeinsames
-Online-Spiel nutze den [Koop-/Chat-Leitfaden](koop-online-spielen.md).
+Das Terminal ist ein lokales Spiel an einem Rechner, ohne Netzwerk-Lobby und
+ohne Remote-Mitspielen über getrennte Geräte — das ist keine offene
+Baustelle, sondern die aktuelle Produktgrenze (Linux Mint, lokal, Stand 8.
+November 2026). Für das optionale Ausprobieren über eine Chatplattform nutze
+den [Koop-/Chat-Leitfaden](koop-online-spielen.md).
 
 Der abgenommene lokale Referenzweg und die Grenzen weiterer Betriebsarten
 stehen im [Terminalstatus](terminal-status.md). Die vollständige Live-Abnahme

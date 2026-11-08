@@ -926,7 +926,10 @@ def action_update() -> None:
 
     if sync_ok:
         print()
-        print(green(f"  ✓ Update abgeschlossen — starte mit Menü [3] {meta()['start_label']}."))
+        if project_hook is not None:
+            print(green("  ✓ Update abgeschlossen — starte mit Menü [M] ZEITRISS spielen (Terminal)."))
+        else:
+            print(green(f"  ✓ Update abgeschlossen — starte mit Menü [3] {meta()['start_label']}."))
 
     _pause()
 
@@ -1191,7 +1194,10 @@ def action_diagnose() -> None:
 
     print()
     if not fixes:
-        print(green(f"  Alle Prüfungen grün. Mit Menü [3] {meta()['start_label']}."))
+        if project_hook is not None:
+            print(green("  Alle Prüfungen grün. Mit Menü [M] ZEITRISS spielen (Terminal)."))
+        else:
+            print(green(f"  Alle Prüfungen grün. Mit Menü [3] {meta()['start_label']}."))
         _pause()
         return
 
@@ -1250,7 +1256,10 @@ def action_diagnose() -> None:
     print(bold("  Nochmal prüfen:"))
     still_broken = _diagnose_has_errors()
     if not still_broken:
-        print(green(f"  ✓ Alles grün. Mit Menü [3] {meta()['start_label']}."))
+        if project_hook is not None:
+            print(green("  ✓ Alles grün. Mit Menü [M] ZEITRISS spielen (Terminal)."))
+        else:
+            print(green(f"  ✓ Alles grün. Mit Menü [3] {meta()['start_label']}."))
     else:
         print(red("  ✗ Das reichte noch nicht."))
         print(yellow("  Empfehlung: Menü [7] Reset — komplett neu aufsetzen (löscht OpenWebUI-State)."))
@@ -1419,7 +1428,10 @@ def action_reset() -> None:
                     print(red(f"  LiteLLM-Install fehlgeschlagen: {e.__class__.__name__}: {e}"))
 
     print()
-    print(green(f"  ✓ Reset abgeschlossen — mit Menü [3] {meta()['start_label']}."))
+    if project_hook is not None:
+        print(green("  ✓ Reset abgeschlossen — mit Menü [M] ZEITRISS spielen (Terminal)."))
+    else:
+        print(green(f"  ✓ Reset abgeschlossen — mit Menü [3] {meta()['start_label']}."))
     _pause()
 
 
@@ -1650,15 +1662,15 @@ def main() -> int:
         print(bold("  Was möchtest du tun?"))
         print()
         print(dim("  ── Einrichtung (wähle einen Weg) ──────────────")) 
-        print("   [1]  Komplett-Setup in OpenWebUI (empfohlen, Golden Setup)")
+        print("   [1]  ZEITRISS einrichten (empfohlen, Golden Setup)")
         if has_lore:
-            print(f"   [L]  Lore-Setup — wie [1], {m['lore_label']}")
-        print("   [2]  Inhalt woanders nutzen (Export-Paket, ohne Gewähr)")
+            print(f"   [L]  Einrichten mit Einstimmung (optional) — wie [1], {m['lore_label']}")
+        print("   [2]  Masterprompt und Wissensdateien exportieren (ohne Gewähr)")
         print()
         print(dim("  ── Im Betrieb ───────────────────────────────"))
-        print(f"   [3]  {m['start_label']} (Browser öffnen)")
         if has_mmo_sim:
-            print("   [M]  ZEITRISS MMO-Sim (Terminal, kein Browser)")
+            print("   [M]  ZEITRISS spielen (Terminal)")
+        print(f"   [3]  {m['start_label']} (Browser öffnen)")
         print("   [4]  Aktualisieren (git pull + Sync)")
         print("   [5]  API-Keys ändern")
         print("   [6]  Bei mir läuft was nicht (Diagnose)")

@@ -4,21 +4,24 @@
   <img src="docs/gameicon.png" alt="ZEITRISS" width="200">
 </p>
 
-> **Ein Tech-Noir-Zeitreise-Rollenspiel mit KI-Spielleitung.**
+> **Ein Tech-Noir-Zeitreise-Rollenspiel im Terminal für Linux Mint, mit
+> KI-Spielleitung.**
 > Erschaffe deinen Chrononauten, stelle deine Runde zusammen und entscheide,
 > welchen Preis die Geschichte wert ist. **18+, Uncut.**
 
 **[Im Terminal starten](docs/spielerstart.md)** ·
-**[Im Chat spielen](docs/setup-guide.md#browser-einstieg-ohne-installation)** ·
-**[Gemeinsam spielen](docs/koop-online-spielen.md)**
+**[Gemeinsam spielen](docs/koop-online-spielen.md)** ·
+**[Regelwerk im Chat ausprobieren](docs/setup-guide.md#browser-einstieg-ohne-installation)**
+(optional)
 
 ## Was du spielst
 
-ZEITRISS ist ein textbasiertes Rollenspiel mit KI-Spielleitung: Du spielst einen
-Chrononauten des ITI, handelst in freier Sprache, und eine KI führt Szene,
-Figuren und Würfe. Du spielst solo, mit Menschen an einem Gerät oder mit
-optionalen KI-Mitspielern — deine Figur bleibt als Save erhalten. Wie du
-startest, steht in den Links oben. So fühlt sich ein echter Zug an:
+ZEITRISS ist ein lokales textbasiertes Rollenspiel im Terminal für Linux Mint
+mit KI-Spielleitung: Du spielst einen Chrononauten des ITI, handelst in
+freier Sprache, und eine KI führt Szene, Figuren und Würfe. Du spielst solo,
+mit Menschen am selben Rechner oder mit optionalen KI-Mitspielern — deine
+Figur bleibt als persönlicher Save erhalten. Wie du startest, steht in den
+Links oben. So fühlt sich ein echter Zug an:
 
 ## So spielt sich das im Terminal
 
@@ -167,21 +170,25 @@ Text-Adventure: Ihr müsst vor dem Start nicht das Regelwerk lesen. Fragen zu We
 Ausrüstung oder einer Probe stellst du direkt an die Spielleitung. Wie du die
 Spielleitung einrichtest, zeigt der [Setup-Guide](docs/setup-guide.md).
 
-## MMO ohne Server — dein Spielstand reist mit
+## Dein Chrononaut gehört dir — der Spielstand reist als Datei
 
-Deine Figur gehört dir als Datei: Du nimmst ihren gültigen JSON-Save in jede
-andere geeignete Runde mit — ein zentraler Spielserver ist dafür nicht nötig.
-„MMO ohne Server" meint dieses Save-Konzept (für KI-Spielleitung und
-KI-Mitspieler brauchst du weiterhin die eingerichteten Modelldienste), keine
-fertige Netzwerklobby.
+Deine Figur gehört dir als Datei: Nach einem abgeschlossenen Abschnitt nimmst
+du ihren gültigen JSON-Save mit und importierst ihn auf einem anderen
+eingerichteten ZEITRISS-Rechner — ein zentraler Spielserver oder eine
+Netzwerklobby ist dafür nicht nötig. Für KI-Spielleitung und KI-Mitspieler
+brauchst du dort weiterhin die eingerichteten Modelldienste. Dieses serverlose Save-Konzept ist gemeint, wenn ZEITRISS von „MMO ohne Server“ spricht: kein zentraler Spielserver, kein Zwang zu einer Online-Lobby — deine Figur als Datei ist die Kontinuität.
 
 ## Wähle deinen Spielweg
+
+Die beiden lokalen Terminal-Wege sind der normale Produktstart auf Linux
+Mint. Das Regelwerk lässt sich zusätzlich, nachgeordnet, auf einer eigenen
+Chatplattform ausprobieren.
 
 | Spielweg | Das brauchst du | Dein Einstieg |
 | --- | --- | --- |
 | **Lokales Terminal — Betreiber** | Python und einen eigenen Host-/Modellstack (KI-Spielleitung, optional KI-Personas) — Voraussetzung für Solo-Spiel, eigene KI-Personas und jedes Anbieten eines Tisches | [Spielerstart](docs/spielerstart.md) |
 | **Lokales Terminal — Gast** | Nur Terminal-Bedienung und einen eigenen, mitgebrachten oder vom Betreiber freigegebenen Save — **keinen** eigenen Host-/Modellstack | [Spielerstart](docs/spielerstart.md) |
-| **Chat und JSON-Save** | Eine geeignete Chatplattform mit dauerhaften Anweisungen und Wissensquellen | [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation) |
+| **Regelwerk im Chat ausprobieren (optional)** | Eine geeignete Chatplattform mit dauerhaften Anweisungen und Wissensquellen | [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation) |
 
 Am Terminal spielst du solo oder mit anderen Menschen an einem Gerät;
 freiwillige KI-Mitspieler können deine Runde ergänzen. Ein Gast ohne eigenen

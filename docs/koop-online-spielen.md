@@ -4,29 +4,26 @@ version: 1.3.0
 tags: [guide]
 ---
 
-# ZEITRISS zusammen spielen — Koop & Online
+# ZEITRISS zusammen spielen — lokal am Tisch, und optional im Chat
 
-Dieser Leitfaden beschreibt, **wie man ZEITRISS mit anderen spielt** — zu zweit
-am Küchentisch genauso wie mit einer Runde, die sich über die halbe Welt
-verteilt findet. Es braucht **keinen zentralen Server**, keine Registrierung und
-keine App. Alles läuft über die eine Sache, die du sowieso schon hast: **deinen
-Spielstand als JSON.**
+Dieser Leitfaden beschreibt, **wie man ZEITRISS gemeinsam spielt** — vor allem
+lokal am selben Rechner, mit Betreiber und Gästen oder einfach am geteilten
+Terminal. Zusätzlich lässt sich dasselbe Prinzip über einen geteilten Chat
+(z. B. Discord) ausprobieren. Es braucht **keinen zentralen Server**, keine
+Registrierung und keine App. Alles läuft über die eine Sache, die du sowieso
+schon hast: **deinen Spielstand als JSON.**
 
 > **Kurz gesagt:** Dein persönlicher `!save`-JSON enthält den zuletzt
-> gespeicherten Stand deiner Figur. Bewahre eine eigene gültige Kopie auf,
-> damit du sie in einer geeigneten ZEITRISS-Runde weiterverwenden kannst.
-> Das ist keine Garantie gegen Datenverlust und kein vollständiges Community-Backup.
+> gespeicherten Stand deiner Figur. Nach einem abgeschlossenen Abschnitt
+> nimmst du ihn mit und importierst ihn auf einem anderen eingerichteten
+> ZEITRISS-Rechner. Das ist keine Garantie gegen Datenverlust und kein
+> vollständiges Community-Backup.
 
 ---
 
-## Zwei Wege: Chat-Multiplayer und lokaler Terminal-Client
+## Zwei Wege: lokaler Terminal-Client und Chat-Multiplayer (optional)
 
-Dieser Leitfaden beschreibt vor allem den **Chat-/JSON-Weg** unten: Jeder
-spielt auf seiner eigenen Plattform, trifft sich über einen geteilten Chat
-(z. B. Discord) und postet `!save`-JSON-Blöcke. Das ist weiterhin der
-breiter abgenommene Weg und funktioniert plattformunabhängig.
-
-Zusätzlich gibt es den **lokalen Terminalclient** (`python3 scripts/
+Der normale Produktweg ist der **lokale Terminalclient** (`python3 scripts/
 mmo_sim.py`, Spieleranleitung: [spielerstart.md](spielerstart.md),
 Betriebsdoku: [mmo-sim.md](mmo-sim.md); Start/Bedienung/Budget-Gate live
 geprüft; der abgenommene lokale R4-Referenzlauf umfasst fünf Figuren in
@@ -45,6 +42,13 @@ ausdrücklich gestarteter, separat dokumentierter Labormodus ganz ohne
 anwesenden Menschen ist davon zu unterscheiden. Private Tische bleiben 1–5
 Spieler inklusive Leader, Menschen und KI-Personas gemischt; jeder Mensch
 wählt/erschafft/importiert seine eigene Figur.
+
+Zusätzlich, nachgeordnet, beschreibt dieser Leitfaden weiter unten den
+**Chat-/JSON-Weg**: Jeder spielt auf seiner eigenen Plattform, trifft sich
+über einen geteilten Chat (z. B. Discord) und postet `!save`-JSON-Blöcke.
+Das bleibt technisch der breiter erprobte Weg, ist für das Produktziel aber
+der nachgeordnete, optionale Versuch — kein Ersatz für den lokalen
+Terminalweg.
 
 Eine bekannte, bereits spielende Persona kann über den Terminalclient einer
 ausdrücklichen Einladung zu einem **gemeinsamen Level-1-Frischstart**
@@ -66,15 +70,16 @@ mehrere Prozessstarts) wurde in diesem Lauf **nicht** abgeschlossen;
 dieser Leitfaden macht dazu keine Erfolgsaussage. Details:
 [mmo-sim.md § LA1](mmo-sim.md#la1--live-alltagsabnahme-2026-10-13).
 
-**Natives LAN-/Remote-Mitspielen über den Terminalclient ist noch nicht
-ausgeliefert** — die bisherige Chat-/Bildschirm-/Voice-Nutzung unten bleibt
-dafür bewusst der aktuelle Weg für „gemeinsam über das Netz". Ein lokaler
-Fokuswechsel am geteilten Terminal ist kein „online verbunden". Portabilität
-(derselbe Save läuft auf jeder passenden Plattform weiter) ist dabei etwas
-anderes als Netzwerksynchronisation (mehrere Geräte live über ein Netz
-verbunden) — der portable Save ersetzt keinen Netzwerk-Join, und ein
-Netzwerk-Join ist hier (Stand dieses Leitfadens) nicht das, was geliefert
-wird.
+**Natives LAN-/Remote-Mitspielen über den Terminalclient ist kein aktives
+Produktziel (seit der Zielgrenze vom 8. November 2026)** — die bisherige
+Chat-/Bildschirm-/Voice-Nutzung unten bleibt dafür bewusst der aktuelle Weg
+für „gemeinsam über das Netz". Ein lokaler Fokuswechsel am geteilten
+Terminal ist kein „online verbunden". Portabilität (derselbe Save läuft auf
+jeder passenden Plattform weiter — zum Beispiel nach Export und Import auf
+einem anderen eingerichteten ZEITRISS-Rechner) ist dabei etwas anderes als
+Netzwerksynchronisation (mehrere Geräte live über ein Netz verbunden) — der
+portable Save ersetzt keinen Netzwerk-Join, und ein Netzwerk-Join ist hier
+kein Lieferziel.
 
 **Ergebnisstufe LA1 (2026-10-13): `LIVE_ASSISTED_PARTIAL`** — notwendige
 Betreiberhilfen bei der Figurenerschaffung, Kernlauf über zwei Abschnitte
@@ -329,7 +334,8 @@ pauschale `fortsetzen`-Zusage** für jede Rolle nach jedem Ende:
 
 Für Betreiber + zwei Gäste realistisch **3 bis 7 Terminalfenster** auf einem
 Gerät. Wer das nicht braucht, bleibt beim einfachen `registrieren`-Weg ohne Tisch.
-Mehrere Geräte im LAN folgen erst in einer späteren Ausbaustufe.
+Mehrere Geräte im LAN sind kein aktives Produktziel (seit der Zielgrenze vom
+8. November 2026).
 
 ---
 

@@ -235,6 +235,45 @@ def render_boot_menu(
     return "\n".join(lines)
 
 
+def _stop_notice_personal_lines(io: "TuiSession", pid: str) -> list[str]:
+    """R7-Nachzug A1 (01_NACHZUG.md A1, GENERAL-REVIEW.md §3, 02_ABNAHME.md
+    §A "Persoenlicher Gastkanal"/"Figur/Stand"/"Naechster Schritt"):
+    personalisierte Zusatzzeilen NACH der gemeinsamen, fuer JEDEN Empfaenger
+    objektiv identischen Kernzeile (dieselbe Zeile fuer Betreiber UND jeden
+    betroffenen Gast, s. Aufrufer -- `test_r6_g03_guest_stop_channel_
+    notice_2026_11_07.py` bleibt dadurch unveraendert gueltig). NUR hier,
+    NICHT in der Kernzeile, wird je Empfaenger unterschieden.
+
+    Nutzt DIESELBE Resume-Autoritaet/Formel wie `_print_section_completion_
+    card` (`io._build_resume_card(participant_id=pid)`, KEIN zweiter Save-/
+    Rollenlesepfad, KEIN erfundener Stand fuer einen figurfreien Betreiber/
+    Zuschauer -- `has_character`/die figurfreie Zeile sind wortgleich zu
+    `_print_section_completion_card`s eigener Formel, dieselbe Quelle, kein
+    abweichender zweiter Text fuer dieselbe Bedingung). `participant_is_
+    host_capable` ist ebenfalls dieselbe bereits bewiesene Formel wie dort."""
+    card = io._build_resume_card(participant_id=pid)
+    has_character = card is not None and card.chrononaut_id is not None
+    if has_character:
+        stand_line = (
+            "Dein eigener zuletzt gueltiger Spielstand bleibt erhalten "
+            f"({card.last_valid_save_summary or card.chrononaut_id})."
+        )
+    else:
+        stand_line = "Keine eigene Figur -- kein persoenlicher Spielstand."
+    participant_is_host_capable = pid == io.participant_id and io._host_capable
+    if participant_is_host_capable:
+        next_step_line = (
+            "Naechster moeglicher Schritt: zurueck ins Hauptmenue -- von dort aus ein neues "
+            "Angebot/Tisch oder Solo-Fortsetzen (eigener Stand)."
+        )
+    else:
+        next_step_line = (
+            "Naechster moeglicher Schritt: Tisch suchen/beitreten (neue zulaessige Anfrage) "
+            "oder einfach zum Hauptmenue zurueck."
+        )
+    return [stand_line, next_step_line]
+
+
 class EndOfInput(Exception):
     """Signalisiert EOF/Pipeline-Ende — vom Aufrufer als kontrollierte Pause
     zu behandeln (A11/A16: kein Absturz bei Skript-/Pipe-Eingabe).
@@ -855,6 +894,16 @@ class _OperatorControlScope:
         return line
 
 
+# R7-Nachzug A3 (01_NACHZUG.md A3, GENERAL-REVIEW.md §4): EINE gemeinsame
+# Textquelle fuer den tieferen "Welcher Tisch?"-Read in `_cmd_menu_tisch`
+# (beide Vorkommen, Gast- UND Host-Zeile) UND fuer die Erinnerung, die
+# `_print_section_completion_card`/die Stopmeldung nach einer Unterbrechung
+# zeigen, WENN genau dieser Read noch der tatsaechlich wartende Kontext ist
+# (s. `_tisch_submenu_table_query_depth`) -- derselbe Wortlaut, kein zweiter,
+# abweichender Text fuer dieselbe offene Frage.
+_TISCH_WHICH_TABLE_PROMPT = "Welcher Tisch (Nummer aus der Liste oben oder table_key)? "
+
+
 class TuiSession:
     def __init__(
         self,
@@ -1020,6 +1069,23 @@ class TuiSession:
         # `render_boot_menu` zu drucken, waehrend der echte Leser weiterhin
         # im Tisch-Untermenue haengt).
         self._tisch_submenu_depth = 0
+        # R7-Nachzug A3 (01_NACHZUG.md A3, GENERAL-REVIEW.md §4 "sichtbare
+        # Ebene != wirklicher Leser"): `_tisch_submenu_depth` allein
+        # unterscheidet NICHT, ob der konkret wartende Read innerhalb von
+        # `_cmd_menu_tisch()` die ALLGEMEINE Auswahl ("Auswahl: ", Zeile
+        # 1-9) ist, oder der TIEFERE "Welcher Tisch (Nummer ... oder
+        # table_key)?"-Read (Zeile ~2168/~2197) -- in dem eine sichtbare
+        # Zahl eine TISCHKENNUNG/INDEX bedeutet, keine Submenue-Auswahl.
+        # Derselbe Zaehler-statt-Bool-Grund wie bei `_tisch_submenu_depth`
+        # oben (verschachtelte Aufrufe DERSELBEN Instanz auf
+        # unterschiedlichen Threads duerfen sich beim Verlassen nicht
+        # gegenseitig faelschlich als "nicht mehr dort" melden). Reine
+        # Anzeige-Breadcrumb dieser Sitzung (kein Store, keine Autoritaet) --
+        # erlaubt `_print_section_completion_card`/der Stopmeldung, nach
+        # einer Unterbrechung GENAU den tatsaechlich noch offenen
+        # "Welcher Tisch?"-Dialog zu erhalten/anzuzeigen, statt
+        # irrefuehrend die allgemeine Untermenue-Kopfzeile zu wiederholen.
+        self._tisch_submenu_table_query_depth = 0
         # ZR-FIGURENREISE-TISCH-20261102-R1 Teilpaket B (design.md §2):
         # explizite, vom AUFRUFER (Launcher `scripts/mmo_sim.py`, aus
         # tatsaechlich vorhandener Hoststack-Konfiguration -- NICHT aus
@@ -1308,6 +1374,37 @@ class TuiSession:
             # ihn nur fuer das kurze Claim-Setzen.
             with self._terminal_read_lock:
                 if self._host_terminal_claimed.is_set():
+                    continue
+                # R7-Nachzug A2 (01_NACHZUG.md A2, GENERAL-REVIEW.md §3
+                # "Bereitschaftspruefung vor dem Lock und spaeterer
+                # blockierender Read ohne erneute Bereitschaftspruefung"):
+                # das obige `ready` (Zeile ~1292) wurde AUSSERHALB dieses
+                # Locks geprueft -- zwischen diesem Check und der
+                # Lockuebernahme kann der privilegierte host-getriebene Read
+                # (`_HumanDriver.decide`, derselbe Lock beim Claim-Setzen,
+                # s. oben) die URSPRUENGLICH bereite Zeile bereits
+                # konsumiert UND seinen Claim wieder freigegeben haben,
+                # BEVOR dieser Thread hier ankommt -- der Claim-Recheck
+                # direkt darueber sieht dann faelschlich "frei". Ohne
+                # diesen zusaetzlichen, ebenfalls NICHT-konsumierenden
+                # Bereitschafts-Recheck (derselbe `_input_ready_fn`,
+                # Timeout 0 -- reiner Sofort-Poll, keine neue Wartezeit)
+                # wuerde der folgende `_readline("")` dann BLOCKIEREND auf
+                # eine NOCH NICHT getippte neue Zeile warten, WAEHREND
+                # dieser Lock gehalten bleibt (der `with`-Block endet erst
+                # bei Rueckkehr) -- der naechste host-getriebene Read kann
+                # dann seinen eigenen Claim (ebenfalls unter diesem Lock,
+                # `_HumanDriver.decide`/9459ff) nicht mehr setzen und sein
+                # Aktions-/Notizprompt erscheint nie (genau der in
+                # `repeat-proof.txt` beobachtete ausbleibende Prompt). Bei
+                # "immer noch bereit" (kein Interleaving) ist dieser Poll
+                # sofort wahr -- bytegleiches Verhalten/Timing fuer den
+                # normalen Einzelleser-Fall ohne Host-Konkurrenz.
+                try:
+                    still_ready = self._input_ready_fn(0)
+                except (OSError, ValueError):
+                    still_ready = False
+                if not still_ready:
                     continue
                 # R3 U1: Prompt wurde oben bereits einmal sichtbar gemacht --
                 # hier NUR noch konsumieren, ohne es erneut auszugeben.
@@ -2165,10 +2262,14 @@ class TuiSession:
                                 f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
                             )
                         )
-                    key_raw, key_control = self._readline_with_controls(
-                        "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
-                        context="Tisch-Untermenue", speaker_pid=acting_pid,
-                    )
+                    self._tisch_submenu_table_query_depth += 1
+                    try:
+                        key_raw, key_control = self._readline_with_controls(
+                            _TISCH_WHICH_TABLE_PROMPT,
+                            context="Tisch-Untermenue", speaker_pid=acting_pid,
+                        )
+                    finally:
+                        self._tisch_submenu_table_query_depth -= 1
                     if key_control in ("zurueck", "abbrechen", "pause"):
                         continue
                     key_raw = key_raw.strip()
@@ -2194,10 +2295,14 @@ class TuiSession:
                                 f"[{i}] '{tk}'" for i, tk in enumerate(self._last_table_search_offers, start=1)
                             )
                         )
-                    key_raw, key_control = self._readline_with_controls(
-                        "Welcher Tisch (Nummer aus der Liste oben oder table_key)? ",
-                        context="Tisch-Untermenue", speaker_pid=acting_pid,
-                    )
+                    self._tisch_submenu_table_query_depth += 1
+                    try:
+                        key_raw, key_control = self._readline_with_controls(
+                            _TISCH_WHICH_TABLE_PROMPT,
+                            context="Tisch-Untermenue", speaker_pid=acting_pid,
+                        )
+                    finally:
+                        self._tisch_submenu_table_query_depth -= 1
                     if key_control in ("zurueck", "abbrechen", "pause"):
                         continue
                     key_raw = key_raw.strip()
@@ -9113,7 +9218,23 @@ class TuiSession:
                 "Export des eigenen Standes (echter Export)",
                 lambda: io._cmd_export(participant_id=pid),
             ))
-        actions.append(("Zurueck zum Hauptmenue", lambda: None))
+        # R7-Nachzug A3 (01_NACHZUG.md A3, GENERAL-REVIEW.md §4 "Zurueck
+        # zum Hauptmenue"-Label trotz No-op-Handler): das Label muss zur
+        # ECHTEN Rueckgabe passen. War `io`s eigener Thread VOR dieser
+        # Karte bereits in SEINEM EIGENEN `_cmd_menu_tisch()`-Lesezyklus
+        # geparkt (`io._tisch_submenu_depth > 0`, unten unveraendert
+        # wieder abgefragt), fuehrt dieser No-op NICHT ins Hauptmenue,
+        # sondern zurueck in GENAU dieses weiterhin geparkte
+        # Tisch-Untermenue (s. `_reprint_reachable_menu_for_guest` unten) --
+        # das G02-Testoriginal erwartet GENAU diese Rueckkehr, nur der
+        # Text muss ehrlich sein. Der Handler selbst bleibt `lambda: None`
+        # (kein Verhalten geaendert, nur die Beschriftung).
+        return_label = (
+            "Zurueck zum Tisch-Untermenue (vorheriges Menue)"
+            if io._tisch_submenu_depth > 0 else
+            "Zurueck zum Hauptmenue"
+        )
+        actions.append((return_label, lambda: None))
         if is_guest_follow_up:
             actions.append((
                 "Tisch suchen/beitreten (neues zulaessiges Angebot)",
@@ -9169,15 +9290,54 @@ class TuiSession:
         # weil dort `run()`s eigener Toplevel-Read tatsaechlich der naechste
         # Konsument ist.
         if io is not self:
-            if io._tisch_submenu_depth > 0:
-                io._print_tisch_submenu_header(io._host_capable)
-            else:
-                io_resume = io._build_resume_card()
-                io._print(render_boot_menu(
-                    io_resume, host_capable=io._host_capable,
-                    table_status_lines=io._own_table_status_lines(),
-                    participant_id=io.participant_id,
-                ))
+            self._reprint_reachable_menu_for_guest(io)
+
+    def _reprint_reachable_menu_for_guest(self, io) -> None:
+        """R6-Nachzug G-R6-02 + R7-Nachzug A3 (01_NACHZUG.md A3,
+        GENERAL-REVIEW.md §4 "sichtbare Ebene != wirklicher Leser"):
+        gemeinsamer Helfer fuer JEDES Ereignis, das einen registrierten
+        Gast (`io is not self`, der Aufrufer prueft dies) fuer eine
+        Nachricht unterbricht (Abschlusskarte, Stopmeldung) -- zeigt GENAU
+        das Menue/den Dialog, der tatsaechlich der naechste Konsument der
+        folgenden Zahl ist, OHNE ein geheimes vorgeschaltetes '/stand'
+        (01_NACHZUG.md A1).
+
+        Drei Faelle, in dieser Prioritaet (feinste Unterscheidung zuerst):
+
+        1. `io._tisch_submenu_table_query_depth > 0`: `io`s eigener Thread
+           ist konkret im TIEFEREN "Welcher Tisch?"-Read geparkt (Zeile
+           ~2168/~2197) -- eine als naechstes getippte Zahl bedeutet dort
+           eine TISCHKENNUNG/-INDEX, KEINE Submenue-Auswahl. Die allgemeine
+           Untermenue-Kopfzeile waere hier irrefuehrend (sie listet [1]-[9]
+           Aktionen); stattdessen wird GENAU die noch offene Frage erneut
+           gezeigt (`_TISCH_WHICH_TABLE_PROMPT`, dieselbe Textquelle wie
+           die beiden echten Lesestellen, kein zweiter, abweichender Text)
+           plus die zuletzt gezeigte Tischliste, falls vorhanden (dieselbe
+           Anzeige, die vor dem Read selbst stand).
+        2. `io._tisch_submenu_depth > 0` (aber NICHT im tieferen Read):
+           `io`s Thread ist in der ALLGEMEINEN Tisch-Untermenue-Auswahl
+           geparkt -- unveraendertes G-R6-02-Verhalten, dieselbe Kopfzeile
+           wie `_cmd_menu_tisch` selbst.
+        3. Sonst: `io`s Thread ist an SEINEM EIGENEN Toplevel-Read (Boot-
+           Menue) geparkt -- unveraendertes Verhalten, `render_boot_menu`."""
+        if io._tisch_submenu_table_query_depth > 0:
+            if io._last_table_search_offers:
+                io._print(
+                    "Zuletzt gezeigte Tische: "
+                    + ", ".join(
+                        f"[{i}] '{tk}'" for i, tk in enumerate(io._last_table_search_offers, start=1)
+                    )
+                )
+            io._print(_TISCH_WHICH_TABLE_PROMPT.strip())
+        elif io._tisch_submenu_depth > 0:
+            io._print_tisch_submenu_header(io._host_capable)
+        else:
+            io_resume = io._build_resume_card()
+            io._print(render_boot_menu(
+                io_resume, host_capable=io._host_capable,
+                table_status_lines=io._own_table_status_lines(),
+                participant_id=io.participant_id,
+            ))
 
     def _print_operator_table_completion_card(self, table, operator_table_key: str | None) -> None:
         """U3c (R3 Stage 2, 01_NACHZUG §U3c "Betreiber ohne eigene Figur
@@ -9869,25 +10029,34 @@ class TuiSession:
             decided = decision.get("decision") if isinstance(decision, dict) else None
             if decided == "stopped":
                 self._finalize_genuine_table_abort(lobby, table, operator_table_key)
-                # R6-Nachzug (GENERAL-REVIEW.md §4/G-R6-03, 01_NACHZUG.md
-                # Arbeitsblock3): derselbe Wortlaut wie bisher, NUR einmal
-                # gebaut, kein neuer Textinhalt -- vorher ging dieser
-                # endgueltige Verwurf NUR an den Betreiberkanal (`self.
-                # _print`). Ein betroffener Gast MIT eigenem registriertem
-                # Terminal (`io is not self`) blieb dadurch unverstanden am
-                # Aktionsprompt/Zeitgedanken stehen und sprang im Original
-                # direkt in die naechste Retry-Eingabe, ohne je zu erfahren,
-                # dass dieser Abschnitt bereits vorbei ist (02_ABNAHME.md §C).
-                # Reuse der bereits oben gelesenen `decision`-Autoritaet --
-                # keine zweite Stop-/Adoptionsautoritaet, kein neuer Call.
-                stop_message = (
+                # R7-Nachzug A1 (01_NACHZUG.md A1, GENERAL-REVIEW.md §3
+                # "Admission-Gate-Sprache ... weder 'dein bisheriger
+                # gueltiger Spielstand bleibt erhalten' noch 'kein neuer
+                # Fortschritt uebernommen' steht darin", 02_ABNAHME.md §A):
+                # die bisherige Zeile las sich wie interne Admission-Gate-
+                # Prosa ("VOR der Entscheidung", "Figurenbindung
+                # freigegeben" -- Begriffe, die ein Spieler nicht kennen/
+                # verstehen muss). `stop_core_line` ist die gemeinsame,
+                # fuer JEDEN Empfaenger OBJEKTIV identische Kernaussage
+                # (Betreiber UND jeder betroffene Gast lesen DIESELBE Zeile
+                # -- G-R6-03-Test `test_r6_g03_guest_stop_channel_notice_
+                # 2026_11_07.py` bleibt dadurch unveraendert gueltig,
+                # "ENDGUELTIG"/"Betreiber-Stop"/"nicht abgeschlossen"
+                # bleiben erhalten) und benennt jetzt EXPLIZIT: Abschnitt
+                # gestoppt, kein neuer Fortschritt aus diesem verworfenen
+                # Abschnitt uebernommen. Reuse der bereits oben gelesenen
+                # `decision`-Autoritaet -- keine zweite Stop-/Adoptions-
+                # autoritaet, kein neuer Call.
+                stop_core_line = (
                     f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) -- durch "
-                    "Betreiber-Stop VOR der Entscheidung wirklich verworfen: ENDGUELTIG, kein "
-                    "Fortsetzen moeglich. Betroffene eigene Figurenbindung freigegeben; erneute "
-                    "Tischsuche/-anfrage ueber den normalen Produktweg moeglich."
+                    "Betreiber-Stop ENDGUELTIG beendet (verworfen): kein Fortsetzen dieses "
+                    "Abschnitts moeglich, kein neuer Fortschritt aus diesem Abschnitt wird "
+                    "uebernommen."
                 )
-                self._print(stop_message)
-                # Dieselbe Nachricht JETZT auch an jeden betroffenen
+                self._print(stop_core_line)
+                for _extra_line in _stop_notice_personal_lines(self, self.participant_id):
+                    self._print(_extra_line)
+                # Dieselbe Kernzeile JETZT auch an jeden betroffenen
                 # Gastkanal (`io is not self`) -- dieselbe Filterformel wie
                 # unten bei der Erfolgskarte (`drivers.items()`, NUR
                 # tatsaechliche menschliche Tischmitglieder, s. dort):
@@ -9895,14 +10064,31 @@ class TuiSession:
                 # `io is self` (Betreiber selbst ODER geteilter Bildschirm
                 # ohne eigenes Gastterminal) sieht die Nachricht bereits
                 # ueber den `self._print` oben (dasselbe physische
-                # Terminal) -- kein Doppeldruck.
+                # Terminal) -- kein Doppeldruck. `_stop_notice_personal_
+                # lines(_stop_io, _stop_pid)` personalisiert NUR die
+                # Zusatzzeilen (eigener Stand/naechster Schritt) -- dieselbe
+                # Resume-Autoritaet/Formel wie `_print_section_completion_
+                # card`, kein erfundener Save fuer einen figurfreien
+                # Betreiber/Zuschauer.
                 for _stop_pid, _stop_driver in drivers.items():
                     if not getattr(_stop_driver, "is_human_driver", False):
                         continue
                     _stop_io = self._table_guest_terminals.get(_stop_pid, self)
                     if _stop_io is self:
                         continue
-                    _stop_io._print(stop_message)
+                    _stop_io._print(stop_core_line)
+                    for _extra_line in _stop_notice_personal_lines(_stop_io, _stop_pid):
+                        _stop_io._print(_extra_line)
+                    # R7-Nachzug A1 (01_NACHZUG.md A1 "naechste normale
+                    # Menue-/Dialogfrage ... ohne geheimes vorgeschaltetes
+                    # /stand oder Blind-Eingabe erreichbar machen"): zeigt
+                    # SOFORT dasselbe erreichbare Menue/den tatsaechlich
+                    # noch offenen Dialog (Reuse von `_reprint_reachable_
+                    # menu_for_guest`, derselbe Helfer wie die Abschluss-
+                    # karte, s. dort) -- der betroffene Gast muss NICHT
+                    # mehr zuerst `/stand` tippen, um ueberhaupt wieder eine
+                    # gueltige naechste Frage zu sehen.
+                    self._reprint_reachable_menu_for_guest(_stop_io)
             elif decided == "plan_committed":
                 self._print(
                     f"Fortschritt bereits angenommen, Restabschluss (Reflexion/Finalisierung) "

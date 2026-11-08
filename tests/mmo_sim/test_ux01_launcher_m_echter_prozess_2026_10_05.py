@@ -207,7 +207,7 @@ def test_m_route_reaches_real_mmo_sim_hauptmenue() -> None:
         assert "Traceback" not in proc.stderr, f"Unerwartete Exception im Kind:\n{proc.stderr}"
 
         out = proc.stdout
-        assert "[M]  ZEITRISS MMO-Sim (Terminal, kein Browser)" in out, (
+        assert "[M]  ZEITRISS spielen (Terminal)" in out, (
             f"Echter [M]-Menuepunkt wurde nicht angezeigt -- kein echter Routendurchlauf:\n{out}"
         )
         # Der ECHTE mmo_sim-TUI-Hauptmenue-Banner (render_boot_menu in

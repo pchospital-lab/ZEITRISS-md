@@ -4,6 +4,14 @@ Stand: 29. Oktober 2026. Die Gegenwartsübersicht beschreibt die unabhängig
 abgenommene lokale Beta-Etappe. Frühere Zwischenstände stehen getrennt
 unter „Historische Zwischenstände“.
 
+**Aktuelle Zielgrenze (8. November 2026):** ZEITRISS ist als lokales
+Terminal-Computerspiel für Linux Mint ausgerichtet; LAN und Windows sind
+seither kein aktives Ziel mehr, auch nicht als zugesagte spätere
+Pflichtetappe (siehe [`produktplan.md`](produktplan.md) §„Aktuelle
+Zielgrenze"). Historische Bezeichnungen wie „vor LAN" weiter unten bleiben
+als damaliger Name dieser Etappe erhalten und werden dadurch nicht
+umgeschrieben.
+
 ## Gegenwartsübersicht (Stand 29. Oktober 2026)
 
 **Anerkannter lokaler Referenzweg:** Der lokale Terminal-Client an einem

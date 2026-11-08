@@ -39,10 +39,10 @@
     "name": "ZEITRISS",
     "tagline": "Tech-Noir Zeitreise-RPG",
     "noun": "Spiel",
-    "start_label": "Spiel starten",
+    "start_label": "Regelwerk im Chat ausprobieren",
     "start_hint": "In OpenWebUI: Neuer Chat → Modell 'ZEITRISS v4.2.6 Uncut' wählen → 'Spiel starten (solo klassisch)'\noder in natürlicher Sprache sagen — z.B. 'neu starten' oder 'neuen Charakter bauen'.",
     "farewell": "Bis bald, Chrononaut.",
-    "export_intro": "Ich packe die portable ZEITRISS-Engine (Masterprompt + Wissensmodule + Spiel-Bootstrap + Creator-Bootstrap)",
+    "export_intro": "Ich packe den Masterprompt und die 19 Wissensdateien zum Ausprobieren auf einer eigenen Plattform (plus Spiel-Bootstrap + Creator-Bootstrap) — kein persönlicher Spielstand",
     "lore_moment": "Bergungs-Moment",
     "lore_label": "eingerahmt als ITI-Bergung"
   },
