@@ -296,7 +296,12 @@ def main(argv: list[str] | None = None) -> int:
         from mmo_sim.lab.cli import main as lab_main
         return lab_main(raw_argv[1:], repo_root=_REPO_ROOT)
 
-    parser = argparse.ArgumentParser(description="ZEITRISS MMO-Sim Terminaloberflaeche")
+    # R8-Nachzug (01_NACHZUG.md R8-4, PRODUKTFOCUS-LINUX-MINT.md "Spieler
+    # oeffnet ZEITRISS bzw. das Terminalspiel"): sichtbare CLI-Beschreibung
+    # fuer die Rolle, die dieses Skript tatsaechlich direkt aufruft (Spieler
+    # per Setupguide ODER Entwickler), nicht der interne Entwicklerbegriff
+    # "MMO-Sim" allein.
+    parser = argparse.ArgumentParser(description="ZEITRISS — Terminalspiel (Terminaloberflaeche)")
     parser.add_argument("--participant", default=None, help="bestehende Teilnehmer-ID (sonst wird die zuletzt genutzte wiederverwendet bzw. beim allerersten Lauf eine neue erzeugt)")
     parser.add_argument("--data-dir", default=str(_REPO_ROOT / "internal" / "mmo_sim_data"),
                          help="Datenverzeichnis fuer Onboarding-/Katalog-Journale")

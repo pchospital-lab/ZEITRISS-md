@@ -187,7 +187,12 @@ def render_boot_menu(
     # echte Figur-Save vorhanden ist (`_cmd_local_round([])` prueft intern
     # ohnehin die richtige Autoritaet fuer beide Faelle).
     has_resume = _boot_has_resume(resume)
-    lines = ["ZEITRISS MMO-Sim", ""]
+    # R8-Nachzug (01_NACHZUG.md R8-4, PRODUKTFOCUS-LINUX-MINT.md "Spieler
+    # oeffnet ZEITRISS bzw. das Terminalspiel"): der Spieler-Boottitel
+    # benennt jetzt das Produkt, nicht den internen Entwicklerbegriff
+    # "MMO-Sim" (interne Modulpfade/Tests unter diesem Namen bleiben
+    # unveraendert).
+    lines = ["ZEITRISS — Terminalspiel", ""]
     if participant_id is not None:
         own_chrono = resume.chrononaut_id if resume is not None else None
         if not host_capable:
@@ -9054,6 +9059,31 @@ class TuiSession:
             except table_admission.TableAdmissionError:
                 pass
 
+    def _completion_card_back_label(self, io) -> str:
+        """R8-Nachzug (01_NACHZUG.md R8-2c, GENERAL-REVIEW.md §4 "tui.py:9124
+        verspricht im Karten-Readprompt weiter pauschal 'leer/zurueck =
+        Hauptmenue', ebenso der Ruecktext bei ausgeschoepften Fehlversuchen
+        um 9138"): derselbe Drei-Faelle-Entscheid wie `_reprint_reachable_
+        menu_for_guest` (s. dort, dieselbe Prioritaet, dieselben beiden
+        Tiefenzaehler) -- EINE Quelle fuer den generischen Karten-Read-Prompt
+        UND den Rueckfalltext nach ausgeschoepften Fehlversuchen, statt eines
+        festen "Hauptmenue"-Texts, der der tatsaechlichen Rueckgabe
+        widerspricht, sobald `io`s Thread bereits VOR der Karte in seinem
+        EIGENEN `_cmd_menu_tisch()`-Lesezyklus (oder dessen tieferem
+        "Welcher Tisch?"-Read) geparkt war: ist `io`s Thread konkret im
+        tieferen Read geparkt (`_tisch_submenu_table_query_depth > 0`), ist
+        GENAU diese Frage der wahre naechste Konsument; sonst, bei laufender
+        ALLGEMEINEN Tisch-Untermenue-Auswahl (`_tisch_submenu_depth > 0`),
+        ist es das Tisch-Untermenue; nur sonst wirklich das Hauptmenue.
+        `self`s eigene Karte (`io is self`, z.B. die figurfreie Betreiber-
+        Tischkarte) nutzt dieselben Zaehler auf `self` -- single-threaded
+        reflektieren sie dort unveraendert die aktuelle Aufrufschachtelung."""
+        if io._tisch_submenu_table_query_depth > 0:
+            return "zur vorherigen 'Welcher Tisch?'-Frage"
+        if io._tisch_submenu_depth > 0:
+            return "zum Tisch-Untermenue"
+        return "zum Hauptmenue"
+
     def _dispatch_completion_card_choice(
         self, io, actions: list[tuple[str, object]], *, speaker_pid: str | None = None,
     ) -> None:
@@ -9121,8 +9151,8 @@ class TuiSession:
                     # wuerde er auf seinen EIGENEN soeben gesetzten Claim
                     # warten (Deadlock).
                     raw, control = io._readline_with_controls(
-                        "Auswahl (Nummer, leer/zurueck = Hauptmenue): ", context="Abschlusskarte",
-                        speaker_pid=speaker_pid, bypass_claim=True,
+                        f"Auswahl (Nummer, leer/zurueck fuehrt {self._completion_card_back_label(io)}): ",
+                        context="Abschlusskarte", speaker_pid=speaker_pid, bypass_claim=True,
                     )
                 except EndOfInput:
                     return
@@ -9135,7 +9165,10 @@ class TuiSession:
                     actions[int(choice) - 1][1]()
                     return
                 io._print(f"Unbekannte Auswahl {choice!r} -- bitte erneut waehlen.")
-            io._print(f"Zu viele ungueltige Versuche ({max_attempts}) -- zurueck zum Hauptmenue.")
+            io._print(
+                f"Zu viele ungueltige Versuche ({max_attempts}) -- "
+                f"zurueck {self._completion_card_back_label(io)}."
+            )
         finally:
             if claims_guest_terminal:
                 io._host_terminal_claimed.clear()

@@ -117,7 +117,7 @@ def _smart_input():
         # eine zusaetzliche Auswahl -- dieser Test prueft die Admission-/
         # Tischlifecycle-Nachfuehrung, nicht die Kartenbedienung selbst,
         # daher hier neutral "Zurueck zum Hauptmenue" (leere Eingabe).
-        if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+        if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
             return ""
         counter["n"] += 1
         return f"Zug {counter['n']}."

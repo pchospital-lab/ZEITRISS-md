@@ -22,10 +22,10 @@ python3 scripts/setup.py
 
 ## Andere Systeme (ungeprüfte Nebenkompatibilität)
 
-ZEITRISS ist für Linux Mint gedacht; Windows ist kein Ziel, macOS läuft
-ohne Supportversprechen beiläufig mit. Die folgenden Schritte sind keine
-gleichrangigen Produktwege, nur eine Referenz, falls du es dort trotzdem
-versuchst.
+ZEITRISS ist für Linux Mint gedacht; Windows ist kein Ziel, macOS ist eine
+mögliche, ungeprüfte Nebenkompatibilität ohne Laufzusage. Die folgenden
+Schritte sind keine gleichrangigen Produktwege, nur eine Referenz, falls
+du es dort trotzdem versuchst.
 
 ### macOS
 

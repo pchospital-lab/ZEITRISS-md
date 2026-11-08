@@ -198,8 +198,11 @@ Gespeichert wird im HQ mit `!save` (oder `!speichern`): die Spielleitung
 gibt deinen aktuellen Stand als Save-Block aus, der Client erntet ihn und
 schließt damit den laufenden Abschnitt ab. Danach zeigt dir der Client deine
 persönliche **Abschlusskarte** mit den nächsten Schritten als nummerierte
-Auswahl — den eigenen Stand exportieren und zurück zum Hauptmenü (eine leere
-Eingabe oder `/zurueck` führt ebenfalls dorthin). Spielst du als Gast an einem
+Auswahl — den eigenen Stand exportieren und zurück zu deinem vorherigen Menü
+(eine leere Eingabe oder `/zurueck` führt ebenfalls dorthin): zum Hauptmenü,
+wenn du dort geparkt warst; zum Tisch-Untermenü, wenn du dort warst; und zur
+vorherigen "Welcher Tisch?"-Frage, wenn du konkret in dieser noch offenen
+Tischfrage steckst. Spielst du als Gast an einem
 Tisch mit, kommt eine zulässige Folgeaktion wie einen weiteren Tisch
 suchen/beitreten hinzu. `!bogen` zeigt nur den Charakterbogen an und
 speichert nicht. In Briefing, Einsatz und Debrief ist Speichern gesperrt

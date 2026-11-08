@@ -601,7 +601,7 @@ def test_a24_r3_midwait_active_table_snapshot():
             # damit die Pacing-Barriere nicht auf einen nie gesendeten
             # "Auswahl:"-Prompt wartet, waehrend der Kindprozess real auf
             # diese neue Zeile wartet.
-            completion_card_prompt = "Auswahl (Nummer, leer/zurueck = Hauptmenue):"
+            completion_card_prompt = "Auswahl (Nummer, leer/zurueck fuehrt zum Hauptmenue):"
             steps.append((completion_card_prompt, ""))
             steps.append((completion_card_prompt, ""))
             steps.append(("Auswahl:", "x"))

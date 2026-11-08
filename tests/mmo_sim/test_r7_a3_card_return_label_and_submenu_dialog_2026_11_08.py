@@ -71,12 +71,23 @@ from mmo_sim.ui.tui import _TISCH_WHICH_TABLE_PROMPT, TuiSession  # noqa: E402
 class _FakeFifo:
     """Derselbe In-Process-FIFO-Ersatz wie `test_r6_g02_parked_submenu_
     dispatcher_match_2026_11_07.py` -- `ready(timeout)` prueft NICHT-
-    konsumierend, `read_line(prompt)` konsumiert GENAU EINE Zeile."""
+    konsumierend, `read_line(prompt)` konsumiert GENAU EINE Zeile.
+
+    R8-Nachzug (01_NACHZUG.md R8-2c): `read_line` zeichnet zusaetzlich JEDEN
+    tatsaechlich uebergebenen `prompt` in `prompts_seen` auf -- derselbe
+    `prompt`, den das reale `scripts/mmo_sim.py::_FifoLineReader.read_line`
+    bei nicht-leerem Text wirklich an den Gastbildschirm echot (s. dortiger
+    `_echo_fn`-Aufruf). Diese enge Testdoppel druckt den Prompt selbst
+    NICHT (unveraendertes bisheriges Verhalten dieser Klasse), erlaubt aber
+    zu pruefen, WELCHEN Text `_dispatch_completion_card_choice` fuer den
+    Karten-Read tatsaechlich uebergibt -- genau die R8-2c-Luecke
+    (`tui.py:9124` versprach dort weiter pauschal 'Hauptmenue')."""
 
     def __init__(self) -> None:
         self._queue: "queue.Queue[str]" = queue.Queue()
         self._lock = threading.Lock()
         self._peeked: str | None = None
+        self.prompts_seen: list[str] = []
 
     def push(self, line: str) -> None:
         self._queue.put(line)
@@ -94,6 +105,7 @@ class _FakeFifo:
         return True
 
     def read_line(self, prompt: str = "") -> str:
+        self.prompts_seen.append(prompt)
         while True:
             with self._lock:
                 if self._peeked is not None:
@@ -187,6 +199,7 @@ def test_card_during_deeper_which_table_dialog_matches_label_and_reminder():
         )
 
         before_len = len(guest_printed)
+        before_prompts_len = len(fifo.prompts_seen)
         card_returned = threading.Event()
         card_error: list[BaseException] = []
 
@@ -230,6 +243,16 @@ def test_card_during_deeper_which_table_dialog_matches_label_and_reminder():
             "wartende Read ist der tiefere 'Welcher Tisch?'-Dialog, keine Submenue-Auswahl.",
             new_output,
         )
+        # R8-Nachzug (01_NACHZUG.md R8-2c, tui.py:9124): der GENERISCHE
+        # Karten-Read-Prompt selbst (nicht nur das No-op-Aktionslabel oben)
+        # muss ebenfalls ehrlich die tiefere "Welcher Tisch?"-Frage nennen,
+        # nicht pauschal "Hauptmenue".
+        card_prompts = fifo.prompts_seen[before_prompts_len:]
+        assert card_prompts and "zur vorherigen 'Welcher Tisch?'-Frage" in card_prompts[0], (
+            "Der Karten-Read-Prompt haette ehrlich die tiefere 'Welcher Tisch?'-Frage als "
+            "Rueckziel nennen muessen.", card_prompts,
+        )
+        assert "Hauptmenue" not in card_prompts[0], card_prompts
 
         # Die naechste getippte Zahl MUSS als Tischauswahl (Index 1 ->
         # 'mesa-a3-eins') ankommen, NICHT als Submenue-Aktion.
@@ -298,6 +321,7 @@ def test_card_during_general_submenu_selection_keeps_existing_header_behaviour()
         )
 
         before_len = len(guest_printed)
+        before_prompts_len = len(fifo.prompts_seen)
         card_returned = threading.Event()
 
         def _host_card_body() -> None:
@@ -322,6 +346,109 @@ def test_card_during_general_submenu_selection_keeps_existing_header_behaviour()
             "werden muessen (unveraendertes G-R6-02-Verhalten).", new_output,
         )
         assert "Zurueck zum Tisch-Untermenue" in new_output, new_output
+        # R8-Nachzug (01_NACHZUG.md R8-2c): auch hier muss der generische
+        # Karten-Read-Prompt selbst (tui.py:9124) ehrlich "Tisch-Untermenue"
+        # nennen, nicht pauschal "Hauptmenue" -- derselbe wartende Read ist
+        # hier die ALLGEMEINE Untermenue-Auswahl, nicht die tiefere Frage.
+        card_prompts = fifo.prompts_seen[before_prompts_len:]
+        assert card_prompts and "zum Tisch-Untermenue" in card_prompts[0], (
+            "Der Karten-Read-Prompt haette ehrlich 'Tisch-Untermenue' als Rueckziel nennen "
+            "muessen.", card_prompts,
+        )
+        assert "Hauptmenue" not in card_prompts[0], card_prompts
+
+        fifo.push("/zurueck")
+        assert guest_returned.wait(timeout=5.0)
+        guest_thread.join(timeout=5.0)
+        assert not guest_error, f"Gast-Thread endete mit Fehler: {guest_error}"
+
+
+def test_card_retry_exhausted_message_matches_real_back_destination():
+    """R8-Nachzug (01_NACHZUG.md R8-2c, GENERAL-REVIEW.md §4 "ebenso der
+    Ruecktext bei ausgeschoepften Fehlversuchen um 9138"): nicht nur der
+    Karten-Read-Prompt selbst, auch der Rueckfalltext nach den 10
+    ungueltigen Versuchen (`_dispatch_completion_card_choice`s
+    `max_attempts`-Zweig) muss die tatsaechliche Rueckgabe (hier: das
+    weiterhin geparkte Tisch-Untermenue) nennen, nicht pauschal
+    'Hauptmenue'."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        host_onboarding, host_catalog = root / "host_onboarding", root / "host_catalog"
+        guest_onboarding, guest_catalog = root / "guest_onboarding", root / "guest_catalog"
+        host_id, guest_id = "betreiber_a3c", "gast_a3c"
+        _register_private_figure(host_onboarding, host_catalog, host_id, "CHR-A3C-HOST")
+        _register_private_figure(guest_onboarding, guest_catalog, guest_id, "CHR-A3C-GUEST")
+
+        fifo = _FakeFifo()
+        guest_printed: list[str] = []
+        host_session = TuiSession(
+            onboarding_dir=host_onboarding, catalog_dir=host_catalog, participant_id=host_id,
+            print_fn=lambda *_a: None, host_capable=True,
+        )
+        guest_session = TuiSession(
+            onboarding_dir=guest_onboarding, catalog_dir=guest_catalog, participant_id=guest_id,
+            input_fn=fifo.read_line, print_fn=guest_printed.append, host_capable=False,
+            input_ready_fn=fifo.ready,
+        )
+        host_session.register_guest_terminal(guest_id, guest_session)
+
+        guest_returned = threading.Event()
+        guest_error: list[BaseException] = []
+
+        def _guest_thread_body() -> None:
+            try:
+                guest_session._cmd_menu_tisch()
+            except BaseException as exc:  # pragma: no cover - defensive
+                guest_error.append(exc)
+            finally:
+                guest_returned.set()
+
+        guest_thread = threading.Thread(target=_guest_thread_body, name="guest-a3c", daemon=True)
+        guest_thread.start()
+        for _ in range(200):
+            if "Tisch -- [1] Offene Tische suchen" in "\n".join(guest_printed):
+                break
+            time.sleep(0.02)
+        else:
+            raise AssertionError("Gast-Thread hat das Tisch-Untermenue nicht sichtbar gedruckt.")
+        assert guest_session._tisch_submenu_depth > 0
+
+        card_returned = threading.Event()
+        card_error: list[BaseException] = []
+
+        def _host_card_body() -> None:
+            try:
+                host_session._print_section_completion_card(guest_session, guest_id, saved_now=False)
+            except BaseException as exc:  # pragma: no cover - defensive
+                card_error.append(exc)
+            finally:
+                card_returned.set()
+
+        card_thread = threading.Thread(target=_host_card_body, name="host-a3c-card", daemon=True)
+        card_thread.start()
+        for _ in range(500):
+            if guest_session._host_terminal_claimed.is_set():
+                break
+            time.sleep(0.01)
+        else:
+            raise AssertionError("Host-Karten-Read hat das Gastterminal nicht geclaimt.")
+
+        before_len = len(guest_printed)
+        # 10 ungueltige Versuche (ausserhalb jeder gueltigen Aktionsnummer)
+        # -- erschoepft `max_attempts`, OHNE '/zurueck' zu tippen.
+        for _ in range(10):
+            fifo.push("99")
+        assert card_returned.wait(timeout=5.0), "Abschlusskarten-Dispatch kehrte nicht zurueck."
+        card_thread.join(timeout=5.0)
+        assert not card_error, f"Host-Karten-Thread endete mit Fehler: {card_error}"
+
+        new_output = "\n".join(guest_printed[before_len:])
+        assert "zurueck zum Tisch-Untermenue" in new_output, (
+            "Der Rueckfalltext nach ausgeschoepften Fehlversuchen haette ehrlich "
+            "'Tisch-Untermenue' nennen muessen, nicht pauschal 'Hauptmenue' (der wirklich "
+            "wartende Read ist weiterhin das Tisch-Untermenue).", new_output,
+        )
+        assert "zurueck zum Hauptmenue" not in new_output, new_output
 
         fifo.push("/zurueck")
         assert guest_returned.wait(timeout=5.0)

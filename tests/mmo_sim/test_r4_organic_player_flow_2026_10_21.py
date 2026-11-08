@@ -174,7 +174,7 @@ def test_organic_player_flow_invariants_a_to_f():
             # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
             # Abschlusskarte liest nach echtem Abschnittsabschluss eine
             # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
-            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
                 return ""
             raise AssertionError(f"Unerwarteter Prompt ohne Antwortregel: {prompt!r}")
 

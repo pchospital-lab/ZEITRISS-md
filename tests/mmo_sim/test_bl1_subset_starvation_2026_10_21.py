@@ -200,7 +200,7 @@ def test_bl1_tui_path_partial_selection_with_foreign_bound_unplayed_table():
             # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
             # Abschlusskarte liest nach echtem Abschnittsabschluss eine
             # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
-            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
                 return ""
             raise AssertionError(f"unerwarteter Prompt: {prompt!r}")
 
@@ -406,7 +406,7 @@ def test_m1_tui_vorspielen_menu_reaches_parity_personas():
             # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
             # Abschlusskarte liest nach echtem Abschnittsabschluss eine
             # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
-            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
                 return ""
             raise AssertionError(f"unerwarteter Prompt: {prompt!r}")
 

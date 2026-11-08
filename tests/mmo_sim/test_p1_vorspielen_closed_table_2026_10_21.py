@@ -153,7 +153,7 @@ def test_p1_vorspielen_sees_members_of_just_closed_table():
             # unten eine zusaetzliche Auswahl -- dieser Test prueft
             # Vorspielen/Catch-up, nicht die Kartenbedienung, daher hier
             # neutral "Zurueck zum Hauptmenue" (leere Eingabe).
-            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
                 return ""
             raise AssertionError(f"unerwarteter Prompt ohne Antwortregel: {prompt!r}")
 

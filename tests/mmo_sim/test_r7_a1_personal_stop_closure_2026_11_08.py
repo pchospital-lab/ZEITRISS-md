@@ -207,7 +207,7 @@ def test_personal_stop_closure_distinguishes_figure_free_operator_from_guest_wit
 
         # (5) Der Gast sieht SOFORT ein erreichbares Menue -- OHNE zuerst
         # '/stand' tippen zu muessen (kein geheimer vorgeschalteter Befehl).
-        assert "ZEITRISS MMO-Sim" in guest_out, (
+        assert "ZEITRISS — Terminalspiel" in guest_out, (
             "der betroffene Gast haette SOFORT nach der Stopmeldung wieder ein gueltiges, "
             "erreichbares Menue sehen muessen (ohne zuerst '/stand' tippen zu muessen).",
             guest_out,

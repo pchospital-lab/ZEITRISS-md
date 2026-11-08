@@ -10,8 +10,10 @@ Dieser Leitfaden beschreibt, **wie man ZEITRISS gemeinsam spielt** — vor allem
 lokal am selben Rechner, mit Betreiber und Gästen oder einfach am geteilten
 Terminal. Zusätzlich lässt sich dasselbe Prinzip über einen geteilten Chat
 (z. B. Discord) ausprobieren. Es braucht **keinen zentralen Server**, keine
-Registrierung und keine App. Alles läuft über die eine Sache, die du sowieso
-schon hast: **deinen Spielstand als JSON.**
+Registrierung und keine zusätzliche App zum Herunterladen — nur den
+bereits beschriebenen ZEITRISS-Terminalclient (und für den Chatversuch
+eine ohnehin vorhandene Chat-Plattform). Alles läuft über die eine Sache,
+die du sowieso schon hast: **deinen Spielstand als JSON.**
 
 > **Kurz gesagt:** Dein persönlicher `!save`-JSON enthält den zuletzt
 > gespeicherten Stand deiner Figur. Nach einem abgeschlossenen Abschnitt
@@ -94,8 +96,9 @@ abgenommene Weg bleibt.
 Neben dem Chat-/JSON-Weg unten und dem einfachen „ein Gerät, `registrieren`"-Weg
 aus [Spielerstart](spielerstart.md) gibt es einen dritten lokalen Weg: einen
 **Tisch** mit Betreiber und Gästen auf **einem** Rechner. Er ist bewusst roh
-(POSIX-Named-Pipes, kein fertiges Gast-UI) und läuft auf **Linux und macOS**,
-**nicht** auf Windows.
+(POSIX-Named-Pipes, kein fertiges Gast-UI) und für **Linux (Mint)** gedacht.
+**Windows** ist kein Ziel. **macOS** ist wegen der gemeinsamen POSIX-Basis
+eine mögliche, aber ungeprüfte Nebenkompatibilität ohne Laufzusage.
 
 ### Grundidee
 
@@ -257,10 +260,13 @@ Der normale Abschluss läuft über das HQ, **bevor** es um Stop/Abbruch geht:
   jeweiligen Person: kein gemeinsamer Spielstand und keine Modellaktion.
 - Direkt nach dem Abschluss zeigt der Client jedem Gast **in seinem eigenen
   Fenster** eine persönliche, nummerierte **Abschlusskarte**: `[1]` den eigenen
-  Stand exportieren, danach zurück zum Hauptmenü (leere Eingabe oder `/zurueck`
-  führt ebenfalls dorthin), und als Gast zusätzlich einen weiteren Tisch
-  suchen/beitreten. Jeder Gast bedient seine Karte selbst; der Export entspricht
-  dem `charaktere` → `3`-Weg.
+  Stand exportieren, danach zurück zu deinem vorherigen Menü (leere Eingabe
+  oder `/zurueck` führt ebenfalls dorthin) — zum Hauptmenü, wenn du dort
+  geparkt warst, zum Tisch-Untermenü, wenn du dort warst, oder zur
+  vorherigen "Welcher Tisch?"-Frage, wenn du konkret in dieser noch offenen
+  Tischfrage stecktest —, und als Gast zusätzlich einen weiteren Tisch
+  suchen/beitreten. Jeder Gast bedient seine Karte selbst; der Export
+  entspricht dem `charaktere` → `3`-Weg.
 - So nimmt jeder Gast seinen aktuellen Stand mit. Der Export liegt als
   persönliche Save-JSON im eigenen Export-Ordner des Gastes — standardmäßig
   `<Datenablage>/guests/<GAST_ID>/exports/<GAST_ID>.json`.
@@ -352,8 +358,11 @@ Kampagnenstand und dein Eintrittsticket in jede Runde. Daraus ergibt sich ein
 - Ihr spielt zusammen einen Abschnitt — danach geht jeder mit seinem
   aktualisierten JSON wieder seiner Wege oder ihr macht weiter.
 
-Der Clou: Es ist völlig egal, auf welcher Plattform jemand sonst spielt. Das
-JSON ist universell.
+Der Clou: Für den persönlichen Dateiumzug ist es egal, auf welcher
+Plattform jemand zuvor gespielt hat — das JSON lässt sich grundsätzlich
+mitnehmen. Das ist keine universelle Regel-/Spielgarantie unabhängig vom
+jeweiligen Chat-/Modell-Stack; die passenden Import- und
+Regelvoraussetzungen (siehe oben) gelten weiterhin.
 
 ---
 

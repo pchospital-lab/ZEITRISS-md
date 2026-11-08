@@ -83,7 +83,7 @@ class _DivergingInput:
         # Abschlusskarte liest nach echtem Abschnittsabschluss eine
         # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue", statt
         # sie wie einen normalen Spielzug zu beantworten.
-        if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+        if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
             return ""
         self.calls_turn += 1
         return f"{self.label}-Zug {self.calls_turn}."
@@ -213,7 +213,7 @@ def test_n1_gegenprobe_geteilter_bildschirm_bleibt_bytegleich():
             # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
             # Abschlusskarte liest nach echtem Abschnittsabschluss eine
             # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
-            if prompt.startswith("Auswahl (Nummer, leer/zurueck = Hauptmenue)"):
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
                 return ""
             shared_calls["n"] += 1
             if "[j/n]" in prompt:

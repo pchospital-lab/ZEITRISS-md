@@ -213,7 +213,7 @@ def test_m_route_reaches_real_mmo_sim_hauptmenue() -> None:
         # Der ECHTE mmo_sim-TUI-Hauptmenue-Banner (render_boot_menu in
         # mmo_sim/ui/tui.py) -- kein Attrappentext, kommt NUR, wenn
         # TuiSession.run() tatsaechlich real durchlief.
-        assert "ZEITRISS MMO-Sim" in out and "Hauptmenue:" in out, (
+        assert "ZEITRISS — Terminalspiel" in out and "Hauptmenue:" in out, (
             f"Echtes mmo_sim-Terminal-Hauptmenue wurde nicht erreicht:\n{out}"
         )
         assert ") Spielen" in out and "[spielen]" in out, f"mmo_sim-Hauptmenue unvollstaendig/nicht echt:\n{out}"

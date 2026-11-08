@@ -16,7 +16,7 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 1. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
 2. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
 3. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
-4. [Komplett-Setup in OpenWebUI (Referenz/Selfhosting)](#komplett-setup-in-openwebui-empfohlen)
+4. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
 5. [Updates und Wartung](#updates-und-wartung)
 6. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
    — Gruppenspiel, Lokal-GPU-Variante, Export
@@ -186,7 +186,7 @@ sauber unterstützen.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
-│  DU (Browser)                                                        │
+│  DU (Terminal, Browser optional)                                     │
 │    │                                                                 │
 │    ▼                                                                 │
 │  OpenWebUI  ◄── [setup.py] ── schreibt Preset + Knowledge Base       │
@@ -202,7 +202,7 @@ sauber unterstützen.
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-| Komponente des optionalen Referenz-/Selfhosting-Wegs | Dort nötig? | Wofür |
+| Komponente des Terminalbackends (inkl. optionalem Chatweg) | Dort nötig? | Wofür |
 | --- | --- | --- |
 | **OpenWebUI** (Docker-Container) | ✅ nötig | Chat-Oberfläche dieses Wegs |
 | **ZEITRISS-Repo + Python** | ✅ nötig | Regelwerk + Setup-Script dieses Wegs |
@@ -283,9 +283,10 @@ Dieser Pfad richtet OpenWebUI + OpenRouter + LiteLLM-Cache ein - den
 offiziellen Referenz-Stack. Du installierst selbst nur **Docker und
 Python**, den Rest erledigt der Launcher (`python scripts/zeitriss.py`).
 
-> i️ **Zeitaufwand beim ersten Mal:** 30-60 Minuten (inklusive
-> Docker- und Python-Installation). Reine Launcher-Laufzeit ohne
-> Installation: 5-10 Minuten. Updates später: 1-2 Minuten.
+> i️ **Zeitaufwand beim ersten Mal (historischer Richtwert, nicht neu
+> geprüft):** 30-60 Minuten (inklusive Docker- und Python-Installation).
+> Reine Launcher-Laufzeit ohne Installation: 5-10 Minuten. Updates später:
+> 1-2 Minuten.
 
 ---
 
@@ -297,14 +298,16 @@ das nicht, er ruft einfach `docker`-Befehle auf. Docker muss also
 **einmal installiert und gestartet** sein, bevor der Launcher läuft.
 
 1. **Installieren:** <https://docs.docker.com/get-docker/>
-   - Windows/macOS: "Docker Desktop" herunterladen und installieren.
-   - Linux: je nach Distro, z. B. Ubuntu/Debian `sudo apt install docker.io`.
+   - Linux (Mint und andere Distros): je nach Distro, z. B. Ubuntu/Debian
+     `sudo apt install docker.io`.
+   - macOS (ungeprüfte Nebenkompatibilität, ohne Laufzusage): "Docker
+     Desktop" herunterladen und installieren.
 2. **Starten:**
-   - Windows/macOS: Docker Desktop öffnen (Wal-Icon in der Taskleiste/
-     Menüleiste), warten bis der Status "Docker Desktop is running"
-     erscheint (1-2 Min beim ersten Mal).
    - Linux: `sudo systemctl start docker` (und optional
      `sudo systemctl enable docker` für Autostart nach Reboot).
+   - macOS (ungeprüfte Nebenkompatibilität, ohne Laufzusage): Docker
+     Desktop öffnen (Wal-Icon in der Menüleiste), warten bis der Status
+     "Docker Desktop is running" erscheint.
 3. **Test:** `docker ps` im Terminal. Wenn eine leere Tabelle
    erscheint (nur Kopfzeile), läuft Docker. Fehlermeldungen wie
    "Cannot connect to the Docker daemon" bedeuten: Docker ist zwar
@@ -316,16 +319,11 @@ das nicht, er ruft einfach `docker`-Befehle auf. Docker muss also
 
 Der Launcher ist ein Python-Script. Du brauchst Python 3.9 oder neuer.
 
-- **macOS:** meist vorinstalliert. Testen: `python3 --version`. Wenn
-  nicht vorhanden, `brew install python3` oder von <https://python.org>.
 - **Linux:** meist vorinstalliert. Wenn nicht: `sudo apt install python3`.
-- **Windows:** Installer von <https://python.org> holen.
+- **macOS (ungeprüfte Nebenkompatibilität, ohne Laufzusage):** meist
+  vorinstalliert. Testen: `python3 --version`. Wenn nicht vorhanden,
+  `brew install python3` oder von <https://python.org>.
 
-> ⚠️ **Windows-Stolperfalle:** Beim Python-Installer den Haken bei
-> **"Add Python to PATH"** setzen. Ohne den Haken kennt die
-> Eingabeaufforderung den `python`-Befehl nicht, und der Launcher
-> startet nicht.
->
 > Kein Terminal zur Hand? → [Wie öffne ich ein Terminal?](terminal-help.md)
 
 ---
@@ -338,14 +336,15 @@ API-Key**.
 
 1. **Account anlegen:** <https://openrouter.ai> → "Sign Up".
 2. **Guthaben einzahlen:** <https://openrouter.ai/credits> - 5 USD
-   reichen für viele Spielstunden (mit aktivem LiteLLM-Cache in
-   Schritt 6 werden daraus ~20+ Spielstunden).
+   reichen laut historischem Richtwert (nicht neu geprüft, keine aktuelle
+   Preiszusage) für viele Spielstunden, mit aktivem LiteLLM-Cache in
+   Schritt 6 geschätzt ~20+ Spielstunden.
 3. **Privacy-Einstellung setzen:** <https://openrouter.ai/settings/privacy>
    → in der Provider-Liste **Anthropic** auf *Allowed / Erlaubt* setzen
    (meistens ein Toggle-Schalter oder eine Checkbox). AWS Bedrock ist
    eine Alternative zu Anthropic, beides zusammen schadet nicht. Ohne
    diesen Schritt blockiert OpenRouter später den LiteLLM-Cache, und
-   die ~90-%-Ersparnis ist weg.
+   die ~90-%-Ersparnis (historischer Richtwert) ist weg.
 4. **Key erzeugen:** <https://openrouter.ai/keys> → "Create Key" →
    Namen vergeben (z. B. "zeitriss") → Key kopieren. Er beginnt mit
    `sk-or-v1-...`. **Key jetzt sofort wegspeichern** (Notiz-App,
@@ -378,8 +377,8 @@ Kein Git installiert? Zwei Möglichkeiten:
 python scripts/zeitriss.py
 ```
 
-Unter Windows alternativ **Doppelklick auf `zeitriss.bat`**, unter
-macOS/Linux alternativ `./zeitriss.sh`.
+Unter Linux alternativ `./zeitriss.sh`; unter macOS (ungeprüfte
+Nebenkompatibilität, ohne Laufzusage) ebenfalls `./zeitriss.sh`.
 
 Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/
 Keys als ✓ oder -) und ein Menü, gruppiert in *Einrichtung* und
@@ -523,10 +522,9 @@ API Keys → "Create new key"** (oder **"Neuen Schlüssel erstellen"**)
 Der Launcher wartet immer noch auf deinen OpenWebUI-API-Key. Key
 einfügen und Enter drücken:
 
-- **Windows CMD / PowerShell:** Rechtsklick im Terminal-Fenster fügt
-  den Zwischenablage-Inhalt ein.
-- **macOS Terminal / iTerm:** **Cmd+V**.
 - **Linux Terminal (gnome-terminal, Konsole ...):** **Ctrl+Shift+V**.
+- **macOS Terminal / iTerm (ungeprüfte Nebenkompatibilität, ohne
+  Laufzusage):** **Cmd+V**.
 
 > ⚠️ **Eingabe ist unsichtbar** - du siehst nichts, während du einfügst.
 > Das ist Absicht (wie bei Passwort-Eingaben). Einfach einfügen,
@@ -748,16 +746,23 @@ Dieser Abschnitt sammelt ergänzende Szenarien: Gruppenspiel am selben
 Rechner, Ollama als Alternativ-Modell oder als lokalen Embedder, und
 den portablen Export in andere Chat-Plattformen.
 
-### Lokales Gruppenspiel am selben Rechner
+### Gruppenspiel im Chat (optionaler Versuch, am selben Rechner)
 
-ZEITRISS ist primär für **Gruppen an einem Gerät** gedacht: alle sitzen
-zusammen um einen Laptop, ein Spieler moderiert, gespielt wird im
-Wechsel - wie am Pen-&-Paper-Tisch, nur mit KI-SL statt Human-SL.
+> **Hinweis:** Der normale gemeinsame Spielweg am selben Rechner ist das
+> Terminal - siehe [Spielerstart](spielerstart.md) und den Tisch-Abschnitt
+> "Lokal mit Betreiber und Gästen am Tisch" in [Koop & Online zusammen
+> spielen](koop-online-spielen.md#lokal-mit-betreiber-und-gästen-am-tisch).
+> Dieser Abschnitt hier beschreibt stattdessen einen optionalen
+> Chatversuch zum Ausprobieren.
+
+Für diesen optionalen Chatversuch gilt: alle sitzen zusammen um einen
+Laptop, ein Spieler moderiert, gespielt wird im Wechsel - wie am
+Pen-&-Paper-Tisch, nur mit KI-SL statt Human-SL.
 
 > Remote-Play über Netzwerk (Tailscale, VPN, Multi-User-OpenWebUI) ist
 > technisch denkbar, aber ungeprüft und kein zugesagter Produktweg. Für
-> gemeinsames Spielen über getrennte Geräte eignet sich heute der
-> [Koop-/Chat-Leitfaden](koop-online-spielen.md).
+> gemeinsames Spielen über getrennte Geräte eignet sich heute dieser
+> optionale Chatversuch.
 
 **Setup für die Gruppe**: Nur eine Person hostet (folgt dem Happy Path).
 Die anderen installieren **nichts** - sie sitzen einfach mit am Rechner.
@@ -846,11 +851,13 @@ und der Punkt, zu dem man per Dropdown-Flip jederzeit zurückkehrt.
 
 #### Ollama als Sprachmodell
 
-**Rolle**: Ollama ersetzt das Cloud-Modell. Ihr spielt komplett
-offline/lokal, keine Daten verlassen euren Rechner.
+**Rolle**: Ollama ersetzt das Cloud-Modell als ungeprüfte Alternative.
+Eine vollständig offline laufende Runde, bei der keine Daten den Rechner
+verlassen, ist für diesen Stack nicht geprüft und nicht zugesagt.
 
-**Einrichtung**: Ollama wie gewohnt laufen lassen, ein fähiges Modell
-laden (70B-Klasse oder größer, genug VRAM). In OpenWebUI unter
+**Einrichtung**: Ollama wie gewohnt laufen lassen, ein aus eurer Sicht
+ausreichend fähiges Modell laden. Eine konkrete Mindestklasse oder ein
+VRAM-Bedarf ist, wie oben, ungeprüft und nicht festgelegt. In OpenWebUI unter
 **Einstellungen → Verbindungen** die Ollama-Verbindung eintragen (meist
 `http://host.docker.internal:11434`). Im ZEITRISS-Preset das Base-Modell-
 Dropdown auf dein Ollama-Modell umstellen.
