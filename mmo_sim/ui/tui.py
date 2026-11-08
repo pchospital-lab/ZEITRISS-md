@@ -10048,12 +10048,34 @@ class TuiSession:
                 # `decision`-Autoritaet -- keine zweite Stop-/Adoptions-
                 # autoritaet, kein neuer Call.
                 stop_core_line = (
-                    f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) -- durch "
+                    "Abschnitt nicht abgeschlossen -- durch "
                     "Betreiber-Stop ENDGUELTIG beendet (verworfen): kein Fortsetzen dieses "
                     "Abschnitts moeglich, kein neuer Fortschritt aus diesem Abschnitt wird "
                     "uebernommen."
                 )
                 self._print(stop_core_line)
+                # R7-Nachzug A1 (02_ABNAHME.md §A "Persoenlicher Gastkanal":
+                # "Keine interne Admission-Gateprosa als Spielererklaerung"):
+                # die gemeinsame Spieler-Kernzeile `stop_core_line` oben ist
+                # JETZT frei von interner Zulassungsgatter-Prosa -- der rohe
+                # `outcome.completion.reason` (von `mmo_sim/core/runtime.py`
+                # `blocked_outcome` immer mit "Admission-Gate blockiert: ..."
+                # praefigiert) wird NICHT mehr in die Spielerzeile
+                # interpoliert. Der technische Grund bleibt ausschliesslich
+                # auf dem BETREIBER-Kanal als klar abgesetzte Staff-Diagnose
+                # erhalten (NUR `self._print`, NIE an einen Gastkanal) -- so
+                # bleibt die bereits angenommene R5/R6-Betreiberkanal-
+                # Erklaerung der geblockten Entscheidung gewahrt
+                # (`drive_r5_c`/`drive_r6_c`, `test_zr_betreiber_o2`:
+                # "nicht abgeschlossen" + "Admission-Gate blockiert" in EINER
+                # Zeile), ohne dass ein Spieler/Gast je interne Gate-Sprache
+                # liest. Enthaelt bewusst NICHT "Betreiber-Stop" (sonst
+                # griffe `test_r7_a1`s "Betreiber-Stop"-Kernzeilen-Auswahl
+                # daneben) und NICHT "bleibt erhalten".
+                self._print(
+                    f"[Betreiber-Diagnose] Abschnitt nicht abgeschlossen -- "
+                    f"{outcome.completion.reason}"
+                )
                 for _extra_line in _stop_notice_personal_lines(self, self.participant_id):
                     self._print(_extra_line)
                 # Dieselbe Kernzeile JETZT auch an jeden betroffenen

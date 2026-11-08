@@ -156,6 +156,23 @@ def test_personal_stop_closure_distinguishes_figure_free_operator_from_guest_wit
         )
         assert "nicht abgeschlossen" in operator_stop_line, operator_stop_line
 
+        # (1b) 02_ABNAHME.md §A "Persoenlicher Gastkanal": KEINE interne
+        # Admission-Gateprosa als Spielererklaerung. Die gemeinsame
+        # Spieler-Kernzeile UND der komplette Gastkanal muessen frei von
+        # interner Zulassungsgatter-Sprache sein (der technische Grund darf
+        # ausschliesslich auf dem abgesetzten Betreiber-Diagnosekanal
+        # stehen, s. tui.py-Stopzweig). Diese Zusicherung fehlte in der
+        # ersten Fassung -- der Leak blieb dadurch unentdeckt, bis der
+        # unabhaengige End-Critic ihn gegen den Auftrag fand.
+        assert "Admission-Gate" not in operator_stop_line, (
+            "die gemeinsame Spieler-Kernzeile haette KEINE interne "
+            "Admission-Gateprosa enthalten duerfen.", operator_stop_line,
+        )
+        assert "Admission-Gate" not in guest_out, (
+            "der Gastkanal (Spielererklaerung) haette KEINE interne "
+            "Admission-Gateprosa enthalten duerfen.", guest_out,
+        )
+
         # (2) Gast MIT registrierter Figur: eigener Stand bleibt erhalten,
         # ECHTE Figur/Save genannt, kein "kein persoenlicher Spielstand".
         assert "bleibt erhalten" in guest_out, guest_out
