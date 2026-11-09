@@ -73,6 +73,16 @@ python3 tests/mmo_sim/test_linus_n123_2026_11_06.py
 # NICHT als Spielinhalt leaken), hier additiv direkt gestartet.
 python3 tests/mmo_sim/test_zr_u3b_zuschauer_verworfen_nach_stop_2026_11_06.py
 
+# ZR-MINT-SPIELSTART-FEINSCHLIFF-20261109-F1 (03_F1_AUFTRAG.md §F1-1/F1-2/
+# F1-3): standalone Assert-Skripte (python3 -m unittest -q findet die
+# Modulfunktionen NICHT, s. jeweiliger Docstring) -- private Projektumgebung
+# fuer den normalen Mint-Start (F1-1), verdeckte OpenRouter-Key-Eingabe
+# (F1-2), konfigurierte Preset-/KB-Route bei den tatsaechlich verwendeten
+# GM-Factories (F1-3), hier additiv direkt gestartet.
+python3 tests/mmo_sim/test_f1_venv_bootstrap_2026_11_09.py
+python3 tests/mmo_sim/test_f1_openrouter_key_hidden_input_2026_11_09.py
+python3 tests/mmo_sim/test_f1_gm_route_threading_2026_11_09.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

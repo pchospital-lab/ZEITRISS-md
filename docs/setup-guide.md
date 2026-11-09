@@ -545,13 +545,28 @@ Wenn der Launcher fertig ist, fragt er: *"LiteLLM-Cache aktivieren?
 dein Setup gerade ohne Cache weiterlaufen muss (z.B. blockierter Port
 4000). Im Normalfall: Enter drücken.
 
-Der Launcher zieht dann den LiteLLM-Docker-Container,
-startet ihn auf Port 4000 (nur lokal, nicht nach außen erreichbar) und
-erzeugt einen Master-Key. Am Ende zeigt er dir im Terminal **drei
-Browser-Schritte**, die du noch manuell machen musst (der Launcher kann
-sie nicht automatisieren, weil OpenWebUI den Key selbst kennen muss) —
-und schreibt den **Master-Key direkt in die `Key:`-Zeile von Schritt 1**,
-du kopierst ihn also genau dort, wo du ihn gleich brauchst:
+Hast du deinen OpenRouter-Key aus Schritt 3 noch nicht als
+`OPENROUTER_API_KEY` exportiert oder in Schritt 6.3 (B) in OpenWebUI
+eingetragen, fragt der Launcher ihn hier einmalig direkt im Terminal ab
+— die Eingabe ist **verdeckt** (du siehst nichts, während du einfügst,
+genau wie beim OpenWebUI-Key in 6.4). Der Key landet danach in
+`scripts/litellm/.env` (chmod 600) und muss bei späteren Starts nicht
+erneut eingegeben werden.
+
+Der Launcher zieht dann den LiteLLM-Docker-Container, startet ihn auf
+Port 4000 (nur lokal, nicht nach außen erreichbar), erzeugt einen
+Master-Key, trägt die zugehörige OpenWebUI-Connection **automatisch** ein
+und stellt das Preset **automatisch** auf das LiteLLM-Routing-Modell um.
+Im Normalfall siehst du dafür nur zwei grüne Zeilen im Terminal
+(`OpenWebUI-Connection: ...` und `Preset-Rewire: ...`) und danach *"Cache
+ist live verkabelt ... Nichts mehr zu klicken"* — **kein Browser-Wechsel
+nötig.**
+
+Nur wenn die automatische Verknüpfung tatsächlich fehlschlägt (z. B.
+OpenWebUI kurz nicht erreichbar, abgelaufener OpenWebUI-Key), zeigt der
+Launcher stattdessen genau die noch offenen Schritte als Fallback — und
+schreibt den **Master-Key direkt in die `Key:`-Zeile**, du kopierst ihn
+also genau dort, wo du ihn dann brauchst:
 
 1. **Neue Connection in OpenWebUI eintragen.** Zurück in den Browser:
    **Profil-Icon → Einstellungen → Verbindungen → „+ Verbindung
@@ -565,6 +580,12 @@ du kopierst ihn also genau dort, wo du ihn gleich brauchst:
    → Eintrag **`ZEITRISS v4.2.6 Uncut`** anklicken.
 3. **Im Preset-Editor** das **Base-Modell-Dropdown** oben auf
    **`zeitriss-sonnet`** umstellen → **Speichern.**
+
+Der Launcher zeigt dabei nur die WIRKLICH noch fehlenden Schritte an
+(z. B. nur Schritt 2+3, wenn die Connection schon stand) — folge einfach
+seiner Ausgabe. Ein erneuter Start des Launchers wiederholt die
+automatische Verknüpfung; eine bereits funktionierende Connection wird
+dabei nicht dupliziert.
 
 > 💡 **Master-Key später nochmal gebraucht?** Der Launcher legt ihn
 > zusätzlich in `scripts/litellm/.env` ab (chmod 600, nur für dich

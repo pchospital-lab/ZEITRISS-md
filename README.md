@@ -202,11 +202,17 @@ genauen Voraussetzungen je Weg stehen im verlinkten Guide.
 
 ## Dein erster Terminal-Einsatz
 
-Starte im entpackten Projektordner mit eingerichteter Python-Umgebung:
+Entpacke das Projekt und starte den Launcher — er richtet beim ersten Lauf
+automatisch eine eigene, private Projektumgebung ein (kein Git-Checkout,
+keine manuell aktivierte Entwickler-venv nötig):
 
 ```bash
-python3 scripts/mmo_sim.py
+./zeitriss.sh
 ```
+
+Wähle im Menü **`[M] ZEITRISS spielen (Terminal)`**. Direktaufruf
+`python3 scripts/mmo_sim.py` funktioniert ebenfalls — derselbe Starter
+richtet dabei dieselbe private Projektumgebung ein.
 
 Über **`charaktere`** wählst du eine Figur, erschaffst eine neue oder
 importierst einen vorhandenen Save. **`spielen`** führt dich zur

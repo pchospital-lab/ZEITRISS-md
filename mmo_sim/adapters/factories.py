@@ -137,7 +137,10 @@ def _load_gm_transport_double(spec: str):
         ) from None
 
 
-def default_gm_transport_factory(data_dir: Path, repo_root: Path):
+def default_gm_transport_factory(
+    data_dir: Path, repo_root: Path,
+    sl_model: str | None = None, kb_id: str | None = None,
+):
     """Unveraendert aus `scripts/mmo_sim.py` uebernommen (F5/K2/B2, s.
     dortiger frueherer Docstring): baut -- nur bei tatsaechlichem Aufruf --
     einen echten `GmOwuiTransport` gegen den bestehenden P1-SL-Client. Ohne
@@ -171,7 +174,22 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
     `_load_gm_transport_double`) statt eines echten `GmOwuiTransport` --
     der Double selbst lebt in der TESTDATEI, nicht hier. OHNE die
     env-Variable bleibt JEDER bestehende Aufrufer (TUI/Lab, jeder
-    bestehende Test) bytegleich beim Live-Transport unten."""
+    bestehende Test) bytegleich beim Live-Transport unten.
+
+    F1-3 (03_F1_AUFTRAG.md §F1-3 "gespeicherte Werte muessen bei den
+    tatsaechlich verwendeten GM-/Persona-Factories ankommen"): `sl_model`/
+    `kb_id` sind additiv und OPTIONAL (Default `None`, identisches Muster zu
+    den W51/W56-Parametern oben) -- VORHER wurden beide Werte von dieser
+    Factory nie an `GmOwuiTransport` durchgereicht, obwohl dessen Konstruktor
+    sie bereits entgegennahm. Ohne Angabe fiel `agent_mp/sl_client.py` auf
+    seine eigenen HARTKODIERTEN Werte zurueck (`SL_MODEL="zeitriss-v426-
+    uncut"`, `KB_ID` einer spezifischen alten Installation) -- fuer die
+    Standardvariante "sonnet" traf der Modellname zufaellig, die Knowledge-
+    Base-ID NIE (jede frische `setup.py`-Installation legt eine neue, andere
+    KB an). Der Aufrufer (`scripts/mmo_sim.py`) ermittelt die tatsaechlich
+    konfigurierte Preset-ID/KB-ID live gegen die lokale OpenWebUI-Instanz und
+    uebergibt sie hier; ohne Angabe bleibt das bisherige Altverhalten
+    (sl_client.py-Defaults) unveraendert."""
 
     def factory(table_id: str):
         # TEST-/GRENZINJEKTIONS-Seam (02 §1): NUR aktiv, wenn
@@ -210,6 +228,7 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
         transport_timeout = _optional_number("MMO_SIM_GM_TRANSPORT_TIMEOUT", int)
         return GmOwuiTransport(
             sl_client_path, data_dir / "run", table_id=table_id,
+            sl_model=sl_model, kb_id=kb_id,
             gm_output_limit_tokens=gm_output_limit_tokens,
             transport_max_retries=transport_max_retries,
             transport_backoff=transport_backoff,

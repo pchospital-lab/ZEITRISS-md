@@ -42,6 +42,31 @@ if _REPO_ROOT_STR in sys.path:
     sys.path.remove(_REPO_ROOT_STR)
 sys.path.insert(0, _REPO_ROOT_STR)
 
+# F1-1 (03_F1_AUFTRAG.md §F1-1): bei Direktaufruf `python scripts/mmo_sim.py`
+# (ohne den Starter `zeitriss.sh`/`scripts/zeitriss.py`) dieselbe private
+# Projektumgebung sicherstellen wie der Starter -- sonst scheitert der
+# gleich folgende Import von `mmo_sim.ui.tui` (transitiv `jsonschema`/
+# `referencing`, s. `mmo_sim/domain/zeitriss/save_validation.py`) auf einem
+# frischen Download ohne vorinstallierte Pakete mit einem rohen
+# `ModuleNotFoundError`. Läuft der Prozess bereits in der venv (z.B. weil
+# `zeitriss.py` schon dorthin gewechselt hat, bevor `[M]` diese Datei per
+# Hook im selben Prozess lädt), ist der Aufruf ein No-Op.
+#
+# ACHTUNG Selbst-Kollision (identisch zum W6-Fix oben): ein
+# `sys.path.insert(0, scripts/)` wuerde HIER erneut `scripts/` vor den
+# Repo-Root schieben und `import mmo_sim` (gleich darunter) wieder an diese
+# Shim-Datei statt an das echte Paket `mmo_sim/` binden. Deshalb wird
+# `venv_bootstrap.py` per EXPLIZITEM Dateipfad geladen (analog
+# `scripts/mmo_sim_launcher_hook.py:launch()`), ohne `sys.path` zu aendern.
+import importlib.util as _importlib_util  # noqa: E402
+
+_venv_bootstrap_spec = _importlib_util.spec_from_file_location(
+    "zeitriss_venv_bootstrap", Path(__file__).resolve().parent / "venv_bootstrap.py",
+)
+_venv_bootstrap = _importlib_util.module_from_spec(_venv_bootstrap_spec)
+_venv_bootstrap_spec.loader.exec_module(_venv_bootstrap)
+_venv_bootstrap.ensure_running_in_project_venv(_REPO_ROOT)
+
 from mmo_sim.core import identity  # noqa: E402
 from mmo_sim.ui.tui import TuiSession  # noqa: E402
 from mmo_sim.adapters.base import (  # noqa: E402
@@ -118,6 +143,76 @@ def _resolve_host_capable(explicit: bool | None) -> bool:
     if raw is None or not raw.strip():
         return True
     return raw.strip().lower() not in ("0", "false", "no", "guest")
+
+
+def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
+    """F1-3 (03_F1_AUFTRAG.md §F1-3 "gespeicherte Werte muessen bei den
+    tatsaechlich verwendeten GM-Factories ankommen"): ermittelt das wirklich
+    konfigurierte SL-Modell (Preset-ID der `setup.json`-Standardvariante)
+    und die live damit verknuepfte Knowledge-Base-ID, statt der in
+    `agent_mp/sl_client.py` hartkodierten Werte eines alten Installs
+    (`SL_MODEL="zeitriss-v426-uncut"`, feste `KB_ID`). Jede frische
+    `setup.py`-Installation legt eine NEUE KB mit neuer ID an -- ohne diese
+    Funktion griffe das Terminalspiel weiterhin auf die alte, fuer eine
+    frische Installation falsche KB-ID zurueck.
+
+    Reiner Config-Read ueber die bestehende `setup.py`-Infrastruktur
+    (`APIClient.get_model`, `_auto_load_owui_env`) -- kein zweiter HTTP-
+    Client, keine generative Modellanfrage (nur `GET /api/v1/models/model`).
+    `_auto_load_owui_env()` laedt bei Bedarf `~/.openwebui_env`, damit das
+    normale Terminalspiel kein manuelles `set -a; . ~/.openwebui_env; set +a`
+    mehr braucht (vorher nur als Handanleitung in der Fehlermeldung von
+    `sl_client.SLSession.__init__` dokumentiert).
+
+    Fail-soft, NICHT fail-closed: jeder Fehlschlag (kein `setup.json`, keine
+    Standardvariante, kein OWUI-Key, OWUI nicht erreichbar, Preset fehlt)
+    liefert `(None, None)` oder nur das `sl_model` -- `GmOwuiTransport`/
+    `sl_client.py` fallen dann auf ihre bisherigen Defaults zurueck
+    (unveraendertes Altverhalten). Ein Konfigurationsfehler an dieser Stelle
+    darf den Terminalspielstart nicht blockieren; die eigentliche
+    fail-closed-Fehlermeldung bei WIRKLICH fehlender SL-Anbindung bleibt
+    weiterhin `sl_client.SLSession.__init__` (fehlender OPENWEBUI_API_KEY)."""
+    try:
+        import setup as _setup_module  # noqa: E402  (scripts/ bereits auf sys.path, s.o.)
+    except ImportError:
+        return None, None
+
+    try:
+        cfg = json.loads((repo_root / "setup.json").read_text(encoding="utf-8"))
+        default_variant = cfg.get("default_variant")
+        variant = (cfg.get("variants") or {}).get(default_variant) or {}
+        sl_model = variant.get("preset_id")
+    except (OSError, json.JSONDecodeError, AttributeError):
+        return None, None
+    if not sl_model:
+        return None, None
+
+    try:
+        _setup_module._auto_load_owui_env()
+    except Exception:
+        pass
+    owui_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not owui_key:
+        return sl_model, None
+    owui_url = os.environ.get("OPENWEBUI_URL") or "http://localhost:8080"
+
+    try:
+        client = _setup_module.APIClient(owui_url, owui_key)
+        preset = client.get_model(sl_model)
+    except Exception:
+        return sl_model, None
+    if not preset:
+        return sl_model, None
+
+    kb_list = (preset.get("meta") or {}).get("knowledge")
+    kb_id: str | None = None
+    if isinstance(kb_list, list) and kb_list:
+        first = kb_list[0]
+        if isinstance(first, dict):
+            kb_id = first.get("id")
+        elif isinstance(first, str):
+            kb_id = first
+    return sl_model, kb_id
 
 
 def _ensure_fifo(path: Path) -> None:
@@ -380,6 +475,10 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     participant_id = _resolve_participant_id(data_dir, args.participant)
     schema_path = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
+    # F1-3: die tatsaechlich konfigurierte Preset-/KB-Route live ermitteln
+    # (s. `_resolve_active_gm_route`-Docstring) -- fail-soft, blockiert den
+    # Start nicht.
+    _gm_sl_model, _gm_kb_id = _resolve_active_gm_route(_REPO_ROOT)
     session = TuiSession(
         onboarding_dir=data_dir / "onboarding",
         catalog_dir=data_dir / "catalog",
@@ -391,7 +490,9 @@ def main(argv: list[str] | None = None) -> int:
         # Live-SL-Anbindung (03 §7, OPENWEBUI_API_KEY etc.) bleibt ein
         # separates Setup; ohne sie liefert der erste Aufruf eine klare
         # Fehlermeldung statt eines stillen Spielstarts.
-        gm_transport_factory=_default_gm_transport_factory(data_dir, _REPO_ROOT),
+        gm_transport_factory=_default_gm_transport_factory(
+            data_dir, _REPO_ROOT, sl_model=_gm_sl_model, kb_id=_gm_kb_id,
+        ),
         # A1: echte Factory statt None -- ohne MMO_SIM_PERSONA_CLI/_API_*
         # Umgebungskonfiguration liefert der erste Persona-Einladungsversuch
         # eine klare Fehlermeldung (s. `_default_persona_driver_factory`).

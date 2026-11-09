@@ -1925,7 +1925,13 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
             )
             sys.exit(1)
         try:
-            or_key = input("OpenRouter-API-Key (sk-or-...): ").strip()
+            # F1-2 (03_F1_AUFTRAG.md §F1-2: "einmalige VERDECKTE Eingabe des
+            # externen OpenRouter-Keys"): vorher `input()` -- der Key stand
+            # beim Tippen im Klartext im Terminal. `getpass` ist bereits das
+            # Muster für den OpenWebUI-API-Key (s. scripts/launcher.py
+            # action_install). Persistierung/Wiederverwendung über die .env
+            # oben bleibt unverändert; nur die Eingabe wird verdeckt.
+            or_key = getpass("OpenRouter-API-Key (sk-or-..., Eingabe ist unsichtbar): ").strip()
         except (EOFError, KeyboardInterrupt):
             print()
             print_error("Abgebrochen.")

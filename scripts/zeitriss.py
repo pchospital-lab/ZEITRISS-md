@@ -26,6 +26,15 @@ from pathlib import Path
 # das Script gestartet wird.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+# F1-1 (03_F1_AUFTRAG.md §F1-1): private Projektumgebung VOR jedem weiteren
+# Import sicherstellen -- normaler Nutzer braucht dafür keinen Git-Checkout
+# und keine manuell aktivierte Entwickler-venv. Wechselt per `os.execv` in
+# die venv und kehrt bei Erfolg nicht zurück; bei unbehebbarem Fehler
+# beendet es den Prozess mit einer lesbaren Meldung im Terminal.
+import venv_bootstrap  # noqa: E402
+
+venv_bootstrap.ensure_running_in_project_venv(Path(__file__).resolve().parent.parent)
+
 try:
     import launcher  # noqa: E402
 except ImportError as e:
