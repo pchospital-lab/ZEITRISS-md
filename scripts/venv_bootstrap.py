@@ -29,12 +29,14 @@ stiller Fallback auf den Systeminterpreter."""
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import os
 import subprocess
 import sys
 from pathlib import Path
 
 _SENTINEL_NAME = ".ready"
+_REQUIRED_RUNTIME_DEPS = ("jsonschema", "referencing")
 
 
 def venv_dir(repo_root: Path) -> Path:
@@ -70,9 +72,28 @@ def _is_root() -> bool:
     return sys.platform != "win32" and hasattr(os, "geteuid") and os.geteuid() == 0
 
 
+def _required_deps_available() -> bool:
+    """True, wenn alle von `save_validation.py` benoetigten Laufzeit-Pakete
+    im AKTUELLEN Interpreter bereits importierbar sind. Prueft nur per
+    `importlib.util.find_spec` (kein echter Import -- kein Seiteneffekt).
+    Damit kann eine bereits gueltige Umgebung wiederverwendet werden (z. B.
+    CI, die `requirements-ci.txt` vor `run_all.py` per `pip install --user`
+    bereitstellt, oder ein vom Nutzer selbst aktiviertes Dev-venv), statt
+    zusaetzlich eine private `.venv` anzulegen -- F1-1 erlaubt ausdruecklich
+    das Wiederverwenden einer vorhandenen gueltigen Umgebung."""
+    return all(
+        importlib.util.find_spec(dep) is not None for dep in _REQUIRED_RUNTIME_DEPS
+    )
+
+
 def ensure_running_in_project_venv(repo_root: Path, *, stream=None) -> None:
     """Idempotent: no-op, wenn der Prozess schon in `<repo_root>/.venv`
-    laeuft. Sonst: venv anlegen/wiederverwenden, Pins aus
+    laeuft, wenn `ZEITRISS_SKIP_VENV_BOOTSTRAP` gesetzt ist, oder wenn die
+    benoetigten Laufzeit-Abhaengigkeiten im aktuellen Interpreter bereits
+    importierbar sind (Wiederverwendung einer vorhandenen gueltigen
+    Umgebung -- vermeidet den Seiteneffekt einer neuen `.venv` bzw. einen
+    `os.execv`-Wechsel in Kind-/Tooling-/Test-/CI-Prozessen, die ihre Deps
+    schon mitbringen). Sonst: venv anlegen/wiederverwenden, Pins aus
     `requirements-ci.txt` nur bei Drift (neu/geaendert) installieren, dann
     per `os.execv` in denselben Aufruf unter dem venv-Interpreter wechseln.
 
@@ -80,8 +101,15 @@ def ensure_running_in_project_venv(repo_root: Path, *, stream=None) -> None:
     Begruendung und beendet den Prozess mit Exit-Code 1 -- das Terminal
     bleibt offen, der Fehler bleibt sichtbar (F1-1-Vorgabe)."""
     out = stream or sys.stdout
+
+    if os.environ.get("ZEITRISS_SKIP_VENV_BOOTSTRAP"):
+        return
+
     venv_dir_ = venv_dir(repo_root)
     if already_in_venv(venv_dir_):
+        return
+
+    if _required_deps_available():
         return
 
     if _is_root():

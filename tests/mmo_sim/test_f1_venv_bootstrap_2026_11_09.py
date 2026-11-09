@@ -17,6 +17,15 @@ NUR die Entscheidungslogik (wann (re-)installiert wird). Die echte
 `os.execv` wird in jedem Teiltest abgefangen (es würde sonst den Testprozess
 ersetzen) und als `SystemExit(0)` simuliert.
 
+Alle Tests, die den ERZEUGUNGS-/Install-/Root-Guard-/Fehler-Pfad prüfen,
+patchen zusätzlich `_required_deps_available` auf `False` — ohne das würde
+das "vorhandene gültige Umgebung wiederverwenden"-Gate (F1,
+scripts/venv_bootstrap.py) auf einer Maschine mit bereits installiertem
+`jsonschema`/`referencing` sofort No-Op greifen und diese Erzeugungs-Pfade
+nie erreichen. Simuliert damit gezielt den blanken Download ohne
+vorinstallierte Pakete. Der `already_in_venv()`-Kurzschluss-Test bleibt
+unverändert (dieses Gate greift VOR dem Deps-Check ohnehin).
+
 Pure Python, nur `assert`, echter Exitcode, temporäre Verzeichnisse."""
 from __future__ import annotations
 
@@ -73,43 +82,44 @@ def test_create_then_reuse_then_reinstall_on_pin_change():
         venv_bootstrap.subprocess.run = _patched_run_factory(pip_calls)
         venv_bootstrap.os.execv = _fake_execv
 
-        # Lauf 1: venv fehlt noch -> echte (netzwerkfreie) Erzeugung + genau
-        # ein simulierter pip-install-Aufruf, dann execv.
-        try:
-            venv_bootstrap.ensure_running_in_project_venv(tmp)
-        except SystemExit:
-            pass
-        venv_python = venv_bootstrap._venv_python(venv_bootstrap.venv_dir(tmp))
-        assert venv_python.exists(), f"venv-Interpreter fehlt: {venv_python}"
-        assert len(pip_calls) == 1, f"genau EIN pip-install-Aufruf erwartet, war {len(pip_calls)}"
-        assert len(execv_calls) == 1, "os.execv wurde nicht (oder mehrfach) aufgerufen"
-        marker = venv_bootstrap.venv_dir(tmp) / venv_bootstrap._SENTINEL_NAME
-        assert marker.is_file(), "Sentinel-Datei fehlt nach Erstinstall"
-        first_hash = marker.read_text(encoding="utf-8").strip()
-        assert first_hash, "Sentinel-Datei ist leer"
+        with mock.patch.object(venv_bootstrap, "_required_deps_available", return_value=False):
+            # Lauf 1: venv fehlt noch -> echte (netzwerkfreie) Erzeugung + genau
+            # ein simulierter pip-install-Aufruf, dann execv.
+            try:
+                venv_bootstrap.ensure_running_in_project_venv(tmp)
+            except SystemExit:
+                pass
+            venv_python = venv_bootstrap._venv_python(venv_bootstrap.venv_dir(tmp))
+            assert venv_python.exists(), f"venv-Interpreter fehlt: {venv_python}"
+            assert len(pip_calls) == 1, f"genau EIN pip-install-Aufruf erwartet, war {len(pip_calls)}"
+            assert len(execv_calls) == 1, "os.execv wurde nicht (oder mehrfach) aufgerufen"
+            marker = venv_bootstrap.venv_dir(tmp) / venv_bootstrap._SENTINEL_NAME
+            assert marker.is_file(), "Sentinel-Datei fehlt nach Erstinstall"
+            first_hash = marker.read_text(encoding="utf-8").strip()
+            assert first_hash, "Sentinel-Datei ist leer"
 
-        # Lauf 2: UNVERÄNDERTE Pins -> KEIN erneuter pip-install-Aufruf
-        # (03_F1_AUFTRAG.md §F1-1: "ein gewöhnlicher späterer Start
-        # installiert nicht alles erneut"), aber weiterhin ein execv-Wechsel.
-        try:
-            venv_bootstrap.ensure_running_in_project_venv(tmp)
-        except SystemExit:
-            pass
-        assert len(pip_calls) == 1, f"zweiter Lauf haette NICHT neu installieren duerfen: {len(pip_calls)}"
-        assert len(execv_calls) == 2, "zweiter Lauf haette weiterhin in die venv wechseln muessen"
+            # Lauf 2: UNVERÄNDERTE Pins -> KEIN erneuter pip-install-Aufruf
+            # (03_F1_AUFTRAG.md §F1-1: "ein gewöhnlicher späterer Start
+            # installiert nicht alles erneut"), aber weiterhin ein execv-Wechsel.
+            try:
+                venv_bootstrap.ensure_running_in_project_venv(tmp)
+            except SystemExit:
+                pass
+            assert len(pip_calls) == 1, f"zweiter Lauf haette NICHT neu installieren duerfen: {len(pip_calls)}"
+            assert len(execv_calls) == 2, "zweiter Lauf haette weiterhin in die venv wechseln muessen"
 
-        # Lauf 3: GEÄNDERTE Pins -> löst genau einen weiteren Reinstall aus,
-        # Sentinel-Hash ändert sich entsprechend.
-        (tmp / "requirements-ci.txt").write_text(
-            "jsonschema==4.26.0\nreferencing==0.37.0\n", encoding="utf-8",
-        )
-        try:
-            venv_bootstrap.ensure_running_in_project_venv(tmp)
-        except SystemExit:
-            pass
-        assert len(pip_calls) == 2, f"geaenderte Pins haetten einen zweiten Install ausloesen muessen: {len(pip_calls)}"
-        second_hash = marker.read_text(encoding="utf-8").strip()
-        assert second_hash != first_hash, "Sentinel-Hash haette sich nach Pin-Aenderung aendern muessen"
+            # Lauf 3: GEÄNDERTE Pins -> löst genau einen weiteren Reinstall aus,
+            # Sentinel-Hash ändert sich entsprechend.
+            (tmp / "requirements-ci.txt").write_text(
+                "jsonschema==4.26.0\nreferencing==0.37.0\n", encoding="utf-8",
+            )
+            try:
+                venv_bootstrap.ensure_running_in_project_venv(tmp)
+            except SystemExit:
+                pass
+            assert len(pip_calls) == 2, f"geaenderte Pins haetten einen zweiten Install ausloesen muessen: {len(pip_calls)}"
+            second_hash = marker.read_text(encoding="utf-8").strip()
+            assert second_hash != first_hash, "Sentinel-Hash haette sich nach Pin-Aenderung aendern muessen"
     finally:
         venv_bootstrap.subprocess.run = real_run
         venv_bootstrap.os.execv = real_execv
@@ -158,11 +168,12 @@ def test_venv_creation_failure_is_clear_and_fails_closed():
         (tmp / "requirements-ci.txt").write_text("jsonschema==4.26.0\n", encoding="utf-8")
         venv_bootstrap.subprocess.run = _failing_run
         raised = False
-        try:
-            venv_bootstrap.ensure_running_in_project_venv(tmp)
-        except SystemExit as exc:
-            raised = True
-            assert exc.code == 1, f"Exit-Code sollte 1 sein, war {exc.code!r}"
+        with mock.patch.object(venv_bootstrap, "_required_deps_available", return_value=False):
+            try:
+                venv_bootstrap.ensure_running_in_project_venv(tmp)
+            except SystemExit as exc:
+                raised = True
+                assert exc.code == 1, f"Exit-Code sollte 1 sein, war {exc.code!r}"
         assert raised, "fehlgeschlagene venv-Erzeugung haette mit SystemExit(1) abbrechen muessen"
         assert not (tmp / ".venv" / venv_bootstrap._SENTINEL_NAME).exists(), \
             "fehlgeschlagene Erzeugung haette KEINE Sentinel-Datei (= 'fertig installiert') hinterlassen duerfen"
@@ -178,11 +189,12 @@ def test_root_guard_blocks_before_any_venv_creation():
     try:
         os.geteuid = lambda: 0  # Double: root-UID simulieren, kein echter UID-Wechsel
         raised = False
-        try:
-            venv_bootstrap.ensure_running_in_project_venv(tmp)
-        except SystemExit as exc:
-            raised = True
-            assert exc.code == 1, f"root-Abbruch sollte Exit-Code 1 liefern, war {exc.code!r}"
+        with mock.patch.object(venv_bootstrap, "_required_deps_available", return_value=False):
+            try:
+                venv_bootstrap.ensure_running_in_project_venv(tmp)
+            except SystemExit as exc:
+                raised = True
+                assert exc.code == 1, f"root-Abbruch sollte Exit-Code 1 liefern, war {exc.code!r}"
         assert raised, "ein Lauf mit euid=0 haette mit SystemExit(1) abbrechen muessen"
         assert not (tmp / ".venv").exists(), "root-Guard haette VOR jeder venv-Erzeugung greifen muessen"
     finally:
