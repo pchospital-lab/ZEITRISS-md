@@ -207,16 +207,16 @@ def test_m_route_reaches_real_mmo_sim_hauptmenue() -> None:
         assert "Traceback" not in proc.stderr, f"Unerwartete Exception im Kind:\n{proc.stderr}"
 
         out = proc.stdout
-        assert "[M]  ZEITRISS MMO-Sim (Terminal, kein Browser)" in out, (
+        assert "[M]  ZEITRISS spielen (Terminal)" in out, (
             f"Echter [M]-Menuepunkt wurde nicht angezeigt -- kein echter Routendurchlauf:\n{out}"
         )
         # Der ECHTE mmo_sim-TUI-Hauptmenue-Banner (render_boot_menu in
         # mmo_sim/ui/tui.py) -- kein Attrappentext, kommt NUR, wenn
         # TuiSession.run() tatsaechlich real durchlief.
-        assert "ZEITRISS MMO-Sim" in out and "Hauptmenue:" in out, (
+        assert "ZEITRISS — Terminalspiel" in out and "Hauptmenue:" in out, (
             f"Echtes mmo_sim-Terminal-Hauptmenue wurde nicht erreicht:\n{out}"
         )
-        assert "[spielen] Spielen" in out, f"mmo_sim-Hauptmenue unvollstaendig/nicht echt:\n{out}"
+        assert ") Spielen" in out and "[spielen]" in out, f"mmo_sim-Hauptmenue unvollstaendig/nicht echt:\n{out}"
 
         # Browserroute NICHT umgebogen: 'm' dispatcht laut Code
         # ausschliesslich auf project_hook.launch(), nie auf action_play().

@@ -2,6 +2,12 @@
 
 > **Diese Seite ist Entwickler-/Betriebsdoku**, keine Spieleranleitung.
 > Willst du einfach spielen: [docs/spielerstart.md](spielerstart.md).
+>
+> **Aktuelle Einordnung (8. November 2026):** `mmo_sim` ist der interne
+> Entwicklerpfad hinter dem Terminal-Produktstart „ZEITRISS spielen
+> (Terminal)" (Linux Mint, Launcher-Menüpunkt `[M]`). Modulname, Dateipfade
+> und die folgenden historischen Entwickler-/Harnessnachweise bleiben
+> unverändert.
 
 > **Doku-Stand (2026-10-29, R4-Anschluss):** Die aktuelle Gegenwartsübersicht
 > zum Terminal-Speicher-/Gruppenabschlussstand (fünf Figuren in Duo und Trio
@@ -201,7 +207,7 @@ python3 scripts/mmo_sim.py --participant <teilnehmer-id> --data-dir internal/mmo
 ```
 
 Oder über den generischen Launcher: `python3 scripts/launcher.py` → Menüpunkt
-`[M] ZEITRISS MMO-Sim`.
+`[M] ZEITRISS spielen (Terminal)`.
 
 ## Tests
 

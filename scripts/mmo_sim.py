@@ -195,9 +195,16 @@ class _FifoInputReader:
     parallel moeglichen host-getriebenen Round-Reader (`_HumanDriver.
     decide`) wegzuschnappen (s. dortiger Claim-Mechanismus)."""
 
-    def __init__(self, fifo_path: Path):
+    def __init__(self, fifo_path: Path, echo_fn=None):
         self._path = fifo_path
         self._file = None
+        # N1 (ZR-VOLLENDUNG-OHNE-LAN-NACHZUG-20261106-R2): optionaler
+        # Ausgabe-Rueckkanal (`print_fn` des Gast-Terminals), damit
+        # `read_line` den Prompt im zustaendigen Gast-ANZEIGEkanal sichtbar
+        # machen kann -- exakt wie das eingebaute `input(prompt)` den Prompt
+        # am Host-stdout zeigt. `None` -> kein Echo (bytegleich fuer jeden
+        # Alt-Aufrufer, s. `_fifo_input_fn`).
+        self._echo_fn = echo_fn
 
     def _ensure_open(self) -> None:
         if self._file is None:
@@ -213,6 +220,17 @@ class _FifoInputReader:
 
     def read_line(self, prompt: str = "") -> str:
         self._ensure_open()
+        # N1-FIX (R2): die tatsaechliche Frage/Aufforderung VOR dem
+        # blockierenden Lesen EINMAL sichtbar im Gast-Ausgabekanal
+        # ausgeben + flushen. Ohne dies wartete der angeschlossene Gast auf
+        # eine Antwort zu einer nie eingeblendeten Frage (Beitritt/Consent
+        # TUI 7466-7468, Importbestaetigung TUI 3898-3900, Menue-/Auswahl-/
+        # Bestaetigungsprompts). Leerer Prompt -> kein Echo (interne Reads
+        # ohne Fragetext bleiben stumm). Kein zweiter Oeffnungsversuch der
+        # out-FIFO: `echo_fn` IST das `print_fn`-Closure derselben
+        # TuiSession, teilt also dasselbe lazy geoeffnete Dateiobjekt.
+        if prompt and self._echo_fn is not None:
+            self._echo_fn(prompt)
         line = self._file.readline()
         if line == "":
             raise EOFError(f"Gast-Terminal-FIFO '{self._path}' geschlossen (EOF).")
@@ -278,7 +296,12 @@ def main(argv: list[str] | None = None) -> int:
         from mmo_sim.lab.cli import main as lab_main
         return lab_main(raw_argv[1:], repo_root=_REPO_ROOT)
 
-    parser = argparse.ArgumentParser(description="ZEITRISS MMO-Sim Terminaloberflaeche")
+    # R8-Nachzug (01_NACHZUG.md R8-4, PRODUKTFOCUS-LINUX-MINT.md "Spieler
+    # oeffnet ZEITRISS bzw. das Terminalspiel"): sichtbare CLI-Beschreibung
+    # fuer die Rolle, die dieses Skript tatsaechlich direkt aufruft (Spieler
+    # per Setupguide ODER Entwickler), nicht der interne Entwicklerbegriff
+    # "MMO-Sim" allein.
+    parser = argparse.ArgumentParser(description="ZEITRISS — Terminalspiel (Terminaloberflaeche)")
     parser.add_argument("--participant", default=None, help="bestehende Teilnehmer-ID (sonst wird die zuletzt genutzte wiederverwendet bzw. beim allerersten Lauf eine neue erzeugt)")
     parser.add_argument("--data-dir", default=str(_REPO_ROOT / "internal" / "mmo_sim_data"),
                          help="Datenverzeichnis fuer Onboarding-/Katalog-Journale")
@@ -417,13 +440,19 @@ def main(argv: list[str] | None = None) -> int:
         # angeschlossene Gast-Terminal, um waehrend eines aktiven
         # host-getriebenen Round-/Dialog-Claims (s. `_HumanDriver.decide`)
         # zu parken statt zu konkurrieren.
-        in_fifo_reader = _FifoInputReader(in_fifo_path)
+        # N1-FIX (R2): EIN gemeinsames `print_fn`-Closure fuer die out-FIFO
+        # -- es dient sowohl der normalen Gast-Anzeige (`print_fn`) ALS AUCH
+        # dem Prompt-Echo des Lesers (`echo_fn`). Geteiltes Closure =
+        # dasselbe lazy geoeffnete out-FIFO-Dateiobjekt, kein zweiter
+        # O_RDWR-Open derselben Pipe.
+        guest_print_fn = _fifo_print_fn(out_fifo_path)
+        in_fifo_reader = _FifoInputReader(in_fifo_path, echo_fn=guest_print_fn)
         guest_session = TuiSession(
             onboarding_dir=data_dir / "guests" / guest_id / "onboarding",
             catalog_dir=data_dir / "guests" / guest_id / "catalog",
             participant_id=guest_id,
             input_fn=in_fifo_reader.read_line,
-            print_fn=_fifo_print_fn(out_fifo_path),
+            print_fn=guest_print_fn,
             run_dir=run_dir,
             states_dir=states_dir,
             schema_path=schema_path if schema_path.is_file() else None,

@@ -4,6 +4,14 @@ Stand: 29. Oktober 2026. Die Gegenwartsübersicht beschreibt die unabhängig
 abgenommene lokale Beta-Etappe. Frühere Zwischenstände stehen getrennt
 unter „Historische Zwischenstände“.
 
+**Aktuelle Zielgrenze (8. November 2026):** ZEITRISS ist als lokales
+Terminal-Computerspiel für Linux Mint ausgerichtet; LAN und Windows sind
+seither kein aktives Ziel mehr, auch nicht als zugesagte spätere
+Pflichtetappe (siehe [`produktplan.md`](produktplan.md) §„Aktuelle
+Zielgrenze"). Historische Bezeichnungen wie „vor LAN" weiter unten bleiben
+als damaliger Name dieser Etappe erhalten und werden dadurch nicht
+umgeschrieben.
+
 ## Gegenwartsübersicht (Stand 29. Oktober 2026)
 
 **Anerkannter lokaler Referenzweg:** Der lokale Terminal-Client an einem
@@ -52,6 +60,66 @@ Produktkorrekturen und Originalbelege für Speicherung, Kaltladen und
 wirksame Fortsetzung. Weitergehende Livewege bleiben gesondert zu prüfen.
 Daraus folgt keine pauschale Zusage für Remote-/LAN-Mitspiel, alle
 Modellanbieter, alle Betriebssysteme oder einen Stable-Release.
+
+### Lokale Vollendung vor LAN (Stand 6. November 2026)
+
+Ergänzende Produktkorrekturen am lokalen Betreiber-/Gast-Tisch, **ohne** LAN und
+**ohne** neue Live-Abnahme. Diese Punkte wurden am **realen Launcher** mit den
+normalen Menüs/Eingabekanälen geführt; die KI-Spielleitung lief dabei über einen
+**deterministischen Modelltransport-Rand (null neue kostenpflichtige
+Produktmodellaufrufe)**. Das ist kein neuer Live-/Mehrfiguren-Reifegrad.
+
+- **Der reine Betreiber ohne eigene Figur**, der nur die Spielleitung hält und
+  den Tisch führt, ist der **Normalfall**. Eine eigene Figur ist nur Voraussetzung
+  des bewusst mitspielenden Hosts.
+- **Eigene Gastkanäle:** Jeder weitere Mensch antwortet auf Einladung,
+  Fokus-/Hilfeführung und Zustimmung an seinem **eigenen** I/O-Kanal selbst —
+  seine Taste auf seinem eigenen Terminal entscheidet; der Betreiber tippt keine
+  fremde Zustimmung an seiner Tastatur. Der Beitritts-/Zustimmungs-Fragetext wird
+  vor dem Warten auf die Antwort sichtbar in die Gast-Ausgabe-FIFO gespiegelt — der
+  Gast antwortet auf die in seinem eigenen Fenster eingeblendete Frage; die
+  Routing-/Autoritätstrennung bleibt davon unberührt.
+- **Öffentlicher Verlauf je Ansicht:** Der Anzeigestand öffentlicher SL-Einträge
+  ist an den tatsächlichen Ausgabekanal gebunden; getrennte Gastkanäle teilen
+  keinen bereits verbrauchten Cursor. Private Teilnehmernotizen und
+  nicht-öffentliche Figurendaten werden dabei nicht in andere Ansichten gespiegelt.
+- **EOF, Pause und Stop sind verschiedene Ereignisse:** Ein bestätigter
+  endgültiger Verwurf am Betreiber-Tisch erscheint **nicht** mehr als „EOF …
+  sicher pausiert". Ein beendeter Gastdispatch wird nicht allein durch erneutes
+  Öffnen eines Schreibers wieder lebendig — zuverlässig ist kontrollierter Schluss
+  plus vollständiger Neustart. Keine Sofort-Stop-/Wiederanschlussgarantie.
+- **Zwei eng begrenzte Grenzfälle** am normalen Weg belegt: erreichbarer Stop
+  während offener kontrollierter Antwort (bestätigter Verwurf, kein Finalrecord);
+  verbindlich angenommener Plan/Primärsave mit Unterbrechung, den ein **neuer
+  OS-Prozess** über den normalen Wiedereinstieg regulär beendet — ohne Rollback,
+  ohne doppelte Save-/Figuren-/Reflexionswirkung.
+
+### Bediente Spielerführung am lokalen Tisch (Stand 7. November 2026)
+
+Weitere Produktkorrekturen am lokalen Betreiber-/Gast-Tisch, **ohne** LAN und
+**ohne** neue Live-Abnahme. Geführt am **realen Launcher** über die normalen
+Menüs/Eingabekanäle; die KI-Spielleitung lief über einen **deterministischen
+Modelltransport-Rand (null neue kostenpflichtige Produktmodellaufrufe)**. Das
+ist **kein** neuer Live-/Mehrfiguren-Reifegrad.
+
+- **Bediente Nummern-Navigation:** Haupt- und Untermenüs (`charaktere`, `tisch`,
+  Lobby, Abschlusskarte) führen über die angezeigten **Nummern** zu einer
+  tatsächlichen Anschlussaktion — keine Nummer ohne Wirkung. Rohe interne
+  Befehle oder IDs muss ein Spieler nicht kennen; vorhandene Wortaliase bleiben
+  als optionale Experten-Abkürzung erhalten.
+- **Sichtbare Teilnehmer:** Menschen, KI-Personas und die eigene Figur werden in
+  der jeweiligen Ansicht sichtbar geführt, ohne interne Kennungen offenzulegen.
+- **Zwei-Gast-Normalweg mit figurfreiem Betreiber:** Ein Betreiber **ohne eigene
+  Figur** (nicht Leader) führt zwei real gestartete Gasthelfer über **dieselbe**
+  normale Menüführung — **Gast A per Import**, **Gast B per genehmigter
+  Erschaffung** (Anfrage → Betreiberfreigabe → eigener Dialog → persönlicher
+  Save). Beide Gäste bedienen am Ende ihre eigene nummerierte **Abschlusskarte**
+  selbst (Export des eigenen Standes, zurück zum Hauptmenü, als Gast zusätzlich
+  einen weiteren Tisch suchen/beitreten) und nehmen ihren Stand mit; das erneute
+  Laden stimmt mit dem persönlichen Endstand überein. Der Beleg lief über drei
+  vollständig getrennte Originalkanäle (Launcher/Betreiber und beide Gasthelfer).
+- **Ruhige Zeit-Atmosphäre nur in echten Wartephasen** und normal abschaltbar;
+  sie ersetzt keinen Spielinhalt und blendet sich nicht in aktive Züge.
 
 ### Best Effort und SAVECOMPAT
 

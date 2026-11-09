@@ -190,8 +190,18 @@ def test_bl1_tui_path_partial_selection_with_foreign_bound_unplayed_table():
         def human_responder(prompt: str = "") -> str:
             if "Deine Aktion" in prompt:
                 return "Ich sichere die Position."
+            # U3a/R3-Stage2: die freiwillige Abschlussnotiz hat jetzt einen
+            # EIGENEN Prompt ("Deine persoenliche Abschlussnotiz"), nicht
+            # mehr "Deine Aktion:" -- leere Antwort (freiwilliges Ueberspringen).
+            if "Deine persoenliche Abschlussnotiz" in prompt:
+                return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+            # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+            # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
+                return ""
             raise AssertionError(f"unerwarteter Prompt: {prompt!r}")
 
         session = TuiSession(
@@ -386,8 +396,18 @@ def test_m1_tui_vorspielen_menu_reaches_parity_personas():
         def human_responder(prompt: str = "") -> str:
             if "Deine Aktion" in prompt:
                 return "Ich sichere die Position."
+            # U3a/R3-Stage2: die freiwillige Abschlussnotiz hat jetzt einen
+            # EIGENEN Prompt ("Deine persoenliche Abschlussnotiz"), nicht
+            # mehr "Deine Aktion:" -- leere Antwort (freiwilliges Ueberspringen).
+            if "Deine persoenliche Abschlussnotiz" in prompt:
+                return ""
             if prompt.startswith("Welche jetzt spielen lassen?"):
                 return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            # R4 U3 (01_NACHZUG.md U3 Punkt 3): die jetzt echt bedienbare
+            # Abschlusskarte liest nach echtem Abschnittsabschluss eine
+            # zusaetzliche Auswahl -- neutral "Zurueck zum Hauptmenue".
+            if prompt.startswith("Auswahl (Nummer, leer/zurueck"):
+                return ""
             raise AssertionError(f"unerwarteter Prompt: {prompt!r}")
 
         session = TuiSession(

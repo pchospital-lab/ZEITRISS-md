@@ -5,21 +5,29 @@ tags: [meta, setup]
 
 # Wie öffne ich ein Terminal?
 
-Ein Terminal (auch "Eingabeaufforderung" oder "Konsole") ist ein Fenster, in dem du Befehle eintippen kannst. So öffnest du es direkt im richtigen Ordner:
+Ein Terminal (auch "Eingabeaufforderung" oder "Konsole") ist ein Fenster, in dem du Befehle eintippen kannst. ZEITRISS ist ein Spiel für Linux Mint; so öffnest du das Terminal dort direkt im richtigen Ordner:
 
-## Windows
+> Die Beispielbefehle unten (`python scripts/setup.py`) zeigen nur, wie ein Befehl in diesem Fenster aussieht — sie richten den Chat-/OpenWebUI-Weg ein und starten **kein** ZEITRISS-Terminalspiel. Der Terminal-Spielstart ist `python3 scripts/mmo_sim.py`, beschrieben unter [Spielerstart](spielerstart.md).
 
-1. Öffne den Ordner (z. B. den entpackten ZEITRISS-Ordner) im Explorer
-2. Klicke in die **Adressleiste** oben (dort wo der Pfad steht, z. B. `C:\Users\Sarah\Downloads\ZEITRISS`)
-3. Tippe `cmd` ein und drücke Enter
-4. Ein schwarzes Fenster öffnet sich — du bist im richtigen Ordner
+## Linux (Mint)
 
-```
+1. Öffne den Dateimanager und navigiere zum Ordner
+2. Drücke **F4** (funktioniert in den meisten Dateimanagern)
+3. Alternativ: **Rechtsklick** im Ordner → „Terminal hier öffnen" o. ä.
+
+```bash
 # Beispiel: So sieht der Befehl aus
-python scripts/setup.py
+python3 scripts/setup.py
 ```
 
-## Mac
+## Andere Systeme (ungeprüfte Nebenkompatibilität)
+
+ZEITRISS ist für Linux Mint gedacht; Windows ist kein Ziel, macOS ist eine
+mögliche, ungeprüfte Nebenkompatibilität ohne Laufzusage. Die folgenden
+Schritte sind keine gleichrangigen Produktwege, nur eine Referenz, falls
+du es dort trotzdem versuchst.
+
+### macOS
 
 1. Öffne den Ordner im Finder
 2. **Rechtsklick** auf den Ordner (oder Ctrl+Klick)
@@ -33,15 +41,16 @@ python scripts/setup.py
 python3 scripts/setup.py
 ```
 
-## Linux
+### Windows
 
-1. Öffne den Dateimanager und navigiere zum Ordner
-2. Drücke **F4** (funktioniert in den meisten Dateimanagern)
-3. Alternativ: **Rechtsklick** im Ordner → „Terminal hier öffnen" o. ä.
+1. Öffne den Ordner (z. B. den entpackten ZEITRISS-Ordner) im Explorer
+2. Klicke in die **Adressleiste** oben (dort wo der Pfad steht, z. B. `C:\Users\Sarah\Downloads\ZEITRISS`)
+3. Tippe `cmd` ein und drücke Enter
+4. Ein schwarzes Fenster öffnet sich — du bist im richtigen Ordner
 
-```bash
+```
 # Beispiel: So sieht der Befehl aus
-python3 scripts/setup.py
+python scripts/setup.py
 ```
 
 ---

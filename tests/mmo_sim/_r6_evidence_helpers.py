@@ -41,10 +41,16 @@ def sha256_of(path: Path) -> str:
 
 def write_process_result(
     out_dir: Path, label: str, *, argv: list, cwd: str, utc_start: str, utc_end: str,
-    exit_code: int, stdout_text: str, stderr_text: str,
+    exit_code: int, stdout_text: str, stderr_text: str, pid: int | None = None,
 ) -> dict:
     """Schreibt `<label>.stdout.txt`/`.stderr.txt` (leer = echte 0-Byte-Datei)
-    und `<label>.run.json`; liefert das run.json-dict zurueck (fuer SUMMARY)."""
+    und `<label>.run.json`; liefert das run.json-dict zurueck (fuer SUMMARY).
+
+    `pid` (01_NACHZUG §U5 "wirkliche argv/PIDs/Quellbindungen erfassen"): die
+    reale Betriebssystem-Prozess-ID des erfassten Prozesses wird, wenn vom
+    Aufrufer mitgegeben, als `pid`-Feld ins run.json aufgenommen. Optional
+    (Default None -> Feld wird weggelassen), damit Aufrufer ohne echten
+    Subprozess (reine In-Process-Erfassung) unveraendert bleiben."""
     out_dir.mkdir(parents=True, exist_ok=True)
     stdout_path = out_dir / f"{label}.stdout.txt"
     stderr_path = out_dir / f"{label}.stderr.txt"
@@ -54,6 +60,8 @@ def write_process_result(
         "label": label, "argv": list(argv), "cwd": str(cwd),
         "utc_start": utc_start, "utc_end": utc_end, "exit": exit_code,
     }
+    if pid is not None:
+        run_record["pid"] = int(pid)
     (out_dir / f"{label}.run.json").write_text(
         json.dumps(run_record, ensure_ascii=False, indent=2), encoding="utf-8",
     )
