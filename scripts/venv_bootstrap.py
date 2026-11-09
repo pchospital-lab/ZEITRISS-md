@@ -105,13 +105,11 @@ def ensure_running_in_project_venv(repo_root: Path, *, stream=None) -> None:
     if os.environ.get("ZEITRISS_SKIP_VENV_BOOTSTRAP"):
         return
 
-    venv_dir_ = venv_dir(repo_root)
-    if already_in_venv(venv_dir_):
-        return
-
-    if _required_deps_available():
-        return
-
+    # Root-Guard VOR den No-Op-Faellen (already_in_venv/_required_deps_
+    # available) -- sonst laeuft ein Rootprozess mit bereits vorhandenen
+    # Deps klaglos weiter, statt dass der F1-1-Root-Schutz greift. Der
+    # SKIP-Guard bleibt der robuste Headless-Ausweg und steht bewusst
+    # weiterhin davor.
     if _is_root():
         print(
             "\n  ZEITRISS soll nicht als root laufen -- es braucht keine "
@@ -120,6 +118,13 @@ def ensure_running_in_project_venv(repo_root: Path, *, stream=None) -> None:
             file=out,
         )
         sys.exit(1)
+
+    venv_dir_ = venv_dir(repo_root)
+    if already_in_venv(venv_dir_):
+        return
+
+    if _required_deps_available():
+        return
 
     venv_python = _venv_python(venv_dir_)
     marker = venv_dir_ / _SENTINEL_NAME

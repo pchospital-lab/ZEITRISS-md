@@ -13,10 +13,11 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 ## Inhalt
 
-1. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
-2. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
-3. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
-4. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
+1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
+2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
+3. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
+4. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
+   (optional, nachgeordnet)
 5. [Updates und Wartung](#updates-und-wartung)
 6. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
    — Gruppenspiel, Lokal-GPU-Variante, Export
@@ -24,147 +25,6 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 8. [Referenz](#referenz)
 
 ---
-
-## Browser-Einstieg ohne Installation
-
-Das ist der optionale, nachgeordnete Weg, das Regelwerk direkt in einer
-Chat-Plattform auszuprobieren — ohne lokale Installation. Der normale
-Produktstart ist das Terminalspiel auf Linux Mint, siehe
-[Spielerstart](spielerstart.md).
-
-**Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
-bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
-ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
-und bewahre ihn mit dem Paket auf. Das Quell-ZIP ist kein bereinigtes
-Upload-Paket; daraus wählst du nur die folgenden 19 `slot:true`-Dateien, deren
-einzige maschinenlesbare Quelle `master-index.json` bleibt:
-
-1. `core/spieler-handbuch.md`
-2. `core/zeitriss-core.md`
-3. `core/wuerfelmechanik.md`
-4. `core/sl-referenz.md`
-5. `characters/charaktererschaffung-grundlagen.md`
-6. `characters/ausruestung-cyberware.md`
-7. `systems/kp-kraefte-psi.md`
-8. `characters/zustaende.md`
-9. `characters/hud-system.md`
-10. `gameplay/kampagnenstruktur.md`
-11. `gameplay/kampagnenuebersicht.md`
-12. `gameplay/kreative-generatoren-missionen.md`
-13. `gameplay/kreative-generatoren-begegnungen.md`
-14. `gameplay/fahrzeuge-konflikte.md`
-15. `gameplay/massenkonflikte.md`
-16. `systems/currency/cu-waehrungssystem.md`
-17. `systems/gameflow/speicher-fortsetzung.md`
-18. `systems/gameflow/cinematic-start.md`
-19. `systems/toolkit-gpt-spielleiter.md`
-
-Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
-`knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
-`19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
-`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`,
-`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` und `SETUP-ANLEITUNG.md`.
-
-| Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
-| --- | --- | --- |
-| **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
-| **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
-
-Der Creator-Bootstrap heißt im Quell-ZIP
-`meta/creator_bootstrap_instructions.md`, im Paket
-`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md`.
-
-### Zwei getrennte Varianten
-
-- **Direkt:** Kopiere beim Quell-ZIP `meta/masterprompt_v6.md`, beim fertigen
-  Paket `system/SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
-  Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
-- **Kleines Anweisungsfeld:** Kopiere ausschließlich den zur Tabellenzeile
-  passenden Bootstrap ins Anweisungsfeld. Lade die 19 Module **plus** den dort
-  genannten vollständigen Masterprompt als 20 Projektquellen. Das bleibt ein
-  Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
-
-Nicht beide Anweisungen stapeln und keine Datei still kürzen. Einzelchat-
-Anhänge sind kein Ersatz für dauerhafte Projektquellen. Plattformen ohne
-persistentes Anweisungsfeld können den vollständigen Masterprompt als erste
-Nachricht jedes Abschnitts erhalten; dieser nachgeordnete Fallback ist
-ungeprüft und verliert seine Wirkung leicht beim Chatwechsel.
-
-Nicht als Spielwissen laden: `README.md`, `AGENTS.md`, `master-index.json`,
-`docs/`, `internal/`, `runtime.js`, Tests, QA-Artefakte, Archive,
-`BUILD-MANIFEST.json` oder `SETUP-ANLEITUNG.md`. Der Creator-Bootstrap ist nur
-für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
-
-### Kurzer Einstiegstest
-
-1. Sichtbare Projektquellen einzeln gegen die obige Liste prüfen.
-2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
-   „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
-   bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
-3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
-   aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
-4. Einen neuen Chat im selben Projekt öffnen und Schritt 2 wiederholen.
-
-„Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
-nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
-Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
-Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
-
-Zum Spielen danach einen neuen Chat im Projekt öffnen: entweder
-`Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
-Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
-`!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine
-automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
-dauerhaften Regelwissens.
-
-**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Zum Spielen
-genügt **ZEITRISS – Spiel**. Nur bei Creator-Nutzung kommt das separate Projekt
-**ZEITRISS – Creator** hinzu; keines wird pro Mission angelegt. Beide erhalten
-dann denselben konsistenten Regelstand. Beim Bootstrap-Weg
-liegen 19 Module plus vollständiger Masterprompt in den Projektquellen; ins
-Anweisungsfeld kommt je Projekt ausschließlich der passende Bootstrap. Der
-direkte Masterprompt-Spielweg oben bleibt eine getrennte Alternative. Im
-Creator-Projekt ist der Masterprompt Referenz, keine zweite Spielanweisung.
-
-Die offizielle [Projekt-Hilfe](https://help.openai.com/en/articles/10169521-projects-in-chatgpt)
-nennt planabhängig 5 Dateien (Free), 25 (Go/Plus) oder 40
-(Edu/Pro/Business/Enterprise) pro Projekt und höchstens zehn gleichzeitige
-Uploads. Vor Einrichtung erneut prüfen. Project-only Memory grenzt Kontext
-nach außen ab, isoliert aber nicht Chats innerhalb desselben Projekts. Es
-garantiert weder korrekte ZEITRISS-Zustandsführung noch Regeltreue und ersetzt
-keinen Save; aktuell importierte Saves bleiben maßgeblich. Spiel-Saves gehören direkt in den
-Spielchat, nicht ins dauerhafte Regelwissen. Creator bekommt nur ausgewählte
-Saves, Transkripte und Referenzen als Arbeitsmaterial; sie werden nicht zu
-Regeln.
-
-Wer ein Projekt freigibt, macht dessen Chats, Dateien und Anweisungen den
-Projektmitgliedern zugänglich; ein geteiltes Projekt ist trotzdem kein
-synchroner gemeinsamer Spielchat. Projekte werden vom Nutzer eingerichtet und
-sind nicht die Konfigurationsoberfläche eines Custom GPT. Dessen getrennte
-[GPT-Hilfe](https://help.openai.com/en/articles/8554397-creating-a-gpt)
-beschreibt Instructions, Knowledge und Capabilities. Deshalb keine
-Projekt-Schalter oder automatische Einrichtung für Bild/Video voraussetzen.
-Bei Regelupdates alte und neue Fassungen nicht parallel als gleichrangige
-Quellen behalten.
-
-**Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
-wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
-128k beziehungsweise unbrauchbar voller Kontext gemeldet; für Flo derzeit
-nicht brauchbar spielbar. Vermutet wird eine abweichende Datei-/Retrieval-
-Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
-Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
-Reparaturzusage durch den Bootstrap.
-
-### Download- und Freigabestatus
-
-Das öffentliche Repository ist bereits veröffentlicht und sein Quell-ZIP mit
-bewusst gewähltem Commit/Tag ist ein funktionierender Browser-Download. Ein
-zusätzliches, bereinigtes Upload-Paket ist eine optionale Bequemlichkeit; ein
-GitHub-Release ist weder Voraussetzung für Spielbarkeit noch für den Merge.
-
-Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
-→ genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
-optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automatisch.
 
 ## Überblick: Wie ZEITRISS läuft
 
@@ -204,7 +64,7 @@ sauber unterstützen.
 
 | Komponente des Terminalbackends (inkl. optionalem Chatweg) | Dort nötig? | Wofür |
 | --- | --- | --- |
-| **OpenWebUI** (Docker-Container) | ✅ nötig | Chat-Oberfläche dieses Wegs |
+| **OpenWebUI** (Docker-Container) | ✅ nötig | Lokale Verwaltung/API-Backend des Terminalspiels (Wissen, Preset, Modellroute); seine Browseroberfläche ist zusätzlich der optionale Chatweg |
 | **ZEITRISS-Repo + Python** | ✅ nötig | Regelwerk + Setup-Script dieses Wegs |
 | **OpenRouter-Key** | ✅ nötig¹ | Modellzugang dieses Wegs |
 | **OpenWebUI-API-Key** | ✅ nötig | damit Setup-Script Preset + KB schreiben kann |
@@ -352,22 +212,24 @@ API-Key**.
 
 ---
 
-### Schritt 4 - ZEITRISS klonen
+### Schritt 4 - ZEITRISS herunterladen
+
+Der normale Weg ist der **ZIP-Download**: Auf GitHub "Code → Download ZIP"
+klicken, entpacken, Terminal im entpackten Ordner öffnen (siehe
+[Wie öffne ich ein Terminal?](terminal-help.md)). Updates holst du dir
+dann per erneutem ZIP-Download.
+
+**Entwickleralternative — Git-Checkout:** Wer Git installiert hat und
+inkrementelle Updates via Launcher-Menüpunkt [4] (`git pull` + Sync)
+nutzen will, kann stattdessen klonen:
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
 ```
 
-Kein Git installiert? Zwei Möglichkeiten:
-
-- **Git installieren:** <https://git-scm.com/downloads> (empfohlen,
-  weil Updates via Launcher-Menüpunkt [4] dann out-of-the-box
-  funktionieren).
-- **ZIP-Download:** Auf GitHub "Code → Download ZIP" klicken, entpacken,
-  Terminal im entpackten Ordner öffnen. Funktioniert, aber Updates
-  musst du dann per erneutem ZIP-Download holen - inkrementelles `--sync`
-  braucht ein Git-Repo.
+Kein Git installiert? <https://git-scm.com/downloads>. Für den normalen
+Einstieg reicht aber der ZIP-Download oben.
 
 ---
 
@@ -640,6 +502,151 @@ entfernt; alte Trigger werden still auf den klassischen Pfad gemappt.
 > [Troubleshooting](#troubleshooting).
 
 ---
+
+## Browser-Einstieg ohne Installation
+
+Das ist der optionale, nachgeordnete Weg, das Regelwerk direkt in einer
+Chat-Plattform auszuprobieren — ohne lokale Installation. Der normale
+Produktstart ist das Terminalspiel auf Linux Mint, siehe
+[Spielerstart](spielerstart.md).
+
+**Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
+bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
+ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
+und bewahre ihn mit dem Paket auf. Das Quell-ZIP ist kein bereinigtes
+Upload-Paket; daraus wählst du nur die folgenden 19 `slot:true`-Dateien, deren
+einzige maschinenlesbare Quelle `master-index.json` bleibt:
+
+1. `core/spieler-handbuch.md`
+2. `core/zeitriss-core.md`
+3. `core/wuerfelmechanik.md`
+4. `core/sl-referenz.md`
+5. `characters/charaktererschaffung-grundlagen.md`
+6. `characters/ausruestung-cyberware.md`
+7. `systems/kp-kraefte-psi.md`
+8. `characters/zustaende.md`
+9. `characters/hud-system.md`
+10. `gameplay/kampagnenstruktur.md`
+11. `gameplay/kampagnenuebersicht.md`
+12. `gameplay/kreative-generatoren-missionen.md`
+13. `gameplay/kreative-generatoren-begegnungen.md`
+14. `gameplay/fahrzeuge-konflikte.md`
+15. `gameplay/massenkonflikte.md`
+16. `systems/currency/cu-waehrungssystem.md`
+17. `systems/gameflow/speicher-fortsetzung.md`
+18. `systems/gameflow/cinematic-start.md`
+19. `systems/toolkit-gpt-spielleiter.md`
+
+Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
+`knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
+`19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
+`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`,
+`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` und `SETUP-ANLEITUNG.md`.
+
+| Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
+| --- | --- | --- |
+| **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
+| **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
+
+Der Creator-Bootstrap heißt im Quell-ZIP
+`meta/creator_bootstrap_instructions.md`, im Paket
+`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md`.
+
+### Zwei getrennte Varianten
+
+- **Direkt:** Kopiere beim Quell-ZIP `meta/masterprompt_v6.md`, beim fertigen
+  Paket `system/SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
+  Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
+- **Kleines Anweisungsfeld:** Kopiere ausschließlich den zur Tabellenzeile
+  passenden Bootstrap ins Anweisungsfeld. Lade die 19 Module **plus** den dort
+  genannten vollständigen Masterprompt als 20 Projektquellen. Das bleibt ein
+  Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
+
+Nicht beide Anweisungen stapeln und keine Datei still kürzen. Für einen
+**ersten, begrenzten Versuch** reicht auch ein einzelner Chat: vollständigen
+Masterprompt als erste Nachricht einfügen und die 19 Wissensdateien direkt
+als Dateianhänge in diesen Chat laden. Das garantiert weder dauerhafte
+Quellenverfügbarkeit noch, dass die Plattform alle 19 Dateien zuverlässig
+aufnimmt/abruft; für einen neuen Chat müssen Masterprompt und Dateien dort
+erneut bereitgestellt werden. Dauerhafte Projektquellen (siehe oben) bleiben
+die verlässlichere Variante, sobald du öfter oder länger spielen willst.
+
+Nicht als Spielwissen laden: `README.md`, `AGENTS.md`, `master-index.json`,
+`docs/`, `internal/`, `runtime.js`, Tests, QA-Artefakte, Archive,
+`BUILD-MANIFEST.json` oder `SETUP-ANLEITUNG.md`. Der Creator-Bootstrap ist nur
+für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
+
+### Kurzer Einstiegstest
+
+1. Sichtbare Projektquellen einzeln gegen die obige Liste prüfen.
+2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
+   „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
+   bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
+3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
+   aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
+4. Einen neuen Chat im selben Projekt öffnen und Schritt 2 wiederholen.
+
+„Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
+nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
+Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
+Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
+
+Zum Spielen danach einen neuen Chat im Projekt öffnen: entweder
+`Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
+Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
+`!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine
+automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
+dauerhaften Regelwissens.
+
+**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Zum Spielen
+genügt **ZEITRISS – Spiel**. Nur bei Creator-Nutzung kommt das separate Projekt
+**ZEITRISS – Creator** hinzu; keines wird pro Mission angelegt. Beide erhalten
+dann denselben konsistenten Regelstand. Beim Bootstrap-Weg
+liegen 19 Module plus vollständiger Masterprompt in den Projektquellen; ins
+Anweisungsfeld kommt je Projekt ausschließlich der passende Bootstrap. Der
+direkte Masterprompt-Spielweg oben bleibt eine getrennte Alternative. Im
+Creator-Projekt ist der Masterprompt Referenz, keine zweite Spielanweisung.
+
+Die offizielle [Projekt-Hilfe](https://help.openai.com/en/articles/10169521-projects-in-chatgpt)
+nennt planabhängig 5 Dateien (Free), 25 (Go/Plus) oder 40
+(Edu/Pro/Business/Enterprise) pro Projekt und höchstens zehn gleichzeitige
+Uploads. Vor Einrichtung erneut prüfen. Project-only Memory grenzt Kontext
+nach außen ab, isoliert aber nicht Chats innerhalb desselben Projekts. Es
+garantiert weder korrekte ZEITRISS-Zustandsführung noch Regeltreue und ersetzt
+keinen Save; aktuell importierte Saves bleiben maßgeblich. Spiel-Saves gehören direkt in den
+Spielchat, nicht ins dauerhafte Regelwissen. Creator bekommt nur ausgewählte
+Saves, Transkripte und Referenzen als Arbeitsmaterial; sie werden nicht zu
+Regeln.
+
+Wer ein Projekt freigibt, macht dessen Chats, Dateien und Anweisungen den
+Projektmitgliedern zugänglich; ein geteiltes Projekt ist trotzdem kein
+synchroner gemeinsamer Spielchat. Projekte werden vom Nutzer eingerichtet und
+sind nicht die Konfigurationsoberfläche eines Custom GPT. Dessen getrennte
+[GPT-Hilfe](https://help.openai.com/en/articles/8554397-creating-a-gpt)
+beschreibt Instructions, Knowledge und Capabilities. Deshalb keine
+Projekt-Schalter oder automatische Einrichtung für Bild/Video voraussetzen.
+Bei Regelupdates alte und neue Fassungen nicht parallel als gleichrangige
+Quellen behalten.
+
+**Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
+wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
+128k beziehungsweise unbrauchbar voller Kontext gemeldet; für Flo derzeit
+nicht brauchbar spielbar. Vermutet wird eine abweichende Datei-/Retrieval-
+Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
+Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
+Reparaturzusage durch den Bootstrap.
+
+### Download- und Freigabestatus
+
+Das öffentliche Repository ist bereits veröffentlicht und sein Quell-ZIP mit
+bewusst gewähltem Commit/Tag ist ein funktionierender Browser-Download. Ein
+zusätzliches, bereinigtes Upload-Paket ist eine optionale Bequemlichkeit; ein
+GitHub-Release ist weder Voraussetzung für Spielbarkeit noch für den Merge.
+
+Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
+→ genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
+optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automatisch.
+
 
 ## Updates und Wartung
 
@@ -959,9 +966,13 @@ Plattform-spezifischen Tipps.
 - **Projektweite Anweisungen oder System-Prompt.** Ideal: Der vollständige
   Masterprompt passt hinein. Fallback: kurze Bootstrap-Anweisung hinein,
   Masterprompt als projektweite Quelle.
-- **Projektweite Wissens-/Quell-Dateien.** Die 19 Wissensmodule müssen
-  projektweit verfügbar sein, nicht nur als Dateianhang in einem einzelnen
-  Chat.
+- **Projektweite Wissens-/Quell-Dateien — für dauerhaftes Spielen.** Die 19
+  Wissensmodule sollten projektweit verfügbar sein, damit sie über mehrere
+  Abschnitte und neue Chats hinweg erhalten bleiben. Für einen ersten,
+  begrenzten Versuch reicht auch ein Dateianhang in einem einzelnen Chat
+  (siehe [oben](#zwei-getrennte-varianten)) — ohne Garantie, dass die
+  Plattform sie dort zuverlässig aufnimmt oder abruft, und ohne, dass sie
+  einen neuen Chat überlebt.
 - **Retrieval über diese Dateien.** Ohne Retrieval erfindet das Modell Regeln,
   statt sie aus den Modulen zu ziehen.
 - **Genug Datei-Slots.** Mindestens 19 Dateien; beim Bootstrap-Fallback
@@ -970,8 +981,9 @@ Plattform-spezifischen Tipps.
   aber HUD, Save, Paradoxon-Logik, Kampfregeln und Missionstaktung werden
   schneller instabil.
 
-Plattformen ohne projektweites Wissen/Quellen oder ohne Retrieval sind für
-ZEITRISS nicht geeignet.
+Für dauerhaftes Spielen sind Plattformen ohne projektweites Wissen/Quellen
+oder ohne Retrieval nicht geeignet; für einen einmaligen ersten Versuch
+kann der Einzelchat-Anhang oben trotzdem funktionieren.
 
 #### Masterprompt: wohin damit?
 

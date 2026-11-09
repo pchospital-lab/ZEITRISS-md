@@ -30,8 +30,13 @@ Für das optionale Ausprobieren im Chat nutze den [Chat-Setup-Guide](setup-guide
 > Installation unten gilt für den eigenen Spiel- oder Betreiberstart.
 
 Entpacke das heruntergeladene ZEITRISS-Projekt (auch ein Pfad mit
-Leerzeichen funktioniert) und starte den Launcher aus einem Terminal im
-entpackten Ordner:
+Leerzeichen funktioniert). Der normale Weg dorthin ist der Dateimanager:
+**Doppelklick auf `zeitriss.sh`** im entpackten Ordner. Nemo (der
+Mint-Standard-Dateimanager) fragt dabei einmalig, wie die Datei ausgeführt
+werden soll — wähle **„Im Terminal ausführen"**. Das ist die erforderliche
+einmalige lokale Ausführungs-/Vertrauensfreigabe des Dateimanagers; danach
+öffnet sich ein Terminal mit dem Launcher. Alternativ startest du denselben
+Launcher direkt aus einem bereits offenen Terminal im entpackten Ordner:
 
 ```bash
 ./zeitriss.sh

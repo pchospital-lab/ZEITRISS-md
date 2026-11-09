@@ -1560,6 +1560,83 @@ def _mask_secret(s: str, keep_prefix: int = 8, keep_suffix: int = 4) -> str:
     return f"{s[:keep_prefix]}…{s[-keep_suffix:]}"
 
 
+def _update_env_file_preserving(
+    path: Path,
+    updates: dict,
+    *,
+    remove: set = frozenset(),
+) -> bool:
+    """Aktualisiert/ergänzt Felder in einer KEY=VALUE-.env-Datei, ohne den
+    Rest der Datei zu verwerfen.
+
+    PF1.2/PF1.3-Fix: vorher baute `launcher.py:action_rekeys` `~/.openwebui_env`
+    aus nur URL/OWUI/OR-Key neu, `run_install_litellm` die LiteLLM-`.env`
+    aus genau 4 Feldern neu — jeweils gingen alle anderen Zeilen (Kommentare,
+    fremde/unbekannte Felder) verloren. Dieser EINE Helfer (3 Aufrufer:
+    `launcher.py:action_install`, `action_rekeys`, `setup.py:run_install_litellm`)
+    ersetzt beide Rewrites durch ein feldweises Update.
+
+    Erhält Zeilenreihenfolge + Kommentare + unbekannte Felder. Bekannte Keys
+    werden in-place aktualisiert (inkl. `export `-Präfix, falls vorhanden),
+    neue Keys ans Ende angehängt, Keys in `remove` gestrichen. chmod 600
+    nach dem Schreiben (best effort — auf Windows-NTFS wirkungslos, dann
+    bewusst stumm, kein Alarm für den Nutzer).
+
+    KEIN neuer Secret-Store — reines Datei-Update derselben bestehenden
+    `.env`/`~/.openwebui_env`-Dateien. Gibt True bei Erfolg zurück, False
+    bei einem Schreibfehler (inkl. `print_warn` mit der Ursache — kein
+    stiller Fallback, aber auch kein harter Crash für einen Hilfsschritt
+    wie Key-Persistierung)."""
+    existing_lines: list[str] = []
+    if path.is_file():
+        try:
+            existing_lines = path.read_text(encoding="utf-8").splitlines()
+        except OSError as exc:
+            print_warn(f"{path} konnte nicht gelesen werden, baue neu: {exc.__class__.__name__}")
+            existing_lines = []
+
+    seen: set = set()
+    out_lines: list[str] = []
+    for line in existing_lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            out_lines.append(line)
+            continue
+        raw = stripped
+        prefix = ""
+        if raw.startswith("export "):
+            prefix = "export "
+            raw = raw[len("export "):]
+        if "=" not in raw:
+            out_lines.append(line)
+            continue
+        key = raw.split("=", 1)[0].strip()
+        if key in remove:
+            seen.add(key)
+            continue
+        if key in updates:
+            out_lines.append(f"{prefix}{key}={updates[key]}")
+            seen.add(key)
+            continue
+        out_lines.append(line)
+
+    for key, value in updates.items():
+        if key not in seen:
+            out_lines.append(f"{key}={value}")
+
+    content = "\n".join(out_lines) + "\n"
+    try:
+        path.write_text(content, encoding="utf-8")
+    except OSError as exc:
+        print_warn(f"{path} konnte nicht geschrieben werden: {exc.__class__.__name__}: {exc}")
+        return False
+    try:
+        path.chmod(0o600)
+    except OSError:
+        pass
+    return True
+
+
 def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
     """Bestimmt das LiteLLM-Routing-Modell, auf das das OpenWebUI-Preset
     nach Cache-Install zeigen soll.
@@ -1828,6 +1905,18 @@ def _rewire_preset_base_model(
     return all_ok, " | ".join(msgs)
 
 
+def _cache_probe_requested(opts: dict) -> bool:
+    """Ob der kostenpflichtige 2-Call-Cache-Test (Schritt 7 in
+    `run_install_litellm`) laufen soll. Default AUS (PF2) — eine explizite,
+    kostenbenannte Wahl per `opts["cache_probe"]` (CLI `--cache-probe`) ODER
+    `ZEITRISS_LITELLM_CACHE_PROBE=1` schaltet ihn ein. Der Normalpfad
+    (`launcher.py:action_install` → `run_install_litellm(repo, load_cfg())`,
+    kein `opts`) setzt keines von beidem → 0 generative POSTs."""
+    if opts.get("cache_probe"):
+        return True
+    return os.environ.get("ZEITRISS_LITELLM_CACHE_PROBE", "").strip() == "1"
+
+
 def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Install + start LiteLLM proxy for Anthropic prompt caching.
 
@@ -1948,25 +2037,31 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     else:
         print_info("Bestehender LiteLLM-Master-Key in .env wird weiter genutzt.")
 
-    # 4. .env schreiben, chmod 600
-    env_content = (
-        "# Generiert von scripts/setup.py --install-litellm\n"
-        "# Diese Datei enthält Secrets — bitte nicht committen.\n"
-        f"OPENROUTER_API_KEY={or_key}\n"
-        f"LITELLM_MASTER_KEY={master_key}\n"
-        # Templaten von container_name/ports/--port/Healthcheck in
-        # docker-compose.litellm.yml via Compose-Interpolation
-        # (${VAR:-default}) — macht Blaupause-Forks/Mehr-Instanz-Betrieb
-        # kollisionsfrei, ohne die YAML manuell anzufassen.
-        f"LITELLM_CONTAINER_NAME={litellm_container}\n"
-        f"LITELLM_PORT={litellm_port}\n"
+    # 4. .env feldweise erhaltend schreiben (WP1b, Aufrufer 3: vorher ein
+    # 4-Feld-Rewrite, der jede andere Zeile in der Datei verworfen hätte —
+    # jetzt derselbe `_update_env_file_preserving`-Helfer wie
+    # `action_install`/`action_rekeys` in launcher.py). Templaten von
+    # container_name/ports/--port/Healthcheck in docker-compose.litellm.yml
+    # via Compose-Interpolation (${VAR:-default}) — macht Blaupause-Forks/
+    # Mehr-Instanz-Betrieb kollisionsfrei, ohne die YAML manuell anzufassen.
+    if not env_file.is_file():
+        env_file.write_text(
+            "# Generiert von scripts/setup.py --install-litellm\n"
+            "# Diese Datei enthält Secrets — bitte nicht committen.\n",
+            encoding="utf-8",
+        )
+    env_ok = _update_env_file_preserving(
+        env_file,
+        {
+            "OPENROUTER_API_KEY": or_key,
+            "LITELLM_MASTER_KEY": master_key,
+            "LITELLM_CONTAINER_NAME": litellm_container,
+            "LITELLM_PORT": str(litellm_port),
+        },
     )
-    env_file.write_text(env_content, encoding="utf-8")
-    try:
-        env_file.chmod(0o600)
-    except PermissionError:
-        print_warn("Konnte .env nicht auf chmod 600 setzen (Windows-NTFS?). "
-                   "Bitte manuell absichern.")
+    if not env_ok:
+        print_error(f"{env_file} konnte nicht geschrieben werden — Abbruch.")
+        sys.exit(1)
     print_ok(f".env geschrieben ({env_file}).")
 
     # 5. Container starten
@@ -2020,60 +2115,77 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
         sys.exit(1)
     print_ok(f"LiteLLM erreichbar auf {litellm_base}.")
 
-    # 7. 2-Call-Cache-Test (Best-Effort)
-    print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische Calls)...")
-    big_system = "You are a concise assistant. " * 400  # ~2000 Tokens
-    test_body = json.dumps({
-        "model": routing_model,
-        "messages": [
-            {"role": "system", "content": big_system},
-            {"role": "user", "content": "Say only: OK"},
-        ],
-        "temperature": 0.1,
-        "max_tokens": 8,
-    }).encode("utf-8")
-    headers = {
-        "Authorization": f"Bearer {master_key}",
-        "Content-Type": "application/json",
-    }
-
-    def _call() -> Optional[dict]:
-        try:
-            req = urllib.request.Request(
-                f"{litellm_base}/v1/chat/completions",
-                data=test_body, headers=headers, method="POST",
-            )
-            with urllib.request.urlopen(req, timeout=120) as resp:
-                return json.loads(resp.read())
-        except (urllib.error.URLError, urllib.error.HTTPError,
-                ConnectionError, TimeoutError, json.JSONDecodeError) as exc:
-            print_warn(f"Cache-Test-Call fehlgeschlagen: {exc}")
-            return None
-
-    call1 = _call()
-    if call1 is None:
-        print_warn(
-            "Cache-Test nicht möglich — Container läuft aber. "
-            "Häufige Ursachen: OpenRouter-Credits leer, OpenRouter-Privacy "
-            "blockiert den Anthropic-Provider, falscher Key."
+    # 7. 2-Call-Cache-Test — opt-in, kostenbenannt (PF2: vorher bedingungslos
+    # im Normalpfad; jeder `launcher.py`-Install-Lauf (Menü [1], Zeile ~779)
+    # löste dabei bis zu zwei echte, kostenpflichtige POST
+    # /v1/chat/completions gegen OpenRouter aus — ohne das explizit zu sagen.
+    # Default jetzt AUS: Healthcheck (Schritt 6) + Auto-Wire/Model-List
+    # (Schritt 8+9, alles GET/idempotente Updates) laufen unabhängig davon
+    # weiter; nur dieser generative Call ist eine bewusste Wahl.
+    cache_probe = _cache_probe_requested(opts)
+    if not cache_probe:
+        print_info(
+            "Cache-Test übersprungen (Default) — er würde zwei echte, "
+            "kostenpflichtige Chat-Calls an OpenRouter senden, nur um das "
+            "Caching zu verifizieren. Health-Check, Live-Auth, Modell-Liste "
+            "und KB-Retrieval laufen unabhängig davon per GET weiter.\n"
+            "  Bewusst aktivieren: --cache-probe oder "
+            "ZEITRISS_LITELLM_CACHE_PROBE=1 (optionale, kostenbenannte Liveprobe)."
         )
     else:
-        time.sleep(3)
-        call2 = _call()
-        if call2:
-            usage2 = call2.get("usage", {}) or {}
-            cached = (usage2.get("prompt_tokens_details") or {}).get("cached_tokens", 0)
-            if cached and cached > 0:
-                print_ok(
-                    f"Prompt-Caching aktiv: {cached} Tokens aus Cache in Call 2. "
-                    f"Ersparnis pro Folge-Turn ~90 %."
+        print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische, kostenpflichtige Calls)...")
+        big_system = "You are a concise assistant. " * 400  # ~2000 Tokens
+        test_body = json.dumps({
+            "model": routing_model,
+            "messages": [
+                {"role": "system", "content": big_system},
+                {"role": "user", "content": "Say only: OK"},
+            ],
+            "temperature": 0.1,
+            "max_tokens": 8,
+        }).encode("utf-8")
+        headers = {
+            "Authorization": f"Bearer {master_key}",
+            "Content-Type": "application/json",
+        }
+
+        def _call() -> Optional[dict]:
+            try:
+                req = urllib.request.Request(
+                    f"{litellm_base}/v1/chat/completions",
+                    data=test_body, headers=headers, method="POST",
                 )
-            else:
-                print_warn(
-                    "Caching-Check neutral: Call 2 hat keine `cached_tokens` > 0 "
-                    "gemeldet. Kann an OpenRouter-Routing liegen. "
-                    "Privacy-Settings auf openrouter.ai prüfen."
-                )
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    return json.loads(resp.read())
+            except (urllib.error.URLError, urllib.error.HTTPError,
+                    ConnectionError, TimeoutError, json.JSONDecodeError) as exc:
+                print_warn(f"Cache-Test-Call fehlgeschlagen: {exc}")
+                return None
+
+        call1 = _call()
+        if call1 is None:
+            print_warn(
+                "Cache-Test nicht möglich — Container läuft aber. "
+                "Häufige Ursachen: OpenRouter-Credits leer, OpenRouter-Privacy "
+                "blockiert den Anthropic-Provider, falscher Key."
+            )
+        else:
+            time.sleep(3)
+            call2 = _call()
+            if call2:
+                usage2 = call2.get("usage", {}) or {}
+                cached = (usage2.get("prompt_tokens_details") or {}).get("cached_tokens", 0)
+                if cached and cached > 0:
+                    print_ok(
+                        f"Prompt-Caching aktiv: {cached} Tokens aus Cache in Call 2. "
+                        f"Ersparnis pro Folge-Turn ~90 %."
+                    )
+                else:
+                    print_warn(
+                        "Caching-Check neutral: Call 2 hat keine `cached_tokens` > 0 "
+                        "gemeldet. Kann an OpenRouter-Routing liegen. "
+                        "Privacy-Settings auf openrouter.ai prüfen."
+                    )
 
     # 8 + 9. Auto-Wire: OpenWebUI-Connection + Preset-Base-Modell setzen.
     print()
@@ -2149,7 +2261,8 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     if auto_wired:
         print_ok(
             f"Cache ist live verkabelt: Preset → `{routing_model}` → LiteLLM → OpenRouter.\n"
-            "  Nichts mehr zu klicken — mit Menü [3] direkt ins Spiel."
+            "  Nichts mehr zu klicken — der normale Weg ist jetzt das Terminalspiel "
+            f"[M] im {project}-Starter. Der Browser-Chat ist optional (Menü [3])."
         )
     else:
         # Granularer Fallback: nur die Schritte zeigen, die wirklich noch
@@ -3240,6 +3353,8 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     start_cmd = cfg.get("suggestions", ["Start"])[0]
     first_preset_name = cfg["variants"][created_presets[0][0]]["preset_name"] if created_presets else cfg.get("preset_name", project)
     print(f"  So geht's weiter:")
+    print(f"  Der normale Weg ist das Terminalspiel [M] im {project}-Starter.")
+    print(f"  Der Browser-Chat ist optional:")
     print(f"  1. Öffne {url} im Browser")
     print(f"  2. Starte einen neuen Chat")
     print(f"  3. Wähle eines der Presets oben (z.B. \"{first_preset_name}\")")
@@ -3604,6 +3719,16 @@ def main() -> None:
             "Für CI/automatisierte Läufe oder wenn kein Docker vorhanden ist."
         ),
     )
+    parser.add_argument(
+        "--cache-probe",
+        action="store_true",
+        help=(
+            "Mit --install-litellm: zusätzlich einen 2-Call-Cache-Test fahren "
+            "(zwei echte, KOSTENPFLICHTIGE Chat-Calls gegen OpenRouter, um "
+            "Prompt-Caching zu verifizieren). Default AUS. Alternativ: "
+            "ZEITRISS_LITELLM_CACHE_PROBE=1."
+        ),
+    )
     # ── Multi-Variant ────────────────────────────────────────────────
     parser.add_argument(
         "--variant",
@@ -3653,6 +3778,7 @@ def main() -> None:
             cfg,
             opts={
                 "assume_yes": args.yes,
+                "cache_probe": args.cache_probe,
             },
         )
     elif args.list_variants:

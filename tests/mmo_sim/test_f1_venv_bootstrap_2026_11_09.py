@@ -205,6 +205,51 @@ def test_root_guard_blocks_before_any_venv_creation():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def test_root_guard_fires_even_when_deps_already_available():
+    """F1-N1 WP3: der Root-Guard muss VOR den No-Op-Faellen greifen, nicht
+    nur vor der venv-Erzeugung. Vorher lag `_is_root()` HINTER
+    `_required_deps_available()` (scripts/venv_bootstrap.py) -- ein
+    Rootprozess mit bereits importierbaren Laufzeit-Deps (z.B. CI, die
+    requirements-ci.txt vorab per --user installiert hat und zufaellig als
+    root laeuft) ist dort klaglos als No-Op durchgelaufen, OHNE den
+    Root-Schutz je zu sehen. Dieser Test mockt `_is_root`->True UND
+    `_required_deps_available`->True explizit (anders als der Test oben,
+    der deps_available auf False mockt) und verlangt denselben
+    SystemExit(1)."""
+    tmp = Path(tempfile.mkdtemp(prefix="f1-venv-bootstrap-root-deps-"))
+    try:
+        raised = False
+        with mock.patch.object(venv_bootstrap, "_is_root", return_value=True), \
+             mock.patch.object(venv_bootstrap, "_required_deps_available", return_value=True):
+            try:
+                venv_bootstrap.ensure_running_in_project_venv(tmp)
+            except SystemExit as exc:
+                raised = True
+                assert exc.code == 1, f"root-Abbruch sollte Exit-Code 1 liefern, war {exc.code!r}"
+        assert raised, (
+            "root+bereits-verfuegbare-Deps haette trotzdem mit SystemExit(1) "
+            "abbrechen muessen (Root-Guard vor No-Op-Faellen)"
+        )
+        assert not (tmp / ".venv").exists(), "root-Guard haette VOR jeder venv-Erzeugung greifen muessen"
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_ci_non_root_with_deps_available_stays_noop():
+    """Gegenstueck: non-root + Deps vorhanden (normaler CI-Fall,
+    .github/workflows/smoke.yml + tests/mmo_sim/run_all.py laufen non-root)
+    bleibt No-Op -- KEINE `.venv`, kein SystemExit. Belegt, dass das
+    Vorziehen des Root-Checks keinen neuen CI-Seiteneffekt einfuehrt."""
+    tmp = Path(tempfile.mkdtemp(prefix="f1-venv-bootstrap-ci-noop-"))
+    try:
+        with mock.patch.object(venv_bootstrap, "_is_root", return_value=False), \
+             mock.patch.object(venv_bootstrap, "_required_deps_available", return_value=True):
+            venv_bootstrap.ensure_running_in_project_venv(tmp)
+        assert not (tmp / ".venv").exists(), "non-root + Deps vorhanden haette KEINE .venv anlegen duerfen"
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

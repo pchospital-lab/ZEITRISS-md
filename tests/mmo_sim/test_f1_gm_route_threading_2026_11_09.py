@@ -11,12 +11,21 @@ frische `setup.py`-Installation legt aber eine NEUE Knowledge-Base mit
 neuer ID an; ohne diesen Fix griffe das Terminalspiel immer auf die in
 `agent_mp/sl_client.py` hartkodierte KB-ID einer alten Installation zurück.
 
-Deckt zwei getrennte Stellen:
+Deckt drei getrennte Stellen:
   (A) `factories.default_gm_transport_factory(..., sl_model=, kb_id=)`
       reicht beide Werte tatsächlich an den konstruierten Transport durch.
   (B) `scripts/mmo_sim.py:_resolve_active_gm_route()` ermittelt Preset-ID
       (aus `setup.json`) und KB-ID (live über den vorhandenen
       `setup.APIClient`) korrekt und bleibt fail-soft ohne Konfiguration.
+  (C) F1-N1 WP5a/PF3.GM (NACHTRAG): ein fehlgeschlagener KB-Read TROTZ
+      vorhandenem Key liefert den Sentinel `GM_ROUTE_KB_UNVERIFIED` statt
+      stillem `None` — vorher war das vom "kein Key"-Fall nicht
+      unterscheidbar, und `GmOwuiTransport`/`sl_client.py` fiel auf die
+      hartkodierte HISTORISCHE KB_ID zurück, als wäre das ein gültiger
+      "bewusst keine KB"-Zustand. Das Wiring in `main()` baut bei diesem
+      Sentinel keine Live-Factory mehr, sondern
+      `_blocked_gm_transport_factory()`, die erst beim tatsächlichen
+      produktiven Zugriff sichtbar ablehnt.
 
 Double-Grenzen (A4, offen gelegt):
   (A) `mmo_sim.adapters.gm_owui.GmOwuiTransport` wird durch ein Fake
@@ -31,6 +40,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import sys
 import tempfile
 import traceback
@@ -124,7 +134,12 @@ def _load_mmo_sim_entrypoint():
     return module
 
 
-def _install_fake_setup_module(get_model_result):
+def _install_fake_setup_module(get_result):
+    """Installiert ein Fake-`setup`-Modul. `get_result` ist ein `(code, data)`-
+    Tupel wie `APIClient.get` es liefert -- `_resolve_active_gm_route` ist
+    seit der F1-N1-WP5a-Verfeinerung status-bewusst (unterscheidet 200 /
+    501 / sonstige Codes), statt `get_model` (das jeden Nicht-200 zu None
+    kollabiert) zu verwenden."""
     fake_setup = types.ModuleType("setup")
     fake_setup._auto_load_owui_env_calls = []
 
@@ -136,8 +151,8 @@ def _install_fake_setup_module(get_model_result):
             self.url = url
             self.key = key
 
-        def get_model(self, model_id):
-            return get_model_result
+        def get(self, path, **kw):
+            return get_result
 
     fake_setup._auto_load_owui_env = _auto_load_owui_env
     fake_setup.APIClient = _FakeAPIClient
@@ -166,7 +181,7 @@ def test_resolve_active_gm_route_without_owui_key_returns_only_sl_model():
             "default_variant": "sonnet",
             "variants": {"sonnet": {"preset_id": "zeitriss-v426-uncut"}},
         }), encoding="utf-8")
-        _install_fake_setup_module(get_model_result=None)
+        _install_fake_setup_module(get_result=(200, {}))
         sl_model, kb_id = module._resolve_active_gm_route(tmp)
         assert sl_model == "zeitriss-v426-uncut", sl_model
         assert kb_id is None, kb_id
@@ -181,12 +196,20 @@ def test_resolve_active_gm_route_without_owui_key_returns_only_sl_model():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-def test_resolve_active_gm_route_invalid_auth_is_fail_soft():
-    """A4 (ungueltige-Auth/Route-Check): ein (simuliert) abgelaufener/
-    falscher OWUI-Key fuehrt bei `APIClient.get_model` zu einem Fehler --
-    `_resolve_active_gm_route` darf dabei NICHT crashen, sondern faellt auf
-    `(sl_model, None)` zurueck (GmOwuiTransport nutzt dann die
-    sl_client.py-Altdefaults statt eines abgebrochenen Terminalstarts)."""
+def test_resolve_active_gm_route_invalid_auth_is_visibly_rejected():
+    """F1-N1 WP5a (PF3.GM): ein (simuliert) abgelaufener/falscher OWUI-Key
+    fuehrt zu HTTP 401 (von `APIClient.get` intern abgefangen, kein raise)
+    -- `_resolve_active_gm_
+    route` darf dabei NICHT crashen, UND darf NICHT mehr still `(sl_model,
+    None)` zurueckgeben (das sah wie "Route korrekt, aber bewusst ohne KB"
+    aus und liess `GmOwuiTransport`/`sl_client.py` auf die hartkodierte
+    HISTORISCHE KB_ID einer alten Installation zurueckfallen -- ein
+    fehlgeschlagener Read wurde so faelschlich als Erfolg behandelt).
+    Stattdessen muss der unterscheidbare Sentinel `GM_ROUTE_KB_UNVERIFIED`
+    zurueckkommen, den `default_gm_transport_factory` (mmo_sim/adapters/
+    factories.py) in eine sichtbar ablehnende Factory statt eines Live-
+    Transports uebersetzt (s. test_gm_transport_factory_blocks_productive_
+    use_when_kb_unverified unten)."""
     module = _load_mmo_sim_entrypoint()
     tmp = Path(tempfile.mkdtemp(prefix="f1-resolve-route-auth-"))
     saved_setup = sys.modules.get("setup")
@@ -208,8 +231,10 @@ def test_resolve_active_gm_route_invalid_auth_is_fail_soft():
             def __init__(self, url, key):
                 pass
 
-            def get_model(self, model_id):
-                raise RuntimeError("HTTP 401: invalid API key")
+            def get(self, path, **kw):
+                # APIClient faengt HTTP 401 INTERN ab und gibt (code, body)
+                # zurueck, OHNE zu werfen -- der realistische Auth-Fehlerweg.
+                return 401, {"detail": "invalid API key"}
 
         fake_setup._auto_load_owui_env = _auto_load_owui_env
         fake_setup.APIClient = _UnauthorizedAPIClient
@@ -217,7 +242,9 @@ def test_resolve_active_gm_route_invalid_auth_is_fail_soft():
 
         sl_model, kb_id = module._resolve_active_gm_route(tmp)
         assert sl_model == "zeitriss-v426-uncut", sl_model
-        assert kb_id is None, kb_id
+        assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, (
+            f"ein fehlgeschlagener Auth-Read haette den Sentinel liefern muessen, war {kb_id!r}"
+        )
     finally:
         if saved_setup is not None:
             sys.modules["setup"] = saved_setup
@@ -225,6 +252,147 @@ def test_resolve_active_gm_route_invalid_auth_is_fail_soft():
             sys.modules.pop("setup", None)
         module.os.environ.clear()
         module.os.environ.update(saved_env)
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_resolve_active_gm_route_preset_without_kb_link_is_unverified():
+    """F1-N1 WP5a (PF3.GM, Main-Verfeinerung): Preset lesbar (HTTP 200), aber
+    OHNE gueltige KB-Verknuepfung -> `GM_ROUTE_KB_UNVERIFIED`, NICHT mehr still
+    `None`. VORHER fiel dieser Fall ueber `kb_id or KB_ID` in `sl_client.py`
+    auf die hartkodierte historische KB einer alten Installation; der Auftrag
+    verlangt ausdruecklich, dass auch ein "fehlender KB-Link" nicht auf die
+    fremde historische KB ausweicht. Dieser Fall ist von den E2E-Fakes NICHT
+    erreichbar (die liefern 501 fuer `GET /api/v1/models/model`, also VOR einem
+    Preset) -- er kann daher sicher sentinel werden."""
+    module = _load_mmo_sim_entrypoint()
+    tmp = Path(tempfile.mkdtemp(prefix="f1-resolve-route-nokb-"))
+    saved_setup = sys.modules.get("setup")
+    saved_env = dict(module.os.environ)
+    try:
+        (tmp / "setup.json").write_text(json.dumps({
+            "default_variant": "sonnet",
+            "variants": {"sonnet": {"preset_id": "zeitriss-v426-uncut"}},
+        }), encoding="utf-8")
+        module.os.environ["OPENWEBUI_API_KEY"] = "test-key-not-a-secret"
+        module.os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
+        fake_preset_no_kb = {"meta": {"knowledge": []}}
+        _install_fake_setup_module(get_result=(200, fake_preset_no_kb))
+        sl_model, kb_id = module._resolve_active_gm_route(tmp)
+        assert sl_model == "zeitriss-v426-uncut", sl_model
+        assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, kb_id
+    finally:
+        if saved_setup is not None:
+            sys.modules["setup"] = saved_setup
+        else:
+            sys.modules.pop("setup", None)
+        module.os.environ.clear()
+        module.os.environ.update(saved_env)
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_resolve_active_gm_route_no_key_at_all_stays_plain_none():
+    """Gegenprobe (WP5a): der echte 'Key fehlt ganz'-Fall bleibt
+    UNVERAENDERT plain `None` (nicht der Sentinel) -- dieser Pfad bleibt
+    bewusst fail-closed in `sl_client.SLSession.__init__`, unberuehrt von
+    diesem Fix."""
+    module = _load_mmo_sim_entrypoint()
+    tmp = Path(tempfile.mkdtemp(prefix="f1-resolve-route-nokey-"))
+    saved_setup = sys.modules.get("setup")
+    saved_env = module.os.environ.pop("OPENWEBUI_API_KEY", None)
+    try:
+        (tmp / "setup.json").write_text(json.dumps({
+            "default_variant": "sonnet",
+            "variants": {"sonnet": {"preset_id": "zeitriss-v426-uncut"}},
+        }), encoding="utf-8")
+        _install_fake_setup_module(get_result=(200, {}))
+        sl_model, kb_id = module._resolve_active_gm_route(tmp)
+        assert sl_model == "zeitriss-v426-uncut", sl_model
+        assert kb_id is None, f"kein-Key-Fall haette plain None bleiben muessen, war {kb_id!r}"
+    finally:
+        if saved_setup is not None:
+            sys.modules["setup"] = saved_setup
+        else:
+            sys.modules.pop("setup", None)
+        if saved_env is not None:
+            module.os.environ["OPENWEBUI_API_KEY"] = saved_env
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_gm_transport_factory_blocks_productive_use_when_kb_unverified():
+    """F1-N1 WP5a: `default_gm_transport_factory(..., kb_id=GM_ROUTE_KB_
+    UNVERIFIED)` darf KEINEN Live-`GmOwuiTransport` mit dem Sentinel als
+    `kb_id` bauen -- stattdessen wirft die Factory bei TATSAECHLICHEM
+    Aufruf (erster `.turn()`-Transportbau) sichtbar ab. Programmstart
+    selbst (die Factory-KONSTRUKTION, nicht der Aufruf) bleibt unberuehrt."""
+    from mmo_sim.adapters.factories import GM_ROUTE_KB_UNVERIFIED
+    saved_double = os.environ.pop("MMO_SIM_GM_TRANSPORT_DOUBLE", None)
+    tmp = Path(tempfile.mkdtemp(prefix="f1-gm-route-blocked-"))
+    try:
+        factory = default_gm_transport_factory(
+            tmp, _REPO_ROOT, sl_model="f1n1test-sonnet", kb_id=GM_ROUTE_KB_UNVERIFIED,
+        )
+        raised = False
+        try:
+            factory("table-1")
+        except RuntimeError as exc:
+            raised = True
+            msg = str(exc)
+            assert "GM-Route nicht verlaesslich aufgeloest" in msg, msg
+        assert raised, "Factory haette bei Aufruf mit unverifiziertem kb_id werfen muessen"
+    finally:
+        if saved_double is not None:
+            os.environ["MMO_SIM_GM_TRANSPORT_DOUBLE"] = saved_double
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_gm_transport_double_seam_takes_priority_over_unverified_block():
+    """Regressionstest (gefunden beim F1-N1-WP6-Vollauf, s. Report): eine
+    FRÜHERE Fassung dieses Fixes ersetzte die GESAMTE Factory im Wiring
+    von `scripts/mmo_sim.py:main()`, sobald `kb_id == GM_ROUTE_KB_
+    UNVERIFIED` war -- das umging den bestehenden `MMO_SIM_GM_TRANSPORT_
+    DOUBLE`-Test-Seam komplett (Double wurde nie konsultiert), weil der
+    Seam-Check NUR innerhalb der `default_gm_transport_factory`-Closure
+    lebt. Mehrere bestehende Tests (u.a. test_a24_local_two_humans,
+    test_k1_k4_lobby_kontinuitaet), die den Double-Seam nutzen, scheiterten
+    dadurch mit 'missing actual operations', weil ihr GM-Double nie lief.
+    Fix: der Unverified-Check liegt jetzt INNERHALB der Closure, NACH dem
+    Double-Check -- ein gesetzter Double hat weiterhin Vorrang, auch wenn
+    `kb_id` der Sentinel ist."""
+    from mmo_sim.adapters.factories import GM_ROUTE_KB_UNVERIFIED
+
+    double_calls: list = []
+
+    def _fake_double_transport(table_id: str):
+        double_calls.append(table_id)
+        return "double-transport-result"
+
+    import types
+    double_module = types.ModuleType("f1_n1_gm_double_regression_module")
+    double_module.fake_transport = _fake_double_transport
+    sys.modules["f1_n1_gm_double_regression_module"] = double_module
+
+    saved_double = os.environ.get("MMO_SIM_GM_TRANSPORT_DOUBLE")
+    tmp = Path(tempfile.mkdtemp(prefix="f1-gm-route-double-priority-"))
+    try:
+        os.environ["MMO_SIM_GM_TRANSPORT_DOUBLE"] = "f1_n1_gm_double_regression_module:fake_transport"
+        factory = default_gm_transport_factory(
+            tmp, _REPO_ROOT, sl_model="f1n1test-sonnet", kb_id=GM_ROUTE_KB_UNVERIFIED,
+        )
+        result = factory("table-1")
+        assert result == "double-transport-result", (
+            f"Double haette trotz GM_ROUTE_KB_UNVERIFIED laufen muessen, war: {result!r}"
+        )
+        assert double_calls == ["table-1"], double_calls
+    finally:
+        if saved_double is None:
+            os.environ.pop("MMO_SIM_GM_TRANSPORT_DOUBLE", None)
+        else:
+            os.environ["MMO_SIM_GM_TRANSPORT_DOUBLE"] = saved_double
+        sys.modules.pop("f1_n1_gm_double_regression_module", None)
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -242,7 +410,7 @@ def test_resolve_active_gm_route_with_owui_key_resolves_live_kb_id():
         module.os.environ["OPENWEBUI_API_KEY"] = "test-key-not-a-secret"
         module.os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
         fake_preset = {"meta": {"knowledge": [{"id": "kb-fresh-456", "name": "x"}]}}
-        _install_fake_setup_module(get_model_result=fake_preset)
+        _install_fake_setup_module(get_result=(200, fake_preset))
         sl_model, kb_id = module._resolve_active_gm_route(tmp)
         assert sl_model == "zeitriss-v426-uncut", sl_model
         assert kb_id == "kb-fresh-456", kb_id
@@ -255,6 +423,61 @@ def test_resolve_active_gm_route_with_owui_key_resolves_live_kb_id():
         module.os.environ.update(saved_env)
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _resolve_with_get_result(get_result):
+    """Hilfs-Setup fuer die statuscode-bezogenen Faelle: setup.json + Key da,
+    Fake-`APIClient.get` liefert `get_result`. Gibt (sl_model, kb_id) zurueck
+    und raeumt Modul/Env auf."""
+    module = _load_mmo_sim_entrypoint()
+    tmp = Path(tempfile.mkdtemp(prefix="f1-resolve-route-code-"))
+    saved_setup = sys.modules.get("setup")
+    saved_env = dict(module.os.environ)
+    try:
+        (tmp / "setup.json").write_text(json.dumps({
+            "default_variant": "sonnet",
+            "variants": {"sonnet": {"preset_id": "zeitriss-v426-uncut"}},
+        }), encoding="utf-8")
+        module.os.environ["OPENWEBUI_API_KEY"] = "test-key-not-a-secret"
+        module.os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
+        _install_fake_setup_module(get_result=get_result)
+        return module, module._resolve_active_gm_route(tmp)
+    finally:
+        if saved_setup is not None:
+            sys.modules["setup"] = saved_setup
+        else:
+            sys.modules.pop("setup", None)
+        module.os.environ.clear()
+        module.os.environ.update(saved_env)
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_resolve_active_gm_route_501_models_endpoint_not_implemented_stays_plain_none():
+    """HTTP 501 (`GET /api/v1/models/model` nicht implementiert) ist das
+    Verhalten der schlanken Fake-OWUI-Loopback-Server der bestehenden E2E-
+    Subprozess-Tests -- NICHT ein echtes OpenWebUI. Dieser EINE Code bleibt
+    bewusst beim alten `(sl_model, None)`, damit die ~10 E2E-Doubles ohne
+    Harness-Umbau gruen bleiben (F1-N1-Red-Line)."""
+    module, (sl_model, kb_id) = _resolve_with_get_result((501, b""))
+    assert sl_model == "zeitriss-v426-uncut", sl_model
+    assert kb_id is None, f"501 (Fake-Server) haette plain None bleiben muessen, war {kb_id!r}"
+
+
+def test_resolve_active_gm_route_404_preset_missing_is_unverified():
+    """Server erreichbar, Preset aber nicht vorhanden (404) -> sichtbar
+    ablehnen, NICHT still auf die historische KB (PF3.GM, voll geschlossen)."""
+    module, (sl_model, kb_id) = _resolve_with_get_result((404, {"detail": "not found"}))
+    assert sl_model == "zeitriss-v426-uncut", sl_model
+    assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, kb_id
+
+
+def test_resolve_active_gm_route_connection_error_is_unverified():
+    """Unerreichbarer Dienst (APIClient._request liefert code 0 bei URLError/
+    OSError) trotz vorhandenem Key -> Sentinel, nicht stille historische KB."""
+    module, (sl_model, kb_id) = _resolve_with_get_result((0, b"connection refused"))
+    assert sl_model == "zeitriss-v426-uncut", sl_model
+    assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, kb_id
 
 
 def main() -> int:

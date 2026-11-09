@@ -21,7 +21,33 @@ mit KI-Spielleitung: Du spielst einen Chrononauten des ITI, handelst in
 freier Sprache, und eine KI führt Szene, Figuren und Würfe. Du spielst solo,
 mit Menschen am selben Rechner oder mit optionalen KI-Mitspielern — deine
 Figur bleibt als persönlicher Save erhalten. Wie du startest, steht in den
-Links oben. So fühlt sich ein echter Zug an:
+Links oben.
+
+**Jeder Betreiber hat seine eigene lokale Spielumgebung mit einem eigenen
+Persona-Pool.** Diese KI-Mitspieler sind dort ansässig — du kannst sie um
+Teilnahme an deiner Runde bitten, und ihre Persönlichkeit und Entscheidung
+gehören zum Spiel. Besuchst du einen Freund, triffst du auf dessen
+Persona-Pool und spielst mit den Personas, die dort mitmachen möchten.
+
+**Dein Chrononaut reist mit dir.** Nach einem gültig abgeschlossenen
+Abschnitt exportierst du deinen persönlichen JSON-Spielstand und nimmst ihn
+— zum Beispiel auf einem USB-Stick — zum nächsten eingerichteten
+ZEITRISS-Rechner mit. Dort importierst du deine Figur und stellst die
+nächste Runde zusammen. Der Persona-Pool und die Zugangsdaten bleiben bei
+der jeweiligen lokalen Spielumgebung.
+
+**Fünf Menschen, mehrere lokale Runden.** Bei einem Treffen könnt ihr
+zunächst gemeinsam an einem eingerichteten Rechner spielen. Nach gültigen
+Abschnittsabschlüssen verteilt ihr euch neu — einer spielt allein und vier
+gemeinsam (1+4), später spielen zwei an einem Rechner und drei an einem
+anderen (2+3) — und könnt mit euren aktuellen persönlichen Saves wieder
+zusammenkommen. An einem Tisch spielen insgesamt höchstens fünf Menschen und
+KI-Spielerpersonas; die KI-Spielleitung ist eine eigene Rolle, und ein
+Betreiber ohne eigene teilnehmende Figur belegt keinen zusätzlichen
+Spielerplatz. Wechsel oder Umgruppierung erfolgen nur nach einem gültigen
+Abschnittsabschluss — keine Netzwerklobby, kein Rechner-Sync.
+
+So fühlt sich ein echter Zug an:
 
 ## So spielt sich das im Terminal
 
@@ -174,9 +200,12 @@ Spielleitung einrichtest, zeigt der [Setup-Guide](docs/setup-guide.md).
 
 Deine Figur gehört dir als Datei: Nach einem abgeschlossenen Abschnitt nimmst
 du ihren gültigen JSON-Save mit und importierst ihn auf einem anderen
-eingerichteten ZEITRISS-Rechner — ein zentraler Spielserver oder eine
-Netzwerklobby ist dafür nicht nötig. Für KI-Spielleitung und KI-Mitspieler
-brauchst du dort weiterhin die eingerichteten Modelldienste. Dieses serverlose Save-Konzept ist gemeint, wenn ZEITRISS von „MMO ohne Server“ spricht: kein zentraler Spielserver, kein Zwang zu einer Online-Lobby — deine Figur als Datei ist die Kontinuität.
+eingerichteten ZEITRISS-Rechner. Dort triffst du auf den dort ansässigen
+Persona-Pool des jeweiligen Betreibers und auf dessen eingerichtete
+Modelldienste für KI-Spielleitung und KI-Mitspieler — Persona-Pool und
+Zugangsdaten reisen nicht mit, nur dein persönlicher Save. Für diesen
+Reiseweg ist kein zentraler Spielserver nötig. (Das ist auch gemeint, wenn
+ZEITRISS von „MMO ohne Server“ spricht.)
 
 ## Wähle deinen Spielweg
 
@@ -265,20 +294,21 @@ Figur. Bewahre eine eigene gültige Kopie auf. Du kannst ihn als Charakterbogen
 zu einer anderen geeigneten ZEITRISS-Runde mitnehmen; die jeweilige Plattform
 muss das Regelwerk und den Save korrekt laden können.
 
-**Im Chat:** `!save` beziehungsweise `!speichern` erzeugt den Save im Chat.
-Speichere ihn selbst als Datei; das Kommando allein legt keine Datei auf deinem
-Gerät an. Ein neuer Spielchat lädt den Save mit `Spiel laden` oder `!laden`.
+**Im Terminal** (normaler Weg): Freie Handlungen und Gespräche schreibst du
+als normale Sprache — dafür brauchst du kein Kommando. Zum *zuverlässigen*
+Abschließen und Speichern einer Runde sendet der Leader **im HQ `!save`
+(oder `!speichern`) als eigene, einzelne Nachricht**; die Spielleitung gibt
+darauf deinen Stand als Save-Block aus, den der Client erntet. „Speichere
+meinen Charakter" ist am Terminal *kein* gleichwertiger Auslöser — die
+Save-Erkennung hängt am `!save`-Kommando und am tatsächlichen Save-Block.
+Gespeichert wird nur im HQ; in Briefing, Einsatz und Debrief ist Speichern
+gesperrt (SaveGuard). Maßgeblich ist der zuletzt tatsächlich geschriebene
+gültige Stand, keine pauschale Zusage gegen jeden Datenverlust.
 
-**Im Terminal:** Freie Handlungen und Gespräche schreibst du als normale Sprache
-— dafür brauchst du kein Kommando. Zum *zuverlässigen* Abschließen und Speichern
-einer Runde sendet der Leader **im HQ `!save` (oder `!speichern`) als eigene,
-einzelne Nachricht**; die Spielleitung gibt darauf deinen Stand als Save-Block
-aus, den der Client erntet. „Speichere meinen Charakter" ist am Terminal *kein*
-gleichwertiger Auslöser — die Save-Erkennung hängt am `!save`-Kommando und am
-tatsächlichen Save-Block. Gespeichert wird nur im HQ; in Briefing, Einsatz und
-Debrief ist Speichern gesperrt (SaveGuard). Maßgeblich ist der zuletzt
-tatsächlich geschriebene gültige Stand, keine pauschale Zusage gegen jeden
-Datenverlust.
+**Im optionalen Chatversuch:** `!save` beziehungsweise `!speichern` erzeugt
+den Save im Chat. Speichere ihn selbst als Datei; das Kommando allein legt
+keine Datei auf deinem Gerät an. Ein neuer Spielchat lädt den Save mit
+`Spiel laden` oder `!laden`.
 
 Bleibt ein `!save` nach wiederholten Formatfehlern ohne gültigen Stand, kann das
 Terminal den besten zulässigen Kandidaten als **Best-Effort-Abschluss** übernehmen
@@ -292,13 +322,20 @@ Abschnitt und keine Zusage gegen Datenverlust. Kurz erklärt unter
 
 ## Einrichtung und Referenzsetup
 
-Für den Chatweg gibt es zwei Varianten: den vollständigen Masterprompt mit
-19 Wissensmodulen als dauerhafte Anweisung, oder bei kleinerem Anweisungsfeld den
-Project-Bootstrap mit Masterprompt und Modulen als Quellen. Beide beschreibt der
-[Setup-Guide](docs/setup-guide.md) — dort stehen auch der dokumentierte
-Referenzstack, die Modellwahl und die Kostenhinweise. Nicht miteinander stapeln
-und den Masterprompt nicht abschneiden. Ein passendes Modell und korrektes
-Retrieval sind Voraussetzungen, keine Garantie für fehlerfreie Spielleitung.
+Der Standardweg ist **Linux Mint → ZEITRISS-Starter → Terminalspiel**.
+OpenWebUI und LiteLLM arbeiten dafür im Hintergrund: Sie verbinden den
+Wissensbestand, das Spielleiter-Preset und den eingerichteten Modellzugang
+(Standardroute `zeitriss-sonnet`) für die KI-Spielleitung im Terminal. Die
+tatsächlichen Voraussetzungen und Einrichtungsschritte stehen im
+[Spielerstart](docs/spielerstart.md); ausführliche Modell-/Betriebsdetails
+im [Setup-Guide](docs/setup-guide.md). Die Browseroberfläche von OpenWebUI
+kann zusätzlich für den unten verlinkten, nachgeordneten Chatversuch
+verwendet werden — dafür gibt es zwei Varianten: den vollständigen
+Masterprompt mit 19 Wissensmodulen als dauerhafte Anweisung, oder bei
+kleinerem Anweisungsfeld den Project-Bootstrap mit Masterprompt und Modulen
+als Quellen. Nicht miteinander stapeln und den Masterprompt nicht
+abschneiden. Ein passendes Modell und korrektes Retrieval sind
+Voraussetzungen, keine Garantie für fehlerfreie Spielleitung.
 
 ## Mehr aus deiner Runde machen
 

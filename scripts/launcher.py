@@ -175,18 +175,47 @@ def _docker_daemon_hint() -> str:
 
 
 def _docker_ok() -> tuple[bool, str]:
+    """WP1c/PF1.4: unterscheidet, WARUM Docker nicht nutzbar ist, statt
+    jeden Fehlschlag pauschal als "Daemon läuft nicht" zu melden — die
+    nötige nächste Aktion ist für jeden Fall eine andere.
+
+    Reihenfolge: (1) Engine fehlt ganz, (2) Compose-Plugin fehlt,
+    (3) `docker ps` scheitert mit Permission-Hinweis (Nutzer nicht in der
+    `docker`-Gruppe), (4) sonstiger `docker ps`-Fehlschlag (Daemon aus)."""
     if not _cmd_available("docker"):
-        return False, "Docker nicht installiert (Download: https://docs.docker.com/get-docker/)"
+        return False, "Docker-Engine fehlt (Download: https://docs.docker.com/get-docker/)"
+
     try:
-        r = subprocess.run(
+        r_compose = subprocess.run(
+            ["docker", "compose", "version"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except subprocess.TimeoutExpired:
+        return False, "docker compose version hing fest (Timeout) — Docker-Daemon prüfen."
+    except Exception as e:
+        return False, f"docker-Aufruf fehlgeschlagen: {e.__class__.__name__}"
+    if r_compose.returncode != 0:
+        return False, "Docker Compose-Plugin fehlt (Installation: https://docs.docker.com/compose/install/)."
+
+    try:
+        r_ps = subprocess.run(
             ["docker", "ps"],
             capture_output=True, text=True, timeout=5,
         )
+    except subprocess.TimeoutExpired:
+        return False, "docker ps hing fest (Timeout) — Docker-Daemon prüfen."
     except Exception as e:
         return False, f"docker-Aufruf fehlgeschlagen: {e.__class__.__name__}"
-    if r.returncode != 0:
+    if r_ps.returncode != 0:
+        stderr_l = (r_ps.stderr or "").lower()
+        if "permission denied" in stderr_l or "dial unix" in stderr_l:
+            return False, (
+                "Kein Zugriff auf den Docker-Daemon (fehlende Gruppenrechte). "
+                "Nutzer zur 'docker'-Gruppe hinzufügen: sudo usermod -aG docker $USER, "
+                "danach neu einloggen (oder neuen Shell-Login starten)."
+            )
         return False, f"Docker-Daemon läuft nicht. {_docker_daemon_hint()}"
-    return True, "Docker läuft"
+    return True, "Docker läuft (inkl. Compose-Plugin)"
 
 
 
@@ -263,21 +292,44 @@ def _owui_key_status() -> tuple[bool, str]:
     return False, "nicht gefunden (weder Env noch ~/.openwebui_env)"
 
 
+def _expected_litellm_container_name() -> Optional[str]:
+    """Projektspezifischer Containername (`litellm-<project-slug>`, s.
+    `setup.py:run_install_litellm`), z.B. `litellm-zeitriss` für dieses
+    Projekt. `None`, wenn `setup.json` nicht lesbar ist."""
+    try:
+        cfg = load_cfg()
+        return f"litellm-{setup_module._docker_slug(cfg['project'])}"
+    except Exception:
+        return None
+
+
 def _litellm_ok() -> tuple[bool, str]:
-    # LiteLLM-Container aktiv?
+    """WP1c/PF1.4: route-/projektgenau statt "irgendein litellm"-Container —
+    ein fremder Container (z.B. `litellm-arxion` eines anderen Bausatzes)
+    darf den benötigten ZEITRISS-Schritt NICHT als erledigt gelten lassen."""
     if not _cmd_available("docker"):
         return False, "Docker fehlt"
+    expected = _expected_litellm_container_name()
     try:
         r = subprocess.run(
             ["docker", "ps", "--format", "{{.Names}}", "--filter", "name=litellm"],
             capture_output=True, text=True, timeout=5,
         )
         names = [n.strip() for n in r.stdout.splitlines() if n.strip()]
-        if names:
-            return True, f"Container läuft: {', '.join(names)}"
     except Exception:
-        pass
-    return False, "kein litellm-Container aktiv"
+        return False, "kein litellm-Container aktiv (Check fehlgeschlagen)"
+    if not names:
+        return False, "kein litellm-Container aktiv"
+    if expected is None:
+        # setup.json nicht lesbar -- kann die Route nicht pruefen, alte
+        # grosszuegige Pruefung als Fallback.
+        return True, f"Container läuft: {', '.join(names)}"
+    if expected in names:
+        return True, f"Container läuft: {expected}"
+    return False, (
+        f"läuft, aber nicht der für dieses Projekt erwartete Container "
+        f"({', '.join(names)} statt {expected}) — gehört vermutlich zu einem anderen Bausatz."
+    )
 
 
 def print_status_block() -> None:
@@ -661,7 +713,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
 
     print("  Was jetzt passiert:")
     print("   1. Voraussetzungen werden geprüft (Docker, Python, OpenWebUI).")
-    print("   2. Einmal im Browser: Admin-Account + OpenRouter-Key + OpenWebUI-API-Key (A/B/C).")
+    print("   2. Einmal einrichten: Admin-Account im Browser (A/B) + OpenRouter-Key verdeckt im Terminal (C).")
     print(f"   3. Der {meta()['noun']}-Inhalt wird in OpenWebUI als Preset + Knowledge Base angelegt.")
     print("   4. LiteLLM-Cache-Container einrichten (spart ~90 % der Modellkosten).")
     print()
@@ -703,20 +755,13 @@ def action_install(*, _skip_state_check: bool = False) -> None:
 
     if not _ensure_owui_env():
         url = _openwebui_url()
-        print(yellow("\n  🌐 Jetzt bist du kurz im Browser dran — drei Schritte (A→B→C):"))
+        print(yellow("\n  🌐 Jetzt bist du kurz im Browser dran — zwei Schritte (A→B):"))
         print()
         print(bold("  A) Admin-Account in OpenWebUI anlegen"))
         print(f"     OpenWebUI öffnet sich auf {url}")
         print("     Benutzername + Passwort setzen — bleibt rein lokal.")
         print()
-        print(bold("  B) OpenRouter-Key als Connection in OpenWebUI eintragen"))
-        print("     Profil-Icon oben rechts → Einstellungen → Verbindungen")
-        print("     → '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):")
-        print("       Base URL:  https://openrouter.ai/api/v1")
-        print("       API-Key:   dein 'sk-or-v1-...' von https://openrouter.ai/keys")
-        print("     Speichern.")
-        print()
-        print(bold("  C) OpenWebUI-API-Key für mich erzeugen"))
+        print(bold("  B) OpenWebUI-API-Key für mich erzeugen"))
         print("     (brauche ich gleich, um Preset + Knowledge Base anzulegen)")
         print("     Profil-Icon → Einstellungen → Account → API Keys")
         print("     → 'Create new key' → Key kopieren.")
@@ -725,7 +770,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         if _open_browser(url):
             print(dim("  (Den Browser habe ich dir schon geöffnet.)"))
         print()
-        print(yellow("  ⏸️  Ich warte hier, während du A+B+C erledigst. Danach Key unten einfügen."))
+        print(yellow("  ⏸️  Ich warte hier, während du A+B erledigst. Danach Key unten einfügen."))
         print()
         print(dim("  (Einfügen: Windows CMD Rechtsklick, macOS Cmd+V, Linux Ctrl+Shift+V.)"))
         from getpass import getpass
@@ -736,6 +781,88 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             return
         os.environ["OPENWEBUI_API_KEY"] = key
         os.environ.setdefault("OPENWEBUI_URL", url)
+
+    # Externer OpenRouter-Key EINMAL verdeckt erfassen (WP1a/PF1.1): vorher
+    # musste er hier zusätzlich manuell als OWUI-Connection eingetragen
+    # werden (früherer Browser-Schritt B, jetzt gestrichen) UND wurde
+    # später in `run_install_litellm` per getpass ERNEUT abgefragt — keine
+    # einmalige Erfassung. Die OWUI↔LiteLLM-Connection erledigt das
+    # vorhandene Auto-Wire (`_ensure_owui_litellm_connection` in
+    # run_install_litellm) automatisch, sobald der Key gesetzt ist; sobald
+    # `OPENROUTER_API_KEY` hier in der Umgebung steht, entfällt der zweite
+    # getpass-Prompt dort von selbst (er zieht den Wert zuerst aus
+    # os.environ, s. run_install_litellm Schritt 2).
+    or_ok, _ = _openrouter_key_status()
+    if not or_ok:
+        home_env_existing = _parse_env_file(Path.home() / ".openwebui_env")
+        loaded_or = home_env_existing.get("OPENROUTER_API_KEY", "").strip()
+        if loaded_or:
+            os.environ["OPENROUTER_API_KEY"] = loaded_or
+        else:
+            print()
+            print(bold("  C) OpenRouter-Key (einmal, verdeckt)"))
+            print("     Von https://openrouter.ai/keys — 'sk-or-v1-...'.")
+            print(yellow("     Unter https://openrouter.ai/settings/privacy den Provider"))
+            print(yellow("     'Anthropic' erlauben — sonst cached LiteLLM später nicht."))
+            from getpass import getpass
+            or_key = getpass("  OpenRouter-API-Key (Eingabe ist unsichtbar): ").strip()
+            if not or_key:
+                print(red("  Kein OpenRouter-Key eingegeben, Abbruch."))
+                _pause()
+                return
+            if not or_key.startswith("sk-or-"):
+                print(red("  Das sieht nicht nach einem OpenRouter-Key aus. Erwartet: sk-or-..."))
+                _pause()
+                return
+            os.environ["OPENROUTER_API_KEY"] = or_key
+
+    # WP1b, Aufrufer 1: erfasste Keys feldweise erhaltend nach
+    # ~/.openwebui_env persistieren (vorher: nur os.environ, PF1.2 — der
+    # Folgestart fand die lokale Auth nicht wieder, weil action_rekeys der
+    # einzige Schreibpfad war).
+    home_env = Path.home() / ".openwebui_env"
+    persist_updates = {
+        "OPENWEBUI_URL": os.environ.get("OPENWEBUI_URL", _openwebui_url()),
+        "OPENWEBUI_API_KEY": os.environ["OPENWEBUI_API_KEY"],
+    }
+    if os.environ.get("OPENROUTER_API_KEY", "").strip():
+        persist_updates["OPENROUTER_API_KEY"] = os.environ["OPENROUTER_API_KEY"]
+    if not home_env.is_file():
+        home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+    if not setup_module._update_env_file_preserving(home_env, persist_updates):
+        print(yellow(f"  Warnung: Keys konnten nicht nach {home_env} persistiert werden — nur für diesen Lauf gesetzt."))
+
+    # WP1d/PF1.6: Bestands-Re-Check NACH Auth, VOR dem mutierenden run_setup.
+    # Die Klassifizierung ganz oben lief ohne Key (kein Live-Check möglich)
+    # und kann daher "fresh"/"partial_no_key" geliefert haben, selbst wenn
+    # in OpenWebUI längst Preset+KB existieren — run_setup würde die dann
+    # BLIND LÖSCHEN (es räumt gleichnamige Presets/KBs vor dem Neuaufbau
+    # auf, siehe run_setup). Mit dem jetzt gesetzten Key ist ein echter
+    # Live-Check möglich; der hat Vorrang vor der alten Klassifizierung.
+    recheck_state = _detect_install_state()
+    if recheck_state == "installed":
+        print()
+        print(green(f"  ✓ {meta()['name']} ist in OpenWebUI bereits eingerichtet."))
+        print(dim("  Das war beim ersten Check (ohne Key) noch nicht sichtbar."))
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um — kein destruktiver Neuaufbau.")
+        print()
+        ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            action_update()
+        else:
+            _pause()
+        return
+    if recheck_state == "partial":
+        if not _confirm_reinstall_after_partial():
+            print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
+            _pause()
+            return
+    elif recheck_state == "unreachable":
+        if not _confirm_reinstall_unreachable():
+            _pause()
+            return
+    # "fresh" (oder ein residuales "partial_no_key") -> normaler Erstinstall
+    # ist der korrekte, nicht-destruktive nächste Schritt.
 
     # run_setup kann per sys.exit(1) abbrechen (z.B. ungültiger API-Key); in
     # dem Fall wäre es falsch, danach noch den LiteLLM-Install-Prompt zu zeigen,
@@ -1017,20 +1144,21 @@ def action_rekeys() -> None:
     else:
         or_key = or_input or existing_or
 
-    lines = [
-        "# Vom Launcher geschrieben - automatisch gelesen.",
-        f"OPENWEBUI_URL={url}",
-        f"OPENWEBUI_API_KEY={owui_key}",
-    ]
+    # WP1b, Aufrufer 2: derselbe feldweise-erhaltende Helfer wie
+    # `action_install`/`run_install_litellm` statt des 4-Zeilen-Neubaus —
+    # erhält andere Felder/Kommentare, die in dieser Datei stehen könnten.
+    updates = {"OPENWEBUI_URL": url, "OPENWEBUI_API_KEY": owui_key}
+    remove: set = set()
     if or_key:
-        lines.append(f"OPENROUTER_API_KEY={or_key}")
-    home_env.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-    try:
-        home_env.chmod(0o600)
-    except OSError:
-        # Windows-NTFS: chmod wirkungslos; bewusst stumm (keine Panik-Warn für den Nutzer).
-        pass
+        updates["OPENROUTER_API_KEY"] = or_key
+    else:
+        remove.add("OPENROUTER_API_KEY")
+    if not home_env.is_file():
+        home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+    if not setup_module._update_env_file_preserving(home_env, updates, remove=remove):
+        print(red(f"  Keys konnten nicht gespeichert werden ({home_env})."))
+        _pause()
+        return
 
     print(green(f"\n  ✓  Keys gespeichert in {home_env}"))
     os.environ["OPENWEBUI_URL"] = url

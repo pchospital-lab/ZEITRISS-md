@@ -76,6 +76,7 @@ from mmo_sim.adapters.base import (  # noqa: E402
 from mmo_sim.adapters.factories import (  # noqa: E402
     default_gm_transport_factory as _default_gm_transport_factory,
     default_persona_driver_factory as _default_persona_driver_factory,
+    GM_ROUTE_KB_UNVERIFIED,
 )
 
 _LAST_PARTICIPANT_FILE = "last_participant.json"
@@ -164,14 +165,33 @@ def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
     mehr braucht (vorher nur als Handanleitung in der Fehlermeldung von
     `sl_client.SLSession.__init__` dokumentiert).
 
-    Fail-soft, NICHT fail-closed: jeder Fehlschlag (kein `setup.json`, keine
-    Standardvariante, kein OWUI-Key, OWUI nicht erreichbar, Preset fehlt)
-    liefert `(None, None)` oder nur das `sl_model` -- `GmOwuiTransport`/
-    `sl_client.py` fallen dann auf ihre bisherigen Defaults zurueck
-    (unveraendertes Altverhalten). Ein Konfigurationsfehler an dieser Stelle
-    darf den Terminalspielstart nicht blockieren; die eigentliche
+    Fail-soft, NICHT fail-closed: ein fehlender `setup.json`/Standardvariante
+    liefert `(None, None)` -- ohne jede Konfiguration gibt es nichts
+    aufzuloesen, `GmOwuiTransport`/`sl_client.py` fallen wie bisher auf ihre
+    eigenen Defaults zurueck (unveraendertes Altverhalten, blockiert den
+    Terminalspielstart nicht). Fehlt der OWUI-Key GANZ (`owui_key` leer),
+    bleibt das ebenfalls unveraendert `(sl_model, None)` -- die eigentliche
     fail-closed-Fehlermeldung bei WIRKLICH fehlender SL-Anbindung bleibt
-    weiterhin `sl_client.SLSession.__init__` (fehlender OPENWEBUI_API_KEY)."""
+    weiterhin `sl_client.SLSession.__init__` (fehlender OPENWEBUI_API_KEY).
+
+    F1-N1 WP5a (PF3.GM): schlaegt der KB-Read TROTZ vorhandenem Key fehl
+    (Auth-/Verbindungsfehler, Preset fehlt, Preset ohne KB-Verknuepfung),
+    liefert diese Funktion `(sl_model, GM_ROUTE_KB_UNVERIFIED)` statt still
+    `(sl_model, None)` -- VORHER war das von einem echten "kein Key"-Fall
+    nicht unterscheidbar, und das Wiring reichte `None` unveraendert an
+    `GmOwuiTransport` durch, das dann (`kb_id or KB_ID`) auf die in
+    `sl_client.py` hartkodierte HISTORISCHE Knowledge-Base einer alten
+    Installation zurueckfiel -- ein fehlgeschlagener Read sah dadurch wie
+    eine gueltige Route aus. `default_gm_transport_factory` (mmo_sim/
+    adapters/factories.py) erkennt diesen Sentinel als `kb_id` und wirft
+    NACH dem Test-Double-Seam-Check, aber VOR dem echten `GmOwuiTransport`-
+    Bau -- sichtbar, aber erst bei echtem produktivem Gebrauch (`.turn()`),
+    nicht beim Programmstart/Status. EINZIGE bewusste Ausnahme: HTTP 501 auf
+    `GET /api/v1/models/model` (Endpunkt nicht implementiert) bleibt beim
+    alten `(sl_model, None)` -- das tritt nur bei den schlanken Fake-OWUI-
+    Loopback-Servern der bestehenden E2E-Subprozess-Tests auf (ein echtes
+    OpenWebUI implementiert den Endpunkt), und ein Sentinel dort haette einen
+    Harness-Umbau ueber ~10 Testdateien erzwungen (F1-N1 ausgeschlossen)."""
     try:
         import setup as _setup_module  # noqa: E402  (scripts/ bereits auf sys.path, s.o.)
     except ImportError:
@@ -193,17 +213,47 @@ def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
         pass
     owui_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
     if not owui_key:
+        # Echter "Key fehlt ganz"-Fall -- UNVERAENDERT. sl_client.__init__
+        # faengt das weiterhin eigenstaendig fail-closed ab.
         return sl_model, None
     owui_url = os.environ.get("OPENWEBUI_URL") or "http://localhost:8080"
 
+    import urllib.parse
     try:
         client = _setup_module.APIClient(owui_url, owui_key)
-        preset = client.get_model(sl_model)
+        # F1-N1 WP5a (PF3.GM, Main-Verfeinerung ggue. dem ersten Exception-
+        # only-Stand): STATUS-bewusst statt `get_model` (das jeden Nicht-200
+        # zu None kollabiert und damit "Auth/Preset fehlgeschlagen" von
+        # "Server erreichbar, Preset ohne KB" ununterscheidbar macht).
+        # `APIClient.get` liefert `(code, data)`; `_request` faengt HTTP-/
+        # Verbindungsfehler intern ab (kein raise), der Code bleibt sichtbar.
+        code, data = client.get(
+            f"/api/v1/models/model?id={urllib.parse.quote(sl_model, safe='')}"
+        )
     except Exception:
-        return sl_model, None
-    if not preset:
-        return sl_model, None
+        # Unerwarteter Client-/Konstruktionsfehler TROTZ vorhandenem Key ->
+        # unverifiziert, sichtbar ablehnen statt still auf historische KB.
+        return sl_model, GM_ROUTE_KB_UNVERIFIED
 
+    if code == 501:
+        # Server erreichbar, aber GET /api/v1/models/model NICHT implementiert.
+        # In der Praxis NUR die schlanken Fake-OWUI-Loopback-Server der
+        # bestehenden E2E-Subprozess-Tests (kein do_GET -> BaseHTTPRequestHandler
+        # -Default 501). Ein echtes OpenWebUI implementiert diesen Endpunkt --
+        # die gesamte setup.py-Auto-Wire-/Detect-Logik (`get_model`,
+        # `_detect_install_state`) haengt daran. Kein Produktionssignal ->
+        # altes fail-soft `(sl_model, None)`, damit die ~10 bestehenden E2E-
+        # Doubles unveraendert gruen bleiben (kein Harness-Umbau, F1-N1-Red-Line).
+        return sl_model, None
+    if code != 200 or not isinstance(data, dict):
+        # Erreichbar/versucht, aber Auth (401/403), Preset fehlt (404),
+        # unerreichbar (code 0) oder unlesbar -> NICHT still auf die
+        # historische hartkodierte KB ausweichen, sondern sichtbar ablehnen
+        # (PF3.GM: "fehlgeschlagener Read darf nicht auf fremde historische
+        # KB ausweichen" -- voll geschlossen, nicht nur der raise-Fall).
+        return sl_model, GM_ROUTE_KB_UNVERIFIED
+
+    preset = data
     kb_list = (preset.get("meta") or {}).get("knowledge")
     kb_id: str | None = None
     if isinstance(kb_list, list) and kb_list:
@@ -212,6 +262,10 @@ def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
             kb_id = first.get("id")
         elif isinstance(first, str):
             kb_id = first
+    if not kb_id:
+        # Preset lesbar, aber KEIN gueltiger KB-Link -> ebenfalls nicht auf
+        # die historische KB ausweichen (PF3.GM: "fehlender KB-Link").
+        return sl_model, GM_ROUTE_KB_UNVERIFIED
     return sl_model, kb_id
 
 
@@ -479,6 +533,17 @@ def main(argv: list[str] | None = None) -> int:
     # (s. `_resolve_active_gm_route`-Docstring) -- fail-soft, blockiert den
     # Start nicht.
     _gm_sl_model, _gm_kb_id = _resolve_active_gm_route(_REPO_ROOT)
+    # WP5a/PF3.GM: `_gm_kb_id` kann der Sentinel `GM_ROUTE_KB_UNVERIFIED`
+    # sein (Read fehlgeschlagen trotz Key) -- `default_gm_transport_factory`
+    # selbst erkennt den Sentinel und wirft erst bei echtem produktivem
+    # Zugriff (NACH dem Test-Double-Seam-Check, s. factories.py), statt
+    # still auf die in sl_client.py hartkodierte historische KB
+    # zurueckzufallen. Die Pruefung lebt bewusst DORT, nicht hier im
+    # Wiring, damit ein gesetztes `MMO_SIM_GM_TRANSPORT_DOUBLE`
+    # (Test-/Grenzinjektions-Seam) weiterhin unveraendert Vorrang hat.
+    gm_transport_factory = _default_gm_transport_factory(
+        data_dir, _REPO_ROOT, sl_model=_gm_sl_model, kb_id=_gm_kb_id,
+    )
     session = TuiSession(
         onboarding_dir=data_dir / "onboarding",
         catalog_dir=data_dir / "catalog",
@@ -490,9 +555,7 @@ def main(argv: list[str] | None = None) -> int:
         # Live-SL-Anbindung (03 §7, OPENWEBUI_API_KEY etc.) bleibt ein
         # separates Setup; ohne sie liefert der erste Aufruf eine klare
         # Fehlermeldung statt eines stillen Spielstarts.
-        gm_transport_factory=_default_gm_transport_factory(
-            data_dir, _REPO_ROOT, sl_model=_gm_sl_model, kb_id=_gm_kb_id,
-        ),
+        gm_transport_factory=gm_transport_factory,
         # A1: echte Factory statt None -- ohne MMO_SIM_PERSONA_CLI/_API_*
         # Umgebungskonfiguration liefert der erste Persona-Einladungsversuch
         # eine klare Fehlermeldung (s. `_default_persona_driver_factory`).

@@ -340,8 +340,13 @@ pauschale `fortsetzen`-Zusage** für jede Rolle nach jedem Ende:
 
 Für Betreiber + zwei Gäste realistisch **3 bis 7 Terminalfenster** auf einem
 Gerät. Wer das nicht braucht, bleibt beim einfachen `registrieren`-Weg ohne Tisch.
-Mehrere Geräte im LAN sind kein aktives Produktziel (seit der Zielgrenze vom
-8. November 2026).
+Ein **Netzwerk-Join zwischen Geräten** — also ein laufender, über das LAN
+verbundener gemeinsamer Tisch mit Netzwerklobby oder Rechner-Sync — ist kein
+aktives Produktziel (seit der Zielgrenze vom 8. November 2026). Davon
+unberührt bleibt das Treffen mit mehreren eigenständig eingerichteten PCs
+und manuell reisenden Saves: Das ist der oben beschriebene Chrononautenreise-
+Weg (persönlicher JSON-Export/-Import, z. B. per USB-Stick) und funktioniert
+unabhängig von einer Netzwerkverbindung.
 
 ---
 
