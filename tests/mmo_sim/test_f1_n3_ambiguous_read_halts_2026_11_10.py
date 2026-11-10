@@ -11,12 +11,22 @@ unterscheiden und lief in "fresh"/falsches "partial" -- der nächste
 `action_install`-Lauf hätte `run_setup` erreicht und einen funktionierenden
 Bestand überschrieben.
 
+WP-N6-1a-NACHZUG (2026-11-10): die drei Faelle unten (401/500/Netzwerkfehler
+bei erreichbarem OWUI) lieferten bis N5 pauschal `"unreachable"` -- identisch
+zum ECHTEN health-down-Fall. Das oeffnete fuer einen erreichbaren, aber
+mehrdeutigen Befund denselben `_confirm_reinstall_unreachable()`-Override
+wie fuer den legitimen N2-Bootfall (OWUI bootet gerade). `_detect_install_
+state` liefert fuer diese Faelle jetzt `"unclear"` -- einen eigenen Zustand
+OHNE Confirm-Durchgriff (reiner Stopp, s. `test_f1_n5_1a_unreadable_body_
+halts_2026_11_10.py` fuer die echten-Caller-Belege). `"unreachable"` bleibt
+ab jetzt EXKLUSIV dem echten `check_health() == False`-Fall vorbehalten.
+
 Deckt:
   (A) `get_model` liefert `None` wegen HTTP 500 (nicht 404) ->
-      `_detect_install_state` liefert `"unreachable"`, NICHT `"fresh"`
-      oder `"partial"`.
+      `_detect_install_state` liefert `"unclear"`, NICHT `"fresh"`,
+      `"partial"` oder `"unreachable"` (OWUI ist ja erreichbar).
   (B) `list_knowledge` liefert `[]` wegen HTTP 0 (Netzwerkfehler) ->
-      ebenfalls `"unreachable"`.
+      ebenfalls `"unclear"`.
   (C) Gegenprobe: `get_model` liefert `None` wegen HTTP 404 (ECHTE
       Abwesenheit, Standardfall für ein frisches Preset) -> bleibt
       `"fresh"`/`"partial"` wie bisher, KEINE Regression für den
@@ -95,32 +105,39 @@ def _run_detect(client, *, tmp_repo):
             os.environ.update(saved)
 
 
-def test_get_model_http_500_is_unreachable_not_fresh():
+def test_get_model_http_500_is_unclear_not_fresh():
+    """WP-N6-1a-Nachzug: OWUI ist erreichbar (health-check True), der
+    Preset-Read ist nur mehrdeutig (HTTP 500) -- das ist 'unclear', NICHT
+    der echte health-down-Fall 'unreachable'."""
     client = _StatusAwareFakeClient(preset=None, knowledge=[], model_status=500)
     with tempfile.TemporaryDirectory() as tmp:
         state = _run_detect(client, tmp_repo=Path(tmp))
-    assert state == "unreachable", (
-        f"ein HTTP-500 auf get_model ist KEIN bestaetigtes 'Preset fehlt' -- war {state!r}"
+    assert state == "unclear", (
+        f"ein HTTP-500 auf get_model ist KEIN bestaetigtes 'Preset fehlt' -- "
+        f"erreichbar+mehrdeutig ist 'unclear', nicht 'unreachable' -- war {state!r}"
     )
 
 
-def test_list_knowledge_network_error_is_unreachable_not_fresh():
+def test_list_knowledge_network_error_is_unclear_not_fresh():
+    """WP-N6-1a-Nachzug: wie oben, aber auf der KB-Liste (HTTP 0 =
+    Netzwerkfehler NACH bestaetigter Erreichbarkeit via check_health)."""
     client = _StatusAwareFakeClient(preset=None, knowledge=[], model_status=404, knowledge_status=0)
     with tempfile.TemporaryDirectory() as tmp:
         state = _run_detect(client, tmp_repo=Path(tmp))
-    assert state == "unreachable", (
+    assert state == "unclear", (
         f"HTTP-Status 0 (Netzwerkfehler) auf list_knowledge ist KEIN bestaetigtes "
         f"'keine KB da' -- war {state!r}"
     )
 
 
-def test_get_model_http_401_is_unreachable_not_fresh():
+def test_get_model_http_401_is_unclear_not_fresh():
     """Ein Auth-Fehler auf dem zustandsentscheidenden Read ist genauso
-    unklar wie ein 500er -- nicht nur Server-Fehler zaehlen."""
+    unklar wie ein 500er -- nicht nur Server-Fehler zaehlen. WP-N6-1a-
+    Nachzug: 'unclear', nicht 'unreachable' (OWUI selbst ist erreichbar)."""
     client = _StatusAwareFakeClient(preset=None, knowledge=[], model_status=401)
     with tempfile.TemporaryDirectory() as tmp:
         state = _run_detect(client, tmp_repo=Path(tmp))
-    assert state == "unreachable", f"war {state!r}"
+    assert state == "unclear", f"war {state!r}"
 
 
 def test_get_model_http_404_stays_fresh_no_regression():

@@ -1,56 +1,81 @@
 #!/usr/bin/env python3
 """tests/mmo_sim/test_f1_n5_1a_unreadable_body_halts_2026_11_10.py —
-Delta-Test für ZR-MINT-SPIELSTART-FEINSCHLIFF F1-N5 §N5-1a (N4-A4-Rest).
+Delta-Test für ZR-MINT-SPIELSTART-FEINSCHLIFF F1-N6 §N6-1a (N6-Nachzug zu
+N5-1a).
 
-Vorher las `_detect_install_state` (launcher.py) die von `APIClient`
-gesetzten `last_model_body_ok`/`last_knowledge_body_ok`-Flags NIRGENDS --
-ein HTTP-200-Körper, den `APIClient` nicht als Objekt lesen konnte (None/
-nicht-dict/Liste statt Objekt), wurde über `get_model`/`list_knowledge` zu
-None/[] -- identisch zu einer ECHTEN bestätigten Abwesenheit (HTTP 404 /
-leere KB-Liste). Der Klassifikator sah nur den Status (200), nicht die
-Körperform, und konnte deshalb trotz unlesbarem/formfalschem Körper
-"fresh" liefern -- `action_install` hätte `run_setup` (destroy & recreate)
-OHNE jeden Confirm-Prompt erreicht, weil "fresh" (anders als "partial"/
-"unreachable") keinen Gate-Schritt hat. Derselbe Klassifikator läuft
-unverändert vor `run_setup` beim WP1d-Re-Check erneut (launcher.py
-1032-1084) -- dieselbe Lücke war an BEIDEN echten Callern erreichbar.
+WP-N6-1a korrigiert zwei Reste am N5-1a-Fix:
 
-Zusätzlich validierte `APIClient.list_knowledge` nur `isinstance(data, dict)`
-als "gültiger Körper" -- eine KB-Antwort ohne passendes `items`-Feld (anderes
-Schema/Fehlerobjekt) wurde über `data.get("items", [])` stumm als bestätigt
-leer ausgegeben.
+1. `APIClient.get_model` (setup.py) akzeptierte JEDEN 200-dict als gültiges
+   Modellpreset (`isinstance(data, dict)` allein). Ein HTTP-200-FEHLEROBJEKT
+   wie `{"detail": "unexpected shape"}` ist auch ein dict und wurde darum
+   unbesehen als vorhandenes Preset zurückgegeben -- `last_model_body_ok`
+   blieb fälschlich True. Jetzt verlangt `get_model` einen nicht-leeren
+   String `id` (die Markerform eines echten OWUI-Modellpresets, s.
+   downstream `preset.get("id", preset_id)`); ein Fehlerobjekt ohne `id`
+   liefert jetzt `None` UND `last_model_body_ok is False`.
+
+2. `_detect_install_state` (launcher.py) kollabierte einen erreichbaren, aber
+   mehrdeutigen Befund (unlesbarer/formfalscher 200-Körper, Status außerhalb
+   200/404) bislang auf "unreachable" -- identisch zum echten health-down-
+   Fall. Das öffnete fälschlich den `_confirm_reinstall_unreachable()`-
+   Override-Pfad (der für den ECHTEN N2-Bootfall legitim ist: OWUI bootet
+   gerade, User kann bewusst "trotzdem fortfahren" wählen) auch für einen
+   erreichbaren, aber unklar gelesenen Bestand. Ein unklarer Bestand ist
+   WEDER bestätigtes Preset NOCH bestätigte Abwesenheit -- er darf NIE in
+   `run_setup`s destroy&recreate laufen, auch nicht über eine zustimmende
+   UI. Jetzt liefert der Klassifikator dafür einen eigenen State "unclear",
+   den beide echten [1]-Caller (Eingangscheck UND WP1d-Auth-Recheck) als
+   REINEN STOPP behandeln -- kein `_confirm_reinstall_unreachable`-Aufruf,
+   kein Override möglich. "unreachable" bleibt ausschließlich für den
+   echten health-down-Fall (`check_health()` False) reserviert, dort bleibt
+   der bewusste Override (N2-Bootfall) unverändert möglich.
 
 Deckt:
   (A) `_detect_install_state` mit echtem `APIClient` (nur `_request`
       gedoubelt): unlesbarer Preset-Körper (HTTP 200, kein JSON) ->
-      "unreachable", NICHT "fresh"/"installed".
+      "unclear", NICHT "fresh"/"installed"/"unreachable".
   (B) Formfalscher Preset-Körper (HTTP 200, JSON-Liste statt Objekt) ->
-      "unreachable".
+      "unclear".
+  (B2) Falsches Modell-DICTIONARY (HTTP 200, JSON-OBJEKT ohne `id`, z.B.
+      `{"detail": "unexpected shape"}`) -> `get_model` liefert None,
+      `last_model_body_ok is False`, Klassifikator -> "unclear". Das ist
+      der N6-1a-Rest: vorher galt JEDES dict als vorhandenes Preset.
   (C) KB-Antwort ohne passendes `items`-Feld (HTTP 200, JSON-Objekt ohne
       `items`) -> `APIClient.list_knowledge` liefert `last_knowledge_
-      body_ok is False` UND `_detect_install_state` -> "unreachable",
+      body_ok is False` UND `_detect_install_state` -> "unclear",
       NICHT "fresh" (trotz `kb_items == []`).
   (D) Gegenprobe: echte, lesbare Antworten (404 + `{"items": []}`) bleiben
       "fresh" -- bestätigt-frisch bleibt möglich, keine Überreaktion auf
       den Fix.
+  (D2) Gegenprobe: ein wohlgeformtes Modellobjekt (`id` + `meta.knowledge`)
+      bleibt "installed" -- der neue `id`-Formcheck in `get_model` darf ein
+      echtes Preset NICHT fälschlich als formfalsch verwerfen.
   (E) Echter [1]-Eingangscheck-Caller (`action_install`, `_skip_state_
-      check=False`): unlesbarer Körper -> State "unreachable" hält VOR
-      jeder Mutation an (`_confirm_reinstall_unreachable`, Default-Ablehnung
-      -> `run_setup` NIE erreicht).
-  (F) Echter WP1d-Re-Check-Caller (launcher.py 1032-1084, zweiter
+      check=False`): unlesbarer Körper -> State "unclear" hält VOR jeder
+      Mutation an -- KEIN `_confirm_reinstall_unreachable`-Aufruf (anders
+      als beim echten "unreachable"-Fall gibt es hier gar keinen Confirm,
+      nur einen Stopp), `run_setup` NIE erreicht.
+  (F) Echter WP1d-Re-Check-Caller (launcher.py, zweiter
       `_detect_install_state()`-Aufruf in `action_install`): derselbe Fix
       greift auch hier -- Eingangscheck ohne Key liefert "fresh"/
       "partial_no_key", Re-Check MIT Key trifft auf denselben unlesbaren
-      Körper -> "unreachable" hält an, `run_setup` NIE erreicht.
-  (G) Gegenprobe zu (E)/(F): EXPLIZIT bestätigte Ablehnung des Unreachable-
-      Confirms -- `run_setup` wird nicht aufgerufen (kein stiller Default).
+      Körper -> "unclear" hält an, KEIN Confirm, `run_setup` NIE erreicht.
+  (G) Gegenprobe zu (E)/(F): selbst eine Konfiguration, die
+      `_confirm_reinstall_unreachable` auf True stellen WÜRDE, erreicht
+      `run_setup` bei "unclear" trotzdem NICHT -- es gibt dort gar keinen
+      Confirm-Durchgriff (anders als beim echten Unreachable-Fall).
+  (H) Dedizierte Gegenprobe: ECHTER health-down-Fall (`check_health()`
+      False, OWUI wirklich weg) -> "unreachable" -> der bewusste N2-Bootfall-
+      Override über `_confirm_reinstall_unreachable(True)` bleibt möglich,
+      `run_setup` wird erreicht. Belegt, dass der neue "unclear"-Stopp den
+      bestehenden, legitimen Unreachable-Override NICHT kaputt macht.
 
-Double-Grenze (A4, offen gelegt): für (A)-(D) ist NUR `APIClient._request`
+Double-Grenze (A4, offen gelegt): für (A)-(D2) ist NUR `APIClient._request`
 gedoubelt (kein echter Netzwerk-Call) -- `APIClient` selbst, `get_model`,
 `list_knowledge` und `_detect_install_state` laufen ECHT (Klassifikator
 NICHT wegmockt). `load_cfg`/`_default_preset_id`/`_ensure_owui_env`/
 `_openwebui_url`/`REPO` sind gedoubelt bzw. laufen gegen ein echtes
-temporäres Verzeichnis (kein Netzwerk). Für (E)-(G) sind zusätzlich
+temporäres Verzeichnis (kein Netzwerk). Für (E)-(H) sind zusätzlich
 `_docker_ok`/`_openwebui_ok`/`_openrouter_key_status`/
 `setup_module._update_env_file_preserving`/`setup_module._read_env_file`/
 `_prompt`/`_pause`/`_confirm_reinstall_unreachable`/`setup_module.run_setup`/
@@ -74,7 +99,7 @@ _REPO_ROOT = _HERE.parents[1]
 _LAUNCHER_PY = _REPO_ROOT / "scripts" / "launcher.py"
 
 _spec = importlib.util.spec_from_file_location(
-    "f1_n5_1a_unreadable_body_halts_launcher_under_test", _LAUNCHER_PY,
+    "f1_n6_1a_unreadable_body_halts_launcher_under_test", _LAUNCHER_PY,
 )
 launcher_mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(launcher_mod)
@@ -85,7 +110,7 @@ _CFG = {"project": "Proj", "kb_name": "Proj Wissensspeicher"}
 
 
 def _make_client(*, model_status=200, model_body=b"{}",
-                  kb_status=200, kb_body=b'{"items": []}'):
+                  kb_status=200, kb_body=b'{"items": []}', healthy=True):
     """Echter APIClient, NUR `_request` gedoubelt -- `get_model`/
     `list_knowledge`/die `last_*_status`/`last_*_body_ok`-Flags laufen
     ECHT gegen den hier gesteuerten (Status, Körper)."""
@@ -93,7 +118,7 @@ def _make_client(*, model_status=200, model_body=b"{}",
 
     def _req(method, path, **kw):
         if path == "/api/config":
-            return 200, b"{}"
+            return (200, b"{}") if healthy else (0, b"connection refused")
         if "/models/model" in path:
             return model_status, model_body
         if "/knowledge/" in path:
@@ -120,33 +145,58 @@ def _run_detect(client, *, tmp_repo):
             os.environ.update(saved)
 
 
-# ── (A)-(D) echter APIClient + echter Klassifikator ─────────────────────
+# ── (A)-(D2) echter APIClient + echter Klassifikator ────────────────────
 
-def test_unreadable_200_model_body_is_unreachable_not_fresh():
+def test_unreadable_200_model_body_is_unclear_not_fresh():
     client = _make_client(model_status=200, model_body=b"not json at all")
     assert client.get_model("p1") is None  # Vorbedingung: unlesbar -> None
     with tempfile.TemporaryDirectory() as tmp:
         state = _run_detect(client, tmp_repo=Path(tmp))
-    assert state == "unreachable", (
-        f"HTTP 200 mit unlesbarem Preset-Koerper ist KEIN bestaetigtes 'Preset "
-        f"fehlt' -- war {state!r}"
+    assert state == "unclear", (
+        f"HTTP 200 mit unlesbarem Preset-Koerper ist erreichbar+mehrdeutig -- "
+        f"KEIN echter health-down-Fall -- war {state!r}"
     )
 
 
-def test_malformed_200_model_body_is_unreachable_not_fresh():
+def test_malformed_200_model_body_is_unclear_not_fresh():
     """Formfalsch: lesbares JSON, aber eine Liste statt eines Objekts."""
     client = _make_client(model_status=200, model_body=b"[]")
     assert client.get_model("p1") is None
     assert client.last_model_body_ok is False
     with tempfile.TemporaryDirectory() as tmp:
         state = _run_detect(client, tmp_repo=Path(tmp))
-    assert state == "unreachable", (
-        f"HTTP 200 mit formfalschem (Listen-statt-Objekt) Preset-Koerper ist KEIN "
-        f"bestaetigtes 'Preset fehlt' -- war {state!r}"
+    assert state == "unclear", (
+        f"HTTP 200 mit formfalschem (Listen-statt-Objekt) Preset-Koerper ist "
+        f"erreichbar+mehrdeutig -- war {state!r}"
     )
 
 
-def test_kb_body_without_items_field_is_unreachable_not_fresh():
+def test_false_model_dict_without_id_is_unclear_not_installed():
+    """WP-N6-1a (der eigentliche N6-Rest): ein HTTP-200-FEHLEROBJEKT ist
+    auch ein `dict` -- vorher akzeptierte `get_model` das unbesehen als
+    vorhandenes Preset (`isinstance(data, dict)` allein). Ein echtes
+    OWUI-Modellpreset TRAEGT ein nicht-leeres `id`-Feld, ein Fehlerobjekt
+    wie `{"detail": ...}` nicht."""
+    client = _make_client(
+        model_status=200, model_body=b'{"detail":"unexpected shape"}',
+    )
+    assert client.get_model("p1") is None, (
+        "ein 200-dict OHNE 'id' ist kein gueltiges Modellpreset -- get_model "
+        "muss None liefern, nicht das Fehlerobjekt selbst"
+    )
+    assert client.last_model_body_ok is False, (
+        "last_model_body_ok muss False sein -- sonst gilt ein Fehlerobjekt "
+        "als bestaetigt vorhandenes Preset"
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        state = _run_detect(client, tmp_repo=Path(tmp))
+    assert state == "unclear", (
+        f"ein falsches Modell-Dictionary darf NICHT als 'installed'/'partial' "
+        f"durchlaufen (vorher: has_preset=True trotz Fehlerobjekt) -- war {state!r}"
+    )
+
+
+def test_kb_body_without_items_field_is_unclear_not_fresh():
     """KB-Antwort HTTP 200, JSON-Objekt, aber OHNE passendes `items`-Feld --
     `list_knowledge` darf das nicht stumm als [] (bestaetigt leer) ausgeben."""
     client = _make_client(
@@ -161,7 +211,7 @@ def test_kb_body_without_items_field_is_unreachable_not_fresh():
     )
     with tempfile.TemporaryDirectory() as tmp:
         state = _run_detect(client, tmp_repo=Path(tmp))
-    assert state == "unreachable", (
+    assert state == "unclear", (
         f"eine KB-Antwort ohne 'items'-Feld darf NICHT als bestaetigt 'keine KB "
         f"da' durchlaufen -- war {state!r}"
     )
@@ -179,7 +229,26 @@ def test_confirmed_fresh_with_readable_bodies_stays_fresh():
     assert state == "fresh", f"echter Erstinstall (lesbar bestaetigt) sollte 'fresh' bleiben, war {state!r}"
 
 
-# ── (E)-(G) echte [1]-Caller halten vor Mutation an ─────────────────────
+def test_valid_wellformed_preset_with_kb_link_stays_installed():
+    """Gegenprobe (D2): ein wohlgeformtes Modellobjekt (id + meta.knowledge)
+    bleibt 'installed' -- der neue id-Formcheck darf ein ECHTES Preset nicht
+    faelschlich verwerfen."""
+    model_body = (
+        b'{"id": "p1", "meta": {"knowledge": [{"id": "kb-1", "name": "Proj Wissensspeicher"}]}}'
+    )
+    client = _make_client(
+        model_status=200, model_body=model_body,
+        kb_status=200, kb_body=b'{"items": [{"id": "kb-1", "name": "Proj Wissensspeicher"}]}',
+    )
+    preset = client.get_model("p1")
+    assert preset is not None, "ein wohlgeformtes Modellobjekt mit 'id' muss weiterhin akzeptiert werden"
+    assert client.last_model_body_ok is True
+    with tempfile.TemporaryDirectory() as tmp:
+        state = _run_detect(client, tmp_repo=Path(tmp))
+    assert state == "installed", f"Preset+KB-Link sollte 'installed' bleiben, war {state!r}"
+
+
+# ── (E)-(H) echte [1]-Caller halten vor Mutation an ─────────────────────
 
 def _run_action_install(*, ensure_owui_env_effect, client, confirm_unreachable_result):
     saved_env = dict(os.environ)
@@ -212,30 +281,29 @@ def _run_action_install(*, ensure_owui_env_effect, client, confirm_unreachable_r
         os.environ.update(saved_env)
 
 
-def test_entry_check_unreachable_halts_before_confirm_and_mutation():
-    """(E)+(G): der ECHTE Eingangscheck-Caller trifft direkt (Key schon
-    gesetzt) auf den unlesbaren Koerper -> 'unreachable' -> Confirm wird
-    gefragt, Default-Ablehnung -> KEIN run_setup."""
+def test_entry_check_unclear_halts_without_confirm_call():
+    """(E): der ECHTE Eingangscheck-Caller trifft direkt (Key schon gesetzt)
+    auf den unlesbaren Koerper -> 'unclear' -> REINER STOPP, kein Confirm-
+    Aufruf ueberhaupt (anders als beim echten Unreachable-Fall)."""
     client = _make_client(model_status=200, model_body=b"not json at all")
     confirm_mock, run_setup_mock, _autowire_mock = _run_action_install(
         ensure_owui_env_effect=[True, True, True],  # Key liegt bereits vor
         client=client,
-        confirm_unreachable_result=False,  # explizite Ablehnung
+        confirm_unreachable_result=False,
     )
-    assert confirm_mock.call_count >= 1, (
-        "ein unlesbarer Koerper muss den expliziten Unreachable-Confirm erreichen "
-        "(statt stumm 'fresh' zu sein und den Confirm ganz zu umgehen)"
+    assert confirm_mock.call_count == 0, (
+        "ein unklarer (erreichbarer, aber mehrdeutiger) Bestand darf NICHT ueber den "
+        "Unreachable-Confirm laufen -- dafuer gibt es gar keinen Confirm, nur einen Stopp"
     )
     assert run_setup_mock.call_count == 0, (
         "unklarer/unlesbarer Bestand darf NIE ungefragt in run_setup's destroy&recreate laufen"
     )
 
 
-def test_recheck_unreachable_halts_before_confirm_and_mutation():
-    """(F)+(G): Eingangscheck OHNE Key (-> 'fresh', faellt durch), WP1d-
-    Re-Check MIT Key trifft auf denselben unlesbaren Koerper -> 'unreachable'
-    -> Confirm wird gefragt, Default-Ablehnung -> KEIN run_setup. Deckt den
-    ZWEITEN echten Caller (launcher.py 1032-1084) ab."""
+def test_recheck_unclear_halts_without_confirm_call():
+    """(F): Eingangscheck OHNE Key (-> 'fresh', faellt durch), WP1d-Re-Check
+    MIT Key trifft auf denselben unlesbaren Koerper -> 'unclear' -> REINER
+    STOPP, kein Confirm-Aufruf. Deckt den ZWEITEN echten Caller ab."""
     client = _make_client(model_status=200, model_body=b"not json at all")
     # Aufrufreihenfolge: (1) Eingangsklassifikation -> kein Key -> 'fresh';
     # (2) action_install's eigener Browser-Key-Block -- Key liegt schon vor;
@@ -243,30 +311,77 @@ def test_recheck_unreachable_halts_before_confirm_and_mutation():
     confirm_mock, run_setup_mock, _autowire_mock = _run_action_install(
         ensure_owui_env_effect=[False, True, True],
         client=client,
-        confirm_unreachable_result=False,  # explizite Ablehnung
+        confirm_unreachable_result=False,
     )
-    assert confirm_mock.call_count >= 1, (
-        "der WP1d-Re-Check muss denselben unlesbaren Koerper erreichen und den "
-        "Unreachable-Confirm ausloesen"
+    assert confirm_mock.call_count == 0, (
+        "der WP1d-Re-Check muss denselben unlesbaren Koerper erreichen und "
+        "dort ANHALTEN, ohne je den Unreachable-Confirm aufzurufen"
     )
     assert run_setup_mock.call_count == 0, (
         "der Re-Check-Caller darf NIE ungefragt in run_setup's destroy&recreate laufen"
     )
 
 
-def test_recheck_unreachable_confirmed_override_still_reaches_run_setup():
-    """Gegenprobe zu (G): eine EXPLIZITE Bestaetigung am Unreachable-Confirm
-    bleibt ein bewusster Override -- der Fix haelt nur VOR unklarer Mutation
-    an, er verbietet eine gewollte Fortsetzung nicht."""
+def test_recheck_unclear_halts_even_if_confirm_would_have_approved():
+    """Gegenprobe (G) zur alten Erwartung: anders als beim echten
+    'unreachable'-Fall gibt es bei 'unclear' GAR KEINEN Confirm-Durchgriff --
+    selbst wenn `_confirm_reinstall_unreachable` auf True stuende (sie wird
+    bei 'unclear' nie aufgerufen), erreicht `run_setup` NIE etwas. Vorher
+    (N5-Fassung) war das umgekehrt: eine explizite Bestaetigung erreichte
+    bewusst run_setup -- das war fuer den ECHTEN Unreachable-Fall richtig
+    (s. test_real_unreachable_confirmed_override_still_reaches_run_setup
+    unten), ist fuer den jetzt eingefuehrten 'unclear'-Fall aber FALSCH,
+    weil ein unlesbarer Koerper weder bestaetigtes Preset noch bestaetigte
+    Abwesenheit ist."""
     client = _make_client(model_status=200, model_body=b"not json at all")
+    confirm_mock, run_setup_mock, _autowire_mock = _run_action_install(
+        ensure_owui_env_effect=[False, True, True],
+        client=client,
+        confirm_unreachable_result=True,  # wuerde bestaetigen, WENN gefragt
+    )
+    assert confirm_mock.call_count == 0, (
+        "bei 'unclear' wird der Unreachable-Confirm gar nicht erst aufgerufen"
+    )
+    assert run_setup_mock.call_count == 0, (
+        "ein unklarer Bestand erreicht run_setup NIE -- auch nicht ueber eine "
+        "(hypothetisch) zustimmende UI, weil es dafuer keinen Confirm-Pfad gibt"
+    )
+
+
+def test_real_unreachable_confirmed_override_still_reaches_run_setup():
+    """(H): ECHTER health-down-Fall (`check_health()` False, OWUI wirklich
+    weg) -> 'unreachable' -> der bestehende, bewusste N2-Bootfall-Override
+    ueber `_confirm_reinstall_unreachable(True)` bleibt unveraendert
+    moeglich. Belegt, dass der neue 'unclear'-Stopp NICHT den legitimen
+    Unreachable-Override fuer den echten Boot-Fall kaputt macht."""
+    client = _make_client(healthy=False)
     confirm_mock, run_setup_mock, _autowire_mock = _run_action_install(
         ensure_owui_env_effect=[False, True, True],
         client=client,
         confirm_unreachable_result=True,  # explizite Bestaetigung
     )
-    assert confirm_mock.call_count >= 1
+    assert confirm_mock.call_count >= 1, (
+        "ein echter health-down-Fall muss weiterhin den Unreachable-Confirm erreichen"
+    )
     assert run_setup_mock.call_count == 1, (
-        "eine explizit bestaetigte Fortsetzung trotz 'unreachable' muss weiterhin moeglich sein"
+        "eine explizit bestaetigte Fortsetzung trotz echtem 'unreachable' muss "
+        "weiterhin moeglich sein (N2-Bootfall)"
+    )
+
+
+def test_real_unreachable_rejected_halts_before_mutation():
+    """Gegenprobe zu (H): Ablehnung am echten Unreachable-Confirm haelt
+    weiterhin an -- kein stiller Default-Durchgriff."""
+    client = _make_client(healthy=False)
+    confirm_mock, run_setup_mock, _autowire_mock = _run_action_install(
+        ensure_owui_env_effect=[True, True, True],
+        client=client,
+        confirm_unreachable_result=False,
+    )
+    assert confirm_mock.call_count >= 1
+    assert run_setup_mock.call_count == 0, (
+        "eine abgelehnte Bestaetigung bei echtem health-down darf NICHT in "
+        "run_setup laufen"
     )
 
 

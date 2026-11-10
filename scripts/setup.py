@@ -380,6 +380,12 @@ class APIClient:
         # behandelt werden.
         self.last_model_body_ok: Optional[bool] = None
         self.last_knowledge_body_ok: Optional[bool] = None
+        # WP-N6-1b: wie oben, aber fuer `list_files()` -- True NUR bei
+        # tatsaechlich vollstaendiger Liste (s. `list_files`-Docstring).
+        # None = noch kein Call.
+        self.last_files_complete: Optional[bool] = None
+        # WP-N6-1b: Duplicate-Content-Orakel fuer `add_file_to_knowledge`.
+        self.last_add_file_duplicate: Optional[bool] = None
         # Allow self-signed certs for localhost
         self._ctx = ssl.create_default_context()
         if "localhost" in base_url or "127.0.0.1" in base_url:
@@ -537,16 +543,30 @@ class APIClient:
         (known bug across 0.8.x/0.9.x), so post-link verification via GET is
         unreliable as a definitive check. We trust HTTP 200 here; the caller
         (run_sync) does an additional end-to-end retrieval check.
+
+        WP-N6-1b: `self.last_add_file_duplicate` -- best-effort-Marker (wie
+        `last_model_status` etc.), True NUR bei HTTP 400 mit "duplicate" im
+        Fehlertext (OpenWebUIs dokumentierte "400: Duplicate content
+        detected"-Eigenschaft, s. `run_sync`). Dient `complete_orphaned_kb_
+        install` als Orakel, um einen inhaltlich identischen (noch
+        haengenden) Altbestand von einem echten Link-Fehler zu unterscheiden,
+        OHNE einen neuen Remote-Content-Read. Default None = noch kein Call.
         """
         try:
             timeout = float(os.environ.get("OWUI_ADD_FILE_TIMEOUT", "360"))
         except ValueError:
             timeout = 360.0
-        code, _data = self.post_json(
+        code, data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/add",
             {"file_id": file_id},
             timeout=timeout,
         )
+        detail = ""
+        if isinstance(data, dict):
+            detail = str(data.get("detail") or "")
+        elif isinstance(data, bytes):
+            detail = data.decode("utf-8", errors="replace")
+        self.last_add_file_duplicate = code == 400 and "duplicate" in detail.lower()
         return code == 200
 
     def remove_file_from_knowledge(self, kb_id: str, file_id: str) -> bool:
@@ -570,8 +590,22 @@ class APIClient:
             f"/api/v1/models/model?id={urllib.parse.quote(model_id, safe='')}"
         )
         self.last_model_status = code
-        self.last_model_body_ok = (code != 200) or isinstance(data, dict)
-        if code != 200 or not isinstance(data, dict):
+        # WP-N6-1a: `isinstance(data, dict)` allein ist keine gueltige
+        # Modellkoerperform -- ein HTTP-200-Fehlerobjekt wie
+        # {"detail": "unexpected shape"} ist auch ein dict und wurde bisher
+        # unbesehen als vorhandenes Preset zurueckgegeben (s. downstream
+        # `preset.get("id", preset_id)`, setup.py:2155, und `upsert_model`s
+        # Payload-Aufbau -- ein echtes OWUI-Modellpreset TRAEGT ein `id`-Feld,
+        # ein Fehlerobjekt nicht). Verlange einen nicht-leeren String `id`
+        # als Marker; `meta` ist dafuer ungeeignet, weil es bei einem echten
+        # Preset leer sein darf.
+        is_model_shape = (
+            isinstance(data, dict)
+            and isinstance(data.get("id"), str)
+            and data.get("id") != ""
+        )
+        self.last_model_body_ok = (code != 200) or is_model_shape
+        if code != 200 or not is_model_shape:
             return None
         return data
 
@@ -593,20 +627,38 @@ class APIClient:
 
         Dedupe: ueberlappende Seiten (gleiches File auf zwei Seiten) werden
         ueber ein `seen`-Set abgefangen, damit kein File doppelt gezaehlt wird.
+
+        WP-N6-1b: `self.last_files_complete` ist ein best-effort-Marker
+        (analog zu `last_model_body_ok`) -- True NUR, wenn die Rueckgabe
+        wirklich vollstaendig ist: alt-unpaginierte Liste in einem Rutsch,
+        ODER paginiert mit `total` tatsaechlich erreicht. Jeder andere
+        Ausstieg (HTTP-Fehler auf irgendeiner Seite, formfalscher Koerper,
+        abgebrochene Pagination VOR Erreichen von `total`, Seitenlimit-
+        Abbruch) laesst den Marker auf False -- Caller MUESSEN das vor
+        jeder darauf aufbauenden Mutation prüfen (s. `getattr(client,
+        'last_files_complete', True)` fuer Doubles ohne dieses Attribut --
+        altes Verhalten dort unveraendert).
         """
         out: list[dict] = []
         seen: set[str] = set()
         page = 1
+        self.last_files_complete = False
         while True:
             code, data = self.get(f"/api/v1/files/?page={page}")
             if code != 200:
                 break
             if isinstance(data, list):
-                # Alte API ohne Pagination: komplette Liste, fertig.
+                # Alte API ohne Pagination: komplette Liste, fertig -- vollstaendig.
+                self.last_files_complete = True
                 return data
             if not isinstance(data, dict):
                 break
-            items = data.get("items") or []
+            items = data.get("items")
+            if not isinstance(items, list):
+                # Formfalscher Koerper (kein `items`-Feld bzw. falscher Typ) --
+                # NICHT stumm als leere Seite werten, sonst taeuscht eine
+                # Fehlerantwort eine bestaetigte (Teil-)Vollstaendigkeit vor.
+                break
             added_this_page = 0
             for f in items:
                 fid = f.get("id")
@@ -615,15 +667,20 @@ class APIClient:
                     out.append(f)
                     added_this_page += 1
             total = data.get("total")
-            if added_this_page == 0:
-                # Keine neuen Items mehr — auch der Fall, wenn `total` fehlt.
-                break
             if total is not None and len(out) >= total:
+                self.last_files_complete = True
+                break
+            if added_this_page == 0:
+                # Keine neuen Items mehr -- wenn `total` bekannt war, haette
+                # der Check oben schon vollstaendig gemeldet; hier fehlt
+                # `total` oder wir sind davor steckengeblieben -> NICHT
+                # vollstaendig (Marker bleibt False).
                 break
             page += 1
             # Sicherung gegen Endlosschleife: 200 Seiten x 50 Items ~ 10k Files.
             # Bei einer Instanz mit mehr als ~10k Files hier erhoehen, sonst
-            # liefert list_files() wieder unvollstaendig (stiller Teil-Read).
+            # liefert list_files() wieder unvollstaendig (stiller Teil-Read,
+            # UND last_files_complete bleibt korrekt False).
             if page > 200:
                 break
         return out
@@ -2850,14 +2907,18 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     # eine gleichnamige Datei EINER ANDEREN KB auf einer geteilten Instanz
     # fälschlich als "schon in dieser KB" ausweisen).
     kb_files = discover_knowledge_files(repo, cfg)
-    # WP-N5-1b: `list_files()` wirft im echten Betrieb praktisch nie (jeder
-    # HTTP-/Parse-Fehler landet schon dort als leere/abgebrochene Seite),
-    # aber ein Aufrufer-seitiges `except Exception: all_files = []` würde
-    # JEDEN unerwarteten Fehler mit einer bestätigten Leere verwechseln --
-    # und direkt darauf aufbauend ALLE `kb_files` als "nicht in der KB"
-    # fehlklassifizieren und hochladen. Ein unklarer/unterbrochener Read
-    # muss hier VOR jeder darauf beruhenden Mutation enden, sichtbar für
-    # den Nutzer, kein stilles Upload-Ableiten.
+    # WP-N5-1b/WP-N6-1b: `list_files()` wirft im echten Betrieb praktisch nie
+    # (jeder HTTP-/Parse-Fehler/abgebrochene Pagination landet schon dort als
+    # leere/formfalsche/abgebrochene Seite -- der `try/except` unten ist nur
+    # ein Netz für exotische Doubles, kein echter Fehlerpfad). Der ECHTE
+    # Fehlerpfad ist der `last_files_complete`-Marker (s. `list_files`-
+    # Docstring): ein HTTP-Fehler auf irgendeiner Seite, ein formfalscher
+    # Körper oder eine vor Erreichen von `total` abgebrochene Pagination
+    # lässt ihn False -- das ist KEINE bestätigte (Teil-)Vollständigkeit und
+    # darf NICHT wie eine echte, abschließend gelesene Liste behandelt
+    # werden (sonst fehlklassifiziert der Namensabgleich unten ALLE
+    # `kb_files` als "nicht in der KB" und laedt sie blind hoch). Default
+    # True (Doubles ohne dieses Attribut -> altes Verhalten unverändert).
     try:
         all_files = client.list_files()
     except Exception as e:
@@ -2871,6 +2932,15 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
         print_error(
             "Dateibestand von OpenWebUI unklar (kein lesbares Listenergebnis) — "
             "Ergänzung abgebrochen, keine Uploads ausgelöst."
+        )
+        return False
+    files_complete = getattr(client, "last_files_complete", True)
+    if not files_complete:
+        print_error(
+            "Dateibestand von OpenWebUI unvollständig/unklar gelesen (HTTP-Fehler, "
+            "formfalscher Körper oder abgebrochene Pagination auf einer der Seiten) — "
+            "Ergänzung abgebrochen, keine Uploads ausgelöst. Erneut [1] ausführen, "
+            "wenn OpenWebUI wieder zuverlässig antwortet."
         )
         return False
     in_kb_by_name: dict[str, str] = {}
@@ -2892,20 +2962,105 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     for fp in kb_files:
         existing_fid = in_kb_by_name.get(fp.name)
         if existing_fid:
-            # WP-N5-1b: eine gleichnamige Datei IN DIESER KB ist KEIN
+            # WP-N6-1b: eine gleichnamige Datei IN DIESER KB ist KEIN
             # bestätigter Inhaltsabgleich -- die orphaned KB hat per
             # Definition KEIN Manifest (sonst wäre sie nicht "orphaned"),
             # ihr Inhalt kann älter/abweichend sein als die lokale Datei.
             # APIClient bietet keinen Remote-Content-Read/Hash für Files
-            # (kein neuer Motor hierfür) -- ein lokaler Sollhash allein
-            # bescheinigt deshalb keinen bestätigten Remote-Inhalt. Statt
-            # blind zu vertrauen, ersetzen wir deterministisch (dieselben
-            # Bausteine wie `run_sync`s Changed-Files-Pfad: entlinken +
-            # löschen, dann hochladen + verlinken) -- danach ist der Inhalt
-            # tatsächlich bestätigt, weil wir ihn selbst gerade geschrieben
-            # haben.
-            client.remove_file_from_knowledge(kb_id, existing_fid)
-            client.delete_file(existing_fid)
+            # (kein neuer Motor hierfür), und ein lokaler Sollhash allein
+            # bescheinigt keinen bestätigten Remote-Inhalt.
+            #
+            # VORHER (WP-N5-1b, jetzt korrigiert): entlinken+löschen VOR dem
+            # Upload, UNBEDINGT -- Rückgaben von remove/delete ignoriert. Bei
+            # Erfolg ging die korrekte alte ID verloren (unnötig, wenn der
+            # Inhalt eh identisch war); scheiterte der Upload NACH dem
+            # Löschen, war der korrekte alte Inhalt ersatzlos weg.
+            #
+            # JETZT: erhaltende Reihenfolge, die OpenWebUIs dokumentierte
+            # Duplicate-Content-Eigenschaft als Orakel nutzt (setup.py
+            # ~3310/`run_sync`: "400: Duplicate content detected", wenn eine
+            # inhaltsgleiche Datei noch in der KB hängt). Die ALTE Datei
+            # bleibt zunächst unangetastet; wir laden den lokalen Inhalt
+            # separat hoch und versuchen ihn an dieselbe KB zu linken,
+            # WÄHREND die alte Version noch hängt:
+            #   - Link gelingt -> Inhalt war NICHT identisch (sonst hätte
+            #     OpenWebUI den Link verweigert) -> neuer Inhalt ist jetzt
+            #     bestätigt verlinkt, ERST JETZT ist das Entfernen der alten
+            #     Version sicher (kein Verlust möglich, Ersatz ist schon da).
+            #   - Link scheitert MIT der dokumentierten Duplicate-Signatur
+            #     (`last_add_file_duplicate`) -> das IST die Bestätigung,
+            #     dass der alte Inhalt bereits dem lokalen entspricht -- kein
+            #     Ersatz nötig, alte (bereits verlinkte) Datei bleibt genau
+            #     so erhalten, der ungenutzte Zweit-Upload wird verworfen.
+            #   - Link scheitert OHNE Duplicate-Signatur (echter Fehler) ->
+            #     unklar, ob der Inhalt wirklich übereinstimmt -- alte Datei
+            #     bleibt unangetastet, aber NICHT als bestätigt verbucht
+            #     (sichtbare Unvollständigkeit statt stiller Erfolgsmeldung).
+            # In KEINEM Zweig wird der bestätigte Altbestand vor einem
+            # bestätigten Ersatz angefasst.
+            new_file_id = client.do_upload_file(fp)
+            if not new_file_id:
+                print_error(
+                    f"Upload fehlgeschlagen: {fp.name} — bereits verlinkter Altbestand "
+                    f"({existing_fid[:12]}…) bleibt unangetastet, aber unbestätigt. "
+                    "KB bleibt unvollständig."
+                )
+                upload_failures.append(fp.name)
+                all_ok = False
+                continue
+            linked = client.add_file_to_knowledge(kb_id, new_file_id)
+            if not linked:
+                time.sleep(1)
+                linked = client.add_file_to_knowledge(kb_id, new_file_id)
+            # WP-N6-1b (Defense-in-Depth): die erhaltende Reihenfolge setzt
+            # voraus, dass `do_upload_file` eine FRISCHE File-ID liefert (nie
+            # die bereits verlinkte `existing_fid`). Das gilt beim aktuellen
+            # OpenWebUI-Backend (Upload erzeugt unbedingt eine neue uuid4-ID,
+            # Content-Dedupe greift erst beim KB-Link), ist aber eine EXTERNE,
+            # unversionierte Zusicherung. Erzwinge die No-Loss-Invariante lokal:
+            # eine Löschung darf NIE die einzige Kopie treffen. Bei (praktisch
+            # unmöglicher) ID-Gleichheit wird NICHT gelöscht -- der bestätigte
+            # Bestand bleibt erhalten (03 §13: "Der konkrete Fehlerpfad darf
+            # nicht ungeprüft bereits richtigen vorhandenen Inhalt vernichten").
+            distinct = bool(new_file_id) and new_file_id != existing_fid
+            if linked:
+                # Bestätigt verlinkter Ersatz steht -- jetzt sicher, die
+                # alte Version zu entfernen (nur wenn sie eine ANDERE Entity
+                # als der frisch verlinkte Ersatz ist).
+                if distinct:
+                    client.remove_file_from_knowledge(kb_id, existing_fid)
+                    client.delete_file(existing_fid)
+                confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
+                print_ok(
+                    f"Ersetzt: {fp.name} — Inhalt unterschied sich vom bereits "
+                    f"verlinkten Altbestand, neu hochgeladen und verlinkt ({new_file_id[:12]}…)."
+                )
+            elif getattr(client, "last_add_file_duplicate", False):
+                # Orakel-Bestätigung: identischer Inhalt haengt schon -- kein
+                # Ersatz nötig, alten (bereits verlinkten) Bestand behalten.
+                # Den ungenutzten Zweit-Upload verwerfen -- aber NUR, wenn er
+                # eine andere Entity als der behaltene Altbestand ist.
+                if distinct:
+                    client.delete_file(new_file_id)
+                confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": existing_fid}
+                print_ok(
+                    f"Unverändert: {fp.name} — Inhalt stimmt mit dem bereits "
+                    f"verlinkten Altbestand überein ({existing_fid[:12]}…), kein Ersatz nötig."
+                )
+            else:
+                # Echter Link-Fehler (keine Duplicate-Signatur) -- unklar, ob
+                # der alte Inhalt wirklich übereinstimmt. Alten Bestand NICHT
+                # anfassen, aber auch NICHT als bestätigt verbuchen.
+                if distinct:
+                    client.delete_file(new_file_id)
+                print_error(
+                    f"KB-Link fehlgeschlagen für {fp.name} — Altbestand "
+                    f"({existing_fid[:12]}…) bleibt unangetastet, aber unbestätigt. "
+                    "KB bleibt unvollständig."
+                )
+                upload_failures.append(fp.name)
+                all_ok = False
+            continue
         new_file_id = client.do_upload_file(fp)
         if not new_file_id:
             print_error(f"Upload fehlgeschlagen: {fp.name} — KB bleibt unvollständig.")

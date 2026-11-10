@@ -455,9 +455,19 @@ def _detect_install_state() -> str:
                           (frische Shell, Repo-Klon ohne Setup-Lauf). Live-Check
                           unmöglich, run_setup wird sowieso gleich nach Key
                           fragen — daher KEIN extra Confirm-Prompt im Caller.
-        "unreachable":    OpenWebUI antwortet nicht oder Setup-Konfig kaputt.
+        "unreachable":    OpenWebUI antwortet nicht (echter health-down-Fall,
+                          `check_health()` False) oder Setup-Konfig kaputt.
                           Caller MUSS warnen, bevor er Klassik-Install startet —
                           sonst löscht run_setup eine in 30 s erreichbare KB.
+        "unclear":        WP-N6-1a: OpenWebUI IST erreichbar (`check_health()`
+                          True), aber Preset- oder KB-Lesung ist mehrdeutig
+                          (HTTP-Status ∉ {200,404}, 200 mit unlesbarem/form-
+                          falschem Körper). Das ist WEDER eine bestätigte
+                          Abwesenheit (→ "fresh") NOCH ein bestätigtes Preset
+                          (→ "installed"/"partial") — der Caller MUSS vor jeder
+                          Mutation anhalten (kein `_confirm_reinstall_*`, kein
+                          Override-Pfad; anders als "unreachable" gibt es hier
+                          keinen Confirm, sondern einen reinen Stopp).
 
     Wichtig zur Manifest-Logik: Das `.openwebui-sync.json`-Manifest ist NUR
     ein Indiz für frühere Sync-Aktivität, kein Wahrheits-Anker. Live-Preset+KB
@@ -510,18 +520,23 @@ def _detect_install_state() -> str:
         # best-effort (Doubles ohne dieses Attribut -> Default 200, altes
         # Verhalten unverändert); nur ein ECHTER APIClient setzt es.
         model_status = getattr(client, "last_model_status", 200)
+        # WP-N6-1a: OWUI ist hier bereits bestätigt erreichbar (health-check
+        # oben war True) -- ein mehrdeutiger Preset-Read ist deshalb KEIN
+        # "unreachable" (das würde den echten N2-Bootfall-Confirm-Pfad
+        # fälschlich auch für diesen Fall öffnen), sondern "unclear": weder
+        # bestätigtes Preset noch bestätigte Abwesenheit.
         if preset is None and model_status not in (200, 404):
-            return "unreachable"
-        # WP-N5-1a: Status 200 ALLEIN bestätigt kein "Preset fehlt" -- ein
-        # 200-Körper, den APIClient nicht als Objekt lesen konnte (s.
-        # `last_model_body_ok`, WP-N4-1 P3a), ist unlesbar/formfalsch,
-        # keine bestätigte Leere. Ohne diesen Check lief ein solcher Fall
-        # unten direkt in `has_preset=False` -> potenziell "fresh", obwohl
-        # der wahre Zustand unbekannt ist. Default True (Doubles ohne
-        # dieses Attribut -> altes Verhalten unverändert).
+            return "unclear"
+        # WP-N5-1a/WP-N6-1a: Status 200 ALLEIN bestätigt kein "Preset fehlt" --
+        # ein 200-Körper, den APIClient nicht als Objekt lesen konnte (s.
+        # `last_model_body_ok`, WP-N4-1 P3a / get_model-Formcheck WP-N6-1a),
+        # ist unlesbar/formfalsch, keine bestätigte Leere. Ohne diesen Check
+        # lief ein solcher Fall unten direkt in `has_preset=False` ->
+        # potenziell "fresh", obwohl der wahre Zustand unbekannt ist. Default
+        # True (Doubles ohne dieses Attribut -> altes Verhalten unverändert).
         model_body_ok = getattr(client, "last_model_body_ok", True)
         if preset is None and model_status == 200 and not model_body_ok:
-            return "unreachable"
+            return "unclear"
 
         # WP-N2-1d: verwaiste KB erkennen (ohne Preset/Manifest -- z.B. nach
         # einem Abbruch zwischen KB-Anlage und Preset-Anlage in `run_setup`,
@@ -536,9 +551,12 @@ def _detect_install_state() -> str:
         # WP-N3-1c: dieselbe Status-Unterscheidung wie oben -- eine leere
         # Liste wegen HTTP-Fehler ist KEIN bestätigtes "keine KBs da".
         kb_status = getattr(client, "last_knowledge_status", 200)
+        # WP-N6-1a: wie beim Preset -- erreichbar + mehrdeutiger KB-Status ist
+        # "unclear", nicht "unreachable" (OWUI ist ja da, nur die Lesung ist
+        # unklar).
         if not kb_items and kb_status != 200:
-            return "unreachable"
-        # WP-N5-1a: wie beim Preset -- ein 200-Körper ohne passendes
+            return "unclear"
+        # WP-N5-1a/WP-N6-1a: wie beim Preset -- ein 200-Körper ohne passendes
         # `items`-Feld (formfalsch) ist NICHT bestätigt leer, nur weil
         # `list_knowledge()` dafür `[]` zurückgibt (s. `last_knowledge_
         # body_ok`). Sonst würde ein unklarer Zustand hier stumm als
@@ -546,7 +564,7 @@ def _detect_install_state() -> str:
         # `False` bleiben.
         kb_body_ok = getattr(client, "last_knowledge_body_ok", True)
         if kb_status == 200 and not kb_body_ok:
-            return "unreachable"
+            return "unclear"
         has_orphaned_kb = any(kb.get("name") == kb_name for kb in kb_items)
     except Exception:
         return "unreachable"
@@ -817,6 +835,21 @@ def action_install_lore() -> None:
         print(bold("\n  [L] Lore-Setup\n"))
         print(dim("  Hinweis: Eine alte Sync-Spur liegt im Repo. "
                   "run_setup fragt gleich nach dem API-Key."))
+    elif state == "unclear":
+        # WP-N6-1a: diese Funktion klassifiziert vorab und ruft danach
+        # `action_install(_skip_state_check=True)` -- ohne eigenen Stopp
+        # hier würde ein neu eingeführtes "unclear" (anders als vorher
+        # "unreachable") unbehandelt durch dieses if/elif fallen und
+        # direkt in den skip-state-check-Pfad von `action_install` laufen,
+        # der KEINEN eigenen Live-Check mehr macht. Gleiche Stopplinie wie
+        # die echten [1]-Caller.
+        print(bold("\n  [L] Lore-Setup\n"))
+        print()
+        print(yellow("  Bestand unklar: Preset-/KB-Lesung mehrdeutig (unlesbarer oder formfalscher Antwortkörper)."))
+        print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+        print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+        _pause()
+        return
     elif state == "unreachable":
         print(bold("\n  [L] Lore-Setup\n"))
         if not _confirm_reinstall_unreachable():
@@ -911,6 +944,21 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             # nicht ganz "fresh" ist und etwas neu aufgebaut werden könnte.
             print(dim("  Hinweis: Eine alte Sync-Spur liegt im Repo. "
                       "run_setup fragt jetzt nach dem API-Key."))
+        elif state == "unclear":
+            # WP-N6-1a: OWUI ist erreichbar, aber Preset-/KB-Lesung ist
+            # mehrdeutig (unlesbarer/formfalscher Körper, Status ausserhalb
+            # 200/404) -- das ist WEDER bestätigtes Preset NOCH bestätigte
+            # Abwesenheit. Kein `_confirm_reinstall_unreachable`-Aufruf hier:
+            # dessen Override erreicht run_setup NICHT NUR bei bewusster
+            # Zustimmung, sondern es gibt bei "unclear" ueberhaupt KEINEN
+            # Confirm -- reiner Stopp, auch wenn die UI zustimmen würde
+            # (gleiche Stopplinie wie der partial-unclear-Zweig oben).
+            print()
+            print(yellow("  Bestand unklar: Preset-/KB-Lesung mehrdeutig (unlesbarer oder formfalscher Antwortkörper)."))
+            print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+            print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+            _pause()
+            return
         elif state == "unreachable":
             if not _confirm_reinstall_unreachable():
                 _pause()
@@ -1087,6 +1135,16 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
             _pause()
             return
+    elif recheck_state == "unclear":
+        # WP-N6-1a: wie beim Eingangscheck -- erreichbar, aber Preset-/KB-
+        # Lesung mehrdeutig. Kein Confirm, reiner Stopp (siehe Eingangscheck-
+        # Zweig oben für die vollständige Begründung).
+        print()
+        print(yellow("  Bestand unklar: Preset-/KB-Lesung mehrdeutig (unlesbarer oder formfalscher Antwortkörper)."))
+        print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+        print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+        _pause()
+        return
     elif recheck_state == "unreachable":
         if not _confirm_reinstall_unreachable():
             _pause()
