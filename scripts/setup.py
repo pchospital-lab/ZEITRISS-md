@@ -369,6 +369,17 @@ class APIClient:
         # annimmt. Default None = "noch kein Call" (kein falsches Signal).
         self.last_model_status: Optional[int] = None
         self.last_knowledge_status: Optional[int] = None
+        # WP-N4-1 P3(a): Koerper-Lesbarkeit GETRENNT vom Status -- ein
+        # HTTP-200 mit unbrauchbarem/formfalschem Koerper (kein JSON-Objekt)
+        # ist NICHT dasselbe wie eine bestaetigte leere/vorhandene Antwort.
+        # None = noch kein Call. True = Status != 200 (Lesbarkeits-Frage
+        # dann nicht relevant, der Status selbst ist schon das Signal) ODER
+        # Status == 200 UND Koerper hat die erwartete Form (dict). False =
+        # Status == 200, aber Koerper NICHT die erwartete Form -- unklar,
+        # darf NICHT wie "bestaetigt leer"/"bestaetigt nicht gefunden"
+        # behandelt werden.
+        self.last_model_body_ok: Optional[bool] = None
+        self.last_knowledge_body_ok: Optional[bool] = None
         # Allow self-signed certs for localhost
         self._ctx = ssl.create_default_context()
         if "localhost" in base_url or "127.0.0.1" in base_url:
@@ -488,6 +499,7 @@ class APIClient:
     def list_knowledge(self) -> list[dict]:
         code, data = self.get("/api/v1/knowledge/")
         self.last_knowledge_status = code
+        self.last_knowledge_body_ok = (code != 200) or isinstance(data, dict)
         if code == 200 and isinstance(data, dict):
             return data.get("items", [])
         return []
@@ -551,6 +563,7 @@ class APIClient:
             f"/api/v1/models/model?id={urllib.parse.quote(model_id, safe='')}"
         )
         self.last_model_status = code
+        self.last_model_body_ok = (code != 200) or isinstance(data, dict)
         if code != 200 or not isinstance(data, dict):
             return None
         return data
@@ -2019,6 +2032,66 @@ def _wait_for_owui_model_visible(
     return False if got_any_valid_response else None
 
 
+def _verify_owui_connection_route(
+    owui_url: str, owui_key: str, target_url: str, master_key: str,
+) -> Optional[bool]:
+    """WP-N4-1 P4: nichtgenerativer Check der EIGENEN Connection-Route aus
+    dem erforderlichen OWUI-Backend-Kontext.
+
+    `POST /openai/verify` ist derselbe Endpoint hinter dem "Verify
+    Connection"-Button in OpenWebUIs Admin-UI (Workspace → Verbindungen):
+    OWUI selbst ruft `GET {target_url}/models` mit `master_key` auf, AUS
+    SEINEM EIGENEN Netzwerkkontext (wichtig bei gebridgten Containern --
+    ein Check vom Setup-Skript aus liefe über einen anderen Netzwerkpfad
+    als OWUI selbst und könnte deshalb fälschlich positiv oder negativ
+    ausfallen, s. `_owui_container_network_mode`/`_ensure_owui_on_litellm_
+    network`). Keine Chat-Completion, kein Modellcall, kein bezahlter
+    Request -- nur ein Models-Listing GEGEN DIE EXAKTE target_url+
+    master_key-Kombination der soeben gesetzten Connection.
+
+    Das ist bewusst UNABHÄNGIG vom aggregierten `/api/models`-Listing
+    (`_wait_for_owui_model_visible`) und von den dort selbst gesetzten
+    `model_ids`-Pins: Pins filtern nur die Anzeige, sie beweisen nicht,
+    dass OWUI die Ziel-URL tatsächlich erreicht.
+
+    Returns True bei bestätigter Erreichbarkeit (HTTP 200 + lesbarer
+    Models-Körper). Returns False bei einer bestätigten negativen Antwort
+    (lesbarer Fehlerstatus/-körper). Returns None, wenn der Check selbst
+    nicht lesbar beantwortet wurde (Netzwerk-/Parse-Fehler) -- nicht
+    prüfbar, NICHT als "nicht verbunden" werten.
+    """
+    import urllib.request
+    import urllib.error
+
+    try:
+        body = json.dumps({"url": target_url, "key": master_key}).encode("utf-8")
+        req = urllib.request.Request(
+            f"{owui_url.rstrip('/')}/openai/verify",
+            data=body, method="POST",
+            headers={
+                "Authorization": f"Bearer {owui_key}",
+                "Content-Type": "application/json",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            if resp.status != 200:
+                return False
+            raw = resp.read()
+            try:
+                json.loads(raw)
+            except json.JSONDecodeError:
+                return None  # Status 200, aber Körper nicht lesbar -- unklar.
+            return True
+    except urllib.error.HTTPError as e:
+        try:
+            e.read()
+        except OSError:
+            return None
+        return False  # lesbarer Fehlerstatus -- bestätigt negativ.
+    except (urllib.error.URLError, OSError):
+        return None  # kein lesbares Ergebnis -- nicht prüfbar.
+
+
 def _rewire_preset_base_model(
     repo: Path, cfg: dict, owui_url: str, owui_key: str,
 ) -> tuple[bool, str]:
@@ -2411,6 +2484,10 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
     # eine Warnung -- Default False, bis `_wait_for_owui_model_visible`
     # sie tatsächlich bestätigt.
     visible = False
+    # WP-N4-1 P4: tri-state wie `visible`, aber NICHT dieselbe Aussage --
+    # das ist der nichtgenerative Check der eigenen Route, nicht das
+    # aggregierte Listing. None = (noch) nicht geprüft/nicht erreicht.
+    route_check: Optional[bool] = None
 
     if not master_key:
         print_warn(
@@ -2467,6 +2544,21 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
                 f"Preset-Rewire fehlgeschlagen: {exc.__class__.__name__}: {exc}"
             )
 
+        # WP-N4-1 P4: die Fertigmeldung braucht einen tatsächlichen
+        # nichtgenerativen Check der EIGENEN Route aus dem OWUI-Kontext --
+        # Pin/aggregiertes `/api/models`-Listing (`visible` oben) allein
+        # genügt nicht, weil die Connection selbst `model_ids`-Pins setzt
+        # (s. `_ensure_owui_litellm_connection`), die das Listing fuellen
+        # koennen, OHNE dass die Route tatsaechlich traegt.
+        if ok_conn and ok_rewire:
+            target_url = f"http://{_owui_litellm_target_host(project)}:{litellm_port}/v1"
+            try:
+                route_check = _verify_owui_connection_route(
+                    owui_url, owui_key, target_url, master_key,
+                )
+            except Exception:
+                route_check = None
+
     print()
     print_header("LiteLLM-Proxy läuft.")
     print()
@@ -2476,42 +2568,53 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
     # das auf ein Modell zeigt, das OWUI noch nicht in seiner Modell-Liste
     # hat, ist nicht bestätigt "live", auch wenn Connection+Rewire-API-Calls
     # technisch durchliefen.
-    # WP-N3-1d: `visible` ist jetzt tri-state (True/False/None) --
-    # Konfiguriert (ok_conn+ok_rewire), tatsächlich verbunden (visible is
-    # True) und unklar/nicht prüfbar (visible is None) müssen getrennt
-    # bleiben. `visible is True` statt nur `visible`, damit ein None NICHT
-    # als falsches "sicher nicht sichtbar" in die Fertigmeldung einfließt.
-    auto_wired = bool(ok_conn and ok_rewire and visible is True)
+    # WP-N4-1 P4: "live verkabelt" haengt jetzt am nichtgenerativen
+    # `route_check` (eigene Route, EIGENER OWUI-Backend-Kontext), NICHT
+    # mehr am aggregierten `/api/models`-Listing (`visible`) -- die
+    # Connection setzt ihre eigenen `model_ids`-Pins, das Listing kann
+    # deshalb "verbunden" zeigen, ohne dass die Route wirklich traegt.
+    # `visible` bleibt als ZUSAETZLICHE Sichtbarkeits-Info erhalten (s.
+    # WP-N3-1d), ist aber kein Gate mehr. `route_check is True` statt nur
+    # `route_check`, damit ein None NICHT als falsches "nicht verbunden"
+    # in die Fertigmeldung einfliesst.
+    auto_wired = bool(ok_conn and ok_rewire and route_check is True)
+    visibility_note = (
+        f" (aggregiertes Listing: `{routing_model}` {'sichtbar' if visible is True else 'nicht sichtbar' if visible is False else 'nicht pruefbar'}.)"
+    )
     if auto_wired:
         print_ok(
             f"Cache ist live verkabelt: Preset → `{routing_model}` → LiteLLM → OpenRouter.\n"
+            "  Der nichtgenerative Routecheck der eigenen Connection war erfolgreich.\n"
             "  Nichts mehr zu klicken — der normale Weg ist jetzt das Terminalspiel "
             f"[M] im {project}-Starter. Der Browser-Chat ist optional (Menü [3])."
+            f"{visibility_note}"
         )
-    elif ok_conn and ok_rewire and visible is False:
-        # Konfiguriert (beide API-Calls liefen durch), UND der Sichtbarkeits-
-        # Check kam zu einer klaren (negativen) Antwort -- das ist weder
-        # "fertig verbunden" noch "ein fehlender Konfig-Schritt", also ein
+    elif ok_conn and ok_rewire and route_check is False:
+        # Konfiguriert (beide API-Calls liefen durch), UND der Routecheck
+        # kam zu einer klaren (negativen) Antwort -- das ist weder "fertig
+        # verbunden" noch nur "ein fehlender Konfig-Schritt", also ein
         # eigener, ehrlicher Zwischenstand statt einer Erfolgsmeldung oder
         # einer Anleitung zum Wiederholen bereits erledigter Schritte.
         print_warn(
-            f"Connection + Preset-Rewire sind gesetzt, aber `{routing_model}` ist in "
-            "OpenWebUIs Modell-Liste noch nicht als sichtbar bestätigt -- daher "
-            "(noch) nicht als 'live verkabelt' gemeldet, keine behauptete externe "
-            "Modellantwort. In ein paar Sekunden Menü [6] Diagnose erneut prüfen; "
-            "Connection/Rewire selbst müssen dafür nicht wiederholt werden."
+            f"Connection + Preset-Rewire sind gesetzt, aber der nichtgenerative "
+            f"Routecheck zur eigenen Verbindung ist bestätigt fehlgeschlagen -- die "
+            "Route trägt noch nicht, auch wenn Konfiguration/Pins das vermuten "
+            f"lassen. Keine Fertigmeldung.{visibility_note} In ein paar Sekunden "
+            "Menü [6] Diagnose erneut prüfen; Connection/Rewire selbst müssen dafür "
+            "nicht wiederholt werden."
         )
-    elif ok_conn and ok_rewire and visible is None:
-        # WP-N3-1d: der Sichtbarkeits-Check selbst kam zu KEINER lesbaren
-        # Antwort (jeder Versuch Netzwerk-/HTTP-/Parse-Fehler) -- das ist
-        # unklar/nicht prüfbar, NICHT dasselbe wie eine bestätigte negative
-        # Antwort (visible is False) und erst recht keine Fertigmeldung.
+    elif ok_conn and ok_rewire and route_check is None:
+        # Der Routecheck selbst kam zu KEINER lesbaren Antwort (Netzwerk-/
+        # HTTP-/Parse-Fehler) -- das ist unklar/nicht prüfbar, NICHT
+        # dasselbe wie eine bestätigte negative Antwort (route_check is
+        # False) und erst recht keine Fertigmeldung.
         print_warn(
-            f"Connection + Preset-Rewire sind gesetzt, aber der Sichtbarkeits-Check "
-            f"für `{routing_model}` selbst konnte nicht eindeutig beantwortet werden "
-            "(OpenWebUI hat während der Prüfung nicht lesbar geantwortet) -- unklar/"
-            "nicht prüfbar, weder 'live verkabelt' noch eine Aussage, dass die Route "
-            "nicht funktioniert. In ein paar Sekunden Menü [6] Diagnose erneut prüfen."
+            f"Connection + Preset-Rewire sind gesetzt, aber der nichtgenerative "
+            "Routecheck zur eigenen Verbindung konnte nicht eindeutig beantwortet "
+            "werden (OpenWebUI hat während der Prüfung nicht lesbar geantwortet) -- "
+            f"unklar/nicht prüfbar, weder 'live verkabelt' noch eine Aussage, dass "
+            f"die Route nicht funktioniert.{visibility_note} In ein paar Sekunden "
+            "Menü [6] Diagnose erneut prüfen."
         )
     else:
         # Granularer Fallback: nur die Schritte zeigen, die wirklich noch
@@ -2693,27 +2796,82 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
             print_error(f"Preset für Variante '{vk}' konnte nicht ergänzt werden.")
             all_ok = False
 
+    # WP-N4-1 P2: fehlende Wissensdateien tatsächlich ergänzen statt nur
+    # anzunähern. Echte KB-Zugehörigkeit wird -- wie im normalen `run_sync`-
+    # Delta-Check oben -- über `list_files()` gefiltert nach
+    # `meta.collection_name == kb_id` bestimmt. NICHT über `GET
+    # /knowledge/{id}` (liefert `files` auf mehreren OpenWebUI-Versionen
+    # null/leer) und NICHT über einen globalen Dateinamen-Match (der würde
+    # eine gleichnamige Datei EINER ANDEREN KB auf einer geteilten Instanz
+    # fälschlich als "schon in dieser KB" ausweisen).
+    kb_files = discover_knowledge_files(repo, cfg)
+    try:
+        all_files = client.list_files() or []
+    except Exception:
+        all_files = []
+    in_kb_by_name: dict[str, str] = {}
+    for f in all_files:
+        if not isinstance(f, dict):
+            continue
+        if (f.get("meta") or {}).get("collection_name") != kb_id:
+            continue
+        fname, fid = f.get("filename"), f.get("id")
+        if fname and fid:
+            in_kb_by_name[fname] = fid
+
+    # Manifest NUR aus bestätigten eigenen Zuordnungen -- entweder
+    # nachweislich schon in DIESER KB, oder von uns gerade tatsächlich
+    # hochgeladen (`do_upload_file`) UND verlinkt (`add_file_to_knowledge`).
+    # Kein ungeprüfter Namensmatch, keine Synchronitätsbehauptung für eine
+    # fehlgeschlagene Ergänzung.
+    confirmed: dict[str, dict] = {}
+    upload_failures: list[str] = []
+    for fp in kb_files:
+        existing_fid = in_kb_by_name.get(fp.name)
+        if existing_fid:
+            confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": existing_fid}
+            continue
+        new_file_id = client.do_upload_file(fp)
+        if not new_file_id:
+            print_error(f"Upload fehlgeschlagen: {fp.name} — KB bleibt unvollständig.")
+            upload_failures.append(fp.name)
+            all_ok = False
+            continue
+        linked = client.add_file_to_knowledge(kb_id, new_file_id)
+        if not linked:
+            time.sleep(1)
+            linked = client.add_file_to_knowledge(kb_id, new_file_id)
+        if linked:
+            confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
+            print_ok(f"Ergänzt: {fp.name} — hochgeladen und an KB verlinkt ({new_file_id[:12]}…).")
+        else:
+            client.delete_file(new_file_id)
+            print_error(f"KB-Link fehlgeschlagen für {fp.name} — Upload verworfen, KB bleibt unvollständig.")
+            upload_failures.append(fp.name)
+            all_ok = False
+
+    if upload_failures:
+        print_error(
+            f"{len(upload_failures)} Wissensdatei(en) nicht ergänzt: "
+            f"{', '.join(upload_failures)}. NICHT als synchron verbucht — "
+            "erneut [1] ausführen, um es nachzuholen."
+        )
+
+    # Manifest spiegelt den wahren (ggf. unvollständigen) Stand -- wird
+    # IMMER geschrieben (reiner Datei-Zustand, unabhängig vom Preset-Erfolg
+    # oben), aber enthält nur die oben bestätigten Einträge.
+    manifest = {
+        "masterprompt_md5": _text_md5(system_prompt),
+        "masterprompt_path": cfg["masterprompt"],
+        "kb_files": confirmed,
+        "last_sync": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "written_by": "complete_orphaned_kb_install",
+    }
+    _save_sync_manifest(repo, manifest)
     if all_ok:
-        # Manifest-Näherung: welche lokalen Wissensdateien ERWARTET werden.
-        # file_id wird best-effort aus der bestehenden Dateiliste gezogen
-        # (Name-Match) -- ohne Re-Upload, ohne Änderung an der KB selbst.
-        kb_files = discover_knowledge_files(repo, cfg)
-        try:
-            files_by_name = {f.get("filename"): f.get("id") for f in client.list_files()}
-        except Exception:
-            files_by_name = {}
-        manifest = {
-            "masterprompt_md5": _text_md5(system_prompt),
-            "masterprompt_path": cfg["masterprompt"],
-            "kb_files": {
-                fp.name: {"md5": _file_md5(fp), "file_id": files_by_name.get(fp.name, "")}
-                for fp in kb_files
-            },
-            "last_sync": time.strftime("%Y-%m-%dT%H:%M:%S"),
-            "written_by": "complete_orphaned_kb_install",
-        }
-        _save_sync_manifest(repo, manifest)
-        print_ok("Sync-Manifest ergänzt.")
+        print_ok("Sync-Manifest ergänzt (nur bestätigte Zuordnungen).")
+    else:
+        print_warn("Sync-Manifest geschrieben — spiegelt einen unvollständigen Stand (Details oben).")
 
     return all_ok
 

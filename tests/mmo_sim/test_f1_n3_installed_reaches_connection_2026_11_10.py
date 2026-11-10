@@ -59,6 +59,8 @@ def _run(first_state: str, recheck_state: str, *, update_answer: str = ""):
              mock.patch.object(launcher_mod, "_ensure_owui_env", return_value=True), \
              mock.patch.object(launcher_mod, "_openrouter_key_status", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod.setup_module, "_update_env_file_preserving", return_value=True), \
+             mock.patch.object(launcher_mod.setup_module, "_read_env_file",
+                                return_value={"LITELLM_MASTER_KEY": "sk-litellm-test-fake"}), \
              mock.patch.object(launcher_mod.setup_module, "run_setup") as run_setup_mock, \
              mock.patch.object(launcher_mod, "action_update") as action_update_mock, \
              mock.patch.object(launcher_mod.setup_module, "ensure_litellm_autowire") as autowire_mock, \

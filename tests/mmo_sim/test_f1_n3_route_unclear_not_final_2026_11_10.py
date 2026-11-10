@@ -94,7 +94,13 @@ def test_wait_for_visible_returns_false_when_responses_readable_but_model_absent
     )
 
 
-def _base_mocks(*, ok_conn=True, ok_rewire=True, visible):
+def _base_mocks(*, ok_conn=True, ok_rewire=True, visible, route_check=None):
+    # WP-N4-1 P4: die Fertigmeldung gated jetzt am nichtgenerativen
+    # `route_check` (eigene Route), NICHT mehr am aggregierten
+    # Sichtbarkeits-Listing (`visible`, hier weiterhin vorhanden -- nur
+    # noch Zusatz-Info). Ohne diesen zusaetzlichen Double wuerde
+    # `ensure_litellm_autowire` einen echten Netzwerk-Call zu
+    # `_verify_owui_connection_route` ausloesen.
     return [
         mock.patch.object(setup_mod, "_read_env_file", return_value={"LITELLM_MASTER_KEY": "sk-litellm-test"}),
         mock.patch.object(setup_mod, "_auto_load_owui_env", return_value=False),
@@ -102,6 +108,7 @@ def _base_mocks(*, ok_conn=True, ok_rewire=True, visible):
         mock.patch.object(setup_mod, "_ensure_owui_litellm_connection", return_value=(ok_conn, "conn-msg")),
         mock.patch.object(setup_mod, "_wait_for_owui_model_visible", return_value=visible),
         mock.patch.object(setup_mod, "_rewire_preset_base_model", return_value=(ok_rewire, "rewire-msg")),
+        mock.patch.object(setup_mod, "_verify_owui_connection_route", return_value=route_check),
     ]
 
 
@@ -124,11 +131,13 @@ _CFG = {"project": "Proj", "variants": {"default": {"preset_id": "p1", "cache": 
 
 
 def test_route_check_unclear_is_not_reported_as_live_wired():
-    mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=None)
-    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5]:
+    # WP-N4-1 P4: `route_check=None` (nicht nur `visible=None`) ist jetzt
+    # das massgebliche unklare Signal.
+    mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=None, route_check=None)
+    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5], mocks[6]:
         result, out = _run_with_env_key(_CFG)
     assert result is False, (
-        "ein unklarer Sichtbarkeits-Check (None) darf NIE als auto_wired=True gelten"
+        "ein unklarer Routecheck (None) darf NIE als auto_wired=True gelten"
     )
     assert "Cache ist live verkabelt" not in out, out
     assert "verbunden" not in out.lower() or "nicht prüfbar" in out.lower() or "unklar" in out.lower(), (
@@ -136,23 +145,25 @@ def test_route_check_unclear_is_not_reported_as_live_wired():
     )
 
 
-def test_route_check_unclear_message_differs_from_confirmed_not_visible():
+def test_route_check_unclear_message_differs_from_confirmed_failed():
     """Die beiden Zwischenstaende muessen UNTERSCHIEDLICHE Meldungen
-    drucken -- sonst waere 'unklar' und 'bestaetigt nicht sichtbar' fuer
-    den Nutzer (und fuer die Diagnose) nicht unterscheidbar."""
-    mocks_unclear = _base_mocks(ok_conn=True, ok_rewire=True, visible=None)
+    drucken -- sonst waere 'unklar' und 'bestaetigt fehlgeschlagen' fuer
+    den Nutzer (und fuer die Diagnose) nicht unterscheidbar. WP-N4-1 P4:
+    jetzt am `route_check`-Tri-State (nicht mehr `visible`) gemessen --
+    `visible` ist seit P4 nur noch Zusatz-Info, kein Gate."""
+    mocks_unclear = _base_mocks(ok_conn=True, ok_rewire=True, visible=None, route_check=None)
     with mocks_unclear[0], mocks_unclear[1], mocks_unclear[2], mocks_unclear[3], \
-         mocks_unclear[4], mocks_unclear[5]:
+         mocks_unclear[4], mocks_unclear[5], mocks_unclear[6]:
         _, out_unclear = _run_with_env_key(_CFG)
 
-    mocks_false = _base_mocks(ok_conn=True, ok_rewire=True, visible=False)
+    mocks_false = _base_mocks(ok_conn=True, ok_rewire=True, visible=True, route_check=False)
     with mocks_false[0], mocks_false[1], mocks_false[2], mocks_false[3], \
-         mocks_false[4], mocks_false[5]:
+         mocks_false[4], mocks_false[5], mocks_false[6]:
         _, out_false = _run_with_env_key(_CFG)
 
-    assert out_unclear != out_false, "unklar und bestaetigt-nicht-sichtbar drucken identischen Text"
+    assert out_unclear != out_false, "unklar und bestaetigt-fehlgeschlagen drucken identischen Text"
     assert "nicht prüfbar" in out_unclear or "unklar" in out_unclear, out_unclear
-    assert "noch nicht als sichtbar bestätigt" in out_false, out_false
+    assert "Routecheck zur eigenen Verbindung ist bestätigt fehlgeschlagen" in out_false, out_false
 
 
 def main() -> int:

@@ -50,18 +50,31 @@ _spec.loader.exec_module(launcher_mod)
 
 
 class _FakeClient:
+    """WP-N4-1 P3(b): setzt die Status-/Body-Attribute wie die echte
+    `APIClient`, damit `_resolve_orphaned_kb_for_partial` die Faelle hier
+    als BESTAETIGT (nicht unklar) einordnet -- Ambiguitaets-/Fehlerfaelle
+    sind eigene, dedizierte A4-Tests (s. test_f1_n4_ambiguous_halts)."""
+
     def __init__(self, *, preset=None, knowledge=None, healthy=True):
         self._preset = preset
         self._knowledge = knowledge or []
         self._healthy = healthy
+        self.last_model_status = None
+        self.last_model_body_ok = None
+        self.last_knowledge_status = None
+        self.last_knowledge_body_ok = None
 
     def check_health(self):
         return self._healthy
 
     def get_model(self, model_id):
+        self.last_model_status = 200 if self._preset is not None else 404
+        self.last_model_body_ok = True
         return self._preset
 
     def list_knowledge(self):
+        self.last_knowledge_status = 200
+        self.last_knowledge_body_ok = True
         return self._knowledge
 
 
@@ -92,9 +105,11 @@ def test_orphaned_kb_without_preset_resolves_to_existing_kb():
         preset=None,
         knowledge=[{"id": "kb-orphan-1", "name": "Proj Wissensspeicher"}],
     )
-    kb = _resolve_with_client(client)
-    assert kb is not None, "eindeutig namensgleiche KB ohne Preset haette aufgeloest werden muessen"
-    assert kb["id"] == "kb-orphan-1", kb
+    kind, value = _resolve_with_client(client)
+    assert kind == "kb", (
+        f"eindeutig namensgleiche KB ohne Preset haette 'kb' liefern muessen, war {kind!r}"
+    )
+    assert value["id"] == "kb-orphan-1", value
 
 
 def test_preset_already_exists_does_not_resolve_as_orphaned():
@@ -104,17 +119,19 @@ def test_preset_already_exists_does_not_resolve_as_orphaned():
         preset={"id": "p1", "meta": {}},
         knowledge=[{"id": "kb-1", "name": "Proj Wissensspeicher"}],
     )
-    kb = _resolve_with_client(client)
-    assert kb is None, "mit vorhandenem Preset darf kein Orphaned-KB-Fall erkannt werden"
+    kind, value = _resolve_with_client(client)
+    assert kind == "absent", (
+        f"mit vorhandenem Preset darf kein Orphaned-KB-Fall erkannt werden, war {kind!r}"
+    )
 
 
 def test_no_matching_kb_resolves_to_none():
     client = _FakeClient(preset=None, knowledge=[])
-    kb = _resolve_with_client(client)
-    assert kb is None
+    kind, value = _resolve_with_client(client)
+    assert kind == "absent", kind
 
 
-def _run_action_install_partial(*, orphaned_kb):
+def _run_action_install_partial(*, resolve_result):
     saved_env = dict(os.environ)
     os.environ["OPENWEBUI_API_KEY"] = "test-key-not-a-secret"
     os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
@@ -127,7 +144,9 @@ def _run_action_install_partial(*, orphaned_kb):
              mock.patch.object(launcher_mod, "_ensure_owui_env", return_value=True), \
              mock.patch.object(launcher_mod, "_openrouter_key_status", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod.setup_module, "_update_env_file_preserving", return_value=True), \
-             mock.patch.object(launcher_mod, "_resolve_orphaned_kb_for_partial", return_value=orphaned_kb), \
+             mock.patch.object(launcher_mod.setup_module, "_read_env_file",
+                                return_value={"LITELLM_MASTER_KEY": "sk-litellm-test-fake"}), \
+             mock.patch.object(launcher_mod, "_resolve_orphaned_kb_for_partial", return_value=resolve_result), \
              mock.patch.object(launcher_mod, "_confirm_reinstall_after_partial") as confirm_mock, \
              mock.patch.object(launcher_mod.setup_module, "complete_orphaned_kb_install",
                                 return_value=True) as complete_mock, \
@@ -146,7 +165,7 @@ def _run_action_install_partial(*, orphaned_kb):
 def test_partial_with_orphaned_kb_completes_without_destructive_run_setup():
     kb = {"id": "kb-orphan-9", "name": "Proj Wissensspeicher"}
     confirm_mock, complete_mock, run_setup_mock, autowire_mock = _run_action_install_partial(
-        orphaned_kb=kb,
+        resolve_result=("kb", kb),
     )
     assert run_setup_mock.call_count == 0, (
         "orphaned-KB-Fall darf NICHT in run_setup's destroy&recreate laufen"
@@ -169,7 +188,7 @@ def test_partial_without_orphaned_kb_keeps_existing_confirm_path():
     ausdrueckliche Confirm->run_setup-Pfad bleibt unveraendert bestehen
     (Reset ist weiterhin eine getrennte, nicht vorbelegte Wahl)."""
     confirm_mock, complete_mock, run_setup_mock, autowire_mock = _run_action_install_partial(
-        orphaned_kb=None,
+        resolve_result=("absent", None),
     )
     assert complete_mock.call_count == 0
     # Eingangscheck UND WP1d-Re-Check liefern hier beide "partial" (Mock-

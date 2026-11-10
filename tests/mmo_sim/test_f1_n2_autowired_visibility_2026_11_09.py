@@ -44,7 +44,13 @@ setup_mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(setup_mod)
 
 
-def _base_mocks(*, ok_conn=True, ok_rewire=True, visible=True):
+def _base_mocks(*, ok_conn=True, ok_rewire=True, visible=True, route_check=True):
+    # WP-N4-1 P4: `auto_wired` gated jetzt am nichtgenerativen `route_check`
+    # (eigene Route), nicht mehr am aggregierten Sichtbarkeits-Listing
+    # (`visible`, hier weiterhin vorhanden -- nur noch Zusatz-Info, kein
+    # Gate). Ohne diesen zusaetzlichen Double wuerde `ensure_litellm_
+    # autowire` einen echten Netzwerk-Call zu `_verify_owui_connection_
+    # route` ausloesen.
     return [
         mock.patch.object(setup_mod, "_read_env_file", return_value={"LITELLM_MASTER_KEY": "sk-litellm-test"}),
         mock.patch.object(setup_mod, "_auto_load_owui_env", return_value=False),
@@ -52,6 +58,7 @@ def _base_mocks(*, ok_conn=True, ok_rewire=True, visible=True):
         mock.patch.object(setup_mod, "_ensure_owui_litellm_connection", return_value=(ok_conn, "conn-msg")),
         mock.patch.object(setup_mod, "_wait_for_owui_model_visible", return_value=visible),
         mock.patch.object(setup_mod, "_rewire_preset_base_model", return_value=(ok_rewire, "rewire-msg")),
+        mock.patch.object(setup_mod, "_verify_owui_connection_route", return_value=route_check),
     ]
 
 
@@ -73,26 +80,30 @@ def _run_with_env_key(cfg):
 _CFG = {"project": "Proj", "variants": {"default": {"preset_id": "p1", "cache": True}}}
 
 
-def test_connected_and_rewired_but_not_visible_is_not_auto_wired():
-    mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=False)
-    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5]:
+def test_connected_and_rewired_but_route_check_failed_is_not_auto_wired():
+    """WP-N4-1 P4: selbst wenn das aggregierte Listing (`visible`) True
+    liefert, darf OHNE bestaetigten nichtgenerativen Routecheck NICHT
+    auto_wired=True gelten -- genau der Fall, den die Connection selbst
+    (per model_ids-Pins) vortaeuschen kann."""
+    mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=True, route_check=False)
+    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5], mocks[6]:
         result, out = _run_with_env_key(_CFG)
-    assert result is False, "Connection+Rewire OHNE bestaetigte Sichtbarkeit duerfen NICHT als auto_wired=True gelten"
+    assert result is False, "Connection+Rewire OHNE bestaetigten Routecheck duerfen NICHT als auto_wired=True gelten"
     assert "Cache ist live verkabelt" not in out, out
-    assert "noch nicht als sichtbar bestätigt" in out, out
+    assert "Routecheck zur eigenen Verbindung ist bestätigt fehlgeschlagen" in out, out
 
 
-def test_connected_rewired_and_visible_is_auto_wired():
-    mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=True)
-    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5]:
+def test_connected_rewired_and_route_check_confirmed_is_auto_wired():
+    mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=True, route_check=True)
+    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5], mocks[6]:
         result, out = _run_with_env_key(_CFG)
     assert result is True, out
     assert "Cache ist live verkabelt" in out, out
 
 
 def test_connection_failed_is_not_auto_wired_regardless_of_visibility():
-    mocks = _base_mocks(ok_conn=False, ok_rewire=True, visible=True)
-    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5]:
+    mocks = _base_mocks(ok_conn=False, ok_rewire=True, visible=True, route_check=True)
+    with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5], mocks[6]:
         result, out = _run_with_env_key(_CFG)
     assert result is False, out
     assert "Cache ist live verkabelt" not in out, out

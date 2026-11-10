@@ -39,7 +39,7 @@ import urllib.request
 import urllib.error
 import webbrowser
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 # UTF-8-Output sicherstellen — Windows-cmd läuft per Default mit cp1252/cp850,
 # dann würde `print("✓")` mit UnicodeEncodeError crashen. Auf Python 3.7+
@@ -590,7 +590,8 @@ def _confirm_reinstall_unreachable() -> bool:
 
 
 def _finish_installed_connection(cfg: dict) -> None:
-    """WP-N3-1a: der erhaltende Anschlussschritt für den `installed`-Zweig.
+    """WP-N3-1a/WP-N4-1-P1: der erhaltende Anschlussschritt für den
+    `installed`-Zweig.
 
     Vorher endete `action_install` im `installed`-Zweig per `action_update()`
     (git-pull + `run_sync`, bearbeitet nur Preset/KB/Dateien) → `return` --
@@ -598,46 +599,102 @@ def _finish_installed_connection(cfg: dict) -> None:
     und wurde auf diesem Weg NIE erreicht. Diese Funktion ruft ihn jetzt
     direkt auf (idempotent, ändert KB/Preset nicht) — für ZIP UND Checkout
     gleich erreichbar, weil `setup_module`/`load_cfg` in beiden Auslieferungs-
-    formen identisch funktionieren. Fehlender Master-Key: `ensure_litellm_
-    autowire` selbst druckt dafür bereits den genau erforderlichen nächsten
-    Schritt (Menü [1]/--install-litellm) statt dass wir hier etwas erfinden.
+    formen identisch funktionieren.
+
+    WP-N4-1 P1: Fehlt der Master-Key, verwies `ensure_litellm_autowire`
+    bisher nur auf "Menü [1]/--install-litellm" -- wir SIND aber bereits in
+    [1] (installed-Zweig), also führt das genau in dieselbe Schleife zurück
+    (s. n3-continuation-transcript.log:108-131). Statt dort zu enden, bieten
+    wir hier direkt den genau fehlenden Schritt an: `run_install_litellm`
+    (derselbe Baustein wie im fresh-Weg, s. `action_install` LiteLLM-Block),
+    der die .env+Master-Key schreibt und am Ende selbst `ensure_litellm_
+    autowire` aufruft -- kein zweiter Aufruf hier nötig, kein neues
+    Setup-Modul, kein Fremd-Secret. Ist der Master-Key schon vorhanden (nur
+    OWUI-Key fehlt o.ä.), führt der normale `ensure_litellm_autowire`-Pfad
+    die eigenen bereits gespeicherten Werte unverändert weiter.
     """
+    env_file = REPO / "scripts" / "litellm" / ".env"
+    master_key = setup_module._read_env_file(env_file).get("LITELLM_MASTER_KEY") or ""
+    if not master_key:
+        print()
+        print(yellow("  Kein LiteLLM-Master-Key gefunden — der LiteLLM-Cache ist noch nicht eingerichtet."))
+        print(dim("  Das ist der fehlende Teil, bevor der Anschluss fertig werden kann."))
+        ans = _prompt("  LiteLLM-Cache jetzt einrichten? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            try:
+                setup_module.run_install_litellm(REPO, cfg)
+            except SystemExit:
+                pass
+            except Exception as e:
+                print(red(f"\n  LiteLLM-Install fehlgeschlagen: {e.__class__.__name__}: {e}"))
+        else:
+            print(dim("  Übersprungen. Menü [1] erneut starten, wenn der Anschluss doch eingerichtet werden soll."))
+        return
     try:
         setup_module.ensure_litellm_autowire(REPO, cfg)
     except Exception as e:
         print(red(f"  Verkabelungs-Check fehlgeschlagen: {e.__class__.__name__}: {e}"))
 
 
-def _resolve_orphaned_kb_for_partial(cfg: dict) -> Optional[dict]:
-    """WP-N3-1b: bei state=='partial' gezielt prüfen, ob GENAU der
-    WP-N2-1d-Orphaned-KB-Fall vorliegt (eindeutig namensgleiche KB, aber
+def _resolve_orphaned_kb_for_partial(cfg: dict) -> tuple[str, Any]:
+    """WP-N3-1b/WP-N4-1-P3(b): bei state=='partial' gezielt prüfen, ob GENAU
+    der WP-N2-1d-Orphaned-KB-Fall vorliegt (eindeutig namensgleiche KB, aber
     KEIN Preset) -- NUR dafür ist die erhaltende Ergänzung (statt Confirm→
-    `run_setup`s destroy&recreate) ohne Mehrdeutigkeit sicher. Andere
-    'partial'-Spielarten (Preset ohne KB-Link, nur Manifest-Spur) liefern
-    None -- für sie bleibt der bisherige, ausdrücklich bestätigte Reinstall-
-    Pfad die richtige, nicht-vorbelegte Wahl.
+    `run_setup`s destroy&recreate) ohne Mehrdeutigkeit sicher.
 
-    Returns die KB (dict mit u.a. 'id'/'name') bei eindeutigem Treffer,
-    sonst None (kein Key, unreachable, kein Preset-Check möglich, oder
-    mehrdeutig/keine KB) -- niemals eine Mutation, reiner Read.
+    WP-N4-1 P3: vorher vereinigte diese Funktion Fehler + Mehrdeutigkeit +
+    bestätigte Abwesenheit in einem einzigen `None` -- der echte [1]-Caller
+    reichte das ungeprüft an `_confirm_reinstall_after_partial` (Default
+    "j") weiter, obwohl ein unlesbarer/formfalscher 200-Körper oder mehrere
+    Treffer KEINE bestätigte Abwesenheit sind. Jetzt liefert die Funktion
+    ein unterscheidbares `(kind, value)`:
+      - ("kb", kb_dict)    -- eindeutiger orphaned-KB-Treffer, sichere
+                              erhaltende Fortsetzung möglich.
+      - ("absent", None)   -- bestätigt KEIN orphaned-KB-Fall (Preset
+                              existiert schon [bestätigt via HTTP 200], ODER
+                              eine lesbare Antwort mit 0 Treffern) -- der
+                              normale, ausdrücklich bestätigte Confirm-Pfad
+                              bleibt für diese 'partial'-Spielarten richtig.
+      - ("unclear", reason) -- Fehler/unreachable/kein Key/unlesbarer oder
+                              formfalscher Körper/Mehrdeutigkeit (>1
+                              Treffer) -- der Caller MUSS vor jeder Mutation
+                              anhalten; `reason` ist ein druckbarer
+                              Kurzbefund.
+
+    Status UND Körper werden unterschieden (s. `APIClient.last_model_
+    body_ok`/`last_knowledge_body_ok`, WP-N4-1 P3a) -- ein HTTP-200 mit
+    unlesbarem Körper gilt NICHT als bestätigt leer/vorhanden. Niemals eine
+    Mutation, reiner Read.
     """
     try:
         if not _ensure_owui_env():
-            return None
+            return "unclear", "kein OPENWEBUI_API_KEY gefunden"
         url = _openwebui_url()
         client = setup_module.APIClient(url, os.environ["OPENWEBUI_API_KEY"])
         if not client.check_health():
-            return None
+            return "unclear", "OpenWebUI antwortet nicht (health-check)"
         preset_id = _default_preset_id(cfg)
-        if client.get_model(preset_id) is not None:
-            return None  # Preset existiert schon -- anderer 'partial'-Fall
+        preset = client.get_model(preset_id)
+        if preset is not None:
+            return "absent", None  # Preset existiert schon -- anderer 'partial'-Fall
+        if client.last_model_status == 200 and not client.last_model_body_ok:
+            return "unclear", "Preset-Check: HTTP 200 mit unlesbarem Körper"
+        if client.last_model_status != 404:
+            return "unclear", f"Preset-Check unklar (HTTP {client.last_model_status})"
         kb_name = cfg.get("kb_name", f"{cfg['project']} Wissensspeicher")
-        matches = [kb for kb in client.list_knowledge() if kb.get("name") == kb_name]
+        knowledge = client.list_knowledge()
+        if client.last_knowledge_status != 200:
+            return "unclear", f"KB-Liste unklar (HTTP {client.last_knowledge_status})"
+        if not client.last_knowledge_body_ok:
+            return "unclear", "KB-Liste: HTTP 200 mit unlesbarem/formfalschem Körper"
+        matches = [kb for kb in knowledge if kb.get("name") == kb_name]
         if len(matches) == 1:
-            return matches[0]
-        return None
-    except Exception:
-        return None
+            return "kb", matches[0]
+        if len(matches) == 0:
+            return "absent", None
+        return "unclear", f"{len(matches)} gleichnamige Knowledge Bases gefunden — mehrdeutig"
+    except Exception as e:
+        return "unclear", f"{e.__class__.__name__}: {e}"
 
 
 def _complete_orphaned_kb_partial(cfg: dict, kb: dict) -> None:
@@ -805,10 +862,23 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             _pause()
             return
         if state == "partial":
-            orphaned_kb = _resolve_orphaned_kb_for_partial(load_cfg())
-            if orphaned_kb is not None:
-                _complete_orphaned_kb_partial(load_cfg(), orphaned_kb)
+            kind, value = _resolve_orphaned_kb_for_partial(load_cfg())
+            if kind == "kb":
+                _complete_orphaned_kb_partial(load_cfg(), value)
                 return
+            if kind == "unclear":
+                # WP-N4-1 P3(b): unklar/mehrdeutig haelt VOR jeder Mutation
+                # an -- kein _confirm_reinstall_after_partial-Aufruf (dessen
+                # Default "j" waere hier eine vorbelegte Mutation auf Basis
+                # eines ungeklaerten Befunds).
+                print()
+                print(yellow(f"  Bestand unklar: {value}."))
+                print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+                print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+                _pause()
+                return
+            # kind == "absent": bestätigt kein orphaned-KB-Fall -- der
+            # normale, ausdrücklich bestätigte Confirm-Pfad bleibt richtig.
             if not _confirm_reinstall_after_partial():
                 print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
                 _pause()
@@ -978,10 +1048,22 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         _pause()
         return
     if recheck_state == "partial":
-        orphaned_kb = _resolve_orphaned_kb_for_partial(load_cfg())
-        if orphaned_kb is not None:
-            _complete_orphaned_kb_partial(load_cfg(), orphaned_kb)
+        kind, value = _resolve_orphaned_kb_for_partial(load_cfg())
+        if kind == "kb":
+            _complete_orphaned_kb_partial(load_cfg(), value)
             return
+        if kind == "unclear":
+            # WP-N4-1 P3(b): wie beim Eingangscheck -- unklar/mehrdeutig
+            # haelt VOR jeder Mutation an, kein _confirm_reinstall_after_
+            # partial-Default-"j".
+            print()
+            print(yellow(f"  Bestand unklar: {value}."))
+            print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+            print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+            _pause()
+            return
+        # kind == "absent": bestätigt kein orphaned-KB-Fall -- der normale,
+        # ausdrücklich bestätigte Confirm-Pfad bleibt richtig.
         if not _confirm_reinstall_after_partial():
             print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
             _pause()
