@@ -70,6 +70,7 @@ class _FakeAPIClient:
         self._link_fails_for = set(link_fails_for)
         self.uploaded: list[str] = []
         self.linked: list[tuple[str, str]] = []
+        self.unlinked: list[tuple[str, str]] = []
         self.deleted: list[str] = []
         self._next_id = 100
 
@@ -102,6 +103,10 @@ class _FakeAPIClient:
             for f in self._existing_files:
                 if f.get("id") == file_id:
                     f["meta"] = {"collection_name": kb_id}
+        return True
+
+    def remove_file_from_knowledge(self, kb_id, file_id):
+        self.unlinked.append((kb_id, file_id))
         return True
 
     def delete_file(self, file_id):
@@ -157,7 +162,16 @@ def _manifest(tmp: Path) -> dict:
         return json.load(f)
 
 
-def test_already_in_kb_file_is_not_reuploaded():
+def test_already_in_kb_file_is_replaced_not_blindly_trusted():
+    """WP-N5-1b: eine bereits gleichnamige Datei IN DIESER KB ist KEIN
+    bestätigter Inhaltsabgleich -- die orphaned KB hat per Definition KEIN
+    Manifest, ihr Inhalt kann älter/abweichend sein als die lokale Datei.
+    Vorher übernahm der Helper hier einfach den LOKALEN Soll-MD5 ins
+    Manifest, ohne den tatsächlichen Remote-Inhalt zu prüfen (der
+    ursprüngliche Befund dieses Tests, jetzt korrigiert). Der Fix ersetzt
+    die Datei deterministisch (entlinken+löschen, dann hochladen+
+    verlinken, dieselben Bausteine wie `run_sync`s Changed-Files-Pfad) --
+    danach ist der Inhalt tatsächlich bestätigt, weil frisch geschrieben."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp)
@@ -166,9 +180,17 @@ def test_already_in_kb_file_is_not_reuploaded():
         ])
         ok, _out = _run(tmp, client)
         assert ok is True
-        assert "a.md" not in client.uploaded, "bereits verlinkte Datei darf NICHT neu hochgeladen werden"
+        assert "a.md" in client.uploaded, (
+            "eine bereits gleichnamige Datei in der KB ist kein bestaetigter Inhalt -- "
+            "sie muss ersetzt (neu hochgeladen) werden, nicht blind uebernommen"
+        )
+        assert (_KB_ID, "file-a-in-kb") in client.unlinked, "die alte (unbestaetigte) Version muss zuerst entlinkt werden"
+        assert "file-a-in-kb" in client.deleted, "die alte (unbestaetigte) File-Entity muss geloescht werden"
         manifest = _manifest(tmp)
-        assert manifest["kb_files"]["a.md"]["file_id"] == "file-a-in-kb"
+        assert manifest["kb_files"]["a.md"]["file_id"] != "file-a-in-kb", (
+            "das Manifest darf NICHT die ungeprüfte alte file_id uebernehmen -- "
+            "nur die neu bestaetigt hochgeladene"
+        )
 
 
 def test_same_filename_in_other_kb_is_not_treated_as_member_and_gets_uploaded():

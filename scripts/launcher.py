@@ -512,6 +512,16 @@ def _detect_install_state() -> str:
         model_status = getattr(client, "last_model_status", 200)
         if preset is None and model_status not in (200, 404):
             return "unreachable"
+        # WP-N5-1a: Status 200 ALLEIN bestätigt kein "Preset fehlt" -- ein
+        # 200-Körper, den APIClient nicht als Objekt lesen konnte (s.
+        # `last_model_body_ok`, WP-N4-1 P3a), ist unlesbar/formfalsch,
+        # keine bestätigte Leere. Ohne diesen Check lief ein solcher Fall
+        # unten direkt in `has_preset=False` -> potenziell "fresh", obwohl
+        # der wahre Zustand unbekannt ist. Default True (Doubles ohne
+        # dieses Attribut -> altes Verhalten unverändert).
+        model_body_ok = getattr(client, "last_model_body_ok", True)
+        if preset is None and model_status == 200 and not model_body_ok:
+            return "unreachable"
 
         # WP-N2-1d: verwaiste KB erkennen (ohne Preset/Manifest -- z.B. nach
         # einem Abbruch zwischen KB-Anlage und Preset-Anlage in `run_setup`,
@@ -527,6 +537,15 @@ def _detect_install_state() -> str:
         # Liste wegen HTTP-Fehler ist KEIN bestätigtes "keine KBs da".
         kb_status = getattr(client, "last_knowledge_status", 200)
         if not kb_items and kb_status != 200:
+            return "unreachable"
+        # WP-N5-1a: wie beim Preset -- ein 200-Körper ohne passendes
+        # `items`-Feld (formfalsch) ist NICHT bestätigt leer, nur weil
+        # `list_knowledge()` dafür `[]` zurückgibt (s. `last_knowledge_
+        # body_ok`). Sonst würde ein unklarer Zustand hier stumm als
+        # "keine KB da" durchlaufen und `has_orphaned_kb` faelschlich
+        # `False` bleiben.
+        kb_body_ok = getattr(client, "last_knowledge_body_ok", True)
+        if kb_status == 200 and not kb_body_ok:
             return "unreachable"
         has_orphaned_kb = any(kb.get("name") == kb_name for kb in kb_items)
     except Exception:

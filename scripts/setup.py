@@ -499,9 +499,16 @@ class APIClient:
     def list_knowledge(self) -> list[dict]:
         code, data = self.get("/api/v1/knowledge/")
         self.last_knowledge_status = code
-        self.last_knowledge_body_ok = (code != 200) or isinstance(data, dict)
-        if code == 200 and isinstance(data, dict):
-            return data.get("items", [])
+        # WP-N5-1a: ein Dict ALLEIN ist keine gültige Körperform -- eine
+        # KB-Antwort ohne passendes `items`-Feld (anderes Schema, Fehler-
+        # Objekt mit `detail` o.ä.) würde sonst über `data.get("items", [])`
+        # stumm als bestätigt-leer durchlaufen. `items` muss selbst eine
+        # Liste sein, sonst ist der Körper formfalsch -- genauso unklar wie
+        # ein unlesbarer Körper, NICHT bestätigt leer.
+        items_ok = isinstance(data, dict) and isinstance(data.get("items"), list)
+        self.last_knowledge_body_ok = (code != 200) or items_ok
+        if code == 200 and items_ok:
+            return data["items"]
         return []
 
     def delete_knowledge(self, kb_id: str) -> bool:
@@ -2033,10 +2040,11 @@ def _wait_for_owui_model_visible(
 
 
 def _verify_owui_connection_route(
-    owui_url: str, owui_key: str, target_url: str, master_key: str,
+    owui_url: str, owui_key: str, target_url: str, master_key: str, model_id: str,
 ) -> Optional[bool]:
-    """WP-N4-1 P4: nichtgenerativer Check der EIGENEN Connection-Route aus
-    dem erforderlichen OWUI-Backend-Kontext.
+    """WP-N4-1 P4/WP-N5-1c: nichtgenerativer Check der EIGENEN Connection-
+    Route aus dem erforderlichen OWUI-Backend-Kontext -- UND Abgleich der
+    Antwort auf das konkret benötigte Modell.
 
     `POST /openai/verify` ist derselbe Endpoint hinter dem "Verify
     Connection"-Button in OpenWebUIs Admin-UI (Workspace → Verbindungen):
@@ -2054,11 +2062,21 @@ def _verify_owui_connection_route(
     `model_ids`-Pins: Pins filtern nur die Anzeige, sie beweisen nicht,
     dass OWUI die Ziel-URL tatsächlich erreicht.
 
-    Returns True bei bestätigter Erreichbarkeit (HTTP 200 + lesbarer
-    Models-Körper). Returns False bei einer bestätigten negativen Antwort
-    (lesbarer Fehlerstatus/-körper). Returns None, wenn der Check selbst
-    nicht lesbar beantwortet wurde (Netzwerk-/Parse-Fehler) -- nicht
-    prüfbar, NICHT als "nicht verbunden" werten.
+    WP-N5-1c: HTTP 200 + IRGENDEIN parsebarer Körper war vorher schon
+    ausreichend -- ein erreichbares Backend mit leerem/falschem Modell-
+    Listing wurde so als bestätigt erreichbar gewertet, obwohl das konkret
+    benötigte `model_id` darin nie geprüft wurde. Jetzt wird der Körper wie
+    bei `_wait_for_owui_model_visible` als Modell-Liste ausgewertet
+    (`{"data": [...]}` ODER eine blanke Liste) und auf `model_id` geprüft.
+
+    Returns True nur, wenn der Körper lesbar eine Modell-Liste ist UND
+    `model_id` darin vorkommt (bestätigt erreichbar UND das benötigte
+    Modell ist da). Returns False bei einer bestätigten negativen Antwort
+    (lesbarer Fehlerstatus/-körper ODER eine lesbare Modell-Liste ohne
+    `model_id` -- erreichbar, aber das Modell fehlt). Returns None, wenn
+    der Check selbst nicht lesbar beantwortet wurde (Netzwerk-/Parse-
+    Fehler/falsche Form) -- nicht prüfbar, NICHT als "nicht verbunden"
+    werten. Keine generative Modellantwort -- reines Models-Listing.
     """
     import urllib.request
     import urllib.error
@@ -2078,10 +2096,15 @@ def _verify_owui_connection_route(
                 return False
             raw = resp.read()
             try:
-                json.loads(raw)
+                data = json.loads(raw)
             except json.JSONDecodeError:
                 return None  # Status 200, aber Körper nicht lesbar -- unklar.
-            return True
+            items = data.get("data", data) if isinstance(data, dict) else data
+            if not isinstance(items, list):
+                return None  # lesbar, aber keine Modell-Liste -- unklar, kein Treffer prüfbar.
+            if any(isinstance(m, dict) and m.get("id") == model_id for m in items):
+                return True
+            return False  # lesbare Modell-Liste, aber `model_id` fehlt -- bestätigt negativ.
     except urllib.error.HTTPError as e:
         try:
             e.read()
@@ -2554,7 +2577,7 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
             target_url = f"http://{_owui_litellm_target_host(project)}:{litellm_port}/v1"
             try:
                 route_check = _verify_owui_connection_route(
-                    owui_url, owui_key, target_url, master_key,
+                    owui_url, owui_key, target_url, master_key, routing_model,
                 )
             except Exception:
                 route_check = None
@@ -2568,16 +2591,21 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
     # das auf ein Modell zeigt, das OWUI noch nicht in seiner Modell-Liste
     # hat, ist nicht bestätigt "live", auch wenn Connection+Rewire-API-Calls
     # technisch durchliefen.
-    # WP-N4-1 P4: "live verkabelt" haengt jetzt am nichtgenerativen
-    # `route_check` (eigene Route, EIGENER OWUI-Backend-Kontext), NICHT
-    # mehr am aggregierten `/api/models`-Listing (`visible`) -- die
-    # Connection setzt ihre eigenen `model_ids`-Pins, das Listing kann
-    # deshalb "verbunden" zeigen, ohne dass die Route wirklich traegt.
-    # `visible` bleibt als ZUSAETZLICHE Sichtbarkeits-Info erhalten (s.
-    # WP-N3-1d), ist aber kein Gate mehr. `route_check is True` statt nur
-    # `route_check`, damit ein None NICHT als falsches "nicht verbunden"
-    # in die Fertigmeldung einfliesst.
-    auto_wired = bool(ok_conn and ok_rewire and route_check is True)
+    # WP-N4-1 P4/WP-N5-1c: "live verkabelt" braucht den nichtgenerativen
+    # `route_check` (eigene Route, EIGENER OWUI-Backend-Kontext, jetzt
+    # zusätzlich auf das konkret benötigte Modell geprüft) GEMEINSAM MIT
+    # der weiterhin erforderlichen OWUI-Sichtbarkeit (`visible`, s.
+    # WP-N2-1c). `route_check` allein beweist nur, dass OWUI die Ziel-URL
+    # erreicht und das Modell dort listet -- NICHT, dass OWUI dasselbe
+    # Modell auch selbst in seinem eigenen `/api/models`-Listing anbietet
+    # (das ist, was der Nutzer im Terminalspiel/Browser-Chat auswählen
+    # kann). Die Connection setzt eigene `model_ids`-Pins, die `visible`
+    # füllen können, ohne dass die Route trägt -- und umgekehrt kann die
+    # Route tragen, während OWUI das Modell (noch) nicht gelistet hat.
+    # Beide Bedingungen bleiben daher eigenständig geführt (`is True`
+    # statt nur truthy, damit ein None NICHT als falsches "nicht
+    # verbunden"/"verbunden" in die Fertigmeldung einfliesst).
+    auto_wired = bool(ok_conn and ok_rewire and visible is True and route_check is True)
     visibility_note = (
         f" (aggregiertes Listing: `{routing_model}` {'sichtbar' if visible is True else 'nicht sichtbar' if visible is False else 'nicht pruefbar'}.)"
     )
@@ -2588,6 +2616,23 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
             "  Nichts mehr zu klicken — der normale Weg ist jetzt das Terminalspiel "
             f"[M] im {project}-Starter. Der Browser-Chat ist optional (Menü [3])."
             f"{visibility_note}"
+        )
+    elif ok_conn and ok_rewire and route_check is True and visible is not True:
+        # WP-N5-1c: reinstanziiert den N2-Gegenfall (WP-N2-1c), den die
+        # N4-Routecheck-Einführung aus der Erfolgsvoraussetzung entfernt
+        # hatte -- der nichtgenerative Routecheck bestätigt zwar die
+        # eigene Verbindung UND das benötigte Modell beim Zielbackend,
+        # aber OWUIs eigenes aggregiertes Modell-Listing bestätigt das
+        # Modell (noch) nicht als sichtbar. Das ist weder "fertig
+        # verbunden" noch "ein fehlender Konfig-Schritt", also ein
+        # eigener, ehrlicher Zwischenstand.
+        print_warn(
+            f"Connection + Preset-Rewire sind gesetzt, der nichtgenerative Routecheck "
+            f"zur eigenen Verbindung war erfolgreich, aber `{routing_model}` ist in "
+            "OpenWebUIs Modell-Liste noch nicht als sichtbar bestätigt -- daher (noch) "
+            "nicht als 'live verkabelt' gemeldet, keine behauptete externe "
+            f"Modellantwort.{visibility_note} In ein paar Sekunden Menü [6] Diagnose "
+            "erneut prüfen; Connection/Rewire selbst müssen dafür nicht wiederholt werden."
         )
     elif ok_conn and ok_rewire and route_check is False:
         # Konfiguriert (beide API-Calls liefen durch), UND der Routecheck
@@ -2805,10 +2850,29 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     # eine gleichnamige Datei EINER ANDEREN KB auf einer geteilten Instanz
     # fälschlich als "schon in dieser KB" ausweisen).
     kb_files = discover_knowledge_files(repo, cfg)
+    # WP-N5-1b: `list_files()` wirft im echten Betrieb praktisch nie (jeder
+    # HTTP-/Parse-Fehler landet schon dort als leere/abgebrochene Seite),
+    # aber ein Aufrufer-seitiges `except Exception: all_files = []` würde
+    # JEDEN unerwarteten Fehler mit einer bestätigten Leere verwechseln --
+    # und direkt darauf aufbauend ALLE `kb_files` als "nicht in der KB"
+    # fehlklassifizieren und hochladen. Ein unklarer/unterbrochener Read
+    # muss hier VOR jeder darauf beruhenden Mutation enden, sichtbar für
+    # den Nutzer, kein stilles Upload-Ableiten.
     try:
-        all_files = client.list_files() or []
-    except Exception:
-        all_files = []
+        all_files = client.list_files()
+    except Exception as e:
+        print_error(
+            f"Dateibestand von OpenWebUI nicht lesbar ({e.__class__.__name__}: {e}) — "
+            "Ergänzung abgebrochen, keine Uploads ausgelöst. Erneut [1] ausführen, "
+            "wenn OpenWebUI wieder zuverlässig antwortet."
+        )
+        return False
+    if not isinstance(all_files, list):
+        print_error(
+            "Dateibestand von OpenWebUI unklar (kein lesbares Listenergebnis) — "
+            "Ergänzung abgebrochen, keine Uploads ausgelöst."
+        )
+        return False
     in_kb_by_name: dict[str, str] = {}
     for f in all_files:
         if not isinstance(f, dict):
@@ -2819,18 +2883,29 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
         if fname and fid:
             in_kb_by_name[fname] = fid
 
-    # Manifest NUR aus bestätigten eigenen Zuordnungen -- entweder
-    # nachweislich schon in DIESER KB, oder von uns gerade tatsächlich
-    # hochgeladen (`do_upload_file`) UND verlinkt (`add_file_to_knowledge`).
-    # Kein ungeprüfter Namensmatch, keine Synchronitätsbehauptung für eine
-    # fehlgeschlagene Ergänzung.
+    # Manifest NUR aus bestätigten eigenen Zuordnungen -- entweder von uns
+    # gerade tatsächlich hochgeladen (`do_upload_file`) UND verlinkt
+    # (`add_file_to_knowledge`). Kein ungeprüfter Namensmatch, keine
+    # Synchronitätsbehauptung für eine fehlgeschlagene Ergänzung.
     confirmed: dict[str, dict] = {}
     upload_failures: list[str] = []
     for fp in kb_files:
         existing_fid = in_kb_by_name.get(fp.name)
         if existing_fid:
-            confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": existing_fid}
-            continue
+            # WP-N5-1b: eine gleichnamige Datei IN DIESER KB ist KEIN
+            # bestätigter Inhaltsabgleich -- die orphaned KB hat per
+            # Definition KEIN Manifest (sonst wäre sie nicht "orphaned"),
+            # ihr Inhalt kann älter/abweichend sein als die lokale Datei.
+            # APIClient bietet keinen Remote-Content-Read/Hash für Files
+            # (kein neuer Motor hierfür) -- ein lokaler Sollhash allein
+            # bescheinigt deshalb keinen bestätigten Remote-Inhalt. Statt
+            # blind zu vertrauen, ersetzen wir deterministisch (dieselben
+            # Bausteine wie `run_sync`s Changed-Files-Pfad: entlinken +
+            # löschen, dann hochladen + verlinken) -- danach ist der Inhalt
+            # tatsächlich bestätigt, weil wir ihn selbst gerade geschrieben
+            # haben.
+            client.remove_file_from_knowledge(kb_id, existing_fid)
+            client.delete_file(existing_fid)
         new_file_id = client.do_upload_file(fp)
         if not new_file_id:
             print_error(f"Upload fehlgeschlagen: {fp.name} — KB bleibt unvollständig.")

@@ -83,6 +83,7 @@ def test_route_check_true_on_readable_200():
     with mock.patch("urllib.request.urlopen", side_effect=_ok):
         result = setup_mod._verify_owui_connection_route(
             "http://127.0.0.1:8080", "owui-key", "http://litellm:4000/v1", "sk-litellm-test",
+            "proj-sonnet",
         )
     assert result is True, result
 
@@ -96,6 +97,7 @@ def test_route_check_false_on_readable_http_error():
     with mock.patch("urllib.request.urlopen", side_effect=_http_error):
         result = setup_mod._verify_owui_connection_route(
             "http://127.0.0.1:8080", "owui-key", "http://litellm:4000/v1", "sk-litellm-test",
+            "proj-sonnet",
         )
     assert result is False, (
         f"ein lesbarer Fehlerstatus ist eine bestaetigte negative Antwort (False), war {result!r}"
@@ -109,9 +111,46 @@ def test_route_check_none_on_network_error():
     with mock.patch("urllib.request.urlopen", side_effect=_network_error):
         result = setup_mod._verify_owui_connection_route(
             "http://127.0.0.1:8080", "owui-key", "http://litellm:4000/v1", "sk-litellm-test",
+            "proj-sonnet",
         )
     assert result is None, (
         f"ein Netzwerkfehler ist nicht pruefbar (None), keine bestaetigte Abwesenheit (False), war {result!r}"
+    )
+
+
+def test_route_check_false_on_readable_list_without_needed_model():
+    """WP-N5-1c: erreichbar (HTTP 200, lesbare Modell-Liste), aber das
+    konkret benötigte Modell fehlt -- bestätigt negativ (False), NICHT
+    True nur weil der Körper irgendein parsebares JSON war."""
+    def _ok_other_model(req, timeout=15):
+        return _FakeResp(json.dumps({"data": [{"id": "some-other-model"}]}).encode(), status=200)
+
+    with mock.patch("urllib.request.urlopen", side_effect=_ok_other_model):
+        result = setup_mod._verify_owui_connection_route(
+            "http://127.0.0.1:8080", "owui-key", "http://litellm:4000/v1", "sk-litellm-test",
+            "proj-sonnet",
+        )
+    assert result is False, (
+        f"erreichbar, aber das benoetigte Modell fehlt im Listing -- das ist bestaetigt "
+        f"negativ (False), nicht True, war {result!r}"
+    )
+
+
+def test_route_check_none_on_readable_body_without_model_list_shape():
+    """WP-N5-1c: HTTP 200 + lesbares JSON, das aber KEINE Modell-Liste ist
+    (z.B. ein Objekt ohne `data`, kein Listen-Körper) -- unklar (None),
+    NICHT True ("beliebiges parsebares JSON" reicht nicht mehr)."""
+    def _ok_wrong_shape(req, timeout=15):
+        return _FakeResp(json.dumps({"status": "ok"}).encode(), status=200)
+
+    with mock.patch("urllib.request.urlopen", side_effect=_ok_wrong_shape):
+        result = setup_mod._verify_owui_connection_route(
+            "http://127.0.0.1:8080", "owui-key", "http://litellm:4000/v1", "sk-litellm-test",
+            "proj-sonnet",
+        )
+    assert result is None, (
+        f"lesbares JSON ohne Modell-Listen-Form ist unklar (None), kein bestaetigter "
+        f"Treffer (True) und keine bestaetigte Abwesenheit (False), war {result!r}"
     )
 
 
@@ -128,13 +167,13 @@ def _base_mocks(*, ok_conn=True, ok_rewire=True, visible=True):
     ]
 
 
-def _run_with_env_key(cfg, *, verify_side_effect):
+def _run_with_env_key(cfg, *, verify_side_effect, visible=True):
     import os
     saved = dict(os.environ)
     os.environ["OPENWEBUI_API_KEY"] = "owui-test-key"
     os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
     try:
-        mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=True)
+        mocks = _base_mocks(ok_conn=True, ok_rewire=True, visible=visible)
         with mocks[0], mocks[1], mocks[2], mocks[3], mocks[4], mocks[5], \
              mock.patch("urllib.request.urlopen", side_effect=verify_side_effect):
             buf = io.StringIO()
@@ -188,6 +227,30 @@ def test_negative_control_route_unreachable_is_neither_wired_nor_falsely_disconn
     assert "Cache ist live verkabelt" not in out, out
     assert "nicht prüfbar" in out.lower() or "unklar" in out.lower(), (
         f"ein reiner Netzwerkfehler sollte als 'nicht pruefbar' gemeldet werden, nicht stillschweigend: {out}"
+    )
+
+
+def test_n2_counterexample_visible_false_is_not_final_even_with_route_check_true():
+    """WP-N5-1c: reinstanziiert den N2-Gegenfall (01_GENERALURTEIL §N5-1c):
+    `visible=False` darf NICHT durch `visible=True/route_check=False`
+    ersetzt werden -- beide Bedingungen muessen eigenstaendig geprueft
+    bleiben. Hier ist der nichtgenerative Routecheck bestaetigt erfolgreich
+    (benoetigtes Modell beim Zielbackend gefunden), aber OWUIs eigenes
+    aggregiertes Listing bestaetigt das Modell NICHT als sichtbar -- das
+    darf GENAUSO WENIG `auto_wired=True`/eine Fertigmeldung ergeben wie ein
+    fehlgeschlagener Routecheck."""
+    def _ok(req, timeout=15):
+        return _FakeResp(json.dumps({"data": [{"id": "proj-sonnet"}]}).encode(), status=200)
+
+    result, out = _run_with_env_key(_CFG, verify_side_effect=_ok, visible=False)
+    assert result is False, (
+        "route_check=True ALLEIN (ohne bestaetigte OWUI-Sichtbarkeit) darf NICHT "
+        "auto_wired=True ergeben -- die Sichtbarkeit bleibt ein eigenstaendiges Gate"
+    )
+    assert "Cache ist live verkabelt" not in out, out
+    assert "noch nicht als sichtbar bestätigt" in out, (
+        f"der reinstanziierte N2-Gegenfall sollte die eigene 'nicht sichtbar'-Meldung "
+        f"drucken, nicht eine der route_check-Meldungen: {out}"
     )
 
 
