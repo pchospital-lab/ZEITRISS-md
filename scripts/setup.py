@@ -571,7 +571,16 @@ class APIClient:
 
     def remove_file_from_knowledge(self, kb_id: str, file_id: str) -> bool:
         """Unlink a file from a KB (reverse of add_file_to_knowledge).
-        HTTP 200 indicates the link was removed; file entity itself stays.
+        HTTP 200 indicates the KB link was removed.
+
+        N7-A2 (Backendsemantik korrigiert): bei OpenWebUIs Default-Config
+        (`ENABLE_KNOWLEDGE_FILE_RETENTION` nicht gesetzt) löscht dieser
+        `/file/remove`-Endpoint die File-Entity GLEICH MIT (knowledge.py:1657-
+        1659, live v0.11.3 bestätigt) -- die Entity bleibt also NICHT zwingend
+        bestehen. Ein nachfolgender separater `delete_file` trifft dann im
+        Normalfall bereits eine entfernte Entity (404 = bestätigte Abwesenheit,
+        kein Fehler). Caller dürfen `delete_file` daher nur als best-effort-
+        Aufräumung NACH erfolgreichem Unlink behandeln.
         """
         code, _data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/remove",
@@ -1593,6 +1602,35 @@ def _run_coverage_check(
 def _file_md5(path: Path) -> str:
     """Compute MD5 hash of a file's bytes (used for sync-manifest comparison)."""
     h = hashlib.md5()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _file_sha256(path: Path) -> str:
+    """Compute SHA-256 of a file's bytes.
+
+    WP-N7-A1: OpenWebUIs File-Entity exponiert `meta.file_hash` (bei fertig
+    verarbeiteten Dateien auch als Top-Level `hash`), das der Server bei
+    Upload OHNE client-mitgeschicktes `file_hash` aus dem Rohinhalt als
+    SHA-256 berechnet (files.py:394, live v0.11.3 verifiziert). Dieser Hash
+    ist die belastbare, pro-Datei/pro-ID gebundene Inhaltsquelle, um GENAU die
+    eigene `existing_fid` zu bestätigen -- der collectionweite Duplicate-
+    Status (retrieval.py:1666-1685) tut das NICHT. Lokal gleich berechnet
+    erlaubt er den direkten Identitätsabgleich ohne neuen Remote-Content-Read.
+
+    GRENZE (N7-A2-Nachtrag, Vera A1.1b): `meta.file_hash` ist NICHT
+    unbedingt serververifiziert -- schickt ein Client beim Upload ein eigenes
+    `file_hash`-Metadatenfeld, übernimmt der Server es ungeprüft
+    (`file_metadata.get('file_hash') or sha256(...)`). Für DIESE KB ist der
+    Abgleich dennoch belastbar, WEIL `do_upload_file`/`upload_file` (setup.py)
+    NIE ein `metadata`/`file_hash`-Feld senden -- jede von uns selbst
+    hochgeladene Datei trägt also den echten Server-SHA-256. Nur eine per
+    Web-UI manuell in dieselbe KB nachgeholfene Datei könnte einen client-
+    asserted Hash tragen; das bricht das zweckgebundene Nutzungsmodell dieser
+    KB und ist kein Regressionsrisiko ggü. dem Vorzustand."""
+    h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(65536), b""):
             h.update(chunk)
@@ -2944,6 +2982,7 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
         )
         return False
     in_kb_by_name: dict[str, str] = {}
+    in_kb_hash_by_name: dict[str, str] = {}
     for f in all_files:
         if not isinstance(f, dict):
             continue
@@ -2952,6 +2991,15 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
         fname, fid = f.get("filename"), f.get("id")
         if fname and fid:
             in_kb_by_name[fname] = fid
+            # WP-N7-A1: Pro-Datei-Content-Hash (SHA-256) mitführen -- OWUI
+            # liefert ihn als `meta.file_hash` (bei fertig verarbeiteten
+            # Dateien auch top-level `hash`), am laufenden v0.11.3-Backend
+            # verifiziert. Das ist die EINZIGE belastbare Quelle, um GENAU
+            # diese `fid` inhaltlich zu bestätigen (statt aus dem collection-
+            # weiten Duplicate-Status zu raten). Fehlt er -> None -> Fallback
+            # auf erhaltenden Halt unten.
+            fmeta = f.get("meta") or {}
+            in_kb_hash_by_name[fname] = fmeta.get("file_hash") or f.get("hash")
 
     # Manifest NUR aus bestätigten eigenen Zuordnungen -- entweder von uns
     # gerade tatsächlich hochgeladen (`do_upload_file`) UND verlinkt
@@ -2962,13 +3010,35 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     for fp in kb_files:
         existing_fid = in_kb_by_name.get(fp.name)
         if existing_fid:
+            # WP-N7-A1: GENAU die eigene `existing_fid` inhaltlich bestätigen
+            # -- über den pro-Datei gebundenen OWUI-Content-Hash
+            # (`meta.file_hash`/`hash` = SHA-256, am laufenden v0.11.3-Backend
+            # verifiziert), NICHT über den collectionweiten Duplicate-Status.
+            existing_hash = in_kb_hash_by_name.get(fp.name)
+            local_sha = _file_sha256(fp)
+            if existing_hash and existing_hash == local_sha:
+                # Der bereits verlinkte Altbestand TRÄGT nachweislich (gleicher
+                # SHA-256) den lokalen Inhalt -> bestätigt korrekt, kein Ersatz,
+                # kein Upload. Schließt den häufigen "schon korrekt"-Fall einer
+                # orphaned KB (aus abgebrochenem Vorlauf) sauber ab -- der
+                # normale unterstützte Erfolgsfall bleibt abschließbar.
+                confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": existing_fid}
+                print_ok(
+                    f"Unverändert: {fp.name} — Inhalt der bereits verlinkten Datei "
+                    f"({existing_fid[:12]}…) per Content-Hash bestätigt identisch."
+                )
+                continue
+            # Ab hier: der Content-Hash unterscheidet sich NACHWEISLICH
+            # (`existing_hash != local_sha`) ODER ist nicht verlässlich lesbar
+            # (`existing_hash` fehlt). In beiden Fällen ist `existing_fid` NICHT
+            # als "trägt den lokalen Inhalt" bestätigt.
+            #
             # WP-N6-1b: eine gleichnamige Datei IN DIESER KB ist KEIN
             # bestätigter Inhaltsabgleich -- die orphaned KB hat per
             # Definition KEIN Manifest (sonst wäre sie nicht "orphaned"),
             # ihr Inhalt kann älter/abweichend sein als die lokale Datei.
-            # APIClient bietet keinen Remote-Content-Read/Hash für Files
-            # (kein neuer Motor hierfür), und ein lokaler Sollhash allein
-            # bescheinigt keinen bestätigten Remote-Inhalt.
+            # Ein lokaler Sollhash allein bescheinigt keinen bestätigten
+            # Remote-Inhalt (Hashabgleich oben nutzt die ECHTE Remote-Quelle).
             #
             # VORHER (WP-N5-1b, jetzt korrigiert): entlinken+löschen VOR dem
             # Upload, UNBEDINGT -- Rückgaben von remove/delete ignoriert. Bei
@@ -2987,11 +3057,23 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
             #     OpenWebUI den Link verweigert) -> neuer Inhalt ist jetzt
             #     bestätigt verlinkt, ERST JETZT ist das Entfernen der alten
             #     Version sicher (kein Verlust möglich, Ersatz ist schon da).
+            #     N7-A2: die realen remove_file_from_knowledge/delete_file-
+            #     Rückgaben werden jetzt ausgewertet statt verworfen -- ein
+            #     fehlgeschlagenes UNLINK bleibt sichtbar+unbestätigt (s.u.).
             #   - Link scheitert MIT der dokumentierten Duplicate-Signatur
-            #     (`last_add_file_duplicate`) -> das IST die Bestätigung,
-            #     dass der alte Inhalt bereits dem lokalen entspricht -- kein
-            #     Ersatz nötig, alte (bereits verlinkte) Datei bleibt genau
-            #     so erhalten, der ungenutzte Zweit-Upload wird verworfen.
+            #     (`last_add_file_duplicate`) -> N7-A1-KORREKTUR: das ist
+            #     KEINE Bestätigung, dass GENAU `existing_fid` den lokalen
+            #     Inhalt trägt. OWUIs Duplicate-Check (retrieval.py:1666-1685)
+            #     ist COLLECTION-WEIT nach Content-Hash und vergleicht nur
+            #     "existing_file_id != NEUE file_id" -- jeder Treffer gegen
+            #     IRGENDEINE bereits indizierte Datei der Collection löst ihn
+            #     aus, nicht nur ein Treffer gegen existing_fid. Die 400-
+            #     Antwort (knowledge.py:1477-1482) nennt keine file_id. Ohne
+            #     einen belegten Pro-Datei-Hash (files.py exponiert keinen
+            #     client-sichtbaren Hash in der gebundenen Quelle) bleibt die
+            #     Zuordnung zu existing_fid UNBESTÄTIGT -- erhaltender Halt:
+            #     existing_fid bleibt unangetastet, aber NICHT verbucht, der
+            #     ungenutzte Zweit-Upload wird verworfen.
             #   - Link scheitert OHNE Duplicate-Signatur (echter Fehler) ->
             #     unklar, ob der Inhalt wirklich übereinstimmt -- alte Datei
             #     bleibt unangetastet, aber NICHT als bestätigt verbucht
@@ -3024,29 +3106,90 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
             # nicht ungeprüft bereits richtigen vorhandenen Inhalt vernichten").
             distinct = bool(new_file_id) and new_file_id != existing_fid
             if linked:
-                # Bestätigt verlinkter Ersatz steht -- jetzt sicher, die
-                # alte Version zu entfernen (nur wenn sie eine ANDERE Entity
-                # als der frisch verlinkte Ersatz ist).
+                # Bestätigt verlinkter Ersatz steht -- jetzt sicher, die alte
+                # Version zu entfernen (nur wenn sie eine ANDERE Entity als
+                # der frisch verlinkte Ersatz ist). N7-A2: reale Rückgaben
+                # auswerten statt verwerfen. Backendsemantik (OWUI knowledge.
+                # py:1593-1659): das Unlink beendet die KB-Bindung des alten
+                # Inhalts UND löscht per Default (not ENABLE_KNOWLEDGE_FILE_
+                # RETENTION) die File-Entity GLEICH MIT (1658-1659) -- ein
+                # separates delete_file danach trifft im Normalfall bereits
+                # eine entfernte Entity (bestätigte Abwesenheit, KEIN Fehler;
+                # kein zweiter redundanter 200 verlangt). Nur ein
+                # fehlgeschlagenes UNLINK ist der echte Korrektheitsfehler:
+                # alte UND neue Version blieben dann gleichzeitig verlinkt.
+                unlink_ok = True
                 if distinct:
-                    client.remove_file_from_knowledge(kb_id, existing_fid)
-                    client.delete_file(existing_fid)
-                confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
-                print_ok(
-                    f"Ersetzt: {fp.name} — Inhalt unterschied sich vom bereits "
-                    f"verlinkten Altbestand, neu hochgeladen und verlinkt ({new_file_id[:12]}…)."
-                )
+                    unlinked = client.remove_file_from_knowledge(kb_id, existing_fid)
+                    unlink_ok = unlinked
+                    # N7-A2 (Vera-BLOCKER behoben): delete_file NUR nach
+                    # erfolgreichem Unlink. `delete_file` (DELETE /files/{id})
+                    # ist eine SEPARATE, NICHT an die KB-Bindung gekoppelte
+                    # Route (nur Owner/Admin) -- sie würde bei FEHLGESCHLAGENEM
+                    # Unlink die alte File-Entity trotzdem löschen, während die
+                    # KB-Bindung (laut gescheitertem Unlink) noch besteht -> tote
+                    # Referenz auf eine gelöschte file_id, und die „alte bleibt
+                    # verlinkt"-Meldung unten wäre faktisch falsch. Bei
+                    # erfolgreichem Unlink ist delete_file dagegen reine
+                    # best-effort-Aufräumung: das /file/remove hat die Entity
+                    # bei Default-Retention oft schon mitgelöscht (dann 404 =
+                    # bestätigte Abwesenheit, kein Fehler; kein zweiter 200
+                    # verlangt).
+                    if unlinked:
+                        deleted = client.delete_file(existing_fid)
+                        if not deleted:
+                            print_warn(
+                                f"{fp.name}: Alte File-Entity ({existing_fid[:12]}…) "
+                                "nach erfolgreichem Unlink nicht per delete_file "
+                                "bestätigt — laut Backend entweder bereits "
+                                "mitentfernt (Retention aus) oder bewusst "
+                                "zurückgehalten (Retention an). KB-Bindung ist in "
+                                "jedem Fall sicher beendet."
+                            )
+                if unlink_ok:
+                    confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
+                    print_ok(
+                        f"Ersetzt: {fp.name} — Inhalt unterschied sich vom bereits "
+                        f"verlinkten Altbestand, neu hochgeladen und verlinkt ({new_file_id[:12]}…)."
+                    )
+                else:
+                    print_error(
+                        f"Alte Version von {fp.name} ({existing_fid[:12]}…) konnte "
+                        "nicht entlinkt werden — neuer Inhalt ist verlinkt, aber der "
+                        "alte bleibt ZUSÄTZLICH verlinkt (beide auffindbar). NICHT "
+                        "als bestätigt ersetzt verbucht. KB bleibt unvollständig."
+                    )
+                    upload_failures.append(fp.name)
+                    all_ok = False
             elif getattr(client, "last_add_file_duplicate", False):
-                # Orakel-Bestätigung: identischer Inhalt haengt schon -- kein
-                # Ersatz nötig, alten (bereits verlinkten) Bestand behalten.
-                # Den ungenutzten Zweit-Upload verwerfen -- aber NUR, wenn er
-                # eine andere Entity als der behaltene Altbestand ist.
+                # N7-A1: Hierher gelangt nur, wessen Content-Hash sich oben
+                # NACHWEISLICH von `existing_fid` unterschied (oder nicht
+                # lesbar war) -- der "schon korrekt"-Fall ist über den
+                # Hashabgleich bereits sauber abgeschlossen. Ein Duplicate
+                # hier bedeutet also: der lokale Inhalt existiert zwar bereits
+                # in der Collection, aber unter einer ANDEREN Datei (B), NICHT
+                # unter `existing_fid` (dessen Hash ja abwich). OWUIs
+                # Duplicate-Check (retrieval.py:1666-1685) ist collectionweit
+                # nach Content-Hash ("existing_file_id != NEUE file_id";
+                # files.py:356 vergibt je Upload eine frische uuid4) und die
+                # 400-Antwort (knowledge.py:1477-1482) nennt keine file_id.
+                # `existing_fid` kann den lokalen Inhalt also weiterhin NICHT
+                # tragen -- erhaltender Halt: existing_fid bleibt unangetastet,
+                # aber NICHT verbucht. Der unbenutzte
+                # Vergleichs-Upload wird verworfen (er wurde nie verlinkt,
+                # trifft also keinen bestätigten Bestand).
                 if distinct:
                     client.delete_file(new_file_id)
-                confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": existing_fid}
-                print_ok(
-                    f"Unverändert: {fp.name} — Inhalt stimmt mit dem bereits "
-                    f"verlinkten Altbestand überein ({existing_fid[:12]}…), kein Ersatz nötig."
+                print_error(
+                    f"Unklar: {fp.name} — OpenWebUI meldet Duplicate-Content, "
+                    f"das bestätigt aber NICHT, dass der bereits verlinkte "
+                    f"Altbestand ({existing_fid[:12]}…) selbst den lokalen "
+                    "Inhalt trägt (der Treffer kann von einer anderen Datei "
+                    "derselben Wissensbasis stammen). Altbestand bleibt "
+                    "unangetastet, aber unbestätigt. KB bleibt unvollständig."
                 )
+                upload_failures.append(fp.name)
+                all_ok = False
             else:
                 # Echter Link-Fehler (keine Duplicate-Signatur) -- unklar, ob
                 # der alte Inhalt wirklich übereinstimmt. Alten Bestand NICHT
@@ -3418,47 +3561,44 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     link_failures: list[str] = []
     sync_t0 = time.time()
 
-    # 2a. Geänderte/neue Dateien: erst alte entlinken+löschen, DANN neue hochladen+verlinken.
-    # Reihenfolge ist wichtig: OpenWebUI verweigert den KB-Link einer Datei mit
-    # identischem Content, wenn eine inhaltsgleiche Datei noch in der KB hängt
-    # ("400: Duplicate content detected"). Erster Fix: alte zuerst weg.
+    # 2a. Geänderte/neue Dateien: N7-A3-KORREKTUR -- ERST neue Version
+    # hochladen + verlinken, DANN (nur bei bestätigtem Ersatz/Duplicate-
+    # Orakel) alte Version(en) entfernen. Dieselbe erhaltende Reihenfolge
+    # wie `complete_orphaned_kb_install` (N7-A1/A2): VORHER wurde die alte
+    # Version hier bedingungslos VOR dem Upload entlinkt+gelöscht (egal ob
+    # `old_file_id` aus dem Manifest bekannt war ODER erst über den
+    # Namensfallback gefunden wurde) -- scheiterte der anschließende Upload
+    # oder Link, war die einzige richtige Kopie ersatzlos weg. Das ist genau
+    # der Folgepfad, den ein normaler Wiederanlauf nach einem zuvor
+    # unvollständig gebliebenen Ersatz erreicht (installed -> [1] -> Update
+    # -> run_sync, s. complete_orphaned_kb_install oben): der fehlende
+    # Manifest-Eintrag führt hierher über den Namensfallback.
     total_changed = len(changed)
     for idx, (fp, md5_new) in enumerate(changed, start=1):
         tracked = files_manifest.get(fp.name) or {}
         old_file_id = tracked.get("file_id")
 
-        # Alte Version zuerst entlinken + entfernen (best-effort).
-        # OpenWebUI hält sonst am alten Content-Hash fest und lehnt Re-Link ab.
+        # Alte Kandidaten NUR ermitteln, NICHT anfassen. Fallback: fehlt der
+        # Manifest-Eintrag (z. B. erste --sync-Runde nach manuellem Full-
+        # Setup ODER nach einem zuvor unvollständig gebliebenen Ersatz),
+        # Namens-Kollision in der Files-Liste prüfen -- NUR innerhalb DIESER
+        # KB (meta.collection_name == kb_id). Ein globaler filename-Match
+        # würde die gleichnamige Datei eines ANDEREN Bausatzes mitlöschen
+        # (Cross-KB-Datenverlust, beobachtet 2026-09-14).
         if old_file_id:
-            client.remove_file_from_knowledge(kb_id, old_file_id)
-            client.delete_file(old_file_id)
-
-        # Fallback: falls der Manifest nicht aktuell war (z. B. erste --sync-Runde
-        # nach manuellem Full-Setup), Namens-Kollision in der globalen Files-Liste
-        # prüfen und ggf. entfernen.
-        if not old_file_id:
-            # Namens-Kollision NUR innerhalb DIESER KB aufloesen, nicht global.
-            # Bausaetze auf einer geteilten OpenWebUI-Instanz teilen sich
-            # Dateinamen (z.B. kreative-generatoren-begegnungen.md in mehreren
-            # KBs). Ein globaler filename-Match wuerde die gleichnamige Datei
-            # eines ANDEREN Bausatzes mitloeschen (Cross-KB-Datenverlust,
-            # beobachtet 2026-09-14). Deshalb auf meta.collection_name == kb_id
-            # einschraenken.
+            old_candidates = [old_file_id]
+        else:
             same_name = [
                 f for f in client.list_files()
                 if f.get("filename") == fp.name
                 and (f.get("meta") or {}).get("collection_name") == kb_id
             ]
-            for dup in same_name:
-                dup_id = dup.get("id")
-                if dup_id:
-                    client.remove_file_from_knowledge(kb_id, dup_id)
-                    client.delete_file(dup_id)
+            old_candidates = [dup.get("id") for dup in same_name if dup.get("id")]
 
-        # Neue Version hochladen
+        # Neue Version hochladen, WÄHREND die alte(n) Version(en) noch hängen.
         new_file_id = client.do_upload_file(fp)
         if not new_file_id:
-            print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe.")
+            print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe, Altbestand unangetastet.")
             continue
 
         # An KB anhängen (Retry einmal nach 1s — Indexierung asynchron)
@@ -3467,7 +3607,48 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             time.sleep(1)
             linked = client.add_file_to_knowledge(kb_id, new_file_id)
 
+        # No-Loss-Guard (wie complete_orphaned_kb_install): niemals eine
+        # alte ID löschen, die zufällig mit der frischen new_file_id
+        # identisch wäre.
+        distinct_old = [c for c in old_candidates if c and c != new_file_id]
+
         if linked:
+            # Ersatz steht bestätigt -- jetzt sicher, die alte(n) Version(en)
+            # zu entfernen. Backendsemantik (OWUI knowledge.py:1593-1659):
+            # das Unlink beendet die KB-Bindung UND löscht per Default (not
+            # ENABLE_KNOWLEDGE_FILE_RETENTION) die File-Entity gleich mit --
+            # ein separates delete_file danach trifft normal bereits eine
+            # entfernte Entity (bestätigte Abwesenheit, KEIN Fehler; kein
+            # zweiter redundanter 200 verlangt). Nur ein fehlgeschlagenes
+            # Unlink ist der echte Korrektheitsfehler (alte UND neue Version
+            # blieben gleichzeitig verlinkt).
+            cleanup_ok = True
+            for old_id in distinct_old:
+                unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                if not unlinked:
+                    # N7-A2 (Vera-BLOCKER behoben): KEIN delete_file bei
+                    # fehlgeschlagenem Unlink -- sonst löscht die ungated
+                    # DELETE-Route die alte Entity, obwohl die KB-Bindung noch
+                    # besteht (tote Referenz), und die Meldung „bleiben
+                    # gleichzeitig verlinkt" wäre falsch. Alte Version bleibt
+                    # unangetastet + verlinkt, sichtbar + wiederaufnehmbar.
+                    cleanup_ok = False
+                    print_error(
+                        f"{fp.name}: Alte Version ({old_id[:12]}…) konnte nicht "
+                        "entlinkt werden — alter UND neuer Inhalt bleiben "
+                        "gleichzeitig verlinkt."
+                    )
+                    continue
+                deleted = client.delete_file(old_id)
+                if not deleted:
+                    print_warn(
+                        f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                        "erfolgreichem Unlink nicht per delete_file bestätigt "
+                        "— laut Backend entweder bereits mitentfernt "
+                        "(Retention aus) oder bewusst zurückgehalten "
+                        "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                        "beendet."
+                    )
             files_manifest[fp.name] = {"md5": md5_new, "file_id": new_file_id}
             # Alle 3 Files ein Manifest-Zwischen-Write, damit bei Abbruch
             # (Strom weg, User Ctrl-C) der bisherige Fortschritt nicht verloren ist.
@@ -3475,24 +3656,48 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 manifest["kb_files"] = files_manifest
                 _save_sync_manifest(repo, manifest)
             elapsed_total = int(time.time() - sync_t0)
-            print_ok(
-                f"[{idx}/{total_changed}] {fp.name} — neu {new_file_id[:12]}… "
-                f"(laufend: {elapsed_total // 60}m {elapsed_total % 60:02d}s)"
+            if cleanup_ok:
+                print_ok(
+                    f"[{idx}/{total_changed}] {fp.name} — neu {new_file_id[:12]}… "
+                    f"(laufend: {elapsed_total // 60}m {elapsed_total % 60:02d}s)"
+                )
+            else:
+                # Neuer Inhalt ist verlinkt und im Manifest, aber die alte
+                # Version hängt noch zusätzlich -- sichtbar + wiederaufnehmbar,
+                # kein stiller Erfolg.
+                link_failures.append(fp.name)
+        elif getattr(client, "last_add_file_duplicate", False):
+            # N7-A1, übertragen: das Duplicate-Signal ist COLLECTION-WEIT
+            # (retrieval.py:1666-1685), die 400-Antwort nennt keine file_id
+            # (knowledge.py:1477-1482) -- es gibt keine Möglichkeit, daraus
+            # abzulesen, dass ausgerechnet einer der `old_candidates` (und
+            # nicht eine andere Datei derselben KB) den passenden Inhalt
+            # trägt. Alte Kandidaten bleiben unangetastet UND unbestätigt --
+            # der unbenutzte Vergleichs-Upload wird verworfen (er wurde nie
+            # verlinkt, trifft also keinen bestätigten Bestand).
+            client.delete_file(new_file_id)
+            print_error(
+                f"Unklar: {fp.name} — OpenWebUI meldet Duplicate-Content, das "
+                "bestätigt aber NICHT, dass ausgerechnet der bisherige "
+                "Altbestand selbst den neuen Inhalt trägt (der Treffer kann "
+                "von einer anderen Datei derselben Wissensbasis stammen). "
+                "Altbestand bleibt unangetastet, aber unbestätigt. Manifest "
+                "NICHT aktualisiert."
             )
+            link_failures.append(fp.name)
         else:
-            # WICHTIG: Kein Manifest-Update bei fehlgeschlagenem Link.
-            # Sonst hält das Manifest eine File-ID, die zwar in OpenWebUI
-            # existiert, aber **nicht in der KB verlinkt** ist — das Retrieval
-            # wäre stillschweigend kaputt, und der nächste --sync-Lauf würde
-            # die Datei als "unverändert synchron" einstufen (MD5-Match).
-            # Altmanifest-Eintrag bleibt stehen → nächster Lauf triggert Retry.
-            # Verwaiste File-Entity im OWUI-FS aufräumen (best-effort).
+            # WICHTIG: Kein Manifest-Update bei fehlgeschlagenem Link, echter
+            # Link-Fehler (keine Duplicate-Signatur) -- Altbestand bleibt
+            # unangetastet (wurde NICHT vorab gelöscht), aber auch NICHT
+            # bestätigt. Nur die verwaiste (nie verlinkte) neue File-Entity
+            # wird aufgeräumt.
             client.delete_file(new_file_id)
             print_warn(
                 f"[{idx}/{total_changed}] KB-Link fehlgeschlagen für {fp.name} — "
-                f"Manifest NICHT aktualisiert, verwaiste File-Entity entfernt. "
-                f"Nächster `--sync` wiederholt den Upload. "
-                f"Bei wiederholtem Fehler: `python setup.py` (Full-Rebuild)."
+                f"Manifest NICHT aktualisiert, Altbestand unangetastet, "
+                f"verwaiste neue File-Entity entfernt. Nächster `--sync` "
+                f"wiederholt den Upload. Bei wiederholtem Fehler: "
+                f"`python setup.py` (Full-Rebuild)."
             )
             link_failures.append(fp.name)
 
