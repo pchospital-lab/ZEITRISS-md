@@ -1560,6 +1560,23 @@ def _mask_secret(s: str, keep_prefix: int = 8, keep_suffix: int = 4) -> str:
     return f"{s[:keep_prefix]}…{s[-keep_suffix:]}"
 
 
+def _read_env_file(path: Path) -> dict:
+    """Liest eine KEY=VALUE-.env-Datei flach in ein dict (keine `export `-
+    Behandlung, keine Quote-Entfernung -- für den schmalen Lesefall in
+    `run_install_litellm`/`ensure_litellm_autowire`, die nur einzelne Felder
+    wie `LITELLM_MASTER_KEY` brauchen). Fehlende Datei -> leeres dict."""
+    out = {}
+    if not path.is_file():
+        return out
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, _, v = line.partition("=")
+        out[k.strip()] = v.strip()
+    return out
+
+
 def _update_env_file_preserving(
     path: Path,
     updates: dict,
@@ -1579,21 +1596,31 @@ def _update_env_file_preserving(
     Erhält Zeilenreihenfolge + Kommentare + unbekannte Felder. Bekannte Keys
     werden in-place aktualisiert (inkl. `export `-Präfix, falls vorhanden),
     neue Keys ans Ende angehängt, Keys in `remove` gestrichen. chmod 600
-    nach dem Schreiben (best effort — auf Windows-NTFS wirkungslos, dann
-    bewusst stumm, kein Alarm für den Nutzer).
+    nach dem Schreiben -- WP-N2-1e: ein chmod-Fehlschlag wird NICHT mehr
+    stumm als Erfolg behandelt (die Rückgabe muss widerspiegeln, ob die
+    Datei tatsächlich geschützt persistiert wurde), nur auf Windows-NTFS
+    ist chmod grundsätzlich wirkungslos (dort bleibt es bewusst stumm/True,
+    weil es dort nie funktioniert und kein Nutzer-Alarm wäre).
 
     KEIN neuer Secret-Store — reines Datei-Update derselben bestehenden
-    `.env`/`~/.openwebui_env`-Dateien. Gibt True bei Erfolg zurück, False
-    bei einem Schreibfehler (inkl. `print_warn` mit der Ursache — kein
+    `.env`/`~/.openwebui_env`-Dateien. Gibt True nur zurück, wenn Schreiben
+    UND Rechte-Setzen gelungen sind; False bei einem Schreibfehler ODER
+    einem chmod-Fehlschlag (inkl. `print_warn` mit der Ursache — kein
     stiller Fallback, aber auch kein harter Crash für einen Hilfsschritt
-    wie Key-Persistierung)."""
+    wie Key-Persistierung). WP-N2-1e: eine EXISTIERENDE, aber nicht lesbare
+    Datei wird NIE neu gebaut (das würde fremde Felder unwiderruflich
+    verwerfen) -- stattdessen bytegleich unangetastet gelassen und `False`
+    zurückgegeben, damit der Aufrufer das nicht als "persistiert" missdeutet."""
     existing_lines: list[str] = []
     if path.is_file():
         try:
             existing_lines = path.read_text(encoding="utf-8").splitlines()
         except OSError as exc:
-            print_warn(f"{path} konnte nicht gelesen werden, baue neu: {exc.__class__.__name__}")
-            existing_lines = []
+            print_warn(
+                f"{path} existiert, ist aber nicht lesbar ({exc.__class__.__name__}) — "
+                "unangetastet gelassen, NICHT neu gebaut (fremde Felder blieben sonst verloren)."
+            )
+            return False
 
     seen: set = set()
     out_lines: list[str] = []
@@ -1632,8 +1659,18 @@ def _update_env_file_preserving(
         return False
     try:
         path.chmod(0o600)
-    except OSError:
-        pass
+    except OSError as exc:
+        # WP-N2-1e: vorher stumm als Erfolg behandelt -- der Inhalt WURDE
+        # geschrieben, aber die Rechte NICHT gesetzt. "True" würde dem
+        # Aufrufer fälschlich "geschützt persistiert" vortäuschen; ehrlich
+        # ist False + eine klare Warnung, dass die Datei jetzt mit den
+        # Inhalten da ist, aber ggf. nicht auf 600 steht.
+        print_warn(
+            f"{path} geschrieben, aber chmod 600 fehlgeschlagen "
+            f"({exc.__class__.__name__}) — Datei ist NICHT auf die erwarteten "
+            "Rechte gesetzt, Inhalt wurde trotzdem gespeichert."
+        )
+        return False
     return True
 
 
@@ -1668,6 +1705,109 @@ def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
     return f"{str(cfg.get('project', 'assistant')).lower()}-sonnet"
 
 
+def _owui_container_network_mode() -> Optional[str]:
+    """Docker-`NetworkMode` des vom Produkt selbst gestarteten `open-webui`-
+    Containers (s. `launcher.py:_start_openwebui`), oder `None` wenn nicht
+    ermittelbar (kein Docker, Container nicht vorhanden/anders benannt,
+    `docker inspect`-Fehler).
+
+    WP-N2-1b: Nur dieser EINE Containername wird geprüft -- das ist genau
+    der Name, den das Produkt selbst vergibt. Ein `None`-Ergebnis heißt
+    "nicht vom Produkt selbst als Docker-Container erkennbar" (z.B. OWUI
+    läuft nativ, oder unter einem fremden Namen/Setup) -- in dem Fall bleibt
+    die bisherige Loopback-Annahme als bewusste Fremdkonfig unverändert.
+    """
+    try:
+        r = subprocess.run(
+            ["docker", "inspect", "--format", "{{.HostConfig.NetworkMode}}", "open-webui"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception:
+        return None
+    if r.returncode != 0:
+        return None
+    mode = r.stdout.strip()
+    return mode or None
+
+
+def _owui_litellm_target_host(project: str) -> str:
+    """Bestimmt die Adresse, unter der der OWUI-Container den LiteLLM-Proxy
+    erreichen kann (WP-N2-1b, "der harte Punkt"; F1-N2-Nachzug nach realem
+    Erreichbarkeits-Beweis — reiner Host-Getter OHNE Seiteneffekt).
+
+    `127.0.0.1` aus Sicht eines gebridgeten OWUI-Containers ist der Container
+    selbst, NICHT der Host. LiteLLM wird per `docker-compose.litellm.yml`
+    BEWUSST loopback-only (`127.0.0.1:<port>:<port>`) published -- der Port ist
+    damit aus einem anderen Container AUCH über die Bridge-Gateway-Adresse
+    (`host.docker.internal`) NICHT erreichbar: die DNAT-Publish-Bindung matcht
+    nur `127.0.0.1` des Hosts, nicht die Gateway-IP der Pakete aus dem
+    Container (empirisch belegt 2026-11-09). Der kleinste funktionierende
+    Anschluss, der die loopback-only-Sicherheitsentscheidung NICHT aufweicht
+    und KEINEN Port nach außen öffnet, ist das gemeinsame Docker-Netz: OWUI
+    wird an das Netz des LiteLLM-Containers gehängt
+    (`_ensure_owui_on_litellm_network`, Seiteneffekt im echten Wiring-Pfad)
+    und erreicht ihn dann über den Container-NAMEN auf dem internen Port.
+
+    Drei Fälle:
+      - `open-webui` läuft mit `NetworkMode=host`: teilt den Host-Namespace
+        -> `127.0.0.1` ist korrekt.
+      - `open-webui` läuft gebridgt (Produkt-Default): -> LiteLLM-Container-
+        NAME (`litellm-<slug>`), erreichbar über das gemeinsame Netz.
+      - Netzwerkmodus nicht ermittelbar (kein Docker, Container fehlt/anders
+        benannt, OWUI bewusst anders betrieben) -> bisherige `127.0.0.1`-
+        Annahme NICHT überschreiben (bewusste Fremdkonfig bleibt erhalten).
+    """
+    mode = _owui_container_network_mode()
+    if mode is not None and mode != "host":
+        return f"litellm-{_docker_slug(project)}"
+    return "127.0.0.1"
+
+
+def _ensure_owui_on_litellm_network(project: str) -> tuple[bool, str]:
+    """Hängt den gebridgeten `open-webui`-Container an das Docker-Netz des
+    LiteLLM-Containers (`litellm-<slug>`), damit OWUI den Proxy über den
+    Container-Namen erreichen kann (WP-N2-1b).
+
+    Idempotent: ein bereits verbundenes OWUI (`docker network connect` meldet
+    "already exists") gilt als Erfolg. ÖFFNET KEINEN Port nach außen und ändert
+    die loopback-only-Publish-Bindung des Compose-Stacks NICHT.
+
+    Returns (ok, detail). ok=False, wenn LiteLLM-Container/Netz nicht
+    ermittelbar sind -- der Aufrufer behandelt das als "Verbindung aus dem
+    nötigen Kontext nicht herstellbar", NICHT als stillen Erfolg.
+    """
+    litellm_name = f"litellm-{_docker_slug(project)}"
+    try:
+        r = subprocess.run(
+            ["docker", "inspect", "--format",
+             "{{range $k, $v := .NetworkSettings.Networks}}{{$k}}\n{{end}}",
+             litellm_name],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception as exc:
+        return False, f"docker inspect {litellm_name} fehlgeschlagen ({exc.__class__.__name__})"
+    if r.returncode != 0:
+        return False, f"LiteLLM-Container {litellm_name} nicht gefunden"
+    nets = [n.strip() for n in r.stdout.splitlines()
+            if n.strip() and n.strip() not in ("host", "none")]
+    if not nets:
+        return False, f"{litellm_name} hat kein nutzbares Docker-Netz"
+    net = nets[0]
+    try:
+        c = subprocess.run(
+            ["docker", "network", "connect", net, "open-webui"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception as exc:
+        return False, f"docker network connect fehlgeschlagen ({exc.__class__.__name__})"
+    if c.returncode == 0:
+        return True, f"open-webui an Netz {net} angehängt"
+    err = (c.stderr or "").lower()
+    if "already exists" in err or "already in network" in err:
+        return True, f"open-webui bereits in Netz {net}"
+    return False, f"network connect {net}: {c.stderr.strip()[:120]}"
+
+
 def _ensure_owui_litellm_connection(
     owui_url: str,
     owui_key: str,
@@ -1677,12 +1817,18 @@ def _ensure_owui_litellm_connection(
 ) -> tuple[bool, str]:
     """Stellt sicher, dass OpenWebUI eine Connection auf den LiteLLM-Proxy hat.
 
-    Idempotent: prüft `GET /openai/config`, ob `http://127.0.0.1:<port>/v1`
-    schon als Base-URL angemeldet ist. Wenn ja: nichts tun. Wenn nein:
-    Connection per `POST /openai/config/update` ergänzen und den Routing-
-    Modell-Pin (`<project>-sonnet`) setzen, damit OWUI nur das eine
-    LiteLLM-Modell als „cached“-Variante anbietet (nicht das ganze
-    OpenRouter-Modell-Inventar via LiteLLM doppelt).
+    Idempotent: prüft `GET /openai/config`, ob die Zieladresse (s.
+    `_owui_litellm_target_host`) schon als Base-URL angemeldet ist. Wenn ja:
+    nichts tun. Wenn nein: Connection per `POST /openai/config/update`
+    ergänzen und den Routing-Modell-Pin (`<project>-sonnet`) setzen, damit
+    OWUI nur das eine LiteLLM-Modell als „cached“-Variante anbietet (nicht
+    das ganze OpenRouter-Modell-Inventar via LiteLLM doppelt).
+
+    WP-N2-1b: Die Zieladresse ist NICHT mehr hartcodiert `127.0.0.1` --
+    aus einem gebridgeten OWUI-Container heraus ist das der Container
+    selbst, nicht der Host. `_owui_litellm_target_host()` wählt die aus dem
+    tatsächlichen OWUI-Netzwerkkontext korrekte Adresse (oder bewahrt die
+    bisherige Annahme, wenn der Kontext nicht ermittelbar ist).
 
     Returns (ok, message). Bei API-Fehlern: ok=False, message ist die
     Diagnose; Caller druckt das und fällt auf die Hand-Anleitung zurück.
@@ -1690,7 +1836,22 @@ def _ensure_owui_litellm_connection(
     import urllib.request
     import urllib.error
 
-    target_url = f"http://127.0.0.1:{litellm_port}/v1"
+    # WP-N2-1b: ein gebridgeter OWUI-Container muss sich das Docker-Netz des
+    # LiteLLM-Containers teilen, um ihn über den Container-Namen zu erreichen
+    # (loopback-only-Publish bleibt unverändert, KEIN Port nach außen). Der
+    # Host-Getter unten ist seiteneffektfrei; die Netz-Anbindung passiert hier
+    # im echten Wiring-Pfad, einmalig vor dem Verbindungsaufbau.
+    _net_mode = _owui_container_network_mode()
+    if _net_mode is not None and _net_mode != "host":
+        _net_ok, _net_msg = _ensure_owui_on_litellm_network(project)
+        if not _net_ok:
+            return False, (
+                f"OWUI-Container konnte nicht mit dem LiteLLM-Netz verbunden "
+                f"werden ({_net_msg}) — Verbindung aus dem nötigen Backend-"
+                f"Kontext nicht herstellbar."
+            )
+
+    target_url = f"http://{_owui_litellm_target_host(project)}:{litellm_port}/v1"
 
     def _api(method: str, path: str, payload: Optional[dict] = None) -> tuple[int, Any]:
         body = json.dumps(payload).encode() if payload is not None else None
@@ -1986,18 +2147,6 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print_ok("Docker verfügbar.")
 
     # 2. + 3. Keys besorgen
-    def _read_env_file(path: Path) -> dict:
-        out = {}
-        if not path.is_file():
-            return out
-        for line in path.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
-            k, _, v = line.partition("=")
-            out[k.strip()] = v.strip()
-        return out
-
     existing = _read_env_file(env_file)
 
     or_key = (
@@ -2188,6 +2337,44 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                     )
 
     # 8 + 9. Auto-Wire: OpenWebUI-Connection + Preset-Base-Modell setzen.
+    # WP-N2-1a: ausgelagert nach `ensure_litellm_autowire`, damit derselbe
+    # idempotente Check-Code auch dann läuft, wenn `launcher.py:action_install`
+    # bereits einen passenden laufenden Container vorfindet (kein zweites
+    # Setupmotor -- ein Aufrufer mehr für denselben Helfer).
+    ensure_litellm_autowire(repo, cfg)
+
+
+def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
+    """Idempotenter Auto-Wire-/Connection-Check: OpenWebUI-Connection auf den
+    LiteLLM-Proxy + Preset-Rewire auf das Routing-Modell, inkl. bestätigter
+    Modellsichtbarkeit (WP-N2-1a/1c).
+
+    Eigenständig aufrufbar -- nicht nur als Tail von `run_install_litellm`.
+    `launcher.py:action_install` ruft dies AUCH, wenn `_litellm_ok()` schon
+    einen laufenden passenden Container meldet: ein laufender Container ist
+    nur ein Komponentenhinweis (der Prozess existiert), kein Beleg für eine
+    funktionierende OWUI<->LiteLLM-Connection/Route. Diese Funktion dupliziert
+    eine bereits korrekt verbundene Route NICHT -- die Connection-/Rewire-
+    Checks darunter sind selbst idempotent (s. `_ensure_owui_litellm_connection`
+    + `_rewire_preset_base_model`: beide prüfen den Live-Zustand vor jedem
+    Schreib-Call).
+
+    Liest den LiteLLM-Master-Key aus der bestehenden `scripts/litellm/.env`
+    (KEIN neuer Secret-Store) -- fehlt die Datei/der Key (z.B. LiteLLM nie
+    installiert), bricht der Connection-Schritt sauber mit einer Warnung ab,
+    statt zu raten oder leer zu verbinden.
+
+    Returns True nur, wenn Connection + Preset-Rewire + Modellsichtbarkeit
+    ALLE DREI bestätigt sind ("live verkabelt"); sonst False (Caller/diese
+    Funktion selbst druckt die granularen fehlenden Schritte).
+    """
+    project = cfg["project"]
+    routing_model = _litellm_routing_model_id(repo, cfg)
+    litellm_port = int((cfg.get("litellm") or {}).get("port", 4000))
+    litellm_container = f"litellm-{_docker_slug(project)}"
+    env_file = repo / "scripts" / "litellm" / ".env"
+    master_key = _read_env_file(env_file).get("LITELLM_MASTER_KEY") or ""
+
     print()
     print_info("Verknüpfe OpenWebUI mit dem LiteLLM-Proxy…")
     _auto_load_owui_env()
@@ -2203,8 +2390,17 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     # teilweisem Erfolg = User legt eine zweite, doppelte Connection an.)
     ok_conn = False
     ok_rewire = False
+    # WP-N2-1c: Sichtbarkeit ist jetzt Teil der Abschlusslage, nicht nur
+    # eine Warnung -- Default False, bis `_wait_for_owui_model_visible`
+    # sie tatsächlich bestätigt.
+    visible = False
 
-    if not owui_key:
+    if not master_key:
+        print_warn(
+            f"Kein LITELLM_MASTER_KEY in {env_file} gefunden -- Auto-Verknüpfung "
+            "übersprungen. Menü [1]/--install-litellm schreibt die .env zuerst."
+        )
+    elif not owui_key:
         print_warn(
             "Kein OPENWEBUI_API_KEY in der Umgebung — Auto-Verknüpfung übersprungen.\n"
             "Setup [1] oder Menü [5] API-Keys ändern füllt den Wert; danach Menü [4] für Sync."
@@ -2257,12 +2453,31 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print()
     print_header("LiteLLM-Proxy läuft.")
     print()
-    auto_wired = ok_conn and ok_rewire
+    # WP-N2-1c: "live verkabelt" braucht ALLE DREI -- Connection, Rewire UND
+    # bestätigte Modellsichtbarkeit. Vorher ignorierte `auto_wired` die
+    # Sichtbarkeit komplett (nur eine Warnung ohne Konsequenz) -- ein Preset,
+    # das auf ein Modell zeigt, das OWUI noch nicht in seiner Modell-Liste
+    # hat, ist nicht bestätigt "live", auch wenn Connection+Rewire-API-Calls
+    # technisch durchliefen.
+    auto_wired = ok_conn and ok_rewire and visible
     if auto_wired:
         print_ok(
             f"Cache ist live verkabelt: Preset → `{routing_model}` → LiteLLM → OpenRouter.\n"
             "  Nichts mehr zu klicken — der normale Weg ist jetzt das Terminalspiel "
             f"[M] im {project}-Starter. Der Browser-Chat ist optional (Menü [3])."
+        )
+    elif ok_conn and ok_rewire and not visible:
+        # Konfiguriert (beide API-Calls liefen durch), aber die externe
+        # Modellantwort/-sichtbarkeit ist (noch) nicht bestätigt -- das ist
+        # weder "fertig verbunden" noch "ein fehlender Konfig-Schritt", also
+        # ein eigener, ehrlicher Zwischenstand statt einer Erfolgsmeldung
+        # oder einer Anleitung zum Wiederholen bereits erledigter Schritte.
+        print_warn(
+            f"Connection + Preset-Rewire sind gesetzt, aber `{routing_model}` ist in "
+            "OpenWebUIs Modell-Liste noch nicht als sichtbar bestätigt -- daher "
+            "(noch) nicht als 'live verkabelt' gemeldet, keine behauptete externe "
+            "Modellantwort. In ein paar Sekunden Menü [6] Diagnose erneut prüfen; "
+            "Connection/Rewire selbst müssen dafür nicht wiederholt werden."
         )
     else:
         # Granularer Fallback: nur die Schritte zeigen, die wirklich noch
@@ -2276,7 +2491,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                     f"OpenWebUI öffnen: {owui_url}",
                     "Profil-Icon oben rechts → Einstellungen → Verbindungen",
                     "→ '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):",
-                    f"  URL:  {litellm_base}/v1",
+                    f"  URL:  http://{_owui_litellm_target_host(project)}:{litellm_port}/v1",
                     f"  Key:  {_mask_secret(master_key)}  (Klartext in scripts/litellm/.env)",
                     f"  Name: LiteLLM ({project} Cache)",
                     "Speichern.",
@@ -2306,6 +2521,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print(f"  Master-Key (Fingerprint): {_mask_secret(master_key)}")
     print("  Klartext-Speicher: scripts/litellm/.env (chmod 600).")
     print(f"  Container-Logs:    docker logs {litellm_container}")
+    return auto_wired
 
 
 def _auto_load_owui_env() -> bool:
@@ -2322,9 +2538,13 @@ def _auto_load_owui_env() -> bool:
     Rückgabe: True, wenn mindestens ein Key aus der Datei tatsächlich in
     os.environ geschrieben wurde (Aufrufer kann das nutzen, um sichtbar zu
     machen, dass die effektive Instanz aus dem Fallback-File stammt).
-    """
-    if os.environ.get("OPENWEBUI_API_KEY", "").strip():
-        return False
+
+    WP-N2-2c: vorher brach die Funktion sofort mit `return False` ab, sobald
+    `OPENWEBUI_API_KEY` schon im Prozess-Env stand -- eine NUR in der Datei
+    gespeicherte bewusste Wahl (z.B. `MMO_SIM_PERSONA_CLI`/`_API_*`) wurde
+    dann NIE geladen. Jetzt wird die Datei immer gelesen und fehlende Werte
+    nachgeladen; bereits gesetzte Prozesswerte werden (wie bisher) NIE
+    überschrieben (`not os.environ.get(k)`-Guard unverändert)."""
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
         return False

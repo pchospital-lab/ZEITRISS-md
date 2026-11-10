@@ -165,37 +165,50 @@ def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
     mehr braucht (vorher nur als Handanleitung in der Fehlermeldung von
     `sl_client.SLSession.__init__` dokumentiert).
 
-    Fail-soft, NICHT fail-closed: ein fehlender `setup.json`/Standardvariante
-    liefert `(None, None)` -- ohne jede Konfiguration gibt es nichts
-    aufzuloesen, `GmOwuiTransport`/`sl_client.py` fallen wie bisher auf ihre
-    eigenen Defaults zurueck (unveraendertes Altverhalten, blockiert den
-    Terminalspielstart nicht). Fehlt der OWUI-Key GANZ (`owui_key` leer),
-    bleibt das ebenfalls unveraendert `(sl_model, None)` -- die eigentliche
-    fail-closed-Fehlermeldung bei WIRKLICH fehlender SL-Anbindung bleibt
-    weiterhin `sl_client.SLSession.__init__` (fehlender OPENWEBUI_API_KEY).
+    F1-N2 WP-N2-2a (501-Carve-out-Schliessung, vorher F1-N1 Red-Line
+    "kein Harness-Umbau"): ein fehlender/unlesbarer `setup.json`-Stand oder
+    eine fehlende Preset-ID liefert JETZT `(None, GM_ROUTE_KB_UNVERIFIED)`
+    statt `(None, None)` -- ohne zuverlaessig bestimmte eigene Modell-/KB-
+    Werte darf produktive GM-Nutzung NICHT still auf die in `sl_client.py`
+    hartkodierten HISTORISCHEN Defaults (`SL_MODEL`/`KB_ID` einer alten
+    Installation) zurueckfallen. Lokales Menue/Figurenverwaltung/
+    Gastaktionen bleiben unberuehrt bedienbar -- der Sentinel wirkt erst bei
+    echtem produktivem Transportbau (`default_gm_transport_factory`, NACH
+    dem Test-Double-Seam-Check, s. factories.py), nicht beim Programmstart.
+    Fehlt der OWUI-Key GANZ (`owui_key` leer), bleibt das UNVERAENDERT
+    `(sl_model, None)` -- die eigentliche fail-closed-Fehlermeldung bei
+    WIRKLICH fehlender SL-Anbindung bleibt weiterhin
+    `sl_client.SLSession.__init__` (fehlender OPENWEBUI_API_KEY).
 
     F1-N1 WP5a (PF3.GM): schlaegt der KB-Read TROTZ vorhandenem Key fehl
-    (Auth-/Verbindungsfehler, Preset fehlt, Preset ohne KB-Verknuepfung),
-    liefert diese Funktion `(sl_model, GM_ROUTE_KB_UNVERIFIED)` statt still
-    `(sl_model, None)` -- VORHER war das von einem echten "kein Key"-Fall
-    nicht unterscheidbar, und das Wiring reichte `None` unveraendert an
-    `GmOwuiTransport` durch, das dann (`kb_id or KB_ID`) auf die in
-    `sl_client.py` hartkodierte HISTORISCHE Knowledge-Base einer alten
-    Installation zurueckfiel -- ein fehlgeschlagener Read sah dadurch wie
-    eine gueltige Route aus. `default_gm_transport_factory` (mmo_sim/
-    adapters/factories.py) erkennt diesen Sentinel als `kb_id` und wirft
-    NACH dem Test-Double-Seam-Check, aber VOR dem echten `GmOwuiTransport`-
-    Bau -- sichtbar, aber erst bei echtem produktivem Gebrauch (`.turn()`),
-    nicht beim Programmstart/Status. EINZIGE bewusste Ausnahme: HTTP 501 auf
-    `GET /api/v1/models/model` (Endpunkt nicht implementiert) bleibt beim
-    alten `(sl_model, None)` -- das tritt nur bei den schlanken Fake-OWUI-
-    Loopback-Servern der bestehenden E2E-Subprozess-Tests auf (ein echtes
-    OpenWebUI implementiert den Endpunkt), und ein Sentinel dort haette einen
-    Harness-Umbau ueber ~10 Testdateien erzwungen (F1-N1 ausgeschlossen)."""
+    (Auth-/Verbindungsfehler, Preset fehlt, Preset ohne KB-Verknuepfung,
+    ODER -- seit F1-N2 WP-N2-2a -- HTTP 501, s.u.), liefert diese Funktion
+    `(sl_model, GM_ROUTE_KB_UNVERIFIED)` statt still `(sl_model, None)` --
+    VORHER war das von einem echten "kein Key"-Fall nicht unterscheidbar,
+    und das Wiring reichte `None` unveraendert an `GmOwuiTransport` durch,
+    das dann (`kb_id or KB_ID`) auf die in `sl_client.py` hartkodierte
+    HISTORISCHE Knowledge-Base einer alten Installation zurueckfiel -- ein
+    fehlgeschlagener Read sah dadurch wie eine gueltige Route aus.
+    `default_gm_transport_factory` (mmo_sim/adapters/factories.py) erkennt
+    diesen Sentinel als `kb_id` und wirft NACH dem Test-Double-Seam-Check,
+    aber VOR dem echten `GmOwuiTransport`-Bau -- sichtbar, aber erst bei
+    echtem produktivem Gebrauch (`.turn()`), nicht beim Programmstart/
+    Status. F1-N2 WP-N2-2a: die vorherige EINZIGE Ausnahme (HTTP 501 auf
+    `GET /api/v1/models/model` blieb beim alten `(sl_model, None)`, weil die
+    schlanken Fake-OWUI-Loopback-Server der E2E-Subprozess-Tests den
+    Endpunkt nicht implementierten) ist ENTFERNT -- ein HTTP-Status
+    identifiziert keinen Testprozess. Die betroffenen Fakes bekommen
+    stattdessen ein minimales `do_GET` fuer diesen Endpunkt oder laufen ueber
+    den expliziten `MMO_SIM_GM_TRANSPORT_DOUBLE`-Seam (s. Testdateien)."""
     try:
         import setup as _setup_module  # noqa: E402  (scripts/ bereits auf sys.path, s.o.)
     except ImportError:
-        return None, None
+        # WP-N2-2a: Umgebung/Install kaputt (scripts/ nicht importierbar) ->
+        # eigene Modell-/KB-Werte nicht zuverlaessig bestimmbar. Sichtbar
+        # ablehnen bei produktivem Transportbau statt still auf die
+        # historischen sl_client.py-Defaults zu fallen (gleiche Sentinel-
+        # Logik wie ein fehlgeschlagener Live-Read weiter unten).
+        return None, GM_ROUTE_KB_UNVERIFIED
 
     try:
         cfg = json.loads((repo_root / "setup.json").read_text(encoding="utf-8"))
@@ -203,9 +216,13 @@ def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
         variant = (cfg.get("variants") or {}).get(default_variant) or {}
         sl_model = variant.get("preset_id")
     except (OSError, json.JSONDecodeError, AttributeError):
-        return None, None
+        # WP-N2-2a: setup.json fehlt/unlesbar/kaputt -> dieselbe sichtbare
+        # Ablehnung statt stillem Fallback auf die historische KB.
+        return None, GM_ROUTE_KB_UNVERIFIED
     if not sl_model:
-        return None, None
+        # WP-N2-2a: keine Preset-ID fuer die Default-Variante konfiguriert
+        # -> ebenfalls sichtbar ablehnen statt stillem Fallback.
+        return None, GM_ROUTE_KB_UNVERIFIED
 
     try:
         _setup_module._auto_load_owui_env()
@@ -235,19 +252,11 @@ def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
         # unverifiziert, sichtbar ablehnen statt still auf historische KB.
         return sl_model, GM_ROUTE_KB_UNVERIFIED
 
-    if code == 501:
-        # Server erreichbar, aber GET /api/v1/models/model NICHT implementiert.
-        # In der Praxis NUR die schlanken Fake-OWUI-Loopback-Server der
-        # bestehenden E2E-Subprozess-Tests (kein do_GET -> BaseHTTPRequestHandler
-        # -Default 501). Ein echtes OpenWebUI implementiert diesen Endpunkt --
-        # die gesamte setup.py-Auto-Wire-/Detect-Logik (`get_model`,
-        # `_detect_install_state`) haengt daran. Kein Produktionssignal ->
-        # altes fail-soft `(sl_model, None)`, damit die ~10 bestehenden E2E-
-        # Doubles unveraendert gruen bleiben (kein Harness-Umbau, F1-N1-Red-Line).
-        return sl_model, None
     if code != 200 or not isinstance(data, dict):
         # Erreichbar/versucht, aber Auth (401/403), Preset fehlt (404),
-        # unerreichbar (code 0) oder unlesbar -> NICHT still auf die
+        # unerreichbar (code 0), Endpunkt nicht implementiert (501 -- WP-
+        # N2-2a: KEINE Produktausnahme mehr, ein HTTP-Status identifiziert
+        # keinen Testprozess) oder unlesbar -> NICHT still auf die
         # historische hartkodierte KB ausweichen, sondern sichtbar ablehnen
         # (PF3.GM: "fehlgeschlagener Read darf nicht auf fremde historische
         # KB ausweichen" -- voll geschlossen, nicht nur der raise-Fall).

@@ -321,9 +321,15 @@ def _litellm_ok() -> tuple[bool, str]:
     if not names:
         return False, "kein litellm-Container aktiv"
     if expected is None:
-        # setup.json nicht lesbar -- kann die Route nicht pruefen, alte
-        # grosszuegige Pruefung als Fallback.
-        return True, f"Container läuft: {', '.join(names)}"
+        # setup.json nicht lesbar -- kann die Route NICHT pruefen. WP-N2-1a:
+        # das darf KEIN grosszuegiger Pass sein (sonst liesse ein laufender
+        # Fremd-Container den Auto-Wire-Schritt uebersprungen zurueck, ohne
+        # dass die Route je bestaetigt wurde) -- "nicht prüfbar" ist
+        # ehrlicher als ein Fallback-"OK".
+        return False, (
+            f"setup.json nicht lesbar -- Route nicht prüfbar "
+            f"(Container laufen: {', '.join(names)})"
+        )
     if expected in names:
         return True, f"Container läuft: {expected}"
     return False, (
@@ -439,8 +445,11 @@ def _detect_install_state() -> str:
         "fresh":          Nichts da. Klassisches Erstinstall ist richtig.
         "installed":      Preset + verlinkte KB existieren in OpenWebUI.
                           → Update-Pfad ist der semantisch richtige Default.
-        "partial":        Halb-Zustand (Preset ohne KB-Link, oder Preset weg
-                          aber andere Spuren da). Klassik-Install räumt auf,
+        "partial":        Halb-Zustand (Preset ohne KB-Link, Preset weg aber
+                          andere Spuren da, ODER eine verwaiste gleichnamige
+                          KB ohne Preset/Manifest -- WP-N2-1d: typischer
+                          Abbruch zwischen KB- und Preset-Anlage in
+                          `run_setup`). Klassik-Install räumt auf,
                           aber nur nach expliziter User-Bestätigung.
         "partial_no_key": Manifest vorhanden, aber kein API-Key in der Umgebung
                           (frische Shell, Repo-Klon ohne Setup-Lauf). Live-Check
@@ -494,6 +503,18 @@ def _detect_install_state() -> str:
             # Daher: "unreachable" → Caller fragt explizit.
             return "unreachable"
         preset = client.get_model(preset_id)
+        # WP-N2-1d: verwaiste KB erkennen (ohne Preset/Manifest -- z.B. nach
+        # einem Abbruch zwischen KB-Anlage und Preset-Anlage in `run_setup`,
+        # das die KB vor dem Preset anlegt). Ohne diesen Check klassifiziert
+        # die Funktion unten "fresh" -> `action_install` erreicht `run_setup`
+        # ungefragt, das gleichnamige KBs vor der Neuanlage stillschweigend
+        # LÖSCHT (s. `run_setup`s "destroy & recreate"-Block). Gleicher
+        # Name-Match wie dort (exaktes `kb_name`), damit beide Stellen
+        # dieselbe KB meinen.
+        kb_name = cfg.get("kb_name", f"{cfg['project']} Wissensspeicher")
+        has_orphaned_kb = any(
+            kb.get("name") == kb_name for kb in client.list_knowledge()
+        )
     except Exception:
         return "unreachable"
 
@@ -516,7 +537,7 @@ def _detect_install_state() -> str:
     # weil run_sync ihn beim ersten Lauf eines installierten Stacks neu erzeugt.
     if has_preset and has_kb_link:
         return "installed"
-    if has_preset or has_manifest:
+    if has_preset or has_manifest or has_orphaned_kb:
         return "partial"
     return "fresh"
 
@@ -559,12 +580,17 @@ def _ensure_owui_env() -> bool:
 
     Returns True, wenn OPENWEBUI_API_KEY jetzt gesetzt ist (oder vorher schon war).
     Returns False, wenn auch nach Auto-Load nichts gefunden wurde.
-    """
-    if os.environ.get("OPENWEBUI_API_KEY", "").strip():
-        return True
+
+    WP-N2-2c: vorher brach die Funktion sofort mit `return True` ab, sobald
+    `OPENWEBUI_API_KEY` schon im Prozess-Env stand -- eine NUR in der Datei
+    gespeicherte bewusste Wahl (z.B. `MMO_SIM_PERSONA_CLI`/`_API_*`) wurde
+    dann NIE geladen. Jetzt wird die Datei immer gelesen und fehlende Werte
+    nachgeladen; bereits gesetzte Prozesswerte werden (wie bisher) NIE
+    überschrieben (`not os.environ.get(k)`-Guard unverändert)."""
+    key_already_set = bool(os.environ.get("OPENWEBUI_API_KEY", "").strip())
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
-        return False
+        return key_already_set
     try:
         for line in home_env.read_text("utf-8").splitlines():
             line = line.strip()
@@ -581,7 +607,7 @@ def _ensure_owui_env() -> bool:
                 os.environ[k] = v
     except Exception as e:
         print(yellow(f"  Warnung: konnte {home_env} nicht lesen: {e}"))
-        return False
+        return key_already_set
     return bool(os.environ.get("OPENWEBUI_API_KEY", "").strip())
 
 
@@ -888,11 +914,20 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         _pause()
         return
 
-    # LiteLLM-Anfrage nach Full-Setup — nur wenn noch kein litellm-Container läuft
-    ok, _ = _litellm_ok()
+    # LiteLLM-Anfrage nach Full-Setup. WP-N2-1a: ein laufender passender
+    # Container ist nur ein Komponentenhinweis (Prozess existiert), kein
+    # Beleg für eine funktionierende OWUI<->LiteLLM-Connection/Route -- der
+    # Auto-Wire-/Connection-Check muss daher idempotent trotzdem laufen statt
+    # den ganzen Schritt zu überspringen. `ensure_litellm_autowire` dupliziert
+    # eine bereits korrekt verbundene Route NICHT (eigene Idempotenz-Checks).
+    ok, info = _litellm_ok()
     if ok:
         print()
-        print(green("  ✓ LiteLLM-Cache läuft bereits — LiteLLM-Schritt übersprungen."))
+        print(green(f"  ✓ LiteLLM-Cache läuft bereits ({info}) — prüfe/bestätige die Verkabelung..."))
+        try:
+            setup_module.ensure_litellm_autowire(REPO, load_cfg())
+        except Exception as e:
+            print(red(f"  Verkabelungs-Check fehlgeschlagen: {e.__class__.__name__}: {e}"))
     else:
         print()
         print(bold("  LiteLLM-Cache aktivieren? (gehört zum Golden Setup, spart ~90 % Prompt-Kosten)"))
@@ -1644,6 +1679,18 @@ def _start_openwebui() -> None:
             "--restart", "always",
             "-p", "8080:8080",
             "-v", "open-webui:/app/backend/data",
+            # WP-N2-1b: dieser Container läuft ohne `--network=host` gebridgt
+            # -- aus seiner Sicht ist `127.0.0.1` der Container selbst, nicht
+            # der Host, auf dem LiteLLM loopback-only published wird. Der
+            # TATSÄCHLICHE Anschluss an LiteLLM läuft über das GEMEINSAME
+            # Docker-Netz + den Container-Namen (`setup.py:
+            # _ensure_owui_on_litellm_network` / `_owui_litellm_target_host`),
+            # NICHT über `host.docker.internal` (auf nativer Linux-Engine
+            # erreicht die Bridge-Gateway-Adresse einen 127.0.0.1-publizierten
+            # Port nicht). `--add-host` bleibt nur als harmloser Docker-Desktop-
+            # Kompatibilitätshint (dort ist host.docker.internal ohnehin da);
+            # auf Linux ist es ein No-Op, kein benötigter Pfad.
+            "--add-host", "host.docker.internal:host-gateway",
             # ENABLE_API_KEYS=true: seit neueren OpenWebUI-Versionen (ab 0.11.x)
             # ist die API-Key-Erstellung per Default deaktiviert. Ohne dieses
             # Flag kann der User keinen OpenWebUI-API-Key erzeugen, den der

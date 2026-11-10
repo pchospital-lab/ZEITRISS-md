@@ -44,8 +44,13 @@ def _function_source(name: str) -> str:
 
 
 def test_run_install_litellm_success_message_names_terminal_m_as_normal_way():
-    body = _function_source("run_install_litellm")
-    assert "[M]" in body, "run_install_litellm nennt den Terminalweg [M] nicht mehr in der Erfolgsmeldung"
+    """F1-N2 WP-N2-1a: die Erfolgsmeldung lebt seit dem Auto-Wire-Refactor
+    nicht mehr im Quelltext von `run_install_litellm` selbst, sondern in der
+    ausgelagerten `ensure_litellm_autowire` (von `run_install_litellm` UND
+    von `launcher.py:action_install` aufgerufen, s. dortiger WP-N2-1a-
+    Docstring) -- derselbe Text, andere Funktionsgrenze."""
+    body = _function_source("ensure_litellm_autowire")
+    assert "[M]" in body, "ensure_litellm_autowire nennt den Terminalweg [M] nicht mehr in der Erfolgsmeldung"
     assert "optional" in body.lower(), "Browser-Chat sollte als optional erwaehnt bleiben, nicht ersatzlos gestrichen"
     assert "Nichts mehr zu klicken — mit Menü [3] direkt ins Spiel." not in body, (
         "alte Formulierung (Menü [3] als einziger naechster Schritt) ist noch da -- WP1e-Regression"

@@ -67,11 +67,14 @@ nicht in Spielstände, öffentliche Protokolle oder das Repository.
 ./zeitriss.sh
 ```
 
-Wähle im Menü **`[M] ZEITRISS spielen (Terminal)`** — das ist der normale
-Produktweg. Die Browserauswahl `[3]` gehört zum nachgeordneten, optionalen
-Chat-Spielweg. Direktaufruf `python3 scripts/mmo_sim.py` funktioniert
-weiterhin unverändert und verwendet dieselbe private Projektumgebung und
-denselben Datenspeicherort.
+**Beim allerersten Start** fehlt die KI-Spielleitung noch — wähle im
+Launcher-Menü zuerst **`[1] ZEITRISS einrichten`** (Details:
+[Setup-Guide](setup-guide.md#komplett-setup-in-openwebui-empfohlen)).
+Danach, und bei jedem weiteren Start, wähle **`[M] ZEITRISS spielen
+(Terminal)`** — das ist der normale Produktweg. Die Browserauswahl `[3]`
+gehört zum nachgeordneten, optionalen Chat-Spielweg. Direktaufruf
+`python3 scripts/mmo_sim.py` funktioniert weiterhin unverändert und
+verwendet dieselbe private Projektumgebung und denselben Datenspeicherort.
 
 Beim ersten Start erscheint eine kurze Einführung. Mit `einfuehrung` kannst
 du sie im Hauptmenü erneut öffnen. Das Terminal verwendet beim normalen

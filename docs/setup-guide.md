@@ -235,12 +235,19 @@ Einstieg reicht aber der ZIP-Download oben.
 
 ### Schritt 5 - Launcher starten
 
+Der normale Weg ist der Mint-Nutzerstarter: Doppelklick auf `zeitriss.sh`
+im Dateimanager (Nemo fragt einmalig nach „Im Terminal ausführen" — siehe
+[Wie öffne ich ein Terminal?](terminal-help.md)), oder direkt im bereits
+offenen Terminal:
+
 ```bash
-python scripts/zeitriss.py
+./zeitriss.sh
 ```
 
-Unter Linux alternativ `./zeitriss.sh`; unter macOS (ungeprüfte
-Nebenkompatibilität, ohne Laufzusage) ebenfalls `./zeitriss.sh`.
+Entwickler-Direktstart `python scripts/zeitriss.py` funktioniert
+nachgeordnet ebenfalls (dieselbe private Projektumgebung, derselbe
+Datenspeicherort). Unter macOS (ungeprüfte Nebenkompatibilität, ohne
+Laufzusage) ebenfalls `./zeitriss.sh`.
 
 Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/
 Keys als ✓ oder -) und ein Menü, gruppiert in *Einrichtung* und
@@ -312,14 +319,16 @@ Presets/KBs in deiner OpenWebUI-Installation.
 
 > 💡 **Der Launcher ist dein Reiseleiter.** Er sagt dir im Terminal an
 > jeder Stelle selbst, was zu tun ist - inklusive dem Browser-Teil
-> (A + B + C). Die folgenden Unterschritte sind deshalb **eine
+> (A + C). Die folgenden Unterschritte sind deshalb **eine
 > ausführliche Referenz mit Screenshots-in-Prosa**, falls du nachlesen
 > willst. Im Regelfall reicht es, dem Launcher-Output zu folgen.
 
 Der Launcher arbeitet Menüpunkt [1] von oben nach unten ab und stoppt
 nur dort, wo er etwas von dir braucht. Du musst zwischendrin **einmal
-in den Browser wechseln und drei Klicks machen** - der Rest läuft
-automatisch.
+in den Browser wechseln** und den Admin-Account anlegen sowie deinen
+OpenWebUI-API-Key erzeugen (A + C unten) - der Rest läuft automatisch,
+inklusive des externen OpenRouter-Keys, den der Launcher einmalig
+**verdeckt im Terminal** abfragt (Schritt 6.5), nicht im Browser.
 
 #### 6.1 - Docker-Check
 
@@ -342,7 +351,7 @@ Der Launcher fragt nun nach deinem **OpenWebUI-API-Key** und öffnet
 dabei automatisch <http://localhost:8080> im Browser.
 
 > ⏸️ **Launcher wartet jetzt auf dich.** Lass das Terminal offen,
-> wechsel in den Browser, erledige A + B + C unten, kopier zum Schluss
+> wechsel in den Browser, erledige A + C unten, kopier zum Schluss
 > den Key - komm dann zurück ins Terminal (Schritt 6.4). Der Launcher
 > ist **nicht** abgestürzt, er wartet.
 
@@ -352,32 +361,20 @@ Im Browser: Benutzername, E-Mail, Passwort eintragen. Das ist ein
 **rein lokaler** Account - er bleibt auf deinem Rechner, keine Daten
 werden irgendwohin geschickt.
 
-**B) OpenRouter-Key als Connection eintragen**
-
-Nach dem Anlegen landest du auf der OpenWebUI-Startseite. Von dort:
-
-1. Oben rechts auf das **Profil-Icon** klicken → **Einstellungen**.
-2. Im Einstellungs-Menü links **Verbindungen** wählen.
-3. Bei *OpenAI-API-Verbindungen* auf das **`+`-Icon** bzw. den Button
-   **"Verbindung hinzufügen"** (englisch: "+ Add Connection"). Die UI
-   ist auf Deutsch, wenn dein Browser auf Deutsch ist, sonst Englisch -
-   das Feldlayout ist identisch.
-4. Eintragen:
-   - **Base URL / URL:** `https://openrouter.ai/api/v1`
-   - **API-Key:** dein `sk-or-v1-...` aus Schritt 3
-5. **Speichern** klicken.
-
 **C) OpenWebUI-API-Key erzeugen**
 
-Nochmal auf das Profil-Icon oben rechts → **Einstellungen → Account →
+Nach dem Anlegen landest du auf der OpenWebUI-Startseite. Nochmal auf
+das Profil-Icon oben rechts → **Einstellungen → Account →
 API Keys → "Create new key"** (oder **"Neuen Schlüssel erstellen"**)
 → Key kopieren.
 
-> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key (Schritt 3)
-> redet mit dem Sprachmodell in der Cloud. Der OpenWebUI-Key (hier)
-> redet mit deinem lokalen OpenWebUI. Der Launcher nutzt Letzteren,
-> um das Preset und die Knowledge Base automatisch anzulegen, statt
-> dass du 19 Dateien von Hand hochladen müsstest.
+> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key aus Schritt 3
+> redet mit dem Sprachmodell in der Cloud - du trägst ihn **nicht** hier
+> im Browser ein, sondern gibst ihn einmalig **verdeckt im Terminal**
+> ein (Schritt 6.5). Der OpenWebUI-Key (hier, A/C) redet mit deinem
+> lokalen OpenWebUI. Der Launcher nutzt Letzteren, um das Preset und
+> die Knowledge Base automatisch anzulegen, statt dass du 19 Dateien
+> von Hand hochladen müsstest.
 
 #### 6.4 - Zurück ins Terminal
 
@@ -408,12 +405,11 @@ dein Setup gerade ohne Cache weiterlaufen muss (z.B. blockierter Port
 4000). Im Normalfall: Enter drücken.
 
 Hast du deinen OpenRouter-Key aus Schritt 3 noch nicht als
-`OPENROUTER_API_KEY` exportiert oder in Schritt 6.3 (B) in OpenWebUI
-eingetragen, fragt der Launcher ihn hier einmalig direkt im Terminal ab
-— die Eingabe ist **verdeckt** (du siehst nichts, während du einfügst,
-genau wie beim OpenWebUI-Key in 6.4). Der Key landet danach in
-`scripts/litellm/.env` (chmod 600) und muss bei späteren Starts nicht
-erneut eingegeben werden.
+`OPENROUTER_API_KEY` exportiert, fragt der Launcher ihn hier einmalig
+direkt im Terminal ab — die Eingabe ist **verdeckt** (du siehst nichts,
+während du einfügst, genau wie beim OpenWebUI-Key in 6.4). Der Key
+landet danach in `scripts/litellm/.env` (chmod 600) und muss bei
+späteren Starts nicht erneut eingegeben werden.
 
 Der Launcher zieht dann den LiteLLM-Docker-Container, startet ihn auf
 Port 4000 (nur lokal, nicht nach außen erreichbar), erzeugt einen
@@ -426,15 +422,18 @@ nötig.**
 
 Nur wenn die automatische Verknüpfung tatsächlich fehlschlägt (z. B.
 OpenWebUI kurz nicht erreichbar, abgelaufener OpenWebUI-Key), zeigt der
-Launcher stattdessen genau die noch offenen Schritte als Fallback — und
-schreibt den **Master-Key direkt in die `Key:`-Zeile**, du kopierst ihn
-also genau dort, wo du ihn dann brauchst:
+Launcher stattdessen genau die noch offenen Schritte als Fallback. Die
+`Key:`-Zeile zeigt dabei **nur einen maskierten Fingerprint** des
+Master-Keys (Anfang + Ende, z. B. `sk-litellm…wxyz`) — keinen Klartext:
 
 1. **Neue Connection in OpenWebUI eintragen.** Zurück in den Browser:
    **Profil-Icon → Einstellungen → Verbindungen → „+ Verbindung
    hinzufügen"**
    - **URL:** `http://localhost:4000/v1`
-   - **API-Key:** der vom Launcher ausgegebene `sk-litellm-…`
+   - **API-Key:** den vollständigen Master-Key holst du dir aus
+     `scripts/litellm/.env` (chmod 600, nur für dich lesbar) — dort
+     steht er im Klartext; der maskierte Fingerprint im Terminal dient
+     nur zum Wiedererkennen.
    - **Name:** `LiteLLM (ZEITRISS Cache)`
    - **Speichern.**
 2. **Preset auf LiteLLM umstellen.** Im linken Menü
@@ -449,9 +448,10 @@ seiner Ausgabe. Ein erneuter Start des Launchers wiederholt die
 automatische Verknüpfung; eine bereits funktionierende Connection wird
 dabei nicht dupliziert.
 
-> 💡 **Master-Key später nochmal gebraucht?** Der Launcher legt ihn
-> zusätzlich in `scripts/litellm/.env` ab (chmod 600, nur für dich
-> lesbar).
+> 💡 **Master-Key später nochmal gebraucht?** Der Klartext steht
+> ausschließlich in `scripts/litellm/.env` (chmod 600, nur für dich
+> lesbar) — im Terminal siehst du bei jedem Lauf nur den maskierten
+> Fingerprint.
 
 Fertig. Der Launcher hat deine Keys in einer versteckten Datei
 gespeichert (`~/.openwebui_env` unter macOS/Linux,
@@ -578,20 +578,30 @@ für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
 
 ### Kurzer Einstiegstest
 
-1. Sichtbare Projektquellen einzeln gegen die obige Liste prüfen.
+Im **Einzelchat** bleibst du für Test und Spiel im selben vorbereiteten
+Chat weiter — Masterprompt und Dateianhänge gelten dort nur für diesen
+einen Chat, ein neuer Chat hätte sie nicht. Bei einem **dauerhaften
+Projekt** stehen Anweisung und Quellen dagegen für jeden Chat im Projekt
+automatisch wieder bereit.
+
+1. Sichtbare Quellen (Dateianhänge im Einzelchat bzw. Projektquellen)
+   einzeln gegen die obige Liste prüfen.
 2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
    „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
    bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
 3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
    aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
-4. Einen neuen Chat im selben Projekt öffnen und Schritt 2 wiederholen.
+4. Nur bei einem dauerhaften Projekt: einen neuen Chat im selben Projekt
+   öffnen und Schritt 2 wiederholen. Im Einzelchat entfällt dieser
+   Schritt — dort bleibst du für den weiteren Test im selben Chat.
 
 „Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
 nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
 Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
 Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
 
-Zum Spielen danach einen neuen Chat im Projekt öffnen: entweder
+Zum Spielen geht es im selben vorbereiteten Chat weiter (Einzelchat) bzw.
+in einem Chat im Projekt (dauerhaftes Projekt): entweder
 `Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
 Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
 `!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine

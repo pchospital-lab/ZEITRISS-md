@@ -217,7 +217,7 @@ Chatplattform ausprobieren.
 | --- | --- | --- |
 | **Lokales Terminal — Betreiber** | Python und einen eigenen Host-/Modellstack (KI-Spielleitung, optional KI-Personas) — Voraussetzung für Solo-Spiel, eigene KI-Personas und jedes Anbieten eines Tisches | [Spielerstart](docs/spielerstart.md) |
 | **Lokales Terminal — Gast** | Nur Terminal-Bedienung und einen eigenen, mitgebrachten oder vom Betreiber freigegebenen Save — **keinen** eigenen Host-/Modellstack | [Spielerstart](docs/spielerstart.md) |
-| **Regelwerk im Chat ausprobieren (optional)** | Eine geeignete Chatplattform mit dauerhaften Anweisungen und Wissensquellen | [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation) |
+| **Regelwerk im Chat ausprobieren (optional)** | Eine geeignete Chatplattform — für den einfachen ersten Versuch reicht ein einzelner vorbereiteter Chat, dauerhafte Projektquellen sind erst für längeres Spielen sinnvoll | [Setup-Guide](docs/setup-guide.md#browser-einstieg-ohne-installation) |
 
 Am Terminal spielst du solo oder mit anderen Menschen an einem Gerät;
 freiwillige KI-Mitspieler können deine Runde ergänzen. Ein Gast ohne eigenen
@@ -231,24 +231,46 @@ genauen Voraussetzungen je Weg stehen im verlinkten Guide.
 
 ## Dein erster Terminal-Einsatz
 
-Entpacke das Projekt und starte den Launcher — er richtet beim ersten Lauf
-automatisch eine eigene, private Projektumgebung ein (kein Git-Checkout,
-keine manuell aktivierte Entwickler-venv nötig):
+Kurz der ganze Weg von der Erstinstallation zum ersten Zug:
 
-```bash
-./zeitriss.sh
-```
+1. **Voraussetzungen:** Linux Mint als geprüfte Spielumgebung, Docker
+   Engine mit Compose (laufender Daemon, eigener Nutzerzugriff) sowie
+   der für die private Projektumgebung nötige Python-/venv-Unterbau.
+   Mindestangaben und die tatsächlich beobachtete Mint-Referenzversion
+   stehen im [Setup-Guide](docs/setup-guide.md).
+2. **Entpacken und starten:** ZIP entpacken, `zeitriss.sh` im
+   Dateimanager doppelklicken und bei Nemos Rückfrage „Im Terminal
+   ausführen" wählen (einmalige Ausführungs-/Vertrauensfreigabe) — oder
+   direkt im Terminal:
 
-Wähle im Menü **`[M] ZEITRISS spielen (Terminal)`**. Direktaufruf
-`python3 scripts/mmo_sim.py` funktioniert ebenfalls — derselbe Starter
-richtet dabei dieselbe private Projektumgebung ein.
+   ```bash
+   ./zeitriss.sh
+   ```
+
+   Der Launcher richtet dabei beim ersten Lauf automatisch eine eigene,
+   private Projektumgebung ein (kein Git-Checkout, keine manuell
+   aktivierte Entwickler-venv nötig). Entwickler-Direktstart
+   `python3 scripts/mmo_sim.py` bleibt nachgeordnet möglich — derselbe
+   Starter richtet dabei dieselbe private Projektumgebung ein.
+3. **Beim ersten Start `[1] ZEITRISS einrichten`:** erst die lokale
+   OpenWebUI-Konto-/API-Freigabe im Browser, danach der externe
+   OpenRouter-Key einmal **verdeckt im Terminal**.
+4. Der Launcher richtet daraufhin das lokale Hintergrundbackend ein und
+   zeigt, was bereits verbunden ist bzw. welche konkrete Aktion noch
+   fehlt — ein vorhandener Key oder Container allein bedeutet noch
+   keine fertige Spielbereitschaft.
+5. **Nach fertiger Einrichtung `[M] ZEITRISS spielen (Terminal)`.** Ein
+   späterer Start läuft über denselben `./zeitriss.sh`-Starter;
+   Einrichtung und Keys werden automatisch wieder geladen, kein
+   erneutes Eintragen nötig.
 
 Über **`charaktere`** wählst du eine Figur, erschaffst eine neue oder
 importierst einen vorhandenen Save. **`spielen`** führt dich zur
 Zusammenstellung deiner Runde. **`fortsetzen`** bringt dich später zu deinem
 vorhandenen Stand zurück. **`?`** öffnet die Hilfe zum aktuellen Schritt.
-Installation, Spielleiter-Anbindung, Import und Menüführung:
-**[Spielerstart im Terminal](docs/spielerstart.md)**.
+Vollständige Installation, Spielleiter-Anbindung, Import und Menüführung:
+**[Spielerstart im Terminal](docs/spielerstart.md)**; Keys und
+Hintergrundbackend im Detail: **[Setup-Guide](docs/setup-guide.md)**.
 
 <details>
 <summary>Terminalstatus — lokale Beta (Abnahmestand)</summary>
@@ -330,7 +352,10 @@ tatsächlichen Voraussetzungen und Einrichtungsschritte stehen im
 [Spielerstart](docs/spielerstart.md); ausführliche Modell-/Betriebsdetails
 im [Setup-Guide](docs/setup-guide.md). Die Browseroberfläche von OpenWebUI
 kann zusätzlich für den unten verlinkten, nachgeordneten Chatversuch
-verwendet werden — dafür gibt es zwei Varianten: den vollständigen
+verwendet werden. Für einen ersten, begrenzten Versuch reicht ein
+einzelner vorbereiteter Chat (Masterprompt als erste Nachricht, die
+Wissensdateien direkt als Dateianhänge in diesen Chat geladen); für
+dauerhafteres Spielen gibt es zwei Varianten: den vollständigen
 Masterprompt mit 19 Wissensmodulen als dauerhafte Anweisung, oder bei
 kleinerem Anweisungsfeld den Project-Bootstrap mit Masterprompt und Modulen
 als Quellen. Nicht miteinander stapeln und den Masterprompt nicht

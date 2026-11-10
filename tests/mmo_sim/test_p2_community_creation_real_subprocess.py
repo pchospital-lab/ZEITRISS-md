@@ -89,6 +89,24 @@ class _CreationGmHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def do_GET(self):
+        # F1-N2 WP-N2-2b: `_resolve_active_gm_route` fragt vor jedem GM-Turn
+        # `GET /api/v1/models/model` ab -- seit dem entfernten 501-Carve-out
+        # (WP-N2-2a) wuerde der fehlende `do_GET` jetzt den Sentinel
+        # `GM_ROUTE_KB_UNVERIFIED` ausloesen. Minimaler Fake-Preset mit
+        # Test-KB-ID statt echtem OWUI-Vertrag.
+        if self.path.startswith("/api/v1/models/model"):
+            payload = {"id": "test-preset", "meta": {"knowledge": [{"id": "test-kb-p2", "name": "test-kb"}]}}
+            data = json.dumps(payload).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+        self.send_response(404)
+        self.end_headers()
+
 
 class _CreationGmServer(HTTPServer):
     def __init__(self):

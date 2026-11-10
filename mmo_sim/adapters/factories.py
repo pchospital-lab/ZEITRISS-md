@@ -44,12 +44,30 @@ def _maybe_default_local_persona_api_env(repo_root: Path | None = None) -> None:
 
     `repo_root` ist NUR ein Test-Seam (Default `None` -> echter Repo-Root
     ueber `__file__` ermittelt); der Produktionsaufruf in `factory()` unten
-    uebergibt nichts."""
-    if os.environ.get("MMO_SIM_PERSONA_CLI") or os.environ.get("MMO_SIM_PERSONA_API_BASE_URL"):
-        return
+    uebergibt nichts.
 
+    WP-N2-2c: VOR dem Env-Check wird `setup._auto_load_owui_env()`
+    aufgerufen, damit eine nur in `~/.openwebui_env` gespeicherte bewusste
+    `MMO_SIM_PERSONA_CLI`/`_API_*`-Wahl sicher geladen ist, BEVOR hier
+    ueber einen neuen API-Default entschieden wird -- unabhaengig davon, ob
+    ein frueherer Aufruf im selben Prozess (z.B. `scripts/mmo_sim.py:
+    _resolve_active_gm_route`) das schon erledigt hat. Fehlerfrei No-Op,
+    wenn `setup` (noch) nicht importierbar ist (z.B. Test-Kontext ohne
+    `scripts/`-sys.path)."""
     if repo_root is None:
         repo_root = Path(__file__).resolve().parents[2]
+    try:
+        import sys as _sys
+        _scripts_dir = str(repo_root / "scripts")
+        if _scripts_dir not in _sys.path:
+            _sys.path.insert(0, _scripts_dir)
+        import setup as _early_setup_module
+        _early_setup_module._auto_load_owui_env()
+    except Exception:
+        pass
+
+    if os.environ.get("MMO_SIM_PERSONA_CLI") or os.environ.get("MMO_SIM_PERSONA_API_BASE_URL"):
+        return
     env_file = repo_root / "scripts" / "litellm" / ".env"
     if not env_file.is_file():
         return
@@ -309,8 +327,21 @@ def default_gm_transport_factory(
         # KB_ID einer alten Installation zurueckfallen. Wirft ERST hier, bei
         # tatsaechlichem produktivem Transportbau -- Programmstart/lokales
         # Menue bleiben unberuehrt (diese Factory wird nur bei echtem
-        # `.turn()`-Aufruf ausgefuehrt).
+        # `.turn()`-Aufruf ausgefuehrt). F1-N2 WP-N2-2a: derselbe Sentinel
+        # deckt jetzt auch "setup.json fehlt/unlesbar/keine Preset-ID" ab
+        # (`sl_model` dann `None`) -- die Meldung unterscheidet beide
+        # Ursachen, statt pauschal "Auth/Verbindung/Preset" zu behaupten.
         if kb_id == GM_ROUTE_KB_UNVERIFIED:
+            if sl_model is None:
+                raise RuntimeError(
+                    "GM-Route nicht verlaesslich aufgeloest: keine eigene Preset-/"
+                    "Modell-Konfiguration gefunden (setup.json fehlt, ist nicht "
+                    "lesbar, oder die Default-Variante hat keine Preset-ID).\n"
+                    "  Naechster Schritt: Menue [1] Komplett-Setup bzw. [6] "
+                    "Diagnose, dann erneut versuchen.\n"
+                    "  Kein automatischer Ruckfall auf eine evtl. fremde/alte "
+                    "Knowledge Base."
+                )
             raise RuntimeError(
                 "GM-Route nicht verlaesslich aufgeloest: Live-Pruefung von "
                 f"Preset '{sl_model}' / Knowledge-Base ist fehlgeschlagen "

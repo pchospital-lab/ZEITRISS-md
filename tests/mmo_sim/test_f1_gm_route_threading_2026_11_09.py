@@ -16,13 +16,23 @@ Deckt drei getrennte Stellen:
       reicht beide Werte tatsächlich an den konstruierten Transport durch.
   (B) `scripts/mmo_sim.py:_resolve_active_gm_route()` ermittelt Preset-ID
       (aus `setup.json`) und KB-ID (live über den vorhandenen
-      `setup.APIClient`) korrekt und bleibt fail-soft ohne Konfiguration.
+      `setup.APIClient`) korrekt. F1-N2 WP-N2-2a (NACHTRAG): fehlende/
+      unlesbare Konfiguration (kein `setup.json`, keine Preset-ID) liefert
+      NICHT MEHR `(None, None)` ("fail-soft, stiller Fallback auf die
+      sl_client.py-Altdefaults"), sondern `(None, GM_ROUTE_KB_UNVERIFIED)`
+      -- produktive GM-Nutzung ohne verlässlich bestimmte eigene Modell-/
+      KB-Werte lehnt sichtbar ab statt auf eine fremde historische KB
+      auszuweichen. Programmstart/lokales Menü bleiben unberührt.
   (C) F1-N1 WP5a/PF3.GM (NACHTRAG): ein fehlgeschlagener KB-Read TROTZ
       vorhandenem Key liefert den Sentinel `GM_ROUTE_KB_UNVERIFIED` statt
       stillem `None` — vorher war das vom "kein Key"-Fall nicht
       unterscheidbar, und `GmOwuiTransport`/`sl_client.py` fiel auf die
       hartkodierte HISTORISCHE KB_ID zurück, als wäre das ein gültiger
-      "bewusst keine KB"-Zustand. Das Wiring in `main()` baut bei diesem
+      "bewusst keine KB"-Zustand. F1-N2 WP-N2-2a: HTTP 501 ist davon KEINE
+      Ausnahme mehr (vorher bewusst `(sl_model, None)`, weil die schlanken
+      E2E-Fake-Server den Endpunkt nicht implementierten) -- die Fakes
+      bekommen stattdessen ein minimales `do_GET` oder laufen über
+      `MMO_SIM_GM_TRANSPORT_DOUBLE`. Das Wiring in `main()` baut bei diesem
       Sentinel keine Live-Factory mehr, sondern
       `_blocked_gm_transport_factory()`, die erst beim tatsächlichen
       produktiven Zugriff sichtbar ablehnt.
@@ -160,12 +170,24 @@ def _install_fake_setup_module(get_result):
     return fake_setup
 
 
-def test_resolve_active_gm_route_no_setup_json_is_fail_soft():
+def test_resolve_active_gm_route_no_setup_json_is_fail_soft_for_local_menu_but_unverified_for_gm():
+    """F1-N2 WP-N2-2a: fehlendes `setup.json` ist weiterhin fail-soft fuer
+    den Programmstart (die Funktion crasht nicht, `main()` blockiert
+    nicht) -- ABER `kb_id` ist jetzt der Sentinel `GM_ROUTE_KB_UNVERIFIED`
+    statt stillem `None`, damit produktive GM-Nutzung (`.turn()`) NICHT auf
+    die hartkodierten `sl_client.py`-Altdefaults (fremde historische KB)
+    zurueckfaellt. Lokales Menue/Figurenverwaltung bleiben unberuehrt, weil
+    `default_gm_transport_factory` erst bei tatsaechlichem Transportbau
+    wirft (s. test_gm_transport_factory_blocks_productive_use_when_kb_
+    unverified)."""
     module = _load_mmo_sim_entrypoint()
     tmp = Path(tempfile.mkdtemp(prefix="f1-resolve-route-"))
     try:
         sl_model, kb_id = module._resolve_active_gm_route(tmp)
-        assert sl_model is None and kb_id is None
+        assert sl_model is None, sl_model
+        assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, (
+            f"fehlendes setup.json haette den Sentinel liefern muessen (nicht stilles None), war {kb_id!r}"
+        )
     finally:
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
@@ -453,15 +475,18 @@ def _resolve_with_get_result(get_result):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-def test_resolve_active_gm_route_501_models_endpoint_not_implemented_stays_plain_none():
-    """HTTP 501 (`GET /api/v1/models/model` nicht implementiert) ist das
-    Verhalten der schlanken Fake-OWUI-Loopback-Server der bestehenden E2E-
-    Subprozess-Tests -- NICHT ein echtes OpenWebUI. Dieser EINE Code bleibt
-    bewusst beim alten `(sl_model, None)`, damit die ~10 E2E-Doubles ohne
-    Harness-Umbau gruen bleiben (F1-N1-Red-Line)."""
+def test_resolve_active_gm_route_501_models_endpoint_not_implemented_is_unverified():
+    """F1-N2 WP-N2-2a: der vorherige 501-Carve-out ist ENTFERNT. HTTP 501
+    (`GET /api/v1/models/model` nicht implementiert) muss wie jeder andere
+    Nicht-200-Code behandelt werden -- ein HTTP-Status identifiziert keinen
+    Testprozess. Die betroffenen schlanken E2E-Fake-Server (N2-2b) bekommen
+    stattdessen ein minimales `do_GET` fuer diesen Endpunkt oder laufen ueber
+    `MMO_SIM_GM_TRANSPORT_DOUBLE`."""
     module, (sl_model, kb_id) = _resolve_with_get_result((501, b""))
     assert sl_model == "zeitriss-v426-uncut", sl_model
-    assert kb_id is None, f"501 (Fake-Server) haette plain None bleiben muessen, war {kb_id!r}"
+    assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, (
+        f"501 haette wie jeder andere Nicht-200-Code den Sentinel liefern muessen, war {kb_id!r}"
+    )
 
 
 def test_resolve_active_gm_route_404_preset_missing_is_unverified():
