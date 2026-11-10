@@ -297,7 +297,8 @@ class _ContentHttpDouble:
     den OWUI laut Primärquelle nie prüft."""
 
     def __init__(self, *, seed_files=None, kb_id=_KB_ID, collision_upload_id=None,
-                 fail_add_file_times=None, fail_remove_file_ids=None, preset=None):
+                 fail_add_file_times=None, fail_remove_file_ids=None, preset=None,
+                 fail_upload_times=None):
         self.kb_id = kb_id
         self.store: dict = {}
         self.filenames: dict = {}
@@ -313,6 +314,11 @@ class _ContentHttpDouble:
         # OHNE die Datei zu entlinken/löschen -- der von Vera benannte, bisher
         # untestbare BLOCKER-Pfad.
         self.fail_remove_file_ids = set(fail_remove_file_ids or [])
+        # WP-F1-N8 (R1): Fehlinjektion für POST /api/v1/files/ (echter
+        # Uploadfehler, do_upload_file() liefert None NACH Erschöpfung
+        # seiner eigenen 3 Versuche) -- NICHT nur ein Linkfehler unter
+        # einem Upload-Testnamen.
+        self.fail_upload_times = dict(fail_upload_times or {})
         self._preset = preset
         self._next_id = 100
         for sf in (seed_files or []):
@@ -356,6 +362,10 @@ class _ContentHttpDouble:
             return 200, json.dumps({"items": items, "total": len(items)}).encode()
         if method == "POST" and path == "/api/v1/files/":
             fname = _extract_upload_filename(data if isinstance(data, bytes) else b"")
+            countdown = self.fail_upload_times.get(fname, 0)
+            if countdown > 0:
+                self.fail_upload_times[fname] = countdown - 1
+                return 500, b'{"detail": "internal error"}'
             content = _extract_upload_content(
                 data if isinstance(data, bytes) else b"", content_type)
             new_id = self.collision_upload_id
@@ -821,6 +831,217 @@ def test_a3_followup_run_sync_upload_failure_preserves_lone_copy_then_resumes():
         assert "file-a-old" not in http.store, (
             "nach bestätigtem Ersatz muss die alte Version ENTFERNT sein -- "
             "KEIN separater Rebuild nötig, derselbe run_sync-Lauf schließt ab"
+        )
+
+
+# ── WP-F1-N8 (ZR-MINT-F1-N8, PR #3301 Nachzug) — R1/R2/R3 ───────────────
+#
+# Der lokale Sollinhalt bleibt in JEDEM der drei Fälle über Fehler UND
+# Fortsetzung GLEICH (NICHT Y→Z wie (I) oben) -- genau das unterscheidet
+# diese Tests von (I): dort ändert sich der Inhalt zwischen Stufe 1 und
+# Stufe 2 (normaler Weiterbetrieb), hier bleibt er stabil, während der
+# Zustand selbst (Fehler → Fortsetzung) sich über mehrere `run_sync`-Läufe
+# entwickelt.
+
+_N8_PRESET = {
+    "id": "p1", "name": "Proj",
+    "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+    "meta": {"capabilities": setup_mod.GOLDEN_CAPABILITIES, "knowledge": [{"id": _KB_ID}]},
+    "params": {"system": "Du bist die SL."},
+}
+
+
+def test_r1_real_upload_failure_is_honest_incomplete_then_resumes_unchanged():
+    """R1 (setup.py changed-loop, `do_upload_file`→None): ein echter
+    erneuter Uploadfehler (NICHT nur ein Linkfehler unter einem
+    Upload-Testnamen -- `do_upload_file` liefert nach allen eigenen
+    Retries None) darf NICHT als Erfolg zählen. Vorher: `continue` ohne
+    `link_failures`-Append -- die Datei war weder im Manifest noch in
+    `link_failures`, `sys.exit(1)` blieb aus, „geändert erfolgreich"
+    zählte die fehlgeschlagene Datei mit. Jetzt: `link_failures`-Eintrag,
+    ehrlicher `sys.exit(1)`, Altbestand (hier: gar kein Altbestand, reine
+    Neu-Ergänzung) unangetastet. Derselbe UNVERÄNDERTE Sollinhalt schließt
+    beim nächsten Lauf (Upload wieder möglich) normal ab."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _ContentHttpDouble(
+            seed_files=[], kb_id=_KB_ID, preset=_N8_PRESET,
+            fail_upload_times={"a.md": 3},  # erschöpft alle 3 do_upload_file-Versuche
+        )
+        with mock.patch.object(setup_mod.time, "sleep", return_value=None):
+            ok1, out1, _client1 = _run_sync(tmp, http)
+        assert ok1 is False, (
+            "ein echter erneuter Uploadfehler (do_upload_file->None) ist KEIN "
+            "vollständiger Erfolg -- vorher fehlte das link_failures-Append"
+        )
+        assert http.uploaded == [], "ein erschöpfter Upload darf keine File-Entity hinterlassen"
+        manifest1 = _manifest(tmp)
+        assert "a.md" not in manifest1.get("kb_files", {}), (
+            "eine fehlgeschlagene Ergänzung darf NICHT als synchron verbucht werden"
+        )
+        assert "fehlgeschlagen" in out1.lower() or "unvollständig" in out1.lower(), out1
+
+        # Derselbe UNVERÄNDERTE Sollinhalt, Upload wieder möglich (Countdown
+        # erschöpft) -- normaler Abschluss ohne Rebuild/Spezialbefehl.
+        with mock.patch.object(setup_mod.time, "sleep", return_value=None):
+            ok2, _out2, _client2 = _run_sync(tmp, http)
+        assert ok2 is True, "nach wieder möglichem Upload muss derselbe unveränderte Sollinhalt normal abschließen"
+        manifest2 = _manifest(tmp)
+        assert manifest2["kb_files"]["a.md"]["md5"] == hashlib.md5(b"Inhalt 0").hexdigest()
+        new_id = manifest2["kb_files"]["a.md"]["file_id"]
+        assert new_id in http.linked
+        assert http.uploaded == ["a.md"]
+
+
+def test_r2_already_linked_target_recognized_avoids_duplicate_loop():
+    """R2 (setup.py changed-loop Namensfallback): ein zuvor unterbrochener
+    `complete_orphaned_kb_install`-Lauf hat Y ("file-a-target", lokaler
+    Inhalt) bereits erfolgreich verlinkt, aber die alte X ("file-a-old",
+    ABWEICHENDER Inhalt) nicht entlinken können -- kein Manifest-Eintrag
+    (Fehlerzweig schreibt kein `confirmed`). Der nächste normale
+    `run_sync`-Lauf erreicht über den fehlenden Manifest-Eintrag den
+    Namensfallback. VORHER: blinder Re-Upload von Y -> OWUIs
+    collectionweiter Duplicate-Check (gegen GENAU dieses Y) weist den
+    Vergleichs-Upload zurück -> Altentfernung von X wird NIE erreicht
+    (Dauerschleife). JETZT: Y wird identitätsgebunden (meta.file_hash ==
+    SHA-256 des lokalen Inhalts) wiedererkannt, KEIN erneuter Upload, nur
+    die stale alte X wird entfernt (A2-Semantik) -- einmaliger Abschluss."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        (tmp / "kb" / "a.md").write_text("NEU-Y-INHALT", encoding="utf-8")
+        http = _ContentHttpDouble(
+            seed_files=[
+                {"id": "file-a-old", "filename": "a.md", "content": b"ALT-X-INHALT",
+                 "collection_name": _KB_ID},
+                {"id": "file-a-target", "filename": "a.md", "content": b"NEU-Y-INHALT",
+                 "collection_name": _KB_ID},
+                {"id": "file-b-other", "filename": "other.md", "content": b"FREMD-UNBERUEHRT",
+                 "collection_name": _KB_ID},
+            ],
+            kb_id=_KB_ID,
+            preset=_N8_PRESET,
+        )
+        # Kein Manifest vorhanden (genau der Zustand nach dem unterbrochenen
+        # Helper-Lauf: kein `confirmed`-Eintrag für a.md geschrieben).
+        ok, out, _client = _run_sync(tmp, http)
+        assert ok is True, "identitätsgebundenes Wiedererkennen von Y muss abschließbar sein"
+        assert "a.md" not in http.uploaded, (
+            "Y ist bereits identitätsgebunden verlinkt -- KEIN Vergleichs-Upload, "
+            "sonst die Duplicate-Dauerschleife"
+        )
+        assert "file-a-old" not in http.store, "die stale alte X wird entfernt (A2: Unlink + delete)"
+        assert "file-a-target" in http.store and "file-a-target" in http.linked, (
+            "das bereits korrekt verlinkte Ziel Y bleibt unverändert erhalten"
+        )
+        assert "file-b-other" in http.store and "file-b-other" in http.linked, (
+            "fremde same-KB-Datei mit anderem Namen bleibt unberührt"
+        )
+        manifest = _manifest(tmp)
+        assert manifest["kb_files"]["a.md"]["file_id"] == "file-a-target", (
+            "Manifest trägt die bestätigte Ziel-ID, kein neu erzeugter Ersatz"
+        )
+        assert manifest["kb_files"]["a.md"]["md5"] == hashlib.md5(b"NEU-Y-INHALT").hexdigest()
+        assert "bereits korrekt verlinkt" in out.lower() or "kein erneuter upload" in out.lower(), out
+
+
+def test_r3_pending_unlink_survives_manifest_boundary_then_completes():
+    """R3 (setup.py changed-loop Hauptpfad, `cleanup_ok=False`): ein echter
+    Sync-Teilerfolg -- neue Y wird hochgeladen+verlinkt, das Unlink der
+    alten X schlägt (transient) fehl -- schreibt TROTZDEM MD5+ID der neuen
+    Y ins Manifest (bestehendes Verhalten, unverändert). Ein FOLGENDER
+    Lauf mit DEMSELBEN unveränderten Sollinhalt (MD5 == Manifest-MD5) darf
+    das NICHT als „alles aktuell" lesen, solange X noch verlinkt ist --
+    VORHER tat er das (Coverage-Check prüft nur Basenamen). JETZT wird der
+    offene Rest aus der Backendquelle rekonstruiert (gleichnamige same-KB-
+    Kopie mit abweichendem Hash) und VOR „alles aktuell" abgearbeitet: bei
+    weiterem Unlink-Fehler bleibt der Lauf ehrlich unvollständig, nach
+    Behebung schließt er gezielt ab."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _ContentHttpDouble(seed_files=[], kb_id=_KB_ID, preset=_N8_PRESET)
+
+        # Stufe 0: echter, ungestörter Erstlauf -- etabliert den N7-Normal-
+        # zustand (a.md hochgeladen+verlinkt, Manifest bestätigt).
+        ok0, _out0, _client0 = _run_sync(tmp, http)
+        assert ok0 is True
+        manifest0 = _manifest(tmp)
+        old_x_id = manifest0["kb_files"]["a.md"]["file_id"]
+        assert old_x_id in http.linked
+
+        # Stufe 1: lokaler Inhalt ändert sich (normaler Weiterbetrieb) --
+        # Y wird hochgeladen+verlinkt, aber das Unlink der alten X schlägt
+        # (transient) fehl. `cleanup_ok=False`, Manifest bekommt TROTZDEM
+        # Y's MD5+ID (unverändertes bestehendes Verhalten).
+        (tmp / "kb" / "a.md").write_text("NEU-Y-INHALT", encoding="utf-8")
+        http.fail_remove_file_ids = {old_x_id}
+        ok1, out1, _client1 = _run_sync(tmp, http)
+        assert ok1 is False, "ein fehlgeschlagenes Unlink beim Ersatz ist KEIN vollständiger Erfolg"
+        manifest1 = _manifest(tmp)
+        new_y_id = manifest1["kb_files"]["a.md"]["file_id"]
+        assert new_y_id != old_x_id
+        assert manifest1["kb_files"]["a.md"]["md5"] == hashlib.md5(b"NEU-Y-INHALT").hexdigest()
+        assert old_x_id in http.linked, "die alte X bleibt bei fehlgeschlagenem Unlink zusätzlich verlinkt"
+        assert "gleichzeitig verlinkt" in out1.lower() or "entlinkt werden" in out1.lower(), out1
+
+        # Stufe 2: DERSELBE unveränderte Sollinhalt ("NEU-Y-INHALT", MD5 ==
+        # Manifest-MD5 -> "unverändert") UND der Unlink-Fehler besteht noch
+        # weiter -- VORHER hätte das stillschweigend "alles aktuell"
+        # gemeldet, obwohl old_x_id noch verlinkt ist. JETZT: ehrlich
+        # unvollständig (weiterer Fehler erkennbar).
+        ok2, out2, _client2 = _run_sync(tmp, http)
+        assert ok2 is False, (
+            "ein unveränderter MD5 allein darf den offenen Altentfernungs-Rest "
+            "NICHT als erledigt ausgeben, solange alte X noch verlinkt ist"
+        )
+        assert old_x_id in http.store and old_x_id in http.linked, (
+            "bei weiterhin fehlgeschlagenem Unlink bleibt die alte X unangetastet"
+        )
+        manifest2 = _manifest(tmp)
+        assert manifest2["kb_files"]["a.md"]["file_id"] == new_y_id, (
+            "die bestätigte Ziel-ID bleibt unverändert, kein falscher Rebuild"
+        )
+
+        # Stufe 3: Transientfehler behoben, DERSELBE unveränderte Sollinhalt
+        # -- der offene Rest wird jetzt gezielt abgeschlossen (alte X weg),
+        # Ziel-ID bleibt bestehen.
+        http.fail_remove_file_ids = set()
+        ok3, _out3, _client3 = _run_sync(tmp, http)
+        assert ok3 is True, "nach behobenem Unlink-Fehler muss derselbe unveränderte Sollinhalt abschließen"
+        assert old_x_id not in http.store, "die alte X wird jetzt entfernt (A2: Unlink + delete)"
+        manifest3 = _manifest(tmp)
+        assert manifest3["kb_files"]["a.md"]["file_id"] == new_y_id, "die Ziel-ID bleibt unverändert erhalten"
+        assert new_y_id in http.linked
+
+
+def test_r3_reconstruction_never_removes_last_copy_without_confirmed_target():
+    """R3 Defense-in-Depth (Main-Guard): die Rekonstruktion vor „alles aktuell"
+    entfernt gleichnamige Altkopien NUR, wenn eine verlinkte Kopie mit
+    NACHWEISLICH passendem Inhalt (target_fid) vorhanden ist. Fehlt sie (hier:
+    die verlinkte Kopie wurde extern auf einen anderen Inhalt mutiert, trägt
+    also NICHT mehr den lokalen Sollinhalt), darf die letzte gleichnamige
+    Kopie NICHT herausgerissen werden — sonst Datenverlust/leere KB."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _ContentHttpDouble(seed_files=[], kb_id=_KB_ID, preset=_N8_PRESET)
+        # Stufe 0: normaler Erstlauf -> a.md ("Inhalt 0") verlinkt, Manifest bestätigt.
+        ok0, _o0, _c0 = _run_sync(tmp, http)
+        assert ok0 is True
+        linked_id = _manifest(tmp)["kb_files"]["a.md"]["file_id"]
+        assert linked_id in http.linked
+        # Extern mutierter Zustand: die einzige verlinkte a.md-Kopie trägt jetzt
+        # einen ANDEREN Inhalt als der lokale Sollinhalt -> kein Hash-Match ->
+        # target_fid=None. Manifest-MD5 bleibt aber der lokale -> „unverändert".
+        http.store[linked_id] = b"EXTERN-MUTIERT-UNBEKANNT"
+        ok1, _o1, _c1 = _run_sync(tmp, http)
+        # Der Guard: keine Entfernung ohne bestätigtes Ziel -> die letzte Kopie
+        # bleibt erhalten (der Coverage-Check bleibt der harte Beleg).
+        assert linked_id in http.store and linked_id in http.linked, (
+            "ohne bestätigte Ziel-Kopie (Hash-Match) darf die Rekonstruktion die "
+            "letzte gleichnamige Kopie NICHT entfernen"
         )
 
 

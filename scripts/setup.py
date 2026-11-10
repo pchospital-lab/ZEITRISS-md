@@ -3249,6 +3249,38 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     return all_ok
 
 
+def _classify_kb_name_candidates(entries: list[dict], local_sha: str):
+    """WP-F1-N8 (R2/R3): gleichnamige Dateien DIESER KB nach Content-Hash
+    klassifizieren -- dieselbe `meta.file_hash`/`hash`-SHA-256-Quelle wie
+    N7-A1 (am laufenden v0.11.3-Backend verifiziert), NICHT der
+    collectionweite Duplicate-Status (der liefert keine file_id,
+    knowledge.py:1477-1482). `entries`: Liste von {"id":..., "hash":...},
+    bereits auf Dateiname+KB gefiltert.
+
+    Rückgabe (target_fid, stale_ids): `target_fid` ist eine bereits
+    verlinkte Kopie, deren Hash NACHWEISLICH dem lokalen Inhalt entspricht
+    (Ziel Y ist schon korrekt -- kein erneuter Upload nötig; vermeidet die
+    Duplicate-Dauerschleife, die entsteht, wenn ein zuvor unvollständig
+    gebliebener Ersatz -- Y verlinkt, altes X-Unlink gescheitert -- erneut
+    hochgeladen würde und OWUIs collectionweiter Duplicate-Check den
+    Vergleichs-Upload gegen GENAU dieses Y zurückweist, ohne dass die
+    fällige Altentfernung je erreicht wird). `stale_ids`: alle ÜBRIGEN
+    gleichnamigen Kopien (abweichender/fehlender Hash -- Altentfernungs-
+    kandidaten, A2-Semantik: Unlink prüfen, delete nur nach Erfolg)."""
+    target_fid = None
+    stale_ids: list[str] = []
+    for entry in entries:
+        fid = entry.get("id")
+        if not fid:
+            continue
+        fhash = entry.get("hash")
+        if target_fid is None and fhash and fhash == local_sha:
+            target_fid = fid
+        else:
+            stale_ids.append(fid)
+    return target_fid, stale_ids
+
+
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Incremental sync mode: update only what changed since last setup/sync.
 
@@ -3470,13 +3502,31 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # Nur wenn wir überhaupt KB-Files sehen, vertrauen wir der Liste — sonst
     # (leere Antwort/Endpoint-Problem) still überspringen, um False-Positive-
     # Massen-Re-Uploads zu vermeiden.
-    in_kb_names = {
-        str((f.get("meta") or {}).get("name") or f.get("filename") or "")
-        .replace("\\", "/").split("/")[-1]
-        for f in (client.list_files() or [])
-        if isinstance(f, dict) and (f.get("meta") or {}).get("collection_name") == kb_id
-    }
-    in_kb_names.discard("")
+    # WP-F1-N8 (R3): derselbe Read wird jetzt zu einem Name->Kandidaten-
+    # Index ausgebaut (id + Content-Hash), statt nur ein flaches Namens-Set
+    # zu liefern -- das erlaubt unten (vor "alles aktuell") eine
+    # identitätsgebundene Rekonstruktion offener Altentfernungsreste, OHNE
+    # einen zusätzlichen `list_files()`-Call pro Datei.
+    kb_name_index: dict[str, list[dict]] = {}
+    for f in (client.list_files() or []):
+        if not isinstance(f, dict):
+            continue
+        if (f.get("meta") or {}).get("collection_name") != kb_id:
+            continue
+        fname = (
+            str((f.get("meta") or {}).get("name") or f.get("filename") or "")
+            .replace("\\", "/").split("/")[-1]
+        )
+        if not fname:
+            continue
+        fid = f.get("id")
+        if not fid:
+            continue
+        fmeta = f.get("meta") or {}
+        fhash = fmeta.get("file_hash") or f.get("hash")
+        kb_name_index.setdefault(fname, []).append({"id": fid, "hash": fhash})
+
+    in_kb_names = set(kb_name_index.keys())
     if in_kb_names:
         lost = [name for name in list(files_manifest.keys()) if name not in in_kb_names]
         for name in lost:
@@ -3509,6 +3559,74 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     removed_names = [name for name in files_manifest.keys() if name not in local_filenames]
 
     if not changed and not removed_names:
+        # WP-F1-N8 (R3): ein unveränderter lokaler MD5 belegt NUR, dass der
+        # Sollinhalt stabil ist -- er belegt NICHT, dass ein früherer
+        # Lauf seinen offenen Altentfernungs-Rest (cleanup_ok=False weiter
+        # unten: Y verlinkt + Manifest aktualisiert, aber Unlink von X
+        # gescheitert, X nur in der flüchtigen `link_failures`-Liste
+        # vermerkt) inzwischen erledigt hat. Rekonstruktion aus der
+        # Backendquelle (derselbe `kb_name_index` wie der Server-Drift-
+        # Check oben, KEIN zusätzlicher `list_files()`-Call): trägt noch
+        # eine gleichnamige same-KB-Kopie mit ABWEICHENDEM Hash (stale alte
+        # X) dieselbe KB, wird die Altentfernung hier nachgeholt (A2-
+        # Semantik), BEVOR "alles aktuell" gilt. Bei erneutem Unlink-Fehler
+        # bleibt der Lauf ehrlich unvollständig statt eines falschen
+        # Erfolgs.
+        pending_cleanup_failed: list[str] = []
+        for fp in kb_files:
+            tracked = files_manifest.get(fp.name) or {}
+            if not tracked.get("file_id"):
+                continue
+            target_fid, stale_ids = _classify_kb_name_candidates(
+                kb_name_index.get(fp.name, []), _file_sha256(fp)
+            )
+            # WP-F1-N8 (R3 Defense-in-Depth): die Altentfernung läuft NUR, wenn
+            # eine gleichnamige Kopie mit NACHWEISLICH passendem Inhalt (Hash ==
+            # lokaler SHA-256) bereits verlinkt ist (`target_fid`). Fehlt sie
+            # (keine verlinkte Kopie trägt den Sollinhalt — z.B. extern
+            # mutierter Zustand), dürfen die übrigen gleichnamigen Kopien NICHT
+            # entfernt werden: sonst risse der Rekonstruktions-Check die letzte
+            # noch vorhandene Kopie dieses Namens heraus (dieselbe
+            # „einzige-Kopie"-Gefahr wie beim N7-A2-Guard). Dann unangetastet
+            # lassen — der Coverage-Check unten bleibt der harte
+            # Vollständigkeitsbeleg.
+            if not (target_fid and stale_ids):
+                continue
+            for old_id in stale_ids:
+                if old_id == target_fid:
+                    continue
+                unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                if not unlinked:
+                    pending_cleanup_failed.append(fp.name)
+                    print_error(
+                        f"{fp.name}: offener Altentfernungs-Rest — Version "
+                        f"({old_id[:12]}…) konnte weiterhin nicht entlinkt "
+                        "werden, alter UND aktueller Inhalt bleiben "
+                        "gleichzeitig verlinkt."
+                    )
+                    continue
+                deleted = client.delete_file(old_id)
+                if not deleted:
+                    print_warn(
+                        f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                        "erfolgreichem Unlink nicht per delete_file bestätigt "
+                        "— laut Backend entweder bereits mitentfernt "
+                        "(Retention aus) oder bewusst zurückgehalten "
+                        "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                        "beendet."
+                    )
+                print_ok(
+                    f"{fp.name}: offener Altentfernungs-Rest nachgeholt "
+                    f"({old_id[:12]}… entlinkt, Zielbestand unangetastet)."
+                )
+        if pending_cleanup_failed:
+            print_error(
+                f"{len(pending_cleanup_failed)} Datei(en) tragen weiterhin eine "
+                f"zusätzlich verlinkte Altversion: {', '.join(pending_cleanup_failed)}. "
+                "Erneut `python setup.py --sync` ausführen."
+            )
+            sys.exit(1)
+
         print_ok(f"Alle {len(kb_files)} KB-Dateien laut Manifest synchron.")
         _save_sync_manifest(repo, manifest)
         # WICHTIG: "Manifest synchron" (MD5 lokal == zuletzt hochgeladen) belegt
@@ -3585,6 +3703,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # KB (meta.collection_name == kb_id). Ein globaler filename-Match
         # würde die gleichnamige Datei eines ANDEREN Bausatzes mitlöschen
         # (Cross-KB-Datenverlust, beobachtet 2026-09-14).
+        target_fid = None
         if old_file_id:
             old_candidates = [old_file_id]
         else:
@@ -3593,12 +3712,77 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 if f.get("filename") == fp.name
                 and (f.get("meta") or {}).get("collection_name") == kb_id
             ]
-            old_candidates = [dup.get("id") for dup in same_name if dup.get("id")]
+            # WP-F1-N8 (R2): BEVOR erneut hochgeladen wird, identitätsgebunden
+            # prüfen (dieselbe meta.file_hash-SHA-256-Quelle wie N7-A1), ob
+            # unter den gleichnamigen same-KB-Kopien bereits eine mit dem
+            # lokalen Inhalt verlinkt ist. Das passiert, wenn ein zuvor
+            # unterbrochener complete_orphaned_kb_install Y erfolgreich
+            # verlinkt, aber das alte X nicht entlinken konnte (kein
+            # Manifest-Eintrag, daher landet die Datei hier über den
+            # fehlenden Eintrag als "geändert"). Ohne diesen Check würde
+            # gleich darunter ein Vergleichs-Upload von Y ausgelöst, den
+            # OWUIs collectionweiter Duplicate-Check gegen GENAU dieses Y
+            # zurückweist (400) -- die fällige Altentfernung von X würde NIE
+            # erreicht (Dauerschleife).
+            same_name_entries = [
+                {"id": dup.get("id"),
+                 "hash": (dup.get("meta") or {}).get("file_hash") or dup.get("hash")}
+                for dup in same_name
+            ]
+            target_fid, old_candidates = _classify_kb_name_candidates(
+                same_name_entries, _file_sha256(fp)
+            )
+
+        if target_fid:
+            # Y ist bereits identitätsgebunden verlinkt -- NICHT erneut
+            # hochladen. Nur die übrigen gleichnamigen Kopien mit
+            # abweichendem Hash (alte X) entfernen (A2-Semantik: Unlink
+            # prüfen, delete nur nach Erfolg).
+            distinct_old = [c for c in old_candidates if c and c != target_fid]
+            cleanup_ok = True
+            for old_id in distinct_old:
+                unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                if not unlinked:
+                    cleanup_ok = False
+                    print_error(
+                        f"{fp.name}: Alte Version ({old_id[:12]}…) konnte nicht "
+                        "entlinkt werden — alter UND neuer Inhalt bleiben "
+                        "gleichzeitig verlinkt."
+                    )
+                    continue
+                deleted = client.delete_file(old_id)
+                if not deleted:
+                    print_warn(
+                        f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                        "erfolgreichem Unlink nicht per delete_file bestätigt "
+                        "— laut Backend entweder bereits mitentfernt "
+                        "(Retention aus) oder bewusst zurückgehalten "
+                        "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                        "beendet."
+                    )
+            if cleanup_ok:
+                files_manifest[fp.name] = {"md5": md5_new, "file_id": target_fid}
+                if idx % 3 == 0:
+                    manifest["kb_files"] = files_manifest
+                    _save_sync_manifest(repo, manifest)
+                print_ok(
+                    f"[{idx}/{total_changed}] {fp.name} — bereits korrekt verlinkt "
+                    f"({target_fid[:12]}…), kein erneuter Upload; Altbestand entfernt."
+                )
+            else:
+                link_failures.append(fp.name)
+            continue
 
         # Neue Version hochladen, WÄHREND die alte(n) Version(en) noch hängen.
         new_file_id = client.do_upload_file(fp)
         if not new_file_id:
             print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe, Altbestand unangetastet.")
+            # WP-F1-N8 (R1): vorher KEIN link_failures-Append -- die Datei
+            # war weder im Manifest (gut) noch in link_failures (schlecht),
+            # die Summary zählte sie fälschlich als "geändert erfolgreich"
+            # und `sys.exit(1)` blieb aus. Ein echter erneuter Uploadfehler
+            # muss den Lauf ehrlich unvollständig machen.
+            link_failures.append(fp.name)
             continue
 
         # An KB anhängen (Retry einmal nach 1s — Indexierung asynchron)
