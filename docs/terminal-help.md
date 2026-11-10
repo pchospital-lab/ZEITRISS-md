@@ -7,7 +7,16 @@ tags: [meta, setup]
 
 Ein Terminal (auch "Eingabeaufforderung" oder "Konsole") ist ein Fenster, in dem du Befehle eintippen kannst. ZEITRISS ist ein Spiel für Linux Mint; so öffnest du das Terminal dort direkt im richtigen Ordner:
 
-> Die Beispielbefehle unten (`python scripts/setup.py`) zeigen nur, wie ein Befehl in diesem Fenster aussieht — sie richten den Chat-/OpenWebUI-Weg ein und starten **kein** ZEITRISS-Terminalspiel. Der Terminal-Spielstart ist `python3 scripts/mmo_sim.py`, beschrieben unter [Spielerstart](spielerstart.md).
+> Normalerweise brauchst du das Terminal nur zum **Doppelklick auf
+> `zeitriss.sh`** im entpackten Ordner (Nemo fragt dabei einmalig „Im
+> Terminal ausführen") oder zum Starten über `./zeitriss.sh`, beschrieben
+> unter [Spielerstart](spielerstart.md). Der Beispielbefehl unten
+> (`python scripts/setup.py`) zeigt zusätzlich, wie ein Befehl in diesem
+> Fenster aussieht: `setup.py` richtet die gemeinsame Backend-Einrichtung
+> (OpenWebUI + LiteLLM) ein, die sowohl die KI-Spielleitung im
+> Terminalspiel als auch der optionale Browser-Chat-Weg nutzen — der
+> Terminal-Spielstart selbst ist `./zeitriss.sh` → Menü `[M]` bzw.
+> `python3 scripts/mmo_sim.py`.
 
 ## Linux (Mint)
 
@@ -16,7 +25,12 @@ Ein Terminal (auch "Eingabeaufforderung" oder "Konsole") ist ein Fenster, in dem
 3. Alternativ: **Rechtsklick** im Ordner → „Terminal hier öffnen" o. ä.
 
 ```bash
-# Beispiel: So sieht der Befehl aus
+# Beispiel: So sieht der normale Spielstart aus
+./zeitriss.sh
+```
+
+```bash
+# Beispiel: So sieht die gemeinsame Backend-Einrichtung aus
 python3 scripts/setup.py
 ```
 

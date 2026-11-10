@@ -17,6 +17,9 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
+# F1-1: private, pro Installation erzeugte Projektumgebung (scripts/venv_bootstrap.py)
+.venv/
+
 # Node
 node_modules/
 

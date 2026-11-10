@@ -29,35 +29,52 @@ Für das optionale Ausprobieren im Chat nutze den [Chat-Setup-Guide](setup-guide
 > [Koop-Leitfaden: Lokal mit Betreiber und Gästen](koop-online-spielen.md). Die
 > Installation unten gilt für den eigenen Spiel- oder Betreiberstart.
 
-Die dokumentierte Referenzumgebung verwendet Python 3.12 in einer normalen
-virtuellen Umgebung. Öffne ein Terminal im entpackten ZEITRISS-Projektordner:
+Entpacke das heruntergeladene ZEITRISS-Projekt (auch ein Pfad mit
+Leerzeichen funktioniert). Der normale Weg dorthin ist der Dateimanager:
+**Doppelklick auf `zeitriss.sh`** im entpackten Ordner. Nemo (der
+Mint-Standard-Dateimanager) fragt dabei einmalig, wie die Datei ausgeführt
+werden soll — wähle **„Im Terminal ausführen"**. Das ist die erforderliche
+einmalige lokale Ausführungs-/Vertrauensfreigabe des Dateimanagers; danach
+öffnet sich ein Terminal mit dem Launcher. Alternativ startest du denselben
+Launcher direkt aus einem bereits offenen Terminal im entpackten Ordner:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install -r requirements-ci.txt
+./zeitriss.sh
 ```
 
-Die Datei `requirements-ci.txt` enthält auch die für den Spielbetrieb
-benötigten Bibliotheken zur Saveprüfung. `--user` gehört nicht zu diesem
-venv-Einrichtungsweg. Andere Betriebssystem- und Installationsvarianten sind
-hier nicht als geprüft ausgewiesen.
+Der Starter richtet beim ersten Lauf automatisch eine eigene, private
+Projektumgebung unterhalb des Projektordners ein (`.venv/`, Python 3.12 als
+dokumentierte Referenzversion) und installiert dort die für den Spielbetrieb
+benötigten Bibliotheken (u. a. zur Saveprüfung, s. `requirements-ci.txt`).
+Das ersetzt den früheren Weg mit manuell aktivierter Entwickler-venv: kein
+Git-Checkout, kein eigenes `python3 -m venv`, keine globale `pip install`,
+kein Spielbetrieb als root. Ein gewöhnlicher späterer Start installiert
+nichts erneut. Fehlt Python 3 oder das Python-Modul `venv` (z. B. auf einer
+Mint-Minimalinstallation), nennt der Starter das konkret im Terminal
+(z. B. `sudo apt install python3-venv`) und bricht sichtbar ab, statt
+stumm weiterzulaufen. Andere Betriebssystem- und Installationsvarianten
+sind hier nicht als geprüft ausgewiesen.
 
 Echtes Spielen braucht außerdem eine eingerichtete KI-Spielleitung und ein
 begrenztes Modellbudget. Für KI-Mitspieler kommt eine Persona-Anbindung
-hinzu. Folge dazu dem [Setup-Guide](setup-guide.md); die Python-Installation
-allein richtet noch keinen Modellzugang ein. Modellzugangsdaten gehören
+hinzu. Folge dazu dem [Setup-Guide](setup-guide.md); die private
+Projektumgebung allein richtet noch keinen Modellzugang ein. Modellzugangsdaten gehören
 nicht in Spielstände, öffentliche Protokolle oder das Repository.
 
 ## Starten
 
 ```bash
-python3 scripts/mmo_sim.py
+./zeitriss.sh
 ```
 
-Alternativ startest du `python3 scripts/launcher.py` und wählst dort
-**`[M] ZEITRISS spielen (Terminal)`**. Die Browserauswahl
-`[3]` gehört zum getrennten Chat-Spielweg.
+**Beim allerersten Start** fehlt die KI-Spielleitung noch — wähle im
+Launcher-Menü zuerst **`[1] ZEITRISS einrichten`** (Details:
+[Setup-Guide](setup-guide.md#komplett-setup-in-openwebui-empfohlen)).
+Danach, und bei jedem weiteren Start, wähle **`[M] ZEITRISS spielen
+(Terminal)`** — das ist der normale Produktweg. Die Browserauswahl `[3]`
+gehört zum nachgeordneten, optionalen Chat-Spielweg. Direktaufruf
+`python3 scripts/mmo_sim.py` funktioniert weiterhin unverändert und
+verwendet dieselbe private Projektumgebung und denselben Datenspeicherort.
 
 Beim ersten Start erscheint eine kurze Einführung. Mit `einfuehrung` kannst
 du sie im Hauptmenü erneut öffnen. Das Terminal verwendet beim normalen

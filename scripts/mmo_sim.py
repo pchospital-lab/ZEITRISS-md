@@ -42,6 +42,31 @@ if _REPO_ROOT_STR in sys.path:
     sys.path.remove(_REPO_ROOT_STR)
 sys.path.insert(0, _REPO_ROOT_STR)
 
+# F1-1 (03_F1_AUFTRAG.md §F1-1): bei Direktaufruf `python scripts/mmo_sim.py`
+# (ohne den Starter `zeitriss.sh`/`scripts/zeitriss.py`) dieselbe private
+# Projektumgebung sicherstellen wie der Starter -- sonst scheitert der
+# gleich folgende Import von `mmo_sim.ui.tui` (transitiv `jsonschema`/
+# `referencing`, s. `mmo_sim/domain/zeitriss/save_validation.py`) auf einem
+# frischen Download ohne vorinstallierte Pakete mit einem rohen
+# `ModuleNotFoundError`. Läuft der Prozess bereits in der venv (z.B. weil
+# `zeitriss.py` schon dorthin gewechselt hat, bevor `[M]` diese Datei per
+# Hook im selben Prozess lädt), ist der Aufruf ein No-Op.
+#
+# ACHTUNG Selbst-Kollision (identisch zum W6-Fix oben): ein
+# `sys.path.insert(0, scripts/)` wuerde HIER erneut `scripts/` vor den
+# Repo-Root schieben und `import mmo_sim` (gleich darunter) wieder an diese
+# Shim-Datei statt an das echte Paket `mmo_sim/` binden. Deshalb wird
+# `venv_bootstrap.py` per EXPLIZITEM Dateipfad geladen (analog
+# `scripts/mmo_sim_launcher_hook.py:launch()`), ohne `sys.path` zu aendern.
+import importlib.util as _importlib_util  # noqa: E402
+
+_venv_bootstrap_spec = _importlib_util.spec_from_file_location(
+    "zeitriss_venv_bootstrap", Path(__file__).resolve().parent / "venv_bootstrap.py",
+)
+_venv_bootstrap = _importlib_util.module_from_spec(_venv_bootstrap_spec)
+_venv_bootstrap_spec.loader.exec_module(_venv_bootstrap)
+_venv_bootstrap.ensure_running_in_project_venv(_REPO_ROOT)
+
 from mmo_sim.core import identity  # noqa: E402
 from mmo_sim.ui.tui import TuiSession  # noqa: E402
 from mmo_sim.adapters.base import (  # noqa: E402
@@ -51,6 +76,7 @@ from mmo_sim.adapters.base import (  # noqa: E402
 from mmo_sim.adapters.factories import (  # noqa: E402
     default_gm_transport_factory as _default_gm_transport_factory,
     default_persona_driver_factory as _default_persona_driver_factory,
+    GM_ROUTE_KB_UNVERIFIED,
 )
 
 _LAST_PARTICIPANT_FILE = "last_participant.json"
@@ -118,6 +144,138 @@ def _resolve_host_capable(explicit: bool | None) -> bool:
     if raw is None or not raw.strip():
         return True
     return raw.strip().lower() not in ("0", "false", "no", "guest")
+
+
+def _resolve_active_gm_route(repo_root: Path) -> tuple[str | None, str | None]:
+    """F1-3 (03_F1_AUFTRAG.md §F1-3 "gespeicherte Werte muessen bei den
+    tatsaechlich verwendeten GM-Factories ankommen"): ermittelt das wirklich
+    konfigurierte SL-Modell (Preset-ID der `setup.json`-Standardvariante)
+    und die live damit verknuepfte Knowledge-Base-ID, statt der in
+    `agent_mp/sl_client.py` hartkodierten Werte eines alten Installs
+    (`SL_MODEL="zeitriss-v426-uncut"`, feste `KB_ID`). Jede frische
+    `setup.py`-Installation legt eine NEUE KB mit neuer ID an -- ohne diese
+    Funktion griffe das Terminalspiel weiterhin auf die alte, fuer eine
+    frische Installation falsche KB-ID zurueck.
+
+    Reiner Config-Read ueber die bestehende `setup.py`-Infrastruktur
+    (`APIClient.get_model`, `_auto_load_owui_env`) -- kein zweiter HTTP-
+    Client, keine generative Modellanfrage (nur `GET /api/v1/models/model`).
+    `_auto_load_owui_env()` laedt bei Bedarf `~/.openwebui_env`, damit das
+    normale Terminalspiel kein manuelles `set -a; . ~/.openwebui_env; set +a`
+    mehr braucht (vorher nur als Handanleitung in der Fehlermeldung von
+    `sl_client.SLSession.__init__` dokumentiert).
+
+    F1-N2 WP-N2-2a (501-Carve-out-Schliessung, vorher F1-N1 Red-Line
+    "kein Harness-Umbau"): ein fehlender/unlesbarer `setup.json`-Stand oder
+    eine fehlende Preset-ID liefert JETZT `(None, GM_ROUTE_KB_UNVERIFIED)`
+    statt `(None, None)` -- ohne zuverlaessig bestimmte eigene Modell-/KB-
+    Werte darf produktive GM-Nutzung NICHT still auf die in `sl_client.py`
+    hartkodierten HISTORISCHEN Defaults (`SL_MODEL`/`KB_ID` einer alten
+    Installation) zurueckfallen. Lokales Menue/Figurenverwaltung/
+    Gastaktionen bleiben unberuehrt bedienbar -- der Sentinel wirkt erst bei
+    echtem produktivem Transportbau (`default_gm_transport_factory`, NACH
+    dem Test-Double-Seam-Check, s. factories.py), nicht beim Programmstart.
+    Fehlt der OWUI-Key GANZ (`owui_key` leer), bleibt das UNVERAENDERT
+    `(sl_model, None)` -- die eigentliche fail-closed-Fehlermeldung bei
+    WIRKLICH fehlender SL-Anbindung bleibt weiterhin
+    `sl_client.SLSession.__init__` (fehlender OPENWEBUI_API_KEY).
+
+    F1-N1 WP5a (PF3.GM): schlaegt der KB-Read TROTZ vorhandenem Key fehl
+    (Auth-/Verbindungsfehler, Preset fehlt, Preset ohne KB-Verknuepfung,
+    ODER -- seit F1-N2 WP-N2-2a -- HTTP 501, s.u.), liefert diese Funktion
+    `(sl_model, GM_ROUTE_KB_UNVERIFIED)` statt still `(sl_model, None)` --
+    VORHER war das von einem echten "kein Key"-Fall nicht unterscheidbar,
+    und das Wiring reichte `None` unveraendert an `GmOwuiTransport` durch,
+    das dann (`kb_id or KB_ID`) auf die in `sl_client.py` hartkodierte
+    HISTORISCHE Knowledge-Base einer alten Installation zurueckfiel -- ein
+    fehlgeschlagener Read sah dadurch wie eine gueltige Route aus.
+    `default_gm_transport_factory` (mmo_sim/adapters/factories.py) erkennt
+    diesen Sentinel als `kb_id` und wirft NACH dem Test-Double-Seam-Check,
+    aber VOR dem echten `GmOwuiTransport`-Bau -- sichtbar, aber erst bei
+    echtem produktivem Gebrauch (`.turn()`), nicht beim Programmstart/
+    Status. F1-N2 WP-N2-2a: die vorherige EINZIGE Ausnahme (HTTP 501 auf
+    `GET /api/v1/models/model` blieb beim alten `(sl_model, None)`, weil die
+    schlanken Fake-OWUI-Loopback-Server der E2E-Subprozess-Tests den
+    Endpunkt nicht implementierten) ist ENTFERNT -- ein HTTP-Status
+    identifiziert keinen Testprozess. Die betroffenen Fakes bekommen
+    stattdessen ein minimales `do_GET` fuer diesen Endpunkt oder laufen ueber
+    den expliziten `MMO_SIM_GM_TRANSPORT_DOUBLE`-Seam (s. Testdateien)."""
+    try:
+        import setup as _setup_module  # noqa: E402  (scripts/ bereits auf sys.path, s.o.)
+    except ImportError:
+        # WP-N2-2a: Umgebung/Install kaputt (scripts/ nicht importierbar) ->
+        # eigene Modell-/KB-Werte nicht zuverlaessig bestimmbar. Sichtbar
+        # ablehnen bei produktivem Transportbau statt still auf die
+        # historischen sl_client.py-Defaults zu fallen (gleiche Sentinel-
+        # Logik wie ein fehlgeschlagener Live-Read weiter unten).
+        return None, GM_ROUTE_KB_UNVERIFIED
+
+    try:
+        cfg = json.loads((repo_root / "setup.json").read_text(encoding="utf-8"))
+        default_variant = cfg.get("default_variant")
+        variant = (cfg.get("variants") or {}).get(default_variant) or {}
+        sl_model = variant.get("preset_id")
+    except (OSError, json.JSONDecodeError, AttributeError):
+        # WP-N2-2a: setup.json fehlt/unlesbar/kaputt -> dieselbe sichtbare
+        # Ablehnung statt stillem Fallback auf die historische KB.
+        return None, GM_ROUTE_KB_UNVERIFIED
+    if not sl_model:
+        # WP-N2-2a: keine Preset-ID fuer die Default-Variante konfiguriert
+        # -> ebenfalls sichtbar ablehnen statt stillem Fallback.
+        return None, GM_ROUTE_KB_UNVERIFIED
+
+    try:
+        _setup_module._auto_load_owui_env()
+    except Exception:
+        pass
+    owui_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not owui_key:
+        # Echter "Key fehlt ganz"-Fall -- UNVERAENDERT. sl_client.__init__
+        # faengt das weiterhin eigenstaendig fail-closed ab.
+        return sl_model, None
+    owui_url = os.environ.get("OPENWEBUI_URL") or "http://localhost:8080"
+
+    import urllib.parse
+    try:
+        client = _setup_module.APIClient(owui_url, owui_key)
+        # F1-N1 WP5a (PF3.GM, Main-Verfeinerung ggue. dem ersten Exception-
+        # only-Stand): STATUS-bewusst statt `get_model` (das jeden Nicht-200
+        # zu None kollabiert und damit "Auth/Preset fehlgeschlagen" von
+        # "Server erreichbar, Preset ohne KB" ununterscheidbar macht).
+        # `APIClient.get` liefert `(code, data)`; `_request` faengt HTTP-/
+        # Verbindungsfehler intern ab (kein raise), der Code bleibt sichtbar.
+        code, data = client.get(
+            f"/api/v1/models/model?id={urllib.parse.quote(sl_model, safe='')}"
+        )
+    except Exception:
+        # Unerwarteter Client-/Konstruktionsfehler TROTZ vorhandenem Key ->
+        # unverifiziert, sichtbar ablehnen statt still auf historische KB.
+        return sl_model, GM_ROUTE_KB_UNVERIFIED
+
+    if code != 200 or not isinstance(data, dict):
+        # Erreichbar/versucht, aber Auth (401/403), Preset fehlt (404),
+        # unerreichbar (code 0), Endpunkt nicht implementiert (501 -- WP-
+        # N2-2a: KEINE Produktausnahme mehr, ein HTTP-Status identifiziert
+        # keinen Testprozess) oder unlesbar -> NICHT still auf die
+        # historische hartkodierte KB ausweichen, sondern sichtbar ablehnen
+        # (PF3.GM: "fehlgeschlagener Read darf nicht auf fremde historische
+        # KB ausweichen" -- voll geschlossen, nicht nur der raise-Fall).
+        return sl_model, GM_ROUTE_KB_UNVERIFIED
+
+    preset = data
+    kb_list = (preset.get("meta") or {}).get("knowledge")
+    kb_id: str | None = None
+    if isinstance(kb_list, list) and kb_list:
+        first = kb_list[0]
+        if isinstance(first, dict):
+            kb_id = first.get("id")
+        elif isinstance(first, str):
+            kb_id = first
+    if not kb_id:
+        # Preset lesbar, aber KEIN gueltiger KB-Link -> ebenfalls nicht auf
+        # die historische KB ausweichen (PF3.GM: "fehlender KB-Link").
+        return sl_model, GM_ROUTE_KB_UNVERIFIED
+    return sl_model, kb_id
 
 
 def _ensure_fifo(path: Path) -> None:
@@ -380,6 +538,21 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     participant_id = _resolve_participant_id(data_dir, args.participant)
     schema_path = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
+    # F1-3: die tatsaechlich konfigurierte Preset-/KB-Route live ermitteln
+    # (s. `_resolve_active_gm_route`-Docstring) -- fail-soft, blockiert den
+    # Start nicht.
+    _gm_sl_model, _gm_kb_id = _resolve_active_gm_route(_REPO_ROOT)
+    # WP5a/PF3.GM: `_gm_kb_id` kann der Sentinel `GM_ROUTE_KB_UNVERIFIED`
+    # sein (Read fehlgeschlagen trotz Key) -- `default_gm_transport_factory`
+    # selbst erkennt den Sentinel und wirft erst bei echtem produktivem
+    # Zugriff (NACH dem Test-Double-Seam-Check, s. factories.py), statt
+    # still auf die in sl_client.py hartkodierte historische KB
+    # zurueckzufallen. Die Pruefung lebt bewusst DORT, nicht hier im
+    # Wiring, damit ein gesetztes `MMO_SIM_GM_TRANSPORT_DOUBLE`
+    # (Test-/Grenzinjektions-Seam) weiterhin unveraendert Vorrang hat.
+    gm_transport_factory = _default_gm_transport_factory(
+        data_dir, _REPO_ROOT, sl_model=_gm_sl_model, kb_id=_gm_kb_id,
+    )
     session = TuiSession(
         onboarding_dir=data_dir / "onboarding",
         catalog_dir=data_dir / "catalog",
@@ -391,7 +564,7 @@ def main(argv: list[str] | None = None) -> int:
         # Live-SL-Anbindung (03 §7, OPENWEBUI_API_KEY etc.) bleibt ein
         # separates Setup; ohne sie liefert der erste Aufruf eine klare
         # Fehlermeldung statt eines stillen Spielstarts.
-        gm_transport_factory=_default_gm_transport_factory(data_dir, _REPO_ROOT),
+        gm_transport_factory=gm_transport_factory,
         # A1: echte Factory statt None -- ohne MMO_SIM_PERSONA_CLI/_API_*
         # Umgebungskonfiguration liefert der erste Persona-Einladungsversuch
         # eine klare Fehlermeldung (s. `_default_persona_driver_factory`).

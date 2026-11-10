@@ -73,6 +73,31 @@ python3 tests/mmo_sim/test_linus_n123_2026_11_06.py
 # NICHT als Spielinhalt leaken), hier additiv direkt gestartet.
 python3 tests/mmo_sim/test_zr_u3b_zuschauer_verworfen_nach_stop_2026_11_06.py
 
+# ZR-MINT-SPIELSTART-FEINSCHLIFF-20261109-F1 (03_F1_AUFTRAG.md §F1-1/F1-2/
+# F1-3): standalone Assert-Skripte (python3 -m unittest -q findet die
+# Modulfunktionen NICHT, s. jeweiliger Docstring) -- private Projektumgebung
+# fuer den normalen Mint-Start (F1-1), verdeckte OpenRouter-Key-Eingabe
+# (F1-2), konfigurierte Preset-/KB-Route bei den tatsaechlich verwendeten
+# GM-Factories (F1-3), hier additiv direkt gestartet.
+python3 tests/mmo_sim/test_f1_venv_bootstrap_2026_11_09.py
+python3 tests/mmo_sim/test_f1_openrouter_key_hidden_input_2026_11_09.py
+python3 tests/mmo_sim/test_f1_gm_route_threading_2026_11_09.py
+
+# ZR-MINT-SPIELSTART-FEINSCHLIFF-20261109-F1-N1 (Paket A, Linus): standalone
+# Assert-Skripte (python3 -m unittest -q findet die Modulfunktionen NICHT,
+# s. jeweiliger Docstring) -- Zero-POST-Nachweis fuer den optionalen
+# Cache-Probe-Test (WP2), kontextgenaue Docker-/LiteLLM-Statuschecks (WP1c),
+# optionaler lokaler Persona-API-Default nur am Einladepfad (WP5b),
+# feldweise erhaltender Env-Schreibhelfer (WP1b), Bestands-Re-Check vor
+# mutierendem Setup (WP1d), Terminal-[M]-Abschlusstexte (WP1e), hier additiv
+# direkt gestartet.
+python3 tests/mmo_sim/test_f1_n1_cache_probe_optin_2026_11_09.py
+python3 tests/mmo_sim/test_f1_n1_docker_litellm_status_2026_11_09.py
+python3 tests/mmo_sim/test_f1_n1_persona_api_default_2026_11_09.py
+python3 tests/mmo_sim/test_f1_n1_preserving_env_writer_2026_11_09.py
+python3 tests/mmo_sim/test_f1_n1_recheck_before_mutation_2026_11_09.py
+python3 tests/mmo_sim/test_f1_n1_terminal_m_completion_2026_11_09.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

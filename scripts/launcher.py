@@ -39,7 +39,7 @@ import urllib.request
 import urllib.error
 import webbrowser
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 # UTF-8-Output sicherstellen — Windows-cmd läuft per Default mit cp1252/cp850,
 # dann würde `print("✓")` mit UnicodeEncodeError crashen. Auf Python 3.7+
@@ -175,18 +175,47 @@ def _docker_daemon_hint() -> str:
 
 
 def _docker_ok() -> tuple[bool, str]:
+    """WP1c/PF1.4: unterscheidet, WARUM Docker nicht nutzbar ist, statt
+    jeden Fehlschlag pauschal als "Daemon läuft nicht" zu melden — die
+    nötige nächste Aktion ist für jeden Fall eine andere.
+
+    Reihenfolge: (1) Engine fehlt ganz, (2) Compose-Plugin fehlt,
+    (3) `docker ps` scheitert mit Permission-Hinweis (Nutzer nicht in der
+    `docker`-Gruppe), (4) sonstiger `docker ps`-Fehlschlag (Daemon aus)."""
     if not _cmd_available("docker"):
-        return False, "Docker nicht installiert (Download: https://docs.docker.com/get-docker/)"
+        return False, "Docker-Engine fehlt (Download: https://docs.docker.com/get-docker/)"
+
     try:
-        r = subprocess.run(
+        r_compose = subprocess.run(
+            ["docker", "compose", "version"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except subprocess.TimeoutExpired:
+        return False, "docker compose version hing fest (Timeout) — Docker-Daemon prüfen."
+    except Exception as e:
+        return False, f"docker-Aufruf fehlgeschlagen: {e.__class__.__name__}"
+    if r_compose.returncode != 0:
+        return False, "Docker Compose-Plugin fehlt (Installation: https://docs.docker.com/compose/install/)."
+
+    try:
+        r_ps = subprocess.run(
             ["docker", "ps"],
             capture_output=True, text=True, timeout=5,
         )
+    except subprocess.TimeoutExpired:
+        return False, "docker ps hing fest (Timeout) — Docker-Daemon prüfen."
     except Exception as e:
         return False, f"docker-Aufruf fehlgeschlagen: {e.__class__.__name__}"
-    if r.returncode != 0:
+    if r_ps.returncode != 0:
+        stderr_l = (r_ps.stderr or "").lower()
+        if "permission denied" in stderr_l or "dial unix" in stderr_l:
+            return False, (
+                "Kein Zugriff auf den Docker-Daemon (fehlende Gruppenrechte). "
+                "Nutzer zur 'docker'-Gruppe hinzufügen: sudo usermod -aG docker $USER, "
+                "danach neu einloggen (oder neuen Shell-Login starten)."
+            )
         return False, f"Docker-Daemon läuft nicht. {_docker_daemon_hint()}"
-    return True, "Docker läuft"
+    return True, "Docker läuft (inkl. Compose-Plugin)"
 
 
 
@@ -263,21 +292,50 @@ def _owui_key_status() -> tuple[bool, str]:
     return False, "nicht gefunden (weder Env noch ~/.openwebui_env)"
 
 
+def _expected_litellm_container_name() -> Optional[str]:
+    """Projektspezifischer Containername (`litellm-<project-slug>`, s.
+    `setup.py:run_install_litellm`), z.B. `litellm-zeitriss` für dieses
+    Projekt. `None`, wenn `setup.json` nicht lesbar ist."""
+    try:
+        cfg = load_cfg()
+        return f"litellm-{setup_module._docker_slug(cfg['project'])}"
+    except Exception:
+        return None
+
+
 def _litellm_ok() -> tuple[bool, str]:
-    # LiteLLM-Container aktiv?
+    """WP1c/PF1.4: route-/projektgenau statt "irgendein litellm"-Container —
+    ein fremder Container (z.B. `litellm-arxion` eines anderen Bausatzes)
+    darf den benötigten ZEITRISS-Schritt NICHT als erledigt gelten lassen."""
     if not _cmd_available("docker"):
         return False, "Docker fehlt"
+    expected = _expected_litellm_container_name()
     try:
         r = subprocess.run(
             ["docker", "ps", "--format", "{{.Names}}", "--filter", "name=litellm"],
             capture_output=True, text=True, timeout=5,
         )
         names = [n.strip() for n in r.stdout.splitlines() if n.strip()]
-        if names:
-            return True, f"Container läuft: {', '.join(names)}"
     except Exception:
-        pass
-    return False, "kein litellm-Container aktiv"
+        return False, "kein litellm-Container aktiv (Check fehlgeschlagen)"
+    if not names:
+        return False, "kein litellm-Container aktiv"
+    if expected is None:
+        # setup.json nicht lesbar -- kann die Route NICHT pruefen. WP-N2-1a:
+        # das darf KEIN grosszuegiger Pass sein (sonst liesse ein laufender
+        # Fremd-Container den Auto-Wire-Schritt uebersprungen zurueck, ohne
+        # dass die Route je bestaetigt wurde) -- "nicht prüfbar" ist
+        # ehrlicher als ein Fallback-"OK".
+        return False, (
+            f"setup.json nicht lesbar -- Route nicht prüfbar "
+            f"(Container laufen: {', '.join(names)})"
+        )
+    if expected in names:
+        return True, f"Container läuft: {expected}"
+    return False, (
+        f"läuft, aber nicht der für dieses Projekt erwartete Container "
+        f"({', '.join(names)} statt {expected}) — gehört vermutlich zu einem anderen Bausatz."
+    )
 
 
 def print_status_block() -> None:
@@ -387,16 +445,29 @@ def _detect_install_state() -> str:
         "fresh":          Nichts da. Klassisches Erstinstall ist richtig.
         "installed":      Preset + verlinkte KB existieren in OpenWebUI.
                           → Update-Pfad ist der semantisch richtige Default.
-        "partial":        Halb-Zustand (Preset ohne KB-Link, oder Preset weg
-                          aber andere Spuren da). Klassik-Install räumt auf,
+        "partial":        Halb-Zustand (Preset ohne KB-Link, Preset weg aber
+                          andere Spuren da, ODER eine verwaiste gleichnamige
+                          KB ohne Preset/Manifest -- WP-N2-1d: typischer
+                          Abbruch zwischen KB- und Preset-Anlage in
+                          `run_setup`). Klassik-Install räumt auf,
                           aber nur nach expliziter User-Bestätigung.
         "partial_no_key": Manifest vorhanden, aber kein API-Key in der Umgebung
                           (frische Shell, Repo-Klon ohne Setup-Lauf). Live-Check
                           unmöglich, run_setup wird sowieso gleich nach Key
                           fragen — daher KEIN extra Confirm-Prompt im Caller.
-        "unreachable":    OpenWebUI antwortet nicht oder Setup-Konfig kaputt.
+        "unreachable":    OpenWebUI antwortet nicht (echter health-down-Fall,
+                          `check_health()` False) oder Setup-Konfig kaputt.
                           Caller MUSS warnen, bevor er Klassik-Install startet —
                           sonst löscht run_setup eine in 30 s erreichbare KB.
+        "unclear":        WP-N6-1a: OpenWebUI IST erreichbar (`check_health()`
+                          True), aber Preset- oder KB-Lesung ist mehrdeutig
+                          (HTTP-Status ∉ {200,404}, 200 mit unlesbarem/form-
+                          falschem Körper). Das ist WEDER eine bestätigte
+                          Abwesenheit (→ "fresh") NOCH ein bestätigtes Preset
+                          (→ "installed"/"partial") — der Caller MUSS vor jeder
+                          Mutation anhalten (kein `_confirm_reinstall_*`, kein
+                          Override-Pfad; anders als "unreachable" gibt es hier
+                          keinen Confirm, sondern einen reinen Stopp).
 
     Wichtig zur Manifest-Logik: Das `.openwebui-sync.json`-Manifest ist NUR
     ein Indiz für frühere Sync-Aktivität, kein Wahrheits-Anker. Live-Preset+KB
@@ -442,6 +513,59 @@ def _detect_install_state() -> str:
             # Daher: "unreachable" → Caller fragt explizit.
             return "unreachable"
         preset = client.get_model(preset_id)
+        # WP-N3-1c: `get_model` kollabiert JEDEN Nicht-200 auf `None` --
+        # identisch zu einem bestätigten "Preset existiert nicht". Ein
+        # echter HTTP-Fehler (401/500/0/unlesbar) ist aber KEIN bestätigtes
+        # "fehlt", nur weil 404 das auch wäre. `last_model_status` ist
+        # best-effort (Doubles ohne dieses Attribut -> Default 200, altes
+        # Verhalten unverändert); nur ein ECHTER APIClient setzt es.
+        model_status = getattr(client, "last_model_status", 200)
+        # WP-N6-1a: OWUI ist hier bereits bestätigt erreichbar (health-check
+        # oben war True) -- ein mehrdeutiger Preset-Read ist deshalb KEIN
+        # "unreachable" (das würde den echten N2-Bootfall-Confirm-Pfad
+        # fälschlich auch für diesen Fall öffnen), sondern "unclear": weder
+        # bestätigtes Preset noch bestätigte Abwesenheit.
+        if preset is None and model_status not in (200, 404):
+            return "unclear"
+        # WP-N5-1a/WP-N6-1a: Status 200 ALLEIN bestätigt kein "Preset fehlt" --
+        # ein 200-Körper, den APIClient nicht als Objekt lesen konnte (s.
+        # `last_model_body_ok`, WP-N4-1 P3a / get_model-Formcheck WP-N6-1a),
+        # ist unlesbar/formfalsch, keine bestätigte Leere. Ohne diesen Check
+        # lief ein solcher Fall unten direkt in `has_preset=False` ->
+        # potenziell "fresh", obwohl der wahre Zustand unbekannt ist. Default
+        # True (Doubles ohne dieses Attribut -> altes Verhalten unverändert).
+        model_body_ok = getattr(client, "last_model_body_ok", True)
+        if preset is None and model_status == 200 and not model_body_ok:
+            return "unclear"
+
+        # WP-N2-1d: verwaiste KB erkennen (ohne Preset/Manifest -- z.B. nach
+        # einem Abbruch zwischen KB-Anlage und Preset-Anlage in `run_setup`,
+        # das die KB vor dem Preset anlegt). Ohne diesen Check klassifiziert
+        # die Funktion unten "fresh" -> `action_install` erreicht `run_setup`
+        # ungefragt, das gleichnamige KBs vor der Neuanlage stillschweigend
+        # LÖSCHT (s. `run_setup`s "destroy & recreate"-Block). Gleicher
+        # Name-Match wie dort (exaktes `kb_name`), damit beide Stellen
+        # dieselbe KB meinen.
+        kb_name = cfg.get("kb_name", f"{cfg['project']} Wissensspeicher")
+        kb_items = client.list_knowledge()
+        # WP-N3-1c: dieselbe Status-Unterscheidung wie oben -- eine leere
+        # Liste wegen HTTP-Fehler ist KEIN bestätigtes "keine KBs da".
+        kb_status = getattr(client, "last_knowledge_status", 200)
+        # WP-N6-1a: wie beim Preset -- erreichbar + mehrdeutiger KB-Status ist
+        # "unclear", nicht "unreachable" (OWUI ist ja da, nur die Lesung ist
+        # unklar).
+        if not kb_items and kb_status != 200:
+            return "unclear"
+        # WP-N5-1a/WP-N6-1a: wie beim Preset -- ein 200-Körper ohne passendes
+        # `items`-Feld (formfalsch) ist NICHT bestätigt leer, nur weil
+        # `list_knowledge()` dafür `[]` zurückgibt (s. `last_knowledge_
+        # body_ok`). Sonst würde ein unklarer Zustand hier stumm als
+        # "keine KB da" durchlaufen und `has_orphaned_kb` faelschlich
+        # `False` bleiben.
+        kb_body_ok = getattr(client, "last_knowledge_body_ok", True)
+        if kb_status == 200 and not kb_body_ok:
+            return "unclear"
+        has_orphaned_kb = any(kb.get("name") == kb_name for kb in kb_items)
     except Exception:
         return "unreachable"
 
@@ -464,7 +588,7 @@ def _detect_install_state() -> str:
     # weil run_sync ihn beim ersten Lauf eines installierten Stacks neu erzeugt.
     if has_preset and has_kb_link:
         return "installed"
-    if has_preset or has_manifest:
+    if has_preset or has_manifest or has_orphaned_kb:
         return "partial"
     return "fresh"
 
@@ -502,17 +626,148 @@ def _confirm_reinstall_unreachable() -> bool:
     return ans in ("j", "y", "ja", "yes")
 
 
+def _finish_installed_connection(cfg: dict) -> None:
+    """WP-N3-1a/WP-N4-1-P1: der erhaltende Anschlussschritt für den
+    `installed`-Zweig.
+
+    Vorher endete `action_install` im `installed`-Zweig per `action_update()`
+    (git-pull + `run_sync`, bearbeitet nur Preset/KB/Dateien) → `return` --
+    der Anschlusshelfer `ensure_litellm_autowire` lag nur HINTER `run_setup`
+    und wurde auf diesem Weg NIE erreicht. Diese Funktion ruft ihn jetzt
+    direkt auf (idempotent, ändert KB/Preset nicht) — für ZIP UND Checkout
+    gleich erreichbar, weil `setup_module`/`load_cfg` in beiden Auslieferungs-
+    formen identisch funktionieren.
+
+    WP-N4-1 P1: Fehlt der Master-Key, verwies `ensure_litellm_autowire`
+    bisher nur auf "Menü [1]/--install-litellm" -- wir SIND aber bereits in
+    [1] (installed-Zweig), also führt das genau in dieselbe Schleife zurück
+    (s. n3-continuation-transcript.log:108-131). Statt dort zu enden, bieten
+    wir hier direkt den genau fehlenden Schritt an: `run_install_litellm`
+    (derselbe Baustein wie im fresh-Weg, s. `action_install` LiteLLM-Block),
+    der die .env+Master-Key schreibt und am Ende selbst `ensure_litellm_
+    autowire` aufruft -- kein zweiter Aufruf hier nötig, kein neues
+    Setup-Modul, kein Fremd-Secret. Ist der Master-Key schon vorhanden (nur
+    OWUI-Key fehlt o.ä.), führt der normale `ensure_litellm_autowire`-Pfad
+    die eigenen bereits gespeicherten Werte unverändert weiter.
+    """
+    env_file = REPO / "scripts" / "litellm" / ".env"
+    master_key = setup_module._read_env_file(env_file).get("LITELLM_MASTER_KEY") or ""
+    if not master_key:
+        print()
+        print(yellow("  Kein LiteLLM-Master-Key gefunden — der LiteLLM-Cache ist noch nicht eingerichtet."))
+        print(dim("  Das ist der fehlende Teil, bevor der Anschluss fertig werden kann."))
+        ans = _prompt("  LiteLLM-Cache jetzt einrichten? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            try:
+                setup_module.run_install_litellm(REPO, cfg)
+            except SystemExit:
+                pass
+            except Exception as e:
+                print(red(f"\n  LiteLLM-Install fehlgeschlagen: {e.__class__.__name__}: {e}"))
+        else:
+            print(dim("  Übersprungen. Menü [1] erneut starten, wenn der Anschluss doch eingerichtet werden soll."))
+        return
+    try:
+        setup_module.ensure_litellm_autowire(REPO, cfg)
+    except Exception as e:
+        print(red(f"  Verkabelungs-Check fehlgeschlagen: {e.__class__.__name__}: {e}"))
+
+
+def _resolve_orphaned_kb_for_partial(cfg: dict) -> tuple[str, Any]:
+    """WP-N3-1b/WP-N4-1-P3(b): bei state=='partial' gezielt prüfen, ob GENAU
+    der WP-N2-1d-Orphaned-KB-Fall vorliegt (eindeutig namensgleiche KB, aber
+    KEIN Preset) -- NUR dafür ist die erhaltende Ergänzung (statt Confirm→
+    `run_setup`s destroy&recreate) ohne Mehrdeutigkeit sicher.
+
+    WP-N4-1 P3: vorher vereinigte diese Funktion Fehler + Mehrdeutigkeit +
+    bestätigte Abwesenheit in einem einzigen `None` -- der echte [1]-Caller
+    reichte das ungeprüft an `_confirm_reinstall_after_partial` (Default
+    "j") weiter, obwohl ein unlesbarer/formfalscher 200-Körper oder mehrere
+    Treffer KEINE bestätigte Abwesenheit sind. Jetzt liefert die Funktion
+    ein unterscheidbares `(kind, value)`:
+      - ("kb", kb_dict)    -- eindeutiger orphaned-KB-Treffer, sichere
+                              erhaltende Fortsetzung möglich.
+      - ("absent", None)   -- bestätigt KEIN orphaned-KB-Fall (Preset
+                              existiert schon [bestätigt via HTTP 200], ODER
+                              eine lesbare Antwort mit 0 Treffern) -- der
+                              normale, ausdrücklich bestätigte Confirm-Pfad
+                              bleibt für diese 'partial'-Spielarten richtig.
+      - ("unclear", reason) -- Fehler/unreachable/kein Key/unlesbarer oder
+                              formfalscher Körper/Mehrdeutigkeit (>1
+                              Treffer) -- der Caller MUSS vor jeder Mutation
+                              anhalten; `reason` ist ein druckbarer
+                              Kurzbefund.
+
+    Status UND Körper werden unterschieden (s. `APIClient.last_model_
+    body_ok`/`last_knowledge_body_ok`, WP-N4-1 P3a) -- ein HTTP-200 mit
+    unlesbarem Körper gilt NICHT als bestätigt leer/vorhanden. Niemals eine
+    Mutation, reiner Read.
+    """
+    try:
+        if not _ensure_owui_env():
+            return "unclear", "kein OPENWEBUI_API_KEY gefunden"
+        url = _openwebui_url()
+        client = setup_module.APIClient(url, os.environ["OPENWEBUI_API_KEY"])
+        if not client.check_health():
+            return "unclear", "OpenWebUI antwortet nicht (health-check)"
+        preset_id = _default_preset_id(cfg)
+        preset = client.get_model(preset_id)
+        if preset is not None:
+            return "absent", None  # Preset existiert schon -- anderer 'partial'-Fall
+        if client.last_model_status == 200 and not client.last_model_body_ok:
+            return "unclear", "Preset-Check: HTTP 200 mit unlesbarem Körper"
+        if client.last_model_status != 404:
+            return "unclear", f"Preset-Check unklar (HTTP {client.last_model_status})"
+        kb_name = cfg.get("kb_name", f"{cfg['project']} Wissensspeicher")
+        knowledge = client.list_knowledge()
+        if client.last_knowledge_status != 200:
+            return "unclear", f"KB-Liste unklar (HTTP {client.last_knowledge_status})"
+        if not client.last_knowledge_body_ok:
+            return "unclear", "KB-Liste: HTTP 200 mit unlesbarem/formfalschem Körper"
+        matches = [kb for kb in knowledge if kb.get("name") == kb_name]
+        if len(matches) == 1:
+            return "kb", matches[0]
+        if len(matches) == 0:
+            return "absent", None
+        return "unclear", f"{len(matches)} gleichnamige Knowledge Bases gefunden — mehrdeutig"
+    except Exception as e:
+        return "unclear", f"{e.__class__.__name__}: {e}"
+
+
+def _complete_orphaned_kb_partial(cfg: dict, kb: dict) -> None:
+    """WP-N3-1b: erhaltende Fortführung für die eindeutig passende,
+    namensgleiche KB ohne Preset -- ruft `setup_module.complete_orphaned_
+    kb_install` (ERGÄNZT Preset-Link + Manifest, löscht/ersetzt nichts),
+    danach denselben Connection-Schritt wie der `installed`-Pfad."""
+    print()
+    print(green(f"  ✓ Vorhandene Knowledge Base gefunden (ID: {kb.get('id')}, Name: {kb.get('name')})."))
+    print("  Kein Preset dazu — ich ergänze den fehlenden Teil, OHNE die KB neu aufzubauen.")
+    print(dim("  Für einen kompletten Neuaufbau: [7] Reset — eigene, ausdrückliche Wahl."))
+    ok = setup_module.complete_orphaned_kb_install(REPO, cfg, kb["id"])
+    if not ok:
+        print(red("  Ergänzung nicht vollständig — Details oben. Bitte [6] Diagnose prüfen."))
+        _pause()
+        return
+    _finish_installed_connection(cfg)
+    _pause()
+
+
 def _ensure_owui_env() -> bool:
     """Auto-lade ~/.openwebui_env in os.environ, wenn Keys fehlen.
 
     Returns True, wenn OPENWEBUI_API_KEY jetzt gesetzt ist (oder vorher schon war).
     Returns False, wenn auch nach Auto-Load nichts gefunden wurde.
-    """
-    if os.environ.get("OPENWEBUI_API_KEY", "").strip():
-        return True
+
+    WP-N2-2c: vorher brach die Funktion sofort mit `return True` ab, sobald
+    `OPENWEBUI_API_KEY` schon im Prozess-Env stand -- eine NUR in der Datei
+    gespeicherte bewusste Wahl (z.B. `MMO_SIM_PERSONA_CLI`/`_API_*`) wurde
+    dann NIE geladen. Jetzt wird die Datei immer gelesen und fehlende Werte
+    nachgeladen; bereits gesetzte Prozesswerte werden (wie bisher) NIE
+    überschrieben (`not os.environ.get(k)`-Guard unverändert)."""
+    key_already_set = bool(os.environ.get("OPENWEBUI_API_KEY", "").strip())
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
-        return False
+        return key_already_set
     try:
         for line in home_env.read_text("utf-8").splitlines():
             line = line.strip()
@@ -529,7 +784,7 @@ def _ensure_owui_env() -> bool:
                 os.environ[k] = v
     except Exception as e:
         print(yellow(f"  Warnung: konnte {home_env} nicht lesen: {e}"))
-        return False
+        return key_already_set
     return bool(os.environ.get("OPENWEBUI_API_KEY", "").strip())
 
 
@@ -580,6 +835,21 @@ def action_install_lore() -> None:
         print(bold("\n  [L] Lore-Setup\n"))
         print(dim("  Hinweis: Eine alte Sync-Spur liegt im Repo. "
                   "run_setup fragt gleich nach dem API-Key."))
+    elif state == "unclear":
+        # WP-N6-1a: diese Funktion klassifiziert vorab und ruft danach
+        # `action_install(_skip_state_check=True)` -- ohne eigenen Stopp
+        # hier würde ein neu eingeführtes "unclear" (anders als vorher
+        # "unreachable") unbehandelt durch dieses if/elif fallen und
+        # direkt in den skip-state-check-Pfad von `action_install` laufen,
+        # der KEINEN eigenen Live-Check mehr macht. Gleiche Stopplinie wie
+        # die echten [1]-Caller.
+        print(bold("\n  [L] Lore-Setup\n"))
+        print()
+        print(yellow("  Bestand unklar: Preset-/KB-Lesung mehrdeutig (unlesbarer oder formfalscher Antwortkörper)."))
+        print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+        print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+        _pause()
+        return
     elif state == "unreachable":
         print(bold("\n  [L] Lore-Setup\n"))
         if not _confirm_reinstall_unreachable():
@@ -636,8 +906,31 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
             if ans in ("", "j", "y", "ja", "yes"):
                 action_update()
+            # WP-N3-1a: `action_update()` (git-pull + run_sync) ergänzt KEINEN
+            # Backendanschluss -- ohne diesen Aufruf lief der installed-Zweig
+            # bisher per `return` am Anschlusshelfer vorbei (nie erreicht,
+            # weder bei bestätigtem noch bei abgelehntem Update-Angebot).
+            _finish_installed_connection(load_cfg())
+            _pause()
             return
         if state == "partial":
+            kind, value = _resolve_orphaned_kb_for_partial(load_cfg())
+            if kind == "kb":
+                _complete_orphaned_kb_partial(load_cfg(), value)
+                return
+            if kind == "unclear":
+                # WP-N4-1 P3(b): unklar/mehrdeutig haelt VOR jeder Mutation
+                # an -- kein _confirm_reinstall_after_partial-Aufruf (dessen
+                # Default "j" waere hier eine vorbelegte Mutation auf Basis
+                # eines ungeklaerten Befunds).
+                print()
+                print(yellow(f"  Bestand unklar: {value}."))
+                print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+                print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+                _pause()
+                return
+            # kind == "absent": bestätigt kein orphaned-KB-Fall -- der
+            # normale, ausdrücklich bestätigte Confirm-Pfad bleibt richtig.
             if not _confirm_reinstall_after_partial():
                 print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
                 _pause()
@@ -651,6 +944,21 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             # nicht ganz "fresh" ist und etwas neu aufgebaut werden könnte.
             print(dim("  Hinweis: Eine alte Sync-Spur liegt im Repo. "
                       "run_setup fragt jetzt nach dem API-Key."))
+        elif state == "unclear":
+            # WP-N6-1a: OWUI ist erreichbar, aber Preset-/KB-Lesung ist
+            # mehrdeutig (unlesbarer/formfalscher Körper, Status ausserhalb
+            # 200/404) -- das ist WEDER bestätigtes Preset NOCH bestätigte
+            # Abwesenheit. Kein `_confirm_reinstall_unreachable`-Aufruf hier:
+            # dessen Override erreicht run_setup NICHT NUR bei bewusster
+            # Zustimmung, sondern es gibt bei "unclear" ueberhaupt KEINEN
+            # Confirm -- reiner Stopp, auch wenn die UI zustimmen würde
+            # (gleiche Stopplinie wie der partial-unclear-Zweig oben).
+            print()
+            print(yellow("  Bestand unklar: Preset-/KB-Lesung mehrdeutig (unlesbarer oder formfalscher Antwortkörper)."))
+            print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+            print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+            _pause()
+            return
         elif state == "unreachable":
             if not _confirm_reinstall_unreachable():
                 _pause()
@@ -661,7 +969,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
 
     print("  Was jetzt passiert:")
     print("   1. Voraussetzungen werden geprüft (Docker, Python, OpenWebUI).")
-    print("   2. Einmal im Browser: Admin-Account + OpenRouter-Key + OpenWebUI-API-Key (A/B/C).")
+    print("   2. Einmal einrichten: Admin-Account im Browser (A/B) + OpenRouter-Key verdeckt im Terminal (C).")
     print(f"   3. Der {meta()['noun']}-Inhalt wird in OpenWebUI als Preset + Knowledge Base angelegt.")
     print("   4. LiteLLM-Cache-Container einrichten (spart ~90 % der Modellkosten).")
     print()
@@ -703,20 +1011,13 @@ def action_install(*, _skip_state_check: bool = False) -> None:
 
     if not _ensure_owui_env():
         url = _openwebui_url()
-        print(yellow("\n  🌐 Jetzt bist du kurz im Browser dran — drei Schritte (A→B→C):"))
+        print(yellow("\n  🌐 Jetzt bist du kurz im Browser dran — zwei Schritte (A→B):"))
         print()
         print(bold("  A) Admin-Account in OpenWebUI anlegen"))
         print(f"     OpenWebUI öffnet sich auf {url}")
         print("     Benutzername + Passwort setzen — bleibt rein lokal.")
         print()
-        print(bold("  B) OpenRouter-Key als Connection in OpenWebUI eintragen"))
-        print("     Profil-Icon oben rechts → Einstellungen → Verbindungen")
-        print("     → '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):")
-        print("       Base URL:  https://openrouter.ai/api/v1")
-        print("       API-Key:   dein 'sk-or-v1-...' von https://openrouter.ai/keys")
-        print("     Speichern.")
-        print()
-        print(bold("  C) OpenWebUI-API-Key für mich erzeugen"))
+        print(bold("  B) OpenWebUI-API-Key für mich erzeugen"))
         print("     (brauche ich gleich, um Preset + Knowledge Base anzulegen)")
         print("     Profil-Icon → Einstellungen → Account → API Keys")
         print("     → 'Create new key' → Key kopieren.")
@@ -725,7 +1026,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         if _open_browser(url):
             print(dim("  (Den Browser habe ich dir schon geöffnet.)"))
         print()
-        print(yellow("  ⏸️  Ich warte hier, während du A+B+C erledigst. Danach Key unten einfügen."))
+        print(yellow("  ⏸️  Ich warte hier, während du A+B erledigst. Danach Key unten einfügen."))
         print()
         print(dim("  (Einfügen: Windows CMD Rechtsklick, macOS Cmd+V, Linux Ctrl+Shift+V.)"))
         from getpass import getpass
@@ -736,6 +1037,120 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             return
         os.environ["OPENWEBUI_API_KEY"] = key
         os.environ.setdefault("OPENWEBUI_URL", url)
+
+    # Externer OpenRouter-Key EINMAL verdeckt erfassen (WP1a/PF1.1): vorher
+    # musste er hier zusätzlich manuell als OWUI-Connection eingetragen
+    # werden (früherer Browser-Schritt B, jetzt gestrichen) UND wurde
+    # später in `run_install_litellm` per getpass ERNEUT abgefragt — keine
+    # einmalige Erfassung. Die OWUI↔LiteLLM-Connection erledigt das
+    # vorhandene Auto-Wire (`_ensure_owui_litellm_connection` in
+    # run_install_litellm) automatisch, sobald der Key gesetzt ist; sobald
+    # `OPENROUTER_API_KEY` hier in der Umgebung steht, entfällt der zweite
+    # getpass-Prompt dort von selbst (er zieht den Wert zuerst aus
+    # os.environ, s. run_install_litellm Schritt 2).
+    or_ok, _ = _openrouter_key_status()
+    if not or_ok:
+        home_env_existing = _parse_env_file(Path.home() / ".openwebui_env")
+        loaded_or = home_env_existing.get("OPENROUTER_API_KEY", "").strip()
+        if loaded_or:
+            os.environ["OPENROUTER_API_KEY"] = loaded_or
+        else:
+            print()
+            print(bold("  C) OpenRouter-Key (einmal, verdeckt)"))
+            print("     Von https://openrouter.ai/keys — 'sk-or-v1-...'.")
+            print(yellow("     Unter https://openrouter.ai/settings/privacy den Provider"))
+            print(yellow("     'Anthropic' erlauben — sonst cached LiteLLM später nicht."))
+            from getpass import getpass
+            or_key = getpass("  OpenRouter-API-Key (Eingabe ist unsichtbar): ").strip()
+            if not or_key:
+                print(red("  Kein OpenRouter-Key eingegeben, Abbruch."))
+                _pause()
+                return
+            if not or_key.startswith("sk-or-"):
+                print(red("  Das sieht nicht nach einem OpenRouter-Key aus. Erwartet: sk-or-..."))
+                _pause()
+                return
+            os.environ["OPENROUTER_API_KEY"] = or_key
+
+    # WP1b, Aufrufer 1: erfasste Keys feldweise erhaltend nach
+    # ~/.openwebui_env persistieren (vorher: nur os.environ, PF1.2 — der
+    # Folgestart fand die lokale Auth nicht wieder, weil action_rekeys der
+    # einzige Schreibpfad war).
+    home_env = Path.home() / ".openwebui_env"
+    persist_updates = {
+        "OPENWEBUI_URL": os.environ.get("OPENWEBUI_URL", _openwebui_url()),
+        "OPENWEBUI_API_KEY": os.environ["OPENWEBUI_API_KEY"],
+    }
+    if os.environ.get("OPENROUTER_API_KEY", "").strip():
+        persist_updates["OPENROUTER_API_KEY"] = os.environ["OPENROUTER_API_KEY"]
+    if not home_env.is_file():
+        home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+    if not setup_module._update_env_file_preserving(home_env, persist_updates):
+        print(yellow(f"  Warnung: Keys konnten nicht nach {home_env} persistiert werden — nur für diesen Lauf gesetzt."))
+
+    # WP1d/PF1.6: Bestands-Re-Check NACH Auth, VOR dem mutierenden run_setup.
+    # Die Klassifizierung ganz oben lief ohne Key (kein Live-Check möglich)
+    # und kann daher "fresh"/"partial_no_key" geliefert haben, selbst wenn
+    # in OpenWebUI längst Preset+KB existieren — run_setup würde die dann
+    # BLIND LÖSCHEN (es räumt gleichnamige Presets/KBs vor dem Neuaufbau
+    # auf, siehe run_setup). Mit dem jetzt gesetzten Key ist ein echter
+    # Live-Check möglich; der hat Vorrang vor der alten Klassifizierung.
+    recheck_state = _detect_install_state()
+    if recheck_state == "installed":
+        print()
+        print(green(f"  ✓ {meta()['name']} ist in OpenWebUI bereits eingerichtet."))
+        print(dim("  Das war beim ersten Check (ohne Key) noch nicht sichtbar."))
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um — kein destruktiver Neuaufbau.")
+        print()
+        ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            action_update()
+        # WP-N3-1a: wie beim Eingangscheck -- `action_update()` ersetzt den
+        # Anschluss nicht. Vorher endete dieser Zweig hier per `return`,
+        # ohne `ensure_litellm_autowire` je zu erreichen (auch nicht nach
+        # einem erfolgreichen `run_setup`-Lauf, weil der ja übersprungen
+        # wurde). Läuft für ZIP und Checkout gleich, weil `setup_module`
+        # in beiden Auslieferungsformen identisch ist.
+        _finish_installed_connection(load_cfg())
+        _pause()
+        return
+    if recheck_state == "partial":
+        kind, value = _resolve_orphaned_kb_for_partial(load_cfg())
+        if kind == "kb":
+            _complete_orphaned_kb_partial(load_cfg(), value)
+            return
+        if kind == "unclear":
+            # WP-N4-1 P3(b): wie beim Eingangscheck -- unklar/mehrdeutig
+            # haelt VOR jeder Mutation an, kein _confirm_reinstall_after_
+            # partial-Default-"j".
+            print()
+            print(yellow(f"  Bestand unklar: {value}."))
+            print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+            print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+            _pause()
+            return
+        # kind == "absent": bestätigt kein orphaned-KB-Fall -- der normale,
+        # ausdrücklich bestätigte Confirm-Pfad bleibt richtig.
+        if not _confirm_reinstall_after_partial():
+            print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
+            _pause()
+            return
+    elif recheck_state == "unclear":
+        # WP-N6-1a: wie beim Eingangscheck -- erreichbar, aber Preset-/KB-
+        # Lesung mehrdeutig. Kein Confirm, reiner Stopp (siehe Eingangscheck-
+        # Zweig oben für die vollständige Begründung).
+        print()
+        print(yellow("  Bestand unklar: Preset-/KB-Lesung mehrdeutig (unlesbarer oder formfalscher Antwortkörper)."))
+        print(dim("  Vor einem möglichen Neuaufbau: [6] Diagnose prüfen, oder OpenWebUI/API-Key korrigieren."))
+        print(dim("  Ein bewusster Neuaufbau bleibt über [7] Reset möglich."))
+        _pause()
+        return
+    elif recheck_state == "unreachable":
+        if not _confirm_reinstall_unreachable():
+            _pause()
+            return
+    # "fresh" (oder ein residuales "partial_no_key") -> normaler Erstinstall
+    # ist der korrekte, nicht-destruktive nächste Schritt.
 
     # run_setup kann per sys.exit(1) abbrechen (z.B. ungültiger API-Key); in
     # dem Fall wäre es falsch, danach noch den LiteLLM-Install-Prompt zu zeigen,
@@ -761,11 +1176,20 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         _pause()
         return
 
-    # LiteLLM-Anfrage nach Full-Setup — nur wenn noch kein litellm-Container läuft
-    ok, _ = _litellm_ok()
+    # LiteLLM-Anfrage nach Full-Setup. WP-N2-1a: ein laufender passender
+    # Container ist nur ein Komponentenhinweis (Prozess existiert), kein
+    # Beleg für eine funktionierende OWUI<->LiteLLM-Connection/Route -- der
+    # Auto-Wire-/Connection-Check muss daher idempotent trotzdem laufen statt
+    # den ganzen Schritt zu überspringen. `ensure_litellm_autowire` dupliziert
+    # eine bereits korrekt verbundene Route NICHT (eigene Idempotenz-Checks).
+    ok, info = _litellm_ok()
     if ok:
         print()
-        print(green("  ✓ LiteLLM-Cache läuft bereits — LiteLLM-Schritt übersprungen."))
+        print(green(f"  ✓ LiteLLM-Cache läuft bereits ({info}) — prüfe/bestätige die Verkabelung..."))
+        try:
+            setup_module.ensure_litellm_autowire(REPO, load_cfg())
+        except Exception as e:
+            print(red(f"  Verkabelungs-Check fehlgeschlagen: {e.__class__.__name__}: {e}"))
     else:
         print()
         print(bold("  LiteLLM-Cache aktivieren? (gehört zum Golden Setup, spart ~90 % Prompt-Kosten)"))
@@ -1017,20 +1441,21 @@ def action_rekeys() -> None:
     else:
         or_key = or_input or existing_or
 
-    lines = [
-        "# Vom Launcher geschrieben - automatisch gelesen.",
-        f"OPENWEBUI_URL={url}",
-        f"OPENWEBUI_API_KEY={owui_key}",
-    ]
+    # WP1b, Aufrufer 2: derselbe feldweise-erhaltende Helfer wie
+    # `action_install`/`run_install_litellm` statt des 4-Zeilen-Neubaus —
+    # erhält andere Felder/Kommentare, die in dieser Datei stehen könnten.
+    updates = {"OPENWEBUI_URL": url, "OPENWEBUI_API_KEY": owui_key}
+    remove: set = set()
     if or_key:
-        lines.append(f"OPENROUTER_API_KEY={or_key}")
-    home_env.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-    try:
-        home_env.chmod(0o600)
-    except OSError:
-        # Windows-NTFS: chmod wirkungslos; bewusst stumm (keine Panik-Warn für den Nutzer).
-        pass
+        updates["OPENROUTER_API_KEY"] = or_key
+    else:
+        remove.add("OPENROUTER_API_KEY")
+    if not home_env.is_file():
+        home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+    if not setup_module._update_env_file_preserving(home_env, updates, remove=remove):
+        print(red(f"  Keys konnten nicht gespeichert werden ({home_env})."))
+        _pause()
+        return
 
     print(green(f"\n  ✓  Keys gespeichert in {home_env}"))
     os.environ["OPENWEBUI_URL"] = url
@@ -1516,6 +1941,18 @@ def _start_openwebui() -> None:
             "--restart", "always",
             "-p", "8080:8080",
             "-v", "open-webui:/app/backend/data",
+            # WP-N2-1b: dieser Container läuft ohne `--network=host` gebridgt
+            # -- aus seiner Sicht ist `127.0.0.1` der Container selbst, nicht
+            # der Host, auf dem LiteLLM loopback-only published wird. Der
+            # TATSÄCHLICHE Anschluss an LiteLLM läuft über das GEMEINSAME
+            # Docker-Netz + den Container-Namen (`setup.py:
+            # _ensure_owui_on_litellm_network` / `_owui_litellm_target_host`),
+            # NICHT über `host.docker.internal` (auf nativer Linux-Engine
+            # erreicht die Bridge-Gateway-Adresse einen 127.0.0.1-publizierten
+            # Port nicht). `--add-host` bleibt nur als harmloser Docker-Desktop-
+            # Kompatibilitätshint (dort ist host.docker.internal ohnehin da);
+            # auf Linux ist es ein No-Op, kein benötigter Pfad.
+            "--add-host", "host.docker.internal:host-gateway",
             # ENABLE_API_KEYS=true: seit neueren OpenWebUI-Versionen (ab 0.11.x)
             # ist die API-Key-Erstellung per Default deaktiviert. Ohne dieses
             # Flag kann der User keinen OpenWebUI-API-Key erzeugen, den der

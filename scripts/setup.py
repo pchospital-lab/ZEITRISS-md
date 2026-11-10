@@ -361,6 +361,31 @@ class APIClient:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.timeout = timeout
+        # WP-N3-1c: letzter HTTP-Status der zustandsentscheidenden Reads --
+        # `get_model`/`list_knowledge` kollabieren jeden Nicht-Erfolg auf
+        # None/[] (brauchbar für die meisten Caller), aber `_detect_install_
+        # state` muss einen echten Fehler (401/500/0/unlesbar) von einer
+        # bestätigten Antwort unterscheiden können, bevor es "fresh"/leer
+        # annimmt. Default None = "noch kein Call" (kein falsches Signal).
+        self.last_model_status: Optional[int] = None
+        self.last_knowledge_status: Optional[int] = None
+        # WP-N4-1 P3(a): Koerper-Lesbarkeit GETRENNT vom Status -- ein
+        # HTTP-200 mit unbrauchbarem/formfalschem Koerper (kein JSON-Objekt)
+        # ist NICHT dasselbe wie eine bestaetigte leere/vorhandene Antwort.
+        # None = noch kein Call. True = Status != 200 (Lesbarkeits-Frage
+        # dann nicht relevant, der Status selbst ist schon das Signal) ODER
+        # Status == 200 UND Koerper hat die erwartete Form (dict). False =
+        # Status == 200, aber Koerper NICHT die erwartete Form -- unklar,
+        # darf NICHT wie "bestaetigt leer"/"bestaetigt nicht gefunden"
+        # behandelt werden.
+        self.last_model_body_ok: Optional[bool] = None
+        self.last_knowledge_body_ok: Optional[bool] = None
+        # WP-N6-1b: wie oben, aber fuer `list_files()` -- True NUR bei
+        # tatsaechlich vollstaendiger Liste (s. `list_files`-Docstring).
+        # None = noch kein Call.
+        self.last_files_complete: Optional[bool] = None
+        # WP-N6-1b: Duplicate-Content-Orakel fuer `add_file_to_knowledge`.
+        self.last_add_file_duplicate: Optional[bool] = None
         # Allow self-signed certs for localhost
         self._ctx = ssl.create_default_context()
         if "localhost" in base_url or "127.0.0.1" in base_url:
@@ -479,8 +504,17 @@ class APIClient:
 
     def list_knowledge(self) -> list[dict]:
         code, data = self.get("/api/v1/knowledge/")
-        if code == 200 and isinstance(data, dict):
-            return data.get("items", [])
+        self.last_knowledge_status = code
+        # WP-N5-1a: ein Dict ALLEIN ist keine gültige Körperform -- eine
+        # KB-Antwort ohne passendes `items`-Feld (anderes Schema, Fehler-
+        # Objekt mit `detail` o.ä.) würde sonst über `data.get("items", [])`
+        # stumm als bestätigt-leer durchlaufen. `items` muss selbst eine
+        # Liste sein, sonst ist der Körper formfalsch -- genauso unklar wie
+        # ein unlesbarer Körper, NICHT bestätigt leer.
+        items_ok = isinstance(data, dict) and isinstance(data.get("items"), list)
+        self.last_knowledge_body_ok = (code != 200) or items_ok
+        if code == 200 and items_ok:
+            return data["items"]
         return []
 
     def delete_knowledge(self, kb_id: str) -> bool:
@@ -509,21 +543,44 @@ class APIClient:
         (known bug across 0.8.x/0.9.x), so post-link verification via GET is
         unreliable as a definitive check. We trust HTTP 200 here; the caller
         (run_sync) does an additional end-to-end retrieval check.
+
+        WP-N6-1b: `self.last_add_file_duplicate` -- best-effort-Marker (wie
+        `last_model_status` etc.), True NUR bei HTTP 400 mit "duplicate" im
+        Fehlertext (OpenWebUIs dokumentierte "400: Duplicate content
+        detected"-Eigenschaft, s. `run_sync`). Dient `complete_orphaned_kb_
+        install` als Orakel, um einen inhaltlich identischen (noch
+        haengenden) Altbestand von einem echten Link-Fehler zu unterscheiden,
+        OHNE einen neuen Remote-Content-Read. Default None = noch kein Call.
         """
         try:
             timeout = float(os.environ.get("OWUI_ADD_FILE_TIMEOUT", "360"))
         except ValueError:
             timeout = 360.0
-        code, _data = self.post_json(
+        code, data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/add",
             {"file_id": file_id},
             timeout=timeout,
         )
+        detail = ""
+        if isinstance(data, dict):
+            detail = str(data.get("detail") or "")
+        elif isinstance(data, bytes):
+            detail = data.decode("utf-8", errors="replace")
+        self.last_add_file_duplicate = code == 400 and "duplicate" in detail.lower()
         return code == 200
 
     def remove_file_from_knowledge(self, kb_id: str, file_id: str) -> bool:
         """Unlink a file from a KB (reverse of add_file_to_knowledge).
-        HTTP 200 indicates the link was removed; file entity itself stays.
+        HTTP 200 indicates the KB link was removed.
+
+        N7-A2 (Backendsemantik korrigiert): bei OpenWebUIs Default-Config
+        (`ENABLE_KNOWLEDGE_FILE_RETENTION` nicht gesetzt) löscht dieser
+        `/file/remove`-Endpoint die File-Entity GLEICH MIT (knowledge.py:1657-
+        1659, live v0.11.3 bestätigt) -- die Entity bleibt also NICHT zwingend
+        bestehen. Ein nachfolgender separater `delete_file` trifft dann im
+        Normalfall bereits eine entfernte Entity (404 = bestätigte Abwesenheit,
+        kein Fehler). Caller dürfen `delete_file` daher nur als best-effort-
+        Aufräumung NACH erfolgreichem Unlink behandeln.
         """
         code, _data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/remove",
@@ -541,7 +598,23 @@ class APIClient:
         code, data = self.get(
             f"/api/v1/models/model?id={urllib.parse.quote(model_id, safe='')}"
         )
-        if code != 200 or not isinstance(data, dict):
+        self.last_model_status = code
+        # WP-N6-1a: `isinstance(data, dict)` allein ist keine gueltige
+        # Modellkoerperform -- ein HTTP-200-Fehlerobjekt wie
+        # {"detail": "unexpected shape"} ist auch ein dict und wurde bisher
+        # unbesehen als vorhandenes Preset zurueckgegeben (s. downstream
+        # `preset.get("id", preset_id)`, setup.py:2155, und `upsert_model`s
+        # Payload-Aufbau -- ein echtes OWUI-Modellpreset TRAEGT ein `id`-Feld,
+        # ein Fehlerobjekt nicht). Verlange einen nicht-leeren String `id`
+        # als Marker; `meta` ist dafuer ungeeignet, weil es bei einem echten
+        # Preset leer sein darf.
+        is_model_shape = (
+            isinstance(data, dict)
+            and isinstance(data.get("id"), str)
+            and data.get("id") != ""
+        )
+        self.last_model_body_ok = (code != 200) or is_model_shape
+        if code != 200 or not is_model_shape:
             return None
         return data
 
@@ -563,20 +636,38 @@ class APIClient:
 
         Dedupe: ueberlappende Seiten (gleiches File auf zwei Seiten) werden
         ueber ein `seen`-Set abgefangen, damit kein File doppelt gezaehlt wird.
+
+        WP-N6-1b: `self.last_files_complete` ist ein best-effort-Marker
+        (analog zu `last_model_body_ok`) -- True NUR, wenn die Rueckgabe
+        wirklich vollstaendig ist: alt-unpaginierte Liste in einem Rutsch,
+        ODER paginiert mit `total` tatsaechlich erreicht. Jeder andere
+        Ausstieg (HTTP-Fehler auf irgendeiner Seite, formfalscher Koerper,
+        abgebrochene Pagination VOR Erreichen von `total`, Seitenlimit-
+        Abbruch) laesst den Marker auf False -- Caller MUESSEN das vor
+        jeder darauf aufbauenden Mutation prüfen (s. `getattr(client,
+        'last_files_complete', True)` fuer Doubles ohne dieses Attribut --
+        altes Verhalten dort unveraendert).
         """
         out: list[dict] = []
         seen: set[str] = set()
         page = 1
+        self.last_files_complete = False
         while True:
             code, data = self.get(f"/api/v1/files/?page={page}")
             if code != 200:
                 break
             if isinstance(data, list):
-                # Alte API ohne Pagination: komplette Liste, fertig.
+                # Alte API ohne Pagination: komplette Liste, fertig -- vollstaendig.
+                self.last_files_complete = True
                 return data
             if not isinstance(data, dict):
                 break
-            items = data.get("items") or []
+            items = data.get("items")
+            if not isinstance(items, list):
+                # Formfalscher Koerper (kein `items`-Feld bzw. falscher Typ) --
+                # NICHT stumm als leere Seite werten, sonst taeuscht eine
+                # Fehlerantwort eine bestaetigte (Teil-)Vollstaendigkeit vor.
+                break
             added_this_page = 0
             for f in items:
                 fid = f.get("id")
@@ -585,15 +676,20 @@ class APIClient:
                     out.append(f)
                     added_this_page += 1
             total = data.get("total")
-            if added_this_page == 0:
-                # Keine neuen Items mehr — auch der Fall, wenn `total` fehlt.
-                break
             if total is not None and len(out) >= total:
+                self.last_files_complete = True
+                break
+            if added_this_page == 0:
+                # Keine neuen Items mehr -- wenn `total` bekannt war, haette
+                # der Check oben schon vollstaendig gemeldet; hier fehlt
+                # `total` oder wir sind davor steckengeblieben -> NICHT
+                # vollstaendig (Marker bleibt False).
                 break
             page += 1
             # Sicherung gegen Endlosschleife: 200 Seiten x 50 Items ~ 10k Files.
             # Bei einer Instanz mit mehr als ~10k Files hier erhoehen, sonst
-            # liefert list_files() wieder unvollstaendig (stiller Teil-Read).
+            # liefert list_files() wieder unvollstaendig (stiller Teil-Read,
+            # UND last_files_complete bleibt korrekt False).
             if page > 200:
                 break
         return out
@@ -1512,6 +1608,35 @@ def _file_md5(path: Path) -> str:
     return h.hexdigest()
 
 
+def _file_sha256(path: Path) -> str:
+    """Compute SHA-256 of a file's bytes.
+
+    WP-N7-A1: OpenWebUIs File-Entity exponiert `meta.file_hash` (bei fertig
+    verarbeiteten Dateien auch als Top-Level `hash`), das der Server bei
+    Upload OHNE client-mitgeschicktes `file_hash` aus dem Rohinhalt als
+    SHA-256 berechnet (files.py:394, live v0.11.3 verifiziert). Dieser Hash
+    ist die belastbare, pro-Datei/pro-ID gebundene Inhaltsquelle, um GENAU die
+    eigene `existing_fid` zu bestätigen -- der collectionweite Duplicate-
+    Status (retrieval.py:1666-1685) tut das NICHT. Lokal gleich berechnet
+    erlaubt er den direkten Identitätsabgleich ohne neuen Remote-Content-Read.
+
+    GRENZE (N7-A2-Nachtrag, Vera A1.1b): `meta.file_hash` ist NICHT
+    unbedingt serververifiziert -- schickt ein Client beim Upload ein eigenes
+    `file_hash`-Metadatenfeld, übernimmt der Server es ungeprüft
+    (`file_metadata.get('file_hash') or sha256(...)`). Für DIESE KB ist der
+    Abgleich dennoch belastbar, WEIL `do_upload_file`/`upload_file` (setup.py)
+    NIE ein `metadata`/`file_hash`-Feld senden -- jede von uns selbst
+    hochgeladene Datei trägt also den echten Server-SHA-256. Nur eine per
+    Web-UI manuell in dieselbe KB nachgeholfene Datei könnte einen client-
+    asserted Hash tragen; das bricht das zweckgebundene Nutzungsmodell dieser
+    KB und ist kein Regressionsrisiko ggü. dem Vorzustand."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 def _text_md5(text: str) -> str:
     """Compute MD5 hash of a string (used for Masterprompt comparison)."""
     return hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -1560,6 +1685,120 @@ def _mask_secret(s: str, keep_prefix: int = 8, keep_suffix: int = 4) -> str:
     return f"{s[:keep_prefix]}…{s[-keep_suffix:]}"
 
 
+def _read_env_file(path: Path) -> dict:
+    """Liest eine KEY=VALUE-.env-Datei flach in ein dict (keine `export `-
+    Behandlung, keine Quote-Entfernung -- für den schmalen Lesefall in
+    `run_install_litellm`/`ensure_litellm_autowire`, die nur einzelne Felder
+    wie `LITELLM_MASTER_KEY` brauchen). Fehlende Datei -> leeres dict."""
+    out = {}
+    if not path.is_file():
+        return out
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, _, v = line.partition("=")
+        out[k.strip()] = v.strip()
+    return out
+
+
+def _update_env_file_preserving(
+    path: Path,
+    updates: dict,
+    *,
+    remove: set = frozenset(),
+) -> bool:
+    """Aktualisiert/ergänzt Felder in einer KEY=VALUE-.env-Datei, ohne den
+    Rest der Datei zu verwerfen.
+
+    PF1.2/PF1.3-Fix: vorher baute `launcher.py:action_rekeys` `~/.openwebui_env`
+    aus nur URL/OWUI/OR-Key neu, `run_install_litellm` die LiteLLM-`.env`
+    aus genau 4 Feldern neu — jeweils gingen alle anderen Zeilen (Kommentare,
+    fremde/unbekannte Felder) verloren. Dieser EINE Helfer (3 Aufrufer:
+    `launcher.py:action_install`, `action_rekeys`, `setup.py:run_install_litellm`)
+    ersetzt beide Rewrites durch ein feldweises Update.
+
+    Erhält Zeilenreihenfolge + Kommentare + unbekannte Felder. Bekannte Keys
+    werden in-place aktualisiert (inkl. `export `-Präfix, falls vorhanden),
+    neue Keys ans Ende angehängt, Keys in `remove` gestrichen. chmod 600
+    nach dem Schreiben -- WP-N2-1e: ein chmod-Fehlschlag wird NICHT mehr
+    stumm als Erfolg behandelt (die Rückgabe muss widerspiegeln, ob die
+    Datei tatsächlich geschützt persistiert wurde), nur auf Windows-NTFS
+    ist chmod grundsätzlich wirkungslos (dort bleibt es bewusst stumm/True,
+    weil es dort nie funktioniert und kein Nutzer-Alarm wäre).
+
+    KEIN neuer Secret-Store — reines Datei-Update derselben bestehenden
+    `.env`/`~/.openwebui_env`-Dateien. Gibt True nur zurück, wenn Schreiben
+    UND Rechte-Setzen gelungen sind; False bei einem Schreibfehler ODER
+    einem chmod-Fehlschlag (inkl. `print_warn` mit der Ursache — kein
+    stiller Fallback, aber auch kein harter Crash für einen Hilfsschritt
+    wie Key-Persistierung). WP-N2-1e: eine EXISTIERENDE, aber nicht lesbare
+    Datei wird NIE neu gebaut (das würde fremde Felder unwiderruflich
+    verwerfen) -- stattdessen bytegleich unangetastet gelassen und `False`
+    zurückgegeben, damit der Aufrufer das nicht als "persistiert" missdeutet."""
+    existing_lines: list[str] = []
+    if path.is_file():
+        try:
+            existing_lines = path.read_text(encoding="utf-8").splitlines()
+        except OSError as exc:
+            print_warn(
+                f"{path} existiert, ist aber nicht lesbar ({exc.__class__.__name__}) — "
+                "unangetastet gelassen, NICHT neu gebaut (fremde Felder blieben sonst verloren)."
+            )
+            return False
+
+    seen: set = set()
+    out_lines: list[str] = []
+    for line in existing_lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            out_lines.append(line)
+            continue
+        raw = stripped
+        prefix = ""
+        if raw.startswith("export "):
+            prefix = "export "
+            raw = raw[len("export "):]
+        if "=" not in raw:
+            out_lines.append(line)
+            continue
+        key = raw.split("=", 1)[0].strip()
+        if key in remove:
+            seen.add(key)
+            continue
+        if key in updates:
+            out_lines.append(f"{prefix}{key}={updates[key]}")
+            seen.add(key)
+            continue
+        out_lines.append(line)
+
+    for key, value in updates.items():
+        if key not in seen:
+            out_lines.append(f"{key}={value}")
+
+    content = "\n".join(out_lines) + "\n"
+    try:
+        path.write_text(content, encoding="utf-8")
+    except OSError as exc:
+        print_warn(f"{path} konnte nicht geschrieben werden: {exc.__class__.__name__}: {exc}")
+        return False
+    try:
+        path.chmod(0o600)
+    except OSError as exc:
+        # WP-N2-1e: vorher stumm als Erfolg behandelt -- der Inhalt WURDE
+        # geschrieben, aber die Rechte NICHT gesetzt. "True" würde dem
+        # Aufrufer fälschlich "geschützt persistiert" vortäuschen; ehrlich
+        # ist False + eine klare Warnung, dass die Datei jetzt mit den
+        # Inhalten da ist, aber ggf. nicht auf 600 steht.
+        print_warn(
+            f"{path} geschrieben, aber chmod 600 fehlgeschlagen "
+            f"({exc.__class__.__name__}) — Datei ist NICHT auf die erwarteten "
+            "Rechte gesetzt, Inhalt wurde trotzdem gespeichert."
+        )
+        return False
+    return True
+
+
 def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
     """Bestimmt das LiteLLM-Routing-Modell, auf das das OpenWebUI-Preset
     nach Cache-Install zeigen soll.
@@ -1591,6 +1830,109 @@ def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
     return f"{str(cfg.get('project', 'assistant')).lower()}-sonnet"
 
 
+def _owui_container_network_mode() -> Optional[str]:
+    """Docker-`NetworkMode` des vom Produkt selbst gestarteten `open-webui`-
+    Containers (s. `launcher.py:_start_openwebui`), oder `None` wenn nicht
+    ermittelbar (kein Docker, Container nicht vorhanden/anders benannt,
+    `docker inspect`-Fehler).
+
+    WP-N2-1b: Nur dieser EINE Containername wird geprüft -- das ist genau
+    der Name, den das Produkt selbst vergibt. Ein `None`-Ergebnis heißt
+    "nicht vom Produkt selbst als Docker-Container erkennbar" (z.B. OWUI
+    läuft nativ, oder unter einem fremden Namen/Setup) -- in dem Fall bleibt
+    die bisherige Loopback-Annahme als bewusste Fremdkonfig unverändert.
+    """
+    try:
+        r = subprocess.run(
+            ["docker", "inspect", "--format", "{{.HostConfig.NetworkMode}}", "open-webui"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception:
+        return None
+    if r.returncode != 0:
+        return None
+    mode = r.stdout.strip()
+    return mode or None
+
+
+def _owui_litellm_target_host(project: str) -> str:
+    """Bestimmt die Adresse, unter der der OWUI-Container den LiteLLM-Proxy
+    erreichen kann (WP-N2-1b, "der harte Punkt"; F1-N2-Nachzug nach realem
+    Erreichbarkeits-Beweis — reiner Host-Getter OHNE Seiteneffekt).
+
+    `127.0.0.1` aus Sicht eines gebridgeten OWUI-Containers ist der Container
+    selbst, NICHT der Host. LiteLLM wird per `docker-compose.litellm.yml`
+    BEWUSST loopback-only (`127.0.0.1:<port>:<port>`) published -- der Port ist
+    damit aus einem anderen Container AUCH über die Bridge-Gateway-Adresse
+    (`host.docker.internal`) NICHT erreichbar: die DNAT-Publish-Bindung matcht
+    nur `127.0.0.1` des Hosts, nicht die Gateway-IP der Pakete aus dem
+    Container (empirisch belegt 2026-11-09). Der kleinste funktionierende
+    Anschluss, der die loopback-only-Sicherheitsentscheidung NICHT aufweicht
+    und KEINEN Port nach außen öffnet, ist das gemeinsame Docker-Netz: OWUI
+    wird an das Netz des LiteLLM-Containers gehängt
+    (`_ensure_owui_on_litellm_network`, Seiteneffekt im echten Wiring-Pfad)
+    und erreicht ihn dann über den Container-NAMEN auf dem internen Port.
+
+    Drei Fälle:
+      - `open-webui` läuft mit `NetworkMode=host`: teilt den Host-Namespace
+        -> `127.0.0.1` ist korrekt.
+      - `open-webui` läuft gebridgt (Produkt-Default): -> LiteLLM-Container-
+        NAME (`litellm-<slug>`), erreichbar über das gemeinsame Netz.
+      - Netzwerkmodus nicht ermittelbar (kein Docker, Container fehlt/anders
+        benannt, OWUI bewusst anders betrieben) -> bisherige `127.0.0.1`-
+        Annahme NICHT überschreiben (bewusste Fremdkonfig bleibt erhalten).
+    """
+    mode = _owui_container_network_mode()
+    if mode is not None and mode != "host":
+        return f"litellm-{_docker_slug(project)}"
+    return "127.0.0.1"
+
+
+def _ensure_owui_on_litellm_network(project: str) -> tuple[bool, str]:
+    """Hängt den gebridgeten `open-webui`-Container an das Docker-Netz des
+    LiteLLM-Containers (`litellm-<slug>`), damit OWUI den Proxy über den
+    Container-Namen erreichen kann (WP-N2-1b).
+
+    Idempotent: ein bereits verbundenes OWUI (`docker network connect` meldet
+    "already exists") gilt als Erfolg. ÖFFNET KEINEN Port nach außen und ändert
+    die loopback-only-Publish-Bindung des Compose-Stacks NICHT.
+
+    Returns (ok, detail). ok=False, wenn LiteLLM-Container/Netz nicht
+    ermittelbar sind -- der Aufrufer behandelt das als "Verbindung aus dem
+    nötigen Kontext nicht herstellbar", NICHT als stillen Erfolg.
+    """
+    litellm_name = f"litellm-{_docker_slug(project)}"
+    try:
+        r = subprocess.run(
+            ["docker", "inspect", "--format",
+             "{{range $k, $v := .NetworkSettings.Networks}}{{$k}}\n{{end}}",
+             litellm_name],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception as exc:
+        return False, f"docker inspect {litellm_name} fehlgeschlagen ({exc.__class__.__name__})"
+    if r.returncode != 0:
+        return False, f"LiteLLM-Container {litellm_name} nicht gefunden"
+    nets = [n.strip() for n in r.stdout.splitlines()
+            if n.strip() and n.strip() not in ("host", "none")]
+    if not nets:
+        return False, f"{litellm_name} hat kein nutzbares Docker-Netz"
+    net = nets[0]
+    try:
+        c = subprocess.run(
+            ["docker", "network", "connect", net, "open-webui"],
+            capture_output=True, text=True, timeout=5,
+        )
+    except Exception as exc:
+        return False, f"docker network connect fehlgeschlagen ({exc.__class__.__name__})"
+    if c.returncode == 0:
+        return True, f"open-webui an Netz {net} angehängt"
+    err = (c.stderr or "").lower()
+    if "already exists" in err or "already in network" in err:
+        return True, f"open-webui bereits in Netz {net}"
+    return False, f"network connect {net}: {c.stderr.strip()[:120]}"
+
+
 def _ensure_owui_litellm_connection(
     owui_url: str,
     owui_key: str,
@@ -1600,12 +1942,18 @@ def _ensure_owui_litellm_connection(
 ) -> tuple[bool, str]:
     """Stellt sicher, dass OpenWebUI eine Connection auf den LiteLLM-Proxy hat.
 
-    Idempotent: prüft `GET /openai/config`, ob `http://127.0.0.1:<port>/v1`
-    schon als Base-URL angemeldet ist. Wenn ja: nichts tun. Wenn nein:
-    Connection per `POST /openai/config/update` ergänzen und den Routing-
-    Modell-Pin (`<project>-sonnet`) setzen, damit OWUI nur das eine
-    LiteLLM-Modell als „cached“-Variante anbietet (nicht das ganze
-    OpenRouter-Modell-Inventar via LiteLLM doppelt).
+    Idempotent: prüft `GET /openai/config`, ob die Zieladresse (s.
+    `_owui_litellm_target_host`) schon als Base-URL angemeldet ist. Wenn ja:
+    nichts tun. Wenn nein: Connection per `POST /openai/config/update`
+    ergänzen und den Routing-Modell-Pin (`<project>-sonnet`) setzen, damit
+    OWUI nur das eine LiteLLM-Modell als „cached“-Variante anbietet (nicht
+    das ganze OpenRouter-Modell-Inventar via LiteLLM doppelt).
+
+    WP-N2-1b: Die Zieladresse ist NICHT mehr hartcodiert `127.0.0.1` --
+    aus einem gebridgeten OWUI-Container heraus ist das der Container
+    selbst, nicht der Host. `_owui_litellm_target_host()` wählt die aus dem
+    tatsächlichen OWUI-Netzwerkkontext korrekte Adresse (oder bewahrt die
+    bisherige Annahme, wenn der Kontext nicht ermittelbar ist).
 
     Returns (ok, message). Bei API-Fehlern: ok=False, message ist die
     Diagnose; Caller druckt das und fällt auf die Hand-Anleitung zurück.
@@ -1613,7 +1961,22 @@ def _ensure_owui_litellm_connection(
     import urllib.request
     import urllib.error
 
-    target_url = f"http://127.0.0.1:{litellm_port}/v1"
+    # WP-N2-1b: ein gebridgeter OWUI-Container muss sich das Docker-Netz des
+    # LiteLLM-Containers teilen, um ihn über den Container-Namen zu erreichen
+    # (loopback-only-Publish bleibt unverändert, KEIN Port nach außen). Der
+    # Host-Getter unten ist seiteneffektfrei; die Netz-Anbindung passiert hier
+    # im echten Wiring-Pfad, einmalig vor dem Verbindungsaufbau.
+    _net_mode = _owui_container_network_mode()
+    if _net_mode is not None and _net_mode != "host":
+        _net_ok, _net_msg = _ensure_owui_on_litellm_network(project)
+        if not _net_ok:
+            return False, (
+                f"OWUI-Container konnte nicht mit dem LiteLLM-Netz verbunden "
+                f"werden ({_net_msg}) — Verbindung aus dem nötigen Backend-"
+                f"Kontext nicht herstellbar."
+            )
+
+    target_url = f"http://{_owui_litellm_target_host(project)}:{litellm_port}/v1"
 
     def _api(method: str, path: str, payload: Optional[dict] = None) -> tuple[int, Any]:
         body = json.dumps(payload).encode() if payload is not None else None
@@ -1729,21 +2092,27 @@ def _ensure_owui_litellm_connection(
 
 def _wait_for_owui_model_visible(
     owui_url: str, owui_key: str, model_id: str, max_wait_s: float = 6.0,
-) -> bool:
+) -> Optional[bool]:
     """Probe `GET /api/models`, bis das frisch hinzugefügte Connection-Modell
     in der OpenWebUI-Modell-Liste auftaucht. Vermeidet die Race zwischen
     Connection-Update und Preset-Rewire (OWUI muss intern die LiteLLM-
     Modell-Liste neu pollen, bevor `routing_model` als gültige
     base_model_id akzeptiert wird).
 
-    Returns True, wenn das Modell sichtbar wurde (auch sofort). False,
-    wenn nach max_wait_s noch nicht da — Caller druckt einen Hinweis,
-    macht aber trotzdem weiter (Rewire kann auch dann gelingen, weil
-    OWUI's Preset-Update keine Existenz-Validierung macht).
+    Returns True, wenn das Modell sichtbar wurde (auch sofort).
+    Returns False, wenn mindestens EINE lesbare Antwort kam, das Modell
+    darin aber bis `max_wait_s` nie auftauchte — eine bestätigte, nur
+    (noch) negative Aussage.
+    Returns None, wenn in der GESAMTEN Wartezeit KEINE einzige lesbare
+    Antwort kam (jeder Versuch Netzwerk-/HTTP-/Parse-Fehler) — WP-N3-1d:
+    das ist unklar/nicht prüfbar, keine bestätigte Abwesenheit. Der Caller
+    darf None NICHT wie False behandeln (sonst wird "OWUI kurz nicht
+    erreichbar" zu einer falschen "nicht verbunden"-Aussage).
     """
     import urllib.request
     import urllib.error
 
+    got_any_valid_response = False
     deadline = time.monotonic() + max_wait_s
     delay = 0.5
     while time.monotonic() < deadline:
@@ -1754,6 +2123,7 @@ def _wait_for_owui_model_visible(
             )
             with urllib.request.urlopen(req, timeout=5) as resp:
                 data = json.loads(resp.read())
+                got_any_valid_response = True
                 items = data.get("data", data) if isinstance(data, dict) else data
                 if any(m.get("id") == model_id for m in items or []):
                     return True
@@ -1761,7 +2131,83 @@ def _wait_for_owui_model_visible(
             pass
         time.sleep(delay)
         delay = min(delay * 1.5, 2.0)
-    return False
+    return False if got_any_valid_response else None
+
+
+def _verify_owui_connection_route(
+    owui_url: str, owui_key: str, target_url: str, master_key: str, model_id: str,
+) -> Optional[bool]:
+    """WP-N4-1 P4/WP-N5-1c: nichtgenerativer Check der EIGENEN Connection-
+    Route aus dem erforderlichen OWUI-Backend-Kontext -- UND Abgleich der
+    Antwort auf das konkret benötigte Modell.
+
+    `POST /openai/verify` ist derselbe Endpoint hinter dem "Verify
+    Connection"-Button in OpenWebUIs Admin-UI (Workspace → Verbindungen):
+    OWUI selbst ruft `GET {target_url}/models` mit `master_key` auf, AUS
+    SEINEM EIGENEN Netzwerkkontext (wichtig bei gebridgten Containern --
+    ein Check vom Setup-Skript aus liefe über einen anderen Netzwerkpfad
+    als OWUI selbst und könnte deshalb fälschlich positiv oder negativ
+    ausfallen, s. `_owui_container_network_mode`/`_ensure_owui_on_litellm_
+    network`). Keine Chat-Completion, kein Modellcall, kein bezahlter
+    Request -- nur ein Models-Listing GEGEN DIE EXAKTE target_url+
+    master_key-Kombination der soeben gesetzten Connection.
+
+    Das ist bewusst UNABHÄNGIG vom aggregierten `/api/models`-Listing
+    (`_wait_for_owui_model_visible`) und von den dort selbst gesetzten
+    `model_ids`-Pins: Pins filtern nur die Anzeige, sie beweisen nicht,
+    dass OWUI die Ziel-URL tatsächlich erreicht.
+
+    WP-N5-1c: HTTP 200 + IRGENDEIN parsebarer Körper war vorher schon
+    ausreichend -- ein erreichbares Backend mit leerem/falschem Modell-
+    Listing wurde so als bestätigt erreichbar gewertet, obwohl das konkret
+    benötigte `model_id` darin nie geprüft wurde. Jetzt wird der Körper wie
+    bei `_wait_for_owui_model_visible` als Modell-Liste ausgewertet
+    (`{"data": [...]}` ODER eine blanke Liste) und auf `model_id` geprüft.
+
+    Returns True nur, wenn der Körper lesbar eine Modell-Liste ist UND
+    `model_id` darin vorkommt (bestätigt erreichbar UND das benötigte
+    Modell ist da). Returns False bei einer bestätigten negativen Antwort
+    (lesbarer Fehlerstatus/-körper ODER eine lesbare Modell-Liste ohne
+    `model_id` -- erreichbar, aber das Modell fehlt). Returns None, wenn
+    der Check selbst nicht lesbar beantwortet wurde (Netzwerk-/Parse-
+    Fehler/falsche Form) -- nicht prüfbar, NICHT als "nicht verbunden"
+    werten. Keine generative Modellantwort -- reines Models-Listing.
+    """
+    import urllib.request
+    import urllib.error
+
+    try:
+        body = json.dumps({"url": target_url, "key": master_key}).encode("utf-8")
+        req = urllib.request.Request(
+            f"{owui_url.rstrip('/')}/openai/verify",
+            data=body, method="POST",
+            headers={
+                "Authorization": f"Bearer {owui_key}",
+                "Content-Type": "application/json",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            if resp.status != 200:
+                return False
+            raw = resp.read()
+            try:
+                data = json.loads(raw)
+            except json.JSONDecodeError:
+                return None  # Status 200, aber Körper nicht lesbar -- unklar.
+            items = data.get("data", data) if isinstance(data, dict) else data
+            if not isinstance(items, list):
+                return None  # lesbar, aber keine Modell-Liste -- unklar, kein Treffer prüfbar.
+            if any(isinstance(m, dict) and m.get("id") == model_id for m in items):
+                return True
+            return False  # lesbare Modell-Liste, aber `model_id` fehlt -- bestätigt negativ.
+    except urllib.error.HTTPError as e:
+        try:
+            e.read()
+        except OSError:
+            return None
+        return False  # lesbarer Fehlerstatus -- bestätigt negativ.
+    except (urllib.error.URLError, OSError):
+        return None  # kein lesbares Ergebnis -- nicht prüfbar.
 
 
 def _rewire_preset_base_model(
@@ -1826,6 +2272,18 @@ def _rewire_preset_base_model(
             continue
         msgs.append(f"'{vk}': zeigt jetzt auf `{routing_model}`.")
     return all_ok, " | ".join(msgs)
+
+
+def _cache_probe_requested(opts: dict) -> bool:
+    """Ob der kostenpflichtige 2-Call-Cache-Test (Schritt 7 in
+    `run_install_litellm`) laufen soll. Default AUS (PF2) — eine explizite,
+    kostenbenannte Wahl per `opts["cache_probe"]` (CLI `--cache-probe`) ODER
+    `ZEITRISS_LITELLM_CACHE_PROBE=1` schaltet ihn ein. Der Normalpfad
+    (`launcher.py:action_install` → `run_install_litellm(repo, load_cfg())`,
+    kein `opts`) setzt keines von beidem → 0 generative POSTs."""
+    if opts.get("cache_probe"):
+        return True
+    return os.environ.get("ZEITRISS_LITELLM_CACHE_PROBE", "").strip() == "1"
 
 
 def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -1897,18 +2355,6 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print_ok("Docker verfügbar.")
 
     # 2. + 3. Keys besorgen
-    def _read_env_file(path: Path) -> dict:
-        out = {}
-        if not path.is_file():
-            return out
-        for line in path.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
-            k, _, v = line.partition("=")
-            out[k.strip()] = v.strip()
-        return out
-
     existing = _read_env_file(env_file)
 
     or_key = (
@@ -1925,7 +2371,13 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
             )
             sys.exit(1)
         try:
-            or_key = input("OpenRouter-API-Key (sk-or-...): ").strip()
+            # F1-2 (03_F1_AUFTRAG.md §F1-2: "einmalige VERDECKTE Eingabe des
+            # externen OpenRouter-Keys"): vorher `input()` -- der Key stand
+            # beim Tippen im Klartext im Terminal. `getpass` ist bereits das
+            # Muster für den OpenWebUI-API-Key (s. scripts/launcher.py
+            # action_install). Persistierung/Wiederverwendung über die .env
+            # oben bleibt unverändert; nur die Eingabe wird verdeckt.
+            or_key = getpass("OpenRouter-API-Key (sk-or-..., Eingabe ist unsichtbar): ").strip()
         except (EOFError, KeyboardInterrupt):
             print()
             print_error("Abgebrochen.")
@@ -1942,25 +2394,31 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     else:
         print_info("Bestehender LiteLLM-Master-Key in .env wird weiter genutzt.")
 
-    # 4. .env schreiben, chmod 600
-    env_content = (
-        "# Generiert von scripts/setup.py --install-litellm\n"
-        "# Diese Datei enthält Secrets — bitte nicht committen.\n"
-        f"OPENROUTER_API_KEY={or_key}\n"
-        f"LITELLM_MASTER_KEY={master_key}\n"
-        # Templaten von container_name/ports/--port/Healthcheck in
-        # docker-compose.litellm.yml via Compose-Interpolation
-        # (${VAR:-default}) — macht Blaupause-Forks/Mehr-Instanz-Betrieb
-        # kollisionsfrei, ohne die YAML manuell anzufassen.
-        f"LITELLM_CONTAINER_NAME={litellm_container}\n"
-        f"LITELLM_PORT={litellm_port}\n"
+    # 4. .env feldweise erhaltend schreiben (WP1b, Aufrufer 3: vorher ein
+    # 4-Feld-Rewrite, der jede andere Zeile in der Datei verworfen hätte —
+    # jetzt derselbe `_update_env_file_preserving`-Helfer wie
+    # `action_install`/`action_rekeys` in launcher.py). Templaten von
+    # container_name/ports/--port/Healthcheck in docker-compose.litellm.yml
+    # via Compose-Interpolation (${VAR:-default}) — macht Blaupause-Forks/
+    # Mehr-Instanz-Betrieb kollisionsfrei, ohne die YAML manuell anzufassen.
+    if not env_file.is_file():
+        env_file.write_text(
+            "# Generiert von scripts/setup.py --install-litellm\n"
+            "# Diese Datei enthält Secrets — bitte nicht committen.\n",
+            encoding="utf-8",
+        )
+    env_ok = _update_env_file_preserving(
+        env_file,
+        {
+            "OPENROUTER_API_KEY": or_key,
+            "LITELLM_MASTER_KEY": master_key,
+            "LITELLM_CONTAINER_NAME": litellm_container,
+            "LITELLM_PORT": str(litellm_port),
+        },
     )
-    env_file.write_text(env_content, encoding="utf-8")
-    try:
-        env_file.chmod(0o600)
-    except PermissionError:
-        print_warn("Konnte .env nicht auf chmod 600 setzen (Windows-NTFS?). "
-                   "Bitte manuell absichern.")
+    if not env_ok:
+        print_error(f"{env_file} konnte nicht geschrieben werden — Abbruch.")
+        sys.exit(1)
     print_ok(f".env geschrieben ({env_file}).")
 
     # 5. Container starten
@@ -2014,62 +2472,117 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
         sys.exit(1)
     print_ok(f"LiteLLM erreichbar auf {litellm_base}.")
 
-    # 7. 2-Call-Cache-Test (Best-Effort)
-    print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische Calls)...")
-    big_system = "You are a concise assistant. " * 400  # ~2000 Tokens
-    test_body = json.dumps({
-        "model": routing_model,
-        "messages": [
-            {"role": "system", "content": big_system},
-            {"role": "user", "content": "Say only: OK"},
-        ],
-        "temperature": 0.1,
-        "max_tokens": 8,
-    }).encode("utf-8")
-    headers = {
-        "Authorization": f"Bearer {master_key}",
-        "Content-Type": "application/json",
-    }
-
-    def _call() -> Optional[dict]:
-        try:
-            req = urllib.request.Request(
-                f"{litellm_base}/v1/chat/completions",
-                data=test_body, headers=headers, method="POST",
-            )
-            with urllib.request.urlopen(req, timeout=120) as resp:
-                return json.loads(resp.read())
-        except (urllib.error.URLError, urllib.error.HTTPError,
-                ConnectionError, TimeoutError, json.JSONDecodeError) as exc:
-            print_warn(f"Cache-Test-Call fehlgeschlagen: {exc}")
-            return None
-
-    call1 = _call()
-    if call1 is None:
-        print_warn(
-            "Cache-Test nicht möglich — Container läuft aber. "
-            "Häufige Ursachen: OpenRouter-Credits leer, OpenRouter-Privacy "
-            "blockiert den Anthropic-Provider, falscher Key."
+    # 7. 2-Call-Cache-Test — opt-in, kostenbenannt (PF2: vorher bedingungslos
+    # im Normalpfad; jeder `launcher.py`-Install-Lauf (Menü [1], Zeile ~779)
+    # löste dabei bis zu zwei echte, kostenpflichtige POST
+    # /v1/chat/completions gegen OpenRouter aus — ohne das explizit zu sagen.
+    # Default jetzt AUS: Healthcheck (Schritt 6) + Auto-Wire/Model-List
+    # (Schritt 8+9, alles GET/idempotente Updates) laufen unabhängig davon
+    # weiter; nur dieser generative Call ist eine bewusste Wahl.
+    cache_probe = _cache_probe_requested(opts)
+    if not cache_probe:
+        print_info(
+            "Cache-Test übersprungen (Default) — er würde zwei echte, "
+            "kostenpflichtige Chat-Calls an OpenRouter senden, nur um das "
+            "Caching zu verifizieren. Health-Check, Live-Auth, Modell-Liste "
+            "und KB-Retrieval laufen unabhängig davon per GET weiter.\n"
+            "  Bewusst aktivieren: --cache-probe oder "
+            "ZEITRISS_LITELLM_CACHE_PROBE=1 (optionale, kostenbenannte Liveprobe)."
         )
     else:
-        time.sleep(3)
-        call2 = _call()
-        if call2:
-            usage2 = call2.get("usage", {}) or {}
-            cached = (usage2.get("prompt_tokens_details") or {}).get("cached_tokens", 0)
-            if cached and cached > 0:
-                print_ok(
-                    f"Prompt-Caching aktiv: {cached} Tokens aus Cache in Call 2. "
-                    f"Ersparnis pro Folge-Turn ~90 %."
+        print_info("Prüfe Prompt-Caching mit Mini-Test (zwei identische, kostenpflichtige Calls)...")
+        big_system = "You are a concise assistant. " * 400  # ~2000 Tokens
+        test_body = json.dumps({
+            "model": routing_model,
+            "messages": [
+                {"role": "system", "content": big_system},
+                {"role": "user", "content": "Say only: OK"},
+            ],
+            "temperature": 0.1,
+            "max_tokens": 8,
+        }).encode("utf-8")
+        headers = {
+            "Authorization": f"Bearer {master_key}",
+            "Content-Type": "application/json",
+        }
+
+        def _call() -> Optional[dict]:
+            try:
+                req = urllib.request.Request(
+                    f"{litellm_base}/v1/chat/completions",
+                    data=test_body, headers=headers, method="POST",
                 )
-            else:
-                print_warn(
-                    "Caching-Check neutral: Call 2 hat keine `cached_tokens` > 0 "
-                    "gemeldet. Kann an OpenRouter-Routing liegen. "
-                    "Privacy-Settings auf openrouter.ai prüfen."
-                )
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    return json.loads(resp.read())
+            except (urllib.error.URLError, urllib.error.HTTPError,
+                    ConnectionError, TimeoutError, json.JSONDecodeError) as exc:
+                print_warn(f"Cache-Test-Call fehlgeschlagen: {exc}")
+                return None
+
+        call1 = _call()
+        if call1 is None:
+            print_warn(
+                "Cache-Test nicht möglich — Container läuft aber. "
+                "Häufige Ursachen: OpenRouter-Credits leer, OpenRouter-Privacy "
+                "blockiert den Anthropic-Provider, falscher Key."
+            )
+        else:
+            time.sleep(3)
+            call2 = _call()
+            if call2:
+                usage2 = call2.get("usage", {}) or {}
+                cached = (usage2.get("prompt_tokens_details") or {}).get("cached_tokens", 0)
+                if cached and cached > 0:
+                    print_ok(
+                        f"Prompt-Caching aktiv: {cached} Tokens aus Cache in Call 2. "
+                        f"Ersparnis pro Folge-Turn ~90 %."
+                    )
+                else:
+                    print_warn(
+                        "Caching-Check neutral: Call 2 hat keine `cached_tokens` > 0 "
+                        "gemeldet. Kann an OpenRouter-Routing liegen. "
+                        "Privacy-Settings auf openrouter.ai prüfen."
+                    )
 
     # 8 + 9. Auto-Wire: OpenWebUI-Connection + Preset-Base-Modell setzen.
+    # WP-N2-1a: ausgelagert nach `ensure_litellm_autowire`, damit derselbe
+    # idempotente Check-Code auch dann läuft, wenn `launcher.py:action_install`
+    # bereits einen passenden laufenden Container vorfindet (kein zweites
+    # Setupmotor -- ein Aufrufer mehr für denselben Helfer).
+    ensure_litellm_autowire(repo, cfg)
+
+
+def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
+    """Idempotenter Auto-Wire-/Connection-Check: OpenWebUI-Connection auf den
+    LiteLLM-Proxy + Preset-Rewire auf das Routing-Modell, inkl. bestätigter
+    Modellsichtbarkeit (WP-N2-1a/1c).
+
+    Eigenständig aufrufbar -- nicht nur als Tail von `run_install_litellm`.
+    `launcher.py:action_install` ruft dies AUCH, wenn `_litellm_ok()` schon
+    einen laufenden passenden Container meldet: ein laufender Container ist
+    nur ein Komponentenhinweis (der Prozess existiert), kein Beleg für eine
+    funktionierende OWUI<->LiteLLM-Connection/Route. Diese Funktion dupliziert
+    eine bereits korrekt verbundene Route NICHT -- die Connection-/Rewire-
+    Checks darunter sind selbst idempotent (s. `_ensure_owui_litellm_connection`
+    + `_rewire_preset_base_model`: beide prüfen den Live-Zustand vor jedem
+    Schreib-Call).
+
+    Liest den LiteLLM-Master-Key aus der bestehenden `scripts/litellm/.env`
+    (KEIN neuer Secret-Store) -- fehlt die Datei/der Key (z.B. LiteLLM nie
+    installiert), bricht der Connection-Schritt sauber mit einer Warnung ab,
+    statt zu raten oder leer zu verbinden.
+
+    Returns True nur, wenn Connection + Preset-Rewire + Modellsichtbarkeit
+    ALLE DREI bestätigt sind ("live verkabelt"); sonst False (Caller/diese
+    Funktion selbst druckt die granularen fehlenden Schritte).
+    """
+    project = cfg["project"]
+    routing_model = _litellm_routing_model_id(repo, cfg)
+    litellm_port = int((cfg.get("litellm") or {}).get("port", 4000))
+    litellm_container = f"litellm-{_docker_slug(project)}"
+    env_file = repo / "scripts" / "litellm" / ".env"
+    master_key = _read_env_file(env_file).get("LITELLM_MASTER_KEY") or ""
+
     print()
     print_info("Verknüpfe OpenWebUI mit dem LiteLLM-Proxy…")
     _auto_load_owui_env()
@@ -2085,8 +2598,21 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     # teilweisem Erfolg = User legt eine zweite, doppelte Connection an.)
     ok_conn = False
     ok_rewire = False
+    # WP-N2-1c: Sichtbarkeit ist jetzt Teil der Abschlusslage, nicht nur
+    # eine Warnung -- Default False, bis `_wait_for_owui_model_visible`
+    # sie tatsächlich bestätigt.
+    visible = False
+    # WP-N4-1 P4: tri-state wie `visible`, aber NICHT dieselbe Aussage --
+    # das ist der nichtgenerative Check der eigenen Route, nicht das
+    # aggregierte Listing. None = (noch) nicht geprüft/nicht erreicht.
+    route_check: Optional[bool] = None
 
-    if not owui_key:
+    if not master_key:
+        print_warn(
+            f"Kein LITELLM_MASTER_KEY in {env_file} gefunden -- Auto-Verknüpfung "
+            "übersprungen. Menü [1]/--install-litellm schreibt die .env zuerst."
+        )
+    elif not owui_key:
         print_warn(
             "Kein OPENWEBUI_API_KEY in der Umgebung — Auto-Verknüpfung übersprungen.\n"
             "Setup [1] oder Menü [5] API-Keys ändern füllt den Wert; danach Menü [4] für Sync."
@@ -2136,14 +2662,99 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                 f"Preset-Rewire fehlgeschlagen: {exc.__class__.__name__}: {exc}"
             )
 
+        # WP-N4-1 P4: die Fertigmeldung braucht einen tatsächlichen
+        # nichtgenerativen Check der EIGENEN Route aus dem OWUI-Kontext --
+        # Pin/aggregiertes `/api/models`-Listing (`visible` oben) allein
+        # genügt nicht, weil die Connection selbst `model_ids`-Pins setzt
+        # (s. `_ensure_owui_litellm_connection`), die das Listing fuellen
+        # koennen, OHNE dass die Route tatsaechlich traegt.
+        if ok_conn and ok_rewire:
+            target_url = f"http://{_owui_litellm_target_host(project)}:{litellm_port}/v1"
+            try:
+                route_check = _verify_owui_connection_route(
+                    owui_url, owui_key, target_url, master_key, routing_model,
+                )
+            except Exception:
+                route_check = None
+
     print()
     print_header("LiteLLM-Proxy läuft.")
     print()
-    auto_wired = ok_conn and ok_rewire
+    # WP-N2-1c: "live verkabelt" braucht ALLE DREI -- Connection, Rewire UND
+    # bestätigte Modellsichtbarkeit. Vorher ignorierte `auto_wired` die
+    # Sichtbarkeit komplett (nur eine Warnung ohne Konsequenz) -- ein Preset,
+    # das auf ein Modell zeigt, das OWUI noch nicht in seiner Modell-Liste
+    # hat, ist nicht bestätigt "live", auch wenn Connection+Rewire-API-Calls
+    # technisch durchliefen.
+    # WP-N4-1 P4/WP-N5-1c: "live verkabelt" braucht den nichtgenerativen
+    # `route_check` (eigene Route, EIGENER OWUI-Backend-Kontext, jetzt
+    # zusätzlich auf das konkret benötigte Modell geprüft) GEMEINSAM MIT
+    # der weiterhin erforderlichen OWUI-Sichtbarkeit (`visible`, s.
+    # WP-N2-1c). `route_check` allein beweist nur, dass OWUI die Ziel-URL
+    # erreicht und das Modell dort listet -- NICHT, dass OWUI dasselbe
+    # Modell auch selbst in seinem eigenen `/api/models`-Listing anbietet
+    # (das ist, was der Nutzer im Terminalspiel/Browser-Chat auswählen
+    # kann). Die Connection setzt eigene `model_ids`-Pins, die `visible`
+    # füllen können, ohne dass die Route trägt -- und umgekehrt kann die
+    # Route tragen, während OWUI das Modell (noch) nicht gelistet hat.
+    # Beide Bedingungen bleiben daher eigenständig geführt (`is True`
+    # statt nur truthy, damit ein None NICHT als falsches "nicht
+    # verbunden"/"verbunden" in die Fertigmeldung einfliesst).
+    auto_wired = bool(ok_conn and ok_rewire and visible is True and route_check is True)
+    visibility_note = (
+        f" (aggregiertes Listing: `{routing_model}` {'sichtbar' if visible is True else 'nicht sichtbar' if visible is False else 'nicht pruefbar'}.)"
+    )
     if auto_wired:
         print_ok(
             f"Cache ist live verkabelt: Preset → `{routing_model}` → LiteLLM → OpenRouter.\n"
-            "  Nichts mehr zu klicken — mit Menü [3] direkt ins Spiel."
+            "  Der nichtgenerative Routecheck der eigenen Connection war erfolgreich.\n"
+            "  Nichts mehr zu klicken — der normale Weg ist jetzt das Terminalspiel "
+            f"[M] im {project}-Starter. Der Browser-Chat ist optional (Menü [3])."
+            f"{visibility_note}"
+        )
+    elif ok_conn and ok_rewire and route_check is True and visible is not True:
+        # WP-N5-1c: reinstanziiert den N2-Gegenfall (WP-N2-1c), den die
+        # N4-Routecheck-Einführung aus der Erfolgsvoraussetzung entfernt
+        # hatte -- der nichtgenerative Routecheck bestätigt zwar die
+        # eigene Verbindung UND das benötigte Modell beim Zielbackend,
+        # aber OWUIs eigenes aggregiertes Modell-Listing bestätigt das
+        # Modell (noch) nicht als sichtbar. Das ist weder "fertig
+        # verbunden" noch "ein fehlender Konfig-Schritt", also ein
+        # eigener, ehrlicher Zwischenstand.
+        print_warn(
+            f"Connection + Preset-Rewire sind gesetzt, der nichtgenerative Routecheck "
+            f"zur eigenen Verbindung war erfolgreich, aber `{routing_model}` ist in "
+            "OpenWebUIs Modell-Liste noch nicht als sichtbar bestätigt -- daher (noch) "
+            "nicht als 'live verkabelt' gemeldet, keine behauptete externe "
+            f"Modellantwort.{visibility_note} In ein paar Sekunden Menü [6] Diagnose "
+            "erneut prüfen; Connection/Rewire selbst müssen dafür nicht wiederholt werden."
+        )
+    elif ok_conn and ok_rewire and route_check is False:
+        # Konfiguriert (beide API-Calls liefen durch), UND der Routecheck
+        # kam zu einer klaren (negativen) Antwort -- das ist weder "fertig
+        # verbunden" noch nur "ein fehlender Konfig-Schritt", also ein
+        # eigener, ehrlicher Zwischenstand statt einer Erfolgsmeldung oder
+        # einer Anleitung zum Wiederholen bereits erledigter Schritte.
+        print_warn(
+            f"Connection + Preset-Rewire sind gesetzt, aber der nichtgenerative "
+            f"Routecheck zur eigenen Verbindung ist bestätigt fehlgeschlagen -- die "
+            "Route trägt noch nicht, auch wenn Konfiguration/Pins das vermuten "
+            f"lassen. Keine Fertigmeldung.{visibility_note} In ein paar Sekunden "
+            "Menü [6] Diagnose erneut prüfen; Connection/Rewire selbst müssen dafür "
+            "nicht wiederholt werden."
+        )
+    elif ok_conn and ok_rewire and route_check is None:
+        # Der Routecheck selbst kam zu KEINER lesbaren Antwort (Netzwerk-/
+        # HTTP-/Parse-Fehler) -- das ist unklar/nicht prüfbar, NICHT
+        # dasselbe wie eine bestätigte negative Antwort (route_check is
+        # False) und erst recht keine Fertigmeldung.
+        print_warn(
+            f"Connection + Preset-Rewire sind gesetzt, aber der nichtgenerative "
+            "Routecheck zur eigenen Verbindung konnte nicht eindeutig beantwortet "
+            "werden (OpenWebUI hat während der Prüfung nicht lesbar geantwortet) -- "
+            f"unklar/nicht prüfbar, weder 'live verkabelt' noch eine Aussage, dass "
+            f"die Route nicht funktioniert.{visibility_note} In ein paar Sekunden "
+            "Menü [6] Diagnose erneut prüfen."
         )
     else:
         # Granularer Fallback: nur die Schritte zeigen, die wirklich noch
@@ -2157,7 +2768,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
                     f"OpenWebUI öffnen: {owui_url}",
                     "Profil-Icon oben rechts → Einstellungen → Verbindungen",
                     "→ '+ Verbindung hinzufügen' (engl.: '+ Add Connection'):",
-                    f"  URL:  {litellm_base}/v1",
+                    f"  URL:  http://{_owui_litellm_target_host(project)}:{litellm_port}/v1",
                     f"  Key:  {_mask_secret(master_key)}  (Klartext in scripts/litellm/.env)",
                     f"  Name: LiteLLM ({project} Cache)",
                     "Speichern.",
@@ -2187,6 +2798,7 @@ def run_install_litellm(repo: Path, cfg: dict, opts: Optional[dict] = None) -> N
     print(f"  Master-Key (Fingerprint): {_mask_secret(master_key)}")
     print("  Klartext-Speicher: scripts/litellm/.env (chmod 600).")
     print(f"  Container-Logs:    docker logs {litellm_container}")
+    return auto_wired
 
 
 def _auto_load_owui_env() -> bool:
@@ -2203,9 +2815,13 @@ def _auto_load_owui_env() -> bool:
     Rückgabe: True, wenn mindestens ein Key aus der Datei tatsächlich in
     os.environ geschrieben wurde (Aufrufer kann das nutzen, um sichtbar zu
     machen, dass die effektive Instanz aus dem Fallback-File stammt).
-    """
-    if os.environ.get("OPENWEBUI_API_KEY", "").strip():
-        return False
+
+    WP-N2-2c: vorher brach die Funktion sofort mit `return False` ab, sobald
+    `OPENWEBUI_API_KEY` schon im Prozess-Env stand -- eine NUR in der Datei
+    gespeicherte bewusste Wahl (z.B. `MMO_SIM_PERSONA_CLI`/`_API_*`) wurde
+    dann NIE geladen. Jetzt wird die Datei immer gelesen und fehlende Werte
+    nachgeladen; bereits gesetzte Prozesswerte werden (wie bisher) NIE
+    überschrieben (`not os.environ.get(k)`-Guard unverändert)."""
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
         return False
@@ -2230,6 +2846,439 @@ def _auto_load_owui_env() -> bool:
         # fällt das Script gleich auf die normale Env-fehlt-Fehlermeldung zurück.
         return False
     return loaded
+
+
+def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
+    """WP-N3-1b: ERHALTENDE Fortführung für den orphaned-KB-Teilbestand --
+    eine eindeutig namensgleiche Knowledge Base existiert bereits (typischer
+    Abbruch zwischen KB- und Preset-Anlage in `run_setup`), aber Preset/
+    Manifest fehlen. Ergänzt NUR die fehlenden eigenen Teile (Preset-Link,
+    Sync-Manifest) über die bestehenden Bausteine (`APIClient.upsert_model`,
+    dieselbe Preset-Payload wie `run_setup`, `_save_sync_manifest`) -- legt
+    KEINE neue KB an, löscht/ersetzt KEINE vorhandene KB oder Datei. Die
+    Connection selbst ergänzt der Caller danach über `ensure_litellm_
+    autowire` (gleicher Baustein wie im `installed`-Pfad, WP-N3-1a).
+
+    Returns True nur, wenn JEDE Variante erfolgreich auf die bestehende KB
+    verlinkt wurde; False mit gedruckten Details sonst (Caller zeigt dann
+    [6] Diagnose / [7] Reset als eigene, nicht vorbelegte Wahl).
+    """
+    project = cfg["project"]
+    _auto_load_owui_env()
+    url = (
+        os.environ.get("OPENWEBUI_URL")
+        or cfg.get("url")
+        or "http://localhost:8080"
+    ).rstrip("/")
+    api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not api_key:
+        print_error("OPENWEBUI_API_KEY fehlt — Ergänzung abgebrochen.")
+        return False
+
+    client = APIClient(url, api_key)
+    if not client.check_health():
+        print_error(f"OpenWebUI nicht erreichbar unter {url} — Ergänzung abgebrochen.")
+        return False
+
+    kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
+    print()
+    print_header(f"{project} – Teilbestand ergänzen (vorhandene KB erhalten)")
+    print_ok(f"Bestehende Knowledge Base übernommen (ID: {kb_id}) — keine Neuanlage, keine Löschung.")
+
+    mp_path = repo / cfg["masterprompt"]
+    if not mp_path.exists():
+        print_error(f"Masterprompt nicht gefunden: {cfg['masterprompt']}")
+        return False
+    system_prompt = mp_path.read_text(encoding="utf-8")
+    params = cfg.get("params", {})
+    suggestions = [{"content": s} for s in cfg.get("suggestions", [])]
+
+    profile_image_url = ""
+    icon_path = repo / "docs" / "gameicon.png"
+    if icon_path.exists():
+        with open(icon_path, "rb") as img_f:
+            b64 = base64.b64encode(img_f.read()).decode()
+        profile_image_url = f"data:image/png;base64,{b64}"
+
+    # Gleiche Preset-Payload-Form wie `run_setup`s Preset-Block -- nur das
+    # Ziel ist die BESTEHENDE kb_id statt einer frisch angelegten.
+    all_ok = True
+    for vk in cfg["variants"]:
+        v = cfg["variants"][vk]
+        v_base_model = variant_base_model(repo, cfg, vk)
+        v_reasoning_effort = variant_reasoning_effort(cfg, vk)
+        v_params = {
+            "system": system_prompt,
+            "temperature": params.get("temperature", 0.8),
+            "max_tokens": params.get("max_tokens", 64000),
+        }
+        if v_reasoning_effort:
+            v_params["reasoning_effort"] = v_reasoning_effort
+        payload = {
+            "id": v["preset_id"],
+            "name": v["preset_name"],
+            "base_model_id": v_base_model,
+            "meta": {
+                "description": v.get("preset_description", cfg.get("preset_description", "")),
+                "profile_image_url": profile_image_url,
+                "capabilities": variant_capabilities(cfg, vk),
+                "knowledge": [
+                    {"id": kb_id, "name": kb_name, "type": "collection"}
+                ],
+                "suggestion_prompts": suggestions,
+            },
+            "params": v_params,
+        }
+        success, action = client.upsert_model(payload)
+        if success:
+            print_ok(f"Preset {action} und an bestehende KB verlinkt: {v['preset_name']} (Variante '{vk}')")
+        else:
+            print_error(f"Preset für Variante '{vk}' konnte nicht ergänzt werden.")
+            all_ok = False
+
+    # WP-N4-1 P2: fehlende Wissensdateien tatsächlich ergänzen statt nur
+    # anzunähern. Echte KB-Zugehörigkeit wird -- wie im normalen `run_sync`-
+    # Delta-Check oben -- über `list_files()` gefiltert nach
+    # `meta.collection_name == kb_id` bestimmt. NICHT über `GET
+    # /knowledge/{id}` (liefert `files` auf mehreren OpenWebUI-Versionen
+    # null/leer) und NICHT über einen globalen Dateinamen-Match (der würde
+    # eine gleichnamige Datei EINER ANDEREN KB auf einer geteilten Instanz
+    # fälschlich als "schon in dieser KB" ausweisen).
+    kb_files = discover_knowledge_files(repo, cfg)
+    # WP-N5-1b/WP-N6-1b: `list_files()` wirft im echten Betrieb praktisch nie
+    # (jeder HTTP-/Parse-Fehler/abgebrochene Pagination landet schon dort als
+    # leere/formfalsche/abgebrochene Seite -- der `try/except` unten ist nur
+    # ein Netz für exotische Doubles, kein echter Fehlerpfad). Der ECHTE
+    # Fehlerpfad ist der `last_files_complete`-Marker (s. `list_files`-
+    # Docstring): ein HTTP-Fehler auf irgendeiner Seite, ein formfalscher
+    # Körper oder eine vor Erreichen von `total` abgebrochene Pagination
+    # lässt ihn False -- das ist KEINE bestätigte (Teil-)Vollständigkeit und
+    # darf NICHT wie eine echte, abschließend gelesene Liste behandelt
+    # werden (sonst fehlklassifiziert der Namensabgleich unten ALLE
+    # `kb_files` als "nicht in der KB" und laedt sie blind hoch). Default
+    # True (Doubles ohne dieses Attribut -> altes Verhalten unverändert).
+    try:
+        all_files = client.list_files()
+    except Exception as e:
+        print_error(
+            f"Dateibestand von OpenWebUI nicht lesbar ({e.__class__.__name__}: {e}) — "
+            "Ergänzung abgebrochen, keine Uploads ausgelöst. Erneut [1] ausführen, "
+            "wenn OpenWebUI wieder zuverlässig antwortet."
+        )
+        return False
+    if not isinstance(all_files, list):
+        print_error(
+            "Dateibestand von OpenWebUI unklar (kein lesbares Listenergebnis) — "
+            "Ergänzung abgebrochen, keine Uploads ausgelöst."
+        )
+        return False
+    files_complete = getattr(client, "last_files_complete", True)
+    if not files_complete:
+        print_error(
+            "Dateibestand von OpenWebUI unvollständig/unklar gelesen (HTTP-Fehler, "
+            "formfalscher Körper oder abgebrochene Pagination auf einer der Seiten) — "
+            "Ergänzung abgebrochen, keine Uploads ausgelöst. Erneut [1] ausführen, "
+            "wenn OpenWebUI wieder zuverlässig antwortet."
+        )
+        return False
+    in_kb_by_name: dict[str, str] = {}
+    in_kb_hash_by_name: dict[str, str] = {}
+    for f in all_files:
+        if not isinstance(f, dict):
+            continue
+        if (f.get("meta") or {}).get("collection_name") != kb_id:
+            continue
+        fname, fid = f.get("filename"), f.get("id")
+        if fname and fid:
+            in_kb_by_name[fname] = fid
+            # WP-N7-A1: Pro-Datei-Content-Hash (SHA-256) mitführen -- OWUI
+            # liefert ihn als `meta.file_hash` (bei fertig verarbeiteten
+            # Dateien auch top-level `hash`), am laufenden v0.11.3-Backend
+            # verifiziert. Das ist die EINZIGE belastbare Quelle, um GENAU
+            # diese `fid` inhaltlich zu bestätigen (statt aus dem collection-
+            # weiten Duplicate-Status zu raten). Fehlt er -> None -> Fallback
+            # auf erhaltenden Halt unten.
+            fmeta = f.get("meta") or {}
+            in_kb_hash_by_name[fname] = fmeta.get("file_hash") or f.get("hash")
+
+    # Manifest NUR aus bestätigten eigenen Zuordnungen -- entweder von uns
+    # gerade tatsächlich hochgeladen (`do_upload_file`) UND verlinkt
+    # (`add_file_to_knowledge`). Kein ungeprüfter Namensmatch, keine
+    # Synchronitätsbehauptung für eine fehlgeschlagene Ergänzung.
+    confirmed: dict[str, dict] = {}
+    upload_failures: list[str] = []
+    for fp in kb_files:
+        existing_fid = in_kb_by_name.get(fp.name)
+        if existing_fid:
+            # WP-N7-A1: GENAU die eigene `existing_fid` inhaltlich bestätigen
+            # -- über den pro-Datei gebundenen OWUI-Content-Hash
+            # (`meta.file_hash`/`hash` = SHA-256, am laufenden v0.11.3-Backend
+            # verifiziert), NICHT über den collectionweiten Duplicate-Status.
+            existing_hash = in_kb_hash_by_name.get(fp.name)
+            local_sha = _file_sha256(fp)
+            if existing_hash and existing_hash == local_sha:
+                # Der bereits verlinkte Altbestand TRÄGT nachweislich (gleicher
+                # SHA-256) den lokalen Inhalt -> bestätigt korrekt, kein Ersatz,
+                # kein Upload. Schließt den häufigen "schon korrekt"-Fall einer
+                # orphaned KB (aus abgebrochenem Vorlauf) sauber ab -- der
+                # normale unterstützte Erfolgsfall bleibt abschließbar.
+                confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": existing_fid}
+                print_ok(
+                    f"Unverändert: {fp.name} — Inhalt der bereits verlinkten Datei "
+                    f"({existing_fid[:12]}…) per Content-Hash bestätigt identisch."
+                )
+                continue
+            # Ab hier: der Content-Hash unterscheidet sich NACHWEISLICH
+            # (`existing_hash != local_sha`) ODER ist nicht verlässlich lesbar
+            # (`existing_hash` fehlt). In beiden Fällen ist `existing_fid` NICHT
+            # als "trägt den lokalen Inhalt" bestätigt.
+            #
+            # WP-N6-1b: eine gleichnamige Datei IN DIESER KB ist KEIN
+            # bestätigter Inhaltsabgleich -- die orphaned KB hat per
+            # Definition KEIN Manifest (sonst wäre sie nicht "orphaned"),
+            # ihr Inhalt kann älter/abweichend sein als die lokale Datei.
+            # Ein lokaler Sollhash allein bescheinigt keinen bestätigten
+            # Remote-Inhalt (Hashabgleich oben nutzt die ECHTE Remote-Quelle).
+            #
+            # VORHER (WP-N5-1b, jetzt korrigiert): entlinken+löschen VOR dem
+            # Upload, UNBEDINGT -- Rückgaben von remove/delete ignoriert. Bei
+            # Erfolg ging die korrekte alte ID verloren (unnötig, wenn der
+            # Inhalt eh identisch war); scheiterte der Upload NACH dem
+            # Löschen, war der korrekte alte Inhalt ersatzlos weg.
+            #
+            # JETZT: erhaltende Reihenfolge, die OpenWebUIs dokumentierte
+            # Duplicate-Content-Eigenschaft als Orakel nutzt (setup.py
+            # ~3310/`run_sync`: "400: Duplicate content detected", wenn eine
+            # inhaltsgleiche Datei noch in der KB hängt). Die ALTE Datei
+            # bleibt zunächst unangetastet; wir laden den lokalen Inhalt
+            # separat hoch und versuchen ihn an dieselbe KB zu linken,
+            # WÄHREND die alte Version noch hängt:
+            #   - Link gelingt -> Inhalt war NICHT identisch (sonst hätte
+            #     OpenWebUI den Link verweigert) -> neuer Inhalt ist jetzt
+            #     bestätigt verlinkt, ERST JETZT ist das Entfernen der alten
+            #     Version sicher (kein Verlust möglich, Ersatz ist schon da).
+            #     N7-A2: die realen remove_file_from_knowledge/delete_file-
+            #     Rückgaben werden jetzt ausgewertet statt verworfen -- ein
+            #     fehlgeschlagenes UNLINK bleibt sichtbar+unbestätigt (s.u.).
+            #   - Link scheitert MIT der dokumentierten Duplicate-Signatur
+            #     (`last_add_file_duplicate`) -> N7-A1-KORREKTUR: das ist
+            #     KEINE Bestätigung, dass GENAU `existing_fid` den lokalen
+            #     Inhalt trägt. OWUIs Duplicate-Check (retrieval.py:1666-1685)
+            #     ist COLLECTION-WEIT nach Content-Hash und vergleicht nur
+            #     "existing_file_id != NEUE file_id" -- jeder Treffer gegen
+            #     IRGENDEINE bereits indizierte Datei der Collection löst ihn
+            #     aus, nicht nur ein Treffer gegen existing_fid. Die 400-
+            #     Antwort (knowledge.py:1477-1482) nennt keine file_id. Ohne
+            #     einen belegten Pro-Datei-Hash (files.py exponiert keinen
+            #     client-sichtbaren Hash in der gebundenen Quelle) bleibt die
+            #     Zuordnung zu existing_fid UNBESTÄTIGT -- erhaltender Halt:
+            #     existing_fid bleibt unangetastet, aber NICHT verbucht, der
+            #     ungenutzte Zweit-Upload wird verworfen.
+            #   - Link scheitert OHNE Duplicate-Signatur (echter Fehler) ->
+            #     unklar, ob der Inhalt wirklich übereinstimmt -- alte Datei
+            #     bleibt unangetastet, aber NICHT als bestätigt verbucht
+            #     (sichtbare Unvollständigkeit statt stiller Erfolgsmeldung).
+            # In KEINEM Zweig wird der bestätigte Altbestand vor einem
+            # bestätigten Ersatz angefasst.
+            new_file_id = client.do_upload_file(fp)
+            if not new_file_id:
+                print_error(
+                    f"Upload fehlgeschlagen: {fp.name} — bereits verlinkter Altbestand "
+                    f"({existing_fid[:12]}…) bleibt unangetastet, aber unbestätigt. "
+                    "KB bleibt unvollständig."
+                )
+                upload_failures.append(fp.name)
+                all_ok = False
+                continue
+            linked = client.add_file_to_knowledge(kb_id, new_file_id)
+            if not linked:
+                time.sleep(1)
+                linked = client.add_file_to_knowledge(kb_id, new_file_id)
+            # WP-N6-1b (Defense-in-Depth): die erhaltende Reihenfolge setzt
+            # voraus, dass `do_upload_file` eine FRISCHE File-ID liefert (nie
+            # die bereits verlinkte `existing_fid`). Das gilt beim aktuellen
+            # OpenWebUI-Backend (Upload erzeugt unbedingt eine neue uuid4-ID,
+            # Content-Dedupe greift erst beim KB-Link), ist aber eine EXTERNE,
+            # unversionierte Zusicherung. Erzwinge die No-Loss-Invariante lokal:
+            # eine Löschung darf NIE die einzige Kopie treffen. Bei (praktisch
+            # unmöglicher) ID-Gleichheit wird NICHT gelöscht -- der bestätigte
+            # Bestand bleibt erhalten (03 §13: "Der konkrete Fehlerpfad darf
+            # nicht ungeprüft bereits richtigen vorhandenen Inhalt vernichten").
+            distinct = bool(new_file_id) and new_file_id != existing_fid
+            if linked:
+                # Bestätigt verlinkter Ersatz steht -- jetzt sicher, die alte
+                # Version zu entfernen (nur wenn sie eine ANDERE Entity als
+                # der frisch verlinkte Ersatz ist). N7-A2: reale Rückgaben
+                # auswerten statt verwerfen. Backendsemantik (OWUI knowledge.
+                # py:1593-1659): das Unlink beendet die KB-Bindung des alten
+                # Inhalts UND löscht per Default (not ENABLE_KNOWLEDGE_FILE_
+                # RETENTION) die File-Entity GLEICH MIT (1658-1659) -- ein
+                # separates delete_file danach trifft im Normalfall bereits
+                # eine entfernte Entity (bestätigte Abwesenheit, KEIN Fehler;
+                # kein zweiter redundanter 200 verlangt). Nur ein
+                # fehlgeschlagenes UNLINK ist der echte Korrektheitsfehler:
+                # alte UND neue Version blieben dann gleichzeitig verlinkt.
+                unlink_ok = True
+                if distinct:
+                    unlinked = client.remove_file_from_knowledge(kb_id, existing_fid)
+                    unlink_ok = unlinked
+                    # N7-A2 (Vera-BLOCKER behoben): delete_file NUR nach
+                    # erfolgreichem Unlink. `delete_file` (DELETE /files/{id})
+                    # ist eine SEPARATE, NICHT an die KB-Bindung gekoppelte
+                    # Route (nur Owner/Admin) -- sie würde bei FEHLGESCHLAGENEM
+                    # Unlink die alte File-Entity trotzdem löschen, während die
+                    # KB-Bindung (laut gescheitertem Unlink) noch besteht -> tote
+                    # Referenz auf eine gelöschte file_id, und die „alte bleibt
+                    # verlinkt"-Meldung unten wäre faktisch falsch. Bei
+                    # erfolgreichem Unlink ist delete_file dagegen reine
+                    # best-effort-Aufräumung: das /file/remove hat die Entity
+                    # bei Default-Retention oft schon mitgelöscht (dann 404 =
+                    # bestätigte Abwesenheit, kein Fehler; kein zweiter 200
+                    # verlangt).
+                    if unlinked:
+                        deleted = client.delete_file(existing_fid)
+                        if not deleted:
+                            print_warn(
+                                f"{fp.name}: Alte File-Entity ({existing_fid[:12]}…) "
+                                "nach erfolgreichem Unlink nicht per delete_file "
+                                "bestätigt — laut Backend entweder bereits "
+                                "mitentfernt (Retention aus) oder bewusst "
+                                "zurückgehalten (Retention an). KB-Bindung ist in "
+                                "jedem Fall sicher beendet."
+                            )
+                if unlink_ok:
+                    confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
+                    print_ok(
+                        f"Ersetzt: {fp.name} — Inhalt unterschied sich vom bereits "
+                        f"verlinkten Altbestand, neu hochgeladen und verlinkt ({new_file_id[:12]}…)."
+                    )
+                else:
+                    print_error(
+                        f"Alte Version von {fp.name} ({existing_fid[:12]}…) konnte "
+                        "nicht entlinkt werden — neuer Inhalt ist verlinkt, aber der "
+                        "alte bleibt ZUSÄTZLICH verlinkt (beide auffindbar). NICHT "
+                        "als bestätigt ersetzt verbucht. KB bleibt unvollständig."
+                    )
+                    upload_failures.append(fp.name)
+                    all_ok = False
+            elif getattr(client, "last_add_file_duplicate", False):
+                # N7-A1: Hierher gelangt nur, wessen Content-Hash sich oben
+                # NACHWEISLICH von `existing_fid` unterschied (oder nicht
+                # lesbar war) -- der "schon korrekt"-Fall ist über den
+                # Hashabgleich bereits sauber abgeschlossen. Ein Duplicate
+                # hier bedeutet also: der lokale Inhalt existiert zwar bereits
+                # in der Collection, aber unter einer ANDEREN Datei (B), NICHT
+                # unter `existing_fid` (dessen Hash ja abwich). OWUIs
+                # Duplicate-Check (retrieval.py:1666-1685) ist collectionweit
+                # nach Content-Hash ("existing_file_id != NEUE file_id";
+                # files.py:356 vergibt je Upload eine frische uuid4) und die
+                # 400-Antwort (knowledge.py:1477-1482) nennt keine file_id.
+                # `existing_fid` kann den lokalen Inhalt also weiterhin NICHT
+                # tragen -- erhaltender Halt: existing_fid bleibt unangetastet,
+                # aber NICHT verbucht. Der unbenutzte
+                # Vergleichs-Upload wird verworfen (er wurde nie verlinkt,
+                # trifft also keinen bestätigten Bestand).
+                if distinct:
+                    client.delete_file(new_file_id)
+                print_error(
+                    f"Unklar: {fp.name} — OpenWebUI meldet Duplicate-Content, "
+                    f"das bestätigt aber NICHT, dass der bereits verlinkte "
+                    f"Altbestand ({existing_fid[:12]}…) selbst den lokalen "
+                    "Inhalt trägt (der Treffer kann von einer anderen Datei "
+                    "derselben Wissensbasis stammen). Altbestand bleibt "
+                    "unangetastet, aber unbestätigt. KB bleibt unvollständig."
+                )
+                upload_failures.append(fp.name)
+                all_ok = False
+            else:
+                # Echter Link-Fehler (keine Duplicate-Signatur) -- unklar, ob
+                # der alte Inhalt wirklich übereinstimmt. Alten Bestand NICHT
+                # anfassen, aber auch NICHT als bestätigt verbuchen.
+                if distinct:
+                    client.delete_file(new_file_id)
+                print_error(
+                    f"KB-Link fehlgeschlagen für {fp.name} — Altbestand "
+                    f"({existing_fid[:12]}…) bleibt unangetastet, aber unbestätigt. "
+                    "KB bleibt unvollständig."
+                )
+                upload_failures.append(fp.name)
+                all_ok = False
+            continue
+        new_file_id = client.do_upload_file(fp)
+        if not new_file_id:
+            print_error(f"Upload fehlgeschlagen: {fp.name} — KB bleibt unvollständig.")
+            upload_failures.append(fp.name)
+            all_ok = False
+            continue
+        linked = client.add_file_to_knowledge(kb_id, new_file_id)
+        if not linked:
+            time.sleep(1)
+            linked = client.add_file_to_knowledge(kb_id, new_file_id)
+        if linked:
+            confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
+            print_ok(f"Ergänzt: {fp.name} — hochgeladen und an KB verlinkt ({new_file_id[:12]}…).")
+        else:
+            client.delete_file(new_file_id)
+            print_error(f"KB-Link fehlgeschlagen für {fp.name} — Upload verworfen, KB bleibt unvollständig.")
+            upload_failures.append(fp.name)
+            all_ok = False
+
+    if upload_failures:
+        print_error(
+            f"{len(upload_failures)} Wissensdatei(en) nicht ergänzt: "
+            f"{', '.join(upload_failures)}. NICHT als synchron verbucht — "
+            "erneut [1] ausführen, um es nachzuholen."
+        )
+
+    # Manifest spiegelt den wahren (ggf. unvollständigen) Stand -- wird
+    # IMMER geschrieben (reiner Datei-Zustand, unabhängig vom Preset-Erfolg
+    # oben), aber enthält nur die oben bestätigten Einträge.
+    manifest = {
+        "masterprompt_md5": _text_md5(system_prompt),
+        "masterprompt_path": cfg["masterprompt"],
+        "kb_files": confirmed,
+        "last_sync": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "written_by": "complete_orphaned_kb_install",
+    }
+    _save_sync_manifest(repo, manifest)
+    if all_ok:
+        print_ok("Sync-Manifest ergänzt (nur bestätigte Zuordnungen).")
+    else:
+        print_warn("Sync-Manifest geschrieben — spiegelt einen unvollständigen Stand (Details oben).")
+
+    return all_ok
+
+
+def _classify_kb_name_candidates(entries: list[dict], local_sha: str):
+    """WP-F1-N8 (R2/R3): gleichnamige Dateien DIESER KB nach Content-Hash
+    klassifizieren -- dieselbe `meta.file_hash`/`hash`-SHA-256-Quelle wie
+    N7-A1 (am laufenden v0.11.3-Backend verifiziert), NICHT der
+    collectionweite Duplicate-Status (der liefert keine file_id,
+    knowledge.py:1477-1482). `entries`: Liste von {"id":..., "hash":...},
+    bereits auf Dateiname+KB gefiltert.
+
+    Rückgabe (target_fid, stale_ids): `target_fid` ist eine bereits
+    verlinkte Kopie, deren Hash NACHWEISLICH dem lokalen Inhalt entspricht
+    (Ziel Y ist schon korrekt -- kein erneuter Upload nötig; vermeidet die
+    Duplicate-Dauerschleife, die entsteht, wenn ein zuvor unvollständig
+    gebliebener Ersatz -- Y verlinkt, altes X-Unlink gescheitert -- erneut
+    hochgeladen würde und OWUIs collectionweiter Duplicate-Check den
+    Vergleichs-Upload gegen GENAU dieses Y zurückweist, ohne dass die
+    fällige Altentfernung je erreicht wird). `stale_ids`: alle ÜBRIGEN
+    gleichnamigen Kopien (abweichender/fehlender Hash -- Altentfernungs-
+    kandidaten, A2-Semantik: Unlink prüfen, delete nur nach Erfolg)."""
+    target_fid = None
+    stale_ids: list[str] = []
+    for entry in entries:
+        fid = entry.get("id")
+        if not fid:
+            continue
+        fhash = entry.get("hash")
+        if target_fid is None and fhash and fhash == local_sha:
+            target_fid = fid
+        else:
+            stale_ids.append(fid)
+    return target_fid, stale_ids
 
 
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -2453,13 +3502,31 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # Nur wenn wir überhaupt KB-Files sehen, vertrauen wir der Liste — sonst
     # (leere Antwort/Endpoint-Problem) still überspringen, um False-Positive-
     # Massen-Re-Uploads zu vermeiden.
-    in_kb_names = {
-        str((f.get("meta") or {}).get("name") or f.get("filename") or "")
-        .replace("\\", "/").split("/")[-1]
-        for f in (client.list_files() or [])
-        if isinstance(f, dict) and (f.get("meta") or {}).get("collection_name") == kb_id
-    }
-    in_kb_names.discard("")
+    # WP-F1-N8 (R3): derselbe Read wird jetzt zu einem Name->Kandidaten-
+    # Index ausgebaut (id + Content-Hash), statt nur ein flaches Namens-Set
+    # zu liefern -- das erlaubt unten (vor "alles aktuell") eine
+    # identitätsgebundene Rekonstruktion offener Altentfernungsreste, OHNE
+    # einen zusätzlichen `list_files()`-Call pro Datei.
+    kb_name_index: dict[str, list[dict]] = {}
+    for f in (client.list_files() or []):
+        if not isinstance(f, dict):
+            continue
+        if (f.get("meta") or {}).get("collection_name") != kb_id:
+            continue
+        fname = (
+            str((f.get("meta") or {}).get("name") or f.get("filename") or "")
+            .replace("\\", "/").split("/")[-1]
+        )
+        if not fname:
+            continue
+        fid = f.get("id")
+        if not fid:
+            continue
+        fmeta = f.get("meta") or {}
+        fhash = fmeta.get("file_hash") or f.get("hash")
+        kb_name_index.setdefault(fname, []).append({"id": fid, "hash": fhash})
+
+    in_kb_names = set(kb_name_index.keys())
     if in_kb_names:
         lost = [name for name in list(files_manifest.keys()) if name not in in_kb_names]
         for name in lost:
@@ -2492,6 +3559,74 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     removed_names = [name for name in files_manifest.keys() if name not in local_filenames]
 
     if not changed and not removed_names:
+        # WP-F1-N8 (R3): ein unveränderter lokaler MD5 belegt NUR, dass der
+        # Sollinhalt stabil ist -- er belegt NICHT, dass ein früherer
+        # Lauf seinen offenen Altentfernungs-Rest (cleanup_ok=False weiter
+        # unten: Y verlinkt + Manifest aktualisiert, aber Unlink von X
+        # gescheitert, X nur in der flüchtigen `link_failures`-Liste
+        # vermerkt) inzwischen erledigt hat. Rekonstruktion aus der
+        # Backendquelle (derselbe `kb_name_index` wie der Server-Drift-
+        # Check oben, KEIN zusätzlicher `list_files()`-Call): trägt noch
+        # eine gleichnamige same-KB-Kopie mit ABWEICHENDEM Hash (stale alte
+        # X) dieselbe KB, wird die Altentfernung hier nachgeholt (A2-
+        # Semantik), BEVOR "alles aktuell" gilt. Bei erneutem Unlink-Fehler
+        # bleibt der Lauf ehrlich unvollständig statt eines falschen
+        # Erfolgs.
+        pending_cleanup_failed: list[str] = []
+        for fp in kb_files:
+            tracked = files_manifest.get(fp.name) or {}
+            if not tracked.get("file_id"):
+                continue
+            target_fid, stale_ids = _classify_kb_name_candidates(
+                kb_name_index.get(fp.name, []), _file_sha256(fp)
+            )
+            # WP-F1-N8 (R3 Defense-in-Depth): die Altentfernung läuft NUR, wenn
+            # eine gleichnamige Kopie mit NACHWEISLICH passendem Inhalt (Hash ==
+            # lokaler SHA-256) bereits verlinkt ist (`target_fid`). Fehlt sie
+            # (keine verlinkte Kopie trägt den Sollinhalt — z.B. extern
+            # mutierter Zustand), dürfen die übrigen gleichnamigen Kopien NICHT
+            # entfernt werden: sonst risse der Rekonstruktions-Check die letzte
+            # noch vorhandene Kopie dieses Namens heraus (dieselbe
+            # „einzige-Kopie"-Gefahr wie beim N7-A2-Guard). Dann unangetastet
+            # lassen — der Coverage-Check unten bleibt der harte
+            # Vollständigkeitsbeleg.
+            if not (target_fid and stale_ids):
+                continue
+            for old_id in stale_ids:
+                if old_id == target_fid:
+                    continue
+                unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                if not unlinked:
+                    pending_cleanup_failed.append(fp.name)
+                    print_error(
+                        f"{fp.name}: offener Altentfernungs-Rest — Version "
+                        f"({old_id[:12]}…) konnte weiterhin nicht entlinkt "
+                        "werden, alter UND aktueller Inhalt bleiben "
+                        "gleichzeitig verlinkt."
+                    )
+                    continue
+                deleted = client.delete_file(old_id)
+                if not deleted:
+                    print_warn(
+                        f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                        "erfolgreichem Unlink nicht per delete_file bestätigt "
+                        "— laut Backend entweder bereits mitentfernt "
+                        "(Retention aus) oder bewusst zurückgehalten "
+                        "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                        "beendet."
+                    )
+                print_ok(
+                    f"{fp.name}: offener Altentfernungs-Rest nachgeholt "
+                    f"({old_id[:12]}… entlinkt, Zielbestand unangetastet)."
+                )
+        if pending_cleanup_failed:
+            print_error(
+                f"{len(pending_cleanup_failed)} Datei(en) tragen weiterhin eine "
+                f"zusätzlich verlinkte Altversion: {', '.join(pending_cleanup_failed)}. "
+                "Erneut `python setup.py --sync` ausführen."
+            )
+            sys.exit(1)
+
         print_ok(f"Alle {len(kb_files)} KB-Dateien laut Manifest synchron.")
         _save_sync_manifest(repo, manifest)
         # WICHTIG: "Manifest synchron" (MD5 lokal == zuletzt hochgeladen) belegt
@@ -2544,47 +3679,110 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     link_failures: list[str] = []
     sync_t0 = time.time()
 
-    # 2a. Geänderte/neue Dateien: erst alte entlinken+löschen, DANN neue hochladen+verlinken.
-    # Reihenfolge ist wichtig: OpenWebUI verweigert den KB-Link einer Datei mit
-    # identischem Content, wenn eine inhaltsgleiche Datei noch in der KB hängt
-    # ("400: Duplicate content detected"). Erster Fix: alte zuerst weg.
+    # 2a. Geänderte/neue Dateien: N7-A3-KORREKTUR -- ERST neue Version
+    # hochladen + verlinken, DANN (nur bei bestätigtem Ersatz/Duplicate-
+    # Orakel) alte Version(en) entfernen. Dieselbe erhaltende Reihenfolge
+    # wie `complete_orphaned_kb_install` (N7-A1/A2): VORHER wurde die alte
+    # Version hier bedingungslos VOR dem Upload entlinkt+gelöscht (egal ob
+    # `old_file_id` aus dem Manifest bekannt war ODER erst über den
+    # Namensfallback gefunden wurde) -- scheiterte der anschließende Upload
+    # oder Link, war die einzige richtige Kopie ersatzlos weg. Das ist genau
+    # der Folgepfad, den ein normaler Wiederanlauf nach einem zuvor
+    # unvollständig gebliebenen Ersatz erreicht (installed -> [1] -> Update
+    # -> run_sync, s. complete_orphaned_kb_install oben): der fehlende
+    # Manifest-Eintrag führt hierher über den Namensfallback.
     total_changed = len(changed)
     for idx, (fp, md5_new) in enumerate(changed, start=1):
         tracked = files_manifest.get(fp.name) or {}
         old_file_id = tracked.get("file_id")
 
-        # Alte Version zuerst entlinken + entfernen (best-effort).
-        # OpenWebUI hält sonst am alten Content-Hash fest und lehnt Re-Link ab.
+        # Alte Kandidaten NUR ermitteln, NICHT anfassen. Fallback: fehlt der
+        # Manifest-Eintrag (z. B. erste --sync-Runde nach manuellem Full-
+        # Setup ODER nach einem zuvor unvollständig gebliebenen Ersatz),
+        # Namens-Kollision in der Files-Liste prüfen -- NUR innerhalb DIESER
+        # KB (meta.collection_name == kb_id). Ein globaler filename-Match
+        # würde die gleichnamige Datei eines ANDEREN Bausatzes mitlöschen
+        # (Cross-KB-Datenverlust, beobachtet 2026-09-14).
+        target_fid = None
         if old_file_id:
-            client.remove_file_from_knowledge(kb_id, old_file_id)
-            client.delete_file(old_file_id)
-
-        # Fallback: falls der Manifest nicht aktuell war (z. B. erste --sync-Runde
-        # nach manuellem Full-Setup), Namens-Kollision in der globalen Files-Liste
-        # prüfen und ggf. entfernen.
-        if not old_file_id:
-            # Namens-Kollision NUR innerhalb DIESER KB aufloesen, nicht global.
-            # Bausaetze auf einer geteilten OpenWebUI-Instanz teilen sich
-            # Dateinamen (z.B. kreative-generatoren-begegnungen.md in mehreren
-            # KBs). Ein globaler filename-Match wuerde die gleichnamige Datei
-            # eines ANDEREN Bausatzes mitloeschen (Cross-KB-Datenverlust,
-            # beobachtet 2026-09-14). Deshalb auf meta.collection_name == kb_id
-            # einschraenken.
+            old_candidates = [old_file_id]
+        else:
             same_name = [
                 f for f in client.list_files()
                 if f.get("filename") == fp.name
                 and (f.get("meta") or {}).get("collection_name") == kb_id
             ]
-            for dup in same_name:
-                dup_id = dup.get("id")
-                if dup_id:
-                    client.remove_file_from_knowledge(kb_id, dup_id)
-                    client.delete_file(dup_id)
+            # WP-F1-N8 (R2): BEVOR erneut hochgeladen wird, identitätsgebunden
+            # prüfen (dieselbe meta.file_hash-SHA-256-Quelle wie N7-A1), ob
+            # unter den gleichnamigen same-KB-Kopien bereits eine mit dem
+            # lokalen Inhalt verlinkt ist. Das passiert, wenn ein zuvor
+            # unterbrochener complete_orphaned_kb_install Y erfolgreich
+            # verlinkt, aber das alte X nicht entlinken konnte (kein
+            # Manifest-Eintrag, daher landet die Datei hier über den
+            # fehlenden Eintrag als "geändert"). Ohne diesen Check würde
+            # gleich darunter ein Vergleichs-Upload von Y ausgelöst, den
+            # OWUIs collectionweiter Duplicate-Check gegen GENAU dieses Y
+            # zurückweist (400) -- die fällige Altentfernung von X würde NIE
+            # erreicht (Dauerschleife).
+            same_name_entries = [
+                {"id": dup.get("id"),
+                 "hash": (dup.get("meta") or {}).get("file_hash") or dup.get("hash")}
+                for dup in same_name
+            ]
+            target_fid, old_candidates = _classify_kb_name_candidates(
+                same_name_entries, _file_sha256(fp)
+            )
 
-        # Neue Version hochladen
+        if target_fid:
+            # Y ist bereits identitätsgebunden verlinkt -- NICHT erneut
+            # hochladen. Nur die übrigen gleichnamigen Kopien mit
+            # abweichendem Hash (alte X) entfernen (A2-Semantik: Unlink
+            # prüfen, delete nur nach Erfolg).
+            distinct_old = [c for c in old_candidates if c and c != target_fid]
+            cleanup_ok = True
+            for old_id in distinct_old:
+                unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                if not unlinked:
+                    cleanup_ok = False
+                    print_error(
+                        f"{fp.name}: Alte Version ({old_id[:12]}…) konnte nicht "
+                        "entlinkt werden — alter UND neuer Inhalt bleiben "
+                        "gleichzeitig verlinkt."
+                    )
+                    continue
+                deleted = client.delete_file(old_id)
+                if not deleted:
+                    print_warn(
+                        f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                        "erfolgreichem Unlink nicht per delete_file bestätigt "
+                        "— laut Backend entweder bereits mitentfernt "
+                        "(Retention aus) oder bewusst zurückgehalten "
+                        "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                        "beendet."
+                    )
+            if cleanup_ok:
+                files_manifest[fp.name] = {"md5": md5_new, "file_id": target_fid}
+                if idx % 3 == 0:
+                    manifest["kb_files"] = files_manifest
+                    _save_sync_manifest(repo, manifest)
+                print_ok(
+                    f"[{idx}/{total_changed}] {fp.name} — bereits korrekt verlinkt "
+                    f"({target_fid[:12]}…), kein erneuter Upload; Altbestand entfernt."
+                )
+            else:
+                link_failures.append(fp.name)
+            continue
+
+        # Neue Version hochladen, WÄHREND die alte(n) Version(en) noch hängen.
         new_file_id = client.do_upload_file(fp)
         if not new_file_id:
-            print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe.")
+            print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe, Altbestand unangetastet.")
+            # WP-F1-N8 (R1): vorher KEIN link_failures-Append -- die Datei
+            # war weder im Manifest (gut) noch in link_failures (schlecht),
+            # die Summary zählte sie fälschlich als "geändert erfolgreich"
+            # und `sys.exit(1)` blieb aus. Ein echter erneuter Uploadfehler
+            # muss den Lauf ehrlich unvollständig machen.
+            link_failures.append(fp.name)
             continue
 
         # An KB anhängen (Retry einmal nach 1s — Indexierung asynchron)
@@ -2593,7 +3791,48 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             time.sleep(1)
             linked = client.add_file_to_knowledge(kb_id, new_file_id)
 
+        # No-Loss-Guard (wie complete_orphaned_kb_install): niemals eine
+        # alte ID löschen, die zufällig mit der frischen new_file_id
+        # identisch wäre.
+        distinct_old = [c for c in old_candidates if c and c != new_file_id]
+
         if linked:
+            # Ersatz steht bestätigt -- jetzt sicher, die alte(n) Version(en)
+            # zu entfernen. Backendsemantik (OWUI knowledge.py:1593-1659):
+            # das Unlink beendet die KB-Bindung UND löscht per Default (not
+            # ENABLE_KNOWLEDGE_FILE_RETENTION) die File-Entity gleich mit --
+            # ein separates delete_file danach trifft normal bereits eine
+            # entfernte Entity (bestätigte Abwesenheit, KEIN Fehler; kein
+            # zweiter redundanter 200 verlangt). Nur ein fehlgeschlagenes
+            # Unlink ist der echte Korrektheitsfehler (alte UND neue Version
+            # blieben gleichzeitig verlinkt).
+            cleanup_ok = True
+            for old_id in distinct_old:
+                unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                if not unlinked:
+                    # N7-A2 (Vera-BLOCKER behoben): KEIN delete_file bei
+                    # fehlgeschlagenem Unlink -- sonst löscht die ungated
+                    # DELETE-Route die alte Entity, obwohl die KB-Bindung noch
+                    # besteht (tote Referenz), und die Meldung „bleiben
+                    # gleichzeitig verlinkt" wäre falsch. Alte Version bleibt
+                    # unangetastet + verlinkt, sichtbar + wiederaufnehmbar.
+                    cleanup_ok = False
+                    print_error(
+                        f"{fp.name}: Alte Version ({old_id[:12]}…) konnte nicht "
+                        "entlinkt werden — alter UND neuer Inhalt bleiben "
+                        "gleichzeitig verlinkt."
+                    )
+                    continue
+                deleted = client.delete_file(old_id)
+                if not deleted:
+                    print_warn(
+                        f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                        "erfolgreichem Unlink nicht per delete_file bestätigt "
+                        "— laut Backend entweder bereits mitentfernt "
+                        "(Retention aus) oder bewusst zurückgehalten "
+                        "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                        "beendet."
+                    )
             files_manifest[fp.name] = {"md5": md5_new, "file_id": new_file_id}
             # Alle 3 Files ein Manifest-Zwischen-Write, damit bei Abbruch
             # (Strom weg, User Ctrl-C) der bisherige Fortschritt nicht verloren ist.
@@ -2601,24 +3840,48 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 manifest["kb_files"] = files_manifest
                 _save_sync_manifest(repo, manifest)
             elapsed_total = int(time.time() - sync_t0)
-            print_ok(
-                f"[{idx}/{total_changed}] {fp.name} — neu {new_file_id[:12]}… "
-                f"(laufend: {elapsed_total // 60}m {elapsed_total % 60:02d}s)"
+            if cleanup_ok:
+                print_ok(
+                    f"[{idx}/{total_changed}] {fp.name} — neu {new_file_id[:12]}… "
+                    f"(laufend: {elapsed_total // 60}m {elapsed_total % 60:02d}s)"
+                )
+            else:
+                # Neuer Inhalt ist verlinkt und im Manifest, aber die alte
+                # Version hängt noch zusätzlich -- sichtbar + wiederaufnehmbar,
+                # kein stiller Erfolg.
+                link_failures.append(fp.name)
+        elif getattr(client, "last_add_file_duplicate", False):
+            # N7-A1, übertragen: das Duplicate-Signal ist COLLECTION-WEIT
+            # (retrieval.py:1666-1685), die 400-Antwort nennt keine file_id
+            # (knowledge.py:1477-1482) -- es gibt keine Möglichkeit, daraus
+            # abzulesen, dass ausgerechnet einer der `old_candidates` (und
+            # nicht eine andere Datei derselben KB) den passenden Inhalt
+            # trägt. Alte Kandidaten bleiben unangetastet UND unbestätigt --
+            # der unbenutzte Vergleichs-Upload wird verworfen (er wurde nie
+            # verlinkt, trifft also keinen bestätigten Bestand).
+            client.delete_file(new_file_id)
+            print_error(
+                f"Unklar: {fp.name} — OpenWebUI meldet Duplicate-Content, das "
+                "bestätigt aber NICHT, dass ausgerechnet der bisherige "
+                "Altbestand selbst den neuen Inhalt trägt (der Treffer kann "
+                "von einer anderen Datei derselben Wissensbasis stammen). "
+                "Altbestand bleibt unangetastet, aber unbestätigt. Manifest "
+                "NICHT aktualisiert."
             )
+            link_failures.append(fp.name)
         else:
-            # WICHTIG: Kein Manifest-Update bei fehlgeschlagenem Link.
-            # Sonst hält das Manifest eine File-ID, die zwar in OpenWebUI
-            # existiert, aber **nicht in der KB verlinkt** ist — das Retrieval
-            # wäre stillschweigend kaputt, und der nächste --sync-Lauf würde
-            # die Datei als "unverändert synchron" einstufen (MD5-Match).
-            # Altmanifest-Eintrag bleibt stehen → nächster Lauf triggert Retry.
-            # Verwaiste File-Entity im OWUI-FS aufräumen (best-effort).
+            # WICHTIG: Kein Manifest-Update bei fehlgeschlagenem Link, echter
+            # Link-Fehler (keine Duplicate-Signatur) -- Altbestand bleibt
+            # unangetastet (wurde NICHT vorab gelöscht), aber auch NICHT
+            # bestätigt. Nur die verwaiste (nie verlinkte) neue File-Entity
+            # wird aufgeräumt.
             client.delete_file(new_file_id)
             print_warn(
                 f"[{idx}/{total_changed}] KB-Link fehlgeschlagen für {fp.name} — "
-                f"Manifest NICHT aktualisiert, verwaiste File-Entity entfernt. "
-                f"Nächster `--sync` wiederholt den Upload. "
-                f"Bei wiederholtem Fehler: `python setup.py` (Full-Rebuild)."
+                f"Manifest NICHT aktualisiert, Altbestand unangetastet, "
+                f"verwaiste neue File-Entity entfernt. Nächster `--sync` "
+                f"wiederholt den Upload. Bei wiederholtem Fehler: "
+                f"`python setup.py` (Full-Rebuild)."
             )
             link_failures.append(fp.name)
 
@@ -3234,6 +4497,8 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     start_cmd = cfg.get("suggestions", ["Start"])[0]
     first_preset_name = cfg["variants"][created_presets[0][0]]["preset_name"] if created_presets else cfg.get("preset_name", project)
     print(f"  So geht's weiter:")
+    print(f"  Der normale Weg ist das Terminalspiel [M] im {project}-Starter.")
+    print(f"  Der Browser-Chat ist optional:")
     print(f"  1. Öffne {url} im Browser")
     print(f"  2. Starte einen neuen Chat")
     print(f"  3. Wähle eines der Presets oben (z.B. \"{first_preset_name}\")")
@@ -3598,6 +4863,16 @@ def main() -> None:
             "Für CI/automatisierte Läufe oder wenn kein Docker vorhanden ist."
         ),
     )
+    parser.add_argument(
+        "--cache-probe",
+        action="store_true",
+        help=(
+            "Mit --install-litellm: zusätzlich einen 2-Call-Cache-Test fahren "
+            "(zwei echte, KOSTENPFLICHTIGE Chat-Calls gegen OpenRouter, um "
+            "Prompt-Caching zu verifizieren). Default AUS. Alternativ: "
+            "ZEITRISS_LITELLM_CACHE_PROBE=1."
+        ),
+    )
     # ── Multi-Variant ────────────────────────────────────────────────
     parser.add_argument(
         "--variant",
@@ -3647,6 +4922,7 @@ def main() -> None:
             cfg,
             opts={
                 "assume_yes": args.yes,
+                "cache_probe": args.cache_probe,
             },
         )
     elif args.list_variants:

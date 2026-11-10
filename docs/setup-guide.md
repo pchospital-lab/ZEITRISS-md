@@ -13,10 +13,11 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 
 ## Inhalt
 
-1. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
-2. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
-3. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
-4. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
+1. [Überblick: Wie ZEITRISS läuft](#überblick-wie-zeitriss-läuft)
+2. [Was der Launcher dir anbietet](#was-der-launcher-dir-anbietet)
+3. [Komplett-Setup in OpenWebUI (empfohlen)](#komplett-setup-in-openwebui-empfohlen)
+4. [Browser-Einstieg ohne Installation](#browser-einstieg-ohne-installation)
+   (optional, nachgeordnet)
 5. [Updates und Wartung](#updates-und-wartung)
 6. [Weiterführendes](#weiterführendes-gruppenspiel-lokal-gpu-variante-portabler-export)
    — Gruppenspiel, Lokal-GPU-Variante, Export
@@ -24,147 +25,6 @@ Regeln findest du im [Spieler-Handbuch](../core/spieler-handbuch.md).
 8. [Referenz](#referenz)
 
 ---
-
-## Browser-Einstieg ohne Installation
-
-Das ist der optionale, nachgeordnete Weg, das Regelwerk direkt in einer
-Chat-Plattform auszuprobieren — ohne lokale Installation. Der normale
-Produktstart ist das Terminalspiel auf Linux Mint, siehe
-[Spielerstart](spielerstart.md).
-
-**Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
-bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
-ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
-und bewahre ihn mit dem Paket auf. Das Quell-ZIP ist kein bereinigtes
-Upload-Paket; daraus wählst du nur die folgenden 19 `slot:true`-Dateien, deren
-einzige maschinenlesbare Quelle `master-index.json` bleibt:
-
-1. `core/spieler-handbuch.md`
-2. `core/zeitriss-core.md`
-3. `core/wuerfelmechanik.md`
-4. `core/sl-referenz.md`
-5. `characters/charaktererschaffung-grundlagen.md`
-6. `characters/ausruestung-cyberware.md`
-7. `systems/kp-kraefte-psi.md`
-8. `characters/zustaende.md`
-9. `characters/hud-system.md`
-10. `gameplay/kampagnenstruktur.md`
-11. `gameplay/kampagnenuebersicht.md`
-12. `gameplay/kreative-generatoren-missionen.md`
-13. `gameplay/kreative-generatoren-begegnungen.md`
-14. `gameplay/fahrzeuge-konflikte.md`
-15. `gameplay/massenkonflikte.md`
-16. `systems/currency/cu-waehrungssystem.md`
-17. `systems/gameflow/speicher-fortsetzung.md`
-18. `systems/gameflow/cinematic-start.md`
-19. `systems/toolkit-gpt-spielleiter.md`
-
-Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
-`knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
-`19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
-`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`,
-`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` und `SETUP-ANLEITUNG.md`.
-
-| Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
-| --- | --- | --- |
-| **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
-| **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
-
-Der Creator-Bootstrap heißt im Quell-ZIP
-`meta/creator_bootstrap_instructions.md`, im Paket
-`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md`.
-
-### Zwei getrennte Varianten
-
-- **Direkt:** Kopiere beim Quell-ZIP `meta/masterprompt_v6.md`, beim fertigen
-  Paket `system/SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
-  Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
-- **Kleines Anweisungsfeld:** Kopiere ausschließlich den zur Tabellenzeile
-  passenden Bootstrap ins Anweisungsfeld. Lade die 19 Module **plus** den dort
-  genannten vollständigen Masterprompt als 20 Projektquellen. Das bleibt ein
-  Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
-
-Nicht beide Anweisungen stapeln und keine Datei still kürzen. Einzelchat-
-Anhänge sind kein Ersatz für dauerhafte Projektquellen. Plattformen ohne
-persistentes Anweisungsfeld können den vollständigen Masterprompt als erste
-Nachricht jedes Abschnitts erhalten; dieser nachgeordnete Fallback ist
-ungeprüft und verliert seine Wirkung leicht beim Chatwechsel.
-
-Nicht als Spielwissen laden: `README.md`, `AGENTS.md`, `master-index.json`,
-`docs/`, `internal/`, `runtime.js`, Tests, QA-Artefakte, Archive,
-`BUILD-MANIFEST.json` oder `SETUP-ANLEITUNG.md`. Der Creator-Bootstrap ist nur
-für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
-
-### Kurzer Einstiegstest
-
-1. Sichtbare Projektquellen einzeln gegen die obige Liste prüfen.
-2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
-   „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
-   bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
-3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
-   aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
-4. Einen neuen Chat im selben Projekt öffnen und Schritt 2 wiederholen.
-
-„Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
-nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
-Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
-Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
-
-Zum Spielen danach einen neuen Chat im Projekt öffnen: entweder
-`Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
-Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
-`!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine
-automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
-dauerhaften Regelwissens.
-
-**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Zum Spielen
-genügt **ZEITRISS – Spiel**. Nur bei Creator-Nutzung kommt das separate Projekt
-**ZEITRISS – Creator** hinzu; keines wird pro Mission angelegt. Beide erhalten
-dann denselben konsistenten Regelstand. Beim Bootstrap-Weg
-liegen 19 Module plus vollständiger Masterprompt in den Projektquellen; ins
-Anweisungsfeld kommt je Projekt ausschließlich der passende Bootstrap. Der
-direkte Masterprompt-Spielweg oben bleibt eine getrennte Alternative. Im
-Creator-Projekt ist der Masterprompt Referenz, keine zweite Spielanweisung.
-
-Die offizielle [Projekt-Hilfe](https://help.openai.com/en/articles/10169521-projects-in-chatgpt)
-nennt planabhängig 5 Dateien (Free), 25 (Go/Plus) oder 40
-(Edu/Pro/Business/Enterprise) pro Projekt und höchstens zehn gleichzeitige
-Uploads. Vor Einrichtung erneut prüfen. Project-only Memory grenzt Kontext
-nach außen ab, isoliert aber nicht Chats innerhalb desselben Projekts. Es
-garantiert weder korrekte ZEITRISS-Zustandsführung noch Regeltreue und ersetzt
-keinen Save; aktuell importierte Saves bleiben maßgeblich. Spiel-Saves gehören direkt in den
-Spielchat, nicht ins dauerhafte Regelwissen. Creator bekommt nur ausgewählte
-Saves, Transkripte und Referenzen als Arbeitsmaterial; sie werden nicht zu
-Regeln.
-
-Wer ein Projekt freigibt, macht dessen Chats, Dateien und Anweisungen den
-Projektmitgliedern zugänglich; ein geteiltes Projekt ist trotzdem kein
-synchroner gemeinsamer Spielchat. Projekte werden vom Nutzer eingerichtet und
-sind nicht die Konfigurationsoberfläche eines Custom GPT. Dessen getrennte
-[GPT-Hilfe](https://help.openai.com/en/articles/8554397-creating-a-gpt)
-beschreibt Instructions, Knowledge und Capabilities. Deshalb keine
-Projekt-Schalter oder automatische Einrichtung für Bild/Video voraussetzen.
-Bei Regelupdates alte und neue Fassungen nicht parallel als gleichrangige
-Quellen behalten.
-
-**Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
-wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
-128k beziehungsweise unbrauchbar voller Kontext gemeldet; für Flo derzeit
-nicht brauchbar spielbar. Vermutet wird eine abweichende Datei-/Retrieval-
-Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
-Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
-Reparaturzusage durch den Bootstrap.
-
-### Download- und Freigabestatus
-
-Das öffentliche Repository ist bereits veröffentlicht und sein Quell-ZIP mit
-bewusst gewähltem Commit/Tag ist ein funktionierender Browser-Download. Ein
-zusätzliches, bereinigtes Upload-Paket ist eine optionale Bequemlichkeit; ein
-GitHub-Release ist weder Voraussetzung für Spielbarkeit noch für den Merge.
-
-Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
-→ genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
-optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automatisch.
 
 ## Überblick: Wie ZEITRISS läuft
 
@@ -204,7 +64,7 @@ sauber unterstützen.
 
 | Komponente des Terminalbackends (inkl. optionalem Chatweg) | Dort nötig? | Wofür |
 | --- | --- | --- |
-| **OpenWebUI** (Docker-Container) | ✅ nötig | Chat-Oberfläche dieses Wegs |
+| **OpenWebUI** (Docker-Container) | ✅ nötig | Lokale Verwaltung/API-Backend des Terminalspiels (Wissen, Preset, Modellroute); seine Browseroberfläche ist zusätzlich der optionale Chatweg |
 | **ZEITRISS-Repo + Python** | ✅ nötig | Regelwerk + Setup-Script dieses Wegs |
 | **OpenRouter-Key** | ✅ nötig¹ | Modellzugang dieses Wegs |
 | **OpenWebUI-API-Key** | ✅ nötig | damit Setup-Script Preset + KB schreiben kann |
@@ -352,33 +212,42 @@ API-Key**.
 
 ---
 
-### Schritt 4 - ZEITRISS klonen
+### Schritt 4 - ZEITRISS herunterladen
+
+Der normale Weg ist der **ZIP-Download**: Auf GitHub "Code → Download ZIP"
+klicken, entpacken, Terminal im entpackten Ordner öffnen (siehe
+[Wie öffne ich ein Terminal?](terminal-help.md)). Updates holst du dir
+dann per erneutem ZIP-Download.
+
+**Entwickleralternative — Git-Checkout:** Wer Git installiert hat und
+inkrementelle Updates via Launcher-Menüpunkt [4] (`git pull` + Sync)
+nutzen will, kann stattdessen klonen:
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
 cd ZEITRISS-md
 ```
 
-Kein Git installiert? Zwei Möglichkeiten:
-
-- **Git installieren:** <https://git-scm.com/downloads> (empfohlen,
-  weil Updates via Launcher-Menüpunkt [4] dann out-of-the-box
-  funktionieren).
-- **ZIP-Download:** Auf GitHub "Code → Download ZIP" klicken, entpacken,
-  Terminal im entpackten Ordner öffnen. Funktioniert, aber Updates
-  musst du dann per erneutem ZIP-Download holen - inkrementelles `--sync`
-  braucht ein Git-Repo.
+Kein Git installiert? <https://git-scm.com/downloads>. Für den normalen
+Einstieg reicht aber der ZIP-Download oben.
 
 ---
 
 ### Schritt 5 - Launcher starten
 
+Der normale Weg ist der Mint-Nutzerstarter: Doppelklick auf `zeitriss.sh`
+im Dateimanager (Nemo fragt einmalig nach „Im Terminal ausführen" — siehe
+[Wie öffne ich ein Terminal?](terminal-help.md)), oder direkt im bereits
+offenen Terminal:
+
 ```bash
-python scripts/zeitriss.py
+./zeitriss.sh
 ```
 
-Unter Linux alternativ `./zeitriss.sh`; unter macOS (ungeprüfte
-Nebenkompatibilität, ohne Laufzusage) ebenfalls `./zeitriss.sh`.
+Entwickler-Direktstart `python scripts/zeitriss.py` funktioniert
+nachgeordnet ebenfalls (dieselbe private Projektumgebung, derselbe
+Datenspeicherort). Unter macOS (ungeprüfte Nebenkompatibilität, ohne
+Laufzusage) ebenfalls `./zeitriss.sh`.
 
 Der Launcher zeigt dir oben einen Status-Block (Python/Docker/OpenWebUI/
 Keys als ✓ oder -) und ein Menü, gruppiert in *Einrichtung* und
@@ -450,14 +319,17 @@ Presets/KBs in deiner OpenWebUI-Installation.
 
 > 💡 **Der Launcher ist dein Reiseleiter.** Er sagt dir im Terminal an
 > jeder Stelle selbst, was zu tun ist - inklusive dem Browser-Teil
-> (A + B + C). Die folgenden Unterschritte sind deshalb **eine
+> (A + B). Die folgenden Unterschritte sind deshalb **eine
 > ausführliche Referenz mit Screenshots-in-Prosa**, falls du nachlesen
 > willst. Im Regelfall reicht es, dem Launcher-Output zu folgen.
 
 Der Launcher arbeitet Menüpunkt [1] von oben nach unten ab und stoppt
 nur dort, wo er etwas von dir braucht. Du musst zwischendrin **einmal
-in den Browser wechseln und drei Klicks machen** - der Rest läuft
-automatisch.
+in den Browser wechseln** und den Admin-Account anlegen sowie deinen
+OpenWebUI-API-Key erzeugen (A + B unten) - der Rest läuft automatisch,
+inklusive des externen OpenRouter-Keys, den der Launcher einmalig
+**verdeckt im Terminal** abfragt (Schritt 6.4, direkt nach dem
+OpenWebUI-Key), nicht im Browser.
 
 #### 6.1 - Docker-Check
 
@@ -480,7 +352,7 @@ Der Launcher fragt nun nach deinem **OpenWebUI-API-Key** und öffnet
 dabei automatisch <http://localhost:8080> im Browser.
 
 > ⏸️ **Launcher wartet jetzt auf dich.** Lass das Terminal offen,
-> wechsel in den Browser, erledige A + B + C unten, kopier zum Schluss
+> wechsel in den Browser, erledige A + B unten, kopier zum Schluss
 > den Key - komm dann zurück ins Terminal (Schritt 6.4). Der Launcher
 > ist **nicht** abgestürzt, er wartet.
 
@@ -490,32 +362,20 @@ Im Browser: Benutzername, E-Mail, Passwort eintragen. Das ist ein
 **rein lokaler** Account - er bleibt auf deinem Rechner, keine Daten
 werden irgendwohin geschickt.
 
-**B) OpenRouter-Key als Connection eintragen**
+**B) OpenWebUI-API-Key erzeugen**
 
-Nach dem Anlegen landest du auf der OpenWebUI-Startseite. Von dort:
-
-1. Oben rechts auf das **Profil-Icon** klicken → **Einstellungen**.
-2. Im Einstellungs-Menü links **Verbindungen** wählen.
-3. Bei *OpenAI-API-Verbindungen* auf das **`+`-Icon** bzw. den Button
-   **"Verbindung hinzufügen"** (englisch: "+ Add Connection"). Die UI
-   ist auf Deutsch, wenn dein Browser auf Deutsch ist, sonst Englisch -
-   das Feldlayout ist identisch.
-4. Eintragen:
-   - **Base URL / URL:** `https://openrouter.ai/api/v1`
-   - **API-Key:** dein `sk-or-v1-...` aus Schritt 3
-5. **Speichern** klicken.
-
-**C) OpenWebUI-API-Key erzeugen**
-
-Nochmal auf das Profil-Icon oben rechts → **Einstellungen → Account →
+Nach dem Anlegen landest du auf der OpenWebUI-Startseite. Nochmal auf
+das Profil-Icon oben rechts → **Einstellungen → Account →
 API Keys → "Create new key"** (oder **"Neuen Schlüssel erstellen"**)
 → Key kopieren.
 
-> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key (Schritt 3)
-> redet mit dem Sprachmodell in der Cloud. Der OpenWebUI-Key (hier)
-> redet mit deinem lokalen OpenWebUI. Der Launcher nutzt Letzteren,
-> um das Preset und die Knowledge Base automatisch anzulegen, statt
-> dass du 19 Dateien von Hand hochladen müsstest.
+> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key aus Schritt 3
+> redet mit dem Sprachmodell in der Cloud - du trägst ihn **nicht** hier
+> im Browser ein, sondern gibst ihn gleich im nächsten Schritt einmalig
+> **verdeckt im Terminal** ein (Schritt 6.4, Teil C). Der OpenWebUI-Key
+> (hier, A/B) redet mit deinem lokalen OpenWebUI. Der Launcher nutzt
+> Letzteren, um das Preset und die Knowledge Base automatisch
+> anzulegen, statt dass du 19 Dateien von Hand hochladen müsstest.
 
 #### 6.4 - Zurück ins Terminal
 
@@ -530,8 +390,19 @@ einfügen und Enter drücken:
 > Das ist Absicht (wie bei Passwort-Eingaben). Einfach einfügen,
 > Enter, fertig.
 
-Der Launcher lädt jetzt die 19 Wissensmodule nach OpenWebUI hoch,
-legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
+**C) OpenRouter-Key eingeben** (ebenfalls verdeckt, direkt im Anschluss)
+
+Hast du schon einmal einen OpenRouter-Key gespeichert (z. B. aus einem
+früheren Lauf), lädt der Launcher ihn automatisch aus
+`~/.openwebui_env` nach und fragt nicht erneut. Sonst fragt er jetzt
+einmalig danach - Key von <https://openrouter.ai/keys> (`sk-or-v1-...`)
+einfügen und Enter drücken, genau wie eben beim OpenWebUI-Key: die
+Eingabe bleibt unsichtbar. Erlaube vorher unter
+<https://openrouter.ai/settings/privacy> den Provider **Anthropic**,
+sonst cached LiteLLM später nicht.
+
+Erst danach lädt der Launcher die 19 Wissensmodule nach OpenWebUI
+hoch, legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
 Retrieval-Check, ob die KB funktioniert. Dauer: **5-10 Minuten beim
 ersten Mal** (Embeddings werden berechnet).
 
@@ -545,19 +416,41 @@ Wenn der Launcher fertig ist, fragt er: *"LiteLLM-Cache aktivieren?
 dein Setup gerade ohne Cache weiterlaufen muss (z.B. blockierter Port
 4000). Im Normalfall: Enter drücken.
 
-Der Launcher zieht dann den LiteLLM-Docker-Container,
-startet ihn auf Port 4000 (nur lokal, nicht nach außen erreichbar) und
-erzeugt einen Master-Key. Am Ende zeigt er dir im Terminal **drei
-Browser-Schritte**, die du noch manuell machen musst (der Launcher kann
-sie nicht automatisieren, weil OpenWebUI den Key selbst kennen muss) —
-und schreibt den **Master-Key direkt in die `Key:`-Zeile von Schritt 1**,
-du kopierst ihn also genau dort, wo du ihn gleich brauchst:
+Nach einem Key fragt dich der Launcher hier **nicht** nochmal - deinen
+OpenRouter-Key hat er bereits in Schritt 6.4 (Teil C) verdeckt erfasst.
+Er landet spätestens jetzt in `scripts/litellm/.env` (chmod 600) und
+muss bei späteren Starts nicht erneut eingegeben werden.
+
+Der Launcher zieht dann den LiteLLM-Docker-Container, startet ihn auf
+Port 4000 (nur lokal, nicht nach außen erreichbar), erzeugt einen
+Master-Key, trägt die zugehörige OpenWebUI-Connection **automatisch** ein
+und stellt das Preset **automatisch** auf das LiteLLM-Routing-Modell um.
+Im Normalfall siehst du dafür nur zwei grüne Zeilen im Terminal
+(`OpenWebUI-Connection: ...` und `Preset-Rewire: ...`) und danach *"Cache
+ist live verkabelt ... Nichts mehr zu klicken"* — **kein Browser-Wechsel
+nötig.**
+
+Nur wenn die automatische Verknüpfung tatsächlich fehlschlägt (z. B.
+OpenWebUI kurz nicht erreichbar, abgelaufener OpenWebUI-Key), zeigt der
+Launcher stattdessen genau die noch offenen Schritte als Fallback. Die
+`Key:`-Zeile zeigt dabei **nur einen maskierten Fingerprint** des
+Master-Keys (Anfang + Ende, z. B. `sk-litellm…wxyz`) — keinen Klartext:
 
 1. **Neue Connection in OpenWebUI eintragen.** Zurück in den Browser:
    **Profil-Icon → Einstellungen → Verbindungen → „+ Verbindung
    hinzufügen"**
-   - **URL:** `http://localhost:4000/v1`
-   - **API-Key:** der vom Launcher ausgegebene `sk-litellm-…`
+   - **URL:** die Adresse, die der Launcher **direkt im Terminal** zu
+     dieser Fallback-Liste ausgegeben hat, unverändert übernehmen —
+     **nicht** pauschal `http://localhost:4000/v1` eintragen. Läuft dein
+     OpenWebUI-Container gebridgt (Produkt-Default), ist das der
+     Container-Name im gemeinsamen Docker-Netz, z. B.
+     `http://litellm-zeitriss:4000/v1` (`litellm-<projektslug>`); nur
+     im selteneren Host-Netzwerk-Fall zeigt der Launcher tatsächlich
+     `http://localhost:4000/v1` an.
+   - **API-Key:** den vollständigen Master-Key holst du dir aus
+     `scripts/litellm/.env` (chmod 600, nur für dich lesbar) — dort
+     steht er im Klartext; der maskierte Fingerprint im Terminal dient
+     nur zum Wiedererkennen.
    - **Name:** `LiteLLM (ZEITRISS Cache)`
    - **Speichern.**
 2. **Preset auf LiteLLM umstellen.** Im linken Menü
@@ -566,9 +459,31 @@ du kopierst ihn also genau dort, wo du ihn gleich brauchst:
 3. **Im Preset-Editor** das **Base-Modell-Dropdown** oben auf
    **`zeitriss-sonnet`** umstellen → **Speichern.**
 
-> 💡 **Master-Key später nochmal gebraucht?** Der Launcher legt ihn
-> zusätzlich in `scripts/litellm/.env` ab (chmod 600, nur für dich
-> lesbar).
+Der Launcher zeigt dabei nur die WIRKLICH noch fehlenden Schritte an
+(z. B. nur Schritt 2+3, wenn die Connection schon stand) — folge einfach
+seiner Ausgabe. Ein erneuter Start des Launchers wiederholt die
+automatische Verknüpfung; eine bereits funktionierende Connection wird
+dabei nicht dupliziert.
+
+> 💡 **Setup abgebrochen und Menüpunkt [1] später erneut gestartet?**
+> Ein bereits erkannter Bestand (Preset + verknüpfte Knowledge Base)
+> leitet dich zunächst auf **[4] Aktualisieren** um — der Launcher
+> erreicht danach trotzdem automatisch denselben Verkabelungs-Check wie
+> hier in 6.5 (verknüpft/prüft OWUI↔LiteLLM erneut, idempotent). Dabei
+> wird nichts an Preset oder Knowledge Base gelöscht. Lag der Abbruch
+> zwischen KB- und Preset-Anlage (eine KB ohne zugehöriges Preset),
+> ergänzt der Launcher nur den fehlenden Teil, statt die KB neu
+> aufzubauen — ein kompletter Neuaufbau bleibt deine eigene, explizite
+> Wahl über **[7] Reset**. Die Fertigmeldung unterscheidet dabei ehrlich
+> zwischen **konfiguriert** (Connection + Preset-Rewire gesetzt),
+> **tatsächlich verbunden** (zusätzlich in OpenWebUIs Modell-Liste
+> bestätigt sichtbar) und **noch offen** (Schritte fehlen noch) — ein
+> bloßes Öffnen des Launchers ist dabei noch kein ausgeführter Anschluss.
+
+> 💡 **Master-Key später nochmal gebraucht?** Der Klartext steht
+> ausschließlich in `scripts/litellm/.env` (chmod 600, nur für dich
+> lesbar) — im Terminal siehst du bei jedem Lauf nur den maskierten
+> Fingerprint.
 
 Fertig. Der Launcher hat deine Keys in einer versteckten Datei
 gespeichert (`~/.openwebui_env` unter macOS/Linux,
@@ -619,6 +534,161 @@ entfernt; alte Trigger werden still auf den klassischen Pfad gemappt.
 > [Troubleshooting](#troubleshooting).
 
 ---
+
+## Browser-Einstieg ohne Installation
+
+Das ist der optionale, nachgeordnete Weg, das Regelwerk direkt in einer
+Chat-Plattform auszuprobieren — ohne lokale Installation. Der normale
+Produktstart ist das Terminalspiel auf Linux Mint, siehe
+[Spielerstart](spielerstart.md).
+
+**Download → entpacken → dauerhafte Projektquellen → Anweisung → Start.** Lade
+bis zur Freigabe eines fertigen Upload-ZIP das Repository über **Code → Download
+ZIP** für einen bewusst gewählten Commit oder Tag herunter. Notiere Commit/Tag
+und bewahre ihn mit dem Paket auf. Das Quell-ZIP ist kein bereinigtes
+Upload-Paket; daraus wählst du nur die folgenden 19 `slot:true`-Dateien, deren
+einzige maschinenlesbare Quelle `master-index.json` bleibt:
+
+1. `core/spieler-handbuch.md`
+2. `core/zeitriss-core.md`
+3. `core/wuerfelmechanik.md`
+4. `core/sl-referenz.md`
+5. `characters/charaktererschaffung-grundlagen.md`
+6. `characters/ausruestung-cyberware.md`
+7. `systems/kp-kraefte-psi.md`
+8. `characters/zustaende.md`
+9. `characters/hud-system.md`
+10. `gameplay/kampagnenstruktur.md`
+11. `gameplay/kampagnenuebersicht.md`
+12. `gameplay/kreative-generatoren-missionen.md`
+13. `gameplay/kreative-generatoren-begegnungen.md`
+14. `gameplay/fahrzeuge-konflikte.md`
+15. `gameplay/massenkonflikte.md`
+16. `systems/currency/cu-waehrungssystem.md`
+17. `systems/gameflow/speicher-fortsetzung.md`
+18. `systems/gameflow/cinematic-start.md`
+19. `systems/toolkit-gpt-spielleiter.md`
+
+Ein von `scripts/setup.py --export` erzeugtes Paket legt sie unter
+`knowledge/...` ab. `--flat` nennt sie wirklich `01-spieler-handbuch.md` bis
+`19-toolkit-gpt-spielleiter.md` in genau obiger Reihenfolge. Hinzu kommen
+`system/SYSTEM_PROMPT_ONLY.md`, `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md`,
+`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md` und `SETUP-ANLEITUNG.md`.
+
+| Verwendung | Vollständiger Masterprompt | Kurzer Spiel-Bootstrap |
+| --- | --- | --- |
+| **direkt aus dem Quell-ZIP** | `meta/masterprompt_v6.md` | `meta/project_bootstrap_instructions.md` |
+| **erzeugtes Upload-Paket** | `system/SYSTEM_PROMPT_ONLY.md` | `system/PROJECT_BOOTSTRAP_INSTRUCTIONS.md` |
+
+Der Creator-Bootstrap heißt im Quell-ZIP
+`meta/creator_bootstrap_instructions.md`, im Paket
+`system/CREATOR_BOOTSTRAP_INSTRUCTIONS.md`.
+
+### Zwei getrennte Varianten
+
+- **Direkt:** Kopiere beim Quell-ZIP `meta/masterprompt_v6.md`, beim fertigen
+  Paket `system/SYSTEM_PROMPT_ONLY.md` vollständig ins dauerhafte
+  Anweisungsfeld. Lade nur die 19 Module als dauerhafte Projektquellen.
+- **Kleines Anweisungsfeld:** Kopiere ausschließlich den zur Tabellenzeile
+  passenden Bootstrap ins Anweisungsfeld. Lade die 19 Module **plus** den dort
+  genannten vollständigen Masterprompt als 20 Projektquellen. Das bleibt ein
+  Masterprompt plus 19 Wissensspeicher-Slots, nicht 20 Slots.
+
+Nicht beide Anweisungen stapeln und keine Datei still kürzen. Für einen
+**ersten, begrenzten Versuch** reicht auch ein einzelner Chat: vollständigen
+Masterprompt als erste Nachricht einfügen und die 19 Wissensdateien direkt
+als Dateianhänge in diesen Chat laden. Das garantiert weder dauerhafte
+Quellenverfügbarkeit noch, dass die Plattform alle 19 Dateien zuverlässig
+aufnimmt/abruft; für einen neuen Chat müssen Masterprompt und Dateien dort
+erneut bereitgestellt werden. Dauerhafte Projektquellen (siehe oben) bleiben
+die verlässlichere Variante, sobald du öfter oder länger spielen willst.
+
+Nicht als Spielwissen laden: `README.md`, `AGENTS.md`, `master-index.json`,
+`docs/`, `internal/`, `runtime.js`, Tests, QA-Artefakte, Archive,
+`BUILD-MANIFEST.json` oder `SETUP-ANLEITUNG.md`. Der Creator-Bootstrap ist nur
+für ein getrenntes Creator-Projekt und wird nie mit Spielanweisungen gemischt.
+
+### Kurzer Einstiegstest
+
+Im **Einzelchat** bleibst du für Test und Spiel im selben vorbereiteten
+Chat weiter — Masterprompt und Dateianhänge gelten dort nur für diesen
+einen Chat, ein neuer Chat hätte sie nicht. Bei einem **dauerhaften
+Projekt** stehen Anweisung und Quellen dagegen für jeden Chat im Projekt
+automatisch wieder bereit.
+
+1. Sichtbare Quellen (Dateianhänge im Einzelchat bzw. Projektquellen)
+   einzeln gegen die obige Liste prüfen.
+2. Die KI-SL um die Regelstelle `core/wuerfelmechanik.md`, Überschrift
+   „Schwierigkeits-Benchmark-Tabelle“, und eine kurze dort überprüfbare Passage
+   bitten. Fehlende Quelle melden lassen, nicht ergänzen lassen.
+3. Nach Erschaffung oder Load `!bogen` aufrufen und reale Werte mit dem
+   aktuellen v7-Save vergleichen. Anzeigen ändert nichts und ist kein Save.
+4. Nur bei einem dauerhaften Projekt: einen neuen Chat im selben Projekt
+   öffnen und Schritt 2 wiederholen. Im Einzelchat entfällt dieser
+   Schritt — dort bleibst du für den weiteren Test im selben Chat.
+
+„Alles geladen“ ist kein Nachweis. Auch eine bestandene Stichprobe beweist
+nicht vollständiges Retrieval. Beim Laden genau den aktuellen Save als
+Zustandsanker verwenden; keine widersprüchlichen alten Saves desselben
+Charakters mitsenden. Projektgedächtnis ersetzt keinen portablen v7-Save.
+
+Zum Spielen geht es im selben vorbereiteten Chat weiter (Einzelchat) bzw.
+in einem Chat im Projekt (dauerhaftes Projekt): entweder
+`Spiel starten (solo klassisch)` oder einen extern aufbewahrten persönlichen
+Save direkt einfügen und `Spiel laden`/`!laden` schreiben. `!save` und
+`!speichern` erzeugen im HQ die persönlichen JSON-Saves im Chat; eine
+automatische Dateiablage wird nicht versprochen. Saves bleiben außerhalb des
+dauerhaften Regelwissens.
+
+**ChatGPT-Projekte (Einrichtungsbeispiel, Stand 11.09.2026):** Zum Spielen
+genügt **ZEITRISS – Spiel**. Nur bei Creator-Nutzung kommt das separate Projekt
+**ZEITRISS – Creator** hinzu; keines wird pro Mission angelegt. Beide erhalten
+dann denselben konsistenten Regelstand. Beim Bootstrap-Weg
+liegen 19 Module plus vollständiger Masterprompt in den Projektquellen; ins
+Anweisungsfeld kommt je Projekt ausschließlich der passende Bootstrap. Der
+direkte Masterprompt-Spielweg oben bleibt eine getrennte Alternative. Im
+Creator-Projekt ist der Masterprompt Referenz, keine zweite Spielanweisung.
+
+Die offizielle [Projekt-Hilfe](https://help.openai.com/en/articles/10169521-projects-in-chatgpt)
+nennt planabhängig 5 Dateien (Free), 25 (Go/Plus) oder 40
+(Edu/Pro/Business/Enterprise) pro Projekt und höchstens zehn gleichzeitige
+Uploads. Vor Einrichtung erneut prüfen. Project-only Memory grenzt Kontext
+nach außen ab, isoliert aber nicht Chats innerhalb desselben Projekts. Es
+garantiert weder korrekte ZEITRISS-Zustandsführung noch Regeltreue und ersetzt
+keinen Save; aktuell importierte Saves bleiben maßgeblich. Spiel-Saves gehören direkt in den
+Spielchat, nicht ins dauerhafte Regelwissen. Creator bekommt nur ausgewählte
+Saves, Transkripte und Referenzen als Arbeitsmaterial; sie werden nicht zu
+Regeln.
+
+Wer ein Projekt freigibt, macht dessen Chats, Dateien und Anweisungen den
+Projektmitgliedern zugänglich; ein geteiltes Projekt ist trotzdem kein
+synchroner gemeinsamer Spielchat. Projekte werden vom Nutzer eingerichtet und
+sind nicht die Konfigurationsoberfläche eines Custom GPT. Dessen getrennte
+[GPT-Hilfe](https://help.openai.com/en/articles/8554397-creating-a-gpt)
+beschreibt Instructions, Knowledge und Capabilities. Deshalb keine
+Projekt-Schalter oder automatische Einrichtung für Bild/Video voraussetzen.
+Bei Regelupdates alte und neue Fassungen nicht parallel als gleichrangige
+Quellen behalten.
+
+**Bekannte Einschränkung Lumo (Nutzerbericht, 10.09.2026):** Mit Bootstrap
+wie mit direktem Masterprompt wurde nach der ersten Antwort eine Belegung über
+128k beziehungsweise unbrauchbar voller Kontext gemeldet; für Flo derzeit
+nicht brauchbar spielbar. Vermutet wird eine abweichende Datei-/Retrieval-
+Kontextverarbeitung. Ursache, vollständige Reproduktion und Betroffenheit aller
+Konfigurationen sind unbekannt. Daher kein empfohlener Einstieg und keine
+Reparaturzusage durch den Bootstrap.
+
+### Download- und Freigabestatus
+
+Das öffentliche Repository ist bereits veröffentlicht und sein Quell-ZIP mit
+bewusst gewähltem Commit/Tag ist ein funktionierender Browser-Download. Ein
+zusätzliches, bereinigtes Upload-Paket ist eine optionale Bequemlichkeit; ein
+GitHub-Release ist weder Voraussetzung für Spielbarkeit noch für den Merge.
+
+Maintainer-Ablauf: sauberer finaler Stand → manuellen Workflow/Build erzeugen
+→ genau dessen ZIP gegen Manifest, Bytes und Prüfsummen prüfen → Flo entscheidet
+optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automatisch.
+
 
 ## Updates und Wartung
 
@@ -938,9 +1008,13 @@ Plattform-spezifischen Tipps.
 - **Projektweite Anweisungen oder System-Prompt.** Ideal: Der vollständige
   Masterprompt passt hinein. Fallback: kurze Bootstrap-Anweisung hinein,
   Masterprompt als projektweite Quelle.
-- **Projektweite Wissens-/Quell-Dateien.** Die 19 Wissensmodule müssen
-  projektweit verfügbar sein, nicht nur als Dateianhang in einem einzelnen
-  Chat.
+- **Projektweite Wissens-/Quell-Dateien — für dauerhaftes Spielen.** Die 19
+  Wissensmodule sollten projektweit verfügbar sein, damit sie über mehrere
+  Abschnitte und neue Chats hinweg erhalten bleiben. Für einen ersten,
+  begrenzten Versuch reicht auch ein Dateianhang in einem einzelnen Chat
+  (siehe [oben](#zwei-getrennte-varianten)) — ohne Garantie, dass die
+  Plattform sie dort zuverlässig aufnimmt oder abruft, und ohne, dass sie
+  einen neuen Chat überlebt.
 - **Retrieval über diese Dateien.** Ohne Retrieval erfindet das Modell Regeln,
   statt sie aus den Modulen zu ziehen.
 - **Genug Datei-Slots.** Mindestens 19 Dateien; beim Bootstrap-Fallback
@@ -949,8 +1023,9 @@ Plattform-spezifischen Tipps.
   aber HUD, Save, Paradoxon-Logik, Kampfregeln und Missionstaktung werden
   schneller instabil.
 
-Plattformen ohne projektweites Wissen/Quellen oder ohne Retrieval sind für
-ZEITRISS nicht geeignet.
+Für dauerhaftes Spielen sind Plattformen ohne projektweites Wissen/Quellen
+oder ohne Retrieval nicht geeignet; für einen einmaligen ersten Versuch
+kann der Einzelchat-Anhang oben trotzdem funktionieren.
 
 #### Masterprompt: wohin damit?
 

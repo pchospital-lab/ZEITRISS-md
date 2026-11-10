@@ -226,7 +226,11 @@ def test_m_route_reaches_real_mmo_sim_hauptmenue() -> None:
 
         # Child-Lock-Beleg: PATH war leer -> Docker-Check findet 'docker'
         # nicht, startet KEINEN echten 'docker ps'-Kindprozess.
-        assert "Docker nicht installiert" in out, (
+        # F1-N1 WP1c: Meldungstext von "Docker nicht installiert" auf
+        # "Docker-Engine fehlt" umformuliert (kontextgenauere Fallunter-
+        # scheidung in `_docker_ok`, s. scripts/launcher.py) -- der
+        # Child-Lock-Beleg selbst (kein echter Kindprozess) ist unveraendert.
+        assert "Docker-Engine fehlt" in out, (
             f"Docker-Statuscheck hat trotz leerem PATH einen echten Kindprozess erwartet:\n{out}"
         )
         # Netz-Lock-Beleg: OPENWEBUI_URL zeigte auf einen garantiert

@@ -18,6 +18,109 @@ import os
 from pathlib import Path
 
 
+def _maybe_default_local_persona_api_env(repo_root: Path | None = None) -> None:
+    """F1-N1 WP5b (PF3.persona): optionaler lokaler API-Default NUR fuer den
+    TUI-Normalweg (`profile is None` -- der bewusst gewaehlte Persona-
+    Einladepfad in `mmo_sim/ui/tui.py`, der diese Factory ueberhaupt erst
+    aufruft; Solo ruft `factory()` nie auf und bleibt dadurch unberuehrt/
+    persona-frei). Laeuft NUR, wenn WEDER `MMO_SIM_PERSONA_CLI` NOCH
+    `MMO_SIM_PERSONA_API_BASE_URL` bereits gesetzt sind -- eine bewusste
+    CLI/API-Wahl (frisch ODER aus einem frueheren Lauf via
+    `~/.openwebui_env`/`_auto_load_owui_env()` schon ins Environment
+    geladen) hat IMMER Vorrang und wird NIE ueberschrieben.
+
+    Setzt bei Erfolg `MMO_SIM_PERSONA_API_BASE_URL/_KEY/_MODEL` auf die
+    lokale LiteLLM-Route (dieselbe, die `setup.py:run_install_litellm`
+    einrichtet) und persistiert sie erhaltend nach `~/.openwebui_env` ueber
+    den bestehenden `setup._update_env_file_preserving`-Helfer (KEIN neuer
+    Store) -- ein NEUER Prozess findet sie beim naechsten Lauf wieder.
+
+    Ohne lokal eingerichtetes LiteLLM (keine `scripts/litellm/.env` mit
+    Master-Key) oder bei nicht lesbarer `setup.json` ist dies ein stilles
+    No-Op -- der bisherige klare Fehler ("Persona-Anbindung nicht
+    konfiguriert") bleibt dann unveraendert. Reine Konfigurationspruefung:
+    erzeugt KEINE Figur/Einladung/Zustimmung, Persoenlichkeits-/
+    Einladungs-/Consent-Mechanik bleibt unberuehrt.
+
+    `repo_root` ist NUR ein Test-Seam (Default `None` -> echter Repo-Root
+    ueber `__file__` ermittelt); der Produktionsaufruf in `factory()` unten
+    uebergibt nichts.
+
+    WP-N2-2c: VOR dem Env-Check wird `setup._auto_load_owui_env()`
+    aufgerufen, damit eine nur in `~/.openwebui_env` gespeicherte bewusste
+    `MMO_SIM_PERSONA_CLI`/`_API_*`-Wahl sicher geladen ist, BEVOR hier
+    ueber einen neuen API-Default entschieden wird -- unabhaengig davon, ob
+    ein frueherer Aufruf im selben Prozess (z.B. `scripts/mmo_sim.py:
+    _resolve_active_gm_route`) das schon erledigt hat. Fehlerfrei No-Op,
+    wenn `setup` (noch) nicht importierbar ist (z.B. Test-Kontext ohne
+    `scripts/`-sys.path)."""
+    if repo_root is None:
+        repo_root = Path(__file__).resolve().parents[2]
+    try:
+        import sys as _sys
+        _scripts_dir = str(repo_root / "scripts")
+        if _scripts_dir not in _sys.path:
+            _sys.path.insert(0, _scripts_dir)
+        import setup as _early_setup_module
+        _early_setup_module._auto_load_owui_env()
+    except Exception:
+        pass
+
+    if os.environ.get("MMO_SIM_PERSONA_CLI") or os.environ.get("MMO_SIM_PERSONA_API_BASE_URL"):
+        return
+    env_file = repo_root / "scripts" / "litellm" / ".env"
+    if not env_file.is_file():
+        return
+
+    master_key = ""
+    try:
+        for line in env_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line.startswith("LITELLM_MASTER_KEY="):
+                master_key = line.split("=", 1)[1].strip()
+                break
+    except OSError:
+        return
+    if not master_key:
+        return
+
+    try:
+        import json
+        import sys
+        scripts_dir = str(repo_root / "scripts")
+        if scripts_dir not in sys.path:
+            sys.path.insert(0, scripts_dir)
+        import setup as _setup_module
+        # Bewusst NICHT `setup.load_config` (das verlangt volle setup.json-
+        # Validierung inkl. `masterprompt`/`params`, die hier irrelevant
+        # sind und bei Fehlen sys.exit(1) ausloesen wuerde) -- derselbe
+        # schlanke Direkt-Read wie `scripts/mmo_sim.py:_resolve_active_gm_
+        # route`, das aus demselben Grund ebenfalls an `load_config` vorbei
+        # liest.
+        cfg = json.loads((repo_root / "setup.json").read_text(encoding="utf-8"))
+        routing_model = _setup_module._litellm_routing_model_id(repo_root, cfg)
+        litellm_port = int((cfg.get("litellm") or {}).get("port", 4000))
+    except Exception:
+        return
+
+    base_url = f"http://127.0.0.1:{litellm_port}/v1"
+    os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = base_url
+    os.environ["MMO_SIM_PERSONA_API_KEY"] = master_key
+    os.environ["MMO_SIM_PERSONA_API_MODEL"] = routing_model
+
+    try:
+        home_env = Path.home() / ".openwebui_env"
+        if not home_env.is_file():
+            home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+        _setup_module._update_env_file_preserving(home_env, {
+            "MMO_SIM_PERSONA_API_BASE_URL": base_url,
+            "MMO_SIM_PERSONA_API_KEY": master_key,
+            "MMO_SIM_PERSONA_API_MODEL": routing_model,
+        })
+    except Exception:
+        pass  # Persistierung ist best effort -- das Session-Env oben steht schon
+
+
 def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
     """Unveraendert aus `scripts/mmo_sim.py` uebernommen (A1, s. dortiger
     frueherer Docstring) FUER `profile=None` (TUI-Normalweg, H01 unveraendert):
@@ -42,6 +145,12 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
     defensive zweite Schutzring an der tatsaechlichen Konstruktionsstelle."""
 
     def factory(persona_key: str):
+        if profile is None:
+            # WP5b: nur am TUI-Normalweg, nur wenn noch keine bewusste
+            # CLI/API-Wahl vorliegt (s. `_maybe_default_local_persona_api_env`-
+            # Docstring). Lab (`profile` explizit gesetzt) bleibt unberuehrt --
+            # dort validiert `lab/cli.py` die Env-Praesenz bereits vorab.
+            _maybe_default_local_persona_api_env()
         cli_binary = os.environ.get("MMO_SIM_PERSONA_CLI")
         api_base_url = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
         use_cli = cli_binary if profile is None else (cli_binary if profile == "hybrid" else None)
@@ -113,6 +222,16 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
     return factory
 
 
+# F1-N1 WP5a (PF3.GM): Sentinel fuer "KB-Read versucht, aber fehlgeschlagen"
+# (Auth-/Verbindungs-/Preset-Fehler TROTZ vorhandenem OWUI-Key), erzeugt von
+# `scripts/mmo_sim.py:_resolve_active_gm_route` und hier als `kb_id`
+# entgegengenommen. UNTERSCHEIDBAR von echtem `None` ("gar kein Key da, Read
+# nie versucht") -- der echte "Key fehlt ganz"-Fall bleibt `None` und faellt
+# weiterhin fail-closed in `sl_client.SLSession.__init__` (identisches
+# Sentinel-Muster zu `launcher.py:KB_ID_MISSING`/`KB_ID_WEIRD`).
+GM_ROUTE_KB_UNVERIFIED = "__gm_kb_unverified__"
+
+
 def _load_gm_transport_double(spec: str):
     """FIX5 (R4 TEIL A, Grenzinjektions-Seam am GM-Transportrand): laedt
     die in `MMO_SIM_GM_TRANSPORT_DOUBLE` benannte `modul.pfad:callable`
@@ -137,7 +256,10 @@ def _load_gm_transport_double(spec: str):
         ) from None
 
 
-def default_gm_transport_factory(data_dir: Path, repo_root: Path):
+def default_gm_transport_factory(
+    data_dir: Path, repo_root: Path,
+    sl_model: str | None = None, kb_id: str | None = None,
+):
     """Unveraendert aus `scripts/mmo_sim.py` uebernommen (F5/K2/B2, s.
     dortiger frueherer Docstring): baut -- nur bei tatsaechlichem Aufruf --
     einen echten `GmOwuiTransport` gegen den bestehenden P1-SL-Client. Ohne
@@ -171,15 +293,64 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
     `_load_gm_transport_double`) statt eines echten `GmOwuiTransport` --
     der Double selbst lebt in der TESTDATEI, nicht hier. OHNE die
     env-Variable bleibt JEDER bestehende Aufrufer (TUI/Lab, jeder
-    bestehende Test) bytegleich beim Live-Transport unten."""
+    bestehende Test) bytegleich beim Live-Transport unten.
+
+    F1-3 (03_F1_AUFTRAG.md §F1-3 "gespeicherte Werte muessen bei den
+    tatsaechlich verwendeten GM-/Persona-Factories ankommen"): `sl_model`/
+    `kb_id` sind additiv und OPTIONAL (Default `None`, identisches Muster zu
+    den W51/W56-Parametern oben) -- VORHER wurden beide Werte von dieser
+    Factory nie an `GmOwuiTransport` durchgereicht, obwohl dessen Konstruktor
+    sie bereits entgegennahm. Ohne Angabe fiel `agent_mp/sl_client.py` auf
+    seine eigenen HARTKODIERTEN Werte zurueck (`SL_MODEL="zeitriss-v426-
+    uncut"`, `KB_ID` einer spezifischen alten Installation) -- fuer die
+    Standardvariante "sonnet" traf der Modellname zufaellig, die Knowledge-
+    Base-ID NIE (jede frische `setup.py`-Installation legt eine neue, andere
+    KB an). Der Aufrufer (`scripts/mmo_sim.py`) ermittelt die tatsaechlich
+    konfigurierte Preset-ID/KB-ID live gegen die lokale OpenWebUI-Instanz und
+    uebergibt sie hier; ohne Angabe bleibt das bisherige Altverhalten
+    (sl_client.py-Defaults) unveraendert."""
 
     def factory(table_id: str):
         # TEST-/GRENZINJEKTIONS-Seam (02 §1): NUR aktiv, wenn
         # MMO_SIM_GM_TRANSPORT_DOUBLE gesetzt ist; fuehrt die benannte
-        # lokale Factory aus; kein Live-/Netz-/Produktionspfad.
+        # lokale Factory aus; kein Live-/Netz-/Produktionspfad. MUSS vor dem
+        # WP5a-Block unten bleiben -- ein Test-Double ersetzt den Live-
+        # Transport vollstaendig und darf nicht am (fuer den Double
+        # irrelevanten) `kb_id`-Sentinel scheitern.
         double_spec = os.environ.get("MMO_SIM_GM_TRANSPORT_DOUBLE")
         if double_spec:
             return _load_gm_transport_double(double_spec)(table_id)
+        # F1-N1 WP5a (PF3.GM): bei NICHT verlaesslich aufgeloester KB (Read
+        # fehlgeschlagen trotz Key) KEINEN Live-Transport mit diesem
+        # Sentinel als `kb_id` bauen -- `GmOwuiTransport`/`sl_client.py`
+        # wuerden sonst (`kb_id or KB_ID`) auf die hartkodierte HISTORISCHE
+        # KB_ID einer alten Installation zurueckfallen. Wirft ERST hier, bei
+        # tatsaechlichem produktivem Transportbau -- Programmstart/lokales
+        # Menue bleiben unberuehrt (diese Factory wird nur bei echtem
+        # `.turn()`-Aufruf ausgefuehrt). F1-N2 WP-N2-2a: derselbe Sentinel
+        # deckt jetzt auch "setup.json fehlt/unlesbar/keine Preset-ID" ab
+        # (`sl_model` dann `None`) -- die Meldung unterscheidet beide
+        # Ursachen, statt pauschal "Auth/Verbindung/Preset" zu behaupten.
+        if kb_id == GM_ROUTE_KB_UNVERIFIED:
+            if sl_model is None:
+                raise RuntimeError(
+                    "GM-Route nicht verlaesslich aufgeloest: keine eigene Preset-/"
+                    "Modell-Konfiguration gefunden (setup.json fehlt, ist nicht "
+                    "lesbar, oder die Default-Variante hat keine Preset-ID).\n"
+                    "  Naechster Schritt: Menue [1] Komplett-Setup bzw. [6] "
+                    "Diagnose, dann erneut versuchen.\n"
+                    "  Kein automatischer Ruckfall auf eine evtl. fremde/alte "
+                    "Knowledge Base."
+                )
+            raise RuntimeError(
+                "GM-Route nicht verlaesslich aufgeloest: Live-Pruefung von "
+                f"Preset '{sl_model}' / Knowledge-Base ist fehlgeschlagen "
+                "(Auth/Verbindung/Preset), obwohl ein OpenWebUI-Key vorhanden ist.\n"
+                "  Naechster Schritt: Menue [6] Diagnose bzw. [5] API-Keys "
+                "aendern, dann erneut versuchen.\n"
+                "  Kein automatischer Ruckfall auf eine evtl. fremde/alte "
+                "Knowledge Base."
+            )
         from .gm_owui import GmOwuiTransport
         sl_client_path = repo_root / "internal" / "qa" / "harness" / "agent_mp" / "sl_client.py"
         raw_limit = os.environ.get("MMO_SIM_GM_OUTPUT_LIMIT_TOKENS")
@@ -210,6 +381,7 @@ def default_gm_transport_factory(data_dir: Path, repo_root: Path):
         transport_timeout = _optional_number("MMO_SIM_GM_TRANSPORT_TIMEOUT", int)
         return GmOwuiTransport(
             sl_client_path, data_dir / "run", table_id=table_id,
+            sl_model=sl_model, kb_id=kb_id,
             gm_output_limit_tokens=gm_output_limit_tokens,
             transport_max_retries=transport_max_retries,
             transport_backoff=transport_backoff,
