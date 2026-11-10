@@ -319,16 +319,17 @@ Presets/KBs in deiner OpenWebUI-Installation.
 
 > 💡 **Der Launcher ist dein Reiseleiter.** Er sagt dir im Terminal an
 > jeder Stelle selbst, was zu tun ist - inklusive dem Browser-Teil
-> (A + C). Die folgenden Unterschritte sind deshalb **eine
+> (A + B). Die folgenden Unterschritte sind deshalb **eine
 > ausführliche Referenz mit Screenshots-in-Prosa**, falls du nachlesen
 > willst. Im Regelfall reicht es, dem Launcher-Output zu folgen.
 
 Der Launcher arbeitet Menüpunkt [1] von oben nach unten ab und stoppt
 nur dort, wo er etwas von dir braucht. Du musst zwischendrin **einmal
 in den Browser wechseln** und den Admin-Account anlegen sowie deinen
-OpenWebUI-API-Key erzeugen (A + C unten) - der Rest läuft automatisch,
+OpenWebUI-API-Key erzeugen (A + B unten) - der Rest läuft automatisch,
 inklusive des externen OpenRouter-Keys, den der Launcher einmalig
-**verdeckt im Terminal** abfragt (Schritt 6.5), nicht im Browser.
+**verdeckt im Terminal** abfragt (Schritt 6.4, direkt nach dem
+OpenWebUI-Key), nicht im Browser.
 
 #### 6.1 - Docker-Check
 
@@ -351,7 +352,7 @@ Der Launcher fragt nun nach deinem **OpenWebUI-API-Key** und öffnet
 dabei automatisch <http://localhost:8080> im Browser.
 
 > ⏸️ **Launcher wartet jetzt auf dich.** Lass das Terminal offen,
-> wechsel in den Browser, erledige A + C unten, kopier zum Schluss
+> wechsel in den Browser, erledige A + B unten, kopier zum Schluss
 > den Key - komm dann zurück ins Terminal (Schritt 6.4). Der Launcher
 > ist **nicht** abgestürzt, er wartet.
 
@@ -361,7 +362,7 @@ Im Browser: Benutzername, E-Mail, Passwort eintragen. Das ist ein
 **rein lokaler** Account - er bleibt auf deinem Rechner, keine Daten
 werden irgendwohin geschickt.
 
-**C) OpenWebUI-API-Key erzeugen**
+**B) OpenWebUI-API-Key erzeugen**
 
 Nach dem Anlegen landest du auf der OpenWebUI-Startseite. Nochmal auf
 das Profil-Icon oben rechts → **Einstellungen → Account →
@@ -370,11 +371,11 @@ API Keys → "Create new key"** (oder **"Neuen Schlüssel erstellen"**)
 
 > 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key aus Schritt 3
 > redet mit dem Sprachmodell in der Cloud - du trägst ihn **nicht** hier
-> im Browser ein, sondern gibst ihn einmalig **verdeckt im Terminal**
-> ein (Schritt 6.5). Der OpenWebUI-Key (hier, A/C) redet mit deinem
-> lokalen OpenWebUI. Der Launcher nutzt Letzteren, um das Preset und
-> die Knowledge Base automatisch anzulegen, statt dass du 19 Dateien
-> von Hand hochladen müsstest.
+> im Browser ein, sondern gibst ihn gleich im nächsten Schritt einmalig
+> **verdeckt im Terminal** ein (Schritt 6.4, Teil C). Der OpenWebUI-Key
+> (hier, A/B) redet mit deinem lokalen OpenWebUI. Der Launcher nutzt
+> Letzteren, um das Preset und die Knowledge Base automatisch
+> anzulegen, statt dass du 19 Dateien von Hand hochladen müsstest.
 
 #### 6.4 - Zurück ins Terminal
 
@@ -389,8 +390,19 @@ einfügen und Enter drücken:
 > Das ist Absicht (wie bei Passwort-Eingaben). Einfach einfügen,
 > Enter, fertig.
 
-Der Launcher lädt jetzt die 19 Wissensmodule nach OpenWebUI hoch,
-legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
+**C) OpenRouter-Key eingeben** (ebenfalls verdeckt, direkt im Anschluss)
+
+Hast du schon einmal einen OpenRouter-Key gespeichert (z. B. aus einem
+früheren Lauf), lädt der Launcher ihn automatisch aus
+`~/.openwebui_env` nach und fragt nicht erneut. Sonst fragt er jetzt
+einmalig danach - Key von <https://openrouter.ai/keys> (`sk-or-v1-...`)
+einfügen und Enter drücken, genau wie eben beim OpenWebUI-Key: die
+Eingabe bleibt unsichtbar. Erlaube vorher unter
+<https://openrouter.ai/settings/privacy> den Provider **Anthropic**,
+sonst cached LiteLLM später nicht.
+
+Erst danach lädt der Launcher die 19 Wissensmodule nach OpenWebUI
+hoch, legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
 Retrieval-Check, ob die KB funktioniert. Dauer: **5-10 Minuten beim
 ersten Mal** (Embeddings werden berechnet).
 
@@ -404,12 +416,10 @@ Wenn der Launcher fertig ist, fragt er: *"LiteLLM-Cache aktivieren?
 dein Setup gerade ohne Cache weiterlaufen muss (z.B. blockierter Port
 4000). Im Normalfall: Enter drücken.
 
-Hast du deinen OpenRouter-Key aus Schritt 3 noch nicht als
-`OPENROUTER_API_KEY` exportiert, fragt der Launcher ihn hier einmalig
-direkt im Terminal ab — die Eingabe ist **verdeckt** (du siehst nichts,
-während du einfügst, genau wie beim OpenWebUI-Key in 6.4). Der Key
-landet danach in `scripts/litellm/.env` (chmod 600) und muss bei
-späteren Starts nicht erneut eingegeben werden.
+Nach einem Key fragt dich der Launcher hier **nicht** nochmal - deinen
+OpenRouter-Key hat er bereits in Schritt 6.4 (Teil C) verdeckt erfasst.
+Er landet spätestens jetzt in `scripts/litellm/.env` (chmod 600) und
+muss bei späteren Starts nicht erneut eingegeben werden.
 
 Der Launcher zieht dann den LiteLLM-Docker-Container, startet ihn auf
 Port 4000 (nur lokal, nicht nach außen erreichbar), erzeugt einen
@@ -429,7 +439,14 @@ Master-Keys (Anfang + Ende, z. B. `sk-litellm…wxyz`) — keinen Klartext:
 1. **Neue Connection in OpenWebUI eintragen.** Zurück in den Browser:
    **Profil-Icon → Einstellungen → Verbindungen → „+ Verbindung
    hinzufügen"**
-   - **URL:** `http://localhost:4000/v1`
+   - **URL:** die Adresse, die der Launcher **direkt im Terminal** zu
+     dieser Fallback-Liste ausgegeben hat, unverändert übernehmen —
+     **nicht** pauschal `http://localhost:4000/v1` eintragen. Läuft dein
+     OpenWebUI-Container gebridgt (Produkt-Default), ist das der
+     Container-Name im gemeinsamen Docker-Netz, z. B.
+     `http://litellm-zeitriss:4000/v1` (`litellm-<projektslug>`); nur
+     im selteneren Host-Netzwerk-Fall zeigt der Launcher tatsächlich
+     `http://localhost:4000/v1` an.
    - **API-Key:** den vollständigen Master-Key holst du dir aus
      `scripts/litellm/.env` (chmod 600, nur für dich lesbar) — dort
      steht er im Klartext; der maskierte Fingerprint im Terminal dient
@@ -447,6 +464,21 @@ Der Launcher zeigt dabei nur die WIRKLICH noch fehlenden Schritte an
 seiner Ausgabe. Ein erneuter Start des Launchers wiederholt die
 automatische Verknüpfung; eine bereits funktionierende Connection wird
 dabei nicht dupliziert.
+
+> 💡 **Setup abgebrochen und Menüpunkt [1] später erneut gestartet?**
+> Ein bereits erkannter Bestand (Preset + verknüpfte Knowledge Base)
+> leitet dich zunächst auf **[4] Aktualisieren** um — der Launcher
+> erreicht danach trotzdem automatisch denselben Verkabelungs-Check wie
+> hier in 6.5 (verknüpft/prüft OWUI↔LiteLLM erneut, idempotent). Dabei
+> wird nichts an Preset oder Knowledge Base gelöscht. Lag der Abbruch
+> zwischen KB- und Preset-Anlage (eine KB ohne zugehöriges Preset),
+> ergänzt der Launcher nur den fehlenden Teil, statt die KB neu
+> aufzubauen — ein kompletter Neuaufbau bleibt deine eigene, explizite
+> Wahl über **[7] Reset**. Die Fertigmeldung unterscheidet dabei ehrlich
+> zwischen **konfiguriert** (Connection + Preset-Rewire gesetzt),
+> **tatsächlich verbunden** (zusätzlich in OpenWebUIs Modell-Liste
+> bestätigt sichtbar) und **noch offen** (Schritte fehlen noch) — ein
+> bloßes Öffnen des Launchers ist dabei noch kein ausgeführter Anschluss.
 
 > 💡 **Master-Key später nochmal gebraucht?** Der Klartext steht
 > ausschließlich in `scripts/litellm/.env` (chmod 600, nur für dich

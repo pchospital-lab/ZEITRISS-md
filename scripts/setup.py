@@ -361,6 +361,14 @@ class APIClient:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.timeout = timeout
+        # WP-N3-1c: letzter HTTP-Status der zustandsentscheidenden Reads --
+        # `get_model`/`list_knowledge` kollabieren jeden Nicht-Erfolg auf
+        # None/[] (brauchbar für die meisten Caller), aber `_detect_install_
+        # state` muss einen echten Fehler (401/500/0/unlesbar) von einer
+        # bestätigten Antwort unterscheiden können, bevor es "fresh"/leer
+        # annimmt. Default None = "noch kein Call" (kein falsches Signal).
+        self.last_model_status: Optional[int] = None
+        self.last_knowledge_status: Optional[int] = None
         # Allow self-signed certs for localhost
         self._ctx = ssl.create_default_context()
         if "localhost" in base_url or "127.0.0.1" in base_url:
@@ -479,6 +487,7 @@ class APIClient:
 
     def list_knowledge(self) -> list[dict]:
         code, data = self.get("/api/v1/knowledge/")
+        self.last_knowledge_status = code
         if code == 200 and isinstance(data, dict):
             return data.get("items", [])
         return []
@@ -541,6 +550,7 @@ class APIClient:
         code, data = self.get(
             f"/api/v1/models/model?id={urllib.parse.quote(model_id, safe='')}"
         )
+        self.last_model_status = code
         if code != 200 or not isinstance(data, dict):
             return None
         return data
@@ -1967,21 +1977,27 @@ def _ensure_owui_litellm_connection(
 
 def _wait_for_owui_model_visible(
     owui_url: str, owui_key: str, model_id: str, max_wait_s: float = 6.0,
-) -> bool:
+) -> Optional[bool]:
     """Probe `GET /api/models`, bis das frisch hinzugefügte Connection-Modell
     in der OpenWebUI-Modell-Liste auftaucht. Vermeidet die Race zwischen
     Connection-Update und Preset-Rewire (OWUI muss intern die LiteLLM-
     Modell-Liste neu pollen, bevor `routing_model` als gültige
     base_model_id akzeptiert wird).
 
-    Returns True, wenn das Modell sichtbar wurde (auch sofort). False,
-    wenn nach max_wait_s noch nicht da — Caller druckt einen Hinweis,
-    macht aber trotzdem weiter (Rewire kann auch dann gelingen, weil
-    OWUI's Preset-Update keine Existenz-Validierung macht).
+    Returns True, wenn das Modell sichtbar wurde (auch sofort).
+    Returns False, wenn mindestens EINE lesbare Antwort kam, das Modell
+    darin aber bis `max_wait_s` nie auftauchte — eine bestätigte, nur
+    (noch) negative Aussage.
+    Returns None, wenn in der GESAMTEN Wartezeit KEINE einzige lesbare
+    Antwort kam (jeder Versuch Netzwerk-/HTTP-/Parse-Fehler) — WP-N3-1d:
+    das ist unklar/nicht prüfbar, keine bestätigte Abwesenheit. Der Caller
+    darf None NICHT wie False behandeln (sonst wird "OWUI kurz nicht
+    erreichbar" zu einer falschen "nicht verbunden"-Aussage).
     """
     import urllib.request
     import urllib.error
 
+    got_any_valid_response = False
     deadline = time.monotonic() + max_wait_s
     delay = 0.5
     while time.monotonic() < deadline:
@@ -1992,6 +2008,7 @@ def _wait_for_owui_model_visible(
             )
             with urllib.request.urlopen(req, timeout=5) as resp:
                 data = json.loads(resp.read())
+                got_any_valid_response = True
                 items = data.get("data", data) if isinstance(data, dict) else data
                 if any(m.get("id") == model_id for m in items or []):
                     return True
@@ -1999,7 +2016,7 @@ def _wait_for_owui_model_visible(
             pass
         time.sleep(delay)
         delay = min(delay * 1.5, 2.0)
-    return False
+    return False if got_any_valid_response else None
 
 
 def _rewire_preset_base_model(
@@ -2459,25 +2476,42 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
     # das auf ein Modell zeigt, das OWUI noch nicht in seiner Modell-Liste
     # hat, ist nicht bestätigt "live", auch wenn Connection+Rewire-API-Calls
     # technisch durchliefen.
-    auto_wired = ok_conn and ok_rewire and visible
+    # WP-N3-1d: `visible` ist jetzt tri-state (True/False/None) --
+    # Konfiguriert (ok_conn+ok_rewire), tatsächlich verbunden (visible is
+    # True) und unklar/nicht prüfbar (visible is None) müssen getrennt
+    # bleiben. `visible is True` statt nur `visible`, damit ein None NICHT
+    # als falsches "sicher nicht sichtbar" in die Fertigmeldung einfließt.
+    auto_wired = bool(ok_conn and ok_rewire and visible is True)
     if auto_wired:
         print_ok(
             f"Cache ist live verkabelt: Preset → `{routing_model}` → LiteLLM → OpenRouter.\n"
             "  Nichts mehr zu klicken — der normale Weg ist jetzt das Terminalspiel "
             f"[M] im {project}-Starter. Der Browser-Chat ist optional (Menü [3])."
         )
-    elif ok_conn and ok_rewire and not visible:
-        # Konfiguriert (beide API-Calls liefen durch), aber die externe
-        # Modellantwort/-sichtbarkeit ist (noch) nicht bestätigt -- das ist
-        # weder "fertig verbunden" noch "ein fehlender Konfig-Schritt", also
-        # ein eigener, ehrlicher Zwischenstand statt einer Erfolgsmeldung
-        # oder einer Anleitung zum Wiederholen bereits erledigter Schritte.
+    elif ok_conn and ok_rewire and visible is False:
+        # Konfiguriert (beide API-Calls liefen durch), UND der Sichtbarkeits-
+        # Check kam zu einer klaren (negativen) Antwort -- das ist weder
+        # "fertig verbunden" noch "ein fehlender Konfig-Schritt", also ein
+        # eigener, ehrlicher Zwischenstand statt einer Erfolgsmeldung oder
+        # einer Anleitung zum Wiederholen bereits erledigter Schritte.
         print_warn(
             f"Connection + Preset-Rewire sind gesetzt, aber `{routing_model}` ist in "
             "OpenWebUIs Modell-Liste noch nicht als sichtbar bestätigt -- daher "
             "(noch) nicht als 'live verkabelt' gemeldet, keine behauptete externe "
             "Modellantwort. In ein paar Sekunden Menü [6] Diagnose erneut prüfen; "
             "Connection/Rewire selbst müssen dafür nicht wiederholt werden."
+        )
+    elif ok_conn and ok_rewire and visible is None:
+        # WP-N3-1d: der Sichtbarkeits-Check selbst kam zu KEINER lesbaren
+        # Antwort (jeder Versuch Netzwerk-/HTTP-/Parse-Fehler) -- das ist
+        # unklar/nicht prüfbar, NICHT dasselbe wie eine bestätigte negative
+        # Antwort (visible is False) und erst recht keine Fertigmeldung.
+        print_warn(
+            f"Connection + Preset-Rewire sind gesetzt, aber der Sichtbarkeits-Check "
+            f"für `{routing_model}` selbst konnte nicht eindeutig beantwortet werden "
+            "(OpenWebUI hat während der Prüfung nicht lesbar geantwortet) -- unklar/"
+            "nicht prüfbar, weder 'live verkabelt' noch eine Aussage, dass die Route "
+            "nicht funktioniert. In ein paar Sekunden Menü [6] Diagnose erneut prüfen."
         )
     else:
         # Granularer Fallback: nur die Schritte zeigen, die wirklich noch
@@ -2569,6 +2603,119 @@ def _auto_load_owui_env() -> bool:
         # fällt das Script gleich auf die normale Env-fehlt-Fehlermeldung zurück.
         return False
     return loaded
+
+
+def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
+    """WP-N3-1b: ERHALTENDE Fortführung für den orphaned-KB-Teilbestand --
+    eine eindeutig namensgleiche Knowledge Base existiert bereits (typischer
+    Abbruch zwischen KB- und Preset-Anlage in `run_setup`), aber Preset/
+    Manifest fehlen. Ergänzt NUR die fehlenden eigenen Teile (Preset-Link,
+    Sync-Manifest) über die bestehenden Bausteine (`APIClient.upsert_model`,
+    dieselbe Preset-Payload wie `run_setup`, `_save_sync_manifest`) -- legt
+    KEINE neue KB an, löscht/ersetzt KEINE vorhandene KB oder Datei. Die
+    Connection selbst ergänzt der Caller danach über `ensure_litellm_
+    autowire` (gleicher Baustein wie im `installed`-Pfad, WP-N3-1a).
+
+    Returns True nur, wenn JEDE Variante erfolgreich auf die bestehende KB
+    verlinkt wurde; False mit gedruckten Details sonst (Caller zeigt dann
+    [6] Diagnose / [7] Reset als eigene, nicht vorbelegte Wahl).
+    """
+    project = cfg["project"]
+    _auto_load_owui_env()
+    url = (
+        os.environ.get("OPENWEBUI_URL")
+        or cfg.get("url")
+        or "http://localhost:8080"
+    ).rstrip("/")
+    api_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+    if not api_key:
+        print_error("OPENWEBUI_API_KEY fehlt — Ergänzung abgebrochen.")
+        return False
+
+    client = APIClient(url, api_key)
+    if not client.check_health():
+        print_error(f"OpenWebUI nicht erreichbar unter {url} — Ergänzung abgebrochen.")
+        return False
+
+    kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
+    print()
+    print_header(f"{project} – Teilbestand ergänzen (vorhandene KB erhalten)")
+    print_ok(f"Bestehende Knowledge Base übernommen (ID: {kb_id}) — keine Neuanlage, keine Löschung.")
+
+    mp_path = repo / cfg["masterprompt"]
+    if not mp_path.exists():
+        print_error(f"Masterprompt nicht gefunden: {cfg['masterprompt']}")
+        return False
+    system_prompt = mp_path.read_text(encoding="utf-8")
+    params = cfg.get("params", {})
+    suggestions = [{"content": s} for s in cfg.get("suggestions", [])]
+
+    profile_image_url = ""
+    icon_path = repo / "docs" / "gameicon.png"
+    if icon_path.exists():
+        with open(icon_path, "rb") as img_f:
+            b64 = base64.b64encode(img_f.read()).decode()
+        profile_image_url = f"data:image/png;base64,{b64}"
+
+    # Gleiche Preset-Payload-Form wie `run_setup`s Preset-Block -- nur das
+    # Ziel ist die BESTEHENDE kb_id statt einer frisch angelegten.
+    all_ok = True
+    for vk in cfg["variants"]:
+        v = cfg["variants"][vk]
+        v_base_model = variant_base_model(repo, cfg, vk)
+        v_reasoning_effort = variant_reasoning_effort(cfg, vk)
+        v_params = {
+            "system": system_prompt,
+            "temperature": params.get("temperature", 0.8),
+            "max_tokens": params.get("max_tokens", 64000),
+        }
+        if v_reasoning_effort:
+            v_params["reasoning_effort"] = v_reasoning_effort
+        payload = {
+            "id": v["preset_id"],
+            "name": v["preset_name"],
+            "base_model_id": v_base_model,
+            "meta": {
+                "description": v.get("preset_description", cfg.get("preset_description", "")),
+                "profile_image_url": profile_image_url,
+                "capabilities": variant_capabilities(cfg, vk),
+                "knowledge": [
+                    {"id": kb_id, "name": kb_name, "type": "collection"}
+                ],
+                "suggestion_prompts": suggestions,
+            },
+            "params": v_params,
+        }
+        success, action = client.upsert_model(payload)
+        if success:
+            print_ok(f"Preset {action} und an bestehende KB verlinkt: {v['preset_name']} (Variante '{vk}')")
+        else:
+            print_error(f"Preset für Variante '{vk}' konnte nicht ergänzt werden.")
+            all_ok = False
+
+    if all_ok:
+        # Manifest-Näherung: welche lokalen Wissensdateien ERWARTET werden.
+        # file_id wird best-effort aus der bestehenden Dateiliste gezogen
+        # (Name-Match) -- ohne Re-Upload, ohne Änderung an der KB selbst.
+        kb_files = discover_knowledge_files(repo, cfg)
+        try:
+            files_by_name = {f.get("filename"): f.get("id") for f in client.list_files()}
+        except Exception:
+            files_by_name = {}
+        manifest = {
+            "masterprompt_md5": _text_md5(system_prompt),
+            "masterprompt_path": cfg["masterprompt"],
+            "kb_files": {
+                fp.name: {"md5": _file_md5(fp), "file_id": files_by_name.get(fp.name, "")}
+                for fp in kb_files
+            },
+            "last_sync": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "written_by": "complete_orphaned_kb_install",
+        }
+        _save_sync_manifest(repo, manifest)
+        print_ok("Sync-Manifest ergänzt.")
+
+    return all_ok
 
 
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:

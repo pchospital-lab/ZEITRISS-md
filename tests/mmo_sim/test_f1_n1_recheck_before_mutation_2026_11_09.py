@@ -62,7 +62,9 @@ def _run_action_install_with_states(first_state: str, recheck_state: str):
              mock.patch.object(launcher_mod, "action_update") as action_update_mock, \
              mock.patch.object(launcher_mod, "_prompt", return_value=""), \
              mock.patch.object(launcher_mod, "_pause"), \
-             mock.patch.object(launcher_mod, "_litellm_ok", return_value=(True, "ok")):
+             mock.patch.object(launcher_mod, "_litellm_ok", return_value=(True, "ok")), \
+             mock.patch.object(launcher_mod, "_resolve_orphaned_kb_for_partial", return_value=None), \
+             mock.patch.object(launcher_mod.setup_module, "ensure_litellm_autowire"):
             launcher_mod.action_install()
         return run_setup_mock, action_update_mock
     finally:

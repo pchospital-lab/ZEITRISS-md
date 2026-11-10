@@ -503,6 +503,16 @@ def _detect_install_state() -> str:
             # Daher: "unreachable" → Caller fragt explizit.
             return "unreachable"
         preset = client.get_model(preset_id)
+        # WP-N3-1c: `get_model` kollabiert JEDEN Nicht-200 auf `None` --
+        # identisch zu einem bestätigten "Preset existiert nicht". Ein
+        # echter HTTP-Fehler (401/500/0/unlesbar) ist aber KEIN bestätigtes
+        # "fehlt", nur weil 404 das auch wäre. `last_model_status` ist
+        # best-effort (Doubles ohne dieses Attribut -> Default 200, altes
+        # Verhalten unverändert); nur ein ECHTER APIClient setzt es.
+        model_status = getattr(client, "last_model_status", 200)
+        if preset is None and model_status not in (200, 404):
+            return "unreachable"
+
         # WP-N2-1d: verwaiste KB erkennen (ohne Preset/Manifest -- z.B. nach
         # einem Abbruch zwischen KB-Anlage und Preset-Anlage in `run_setup`,
         # das die KB vor dem Preset anlegt). Ohne diesen Check klassifiziert
@@ -512,9 +522,13 @@ def _detect_install_state() -> str:
         # Name-Match wie dort (exaktes `kb_name`), damit beide Stellen
         # dieselbe KB meinen.
         kb_name = cfg.get("kb_name", f"{cfg['project']} Wissensspeicher")
-        has_orphaned_kb = any(
-            kb.get("name") == kb_name for kb in client.list_knowledge()
-        )
+        kb_items = client.list_knowledge()
+        # WP-N3-1c: dieselbe Status-Unterscheidung wie oben -- eine leere
+        # Liste wegen HTTP-Fehler ist KEIN bestätigtes "keine KBs da".
+        kb_status = getattr(client, "last_knowledge_status", 200)
+        if not kb_items and kb_status != 200:
+            return "unreachable"
+        has_orphaned_kb = any(kb.get("name") == kb_name for kb in kb_items)
     except Exception:
         return "unreachable"
 
@@ -573,6 +587,75 @@ def _confirm_reinstall_unreachable() -> bool:
     print()
     ans = _prompt("  Trotzdem fortfahren? (j/n) [n]: ").strip().lower()
     return ans in ("j", "y", "ja", "yes")
+
+
+def _finish_installed_connection(cfg: dict) -> None:
+    """WP-N3-1a: der erhaltende Anschlussschritt für den `installed`-Zweig.
+
+    Vorher endete `action_install` im `installed`-Zweig per `action_update()`
+    (git-pull + `run_sync`, bearbeitet nur Preset/KB/Dateien) → `return` --
+    der Anschlusshelfer `ensure_litellm_autowire` lag nur HINTER `run_setup`
+    und wurde auf diesem Weg NIE erreicht. Diese Funktion ruft ihn jetzt
+    direkt auf (idempotent, ändert KB/Preset nicht) — für ZIP UND Checkout
+    gleich erreichbar, weil `setup_module`/`load_cfg` in beiden Auslieferungs-
+    formen identisch funktionieren. Fehlender Master-Key: `ensure_litellm_
+    autowire` selbst druckt dafür bereits den genau erforderlichen nächsten
+    Schritt (Menü [1]/--install-litellm) statt dass wir hier etwas erfinden.
+    """
+    try:
+        setup_module.ensure_litellm_autowire(REPO, cfg)
+    except Exception as e:
+        print(red(f"  Verkabelungs-Check fehlgeschlagen: {e.__class__.__name__}: {e}"))
+
+
+def _resolve_orphaned_kb_for_partial(cfg: dict) -> Optional[dict]:
+    """WP-N3-1b: bei state=='partial' gezielt prüfen, ob GENAU der
+    WP-N2-1d-Orphaned-KB-Fall vorliegt (eindeutig namensgleiche KB, aber
+    KEIN Preset) -- NUR dafür ist die erhaltende Ergänzung (statt Confirm→
+    `run_setup`s destroy&recreate) ohne Mehrdeutigkeit sicher. Andere
+    'partial'-Spielarten (Preset ohne KB-Link, nur Manifest-Spur) liefern
+    None -- für sie bleibt der bisherige, ausdrücklich bestätigte Reinstall-
+    Pfad die richtige, nicht-vorbelegte Wahl.
+
+    Returns die KB (dict mit u.a. 'id'/'name') bei eindeutigem Treffer,
+    sonst None (kein Key, unreachable, kein Preset-Check möglich, oder
+    mehrdeutig/keine KB) -- niemals eine Mutation, reiner Read.
+    """
+    try:
+        if not _ensure_owui_env():
+            return None
+        url = _openwebui_url()
+        client = setup_module.APIClient(url, os.environ["OPENWEBUI_API_KEY"])
+        if not client.check_health():
+            return None
+        preset_id = _default_preset_id(cfg)
+        if client.get_model(preset_id) is not None:
+            return None  # Preset existiert schon -- anderer 'partial'-Fall
+        kb_name = cfg.get("kb_name", f"{cfg['project']} Wissensspeicher")
+        matches = [kb for kb in client.list_knowledge() if kb.get("name") == kb_name]
+        if len(matches) == 1:
+            return matches[0]
+        return None
+    except Exception:
+        return None
+
+
+def _complete_orphaned_kb_partial(cfg: dict, kb: dict) -> None:
+    """WP-N3-1b: erhaltende Fortführung für die eindeutig passende,
+    namensgleiche KB ohne Preset -- ruft `setup_module.complete_orphaned_
+    kb_install` (ERGÄNZT Preset-Link + Manifest, löscht/ersetzt nichts),
+    danach denselben Connection-Schritt wie der `installed`-Pfad."""
+    print()
+    print(green(f"  ✓ Vorhandene Knowledge Base gefunden (ID: {kb.get('id')}, Name: {kb.get('name')})."))
+    print("  Kein Preset dazu — ich ergänze den fehlenden Teil, OHNE die KB neu aufzubauen.")
+    print(dim("  Für einen kompletten Neuaufbau: [7] Reset — eigene, ausdrückliche Wahl."))
+    ok = setup_module.complete_orphaned_kb_install(REPO, cfg, kb["id"])
+    if not ok:
+        print(red("  Ergänzung nicht vollständig — Details oben. Bitte [6] Diagnose prüfen."))
+        _pause()
+        return
+    _finish_installed_connection(cfg)
+    _pause()
 
 
 def _ensure_owui_env() -> bool:
@@ -714,8 +797,18 @@ def action_install(*, _skip_state_check: bool = False) -> None:
             ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
             if ans in ("", "j", "y", "ja", "yes"):
                 action_update()
+            # WP-N3-1a: `action_update()` (git-pull + run_sync) ergänzt KEINEN
+            # Backendanschluss -- ohne diesen Aufruf lief der installed-Zweig
+            # bisher per `return` am Anschlusshelfer vorbei (nie erreicht,
+            # weder bei bestätigtem noch bei abgelehntem Update-Angebot).
+            _finish_installed_connection(load_cfg())
+            _pause()
             return
         if state == "partial":
+            orphaned_kb = _resolve_orphaned_kb_for_partial(load_cfg())
+            if orphaned_kb is not None:
+                _complete_orphaned_kb_partial(load_cfg(), orphaned_kb)
+                return
             if not _confirm_reinstall_after_partial():
                 print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
                 _pause()
@@ -875,10 +968,20 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
         if ans in ("", "j", "y", "ja", "yes"):
             action_update()
-        else:
-            _pause()
+        # WP-N3-1a: wie beim Eingangscheck -- `action_update()` ersetzt den
+        # Anschluss nicht. Vorher endete dieser Zweig hier per `return`,
+        # ohne `ensure_litellm_autowire` je zu erreichen (auch nicht nach
+        # einem erfolgreichen `run_setup`-Lauf, weil der ja übersprungen
+        # wurde). Läuft für ZIP und Checkout gleich, weil `setup_module`
+        # in beiden Auslieferungsformen identisch ist.
+        _finish_installed_connection(load_cfg())
+        _pause()
         return
     if recheck_state == "partial":
+        orphaned_kb = _resolve_orphaned_kb_for_partial(load_cfg())
+        if orphaned_kb is not None:
+            _complete_orphaned_kb_partial(load_cfg(), orphaned_kb)
+            return
         if not _confirm_reinstall_after_partial():
             print(dim("  Abbruch. Tipp: [6] Diagnose zeigt, was genau fehlt."))
             _pause()
