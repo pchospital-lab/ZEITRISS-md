@@ -86,9 +86,16 @@ def _resolve_participant_id(data_dir: Path, explicit: str | None) -> str:
     """I3/Test 07: ohne `--participant` wird die zuletzt fuer DIESES
     `--data-dir` verwendete Teilnehmer-ID wiederverwendet (Marker-Datei) --
     nicht bei jedem Start eine neue erzeugt. Eine explizit uebergebene
-    `--participant`-ID aktualisiert den Marker (bewusster Wechsel)."""
+    `--participant`-ID aktualisiert den Marker (bewusster Wechsel).
+
+    Fix C (ZR-SPIEL-S1, LINUS-SPEC §Fix C): eine ungueltige ID (weder die
+    explizite noch die aus dem Marker gelesene) wird VOR jeder Marker-/
+    Verzeichnismutation per `identity.validate_participant_id` abgewiesen --
+    `identity.InvalidParticipantId` propagiert unveraendert, kein mkdir/
+    Marker-Write, keine stille Ersatz-ID, der Bestand bleibt erhalten."""
     marker = data_dir / _LAST_PARTICIPANT_FILE
     if explicit:
+        identity.validate_participant_id(explicit, source="explizit --participant")
         data_dir.mkdir(parents=True, exist_ok=True)
         marker.write_text(json.dumps({"participant_id": explicit}), encoding="utf-8")
         return explicit
@@ -97,6 +104,7 @@ def _resolve_participant_id(data_dir: Path, explicit: str | None) -> str:
             data = json.loads(marker.read_text(encoding="utf-8"))
             pid = data.get("participant_id")
             if pid:
+                identity.validate_participant_id(pid, source="gespeicherte last_participant.json")
                 return pid
         except (OSError, json.JSONDecodeError):
             pass
@@ -536,7 +544,15 @@ def main(argv: list[str] | None = None) -> int:
             "lesende Ansicht moeglich ('python scripts/mmo_sim.py lab status/attach')."
         )
         return 1
-    participant_id = _resolve_participant_id(data_dir, args.participant)
+    try:
+        participant_id = _resolve_participant_id(data_dir, args.participant)
+    except identity.InvalidParticipantId as exc:
+        # Fix C (ZR-SPIEL-S1, LINUS-SPEC §Fix C): fruehe, verstaendliche
+        # Ablehnung VOR jedem Admission-/GM-/Transportbau -- kein stilles
+        # Erfolgssignal, der Bestand (last_participant.json) bleibt wie von
+        # `_resolve_participant_id` erhalten unveraendert.
+        print(f"TUI-Start: {exc}")
+        return 2
     schema_path = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
     # F1-3: die tatsaechlich konfigurierte Preset-/KB-Route live ermitteln
     # (s. `_resolve_active_gm_route`-Docstring) -- fail-soft, blockiert den

@@ -3183,7 +3183,9 @@ class TuiSession:
         self._print("Erschaffungsdialog gestartet/fortgesetzt (echter SL-Dialog, fortsetzbar, kein JSON noetig).")
         turn_idx = len(state.steps)
         initial_outgoing = state.steps[-1]["answer"] if state.steps else (
-            "Ich moechte einen neuen Chrononauten erschaffen. Fuehre mich Schritt fuer Schritt durch die Erschaffung."
+            "Ich moechte einen neuen Chrononauten erschaffen. Spiele mir zuerst die ausfuehrliche "
+            "Einleitung (den Weltauftakt des Sessionstarts) und fuehre mich DANACH Schritt fuer Schritt "
+            "durch die Erschaffung."
         )
 
         def _human_get_reply(_turn_idx: int, _sl_text: str) -> ReplyResult:
@@ -9472,6 +9474,23 @@ class TuiSession:
         # current_focus_pid deliberately remains the actor confirmed in setup/consent.
         # The first game contribution is not an implicit reset of that actor.
 
+        # Fix D (ZR-SPIEL-S1-FIXD, Save-Integritaets-Gate, HART, Flo-GO
+        # 2026-11-11): `_leader_sl_baseline_len` ist der `table.sl_log`-Stand
+        # VOR dieser `_run_table_round`-Ausfuehrung -- die Trennlinie
+        # zwischen "historisch (Resume/Vorsektion)" und "WAEHREND DIESES
+        # Laufs neu eingetroffen" (PFLICHT-Praezision 1, LINUS-SPEC-FIXD.md).
+        # `_leader_unsaved_bindable_save_shown` ist das per-Run-Flag (NICHT
+        # aus `sl_log[-1]` historisch): True, sobald der GM seit diesem
+        # Baseline-Stand mindestens einen an einen AKTUELLEN Tisch-
+        # Chrononauten bindbaren v7-Save gezeigt hat UND der Abschnitt noch
+        # nicht ueber ein echtes `!save`/`!speichern` geschlossen wurde (ein
+        # echter Abschluss beendet diesen Lauf, s. Praezision 2 -- kein
+        # weiterer `decide()`-Aufruf danach, also kein expliziter Reset
+        # noetig). Frisch False bei jedem `_run_table_round`-Aufruf (neuer
+        # Abschnitt = neuer Lauf = neues Flag).
+        _leader_sl_baseline_len = len(table.sl_log)
+        _leader_unsaved_bindable_save_shown = False
+
         class _HumanDriver:
             """F1 (K7/K8, WEGKARTE §6): zeigt die zuletzt empfangene
             oeffentliche SL-Antwort (`context['table_view']['sl_log']`) VOR
@@ -9538,6 +9557,7 @@ class TuiSession:
 
             def decide(self, context: dict):
                 nonlocal current_focus_pid
+                nonlocal _leader_unsaved_bindable_save_shown
                 # R3-Nachzug (F1 §1, 02_NACHZUG.md §A): ein ANGENOMMENER
                 # Gast mit registriertem `register_guest_terminal` bedient
                 # sich ueber die EIGENE `TuiSession` (`io`, eigenes
@@ -9562,6 +9582,30 @@ class TuiSession:
                 _sl_channel_key = id(io)
                 _sl_already_shown = displayed_sl_count_by_channel.get(_sl_channel_key, 0)
                 _new_sl_entries = sl_log[_sl_already_shown:]
+                # Fix D (LINUS-SPEC-FIXD.md PFLICHT-Praezision 1+3): nur der
+                # Leader wird am Gate ueberhaupt geprueft (Praezision 5),
+                # also reicht es, das Flag ausschliesslich aus SEINER
+                # eigenen Sicht auf `_new_sl_entries` fortzuschreiben --
+                # zusaetzlich auf `_leader_sl_baseline_len` geschnitten, denn
+                # `_new_sl_entries` allein waere beim ERSTEN `decide()`-Aufruf
+                # (Kanal-Cursor startet bei 0) der GESAMTE `sl_log`, auch
+                # historische Resume-/Vorsektions-Eintraege -- genau der
+                # verbotene Fehlfire aus Praezision 1/Testfall (d). "Bindbar"
+                # heisst hier dieselbe Bindungsregel wie der Fallback in
+                # `domain.zeitriss.policy.build_save_command_completion_
+                # fallback` (OHNE dessen `is_save_command`-Bedingung): ein
+                # `harvest_from_debrief`-Treffer gegen die AKTUELLEN Tisch-
+                # Chrononauten (Praezision 3). Einmal True bleibt True fuer
+                # den Rest dieses Laufs (kein Rueckfall ausser durch echten
+                # Abschluss, der diesen Lauf beendet, Praezision 2).
+                if self._is_leader and not _leader_unsaved_bindable_save_shown:
+                    _unseen_this_run = sl_log[max(_sl_already_shown, _leader_sl_baseline_len):]
+                    if _unseen_this_run:
+                        _cid_to_pk = table.chrononaut_id_to_persona()
+                        for _entry in _unseen_this_run:
+                            if zeitriss_saves.harvest_from_debrief(_entry.get("content", ""), _cid_to_pk):
+                                _leader_unsaved_bindable_save_shown = True
+                                break
                 # R4 U4 (01_NACHZUG.md U4 Punkt 3, PLAYER-UX-REVIEW.md F4
                 # "feuert NACH beendetem Warten (Nachholanzeige), nicht
                 # waehrend offener Antwort"): die fruehere Zeitgedanke-Zeile
@@ -9663,21 +9707,53 @@ class TuiSession:
                     with io._terminal_read_lock:
                         io._host_terminal_claimed.set()
                         io._host_terminal_claim_owner = threading.current_thread()
-                try:
+                def _read_action_line() -> tuple[str, str | None]:
                     # R5 FIX1: `bypass_claim=True` -- dieser Read ist selbst
-                    # der privilegierte Claim-Halter (Claim oben gesetzt,
-                    # NICHT der wartende Gast-Loop); ohne Bypass wuerde er auf
-                    # seinen EIGENEN soeben gesetzten Claim warten (Deadlock).
-                    text, control = io._readline_with_controls(
-                        prompt,
-                        context=("Abschlussnotiz" if is_private_note else "Spielzug"),
-                        history=history, speaker_pid=self._pid, bypass_claim=True,
-                        is_leader=self._is_leader,
-                    )
-                finally:
+                    # der privilegierte Claim-Halter (Claim oben/im Retry
+                    # gesetzt, NICHT der wartende Gast-Loop); ohne Bypass
+                    # wuerde er auf seinen EIGENEN soeben gesetzten Claim
+                    # warten (Deadlock).
                     if claims_guest_terminal:
-                        io._host_terminal_claimed.clear()
-                        io._host_terminal_claim_owner = None
+                        with io._terminal_read_lock:
+                            io._host_terminal_claimed.set()
+                            io._host_terminal_claim_owner = threading.current_thread()
+                    try:
+                        return io._readline_with_controls(
+                            prompt,
+                            context=("Abschlussnotiz" if is_private_note else "Spielzug"),
+                            history=history, speaker_pid=self._pid, bypass_claim=True,
+                            is_leader=self._is_leader,
+                        )
+                    finally:
+                        if claims_guest_terminal:
+                            io._host_terminal_claimed.clear()
+                            io._host_terminal_claim_owner = None
+
+                text, control = _read_action_line()
+                # Fix D (LINUS-SPEC-FIXD.md, Flo-Entscheidung HART/Option A):
+                # ein bereits in DIESEM Lauf gezeigter, noch nicht gespeicherter
+                # bindbarer Save sperrt JEDE normale Folgeaktion des
+                # menschlichen Leaders (Praezision 5: NICHT die private Notiz,
+                # NICHT Gaeste) -- nur ein echtes `!save`/`!speichern` (laeuft
+                # unten normal in `completion_hit`/Ingest weiter, Praezision 4:
+                # dieses Gate speichert selbst NICHTS) oder eine Meta-
+                # Steuerzeile (`control` dann nicht mehr `None`, s.
+                # `_readline_with_controls`-Vertrag) kommt hier vorbei. Kein
+                # GM-/Modellaufruf, kein Zugverbrauch fuer die abgewiesene
+                # Eingabe -- dieselbe Prompt-Zeile wird einfach erneut
+                # abgefragt.
+                while (
+                    self._is_leader and not is_private_note
+                    and _leader_unsaved_bindable_save_shown
+                    and control is None and not is_save_command(text)
+                ):
+                    io._print(
+                        "Dieser Abschnitt ist abschlussbereit, aber noch NICHT gespeichert. Dein "
+                        "Fortschritt (Level/CU/Talente) ist noch nicht gesichert. Schreibe !save "
+                        "bzw. !speichern (als alleinige Nachricht), um zu speichern und den "
+                        "Abschnitt zu schliessen."
+                    )
+                    text, control = _read_action_line()
                 if control in ("pause", "zurueck"):
                     # 02 §C: '/pause'/'/zurueck' waehrend eines offenen
                     # Abschnitts bedeuten Pause/Beenden, kein fachlicher
