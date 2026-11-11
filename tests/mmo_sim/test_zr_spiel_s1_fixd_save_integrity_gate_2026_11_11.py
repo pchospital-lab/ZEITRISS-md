@@ -80,6 +80,21 @@ def _save_block_text(save_id: str, level: int = 2) -> str:
     return "```json\n" + json.dumps(block, ensure_ascii=False) + "\n```"
 
 
+def _group_closing_text(leader_save_id: str, guest_save_id: str, leader_level: int = 3) -> str:
+    """R1+R2-Nachzug (02_ENGER_NACHZUG.md R2): ein echter Gruppenabschluss
+    (mehr als ein Tischmitglied) braucht bindbare eigene v7-Saves fuer
+    JEDES Mitglied im Debrief, sonst fordert `core/save_correction.py`
+    einen zusaetzlichen, hier nicht gewollten Korrekturzug fuer die
+    fehlende Figur an -- derselbe Mehrfiguren-Debrief-Aufbau wie
+    `test_linus_n123_2026_11_06.py:_debrief_text`."""
+    leader_block = full_v7_save(_CHAR_ID, name="Yael", callsign="SNIPER", level=leader_level, save_id=leader_save_id)
+    guest_block = full_v7_save("CHR-TECH-001", name="Kaede", callsign="TECH", save_id=guest_save_id)
+    parts = ["Abschnitt beendet."]
+    for blk in (leader_block, guest_block):
+        parts.append("```json\n" + json.dumps(blk, ensure_ascii=False) + "\n```")
+    return "\n".join(parts)
+
+
 class _ScriptedTableGm:
     """Gescriptetes GM-Fake am echten Transport-Verzweigungsort (`gm.
     turn(idx, text)` -> `{"content": ...}`, wie `_TechDriver`/`_OpenTableGM`
@@ -263,22 +278,29 @@ def test_c_gm_response_without_save_block_does_not_gate_next_action():
         assert not any(_GATE_CORE_LINE in p for p in printed), printed
 
 
-def test_d_regression_pre_existing_resume_save_block_does_not_gate_first_action():
-    """(d) REGRESSION (Flos ausdrueckliche Sorge, LINUS-SPEC-FIXD.md PFLICHT-
-    Praezision 1): ein zu BEGINN eines Laufs bereits im `sl_log` vorhandener
-    (resume-/vorsektions-) Save-Block, der NICHT in DIESEM Lauf neu vom GM
-    kam, gatet NICHT die erste Aktion.
+def test_d_regression_open_section_resume_still_gates_first_action():
+    """(d) KORRIGIERT (02_ENGER_NACHZUG.md R1, LINUS-SPEC-N1.md): der
+    FRUEHERE Test d baute hier einen UNGESICHERTEN Save auf (`status !=
+    closed`, kein `!save`) und forderte faelschlich, dass die normale
+    Folgeaktion NACH Resume durchlaeuft -- das war der Fehlfire selbst
+    (Flos berechtigte Sorge betraf bereits GESPEICHERTE/geschlossene
+    Vorgeschichte, nicht einen weiterhin offenen, unerledigten Abschnitt).
+    Section-autoritativ heisst: ein offener Abschnitt mit einem NOCH NICHT
+    uebernommenen Eigen-Save bleibt auch nach Prozessneustart/Resume
+    gegattet -- unabhaengig davon, ob der Save-Block "historisch" (vor
+    diesem Prozess) oder "neu" (in diesem Prozess) gezeigt wurde.
 
     Prozess 1 (echter `_cmd_local_round`-Lauf): eine normale Aktion zeigt
     einen unsavten bindbaren Save, dann pausiert die Eingabequeue (kein
     `!save`) -- der Tisch bleibt offen, `sl_log` traegt genau diesen
-    Save-Eintrag.
+    Save-Eintrag, `current_save` bleibt der urspruengliche Fixture-Stand
+    (NICHT der gezeigte Block).
     Prozess 2 (NEUE `TuiSession`, DIESELBEN Verzeichnisse, `_cmd_menu_
     fortsetzen` -> `_resume_bound_table` -> frischer `_run_table_round`-
-    Aufruf mit frischem Per-Run-Flag/Baseline): die ERSTE Aktion nach dem
-    Resume ist eine normale Aktion -- sie darf NICHT gegattet werden, denn
-    der bereits vorhandene Save-Eintrag kam NICHT waehrend DIESES Laufs neu
-    vom GM (er wird beim Resume nur erneut angezeigt/RE-GEPOSTET)."""
+    Aufruf): die ERSTE Aktion nach dem Resume wird WEITERHIN abgewiesen
+    (section-autoritativ gegen den persistierten `current_save` geprueft,
+    NICHT gegen eine Pro-Lauf-Baseline) -- kein weiterer GM-Call fuer den
+    abgewiesenen Versuch; erst `!save` schliesst danach wirklich ab."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -305,14 +327,20 @@ def test_d_regression_pre_existing_resume_save_block_does_not_gate_first_action(
         assert table_before["status"] != "closed", table_before
         assert len(table_before["sl_log"]) == 1, table_before["sl_log"]
 
-        # Prozess 2: NEUE TuiSession (frische Closures/Baseline in
+        # Prozess 2: NEUE TuiSession (frische Closures in
         # `_run_table_round`), DIESELBEN Verzeichnisse -- derselbe
         # Resume-Pfad wie `test_ux1_g03_same_authority_resume_2026_10_05.py`.
-        gm2 = _ScriptedTableGm(["Ruhige Reaktion, keine neue Save-Anzeige."])
+        # Der erste Zug wird ABGEWIESEN (kein GM-Call); erst '!save' kommt
+        # durch und schliesst den Abschnitt wirklich ab.
+        gm2 = _ScriptedTableGm([_save_block_text("fixture-d-002", level=3)])
         printed2: list[str] = []
         session2 = TuiSession(
             onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
-            input_fn=_queued_input(["Normale Folgeaktion, erste nach dem Resume."]),
+            input_fn=_queued_input([
+                "Normale Folgeaktion, erste nach dem Resume (sollte abgewiesen werden).",
+                "!save",
+                "",  # Pflicht-Abschlussnotiz des Leaders -- leer = ueberspringen.
+            ]),
             print_fn=printed2.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
             gm_transport_factory=lambda *_a, **_kw: gm2,
@@ -320,19 +348,177 @@ def test_d_regression_pre_existing_resume_save_block_does_not_gate_first_action(
         try:
             session2._cmd_menu_fortsetzen()
         except EndOfInput:
-            pass  # Eingabequeue nach dem echten Folgezug erschoepft -- erwartet.
+            pass  # nach Abschluss endet die Runde regulaer.
 
+        _assert_calls(gm2.calls, ["!save"])
+        assert any(_GATE_CORE_LINE in p for p in printed2), (
+            "Regression (Fehlfire): die erste Aktion nach Resume haette weiterhin "
+            f"gegattet werden muessen (offener, un-ingesteter Eigen-Save): {printed2}"
+        )
+        assert any("Abschnitt abgeschlossen" in p for p in printed2), printed2
+
+
+def test_d2_real_save_then_new_section_with_old_save_recap_does_not_gate():
+    """(d2) POSITIVFALL (02_ENGER_NACHZUG.md R1, "wirklich abgeschlossener
+    Vorgang und danach neuer Abschnitt/Save-Load mit erneut sichtbarem
+    altem Save bleiben normal spielbar"): ersetzt NICHT den offenen Fall
+    oben, deckt die Gegenseite ab.
+
+    Prozess 1: normale Aktion zeigt einen Save, `!save` uebernimmt ihn
+    WIRKLICH (`current_save.save_id` wird dieser Block) -- der Tisch wird
+    geschlossen.
+    Prozess 2: EIN NEUER Abschnitt (fresh `_cmd_local_round()`, da der
+    vorige Tisch geschlossen ist, erzeugt `create_table_from_offer_log`
+    automatisch eine neue Generation) -- der SL rekapituliert dabei
+    denselben, bereits uebernommenen Save-Block erneut (gleiche `save_id`
+    wie der aktuelle `current_save`) -- die ZWEITE normale Aktion darf NICHT
+    gegattet werden (echter zweiter GM-Call, kein abgewiesener Versuch)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
+        write_test_profile(run_dir)
+        _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "sniper")
+
+        gm1 = _ScriptedTableGm([_save_block_text("fixture-d2-closed-001")])
+        printed1: list[str] = []
+        session1 = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input(["!save", ""]),
+            print_fn=printed1.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm1,
+        )
         try:
-            _assert_calls(gm2.calls, ["Normale Folgeaktion, erste nach dem Resume."])
-        except AssertionError as e:
-            raise AssertionError(
-                f"Regression (Fehlfire): die erste Aktion nach Resume wurde gegattet, obwohl der "
-                f"vorhandene Save-Block NICHT in diesem Lauf neu vom GM kam: {e}"
-            )
-        assert not any(_GATE_CORE_LINE in p for p in printed2), printed2
+            session1._cmd_local_round()
+        except EndOfInput:
+            pass  # nach Abschluss endet die Runde regulaer.
+        assert any("Abschnitt abgeschlossen" in p for p in printed1), printed1
 
-        table_after = json.loads(tables_before[0].read_text(encoding="utf-8"))
-        assert len(table_after["sl_log"]) == 2, table_after["sl_log"]
+        # Dieselbe Autoritaet, die auch das Gate selbst zum Ingest-Abgleich
+        # liest (`outer._resolve_active_save` -> `core_store.load_current_
+        # save_or_raise`) -- NICHT der separate `current_saves/<pk>.json`-
+        # "direct"-Pfad aus `publish_current_save` (anderer Schreibweg, hier
+        # nicht die massgebliche Leseautoritaet nach einem echten Ingest).
+        ps_store = PersonaStateStore(schema_path=_SCHEMA)
+        current_after_close = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_after_close is not None and current_after_close.get("save_id") == "fixture-d2-closed-001", (
+            current_after_close
+        )
+
+        # Prozess 2: NEUER Abschnitt (derselbe Teilnehmer, dieselben
+        # Verzeichnisse). Der SL rekapituliert den bereits uebernommenen
+        # Save (gleiche save_id) als normale Zwischenantwort -- das darf
+        # die ZWEITE normale Aktion NICHT gegattet werden.
+        gm2 = _ScriptedTableGm([
+            _save_block_text("fixture-d2-closed-001"),
+            "Normale Folgeaktion laeuft durch, kein Gate.",
+        ])
+        printed2: list[str] = []
+        session2 = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input([
+                "Ich beginne den neuen Abschnitt (der SL rekapituliert den alten Save).",
+                "Normale Folgeaktion, sollte NICHT abgewiesen werden.",
+            ]),
+            print_fn=printed2.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm2,
+        )
+        try:
+            session2._cmd_local_round()
+        except EndOfInput:
+            pass  # Eingabequeue nach dem zweiten echten Zug erschoepft -- erwartet.
+
+        _assert_calls(gm2.calls, [
+            "Ich beginne den neuen Abschnitt (der SL rekapituliert den alten Save).",
+            "Normale Folgeaktion, sollte NICHT abgewiesen werden.",
+        ])
+        assert not any(_GATE_CORE_LINE in p for p in printed2), (
+            f"ein bereits uebernommener (save_id-gleicher) rekapitulierter Save darf das Gate "
+            f"NICHT erneut armieren: {printed2}"
+        )
+
+
+def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
+    """(f) R2 (02_ENGER_NACHZUG.md R2, LINUS-SPEC-N1.md): echter gemeinsamer
+    Tisch (Leader 'sniper' + Gast 'tech'), GETEILTES Terminal (`io=outer`
+    fuer BEIDE -- kein `register_guest_terminal`, derselbe Status-quo-Pfad
+    wie `test_n1_gegenprobe_geteilter_bildschirm_bleibt_bytegleich` in
+    `test_linus_n123_2026_11_06.py`). Ablauf am ECHTEN Verzweigungsort
+    (`_cmd_local_round` -> `_run_table_round` -> `_HumanDriver.decide`):
+
+    1) Leader-Anker, 2) Gast-Import -- beide ohne Save-Anzeige.
+    3) Ein spaeterer normaler Leader-Zug erzeugt einen bindbaren
+       Leader-Save OHNE Abschluss.
+    4) Die Runtime pollt danach den Gast (`poll_guests_and_consolidate`);
+       der Gast zeigt dabei die neue SL-Antwort auf SEINEM (geteilten)
+       Bildschirm und schiebt den GEMEINSAMEN Anzeige-Cursor vor
+       (`displayed_sl_count_by_channel[id(outer)]`).
+    5) TROTZDEM wird die naechste normale Leader-Aktion ohne weiteren
+       GM-/Zugverbrauch abgewiesen -- die fachliche Erkennung ist jetzt
+       section-autoritativ (ganzer `sl_log`/Ingest-Abgleich), NICHT mehr
+       vom Anzeige-Cursor abhaengig. Echtes `!save` bleibt danach moeglich."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
+        write_test_profile(run_dir)
+        _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "sniper")
+        _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "tech")
+
+        gm = _ScriptedTableGm([
+            "Leader-Anker: ruhige Szene, kein Save.",
+            "Gast-Import: ruhige Szene, kein Save.",
+            _save_block_text("fixture-r2-001"),  # Leader-Zug 2: bindbarer Save, KEIN Abschluss.
+            # '!save'-Zug: echter Gruppenabschluss -- braucht bindbare Saves
+            # fuer BEIDE Mitglieder (sonst Korrekturnachforderung fuer 'tech').
+            _group_closing_text("fixture-r2-002", "fixture-r2-tech-001", leader_level=3),
+        ])
+        printed: list[str] = []
+        session = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input([
+                "j",  # 0) 'tech' bestaetigt den Beitritt zur lokalen Runde (geteiltes Terminal).
+                "Ich beobachte den Raum.",  # 1) Leader-Anker.
+                "Ich sichere die Flanke.",  # 2) Gast-Import.
+                "Ich gehe vorsichtig weiter.",  # 3) Leader-Zug zeigt den unsavten Save.
+                "Ich bleibe in Deckung.",  # 4) Gast-Poll -- zeigt die neue Antwort, schiebt den Cursor.
+                "Ich mache einfach weiter (sollte abgewiesen werden).",  # 5a) abgewiesen.
+                "!save",  # 5b) kommt vorbei, echter Abschluss.
+                "",  # Leader-Abschlussnotiz -- leer = ueberspringen.
+                "",  # Gast-Abschlussnotiz -- leer = ueberspringen.
+            ]),
+            print_fn=printed.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm,
+        )
+        try:
+            session._cmd_local_round(["tech"])
+        except EndOfInput:
+            pass  # nach Abschluss endet die Runde regulaer.
+
+        _assert_calls(gm.calls, [
+            "Ich beobachte den Raum.",
+            "Ich sichere die Flanke.",
+            "Ich gehe vorsichtig weiter.",
+            "!save",
+        ])
+        gate_hits = [i for i, p in enumerate(printed) if _GATE_CORE_LINE in p]
+        assert gate_hits, (
+            "Regression (R2-Fehlfire): die Leader-Aktion nach dem Gast-Poll haette trotz "
+            f"vorgeschobenem gemeinsamen Anzeige-Cursor gegattet werden muessen: {printed}"
+        )
+        # Beweis, dass der Cursor TATSAECHLICH vorgeschoben wurde (der Gast-
+        # Poll hat die Save-tragende SL-Antwort bereits auf dem geteilten
+        # Bildschirm angezeigt, BEVOR das Gate trotzdem greift) -- genau
+        # drei [SL]-Bloecke VOR der Gate-Zeile (Anker/Import/der unsavte
+        # Save), je EINMAL angezeigt (kein Doppel-Print am geteilten
+        # Cursor); der Abschluss-Debrief selbst zeigt spaeter einen eigenen
+        # vierten Block, NACH dem Gate -- unbetroffen von dieser Pruefung.
+        sl_markers_before_gate = [
+            i for i, p in enumerate(printed) if p.startswith("[SL] ") and i < min(gate_hits)
+        ]
+        assert len(sl_markers_before_gate) == 3, printed
+        assert any("Abschnitt abgeschlossen" in p for p in printed), printed
 
 
 def test_e_meta_control_line_at_the_gate_is_handled_unchanged_no_gate_error():

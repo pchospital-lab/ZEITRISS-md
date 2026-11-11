@@ -9436,6 +9436,7 @@ class TuiSession:
         Spielstart-Pfad, keine zweite Kopie der SL-/Reflexions-/Save-
         Anbindung."""
         from ..core import app_service
+        from ..core.completion_marker import completion_marker_matches
         from ..core.controller import TableController
         from ..adapters.base import ParticipantDecision
         # R1 (C-M1, UX14, Korrekturzyklur 1): dieselbe Formel wie
@@ -9474,22 +9475,16 @@ class TuiSession:
         # current_focus_pid deliberately remains the actor confirmed in setup/consent.
         # The first game contribution is not an implicit reset of that actor.
 
-        # Fix D (ZR-SPIEL-S1-FIXD, Save-Integritaets-Gate, HART, Flo-GO
-        # 2026-11-11): `_leader_sl_baseline_len` ist der `table.sl_log`-Stand
-        # VOR dieser `_run_table_round`-Ausfuehrung -- die Trennlinie
-        # zwischen "historisch (Resume/Vorsektion)" und "WAEHREND DIESES
-        # Laufs neu eingetroffen" (PFLICHT-Praezision 1, LINUS-SPEC-FIXD.md).
-        # `_leader_unsaved_bindable_save_shown` ist das per-Run-Flag (NICHT
-        # aus `sl_log[-1]` historisch): True, sobald der GM seit diesem
-        # Baseline-Stand mindestens einen an einen AKTUELLEN Tisch-
-        # Chrononauten bindbaren v7-Save gezeigt hat UND der Abschnitt noch
-        # nicht ueber ein echtes `!save`/`!speichern` geschlossen wurde (ein
-        # echter Abschluss beendet diesen Lauf, s. Praezision 2 -- kein
-        # weiterer `decide()`-Aufruf danach, also kein expliziter Reset
-        # noetig). Frisch False bei jedem `_run_table_round`-Aufruf (neuer
-        # Abschnitt = neuer Lauf = neues Flag).
-        _leader_sl_baseline_len = len(table.sl_log)
-        _leader_unsaved_bindable_save_shown = False
+        # Fix D (ZR-SPIEL-S1-FIXD) + R1+R2-Nachzug (02_ENGER_NACHZUG.md
+        # R1/R2, 2026-11-11): das fruehere Save-Integritaets-Gate stuetzte
+        # sich auf ein per-Lauf-Flag + einen `table.sl_log`-Baseline-Schnitt
+        # (`_leader_sl_baseline_len`) -- beides WURDE HIER vorher initialisiert.
+        # Beide Grundlagen waren nicht section-autoritativ: ein Prozess-
+        # neustart setzte die Baseline einfach neu (R1), und am geteilten
+        # Terminal verschob der Gast denselben Anzeige-Cursor vor dem
+        # Leader-Scan (R2). Die Erkennung wird jetzt stattdessen bei JEDEM
+        # Leader-`decide()`-Aufruf frisch section-autoritativ berechnet
+        # (s. dort) -- kein Flag/keine Baseline mehr hier oben.
 
         class _HumanDriver:
             """F1 (K7/K8, WEGKARTE §6): zeigt die zuletzt empfangene
@@ -9557,7 +9552,6 @@ class TuiSession:
 
             def decide(self, context: dict):
                 nonlocal current_focus_pid
-                nonlocal _leader_unsaved_bindable_save_shown
                 # R3-Nachzug (F1 §1, 02_NACHZUG.md §A): ein ANGENOMMENER
                 # Gast mit registriertem `register_guest_terminal` bedient
                 # sich ueber die EIGENE `TuiSession` (`io`, eigenes
@@ -9582,45 +9576,110 @@ class TuiSession:
                 _sl_channel_key = id(io)
                 _sl_already_shown = displayed_sl_count_by_channel.get(_sl_channel_key, 0)
                 _new_sl_entries = sl_log[_sl_already_shown:]
-                # Fix D (LINUS-SPEC-FIXD.md PFLICHT-Praezision 1+3): nur der
-                # Leader wird am Gate ueberhaupt geprueft (Praezision 5),
-                # also reicht es, das Flag ausschliesslich aus SEINER
-                # eigenen Sicht auf `_new_sl_entries` fortzuschreiben --
-                # zusaetzlich auf `_leader_sl_baseline_len` geschnitten, denn
-                # `_new_sl_entries` allein waere beim ERSTEN `decide()`-Aufruf
-                # (Kanal-Cursor startet bei 0) der GESAMTE `sl_log`, auch
-                # historische Resume-/Vorsektions-Eintraege -- genau der
-                # verbotene Fehlfire aus Praezision 1/Testfall (d). "Bindbar"
-                # heisst hier dieselbe Bindungsregel wie der Fallback in
-                # `domain.zeitriss.policy.build_save_command_completion_
-                # fallback` (OHNE dessen `is_save_command`-Bedingung): ein
-                # `harvest_from_debrief`-Treffer gegen die AKTUELLEN Tisch-
-                # Chrononauten (Praezision 3). Einmal True bleibt True fuer
-                # den Rest dieses Laufs (kein Rueckfall ausser durch echten
-                # Abschluss, der diesen Lauf beendet, Praezision 2).
-                if self._is_leader and not _leader_unsaved_bindable_save_shown:
-                    _unseen_this_run = sl_log[max(_sl_already_shown, _leader_sl_baseline_len):]
-                    if _unseen_this_run:
-                        # NUR die EIGENE Figur des Leaders (Praezision 5 verschaerft,
-                        # R7-CI-Fix 2026-11-11): ein figurfreier Betreiber (kein
-                        # eigener Chrononaut) ODER ein Save, der nur an eine FREMDE
-                        # Tischfigur (z.B. einen Gast) bindet, darf das Gate NICHT
-                        # ausloesen -- der Leader soll ausschliesslich zum echten
-                        # `!save` SEINES eigenen Standes gezwungen werden. Ist
-                        # `_own_cid_to_pk` leer (figurfreier Betreiber), bleibt das
-                        # Gate aus. Behebt die R6P01-Negativ-Regression in
-                        # `test_ux1_r7_dynamic_table_binding_2026_10_06.py` (dort ist
-                        # der Leader ein figurfreier Betreiber, der Save bindet nur
-                        # an die Gastfigur).
-                        _own_cid_to_pk = {
-                            _cid: _pk for _cid, _pk in table.chrononaut_id_to_persona().items()
-                            if _pk == self._pid
-                        }
-                        if _own_cid_to_pk:
-                            for _entry in _unseen_this_run:
-                                if zeitriss_saves.harvest_from_debrief(_entry.get("content", ""), _own_cid_to_pk):
-                                    _leader_unsaved_bindable_save_shown = True
-                                    break
+                # R1+R2-Nachzug (02_ENGER_NACHZUG.md R1/R2, LINUS-SPEC-N1.md):
+                # section-autoritativ UND display-cursor-UNABHAENGIG, frisch
+                # bei DIESEM Leader-`decide()`-Aufruf neu berechnet -- NICHT
+                # auf `_sl_already_shown` (Anzeige-Cursor, R2: am geteilten
+                # Terminal vom Gast vorgeschoben) und NICHT auf eine Pro-Lauf-
+                # Baseline (R1: bei Prozessneustart/Fortsetzen neu gesetzt)
+                # geschnitten. Scope bleibt der GESAMTE `sl_log` des AKTUELL
+                # OFFENEN Abschnitts (`table_view`/`table.sl_log` sind
+                # dieselbe Quelle). NUR die EIGENE Figur des Leaders
+                # (unveraendert, R7-CI-Fix 2026-11-11): ein figurfreier
+                # Betreiber ODER ein Save, der nur an eine FREMDE Tischfigur
+                # bindet, loest das Gate NICHT aus (`_own_cid_to_pk` leer ->
+                # Gate aus; haelt `test_ux1_r7_dynamic_table_binding_
+                # 2026_10_06.py` gruen).
+                _leader_unsaved_bindable_save_shown = False
+                if self._is_leader:
+                    _own_cid_to_pk = {
+                        _cid: _pk for _cid, _pk in table.chrononaut_id_to_persona().items()
+                        if _pk == self._pid
+                    }
+                    if _own_cid_to_pk:
+                        # Juengster bindbarer Eigen-Save-Block im GESAMTEN
+                        # offenen Abschnitt (nicht nur "neue" Eintraege) --
+                        # "bindbar" unveraendert dieselbe Regel wie der
+                        # Fallback in `domain.zeitriss.policy.build_save_
+                        # command_completion_fallback` (OHNE dessen
+                        # `is_save_command`-Bedingung): ein `harvest_from_
+                        # debrief`-Treffer gegen die AKTUELLEN Tisch-
+                        # Chrononauten, beschraenkt auf die eigene Figur.
+                        #
+                        # Regressionsfund (N1-Nachzug, test_savecompat_
+                        # model_backed_load_nonwallet.py): zwei bestehende,
+                        # vom Gate unabhaengige Mechanismen schreiben
+                        # ZUSAETZLICHE Eintraege mit demselben unveraenderten
+                        # bindbaren Entwurf in `table.sl_log`, OHNE dass der
+                        # Leader je eine neue eigene Aktion dazu eingegeben
+                        # hat:
+                        # (1) `core.save_correction.pursue_group_save_
+                        #     correction`s interne Korrekturrunden (`store.
+                        #     submit_to_sl` OHNE `origin_raw_input` -- anders
+                        #     als `core/runtime.py:act()`s einzigem
+                        #     Normalzug-Aufruf, der es IMMER mitgibt);
+                        # (2) die urspruengliche Antwort, die den Korrektur-
+                        #     zyklus erst ausgeloest hat -- erkennbar daran,
+                        #     dass IHR Inhalt bereits selbst ein echter
+                        #     Abschluss-/Korrekturversuch war (Marker-Treffer
+                        #     ODER explizites eigenes `!save`), auch wenn
+                        #     dieser Versuch am Ende scheiterte/erschoepfte.
+                        # Beide Faelle hat die Runtime bereits VOLLSTAENDIG
+                        # durch die bestehende Abschluss-/Korrekturpipeline
+                        # geschleust (Erfolg ODER erschoepfender Rueckfall auf
+                        # den bestehenden Kompatibilitaets-Export-/
+                        # Adoptionsweg, `_apply_pending_compat_load` --
+                        # dieselbe, vom `!save`-Normalweg unabhaengige, aber
+                        # ebenso echte Ingest-Autoritaet) -- kein `!save`
+                        # mehr noetig, keine Aenderung an `core/runtime.py`/
+                        # `save_correction.py` hier. Nur ein bindbarer
+                        # Eigen-Save aus einer ECHTEN `decide()`-Aktion, deren
+                        # EIGENE SL-Antwort NIE einen Abschluss-/Korrektur-
+                        # versuch ausgeloest hat, zaehlt daher fuer dieses
+                        # Gate -- exakt Fix-Ds belegte Ursache (der GM zeigt
+                        # einen Deepsave auf eine normale Aktion, OHNE dass
+                        # `completion_hit` je True wurde).
+                        _section_id_for_marker = f"{table.table_id}-section"
+                        _latest_own_block: dict | None = None
+                        for _entry in sl_log:
+                            _raw_input = _entry.get("origin_raw_input")
+                            if _raw_input is None:
+                                continue
+                            _entry_content = _entry.get("content", "")
+                            if completion_marker_matches(
+                                _entry_content, COMPLETION_MARKER, table.table_id, _section_id_for_marker,
+                            ) or is_save_command(_raw_input):
+                                continue
+                            _hit = zeitriss_saves.harvest_from_debrief(
+                                _entry_content, _own_cid_to_pk,
+                            ).get(self._pid)
+                            if _hit is not None:
+                                _latest_own_block = _hit
+                        if _latest_own_block is not None:
+                            # "Noch nicht uebernommen" = Ingest-Abgleich gegen
+                            # die bestehende Save-Autoritaet -- dieselbe
+                            # Lesefunktion wie `_build_resume_card`/
+                            # `_resume_bound_table` (`outer._resolve_active_
+                            # save`, darunter `core.store.load_current_save_
+                            # or_raise`). save_id gleich -> bereits via
+                            # `!save` uebernommen ODER ein bereits
+                            # geschlossener Vorgaenger-Save, der beim Resume
+                            # nur wieder angezeigt wird -> NICHT armieren.
+                            # save_id verschieden/kein current -> un-ingestet
+                            # -> ARMIEREN. Reiner Lesezugriff, kein Auto-
+                            # Ingest, kein neues Save-Schema. Ein GERADE
+                            # nicht lesbarer bekannter Current (`unresolved`)
+                            # wird konservativ wie un-ingestet behandelt --
+                            # kein stiller Freilauf, derselbe Vorsichts-
+                            # grundsatz wie der bestehende `authority_
+                            # unresolved`-Stopp in `_cmd_menu_fortsetzen`.
+                            _current_save, _unresolved = outer._resolve_active_save(self._pid, None)
+                            if _unresolved or _current_save is None:
+                                _leader_unsaved_bindable_save_shown = True
+                            else:
+                                _leader_unsaved_bindable_save_shown = (
+                                    _current_save.get("save_id") != _latest_own_block.get("save_id")
+                                )
                 # R4 U4 (01_NACHZUG.md U4 Punkt 3, PLAYER-UX-REVIEW.md F4
                 # "feuert NACH beendetem Warten (Nachholanzeige), nicht
                 # waehrend offener Antwort"): die fruehere Zeitgedanke-Zeile

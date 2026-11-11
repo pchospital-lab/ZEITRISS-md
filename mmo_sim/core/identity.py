@@ -45,15 +45,36 @@ def validate_participant_id(pid: object, *, source: str) -> None:
     Nennt die ID, die Quelle (z.B. "explizit --participant" oder
     "gespeicherte last_participant.json") und den Vertrag -- und weist
     darauf hin, dass KEINE automatische Ersetzung erfolgt und der
-    Bestand erhalten bleibt."""
+    Bestand erhalten bleibt.
+
+    R3-Nachzug (02_ENGER_NACHZUG.md R3, LINUS-SPEC-N1.md): die Abschluss-
+    zeile ist QUELLBEWUSST -- fuer einen ungueltigen MARKER (`last_
+    participant.json`) ist "ohne --participant starten" KEINE Heilung
+    (`_resolve_participant_id` liest ohne `--participant`-Override genau
+    denselben ungueltigen Marker erneut und wirft wieder), anders als beim
+    explizit uebergebenen `--participant`. Vertrag/Regex bleiben unveraendert
+    -- nur die Handlungsempfehlung unterscheidet sich je Quelle."""
     if is_valid_participant_id(pid):
         return
+    if "last_participant.json" in source:
+        guidance = (
+            "Keine automatische Ersetzung -- der vorhandene Bestand bleibt "
+            "erhalten. Bitte den Marker mit einer gueltigen ID korrigieren "
+            "oder entfernen (ein blosses Weglassen von --participant liest "
+            "denselben ungueltigen Marker erneut und heilt ihn NICHT "
+            "automatisch)."
+        )
+    else:
+        guidance = (
+            "Keine automatische Ersetzung -- der vorhandene Bestand bleibt "
+            "erhalten. Bitte eine gueltige ID angeben oder ohne "
+            "--participant starten, um eine neue gueltige ID erzeugen zu "
+            "lassen."
+        )
     raise InvalidParticipantId(
         f"Ungueltige Teilnehmer-ID {pid!r} ({source}): entspricht nicht dem "
         f"Vertrag '{PARTICIPANT_ID_PATTERN}' (klein beginnend, nur "
-        "a-z/0-9/_). Keine automatische Ersetzung -- der vorhandene Bestand "
-        "bleibt erhalten. Bitte eine gueltige ID angeben oder ohne "
-        "--participant starten, um eine neue gueltige ID erzeugen zu lassen."
+        f"a-z/0-9/_). {guidance}"
     )
 
 

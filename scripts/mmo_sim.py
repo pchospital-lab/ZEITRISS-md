@@ -92,9 +92,25 @@ def _resolve_participant_id(data_dir: Path, explicit: str | None) -> str:
     explizite noch die aus dem Marker gelesene) wird VOR jeder Marker-/
     Verzeichnismutation per `identity.validate_participant_id` abgewiesen --
     `identity.InvalidParticipantId` propagiert unveraendert, kein mkdir/
-    Marker-Write, keine stille Ersatz-ID, der Bestand bleibt erhalten."""
+    Marker-Write, keine stille Ersatz-ID, der Bestand bleibt erhalten.
+
+    R3-Nachzug (02_ENGER_NACHZUG.md R3, LINUS-SPEC-N1.md): sowohl der
+    explizite als auch der Marker-Zweig unterschieden bisher per
+    Truthiness ("nicht angegeben" vs. "angegeben"), NICHT per tatsaechlicher
+    Praesenz -- ein echter Leerstring (`--participant ""` bzw. ein
+    gespeicherter Marker `{"participant_id": ""}`) fiel dadurch als "nicht
+    angegeben" durch den Validator und wurde STILL durch eine neue ID
+    ersetzt. `explicit is not None` unterscheidet jetzt "Option nicht
+    angegeben" (argparse-Default `None`) von "Option mit einem tatsaechlich
+    gelieferten Leerwert angegeben" (wird abgewiesen). Der Marker-Zweig
+    prueft die KEY-Praesenz (`"participant_id" in data`), nicht den Wert
+    selbst -- ein vorhandener Key mit leerem/ungueltigem/Nicht-String-Wert
+    wird validiert (und bei Ungueltigkeit abgewiesen, Marker bytegleich
+    erhalten, KEINE neue Ersatz-ID), nur ein FEHLENDER Key bzw. ein
+    unlesbarer/korrupter Marker faellt weiterhin auf den regulaeren
+    `new_participant_id()`-Weg zurueck."""
     marker = data_dir / _LAST_PARTICIPANT_FILE
-    if explicit:
+    if explicit is not None:
         identity.validate_participant_id(explicit, source="explizit --participant")
         data_dir.mkdir(parents=True, exist_ok=True)
         marker.write_text(json.dumps({"participant_id": explicit}), encoding="utf-8")
@@ -102,12 +118,12 @@ def _resolve_participant_id(data_dir: Path, explicit: str | None) -> str:
     if marker.exists():
         try:
             data = json.loads(marker.read_text(encoding="utf-8"))
-            pid = data.get("participant_id")
-            if pid:
-                identity.validate_participant_id(pid, source="gespeicherte last_participant.json")
-                return pid
         except (OSError, json.JSONDecodeError):
-            pass
+            data = None
+        if isinstance(data, dict) and "participant_id" in data:
+            pid = data["participant_id"]
+            identity.validate_participant_id(pid, source="gespeicherte last_participant.json")
+            return pid
     pid = identity.new_participant_id()
     data_dir.mkdir(parents=True, exist_ok=True)
     marker.write_text(json.dumps({"participant_id": pid}), encoding="utf-8")

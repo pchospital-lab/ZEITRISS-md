@@ -139,6 +139,54 @@ def test_resolve_invalid_marker_raises_and_preserves_marker_bytes():
         assert marker.read_bytes() == original_bytes, "Marker-Datei haette bytegleich erhalten bleiben muessen"
 
 
+def test_resolve_empty_string_explicit_id_raises_and_writes_nothing():
+    """(a2) R3-Nachzug (02_ENGER_NACHZUG.md R3): `--participant ""` ist eine
+    TATSAECHLICH GELIEFERTE leere ID, KEIN "nicht angegeben" (das waere
+    `None`, der argparse-Default) -- `explicit is not None` statt
+    `if explicit:` erfasst diesen Fall jetzt. InvalidParticipantId, KEIN
+    Marker geschrieben, kein mkdir-Seiteneffekt."""
+    entry = _load_entry()
+    with tempfile.TemporaryDirectory() as td:
+        data_dir = Path(td) / "nested" / "data"
+        try:
+            entry._resolve_participant_id(data_dir, "")
+        except identity.InvalidParticipantId:
+            pass
+        else:
+            raise AssertionError("erwartete InvalidParticipantId fuer --participant ''")
+        assert not data_dir.exists(), "data_dir haette NICHT angelegt werden duerfen (kein mkdir vor Validierung)"
+
+
+def test_resolve_marker_with_empty_or_falsy_non_string_participant_id_raises_and_preserves_marker():
+    """(b2) R3-Nachzug (02_ENGER_NACHZUG.md R3): ein vorhandener Marker-KEY
+    `participant_id` mit einem Leerstring ODER einem falsy Nicht-String
+    (`0`, `False`, `None`/JSON-`null`) wird jetzt per KEY-PRAESENZ
+    (`"participant_id" in data`) erkannt, NICHT mehr per Truthiness
+    (`if pid:`) uebersprungen -- in allen Faellen InvalidParticipantId,
+    Marker bytegleich erhalten, KEINE stille neue Ersatz-ID."""
+    entry = _load_entry()
+    for raw_pid in ("", 0, False, None):
+        with tempfile.TemporaryDirectory() as td:
+            data_dir = Path(td)
+            data_dir.mkdir(parents=True, exist_ok=True)
+            marker = data_dir / "last_participant.json"
+            original_bytes = json.dumps({"participant_id": raw_pid}).encode("utf-8")
+            marker.write_bytes(original_bytes)
+
+            try:
+                entry._resolve_participant_id(data_dir, None)
+            except identity.InvalidParticipantId:
+                pass
+            else:
+                raise AssertionError(
+                    f"erwartete InvalidParticipantId fuer Marker-participant_id={raw_pid!r}"
+                )
+
+            assert marker.read_bytes() == original_bytes, (
+                f"Marker-Datei haette fuer participant_id={raw_pid!r} bytegleich erhalten bleiben muessen"
+            )
+
+
 def test_resolve_valid_explicit_id_updates_marker_and_returns_it():
     """(c) gueltige explizite ID -> Marker aktualisiert, ID zurueckgegeben."""
     entry = _load_entry()
@@ -187,3 +235,39 @@ def test_main_rejects_invalid_participant_cli_arg_with_exit_2_and_no_marker():
         assert not (data_dir / "last_participant.json").exists(), (
             "Fix C-Regression: main() hat trotz ungueltiger --participant-ID einen Marker geschrieben"
         )
+
+
+def test_main_rejects_empty_string_participant_cli_arg_with_exit_2_and_no_marker():
+    """R3-Nachzug (02_ENGER_NACHZUG.md R3, Endliche Abnahme): echte CLI mit
+    `--participant ""` -> verstaendlicher Fehler/Exit 2, KEIN Marker-/
+    Spielbestandswrite und (strukturell, da `main()` `_resolve_participant_
+    id` vor jedem Admission-/GM-Transportaufbau aufruft und bei
+    `InvalidParticipantId` sofort mit `return 2` abbricht) KEIN Modellaufruf."""
+    entry = _load_entry()
+    with tempfile.TemporaryDirectory() as td:
+        data_dir = Path(td)
+        rc = entry.main(["--data-dir", str(data_dir), "--participant", ""])
+        assert rc == 2, f"main() haette bei '--participant \"\"' mit 2 ablehnen sollen, exit={rc}"
+        assert not (data_dir / "last_participant.json").exists(), (
+            "main() hat trotz '--participant \"\"' einen Marker geschrieben"
+        )
+
+
+def test_main_rejects_empty_marker_participant_id_without_cli_override_preserves_marker():
+    """R3-Nachzug (02_ENGER_NACHZUG.md R3, Endliche Abnahme): ein
+    vorbereiteter Marker `{"participant_id": ""}` OHNE `--participant` ->
+    DERSELBE erhaltende Halt (Exit 2), Marker-Bytes unveraendert, KEINE neue
+    ID -- die Meldung darf dabei NICHT implizieren, dass das blosse
+    Weglassen von `--participant` den Altmarker automatisch heilt (s.
+    `identity.validate_participant_id`s quellbewusste Abschlusszeile)."""
+    entry = _load_entry()
+    with tempfile.TemporaryDirectory() as td:
+        data_dir = Path(td)
+        data_dir.mkdir(parents=True, exist_ok=True)
+        marker = data_dir / "last_participant.json"
+        original_bytes = json.dumps({"participant_id": ""}).encode("utf-8")
+        marker.write_bytes(original_bytes)
+
+        rc = entry.main(["--data-dir", str(data_dir)])
+        assert rc == 2, f"main() haette bei leerem Marker-participant_id mit 2 ablehnen sollen, exit={rc}"
+        assert marker.read_bytes() == original_bytes, "Marker-Datei haette bytegleich erhalten bleiben muessen"
