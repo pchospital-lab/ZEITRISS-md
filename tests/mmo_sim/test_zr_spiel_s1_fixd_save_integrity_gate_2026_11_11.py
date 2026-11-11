@@ -57,7 +57,7 @@ _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.js
 _FIX = _REPO_ROOT / "internal" / "qa" / "harness" / "lobby" / "fixtures" / "saves"
 
 _CHAR_ID = "CHR-SNIPER-001"
-_GATE_CORE_LINE = "noch NICHT gespeichert"
+_GATE_CORE_LINE = "der Stand wurde noch NICHT uebernommen"
 
 
 def _queued_input(values: list[str]):

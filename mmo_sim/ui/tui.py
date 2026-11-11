@@ -9601,11 +9601,26 @@ class TuiSession:
                 if self._is_leader and not _leader_unsaved_bindable_save_shown:
                     _unseen_this_run = sl_log[max(_sl_already_shown, _leader_sl_baseline_len):]
                     if _unseen_this_run:
-                        _cid_to_pk = table.chrononaut_id_to_persona()
-                        for _entry in _unseen_this_run:
-                            if zeitriss_saves.harvest_from_debrief(_entry.get("content", ""), _cid_to_pk):
-                                _leader_unsaved_bindable_save_shown = True
-                                break
+                        # NUR die EIGENE Figur des Leaders (Praezision 5 verschaerft,
+                        # R7-CI-Fix 2026-11-11): ein figurfreier Betreiber (kein
+                        # eigener Chrononaut) ODER ein Save, der nur an eine FREMDE
+                        # Tischfigur (z.B. einen Gast) bindet, darf das Gate NICHT
+                        # ausloesen -- der Leader soll ausschliesslich zum echten
+                        # `!save` SEINES eigenen Standes gezwungen werden. Ist
+                        # `_own_cid_to_pk` leer (figurfreier Betreiber), bleibt das
+                        # Gate aus. Behebt die R6P01-Negativ-Regression in
+                        # `test_ux1_r7_dynamic_table_binding_2026_10_06.py` (dort ist
+                        # der Leader ein figurfreier Betreiber, der Save bindet nur
+                        # an die Gastfigur).
+                        _own_cid_to_pk = {
+                            _cid: _pk for _cid, _pk in table.chrononaut_id_to_persona().items()
+                            if _pk == self._pid
+                        }
+                        if _own_cid_to_pk:
+                            for _entry in _unseen_this_run:
+                                if zeitriss_saves.harvest_from_debrief(_entry.get("content", ""), _own_cid_to_pk):
+                                    _leader_unsaved_bindable_save_shown = True
+                                    break
                 # R4 U4 (01_NACHZUG.md U4 Punkt 3, PLAYER-UX-REVIEW.md F4
                 # "feuert NACH beendetem Warten (Nachholanzeige), nicht
                 # waehrend offener Antwort"): die fruehere Zeitgedanke-Zeile
@@ -9748,10 +9763,18 @@ class TuiSession:
                     and control is None and not is_save_command(text)
                 ):
                     io._print(
-                        "Dieser Abschnitt ist abschlussbereit, aber noch NICHT gespeichert. Dein "
-                        "Fortschritt (Level/CU/Talente) ist noch nicht gesichert. Schreibe !save "
-                        "bzw. !speichern (als alleinige Nachricht), um zu speichern und den "
-                        "Abschnitt zu schliessen."
+                        # R7-CI-Fix 2026-11-11: Wortwahl bewusst OHNE die
+                        # reservierten Erfolgs-/Bestaetigungswoerter
+                        # ("gespeichert"/"bestaetigt") -- diese Zeile ist eine
+                        # NICHT-Erfolgs-Warnung, kein Abschluss-Claim; der
+                        # R6P01-Negativ-Vertrag (test_ux1_r7_dynamic_table_binding)
+                        # verbietet genau jene Erfolgswoerter irgendwo in der
+                        # Ausgabe. Inhalt unveraendert klar: Stand NICHT uebernommen,
+                        # echter !save noetig.
+                        "Dieser Abschnitt ist abschlussbereit, aber der Stand wurde noch NICHT "
+                        "uebernommen. Dein Fortschritt (Level/CU/Talente) ist noch nicht gesichert. "
+                        "Schreibe !save bzw. !speichern (als alleinige Nachricht), um den Abschnitt "
+                        "zu sichern und zu schliessen."
                     )
                     text, control = _read_action_line()
                 if control in ("pause", "zurueck"):
