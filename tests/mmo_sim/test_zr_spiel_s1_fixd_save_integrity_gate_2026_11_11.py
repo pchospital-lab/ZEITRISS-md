@@ -521,6 +521,192 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
         assert any("Abschnitt abgeschlossen" in p for p in printed), printed
 
 
+def test_a1_same_save_id_different_level_still_gates_regression():
+    """(A1) 02_ENGER_NACHZUG.md A1, LINUS-SPEC-N2.md: gleiche `save_id`
+    beweist KEINE Inhaltsgleichheit/Uebernahme. Ergaenzt (ersetzt NICHT)
+    test_d2 (identischer Recap gleicher save_id+Level bleibt frei) -- hier
+    ist der gezeigte Block NICHT identisch (gleiche save_id, Level 2 -> 3).
+
+    Prozess 1: echter `!save`-Abschluss, Current = Level 2, save_id X.
+    Prozess 2 (neuer Abschnitt, derselbe Tisch wird wegen `status ==
+    closed` automatisch neu generiert, s. test_d2): normale Leader-Antwort
+    mit GLEICHER save_id X, aber Level 3 -- die naechste normale Aktion
+    haelt lokal (KEIN weiterer GM-Call fuer den abgewiesenen Versuch,
+    strikte `_assert_calls`-Laengenpruefung), Current bleibt unveraendert
+    Level 2. Kontrolliert pausieren (Eingabequeue erschoepft, wie test_d
+    Prozess 1).
+    Prozess 3 (neue TuiSession, DIESELBEN Verzeichnisse, `_cmd_menu_
+    fortsetzen` -> derselbe Resume-Pfad wie test_d): dieselbe Sperre
+    greift weiterhin (section-autoritativ, kein Pro-Lauf-Zustand). Echtes
+    `!save` kommt danach vorbei und schliesst wirklich ab."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
+        write_test_profile(run_dir)
+        _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "sniper")
+
+        gm1 = _ScriptedTableGm([_save_block_text("fixture-a1-closed-001", level=2)])
+        printed1: list[str] = []
+        session1 = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input(["!save", ""]),
+            print_fn=printed1.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm1,
+        )
+        try:
+            session1._cmd_local_round()
+        except EndOfInput:
+            pass  # nach Abschluss endet die Runde regulaer.
+        assert any("Abschnitt abgeschlossen" in p for p in printed1), printed1
+
+        ps_store = PersonaStateStore(schema_path=_SCHEMA)
+        current_after_close = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_after_close is not None and current_after_close.get("save_id") == "fixture-a1-closed-001", (
+            current_after_close
+        )
+        assert current_after_close["characters"][0].get("lvl") == 2, current_after_close
+
+        # Prozess 2: neuer Abschnitt (derselbe Teilnehmer, dieselben
+        # Verzeichnisse). Normale Aktion zeigt GLEICHE save_id wie Current,
+        # aber Level 3 -- NOCH NICHT uebernommen. Die naechste normale
+        # Aktion muss lokal halten, KEIN zweiter GM-Call.
+        gm2 = _ScriptedTableGm([_save_block_text("fixture-a1-closed-001", level=3)])
+        printed2: list[str] = []
+        session2 = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input([
+                "Normale Aktion, SL zeigt gleiche save_id aber verandertes Level.",
+                "Normale Folgeaktion (sollte abgewiesen werden).",
+            ]),
+            print_fn=printed2.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm2,
+        )
+        try:
+            session2._cmd_local_round()
+        except EndOfInput:
+            pass  # kontrollierte Pause (Eingabequeue erschoepft).
+
+        _assert_calls(gm2.calls, ["Normale Aktion, SL zeigt gleiche save_id aber verandertes Level."])
+        assert any(_GATE_CORE_LINE in p for p in printed2), (
+            "Regression (A1-Fehlfire): gleiche save_id mit geaendertem Level haette das Gate "
+            f"armieren muessen: {printed2}"
+        )
+        current_still_old = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_still_old == current_after_close, (
+            "Current darf durch den nur gezeigten (nicht uebernommenen) Block NICHT veraendert "
+            f"worden sein: {current_still_old}"
+        )
+
+        tables = list((run_dir / "tables").glob("*.json"))
+        assert len(tables) >= 1, tables
+        open_tables = [json.loads(p.read_text(encoding="utf-8")) for p in tables]
+        open_tables = [t for t in open_tables if t.get("status") != "closed"]
+        assert len(open_tables) == 1, open_tables
+
+        # Prozess 3: NEUE TuiSession, derselbe Resume-Pfad wie test_d --
+        # die Sperre bleibt section-autoritativ erhalten, KEIN Pro-Lauf-
+        # Zustand. Erst echtes `!save` kommt vorbei und schliesst ab.
+        gm3 = _ScriptedTableGm([_save_block_text("fixture-a1-reopened-002", level=4)])
+        printed3: list[str] = []
+        session3 = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input([
+                "Normale Folgeaktion nach Resume (sollte weiterhin abgewiesen werden).",
+                "!save",
+                "",
+            ]),
+            print_fn=printed3.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm3,
+        )
+        try:
+            session3._cmd_menu_fortsetzen()
+        except EndOfInput:
+            pass  # nach Abschluss endet die Runde regulaer.
+
+        _assert_calls(gm3.calls, ["!save"])
+        assert any(_GATE_CORE_LINE in p for p in printed3), (
+            "Regression: dieselbe Sperre haette auch nach Fortsetzen (neue TuiSession) "
+            f"weiterhin greifen muessen: {printed3}"
+        )
+        assert any("Abschnitt abgeschlossen" in p for p in printed3), printed3
+
+        current_after_real_save = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_after_real_save is not None and current_after_real_save.get("save_id") == "fixture-a1-reopened-002", (
+            "das echte '!save' muss den Current wirklich auf den neu ernteten Block setzen", current_after_real_save
+        )
+
+
+def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
+    """(A2) 02_ENGER_NACHZUG.md A2, LINUS-SPEC-N2.md: ein SPAETERER blosser
+    Recap des alten, bereits uebernommenen Current darf einen FRUEHEREN,
+    noch nicht uebernommenen Eigenblock NICHT als erledigt behandeln.
+    Echter Zweimenschen-Weg (`_cmd_local_round(["tech"])`, geteiltes
+    Terminal, wie test_f): Leader-Anker liefert den unuebernommenen
+    Eigenblock B; die nachfolgende Gast-Import-Antwort rekapituliert
+    EXAKT den alten, bereits uebernommenen Leaderblock A (== Current).
+    Die naechste normale Leader-Aktion muss TROTZDEM lokal halten (kein
+    normaler GM-Call, Current bleibt A); echtes `!save` bleibt danach
+    moeglich und schliesst mit den erforderlichen eigenen Gruppenbloecken
+    beider Mitglieder ab."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
+        write_test_profile(run_dir)
+        save_sniper = _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "sniper")
+        _make_ready(onboarding_dir, states_dir, run_dir, catalog_dir, "tech")
+
+        ps_store = PersonaStateStore(schema_path=_SCHEMA)
+        current_before = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_before == save_sniper, current_before
+
+        a_recap_text = "```json\n" + json.dumps(save_sniper, ensure_ascii=False) + "\n```"
+        gm = _ScriptedTableGm([
+            _save_block_text("fixture-a2-block-b-001", level=5),  # Leader-Anker: unuebernommener Block B.
+            a_recap_text,  # Gast-Import: rekapituliert EXAKT den alten, uebernommenen Current A.
+            _group_closing_text("fixture-a2-closing-leader-001", "fixture-a2-closing-tech-001"),  # !save: echter Abschluss.
+        ])
+        printed: list[str] = []
+        session = TuiSession(
+            onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="sniper",
+            input_fn=_queued_input([
+                "j",  # 0) 'tech' bestaetigt den Beitritt zur lokalen Runde (geteiltes Terminal).
+                "Ich beobachte den Raum.",  # 1) Leader-Anker -> zeigt unuebernommenen Block B.
+                "Ich sichere die Flanke.",  # 2) Gast-Import -> rekapituliert den alten Current A.
+                "Ich mache einfach weiter (sollte abgewiesen werden).",  # 3a) abgewiesen -- B war nie uebernommen.
+                "!save",  # 3b) kommt vorbei, echter Gruppenabschluss.
+                "",  # Leader-Abschlussnotiz -- leer = ueberspringen.
+                "",  # Gast-Abschlussnotiz -- leer = ueberspringen.
+            ]),
+            print_fn=printed.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA,
+            gm_transport_factory=lambda *_a, **_kw: gm,
+        )
+        try:
+            session._cmd_local_round(["tech"])
+        except EndOfInput:
+            pass  # nach Abschluss endet die Runde regulaer.
+
+        _assert_calls(gm.calls, [
+            "Ich beobachte den Raum.",
+            "Ich sichere die Flanke.",
+            "!save",
+        ])
+        assert any(_GATE_CORE_LINE in p for p in printed), (
+            "Regression (A2-Fehlfire): der spaetere Recap des alten Current A haette den "
+            f"frueheren unuebernommenen Eigenblock B NICHT verdraengen duerfen: {printed}"
+        )
+        assert any("Abschnitt abgeschlossen" in p for p in printed), printed
+
+        current_after = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_after is not None and current_after.get("save_id") == "fixture-a2-closing-leader-001", (
+            "das echte '!save' muss den Current wirklich auf den neu ernteten Gruppenabschluss setzen",
+            current_after,
+        )
+
+
 def test_e_meta_control_line_at_the_gate_is_handled_unchanged_no_gate_error():
     """(e) Meta-Steuerzeile (`/pause`) am Gate -> unveraendert behandelt
     (kontrollierte Pause, bestehende `EndOfInput`-Mechanik), kein Gate-

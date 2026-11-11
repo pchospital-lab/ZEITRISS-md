@@ -9597,8 +9597,12 @@ class TuiSession:
                         if _pk == self._pid
                     }
                     if _own_cid_to_pk:
-                        # Juengster bindbarer Eigen-Save-Block im GESAMTEN
-                        # offenen Abschnitt (nicht nur "neue" Eintraege) --
+                        # A2-Nachzug (02_ENGER_NACHZUG.md A2, LINUS-SPEC-N2.md):
+                        # ALLE bindbaren Eigen-Save-Bloecke im GESAMTEN offenen
+                        # Abschnitt (nicht nur "neue" Eintraege, NICHT nur der
+                        # JUENGSTE) -- ein spaeterer blosser Recap des bereits
+                        # uebernommenen Current darf einen FRUEHEREN, noch
+                        # nicht uebernommenen Eigenblock nicht verdraengen.
                         # "bindbar" unveraendert dieselbe Regel wie der
                         # Fallback in `domain.zeitriss.policy.build_save_
                         # command_completion_fallback` (OHNE dessen
@@ -9640,7 +9644,20 @@ class TuiSession:
                         # einen Deepsave auf eine normale Aktion, OHNE dass
                         # `completion_hit` je True wurde).
                         _section_id_for_marker = f"{table.table_id}-section"
-                        _latest_own_block: dict | None = None
+                        # "Noch nicht uebernommen" = Ingest-Abgleich gegen die
+                        # bestehende Save-Autoritaet -- dieselbe Lesefunktion
+                        # wie `_build_resume_card`/`_resume_bound_table`
+                        # (`outer._resolve_active_save`, darunter `core.store.
+                        # load_current_save_or_raise`). Dieser Helfer ist
+                        # KEIN reiner Lesezugriff mehr (N2-Praezisierung,
+                        # 02_ENGER_NACHZUG.md "Zwei Formulierungen
+                        # praezisieren"): er ruft `_apply_pending_compat_load`
+                        # auf, das einen noch nicht adoptierten
+                        # Kompatibilitaetsumschlag bei Bedarf ADOPTIERT
+                        # (schreibt einen neuen Current). Fuer DIESES Gate nur
+                        # relevant als Lesequelle des aktuellen Currents, kein
+                        # neuer Auto-Ingest hier, kein Umbau dieses Helfers.
+                        _current_save, _unresolved = outer._resolve_active_save(self._pid, None)
                         for _entry in sl_log:
                             _raw_input = _entry.get("origin_raw_input")
                             if _raw_input is None:
@@ -9653,33 +9670,43 @@ class TuiSession:
                             _hit = zeitriss_saves.harvest_from_debrief(
                                 _entry_content, _own_cid_to_pk,
                             ).get(self._pid)
-                            if _hit is not None:
-                                _latest_own_block = _hit
-                        if _latest_own_block is not None:
-                            # "Noch nicht uebernommen" = Ingest-Abgleich gegen
-                            # die bestehende Save-Autoritaet -- dieselbe
-                            # Lesefunktion wie `_build_resume_card`/
-                            # `_resume_bound_table` (`outer._resolve_active_
-                            # save`, darunter `core.store.load_current_save_
-                            # or_raise`). save_id gleich -> bereits via
-                            # `!save` uebernommen ODER ein bereits
-                            # geschlossener Vorgaenger-Save, der beim Resume
-                            # nur wieder angezeigt wird -> NICHT armieren.
-                            # save_id verschieden/kein current -> un-ingestet
-                            # -> ARMIEREN. Reiner Lesezugriff, kein Auto-
-                            # Ingest, kein neues Save-Schema. Ein GERADE
-                            # nicht lesbarer bekannter Current (`unresolved`)
-                            # wird konservativ wie un-ingestet behandelt --
-                            # kein stiller Freilauf, derselbe Vorsichts-
-                            # grundsatz wie der bestehende `authority_
-                            # unresolved`-Stopp in `_cmd_menu_fortsetzen`.
-                            _current_save, _unresolved = outer._resolve_active_save(self._pid, None)
-                            if _unresolved or _current_save is None:
+                            if _hit is None:
+                                continue
+                            # A1-Nachzug (02_ENGER_NACHZUG.md A1, LINUS-SPEC-
+                            # N2.md): gleiche `save_id` beweist KEINE
+                            # Inhaltsgleichheit/Uebernahme -- ein GM-Block mit
+                            # UNVERAENDERTER save_id aber geaendertem Level/
+                            # Wallet ist nicht derselbe Stand wie der
+                            # tatsaechlich uebernommene Current. Voller
+                            # Inhaltsvergleich (nicht nur save_id) --
+                            # dieselbe Autoritaet, die der Ingest-Weg selbst
+                            # fuer "unveraendert" haelt (`core.store.
+                            # publish_current_save`s Idempotenz-Pruefung
+                            # `newest[1] == block`; analog `save_validation.
+                            # find_duplicate_save_ids`s `g != group[0]` fuer
+                            # "gleiche ID, ABWEICHENDER Inhalt"). Der echte
+                            # Current traegt dabei KEINE beim Ingest
+                            # zusaetzlich normalisierten/ergaenzten Felder
+                            # gegenueber dem rohen `harvest_from_debrief`-
+                            # Treffer (`core/store.py:_resume_and_harvest`
+                            # schreibt denselben, vom Aufrufer bereits
+                            # geernteten Block 1:1 weiter) -- der echte
+                            # d2-Positivfall (identischer Recap gleicher
+                            # save_id+Level) bleibt dadurch frei.
+                            # Un-ingestet/nicht lesbarer Current -> konservativ
+                            # wie un-ingestet behandelt (kein stiller
+                            # Freilauf, derselbe Vorsichtsgrundsatz wie der
+                            # bestehende `authority_unresolved`-Stopp in
+                            # `_cmd_menu_fortsetzen`).
+                            #
+                            # A2-Nachzug: sobald der ERSTE nicht-uebernommene
+                            # Eigen-Treffer gefunden ist, bleibt das Gate
+                            # armiert -- ein SPAETERER blosser Recap des
+                            # alten Current (weiter unten im `sl_log`) darf
+                            # diesen Fund nicht mehr zuruecknehmen.
+                            if _unresolved or _current_save is None or _current_save != _hit:
                                 _leader_unsaved_bindable_save_shown = True
-                            else:
-                                _leader_unsaved_bindable_save_shown = (
-                                    _current_save.get("save_id") != _latest_own_block.get("save_id")
-                                )
+                                break
                 # R4 U4 (01_NACHZUG.md U4 Punkt 3, PLAYER-UX-REVIEW.md F4
                 # "feuert NACH beendetem Warten (Nachholanzeige), nicht
                 # waehrend offener Antwort"): die fruehere Zeitgedanke-Zeile
