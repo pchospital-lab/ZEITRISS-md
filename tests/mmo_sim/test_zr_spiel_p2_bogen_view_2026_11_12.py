@@ -306,7 +306,16 @@ def test_window_open_uses_plain_argv_no_shell_and_writes_private_tempfile():
         return mock.Mock()
 
     lines = ["Zeile A", "Zeile B mit Umlaut äöü"]
-    ok = sheet_view.try_open_in_external_terminal(lines, popen_fn=_fake_popen)
+    # Emulatorpraesenz deterministisch stubben: der headless CI-Runner hat
+    # weder xterm noch gnome-terminal installiert -- ohne diesen Patch
+    # kurzschliesst try_open_in_external_terminal via `shutil.which(...) is
+    # None` auf False, und der argv-/tempfile-Pfad, den genau dieser Test
+    # prueft, wird nie betreten (lokal gruen, weil hier ein Emulator liegt;
+    # auf CI rot). Mit gestubbtem which WIRD ein Emulator gefunden -> der
+    # beabsichtigte Pfad wird umgebungsunabhaengig geprueft. Reiner Test-
+    # Double, keine Produktcode-Aenderung.
+    with mock.patch.object(sheet_view.shutil, "which", return_value="/usr/bin/xterm"):
+        ok = sheet_view.try_open_in_external_terminal(lines, popen_fn=_fake_popen)
     assert ok is True
     assert len(calls) == 1
     argv = calls[0]
