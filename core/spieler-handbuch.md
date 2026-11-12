@@ -691,7 +691,8 @@ den State weiter (Typ A/B/C).
 
 - **Standard (empfohlen):** `Spiel starten (solo klassisch)` oder natürlicher
   Neustart-Wunsch - Erschaffung (`generate` / `custom generate` / manuell) →
-  HQ-Intro → **Chargen-Save-Gate** → (Briefing / freies Erkunden) → Szene 1
+  kurze HQ-Ankunft → **Chargen-Save-Gate** → Save + Load im neuen Chat → HQ-Hub →
+  (Briefing / HQ-Runde) → Szene 1
 - `Spiel starten (npc-team [0-4] klassisch)` - PC bauen + NPC-Begleiter
   (Team gesamt 1-5), danach dieselbe Charakterwahl
   (`generate` / `custom generate` / manuell)
@@ -803,14 +804,16 @@ Siehe auch:
 > sichtbares Dienstpersonal), dann **Chargen-Save-Gate**:
 >
 > - `Kodex: HQ-Stand stabil. Deepsave möglich.`
-> - `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+> - `Kodex: Für den nächsten Abschnitt: JSON in neuem Chat laden — Pflicht, kein Verzicht.`
 > - Menü-Optionen: `Erkunden` / `Schnell-HQ` / `Auto-HQ` / **`!save`**
 >
-> **Kein automatischer Sprung ins Briefing** — Briefing startet erst, wenn der
-> Spieler aktiv `Briefing`, `erste Mission` o. ä. wählt.
-> _Empfehlung:_ Nach `!save` neuen Chat öffnen, Save laden, dann **HQ-Runde**
-> als eigenen Abschnitt spielen (Equip, Klinik, RP). Erst danach in einem
-> weiteren Chat das Briefing für Mission 1 anfordern. Siehe
+> **Kein automatischer Sprung ins Briefing** — die Wahl `Briefing`/`erste Mission`
+> allein startet es nicht: Nach `!save` öffnet der Spieler einen neuen Chat, lädt den
+> Save, landet im **HQ-Hub** (Abschnittswähler) und wählt dort direkt den gewünschten
+> Einsatz — Briefing für Mission 1 beginnt **direkt im selben neuen Chat**, ohne
+> weiteren Zwischen-Save. Wählt er statt eines Einsatzes bewusst **HQ-Runde**
+> (*HQ erkunden* — Equip, Klinik, RP), ist das ein eigener Abschnitt mit eigenem
+> Save/Load, bevor ein weiterer Chat das Briefing startet. Siehe
 > [Der Gameflow: Chat-Wechsel als Spielrhythmus](#gameflow-chat-wechsel).
 
 </details>
@@ -909,10 +912,12 @@ jeweils mit eigenem Save am Ende. Details und Begründung in
 [Der Gameflow: Chat-Wechsel als Spielrhythmus](#gameflow-chat-wechsel).
 
 Kurz: Mission abschließen → Debrief → `!save` → **neuer Chat** → Save laden →
-**HQ-Runde** als eigener Abschnitt spielen (Equip, Klinik, RP) → `!save` →
-**neuer Chat** → Save laden → nächste Mission. So startet jeder Abschnitt mit
-vollem Regelzugriff und frischem Kontext. **Innerhalb** eines Abschnitts
-einfach weiterspielen — der Chat-Wechsel ist nur am Abschnittsende fällig.
+**HQ-Hub** (Abschnittswähler). Von dort entweder direkt die nächste Mission starten
+(Briefing im selben Chat) oder bewusst eine **HQ-Runde** als eigenen Abschnitt spielen
+(Equip, Klinik, RP) → `!save` → **neuer Chat** → Save laden → erst dann die nächste
+Mission. So startet jeder Abschnitt mit vollem Regelzugriff und frischem Kontext;
+eine HQ-Zwischenrunde ist dabei keine Pflicht. **Innerhalb** eines Abschnitts einfach
+weiterspielen — der Chat-Wechsel ist nur am Abschnittsende fällig.
 
 **Pflicht-Reihenfolge (Mission-Transition):**
 

@@ -17,8 +17,9 @@ tags: [system]
 - **MUSS:** Geld lebt ausschließlich in `characters[].wallet`. Die Gruppenkasse
   ist ein berechneter View (Summe aller Wallets), kein gespeichertes Feld.
   `economy.*` ist reiner Legacy-Importpfad.
-- **SOLL:** Neuer Chat pro Mission wird als empfohlener Stabilitätspfad geführt,
-  ohne als harte Regel formuliert zu werden.
+- **MUSS:** Jeder Spielabschnitt (Charaktererschaffung, ausgespielte HQ-Runde,
+  CoreOps, RiftOps, Chronopolis, PvP) läuft in einem frischen KI-SL-Spielkontext;
+  der Wechsel in einen anderen Abschnitt erfolgt erst nach eigenem abgeschlossenem Save.
 - **KANN:** Optionale Trace-Felder dürfen ergänzt werden, sofern sie keine
   Kernregeln (SaveGuard, Px-Flow, Belohnungslogik) verändern.
 
@@ -30,9 +31,9 @@ tags: [system]
 > - Befehl: `!save` - der Kodex erzeugt einen JSON-Block zum Kopieren.
 > - **Laden:** JSON-Block (oder mehrere JSON-Blöcke) in den Chat einfügen; `Spiel laden` ist optional.
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
-> - **Neuer Chat pro Abschnitt** empfohlen: Chargen → Save → neuer Chat → HQ-Runde → Save → neuer Chat → Mission → HQ → Save → neuer Chat. Jeder Abschnitt startet frisch.
+> - **Neuer Chat pro Abschnitt** ist Pflicht: Chargen → Save → neuer Chat → HQ-Hub → gewählten Abschnitt direkt spielen (Core/Rift/Chronopolis/PvP) oder bewusst eine HQ-Runde ausspielen → Save → neuer Chat. Jeder Abschnitt startet frisch; eine HQ-Zwischenrunde ist dabei keine Pflicht.
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Stand stabil. Deepsave möglich.`
-> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für den nächsten Abschnitt: JSON in neuem Chat laden — Pflicht, kein Verzicht.`
 > - **Savebare HQ-Zustände:** Chargen-Ende, Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
 > - *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme (`solo schnell` / `gruppe schnell`), die direkt in den Briefingraum sprang und das Chargen-Save-Gate übersprang. Die Ausnahme wurde entfernt; das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 >
@@ -122,8 +123,9 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
   Equip-/Shop-Quickcheck) **gefaltet im selben Chat** — danach **direkt**
   Briefing → Mission → Debrief → `!save`. **Kein Pre-Briefing-Sync, kein
   Chat-Wechsel** zwischen Hub und Briefing; `save_sync_pre_briefing()` /
-  `save_sync_pre_rift()` entfallen hier (sie greifen erst, wenn im selben Chat
-  schon ein `!save` raus ist). So bleibt der Powerlevel-Rhythmus ungestört:
+  `save_sync_pre_rift()` entfallen hier (sie greifen erst, sobald im selben Chat
+  tatsächlich ein Abschnitt gespielt wurde — nicht erst, wenn schon ein `!save`
+  raus ist). So bleibt der Powerlevel-Rhythmus ungestört:
   laden → kurz absegnen → Einsatz. Die **ausgespielte HQ-Runde** (RP,
   Operationen, mitgebrachtes Material/Personen analysieren, Equip-Feintuning,
   NPC-Crew anheuern/umstellen/ausrüsten) wählt man bewusst über *HQ erkunden*
@@ -1163,6 +1165,15 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
    Arena-Router-Regel: `!arena resume` nur mit `arena.resume_token` und
    `queue_state=idle|completed`; aktive Queue-Stati (`searching|matched|staging|active`)
    bleiben vor Resume blockiert.
+   **Wiederanknüpf-Beat (Pflicht):** Der vorherige Abschnitt endet mit einem knappen
+   erzählerischen Abschlussbeat; die tatsächlich entstandenen Folgen und offenen Fäden
+   werden in den bereits vorgesehenen Save-Feldern (`arc.hooks`, `arc.questions`,
+   `logs.notes`, `summaries.summary_active_arcs`, `continuity.npc_roster` bzw. passende
+   Echos) festgehalten. Beim Laden greift die SL eine passende gespeicherte Folge in
+   ein bis drei Sätzen wieder auf und führt zum HQ-Hub (mindestens einzeilig). Kein
+   vollständiger Weltauftakt, keine erneute Charaktererschaffung, keine erfundenen
+   ungespeicherten Erinnerungen. Offene Fäden sind Angebote — sie zwingen den Spieler
+   nicht in einen bestimmten nächsten Abschnitt.
 5. **Compliance-Hinweis entfällt.** Loads laufen ohne Compliance-Toast oder
    Flag-Setzung; `ShowComplianceOnce()` bleibt nur als leerer
    Kompatibilitäts-Hook bestehen.

@@ -32,10 +32,12 @@ Chargen-Save-Gate im HQ; Briefing startet erst nach expliziter Wahl.
 > Beim echten Neustart spielt die KI-SL **davor** den Welt-Einleitungs-Crawl (Masterprompt
 > §I Sessionstart). Modul 13 regelt den filmischen Start ab HQ/Mission, nicht den Welt-Crawl.
 
-Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
-Danach folgt im klassischen Pfad verpflichtend der **Heimkehrbeat im HQ** mit
-Chargen-Save-Gate (`!save` anbieten, kein Auto-Briefing). Erst nach
-Spielerentscheidung startet das **Briefing** im Quarzatrium.
+Nach der **Charaktererschaffung** folgt im klassischen Pfad verpflichtend zuerst der
+kurze **Heimkehrbeat im HQ** (atmosphärische Ankunft, kein vollwertiges HQ-Spiel) mit
+Chargen-Save-Gate (`!save` anbieten, kein Auto-Briefing). Die ausführliche Einführung
+ins ITI-Hauptquartier ist eine optional gewählte HQ-Runde im nächsten Spielkontext
+nach Save und Load. Erst nach Spielerentscheidung (und ggf. dieser HQ-Runde) startet
+das **Briefing** im Quarzatrium.
 *Hinweis für künftige Wartung:* Bis v4.2.5 gab es einen Fast-Lane-Pfad
 (`solo schnell`/`gruppe schnell`), der den direkten Einstieg ins Briefing
 ohne Chargen-Save-Gate erlaubte. Die Variante wurde entfernt; Trigger

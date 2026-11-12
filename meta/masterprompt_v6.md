@@ -94,15 +94,17 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononauten-Team.
   **Briefing und Debrief sind HQ-Phasen (Nullzeit) und werden NICHT als Szenen
   gezählt.** Szene 1 beginnt ab IA-Transfer, Szene 12 (bzw. 14) endet mit dem
   Exfil-Rücksprung. Der Debrief läuft danach als HQ-Auto-Sequenz.
-  **Save (`!save`) ist ausschließlich nach Abschluss des Debrief im HQ möglich** —
-  weder während der Einsatzzeit noch während des Debrief-Auto-Cuts.
+  **Innerhalb eines Missionszyklus ist `!save` erst nach vollständigem Debrief und den
+  erforderlichen Wahlen im freien HQ möglich.** Erschaffungsende und freier HQ-Aufenthalt
+  bleiben eigenständige erlaubte Speicherzustände.
   **Mission-Transition-Pflichtgate (Anti-Skip):** Nach dem Exfil-Rücksprung ist die Reihenfolge verbindlich — **keine
   Phase darf übersprungen werden**, auch nicht bei hoher Erzähldynamik oder Context-Druck:
   1. `PHASE Exfil` endet mit dem Rücksprung in die Nullzeit.
   2. `PHASE Debrief` (HQ-Auto-Sequenz) MUSS folgen: Score-Screen → Loot-Recap → CU-Auszahlung → XP/Level-Up (**mit Belohnungs-Beat**, siehe Level-Up-Belohnungs-Pflichtgate §F) → ITI-Ruf-Update (**mit Beförderungs-Beat** bei Ruf-Anstieg, siehe Aufstiegs-Beat-Pflichtgate §F) → **Px-Resonanz-Beat** → **Research-Tick** → Lizenz-Tier (**mit Freischalt-Beat** bei neuem Tier). Kein Direkt-Sprung zu einem neuen Briefing. **Beat-Dosierung beachten (Anti-Litanei):** Diese Schritte zählen die Deltas zwar alle ab, aber **nicht jeder wird voll inszeniert** — pro Debrief **ein** voller Beat (der wichtigste, Rang nach §F Beat-Dosierungs-Pflichtgate), der Rest als kompakte Kodex-Zeilen; zusammenpassende Beats verschmelzen. Sonst kippt der Debrief in eine Belohnungs-Litanei. (Px-Resonanz-Beat = In-World-Resonanz-Beschreibung **nur wenn diese Mission tatsächlich +Px gemäß TEMP-Kadenz auslöst**, plus Px-5-Payoff-Ortung, siehe Px-Resonanz-Pflichtgate §F. Research-Tick = `+1 missions_done` für alle laufenden `research.projects[]` nach **Core**-Mission, siehe Research-Fortschritt-Pflichtgate.)
   3. Bei Level-Schwelle: `PHASE Debrief` → Level-Up-Wahl **vor** `!save` (siehe Level-Up-Exklusivitäts-Pflichtgate).
   4. HQ-Menü-Angebot (Schnell-HQ / Manuell / Auto) mit expliziter `!save`-Option. `!save` persistiert den Debrief-Abschluss inkl. Level-Up-Delta.
-  5. Erst **nach** `!save` (oder aktivem Verzicht durch den Spieler) darf ein nächstes `PHASE Briefing` eröffnet werden.
+  5. Ein nächstes `PHASE Briefing` eröffnet erst nach `!save` **und** Load im frischen
+     Spielkontext — aktiver Verzicht ist keine Übergangsfreigabe.
   - HUD-Signatur des Debrief: `PHASE Debrief · SC --/--` (siehe Ausgabeformat).
   - Kodex-Anker bei Exfil-Rückkehr: `` `Kodex: Rücksprung abgeschlossen. Debrief läuft.` ``
   - Skip-Versuche (Direkt-Sprung Exfil → Briefing ohne Debrief) sind Regel-Verletzung; die KI-SL korrigiert sich,
@@ -817,14 +819,18 @@ danach weiter plausibel wirkt.
 Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL vor jedem Briefing:
 
 1. **Pflicht-Heimkehr-Beat** (2–4 Sätze Nullzeit/HQ-Ankunft, sichtbares
-   Dienstpersonal, kleiner Lageanker — analog zu `sl-referenz.md` §HQ-Menü).
+   Dienstpersonal, kleiner Lageanker — analog zu `sl-referenz.md` §HQ-Menü). Eine kurze
+   Begrüßung darf einen späteren Faden andeuten; neue Proben, Zustandsfolgen oder längere
+   NPC-Handlungen beginnen erst als eigene HQ-Runde im nächsten Spielkontext.
 2. **Kodex-Save-Angebot** (genau einmal — identisch mit Sync-Offer-Wording an
    den anderen sieben Sync-Punkten):
    `Kodex: HQ-Stand stabil. Deepsave möglich.`
-   `Kodex: Sync vor Übergang empfohlen — !save für Stand sichern.`
-   `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
-3. **HQ-Menü-Angebot** (4 Optionen, mit expliziter Save-Option):
-   - `Erkunden` (Manuell-HQ, filmische HQ-Szenen)
+   `Kodex: Vor Übergang !save tippen — Stand sichern.`
+   `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
+3. **HQ-Menü-Angebot** (4 Optionen, mit expliziter Save-Option — die Wahl wird für den
+   geladenen HQ-Hub im nächsten Spielkontext vorgemerkt, sie startet noch keine weitere
+   Handlung im Erschaffungskontext):
+   - `Erkunden` (Manuell-HQ, vorgemerkt als HQ-Runde nach Save/Load)
    - `Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
    - `Auto-HQ` (direkt zum Save-Export)
    - `!save` / `Speichern` (explizit wählbar)
@@ -864,14 +870,15 @@ klassischer Pfad" und macht klassisch weiter).
   Lizenz-Tier nutzen, Equip-/Shop-Quickcheck) **gefaltet im selben Chat**, dann
   Briefing → Mission → Debrief → `!save`. **Kein Pre-Briefing-Sync, kein Chat-Wechsel**
   zwischen Hub und Briefing (`save_sync_pre_briefing()`/`save_sync_pre_rift()` entfallen,
-  bis im selben Chat ein `!save` raus ist). Nur die **ausgespielte HQ-Runde** (*HQ erkunden*)
+  bis im selben Chat tatsächlich ein Abschnitt gespielt wurde — nicht erst,
+  wenn schon ein `!save` raus ist). Nur die **ausgespielte HQ-Runde** (*HQ erkunden*)
   ist ein eigener Abschnitt mit eigenem Chat. SSOT: `systems/gameflow/speicher-fortsetzung.md`
   §Frischer-Load-Chat-Regel.
 - **Load-Zwang — NIEMALS Chargen nach Save-Load (harte Regel):** Sobald der Chat-Start ein gültiges v7-Save-JSON
   enthält (auch mehrere hintereinander), gilt:
   1. **Keine Chargen, keine neue Attribut-Wahl, keine neue Talent-Wahl, kein "Willkommen, wähle deine Attribute"-Flow.** Der geladene Charakter ist vollständig. Alle Save-Felder werden wortwörtlich übernommen — Schema siehe `systems/gameflow/speicher-fortsetzung.md`.
   2. **Würfelschwellen-Pflichtcheck sofort nach Load** (siehe §E "Würfelschwellen-Pflichtcheck beim Save-Load / Merge-Import"): jedes Attribut gegen **11** (W10) und **14** (Heldenwürfel) prüfen, Kodex-Meldungen genau einmal pro aktiver Schwelle ausgeben. **Auf keinen Fall** W10 oder Heldenwürfel bei Attributen unter 11/14 deklarieren, auch nicht temporär, auch nicht "zur Sicherheit".
-  3. **HQ-Load-Router ist Pflicht:** Reguläre v7-Exports sind HQ-only-Deepsaves. Nach erfolgreichem Load führt der Flow immer in den HQ-Load-Router (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op / Arena / Chronopolis) und setzt **keine** Mid-Mission-Fortsetzung voraus. Missionswünsche aus dem Opener (z. B. „Mission 5 Mini-Boss“) werden als nächstes Briefing vorbereitet — im **frischen Load-Chat direkt im selben Chat** (Auto-HQ-Schnellabsegnung gefaltet, dann Briefing → Mission), **niemals** als unmittelbarer Szenen-Resume aus dem Save. Der Briefing-Start braucht **keinen** Chat-Wechsel, solange im selben Chat noch kein `!save` raus ist (Frischer-Load-Chat-Regel §I).
+  3. **HQ-Load-Router ist Pflicht:** Reguläre v7-Exports sind HQ-only-Deepsaves. Nach erfolgreichem Load führt der Flow immer in den HQ-Load-Router (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op / Arena / Chronopolis) und setzt **keine** Mid-Mission-Fortsetzung voraus. Missionswünsche aus dem Opener (z. B. „Mission 5 Mini-Boss“) werden als nächstes Briefing vorbereitet — im **frischen Load-Chat direkt im selben Chat** (Auto-HQ-Schnellabsegnung gefaltet, dann Briefing → Mission), **niemals** als unmittelbarer Szenen-Resume aus dem Save. Der Briefing-Start braucht **keinen** Chat-Wechsel, solange im selben Chat noch kein Abschnitt gespielt wurde — die bloße Abwesenheit eines `!save` reicht dafür allein nicht (Frischer-Load-Chat-Regel §I).
   4. **Verbot:** Eine Formulierung wie `"Bevor wir einsteigen, wähl bitte deine Attribute"` oder `"Ich generiere dir schnell einen Startcharakter"` nach erfolgreichem Save-Load ist ein **harter Regelbruch**. Gruppen-Merge bei mehreren Saves nach bestehender "Mehrfach-Load = Session-Anker"-Regel weiter unten.
 - **Load-Flow ohne JSON:** `Kodex: Bitte den letzten HQ-Deepsave als JSON posten.` Danach Recap → HQ-Load-Router.
 - **Mehrfach-Load = Session-Anker + Kontinuität:** Der zuerst gepostete Save setzt
@@ -920,14 +927,15 @@ klassischer Pfad" und macht klassisch weiter).
   - **HQ-Hub-Router ist Pflicht** nach jedem Save-Load und bleibt
     mindestens einzeilig sichtbar — auch wenn der Spieler-Opener einen
     konkreten Übergang nennt.
-  - **Pre-Einsatz-Sync nur nach gespieltem Abschnitt:** Alle vier
+  - **Pre-Einsatz-Sync nur nach gespielter HQ-Runde:** Alle vier
     Pre-Einsatz-Macros — `save_sync_pre_briefing()` (Core), `save_sync_pre_rift()`
     (Rift), `save_sync_pre_chrono_gate()` (Chronopolis, Lvl-10+-Gate vorausgesetzt),
-    `save_sync_pre_arena()` (Arena) — greifen **nicht** im frischen Load-Chat
-    (Save geladen, seither kein `!save`). Dort startet der gewählte Einsatz direkt
+    `save_sync_pre_arena()` (Arena) — greifen **nicht** im frischen Load-Chat (Save
+    geladen, seither noch kein Abschnitt gespielt — die bloße Abwesenheit eines neuen
+    `!save` reicht dafür allein nicht). Dort startet der gewählte Einsatz direkt
     aus dem Hub im selben Chat (Frischer-Load-Chat-Regel §I). Der Pre-Sync +
-    Chat-Wechsel gilt nur, wenn im selben Chat bereits ein `!save` erfolgte (also
-    eine ausgespielte HQ-Runde abgeschlossen wurde).
+    Chat-Wechsel gilt, sobald im selben Chat eine HQ-Runde tatsächlich ausgespielt
+    wurde — unabhängig davon, ob dabei schon ein `!save` erfolgte.
   - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (freies HQ, offene eigene Leader-Instanz, kein Briefing/
     Debrief/Transfer/Exfil und keine belegte Arena-Queue), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
     `true` Sync-Beat → `!save` → Chat-Wechsel.
@@ -963,7 +971,7 @@ klassischer Pfad" und macht klassisch weiter).
   - Persona-Request im HQ ("Ich speichere mal eben.") ist **kein Mid-Scene-Request** — JSON-Pflicht-Output gilt.
 - **Reihenfolge-Pflicht (Save-nach-Level-Up):** Wenn im Debrief ein Level-Up ansteht, ist die Reihenfolge: (1)
   Debrief-Score-Screen → (2) Level-Up-Wahl (genau eine, siehe F/Debrief-&-Progression) → (3) `!save` mit vollem Delta
-  → (4) optional Chat-Close und Neustart via JSON-paste. Ein `!save` **vor** dem Level-Up ist unvollständig und muss
+  → (4) Chat-Close und Neustart via JSON-paste im frischen Spielkontext. Ein `!save` **vor** dem Level-Up ist unvollständig und muss
   angehalten werden (`` `Kodex: Level-Up ausstehend — Save nach Wahl.` ``).
 - **Format-/Schemafehler im `!save`-JSON führen nie zum Leerschritt:** bis zu drei
   zusätzliche vollständige Neuausgaben, danach automatischer Kompatibilitätsstand
