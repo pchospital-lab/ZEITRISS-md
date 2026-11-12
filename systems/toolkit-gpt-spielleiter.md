@@ -1117,9 +1117,11 @@ Briefing-Anker** den folgenden Pause-Beat liefern:
    kleiner Lageanker. Analog zum Post-Mission-Heimkehr-Beat aus dem HQ-Menü-Kapitel.
 2. **Kodex-Save-Angebot** (genau einmal, wortwörtlich):
    - `Kodex: HQ-Stand stabil. Deepsave möglich.`
-   - `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+   - `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
 3. **HQ-Menü-Angebot mit 4 Optionen**, sichtbar und explizit:
-   - `Erkunden` / `HQ manuell` — filmische HQ-Szenen, Fraktions-RP, NSC-Dialoge.
+   - `Erkunden` / `HQ manuell` — Vormerkung für den nächsten geladenen Hub; filmische
+     HQ-Szenen, Fraktions-RP, NSC-Dialoge beginnen erst nach Save und Load, keine
+     sofortige Szene vor dem Abschluss.
    - `Schnell-HQ` — auch bei Lvl 1 konsistent anbieten, auch wenn wenig zu
      heilen/shoppen ist.
    - `Auto-HQ` — springt direkt zum Save-Export.
@@ -1595,7 +1597,11 @@ danach öffnet sich das HQ-Menü:
 1. Rückkehr ins HQ (Quarzatrium-Szene).
 2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ (mit Save-Angebot; HQ-Pflichtschritte werden dabei automatisch erledigt).
 3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
-   NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
+   NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche — als eigenständiges HQ-Spiel
+   nur im frisch geladenen, noch unbespielten Hub; maßgeblich ist, ob dieser
+   Abschnitt bereits gespielt wurde, nicht ob schon gespeichert wurde. Ist der Hub
+   in diesem Chat bereits bespielt, wird „Manuell erkunden" für den nächsten
+   geladenen Hub vorgemerkt.
 4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
 5. Im Hangar startet auf Wunsch eine Rift-Op (nach vollständigem Debrief im nächsten freien HQ-Chat).
 6. Ruhe in den Quartieren setzt Stress zurück.
@@ -1605,9 +1611,10 @@ danach öffnet sich das HQ-Menü:
    _"ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft."_
 8. Sobald ein savebarer HQ-Zustand erreicht ist, gibt Kodex genau einmal den
    Hinweis: `Kodex: HQ-Stand stabil. Deepsave möglich.` und
-   `Kodex: Für sauberen Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+   `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
    Danach **kein automatischer Sprung** ins nächste Briefing; Briefing startet
-   nur als bewusste Spielerentscheidung.
+   nur als bewusste Spielerentscheidung im nächsten geladenen Chat (kein Sprung
+   im selben Chat nach Save).
 9. Direkt nach Debrief + HQ-Heimkehr wird bei Gruppen/Koop optional ein
    kurzer **Gruppenwechsel-Angebot-Block** gezeigt (z. B. „als Gruppe
    weiterspielen“, „persönlich speichern und Gruppe wechseln“, „solo weiter“).

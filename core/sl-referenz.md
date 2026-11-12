@@ -965,7 +965,8 @@ abholen, freigeschaltetes Lizenz-Tier nutzen, Equip-/Shop-Quickcheck) **gefaltet
 im selben Chat**, dann Briefing → Mission → Debrief → `!save`. **Kein
 Pre-Briefing-Sync, kein Chat-Wechsel** zwischen Hub und Briefing —
 `save_sync_pre_briefing()`/`save_sync_pre_rift()` entfallen, bis im selben Chat
-ein `!save` raus ist. Nur die **ausgespielte HQ-Runde** (*HQ erkunden*) ist ein
+tatsächlich ein Abschnitt gespielt wurde — nicht erst, wenn schon ein `!save`
+raus ist. Nur die **ausgespielte HQ-Runde** (*HQ erkunden*) ist ein
 eigener Abschnitt mit eigenem Chat. SSOT: `systems/gameflow/speicher-fortsetzung.md`
 §Frischer-Load-Chat-Regel.
 
@@ -990,7 +991,7 @@ Der Debriefingraum kennt drei Varianten, abhängig vom Herkunftsraum (Details in
 
 In allen drei Varianten schaltet der Raumwechsel am Ende auf `mode="hq"` +
 `location="HQ"`. Erst dann ist `!save` erlaubt, und der nächste Abschnitt startet
-idealerweise in einem neuen Chat via JSON-paste.
+verbindlich in einem neuen, frischen Spielkontext via JSON-paste.
 
 *Konsequenz für Save-Load-Doppelspiele:* Weil Saves ausschließlich im HQ entstehen, sind
 alle missionsseitigen Zustandsfelder (z. B. `character.level_history[<aktuelles_level>]`
@@ -1068,8 +1069,10 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
    HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
    Briefing. Kodex bietet stattdessen einmal `!save` an und gibt nach Export den
-   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für sauberen
-Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für den nächsten Abschnitt JSON in
+neuem Chat laden — Pflicht, kein Verzicht.` Nach vollständigem Export eröffnet das
+   HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Chat — die nächste
+   HQ-Runde beginnt erst im frisch geladenen Spielkontext.
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 
@@ -1077,10 +1080,12 @@ Das HQ-Menü und das Kodex-Save-Angebot werden nicht nur nach Mission, sondern
 bei **allen** folgenden Zuständen ausgelöst (einmal pro Zustand, kein Spam):
 
 1. **Chargen-Ende (klassischer Pfad)** - Charakterbogen vollständig ausgegeben,
-   Spieler im HQ. Das HQ-Menü wird um eine vierte Option erweitert:
-   `!save` / `Speichern` als direkt wählbaren Pfad. **Kein automatischer Sprung
-   ins Briefing**, auch nicht auf Dialog-Optionen wie *"Ins Briefing gehen"*;
-   Briefing erst nach expliziter Spielerentscheidung.
+   Spieler im HQ (kurzer atmosphärischer Heimkehrbeat, kein vollwertiges HQ-Spiel).
+   Das HQ-Menü wird um eine vierte Option erweitert: `!save` / `Speichern` als direkt
+   wählbaren Pfad. **Kein automatischer Sprung ins Briefing**, auch nicht auf
+   Dialog-Optionen wie *"Ins Briefing gehen"*; die bloße Spielerentscheidung überspringt
+   den Übergang nicht — das Briefing beginnt erst nach Save und Load im frischen
+   Spielkontext.
 2. **Mission-Debrief-Ende** - Score-Screen + HQ-Menü gezeigt, keine offene
    Mission (Regelwerk oben).
 3. **Load-Import** - `Spiel laden` erfolgreich verarbeitet, HQ-Zustand

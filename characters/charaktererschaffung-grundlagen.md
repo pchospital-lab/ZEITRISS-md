@@ -290,11 +290,14 @@ die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
    Bei der Charaktererstellung gibt es **keinen Fraktionswahlzwang**. Die
    Orientierung entwickelt sich im Spiel.
 
-Jetzt seid ihr bereit für euren ersten HQ-Deepsave. Erst danach entscheidet ihr bewusst, ob ihr das HQ ausspielt, trainiert, die Arena betretet oder ins erste Briefing geht.
+Jetzt seid ihr bereit für euren ersten HQ-Deepsave. Nach dem Laden dieses Saves im
+frischen Spielkontext entscheidet ihr bewusst, ob ihr das HQ ausspielt, trainiert,
+die Arena betretet oder ins erste Briefing geht.
 
 ## Erste Schritte im ITI
 
-Direkt im Anschluss führt die Spielleitung die frisch gebackenen Chrononauten in das
+Entscheidet sich die Gruppe nach dem Laden ihres ersten Saves für die ausgespielte
+HQ-Runde (*HQ erkunden*), führt die Spielleitung die frisch gebackenen Chrononauten in das
 **Institut für Temporale Intervention (ITI)**. Die erste Einweisung übernimmt
 **Archivarin Mira am Ordo-Mnemonika-Duty-Desk** — sie ist der Standard-Erstkontakt
 für alle Neulinge. Commander Renier bleibt Gesamtkoordinator und tritt nur bei
@@ -385,9 +388,9 @@ mögliche Wege zeigen, wie es weitergehen kann:
 3. **Sondermission:** Eine frisch eingespielte Aufgabe aus dem Archiv, die
    sofort gestartet werden kann.
 
-Erst nach dieser Wahl startet die eigentliche Mission. Die Spieler haben also
-genügend Gelegenheit, ihren Charakter weiter anzupassen oder das Profil
-zwischenzuspeichern, bevor sie in den Einsatz gehen.
+Die eigentliche Mission startet erst nach dieser Wahl und nach dem fälligen Save und
+Laden im frischen Spielkontext. Die Spieler haben also genügend Gelegenheit, ihren
+Charakter weiter anzupassen, bevor sie über den HQ-Hub in den Einsatz gehen.
 
 ### Beispielcharakter für die Tutorialrunde
 

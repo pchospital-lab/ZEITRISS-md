@@ -100,7 +100,7 @@ for (const relPath of hqDocs) {
   if (/(?:kein\s+automatisches?[^\n.]*briefing|kein\s+auto-weiterleitungsdruck[^\n.]*briefing|nicht\s+automatisch[^\n.]*briefing)/i.test(text)) {
     noAutoBriefingHits += 1;
   }
-  if (/(?:neuen\s+chat[^\n.]*empfohlen|neuer\s+chat[^\n.]*empfohlen)/i.test(text)) {
+  if (/(?:neue[nm]?\s+chat[^\n.]*(?:empfohlen|pflicht)|(?:empfohlen|pflicht)[^\n.]*neue[nm]?\s+chat)/i.test(text)) {
     newChatHintHits += 1;
   }
 }
@@ -129,8 +129,11 @@ const hqPerDocRuleMatrix = [
     ]
   },
   {
+    // N1 (2026-11-12): HQ-/Abschnittsvertrag verschaerft 'neuer Chat empfohlen'
+    // in MP + Save-SSOT zu 'Pflicht, kein Verzicht'. Anker akzeptiert daher die
+    // Pflicht-Formulierung gleichwertig zur frueheren Empfehlung.
     label: 'hq-neuer-chat-empfohlen-anker',
-    regex: /(?:neuen\s+chat[^\n.]*empfohlen|neuer\s+chat[^\n.]*empfohlen)/i,
+    regex: /(?:neue[nm]?\s+chat[^\n.]*(?:empfohlen|pflicht)|(?:empfohlen|pflicht)[^\n.]*neue[nm]?\s+chat)/i,
     docs: hqDocs
   }
 ];
