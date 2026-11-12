@@ -97,7 +97,7 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
      Arena-Lobby-Lock, Match-Recap-Andocken).
   2. **Kodex-Save-Angebot** (genau einmal pro Übergang):
      `Kodex: HQ-Stand stabil. Deepsave möglich.`
-     `Kodex: Sync vor Übergang empfohlen — !save für Stand sichern.`
+     `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
   3. **`!save`-Pflicht-Output** (vollständiger v7-JSON-Block, siehe
      §HQ-JSON-Save unten).
   4. **Verweis auf Chat-Wechsel**: `Kodex: Sync abgeschlossen. JSON in neuen
@@ -1485,7 +1485,7 @@ hq → briefing → core/rift/arena/chronopolis → debrief → hq
 
 `continuity.last_seen.mode` trägt den aktuellen Raum:
 
-- **`"hq"`** — **Speicherraum.** `!save` erlaubt, neuer Chat/JSON-Paste empfohlen.
+- **`"hq"`** — **Speicherraum.** `!save` erlaubt; für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.
 - **`"briefing"`** — vordere Schleuse vor der Mission (Briefingraum). Kein Save. Der
   Briefingraum wird mit dem Missionsstart verlassen, `mode` wechselt auf den aktiven
   Missionsraum.
@@ -1566,11 +1566,12 @@ nicht übersprungen werden (siehe Masterprompt §C, Mission-Transition-Pflichtga
    `` `Kodex: Level-Up ausstehend — Save nach Wahl.` `` angehalten; in Phase B ist der
    Pfad frei.
 7. **Freeplay-Anker** — explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
-   plus **1 Gerücht** (kurzer Hook) anbieten.
+   plus **1 Gerücht** (kurzer Hook) als Aussicht für den nächsten geladenen Hub anbieten.
 
-Der Freeplay-Anker wird sichtbar ausgespielt und als normaler HQ-Fortschritt dokumentiert.
-Nach `!save` kann der Spieler nahtlos weiterspielen oder den Chat schließen und in einem
-neuen Chat per JSON-paste in die Nullzeit zurückkehren.
+Der Freeplay-Anker wird für den nächsten geladenen Hub vorgemerkt, nicht im selben Chat
+sichtbar ausgespielt. Nach komplettem `!save` endet die Spielhandlung dieses Abschnitts;
+die eigenständige Bar-/Werkstatt-/Archiv-Szene folgt erst nach Save und Load im frischen
+Spielkontext per JSON-paste.
 
 **Warum die Tür nach Schritt 5 aufgeht:** Ende von Schritt 5 markiert die vollständige
 missionsseitige Abrechnung. Alles danach sind HQ-interne Folgeszenen. Save-Angebot (6)

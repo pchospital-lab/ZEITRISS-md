@@ -1069,8 +1069,10 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
    HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
    Briefing. Kodex bietet stattdessen einmal `!save` an und gibt nach Export den
-   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für sauberen
-Missionsbetrieb neuen Chat nach JSON-Export empfohlen.`
+   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für den nächsten Abschnitt JSON in
+neuem Chat laden — Pflicht, kein Verzicht.` Nach vollständigem Export eröffnet das
+   HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Chat — die nächste
+   HQ-Runde beginnt erst im frisch geladenen Spielkontext.
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 
