@@ -150,7 +150,11 @@ def test_real_narrow_pty_40x24_full_output_not_truncated():
                 env.pop(k, None)
             proc = subprocess.Popen(
                 [sys.executable, str(_REPO_ROOT / "scripts" / "mmo_sim.py"),
-                 "--data-dir", str(data_dir), "--participant", "p-narrow"],
+                 # R7-CI-Fix 2026-11-11: gueltige Teilnehmer-ID (war "p-narrow"
+                 # mit Bindestrich -- Fix C weist das jetzt korrekt frueh ab,
+                 # rc=2; dieser Test prueft PTY-Breite/Umlautname, nicht die
+                 # ID-Validierung, daher eine schemagueltige ID).
+                 "--data-dir", str(data_dir), "--participant", "pnarrow"],
                 stdin=slave_fd, stdout=slave_fd, stderr=slave_fd,
                 cwd=str(_REPO_ROOT), env=env, close_fds=True,
             )

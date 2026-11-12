@@ -86,20 +86,44 @@ def _resolve_participant_id(data_dir: Path, explicit: str | None) -> str:
     """I3/Test 07: ohne `--participant` wird die zuletzt fuer DIESES
     `--data-dir` verwendete Teilnehmer-ID wiederverwendet (Marker-Datei) --
     nicht bei jedem Start eine neue erzeugt. Eine explizit uebergebene
-    `--participant`-ID aktualisiert den Marker (bewusster Wechsel)."""
+    `--participant`-ID aktualisiert den Marker (bewusster Wechsel).
+
+    Fix C (ZR-SPIEL-S1, LINUS-SPEC §Fix C): eine ungueltige ID (weder die
+    explizite noch die aus dem Marker gelesene) wird VOR jeder Marker-/
+    Verzeichnismutation per `identity.validate_participant_id` abgewiesen --
+    `identity.InvalidParticipantId` propagiert unveraendert, kein mkdir/
+    Marker-Write, keine stille Ersatz-ID, der Bestand bleibt erhalten.
+
+    R3-Nachzug (02_ENGER_NACHZUG.md R3, LINUS-SPEC-N1.md): sowohl der
+    explizite als auch der Marker-Zweig unterschieden bisher per
+    Truthiness ("nicht angegeben" vs. "angegeben"), NICHT per tatsaechlicher
+    Praesenz -- ein echter Leerstring (`--participant ""` bzw. ein
+    gespeicherter Marker `{"participant_id": ""}`) fiel dadurch als "nicht
+    angegeben" durch den Validator und wurde STILL durch eine neue ID
+    ersetzt. `explicit is not None` unterscheidet jetzt "Option nicht
+    angegeben" (argparse-Default `None`) von "Option mit einem tatsaechlich
+    gelieferten Leerwert angegeben" (wird abgewiesen). Der Marker-Zweig
+    prueft die KEY-Praesenz (`"participant_id" in data`), nicht den Wert
+    selbst -- ein vorhandener Key mit leerem/ungueltigem/Nicht-String-Wert
+    wird validiert (und bei Ungueltigkeit abgewiesen, Marker bytegleich
+    erhalten, KEINE neue Ersatz-ID), nur ein FEHLENDER Key bzw. ein
+    unlesbarer/korrupter Marker faellt weiterhin auf den regulaeren
+    `new_participant_id()`-Weg zurueck."""
     marker = data_dir / _LAST_PARTICIPANT_FILE
-    if explicit:
+    if explicit is not None:
+        identity.validate_participant_id(explicit, source="explizit --participant")
         data_dir.mkdir(parents=True, exist_ok=True)
         marker.write_text(json.dumps({"participant_id": explicit}), encoding="utf-8")
         return explicit
     if marker.exists():
         try:
             data = json.loads(marker.read_text(encoding="utf-8"))
-            pid = data.get("participant_id")
-            if pid:
-                return pid
         except (OSError, json.JSONDecodeError):
-            pass
+            data = None
+        if isinstance(data, dict) and "participant_id" in data:
+            pid = data["participant_id"]
+            identity.validate_participant_id(pid, source="gespeicherte last_participant.json")
+            return pid
     pid = identity.new_participant_id()
     data_dir.mkdir(parents=True, exist_ok=True)
     marker.write_text(json.dumps({"participant_id": pid}), encoding="utf-8")
@@ -536,7 +560,15 @@ def main(argv: list[str] | None = None) -> int:
             "lesende Ansicht moeglich ('python scripts/mmo_sim.py lab status/attach')."
         )
         return 1
-    participant_id = _resolve_participant_id(data_dir, args.participant)
+    try:
+        participant_id = _resolve_participant_id(data_dir, args.participant)
+    except identity.InvalidParticipantId as exc:
+        # Fix C (ZR-SPIEL-S1, LINUS-SPEC §Fix C): fruehe, verstaendliche
+        # Ablehnung VOR jedem Admission-/GM-/Transportbau -- kein stilles
+        # Erfolgssignal, der Bestand (last_participant.json) bleibt wie von
+        # `_resolve_participant_id` erhalten unveraendert.
+        print(f"TUI-Start: {exc}")
+        return 2
     schema_path = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
     # F1-3: die tatsaechlich konfigurierte Preset-/KB-Route live ermitteln
     # (s. `_resolve_active_gm_route`-Docstring) -- fail-soft, blockiert den

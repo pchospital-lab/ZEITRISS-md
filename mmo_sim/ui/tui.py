@@ -3183,7 +3183,9 @@ class TuiSession:
         self._print("Erschaffungsdialog gestartet/fortgesetzt (echter SL-Dialog, fortsetzbar, kein JSON noetig).")
         turn_idx = len(state.steps)
         initial_outgoing = state.steps[-1]["answer"] if state.steps else (
-            "Ich moechte einen neuen Chrononauten erschaffen. Fuehre mich Schritt fuer Schritt durch die Erschaffung."
+            "Ich moechte einen neuen Chrononauten erschaffen. Spiele mir zuerst die ausfuehrliche "
+            "Einleitung (den Weltauftakt des Sessionstarts) und fuehre mich DANACH Schritt fuer Schritt "
+            "durch die Erschaffung."
         )
 
         def _human_get_reply(_turn_idx: int, _sl_text: str) -> ReplyResult:
@@ -9434,6 +9436,7 @@ class TuiSession:
         Spielstart-Pfad, keine zweite Kopie der SL-/Reflexions-/Save-
         Anbindung."""
         from ..core import app_service
+        from ..core.completion_marker import completion_marker_matches
         from ..core.controller import TableController
         from ..adapters.base import ParticipantDecision
         # R1 (C-M1, UX14, Korrekturzyklur 1): dieselbe Formel wie
@@ -9471,6 +9474,17 @@ class TuiSession:
         displayed_sl_count_by_channel: dict[int, int] = {}
         # current_focus_pid deliberately remains the actor confirmed in setup/consent.
         # The first game contribution is not an implicit reset of that actor.
+
+        # Fix D (ZR-SPIEL-S1-FIXD) + R1+R2-Nachzug (02_ENGER_NACHZUG.md
+        # R1/R2, 2026-11-11): das fruehere Save-Integritaets-Gate stuetzte
+        # sich auf ein per-Lauf-Flag + einen `table.sl_log`-Baseline-Schnitt
+        # (`_leader_sl_baseline_len`) -- beides WURDE HIER vorher initialisiert.
+        # Beide Grundlagen waren nicht section-autoritativ: ein Prozess-
+        # neustart setzte die Baseline einfach neu (R1), und am geteilten
+        # Terminal verschob der Gast denselben Anzeige-Cursor vor dem
+        # Leader-Scan (R2). Die Erkennung wird jetzt stattdessen bei JEDEM
+        # Leader-`decide()`-Aufruf frisch section-autoritativ berechnet
+        # (s. dort) -- kein Flag/keine Baseline mehr hier oben.
 
         class _HumanDriver:
             """F1 (K7/K8, WEGKARTE §6): zeigt die zuletzt empfangene
@@ -9562,6 +9576,137 @@ class TuiSession:
                 _sl_channel_key = id(io)
                 _sl_already_shown = displayed_sl_count_by_channel.get(_sl_channel_key, 0)
                 _new_sl_entries = sl_log[_sl_already_shown:]
+                # R1+R2-Nachzug (02_ENGER_NACHZUG.md R1/R2, LINUS-SPEC-N1.md):
+                # section-autoritativ UND display-cursor-UNABHAENGIG, frisch
+                # bei DIESEM Leader-`decide()`-Aufruf neu berechnet -- NICHT
+                # auf `_sl_already_shown` (Anzeige-Cursor, R2: am geteilten
+                # Terminal vom Gast vorgeschoben) und NICHT auf eine Pro-Lauf-
+                # Baseline (R1: bei Prozessneustart/Fortsetzen neu gesetzt)
+                # geschnitten. Scope bleibt der GESAMTE `sl_log` des AKTUELL
+                # OFFENEN Abschnitts (`table_view`/`table.sl_log` sind
+                # dieselbe Quelle). NUR die EIGENE Figur des Leaders
+                # (unveraendert, R7-CI-Fix 2026-11-11): ein figurfreier
+                # Betreiber ODER ein Save, der nur an eine FREMDE Tischfigur
+                # bindet, loest das Gate NICHT aus (`_own_cid_to_pk` leer ->
+                # Gate aus; haelt `test_ux1_r7_dynamic_table_binding_
+                # 2026_10_06.py` gruen).
+                _leader_unsaved_bindable_save_shown = False
+                if self._is_leader:
+                    _own_cid_to_pk = {
+                        _cid: _pk for _cid, _pk in table.chrononaut_id_to_persona().items()
+                        if _pk == self._pid
+                    }
+                    if _own_cid_to_pk:
+                        # A2-Nachzug (02_ENGER_NACHZUG.md A2, LINUS-SPEC-N2.md):
+                        # ALLE bindbaren Eigen-Save-Bloecke im GESAMTEN offenen
+                        # Abschnitt (nicht nur "neue" Eintraege, NICHT nur der
+                        # JUENGSTE) -- ein spaeterer blosser Recap des bereits
+                        # uebernommenen Current darf einen FRUEHEREN, noch
+                        # nicht uebernommenen Eigenblock nicht verdraengen.
+                        # "bindbar" unveraendert dieselbe Regel wie der
+                        # Fallback in `domain.zeitriss.policy.build_save_
+                        # command_completion_fallback` (OHNE dessen
+                        # `is_save_command`-Bedingung): ein `harvest_from_
+                        # debrief`-Treffer gegen die AKTUELLEN Tisch-
+                        # Chrononauten, beschraenkt auf die eigene Figur.
+                        #
+                        # Regressionsfund (N1-Nachzug, test_savecompat_
+                        # model_backed_load_nonwallet.py): zwei bestehende,
+                        # vom Gate unabhaengige Mechanismen schreiben
+                        # ZUSAETZLICHE Eintraege mit demselben unveraenderten
+                        # bindbaren Entwurf in `table.sl_log`, OHNE dass der
+                        # Leader je eine neue eigene Aktion dazu eingegeben
+                        # hat:
+                        # (1) `core.save_correction.pursue_group_save_
+                        #     correction`s interne Korrekturrunden (`store.
+                        #     submit_to_sl` OHNE `origin_raw_input` -- anders
+                        #     als `core/runtime.py:act()`s einzigem
+                        #     Normalzug-Aufruf, der es IMMER mitgibt);
+                        # (2) die urspruengliche Antwort, die den Korrektur-
+                        #     zyklus erst ausgeloest hat -- erkennbar daran,
+                        #     dass IHR Inhalt bereits selbst ein echter
+                        #     Abschluss-/Korrekturversuch war (Marker-Treffer
+                        #     ODER explizites eigenes `!save`), auch wenn
+                        #     dieser Versuch am Ende scheiterte/erschoepfte.
+                        # Beide Faelle hat die Runtime bereits VOLLSTAENDIG
+                        # durch die bestehende Abschluss-/Korrekturpipeline
+                        # geschleust (Erfolg ODER erschoepfender Rueckfall auf
+                        # den bestehenden Kompatibilitaets-Export-/
+                        # Adoptionsweg, `_apply_pending_compat_load` --
+                        # dieselbe, vom `!save`-Normalweg unabhaengige, aber
+                        # ebenso echte Ingest-Autoritaet) -- kein `!save`
+                        # mehr noetig, keine Aenderung an `core/runtime.py`/
+                        # `save_correction.py` hier. Nur ein bindbarer
+                        # Eigen-Save aus einer ECHTEN `decide()`-Aktion, deren
+                        # EIGENE SL-Antwort NIE einen Abschluss-/Korrektur-
+                        # versuch ausgeloest hat, zaehlt daher fuer dieses
+                        # Gate -- exakt Fix-Ds belegte Ursache (der GM zeigt
+                        # einen Deepsave auf eine normale Aktion, OHNE dass
+                        # `completion_hit` je True wurde).
+                        _section_id_for_marker = f"{table.table_id}-section"
+                        # "Noch nicht uebernommen" = Ingest-Abgleich gegen die
+                        # bestehende Save-Autoritaet -- dieselbe Lesefunktion
+                        # wie `_build_resume_card`/`_resume_bound_table`
+                        # (`outer._resolve_active_save`, darunter `core.store.
+                        # load_current_save_or_raise`). Dieser Helfer ist
+                        # KEIN reiner Lesezugriff mehr (N2-Praezisierung,
+                        # 02_ENGER_NACHZUG.md "Zwei Formulierungen
+                        # praezisieren"): er ruft `_apply_pending_compat_load`
+                        # auf, das einen noch nicht adoptierten
+                        # Kompatibilitaetsumschlag bei Bedarf ADOPTIERT
+                        # (schreibt einen neuen Current). Fuer DIESES Gate nur
+                        # relevant als Lesequelle des aktuellen Currents, kein
+                        # neuer Auto-Ingest hier, kein Umbau dieses Helfers.
+                        _current_save, _unresolved = outer._resolve_active_save(self._pid, None)
+                        for _entry in sl_log:
+                            _raw_input = _entry.get("origin_raw_input")
+                            if _raw_input is None:
+                                continue
+                            _entry_content = _entry.get("content", "")
+                            if completion_marker_matches(
+                                _entry_content, COMPLETION_MARKER, table.table_id, _section_id_for_marker,
+                            ) or is_save_command(_raw_input):
+                                continue
+                            _hit = zeitriss_saves.harvest_from_debrief(
+                                _entry_content, _own_cid_to_pk,
+                            ).get(self._pid)
+                            if _hit is None:
+                                continue
+                            # A1-Nachzug (02_ENGER_NACHZUG.md A1, LINUS-SPEC-
+                            # N2.md): gleiche `save_id` beweist KEINE
+                            # Inhaltsgleichheit/Uebernahme -- ein GM-Block mit
+                            # UNVERAENDERTER save_id aber geaendertem Level/
+                            # Wallet ist nicht derselbe Stand wie der
+                            # tatsaechlich uebernommene Current. Voller
+                            # Inhaltsvergleich (nicht nur save_id) --
+                            # dieselbe Autoritaet, die der Ingest-Weg selbst
+                            # fuer "unveraendert" haelt (`core.store.
+                            # publish_current_save`s Idempotenz-Pruefung
+                            # `newest[1] == block`; analog `save_validation.
+                            # find_duplicate_save_ids`s `g != group[0]` fuer
+                            # "gleiche ID, ABWEICHENDER Inhalt"). Der echte
+                            # Current traegt dabei KEINE beim Ingest
+                            # zusaetzlich normalisierten/ergaenzten Felder
+                            # gegenueber dem rohen `harvest_from_debrief`-
+                            # Treffer (`core/store.py:_resume_and_harvest`
+                            # schreibt denselben, vom Aufrufer bereits
+                            # geernteten Block 1:1 weiter) -- der echte
+                            # d2-Positivfall (identischer Recap gleicher
+                            # save_id+Level) bleibt dadurch frei.
+                            # Un-ingestet/nicht lesbarer Current -> konservativ
+                            # wie un-ingestet behandelt (kein stiller
+                            # Freilauf, derselbe Vorsichtsgrundsatz wie der
+                            # bestehende `authority_unresolved`-Stopp in
+                            # `_cmd_menu_fortsetzen`).
+                            #
+                            # A2-Nachzug: sobald der ERSTE nicht-uebernommene
+                            # Eigen-Treffer gefunden ist, bleibt das Gate
+                            # armiert -- ein SPAETERER blosser Recap des
+                            # alten Current (weiter unten im `sl_log`) darf
+                            # diesen Fund nicht mehr zuruecknehmen.
+                            if _unresolved or _current_save is None or _current_save != _hit:
+                                _leader_unsaved_bindable_save_shown = True
+                                break
                 # R4 U4 (01_NACHZUG.md U4 Punkt 3, PLAYER-UX-REVIEW.md F4
                 # "feuert NACH beendetem Warten (Nachholanzeige), nicht
                 # waehrend offener Antwort"): die fruehere Zeitgedanke-Zeile
@@ -9663,21 +9808,61 @@ class TuiSession:
                     with io._terminal_read_lock:
                         io._host_terminal_claimed.set()
                         io._host_terminal_claim_owner = threading.current_thread()
-                try:
+                def _read_action_line() -> tuple[str, str | None]:
                     # R5 FIX1: `bypass_claim=True` -- dieser Read ist selbst
-                    # der privilegierte Claim-Halter (Claim oben gesetzt,
-                    # NICHT der wartende Gast-Loop); ohne Bypass wuerde er auf
-                    # seinen EIGENEN soeben gesetzten Claim warten (Deadlock).
-                    text, control = io._readline_with_controls(
-                        prompt,
-                        context=("Abschlussnotiz" if is_private_note else "Spielzug"),
-                        history=history, speaker_pid=self._pid, bypass_claim=True,
-                        is_leader=self._is_leader,
-                    )
-                finally:
+                    # der privilegierte Claim-Halter (Claim oben/im Retry
+                    # gesetzt, NICHT der wartende Gast-Loop); ohne Bypass
+                    # wuerde er auf seinen EIGENEN soeben gesetzten Claim
+                    # warten (Deadlock).
                     if claims_guest_terminal:
-                        io._host_terminal_claimed.clear()
-                        io._host_terminal_claim_owner = None
+                        with io._terminal_read_lock:
+                            io._host_terminal_claimed.set()
+                            io._host_terminal_claim_owner = threading.current_thread()
+                    try:
+                        return io._readline_with_controls(
+                            prompt,
+                            context=("Abschlussnotiz" if is_private_note else "Spielzug"),
+                            history=history, speaker_pid=self._pid, bypass_claim=True,
+                            is_leader=self._is_leader,
+                        )
+                    finally:
+                        if claims_guest_terminal:
+                            io._host_terminal_claimed.clear()
+                            io._host_terminal_claim_owner = None
+
+                text, control = _read_action_line()
+                # Fix D (LINUS-SPEC-FIXD.md, Flo-Entscheidung HART/Option A):
+                # ein bereits in DIESEM Lauf gezeigter, noch nicht gespeicherter
+                # bindbarer Save sperrt JEDE normale Folgeaktion des
+                # menschlichen Leaders (Praezision 5: NICHT die private Notiz,
+                # NICHT Gaeste) -- nur ein echtes `!save`/`!speichern` (laeuft
+                # unten normal in `completion_hit`/Ingest weiter, Praezision 4:
+                # dieses Gate speichert selbst NICHTS) oder eine Meta-
+                # Steuerzeile (`control` dann nicht mehr `None`, s.
+                # `_readline_with_controls`-Vertrag) kommt hier vorbei. Kein
+                # GM-/Modellaufruf, kein Zugverbrauch fuer die abgewiesene
+                # Eingabe -- dieselbe Prompt-Zeile wird einfach erneut
+                # abgefragt.
+                while (
+                    self._is_leader and not is_private_note
+                    and _leader_unsaved_bindable_save_shown
+                    and control is None and not is_save_command(text)
+                ):
+                    io._print(
+                        # R7-CI-Fix 2026-11-11: Wortwahl bewusst OHNE die
+                        # reservierten Erfolgs-/Bestaetigungswoerter
+                        # ("gespeichert"/"bestaetigt") -- diese Zeile ist eine
+                        # NICHT-Erfolgs-Warnung, kein Abschluss-Claim; der
+                        # R6P01-Negativ-Vertrag (test_ux1_r7_dynamic_table_binding)
+                        # verbietet genau jene Erfolgswoerter irgendwo in der
+                        # Ausgabe. Inhalt unveraendert klar: Stand NICHT uebernommen,
+                        # echter !save noetig.
+                        "Dieser Abschnitt ist abschlussbereit, aber der Stand wurde noch NICHT "
+                        "uebernommen. Dein Fortschritt (Level/CU/Talente) ist noch nicht gesichert. "
+                        "Schreibe !save bzw. !speichern (als alleinige Nachricht), um den Abschnitt "
+                        "zu sichern und zu schliessen."
+                    )
+                    text, control = _read_action_line()
                 if control in ("pause", "zurueck"):
                     # 02 §C: '/pause'/'/zurueck' waehrend eines offenen
                     # Abschnitts bedeuten Pause/Beenden, kein fachlicher
