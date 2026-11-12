@@ -790,7 +790,7 @@ anschließender `--sync`-Lauf sofort "synchron" meldet.
 Top-P oder Frequency werden dabei verworfen, nicht übernommen. Erhalten
 bleibt nur, was `--sync` nicht anfasst: `profile_image_url`,
 `description`, `suggestion_prompts` sowie die KB-Verknüpfung
-(`meta.knowledge`, die ohnehin an allen Varianten gespiegelt wird).
+(`meta.knowledge`, die ohnehin an den ausgewählten Varianten gespiegelt wird).
 
 ### Multi-Install
 

@@ -45,6 +45,16 @@ Tests:
   (5) test_a2_failed_delete_stops_batch_and_does_not_claim_false_success
   (6) test_reset_path_exact_kb_name_match_not_prefix_and_file_cleanup_scoped
 
+N1-A-Nachzug (SETUP_FINAL_REVIEW.md §3-§5, Preflight VOR erster Mutation):
+  (7) test_a1_unclear_knowledge_list_response_halts_before_any_mutation
+  (8) test_a1_sibling_confirmed_absent_via_404_continues_without_halt_or_relink
+  (9) test_a1_sibling_unrelated_knowledge_list_with_replaced_kb_continues_without_relink
+  (10) test_a1_sibling_read_error_halts_before_any_mutation
+  (11) test_a1_sibling_malformed_knowledge_field_halts_before_any_mutation
+  (12) test_a2_shared_file_id_in_target_and_protected_kb_is_preserved
+  (13) test_a2_unreadable_protected_kb_detail_preserves_candidate_file
+  (14) test_a3_failed_kb_removal_stops_before_file_deletion_and_preset_recreation
+
 Pure Python, nur `assert`, echter Exitcode, kein Docker/Netzwerk.
 """
 from __future__ import annotations
@@ -122,7 +132,10 @@ class _SetupHttpDouble:
 
     def __init__(self, *, knowledge=None, files=None, models=None,
                  new_kb_id="kb-new-1", files_pages=None,
-                 fail_delete_file_ids=None, fail_update_model_ids=None):
+                 fail_delete_file_ids=None, fail_update_model_ids=None,
+                 knowledge_list_response=None, knowledge_files=None,
+                 unreadable_knowledge_detail_ids=None,
+                 fail_delete_knowledge_ids=None, model_read_error_ids=None):
         self.knowledge = {kb["id"]: dict(kb) for kb in (knowledge or [])}
         self.files = {f["id"]: dict(f) for f in (files or [])}
         # `models` ist ein dict id -> Preset-Payload (nicht eine Liste --
@@ -135,6 +148,23 @@ class _SetupHttpDouble:
         self.files_pages = files_pages
         self.fail_delete_file_ids = set(fail_delete_file_ids or [])
         self.fail_update_model_ids = set(fail_update_model_ids or [])
+        # WP-N1-A1: optionaler Override der KB-LISTEN-Antwort (nicht der
+        # einzelnen Detailantwort), um einen unlesbaren/formfalschen
+        # `list_knowledge()`-Read zu simulieren -- (code, body)-Tupel.
+        self.knowledge_list_response = knowledge_list_response
+        # WP-N1-A2: kb_id -> Liste von File-IDs, die `GET /knowledge/{id}`
+        # fuer DIESE KB als `files` zurueckgibt (die einzige Quelle fuer
+        # eine Mehrfachzugehoerigkeit jenseits von `meta.collection_name`).
+        # Eine hier NICHT gelistete KB antwortet mit einer bestaetigten
+        # LEEREN Liste (Default -- die meisten Tests brauchen keine
+        # Sharing-Simulation); `unreadable_knowledge_detail_ids` simuliert
+        # stattdessen den dokumentierten `files: null`-Bug.
+        self.knowledge_files = {kid: list(v) for kid, v in (knowledge_files or {}).items()}
+        self.unreadable_knowledge_detail_ids = set(unreadable_knowledge_detail_ids or [])
+        self.fail_delete_knowledge_ids = set(fail_delete_knowledge_ids or [])
+        # WP-N1-A1: Model-IDs, deren `get_model()`-Read einen echten
+        # Lesefehler (HTTP 500) simulieren statt eines bestaetigten 404.
+        self.model_read_error_ids = set(model_read_error_ids or [])
 
         self.deleted_knowledge_ids: list[str] = []
         self.reset_vector_calls: list[str] = []
@@ -157,10 +187,25 @@ class _SetupHttpDouble:
         if method == "GET" and path == "/api/models":
             return 200, b'{"data": []}'
         if method == "GET" and path == "/api/v1/knowledge/":
+            if self.knowledge_list_response is not None:
+                return self.knowledge_list_response
             items = list(self.knowledge.values())
             return 200, json.dumps({"items": items, "total": len(items)}).encode()
+        if method == "GET" and path.startswith("/api/v1/knowledge/") and path != "/api/v1/knowledge/" and (
+            not path.endswith("/delete")
+        ):
+            # WP-N1-A2: Detail-Read EINER KB (`get_knowledge_files`) --
+            # unterschieden von der Listen-Antwort oben (`.../knowledge/`
+            # ohne Suffix) und vom DELETE-Pfad (eigener `method`-Zweig).
+            kb_id = urllib.parse.unquote(path[len("/api/v1/knowledge/"):])
+            if kb_id in self.unreadable_knowledge_detail_ids:
+                return 500, b'{"detail": "internal error"}'
+            member_ids = self.knowledge_files.get(kb_id, [])
+            return 200, json.dumps({"id": kb_id, "files": member_ids}).encode()
         if method == "DELETE" and path.startswith("/api/v1/knowledge/") and path.endswith("/delete"):
             kb_id = path.split("/")[-2]
+            if kb_id in self.fail_delete_knowledge_ids:
+                return 500, b'{"detail": "internal error"}'
             self.knowledge.pop(kb_id, None)
             self.deleted_knowledge_ids.append(kb_id)
             return 200, b"{}"
@@ -205,6 +250,8 @@ class _SetupHttpDouble:
             raw = path[len("/api/v1/models/model?id="):]
             model_id = urllib.parse.unquote(raw)
             self.get_model_calls.append(model_id)
+            if model_id in self.model_read_error_ids:
+                return 500, b'{"detail": "internal error"}'
             m = self.models.get(model_id)
             if m is None:
                 return 404, b'{"detail": "not found"}'
@@ -267,6 +314,24 @@ def _run_reset(tmp: Path, http: _SetupHttpDouble, cfg: dict, opts: dict):
 
 
 _OPTS = {"assume_yes": True, "no_verify": True, "variants": ["default"]}
+
+
+def _assert_zero_writes(http: _SetupHttpDouble, out: str) -> None:
+    """WP-N1-A1: ein kontrollierter Halt vor der ersten Mutation bedeutet
+    NULL Einträge im VOLLSTÄNDIGEN Mutationsledger -- nicht nur
+    `deleted_file_ids`. Der General-Review (SETUP_FINAL_REVIEW.md §5)
+    kritisiert genau das: ein Testname "Halt vor Löschung", der nur eine
+    einzelne letzte Löschfunktion beobachtet, bestätigt den WEITERLAUFENDEN
+    Ablauf statt ihn zu widerlegen."""
+    assert http.deleted_model_ids == [], f"kein Preset-Delete:\n{out}"
+    assert http.deleted_knowledge_ids == [], f"kein KB-Delete:\n{out}"
+    assert http.reset_vector_calls == [], f"kein Vektor-Reset:\n{out}"
+    assert http.deleted_file_ids == [], f"kein Datei-Delete:\n{out}"
+    assert http.delete_file_attempts == [], f"kein Datei-Delete-Versuch:\n{out}"
+    assert http.uploaded_files == [], f"kein Upload:\n{out}"
+    assert http.linked_files == [], f"kein Link:\n{out}"
+    assert http.created_model_payloads == [], f"keine Preset-Neuanlage:\n{out}"
+    assert http.update_model_payloads == [], f"kein Preset-Update:\n{out}"
 
 
 # ── (1)/(2): A1 — KB-Link-Nachzug nur bei nachweislicher Zugehörigkeit ──
@@ -388,7 +453,17 @@ def test_a2_incomplete_file_list_halts_before_destructive_delete():
     """Ein HTTP-Fehler auf der ersten Seite von `list_files()` lässt
     `last_files_complete` False -- eine leere/unvollständige Liste ist KEIN
     Sicherheitsbeleg für "keine Kollision" und darf den Löschpfad nicht
-    freigeben. Erwartet: KEINE Datei wird gelöscht, klare Meldung."""
+    freigeben.
+
+    WP-N1-A1 (General-Review SETUP_FINAL_REVIEW.md §5, Zeilen 66-74): die
+    URSPRÜNGLICHE Fassung dieses Tests verlangte nur `exited in (None, 0)`
+    und `deleted_file_ids == []` -- das bestätigt nur, dass die explizite
+    Dateischleife übersprungen wird, NICHT dass Preset-/KB-Deletes und
+    anschließende Create-/Upload-/Link-Schritte ebenfalls unterbleiben.
+    Jetzt mit dem vorgezogenen Preflight: ein unklarer Dateibestand stoppt
+    VOR der ersten Mutation -- `run_setup` bricht mit exit(1) ab, und der
+    GESAMTE Mutationsledger bleibt leer (kein einziger Preset-/KB-/Datei-
+    Write, keine Preset-Neuanlage)."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp, filenames=("a.md",))
@@ -399,10 +474,8 @@ def test_a2_incomplete_file_list_halts_before_destructive_delete():
             new_kb_id="kb-new-1",
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
-        assert exited in (None, 0), f"run_setup brach unerwartet ab: exited={exited}\n{out}"
-        assert http.deleted_file_ids == [], (
-            "ein unvollständiger/unklarer Dateibestands-Read darf KEINE Löschung auslösen"
-        )
+        assert exited == 1, f"ein unklarer Dateibestand muss VOR jeder Mutation hart abbrechen: exited={exited}\n{out}"
+        _assert_zero_writes(http, out)
         assert "unklar" in out.lower() or "unvollständig" in out.lower(), out
 
 
@@ -481,6 +554,252 @@ def test_reset_path_exact_kb_name_match_not_prefix_and_file_cleanup_scoped():
             "global gelöscht werden"
         )
         assert "f-decoy" in http.files
+
+
+def test_reset_path_unclear_file_list_halts_before_any_mutation():
+    """WP-N1-A1 im `run_reset`-Pfad: derselbe Vorabentscheid wie in
+    `run_setup` -- ein unklarer Dateibestand muss VOR dem ersten
+    Preset-Delete abbrechen, nicht erst nach KB-/Preset-Löschung mit
+    bloßer Warnung weiterlaufen (der alte Reihenfolgefehler, SETUP_FINAL_
+    REVIEW.md §3: "`run_reset`... Presetlöschung und KB-/Vektorlöschung
+    kommen vor der Dateiinventur")."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            files=[{"id": "f-real", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}}],
+            files_pages=[(500, b"server error")],
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, f"ein unklarer Dateibestand muss run_reset VOR jeder Mutation abbrechen: exited={exited}\n{out}"
+        assert http.deleted_model_ids == [], "kein Preset-Delete vor dem Halt"
+        assert http.deleted_knowledge_ids == [], "kein KB-Delete vor dem Halt"
+        assert http.deleted_file_ids == [], "kein Datei-Delete vor dem Halt"
+        assert "kb-real-1" in http.knowledge, "die KB bleibt unangetastet"
+
+
+def test_reset_path_shared_file_id_in_protected_kb_is_preserved():
+    """WP-N1-A2 im `run_reset`-Pfad: derselbe Schutz-Check wie in
+    `run_setup` -- eine File-ID, die laut `GET /knowledge/{id}` auch von
+    einer fremden, nicht zu entfernenden KB mitgeführt wird, bleibt
+    erhalten, der Rest des Resets (Preset-/KB-Entfernung, danach
+    Full-Rebuild via `run_setup`) läuft normal weiter."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[
+                {"id": "kb-real-1", "name": _KB_NAME},
+                {"id": "kb-protected-1", "name": "Fremdes Projekt KB"},
+            ],
+            files=[{"id": "f-shared", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}}],
+            knowledge_files={"kb-protected-1": ["f-shared"]},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"exited={exited}\n{out}"
+        assert "f-shared" not in http.deleted_file_ids, (
+            "eine auch von einer fremden KB mitgeführte File-ID darf NICHT global gelöscht werden"
+        )
+        assert "f-shared" in http.files
+        assert "kb-real-1" in http.deleted_knowledge_ids, "die eigene KB wird trotzdem normal entfernt"
+
+
+# ── (7)-(14): N1-A-Nachzug -- Preflight VOR erster Mutation ─────────────
+# (SETUP_FINAL_REVIEW.md §3-§5): Sibling- und Datei-Zugehörigkeit müssen
+# VOR Preset-/KB-/Datei-Deletes bestimmt sein; unklare Lage -> kontrollierter
+# Halt mit NULL Writes im GESAMTEN Mutationsledger, nicht nur bei der
+# letzten Dateischleife.
+
+def test_a1_unclear_knowledge_list_response_halts_before_any_mutation():
+    """`list_knowledge()` selbst liefert einen formfalschen Körper (kein
+    `items`-Feld) -- das ist genauso unklar wie ein HTTP-Fehler und darf
+    den destruktiven Pfad NICHT freigeben. Muss VOR dem ersten Preset-
+    Delete abbrechen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge_list_response=(200, b'{"detail": "unexpected shape"}'),
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, f"ein formfalscher KB-Listen-Körper muss hart abbrechen: exited={exited}\n{out}"
+        _assert_zero_writes(http, out)
+        assert "unklar" in out.lower() or "nicht lesbar" in out.lower(), out
+
+
+def test_a1_sibling_confirmed_absent_via_404_continues_without_halt_or_relink():
+    """Eine ersetzte KB (`old_kb_ids` nicht leer) UND ein Sibling-Preset,
+    das schlicht NICHT installiert ist (bestätigtes HTTP 404) -- das ist
+    KEIN Lesefehler und darf den Lauf NICHT anhalten. Unterscheidet sich
+    von Test (10): dort ist 404 durch einen echten 500er ersetzt."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={},  # p-sibling bewusst NICHT vorhanden -> echtes 404
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"ein bestätigt abwesendes Sibling darf NICHT anhalten: exited={exited}\n{out}"
+        assert "p-sibling" in http.get_model_calls, "die Abwesenheit muss tatsächlich GEPRÜFT worden sein"
+        assert not any(p.get("id") == "p-sibling" for p in http.update_model_payloads), (
+            "ein nicht installiertes Sibling bekommt keinen Nachzugs-Update-Call"
+        )
+
+
+def test_a1_sibling_unrelated_knowledge_list_with_replaced_kb_continues_without_relink():
+    """Eine ersetzte KB UND ein installiertes Sibling mit einer vollständig
+    gelesenen, aber KOMPLETT UNBETEILIGTEN `meta.knowledge`-Liste (0 Treffer
+    auf `old_kb_ids`) -- eindeutig fremd, vollständig gelesen, darf
+    übersprungen werden, OHNE anzuhalten und OHNE Update."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            "meta": {"knowledge": [{"id": "kb-fully-unrelated", "name": "X", "type": "collection"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-sibling": sibling_preset},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"ein eindeutig fremdes Sibling darf NICHT anhalten: exited={exited}\n{out}"
+        assert not any(p.get("id") == "p-sibling" for p in http.update_model_payloads)
+        assert http.models["p-sibling"]["meta"]["knowledge"] == [
+            {"id": "kb-fully-unrelated", "name": "X", "type": "collection"}
+        ], "das unbeteiligte Sibling bleibt vollständig unverändert"
+
+
+def test_a1_sibling_read_error_halts_before_any_mutation():
+    """Ein installiertes Sibling, dessen `get_model()`-Read einen ECHTEN
+    Lesefehler liefert (HTTP 500, nicht 404) -- `get_model()==None` bedeutet
+    hier "Lesefehler", NICHT "nicht installiert". Muss VOR jeder Mutation
+    (inkl. Preset-Delete der gewählten Variante) abbrechen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            model_read_error_ids={"p-sibling"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, f"ein Lesefehler beim Sibling-Preset muss hart abbrechen: exited={exited}\n{out}"
+        _assert_zero_writes(http, out)
+
+
+def test_a1_sibling_malformed_knowledge_field_halts_before_any_mutation():
+    """Ein installiertes Sibling, dessen `meta.knowledge` KEINE Liste ist
+    (z.B. ein String oder fehlt) -- das ist KEIN Zugehörigkeitsbeweis für
+    "unverwandt" und darf NICHT stillschweigend übersprungen werden
+    (genau der in SETUP_FINAL_REVIEW.md §3 belegte alte Fehler). Muss VOR
+    jeder Mutation abbrechen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            "meta": {"knowledge": "not-a-list"},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-sibling": sibling_preset},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, f"ein formfalsches meta.knowledge muss hart abbrechen: exited={exited}\n{out}"
+        _assert_zero_writes(http, out)
+
+
+def test_a2_shared_file_id_in_target_and_protected_kb_is_preserved():
+    """Dieselbe File-ID (`f-shared`) ist laut `meta.collection_name` Teil
+    der zu ersetzenden Ziel-KB (`kb-old-1`), wird aber laut `GET /knowledge/
+    {id}` auch von einer fremden, NICHT entfernten Schutz-KB
+    (`kb-protected-1`) tatsächlich mitgeführt. `collection_name` allein
+    beweist keine Exklusivität -- die Datei muss erhalten bleiben, der
+    Rest des Rebuilds läuft normal weiter (kein globaler Halt, nur ein
+    einzelnes geschütztes Objekt)."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[
+                {"id": "kb-old-1", "name": _KB_NAME},
+                {"id": "kb-protected-1", "name": "Fremdes Projekt KB"},
+            ],
+            files=[{"id": "f-shared", "filename": "a.md", "meta": {"collection_name": "kb-old-1"}}],
+            knowledge_files={"kb-protected-1": ["f-shared"]},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"ein einzelnes geschütztes Objekt darf den Rebuild nicht global stoppen: exited={exited}\n{out}"
+        assert "f-shared" not in http.deleted_file_ids, (
+            "eine auch von einer fremden KB mitgeführte File-ID darf NICHT global gelöscht werden"
+        )
+        assert "f-shared" in http.files, "Inhalt + Schutzbeziehung bleiben erhalten"
+        assert "kb-old-1" in http.deleted_knowledge_ids, "die eigene Ziel-KB wird trotzdem normal ersetzt"
+
+
+def test_a2_unreadable_protected_kb_detail_preserves_candidate_file():
+    """Wie (12), aber die fremde KB antwortet auf `GET /knowledge/{id}`
+    unlesbar (HTTP 500, simuliert den dokumentierten `files: null`-Bug) --
+    Exklusivität ist damit NICHT belegbar. Konservativ: die Kandidaten-
+    Datei bleibt ebenfalls erhalten, statt eine Leerliste zu unterstellen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[
+                {"id": "kb-old-1", "name": _KB_NAME},
+                {"id": "kb-protected-1", "name": "Fremdes Projekt KB"},
+            ],
+            files=[{"id": "f-maybe-shared", "filename": "a.md", "meta": {"collection_name": "kb-old-1"}}],
+            unreadable_knowledge_detail_ids={"kb-protected-1"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"exited={exited}\n{out}"
+        assert "f-maybe-shared" not in http.deleted_file_ids, (
+            "unbelegbare Exklusivität einer fremden KB muss konservativ erhalten, nicht geraten werden"
+        )
+        assert "f-maybe-shared" in http.files
+
+
+def test_a3_failed_kb_removal_stops_before_file_deletion_and_preset_recreation():
+    """`delete_knowledge()` schlägt für die zu entfernende KB konkret fehl
+    (HTTP 500) -- das darf NICHT als gelungene Ersetzung durchlaufen. Keine
+    Dateilöschung, keine neue KB, kein neues Preset -- enger Teilfehler.
+    Das Preset-Aufräumen der GEWÄHLTEN Variante selbst (eigener, unabhängig
+    bestehender Mutationsschritt) läuft normal weiter."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            files=[{"id": "f-old-A", "filename": "a.md", "meta": {"collection_name": "kb-old-1"}}],
+            fail_delete_knowledge_ids={"kb-old-1"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, f"eine fehlgeschlagene KB-Entfernung muss hart abbrechen: exited={exited}\n{out}"
+        assert "kb-old-1" not in http.deleted_knowledge_ids, "die KB-Entfernung ist tatsächlich fehlgeschlagen"
+        assert http.delete_file_attempts == [], (
+            "nach fehlgeschlagener KB-Entfernung darf KEINE Dateilöschung versucht werden"
+        )
+        assert http.created_model_payloads == [], "keine neue Preset-Anlage auf Basis einer nur angenommenen Ersetzung"
+        assert http.uploaded_files == [] and http.linked_files == []
+        assert "abgebrochen" in out.lower(), out
 
 
 def main() -> int:
