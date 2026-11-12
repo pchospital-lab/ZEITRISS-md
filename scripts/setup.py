@@ -3995,13 +3995,21 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         else:
             print_warn(f"Preset '{preset_id}' konnte nicht entfernt werden (fährt trotzdem fort).")
 
-    # 3) Alle KBs mit dem Projekt-Namen (meist genau eine) — inklusive Vektoren.
-    kb_name_prefix = project  # KB-Name == project in run_setup
+    # 3) Die KB mit dem tatsächlichen Projekt-KB-Namen (identisch zu
+    #    `run_setup`s `kb_name`-Berechnung, meist genau eine) — inklusive
+    #    Vektoren.
+    # WP-P2-A2: exakte Namensgleichheit statt `startswith(project)` -- ein
+    # reiner Projektpräfix-Match würde auch fremde KBs mit ähnlichem Namen
+    # (z.B. eine Test-KB "<Projekt>-P1-Test") als "projektzugehörig"
+    # einstufen und mitreißen. `project` selbst ist nur der Default-
+    # Teilstring dieses Namens, keine eigenständige Identität.
+    kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
     removed_kbs = 0
+    removed_kb_ids: set[str] = set()
     try:
         for kb in client.list_knowledge():
             name = kb.get("name") or ""
-            if name == kb_name_prefix or name.startswith(kb_name_prefix):
+            if name == kb_name:
                 kb_id = kb.get("id")
                 if not kb_id:
                     continue
@@ -4010,6 +4018,7 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 client.reset_kb_vectors(kb_id)
                 if client.delete_knowledge(kb_id):
                     removed_kbs += 1
+                    removed_kb_ids.add(kb_id)
     except Exception as e:
         print_warn(f"Fehler beim KB-Abräumen: {e.__class__.__name__}: {e}")
     if removed_kbs:
@@ -4017,19 +4026,50 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     else:
         print_info("Keine projektzugehörige KB gefunden — übersprungen.")
 
-    # 4) Files mit den Wissensdatei-Namen dieses Projekts kürzen.
-    try:
-        kb_files = discover_knowledge_files(repo, cfg)
-        our_filenames = {fp.name for fp in kb_files}
-        old_files = [
-            f for f in client.list_files() if f.get("filename") in our_filenames
-        ]
-        if old_files:
-            for f in old_files:
-                client.delete_file(f["id"])
-            print_ok(f"{len(old_files)} alte Projekt-Dateien entfernt.")
-    except Exception as e:
-        print_warn(f"Fehler beim File-Abräumen: {e.__class__.__name__}: {e}")
+    # 4) Files, die NACHWEISLICH zu einer der gerade entfernten KBs gehörten
+    #    (`meta.collection_name`), NICHT über einen globalen Dateinamen-
+    #    Match -- sonst reißt ein gleichnamiges File einer FREMDEN KB (z.B.
+    #    eines parallelen Test-Setups auf derselben Instanz) mit. Nur wenn
+    #    `list_files()` nachweislich vollständig gelesen wurde
+    #    (`last_files_complete`) -- eine unvollständige/unklare Antwort ist
+    #    KEIN Sicherheitsbeleg für "keine Kollision" und stoppt den
+    #    destruktiven Pfad.
+    if removed_kb_ids:
+        try:
+            kb_files = discover_knowledge_files(repo, cfg)
+            our_filenames = {fp.name for fp in kb_files}
+            all_files = client.list_files()
+            files_complete = getattr(client, "last_files_complete", True)
+            if isinstance(all_files, list) and files_complete:
+                old_files = [
+                    f for f in all_files
+                    if f.get("filename") in our_filenames
+                    and (f.get("meta") or {}).get("collection_name") in removed_kb_ids
+                ]
+                if old_files:
+                    # WP-P2-A2: wie in run_setup -- realen Loescherfolg je
+                    # Datei pruefen, bei Fehlschlag Batch abbrechen, kein
+                    # pauschales Erfolgsschild fuer nicht entfernte Dateien.
+                    removed = 0
+                    for f in old_files:
+                        if not client.delete_file(f["id"]):
+                            print_warn(
+                                f"Datei '{f.get('filename', f['id'])}' (ID {f['id']}) konnte "
+                                "nicht entfernt werden — weitere Löschungen in diesem Batch "
+                                "abgebrochen."
+                            )
+                            break
+                        removed += 1
+                    if removed:
+                        suffix = f" (von {len(old_files)})" if removed < len(old_files) else ""
+                        print_ok(f"{removed} alte Projekt-Datei(en) entfernt{suffix}.")
+            else:
+                print_warn(
+                    "Dateibestand von OpenWebUI unvollständig/unklar gelesen — alte "
+                    "Projekt-Dateien NICHT automatisch entfernt (sicherer Halt)."
+                )
+        except Exception as e:
+            print_warn(f"Fehler beim File-Abräumen: {e.__class__.__name__}: {e}")
 
     # 5) Lokales Sync-Manifest löschen (sonst versucht `--sync` später inkrementell
     #    gegen tote IDs zu mergen).
@@ -4198,6 +4238,12 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     existing_kbs = [
         kb for kb in client.list_knowledge() if kb.get("name") == kb_name
     ]
+    # WP-P2-A1: KB-IDs binden, die dieser Lauf tatsächlich ersetzt -- die
+    # "other_vks"-Nachzugslogik weiter unten darf NUR Nebenvarianten
+    # anfassen, deren meta.knowledge auf GENAU eine dieser IDs zeigt (leere
+    # Menge bei Erstinstallation einer neuen KB -> kein Nachzug).
+    old_kb_ids = {kb["id"] for kb in existing_kbs if kb.get("id")}
+
     if existing_kbs:
         print_info(f"{len(existing_kbs)} bestehende KB(s) entfernen...")
         for kb in existing_kbs:
@@ -4210,16 +4256,54 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 client.reset_kb_vectors(kb["id"])
             client.delete_knowledge(kb["id"])
 
-        # Clean up old files matching our filenames
+        # WP-P2-A2: Dateien nur löschen, wenn sie NACHWEISLICH zu einer der
+        # gerade entfernten KBs gehörten (`meta.collection_name` in
+        # `old_kb_ids`) -- ein reiner Dateiname-Match über ALLE Files einer
+        # Instanz würde gleichnamige Dateien FREMDER KBs mitreißen. Vor
+        # diesem destruktiven Schritt muss `list_files()` nachweislich
+        # vollständig gelesen sein (`last_files_complete`); eine leere/
+        # unvollständige Liste ist KEIN Sicherheitsbeleg für "keine
+        # Kollision" und darf den Lösch-Pfad nicht freigeben.
         our_filenames = {fp.name for fp in kb_files}
-        old_files = [
-            f for f in client.list_files() if f.get("filename") in our_filenames
-        ]
-        if old_files:
-            print_info(f"{len(old_files)} alte Dateien aufräumen...")
-            for f in old_files:
-                client.delete_file(f["id"])
-            print_ok(f"{len(old_files)} alte Dateien entfernt")
+        try:
+            all_files = client.list_files()
+        except Exception as e:
+            all_files = None
+            print_warn(
+                f"Dateibestand von OpenWebUI nicht lesbar ({e.__class__.__name__}: {e}) — "
+                "alte Dateien NICHT automatisch entfernt (sicherer Halt)."
+            )
+        files_complete = getattr(client, "last_files_complete", True)
+        if isinstance(all_files, list) and files_complete:
+            old_files = [
+                f for f in all_files
+                if f.get("filename") in our_filenames
+                and (f.get("meta") or {}).get("collection_name") in old_kb_ids
+            ]
+            if old_files:
+                print_info(f"{len(old_files)} alte Dateien aufräumen...")
+                # WP-P2-A2: realen Loescherfolg je Datei pruefen -- bei einem
+                # Fehlschlag KEINE weiteren Loeschungen in diesem Batch
+                # blind fortsetzen und KEIN pauschales Erfolgsschild fuer
+                # tatsaechlich nicht entfernte Dateien ausgeben.
+                removed = 0
+                for f in old_files:
+                    if not client.delete_file(f["id"]):
+                        print_warn(
+                            f"Datei '{f.get('filename', f['id'])}' (ID {f['id']}) konnte nicht "
+                            "entfernt werden — weitere Löschungen in diesem Batch abgebrochen."
+                        )
+                        break
+                    removed += 1
+                if removed:
+                    suffix = f" (von {len(old_files)})" if removed < len(old_files) else ""
+                    print_ok(f"{removed} alte Datei(en) entfernt{suffix}")
+        elif all_files is not None:
+            print_warn(
+                "Dateibestand von OpenWebUI unvollständig/unklar gelesen (HTTP-Fehler, "
+                "formfalscher Körper oder abgebrochene Pagination) — alte Dateien NICHT "
+                "automatisch entfernt (sicherer Halt). Bei Bedarf manuell in OpenWebUI prüfen."
+            )
 
     # Create new KB
     kb_id = client.create_knowledge(kb_name, kb_desc)
@@ -4392,36 +4476,71 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # nach — Masterprompt/Params/Capabilities der Fremdvariante bleiben unangetastet,
     # damit bewusster Drift des Nutzers (z.B. manuell geändertes Base-Model) erhalten
     # bleibt.
+    #
+    # WP-P2-A1: NUR nachziehen, wenn dieser Lauf wirklich eine alte KB ersetzt
+    # hat (`old_kb_ids` nicht leer) UND das Preset der Nebenvariante GENAU
+    # EINEN `knowledge`-Eintrag auf GENAU eine dieser ersetzten alten IDs
+    # trägt. Bei Erstinstallation einer neuen KB (keine ersetzte alte KB)
+    # bleibt JEDES fremde Preset unangetastet — sonst würde ein produktives
+    # Schwesterpreset (anderes Projekt/andere KB) ungefragt auf die neue KB
+    # umgebogen. Mehrdeutige Treffer (0 oder >1 passende Einträge, oder
+    # `meta.knowledge` fehlt/ist keine Liste) sind KEIN Zugehörigkeitsbeweis
+    # -- hier wird abgebrochen (dieses eine Preset übersprungen), nicht
+    # geraten. Nur der treffende Link-Eintrag wird ersetzt, der Rest der
+    # Liste sowie alle anderen meta/params-Felder bleiben unverändert.
     other_vks = [vk for vk in cfg["variants"] if vk not in variant_keys]
-    for vk in other_vks:
-        v = cfg["variants"][vk]
-        v_pid = v["preset_id"]
-        existing = client.get_model(v_pid)
-        if existing is None:
-            continue  # nicht installiert — nichts nachzuziehen
-        remote_meta = dict(existing.get("meta") or {})
-        remote_meta["knowledge"] = [{"id": kb_id, "name": kb_name, "type": "collection"}]
-        payload = {
-            "id": v_pid,
-            "name": existing.get("name") or v["preset_name"],
-            "base_model_id": existing.get("base_model_id"),
-            "meta": remote_meta,
-            "params": existing.get("params") or {},
-        }
-        # Direktes Update statt upsert_model(): Letzteres prüft Existenz über
-        # /api/models (nur LIVE Base-Models). Eine installierte Nebenvariante,
-        # deren Base-Model gerade nicht geroutet ist (typisch für die Budget-
-        # Variante), fehlt dort — upsert würde dann fälschlich `create` auf eine
-        # existierende ID versuchen und scheitern. get_model oben hat die Existenz
-        # bereits autoritativ bestätigt, also updaten wir direkt (idempotent).
-        code, _ = client.post_json("/api/v1/models/model/update", payload)
-        if code == 200:
-            print_ok(f"Variante '{vk}': bestehenden KB-Link auf neue KB nachgezogen.")
-        else:
-            print_warn(
-                f"Variante '{vk}': KB-Link-Nachzug fehlgeschlagen (HTTP {code}) — bitte "
-                f"'python scripts/setup.py --all-variants' laufen lassen."
+    if not old_kb_ids:
+        if other_vks:
+            print_info(
+                "Neue Knowledge Base (keine vorherige KB ersetzt) — keine "
+                "Nebenvarianten-Links nachgezogen."
             )
+    else:
+        for vk in other_vks:
+            v = cfg["variants"][vk]
+            v_pid = v["preset_id"]
+            existing = client.get_model(v_pid)
+            if existing is None:
+                continue  # nicht installiert, oder Lesefehler — nichts nachzuziehen
+            remote_meta = dict(existing.get("meta") or {})
+            knowledge = remote_meta.get("knowledge")
+            if not isinstance(knowledge, list):
+                continue  # kein/unklares knowledge-Feld — nichts Zuordenbares
+            matching_idx = [
+                i for i, entry in enumerate(knowledge)
+                if isinstance(entry, dict) and entry.get("id") in old_kb_ids
+            ]
+            if len(matching_idx) != 1:
+                # 0 Treffer: Preset hing nie an einer der ersetzten KBs —
+                # unverwandt, nicht anfassen. >1 Treffer: mehrdeutig, nicht
+                # raten.
+                continue
+            new_knowledge = list(knowledge)
+            new_knowledge[matching_idx[0]] = {
+                "id": kb_id, "name": kb_name, "type": "collection",
+            }
+            remote_meta["knowledge"] = new_knowledge
+            payload = {
+                "id": v_pid,
+                "name": existing.get("name") or v["preset_name"],
+                "base_model_id": existing.get("base_model_id"),
+                "meta": remote_meta,
+                "params": existing.get("params") or {},
+            }
+            # Direktes Update statt upsert_model(): Letzteres prüft Existenz über
+            # /api/models (nur LIVE Base-Models). Eine installierte Nebenvariante,
+            # deren Base-Model gerade nicht geroutet ist (typisch für die Budget-
+            # Variante), fehlt dort — upsert würde dann fälschlich `create` auf eine
+            # existierende ID versuchen und scheitern. get_model oben hat die Existenz
+            # bereits autoritativ bestätigt, also updaten wir direkt (idempotent).
+            code, _ = client.post_json("/api/v1/models/model/update", payload)
+            if code == 200:
+                print_ok(f"Variante '{vk}': bestehenden KB-Link auf neue KB nachgezogen.")
+            else:
+                print_warn(
+                    f"Variante '{vk}': KB-Link-Nachzug fehlgeschlagen (HTTP {code}) — bitte "
+                    f"'python scripts/setup.py --all-variants' laufen lassen."
+                )
 
     # ── Sync-Manifest schreiben (für spätere --sync-Läufe) ──────────────────
     # Nach erfolgreichem Full-Setup ist Masterprompt synchron und alle

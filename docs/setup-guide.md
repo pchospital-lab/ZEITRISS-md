@@ -781,11 +781,16 @@ Richtig in folgenden Fällen:
 Der Full-Rebuild schreibt am Ende automatisch das Manifest, sodass ein
 anschließender `--sync`-Lauf sofort "synchron" meldet.
 
-### Manuelle Tweaks im Preset bleiben erhalten
+### Manuelle Tweaks in `params` werden zurückgesetzt
 
-`--sync` patcht nur den System-Prompt (Masterprompt). Wenn ihr in
-OpenWebUI manuell Temperature, Top-P oder Frequency geändert habt,
-bleiben diese Werte unberührt.
+`--sync` patcht je betroffener Variante den kompletten `params`-Block
+(System-Prompt/Masterprompt, `temperature`/`max_tokens` aus `setup.json`,
+`reasoning_effort`) UND `meta.capabilities` auf den Golden-Zustand aus
+`setup.json` — manuell in OpenWebUI geänderte Werte wie Temperature,
+Top-P oder Frequency werden dabei verworfen, nicht übernommen. Erhalten
+bleibt nur, was `--sync` nicht anfasst: `profile_image_url`,
+`description`, `suggestion_prompts` sowie die KB-Verknüpfung
+(`meta.knowledge`, die ohnehin an allen Varianten gespiegelt wird).
 
 ### Multi-Install
 
@@ -1408,11 +1413,13 @@ und instabil zwischen Versionen). Der Golden-Block in `setup.json` (Top-Level
 deterministisch und wird bei jedem `python scripts/setup.py`-Lauf gesetzt —
 egal ob das Preset dabei neu angelegt (Create) oder bereits existiert
 (Update); `upsert_model` baut in beiden Fällen denselben Payload.
-**Ausnahme:** `--sync` (inkrementeller Modus) patcht ausschließlich
-`params.system` (Masterprompt-Text) am bestehenden Remote-Preset und lässt
-Capabilities/übrige Params unangetastet — für eine Golden-Setup-Korrektur an
-einem bereits laufenden Preset ist ein normaler `setup.py`-Lauf (ohne
-`--sync`) nötig.
+**Auch im inkrementellen Modus:** `--sync` patcht am bestehenden
+Remote-Preset nicht nur `params.system` (Masterprompt-Text), sondern den
+kompletten `params`-Block (inkl. `temperature`/`max_tokens`/
+`reasoning_effort` aus `setup.json`) UND `meta.capabilities` auf diesen
+Golden-Zustand — eine Capability- oder Param-Korrektur erreicht ein
+bereits laufendes Preset also auch über `--sync`, ein normaler
+`setup.py`-Lauf (ohne `--sync`) ist dafür nicht zwingend nötig.
 
 ### Sicherheit
 
