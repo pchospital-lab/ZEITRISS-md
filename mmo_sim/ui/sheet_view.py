@@ -46,14 +46,28 @@ from . import rendering
 NOT_SAVED = "nicht gespeichert"
 DASH = "—"
 
-#: Dauerhafter Kopf (Vertrag Block B): macht JEDEM Blick sofort klar, dass
+#: Zweite Kopfzeile (Vertrag Block B): macht JEDEM Blick sofort klar, dass
 #: dies eine statische Projektion ist, kein Live-Fenster -- der GM-Bogen
-#: (laufendes Spiel) kann aktueller sein als dieser Snapshot.
-HEADER_LINES = (
-    "ZIRKEL · Nadia Kersten — letzter gespeicherter Stand",
+#: (laufendes Spiel) kann aktueller sein als dieser Snapshot. Personen-
+#: unabhaengig, bleibt daher fest.
+_SNAPSHOT_HINT_LINE = (
     "Statische Anzeige. Laufende Aenderungen im Spiel sind hier nicht "
-    "enthalten; der GM-Bogen kann aktueller sein.",
+    "enthalten; der GM-Bogen kann aktueller sein."
 )
+
+
+def _header_lines(char: dict) -> tuple[str, str]:
+    """Dynamischer Bogenkopf (R-B1-Fix): vorher stand hier fuer JEDE Figur
+    wortwoertlich "ZIRKEL · Nadia Kersten" (fester Beispieldefault aus dem
+    Vertragstext, faelschlich als Produktkonstante uebernommen). Name/
+    Callsign kommen jetzt aus dem TATSAECHLICH uebergebenen Save; fehlende
+    Werte erscheinen ehrlich als `NOT_SAVED`, nie als Nadia/ZIRKEL-Default."""
+    callsign = _get(char, "callsign") or NOT_SAVED
+    name = _get(char, "name") or NOT_SAVED
+    return (
+        f"{callsign} · {name} — letzter gespeicherter Stand",
+        _SNAPSHOT_HINT_LINE,
+    )
 
 
 def _get(d: object, *keys: str) -> object:
@@ -105,7 +119,7 @@ def render_character_sheet(save: dict, *, persona_key: str) -> list[str]:
     chars = save.get("characters") if isinstance(save, dict) else None
     char = chars[0] if isinstance(chars, list) and chars and isinstance(chars[0], dict) else {}
 
-    lines: list[str] = list(HEADER_LINES)
+    lines: list[str] = list(_header_lines(char))
     lines.append("")
 
     lines.append(f"Name: {_get(char, 'name') or NOT_SAVED}")
@@ -207,23 +221,55 @@ def render_character_sheet(save: dict, *, persona_key: str) -> list[str]:
     return [rendering.strip_dangerous_control_chars(line) for line in lines]
 
 
-#: (Programm, Praefix-Argv) -- probiert in dieser Reihenfolge, der erste
-#: tatsaechlich vorhandene Emulator gewinnt. Kein Shell-String, reines argv.
+#: (Programm, Praefix-Argv-Funktion(title)) -- probiert in dieser
+#: Reihenfolge, der erste tatsaechlich vorhandene Emulator gewinnt. Kein
+#: Shell-String, reines argv. `title` kommt pro Aufruf aus `_window_title`
+#: (R-B1-Sichtbefund: ein fester Titel zeigt die Figur/den Snapshot-Hinweis
+#: nicht, wenn der Fensterinhalt aus dem sichtbaren Bereich scrollt).
 _TERMINAL_CANDIDATES = (
-    ("xterm", ["-T", "ZEITRISS - Bogen", "-e"]),
-    ("gnome-terminal", ["--"]),
+    ("xterm", lambda title: ["-T", title, "-e"]),
+    ("gnome-terminal", lambda title: [f"--title={title}", "--"]),
 )
 
+#: Begrenzter Startcheck (R-B2): wie lange auf ein unmittelbar scheiterndes
+#: Kindprozess-Ende gewartet wird, bevor der Fensterstart als erfolgreich
+#: gilt. Klein genug, um keine spuerbare Verzoegerung bei einem echten
+#: Fenster zu erzeugen; gross genug fuer einen Emulator ohne `DISPLAY`, der
+#: sofort wieder beendet.
+_STARTUP_CHECK_SECONDS = 0.4
 
-def try_open_in_external_terminal(lines: list[str], *, popen_fn=subprocess.Popen) -> bool:
+
+def _window_title(lines: list[str]) -> str:
+    """Fenstertitel zeigt den statischen Snapshot-Hinweis UND die
+    tatsaechliche Figur sichtbar -- unabhaengig davon, ob der Fensterinhalt
+    (Attribute/Ausruestung/Prompt) aus dem sichtbaren Startbereich
+    herausscrollt. Der vorherige feste Titel "ZEITRISS - Bogen" allein
+    belegte das NICHT (s. Sichtbefund `evidence/native/bogen_window.png`)."""
+    header = lines[0] if lines else NOT_SAVED
+    return f"ZEITRISS - Bogen (statischer Stand) — {header}"
+
+
+def try_open_in_external_terminal(
+    lines: list[str],
+    *,
+    popen_fn=subprocess.Popen,
+    startup_check_seconds: float = _STARTUP_CHECK_SECONDS,
+) -> bool:
     """Versucht, `lines` in einem EIGENEN Terminalfenster zu zeigen (kein
     neuer Spielprozess, reiner Renderer -- s. `main()`/`--show`). Schreibt
     die Zeilen in eine PRIVATE temporaere Datei (keine Save-Autoritaet,
     `tempfile.NamedTemporaryFile(delete=False)`) und startet GENAU EINEN
     kleinen, direkten argv-Aufruf (kein Shell, keine String-Interpolation
-    von Namen/Inhalten). Liefert `True` nur bei erfolgreichem Prozessstart;
-    `False`, wenn kein bekannter Emulator installiert ist oder der Start
-    fehlschlaegt -- der Aufrufer zeigt denselben Inhalt dann inline."""
+    von Namen/Inhalten).
+
+    R-B2-Fix: eine erfolgreich ERZEUGTE PID allein beweist kein nutzbares
+    Fenster -- ein Emulator ohne `DISPLAY` kann sofort wieder beenden. Nach
+    dem Start wird deshalb knapp (`startup_check_seconds`) auf ein
+    unmittelbares Prozessende gewartet (`Popen.wait`); laeuft der Prozess
+    danach noch, gilt der Start als erfolgreich. Liefert `False`, wenn kein
+    bekannter Emulator installiert ist, der Start selbst fehlschlaegt
+    (`OSError`) ODER der Kindprozess innerhalb der Schonfrist schon wieder
+    beendet war -- der Aufrufer zeigt denselben Inhalt dann inline."""
     tmp = tempfile.NamedTemporaryFile(
         mode="w", suffix=".txt", prefix="zr-bogen-", delete=False, encoding="utf-8",
     )
@@ -232,16 +278,21 @@ def try_open_in_external_terminal(lines: list[str], *, popen_fn=subprocess.Popen
     finally:
         tmp.close()
 
+    title = _window_title(lines)
     renderer_argv = [sys.executable, "-m", "mmo_sim.ui.sheet_view", "--show", tmp.name]
-    for exe, prefix_args in _TERMINAL_CANDIDATES:
+    for exe, prefix_fn in _TERMINAL_CANDIDATES:
         if shutil.which(exe) is None:
             continue
-        argv = [exe, *prefix_args, *renderer_argv]
+        argv = [exe, *prefix_fn(title), *renderer_argv]
         try:
-            popen_fn(argv)
-            return True
+            proc = popen_fn(argv)
         except OSError:
             continue
+        try:
+            proc.wait(timeout=startup_check_seconds)
+        except subprocess.TimeoutExpired:
+            return True  # Prozess laeuft nach der Schonfrist noch -- Fenster gilt als offen.
+        return False  # frueh beendet (gleich welcher Exitcode) -- kein nutzbares Fenster.
     return False
 
 

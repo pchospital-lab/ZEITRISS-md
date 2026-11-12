@@ -26,16 +26,28 @@ echtes temporaeres Repo-Verzeichnis. Kein Docker/Netzwerk-Call.
 
 Tests:
   (1) test_progress_save_shown_over_older_save_and_correct_active_person
+      (jetzt zusaetzlich: Kopfzeile zweier verschiedener Figuren, R-B1)
   (2) test_broken_ref_missing_save_and_pending_compat_handled_without_mutation
   (3) test_failing_gm_double_does_not_block_viewer_and_no_secret_second_start
   (4) test_bogen_control_token_consumes_no_turn_bang_form_still_forwarded
   (5) test_window_open_success_and_failure_fallback_inline_without_aborting
+
+N1-B-Nachzug (R-B1/R-B2, General-Bogenreview `2e7cb4e3`):
+  (6) test_header_line_uses_actual_character_not_fixed_zirkel_nadia_sample
+  (7) test_header_line_missing_name_and_callsign_shown_honestly_not_as_sample
+  (8) test_window_title_contains_header_and_static_hint_not_just_fixed_label
+  (9) test_window_open_oserror_branch_with_deterministically_stubbed_emulator
+  (10) test_window_open_no_emulator_present_returns_false_without_calling_popen
+  (11) test_window_open_early_process_exit_after_successful_popen_falls_back_inline
+  (12) test_window_open_long_running_process_after_popen_counts_as_success
+  (13) test_bogen_shows_inline_same_prompt_when_emulator_present_but_exits_immediately
 
 Pure Python, nur `assert`, echter Exitcode, kein Docker/Netzwerk.
 """
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 import tempfile
 import traceback
@@ -135,6 +147,11 @@ def test_progress_save_shown_over_older_save_and_correct_active_person():
         )
         assert "Geld: 100" not in out_p1
         assert "Alpha" in out_p1 and "Bravo" not in out_p1
+        # R-B1: die KOPFzeile (erste Zeile) muss ebenfalls Alpha zeigen -- der
+        # vorherige feste Kopf "ZIRKEL · Nadia Kersten" durfte hier NIE stehen.
+        header_p1 = printed[0].split("\n")[0]
+        assert "ALPHA" in header_p1 and "Alpha" in header_p1, header_p1
+        assert "ZIRKEL" not in header_p1 and "Nadia" not in header_p1, header_p1
 
         printed.clear()
         with mock.patch.object(sheet_view, "try_open_in_external_terminal", return_value=False):
@@ -145,6 +162,82 @@ def test_progress_save_shown_over_older_save_and_correct_active_person():
             f"(speaker_pid) gezeigt werden, nicht pauschal eine andere Figur:\n{out_p2}"
         )
         assert "Geld: 42" in out_p2
+        # Zweite, eindeutig ANDERE Figur -- die Kopfzeile darf keine
+        # Beispielidentitaet (ZIRKEL/Nadia) UND nicht die der ERSTEN Figur
+        # (Alpha) zeigen; sie muss zur tatsaechlich angezeigten Figur passen.
+        header_p2 = printed[0].split("\n")[0]
+        assert "BRAVO" in header_p2 and "Bravo" in header_p2, header_p2
+        assert "ZIRKEL" not in header_p2 and "Nadia" not in header_p2, header_p2
+        assert "Alpha" not in header_p2 and "ALPHA" not in header_p2, header_p2
+        assert header_p1 != header_p2, "zwei verschiedene Figuren muessen auch im Kopf verschieden sein"
+
+
+# ── (6)/(7): R-B1 -- dynamischer Kopf direkt auf `render_character_sheet` ──
+
+def test_header_line_uses_actual_character_not_fixed_zirkel_nadia_sample():
+    """Direkter Unit-Nachweis (ohne TUI-Session) fuer `render_character_
+    sheet`: zwei eindeutig verschiedene Figuren muessen auch im KOPF
+    (erste Zeile) verschieden UND korrekt sein -- keine der beiden darf
+    die alte Beispielidentitaet "ZIRKEL"/"Nadia Kersten" zeigen."""
+    save_alpha = {"characters": [{"id": "CHR-A", "name": "Juliet", "callsign": "WHISKEY"}]}
+    save_bravo = {"characters": [{"id": "CHR-B", "name": "Kilo", "callsign": "TANGO"}]}
+
+    lines_alpha = sheet_view.render_character_sheet(save_alpha, persona_key="a")
+    lines_bravo = sheet_view.render_character_sheet(save_bravo, persona_key="b")
+
+    assert "WHISKEY" in lines_alpha[0] and "Juliet" in lines_alpha[0], lines_alpha[0]
+    assert "ZIRKEL" not in lines_alpha[0] and "Nadia" not in lines_alpha[0], lines_alpha[0]
+
+    assert "TANGO" in lines_bravo[0] and "Kilo" in lines_bravo[0], lines_bravo[0]
+    assert "ZIRKEL" not in lines_bravo[0] and "Nadia" not in lines_bravo[0], lines_bravo[0]
+    assert "WHISKEY" not in lines_bravo[0] and "Juliet" not in lines_bravo[0], (
+        "Figur B darf im Kopf nicht die Identitaet von Figur A tragen"
+    )
+    assert lines_alpha[0] != lines_bravo[0]
+    # Die zweite (personenunabhaengige) Snapshot-Hinweiszeile bleibt erhalten.
+    assert "statisch" in lines_alpha[1].lower() and "GM-Bogen" in lines_alpha[1]
+    assert lines_alpha[1] == lines_bravo[1]
+
+
+def test_header_line_missing_name_and_callsign_shown_honestly_not_as_sample():
+    """Fehlende Name/Callsign-Werte muessen EHRLICH als `NOT_SAVED`
+    erscheinen -- keinesfalls als Nadia/ZIRKEL-Beispieldefault (R-B1
+    verlangt ausdrueckllich, dass fehlende Namen nicht zu Nadia/ZIRKEL
+    werden)."""
+    save_no_identity = {"characters": [{"id": "CHR-X"}]}  # kein name, kein callsign
+    lines = sheet_view.render_character_sheet(save_no_identity, persona_key="x")
+    header = lines[0]
+    assert sheet_view.NOT_SAVED in header, header
+    assert "ZIRKEL" not in header and "Nadia" not in header, header
+    assert header.count(sheet_view.NOT_SAVED) == 2, (
+        f"sowohl fehlender Name als auch fehlendes Callsign muessen ehrlich markiert sein:\n{header}"
+    )
+
+
+def test_window_title_contains_header_and_static_hint_not_just_fixed_label():
+    """R-B1-Sichtbefund: der vorherige feste Fenstertitel 'ZEITRISS - Bogen'
+    zeigte beim tatsaechlichen Fensterstart weder Figur noch Snapshot-
+    Hinweis sichtbar (Inhalt scrollt aus dem Sichtbereich). Der Titel muss
+    jetzt die tatsaechliche Kopfzeile UND einen statischen Hinweis tragen."""
+    save = {"characters": [{"id": "CHR-Y", "name": "Yankee", "callsign": "ZULU"}]}
+    lines = sheet_view.render_character_sheet(save, persona_key="y")
+
+    calls = []
+
+    def _fake_popen(argv):
+        calls.append(argv)
+        return _running_proc_mock()
+
+    with mock.patch.object(sheet_view.shutil, "which", return_value="/usr/bin/xterm"):
+        ok = sheet_view.try_open_in_external_terminal(lines, popen_fn=_fake_popen)
+    assert ok is True
+    argv = calls[0]
+    assert argv[0] == "xterm" and argv[1] == "-T", argv
+    title = argv[2]
+    assert "ZULU" in title and "Yankee" in title, title
+    assert "statisch" in title.lower(), title
+    tmp_candidates = [a for a in argv if a.endswith(".txt")]
+    Path(tmp_candidates[0]).unlink(missing_ok=True)
 
 
 # ── (2): defekte Referenz / kein Save / pending-compat -- keine Mutation ──
@@ -298,12 +391,30 @@ def test_ingame_bang_bogen_at_same_reader_passes_through_unchanged():
 
 # ── (5): Fensteroeffnung -- Erfolg/Fehlschlag, Snapshot pro Aufruf ───────
 
+def _running_proc_mock():
+    """Prozess-Double, das nach dem Start noch LAEUFT (`Popen.wait` liefert
+    innerhalb der Schonfrist keinen Exitcode, sondern `TimeoutExpired` --
+    derselbe Vertrag wie ein echtes, noch offenes Fenster)."""
+    proc = mock.Mock()
+    proc.wait.side_effect = subprocess.TimeoutExpired(cmd="x", timeout=0.4)
+    return proc
+
+
+def _early_exit_proc_mock(returncode: int = 0):
+    """Prozess-Double, das INNERHALB der Schonfrist schon wieder beendet ist
+    (z.B. Emulator ohne `DISPLAY`) -- `Popen.wait` liefert sofort einen
+    Exitcode statt zu blocken."""
+    proc = mock.Mock()
+    proc.wait.return_value = returncode
+    return proc
+
+
 def test_window_open_uses_plain_argv_no_shell_and_writes_private_tempfile():
     calls = []
 
     def _fake_popen(argv):
         calls.append(argv)
-        return mock.Mock()
+        return _running_proc_mock()
 
     lines = ["Zeile A", "Zeile B mit Umlaut äöü"]
     # Emulatorpraesenz deterministisch stubben: der headless CI-Runner hat
@@ -328,6 +439,64 @@ def test_window_open_uses_plain_argv_no_shell_and_writes_private_tempfile():
     written = Path(tmp_candidates[0]).read_text(encoding="utf-8")
     assert "Zeile A" in written and "Zeile B mit Umlaut äöü" in written
     Path(tmp_candidates[0]).unlink(missing_ok=True)
+
+
+# ── (9)/(10)/(11)/(12): R-B2 -- frueher Prozessausgang, OSError, kein
+#    Emulator, positiver Start deterministisch getrennt ────────────────
+
+def test_window_open_oserror_branch_with_deterministically_stubbed_emulator():
+    """Der VORHERIGE OSError-Test stubbte `shutil.which` nicht -- auf einem
+    headless Runner ohne xterm/gnome-terminal bricht die Kandidatenschleife
+    schon VOR dem `popen_fn`-Aufruf ab (`continue`), und der Test wird aus
+    dem falschen Grund gruen. Mit gestubbter Emulatorpraesenz wird der
+    OSError-Zweig tatsaechlich erreicht."""
+    def _always_fails(argv):
+        raise OSError("kein Emulator erreichbar (simuliert)")
+
+    with mock.patch.object(sheet_view.shutil, "which", return_value="/usr/bin/xterm"):
+        ok = sheet_view.try_open_in_external_terminal(["X"], popen_fn=_always_fails)
+    assert ok is False, "ein fehlgeschlagener Fensterstart muss False liefern, damit der Aufrufer inline zeigt"
+
+
+def test_window_open_no_emulator_present_returns_false_without_calling_popen():
+    calls = []
+
+    def _popen_should_not_be_called(argv):
+        calls.append(argv)
+        return _running_proc_mock()
+
+    with mock.patch.object(sheet_view.shutil, "which", return_value=None):
+        ok = sheet_view.try_open_in_external_terminal(["X"], popen_fn=_popen_should_not_be_called)
+    assert ok is False
+    assert calls == [], "ohne bekannten Emulator darf gar kein Prozessstart versucht werden"
+
+
+def test_window_open_early_process_exit_after_successful_popen_falls_back_inline():
+    """R-B2 (belegter Fehler): `try_open_in_external_terminal` gab vorher
+    `True` zurueck, sobald `popen_fn` OHNE OSError zurueckkehrte -- auch
+    wenn der Kindprozess (z.B. fehlendes `DISPLAY`) unmittelbar danach
+    wieder beendet war. Jetzt: ein frueher Exit (hier returncode=1,
+    beliebiger Code) innerhalb der Schonfrist zaehlt NICHT als offenes
+    Fenster."""
+    def _popen_exits_immediately(argv):
+        return _early_exit_proc_mock(returncode=1)
+
+    with mock.patch.object(sheet_view.shutil, "which", return_value="/usr/bin/xterm"):
+        ok = sheet_view.try_open_in_external_terminal(["X"], popen_fn=_popen_exits_immediately)
+    assert ok is False, "ein unmittelbar wieder beendeter Kindprozess darf NICHT als offenes Fenster gelten"
+
+
+def test_window_open_long_running_process_after_popen_counts_as_success():
+    """Gegenprobe zu (11): laeuft der Prozess nach der Schonfrist noch
+    (`TimeoutExpired`), gilt der Fensterstart weiterhin als erfolgreich --
+    der Fix darf einen echten erfolgreichen Start nicht faelschlich
+    zurueckweisen."""
+    def _popen_keeps_running(argv):
+        return _running_proc_mock()
+
+    with mock.patch.object(sheet_view.shutil, "which", return_value="/usr/bin/xterm"):
+        ok = sheet_view.try_open_in_external_terminal(["X"], popen_fn=_popen_keeps_running)
+    assert ok is True
 
 
 def test_window_open_failure_returns_false_for_inline_fallback():
@@ -364,6 +533,46 @@ def test_bogen_falls_back_to_inline_display_on_window_failure_without_aborting_p
         assert "Geld: 999" in out2, (
             "ein bewusstes Neuoeffnen NACH einem neuen Save muss den NEUEN Stand zeigen "
             f"(kein eingefrorener Altstand):\n{out2}"
+        )
+
+
+# ── (13): _cmd_show_bogen bleibt inline, wenn der Emulator vorhanden ist,
+#    aber sein Kindprozess unmittelbar beendet ──────────────────────────
+
+def test_bogen_shows_inline_same_prompt_when_emulator_present_but_exits_immediately():
+    """Geht NICHT ueber einen vollstaendigen Mock von
+    `try_open_in_external_terminal` (wie Tests 1-5) und NICHT ueber ein
+    `popen_fn`-Double (das `_cmd_show_bogen` gar nicht durchreicht) --
+    `_cmd_show_bogen` ruft die Funktion mit ihrem ECHTEN Default
+    `popen_fn=subprocess.Popen` auf (als Default-Parameter bereits beim
+    Funktionsdefinieren gebunden; ein spaeteres `mock.patch.object(subprocess,
+    'Popen', ...)` haette darauf KEINE Wirkung). Deshalb wird hier ein
+    tatsaechlich existierender, aber augenblicklich beendender Realprozess
+    verwendet (`/bin/true` statt eines echten Terminalemulators) --
+    dasselbe Verhalten wie ein Emulator ohne `DISPLAY` (R-B2), ohne
+    Produktcode fuer den Test anzupassen. Erwartet: derselbe Bogen
+    erscheint inline, UND '/bogen' am Kontrollleser setzt denselben
+    Prompt fort (keine Session-Unterbrechung durch den Fensterfehler)."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        d = Path(tmp_s)
+        save = full_v7_save("CHR-K", name="Kilo", wallet=321)
+        _onboard(d, "k", save)
+        _publish(d, "k", save)
+
+        session, printed = _session(d, "k", ["/bogen", "Weiter geht's."])
+
+        fake_candidates = (("true", lambda title: []),)
+        with mock.patch.object(sheet_view, "_TERMINAL_CANDIDATES", fake_candidates), \
+             mock.patch.object(sheet_view.shutil, "which", return_value="/bin/true"):
+            text, control = session._readline_with_controls(
+                "Zug: ", context="Spielzug", history=[], speaker_pid="k", bypass_claim=True,
+            )
+        assert control is None and text == "Weiter geht's.", (
+            f"ein fruehzeitig beendeter Emulatorprozess darf den Prompt NICHT abbrechen: {(text, control)!r}"
+        )
+        out = "\n".join(printed)
+        assert "Kilo" in out and "Geld: 321" in out, (
+            f"bei frueh gescheitertem Fensterstart muss derselbe Bogen inline erscheinen:\n{out}"
         )
 
 
