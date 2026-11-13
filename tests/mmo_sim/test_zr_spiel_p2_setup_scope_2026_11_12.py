@@ -1116,6 +1116,41 @@ def test_a1_failed_sibling_relink_with_second_independent_success_is_overall_par
         )
 
 
+def test_a1_chosen_preset_bound_to_foreign_kb_halts_before_any_mutation():
+    """A-R3 Zielbindung des GEWAEHLTEN Presets: `old_kb_ids` wird allein ueber
+    Namensgleichheit (`kb.name == kb_name`) bestimmt. Zeigt das in DIESEM Lauf
+    gewaehlte, bereits installierte Preset (`p-default`) aktuell auf eine KB,
+    die die Namenssuche NICHT als `old_kb_ids` erfasst hat, ist die Zielbindung
+    nicht vollstaendig -- das Setup darf NICHT mit einer geratenen Bindung
+    destruktiv weiterfahren, sondern muss VOR jeder Mutation halten. Deckt den
+    Guard-Pfad (setup.py:4516-4551) ab, den die uebrigen A1-Tests nur ueber den
+    bestaetigten-404-Zweig streifen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        chosen_preset = {
+            "id": "p-default", "name": _PROJECT,
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            # zeigt auf eine KB, die NICHT ueber den Namen als old_kb_ids
+            # gefunden wurde -- die Namenssuche hat sie verfehlt.
+            "meta": {"knowledge": [{"id": "kb-fremd-1", "name": "Fremd", "type": "collection"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],  # old_kb_ids = {kb-old-1}
+            models={"p-default": chosen_preset},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein gewaehltes Preset, das auf eine ueber den Namen NICHT gefundene "
+            f"KB zeigt, muss VOR jeder Mutation halten: exited={exited}\n{out}"
+        )
+        assert "p-default" in http.get_model_calls, "die Zielbindung muss das gewaehlte Preset wirklich gelesen haben"
+        assert "kb-fremd-1" in out, "die abweichende, nicht gebundene KB muss konkret genannt werden:\n" + out
+        _assert_zero_writes(http, out, tmp=tmp)
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
