@@ -433,7 +433,8 @@ _OPTS = {"assume_yes": True, "no_verify": True, "variants": ["default"]}
 
 
 def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" = None,
-                         manifest_sentinel: "bytes | None" = None) -> None:
+                         manifest_sentinel: "bytes | None" = None,
+                         expected_preset_delete_attempts: "tuple" = ()) -> None:
     """WP-N1-A1: ein kontrollierter Halt vor der ersten Mutation bedeutet
     NULL Einträge im VOLLSTÄNDIGEN Mutationsledger -- nicht nur
     `deleted_file_ids`. Der General-Review (SETUP_FINAL_REVIEW.md §5)
@@ -463,7 +464,9 @@ def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" 
     einen fehlgeschlagenen oder gleichlautend erneut schreibenden Versuch
     NICHT. Erst die leere Versuchsliste zusammen mit dem Endzustand belegt,
     dass vor dem Halt wirklich NICHTS versucht wurde."""
-    assert http.deleted_model_ids == [], f"kein Preset-Delete:\n{out}"
+    assert http.deleted_model_ids == list(expected_preset_delete_attempts), (
+        f"nur die exakt erlaubten initialen Preset-Deletes:\n{out}"
+    )
     assert http.deleted_knowledge_ids == [], f"kein KB-Delete:\n{out}"
     assert http.delete_knowledge_attempts == [], f"kein KB-Delete-Versuch:\n{out}"
     assert http.reset_vector_calls == [], f"kein Vektor-Reset:\n{out}"
@@ -1073,17 +1076,7 @@ def test_a_r0_run_setup_preset_delete_http_error_halts_with_null_follow_up_mutat
             f"ein HTTP-500 bei delete_model() darf NICHT als bestaetigte "
             f"Abwesenheit durchlaufen: exited={exited}\n{out}"
         )
-        assert http.deleted_model_ids == ["p-default"], "der fehlgeschlagene Delete-Versuch ist real passiert"
-        assert http.deleted_knowledge_ids == [], "Null-Folge-Mutation: keine KB-Loeschung danach"
-        assert http.delete_knowledge_attempts == [], "Null-Folge-Mutation: kein KB-Delete-VERSUCH danach"
-        assert http.reset_vector_calls == [], "Null-Folge-Mutation: kein Vektor-Reset danach"
-        assert http.created_knowledge_calls == [], "Null-Folge-Mutation: keine KB-Neuanlage danach"
-        assert http.delete_file_attempts == [] and http.deleted_file_ids == []
-        assert http.created_model_payloads == [] and http.update_model_payloads == []
-        assert http.unknown_write_requests == []
-        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH danach"
-        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH danach"
-        assert not (tmp / ".openwebui-sync.json").exists(), "kein Manifest-Write danach"
+        _assert_zero_writes(http, out, tmp=tmp, expected_preset_delete_attempts=["p-default"])
         assert "war nicht vorhanden" not in out, (
             "ein echter HTTP-Fehler darf NICHT als 'war nicht vorhanden' gemeldet werden:\n" + out
         )
@@ -1128,7 +1121,6 @@ def test_a_r0_run_reset_preset_delete_http_error_halts_before_kb_cleanup_with_re
             f"Sibling-Preset muss den Reset VOR KB-/Vektor-/Datei-/Manifest-/"
             f"Neuaufbauschritten abbrechen: exited={exited}\n{out}"
         )
-        assert "p-sibling" in http.deleted_model_ids, "der fehlgeschlagene Delete-Versuch ist real passiert"
         assert "Preset 'p-sibling' war nicht vorhanden" not in out, (
             "ein echter HTTP-Fehler darf NICHT als bestaetigte Abwesenheit gemeldet werden:\n" + out
         )
@@ -1136,18 +1128,9 @@ def test_a_r0_run_reset_preset_delete_http_error_halts_before_kb_cleanup_with_re
         assert "Preset 'p-default' war nicht vorhanden" in out, (
             "ein bestaetigt abwesendes (404) Preset bekommt weiterhin die normale Meldung:\n" + out
         )
-        assert "kb-real-1" not in http.deleted_knowledge_ids, (
-            "Null-Folge-Mutation: keine KB-Loeschung nach fehlgeschlagenem Preset-Delete"
-        )
-        assert http.delete_knowledge_attempts == [], "Null-Folge-Mutation: kein KB-Delete-VERSUCH danach"
-        assert http.reset_vector_calls == [], "Null-Folge-Mutation: kein Vektor-Reset danach"
-        assert http.delete_file_attempts == [], "Null-Folge-Mutation: keine Dateiloeschung danach"
         assert "kb-real-1" in http.knowledge, "die KB bleibt bestehen (Bestand an diesem Punkt erhalten)"
         assert "f-real" in http.files, "die Datei bleibt bestehen"
-        assert not (tmp / ".openwebui-sync.json").exists(), "kein Manifest-Write nach diesem Teilfehler"
-        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH danach"
-        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH danach"
-        assert http.created_knowledge_calls == [], "kein Neuaufbau (run_setup) nach diesem Teilfehler"
+        _assert_zero_writes(http, out, tmp=tmp, expected_preset_delete_attempts=["p-sibling"])
         assert "starte jetzt sauberen Neuaufbau" not in out, (
             "die Erfolgsmeldung 'Reset abgeschlossen — starte jetzt sauberen "
             "Neuaufbau.' darf nach diesem Teilfehler NICHT erscheinen:\n" + out
@@ -1439,13 +1422,7 @@ def test_a_r0_run_setup_preset_delete_http_401_after_confirmed_presence_is_not_t
             f"durchlaufen: exited={exited}\n{out}"
         )
         assert "p-default" in http.get_model_calls, "die Praesenz muss vorher tatsaechlich GEPRUEFT worden sein"
-        assert "p-default" in http.deleted_model_ids, "der Delete-Versuch selbst ist real passiert"
-        assert http.deleted_knowledge_ids == [], "Null-Folge-Mutation: keine KB-Loeschung nach diesem Fehler"
-        assert http.delete_knowledge_attempts == [], "Null-Folge-Mutation: kein KB-Delete-VERSUCH nach diesem Fehler"
-        assert http.created_knowledge_calls == [], "Null-Folge-Mutation: keine KB-Neuanlage nach diesem Fehler"
-        assert http.delete_file_attempts == [], "Null-Folge-Mutation: keine Dateiloeschung nach diesem Fehler"
-        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH nach diesem Fehler"
-        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH nach diesem Fehler"
+        _assert_zero_writes(http, out, tmp=tmp, expected_preset_delete_attempts=["p-default"])
         assert "war nicht vorhanden" not in out, (
             "HTTP 401 nach bestaetigtem GET200 darf NICHT als 'war nicht vorhanden' gemeldet werden:\n" + out
         )
@@ -1593,8 +1570,7 @@ def test_reset_preset_read_error_halts_before_any_preset_delete():
             f"ein Lesefehler auf ein konfiguriertes Reset-Preset muss VOR dem "
             f"ersten Presetdelete abbrechen: exited={exited}\n{out}"
         )
-        assert http.deleted_model_ids == [], "kein Presetdelete vor geklaerter Praesenz"
-        assert http.deleted_knowledge_ids == [], "keine KB-Loeschung"
+        _assert_zero_writes(http, out, tmp=tmp)
 
 
 def test_a1_sibling_mixed_knowledge_list_with_target_hit_and_unreadable_entry_halts_before_any_mutation():
