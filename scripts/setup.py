@@ -791,13 +791,20 @@ class APIClient:
 
         OWUI 0.11.x: Model-Delete ist POST auf /models/model/delete mit
         JSON-Body {"id": ...}; das alte DELETE ?id= liefert 405. Ein
-        nicht-existentes Modell antwortet 404/401 — für die
-        delete-if-exists-Semantik kein Fehler.
+        nicht-existentes Modell antwortet 404 — für die delete-if-exists-
+        Semantik kein Fehler.
+
+        WP-N3-K2: HTTP 401 ist NICHT gleichbedeutend mit 404. 401 ist ein
+        Auth-/Scope-Fehler auf den eigentlichen Request, keine bestaetigte
+        Objekt-Abwesenheit -- ein vorher per GET200 bestaetigt vorhandenes
+        Preset bleibt bei Delete-401 unbestaetigt geloescht. Caller MUESSEN
+        das als echten Teilfehler behandeln (ok=False), nicht als "war schon
+        weg". Nur ein bestaetigtes 404 zaehlt als Abwesenheit.
         """
         code, _ = self.post_json("/api/v1/models/model/delete", {"id": model_id})
         if code == 200:
             return True, True
-        if code in (404, 401):
+        if code == 404:
             return False, True
         return False, False
 
@@ -4105,6 +4112,57 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             )
             old_files = [f for f in old_files if f.get("id") not in protected_ids]
 
+    # WP-N3-K3-1: dieselbe begrenzte Zielbindung wie der Setup-Preflight fuer
+    # das gewaehlte Preset (s. unten "Gewaehltes Preset" in `run_setup`) --
+    # bisher wurden die Reset-Presets ungelesen geloescht; ein Preset mit
+    # positiv fremder oder unlesbarer `meta.knowledge`-Bindung war danach
+    # nicht mehr rekonstruierbar (ein spaeterer Setup-Guard sieht nur noch
+    # ein bestaetigtes 404). Rein lesend VOR dem ersten Presetdelete klaeren,
+    # keine Mutation in dieser Schleife.
+    for preset_id in reset_preset_ids:
+        existing_preset = client.get_model(preset_id)
+        if existing_preset is None:
+            if client.last_model_status == 404:
+                continue  # bestätigt nicht installiert — nichts zu binden
+            print_error(
+                f"Preset '{preset_id}' nicht lesbar (HTTP {client.last_model_status}) — "
+                "Zielbindung vor dem Reset nicht bestätigbar. Reset abgebrochen VOR "
+                "jeder Mutation (sicherer Halt)."
+            )
+            sys.exit(1)
+        preset_knowledge = (existing_preset.get("meta") or {}).get("knowledge")
+        if preset_knowledge is None:
+            print_error(
+                f"Preset '{preset_id}' hat kein belegtes `meta.knowledge`-Feld "
+                "(fehlend/None) — ohne bestätigte Backend-Semantik keine "
+                "stillschweigende Gleichsetzung mit einer bestätigten Leerliste. "
+                "Reset abgebrochen VOR jeder Mutation (sicherer Halt)."
+            )
+            sys.exit(1)
+        if not isinstance(preset_knowledge, list):
+            print_error(
+                f"Preset '{preset_id}' hat ein unklares/formfalsches "
+                "`meta.knowledge`-Feld — Zielbindung nicht bestimmbar. Reset "
+                "abgebrochen VOR jeder Mutation (sicherer Halt)."
+            )
+            sys.exit(1)
+        for entry in preset_knowledge:
+            if not (isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") != ""):
+                print_error(
+                    f"Preset '{preset_id}' hat einen nicht interpretierbaren "
+                    "`meta.knowledge`-Eintrag — Zielbindung nicht bestimmbar. Reset "
+                    "abgebrochen VOR jeder Mutation (sicherer Halt)."
+                )
+                sys.exit(1)
+            if entry["id"] not in target_kb_ids:
+                print_error(
+                    f"Preset '{preset_id}' zeigt aktuell auf Knowledge Base "
+                    f"'{entry['id']}' — das stimmt NICHT mit der über den Namen "
+                    "gefundenen Projekt-KB überein. Reset abgebrochen VOR jeder "
+                    "Mutation (sicherer Halt, keine geratene Zielbindung)."
+                )
+                sys.exit(1)
+
     # ══ Ab hier beginnen die eigentlichen destruktiven Mutationen. ══
 
     # 2) Alle Varianten-Presets löschen (falls vorhanden)
@@ -4113,12 +4171,21 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # `(False, False)`; das vorherige `elif not existed` griff dafür genauso
     # wie fuer ein bestaetigtes 404/401 und meldete den Fehlerfall faelschlich
     # als "war nicht vorhanden". Ein Lesefehler ist KEINE bestaetigte
-    # Abwesenheit -- hier ehrlich als Fehler melden (der Reset faehrt an
-    # dieser Stelle wie bisher mit der KB-Aufraeumung fort; der dortige
-    # KB-Delete-Halt, s. A-R2, faengt die eigentliche Fehlerfolge ab).
+    # Abwesenheit -- hier ehrlich als Fehler melden.
+    # WP-N3-K1: ein fehlgeschlagener Preset-Delete darf NICHT mehr nur
+    # geloggt werden und den Reset trotzdem bis zur KB-/Datei-/Manifest-
+    # Aufraeumung und zum automatischen Neuaufbau durchlaufen lassen -- ein
+    # ueberlebender Sibling zeigt dann weiterhin auf die gleich entfernte
+    # alte KB, die trotzdem geloescht wird, und ein spaeterer Neuaufbau
+    # erkennt den kaputten Sibling nicht mehr (die alte KB ist schon weg).
+    # Jeder einzelne Delete-VERSUCH laeuft hier noch zu Ende (keine komplette
+    # Atomizitaet, s. Kommentar oben); DANACH haelt ein Fehlerende VOR den
+    # abhaengigen Schritten.
+    failed_preset_ids: list[str] = []
     for preset_id in reset_preset_ids:
         existed, ok = client.delete_model(preset_id)
         if not ok:
+            failed_preset_ids.append(preset_id)
             print_error(
                 f"Preset '{preset_id}' nicht loeschbar (HTTP-/Auth-Fehler) — "
                 "kein bestaetigtes Nichtvorhandensein, echter Teilfehler."
@@ -4127,6 +4194,15 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             print_ok(f"Preset '{preset_id}' entfernt.")
         else:
             print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
+
+    if failed_preset_ids:
+        print_error(
+            "Reset abgebrochen: mindestens ein Preset konnte nicht entfernt werden "
+            f"({', '.join(failed_preset_ids)}). Kein KB-/Datei-/Vektor-/Manifest-"
+            "Schritt, kein 'Reset abgeschlossen', kein automatischer Neuaufbau auf "
+            "Basis eines Teilzustands."
+        )
+        sys.exit(1)
 
     # 3) Die KB mit dem tatsächlichen Projekt-KB-Namen (identisch zu
     #    `run_setup`s `kb_name`-Berechnung, meist genau eine) — inklusive
@@ -4185,14 +4261,24 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         f for f in old_files
         if (f.get("meta") or {}).get("collection_name") in removed_kb_ids
     ]
+    # WP-N3-K4: fehlgeschlagene/ausgelassene Datei-IDs bis zum Gesamtausgang
+    # mitfuehren -- der Batch-Stop selbst war schon korrekt, aber der Fehler
+    # verschwand bisher vor der 'Reset abgeschlossen'-Meldung und einem
+    # anschliessend erfolgreichen Neuaufbau. Kein neues Cleanup-/Rollback-
+    # framework, nur ehrliche Weitergabe des bereits bekannten Teilfehlers.
+    old_file_cleanup_failures: list[str] = []
     if delete_candidates:
         # WP-P2-A2: realen Loescherfolg je Datei pruefen -- bei einem
         # Fehlschlag KEINE weiteren Loeschungen in diesem Batch blind
         # fortsetzen und KEIN pauschales Erfolgsschild fuer nicht
         # entfernte Dateien ausgeben.
         removed = 0
-        for f in delete_candidates:
+        for idx, f in enumerate(delete_candidates):
             if not client.delete_file(f["id"]):
+                remaining = delete_candidates[idx:]
+                old_file_cleanup_failures = [
+                    f"{rf.get('filename', rf['id'])} (ID {rf['id']})" for rf in remaining
+                ]
                 print_warn(
                     f"Datei '{f.get('filename', f['id'])}' (ID {f['id']}) konnte "
                     "nicht entfernt werden — weitere Löschungen in diesem Batch "
@@ -4239,12 +4325,25 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 print_warn(f"Konnte {litellm_env.name} nicht löschen: {e}")
 
     print()
-    print_info("Reset abgeschlossen — starte jetzt sauberen Neuaufbau.")
+    if old_file_cleanup_failures:
+        print_error(
+            "Reset mit Teilfehler: alte Projekt-Datei(en) konnten nicht entfernt "
+            "werden — " + "; ".join(old_file_cleanup_failures) + ". Neuaufbau "
+            "startet trotzdem (unabhängig von diesem Dateibestand)."
+        )
+    else:
+        print_info("Reset abgeschlossen — starte jetzt sauberen Neuaufbau.")
     print()
 
     # 7) Frischer Aufbau. run_setup legt KB + Files + Preset neu an;
     #    Caller im Launcher macht danach ggf. run_install_litellm wieder.
+    # WP-N3-K4: ein spaeter erfolgreicher Neuaufbau darf den bereits
+    # festgestellten Datei-Cleanup-Teilfehler NICHT durch einen impliziten
+    # Exit 0 verschlucken -- der Neuaufbau selbst bleibt unabhaengig und darf
+    # fertig werden.
     run_setup(repo, cfg, opts)
+    if old_file_cleanup_failures:
+        sys.exit(1)
 
 
 def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -4471,28 +4570,32 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             # stillschweigend ausgelassen -- null verbleibende Treffer
             # wurden dann als "eindeutig fremd, vollständig gelesen"
             # gewertet, OBWOHL die Liste gar nicht vollständig lesbar war.
-            # Unreadable-Einträge separat erfassen und NUR bei null
-            # Treffern auswerten (bei einem bestätigten Treffer ist die
-            # Zugehörigkeit bereits eindeutig geklärt).
+            # WP-N3-K3-2: ein bestaetigter Zieltreffer macht zusaetzliche
+            # unlesbare Knowledge-Elemente NICHT sicher -- die alte Fassung
+            # wertete `unreadable_knowledge_entries` nur bei NULL Treffern
+            # aus und reichte eine Mischliste wie [{"id":"kb-old-1"},{}]
+            # trotz des unlesbaren zweiten Elements ungeprueft zum Relink
+            # durch. Jetzt: unlesbare Eintraege halten IMMER, unabhaengig
+            # davon, ob daneben schon ein Zieltreffer bestaetigt ist.
             unreadable_knowledge_entries = [
                 entry for entry in knowledge
                 if not (isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") != "")
             ]
+            if unreadable_knowledge_entries:
+                print_error(
+                    f"Preset der Nebenvariante '{vk}' hat "
+                    f"{len(unreadable_knowledge_entries)} nicht interpretierbare(n) "
+                    "`meta.knowledge`-Eintrag/Einträge — Zugehörigkeit zur zu "
+                    "ersetzenden Knowledge Base nicht sicher ausschließbar, auch nicht "
+                    "neben einem ggf. vorhandenen bestätigten Zieltreffer. Setup "
+                    "abgebrochen VOR jeder Mutation (sicherer Halt)."
+                )
+                sys.exit(1)
             matching_idx = [
                 i for i, entry in enumerate(knowledge)
                 if isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") in old_kb_ids
             ]
             if len(matching_idx) == 0:
-                if unreadable_knowledge_entries:
-                    print_error(
-                        f"Preset der Nebenvariante '{vk}' hat "
-                        f"{len(unreadable_knowledge_entries)} nicht interpretierbare(n) "
-                        "`meta.knowledge`-Eintrag/Einträge — Zugehörigkeit zur zu "
-                        "ersetzenden Knowledge Base nicht sicher ausschließbar "
-                        "('eindeutig fremd' wäre geraten). Setup abgebrochen VOR jeder "
-                        "Mutation (sicherer Halt)."
-                    )
-                    sys.exit(1)
                 continue  # eindeutig fremd, vollständig gelesen, null Zieltreffer
             if len(matching_idx) > 1:
                 print_error(
@@ -4526,14 +4629,28 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             )
             sys.exit(1)
         chosen_knowledge = (existing_chosen.get("meta") or {}).get("knowledge")
-        if chosen_knowledge is not None and not isinstance(chosen_knowledge, list):
+        # WP-N3-K3-3: `None`/fehlendes Feld ist KEINE bestaetigte Leerliste --
+        # die alte Fassung liess `for entry in (chosen_knowledge or []):` ein
+        # fehlendes Feld stillschweigend wie ein echtes `[]` durchlaufen.
+        # Ohne belegte Backend-Semantik fuer dieses Verhalten darf diese
+        # Gleichsetzung nicht gelten; ein tatsaechlich bestaetigtes `[]`
+        # bleibt weiterhin zulaessig (isinstance-Check darunter).
+        if chosen_knowledge is None:
+            print_error(
+                f"Gewähltes Preset '{vk}' hat kein belegtes `meta.knowledge`-Feld "
+                "(fehlend/None) — ohne bestätigte Backend-Semantik keine "
+                "stillschweigende Gleichsetzung mit einer bestätigten Leerliste. "
+                "Setup abgebrochen VOR jeder Mutation (sicherer Halt)."
+            )
+            sys.exit(1)
+        if not isinstance(chosen_knowledge, list):
             print_error(
                 f"Gewähltes Preset '{vk}' hat ein unklares/formfalsches "
                 "`meta.knowledge`-Feld — aktuelle Ziel-KB-Bindung nicht bestimmbar. "
                 "Setup abgebrochen VOR jeder Mutation (sicherer Halt)."
             )
             sys.exit(1)
-        for entry in (chosen_knowledge or []):
+        for entry in chosen_knowledge:
             if not (isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") != ""):
                 print_error(
                     f"Gewähltes Preset '{vk}' hat einen nicht interpretierbaren "
@@ -4595,6 +4712,11 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             print_info(f"Kein vorhandenes Preset für Variante '{vk}' — Neuanlage.")
 
     # ── Knowledge Base (destroy & recreate) ──────────────────────────
+    # WP-N3-K4: fehlgeschlagene/ausgelassene Datei-IDs bis zum Gesamtausgang
+    # mitfuehren -- der Batch-Stop unten war schon korrekt, der Fehler
+    # verschwand aber bisher vor der Summary/dem Exitcode (unqualifiziertes
+    # "Setup abgeschlossen!" trotz echtem Teilfehler).
+    old_file_cleanup_failures: list[str] = []
     if existing_kbs:
         print_info(f"{len(existing_kbs)} bestehende KB(s) entfernen...")
         removed_kb_ids: set[str] = set()
@@ -4633,8 +4755,12 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         if old_files:
             print_info(f"{len(old_files)} alte Dateien aufräumen...")
             removed = 0
-            for f in old_files:
+            for idx, f in enumerate(old_files):
                 if not client.delete_file(f["id"]):
+                    remaining = old_files[idx:]
+                    old_file_cleanup_failures = [
+                        f"{rf.get('filename', rf['id'])} (ID {rf['id']})" for rf in remaining
+                    ]
                     print_warn(
                         f"Datei '{f.get('filename', f['id'])}' (ID {f['id']}) konnte nicht "
                         "entfernt werden — weitere Löschungen in diesem Batch abgebrochen."
@@ -4926,11 +5052,14 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # pauschalen "Setup abgeschlossen!"-Schild verschwinden -- dieses Schild
     # betrachtete bisher nur verify_ok/coverage_ok der NEUEN KB, nicht den
     # kaputten Sibling-Link einer Nebenvariante.
+    # WP-N3-K4: derselbe Grundsatz fuer einen Datei-Cleanup-Teilfehler weiter
+    # oben -- auch der durfte bisher hinter diesem Schild verschwinden.
     print()
     print_header(
-        "Setup abgeschlossen!" if (verify_ok and coverage_ok and not sibling_relink_failures)
-        else "Setup abgeschlossen (mit Warnung)" if (coverage_ok and not sibling_relink_failures)
+        "Setup abgeschlossen!" if (verify_ok and coverage_ok and not sibling_relink_failures and not old_file_cleanup_failures)
+        else "Setup abgeschlossen (mit Warnung)" if (coverage_ok and not sibling_relink_failures and not old_file_cleanup_failures)
         else "Setup UNVOLLSTÄNDIG — Wissensdateien fehlen" if not coverage_ok
+        else "Setup TEILWEISE FEHLGESCHLAGEN — Datei-Cleanup unvollständig" if old_file_cleanup_failures
         else "Setup TEILWEISE FEHLGESCHLAGEN — KB-Link-Nachzug unvollständig"
     )
     print(f"  Presets:       {len(created_presets)} (geteilte Knowledge Base)")
@@ -4953,6 +5082,17 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # bestehendes Sibling-Preset zeigt noch auf die bereits entfernte alte
     # KB. Kein Transaktions-/Rollbackframework, nur ein ehrlicher Exitcode
     # mit den konkret betroffenen IDs.
+    # WP-N3-K4: ein Datei-Cleanup-Teilfehler weiter oben (Batch-Stop) wird
+    # hier ehrlich zu Ende gefuehrt -- sichere unabhaengige Aufbauschritte
+    # (neue KB/Presets/Upload) sind bereits fertig geworden, aber kein
+    # Exit 0 als Vollerfolg fuer diesen Lauf.
+    if old_file_cleanup_failures:
+        print_error(
+            "Setup mit Teilfehler abgeschlossen: alte Projekt-Datei(en) konnten "
+            "nicht entfernt werden — " + "; ".join(old_file_cleanup_failures)
+        )
+        sys.exit(1)
+
     if sibling_relink_failures:
         print_error(
             "Setup mit Teilfehler abgeschlossen: KB-Link-Nachzug fehlgeschlagen für "

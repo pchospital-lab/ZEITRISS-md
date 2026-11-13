@@ -147,7 +147,8 @@ class _SetupHttpDouble:
                  knowledge_list_response=None, knowledge_files=None,
                  unreadable_knowledge_detail_ids=None,
                  fail_delete_knowledge_ids=None, model_read_error_ids=None,
-                 fail_delete_model_ids=None, knowledge_detail_raw_files=None):
+                 fail_delete_model_ids=None, knowledge_detail_raw_files=None,
+                 fail_delete_model_401_ids=None):
         self.knowledge = {kb["id"]: dict(kb) for kb in (knowledge or [])}
         self.files = {f["id"]: dict(f) for f in (files or [])}
         # `models` ist ein dict id -> Preset-Payload (nicht eine Liste --
@@ -182,6 +183,12 @@ class _SetupHttpDouble:
         # bei bestaetigt abwesendem Preset) -- unterscheidet den Fehlerfall
         # von der bestaetigten Abwesenheit.
         self.fail_delete_model_ids = set(fail_delete_model_ids or [])
+        # WP-N3-K2: Model-IDs, deren delete_model()-Mutation einen echten
+        # HTTP-401-Fehler liefert (statt 500) -- unterscheidet den
+        # mehrdeutigen Auth-/Scope-Fehler auf ein per GET200 bestaetigt
+        # vorhandenes Objekt vom bestaetigten 404 (Abwesenheit) UND vom
+        # unspezifischen 500 (`fail_delete_model_ids`).
+        self.fail_delete_model_401_ids = set(fail_delete_model_401_ids or [])
         # WP-N2-A-R3: kb_id -> ROHE (ungesaeuberte) `files`-Liste fuer
         # `GET /knowledge/{id}`, um unlesbare Mischlisten/Memberlisten zu
         # simulieren (z.B. [{"unlesbar": true}] oder [""] ) -- im
@@ -210,6 +217,11 @@ class _SetupHttpDouble:
         # pruefen kann.
         self.created_knowledge_calls: list[str] = []
         self.unknown_write_requests: list[tuple] = []
+        # WP-N3-K5: KB-Delete-VERSUCHE (erfolgreich ODER fehlgeschlagen)
+        # getrennt von `deleted_knowledge_ids` (nur Erfolge) erfassen -- sonst
+        # ist "kb-x not in deleted_knowledge_ids" mehrdeutig zwischen "nie
+        # versucht" und "versucht, aber fehlgeschlagen".
+        self.delete_knowledge_attempts: list[str] = []
         self._next_file_id = 9000
 
     def request(self, method, path, data=None, content_type="application/json", timeout=None):
@@ -248,6 +260,7 @@ class _SetupHttpDouble:
             return 200, json.dumps({"id": kb_id, "files": member_ids}).encode()
         if method == "DELETE" and path.startswith("/api/v1/knowledge/") and path.endswith("/delete"):
             kb_id = path.split("/")[-2]
+            self.delete_knowledge_attempts.append(kb_id)
             if kb_id in self.fail_delete_knowledge_ids:
                 return 500, b'{"detail": "internal error"}'
             self.knowledge.pop(kb_id, None)
@@ -320,6 +333,8 @@ class _SetupHttpDouble:
             self.deleted_model_ids.append(model_id)
             if model_id in self.fail_delete_model_ids:
                 return 500, b'{"detail": "internal error"}'
+            if model_id in self.fail_delete_model_401_ids:
+                return 401, b'{"detail": "unauthorized"}'
             existed = model_id in self.models
             self.models.pop(model_id, None)
             return (200, b"{}") if existed else (404, b'{"detail": "not found"}')
@@ -371,7 +386,8 @@ def _run_reset(tmp: Path, http: _SetupHttpDouble, cfg: dict, opts: dict):
 _OPTS = {"assume_yes": True, "no_verify": True, "variants": ["default"]}
 
 
-def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" = None) -> None:
+def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" = None,
+                         manifest_sentinel: "bytes | None" = None) -> None:
     """WP-N1-A1: ein kontrollierter Halt vor der ersten Mutation bedeutet
     NULL Einträge im VOLLSTÄNDIGEN Mutationsledger -- nicht nur
     `deleted_file_ids`. Der General-Review (SETUP_FINAL_REVIEW.md §5)
@@ -386,9 +402,16 @@ def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" 
     Resetfall verwendet (vorher prüfte der Reset-Halt-Test nur 3 der 9+
     Listen). Mit `tmp` zusaetzlich die lokale Manifest-Beobachtung: ein
     Halt VOR jeder Mutation darf auch kein `.openwebui-sync.json`
-    geschrieben/geloescht haben."""
+    geschrieben/geloescht haben.
+
+    WP-N3-K5: `delete_knowledge_attempts` (VERSUCHE, nicht nur Erfolge)
+    ergaenzt. Mit `manifest_sentinel` (Bytes) zusaetzlich die staerkere
+    Sentinel-Pruefung: ein VORHER bereits vorhandenes lokales Manifest muss
+    im Haltfall byte-identisch unangetastet bleiben, nicht nur "existiert
+    weiterhin" bzw. "wurde nicht NEU angelegt"."""
     assert http.deleted_model_ids == [], f"kein Preset-Delete:\n{out}"
     assert http.deleted_knowledge_ids == [], f"kein KB-Delete:\n{out}"
+    assert http.delete_knowledge_attempts == [], f"kein KB-Delete-Versuch:\n{out}"
     assert http.reset_vector_calls == [], f"kein Vektor-Reset:\n{out}"
     assert http.deleted_file_ids == [], f"kein Datei-Delete:\n{out}"
     assert http.delete_file_attempts == [], f"kein Datei-Delete-Versuch:\n{out}"
@@ -402,7 +425,13 @@ def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" 
     )
     if tmp is not None:
         manifest = tmp / ".openwebui-sync.json"
-        assert not manifest.exists(), f"kein lokales Sync-Manifest-Write/-Delete vor dem Halt:\n{out}"
+        if manifest_sentinel is not None:
+            assert manifest.exists(), f"Sentinel-Manifest darf im Haltfall nicht verschwinden:\n{out}"
+            assert manifest.read_bytes() == manifest_sentinel, (
+                f"Sentinel-Manifest-Bytes muessen im Haltfall unveraendert bleiben:\n{out}"
+            )
+        else:
+            assert not manifest.exists(), f"kein lokales Sync-Manifest-Write/-Delete vor dem Halt:\n{out}"
 
 
 # ── (1)/(2): A1 — KB-Link-Nachzug nur bei nachweislicher Zugehörigkeit ──
@@ -555,7 +584,16 @@ def test_a2_failed_delete_stops_batch_and_does_not_claim_false_success():
     `delete_file`-Mutation schlägt konkret fehl (HTTP 500). Erwartet: die
     ZWEITE Datei wird NICHT mehr blind gelöscht (Batch abgebrochen), UND es
     gibt KEIN pauschales Erfolgsschild ("N alte Dateien entfernt"), weil real
-    nichts entfernt wurde."""
+    nichts entfernt wurde.
+
+    K4 (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3): der Batch-Abbruch
+    selbst war schon korrekt, aber der Fehler verschwand bisher vor der
+    Summary/dem Exitcode -- die VORHERIGE Fassung dieses Tests verlangte
+    noch `exited in (None, 0)`, was genau das kritisierte unqualifizierte
+    "Setup abgeschlossen!" bei echtem Teilfehler kodierte. Jetzt: sichere
+    unabhaengige Folgeschritte (neue KB/Preset/Upload) duerfen trotzdem
+    fertig werden, aber der Gesamtlauf endet mit Exit 1 und einer konkreten
+    Fehlerbenennung statt eines unqualifizierten Erfolgsschilds."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp, filenames=("a.md", "b.md"))
@@ -569,7 +607,10 @@ def test_a2_failed_delete_stops_batch_and_does_not_claim_false_success():
             new_kb_id="kb-new-1",
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
-        assert exited in (None, 0), f"run_setup brach unerwartet ab: exited={exited}\n{out}"
+        assert exited == 1, (
+            f"ein echter Datei-Cleanup-Fehler darf NICHT hinter einem "
+            f"unqualifizierten Erfolgsschild verschwinden: exited={exited}\n{out}"
+        )
         assert http.delete_file_attempts == ["f-a"], (
             "nach dem ersten echten Löschfehlschlag darf 'b.md' NICHT mehr "
             "angefasst werden -- keine blinden Folgelöschungen"
@@ -580,6 +621,17 @@ def test_a2_failed_delete_stops_batch_and_does_not_claim_false_success():
             "kein pauschales Erfolgsschild, wenn real 0 Dateien entfernt wurden:\n" + out
         )
         assert "abgebrochen" in out.lower(), out
+        assert "Setup abgeschlossen!" not in out, (
+            "kein unqualifiziertes Vollerfolgsschild bei echtem Datei-Cleanup-Teilfehler:\n" + out
+        )
+        assert "f-a" in out and "ID f-a" in out and "f-b" in out and "ID f-b" in out, (
+            "die betroffenen Datei-IDs (fehlgeschlagen + ausgelassen) muessen im "
+            "Gesamtausgang konkret benannt werden:\n" + out
+        )
+        assert http.created_knowledge_calls == [_KB_NAME], (
+            "sichere unabhaengige Aufbauschritte (neue KB) duerfen trotz des "
+            "Datei-Cleanup-Teilfehlers fertig werden:\n" + out
+        )
 
 
 # ── (6): gleicher gefährlicher Selektor im Reset-Pfad ───────────────────
@@ -757,10 +809,17 @@ def test_a1_sibling_read_error_halts_before_any_mutation():
     """Ein installiertes Sibling, dessen `get_model()`-Read einen ECHTEN
     Lesefehler liefert (HTTP 500, nicht 404) -- `get_model()==None` bedeutet
     hier "Lesefehler", NICHT "nicht installiert". Muss VOR jeder Mutation
-    (inkl. Preset-Delete der gewählten Variante) abbrechen."""
+    (inkl. Preset-Delete der gewählten Variante) abbrechen.
+
+    K5 (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3): ein VORHER bereits
+    vorhandenes lokales Sync-Manifest (Sentinel) muss im Haltfall
+    byte-identisch unangetastet bleiben -- nicht nur "existiert weiterhin",
+    sondern tatsaechlich unveraendert."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp, filenames=("a.md",))
+        manifest_sentinel = b'{"existing": true}'
+        (tmp / ".openwebui-sync.json").write_bytes(manifest_sentinel)
         http = _SetupHttpDouble(
             knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
             model_read_error_ids={"p-sibling"},
@@ -768,7 +827,7 @@ def test_a1_sibling_read_error_halts_before_any_mutation():
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"ein Lesefehler beim Sibling-Preset muss hart abbrechen: exited={exited}\n{out}"
-        _assert_zero_writes(http, out, tmp=tmp)
+        _assert_zero_writes(http, out, tmp=tmp, manifest_sentinel=manifest_sentinel)
 
 
 def test_a1_sibling_malformed_knowledge_field_halts_before_any_mutation():
@@ -868,6 +927,10 @@ def test_a3_failed_kb_removal_stops_before_file_deletion_and_preset_recreation()
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"eine fehlgeschlagene KB-Entfernung muss hart abbrechen: exited={exited}\n{out}"
         assert "kb-old-1" not in http.deleted_knowledge_ids, "die KB-Entfernung ist tatsächlich fehlgeschlagen"
+        assert http.delete_knowledge_attempts == ["kb-old-1"], (
+            "K5: der fehlgeschlagene KB-Delete-VERSUCH selbst muss erfasst sein -- "
+            "nicht nur 'nie in deleted_knowledge_ids gelandet'"
+        )
         assert http.delete_file_attempts == [], (
             "nach fehlgeschlagener KB-Entfernung darf KEINE Dateilöschung versucht werden"
         )
@@ -911,35 +974,46 @@ def test_a_r0_run_setup_preset_delete_http_error_halts_with_null_follow_up_mutat
         )
 
 
-def test_a_r0_run_reset_preset_delete_http_error_is_honest_and_does_not_block_kb_cleanup():
-    """A-R0 im `run_reset`-Pfad: derselbe echte HTTP-500-Fehler bei einer
-    der (hier zwei) Varianten-Presets wird ehrlich als Fehler gemeldet
-    (nicht als 'war nicht vorhanden') -- die unabhaengige KB-Aufraeumung
-    laeuft trotzdem normal weiter (anders als A-R2, das einen echten
-    KB-Delete-Fehler betrifft, nicht einen Preset-Delete-Fehler). Bewusst
-    NICHT die fuer den anschliessenden Rebuild gewaehlte Variante
-    ('p-sibling', nicht 'default') betroffen -- sonst wuerde derselbe
-    HTTP-500 den eingebetteten run_setup-Neuaufbau (A-R0 dort) am Ende
-    ebenfalls hart abbrechen und diesen isolierten Reset-Pfad-Fall
-    verdecken. Die bestaetigt abwesende ('p-default', HTTP 404) Variante
-    bekommt weiterhin die korrekte 'war nicht vorhanden'-Meldung --
-    bestaetigte Abwesenheit und Lesefehler bleiben klar unterscheidbar."""
+def test_a_r0_run_reset_preset_delete_http_error_halts_before_kb_cleanup_with_real_sibling_link():
+    """K1 (General-Review 01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3):
+    ein fehlgeschlagener Preset-Delete im Reset-Pfad muss VOR den
+    abhaengigen KB-/Vektor-/Datei-/Manifest-/Neuaufbauschritten enden. Die
+    VORHERIGE Fassung dieses Tests (siehe Git-Historie) verlangte
+    ausdruecklich `exited in (None, 0)` UND die KB-Loeschung TROTZ
+    fehlgeschlagenem Preset-Delete -- das kodierte genau die vom General
+    verbotene Fortsetzung: ein ueberlebender Sibling zeigt weiterhin auf die
+    alte KB, die trotzdem entfernt wird; ein spaeterer Neuaufbau erkennt den
+    kaputten Sibling nicht mehr, weil die alte KB schon weg ist. Die
+    vorherige Fixture hatte zudem GAR KEIN reales Sibling-Preset (`models=`
+    war leer) -- jetzt mit einem REAL vorhandenen Preset ('p-sibling'),
+    dessen `meta.knowledge` tatsaechlich auf die Reset-Ziel-KB
+    ('kb-real-1') verweist, genau der Fall, den ein stiller Weiterlauf
+    gefaehrden wuerde."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/mistral/foo",
+            "meta": {
+                "knowledge": [{"id": "kb-real-1", "name": _KB_NAME, "type": "collection"}],
+            },
+            "params": {},
+        }
         http = _SetupHttpDouble(
             knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
             files=[{"id": "f-real", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}}],
+            models={"p-sibling": sibling_preset},
             fail_delete_model_ids={"p-sibling"},
             new_kb_id="kb-rebuilt-1",
         )
         exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
-        assert exited in (None, 0), (
-            f"ein fehlgeschlagenes Preset-Delete einer NICHT fuer den Rebuild "
-            f"gewaehlten Variante blockiert die unabhaengige KB-Aufraeumung NICHT "
-            f"und den Rebuild der gewaehlten Variante NICHT: exited={exited}\n{out}"
+        assert exited == 1, (
+            f"ein fehlgeschlagenes Preset-Delete mit real verknuepftem "
+            f"Sibling-Preset muss den Reset VOR KB-/Vektor-/Datei-/Manifest-/"
+            f"Neuaufbauschritten abbrechen: exited={exited}\n{out}"
         )
-        assert "p-sibling" in http.deleted_model_ids
+        assert "p-sibling" in http.deleted_model_ids, "der fehlgeschlagene Delete-Versuch ist real passiert"
         assert "Preset 'p-sibling' war nicht vorhanden" not in out, (
             "ein echter HTTP-Fehler darf NICHT als bestaetigte Abwesenheit gemeldet werden:\n" + out
         )
@@ -947,7 +1021,60 @@ def test_a_r0_run_reset_preset_delete_http_error_is_honest_and_does_not_block_kb
         assert "Preset 'p-default' war nicht vorhanden" in out, (
             "ein bestaetigt abwesendes (404) Preset bekommt weiterhin die normale Meldung:\n" + out
         )
-        assert "kb-real-1" in http.deleted_knowledge_ids, "die KB-Aufraeumung laeuft trotzdem normal weiter"
+        assert "kb-real-1" not in http.deleted_knowledge_ids, (
+            "Null-Folge-Mutation: keine KB-Loeschung nach fehlgeschlagenem Preset-Delete"
+        )
+        assert http.reset_vector_calls == [], "Null-Folge-Mutation: kein Vektor-Reset danach"
+        assert http.delete_file_attempts == [], "Null-Folge-Mutation: keine Dateiloeschung danach"
+        assert "kb-real-1" in http.knowledge, "die KB bleibt bestehen (Bestand an diesem Punkt erhalten)"
+        assert "f-real" in http.files, "die Datei bleibt bestehen"
+        assert not (tmp / ".openwebui-sync.json").exists(), "kein Manifest-Write nach diesem Teilfehler"
+        assert http.created_knowledge_calls == [], "kein Neuaufbau (run_setup) nach diesem Teilfehler"
+        assert "starte jetzt sauberen Neuaufbau" not in out, (
+            "die Erfolgsmeldung 'Reset abgeschlossen — starte jetzt sauberen "
+            "Neuaufbau.' darf nach diesem Teilfehler NICHT erscheinen:\n" + out
+        )
+        assert "abgebrochen" in out.lower(), out
+
+
+def test_reset_file_cleanup_failure_is_not_lost_behind_later_successful_rebuild():
+    """K4 im Reset-Pfad (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3):
+    ein echter Datei-Cleanup-Fehler waehrend des Reset-Batches durfte
+    bisher hinter einem anschliessend erfolgreichen `run_setup`-Neuaufbau
+    und der unqualifizierten 'Reset abgeschlossen'-Meldung verschwinden.
+    Jetzt: Batch-Stop bleibt (zweite Datei bleibt unangetastet), der
+    nachfolgende Neuaufbau darf unabhaengig fertig werden, aber der GESAMTE
+    Lauf endet mit Exit 1 und ohne die unqualifizierte Erfolgsmeldung."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md", "b.md"))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            files=[
+                {"id": "f-a", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}},
+                {"id": "f-b", "filename": "b.md", "meta": {"collection_name": "kb-real-1"}},
+            ],
+            fail_delete_file_ids={"f-a"},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein echter Datei-Cleanup-Fehler im Reset darf NICHT hinter "
+            f"einem spaeter erfolgreichen Neuaufbau verschwinden: exited={exited}\n{out}"
+        )
+        assert http.delete_file_attempts == ["f-a"], "Batch-Stop bleibt erhalten -- 'b.md' wird nicht angefasst"
+        assert "f-b" in http.files, "die nicht angefasste zweite Datei bleibt im Bestand"
+        assert "kb-real-1" in http.deleted_knowledge_ids, "die unabhaengige KB-Entfernung laeuft trotzdem weiter"
+        assert "Reset abgeschlossen — starte jetzt sauberen Neuaufbau." not in out, (
+            "keine unqualifizierte Reset-Erfolgsmeldung bei echtem Datei-Cleanup-Teilfehler:\n" + out
+        )
+        assert http.created_knowledge_calls, (
+            "der unabhaengige Neuaufbau (run_setup) darf trotzdem fertig werden:\n" + out
+        )
+        assert "f-a" in out and "ID f-a" in out and "f-b" in out and "ID f-b" in out, (
+            "die betroffenen Datei-IDs (fehlgeschlagen + ausgelassen) muessen konkret "
+            "benannt werden:\n" + out
+        )
 
 
 def test_reset_kb_delete_http_error_halts_before_manifest_and_rebuild():
@@ -974,6 +1101,9 @@ def test_reset_kb_delete_http_error_halts_before_manifest_and_rebuild():
             f"Neuaufbau abbrechen: exited={exited}\n{out}"
         )
         assert "kb-real-1" not in http.deleted_knowledge_ids
+        assert http.delete_knowledge_attempts == ["kb-real-1"], (
+            "K5: der fehlgeschlagene KB-Delete-VERSUCH selbst muss erfasst sein"
+        )
         assert "kb-real-1" in http.knowledge, "die KB bleibt bestehen"
         assert http.delete_file_attempts == [], "keine Dateiloeschung nach fehlgeschlagenem KB-Delete"
         assert manifest.read_text(encoding="utf-8") == '{"existing": true}', (
@@ -1148,6 +1278,148 @@ def test_a1_chosen_preset_bound_to_foreign_kb_halts_before_any_mutation():
         )
         assert "p-default" in http.get_model_calls, "die Zielbindung muss das gewaehlte Preset wirklich gelesen haben"
         assert "kb-fremd-1" in out, "die abweichende, nicht gebundene KB muss konkret genannt werden:\n" + out
+        _assert_zero_writes(http, out, tmp=tmp)
+
+
+# ── N3-Nachzug (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3, K1-K5) ─────
+# Die vorherigen gruenen Tests enthielten noch einen ausdruecklich falschen
+# Reset-Sollwert (K1, oben korrigiert) bzw. deckten K2/K3.1/K3.2 gar nicht
+# ab. Die folgenden Tests schliessen genau diese benannten Luecken.
+
+
+def test_a_r0_run_setup_preset_delete_http_401_after_confirmed_presence_is_not_treated_as_absence():
+    """K2 (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3: 'delete_model
+    789-802 liefert fuer jedes 401 (False, True)'): ein per GET200 VORHER
+    bestaetigt vorhandenes Preset, dessen Delete-Versuch mit HTTP 401 statt
+    200/404 antwortet, darf NICHT als bestaetigte Abwesenheit gelten -- ein
+    echter Auth-/Scope-Fehler auf ein bekanntes Objekt ist kein 'war schon
+    weg'. Deckt den Unterschied zu einem bestaetigten 404 (409?) bzw. einem
+    generischen 500 ab (s. test_a_r0_..._with_null_follow_up_mutation)."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        chosen_preset = {
+            "id": "p-default", "name": _PROJECT,
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            "meta": {"knowledge": [{"id": "kb-old-1", "name": _KB_NAME, "type": "collection"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-default": chosen_preset},
+            fail_delete_model_401_ids={"p-default"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein per GET200 bestaetigt vorhandenes Preset, das bei Delete "
+            f"HTTP 401 liefert, darf NICHT als bestaetigte Abwesenheit "
+            f"durchlaufen: exited={exited}\n{out}"
+        )
+        assert "p-default" in http.get_model_calls, "die Praesenz muss vorher tatsaechlich GEPRUEFT worden sein"
+        assert "p-default" in http.deleted_model_ids, "der Delete-Versuch selbst ist real passiert"
+        assert http.deleted_knowledge_ids == [], "Null-Folge-Mutation: keine KB-Loeschung nach diesem Fehler"
+        assert http.created_knowledge_calls == [], "Null-Folge-Mutation: keine KB-Neuanlage nach diesem Fehler"
+        assert "war nicht vorhanden" not in out, (
+            "HTTP 401 nach bestaetigtem GET200 darf NICHT als 'war nicht vorhanden' gemeldet werden:\n" + out
+        )
+
+
+def test_reset_preset_bound_to_foreign_kb_halts_before_any_preset_delete():
+    """K3 Punkt 1 (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3): `run_reset`
+    las bisher KEINE Presetbeziehungen vor dem ersten Presetdelete -- ein
+    konfiguriertes Preset mit einer Fremd-KB-Bindung waere schon geloescht
+    gewesen, bevor ein spaeterer Setup-Guard ueberhaupt lesen konnte (N2 A1
+    verlangte denselben begrenzten Identitaetsentscheid im Reset). Dieselbe
+    begrenzte Zielbindung wie im Setup-Preflight fuer das gewaehlte Preset
+    (s. test_a1_chosen_preset_bound_to_foreign_kb_halts_before_any_mutation)
+    muss VOR dem ersten Reset-Presetdelete greifen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/mistral/foo",
+            "meta": {"knowledge": [{"id": "kb-fremd-1", "name": "Fremd", "type": "collection"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            models={"p-sibling": sibling_preset},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein Reset-Preset mit Bindung an eine ueber den Namen NICHT "
+            f"gefundene KB muss VOR dem ersten Presetdelete halten: exited={exited}\n{out}"
+        )
+        assert http.deleted_model_ids == [], "kein Presetdelete vor geklaerter Zielbindung"
+        assert http.deleted_knowledge_ids == [], "keine KB-Loeschung"
+        assert http.delete_knowledge_attempts == [], "kein KB-Delete-Versuch"
+        assert "kb-fremd-1" in out, "die abweichende KB muss konkret genannt werden:\n" + out
+        assert "p-sibling" in http.get_model_calls, "die Zielbindung muss das Reset-Preset wirklich gelesen haben"
+
+
+def test_a1_sibling_mixed_knowledge_list_with_target_hit_and_unreadable_entry_halts_before_any_mutation():
+    """K3 Punkt 2 (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3):
+    `knowledge=[{"id":"kb-old-1"},{}]` wurde bisher trotz unlesbarem zweiten
+    Element als Einzeltreffer zum Relink vorgemerkt, weil der
+    Unklarheitsguard nur bei NULL Treffern ausgewertet wurde. Ein
+    bestaetigter Zieltreffer macht ein zusaetzliches unlesbares Element
+    NICHT sicher -- muss VOR jeder Mutation halten (unterscheidet sich von
+    test_a2_mixed_list_with_one_unreadable_member_preserves_candidate_file,
+    das die FREMDE/geschuetzte KB-Detailliste betrifft, nicht die
+    Sibling-Zugehoerigkeitsliste hier)."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/mistral/foo",
+            "meta": {"knowledge": [{"id": "kb-old-1"}, {}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-sibling": sibling_preset},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein bestaetigter Zieltreffer neben einem unlesbaren Element "
+            f"darf NICHT relinkt werden -- Halt VOR jeder Mutation erwartet: "
+            f"exited={exited}\n{out}"
+        )
+        _assert_zero_writes(http, out, tmp=tmp)
+
+
+def test_a1_chosen_preset_knowledge_null_is_not_treated_as_confirmed_empty_halts_before_any_mutation():
+    """K3 Punkt 3 (01_GENERAL_URTEIL_UND_N2_ERRATUM.md Abschnitt 3):
+    `meta.knowledge=None`/fehlendes Feld wurde bisher ueber `or []` wie eine
+    bestaetigte Leerliste behandelt. Ohne belegte Backend-Semantik darf das
+    NICHT gelten -- Halt VOR jeder Mutation. Eine echte bestaetigte
+    Leerliste ([]) bleibt an anderer Stelle weiter zulaessig (nur der
+    isinstance-Check greift dafuer, kein Halt)."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        chosen_preset = {
+            "id": "p-default", "name": _PROJECT,
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            "meta": {},  # kein "knowledge"-Feld -> .get("knowledge") == None
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-default": chosen_preset},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein fehlendes/None `meta.knowledge` des gewaehlten Presets darf "
+            f"NICHT wie eine bestaetigte Leerliste behandelt werden: exited={exited}\n{out}"
+        )
+        assert "p-default" in http.get_model_calls
         _assert_zero_writes(http, out, tmp=tmp)
 
 
