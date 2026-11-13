@@ -99,6 +99,16 @@ Abschnitts blätterst du mit `/verlauf` durch dessen bisherige Einträge;
 `/pause` hält die Runde kontrolliert an. Im Hauptmenü erklären diese
 Abschnittsbefehle, dass noch kein entsprechender Abschnitt läuft.
 
+Deinen eigenen Charakterbogen (letzter gespeicherter Stand) siehst du jederzeit
+rein lokal mit `/bogen` — an jeder normalen Eingabe, auch am Spielzug, ohne
+einen Zug zu verbrauchen und ohne dass dafür die Spielleitung angesprochen
+wird. Im Hauptmenü bzw. unter `charaktere` erreichst du dieselbe Anzeige auch
+über `bogen` bzw. `!bogen`. Diese Anzeige ist ein unveränderlicher Schnappschuss
+zum Zeitpunkt des Öffnens; spätere Spielfortschritte zeigt erst ein bewusstes
+erneutes `/bogen`. Ingame bleibt `!bogen` (ohne Slash, während eines laufenden
+Dialogs mit der Spielleitung) unverändert ein an die Spielleitung
+weitergereichter Text, keine lokale Anzeige.
+
 ## Figur wählen, erschaffen, importieren, exportieren
 
 Öffne `charaktere`. Du kannst eine vorhandene Figur aktivieren oder bewusst

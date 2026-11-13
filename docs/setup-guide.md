@@ -307,11 +307,16 @@ Base samt Vektoren und hochgeladenen Dateien, das lokale Sync-Manifest
 Admin-Account, deine API-Keys in `~/.openwebui_env`, alle anderen
 Presets/KBs in deiner OpenWebUI-Installation.
 
-> ⚠️ **KB-Präfix-Matching.** Der Reset löscht alle KBs, deren Name mit
-> dem Projektnamen (`ZEITRISS`) beginnt. Wer eine manuelle Backup-KB mit
-> einem Namen wie `ZEITRISS-BACKUP` pflegt, sollte sie vor dem Reset
-> umbenennen — der Launcher zeigt vor der Bestätigung eine Trefferliste,
-> dort sieht man's rechtzeitig.
+> ⚠️ **Exakter KB-Name, nicht Präfix.** Der Reset löscht nur die Knowledge
+> Base, deren Name exakt dem Projekt-KB-Namen entspricht — nicht jede KB,
+> die mit `ZEITRISS` beginnt. Zusätzlich prüft er vorher, ob die
+> konfigurierten Presets tatsächlich auf genau diese KB zeigen; bei einer
+> unklaren oder abweichenden Bindung bricht er vor jeder Löschung ab,
+> statt zu raten. Eine manuelle Backup-KB mit einem Namen wie
+> `ZEITRISS-BACKUP` wird dadurch schon über den Namen nicht getroffen —
+> das ist aber keine Erfolgsgarantie für jede denkbare Altinstallation;
+> der Launcher zeigt vor der Bestätigung trotzdem eine Trefferliste, dort
+> sieht man's im Zweifel rechtzeitig.
 
 ---
 
@@ -781,11 +786,16 @@ Richtig in folgenden Fällen:
 Der Full-Rebuild schreibt am Ende automatisch das Manifest, sodass ein
 anschließender `--sync`-Lauf sofort "synchron" meldet.
 
-### Manuelle Tweaks im Preset bleiben erhalten
+### Manuelle Tweaks in `params` werden zurückgesetzt
 
-`--sync` patcht nur den System-Prompt (Masterprompt). Wenn ihr in
-OpenWebUI manuell Temperature, Top-P oder Frequency geändert habt,
-bleiben diese Werte unberührt.
+`--sync` patcht je betroffener Variante den kompletten `params`-Block
+(System-Prompt/Masterprompt, `temperature`/`max_tokens` aus `setup.json`,
+`reasoning_effort`) UND `meta.capabilities` auf den Golden-Zustand aus
+`setup.json` — manuell in OpenWebUI geänderte Werte wie Temperature,
+Top-P oder Frequency werden dabei verworfen, nicht übernommen. Erhalten
+bleibt nur, was `--sync` nicht anfasst: `profile_image_url`,
+`description`, `suggestion_prompts` sowie die KB-Verknüpfung
+(`meta.knowledge`, die ohnehin an den ausgewählten Varianten gespiegelt wird).
 
 ### Multi-Install
 
@@ -1330,14 +1340,16 @@ OpenWebUI-Instanz.
 **Full-Rebuild** (`python scripts/setup.py`):
 
 1. Verbindung prüfen (API-Key, Health-Check, Auth).
-2. Embedding-Engine-Precheck.
-3. Altes Preset aufräumen (falls Upgrade die ID verwaist hat).
-4. Alte Knowledge Base entfernen (inkl. verknüpfter Dateien).
-5. 19 Wissensdateien hochladen und an neue KB verknüpfen.
-6. Preset anlegen/aktualisieren (Masterprompt, Parameter, KB-Bindung).
-7. Sync-Manifest schreiben (`.openwebui-sync.json`, per-Install,
+2. Preflight: KB-/Datei-/Sibling-/Zielbindung vollständig klären (VOR jeder
+   Mutation — eine unklare/unvollständige Lage bricht hier ab).
+3. Embedding-Engine-Precheck (NACH bestandenem Preflight, nicht davor).
+4. Altes Preset aufräumen (falls Upgrade die ID verwaist hat).
+5. Alte Knowledge Base entfernen (inkl. verknüpfter Dateien).
+6. 19 Wissensdateien hochladen und an neue KB verknüpfen.
+7. Preset anlegen/aktualisieren (Masterprompt, Parameter, KB-Bindung).
+8. Sync-Manifest schreiben (`.openwebui-sync.json`, per-Install,
    gitignored).
-8. Retrieval-Check mit Canary-Query.
+9. Retrieval-Check mit Canary-Query.
 
 **Inkrementeller Sync** (`python scripts/setup.py --sync`):
 
@@ -1408,11 +1420,13 @@ und instabil zwischen Versionen). Der Golden-Block in `setup.json` (Top-Level
 deterministisch und wird bei jedem `python scripts/setup.py`-Lauf gesetzt —
 egal ob das Preset dabei neu angelegt (Create) oder bereits existiert
 (Update); `upsert_model` baut in beiden Fällen denselben Payload.
-**Ausnahme:** `--sync` (inkrementeller Modus) patcht ausschließlich
-`params.system` (Masterprompt-Text) am bestehenden Remote-Preset und lässt
-Capabilities/übrige Params unangetastet — für eine Golden-Setup-Korrektur an
-einem bereits laufenden Preset ist ein normaler `setup.py`-Lauf (ohne
-`--sync`) nötig.
+**Auch im inkrementellen Modus:** `--sync` patcht am bestehenden
+Remote-Preset nicht nur `params.system` (Masterprompt-Text), sondern den
+kompletten `params`-Block (inkl. `temperature`/`max_tokens`/
+`reasoning_effort` aus `setup.json`) UND `meta.capabilities` auf diesen
+Golden-Zustand — eine Capability- oder Param-Korrektur erreicht ein
+bereits laufendes Preset also auch über `--sync`, ein normaler
+`setup.py`-Lauf (ohne `--sync`) ist dafür nicht zwingend nötig.
 
 ### Sicherheit
 

@@ -51,6 +51,7 @@ from ..domain.zeitriss.policy import (
     is_saveguard_rejection,
 )
 from . import rendering
+from . import sheet_view
 
 
 #: R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): kleine, fixe Terminal-
@@ -235,6 +236,12 @@ def render_boot_menu(
             # real `None` sein -- kein literales "None" in der Anzeige (UX22).
             community_display = resume.community_id if resume.community_id else "keine Community"
             lines.append(f"     Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
+    # WP-P2-B: zusaetzlicher, bewusst UNNUMMERIERTER Eintrag (analog '?'/
+    # '/stand' unten) -- zeigt den letzten gespeicherten Charakterbogen rein
+    # lokal, kein GM-/Backend-Zugriff, verbraucht keine Nummer aus
+    # `boot_menu_entries` (die bleibt dadurch fuer JEDEN bestehenden
+    # Aufrufer/Test byteidentisch).
+    lines.append("  (bogen)  Bogen anzeigen – letzter Speicherstand  [bogen / !bogen]")
     lines.append("  (Nummer waehlen -- oder Wort/Buchstabe in Klammern.")
     lines.append("   '?' oder /hilfe an jeder Eingabe zeigt Kontexthilfe, kein Zugverbrauch)")
     return "\n".join(lines)
@@ -1442,7 +1449,7 @@ class TuiSession:
     # offenen Abschnitts heisst Pause, nicht Rollback). Ein literaler Text,
     # der wie eine Steuerzeile aussieht, bleibt ueber ein fuehrendes '\'
     # eingebbar (Escape, s. 02 §C 'erklaerte Escape-/Texteingabe').
-    _CONTROL_TOKENS = ("/zurueck", "/abbrechen", "/pause", "/stand", "/verlauf")
+    _CONTROL_TOKENS = ("/zurueck", "/abbrechen", "/pause", "/stand", "/verlauf", "/bogen")
 
     def _control_help_text(self, context: str, *, is_leader: bool = True) -> str:
         # W24b (BRIEF-W24b.md Punkt 3): die vorherige PAUSCHALE Zusage
@@ -1516,6 +1523,8 @@ class TuiSession:
         return (
             f"Hilfe ({context}): /zurueck (eine Ebene zurueck) · {abbrechen_line} · /stand "
             "(aktueller Stand) · /verlauf (bisherige SL-Antworten dieses Schritts) · "
+            "/bogen (eigener Charakterbogen, letzter gespeicherter Stand -- lokal, kein "
+            "GM-Aufruf, kein Zugverbrauch) · "
             "/pause (kontrolliert pausieren -- der zuletzt gueltige, bereits gespeicherte "
             f"Stand bleibt erhalten, kein Datenverlust){save_segment}. '?' oder '/hilfe' "
             "zeigt diesen Text erneut, verbraucht keinen Zug/Request. Text, der wie "
@@ -1607,6 +1616,15 @@ class TuiSession:
                         self._print(f"... {start} weitere, aeltere Eintraege -- '/verlauf' erneut fuer mehr.")
                     else:
                         self._print(f"(Anfang des Verlaufs erreicht, {total} Eintraege gesamt.)")
+                continue
+            if key == "/bogen":
+                # WP-P2-B: lokaler, read-only Charakterbogen -- verbraucht
+                # KEINEN Zug/Request, derselbe Prompt (`continue`) laeuft
+                # danach unveraendert weiter, exakt wie '/stand'/'/verlauf'
+                # oben. Ingame bleibt '!bogen' (ohne Slash) unveraendert ein
+                # an die SL weitergereichter Text/GM-Befehl -- NUR die
+                # Slash-Form wird hier abgefangen.
+                self._cmd_show_bogen(speaker_pid=speaker_pid)
                 continue
             if key == "/zurueck":
                 return raw, "zurueck"
@@ -2142,7 +2160,8 @@ class TuiSession:
                 extra_lines = "  [4] Gast-Erschaffungsanfragen entscheiden (annehmen/ablehnen)"
             self._print(
                 "Charaktere -- [1] Auswaehlen/neu erstellen  [2] Importieren  "
-                "[3] Exportieren/ansehen" + extra_lines + " (/zurueck fuer Hauptmenue)"
+                "[3] Exportieren/ansehen  [6] Bogen anzeigen – letzter Speicherstand"
+                + extra_lines + " (/zurueck fuer Hauptmenue)"
             )
             text, control = self._readline_with_controls(
                 "Auswahl: ", context="Charaktere-Untermenue",
@@ -2159,6 +2178,12 @@ class TuiSession:
                 return
             elif choice == "3":
                 self._cmd_export()
+                return
+            # WP-P2-B: [6] fest (nie durch die bedingten [4]/[5] oben belegt)
+            # -- dieselbe Methode wie der Hauptmenue-Alias 'bogen'/'!bogen'
+            # und '/bogen' an jedem anderen Prompt, kein zweiter Lesepfad.
+            elif choice in ("6", "bogen", "!bogen"):
+                self._cmd_show_bogen()
                 return
             elif choice == "4" and not self._host_capable:
                 self._cmd_gast_erschaffung_anfragen_menu()
@@ -5054,6 +5079,56 @@ class TuiSession:
             self._print(f"Zusaetzlich als Datei gespeichert: {export_path}")
         except OSError as e:
             self._print(f"Datei-Export fehlgeschlagen (Text oben bleibt gueltig): {e}")
+
+    def _cmd_show_bogen(self, *, speaker_pid: str | None = None) -> None:
+        """WP-P2-B: lokaler, READ-ONLY Charakterbogen des letzten gueltig
+        angenommenen eigenen Current-Saves -- kein GM-/Modell-/Netzaufruf,
+        kein neuer mmo_sim-Spielstart, repariert/importiert/adoptiert/
+        speichert NICHTS.
+
+        Quelle bewusst NUR `core.store.load_current_save_or_raise` (dieselbe
+        strenge Referenzkette wie `_cmd_export`/`_resolve_active_save`) --
+        NICHT `_resolve_active_save` selbst (adoptiert zusaetzlich einen
+        offenen Kompatibilitaets-Umschlag, s. dort), NICHT `_resolve_real_
+        active_chrononaut_id` (korrigiert nebenbei den Katalogzeiger) und
+        NICHT `_cmd_export` (schreibt zusaetzlich eine Exportdatei). Eine
+        reine Anzeige darf keine dieser Nebenwirkungen ausloesen.
+
+        `speaker_pid` (Default `None` -> `self.participant_id`, dasselbe
+        Muster wie `/stand` in `_readline_with_controls`): zeigt den Bogen
+        der TATSAECHLICH eingebenden Person, nicht pauschal der aeusseren
+        Session/des Hosts -- an einem geteilten Terminal uebergibt der
+        Aufrufer hier bereits die eigene `_pid`.
+
+        Snapshot/Freeze: `load_current_save_or_raise` liest GENAU EINMAL;
+        das Ergebnis wird sofort gerendert und ausgegeben. Es gibt keinen
+        Timer/keine Dateiwache -- ein spaeterer neuer Save aendert eine
+        bereits ausgegebene Anzeige nicht mehr (bewusstes erneutes `/bogen`
+        liest dann den neuen Stand)."""
+        persona_key = speaker_pid if speaker_pid is not None else self.participant_id
+        if self.run_dir is None or self.states_dir is None or self.schema_path is None:
+            self._print("Noch kein gespeicherter Charakterbogen vorhanden.")
+            return
+        from ..core.persona_state import PersonaStateStore
+        from ..core import store as core_store
+        ps_store = PersonaStateStore(schema_path=self.schema_path)
+        try:
+            current = core_store.load_current_save_or_raise(
+                self.run_dir, persona_key, ps_store, states_dir=self.states_dir,
+            )
+        except core_store.CurrentSaveUnavailableError as e:
+            self._print(
+                f"Bogen nicht lesbar: der bekannte Spielstand ist gerade nicht abrufbar "
+                f"({e}). Keine alte Fassung wird ersatzweise gezeigt -- bitte spaeter "
+                "erneut '/bogen' versuchen."
+            )
+            return
+        if current is None:
+            self._print("Noch kein gespeicherter Charakterbogen vorhanden.")
+            return
+        lines = sheet_view.render_character_sheet(current, persona_key=persona_key)
+        if not sheet_view.try_open_in_external_terminal(lines):
+            self._print("\n".join(lines))
 
     def _resolve_active_save(
         self, persona_key: str, onboarding_final_save: dict | None,
@@ -11123,6 +11198,16 @@ class TuiSession:
                     self._cmd_menu_spielen()
                 elif choice in ("charaktere", "charaktere.", "characters"):
                     self._cmd_menu_charaktere()
+                # WP-P2-B: lokaler, read-only Charakterbogen -- additiver
+                # Worteintrag/Alias am Hauptmenue, dispatcht auf dieselbe
+                # Methode wie '/bogen' am Spielzug-/Steuerzeilenweg
+                # (`_readline_with_controls`). KEIN zweiter Dispatchpfad,
+                # kein Zugverbrauch, keine Nummer aus `boot_menu_entries`
+                # verbraucht (bleibt dort bewusst unnummeriert, analog
+                # '/stand'/'/verlauf'/'?' -- s. `render_boot_menu`-Hinweis-
+                # zeile).
+                elif choice in ("bogen", "!bogen"):
+                    self._cmd_show_bogen()
                 elif choice == "tisch":
                     self._cmd_menu_tisch()
                 elif choice in ("einstellungen", "settings"):
