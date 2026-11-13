@@ -4122,6 +4122,7 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     #    Vektoren.
     removed_kbs = 0
     removed_kb_ids: set[str] = set()
+    failed_kb_ids: list[str] = []
     for kb in target_kbs:
         kb_id = kb.get("id")
         if not kb_id:
@@ -4136,10 +4137,29 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             removed_kbs += 1
             removed_kb_ids.add(kb_id)
         else:
+            failed_kb_ids.append(kb_id)
             print_error(
                 f"Knowledge Base '{kb_id}' konnte nicht entfernt werden "
                 f"({removed_kbs}/{len(target_kbs)} vor diesem Fehler erfolgreich entfernt)."
             )
+
+    # WP-N2-A-R2: ein fehlgeschlagenes KB-Delete muss HIER als Teilfehler
+    # enden -- bisher lief der Reset trotz Fehler bis zu Manifest-Loeschung,
+    # "Reset abgeschlossen" und automatischem run_setup-Neuaufbau weiter;
+    # bei NULL erfolgreichen Deletes erschien zusaetzlich die irrefuehrende
+    # "Keine projektzugehörige KB gefunden"-Meldung, obwohl eine bekannte KB
+    # nur nicht entfernt werden konnte. Kein Manifest-Write/-Delete, keine
+    # Dateiloeschung, kein Neuaufbau auf Basis dieses Teilzustands.
+    if failed_kb_ids:
+        print_error(
+            "Reset abgebrochen: mindestens eine Knowledge Base konnte nicht entfernt "
+            f"werden ({removed_kbs}/{len(target_kbs)} erfolgreich entfernt; weiterhin "
+            f"vorhanden: {', '.join(failed_kb_ids)}). Kein Sync-Manifest-Löschen, kein "
+            "'Reset abgeschlossen', kein automatischer Neuaufbau auf Basis eines "
+            "Teilzustands."
+        )
+        sys.exit(1)
+
     if removed_kbs:
         print_ok(f"{removed_kbs} Knowledge Base(s) entfernt.")
     else:
