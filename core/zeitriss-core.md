@@ -572,7 +572,7 @@ gleichzeitig die **Verletzungsstufe** des Charakters:
 > | 7–9 | Leicht verletzt | –1 | Kratzer, Prellungen — Adrenalin hält einen auf den Beinen |
 > | 4–6 | Mittel verletzt | –2 | Tiefe Schnitte, Verstauchungen — spürbar eingeschränkt |
 > | 1–3 | Schwer verletzt | –3 | Lebensbedrohlich — nur grundlegende Aktionen möglich |
-> | 0 | Kritisch | — | Bewusstlos/sterbend — automatische Not-Rückholung durch das ITI |
+> | 0 | Kritisch | — | Bewusstlos/sterbend — Szene stoppt, Gruppe geht gemeinsam ins gescheiterte Debriefing, ITI bietet Gruppenrettung an |
 
 Der Malus gilt auf alle Proben. Diese Kurzfassung dient als Referenz — die
 **kanonische Verwundungstabelle** mit vollständigen Regeln zu Heilung, Erholung und
@@ -955,9 +955,10 @@ Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
 
 > Bei Paradoxon-Index 5 legt das HQ trotzdem 1-2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ. 3. **Notfall-Rückholung**
 
-     - Gerät eine Mission in totale Eskalation (z.B. Total Party Kill), zieht ein
-      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
-      Wahlmöglichkeiten wie oben.
+     - Gerät eine Mission in totale Eskalation (z.B. Total Party Kill) oder erreicht ein einzelner
+      Chrononaut den Todes-/kritischen Moment (siehe Tod-Handling, `meta/masterprompt_v6.md`), zieht
+      derselbe gemeinsame Notfallabschluss das **ganze Team** ins gescheiterte Debriefing in der
+      Nullzeit; anschließend gelten dieselben Wahlmöglichkeiten wie oben.
 
 Im digitalen Spielsystem öffnet ein Trigger **"on Zeitsprung"** automatisch ein Nullzeit-Menü. Dort
 beginnt eine vollwertige **HQ-Runde** als eigener Spielabschnitt mit Shop, Skill-Upgrades, Klinik

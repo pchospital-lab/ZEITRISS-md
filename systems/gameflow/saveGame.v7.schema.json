@@ -114,6 +114,12 @@
           "wallet": {
             "type": "number"
           },
+          "status": {
+            "type": "string",
+            "enum": [
+              "deceased"
+            ]
+          },
           "level_history": {
             "description": "Pro-Character Level-Up-Historie. Key = Level als String ('1','2',...). Pflicht für Anti-Stacking-Gate (§F Level-Up-Exklusivitäts-Pflichtgate). Platzierung: character.level_history (NICHT Root-Ebene).",
             "type": "object",

@@ -94,8 +94,13 @@ wenn die Mission fehlschlägt. Die Stadt wird bei jedem Besuch frisch instanziie
 verwüstet, opportunistisch, trügerisch geordnet oder gemischt. Keine Waffenruhe,
 kein Speichern.
 Tod folgt denselben Konsequenzen wie in Core/Rift: kein Sonder-Respawn,
-kein Traum-Reset. In Gruppen greift die verbindliche Todesentscheidung
-(_Tod bleibt Kanon_ oder _Reload vom letzten Gruppen-DeepSave_). Items,
+kein Traum-Reset. Erreicht ein Spieler-Chrononaut den Todes-/kritischen
+Moment, stoppt die SL die Szene: Die gesamte aktive Gruppe kehrt
+gemeinsam in den bestehenden Schleusen-Debrief zurück, der laufende Lauf
+gilt als gescheitert. Normalfall ist der erweiterte ITI-Kausalabfang für
+die ganze Gruppe; nur auf ausdrücklichen Wunsch der betroffenen Person
+folgt der dauerhafte Legendenabschied — auch dann kehrt die ganze Gruppe
+gemeinsam zurück. Items,
 die man lebend rausbringt, bleiben erhalten. Die Chronopolis ist eine
 temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
 

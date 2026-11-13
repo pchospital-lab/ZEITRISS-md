@@ -39,7 +39,7 @@ im Überblick:
   > | 7-9 | Leicht verletzt |                                 -1 |
   > | 4-6 | Mittel verletzt |                                 -2 |
   > | 1-3 | Schwer verletzt |                                 -3 |
-  > |   0 | Kritisch        | - (keine Aktionen, Not-Rückholung) |
+  > |   0 | Kritisch        | - (keine Aktionen, gemeinsamer Notfallabschluss) |
   - - **Unverletzt:** Keine nennenswerten Wunden - vielleicht ein Kratzer oder blauer Fleck, aber
       **nichts, was den Charakter einschränkt**. _System:_ **Keinerlei Abzüge**; alle Aktionen und
       Bewegung normal. _Heilung:_ Keine besondere Behandlung nötig - der Chrononaut ist **sofort
@@ -71,33 +71,35 @@ im Überblick:
     - an gezielten Kampf oder komplexe Aktionen ist kaum zu denken. Das HUD hängt automatisch
       `Wundmalus -3` an jede Probe an. _Heilung:_ Schwere Verletzungen erfordern
       **intensivmedizinische Betreuung**. **Im Feld wäre ein Agent in diesem Zustand kaum
-      überlebensfähig**, doch hier greift das ITI- Notfallprotokoll: **Sinkt ein Chrononaut im Einsatz
-      auf 0 Lebenspunkte**, initiiert das System **automatisch einen Zeitriss zur Not-Rückholung**.
-      Der Verwundete wird in Sekundenbruchteilen ins HQ gezogen, wo ein Ärzteteam bereitsteht, um sein
-      Leben zu retten. Die Mission ist für diesen Agenten damit **beendet**, aber er überlebt
-      stabilisiert. Im HQ folgen dennoch **mehrere HQ-Phasen Genesung** (ggf. im Medi-Tank oder
-      künstlichen Koma). Selbst mit Zukunftsmedizin und Biotech bleibt es eine bedeutende Ausfallzeit
-    - unter Umständen muss der Charakter eine kommende Mission aussetzen (in einer langen Kampagne
-      könnte der Spieler in der Zwischenzeit einen Ersatzcharakter steuern). **Narben** bleiben fast
-      immer zurück, ob physisch oder psychisch. - **Kritisch verletzt:** Zustand jenseits von "schwer"
+      überlebensfähig**, doch hier greift das ITI-Notfallprotokoll: **Sinkt ein Chrononaut im Einsatz
+      auf 0 Lebenspunkte**, stoppt die SL die Szene, und der Abschnitt endet für die **gesamte aktive
+      Gruppe** im gemeinsamen Debriefing als gescheitert (siehe Tod-Handling, `meta/masterprompt_v6.md`).
+      Normalfall ist die Rettung: Das ITI zieht den Verwundeten per Zeitriss-Kausalabfang in
+      Sekundenbruchteilen ins HQ, wo ein Ärzteteam bereitsteht, um sein Leben zu retten, und er überlebt
+      stabilisiert. Die weitere Genesung folgt der normalen Heilung für "schwer verletzt" oben; die
+      ganze aktive Gruppe kehrt gemeinsam aus dem gescheiterten Abschnitt zurück - kein weiterlaufender
+      Resttrupp, kein Mid-Mission-Figurenwechsel. - **Kritisch verletzt:** Zustand jenseits von "schwer"
     - der Charakter schwebt **in akuter Lebensgefahr**. Schwere innere Verletzungen, zertrümmerte
       Gliedmaßen oder **multiple Trauma** zeichnen dieses Bild. _System:_ **Keine regulären Aktionen
       mehr möglich.** Der Charakter driftet an der Bewusstlosigkeit entlang - Tunnelblick, Blut
       spucken, versagende Körperfunktionen. Er bricht schließlich **bewegungsunfähig** zusammen;
       **alle Proben scheitern automatisch**, solange dieser Zustand anhält. _Heilung:_ **Ohne
-      sofortige Hilfe tritt der Tod ein.** Auch hier greift die ZEITRISS-Notfall-Mechanik: Das ITI
-      initiiert umgehend eine **Not-Rückholung** per Zeitriss. Innerhalb von Augenblicken wird der
-      Sterbende ins HQ gezogen, wo die Ärzte bereits auf ihn warten. In besonders brenzligen Fällen
-      dreht das ITI die persönliche Zeit des Charakters sogar ein Stück zurück - die Extraktion
-      erfolgt aus einem Moment **Sekunden vor der tödlichen Verwundung**, um bessere
-      Stabilisierungschancen zu haben (natürlich nur, wenn dies kein Paradoxon auslöst). Für die
-      Kampagne heißt das: Der Charakter **überlebt knapp**, ist aber **schwer gezeichnet**. Die
-      Genesung dauert sehr lange, und bis zur völligen Einsatzfähigkeit vergehen mitunter **zahlreiche
-      Missionen**. **Bleibende Schäden** sind wahrscheinlich (Narben, Verlust von Gliedmaßen etc., die
-      evtl. durch **Cyberware** ersetzt werden). Solch ein Vorfall sollte als einschneidendes
-      dramatisches Ereignis ausgespielt werden - etwa als Anlass für Charakterentwicklung (z.B. Angst
-      vor dem nächsten Einsatz, posttraumatische Belastung) oder als Aufhänger für Upgrades (der Agent
-      erhält z.B. einen Cyber-Arm, um den verlorenen Arm zu ersetzen).
+      Rettung tritt der Tod ein.** Auch hier stoppt die SL die Szene, der Abschnitt endet für die
+      gesamte Gruppe im gemeinsamen Debriefing als gescheitert, und die SL bietet am kritischen
+      Moment den erweiterten ITI-Kausalabfang für die ganze Gruppe an (siehe Tod-Handling,
+      `meta/masterprompt_v6.md`). Nimmt die Person das Rettungsangebot an, initiiert das ITI die
+      **Not-Rückholung** per Zeitriss: Innerhalb von Augenblicken wird der Sterbende ins HQ gezogen,
+      wo die Ärzte bereits auf ihn warten. In besonders brenzligen Fällen dreht das ITI die persönliche
+      Zeit des Charakters sogar ein Stück zurück - die Extraktion erfolgt aus einem Moment **Sekunden
+      vor der tödlichen Verwundung**, um bessere Stabilisierungschancen zu haben (natürlich nur, wenn
+      dies kein Paradoxon auslöst). Für die Kampagne heißt das: Der Charakter **überlebt knapp**, ist
+      aber **schwer gezeichnet**. Die weitere Genesung folgt der normalen Heilung für "schwer
+      verletzt" oben; kein weiterlaufender Resttrupp, kein Mid-Mission-Figurenwechsel. Wünscht die
+      betroffene Person stattdessen ausdrücklich den dauerhaften **Legendenabschied**, endet die
+      Figur dort filmisch (Final-Save, Abschlussbericht) - auch dann kehrt die Gruppe gemeinsam ins
+      Debriefing zurück. Solch ein Vorfall sollte als einschneidendes dramatisches Ereignis
+      ausgespielt werden - etwa als Anlass für Charakterentwicklung (z.B. Angst vor dem nächsten
+      Einsatz, posttraumatische Belastung) oder als Aufhänger für ein Upgrade-Angebot im HQ.
 
 _Hinweis:_ In einem erzählerisch fokussierten Spiel muss man nicht jede Verletzung tabellarisch
 auswürfeln - die obigen Stufen reichen als Richtlinie. Wichtig ist, dass die **Konsequenzen

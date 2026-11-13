@@ -183,6 +183,12 @@
           "lp_max": {
             "type": "integer"
           },
+          "status": {
+            "type": "string",
+            "enum": [
+              "deceased"
+            ]
+          },
           "stress": {
             "type": "integer"
           },

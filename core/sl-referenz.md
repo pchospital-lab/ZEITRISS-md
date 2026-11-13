@@ -597,9 +597,12 @@ Acht verbindliche Sync-Punkte mit Macro-Pin:
 8. Arena-Match-Debrief → freie HQ-Phase: `save_sync_post_arena()` (nach
    `banked_rewards`-Buchung).
 
-**Tod-Final-Save ist KEIN Sync-Punkt** — heroischer Tod erzeugt einen
-Final-Save (`"status":"deceased"`) ohne vorgeschalteten Sync-Beat
-(filmisches Ende = Lore-Verankerung).
+**Tod-Final-Save ist KEIN Sync-Punkt** — der Legendenabschied erzeugt den
+persönlichen Final-Save (`"status":"deceased"`) direkt im gemeinsamen
+Debriefing (siehe Tod-Handling, `meta/masterprompt_v6.md`), ohne
+vorgeschalteten Sync-Beat (filmisches Ende = Lore-Verankerung). Der
+Final-Save-Ort ist damit eindeutig: das Debriefing selbst, nicht ein
+separater Zwischen-Sync.
 
 **Handover-Ablauf an jedem Sync-Punkt identisch:** In-Fiction-Beat → Kodex-
 Save-Angebot → `!save`-JSON → Chat-Wechsel-Verweis. Im selben Chat ist nach
@@ -632,14 +635,23 @@ nach Mission 1. Die Ausnahme wurde entfernt; siehe `meta/masterprompt_v6.md`
 
 ## Gruppen-Todesentscheid (Core/Rift/Chronopolis)
 
-Im Modus `gruppe` stoppt Kodex bei einem Spieler-Tod die Szene und fordert eine
-verbindliche Entscheidung:
+Im Modus `gruppe` stoppt die SL, sobald ein Spieler-Chrononaut den
+Todes-/kritischen Moment erreicht, die Szene. Der laufende Abschnitt endet für
+die **gesamte aktive Gruppe** im gemeinsamen Debriefing als **gescheitert**
+(siehe Tod-Handling, `meta/masterprompt_v6.md`):
 
-- **Tod bleibt Kanon der Geschichte**, oder
-- **Neuladen vom letzten Gruppen-DeepSave** (neues Chatfenster, Save posten,
-  Einsatz neu starten).
+- **Rettungsangebot (Normalfall):** Die SL bietet am tatsächlichen kritischen
+  Moment den erweiterten ITI-Kausalabfang für die ganze Gruppe an — verhindert
+  den dauerhaften Figurverlust. Passende Kodex-Inworld-Stimme bleibt
+  ausdrücklich möglich, wenn der Kanal verfügbar ist. In Chronopolis (`CITY`)
+  gibt die SL das Angebot auch bei dunklem Kodex (s.o. Sperrmodus) — ohne
+  allgemeinen Uplink, Allwissenheit oder neue Zugriffspflicht.
+- **Legendenabschied (nur auf ausdrücklichen Wunsch der betroffenen
+  Person):** Final-Save + Abschlussbericht für die eigene Figur. Auch dann
+  kehrt die ganze Gruppe gemeinsam ins Debriefing zurück — kein Resttrupp,
+  kein stilles Neuladen, kein Mid-Mission-Figurenwechsel.
 
-Ohne diese Gruppenentscheidung wird die Geschichte nicht fortgesetzt.
+Ohne diesen Notfallentscheid wird die Geschichte nicht fortgesetzt.
 
 ## Basis-NSC-Stat-Blocks {#basis-nsc}
 
@@ -753,6 +765,9 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   **kein Kampf-Gadget**, **kein universelles Retcon-Werkzeug**; Leitmotiv **Festnahme statt Löschung**; nicht shopbar und
   nicht als Pflicht-Inventar zu führen; Boss-/Mini-Boss-Ziele, Chrononauten,
   Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis sind gesperrt.
+  Das Gegner-Cleanup bleibt damit auf **0-LP-Hostiles** begrenzt; die separate
+  Gruppenrettung bei Chrononauten-Tod (siehe Gruppen-Todesentscheid oben) ist
+  **keine** Erweiterung dieses Markers.
 - Riss-Tracker (temporaler Resonator) - warnt vor Resonanz, siehe
   [Temporale Tools](../characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
