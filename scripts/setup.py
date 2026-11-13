@@ -4097,14 +4097,25 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # ══ Ab hier beginnen die eigentlichen destruktiven Mutationen. ══
 
     # 2) Alle Varianten-Presets löschen (falls vorhanden)
+    # WP-N2-A-R0: `ok` VOR der Abwesenheitsklassifikation auswerten --
+    # `delete_model` liefert bei einem echten HTTP-Fehler (z.B. 500)
+    # `(False, False)`; das vorherige `elif not existed` griff dafür genauso
+    # wie fuer ein bestaetigtes 404/401 und meldete den Fehlerfall faelschlich
+    # als "war nicht vorhanden". Ein Lesefehler ist KEINE bestaetigte
+    # Abwesenheit -- hier ehrlich als Fehler melden (der Reset faehrt an
+    # dieser Stelle wie bisher mit der KB-Aufraeumung fort; der dortige
+    # KB-Delete-Halt, s. A-R2, faengt die eigentliche Fehlerfolge ab).
     for preset_id in reset_preset_ids:
         existed, ok = client.delete_model(preset_id)
-        if existed and ok:
+        if not ok:
+            print_error(
+                f"Preset '{preset_id}' nicht loeschbar (HTTP-/Auth-Fehler) — "
+                "kein bestaetigtes Nichtvorhandensein, echter Teilfehler."
+            )
+        elif existed:
             print_ok(f"Preset '{preset_id}' entfernt.")
-        elif not existed:
-            print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
         else:
-            print_warn(f"Preset '{preset_id}' konnte nicht entfernt werden (fährt trotzdem fort).")
+            print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
 
     # 3) Die KB mit dem tatsächlichen Projekt-KB-Namen (identisch zu
     #    `run_setup`s `kb_name`-Berechnung, meist genau eine) — inklusive
@@ -4453,15 +4464,27 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # ── Presets aufräumen (alle Varianten dieses Laufs) ─────────────
     # Jede Variante hat ihre eigene preset_id; wir räumen genau die auf, die
     # dieser Lauf gleich neu anlegt — NICHT die der anderen Varianten.
+    # WP-N2-A-R0: `ok` VOR der Abwesenheitsklassifikation auswerten -- ein
+    # echter HTTP-Fehler (`(False, False)`) ist KEIN bestaetigtes
+    # Nichtvorhandensein. Anders als in `run_reset` haengen hier KB-/Datei-/
+    # Preset-Neuanlageschritte direkt an dieser Entscheidung -- ein
+    # unentdeckt weiter existierendes Preset (das noch auf die gleich zu
+    # loeschende alte KB zeigt) darf NICHT stillschweigend uebersprungen
+    # werden. Abbruch VOR den abhaengigen KB-/Dateischritten.
     for vk in variant_keys:
         v_pid = cfg["variants"][vk]["preset_id"]
         existed, ok = client.delete_model(v_pid)
-        if existed and ok:
+        if not ok:
+            print_error(
+                f"Preset '{v_pid}' (Variante '{vk}') nicht loeschbar (HTTP-/Auth-Fehler) — "
+                "kein bestaetigtes Nichtvorhandensein. Setup abgebrochen VOR "
+                "abhaengigen KB-/Dateischritten (sicherer Halt)."
+            )
+            sys.exit(1)
+        elif existed:
             print_ok(f"Altes Preset aufgeräumt (Variante '{vk}', Id: {v_pid}).")
-        elif not existed:
-            print_info(f"Kein vorhandenes Preset für Variante '{vk}' — Neuanlage.")
         else:
-            print_warn(f"Konnte Preset '{v_pid}' nicht aufräumen — fahre fort.")
+            print_info(f"Kein vorhandenes Preset für Variante '{vk}' — Neuanlage.")
 
     # ── Knowledge Base (destroy & recreate) ──────────────────────────
     if existing_kbs:
