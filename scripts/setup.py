@@ -4736,6 +4736,14 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # die NEUE `kb_id` geschrieben. Nur der treffende Link-Eintrag wird
     # ersetzt, der Rest der Liste sowie alle anderen meta/params-Felder
     # bleiben unverändert.
+    # WP-N2-A-R1: Gesamt-Teilfehler sammeln -- ein fehlgeschlagener Relink
+    # bedeutet, dass das betroffene Sibling-Preset WEITERHIN auf die bereits
+    # entfernte alte KB zeigt. Unabhängige, noch mögliche Relinks dürfen
+    # trotzdem fertiglaufen (kein Abbruch der Schleife); der Gesamtlauf endet
+    # danach aber mit Fehlerstatus statt dem pauschalen "Setup abgeschlossen!"
+    # -- und ohne die vorherige pauschale `--all-variants`-Empfehlung, die
+    # unbeteiligt fremde Params/Meta aller Varianten überschreiben würde.
+    sibling_relink_failures: list[str] = []
     if not old_kb_ids:
         if other_vks:
             print_info(
@@ -4751,6 +4759,8 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             v_pid = v["preset_id"]
             remote_meta = dict(existing.get("meta") or {})
             knowledge = list(remote_meta.get("knowledge") or [])
+            old_kb_entry = knowledge[matching_idx]
+            old_kb_entry_id = old_kb_entry.get("id") if isinstance(old_kb_entry, dict) else old_kb_entry
             knowledge[matching_idx] = {
                 "id": kb_id, "name": kb_name, "type": "collection",
             }
@@ -4772,9 +4782,14 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             if code == 200:
                 print_ok(f"Variante '{vk}': bestehenden KB-Link auf neue KB nachgezogen.")
             else:
-                print_warn(
-                    f"Variante '{vk}': KB-Link-Nachzug fehlgeschlagen (HTTP {code}) — bitte "
-                    f"'python scripts/setup.py --all-variants' laufen lassen."
+                print_error(
+                    f"Variante '{vk}' (Preset {v_pid}): KB-Link-Nachzug fehlgeschlagen "
+                    f"(HTTP {code}) — zeigt weiterhin auf die bereits entfernte alte KB "
+                    f"'{old_kb_entry_id}' statt der neuen KB '{kb_id}'."
+                )
+                sibling_relink_failures.append(
+                    f"{vk} (Preset {v_pid}): alte KB '{old_kb_entry_id}' -> neue KB "
+                    f"'{kb_id}' fehlgeschlagen (HTTP {code})"
                 )
 
     # ── Sync-Manifest schreiben (für spätere --sync-Läufe) ──────────────────
@@ -4819,11 +4834,16 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         )
 
     # ── Summary ──────────────────────────────────────────────────────
+    # WP-N2-A-R1: ein fehlgeschlagener Sibling-Relink darf NICHT hinter dem
+    # pauschalen "Setup abgeschlossen!"-Schild verschwinden -- dieses Schild
+    # betrachtete bisher nur verify_ok/coverage_ok der NEUEN KB, nicht den
+    # kaputten Sibling-Link einer Nebenvariante.
     print()
     print_header(
-        "Setup abgeschlossen!" if (verify_ok and coverage_ok)
-        else "Setup abgeschlossen (mit Warnung)" if coverage_ok
-        else "Setup UNVOLLSTÄNDIG — Wissensdateien fehlen"
+        "Setup abgeschlossen!" if (verify_ok and coverage_ok and not sibling_relink_failures)
+        else "Setup abgeschlossen (mit Warnung)" if (coverage_ok and not sibling_relink_failures)
+        else "Setup UNVOLLSTÄNDIG — Wissensdateien fehlen" if not coverage_ok
+        else "Setup TEILWEISE FEHLGESCHLAGEN — KB-Link-Nachzug unvollständig"
     )
     print(f"  Presets:       {len(created_presets)} (geteilte Knowledge Base)")
     for vk, v_base in created_presets:
@@ -4840,6 +4860,18 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # kein "top"/"starte das Spiel" bei kaputtem Datensatz. Auch vor dem
     # LiteLLM-Angebot, weil ein unvollständiges Setup nicht "fertig genug"
     # fürs Caching ist.
+    # WP-N2-A-R1: Gesamt-Teilfehler beendet den Lauf mit Fehlerstatus -- die
+    # neue KB/Presets dieses Laufs sind fertig, aber mindestens ein
+    # bestehendes Sibling-Preset zeigt noch auf die bereits entfernte alte
+    # KB. Kein Transaktions-/Rollbackframework, nur ein ehrlicher Exitcode
+    # mit den konkret betroffenen IDs.
+    if sibling_relink_failures:
+        print_error(
+            "Setup mit Teilfehler abgeschlossen: KB-Link-Nachzug fehlgeschlagen für "
+            + "; ".join(sibling_relink_failures)
+        )
+        sys.exit(1)
+
     if not coverage_ok:
         print_error(
             "Setup NICHT erfolgreich: Es fehlen Wissensdateien in der KB (siehe oben). "
