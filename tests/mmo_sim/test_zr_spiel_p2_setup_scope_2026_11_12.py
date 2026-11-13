@@ -135,7 +135,8 @@ class _SetupHttpDouble:
                  fail_delete_file_ids=None, fail_update_model_ids=None,
                  knowledge_list_response=None, knowledge_files=None,
                  unreadable_knowledge_detail_ids=None,
-                 fail_delete_knowledge_ids=None, model_read_error_ids=None):
+                 fail_delete_knowledge_ids=None, model_read_error_ids=None,
+                 fail_delete_model_ids=None, knowledge_detail_raw_files=None):
         self.knowledge = {kb["id"]: dict(kb) for kb in (knowledge or [])}
         self.files = {f["id"]: dict(f) for f in (files or [])}
         # `models` ist ein dict id -> Preset-Payload (nicht eine Liste --
@@ -165,6 +166,19 @@ class _SetupHttpDouble:
         # WP-N1-A1: Model-IDs, deren `get_model()`-Read einen echten
         # Lesefehler (HTTP 500) simulieren statt eines bestaetigten 404.
         self.model_read_error_ids = set(model_read_error_ids or [])
+        # WP-N2-A-R0: Model-IDs, deren delete_model()-Mutation einen echten
+        # HTTP-500-Fehler liefert (statt 200 bei vorhandenem oder 404/401
+        # bei bestaetigt abwesendem Preset) -- unterscheidet den Fehlerfall
+        # von der bestaetigten Abwesenheit.
+        self.fail_delete_model_ids = set(fail_delete_model_ids or [])
+        # WP-N2-A-R3: kb_id -> ROHE (ungesaeuberte) `files`-Liste fuer
+        # `GET /knowledge/{id}`, um unlesbare Mischlisten/Memberlisten zu
+        # simulieren (z.B. [{"unlesbar": true}] oder [""] ) -- im
+        # Unterschied zu `knowledge_files` (saubere String-IDs) oder
+        # `unreadable_knowledge_detail_ids` (kompletter HTTP-Fehler).
+        self.knowledge_detail_raw_files = {
+            kid: list(v) for kid, v in (knowledge_detail_raw_files or {}).items()
+        }
 
         self.deleted_knowledge_ids: list[str] = []
         self.reset_vector_calls: list[str] = []
@@ -176,10 +190,25 @@ class _SetupHttpDouble:
         self.deleted_model_ids: list[str] = []
         self.uploaded_files: list[str] = []
         self.linked_files: list[tuple] = []
+        # WP-N2-A-T1: der behauptete "vollstaendige Mutationsledger" deckte
+        # bisher NICHT create_knowledge (POST wurde gar nicht erfasst) und
+        # KEINE unbekannten schreibenden Requests ab -- letztere bekamen
+        # pauschal HTTP 200 OHNE jede Erfassung (General-Review
+        # SETUP_QUELLENPRUEFUNG.md A-T1). Beide Luecken werden hier
+        # geschlossen, damit `_assert_zero_writes` echte Vollstaendigkeit
+        # pruefen kann.
+        self.created_knowledge_calls: list[str] = []
+        self.unknown_write_requests: list[tuple] = []
         self._next_file_id = 9000
 
     def request(self, method, path, data=None, content_type="application/json", timeout=None):
         if method == "GET" and path == "/api/config":
+            return 200, b"{}"
+        if method == "POST" and path == "/api/chat/completions":
+            # test_model(): reine Erreichbarkeits-/Typo-Probe fuer das
+            # Base-Model, KEINE der im Vertrag gemeinten Mutationen
+            # (Preset/KB/Vektor/Datei/Manifest/Embedding) -- bewusst NICHT
+            # im unknown_write_requests-Ledger erfasst.
             return 200, b"{}"
         if method == "GET" and path == "/api/v1/files/":
             # check_auth() -- kein Pagination-Query, immer simple ok.
@@ -200,6 +229,10 @@ class _SetupHttpDouble:
             kb_id = urllib.parse.unquote(path[len("/api/v1/knowledge/"):])
             if kb_id in self.unreadable_knowledge_detail_ids:
                 return 500, b'{"detail": "internal error"}'
+            if kb_id in self.knowledge_detail_raw_files:
+                return 200, json.dumps(
+                    {"id": kb_id, "files": self.knowledge_detail_raw_files[kb_id]}
+                ).encode()
             member_ids = self.knowledge_files.get(kb_id, [])
             return 200, json.dumps({"id": kb_id, "files": member_ids}).encode()
         if method == "DELETE" and path.startswith("/api/v1/knowledge/") and path.endswith("/delete"):
@@ -215,6 +248,7 @@ class _SetupHttpDouble:
             self.reset_vector_calls.append(path)
             return 200, b"{}"
         if method == "POST" and path == "/api/v1/knowledge/create":
+            self.created_knowledge_calls.append((data or {}).get("name"))
             return 200, json.dumps({"id": self.new_kb_id}).encode()
         if method == "GET" and path.startswith("/api/v1/files/?page="):
             page = int(path.rsplit("=", 1)[1])
@@ -272,10 +306,20 @@ class _SetupHttpDouble:
             return 200, json.dumps({"id": new_id}).encode()
         if method == "POST" and path == "/api/v1/models/model/delete":
             model_id = (data or {}).get("id")
+            self.deleted_model_ids.append(model_id)
+            if model_id in self.fail_delete_model_ids:
+                return 500, b'{"detail": "internal error"}'
             existed = model_id in self.models
             self.models.pop(model_id, None)
-            self.deleted_model_ids.append(model_id)
             return (200, b"{}") if existed else (404, b'{"detail": "not found"}')
+        # WP-N2-A-T1: ab hier unbekannte/nicht explizit modellierte Pfade --
+        # SCHREIBENDE Methoden (POST/PUT/PATCH/DELETE) werden erfasst statt
+        # unbeobachtet mit HTTP 200 durchzulaufen (vorher: pauschales
+        # `return 200, b"{}"` ohne jede Spur). Lesende GETs bleiben wie
+        # bisher unveraendert (kein Mutationsrisiko, zu viele legitime
+        # Such-/Status-Reads um sie hier einzeln zu modellieren).
+        if method in ("POST", "PUT", "PATCH", "DELETE"):
+            self.unknown_write_requests.append((method, path))
         return 200, b"{}"
 
 
@@ -316,13 +360,22 @@ def _run_reset(tmp: Path, http: _SetupHttpDouble, cfg: dict, opts: dict):
 _OPTS = {"assume_yes": True, "no_verify": True, "variants": ["default"]}
 
 
-def _assert_zero_writes(http: _SetupHttpDouble, out: str) -> None:
+def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" = None) -> None:
     """WP-N1-A1: ein kontrollierter Halt vor der ersten Mutation bedeutet
     NULL Einträge im VOLLSTÄNDIGEN Mutationsledger -- nicht nur
     `deleted_file_ids`. Der General-Review (SETUP_FINAL_REVIEW.md §5)
     kritisiert genau das: ein Testname "Halt vor Löschung", der nur eine
     einzelne letzte Löschfunktion beobachtet, bestätigt den WEITERLAUFENDEN
-    Ablauf statt ihn zu widerlegen."""
+    Ablauf statt ihn zu widerlegen.
+
+    WP-N2-A-T1: um `created_knowledge_calls` (POST .../knowledge/create war
+    bisher UNBEOBACHTET) und `unknown_write_requests` (unbekannte
+    schreibende Requests liefen bisher pauschal als HTTP 200 OHNE Erfassung
+    durch) ergaenzt -- derselbe gemeinsame Helfer wird jetzt auch im
+    Resetfall verwendet (vorher prüfte der Reset-Halt-Test nur 3 der 9+
+    Listen). Mit `tmp` zusaetzlich die lokale Manifest-Beobachtung: ein
+    Halt VOR jeder Mutation darf auch kein `.openwebui-sync.json`
+    geschrieben/geloescht haben."""
     assert http.deleted_model_ids == [], f"kein Preset-Delete:\n{out}"
     assert http.deleted_knowledge_ids == [], f"kein KB-Delete:\n{out}"
     assert http.reset_vector_calls == [], f"kein Vektor-Reset:\n{out}"
@@ -332,6 +385,13 @@ def _assert_zero_writes(http: _SetupHttpDouble, out: str) -> None:
     assert http.linked_files == [], f"kein Link:\n{out}"
     assert http.created_model_payloads == [], f"keine Preset-Neuanlage:\n{out}"
     assert http.update_model_payloads == [], f"kein Preset-Update:\n{out}"
+    assert http.created_knowledge_calls == [], f"keine KB-Neuanlage:\n{out}"
+    assert http.unknown_write_requests == [], (
+        f"keine unbeobachteten schreibenden Requests: {http.unknown_write_requests}\n{out}"
+    )
+    if tmp is not None:
+        manifest = tmp / ".openwebui-sync.json"
+        assert not manifest.exists(), f"kein lokales Sync-Manifest-Write/-Delete vor dem Halt:\n{out}"
 
 
 # ── (1)/(2): A1 — KB-Link-Nachzug nur bei nachweislicher Zugehörigkeit ──
@@ -475,7 +535,7 @@ def test_a2_incomplete_file_list_halts_before_destructive_delete():
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"ein unklarer Dateibestand muss VOR jeder Mutation hart abbrechen: exited={exited}\n{out}"
-        _assert_zero_writes(http, out)
+        _assert_zero_writes(http, out, tmp=tmp)
         assert "unklar" in out.lower() or "unvollständig" in out.lower(), out
 
 
@@ -574,9 +634,12 @@ def test_reset_path_unclear_file_list_halts_before_any_mutation():
         )
         exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"ein unklarer Dateibestand muss run_reset VOR jeder Mutation abbrechen: exited={exited}\n{out}"
-        assert http.deleted_model_ids == [], "kein Preset-Delete vor dem Halt"
-        assert http.deleted_knowledge_ids == [], "kein KB-Delete vor dem Halt"
-        assert http.deleted_file_ids == [], "kein Datei-Delete vor dem Halt"
+        # WP-N2-A-T1 (General-Review A-T1): bisher prüfte dieser Test nur
+        # drei der 9+ Mutationslisten -- derselbe gemeinsame Helfer wie bei
+        # den run_setup-Halt-Tests deckt jetzt den VOLLSTÄNDIGEN Ledger ab
+        # (inkl. created_knowledge_calls, unknown_write_requests, lokales
+        # Sync-Manifest), auch im Resetfall.
+        _assert_zero_writes(http, out, tmp=tmp)
         assert "kb-real-1" in http.knowledge, "die KB bleibt unangetastet"
 
 
@@ -627,7 +690,7 @@ def test_a1_unclear_knowledge_list_response_halts_before_any_mutation():
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"ein formfalscher KB-Listen-Körper muss hart abbrechen: exited={exited}\n{out}"
-        _assert_zero_writes(http, out)
+        _assert_zero_writes(http, out, tmp=tmp)
         assert "unklar" in out.lower() or "nicht lesbar" in out.lower(), out
 
 
@@ -694,7 +757,7 @@ def test_a1_sibling_read_error_halts_before_any_mutation():
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"ein Lesefehler beim Sibling-Preset muss hart abbrechen: exited={exited}\n{out}"
-        _assert_zero_writes(http, out)
+        _assert_zero_writes(http, out, tmp=tmp)
 
 
 def test_a1_sibling_malformed_knowledge_field_halts_before_any_mutation():
@@ -719,7 +782,7 @@ def test_a1_sibling_malformed_knowledge_field_halts_before_any_mutation():
         )
         exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
         assert exited == 1, f"ein formfalsches meta.knowledge muss hart abbrechen: exited={exited}\n{out}"
-        _assert_zero_writes(http, out)
+        _assert_zero_writes(http, out, tmp=tmp)
 
 
 def test_a2_shared_file_id_in_target_and_protected_kb_is_preserved():
