@@ -509,7 +509,11 @@ Details und Beat-Pool: `core/wuerfelmechanik.md` §Cineastische Kampf-Beats.
   Bereits gesicherte Beute, Umweltschäden und sonstige Folgen bleiben
   bestehen; nur ungesicherte personengebundene Spuren dürfen aus der Szene
   glätten. Blockiert für Chrononauten, Squadmates, Zivilisten,
-  Boss-/Mini-Boss-Ziele, Para-Wesen, Arena/PvP und Chronopolis.
+  Boss-/Mini-Boss-Ziele, Para-Wesen, Arena/PvP und Chronopolis. Die separate
+  **Gruppenrettung bei Chrononauten-Tod** (erweiterter ITI-Kausalabfang für
+  die ganze Gruppe, siehe Tod-Handling) ist **keine** Freigabe dieses
+  Feld-Cleanup-Markers für Chrononauten — eigener, eng abgegrenzter
+  Notfallfall.
 
 ### Stress (0-10)
 
@@ -735,24 +739,27 @@ verbindlich nach einem HQ-DeepSave. Tod folgt denselben Konsequenzen wie in
 Core/Rift-Missionen (kein Traum-Reset). Items, die man lebend rausbringt,
 bleiben erhalten.
 
-**Solo-Tod:**
-Die SL stoppt die Szene und bietet zwei Wege an:
+**Tod-Handling (Solo & Gruppe, Core/Rift/Chronopolis):**
+Erreicht ein Spieler-Chrononaut den Todes-/kritischen Moment, stoppt die SL
+die Szene. Der laufende Abschnitt endet für die **gesamte aktive Gruppe** im
+gemeinsamen Debriefing als **gescheitert** — das gilt auch solo, denn
+„Gruppe" ist hier die aktive Tischrunde.
 
-1. **Respawn:** Letzten Save in einem neuen Chat laden und weiterspielen.
-   Der Tod ist nicht passiert — der Charakter lebt ab dem letzten HQ-Save weiter.
-2. **Heroischer Tod:** Der Charakter stirbt als Teil der Geschichte. Die SL
-   inszeniert das Ende filmisch, erstellt einen **Final-Save** (v7-JSON mit
-   `"status": "deceased"`) und einen kurzen Abschlussbericht — ein Nachruf auf
-   den Agenten, den man sich später nochmal durchlesen kann. Danach: neuer
-   Charakter oder Kampagne beenden.
+1. **Rettungsangebot (Normalfall):** Am tatsächlichen kritischen Moment
+   bietet die SL den **erweiterten ITI-Kausalabfang für die ganze Gruppe**
+   an — verhindert den dauerhaften Figurverlust. Kein Retry-/Leben-Zähler,
+   kein stilles Neuladen.
+2. **Legendenabschied (nur auf ausdrücklichen Wunsch der betroffenen
+   Person):** Der Charakter stirbt als Teil der Geschichte. Die SL
+   inszeniert das Ende filmisch, erstellt einen persönlichen **Final-Save**
+   (v7-JSON mit `"status": "deceased"`) und einen kurzen Abschlussbericht —
+   ein Nachruf auf den Agenten, den man sich später nochmal durchlesen kann.
+   Auch dann kehrt die **ganze Gruppe** gemeinsam ins Debriefing zurück —
+   kein Resttrupp, kein Mid-Mission-Figurenwechsel. Danach: neuer Charakter
+   oder Kampagne beenden.
 
-**Gruppenregel bei Tod (Core/Rift/Chronopolis):**
-Im Gruppenchat stoppt Kodex die Szene und fragt die Gruppe verbindlich:
-
-1. **Tod bleibt Kanon:** Der Charakter ist tot. Final-Save + Abschlussbericht.
-   Die Gruppe spielt weiter, der Spieler kann einen neuen Agenten erstellen.
-2. **Neuladen:** Letzten Gruppen-DeepSave in neuem Chat laden.
-   Der gesamte Einsatz wird wiederholt.
+Erreichte Teilziele werden nach bestehenden Regeln abgerechnet, ohne den
+Abschnitt zum Missionserfolg umzudeuten.
 
 Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
@@ -1237,13 +1244,18 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
 Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten - ein
 **Belohnungssystem** mit fester, deterministischer Progression. Er steigt nach
-jeder erfolgreichen Mission sofort an und richtet sich nach der TEMP-Staffel.
-Ihr wollt den Index **aktiv aufbauen**, denn jeder Punkt bringt euch näher an
-seltene Rift-Ressourcen und Bonus-Missionen. Px 0-4 erzeugt keine Maluswerte;
-bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1-2 neue Rift-Signaturen**
-und setzt den Index zurück. Bei grobem Fehlverhalten (Zivilopfer, zerstörte
-Kern-Anker) flackert das HUD als Warnung - eskaliert die Situation weiter →
-**-1 Px**.
+erfolgreichen Missionen gemäß der tatsächlichen **TEMP-Kadenz** (siehe Tabelle
+unten) - nicht nach jeder einzelnen Mission im selben Takt, bei niedrigem TEMP
+langsamer, bei hohem TEMP schneller. Ihr wollt den Index **aktiv aufbauen**,
+denn jeder Punkt bringt euch näher an seltene Rift-Ressourcen und
+Bonus-Missionen. Px 0-4 erzeugt keine Maluswerte; bei Px 5 erkennt das HQ
+mittels `ClusterCreate()` **1-2 neue Rift-Signaturen** und setzt den Index
+zurück. Bei grobem Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert
+das HUD als Warnung - eskaliert die Situation weiter, greifen im Default
+**keine Px-Abzüge**, sondern bestehende Konsequenzen über Ressourcen und
+Lagebild (weniger CU, mehr Stress/Heat, verschärfte Missionsfolgen). Die
+separate optionale **Hardcore-Resonanz**-Sonderregel (s.u.) bleibt davon
+unberührt.
 
 Der **TEMP-Wert (Temporale Affinität)** bestimmt den Px-Zuwachs:
 

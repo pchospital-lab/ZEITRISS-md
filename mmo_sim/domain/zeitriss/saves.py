@@ -74,6 +74,19 @@ def extract_all_saves(text: str) -> list[dict]:
     return out
 
 
+def is_final_deceased(save: dict | None) -> bool:
+    """ZR-KERN-FEINSCHLIFF-K2: reine Statuslese-Pruefung gegen den
+    persoenlichen Final-Save-Marker (`characters[0].status=="deceased"`,
+    saveGame.v7(.export).schema.json). Kein LP-Schwellenwert, keine
+    Heuristik -- nur der explizite, vom SL gesetzte Marker zaehlt."""
+    if not isinstance(save, dict):
+        return False
+    chars = save.get("characters")
+    if not isinstance(chars, list) or not chars or not isinstance(chars[0], dict):
+        return False
+    return chars[0].get("status") == "deceased"
+
+
 def single_character_count(block: dict) -> int:
     chars = block.get("characters")
     return len(chars) if isinstance(chars, list) else 0

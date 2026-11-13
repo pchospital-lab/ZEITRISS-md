@@ -144,11 +144,14 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
   Die Ausnahme wurde entfernt; das Chargen-Save-Gate ist jetzt Pflicht
   auf jedem Onboarding-Pfad. Legacy-Trigger `solo schnell` / `gruppe schnell`
   werden im Runtime still auf `klassisch` gemappt.
-- **Tod-Final-Save ist KEIN Sync-Punkt.** Heroischer Tod erzeugt einen
-  Final-Save (`"status":"deceased"`) als Sonderausnahme zur HQ-only-Regel
-  (siehe Tod-Handling im Masterprompt). Davor läuft **kein** Sync-Beat —
-  das filmische Ende ist die Lore-Verankerung. Sync-Macros werden bei
-  Tod-Final-Save nicht aufgerufen.
+- **Tod-Final-Save ist KEIN Sync-Punkt.** Der Legendenabschied (nur auf
+  ausdrücklichen Wunsch der betroffenen Person) erzeugt einen **persönlichen,
+  figurbezogenen** Final-Save (`"status":"deceased"`) als Sonderausnahme zur
+  HQ-only-Regel (siehe Tod-Handling im Masterprompt). Der Finalmarker ist
+  eindeutig an genau diese Figur gebunden und entsteht im gemeinsamen
+  Debriefing, in das die ganze Gruppe zurückkehrt. Davor läuft **kein**
+  Sync-Beat — das filmische Ende ist die Lore-Verankerung. Sync-Macros werden
+  bei Tod-Final-Save nicht aufgerufen.
 - **Chat-Hygiene:** Pro Spielabschnitt ein frischer Chat mit DeepSave-Import.
   Spieler-Devise im
   [Spielerhandbuch](../../core/spieler-handbuch.md#gameflow-chat-wechsel),
@@ -1606,13 +1609,27 @@ zum Abschluss des Match-Debriefs.
 
 ### Gruppenregel bei Todesfällen (Core/Rift/Chronopolis)
 
-Im Modus `gruppe` wird bei einem Spieler-Tod die Szene sofort gestoppt. Kodex
-stellt dann verbindlich eine Gruppenentscheidung:
+Im Modus `gruppe` wird, sobald ein Spieler-Chrononaut den Todes-/kritischen
+Moment erreicht, die Szene sofort gestoppt. Der Abschnitt endet für die
+**gesamte aktive Gruppe** im gemeinsamen Debriefing als **gescheitert**
+(siehe Tod-Handling im Masterprompt): in Core/Rift der bestehende
+HQ-Debrief oben, in Chronopolis (`CITY`) der bestehende Schleusen-Debrief
+(Kurzverweis oben). Die SL führt den tatsächlichen Notfallentscheid;
+passende Kodex-Inworld-Stimme bleibt dabei zulässig, wenn der Kanal
+verfügbar ist:
 
-1. **Tod bleibt Kanon.** Die Geschichte läuft mit dem Verlust weiter; Debrief
-   und Logs markieren den Tod als narrative Konsequenz.
-2. **Neu laden.** Die Gruppe öffnet ein neues Chatfenster, lädt den letzten
-   **Gruppen-DeepSave** und startet den Einsatz erneut.
+1. **Rettungsangebot (Normalfall).** Die SL bietet den erweiterten
+   ITI-Kausalabfang für die ganze Gruppe an — verhindert den dauerhaften
+   Figurverlust.
+2. **Legendenabschied** (nur auf ausdrücklichen Wunsch der betroffenen
+   Person). Debrief und Logs markieren die Figur als narrative Konsequenz;
+   persönlicher Final-Save + Abschlussbericht.
+
+In beiden Fällen harvestet das Debriefing den **vollständigen persönlichen
+v7-Save jedes einzelnen Gruppenmitglieds** über den vorhandenen
+HQ-Loop-Contract (§HQ-Loop-Contract oben) bzw. die Tod-Final-Save-Ausnahme —
+**kein** alter Gruppen-Sammelsave, kein Neuladen eines gemeinsamen
+Gruppen-DeepSaves.
 
 Diese Abfrage gilt identisch in Core-, Rift- und Chronopolis-Einsätzen.
 Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.

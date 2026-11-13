@@ -152,6 +152,29 @@ def play_bound_table(
                 table_id=table.table_id, section_id=f"{table.table_id}-section",
             )
 
+    # ZR-KERN-FEINSCHLIFF-K3 (02 §C): VOR jeder Treiberkonstruktion/GM-
+    # Anbindung (unten) JEDES tatsaechliche Tischmitglied gegen `_final_
+    # deceased_hold` halten -- `active_saves`/`table.chrononaut_ids` sind
+    # hier bereits die bereits vorliegenden, aufgeloesten Figuren (frischer
+    # Tisch ODER Resume); dieselbe Autoritaet wie jede andere Resolve-Stelle
+    # in `ui/tui.py`. Greift der Hold, haelt der Aufruf hier -- noch VOR
+    # `drivers = {...}` unten, also vor jeder neuen Persona-/GM-Anbahnung.
+    for pk in table.members:
+        chrono_id = table.chrononaut_ids.get(pk)
+        member_save = active_saves.get(pk)
+        if chrono_id is None or member_save is None:
+            continue
+        hold_reason = session._final_deceased_hold(
+            chrono_id, member_save, completing_table_id=table.table_id,
+        )
+        if hold_reason is not None:
+            reason = f"Lobby-Initiative: Tisch {table.table_id} haelt an -- {hold_reason}"
+            session._print(reason)
+            return LobbyWindowOutcome(
+                kind=LobbyOutcomeKind.OPEN_WITH_REASON, reason=reason,
+                table_id=table.table_id, section_id=f"{table.table_id}-section",
+            )
+
     from . import app_service
     from . import population_backup
     from .controller import TableController
@@ -320,11 +343,23 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
         session._print(reason)
         return LobbyWindowOutcome(kind=LobbyOutcomeKind.OPEN_WITH_REASON, reason=reason)
 
+    # ZR-KERN-FEINSCHLIFF-K3 (02 §C, Rosterauflösung): `RosterEntry` selbst
+    # fuehrt keinen `active_save` mehr (nur `chrononaut_id`) -- der hier
+    # beobachtete Resolve-Ergebnis wird deshalb zusaetzlich in diesem
+    # Closure-Seitenkanal festgehalten, damit `free` unten GENAU denselben
+    # `_final_deceased_hold`-Vertrag tragen kann wie jede andere
+    # Resolve-Stelle, OHNE `lobby_service.community_roster` (ausserhalb der
+    # K3-Allowlist) zu aendern.
+    _roster_active_saves: dict[str, dict] = {}
+
     def _resolve_for_roster(pk: str):
         try:
-            return session._resolve_member(pk)
+            resolved = session._resolve_member(pk)
         except _ActiveSaveUnresolved:
             return None
+        if resolved is not None:
+            _roster_active_saves[pk] = resolved[0]
+        return resolved
 
     roster = lobby_service.community_roster(
         session.run_dir, bootstrap.personas_written, session.onboarding_dir, _resolve_for_roster,
@@ -336,6 +371,21 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
         f"Lobby {community_id!r} ({len(roster)} Mitglieder): "
         f"frei/spielbereit={[r.persona_key for r in free]} gebunden={bound} noch_nicht_bereit={not_ready}"
     )
+    # ZR-KERN-FEINSCHLIFF-K3 (02 §C): ein Mitglied mit abgeschlossenem
+    # Legendenabschied (ohne selbst noch offenen Abschluss fuer GENAU diesen
+    # Tisch -- `_final_deceased_hold` kennt die Ausnahme bereits) darf nicht
+    # erneut "frei/spielbereit" fuer eine NEUE Persona-Anbahnung sein --
+    # sonst wuerde STEP 1 unten (`persona_driver_factory`) diese Figur fuer
+    # ein neues Angebot/eine neue Initiative befragen, BEVOR irgendeine
+    # Tischbindung ueberhaupt entsteht. Die Druckzeile oben zeigt bewusst den
+    # tatsaechlichen, UNGEFILTERTEN Roster-Stand (ehrliche Sichtbarkeit);
+    # erst ab hier wird die tatsaechliche Lobby-Teilnahme (`lobby.join`,
+    # Scheduler-Pool) gehalten.
+    free = [
+        r for r in free
+        if r.chrononaut_id is None
+        or session._final_deceased_hold(r.chrononaut_id, _roster_active_saves.get(r.persona_key, {})) is None
+    ]
 
     from ..domain.zeitriss.policy import ZeitrissTableSizePolicy
 
@@ -407,6 +457,28 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
                         f"Lobby-Initiative: '{pk}' hat fuer die Wiederaufnahme von "
                         f"Tisch {resumable.table_id} keine abgeschlossene Figur mehr "
                         "— kein Resume, kontrolliert offen."
+                    )
+                    session._print(reason)
+                    return LobbyWindowOutcome(
+                        kind=LobbyOutcomeKind.OPEN_WITH_REASON, reason=reason,
+                        table_id=resumable.table_id,
+                    )
+                # ZR-KERN-FEINSCHLIFF-K3 (02 §C, Resumeauflösung): dasselbe
+                # bereits vorliegende Angebot (`resumable`) VOR seiner
+                # Nutzung (`create_table_from_offer_log`/
+                # `append_offer_resolution` unten) gegen `_final_deceased_
+                # hold` halten -- die Ausnahme fuer GENAU diesen offenen
+                # Abschluss greift tischgebunden (`completing_table_id=
+                # resumable.table_id`, s. `open_completion_order_for_table`);
+                # ein offener Abschluss fuer einen ANDEREN Tisch hebt den
+                # Hold hier nicht auf.
+                hold_reason = session._final_deceased_hold(
+                    resolved[1], resolved[0], completing_table_id=resumable.table_id,
+                )
+                if hold_reason is not None:
+                    reason = (
+                        f"Lobby-Initiative: Wiederaufnahme von Tisch {resumable.table_id} "
+                        f"nicht moeglich -- {hold_reason}"
                     )
                     session._print(reason)
                     return LobbyWindowOutcome(
@@ -887,6 +959,17 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
             reason = f"Lobby-Initiative: '{pk}' hat keine abgeschlossene Figur mehr — kein Tischstart."
             session._print(reason)
             return LobbyWindowOutcome(kind=LobbyOutcomeKind.OPEN_WITH_REASON, reason=reason, window_id=window_section_id)
+        # ZR-KERN-FEINSCHLIFF-K3 (02 §C, Neutischauflösung): VOR der neuen
+        # Tischbindung aus `confirmed_derivation` (`create_table_from_offer_
+        # log`/`append_offer_resolution` unten) mit GENAU der finalen Figur
+        # halten -- keine neue Tischbindung aus einem Angebot, das eine
+        # endgueltig abgeschlossene Figur enthaelt.
+        hold_reason = session._final_deceased_hold(resolved[1], resolved[0])
+        if hold_reason is not None:
+            session._print(f"Lobby-Initiative: kein Tischstart -- {hold_reason}")
+            return LobbyWindowOutcome(
+                kind=LobbyOutcomeKind.OPEN_WITH_REASON, reason=hold_reason, window_id=window_section_id,
+            )
         active_saves[pk], chrononaut_ids[pk] = resolved
 
     table_id = "lobby-" + "-".join(sorted(confirmed_derivation.members))

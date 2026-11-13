@@ -108,7 +108,10 @@ covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Identitätsfassung und aktiver Kodex-Uplink sind Pflicht. Das
   ITI-Abfangfenster reicht nur **Sekunden bis wenige Minuten** vor
   Einsatzkontakt. Abfang nur, solange **Tatmotivation und Einsatzlage** des Ziels erkennbar dieselben bleiben. Gesperrt für Boss-/Mini-Boss-Ziele, Chrononauten,
-  Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis.
+  Squadmates, Zivilisten, Para-Wesen, Arena/PvP und Chronopolis. Die separate
+  **Gruppenrettung bei Chrononauten-Tod** (erweiterter ITI-Kausalabfang für
+  die ganze Gruppe, siehe Gruppen-Todesentscheid unten) ist **keine**
+  Lockerung dieser Sperre — eigener, eng abgegrenzter Notfallfall.
 - **Kausalabfang-Ablauf:** Reihenfolge bei 0-LP-Hostiles immer
   **Loot sichern → optional Kausalabfang → Cleanup/Exfil**. Bereits gesicherte
   Beute/Folgen bleiben; nur ungesicherte personengebundene Spuren dürfen
@@ -951,13 +954,23 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 ### Gruppen-Todesentscheid (Pflichtdialog)
 
 Im Modus `gruppe` gilt bei Todesfällen (Core, Rift, Chronopolis) immer derselbe
-Dialogblock. Die Spielleitung stoppt die Szene und fragt:
+Dialogblock. Sobald ein Spieler-Chrononaut den Todes-/kritischen Moment
+erreicht, stoppt die Spielleitung die Szene — der Abschnitt endet für die
+**gesamte aktive Gruppe** im gemeinsamen Debriefing als **gescheitert**
+(siehe Tod-Handling, `meta/masterprompt_v6.md`). Die SL führt den
+tatsächlichen Notfallentscheid selbst:
 
-1. **Tod bleibt Kanon** (Story läuft mit Verlust weiter), oder
-2. **Neu laden** (neues Chatfenster öffnen, letzten Gruppen-DeepSave laden,
-   Einsatz erneut starten).
+1. **Rettungsangebot (Normalfall):** Die SL bietet den erweiterten
+   ITI-Kausalabfang für die ganze Gruppe an — auch in Chronopolis bei
+   dunklem Kodexkanal; kein Kodex-Uplink als Blockadebedingung für dieses
+   Angebot.
+2. **Legendenabschied** (nur auf ausdrücklichen Wunsch der betroffenen
+   Person): Final-Save + Abschlussbericht für die eigene Figur.
 
-Erst nach dieser Gruppenentscheidung wird die Erzählung fortgesetzt.
+**Beide Varianten enden gemeinsam** — die Gruppe kehrt in jedem Fall
+geschlossen ins Debriefing zurück; kein Resttrupp, kein stilles Neuladen.
+
+Erst nach diesem Notfallentscheid wird die Erzählung fortgesetzt.
 
 ### Load → HQ-Phase oder Briefing
 

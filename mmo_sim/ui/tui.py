@@ -2662,6 +2662,12 @@ class TuiSession:
             )
             return
         active_save, _leader_chrono = resolved_leader
+        hold_reason = self._final_deceased_hold(
+            _leader_chrono, active_save, completing_table_id=table.table_id,
+        )
+        if hold_reason is not None:
+            self._print(f"Fortsetzen nicht moeglich: {hold_reason}")
+            return
         leader_driver = None
         if leader_persona_id:
             if self.persona_driver_factory is None:
@@ -2706,6 +2712,12 @@ class TuiSession:
                 )
                 return
             guest_active_save, _guest_chrono = resolved
+            hold_reason = self._final_deceased_hold(
+                _guest_chrono, guest_active_save, completing_table_id=table.table_id,
+            )
+            if hold_reason is not None:
+                self._print(f"Fortsetzen nicht moeglich: {hold_reason}")
+                return
             driver = None
             if is_persona:
                 if self.persona_driver_factory is None:
@@ -2893,6 +2905,20 @@ class TuiSession:
                 # `lvl` hat Vorrang, `level` bleibt als reiner Fallback.
                 lvl = chars[0].get("lvl", chars[0].get("level", "?"))
                 summary = f"{chars[0].get('name', '?')} (Level {lvl})"
+                # ZR-KERN-FEINSCHLIFF-K2: ein persoenlicher Final-Save mit
+                # `status=="deceased"` ist ein gueltiger, sichtbarer
+                # Abschluss (Legendenabschied) -- die Karte benennt ihn
+                # eindeutig als Finale (ansehen/exportieren jederzeit
+                # moeglich), statt ihn wie einen normal fortsetzbaren Stand
+                # anzuzeigen. Reine Lesefunktion (`zeitriss_saves.
+                # is_final_deceased`), kein Write, keine Statusmutation.
+                if zeitriss_saves.is_final_deceased(final_save):
+                    summary = (
+                        f"{summary} -- Legendenabschied abgeschlossen (Final-Save, "
+                        "status=deceased): ansehen/exportieren jederzeit moeglich "
+                        "('[charaktere] -> [3] Exportieren/ansehen', 'e', '/bogen'); kein neuer "
+                        "Spielstart mit dieser Figur, bitte bewusst eine andere/neue Figur waehlen."
+                    )
         elif pending_creation:
             summary = "Figur-Erschaffung begonnen, noch nicht abgeschlossen (fortsetzen ueber 'n'/[charaktere])"
         else:
@@ -5425,6 +5451,44 @@ class TuiSession:
             return None
         return member_active_save, member_chrono_id
 
+    def _final_deceased_hold(
+        self, chrononaut_id: str, active_save: dict, *, completing_table_id: str | None = None,
+    ) -> str | None:
+        """ZR-KERN-FEINSCHLIFF-K2/K3 (Schoepferentscheidung Spieler-Tod):
+        haelt einen neuen Spielstart/Beitritt mit einer Figur, deren
+        persoenlicher Final-Save bereits `status=="deceased"` traegt
+        (`zeitriss_saves.is_final_deceased`, reine Statuslese-Pruefung,
+        KEINE LP-Heuristik). Ausnahme bleibt erreichbar, aber NUR noch
+        tischgebunden (K3, 02 §C): ein tatsaechlich offener Abschlussauftrag
+        fuer GENAU den gerade fortgesetzten/gebundenen Tisch darf seine
+        fehlende Reflexion/Finalisierung zu Ende fuehren. Der Aufrufer
+        uebergibt dafuer `completing_table_id` (die Figur wird an jeder
+        Resume-Stelle ohnehin aus `table.chrononaut_ids` aufgeloest, also
+        ist die Teilnehmer-/Figurenbindung dort strukturell gegeben); die
+        Ausnahme greift genau dann, wenn fuer DIESEN Tisch ein echter
+        offener Abschluss vorliegt (`core_store.open_completion_order_for_
+        table`, reine Lesefunktion, kein neuer Core-/Store-Zugriff). OHNE
+        `completing_table_id` (jeder Neustart/jedes neue Angebot) gibt es
+        KEINE Ausnahme -- der boolesche, tisch-agnostische
+        `chrononaut_open_completion_order` ist bewusst ersetzt, damit ein
+        offener Abschluss fuer Tisch A keine Pauschal-Erlaubnis fuer eine
+        neue Aufnahme an Tisch B mehr ist (02 §C Zeile 37/43). Gibt `None`
+        zurueck, wenn kein Hold greift, sonst einen anzeigefertigen
+        Hinweistext. Reine Lesefunktion, kein Write, keine Statusmutation."""
+        if not zeitriss_saves.is_final_deceased(active_save):
+            return None
+        if completing_table_id is not None and self.run_dir is not None:
+            from ..core import store as core_store
+            if core_store.open_completion_order_for_table(self.run_dir, completing_table_id) is not None:
+                return None
+        return (
+            f"Figur '{chrononaut_id}' hat einen abgeschlossenen Legendenabschied "
+            "(persoenlicher Final-Save, status=deceased) -- ansehen/exportieren bleibt "
+            "jederzeit moeglich ('[charaktere] -> [3] Exportieren/ansehen', 'e', '/bogen'), "
+            "aber kein neuer Spielstart und kein neues Beitritts-/Gastangebot mit genau "
+            "dieser Figur. Bitte bewusst eine andere/neue Figur waehlen."
+        )
+
     def _local_round_registry_dir(self) -> Path:
         """A24 R2 (02 §Auftrag R2: 'ueber die VORHANDENE Registry
         registrieren', '... keine zweite Personen-/Katalogdatenwelt').
@@ -5649,7 +5713,15 @@ class TuiSession:
         anfragen'). `_cmd_menu_tisch` uebergibt hier die tatsaechlich
         HANDELNDE Person -- die Anfrage/eigene Figur/Save gehoeren jetzt
         IMMER dieser Person, nicht pauschal der aeusseren `self.
-        participant_id` (geteilter Bildschirm, zweite Person)."""
+        participant_id` (geteilter Bildschirm, zweite Person).
+
+        ZR-KERN-FEINSCHLIFF-K3 (02 §C): bietet `acting_pid` eine EIGENE
+        bereits abgeschlossene Figur an (`own_offer` != `None`), haelt
+        `_final_deceased_hold` die GESAMTE Anfrage (Admission UND
+        Gastangebot) VOR jeder neuen Wirkung -- `request_join` wird dann
+        gar nicht erst aufgerufen. Die reine ID-Anfrage OHNE eigene Figur
+        (`own_offer is None`, z.B. Betreiber ohne eigenen Bestand) bleibt
+        davon unberuehrt und laeuft wie bisher durch."""
         acting_pid = self.participant_id if acting_pid is None else acting_pid
         if self.run_dir is None:
             self._print("Tisch-Anfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -5665,6 +5737,12 @@ class TuiSession:
                 "nicht lesbar -- keine Anfrage ohne geklaerte eigene Figur/Fassung."
             )
             return
+        if own_offer is not None:
+            own_save, own_chrononaut_id = own_offer
+            hold_reason = self._final_deceased_hold(own_chrononaut_id, own_save)
+            if hold_reason is not None:
+                self._print(f"Tisch-Anfrage abgelehnt: {hold_reason}")
+                return
         try:
             record = table_admission.request_join(self.run_dir, table_key=table_key, guest_id=acting_pid)
         except table_admission.TableAdmissionError as e:
@@ -5727,7 +5805,14 @@ class TuiSession:
         ist. Reine Lesefunktion (`load_record`), KEIN Write vor der
         Ablehnung; ein (noch) nicht existierender `table_key` faellt
         unveraendert auf den bestehenden `request_join`-Fehlerpfad
-        zurueck (unten)."""
+        zurueck (unten).
+
+        ZR-KERN-FEINSCHLIFF-K3 (02 §C): derselbe statusbezogene Vertrag wie
+        `_cmd_table_request_join` -- hat `persona_id` eine KONKRET
+        angebotene eigene Figur (`self._resolve_member(persona_id)` !=
+        `None`), haelt `_final_deceased_hold` die Anfrage VOR jedem
+        `table_admission`-Write. Ohne eigene Figur (reine Persona-ID)
+        bleibt das Verhalten unveraendert."""
         self._require_host("Persona-Anfrage stellen (eigener Bestand)")
         if self.run_dir is None:
             self._print("Persona-Anfrage erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -5751,6 +5836,20 @@ class TuiSession:
                 "am eigenen Tisch anfragen (kein Write, kein Modellaufruf)."
             )
             return
+        try:
+            persona_offer = self._resolve_member(persona_id)
+        except _ActiveSaveUnresolved:
+            self._print(
+                f"Persona-Anfrage abgelehnt: der Spielstand der Persona '{persona_id}' ist gerade "
+                "nicht lesbar -- keine Anfrage ohne geklaerte eigene Figur/Fassung."
+            )
+            return
+        if persona_offer is not None:
+            persona_save, persona_chrononaut_id = persona_offer
+            hold_reason = self._final_deceased_hold(persona_chrononaut_id, persona_save)
+            if hold_reason is not None:
+                self._print(f"Persona-Anfrage abgelehnt: {hold_reason}")
+                return
         try:
             record = table_admission.request_join(self.run_dir, table_key=table_key, guest_id=persona_id)
         except table_admission.TableAdmissionError as e:
@@ -6066,7 +6165,16 @@ class TuiSession:
         Fremdzuordnung/Aktivbindung oben, keine zweite Importarchitektur.
         Die NICHT-waehlbaren `parked`-Gruende (Fremdzuordnung, aktive
         Bindung/offener Abschluss, Current nicht lesbar) fragen WEITERHIN
-        nicht nach -- `conflict_choice_available` bleibt dort `False`."""
+        nicht nach -- `conflict_choice_available` bleibt dort `False`.
+
+        ZR-KERN-FEINSCHLIFF-K3 (02 §C): liegt ein Gastangebot vor, haelt
+        `_final_deceased_hold` auf GENAU der angebotenen Figur
+        (`guest_offer['chrononaut_id']`/`['save']`) VOR jeder weiteren
+        Intake-/Konfliktentscheidung UND vor `accept_request`. Das
+        schliesst die Konflikt-'keep_existing'-Umgehung (eine aeltere,
+        noch lebende hostseitige Fassung derselben endgueltigen Figur
+        behalten) ab, weil der Hold schon hier -- vor jeder
+        Konfliktwahl -- greift, nicht erst danach."""
         self._require_host("Tisch-Anfrage annehmen (accept_request)")
         if self.run_dir is None:
             self._print("Anfrage annehmen erfordert eine konfigurierte Laufumgebung (run_dir).")
@@ -6076,6 +6184,11 @@ class TuiSession:
             return
         table_key, guest_id = args[0], args[1]
         guest_offer = _read_table_guest_offer(self.run_dir, table_key, guest_id)
+        if guest_offer is not None:
+            hold_reason = self._final_deceased_hold(guest_offer["chrononaut_id"], guest_offer["save"])
+            if hold_reason is not None:
+                self._print(f"Anfrage von '{guest_id}' nicht angenommen: {hold_reason}")
+                return
         if guest_offer is not None and (self.states_dir is None or self.schema_path is None):
             self._print(
                 f"Anfrage von '{guest_id}' nicht angenommen: die mitgebrachte eigene Figur "
@@ -6414,6 +6527,34 @@ class TuiSession:
                         "(kein neuer Abschnitt, dieselbe Besetzung)."
                     )
                     self._resume_bound_table(bound_section)
+                    return
+        # ZR-KERN-FEINSCHLIFF-K3 (02 §C): ein frischer Start friert ueber
+        # `start_table` sofort roster/requests ein (reale Wirkung) -- die
+        # bestehende Wiederoeffnung nach gescheitertem Start (R3-Nachzug
+        # oben/`reopen_table` weiter unten) ist dafuer KEIN Ersatz. Vor
+        # dieser Wirkung werden deshalb die wirklich spielenden Mitglieder
+        # des aktuellen Rosters (JEDES davon, nicht nur der Leader) gegen
+        # `_final_deceased_hold` gehalten -- derselbe Vertrag wie im
+        # spaeteren `_cmd_local_round`/`_resume_bound_table`, nur schon VOR
+        # `start_table`, damit kein Tisch mit einer endgueltig
+        # abgeschlossenen Figur ueberhaupt erst eingefroren wird.
+        if existing_record is not None:
+            for member_pid in existing_record.get("roster", []):
+                try:
+                    resolved_member = self._resolve_member(member_pid)
+                except _ActiveSaveUnresolved:
+                    self._print(
+                        f"Tischstart abgelehnt: der aktuell veroeffentlichte Spielstand von "
+                        f"'{member_pid}' ist gerade nicht lesbar -- kein Spielstart, bis die "
+                        "tatsaechliche Autoritaet geklaert ist."
+                    )
+                    return
+                if resolved_member is None:
+                    continue
+                member_active_save, member_chrono_id = resolved_member
+                hold_reason = self._final_deceased_hold(member_chrono_id, member_active_save)
+                if hold_reason is not None:
+                    self._print(f"Tischstart abgelehnt: {hold_reason}")
                     return
         try:
             record = table_admission.start_table(self.run_dir, table_key=table_key, host_id=self.participant_id)
@@ -8552,6 +8693,10 @@ class TuiSession:
                 )
             return
         active_save, chrononaut_id = resolved_leader
+        hold_reason = self._final_deceased_hold(chrononaut_id, active_save)
+        if hold_reason is not None:
+            self._print(f"Lokale Runde nicht moeglich: {hold_reason}")
+            return
 
         leader_driver = None
         if leader_persona_id:
@@ -8725,6 +8870,10 @@ class TuiSession:
                 self._print(f"Einladung an '{guest_id}' nicht moeglich: keine abgeschlossene Figur vorhanden.")
                 return
             guest_active_save, guest_chrononaut_id = resolved_guest
+            hold_reason = self._final_deceased_hold(guest_chrononaut_id, guest_active_save)
+            if hold_reason is not None:
+                self._print(f"Einladung an '{guest_id}' nicht moeglich: {hold_reason}")
+                return
             # W1-B2-Fix: der aufrufende Mensch selbst ist bereits
             # freigegeben; jeder ANDERE angefragte Teilnehmer (Persona
             # oder zusaetzlicher Mensch) ist zustimmungspflichtig.

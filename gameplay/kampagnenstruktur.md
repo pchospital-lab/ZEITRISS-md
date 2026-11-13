@@ -1748,7 +1748,8 @@ Die genauen SG-Werte setzt das System erst zur Laufzeit anhand offener Rifts ein
 
 ### Kodex-gesteuerte Story-Zwischensequenzen
 
-Ein besonderes Feature im ZEITRISS-Setting ist der **Kodex** - eine Art allwissendes Archiv oder KI,
+Ein besonderes Feature im ZEITRISS-Setting ist der **Kodex** - eine KI-Assistenz mit Zugriff auf ein
+breites Archiv-, Sensor- und übermitteltes Wissen (kein Allwissen, siehe Kodex-Regeln im Toolkit),
 das einerseits Fakten speichert, andererseits als **Erzählgerät** fungiert. Das Modul schlägt vor,
 den Kodex zu nutzen, um **Story-Zwischensequenzen** einzubauen, die von Beziehungen und
 Kampagnenfortschritt getriggert werden. Diese Sequenzen funktionieren wie filmische Cutscenes in
@@ -2161,10 +2162,13 @@ _Runtime-Leitfaden für die KI-SL (spieler-sichtbar, ohne Dev-Tooling)_
 > Ausgangsschleuse.
 > **Keine Waffenruhe** — hier passiert alles, ohne Szenencount.
 > **Tod folgt auch in Chronopolis der Core-/Rift-Regel:** kein Sonder-Respawn,
-> kein Traum-Reset. Im Gruppenmodus greift die verpflichtende
-> Todesentscheidung (_Tod bleibt Kanon_ oder _Reload vom letzten
-> Gruppen-DeepSave_). Chronopolis-Items gehen nur verloren, wenn ihr den Run
-> nicht lebend verlasst.
+> kein Traum-Reset. Erreicht ein Spieler-Chrononaut den Todes-/kritischen
+> Moment, greift derselbe gemeinsame Notfallabschluss (siehe Tod-Handling im
+> Masterprompt): die Gruppe kehrt gemeinsam ins Debriefing zurück, die SL
+> bietet den erweiterten ITI-Kausalabfang für die ganze Gruppe an — auch bei
+> gesperrtem Kodex-Kanal — und nur auf ausdrücklichen Wunsch der betroffenen
+> Person folgt der dauerhafte Legendenabschied. Chronopolis-Items gehen nur
+> verloren, wenn ihr den Run nicht lebend verlasst.
 > Items die man lebend rausbringt: behalten. Keine Auswirkungen auf die echte Zeitlinie.
 > Chronopolis ist eine temporär stabilisierte **reale Bruchlinie** der Episode, die Kodex bei jedem Eintritt neu dechiffriert und kurz begehbar hält. Kein Speichern möglich.
 
@@ -2237,7 +2241,10 @@ den Runtime-Wissensspeicher.
   Run lebend verlässt.
 - **Kodex-Kanal:** In `CITY` gilt Sperrmodus (_Kodex dunkel, HUD lebendig_).
   Lokale HUD-Daten/Logs bleiben aktiv, freie `kodex`-/FAQ-Abfragen sind bis
-  zum Exit in den HQ-Kern blockiert.
+  zum Exit in den HQ-Kern blockiert. Ausnahme: Das Rettungsangebot am
+  tatsächlichen Todes-/kritischen Moment (siehe Tod-Handling im
+  Masterprompt) gibt die SL **auch bei dunklem Kodexkanal** — daraus
+  entsteht kein freier Kodexzugang, kein Uplinkzwang, keine Allwissenheit.
 - **Lore-Rail (`ABSOLUT-7/CITY`):** Als Chronopolis-Zusatz zum Absolut-7-Projektionsmodell ist die Stadt als physisch wirksamer
   Resonanzraum zu spielen — als **reale Bruchlinie**, die Kodex stabilisiert/dechiffriert, nicht als Simulation. Das "Was bedeutet das
   für die Welt?" bleibt ein später Erkenntnis-Beat, nicht der Szenenmodus.
