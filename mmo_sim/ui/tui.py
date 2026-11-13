@@ -2913,12 +2913,41 @@ class TuiSession:
                 # anzuzeigen. Reine Lesefunktion (`zeitriss_saves.
                 # is_final_deceased`), kein Write, keine Statusmutation.
                 if zeitriss_saves.is_final_deceased(final_save):
-                    summary = (
-                        f"{summary} -- Legendenabschied abgeschlossen (Final-Save, "
-                        "status=deceased): ansehen/exportieren jederzeit moeglich "
-                        "('[charaktere] -> [3] Exportieren/ansehen', 'e', '/bogen'); kein neuer "
-                        "Spielstart mit dieser Figur, bitte bewusst eine andere/neue Figur waehlen."
-                    )
+                    # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §B2): ein tatsaechlich
+                    # noch OFFENER Abschluss darf nicht "abgeschlossen"
+                    # heissen. Zuerst der am Kartenkontext bereits
+                    # vorhandene Tischbezug (`open_section_id`, s. oben --
+                    # `locked_table_id`), sonst (kein aktueller Tischlock)
+                    # der figurgebundene Leser (`chrononaut_open_completion_
+                    # order`) als ehrlicher, schwaecherer Rueckfall. Reine
+                    # Lesefunktion, kein Write, kein neues Feld/Menue.
+                    has_open_completion = False
+                    if self.run_dir is not None and chrononaut_id is not None:
+                        from ..core import store as core_store
+                        if open_section_id is not None:
+                            has_open_completion = (
+                                core_store.open_completion_order_for_table(self.run_dir, open_section_id)
+                                is not None
+                            )
+                        else:
+                            has_open_completion = core_store.chrononaut_open_completion_order(
+                                self.run_dir, chrononaut_id,
+                            )
+                    if has_open_completion:
+                        summary = (
+                            f"{summary} -- Abschluss ausstehend (Legendenabschied in Arbeit, "
+                            "Restabschluss offen): ansehen/exportieren jederzeit moeglich "
+                            "('[charaktere] -> [3] Exportieren/ansehen', 'e', '/bogen'); keine neue "
+                            "Solo-/Beitrittsaufnahme mit dieser Figur, bitte bewusst eine andere/neue "
+                            "Figur waehlen."
+                        )
+                    else:
+                        summary = (
+                            f"{summary} -- Legendenabschied abgeschlossen (Final-Save, "
+                            "status=deceased): ansehen/exportieren jederzeit moeglich "
+                            "('[charaktere] -> [3] Exportieren/ansehen', 'e', '/bogen'); kein neuer "
+                            "Spielstart mit dieser Figur, bitte bewusst eine andere/neue Figur waehlen."
+                        )
         elif pending_creation:
             summary = "Figur-Erschaffung begonnen, noch nicht abgeschlossen (fortsetzen ueber 'n'/[charaktere])"
         else:
@@ -3115,7 +3144,12 @@ class TuiSession:
             active_id = catalog.active_chrononaut_id(self.catalog_dir, self.participant_id)
             self._print("Vorhandene Figuren:")
             for idx, e in enumerate(entries, start=1):
-                marker = " (aktiv)" if e.chrononaut_id == active_id else ""
+                # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §B4): rein anzeigende
+                # Kennzeichnung der Quelle -- die aktive Figur spiegelt den
+                # veroeffentlichten Current, jede andere liegt getrennt im
+                # eigenen Figur-Archiv (`catalog.load_figure_save`). KEINE
+                # erfundenen Statusmetadaten im Katalog, nur Anzeigetext.
+                marker = " (aktiv, aus aktuellem Spielstand)" if e.chrononaut_id == active_id else " (Archiv)"
                 name = self._effective_display_name(e)
                 label = f"{name} " if name else ""
                 self._print(f"  [{idx}] {label}{e.chrononaut_id}{marker}")
@@ -5489,6 +5523,35 @@ class TuiSession:
             "dieser Figur. Bitte bewusst eine andere/neue Figur waehlen."
         )
 
+    def _authoritative_final_save_for(self, participant_id: str, char_id: str) -> dict | None:
+        """ZR-KERN-FEINSCHLIFF-K3-N1 (02 §A1): massgeblicher Stand GENAU
+        dieser (Teilnehmer, char_id)-Kombination -- ueber dieselben
+        vorhandenen Leser und in DERSELBEN Autoritaetsreihenfolge wie
+        `_decide_participant_save_intake` (Current > Onboarding > Archiv,
+        s. dort), char-gebunden: eine andere Figur derselben Person haelt
+        diese Funktion NICHT fest, selbst wenn sie final ist. Current wird
+        NUR geprueft, wenn `run_dir`/`states_dir`/`schema_path` konfiguriert
+        sind; `load_current_save` ist bereits tolerant (liefert `None` bei
+        fehlender/ungueltiger Ref oder I/O-/Parsefehler), eine nicht lesbare
+        Stufe wird daher einfach uebersprungen, NICHT kuenstlich als Hold
+        gewertet. Reine Lesefunktion, kein Write, keine Statusmutation."""
+        if self.run_dir is not None and self.states_dir is not None and self.schema_path is not None:
+            from ..core.persona_state import PersonaStateStore
+            from ..core import store as core_store
+            ps_store = PersonaStateStore(schema_path=self.schema_path)
+            current = core_store.load_current_save(
+                self.run_dir, participant_id, ps_store, states_dir=self.states_dir,
+            )
+            if current is not None and zeitriss_saves.block_char_id(current) == char_id:
+                return current
+        ob = onboarding.peek(self.onboarding_dir, participant_id)
+        if ob is not None and ob.final_save is not None and zeitriss_saves.block_char_id(ob.final_save) == char_id:
+            return ob.final_save
+        known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(self.catalog_dir, participant_id)}
+        if char_id in known_char_ids:
+            return catalog.load_figure_save(self.catalog_dir, participant_id, char_id)
+        return None
+
     def _local_round_registry_dir(self) -> Path:
         """A24 R2 (02 §Auftrag R2: 'ueber die VORHANDENE Registry
         registrieren', '... keine zweite Personen-/Katalogdatenwelt').
@@ -6184,11 +6247,46 @@ class TuiSession:
             return
         table_key, guest_id = args[0], args[1]
         guest_offer = _read_table_guest_offer(self.run_dir, table_key, guest_id)
+        if guest_offer is None:
+            # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §A2): KEIN Sidecar (reine
+            # ID-Anfrage/geteiltes Terminal) heisst NICHT automatisch "kein
+            # Hold" -- eine inzwischen final gewordene EIGENE Current-Figur
+            # des Gasts darf nicht stillschweigend (ueber den spaeteren
+            # `_resolve_member` am gemeinsamen Current) aufgenommen werden.
+            # Nur pruefbar mit konfigurierter Laufumgebung; `own is None`
+            # (reine ID-Anfrage ohne eigene Figur, oder Betreiber ohne
+            # eigene Figur) ist KEIN Hold -- kein pauschaler Personen-/
+            # Hostrollen-Hold, Aufnahme bleibt moeglich.
+            if self.run_dir is not None and self.states_dir is not None and self.schema_path is not None:
+                from ..core.persona_state import PersonaStateStore
+                from ..core.store import load_current_save
+                ps_store = PersonaStateStore(schema_path=self.schema_path)
+                own = load_current_save(self.run_dir, guest_id, ps_store, states_dir=self.states_dir)
+                if own is not None:
+                    own_char_id = zeitriss_saves.block_char_id(own)
+                    hold_reason = self._final_deceased_hold(own_char_id, own)
+                    if hold_reason is not None:
+                        self._print(f"Anfrage von '{guest_id}' nicht angenommen: {hold_reason}")
+                        return
         if guest_offer is not None:
             hold_reason = self._final_deceased_hold(guest_offer["chrononaut_id"], guest_offer["save"])
             if hold_reason is not None:
                 self._print(f"Anfrage von '{guest_id}' nicht angenommen: {hold_reason}")
                 return
+            # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §A3): zusaetzlich die
+            # AUTORITATIVE finale Fassung DERSELBEN angebotenen Figur halten
+            # -- VOR jedem a/k-Konfliktdialog. Ohne diesen Check koennte ein
+            # aelterer, noch lebender Sidecar-Save dieselbe (inzwischen
+            # final gewordene) Figur ueber 'k' (bestehenden Stand behalten)
+            # oder 'a' (neu uebernehmen) am obigen, reinen Sidecar-Hold
+            # vorbei erneut aufgenommen/reaktiviert werden.
+            offered_char = guest_offer["chrononaut_id"]
+            authoritative = self._authoritative_final_save_for(guest_id, offered_char)
+            if authoritative is not None:
+                hold2 = self._final_deceased_hold(offered_char, authoritative)
+                if hold2 is not None:
+                    self._print(f"Anfrage von '{guest_id}' nicht angenommen: {hold2}")
+                    return
         if guest_offer is not None and (self.states_dir is None or self.schema_path is None):
             self._print(
                 f"Anfrage von '{guest_id}' nicht angenommen: die mitgebrachte eigene Figur "
@@ -6277,6 +6375,18 @@ class TuiSession:
                         f"NICHT uebernehmbar (geparkt, kein Write) -- Anfrage bleibt OFFEN: {intake.reason}"
                     )
                     return
+        # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §A4): Schlussguard auf den
+        # RESULTIERENDEN `intake.block` (nach evtl. a/k-Konfliktwahl),
+        # unmittelbar VOR der eigentlichen Roster-Mutation. Faengt u.a.
+        # `keep_existing`, dessen `intake.block` die BESTEHENDE (nicht die
+        # eingehende) Fassung ist -- eine zwischenzeitlich final gewordene
+        # bestehende Fassung darf trotz Konfliktwahl nicht aufgenommen
+        # werden.
+        if intake is not None and intake.block is not None and intake.char_id is not None:
+            resulting_hold = self._final_deceased_hold(intake.char_id, intake.block)
+            if resulting_hold is not None:
+                self._print(f"Anfrage von '{guest_id}' nicht angenommen: {resulting_hold}")
+                return
         try:
             record = table_admission.accept_request(
                 self.run_dir, table_key=table_key, host_id=self.participant_id, guest_id=guest_id,

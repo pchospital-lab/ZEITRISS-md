@@ -247,16 +247,30 @@ def test_shared_group_completion_harvests_all_members_without_mission_win_flag()
         assert final_result.success, final_result.reason
         assert core_store.Table.load(env.run_dir, table.table_id).status == "closed"
 
-        # Derselbe Weg, den ein echter Aufrufer (core/runtime.py) nach
-        # erfolgreichem Harvest+Finalize nutzt: den geernteten Block JE
-        # Mitglied als dessen eigenen Current veroeffentlichen -- beweist
-        # echte, unveraenderte Current-/Versionsbytes je Figur.
-        core_store.publish_current_save(env.run_dir, "leader_pk", leader_final, ps_store, env.states_dir)
-        core_store.publish_current_save(env.run_dir, "guest_pk", guest_alive, ps_store, env.states_dir)
+        # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §C-Publikation): `complete_section`
+        # (Phase 1, oben) hat die Current-Saves bereits REAL ueber den
+        # eigentlichen Produktweg veroeffentlicht (`_write_current_save_
+        # version` + Zustandsreferenz) -- diese Pruefung liest GENAU diese
+        # bereits vom Produkt geschriebene Publikation. Ein erneutes
+        # explizites `publish_current_save` HIER im Test waere eine vom
+        # Test selbst erzeugte, selbstbestaetigende Schreibung (kein
+        # unabhaengiger Beleg einer eigenstaendigen Produktpublikation) --
+        # deshalb bewusst NICHT mehr aufgerufen. Der vollstaendige, ueber
+        # den echten GM-/Harvest-Weg erzeugte Publikationsbeleg (inkl.
+        # stabilem Versionsbestand bei einem idempotenten zweiten
+        # Durchlauf) steht in Test 12
+        # (`test_lobby_b_entry_real_resume_completes_open_plan_to_closed_
+        # idempotent_second_pass`).
         published_leader = core_store.load_current_save_or_raise(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir)
         published_guest = core_store.load_current_save_or_raise(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir)
-        assert published_leader == leader_final, "Der Leader-Final-Save muss byte-identisch veroeffentlicht werden."
-        assert published_guest == guest_alive, "Der lebende Mitspieler-Save muss byte-identisch veroeffentlicht werden."
+        assert published_leader == leader_final, (
+            "Die vom Produkt (complete_section) geschriebene Current-Publikation muss byte-"
+            "identisch zum geernteten Final-Save sein."
+        )
+        assert published_guest == guest_alive, (
+            "Die vom Produkt (complete_section) geschriebene Current-Publikation muss byte-"
+            "identisch zum geernteten lebenden Save sein."
+        )
         assert zeitriss_saves.is_final_deceased(published_leader) is True
         assert zeitriss_saves.is_final_deceased(published_guest) is False
 
@@ -594,6 +608,359 @@ def test_table_accept_holds_pending_guest_offer_with_final_figure_no_roster_writ
         )
 
 
+def test_table_accept_holds_without_sidecar_when_own_current_deceased_no_roster_write():
+    """Fall 9a (02 §A2, Belegte Luecke 'ohne Sidecar gibt es GAR KEINEN
+    Hold'): eine reine ID-Anfrage OHNE Gastangebot-Sidecar haelt trotzdem,
+    wenn die EIGENE, inzwischen final gewordene Current-Figur des Gasts
+    betroffen ist -- VOR `accept_request`. Echte VORHER/NACHHER-Byte-
+    vergleiche (Roster-Record, Current-Save-Versionsverzeichnis, Katalog)
+    beweisen 0 Writes statt einer blossen Textassertion."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p9ahost", "CHR-H9A",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p9aguest", "CHR-G9A",
+            run_dir=run_dir, states_dir=states_dir, status="deceased",
+        )
+        host = _session(onboarding_dir, catalog_dir, "p9ahost", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
+        host._cmd_table_offer(["t9a"])
+        table_admission.request_join(run_dir, table_key="t9a", guest_id="p9aguest")
+        from mmo_sim.ui.tui import _read_table_guest_offer
+        assert _read_table_guest_offer(run_dir, "t9a", "p9aguest") is None, (
+            "Testvoraussetzung: reine ID-Anfrage OHNE Sidecar."
+        )
+
+        record_path = run_dir / "table_admission" / "t9a.json"
+        versions_dir = run_dir / "current_saves" / "p9aguest__versions"
+        catalog_path = catalog_dir / "catalog__p9aguest.json"
+        before = (
+            record_path.read_bytes(),
+            sorted((p.name, p.read_bytes()) for p in versions_dir.glob("*.json")),
+            catalog_path.read_bytes() if catalog_path.exists() else None,
+        )
+
+        printed: list[str] = []
+        host._print = printed.append
+        host._cmd_table_accept(["t9a", "p9aguest"])
+        joined = "\n".join(printed)
+        assert "Legendenabschied" in joined, joined
+
+        after = (
+            record_path.read_bytes(),
+            sorted((p.name, p.read_bytes()) for p in versions_dir.glob("*.json")),
+            catalog_path.read_bytes() if catalog_path.exists() else None,
+        )
+        assert before == after, "Ohne Sidecar darf eine final gewordene eigene Figur trotzdem 0 Writes verursachen."
+
+        record = table_admission.load_record(run_dir, "t9a")
+        assert "p9aguest" not in record["roster"], record
+        assert "p9aguest" in record["requests"], "Die offene Anfrage bleibt bestehen -- kein stiller Abbruch."
+
+
+def test_table_accept_holds_sidecar_living_same_figure_when_current_already_final():
+    """Fall 9b (02 §A3, Belegte Luecke 'aelterer lebender Sidecar ... die
+    massgebliche finale Autoritaet derselben Figur wird nicht geprueft --
+    auch nicht nach a/k'): der Sidecar traegt eine AELTERE, noch lebende
+    Fassung GENAU der Figur, deren massgeblicher (Current-)Stand
+    inzwischen final geworden ist -- der Hold muss VOR jeder a/k-
+    Konfliktwahl greifen, NICHT erst danach (weder 'a' noch 'k'
+    erreichbar)."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p9bhost", "CHR-H9B",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        guest_alive_save = _register_own_figure(
+            onboarding_dir, catalog_dir, "p9bguest", "CHR-G9B",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        assert zeitriss_saves.is_final_deceased(guest_alive_save) is False
+        # Die Figur stirbt NACH der urspruenglichen Registrierung -- derselbe
+        # Current wird erneut mit status=deceased veroeffentlicht (Muster
+        # Fall 10). Der Sidecar unten bleibt bewusst die AELTERE, noch
+        # lebende Fassung (z.B. vor dem Tod aufgezeichnet).
+        guest_deceased_save = full_v7_save("CHR-G9B", name="p9bguest", status="deceased")
+        ps_store = PersonaStateStore(schema_path=_SCHEMA_PATH)
+        core_store.publish_current_save(run_dir, "p9bguest", guest_deceased_save, ps_store, states_dir)
+
+        host = _session(onboarding_dir, catalog_dir, "p9bhost", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
+        host._cmd_table_offer(["t9b"])
+        table_admission.request_join(run_dir, table_key="t9b", guest_id="p9bguest")
+        from mmo_sim.ui.tui import _write_table_guest_offer, _read_table_guest_offer
+        _write_table_guest_offer(run_dir, "t9b", "p9bguest", chrononaut_id="CHR-G9B", save=guest_alive_save)
+
+        record_path = run_dir / "table_admission" / "t9b.json"
+        sidecar_path = run_dir / "table_guest_offers" / "t9b__p9bguest.json"
+        versions_dir = run_dir / "current_saves" / "p9bguest__versions"
+        before = (
+            record_path.read_bytes(), sidecar_path.read_bytes(),
+            sorted((p.name, p.read_bytes()) for p in versions_dir.glob("*.json")),
+        )
+
+        printed: list[str] = []
+        host._print = printed.append
+        host._cmd_table_accept(["t9b", "p9bguest"])
+        joined = "\n".join(printed)
+        assert "Legendenabschied" in joined, joined
+        assert "Konfliktwahl" not in joined, (
+            f"Der Hold muss VOR jedem a/k-Konfliktdialog greifen, nicht erst danach: {joined}"
+        )
+
+        after = (
+            record_path.read_bytes(), sidecar_path.read_bytes(),
+            sorted((p.name, p.read_bytes()) for p in versions_dir.glob("*.json")),
+        )
+        assert before == after, "0 Writes trotz aelterem lebenden Sidecar derselben, inzwischen finalen Figur."
+
+        record = table_admission.load_record(run_dir, "t9b")
+        assert "p9bguest" not in record["roster"], record
+        assert _read_table_guest_offer(run_dir, "t9b", "p9bguest") is not None, (
+            "Das Gastangebot-Sidecar muss erhalten bleiben (retry-faehig)."
+        )
+
+
+def test_table_accept_holds_missing_host_onboarding_projection_with_shared_final_current():
+    """Fall 9c (02 §A, Belegte Luecke 'fehlende Host-Onboarding-Projektion
+    bei real vorhandenem gemeinsamen Current'): der Gast hat seine eigene,
+    SEPARATE Onboarding-/Katalogwurzel (realer Launcher, scripts/
+    mmo_sim.py), aber einen mit dem Host GETEILTEN run_dir/states_dir --
+    die Figur ist dort bereits final (deceased) veroeffentlicht UND das
+    Sidecar-Angebot traegt BYTEIDENTISCH genau diesen Stand. Der Host hat
+    fuer diesen Gast noch KEINE eigene Onboarding-Projektion -- der Hold
+    muss GENAU VOR dem `noop_identical`-Host-projektions-Write greifen,
+    der sonst (R6 B) diese fehlende Projektion automatisch nachtragen
+    wuerde."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        host_onboarding_dir, host_catalog_dir = d / "host_onboarding", d / "host_catalog"
+        guest_onboarding_dir, guest_catalog_dir = d / "guest_onboarding", d / "guest_catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            host_onboarding_dir, host_catalog_dir, "p9chost", "CHR-H9C",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        guest_save = _register_own_figure(
+            guest_onboarding_dir, guest_catalog_dir, "p9cguest", "CHR-G9C",
+            run_dir=run_dir, states_dir=states_dir, status="deceased",
+        )
+        assert onboarding.peek(host_onboarding_dir, "p9cguest") is None, (
+            "Testvoraussetzung: der Host hat fuer den Gast noch KEINE eigene Onboarding-Projektion."
+        )
+
+        host = _session(
+            host_onboarding_dir, host_catalog_dir, "p9chost", run_dir, states_dir,
+            gm_transport_factory=_SpyFactory("gm"),
+        )
+        host._cmd_table_offer(["t9c"])
+        table_admission.request_join(run_dir, table_key="t9c", guest_id="p9cguest")
+        from mmo_sim.ui.tui import _write_table_guest_offer, _read_table_guest_offer
+        _write_table_guest_offer(run_dir, "t9c", "p9cguest", chrononaut_id="CHR-G9C", save=guest_save)
+
+        printed: list[str] = []
+        host._print = printed.append
+        host._cmd_table_accept(["t9c", "p9cguest"])
+        joined = "\n".join(printed)
+        assert "Legendenabschied" in joined, joined
+
+        record = table_admission.load_record(run_dir, "t9c")
+        assert "p9cguest" not in record["roster"], record
+        assert onboarding.peek(host_onboarding_dir, "p9cguest") is None, (
+            "Der Hold muss die sonst vom noop_identical-Zweig nachgetragene Host-Onboarding-"
+            "Projektion verhindern -- 0 Writes, auch keine Host-Projektion."
+        )
+        assert catalog.list_for_participant(host_catalog_dir, "p9cguest") == [], (
+            "Kein Host-Katalogeintrag fuer den Gast -- 0 Writes."
+        )
+        assert _read_table_guest_offer(run_dir, "t9c", "p9cguest") is not None, (
+            "Das Gastangebot-Sidecar muss erhalten bleiben (retry-faehig)."
+        )
+
+
+def test_table_accept_holds_archived_offered_figure_with_final_archive_state():
+    """Fall 9d (02 §A1, dritte Autoritaetsstufe Archiv): die angebotene
+    eigene Figur hat KEINEN veroeffentlichten Current und KEINEN
+    Onboarding-Slot fuer DIESE Figur, aber einen bekannten, finalen Stand
+    im GETRENNTEN Katalog-/Archivspeicher (`catalog.load_figure_save`) --
+    die dritte Autoritaetsstufe von `_authoritative_final_save_for` muss
+    den Hold GENAUSO VOR jeder a/k-Konfliktwahl ausloesen."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p9dhost", "CHR-H9D",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        # Der Gast hat NIE eine eigene Figur ueber onboarding/Current
+        # veroeffentlicht -- NUR ein getrennter Archiveintrag (z.B. aus
+        # einem frueheren Import/Export) mit finalem Stand liegt vor.
+        archived_final_save = full_v7_save("CHR-G9D", name="p9dguest", status="deceased")
+        catalog.register(catalog_dir, catalog.CatalogEntry(
+            participant_id="p9dguest", chrononaut_id="CHR-G9D", persona_key="p9dguest",
+        ))
+        catalog.store_figure_save(catalog_dir, "p9dguest", "CHR-G9D", archived_final_save)
+
+        host = _session(onboarding_dir, catalog_dir, "p9dhost", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
+        host._cmd_table_offer(["t9d"])
+        table_admission.request_join(run_dir, table_key="t9d", guest_id="p9dguest")
+        # Sidecar-Angebot: eine ANDERE (z.B. frisch importierte, lebende)
+        # Byte-Fassung GENAU dieser char_id -- der reine Sidecar-Hold
+        # (`guest_offer["save"]`) greift bewusst NICHT, nur die Archiv-
+        # Autoritaet ueber `_authoritative_final_save_for`.
+        offered_living_save = full_v7_save("CHR-G9D", name="p9dguest", lp=4)
+        assert zeitriss_saves.is_final_deceased(offered_living_save) is False
+        from mmo_sim.ui.tui import _write_table_guest_offer, _read_table_guest_offer
+        _write_table_guest_offer(run_dir, "t9d", "p9dguest", chrononaut_id="CHR-G9D", save=offered_living_save)
+
+        record_path = run_dir / "table_admission" / "t9d.json"
+        sidecar_path = run_dir / "table_guest_offers" / "t9d__p9dguest.json"
+        archive_path = catalog_dir / "catalog__p9dguest.json"
+        before = (record_path.read_bytes(), sidecar_path.read_bytes(), archive_path.read_bytes())
+
+        printed: list[str] = []
+        host._print = printed.append
+        host._cmd_table_accept(["t9d", "p9dguest"])
+        joined = "\n".join(printed)
+        assert "Legendenabschied" in joined, joined
+        assert "Konfliktwahl" not in joined, joined
+
+        after = (record_path.read_bytes(), sidecar_path.read_bytes(), archive_path.read_bytes())
+        assert before == after, "0 Writes trotz Archiv-Autoritaet ueber die dritte Stufe (Katalog)."
+
+        record = table_admission.load_record(run_dir, "t9d")
+        assert "p9dguest" not in record["roster"], record
+        assert _read_table_guest_offer(run_dir, "t9d", "p9dguest") is not None
+
+
+def test_table_accept_positive_counterexamples_remain_admitted():
+    """Gegenproben (02 §A, Invariante 'eine bewusst gewaehlte ANDERE
+    lebende Figur derselben Person bleibt zulaessig'): drei Faelle, die
+    trotz der neuen Holds WEITERHIN normal angenommen werden muessen --
+    eine gueltige lebende Figur, eine reine ID-Anfrage ohne eigene Figur,
+    und eine bewusst ANDERE lebende Figur derselben Person, waehrend eine
+    FRUEHERE eigene Figur bereits final/archiviert ist (char-gebundener
+    Hold, keine Pauschalsperre der Person)."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p9host", "CHR-H9POS",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        host = _session(onboarding_dir, catalog_dir, "p9host", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
+        host._cmd_table_offer(["t9pos"])
+        from mmo_sim.ui.tui import _write_table_guest_offer
+
+        # (1) gueltige lebende Figur -- normale Annahme, Figur wird
+        # uebernommen.
+        guest_living_save = _register_own_figure(
+            onboarding_dir, catalog_dir, "p9guest1", "CHR-G9POS1",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        table_admission.request_join(run_dir, table_key="t9pos", guest_id="p9guest1")
+        _write_table_guest_offer(run_dir, "t9pos", "p9guest1", chrononaut_id="CHR-G9POS1", save=guest_living_save)
+        host._cmd_table_accept(["t9pos", "p9guest1"])
+        record1 = table_admission.load_record(run_dir, "t9pos")
+        assert "p9guest1" in record1["roster"], record1
+
+        # (2) reine ID-Anfrage ohne jede eigene Figur -- KEIN Sidecar, KEIN
+        # eigener Current -- bleibt weiterhin zulaessig (`own is None` ist
+        # KEIN pauschaler Personen-/Hostrollen-Hold).
+        table_admission.request_join(run_dir, table_key="t9pos", guest_id="p9guest2")
+        host._cmd_table_accept(["t9pos", "p9guest2"])
+        record2 = table_admission.load_record(run_dir, "t9pos")
+        assert "p9guest2" in record2["roster"], record2
+
+        # (3) bewusst ANDERE lebende Figur derselben Person, waehrend eine
+        # FRUEHERE eigene Figur bereits final/archiviert ist -- der Hold
+        # ist char-gebunden, keine Pauschalsperre der Person.
+        old_final_save = full_v7_save("CHR-G9POS3-OLD", name="p9guest3", status="deceased")
+        catalog.register(catalog_dir, catalog.CatalogEntry(
+            participant_id="p9guest3", chrononaut_id="CHR-G9POS3-OLD", persona_key="p9guest3",
+        ))
+        catalog.store_figure_save(catalog_dir, "p9guest3", "CHR-G9POS3-OLD", old_final_save)
+        new_living_save = _register_own_figure(
+            onboarding_dir, catalog_dir, "p9guest3", "CHR-G9POS3-NEW",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        table_admission.request_join(run_dir, table_key="t9pos", guest_id="p9guest3")
+        _write_table_guest_offer(run_dir, "t9pos", "p9guest3", chrononaut_id="CHR-G9POS3-NEW", save=new_living_save)
+        host._cmd_table_accept(["t9pos", "p9guest3"])
+        record3 = table_admission.load_record(run_dir, "t9pos")
+        assert "p9guest3" in record3["roster"], record3
+        # Die aeltere, archivierte finale Figur bleibt unberuehrt (kein
+        # Fallback, keine automatische Wiederbelebung).
+        archived_old = catalog.load_figure_save(catalog_dir, "p9guest3", "CHR-G9POS3-OLD")
+        assert archived_old == old_final_save
+
+
+def test_shared_terminal_completion_card_export_selects_own_bytes_not_session_owner():
+    """C-Gast-Export (02 §C-Gast-Export): am geteilten Terminal exportiert
+    `_cmd_export` GENAU die Bytes der Person, fuer die der Export
+    tatsaechlich aufgerufen wird (`pid`), NICHT automatisch die der
+    aeusseren Sitzungsperson (`self.participant_id`) -- Host- und
+    Gastbytes muessen sich unterscheiden, kein blosser Self-Export mit
+    derselben Sitzungsperson."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        host_save = _register_own_figure(
+            onboarding_dir, catalog_dir, "p_shared_host", "CHR-SHOST",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        guest_save = _register_own_figure(
+            onboarding_dir, catalog_dir, "p_shared_guest", "CHR-SGUEST",
+            run_dir=run_dir, states_dir=states_dir, status="deceased",
+        )
+        assert host_save != guest_save
+
+        # EINE Sitzung (geteiltes Terminal) mit `self.participant_id` ==
+        # Host -- `_cmd_export` wird aber EXPLIZIT mit der tatsaechlichen
+        # Kartenperson (Gast) aufgerufen, exakt wie
+        # `_print_section_completion_card` es am geteilten Terminal tut.
+        session = _session(
+            onboarding_dir, catalog_dir, "p_shared_host", run_dir, states_dir,
+            gm_transport_factory=_SpyFactory("gm"),
+        )
+        printed: list[str] = []
+        session._print = printed.append
+        session._cmd_export(participant_id="p_shared_guest")
+        import json as _json
+        guest_export_path = session.exports_dir / "p_shared_guest.json"
+        assert guest_export_path.exists()
+        assert _json.loads(guest_export_path.read_text(encoding="utf-8")) == guest_save
+        assert _json.loads(guest_export_path.read_text(encoding="utf-8")) != host_save
+
+        printed.clear()
+        session._cmd_export(participant_id="p_shared_host")
+        host_export_path = session.exports_dir / "p_shared_host.json"
+        assert host_export_path.exists()
+        assert _json.loads(host_export_path.read_text(encoding="utf-8")) == host_save
+        assert host_export_path != guest_export_path
+
+
 def test_table_start_pre_check_holds_fresh_start_before_admission_effect_with_final_roster_member():
     """Fall 10 (K3, 02 §C `_cmd_table_start`): ein frischer Start haelt VOR
     `start_table` (roster/requests-Einfrieren ist bereits eine echte
@@ -712,7 +1079,8 @@ def test_lobby_b_entry_roster_resolution_excludes_lone_deceased_member_no_person
     Rosterauflösung gehalten -- `persona_driver_factory` wird dafuer KEIN
     einziges Mal aufgerufen (keine neue Persona-Anbahnung), die
     Sichtbarkeit bleibt dabei ehrlich (die Figur erscheint weiterhin in
-    der reinen Statuszeile)."""
+    der Statuszeile -- jetzt in der eigenen `legendenabschied`-Kategorie,
+    NICHT mehr als "frei/spielbereit", 02 §B1)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = l01._bootstrap_community(
@@ -730,7 +1098,11 @@ def test_lobby_b_entry_roster_resolution_excludes_lone_deceased_member_no_person
         )
         out = lobby_flow.run_lobby_window(session, ai_personas=None)
         joined = "\n".join(printed)
-        assert "frei/spielbereit=['sniper']" in joined, joined
+        assert "frei/spielbereit=[]" in joined, joined
+        assert "legendenabschied=['sniper']" in joined, (
+            "Die gehaltene Finalfigur muss in der eigenen legendenabschied-Kategorie sichtbar "
+            f"bleiben, NICHT als frei/spielbereit: {joined}"
+        )
         assert out.kind == lobby_flow.LobbyOutcomeKind.NO_CONSENSUS, out
 
 
@@ -815,6 +1187,24 @@ def test_lobby_b_entry_real_resume_completes_open_plan_to_closed_idempotent_seco
         assert gm_calls_after_w1 == 1, gm.calls
         reflection_calls_before = {pk: len(drivers[pk].calls) for pk in keys}
 
+        # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §C-Resume): der tatsaechlich
+        # geerntete Final-Current wird VOR dem Resume DIREKT gelesen --
+        # beweist, dass der Harvest in Fenster 1 bereits real (ueber den
+        # normalen GM-Marker-Turn -> `complete_section`) vorliegt, NICHT
+        # erst eine Testannahme ist. Dieser Lesebeleg ersetzt gleichzeitig
+        # die vorher in Test 3 selbst erzeugte, redundante Publikation
+        # (02 §C-Publikation).
+        resume_ps_store = PersonaStateStore(schema_path=schema_path)
+        pre_resume_sniper_current = core_store.load_current_save_or_raise(
+            run_dir, "sniper", resume_ps_store, states_dir=states_dir,
+        )
+        assert pre_resume_sniper_current == deceased_harvest_save, (
+            "Der real geerntete Final-Current muss VOR dem Resume bereits identisch vorliegen."
+        )
+        assert zeitriss_saves.is_final_deceased(pre_resume_sniper_current) is True
+        sniper_versions_dir = run_dir / "current_saves" / "sniper__versions"
+        sniper_version_count_before_resume = len(list(sniper_versions_dir.glob("*.json")))
+
         clear_lab_stop(run_dir)
 
         # Fenster 2 (DER PRUEFGEGENSTAND): derselbe real gepinnte
@@ -837,6 +1227,16 @@ def test_lobby_b_entry_real_resume_completes_open_plan_to_closed_idempotent_seco
                 f"'{pk}' durfte in Fenster 2 NICHT erneut befragt werden: {drivers[pk].calls}"
             )
 
+        # 02 §C-Resume: die Restfertigstellung (Fenster 2, nur Reflexion +
+        # Finalisierung) darf KEINE zweite Version/keinen zweiten
+        # Fortschritt fuer die bereits in Fenster 1 geernteten Bytes
+        # erzeugen -- Versionszahl bleibt unveraendert.
+        sniper_version_count_after_resume = len(list(sniper_versions_dir.glob("*.json")))
+        assert sniper_version_count_after_resume == sniper_version_count_before_resume, (
+            f"Die Restfertigstellung darf keine zweite Current-Version erzeugen: "
+            f"{sniper_version_count_before_resume} -> {sniper_version_count_after_resume}."
+        )
+
         # Lockfreigabe: beide Chrononauten sind nach dem echten Abschluss
         # NICHT mehr an diesen (jetzt geschlossenen) Tisch gebunden.
         from mmo_sim.domain.zeitriss.policy import ZeitrissTableSizePolicy
@@ -855,6 +1255,107 @@ def test_lobby_b_entry_real_resume_completes_open_plan_to_closed_idempotent_seco
             assert len(drivers[pk].calls) == reflection_calls_before[pk], (
                 f"Ein dritter Lobbydurchlauf darf '{pk}' nicht erneut befragen: {drivers[pk].calls}"
             )
+        # Ein zweiter Durchlauf DESSELBEN bereits abgeschlossenen Vorgangs
+        # darf KEINEN zweiten Fortschritt erzeugen (Versionszahl weiterhin
+        # unveraendert, 02 §C-Resume).
+        sniper_version_count_after_idempotent_pass = len(list(sniper_versions_dir.glob("*.json")))
+        assert sniper_version_count_after_idempotent_pass == sniper_version_count_before_resume, (
+            "Ein zweiter Durchlauf desselben abgeschlossenen Vorgangs darf KEINEN zweiten "
+            "Fortschritt erzeugen (Versionszahl unveraendert)."
+        )
+
+
+def test_resume_card_shows_abschluss_ausstehend_for_real_open_completion_order_then_abgeschlossen():
+    """C-Pending/Completed (02 §B2): ein tatsaechlich noch offener
+    Abschlussauftrag (gepinnt, ohne `__final.json`) fuer den GEBUNDENEN
+    Tisch der finalen Figur darf NICHT 'Legendenabschied abgeschlossen'
+    heissen -- 'Abschluss ausstehend' ist Pflicht, solange der Abschluss
+    real offen ist; NACH echter Finalisierung zeigt dieselbe Karte wieder
+    den bisherigen Wortlaut."""
+    with tempfile.TemporaryDirectory() as td:
+        env = make_env(Path(td))
+        write_test_profile(env.run_dir, max_turns=200)
+        lobby, table, ps_store = build_two_member_table(env, table_id="t-resume-card-pending")
+
+        leader_final = full_v7_save("chrono-leader", name="Leader", status="deceased")
+        guest_alive = full_v7_save("chrono-guest", name="Guest", lp=5)
+        result = core_store.complete_section(
+            lobby, table, "sec-resume-card-pending",
+            harvested_saves={"leader_pk": leader_final, "guest_pk": guest_alive},
+            states_dir=env.states_dir, today="2026-11-13",
+            harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
+        )
+        assert result.success, result.reason
+        # KEIN finalize_section_after_reflection hier -- der Abschluss
+        # bleibt real offen (gepinnt, ohne __final.json).
+
+        onboarding_dir, catalog_dir = env.run_dir.parent / "onboarding", env.run_dir.parent / "catalog"
+        onboarding.start_or_resume(onboarding_dir, "leader_pk")
+        onboarding.complete_with_save(onboarding_dir, "leader_pk", leader_final, ZeitrissHarvestValidator(), "chrono-leader")
+        catalog.register(catalog_dir, catalog.CatalogEntry(
+            participant_id="leader_pk", chrononaut_id="chrono-leader", persona_key="leader_pk",
+        ))
+        catalog.bind_for_section(catalog_dir, "leader_pk", "chrono-leader", has_open_section=False)
+
+        session = _session(onboarding_dir, catalog_dir, "leader_pk", env.run_dir, env.states_dir, gm_transport_factory=_SpyFactory("gm"))
+        card = session._build_resume_card(participant_id="leader_pk")
+        assert card is not None and card.last_valid_save_summary is not None
+        assert "Abschluss ausstehend" in card.last_valid_save_summary, card.last_valid_save_summary
+        assert "Legendenabschied abgeschlossen" not in card.last_valid_save_summary, card.last_valid_save_summary
+        assert "Solo-/Beitrittsaufnahme" in card.last_valid_save_summary, (
+            "Die Karte darf auch im 'ausstehend'-Zustand keine sofort zulaessige neue "
+            f"Aufnahme behaupten: {card.last_valid_save_summary}"
+        )
+
+        final_result = core_store.finalize_section_after_reflection(lobby, table, "sec-resume-card-pending")
+        assert final_result.success, final_result.reason
+        card_after = session._build_resume_card(participant_id="leader_pk")
+        assert card_after is not None and card_after.last_valid_save_summary is not None
+        assert "Legendenabschied abgeschlossen" in card_after.last_valid_save_summary, card_after.last_valid_save_summary
+        assert "Abschluss ausstehend" not in card_after.last_valid_save_summary, card_after.last_valid_save_summary
+
+
+def test_character_listing_marks_active_from_current_others_from_archive():
+    """C-Pending/Completed + Figurenquelle (02 §B4): im vorhandenen
+    Figurenwahl-Listing (`_cmd_new_or_switch_character`) wird die AKTIVE
+    Figur als aus dem aktuellen Spielstand, jede andere als aus ihrem
+    eigenen Archiv gekennzeichnet -- reine Anzeige, keine erfundenen
+    Statusmetadaten im Katalog."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p_b4", "CHR-B4-OLD",
+            run_dir=run_dir, states_dir=states_dir, status="deceased",
+        )
+        new_save = full_v7_save("CHR-B4-NEW", name="p_b4", save_id="fixture-p_b4-CHR-B4-NEW")
+        catalog.register(catalog_dir, catalog.CatalogEntry(
+            participant_id="p_b4", chrononaut_id="CHR-B4-NEW", persona_key="p_b4",
+        ))
+        catalog.store_figure_save(catalog_dir, "p_b4", "CHR-B4-NEW", new_save)
+        catalog.bind_for_section(catalog_dir, "p_b4", "CHR-B4-NEW", has_open_section=False)
+        ps_store = PersonaStateStore(schema_path=_SCHEMA_PATH)
+        core_store.publish_current_save(run_dir, "p_b4", new_save, ps_store, states_dir)
+
+        session = _session(onboarding_dir, catalog_dir, "p_b4", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
+        printed: list[str] = []
+        session._print = printed.append
+        # Die Figurenliste wird VOR dem Auswahl-Prompt gedruckt -- ein
+        # simuliertes '/zurueck' an GENAU diesem Prompt beendet die
+        # Methode sofort danach, OHNE einen neuen Erschaffungsdialog
+        # (GM-Call) auszuloesen (reiner Anzeigetest, 02 §B4).
+        session._readline_with_controls = lambda *a, **kw: ("", "zurueck")
+        session._cmd_new_or_switch_character()
+        joined = "\n".join(printed)
+        assert "CHR-B4-NEW" in joined and "aus aktuellem Spielstand" in joined, joined
+        new_line = next(line for line in printed if "CHR-B4-NEW" in line)
+        old_line = next(line for line in printed if "CHR-B4-OLD" in line)
+        assert "aus aktuellem Spielstand" in new_line, new_line
+        assert "Archiv" in old_line, old_line
+        assert "aus aktuellem Spielstand" not in old_line, old_line
 
 
 def main() -> int:

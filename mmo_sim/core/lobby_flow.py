@@ -366,26 +366,31 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
     )
     not_ready = [r.persona_key for r in roster if not r.ready]
     bound = {r.persona_key: r.bound_table_id for r in roster if r.ready and r.bound_table_id is not None}
-    free = [r for r in roster if r.ready and r.bound_table_id is None]
-    session._print(
-        f"Lobby {community_id!r} ({len(roster)} Mitglieder): "
-        f"frei/spielbereit={[r.persona_key for r in free]} gebunden={bound} noch_nicht_bereit={not_ready}"
-    )
-    # ZR-KERN-FEINSCHLIFF-K3 (02 §C): ein Mitglied mit abgeschlossenem
+    # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §B1): der Final-Hold-Filter wird jetzt
+    # VOR der Druckzeile berechnet. Ein Mitglied mit abgeschlossenem
     # Legendenabschied (ohne selbst noch offenen Abschluss fuer GENAU diesen
     # Tisch -- `_final_deceased_hold` kennt die Ausnahme bereits) darf nicht
-    # erneut "frei/spielbereit" fuer eine NEUE Persona-Anbahnung sein --
-    # sonst wuerde STEP 1 unten (`persona_driver_factory`) diese Figur fuer
-    # ein neues Angebot/eine neue Initiative befragen, BEVOR irgendeine
-    # Tischbindung ueberhaupt entsteht. Die Druckzeile oben zeigt bewusst den
-    # tatsaechlichen, UNGEFILTERTEN Roster-Stand (ehrliche Sichtbarkeit);
-    # erst ab hier wird die tatsaechliche Lobby-Teilnahme (`lobby.join`,
-    # Scheduler-Pool) gehalten.
-    free = [
-        r for r in free
-        if r.chrononaut_id is None
-        or session._final_deceased_hold(r.chrononaut_id, _roster_active_saves.get(r.persona_key, {})) is None
-    ]
+    # als "frei/spielbereit" erscheinen -- sonst wuerde STEP 1 unten
+    # (`persona_driver_factory`) diese Figur fuer ein neues Angebot/eine neue
+    # Initiative befragen, BEVOR irgendeine Tischbindung ueberhaupt entsteht.
+    # Die Druckzeile zeigt die gehaltene Finalfigur jetzt stattdessen in der
+    # eigenen Kategorie `legendenabschied` (sichtbar, aber ehrlich getrennt
+    # von frei/spielbereit) -- die gefilterte `free`-Liste fuer
+    # `lobby.join`/Teilnahme/Resume bleibt inhaltlich UNVERAENDERT.
+    free_all = [r for r in roster if r.ready and r.bound_table_id is None]
+
+    def _final_held(r):
+        return r.chrononaut_id is not None and session._final_deceased_hold(
+            r.chrononaut_id, _roster_active_saves.get(r.persona_key, {})
+        ) is not None
+
+    legendenabschied = [r.persona_key for r in free_all if _final_held(r)]
+    free = [r for r in free_all if not _final_held(r)]
+    session._print(
+        f"Lobby {community_id!r} ({len(roster)} Mitglieder): "
+        f"frei/spielbereit={[r.persona_key for r in free]} gebunden={bound} "
+        f"legendenabschied={legendenabschied} noch_nicht_bereit={not_ready}"
+    )
 
     from ..domain.zeitriss.policy import ZeitrissTableSizePolicy
 
