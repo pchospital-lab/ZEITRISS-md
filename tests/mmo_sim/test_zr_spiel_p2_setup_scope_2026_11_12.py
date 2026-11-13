@@ -55,6 +55,17 @@ N1-A-Nachzug (SETUP_FINAL_REVIEW.md §3-§5, Preflight VOR erster Mutation):
   (13) test_a2_unreadable_protected_kb_detail_preserves_candidate_file
   (14) test_a3_failed_kb_removal_stops_before_file_deletion_and_preset_recreation
 
+N2-Nachzug (LINUS_N2_BRIEF.md A-R0/A-R1/A-R2/A-R3, General-Review
+SETUP_QUELLENPRUEFUNG.md): Preset-Delete-Fehlklassifikation, Sibling-Relink-
+Teilfehler, Reset-KB-Delete-Fehlerfolge, unlesbare Listenmitglieder:
+  (15) test_a_r0_run_setup_preset_delete_http_error_halts_with_null_follow_up_mutation
+  (16) test_a_r0_run_reset_preset_delete_http_error_is_honest_and_does_not_block_kb_cleanup
+  (17) test_reset_kb_delete_http_error_halts_before_manifest_and_rebuild
+  (18) test_a2_mixed_list_with_one_unreadable_member_preserves_candidate_file
+  (19) test_a2_fully_unreadable_member_list_preserves_candidate_file
+  (20) test_a1_sibling_unreadable_knowledge_entry_with_zero_matches_halts_before_any_mutation
+  (21) test_a1_failed_sibling_relink_with_second_independent_success_is_overall_partial_failure
+
 Pure Python, nur `assert`, echter Exitcode, kein Docker/Netzwerk.
 """
 from __future__ import annotations
@@ -863,6 +874,246 @@ def test_a3_failed_kb_removal_stops_before_file_deletion_and_preset_recreation()
         assert http.created_model_payloads == [], "keine neue Preset-Anlage auf Basis einer nur angenommenen Ersetzung"
         assert http.uploaded_files == [] and http.linked_files == []
         assert "abgebrochen" in out.lower(), out
+
+
+# ── (15)-(21): N2-Nachzug -- A-R0/A-R1/A-R2/A-R3 (LINUS_N2_BRIEF.md) ────────
+
+
+def test_a_r0_run_setup_preset_delete_http_error_halts_with_null_follow_up_mutation():
+    """A-R0: delete_model() liefert fuer das GEWAEHLTE Preset einen echten
+    HTTP-500-Fehler -- das ist KEIN bestaetigtes Nichtvorhandensein (anders
+    als ein 404). run_setup muss VOR den abhaengigen KB-/Dateischritten mit
+    sys.exit(1) abbrechen; der Delete-VERSUCH selbst ist real passiert, aber
+    keine einzige Folgemutation (KB-Delete/-Create, Datei, neues Preset)."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            fail_delete_model_ids={"p-default"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein HTTP-500 bei delete_model() darf NICHT als bestaetigte "
+            f"Abwesenheit durchlaufen: exited={exited}\n{out}"
+        )
+        assert http.deleted_model_ids == ["p-default"], "der fehlgeschlagene Delete-Versuch ist real passiert"
+        assert http.deleted_knowledge_ids == [], "Null-Folge-Mutation: keine KB-Loeschung danach"
+        assert http.reset_vector_calls == [], "Null-Folge-Mutation: kein Vektor-Reset danach"
+        assert http.created_knowledge_calls == [], "Null-Folge-Mutation: keine KB-Neuanlage danach"
+        assert http.delete_file_attempts == [] and http.deleted_file_ids == []
+        assert http.created_model_payloads == [] and http.update_model_payloads == []
+        assert http.unknown_write_requests == []
+        assert not (tmp / ".openwebui-sync.json").exists(), "kein Manifest-Write danach"
+        assert "war nicht vorhanden" not in out, (
+            "ein echter HTTP-Fehler darf NICHT als 'war nicht vorhanden' gemeldet werden:\n" + out
+        )
+
+
+def test_a_r0_run_reset_preset_delete_http_error_is_honest_and_does_not_block_kb_cleanup():
+    """A-R0 im `run_reset`-Pfad: derselbe echte HTTP-500-Fehler bei einer
+    der (hier zwei) Varianten-Presets wird ehrlich als Fehler gemeldet
+    (nicht als 'war nicht vorhanden') -- die unabhaengige KB-Aufraeumung
+    laeuft trotzdem normal weiter (anders als A-R2, das einen echten
+    KB-Delete-Fehler betrifft, nicht einen Preset-Delete-Fehler). Bewusst
+    NICHT die fuer den anschliessenden Rebuild gewaehlte Variante
+    ('p-sibling', nicht 'default') betroffen -- sonst wuerde derselbe
+    HTTP-500 den eingebetteten run_setup-Neuaufbau (A-R0 dort) am Ende
+    ebenfalls hart abbrechen und diesen isolierten Reset-Pfad-Fall
+    verdecken. Die bestaetigt abwesende ('p-default', HTTP 404) Variante
+    bekommt weiterhin die korrekte 'war nicht vorhanden'-Meldung --
+    bestaetigte Abwesenheit und Lesefehler bleiben klar unterscheidbar."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            files=[{"id": "f-real", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}}],
+            fail_delete_model_ids={"p-sibling"},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), (
+            f"ein fehlgeschlagenes Preset-Delete einer NICHT fuer den Rebuild "
+            f"gewaehlten Variante blockiert die unabhaengige KB-Aufraeumung NICHT "
+            f"und den Rebuild der gewaehlten Variante NICHT: exited={exited}\n{out}"
+        )
+        assert "p-sibling" in http.deleted_model_ids
+        assert "Preset 'p-sibling' war nicht vorhanden" not in out, (
+            "ein echter HTTP-Fehler darf NICHT als bestaetigte Abwesenheit gemeldet werden:\n" + out
+        )
+        assert "p-sibling' nicht loeschbar" in out, out
+        assert "Preset 'p-default' war nicht vorhanden" in out, (
+            "ein bestaetigt abwesendes (404) Preset bekommt weiterhin die normale Meldung:\n" + out
+        )
+        assert "kb-real-1" in http.deleted_knowledge_ids, "die KB-Aufraeumung laeuft trotzdem normal weiter"
+
+
+def test_reset_kb_delete_http_error_halts_before_manifest_and_rebuild():
+    """A-R2: `delete_knowledge()` schlaegt fuer die Reset-KB konkret fehl
+    (HTTP 500). Der Lauf muss VOR Dateiloeschung, Manifest-Unlink, der
+    'Reset abgeschlossen'-Meldung und dem automatischen run_setup-Neuaufbau
+    mit sys.exit(1) enden -- ein bereits vorhandenes lokales Manifest bleibt
+    unangetastet, und die bekannte, nur nicht entfernte KB wird NICHT als
+    'keine KB gefunden' gemeldet."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        manifest = tmp / ".openwebui-sync.json"
+        manifest.write_text('{"existing": true}', encoding="utf-8")
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            files=[{"id": "f-real", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}}],
+            fail_delete_knowledge_ids={"kb-real-1"},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein fehlgeschlagenes KB-Delete muss den Reset VOR Manifest/"
+            f"Neuaufbau abbrechen: exited={exited}\n{out}"
+        )
+        assert "kb-real-1" not in http.deleted_knowledge_ids
+        assert "kb-real-1" in http.knowledge, "die KB bleibt bestehen"
+        assert http.delete_file_attempts == [], "keine Dateiloeschung nach fehlgeschlagenem KB-Delete"
+        assert manifest.read_text(encoding="utf-8") == '{"existing": true}', (
+            "das lokale Manifest darf NICHT geloescht werden, solange die alte KB noch existiert"
+        )
+        assert http.created_knowledge_calls == [], "kein Neuaufbau (run_setup) nach diesem Teilfehler"
+        assert "starte jetzt sauberen Neuaufbau" not in out, (
+            "die Erfolgsmeldung 'Reset abgeschlossen — starte jetzt sauberen "
+            "Neuaufbau.' darf nach diesem Teilfehler NICHT erscheinen:\n" + out
+        )
+        assert "Keine projektzugehörige KB gefunden" not in out, (
+            "eine bekannte, nur nicht entfernte KB darf nicht als 'keine KB gefunden' gemeldet werden:\n" + out
+        )
+        assert "abgebrochen" in out.lower(), out
+
+
+def test_a2_mixed_list_with_one_unreadable_member_preserves_candidate_file():
+    """A-R3: `GET /knowledge/{id}` einer fremden/geschuetzten KB antwortet
+    mit HTTP 200 und einer formal gueltigen Liste, die aber EIN unlesbares
+    Mitglied enthaelt (weder dict-mit-str-id noch str) neben einem sonst
+    gueltigen Eintrag -- `get_knowledge_files()` darf das NICHT
+    stillschweigend zu einer kleineren/leeren Liste verkleinern. Die
+    Kandidaten-Datei der Ziel-KB bleibt konservativ erhalten."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[
+                {"id": "kb-old-1", "name": _KB_NAME},
+                {"id": "kb-protected-1", "name": "Fremdes Projekt KB"},
+            ],
+            files=[{"id": "f-maybe-shared", "filename": "a.md", "meta": {"collection_name": "kb-old-1"}}],
+            knowledge_detail_raw_files={"kb-protected-1": [{"unlesbar": True}, {"id": "f-other"}]},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"exited={exited}\n{out}"
+        assert "f-maybe-shared" not in http.deleted_file_ids, (
+            "eine formal gueltige, aber teilweise unlesbare Mischliste darf NICHT als "
+            "bestaetigte Leer-/Fremdliste gelten"
+        )
+        assert "f-maybe-shared" in http.files
+
+
+def test_a2_fully_unreadable_member_list_preserves_candidate_file():
+    """Wie oben, aber ALLE Mitglieder der fremden KB sind unlesbar (keine
+    einzige gueltige ID, inkl. einer leeren String-ID) -- auch das ist
+    KEINE bestaetigte Leerliste."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[
+                {"id": "kb-old-1", "name": _KB_NAME},
+                {"id": "kb-protected-1", "name": "Fremdes Projekt KB"},
+            ],
+            files=[{"id": "f-maybe-shared2", "filename": "a.md", "meta": {"collection_name": "kb-old-1"}}],
+            knowledge_detail_raw_files={"kb-protected-1": [{"unlesbar": True}, ""]},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"exited={exited}\n{out}"
+        assert "f-maybe-shared2" not in http.deleted_file_ids
+        assert "f-maybe-shared2" in http.files
+
+
+def test_a1_sibling_unreadable_knowledge_entry_with_zero_matches_halts_before_any_mutation():
+    """A-R3: ein Sibling-Preset hat EINEN nicht interpretierbaren
+    `meta.knowledge`-Eintrag (weder dict-mit-str-id) UND sonst keinen
+    Treffer auf `old_kb_ids` -- das darf NICHT als 'eindeutig fremd,
+    vollstaendig gelesen' durchgehen, weil die Liste gar nicht vollstaendig
+    lesbar war. Unterscheidet den legitimen (Test 2), den eindeutig fremden
+    (Test 9) und diesen unlesbaren Fall."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            "meta": {"knowledge": [{"unlesbar": True}, {"id": "kb-fully-unrelated"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-sibling": sibling_preset},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein nicht interpretierbarer meta.knowledge-Eintrag darf nicht zu "
+            f"'eindeutig fremd' werden: exited={exited}\n{out}"
+        )
+        _assert_zero_writes(http, out, tmp=tmp)
+
+
+def test_a1_failed_sibling_relink_with_second_independent_success_is_overall_partial_failure():
+    """A-R1: zwei Nebenvarianten sind an die ersetzte alte KB gebunden. Der
+    Update-Call fuer die erste schlaegt konkret fehl (HTTP 500); die
+    zweite, unabhaengige, wird TROTZDEM fertig nachgezogen. Der Gesamtlauf
+    endet mit Fehlerstatus (kein 'Setup abgeschlossen!'), die betroffene
+    Variante/Preset-/alte+neue-KB-ID werden konkret im Output genannt."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        cfg = dict(_SETUP_CFG)
+        cfg["variants"] = dict(_SETUP_CFG["variants"])
+        cfg["variants"]["sibling2"] = {
+            "preset_id": "p-sibling2", "preset_name": f"{_PROJECT} Ultra",
+            "model": "openrouter/deepseek/deepseek-v3.2", "cache": False,
+        }
+        sibling1 = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/mistral/foo",
+            "meta": {"knowledge": [{"id": "kb-old-1", "name": "Old", "type": "collection"}]},
+            "params": {},
+        }
+        sibling2 = {
+            "id": "p-sibling2", "name": f"{_PROJECT} Ultra",
+            "base_model_id": "openrouter/mistral/bar",
+            "meta": {"knowledge": [{"id": "kb-old-1", "name": "Old", "type": "collection"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-sibling": sibling1, "p-sibling2": sibling2},
+            new_kb_id="kb-new-1",
+            fail_update_model_ids={"p-sibling"},
+        )
+        exited, out = _run_setup(tmp, http, cfg, _OPTS)
+        assert exited == 1, f"ein kaputter Sibling-Link muss den Gesamtlauf mit Exit != 0 beenden: exited={exited}\n{out}"
+        assert http.models["p-sibling"]["meta"]["knowledge"] == [
+            {"id": "kb-old-1", "name": "Old", "type": "collection"}
+        ], "bei HTTP 500 darf der Remote-Zustand NICHT geaendert sein"
+        assert http.models["p-sibling2"]["meta"]["knowledge"] == [
+            {"id": "kb-new-1", "name": _KB_NAME, "type": "collection"}
+        ], "der unabhaengige zweite Relink muss trotzdem fertig laufen"
+        assert "Setup abgeschlossen!" not in out, "kein pauschales Erfolgsschild trotz kaputtem Sibling-Link"
+        assert "p-sibling" in out and "kb-old-1" in out and "kb-new-1" in out, (
+            "Variante/Preset-ID/alte+neue KB-ID muessen konkret genannt werden:\n" + out
+        )
 
 
 def main() -> int:
