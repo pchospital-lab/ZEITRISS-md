@@ -4300,14 +4300,6 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         sys.exit(1)
     print_ok("API-Key gültig")
 
-    # ── Embedding-Engine Precheck ────────────────────────────────────
-    _ensure_embedding_engine(
-        client,
-        wanted=opts.get("embedding"),
-        ollama_url=opts.get("ollama_url"),
-        ollama_model=opts.get("ollama_model"),
-    )
-
     # ── Variant-Auswahl ──────────────────────────────────────────────
     # Welche Presets dieser Lauf anlegt, bestimmt der Caller via
     # opts["variants"] (Liste von Variant-Keys). Default: die Default-Variante.
@@ -4557,6 +4549,22 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                     "jeder Mutation (sicherer Halt, keine geratene Zielbindung)."
                 )
                 sys.exit(1)
+
+    # ── Embedding-Engine Precheck ────────────────────────────────────
+    # WP-N2-A-T1: dieser Aufruf stand bisher VOR dem kompletten Preflight
+    # oben (direkt nach dem Auth-Check) -- mit der bestehenden expliziten
+    # `--embedding default|ollama`-Option kann `_ensure_embedding_engine`
+    # ueber `patch_embedding_config` eine Config-Mutation schreiben, BEVOR
+    # die Inventur-/Zugehörigkeits-Vorentscheidung ueberhaupt gelaufen war.
+    # Jetzt: nur nach bestandenem Preflight (keine offene sys.exit(1)-
+    # Moeglichkeit mehr vor dieser Zeile). Reine Reihenfolge-/Guard-
+    # Korrektur, keine Engine-/Payload-/Runtimeänderung.
+    _ensure_embedding_engine(
+        client,
+        wanted=opts.get("embedding"),
+        ollama_url=opts.get("ollama_url"),
+        ollama_model=opts.get("ollama_model"),
+    )
 
     # ══ Ab hier beginnen die eigentlichen destruktiven Mutationen -- jede
     # vorangehende Lesung ist abgeschlossen und eindeutig. ══
