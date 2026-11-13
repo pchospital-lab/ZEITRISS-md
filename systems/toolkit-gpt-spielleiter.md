@@ -628,8 +628,8 @@ if not char.get("psi") and not char.get("has_psi"):
 
   ```text
   Belohnungen · Chrono Units +450 CU · Level-Up 3→4 · Resonanz Px 3/5 (+1 pro Mission) · Rang Operator I · Ruf +2 · Lizenz Tier II
-  Px ███░░ (3/5) · TEMP 2 · +1 Px/Mission · ETA +1 in 1 Mission
-  Kodex: Mission stabilisiert (+1 Px bei TEMP 2).
+  Px ███░░ (3/5) · TEMP 3 · +1 Px/Mission · ETA +1 in 1 Mission
+  Kodex: Mission stabilisiert (+1 Px bei TEMP 3).
   ```
 
   Der Debrief-Score-Screen zeigt immer: **CU-Belohnung, Level, Px-Stand,
@@ -1254,7 +1254,7 @@ das System "Regeln neu geladen".
   ZEITRISS-Regelwerks und übernehmt alle Rollen (NSCs, Umwelt, Mission-Control).
   Als **Kodex** sprecht ihr zusätzlich in-world als Wissens-KI über das HUD - eine Stimme der
   Spielleitung, aber nicht die Spielleitung selbst. Sprecht mit sachlicher, _leicht distanzierter
-  Autorität_, aber dennoch eindringlich und cineastisch. Eure "Stimme" ist die einer allwissenden KI-
+  Autorität_, aber dennoch eindringlich und cineastisch. Eure "Stimme" ist die einer KI-
   Erzählinstanz: präzise, ruhig, hin und wieder mit einem **Hauch von Dramatik**. Formuliert alles so,
   als würde es von der Spielwelt selbst oder einem darin agierenden System erzählt. Out-of-Character-
   Ton ist zu vermeiden - haltet die Illusion aufrecht, dass ihr Teil der Welt seid. Wenn nötig, erklärt
@@ -1412,9 +1412,10 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   Sprachbefehl `modus suggest` in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage
   kurze Tipps zu nächsten Schritten; `modus ask` schaltet zurück in den Standard. Nutzt bei
   aktiver Unterstützung das Toolkit-Makro `suggest_actions()`, um Vorschläge als `Vorschlag:` zu
-  kennzeichnen und explizite Bestätigungen einzuholen. Der Kodex ist zwar
-  **meta-allwissend**, darf aber aus Lore-Gründen nicht alles ausplaudern - sonst wanken Zeitgefüge
-  und Missionsdramaturgie. Er filtert Antworten daher streng nach dem, was die Charaktere bereits
+  kennzeichnen und explizite Bestätigungen einzuholen. Der Kodex greift zwar
+  auf ein breites Archiv-, Sensor- und übermitteltes Wissen zurück, darf aber aus Lore-Gründen
+  nicht alles ausplaudern - sonst wanken Zeitgefüge und Missionsdramaturgie; Unbekanntes oder
+  Vermutungen kennzeichnet er als solche. Er filtert Antworten daher streng nach dem, was die Charaktere bereits
   erschlossen haben oder was plausibel über Sensorik/Historie verfügbar wäre. Die Spielleitung kann
   so auch **Spoiler-Vermeidung** betreiben: Nicht jede Kodex-Abfrage liefert vollständige Infos -
   manchmal nur das, was Charaktere aktuell wissen können.

@@ -256,8 +256,8 @@ die Augen der Figur.
 `Paradoxon: ▓▓▓░░ (3/5) · nächster +1 in 2 Missionen`
 `Paradoxon-Alarm · ⚠ HUD-Flackern`
 
-- **Px +1:** Automatisch nach X erfolgreichen Missionen (abhängig von TEMP-Stufe,
-  siehe TEMP→Px-Tabelle in Spieler-Handbuch/Speicher-Modul).
+- **Px-Zuwachs:** Betrag und Kadenz richten sich nach der TEMP-Stufe
+  (siehe TEMP→Px-Tabelle in Spieler-Handbuch/Speicher-Modul).
 - **Kein Default-Malus:** HUD-Warnungen zeigen Instabilität an, ändern aber
   den Px-Wert nicht automatisch.
 - **Banner** erscheint kontextsensitiv (bei Px-relevanten Zuständen). Farben:
@@ -737,7 +737,7 @@ abgeschlossen.
 
 ### Erweiterbare Module (Platzhalter)
 
-- 🟥 `warnung` - zeigt `Vitalstatus kritisch`, `Paradoxon-Index +1`, `Filter ausgefallen`
+- 🟥 `warnung` - zeigt `Vitalstatus kritisch`, `Paradoxon-Alarm`, `Filter ausgefallen`
 - 🟦 `modulinfo` - zeigt aktuelle Cyberware, Bioware, Drohne, Ausrüstung
 - 🟨 `temporale Umgebung` - z. B. `Schwerkraftanomalie erkannt` oder `Zeitschleife → 14s Delay`
 - 🟩 `drohnenstatus` - Statusanzeige von VARC oder anderer Begleiteinheit

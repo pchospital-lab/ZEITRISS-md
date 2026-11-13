@@ -1147,8 +1147,10 @@ Im nächsten frischen freien HQ-Chat nach dem vollständigen Debrief entscheidet
 | 3+           | +3 (Cap)         | 1.6 (Cap)      |
 
 Weitere Seeds erhöhen den Wert bis zum Cap von **+3 / 1,6** (ab drei offenen Seeds).
-Wer stylisch spielt und den natürlichen Ablauf der Geschichte wahrt, generiert
-mehr Paradoxon-Punkte; plumpes Vorgehen bremst den Aufbau, ohne im Default automatisch Px abzuziehen.
+Wer stylisch spielt und den natürlichen Ablauf der Geschichte wahrt, erlebt das
+fiktional über die Lage (Heat, Lagebild, Seeds); plumpes Vorgehen wirkt ebenso über diese Achsen,
+ohne im Default automatisch Px abzuziehen. Der Paradoxon-Index selbst folgt unverändert der
+Erfolgs-/TEMP-Staffel.
 
 Einheitliche CU-Formel (Core **und** Rift):
 `Belohnung = Basiswert(Risiko) × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`.
@@ -1205,7 +1207,7 @@ if last_player_epoch == requested_epoch
 
 Das Macro `redirect_same_slot()` verschiebt den Einsatzstart um mindestens sechs
 Stunden. Bewahren und Triggern führen zum gleichen Ergebnis; nur Stil und
-Paradoxon-Wert variieren.
+Handlung variieren, während der Paradoxon-Zuwachs derselben Erfolgs-/TEMP-Regel folgt.
 
 #### Multi-Zeit-Sicht-Split {#multi-zeit-sicht-split}
 
@@ -1221,8 +1223,7 @@ sich an der zum Einsprung offenen Seed-Anzahl. Verlassen die Agenten den Rift,
 schließt sich der Riss automatisch - gelungen oder nicht. Der Seed verschwindet
 aus dem Pool, wodurch Schwelle und CU-Multi erneut sinken.
 Während einer Rift-Op bleibt der Paradoxon-Index unverändert: Weder der
-Einsprung noch die Ereignisse im Riss erhöhen ihn. Kontakt mit Artefakten kann
-den Index dennoch steigern. Die Handlung ist ein eigenständiges Mystery-Casefile,
+Einsprung noch die Ereignisse im Riss erhöhen ihn. Die Handlung ist ein eigenständiges Mystery-Casefile,
 die nur thematisch zur aktuellen Epoche passt.
 
 **Px-Policy:** Kampagnen führen ausschließlich `campaign.px`; ein separates

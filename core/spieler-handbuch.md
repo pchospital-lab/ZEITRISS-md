@@ -946,8 +946,8 @@ festgeschrieben werden.
 
 **Was bedeutet Px?**
 Der Paradoxon-Index (Px) ist ein **Belohnungssystem** mit fester Progression:
-Nach einer bestimmten Anzahl erfolgreicher Missionen (abhängig von TEMP-Stufe)
-steigt der Index automatisch um +1. Px 0-4 hat keine negativen Effekte - ihr
+Nach einer bestimmten Anzahl erfolgreicher Missionen steigt der Index
+automatisch gemäß der TEMP-Staffel (abhängig von der TEMP-Stufe). Px 0-4 hat keine negativen Effekte - ihr
 baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1-2 Rift-Seeds,
 markiert den Reset als anhängig und setzt den Index nach dem Debrief auf 0 -
 das HUD bestätigt den Reset zu Beginn der nächsten Mission. Fehlschläge ziehen
@@ -1043,7 +1043,8 @@ Die Nullzeit kennt keinen Countdown. Das ITI schon.
 
 **Paradoxon:** Der Index (Px) steigt automatisch nach erfolgreichen Missionen
 gemäß der TEMP-Staffel. Grobes Fehlverhalten lässt das HUD
-flackern und kann bei Eskalation -1 Px auslösen. Bei Px 5 erzeugt
+flackern; im Default zieht das **keinen Px-Abzug** nach sich, sondern
+verschärft die Lage (CU, Stress/Heat, Storydruck). Bei Px 5 erzeugt
 `ClusterCreate()` neue Rift-Seeds und setzt den Index zurück.
 
 Wie willst du einsteigen?
