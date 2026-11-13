@@ -1516,7 +1516,7 @@ arena?: { wins, losses, tier }          // nur wenn Arena genutzt
 `campaign.px` bleibt die einzige Quelle für Paradoxon-Stand und Progression.
 Rifts führen kein separates `rift_px`; Importpfade verwerfen abweichende Felder.
 Px 0–4 erzeugt keine Maluswerte, Px 5 triggert `ClusterCreate()` und setzt
-nach der Rift-Op auf 0 zurück. `campaign.px_state` läuft deterministisch
+im auslösenden Debrief/HQ auf 0 zurück. `campaign.px_state` läuft deterministisch
 über `stable -> pending_reset -> consumed`; Merge priorisiert
 `consumed > pending_reset > stable`, damit ein verbrauchter Px-Stand
 nicht aus Alt-Branches wieder auftaucht.
