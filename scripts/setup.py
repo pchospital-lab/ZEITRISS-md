@@ -645,10 +645,21 @@ class APIClient:
             return None
         ids: list[str] = []
         for f in files:
-            if isinstance(f, dict) and isinstance(f.get("id"), str):
+            if isinstance(f, dict) and isinstance(f.get("id"), str) and f["id"] != "":
                 ids.append(f["id"])
-            elif isinstance(f, str):
+            elif isinstance(f, str) and f != "":
                 ids.append(f)
+            else:
+                # WP-N2-A-R3: ein nicht sicher interpretierbares Mitglied
+                # (falscher Typ, fehlende/leere ID) darf die Liste NICHT
+                # stillschweigend verkleinern -- vorher wurde z.B.
+                # {"files":[{"unlesbar":true}]} zu `[]`, eine formal
+                # vorhandene, aber teilweise unlesbare Mitgliedschaft wurde
+                # so zur bestaetigten Leerliste. Konservativ: die GESAMTE
+                # Lesung als unklar werten (None) statt eine geratene
+                # Teilliste zurueckzugeben -- dieselbe Behandlung wie beim
+                # bereits bestehenden `files: null`-Bug.
+                return None
         return ids
 
     def list_files(self) -> list[dict]:
@@ -4463,11 +4474,33 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                     "abgebrochen VOR jeder Mutation (sicherer Halt)."
                 )
                 sys.exit(1)
+            # WP-N2-A-R3: nicht interpretierbare Einträge (falscher Typ,
+            # fehlende/leere ID) wurden hier bisher bei `matching_idx`
+            # stillschweigend ausgelassen -- null verbleibende Treffer
+            # wurden dann als "eindeutig fremd, vollständig gelesen"
+            # gewertet, OBWOHL die Liste gar nicht vollständig lesbar war.
+            # Unreadable-Einträge separat erfassen und NUR bei null
+            # Treffern auswerten (bei einem bestätigten Treffer ist die
+            # Zugehörigkeit bereits eindeutig geklärt).
+            unreadable_knowledge_entries = [
+                entry for entry in knowledge
+                if not (isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") != "")
+            ]
             matching_idx = [
                 i for i, entry in enumerate(knowledge)
-                if isinstance(entry, dict) and entry.get("id") in old_kb_ids
+                if isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") in old_kb_ids
             ]
             if len(matching_idx) == 0:
+                if unreadable_knowledge_entries:
+                    print_error(
+                        f"Preset der Nebenvariante '{vk}' hat "
+                        f"{len(unreadable_knowledge_entries)} nicht interpretierbare(n) "
+                        "`meta.knowledge`-Eintrag/Einträge — Zugehörigkeit zur zu "
+                        "ersetzenden Knowledge Base nicht sicher ausschließbar "
+                        "('eindeutig fremd' wäre geraten). Setup abgebrochen VOR jeder "
+                        "Mutation (sicherer Halt)."
+                    )
+                    sys.exit(1)
                 continue  # eindeutig fremd, vollständig gelesen, null Zieltreffer
             if len(matching_idx) > 1:
                 print_error(
@@ -4477,6 +4510,53 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 )
                 sys.exit(1)
             sibling_relinks[vk] = (existing, matching_idx[0])
+
+    # WP-N2-A1-Zielbindung: bisher wurden fuer die Zielbindung NUR die
+    # ungewählten Sibling-Presets oben gelesen; `old_kb_ids` selbst stammt
+    # ausschließlich aus Namensgleichheit (`kb.get("name") == kb_name`).
+    # Die in DIESEM Lauf gewählten Presets (`variant_keys`, werden gleich
+    # geloescht+neu angelegt) wurden nie gegen diese Namens-Bindung
+    # gegengelesen. Rein lesend/bestätigend ergänzen: zeigt ein bereits
+    # installiertes gewähltes Preset aktuell auf eine KB, die die
+    # Namenssuche NICHT als `old_kb_ids` erfasst hat, ist die Zielbindung
+    # nicht vollständig -- Halt VOR jeder Mutation statt geratener Bindung.
+    # Keine allgemeine Bestandsinventur, keine Ausweitung der Löschmenge.
+    for vk in variant_keys:
+        v_pid = cfg["variants"][vk]["preset_id"]
+        existing_chosen = client.get_model(v_pid)
+        if existing_chosen is None:
+            if client.last_model_status == 404:
+                continue  # bestätigt noch nicht installiert — nichts zu binden
+            print_error(
+                f"Gewähltes Preset '{vk}' (Id {v_pid}) nicht lesbar "
+                f"(HTTP {client.last_model_status}) — aktuelle Ziel-KB-Bindung nicht "
+                "bestätigbar. Setup abgebrochen VOR jeder Mutation (sicherer Halt)."
+            )
+            sys.exit(1)
+        chosen_knowledge = (existing_chosen.get("meta") or {}).get("knowledge")
+        if chosen_knowledge is not None and not isinstance(chosen_knowledge, list):
+            print_error(
+                f"Gewähltes Preset '{vk}' hat ein unklares/formfalsches "
+                "`meta.knowledge`-Feld — aktuelle Ziel-KB-Bindung nicht bestimmbar. "
+                "Setup abgebrochen VOR jeder Mutation (sicherer Halt)."
+            )
+            sys.exit(1)
+        for entry in (chosen_knowledge or []):
+            if not (isinstance(entry, dict) and isinstance(entry.get("id"), str) and entry.get("id") != ""):
+                print_error(
+                    f"Gewähltes Preset '{vk}' hat einen nicht interpretierbaren "
+                    "`meta.knowledge`-Eintrag — aktuelle Ziel-KB-Bindung nicht "
+                    "bestimmbar. Setup abgebrochen VOR jeder Mutation (sicherer Halt)."
+                )
+                sys.exit(1)
+            if entry["id"] not in old_kb_ids:
+                print_error(
+                    f"Gewähltes Preset '{vk}' zeigt aktuell auf Knowledge Base "
+                    f"'{entry['id']}' — das stimmt NICHT mit der über den Namen "
+                    "gefundenen zu ersetzenden KB überein. Setup abgebrochen VOR "
+                    "jeder Mutation (sicherer Halt, keine geratene Zielbindung)."
+                )
+                sys.exit(1)
 
     # ══ Ab hier beginnen die eigentlichen destruktiven Mutationen -- jede
     # vorangehende Lesung ist abgeschlossen und eindeutig. ══
