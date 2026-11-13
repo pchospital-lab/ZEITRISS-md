@@ -1335,14 +1335,16 @@ OpenWebUI-Instanz.
 **Full-Rebuild** (`python scripts/setup.py`):
 
 1. Verbindung prüfen (API-Key, Health-Check, Auth).
-2. Embedding-Engine-Precheck.
-3. Altes Preset aufräumen (falls Upgrade die ID verwaist hat).
-4. Alte Knowledge Base entfernen (inkl. verknüpfter Dateien).
-5. 19 Wissensdateien hochladen und an neue KB verknüpfen.
-6. Preset anlegen/aktualisieren (Masterprompt, Parameter, KB-Bindung).
-7. Sync-Manifest schreiben (`.openwebui-sync.json`, per-Install,
+2. Preflight: KB-/Datei-/Sibling-/Zielbindung vollständig klären (VOR jeder
+   Mutation — eine unklare/unvollständige Lage bricht hier ab).
+3. Embedding-Engine-Precheck (NACH bestandenem Preflight, nicht davor).
+4. Altes Preset aufräumen (falls Upgrade die ID verwaist hat).
+5. Alte Knowledge Base entfernen (inkl. verknüpfter Dateien).
+6. 19 Wissensdateien hochladen und an neue KB verknüpfen.
+7. Preset anlegen/aktualisieren (Masterprompt, Parameter, KB-Bindung).
+8. Sync-Manifest schreiben (`.openwebui-sync.json`, per-Install,
    gitignored).
-8. Retrieval-Check mit Canary-Query.
+9. Retrieval-Check mit Canary-Query.
 
 **Inkrementeller Sync** (`python scripts/setup.py --sync`):
 
