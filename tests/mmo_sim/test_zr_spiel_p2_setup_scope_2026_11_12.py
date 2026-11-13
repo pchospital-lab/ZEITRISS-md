@@ -222,6 +222,20 @@ class _SetupHttpDouble:
         # ist "kb-x not in deleted_knowledge_ids" mehrdeutig zwischen "nie
         # versucht" und "versucht, aber fehlgeschlagen".
         self.delete_knowledge_attempts: list[str] = []
+        # WP-N4-A2: lokale Sync-Manifest-VERSUCHE (Write/Unlink) fuer den
+        # exakten `.openwebui-sync.json`-Pfad -- aufgezeichnet VOR der
+        # tatsaechlichen Operation, auch bei intern abgefangenem Fehler oder
+        # gleichlautendem Neuschreiben (nicht nur End-Existenz/End-Bytes).
+        # Befuellt von `_run_with()`s Instrumentierung um `_save_sync_
+        # manifest()`/`Path.unlink()`, NICHT vom HTTP-Rand hier -- das lokale
+        # Manifest ist kein HTTP-Call.
+        self.manifest_write_attempts: list[str] = []
+        self.manifest_unlink_attempts: list[str] = []
+        # Gemeinsame GEORDNETE Folge beider Ereignistypen (write/unlink) in
+        # tatsaechlicher Aufruf-Reihenfolge -- die beiden Listen oben allein
+        # koennen eine vorher-nachher-Reihenfolge (Reset-Unlink vor
+        # spaeterem Neubau-Write) nicht belegen.
+        self.manifest_attempts: list[tuple[str, str]] = []
         self._next_file_id = 9000
 
     def request(self, method, path, data=None, content_type="application/json", timeout=None):
@@ -338,14 +352,23 @@ class _SetupHttpDouble:
             existed = model_id in self.models
             self.models.pop(model_id, None)
             return (200, b"{}") if existed else (404, b'{"detail": "not found"}')
-        # WP-N2-A-T1: ab hier unbekannte/nicht explizit modellierte Pfade --
-        # SCHREIBENDE Methoden (POST/PUT/PATCH/DELETE) werden erfasst statt
-        # unbeobachtet mit HTTP 200 durchzulaufen (vorher: pauschales
-        # `return 200, b"{}"` ohne jede Spur). Lesende GETs bleiben wie
-        # bisher unveraendert (kein Mutationsrisiko, zu viele legitime
-        # Such-/Status-Reads um sie hier einzeln zu modellieren).
+        # WP-N2-A-T1/WP-N4-A2: ab hier unbekannte/nicht explizit modellierte
+        # Pfade -- SCHREIBENDE Methoden (POST/PUT/PATCH/DELETE) werden
+        # erfasst UND sofort sichtbar abgelehnt, statt unbeobachtet (WP-N2)
+        # oder zwar erfasst, aber trotzdem mit HTTP 200 (WP-N4-A2-Rest) mit
+        # pauschalem Erfolg durchzulaufen. Ein echter Produktcode-Pfad trifft
+        # hier nur, wenn eine tatsaechlich benoetigte Route in diesem Double
+        # noch FEHLT -- das muss als Testfehler auffallen, nicht als
+        # stillschweigender Erfolg. Lesende GETs bleiben wie bisher
+        # unveraendert (kein Mutationsrisiko, zu viele legitime Such-/
+        # Status-Reads um sie hier einzeln zu modellieren).
         if method in ("POST", "PUT", "PATCH", "DELETE"):
             self.unknown_write_requests.append((method, path))
+            raise AssertionError(
+                f"_SetupHttpDouble: unbekannter schreibender Request "
+                f"{method} {path} -- nicht explizit modellierte Route darf "
+                "NICHT stillschweigend HTTP 200 erhalten."
+            )
         return 200, b"{}"
 
 
@@ -353,6 +376,27 @@ def _run_with(repo_fn, tmp: Path, http: _SetupHttpDouble, cfg: dict, opts: dict)
     saved = dict(os.environ)
     os.environ["OPENWEBUI_API_KEY"] = "test-key-not-a-secret"
     os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
+    # WP-N4-A2: Write-/Unlink-VERSUCHE fuer den exakten Manifestpfad VOR der
+    # echten Operation aufzeichnen -- auch wenn `_save_sync_manifest` einen
+    # Schreibfehler intern abfaengt (nur `print_warn`, nie fatal, s. dessen
+    # Docstring) oder gleichlautend neu schreibt. Beide Originale bleiben
+    # tatsaechlich ausgefuehrt; nur die Beobachtung wird ergaenzt.
+    manifest_path = tmp / ".openwebui-sync.json"
+    _orig_save_manifest = setup_mod._save_sync_manifest
+    _orig_unlink = Path.unlink
+
+    def _tracking_save_manifest(repo_arg, manifest_arg):
+        attempt_path = str(Path(repo_arg) / ".openwebui-sync.json")
+        http.manifest_write_attempts.append(attempt_path)
+        http.manifest_attempts.append(("write", attempt_path))
+        return _orig_save_manifest(repo_arg, manifest_arg)
+
+    def _tracking_unlink(self, *a, **kw):
+        if str(self) == str(manifest_path):
+            http.manifest_unlink_attempts.append(str(self))
+            http.manifest_attempts.append(("unlink", str(self)))
+        return _orig_unlink(self, *a, **kw)
+
     try:
         def _client_factory(base_url, api_key):
             client = _RealAPIClient(base_url, api_key)
@@ -361,7 +405,9 @@ def _run_with(repo_fn, tmp: Path, http: _SetupHttpDouble, cfg: dict, opts: dict)
 
         with mock.patch.object(setup_mod, "_auto_load_owui_env", return_value=False), \
              mock.patch.object(setup_mod, "APIClient", side_effect=_client_factory), \
-             mock.patch.object(setup_mod.time, "sleep", return_value=None):
+             mock.patch.object(setup_mod.time, "sleep", return_value=None), \
+             mock.patch.object(setup_mod, "_save_sync_manifest", side_effect=_tracking_save_manifest), \
+             mock.patch.object(Path, "unlink", _tracking_unlink):
             buf = io.StringIO()
             with redirect_stdout(buf), redirect_stderr(buf):
                 try:
@@ -408,7 +454,15 @@ def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" 
     ergaenzt. Mit `manifest_sentinel` (Bytes) zusaetzlich die staerkere
     Sentinel-Pruefung: ein VORHER bereits vorhandenes lokales Manifest muss
     im Haltfall byte-identisch unangetastet bleiben, nicht nur "existiert
-    weiterhin" bzw. "wurde nicht NEU angelegt"."""
+    weiterhin" bzw. "wurde nicht NEU angelegt".
+
+    WP-N4-A2: `manifest_write_attempts`/`manifest_unlink_attempts` (echte
+    VERSUCHE, von `_run_with()` um `_save_sync_manifest()`/`Path.unlink()`
+    aufgezeichnet, nicht nur End-Existenz/End-Bytes) ergaenzt -- ein reiner
+    Endzustands-Check (Sentinel gleich, Datei existiert weiterhin) saehe
+    einen fehlgeschlagenen oder gleichlautend erneut schreibenden Versuch
+    NICHT. Erst die leere Versuchsliste zusammen mit dem Endzustand belegt,
+    dass vor dem Halt wirklich NICHTS versucht wurde."""
     assert http.deleted_model_ids == [], f"kein Preset-Delete:\n{out}"
     assert http.deleted_knowledge_ids == [], f"kein KB-Delete:\n{out}"
     assert http.delete_knowledge_attempts == [], f"kein KB-Delete-Versuch:\n{out}"
@@ -422,6 +476,12 @@ def _assert_zero_writes(http: _SetupHttpDouble, out: str, *, tmp: "Path | None" 
     assert http.created_knowledge_calls == [], f"keine KB-Neuanlage:\n{out}"
     assert http.unknown_write_requests == [], (
         f"keine unbeobachteten schreibenden Requests: {http.unknown_write_requests}\n{out}"
+    )
+    assert http.manifest_write_attempts == [], (
+        f"kein Manifest-Write-VERSUCH vor dem Halt:\n{out}"
+    )
+    assert http.manifest_unlink_attempts == [], (
+        f"kein Manifest-Unlink-VERSUCH vor dem Halt:\n{out}"
     )
     if tmp is not None:
         manifest = tmp / ".openwebui-sync.json"
@@ -518,6 +578,17 @@ def test_a1_sibling_with_matching_old_kb_link_gets_single_entry_relinked_rest_pr
             "Params der Fremdvariante bleiben unangetastet (bewusster Drift des Nutzers)"
         )
         assert payload["base_model_id"] == "openrouter/mistral/foo"
+        # WP-N4-A2: in einem NORMAL durchlaufenden Setup muss der neue
+        # Manifest-Write-Versuch tatsaechlich beobachtet worden sein -- sonst
+        # waere eine leere Versuchsliste in einem Haltfall kein Beleg fuer
+        # aktive Beobachtung, sondern koennte genauso gut bedeuten, dass die
+        # Instrumentierung gar nichts aufzeichnet.
+        manifest_path = str(tmp / ".openwebui-sync.json")
+        assert http.manifest_write_attempts == [manifest_path], (
+            f"ein normaler Setup-Lauf muss GENAU EINEN Manifest-Write-Versuch "
+            f"aufzeichnen: {http.manifest_write_attempts}\n{out}"
+        )
+        assert http.manifest_unlink_attempts == [], "ein Erstsetup loescht kein Manifest"
 
 
 # ── (3)/(4)/(5): A2 — Dateilöschung nur bei nachweislicher Zugehörigkeit ──
@@ -645,10 +716,19 @@ def test_reset_path_exact_kb_name_match_not_prefix_and_file_cleanup_scoped():
     gleichnamige Datei der NICHT entfernten Decoy-KB nicht global gelöscht
     werden. `run_reset` baut danach per Full-Rebuild (`run_setup`) neu auf
     -- derselbe Double/Client wird dabei weiterverwendet (kein zweiter
-    Mock-Aufbau nötig, `APIClient` ist global gepatcht)."""
+    Mock-Aufbau nötig, `APIClient` ist global gepatcht).
+
+    WP-N4-A2: mit einem VORHER bereits vorhandenen lokalen Sync-Manifest --
+    ein normaler Reset muss dessen Unlink-VERSUCH beobachten, der
+    anschliessende Full-Rebuild (`run_setup`) danach einen neuen
+    Write-VERSUCH. Erst die tatsaechliche Reihenfolge (Unlink vor dem
+    spaeteren Neubau-Write) belegt, dass die Beobachtung echte Versuche
+    sieht und nicht nur einen zufaelligen Endzustand."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp, filenames=("a.md",))
+        manifest_path = tmp / ".openwebui-sync.json"
+        manifest_path.write_text('{"masterprompt_md5": "old"}', encoding="utf-8")
         decoy_kb_name = f"{_PROJECT}-P1-Test"  # startswith(project) == True, exakt != kb_name
         assert decoy_kb_name.startswith(_PROJECT)
         assert decoy_kb_name != _KB_NAME
@@ -677,6 +757,20 @@ def test_reset_path_exact_kb_name_match_not_prefix_and_file_cleanup_scoped():
             "global gelöscht werden"
         )
         assert "f-decoy" in http.files
+        manifest_path_str = str(manifest_path)
+        assert http.manifest_unlink_attempts == [manifest_path_str], (
+            f"der Reset muss den Unlink-VERSUCH des vorhandenen Manifests "
+            f"beobachten: {http.manifest_unlink_attempts}\n{out}"
+        )
+        assert http.manifest_write_attempts == [manifest_path_str], (
+            f"der anschliessende Neuaufbau muss GENAU EINEN neuen "
+            f"Manifest-Write-Versuch beobachten: {http.manifest_write_attempts}\n{out}"
+        )
+        assert http.manifest_attempts == [("unlink", manifest_path_str), ("write", manifest_path_str)], (
+            f"der Unlink-Versuch des alten Manifests muss tatsaechlich VOR dem "
+            f"Write-Versuch des Neuaufbaus liegen, nicht nur irgendwann "
+            f"beide einmal: {http.manifest_attempts}\n{out}"
+        )
 
 
 def test_reset_path_unclear_file_list_halts_before_any_mutation():
@@ -936,6 +1030,8 @@ def test_a3_failed_kb_removal_stops_before_file_deletion_and_preset_recreation()
         )
         assert http.created_model_payloads == [], "keine neue Preset-Anlage auf Basis einer nur angenommenen Ersetzung"
         assert http.uploaded_files == [] and http.linked_files == []
+        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH nach diesem Teilfehler"
+        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH nach diesem Teilfehler"
         assert "abgebrochen" in out.lower(), out
 
 
@@ -947,12 +1043,28 @@ def test_a_r0_run_setup_preset_delete_http_error_halts_with_null_follow_up_mutat
     HTTP-500-Fehler -- das ist KEIN bestaetigtes Nichtvorhandensein (anders
     als ein 404). run_setup muss VOR den abhaengigen KB-/Dateischritten mit
     sys.exit(1) abbrechen; der Delete-VERSUCH selbst ist real passiert, aber
-    keine einzige Folgemutation (KB-Delete/-Create, Datei, neues Preset)."""
+    keine einzige Folgemutation (KB-Delete/-Create, Datei, neues Preset).
+
+    WP-N4-A1: braucht ein TATSAECHLICH vorhandenes 'p-default' mit gueltiger
+    Ziel-KB-Bindung (meta.knowledge -> kb-old-1) -- seit dem A1-Fix fuehrt
+    `run_setup` den im Preflight bestaetigten Praesenzentscheid bis zur
+    Deletephase mit: ein bestaetigt ABWESENDES (GET404) Preset bekommt gar
+    keinen Delete-POST mehr, der hier erwartete HTTP-500 wuerde also nie
+    erreicht. Mit dieser Fixture durchlaeuft 'p-default' den Preflight als
+    bestaetigt VORHANDEN (GET200 + zulaessige Bindung) und wird deshalb
+    tatsaechlich an delete_model() gegeben, wo der simulierte 500 greift."""
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
         _build_repo(tmp, filenames=("a.md",))
+        default_preset = {
+            "id": "p-default", "name": _PROJECT,
+            "base_model_id": "openrouter/deepseek/deepseek-v3.2",
+            "meta": {"knowledge": [{"id": "kb-old-1", "name": _KB_NAME, "type": "collection"}]},
+            "params": {},
+        }
         http = _SetupHttpDouble(
             knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={"p-default": default_preset},
             fail_delete_model_ids={"p-default"},
             new_kb_id="kb-new-1",
         )
@@ -963,11 +1075,14 @@ def test_a_r0_run_setup_preset_delete_http_error_halts_with_null_follow_up_mutat
         )
         assert http.deleted_model_ids == ["p-default"], "der fehlgeschlagene Delete-Versuch ist real passiert"
         assert http.deleted_knowledge_ids == [], "Null-Folge-Mutation: keine KB-Loeschung danach"
+        assert http.delete_knowledge_attempts == [], "Null-Folge-Mutation: kein KB-Delete-VERSUCH danach"
         assert http.reset_vector_calls == [], "Null-Folge-Mutation: kein Vektor-Reset danach"
         assert http.created_knowledge_calls == [], "Null-Folge-Mutation: keine KB-Neuanlage danach"
         assert http.delete_file_attempts == [] and http.deleted_file_ids == []
         assert http.created_model_payloads == [] and http.update_model_payloads == []
         assert http.unknown_write_requests == []
+        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH danach"
+        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH danach"
         assert not (tmp / ".openwebui-sync.json").exists(), "kein Manifest-Write danach"
         assert "war nicht vorhanden" not in out, (
             "ein echter HTTP-Fehler darf NICHT als 'war nicht vorhanden' gemeldet werden:\n" + out
@@ -1024,11 +1139,14 @@ def test_a_r0_run_reset_preset_delete_http_error_halts_before_kb_cleanup_with_re
         assert "kb-real-1" not in http.deleted_knowledge_ids, (
             "Null-Folge-Mutation: keine KB-Loeschung nach fehlgeschlagenem Preset-Delete"
         )
+        assert http.delete_knowledge_attempts == [], "Null-Folge-Mutation: kein KB-Delete-VERSUCH danach"
         assert http.reset_vector_calls == [], "Null-Folge-Mutation: kein Vektor-Reset danach"
         assert http.delete_file_attempts == [], "Null-Folge-Mutation: keine Dateiloeschung danach"
         assert "kb-real-1" in http.knowledge, "die KB bleibt bestehen (Bestand an diesem Punkt erhalten)"
         assert "f-real" in http.files, "die Datei bleibt bestehen"
         assert not (tmp / ".openwebui-sync.json").exists(), "kein Manifest-Write nach diesem Teilfehler"
+        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH danach"
+        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH danach"
         assert http.created_knowledge_calls == [], "kein Neuaufbau (run_setup) nach diesem Teilfehler"
         assert "starte jetzt sauberen Neuaufbau" not in out, (
             "die Erfolgsmeldung 'Reset abgeschlossen — starte jetzt sauberen "
@@ -1109,6 +1227,10 @@ def test_reset_kb_delete_http_error_halts_before_manifest_and_rebuild():
         assert manifest.read_text(encoding="utf-8") == '{"existing": true}', (
             "das lokale Manifest darf NICHT geloescht werden, solange die alte KB noch existiert"
         )
+        assert http.manifest_unlink_attempts == [], (
+            "kein Manifest-Unlink-VERSUCH (nicht nur unveraenderter Endzustand) nach diesem Teilfehler"
+        )
+        assert http.manifest_write_attempts == [], "kein Manifest-Write-VERSUCH nach diesem Teilfehler"
         assert http.created_knowledge_calls == [], "kein Neuaufbau (run_setup) nach diesem Teilfehler"
         assert "starte jetzt sauberen Neuaufbau" not in out, (
             "die Erfolgsmeldung 'Reset abgeschlossen — starte jetzt sauberen "
@@ -1319,10 +1441,67 @@ def test_a_r0_run_setup_preset_delete_http_401_after_confirmed_presence_is_not_t
         assert "p-default" in http.get_model_calls, "die Praesenz muss vorher tatsaechlich GEPRUEFT worden sein"
         assert "p-default" in http.deleted_model_ids, "der Delete-Versuch selbst ist real passiert"
         assert http.deleted_knowledge_ids == [], "Null-Folge-Mutation: keine KB-Loeschung nach diesem Fehler"
+        assert http.delete_knowledge_attempts == [], "Null-Folge-Mutation: kein KB-Delete-VERSUCH nach diesem Fehler"
         assert http.created_knowledge_calls == [], "Null-Folge-Mutation: keine KB-Neuanlage nach diesem Fehler"
+        assert http.delete_file_attempts == [], "Null-Folge-Mutation: keine Dateiloeschung nach diesem Fehler"
+        assert http.manifest_write_attempts == [], "Null-Folge-Mutation: kein Manifest-Write-VERSUCH nach diesem Fehler"
+        assert http.manifest_unlink_attempts == [], "Null-Folge-Mutation: kein Manifest-Unlink-VERSUCH nach diesem Fehler"
         assert "war nicht vorhanden" not in out, (
             "HTTP 401 nach bestaetigtem GET200 darf NICHT als 'war nicht vorhanden' gemeldet werden:\n" + out
         )
+
+
+def test_a1_chosen_preset_confirmed_absent_via_404_skips_delete_attempt_entirely():
+    """WP-N4-A1: ein per GET404 im Preflight bestaetigt ABWESENDES gewaehltes
+    Preset darf in der Deletephase gar keinen Delete-POST mehr auslösen --
+    der im Preflight schon getroffene Praesenzentscheid wird jetzt
+    tatsaechlich bis zum Delete mitgefuehrt statt nur gelesen und dort
+    wieder verworfen. Absicherung: `fail_delete_model_401_ids` traegt fuer
+    GENAU diese ID einen simulierten HTTP-401 -- wuerde `delete_model()`
+    trotzdem aufgerufen, waere das (bei einem bestaetigt abwesenden Preset)
+    ein erfundener Fehler. Normaler Aufbau bleibt moeglich."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            models={},  # p-default bewusst NICHT vorhanden -> echtes 404
+            fail_delete_model_401_ids={"p-default"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), (
+            f"ein bestaetigt abwesendes gewaehltes Preset darf den Aufbau "
+            f"NICHT anhalten: exited={exited}\n{out}"
+        )
+        assert "p-default" in http.get_model_calls, "die Abwesenheit muss tatsaechlich GEPRUEFT worden sein"
+        assert "p-default" not in http.deleted_model_ids, (
+            "ein bestaetigt abwesendes Preset darf GAR KEINEN Delete-POST mehr "
+            "erhalten -- der simulierte Delete-401-Fallenstein darf nicht erreicht werden"
+        )
+        assert "Kein vorhandenes Preset für Variante 'default' — Neuanlage." in out, out
+
+
+def test_a1_chosen_preset_read_error_halts_before_any_mutation():
+    """Vorabhalt-Zweig fuer das GEWAEHLTE Preset selbst (nicht nur eine
+    Nebenvariante, s. test_a1_sibling_read_error_halts_before_any_mutation):
+    ein echter Lesefehler (HTTP 500, nicht 404) auf `get_model('p-default')`
+    ist KEIN bestaetigtes Nichtvorhandensein -- Setup muss VOR jeder
+    Mutation (inkl. Delete) abbrechen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-old-1", "name": _KB_NAME}],
+            model_read_error_ids={"p-default"},
+            new_kb_id="kb-new-1",
+        )
+        exited, out = _run_setup(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein Lesefehler beim gewaehlten Preset muss hart abbrechen: exited={exited}\n{out}"
+        )
+        assert "p-default" in http.get_model_calls
+        _assert_zero_writes(http, out, tmp=tmp)
 
 
 def test_reset_preset_bound_to_foreign_kb_halts_before_any_preset_delete():
@@ -1353,11 +1532,69 @@ def test_reset_preset_bound_to_foreign_kb_halts_before_any_preset_delete():
             f"ein Reset-Preset mit Bindung an eine ueber den Namen NICHT "
             f"gefundene KB muss VOR dem ersten Presetdelete halten: exited={exited}\n{out}"
         )
-        assert http.deleted_model_ids == [], "kein Presetdelete vor geklaerter Zielbindung"
-        assert http.deleted_knowledge_ids == [], "keine KB-Loeschung"
-        assert http.delete_knowledge_attempts == [], "kein KB-Delete-Versuch"
+        # WP-N4-A2: vorher nur Preset-/KB-Loeschzaehler geprueft (General-
+        # Review INTERNAL_CODE_REVIEW.md §4 Punkt 3) -- der gemeinsame Helfer
+        # deckt jetzt den VOLLSTAENDIGEN Ledger ab, inkl. Manifest-Versuchen.
+        _assert_zero_writes(http, out, tmp=tmp)
         assert "kb-fremd-1" in out, "die abweichende KB muss konkret genannt werden:\n" + out
         assert "p-sibling" in http.get_model_calls, "die Zielbindung muss das Reset-Preset wirklich gelesen haben"
+
+
+def test_reset_preset_confirmed_absent_via_404_skips_delete_attempt_entirely():
+    """WP-N4-A1 im Reset-Pfad: ein per GET404 bestaetigt abwesendes
+    konfiguriertes Preset bekommt in der Delete-Schleife KEINEN Delete-POST
+    mehr -- der Preflight-Entscheid wird tatsaechlich verwendet statt nur
+    gelesen und verworfen. Ein simulierter 401-Fallenstein fuer GENAU diese
+    ID beweist, dass `delete_model()` dafuer gar nicht aufgerufen wird. Das
+    andere, tatsaechlich vorhandene konfigurierte Preset wird normal
+    entfernt, der Reset laeuft bis zum Neuaufbau durch."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        sibling_preset = {
+            "id": "p-sibling", "name": f"{_PROJECT} Budget",
+            "base_model_id": "openrouter/mistral/foo",
+            "meta": {"knowledge": [{"id": "kb-real-1", "name": _KB_NAME, "type": "collection"}]},
+            "params": {},
+        }
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            files=[{"id": "f-real", "filename": "a.md", "meta": {"collection_name": "kb-real-1"}}],
+            models={"p-sibling": sibling_preset},  # p-default bewusst NICHT vorhanden -> echtes 404
+            fail_delete_model_401_ids={"p-default"},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited in (None, 0), f"exited={exited}\n{out}"
+        assert "p-default" not in http.deleted_model_ids, (
+            "ein bestaetigt abwesendes Preset darf GAR KEINEN Delete-POST mehr "
+            "erhalten -- der simulierte Delete-401-Fallenstein darf nicht erreicht werden"
+        )
+        assert "p-sibling" in http.deleted_model_ids, "das tatsaechlich vorhandene Preset wird normal geloescht"
+        assert "Preset 'p-default' war nicht vorhanden" in out, out
+        assert "kb-real-1" in http.deleted_knowledge_ids, "der Reset laeuft bis zur KB-Entfernung durch"
+
+
+def test_reset_preset_read_error_halts_before_any_preset_delete():
+    """Vorabhalt-Zweig in `run_reset`s Presetpreflight: ein echter Lesefehler
+    (HTTP 500, nicht 404) auf einem konfigurierten Preset ist KEIN
+    bestaetigtes Nichtvorhandensein -- der Reset muss VOR dem ersten
+    Presetdelete abbrechen."""
+    with tempfile.TemporaryDirectory() as tmp_s:
+        tmp = Path(tmp_s)
+        _build_repo(tmp, filenames=("a.md",))
+        http = _SetupHttpDouble(
+            knowledge=[{"id": "kb-real-1", "name": _KB_NAME}],
+            model_read_error_ids={"p-default"},
+            new_kb_id="kb-rebuilt-1",
+        )
+        exited, out = _run_reset(tmp, http, _SETUP_CFG, _OPTS)
+        assert exited == 1, (
+            f"ein Lesefehler auf ein konfiguriertes Reset-Preset muss VOR dem "
+            f"ersten Presetdelete abbrechen: exited={exited}\n{out}"
+        )
+        assert http.deleted_model_ids == [], "kein Presetdelete vor geklaerter Praesenz"
+        assert http.deleted_knowledge_ids == [], "keine KB-Loeschung"
 
 
 def test_a1_sibling_mixed_knowledge_list_with_target_hit_and_unreadable_entry_halts_before_any_mutation():

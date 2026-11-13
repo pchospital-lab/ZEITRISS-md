@@ -307,11 +307,16 @@ Base samt Vektoren und hochgeladenen Dateien, das lokale Sync-Manifest
 Admin-Account, deine API-Keys in `~/.openwebui_env`, alle anderen
 Presets/KBs in deiner OpenWebUI-Installation.
 
-> ⚠️ **KB-Präfix-Matching.** Der Reset löscht alle KBs, deren Name mit
-> dem Projektnamen (`ZEITRISS`) beginnt. Wer eine manuelle Backup-KB mit
-> einem Namen wie `ZEITRISS-BACKUP` pflegt, sollte sie vor dem Reset
-> umbenennen — der Launcher zeigt vor der Bestätigung eine Trefferliste,
-> dort sieht man's rechtzeitig.
+> ⚠️ **Exakter KB-Name, nicht Präfix.** Der Reset löscht nur die Knowledge
+> Base, deren Name exakt dem Projekt-KB-Namen entspricht — nicht jede KB,
+> die mit `ZEITRISS` beginnt. Zusätzlich prüft er vorher, ob die
+> konfigurierten Presets tatsächlich auf genau diese KB zeigen; bei einer
+> unklaren oder abweichenden Bindung bricht er vor jeder Löschung ab,
+> statt zu raten. Eine manuelle Backup-KB mit einem Namen wie
+> `ZEITRISS-BACKUP` wird dadurch schon über den Namen nicht getroffen —
+> das ist aber keine Erfolgsgarantie für jede denkbare Altinstallation;
+> der Launcher zeigt vor der Bestätigung trotzdem eine Trefferliste, dort
+> sieht man's im Zweifel rechtzeitig.
 
 ---
 

@@ -4119,6 +4119,18 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # nicht mehr rekonstruierbar (ein spaeterer Setup-Guard sieht nur noch
     # ein bestaetigtes 404). Rein lesend VOR dem ersten Presetdelete klaeren,
     # keine Mutation in dieser Schleife.
+    # WP-N4-A1: den je-ID bestaetigten Praesenzentscheid aus GENAU diesem
+    # Preflight bis zur Deletephase mitfuehren -- bisher fuehrte ein
+    # bestaetigtes GET404 hier nur zu `continue` (keine Mutation in DIESER
+    # Schleife), die SPAETERE Delete-Schleife rief `delete_model` trotzdem
+    # fuer jede konfigurierte ID auf. Ein bestaetigt fehlendes Preset bekam
+    # dadurch unnoetig einen Delete-POST (und im negativen Fall einen
+    # erfundenen Fehler, wenn das Backend auf ein bereits bestaetigt
+    # abwesentes Objekt z.B. mit 401 statt 404 antwortet). Nur IDs, die hier
+    # ein gueltiges GET200 mit zulaessiger Zielbindung durchlaufen, gelten
+    # als bestaetigt vorhanden und werden unten tatsaechlich an
+    # `delete_model` gegeben.
+    confirmed_present_preset_ids: set[str] = set()
     for preset_id in reset_preset_ids:
         existing_preset = client.get_model(preset_id)
         if existing_preset is None:
@@ -4162,6 +4174,7 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                     "Mutation (sicherer Halt, keine geratene Zielbindung)."
                 )
                 sys.exit(1)
+        confirmed_present_preset_ids.add(preset_id)
 
     # ══ Ab hier beginnen die eigentlichen destruktiven Mutationen. ══
 
@@ -4183,6 +4196,13 @@ def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # abhaengigen Schritten.
     failed_preset_ids: list[str] = []
     for preset_id in reset_preset_ids:
+        # WP-N4-A1: fuer eine im Preflight bereits bestaetigt ABWESENDE ID
+        # (GET404) findet hier kein Delete-POST mehr statt -- der
+        # Preflight-Entscheid wird tatsaechlich verwendet statt nur gelesen
+        # und verworfen. Nur bestaetigt VORHANDENE IDs werden geloescht.
+        if preset_id not in confirmed_present_preset_ids:
+            print_info(f"Preset '{preset_id}' war nicht vorhanden — übersprungen.")
+            continue
         existed, ok = client.delete_model(preset_id)
         if not ok:
             failed_preset_ids.append(preset_id)
@@ -4616,6 +4636,13 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # Namenssuche NICHT als `old_kb_ids` erfasst hat, ist die Zielbindung
     # nicht vollständig -- Halt VOR jeder Mutation statt geratener Bindung.
     # Keine allgemeine Bestandsinventur, keine Ausweitung der Löschmenge.
+    # WP-N4-A1: den je-ID bestaetigten Praesenzentscheid aus GENAU diesem
+    # Preflight bis zur Deletephase mitfuehren -- analog zu `run_reset`
+    # (s. dort). Nur IDs, die hier ein gueltiges GET200 mit zulaessiger
+    # Zielbindung durchlaufen, gelten als bestaetigt vorhanden und werden
+    # unten tatsaechlich an `delete_model` gegeben; ein bestaetigtes
+    # GET404 bekommt keinen Delete-POST mehr.
+    confirmed_present_chosen_pids: set[str] = set()
     for vk in variant_keys:
         v_pid = cfg["variants"][vk]["preset_id"]
         existing_chosen = client.get_model(v_pid)
@@ -4666,6 +4693,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                     "jeder Mutation (sicherer Halt, keine geratene Zielbindung)."
                 )
                 sys.exit(1)
+        confirmed_present_chosen_pids.add(v_pid)
 
     # ── Embedding-Engine Precheck ────────────────────────────────────
     # WP-N2-A-T1: dieser Aufruf stand bisher VOR dem kompletten Preflight
@@ -4698,6 +4726,13 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # werden. Abbruch VOR den abhaengigen KB-/Dateischritten.
     for vk in variant_keys:
         v_pid = cfg["variants"][vk]["preset_id"]
+        # WP-N4-A1: fuer eine im Preflight bereits bestaetigt ABWESENDE ID
+        # (GET404) findet hier kein Delete-POST mehr statt -- der
+        # Preflight-Entscheid wird tatsaechlich verwendet statt nur gelesen
+        # und verworfen. Nur bestaetigt VORHANDENE IDs werden geloescht.
+        if v_pid not in confirmed_present_chosen_pids:
+            print_info(f"Kein vorhandenes Preset für Variante '{vk}' — Neuanlage.")
+            continue
         existed, ok = client.delete_model(v_pid)
         if not ok:
             print_error(
