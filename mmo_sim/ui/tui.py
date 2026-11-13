@@ -3144,12 +3144,43 @@ class TuiSession:
             active_id = catalog.active_chrononaut_id(self.catalog_dir, self.participant_id)
             self._print("Vorhandene Figuren:")
             for idx, e in enumerate(entries, start=1):
-                # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §B4): rein anzeigende
-                # Kennzeichnung der Quelle -- die aktive Figur spiegelt den
-                # veroeffentlichten Current, jede andere liegt getrennt im
-                # eigenen Figur-Archiv (`catalog.load_figure_save`). KEINE
-                # erfundenen Statusmetadaten im Katalog, nur Anzeigetext.
-                marker = " (aktiv, aus aktuellem Spielstand)" if e.chrononaut_id == active_id else " (Archiv)"
+                # ZR-KERN-FEINSCHLIFF-K3-N1 (02 §B4)/K3-N2 (02 §N2-B): rein
+                # anzeigende Kennzeichnung von Quelle UND tatsaechlichem
+                # Finalstatus -- Herkunft allein ist kein Finalstatus, eine
+                # normale und eine finale Archivfigur duerfen nicht
+                # dasselbe undifferenzierte "Archiv" bekommen. Die aktive
+                # Figur spiegelt den veroeffentlichten Current
+                # (`_read_current_final_status`, char-gebunden an
+                # `e.chrononaut_id` -- ein bewusst abweichender ALTER
+                # Onboardingstand wird NICHT stattdessen massgeblich); jede
+                # andere liegt getrennt im eigenen Figur-Archiv
+                # (`catalog.load_figure_save`, defensiv umschlossen). KEINE
+                # erfundenen Statusmetadaten im Katalog, nur Anzeigetext,
+                # kein Reparaturwrite.
+                if e.chrononaut_id == active_id:
+                    active_status = self._read_current_final_status(
+                        self.run_dir, self.states_dir, self.schema_path,
+                        self.participant_id, e.chrononaut_id,
+                    )
+                    if active_status == "final":
+                        marker = " (aktiv, Legendenabschied abgeschlossen)"
+                    elif active_status == "unreadable":
+                        marker = " (aktiv, Status derzeit nicht lesbar)"
+                    else:
+                        marker = " (aktiv, aus aktuellem Spielstand)"
+                else:
+                    try:
+                        archived = catalog.load_figure_save(self.catalog_dir, self.participant_id, e.chrononaut_id)
+                    except (OSError, ValueError):
+                        archived = None
+                        marker = " (Archiv, Status nicht lesbar)"
+                    else:
+                        if archived is None:
+                            marker = " (Archiv, Status nicht lesbar)"
+                        elif zeitriss_saves.is_final_deceased(archived):
+                            marker = " (Archiv, Legendenabschied abgeschlossen)"
+                        else:
+                            marker = " (Archiv)"
                 name = self._effective_display_name(e)
                 label = f"{name} " if name else ""
                 self._print(f"  [{idx}] {label}{e.chrononaut_id}{marker}")
@@ -5552,6 +5583,51 @@ class TuiSession:
             return catalog.load_figure_save(self.catalog_dir, participant_id, char_id)
         return None
 
+    def _read_current_final_status(
+        self, run_dir: Path | None, states_dir: Path | None, schema_path: Path | None,
+        persona_key: str, expected_char_id: str,
+    ) -> str | None:
+        """ZR-KERN-FEINSCHLIFF-K3-N2 (02 §N2-A/§N2-B): kleine gemeinsame
+        PRIVATE reine Lesehilfe fuer die Abschlusskarte
+        (`_print_section_completion_card`, liest auf `io`s eigenen Wurzeln)
+        UND die Figurenliste (`_cmd_new_or_switch_character`, liest auf
+        `self`s eigenen Wurzeln) -- nimmt die Wurzeln EXPLIZIT als Parameter
+        entgegen statt `self.*` zu lesen, damit beide Aufrufer die jeweils
+        richtige Session binden koennen.
+
+        Nutzt NUR `core_store.load_current_save_or_raise` (strenge
+        Referenzkette) + `zeitriss_saves.block_char_id`/`is_final_deceased`
+        -- NIEMALS `_resolve_active_save`/`_apply_pending_compat_load` (die
+        koennen ueber einen Kompatibilitaets-Umschlag schreiben/eine
+        Reparaturpublikation ausloesen; fuer eine zusaetzliche reine
+        Statusanzeige unzulaessig).
+
+        Liefert `"final"`/`"alive"` NUR, wenn der gelesene Current
+        TATSAECHLICH an `expected_char_id` gebunden ist
+        (`block_char_id(current) == expected_char_id`) -- ein bewusst
+        abweichender ALTER Onboardingstand oder ein Current einer ANDEREN
+        Figur wird NICHT stattdessen massgeblich. `"unreadable"` bei
+        `CurrentSaveUnavailableError` (bekannte Fassung gerade nicht lesbar
+        -- NICHT als final/lebend erfunden). Sonst `None` (keine
+        konfigurierte Laufumgebung, kein Current, oder Current einer
+        anderen Figur) -- der Aufrufer entscheidet selbst, was `None` fuer
+        sein bisheriges Default-Label bedeutet. Reine Lesefunktion, kein
+        Write, keine Statusmutation, keine Reparaturpublikation."""
+        if run_dir is None or states_dir is None or schema_path is None:
+            return None
+        from ..core.persona_state import PersonaStateStore
+        from ..core import store as core_store
+        ps_store = PersonaStateStore(schema_path=schema_path)
+        try:
+            current = core_store.load_current_save_or_raise(
+                run_dir, persona_key, ps_store, states_dir=states_dir,
+            )
+        except core_store.CurrentSaveUnavailableError:
+            return "unreadable"
+        if current is None or zeitriss_saves.block_char_id(current) != expected_char_id:
+            return None
+        return "final" if zeitriss_saves.is_final_deceased(current) else "alive"
+
     def _local_round_registry_dir(self) -> Path:
         """A24 R2 (02 §Auftrag R2: 'ueber die VORHANDENE Registry
         registrieren', '... keine zweite Personen-/Katalogdatenwelt').
@@ -6259,9 +6335,29 @@ class TuiSession:
             # Hostrollen-Hold, Aufnahme bleibt moeglich.
             if self.run_dir is not None and self.states_dir is not None and self.schema_path is not None:
                 from ..core.persona_state import PersonaStateStore
-                from ..core.store import load_current_save
+                from ..core.store import load_current_save_or_raise, CurrentSaveUnavailableError
                 ps_store = PersonaStateStore(schema_path=self.schema_path)
-                own = load_current_save(self.run_dir, guest_id, ps_store, states_dir=self.states_dir)
+                # ZR-KERN-FEINSCHLIFF-K3-N2 (02 §N2-C): der strenge
+                # `load_current_save_or_raise` unterscheidet 'echte Absenz'
+                # (weiterhin `None`, KEIN Hold -- zulaessige reine ID-/
+                # Betreiberfaelle bleiben zulaessig) von 'bekannte Fassung
+                # gerade nicht lesbar' (`CurrentSaveUnavailableError`) --
+                # die tolerante `load_current_save` liess Letzteres bisher
+                # STILL bis `accept_request` durchfallen und schrieb den
+                # Request ins Roster, obwohl die bekannte Autoritaet
+                # ungeklaert war. `CurrentSaveUnavailableError` wird NICHT
+                # zu "keine Figur" umgedeutet -- kontrollierter lokaler
+                # Hold VOR jeder Schreibwirkung, kein stiller Fallback,
+                # kein pauschaler Personen-Hold.
+                try:
+                    own = load_current_save_or_raise(self.run_dir, guest_id, ps_store, states_dir=self.states_dir)
+                except CurrentSaveUnavailableError as e:
+                    self._print(
+                        f"Anfrage von '{guest_id}' nicht angenommen: bekannte eigene Fassung ist "
+                        f"gerade nicht lesbar ({e}) -- kein Rosterschreiben bei ungeklaerter "
+                        "Autoritaet; bitte erneut versuchen, sobald lesbar."
+                    )
+                    return
                 if own is not None:
                     own_char_id = zeitriss_saves.block_char_id(own)
                     hold_reason = self._final_deceased_hold(own_char_id, own)
@@ -9581,6 +9677,21 @@ class TuiSession:
             io._print("Keine eigene Figur -- kein persoenlicher Spielstand.")
         participant_is_host_capable = pid == io.participant_id and io._host_capable
         is_guest_follow_up = not participant_is_host_capable
+        # ZR-KERN-FEINSCHLIFF-K3-N2 (02 §N2-A): Finalstatus der KARTENPERSON
+        # (`pid`, char-gebunden an `card.chrononaut_id`) AUSSCHLIESSLICH auf
+        # `io`s EIGENEN Wurzeln lesen (NICHT `self`s -- s. Docstring oben,
+        # ein registrierter Gast hat sein eigenes `run_dir`/`states_dir`/
+        # `schema_path`). `_read_current_final_status` ist eine reine
+        # Lesehilfe (`core_store.load_current_save_or_raise` +
+        # `zeitriss_saves.block_char_id`/`is_final_deceased`), NIE
+        # `_resolve_active_save`/`_apply_pending_compat_load`. Nur
+        # `"final"` unterdrueckt die Folgeaktion -- lebende Figuren,
+        # figurlose Betreiber UND `CurrentSaveUnavailableError`
+        # ("unreadable", keine erfundene Final-/Lebend-Behauptung) bleiben
+        # am bisherigen zulaessigen Folgeweg bytegleich.
+        card_person_is_final = has_character and self._read_current_final_status(
+            io.run_dir, io.states_dir, io.schema_path, pid, card.chrononaut_id,
+        ) == "final"
         actions: list[tuple[str, object]] = []
         if has_character:
             actions.append((
@@ -9604,7 +9715,17 @@ class TuiSession:
             "Zurueck zum Hauptmenue"
         )
         actions.append((return_label, lambda: None))
-        if is_guest_follow_up:
+        if card_person_is_final:
+            # ZR-KERN-FEINSCHLIFF-K3-N2 (02 §N2-A): die Kartenfigur ist
+            # tatsaechlich final -- keine neue Solo-/Beitrittsaufnahme als
+            # zulaessig anbieten. Export (falls `has_character`) und die
+            # Rueckkehr-Aktion bleiben oben unveraendert erhalten; kein
+            # neuer Button/Ersatzdialog, nur eine reine Anzeigezeile.
+            io._print(
+                "Diese Figur hat ihren Legendenabschied abgeschlossen -- bitte bewusst "
+                "ueber [charaktere] eine andere/neue Figur waehlen."
+            )
+        elif is_guest_follow_up:
             actions.append((
                 "Tisch suchen/beitreten (neues zulaessiges Angebot)",
                 # R6-Nachzug (GENERAL-REVIEW.md §2/G-R6-01): `acting_pid=pid`

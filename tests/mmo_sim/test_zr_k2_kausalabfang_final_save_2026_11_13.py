@@ -315,10 +315,26 @@ def test_resume_card_bogen_export_name_the_finale_other_member_stays_playable():
         assert _json.loads(export_path.read_text(encoding="utf-8")) == deceased_save
 
         printed.clear()
-        session._cmd_show_bogen(speaker_pid="p4")
-        # Read-only, darf nicht crashen -- entweder lokaler Druck ODER
-        # externes Terminal (CI-sicher: beide Zweige sind erlaubt, nur
-        # kein Absturz/keine Exception).
+        # T5 (03_NACHWEISE): NUR die aeussere Fenster-/Desktopoeffnungs-
+        # grenze (`sheet_view.try_open_in_external_terminal`) wird
+        # gestubbt, damit der Test offline/CI-sicher bleibt (kein echtes
+        # Terminalfenster/Browser) -- der echte Produkt-Bogenpfad
+        # (`_cmd_show_bogen` selbst, der reale Current-Leser, der
+        # Renderer `sheet_view.render_character_sheet`) bleibt
+        # UNVERAENDERT und wird real durchlaufen. Danach wird der
+        # Originalzustand zurueckgesetzt -- ein realer Fensterstart ist
+        # KEIN zulaessiger Offline-Nachweis, aber auch kein verlangtes
+        # Verbot des Zweigs selbst.
+        from mmo_sim.ui import sheet_view as _sheet_view_module
+        _original_try_open_in_external_terminal = _sheet_view_module.try_open_in_external_terminal
+        _sheet_view_module.try_open_in_external_terminal = lambda *_a, **_kw: True
+        try:
+            session._cmd_show_bogen(speaker_pid="p4")
+        finally:
+            _sheet_view_module.try_open_in_external_terminal = _original_try_open_in_external_terminal
+        # Read-only, darf nicht crashen -- der (gestubbte) externe-
+        # Terminal-Zweig greift hier deterministisch, kein lokaler Druck
+        # noetig/erwartet.
 
         other_resolved = session._resolve_member("p4b")
         assert other_resolved is not None
@@ -770,11 +786,38 @@ def test_table_accept_holds_missing_host_onboarding_projection_with_shared_final
         from mmo_sim.ui.tui import _write_table_guest_offer, _read_table_guest_offer
         _write_table_guest_offer(run_dir, "t9c", "p9cguest", chrononaut_id="CHR-G9C", save=guest_save)
 
+        # T4 (03_NACHWEISE, 'fehlende-Hostprojektion-Fall'): die
+        # tatsaechlich beruehrbaren Artefakte VOR dem gehaltenen Accept
+        # binden -- der Host-Onboarding-Slot und der Host-Katalogeintrag
+        # fuer den Gast existieren noch NICHT (das ist genau die Luecke,
+        # die `noop_identical` sonst nachtragen wuerde); Sidecar/Request/
+        # Record UND der geteilte Current-Versionsbestand des Gasts
+        # muessen danach unveraendert bleiben.
+        record_path = run_dir / "table_admission" / "t9c.json"
+        sidecar_path = run_dir / "table_guest_offers" / "t9c__p9cguest.json"
+        host_catalog_path = host_catalog_dir / "catalog__p9cguest.json"
+        guest_versions_dir = run_dir / "current_saves" / "p9cguest__versions"
+        before = (
+            record_path.read_bytes(), sidecar_path.read_bytes(),
+            host_catalog_path.exists(),
+            sorted((p.name, p.read_bytes()) for p in guest_versions_dir.glob("*.json")),
+        )
+
         printed: list[str] = []
         host._print = printed.append
         host._cmd_table_accept(["t9c", "p9cguest"])
         joined = "\n".join(printed)
         assert "Legendenabschied" in joined, joined
+
+        after = (
+            record_path.read_bytes(), sidecar_path.read_bytes(),
+            host_catalog_path.exists(),
+            sorted((p.name, p.read_bytes()) for p in guest_versions_dir.glob("*.json")),
+        )
+        assert before == after, (
+            "Der Hold muss ALLE tatsaechlich beruehrbaren Artefakte unveraendert lassen "
+            "(Record/Sidecar/Host-Katalogdatei/geteilter Current-Versionsbestand)."
+        )
 
         record = table_admission.load_record(run_dir, "t9c")
         assert "p9cguest" not in record["roster"], record
@@ -830,8 +873,22 @@ def test_table_accept_holds_archived_offered_figure_with_final_archive_state():
 
         record_path = run_dir / "table_admission" / "t9d.json"
         sidecar_path = run_dir / "table_guest_offers" / "t9d__p9dguest.json"
-        archive_path = catalog_dir / "catalog__p9dguest.json"
-        before = (record_path.read_bytes(), sidecar_path.read_bytes(), archive_path.read_bytes())
+        # T4 (03_NACHWEISE): `catalog__p9dguest.json` ist NUR der
+        # Katalog-Metadaten-Eintrag (Entry-Liste/Bindung) -- die
+        # Archiv-AUTORITAET selbst (`_authoritative_final_save_for`s
+        # dritte Stufe liest `catalog.load_figure_save`) liegt in den
+        # echten Figurenbytes unter `figures/pid__char.json`. Beide Pfade
+        # werden hier getrennt vor/nach gebunden, damit "0 Writes" sich
+        # tatsaechlich auf die massgebliche Archivquelle bezieht, nicht
+        # nur auf die Metadatendatei.
+        archive_meta_path = catalog_dir / "catalog__p9dguest.json"
+        archive_figure_path = catalog_dir / "figures" / "p9dguest__CHR-G9D.json"
+        assert archive_figure_path.exists(), "Testvoraussetzung: echte Figurenbytes muessen bereits vorliegen."
+        assert catalog.load_figure_save(catalog_dir, "p9dguest", "CHR-G9D") == archived_final_save
+        before = (
+            record_path.read_bytes(), sidecar_path.read_bytes(),
+            archive_meta_path.read_bytes(), archive_figure_path.read_bytes(),
+        )
 
         printed: list[str] = []
         host._print = printed.append
@@ -840,8 +897,17 @@ def test_table_accept_holds_archived_offered_figure_with_final_archive_state():
         assert "Legendenabschied" in joined, joined
         assert "Konfliktwahl" not in joined, joined
 
-        after = (record_path.read_bytes(), sidecar_path.read_bytes(), archive_path.read_bytes())
-        assert before == after, "0 Writes trotz Archiv-Autoritaet ueber die dritte Stufe (Katalog)."
+        after = (
+            record_path.read_bytes(), sidecar_path.read_bytes(),
+            archive_meta_path.read_bytes(), archive_figure_path.read_bytes(),
+        )
+        assert before == after, (
+            "0 Writes trotz Archiv-Autoritaet ueber die dritte Stufe (Katalog-Metadaten UND "
+            "echte Figurenbytes unter figures/pid__char.json)."
+        )
+        assert catalog.load_figure_save(catalog_dir, "p9dguest", "CHR-G9D") == archived_final_save, (
+            "Die archivierte finale Figur darf durch den gehaltenen Accept nicht veraendert werden."
+        )
 
         record = table_admission.load_record(run_dir, "t9d")
         assert "p9dguest" not in record["roster"], record
@@ -913,13 +979,104 @@ def test_table_accept_positive_counterexamples_remain_admitted():
         assert archived_old == old_final_save
 
 
+def test_table_accept_holds_sidecarless_when_own_current_unreadable_no_roster_write():
+    """T3 (ZR-KERN-FEINSCHLIFF-K3-N2 02 §N2-C/03_NACHWEISE T3): eine reine
+    ID-Anfrage OHNE Gastangebot-Sidecar haelt kontrolliert, wenn die
+    BEKANNTE eigene Current-Referenz des Gasts GERADE nicht lesbar ist --
+    die tatsaechlich referenzierte Current-Versionsdatei wird im
+    isolierten Temp-Testverzeichnis real ungueltig gemacht (KEINE
+    Leser-/Guard-Attrappe), sodass `load_current_save_or_raise` ein
+    echtes `CurrentSaveUnavailableError` liefert. Der echte
+    `_cmd_table_accept`-Aufruf haelt VOR jeder Schreibwirkung: Anfrage/
+    Roster, Current-Referenz, Versions- und Archivbestand bleiben
+    byteidentisch unveraendert. Daneben bleibt eine positive reine
+    ID-Anfrage OHNE jede eigene Fassung weiterhin zulaessig (kein
+    pauschaler Personen-/Betreiber-Hold)."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        run_dir, states_dir = d / "run", d / "states"
+        onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
+        write_test_profile(run_dir, max_turns=200)
+
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p_t3host", "CHR-T3H",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p_t3guest", "CHR-T3G",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        host = _session(onboarding_dir, catalog_dir, "p_t3host", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
+        host._cmd_table_offer(["t3"])
+        table_admission.request_join(run_dir, table_key="t3", guest_id="p_t3guest")
+        from mmo_sim.ui.tui import _read_table_guest_offer
+        assert _read_table_guest_offer(run_dir, "t3", "p_t3guest") is None, (
+            "Testvoraussetzung: reine ID-Anfrage OHNE Sidecar."
+        )
+
+        # Fehlzustand VOR dem Vorher-Snapshot herstellen: die TATSAECHLICH
+        # referenzierte Current-Versionsdatei des Gasts wird real
+        # unlesbar/ungueltig gemacht (reale Datei im isolierten
+        # Temp-Testverzeichnis, kein Leser-/Guard-Attrappe).
+        versions_dir = run_dir / "current_saves" / "p_t3guest__versions"
+        version_files = sorted(versions_dir.glob("*.json"))
+        assert len(version_files) == 1, version_files
+        version_path = version_files[0]
+        version_path.write_text("{dies ist kein gueltiges JSON", encoding="utf-8")
+
+        record_path = run_dir / "table_admission" / "t3.json"
+        catalog_path = catalog_dir / "catalog__p_t3guest.json"
+        before = (
+            record_path.read_bytes(),
+            sorted((p.name, p.read_bytes()) for p in versions_dir.glob("*.json")),
+            catalog_path.read_bytes() if catalog_path.exists() else None,
+        )
+
+        printed: list[str] = []
+        host._print = printed.append
+        host._cmd_table_accept(["t3", "p_t3guest"])
+        joined = "\n".join(printed)
+        assert "nicht lesbar" in joined, joined
+        assert "Legendenabschied" not in joined, (
+            f"CurrentSaveUnavailableError darf NICHT als Finalhold ausgegeben/umgedeutet werden: {joined}"
+        )
+
+        after = (
+            record_path.read_bytes(),
+            sorted((p.name, p.read_bytes()) for p in versions_dir.glob("*.json")),
+            catalog_path.read_bytes() if catalog_path.exists() else None,
+        )
+        assert before == after, "Ein bekannter, gerade unlesbarer Current darf 0 Writes verursachen."
+
+        record = table_admission.load_record(run_dir, "t3")
+        assert "p_t3guest" not in record["roster"], record
+        assert "p_t3guest" in record["requests"], "Die offene Anfrage bleibt bestehen -- kein stiller Abbruch."
+
+        # Daneben bleibt eine positive reine ID-Anfrage OHNE jede eigene
+        # Fassung weiterhin zulaessig (kein pauschaler Personen-/
+        # Betreiber-Hold).
+        table_admission.request_join(run_dir, table_key="t3", guest_id="p_t3guest2")
+        host._cmd_table_accept(["t3", "p_t3guest2"])
+        record2 = table_admission.load_record(run_dir, "t3")
+        assert "p_t3guest2" in record2["roster"], record2
+
+
 def test_shared_terminal_completion_card_export_selects_own_bytes_not_session_owner():
-    """C-Gast-Export (02 §C-Gast-Export): am geteilten Terminal exportiert
-    `_cmd_export` GENAU die Bytes der Person, fuer die der Export
-    tatsaechlich aufgerufen wird (`pid`), NICHT automatisch die der
-    aeusseren Sitzungsperson (`self.participant_id`) -- Host- und
-    Gastbytes muessen sich unterscheiden, kein blosser Self-Export mit
-    derselben Sitzungsperson."""
+    """C-Gast-Export (02 §C-Gast-Export) + ZR-KERN-FEINSCHLIFF-K3-N2 (02
+    §N2-A/T1): am geteilten Terminal durchlaeuft die ECHTE
+    `_print_section_completion_card` + ihr echter Auswahl-Dispatcher
+    (`_dispatch_completion_card_choice`) -- NICHT ein direkter
+    `_cmd_export`-Aufruf. Nur die AEUSSERE IO-Grenze
+    (`_readline_with_controls`) liefert die Auswahl-Eingabe; Kartenbauer,
+    Dispatcher, Resolver und `_cmd_export` selbst bleiben ungemockt.
+
+    Belege: eine FINALE Hostfigur UND eine FINALE Gastfigur am geteilten
+    Terminal bekommen KEINE als zulaessig angebotene neue Solo-/
+    Beitrittsaufnahme (Aktionsliste bleibt bei Export+Rueckkehr, keine
+    dritte Nummer); die reale Auswahl exportiert tatsaechlich die EIGENEN
+    Bytes der jeweiligen Kartenperson (Gast != Host, fremder Export wird
+    nicht ueberschrieben); eine LEBENDE Figur behaelt ihren bestehenden
+    zulaessigen Folgeweg (Solo-Fortsetzen bleibt angeboten)."""
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         run_dir, states_dir = d / "run", d / "states"
@@ -928,7 +1085,7 @@ def test_shared_terminal_completion_card_export_selects_own_bytes_not_session_ow
 
         host_save = _register_own_figure(
             onboarding_dir, catalog_dir, "p_shared_host", "CHR-SHOST",
-            run_dir=run_dir, states_dir=states_dir,
+            run_dir=run_dir, states_dir=states_dir, status="deceased",
         )
         guest_save = _register_own_figure(
             onboarding_dir, catalog_dir, "p_shared_guest", "CHR-SGUEST",
@@ -936,29 +1093,79 @@ def test_shared_terminal_completion_card_export_selects_own_bytes_not_session_ow
         )
         assert host_save != guest_save
 
-        # EINE Sitzung (geteiltes Terminal) mit `self.participant_id` ==
-        # Host -- `_cmd_export` wird aber EXPLIZIT mit der tatsaechlichen
-        # Kartenperson (Gast) aufgerufen, exakt wie
-        # `_print_section_completion_card` es am geteilten Terminal tut.
+        # EINE Sitzung (geteiltes Terminal, `io is self`) mit
+        # `self.participant_id` == Host -- die Karte wird aber EXPLIZIT
+        # fuer die tatsaechliche Kartenperson gelesen (`pid`), exakt wie
+        # am geteilten Terminal ("andere aeussere Sitzungsperson" = andere
+        # Kartenperson an derselben physischen Session, s. bestehender
+        # Docstring von `_print_section_completion_card`).
         session = _session(
             onboarding_dir, catalog_dir, "p_shared_host", run_dir, states_dir,
             gm_transport_factory=_SpyFactory("gm"),
         )
-        printed: list[str] = []
-        session._print = printed.append
-        session._cmd_export(participant_id="p_shared_guest")
         import json as _json
+
+        # (1) Finale HOSTFIGUR: `pid == io.participant_id and io._host_capable`
+        # -- ohne den Fix wuerde dies "Solo-Fortsetzen" anbieten. Auswahl
+        # "1" (Export ist Aktion 1, da `has_character` True) ueber die
+        # aeussere IO-Grenze.
+        printed_host: list[str] = []
+        session._print = printed_host.append
+        session._readline_with_controls = lambda *a, **kw: ("1", None)
+        session._print_section_completion_card(session, "p_shared_host", False)
+        joined_host = "\n".join(printed_host)
+        assert "Solo-Fortsetzen" not in joined_host, joined_host
+        assert "Tisch suchen/beitreten" not in joined_host, joined_host
+        assert "  3)" not in joined_host, (
+            f"Eine finale Kartenfigur darf keine dritte (Folgeaktions-)Nummer bekommen: {joined_host}"
+        )
+        assert "Legendenabschied abgeschlossen" in joined_host, joined_host
+        host_export_path = session.exports_dir / "p_shared_host.json"
+        assert host_export_path.exists(), "Die reale Auswahl '1' haette den echten Export ausloesen muessen."
+        host_export_bytes_after_host = host_export_path.read_bytes()
+        assert _json.loads(host_export_bytes_after_host) == host_save
+
+        # (2) Finale GASTFIGUR an derselben physischen Session (`io is
+        # self`), aber ANDERE Kartenperson (`pid="p_shared_guest"` !=
+        # `io.participant_id`) -- `is_guest_follow_up` waere ohne Fix
+        # "Tisch suchen/beitreten". Auswahl "1" exportiert wieder die
+        # Kartenperson, NICHT die aeussere Session (R5 FIX2-Bindung).
+        printed_guest: list[str] = []
+        session._print = printed_guest.append
+        session._readline_with_controls = lambda *a, **kw: ("1", None)
+        session._print_section_completion_card(session, "p_shared_guest", False)
+        joined_guest = "\n".join(printed_guest)
+        assert "Tisch suchen/beitreten" not in joined_guest, joined_guest
+        assert "Solo-Fortsetzen" not in joined_guest, joined_guest
+        assert "  3)" not in joined_guest, joined_guest
+        assert "Legendenabschied abgeschlossen" in joined_guest, joined_guest
         guest_export_path = session.exports_dir / "p_shared_guest.json"
         assert guest_export_path.exists()
         assert _json.loads(guest_export_path.read_text(encoding="utf-8")) == guest_save
         assert _json.loads(guest_export_path.read_text(encoding="utf-8")) != host_save
+        # Fremder Export wird nicht ueberschrieben: der Hostexport bleibt
+        # byteidentisch zu VOR dem Gastexport.
+        assert host_export_path.read_bytes() == host_export_bytes_after_host, (
+            "Der Gastexport darf die bereits geschriebene Hostexportdatei nicht ueberschreiben."
+        )
 
-        printed.clear()
-        session._cmd_export(participant_id="p_shared_host")
-        host_export_path = session.exports_dir / "p_shared_host.json"
-        assert host_export_path.exists()
-        assert _json.loads(host_export_path.read_text(encoding="utf-8")) == host_save
-        assert host_export_path != guest_export_path
+        # (3) Gegenprobe: eine LEBENDE Figur behaelt ihren bestehenden
+        # zulaessigen Folgeweg (Solo-Fortsetzen bleibt als Aktion 3
+        # angeboten) -- leere Eingabe ('/zurueck'-Aequivalent) loest hier
+        # bewusst KEINE Aktion aus, nur die gedruckte Aktionsliste wird
+        # geprueft.
+        _register_own_figure(
+            onboarding_dir, catalog_dir, "p_shared_host", "CHR-SHOST",
+            run_dir=run_dir, states_dir=states_dir,
+        )
+        printed_living: list[str] = []
+        session._print = printed_living.append
+        session._readline_with_controls = lambda *a, **kw: ("", None)
+        session._print_section_completion_card(session, "p_shared_host", False)
+        joined_living = "\n".join(printed_living)
+        assert "Solo-Fortsetzen" in joined_living, (
+            f"Eine lebende Kartenfigur muss ihren bestehenden Folgeweg behalten: {joined_living}"
+        )
 
 
 def test_table_start_pre_check_holds_fresh_start_before_admission_effect_with_final_roster_member():
@@ -1202,8 +1409,26 @@ def test_lobby_b_entry_real_resume_completes_open_plan_to_closed_idempotent_seco
             "Der real geerntete Final-Current muss VOR dem Resume bereits identisch vorliegen."
         )
         assert zeitriss_saves.is_final_deceased(pre_resume_sniper_current) is True
+        # T4 (03_NACHWEISE, Test 12): AUCH das zweite Gruppenmitglied
+        # ("tech", lebend) vor der Restfinalisierung real lesen --
+        # Figurenidentitaet + (Nicht-)Finalmarker fuer BEIDE Mitglieder
+        # binden, nicht nur fuer die finale Figur.
+        pre_resume_tech_current = core_store.load_current_save_or_raise(
+            run_dir, "tech", resume_ps_store, states_dir=states_dir,
+        )
+        assert pre_resume_tech_current == tech_harvest_save, (
+            "Der real geerntete lebende Current fuer 'tech' muss VOR dem Resume bereits identisch vorliegen."
+        )
+        assert zeitriss_saves.block_char_id(pre_resume_tech_current) == tech_chrono_id
+        assert zeitriss_saves.is_final_deceased(pre_resume_tech_current) is False
         sniper_versions_dir = run_dir / "current_saves" / "sniper__versions"
-        sniper_version_count_before_resume = len(list(sniper_versions_dir.glob("*.json")))
+        tech_versions_dir = run_dir / "current_saves" / "tech__versions"
+        # Tatsaechlichen VersionsBESTAND (Dateinamen UND Bytes, nicht nur
+        # die Anzahl) vor der Restfinalisierung binden -- eine gleiche
+        # Dateianzahl allein beweist keine gleichen Bytes.
+        sniper_versions_before_resume = sorted((p.name, p.read_bytes()) for p in sniper_versions_dir.glob("*.json"))
+        tech_versions_before_resume = sorted((p.name, p.read_bytes()) for p in tech_versions_dir.glob("*.json"))
+        sniper_version_count_before_resume = len(sniper_versions_before_resume)
 
         clear_lab_stop(run_dir)
 
@@ -1230,12 +1455,37 @@ def test_lobby_b_entry_real_resume_completes_open_plan_to_closed_idempotent_seco
         # 02 §C-Resume: die Restfertigstellung (Fenster 2, nur Reflexion +
         # Finalisierung) darf KEINE zweite Version/keinen zweiten
         # Fortschritt fuer die bereits in Fenster 1 geernteten Bytes
-        # erzeugen -- Versionszahl bleibt unveraendert.
-        sniper_version_count_after_resume = len(list(sniper_versions_dir.glob("*.json")))
+        # erzeugen -- der TATSAECHLICHE Versionsbestand (Namen+Bytes, nicht
+        # nur die Anzahl) bleibt fuer BEIDE Mitglieder unveraendert.
+        sniper_versions_after_resume = sorted((p.name, p.read_bytes()) for p in sniper_versions_dir.glob("*.json"))
+        tech_versions_after_resume = sorted((p.name, p.read_bytes()) for p in tech_versions_dir.glob("*.json"))
+        assert sniper_versions_after_resume == sniper_versions_before_resume, (
+            "Die Restfertigstellung darf den Sniper-Versionsbestand (Bytes) nicht veraendern -- "
+            "gleiche Dateianzahl beweist keine gleichen Bytes."
+        )
+        assert tech_versions_after_resume == tech_versions_before_resume, (
+            "Die Restfertigstellung darf den Tech-Versionsbestand (Bytes) ebenfalls nicht veraendern."
+        )
+        sniper_version_count_after_resume = len(sniper_versions_after_resume)
         assert sniper_version_count_after_resume == sniper_version_count_before_resume, (
             f"Die Restfertigstellung darf keine zweite Current-Version erzeugen: "
             f"{sniper_version_count_before_resume} -> {sniper_version_count_after_resume}."
         )
+
+        # Beide persoenlichen Currents NACH der Restfinalisierung erneut
+        # real lesen -- Figurenidentitaet/Finalmarker bleiben fuer BEIDE
+        # Mitglieder konsistent (sniper final, tech weiterhin lebend;
+        # keine Vermischung/kein Ueberschreiben der falschen Person).
+        post_resume_sniper_current = core_store.load_current_save_or_raise(
+            run_dir, "sniper", resume_ps_store, states_dir=states_dir,
+        )
+        assert zeitriss_saves.block_char_id(post_resume_sniper_current) == sniper_chrono_id
+        assert zeitriss_saves.is_final_deceased(post_resume_sniper_current) is True
+        post_resume_tech_current = core_store.load_current_save_or_raise(
+            run_dir, "tech", resume_ps_store, states_dir=states_dir,
+        )
+        assert zeitriss_saves.block_char_id(post_resume_tech_current) == tech_chrono_id
+        assert zeitriss_saves.is_final_deceased(post_resume_tech_current) is False
 
         # Lockfreigabe: beide Chrononauten sind nach dem echten Abschluss
         # NICHT mehr an diesen (jetzt geschlossenen) Tisch gebunden.
@@ -1256,9 +1506,24 @@ def test_lobby_b_entry_real_resume_completes_open_plan_to_closed_idempotent_seco
                 f"Ein dritter Lobbydurchlauf darf '{pk}' nicht erneut befragen: {drivers[pk].calls}"
             )
         # Ein zweiter Durchlauf DESSELBEN bereits abgeschlossenen Vorgangs
-        # darf KEINEN zweiten Fortschritt erzeugen (Versionszahl weiterhin
-        # unveraendert, 02 §C-Resume).
-        sniper_version_count_after_idempotent_pass = len(list(sniper_versions_dir.glob("*.json")))
+        # darf KEINEN zweiten Fortschritt erzeugen -- der TATSAECHLICHE
+        # Versionsbestand (Namen+Bytes) bleibt fuer BEIDE Mitglieder
+        # unveraendert, nicht nur die Dateianzahl (02 §C-Resume).
+        sniper_versions_after_idempotent_pass = sorted(
+            (p.name, p.read_bytes()) for p in sniper_versions_dir.glob("*.json")
+        )
+        tech_versions_after_idempotent_pass = sorted(
+            (p.name, p.read_bytes()) for p in tech_versions_dir.glob("*.json")
+        )
+        assert sniper_versions_after_idempotent_pass == sniper_versions_before_resume, (
+            "Ein zweiter Durchlauf desselben abgeschlossenen Vorgangs darf den Sniper-"
+            "Versionsbestand (Bytes) NICHT veraendern."
+        )
+        assert tech_versions_after_idempotent_pass == tech_versions_before_resume, (
+            "Ein zweiter Durchlauf desselben abgeschlossenen Vorgangs darf den Tech-"
+            "Versionsbestand (Bytes) ebenfalls NICHT veraendern."
+        )
+        sniper_version_count_after_idempotent_pass = len(sniper_versions_after_idempotent_pass)
         assert sniper_version_count_after_idempotent_pass == sniper_version_count_before_resume, (
             "Ein zweiter Durchlauf desselben abgeschlossenen Vorgangs darf KEINEN zweiten "
             "Fortschritt erzeugen (Versionszahl unveraendert)."
@@ -1316,29 +1581,69 @@ def test_resume_card_shows_abschluss_ausstehend_for_real_open_completion_order_t
 
 
 def test_character_listing_marks_active_from_current_others_from_archive():
-    """C-Pending/Completed + Figurenquelle (02 §B4): im vorhandenen
-    Figurenwahl-Listing (`_cmd_new_or_switch_character`) wird die AKTIVE
-    Figur als aus dem aktuellen Spielstand, jede andere als aus ihrem
-    eigenen Archiv gekennzeichnet -- reine Anzeige, keine erfundenen
-    Statusmetadaten im Katalog."""
+    """C-Pending/Completed + Figurenquelle (02 §B4) + ZR-KERN-FEINSCHLIFF-
+    K3-N2 (02 §N2-B/T2): im vorhandenen Figurenwahl-Listing
+    (`_cmd_new_or_switch_character`) wird die AKTIVE Figur aus dem
+    TATSAECHLICHEN Current, jede andere aus ihren getrennten, tatsaechlich
+    vorhandenen Archivbytes gekennzeichnet -- reine Anzeige, keine
+    erfundenen Statusmetadaten im Katalog, kein Figurenwechsel/neuer
+    Erschaffungszug allein durch Anzeige.
+
+    Belege: eine AKTIVE finale Figur (echter Current, status=deceased)
+    bekommt ein eigenes Finallabel; eine ANDERE finale Archivfigur
+    (echte Figurenbytes, status=deceased) ebenso -- eine normale
+    lebende Archivfigur bleibt unterscheidbar von beiden; ein bewusst
+    abweichender ALTER Onboardingstand (ohne eigenen Katalogeintrag)
+    wird NICHT statt des Current massgeblich. Katalog-ID/blosses
+    "Archiv" allein ist KEIN Finalnachweis -- Labels werden hier an den
+    tatsaechlich gelesenen Status gebunden."""
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         run_dir, states_dir = d / "run", d / "states"
         onboarding_dir, catalog_dir = d / "onboarding", d / "catalog"
         write_test_profile(run_dir, max_turns=200)
 
-        _register_own_figure(
-            onboarding_dir, catalog_dir, "p_b4", "CHR-B4-OLD",
+        # AKTIVE Figur: TATSAECHLICHER Current, final (status=deceased).
+        active_final_save = _register_own_figure(
+            onboarding_dir, catalog_dir, "p_b4", "CHR-B4-ACTIVE",
             run_dir=run_dir, states_dir=states_dir, status="deceased",
         )
-        new_save = full_v7_save("CHR-B4-NEW", name="p_b4", save_id="fixture-p_b4-CHR-B4-NEW")
+        assert zeitriss_saves.is_final_deceased(active_final_save) is True
+
+        # Andere Figur #1: getrennte Archivbytes, final (status=deceased),
+        # OHNE eigenen Current/Onboarding-Slot fuer DIESE char_id.
+        other_final_save = full_v7_save("CHR-B4-OTHERFINAL", name="p_b4", status="deceased")
         catalog.register(catalog_dir, catalog.CatalogEntry(
-            participant_id="p_b4", chrononaut_id="CHR-B4-NEW", persona_key="p_b4",
+            participant_id="p_b4", chrononaut_id="CHR-B4-OTHERFINAL", persona_key="p_b4",
         ))
-        catalog.store_figure_save(catalog_dir, "p_b4", "CHR-B4-NEW", new_save)
-        catalog.bind_for_section(catalog_dir, "p_b4", "CHR-B4-NEW", has_open_section=False)
-        ps_store = PersonaStateStore(schema_path=_SCHEMA_PATH)
-        core_store.publish_current_save(run_dir, "p_b4", new_save, ps_store, states_dir)
+        catalog.store_figure_save(catalog_dir, "p_b4", "CHR-B4-OTHERFINAL", other_final_save)
+
+        # Andere Figur #2: getrennte Archivbytes, LEBEND -- muss von
+        # beiden finalen Figuren unterscheidbar bleiben.
+        other_living_save = full_v7_save("CHR-B4-OTHERLIVE", name="p_b4", lp=7)
+        assert zeitriss_saves.is_final_deceased(other_living_save) is False
+        catalog.register(catalog_dir, catalog.CatalogEntry(
+            participant_id="p_b4", chrononaut_id="CHR-B4-OTHERLIVE", persona_key="p_b4",
+        ))
+        catalog.store_figure_save(catalog_dir, "p_b4", "CHR-B4-OTHERLIVE", other_living_save)
+
+        # Bewusst abweichender ALTER Onboardingstand derselben Person --
+        # traegt KEINEN deceased-Marker und ist strukturell NICHT die
+        # aktive char_id; darf den tatsaechlichen (finalen) Current NICHT
+        # ersetzen. `onboarding.peek` liest den zuletzt geschriebenen
+        # `final_save`-Slot -- `_register_own_figure` (aktive Figur oben)
+        # hat diesen Slot bereits mit `active_final_save` belegt; wir
+        # ueberschreiben ihn hier bewusst NUR mit einem abweichenden,
+        # NICHT-finalen Stand, um zu beweisen, dass das Listing dennoch
+        # den echten (finalen) Current bindet, nicht diesen Onboarding-Slot.
+        stale_onboarding_save = full_v7_save("CHR-B4-ACTIVE", name="p_b4", lp=3)
+        onboarding.complete_with_save(
+            onboarding_dir, "p_b4", stale_onboarding_save, ZeitrissHarvestValidator(), "CHR-B4-ACTIVE",
+        )
+        stale_peek = onboarding.peek(onboarding_dir, "p_b4")
+        assert stale_peek is not None and stale_peek.final_save == stale_onboarding_save, (
+            "Testvoraussetzung: der Onboarding-Slot weicht jetzt bewusst vom echten Current ab."
+        )
 
         session = _session(onboarding_dir, catalog_dir, "p_b4", run_dir, states_dir, gm_transport_factory=_SpyFactory("gm"))
         printed: list[str] = []
@@ -1350,12 +1655,31 @@ def test_character_listing_marks_active_from_current_others_from_archive():
         session._readline_with_controls = lambda *a, **kw: ("", "zurueck")
         session._cmd_new_or_switch_character()
         joined = "\n".join(printed)
-        assert "CHR-B4-NEW" in joined and "aus aktuellem Spielstand" in joined, joined
-        new_line = next(line for line in printed if "CHR-B4-NEW" in line)
-        old_line = next(line for line in printed if "CHR-B4-OLD" in line)
-        assert "aus aktuellem Spielstand" in new_line, new_line
-        assert "Archiv" in old_line, old_line
-        assert "aus aktuellem Spielstand" not in old_line, old_line
+        assert "CHR-B4-ACTIVE" in joined, joined
+
+        active_line = next(line for line in printed if "CHR-B4-ACTIVE" in line)
+        other_final_line = next(line for line in printed if "CHR-B4-OTHERFINAL" in line)
+        other_living_line = next(line for line in printed if "CHR-B4-OTHERLIVE" in line)
+
+        assert "aktiv, Legendenabschied abgeschlossen" in active_line, active_line
+        assert "aus aktuellem Spielstand" not in active_line, (
+            f"Der echte finale Current darf NICHT als normal 'aus aktuellem Spielstand' erscheinen: {active_line}"
+        )
+
+        assert "Archiv, Legendenabschied abgeschlossen" in other_final_line, other_final_line
+
+        assert "Archiv" in other_living_line and "Legendenabschied" not in other_living_line, other_living_line
+
+        # Katalog-ID/blosses "Archiv" allein ist KEIN Finalnachweis -- die
+        # beiden Archivfiguren muessen sich im Label unterscheiden, obwohl
+        # beide "Archiv" tragen.
+        assert other_final_line != other_living_line
+        assert "Legendenabschied" in other_final_line and "Legendenabschied" not in other_living_line
+
+        # Kein Figurenwechsel/neuer Erschaffungszug allein durch die
+        # Anzeige, keine Katalog-/Archivwrites durch das Listing selbst.
+        assert catalog.load_figure_save(catalog_dir, "p_b4", "CHR-B4-OTHERFINAL") == other_final_save
+        assert catalog.load_figure_save(catalog_dir, "p_b4", "CHR-B4-OTHERLIVE") == other_living_save
 
 
 def main() -> int:
