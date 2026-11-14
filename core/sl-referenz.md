@@ -1231,8 +1231,10 @@ Entscheidung - nicht automatisch im selben Zug.
 - **Chronopolis-Lootvertrag:** Vor Eintritt XP-freien Risiko-Run ansagen; Ziel
   benennen, Loot/Intel vor dem Exit erlangen und regelgerecht nutzbar machen.
   Extraktionsdruck braucht eine wahrnehmbare Ursache, nicht Gegner-Allwissen;
-  nichtkämpferische Lösungen gelten, Boss bleibt optional. Im Schleusen-
-  Debrief Besitz, Verbrauch/Verlust und CU genau einmal abgleichen;
+  nichtkämpferische Lösungen gelten, Boss bleibt optional. Nur ein erfolgreicher
+  Exit extrahiert die Beute; der Notfallabschluss/die Rettung am Todes-/kritischen
+  Moment zählt nicht als Extraktion und sichert neue, noch vorläufige City-Beute
+  nicht. Im Schleusen-Debrief Besitz, Verbrauch/Verlust und CU genau einmal abgleichen;
   `equipment[{name,type,tier}]` und Save v7 bleiben unverändert.
 - **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
   aktive Epoche sammeln, NSCs aus der Zielzeit treffen — als freier

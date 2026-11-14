@@ -1012,7 +1012,16 @@ klassischer Pfad" und macht klassisch weiter).
     Mid-Mission-Figurenwechsel.
   - Erreichte Teilziele werden nach bestehenden Regeln abgerechnet, ohne den
     Abschnitt zum Missionserfolg umzudeuten und ohne neuen Px/CU/Loot/Strafwert.
-  - Items die man lebend rausbringt: behalten. Das ist der Anreiz.
+  - **Beute nur durch erfolgreiche Extraktion:** Was durch einen erfolgreichen
+    regulären City-Exit herausgetragen wird, bleibt erhalten — das ist der
+    Anreiz. Der Rettungs-/Notfallabschluss oben ist **keine** erfolgreiche
+    Extraktion: er holt die Figuren lebend zurück, der Lauf gilt aber als
+    gescheitert, daher wird neue, noch vorläufige City-Beute **nicht** als
+    dauerhafter HQ-Besitz gesichert. Weitergabe in der Gruppe, Gast-/Poolzuordnung
+    oder das Umwandeln genau dieser Beute in einen noch ungesicherten
+    Verkaufs-/Tauschvorteil umgeht die Grenze nicht; das gilt ebenso beim
+    Legendenabschied. Regulär früher extrahierte Beute und bezahlte CU bleiben
+    unberührt — kein Refund, kein Reset.
 - **ITI** ist die Gesamtanlage in der Nullzeit: sicherer **HQ-Kernbereich** plus
   ringförmige Chronopolis-Zone. Für Regeln gilt:
   - **HQ-Kernbereich:** friedlich, konstant, Waffenruhe; Shop/Klinik/Services und Speichern erlaubt.

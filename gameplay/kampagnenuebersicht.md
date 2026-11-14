@@ -100,15 +100,16 @@ gemeinsam in den bestehenden Schleusen-Debrief zurück, der laufende Lauf
 gilt als gescheitert. Normalfall ist der erweiterte ITI-Kausalabfang für
 die ganze Gruppe; nur auf ausdrücklichen Wunsch der betroffenen Person
 folgt der dauerhafte Legendenabschied — auch dann kehrt die ganze Gruppe
-gemeinsam zurück. Items,
-die man lebend rausbringt, bleiben erhalten. Die Chronopolis ist eine
-temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
+gemeinsam zurück. Nur durch eine erfolgreiche Extraktion (regulärer City-Exit)
+herausgebrachte Items bleiben erhalten; dieser Notfallabschluss/die Rettung ist
+ein gescheiterter Lauf und sichert neue, noch vorläufige Beute nicht. Die
+Chronopolis ist eine temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
 
 **Chronopolis-Instanzlogik (SSOT):**
 
 - **Instanzlokal (`CITY`)** bleiben Kampfzustände, lokale Ereignisse,
   Spawn-Logik, Händlerrotationen und Situationsgerüchte.
-- **Persistenz in HQ-Kanon** entsteht erst beim lebenden Rücktransfer:
+- **Persistenz in HQ-Kanon** entsteht erst bei erfolgreicher Extraktion (regulärer City-Exit):
   Inventar, zulässige Einkäufe, bestätigte Intel und Fraktionsspuren werden
   im Debrief in den HQ-Kern gespiegelt.
 - **HQ-Kernprozesse bleiben HQ-exklusiv:** Shop-Freischaltungen,
