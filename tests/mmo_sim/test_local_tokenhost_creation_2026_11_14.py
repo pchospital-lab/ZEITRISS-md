@@ -33,6 +33,7 @@ echter Modellcall, kein Netz, kein Docker, keine echten Saves/Figuren
 ausser den synthetischen Testfixtures. Pure Python, `unittest`."""
 from __future__ import annotations
 
+import importlib.util
 import sys
 import tempfile
 import unittest
@@ -42,16 +43,30 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
 _SCRIPTS_DIR = _REPO_ROOT / "scripts"
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
-if str(_SCRIPTS_DIR) not in sys.path:
-    sys.path.insert(0, str(_SCRIPTS_DIR))
+_SETUP_PY = _SCRIPTS_DIR / "setup.py"
+_LOCAL_PROFILE_PY = _SCRIPTS_DIR / "local_model_profile.py"
 
-import setup as setup_mod  # noqa: E402
-import local_model_profile as lmp  # noqa: E402
+# Repo-Root IMMER an Position 0 (nicht nur "falls fehlend"): in CI laeuft jede
+# Testdatei als eigener Prozess, wo der Skriptordner (_HERE) automatisch auf
+# sys.path[0] liegt; zusaetzlich fuegt setup.py sich selbst "scripts/" an
+# sys.path[0] an. Ohne diese explizite Voranstellung traefe ein frischer
+# "import mmo_sim" faelschlich das gleichnamige Launcher-Shim
+# "scripts/mmo_sim.py" statt des echten Pakets ("mmo_sim is not a package").
+sys.path.insert(0, str(_REPO_ROOT))
 
-from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
 
+def _load(name: str, path: Path):
+    """Laedt ein scripts/-Modul per Pfad unter eindeutigem Namen, ohne
+    "scripts/" dauerhaft vor den Repo-Root auf sys.path zu zwingen."""
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+# Das mmo_sim-Paket VOR dem Laden von setup.py importieren/cachen. Einmal in
+# sys.modules, ist die spaetere sys.path-Reihenfolge fuer diese Importe egal.
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import request_ledger  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
@@ -65,6 +80,14 @@ from mmo_sim.domain.zeitriss.community_creation import (  # noqa: E402
     advance_one_persona_creation,
 )
 from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator  # noqa: E402
+
+# setup.py / local_model_profile.py erst JETZT (nach dem mmo_sim-Cache) per Pfad
+# laden -- setup.py schiebt sich selbst "scripts/" an sys.path[0], was dem
+# bereits gecachten mmo_sim-Paket nicht mehr schaden kann.
+lmp = _load("n1_local_model_profile_under_test", _LOCAL_PROFILE_PY)
+setup_mod = _load("n1_setup_under_test", _SETUP_PY)
+
+from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
 
 _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
 
