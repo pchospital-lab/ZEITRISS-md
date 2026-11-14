@@ -300,10 +300,19 @@ def run_admitted_creation_dialog(
                     return CreationDialogOutcome(
                         status="paused", reason="altformat_unresolved_missing_result_text",
                     )
+                # ZR-LOCAL-TOKENHOST-N1-05 (B1): derselbe tatsaechliche
+                # `gm_transport.is_dollar_billed`-Bezug wie `core.runtime`
+                # (`getattr(self.gm_transport, "is_dollar_billed", True)`,
+                # FROZEN) -- unmittelbar VOR diesem konkreten Versand
+                # gelesen, Default `True` fuer alte/Cloudtransporte ohne das
+                # Attribut. Vorher fehlte dieser Bezug hier komplett, beide
+                # Aufrufe blieben am Default `dollar_billed=True` haengen.
+                gm_dollar_billed = getattr(gm_transport, "is_dollar_billed", True)
                 gm_reserved = reservation_for_wire_text(outgoing, output_limit_tokens=gm_output_limit)
                 blocked, reason = read_admission_block(
                     run_dir, reserved_usd=gm_reserved,
                     output_bound_known=(gm_output_limit is not None), route=gm_route,
+                    dollar_billed=gm_dollar_billed,
                 )
                 if blocked:
                     print_fn(
@@ -316,6 +325,7 @@ def run_admitted_creation_dialog(
                     route=gm_route, output_limit_tokens=gm_output_limit,
                     turn_idx=turn_idx, participant=participant_id,
                     table_id=table_id, section_id=section_id,
+                    dollar_billed=gm_dollar_billed,
                 )
                 t0 = time.monotonic()
                 try:

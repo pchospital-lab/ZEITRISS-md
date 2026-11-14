@@ -909,6 +909,30 @@ ein normaler 3/2-Wechsel ist nicht automatisch ein kanonischer Parallel-Split.
 > 💡 **Save nach abgeschlossenen Abschnitten**: HQ-only; kein Mid-Mission-
 >Deepsave. Save = Figur plus persönliche Kampagne.
 
+### Lokaler Modellserver {#lokaler-modellserver}
+
+Alternative zum Cloud-Pfad (OpenRouter + LiteLLM-Cache): Menü **[5] API-Keys
+ändern** bietet beim Modell-Provider die Wahl **cloud** oder **local**. Bei
+`local` fragt der Launcher Server-Basis-URL (inkl. `/v1`), die exakte
+served-model-ID und einen eigenen lokalen Token ab — **kein**
+OpenRouter-Key, **kein** LiteLLM-Masterkey nötig. Der OpenWebUI-Zugang
+(URL + OpenWebUI-API-Key) bleibt davon getrennt weiterhin erforderlich.
+
+Derselbe gewählte Server + dieselbe served-model-ID bedienen GM (über das
+bestehende ZEITRISS-Preset mit Masterprompt/Knowledge-Base) und Personas
+nacheinander im normalen Spielablauf — keine parallele Mehrfachanfrage.
+Zwei Netzkontexte können unterschiedlich sein: OpenWebUI (OWUI-Backend)
+erreicht den Modellserver ggf. über eine andere Adresse als dein Terminal
+(`local_model_profile`-Feld `ZEITRISS_LOCAL_OWUI_BASE_URL`, optional).
+
+**Reuse:** einmal gespeicherte Werte werden bei jedem weiteren Start
+automatisch wiederverwendet — Enter in [5] behält den Token. **Rückwechsel**
+auf `cloud` ist jederzeit über denselben Menüpunkt möglich; die lokalen
+Felder bleiben in `~/.openwebui_env` erhalten (Rückwechsel auf `local`
+später ohne Neueingabe). Start-Grenzwerte: 4096 Output-Tokens für GM,
+400 für Personas (`ZEITRISS_LOCAL_GM_MAX_TOKENS`/`_PERSONA_MAX_TOKENS`) —
+bewusst konservative Startwerte, keine Zusage über Antwortqualität.
+
 ### Lokal-GPU-Variante (Ollama, ungetestet)
 
 > ⚠️ **Nicht kalibriert, DIY-Terrain.** Wir testen und optimieren

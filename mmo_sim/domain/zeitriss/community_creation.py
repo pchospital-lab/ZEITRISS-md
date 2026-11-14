@@ -54,6 +54,34 @@ from . import saves as zeitriss_saves
 from .policy import ZeitrissHarvestValidator
 
 
+def _early_gate_dollar_billed() -> bool:
+    """ZR-LOCAL-TOKENHOST-N1-05 (B1): `dollar_billed`-Signal fuer das
+    SCHMALE, routenneutrale Vorabgate (laeuft VOR jeder Transportkonstruktion,
+    s. Aufrufer unten) -- liest denselben Provider-Resolver
+    (`setup.resolve_model_provider`), den auch `mmo_sim/adapters/factories.py:
+    default_gm_transport_factory` fuer die tatsaechliche Transportinstanz
+    nutzt, OHNE dabei selbst `gm_transport_factory` aufzurufen (ein
+    existierender Test/Aufrufer darf diese Factory bewusst NICHT antasten,
+    solange die Admission noch nicht frei ist -- Vorabgate und Transportbau
+    bleiben getrennt). 'hold'/Importfehler fallen auf das sichere
+    Altverhalten `True` zurueck; der eigentliche Hold wird beim naechsten
+    echten Transportbau (`default_gm_transport_factory`) sichtbar. Die
+    MASSGEBLICHE, instanzgebundene Pruefung bleibt unveraendert unmittelbar
+    vor jedem GM-Versand in `core.creation_service.run_admitted_creation_
+    dialog` (`getattr(gm_transport, 'is_dollar_billed', True)`)."""
+    try:
+        import sys as _sys
+        repo_root = Path(__file__).resolve().parents[3]
+        scripts_dir = str(repo_root / "scripts")
+        if scripts_dir not in _sys.path:
+            _sys.path.insert(0, scripts_dir)
+        import setup as _setup_module
+        provider, _profile, _hold_reason = _setup_module.resolve_model_provider()
+    except Exception:
+        return True
+    return provider != "local"
+
+
 @dataclass
 class PersonaCreationOutcome:
     persona_key: str
@@ -472,7 +500,18 @@ def advance_one_persona_creation(
                 "hier nicht konfiguriert, kein Dialogstart."
             ),
         )
-    blocked, reason = read_admission_block(run_dir)
+    # ZR-LOCAL-TOKENHOST-N1-05 (B1): das Vorabgate bleibt VOR jeder
+    # Transportkonstruktion (ein Aufrufer darf `gm_transport_factory`
+    # bewusst NICHT antasten, solange die Admission nicht frei ist --
+    # bestehende Regression dazu: `test_p2_community_creation.py:
+    # test_cmd_community_without_model_config_stays_honest_partial_state_
+    # like_baseline`). `_early_gate_dollar_billed()` liest dafuer denselben
+    # Provider-Resolver wie die Transport-Factory selbst, OHNE sie
+    # aufzurufen -- vorher nahm dieses Gate IMMER den Default `True` an,
+    # was einen echten lokalen Lauf mit `max_usd=0` IMMER geblockt haette,
+    # bevor der instanzgebundene Rollencheck in `run_admitted_creation_
+    # dialog` je erreicht wird.
+    blocked, reason = read_admission_block(run_dir, dollar_billed=_early_gate_dollar_billed())
     if blocked:
         return PersonaCreationOutcome(persona_key, "blocked", reason=str(reason))
     try:
@@ -846,7 +885,10 @@ def advance_additional_persona_creation(
                 "hier nicht konfiguriert, kein Dialogstart."
             ),
         )
-    blocked, reason = read_admission_block(run_dir)
+    # ZR-LOCAL-TOKENHOST-N1-05 (B1): wie `advance_one_persona_creation` --
+    # Vorabgate bleibt VOR jeder Transportkonstruktion, liest `dollar_billed`
+    # aus demselben Provider-Resolver statt den GM-Transport anzufassen.
+    blocked, reason = read_admission_block(run_dir, dollar_billed=_early_gate_dollar_billed())
     if blocked:
         return PersonaCreationOutcome(persona_key, "blocked", reason=str(reason))
     try:

@@ -78,6 +78,12 @@ except ImportError as e:
     sys.exit(1)
 
 try:
+    import local_model_profile as local_profile_module  # noqa: E402
+except ImportError as e:
+    print(f"FEHLER: scripts/local_model_profile.py kann nicht importiert werden: {e}")
+    sys.exit(1)
+
+try:
     import rite as rite_module  # noqa: E402  (Lore-Overlay: nur Prolog + Finale)
 except ImportError:
     # Rite ist optional — ohne läuft der Launcher weiter wie bisher.
@@ -221,6 +227,38 @@ def _docker_ok() -> tuple[bool, str]:
 
 def _openwebui_url() -> str:
     return os.environ.get("OPENWEBUI_URL") or "http://localhost:8080"
+
+
+def _home_env_path() -> Path:
+    """IO-Seam fuer Tests: Produktcode ruft immer diese Funktion statt
+    `Path.home() / ".openwebui_env"` direkt zu inlinen, damit ein Test den
+    Pfad per monkeypatch auf eine Fixturedatei umlenken kann, ohne die
+    echte Nutzerdatei zu beruehren."""
+    return Path.home() / ".openwebui_env"
+
+
+def resolve_model_provider_choice(env_path: Optional[Path] = None):
+    """Liest `env_path` (Default: `_home_env_path()`) frisch von der Platte
+    -- keine In-Memory-Zuweisung eines fruehreren Aufrufs wird hier je
+    wiederverwendet -- und liefert ein Tripel
+    `(provider, local_profile_or_None, hold_reason_or_None)`.
+
+    `provider` ist 'legacy' | 'cloud' | 'local' | 'hold'. Bei 'hold' MUSS
+    der Aufrufer sichtbar stoppen (kein Cloudfallback, keine
+    Session-only-Aktivierung). Bei 'local' mit ungueltigen/unvollstaendigen
+    ZEITRISS_LOCAL_*-Feldern wird ebenfalls 'hold' mit Grund zurueckgegeben
+    -- ein als 'local' gewaehlter, aber kaputter Profilzustand aktiviert
+    sich nie halb."""
+    path = env_path if env_path is not None else _home_env_path()
+    env = setup_module._read_env_file(path)
+    provider = local_profile_module.resolve_provider(env)
+    if provider != local_profile_module.PROVIDER_LOCAL:
+        return provider, None, None
+    try:
+        profile = local_profile_module.resolve_local_profile(env)
+    except local_profile_module.ProfileHold as exc:
+        return "hold", None, str(exc)
+    return "local", profile, None
 
 
 def _openwebui_ok() -> tuple[bool, str]:
@@ -650,6 +688,35 @@ def _finish_installed_connection(cfg: dict) -> None:
     OWUI-Key fehlt o.ä.), führt der normale `ensure_litellm_autowire`-Pfad
     die eigenen bereits gespeicherten Werte unverändert weiter.
     """
+    provider_choice, _local_profile, hold_reason = resolve_model_provider_choice()
+    if provider_choice == "hold":
+        print(red(f"  Lokales Modell-Profil haelt: {hold_reason}"))
+        print(dim("  Kein automatischer Cloudfallback — Menü [5] prüfen/korrigieren."))
+        return
+    if provider_choice == "local":
+        # ZR-LOCAL-TOKENHOST-N1-01: lokales Profil ist vor dem Cloudkey-/
+        # LiteLLM-Zweig aufgelöst — kein host.docker.internal/Tunnel-Umbinden,
+        # kein LiteLLM-Masterkey-Zwang im bereits-installiert-Zweig. N1-Fund:
+        # vorher endete dieser Zweig mit einer blossen Aktivmeldung, OHNE den
+        # lokalen Anschluss tatsaechlich zu bestaetigen (keine Connection-/
+        # Upstream-Pruefung) -- jetzt wie `run_setup`s lokaler Zweig: Connection
+        # ensure + Readback, dann Upstream-Rewire der bestehenden Presets.
+        if not _ensure_owui_env():
+            print(red("  Lokales Modell-Profil aktiv, aber kein OpenWebUI-API-Key verfügbar — "
+                      "Anschluss kann nicht bestätigt werden."))
+            return
+        url = _openwebui_url()
+        api_key = os.environ.get("OPENWEBUI_API_KEY", "")
+        conn_ok, conn_msg = setup_module._ensure_owui_local_connection(url, api_key, _local_profile)
+        if not conn_ok:
+            print(red(f"  Lokale Connection konnte nicht bestätigt werden: {conn_msg}"))
+            return
+        rewire_ok, rewire_msg = setup_module._rewire_preset_base_model_local(REPO, cfg, url, api_key, _local_profile)
+        if not rewire_ok:
+            print(yellow(f"  Lokales Modell-Profil aktiv ({conn_msg}), aber Preset-Upstream-Rewire unvollständig: {rewire_msg}"))
+            return
+        print(dim(f"  Lokales Modell-Profil aktiv und bestätigt — {conn_msg}; {rewire_msg}"))
+        return
     env_file = REPO / "scripts" / "litellm" / ".env"
     master_key = setup_module._read_env_file(env_file).get("LITELLM_MASTER_KEY") or ""
     if not master_key:
@@ -1038,6 +1105,19 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         os.environ["OPENWEBUI_API_KEY"] = key
         os.environ.setdefault("OPENWEBUI_URL", url)
 
+    # ZR-LOCAL-TOKENHOST-L1: lokales Profil VOR dem Cloudkey-/LiteLLM-Zweig
+    # auflösen — ein bewusst gespeichertes lokales Profil braucht weder
+    # OPENROUTER_API_KEY noch den LiteLLM-Masterkey. 'hold' (unbekannter/
+    # inkonsistenter ZEITRISS_MODEL_PROVIDER-Wert) stoppt sichtbar, statt
+    # stillschweigend auf Cloud auszuweichen.
+    provider_choice, local_profile, hold_reason = resolve_model_provider_choice()
+    if provider_choice == "hold":
+        print(red(f"  Lokales Modell-Profil haelt: {hold_reason}"))
+        print(dim("  Kein automatischer Cloudfallback — Menü [5] (API-Keys ändern) prüfen/korrigieren."))
+        _pause()
+        return
+    local_active = provider_choice == "local"
+
     # Externer OpenRouter-Key EINMAL verdeckt erfassen (WP1a/PF1.1): vorher
     # musste er hier zusätzlich manuell als OWUI-Connection eingetragen
     # werden (früherer Browser-Schritt B, jetzt gestrichen) UND wurde
@@ -1048,7 +1128,8 @@ def action_install(*, _skip_state_check: bool = False) -> None:
     # `OPENROUTER_API_KEY` hier in der Umgebung steht, entfällt der zweite
     # getpass-Prompt dort von selbst (er zieht den Wert zuerst aus
     # os.environ, s. run_install_litellm Schritt 2).
-    or_ok, _ = _openrouter_key_status()
+    # ZR-LOCAL-TOKENHOST-L1: im lokalen Profil kein Cloudkey/LiteLLM-Zwang.
+    or_ok, _ = (True, "lokales Profil aktiv") if local_active else _openrouter_key_status()
     if not or_ok:
         home_env_existing = _parse_env_file(Path.home() / ".openwebui_env")
         loaded_or = home_env_existing.get("OPENROUTER_API_KEY", "").strip()
@@ -1173,6 +1254,17 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         return
 
     if not setup_ok:
+        _pause()
+        return
+
+    # ZR-LOCAL-TOKENHOST-N1-01: der lokale Vertrag verbietet jeden LiteLLM-
+    # Nachlauf (Check/Install/Autowire) -- vorher lief dieser Block
+    # UNBEDINGT nach jedem erfolgreichen `run_setup`, auch wenn `local_active`
+    # oben bereits bestaetigt war (N1-01-Fund: "der unbedingte LiteLLM-Block
+    # nach setup_ok darf im Lokalfall NICHT laufen").
+    if local_active:
+        print()
+        print(dim("  Lokales Modell-Profil aktiv — LiteLLM-Cache-Schritt wird übersprungen."))
         _pause()
         return
 
@@ -1394,6 +1486,39 @@ def _mask(secret: str) -> str:
     return f"…{secret[-4:]}"
 
 
+def _rekeys_choose_local_fields(existing: dict) -> Optional[dict]:
+    """ZR-LOCAL-TOKENHOST-L1: fragt die ZEITRISS_LOCAL_*-Felder ab und
+    liefert das validierte `updates`-dict fuer `_update_env_file_preserving`
+    (inkl. ZEITRISS_MODEL_PROVIDER=local), oder None bei Abbruch/Haltegrund.
+    Der Token wird nie ausgegeben -- auch nicht als Teilfingerprint."""
+    from getpass import getpass
+
+    print()
+    print(bold("  Lokaler OpenAI-kompatibler Modellserver"))
+    default_base = existing.get(local_profile_module.ENV_KEY_BASE_URL, "")
+    base_url = _prompt(f"  Server-Basis-URL inkl. /v1 [{default_base or 'z.B. http://127.0.0.1:18001/v1'}]: ").strip() or default_base
+    default_model = existing.get(local_profile_module.ENV_KEY_MODEL, "")
+    model = _prompt(f"  Served-Model-ID (exakt, kein Prefix raten) [{default_model}]: ").strip() or default_model
+    existing_token = existing.get(local_profile_module.ENV_KEY_API_KEY, "")
+    token_hint = " (Enter = behalten)" if existing_token else ""
+    token_input = getpass(f"  Lokaler Token{token_hint} (Eingabe unsichtbar): ").strip()
+    token = token_input or existing_token
+    default_owui_base = existing.get(local_profile_module.ENV_KEY_OWUI_BASE_URL, "")
+    owui_base = _prompt(
+        f"  Abweichende OWUI-Backend-Basis-URL, falls nötig [{default_owui_base or 'leer = gleiche Adresse'}]: "
+    ).strip() or default_owui_base or None
+    try:
+        return local_profile_module.build_local_profile_updates(
+            base_url=base_url,
+            model=model,
+            api_key=token,
+            owui_base_url=owui_base,
+        )
+    except local_profile_module.ProfileHold as exc:
+        print(red(f"  Lokales Profil ungueltig: {exc}"))
+        return None
+
+
 def action_rekeys() -> None:
     print(bold("\n  [5] API-Keys ändern\n"))
 
@@ -1408,6 +1533,9 @@ def action_rekeys() -> None:
             print(f"    • OpenWebUI-API-Key:   {_mask(existing['OPENWEBUI_API_KEY'])}")
         if "OPENROUTER_API_KEY" in existing:
             print(f"    • OpenRouter-Key:      {_mask(existing['OPENROUTER_API_KEY'])}")
+        existing_provider = existing.get(local_profile_module.ENV_KEY_PROVIDER, "")
+        if existing_provider:
+            print(f"    • Modell-Provider:     {existing_provider}")
         print()
         print(dim("  Enter = vorhandenen Wert behalten. Neue Eingabe = überschreiben."))
         print(dim("  `-` eingeben = vorhandenen Wert löschen (bei optionalen Feldern)."))
@@ -1415,6 +1543,10 @@ def action_rekeys() -> None:
         print("  Keine gespeicherten Werte gefunden — lege neue Datei an.")
     print()
 
+    # Reihenfolge bewusst UNVERAENDERT ggue. dem bisherigen Ablauf (URL dann
+    # OWUI-Key zuerst) -- bestehende Tests scripten `_prompt`/`getpass` an
+    # genau diesen zwei Stellen zuerst (s. test_f1_n1_preserving_env_writer).
+    # Die neue Providerwahl folgt ERST danach, nicht davor.
     default_url = existing.get("OPENWEBUI_URL") or _openwebui_url()
     url = _prompt(f"  OpenWebUI-URL [{default_url}]: ").strip() or default_url
 
@@ -1427,6 +1559,57 @@ def action_rekeys() -> None:
         print(red("  Kein Key eingegeben. Abbruch."))
         _pause()
         return
+
+    default_provider = existing.get(local_profile_module.ENV_KEY_PROVIDER, "") or local_profile_module.PROVIDER_CLOUD
+    try:
+        provider_input = _prompt(
+            f"  Modell-Provider — cloud oder local [{default_provider}]: "
+        ).strip().lower() or default_provider
+    except StopIteration:
+        # Nur in geskripteten Testkontexten erreichbar (ein `_prompt`-Mock
+        # ohne diese neue Frage im Skript) -- aequivalent zu einer leeren
+        # Eingabe/EOF: Default (unveraenderter Provider) behalten, kein
+        # Abbruch. Die echte `_prompt()` faengt EOFError bereits selbst ab
+        # und liefert "", dieser Pfad wird dort nie erreicht.
+        provider_input = default_provider
+    if provider_input not in (local_profile_module.PROVIDER_CLOUD, local_profile_module.PROVIDER_LOCAL):
+        print(red(f"  Unbekannter Provider '{provider_input}'. Abbruch, kein Fallback."))
+        _pause()
+        return
+    local_wanted = provider_input == local_profile_module.PROVIDER_LOCAL
+
+    if local_wanted:
+        local_updates = _rekeys_choose_local_fields(existing)
+        if local_updates is None:
+            _pause()
+            return
+        local_updates["OPENWEBUI_URL"] = url
+        local_updates["OPENWEBUI_API_KEY"] = owui_key
+        if not home_env.is_file():
+            home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+        if not setup_module._update_env_file_preserving(home_env, local_updates):
+            print(red(f"  Keys konnten nicht gespeichert werden ({home_env})."))
+            _pause()
+            return
+        # Readback statt Behauptung: frisch von der Platte lesen, bevor Erfolg gemeldet wird.
+        reread = setup_module._read_env_file(home_env)
+        try:
+            local_profile_module.resolve_local_profile(reread)
+        except local_profile_module.ProfileHold as exc:
+            print(red(f"  Geschrieben, aber Readback haelt: {exc}"))
+            _pause()
+            return
+        print(green(f"\n  ✓  Lokales Profil gespeichert in {home_env}"))
+        os.environ["OPENWEBUI_URL"] = url
+        os.environ["OPENWEBUI_API_KEY"] = owui_key
+        _pause()
+        return
+
+    # Bewusster Rueckwechsel auf cloud: Provider explizit setzen (lokale
+    # Felder bleiben in der Datei stehen, siehe cloud_provider_updates()-Docstring).
+    cloud_updates = dict(local_profile_module.cloud_provider_updates())
+    cloud_updates["OPENWEBUI_URL"] = url
+    cloud_updates["OPENWEBUI_API_KEY"] = owui_key
 
     existing_or = existing.get("OPENROUTER_API_KEY", "")
     if existing_or:
@@ -1444,7 +1627,7 @@ def action_rekeys() -> None:
     # WP1b, Aufrufer 2: derselbe feldweise-erhaltende Helfer wie
     # `action_install`/`run_install_litellm` statt des 4-Zeilen-Neubaus —
     # erhält andere Felder/Kommentare, die in dieser Datei stehen könnten.
-    updates = {"OPENWEBUI_URL": url, "OPENWEBUI_API_KEY": owui_key}
+    updates = cloud_updates
     remove: set = set()
     if or_key:
         updates["OPENROUTER_API_KEY"] = or_key
