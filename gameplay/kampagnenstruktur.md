@@ -2167,9 +2167,13 @@ _Runtime-Leitfaden für die KI-SL (spieler-sichtbar, ohne Dev-Tooling)_
 > Masterprompt): die Gruppe kehrt gemeinsam ins Debriefing zurück, die SL
 > bietet den erweiterten ITI-Kausalabfang für die ganze Gruppe an — auch bei
 > gesperrtem Kodex-Kanal — und nur auf ausdrücklichen Wunsch der betroffenen
-> Person folgt der dauerhafte Legendenabschied. Chronopolis-Items gehen nur
-> verloren, wenn ihr den Run nicht lebend verlasst.
-> Items die man lebend rausbringt: behalten. Keine Auswirkungen auf die echte Zeitlinie.
+> Person folgt der dauerhafte Legendenabschied. Nur eine **erfolgreiche
+> Extraktion** (regulärer City-Exit) sichert mitgebrachte Chronopolis-Beute;
+> der Notfallabschluss und der Legendenabschied holen die Gruppe zwar lebend
+> zurück, zählen aber als **gescheiterter Lauf** und sichern neue, noch
+> vorläufige Beute nicht als dauerhaften HQ-Besitz. Weitergabe in der Gruppe
+> oder das Umwandeln genau dieser Beute in einen ungesicherten
+> Verkaufs-/Tauschvorteil umgeht das nicht. Keine Auswirkungen auf die echte Zeitlinie.
 > Chronopolis ist eine temporär stabilisierte **reale Bruchlinie** der Episode, die Kodex bei jedem Eintritt neu dechiffriert und kurz begehbar hält. Kein Speichern möglich.
 
 ### Schleusenprotokoll ITI ↔ Chronopolis (Erzähl-SSOT)
@@ -2237,8 +2241,10 @@ den Runtime-Wissensspeicher.
 - **Risikologik:** Kein Sonder-Respawn; Tod folgt den Core-/Rift-Regeln.
 - **Traversal:** Entry am Pre-City-Hub, Traversal durch den Ring, Exit auf der
   Gegenseite.
-- **Belohnungen:** Mitgebrachte Funde bleiben nur erhalten, wenn die Crew den
-  Run lebend verlässt.
+- **Belohnungen:** Mitgebrachte Funde bleiben nur bei **erfolgreicher
+  Extraktion** (regulärer City-Exit) erhalten; der Notfallabschluss/die Rettung
+  bringt die Crew zwar lebend zurück, zählt aber als gescheiterter Lauf und
+  sichert neue, noch vorläufige Beute nicht.
 - **Kodex-Kanal:** In `CITY` gilt Sperrmodus (_Kodex dunkel, HUD lebendig_).
   Lokale HUD-Daten/Logs bleiben aktiv, freie `kodex`-/FAQ-Abfragen sind bis
   zum Exit in den HQ-Kern blockiert. Ausnahme: Das Rettungsangebot am

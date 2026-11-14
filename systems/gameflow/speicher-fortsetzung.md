@@ -1629,7 +1629,10 @@ In beiden Fällen harvestet das Debriefing den **vollständigen persönlichen
 v7-Save jedes einzelnen Gruppenmitglieds** über den vorhandenen
 HQ-Loop-Contract (§HQ-Loop-Contract oben) bzw. die Tod-Final-Save-Ausnahme —
 **kein** alter Gruppen-Sammelsave, kein Neuladen eines gemeinsamen
-Gruppen-DeepSaves.
+Gruppen-DeepSaves. Der gescheiterte Lauf zählt dabei nicht als erfolgreiche
+City-Extraktion: neue, noch vorläufige Chronopolis-Beute wird vor dem
+persönlichen HQ-Export nicht als dauerhafter Besitz gesichert, auch nicht über
+Weitergabe oder Verkauf/Tausch derselben Beute.
 
 Diese Abfrage gilt identisch in Core-, Rift- und Chronopolis-Einsätzen.
 Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.
@@ -1783,7 +1786,12 @@ Werte und ist weder JSON-Export noch erlaubter Mid-Mission-DeepSave.
 **Chronopolis-Besitz beim v7-Save:** Im Run besteht tatsächlicher vorläufiger
 Besitz: normale Nutzung, Verbrauch, Verlust und Käufe wirken sofort. Der
 Schleusen-Debrief bestätigt die erfolgreiche Extraktion und gleicht diesen
-Stand ab; er bucht weder Verbrauch noch CU ein zweites Mal. Erst danach folgt
+Stand ab; er bucht weder Verbrauch noch CU ein zweites Mal. Endet der Lauf
+dagegen über den gemeinsamen Notfallabschluss/die Rettung, bestätigt er **keine**
+erfolgreiche Extraktion und sichert neue, noch vorläufige City-Beute nicht als
+dauerhaften Besitz; ein Highlight unterstellt dann keinen gesicherten Fund.
+Tatsächlich bezahlte CU, Verbrauch und Verlust bleiben nach bestehendem Vertrag
+einmal verbucht (kein Refund, kein stiller Rollback). Erst danach folgt
 der persistente persönliche HQ-Export. Import, Join und Merge buchen nichts erneut.
 Verworfene Runs werden beim Gruppen-Reload vollständig zurückgerollt. Legitime
 gleichnamige Gegenstände werden nicht nur nach Namen dedupliziert, ein

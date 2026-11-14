@@ -116,7 +116,9 @@ menschlicheren Zukunftsspur gefolgt sind.
   sieht die Welt aus, wenn die Mission fehlschlägt. Die Stimmung ist offen:
   verwüstet, falsch geordnet, überraschend funktional oder alles zugleich,
   je nach Darstellung der Spielleitung. Die Stadt wird pro Besuch instanziert,
-  hat keine Waffenruhe, und was ihr lebend herausbringt, bleibt erhalten.
+  hat keine Waffenruhe, und nur was ihr durch eine erfolgreiche Extraktion
+  (regulärer City-Exit) herausbringt, bleibt erhalten — eine Rettung am
+  Todes-/kritischen Moment zählt nicht als Extraktion.
   **Tod folgt denselben Konsequenzen wie in Core/Rift-Einsätzen** (kein
   Traum-Reset, kein kostenloses Aufwachen). Vor jedem Schleuseneintritt fragt
   Kodex daher explizit, ob ihr im HQ-Kern noch einen DeepSave anlegen wollt.
@@ -736,8 +738,10 @@ Kodex den **Chronopolis-Schlüssel** frei. Chronopolis ist die **gescheiterte
 Zeitlinie** der aktuellen Episode - düster, gefährlich, bei jedem Besuch frisch
 instanziert. Keine Waffenruhe, kein Speichern. Vor der Schleuse fragt Kodex
 verbindlich nach einem HQ-DeepSave. Tod folgt denselben Konsequenzen wie in
-Core/Rift-Missionen (kein Traum-Reset). Items, die man lebend rausbringt,
-bleiben erhalten.
+Core/Rift-Missionen (kein Traum-Reset). Nur durch eine erfolgreiche Extraktion
+(regulärer City-Exit) herausgebrachte Items bleiben erhalten; der gemeinsame
+Notfallabschluss/die Rettung ist ein gescheiterter Lauf und sichert neue, noch
+vorläufige City-Beute nicht.
 
 **Tod-Handling (Solo & Gruppe, Core/Rift/Chronopolis):**
 Erreicht ein Spieler-Chrononaut den Todes-/kritischen Moment, stoppt die SL

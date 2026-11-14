@@ -100,17 +100,30 @@ gemeinsam in den bestehenden Schleusen-Debrief zurück, der laufende Lauf
 gilt als gescheitert. Normalfall ist der erweiterte ITI-Kausalabfang für
 die ganze Gruppe; nur auf ausdrücklichen Wunsch der betroffenen Person
 folgt der dauerhafte Legendenabschied — auch dann kehrt die ganze Gruppe
-gemeinsam zurück. Items,
-die man lebend rausbringt, bleiben erhalten. Die Chronopolis ist eine
-temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
+gemeinsam zurück. Nur durch eine erfolgreiche Extraktion (regulärer City-Exit)
+herausgebrachte Items bleiben erhalten; dieser Notfallabschluss/die Rettung ist
+ein gescheiterter Lauf und sichert neue, noch vorläufige Beute nicht. Die
+Chronopolis ist eine temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
 
 **Chronopolis-Instanzlogik (SSOT):**
 
 - **Instanzlokal (`CITY`)** bleiben Kampfzustände, lokale Ereignisse,
   Spawn-Logik, Händlerrotationen und Situationsgerüchte.
-- **Persistenz in HQ-Kanon** entsteht erst beim lebenden Rücktransfer:
-  Inventar, zulässige Einkäufe, bestätigte Intel und Fraktionsspuren werden
-  im Debrief in den HQ-Kern gespiegelt.
+- **Abgleich im Schleusen-Debrief:** Der tatsächliche Besitz-, Kosten- und
+  Wissensstand wird im vorhandenen Debrief einmal abgeglichen; dieser Abgleich
+  findet auch nach einem gescheiterten Notfallabschluss (Gruppenrettung oder
+  ausdrücklich gewünschter Legendenabschied) statt. Durch eine erfolgreiche
+  Extraktion (regulärer City-Exit) dauerhaft gesichert wird nur neue, noch
+  vorläufige City-Beute und der konkret daraus abgeleitete, noch ungesicherte
+  Vorteil; der Notfallabschluss erfüllt diese Bedingung nicht, und
+  Weitergabe/Verkauf/Tausch umgeht die Grenze nicht. Vorbesitz und regulär
+  bezahlter Erwerb folgen dem vorhandenen Besitz-/Verlust-/Kostenvertrag:
+  tatsächlicher Verbrauch/Verlust und gezahlte CU bleiben einmal verbucht,
+  ohne pauschale Einziehung, Refund/Reset oder neue Kaufgarantie. Tatsächlich
+  erlerntes Wissen bleibt nach bestehendem Kanon erinnerbar; vorhandene
+  Fraktionsspuren/Konsequenzen werden nach tatsächlichem Verlauf eingeordnet,
+  nicht automatisch als Erfolgsprämie vergeben oder allein wegen Fehlschlag
+  gelöscht. Keine neue Intel-, Fraktions-, CU-, XP-, Px- oder Research-Mechanik.
 - **HQ-Kernprozesse bleiben HQ-exklusiv:** Shop-Freischaltungen,
   Klinik-/Heilroutinen, Lizenzfortschritt und Speichern laufen im
   ITI-HQ-Kern, nicht in der City-Instanz.
