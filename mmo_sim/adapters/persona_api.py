@@ -37,6 +37,11 @@ class PersonaApiConfig:
     timeout: int = 120
     temperature: float = 0.9
     max_tokens: int = 400
+    # ZR-LOCAL-TOKENHOST-L1: instanz-/profilgebundener Billingmarker.
+    # Clouddefault bleibt True (unveraendert); der lokale Tokenhost-Pfad
+    # setzt diese EINE Config-Instanz explizit auf False (s.
+    # `factories.py:default_persona_driver_factory`).
+    is_dollar_billed: bool = True
 
 
 class PersonaApiDriver:
@@ -45,15 +50,21 @@ class PersonaApiDriver:
 
     # G2b (Headless-/Lab-Lobbydurchstich, Bau-GO 2026-09-27): duck-typed
     # Markierung fuer `core.runtime`/`core.lobby_service` -- diese Rolle wird
-    # tatsaechlich ueber ein abgerechnetes API gesendet und bleibt deshalb
+    # standardmaessig ueber ein abgerechnetes API gesendet und bleibt deshalb
     # dollarbegrenzt (`admission.read_admission_block(..., dollar_billed=True)`,
     # Default). Reine Namens-/Attributpruefung, admission.py bleibt providerfrei.
+    # ZR-LOCAL-TOKENHOST-L1: Klassenattribut bleibt als Fallback True; die
+    # tatsaechlich wirksame Markierung ist jetzt INSTANZ-/profilgebunden
+    # (s. `__init__` unten) -- `getattr(driver, "is_dollar_billed", True)`
+    # (runtime.py/lobby_service.py/community_creation.py) liest zuerst die
+    # Instanz, Cloud-Instanzen bleiben unveraendert True.
     is_dollar_billed = True
 
     def __init__(self, config: PersonaApiConfig, persona_key: str):
         self.config = config
         self.persona_key = persona_key
         self.request_count = 0
+        self.is_dollar_billed = config.is_dollar_billed
 
     def check_auth_configured(self) -> None:
         """Preflight OHNE Netzwerkaufruf: fehlender Key ist sofort sichtbar,

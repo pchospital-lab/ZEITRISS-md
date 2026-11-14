@@ -45,10 +45,16 @@ class SLSession:
 
     def __init__(self, run_dir: Path, sl_model: str | None = None,
                  kb_id: str | None = None, timeout: int = TIMEOUT_SL,
-                 max_retries: int | None = None, backoff: float | None = None):
+                 max_retries: int | None = None, backoff: float | None = None,
+                 dollar_billed: bool = True):
         if not API_KEY:
             raise RuntimeError(
                 "OPENWEBUI_API_KEY fehlt — erst: set -a; . ~/.openwebui_env; set +a")
+        # ZR-LOCAL-TOKENHOST-L1: additiv/optional (Default True = bisheriges
+        # Sonnet-Preisverhalten unveraendert). False (lokaler Tokenhost)
+        # haelt die echte Tokenusage, setzt aber keinen Sonnet-USD-Preis an
+        # -- kein globaler Cloudtarif-Wechsel, nur diese EINE Instanz.
+        self.dollar_billed = bool(dollar_billed)
         self.run_dir = Path(run_dir)
         self.md_path = self.run_dir / "sl_history.md"
         self.jsonl_path = self.run_dir / "sl_history.jsonl"
@@ -73,7 +79,11 @@ class SLSession:
             BASE_URL, API_KEY, sl_model or SL_MODEL,
             kb_id=kb_id or KB_ID, timeout=timeout, **owui_kwargs,
         )
-        self.cum_cost = 0.0
+        # ZR-LOCAL-TOKENHOST-N1-04: `dollar_billed=False` (lokaler Tokenhost)
+        # hat KEINEN Providerpreis -- `None`/JSON-null ("UNKNOWN") statt
+        # einer erfundenen `0.0`-Gesamtkostenbehauptung. Cloud (`True`)
+        # bleibt unveraendert ein echter Float-Akkumulator.
+        self.cum_cost = 0.0 if self.dollar_billed else None
         if not self.md_path.exists():
             self.md_path.write_text(
                 f"# SL-Chat-Verlauf\n\nchat_id: `{self.chat.chat_id}`  \n"
@@ -95,8 +105,15 @@ class SLSession:
         res = self.chat.say(user_text, output_limit_tokens=output_limit_tokens)
         ptok = res["usage"].get("prompt_tokens", 0)
         ctok = res["usage"].get("completion_tokens", 0)
-        cost = ptok / 1e6 * PRICE_IN + ctok / 1e6 * PRICE_OUT
-        self.cum_cost += cost
+        # ZR-LOCAL-TOKENHOST-N1-04: echte Tokenusage bleibt in JEDEM Fall
+        # erhalten (ptok/ctok oben); fuer `dollar_billed=False` ist der
+        # monetaere Preis ausdruecklich UNKNOWN (`None`/JSON-null), NICHT
+        # `0.0` -- `0.0` wuerde eine tatsaechlich gemessene Nullkosten-
+        # Rechnung behaupten, die es fuer einen ungepreisten lokalen
+        # Tokenhost nicht gibt.
+        cost = (ptok / 1e6 * PRICE_IN + ctok / 1e6 * PRICE_OUT) if self.dollar_billed else None
+        if self.dollar_billed:
+            self.cum_cost += cost
         sources = self.chat.source_files()
 
         with self.md_path.open("a", encoding="utf-8") as fh:
@@ -111,8 +128,10 @@ class SLSession:
             "sl_content": res["content"],
             "prompt_tokens": ptok,
             "completion_tokens": ctok,
-            "cost_usd": round(cost, 6),
-            "cum_cost_usd": round(self.cum_cost, 6),
+            "cost_usd": round(cost, 6) if self.dollar_billed else None,
+            "cum_cost_usd": round(self.cum_cost, 6) if self.dollar_billed else None,
+            "dollar_billed": self.dollar_billed,
+            "pricing": "sonnet_usd" if self.dollar_billed else "local_unpriced",
             "rag_sources": sources,
             "latency_s": res["latency_s"],
             "chat_id": res["chat_id"],
@@ -128,13 +147,16 @@ class SLSession:
             "chat_id": self.chat.chat_id,
             "model": self.chat.model,
             "kb_id": self.chat.kb_id,
-            "cum_cost_est_usd": round(self.cum_cost, 6),
+            "cum_cost_est_usd": round(self.cum_cost, 6) if self.dollar_billed else None,
+            "dollar_billed": self.dollar_billed,
+            "pricing": "sonnet_usd" if self.dollar_billed else "local_unpriced",
         }
 
     @classmethod
     def from_history(cls, run_dir: Path, sl_model: str | None = None,
                      kb_id: str | None = None, timeout: int = TIMEOUT_SL,
-                     max_retries: int | None = None, backoff: float | None = None) -> "SLSession":
+                     max_retries: int | None = None, backoff: float | None = None,
+                     dollar_billed: bool = True) -> "SLSession":
         """Rekonstruiert eine SLSession aus sl_history.jsonl (M1-Fix).
 
         Schliesst die in ORCHESTRATION.md §2 selbst benannte Luecke: bei einem
@@ -149,10 +171,18 @@ class SLSession:
         `max_retries`/`backoff`: wie `__init__` additiv/optional durchgereicht
         (W51, s. dortiger Docstring) -- ein fortgesetzter Abschnitt behaelt
         dieselbe Transportkonfiguration wie sein erster Aufruf.
-        """
+
+        ZR-LOCAL-TOKENHOST-L1: `dollar_billed` gilt fuer DIESEN Resume genauso
+        wie fuer `__init__` (New/Resume gleich behandelt). Alte JSONL-Zeilen
+        bleiben unveraendert auf der Platte -- aber ihr `cum_cost_usd` wird
+        NUR uebernommen, wenn die fortgesetzte Session wieder `dollar_billed`
+        ist. Ein jetzt lokal (`dollar_billed=False`) fortgesetzter Abschnitt
+        startet mit `cum_cost=0.0` statt eine alte Cloud-Dollarsumme als
+        aktuelle lokale Messung weiterzufuehren (02: "alte Cloudhistory darf
+        nicht als lokale aktuelle Rechnung erscheinen")."""
         sess = cls(
             run_dir, sl_model=sl_model, kb_id=kb_id, timeout=timeout,
-            max_retries=max_retries, backoff=backoff,
+            max_retries=max_retries, backoff=backoff, dollar_billed=dollar_billed,
         )
         if not sess.jsonl_path.exists():
             return sess
@@ -171,24 +201,35 @@ class SLSession:
             history.append({"role": "assistant", "content": rec.get("sl_content", "")})
             if rec.get("chat_id"):
                 last_chat_id = rec["chat_id"]
-            if "cum_cost_usd" in rec:
+            # ZR-LOCAL-TOKENHOST-N1-04: nur eine NUMERISCHE alte Cloud-Summe
+            # ist eine echte Rechnung, die ein jetzt wieder Cloud-fortgesetzter
+            # Abschnitt uebernehmen darf -- ein `None`/JSON-null-Eintrag einer
+            # frueher lokal (unpriced) protokollierten Zeile ist KEINE
+            # Kostensumme und wird nicht als `last_cum` uebernommen.
+            if isinstance(rec.get("cum_cost_usd"), (int, float)):
                 last_cum = rec["cum_cost_usd"]
         sess.chat.history = history
         if last_chat_id:
             sess.chat.chat_id = last_chat_id
-        sess.cum_cost = last_cum
+        # ZR-LOCAL-TOKENHOST-N1-04: `dollar_billed=False` startet unbekannt
+        # (`None`/JSON-null), NICHT `0.0` -- `0.0` wuerde fuer den jetzt
+        # lokal fortgesetzten Abschnitt eine echte Nullkosten-Messung
+        # behaupten (02: "alte Cloudhistory darf nicht als lokale aktuelle
+        # Rechnung erscheinen", symmetrisch: auch nicht als lokale Nullsumme).
+        sess.cum_cost = last_cum if dollar_billed else None
         return sess
 
 
 def new_sl_session(run_dir: str | Path, sl_model: str | None = None,
                     kb_id: str | None = None, timeout: int = TIMEOUT_SL,
-                    max_retries: int | None = None, backoff: float | None = None) -> SLSession:
+                    max_retries: int | None = None, backoff: float | None = None,
+                    dollar_billed: bool = True) -> SLSession:
     """Convenience-Factory, wie new_sl_chat() in solo_journey.py. `timeout`/
-    `max_retries`/`backoff` additiv/optional durchgereicht (W51, s.
-    `SLSession.__init__`)."""
+    `max_retries`/`backoff`/`dollar_billed` additiv/optional durchgereicht
+    (W51/ZR-LOCAL-TOKENHOST-L1, s. `SLSession.__init__`)."""
     return SLSession(
         Path(run_dir), sl_model=sl_model, kb_id=kb_id, timeout=timeout,
-        max_retries=max_retries, backoff=backoff,
+        max_retries=max_retries, backoff=backoff, dollar_billed=dollar_billed,
     )
 
 

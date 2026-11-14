@@ -253,8 +253,10 @@ Kurz der ganze Weg von der Erstinstallation zum ersten Zug:
    `python3 scripts/mmo_sim.py` bleibt nachgeordnet möglich — derselbe
    Starter richtet dabei dieselbe private Projektumgebung ein.
 3. **Beim ersten Start `[1] ZEITRISS einrichten`:** erst die lokale
-   OpenWebUI-Konto-/API-Freigabe im Browser, danach der externe
-   OpenRouter-Key einmal **verdeckt im Terminal**.
+   OpenWebUI-Konto-/API-Freigabe im Browser, danach die Modellwahl
+   **verdeckt im Terminal** — Cloud (externer OpenRouter-Key) **oder**
+   ein lokaler OpenAI-kompatibler Modellserver (Adresse, Modell, eigener
+   Token; kein OpenRouter-Key nötig). Details: [Setup-Guide](docs/setup-guide.md#lokaler-modellserver).
 4. Der Launcher richtet daraufhin das lokale Hintergrundbackend ein und
    zeigt, was bereits verbunden ist bzw. welche konkrete Aktion noch
    fehlt — ein vorhandener Key oder Container allein bedeutet noch
@@ -345,10 +347,12 @@ Abschnitt und keine Zusage gegen Datenverlust. Kurz erklärt unter
 ## Einrichtung und Referenzsetup
 
 Der Standardweg ist **Linux Mint → ZEITRISS-Starter → Terminalspiel**.
-OpenWebUI und LiteLLM arbeiten dafür im Hintergrund: Sie verbinden den
-Wissensbestand, das Spielleiter-Preset und den eingerichteten Modellzugang
-(Standardroute `zeitriss-sonnet`) für die KI-Spielleitung im Terminal. Die
-tatsächlichen Voraussetzungen und Einrichtungsschritte stehen im
+OpenWebUI arbeitet dafür im Hintergrund und verbindet den Wissensbestand,
+das Spielleiter-Preset und den eingerichteten Modellzugang für die
+KI-Spielleitung im Terminal — entweder über LiteLLM/Cloud (Standardroute
+`zeitriss-sonnet`) **oder** über einen bewusst gewählten lokalen
+OpenAI-kompatiblen Modellserver (kein LiteLLM-/Cloudkey-Zwang im lokalen
+Pfad). Die tatsächlichen Voraussetzungen und Einrichtungsschritte stehen im
 [Spielerstart](docs/spielerstart.md); ausführliche Modell-/Betriebsdetails
 im [Setup-Guide](docs/setup-guide.md). Die Browseroberfläche von OpenWebUI
 kann zusätzlich für den unten verlinkten, nachgeordneten Chatversuch

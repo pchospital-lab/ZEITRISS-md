@@ -142,7 +142,8 @@ class GmOwuiTransport:
                  gm_output_limit_tokens: float | None = None,
                  transport_max_retries: int | None = None,
                  transport_backoff: float | None = None,
-                 transport_timeout: int | None = None):
+                 transport_timeout: int | None = None,
+                 is_dollar_billed: bool = True):
         # B2 (MAIN-KORREKTUR I2-Nacharbeit 2026-09-24): Wertegueltigkeit VOR
         # jedem Seiteneffekt (Modulladen/Session-Aufbau/Verzeichnisanlage)
         # pruefen -- eine erkennbare Fehlkonfiguration bricht sofort ab, statt
@@ -173,6 +174,11 @@ class GmOwuiTransport:
         timeout_kwargs: dict = {}
         if transport_timeout is not None:
             timeout_kwargs["timeout"] = transport_timeout
+        # ZR-LOCAL-TOKENHOST-L1: profilgebundener Billingmarker fuer New UND
+        # Resume (from_history) gleich -- eine fortgesetzte SLSession erbt
+        # NICHT die Abrechnungsart einer alten Cloudhistorie, sondern die des
+        # AKTUELL gewaehlten Profils (dieser Konstruktoraufruf).
+        self.is_dollar_billed = bool(is_dollar_billed)
         if history_path.exists():
             # I6/A7: unterbrochener Abschnitt -- lokale Verlaufsdatei im
             # effective_dir vorhanden -> denselben Chat samt Historie
@@ -180,6 +186,7 @@ class GmOwuiTransport:
             self._session = module.SLSession.from_history(
                 effective_dir, sl_model=sl_model, kb_id=kb_id,
                 max_retries=transport_max_retries, backoff=transport_backoff,
+                dollar_billed=self.is_dollar_billed,
                 **timeout_kwargs,
             )
         else:
@@ -187,6 +194,7 @@ class GmOwuiTransport:
             self._session = module.new_sl_session(
                 effective_dir, sl_model=sl_model, kb_id=kb_id,
                 max_retries=transport_max_retries, backoff=transport_backoff,
+                dollar_billed=self.is_dollar_billed,
                 **timeout_kwargs,
             )
         # E1 (Auflage 1, MAIN-ENTSCHEIDUNG I2-Nachzug GM-Weg): optionale, vom

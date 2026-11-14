@@ -121,6 +121,90 @@ def _maybe_default_local_persona_api_env(repo_root: Path | None = None) -> None:
         pass  # Persistierung ist best effort -- das Session-Env oben steht schon
 
 
+def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) -> bool:
+    """ZR-LOCAL-TOKENHOST-L1/N1-02: lokales Profil VOR dem bestehenden Cloud-/
+    LiteLLM-Auto-Default (`_maybe_default_local_persona_api_env`) auflösen.
+    Gibt True zurück, wenn ein bewusst gespeichertes lokales Profil
+    (ZEITRISS_MODEL_PROVIDER=local) die Persona-Env gesetzt hat -- der
+    Aufrufer `factory()` ueberspringt dann den alten LiteLLM-Default (keine
+    doppelte profilabhängige Prioritätslogik, EIN Resolver). Bei 'hold'
+    (unbekannter/inkonsistenter Provider ODER unvollstaendiges lokales
+    Profil) wird sichtbar abgebrochen -- kein stiller Cloudfallback.
+
+    N1-02-Fix: `MMO_SIM_PERSONA_CLI`/`_API_BASE_URL` koennen auf ZWEI Wegen
+    schon im Prozess stehen, bevor diese Funktion laeuft:
+      (a) ein echter, HIER im Prozess VOR diesem Aufruf gesetzter expliziter
+          Override (z.B. Lab/CLI/Testsetup) -- der MUSS Vorrang behalten.
+      (b) gespeicherter ALTBESTAND, den `setup._auto_load_owui_env()` selbst
+          erst beim gleich folgenden Aufruf aus `~/.openwebui_env` in genau
+          diese Variablen laedt (z.B. ein frueherer Cloud-/LiteLLM-Lauf) --
+          das ist KEINE bewusste aktuelle Wahl und darf eine jetzt gespeicherte
+          `provider=local`-Entscheidung NICHT still ueberstimmen.
+    Nur (a) wird VOR dem Auto-Load geprueft (zu diesem Zeitpunkt kann (b)
+    noch gar nicht im Environment stehen) -- widerspricht (a) einer
+    aufgeloesten lokalen Wahl, haelt die Funktion sichtbar statt zu raten,
+    welcher der beiden Werte gelten soll."""
+    pre_existing_cli = os.environ.get("MMO_SIM_PERSONA_CLI")
+    pre_existing_api = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
+    if repo_root is None:
+        repo_root = Path(__file__).resolve().parents[2]
+    try:
+        import sys as _sys
+        _scripts_dir = str(repo_root / "scripts")
+        if _scripts_dir not in _sys.path:
+            _sys.path.insert(0, _scripts_dir)
+        import setup as _setup_module
+    except Exception:
+        return False
+    if pre_existing_cli or pre_existing_api:
+        # (a) echter Prozessoverride, bereits VOR dem Auto-Load gesetzt --
+        # unveraendertes Altverhalten: hat Vorrang, kein Ueberschreiben.
+        # Widerspricht er einer gleichzeitig aufgeloesten lokalen Wahl, haelt
+        # die Funktion sichtbar statt den Override stillschweigend zu
+        # ignorieren ODER die lokale Wahl stillschweigend zu verwerfen.
+        try:
+            _setup_module._auto_load_owui_env()
+        except Exception:
+            pass
+        provider, _local_profile, hold_reason = _setup_module.resolve_model_provider()
+        if provider == "hold":
+            raise RuntimeError(
+                f"Lokales Modell-Profil haelt: {hold_reason} -- kein automatischer "
+                "Cloudfallback fuer die Persona-Anbindung."
+            )
+        if provider == "local":
+            raise RuntimeError(
+                "Lokales Modell-Profil ist 'local', aber ein bereits gesetzter expliziter "
+                "Prozessoverride (MMO_SIM_PERSONA_CLI/_API_BASE_URL) widerspricht dem -- "
+                "haelt sichtbar, kein automatisches Ueberschreiben in beide Richtungen."
+            )
+        return False
+    try:
+        _setup_module._auto_load_owui_env()
+    except Exception:
+        pass
+    # (b) ab hier: KEIN echter Prozessoverride vor diesem Aufruf. Was
+    # `_auto_load_owui_env()` gerade eben aus der Datei geladen haben
+    # koennte (gespeicherter Altbestand), ist KEINE bewusste aktuelle Wahl
+    # -- eine aufgeloeste 'local'-Entscheidung ueberschreibt es unten
+    # bewusst (statt wie vorher sofort zurueckzukehren, weil die Variablen
+    # schon "gesetzt" aussehen).
+    provider, local_profile, hold_reason = _setup_module.resolve_model_provider()
+    if provider == "hold":
+        raise RuntimeError(
+            f"Lokales Modell-Profil haelt: {hold_reason} -- kein automatischer "
+            "Cloudfallback fuer die Persona-Anbindung."
+        )
+    if provider != "local":
+        return False
+    os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = local_profile.base_url
+    os.environ["MMO_SIM_PERSONA_API_KEY"] = local_profile.api_key
+    os.environ["MMO_SIM_PERSONA_API_MODEL"] = local_profile.model
+    os.environ["MMO_SIM_PERSONA_API_MAX_TOKENS"] = str(local_profile.persona_max_tokens)
+    os.environ["MMO_SIM_PERSONA_API_DOLLAR_BILLED"] = "0"
+    return True
+
+
 def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
     """Unveraendert aus `scripts/mmo_sim.py` uebernommen (A1, s. dortiger
     frueherer Docstring) FUER `profile=None` (TUI-Normalweg, H01 unveraendert):
@@ -150,7 +234,10 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
             # CLI/API-Wahl vorliegt (s. `_maybe_default_local_persona_api_env`-
             # Docstring). Lab (`profile` explizit gesetzt) bleibt unberuehrt --
             # dort validiert `lab/cli.py` die Env-Praesenz bereits vorab.
-            _maybe_default_local_persona_api_env()
+            # ZR-LOCAL-TOKENHOST-L1: lokales Profil hat Vorrang vor dem alten
+            # LiteLLM-Auto-Default -- EIN Resolver, keine zweite Prioritaet.
+            if not _maybe_default_local_tokenhost_persona_env():
+                _maybe_default_local_persona_api_env()
         cli_binary = os.environ.get("MMO_SIM_PERSONA_CLI")
         api_base_url = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
         use_cli = cli_binary if profile is None else (cli_binary if profile == "hybrid" else None)
@@ -207,11 +294,27 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
             return PersonaClaudeCodeDriver(config, persona_key)
         if use_api:
             from .persona_api import PersonaApiConfig, PersonaApiDriver
-            config = PersonaApiConfig(
+            # ZR-LOCAL-TOKENHOST-L1: instanz-/profilgebundener Billingmarker
+            # -- Clouddefault bleibt True (unveraendert), NUR wenn der lokale
+            # Resolver oben MMO_SIM_PERSONA_API_DOLLAR_BILLED=0 gesetzt hat,
+            # wird diese EINE Instanz als local_unpriced markiert.
+            dollar_billed_raw = os.environ.get("MMO_SIM_PERSONA_API_DOLLAR_BILLED", "1").strip()
+            config_kwargs: dict = dict(
                 base_url=use_api,
                 api_key=os.environ.get("MMO_SIM_PERSONA_API_KEY", ""),
                 model=os.environ.get("MMO_SIM_PERSONA_API_MODEL", ""),
+                is_dollar_billed=dollar_billed_raw not in ("0", "false", "False"),
             )
+            raw_persona_max_tokens = os.environ.get("MMO_SIM_PERSONA_API_MAX_TOKENS")
+            if raw_persona_max_tokens is not None and raw_persona_max_tokens.strip():
+                try:
+                    config_kwargs["max_tokens"] = int(raw_persona_max_tokens.strip())
+                except ValueError:
+                    raise ValueError(
+                        f"MMO_SIM_PERSONA_API_MAX_TOKENS={raw_persona_max_tokens!r} ist nicht als "
+                        "Zahl lesbar -- fail-closed, kein stiller Fallback auf den Default."
+                    ) from None
+            config = PersonaApiConfig(**config_kwargs)
             return PersonaApiDriver(config, persona_key)
         raise RuntimeError(
             "Persona-Anbindung nicht konfiguriert (weder MMO_SIM_PERSONA_CLI "
@@ -353,9 +456,76 @@ def default_gm_transport_factory(
             )
         from .gm_owui import GmOwuiTransport
         sl_client_path = repo_root / "internal" / "qa" / "harness" / "agent_mp" / "sl_client.py"
+
+        # ZR-LOCAL-TOKENHOST-L1: lokales Profil vor dem Billing-/Limit-
+        # Default aufloesen -- EIN Resolver (`setup.resolve_model_provider`,
+        # auch von `launcher.py`/`_maybe_default_local_tokenhost_persona_env`
+        # genutzt). 'hold' haelt sichtbar, kein stiller Cloudfallback.
+        gm_is_dollar_billed = True
+        local_gm_profile = None
+        try:
+            import sys as _sys
+            _scripts_dir = str(repo_root / "scripts")
+            if _scripts_dir not in _sys.path:
+                _sys.path.insert(0, _scripts_dir)
+            import setup as _setup_module_gm
+            _gm_provider, local_gm_profile, _gm_hold_reason = _setup_module_gm.resolve_model_provider()
+        except ImportError:
+            _gm_provider, _gm_hold_reason = "legacy", None
+        if _gm_provider == "hold":
+            raise RuntimeError(
+                f"GM-Route haelt: lokales Modell-Profil ungueltig/inkonsistent ({_gm_hold_reason}) "
+                "-- kein automatischer Cloudfallback."
+            )
+        if _gm_provider == "local":
+            # N1-02 (O2 "Falsches Cloudpreset bei Localwahl darf keine
+            # Completion mit dollar_billed=False freigeben"): eine lokale
+            # Envwahl allein bindet den tatsaechlichen Upstream NICHT -- das
+            # Preset (`sl_model`, bereits live aufgeloest/bestaetigt in
+            # `scripts/mmo_sim.py:_resolve_active_gm_route`, s. Aufrufer)
+            # koennte noch auf ein Cloud-/LiteLLM-Routing-Modell zeigen
+            # (Rewire fehlgeschlagen/ausstehend). Nichtgenerativer GET (KEIN
+            # `APIClient.test_model`) bestaetigt `base_model_id` GENAU hier,
+            # unmittelbar vor dem Transportbau -- nur bei bestaetigter
+            # Bindung wird der Dollargate umgangen; sonst sichtbarer Halt,
+            # kein stiller Cloudversand mit lokaler Billingmarkierung.
+            if sl_model is None or sl_model == GM_ROUTE_KB_UNVERIFIED:
+                raise RuntimeError(
+                    "GM-Route haelt: lokales Modell-Profil ist 'local', aber kein eigenes "
+                    "Preset verlaesslich aufgeloest -- kein automatischer Versand mit "
+                    "lokaler Billingmarkierung."
+                )
+            try:
+                _setup_module_gm._auto_load_owui_env()
+            except Exception:
+                pass
+            _gm_owui_url = os.environ.get("OPENWEBUI_URL") or "http://localhost:8080"
+            _gm_owui_key = os.environ.get("OPENWEBUI_API_KEY", "").strip()
+            if not _gm_owui_key:
+                raise RuntimeError(
+                    "GM-Route haelt: kein OPENWEBUI_API_KEY zur Bestaetigung des lokalen "
+                    "Upstreams -- kein automatischer Versand mit lokaler Billingmarkierung."
+                )
+            try:
+                _gm_bound_preset = _setup_module_gm.APIClient(_gm_owui_url, _gm_owui_key).get_model(sl_model)
+            except Exception as _bind_exc:
+                raise RuntimeError(
+                    f"GM-Route haelt: lokaler Upstream von Preset '{sl_model}' nicht bestaetigbar "
+                    f"({_bind_exc.__class__.__name__}: {_bind_exc})."
+                ) from _bind_exc
+            if not isinstance(_gm_bound_preset, dict) or _gm_bound_preset.get("base_model_id") != local_gm_profile.model:
+                raise RuntimeError(
+                    f"GM-Route haelt: Preset '{sl_model}' zeigt (noch) nicht bestaetigt auf den "
+                    f"lokalen Upstream '{local_gm_profile.model}' -- kein automatischer Versand "
+                    "mit lokaler Billingmarkierung."
+                )
+            gm_is_dollar_billed = False
+
         raw_limit = os.environ.get("MMO_SIM_GM_OUTPUT_LIMIT_TOKENS")
         gm_output_limit_tokens: float | None = None
         if raw_limit is not None and raw_limit.strip():
+            # Vorhandene explizite Grenze hat IMMER Vorrang (02: "vorhandene
+            # strengere explizite GM-Grenze erhalten").
             try:
                 gm_output_limit_tokens = float(raw_limit.strip())
             except ValueError:
@@ -363,6 +533,10 @@ def default_gm_transport_factory(
                     f"MMO_SIM_GM_OUTPUT_LIMIT_TOKENS={raw_limit!r} ist nicht als Zahl lesbar -- "
                     f"fail-closed, kein stiller Fallback auf unbegrenzt (B2)."
                 ) from None
+        elif _gm_provider == "local" and local_gm_profile is not None:
+            # Lokaler Startwert (02: 4096) statt stillem Fallback auf
+            # unbegrenzt -- nur wirksam, wenn keine explizite Grenze gesetzt ist.
+            gm_output_limit_tokens = float(local_gm_profile.gm_max_tokens)
 
         def _optional_number(env_name: str, caster):
             raw = os.environ.get(env_name)
@@ -386,6 +560,7 @@ def default_gm_transport_factory(
             transport_max_retries=transport_max_retries,
             transport_backoff=transport_backoff,
             transport_timeout=transport_timeout,
+            is_dollar_billed=gm_is_dollar_billed,
         )
 
     return factory
