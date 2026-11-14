@@ -382,8 +382,12 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   und als Schleusenlauf gebaut: Eintritt durch die Eingangsschleuse, einmal durch den
   Ringkorridor und Rückkehr über die gegenüberliegende Ausgangsschleuse. Vor dem
   Schleuseneintritt fragt Kodex verbindlich nach einem HQ-DeepSave. Tod dort folgt
-  denselben Konsequenzen wie in Core/Rift-Missionen (kein Traum-Reset). Was man
-  lebend rausbringt: behalten.
+  denselben Konsequenzen wie in Core/Rift-Missionen (kein Traum-Reset). Nur eine
+  erfolgreiche Extraktion (regulärer City-Exit) sichert neue, noch vorläufige
+  City-Beute dauerhaft; Gruppenrettung und der ausdrücklich gewünschte
+  Legendenabschied zählen als gescheiterter Lauf und sichern sie nicht.
+  Tatsächlicher Besitz, tatsächliche Kosten und erlerntes Wissen folgen davon
+  unabhängig dem bestehenden Besitz-/Verlust-/Kostenvertrag.
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
