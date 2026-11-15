@@ -54,12 +54,24 @@ _support_spec = _importlib_util_bootstrap.spec_from_file_location(
 _support_mod = _importlib_util_bootstrap.module_from_spec(_support_spec)
 sys.modules["o2_local_tokenhost_support"] = _support_mod
 _support_spec.loader.exec_module(_support_mod)
-EARLY_GUARD = _support_mod.bootstrap_isolation(
-    private_home=tempfile.gettempdir(),
-    private_root=tempfile.gettempdir(),
-    real_home=str(Path.home()),
-    repo_root=str(_REPO_ROOT),
-)
+# Weg 3 (Flo 2026-11-15): Prozessbruecke. Im geteilten unittest-Elternprozess
+# bleibt der Import seiteneffektfrei (kein Guard, kein Produktimport, kein
+# globaler Patch) und stellt nur die Bruecke bereit; der echte geschuetzte
+# Koerper laeuft im frischen Interpreter (Standalone/run_all/Bundle/Kind).
+_REAL_BODY = (__name__ == "__main__") or _support_mod.is_real_body_env()
+
+if not _REAL_BODY:
+    # Platzhalter fuer Produktsymbole, die in Klassenkoerpern ZUR IMPORTZEIT
+    # ausgewertet werden (hier `factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER`
+    # im Klassenattribut `_PERSONA_ENV_KEYS`). Im Elternprozess laufen diese
+    # Klassen nie (die Bruecke delegiert an frische Kinder) -- das inerte
+    # Double verhindert nur den NameError bei der Klassendefinition.
+    factories_mod = lmp = setup_mod = launcher_mod = _support_mod.parent_mode_product_stub()
+    load_tests = _support_mod.make_delegating_load_tests(
+        __file__, "routing", min_domain_tests=35)
+
+if _REAL_BODY:
+    EARLY_GUARD = _support_mod.self_bootstrap_isolation()
 
 # Immer (nicht nur bei Abwesenheit) an Position 0 setzen: ein anderes, in
 # derselben `unittest discover`-Session VORHER geladenes Testmodul kann
@@ -68,7 +80,8 @@ EARLY_GUARD = _support_mod.bootstrap_isolation(
 # dann wuerde ein simples "falls nicht enthalten" den Repo-Root an seiner
 # alten (hinteren) Position belassen und `import mmo_sim` faelschlich auf
 # das gleichnamige `scripts/mmo_sim.py`-Shim statt des echten Pakets treffen.
-sys.path.insert(0, str(_REPO_ROOT))
+if _REAL_BODY:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 # WICHTIG: `mmo_sim` (das Paket an REPO_ROOT) muss VOR jedem Laden von
 # `setup.py` importiert/gecacht werden -- `setup.py` fuegt sich selbst
@@ -77,12 +90,13 @@ sys.path.insert(0, str(_REPO_ROOT))
 # Launcher-Shim `scripts/mmo_sim.py` statt des echten Pakets treffen liesse
 # ("mmo_sim is not a package"). Einmal in sys.modules gecacht, ist die
 # spaetere sys.path-Reihenfolge fuer diese Importe irrelevant.
-from mmo_sim.adapters.persona_api import (  # noqa: E402
-    PersonaApiConfig, PersonaApiDriver, _validate_persona_max_tokens,
-)
-from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
-from mmo_sim.adapters.base import ProviderAuthError, ProviderQuotaError, ProviderUnavailableError  # noqa: E402
-from mmo_sim.adapters import factories as factories_mod  # noqa: E402
+if _REAL_BODY:
+    from mmo_sim.adapters.persona_api import (  # noqa: E402
+        PersonaApiConfig, PersonaApiDriver, _validate_persona_max_tokens,
+    )
+    from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
+    from mmo_sim.adapters.base import ProviderAuthError, ProviderQuotaError, ProviderUnavailableError  # noqa: E402
+    from mmo_sim.adapters import factories as factories_mod  # noqa: E402
 
 
 def _load(name: str, path: Path):
@@ -93,9 +107,10 @@ def _load(name: str, path: Path):
     return mod
 
 
-lmp = _load("o2_local_model_profile_under_test", _LOCAL_PROFILE_PY)
-setup_mod = _load("o2_setup_under_test", _SETUP_PY)
-launcher_mod = _load("o2_launcher_under_test", _LAUNCHER_PY)
+if _REAL_BODY:
+    lmp = _load("o2_local_model_profile_under_test", _LOCAL_PROFILE_PY)
+    setup_mod = _load("o2_setup_under_test", _SETUP_PY)
+    launcher_mod = _load("o2_launcher_under_test", _LAUNCHER_PY)
 
 FAKE_OWUI_URL = "http://127.0.0.1:18080"
 FAKE_OWUI_KEY = "owui-fake-key-not-secret"
@@ -1547,4 +1562,9 @@ class O2AStatefulDoubleAllFiveCallersTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    # Von der Prozessbruecke gestarteter frischer Kindinterpreter: echten
+    # Koerper ausfuehren und Ergebnis als Marker auf STDOUT zurueckgeben.
+    # Standalone/run_all.py (ohne Kindmarke) laufen unveraendert nativ.
+    if os.environ.get(_support_mod._UNITTEST_CHILD_ENV) == "1":
+        raise SystemExit(_support_mod.run_module_as_child(sys.modules[__name__]))
     unittest.main()

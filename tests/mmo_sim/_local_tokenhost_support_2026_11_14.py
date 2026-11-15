@@ -77,8 +77,10 @@ import hashlib
 import json
 import os
 import pathlib
+import subprocess
 import sys
 import tempfile
+import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -1353,6 +1355,326 @@ def bootstrap_isolation(*, context: dict = None, **legacy) -> "EarlyIsolationGua
     guard.install(primary=True)
     setattr(sys, _GUARD_SINGLETON_ATTR, guard)
     return guard
+
+
+def _load_explicit_context(value):
+    """Haelt den EINEN erlaubten Weg, einen ausdruecklich gelieferten
+    Kontext zu lesen: `value` ist entweder ein Pfad auf eine JSON-Datei
+    ODER Inline-JSON. Beschaedigtes/unlesbares JSON scheitert SICHTBAR
+    (IsolationBootstrapError) -- es wird NIE still durch einen
+    Ersatzkontext uebergangen (Flo-Vorgabe 2026-11-15, Punkt 3)."""
+    text = value
+    try:
+        if isinstance(value, str) and os.path.isfile(value):
+            with open(value, "r", encoding="utf-8") as fh:
+                text = fh.read()
+    except OSError as exc:
+        raise IsolationBootstrapError(
+            f"self_bootstrap_isolation: ausdruecklich gelieferte Kontextdatei nicht lesbar: {exc}"
+        )
+    try:
+        return json.loads(text)
+    except (ValueError, TypeError) as exc:
+        raise IsolationBootstrapError(
+            f"self_bootstrap_isolation: ausdruecklich gelieferter Kontext nicht als JSON lesbar: {exc}"
+        )
+
+
+def _build_private_outer_context() -> dict:
+    """Erzeugt EINEN vollstaendigen, in sich gueltigen Privatkontext fuer
+    den aeusseren Testprozess (Rolle 'outer-test'). `real_home_class` wird
+    HIER -- VOR jeder Guard-Installation, also mit noch unveraendertem
+    `Path.home()`/`expanduser` -- bestimmt, damit die daraus abgeleiteten
+    ECHTEN Credentialklassen (`~/.openwebui_env` u.a.) sowie der env-HOME-
+    Zweig weiterhin gesperrt bleiben. Der private Schreibbereich ist ein
+    frisches `mkdtemp()` unter dem ECHTEN System-Tempdir (bevor
+    `tempfile.tempdir` durch die Installation umgelenkt wird); beide
+    Exportpfade liegen in diesem Bereich (erfuellt
+    `bootstrap_pre_dispatch_validation`)."""
+    real_home = str(Path.home())
+    private_root = os.path.realpath(tempfile.mkdtemp(prefix="lth-outer-self-"))
+    shared = os.path.join(private_root, "shared-fixture")
+    exports = os.path.join(private_root, "exports")
+    os.makedirs(shared, exist_ok=True)
+    os.makedirs(exports, exist_ok=True)
+    return {
+        "bundle_id": "self-bootstrap-" + os.path.basename(private_root),
+        "process_id": "outer-" + str(os.getpid()),
+        "role": "outer-test",
+        "real_home_class": real_home,
+        "repo_root": str(_REPO_ROOT),
+        "source_read_roots": [str(_SCRIPTS_DIR)],
+        "dep_read_roots": [],
+        "private_write_roots": [private_root],
+        "shared_fixture_root": shared,
+        "export_before_path": os.path.join(exports, "outer.before.json"),
+        "export_after_path": os.path.join(exports, "outer.after.json"),
+        "credential_block_roots": [],
+        "artifact_read_paths": [],
+    }
+
+
+def self_bootstrap_isolation(*, explicit_context: dict = None) -> "EarlyIsolationGuard":
+    """Option A (von Flo am 2026-11-15 bestaetigt): EIN gemeinsamer, sicherer
+    Self-Bootstrap im bestehenden Test-Support, den die betroffenen
+    Testdateien FRUEH -- vor jedem schutzbeduerftigen Produktimport --
+    aufrufen. Unterscheidet drei Faelle SICHTBAR und ersetzt den frueheren
+    Legacy-Aufruf `bootstrap_isolation(private_home=..., repo_root=...)`, der
+    ohne vorinstallierten Primaerguard (z.B. unter `python3 -m unittest -q`
+    oder `run_all.py` ohne Mains `bootstrap_entry.py`) zwingend scheiterte:
+
+    1. Ein bereits korrekt installierter Primaerguard (externer/Runner-
+       Einstieg via `bootstrap_isolation(context=...)` aus Mains
+       `bootstrap_entry.py`) wird UNVERAENDERT WIEDERVERWENDET.
+    2. Ein AUSDRUECKLICH gelieferter Kontext (Parameter `explicit_context`
+       ODER Umgebungsvariable `LTH_CONTEXT_JSON`, selbst Dateipfad oder
+       Inline-JSON) wird STRIKT validiert; ist er beschaedigt/unvollstaendig,
+       scheitert dieser Aufruf SICHTBAR -- NIE stiller Ersatzkontext.
+    3. Ohne externen Guard UND ohne ausdruecklichen Kontext wird ein
+       VOLLSTAENDIGER, validierter PRIVATER Kontext erzeugt und als
+       Primaerguard installiert.
+
+    In allen Faellen bleibt die Schutzwirkung erhalten: echte Benutzer-/
+    Credentialdateien und echter Netz-/Backendkontakt bleiben gesperrt; es
+    gibt keinen Guardabbau, keine zusaetzlichen Skips, keine Abschwaechung
+    von Assertions und kein Aufweiten auf echte Benutzerpfade. Die strenge
+    Fehlersemantik von `bootstrap_isolation` selbst bleibt UNVERAENDERT (die
+    Profilgegenproben pruefen sie weiter direkt)."""
+    # IO-Isolationsmassnahme (keine Aufweichung des Schutzes): sobald ein
+    # Primaerguard `open(write)` UNBEDINGT erzwingt, wuerde Pythons Bytecode-
+    # Cache (`__pycache__/*.pyc`) fuer JEDES danach kompilierte Modul ausser-
+    # halb der Privatwurzeln schreiben und eine IsolationViolation ausloesen
+    # (unter `python3 -m unittest -q` scheitern sonst die nachfolgend impor-
+    # tierten Testmodule beim Import). Bytecode-Schreiben im isolierten Inter-
+    # preter abschalten vermeidet genau diese Nebenwirkung, ohne erlaubte
+    # Wurzeln aufzuweiten, Assertions abzuschwaechen oder den echten
+    # Credential-/Netzschutz anzutasten.
+    sys.dont_write_bytecode = True
+    existing = getattr(sys, _GUARD_SINGLETON_ATTR, None)
+    if existing is not None:
+        return existing  # Fall 1: externer Primaerguard -> unveraendert weiter.
+
+    ctx = explicit_context
+    source = "explicit_context" if ctx is not None else None
+    if ctx is None:
+        env_ctx = os.environ.get("LTH_CONTEXT_JSON")
+        if env_ctx:
+            source = "LTH_CONTEXT_JSON"
+            ctx = _load_explicit_context(env_ctx)
+    if ctx is not None:
+        problems = bootstrap_pre_dispatch_validation(ctx)
+        if problems:  # Fall 2: beschaedigt/unvollstaendig -> sichtbar scheitern.
+            raise IsolationBootstrapError(
+                "self_bootstrap_isolation: ausdruecklich gelieferter Kontext "
+                f"({source}) ist unvollstaendig/beschaedigt und wird NICHT still "
+                f"ersetzt: {problems!r}"
+            )
+        return bootstrap_isolation(context=ctx)
+
+    # Fall 3: vollstaendigen privaten Kontext erzeugen + installieren.
+    ctx = _build_private_outer_context()
+    problems = bootstrap_pre_dispatch_validation(ctx)
+    if problems:  # defensiver Selbsttest -- darf praktisch nie eintreten.
+        raise IsolationBootstrapError(
+            f"self_bootstrap_isolation: intern erzeugter Privatkontext ungueltig: {problems!r}"
+        )
+    return bootstrap_isolation(context=ctx)
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# Weg 3 (von Flo am 2026-11-15 beauftragt): schlanke PROZESSBRUECKE fuer die
+# gemeinsame `python3 -m unittest -q`-Discovery.
+#
+# Problem: ein ab Import installierter `sys.addaudithook`-Guard ist nicht
+# entfernbar und regiert dann den GESAMTEN geteilten Interpreter -- er bricht
+# vorher-gruene Fremdtests (echte `git`-Subprozesse, W11s globalen
+# socket.socket-Patch) und kontaminiert `unexpected_blocked`. Die
+# Guard-/Isolations-Testfamilie ist ein Frisch-Prozess-Konstrukt.
+#
+# Loesung: im geteilten Elternprozess wird WEDER Guard NOCH Produktimport NOCH
+# globaler Patch ausgefuehrt. Die betroffenen Module stellen beim Import nur
+# diese Bruecke bereit (via `load_tests` + EIN TestCase-Vertreter). Der
+# Vertreter startet den ECHTEN geschuetzten Testkoerper in einem FRISCHEN
+# Python-Interpreter (mit frueh installiertem Schutz) und reicht dessen
+# Ergebnis verbindlich zurueck. Standalone/run_all.py/Bundle laufen
+# unveraendert ueber den echten Koerper (siehe `is_real_body_env`).
+_UNITTEST_CHILD_ENV = "LTH_UNITTEST_CHILD"
+_RUNNER_ENTRY_ENV = "LTH_BOOTSTRAP_ENTRY"
+_RUNNER_CONTEXT_ENV = "LTH_CONTEXT_JSON"
+_CHILD_RESULT_MARKER = "LTH_CHILD_RESULT:"
+
+
+def is_real_body_env() -> bool:
+    """True, wenn dieser Prozess den ECHTEN geschuetzten Testkoerper ausfuehren
+    soll statt nur die Bruecke bereitzustellen:
+      * ein von der Bruecke gestarteter frischer Kindinterpreter
+        (`LTH_UNITTEST_CHILD=1`), ODER
+      * eine Bundle-/Runner-Phase. Der Runner setzt `LTH_CONTEXT_JSON` (den
+        Guard-Kontext-Umschlag) in JEDER pytest-Phase -- `LTH_BOOTSTRAP_ENTRY`
+        dagegen nur in der Profil-Phase (i==1). `LTH_CONTEXT_JSON` ist daher
+        das verlaessliche Runner-Signal fuer ALLE Phasen; beide werden
+        geprueft.
+    Das aufrufende Modul ergaenzt `__name__ == '__main__'` (Standalone /
+    run_all.py starten die Datei als Skript). Unter dem geteilten `python3 -m
+    unittest -q` ist KEINE dieser LTH_*-Variablen gesetzt -> Bruecke."""
+    return (
+        os.environ.get(_UNITTEST_CHILD_ENV) == "1"
+        or bool(os.environ.get(_RUNNER_CONTEXT_ENV))
+        or bool(os.environ.get(_RUNNER_ENTRY_ENV))
+    )
+
+
+def _collect_module_suite(module) -> "unittest.TestSuite":
+    """Sammelt die tatsaechlichen fachlichen Tests eines Moduls: zuerst
+    `unittest.TestCase`-Klassen; findet sich keine (pytest-artige F1-Dateien
+    mit `def test_*()`), werden die Modul-`test_*`-Funktionen als echte
+    Testfaelle verpackt -- KEINE uebersprungene Assertion, KEINE leere Suite."""
+    suite = unittest.TestLoader().loadTestsFromModule(module)
+    if suite.countTestCases() > 0:
+        return suite
+    fn_suite = unittest.TestSuite()
+    for name in sorted(vars(module)):
+        obj = getattr(module, name)
+        if name.startswith("test_") and callable(obj) and not isinstance(obj, type):
+            fn_suite.addTest(unittest.FunctionTestCase(obj))
+    return fn_suite
+
+
+def run_module_as_child(module) -> int:
+    """Wird NUR im frischen Kindinterpreter aus dem `__main__`-Zweig der
+    betroffenen Module gerufen (Schutz ist dann bereits frueh via Import
+    installiert). Fuehrt die echten fachlichen Tests mit echten Assertions
+    aus und meldet das Ergebnis als EINE Markerzeile auf STDOUT zurueck
+    (reiner fd-Write, nicht guard-blockiert -- kein Dateischreiben noetig).
+    Rueckgabecode 0 nur bei tatsaechlich ausgefuehrten, fehlerfreien Tests."""
+    suite = _collect_module_suite(module)
+    result = unittest.TextTestRunner(stream=sys.stderr, verbosity=1).run(suite)
+    payload = {
+        "ran": result.testsRun,
+        "failures": len(result.failures),
+        "errors": len(result.errors),
+        "skipped": len(getattr(result, "skipped", []) or []),
+        "success": bool(result.wasSuccessful() and result.testsRun > 0),
+    }
+    sys.stdout.write("\n" + _CHILD_RESULT_MARKER + json.dumps(payload) + "\n")
+    sys.stdout.flush()
+    return 0 if payload["success"] else 1
+
+
+class _DelegatingChildBase(unittest.TestCase):
+    """Elternvertreter im geteilten Interpreter: startet den echten Koerper in
+    einem frischen Interpreter und bindet dessen Ergebnis. Unterklassen setzen
+    `_module_file`, `_module_label`, `_min_domain_tests`, `_timeout_s`."""
+    _module_file = None
+    _module_label = None
+    _min_domain_tests = 1
+    _timeout_s = 300
+
+    def test_protected_body_runs_in_fresh_interpreter(self):
+        # Kontrollierte MINIMALE Umgebung: NICHT die (moeglicherweise durch
+        # W11 o.ae. mutierte) Eltern-os.environ erben. Nur das Noetige + die
+        # Kindmarke, die Rekursion/Re-Delegation verhindert (im Kind ist
+        # `is_real_body_env()` True -> kein `load_tests` definiert).
+        env = {
+            "HOME": os.environ.get("HOME", ""),
+            "PATH": os.environ.get("PATH", ""),
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            _UNITTEST_CHILD_ENV: "1",
+        }
+        try:
+            proc = subprocess.run(
+                [sys.executable, self._module_file],
+                env=env, cwd=str(_REPO_ROOT),
+                capture_output=True, text=True, timeout=self._timeout_s,
+            )
+        except subprocess.TimeoutExpired as exc:
+            self.fail(
+                f"Prozessbruecke {self._module_label}: Kindinterpreter-Timeout "
+                f"nach {self._timeout_s}s -- Elterntest schlaegt fehl.\n"
+                f"stdout(tail):\n{(exc.stdout or '')[-2000:]}\n"
+                f"stderr(tail):\n{(exc.stderr or '')[-2000:]}")
+        log_tail = ("stdout(tail):\n" + proc.stdout[-2500:] +
+                    "\n---stderr(tail)---\n" + proc.stderr[-4500:])
+        marker = None
+        for line in proc.stdout.splitlines():
+            if line.startswith(_CHILD_RESULT_MARKER):
+                marker = line[len(_CHILD_RESULT_MARKER):]
+        self.assertIsNotNone(
+            marker,
+            f"Prozessbruecke {self._module_label}: Kind lieferte KEIN Ergebnis "
+            f"(Start-/Bootstrapfehler? Exit 0 ohne ausgefuehrte Tests gilt NICHT "
+            f"als Erfolg).\n{log_tail}")
+        data = json.loads(marker)
+        # Getrennte Ausweisung: 1 Elternvertreter vs. tatsaechlich ausgefuehrte
+        # fachliche Kindtests.
+        sys.stderr.write(
+            f"[prozessbruecke] {self._module_label}: 1 Elternvertreter -> "
+            f"{data['ran']} fachliche Kindtests "
+            f"(failures={data['failures']}, errors={data['errors']}, "
+            f"skipped={data['skipped']})\n")
+        self.assertEqual(
+            proc.returncode, 0,
+            f"Prozessbruecke {self._module_label}: Kind-Exitcode "
+            f"{proc.returncode} != 0.\n{log_tail}")
+        self.assertEqual(
+            data["failures"], 0,
+            f"Prozessbruecke {self._module_label}: {data['failures']} Kind-"
+            f"Failure(s).\n{log_tail}")
+        self.assertEqual(
+            data["errors"], 0,
+            f"Prozessbruecke {self._module_label}: {data['errors']} Kind-"
+            f"Error(s).\n{log_tail}")
+        self.assertGreaterEqual(
+            data["ran"], self._min_domain_tests,
+            f"Prozessbruecke {self._module_label}: nur {data['ran']} Kindtests "
+            f"ausgefuehrt, erwartet >= {self._min_domain_tests} "
+            f"(geschrumpfte/leere Suite).\n{log_tail}")
+        self.assertTrue(
+            data["success"],
+            f"Prozessbruecke {self._module_label}: Kind meldete keinen Erfolg."
+            f"\n{log_tail}")
+
+
+def make_delegating_load_tests(module_file, module_label, min_domain_tests, timeout_s=300):
+    """Baut die `load_tests`-Funktion fuer den Elternprozess: liefert eine
+    Suite mit GENAU EINEM Vertreter, der den echten Koerper im frischen
+    Interpreter ausfuehrt. Im Kind (is_real_body_env()) wird `load_tests`
+    gar nicht erst definiert -> keine Re-Delegation/Rekursion."""
+    cls = type(
+        "DelegatingChildTest_" + str(module_label),
+        (_DelegatingChildBase,),
+        {
+            "_module_file": str(module_file),
+            "_module_label": str(module_label),
+            "_min_domain_tests": int(min_domain_tests),
+            "_timeout_s": int(timeout_s),
+        },
+    )
+
+    def load_tests(loader, standard_tests, pattern):  # unittest load_tests protocol
+        suite = unittest.TestSuite()
+        suite.addTest(cls("test_protected_body_runs_in_fresh_interpreter"))
+        return suite
+
+    return load_tests
+
+
+class _ParentModeProductStub:
+    """Inertes Double fuer Produktmodule/-symbole, die in KLASSENKOERPERN zur
+    Importzeit ausgewertet werden (z.B. ein `factories_mod.<MARKER>` in einem
+    Klassenattribut). Im geteilten Discovery-Elternprozess werden diese
+    Klassen NIE ausgefuehrt (die Prozessbruecke delegiert an frische Kinder),
+    daher genuegt ein Platzhalter, dessen Attributzugriff einen stabilen,
+    hashbaren String liefert -- NUR damit die Klassendefinition nicht crasht.
+    Kein Produktverhalten, kein Guard, kein echter Import."""
+
+    def __getattr__(self, name):
+        return "__parent_mode_stub__." + name
+
+
+def parent_mode_product_stub() -> "_ParentModeProductStub":
+    return _ParentModeProductStub()
 
 
 _PROVIDER_ENV_PREFIXES = ("ZEITRISS_", "OPENWEBUI_", "OPENROUTER_", "MMO_SIM_PERSONA_")

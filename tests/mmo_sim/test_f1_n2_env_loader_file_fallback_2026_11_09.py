@@ -56,12 +56,18 @@ _support_spec = _importlib_util_bootstrap.spec_from_file_location(
 _support_mod = _importlib_util_bootstrap.module_from_spec(_support_spec)
 sys.modules["f1n2_local_tokenhost_support"] = _support_mod
 _support_spec.loader.exec_module(_support_mod)
-EARLY_GUARD = _support_mod.bootstrap_isolation(
-    private_home=tempfile.gettempdir(),
-    private_root=tempfile.gettempdir(),
-    real_home=str(Path.home()),
-    repo_root=str(_REPO_ROOT),
-)
+# Weg 3 (Flo 2026-11-15): Prozessbruecke. Im geteilten unittest-Elternprozess
+# bleibt der Import seiteneffektfrei (kein Guard, kein Produktimport, kein
+# globaler Patch) und stellt nur die Bruecke bereit; der echte geschuetzte
+# Koerper laeuft im frischen Interpreter (Standalone/run_all/Bundle/Kind).
+_REAL_BODY = (__name__ == "__main__") or _support_mod.is_real_body_env()
+
+if not _REAL_BODY:
+    load_tests = _support_mod.make_delegating_load_tests(
+        __file__, "f1_n2", min_domain_tests=4)
+
+if _REAL_BODY:
+    EARLY_GUARD = _support_mod.self_bootstrap_isolation()
 
 # I3.3 F1-env-loader: echter Repo-Root VOR `scripts` auf sys.path, UND
 # das echte Paket `mmo_sim` (an `_REPO_ROOT`) importiert/gecacht, BEVOR
@@ -70,21 +76,22 @@ EARLY_GUARD = _support_mod.bootstrap_isolation(
 # unabhaengig vom `scripts/mmo_sim.py`-Shim/Cache einer Schwesterdatei:
 # in diesem eigenen frischen Prozess entscheidet NUR diese Reihenfolge,
 # welches `sys.modules["mmo_sim"]` spaeter gefunden wird.
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
-from mmo_sim.adapters import factories as factories_mod  # noqa: E402
+if _REAL_BODY:
+    if str(_REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(_REPO_ROOT))
+    from mmo_sim.adapters import factories as factories_mod  # noqa: E402
 
-_launcher_spec = importlib.util.spec_from_file_location(
-    "f1_n2_env_loader_fallback_launcher_under_test", _LAUNCHER_PY,
-)
-launcher_mod = importlib.util.module_from_spec(_launcher_spec)
-_launcher_spec.loader.exec_module(launcher_mod)
+    _launcher_spec = importlib.util.spec_from_file_location(
+        "f1_n2_env_loader_fallback_launcher_under_test", _LAUNCHER_PY,
+    )
+    launcher_mod = importlib.util.module_from_spec(_launcher_spec)
+    _launcher_spec.loader.exec_module(launcher_mod)
 
-_setup_spec = importlib.util.spec_from_file_location(
-    "f1_n2_env_loader_fallback_setup_under_test", _SETUP_PY,
-)
-setup_mod = importlib.util.module_from_spec(_setup_spec)
-_setup_spec.loader.exec_module(setup_mod)
+    _setup_spec = importlib.util.spec_from_file_location(
+        "f1_n2_env_loader_fallback_setup_under_test", _SETUP_PY,
+    )
+    setup_mod = importlib.util.module_from_spec(_setup_spec)
+    _setup_spec.loader.exec_module(setup_mod)
 
 
 def _with_home_env(contents: str):
@@ -219,4 +226,9 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Von der Prozessbruecke gestarteter frischer Kindinterpreter: echten
+    # Koerper ausfuehren und Ergebnis als Marker auf STDOUT zurueckgeben.
+    # Standalone/run_all.py (ohne Kindmarke) laufen unveraendert nativ.
+    if os.environ.get(_support_mod._UNITTEST_CHILD_ENV) == "1":
+        raise SystemExit(_support_mod.run_module_as_child(sys.modules[__name__]))
     raise SystemExit(main())

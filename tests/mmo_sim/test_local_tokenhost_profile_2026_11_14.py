@@ -66,29 +66,43 @@ _support_spec = _importlib_util_bootstrap.spec_from_file_location(
 _support_mod = _importlib_util_bootstrap.module_from_spec(_support_spec)
 sys.modules["o1_local_tokenhost_support"] = _support_mod
 _support_spec.loader.exec_module(_support_mod)
-EARLY_GUARD = _support_mod.bootstrap_isolation(
-    private_home=tempfile.gettempdir(),
-    private_root=tempfile.gettempdir(),
-    real_home=str(Path.home()),
-    repo_root=str(_REPO_ROOT),
-)
+# Weg 3 (Flo 2026-11-15): Prozessbruecke fuer die gemeinsame unittest-
+# Discovery. NUR im echten Koerper-Modus (Standalone/run_all.py als
+# `__main__`, Bundle-/Runner-Einstieg, oder von der Bruecke gestarteter
+# frischer Kindinterpreter) werden Guard, sys.path-Anpassung UND Produkt-
+# importe ausgefuehrt. Im geteilten Elternprozess (`python3 -m unittest -q`)
+# bleibt der Import seiteneffektfrei -- kein Guard, kein globaler Patch,
+# kein Produktimport -- und stellt nur die schlanke `load_tests`-Bruecke
+# bereit, die den echten Koerper im frischen Interpreter ausfuehrt.
+_REAL_BODY = (__name__ == "__main__") or _support_mod.is_real_body_env()
 
-if str(_SCRIPTS_DIR) not in sys.path:
-    sys.path.insert(0, str(_SCRIPTS_DIR))
+if _REAL_BODY:
+    # EINE echte Primaerinstallation erfolgt im Bundle ueber
+    # `bootstrap_isolation(context=...)` VOR diesem Import; hier wird sie nur
+    # wiederverwendet. Ohne Runner (Standalone/run_all/Kind) baut der
+    # Self-Bootstrap einen vollstaendigen, validierten PRIVATEN Kontext.
+    EARLY_GUARD = _support_mod.self_bootstrap_isolation()
 
-# O6-A (RELEASE-CASES.json): `mmo_sim` (das Paket an REPO_ROOT) muss VOR
-# jedem Laden von `setup.py` importiert/gecacht werden -- `setup.py` fuegt
-# sich selbst `scripts/` an sys.path[0] an, was einen SPAETEREN frischen
-# `import mmo_sim` sonst auf das gleichnamige Launcher-Shim
-# `scripts/mmo_sim.py` statt des echten Pakets treffen liesse (identisches
-# Muster zu `test_local_tokenhost_routing_2026_11_14.py`/`_runtime_.../
-# _creation_...`). `_REPO_ROOT` ist hier (anders als in jenen Dateien)
-# bisher NIE auf sys.path gelandet -- ohne diese Zeile waere "mmo_sim"
-# ueberhaupt nicht importierbar.
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
-from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
-from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
+    if str(_SCRIPTS_DIR) not in sys.path:
+        sys.path.insert(0, str(_SCRIPTS_DIR))
+
+    # O6-A (RELEASE-CASES.json): `mmo_sim` (das Paket an REPO_ROOT) muss VOR
+    # jedem Laden von `setup.py` importiert/gecacht werden -- `setup.py` fuegt
+    # sich selbst `scripts/` an sys.path[0] an, was einen SPAETEREN frischen
+    # `import mmo_sim` sonst auf das gleichnamige Launcher-Shim
+    # `scripts/mmo_sim.py` statt des echten Pakets treffen liesse (identisches
+    # Muster zu `test_local_tokenhost_routing_2026_11_14.py`/`_runtime_.../
+    # _creation_...`). `_REPO_ROOT` ist hier (anders als in jenen Dateien)
+    # bisher NIE auf sys.path gelandet -- ohne diese Zeile waere "mmo_sim"
+    # ueberhaupt nicht importierbar.
+    if str(_REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(_REPO_ROOT))
+    from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
+    from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
+else:
+    # Geteilter Discovery-Elternprozess: nur die Bruecke, kein Koerper.
+    load_tests = _support_mod.make_delegating_load_tests(
+        __file__, "profile", min_domain_tests=38)
 
 
 def _load(name: str, path: Path):
@@ -1837,4 +1851,9 @@ class LocalTokenhostProfileTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    # Von der Prozessbruecke gestarteter frischer Kindinterpreter: echten
+    # Koerper ausfuehren und Ergebnis als Marker auf STDOUT zuruueckgeben.
+    # Standalone/run_all.py (ohne Kindmarke) laufen unveraendert nativ.
+    if os.environ.get(_support_mod._UNITTEST_CHILD_ENV) == "1":
+        raise SystemExit(_support_mod.run_module_as_child(sys.modules[__name__]))
     unittest.main()

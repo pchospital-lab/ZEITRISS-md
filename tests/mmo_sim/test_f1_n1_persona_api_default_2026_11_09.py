@@ -60,17 +60,23 @@ _support_spec = _importlib_util_bootstrap.spec_from_file_location(
 _support_mod = _importlib_util_bootstrap.module_from_spec(_support_spec)
 sys.modules["f1n1_local_tokenhost_support"] = _support_mod
 _support_spec.loader.exec_module(_support_mod)
-EARLY_GUARD = _support_mod.bootstrap_isolation(
-    private_home=tempfile.gettempdir(),
-    private_root=tempfile.gettempdir(),
-    real_home=str(Path.home()),
-    repo_root=str(_REPO_ROOT),
-)
+# Weg 3 (Flo 2026-11-15): Prozessbruecke. Im geteilten unittest-Elternprozess
+# bleibt der Import seiteneffektfrei (kein Guard, kein Produktimport, kein
+# globaler Patch) und stellt nur die Bruecke bereit; der echte geschuetzte
+# Koerper laeuft im frischen Interpreter (Standalone/run_all/Bundle/Kind).
+_REAL_BODY = (__name__ == "__main__") or _support_mod.is_real_body_env()
 
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
+if not _REAL_BODY:
+    load_tests = _support_mod.make_delegating_load_tests(
+        __file__, "f1_n1", min_domain_tests=5)
 
-from mmo_sim.adapters import factories as factories_mod  # noqa: E402
+if _REAL_BODY:
+    EARLY_GUARD = _support_mod.self_bootstrap_isolation()
+
+    if str(_REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(_REPO_ROOT))
+
+    from mmo_sim.adapters import factories as factories_mod  # noqa: E402
 
 
 def _isolated_repo_root(tmp_repo_root: Path):
@@ -291,4 +297,9 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Von der Prozessbruecke gestarteter frischer Kindinterpreter: echten
+    # Koerper ausfuehren und Ergebnis als Marker auf STDOUT zurueckgeben.
+    # Standalone/run_all.py (ohne Kindmarke) laufen unveraendert nativ.
+    if os.environ.get(_support_mod._UNITTEST_CHILD_ENV) == "1":
+        raise SystemExit(_support_mod.run_module_as_child(sys.modules[__name__]))
     raise SystemExit(main())
