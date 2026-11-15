@@ -164,9 +164,15 @@ def _sl_backed_repair(
 
         gm_output_limit = getattr(gm_transport, "output_limit_tokens", None)
         gm_route = getattr(gm_transport, "base_url", None)
+        # D (02_NACHARBEIT.md Gruppe D, O4/O5): derselbe tatsaechliche
+        # GM-Instanzmarker wie `core.save_correction.send_correction_turn`/
+        # `core.runtime.SectionRuntime._admitted_decision` -- Default `True`
+        # fuer jeden Alt-/Cloudtransport ohne diesen Marker.
+        dollar_billed = getattr(gm_transport, "is_dollar_billed", True)
         reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
         blocked, _reason = read_admission_block(
             run_dir, reserved_usd=reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
+            dollar_billed=dollar_billed,
         )
         if blocked:
             return None  # Budget/Zeit/Stop VOR jeder physischen Anfrage -- kein Call, kontrolliertes HOLD oben.
@@ -175,7 +181,7 @@ def _sl_backed_repair(
             request_id = request_ledger.begin(
                 run_dir, role=role, content=outgoing_text, reserved_usd=reserved, route=gm_route,
                 output_limit_tokens=gm_output_limit, turn_idx=turn_idx, participant=participant_id,
-                table_id=table_id, section_id=section_id,
+                table_id=table_id, section_id=section_id, dollar_billed=dollar_billed,
             )
         except request_ledger.OpenReservationExistsError:
             return None  # unklarer Versand in flight fuer GENAU diese Runde -- kein zweiter Request.

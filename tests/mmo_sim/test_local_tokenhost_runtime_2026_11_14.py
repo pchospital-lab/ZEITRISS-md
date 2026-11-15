@@ -333,6 +333,119 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         self.assertTrue(all(l["cost_usd"] is None for l in gm_lines))
         self.assertTrue(any(l["prompt_tokens"] > 0 for l in gm_lines), "echte Tokenusage bleibt erhalten.")
 
+    def test_local_round_ledger_trace_carries_role_route_model_billing_limits_secrets_redacted_before_durable_write(self):
+        """O4-C.C2 (RELEASE-CASES.json): "Trace pro Nutzrequest Rolle/Route/
+        Modell/Billing/Limits/Usage, alle Secrets schon vor dauerhaftem
+        Schreiben redigiert; Rohartefakte vor Fixture-Cleanup exportieren."
+        Pass-2-Luecke: nur role/output_limit_tokens/usage/dollar_billed/
+        reserved_usd waren bereits belegt -- `route` (non-None, matcht die
+        echte base_url) UND `Modell` (im tatsaechlichen Wire-Request-Body,
+        `request_ledger` selbst kennt kein eigenes `model`-Feld) UND die
+        Secret-Abwesenheit im DAUERHAFT GESCHRIEBENEN Ledger-Rohtext waren
+        dieses Pass noch nicht separat belegt.
+
+        Faengt den vollen echten Wire-Request (Headers+Body, inkl. des
+        ECHTEN Dummy-Secrets, wie ein reales Netzwerk-Capture es zeigen
+        wuerde) zusaetzlich zur bestehenden `_SerialTrackingUrlopen`-Logik
+        ab -- UND exportiert einen redigierten Rohartefakt-Snapshot nach
+        `root/raw_trace_export.json`, WAEHREND der private Tmp-Root noch
+        lebt (tearDown raeumt ihn erst NACH Testende auf)."""
+        root = self._tmp_root("ledger-trace")
+        env, runtime, controller, ps_store, gm, guest_driver, leader_driver, debrief = self._build_round(
+            root, gm_dollar_billed=False,
+        )
+
+        class _TracingUrlopen(_SerialTrackingUrlopen):
+            def __init__(self, *a, **kw):
+                super().__init__(*a, **kw)
+                self.wire_calls: list[dict] = []
+
+            def __call__(self, req, timeout=None, context=None):
+                body = req.data
+                try:
+                    parsed = json.loads(body) if body else None
+                except (json.JSONDecodeError, TypeError):
+                    parsed = body
+                self.wire_calls.append({
+                    "url": req.full_url, "headers": dict(req.headers),
+                    "body": parsed,
+                })
+                return super().__call__(req, timeout=timeout, context=context)
+
+        urlopen = _TracingUrlopen(
+            gm_responses=[_gm_response("SL-Antwort auf Anker."), _gm_response("SL-Antwort auf Gast."), _gm_response(debrief)],
+            persona_responses=[
+                _persona_response("Gast-Text vom echten Persona-Driver."),
+                _persona_response("Reflexion: hat Spass gemacht."),
+            ],
+        )
+        with mock.patch("urllib.request.urlopen", urlopen):
+            outcome = runtime.run_full_section(
+                controller, "section-ledger-trace",
+                contexts_by_persona={"leader_pk": {"user": "ctx-leader"}, "guest_pk": {"system": "Du spielst eine Figur.", "user": "ctx-guest"}},
+                states_dir=env.states_dir, today="2026-11-14", ts="2026-11-14T12:00:00",
+            )
+        self.assertTrue(outcome.completion.success, outcome.completion.reason)
+
+        # (1) Modell im tatsaechlichen Wire-Request-Body -- pro Rolle real
+        # gesendet, nicht erraten (der Ledger selbst hat kein model-Feld).
+        gm_wire = [c for c in urlopen.wire_calls if c["url"] == f"{FAKE_OWUI_URL}/api/chat/completions"]
+        persona_wire = [c for c in urlopen.wire_calls if c["url"] == f"{FAKE_LOCAL_BASE}/chat/completions"]
+        self.assertTrue(gm_wire, "mindestens ein echter GM-Wire-Call erwartet.")
+        self.assertTrue(persona_wire, "mindestens ein echter Persona-Wire-Call erwartet.")
+        self.assertTrue(all(c["body"]["model"] == FAKE_PRESET_ID for c in gm_wire))
+        self.assertTrue(all(c["body"]["model"] == FAKE_LOCAL_MODEL for c in persona_wire))
+
+        # (2) Route/Rolle/Limits/Billing/Usage im DAUERHAFT GESCHRIEBENEN
+        # Ledger -- route non-None, matcht die echte base_url je Rolle.
+        requests_dir = env.run_dir / "requests"
+        records = _ledger_records(env.run_dir)
+        gm_records = [r for r in records if r["role"] == "gm_turn"]
+        persona_records = [r for r in records if r["role"] == "persona_decision"]
+        self.assertTrue(gm_records and persona_records)
+        for rec in gm_records:
+            self.assertEqual(rec["route"], FAKE_OWUI_URL, "GM-Ledgereintrag muss die echte OWUI-Route tragen.")
+            self.assertIn("output_limit_tokens", rec)
+            self.assertIn("usage", rec)
+        for rec in persona_records:
+            self.assertEqual(rec["route"], FAKE_LOCAL_BASE, "Persona-Ledgereintrag muss die echte lokale Route tragen.")
+            self.assertIn("usage", rec)
+
+        # (3) Secrets NIE im dauerhaft geschriebenen Ledger-Rohtext -- nicht
+        # nur "nachtraeglich redigiert", sondern strukturell nie geschrieben
+        # (der Ledger persistiert ohnehin nur role/route/limits/usage, nie
+        # Header/Body). Pruefung auf dem ROHEN Dateitext, nicht dem
+        # geparsten dict (eine stille Formatabweichung waere sonst blind).
+        for p in sorted(requests_dir.glob("*.json")):
+            raw = p.read_text(encoding="utf-8")
+            self.assertNotIn(FAKE_OWUI_KEY, raw, f"{p.name}: OWUI-Key darf nie durabel geschrieben werden.")
+            self.assertNotIn(FAKE_LOCAL_TOKEN, raw, f"{p.name}: lokaler Token darf nie durabel geschrieben werden.")
+
+        # (4) Rohartefakte (der volle Wire-Trace, der die echten Secrets IM
+        # SPEICHER noch traegt, s.o.) werden JETZT -- waehrend `root` noch
+        # lebt, VOR dem Fixture-Cleanup in `tearDown` -- redigiert exportiert.
+        def _redact(value: str) -> str:
+            return value.replace(FAKE_OWUI_KEY, "[REDACTED]").replace(FAKE_LOCAL_TOKEN, "[REDACTED]")
+
+        export = [
+            {
+                "role": "gm" if c["url"].startswith(FAKE_OWUI_URL) else "persona",
+                "route": c["url"].rsplit("/", 1)[0],
+                "model": c["body"].get("model") if isinstance(c["body"], dict) else None,
+                "max_tokens": c["body"].get("max_tokens") if isinstance(c["body"], dict) else None,
+                "authorization": _redact(c["headers"].get("Authorization", "")),
+            }
+            for c in urlopen.wire_calls
+        ]
+        export_path = root / "raw_trace_export.json"
+        export_path.write_text(json.dumps(export, indent=2, sort_keys=True), encoding="utf-8")
+        self.assertTrue(export_path.is_file(), "Rohartefakt-Export muss vor dem Fixture-Cleanup geschrieben sein.")
+        exported_raw = export_path.read_text(encoding="utf-8")
+        self.assertNotIn(FAKE_OWUI_KEY, exported_raw, "exportierter Rohartefakt darf den OWUI-Key nicht tragen.")
+        self.assertNotIn(FAKE_LOCAL_TOKEN, exported_raw, "exportierter Rohartefakt darf den lokalen Token nicht tragen.")
+        self.assertIn(FAKE_PRESET_ID, exported_raw, "Modell/Route/Limits bleiben im Export lesbar -- nur Secrets sind redigiert.")
+        self.assertIn(FAKE_LOCAL_MODEL, exported_raw)
+
     def test_cloud_counterpart_max_usd_zero_stops_before_gm_completion(self):
         """O5: Cloudgegenfall mit max_usd=0 stoppt an DERSELBEN GM-Stelle --
         kein Abschluss, keine echte GM-Completion."""
@@ -381,6 +494,72 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         gm_calls = [e for e in urlopen.events if e[1] == "gm" and e[0] == "enter"]
         self.assertEqual(len(gm_calls), 0)
 
+    def test_turncap_blocks_local_round_between_requests_despite_max_usd_zero(self):
+        """O5-B.B3 (RELEASE-CASES.json): "Stop ... UND ZWISCHEN Requests,
+        Turncap, Zeitlimit, Deadline trotz lokaler Dollarbefreiung;
+        erlaubte Vorrunden-Calls separat von verbotenem Folgesend zaehlen."
+        `max_turns` gated UNVERAENDERT fuer JEDE Rolle (admission.py:492-493,
+        "gaten UNVERAENDERT fuer JEDE Rolle") -- `dollar_billed=False`
+        (Q07/Dollar-Skip) befreit NUR vom `max_usd`-Check, NICHT von
+        `max_turns`. `max_turns=1` erlaubt GENAU EINEN echten Request
+        (Vorrunden-Call), der ZWEITE (Folgesend) wird ZWISCHEN den Requests
+        blockiert -- der Ablauf darf trotzdem nicht abschliessen."""
+        root = self._tmp_root("local-turncap")
+        env, runtime, controller, ps_store, gm, guest_driver, leader_driver, debrief = self._build_round(
+            root, gm_dollar_billed=False,
+        )
+        # Additiv zum bereits von _build_round gesetzten max_usd=0.0 --
+        # write_test_profile ueberschreibt turns_used/usd_spent NICHT
+        # (setdefault), nur max_turns wird neu gesetzt.
+        write_test_profile(env.run_dir, max_turns=1)
+
+        urlopen = _SerialTrackingUrlopen(
+            gm_responses=[_gm_response("SL-Antwort auf Anker."), _gm_response("SL-Antwort auf Gast."), _gm_response(debrief)],
+            persona_responses=[_persona_response("Gast-Text vom echten Persona-Driver."), _persona_response("Reflexion.")],
+        )
+        with mock.patch("urllib.request.urlopen", urlopen):
+            outcome = runtime.run_full_section(
+                controller, "section-turncap",
+                contexts_by_persona={"leader_pk": {"user": "ctx-leader"}, "guest_pk": {"system": "s", "user": "ctx-guest"}},
+                states_dir=env.states_dir, today="2026-11-14", ts="2026-11-14T12:00:00",
+            )
+        self.assertFalse(outcome.completion.success, "max_turns=1 muss den lokalen Ablauf trotz max_usd=0 anhalten.")
+        real_calls = [e for e in urlopen.events if e[0] == "enter"]
+        self.assertEqual(
+            len(real_calls), 1,
+            "GENAU EIN erlaubter Vorrunden-Call, der verbotene Folgesend muss VOR dem "
+            "physischen Transport blockiert werden, nicht erst danach gezaehlt werden.",
+        )
+        status = json.loads((env.run_dir / "lab.status.json").read_text(encoding="utf-8"))
+        self.assertEqual(status["turns_used"], 1, "genau der eine erlaubte Request wurde angerechnet.")
+
+    def test_wall_deadline_blocks_local_round_before_any_request_despite_max_usd_zero(self):
+        """O5-B.B3-Nachzug: ein bereits abgelaufenes `wall_deadline` haelt
+        den lokalen (dollar_billed=False) Ablauf GENAUSO an wie Stop/
+        Turncap -- unabhaengig von max_usd=0."""
+        root = self._tmp_root("local-deadline")
+        env, runtime, controller, ps_store, gm, guest_driver, leader_driver, debrief = self._build_round(
+            root, gm_dollar_billed=False,
+        )
+        status_path = env.run_dir / "lab.status.json"
+        status = json.loads(status_path.read_text(encoding="utf-8"))
+        status["wall_deadline"] = time.time() - 10.0
+        status_path.write_text(json.dumps(status), encoding="utf-8")
+
+        urlopen = _SerialTrackingUrlopen(
+            gm_responses=[_gm_response("SL-Antwort auf Anker."), _gm_response("SL-Antwort auf Gast."), _gm_response(debrief)],
+            persona_responses=[_persona_response("Gast-Text.")],
+        )
+        with mock.patch("urllib.request.urlopen", urlopen):
+            outcome = runtime.run_full_section(
+                controller, "section-deadline",
+                contexts_by_persona={"leader_pk": {"user": "ctx-leader"}, "guest_pk": {"system": "s", "user": "ctx-guest"}},
+                states_dir=env.states_dir, today="2026-11-14", ts="2026-11-14T12:00:00",
+            )
+        self.assertFalse(outcome.completion.success, "abgelaufenes wall_deadline muss trotz max_usd=0 anhalten.")
+        real_calls = [e for e in urlopen.events if e[0] == "enter"]
+        self.assertEqual(len(real_calls), 0, "ein bereits abgelaufenes Deadline-Fenster blockiert VOR jedem Request.")
+
     def test_resume_from_history_local_profile_does_not_inherit_cloud_cum_cost(self):
         """O5: New UND fortgesetzte SLSession (from_history) behandeln das
         Profil gleich -- eine Cloud-History darf nicht als lokale aktuelle
@@ -420,6 +599,167 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         self.assertEqual(lines[1]["pricing"], "local_unpriced")
         self.assertIsNone(lines[1]["cost_usd"])
         self.assertEqual(lines[1]["completion_tokens"], 15, "echte Tokenusage des lokalen Turns bleibt erhalten.")
+
+    def test_local_round_two_real_persona_constructions_max_usd_zero_completes(self):
+        """O4-A.A1 (RELEASE-CASES.json): dieselbe normale lokale Runde wie
+        oben, aber mit Leader(human) + ZWEI echten Persona-Konstruktionen
+        (zwei eigene `PersonaApiDriver`-Instanzen, zwei eigene Gaeste) statt
+        nur einer -- der Mensch zaehlt dabei NICHT als zweite Persona. Pass-
+        1-Gap: der einzige existierende O4-A-Test hatte genau EINEN
+        Gast/EINE Personakonstruktion."""
+        root = self._tmp_root("local-two-persona")
+        env = _make_env(root)
+        schema_path = root / "schema.json"
+        schema_path.write_text(_DUMMY_SCHEMA, encoding="utf-8")
+        ps_store = PersonaStateStore(schema_path=schema_path, default_states_dir=None)
+        _seed_persona_state(ps_store, env.states_dir, "leader_pk", "chrono-leader-2p")
+        _seed_persona_state(ps_store, env.states_dir, "guest_a_pk", "chrono-guest-a")
+        _seed_persona_state(ps_store, env.states_dir, "guest_b_pk", "chrono-guest-b")
+
+        lobby = store.Lobby(env.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        lobby.join("leader_pk")
+        lobby.join("guest_a_pk")
+        lobby.join("guest_b_pk")
+        table, derivation = store.create_table_from_offer_log(
+            lobby, "t-local-2p",
+            offer_log_events=[
+                {"type": "offer", "id": "o1", "from": "leader_pk", "wants": ["guest_a_pk", "guest_b_pk"]},
+                {"type": "consent", "offer_id": "o1", "from": "guest_a_pk", "accept": True},
+                {"type": "consent", "offer_id": "o1", "from": "guest_b_pk", "accept": True},
+            ],
+            chrononaut_ids={
+                "leader_pk": "chrono-leader-2p", "guest_a_pk": "chrono-guest-a", "guest_b_pk": "chrono-guest-b",
+            },
+        )
+        self.assertIsNotNone(table, derivation)
+
+        gm = GmOwuiTransport(
+            _SL_CLIENT_PY, env.run_dir, table_id="t-local-2p",
+            sl_model=FAKE_PRESET_ID, kb_id=FAKE_KB_ID,
+            gm_output_limit_tokens=4096, is_dollar_billed=False,
+        )
+        # ZWEI eigene, tatsaechlich konstruierte PersonaApiDriver-Instanzen
+        # -- dies ist die "mindestens zwei Persona-Konstruktionen"-Teilbedingung.
+        persona_config = PersonaApiConfig(
+            base_url=FAKE_LOCAL_BASE, api_key=FAKE_LOCAL_TOKEN, model=FAKE_LOCAL_MODEL,
+            max_tokens=400, is_dollar_billed=False,
+        )
+        guest_a_driver = PersonaApiDriver(persona_config, "guest_a_pk")
+        guest_b_driver = PersonaApiDriver(persona_config, "guest_b_pk")
+        self.assertIsNot(guest_a_driver, guest_b_driver, "zwei eigenstaendige Konstruktionen, keine Wiederverwendung.")
+
+        debrief_content = (
+            "Abschnitt beendet.\n"
+            f"```json\n{json.dumps(_save_block('chrono-leader-2p'))}\n```\n"
+            f"```json\n{json.dumps(_save_block('chrono-guest-a'))}\n```\n"
+            f"```json\n{json.dumps(_save_block('chrono-guest-b'))}\n```\n"
+            f"{COMPLETION_MARKER}"
+        )
+        leader_driver = ScriptedDriver([
+            ParticipantDecision(text="Anker-Text vom Leader.", save_payload=_save_block("chrono-leader-2p"), origin_source="fake:leader"),
+            ParticipantDecision(text="Debrief-Anfrage vom Leader.", origin_source="fake:leader-debrief"),
+            ParticipantDecision(text="Reflexion: zufrieden.", origin_source="fake:leader-reflect"),
+        ], is_human_driver=True)
+
+        controller = TableController(
+            leader_key="leader_pk",
+            drivers={"leader_pk": leader_driver, "guest_a_pk": guest_a_driver, "guest_b_pk": guest_b_driver},
+        )
+        event_log = EventLog(env.run_dir)
+        write_test_profile(env.run_dir, max_usd=0.0)
+
+        runtime = SectionRuntime(
+            lobby=lobby, table=table, gm_transport=gm, marker=COMPLETION_MARKER,
+            harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
+            harvest_extractor=_harvest_extractor, event_log=event_log,
+        )
+        urlopen = _SerialTrackingUrlopen(
+            # Leader-Anker + Import je Gast (2x) + Debrief = 4 GM-Antworten.
+            gm_responses=[
+                _gm_response("SL-Antwort auf Anker."),
+                _gm_response("SL-Antwort auf Gast A."),
+                _gm_response("SL-Antwort auf Gast B."),
+                _gm_response(debrief_content),
+            ],
+            # Import je Gast (2x) + Pflicht-Reflexion je Gast (2x) = 4
+            # Persona-Antworten (jeder Gast reflektiert ueber seinen EIGENEN
+            # Driver, nicht nur der Leader).
+            persona_responses=[
+                _persona_response("Gast-A-Text vom echten Persona-Driver."),
+                _persona_response("Gast-B-Text vom echten Persona-Driver."),
+                _persona_response("Gast-A-Reflexion: hat Spass gemacht."),
+                _persona_response("Gast-B-Reflexion: hat Spass gemacht."),
+            ],
+        )
+        with mock.patch("urllib.request.urlopen", urlopen):
+            outcome = runtime.run_full_section(
+                controller, "section-local-2p",
+                contexts_by_persona={
+                    "leader_pk": {"user": "ctx-leader"},
+                    "guest_a_pk": {"system": "Du spielst Figur A.", "user": "ctx-guest-a"},
+                    "guest_b_pk": {"system": "Du spielst Figur B.", "user": "ctx-guest-b"},
+                },
+                states_dir=env.states_dir, today="2026-11-14", ts="2026-11-14T12:00:00",
+            )
+        self.assertTrue(outcome.completion.success, outcome.completion.reason)
+        self.assertEqual(set(outcome.completion.members_completed), {"leader_pk", "guest_a_pk", "guest_b_pk"})
+        self.assertEqual(urlopen.max_active(), 1, "auch mit zwei Personas bleibt der Versand seriell.")
+        self.assertTrue(urlopen.every_exit_before_next_enter())
+        self.assertGreater(guest_a_driver.request_count, 0, "Gast A muss real .decide() aufgerufen haben.")
+        self.assertGreater(guest_b_driver.request_count, 0, "Gast B muss real .decide() aufgerufen haben.")
+
+        records = _ledger_records(env.run_dir)
+        persona_records = [r for r in records if r["role"] == "persona_decision"]
+        self.assertGreaterEqual(
+            len(persona_records), 2, "beide Persona-Konstruktionen muessen eigene Ledgereintraege erzeugen.",
+        )
+        for rec in persona_records:
+            self.assertFalse(rec["dollar_billed"], rec)
+
+    def test_cloud_resume_after_legacy_local_unpriced_numeric_zero_line_keeps_real_cloud_sum(self):
+        """O5-D/G9-Fix (02_NACHARBEIT.md Gruppe E): eine AELTERE, VOR dem
+        N1-04-Fix geschriebene lokale Zeile konnte `cum_cost_usd` noch als
+        numerische `0.0` statt `null` tragen (`dollar_billed=False`). Ohne
+        die zusaetzliche `dollar_billed`-Pruefung in `SLSession.from_history`
+        wuerde eine SPAETERE echte Cloud-Summe durch diese alte lokale
+        Nullzeile wieder geloescht -- genau das G9-Risiko (01_GENERALREVIEW.md)."""
+        run_dir = self._tmp_root("g9-legacy-zero")
+        effective_dir = run_dir / "gm_sessions" / "g9-tisch"
+        effective_dir.mkdir(parents=True, exist_ok=True)
+        jsonl_path = effective_dir / "sl_history.jsonl"
+        jsonl_path.write_text(
+            json.dumps({
+                "turn": 1, "leader_post": "Cloud-Anfrage.", "sl_content": "Cloud-Antwort.",
+                "prompt_tokens": 100, "completion_tokens": 50, "cost_usd": 5.0,
+                "cum_cost_usd": 5.0, "dollar_billed": True, "pricing": "sonnet_usd",
+                "rag_sources": [], "latency_s": 0.1, "chat_id": "g9-chat", "ts": "2026-11-01T00:00:00",
+            }, ensure_ascii=False) + "\n"
+            + json.dumps({
+                # Legacy-Zeile VOR dem N1-04-Fix: lokal/unpriced, aber
+                # `cum_cost_usd` noch als numerische 0.0 statt `null`.
+                "turn": 2, "leader_post": "Lokale Anfrage.", "sl_content": "Lokale Antwort.",
+                "prompt_tokens": 10, "completion_tokens": 5, "cost_usd": 0.0,
+                "cum_cost_usd": 0.0, "dollar_billed": False, "pricing": "local_unpriced",
+                "rag_sources": [], "latency_s": 0.1, "chat_id": "g9-chat", "ts": "2026-11-02T00:00:00",
+            }, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        urlopen_cloud_resume = _SerialTrackingUrlopen(
+            gm_responses=[_gm_response("Cloud-Resume-Antwort.", ptok=20, ctok=10)], persona_responses=[],
+        )
+        with mock.patch("urllib.request.urlopen", urlopen_cloud_resume):
+            cloud_resumed = GmOwuiTransport(
+                _SL_CLIENT_PY, run_dir, table_id="g9-tisch",
+                sl_model=FAKE_PRESET_ID, kb_id=FAKE_KB_ID, is_dollar_billed=True,
+            )
+            summary_before_turn = cloud_resumed.usage_summary()
+            self.assertEqual(
+                summary_before_turn["cum_cost_est_usd"], 5.0,
+                "Cloud-Resume darf die alte lokale 0.0-Zeile NICHT als aktuelle Summe uebernehmen "
+                "-- die echte vorherige Cloudsumme (5.0) muss erhalten bleiben (G9).",
+            )
+            cloud_resumed.turn(3, "Dritter Turn, wieder Cloud.")
+        self.assertGreater(cloud_resumed.usage_summary()["cum_cost_est_usd"], 5.0)
 
 
 if __name__ == "__main__":

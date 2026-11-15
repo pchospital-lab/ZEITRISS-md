@@ -911,12 +911,17 @@ ein normaler 3/2-Wechsel ist nicht automatisch ein kanonischer Parallel-Split.
 
 ### Lokaler Modellserver {#lokaler-modellserver}
 
-Alternative zum Cloud-Pfad (OpenRouter + LiteLLM-Cache): Menü **[5] API-Keys
-ändern** bietet beim Modell-Provider die Wahl **cloud** oder **local**. Bei
-`local` fragt der Launcher Server-Basis-URL (inkl. `/v1`), die exakte
-served-model-ID und einen eigenen lokalen Token ab — **kein**
-OpenRouter-Key, **kein** LiteLLM-Masterkey nötig. Der OpenWebUI-Zugang
-(URL + OpenWebUI-API-Key) bleibt davon getrennt weiterhin erforderlich.
+Alternative zum Cloud-Pfad (OpenRouter + LiteLLM-Cache): bereits der
+**erste** Lauf von **[1] ZEITRISS einrichten** fragt (nach der
+OpenWebUI-Konto-/API-Freigabe im Browser) verdeckt im Terminal die
+Modell-Anbindung **cloud** oder **local** ab, bevor ein OpenRouter-Key
+verlangt wird — keine vorherige gespeicherte Wahl nötig. Menü **[5]
+API-Keys ändern** bietet dieselbe Wahl später erneut an (Rekey, gleiche
+Validierung/Persistenz). Bei `local` fragt der Launcher Server-Basis-URL
+(inkl. `/v1`), die exakte served-model-ID und einen eigenen lokalen Token
+ab — **kein** OpenRouter-Key, **kein** LiteLLM-Masterkey nötig. Der
+OpenWebUI-Zugang (URL + OpenWebUI-API-Key) bleibt davon getrennt weiterhin
+erforderlich.
 
 Derselbe gewählte Server + dieselbe served-model-ID bedienen GM (über das
 bestehende ZEITRISS-Preset mit Masterprompt/Knowledge-Base) und Personas

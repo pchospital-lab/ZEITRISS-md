@@ -505,6 +505,155 @@ def test_resolve_active_gm_route_connection_error_is_unverified():
     assert kb_id == module.GM_ROUTE_KB_UNVERIFIED, kb_id
 
 
+class _ChainFakeResponse:
+    """Minimale `urllib.request.urlopen`-Antwort fuer die O2-B.B1-Kette --
+    identische Form zu den `_FakeResponse`-Doubles in den anderen
+    tokenhost-Testdateien (status/read()/Context-Manager)."""
+
+    def __init__(self, status: int, body: bytes):
+        self.status = status
+        self._body = body
+
+    def read(self):
+        return self._body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_a):
+        return False
+
+
+def test_persisted_local_profile_chains_route_resolution_both_factories_real_adapters_http_double():
+    """O2-B.B1 (RELEASE-CASES.json): EIN persistiertes lokales Profil ->
+    der echte `scripts/mmo_sim.py:_resolve_active_gm_route` -> BEIDE
+    `mmo_sim/adapters/factories.py`-Default-Factories
+    (`default_gm_transport_factory` UND `default_persona_driver_factory`)
+    -> die echten Adapter (`GmOwuiTransport` + `PersonaApiDriver`) -> EIN
+    gemeinsamer HTTP-Double (`urllib.request.urlopen`), alles in EINER
+    einzigen belegten Kette. Pass-1-Gap (integrator-report.md O2-B-Zeile):
+    vorher gab es nur GETRENNTE Adapter-Tests (routing-Testdatei), nie den
+    Resolver UND beide Factories DAZWISCHEN in einem Lauf."""
+    import urllib.parse
+    from mmo_sim.adapters import factories as factories_mod
+    from mmo_sim.adapters.base import ParticipantDecision  # noqa: F401 (Vertragserinnerung)
+    from mmo_sim.adapters.factories import default_persona_driver_factory
+
+    module = _load_mmo_sim_entrypoint()
+    scripts_dir = _REPO_ROOT / "scripts"
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
+    import local_model_profile as real_lmp  # noqa: E402 (nach sys.path-Fix)
+    import setup as real_setup  # noqa: E402 -- ECHTES scripts/setup.py, kein Fake.
+
+    FAKE_OWUI_URL = "http://127.0.0.1:18080"
+    FAKE_OWUI_KEY = "owui-fake-key-not-secret"
+    FAKE_LOCAL_BASE = "http://127.0.0.1:18001/v1"
+    FAKE_LOCAL_MODEL = "nemotron-o2b1-chain"
+    FAKE_LOCAL_TOKEN = "test-local-token-not-secret"
+    FAKE_PRESET = "zeitriss-o2b1-chain"
+    FAKE_KB = "kb-o2b1-chain-01"
+
+    tmp_home = Path(tempfile.mkdtemp(prefix="o2b1-chain-home-"))
+    tmp_repo = Path(tempfile.mkdtemp(prefix="o2b1-chain-repo-"))
+    tmp_data = Path(tempfile.mkdtemp(prefix="o2b1-chain-data-"))
+    saved_env = dict(os.environ)
+    saved_setup_mod = sys.modules.get("setup")
+    try:
+        for key in (
+            "OPENWEBUI_API_KEY", "OPENWEBUI_URL", "MMO_SIM_PERSONA_CLI",
+            "MMO_SIM_PERSONA_API_BASE_URL", "MMO_SIM_PERSONA_API_KEY",
+            "MMO_SIM_PERSONA_API_MODEL", "MMO_SIM_PERSONA_API_MAX_TOKENS",
+            "MMO_SIM_PERSONA_API_DOLLAR_BILLED", "MMO_SIM_GM_TRANSPORT_DOUBLE",
+            factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER,
+        ):
+            os.environ.pop(key, None)
+
+        (tmp_repo / "setup.json").write_text(json.dumps({
+            "default_variant": "sonnet",
+            "variants": {"sonnet": {"preset_id": FAKE_PRESET}},
+        }), encoding="utf-8")
+
+        env_path = tmp_home / ".openwebui_env"
+        updates = dict(real_lmp.build_local_profile_updates(
+            base_url=FAKE_LOCAL_BASE, model=FAKE_LOCAL_MODEL, api_key=FAKE_LOCAL_TOKEN,
+        ))
+        updates["OPENWEBUI_URL"] = FAKE_OWUI_URL
+        updates["OPENWEBUI_API_KEY"] = FAKE_OWUI_KEY
+        assert real_setup._update_env_file_preserving(env_path, updates)
+
+        calls: list[tuple] = []
+
+        def _router(req, timeout=None, context=None):
+            url = req.full_url
+            calls.append((req.get_method(), url))
+            model_url_prefix = f"{FAKE_OWUI_URL}/api/v1/models/model?id={urllib.parse.quote(FAKE_PRESET, safe='')}"
+            if url == model_url_prefix:
+                body = {
+                    "id": FAKE_PRESET, "base_model_id": FAKE_LOCAL_MODEL,
+                    "meta": {"knowledge": [{"id": FAKE_KB}]},
+                }
+                return _ChainFakeResponse(200, json.dumps(body).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/openai/verify":
+                return _ChainFakeResponse(200, json.dumps({"data": [{"id": FAKE_LOCAL_MODEL}]}).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/api/chat/completions":
+                return _ChainFakeResponse(200, json.dumps({
+                    "choices": [{"message": {"content": "GM-Antwort (Kette)."}}],
+                    "usage": {"prompt_tokens": 11, "completion_tokens": 6},
+                }).encode("utf-8"))
+            if url == f"{FAKE_LOCAL_BASE}/chat/completions":
+                return _ChainFakeResponse(200, json.dumps({
+                    "choices": [{"message": {"content": "Persona-Antwort (Kette)."}}],
+                    "usage": {"prompt_tokens": 9, "completion_tokens": 4},
+                }).encode("utf-8"))
+            raise AssertionError(f"unerwarteter Request in der O2-B.B1-Kette: {req.get_method()} {url}")
+
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch("urllib.request.urlopen", _router):
+            sl_model, kb_id = module._resolve_active_gm_route(tmp_repo)
+            assert sl_model == FAKE_PRESET, sl_model
+            assert kb_id == FAKE_KB, kb_id
+
+            gm_factory = default_gm_transport_factory(tmp_data, _REPO_ROOT, sl_model=sl_model, kb_id=kb_id)
+            gm_transport = gm_factory("o2b1-chain-table")
+            assert gm_transport.is_dollar_billed is False, (
+                "lokal bestaetigt gebundene Route muss dollar_billed=False tragen."
+            )
+            gm_result = gm_transport.turn(
+                1, "Die Gruppe betritt den Raum.", output_limit_tokens=gm_transport.output_limit_tokens,
+            )
+            assert gm_result["content"] == "GM-Antwort (Kette)."
+
+            persona_factory = default_persona_driver_factory(tmp_data)
+            persona_driver = persona_factory("persona-o2b1-chain")
+            assert persona_driver.is_dollar_billed is False
+            decision = persona_driver.decide({"system": "Du bist eine Figur.", "user": "Hallo"})
+            assert decision.text == "Persona-Antwort (Kette)."
+
+        model_calls = [c for c in calls if c[1].startswith(f"{FAKE_OWUI_URL}/api/v1/models/model")]
+        assert len(model_calls) == 2, (
+            f"erwartet: 1x _resolve_active_gm_route + 1x Bindungscheck in default_gm_transport_factory, war {calls}"
+        )
+        verify_calls = [c for c in calls if c[1] == f"{FAKE_OWUI_URL}/openai/verify"]
+        assert len(verify_calls) == 1, calls
+        gm_chat_calls = [c for c in calls if c[1] == f"{FAKE_OWUI_URL}/api/chat/completions"]
+        assert len(gm_chat_calls) == 1, calls
+        persona_chat_calls = [c for c in calls if c[1] == f"{FAKE_LOCAL_BASE}/chat/completions"]
+        assert len(persona_chat_calls) == 1, calls
+        # GM traegt Preset+KB, Persona traegt den lokalen Token getrennt --
+        # keine Cloudparameter/Vermischung (O2-B.B2, zusaetzlich bestaetigt).
+        assert FAKE_LOCAL_TOKEN not in json.dumps([c[1] for c in calls])
+    finally:
+        os.environ.clear()
+        os.environ.update(saved_env)
+        if saved_setup_mod is not None:
+            sys.modules["setup"] = saved_setup_mod
+        import shutil
+        shutil.rmtree(tmp_home, ignore_errors=True)
+        shutil.rmtree(tmp_repo, ignore_errors=True)
+        shutil.rmtree(tmp_data, ignore_errors=True)
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

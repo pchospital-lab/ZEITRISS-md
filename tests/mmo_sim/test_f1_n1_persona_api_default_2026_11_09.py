@@ -31,6 +31,8 @@ nicht zu berühren).
 Pure Python, nur `assert`, echter Exitcode, kein Docker/Netzwerk."""
 from __future__ import annotations
 
+import functools
+import importlib.util as _importlib_util_bootstrap
 import json
 import os
 import shutil
@@ -42,10 +44,56 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
+_SUPPORT_SCRIPT = _HERE / "_local_tokenhost_support_2026_11_14.py"
+
+# N4-N1/I3.2: Fruehschutz MUSS installiert sein, BEVOR irgendein
+# Produktmodul (hier insbesondere `mmo_sim.adapters.factories`) geladen
+# wird -- `bootstrap_isolation` ist prozessweit idempotent (EIN
+# Audithook, EINE geteilte Allowlist) und patcht `Path.home`/
+# `Path.expanduser`/`os.path.expanduser` GLOBAL auf ein privates
+# Verzeichnis, BEVOR irgendein Autoload-/Factorypfad unten laufen kann --
+# das schuetzt insbesondere die NEGATIVE Factoryprobe (Test 1 unten), die
+# frueher `Path.home()` unmaskiert erreichte (02_N4N1_ARBEITSAUFTRAG.md D).
+_support_spec = _importlib_util_bootstrap.spec_from_file_location(
+    "f1n1_local_tokenhost_support", _SUPPORT_SCRIPT
+)
+_support_mod = _importlib_util_bootstrap.module_from_spec(_support_spec)
+sys.modules["f1n1_local_tokenhost_support"] = _support_mod
+_support_spec.loader.exec_module(_support_mod)
+EARLY_GUARD = _support_mod.bootstrap_isolation(
+    private_home=tempfile.gettempdir(),
+    private_root=tempfile.gettempdir(),
+    real_home=str(Path.home()),
+    repo_root=str(_REPO_ROOT),
+)
+
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from mmo_sim.adapters import factories as factories_mod  # noqa: E402
+
+
+def _isolated_repo_root(tmp_repo_root: Path):
+    """I3.2: bindet den vorhandenen `repo_root`-Testseam BEIDER interner
+    Autoload-Funktionen auf `tmp_repo_root`, OHNE deren reale
+    Entscheidungslogik durch ein Erfolgsdouble zu ersetzen --
+    `functools.partial` schliesst ueber der ECHTEN (noch unveraenderten)
+    Funktion, nur der Default-Parameter `repo_root` wird vorbelegt. Das
+    behebt genau die Luecke, dass `factory()`/`default_persona_driver_
+    factory(data_dir=tmp)` diese beiden Funktionen intern OHNE
+    `repo_root`-Argument aufruft und sie dadurch (unmaskiert) den echten,
+    aus `__file__` ermittelten Repo-Root -- und damit potenziell die
+    echte `scripts/litellm/.env`/`~/.openwebui_env` -- erreichen wuerden.
+    Liefert ein Patch-Kontextmanager-Paar zum Zuruecksetzen."""
+    return mock.patch.multiple(
+        factories_mod,
+        _maybe_default_local_tokenhost_persona_env=functools.partial(
+            factories_mod._maybe_default_local_tokenhost_persona_env, repo_root=tmp_repo_root,
+        ),
+        _maybe_default_local_persona_api_env=functools.partial(
+            factories_mod._maybe_default_local_persona_api_env, repo_root=tmp_repo_root,
+        ),
+    )
 
 
 def _make_fake_repo(with_litellm_env: bool, master_key: str = "sk-litellm-test-fake-not-real") -> Path:
@@ -90,20 +138,36 @@ def _restore_env(saved: dict):
 
 
 def test_no_default_without_local_litellm_keeps_old_runtime_error():
+    """I3.2 negative tatsaechliche Factoryprobe: VORHER erreichte
+    `factory("p1")` -> `_maybe_default_local_tokenhost_persona_env()`/
+    `_maybe_default_local_persona_api_env()` OHNE jedes `repo_root`-
+    Argument -- `data_dir=tmp` ersetzt NICHT den intern aus `__file__`
+    ermittelten echten Repo-Root, und ohne diesen Test-Patch hier haette
+    dieser Pfad potenziell die ECHTE `scripts/litellm/.env`/
+    `~/.openwebui_env` erreicht (02_N4N1_ARBEITSAUFTRAG.md D). Isoliert
+    jetzt BEIDE Eingaenge (Home via `bootstrap_isolation`-Baseline +
+    hier zusaetzlich explizit gemocktem `Path.home`, Repo-Root via
+    `_isolated_repo_root`) UND laesst die reale Entscheidungslogik
+    (RuntimeError bei fehlendem lokalem LiteLLM) unveraendert laufen --
+    kein Erfolgsdouble fuer die geprueften Funktionen selbst."""
     tmp = _make_fake_repo(with_litellm_env=False)
     saved = _clear_persona_env()
+    fake_home = Path(tempfile.mkdtemp(prefix="f1-n1-persona-negative-home-"))
     try:
-        factory = factories_mod.default_persona_driver_factory(tmp)
-        raised = False
-        try:
-            factory("p1")
-        except RuntimeError as exc:
-            raised = True
-            assert "Persona-Anbindung nicht konfiguriert" in str(exc), str(exc)
-        assert raised, "ohne lokales LiteLLM UND ohne Env haette die alte Fehlermeldung kommen muessen"
+        with mock.patch.object(factories_mod.Path, "home", return_value=fake_home), \
+             _isolated_repo_root(tmp):
+            factory = factories_mod.default_persona_driver_factory(tmp)
+            raised = False
+            try:
+                factory("p1")
+            except RuntimeError as exc:
+                raised = True
+                assert "Persona-Anbindung nicht konfiguriert" in str(exc), str(exc)
+            assert raised, "ohne lokales LiteLLM UND ohne Env haette die alte Fehlermeldung kommen muessen"
     finally:
         _restore_env(saved)
         shutil.rmtree(tmp, ignore_errors=True)
+        shutil.rmtree(fake_home, ignore_errors=True)
 
 
 def test_default_applied_and_persisted_when_litellm_locally_configured():
@@ -128,11 +192,19 @@ def test_default_applied_and_persisted_when_litellm_locally_configured():
 
 
 def test_explicit_cli_choice_is_never_overridden():
+    """I3.2 explizite CLI-Probe: `repo_root=tmp` ist hier bereits direkt
+    gebunden (vorhandener Seam) -- `Path.home` wird zusaetzlich explizit
+    auf ein privates Tempverzeichnis gemockt, damit auch ein spaeterer
+    Codepfad innerhalb der Funktion nie den echten Home-Wert erreichen
+    kann (ALLE Eingaenge privat isolieren, nicht nur die aktuell
+    getroffenen Zweige)."""
     tmp = _make_fake_repo(with_litellm_env=True)
     saved = _clear_persona_env()
     os.environ["MMO_SIM_PERSONA_CLI"] = "claude"
+    fake_home = Path(tempfile.mkdtemp(prefix="f1-n1-persona-cli-home-"))
     try:
-        factories_mod._maybe_default_local_persona_api_env(repo_root=tmp)
+        with mock.patch.object(factories_mod.Path, "home", return_value=fake_home):
+            factories_mod._maybe_default_local_persona_api_env(repo_root=tmp)
         assert os.environ.get("MMO_SIM_PERSONA_API_BASE_URL") is None, (
             "eine bewusste CLI-Wahl haette NICHT durch den API-Default ergaenzt/"
             "ueberschrieben werden duerfen"
@@ -141,20 +213,27 @@ def test_explicit_cli_choice_is_never_overridden():
     finally:
         _restore_env(saved)
         shutil.rmtree(tmp, ignore_errors=True)
+        shutil.rmtree(fake_home, ignore_errors=True)
 
 
 def test_explicit_api_choice_is_never_overridden():
+    """I3.2 explizite API-Probe: siehe Docstring der CLI-Probe oben --
+    `repo_root=tmp` ist bereits direkt gebunden, `Path.home` wird
+    zusaetzlich explizit privat isoliert."""
     tmp = _make_fake_repo(with_litellm_env=True)
     saved = _clear_persona_env()
     os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = "https://my-own-provider.example/v1"
+    fake_home = Path(tempfile.mkdtemp(prefix="f1-n1-persona-api-home-"))
     try:
-        factories_mod._maybe_default_local_persona_api_env(repo_root=tmp)
+        with mock.patch.object(factories_mod.Path, "home", return_value=fake_home):
+            factories_mod._maybe_default_local_persona_api_env(repo_root=tmp)
         assert os.environ.get("MMO_SIM_PERSONA_API_BASE_URL") == "https://my-own-provider.example/v1", (
             "eine bewusste, bereits gesetzte API-Base-URL haette Vorrang haben muessen"
         )
     finally:
         _restore_env(saved)
         shutil.rmtree(tmp, ignore_errors=True)
+        shutil.rmtree(fake_home, ignore_errors=True)
 
 
 def test_lab_profile_path_never_triggers_default():
@@ -164,11 +243,20 @@ def test_lab_profile_path_never_triggers_default():
     eingerichtetem LiteLLM, aber explizit profile='api' und fehlendem
     MMO_SIM_PERSONA_API_BASE_URL, muss weiterhin der alte LabConfigError-
     Pfad greifen (RuntimeError aus Zeile ~55-60 in factories.py), NICHT der
-    neue Default."""
+    neue Default.
+
+    I3.2 "jeder weitere Autoloadpfad": `Path.home` wird zusaetzlich
+    explizit privat isoliert UND `repo_root` ueber `_isolated_repo_root`
+    gebunden -- beide Aufrufe laufen hier wegen `profile="api"` ohnehin
+    nie (s. `spy.assert_not_called()`), die Isolation bleibt trotzdem als
+    Sicherheitsnetz bestehen, falls sich das je aendert."""
     tmp = _make_fake_repo(with_litellm_env=True)
     saved = _clear_persona_env()
+    fake_home = Path(tempfile.mkdtemp(prefix="f1-n1-persona-lab-home-"))
     try:
-        with mock.patch.object(factories_mod, "_maybe_default_local_persona_api_env") as spy:
+        with mock.patch.object(factories_mod.Path, "home", return_value=fake_home), \
+             _isolated_repo_root(tmp), \
+             mock.patch.object(factories_mod, "_maybe_default_local_persona_api_env") as spy:
             factory = factories_mod.default_persona_driver_factory(tmp, profile="api")
             raised = False
             try:
@@ -181,6 +269,7 @@ def test_lab_profile_path_never_triggers_default():
     finally:
         _restore_env(saved)
         shutil.rmtree(tmp, ignore_errors=True)
+        shutil.rmtree(fake_home, ignore_errors=True)
 
 
 def main() -> int:

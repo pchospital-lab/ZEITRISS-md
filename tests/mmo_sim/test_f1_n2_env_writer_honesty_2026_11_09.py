@@ -12,8 +12,11 @@ Deckt:
   (A) Existierende, aber nicht lesbare Datei -> Funktion gibt `False`
       zurück UND lässt die Datei bytegleich unangetastet (kein "baue
       neu"-Überschreiben).
-  (B) chmod(0o600) wirft `OSError` -> Funktion gibt `False` zurück, auch
-      wenn der Schreibschritt selbst gelungen ist (ehrliche Rechteaussage).
+  (B) chmod(0o600) wirft `OSError` auf der (noch nicht veroeffentlichten)
+      Temp-Datei -> Funktion gibt `False` zurück UND veroeffentlicht den
+      neuen Wert NICHT (atomare Transaktion vor dem Rename abgebrochen --
+      N2-Fix, ersetzt die fruehere schwaechere "Inhalt steht trotzdem schon
+      da"-Erwartung).
   (C) Gegenprobe: normaler Erfolgsfall (lesbar, Schreiben+chmod klappen)
       bleibt `True`, unbekannte Felder/Kommentare bleiben erhalten.
 
@@ -57,16 +60,50 @@ def test_unreadable_existing_file_is_not_rebuilt_returns_false():
 
 
 def test_chmod_failure_returns_false_even_though_write_succeeded():
+    """ZR-LOCAL-TOKENHOST-N2-UEBERARBEITET (02_NACHARBEIT.md Gruppe A.2,
+    03_SCOPE_ROLLEN_BUDGET.md §Bewahrte Dateien): die fruehere Assertion
+    "bei chmod-Fehler liegt das neue Secret trotzdem schon in der Datei"
+    ist durch die STAERKERE atomare Forderung ersetzt -- `_update_env_file_
+    preserving` schreibt jetzt zuerst in eine Temp-Datei, setzt chmod DORT
+    und veroeffentlicht erst per atomarem Rename; ein chmod-Fehlschlag auf
+    der noch nicht veroeffentlichten Temp-Datei darf den neuen
+    (ungeschuetzten) Wert NICHT mehr live auf Platte hinterlassen."""
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / ".env"
 
-        with mock.patch.object(Path, "chmod", side_effect=OSError("chmod not permitted")):
+        with mock.patch.object(setup_mod.os, "open", side_effect=OSError("chmod not permitted")):
             ok = setup_mod._update_env_file_preserving(path, {"OPENWEBUI_API_KEY": "new-value"})
 
         assert ok is False, "chmod-Fehlschlag darf NICHT stumm als Erfolg (True) gelten"
-        # Der Inhalt selbst wurde trotzdem geschrieben -- kein Datenverlust,
-        # nur die Rechteaussage ist jetzt ehrlich falsch/offen.
-        assert "OPENWEBUI_API_KEY=new-value" in path.read_text(encoding="utf-8")
+        # Staerkere Forderung: alte Datei unveraendert ODER neues Profil
+        # bleibt auch frisch inaktiv (hier: Zieldatei existierte vorher
+        # nicht -- sie darf durch den gescheiterten Versuch nicht neu mit
+        # dem ungeschuetzten Wert entstehen).
+        assert not path.exists() or "OPENWEBUI_API_KEY=new-value" not in path.read_text(encoding="utf-8"), (
+            "chmod-Fehlschlag darf den neuen Secretwert NICHT bereits live/aktiv auf Platte "
+            "hinterlassen -- alte Datei muss unveraendert bleiben oder das neue Profil muss "
+            "frisch inaktiv bleiben (staerkere atomare Forderung, ersetzt die fruehere Assertion)."
+        )
+        leftover = list(Path(tmp).glob(".env.tmp-*"))
+        assert not leftover, f"verwaiste Temp-Datei nach chmod-Fehlschlag nicht aufgeraeumt: {leftover}"
+
+
+def test_chmod_failure_on_existing_file_leaves_old_bytes_unchanged():
+    """Ergaenzung zur staerkeren Forderung (existierte bereits eine aktive
+    Datei mit altem Inhalt): nach einem chmod-Fehlschlag muss sie BYTEGLEICH
+    beim alten Stand bleiben, nicht nur 'neuer Wert fehlt'."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / ".env"
+        original = "# Kommentar\nFOO=bar\nOPENWEBUI_API_KEY=old-value\n"
+        path.write_text(original, encoding="utf-8")
+
+        with mock.patch.object(setup_mod.os, "open", side_effect=OSError("chmod not permitted")):
+            ok = setup_mod._update_env_file_preserving(path, {"OPENWEBUI_API_KEY": "new-value"})
+
+        assert ok is False, "chmod-Fehlschlag darf NICHT stumm als Erfolg (True) gelten"
+        assert path.read_text(encoding="utf-8") == original, (
+            "alte Datei muss nach chmod-Fehlschlag bytegleich unveraendert bleiben"
+        )
 
 
 def test_normal_success_path_preserves_unknown_fields_and_returns_true():

@@ -77,6 +77,8 @@ def test_action_install_runs_autowire_even_when_container_already_running():
              mock.patch.object(launcher_mod, "_docker_ok", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod, "_openwebui_ok", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod, "_ensure_owui_env", return_value=True), \
+             mock.patch.object(launcher_mod, "resolve_model_provider_choice",
+                                return_value=("cloud", None, None)), \
              mock.patch.object(launcher_mod, "_openrouter_key_status", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod.setup_module, "_update_env_file_preserving", return_value=True), \
              mock.patch.object(launcher_mod.setup_module, "run_setup") as run_setup_mock, \

@@ -13,6 +13,8 @@ einem teuren Request, ob ueberhaupt ein Key/Base-URL konfiguriert ist (A02/A15
 from __future__ import annotations
 
 import json
+import math
+import re
 import time
 import urllib.error
 import urllib.request
@@ -27,6 +29,51 @@ from .base import (
     interpret_yes_no_decision,
     render_public_wire_text,
 )
+
+
+def _redact_secret_text(text: str, *secrets: str | None) -> str:
+    """A5 (02_NACHARBEIT.md Gruppe A5, O1-D): entfernt bekannte Secretwerte
+    (hier: `api_key`) aus einem Fehlertext, BEVOR er in eine Exception/
+    Console/Save/Export uebernommen wird -- ein (ggf. absichtlich
+    fehlerhaft antwortendes) Backend-Double kann einen formfalschen Body
+    liefern, der den gesendeten `Authorization`-Header echot. Fehlertyp/
+    HTTP-Status/Quota-Erkennung bleiben im Text UNVERAENDERT erhalten, nur
+    der Geheimnisanteil wird ersetzt."""
+    redacted = text
+    for secret in secrets:
+        if secret:
+            redacted = redacted.replace(secret, "[REDACTED]")
+    return re.sub(r"Bearer\s+\S+", "Bearer [REDACTED]", redacted)
+
+
+def _validate_persona_max_tokens(value: object) -> int:
+    """R8-Fix (01 §"Materielle Restfehler", 02 Block D, O5-B): effektives
+    `max_tokens` muss eine echte positive, endliche Ganzzahl sein -- `0`,
+    negative Werte, `bool` (technisch eine `int`-Unterklasse), nicht
+    endliche Werte (`inf`/`nan`) und Bruchwerte werden fail-closed
+    abgelehnt, AUCH bei direkter `PersonaApiConfig`-Konstruktion (nicht nur
+    ueber den Factory-Env-Parsepfad in `adapters.factories`). Identisches
+    Muster zu `gm_owui._validate_gm_output_limit_tokens` (GM besitzt diesen
+    Validator bereits), nur ohne dessen `None`-"unbegrenzt"-Fall -- Persona-
+    `max_tokens` ist nie optional/unbegrenzt."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(
+            f"PersonaApiConfig.max_tokens={value!r} ist keine gueltige Ganzzahl -- "
+            "fail-closed, kein Versand mit ungueltigem Limit."
+        )
+    if isinstance(value, float):
+        if not math.isfinite(value) or value != int(value):
+            raise ValueError(
+                f"PersonaApiConfig.max_tokens={value!r} ist kein endlicher Ganzzahlwert -- "
+                "fail-closed, kein Versand mit ungueltigem Limit."
+            )
+        value = int(value)
+    if value <= 0:
+        raise ValueError(
+            f"PersonaApiConfig.max_tokens={value!r} ist nicht positiv -- "
+            "fail-closed, kein Versand mit ungueltigem Limit."
+        )
+    return value
 
 
 @dataclass
@@ -61,6 +108,9 @@ class PersonaApiDriver:
     is_dollar_billed = True
 
     def __init__(self, config: PersonaApiConfig, persona_key: str):
+        # R8-Fix: validiert HIER (jeder Konstruktionsweg, auch eine direkte
+        # Testkonstruktion ohne Factory), nicht erst lose in `decide()`.
+        config.max_tokens = _validate_persona_max_tokens(config.max_tokens)
         self.config = config
         self.persona_key = persona_key
         self.request_count = 0
@@ -108,22 +158,33 @@ class PersonaApiDriver:
             with urllib.request.urlopen(req, timeout=self.config.timeout) as r:
                 resp = json.loads(r.read().decode("utf-8"))
         except urllib.error.HTTPError as e:
-            txt = e.read().decode("utf-8", errors="replace")[:400]
+            # R7-Fix (01 §"Materielle Restfehler", 02 Block D): zuerst
+            # redigieren, DANN auf 400 Zeichen kuerzen -- die vorige
+            # Reihenfolge (Kuerzung vor Redaktion) konnte einen Secretwert
+            # exakt an der Kuerzungsgrenze zerschneiden; die Resttexthaelfte
+            # ohne "Bearer "-Praefix matchte dann weder den exakten
+            # Secretstring noch das Bearer-Regex und blieb sichtbar.
+            txt = _redact_secret_text(e.read().decode("utf-8", errors="replace"), self.config.api_key)[:400]
             if e.code in (401, 403):
-                raise ProviderAuthError(f"persona_api[{self.persona_key}]: HTTP {e.code}: {txt}") from e
+                raise ProviderAuthError(f"persona_api[{self.persona_key}]: HTTP {e.code}: {txt}") from None
             if e.code == 429:
-                raise ProviderQuotaError(f"persona_api[{self.persona_key}]: HTTP 429 (Quota): {txt}") from e
-            raise ProviderUnavailableError(f"persona_api[{self.persona_key}]: HTTP {e.code}: {txt}") from e
+                raise ProviderQuotaError(f"persona_api[{self.persona_key}]: HTTP 429 (Quota): {txt}") from None
+            raise ProviderUnavailableError(f"persona_api[{self.persona_key}]: HTTP {e.code}: {txt}") from None
         except (urllib.error.URLError, TimeoutError) as e:
-            raise ProviderUnavailableError(f"persona_api[{self.persona_key}]: {e}") from e
+            raise ProviderUnavailableError(
+                f"persona_api[{self.persona_key}]: {_redact_secret_text(str(e), self.config.api_key)}"
+            ) from None
         latency = time.time() - t0
         self.request_count += 1
         try:
             content = resp["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as e:
+            # R7-Fix: dieselbe Redaktion-vor-Kuerzung-Reihenfolge wie oben --
+            # vollen Responsetext redigieren, erst danach auf 300 Zeichen kuerzen.
             raise ProviderUnavailableError(
-                f"persona_api[{self.persona_key}]: unerwartete Response-Struktur: {json.dumps(resp)[:300]}"
-            ) from e
+                f"persona_api[{self.persona_key}]: unerwartete Response-Struktur: "
+                f"{_redact_secret_text(json.dumps(resp), self.config.api_key)[:300]}"
+            ) from None
         # I1 (MAIN-ENTSCHEIDUNG I1-Kontrollform): traegt der Aufrufer eine
         # `decision_contract`-Bindung (offer_id/participant_id, s.
         # `ui/tui.py` invite_ctx/lead_invite_ctx) im Kontext, ist DIES eine

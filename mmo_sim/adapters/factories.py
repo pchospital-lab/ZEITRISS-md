@@ -121,6 +121,49 @@ def _maybe_default_local_persona_api_env(repo_root: Path | None = None) -> None:
         pass  # Persistierung ist best effort -- das Session-Env oben steht schon
 
 
+#: C/G2-Fix (02_NACHARBEIT.md Gruppe C, O2/O4/O6): Marker, den
+#: `_maybe_default_local_tokenhost_persona_env` NUR selbst setzt, wenn es
+#: die MMO_SIM_PERSONA_API_*-Werte unten SELBST aus dem lokalen Profil
+#: abgeleitet hat -- unterscheidet "diese Werte stehen im Prozess, weil
+#: WIR sie gerade erst gesetzt haben" von einem echten externen
+#: Prozessoverride (Lab/CLI/Testsetup) ODER einem aus der Datei geladenen
+#: Cloud-/LiteLLM-Altbestand. Die reine PRAESENZ einer Variable ist KEIN
+#: Herkunftsnachweis (02_NACHARBEIT.md Gruppe C) -- dieser Marker macht die
+#: Herkunft explizit.
+#:
+#: N4-05-Fix: der Marker enthaelt NICHT mehr nur "1" (ein reines
+#: war-schon-resolved-Bit), sondern den von `_persona_origin_snapshot`
+#: gebildeten Fingerabdruck der tatsaechlich SELBST gesetzten Werte. Ein
+#: reines Boolean konnte zwei unterschiedliche Zustaende nicht
+#: unterscheiden: "die Werte stehen noch EXAKT so, wie wir sie gesetzt
+#: haben" (idempotente Fortsetzung, z.B. zweite Persona) vs. "jemand hat
+#: ZWISCHEN unserer letzten Aufloesung und jetzt einen EIGENEN neuen Wert
+#: in genau diese Variablen geschrieben" (ein echter neuer fremder
+#: Override, der NICHT stillschweigend mit dem lokalen Profil
+#: ueberschrieben werden darf -- genau das verlangt O6-B:B2 "gueltige
+#: explizite CLI-/API-Alternativen ... zwischen zwei Aufrufen behalten
+#: Vorrang"). Der Fingerabdruck-Vergleich unten erkennt den zweiten Fall
+#: jetzt auch dann, wenn der Marker noch vom vorherigen Aufruf steht.
+_LOCAL_TOKENHOST_RESOLVED_MARKER = "MMO_SIM_PERSONA_API_LOCAL_TOKENHOST_RESOLVED"
+
+_LOCAL_TOKENHOST_PERSONA_ENV_KEYS = (
+    "MMO_SIM_PERSONA_API_BASE_URL", "MMO_SIM_PERSONA_API_KEY",
+    "MMO_SIM_PERSONA_API_MODEL", "MMO_SIM_PERSONA_API_MAX_TOKENS",
+    "MMO_SIM_PERSONA_API_DOLLAR_BILLED",
+)
+
+
+def _persona_origin_snapshot(base_url: str, api_key: str, model: str, max_tokens: str, dollar_billed: str) -> str:
+    """N4-05: kleine lokale Datenstruktur statt boolescher Marker -- bindet
+    die Herkunft an die TATSAECHLICH von `_maybe_default_local_tokenhost_
+    persona_env` selbst gesetzten Werte, nicht nur an ein Flag. Reiner
+    Formatierungshelfer (kein Hash/keine Kryptografie noetig): `\\x1f`
+    (ASCII "Unit Separator") kann in keinem der fuenf Werte vorkommen, ohne
+    dass bereits `is_valid_secret_field`/`is_valid_local_url` vorher
+    gehalten haetten (beide lehnen Steuerzeichen < 0x20 ab)."""
+    return "\x1f".join((base_url, api_key, model, max_tokens, dollar_billed))
+
+
 def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) -> bool:
     """ZR-LOCAL-TOKENHOST-L1/N1-02: lokales Profil VOR dem bestehenden Cloud-/
     LiteLLM-Auto-Default (`_maybe_default_local_persona_api_env`) auflösen.
@@ -131,7 +174,7 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
     (unbekannter/inkonsistenter Provider ODER unvollstaendiges lokales
     Profil) wird sichtbar abgebrochen -- kein stiller Cloudfallback.
 
-    N1-02-Fix: `MMO_SIM_PERSONA_CLI`/`_API_BASE_URL` koennen auf ZWEI Wegen
+    N1-02-Fix: `MMO_SIM_PERSONA_CLI`/`_API_BASE_URL` koennen auf DREI Wegen
     schon im Prozess stehen, bevor diese Funktion laeuft:
       (a) ein echter, HIER im Prozess VOR diesem Aufruf gesetzter expliziter
           Override (z.B. Lab/CLI/Testsetup) -- der MUSS Vorrang behalten.
@@ -140,12 +183,50 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
           diese Variablen laedt (z.B. ein frueherer Cloud-/LiteLLM-Lauf) --
           das ist KEINE bewusste aktuelle Wahl und darf eine jetzt gespeicherte
           `provider=local`-Entscheidung NICHT still ueberstimmen.
+      (c) G2-Fix: DIESE Funktion selbst hat die Werte bei einem FRUEHEREN
+          Aufruf im selben Prozess bereits aus dem lokalen Profil gesetzt
+          (`_LOCAL_TOKENHOST_RESOLVED_MARKER` ist gesetzt) -- eine zweite
+          ODER wiederholte Personakonstruktion (mehrfache Persona, dieselbe
+          Persona erneut, ein Aufruf nach Rekey) darf das NICHT als
+          widersprechenden externen Override lesen und sichtbar stoppen
+          (der urspruengliche Bug: die Funktion erkannte ihre eigenen
+          Schreibzugriffe nicht wieder). Nur (a)/(b) werden gegen eine
+          aufgeloeste lokale Wahl als Konflikt gewertet; (c) ist eine
+          idempotente Fortsetzung derselben Resolution und re-aufgeloest
+          unten wie beim ersten Aufruf.
     Nur (a) wird VOR dem Auto-Load geprueft (zu diesem Zeitpunkt kann (b)
     noch gar nicht im Environment stehen) -- widerspricht (a) einer
-    aufgeloesten lokalen Wahl, haelt die Funktion sichtbar statt zu raten,
-    welcher der beiden Werte gelten soll."""
+    aufgeloesten lokalen Wahl, behaelt der bewusste explizite Override
+    Vorrang und wird verwendet (Originprioritaet, O6-B:B2) -- die lokale
+    Wahl wird dann NICHT angewandt; nur ein 'hold' (unvollstaendiges/
+    inkonsistentes lokales Profil) haelt weiterhin sichtbar.
+
+    N4-05-Fix: (c) wurde VORHER allein ueber die PRAESENZ des Markers
+    erkannt (`== "1"`) -- das kann (c) nicht von einem vierten Fall
+    unterscheiden: (d) ein FREMDER Prozess hat NACH unserer letzten
+    Aufloesung einen EIGENEN neuen Wert in `MMO_SIM_PERSONA_API_BASE_URL`
+    (o.ae.) geschrieben, waehrend der (jetzt veraltete) Marker von der
+    vorherigen Aufloesung noch stand. Mit der reinen Boolean-Logik waere
+    (d) faelschlich wie (c) behandelt worden -- die lokale Wahl haette den
+    frischen fremden Override stillschweigend ueberschrieben (genau das
+    verbietet O6-B:B2). Jetzt vergleicht `self_resolved` den gespeicherten
+    Fingerabdruck (`_persona_origin_snapshot` beim letzten SELBST-Setzen)
+    mit einem frisch aus den AKTUELLEN Prozesswerten gebildeten Fingerabdruck
+    -- nur bei exakter Uebereinstimmung ist es wirklich (c); jede Abweichung
+    faellt korrekt auf (a) zurueck (echter neuer Override) und behaelt als
+    gueltige explizite Alternative Vorrang: die Originprioritaet unten
+    verwendet ihn, statt ihn mit dem lokalen Default zu ueberschreiben."""
     pre_existing_cli = os.environ.get("MMO_SIM_PERSONA_CLI")
     pre_existing_api = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
+    _stored_origin_snapshot = os.environ.get(_LOCAL_TOKENHOST_RESOLVED_MARKER)
+    _live_origin_snapshot = _persona_origin_snapshot(
+        pre_existing_api or "",
+        os.environ.get("MMO_SIM_PERSONA_API_KEY", ""),
+        os.environ.get("MMO_SIM_PERSONA_API_MODEL", ""),
+        os.environ.get("MMO_SIM_PERSONA_API_MAX_TOKENS", ""),
+        os.environ.get("MMO_SIM_PERSONA_API_DOLLAR_BILLED", ""),
+    )
+    self_resolved = bool(pre_existing_api) and _stored_origin_snapshot == _live_origin_snapshot
     if repo_root is None:
         repo_root = Path(__file__).resolve().parents[2]
     try:
@@ -156,12 +237,14 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
         import setup as _setup_module
     except Exception:
         return False
-    if pre_existing_cli or pre_existing_api:
-        # (a) echter Prozessoverride, bereits VOR dem Auto-Load gesetzt --
-        # unveraendertes Altverhalten: hat Vorrang, kein Ueberschreiben.
-        # Widerspricht er einer gleichzeitig aufgeloesten lokalen Wahl, haelt
-        # die Funktion sichtbar statt den Override stillschweigend zu
-        # ignorieren ODER die lokale Wahl stillschweigend zu verwerfen.
+    if (pre_existing_cli or pre_existing_api) and not self_resolved:
+        # (a)/(d) echter, bewusst gesetzter Prozessoverride, bereits VOR dem
+        # Auto-Load im Environment (nicht aus Datei-Altbestand, nicht unser
+        # eigener Fingerabdruck) -- eine gueltige explizite CLI-/API-Alternative.
+        # Sie hat Vorrang und wird verwendet, kein Ueberschreiben. Widerspricht
+        # sie einer gleichzeitig aufgeloesten lokalen Wahl ('local'), gewinnt
+        # die explizite Alternative (Originprioritaet, s.u.); nur ein 'hold'
+        # (unvollstaendiges/inkonsistentes lokales Profil) haelt sichtbar.
         try:
             _setup_module._auto_load_owui_env()
         except Exception:
@@ -173,22 +256,36 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
                 "Cloudfallback fuer die Persona-Anbindung."
             )
         if provider == "local":
-            raise RuntimeError(
-                "Lokales Modell-Profil ist 'local', aber ein bereits gesetzter expliziter "
-                "Prozessoverride (MMO_SIM_PERSONA_CLI/_API_BASE_URL) widerspricht dem -- "
-                "haelt sichtbar, kein automatisches Ueberschreiben in beide Richtungen."
-            )
+            # ZR-LOCAL-TOKENHOST Originprioritaet (GAPS.md "echte Override-/
+            # Originprioritaet", O6-B:B2): eine gueltige, bewusst gesetzte
+            # explizite CLI-/API-Alternative behaelt Vorrang und wird
+            # TATSAECHLICH verwendet -- auch nachdem bereits ein lokaler Default
+            # aufgeloest war (Fall d). Die lokale Wahl wird hier bewusst NICHT
+            # (erneut) angewandt und der Override NICHT ueberschrieben; der
+            # Aufrufer `factory()` konstruiert den Adapter direkt aus dem
+            # Override. Frueher hielt dieser Zweig stattdessen sichtbar mit
+            # RuntimeError und verwendete den gueltigen Override NICHT -- genau
+            # der in GAPS.md benannte Origin-Prioritaetsfehler. Ungueltige/
+            # unvollstaendige Overrides werden weiterhin fail-closed in
+            # `factory()` abgefangen (fehlendes Base-URL/Key/Model ->
+            # RuntimeError, nicht lesbares MAX_TOKENS -> ValueError), kein
+            # stiller Fallback, kein Providerwechsel. Der jetzt veraltete
+            # Origin-Marker unserer frueheren Selbstaufloesung wird entfernt
+            # (wir sind nicht mehr die Herkunft dieser Werte).
+            os.environ.pop(_LOCAL_TOKENHOST_RESOLVED_MARKER, None)
+            return False
         return False
     try:
         _setup_module._auto_load_owui_env()
     except Exception:
         pass
-    # (b) ab hier: KEIN echter Prozessoverride vor diesem Aufruf. Was
-    # `_auto_load_owui_env()` gerade eben aus der Datei geladen haben
-    # koennte (gespeicherter Altbestand), ist KEINE bewusste aktuelle Wahl
-    # -- eine aufgeloeste 'local'-Entscheidung ueberschreibt es unten
-    # bewusst (statt wie vorher sofort zurueckzukehren, weil die Variablen
-    # schon "gesetzt" aussehen).
+    # (b)/(c) ab hier: KEIN echter fremder Prozessoverride vor diesem
+    # Aufruf (entweder gar nichts gesetzt, ODER (c) nur unsere eigene
+    # vorherige Resolution). Was `_auto_load_owui_env()` gerade eben aus
+    # der Datei geladen haben koennte (gespeicherter Altbestand), ist KEINE
+    # bewusste aktuelle Wahl -- eine aufgeloeste 'local'-Entscheidung
+    # ueberschreibt es unten bewusst (statt wie vorher sofort
+    # zurueckzukehren, weil die Variablen schon "gesetzt" aussehen).
     provider, local_profile, hold_reason = _setup_module.resolve_model_provider()
     if provider == "hold":
         raise RuntimeError(
@@ -196,12 +293,33 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
             "Cloudfallback fuer die Persona-Anbindung."
         )
     if provider != "local":
+        # G3-Fix (02_NACHARBEIT.md Gruppe C, O6): ein zuvor LOKAL aufgeloester
+        # Prozess (self_resolved) kann per Rekey zwischenzeitlich auf
+        # cloud/legacy gewechselt haben -- die VON UNS gesetzten lokalen
+        # API-/Dollarmarker-Werte duerfen dann NICHT als stiller
+        # Prozessoverride fuer den jetzt wieder gueltigen Cloud-/LiteLLM-Weg
+        # im Environment liegen bleiben (sonst haelt
+        # `_maybe_default_local_persona_api_env` faelschlich fuer "bereits
+        # konfiguriert" UND ein gebauter PersonaApiDriver wuerde die ALTE
+        # lokale Billingmarkierung is_dollar_billed=False fuer eine jetzt
+        # wieder abgerechnete Cloud-Rolle tragen).
+        if self_resolved:
+            for _k in _LOCAL_TOKENHOST_PERSONA_ENV_KEYS:
+                os.environ.pop(_k, None)
+        os.environ.pop(_LOCAL_TOKENHOST_RESOLVED_MARKER, None)
         return False
     os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = local_profile.base_url
     os.environ["MMO_SIM_PERSONA_API_KEY"] = local_profile.api_key
     os.environ["MMO_SIM_PERSONA_API_MODEL"] = local_profile.model
     os.environ["MMO_SIM_PERSONA_API_MAX_TOKENS"] = str(local_profile.persona_max_tokens)
     os.environ["MMO_SIM_PERSONA_API_DOLLAR_BILLED"] = "0"
+    # N4-05-Fix: Fingerabdruck der SELBST gerade gesetzten Werte statt "1" --
+    # ein spaeterer Aufruf erkennt daran exakt, ob diese Werte seitdem von
+    # jemand anderem veraendert wurden (s. Docstring oben, Fall (d)).
+    os.environ[_LOCAL_TOKENHOST_RESOLVED_MARKER] = _persona_origin_snapshot(
+        local_profile.base_url, local_profile.api_key, local_profile.model,
+        str(local_profile.persona_max_tokens), "0",
+    )
     return True
 
 
@@ -518,6 +636,41 @@ def default_gm_transport_factory(
                     f"GM-Route haelt: Preset '{sl_model}' zeigt (noch) nicht bestaetigt auf den "
                     f"lokalen Upstream '{local_gm_profile.model}' -- kein automatischer Versand "
                     "mit lokaler Billingmarkierung."
+                )
+            # R4-Fix (01 §"Materielle Restfehler", 02 Block C): der
+            # vorige Check bestaetigte NUR, dass `base_model_id` NAMENTLICH
+            # auf `local_gm_profile.model` zeigt -- derselbe Modellname
+            # koennte aber an einer VOELLIG ANDEREN OWUI-Connection (falsche
+            # URL/falscher Token) registriert sein, ohne dass dieser
+            # Namensvergleich das je bemerkt ("Derselbe Modellname an
+            # falscher Connection"). `_verify_owui_connection_route` (derselbe
+            # nichtgenerative, bereits bestellte `/openai/verify`-Check wie
+            # in `_ensure_owui_local_connection`/B.5) bestaetigt zusaetzlich,
+            # dass GENAU die vom lokalen Profil konfigurierte
+            # URL+Token-Verbindung (`local_gm_profile.base_url`/`.api_key`)
+            # dieses Modell tatsaechlich bedient -- erst wenn Preset-Name
+            # UND die eindeutige Connection UEBEREINSTIMMEND bestaetigt sind,
+            # wird der Dollargate umgangen. `None` (Check selbst nicht
+            # lesbar beantwortet) haelt genauso sichtbar wie `False` -- kein
+            # stiller Versand mit lokaler Billingmarkierung bei einem
+            # unklaren Ergebnis.
+            try:
+                _gm_route_confirmed = _setup_module_gm._verify_owui_connection_route(
+                    _gm_owui_url, _gm_owui_key,
+                    local_gm_profile.base_url, local_gm_profile.api_key,
+                    local_gm_profile.model,
+                )
+            except Exception as _route_exc:
+                raise RuntimeError(
+                    f"GM-Route haelt: Connection-Pruefung fuer Preset '{sl_model}' fehlgeschlagen "
+                    f"({_route_exc.__class__.__name__}: {_route_exc})."
+                ) from _route_exc
+            if _gm_route_confirmed is not True:
+                raise RuntimeError(
+                    f"GM-Route haelt: Preset '{sl_model}' zeigt (noch) nicht bestaetigt auf die "
+                    f"eigene lokale Connection '{local_gm_profile.base_url}' -- kein automatischer "
+                    "Versand mit lokaler Billingmarkierung (derselbe Modellname an falscher "
+                    "Connection reicht nicht)."
                 )
             gm_is_dollar_billed = False
 

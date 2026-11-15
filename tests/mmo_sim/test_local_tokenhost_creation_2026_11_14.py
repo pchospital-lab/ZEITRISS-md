@@ -34,6 +34,7 @@ ausser den synthetischen Testfixtures. Pure Python, `unittest`."""
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 import tempfile
 import unittest
@@ -53,6 +54,8 @@ _LOCAL_PROFILE_PY = _SCRIPTS_DIR / "local_model_profile.py"
 # "import mmo_sim" faelschlich das gleichnamige Launcher-Shim
 # "scripts/mmo_sim.py" statt des echten Pakets ("mmo_sim is not a package").
 sys.path.insert(0, str(_REPO_ROOT))
+if str(_HERE) not in sys.path:
+    sys.path.insert(0, str(_HERE))
 
 
 def _load(name: str, path: Path):
@@ -71,8 +74,15 @@ from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.core import request_ledger  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
+from mmo_sim.core.compat_load_service import build_compat_repair_fn  # noqa: E402
 from mmo_sim.core.creation_service import ReplyResult, run_admitted_creation_dialog  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
+from mmo_sim.core.admission import _atomic_write_json, _status_path  # noqa: E402
+from mmo_sim.core import recovery_ops  # noqa: E402
+from mmo_sim.core.save_correction import (  # noqa: E402
+    ROLE_CREATION, load_record as load_correction_record,
+    pursue_single_figure_correction, send_correction_turn,
+)
 from mmo_sim.domain.zeitriss import catalog, onboarding  # noqa: E402
 from mmo_sim.domain.zeitriss.community_bootstrap import bootstrap_community  # noqa: E402
 from mmo_sim.domain.zeitriss.community_creation import (  # noqa: E402
@@ -88,6 +98,20 @@ lmp = _load("n1_local_model_profile_under_test", _LOCAL_PROFILE_PY)
 setup_mod = _load("n1_setup_under_test", _SETUP_PY)
 
 from _full_v7_fixture import full_v7_block_text, full_v7_save  # noqa: E402
+from _recovery_ops_r1_fixtures import apply_p5_grant, make_p5_drift_hold, make_synthetic_run  # noqa: E402
+from mmo_sim.lab.runner import request_stop  # noqa: E402
+
+
+def _set_budget_exhausted(run_dir: Path, *, max_usd: float = 0.01) -> None:
+    """O5-A.A3: wie `_recovery_ops_r2_fixtures.set_budget_exhausted` --
+    dieselbe `lab.status.json`-Manipulation, hier lokal nachgebaut, um
+    keine zusaetzliche Abhaengigkeit auf die (nicht in dieser Order-
+    Allowlist stehende) r2-Fixturedatei zu ziehen."""
+    path = _status_path(Path(run_dir))
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["max_usd"] = max_usd
+    data["usd_spent"] = max_usd
+    _atomic_write_json(path, data)
 
 _SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
 
@@ -377,6 +401,435 @@ class PersonaCommunityCreationDollarBillingTests(unittest.TestCase):
             )
         self.assertIn(outcome2.status, ("completed", "already_ready"), outcome2.reason)
         self.assertEqual(gm2.calls, 0, "Reentry auf eine bereits abgeschlossene Generation darf keinen neuen GM-Request senden.")
+
+
+class CorrectionAndCompatRepairDollarBillingTests(unittest.TestCase):
+    """O5-A (02_NACHARBEIT.md Gruppe D): belegt die D-Fixes in
+    `core.save_correction.send_correction_turn` und `core.compat_load_
+    service.build_compat_repair_fn`/`_sl_backed_repair` -- VOR dem Fix
+    gaben beide Funktionen `dollar_billed` nicht an `read_admission_block`/
+    `request_ledger.begin` weiter, blieben also am Default `True` haengen,
+    unabhaengig vom tatsaechlich uebergebenen GM-Transport. Ruft BEIDE neuen
+    Sendefunktionen real auf (keine Scheinabnahme durch Helper-only-Tests)."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.root = Path(self._tmp.name)
+        _, _, self.run_dir, _, _ = _new_env(self.root)
+
+    def test_send_correction_turn_local_transport_sends_at_max_usd_zero_ledger_reflects_dollar_billed_false(self):
+        write_test_profile(self.run_dir, max_usd=0.0)
+        gm = _GM(_v7_block("chrono-correction-local"), is_dollar_billed=False)
+        outcome = send_correction_turn(
+            self.run_dir, role="save_correction", table_id=None, section_id=None,
+            participant="human-correction", turn_idx=0,
+            outgoing_text="Bitte korrigiere das Format.", gm_transport=gm,
+        )
+        self.assertFalse(outcome.blocked, outcome.reason)
+        self.assertEqual(gm.calls, 1)
+        records = _ledger_role_records(self.run_dir, "save_correction")
+        self.assertTrue(records, "mindestens ein save_correction-Ledgereintrag erwartet.")
+        for rec in records:
+            self.assertFalse(rec["dollar_billed"], rec)
+
+    def test_send_correction_turn_cloud_legacy_blocked_at_max_usd_zero_no_bypass(self):
+        """Gegenfall: ein Transport OHNE `is_dollar_billed`-Attribut (alt/
+        Cloud) muss am Default `dollar_billed=True` haengen -- `max_usd=0.0`
+        blockiert VOR jedem physischen Versand, kein automatischer Bypass."""
+        write_test_profile(self.run_dir, max_usd=0.0)
+        gm = _LegacyGM(_v7_block("chrono-correction-cloud"))
+        outcome = send_correction_turn(
+            self.run_dir, role="save_correction", table_id=None, section_id=None,
+            participant="human-correction-cloud", turn_idx=0,
+            outgoing_text="Bitte korrigiere das Format.", gm_transport=gm,
+        )
+        self.assertTrue(outcome.blocked)
+        self.assertTrue((outcome.reason or "").startswith("admission_blocked:"), outcome.reason)
+        self.assertEqual(gm.calls, 0, "kein einziger echter Transportversuch -- das Gate stoppt VOR dem Versand.")
+
+    def test_compat_repair_fn_local_transport_sends_at_max_usd_zero_ledger_reflects_dollar_billed_false(self):
+        write_test_profile(self.run_dir, max_usd=0.0)
+        gm = _GM(_v7_block("chrono-compat-local"), is_dollar_billed=False)
+        repair = build_compat_repair_fn(
+            self.run_dir, repair_key="compat-local-test", char_id="chrono-compat-local",
+            participant_id="human-compat", gm_transport=gm,
+        )
+        # Kein "economy"-Schluessel -- die lokale, kostenlose Wallet-Projektion
+        # findet nichts zu aendern (`changed=False`) und faellt echt auf den
+        # SL-Request-Pfad durch, statt den Produktpfad zu umgehen.
+        result = repair({"foo": "bar"}, ["required: foo"])
+        self.assertIsNotNone(result, "SL-gestuetzte Reparatur haette trotz max_usd=0.0 real senden muessen.")
+        self.assertEqual(gm.calls, 1)
+        records = _ledger_role_records(self.run_dir, "save_compat_load_repair")
+        self.assertTrue(records, "mindestens ein save_compat_load_repair-Ledgereintrag erwartet.")
+        for rec in records:
+            self.assertFalse(rec["dollar_billed"], rec)
+
+    def test_compat_repair_fn_cloud_legacy_blocked_at_max_usd_zero_no_bypass(self):
+        write_test_profile(self.run_dir, max_usd=0.0)
+        gm = _LegacyGM(_v7_block("chrono-compat-cloud"))
+        repair = build_compat_repair_fn(
+            self.run_dir, repair_key="compat-cloud-test", char_id="chrono-compat-cloud",
+            participant_id="human-compat-cloud", gm_transport=gm,
+        )
+        result = repair({"foo": "bar"}, ["required: foo"])
+        self.assertIsNone(result, "blockierter Versuch liefert None (kontrolliertes HOLD oben), kein Bypass.")
+        self.assertEqual(gm.calls, 0, "kein einziger echter Transportversuch -- das Gate stoppt VOR dem Versand.")
+
+    def test_send_correction_turn_unclear_sent_in_flight_holds_no_retry_local_transport(self):
+        """O5-C.C1 (RELEASE-CASES.json): "offener/unklarer GM-Request bei
+        ... Correction/Compat bleibt HOLD, physischer Requestcounter
+        unveraendert beim Resume" -- derselbe Mechanismus wie
+        `test_w48_save_correction_2026_10_07.py::test_sc10_unclear_sent_in_
+        flight_never_retried_or_renumbered` (Crash zwischen `begin()`
+        [state=sent] und Antwort/Fehlerabschluss), hier erstmals mit einem
+        ECHTEN lokalen (`is_dollar_billed=False`) Transport: der zweite
+        Aufruf fuer DIESELBE Operationsidentitaet trifft `request_ledger.
+        begin()`s `OpenReservationExistsError` -- kein Retry, kein neuer
+        Requestdatensatz, der unklare Datensatz bleibt bytegleich."""
+        write_test_profile(self.run_dir, max_usd=0.0)
+        request_id = request_ledger.begin(
+            self.run_dir, role=ROLE_CREATION, content="Korrektur bitte.", reserved_usd=0.001,
+            turn_idx=1, participant="local-sc10", dollar_billed=False,
+        )
+        before = request_ledger.load_request(self.run_dir, request_id)
+        self.assertEqual(before["state"], "sent")
+
+        class _ExplodingLocalGm:
+            is_dollar_billed = False
+
+            def turn(self, *a, **k):
+                raise AssertionError("unklarer sent-Zustand darf NIE einen neuen Versand ausloesen.")
+
+        outcome = send_correction_turn(
+            self.run_dir, role=ROLE_CREATION, table_id=None, section_id=None,
+            participant="local-sc10", turn_idx=1, outgoing_text="Korrektur bitte.",
+            gm_transport=_ExplodingLocalGm(),
+        )
+        self.assertTrue(outcome.blocked)
+        self.assertTrue((outcome.reason or "").startswith("unclear_sent_in_flight"), outcome.reason)
+        after = request_ledger.load_request(self.run_dir, request_id)
+        self.assertEqual(after, before, "der unklare Requestdatensatz bleibt bytegleich -- kein Ueberschreiben.")
+        self.assertEqual(
+            len(request_ledger._all_records(self.run_dir)), 1,
+            "physischer Requestcounter unveraendert beim Resume -- kein zweiter Datensatz.",
+        )
+
+    def test_compat_repair_fn_unclear_sent_in_flight_holds_no_retry_local_transport(self):
+        """O5-C.C1-Nachzug: derselbe unklare-sent-Zustand, jetzt fuer den
+        Kompatibilitaets-Reparaturweg (`compat_load_service._sl_backed_
+        repair` implementiert dieselbe `request_ledger.begin`/
+        `OpenReservationExistsError`-Kette direkt, ohne `send_correction_
+        turn` zu teilen) -- lokaler Transport, kein Retry, kein zweiter
+        Datensatz."""
+        write_test_profile(self.run_dir, max_usd=0.0)
+        from mmo_sim.core.compat_load_service import ROLE_COMPAT_LOAD
+        request_id = request_ledger.begin(
+            self.run_dir, role=ROLE_COMPAT_LOAD, content="Korrektur bitte.", reserved_usd=0.001,
+            turn_idx=1, participant="local-compat-sc10", dollar_billed=False,
+        )
+        before = request_ledger.load_request(self.run_dir, request_id)
+        self.assertEqual(before["state"], "sent")
+
+        class _ExplodingLocalGm:
+            is_dollar_billed = False
+
+            def turn(self, *a, **k):
+                raise AssertionError("unklarer sent-Zustand darf NIE einen neuen Compat-Versand ausloesen.")
+
+        repair = build_compat_repair_fn(
+            self.run_dir, repair_key="compat-local-sc10", char_id="chrono-compat-sc10",
+            participant_id="local-compat-sc10", gm_transport=_ExplodingLocalGm(),
+        )
+        result = repair({"foo": "bar"}, ["required: foo"])
+        self.assertIsNone(result, "unklarer sent-Zustand liefert None (kontrolliertes HOLD), kein Bypass.")
+        after = request_ledger.load_request(self.run_dir, request_id)
+        self.assertEqual(after, before)
+        self.assertEqual(len(request_ledger._all_records(self.run_dir)), 1)
+
+    def test_send_correction_turn_durable_result_reused_after_crash_before_checkpoint_local_transport(self):
+        """O5-C.C2 (RELEASE-CASES.json): "erhaltenes dauerhaftes Ergebnis
+        vor Settlement/Publikation wird wiederverwendet; kein zweiter
+        Send" -- derselbe Mechanismus wie `test_sc09_durable_result_
+        reused_after_crash_before_checkpoint`, hier mit einem ECHTEN
+        lokalen Transport: nach einer bereits durabel empfangenen Antwort
+        (Crash NACH Antwort, VOR Checkpoint) liefert ein zweiter Aufruf fuer
+        DIESELBE Operationsidentitaet dasselbe Ergebnis wieder, OHNE den
+        Transport nochmal real anzusprechen."""
+        write_test_profile(self.run_dir, max_usd=0.0)
+        gm = _GM(_v7_block("chrono-correction-sc09-local"), is_dollar_billed=False)
+        first = send_correction_turn(
+            self.run_dir, role=ROLE_CREATION, table_id=None, section_id=None,
+            participant="local-sc09", turn_idx=1, outgoing_text="Korrektur bitte.", gm_transport=gm,
+        )
+        self.assertFalse(first.blocked)
+        self.assertEqual(gm.calls, 1)
+
+        class _ExplodingLocalGm:
+            is_dollar_billed = False
+
+            def turn(self, *a, **k):
+                raise AssertionError("bereits durabel empfangenes Ergebnis darf NIE einen zweiten Send ausloesen.")
+
+        second = send_correction_turn(
+            self.run_dir, role=ROLE_CREATION, table_id=None, section_id=None,
+            participant="local-sc09", turn_idx=1, outgoing_text="Korrektur bitte.",
+            gm_transport=_ExplodingLocalGm(),
+        )
+        self.assertFalse(second.blocked)
+        self.assertEqual(second.text, first.text)
+        self.assertEqual(second.request_id, first.request_id)
+        self.assertEqual(
+            len(request_ledger._all_records(self.run_dir)), 1,
+            "die Wiederverwendung erzeugt KEINEN zweiten Requestdatensatz.",
+        )
+
+    def test_compat_repair_fn_durable_result_reused_after_crash_before_checkpoint_local_transport(self):
+        """O5-C.C2-Nachzug: derselbe Wiederverwendungsmechanismus fuer den
+        Kompatibilitaets-Reparaturweg, lokaler Transport."""
+        write_test_profile(self.run_dir, max_usd=0.0)
+        gm = _GM(_v7_block("chrono-compat-sc09-local"), is_dollar_billed=False)
+        repair_key = "compat-local-sc09"
+        repair = build_compat_repair_fn(
+            self.run_dir, repair_key=repair_key, char_id="chrono-compat-sc09-local",
+            participant_id="local-compat-sc09", gm_transport=gm,
+        )
+        first = repair({"foo": "bar"}, ["required: foo"])
+        self.assertIsNotNone(first)
+        self.assertEqual(gm.calls, 1)
+
+        class _ExplodingLocalGm:
+            is_dollar_billed = False
+
+            def turn(self, *a, **k):
+                raise AssertionError("bereits durabel empfangenes Compat-Ergebnis darf NIE einen zweiten Send ausloesen.")
+
+        repair_again = build_compat_repair_fn(
+            self.run_dir, repair_key=repair_key, char_id="chrono-compat-sc09-local",
+            participant_id="local-compat-sc09", gm_transport=_ExplodingLocalGm(),
+        )
+        second = repair_again({"foo": "bar"}, ["required: foo"])
+        self.assertIsNotNone(second, "die durabel empfangene Antwort muss wiederverwendet werden, nicht None liefern.")
+        self.assertEqual(
+            len(request_ledger._all_records(self.run_dir)), 1,
+            "die Wiederverwendung erzeugt KEINEN zweiten Requestdatensatz.",
+        )
+
+
+class P5GrantVorabgateLocalDollarBillingTests(unittest.TestCase):
+    """O5-A.A3 (RELEASE-CASES.json): das P5-Grant-Vorabgate in
+    `save_correction.pursue_single_figure_correction` (save_correction.py
+    ~1005-1064, "P5-Marker"-Fix) -- EIN terminaler Drift-Hold erhält vom
+    Betreiber eine `recovery_ops.apply_p5`-Einmalautorisierung; der
+    anschliessende Vorabgate-Check (`read_admission_block`, VOR jedem
+    Grant-/`attempts_used`-Verbrauch) muss denselben `gm_transport.
+    is_dollar_billed`-Marker lesen wie jeder reguläre Korrektur-Versand
+    ("Markerweitergabe korrigieren" -- vorher hing dieser EINE Vorabgate-
+    Aufruf fest am Cloud-Default `dollar_billed=True`, unabhängig vom
+    tatsächlich übergebenen lokalen Transport). Stop/Deadline/Requestcap
+    bleiben davon UNABHÄNGIG wirksam -- blockieren sie, bleibt der P5-Grant
+    UNVERBRAUCHT (`consumed` unverändert, `attempts_used` unverändert)."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.root = Path(self._tmp.name)
+        self.run_dir = make_synthetic_run(self.root)
+
+    def _grant(self, repair_key: str) -> dict:
+        return json.loads(recovery_ops._p5_grant_path(self.run_dir, repair_key).read_text(encoding="utf-8"))
+
+    def test_local_dollar_billed_false_bypasses_exhausted_cloud_budget_consumes_grant_and_accepts(self):
+        p5 = make_p5_drift_hold(self.run_dir, persona_key="local-p5", char_id="chrono-local-p5")
+        apply_p5_grant(self.run_dir, p5["repair_key"])
+        grant_before = self._grant(p5["repair_key"])
+        self.assertFalse(grant_before["consumed"], "Grant muss vor dem Versuch unverbraucht sein.")
+
+        # Ein BEKANNT ERSCHOEPFTES Cloud-Budget (max_usd=usd_spent=0.0) --
+        # ein regulaerer Cloud-Transport (Default dollar_billed=True) wuerde
+        # hier am Dollargate blockieren (s. naechster Test). Der tatsaechlich
+        # uebergebene LOKALE Transport (is_dollar_billed=False) darf das
+        # Vorabgate trotzdem passieren.
+        _set_budget_exhausted(self.run_dir, max_usd=0.0)
+        valid_block_text = "```json\n" + json.dumps(p5["valid_save"]) + "\n```"
+        gm = _GM(valid_block_text, is_dollar_billed=False, output_limit_tokens=512)
+
+        outcome = pursue_single_figure_correction(
+            run_dir=self.run_dir, participant_id=p5["persona_key"], expected_chrononaut_id=p5["char_id"],
+            candidate_block=p5["invalid_candidate"], gm_transport=gm, role=ROLE_CREATION,
+        )
+        self.assertEqual(outcome.status, "accepted", outcome)
+        self.assertEqual(gm.calls, 1, "genau EIN echter P5-Zusatzversand, kein Doppelsend.")
+
+        grant_after = self._grant(p5["repair_key"])
+        self.assertTrue(grant_after["consumed"], "Grant muss nach erfolgreichem Vorabgate+Versand verbraucht sein.")
+
+        records = _ledger_role_records(self.run_dir, ROLE_CREATION)
+        self.assertTrue(records, "mindestens ein save_correction-Ledgereintrag fuer den P5-Zusatzversand erwartet.")
+        self.assertTrue(
+            any(not rec["dollar_billed"] for rec in records),
+            "der P5-Zusatzversand selbst muss den lokalen Marker (dollar_billed=False) tragen.",
+        )
+
+    def test_cloud_legacy_transport_blocked_by_same_exhausted_budget_grant_not_consumed(self):
+        """Gegenprobe (belegt, dass der obige Fix real greift, nicht nur
+        zufaellig durchlaeuft): DERSELBE erschoepfte Cloud-Budgetzustand,
+        aber ein Transport OHNE `is_dollar_billed`-Attribut (alt/Cloud,
+        Default `True`) -- muss am Vorabgate blockieren, VOR jedem
+        Grant-/`attempts_used`-Verbrauch."""
+        p5 = make_p5_drift_hold(self.run_dir, persona_key="cloud-p5", char_id="chrono-cloud-p5")
+        apply_p5_grant(self.run_dir, p5["repair_key"])
+        grant_before = self._grant(p5["repair_key"])
+        record_before = load_correction_record(self.run_dir, p5["repair_key"])
+
+        _set_budget_exhausted(self.run_dir, max_usd=0.0)
+        gm = _LegacyGM("unused -- darf nie gesendet werden")
+
+        outcome = pursue_single_figure_correction(
+            run_dir=self.run_dir, participant_id=p5["persona_key"], expected_chrononaut_id=p5["char_id"],
+            candidate_block=p5["invalid_candidate"], gm_transport=gm, role=ROLE_CREATION,
+        )
+        self.assertEqual(outcome.status, "hold")
+        self.assertTrue((outcome.reason or "").startswith("gate_blocked_before_consume:"), outcome.reason)
+        self.assertEqual(gm.calls, 0, "kein physischer Versand -- das Vorabgate stoppt VOR dem Grant-Verbrauch.")
+
+        grant_after = self._grant(p5["repair_key"])
+        record_after = load_correction_record(self.run_dir, p5["repair_key"])
+        self.assertEqual(grant_after, grant_before, "Grant darf sich bei Block NICHT veraendern (unverbrauchter Grant).")
+        self.assertEqual(
+            record_after["attempts_used"], record_before["attempts_used"],
+            "attempts_used darf sich bei Block NICHT veraendern.",
+        )
+
+    def test_stop_requested_blocks_local_dollar_billed_transport_grant_unconsumed(self):
+        """Stop/Deadline/Requestcap bleiben UNABHAENGIG vom lokalen
+        dollar_billed-Marker wirksam: ein bereits gesetzter Stop blockiert
+        den P5-Grant-Verbrauch GENAUSO fuer einen lokalen (dollar_billed=
+        False) Transport -- der Grant bleibt unverbraucht erhalten."""
+        p5 = make_p5_drift_hold(self.run_dir, persona_key="stop-p5", char_id="chrono-stop-p5")
+        apply_p5_grant(self.run_dir, p5["repair_key"])
+        grant_before = self._grant(p5["repair_key"])
+        record_before = load_correction_record(self.run_dir, p5["repair_key"])
+
+        request_stop(self.run_dir, "synthetic O5-A.A3 review stop")
+        gm = _GM("unused -- darf nie gesendet werden", is_dollar_billed=False)
+
+        outcome = pursue_single_figure_correction(
+            run_dir=self.run_dir, participant_id=p5["persona_key"], expected_chrononaut_id=p5["char_id"],
+            candidate_block=p5["invalid_candidate"], gm_transport=gm, role=ROLE_CREATION,
+        )
+        self.assertEqual(outcome.status, "hold")
+        self.assertTrue((outcome.reason or "").startswith("gate_blocked_before_consume:"), outcome.reason)
+        self.assertEqual(gm.calls, 0, "Stop blockiert VOR jedem physischen Versand, auch lokal/dollar-exempt.")
+
+        grant_after = self._grant(p5["repair_key"])
+        record_after = load_correction_record(self.run_dir, p5["repair_key"])
+        self.assertEqual(grant_after, grant_before, "Grant darf sich bei Stop-Block NICHT veraendern.")
+        self.assertEqual(record_after["attempts_used"], record_before["attempts_used"])
+
+
+class _TwoTurnGM:
+    """GM-Double mit EINEM echten Dialogschritt vor dem Save: Turn 1 liefert
+    eine Rueckfrage (KEIN Save), Turn 2 (nach der Menschenantwort) liefert
+    den fertigen v7-Block. Belegt O4-B.B1s "mindestens einen menschlichen
+    Dialogschritt vor gueltigem Save" -- `_GM` oben schliesst immer schon im
+    ERSTEN Turn ab."""
+
+    def __init__(self, question_text: str, save_block_text: str, *, is_dollar_billed=False):
+        self.question_text = question_text
+        self.save_block_text = save_block_text
+        self.is_dollar_billed = is_dollar_billed
+        self.output_limit_tokens = 4096
+        self.calls: list[tuple[int, str]] = []
+
+    def turn(self, idx, text, output_limit_tokens=None):
+        self.calls.append((idx, text))
+        content = self.question_text if len(self.calls) == 1 else self.save_block_text
+        return {
+            "content": content, "usage": {"prompt_tokens": 10, "completion_tokens": 5},
+            "sources": [], "latency_s": 0.01, "chat_id": "o4b1-tui-dispatch",
+        }
+
+
+class TuiSessionRealDispatchCreationTests(unittest.TestCase):
+    """O4-B.B1 (RELEASE-CASES.json): echte `TuiSession` mit synthetischen
+    Pfaden/input_fn/print_fn; `_cmd_new_or_switch_character` REAL
+    dispatchen (nicht `run_admitted_creation_dialog` direkt aufrufen, wie
+    die Klasse `HumanEquivalentCreationDollarBillingTests` oben es -- laut
+    eigenem Docstring bewusst eingestanden -- tut), mit mindestens einem
+    menschlichen Dialogschritt VOR dem gueltigen Save. Pass-1-Gap, hier
+    geschlossen (live gegen den echten `ui/tui.py`-Code verifiziert, nicht
+    aus Gedaechtnis angenommen):
+      - Fuer einen frischen Teilnehmer OHNE bestehende Figur beginnt
+        `_cmd_new_or_switch_character` den Erschaffungsdialog SOFORT (kein
+        separates "neu"/Umschaltwahl-Prompt -- das gibt es nur, wenn
+        bereits eine aktive Figur existiert, s. `test_r2_r6_fresh_start_
+        durable_identity_2026_10_02.py`).
+      - Das routenneutrale P5-Vorabgate (`_tui_early_gate_dollar_billed`,
+        `mmo_sim/ui/tui.py` Zeile ~57) liest `setup.resolve_model_provider()`
+        OHNE expliziten `env_path` -- braucht also ein ECHTES persistiertes
+        lokales Profil unter `Path.home()/.openwebui_env` (nicht nur ein
+        `gm_transport.is_dollar_billed`-Attribut), sonst haelt der Dialog
+        schon vor dem ersten GM-Call am Dollargate (`max_usd=0.0`)."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.root = Path(self._tmp.name)
+        self.schema_path, self.states_dir, self.run_dir, self.onboarding_dir, self.catalog_dir = _new_env(self.root)
+
+    def test_tui_session_real_dispatch_new_character_one_human_dialog_step_before_save(self):
+        from mmo_sim.ui.tui import TuiSession
+
+        write_test_profile(self.run_dir, max_usd=0.0)
+        fake_home = _write_fake_local_home(self.root)
+        gm = _TwoTurnGM(
+            "Wie soll deine Figur heissen und woher kommt sie?",
+            _v7_block("chrono-o4b1-tui", "O4B1Tui"),
+            is_dollar_billed=False,
+        )
+        printed: list[str] = []
+        with mock.patch.object(Path, "home", return_value=fake_home):
+            session = TuiSession(
+                self.onboarding_dir, self.catalog_dir, "human_o4b1",
+                input_fn=self._scripted_input([
+                    "Meine Figur heisst Nova und kommt aus dem Jahr 2142.",  # ECHTER menschlicher Dialogschritt
+                ]),
+                print_fn=printed.append,
+                run_dir=self.run_dir, states_dir=self.states_dir, schema_path=self.schema_path,
+                gm_transport_factory=lambda *_a, **_k: gm,
+            )
+            session._cmd_new_or_switch_character()
+
+        self.assertEqual(len(gm.calls), 2, "GENAU zwei reale GM-Turns: Rueckfrage, dann Save nach Menschenantwort.")
+        self.assertEqual(gm.calls[0][0], 0, "erster Turn ist der automatische Anker (turn_idx 0).")
+        self.assertEqual(
+            gm.calls[1][1], "Meine Figur heisst Nova und kommt aus dem Jahr 2142.",
+            "der zweite GM-Turn muss die ECHTE Menschenantwort als Text tragen (kein Auto-Advance).",
+        )
+        self.assertEqual(
+            catalog.active_chrononaut_id(self.catalog_dir, "human_o4b1"), "chrono-o4b1-tui",
+            "die ueber den echten TuiSession-Dispatch erschaffene Figur muss aktiv/gespeichert sein.",
+        )
+        records = _ledger_role_records(self.run_dir, "creation_dialog")
+        self.assertEqual(len(records), 2, "beide reale Turns (Anker+Menschenantwort) erzeugen je einen Ledgereintrag.")
+        for rec in records:
+            self.assertFalse(rec["dollar_billed"], rec)
+        self.assertFalse(
+            any("Traceback" in p for p in printed), "kein ungefangener Rohfehler im Spielertext.",
+        )
+
+    @staticmethod
+    def _scripted_input(lines):
+        it = iter(lines)
+
+        def _fn(prompt: str = "") -> str:
+            try:
+                return next(it)
+            except StopIteration:
+                raise EOFError()
+        return _fn
 
 
 if __name__ == "__main__":

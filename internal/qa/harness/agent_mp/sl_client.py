@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -33,6 +34,23 @@ SL_MODEL = "zeitriss-v426-uncut"
 KB_ID = "9ad88aff-f881-4920-9fca-75094294ead8"
 TIMEOUT_SL = 420
 PRICE_IN, PRICE_OUT = 3.0, 15.0  # Sonnet-4.6 USD/1M, nur Anzeige
+
+
+def _redact_secret_text(text: str, *secrets: str | None) -> str:
+    """A5 (02_NACHARBEIT.md Gruppe A5, O1-D): GM-Fehlerecho-Grenze an
+    `SLSession.turn` -- `owui_client.OWUIChat` (read-only/frozen an dieser
+    Grenze) kann im Fehlerfall den rohen Serverbody (bis 400 Zeichen) oder
+    eine formfalsche Response 1:1 in die Exceptionmeldung uebernehmen; ein
+    (ggf. absichtlich fehlerhaft antwortendes) Double kann darin den
+    konfigurierten OWUI-Key echoen. Entfernt bekannte Secretwerte, BEVOR
+    die Meldung weitergereicht wird -- Fehlertyp (Exceptionklasse),
+    HTTP-Status/Kategorietext (401/403/429/...) und Timeout-Erkennung
+    bleiben UNVERAENDERT erhalten, nur der Geheimnisanteil wird ersetzt."""
+    redacted = text
+    for secret in secrets:
+        if secret:
+            redacted = redacted.replace(secret, "[REDACTED]")
+    return re.sub(r"Bearer\s+\S+", "Bearer [REDACTED]", redacted)
 
 
 class SLSession:
@@ -102,7 +120,38 @@ class SLSession:
         additiv durchgereicht an `OWUIChat.say()` -- Default `None` sendet
         keinen `max_tokens`-Body-Key (unveraendertes P1-Verhalten).
         """
-        res = self.chat.say(user_text, output_limit_tokens=output_limit_tokens)
+        try:
+            res = self.chat.say(user_text, output_limit_tokens=output_limit_tokens)
+        except Exception as exc:
+            # A5 (02_NACHARBEIT.md Gruppe A5, O1-D): die bereits erlaubte
+            # GM-Fehlerecho-Grenze -- redigiert einen etwaigen Tokenecho in
+            # der Fehlermeldung, BEVOR sie weiterpropagiert. `from None`
+            # unterdrueckt zusaetzlich die (sonst gerenderte) Exceptionkette
+            # auf die urspruengliche, NICHT redigierte Ausnahme -- Typ/
+            # Status-/Quota-/Retrytext in der NEUEN Meldung bleiben
+            # unveraendert erhalten (reine Textredaktion, keine neue
+            # Kategorisierung).
+            # R7-Fix (01 §"Materielle Restfehler", 02 Block D): `type(exc)
+            # (text)` nimmt einen Ein-Argument-Konstruktor an -- fuer
+            # Exceptions mit mehreren Pflichtargumenten (z.B.
+            # `json.JSONDecodeError(msg, doc, pos)`, von einem durch den
+            # eingefrorenen OWUI-Unterbau bereits gekuerzten/formfalschen
+            # Echo ausgeloest) wirft die Rekonstruktion selbst ein
+            # `TypeError` und ersetzt die eigentliche, bereits redigierte
+            # Fehlermeldung durch eine nichtssagende Konstruktorbeschwerde.
+            # Faellt bei einem solchen Konstruktorfehler auf eine
+            # vereinbarte sichere Fehlerkategorie (`RuntimeError`) zurueck --
+            # HTTP-Status/Quota-/Retrytext bleiben im (redigierten)
+            # Nachrichtentext erhalten, nur die exakte Python-Klasse wechselt
+            # fuer diesen Randfall. Fuer jeden Ein-Argument-Exceptiontyp
+            # (die bisher tatsaechlich auftretenden Faelle) bleibt das
+            # Altverhalten bytegleich.
+            redacted_text = _redact_secret_text(str(exc), API_KEY)
+            try:
+                reraised = type(exc)(redacted_text)
+            except TypeError:
+                reraised = RuntimeError(redacted_text)
+            raise reraised from None
         ptok = res["usage"].get("prompt_tokens", 0)
         ctok = res["usage"].get("completion_tokens", 0)
         # ZR-LOCAL-TOKENHOST-N1-04: echte Tokenusage bleibt in JEDEM Fall
@@ -201,12 +250,21 @@ class SLSession:
             history.append({"role": "assistant", "content": rec.get("sl_content", "")})
             if rec.get("chat_id"):
                 last_chat_id = rec["chat_id"]
-            # ZR-LOCAL-TOKENHOST-N1-04: nur eine NUMERISCHE alte Cloud-Summe
-            # ist eine echte Rechnung, die ein jetzt wieder Cloud-fortgesetzter
-            # Abschnitt uebernehmen darf -- ein `None`/JSON-null-Eintrag einer
-            # frueher lokal (unpriced) protokollierten Zeile ist KEINE
-            # Kostensumme und wird nicht als `last_cum` uebernommen.
-            if isinstance(rec.get("cum_cost_usd"), (int, float)):
+            # ZR-LOCAL-TOKENHOST-N1-04/G9-Fix (02_NACHARBEIT.md Gruppe E,
+            # O5-D): nur eine NUMERISCHE alte Cloud-Summe ist eine echte
+            # Rechnung, die ein jetzt wieder Cloud-fortgesetzter Abschnitt
+            # uebernehmen darf. Ein `None`/JSON-null-Eintrag einer frueher
+            # lokal (unpriced) protokollierten Zeile ist bereits kein
+            # Treffer (`isinstance`-Check). G9: eine AELTERE, VOR diesem Fix
+            # geschriebene lokale Zeile konnte `cum_cost_usd` noch als
+            # numerische `0.0` statt `null` tragen (`dollar_billed=False`,
+            # aber zahlenwertig) -- ohne die zusaetzliche `dollar_billed`-
+            # Pruefung wuerde eine SPAETERE echte Cloud-Summe durch diese
+            # alte lokale Nullzeile wieder geloescht. `rec.get("dollar_billed",
+            # True)` behandelt einen fehlenden Schluessel (Record aelter als
+            # dieses Feld -- "die alte Welt kannte nur dollarbepflichtete
+            # Rollen", s. request_ledger.py) weiterhin als Cloud/priced.
+            if rec.get("dollar_billed", True) and isinstance(rec.get("cum_cost_usd"), (int, float)):
                 last_cum = rec["cum_cost_usd"]
         sess.chat.history = history
         if last_chat_id:

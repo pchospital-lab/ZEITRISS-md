@@ -248,17 +248,16 @@ def resolve_model_provider_choice(env_path: Optional[Path] = None):
     Session-only-Aktivierung). Bei 'local' mit ungueltigen/unvollstaendigen
     ZEITRISS_LOCAL_*-Feldern wird ebenfalls 'hold' mit Grund zurueckgegeben
     -- ein als 'local' gewaehlter, aber kaputter Profilzustand aktiviert
-    sich nie halb."""
+    sich nie halb.
+
+    N4-02: delegiert jetzt DIREKT an `setup_module.resolve_model_provider`
+    -- EIN gemeinsamer Resolver fuer setup.py UND launcher.py statt zwei
+    unabhaengig gepflegter Kopien derselben Prioritaetslogik. Das schliesst
+    automatisch den N4-03-Pendinggate (`setup._is_publish_pending`) und die
+    N4-02-Konfliktpruefung (`parse_env_text`-`conflicting_keys`) mit ein --
+    beide waeren sonst nur in `setup.py`, nicht hier, wirksam gewesen."""
     path = env_path if env_path is not None else _home_env_path()
-    env = setup_module._read_env_file(path)
-    provider = local_profile_module.resolve_provider(env)
-    if provider != local_profile_module.PROVIDER_LOCAL:
-        return provider, None, None
-    try:
-        profile = local_profile_module.resolve_local_profile(env)
-    except local_profile_module.ProfileHold as exc:
-        return "hold", None, str(exc)
-    return "local", profile, None
+    return setup_module.resolve_model_provider(path)
 
 
 def _openwebui_ok() -> tuple[bool, str]:
@@ -1116,6 +1115,55 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         print(dim("  Kein automatischer Cloudfallback — Menü [5] (API-Keys ändern) prüfen/korrigieren."))
         _pause()
         return
+    if provider_choice == "legacy":
+        # A1/O1-A-Fix (02_NACHARBEIT.md Gruppe A.1): der frische
+        # action_install-Bedienweg muss die Cloud/local-Erstwahl SELBST
+        # anbieten, BEVOR der Cloudkey-/LiteLLM-Zwang (OpenRouter-Key-Block
+        # unten) greift -- vorher loeste dieser Zweig nur eine BEREITS
+        # gespeicherte Wahl auf; 'legacy' (noch nie gewaehlt) fiel dadurch
+        # still auf den alten Cloudweg zurueck, ohne je zu fragen.
+        print()
+        print(bold("  Modell-Anbindung waehlen"))
+        print("   [c] Cloud (OpenRouter + LiteLLM-Cache, wie bisher)")
+        print("   [l] Lokaler eigener OpenAI-kompatibler Server (kein Cloudkey nötig)")
+        print()
+        erstwahl = _prompt("  Cloud oder lokal? (c/l) [c]: ").strip().lower()
+        if erstwahl in ("l", "local", "lokal"):
+            # A1: Rekey und Erstwahl verwenden DIESELBE Validierung/
+            # Persistenz, kein zweiter Store -- derselbe Feldabfrage-/
+            # Schreibhelfer wie action_rekeys().
+            home_env = Path.home() / ".openwebui_env"
+            existing_for_choice = _parse_env_file(home_env)
+            local_choice = _rekeys_choose_local_fields(existing_for_choice)
+            if local_choice is None:
+                _pause()
+                return
+            local_updates, local_remove = local_choice
+            if not home_env.is_file():
+                home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+            if not setup_module._update_env_file_preserving(home_env, local_updates, remove=local_remove):
+                print(red(f"  Lokales Profil konnte nicht gespeichert werden ({home_env})."))
+                _pause()
+                return
+            # Readback statt Behauptung -- erst nach bestaetigtem, gueltigem
+            # Readback wird die Erstwahl fuer DIESEN Lauf uebernommen.
+            reread_choice = setup_module._read_env_file(home_env)
+            try:
+                local_profile = local_profile_module.resolve_local_profile(reread_choice)
+            except local_profile_module.ProfileHold as exc:
+                print(red(f"  Geschrieben, aber Readback haelt: {exc}"))
+                _pause()
+                return
+            provider_choice = "local"
+            print(green(f"\n  ✓  Lokales Profil gespeichert in {home_env}"))
+        else:
+            provider_choice = "cloud"
+            home_env = Path.home() / ".openwebui_env"
+            if not home_env.is_file():
+                home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+            setup_module._update_env_file_preserving(
+                home_env, dict(local_profile_module.cloud_provider_updates())
+            )
     local_active = provider_choice == "local"
 
     # Externer OpenRouter-Key EINMAL verdeckt erfassen (WP1a/PF1.1): vorher
@@ -1454,27 +1502,23 @@ def _parse_env_file(path: Path) -> dict[str, str]:
     """Liest eine ~/.openwebui_env-artige Datei ein, tolerant gegen
     `export`-Prefix und Quotes. Gibt {KEY: VALUE} zurück (Kommentare/leere
     Zeilen ignoriert).
+
+    N4-02: delegiert jetzt an `local_profile_module.parse_env_text` --
+    derselbe Parservertrag wie `setup._read_env_file`/`_auto_load_owui_env`,
+    statt einer dritten unabhaengig gepflegten Kopie derselben export-/
+    Quote-Logik. Verwirft (wie bisher) das Konfliktsignal -- diese Funktion
+    liefert nur das flache dict fuer Anzeige-/Default-Zwecke, nicht fuer die
+    Providerentscheidung (die laeuft ueber `resolve_model_provider_choice`
+    -> `setup.resolve_model_provider`, das Konflikte selbst prueft).
     """
-    result: dict[str, str] = {}
     if not path.exists():
-        return result
+        return {}
     try:
-        for line in path.read_text("utf-8").splitlines():
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            if line.startswith("export "):
-                line = line[len("export "):]
-            if "=" not in line:
-                continue
-            k, v = line.split("=", 1)
-            k = k.strip()
-            v = v.strip().strip('"').strip("'")
-            if k:
-                result[k] = v
+        text = path.read_text("utf-8")
     except OSError:
-        pass
-    return result
+        return {}
+    values, _conflicts = local_profile_module.parse_env_text(text)
+    return values
 
 
 def _mask(secret: str) -> str:
@@ -1486,11 +1530,34 @@ def _mask(secret: str) -> str:
     return f"…{secret[-4:]}"
 
 
-def _rekeys_choose_local_fields(existing: dict) -> Optional[dict]:
+def _rekeys_choose_local_fields(existing: dict) -> Optional[tuple[dict, set]]:
     """ZR-LOCAL-TOKENHOST-L1: fragt die ZEITRISS_LOCAL_*-Felder ab und
     liefert das validierte `updates`-dict fuer `_update_env_file_preserving`
     (inkl. ZEITRISS_MODEL_PROVIDER=local), oder None bei Abbruch/Haltegrund.
-    Der Token wird nie ausgegeben -- auch nicht als Teilfingerprint."""
+    Der Token wird nie ausgegeben -- auch nicht als Teilfingerprint.
+
+    R1-Fix (01 §"Materielle Restfehler", 02 Block A): VORHER rief diese
+    Funktion `build_local_profile_updates` OHNE `gm_max_tokens`/
+    `persona_max_tokens` auf -- das setzte bei JEDEM Rekey (auch bei reinem
+    Enter/Behalten fuer URL/Modell/Token) die vorhandenen wirksamen GM-/
+    Persona-Limits stillschweigend auf die Defaults 4096/400 zurueck, selbst
+    wenn bewusst eine strengere Grenze gespeichert war. JETZT: die
+    vorhandenen Limits werden aus `existing` gelesen und durchgereicht --
+    `build_local_profile_updates` validiert sie wie jeden anderen Wert
+    (faellt bei fehlendem/leerem Feld selbst auf ihre Defaults zurueck).
+
+    R1-Fix: `-` fuer die optionale OWUI-Backend-Basis-URL ist jetzt eine
+    erklaerte Entfernen-Aktion (identisch zum in `action_rekeys` bereits
+    dokumentierten Bedienweg "`-` eingeben = vorhandenen Wert loeschen") --
+    VORHER wurde der Literalstring `-` als URL-Eingabewert weitergereicht
+    und scheiterte an der URL-Validierung. `owui_base=None` signalisiert
+    `_update_env_file_preserving` ueber `remove` (s. Aufrufer `action_rekeys`
+    unten) die tatsaechliche Entfernung des persistierten Keys, nicht nur
+    eine geleerte Eingabe.
+
+    R1-Fix: kein `.strip()` mehr auf dem eingegebenen Token -- ein
+    akzeptierter Tokenwert muss exakt roundtrippen, keine stille
+    Transformation an einem Secretfeld."""
     from getpass import getpass
 
     print()
@@ -1501,22 +1568,44 @@ def _rekeys_choose_local_fields(existing: dict) -> Optional[dict]:
     model = _prompt(f"  Served-Model-ID (exakt, kein Prefix raten) [{default_model}]: ").strip() or default_model
     existing_token = existing.get(local_profile_module.ENV_KEY_API_KEY, "")
     token_hint = " (Enter = behalten)" if existing_token else ""
-    token_input = getpass(f"  Lokaler Token{token_hint} (Eingabe unsichtbar): ").strip()
+    token_input = getpass(f"  Lokaler Token{token_hint} (Eingabe unsichtbar): ")
     token = token_input or existing_token
     default_owui_base = existing.get(local_profile_module.ENV_KEY_OWUI_BASE_URL, "")
-    owui_base = _prompt(
-        f"  Abweichende OWUI-Backend-Basis-URL, falls nötig [{default_owui_base or 'leer = gleiche Adresse'}]: "
-    ).strip() or default_owui_base or None
+    owui_base_input = _prompt(
+        f"  Abweichende OWUI-Backend-Basis-URL, falls nötig [{default_owui_base or 'leer = gleiche Adresse'}]"
+        f"{' (`-` = entfernen)' if default_owui_base else ''}: "
+    ).strip()
+    if owui_base_input == "-":
+        owui_base = None
+        remove_owui_base = True
+    else:
+        owui_base = owui_base_input or default_owui_base or None
+        remove_owui_base = False
+    existing_gm_max = existing.get(local_profile_module.ENV_KEY_GM_MAX_TOKENS) or None
+    existing_persona_max = existing.get(local_profile_module.ENV_KEY_PERSONA_MAX_TOKENS) or None
     try:
-        return local_profile_module.build_local_profile_updates(
+        updates = local_profile_module.build_local_profile_updates(
             base_url=base_url,
             model=model,
             api_key=token,
             owui_base_url=owui_base,
+            gm_max_tokens=existing_gm_max,
+            persona_max_tokens=existing_persona_max,
         )
     except local_profile_module.ProfileHold as exc:
         print(red(f"  Lokales Profil ungueltig: {exc}"))
         return None
+    remove: set = set()
+    if remove_owui_base:
+        # R1-Fix: die erklaerte Entfernen-Aktion loescht den PERSISTIERTEN
+        # Key tatsaechlich (ueber das `remove`-Set von
+        # `_update_env_file_preserving`, identisches Muster zum bereits
+        # bestehenden `-`-Loeschweg fuer OPENROUTER_API_KEY in
+        # `action_rekeys` unten), nicht nur dessen Eingabetext -- `updates`
+        # selbst darf den Key dafuer nicht (mehr) enthalten.
+        updates.pop(local_profile_module.ENV_KEY_OWUI_BASE_URL, None)
+        remove.add(local_profile_module.ENV_KEY_OWUI_BASE_URL)
+    return updates, remove
 
 
 def action_rekeys() -> None:
@@ -1579,15 +1668,16 @@ def action_rekeys() -> None:
     local_wanted = provider_input == local_profile_module.PROVIDER_LOCAL
 
     if local_wanted:
-        local_updates = _rekeys_choose_local_fields(existing)
-        if local_updates is None:
+        local_choice = _rekeys_choose_local_fields(existing)
+        if local_choice is None:
             _pause()
             return
+        local_updates, local_remove = local_choice
         local_updates["OPENWEBUI_URL"] = url
         local_updates["OPENWEBUI_API_KEY"] = owui_key
         if not home_env.is_file():
             home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
-        if not setup_module._update_env_file_preserving(home_env, local_updates):
+        if not setup_module._update_env_file_preserving(home_env, local_updates, remove=local_remove):
             print(red(f"  Keys konnten nicht gespeichert werden ({home_env})."))
             _pause()
             return
