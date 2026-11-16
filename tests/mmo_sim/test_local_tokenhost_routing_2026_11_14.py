@@ -14,11 +14,19 @@ Belegt gegen echte Produktfunktionen:
 IO ausschliesslich an der urllib-Transportgrenze kontrolliert (`urllib.
 request.urlopen` monkeygepatcht) -- kein echtes Netzwerk, kein Docker, keine
 echte Modellantwort. Fixtureadressen/Keys sind erkennbar unecht (04).
-`APIClient.test_model` wird als Fallenstelle instrumentiert (muss 0 bleiben)."""
+`APIClient.test_model` wird als Fallenstelle instrumentiert (muss 0 bleiben).
+
+G4 (O3-C.C1, Nachzug 2026-11-16): `LocalTokenhostNegativeCallerTests` ergaenzt
+die bestellte negative Caller-Batterie (401/403/404/501/Timeout/leerer
+Body/falscher Body-falsche Modellliste/fehlendes Modell) an den WIRKLICHEN
+lokalen Aufrufern `scripts/setup.py::run_setup` (`/openai/verify`) und
+`scripts/launcher.py::_finish_installed_connection` (Connection+Rewire) --
+nicht nur am direkt gerufenen Helper `_verify_owui_connection_route`."""
 from __future__ import annotations
 
 import hashlib
 import importlib.util
+import io
 import json
 import os
 import re
@@ -29,6 +37,7 @@ import unittest
 import unittest.mock as mock
 import urllib.error
 import urllib.parse
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
@@ -1922,6 +1931,257 @@ class O2AStatefulDoubleAllFiveCallersTests(unittest.TestCase):
     @staticmethod
     def collection_of_matches(double: "_StatefulOwuiDouble", fid: str, kb_id: str) -> bool:
         return double.collection_of.get(fid) == kb_id
+
+
+# ─── G4 (O3-C.C1): echte negative Caller-Batterie ───────────────────────
+# Die Helper-Batterie oben (547-592) belegt NUR den direkt gerufenen Helper
+# `_verify_owui_connection_route`. Hier laufen dieselben acht Fehlerklassen
+# (401, 403, 404, 501, Timeout, leerer Body, falscher Body/falsche
+# Modellliste, fehlendes Modell) je an EINEM der zwei wirklichen lokalen
+# Setup-/Fortsetzungsaufrufer -- enge Zuordnung, keine 2x8-Matrix:
+#   - `run_setup` -> `/openai/verify` (Route-Verify, setup.py ~5220):
+#     401, 403, Timeout, falscher Body/falsche Modellliste.
+#   - `_finish_installed_connection` -> Connection (`_ensure_owui_local_
+#     connection`, `/openai/config`, launcher.py:709): 404, leerer Body.
+#   - `_finish_installed_connection` -> Rewire (`_rewire_preset_base_
+#     model_local`, Model-GET/Update, launcher.py:713): fehlendes Modell,
+#     501.
+# Produktive Connection-/Verify-/Rewirelogik und Rueckgabebehandlung laufen
+# REAL; nur der HTTP-Transportrand (`urllib.request.urlopen`) ist gedoubelt.
+# Die Providerwahl selbst (`resolve_model_provider`/`resolve_model_provider_
+# choice`) wird auf ('local', profile, None) fixiert -- derselbe bereits
+# etablierte Mockpunkt wie im positiven Mehrcallertest oben fuer den
+# launcher-Aufrufer (`O2AStatefulDoubleAllFiveCallersTests`); das ist die
+# Providerwahl, nicht die hier geprüfte Verify-/Connection-/Rewirelogik.
+
+
+class LocalTokenhostNegativeCallerTests(unittest.TestCase):
+    """01_NATIVER_AUFTRAG.md §F / 02_ABNAHME_UND_RUECKGABE.md §3 (G4): jede
+    geforderte Fehlerklasse am wirklichen lokalen Caller, tatsaechlicher
+    Fehlerpunkt, sichtbarer HOLD/Stopp und KEINE Erfolgs-/Probeweiter-
+    leitung -- ein direktes False/None des Verifyhelpers allein (s. oben,
+    547-592) reicht dafuer nicht."""
+
+    def setUp(self):
+        self._tmp_dirs: list[Path] = []
+        self._env_backup = dict(os.environ)
+
+    def tearDown(self):
+        for d in self._tmp_dirs:
+            shutil.rmtree(d, ignore_errors=True)
+        os.environ.clear()
+        os.environ.update(self._env_backup)
+
+    def _tmp_dir(self, prefix: str) -> Path:
+        d = Path(tempfile.mkdtemp(prefix=f"o3c-{prefix}-"))
+        self._tmp_dirs.append(d)
+        return d
+
+    # ── Caller 1: run_setup -> /openai/verify ─────────────────────────
+
+    def _g4_run_setup_script(self, verify_final):
+        """Die ersten fuenf Antworten sind die erfolgreichen Vorgaenger
+        (Health, Auth, Connection GET/POST/Readback-GET) -- identisch zum
+        Erfolgspfad in `test_ensure_local_connection_creates_with_separate_
+        local_token` oben. Erst die SECHSTE (`/openai/verify`) traegt die
+        injizierte Fehlerklasse -- der Fehler darf nicht unbemerkt schon
+        vorher (Healthcheck/Auth/Connection) auftreten."""
+        return _UrlopenScript([
+            (200, {}),                                                 # 1) GET /api/config (check_health)
+            (200, {}),                                                 # 2) GET /api/v1/files/ (check_auth)
+            (200, {"OPENAI_API_BASE_URLS": [], "OPENAI_API_KEYS": [], "OPENAI_API_CONFIGS": {}}),  # 3) Connection GET
+            (200, {}),                                                 # 4) Connection POST update
+            (200, {"OPENAI_API_BASE_URLS": [FAKE_LOCAL_BASE], "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN],
+                   "OPENAI_API_CONFIGS": {"0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL]}},
+                   "ENABLE_OPENAI_API": True}),                         # 5) Connection Readback GET
+            verify_final,                                              # 6) POST /openai/verify -- injizierte Klasse
+        ])
+
+    def _g4_run_setup_with(self, verify_final):
+        """Treibt `run_setup` real bis exakt zum `/openai/verify`-Aufruf;
+        liefert (SystemExit-Code, zusammengefuehrter stdout+stderr-Text,
+        Script)."""
+        repo = self._tmp_dir("repo")
+        _o2a_build_repo(repo)
+        cfg = {
+            "project": "G4Proj", "kb_name": "G4Proj Wissensspeicher",
+            "masterprompt": "meta/masterprompt.md", "params": {}, "suggestions": ["Start"],
+            "default_variant": "default",
+            "variants": {"default": {"preset_id": FAKE_PRESET_ID, "preset_name": "G4Proj", "cache": False}},
+        }
+        tmp_home = self._tmp_dir("home")
+        os.environ["OPENWEBUI_URL"] = FAKE_OWUI_URL
+        os.environ["OPENWEBUI_API_KEY"] = FAKE_OWUI_KEY
+        script = self._g4_run_setup_script(verify_final)
+        buf = io.StringIO()
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch.object(setup_mod, "resolve_model_provider", return_value=("local", _profile(), None)), \
+             mock.patch.object(setup_mod, "_auto_load_owui_env", return_value=False), \
+             mock.patch("urllib.request.urlopen", script):
+            with redirect_stdout(buf), redirect_stderr(buf):
+                with self.assertRaises(SystemExit) as ctx:
+                    setup_mod.run_setup(repo, cfg, {"assume_yes": True})
+            exit_code = ctx.exception.code
+        return exit_code, buf.getvalue(), script
+
+    def _assert_run_setup_halted_at_verify(self, exit_code, out, script):
+        self.assertEqual(exit_code, 1, "run_setup muss bei nicht bestaetigtem Verify mit Exitcode 1 halten.")
+        self.assertIn(
+            "kein Fallback, kein Completion-Versuch", out,
+            "die reale run_setup-Fehlermeldung am Verify-Halt muss erscheinen (nicht nur ein generischer Halt).",
+        )
+        self.assertNotIn("Setup abgeschlossen", out, "kein Erfolgsschild nach einem nicht bestaetigten Verify.")
+        self.assertEqual(
+            len(script.calls), 6,
+            "Fehler darf nicht unbemerkt schon beim Healthcheck/Auth/Connection auftreten -- "
+            "muss genau am sechsten (Verify-)Aufruf landen, nicht frueher.",
+        )
+        last = script.calls[-1]
+        self.assertEqual(last["method"], "POST")
+        self.assertTrue(last["url"].endswith("/openai/verify"), last["url"])
+        self.assertNotIn(
+            "/chat/completions", json.dumps(script.calls),
+            "keine Probe-/Completion-Weiterleitung nach nicht bestaetigtem Verify.",
+        )
+
+    def test_run_setup_local_verify_401_403_halts_no_fallback_no_completion(self):
+        for code in (401, 403):
+            exc = urllib.error.HTTPError(f"{FAKE_OWUI_URL}/openai/verify", code, "err", {}, None)
+            exc.read = lambda: b"{}"
+            exit_code, out, script = self._g4_run_setup_with(exc)
+            self._assert_run_setup_halted_at_verify(exit_code, out, script)
+
+    def test_run_setup_local_verify_timeout_halts_no_fallback_no_completion(self):
+        exit_code, out, script = self._g4_run_setup_with(urllib.error.URLError("timed out"))
+        self._assert_run_setup_halted_at_verify(exit_code, out, script)
+
+    def test_run_setup_local_verify_malformed_model_list_halts_no_fallback_no_completion(self):
+        """'falscher Body bzw. falsche Modellliste': `/openai/verify`
+        antwortet 200 mit einem lesbaren, aber NICHT modellistenfoermigen
+        Koerper -- derselbe Fall wie im Helpertest `test_verify_local_
+        route_none_on_timeout_and_malformed_body` oben, hier aber ueber den
+        echten `run_setup`-Aufrufer statt per Direktaufruf des Helpers."""
+        exit_code, out, script = self._g4_run_setup_with((200, {"unexpected_shape": True}))
+        self._assert_run_setup_halted_at_verify(exit_code, out, script)
+
+    # ── Caller 2: _finish_installed_connection -> Connection/Rewire ───
+
+    def _g4_finish_installed_with(self, config_get_final):
+        profile = _profile()
+        tmp_home = self._tmp_dir("home")
+        os.environ["OPENWEBUI_URL"] = FAKE_OWUI_URL
+        os.environ["OPENWEBUI_API_KEY"] = FAKE_OWUI_KEY
+        cfg = {"variants": {}}
+        script = _UrlopenScript([config_get_final])
+        printed: list[str] = []
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch.object(launcher_mod, "resolve_model_provider_choice",
+                                return_value=("local", profile, None)), \
+             mock.patch("urllib.request.urlopen", script), \
+             mock.patch.object(launcher_mod, "print",
+                                side_effect=lambda *a, **k: printed.append(" ".join(map(str, a)))):
+            launcher_mod._finish_installed_connection(cfg)
+        return printed, script
+
+    def _g4_finish_installed_rewire_with(self, rewire_responses):
+        profile = _profile()
+        tmp_home = self._tmp_dir("home")
+        os.environ["OPENWEBUI_URL"] = FAKE_OWUI_URL
+        os.environ["OPENWEBUI_API_KEY"] = FAKE_OWUI_KEY
+        cfg = {"variants": {"default": {"preset_id": FAKE_PRESET_ID, "preset_name": "Proj", "cache": True}}}
+        script = _UrlopenScript([
+            (200, {"OPENAI_API_BASE_URLS": [], "OPENAI_API_KEYS": [], "OPENAI_API_CONFIGS": {}}),  # Connection GET
+            (200, {}),                                                                              # Connection POST
+            (200, {"OPENAI_API_BASE_URLS": [FAKE_LOCAL_BASE], "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN],
+                   "OPENAI_API_CONFIGS": {"0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL]}},
+                   "ENABLE_OPENAI_API": True}),                                                      # Connection Readback
+            *rewire_responses,
+        ])
+        printed: list[str] = []
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch.object(launcher_mod, "resolve_model_provider_choice",
+                                return_value=("local", profile, None)), \
+             mock.patch("urllib.request.urlopen", script), \
+             mock.patch.object(launcher_mod, "print",
+                                side_effect=lambda *a, **k: printed.append(" ".join(map(str, a)))):
+            launcher_mod._finish_installed_connection(cfg)
+        return printed, script
+
+    def _assert_finish_installed_not_confirmed(self, printed, script):
+        joined = " ".join(printed)
+        self.assertNotIn(
+            "aktiv und bestätigt", joined,
+            "ohne bestaetigte Connection/Rewire darf _finish_installed_connection NIE "
+            "'aktiv und bestätigt' melden.",
+        )
+        self.assertNotIn("/chat/completions", json.dumps(script.calls), "keine Probe-/Completion-Weiterleitung.")
+
+    def test_finish_installed_connection_owui_config_404_holds_no_active_confirmation(self):
+        """404 an Connection: `GET /openai/config` (launcher.py:709 ->
+        setup.py:2193) scheitert mit HTTP 404 -- `_ensure_owui_local_
+        connection` haelt VOR jeder Mutation (kein POST), `_finish_
+        installed_connection` kehrt OHNE 'aktiv und bestätigt' zurueck."""
+        exc = urllib.error.HTTPError(f"{FAKE_OWUI_URL}/openai/config", 404, "err", {}, None)
+        exc.read = lambda: b"{}"
+        printed, script = self._g4_finish_installed_with(exc)
+        self._assert_finish_installed_not_confirmed(printed, script)
+        joined = " ".join(printed)
+        self.assertIn("nicht bestätigt werden", joined)
+        self.assertEqual(len(script.calls), 1, "Halt am ersten (GET /openai/config) Aufruf -- kein POST.")
+        self.assertEqual(script.calls[0]["method"], "GET")
+
+    def test_finish_installed_connection_owui_config_empty_body_holds_no_active_confirmation(self):
+        """'leerer Body' an Connection: `/openai/config` antwortet 200,
+        aber der Koerper ist kein brauchbares Config-Objekt (JSON `null`
+        statt eines dicts) -- `_ensure_owui_local_connection`s eigene
+        `isinstance(data, dict)`-Pruefung (setup.py:2194) muss das wie
+        einen unerreichbaren Endpoint behandeln, NICHT wie eine leere,
+        aber gueltige Connection-Liste (die mit `{}` bereits an anderer
+        Stelle in dieser Datei als Erfolgsfall gilt, s. Fresh-Case oben)."""
+        printed, script = self._g4_finish_installed_with((200, None))
+        self._assert_finish_installed_not_confirmed(printed, script)
+        joined = " ".join(printed)
+        self.assertIn("nicht bestätigt werden", joined)
+        self.assertEqual(len(script.calls), 1)
+
+    def test_finish_installed_connection_rewire_missing_model_holds_no_active_confirmation(self):
+        """'fehlendes Modell' an Rewire: Connection ist bestaetigt, aber
+        das Preset selbst ist am Rewire-Ziel nicht (mehr) vorhanden
+        (`client.get_model(preset_id)` -> HTTP 404, setup.py:2391f) --
+        `_rewire_preset_base_model_local` meldet 'nicht gefunden — Setup
+        zuerst.' statt einer Erfolgsmeldung; `_finish_installed_
+        connection` kehrt OHNE 'aktiv und bestätigt' zurueck."""
+        exc = urllib.error.HTTPError(f"{FAKE_OWUI_URL}/api/v1/models/model", 404, "err", {}, None)
+        exc.read = lambda: b"{}"
+        printed, script = self._g4_finish_installed_rewire_with([exc])
+        self._assert_finish_installed_not_confirmed(printed, script)
+        joined = " ".join(printed)
+        self.assertIn("unvollständig", joined)
+        self.assertIn("nicht gefunden", joined)
+
+    def test_finish_installed_connection_rewire_update_501_holds_no_active_confirmation(self):
+        """501 an Rewire: Connection ist bestaetigt, das Preset existiert
+        (`get_model` 200), aber der eigentliche Update-Request (`POST
+        /api/v1/models/model/update`, setup.py:2437/821-831) scheitert mit
+        HTTP 501 -- `upsert_model` meldet `ok=False`, Rewire bleibt
+        unvollstaendig; `_finish_installed_connection` kehrt OHNE 'aktiv
+        und bestätigt' zurueck."""
+        existing_preset = {
+            "id": FAKE_PRESET_ID, "base_model_id": "openrouter/old-cloud-model",
+            "meta": {"capabilities": {"vision": True}},
+            "params": {"max_tokens": 64000, "system": "Du bist die SL."},
+        }
+        exc = urllib.error.HTTPError(f"{FAKE_OWUI_URL}/api/v1/models/model/update", 501, "err", {}, None)
+        exc.read = lambda: b"{}"
+        printed, script = self._g4_finish_installed_rewire_with([
+            (200, existing_preset),                      # 1) get_model (initial read)
+            (200, {"data": [{"id": FAKE_PRESET_ID}]}),    # 2) list_models (exists-check)
+            exc,                                          # 3) POST update -> 501
+        ])
+        self._assert_finish_installed_not_confirmed(printed, script)
+        joined = " ".join(printed)
+        self.assertIn("unvollständig", joined)
+        self.assertIn("Update fehlgeschlagen", joined)
 
 
 if __name__ == "__main__":

@@ -26,6 +26,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import pwd
 import shutil
 import socket
 import stat
@@ -99,12 +100,36 @@ if _REAL_BODY:
         sys.path.insert(0, str(_REPO_ROOT))
     from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
     from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
+    # G2 (O6-A.A1/A2): die beiden ECHTEN gemeinsamen Default-Factories --
+    # kein Hand-Bau von GmOwuiTransport/PersonaApiDriver mit erwartetem
+    # `is_dollar_billed` mehr, das Billing MUSS aus der echten Route/
+    # Factory-Ableitung stammen (s. `_o6a_run_cycle` unten).
+    from mmo_sim.adapters.factories import (  # noqa: E402
+        default_gm_transport_factory, default_persona_driver_factory,
+    )
+    from mmo_sim.adapters import factories as o6a_factories_mod  # noqa: E402
 
     def _load(name: str, path: Path):
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         sys.modules[name] = mod  # dataclasses-Introspektion braucht den Modulnamen im Registry
         spec.loader.exec_module(mod)
+        return mod
+
+    def _o6a_load_mmo_sim_module():
+        """G2: laedt `scripts/mmo_sim.py` (den TUI-Shim, NICHT das
+        gleichnamige Paket `mmo_sim/`) per explizitem Dateipfad, identische
+        Technik wie `test_f1_gm_route_threading_2026_11_09.py:_load_mmo_sim_
+        entrypoint` -- `sys.prefix` wird kurz auf das erwartete `.venv`
+        gelegt, damit der venv-Bootstrap des Moduls (`ensure_running_in_
+        project_venv`) beim Laden als No-Op durchlaeuft statt real `os.execv`/
+        `pip install` auszuloesen."""
+        spec = importlib.util.spec_from_file_location(
+            "o6a_mmo_sim_entrypoint_under_test", _REPO_ROOT / "scripts" / "mmo_sim.py",
+        )
+        mod = importlib.util.module_from_spec(spec)
+        with mock.patch.object(sys, "prefix", str(_REPO_ROOT / ".venv")):
+            spec.loader.exec_module(mod)
         return mod
 
     # B1-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B1): diese drei `_load`-
@@ -155,6 +180,144 @@ class _O6AFakeResponse:
 
     def __exit__(self, *_a):
         return False
+
+
+class _O6AStatefulOwuiDouble:
+    """G2 (O6-A.A1/A2): zustandsbehaftetes In-Memory-OWUI-Double fuer den
+    echten Cloud->Local->Cloud-Setup-/Connection-/Rewire-Zyklus -- identisches
+    Muster zu `_StatefulOwuiDouble` in
+    `test_local_tokenhost_routing_2026_11_14.py` (dort fuer O2-A), hier auf
+    GENAU die Raender beschraenkt, die `_ensure_owui_local_connection`/
+    `_ensure_owui_litellm_connection`/`_rewire_preset_base_model_local`/
+    `_rewire_preset_base_model`/`_verify_owui_connection_route`/
+    `_verify_owui_connection_unique_and_enabled`/`APIClient.upsert_model`
+    tatsaechlich beruehren. JEDE Zustandsaenderung entsteht ausschliesslich
+    aus einem echten `__call__` (also einem echten `urllib.request.urlopen`-
+    Request eines produktiven Aufrufers) -- kein Feld wird von aussen direkt
+    gesetzt."""
+
+    def __init__(self, owui_url: str):
+        self.owui_url = owui_url.rstrip("/")
+        self.connection: dict = {
+            "ENABLE_OPENAI_API": True, "OPENAI_API_BASE_URLS": [],
+            "OPENAI_API_KEYS": [], "OPENAI_API_CONFIGS": {},
+        }
+        self.models: dict = {}
+        self.calls: list[tuple] = []
+
+    def seed_preset(self, preset_id: str, *, base_model_id: str, kb_id: str,
+                     system: str = "", max_tokens: int = 64000) -> None:
+        """Anfangsfixture (01_NATIVER_AUFTRAG.md §D: "bestehendes eigenes
+        Preset mit cache=True, aktueller KB, unveraenderte Preset-ID") --
+        NUR der Startzustand, keine Laufzeitmutation."""
+        self.models[preset_id] = {
+            "id": preset_id, "name": preset_id, "base_model_id": base_model_id,
+            "is_active": True,
+            "meta": {"capabilities": {"vision": True}, "knowledge": [{"id": kb_id}]},
+            "params": {"system": system, "max_tokens": max_tokens},
+        }
+
+    def seed_connection(self, *, url: str, key: str, model_ids: list[str],
+                         tags: list[str]) -> None:
+        """Anfangsfixture fuer einen bereits bestehenden Cloud-/LiteLLM-
+        Anschluss ("vorhandener Cloudanschluss/Autowire") -- NUR Startzustand."""
+        idx = str(len(self.connection["OPENAI_API_BASE_URLS"]))
+        self.connection["OPENAI_API_BASE_URLS"].append(url)
+        self.connection["OPENAI_API_KEYS"].append(key)
+        self.connection["OPENAI_API_CONFIGS"][idx] = {
+            "enable": True, "tags": list(tags), "prefix_id": "",
+            "connection_type": "external", "auth_type": "bearer",
+            "model_ids": list(model_ids),
+        }
+
+    def _pinned_model_ids(self) -> set:
+        ids: set = set()
+        for cfg in self.connection["OPENAI_API_CONFIGS"].values():
+            if cfg.get("enable"):
+                ids.update(cfg.get("model_ids") or [])
+        return ids
+
+    def __call__(self, req, timeout=None, context=None):
+        full = req.full_url
+        if not full.startswith(self.owui_url):
+            raise AssertionError(f"O6A-Double: unerwartete Fremd-URL (kein echtes Netz erwartet): {full}")
+        path = full[len(self.owui_url):]
+        method = req.get_method()
+        raw = req.data
+        if raw is None:
+            data = None
+        else:
+            try:
+                data = json.loads(raw)
+            except (json.JSONDecodeError, UnicodeDecodeError, TypeError):
+                data = raw
+        self.calls.append((method, path))
+        status, body = self._dispatch(method, path, data)
+        body_bytes = body if isinstance(body, bytes) else json.dumps(body).encode("utf-8")
+        return _O6AFakeResponse(status, body_bytes)
+
+    def _dispatch(self, method: str, path: str, data):
+        # ── Connection-Config (roh von _ensure_owui_local_connection /
+        # _ensure_owui_litellm_connection) ──────────────────────────────
+        if method == "GET" and path == "/openai/config":
+            return 200, dict(self.connection)
+        if method == "POST" and path == "/openai/config/update":
+            payload = data if isinstance(data, dict) else {}
+            self.connection = {
+                "ENABLE_OPENAI_API": payload.get("ENABLE_OPENAI_API", True),
+                "OPENAI_API_BASE_URLS": list(payload.get("OPENAI_API_BASE_URLS") or []),
+                "OPENAI_API_KEYS": list(payload.get("OPENAI_API_KEYS") or []),
+                "OPENAI_API_CONFIGS": dict(payload.get("OPENAI_API_CONFIGS") or {}),
+            }
+            return 200, {}
+        if method == "POST" and path == "/openai/verify":
+            # `_verify_owui_connection_route`: nichtgenerativer Check GENAU
+            # der per `url`+`key` adressierten Connection -- die zurueck-
+            # gegebene "Modell-Liste" sind deren real gepinnte model_ids
+            # (aus einer echten vorherigen /openai/config/update-Mutation),
+            # kein separat gesetztes Feld.
+            payload = data if isinstance(data, dict) else {}
+            target_url, target_key = payload.get("url"), payload.get("key")
+            urls = self.connection["OPENAI_API_BASE_URLS"]
+            keys = self.connection["OPENAI_API_KEYS"]
+            matches = [i for i, u in enumerate(urls) if u == target_url]
+            if len(matches) != 1:
+                return 200, {"data": []}
+            idx = matches[0]
+            if idx >= len(keys) or keys[idx] != target_key:
+                return 200, {"data": []}
+            cfg = dict(self.connection["OPENAI_API_CONFIGS"].get(str(idx)) or {})
+            if not cfg.get("enable"):
+                return 200, {"data": []}
+            return 200, {"data": [{"id": m} for m in (cfg.get("model_ids") or [])]}
+        # ── aggregiertes Listing (APIClient.upsert_model()s exists-Check
+        # UND _wait_for_owui_model_visible): echte Presets UND real
+        # gepinnte Backend-Modelle, identisch zu OWUIs eigener Aggregation.
+        if method == "GET" and path == "/api/models":
+            ids = set(self.models.keys()) | self._pinned_model_ids()
+            return 200, {"data": [{"id": m} for m in ids]}
+        # ── Models/Presets ──────────────────────────────────────────────
+        if method == "GET" and path.startswith("/api/v1/models/model?id="):
+            pid = urllib.parse.unquote(path.split("=", 1)[1])
+            preset = self.models.get(pid)
+            if preset is None:
+                return 404, {"detail": "not found"}
+            return 200, dict(preset)
+        if method == "POST" and path == "/api/v1/models/create":
+            pid = data["id"]
+            self.models[pid] = dict(data)
+            return 200, {"id": pid}
+        if method == "POST" and path == "/api/v1/models/model/update":
+            pid = data["id"]
+            self.models[pid] = dict(data)
+            return 200, {"id": pid}
+        # ── GM-Chat (sl_client.py/owui_client.py:_post) ──────────────────
+        if method == "POST" and path == "/api/chat/completions":
+            return 200, {
+                "choices": [{"message": {"content": "GM-Antwort (O6-A)."}}],
+                "usage": {"prompt_tokens": 7, "completion_tokens": 3},
+            }
+        return 404, {"detail": f"O6A-Double: unbehandelt {method} {path}"}
 
 
 class LocalTokenhostProfileTests(unittest.TestCase):
@@ -1177,168 +1340,336 @@ class LocalTokenhostProfileTests(unittest.TestCase):
             self.assertNotIn(FAKE_TOKEN, json.dumps(before))
             self.assertNotIn(FAKE_TOKEN, json.dumps(after))
 
-        # ─── O6-A (RELEASE-CASES.json): Cloud->Local->Cloud am SELBEN
-        # Preset, echte Requestbodies/Upstream/Billing BEIDER Rollen, UND
-        # die zwei oben bereits verbrauchten frischen Testkindprozesse --
-        # A2 ausdruecklich: "reines Env-Umschreiben/Reread reicht nicht".
-        # Der LOKALE Abschnitt unten liest `env_path_a` -- das ECHTE
-        # lokale Profil, das der frische Schreiberkindprozess oben gerade
-        # erzeugt hat (kein von diesem Elternprozess selbst geschriebener
-        # Text) -- und treibt damit ECHTE (nur am urllib-Transportrand
-        # gefakte) GM-/Persona-Requests, nicht nur einen erneuten Read.
+        # ─── O6-A (RELEASE-CASES.json, G2): echter Cloud->Local->Cloud-
+        # Setup-/Rewire-/Factory-Zusammenhang -- im SELBEN Parentprozess
+        # UND in zwei vorab geplanten FRISCHEN O6-A-Testkindprozessen
+        # (Vertragsanforderung, s. `_o6a_run_cycle`/`_o6a_run_in_two_fresh_
+        # children`). Die obigen Schreib-/Lesekinder bleiben unveraendert
+        # erhalten -- das hier ist eine eng ergaenzte, GETRENNTE Kinderpaar-
+        # Anforderung fuer den Setup-/Rewire-/Factoryzyklus selbst.
+        self._o6a_run_cycle("parent")
+        self._o6a_run_in_two_fresh_children()
+
+    def _o6a_run_cycle(self, tag: str) -> None:
+        """G2 (O6-A.A1/A2, 01_NATIVER_AUFTRAG.md §D): EIN bestehendes
+        eigenes Preset (cache=True, aktuelle KB, unveraenderte Preset-ID)
+        durchlaeuft Cloud->Local->Cloud. Die Wahl wird je Phase ueber die
+        ECHTEN Bedienwege `launcher_mod.action_rekeys()` (persistiert) und
+        `launcher_mod._finish_installed_connection(cfg)` (Localzweig:
+        `_ensure_owui_local_connection` + `_rewire_preset_base_model_local`;
+        Cloudzweig: vorhandener Cloudanschluss + `ensure_litellm_autowire`)
+        angewandt -- JEDE Double-Zustandsaenderung (Connection-Pins,
+        Preset-`base_model_id`) entsteht dadurch AUSSCHLIESSLICH aus
+        echten HTTP-Mutationsrequests dieser produktiven Aufrufer, nie aus
+        einem direkt gesetzten Feld. Nach jeder Phase lesen die ECHTE
+        `scripts/mmo_sim.py:_resolve_active_gm_route` UND BEIDE
+        `mmo_sim/adapters/factories.py`-Default-Factories den dann
+        gueltigen Zustand und bauen die ECHTEN Adapter (`GmOwuiTransport`/
+        `PersonaApiDriver`) -- deren `is_dollar_billed` ist eine abgeleitete
+        Folge, nie ein Konstruktorargument dieses Tests."""
         owui_url = "http://127.0.0.1:19080"
-        owui_key = "owui-o6a-key-not-secret"
-        shared_preset_id = "zeitriss-o6a-shared-preset"
-        shared_kb_id = "kb-o6a-shared"
+        owui_key = f"owui-o6a-{tag}-key-not-secret"
+        preset_id = f"zeitriss-o6a-{tag}-preset"
+        kb_id = f"kb-o6a-{tag}"
         cloud_persona_base = "https://openrouter.example/api/v1"
-        cloud_persona_model = "anthropic/claude-o6a-cloud"
-        cloud_persona_key = "sk-or-o6a-cloud-not-secret"
-        cloud_upstream_model = "openrouter/o6a-cloud-upstream"
+        cloud_persona_model = f"anthropic/claude-o6a-{tag}-cloud"
+        cloud_persona_key = f"sk-or-o6a-{tag}-cloud-not-secret"
+        cloud_upstream_model = f"openrouter/o6a-{tag}-cloud-upstream"
+        local_base_url = FAKE_BASE_URL
+        local_model = FAKE_MODEL
+        local_token = FAKE_TOKEN
+        litellm_master_key = f"sk-litellm-o6a-{tag}-not-secret"
+        litellm_url = "http://127.0.0.1:4000/v1"
 
-        upstream_state = {"base_model_id": cloud_upstream_model}
-        o6a_calls: list[tuple] = []
+        double = _O6AStatefulOwuiDouble(owui_url)
+        double.seed_preset(
+            preset_id, base_model_id=cloud_upstream_model, kb_id=kb_id,
+            system=f"Du bist die SL (O6-A {tag}).",
+        )
+        # "vorhandener Cloudanschluss/Autowire" (02_ABNAHME_UND_RUECKGABE.md
+        # §3 G2-Zeile): die LiteLLM-Connection ist bereits idempotent
+        # etabliert, BEVOR Leg 1 beginnt -- Anfangsfixture, keine Mutation.
+        double.seed_connection(
+            url=litellm_url, key=litellm_master_key,
+            model_ids=[cloud_upstream_model], tags=["cached"],
+        )
 
-        def _o6a_router(req, timeout=None, context=None):
+        cfg = {
+            "project": f"O6AProj-{tag}", "default_variant": "default",
+            "variants": {"default": {
+                "preset_id": preset_id, "preset_name": f"O6AProj-{tag}", "cache": True,
+                "model": cloud_upstream_model, "litellm_routing": cloud_upstream_model,
+            }},
+            "litellm": {"routing_model": cloud_upstream_model, "port": 4000},
+        }
+
+        tmp_route_repo = self._tmp_dir(f"o6a-{tag}-route-repo")
+        (tmp_route_repo / "setup.json").write_text(json.dumps(cfg), encoding="utf-8")
+        tmp_home = self._tmp_dir(f"o6a-{tag}-home")
+        tmp_litellm_repo = self._tmp_dir(f"o6a-{tag}-litellm-repo")
+        (tmp_litellm_repo / "scripts" / "litellm").mkdir(parents=True)
+        (tmp_litellm_repo / "scripts" / "litellm" / ".env").write_text(
+            f"LITELLM_MASTER_KEY={litellm_master_key}\n", encoding="utf-8",
+        )
+        data_dir = self._tmp_dir(f"o6a-{tag}-gm-data")
+
+        mmo_sim_module = _o6a_load_mmo_sim_module()
+        persona_calls: list[tuple] = []
+
+        def _router(req, timeout=None, context=None):
             url = req.full_url
-            o6a_calls.append((req.get_method(), url))
-            model_url = f"{owui_url}/api/v1/models/model?id={urllib.parse.quote(shared_preset_id, safe='')}"
-            if url == model_url:
-                body = {
-                    "id": shared_preset_id, "base_model_id": upstream_state["base_model_id"],
-                    "meta": {"knowledge": [{"id": shared_kb_id}]},
-                }
-                return _O6AFakeResponse(200, json.dumps(body).encode("utf-8"))
-            if url == f"{owui_url}/api/chat/completions":
-                return _O6AFakeResponse(200, json.dumps({
-                    "choices": [{"message": {"content": "GM-Antwort (O6-A)."}}],
-                    "usage": {"prompt_tokens": 7, "completion_tokens": 3},
-                }).encode("utf-8"))
+            if url.startswith(owui_url):
+                return double(req, timeout=timeout, context=context)
             if url == f"{cloud_persona_base}/chat/completions":
+                persona_calls.append(("cloud", url))
                 return _O6AFakeResponse(200, json.dumps({
                     "choices": [{"message": {"content": "Cloud-Persona-Antwort (O6-A)."}}],
                     "usage": {"prompt_tokens": 6, "completion_tokens": 2},
                 }).encode("utf-8"))
-            if url == f"{FAKE_BASE_URL}/chat/completions":
+            if url == f"{local_base_url}/chat/completions":
+                persona_calls.append(("local", url))
                 return _O6AFakeResponse(200, json.dumps({
                     "choices": [{"message": {"content": "Local-Persona-Antwort (O6-A)."}}],
                     "usage": {"prompt_tokens": 5, "completion_tokens": 2},
                 }).encode("utf-8"))
-            raise AssertionError(f"unerwarteter Request im O6-A-Zyklus: {req.get_method()} {url}")
+            raise AssertionError(f"unerwarteter Request im O6-A-Zyklus ({tag}): {req.get_method()} {url}")
 
-        data_dir = self._tmp_dir("o6a-gm-data")
         saved_env = dict(os.environ)
-        os.environ["OPENWEBUI_URL"] = owui_url
-        os.environ["OPENWEBUI_API_KEY"] = owui_key
+        for key in (
+            "OPENWEBUI_URL", "OPENWEBUI_API_KEY", "OPENROUTER_API_KEY",
+            "MMO_SIM_PERSONA_CLI", "MMO_SIM_PERSONA_API_BASE_URL", "MMO_SIM_PERSONA_API_KEY",
+            "MMO_SIM_PERSONA_API_MODEL", "MMO_SIM_PERSONA_API_MAX_TOKENS",
+            "MMO_SIM_PERSONA_API_DOLLAR_BILLED", "MMO_SIM_GM_TRANSPORT_DOUBLE",
+            o6a_factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER,
+        ):
+            os.environ.pop(key, None)
         try:
-            self._run_o6a_cloud_local_cloud_cycle(
-                env_path_a, owui_url, owui_key, shared_preset_id, shared_kb_id,
-                cloud_persona_base, cloud_persona_model, cloud_persona_key, cloud_upstream_model,
-                upstream_state, o6a_calls, _o6a_router, data_dir,
-            )
+            with mock.patch.object(Path, "home", return_value=tmp_home), \
+                 mock.patch.object(launcher_mod, "REPO", tmp_litellm_repo), \
+                 mock.patch("urllib.request.urlopen", _router):
+
+                client = setup_mod.APIClient(owui_url, owui_key)
+
+                def _assert_upstream(expected_model: str, msg: str) -> None:
+                    preset = client.get_model(preset_id)
+                    self.assertIsNotNone(preset, msg)
+                    self.assertEqual(preset["base_model_id"], expected_model, msg)
+                    self.assertEqual(
+                        preset["id"], preset_id,
+                        "Preset-ID bleibt ueber alle drei Legs unveraendert (Preset != Upstreammodell).",
+                    )
+                    kb_ids = {e.get("id") for e in (preset.get("meta") or {}).get("knowledge") or []}
+                    self.assertIn(kb_id, kb_ids, "dieselbe aktuelle KB bleibt am Preset gebunden.")
+
+                def _persist_and_finish(leg_label, provider, prompts, getpass_answers):
+                    prompts_iter = iter(prompts)
+                    with mock.patch.object(launcher_mod, "_prompt",
+                                            side_effect=lambda *_a, **_k: next(prompts_iter)), \
+                         mock.patch("getpass.getpass", side_effect=iter(getpass_answers)), \
+                         mock.patch.object(launcher_mod, "_pause", return_value=None):
+                        launcher_mod.action_rekeys()
+                    reread = setup_mod._read_env_file(tmp_home / ".openwebui_env")
+                    self.assertEqual(
+                        reread.get(lmp.ENV_KEY_PROVIDER), provider,
+                        f"{leg_label}: Providerwahl muss ueber die echte action_rekeys persistiert sein.",
+                    )
+                    launcher_mod._finish_installed_connection(cfg)
+
+                def _run_gm_and_persona(leg_label, expect_billed, table_id, persona_key, persona_text):
+                    sl_model, resolved_kb_id = mmo_sim_module._resolve_active_gm_route(tmp_route_repo)
+                    self.assertEqual(sl_model, preset_id, leg_label)
+                    self.assertEqual(resolved_kb_id, kb_id, leg_label)
+                    gm_factory = default_gm_transport_factory(
+                        data_dir, _REPO_ROOT, sl_model=sl_model, kb_id=resolved_kb_id,
+                    )
+                    gm_transport = gm_factory(table_id)
+                    self.assertEqual(
+                        gm_transport.is_dollar_billed, expect_billed,
+                        f"{leg_label}: GM-Billing muss aus der echten Route/Factory-Ableitung stammen.",
+                    )
+                    gm_result = gm_transport.turn(
+                        1, f"Runde ({leg_label}).", output_limit_tokens=gm_transport.output_limit_tokens,
+                    )
+                    self.assertEqual(gm_result["content"], "GM-Antwort (O6-A).")
+
+                    persona_factory = default_persona_driver_factory(data_dir)
+                    persona_driver = persona_factory(persona_key)
+                    self.assertEqual(
+                        persona_driver.is_dollar_billed, expect_billed,
+                        f"{leg_label}: Persona-Billing muss aus der echten Factory-Ableitung stammen.",
+                    )
+                    decision = persona_driver.decide({"system": "s", "user": "u"})
+                    self.assertEqual(decision.text, persona_text)
+
+                # ── Leg 1: Cloud (vor dem lokalen Abschnitt) ─────────────
+                # Deliberate Override (eigene Cloud-Persona-Konfiguration
+                # des Spielers, unabhaengig vom lokalen Tokenhost-Resolver --
+                # Originprioritaet, s. factories.py) -- NICHT vom lokalen
+                # Resolver gesetzt.
+                os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = cloud_persona_base
+                os.environ["MMO_SIM_PERSONA_API_KEY"] = cloud_persona_key
+                os.environ["MMO_SIM_PERSONA_API_MODEL"] = cloud_persona_model
+                _persist_and_finish(
+                    f"{tag}-leg1-cloud", lmp.PROVIDER_CLOUD,
+                    prompts=[owui_url, "cloud"],
+                    getpass_answers=[owui_key, cloud_persona_key],
+                )
+                _assert_upstream(cloud_upstream_model, f"{tag}-leg1: Preset zeigt auf den Cloud-Upstream.")
+                _run_gm_and_persona(
+                    f"{tag}-leg1-cloud", True,
+                    f"o6a-{tag}-cloud-1", f"o6a-{tag}-persona-cloud-1",
+                    "Cloud-Persona-Antwort (O6-A).",
+                )
+
+                # ── Leg 2: Local -- unser eigener Cloud-Override wird
+                # entfernt, damit die echte lokale Autoaufloesung greift
+                # (sonst wuerde der bewusste Override weiterhin Vorrang
+                # behalten und NIE lokal aufloesen).
+                os.environ.pop("MMO_SIM_PERSONA_API_BASE_URL", None)
+                os.environ.pop("MMO_SIM_PERSONA_API_KEY", None)
+                os.environ.pop("MMO_SIM_PERSONA_API_MODEL", None)
+                _persist_and_finish(
+                    f"{tag}-leg2-local", lmp.PROVIDER_LOCAL,
+                    prompts=[owui_url, "local", local_base_url, local_model, ""],
+                    getpass_answers=[owui_key, local_token],
+                )
+                _assert_upstream(
+                    local_model, f"{tag}-leg2: Preset zeigt nach dem echten Rewire auf den lokalen Upstream.",
+                )
+                _run_gm_and_persona(
+                    f"{tag}-leg2-local", False,
+                    f"o6a-{tag}-local", f"o6a-{tag}-persona-local",
+                    "Local-Persona-Antwort (O6-A).",
+                )
+
+                # ── Leg 3: Cloud (nach dem lokalen Abschnitt) -- derselbe
+                # Preset muss durch den echten Autowire-Rueckwechsel wieder
+                # auf den Cloud-Upstream zeigen. Das erneute Setzen des
+                # Cloud-Overrides HIER (nicht ein manuelles Loeschen des
+                # vom lokalen Resolver gesetzten Markers) loest die
+                # PRODUKTIVE Bereinigung der lokalen Persona-Marker in
+                # `_maybe_default_local_tokenhost_persona_env` aus --
+                # genau der produktive Ruckwechsel, der bewiesen werden soll.
+                os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = cloud_persona_base
+                os.environ["MMO_SIM_PERSONA_API_KEY"] = cloud_persona_key
+                os.environ["MMO_SIM_PERSONA_API_MODEL"] = cloud_persona_model
+                _persist_and_finish(
+                    f"{tag}-leg3-cloud", lmp.PROVIDER_CLOUD,
+                    prompts=[owui_url, "cloud"],
+                    getpass_answers=[owui_key, cloud_persona_key],
+                )
+                _assert_upstream(
+                    cloud_upstream_model, f"{tag}-leg3: echter Autowire-Ruecklauf auf den Cloud-Upstream.",
+                )
+                _run_gm_and_persona(
+                    f"{tag}-leg3-cloud", True,
+                    f"o6a-{tag}-cloud-2", f"o6a-{tag}-persona-cloud-2",
+                    "Cloud-Persona-Antwort (O6-A).",
+                )
         finally:
             os.environ.clear()
             os.environ.update(saved_env)
 
-    def _run_o6a_cloud_local_cloud_cycle(
-        self, env_path_a, owui_url, owui_key, shared_preset_id, shared_kb_id,
-        cloud_persona_base, cloud_persona_model, cloud_persona_key, cloud_upstream_model,
-        upstream_state, o6a_calls, _o6a_router, data_dir,
-    ) -> None:
-        with mock.patch("urllib.request.urlopen", _o6a_router):
-            # ── Leg 1: Cloud (VOR dem lokalen Abschnitt), dasselbe Preset ──
-            client = setup_mod.APIClient(owui_url, owui_key)
-            preset = client.get_model(shared_preset_id)
-            self.assertEqual(preset["base_model_id"], cloud_upstream_model)
-
-            gm_cloud_1 = GmOwuiTransport(
-                _SL_CLIENT_PY, data_dir, table_id="o6a-cloud-1",
-                sl_model=shared_preset_id, kb_id=shared_kb_id, is_dollar_billed=True,
-            )
-            self.assertTrue(gm_cloud_1.is_dollar_billed)
-            gm_result_cloud_1 = gm_cloud_1.turn(1, "Cloud-Runde vor dem Wechsel.")
-            self.assertEqual(gm_result_cloud_1["content"], "GM-Antwort (O6-A).")
-
-            persona_cloud_1 = PersonaApiDriver(
-                PersonaApiConfig(base_url=cloud_persona_base, api_key=cloud_persona_key,
-                                  model=cloud_persona_model, is_dollar_billed=True),
-                "o6a-persona-cloud-1",
-            )
-            self.assertTrue(persona_cloud_1.is_dollar_billed)
-            decision_cloud_1 = persona_cloud_1.decide({"system": "s", "user": "u"})
-            self.assertEqual(decision_cloud_1.text, "Cloud-Persona-Antwort (O6-A).")
-
-            # ── Leg 2: Local -- `env_path_a` ist das ECHTE, vom frischen
-            # Schreiberkindprozess oben geschriebene Profil (A2: kein
-            # eigener Env-Rewrite durch diesen Elternprozess).
-            provider, local_profile, hold_reason = setup_mod.resolve_model_provider(env_path_a)
-            self.assertEqual(provider, "local", hold_reason)
-            self.assertEqual(local_profile.base_url, FAKE_BASE_URL)
-            self.assertEqual(local_profile.model, FAKE_MODEL)
-            self.assertEqual(local_profile.api_key, FAKE_TOKEN)
-
-            # Serverseitiger Upstream-Wechsel desselben Presets (wie ein
-            # echtes `_rewire_preset_base_model_local` ihn bewirken wuerde) --
-            # der naechste Re-GET bestaetigt den geaenderten Upstream.
-            upstream_state["base_model_id"] = local_profile.model
-            preset_after_switch = client.get_model(shared_preset_id)
-            self.assertEqual(
-                preset_after_switch["base_model_id"], local_profile.model,
-                "derselbe Preset muss nach dem Wechsel den LOKALEN Upstream zeigen.",
-            )
-
-            gm_local = GmOwuiTransport(
-                _SL_CLIENT_PY, data_dir, table_id="o6a-local",
-                sl_model=shared_preset_id, kb_id=shared_kb_id,
-                gm_output_limit_tokens=local_profile.gm_max_tokens, is_dollar_billed=False,
-            )
-            self.assertFalse(gm_local.is_dollar_billed)
-            gm_result_local = gm_local.turn(1, "Lokale Runde.", output_limit_tokens=gm_local.output_limit_tokens)
-            self.assertEqual(gm_result_local["content"], "GM-Antwort (O6-A).")
-
-            persona_local = PersonaApiDriver(
-                PersonaApiConfig(base_url=local_profile.base_url, api_key=local_profile.api_key,
-                                  model=local_profile.model, max_tokens=local_profile.persona_max_tokens,
-                                  is_dollar_billed=False),
-                "o6a-persona-local",
-            )
-            self.assertFalse(persona_local.is_dollar_billed)
-            decision_local = persona_local.decide({"system": "s", "user": "u"})
-            self.assertEqual(decision_local.text, "Local-Persona-Antwort (O6-A).")
-
-            # ── Leg 3: Cloud (NACH dem lokalen Abschnitt) -- derselbe
-            # Preset zeigt wieder auf den Cloud-Upstream.
-            upstream_state["base_model_id"] = cloud_upstream_model
-            preset_after_switch_back = client.get_model(shared_preset_id)
-            self.assertEqual(preset_after_switch_back["base_model_id"], cloud_upstream_model)
-
-            gm_cloud_2 = GmOwuiTransport(
-                _SL_CLIENT_PY, data_dir, table_id="o6a-cloud-2",
-                sl_model=shared_preset_id, kb_id=shared_kb_id, is_dollar_billed=True,
-            )
-            self.assertTrue(gm_cloud_2.is_dollar_billed)
-            gm_cloud_2.turn(1, "Cloud-Runde nach dem Rueckwechsel.")
-
-            persona_cloud_2 = PersonaApiDriver(
-                PersonaApiConfig(base_url=cloud_persona_base, api_key=cloud_persona_key,
-                                  model=cloud_persona_model, is_dollar_billed=True),
-                "o6a-persona-cloud-2",
-            )
-            self.assertTrue(persona_cloud_2.is_dollar_billed)
-            persona_cloud_2.decide({"system": "s", "user": "u"})
-
-        # Dasselbe Preset (dieselbe "model"-Feldkennung im Request-Body)
-        # in ALLEN drei GM-Beinen -- "am selben Preset", kein neues Preset
+        # Dasselbe Preset (dieselbe Preset-ID im Request-Body/-Pfad) in
+        # ALLEN drei GM-Beinen -- "am selben Preset", kein neues Preset
         # pro Leg.
-        gm_calls = [c for c in o6a_calls if c[1] == f"{owui_url}/api/chat/completions"]
-        self.assertEqual(len(gm_calls), 3, "genau ein echter GM-Request je Leg (Cloud/Local/Cloud).")
-        cloud_persona_calls = [c for c in o6a_calls if c[1] == f"{cloud_persona_base}/chat/completions"]
-        local_persona_calls = [c for c in o6a_calls if c[1] == f"{FAKE_BASE_URL}/chat/completions"]
-        self.assertEqual(len(cloud_persona_calls), 2, "Cloud-Persona-Requests nur in Leg 1+3.")
-        self.assertEqual(len(local_persona_calls), 1, "Local-Persona-Request nur in Leg 2.")
-        # Secrets der jeweils ANDEREN Rolle/Leg duerfen nirgends auftauchen.
-        all_urls_text = json.dumps([c[1] for c in o6a_calls])
-        self.assertNotIn(FAKE_TOKEN, all_urls_text)
-        self.assertNotIn(cloud_persona_key, all_urls_text)
+        gm_chat_calls = [c for c in double.calls if c == ("POST", "/api/chat/completions")]
+        self.assertEqual(len(gm_chat_calls), 3, f"{tag}: genau ein echter GM-Request je Leg (Cloud/Local/Cloud).")
+        model_update_calls = [c for c in double.calls if c == ("POST", "/api/v1/models/model/update")]
+        self.assertEqual(
+            len(model_update_calls), 2,
+            f"{tag}: genau zwei reale Upstream-Mutationen (Local-Rewire in Leg 2 + Cloud-Ruecklauf "
+            f"in Leg 3; Leg 1 ist idempotent, keine Mutation noetig): {double.calls}",
+        )
+        cloud_persona_calls = [c for c in persona_calls if c[0] == "cloud"]
+        local_persona_calls = [c for c in persona_calls if c[0] == "local"]
+        self.assertEqual(len(cloud_persona_calls), 2, f"{tag}: Cloud-Persona-Requests nur in Leg 1+3.")
+        self.assertEqual(len(local_persona_calls), 1, f"{tag}: Local-Persona-Request nur in Leg 2.")
+
+        # Secrets der jeweils ANDEREN Rolle/Leg (und generell) duerfen
+        # nirgends in den aufgezeichneten Calls auftauchen.
+        all_calls_text = json.dumps(double.calls) + json.dumps(persona_calls)
+        for leaked in (local_token, cloud_persona_key, owui_key, litellm_master_key):
+            self.assertNotIn(leaked, all_calls_text, f"{tag}: Geheimniswert darf nie im Callprotokoll stehen.")
+
+    def _o6a_run_in_two_fresh_children(self) -> None:
+        """G2 (01_NATIVER_AUFTRAG.md §D / 02_ABNAHME_UND_RUECKGABE.md §3
+        G2-Zeile): derselbe echte Setup-/Rewire-/Factory-Zusammenhang wie
+        `_o6a_run_cycle` laeuft zusaetzlich in ZWEI vorab geplanten
+        FRISCHEN Testkindprozessen -- eine konkrete Vertragsanforderung,
+        keine wiederbelebte globale Laufquote. Jedes Kind startet DIESE
+        Testdatei direkt (derselbe `__main__`-Zweig, der auch Standalone-
+        Laeufe trägt) mit einem EXPLIZITEN Testnamen -- `unittest.main()`
+        waehlt darueber GENAU die eine `o6a_child_*_cycle`-Methode aus,
+        baut dabei frisch den Primaerguard (Solo-Self-Bootstrap) und importiert
+        die Produktmodule frisch -- kein geteilter Zustand mit dem
+        Elternprozess oder dem anderen Kind."""
+        exports_dir = self._tmp_dir("o6a-children-capture")
+        this_file = str(_HERE / "test_local_tokenhost_profile_2026_11_14.py")
+        base_env: dict = {"HOME": pwd.getpwuid(os.getuid()).pw_dir}
+        for key in ("PATH", "LANG", "LC_ALL", "LC_CTYPE"):
+            if os.environ.get(key):
+                base_env[key] = os.environ[key]
+
+        for idx, method_name in enumerate((
+            "LocalTokenhostProfileTests.o6a_child_one_cycle",
+            "LocalTokenhostProfileTests.o6a_child_two_cycle",
+        ), start=1):
+            child_id = f"o6a-child-{idx}"
+            # I2.2 (anders als die write/read-Kinder oben): KEIN `-I`/`-S`
+            # -- dieses Kind laedt `mmo_sim`/`scripts/mmo_sim.py` real
+            # (ueber `_o6a_load_mmo_sim_module`), dessen Importkette echte
+            # Drittpakete (`jsonschema`) aus dem normalen Site-/User-Site-
+            # Pfad braucht; `-I` schliesst genau den User-Site-Pfad aus, in
+            # dem dieses Paket hier tatsaechlich installiert ist. `-B`
+            # bleibt (kein Bytecode-Schreiben ausserhalb privater Wurzeln).
+            argv = [sys.executable, "-B", this_file, method_name]
+            child_env = dict(base_env)
+            EARLY_GUARD.register_child(
+                role=child_id, argv=argv, fixture_paths=[],
+                export_id=f"{child_id}-export", count=1,
+                minimal_env=child_env, cwd=None,
+            )
+            start_utc = _utcnow_iso()
+            proc = subprocess.Popen(
+                argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                text=True, env=child_env,
+            )
+            EARLY_GUARD.record_child_start(role=child_id, pid=proc.pid, ppid=os.getpid(), argv=argv, utc=start_utc)
+            try:
+                stdout, stderr = proc.communicate(timeout=120)
+            except Exception:
+                proc.kill()
+                stdout, stderr = proc.communicate()
+                rc = proc.returncode if proc.returncode is not None else -1
+                end_utc = _utcnow_iso()
+                EARLY_GUARD.record_child_end(role=child_id, pid=proc.pid, rc=rc, utc=end_utc)
+                (exports_dir / f"{child_id}.stdout").write_text(stdout or "", encoding="utf-8")
+                (exports_dir / f"{child_id}.stderr").write_text(stderr or "", encoding="utf-8")
+                raise
+            rc = proc.returncode
+            end_utc = _utcnow_iso()
+            EARLY_GUARD.record_child_end(role=child_id, pid=proc.pid, rc=rc, utc=end_utc)
+            (exports_dir / f"{child_id}.stdout").write_text(stdout or "", encoding="utf-8")
+            (exports_dir / f"{child_id}.stderr").write_text(stderr or "", encoding="utf-8")
+            self.assertEqual(
+                rc, 0,
+                f"{child_id} ({method_name}) muss den echten O6-A-Setup-/Rewire-/Factoryzyklus "
+                f"in einem frischen Interpreter fehlerfrei durchlaufen:\n{stderr}",
+            )
+            combined = (stdout or "") + (stderr or "")
+            self.assertNotIn(FAKE_TOKEN, combined, f"{child_id}: Token darf nie im Kindkanal erscheinen.")
+
+    # ─── G2-Kindeinstiege (KEIN `test_`-Praefix -- normale Discovery
+    # fuehrt sie dadurch NICHT zusaetzlich aus; `unittest.main()` im frisch
+    # gestarteten Kindinterpreter waehlt sie ueber den expliziten Namen in
+    # `sys.argv` trotzdem gezielt aus, s. `_o6a_run_in_two_fresh_children`). ──
+
+    def o6a_child_one_cycle(self) -> None:
+        self._o6a_run_cycle("child1")
+
+    def o6a_child_two_cycle(self) -> None:
+        self._o6a_run_cycle("child2")
 
     # ─── I1/I5: Guardexport -- keine Secrets, keine unerwarteten Blocks ──
 
