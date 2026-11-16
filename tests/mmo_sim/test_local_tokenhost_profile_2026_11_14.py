@@ -1693,6 +1693,25 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                             f"{leg_label}: unerwarteter max_tokens-Key ohne konfiguriertes Limit: {gm_req}",
                         )
 
+                    # r4-Nachzug (01_GENERALREVIEW.md §3 R1 / 02_NATIVER_
+                    # RESTAUFTRAG.md §C "tatsaechliche messages vor Redaktion
+                    # pruefen"): die eigene GM-user-Nachricht aus DIESEM
+                    # tatsaechlichen Turn (`gm_transport.turn(1, f"Runde
+                    # ({leg_label}).")`, oben) muss in der am Double wirklich
+                    # eingegangenen Request-Body-Historie in der richtigen
+                    # Rolle UND mit dem eigenen Phaseninhalt stehen -- nicht
+                    # aus dem Body zurueckgelesen, sondern aus der bereits
+                    # verwendeten eigenen Eingabefixture erwartet. `phase`
+                    # (oben bereits separat geprueft) ersetzt diesen Inhalts-/
+                    # Rollenvergleich NICHT -- eine vertauschte Rolle oder ein
+                    # fremder/falscher Phaseninhalt muss hier scheitern.
+                    self.assertEqual(
+                        gm_req["request_body"].get("messages"),
+                        [{"role": "user", "content": f"Runde ({leg_label})."}],
+                        f"{leg_label}: GM-Request-Messages != eigener Rollen-/Phaseninhalt "
+                        f"(vor Redaktion geprueft): {gm_req}",
+                    )
+
                     persona_factory = default_persona_driver_factory(data_dir)
                     persona_driver = persona_factory(persona_key)
                     self.assertEqual(
@@ -1736,6 +1755,22 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     self.assertEqual(
                         persona_req["request_body"].get("max_tokens"), persona_driver.config.max_tokens,
                         f"{leg_label}: Persona-Request-Limit != effektivem Rollenlimit: {persona_req}",
+                    )
+
+                    # r4-Nachzug (01_GENERALREVIEW.md §3 R1 / 02_NATIVER_
+                    # RESTAUFTRAG.md §C): die tatsaechlich an `decide`
+                    # uebergebene eigene system-/user-Fixture ("s"/"u",
+                    # `persona_driver.decide({"system": "s", "user": "u"})`
+                    # oben) muss in der tatsaechlich versendeten Persona-
+                    # Request-Body-messages-Historie in den PASSENDEN Rollen
+                    # stehen, ohne Austausch oder Verlust -- erwartet aus der
+                    # bereits verwendeten eigenen Fixture, nicht aus dem Body
+                    # zurueckgelesen.
+                    self.assertEqual(
+                        persona_req["request_body"].get("messages"),
+                        [{"role": "system", "content": "s"}, {"role": "user", "content": "u"}],
+                        f"{leg_label}: Persona-Request-Messages != eigene system/user-Fixture "
+                        f"(vor Redaktion geprueft, Rollen vertauscht/verloren?): {persona_req}",
                     )
 
                 # ── Leg 1: Cloud (vor dem lokalen Abschnitt) ─────────────

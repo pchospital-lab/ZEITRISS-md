@@ -329,24 +329,49 @@ def _fresh_process_provider(path: Path) -> str:
         role="g1-fresh-reader", pid=proc.pid, ppid=os.getpid(), argv=argv, utc=start_utc,
     )
 
+    def _write_raw_channels(*, out, err) -> None:
+        # r4-Nachzug (01_GENERALREVIEW.md §3 R2 / 02_NATIVER_RESTAUFTRAG.md
+        # §D "G1-Rohkanaele vollstaendig sichern"): die ohnehin per
+        # `communicate()` erhaltenen VOLLEN individuellen stdout/stderr
+        # DIESES Readers werden HIER, noch vor jedem Assert/Cleanup,
+        # dauerhaft unter der tatsaechlichen Kindidentitaet (`private_root`,
+        # bereits an nonce/pid gebunden) gesichert. Ein tatsaechlich leerer
+        # Kanal wird als existierendes leeres Original geschrieben (0-Byte-
+        # Datei), NICHT als "fehlt" behandelt. Kein stderr-aus-rc-0-Schluss
+        # und keine aus `provider_result` nachgebildete stdout-Datei -- `out`/
+        # `err` sind die tatsaechlich empfangenen Bytes GENAU dieses Laufs.
+        # Bewusst KEIN `except OSError: pass`: ein Schreibfehler HIER ist ein
+        # Pflichtbewahrungsfehler und MUSS sichtbar bleiben (den Testabschluss
+        # verhindern), nicht als ignorierbarer Zusatzbeleg weiterlaufen.
+        Path(private_root, "stdout.txt").write_text(out if out is not None else "", encoding="utf-8")
+        Path(private_root, "stderr.txt").write_text(err if err is not None else "", encoding="utf-8")
+
     def _write_manifest(*, end_utc: str, exit_code, provider_result) -> None:
         # R2-Laufmanifest: Quelle/Rolle/PID/PPID/argv/cwd/minimale Umgebung/
         # UTC-Start-Ende/Exit -- additiv zu den bereits bestehenden Guard-
         # internen `child_starts`/`child_ends`, als eigenstaendig lesbares
-        # Original direkt in der dauerhaft gesicherten Kindwurzel.
+        # Original direkt in der dauerhaft gesicherten Kindwurzel. Die beiden
+        # Pfadfelder unten sind reine BINDUNGSINFORMATION auf die bereits von
+        # `_write_raw_channels` geschriebenen Originale (keine neue
+        # Manifestdateibenennung, kein neues Dateiformat).
         manifest = {
             "role": "g1-fresh-reader", "nonce": nonce, "pid": proc.pid, "ppid": os.getpid(),
             "argv": list(argv), "cwd": cwd, "minimal_env": dict(minimal_env),
             "start_utc": start_utc, "end_utc": end_utc, "exit_code": exit_code,
             "target_path": str(path), "before_export_path": before_export_path,
             "after_export_path": after_export_path, "provider_result": provider_result,
+            "stdout_path": str(Path(private_root, "stdout.txt")),
+            "stderr_path": str(Path(private_root, "stderr.txt")),
         }
-        try:
-            Path(private_root, "manifest.json").write_text(
-                json.dumps(manifest, indent=2, sort_keys=True, default=str), encoding="utf-8",
-            )
-        except OSError:
-            pass  # Manifestschreiben ist Zusatzbeleg, kein Pflichtexport-Seam.
+        # r4-Nachzug (01_GENERALREVIEW.md §3 R2 "ein OSError beim
+        # Manifestschreiben wird ausdruecklich verschluckt"): das Manifest
+        # bindet jetzt die bereits gesicherten Pflichtrohkanaele an diesen
+        # Lauf -- kein ignorierbarer Zusatzbeleg mehr. Bewusst KEIN
+        # `except OSError: pass`: ein Pflichtschreibfehler muss sichtbar
+        # bleiben und den Abschluss verhindern.
+        Path(private_root, "manifest.json").write_text(
+            json.dumps(manifest, indent=2, sort_keys=True, default=str), encoding="utf-8",
+        )
 
     try:
         out, err = proc.communicate(timeout=60)
@@ -355,13 +380,25 @@ def _fresh_process_provider(path: Path) -> str:
         out, err = proc.communicate()
         end_utc = _utcnow_iso()
         _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode or -1, utc=end_utc)
+        _write_raw_channels(out=out, err=err)
         _write_manifest(end_utc=end_utc, exit_code=proc.returncode, provider_result=None)
         raise
     end_utc = _utcnow_iso()
     _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode, utc=end_utc)
-    assert proc.returncode == 0, f"frischer Leserprozess scheiterte: {err}"
+    # r4-Nachzug (01_GENERALREVIEW.md §3 R2): die vollen Rohkanaele werden
+    # JETZT gesichert -- VOR dem folgenden rc-/Marker-Fehlerpfad -- damit ein
+    # scheiternder Leser (rc!=0 oder fehlender Marker) die bereits
+    # empfangenen Pflichtdaten nicht still verliert. Vorher brach ein
+    # fehlgeschlagener `assert proc.returncode == 0` die Funktion OHNE JEDE
+    # Bewahrung ab (Erfolgs-/Fehlerpfad waren nicht gleich behandelt).
+    _write_raw_channels(out=out, err=err)
+    if proc.returncode != 0:
+        _write_manifest(end_utc=end_utc, exit_code=proc.returncode, provider_result=None)
+        raise AssertionError(f"frischer Leserprozess scheiterte: {err}")
     lines = [ln for ln in out.splitlines() if ln.startswith("PROVIDER:")]
-    assert lines, f"kein PROVIDER-Marker im frischen Leser: {out!r}"
+    if not lines:
+        _write_manifest(end_utc=end_utc, exit_code=proc.returncode, provider_result=None)
+        raise AssertionError(f"kein PROVIDER-Marker im frischen Leser: {out!r}")
     provider_result = lines[-1].split(":", 1)[1]
     # R2: Bewahrung MUSS hier, noch im Testkoerper vor jedem spaeteren
     # Cleanup, passieren -- kein spaeterer Copy nach `tearDown`. Es gibt
