@@ -77,6 +77,7 @@ import hashlib
 import json
 import os
 import pathlib
+import pwd
 import subprocess
 import sys
 import tempfile
@@ -1600,8 +1601,16 @@ class _DelegatingChildBase(unittest.TestCase):
         # W11 o.ae. mutierte) Eltern-os.environ erben. Nur das Noetige + die
         # Kindmarke, die Rekursion/Re-Delegation verhindert (im Kind ist
         # `is_real_body_env()` True -> kein `load_tests` definiert).
+        # HOME ausdruecklich NICHT aus os.environ lesen: ein alphabetisch
+        # frueher in DERSELBEN Discovery importiertes Schwestermodul (z.B.
+        # test_g05_error_redaction_and_guards.py) setzt beim reinen Modul-
+        # import `os.environ["HOME"]` prozessweit und dauerhaft auf ein
+        # isoliertes Tempdir um; ein spaeter lesender `os.environ.get(
+        # "HOME")` erbt dann genau die vergiftete Eltern-os.environ, die
+        # dieser Kommentar ausdruecklich vermeiden soll. Die echte passwd-
+        # Datenbank ist von dieser Env-Mutation unberuehrt.
         env = {
-            "HOME": os.environ.get("HOME", ""),
+            "HOME": pwd.getpwuid(os.getuid()).pw_dir,
             "PATH": os.environ.get("PATH", ""),
             "LANG": "C.UTF-8",
             "LC_ALL": "C.UTF-8",
