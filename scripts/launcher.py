@@ -1139,8 +1139,13 @@ def action_install(*, _skip_state_check: bool = False) -> None:
                 _pause()
                 return
             local_updates, local_remove = local_choice
-            if not home_env.is_file():
-                home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+            # P5-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, O1-C.C1): der
+            # geschuetzte Writer (`_update_env_file_preserving`) legt eine
+            # fehlende Datei selbst sicher an (temp+chmod0600+os.replace,
+            # s. dortiger Docstring) -- die vorherige manuelle Vorabdatei
+            # hier erzeugte eine GEWOEHNLICHE, ungeschuetzte Textdatei VOR
+            # dem geschuetzten Writer. Ersatzlos entfernt, kein neuer
+            # Ablagepfad noetig.
             if not setup_module._update_env_file_preserving(home_env, local_updates, remove=local_remove):
                 print(red(f"  Lokales Profil konnte nicht gespeichert werden ({home_env})."))
                 _pause()
@@ -1159,11 +1164,16 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         else:
             provider_choice = "cloud"
             home_env = Path.home() / ".openwebui_env"
-            if not home_env.is_file():
-                home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
-            setup_module._update_env_file_preserving(
+            # P5-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, O1-C.C1): s.
+            # Kommentar im lokalen Zweig oben -- dieselbe unprotected
+            # Vorabdatei, hier zusaetzlich ohne jede Pruefung des
+            # Writer-Rueckgabewerts entfernt/ergaenzt.
+            if not setup_module._update_env_file_preserving(
                 home_env, dict(local_profile_module.cloud_provider_updates())
-            )
+            ):
+                print(red(f"  Cloud-Profil konnte nicht gespeichert werden ({home_env})."))
+                _pause()
+                return
     local_active = provider_choice == "local"
 
     # Externer OpenRouter-Key EINMAL verdeckt erfassen (WP1a/PF1.1): vorher
@@ -1212,8 +1222,9 @@ def action_install(*, _skip_state_check: bool = False) -> None:
     }
     if os.environ.get("OPENROUTER_API_KEY", "").strip():
         persist_updates["OPENROUTER_API_KEY"] = os.environ["OPENROUTER_API_KEY"]
-    if not home_env.is_file():
-        home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+    # P5-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, O1-C.C1): s.
+    # action_install oben -- der geschuetzte Writer legt eine fehlende
+    # Datei selbst sicher an, keine ungeschuetzte Vorabdatei noetig.
     if not setup_module._update_env_file_preserving(home_env, persist_updates):
         print(yellow(f"  Warnung: Keys konnten nicht nach {home_env} persistiert werden — nur für diesen Lauf gesetzt."))
 
@@ -1675,8 +1686,9 @@ def action_rekeys() -> None:
         local_updates, local_remove = local_choice
         local_updates["OPENWEBUI_URL"] = url
         local_updates["OPENWEBUI_API_KEY"] = owui_key
-        if not home_env.is_file():
-            home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+        # P5-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, O1-C.C1): s.
+        # action_install -- keine ungeschuetzte Vorabdatei, der Writer
+        # legt eine fehlende Datei selbst sicher an.
         if not setup_module._update_env_file_preserving(home_env, local_updates, remove=local_remove):
             print(red(f"  Keys konnten nicht gespeichert werden ({home_env})."))
             _pause()
@@ -1723,8 +1735,8 @@ def action_rekeys() -> None:
         updates["OPENROUTER_API_KEY"] = or_key
     else:
         remove.add("OPENROUTER_API_KEY")
-    if not home_env.is_file():
-        home_env.write_text("# Vom Launcher geschrieben - automatisch gelesen.\n", encoding="utf-8")
+    # P5-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, O1-C.C1): s.
+    # action_install -- keine ungeschuetzte Vorabdatei.
     if not setup_module._update_env_file_preserving(home_env, updates, remove=remove):
         print(red(f"  Keys konnten nicht gespeichert werden ({home_env})."))
         _pause()

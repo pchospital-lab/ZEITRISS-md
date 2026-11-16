@@ -400,7 +400,14 @@ class LocalTokenhostRoutingTests(unittest.TestCase):
             updated_preset = {
                 "id": FAKE_PRESET_ID, "base_model_id": FAKE_LOCAL_MODEL,
                 "meta": {"capabilities": setup_mod.LOCAL_TEXT_ONLY_CAPABILITIES},
-                "params": {"max_tokens": profile.gm_max_tokens, "system": "Du bist die SL."},
+                # A4-Fix: das Readback prueft jetzt die VOLLEN gesendeten
+                # `desired_params` (local_payload_overrides + system), nicht
+                # nur max_tokens -- der simulierte Backend-Zustand nach
+                # erfolgreichem Update muss deshalb alle Felder enthalten.
+                "params": {
+                    "max_tokens": profile.gm_max_tokens, "temperature": 0.7, "stream": False,
+                    "system": "Du bist die SL.",
+                },
             }
             script = _UrlopenScript([
                 (200, existing_preset),              # 1) get_model (initial read)
@@ -440,7 +447,8 @@ class LocalTokenhostRoutingTests(unittest.TestCase):
         updated_preset = {
             "id": FAKE_PRESET_ID, "base_model_id": FAKE_LOCAL_MODEL,
             "meta": {"capabilities": setup_mod.LOCAL_TEXT_ONLY_CAPABILITIES},
-            "params": {"max_tokens": stricter, "system": "Du bist die SL."},
+            # A4-Fix: s. Kommentar im Gegenfall oben -- volle desired_params.
+            "params": {"max_tokens": stricter, "temperature": 0.7, "stream": False, "system": "Du bist die SL."},
         }
         script = _UrlopenScript([
             (200, existing_preset),
@@ -486,6 +494,47 @@ class LocalTokenhostRoutingTests(unittest.TestCase):
         self.assertFalse(ok, "ein Readback mit altem Upstream darf NICHT als Erfolg gemeldet werden.")
         self.assertIn("Re-GET zeigt", msg)
         self.assertIn("openrouter/old-cloud-model", msg)
+
+    def test_rewire_preset_base_model_local_rejects_readback_showing_stale_params_or_capabilities(self):
+        """A4-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A4, O2-A.A3):
+        Gegenfall zum vorigen Test -- hier zeigt das Readback die GEWUENSCHTE
+        `base_model_id` (das Backend hat den Upstream-Teil des POST korrekt
+        uebernommen), aber Params/Capabilities sind (noch) die ALTEN
+        Cloud-Werte (z.B. ein Backend, das `base_model_id` sofort, den Rest
+        des Form-Payloads aber verzoegert/asynchron uebernimmt). Vor dem
+        A4-Fix pruefte das Readback NUR `base_model_id` -- das waere hier
+        faelschlich als Erfolg gemeldet worden, obwohl Params/Capabilities
+        nie tatsaechlich auf dem lokalen Stand sind."""
+        cfg = {"variants": {"default": {"preset_id": FAKE_PRESET_ID, "preset_name": "Proj", "cache": True}}}
+        profile = _profile()
+        existing_preset = {
+            "id": FAKE_PRESET_ID, "base_model_id": "openrouter/old-cloud-model",
+            "meta": {"capabilities": {"vision": True}},
+            "params": {"max_tokens": 64000, "system": "Du bist die SL."},
+        }
+        # Readback: base_model_id korrekt umgebogen, aber Params/Capabilities
+        # sind UNVERAENDERT die alten Cloud-Werte stehengeblieben.
+        stale_fields_readback = {
+            "id": FAKE_PRESET_ID, "base_model_id": FAKE_LOCAL_MODEL,
+            "meta": {"capabilities": {"vision": True}},
+            "params": {"max_tokens": 64000, "system": "Du bist die SL."},
+        }
+        script = _UrlopenScript([
+            (200, existing_preset),
+            (200, {"data": [{"id": FAKE_PRESET_ID}]}),
+            (200, {"id": FAKE_PRESET_ID}),
+            (200, stale_fields_readback),
+        ])
+        with mock.patch("urllib.request.urlopen", script):
+            ok, msg = setup_mod._rewire_preset_base_model_local(
+                _REPO_ROOT, cfg, FAKE_OWUI_URL, FAKE_OWUI_KEY, profile,
+            )
+        self.assertFalse(
+            ok,
+            "korrekter base_model_id BEI gleichzeitig alten Params/Capabilities darf NICHT als "
+            "Erfolg gemeldet werden -- das Readback muss alle tatsaechlich geaenderten Felder pruefen.",
+        )
+        self.assertIn("veraltete Params/Capabilities", msg)
 
     # ─── O3: nichtgenerativer Verify -- True/False/None, 401/403/404/501/Timeout ──
 
@@ -600,6 +649,43 @@ class LocalTokenhostRoutingTests(unittest.TestCase):
             self.assertFalse(ok, f"abweichender auth_type/prefix_id muss halten, cfg={bad_cfg!r}")
             self.assertIn("ehrdeutig", msg)
             self.assertEqual(len(script.calls), 1, "Halt VOR jeder Mutation -- nur der eine GET.")
+
+    def test_hold_on_ambiguous_connection_appearing_only_in_post_mutation_readback(self):
+        """A4-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A4, O3-B.B2):
+        Gegenfall zu den drei `test_hold_on_*`-Faellen oben -- dort war die
+        Ziel-URL bereits VOR der Mutation mehrdeutig (ein GET, Halt ohne
+        POST). Hier ist der Ausgangszustand (erster GET) SAUBER eindeutig
+        (Connection existiert noch nicht -> POST laeuft durch), aber das
+        Readback NACH dem Update (zweiter GET) zeigt die Ziel-URL
+        ZWEIFACH -- z.B. ein fremder Prozess legte waehrend unseres POST
+        gleichzeitig einen zweiten Eintrag an derselben URL an. Vor dem
+        A4-Fix verwendete das Readback `.index(target_url)` (ersten
+        Treffer) und haette das als Erfolg gemeldet; die vormutative
+        Eindeutigkeitspruefung lief nie erneut."""
+        script = _UrlopenScript([
+            (200, {"OPENAI_API_BASE_URLS": [], "OPENAI_API_KEYS": [], "OPENAI_API_CONFIGS": {}}),
+            (200, {}),
+            # Readback zeigt die Ziel-URL ZWEIFACH -- waehrend des eigenen
+            # POST ist (simuliert) ein zweiter, fremder Eintrag entstanden.
+            (200, {"OPENAI_API_BASE_URLS": [FAKE_LOCAL_BASE, FAKE_LOCAL_BASE],
+                   "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN, "concurrent-foreign-key"],
+                   "OPENAI_API_CONFIGS": {
+                       "0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                             "auth_type": "bearer", "prefix_id": ""},
+                       "1": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                             "auth_type": "bearer", "prefix_id": ""},
+                   },
+                   "ENABLE_OPENAI_API": True}),
+        ])
+        with mock.patch("urllib.request.urlopen", script):
+            ok, msg = setup_mod._ensure_owui_local_connection(FAKE_OWUI_URL, FAKE_OWUI_KEY, _profile())
+        self.assertFalse(
+            ok,
+            "eine erst im POST-Readback mehrdeutig gewordene Ziel-URL darf NICHT als Erfolg "
+            "gemeldet werden -- dieselbe Eindeutigkeitspruefung muss auch nach der Mutation gelten.",
+        )
+        self.assertIn("ehrdeutig", msg)
+        self.assertEqual(len(script.calls), 3, "POST laeuft durch (sauberer Ausgangszustand) -- Halt erst beim Readback.")
 
     # ─── O2: completion-counter=0 bei Setup/Connectioncheck ─────────────
 
@@ -949,6 +1035,72 @@ class LocalTokenhostRoutingTests(unittest.TestCase):
         ))
         self.assertIn("Unerwartete Response-Struktur", message)
 
+    def test_gm_owui_transport_redacts_key_fragment_crossing_truncation_boundary(self):
+        """A1 (evidence/INDEPENDENT-GENERAL-REVIEW.md A1, O1-D.D3/D4): Gegenfall
+        zum Test oben -- hier liegt der Dummy-Key NICHT vollstaendig hinter der
+        300/400-Zeichen-Schnittkante von owui_client.py, sondern KREUZT sie, in
+        einem gewoehnlichen JSON-Feld OHNE 'Bearer'-Praefix. Vor dem A1-Fix blieb
+        in diesem Fall ein Praefix des Keys stehen -- weder vollstaendiger Key
+        noch Bearer-Treffer, also von sl_client._redact_secret_text's Replace/
+        Regex nicht erfasst. Nach dem Fix redigiert owui_client.py:OWUIChat
+        den konfigurierten Key bereits VOR der Kuerzung -- kein zusammenhaengendes
+        Fragment von mindestens 8 Key-Zeichen darf in der finalen Meldung
+        auftauchen, unabhaengig davon, wo genau die Schnittkante faellt."""
+        key_fragments = [FAKE_OWUI_KEY[i:i + 8] for i in range(0, len(FAKE_OWUI_KEY) - 8 + 1)]
+
+        # (a) HTTPError-Zweig: Key beginnt bei Index 388 und kreuzt damit die
+        # 400-Zeichen-Schnittkante von owui_client.py (e.read().decode()[:400]);
+        # die Kuerzung alleine liesse "owui-fake-ke" (erste 12 Zeichen) stehen.
+        run_dir = self._tmp_dir("gm-redact-cross-http-run")
+        os.environ["OPENWEBUI_URL"] = FAKE_OWUI_URL
+        os.environ["OPENWEBUI_API_KEY"] = FAKE_OWUI_KEY
+        body_text = json.dumps({"detail": "x" * 376 + FAKE_OWUI_KEY + "y" * 50})
+        exc = urllib.error.HTTPError(
+            FAKE_OWUI_URL + "/api/chat/completions", 500, "server error", {}, None,
+        )
+        exc.read = lambda: body_text.encode("utf-8")
+        script = _UrlopenScript([exc])
+        with mock.patch("urllib.request.urlopen", script):
+            transport = GmOwuiTransport(
+                _SL_CLIENT_PY, run_dir, table_id="tisch-redact-cross-http",
+                sl_model=FAKE_PRESET_ID, kb_id=FAKE_KB_ID,
+                transport_max_retries=1, is_dollar_billed=False,
+            )
+            with self.assertRaises(Exception) as ctx:
+                transport.turn(1, "Text")
+        message = str(ctx.exception)
+        self.assertNotIn(FAKE_OWUI_KEY, message)
+        for frag in key_fragments:
+            self.assertNotIn(frag, message, (
+                f"Key-Fragment {frag!r} darf nicht stehenbleiben -- der Key kreuzte "
+                "die 400-Zeichen-Schnittkante, Redaktion muss vor der Kuerzung laufen."
+            ))
+        self.assertIn("500", message, "HTTP-Status muss trotz Redaktion erhalten bleiben.")
+
+        # (b) formfalsche-Antwort-Zweig: Key beginnt bei Index 288 und kreuzt
+        # damit die 300-Zeichen-Schnittkante (json.dumps(resp)[:300]).
+        run_dir = self._tmp_dir("gm-redact-cross-malformed-run")
+        os.environ["OPENWEBUI_URL"] = FAKE_OWUI_URL
+        os.environ["OPENWEBUI_API_KEY"] = FAKE_OWUI_KEY
+        malformed = {"unexpected": "x" * 272 + FAKE_OWUI_KEY + "z" * 50}
+        script = _UrlopenScript([(200, malformed)])
+        with mock.patch("urllib.request.urlopen", script):
+            transport = GmOwuiTransport(
+                _SL_CLIENT_PY, run_dir, table_id="tisch-redact-cross-malformed",
+                sl_model=FAKE_PRESET_ID, kb_id=FAKE_KB_ID,
+                transport_max_retries=1, is_dollar_billed=False,
+            )
+            with self.assertRaises(Exception) as ctx:
+                transport.turn(1, "Text")
+        message = str(ctx.exception)
+        self.assertNotIn(FAKE_OWUI_KEY, message)
+        for frag in key_fragments:
+            self.assertNotIn(frag, message, (
+                f"Key-Fragment {frag!r} darf nicht stehenbleiben -- der Key kreuzte "
+                "die 300-Zeichen-Schnittkante, Redaktion muss vor der Kuerzung laufen."
+            ))
+        self.assertIn("Unerwartete Response-Struktur", message)
+
 
 class LocalTokenhostPersonaEnvReentryTests(unittest.TestCase):
     """O6-B (02_NACHARBEIT.md Gruppe C, G2/G3-Fix): `mmo_sim.adapters.
@@ -1031,6 +1183,47 @@ class LocalTokenhostPersonaEnvReentryTests(unittest.TestCase):
                     "Prozessoverride im Environment stehen.",
                 )
 
+    def test_gm_autoloaded_file_values_are_not_treated_as_deliberate_persona_override(self):
+        """A3-Fix Teil 1 (evidence/INDEPENDENT-GENERAL-REVIEW.md A3, Fall
+        "GM-vorab-autoloaded Dateialtwerte"): `default_gm_transport_factory`
+        ruft `setup._auto_load_owui_env()` BEREITS VOR der ersten
+        Personaaufloesung auf (gleicher Prozess, gemeinsames os.environ).
+        Liegt in `~/.openwebui_env` noch ein STEHENGEBLIEBENER alter Cloud-
+        Persona-Wert (frueherer Lauf, nie aufgeraeumt), laedt dieser GM-
+        Autoload ihn in `MMO_SIM_PERSONA_API_*` -- OHNE den A3-Fix erkannte
+        `_maybe_default_local_tokenhost_persona_env` diesen Wert faelschlich
+        als bewusst VOR dem Aufruf gesetzten Prozessoverride (Fall (a)) und
+        verwendete den ALTEN Cloudwert statt der aktuellen lokalen Wahl."""
+        tmp_home = Path(tempfile.mkdtemp(prefix="o6b-gm-autoload-stale-"))
+        self._tmp_dirs.append(tmp_home)
+        env_path = tmp_home / ".openwebui_env"
+        updates = dict(lmp.build_local_profile_updates(
+            base_url=FAKE_LOCAL_BASE, model=FAKE_LOCAL_MODEL, api_key=FAKE_LOCAL_TOKEN,
+        ))
+        stale_model = "stale-cloud-persona-model-from-old-run"
+        updates["MMO_SIM_PERSONA_API_BASE_URL"] = "https://old-cloud-api.example/v1"
+        updates["MMO_SIM_PERSONA_API_KEY"] = "stale-cloud-key-not-secret"
+        updates["MMO_SIM_PERSONA_API_MODEL"] = stale_model
+        self.assertTrue(setup_mod._update_env_file_preserving(env_path, updates))
+
+        with mock.patch.object(Path, "home", return_value=tmp_home):
+            # Simuliert den GM-Transportbau: `_auto_load_owui_env()` laeuft
+            # VOR jeder Personaaufloesung und laedt die stehengebliebenen
+            # Altwerte, weil sie im Prozess-Env noch fehlen.
+            setup_mod._auto_load_owui_env()
+            self.assertEqual(os.environ.get("MMO_SIM_PERSONA_API_MODEL"), stale_model)
+
+            result = factories_mod._maybe_default_local_tokenhost_persona_env()
+            self.assertTrue(
+                result,
+                "der nur vom GM-Autoload nachgeladene Datei-Altwert ist KEIN bewusster "
+                "Prozessoverride -- die aktuelle lokale Wahl muss ihn ueberschreiben.",
+            )
+            self.assertEqual(
+                os.environ.get("MMO_SIM_PERSONA_API_MODEL"), FAKE_LOCAL_MODEL,
+                "die aktuelle lokale Wahl muss den stehengebliebenen Datei-Altwert ersetzen.",
+            )
+
     def test_foreign_override_written_after_self_resolution_is_not_silently_overwritten(self):
         """O6-B.B2 (RELEASE-CASES.json) "nach lokalem Default": nachdem bereits
         ein lokaler Default aufgeloest wurde, schreibt ein FREMDER Aufrufer
@@ -1044,13 +1237,25 @@ class LocalTokenhostPersonaEnvReentryTests(unittest.TestCase):
         in `_maybe_default_local_tokenhost_persona_env` tritt zurueck (False),
         und `default_persona_driver_factory` konstruiert den Adapter aus dem
         Override. Treibt die ECHTE Folgefunktion, nicht nur den Resolver."""
-        tmp_home = self._tmp_home_with_local_profile()
+        # A3-Fix: eigener, von PersonaApiConfigs Klassendefault (400)
+        # UNTERSCHEIDBARER lokaler persona_max_tokens-Wert -- sonst wuerde
+        # ein stehengebliebener lokaler Marker zufaellig mit dem Default
+        # zusammenfallen und die untere MAX_TOKENS-Pruefung waere blind.
+        tmp_home = Path(tempfile.mkdtemp(prefix="o6b-persona-reentry-distinct-"))
+        self._tmp_dirs.append(tmp_home)
+        env_path = tmp_home / ".openwebui_env"
+        updates = lmp.build_local_profile_updates(
+            base_url=FAKE_LOCAL_BASE, model=FAKE_LOCAL_MODEL, api_key=FAKE_LOCAL_TOKEN,
+            persona_max_tokens=111,
+        )
+        self.assertTrue(setup_mod._update_env_file_preserving(env_path, updates))
         override_url = "http://127.0.0.1:29999/v1"
         override_key = "foreign-override-key-not-secret"
         override_model = "foreign-override-model"
         with mock.patch.object(Path, "home", return_value=tmp_home):
             self.assertTrue(factories_mod._maybe_default_local_tokenhost_persona_env())
             self.assertEqual(os.environ.get("MMO_SIM_PERSONA_API_MODEL"), FAKE_LOCAL_MODEL)
+            self.assertEqual(os.environ.get("MMO_SIM_PERSONA_API_MAX_TOKENS"), "111")
 
             # Ein FREMDER Aufrufer schreibt jetzt einen EIGENEN, von unserer
             # Aufloesung abweichenden, GUELTIGEN Override -- der (veraltete)
@@ -1082,6 +1287,27 @@ class LocalTokenhostPersonaEnvReentryTests(unittest.TestCase):
         )
         self.assertEqual(driver.config.model, override_model)
         self.assertEqual(driver.config.api_key, override_key)
+        # A3-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A3, O6-B.B2): der
+        # Override aendert hier nur die DREI Verbindungsfelder (URL/Key/
+        # Model), NICHT MAX_TOKENS/DOLLAR_BILLED -- vor dem Fix blieb die
+        # vom ERSTEN lokalen Default selbst gesetzte `MMO_SIM_PERSONA_API_
+        # DOLLAR_BILLED=0` im Environment stehen und wurde faelschlich fuer
+        # diesen Override uebernommen (local_unpriced statt des regulaeren
+        # fremden Clouddefaults `dollar_billed=True`). Die vorherigen drei
+        # Asserts pruefen nur URL/Modell/Key -- genau die vom General
+        # benannte Luecke ("falsche Billingherkunft bleibt unsichtbar").
+        self.assertTrue(
+            driver.is_dollar_billed,
+            "ein gueltiger Cloud/API-Override ohne eigenen Billingmarker muss den "
+            "regulaeren fremden Clouddefault (dollar_billed=True) tragen, nicht die "
+            "stehengebliebene lokale Billingmarkierung der vorherigen Aufloesung.",
+        )
+        self.assertEqual(
+            driver.config.max_tokens, 400,
+            "der Override setzt kein eigenes MAX_TOKENS -- PersonaApiConfig muss dann "
+            "seinen eigenen Klassendefault (400) tragen, NICHT das stehengebliebene "
+            "lokale Limit (111) der vorherigen Aufloesung.",
+        )
 
     def test_pre_existing_api_override_before_first_resolution_takes_precedence(self):
         """O6-B.B2 (RELEASE-CASES.json): "gueltige explizite CLI/API-

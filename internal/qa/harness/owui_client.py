@@ -19,6 +19,7 @@ liefert echte KB-Dateinamen, prompt_tokens ~56k (MP + Retrieval).
 """
 from __future__ import annotations
 import json
+import re
 import time
 import urllib.error
 import urllib.request
@@ -52,6 +53,14 @@ class OWUIChat:
         self.last_sources: list = []
 
     # ── HTTP ──────────────────────────────────────────────────────────────
+    def _redact(self, text: str) -> str:
+        """A1 (evidence/INDEPENDENT-GENERAL-REVIEW.md A1, O1-D.D3/D4): redigiert
+        den konfigurierten Key VOR jeder Kürzung auf 300/400 Zeichen -- sonst
+        kann ein Key-Präfix stehenbleiben, wenn der Key selbst die Schnittkante
+        kreuzt. Muss also hier laufen, nicht erst am SL-Rand nach der Kürzung."""
+        redacted = text.replace(self.key, "[REDACTED]") if self.key else text
+        return re.sub(r"Bearer\s+\S+", "Bearer [REDACTED]", redacted)
+
     def _post(self, path: str, body: dict, timeout: int | None = None) -> dict:
         data = json.dumps(body).encode()
         last_err: Exception | None = None
@@ -65,7 +74,7 @@ class OWUIChat:
                 with urllib.request.urlopen(req, timeout=timeout or self.timeout) as r:
                     return json.loads(r.read().decode())
             except urllib.error.HTTPError as e:
-                txt = e.read().decode()[:400]
+                txt = self._redact(e.read().decode())[:400]
                 last_err = OWUIError(f"HTTP {e.code}: {txt}")
                 if e.code in (401, 403, 404):
                     raise last_err
@@ -113,7 +122,7 @@ class OWUIChat:
         try:
             content = resp["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as e:
-            raise OWUIError(f"Unerwartete Response-Struktur: {json.dumps(resp)[:300]}") from e
+            raise OWUIError(f"Unerwartete Response-Struktur: {self._redact(json.dumps(resp))[:300]}") from e
 
         self.history.append({"role": "assistant", "content": content})
         self.last_usage = resp.get("usage") or {}

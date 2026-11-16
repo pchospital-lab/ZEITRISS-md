@@ -596,6 +596,22 @@ def test_persisted_local_profile_chains_route_resolution_both_factories_real_ada
                 return _ChainFakeResponse(200, json.dumps(body).encode("utf-8"))
             if url == f"{FAKE_OWUI_URL}/openai/verify":
                 return _ChainFakeResponse(200, json.dumps({"data": [{"id": FAKE_LOCAL_MODEL}]}).encode("utf-8"))
+            if req.get_method() == "GET" and url == f"{FAKE_OWUI_URL}/openai/config":
+                # A2-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A2): die
+                # Factory prueft jetzt zusaetzlich rein lesend die aktive
+                # `/openai/config`-Zuordnung (Eindeutigkeit/Enable/Prefix/
+                # Auth) -- EINE eindeutige, aktivierte Connection genau an
+                # `FAKE_LOCAL_BASE` mit dem erwarteten Vertrag.
+                body = {
+                    "ENABLE_OPENAI_API": True,
+                    "OPENAI_API_BASE_URLS": [FAKE_LOCAL_BASE],
+                    "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN],
+                    "OPENAI_API_CONFIGS": {
+                        "0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                              "auth_type": "bearer", "prefix_id": ""},
+                    },
+                }
+                return _ChainFakeResponse(200, json.dumps(body).encode("utf-8"))
             if url == f"{FAKE_OWUI_URL}/api/chat/completions":
                 return _ChainFakeResponse(200, json.dumps({
                     "choices": [{"message": {"content": "GM-Antwort (Kette)."}}],
@@ -643,6 +659,346 @@ def test_persisted_local_profile_chains_route_resolution_both_factories_real_ada
         # GM traegt Preset+KB, Persona traegt den lokalen Token getrennt --
         # keine Cloudparameter/Vermischung (O2-B.B2, zusaetzlich bestaetigt).
         assert FAKE_LOCAL_TOKEN not in json.dumps([c[1] for c in calls])
+    finally:
+        os.environ.clear()
+        os.environ.update(saved_env)
+        if saved_setup_mod is not None:
+            sys.modules["setup"] = saved_setup_mod
+        import shutil
+        shutil.rmtree(tmp_home, ignore_errors=True)
+        shutil.rmtree(tmp_repo, ignore_errors=True)
+        shutil.rmtree(tmp_data, ignore_errors=True)
+
+
+def _a2_setup_chain_env(tmp_home: Path, tmp_repo: Path, *, preset: str, local_model: str,
+                        local_token: str, owui_url: str, owui_key: str,
+                        persona_base_url: str, owui_base_url: "str | None" = None):
+    """Gemeinsamer Scaffold fuer die A2-Gegenfaelle unten -- identischer
+    Aufbau wie die O2-B.B1-Kette oben (persistiertes Profil + setup.json),
+    nur parametrisiert, damit jeder Gegenfall nur SEINE eine Bedingung
+    variiert."""
+    import local_model_profile as real_lmp
+    import setup as real_setup
+
+    (tmp_repo / "setup.json").write_text(json.dumps({
+        "default_variant": "sonnet",
+        "variants": {"sonnet": {"preset_id": preset}},
+    }), encoding="utf-8")
+    env_path = tmp_home / ".openwebui_env"
+    updates = dict(real_lmp.build_local_profile_updates(
+        base_url=persona_base_url, model=local_model, api_key=local_token,
+        owui_base_url=owui_base_url,
+    ))
+    updates["OPENWEBUI_URL"] = owui_url
+    updates["OPENWEBUI_API_KEY"] = owui_key
+    assert real_setup._update_env_file_preserving(env_path, updates)
+
+
+def test_factory_a2_uses_separate_owui_base_url_not_persona_direct_url():
+    """A2 (evidence/INDEPENDENT-GENERAL-REVIEW.md A2, O3-A.A1): Gegenprobe
+    zur O2-B.B1-Kette oben -- hier sind `base_url` (Persona-Direktadresse)
+    und `owui_base_url` (Adresse, die OWUIs EIGENE Connection tatsaechlich
+    benutzt, z.B. anderer Netzwerkpfad/Containerbridge) bewusst
+    VERSCHIEDEN. Vor dem A2-Fix uebergab `default_gm_transport_factory`
+    IMMER `local_gm_profile.base_url` an `_verify_owui_connection_route`
+    UND die neue Eindeutigkeitspruefung -- bei getrennter Adresse waere
+    das die FALSCHE Adresse gewesen. Dieser Double beantwortet den Verify-
+    POST-Body und das Config-GET nur fuer `owui_base_url` korrekt; haette
+    die Factory weiterhin `base_url` gesendet/gesucht, haette sie HALTEN
+    muessen statt `dollar_billed=False` zu bestaetigen."""
+    import urllib.parse as _uparse
+    from mmo_sim.adapters import factories as factories_mod
+    from mmo_sim.adapters.factories import default_gm_transport_factory
+
+    module = _load_mmo_sim_entrypoint()
+    scripts_dir = _REPO_ROOT / "scripts"
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
+
+    FAKE_OWUI_URL = "http://127.0.0.1:18081"
+    FAKE_OWUI_KEY = "owui-fake-key-not-secret-a2sep"
+    FAKE_PERSONA_DIRECT_BASE = "http://127.0.0.1:18002/v1"
+    FAKE_OWUI_TARGET_BASE = "http://litellm-bridge-net:18002/v1"
+    FAKE_LOCAL_MODEL = "nemotron-a2-separate"
+    FAKE_LOCAL_TOKEN = "test-local-token-not-secret-a2sep"
+    FAKE_PRESET = "zeitriss-a2-separate"
+    FAKE_KB = "kb-a2-separate-01"
+
+    tmp_home = Path(tempfile.mkdtemp(prefix="a2-sep-home-"))
+    tmp_repo = Path(tempfile.mkdtemp(prefix="a2-sep-repo-"))
+    tmp_data = Path(tempfile.mkdtemp(prefix="a2-sep-data-"))
+    saved_env = dict(os.environ)
+    saved_setup_mod = sys.modules.get("setup")
+    try:
+        for key in (
+            "OPENWEBUI_API_KEY", "OPENWEBUI_URL", "MMO_SIM_GM_TRANSPORT_DOUBLE",
+            factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER,
+        ):
+            os.environ.pop(key, None)
+        _a2_setup_chain_env(
+            tmp_home, tmp_repo, preset=FAKE_PRESET, local_model=FAKE_LOCAL_MODEL,
+            local_token=FAKE_LOCAL_TOKEN, owui_url=FAKE_OWUI_URL, owui_key=FAKE_OWUI_KEY,
+            persona_base_url=FAKE_PERSONA_DIRECT_BASE, owui_base_url=FAKE_OWUI_TARGET_BASE,
+        )
+
+        def _router(req, timeout=None, context=None):
+            url = req.full_url
+            model_url_prefix = f"{FAKE_OWUI_URL}/api/v1/models/model?id={_uparse.quote(FAKE_PRESET, safe='')}"
+            if url == model_url_prefix:
+                body = {
+                    "id": FAKE_PRESET, "base_model_id": FAKE_LOCAL_MODEL,
+                    "meta": {"knowledge": [{"id": FAKE_KB}]},
+                }
+                return _ChainFakeResponse(200, json.dumps(body).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/openai/verify":
+                sent = json.loads(req.data.decode("utf-8"))
+                if sent.get("url") != FAKE_OWUI_TARGET_BASE:
+                    return _ChainFakeResponse(200, json.dumps({"data": []}).encode("utf-8"))
+                return _ChainFakeResponse(200, json.dumps({"data": [{"id": FAKE_LOCAL_MODEL}]}).encode("utf-8"))
+            if req.get_method() == "GET" and url == f"{FAKE_OWUI_URL}/openai/config":
+                cfgbody = {
+                    "ENABLE_OPENAI_API": True,
+                    "OPENAI_API_BASE_URLS": [FAKE_OWUI_TARGET_BASE],
+                    "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN],
+                    "OPENAI_API_CONFIGS": {
+                        "0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                              "auth_type": "bearer", "prefix_id": ""},
+                    },
+                }
+                return _ChainFakeResponse(200, json.dumps(cfgbody).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/api/chat/completions":
+                return _ChainFakeResponse(200, json.dumps({
+                    "choices": [{"message": {"content": "GM-Antwort (A2-separate)."}}],
+                    "usage": {"prompt_tokens": 5, "completion_tokens": 3},
+                }).encode("utf-8"))
+            raise AssertionError(f"unerwarteter Request in der A2-Separate-Kette: {req.get_method()} {url}")
+
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch("urllib.request.urlopen", _router):
+            sl_model, kb_id = module._resolve_active_gm_route(tmp_repo)
+            assert sl_model == FAKE_PRESET, sl_model
+            assert kb_id == FAKE_KB, kb_id
+
+            gm_factory = default_gm_transport_factory(tmp_data, _REPO_ROOT, sl_model=sl_model, kb_id=kb_id)
+            gm_transport = gm_factory("a2-separate-table")
+            assert gm_transport.is_dollar_billed is False, (
+                "korrekte getrennte owui_base_url haette die lokale Billingmarkierung bestaetigen muessen "
+                "-- die Factory muss owui_base_url, nicht die Persona-Direktadresse, pruefen."
+            )
+    finally:
+        os.environ.clear()
+        os.environ.update(saved_env)
+        if saved_setup_mod is not None:
+            sys.modules["setup"] = saved_setup_mod
+        import shutil
+        shutil.rmtree(tmp_home, ignore_errors=True)
+        shutil.rmtree(tmp_repo, ignore_errors=True)
+        shutil.rmtree(tmp_data, ignore_errors=True)
+
+
+def test_factory_a2_holds_on_ambiguous_active_connection_before_completion():
+    """A2 (evidence/INDEPENDENT-GENERAL-REVIEW.md A2, O2-C.C1): erreichbares
+    GEWUENSCHTES Backend (`/openai/verify` bestaetigt das Modell), aber die
+    tatsaechlich AKTIVE `/openai/config`-Zuordnung ist mehrdeutig (Ziel-URL
+    zweifach vorhanden) -- vor dem A2-Fix pruefte die Factory das nie und
+    haette `dollar_billed=False` freigegeben. Muss jetzt VOR jeder
+    Completion sichtbar halten."""
+    from mmo_sim.adapters import factories as factories_mod
+    from mmo_sim.adapters.factories import default_gm_transport_factory
+    import urllib.parse as _uparse
+
+    module = _load_mmo_sim_entrypoint()
+    scripts_dir = _REPO_ROOT / "scripts"
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
+
+    FAKE_OWUI_URL = "http://127.0.0.1:18082"
+    FAKE_OWUI_KEY = "owui-fake-key-not-secret-a2amb"
+    FAKE_LOCAL_BASE = "http://127.0.0.1:18003/v1"
+    FAKE_LOCAL_MODEL = "nemotron-a2-ambiguous"
+    FAKE_LOCAL_TOKEN = "test-local-token-not-secret-a2amb"
+    FAKE_PRESET = "zeitriss-a2-ambiguous"
+    FAKE_KB = "kb-a2-ambiguous-01"
+
+    tmp_home = Path(tempfile.mkdtemp(prefix="a2-amb-home-"))
+    tmp_repo = Path(tempfile.mkdtemp(prefix="a2-amb-repo-"))
+    tmp_data = Path(tempfile.mkdtemp(prefix="a2-amb-data-"))
+    saved_env = dict(os.environ)
+    saved_setup_mod = sys.modules.get("setup")
+    try:
+        for key in (
+            "OPENWEBUI_API_KEY", "OPENWEBUI_URL", "MMO_SIM_GM_TRANSPORT_DOUBLE",
+            factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER,
+        ):
+            os.environ.pop(key, None)
+        _a2_setup_chain_env(
+            tmp_home, tmp_repo, preset=FAKE_PRESET, local_model=FAKE_LOCAL_MODEL,
+            local_token=FAKE_LOCAL_TOKEN, owui_url=FAKE_OWUI_URL, owui_key=FAKE_OWUI_KEY,
+            persona_base_url=FAKE_LOCAL_BASE,
+        )
+        calls: list[tuple] = []
+
+        def _router(req, timeout=None, context=None):
+            url = req.full_url
+            calls.append((req.get_method(), url))
+            model_url_prefix = f"{FAKE_OWUI_URL}/api/v1/models/model?id={_uparse.quote(FAKE_PRESET, safe='')}"
+            if url == model_url_prefix:
+                body = {
+                    "id": FAKE_PRESET, "base_model_id": FAKE_LOCAL_MODEL,
+                    "meta": {"knowledge": [{"id": FAKE_KB}]},
+                }
+                return _ChainFakeResponse(200, json.dumps(body).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/openai/verify":
+                return _ChainFakeResponse(200, json.dumps({"data": [{"id": FAKE_LOCAL_MODEL}]}).encode("utf-8"))
+            if req.get_method() == "GET" and url == f"{FAKE_OWUI_URL}/openai/config":
+                # Dieselbe Ziel-URL steht ZWEIFACH in der Connection-Liste --
+                # mehrdeutig, kein Ersttreffer.
+                cfgbody = {
+                    "ENABLE_OPENAI_API": True,
+                    "OPENAI_API_BASE_URLS": [FAKE_LOCAL_BASE, FAKE_LOCAL_BASE],
+                    "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN, FAKE_LOCAL_TOKEN],
+                    "OPENAI_API_CONFIGS": {
+                        "0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                              "auth_type": "bearer", "prefix_id": ""},
+                        "1": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                              "auth_type": "bearer", "prefix_id": ""},
+                    },
+                }
+                return _ChainFakeResponse(200, json.dumps(cfgbody).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/api/chat/completions":
+                return _ChainFakeResponse(200, json.dumps({
+                    "choices": [{"message": {"content": "sollte nie gesendet werden"}}],
+                }).encode("utf-8"))
+            raise AssertionError(f"unerwarteter Request in der A2-Ambiguous-Kette: {req.get_method()} {url}")
+
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch("urllib.request.urlopen", _router):
+            sl_model, kb_id = module._resolve_active_gm_route(tmp_repo)
+            assert sl_model == FAKE_PRESET, sl_model
+            assert kb_id == FAKE_KB, kb_id
+
+            gm_factory = default_gm_transport_factory(tmp_data, _REPO_ROOT, sl_model=sl_model, kb_id=kb_id)
+            raised = False
+            try:
+                gm_factory("a2-ambiguous-table")
+            except RuntimeError as exc:
+                raised = True
+                assert "nicht eindeutig aktiv" in str(exc), str(exc)
+            assert raised, "mehrdeutige aktive Connection haette VOR Completion sichtbar halten muessen."
+        gm_chat_calls = [c for c in calls if c[1] == f"{FAKE_OWUI_URL}/api/chat/completions"]
+        assert not gm_chat_calls, (
+            f"bei mehrdeutiger Connection darf KEINE Completion gesendet worden sein, war {calls}"
+        )
+    finally:
+        os.environ.clear()
+        os.environ.update(saved_env)
+        if saved_setup_mod is not None:
+            sys.modules["setup"] = saved_setup_mod
+        import shutil
+        shutil.rmtree(tmp_home, ignore_errors=True)
+        shutil.rmtree(tmp_repo, ignore_errors=True)
+        shutil.rmtree(tmp_data, ignore_errors=True)
+
+
+def test_factory_a2_holds_on_stale_current_kb_before_completion():
+    """A2 (evidence/INDEPENDENT-GENERAL-REVIEW.md A2, O2-C.C2): Preset-Name
+    UND eindeutige Connection sind bestaetigt, aber das Preset ist (noch)
+    NICHT an die aktuell via `_resolve_active_gm_route` aufgeloeste KB
+    gebunden (z.B. Race/Replikationsverzoegerung: der erste Read lieferte
+    die neue KB, der zweite Read -- beim tatsaechlichen Bindungscheck in
+    der Factory -- noch die alte). Vor dem A2-Fix pruefte die Factory
+    `meta.knowledge` nie gegen das aufgeloeste `kb_id` -- muss jetzt VOR
+    jeder Completion halten."""
+    from mmo_sim.adapters import factories as factories_mod
+    from mmo_sim.adapters.factories import default_gm_transport_factory
+    import urllib.parse as _uparse
+
+    module = _load_mmo_sim_entrypoint()
+    scripts_dir = _REPO_ROOT / "scripts"
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
+
+    FAKE_OWUI_URL = "http://127.0.0.1:18083"
+    FAKE_OWUI_KEY = "owui-fake-key-not-secret-a2kb"
+    FAKE_LOCAL_BASE = "http://127.0.0.1:18004/v1"
+    FAKE_LOCAL_MODEL = "nemotron-a2-stale-kb"
+    FAKE_LOCAL_TOKEN = "test-local-token-not-secret-a2kb"
+    FAKE_PRESET = "zeitriss-a2-stale-kb"
+    FAKE_KB_CURRENT = "kb-a2-current-01"
+    FAKE_KB_STALE = "kb-a2-stale-old-01"
+
+    tmp_home = Path(tempfile.mkdtemp(prefix="a2-kb-home-"))
+    tmp_repo = Path(tempfile.mkdtemp(prefix="a2-kb-repo-"))
+    tmp_data = Path(tempfile.mkdtemp(prefix="a2-kb-data-"))
+    saved_env = dict(os.environ)
+    saved_setup_mod = sys.modules.get("setup")
+    try:
+        for key in (
+            "OPENWEBUI_API_KEY", "OPENWEBUI_URL", "MMO_SIM_GM_TRANSPORT_DOUBLE",
+            factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER,
+        ):
+            os.environ.pop(key, None)
+        _a2_setup_chain_env(
+            tmp_home, tmp_repo, preset=FAKE_PRESET, local_model=FAKE_LOCAL_MODEL,
+            local_token=FAKE_LOCAL_TOKEN, owui_url=FAKE_OWUI_URL, owui_key=FAKE_OWUI_KEY,
+            persona_base_url=FAKE_LOCAL_BASE,
+        )
+        calls: list[tuple] = []
+        model_reads = {"count": 0}
+
+        def _router(req, timeout=None, context=None):
+            url = req.full_url
+            calls.append((req.get_method(), url))
+            model_url_prefix = f"{FAKE_OWUI_URL}/api/v1/models/model?id={_uparse.quote(FAKE_PRESET, safe='')}"
+            if url == model_url_prefix:
+                model_reads["count"] += 1
+                # 1. Read (durch _resolve_active_gm_route): aktuelle KB.
+                # 2. Read (durch den Bindungscheck in der Factory): das
+                # Preset haengt (noch) an der ALTEN KB -- eine reale Stale-
+                # Read-/Race-Lage, kein konstruierter Testartefakt.
+                kb = FAKE_KB_CURRENT if model_reads["count"] == 1 else FAKE_KB_STALE
+                body = {
+                    "id": FAKE_PRESET, "base_model_id": FAKE_LOCAL_MODEL,
+                    "meta": {"knowledge": [{"id": kb}]},
+                }
+                return _ChainFakeResponse(200, json.dumps(body).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/openai/verify":
+                return _ChainFakeResponse(200, json.dumps({"data": [{"id": FAKE_LOCAL_MODEL}]}).encode("utf-8"))
+            if req.get_method() == "GET" and url == f"{FAKE_OWUI_URL}/openai/config":
+                cfgbody = {
+                    "ENABLE_OPENAI_API": True,
+                    "OPENAI_API_BASE_URLS": [FAKE_LOCAL_BASE],
+                    "OPENAI_API_KEYS": [FAKE_LOCAL_TOKEN],
+                    "OPENAI_API_CONFIGS": {
+                        "0": {"enable": True, "model_ids": [FAKE_LOCAL_MODEL],
+                              "auth_type": "bearer", "prefix_id": ""},
+                    },
+                }
+                return _ChainFakeResponse(200, json.dumps(cfgbody).encode("utf-8"))
+            if url == f"{FAKE_OWUI_URL}/api/chat/completions":
+                return _ChainFakeResponse(200, json.dumps({
+                    "choices": [{"message": {"content": "sollte nie gesendet werden"}}],
+                }).encode("utf-8"))
+            raise AssertionError(f"unerwarteter Request in der A2-StaleKB-Kette: {req.get_method()} {url}")
+
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch("urllib.request.urlopen", _router):
+            sl_model, kb_id = module._resolve_active_gm_route(tmp_repo)
+            assert sl_model == FAKE_PRESET, sl_model
+            assert kb_id == FAKE_KB_CURRENT, kb_id
+
+            gm_factory = default_gm_transport_factory(tmp_data, _REPO_ROOT, sl_model=sl_model, kb_id=kb_id)
+            raised = False
+            try:
+                gm_factory("a2-stale-kb-table")
+            except RuntimeError as exc:
+                raised = True
+                assert "aktuelle Knowledge-Base" in str(exc), str(exc)
+            assert raised, "veraltete/fremde KB am gebundenen Preset haette VOR Completion sichtbar halten muessen."
+        gm_chat_calls = [c for c in calls if c[1] == f"{FAKE_OWUI_URL}/api/chat/completions"]
+        assert not gm_chat_calls, (
+            f"bei veralteter KB darf KEINE Completion gesendet worden sein, war {calls}"
+        )
     finally:
         os.environ.clear()
         os.environ.update(saved_env)

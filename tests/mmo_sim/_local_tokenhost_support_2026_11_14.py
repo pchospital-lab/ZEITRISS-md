@@ -1457,10 +1457,35 @@ def self_bootstrap_isolation(*, explicit_context: dict = None) -> "EarlyIsolatio
     ctx = explicit_context
     source = "explicit_context" if ctx is not None else None
     if ctx is None:
-        env_ctx = os.environ.get("LTH_CONTEXT_JSON")
-        if env_ctx:
+        # B3-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B3): vorher wurde
+        # eine AUSDRUECKLICH gesetzte, aber leere `LTH_CONTEXT_JSON` (`if
+        # env_ctx:` ist fuer "" falsy) als "kein Kontext" behandelt und fiel
+        # still auf Fall 3 (Self-Bootstrap) zurueck -- identisch zu einem
+        # GANZ ABWESENDEN Kontext. Das widerspricht der vereinbarten
+        # Trennung "kein externer Kontext -> sicherer Self-Bootstrap;
+        # explizit DEFEKTER Kontext -> sichtbarer Fehler". Erst die
+        # PRAESENZ der Variable (`"LTH_CONTEXT_JSON" in os.environ`)
+        # entscheidet jetzt, ob ueberhaupt ein expliziter Kontext gemeint
+        # ist -- ihr Wert (leer oder nicht) bestimmt nur noch, WARUM er
+        # kaputt ist.
+        if "LTH_CONTEXT_JSON" in os.environ:
             source = "LTH_CONTEXT_JSON"
+            env_ctx = os.environ["LTH_CONTEXT_JSON"]
+            if not env_ctx:
+                raise IsolationBootstrapError(
+                    "self_bootstrap_isolation: LTH_CONTEXT_JSON ist explizit gesetzt, aber "
+                    "leer -- kein stiller Self-Bootstrap-Ersatz fuer einen ausdruecklich "
+                    "uebergebenen (hier: leeren) Kontext."
+                )
             ctx = _load_explicit_context(env_ctx)
+            if ctx is None:
+                # B3-Fix: JSON `null` ist ebenfalls ein EXPLIZIT gelieferter,
+                # aber kaputter Kontext -- nicht bloss "kein Kontext".
+                raise IsolationBootstrapError(
+                    "self_bootstrap_isolation: LTH_CONTEXT_JSON ist explizit gesetzt und "
+                    "lesbares JSON, liefert aber `null` -- kein stiller Self-Bootstrap-Ersatz "
+                    "fuer einen ausdruecklich uebergebenen (hier: null) Kontext."
+                )
     if ctx is not None:
         problems = bootstrap_pre_dispatch_validation(ctx)
         if problems:  # Fall 2: beschaedigt/unvollstaendig -> sichtbar scheitern.
@@ -1625,6 +1650,18 @@ class _DelegatingChildBase(unittest.TestCase):
             data["errors"], 0,
             f"Prozessbruecke {self._module_label}: {data['errors']} Kind-"
             f"Error(s).\n{log_tail}")
+        # B2-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B2): `testsRun`
+        # zaehlt uebersprungene Tests MIT, und `wasSuccessful()` bleibt bei
+        # Skips `True` -- eine Suite, die genug Tests "ran", aber davon ALLE
+        # (oder viele) uebersprungen hat, waere vorher trotzdem als
+        # erfolgreicher echter Testkoerper gezaehlt worden ("kein Skip statt
+        # Ausfuehrung" war nicht erzwungen). Ein uebersprungener Kindtest ist
+        # KEIN ausgefuehrter echter Testkoerper.
+        self.assertEqual(
+            data["skipped"], 0,
+            f"Prozessbruecke {self._module_label}: {data['skipped']} uebersprungene(r) "
+            f"Kindtest(s) -- ein Skip zaehlt NICHT als tatsaechlich ausgefuehrter "
+            f"erfolgreicher Testkoerper.\n{log_tail}")
         self.assertGreaterEqual(
             data["ran"], self._min_domain_tests,
             f"Prozessbruecke {self._module_label}: nur {data['ran']} Kindtests "

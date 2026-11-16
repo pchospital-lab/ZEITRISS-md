@@ -2314,18 +2314,42 @@ def _ensure_owui_local_connection(
     # obwohl die gesamte OpenAI-API-Integration serverseitig AUS war.
     if not reread_data.get("ENABLE_OPENAI_API"):
         return False, f"Connection {action}, aber globales ENABLE_OPENAI_API ist nach Readback nicht aktiv."
-    if target_url not in reread_urls:
-        return False, f"Connection {action}, aber Readback zeigt {target_url} nicht mehr."
-    r_idx = reread_urls.index(target_url)
+    # A4-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A4, O3-B.B2): vorher
+    # verwendete das Readback `.index(target_url)` -- den ERSTEN Treffer,
+    # ohne die Eindeutigkeits-/Fremdpin-/Prefix-Auth-Pruefungen von VOR der
+    # Mutation (oben, Zeilen ~2199-2232) zu wiederholen. Entstand
+    # Mehrdeutigkeit erst durch/nach dem Update (z.B. ein zweiter Prozess
+    # schrieb gleichzeitig), wurde das als Erfolg behandelt. Jetzt gilt
+    # dieselbe Eindeutigkeitspruefung auch im Readback.
+    reread_target_indices = [i for i, u in enumerate(reread_urls) if u == target_url]
+    if len(reread_target_indices) != 1:
+        return False, (
+            f"Connection {action}, aber Readback zeigt {target_url} "
+            + ("nicht mehr." if not reread_target_indices else "mehrfach (mehrdeutig).")
+        )
+    r_idx = reread_target_indices[0]
+    for j, u in enumerate(reread_urls):
+        if u == target_url:
+            continue
+        other_cfg = dict(reread_configs.get(str(j)) or {})
+        if other_cfg.get("enable") and profile.model in (other_cfg.get("model_ids") or []):
+            return False, (
+                f"Connection {action}, aber Readback zeigt Modell '{profile.model}' zusaetzlich an "
+                f"ANDERER wirksamer Connection ({u}) -- mehrdeutig."
+            )
     r_key = reread_keys[r_idx] if r_idx < len(reread_keys) else ""
     r_cfg = dict(reread_configs.get(str(r_idx)) or {})
+    r_auth_type = r_cfg.get("auth_type")
+    r_prefix = r_cfg.get("prefix_id")
     if (
         r_key != profile.api_key
         or not r_cfg.get("enable")
         or profile.model not in (r_cfg.get("model_ids") or [])
+        or r_auth_type not in (None, "", "bearer")
+        or r_prefix not in (None, "")
     ):
         return False, (
-            f"Connection {action}, aber Readback bestaetigt NICHT exakt URL+Token+Modell "
+            f"Connection {action}, aber Readback bestaetigt NICHT exakt URL+Token+Modell/Prefix/Auth "
             f"({target_url} → {profile.model})."
         )
     return True, f"Connection {action} ({target_url} → {profile.model})"
@@ -2415,10 +2439,27 @@ def _rewire_preset_base_model_local(
             all_ok = False
             msgs.append(f"'{vk}': Update fehlgeschlagen (action={action}).")
             continue
+        # A4-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A4, O2-A.A3):
+        # vorher bestaetigte das Readback NUR `base_model_id` -- ein Backend
+        # kann die gewuenschte Modell-ID uebernehmen, alte Params/
+        # Capabilities aber behalten, und die Funktion meldete trotzdem
+        # Erfolg. Jetzt werden dieselben Felder erneut geprueft, die oben
+        # tatsaechlich gesetzt wurden (`desired_params`/`LOCAL_TEXT_ONLY_
+        # CAPABILITIES`).
         verify = client.get_model(preset_id)
-        if not verify or verify.get("base_model_id") != profile.model:
+        verify_params = dict((verify or {}).get("params") or {})
+        verify_caps = ((verify or {}).get("meta") or {}).get("capabilities")
+        if (
+            not verify
+            or verify.get("base_model_id") != profile.model
+            or verify_params != desired_params
+            or verify_caps != LOCAL_TEXT_ONLY_CAPABILITIES
+        ):
             all_ok = False
-            msgs.append(f"'{vk}': Update lief, aber Re-GET zeigt {verify.get('base_model_id') if verify else 'None'}.")
+            msgs.append(
+                f"'{vk}': Update lief, aber Re-GET zeigt base_model_id="
+                f"{verify.get('base_model_id') if verify else 'None'} oder veraltete Params/Capabilities."
+            )
             continue
         msgs.append(f"'{vk}': zeigt jetzt auf `{profile.model}`.")
     return all_ok, " | ".join(msgs)
@@ -2833,6 +2874,85 @@ def _verify_owui_connection_route(
         return False  # lesbarer Fehlerstatus -- bestätigt negativ.
     except (urllib.error.URLError, OSError):
         return None  # kein lesbares Ergebnis -- nicht prüfbar.
+
+
+def _verify_owui_connection_unique_and_enabled(
+    owui_url: str, owui_key: str, target_url: str, api_key: str, model_id: str,
+) -> Optional[bool]:
+    """A2 (evidence/INDEPENDENT-GENERAL-REVIEW.md A2, O2-C.C1/C2, O3-A.A1):
+    rein lesendes Gegenstück zu den Vormutations-Eindeutigkeitschecks in
+    `_ensure_owui_local_connection` -- `_verify_owui_connection_route` prüft
+    nur den GEWÜNSCHTEN Endpoint via `/openai/verify`, nicht die tatsächlich
+    aktive `/openai/config`-Zuordnung. Doppelte Connections an derselben
+    URL, eine global/pro-Connection deaktivierte Route, abweichender
+    Prefix/Auth oder derselbe Modellname an einer ANDEREN wirksamen
+    Connection bleiben dort unsichtbar. Dieser Check liest NUR (`GET
+    /openai/config`), mutiert nichts, ruft kein Modell auf.
+
+    Returns True nur, wenn GENAU EINE Connection an `target_url` existiert,
+    diese aktiviert ist (Connection- UND globaler `ENABLE_OPENAI_API`-
+    Schalter), Token und Modellpin übereinstimmen, Prefix/Auth dem
+    erwarteten Vertrag entsprechen, UND keine ANDERE aktivierte Connection
+    `model_id` ebenfalls anpinnt. Returns False bei einer bestätigten
+    negativen Antwort (lesbar, aber eine Bedingung verletzt). Returns
+    `None`, wenn der Check selbst nicht lesbar beantwortet wurde (Netzwerk-/
+    Parse-Fehler) -- nicht prüfbar, NICHT als "nicht verbunden" werten.
+    """
+    import urllib.request
+    import urllib.error
+
+    try:
+        req = urllib.request.Request(
+            f"{owui_url.rstrip('/')}/openai/config",
+            method="GET",
+            headers={"Authorization": f"Bearer {owui_key}"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            if resp.status != 200:
+                return None
+            try:
+                data = json.loads(resp.read())
+            except json.JSONDecodeError:
+                return None
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError):
+        return None
+
+    if not isinstance(data, dict):
+        return None
+    if not data.get("ENABLE_OPENAI_API"):
+        return False  # globaler Schalter aus -- bestätigt negativ.
+
+    urls = list(data.get("OPENAI_API_BASE_URLS") or [])
+    keys = list(data.get("OPENAI_API_KEYS") or [])
+    configs = dict(data.get("OPENAI_API_CONFIGS") or {})
+    while len(keys) < len(urls):
+        keys.append("")
+
+    target_indices = [i for i, u in enumerate(urls) if u == target_url]
+    if len(target_indices) != 1:
+        return False  # fehlend oder mehrdeutig -- kein Ersttreffer.
+    idx = target_indices[0]
+
+    for j, u in enumerate(urls):
+        if u == target_url:
+            continue
+        other_cfg = dict(configs.get(str(j)) or {})
+        if other_cfg.get("enable") and model_id in (other_cfg.get("model_ids") or []):
+            return False  # derselbe Modellname auch an ANDERER wirksamer Connection.
+
+    own_cfg = dict(configs.get(str(idx)) or {})
+    own_key = keys[idx] if idx < len(keys) else ""
+    auth_type = own_cfg.get("auth_type")
+    prefix_id = own_cfg.get("prefix_id")
+    if (
+        not own_cfg.get("enable")
+        or own_key != api_key
+        or model_id not in (own_cfg.get("model_ids") or [])
+        or auth_type not in (None, "", "bearer")
+        or prefix_id not in (None, "")
+    ):
+        return False
+    return True
 
 
 def _rewire_preset_base_model(
@@ -3426,6 +3546,31 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
     return auto_wired
 
 
+#: A3-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A3, O6-B.B1/B2/B3):
+#: Praefix fuer den Herkunftsmarker, den `_auto_load_owui_env()` neben
+#: jedem tatsaechlich AUS DER DATEI nachgeladenen Key setzt (Marker-Wert =
+#: der geladene Wert selbst, nicht nur ein Flag). Ein spaeterer Aufrufer
+#: (`mmo_sim/adapters/factories.py:_maybe_default_local_tokenhost_persona_
+#: env`) kann damit unterscheiden "dieser Wert steht nur, weil der GM ihn
+#: GERADE aus dem Datei-Altbestand nachgeladen hat" von "hier stand schon
+#: VORHER ein echter, bewusst gesetzter Prozessoverride" -- ohne diese
+#: Markierung wurde ein vom GM vorab autoloaded alter Cloudwert
+#: faelschlich als bewusster Override behandelt (A3, Fall "GM-vorab-
+#: autoloaded Dateialtwerte").
+_AUTOLOAD_ORIGIN_PREFIX = "_MMO_SIM_AUTOLOADED_ORIGIN__"
+
+
+def _is_file_autoloaded_and_unmodified(key: str) -> bool:
+    """A3-Fix: True nur, wenn der aktuelle Wert von `key` exakt der zuletzt
+    von `_auto_load_owui_env()` aus der Datei nachgeladene ist (seitdem von
+    niemandem veraendert) -- dann ist er KEIN bewusster Prozessoverride.
+    Weicht der aktuelle Wert vom Marker ab (oder fehlt der Marker), ist der
+    jetzige Wert ein echter Override (explizit gesetzt oder seitdem
+    ueberschrieben) und zaehlt als bewusste Wahl."""
+    marker = os.environ.get(_AUTOLOAD_ORIGIN_PREFIX + key)
+    return marker is not None and os.environ.get(key) == marker
+
+
 def _auto_load_owui_env() -> bool:
     """Lade ~/.openwebui_env in os.environ, wenn Keys fehlen.
 
@@ -3446,7 +3591,13 @@ def _auto_load_owui_env() -> bool:
     gespeicherte bewusste Wahl (z.B. `MMO_SIM_PERSONA_CLI`/`_API_*`) wurde
     dann NIE geladen. Jetzt wird die Datei immer gelesen und fehlende Werte
     nachgeladen; bereits gesetzte Prozesswerte werden (wie bisher) NIE
-    überschrieben (`not os.environ.get(k)`-Guard unverändert)."""
+    überschrieben (`not os.environ.get(k)`-Guard unverändert).
+
+    A3-Fix: jeder tatsaechlich aus der Datei nachgeladene Key bekommt
+    zusaetzlich seinen eigenen Herkunftsmarker (s. `_AUTOLOAD_ORIGIN_
+    PREFIX`/`_is_file_autoloaded_and_unmodified`) -- reine Zusatzinfo, das
+    bestehende Rueckgabeverhalten (`bool`) bleibt fuer jeden Aufrufer
+    unveraendert."""
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
         return False
@@ -3464,6 +3615,7 @@ def _auto_load_owui_env() -> bool:
     for k, v in values.items():
         if k and v and not os.environ.get(k):
             os.environ[k] = v
+            os.environ[_AUTOLOAD_ORIGIN_PREFIX + k] = v
             loaded = True
     return loaded
 

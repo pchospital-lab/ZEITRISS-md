@@ -99,23 +99,35 @@ if _REAL_BODY:
         sys.path.insert(0, str(_REPO_ROOT))
     from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
     from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
+
+    def _load(name: str, path: Path):
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[name] = mod  # dataclasses-Introspektion braucht den Modulnamen im Registry
+        spec.loader.exec_module(mod)
+        return mod
+
+    # B1-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B1): diese drei `_load`-
+    # Aufrufe standen vorher AUSSERHALB dieses Real-Body-Zweigs -- jeder
+    # Import dieser Testdatei (auch im geteilten Discovery-Elternprozess,
+    # `python3 -m unittest -q`) fuehrte `setup.py`/`launcher.py`/
+    # `local_model_profile.py` dadurch real aus (inkl. `setup.py`s
+    # sys.path-Mutation und `launcher.py`s stdout/stderr-Konfiguration) --
+    # genau der vom General benannte Bruch des Vertrags "kein Produktimport/
+    # keine globalen Produktwirkungen im gemeinsamen Elternprozess".
+    lmp = _load("o1_local_model_profile_under_test", _LOCAL_PROFILE_PY)
+    setup_mod = _load("o1_setup_under_test", _SETUP_PY)
+    launcher_mod = _load("o1_launcher_under_test", _LAUNCHER_PY)
 else:
     # Geteilter Discovery-Elternprozess: nur die Bruecke, kein Koerper.
     load_tests = _support_mod.make_delegating_load_tests(
         __file__, "profile", min_domain_tests=38)
-
-
-def _load(name: str, path: Path):
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    sys.modules[name] = mod  # dataclasses-Introspektion braucht den Modulnamen im Registry
-    spec.loader.exec_module(mod)
-    return mod
-
-
-lmp = _load("o1_local_model_profile_under_test", _LOCAL_PROFILE_PY)
-setup_mod = _load("o1_setup_under_test", _SETUP_PY)
-launcher_mod = _load("o1_launcher_under_test", _LAUNCHER_PY)
+    # B1-Fix: inerte Platzhalter statt echter Produktmodule -- identisches
+    # Muster zu `test_local_tokenhost_routing_2026_11_14.py` (dort bereits
+    # so gefixt). Klassenkoerper, die `lmp`/`setup_mod`/`launcher_mod` zur
+    # Importzeit auswerten, crashen so nicht; echtes Produktverhalten/
+    # -import findet im Elternprozess trotzdem nicht statt.
+    lmp = setup_mod = launcher_mod = _support_mod.parent_mode_product_stub()
 
 FAKE_BASE_URL = "http://127.0.0.1:18001/v1"
 FAKE_MODEL = "nemotron-3-super"
@@ -162,6 +174,173 @@ class LocalTokenhostProfileTests(unittest.TestCase):
         tmp = Path(tempfile.mkdtemp(prefix=f"o1-{prefix}-"))
         self._tmp_dirs.append(tmp)
         return tmp
+
+    # ─── B1-Fix: Negativprobe im geteilten Discovery-Elternprozess ──────
+
+    def test_shared_discovery_parent_import_has_no_product_side_effects(self):
+        """B1-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B1): vorher standen
+        die drei `_load`-Produktimporte (setup/launcher/local_model_profile)
+        AUSSERHALB des `if _REAL_BODY:`-Zweigs -- jeder Import dieser
+        Testdatei im geteilten Elternprozess fuehrte sie real aus. Der vom
+        General zitierte fruehere Critic-Check ('mmo_sim' in sys.modules)
+        deckte das NICHT ab -- diese drei Aliasnamen sind andere Strings.
+        Dieser Test importiert die Testdatei frisch in einem SAUBEREN
+        Subprozess OHNE jede LTH_*-Bruecken-Variable (also im geteilten-
+        Elternprozess-/Stub-Zweig) und prueft direkt:
+          (a) keiner der drei Alias-Modulnamen landet in sys.modules,
+          (b) sys.path waechst nicht (setup.py/das `if _REAL_BODY:`-
+              sys.path.insert fuer scripts/ und REPO_ROOT laufen nicht),
+          (c) `sys.stdout`/`sys.stderr` werden nicht umkonfiguriert
+              (launcher.py 49-53)."""
+        probe_script = (
+            "import sys, json\n"
+            "aliases = ('o1_local_model_profile_under_test', 'o1_setup_under_test', 'o1_launcher_under_test')\n"
+            "path_before = list(sys.path)\n"
+            "reconfigure_calls = {'n': 0}\n"
+            "_orig_out, _orig_err = sys.stdout.reconfigure, sys.stderr.reconfigure\n"
+            "def _spy(*a, **k):\n"
+            "    reconfigure_calls['n'] += 1\n"
+            "sys.stdout.reconfigure = _spy\n"
+            "sys.stderr.reconfigure = _spy\n"
+            "import importlib.util\n"
+            f"spec = importlib.util.spec_from_file_location('profile_negative_probe_mod', {str(_HERE / 'test_local_tokenhost_profile_2026_11_14.py')!r})\n"
+            "mod = importlib.util.module_from_spec(spec)\n"
+            "spec.loader.exec_module(mod)\n"
+            "result = {\n"
+            "    'real_body': mod._REAL_BODY,\n"
+            "    'leaked_aliases': [n for n in aliases if n in sys.modules],\n"
+            "    'path_grew': sys.path != path_before,\n"
+            "    'reconfigure_calls': reconfigure_calls['n'],\n"
+            "}\n"
+            "print(json.dumps(result))\n"
+        )
+        clean_env = {k: v for k, v in os.environ.items() if not k.startswith("LTH_")}
+        probe_argv = [sys.executable, "-c", probe_script]
+        # N4-N2-Guard: jeder echte `subprocess.Popen`-Aufruf braucht eine
+        # vorherige exakte argv-Registrierung (s. `authorize_and_consume`);
+        # ohne env/cwd-Bindung bei der Registrierung bleiben env/cwd hier frei.
+        EARLY_GUARD.register_child(
+            role="b1-negative-probe", argv=probe_argv, fixture_paths=[],
+            export_id="b1-negative-probe-export", count=1,
+        )
+        proc = subprocess.run(
+            probe_argv, cwd=str(_HERE), env=clean_env, capture_output=True, text=True, timeout=60,
+        )
+        self.assertEqual(proc.returncode, 0, f"Probe-Subprozess ist gecrasht:\n{proc.stdout}\n{proc.stderr}")
+        result = json.loads(proc.stdout.strip().splitlines()[-1])
+        self.assertFalse(result["real_body"], "Probe muss selbst im geteilten-Elternprozess-Zweig laufen.")
+        self.assertEqual(
+            result["leaked_aliases"], [],
+            "keiner der drei Produktmodul-Aliase darf im geteilten Elternprozess in sys.modules landen.",
+        )
+        self.assertFalse(
+            result["path_grew"],
+            "sys.path darf im geteilten Elternprozess nicht durch Produktimporte wachsen "
+            "(setup.py/launcher.py-Pfadmutationen duerfen hier nicht laufen).",
+        )
+        self.assertEqual(
+            result["reconfigure_calls"], 0,
+            "launcher.py darf stdout/stderr im geteilten Elternprozess NICHT umkonfigurieren.",
+        )
+
+    def test_bridge_parent_fails_when_child_reports_skipped_tests(self):
+        """B2-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B2): eine Kind-
+        Suite, die (auch nur teilweise) uebersprungene Tests meldet, darf
+        NICHT als erfolgreicher echter Testkoerper durchgehen -- `testsRun`
+        zaehlt Skips mit, `wasSuccessful()` bleibt bei Skips `True`. Baut
+        eine winzige TEMPORAERE Fixture-Datei (kein neues Repo-File, landet
+        in einem `tempfile.mkdtemp()`) mit einem echten `unittest.TestCase`,
+        das GENAU EINEN von zwei Tests per `skipTest` uebergeht, und laesst
+        den ECHTEN Bruecken-Elternvertreter (`_DelegatingChildBase.test_
+        protected_body_runs_in_fresh_interpreter`) direkt dagegen laufen."""
+        fixture_dir = self._tmp_dir("bridge-skip-fixture")
+        fixture_path = fixture_dir / "_bridge_skip_fixture.py"
+        fixture_path.write_text(
+            "import sys, unittest\n"
+            f"sys.path.insert(0, {str(_HERE)!r})\n"
+            "import _local_tokenhost_support_2026_11_14 as support_mod\n"
+            "class _T(unittest.TestCase):\n"
+            "    def test_ok(self):\n"
+            "        self.assertTrue(True)\n"
+            "    def test_skipped(self):\n"
+            "        self.skipTest('synthetic B2 counter-case')\n"
+            "if __name__ == '__main__':\n"
+            "    raise SystemExit(support_mod.run_module_as_child(sys.modules[__name__]))\n",
+            encoding="utf-8",
+        )
+        probe_argv = [sys.executable, str(fixture_path)]
+        EARLY_GUARD.register_child(
+            role="b2-skip-fixture", argv=probe_argv, fixture_paths=[],
+            export_id="b2-skip-fixture-export", count=1,
+        )
+        cls = type(
+            "BridgeSkipFixtureChild", (_support_mod._DelegatingChildBase,),
+            {"_module_file": str(fixture_path), "_module_label": "bridge-skip-fixture",
+             "_min_domain_tests": 1, "_timeout_s": 60},
+        )
+        case = cls("test_protected_body_runs_in_fresh_interpreter")
+        with self.assertRaises(AssertionError) as ctx:
+            case.test_protected_body_runs_in_fresh_interpreter()
+        self.assertIn("uebersprungene", str(ctx.exception))
+
+    def test_self_bootstrap_rejects_empty_or_null_explicit_context_but_absent_context_works(self):
+        """B3-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md B3): ein EXPLIZIT
+        gesetztes, aber leeres `LTH_CONTEXT_JSON` ODER ein explizit
+        gesetztes `LTH_CONTEXT_JSON=null` muessen SICHTBAR scheitern -- vor
+        dem Fix fielen beide Faelle (`if env_ctx:` ist fuer "" falsy;
+        `if ctx is not None:` ist fuer das aus 'null' geparste `None`
+        ebenfalls falsch) still auf den normalen Self-Bootstrap zurueck,
+        identisch zu einem GANZ ABWESENDEN Kontext. Ein tatsaechlich
+        ABWESENDER Kontext muss weiterhin normal funktionieren (Positiv-
+        kontrolle). `self_bootstrap_isolation()` selbst braucht einen
+        FRISCHEN Interpreter (ein bereits in DIESEM Prozess installierter
+        Primaerguard wuerde sofort wiederverwendet, Fall 1, und die neue
+        Validierung nie erreichen) -- daher drei gezielte Subprozess-Proben."""
+        probe_tmpl = (
+            "import sys, json\n"
+            f"sys.path.insert(0, {str(_HERE)!r})\n"
+            "import _local_tokenhost_support_2026_11_14 as support_mod\n"
+            "ok = False\n"
+            "msg = ''\n"
+            "try:\n"
+            "    support_mod.self_bootstrap_isolation()\n"
+            "    ok = {expect_raise!r} is False\n"
+            "except support_mod.IsolationBootstrapError as exc:\n"
+            "    ok = {expect_raise!r} is True\n"
+            "    msg = str(exc)\n"
+            "print(json.dumps({{'ok': ok, 'msg': msg}}))\n"
+        )
+        for case_name, env_value, expect_raise in (
+            ("empty", "", True),
+            ("null", "null", True),
+            ("absent", None, False),
+        ):
+            # eindeutiges argv je Fall -- sonst waeren "empty" und "null"
+            # (beide expect_raise=True) textidentische Skripte und die
+            # zweite Registrierung/Verbrauch desselben argv wuerde als
+            # Replay abgelehnt.
+            script = f"# case={case_name}\n" + probe_tmpl.format(expect_raise=expect_raise)
+            clean_env = {k: v for k, v in os.environ.items() if not k.startswith("LTH_")}
+            if env_value is not None:
+                clean_env["LTH_CONTEXT_JSON"] = env_value
+            probe_argv = [sys.executable, "-c", script]
+            EARLY_GUARD.register_child(
+                role=f"b3-context-probe-{case_name}", argv=probe_argv, fixture_paths=[],
+                export_id=f"b3-context-probe-{case_name}-export", count=1,
+            )
+            proc = subprocess.run(
+                probe_argv, cwd=str(_HERE), env=clean_env, capture_output=True, text=True, timeout=60,
+            )
+            self.assertEqual(
+                proc.returncode, 0,
+                f"[{case_name}] Probe-Subprozess ist gecrasht:\n{proc.stdout}\n{proc.stderr}",
+            )
+            result = json.loads(proc.stdout.strip().splitlines()[-1])
+            self.assertTrue(
+                result["ok"],
+                f"[{case_name}] LTH_CONTEXT_JSON={env_value!r}: erwartetes "
+                f"Verhalten (expect_raise={expect_raise}) trat nicht ein. msg={result['msg']!r}",
+            )
 
     # ─── 1. Resolver pur: Validierung/Haltegruende ──────────────────────
 
@@ -547,6 +726,128 @@ class LocalTokenhostProfileTests(unittest.TestCase):
         finally:
             os.environ.clear()
             os.environ.update(saved_env)
+
+    def test_fresh_action_install_cloud_choice_write_failure_halts_visibly_no_autowire(self):
+        """P5-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, O1-C.C1): Gegenprobe
+        zum vorigen Test -- der Cloud-Erstwahlzweig ignorierte vorher den
+        False-Rueckgabewert des geschuetzten Writers und lief trotzdem bis
+        `run_setup`/`ensure_litellm_autowire` weiter, obwohl die Wahl NIE
+        persistiert wurde. Jetzt muss ein Schreibfehler sichtbar halten --
+        kein automatischer Fortsetzungsversuch mit unpersistierter Wahl."""
+        tmp_home = Path(tempfile.mkdtemp(prefix="o1-erstwahl-cloud-writefail-"))
+        self._tmp_dirs.append(tmp_home)
+        saved_env = dict(os.environ)
+        os.environ["OPENWEBUI_API_KEY"] = "owui-fake-key-not-secret"
+        os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
+        os.environ["OPENROUTER_API_KEY"] = "sk-or-fake-not-secret"
+        try:
+            with mock.patch.object(Path, "home", return_value=tmp_home), \
+                 mock.patch.object(launcher_mod, "_detect_install_state", side_effect=["fresh", "fresh"]), \
+                 mock.patch.object(launcher_mod, "_docker_ok", return_value=(True, "ok")), \
+                 mock.patch.object(launcher_mod, "_openwebui_ok", return_value=(True, "ok")), \
+                 mock.patch.object(launcher_mod, "_ensure_owui_env", return_value=True), \
+                 mock.patch.object(launcher_mod, "_openrouter_key_status", return_value=(True, "ok")), \
+                 mock.patch.object(launcher_mod, "_prompt", return_value=""), \
+                 mock.patch.object(launcher_mod, "_pause") as pause_mock, \
+                 mock.patch.object(launcher_mod.setup_module, "_update_env_file_preserving", return_value=False), \
+                 mock.patch.object(launcher_mod.setup_module, "run_setup") as run_setup_mock, \
+                 mock.patch.object(launcher_mod, "_litellm_ok", return_value=(True, "ok")), \
+                 mock.patch.object(launcher_mod.setup_module, "ensure_litellm_autowire") as autowire_mock:
+                launcher_mod.action_install()
+            self.assertEqual(
+                run_setup_mock.call_count, 0,
+                "ein ignorierter Schreibfehler duerfte NICHT bis run_setup weiterlaufen.",
+            )
+            self.assertEqual(autowire_mock.call_count, 0)
+            self.assertGreaterEqual(pause_mock.call_count, 1, "muss sichtbar halten (Pause), nicht einfach weiterlaufen.")
+            env_path = tmp_home / ".openwebui_env"
+            self.assertFalse(
+                env_path.is_file(),
+                "bei einem gehaltenen Schreibfehler darf keine (auch keine ungeschuetzte Vorab-) "
+                "Datei zurueckbleiben.",
+            )
+        finally:
+            os.environ.clear()
+            os.environ.update(saved_env)
+
+    def test_action_install_erstwahl_local_halts_on_wrong_but_valid_readback_mismatch(self):
+        """O1-C.C2/C3 (RELEASE-CASES.json): "falscher, aber gueltiger
+        Readback in Erstwahl UND Rekey haelt" -- der bestehende zentrale
+        Helpertest (`test_protected_publish_wrong_but_valid_readback_holds_
+        no_false_success`) treibt NUR `_update_env_file_preserving` direkt,
+        nie den echten `action_install`-Erstwahlweg. Hier liefert das
+        Pflicht-Readback INNERHALB des Writers ein strukturell gueltiges,
+        aber vom gewaehlten Profil ABWEICHENDES Modell zurueck (z.B. eine
+        Race/ein fremder gleichzeitiger Schreibzugriff) -- der echte
+        Aufrufer muss sichtbar halten, NICHT mit der falschen Auswahl
+        weiterlaufen."""
+        tmp_home = Path(tempfile.mkdtemp(prefix="o1-erstwahl-local-readback-mismatch-"))
+        self._tmp_dirs.append(tmp_home)
+        saved_env = dict(os.environ)
+        os.environ["OPENWEBUI_API_KEY"] = "owui-fake-key-not-secret"
+        os.environ["OPENWEBUI_URL"] = "http://127.0.0.1:8080"
+        try:
+            prompts = iter(["l", FAKE_BASE_URL, FAKE_MODEL, ""])
+            wrong_but_valid = {
+                lmp.ENV_KEY_PROVIDER: "local", lmp.ENV_KEY_BASE_URL: FAKE_BASE_URL,
+                lmp.ENV_KEY_MODEL: "a-different-but-otherwise-valid-model", lmp.ENV_KEY_API_KEY: FAKE_TOKEN,
+            }
+            with mock.patch.object(Path, "home", return_value=tmp_home), \
+                 mock.patch.object(launcher_mod, "_detect_install_state", side_effect=["fresh", "fresh"]), \
+                 mock.patch.object(launcher_mod, "_docker_ok", return_value=(True, "ok")), \
+                 mock.patch.object(launcher_mod, "_openwebui_ok", return_value=(True, "ok")), \
+                 mock.patch.object(launcher_mod, "_ensure_owui_env", return_value=True), \
+                 mock.patch.object(launcher_mod, "_prompt", side_effect=lambda *_a, **_k: next(prompts)), \
+                 mock.patch("getpass.getpass", side_effect=["test-local-token-not-secret"]), \
+                 mock.patch.object(launcher_mod, "_pause") as pause_mock, \
+                 mock.patch.object(launcher_mod.setup_module, "_read_env_file", return_value=wrong_but_valid), \
+                 mock.patch.object(launcher_mod.setup_module, "run_setup") as run_setup_mock, \
+                 mock.patch.object(launcher_mod.setup_module, "run_install_litellm") as install_litellm_mock, \
+                 mock.patch.object(launcher_mod.setup_module, "ensure_litellm_autowire") as autowire_mock:
+                launcher_mod.action_install()
+            self.assertEqual(
+                run_setup_mock.call_count, 0,
+                "ein falscher-aber-gueltiger Readback-Mismatch darf NICHT bis run_setup weiterlaufen.",
+            )
+            self.assertEqual(install_litellm_mock.call_count, 0)
+            self.assertEqual(autowire_mock.call_count, 0)
+            self.assertGreaterEqual(pause_mock.call_count, 1, "muss sichtbar halten, nicht einfach weiterlaufen.")
+        finally:
+            os.environ.clear()
+            os.environ.update(saved_env)
+
+    def test_action_rekeys_local_halts_on_wrong_but_valid_readback_mismatch(self):
+        """O1-C.C2/C3 (RELEASE-CASES.json): Gegenstueck zum vorigen Test fuer
+        den echten Rekey-Aufrufer (`action_rekeys`, lokaler Zweig) -- derselbe
+        falsche-aber-gueltige Readback-Mismatch muss auch hier sichtbar
+        halten, nicht nur am zentralen Helper oder am (positiven)
+        `test_rekey_enter_preserves_strict_512_120_limits...`-Test."""
+        tmp_home = Path(tempfile.mkdtemp(prefix="o1-rekey-local-readback-mismatch-"))
+        self._tmp_dirs.append(tmp_home)
+        wrong_but_valid = {
+            lmp.ENV_KEY_PROVIDER: "local", lmp.ENV_KEY_BASE_URL: FAKE_BASE_URL,
+            lmp.ENV_KEY_MODEL: "a-different-but-otherwise-valid-model", lmp.ENV_KEY_API_KEY: FAKE_TOKEN,
+        }
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch.object(launcher_mod, "_pause") as pause_mock:
+            prompts = iter(["http://localhost:8080", "local", FAKE_BASE_URL, FAKE_MODEL, ""])
+            with mock.patch.object(launcher_mod, "_prompt", side_effect=lambda *_a, **_k: next(prompts)), \
+                 mock.patch("getpass.getpass", side_effect=["owui-fake-key", FAKE_TOKEN]), \
+                 mock.patch.object(launcher_mod.setup_module, "_read_env_file", return_value=wrong_but_valid):
+                launcher_mod.action_rekeys()
+        self.assertGreaterEqual(pause_mock.call_count, 1, "muss sichtbar halten, nicht einfach weiterlaufen.")
+        env_path = tmp_home / ".openwebui_env"
+        marker = setup_mod._pending_marker_path(env_path)
+        self.assertTrue(
+            marker.exists(),
+            "bei einem Readback-Mismatch muss der Pending-Marker aktiv bleiben (HOLD) -- "
+            "die Bytes stehen zwar schon auf Platte, aber unbestaetigt.",
+        )
+        provider, _p, hold_reason = setup_mod.resolve_model_provider(env_path)
+        self.assertEqual(
+            provider, "hold",
+            f"ein aktiver Pending-Marker muss resolve_model_provider sichtbar halten lassen, war {provider!r} ({hold_reason!r}).",
+        )
 
     def test_action_install_reuses_valid_saved_local_choice_without_erstwahl_prompt(self):
         """O1-A (A1, dritte Teilbedingung): "gueltige gespeicherte Wahl

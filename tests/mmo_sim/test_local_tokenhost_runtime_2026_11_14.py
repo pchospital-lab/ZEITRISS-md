@@ -43,6 +43,7 @@ if str(_HERE) not in sys.path:
 from _full_v7_fixture import full_v7_save  # noqa: E402
 
 import mmo_sim.core.store as store  # noqa: E402
+from mmo_sim.adapters import factories as factories_mod  # noqa: E402
 from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
 from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
 from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
@@ -139,19 +140,33 @@ class _SerialTrackingUrlopen:
         url = req.full_url
         role = "gm" if url.endswith("/api/chat/completions") else "persona"
         self._seq += 1
+        seq = self._seq
         self._active += 1
-        self.events.append(("enter", role, self._seq))
-        try:
-            if self._active > 1:
-                raise AssertionError(f"active_requests={self._active} > 1 -- Parallelversand erkannt")
-            queue = self._gm if role == "gm" else self._persona
-            if not queue:
-                raise AssertionError(f"_SerialTrackingUrlopen: keine weitere {role}-Antwort")
-            status, payload = queue.pop(0)
-            return _FakeResponse(status, json.dumps(payload).encode("utf-8"))
-        finally:
+        self.events.append(("enter", role, seq))
+        # O4-C.C1-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md Tabelle C):
+        # vorher dekrementierte bereits das `finally` HIER, direkt nach dem
+        # Konstruieren der Response -- das misst nur, wie lange `__call__`
+        # selbst braucht, NICHT die tatsaechliche Response-Lebensdauer
+        # (read/close). `_FakeResponse.__exit__` (unten) haelt die
+        # Aktivitaet jetzt bis zum echten Schluss des `with`-Blocks, exakt
+        # wie ein echter `urllib`-Response-Kontextmanager es tun wuerde --
+        # ein bestellter vollstaendiger open/read/close-Nachweis, nicht nur
+        # ein urlopen-Aufrufnachweis.
+        if self._active > 1:
             self._active -= 1
-            self.events.append(("exit", role, self._seq))
+            self.events.append(("exit", role, seq))
+            raise AssertionError(f"active_requests={self._active + 1} > 1 -- Parallelversand erkannt")
+        queue = self._gm if role == "gm" else self._persona
+        if not queue:
+            self._active -= 1
+            self.events.append(("exit", role, seq))
+            raise AssertionError(f"_SerialTrackingUrlopen: keine weitere {role}-Antwort")
+        status, payload = queue.pop(0)
+        return _FakeResponse(status, json.dumps(payload).encode("utf-8"), release=lambda: self._release(role, seq))
+
+    def _release(self, role, seq):
+        self._active -= 1
+        self.events.append(("exit", role, seq))
 
     def max_active(self) -> int:
         active = 0
@@ -173,10 +188,65 @@ class _SerialTrackingUrlopen:
         return True
 
 
+class _FactoryAwareSerialTrackingUrlopen(_SerialTrackingUrlopen):
+    """O4-A.A1-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, Tabelle C):
+    beantwortet zusaetzlich die EINMALIGEN Setup-Anfragen, die
+    `default_gm_transport_factory`s lokaler Zweig beim Transportbau
+    ausloest (Preset-Read, nichtgenerativer Verify, Connection-
+    Eindeutigkeitscheck) -- diese sind KEINE GM-/Persona-Completion und
+    duerfen die Serial-/Active-Zaehlung der Basisklasse nicht beruehren.
+    Danach bleibt das Verhalten (GM-/Persona-Queues, Aktivitaetstracking)
+    bytegleich zur Basisklasse."""
+
+    def __init__(self, gm_responses, persona_responses, *, owui_url, preset_id, local_model, kb_id,
+                 local_base_url, local_token):
+        super().__init__(gm_responses, persona_responses)
+        self._owui_url = owui_url
+        self._preset_id = preset_id
+        self._local_model = local_model
+        self._kb_id = kb_id
+        self._local_base_url = local_base_url
+        self._local_token = local_token
+        self.setup_calls: list[str] = []
+
+    def __call__(self, req, timeout=None, context=None):
+        import urllib.parse
+        url = req.full_url
+        model_url = f"{self._owui_url}/api/v1/models/model?id={urllib.parse.quote(self._preset_id, safe='')}"
+        if url == model_url:
+            self.setup_calls.append(url)
+            body = {
+                "id": self._preset_id, "base_model_id": self._local_model,
+                "meta": {"knowledge": [{"id": self._kb_id}]},
+            }
+            return _FakeResponse(200, json.dumps(body).encode("utf-8"))
+        if url == f"{self._owui_url}/openai/verify":
+            self.setup_calls.append(url)
+            return _FakeResponse(200, json.dumps({"data": [{"id": self._local_model}]}).encode("utf-8"))
+        if req.get_method() == "GET" and url == f"{self._owui_url}/openai/config":
+            self.setup_calls.append(url)
+            cfg = {
+                "ENABLE_OPENAI_API": True,
+                "OPENAI_API_BASE_URLS": [self._local_base_url],
+                "OPENAI_API_KEYS": [self._local_token],
+                "OPENAI_API_CONFIGS": {
+                    "0": {"enable": True, "model_ids": [self._local_model],
+                          "auth_type": "bearer", "prefix_id": ""},
+                },
+            }
+            return _FakeResponse(200, json.dumps(cfg).encode("utf-8"))
+        return super().__call__(req, timeout=timeout, context=context)
+
+
 class _FakeResponse:
-    def __init__(self, status, body):
+    def __init__(self, status, body, release=None):
         self.status = status
         self._body = body
+        # O4-C.C1-Fix: `release` (falls gesetzt) wird ERST in `__exit__`
+        # aufgerufen -- nicht beim Konstruieren/Zurueckgeben der Response.
+        # `read()` haelt die Aktivitaet weiterhin (ruft `release` nicht auf),
+        # exakt wie ein echter Response-Kontextmanager.
+        self._release = release
 
     def read(self):
         return self._body
@@ -185,6 +255,8 @@ class _FakeResponse:
         return self
 
     def __exit__(self, *a):
+        if self._release is not None:
+            self._release()
         return False
 
 
@@ -401,7 +473,14 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         requests_dir = env.run_dir / "requests"
         records = _ledger_records(env.run_dir)
         gm_records = [r for r in records if r["role"] == "gm_turn"]
-        persona_records = [r for r in records if r["role"] == "persona_decision"]
+        # O4-C.C2-Nachzug: die Pflicht-Reflexion des Gastes laeuft als
+        # EIGENE echte Persona-Anfrage, aber unter `role="reflection"`
+        # (mmo_sim/core/runtime.py), NICHT unter "persona_decision" --
+        # beide Rollen sind echte Persona-Wire-Calls an dieselbe lokale
+        # Route und muessen hier gemeinsam erfasst werden, sonst waere
+        # die Reflexions-Anfrage weder im Export noch in den folgenden
+        # Zuordnungen vertreten.
+        persona_records = [r for r in records if r["role"] in ("persona_decision", "reflection")]
         self.assertTrue(gm_records and persona_records)
         for rec in gm_records:
             self.assertEqual(rec["route"], FAKE_OWUI_URL, "GM-Ledgereintrag muss die echte OWUI-Route tragen.")
@@ -424,19 +503,34 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         # (4) Rohartefakte (der volle Wire-Trace, der die echten Secrets IM
         # SPEICHER noch traegt, s.o.) werden JETZT -- waehrend `root` noch
         # lebt, VOR dem Fixture-Cleanup in `tearDown` -- redigiert exportiert.
+        # O4-C.C2-Nachzug (evidence/INDEPENDENT-GENERAL-REVIEW.md Tabelle C):
+        # der Export trug vorher nur Rolle/Route/Modell/Limit -- die
+        # geforderten Billing-/Usagefelder fehlten GEMEINSAM ZUGEORDNET im
+        # Export selbst (nur im getrennten Ledger belegt). Wire-Calls UND
+        # Ledgereintraege laufen je Rolle in derselben chronologischen
+        # Reihenfolge -- `zip` ordnet dollar_billed/usage pro Request korrekt zu.
         def _redact(value: str) -> str:
             return value.replace(FAKE_OWUI_KEY, "[REDACTED]").replace(FAKE_LOCAL_TOKEN, "[REDACTED]")
 
-        export = [
-            {
-                "role": "gm" if c["url"].startswith(FAKE_OWUI_URL) else "persona",
-                "route": c["url"].rsplit("/", 1)[0],
-                "model": c["body"].get("model") if isinstance(c["body"], dict) else None,
-                "max_tokens": c["body"].get("max_tokens") if isinstance(c["body"], dict) else None,
-                "authorization": _redact(c["headers"].get("Authorization", "")),
+        self.assertEqual(len(gm_wire), len(gm_records), "GM-Wire-Calls und -Ledgereintraege muessen 1:1 zuordenbar sein.")
+        self.assertEqual(len(persona_wire), len(persona_records), "Persona-Wire-Calls und -Ledgereintraege muessen 1:1 zuordenbar sein.")
+
+        def _export_entry(role: str, call: dict, rec: dict) -> dict:
+            body = call["body"] if isinstance(call["body"], dict) else {}
+            return {
+                "role": role,
+                "route": call["url"].rsplit("/", 1)[0],
+                "model": body.get("model"),
+                "max_tokens": body.get("max_tokens"),
+                "authorization": _redact(call["headers"].get("Authorization", "")),
+                "dollar_billed": rec["dollar_billed"],
+                "usage": rec["usage"],
             }
-            for c in urlopen.wire_calls
-        ]
+
+        export = (
+            [_export_entry("gm", c, r) for c, r in zip(gm_wire, gm_records)]
+            + [_export_entry("persona", c, r) for c, r in zip(persona_wire, persona_records)]
+        )
         export_path = root / "raw_trace_export.json"
         export_path.write_text(json.dumps(export, indent=2, sort_keys=True), encoding="utf-8")
         self.assertTrue(export_path.is_file(), "Rohartefakt-Export muss vor dem Fixture-Cleanup geschrieben sein.")
@@ -445,6 +539,11 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         self.assertNotIn(FAKE_LOCAL_TOKEN, exported_raw, "exportierter Rohartefakt darf den lokalen Token nicht tragen.")
         self.assertIn(FAKE_PRESET_ID, exported_raw, "Modell/Route/Limits bleiben im Export lesbar -- nur Secrets sind redigiert.")
         self.assertIn(FAKE_LOCAL_MODEL, exported_raw)
+        for entry in export:
+            self.assertIn("dollar_billed", entry, "Billingfeld muss GEMEINSAM MIT Rolle/Route/Modell im Export stehen.")
+            self.assertFalse(entry["dollar_billed"], entry)
+            self.assertIn("prompt_tokens", entry["usage"], "Usagefeld muss GEMEINSAM MIT Rolle/Route/Modell im Export stehen.")
+            self.assertGreater(entry["usage"]["prompt_tokens"], 0)
 
     def test_cloud_counterpart_max_usd_zero_stops_before_gm_completion(self):
         """O5: Cloudgegenfall mit max_usd=0 stoppt an DERSELBEN GM-Stelle --
@@ -633,20 +732,30 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         )
         self.assertIsNotNone(table, derivation)
 
-        gm = GmOwuiTransport(
-            _SL_CLIENT_PY, env.run_dir, table_id="t-local-2p",
-            sl_model=FAKE_PRESET_ID, kb_id=FAKE_KB_ID,
-            gm_output_limit_tokens=4096, is_dollar_billed=False,
-        )
-        # ZWEI eigene, tatsaechlich konstruierte PersonaApiDriver-Instanzen
-        # -- dies ist die "mindestens zwei Persona-Konstruktionen"-Teilbedingung.
-        persona_config = PersonaApiConfig(
-            base_url=FAKE_LOCAL_BASE, api_key=FAKE_LOCAL_TOKEN, model=FAKE_LOCAL_MODEL,
-            max_tokens=400, is_dollar_billed=False,
-        )
-        guest_a_driver = PersonaApiDriver(persona_config, "guest_a_pk")
-        guest_b_driver = PersonaApiDriver(persona_config, "guest_b_pk")
-        self.assertIsNot(guest_a_driver, guest_b_driver, "zwei eigenstaendige Konstruktionen, keine Wiederverwendung.")
+        # O4-A.A1-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md, Tabelle C):
+        # GM und Personas werden jetzt ueber die ECHTEN gemeinsamen Factories
+        # (`mmo_sim.adapters.factories.default_gm_transport_factory`/
+        # `default_persona_driver_factory`) aufgebaut -- vorher wurden
+        # `GmOwuiTransport`/`PersonaApiDriver` hier direkt konstruiert,
+        # getrennt von der separat belegten Factorykette (A2/O2-B/O2-C).
+        # Dafuer braucht es ein echtes persistiertes lokales Profil
+        # (`~/.openwebui_env`) UND die drei einmaligen Setup-Anfragen, die
+        # der lokale GM-Zweig vor dem Transportbau stellt (Preset-Read,
+        # Verify, Connection-Eindeutigkeit) -- `_FactoryAwareSerialTracking
+        # Urlopen` beantwortet sie, ohne die Serial-/Active-Zaehlung zu
+        # beruehren.
+        tmp_home = Path(tempfile.mkdtemp(prefix="o4a-two-persona-home-"))
+        self._tmp_dirs.append(tmp_home)
+        scripts_dir = _REPO_ROOT / "scripts"
+        if str(scripts_dir) not in sys.path:
+            sys.path.insert(0, str(scripts_dir))
+        import local_model_profile as real_lmp  # noqa: E402
+        import setup as real_setup  # noqa: E402
+        env_path = tmp_home / ".openwebui_env"
+        local_updates = dict(real_lmp.build_local_profile_updates(
+            base_url=FAKE_LOCAL_BASE, model=FAKE_LOCAL_MODEL, api_key=FAKE_LOCAL_TOKEN,
+        ))
+        self.assertTrue(real_setup._update_env_file_preserving(env_path, local_updates))
 
         debrief_content = (
             "Abschnitt beendet.\n"
@@ -661,19 +770,10 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
             ParticipantDecision(text="Reflexion: zufrieden.", origin_source="fake:leader-reflect"),
         ], is_human_driver=True)
 
-        controller = TableController(
-            leader_key="leader_pk",
-            drivers={"leader_pk": leader_driver, "guest_a_pk": guest_a_driver, "guest_b_pk": guest_b_driver},
-        )
         event_log = EventLog(env.run_dir)
         write_test_profile(env.run_dir, max_usd=0.0)
 
-        runtime = SectionRuntime(
-            lobby=lobby, table=table, gm_transport=gm, marker=COMPLETION_MARKER,
-            harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
-            harvest_extractor=_harvest_extractor, event_log=event_log,
-        )
-        urlopen = _SerialTrackingUrlopen(
+        urlopen = _FactoryAwareSerialTrackingUrlopen(
             # Leader-Anker + Import je Gast (2x) + Debrief = 4 GM-Antworten.
             gm_responses=[
                 _gm_response("SL-Antwort auf Anker."),
@@ -690,8 +790,34 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
                 _persona_response("Gast-A-Reflexion: hat Spass gemacht."),
                 _persona_response("Gast-B-Reflexion: hat Spass gemacht."),
             ],
+            owui_url=FAKE_OWUI_URL, preset_id=FAKE_PRESET_ID, local_model=FAKE_LOCAL_MODEL,
+            kb_id=FAKE_KB_ID, local_base_url=FAKE_LOCAL_BASE, local_token=FAKE_LOCAL_TOKEN,
         )
-        with mock.patch("urllib.request.urlopen", urlopen):
+        with mock.patch.object(Path, "home", return_value=tmp_home), \
+             mock.patch("urllib.request.urlopen", urlopen):
+            gm_factory = factories_mod.default_gm_transport_factory(
+                env.run_dir, _REPO_ROOT, sl_model=FAKE_PRESET_ID, kb_id=FAKE_KB_ID,
+            )
+            gm = gm_factory("t-local-2p")
+            self.assertFalse(gm.is_dollar_billed, "echte lokale Route muss dollar_billed=False bestaetigen.")
+
+            # ZWEI eigene, tatsaechlich konstruierte PersonaApiDriver-
+            # Instanzen ueber dieselbe echte Factory -- dies ist die
+            # "mindestens zwei Persona-Konstruktionen"-Teilbedingung.
+            persona_factory = factories_mod.default_persona_driver_factory(env.run_dir)
+            guest_a_driver = persona_factory("guest_a_pk")
+            guest_b_driver = persona_factory("guest_b_pk")
+            self.assertIsNot(guest_a_driver, guest_b_driver, "zwei eigenstaendige Konstruktionen, keine Wiederverwendung.")
+
+            controller = TableController(
+                leader_key="leader_pk",
+                drivers={"leader_pk": leader_driver, "guest_a_pk": guest_a_driver, "guest_b_pk": guest_b_driver},
+            )
+            runtime = SectionRuntime(
+                lobby=lobby, table=table, gm_transport=gm, marker=COMPLETION_MARKER,
+                harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
+                harvest_extractor=_harvest_extractor, event_log=event_log,
+            )
             outcome = runtime.run_full_section(
                 controller, "section-local-2p",
                 contexts_by_persona={
@@ -701,6 +827,7 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
                 },
                 states_dir=env.states_dir, today="2026-11-14", ts="2026-11-14T12:00:00",
             )
+        self.assertGreaterEqual(len(urlopen.setup_calls), 3, "die drei einmaligen GM-Setup-Anfragen muessen gelaufen sein.")
         self.assertTrue(outcome.completion.success, outcome.completion.reason)
         self.assertEqual(set(outcome.completion.members_completed), {"leader_pk", "guest_a_pk", "guest_b_pk"})
         self.assertEqual(urlopen.max_active(), 1, "auch mit zwei Personas bleibt der Versand seriell.")

@@ -156,6 +156,32 @@ class _GM:
         }
 
 
+class _ClarifyingThenSaveGM:
+    """O4-B.B2-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md Tabelle C):
+    liefert im ERSTEN Turn eine echte Rueckfrage OHNE fertigen v7-Block --
+    erst NACH einer tatsaechlichen Persona-Antwort (zweiter Turn) liefert
+    der GM den fertigen Save. `driver.calls==0` mit direkter GM-
+    Erstantwort (wie `_GM` oben) allein beweist die geforderte "mindestens
+    einen tatsaechlich aufgerufenen Persona-Adapter"-Teilbedingung nicht."""
+
+    def __init__(self, clarifying_text: str, final_v7_block: str, *, is_dollar_billed=True,
+                 output_limit_tokens=4096, base_url=None):
+        self.clarifying_text = clarifying_text
+        self.final_v7_block = final_v7_block
+        self.is_dollar_billed = is_dollar_billed
+        self.output_limit_tokens = output_limit_tokens
+        self.base_url = base_url
+        self.calls = 0
+
+    def turn(self, idx, text, output_limit_tokens=None):
+        self.calls += 1
+        content = self.clarifying_text if self.calls == 1 else self.final_v7_block
+        return {
+            "content": content, "usage": {"prompt_tokens": 12, "completion_tokens": 8},
+            "sources": [], "latency_s": 0.01, "chat_id": "creation-n1-test",
+        }
+
+
 class _LegacyGM:
     """Transport-Fake OHNE `is_dollar_billed`-Attribut -- alte/Cloud-
     Transporte, fuer die `getattr(gm_transport, 'is_dollar_billed', True)`
@@ -174,13 +200,17 @@ class _LegacyGM:
 
 class _AcceptPersonaDriver:
     """Persona-Treiber-Fake, der jede Einladungs-/Entscheidungsfrage mit
-    einer strukturell validierbaren Zustimmung beantwortet. Fuer die Faelle
-    unten NIE tatsaechlich fuer eine Erschaffungsfrage aufgerufen (der GM
+    einer strukturell validierbaren Zustimmung beantwortet. Fuer manche
+    Faelle NIE tatsaechlich fuer eine Erschaffungsfrage aufgerufen (der GM
     liefert den fertigen Save bereits im ersten Turn) -- `.calls` bestaetigt
-    das explizit."""
+    das explizit; fuer den O4-B.B2-Gegenfall (echter GM-Rueckfrageturn) WIRD
+    er aufgerufen, dann bestimmt `is_dollar_billed` (default `True`, wie der
+    echte `getattr(persona_driver, 'is_dollar_billed', True)`-Fallback in
+    `community_creation.py`) das Gate fuer DIESEN Persona-Request."""
 
-    def __init__(self, persona_key: str):
+    def __init__(self, persona_key: str, *, is_dollar_billed: bool = True):
         self.persona_key = persona_key
+        self.is_dollar_billed = is_dollar_billed
         self.calls = 0
 
     def decide(self, context: dict) -> ParticipantDecision:
@@ -308,7 +338,15 @@ class PersonaCommunityCreationDollarBillingTests(unittest.TestCase):
 
     def test_persona_first_figure_local_transport_ledger_reflects_dollar_billed_false(self):
         """Persona-Erstfigur ueber den echten Community-Einstieg
-        (`advance_one_persona_creation`), lokaler GM-Transport."""
+        (`advance_one_persona_creation`), lokaler GM-Transport.
+
+        O4-B.B2-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md Tabelle C): der
+        GM stellt im ERSTEN Turn eine echte Rueckfrage (kein fertiger
+        v7-Block) -- der Persona-Adapter (`_AcceptPersonaDriver`) muss
+        dadurch tatsaechlich aufgerufen werden, BEVOR der zweite GM-Turn
+        den fertigen Save liefert. Vorher lieferte der GM den Save bereits
+        im ersten Turn und `driver.calls==0` wurde faelschlich als
+        hinreichender Beleg behandelt."""
         community_dir = self.run_dir / "community"
         draft = {"persona_first": {
             "real_name": "PersonaFirst", "archetype": "SIMULIERT: Technik",
@@ -320,8 +358,11 @@ class PersonaCommunityCreationDollarBillingTests(unittest.TestCase):
         write_test_profile(self.run_dir, max_usd=0.0)
         fake_home = _write_fake_local_home(self.root)
 
-        gm = _GM(_v7_block("chrono-persona_first"), is_dollar_billed=False)
-        driver = _AcceptPersonaDriver("persona_first")
+        gm = _ClarifyingThenSaveGM(
+            "Magst du mir noch mehr ueber deine Figur erzaehlen, bevor wir abschliessen?",
+            _v7_block("chrono-persona_first"), is_dollar_billed=False,
+        )
+        driver = _AcceptPersonaDriver("persona_first", is_dollar_billed=False)
         with mock.patch.object(Path, "home", return_value=fake_home):
             outcome = advance_one_persona_creation(
                 run_dir=self.run_dir, states_dir=self.states_dir, schema_path=self.schema_path,
@@ -331,8 +372,12 @@ class PersonaCommunityCreationDollarBillingTests(unittest.TestCase):
                 persona_driver_factory=lambda pk: driver,
             )
         self.assertEqual(outcome.status, "completed", outcome.reason)
-        self.assertEqual(gm.calls, 1)
-        self.assertEqual(driver.calls, 0, "Persona-Treiber darf fuer einen im ersten Turn fertigen Save nicht gebraucht werden.")
+        self.assertEqual(gm.calls, 2, "Rueckfrage-Turn + Save-Turn -- genau zwei echte GM-Anfragen.")
+        self.assertGreater(
+            driver.calls, 0,
+            "der Persona-Adapter muss fuer die GM-Rueckfrage tatsaechlich aufgerufen worden sein -- "
+            "driver.calls==0 mit direkter GM-Erstantwort allein beweist das nicht.",
+        )
         records = _ledger_role_records(self.run_dir, "community_creation_gm")
         self.assertTrue(records, "mindestens ein community_creation_gm-Ledgereintrag erwartet.")
         for rec in records:
@@ -363,14 +408,22 @@ class PersonaCommunityCreationDollarBillingTests(unittest.TestCase):
 
     def test_persona_additional_figure_local_transport_ledger_reflects_dollar_billed_false(self):
         """Persona-Zusatzfigur ueber den echten Community-Einstieg
-        (`advance_additional_persona_creation`), lokaler GM-Transport."""
+        (`advance_additional_persona_creation`), lokaler GM-Transport.
+
+        O4-B.B2-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md Tabelle C):
+        wie beim Erstfigur-Gegenstueck oben -- der GM stellt im ersten Turn
+        eine echte Rueckfrage, der Persona-Adapter muss tatsaechlich
+        antworten, BEVOR der zweite Turn den fertigen Save liefert."""
         self._give_existing_figure("persona_extra", "chrono-extra-old", "ExtraOld")
         write_test_profile(self.run_dir, max_usd=0.0)
         fake_home = _write_fake_local_home(self.root)
 
         generation = len(catalog.list_for_participant(self.catalog_dir, "persona_extra")) + 1
-        gm = _GM(_v7_block("chrono-extra-new"), is_dollar_billed=False)
-        driver = _AcceptPersonaDriver("persona_extra")
+        gm = _ClarifyingThenSaveGM(
+            "Erzaehl mir noch etwas mehr ueber deine zweite Figur, bevor wir abschliessen?",
+            _v7_block("chrono-extra-new"), is_dollar_billed=False,
+        )
+        driver = _AcceptPersonaDriver("persona_extra", is_dollar_billed=False)
         with mock.patch.object(Path, "home", return_value=fake_home):
             outcome = advance_additional_persona_creation(
                 run_dir=self.run_dir, states_dir=self.states_dir, schema_path=self.schema_path,
@@ -380,7 +433,12 @@ class PersonaCommunityCreationDollarBillingTests(unittest.TestCase):
                 persona_driver_factory=lambda pk: driver,
             )
         self.assertEqual(outcome.status, "completed", outcome.reason)
-        self.assertEqual(gm.calls, 1)
+        self.assertEqual(gm.calls, 2, "Rueckfrage-Turn + Save-Turn -- genau zwei echte GM-Anfragen.")
+        self.assertGreater(
+            driver.calls, 0,
+            "der Persona-Adapter muss fuer die GM-Rueckfrage tatsaechlich aufgerufen worden sein -- "
+            "driver.calls==0 mit direkter GM-Erstantwort allein beweist das nicht.",
+        )
         records = _ledger_role_records(self.run_dir, "community_creation_gm")
         self.assertTrue(records, "mindestens ein community_creation_gm-Ledgereintrag erwartet.")
         for rec in records:
