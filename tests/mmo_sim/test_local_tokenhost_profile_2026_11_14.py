@@ -143,6 +143,30 @@ if _REAL_BODY:
     lmp = _load("o1_local_model_profile_under_test", _LOCAL_PROFILE_PY)
     setup_mod = _load("o1_setup_under_test", _SETUP_PY)
     launcher_mod = _load("o1_launcher_under_test", _LAUNCHER_PY)
+
+    # G3 (01_GENERALREVIEW.md §4 "O6-A-stdout/stderr liegt ... in einem
+    # durch tearDown geloeschten Fixtureverzeichnis"): ein BLEIBENDES
+    # Evidenzziel innerhalb des bereits vom Guard erlaubten privaten
+    # Schreibbereichs dieses Prozesses (`EARLY_GUARD.private_write_roots`)
+    # -- NICHT ueber `self._tmp_dir(...)` registriert, also von `tearDown`s
+    # `shutil.rmtree`-Schleife unberuehrt. Main/Integrator kopieren diesen
+    # Ordner NACH dem Lauf (ausserhalb des Guards) an das dauerhafte
+    # Evidenzziel `.../run/evidence/g2/`. Kein neues Repo-File, keine neue
+    # Guard-Architektur -- reine Pfadwahl innerhalb der bestehenden Wurzel.
+    _G2_EVIDENCE_DIR = Path(EARLY_GUARD.private_write_roots[0]) / "g2-raw-evidence"
+    _G2_EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _persist_g2_raw_channel(label: str, *, stdout: str, stderr: str, meta: dict) -> None:
+        """Sichert Rohkanaele + Kontextfelder (context/pid/ppid/argv/cwd/
+        env/start/end/exit) EINES tatsaechlichen Kindes zusaetzlich an das
+        bleibende Evidenzziel oben -- additiv, ersetzt keine bestehende
+        Assertion/Export im ephemeren `exports_dir`."""
+        safe = label.replace("/", "_")
+        (_G2_EVIDENCE_DIR / f"{safe}.stdout").write_text(stdout or "", encoding="utf-8")
+        (_G2_EVIDENCE_DIR / f"{safe}.stderr").write_text(stderr or "", encoding="utf-8")
+        (_G2_EVIDENCE_DIR / f"{safe}.meta.json").write_text(
+            json.dumps(meta, indent=2, sort_keys=True, default=str), encoding="utf-8",
+        )
 else:
     # Geteilter Discovery-Elternprozess: nur die Bruecke, kein Koerper.
     load_tests = _support_mod.make_delegating_load_tests(
@@ -204,6 +228,15 @@ class _O6AStatefulOwuiDouble:
         }
         self.models: dict = {}
         self.calls: list[tuple] = []
+        # G2 (01_GENERALREVIEW.md §3 "Requestbelege"): zusaetzliche
+        # reichhaltige Aufzeichnung je tatsaechlichem Request (Methode/Pfad/
+        # Bodymodell/Response/Phase/Rolle, redigiert exportiert) --
+        # `self.calls` bleibt fuer die bestehenden Tupel-Assertions
+        # unveraendert. `current_phase` wird vom Zyklustreiber
+        # (`_o6a_run_cycle`) je Leg gesetzt, NICHT von aussen auf Werte
+        # gesetzt, die den Request selbst beeinflussen.
+        self.requests: list[dict] = []
+        self.current_phase: str | None = None
 
     def seed_preset(self, preset_id: str, *, base_model_id: str, kb_id: str,
                      system: str = "", max_tokens: int = 64000) -> None:
@@ -254,6 +287,12 @@ class _O6AStatefulOwuiDouble:
         self.calls.append((method, path))
         status, body = self._dispatch(method, path, data)
         body_bytes = body if isinstance(body, bytes) else json.dumps(body).encode("utf-8")
+        self.requests.append({
+            "phase": self.current_phase, "role": "gm", "caller": "owui",
+            "method": method, "path": path, "request_body": data,
+            "response_status": status, "response_body": body,
+            "auth": req.headers.get("Authorization"),
+        })
         return _O6AFakeResponse(status, body_bytes)
 
     def _dispatch(self, method: str, path: str, data):
@@ -1287,6 +1326,13 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                                      pid=proc.pid, rc=rc, utc=end_utc)
                 (exports_dir / f"{child_id}.stdout").write_text(stdout or "", encoding="utf-8")
                 (exports_dir / f"{child_id}.stderr").write_text(stderr or "", encoding="utf-8")
+                _persist_g2_raw_channel(
+                    child_id, stdout=stdout, stderr=stderr,
+                    meta={"role": role, "process_id": child_id, "pid": proc.pid,
+                          "ppid": os.getpid(), "argv": list(argv), "cwd": child_cwd,
+                          "env": dict(child_env), "start_utc": start_utc,
+                          "end_utc": end_utc, "rc": rc},
+                )
                 raise
 
             rc = proc.returncode
@@ -1298,6 +1344,16 @@ class LocalTokenhostProfileTests(unittest.TestCase):
             # Rohdatei sichern -- auch leere Streams als 0-Byte-Datei.
             (exports_dir / f"{child_id}.stdout").write_text(stdout or "", encoding="utf-8")
             (exports_dir / f"{child_id}.stderr").write_text(stderr or "", encoding="utf-8")
+            # G3 (01_GENERALREVIEW.md §4): zusaetzliche bleibende Kopie
+            # samt vollstaendigem context/pid/ppid/argv/cwd/env/start/end/
+            # exit -- `exports_dir` selbst wird in `tearDown` geloescht.
+            _persist_g2_raw_channel(
+                child_id, stdout=stdout, stderr=stderr,
+                meta={"role": role, "process_id": child_id, "pid": proc.pid,
+                      "ppid": os.getpid(), "argv": list(argv), "cwd": child_cwd,
+                      "env": dict(child_env), "start_utc": start_utc,
+                      "end_utc": end_utc, "rc": rc},
+            )
             return subprocess.CompletedProcess(argv, rc, stdout, stderr)
 
         write_proc = _run_child("child-writer", writer_id, writer_argv, writer_env, writer_cwd)
@@ -1413,21 +1469,61 @@ class LocalTokenhostProfileTests(unittest.TestCase):
         )
         data_dir = self._tmp_dir(f"o6a-{tag}-gm-data")
 
+        # G2 (01_GENERALREVIEW.md §3 "Persona-Kausalitaet" / 01_NATIVER_
+        # RESTAUFTRAG.md §D "Persona-Rueckweg"): EINMALIGES Fixture-Setup
+        # VOR dem Zyklus (ausdruecklich zulaessig) -- eine gueltige
+        # GESPEICHERTE Cloud-Ausgangskonfiguration in genau der Datei, die
+        # `setup._auto_load_owui_env()`/`resolve_model_provider()` ueber
+        # das unten gemockte `Path.home()` tatsaechlich lesen. Dadurch
+        # entsteht die Cloud-Persona-Route in JEDER Phase aus dem
+        # tatsaechlichen Provider-/Autoload-/Factoryweg -- die drei Legs
+        # setzen/entfernen die drei Persona-API-Felder NICHT mehr von Hand
+        # (vorheriger Defekt: das trieb den bewussten Explicit-Override-
+        # Zweig statt des normalen `self_resolved`-Rueckwegs). Der gueltige
+        # Override-Vorrang samt Billingcleanup bleibt als SEPARATER,
+        # korrekt benannter Gegenbeleg erhalten
+        # (`test_o6a_persona_explicit_override_keeps_priority_over_local_with_billing_cleanup`).
+        (tmp_home / ".openwebui_env").write_text(
+            "# synthetische gespeicherte Cloud-Ausgangskonfiguration (Testfixture)\n"
+            f"MMO_SIM_PERSONA_API_BASE_URL={cloud_persona_base}\n"
+            f"MMO_SIM_PERSONA_API_KEY={cloud_persona_key}\n"
+            f"MMO_SIM_PERSONA_API_MODEL={cloud_persona_model}\n",
+            encoding="utf-8",
+        )
+
         mmo_sim_module = _o6a_load_mmo_sim_module()
-        persona_calls: list[tuple] = []
+        persona_calls: list[dict] = []
+
+        def _decode_body(raw):
+            if raw is None:
+                return None
+            try:
+                return json.loads(raw)
+            except (json.JSONDecodeError, UnicodeDecodeError, TypeError):
+                return raw if isinstance(raw, str) else raw.decode("utf-8", "replace") if isinstance(raw, bytes) else raw
 
         def _router(req, timeout=None, context=None):
             url = req.full_url
             if url.startswith(owui_url):
                 return double(req, timeout=timeout, context=context)
             if url == f"{cloud_persona_base}/chat/completions":
-                persona_calls.append(("cloud", url))
+                persona_calls.append({
+                    "phase": double.current_phase, "role": "persona", "which": "cloud",
+                    "url": url, "model": cloud_persona_model,
+                    "request_body": _decode_body(req.data),
+                    "auth": req.headers.get("Authorization"),
+                })
                 return _O6AFakeResponse(200, json.dumps({
                     "choices": [{"message": {"content": "Cloud-Persona-Antwort (O6-A)."}}],
                     "usage": {"prompt_tokens": 6, "completion_tokens": 2},
                 }).encode("utf-8"))
             if url == f"{local_base_url}/chat/completions":
-                persona_calls.append(("local", url))
+                persona_calls.append({
+                    "phase": double.current_phase, "role": "persona", "which": "local",
+                    "url": url, "model": local_model,
+                    "request_body": _decode_body(req.data),
+                    "auth": req.headers.get("Authorization"),
+                })
                 return _O6AFakeResponse(200, json.dumps({
                     "choices": [{"message": {"content": "Local-Persona-Antwort (O6-A)."}}],
                     "usage": {"prompt_tokens": 5, "completion_tokens": 2},
@@ -1446,8 +1542,33 @@ class LocalTokenhostProfileTests(unittest.TestCase):
         try:
             with mock.patch.object(Path, "home", return_value=tmp_home), \
                  mock.patch.object(launcher_mod, "REPO", tmp_litellm_repo), \
-                 mock.patch("urllib.request.urlopen", _router):
-
+                 mock.patch("urllib.request.urlopen", _router), \
+                 mock.patch.object(setup_mod, "_owui_container_network_mode", return_value=None), \
+                 mock.patch.object(launcher_mod.setup_module, "_owui_container_network_mode", return_value=None):
+                # B/G3 (01_GENERALREVIEW.md §4, 02_NATIVER_RESTAUFTRAG.md §B):
+                # `_owui_container_network_mode()` ist der aeussere
+                # Hoststatusrand, den `_ensure_owui_litellm_connection`
+                # (ueber `ensure_litellm_autowire`, Cloudzweig) im echten
+                # LiteLLM-Autowire erreicht -- real ein `subprocess.run(
+                # ["docker","inspect",...])`. Der Guard faengt diesen echten
+                # `subprocess.Popen`-Versuch unautorisiert ab (exportiert als
+                # `unexpected_blocked subprocess_popen`, 6 im r1-Profilparent-
+                # after). Dieser Rand wird HIER synthetisch kontrolliert
+                # (liefert `None`, dieselbe "nicht ermittelbar"-Antwort, die
+                # die Funktion auch bei fehlendem Docker real liefert) --
+                # BEVOR ein realer Subprozessversuch entsteht. Die produktive
+                # Auswahl/Connection-/Presetmutation/Re-GET/Fehlerweitergabe
+                # und beide Factories bleiben vollstaendig real; nur dieser
+                # eine aeussere Blattknoten ist kontrolliert, kein Mocken
+                # des gesamten Autowire-/Rewirepfads. `launcher_mod.
+                # setup_module` ist eine EIGENE, ueber `launcher.py`s
+                # eigenes `import setup as setup_module` real importierte
+                # Modulinstanz (sys.modules["setup"]) -- NICHT identisch mit
+                # `setup_mod` (der hier unter dem Namen "o1_setup_under_test"
+                # separat per Dateipfad geladenen Instanz). `_finish_
+                # installed_connection` -> `ensure_litellm_autowire` ruft
+                # tatsaechlich IN DIESER dritten Instanz auf, deshalb werden
+                # beide Modulobjekte gepatcht.
                 client = setup_mod.APIClient(owui_url, owui_key)
 
                 def _assert_upstream(expected_model: str, msg: str) -> None:
@@ -1462,6 +1583,7 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     self.assertIn(kb_id, kb_ids, "dieselbe aktuelle KB bleibt am Preset gebunden.")
 
                 def _persist_and_finish(leg_label, provider, prompts, getpass_answers):
+                    double.current_phase = leg_label
                     prompts_iter = iter(prompts)
                     with mock.patch.object(launcher_mod, "_prompt",
                                             side_effect=lambda *_a, **_k: next(prompts_iter)), \
@@ -1476,6 +1598,7 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     launcher_mod._finish_installed_connection(cfg)
 
                 def _run_gm_and_persona(leg_label, expect_billed, table_id, persona_key, persona_text):
+                    double.current_phase = leg_label
                     sl_model, resolved_kb_id = mmo_sim_module._resolve_active_gm_route(tmp_route_repo)
                     self.assertEqual(sl_model, preset_id, leg_label)
                     self.assertEqual(resolved_kb_id, kb_id, leg_label)
@@ -1502,13 +1625,14 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     self.assertEqual(decision.text, persona_text)
 
                 # ── Leg 1: Cloud (vor dem lokalen Abschnitt) ─────────────
-                # Deliberate Override (eigene Cloud-Persona-Konfiguration
-                # des Spielers, unabhaengig vom lokalen Tokenhost-Resolver --
-                # Originprioritaet, s. factories.py) -- NICHT vom lokalen
-                # Resolver gesetzt.
-                os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = cloud_persona_base
-                os.environ["MMO_SIM_PERSONA_API_KEY"] = cloud_persona_key
-                os.environ["MMO_SIM_PERSONA_API_MODEL"] = cloud_persona_model
+                # G2-Fix (01_GENERALREVIEW.md §3 "Persona-Kausalitaet"):
+                # KEIN manuelles Setzen der drei Persona-API-Felder mehr --
+                # die Cloud-Persona-Route entsteht aus der oben VOR dem
+                # Zyklus persistierten gespeicherten Cloud-Ausgangskonfig
+                # ueber den echten `setup._auto_load_owui_env()`/
+                # `_maybe_default_local_tokenhost_persona_env()`-Autoloadweg
+                # (normaler `self_resolved`-Rueckweg, kein bewusster
+                # Explicit-Override-Zweig).
                 _persist_and_finish(
                     f"{tag}-leg1-cloud", lmp.PROVIDER_CLOUD,
                     prompts=[owui_url, "cloud"],
@@ -1521,13 +1645,12 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     "Cloud-Persona-Antwort (O6-A).",
                 )
 
-                # ── Leg 2: Local -- unser eigener Cloud-Override wird
-                # entfernt, damit die echte lokale Autoaufloesung greift
-                # (sonst wuerde der bewusste Override weiterhin Vorrang
-                # behalten und NIE lokal aufloesen).
-                os.environ.pop("MMO_SIM_PERSONA_API_BASE_URL", None)
-                os.environ.pop("MMO_SIM_PERSONA_API_KEY", None)
-                os.environ.pop("MMO_SIM_PERSONA_API_MODEL", None)
+                # ── Leg 2: Local -- kein manuelles Env-Popping mehr noetig
+                # (nichts wurde manuell gesetzt): der normale Rueckweg in
+                # `_maybe_default_local_tokenhost_persona_env()` erkennt den
+                # jetzt per `action_rekeys` persistierten `provider=local`
+                # selbst und ersetzt die zuvor file-autoloadeten
+                # Cloud-Persona-Werte durch die echten lokalen Profilwerte.
                 _persist_and_finish(
                     f"{tag}-leg2-local", lmp.PROVIDER_LOCAL,
                     prompts=[owui_url, "local", local_base_url, local_model, ""],
@@ -1544,15 +1667,17 @@ class LocalTokenhostProfileTests(unittest.TestCase):
 
                 # ── Leg 3: Cloud (nach dem lokalen Abschnitt) -- derselbe
                 # Preset muss durch den echten Autowire-Rueckwechsel wieder
-                # auf den Cloud-Upstream zeigen. Das erneute Setzen des
-                # Cloud-Overrides HIER (nicht ein manuelles Loeschen des
-                # vom lokalen Resolver gesetzten Markers) loest die
-                # PRODUKTIVE Bereinigung der lokalen Persona-Marker in
-                # `_maybe_default_local_tokenhost_persona_env` aus --
-                # genau der produktive Ruckwechsel, der bewiesen werden soll.
-                os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = cloud_persona_base
-                os.environ["MMO_SIM_PERSONA_API_KEY"] = cloud_persona_key
-                os.environ["MMO_SIM_PERSONA_API_MODEL"] = cloud_persona_model
+                # auf den Cloud-Upstream zeigen. G2-Fix: KEIN manuelles
+                # Wiedersetzen der drei Persona-Felder mehr. Der echte
+                # Rueckweg in `_maybe_default_local_tokenhost_persona_env()`
+                # sieht `provider=cloud` (von `action_rekeys` persistiert),
+                # erkennt die noch stehenden LOKALEN Werte als `self_
+                # resolved` und entfernt sie SELBST (produktive Bereinigung,
+                # kein Testeingriff) -- der nachfolgende Factory-Fallback
+                # laedt daraufhin ueber `_auto_load_owui_env()` wieder genau
+                # die vor dem Zyklus gespeicherte Cloud-Ausgangskonfiguration
+                # aus `~/.openwebui_env`. Das ist der tatsaechlich
+                # beobachtete normale Rueckweg, nicht nur behauptet.
                 _persist_and_finish(
                     f"{tag}-leg3-cloud", lmp.PROVIDER_CLOUD,
                     prompts=[owui_url, "cloud"],
@@ -1581,16 +1706,63 @@ class LocalTokenhostProfileTests(unittest.TestCase):
             f"{tag}: genau zwei reale Upstream-Mutationen (Local-Rewire in Leg 2 + Cloud-Ruecklauf "
             f"in Leg 3; Leg 1 ist idempotent, keine Mutation noetig): {double.calls}",
         )
-        cloud_persona_calls = [c for c in persona_calls if c[0] == "cloud"]
-        local_persona_calls = [c for c in persona_calls if c[0] == "local"]
+        cloud_persona_calls = [c for c in persona_calls if c["which"] == "cloud"]
+        local_persona_calls = [c for c in persona_calls if c["which"] == "local"]
         self.assertEqual(len(cloud_persona_calls), 2, f"{tag}: Cloud-Persona-Requests nur in Leg 1+3.")
         self.assertEqual(len(local_persona_calls), 1, f"{tag}: Local-Persona-Request nur in Leg 2.")
+        # Jeder aufgezeichnete Persona-Request ist tatsaechlich einer realen
+        # Zyklusphase zugeordnet (kein Request ohne Phase -- `current_phase`
+        # wurde vom Zyklustreiber je Leg gesetzt, nicht konstant).
+        for c in persona_calls:
+            self.assertIsNotNone(c["phase"], f"{tag}: Persona-Request ohne Phasenzuordnung: {c}")
+        for r in double.requests:
+            self.assertIsNotNone(r["phase"], f"{tag}: GM/OWUI-Request ohne Phasenzuordnung: {r}")
 
         # Secrets der jeweils ANDEREN Rolle/Leg (und generell) duerfen
-        # nirgends in den aufgezeichneten Calls auftauchen.
-        all_calls_text = json.dumps(double.calls) + json.dumps(persona_calls)
+        # nirgends im LEGACY-Callprotokoll (Methode+Pfad, nie Bodywerte)
+        # auftauchen -- unveraendert erhalten.
+        all_calls_text = json.dumps(double.calls)
         for leaked in (local_token, cloud_persona_key, owui_key, litellm_master_key):
             self.assertNotIn(leaked, all_calls_text, f"{tag}: Geheimniswert darf nie im Callprotokoll stehen.")
+
+        # G2 (01_GENERALREVIEW.md §3 "Requestbelege"): tatsaechlich
+        # empfangene Request-Bodies pro Prozess/Phase/Rolle, VOR dem Export
+        # redigiert (keine echten/unredigierten Tokenwerte). Schreibt in das
+        # bleibende Evidenzziel (nicht ueber `self._tmp_dir`, also von
+        # `tearDown` unberuehrt). `double.requests`/`persona_calls` ENTHALTEN
+        # bewusst die echten Werte (Rolleninhalt/Authzuordnung intern
+        # pruefbar) -- nur der dauerhafte EXPORT wird redigiert.
+        secrets_to_redact = [
+            s for s in (local_token, cloud_persona_key, owui_key, litellm_master_key) if s
+        ]
+
+        def _redact(obj):
+            if isinstance(obj, dict):
+                return {k: _redact(v) for k, v in obj.items()}
+            if isinstance(obj, list):
+                return [_redact(v) for v in obj]
+            if isinstance(obj, str):
+                red = obj
+                for s in secrets_to_redact:
+                    if s in red:
+                        red = red.replace(s, "<REDACTED>")
+                return red
+            return obj
+
+        evidence_payload = {
+            "tag": tag, "process_id": os.getpid(),
+            "gm_owui_requests": _redact(double.requests),
+            "persona_requests": _redact(persona_calls),
+        }
+        evidence_text = json.dumps(evidence_payload, indent=2, sort_keys=True, default=str)
+        for leaked in secrets_to_redact:
+            self.assertNotIn(
+                leaked, evidence_text,
+                f"{tag}: Geheimniswert nach Redaktion weiterhin im exportierten Evidenztext.",
+            )
+        (_G2_EVIDENCE_DIR / f"o6a-request-bodies-{tag}-{os.getpid()}.json").write_text(
+            evidence_text, encoding="utf-8",
+        )
 
     def _o6a_run_in_two_fresh_children(self) -> None:
         """G2 (01_NATIVER_AUFTRAG.md §D / 02_ABNAHME_UND_RUECKGABE.md §3
@@ -1646,12 +1818,29 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                 EARLY_GUARD.record_child_end(role=child_id, pid=proc.pid, rc=rc, utc=end_utc)
                 (exports_dir / f"{child_id}.stdout").write_text(stdout or "", encoding="utf-8")
                 (exports_dir / f"{child_id}.stderr").write_text(stderr or "", encoding="utf-8")
+                _persist_g2_raw_channel(
+                    child_id, stdout=stdout, stderr=stderr,
+                    meta={"role": child_id, "process_id": child_id, "pid": proc.pid,
+                          "ppid": os.getpid(), "argv": list(argv), "cwd": None,
+                          "env": dict(child_env), "start_utc": start_utc,
+                          "end_utc": end_utc, "rc": rc, "method_name": method_name},
+                )
                 raise
             rc = proc.returncode
             end_utc = _utcnow_iso()
             EARLY_GUARD.record_child_end(role=child_id, pid=proc.pid, rc=rc, utc=end_utc)
             (exports_dir / f"{child_id}.stdout").write_text(stdout or "", encoding="utf-8")
             (exports_dir / f"{child_id}.stderr").write_text(stderr or "", encoding="utf-8")
+            # G3 (01_GENERALREVIEW.md §4 "O6-A-stdout/stderr liegt ... in
+            # einem durch tearDown geloeschten Fixtureverzeichnis"):
+            # bleibende Zusatzkopie samt vollstaendigem Kontext.
+            _persist_g2_raw_channel(
+                child_id, stdout=stdout, stderr=stderr,
+                meta={"role": child_id, "process_id": child_id, "pid": proc.pid,
+                      "ppid": os.getpid(), "argv": list(argv), "cwd": None,
+                      "env": dict(child_env), "start_utc": start_utc,
+                      "end_utc": end_utc, "rc": rc, "method_name": method_name},
+            )
             self.assertEqual(
                 rc, 0,
                 f"{child_id} ({method_name}) muss den echten O6-A-Setup-/Rewire-/Factoryzyklus "
@@ -1670,6 +1859,75 @@ class LocalTokenhostProfileTests(unittest.TestCase):
 
     def o6a_child_two_cycle(self) -> None:
         self._o6a_run_cycle("child2")
+
+    # ─── G2-Gegenbeleg: gueltiger Explicit-Override + Billingcleanup ─────
+
+    def test_o6a_persona_explicit_override_keeps_priority_over_local_with_billing_cleanup(self):
+        """G2 (01_GENERALREVIEW.md §3 "Persona-Kausalitaet" / 01_NATIVER_
+        RESTAUFTRAG.md §D "Persona-Rueckweg"): der oben in `_o6a_run_cycle`
+        geprueften normalen `self_resolved`-Rueckwegbranche (KEIN manuelles
+        Env-Setzen mehr) wird HIER -- separat und korrekt benannt -- der
+        GUELTIGE Gegenfall gegenuebergestellt: ein ECHTER, bewusst VOR dem
+        Resolveraufruf gesetzter Prozessoverride (Fall a/d in
+        `_maybe_default_local_tokenhost_persona_env`s Docstring) behaelt
+        Vorrang vor einer gleichzeitig gespeicherten lokalen Profilwahl, UND
+        die vom lokalen Resolver zuvor SELBST gesetzten MAX_TOKENS/DOLLAR_
+        BILLED-Marker werden bereinigt, wenn sie noch exakt dem eigenen alten
+        Fingerabdruck entsprechen (factories.py ~Zeile 316-325). Dies wird
+        NICHT als "normaler Rueckweg" ausgegeben -- das ist der bewusste
+        Explicit-Override-Zweig."""
+        tmp_home = self._tmp_dir("o6a-override-home")
+        home_env = tmp_home / ".openwebui_env"
+        home_env.write_text(
+            "# synthetisches gespeichertes lokales Profil (Testfixture)\n"
+            f"{lmp.ENV_KEY_PROVIDER}=local\n"
+            "ZEITRISS_LOCAL_BASE_URL=http://127.0.0.1:18001/v1\n"
+            "ZEITRISS_LOCAL_MODEL=nemotron-3-super\n"
+            "ZEITRISS_LOCAL_API_KEY=test-local-token-not-secret\n"
+            "OPENWEBUI_URL=http://127.0.0.1:19080\n"
+            "OPENWEBUI_API_KEY=owui-override-key-not-secret\n",
+            encoding="utf-8",
+        )
+        saved_env = dict(os.environ)
+        for key in (
+            "MMO_SIM_PERSONA_CLI", "MMO_SIM_PERSONA_API_BASE_URL", "MMO_SIM_PERSONA_API_KEY",
+            "MMO_SIM_PERSONA_API_MODEL", "MMO_SIM_PERSONA_API_MAX_TOKENS",
+            "MMO_SIM_PERSONA_API_DOLLAR_BILLED", o6a_factories_mod._LOCAL_TOKENHOST_RESOLVED_MARKER,
+        ):
+            os.environ.pop(key, None)
+        try:
+            with mock.patch.object(Path, "home", return_value=tmp_home):
+                # Erst die lokale Wahl real ueber den normalen Rueckweg
+                # aufloesen (self_resolved=True, KEIN manueller Override).
+                resolved_first = o6a_factories_mod._maybe_default_local_tokenhost_persona_env()
+                self.assertTrue(resolved_first, "lokales Profil muss beim ersten Aufruf real aufgeloest werden.")
+                self.assertEqual(os.environ.get("MMO_SIM_PERSONA_API_MAX_TOKENS"), "400")
+                self.assertEqual(os.environ.get("MMO_SIM_PERSONA_API_DOLLAR_BILLED"), "0")
+
+                # Jetzt ein ECHTER bewusster Override VOR dem naechsten
+                # Aufruf -- URL/Key/Modell geaendert, MAX_TOKENS/DOLLAR_
+                # BILLED NICHT mitgesetzt (bleiben noch exakt unser alter
+                # Fingerabdruck -> muessen bereinigt werden).
+                os.environ["MMO_SIM_PERSONA_API_BASE_URL"] = "https://openrouter.example/api/v1"
+                os.environ["MMO_SIM_PERSONA_API_KEY"] = "sk-or-override-not-secret"
+                os.environ["MMO_SIM_PERSONA_API_MODEL"] = "anthropic/claude-override"
+
+                resolved_second = o6a_factories_mod._maybe_default_local_tokenhost_persona_env()
+                self.assertFalse(
+                    resolved_second,
+                    "ein echter bewusster Override wird NICHT als eigene lokale Aufloesung gemeldet.",
+                )
+                self.assertEqual(os.environ["MMO_SIM_PERSONA_API_BASE_URL"], "https://openrouter.example/api/v1")
+                self.assertEqual(os.environ["MMO_SIM_PERSONA_API_KEY"], "sk-or-override-not-secret")
+                self.assertEqual(os.environ["MMO_SIM_PERSONA_API_MODEL"], "anthropic/claude-override")
+                # Billingcleanup: die EIGENEN alten MAX_TOKENS/DOLLAR_BILLED-
+                # Marker (noch exakt unser Fingerabdruck) wurden entfernt --
+                # der Override erbt sie NICHT mehr als lokale Restwerte.
+                self.assertNotIn("MMO_SIM_PERSONA_API_MAX_TOKENS", os.environ)
+                self.assertNotIn("MMO_SIM_PERSONA_API_DOLLAR_BILLED", os.environ)
+        finally:
+            os.environ.clear()
+            os.environ.update(saved_env)
 
     # ─── I1/I5: Guardexport -- keine Secrets, keine unerwarteten Blocks ──
 

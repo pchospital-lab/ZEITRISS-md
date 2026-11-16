@@ -160,6 +160,19 @@ class _FakeResponse:
         return False
 
 
+class _RawBytes:
+    """G4 (O3-C.C1, 01_GENERALREVIEW.md §5): enger Rohbytes-Zweig fuer den
+    vorhandenen 'leerer Body'-Fall -- `(200, None)` liefert bisher
+    `json.dumps(None)` == `b"null"` (kein echtes Leerbyte). `(200,
+    _RawBytes(b""))` liefert am selben Connection-GET tatsaechlich `b""`
+    an `_FakeResponse.read()`, ohne den JSON-Serialisierungsschritt zu
+    durchlaufen. Der bisherige `null`-Fall bleibt als zusaetzlicher
+    gueltiger malformed/no-object-Beleg unveraendert erhalten."""
+
+    def __init__(self, data: bytes):
+        self.data = bytes(data)
+
+
 class _UrlopenScript:
     """Skriptierbarer `urllib.request.urlopen`-Double: liefert pro Aufruf
     die naechste vorbereitete Antwort/Exception, zeichnet jeden Request
@@ -185,7 +198,11 @@ class _UrlopenScript:
         if isinstance(nxt, Exception):
             raise nxt
         status, payload = nxt
-        return _FakeResponse(status, json.dumps(payload).encode("utf-8"))
+        if isinstance(payload, _RawBytes):
+            response_body = payload.data
+        else:
+            response_body = json.dumps(payload).encode("utf-8")
+        return _FakeResponse(status, response_body)
 
 
 class LocalTokenhostRoutingTests(unittest.TestCase):
@@ -2139,6 +2156,22 @@ class LocalTokenhostNegativeCallerTests(unittest.TestCase):
         aber gueltige Connection-Liste (die mit `{}` bereits an anderer
         Stelle in dieser Datei als Erfolgsfall gilt, s. Fresh-Case oben)."""
         printed, script = self._g4_finish_installed_with((200, None))
+        self._assert_finish_installed_not_confirmed(printed, script)
+        joined = " ".join(printed)
+        self.assertIn("nicht bestätigt werden", joined)
+        self.assertEqual(len(script.calls), 1)
+
+    def test_finish_installed_connection_owui_config_raw_empty_bytes_holds_no_active_confirmation(self):
+        """G4-Praezisierung (01_GENERALREVIEW.md §5/03_ABNAHME_UND_RUECKGABE.md
+        §2 O3-C.C1): derselbe Connection-GET-Fall wie direkt oben, aber mit
+        TATSAECHLICH leeren Responsebytes (`b""`) statt der JSON-serialisierten
+        `null`-Fiktion -- belegt, dass `_ensure_owui_local_connection`s
+        `json.loads(raw)`-Fehlerpfad (setup.py ~2180: `except
+        json.JSONDecodeError: return resp.status, raw.decode(...)`) echte
+        Leerbytes auf dieselbe `isinstance(data, dict)`-Ablehnung (setup.py:2193)
+        und denselben sichtbaren Nicht-dict-HOLD fuehrt wie der `null`-Fall --
+        kein neuer Produktfehlerclaim, keine neue Callermatrix."""
+        printed, script = self._g4_finish_installed_with((200, _RawBytes(b"")))
         self._assert_finish_installed_not_confirmed(printed, script)
         joined = " ".join(printed)
         self.assertIn("nicht bestätigt werden", joined)

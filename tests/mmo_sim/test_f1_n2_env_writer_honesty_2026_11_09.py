@@ -175,17 +175,29 @@ _PROVIDER_KEY = "ZEITRISS_MODEL_PROVIDER"
 def _active_local_profile_bytes() -> str:
     """Ein vollstaendiges, GUELTIGES aktives lokales Profil (erkennbar unechte
     Werte) -- dient als 'alte aktive Bytes' fuer den Vergleich nach einem
-    Fehlerpfad."""
+    Fehlerpfad. G3-Generalbefund (01_GENERALREVIEW.md §2): vorher fehlten
+    `ZEITRISS_LOCAL_BASE_URL`/`_MODEL`/`_API_KEY` -- `scripts/local_model_
+    profile.py::resolve_local_profile` haelt schon VOR jeder Fehlerinjektion
+    (fehlende Base-URL -> ProfileHold), die als 'aktiv' bezeichnete Fixture
+    war also selbst nie wirklich aktiv. Jetzt alle drei von `resolve_local_
+    profile` verlangten Felder ergaenzt (synthetische, erkennbar unechte
+    Werte, kein echtes Secret/Host)."""
     return (
         "# aktives lokales Profil (Testfixture, keine echten Secrets)\n"
         f"{_PROVIDER_KEY}=local\n"
         "FREMDES_FELD=bleibt-erhalten\n"
+        "ZEITRISS_LOCAL_BASE_URL=http://127.0.0.1:11434\n"
+        "ZEITRISS_LOCAL_MODEL=local-test-model-not-secret\n"
+        "ZEITRISS_LOCAL_API_KEY=local-test-key-not-secret\n"
         "OPENWEBUI_API_KEY=fake-old-token-not-secret\n"
     )
 
 
 def _marker_path(path: Path) -> Path:
     return path.with_name(f"{path.name}.local-pending")
+
+
+_FRESH_READER_COUNTER = {"n": 0}
 
 
 def _fresh_process_provider(path: Path) -> str:
@@ -197,31 +209,97 @@ def _fresh_process_provider(path: Path) -> str:
     Belegt, dass der nach einem Fehlerpfad auf der Platte verbliebene Zustand
     (Pending-Marker bzw. unveraenderte alte Bytes) von AUSSEN als HOLD/inaktiv
     gesehen wird -- ein Writer-`False` oder derselbe In-Memory-Zustand allein
-    genuegt der G1-Forderung nicht."""
+    genuegt der G1-Forderung nicht.
+
+    G3-Generalbefund (01_GENERALREVIEW.md §2/§4): das Kind importierte
+    `setup.py` bisher OHNE eigenen Fruehschutz -- `register_child` autorisiert
+    nur den Spawn im PARENT, patcht aber nichts im frischen Kindinterpreter.
+    Jetzt installiert das Kind SELBST (vor dem `setup.py`-Import) einen
+    eigenen Primaerguard via `bootstrap_isolation(context=...)` aus dem
+    bestehenden Support (eigene minimale gebundene Umgebung/cwd, eigene
+    before/after-Exporte), und der Parent zeichnet echte `record_child_
+    start`/`record_child_end`-Ereignisse auf (nicht nur die Autorisierung).
+    Jeder tatsaechliche Aufruf bekommt einen frischen privaten Exportordner
+    (eigener `tempfile.mkdtemp`) -- kein gemeinsames ueberschriebenes
+    Kindartefakt, auch wenn mehrere Aufrufe denselben zu lesenden `path`
+    teilen (z.B. aktive Vorbedingung vs. spaeterer HOLD-Nachweis)."""
+    _FRESH_READER_COUNTER["n"] += 1
+    nonce = _FRESH_READER_COUNTER["n"]
     code = (
-        "import importlib.util, sys\n"
+        "import importlib.util, sys, os, tempfile\n"
         "from pathlib import Path\n"
+        "real_home = str(Path.home())\n"
+        "support_spec = importlib.util.spec_from_file_location(\n"
+        "    'g1_fresh_reader_support_%d' % os.getpid(), sys.argv[3])\n"
+        "support = importlib.util.module_from_spec(support_spec)\n"
+        "support_spec.loader.exec_module(support)\n"
+        "private_root = os.path.realpath(tempfile.mkdtemp(prefix='g1-reader-'))\n"
+        "exports = os.path.join(private_root, 'exports')\n"
+        "os.makedirs(exports, exist_ok=True)\n"
+        "ctx = {\n"
+        "    'bundle_id': 'g1-fresh-reader-' + os.path.basename(private_root),\n"
+        "    'process_id': 'g1-reader-' + str(os.getpid()),\n"
+        "    'role': 'g1-fresh-reader',\n"
+        "    'real_home_class': real_home,\n"
+        "    'repo_root': sys.argv[4],\n"
+        "    'source_read_roots': [os.path.dirname(sys.argv[1])],\n"
+        "    'dep_read_roots': [os.path.dirname(sys.argv[2])],\n"
+        "    'private_write_roots': [private_root],\n"
+        "    'shared_fixture_root': None,\n"
+        "    'export_before_path': os.path.join(exports, 'before.json'),\n"
+        "    'export_after_path': os.path.join(exports, 'after.json'),\n"
+        "    'credential_block_roots': [],\n"
+        "    'artifact_read_paths': [],\n"
+        "}\n"
+        "guard = support.bootstrap_isolation(context=ctx)\n"
+        "guard.export_phase('before', ctx['export_before_path'], completion_status='running')\n"
         "spec = importlib.util.spec_from_file_location('g1_fresh_reader_setup', sys.argv[1])\n"
         "m = importlib.util.module_from_spec(spec)\n"
         "spec.loader.exec_module(m)\n"
         "prov, _profile, _hold = m.resolve_model_provider(Path(sys.argv[2]))\n"
+        "guard.export_phase('after', ctx['export_after_path'], completion_status='completed')\n"
         "print('PROVIDER:' + str(prov))\n"
     )
-    argv = [sys.executable, "-c", code, str(_SETUP_PY), str(path)]
+    minimal_env = {"PATH": os.environ.get("PATH", "")}
+    cwd = str(_REPO_ROOT)
     # G3: Unter der frühen Offlinehülle faengt der Primaerguard JEDEN
     # `subprocess.Popen` process-weit ab und verlangt eine vorherige
-    # argv-genaue `register_child`-Autorisierung (`authorize_and_consume`);
-    # ohne sie wird der frische Leserprozess als nicht autorisiert abgelehnt.
-    # Genau EIN Verbrauch je eindeutigem argv (jeder Aufruf hat einen eigenen
-    # tmp-Pfad). Standalone ohne Guard greift derselbe Guard (Fall 3 oben).
+    # argv-genaue `register_child`-Autorisierung (`authorize_and_consume`),
+    # jetzt zusaetzlich mit gebundener cwd/env -- eine Abweichung davon wird
+    # ebenfalls abgelehnt (01_GENERALREVIEW.md §2 "env/cwd nicht verbindlich
+    # gebunden"). `nonce` macht jeden Aufruf-Code-String eindeutig (eigener
+    # Modulalias je Aufruf), sodass mehrere Leseaufrufe auf denselben `path`
+    # (aktive Vorbedingung + spaeterer HOLD-Nachweis) jeweils ein EIGENES
+    # argv und damit einen eigenen, frisch verbrauchbaren Grant erhalten --
+    # keine Wiederbelebung eines bereits verbrauchten Grants.
+    code = f"# nonce={nonce}\n" + code
+    argv = [
+        sys.executable, "-c", code,
+        str(_SETUP_PY), str(path), str(_SUPPORT_SCRIPT), str(_REPO_ROOT),
+    ]
     _GUARD.register_child(
-        role="g1-fresh-reader", argv=argv,
-        fixture_paths=[str(path)], export_id="g1-fresh-reader", count=1,
+        role="g1-fresh-reader", argv=argv, fixture_paths=[str(path)],
+        export_id=f"g1-fresh-reader-{nonce}", count=1,
+        minimal_env=minimal_env, cwd=cwd,
     )
-    proc = subprocess.run(argv, capture_output=True, text=True, timeout=60)
-    assert proc.returncode == 0, f"frischer Leserprozess scheiterte: {proc.stderr}"
-    lines = [ln for ln in proc.stdout.splitlines() if ln.startswith("PROVIDER:")]
-    assert lines, f"kein PROVIDER-Marker im frischen Leser: {proc.stdout!r}"
+    proc = subprocess.Popen(
+        argv, cwd=cwd, env=minimal_env,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+    )
+    _GUARD.record_child_start(
+        role="g1-fresh-reader", pid=proc.pid, ppid=os.getpid(), argv=argv,
+    )
+    try:
+        out, err = proc.communicate(timeout=60)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        out, err = proc.communicate()
+        _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode or -1)
+        raise
+    _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode)
+    assert proc.returncode == 0, f"frischer Leserprozess scheiterte: {err}"
+    lines = [ln for ln in out.splitlines() if ln.startswith("PROVIDER:")]
+    assert lines, f"kein PROVIDER-Marker im frischen Leser: {out!r}"
     return lines[-1].split(":", 1)[1]
 
 
@@ -267,6 +345,11 @@ def test_g1_protected_tmp_open_failure_hits_real_seam_not_marker():
         original = _active_local_profile_bytes()
         path.write_text(original, encoding="utf-8")
         before_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        # G1 (01_GENERALREVIEW.md §2): VOR der selektiven Fehlerinjektion die
+        # oeffentliche aktive Local-Auflösung belegen -- die als "aktiv"
+        # bezeichnete Fixture muss tatsaechlich aktiv sein, nicht nur dem
+        # Namen nach.
+        assert _fresh_process_provider(path) == "local", "aktives Profil muss vor der Injektion lokal aufgeloest werden"
 
         spy = _SelectiveOsOpen(fail_on_tmp=True)
         with mock.patch.object(setup_mod.os, "open", spy):
@@ -301,6 +384,9 @@ def test_g1_write_call_failure_after_real_open_reaches_write_not_replace():
         path = tmp / ".env"
         original = _active_local_profile_bytes()
         path.write_text(original, encoding="utf-8")
+        # G1 (01_GENERALREVIEW.md §2): oeffentliche aktive Local-Auflösung
+        # VOR der Injektion belegen.
+        assert _fresh_process_provider(path) == "local", "aktives Profil muss vor der Injektion lokal aufgeloest werden"
 
         real_fdopen = os.fdopen
         write_reached = {"n": 0}
@@ -359,6 +445,9 @@ def test_g1_atomic_replace_failure_maps_source_and_target():
         path = tmp / ".env"
         original = _active_local_profile_bytes()
         path.write_text(original, encoding="utf-8")
+        # G1 (01_GENERALREVIEW.md §2): oeffentliche aktive Local-Auflösung
+        # VOR der Injektion belegen.
+        assert _fresh_process_provider(path) == "local", "aktives Profil muss vor der Injektion lokal aufgeloest werden"
 
         seen = {}
 
@@ -393,10 +482,19 @@ def test_g1_erstprofil_protected_open_failure_fresh_process_sees_hold():
     try:
         path = tmp / ".openwebui_env"  # existiert noch nicht (Erstprofil)
         spy = _SelectiveOsOpen(fail_on_tmp=True)
+        # G1 (01_GENERALREVIEW.md §2): der Erstprofilkandidat muss selbst ein
+        # VOLLSTAENDIGES gueltiges Localprofil sein (nicht nur Provider+OWUI-
+        # Key) -- sonst waere er auch nach einem erfolgreichen Schreiben kein
+        # vollstaendiges Profil gewesen.
+        candidate = {
+            _PROVIDER_KEY: "local",
+            "ZEITRISS_LOCAL_BASE_URL": "http://127.0.0.1:11434",
+            "ZEITRISS_LOCAL_MODEL": "local-test-model-not-secret",
+            "ZEITRISS_LOCAL_API_KEY": "local-test-key-not-secret",
+            "OPENWEBUI_API_KEY": "new-value-not-secret",
+        }
         with mock.patch.object(setup_mod.os, "open", spy):
-            ok = setup_mod._update_env_file_preserving(
-                path, {_PROVIDER_KEY: "local", "OPENWEBUI_API_KEY": "new-value-not-secret"}
-            )
+            ok = setup_mod._update_env_file_preserving(path, candidate)
         assert ok is False
         assert spy.tmp_open_reached, "der geschuetzte Tempfile-os.open wurde nie erreicht"
         # Kein ungeschuetztes neues Profil live auf Platte.
