@@ -19,6 +19,8 @@ die TATSAECHLICHEN Produktbausteine:
 Kein echtes Netz/Docker/Modell. Fixtureadressen/Keys erkennbar unecht."""
 from __future__ import annotations
 
+import hashlib
+import importlib.util
 import json
 import os
 import shutil
@@ -40,21 +42,37 @@ sys.path.insert(0, str(_REPO_ROOT))
 if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
-from _full_v7_fixture import full_v7_save  # noqa: E402
+# Dieselbe fruehe Offlinehuelle und Prozessbruecke wie die Routingtests.
+# Im Discover-Elternprozess keine Produktimporte und kein globaler Guard.
+_spec = importlib.util.spec_from_file_location(
+    "runtime_local_tokenhost_support", _HERE / "_local_tokenhost_support_2026_11_14.py")
+_support_mod = importlib.util.module_from_spec(_spec)
+sys.modules[_spec.name] = _support_mod
+_spec.loader.exec_module(_support_mod)
+_REAL_BODY = (__name__ == "__main__") or _support_mod.is_real_body_env()
+if _REAL_BODY:
+    import ssl
+    if hasattr(ssl.SSLContext, "_FALLBACK_CERT_DIR"):
+        os.environ.setdefault("SSL_CERT_DIR", ssl.SSLContext._FALLBACK_CERT_DIR)
+    EARLY_GUARD = _support_mod.self_bootstrap_isolation()
+    from _full_v7_fixture import full_v7_save  # noqa: E402
 
-import mmo_sim.core.store as store  # noqa: E402
-from mmo_sim.adapters import factories as factories_mod  # noqa: E402
-from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
-from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
-from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
-from mmo_sim.core.admission import write_test_profile  # noqa: E402
-from mmo_sim.core.controller import TableController  # noqa: E402
-from mmo_sim.core.events import EventLog  # noqa: E402
-from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
-from mmo_sim.core.runtime import SectionRuntime  # noqa: E402
-from mmo_sim.core import request_ledger  # noqa: E402
-from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator, ZeitrissTableSizePolicy  # noqa: E402
-from mmo_sim.domain.zeitriss import saves as zeitriss_saves  # noqa: E402
+    import mmo_sim.core.store as store  # noqa: E402
+    from mmo_sim.adapters import factories as factories_mod  # noqa: E402
+    from mmo_sim.adapters.base import ParticipantDecision  # noqa: E402
+    from mmo_sim.adapters.gm_owui import GmOwuiTransport  # noqa: E402
+    from mmo_sim.adapters.persona_api import PersonaApiConfig, PersonaApiDriver  # noqa: E402
+    from mmo_sim.core.admission import write_test_profile  # noqa: E402
+    from mmo_sim.core.controller import TableController  # noqa: E402
+    from mmo_sim.core.events import EventLog  # noqa: E402
+    from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
+    from mmo_sim.core.runtime import SectionRuntime  # noqa: E402
+    from mmo_sim.core import request_ledger  # noqa: E402
+    from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator, ZeitrissTableSizePolicy  # noqa: E402
+    from mmo_sim.domain.zeitriss import saves as zeitriss_saves  # noqa: E402
+else:
+    load_tests = _support_mod.make_delegating_load_tests(
+        __file__, "local-tokenhost-runtime", min_domain_tests=10)
 
 _SL_CLIENT_PY = _REPO_ROOT / "internal" / "qa" / "harness" / "agent_mp" / "sl_client.py"
 
@@ -254,9 +272,13 @@ class _FakeResponse:
     def __enter__(self):
         return self
 
-    def __exit__(self, *a):
+    def close(self):
         if self._release is not None:
-            self._release()
+            release, self._release = self._release, None
+            release()
+
+    def __exit__(self, *a):
+        self.close()
         return False
 
 
@@ -350,6 +372,18 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         )
         return env, runtime, controller, ps_store, gm, guest_driver, leader_driver, debrief_content
 
+    def test_serial_activity_lasts_through_read_and_idempotent_close(self):
+        transport = _SerialTrackingUrlopen([_gm_response("synthetic")], [])
+        import urllib.request
+        response = transport(urllib.request.Request(FAKE_OWUI_URL + "/api/chat/completions"))
+        with response:
+            response.read()
+            self.assertEqual(transport._active, 1)
+            response.close()
+            self.assertEqual(transport._active, 0)
+            response.close()
+        self.assertEqual(transport.events, [("enter", "gm", 1), ("exit", "gm", 1)])
+
     def test_local_round_max_usd_zero_completes_serial_unpriced(self):
         """O4+O5-Pflichtkombination: voller lokaler Ablauf (Leader[human] +
         Persona-Gast + GM + Reflexion/Abschluss) mit max_usd=0 -- muss bis
@@ -406,144 +440,156 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
         self.assertTrue(any(l["prompt_tokens"] > 0 for l in gm_lines), "echte Tokenusage bleibt erhalten.")
 
     def test_local_round_ledger_trace_carries_role_route_model_billing_limits_secrets_redacted_before_durable_write(self):
-        """O4-C.C2 (RELEASE-CASES.json): "Trace pro Nutzrequest Rolle/Route/
-        Modell/Billing/Limits/Usage, alle Secrets schon vor dauerhaftem
-        Schreiben redigiert; Rohartefakte vor Fixture-Cleanup exportieren."
-        Pass-2-Luecke: nur role/output_limit_tokens/usage/dollar_billed/
-        reserved_usd waren bereits belegt -- `route` (non-None, matcht die
-        echte base_url) UND `Modell` (im tatsaechlichen Wire-Request-Body,
-        `request_ledger` selbst kennt kein eigenes `model`-Feld) UND die
-        Secret-Abwesenheit im DAUERHAFT GESCHRIEBENEN Ledger-Rohtext waren
-        dieses Pass noch nicht separat belegt.
-
-        Faengt den vollen echten Wire-Request (Headers+Body, inkl. des
-        ECHTEN Dummy-Secrets, wie ein reales Netzwerk-Capture es zeigen
-        wuerde) zusaetzlich zur bestehenden `_SerialTrackingUrlopen`-Logik
-        ab -- UND exportiert einen redigierten Rohartefakt-Snapshot nach
-        `root/raw_trace_export.json`, WAEHREND der private Tmp-Root noch
-        lebt (tearDown raeumt ihn erst NACH Testende auf)."""
+        """R3: reale Reservierungs-ID am Wire binden; Originale ueber Cleanup retten."""
         root = self._tmp_root("ledger-trace")
         env, runtime, controller, ps_store, gm, guest_driver, leader_driver, debrief = self._build_round(
             root, gm_dollar_billed=False,
         )
+        pending = {}
+        reservation_ids = []
+        real_begin = request_ledger.begin
 
-        class _TracingUrlopen(_SerialTrackingUrlopen):
-            def __init__(self, *a, **kw):
-                super().__init__(*a, **kw)
-                self.wire_calls: list[dict] = []
+        def traced_begin(*args, **kwargs):
+            # Kein Ledgerdouble: erst den unveraenderten produktiven Write
+            # ausfuehren, dann dessen tatsaechliche ID fuer den Wire beobachten.
+            request_id = real_begin(*args, **kwargs)
+            pending["id"] = request_id
+            reservation_ids.append(request_id)
+            return request_id
+
+        case = self
+
+        class TracingUrlopen(_SerialTrackingUrlopen):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                self.wire_calls = []
 
             def __call__(self, req, timeout=None, context=None):
-                body = req.data
-                try:
-                    parsed = json.loads(body) if body else None
-                except (json.JSONDecodeError, TypeError):
-                    parsed = body
+                request_id = pending.pop("id")
+                record = request_ledger.load_request(env.run_dir, request_id)
+                case.assertEqual(record["state"], "sent")
+                body = json.loads(req.data)
+                response = super().__call__(req, timeout=timeout, context=context)
+                reply = json.loads(response._body)
                 self.wire_calls.append({
-                    "url": req.full_url, "headers": dict(req.headers),
-                    "body": parsed,
+                    "request_id": request_id, "sequence": self._seq,
+                    "url": req.full_url, "headers": dict(req.headers), "body": body,
+                    "response": reply,
                 })
-                return super().__call__(req, timeout=timeout, context=context)
+                return response
 
-        urlopen = _TracingUrlopen(
-            gm_responses=[_gm_response("SL-Antwort auf Anker."), _gm_response("SL-Antwort auf Gast."), _gm_response(debrief)],
+        urlopen = TracingUrlopen(
+            gm_responses=[
+                _gm_response("SL-Anker-Antwort-101.", ptok=101, ctok=11),
+                _gm_response("SL-Gast-Antwort-202.", ptok=202, ctok=22),
+                _gm_response(debrief, ptok=303, ctok=33),
+            ],
             persona_responses=[
-                _persona_response("Gast-Text vom echten Persona-Driver."),
-                _persona_response("Reflexion: hat Spass gemacht."),
+                _persona_response("Gast-Entscheidung-404.", ptok=404, ctok=44),
+                _persona_response("Gast-Reflexion-505.", ptok=505, ctok=55),
             ],
         )
-        with mock.patch("urllib.request.urlopen", urlopen):
+        with mock.patch.object(request_ledger, "begin", side_effect=traced_begin), \
+             mock.patch("urllib.request.urlopen", urlopen):
             outcome = runtime.run_full_section(
                 controller, "section-ledger-trace",
                 contexts_by_persona={"leader_pk": {"user": "ctx-leader"}, "guest_pk": {"system": "Du spielst eine Figur.", "user": "ctx-guest"}},
                 states_dir=env.states_dir, today="2026-11-14", ts="2026-11-14T12:00:00",
             )
         self.assertTrue(outcome.completion.success, outcome.completion.reason)
+        self.assertEqual(urlopen.max_active(), 1)
+        self.assertEqual(urlopen._active, 0)
+        self.assertTrue(urlopen.every_exit_before_next_enter())
+        self.assertEqual(pending, {})
+        self.assertEqual([c["request_id"] for c in urlopen.wire_calls], reservation_ids)
+        self.assertEqual([c["sequence"] for c in urlopen.wire_calls], list(range(1, 6)))
 
-        # (1) Modell im tatsaechlichen Wire-Request-Body -- pro Rolle real
-        # gesendet, nicht erraten (der Ledger selbst hat kein model-Feld).
-        gm_wire = [c for c in urlopen.wire_calls if c["url"] == f"{FAKE_OWUI_URL}/api/chat/completions"]
-        persona_wire = [c for c in urlopen.wire_calls if c["url"] == f"{FAKE_LOCAL_BASE}/chat/completions"]
-        self.assertTrue(gm_wire, "mindestens ein echter GM-Wire-Call erwartet.")
-        self.assertTrue(persona_wire, "mindestens ein echter Persona-Wire-Call erwartet.")
-        self.assertTrue(all(c["body"]["model"] == FAKE_PRESET_ID for c in gm_wire))
-        self.assertTrue(all(c["body"]["model"] == FAKE_LOCAL_MODEL for c in persona_wire))
+        # Bewusst andere Dateireihenfolge: weder UUID-Sortierung noch zip
+        # duerfen eine Nutzrequest-Zuordnung begruenden.
+        records = list(reversed(_ledger_records(env.run_dir)))
+        by_id = {r["id"]: r for r in records}
+        self.assertEqual(len(records), 5)
+        self.assertEqual(set(by_id), set(reservation_ids))
 
-        # (2) Route/Rolle/Limits/Billing/Usage im DAUERHAFT GESCHRIEBENEN
-        # Ledger -- route non-None, matcht die echte base_url je Rolle.
-        requests_dir = env.run_dir / "requests"
-        records = _ledger_records(env.run_dir)
-        gm_records = [r for r in records if r["role"] == "gm_turn"]
-        # O4-C.C2-Nachzug: die Pflicht-Reflexion des Gastes laeuft als
-        # EIGENE echte Persona-Anfrage, aber unter `role="reflection"`
-        # (mmo_sim/core/runtime.py), NICHT unter "persona_decision" --
-        # beide Rollen sind echte Persona-Wire-Calls an dieselbe lokale
-        # Route und muessen hier gemeinsam erfasst werden, sonst waere
-        # die Reflexions-Anfrage weder im Export noch in den folgenden
-        # Zuordnungen vertreten.
-        persona_records = [r for r in records if r["role"] in ("persona_decision", "reflection")]
-        self.assertTrue(gm_records and persona_records)
-        for rec in gm_records:
-            self.assertEqual(rec["route"], FAKE_OWUI_URL, "GM-Ledgereintrag muss die echte OWUI-Route tragen.")
-            self.assertIn("output_limit_tokens", rec)
-            self.assertIn("usage", rec)
-        for rec in persona_records:
-            self.assertEqual(rec["route"], FAKE_LOCAL_BASE, "Persona-Ledgereintrag muss die echte lokale Route tragen.")
-            self.assertIn("usage", rec)
+        def entry(call, rec):
+            self.assertEqual(call["request_id"], rec["id"])
+            is_gm = rec["role"] == "gm_turn"
+            self.assertIn(rec["role"], ("gm_turn", "persona_decision", "reflection"))
+            self.assertEqual(rec["route"], FAKE_OWUI_URL if is_gm else FAKE_LOCAL_BASE)
+            self.assertEqual(call["url"], rec["route"] + ("/api/chat/completions" if is_gm else "/chat/completions"))
+            self.assertEqual(call["body"]["model"], FAKE_PRESET_ID if is_gm else FAKE_LOCAL_MODEL)
+            self.assertEqual(call["body"]["max_tokens"], 4096 if is_gm else 400)
+            self.assertEqual(rec["output_limit_tokens"], call["body"]["max_tokens"])
+            self.assertFalse(rec["dollar_billed"])
+            for key in ("prompt_tokens", "completion_tokens"):
+                self.assertEqual(rec["usage"][key], call["response"]["usage"][key])
+            if is_gm:
+                self.assertEqual(rec["result_text"], call["response"]["choices"][0]["message"]["content"])
+            return dict(
+                request_id=rec["id"], sequence=call["sequence"], role=rec["role"],
+                route=rec["route"], endpoint=call["url"], model=call["body"]["model"],
+                max_tokens=call["body"]["max_tokens"], dollar_billed=rec["dollar_billed"],
+                usage=rec["usage"], wire=call,
+            )
 
-        # (3) Secrets NIE im dauerhaft geschriebenen Ledger-Rohtext -- nicht
-        # nur "nachtraeglich redigiert", sondern strukturell nie geschrieben
-        # (der Ledger persistiert ohnehin nur role/route/limits/usage, nie
-        # Header/Body). Pruefung auf dem ROHEN Dateitext, nicht dem
-        # geparsten dict (eine stille Formatabweichung waere sonst blind).
-        for p in sorted(requests_dir.glob("*.json")):
-            raw = p.read_text(encoding="utf-8")
-            self.assertNotIn(FAKE_OWUI_KEY, raw, f"{p.name}: OWUI-Key darf nie durabel geschrieben werden.")
-            self.assertNotIn(FAKE_LOCAL_TOKEN, raw, f"{p.name}: lokaler Token darf nie durabel geschrieben werden.")
+        trace = [entry(c, by_id[c["request_id"]]) for c in urlopen.wire_calls]
+        self.assertEqual({e["role"] for e in trace}, {"gm_turn", "persona_decision", "reflection"})
+        self.assertEqual(len({e["usage"]["prompt_tokens"] for e in trace}), 5)
+        # Negative Kontrollen: gleiche Rolle/Anzahl reicht nicht; sowohl
+        # fremde IDs als auch falsch zugeordnete Usage muessen auffallen.
+        gm_calls = [c for c in urlopen.wire_calls if by_id[c["request_id"]]["role"] == "gm_turn"]
+        first, other = (by_id[c["request_id"]] for c in gm_calls[:2])
+        with self.assertRaises(AssertionError):
+            entry(gm_calls[0], other)
+        with self.assertRaises(AssertionError):
+            entry(gm_calls[0], dict(first, usage=other["usage"]))
 
-        # (4) Rohartefakte (der volle Wire-Trace, der die echten Secrets IM
-        # SPEICHER noch traegt, s.o.) werden JETZT -- waehrend `root` noch
-        # lebt, VOR dem Fixture-Cleanup in `tearDown` -- redigiert exportiert.
-        # O4-C.C2-Nachzug (evidence/INDEPENDENT-GENERAL-REVIEW.md Tabelle C):
-        # der Export trug vorher nur Rolle/Route/Modell/Limit -- die
-        # geforderten Billing-/Usagefelder fehlten GEMEINSAM ZUGEORDNET im
-        # Export selbst (nur im getrennten Ledger belegt). Wire-Calls UND
-        # Ledgereintraege laufen je Rolle in derselben chronologischen
-        # Reihenfolge -- `zip` ordnet dollar_billed/usage pro Request korrekt zu.
-        def _redact(value: str) -> str:
-            return value.replace(FAKE_OWUI_KEY, "[REDACTED]").replace(FAKE_LOCAL_TOKEN, "[REDACTED]")
+        def redacted(raw):
+            return raw.replace(FAKE_OWUI_KEY.encode(), b"[REDACTED]").replace(
+                FAKE_LOCAL_TOKEN.encode(), b"[REDACTED]")
 
-        self.assertEqual(len(gm_wire), len(gm_records), "GM-Wire-Calls und -Ledgereintraege muessen 1:1 zuordenbar sein.")
-        self.assertEqual(len(persona_wire), len(persona_records), "Persona-Wire-Calls und -Ledgereintraege muessen 1:1 zuordenbar sein.")
+        # Ausgabe liegt in der EXISTIERENDEN privaten Guardwurzel, aber
+        # ausserhalb aller tearDown-Fixtures. Keine neue Schreibfreigabe.
+        durable = Path(tempfile.mkdtemp(prefix="runtime-artifacts-", dir=EARLY_GUARD.private_write_roots[0]))
+        exported = []
+        for source in sorted(root.rglob("*")):
+            if not source.is_file():
+                continue
+            raw = source.read_bytes()
+            # Bereits produktiv geschriebene Ledgeroriginale sind secretfrei.
+            if source.parent == env.run_dir / "requests":
+                self.assertNotIn(FAKE_OWUI_KEY.encode(), raw)
+                self.assertNotIn(FAKE_LOCAL_TOKEN.encode(), raw)
+            clean = redacted(raw)
+            relative = source.relative_to(root)
+            target = durable / "originals" / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(clean)  # Redaktion VOR dauerhaftem Schreiben.
+            exported.append({
+                "path": str(Path("originals") / relative),
+                "source_sha256": hashlib.sha256(raw).hexdigest(),
+                "redacted_sha256": hashlib.sha256(clean).hexdigest(),
+            })
+        self.assertTrue(any("current_saves" in e["path"] for e in exported), "Saveoriginale muessen mitgeliefert sein")
+        trace_path = durable / "raw_trace_export.json"
+        trace_path.write_bytes(redacted(json.dumps(trace, indent=2, sort_keys=True).encode()))
+        EARLY_GUARD.export_guard_state(durable / "guard.json")
+        self.assertEqual(EARLY_GUARD.export_status()["counters"]["unexpected_blocked"], 0)
+        (durable / "manifest.json").write_text(json.dumps(exported, indent=2, sort_keys=True), encoding="utf-8")
 
-        def _export_entry(role: str, call: dict, rec: dict) -> dict:
-            body = call["body"] if isinstance(call["body"], dict) else {}
-            return {
-                "role": role,
-                "route": call["url"].rsplit("/", 1)[0],
-                "model": body.get("model"),
-                "max_tokens": body.get("max_tokens"),
-                "authorization": _redact(call["headers"].get("Authorization", "")),
-                "dollar_billed": rec["dollar_billed"],
-                "usage": rec["usage"],
-            }
-
-        export = (
-            [_export_entry("gm", c, r) for c, r in zip(gm_wire, gm_records)]
-            + [_export_entry("persona", c, r) for c, r in zip(persona_wire, persona_records)]
-        )
-        export_path = root / "raw_trace_export.json"
-        export_path.write_text(json.dumps(export, indent=2, sort_keys=True), encoding="utf-8")
-        self.assertTrue(export_path.is_file(), "Rohartefakt-Export muss vor dem Fixture-Cleanup geschrieben sein.")
-        exported_raw = export_path.read_text(encoding="utf-8")
-        self.assertNotIn(FAKE_OWUI_KEY, exported_raw, "exportierter Rohartefakt darf den OWUI-Key nicht tragen.")
-        self.assertNotIn(FAKE_LOCAL_TOKEN, exported_raw, "exportierter Rohartefakt darf den lokalen Token nicht tragen.")
-        self.assertIn(FAKE_PRESET_ID, exported_raw, "Modell/Route/Limits bleiben im Export lesbar -- nur Secrets sind redigiert.")
-        self.assertIn(FAKE_LOCAL_MODEL, exported_raw)
-        for entry in export:
-            self.assertIn("dollar_billed", entry, "Billingfeld muss GEMEINSAM MIT Rolle/Route/Modell im Export stehen.")
-            self.assertFalse(entry["dollar_billed"], entry)
-            self.assertIn("prompt_tokens", entry["usage"], "Usagefeld muss GEMEINSAM MIT Rolle/Route/Modell im Export stehen.")
-            self.assertGreater(entry["usage"]["prompt_tokens"], 0)
+        # Cleanup wirklich ausfuehren: der Export muss anschliessend noch
+        # unveraendert lesbar sein, nicht nur vor tearDown kurz existieren.
+        shutil.rmtree(root)
+        self.assertFalse(root.exists())
+        self.assertEqual(len(json.loads(trace_path.read_text())), 5)
+        for item in exported:
+            self.assertEqual(hashlib.sha256((durable / item["path"]).read_bytes()).hexdigest(), item["redacted_sha256"])
+        for path in durable.rglob("*"):
+            if path.is_file():
+                raw = path.read_bytes()
+                self.assertNotIn(FAKE_OWUI_KEY.encode(), raw)
+                self.assertNotIn(FAKE_LOCAL_TOKEN.encode(), raw)
+        print("LTH_RUNTIME_ARTIFACTS:" + str(durable), flush=True)
 
     def test_cloud_counterpart_max_usd_zero_stops_before_gm_completion(self):
         """O5: Cloudgegenfall mit max_usd=0 stoppt an DERSELBEN GM-Stelle --
@@ -890,4 +936,4 @@ class LocalTokenhostRuntimeTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    raise SystemExit(_support_mod.run_module_as_child(sys.modules[__name__]))

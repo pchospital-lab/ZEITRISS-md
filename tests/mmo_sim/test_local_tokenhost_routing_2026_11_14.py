@@ -71,6 +71,12 @@ if not _REAL_BODY:
         __file__, "routing", min_domain_tests=35)
 
 if _REAL_BODY:
+    # Manche CPython-Builds suchen dieses unveraenderte oeffentliche CA-
+    # Verzeichnis per Python-stat. Explizit dieselbe Trust-Quelle benennen
+    # vermeidet den Fallback-Probe, ohne TLS oder IO-Rechte abzusenken.
+    import ssl
+    if hasattr(ssl.SSLContext, "_FALLBACK_CERT_DIR"):
+        os.environ.setdefault("SSL_CERT_DIR", ssl.SSLContext._FALLBACK_CERT_DIR)
     EARLY_GUARD = _support_mod.self_bootstrap_isolation()
 
 # Immer (nicht nur bei Abwesenheit) an Position 0 setzen: ein anderes, in
@@ -1137,6 +1143,137 @@ class LocalTokenhostPersonaEnvReentryTests(unittest.TestCase):
         updates = lmp.build_local_profile_updates(base_url=FAKE_LOCAL_BASE, model=FAKE_LOCAL_MODEL, api_key=FAKE_LOCAL_TOKEN)
         self.assertTrue(setup_mod._update_env_file_preserving(env_path, updates))
         return tmp_home
+
+    def _actual_persona(self, key="rest-persona"):
+        data = Path(tempfile.mkdtemp(prefix="rest-persona-data-"))
+        self._tmp_dirs.append(data)
+        return factories_mod.default_persona_driver_factory(data)(key)
+
+    def _assert_api_wire(self, driver, *, model, token, limit, billed):
+        self.assertIsInstance(driver, PersonaApiDriver)
+        self.assertEqual(driver.is_dollar_billed, billed)
+        script = _UrlopenScript([(200, {
+            "choices": [{"message": {"content": "synthetische Antwort"}}],
+            "usage": {"prompt_tokens": 19, "completion_tokens": 7},
+        })])
+        with mock.patch("urllib.request.urlopen", script):
+            self.assertEqual(driver.decide({"user": "synthetischer Zug"}).text,
+                             "synthetische Antwort")
+        self.assertEqual(len(script.calls), 1)
+        call = script.calls[0]
+        self.assertEqual(call["url"], FAKE_LOCAL_BASE + "/chat/completions")
+        self.assertEqual(call["headers"]["Authorization"], "Bearer " + token)
+        self.assertEqual(call["body"]["model"], model)
+        self.assertEqual(call["body"]["max_tokens"], limit)
+
+    def test_same_url_file_api_gm_autoload_local_cloud_actual_new_persona(self):
+        """R1a: URL-Gleichheit allein darf den eigenen Vollsnapshot nicht entwerten."""
+        home = self._tmp_home_with_local_profile()
+        path = home / ".openwebui_env"
+        updates = dict(lmp.build_local_profile_updates(
+            base_url=FAKE_LOCAL_BASE, model=FAKE_LOCAL_MODEL, api_key=FAKE_LOCAL_TOKEN,
+            persona_max_tokens=111,
+        ))
+        updates.update({
+            "MMO_SIM_PERSONA_API_BASE_URL": FAKE_LOCAL_BASE,
+            "MMO_SIM_PERSONA_API_KEY": "synthetic-old-cloud-token",
+            "MMO_SIM_PERSONA_API_MODEL": "synthetic-old-cloud-model",
+            "MMO_SIM_PERSONA_API_MAX_TOKENS": "677",
+            "MMO_SIM_PERSONA_API_DOLLAR_BILLED": "1",
+        })
+        self.assertTrue(setup_mod._update_env_file_preserving(path, updates))
+        with mock.patch.object(Path, "home", return_value=home):
+            # Derselbe Autoload wie beim GM, vor der Persona-Konstruktion.
+            setup_mod._auto_load_owui_env()
+            local = self._actual_persona("local-first")
+            self._assert_api_wire(local, model=FAKE_LOCAL_MODEL, token=FAKE_LOCAL_TOKEN,
+                                  limit=111, billed=False)
+            self.assertTrue(setup_mod._update_env_file_preserving(path, dict(lmp.cloud_provider_updates())))
+            cloud = self._actual_persona("cloud-after-rekey")
+            self.assertIsNot(local, cloud)
+            self._assert_api_wire(cloud, model="synthetic-old-cloud-model",
+                                  token="synthetic-old-cloud-token", limit=677, billed=True)
+            # Eine neue Instanz aendert die alte lokale Instanz nicht global.
+            self.assertFalse(local.is_dollar_billed)
+
+    def test_file_only_cli_then_local_choice_constructs_actual_api_driver(self):
+        """R1b: der nur dateiabgeleitete CLI-Altwert darf nicht erneut gewinnen."""
+        home = self._tmp_home_with_local_profile()
+        self.assertTrue(setup_mod._update_env_file_preserving(
+            home / ".openwebui_env", {"MMO_SIM_PERSONA_CLI": "synthetic-old-cli"}))
+        with mock.patch.object(Path, "home", return_value=home):
+            setup_mod._auto_load_owui_env()
+            self._assert_api_wire(self._actual_persona(), model=FAKE_LOCAL_MODEL,
+                                  token=FAKE_LOCAL_TOKEN, limit=400, billed=False)
+            # Auch wiederholter Autoload darf die echte Adapterwahl nicht kippen.
+            self.assertIsInstance(self._actual_persona("local-again"), PersonaApiDriver)
+
+    def test_explicit_cli_before_and_after_local_default_is_actual_cli(self):
+        from mmo_sim.adapters.persona_claude_code import PersonaClaudeCodeDriver
+        home = self._tmp_home_with_local_profile()
+        with mock.patch.object(Path, "home", return_value=home):
+            os.environ["MMO_SIM_PERSONA_CLI"] = "synthetic-explicit-cli-before"
+            first = self._actual_persona()
+            self.assertIsInstance(first, PersonaClaudeCodeDriver)
+            self.assertEqual(first.config.binary, "synthetic-explicit-cli-before")
+            os.environ.pop("MMO_SIM_PERSONA_CLI")
+            self.assertIsInstance(self._actual_persona(), PersonaApiDriver)
+            os.environ["MMO_SIM_PERSONA_CLI"] = "synthetic-explicit-cli-after"
+            after = self._actual_persona()
+            self.assertIsInstance(after, PersonaClaudeCodeDriver)
+            self.assertEqual(after.config.binary, "synthetic-explicit-cli-after")
+            os.environ["MMO_SIM_PERSONA_TIMEOUT_SECONDS"] = "invalid-timeout"
+            with self.assertRaisesRegex(ValueError, "MMO_SIM_PERSONA_TIMEOUT_SECONDS"):
+                self._actual_persona("invalid-cli-no-api-fallback")
+
+    def test_explicit_api_beats_file_only_cli_at_actual_selection(self):
+        home = self._tmp_home_with_local_profile()
+        self.assertTrue(setup_mod._update_env_file_preserving(
+            home / ".openwebui_env", {"MMO_SIM_PERSONA_CLI": "synthetic-file-cli"}))
+        with mock.patch.object(Path, "home", return_value=home):
+            setup_mod._auto_load_owui_env()
+            os.environ.update({
+                "MMO_SIM_PERSONA_API_BASE_URL": FAKE_LOCAL_BASE,
+                "MMO_SIM_PERSONA_API_KEY": "synthetic-explicit-api",
+                "MMO_SIM_PERSONA_API_MODEL": "explicit-model",
+            })
+            self._assert_api_wire(self._actual_persona(), model="explicit-model",
+                                  token="synthetic-explicit-api", limit=400, billed=True)
+
+    def test_incomplete_explicit_api_holds_without_local_default(self):
+        home = self._tmp_home_with_local_profile()
+        with mock.patch.object(Path, "home", return_value=home):
+            for missing in self._PERSONA_ENV_KEYS[1:4]:
+                with self.subTest(missing=missing):
+                    for key in self._PERSONA_ENV_KEYS:
+                        os.environ.pop(key, None)
+                    os.environ.update({
+                        "MMO_SIM_PERSONA_API_BASE_URL": FAKE_LOCAL_BASE,
+                        "MMO_SIM_PERSONA_API_KEY": "synthetic-incomplete-override",
+                        "MMO_SIM_PERSONA_API_MODEL": "incomplete-override-model",
+                    })
+                    os.environ.pop(missing)
+                    with self.assertRaises(RuntimeError):
+                        self._actual_persona("must-hold")
+                    self.assertNotEqual(os.environ.get("MMO_SIM_PERSONA_API_MODEL"), FAKE_LOCAL_MODEL)
+
+    def test_explicit_same_url_api_before_and_after_local_default_is_actual_api(self):
+        home = self._tmp_home_with_local_profile()
+        with mock.patch.object(Path, "home", return_value=home):
+            for phase in ("before", "after"):
+                if phase == "after":
+                    for key in self._PERSONA_ENV_KEYS:
+                        os.environ.pop(key, None)
+                    self.assertIsInstance(self._actual_persona(), PersonaApiDriver)
+                os.environ.update({
+                    "MMO_SIM_PERSONA_API_BASE_URL": FAKE_LOCAL_BASE,
+                    "MMO_SIM_PERSONA_API_KEY": "synthetic-explicit-api-" + phase,
+                    "MMO_SIM_PERSONA_API_MODEL": "explicit-model-" + phase,
+                    "MMO_SIM_PERSONA_API_MAX_TOKENS": "263",
+                    "MMO_SIM_PERSONA_API_DOLLAR_BILLED": "1",
+                })
+                self._assert_api_wire(self._actual_persona(), model="explicit-model-" + phase,
+                                      token="synthetic-explicit-api-" + phase, limit=263, billed=True)
 
     def test_second_persona_construction_in_same_process_does_not_raise(self):
         tmp_home = self._tmp_home_with_local_profile()

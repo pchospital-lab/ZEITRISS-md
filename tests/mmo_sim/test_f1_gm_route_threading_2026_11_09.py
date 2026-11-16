@@ -63,8 +63,25 @@ _REPO_ROOT = _HERE.parents[1]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from mmo_sim.adapters.factories import default_gm_transport_factory  # noqa: E402
-import mmo_sim.adapters.gm_owui as gm_owui_mod  # noqa: E402
+_support_spec = importlib.util.spec_from_file_location(
+    "f1_route_support", _HERE / "_local_tokenhost_support_2026_11_14.py")
+_support_mod = importlib.util.module_from_spec(_support_spec)
+sys.modules[_support_spec.name] = _support_mod
+_support_spec.loader.exec_module(_support_mod)
+_REAL_BODY = (__name__ == "__main__") or _support_mod.is_real_body_env()
+if _REAL_BODY:
+    # Manche CPython-Builds suchen dieses unveraenderte oeffentliche CA-
+    # Verzeichnis per Python-stat. Explizit dieselbe Trust-Quelle benennen
+    # vermeidet den Fallback-Probe, ohne TLS oder IO-Rechte abzusenken.
+    import ssl
+    if hasattr(ssl.SSLContext, "_FALLBACK_CERT_DIR"):
+        os.environ.setdefault("SSL_CERT_DIR", ssl.SSLContext._FALLBACK_CERT_DIR)
+    EARLY_GUARD = _support_mod.self_bootstrap_isolation()
+    from mmo_sim.adapters.factories import default_gm_transport_factory  # noqa: E402
+    import mmo_sim.adapters.gm_owui as gm_owui_mod  # noqa: E402
+else:
+    load_tests = _support_mod.make_delegating_load_tests(
+        __file__, "gm-route-threading", min_domain_tests=17)
 
 
 def test_factory_forwards_sl_model_and_kb_id_to_transport():
@@ -987,18 +1004,26 @@ def test_factory_a2_holds_on_stale_current_kb_before_completion():
             assert sl_model == FAKE_PRESET, sl_model
             assert kb_id == FAKE_KB_CURRENT, kb_id
 
-            gm_factory = default_gm_transport_factory(tmp_data, _REPO_ROOT, sl_model=sl_model, kb_id=kb_id)
-            raised = False
-            try:
-                gm_factory("a2-stale-kb-table")
-            except RuntimeError as exc:
-                raised = True
-                assert "aktuelle Knowledge-Base" in str(exc), str(exc)
-            assert raised, "veraltete/fremde KB am gebundenen Preset haette VOR Completion sichtbar halten muessen."
+            # R2: auch ohne uebergebene aktuelle KB muss die reale lokale
+            # Factory VOR Transportbau halten, nicht nur beim Stale-Read.
+            for candidate in (kb_id, None, "", " ", factories_mod.GM_ROUTE_KB_UNVERIFIED):
+                gm_factory = default_gm_transport_factory(
+                    tmp_data, _REPO_ROOT, sl_model=sl_model, kb_id=candidate)
+                with mock.patch.object(gm_owui_mod, "GmOwuiTransport") as transport_ctor:
+                    raised = False
+                    try:
+                        gm_factory("a2-stale-kb-table")
+                    except RuntimeError as exc:
+                        raised = True
+                        assert "Knowledge" in str(exc), str(exc)
+                    assert raised, f"KB {candidate!r} muss VOR Transport/Completion halten"
+                    assert transport_ctor.call_count == 0, candidate
         gm_chat_calls = [c for c in calls if c[1] == f"{FAKE_OWUI_URL}/api/chat/completions"]
         assert not gm_chat_calls, (
             f"bei veralteter KB darf KEINE Completion gesendet worden sein, war {calls}"
         )
+        assert all(method == "GET" or (method == "POST" and url.endswith("/openai/verify"))
+                   for method, url in calls), "Transportbau darf nur bestehende nichtgenerative Reads ausfuehren"
     finally:
         os.environ.clear()
         os.environ.update(saved_env)
@@ -1029,4 +1054,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(_support_mod.run_module_as_child(sys.modules[__name__]))

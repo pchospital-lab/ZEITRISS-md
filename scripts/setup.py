@@ -3560,6 +3560,16 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
 _AUTOLOAD_ORIGIN_PREFIX = "_MMO_SIM_AUTOLOADED_ORIGIN__"
 
 
+def _forget_file_autoload_origin(*keys: str) -> None:
+    """Eine neue eigene Aufloesung uebernimmt die Herkunft dieser Felder.
+
+    Nur Prozessmetadaten entfernen, weder Werte noch persistierte Konfiguration.
+    Ein alter URL-Marker darf keinen spaeteren lokalen Vollsnapshot entwerten.
+    """
+    for key in keys:
+        os.environ.pop(_AUTOLOAD_ORIGIN_PREFIX + key, None)
+
+
 def _is_file_autoloaded_and_unmodified(key: str) -> bool:
     """A3-Fix: True nur, wenn der aktuelle Wert von `key` exakt der zuletzt
     von `_auto_load_owui_env()` aus der Datei nachgeladene ist (seitdem von

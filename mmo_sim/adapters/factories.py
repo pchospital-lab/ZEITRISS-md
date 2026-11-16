@@ -244,19 +244,25 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
     pre_existing_cli = os.environ.get("MMO_SIM_PERSONA_CLI")
     if pre_existing_cli and _setup_module._is_file_autoloaded_and_unmodified("MMO_SIM_PERSONA_CLI"):
         pre_existing_cli = None
-    pre_existing_api = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
-    if pre_existing_api and _setup_module._is_file_autoloaded_and_unmodified("MMO_SIM_PERSONA_API_BASE_URL"):
-        pre_existing_api = None
+    # Eigenen Vollsnapshot VOR jeder dateibasierten Entwertung pruefen:
+    # alter Datei- und neuer Profilwert duerfen dieselbe URL besitzen.
+    raw_api = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
     _stored_origin_snapshot = os.environ.get(_LOCAL_TOKENHOST_RESOLVED_MARKER)
     _live_origin_snapshot = _persona_origin_snapshot(
-        pre_existing_api or "",
+        raw_api or "",
         os.environ.get("MMO_SIM_PERSONA_API_KEY", ""),
         os.environ.get("MMO_SIM_PERSONA_API_MODEL", ""),
         os.environ.get("MMO_SIM_PERSONA_API_MAX_TOKENS", ""),
         os.environ.get("MMO_SIM_PERSONA_API_DOLLAR_BILLED", ""),
     )
-    self_resolved = bool(pre_existing_api) and _stored_origin_snapshot == _live_origin_snapshot
-    if (pre_existing_cli or pre_existing_api) and not self_resolved:
+    self_resolved = bool(raw_api) and _stored_origin_snapshot == _live_origin_snapshot
+    pre_existing_api = not self_resolved and any(
+        os.environ.get(key) and not _setup_module._is_file_autoloaded_and_unmodified(key)
+        for key in _LOCAL_TOKENHOST_PERSONA_ENV_KEYS[:3]
+    )
+    # Ein neuer bewusster CLI-Override gewinnt auch neben unserem noch
+    # unveraenderten API-Snapshot; URL-Gleichheit allein beweist keine Herkunft.
+    if pre_existing_cli or pre_existing_api:
         # (a)/(d) echter, bewusst gesetzter Prozessoverride, bereits VOR dem
         # Auto-Load im Environment (nicht aus Datei-Altbestand, nicht unser
         # eigener Fingerabdruck) -- eine gueltige explizite CLI-/API-Alternative.
@@ -274,7 +280,7 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
                 f"Lokales Modell-Profil haelt: {hold_reason} -- kein automatischer "
                 "Cloudfallback fuer die Persona-Anbindung."
             )
-        if provider == "local":
+        if provider in ("local", "cloud", "legacy"):
             # ZR-LOCAL-TOKENHOST Originprioritaet (GAPS.md "echte Override-/
             # Originprioritaet", O6-B:B2): eine gueltige, bewusst gesetzte
             # explizite CLI-/API-Alternative behaelt Vorrang und wird
@@ -314,6 +320,12 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
                     os.environ.pop("MMO_SIM_PERSONA_API_MAX_TOKENS", None)
                 if os.environ.get("MMO_SIM_PERSONA_API_DOLLAR_BILLED", "") == _stored_dollar_billed:
                     os.environ.pop("MMO_SIM_PERSONA_API_DOLLAR_BILLED", None)
+            if pre_existing_cli and self_resolved:
+                for key in _LOCAL_TOKENHOST_PERSONA_ENV_KEYS:
+                    os.environ.pop(key, None)
+            if not pre_existing_cli and _setup_module._is_file_autoloaded_and_unmodified("MMO_SIM_PERSONA_CLI"):
+                os.environ.pop("MMO_SIM_PERSONA_CLI", None)
+                _setup_module._forget_file_autoload_origin("MMO_SIM_PERSONA_CLI")
             os.environ.pop(_LOCAL_TOKENHOST_RESOLVED_MARKER, None)
             return False
         return False
@@ -355,6 +367,12 @@ def _maybe_default_local_tokenhost_persona_env(repo_root: Path | None = None) ->
     os.environ["MMO_SIM_PERSONA_API_MODEL"] = local_profile.model
     os.environ["MMO_SIM_PERSONA_API_MAX_TOKENS"] = str(local_profile.persona_max_tokens)
     os.environ["MMO_SIM_PERSONA_API_DOLLAR_BILLED"] = "0"
+    _setup_module._forget_file_autoload_origin(*_LOCAL_TOKENHOST_PERSONA_ENV_KEYS)
+    # Die Factory liest os.environ erneut. Nur die Hilfsvariable zu
+    # entwerten liess den dateiabgeleiteten CLI-Altbestand trotzdem gewinnen.
+    if _setup_module._is_file_autoloaded_and_unmodified("MMO_SIM_PERSONA_CLI"):
+        os.environ.pop("MMO_SIM_PERSONA_CLI", None)
+        _setup_module._forget_file_autoload_origin("MMO_SIM_PERSONA_CLI")
     # N4-05-Fix: Fingerabdruck der SELBST gerade gesetzten Werte statt "1" --
     # ein spaeterer Aufruf erkennt daran exakt, ob diese Werte seitdem von
     # jemand anderem veraendert wurden (s. Docstring oben, Fall (d)).
@@ -396,7 +414,14 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
             # dort validiert `lab/cli.py` die Env-Praesenz bereits vorab.
             # ZR-LOCAL-TOKENHOST-L1: lokales Profil hat Vorrang vor dem alten
             # LiteLLM-Auto-Default -- EIN Resolver, keine zweite Prioritaet.
-            if not _maybe_default_local_tokenhost_persona_env():
+            if not _maybe_default_local_tokenhost_persona_env() and not any(
+                os.environ.get(key)
+                for key in ("MMO_SIM_PERSONA_CLI", *_LOCAL_TOKENHOST_PERSONA_ENV_KEYS[:3])
+            ):
+                # Der Resolver hat Dateiwerte bereits geladen. Ein erneuter
+                # Autoload wuerde gerade verworfenen CLI-Altbestand wieder
+                # einschleusen oder eine unvollstaendige explizite API-Wahl
+                # still durch einen anderen Default ersetzen.
                 _maybe_default_local_persona_api_env()
         cli_binary = os.environ.get("MMO_SIM_PERSONA_CLI")
         api_base_url = os.environ.get("MMO_SIM_PERSONA_API_BASE_URL")
@@ -454,6 +479,14 @@ def default_persona_driver_factory(data_dir: Path, profile: str | None = None):
             return PersonaClaudeCodeDriver(config, persona_key)
         if use_api:
             from .persona_api import PersonaApiConfig, PersonaApiDriver
+            if profile is None and any(
+                not os.environ.get(key, "").strip()
+                for key in _LOCAL_TOKENHOST_PERSONA_ENV_KEYS[:3]
+            ):
+                raise RuntimeError(
+                    "Persona-API-Wahl unvollstaendig: Base-URL, Key und Modell erforderlich "
+                    "-- kein stiller CLI-/Providerfallback."
+                )
             # ZR-LOCAL-TOKENHOST-L1: instanz-/profilgebundener Billingmarker
             # -- Clouddefault bleibt True (unveraendert), NUR wenn der lokale
             # Resolver oben MMO_SIM_PERSONA_API_DOLLAR_BILLED=0 gesetzt hat,
@@ -638,6 +671,11 @@ def default_gm_transport_factory(
                 "-- kein automatischer Cloudfallback."
             )
         if _gm_provider == "local":
+            if not isinstance(kb_id, str) or not kb_id.strip():
+                raise RuntimeError(
+                    "GM-Route haelt: keine verifiziert aktuelle Knowledge-Base angegeben "
+                    "-- kein Transport mit historischer Default-KB oder lokaler Billingmarkierung."
+                )
             # N1-02 (O2 "Falsches Cloudpreset bei Localwahl darf keine
             # Completion mit dollar_billed=False freigeben"): eine lokale
             # Envwahl allein bindet den tatsaechlichen Upstream NICHT -- das
@@ -750,13 +788,11 @@ def default_gm_transport_factory(
                 )
             # A2-Fix Teil 3: ebenso fehlte der Abgleich der tatsaechlich AKTUELL
             # gebundenen KB -- ein bestaetigtes Preset/Connection-Paar kann
-            # trotzdem an einer veralteten/fremden Knowledge-Base haengen. Nur
-            # wenn der Aufrufer eine konkrete aktuelle `kb_id` live aufgeloest
-            # hat (F1-3-Parameter oben, additiv/optional), wird sie hier gegen
-            # das tatsaechliche `meta.knowledge` des gebundenen Presets
-            # geprueft; ohne Angabe bleibt das bisherige Altverhalten (sl_client
-            # Default-KB) unveraendert.
-            if kb_id and kb_id != GM_ROUTE_KB_UNVERIFIED:
+            # trotzdem an einer veralteten/fremden Knowledge-Base haengen. Nur wenn
+            # der Aufrufer eine konkrete aktuelle `kb_id` live aufgeloest
+            # hat UND sie am gebundenen Preset bestaetigt ist, darf lokal
+            # unpriced freigegeben werden. Cloud behaelt sein Altverhalten.
+            if kb_id != GM_ROUTE_KB_UNVERIFIED:
                 _gm_bound_kb_ids = {
                     entry.get("id")
                     for entry in ((_gm_bound_preset.get("meta") or {}).get("knowledge") or [])
