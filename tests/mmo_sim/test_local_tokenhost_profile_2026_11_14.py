@@ -1396,6 +1396,36 @@ class LocalTokenhostProfileTests(unittest.TestCase):
             self.assertNotIn(FAKE_TOKEN, json.dumps(before))
             self.assertNotIn(FAKE_TOKEN, json.dumps(after))
 
+            # R2 (01_GENERALREVIEW.md §3 "Writer-/Readerphasen ... gehen im
+            # Cleanup verloren -- die neue dauerhafte Metadaten-/Rohstrom-
+            # kopie enthaelt diese eigenen Phasen und Kontexte nicht"):
+            # dieselben tatsaechlich gelesenen/geprueften Phasen-/Kontext-
+            # originale zusaetzlich dauerhaft sichern -- NOCH im Testkoerper,
+            # vor jedem spaeteren Fixturecleanup (`exports_dir`/`contexts_dir`
+            # liegen im Solo-Fallback unter `self._tmp_dir(...)`, werden also
+            # in `tearDown` entfernt; im Runner-Lauf liegen sie in je einer
+            # eigenen Kindwurzel, die dieser Parent sonst nie einsammelt).
+            # Ein gescheitertes Pflicht-Copy verhindert den Abschluss.
+            own_context_path = writer_context_path if child_id == writer_id else reader_context_path
+            persisted_dir = _G2_EVIDENCE_DIR / f"i4-{child_id}"
+            persisted_dir.mkdir(parents=True, exist_ok=True)
+            try:
+                (persisted_dir / "before.json").write_text(
+                    json.dumps(before, indent=2, sort_keys=True), encoding="utf-8",
+                )
+                (persisted_dir / "after.json").write_text(
+                    json.dumps(after, indent=2, sort_keys=True), encoding="utf-8",
+                )
+                if own_context_path and Path(own_context_path).is_file():
+                    shutil.copy2(own_context_path, persisted_dir / "context.json")
+                if events_path.is_file():
+                    shutil.copy2(events_path, persisted_dir / "child_events.jsonl")
+            except OSError as exc:
+                self.fail(
+                    f"{child_id}: Pflicht-Copy der eigenen Writer-/Reader-Phasen-/Kontextoriginale "
+                    f"ist gescheitert ({exc.__class__.__name__}: {exc}) -- Abschluss verhindert."
+                )
+
         # ─── O6-A (RELEASE-CASES.json, G2): echter Cloud->Local->Cloud-
         # Setup-/Rewire-/Factory-Zusammenhang -- im SELBEN Parentprozess
         # UND in zwei vorab geplanten FRISCHEN O6-A-Testkindprozessen
@@ -1615,6 +1645,54 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     )
                     self.assertEqual(gm_result["content"], "GM-Antwort (O6-A).")
 
+                    # R1 (01_GENERALREVIEW.md §3 "tatsaechliche Chatrequests
+                    # vor Redaktion pruefen", 02_NATIVER_RESTAUFTRAG.md §C):
+                    # die tatsaechlich am Double EINGEGANGENE GM-Request --
+                    # VOR jeder Redaktion/jedem Export -- muss rollen-/
+                    # phasengebunden stimmen. Der GM-Chatzweig des Doubles
+                    # liefert sonst unabhaengig vom empfangenen Body
+                    # denselben Erfolg; eine Fehlzuordnung MUSS diesen Test
+                    # scheitern lassen. `double.requests[-1]` ist der echte,
+                    # noch unredigierte Eintrag genau DIESES Aufrufs.
+                    gm_req = double.requests[-1]
+                    self.assertEqual(
+                        gm_req["phase"], leg_label,
+                        f"{leg_label}: GM-Request falscher Phase zugeordnet: {gm_req}",
+                    )
+                    self.assertEqual(
+                        gm_req["request_body"]["model"], preset_id,
+                        f"{leg_label}: GM-Request-Body traegt nicht dieselbe eigene Preset-ID: {gm_req}",
+                    )
+                    gm_kb_ids = {
+                        f.get("id") for f in (gm_req["request_body"].get("files") or [])
+                        if isinstance(f, dict)
+                    }
+                    self.assertIn(
+                        kb_id, gm_kb_ids,
+                        f"{leg_label}: GM-Request-Body bindet nicht die aktuelle KB: {gm_req}",
+                    )
+                    self.assertEqual(
+                        gm_req["auth"], f"Bearer {owui_key}",
+                        f"{leg_label}: tatsaechlich verwendete OWUI-Authorization != erwarteter "
+                        f"OWUI-Key der Phase (vor Redaktion geprueft): {gm_req!r}",
+                    )
+                    # Cloud-GM ohne Request-max_tokens ist KEIN Fehler
+                    # (01_GENERALREVIEW.md §3) -- nur korrekt zuordnen,
+                    # WELCHER Fall vorliegt, aus dem tatsaechlichen Request-/
+                    # Presetbezug (`gm_transport.output_limit_tokens`), keine
+                    # erfundene feste Zahl (Rueckkehr zu 4096 verlangt NICHT
+                    # die Wiederherstellung von 64000).
+                    if gm_transport.output_limit_tokens:
+                        self.assertEqual(
+                            gm_req["request_body"].get("max_tokens"), gm_transport.output_limit_tokens,
+                            f"{leg_label}: GM-Request-Limit != tatsaechlichem Request-/Presetbezug: {gm_req}",
+                        )
+                    else:
+                        self.assertNotIn(
+                            "max_tokens", gm_req["request_body"],
+                            f"{leg_label}: unerwarteter max_tokens-Key ohne konfiguriertes Limit: {gm_req}",
+                        )
+
                     persona_factory = default_persona_driver_factory(data_dir)
                     persona_driver = persona_factory(persona_key)
                     self.assertEqual(
@@ -1623,6 +1701,42 @@ class LocalTokenhostProfileTests(unittest.TestCase):
                     )
                     decision = persona_driver.decide({"system": "s", "user": "u"})
                     self.assertEqual(decision.text, persona_text)
+
+                    # R1: der Persona-Chatzweig behandelt die empfangene
+                    # Authorization bisher NICHT als Erfolgsbedingung --
+                    # tatsaechliche served-ID/Route UND eigener Rollenkey
+                    # (VOR Redaktion) muessen zur Phase passen. Das
+                    # Metafeld "model" (von `_router` gesetzt) ersetzt
+                    # `request_body["model"]` NICHT -- beide werden
+                    # unabhaengig gegen die bei Phasenkonstruktion bekannten
+                    # erwarteten Literale (nicht gegen `persona_driver.
+                    # config`, um keinen zirkulaeren Vergleich zu bauen)
+                    # gebunden.
+                    persona_req = persona_calls[-1]
+                    expected_persona_model = cloud_persona_model if expect_billed else local_model
+                    expected_persona_key = cloud_persona_key if expect_billed else local_token
+                    self.assertEqual(
+                        persona_req["phase"], leg_label,
+                        f"{leg_label}: Persona-Request falscher Phase zugeordnet: {persona_req}",
+                    )
+                    self.assertEqual(
+                        persona_req["model"], expected_persona_model,
+                        f"{leg_label}: Persona-Metafeld 'model' != erwartete served-ID der Phase.",
+                    )
+                    self.assertEqual(
+                        persona_req["request_body"]["model"], expected_persona_model,
+                        f"{leg_label}: Persona-Request-Body['model'] != erwartete served-ID/Route "
+                        f"(Metafeld allein ersetzt request_body.model nicht): {persona_req}",
+                    )
+                    self.assertEqual(
+                        persona_req["auth"], f"Bearer {expected_persona_key}",
+                        f"{leg_label}: tatsaechlicher Persona-Rollenkey != erwarteter Persona-Key "
+                        f"der Phase (vor Redaktion geprueft): {persona_req!r}",
+                    )
+                    self.assertEqual(
+                        persona_req["request_body"].get("max_tokens"), persona_driver.config.max_tokens,
+                        f"{leg_label}: Persona-Request-Limit != effektivem Rollenlimit: {persona_req}",
+                    )
 
                 # ── Leg 1: Cloud (vor dem lokalen Abschnitt) ─────────────
                 # G2-Fix (01_GENERALREVIEW.md §3 "Persona-Kausalitaet"):
@@ -1849,16 +1963,123 @@ class LocalTokenhostProfileTests(unittest.TestCase):
             combined = (stdout or "") + (stderr or "")
             self.assertNotIn(FAKE_TOKEN, combined, f"{child_id}: Token darf nie im Kindkanal erscheinen.")
 
+            # R2 (01_GENERALREVIEW.md §3 "die zwei realen O6-A-Kinder haben
+            # keine eigenen before/after/context und keine eigenen Request-
+            # dateien -- liegen in separaten Kindwurzeln; ein Parent-
+            # verzeichnis-Copy erfasst diese separaten Kindwurzeln nicht"):
+            # den vom Kind selbst gedruckten Marker lesen (das Kind hat
+            # seine eigenen Exportinhalte bereits SELBST aus seiner eigenen
+            # Wurzel gelesen, s. `_o6a_run_cycle_as_own_child`) und dauerhaft
+            # in das bleibende Evidenzziel schreiben -- der Parent liest nie
+            # selbst aus der fremden Kindwurzel (eigener Guard kennt sie
+            # nicht als erlaubten Lesebereich). Ein fehlender Marker oder
+            # ein gescheitertes Pflicht-Schreiben verhindert den Abschluss.
+            own_export_marker = None
+            for line in (stdout or "").splitlines():
+                if line.startswith("O6A_CHILD_OWN_EXPORT:"):
+                    own_export_marker = line[len("O6A_CHILD_OWN_EXPORT:"):]
+            self.assertIsNotNone(
+                own_export_marker,
+                f"{child_id}: kein O6A_CHILD_OWN_EXPORT-Marker im Kindoutput -- eigene "
+                f"before/after/Requestdaten des Kindes nicht auffindbar.\n{stdout}",
+            )
+            own_export = json.loads(own_export_marker)
+            own_before, own_after = own_export["before"], own_export["after"]
+            self.assertEqual(_support_mod.validate_export_schema(own_before), [])
+            self.assertEqual(_support_mod.validate_export_schema(own_after), [])
+            self.assertEqual(own_after["completion_status"], "completed")
+            self.assertIsNotNone(
+                own_export.get("request_body_text"),
+                f"{child_id}: eigene O6-A-Requestdatei (Inhalt) fehlt im Marker.",
+            )
+            persisted_child_root = _G2_EVIDENCE_DIR / f"{child_id}-own-root"
+            try:
+                persisted_child_root.mkdir(parents=True, exist_ok=True)
+                (persisted_child_root / "before.json").write_text(
+                    json.dumps(own_before, indent=2, sort_keys=True), encoding="utf-8",
+                )
+                (persisted_child_root / "after.json").write_text(
+                    json.dumps(own_after, indent=2, sort_keys=True), encoding="utf-8",
+                )
+                (persisted_child_root / "request-bodies.json").write_text(
+                    own_export["request_body_text"], encoding="utf-8",
+                )
+            except OSError as exc:
+                self.fail(
+                    f"{child_id}: Pflicht-Schreiben der eigenen Kind-Exportoriginale ist "
+                    f"gescheitert ({exc.__class__.__name__}: {exc}) -- Abschluss verhindert."
+                )
+            # Laufmanifest (01_GENERALREVIEW.md §3 R2: Quelle/Rolle/PID/
+            # PPID/argv/cwd/minimale Umgebung/Start-Ende/Exit + Vorher-/
+            # Nachherquellenbindung) -- additiv zum bereits bestehenden
+            # `_persist_g2_raw_channel`-Meta oben, an derselben bleibenden
+            # Evidenzwurzel.
+            (_G2_EVIDENCE_DIR / f"{child_id}.manifest.json").write_text(
+                json.dumps({
+                    "role": child_id, "source": "o6a-fresh-child", "method_name": method_name,
+                    "pid": proc.pid, "ppid": os.getpid(), "argv": list(argv),
+                    "cwd": None, "minimal_env": dict(child_env),
+                    "start_utc": start_utc, "end_utc": end_utc, "exit_code": rc,
+                    "own_before_path": str(persisted_child_root / "before.json"),
+                    "own_after_path": str(persisted_child_root / "after.json"),
+                    "own_request_body_path": str(persisted_child_root / "request-bodies.json"),
+                }, indent=2, sort_keys=True, default=str),
+                encoding="utf-8",
+            )
+
     # ─── G2-Kindeinstiege (KEIN `test_`-Praefix -- normale Discovery
     # fuehrt sie dadurch NICHT zusaetzlich aus; `unittest.main()` im frisch
     # gestarteten Kindinterpreter waehlt sie ueber den expliziten Namen in
     # `sys.argv` trotzdem gezielt aus, s. `_o6a_run_in_two_fresh_children`). ──
 
     def o6a_child_one_cycle(self) -> None:
-        self._o6a_run_cycle("child1")
+        self._o6a_run_cycle_as_own_child("child1")
 
     def o6a_child_two_cycle(self) -> None:
-        self._o6a_run_cycle("child2")
+        self._o6a_run_cycle_as_own_child("child2")
+
+    def _o6a_run_cycle_as_own_child(self, tag: str) -> None:
+        """R2 (01_GENERALREVIEW.md §3 "die zwei realen O6-A-Kinder ... haben
+        keine eigenen before/after/context und keine eigenen Requestdateien
+        im Paket -- liegen in separaten Kindwurzeln"): dieses EINE O6-A-Kind
+        exportiert jetzt SELBST before/after unter seiner eigenen (bereits
+        im Modulimport self-bootstrapped) privaten Wurzel. Der Parent kennt
+        diese fremde Kindwurzel NICHT als eigenen erlaubten Lese-/Schreib-
+        raum -- ein Crossroot-`shutil.copytree` aus dem Elternprozess waere
+        selbst eine erwartete `IsolationViolation` (kein Guardabbau/keine
+        neue Ausnahme dafuer). Stattdessen liest DIESES Kind seine EIGENEN
+        Exportdateien + seine eigene Requestdatei SELBST (innerhalb der
+        eigenen Wurzel ausdruecklich erlaubt) und reicht ihren vollen Inhalt
+        ueber den bereits vom Parent abgefangenen stdout-Kanal weiter --
+        der Parent schreibt sie danach in SEINEN EIGENEN erlaubten
+        Schreibraum, ohne je selbst aus der fremden Kindwurzel zu lesen."""
+        own_root = Path(EARLY_GUARD.private_write_roots[0])
+        before_path = own_root / "o6a-child-own.before.json"
+        after_path = own_root / "o6a-child-own.after.json"
+        EARLY_GUARD.export_phase(
+            "before", before_path, completion_status="running",
+            evidence={"test_or_fixture_id": f"o6a-{tag}"},
+        )
+        status = "failed"
+        try:
+            self._o6a_run_cycle(tag)
+            status = "completed"
+        finally:
+            EARLY_GUARD.export_phase(
+                "after", after_path, completion_status=status,
+                evidence={"test_or_fixture_id": f"o6a-{tag}"},
+            )
+            request_body_path = _G2_EVIDENCE_DIR / f"o6a-request-bodies-{tag}-{os.getpid()}.json"
+            payload = {
+                "tag": tag, "pid": os.getpid(),
+                "before": json.loads(before_path.read_text(encoding="utf-8")),
+                "after": json.loads(after_path.read_text(encoding="utf-8")),
+                "request_body_text": (
+                    request_body_path.read_text(encoding="utf-8")
+                    if request_body_path.is_file() else None
+                ),
+            }
+            print("O6A_CHILD_OWN_EXPORT:" + json.dumps(payload, sort_keys=True))
 
     # ─── G2-Gegenbeleg: gueltiger Explicit-Override + Billingcleanup ─────
 

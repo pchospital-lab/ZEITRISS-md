@@ -28,12 +28,14 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import json
 import os
 import subprocess
 import sys
 import tempfile
 import traceback
 import unittest.mock as mock
+from datetime import datetime, timezone
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
@@ -67,11 +69,31 @@ if _REAL_BODY:
     # Guard. In beiden Faellen VOR dem folgenden setup.py-Produktimport.
     _GUARD = _support_mod.self_bootstrap_isolation()
 
+    # R2 (01_GENERALREVIEW.md §3 "fuer den G1-Familienlauf fehlen die
+    # vollstaendigen eigenen Kontexte/einzelnen Reader-Rohkanaele/gebundenen
+    # Parentlaufdaten"): EIN bleibendes Evidenzziel innerhalb des bereits
+    # vom Guard erlaubten privaten Schreibbereichs DIESES Prozesses
+    # (`_GUARD.private_write_roots[0]`) -- identisches Muster zu
+    # `_G2_EVIDENCE_DIR` im Profiltest. Unter dem G3-Starter ist dieser
+    # Bereich bereits `fresh_tmp` (vom Starter nach dem Lauf vollstaendig
+    # nach `private_root_copy` kopiert); im Solo-/run_all-Lauf kopieren
+    # Main/Integrator ihn NACH dem Lauf an `.../run/evidence/g1/`. Kein
+    # neues Repo-File, keine neue Guard-Architektur -- reine Pfadwahl
+    # innerhalb der bestehenden Wurzel.
+    _G1_EVIDENCE_DIR = Path(_GUARD.private_write_roots[0]) / "g1-raw-evidence"
+    _G1_EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+
     _spec = importlib.util.spec_from_file_location(
         "f1_n2_env_writer_honesty_setup_under_test", _SETUP_PY,
     )
     setup_mod = importlib.util.module_from_spec(_spec)
     _spec.loader.exec_module(setup_mod)
+else:
+    _G1_EVIDENCE_DIR = None
+
+
+def _utcnow_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
 def test_unreadable_existing_file_is_not_rebuilt_returns_false():
@@ -225,17 +247,32 @@ def _fresh_process_provider(path: Path) -> str:
     teilen (z.B. aktive Vorbedingung vs. spaeterer HOLD-Nachweis)."""
     _FRESH_READER_COUNTER["n"] += 1
     nonce = _FRESH_READER_COUNTER["n"]
+    # R2 (01_GENERALREVIEW.md §3 "fuer den G1-Familienlauf fehlen die
+    # vollstaendigen eigenen Kontexte/einzelnen Reader-Rohkanaele/gebundenen
+    # Parentlaufdaten"): die eigene private Wurzel dieses EINEN Leserkindes
+    # wird jetzt vom PARENT VORAB innerhalb des bereits bleibenden
+    # `_G1_EVIDENCE_DIR` angelegt (statt eines unbenannten System-Tempdirs)
+    # -- unter dem G3-Starter landet sie damit automatisch in dessen
+    # ohnehin kopierter `fresh_tmp`-Wurzel; im Solo-/run_all-Lauf bleibt sie
+    # unter der eigenen, von Main/Integrator NACH dem Lauf kopierten
+    # Prozesswurzel. Das Kind erhaelt den Pfad als argv-Wert, statt ihn
+    # selbst per `tempfile.mkdtemp()` an einem unbekannten Ort anzulegen.
+    private_root = os.path.realpath(
+        tempfile.mkdtemp(prefix=f"g1-reader-{nonce}-", dir=str(_G1_EVIDENCE_DIR))
+    )
+    exports_dir = os.path.join(private_root, "exports")
+    os.makedirs(exports_dir, exist_ok=True)
+    before_export_path = os.path.join(exports_dir, "before.json")
+    after_export_path = os.path.join(exports_dir, "after.json")
     code = (
-        "import importlib.util, sys, os, tempfile\n"
+        "import importlib.util, sys, os\n"
         "from pathlib import Path\n"
         "real_home = str(Path.home())\n"
         "support_spec = importlib.util.spec_from_file_location(\n"
         "    'g1_fresh_reader_support_%d' % os.getpid(), sys.argv[3])\n"
         "support = importlib.util.module_from_spec(support_spec)\n"
         "support_spec.loader.exec_module(support)\n"
-        "private_root = os.path.realpath(tempfile.mkdtemp(prefix='g1-reader-'))\n"
-        "exports = os.path.join(private_root, 'exports')\n"
-        "os.makedirs(exports, exist_ok=True)\n"
+        "private_root = sys.argv[5]\n"
         "ctx = {\n"
         "    'bundle_id': 'g1-fresh-reader-' + os.path.basename(private_root),\n"
         "    'process_id': 'g1-reader-' + str(os.getpid()),\n"
@@ -246,8 +283,8 @@ def _fresh_process_provider(path: Path) -> str:
         "    'dep_read_roots': [os.path.dirname(sys.argv[2])],\n"
         "    'private_write_roots': [private_root],\n"
         "    'shared_fixture_root': None,\n"
-        "    'export_before_path': os.path.join(exports, 'before.json'),\n"
-        "    'export_after_path': os.path.join(exports, 'after.json'),\n"
+        "    'export_before_path': sys.argv[6],\n"
+        "    'export_after_path': sys.argv[7],\n"
         "    'credential_block_roots': [],\n"
         "    'artifact_read_paths': [],\n"
         "}\n"
@@ -276,31 +313,69 @@ def _fresh_process_provider(path: Path) -> str:
     argv = [
         sys.executable, "-c", code,
         str(_SETUP_PY), str(path), str(_SUPPORT_SCRIPT), str(_REPO_ROOT),
+        private_root, before_export_path, after_export_path,
     ]
     _GUARD.register_child(
         role="g1-fresh-reader", argv=argv, fixture_paths=[str(path)],
         export_id=f"g1-fresh-reader-{nonce}", count=1,
         minimal_env=minimal_env, cwd=cwd,
     )
+    start_utc = _utcnow_iso()
     proc = subprocess.Popen(
         argv, cwd=cwd, env=minimal_env,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
     )
     _GUARD.record_child_start(
-        role="g1-fresh-reader", pid=proc.pid, ppid=os.getpid(), argv=argv,
+        role="g1-fresh-reader", pid=proc.pid, ppid=os.getpid(), argv=argv, utc=start_utc,
     )
+
+    def _write_manifest(*, end_utc: str, exit_code, provider_result) -> None:
+        # R2-Laufmanifest: Quelle/Rolle/PID/PPID/argv/cwd/minimale Umgebung/
+        # UTC-Start-Ende/Exit -- additiv zu den bereits bestehenden Guard-
+        # internen `child_starts`/`child_ends`, als eigenstaendig lesbares
+        # Original direkt in der dauerhaft gesicherten Kindwurzel.
+        manifest = {
+            "role": "g1-fresh-reader", "nonce": nonce, "pid": proc.pid, "ppid": os.getpid(),
+            "argv": list(argv), "cwd": cwd, "minimal_env": dict(minimal_env),
+            "start_utc": start_utc, "end_utc": end_utc, "exit_code": exit_code,
+            "target_path": str(path), "before_export_path": before_export_path,
+            "after_export_path": after_export_path, "provider_result": provider_result,
+        }
+        try:
+            Path(private_root, "manifest.json").write_text(
+                json.dumps(manifest, indent=2, sort_keys=True, default=str), encoding="utf-8",
+            )
+        except OSError:
+            pass  # Manifestschreiben ist Zusatzbeleg, kein Pflichtexport-Seam.
+
     try:
         out, err = proc.communicate(timeout=60)
     except subprocess.TimeoutExpired:
         proc.kill()
         out, err = proc.communicate()
-        _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode or -1)
+        end_utc = _utcnow_iso()
+        _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode or -1, utc=end_utc)
+        _write_manifest(end_utc=end_utc, exit_code=proc.returncode, provider_result=None)
         raise
-    _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode)
+    end_utc = _utcnow_iso()
+    _GUARD.record_child_end(role="g1-fresh-reader", pid=proc.pid, rc=proc.returncode, utc=end_utc)
     assert proc.returncode == 0, f"frischer Leserprozess scheiterte: {err}"
     lines = [ln for ln in out.splitlines() if ln.startswith("PROVIDER:")]
     assert lines, f"kein PROVIDER-Marker im frischen Leser: {out!r}"
-    return lines[-1].split(":", 1)[1]
+    provider_result = lines[-1].split(":", 1)[1]
+    # R2: Bewahrung MUSS hier, noch im Testkoerper vor jedem spaeteren
+    # Cleanup, passieren -- kein spaeterer Copy nach `tearDown`. Es gibt
+    # hier keine explizite tearDown-Loeschung dieser Wurzel, aber die
+    # Bindung (Manifest + before/after bereits unter `_G1_EVIDENCE_DIR`)
+    # muss trotzdem JETZT geschrieben sein, nicht erst nachtraeglich.
+    self_check = [before_export_path, after_export_path]
+    for p in self_check:
+        if not Path(p).is_file():
+            raise AssertionError(
+                f"g1-fresh-reader {nonce}: Pflicht-Export fehlt nach dem Lauf: {p}"
+            )
+    _write_manifest(end_utc=end_utc, exit_code=proc.returncode, provider_result=provider_result)
+    return provider_result
 
 
 class _SelectiveOsOpen:
