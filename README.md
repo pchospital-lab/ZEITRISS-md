@@ -334,6 +334,12 @@ den Save im Chat. Speichere ihn selbst als Datei; das Kommando allein legt
 keine Datei auf deinem Gerät an. Ein neuer Spielchat lädt den Save mit
 `Spiel laden` oder `!laden`.
 
+Terminalstände setzt du normalerweise im verwalteten Terminalweg fort.
+Für einen Umzug gelten dessen vorhandene Import-/Export- und Bindungsregeln.
+Das RAG-/Chatspiel bleibt eigenständig zum Kennenlernen spielbar. Ein dort
+frei veränderter Terminal-Save hat allein durch sein JSON-Format keinen
+zugesagten verlustfreien Rückweg ins Terminal.
+
 Bleibt ein `!save` nach wiederholten Formatfehlern ohne gültigen Stand, kann das
 Terminal den besten zulässigen Kandidaten als **Best-Effort-Abschluss** übernehmen
 und die Runde schließen; eine verbleibende strukturelle Warnung ist dabei **kein**

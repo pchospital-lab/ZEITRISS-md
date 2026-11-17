@@ -352,63 +352,66 @@ unabhängig von einer Netzwerkverbindung.
 
 ## Die Grundidee
 
-ZEITRISS speichert deinen kompletten Fortschritt in einem portablen
-JSON-Block. Dieser Block ist gleichzeitig dein Charakterbogen, dein
-Kampagnenstand und dein Eintrittsticket in jede Runde. Daraus ergibt sich ein
-**„MMO-Feeling ohne Server":**
+**Optionaler manueller Chat-/JSON-Weg.** Die folgenden Abschnitte 1–8
+und „Ganz ohne Discord“ beschreiben den eigenständigen Chatversuch und
+das manuelle Weitergeben persönlicher Saves. Den normalen Terminalablauf
+und das lokale Spiel mit Betreiber und Gästen erklären die Abschnitte oben.
 
-- Du levelst **solo** auf deiner Lieblingsplattform, wann und wie du willst.
+Dein gültiger persönlicher JSON-Save enthält den zuletzt gespeicherten
+Stand deiner Figur und ihrer persönlichen Kampagne. Nach einem gültigen
+Abschnittsabschluss kannst du ihn in eine passende Runde mitnehmen; deren
+Regel-, Import- und Bindungsvoraussetzungen gelten weiterhin. Daraus
+entsteht das beschriebene **„MMO-Feeling ohne Server“**:
+
+- Du spielst **solo** auf deiner passend eingerichteten Chatplattform.
 - Wenn du Lust auf gemeinsames Spiel hast, **triffst du dich mit anderen** (z. B.
   auf einem Discord-Server) und bietest deinen Stand an.
 - Ihr spielt zusammen einen Abschnitt — danach geht jeder mit seinem
   aktualisierten JSON wieder seiner Wege oder ihr macht weiter.
 
-Der Clou: Für den persönlichen Dateiumzug ist es egal, auf welcher
-Plattform jemand zuvor gespielt hat — das JSON lässt sich grundsätzlich
-mitnehmen. Das ist keine universelle Regel-/Spielgarantie unabhängig vom
-jeweiligen Chat-/Modell-Stack; die passenden Import- und
-Regelvoraussetzungen (siehe oben) gelten weiterhin.
+Persönliche Saves lassen sich zwischen passenden eingerichteten Runden
+mitnehmen. Das ist weder eine universelle Regel-/Spielgarantie unabhängig
+vom Chat-/Modell-Stack noch eine Zusage eines verlustfreien
+Terminal–RAG–Terminal-Roundtrips. Die vorhandenen Import- und
+Bindungsregeln bleiben maßgeblich.
 
 ---
 
 ## 1. Solo zuerst — dein Charakter wächst bei dir
 
-Richte dir ZEITRISS auf **deiner** Plattform ein (OpenWebUI, oder wo auch immer
-du eine LLM-Runde mit Projektwissen laufen lässt). Spiel dich ein, mach ein paar
+Richte dir ZEITRISS auf einer **passenden Chatplattform** ein, die den
+Regelstand und deine Saves korrekt laden kann. Spiel dich ein, mach ein paar
 Missionen, finde deinen Charakter. Dein Fortschritt lebt in deinem JSON — du
 bist niemandem Rechenschaft schuldig und an keine Runde gebunden.
 
 Erst wenn du **Lust auf gemeinsames Spiel** hast, wird der Rest hier relevant.
 
-Wie viel gemeinsames Spiel dazukommt, ist völlig offen — ZEITRISS ist bewusst
-vielfältig spielbar, es gibt keinen „Normalfall". **Solo mit deinem NPC-Team
-ist für sich genommen schon die vollständige MMO-Simulation** — ein ganzes
-Team, eine ganze Kampagne, nur du. Von da aus geht vieles:
+Wie viel gemeinsames Spiel dazukommt, entscheidest du selbst. Auch solo
+mit einem NPC-Team kannst du diesen Chatweg spielen. Das NPC-Team ist
+von den freiwilligen KI-Spielerpersonas des Terminalwegs zu unterscheiden.
+Von da aus sind verschiedene Spielrhythmen möglich:
 
-- Manche bleiben fast durchgehend solo und holen sich echte Mitspieler nur
-  gezielt zu großen Momenten dazu — **zu** einem Boss, **zu** einem Rift — und
-  spielen danach wieder allein weiter.
+- Manche bleiben überwiegend solo und verabreden sich für einen
+  gemeinsam begonnenen Abschnitt mit anderen; nach dessen gültigem
+  Abschluss spielen sie wieder allein weiter.
 - Andere spielen umgekehrt fast alles online in der Gruppe, Abschnitt für
   Abschnitt, laden immer gemeinsam und wickeln HQ jedes Mal automatisch ab
   (siehe Abschnitt 5a). Erst **nach einer ganzen Episode** nehmen sie sich Zeit
   für sich allein: laden ihren Charakter solo, machen in Ruhe Feintuning im HQ
   und stecken das verdiente Geld z. B. in Chronopolis.
 
-Beides ist gleich richtig. Koop ist kein Zwang und kein Dauerzustand, sondern
-ein Andock-Punkt, den du dir nimmst, wann und so oft er dir passt.
+Beides ist gleich richtig. Koop ist kein Zwang und kein Dauerzustand;
+nach gültigen Abschnittsabschlüssen könnt ihr euch neu gruppieren.
 
 ---
 
 ## 2. Wo man sich trifft
 
-Es gibt keinen offiziellen Treffpunkt — und das ist Absicht. In der Praxis
-bilden sich **private Discord-Server** als Anlaufstellen: dort hängen Spieler ab,
-posten ihren Stand und verabreden sich für Runden. Jede Community organisiert
-sich, wie sie will.
-
-Ein Discord-Server ist nur *ein* Weg. Genauso gut geht ein Gruppenchat, ein
-Forum oder direkt der Messenger mit einem Kumpel (siehe
-[Ganz ohne Discord](#ganz-ohne-discord)).
+Für Verabredungen könnt ihr beispielsweise einen privaten Discord-Server,
+einen Gruppenchat, ein Forum oder einen Messenger verwenden. Die Gruppe
+organisiert ihren Treffpunkt selbst; eine Discord-Anbindung ist keine
+Voraussetzung des Spiels. Weitere Beispiele stehen unter
+[Ganz ohne Discord](#ganz-ohne-discord).
 
 ---
 
@@ -416,9 +419,9 @@ Forum oder direkt der Messenger mit einem Kumpel (siehe
 
 Willst du eine Runde anbieten oder in eine einsteigen, postest du deinen
 **`!save`-JSON-Block** — und zwar **gleich von Anfang an**, nicht erst wenn
-sich eine Gruppe gebildet hat. Das JSON ist der kanonische Weg: Episode,
-Mission, Modus, Epoche, offene Rifts, Chronopolis-Stand — alles drin, für
-alle im Treffpunkt sichtbar und lesbar.
+sich eine Gruppe gebildet hat. Das persönliche JSON beschreibt den
+gespeicherten Stand, mit dem du teilnehmen möchtest. Dazu können Episode,
+Mission, Modus, Epoche, offene Rifts und Chronopolis-Stand gehören.
 
 Dazu passt optional ein schneller Teaser als menschenlesbare Kurzfassung.
 Frei formuliert oder mit den Kurzbits aus `!bogen`. Zum Beispiel:
@@ -617,7 +620,7 @@ LAN-/Remote-Join ist davon nochmals getrennt.
 
 ## Ganz ohne Discord
 
-Der gleiche Ablauf funktioniert überall:
+Den manuellen Chat-/JSON-Ablauf könnt ihr beispielsweise so organisieren:
 
 - **Am Tisch:** Ein Gerät, einer leitet, ihr sprecht per Voice oder direkt im
   Raum. JSONs schickt ihr euch schnell per Messenger auf das eine Gerät.
@@ -625,8 +628,9 @@ Der gleiche Ablauf funktioniert überall:
   spielt eine Runde auf einem Gerät, danach das aktualisierte JSON zurück. Jeder
   geht nach Hause — auch im Spiel trennen sich die Wege wieder.
 
-Die Mechanik ist immer dieselbe: **Save posten → zusammen spielen → Save
-zurück.**
+Der hier beschriebene manuelle Ablauf bleibt:
+**gültigen persönlichen Save teilen → zusammen spielen → gültigen
+persönlichen Endsave zurückgeben.**
 
 ---
 
@@ -637,5 +641,7 @@ Splits & Merges, Gruppen-Px, Tod in der Gruppe) steht im
 [Spieler-Handbuch](../core/spieler-handbuch.md) unter „MMO-Feeling ohne Server"
 und „Der Gameflow".
 
+
+**Der folgende technische Wiederaufnahmehinweis betrifft den Terminalclient.**
 
 Hinweis zur Wiederaufnahme: Bricht eine Gruppenrunde genau zwischen dem Abschluss-Spielzug der Spielleitung und den Pflicht-Reflexionen ab, erntet der naechste normale Fortsetzen-Aufruf die bereits erzeugten Spielstaende automatisch (ohne neuen Spielzug) — aber nur, wenn die Antwort eindeutig und vollstaendig zur urspruenglichen Anfrage passt (Original-Input, Original-ID, vollstaendig verbucht, kein offener Fehler). Ist der Versand noch unbekannt/unvollstaendig oder die Buchung noch offen, haelt die Wiederaufnahme statt dessen kontrolliert, ohne deinen Spielstand zu veraendern. Danach (bei erfolgreicher Ernte) folgen wie bisher die erforderlichen Reflexionen der beteiligten KI-Mitspieler und der Abschluss.
