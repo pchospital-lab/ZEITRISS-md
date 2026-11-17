@@ -37,66 +37,51 @@ unten eingerichteten Backend-Stack. Dasselbe Regelwerk lässt sich
 zusätzlich, nachgeordnet, direkt in einer Chat-/Projektplattform
 ausprobieren.
 
-Das dokumentierte Entwicklungs-/Referenzsetup läuft über OpenWebUI +
-OpenRouter/LiteLLM — dieser Stack wird sowohl für die KI-Spielleitung im
-Terminal als auch für den optionalen Browser-Chat-Weg eingerichtet. Für den
-Chatversuch auf anderen Plattformen kann ZEITRISS zusätzlich laufen, wenn
+Das dokumentierte Cloud-Referenzsetup läuft über OpenWebUI +
+OpenRouter/LiteLLM. Alternativ bindet der Launcher einen lokalen
+OpenAI-kompatiblen Modellserver an. Die Wahl **cloud** oder **local**
+erfolgt bereits bei der ersten Einrichtung; die Voraussetzungen stehen
+unter [Lokaler Modellserver](#lokaler-modellserver). OpenWebUI verwaltet
+in beiden Wegen Wissen, Preset und Modellroute für das Terminal und den
+optionalen Browser-Chat. Für den Chatversuch auf anderen Plattformen kann
+ZEITRISS zusätzlich laufen, wenn
 diese projektweite Anweisungen, projektweite Quellen/Knowledge und Retrieval
 sauber unterstützen.
-
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│  DU (Terminal, Browser optional)                                     │
-│    │                                                                 │
-│    ▼                                                                 │
-│  OpenWebUI  ◄── [setup.py] ── schreibt Preset + Knowledge Base       │
-│   (Docker)                     (einmalig, danach `--sync` bei        │
-│    │                           Updates)                              │
-│    │                                                                 │
-│    ├──► LiteLLM (Docker, Pflicht) ──► OpenRouter ──► Sonnet 4.6     │
-│    │      [aktiviert Prompt-Cache: ~90 % Ersparnis]                  │
-│    │                                                                 │
-│    └──► Ollama (optional, Lokal-GPU-Variante, ungetestet):          │
-│           • als Sprachmodell (offline spielen, statt OpenRouter)     │
-│           • als Embedding-Engine (KB lokal indexieren, statt MiniLM) │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
 | Komponente des Terminalbackends (inkl. optionalem Chatweg) | Dort nötig? | Wofür |
 | --- | --- | --- |
 | **OpenWebUI** (Docker-Container) | ✅ nötig | Lokale Verwaltung/API-Backend des Terminalspiels (Wissen, Preset, Modellroute); seine Browseroberfläche ist zusätzlich der optionale Chatweg |
 | **ZEITRISS-Repo + Python** | ✅ nötig | Regelwerk + Setup-Script dieses Wegs |
-| **OpenRouter-Key** | ✅ nötig¹ | Modellzugang dieses Wegs |
+| **OpenRouter-Key** | Im Cloud-Referenzweg nötig | Zugang zum Cloudmodell; im Localpfad nicht erforderlich |
 | **OpenWebUI-API-Key** | ✅ nötig | damit Setup-Script Preset + KB schreiben kann |
-| **LiteLLM** (Docker-Container) | ✅ Pflicht (Golden Setup) | Prompt-Cache für Sonnet 4.6 (~90 % Ersparnis); bleibt auch bei Lokal-GPU-Variante aktiv, damit du jederzeit zwischen Cloud und Lokal umschalten kannst |
-| **Ollama** | ⚪ Optional (ungetestet) | Lokal-GPU-Variante: Sprachmodell **und/oder** Embedding |
-
-¹ Bei der reinen Lokal-GPU-Variante (Ollama als Sprachmodell, ohne Cloud-Fallback) optional. Empfohlen bleibt der Cloud-Key als Rückfallebene.
+| **LiteLLM** (Docker-Container) | Bestandteil des Cloud-Referenzwegs | Prompt-Cache und Cloudroute; kein allgemeiner Zwang im Localpfad |
+| **Lokaler OpenAI-kompatibler Modellserver** | Bei `local` nötig | Erreichbare Server-Basis-URL, exakte served-model-ID und eigener lokaler Token |
+| **Ollama** | Optional, manuelle Sonderwege | Sprachmodell **und/oder** Embedding; konkrete Modell-/Hardwarequalität hier nicht abgenommen |
 
 > 💡 **Was ihr selbst braucht, was der Launcher macht:** Ihr installiert
-> einmalig **Docker** und **Python** und legt zwei **API-Keys** an
-> (OpenRouter + OpenWebUI). Alles andere - OpenWebUI-Docker-Container,
-> LiteLLM-Docker-Container, Preset, Knowledge Base, Retrieval-Check -
-> macht der Launcher (`python scripts/zeitriss.py`). Die Lokal-GPU-Variante
-> (Ollama) ist optional und ungetestet - passende Hardware vorausgesetzt
-> (siehe unten).
+> einmalig **Docker** und **Python** und richtet den **OpenWebUI-Zugang**
+> ein. Für **cloud** kommt der OpenRouter-Key hinzu; für **local**
+> braucht ihr einen erreichbaren Modellserver mit genauer Modell-ID und
+> eigenem lokalen Token. Der Launcher (`python scripts/zeitriss.py`)
+> führt durch OpenWebUI, Preset und Knowledge Base sowie den gewählten
+> Modellanschluss. LiteLLM gehört zum Cloud-Referenzweg.
 
 ---
 
 ## Was der Launcher dir anbietet
 
-Der Launcher (`python scripts/zeitriss.py`) richtet den gemeinsamen
-Backend-Stack (OpenWebUI + LiteLLM + OpenRouter) ein, den sowohl das
-Terminalspiel als auch der optionale Browser-Chat-Weg brauchen. Nach der
-Einrichtung ist **[M] ZEITRISS spielen (Terminal)** der normale
-Produktstart — siehe [Spielerstart](spielerstart.md). Der Launcher bietet
-außerdem:
+Der Launcher (`python scripts/zeitriss.py`) richtet OpenWebUI und den
+gewählten Modellanschluss ein: **cloud** über den Cloud-Referenzweg oder
+**local** über einen passenden lokalen Modellserver. Nach der Einrichtung
+ist **[M] ZEITRISS spielen (Terminal)** der normale Produktstart — siehe
+[Spielerstart](spielerstart.md). Der Launcher bietet außerdem:
 
-**[1] ZEITRISS einrichten (empfohlen).** Der offiziell
-getestete Referenzpfad — OpenWebUI + OpenRouter + Claude Sonnet 4.6 +
-LiteLLM-Cache. Ein Launcher-Klick, der Launcher führt dich durch
-alles. Alle Regel-QA ist gegen diesen Stack kalibriert — darauf testen
-wir, und darauf entwickeln wir weiter. →
+**[1] ZEITRISS einrichten (empfohlen).** Der Launcher führt durch die
+Einrichtung und fragt nach der OpenWebUI-Freigabe nach **cloud** oder
+**local**. Der dokumentierte Cloud-Referenzweg verwendet OpenWebUI,
+OpenRouter, Claude Sonnet 4.6 und LiteLLM-Cache; die Regel-QA ist gegen
+diesen Stack kalibriert. Den lokalen Anschluss erklärt
+[Lokaler Modellserver](#lokaler-modellserver). →
 [Komplett-Setup in OpenWebUI unten](#komplett-setup-in-openwebui-empfohlen)
 
 **[M] ZEITRISS spielen (Terminal).** Nach der Einrichtung der normale
@@ -125,10 +110,10 @@ selbst testen.
 
 - **Andere Chat-Plattformen** (Export-Paket, Menu [2]) — Retrieval- und
   System-Prompt-Verhalten variiert, Regel-Glitches sind möglich.
-- **Lokale Sprachmodelle** via Ollama — Hardware-Anforderung aktuell
-  ungeprüft; eine konkrete Modell-/Hardwareprüfung (z. B. für 24 GB RAM)
-  ist eine spätere, noch nicht beauftragte Idee. Aktuell keine
-  Test-Abdeckung.
+- **Lokale Sprachmodelle** — der lokale Anschluss ist getrennt von der
+  konkreten Modell-, Hardware- und Antwortqualität zu betrachten. Eine
+  solche Praxisabnahme ist hier nicht zugesagt; die manuelle
+  Ollama-Variante unten bleibt ungeprüft.
 - **Lokale Embedding-Engine** via Ollama — reine KB-Indizierung, läuft,
   aber der Default-MiniLM reicht für 19 Dateien ebenso.
 
@@ -139,9 +124,12 @@ Support leisten wir nur für den Golden Setup.
 
 ## Komplett-Setup in OpenWebUI (empfohlen)
 
-Dieser Pfad richtet OpenWebUI + OpenRouter + LiteLLM-Cache ein - den
-offiziellen Referenz-Stack. Du installierst selbst nur **Docker und
-Python**, den Rest erledigt der Launcher (`python scripts/zeitriss.py`).
+Dieser Pfad richtet OpenWebUI und den gewählten Modellanschluss ein.
+Die gekennzeichneten Cloudschritte beschreiben den Referenzweg; bei
+**local** gelten die angegebenen Abzweige und der Abschnitt
+[Lokaler Modellserver](#lokaler-modellserver). Du installierst **Docker
+und Python** und bringst den jeweils nötigen Modellzugang mit; durch
+die weitere Einrichtung führt der Launcher (`python scripts/zeitriss.py`).
 
 > i️ **Zeitaufwand beim ersten Mal (historischer Richtwert, nicht neu
 > geprüft):** 30-60 Minuten (inklusive Docker- und Python-Installation).
@@ -152,8 +140,8 @@ Python**, den Rest erledigt der Launcher (`python scripts/zeitriss.py`).
 
 ### Schritt 1 - Docker installieren
 
-Docker ist die Voraussetzung für OpenWebUI und LiteLLM - beide laufen
-als Docker-Container auf deinem Rechner. Den Launcher interessiert
+Docker ist die Voraussetzung für OpenWebUI; im Cloud-Referenzweg läuft
+zusätzlich LiteLLM als Container auf deinem Rechner. Den Launcher interessiert
 das nicht, er ruft einfach `docker`-Befehle auf. Docker muss also
 **einmal installiert und gestartet** sein, bevor der Launcher läuft.
 
@@ -189,6 +177,11 @@ Der Launcher ist ein Python-Script. Du brauchst Python 3.9 oder neuer.
 ---
 
 ### Schritt 3 - OpenRouter-Account + Key besorgen
+
+**Nur für `cloud`:** Dieser Schritt gehört zum Cloud-Referenzweg.
+Bei **local** benötigst du keinen OpenRouter-Account oder Cloudkey;
+bereite stattdessen den [lokalen Modellserver](#lokaler-modellserver)
+vor und fahre mit Schritt 4 fort.
 
 OpenRouter liefert das Sprachmodell (Claude Sonnet 4.6, pay-per-token,
 kein Abo). Du brauchst **einen Account, ein kleines Guthaben und einen
@@ -331,10 +324,10 @@ Presets/KBs in deiner OpenWebUI-Installation.
 Der Launcher arbeitet Menüpunkt [1] von oben nach unten ab und stoppt
 nur dort, wo er etwas von dir braucht. Du musst zwischendrin **einmal
 in den Browser wechseln** und den Admin-Account anlegen sowie deinen
-OpenWebUI-API-Key erzeugen (A + B unten) - der Rest läuft automatisch,
-inklusive des externen OpenRouter-Keys, den der Launcher einmalig
-**verdeckt im Terminal** abfragt (Schritt 6.4, direkt nach dem
-OpenWebUI-Key), nicht im Browser.
+OpenWebUI-API-Key erzeugen (A + B unten). Danach wählst du im Terminal
+**cloud** oder **local** und gibst den dazugehörigen Modellzugang ein
+(Schritt 6.4). Der OpenRouter-Key wird nur bei **cloud** benötigt;
+Schlüsseleingaben bleiben verdeckt im Terminal.
 
 #### 6.1 - Docker-Check
 
@@ -374,13 +367,11 @@ das Profil-Icon oben rechts → **Einstellungen → Account →
 API Keys → "Create new key"** (oder **"Neuen Schlüssel erstellen"**)
 → Key kopieren.
 
-> 💡 **Warum zwei verschiedene Keys?** Der OpenRouter-Key aus Schritt 3
-> redet mit dem Sprachmodell in der Cloud - du trägst ihn **nicht** hier
-> im Browser ein, sondern gibst ihn gleich im nächsten Schritt einmalig
-> **verdeckt im Terminal** ein (Schritt 6.4, Teil C). Der OpenWebUI-Key
-> (hier, A/B) redet mit deinem lokalen OpenWebUI. Der Launcher nutzt
-> Letzteren, um das Preset und die Knowledge Base automatisch
-> anzulegen, statt dass du 19 Dateien von Hand hochladen müsstest.
+> 💡 **OpenWebUI-Zugang und Modellzugang sind getrennt.** Der
+> OpenWebUI-API-Key erlaubt dem Launcher, Preset und Knowledge Base
+> einzurichten. Der Modellzugang folgt danach im Terminal: bei **cloud**
+> der OpenRouter-Key, bei **local** Serveradresse, genaue Modell-ID und
+> eigener lokaler Token. Der lokale Token ist kein LiteLLM-Masterkey.
 
 #### 6.4 - Zurück ins Terminal
 
@@ -395,7 +386,17 @@ einfügen und Enter drücken:
 > Das ist Absicht (wie bei Passwort-Eingaben). Einfach einfügen,
 > Enter, fertig.
 
-**C) OpenRouter-Key eingeben** (ebenfalls verdeckt, direkt im Anschluss)
+**C) Modellanschluss wählen: `cloud` oder `local`**
+
+Nach dem OpenWebUI-Zugang fragt der Launcher nach dem Modellanschluss.
+
+- **cloud:** Der folgende OpenRouter-Key-Schritt gehört zu diesem Weg.
+- **local:** Gib Server-Basis-URL einschließlich `/v1`, genaue
+  served-model-ID und eigenen lokalen Token ein; die Details stehen
+  unter [Lokaler Modellserver](#lokaler-modellserver). Ein
+  OpenRouter-Key oder LiteLLM-Masterkey wird dafür nicht benötigt.
+
+**Bei `cloud`: OpenRouter-Key eingeben**
 
 Hast du schon einmal einen OpenRouter-Key gespeichert (z. B. aus einem
 früheren Lauf), lädt der Launcher ihn automatisch aus
@@ -406,20 +407,21 @@ Eingabe bleibt unsichtbar. Erlaube vorher unter
 <https://openrouter.ai/settings/privacy> den Provider **Anthropic**,
 sonst cached LiteLLM später nicht.
 
-Erst danach lädt der Launcher die 19 Wissensmodule nach OpenWebUI
-hoch, legt das Preset `ZEITRISS v4.2.6 Uncut` an und prüft am Ende per
-Retrieval-Check, ob die KB funktioniert. Dauer: **5-10 Minuten beim
+Nach Einrichtung des gewählten Modellanschlusses lädt der Launcher die
+19 Wissensmodule nach OpenWebUI hoch, legt das Preset
+`ZEITRISS v4.2.6 Uncut` an und prüft am Ende per Retrieval-Check, ob die
+KB funktioniert. Dauer: **5-10 Minuten beim
 ersten Mal** (Embeddings werden berechnet).
 
 #### 6.5 - LiteLLM-Cache aktivieren
 
-Wenn der Launcher fertig ist, fragt er: *"LiteLLM-Cache aktivieren?
-(gehört zum Golden Setup, spart ~90 % Prompt-Kosten)"*
+**Nur für `cloud`:** Bei **local** entfällt die LiteLLM-Einrichtung.
 
-**Ja drücken.** LiteLLM ist Teil des Golden Setups (Sonnet 4.6 + LiteLLM
-+ OpenWebUI) — die Ja/Nein-Abfrage ist nur ein technischer Haken, falls
-dein Setup gerade ohne Cache weiterlaufen muss (z.B. blockierter Port
-4000). Im Normalfall: Enter drücken.
+Im Cloud-Referenzweg bietet der Launcher die Aktivierung des
+LiteLLM-Caches an. **Bestätige sie** für das dokumentierte Referenzsetup
+(Sonnet 4.6 + LiteLLM + OpenWebUI). Die Option zum Weiterlaufen ohne
+Cache bleibt für vorhandene Ausnahmefälle erhalten, etwa einen
+blockierten Port 4000.
 
 Nach einem Key fragt dich der Launcher hier **nicht** nochmal - deinen
 OpenRouter-Key hat er bereits in Schritt 6.4 (Teil C) verdeckt erfasst.
@@ -470,9 +472,10 @@ seiner Ausgabe. Ein erneuter Start des Launchers wiederholt die
 automatische Verknüpfung; eine bereits funktionierende Connection wird
 dabei nicht dupliziert.
 
-> 💡 **Setup abgebrochen und Menüpunkt [1] später erneut gestartet?**
-> Ein bereits erkannter Bestand (Preset + verknüpfte Knowledge Base)
-> leitet dich zunächst auf **[4] Aktualisieren** um — der Launcher
+> 💡 **Cloud-Setup abgebrochen und Menüpunkt [1] später erneut gestartet?**
+> Im Cloud-Referenzweg leitet ein bereits erkannter Bestand
+> (Preset + verknüpfte Knowledge Base) dich zunächst auf
+> **[4] Aktualisieren** um — der Launcher
 > erreicht danach trotzdem automatisch denselben Verkabelungs-Check wie
 > hier in 6.5 (verknüpft/prüft OWUI↔LiteLLM erneut, idempotent). Dabei
 > wird nichts an Preset oder Knowledge Base gelöscht. Lag der Abbruch
@@ -503,8 +506,8 @@ geladen, du musst sie nie wieder eintippen.
 Die Einrichtung ist jetzt fertig. Der normale Produktstart ist das
 Terminalspiel: `python3 scripts/mmo_sim.py` bzw. Launcher-Menüpunkt
 **[M] ZEITRISS spielen (Terminal)** — siehe [Spielerstart](spielerstart.md).
-Der hier eingerichtete Backend-Stack (OpenWebUI + LiteLLM + OpenRouter)
-ist auch die KI-Spielleitung für das Terminal.
+OpenWebUI mit dem gewählten Cloud- oder Localanschluss stellt die
+KI-Spielleitung für das Terminal bereit.
 
 Zusätzlich, nachgeordnet, lässt sich das Regelwerk direkt im Browser-Chat
 ausprobieren: Im Launcher-Menü **[3] Regelwerk im Chat ausprobieren**
@@ -923,9 +926,11 @@ ab — **kein** OpenRouter-Key, **kein** LiteLLM-Masterkey nötig. Der
 OpenWebUI-Zugang (URL + OpenWebUI-API-Key) bleibt davon getrennt weiterhin
 erforderlich.
 
-Derselbe gewählte Server + dieselbe served-model-ID bedienen GM (über das
-bestehende ZEITRISS-Preset mit Masterprompt/Knowledge-Base) und Personas
-nacheinander im normalen Spielablauf — keine parallele Mehrfachanfrage.
+Derselbe gewählte Server + dieselbe served-model-ID bedienen standardmäßig
+GM (über das bestehende ZEITRISS-Preset mit Masterprompt/Knowledge-Base)
+und Personas nacheinander im normalen Spielablauf — keine parallele
+Mehrfachanfrage. Bewusst gesetzte gültige Modellalternativen behalten
+ihren bestehenden Vorrang.
 Zwei Netzkontexte können unterschiedlich sein: OpenWebUI (OWUI-Backend)
 erreicht den Modellserver ggf. über eine andere Adresse als dein Terminal
 (`local_model_profile`-Feld `ZEITRISS_LOCAL_OWUI_BASE_URL`, optional).
@@ -947,16 +952,16 @@ bewusst konservative Startwerte, keine Zusage über Antwortqualität.
 > zuordnen (Modell, GPU-Auslastung oder Prompt?), deshalb können wir da
 > nicht gezielt gegensteuern.
 
-Diese Variante bleibt innerhalb von **Weg A** (OpenWebUI + Launcher).
-Es ist keine separate Installation — du richtest den Standard-Stack
-einmal via Launcher ein und schaltest im OpenWebUI-Preset-Dropdown
-zwischen `zeitriss-sonnet` (Cloud) und deinem Ollama-Modell hin und her.
+Die folgenden Schritte beschreiben eine **manuelle OpenWebUI-Variante**.
+Sie sind vom verwalteten Terminalprofilwechsel über **[5] API-Keys ändern**
+zu unterscheiden. Für diesen Wechsel zwischen `cloud` und `local` gilt
+[Lokaler Modellserver](#lokaler-modellserver).
 
 **Hardware-Anforderung:** aktuell ungeprüft. Eine konkrete Modell-,
 Kontext-, Hardware- und Qualitätsprüfung — zum Beispiel für lokale Modelle
 bei 24 GB RAM — ist eine spätere, noch nicht beauftragte Idee. Bis dahin
-ist der Cloud-Pfad (Sonnet 4.6 via LiteLLM) der einzige getestete Weg —
-und der Punkt, zu dem man per Dropdown-Flip jederzeit zurückkehrt.
+bleibt der Cloud-Pfad (Sonnet 4.6 via LiteLLM) die dokumentierte
+Modellreferenz. Den verwalteten Terminalanschluss wechselst du über **[5]**.
 
 #### Ollama als Sprachmodell
 
@@ -969,14 +974,14 @@ ausreichend fähiges Modell laden. Eine konkrete Mindestklasse oder ein
 VRAM-Bedarf ist, wie oben, ungeprüft und nicht festgelegt. In OpenWebUI unter
 **Einstellungen → Verbindungen** die Ollama-Verbindung eintragen (meist
 `http://host.docker.internal:11434`). Im ZEITRISS-Preset das Base-Modell-
-Dropdown auf dein Ollama-Modell umstellen.
+Dropdown auf dein Ollama-Modell umstellen. Das ändert das manuell
+bearbeitete OpenWebUI-Preset. Daraus folgt keine Zusage, dass zugleich
+der verwaltete Terminalanschluss für GM und Personas umgestellt ist.
 
-**LiteLLM bleibt drin.** Der Anthropic-Prompt-Cache greift zwar nur auf
-der Cloud-Route, schadet aber nicht — LiteLLM funktioniert als
-Multi-Provider-Proxy weiter, und der Vorteil ist: Du kannst per
-Dropdown-Flip sofort zurück auf `zeitriss-sonnet` wechseln, wenn dir
-dein lokales Modell bei der nächsten Szene nicht mehr reicht. Keine
-Re-Installation, kein Container-Neustart.
+**LiteLLM gehört zur Cloudroute.** Ein vorhandener Cloudstack kann für
+seinen Cloudzweig eingerichtet bleiben; der verwaltete Localpfad setzt
+LiteLLM und einen Cloudkey nicht voraus. Für den Terminalwechsel zurück
+zu `cloud` verwende **[5] API-Keys ändern**.
 
 #### Ollama als Embedding-Engine
 
@@ -1173,7 +1178,7 @@ bewusst im Spiel haben wollt.
 
 ### "Preset erstellt, aber `/api/models` zeigt es nicht"
 
-`/api/models` listet Presets erst mit aktiver Modell-Connection (LiteLLM/OpenRouter). Das Preset selbst prüfst du direkt: `GET /api/v1/models/model?id=<preset-id>`.
+`/api/models` listet Presets erst mit aktiver Modell-Connection (Cloud- oder Localroute). Das Preset selbst prüfst du direkt: `GET /api/v1/models/model?id=<preset-id>`.
 
 ### "`/api/v1/knowledge/` zeigt eine andere Dateizahl als der Coverage-Check"
 
