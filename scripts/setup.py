@@ -21,6 +21,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 import platform
 import re
@@ -33,11 +34,39 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import uuid
 import zipfile
 from datetime import datetime
 from getpass import getpass
 from pathlib import Path
 from typing import Any, Optional
+
+# ZR-LOCAL-TOKENHOST-L1: lokaler Resolver liegt im selben scripts/-Verzeichnis.
+# Expliziter sys.path-Eintrag, damit `import local_model_profile` auch
+# funktioniert, wenn setup.py per `importlib.util.spec_from_file_location`
+# (wie in den bestehenden Tests) statt per normalem Paketimport geladen wird.
+# Fail-soft (try/except statt hartem Import): bestehende Testfixturen
+# kopieren an mehreren Stellen NUR `setup.py` in ein isoliertes Fake-Repo
+# (ohne `local_model_profile.py` daneben) -- ein harter ImportError wuerde
+# `import setup` dort komplett zum Absturz bringen und JEDE bestehende
+# Funktion dieser Datei unbenutzbar machen, nicht nur die neuen lokalen
+# Profilfunktionen. Fehlt die Datei, bleibt `local_model_profile is None`;
+# `resolve_model_provider`/`local_payload_overrides` etc. werten das unten
+# explizit aus und verhalten sich dann wie das unveraenderte Altverhalten
+# (kein lokales Profil verfuegbar -> 'legacy').
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    import local_model_profile  # noqa: E402
+except ImportError:
+    local_model_profile = None  # noqa: E402
+
+# N4-02: Literal-Duplikat von `local_model_profile.ENV_KEY_PROVIDER`, NUR fuer
+# den Fail-soft-Zweig oben (`local_model_profile is None`) -- dort ist die
+# echte Konstante nicht erreichbar. "Fehlendes Resolvermodul bei vorhandenem
+# Profil darf keine Cloudroute freigeben": `resolve_model_provider` prueft
+# unten mit dieser Konstante, ob der Schluessel ueberhaupt in der Datei
+# STEHT (unabhaengig vom Wert), bevor es auf 'legacy' statt 'hold' entscheidet.
+_PROVIDER_KEY_FALLBACK_LITERAL = "ZEITRISS_MODEL_PROVIDER"
 
 
 # Golden preset defaults — live-verified 2026-09 against OpenWebUI chat UI.
@@ -45,6 +74,21 @@ from typing import Any, Optional
 GOLDEN_CAPABILITIES = {
     "vision": True,
     "file_upload": True,
+    "image_generation": False,
+    "code_interpreter": False,
+    "web_search": False,
+    "citations": False,
+    "usage": False,
+}
+
+# B5-Fix (02_NACHARBEIT.md Gruppe B.5, O2/O6): "Lokale Route erbt weder
+# 64000/reasoning_effort noch Vision-/Toolfähigkeiten." Dieselbe Feldform
+# wie GOLDEN_CAPABILITIES, aber JEDE Nicht-Text-Faehigkeit explizit False --
+# ein rein lokales Textmodell darf nicht stillschweigend Cloud-Vision/-Tools
+# tragen, nur weil setup.json das fuer die Cloud-Variante konfiguriert.
+LOCAL_TEXT_ONLY_CAPABILITIES = {
+    "vision": False,
+    "file_upload": False,
     "image_generation": False,
     "code_interpreter": False,
     "web_search": False,
@@ -1736,21 +1780,86 @@ def _mask_secret(s: str, keep_prefix: int = 8, keep_suffix: int = 4) -> str:
     return f"{s[:keep_prefix]}…{s[-keep_suffix:]}"
 
 
-def _read_env_file(path: Path) -> dict:
-    """Liest eine KEY=VALUE-.env-Datei flach in ein dict (keine `export `-
-    Behandlung, keine Quote-Entfernung -- für den schmalen Lesefall in
-    `run_install_litellm`/`ensure_litellm_autowire`, die nur einzelne Felder
-    wie `LITELLM_MASTER_KEY` brauchen). Fehlende Datei -> leeres dict."""
-    out = {}
+def _read_env_file_with_conflicts(path: Path) -> tuple[dict, frozenset]:
+    """N4-02: EIN gemeinsamer Parservertrag fuer `_read_env_file`,
+    `_auto_load_owui_env` UND `launcher.py:_parse_env_file` --
+    `local_model_profile.parse_env_text` (optionales `export `-Praefix,
+    genau EIN umschliessendes Quote-Paar, Kommentare/leere Zeilen, keine
+    Shellauswertung). Liefert zusaetzlich `conflicting_keys` (Keys mit
+    MEHREREN unterschiedlichen Werten in derselben Datei) -- nur dieser
+    Helfer hier kennt den Rohtext; `_read_env_file` selbst bleibt fuer alle
+    bestehenden Aufrufer (die kein Konfliktsignal erwarten) ein reines
+    flaches dict. Fail-soft: ohne `local_model_profile` (s. Importkommentar
+    oben) faellt dieser Helfer auf eine inline-aequivalente Parse-Schleife
+    zurueck, statt hart zu crashen."""
     if not path.is_file():
-        return out
-    for line in path.read_text(encoding="utf-8").splitlines():
+        return {}, frozenset()
+    text = path.read_text(encoding="utf-8")
+    if local_model_profile is not None:
+        return local_model_profile.parse_env_text(text)
+    out: dict = {}
+    for line in text.splitlines():
         line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export "):]
+        if "=" not in line:
             continue
         k, _, v = line.partition("=")
-        out[k.strip()] = v.strip()
+        out[k.strip()] = v.strip().strip('"').strip("'")
+    return out, frozenset()
+
+
+def _read_env_file(path: Path) -> dict:
+    """Liest eine KEY=VALUE-.env-Datei flach in ein dict.
+
+    A3-Fix (02_NACHARBEIT.md Gruppe A.3, "alle beteiligten Leser verstehen
+    denselben dokumentierten KEY=VALUE-/export-/Quote-Vertrag"): VORHER
+    erkannte dieser Leser WEDER ein `export `-Praefix NOCH umschliessende
+    Quotes, obwohl der Writer (`_update_env_file_preserving`), `_auto_load_
+    owui_env()` UND `launcher.py:_parse_env_file` beide Formen bereits
+    akzeptieren/erzeugen -- eine in der Datei mit `export `-Praefix
+    gespeicherte (z.B. manuell editierte) `ZEITRISS_MODEL_PROVIDER=local`-
+    Zeile wurde von `resolve_model_provider()` (liest ueber GENAU diese
+    Funktion) als fehlender Schluessel ('legacy') fehlgedeutet, statt die
+    bereits getroffene lokale Wahl zu erkennen.
+
+    N4-02: delegiert jetzt an `_read_env_file_with_conflicts`/
+    `local_model_profile.parse_env_text` -- EIN gemeinsamer Parservertrag
+    fuer alle drei Leser, statt drei unabhaengig gepflegter Schleifen.
+    Fehlende Datei -> leeres dict. Diese Funktion selbst verwirft das
+    Konfliktsignal (die meisten Aufrufer hier wollen nur ein flaches dict);
+    `resolve_model_provider` nutzt stattdessen direkt
+    `_read_env_file_with_conflicts`, um widerspruechliche Duplikate bei
+    `ZEITRISS_MODEL_PROVIDER`/`ZEITRISS_LOCAL_*` sichtbar zu halten."""
+    out, _conflicts = _read_env_file_with_conflicts(path)
     return out
+
+
+def _pending_marker_path(path: Path) -> Path:
+    """N4-03: fester, geheimnisfreier Nebenartefaktname `<profile_env_path>.
+    local-pending` (SCOPE.json `runtime_side_artifact_permission`) -- EIN
+    Name pro Zieldatei, kein Secret/Fingerprint/Konfigurationsinhalt."""
+    return path.with_name(f"{path.name}.local-pending")
+
+
+def _is_publish_pending(path: Path) -> bool:
+    """N4-03: True, wenn der Pending-Marker vorhanden ODER seine Abwesenheit
+    NICHT zuverlaessig pruefbar ist (jeder `OSError` ausser "existiert
+    nicht" gilt als unprüfbar -> fail-closed). Aufrufer wie
+    `resolve_model_provider` MUESSEN bei `True` sichtbar halten (kein
+    legacy-/Cloudfallback, keine Aktivierung) -- 'irgendein gueltiges
+    Profil auf der Platte' reicht waehrend einer laufenden/unklaren
+    Transaktion nicht."""
+    marker = _pending_marker_path(path)
+    try:
+        marker.stat()
+    except FileNotFoundError:
+        return False
+    except OSError:
+        return True
+    return True
 
 
 def _update_env_file_preserving(
@@ -1786,7 +1895,32 @@ def _update_env_file_preserving(
     wie Key-Persistierung). WP-N2-1e: eine EXISTIERENDE, aber nicht lesbare
     Datei wird NIE neu gebaut (das würde fremde Felder unwiderruflich
     verwerfen) -- stattdessen bytegleich unangetastet gelassen und `False`
-    zurückgegeben, damit der Aufrufer das nicht als "persistiert" missdeutet."""
+    zurückgegeben, damit der Aufrufer das nicht als "persistiert" missdeutet.
+
+    N4-03 (geschuetzte Profiltransaktion, SCOPE.json `runtime_side_artifact_
+    permission`): VOR der eigentlichen Veroeffentlichung wird ein fester,
+    geheimnisfreier Pending-Marker (`_pending_marker_path(path)`) angelegt
+    -- solange er steht (oder seine Abwesenheit nicht zuverlaessig pruefbar
+    ist), MUSS `resolve_model_provider` sichtbar halten (kein legacy-/
+    Cloudfallback). Nach dem atomaren `os.replace` folgt GENAU EIN
+    verpflichtender Readback (`_read_env_file`, das selbst NICHT gegen den
+    Marker gated ist -- nur `resolve_model_provider` prueft ihn) INNERHALB
+    derselben Transaktion: stimmen die tatsaechlich persistierten Werte
+    NICHT exakt mit `updates`/`remove` ueberein (IO-Fehler beim Readback
+    zaehlt genauso), bleibt der Marker stehen -- 'irgendein gueltiges
+    Profil' genuegt NICHT, es muss die GEWAEHLTE Auswahl sein. Erst nach
+    bestaetigtem Readback wird der Marker entfernt und `True` zurueckgegeben;
+    schlaegt die Markerentfernung selbst fehl, bleibt der Zustand trotz
+    erfolgreicher Veroeffentlichung sicherheitshalber HOLD (der Primaererfolg
+    wird dadurch NICHT verdeckt/behauptet). Jeder Fehlerpfad VOR der
+    Veroeffentlichung laesst entweder die alten Bytes bytegleich stehen ODER
+    den Marker aktiv (beides sind gueltige HOLD-Zustaende) -- ein spaeterer
+    ausdruecklich neuer vollstaendiger Aufruf dieser Funktion darf die
+    Transaktion jederzeit neu verifizieren und erfolgreich abschliessen
+    (kein Startup-Code loescht den Marker blind, das ist hier bewusst NICHT
+    implementiert). Kein garantierter Rollback bei beliebigen gleichzeitigen
+    Mehrfachfehlern/Stromausfall/konkurrierenden Writern -- nur die hier
+    benannten einzelnen Fehlerpunkte."""
     existing_lines: list[str] = []
     if path.is_file():
         try:
@@ -1828,26 +1962,507 @@ def _update_env_file_preserving(
             out_lines.append(f"{key}={value}")
 
     content = "\n".join(out_lines) + "\n"
+    # A2/O1-C-Fix (02_NACHARBEIT.md Gruppe A, "kein write-then-chmod mit
+    # trotzdem aktivem provider=local"): VORHER schrieb dieser Helfer den
+    # neuen Inhalt DIREKT auf `path` (die bereits aktiv gelesene Datei) und
+    # setzte die Rechte ERST danach -- ein chmod-Fehlschlag liess die neuen
+    # Werte (z.B. ZEITRISS_MODEL_PROVIDER=local + Token) bereits LIVE/aktiv
+    # auf Platte stehen, nur ungeschuetzt, obwohl die Funktion ehrlich
+    # `False` zurueckgab. JETZT: Temp-Datei im selben Verzeichnis, 0600
+    # VOR der Veroeffentlichung gesetzt, Veroeffentlichung per `os.replace`
+    # (atomarer Rename) ERST, wenn Schreiben UND chmod auf der Temp-Datei
+    # beide gelungen sind. Schlaegt irgendein Schritt fehl, bleibt `path`
+    # BYTEGLEICH beim alten Stand (die Transaktion wird VOR dem Rename
+    # abgebrochen, die Temp-Datei bestmoeglich aufgeraeumt) -- es gibt kein
+    # Fenster, in dem ein unvollstaendiger/ungeschuetzter Neuzustand aktiv
+    # gelesen werden koennte.
+    # N4-03: Pending-Marker VOR der Veroeffentlichung anlegen (geheimnisfrei,
+    # leere Datei -- `touch()` ist idempotent, ein bereits bestehender
+    # Marker aus einem fruehereren fehlgeschlagenen Versuch blockiert einen
+    # ausdruecklich neuen vollstaendigen Speicherversuch NICHT). Ab hier
+    # bleibt der Marker im Fehlerfall einfach stehen (HOLD) -- kein
+    # zusaetzliches Aufraeumen VOR der Veroeffentlichung noetig/verlangt.
+    pending_marker = _pending_marker_path(path)
     try:
-        path.write_text(content, encoding="utf-8")
+        pending_marker.touch()
     except OSError as exc:
-        print_warn(f"{path} konnte nicht geschrieben werden: {exc.__class__.__name__}: {exc}")
+        print_warn(
+            f"{path}: Pending-Marker konnte nicht angelegt werden "
+            f"({exc.__class__.__name__}) — NICHT veroeffentlicht, alte Datei bytegleich "
+            "unangetastet."
+        )
+        return False
+    tmp_path = path.with_name(f"{path.name}.tmp-{os.getpid()}-{uuid.uuid4().hex[:8]}")
+    # R2-Fix (01 §"Materielle Restfehler", 02 Block A): VORHER entstand die
+    # Temp-Datei ueber `Path.write_text` (ein `open()` mit dem UMASK-
+    # abhaengigen Default-Modus, typischerweise 0644) und wurde ERST DANACH
+    # per `chmod` auf 0600 verengt -- zwischen Erzeugung/erstem Secretbyte
+    # und dem Chmod-Aufruf existierte ein ungeschuetztes Zeitfenster
+    # (z.B. unter umask 022 fuer jeden anderen lokalen Nutzer mit Zugriff
+    # auf dieses Verzeichnis lesbar). JETZT: `os.open` mit `O_CREAT|
+    # O_EXCL` UND explizitem Modus 0600 ab der Dateierzeugung selbst --
+    # kein Secretbyte wird je in einen Deskriptor geschrieben, der nicht
+    # von Anfang an auf 0600 steht. Ein atomarer Austausch (`os.replace`
+    # unten) alleine genuegt nicht, wenn der Weg zu diesem Austausch bereits
+    # ein ungeschuetztes Fenster enthielt.
+    try:
+        fd = os.open(str(tmp_path), os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except OSError as exc:
+        print_warn(
+            f"{path}: Temp-Datei konnte nicht von Anfang an geschuetzt angelegt werden "
+            f"({exc.__class__.__name__}) — NICHT veroeffentlicht, alte Datei bytegleich "
+            "unangetastet."
+        )
         return False
     try:
-        path.chmod(0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(content)
     except OSError as exc:
-        # WP-N2-1e: vorher stumm als Erfolg behandelt -- der Inhalt WURDE
-        # geschrieben, aber die Rechte NICHT gesetzt. "True" würde dem
-        # Aufrufer fälschlich "geschützt persistiert" vortäuschen; ehrlich
-        # ist False + eine klare Warnung, dass die Datei jetzt mit den
-        # Inhalten da ist, aber ggf. nicht auf 600 steht.
+        print_warn(f"{path} konnte nicht geschrieben werden: {exc.__class__.__name__}: {exc}")
+        tmp_path.unlink(missing_ok=True)
+        return False
+    try:
+        os.replace(tmp_path, path)
+    except OSError as exc:
+        print_warn(f"{path} konnte nicht atomar ersetzt werden: {exc.__class__.__name__}: {exc}")
+        tmp_path.unlink(missing_ok=True)
+        return False
+
+    # N4-03: Pflicht-Readback INNERHALB derselben Transaktion -- Rohread
+    # ueber `_read_env_file` (NICHT gegen `pending_marker` gated, nur
+    # `resolve_model_provider` prueft den Marker auf der Leserseite) bestaetigt
+    # die TATSAECHLICH persistierten effektiven Werte gegen die gewaehlte
+    # Auswahl. 'irgendein gueltiges Profil' reicht nicht -- ein IO-Fehler
+    # beim Readback ODER ein Wert, der von `updates`/`remove` abweicht
+    # (z.B. ein falsches-aber-gueltiges Profil), laesst den Marker stehen
+    # (HOLD), OHNE einen falschen Erfolg zu melden.
+    try:
+        reread = _read_env_file(path)
+    except OSError as exc:
         print_warn(
-            f"{path} geschrieben, aber chmod 600 fehlgeschlagen "
-            f"({exc.__class__.__name__}) — Datei ist NICHT auf die erwarteten "
-            "Rechte gesetzt, Inhalt wurde trotzdem gespeichert."
+            f"{path}: Pflicht-Readback nach Veroeffentlichung fehlgeschlagen "
+            f"({exc.__class__.__name__}) — Pending bleibt aktiv (HOLD), kein falscher Erfolg."
+        )
+        return False
+    mismatched = sorted(
+        {k for k, v in updates.items() if reread.get(k) != v} | {k for k in remove if k in reread}
+    )
+    if mismatched:
+        print_warn(
+            f"{path}: Readback stimmt nicht mit der gewaehlten Auswahl ueberein "
+            f"({', '.join(mismatched)}) — Pending bleibt aktiv (HOLD), kein falscher Erfolg."
+        )
+        return False
+
+    try:
+        pending_marker.unlink()
+    except OSError as exc:
+        # Primaererfolg (Veroeffentlichung + Readback bestaetigt) wird durch
+        # diesen Cleanup-Fehler NICHT ueberdeckt/behauptet -- die Funktion
+        # bleibt ehrlich bei `False`, der Marker bleibt sicherheitshalber
+        # aktiv (HOLD) bis zu einem spaeteren vollstaendigen Speicherversuch.
+        print_warn(
+            f"{path}: veroeffentlicht und Readback bestaetigt, aber Pending-Marker konnte nicht "
+            f"entfernt werden ({exc.__class__.__name__}) — bleibt sicherheitshalber aktiv (HOLD)."
         )
         return False
     return True
+
+
+def _home_env_path() -> Path:
+    """IO-Seam: Produktcode ruft immer diese Funktion statt
+    `Path.home() / ".openwebui_env"` direkt zu inlinen, damit Tests den
+    Pfad per Fixture umlenken können, ohne die echte Nutzerdatei zu
+    berühren."""
+    return Path.home() / ".openwebui_env"
+
+
+def resolve_model_provider(env_path: Optional[Path] = None):
+    """ZR-LOCAL-TOKENHOST-L1: liest `env_path` (Default `_home_env_path()`)
+    frisch von der Platte -- kein Modul-/Prozessstatus wird hier gecacht,
+    jeder Aufruf bewertet den aktuellen Dateiinhalt neu -- und liefert
+    `(provider, local_profile_or_None, hold_reason_or_None)`.
+
+    `provider` ist 'legacy' | 'cloud' | 'local' | 'hold'. Bei 'hold' MUSS
+    der Aufrufer sichtbar stoppen: kein Cloudfallback, keine
+    Session-only-Aktivierung. Dies ist die EINE gemeinsame Priorisierungs-
+    logik für setup.py; `launcher.py:resolve_model_provider_choice` nutzt
+    DIESE Funktion direkt (kein zweiter Resolver mehr, N4-02).
+
+    N4-03: VOR jedem Lesen wird der Pending-Marker der geschuetzten
+    Profiltransaktion geprueft (`_is_publish_pending`) -- steht er (oder ist
+    seine Abwesenheit nicht zuverlaessig pruefbar), haelt diese Funktion
+    sofort sichtbar ('hold'), OHNE die Datei ueberhaupt zu parsen: eine
+    laufende/unklare Veroeffentlichung darf nie als legacy/cloud/local
+    durchgereicht werden.
+
+    N4-02: fehlt `local_model_profile` SELBST (Fail-soft-Importfehler),
+    durfte das VORHER immer stillschweigend 'legacy' liefern -- auch wenn
+    in der Datei bereits ein `ZEITRISS_MODEL_PROVIDER`-Schluessel (also ein
+    schon getroffenes Profil) stand. "Fehlendes Resolvermodul bei
+    vorhandenem Profil darf keine Cloudroute freigeben": jetzt wird in
+    diesem Fall NUR dann 'legacy' geliefert, wenn der Schluessel in der
+    Datei wirklich komplett fehlt; steht er (mit irgendeinem Wert) drin,
+    haelt die Funktion sichtbar ('hold'), weil ohne das Modul keine echte
+    Auflösung möglich ist."""
+    path = env_path if env_path is not None else _home_env_path()
+    if _is_publish_pending(path):
+        return "hold", None, (
+            "Profiltransaktion steht aus (Pending-Marker vorhanden oder nicht prüfbar) -- "
+            "kein Cloud-/Legacyfallback."
+        )
+    if local_model_profile is None:
+        # Fail-soft-Fall (s. Importkommentar oben): ohne die begleitende
+        # Datei ist keine echte Profilaufloesung moeglich. Ein bereits
+        # vorhandenes Profil (der Schluessel STEHT in der Datei, unabhaengig
+        # vom Wert) darf trotzdem nicht als 'legacy' durchgereicht werden.
+        raw_values, _conflicts = _read_env_file_with_conflicts(path)
+        if _PROVIDER_KEY_FALLBACK_LITERAL in raw_values:
+            return "hold", None, (
+                "scripts/local_model_profile.py ist nicht importierbar, aber ein Profil "
+                f"({_PROVIDER_KEY_FALLBACK_LITERAL}) ist in der Datei vorhanden -- "
+                "kein automatischer Cloudfallback."
+            )
+        return "legacy", None, None
+    env, conflicting_keys = _read_env_file_with_conflicts(path)
+    provider = local_model_profile.resolve_provider(env, conflicting_keys)
+    if provider != local_model_profile.PROVIDER_LOCAL:
+        return provider, None, None
+    try:
+        profile = local_model_profile.resolve_local_profile(env, conflicting_keys)
+    except local_model_profile.ProfileHold as exc:
+        return "hold", None, str(exc)
+    return "local", profile, None
+
+
+def local_payload_overrides(profile: "local_model_profile.LocalModelProfile", *, role: str) -> dict:
+    """Liefert die Textinferenz-Parameter für create/orphan/sync-Payloads im
+    lokalen Profil: endliches `max_tokens` je Rolle ('gm'|'persona'), keine
+    ungefragt geerbten `reasoning_effort`/Vision-/Tool-/Cloudparameter.
+    `role` wählt zwischen GM- und Persona-Grenze (02: 4096/400-Startwerte,
+    vorhandene strengere explizite Grenze hat weiterhin Vorrang beim
+    jeweiligen Aufrufer -- dieser Helfer liefert nur den Profilwert)."""
+    max_tokens = profile.gm_max_tokens if role == "gm" else profile.persona_max_tokens
+    return {
+        "max_tokens": max_tokens,
+        "temperature": 0.7,
+        "stream": False,
+    }
+
+
+def _ensure_owui_local_connection(
+    owui_url: str, owui_key: str, profile: "local_model_profile.LocalModelProfile",
+) -> tuple[bool, str]:
+    """Lokales Gegenstück zu `_ensure_owui_litellm_connection`, OHNE die
+    Docker-Netz-Mutation (`_ensure_owui_on_litellm_network`) und OHNE
+    host.docker.internal/Tunnel-Umbinden -- die 02-Vorgabe verbietet genau
+    das im lokalen Zweig. Zieladresse ist die vom Profil gewählte
+    `base_url` (ggf. per `owui_base_url` überschrieben), nicht aus dem
+    OWUI-Netzwerkkontext abgeleitet. Idempotent wie das Vorbild: nur
+    POSTen, wenn Key/Pin/Enable tatsächlich abweichen."""
+    import urllib.request
+    import urllib.error
+
+    target_url = (profile.owui_base_url or profile.base_url).rstrip("/")
+
+    def _api(method: str, path: str, payload: Optional[dict] = None) -> tuple[int, Any]:
+        body = json.dumps(payload).encode() if payload is not None else None
+        req = urllib.request.Request(
+            f"{owui_url.rstrip('/')}{path}",
+            data=body, method=method,
+            headers={
+                "Authorization": f"Bearer {owui_key}",
+                "Content-Type": "application/json",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                raw = resp.read()
+                try:
+                    return resp.status, json.loads(raw)
+                except json.JSONDecodeError:
+                    return resp.status, raw.decode("utf-8", "replace")
+        except urllib.error.HTTPError as e:
+            try:
+                return e.code, json.loads(e.read())
+            except (json.JSONDecodeError, OSError):
+                return e.code, str(e)
+        except (urllib.error.URLError, OSError) as e:
+            return 0, str(e)
+
+    code, data = _api("GET", "/openai/config")
+    if code != 200 or not isinstance(data, dict):
+        return False, f"OpenWebUI /openai/config nicht erreichbar (HTTP {code})"
+
+    urls = list(data.get("OPENAI_API_BASE_URLS") or [])
+    keys = list(data.get("OPENAI_API_KEYS") or [])
+    configs = dict(data.get("OPENAI_API_CONFIGS") or {})
+    while len(keys) < len(urls):
+        keys.append("")
+
+    # N1-03: Mehrdeutigkeit erkennen und VOR jeder Mutation halten -- nicht
+    # einfach den ersten Treffer nehmen oder eine fremde Verbindung
+    # uebernehmen.
+    target_indices = [i for i, u in enumerate(urls) if u == target_url]
+    if len(target_indices) > 1:
+        return False, (
+            f"Mehrdeutig: Ziel-URL {target_url} ist bereits {len(target_indices)}-fach in der "
+            "OpenWebUI-Connection-Liste vorhanden -- kein automatisches Zusammenfassen/"
+            "Ersttreffer, erst manuell bereinigen."
+        )
+    for j, u in enumerate(urls):
+        if u == target_url:
+            continue
+        other_cfg = dict(configs.get(str(j)) or {})
+        if other_cfg.get("enable") and profile.model in (other_cfg.get("model_ids") or []):
+            return False, (
+                f"Mehrdeutig: Modell '{profile.model}' ist bereits an einer ANDEREN wirksamen "
+                f"Connection ({u}) angepinnt -- kein automatisches Umhaengen, erst manuell "
+                "bereinigen."
+            )
+
+    if target_url in urls:
+        idx = urls.index(target_url)
+        old_key = keys[idx] if idx < len(keys) else ""
+        old_cfg = dict(configs.get(str(idx)) or {})
+        old_pins = list(old_cfg.get("model_ids") or [])
+        # B2-Fix (02_NACHARBEIT.md Gruppe B.2, O3-B): eine bereits vorhandene
+        # Connection an GENAU dieser URL mit einer vom erwarteten Vertrag
+        # (`auth_type="bearer"`, `prefix_id=""`) ABWEICHENDEN Auth-/Prefix-
+        # Konfiguration haelt VOR jeder Mutation -- vorher wurde ein
+        # abweichender `auth_type`/`prefix_id` per `setdefault()` stillschweigend
+        # beibehalten (nur fehlende Felder wurden ergaenzt), ohne die
+        # Inkompatibilitaet jemals sichtbar zu machen oder den Versand zu
+        # stoppen. Ein leerer/abwesender Wert ist kein Konflikt (Default).
+        existing_auth_type = old_cfg.get("auth_type")
+        existing_prefix = old_cfg.get("prefix_id")
+        if existing_auth_type not in (None, "", "bearer") or existing_prefix not in (None, ""):
+            return False, (
+                f"Mehrdeutig: bestehende Connection {target_url} hat abweichende Auth-/Prefix-"
+                f"Konfiguration (auth_type={existing_auth_type!r}, prefix_id={existing_prefix!r}) -- "
+                "kein automatisches Ueberschreiben, erst manuell bereinigen."
+            )
+        # O3-B.B1-Fix (RELEASE-CASES.json: "bestehende idempotente Connection
+        # bei global deaktiviertem ENABLE_OPENAI_API wird nicht als korrekt
+        # bestaetigt"): die Idempotenzpruefung oben verglich NUR die eigene
+        # Connection (Key/Pins/per-Connection-`enable`) -- der GLOBALE
+        # `ENABLE_OPENAI_API`-Schalter des GET-Koerpers wurde dabei nie
+        # gelesen. Eine an sich korrekt gepinnte Connection unter global
+        # deaktiviertem OpenAI-API-Zugriff waere so faelschlich als "bereits
+        # vorhanden, kein Update noetig" bestaetigt worden, obwohl der ganze
+        # OpenAI-API-Integrationsweg serverseitig AUS ist.
+        needs_write = (
+            old_key != profile.api_key
+            or profile.model not in old_pins
+            or not old_cfg.get("enable", False)
+            or not data.get("ENABLE_OPENAI_API")
+        )
+        if not needs_write:
+            return True, f"Connection bereits vorhanden ({target_url} → {profile.model}) — kein Update nötig."
+        keys[idx] = profile.api_key
+        cfg_for_idx = old_cfg or {
+            "tags": ["local"], "prefix_id": "",
+            "connection_type": "external", "auth_type": "bearer",
+        }
+        cfg_for_idx["enable"] = True
+        cfg_for_idx.setdefault("tags", ["local"])
+        cfg_for_idx.setdefault("prefix_id", "")
+        cfg_for_idx.setdefault("connection_type", "external")
+        cfg_for_idx.setdefault("auth_type", "bearer")
+        if profile.model not in old_pins:
+            old_pins.append(profile.model)
+        cfg_for_idx["model_ids"] = old_pins
+        configs[str(idx)] = cfg_for_idx
+        action = "updated"
+    else:
+        urls.append(target_url)
+        keys.append(profile.api_key)
+        configs[str(len(urls) - 1)] = {
+            "enable": True,
+            "tags": ["local"],
+            "prefix_id": "",
+            "model_ids": [profile.model],
+            "connection_type": "external",
+            "auth_type": "bearer",
+        }
+        action = "created"
+
+    assert len(urls) == len(keys), f"len drift: urls={len(urls)} keys={len(keys)} — OWUI-State inkonsistent"
+
+    payload = {
+        "ENABLE_OPENAI_API": True,
+        "OPENAI_API_BASE_URLS": urls,
+        "OPENAI_API_KEYS": keys,
+        "OPENAI_API_CONFIGS": configs,
+    }
+    code, data = _api("POST", "/openai/config/update", payload)
+    if code != 200:
+        return False, f"OpenWebUI /openai/config/update fehlgeschlagen (HTTP {code})"
+
+    # N1-03: Config NACH dem Update erneut lesen -- Backend-Verify auf exakte
+    # URL+Token+Modell, statt dem POST-Echo blind zu vertrauen.
+    reread_code, reread_data = _api("GET", "/openai/config")
+    if reread_code != 200 or not isinstance(reread_data, dict):
+        return False, f"Connection {action}, aber Readback fehlgeschlagen (HTTP {reread_code})."
+    reread_urls = list(reread_data.get("OPENAI_API_BASE_URLS") or [])
+    reread_keys = list(reread_data.get("OPENAI_API_KEYS") or [])
+    reread_configs = dict(reread_data.get("OPENAI_API_CONFIGS") or {})
+    # B2-Fix (02_NACHARBEIT.md Gruppe B.2, O3-B): der POST setzt
+    # `ENABLE_OPENAI_API=True`, aber das Readback bestaetigte das vorher
+    # NIE -- ein Backend, das den globalen Schalter ignoriert/zuruecksetzt
+    # (z.B. fremde gleichzeitige Deaktivierung), wurde als Erfolg gemeldet,
+    # obwohl die gesamte OpenAI-API-Integration serverseitig AUS war.
+    if not reread_data.get("ENABLE_OPENAI_API"):
+        return False, f"Connection {action}, aber globales ENABLE_OPENAI_API ist nach Readback nicht aktiv."
+    # A4-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A4, O3-B.B2): vorher
+    # verwendete das Readback `.index(target_url)` -- den ERSTEN Treffer,
+    # ohne die Eindeutigkeits-/Fremdpin-/Prefix-Auth-Pruefungen von VOR der
+    # Mutation (oben, Zeilen ~2199-2232) zu wiederholen. Entstand
+    # Mehrdeutigkeit erst durch/nach dem Update (z.B. ein zweiter Prozess
+    # schrieb gleichzeitig), wurde das als Erfolg behandelt. Jetzt gilt
+    # dieselbe Eindeutigkeitspruefung auch im Readback.
+    reread_target_indices = [i for i, u in enumerate(reread_urls) if u == target_url]
+    if len(reread_target_indices) != 1:
+        return False, (
+            f"Connection {action}, aber Readback zeigt {target_url} "
+            + ("nicht mehr." if not reread_target_indices else "mehrfach (mehrdeutig).")
+        )
+    r_idx = reread_target_indices[0]
+    for j, u in enumerate(reread_urls):
+        if u == target_url:
+            continue
+        other_cfg = dict(reread_configs.get(str(j)) or {})
+        if other_cfg.get("enable") and profile.model in (other_cfg.get("model_ids") or []):
+            return False, (
+                f"Connection {action}, aber Readback zeigt Modell '{profile.model}' zusaetzlich an "
+                f"ANDERER wirksamer Connection ({u}) -- mehrdeutig."
+            )
+    r_key = reread_keys[r_idx] if r_idx < len(reread_keys) else ""
+    r_cfg = dict(reread_configs.get(str(r_idx)) or {})
+    r_auth_type = r_cfg.get("auth_type")
+    r_prefix = r_cfg.get("prefix_id")
+    if (
+        r_key != profile.api_key
+        or not r_cfg.get("enable")
+        or profile.model not in (r_cfg.get("model_ids") or [])
+        or r_auth_type not in (None, "", "bearer")
+        or r_prefix not in (None, "")
+    ):
+        return False, (
+            f"Connection {action}, aber Readback bestaetigt NICHT exakt URL+Token+Modell/Prefix/Auth "
+            f"({target_url} → {profile.model})."
+        )
+    return True, f"Connection {action} ({target_url} → {profile.model})"
+
+
+def _rewire_preset_base_model_local(
+    repo: Path, cfg: dict, owui_url: str, owui_key: str,
+    profile: "local_model_profile.LocalModelProfile",
+) -> tuple[bool, str]:
+    """Lokales Gegenstück zu `_rewire_preset_base_model`: setzt
+    `base_model_id` der cache-fähigen Presets auf die gemeinsame
+    served-model-ID des Profils statt auf das LiteLLM-Routing-Modell.
+    `Request.model`/Preset-ID selbst bleibt unverändert -- NUR
+    `base_model_id` (der Upstream) wird umgebogen; diese beiden IDs werden
+    hier bewusst nicht gleichgesetzt.
+
+    B5-Fix (02_NACHARBEIT.md Gruppe B.5, O2/O6): VORHER kopierte diese
+    Funktion `params`/`meta.capabilities` UNVERAENDERT vom bestehenden
+    Preset -- ein vorher Cloud-genutztes Preset (64000/reasoning_effort/
+    Vision-Capabilities) behielt diese Cloud-Parameter trotz Rewire auf den
+    lokalen Upstream. JETZT: dieselben endlichen lokalen Textparameter wie
+    beim Neuanlegen (`local_payload_overrides`) UND `LOCAL_TEXT_ONLY_
+    CAPABILITIES` (kein Vision/Tool-Erbe) werden tatsaechlich gesetzt;
+    Masterprompt (`params.system`) bleibt unveraendert erhalten. Eine
+    bereits vorhandene STRENGERE (kleinere) explizite `max_tokens`-Grenze
+    bleibt bestehen (B.5: "bewusst strengere Grenzen erhalten"), statt vom
+    lokalen GM4096-Startwert ueberschrieben zu werden. Idempotenz prueft
+    jetzt base_model_id UND Params UND Capabilities -- vorher wurde ein
+    bereits korrektes base_model_id als "nichts zu tun" gewertet, selbst
+    wenn Params/Capabilities noch auf dem alten Cloud-Stand standen."""
+    client = APIClient(owui_url, owui_key)
+    cache_variants = [(vk, v) for vk, v in cfg["variants"].items() if v.get("cache")]
+    if not cache_variants:
+        return True, "Keine cache=True-Variante — kein Rewire nötig."
+    msgs: list[str] = []
+    all_ok = True
+    for vk, v in cache_variants:
+        preset_id = v["preset_id"]
+        preset = client.get_model(preset_id)
+        if preset is None:
+            all_ok = False
+            msgs.append(f"'{vk}': Preset '{preset_id}' nicht gefunden — Setup zuerst.")
+            continue
+        existing_params = dict(preset.get("params") or {})
+        existing_meta = dict(preset.get("meta") or {})
+        desired_params = dict(local_payload_overrides(profile, role="gm"))
+        existing_max_tokens = existing_params.get("max_tokens")
+        # R8-Fix (01 §"Materielle Restfehler", 02 Block D): "strengere
+        # (kleinere) Grenze erhalten" (B5-Fix oben) darf nur fuer einen
+        # GUELTIGEN Wert gelten -- `0`, negativ, `-inf`/`nan` oder ein
+        # Bruchwert sind keine gueltige Ganzzahl-Obergrenze und wurden
+        # vorher trotzdem uebernommen, weil nur `isinstance`+`<` geprueft
+        # wurde. Jetzt: nur eine echte positive endliche Ganzzahl (`bool`
+        # weiterhin ausgeschlossen) gilt als vorhandene strengere Grenze;
+        # jeder andere Wert faellt auf den lokalen GM-Startwert
+        # (`desired_params["max_tokens"]`) zurueck statt eine kaputte
+        # Grenze fortzuschreiben.
+        existing_max_tokens_valid = (
+            isinstance(existing_max_tokens, (int, float))
+            and not isinstance(existing_max_tokens, bool)
+            and math.isfinite(existing_max_tokens)
+            and existing_max_tokens == int(existing_max_tokens)
+            and existing_max_tokens > 0
+        )
+        if existing_max_tokens_valid and existing_max_tokens < desired_params["max_tokens"]:
+            desired_params["max_tokens"] = int(existing_max_tokens)
+        desired_params["system"] = existing_params.get("system", "")
+        desired_meta = dict(existing_meta)
+        desired_meta["capabilities"] = LOCAL_TEXT_ONLY_CAPABILITIES
+        if (
+            preset.get("base_model_id") == profile.model
+            and existing_params == desired_params
+            and existing_meta.get("capabilities") == LOCAL_TEXT_ONLY_CAPABILITIES
+        ):
+            msgs.append(f"'{vk}': bereits auf `{profile.model}` mit lokalen Textparametern/Capabilities.")
+            continue
+        form = {
+            "id": preset.get("id", preset_id),
+            "base_model_id": profile.model,
+            "name": preset.get("name", v["preset_name"]),
+            "meta": desired_meta,
+            "params": desired_params,
+            "is_active": preset.get("is_active", True),
+        }
+        ok, action = client.upsert_model(form)
+        if not ok:
+            all_ok = False
+            msgs.append(f"'{vk}': Update fehlgeschlagen (action={action}).")
+            continue
+        # A4-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A4, O2-A.A3):
+        # vorher bestaetigte das Readback NUR `base_model_id` -- ein Backend
+        # kann die gewuenschte Modell-ID uebernehmen, alte Params/
+        # Capabilities aber behalten, und die Funktion meldete trotzdem
+        # Erfolg. Jetzt werden dieselben Felder erneut geprueft, die oben
+        # tatsaechlich gesetzt wurden (`desired_params`/`LOCAL_TEXT_ONLY_
+        # CAPABILITIES`).
+        verify = client.get_model(preset_id)
+        verify_params = dict((verify or {}).get("params") or {})
+        verify_caps = ((verify or {}).get("meta") or {}).get("capabilities")
+        if (
+            not verify
+            or verify.get("base_model_id") != profile.model
+            or verify_params != desired_params
+            or verify_caps != LOCAL_TEXT_ONLY_CAPABILITIES
+        ):
+            all_ok = False
+            msgs.append(
+                f"'{vk}': Update lief, aber Re-GET zeigt base_model_id="
+                f"{verify.get('base_model_id') if verify else 'None'} oder veraltete Params/Capabilities."
+            )
+            continue
+        msgs.append(f"'{vk}': zeigt jetzt auf `{profile.model}`.")
+    return all_ok, " | ".join(msgs)
 
 
 def _litellm_routing_model_id(repo: Path, cfg: dict) -> str:
@@ -2259,6 +2874,85 @@ def _verify_owui_connection_route(
         return False  # lesbarer Fehlerstatus -- bestätigt negativ.
     except (urllib.error.URLError, OSError):
         return None  # kein lesbares Ergebnis -- nicht prüfbar.
+
+
+def _verify_owui_connection_unique_and_enabled(
+    owui_url: str, owui_key: str, target_url: str, api_key: str, model_id: str,
+) -> Optional[bool]:
+    """A2 (evidence/INDEPENDENT-GENERAL-REVIEW.md A2, O2-C.C1/C2, O3-A.A1):
+    rein lesendes Gegenstück zu den Vormutations-Eindeutigkeitschecks in
+    `_ensure_owui_local_connection` -- `_verify_owui_connection_route` prüft
+    nur den GEWÜNSCHTEN Endpoint via `/openai/verify`, nicht die tatsächlich
+    aktive `/openai/config`-Zuordnung. Doppelte Connections an derselben
+    URL, eine global/pro-Connection deaktivierte Route, abweichender
+    Prefix/Auth oder derselbe Modellname an einer ANDEREN wirksamen
+    Connection bleiben dort unsichtbar. Dieser Check liest NUR (`GET
+    /openai/config`), mutiert nichts, ruft kein Modell auf.
+
+    Returns True nur, wenn GENAU EINE Connection an `target_url` existiert,
+    diese aktiviert ist (Connection- UND globaler `ENABLE_OPENAI_API`-
+    Schalter), Token und Modellpin übereinstimmen, Prefix/Auth dem
+    erwarteten Vertrag entsprechen, UND keine ANDERE aktivierte Connection
+    `model_id` ebenfalls anpinnt. Returns False bei einer bestätigten
+    negativen Antwort (lesbar, aber eine Bedingung verletzt). Returns
+    `None`, wenn der Check selbst nicht lesbar beantwortet wurde (Netzwerk-/
+    Parse-Fehler) -- nicht prüfbar, NICHT als "nicht verbunden" werten.
+    """
+    import urllib.request
+    import urllib.error
+
+    try:
+        req = urllib.request.Request(
+            f"{owui_url.rstrip('/')}/openai/config",
+            method="GET",
+            headers={"Authorization": f"Bearer {owui_key}"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            if resp.status != 200:
+                return None
+            try:
+                data = json.loads(resp.read())
+            except json.JSONDecodeError:
+                return None
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError):
+        return None
+
+    if not isinstance(data, dict):
+        return None
+    if not data.get("ENABLE_OPENAI_API"):
+        return False  # globaler Schalter aus -- bestätigt negativ.
+
+    urls = list(data.get("OPENAI_API_BASE_URLS") or [])
+    keys = list(data.get("OPENAI_API_KEYS") or [])
+    configs = dict(data.get("OPENAI_API_CONFIGS") or {})
+    while len(keys) < len(urls):
+        keys.append("")
+
+    target_indices = [i for i, u in enumerate(urls) if u == target_url]
+    if len(target_indices) != 1:
+        return False  # fehlend oder mehrdeutig -- kein Ersttreffer.
+    idx = target_indices[0]
+
+    for j, u in enumerate(urls):
+        if u == target_url:
+            continue
+        other_cfg = dict(configs.get(str(j)) or {})
+        if other_cfg.get("enable") and model_id in (other_cfg.get("model_ids") or []):
+            return False  # derselbe Modellname auch an ANDERER wirksamer Connection.
+
+    own_cfg = dict(configs.get(str(idx)) or {})
+    own_key = keys[idx] if idx < len(keys) else ""
+    auth_type = own_cfg.get("auth_type")
+    prefix_id = own_cfg.get("prefix_id")
+    if (
+        not own_cfg.get("enable")
+        or own_key != api_key
+        or model_id not in (own_cfg.get("model_ids") or [])
+        or auth_type not in (None, "", "bearer")
+        or prefix_id not in (None, "")
+    ):
+        return False
+    return True
 
 
 def _rewire_preset_base_model(
@@ -2852,6 +3546,41 @@ def ensure_litellm_autowire(repo: Path, cfg: dict) -> bool:
     return auto_wired
 
 
+#: A3-Fix (evidence/INDEPENDENT-GENERAL-REVIEW.md A3, O6-B.B1/B2/B3):
+#: Praefix fuer den Herkunftsmarker, den `_auto_load_owui_env()` neben
+#: jedem tatsaechlich AUS DER DATEI nachgeladenen Key setzt (Marker-Wert =
+#: der geladene Wert selbst, nicht nur ein Flag). Ein spaeterer Aufrufer
+#: (`mmo_sim/adapters/factories.py:_maybe_default_local_tokenhost_persona_
+#: env`) kann damit unterscheiden "dieser Wert steht nur, weil der GM ihn
+#: GERADE aus dem Datei-Altbestand nachgeladen hat" von "hier stand schon
+#: VORHER ein echter, bewusst gesetzter Prozessoverride" -- ohne diese
+#: Markierung wurde ein vom GM vorab autoloaded alter Cloudwert
+#: faelschlich als bewusster Override behandelt (A3, Fall "GM-vorab-
+#: autoloaded Dateialtwerte").
+_AUTOLOAD_ORIGIN_PREFIX = "_MMO_SIM_AUTOLOADED_ORIGIN__"
+
+
+def _forget_file_autoload_origin(*keys: str) -> None:
+    """Eine neue eigene Aufloesung uebernimmt die Herkunft dieser Felder.
+
+    Nur Prozessmetadaten entfernen, weder Werte noch persistierte Konfiguration.
+    Ein alter URL-Marker darf keinen spaeteren lokalen Vollsnapshot entwerten.
+    """
+    for key in keys:
+        os.environ.pop(_AUTOLOAD_ORIGIN_PREFIX + key, None)
+
+
+def _is_file_autoloaded_and_unmodified(key: str) -> bool:
+    """A3-Fix: True nur, wenn der aktuelle Wert von `key` exakt der zuletzt
+    von `_auto_load_owui_env()` aus der Datei nachgeladene ist (seitdem von
+    niemandem veraendert) -- dann ist er KEIN bewusster Prozessoverride.
+    Weicht der aktuelle Wert vom Marker ab (oder fehlt der Marker), ist der
+    jetzige Wert ein echter Override (explizit gesetzt oder seitdem
+    ueberschrieben) und zaehlt als bewusste Wahl."""
+    marker = os.environ.get(_AUTOLOAD_ORIGIN_PREFIX + key)
+    return marker is not None and os.environ.get(key) == marker
+
+
 def _auto_load_owui_env() -> bool:
     """Lade ~/.openwebui_env in os.environ, wenn Keys fehlen.
 
@@ -2872,30 +3601,32 @@ def _auto_load_owui_env() -> bool:
     gespeicherte bewusste Wahl (z.B. `MMO_SIM_PERSONA_CLI`/`_API_*`) wurde
     dann NIE geladen. Jetzt wird die Datei immer gelesen und fehlende Werte
     nachgeladen; bereits gesetzte Prozesswerte werden (wie bisher) NIE
-    überschrieben (`not os.environ.get(k)`-Guard unverändert)."""
+    überschrieben (`not os.environ.get(k)`-Guard unverändert).
+
+    A3-Fix: jeder tatsaechlich aus der Datei nachgeladene Key bekommt
+    zusaetzlich seinen eigenen Herkunftsmarker (s. `_AUTOLOAD_ORIGIN_
+    PREFIX`/`_is_file_autoloaded_and_unmodified`) -- reine Zusatzinfo, das
+    bestehende Rueckgabeverhalten (`bool`) bleibt fuer jeden Aufrufer
+    unveraendert."""
     home_env = Path.home() / ".openwebui_env"
     if not home_env.exists():
         return False
     loaded = False
     try:
-        for line in home_env.read_text("utf-8").splitlines():
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            if line.startswith("export "):
-                line = line[len("export "):]
-            if "=" not in line:
-                continue
-            k, v = line.split("=", 1)
-            k = k.strip()
-            v = v.strip().strip('"').strip("'")
-            if k and v and not os.environ.get(k):
-                os.environ[k] = v
-                loaded = True
+        # N4-02: derselbe Parservertrag wie `_read_env_file`/
+        # `launcher._parse_env_file` (`_read_env_file_with_conflicts` ->
+        # `local_model_profile.parse_env_text`) statt einer dritten,
+        # unabhaengig gepflegten Kopie derselben export-/Quote-Logik.
+        values, _conflicts = _read_env_file_with_conflicts(home_env)
     except OSError:
         # Stumm — wir versuchen unser Bestes; wenn die Datei nicht lesbar ist,
         # fällt das Script gleich auf die normale Env-fehlt-Fehlermeldung zurück.
         return False
+    for k, v in values.items():
+        if k and v and not os.environ.get(k):
+            os.environ[k] = v
+            os.environ[_AUTOLOAD_ORIGIN_PREFIX + k] = v
+            loaded = True
     return loaded
 
 
@@ -2931,6 +3662,21 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
         print_error(f"OpenWebUI nicht erreichbar unter {url} — Ergänzung abgebrochen.")
         return False
 
+    # ZR-LOCAL-TOKENHOST-N1-01: derselbe Resolver/Vertrag wie `run_setup` --
+    # 'hold' haelt sichtbar vor jeder Mutation, 'local' bindet Connection +
+    # Preset-Upstream an das lokale Profil statt an Cloud-Defaults.
+    provider, local_profile, hold_reason = resolve_model_provider()
+    if provider == "hold":
+        print_error(f"Lokales Modell-Profil haelt: {hold_reason} — Ergänzung abgebrochen.")
+        return False
+    local_active = provider == "local"
+    if local_active:
+        conn_ok, conn_msg = _ensure_owui_local_connection(url, api_key, local_profile)
+        if not conn_ok:
+            print_error(f"Lokale Connection konnte nicht eingerichtet werden: {conn_msg}")
+            return False
+        print_ok(f"Lokale Connection: {conn_msg}")
+
     kb_name = cfg.get("kb_name", f"{project} Wissensspeicher")
     print()
     print_header(f"{project} – Teilbestand ergänzen (vorhandene KB erhalten)")
@@ -2956,15 +3702,20 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     all_ok = True
     for vk in cfg["variants"]:
         v = cfg["variants"][vk]
-        v_base_model = variant_base_model(repo, cfg, vk)
-        v_reasoning_effort = variant_reasoning_effort(cfg, vk)
-        v_params = {
-            "system": system_prompt,
-            "temperature": params.get("temperature", 0.8),
-            "max_tokens": params.get("max_tokens", 64000),
-        }
-        if v_reasoning_effort:
-            v_params["reasoning_effort"] = v_reasoning_effort
+        if local_active:
+            v_base_model = local_profile.model
+            v_params = dict(local_payload_overrides(local_profile, role="gm"))
+            v_params["system"] = system_prompt
+        else:
+            v_base_model = variant_base_model(repo, cfg, vk)
+            v_reasoning_effort = variant_reasoning_effort(cfg, vk)
+            v_params = {
+                "system": system_prompt,
+                "temperature": params.get("temperature", 0.8),
+                "max_tokens": params.get("max_tokens", 64000),
+            }
+            if v_reasoning_effort:
+                v_params["reasoning_effort"] = v_reasoning_effort
         payload = {
             "id": v["preset_id"],
             "name": v["preset_name"],
@@ -2972,7 +3723,7 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
             "meta": {
                 "description": v.get("preset_description", cfg.get("preset_description", "")),
                 "profile_image_url": profile_image_url,
-                "capabilities": variant_capabilities(cfg, vk),
+                "capabilities": LOCAL_TEXT_ONLY_CAPABILITIES if local_active else variant_capabilities(cfg, vk),
                 "knowledge": [
                     {"id": kb_id, "name": kb_name, "type": "collection"}
                 ],
@@ -3381,6 +4132,19 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         sys.exit(1)
     print_ok(f"OpenWebUI erreichbar: {url}")
 
+    # ZR-LOCAL-TOKENHOST-N1-01: derselbe Resolver wie `run_setup`/
+    # `complete_orphaned_kb_install` -- Sync darf im lokalen Profil den
+    # bestehenden `base_model_id` NICHT anfassen (bleibt unten unveraendert
+    # vom Remote-Preset uebernommen), muss aber die TEXTPARAMETER
+    # (`max_tokens`/`temperature`) auf dem lokalen Startwert halten statt
+    # sie mit `cfg["params"]`s Cloud-Default (`64000`/`reasoning_effort`)
+    # zu ueberschreiben.
+    sync_provider, sync_local_profile, sync_hold_reason = resolve_model_provider()
+    if sync_provider == "hold":
+        print_error(f"Lokales Modell-Profil haelt: {sync_hold_reason} — Sync abgebrochen.")
+        sys.exit(1)
+    sync_local_active = sync_provider == "local"
+
     # Variant-aware: --sync arbeitet gegen die KB EINES Presets (KB + Masterprompt
     # sind geteilt). Default: default_variant; --variant X wählt gezielt. Wenn der
     # Caller mehrere Varianten schickt (--all-variants), patchen wir den
@@ -3489,17 +4253,25 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         remote_meta = dict(v_preset.get("meta") or {})
         remote_params = dict(v_preset.get("params") or {})
 
-        desired_params = dict(cfg.get("params", {}))
-        desired_params["system"] = mp_text
-        reff = variant_reasoning_effort(cfg, vk)
-        if reff is not None:
-            desired_params["reasoning_effort"] = reff
+        if sync_local_active:
+            # N1-01: lokale endliche Textparameter statt Cloud-`cfg["params"]`
+            # (sonst wuerde ein Sync den lokalen `max_tokens`-Startwert mit
+            # `64000` ueberschreiben) -- base_model_id bleibt unten unver-
+            # aendert (kein Rewire hier, das passiert in run_setup/orphan).
+            desired_params = dict(local_payload_overrides(sync_local_profile, role="gm"))
+            desired_params["system"] = mp_text
         else:
-            # Nicht-Anthropic-Varianten dürfen den Key nicht tragen — sonst
-            # bleibt er von einem früheren (falschen) Sync-Stand stehen.
-            desired_params.pop("reasoning_effort", None)
+            desired_params = dict(cfg.get("params", {}))
+            desired_params["system"] = mp_text
+            reff = variant_reasoning_effort(cfg, vk)
+            if reff is not None:
+                desired_params["reasoning_effort"] = reff
+            else:
+                # Nicht-Anthropic-Varianten dürfen den Key nicht tragen — sonst
+                # bleibt er von einem früheren (falschen) Sync-Stand stehen.
+                desired_params.pop("reasoning_effort", None)
 
-        desired_caps = variant_capabilities(cfg, vk)
+        desired_caps = LOCAL_TEXT_ONLY_CAPABILITIES if sync_local_active else variant_capabilities(cfg, vk)
         desired_meta = dict(remote_meta)
         desired_meta["capabilities"] = desired_caps
         # Geteilte KB an jede Variante spiegeln (idempotent — nur wenn vorhanden).
@@ -4428,13 +5200,50 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         f"(geteilte Knowledge Base)."
     )
 
+    # ZR-LOCAL-TOKENHOST-L1: lokales Profil vor dem Cloudkey-Zweig auflösen.
+    # 'hold' (unbekannter/inkonsistenter Provider ODER unvollständige
+    # ZEITRISS_LOCAL_*-Felder) haelt sichtbar vor jeder Mutation/Completion
+    # -- kein stiller Cloudfallback, keine Session-only-Aktivierung.
+    provider, local_profile, hold_reason = resolve_model_provider()
+    if provider == "hold":
+        print_error(f"Lokales Modell-Profil haelt: {hold_reason}")
+        sys.exit(1)
+    local_active = provider == "local"
+    if local_active:
+        conn_ok, conn_msg = _ensure_owui_local_connection(url, api_key, local_profile)
+        if not conn_ok:
+            print_error(f"Lokale Connection konnte nicht eingerichtet werden: {conn_msg}")
+            sys.exit(1)
+        print_ok(f"Lokale Connection: {conn_msg}")
+        # Nichtgenerativer Verify -- derselbe Vertrag wie der LiteLLM-Pfad,
+        # KEIN APIClient.test_model (würde eine echte Completion senden).
+        verified = _verify_owui_connection_route(
+            url, api_key, local_profile.owui_base_url or local_profile.base_url,
+            local_profile.api_key, local_profile.model,
+        )
+        if verified is not True:
+            print_error(
+                "Lokaler Backend-Kontext nicht bestätigt erreichbar "
+                f"(verify={verified!r}) — kein Fallback, kein Completion-Versuch."
+            )
+            sys.exit(1)
+        print_ok(f"Lokaler Backend-Kontext bestätigt: {local_profile.model} @ {local_profile.base_url}")
+
     # Erreichbarkeit der Base-Modelle prüfen (Typo-Schutz). cache=True-Varianten
     # zeigen auf das LiteLLM-Routing-Modell, das erst nach --install-litellm
-    # erreichbar ist — daher dort kein harter Fehler, nur Hinweis.
+    # erreichbar ist — daher dort kein harter Fehler, nur Hinweis. Im lokalen
+    # Profil ist die Erreichbarkeit bereits oben nichtgenerativ bestätigt;
+    # `client.test_model` wird im lokalen Zweig NICHT aufgerufen.
     for vk in variant_keys:
         bm = variant_base_model(repo, cfg, vk)
         is_cached = bool(cfg["variants"][vk].get("cache"))
-        if is_cached:
+        if local_active:
+            ok, msg = _rewire_preset_base_model_local(repo, cfg, url, api_key, local_profile)
+            if not ok:
+                print_warn(f"  Variante '{vk}': lokaler Upstream-Rewire unvollständig ({msg}).")
+            else:
+                print_ok(f"  Variante '{vk}': Upstream = {local_profile.model} (bereits bestätigt).")
+        elif is_cached:
             print_info(
                 f"  Variante '{vk}': Base-Model {bm} (über LiteLLM — "
                 f"erst nach --install-litellm erreichbar)."
@@ -4934,15 +5743,24 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     created_presets: list[tuple[str, str]] = []  # (variant_key, base_model)
     for vk in variant_keys:
         v = cfg["variants"][vk]
-        v_base_model = variant_base_model(repo, cfg, vk)
-        v_reasoning_effort = variant_reasoning_effort(cfg, vk)
-        v_params = {
-            "system": system_prompt,
-            "temperature": params.get("temperature", 0.8),
-            "max_tokens": params.get("max_tokens", 64000),
-        }
-        if v_reasoning_effort:
-            v_params["reasoning_effort"] = v_reasoning_effort
+        # ZR-LOCAL-TOKENHOST-N1-01: im lokalen Profil zeigt das Preset auf
+        # den tatsaechlich gewaehlten lokalen Upstream mit endlichen lokalen
+        # Textparametern (`local_payload_overrides`) -- KEIN geerbtes
+        # Cloud-`max_tokens`/`reasoning_effort`/Vision/Variant-Base-Model.
+        if local_active:
+            v_base_model = local_profile.model
+            v_params = dict(local_payload_overrides(local_profile, role="gm"))
+            v_params["system"] = system_prompt
+        else:
+            v_base_model = variant_base_model(repo, cfg, vk)
+            v_reasoning_effort = variant_reasoning_effort(cfg, vk)
+            v_params = {
+                "system": system_prompt,
+                "temperature": params.get("temperature", 0.8),
+                "max_tokens": params.get("max_tokens", 64000),
+            }
+            if v_reasoning_effort:
+                v_params["reasoning_effort"] = v_reasoning_effort
         payload = {
             "id": v["preset_id"],
             "name": v["preset_name"],
@@ -4950,7 +5768,7 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             "meta": {
                 "description": v.get("preset_description", cfg.get("preset_description", "")),
                 "profile_image_url": profile_image_url,
-                "capabilities": variant_capabilities(cfg, vk),
+                "capabilities": LOCAL_TEXT_ONLY_CAPABILITIES if local_active else variant_capabilities(cfg, vk),
                 # OpenWebUI 0.9.1+ needs type='collection' to trigger KB retrieval in chat.
                 # Without it, middleware.py line ~2334 falls through the `else` branch
                 # and the KB reference never hits the retrieval pipeline.

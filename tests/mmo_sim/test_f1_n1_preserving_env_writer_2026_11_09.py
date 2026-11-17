@@ -110,10 +110,16 @@ def test_chmod_600_applied():
 
 
 def test_write_failure_returns_false_not_exception():
+    """R2-Fix-Anpassung (N3, atomarer Writer): die Temp-Datei entsteht jetzt
+    ueber `os.open(..., O_CREAT|O_EXCL, 0o600)` + `os.fdopen(...).write(...)`
+    statt `Path.write_text` (Schutz ab dem ersten Byte, s. `setup.py`-
+    Docstring) -- der Fault-Seam patcht deshalb `os.open` (dieselbe
+    Fehlerbehandlung/Rueckgabe, nur an der tatsaechlich verwendeten Stelle
+    simuliert) statt der nicht mehr aufgerufenen `Path.write_text`."""
     tmp = Path(tempfile.mkdtemp(prefix="f1-n1-preserving-env-"))
     target = tmp / ".env"
     try:
-        with mock.patch.object(type(target), "write_text", side_effect=OSError("disk full (simuliert)")):
+        with mock.patch.object(setup_mod.os, "open", side_effect=OSError("disk full (simuliert)")):
             ok = setup_mod._update_env_file_preserving(target, {"X": "y"})
         assert ok is False, "ein Schreibfehler haette False liefern sollen, kein stiller Erfolg"
     finally:

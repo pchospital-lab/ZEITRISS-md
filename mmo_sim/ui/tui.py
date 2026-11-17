@@ -54,6 +54,32 @@ from . import rendering
 from . import sheet_view
 
 
+def _tui_early_gate_dollar_billed() -> bool:
+    """ZR-LOCAL-TOKENHOST-N1-05 (B1): `dollar_billed`-Signal fuer das
+    SCHMALE, routenneutrale Erschaffungs-Vorabgate (laeuft VOR jeder
+    GM-Transportkonstruktion -- ein Aufrufer darf `gm_transport_factory`
+    bewusst NICHT antasten, solange die Admission nicht frei ist). Liest
+    denselben Provider-Resolver (`setup.resolve_model_provider`), den auch
+    `mmo_sim/adapters/factories.py:default_gm_transport_factory` fuer die
+    tatsaechliche Transportinstanz nutzt, OHNE selbst einen Transport zu
+    bauen. 'hold'/Importfehler fallen auf das sichere Altverhalten `True`
+    zurueck -- der eigentliche Hold wird beim naechsten echten Transportbau
+    sichtbar. Die MASSGEBLICHE, instanzgebundene Pruefung bleibt unveraendert
+    unmittelbar vor jedem GM-Versand in `core.creation_service.run_admitted_
+    creation_dialog` (`getattr(gm_transport, 'is_dollar_billed', True)`)."""
+    try:
+        import sys as _sys
+        repo_root = Path(__file__).resolve().parents[2]
+        scripts_dir = str(repo_root / "scripts")
+        if scripts_dir not in _sys.path:
+            _sys.path.insert(0, scripts_dir)
+        import setup as _setup_module
+        provider, _profile, _hold_reason = _setup_module.resolve_model_provider()
+    except Exception:
+        return True
+    return provider != "local"
+
+
 #: R4-MEHRSPIELER (ZR-N2R-ANSCHLUSS-20261019-R4): kleine, fixe Terminal-
 #: Bedienungsnotiz, die JEDEM Persona-Systemkontext vorangestellt wird (s.
 #: `TuiSession._own_system_context`). Grund (live belegt): Personas spawnen
@@ -3276,7 +3302,16 @@ class TuiSession:
             )
             return
         from ..core.admission import read_admission_block
-        blocked, reason = read_admission_block(self.run_dir)
+        # ZR-LOCAL-TOKENHOST-N1-05 (B1): Vorabgate bleibt VOR jeder Transport-
+        # konstruktion (ein Aufrufer darf `gm_transport_factory` bewusst NICHT
+        # antasten, solange die Admission nicht frei ist) -- liest `dollar_
+        # billed` ueber `_tui_early_gate_dollar_billed()` aus demselben
+        # Provider-Resolver, den auch die Transport-Factory selbst nutzt,
+        # OHNE den Transport zu konstruieren. Vorher nahm dieses Gate IMMER
+        # den Default `True` an, was einen echten lokalen Lauf mit `max_usd=0`
+        # IMMER geblockt haette, bevor der instanzgebundene Rollencheck in
+        # `core/creation_service.run_admitted_creation_dialog` je erreicht wird.
+        blocked, reason = read_admission_block(self.run_dir, dollar_billed=_tui_early_gate_dollar_billed())
         if blocked:
             self._print(f"Erschaffungsdialog blockiert (Admission-Gate: {reason}) — kein Modellaufruf.")
             return

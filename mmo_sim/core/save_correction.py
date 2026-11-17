@@ -523,10 +523,18 @@ def send_correction_turn(
         else getattr(gm_transport, "output_limit_tokens", None)
     )
     gm_route = getattr(gm_transport, "base_url", None)
+    # D (02_NACHARBEIT.md Gruppe D, O4/O5): derselbe tatsaechliche
+    # GM-Instanzmarker wie `core.runtime.SectionRuntime._admitted_decision`
+    # (`getattr(driver, "is_dollar_billed", True)`) -- Default `True` fuer
+    # jeden Alt-/Cloudtransport ohne diesen Marker (unveraendertes Verhalten).
+    # Ein lokaler unpriced-Transport (`is_dollar_billed=False`) darf bei
+    # `max_usd=0` nicht am Cloud-Dollarbudget haengen -- gilt fuer diesen
+    # Korrektur-Sendepfad genauso wie fuer jeden regulaeren GM-Turn.
+    dollar_billed = getattr(gm_transport, "is_dollar_billed", True)
     reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
     blocked, reason = read_admission_block(
         run_dir, reserved_usd=reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
-        table_id=table_id,
+        table_id=table_id, dollar_billed=dollar_billed,
     )
     if blocked:
         return SendOutcome(blocked=True, reason=f"admission_blocked:{reason}")
@@ -535,7 +543,7 @@ def send_correction_turn(
         request_id = request_ledger.begin(
             run_dir, role=role, content=outgoing_text, reserved_usd=reserved, route=gm_route,
             output_limit_tokens=gm_output_limit, turn_idx=turn_idx, participant=participant,
-            table_id=table_id, section_id=section_id,
+            table_id=table_id, section_id=section_id, dollar_billed=dollar_billed,
         )
     except request_ledger.OpenReservationExistsError as exc:
         # SC10 (01_AUFTRAG_SAVEGATE.md §D): fuer GENAU diese Operationsidentitaet
@@ -1036,10 +1044,20 @@ def pursue_single_figure_correction(
                 original_block=pending_block, attempt_no=pending_attempt_no, max_attempts=max_attempts,
             )
             pending_reserved_usd = reservation_for_wire_text(pending_message, output_limit_tokens=gm_output_limit)
+            # P5-Marker (N3, 01 §"Materielle Restfehler", 02 Block E): dieses
+            # Vorabgate prüfte bislang IMMER mit `dollar_billed=True` (Default) --
+            # derselbe tatsächliche Instanzmarker wie bei `send_correction_turn`
+            # (s. dort, `getattr(gm_transport, "is_dollar_billed", True)`) wird
+            # jetzt auch hier weitergegeben, damit ein lokaler unpriced-Transport
+            # bei `max_usd=0` nicht am Cloud-Dollarcheck haengenbleibt. Nur diese
+            # EINE Weitergabe -- Grant-/Recovery-/Settlement-/Requestlogik
+            # unveraendert; Stop-/Zeit-/Deadline-/Cap-Gates bleiben unveraendert
+            # VOR jedem Grantverbrauch wirksam (dieselbe `read_admission_block`-
+            # Gate-Funktion wie zuvor, nur mit korrektem `dollar_billed`).
             gate_blocked, gate_reason = read_admission_block(
                 run_dir, reserved_usd=pending_reserved_usd,
                 output_bound_known=(gm_output_limit is not None), route=gm_route,
-                table_id=table_id,
+                table_id=table_id, dollar_billed=getattr(gm_transport, "is_dollar_billed", True),
             )
             if gate_blocked:
                 return CorrectionOutcome(status="hold", reason=f"gate_blocked_before_consume:{gate_reason}")

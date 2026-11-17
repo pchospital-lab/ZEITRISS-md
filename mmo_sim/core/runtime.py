@@ -283,7 +283,15 @@ class SectionRuntime:
         driver = controller.drivers.get(pk)
         is_human = getattr(driver, "is_human_driver", False)
         if is_human:
-            reserved_usd, output_bound_known, route, dollar_billed = None, True, None, True
+            # ZR-LOCAL-TOKENHOST-L1-Fix: der Docstring oben sagt bereits
+            # "Budget-neutral" fuer menschliche Treiber zu -- `dollar_billed
+            # =True` widersprach dem bisher (nur unbeobachtet, weil `max_usd`
+            # in der Praxis fast nie exakt 0 war): mit `reserved_usd=None`
+            # UND `dollar_billed=True` blockierte `read_admission_block` den
+            # menschlichen Leader-Turn trotzdem bei `usd_spent>=max_usd==0`
+            # (lokales Profil, max_usd=0) -- ein Mensch verursacht laut
+            # Vertrag NIE Modellkosten, also auch nie eine Dollar-Gate-Pruefung.
+            reserved_usd, output_bound_known, route, dollar_billed = None, True, None, False
         else:
             reserved_usd, output_bound_known = reservation_for_request(driver, ctx)
             route = self._route_for(driver)
@@ -642,7 +650,7 @@ class SectionRuntime:
         # blockiert) -- NICHT erneut pruefen, kein doppelter Archivbeleg.
         if pause_reason is None:
             try:
-                self._check_gate()
+                self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))
             except _GateBlocked as e:
                 ok = False
                 pause_reason = e.reason
@@ -676,6 +684,12 @@ class SectionRuntime:
         # beide muessen dieselbe Grenze/Route kennen.
         gm_output_limit = getattr(self.gm_transport, "output_limit_tokens", None)
         gm_route = getattr(self.gm_transport, "base_url", None)
+        # ZR-LOCAL-TOKENHOST-L1: derselbe duck-typed Marker wie bei Persona-
+        # Treibern (`_admitted_decision`, `getattr(..., 'is_dollar_billed',
+        # True)`) -- Default True erhaelt das Verhalten fuer jeden GM-
+        # Transport ohne diesen Marker unveraendert. Vorher wurde hier IMMER
+        # `dollar_billed=True` angenommen (Parameter fehlte ganz).
+        gm_dollar_billed = getattr(self.gm_transport, "is_dollar_billed", True)
         request_id = request_ledger.begin(
             self.lobby.run_dir, role="gm_turn", content=text, reserved_usd=reserved_usd,
             route=gm_route, output_limit_tokens=gm_output_limit,
@@ -689,6 +703,7 @@ class SectionRuntime:
             # ist derselbe Teilnehmerbezug wie im `sl_turn`-Event unten.
             turn_idx=self._turn_idx,
             participant=origin_persona_key if origin_persona_key is not None else actor_persona_key,
+            dollar_billed=gm_dollar_billed,
         )
         # R12-AUTORECOVERY: der additive Generations-Schnappschuss wird HIER
         # erhoben -- VOR dem Versand, BEVOR irgendjemand weiss, ob DIESE
@@ -1033,7 +1048,7 @@ class SectionRuntime:
             # pending_table_messages) wird verwendet -- dieselbe Textmenge,
             # die tatsaechlich zum Empfaenger geht.
             record = self._admitted_decision("persona_decision", controller, pk, ctx)
-            self._check_gate()  # F3: zwischen Persona-Request und GM-Request.
+            self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))  # F3: zwischen Persona-Request und GM-Request.
             if pk == leader:
                 # OPTION2-CMD (FIX-SPEC-OPTION2-CMD.md §3): der ROHE getippte
                 # Text VOR jedem Embedding festhalten -- `wire_text` kann bei
@@ -1080,9 +1095,16 @@ class SectionRuntime:
             # `max_usd` wird die fehlende Grenze NICHT als 0/sicher behandelt).
             gm_output_limit = getattr(self.gm_transport, "output_limit_tokens", None)
             gm_route = getattr(self.gm_transport, "base_url", None)
+            # ZR-LOCAL-TOKENHOST-L1: derselbe Marker wie in `submit()` --
+            # dieser Gate-Check VOR dem Versand muss denselben Abrechnungs-
+            # bezug sehen wie der direkt danach gebuchte Ledgereintrag, sonst
+            # koennte ein lokaler GM-Transport (max_usd=0) hier an einem
+            # Cloud-Default haengenbleiben, der nie zutraf.
+            gm_dollar_billed = getattr(self.gm_transport, "is_dollar_billed", True)
             gm_reserved = reservation_for_wire_text(wire_text, output_limit_tokens=gm_output_limit)
             self._check_gate(  # F3/Q06/Q07/Q03: GM-Body-Reservierung vor Versand.
                 gm_reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
+                dollar_billed=gm_dollar_billed,
             )
             result = self.submit(
                 controller, leader, wire_text, ts,
@@ -1111,7 +1133,7 @@ class SectionRuntime:
                 # I2-Nachzug: derselbe reservierte+persistierte Requestweg
                 # wie jede andere Rolle (Auflage 6), s. `_admitted_decision`.
                 record = self._admitted_decision("guest_poll", controller, pk, ctx)
-                self._check_gate()
+                self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))
                 text = (record.decision.text or "").strip()
                 if text:
                     store.post_table_message(self.table, pk, text)
@@ -1330,7 +1352,7 @@ class SectionRuntime:
                 # automatische Ernte genauso wie einen neuen Turn (AR04); bei
                 # sauberer Pause und spaeter frischer Autorisierung greift
                 # dieser Zweig dann beim naechsten Aufruf erneut.
-                self._check_gate()
+                self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))
             except _GateBlocked as e:
                 return blocked_outcome(e.reason)
             return finalize(
@@ -1343,7 +1365,7 @@ class SectionRuntime:
             # Anker-Turn hat.
             if not self._leader_anchored:
                 act(leader, contexts_by_persona[leader], attach_import_save=True)
-                self._check_gate()  # F3: vor Publish/Reflexion.
+                self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))  # F3: vor Publish/Reflexion.
                 if completion_hit(debrief_text):
                     return finalize(debrief_text)
 
@@ -1352,7 +1374,7 @@ class SectionRuntime:
                 if pk in self._guests_imported:
                     continue
                 act(pk, contexts_by_persona[pk], attach_import_save=True)
-                self._check_gate()  # F3: vor Publish/Reflexion.
+                self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))  # F3: vor Publish/Reflexion.
                 if completion_hit(debrief_text):
                     return finalize(debrief_text)
 
@@ -1387,7 +1409,7 @@ class SectionRuntime:
                 if ongoing_round > 0:
                     poll_guests_and_consolidate()
                 act(leader, debrief_ctx)
-                self._check_gate()  # F3: vor Publish/Reflexion.
+                self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))  # F3: vor Publish/Reflexion.
                 if completion_hit(debrief_text):
                     return finalize(debrief_text)
                 ongoing_round += 1

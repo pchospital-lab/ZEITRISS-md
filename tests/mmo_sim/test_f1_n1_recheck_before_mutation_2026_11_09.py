@@ -56,6 +56,8 @@ def _run_action_install_with_states(first_state: str, recheck_state: str):
              mock.patch.object(launcher_mod, "_docker_ok", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod, "_openwebui_ok", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod, "_ensure_owui_env", return_value=True), \
+             mock.patch.object(launcher_mod, "resolve_model_provider_choice",
+                                return_value=("cloud", None, None)), \
              mock.patch.object(launcher_mod, "_openrouter_key_status", return_value=(True, "ok")), \
              mock.patch.object(launcher_mod.setup_module, "_update_env_file_preserving", return_value=True), \
              mock.patch.object(launcher_mod.setup_module, "_read_env_file",
