@@ -13,7 +13,7 @@ Menü-Launcher für Windows / macOS / Linux. Ein Script, ein Menü:
     [L] Lore-Setup — nur wenn scripts/rite.py existiert
     [2] Inhalt woanders nutzen (Export-Paket erzeugen)
     [3] Starten (Browser öffnen)
-    [4] Aktualisieren (git pull + Sync)
+    [4] Nach Updates suchen
     [5] API-Keys ändern
     [6] Bei mir läuft was nicht (Diagnose)
     [7] Reset — Neuinstallation (destruktiv)
@@ -97,6 +97,16 @@ try:
     import mmo_sim_launcher_hook as project_hook  # noqa: E402
 except ImportError:
     project_hook = None  # type: ignore[assignment]
+
+# ZR-ALTAIR-UPDATER-SPIELTEST-20261118-r2 (U1-U6): Update-Mechanik lebt in
+# einem eigenen, pur-funktional testbaren Modul -- kein optionaler Hook wie
+# rite/mmo_sim oben, sondern Pflichtbestandteil des Launchers (analog
+# setup_module/local_profile_module).
+try:
+    import launcher_update as launcher_update_module  # noqa: E402
+except ImportError as e:
+    print(f"FEHLER: scripts/launcher_update.py kann nicht importiert werden: {e}")
+    sys.exit(1)
 
 
 # ── Darstellung (Unicode-sparsam, Windows-cmd-kompatibel) ────────────
@@ -880,7 +890,7 @@ def action_install_lore() -> None:
         print(green(f"  ✓ {meta()['name']} ist bereits eingerichtet."))
         print()
         print(f"  Das Lore-Setup ist der {meta()['lore_moment']} — den gibt es nur einmal.")
-        print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um.")
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] Nach Updates suchen um.")
         print(dim("  Wenn du das Lore-Ritual neu erleben willst:"))
         print(dim("    → [7] Reset → [L] Lore-Setup"))
         print()
@@ -966,7 +976,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         if state == "installed":
             print(green(f"  ✓ {meta()['name']} ist bereits eingerichtet."))
             print()
-            print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um.")
+            print("  Für aktuelle Repo-Files leite ich dich auf [4] Nach Updates suchen um.")
             print(dim("  Wenn du wirklich alles neu willst (z.B. nach kaputtem Stand): [7] Reset."))
             print()
             ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
@@ -1240,7 +1250,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         print()
         print(green(f"  ✓ {meta()['name']} ist in OpenWebUI bereits eingerichtet."))
         print(dim("  Das war beim ersten Check (ohne Key) noch nicht sichtbar."))
-        print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um — kein destruktiver Neuaufbau.")
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] Nach Updates suchen um — kein destruktiver Neuaufbau.")
         print()
         ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
         if ans in ("", "j", "y", "ja", "yes"):
@@ -1360,152 +1370,118 @@ def action_install(*, _skip_state_check: bool = False) -> None:
     _pause()
 
 
-def _git_cmd() -> list[str]:
-    """Basis-Git-Kommando — standardmäßig `git`, optional ueberschreibbar.
-
-    Der Enduser clont das Repo mit seinem eigenen Auth (HTTPS-Credential-
-    Manager oder SSH); fuer ihn funktioniert plain `git pull` ohne Zutun.
-
-    Wer einen eigenen Git-Wrapper braucht (z.B. ein Maintainer mit
-    Custom-Credential-Helper / Multi-Account-Setup), setzt die Umgebungs-
-    variable `LAUNCHER_GIT` auf den Wrapper-Namen oder -Pfad — dann laufen
-    alle Pull-/Stash-Operationen darueber. Beispiel: `LAUNCHER_GIT=ghrepo`.
-    Mehrteilige Kommandos werden per Whitespace gesplittet.
-    """
-    override = os.environ.get("LAUNCHER_GIT", "").strip()
-    return override.split() if override else ["git"]
-
-
-def _git(*args: str) -> subprocess.CompletedProcess:
-    """Thin wrapper: <git-cmd> -C REPO <args>, erfasst stdout+stderr.
-
-    Das Git-Kommando kommt aus `_git_cmd()` (Default `git`, per `LAUNCHER_GIT`
-    ueberschreibbar). `-C REPO` wirkt auch auf Wrapper, die git-Argumente
-    durchreichen.
-    """
-    return subprocess.run(
-        [*_git_cmd(), "-C", str(REPO), *args],
-        capture_output=True, text=True,
-    )
-
-
-def _update_repo_via_git() -> bool:
-    """Führt einen freundlichen git pull durch. Bei lokalen Änderungen bietet
-    das Script ``git stash`` an, zieht, und stasht dann wieder auf.
-
-    Ziel: Der Nutzer verliert **nie** seine Handgriffe, auch wenn er aus
-    Versehen eine Datei editiert hat. Aber er muss auch nichts mergen.
-
-    Returns:
-        True, wenn das Repo jetzt in einem konsistenten Zustand ist und
-        der nachfolgende Sync sinnvoll weiterlaufen kann.
-        False, wenn ein Konflikt/Fehler Aufmerksamkeit braucht (etwa
-        Stash-Pop-Konflikt mit Marker in Dateien) — Caller sollte
-        den Sync dann NICHT blind starten.
-    """
-    print(dim("  Hole neueste Änderungen von GitHub..."))
-
-    # Lokale Anpassungen (tracked only, untracked bleiben unberührt).
-    dirty = _git("status", "--porcelain", "--untracked-files=no").stdout.strip()
-    stashed = False
-    if dirty:
-        print(yellow("  ⚠  Du hast lokale Änderungen an Dateien aus dem Repo."))
-        print(dim("     Damit der Pull nicht kracht, lege ich sie kurz auf den Stash-Stack"))
-        print(dim("     und stelle sie danach wieder her (git stash)."))
-        ans = _prompt("  Fortfahren? (j/n): ").lower()
-        if ans not in ("j", "y", "ja", "yes", ""):
-            print(dim("  Pull übersprungen, Sync läuft mit lokalem Stand weiter."))
-            return True
-        r = _git("stash", "push", "-m", "launcher.py auto-stash")
-        if r.returncode != 0:
-            print(yellow("  ⚠  git stash fehlgeschlagen — überspringe Pull, behalte lokalen Stand."))
-            print(dim("    " + (r.stderr.strip().splitlines() or ["?"])[-1]))
-            return True
-        stashed = True
-
-    r = _git("pull", "--ff-only")
-    out = (r.stdout + r.stderr).strip()
-    if r.returncode == 0:
-        if "Bereits aktuell" in out or "Already up to date" in out:
-            print(green("  ✓  Repo war schon aktuell."))
-        else:
-            print(green("  ✓  Repo aktualisiert."))
-            print(dim("    " + "\n    ".join(out.splitlines()[-4:])))
+def _run_update_sync_step() -> bool:
+    """U5: der eigentlich noetige Sync (Preset/KB) NACH einer Datei-
+    Aktualisierung — oder gezielt alleine, wenn Dateien schon aktuell sind,
+    der Sync aber noch offen ist. Laeuft als NEUER Prozess (s. `launcher_
+    update.run_sync_subprocess`), damit ein frisch aktualisierter `setup.py`
+    nicht aus dem bereits im laufenden Launcher importierten alten Modul
+    angewendet wird. Gibt True zurueck, wenn der Sync erfolgreich war."""
+    if not _ensure_owui_env():
+        print(red("  OPENWEBUI_API_KEY fehlt — Sync übersprungen."))
+        print(dim("  Erst Menü [1] (Komplett-Setup) oder [5] (API-Keys ändern) ausführen, "
+                  "danach [4] erneut versuchen."))
+        return False
+    ok, tail = launcher_update_module.run_sync_subprocess(REPO)
+    if ok:
+        print(green("  ✓ Synchronisierung abgeschlossen (Preset/KB aktuell)."))
     else:
-        # Pull fehlgeschlagen (Netz, DNS, non-FF). Nach unserem Stash sollte
-        # non-FF eigentlich nicht mehr vorkommen, aber wir handhaben es trotzdem.
-        last_line = (out.splitlines() or ["?"])[-1]
-        print(yellow(f"  ⚠  git pull hat Probleme: {last_line}"))
-        print(dim("    Sync läuft trotzdem weiter mit dem lokalen Stand."))
+        print(red("  ✗ Synchronisierung fehlgeschlagen — Programmdateien sind neu, Sync bleibt offen."))
+        if tail:
+            print(dim("    " + tail.replace("\n", "\n    ")))
+        print(dim("  [4] Nach Updates suchen erneut — synct gezielt nach, ohne alles neu zu holen."))
+    return ok
 
-    if stashed:
-        r = _git("stash", "pop")
-        if r.returncode == 0:
-            print(dim("  ✓  Deine lokalen Änderungen sind zurück aus dem Stash."))
-        else:
-            # Heiß: stash pop hat einen Merge-Konflikt erzeugt. Die Arbeitsdateien
-            # enthalten jetzt <<<<<<< / ======= / >>>>>>> Marker, der Stash
-            # bleibt im Stack. Sync darf hier NICHT weiterlaufen — sonst
-            # syncen wir kaputte Dateien.
-            print()
-            print(red("  ✗  Deine Änderungen kollidieren mit dem Update von GitHub."))
-            print(yellow("     Die betroffenen Dateien enthalten jetzt Konflikt-Marker"))
-            print(yellow("     (<<<<<<< / ======= / >>>>>>>) und müssen manuell aufgelöst werden."))
-            print(dim(""))
-            print(dim("     Eine sichere Kopie deiner Änderungen liegt im Stash. Hilfreiche Kommandos:"))
-            print(dim("       git status               — zeigt die konflikt-Dateien"))
-            print(dim("       git stash list           — zeigt deinen Stash-Eintrag"))
-            print(dim("       git stash show -p        — zeigt deinen Original-Diff"))
-            print(dim("       git checkout -- <datei>  — verwirft deine lokale Variante"))
-            print(dim("       git stash drop           — entsorgt den Stash, wenn du fertig bist"))
-            print()
-            print(yellow("  Ich brich den Sync hier ab, damit nichts Kaputtes nach OpenWebUI wandert."))
-            return False
-    return True
+
+def _describe_local_update_state(local: "launcher_update_module.LocalState") -> str:
+    if local.source == "git":
+        rev = local.rev[:10] if local.rev else "?"
+        return f"Git-Checkout, lokaler Stand {rev}" + ("  (lokale Änderungen vorhanden)" if local.dirty else "")
+    if local.source == "zip":
+        rev = local.rev[:10] if local.rev else "?"
+        return f"verwaltete ZIP-Installation, Stand {rev}"
+    return "unverwaltete Installation (Herkunft nicht sicher bestimmbar)"
 
 
 def action_update() -> None:
-    print(bold(f"\n  [4] {meta()['name']} aktualisieren\n"))
+    """[4] Nach Updates suchen — U1-U6: fragt auf ausdrückliche Auswahl die
+    offizielle Quelle (git ls-remote / GitHub-API), OHNE Dateien zu tauschen
+    oder zu syncen. Erst nach bewusster Zustimmung wird exakt die geprüfte
+    Zielrevision installiert (Git fast-forward ODER echter ZIP-Weg ohne
+    Git), danach läuft der Sync getrennt als eigener Prozess, und zuletzt
+    wird ein Neustart angeboten/verlangt — kein Weiterspielen mit bereits
+    importierten alten Modulen."""
+    print(bold("\n  [4] Nach Updates suchen\n"))
+    print(dim("  Ich frage die offizielle Quelle, ohne etwas zu verändern..."))
 
-    # Git-Pull (nur wenn Repo git-versioniert)
-    if (REPO / ".git").exists() and _cmd_available("git"):
-        if not _update_repo_via_git():
-            # Stash-Pop-Konflikt o.ä. — Sync überspringen, damit wir nicht gegen
-            # konflikt-markierte Dateien pushen.
-            _pause()
-            return
-    else:
-        print(dim("  Kein Git-Repo (vermutlich ZIP-Download) - überspringe git pull."))
+    result = launcher_update_module.check_for_update(REPO)
+    local = result.local
 
-    # Env laden, dann Sync
-    if not _ensure_owui_env():
-        print(red("\n  OPENWEBUI_API_KEY fehlt — bitte erst Menüpunkt [1] (Komplett-Setup)"))
-        print(red("  oder [5] (API-Keys ändern) ausführen, damit ~/.openwebui_env existiert."))
+    print(f"  Installierter Stand: {_describe_local_update_state(local)}")
+    print(dim(f"  Geprüft: {result.checked_at}"))
+
+    if result.status == "unknown":
+        print(yellow(f"  Updates konnten nicht geprüft werden: {result.reason}."))
+        print(dim("  Dein bisheriger Stand bleibt erhalten."))
         _pause()
         return
 
+    if result.status == "current":
+        if not result.sync_pending:
+            print(green(f"  ✓ Aktuell. Zuletzt geprüft: {result.checked_at}."))
+            _pause()
+            return
+        print(yellow("  Programmdateien sind aktuell — die Synchronisierung mit OpenWebUI ist aber"))
+        print(yellow("  noch offen (vorheriger Sync-Versuch unvollständig)."))
+        ans = _prompt("  Jetzt synchronisieren? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            _run_update_sync_step()
+        else:
+            print(dim("  Übersprungen — bleibt offen, ein erneuter Check verdeckt das nicht als 'Aktuell'."))
+        _pause()
+        return
+
+    # result.status == "update_available"
+    local_rev = local.rev[:10] if local.rev else "?"
+    print(yellow(f"  Update verfügbar: {result.remote_rev[:10]} (dein Stand: {local_rev})."))
+    if local.dirty:
+        print(yellow("  Hinweis: Du hast lokale Änderungen an Repo-Dateien — die werden beim"))
+        print(yellow("  Update NICHT automatisch verworfen (s. Rückmeldung unten, falls das blockiert)."))
+    ans = _prompt("  Jetzt installieren? (j/n) [n]: ").strip().lower()
+    if ans not in ("j", "y", "ja", "yes"):
+        print(dim("  Kein Update installiert. Dein bisheriger Stand bleibt erhalten."))
+        _pause()
+        return
+
+    target_rev = result.remote_rev
+    if local.source == "git":
+        gres = launcher_update_module.perform_git_update(REPO, target_rev=target_rev)
+        if not gres.ok:
+            print(red(f"  {gres.message}"))
+            _pause()
+            return
+        print(green(f"  ✓ {gres.message}"))
+        launcher_update_module.mark_files_updated(REPO, method="git", rev=gres.new_rev or target_rev)
+    else:
+        zip_url = launcher_update_module.build_archive_url(target_rev)
+        zres = launcher_update_module.perform_zip_update(REPO, zip_url=zip_url, target_rev=target_rev)
+        if not zres.ok:
+            print(red(f"  {zres.message}"))
+            _pause()
+            return
+        print(green(f"  ✓ {zres.message}"))
+
     print()
-    sync_ok = False
-    try:
-        setup_module.run_sync(REPO, load_cfg())
-        sync_ok = True
-    except SystemExit as e:
-        code = e.code if isinstance(e.code, int) else 1
-        if code == 0:
-            sync_ok = True
-        else:
-            print(red(f"\n  Sync abgebrochen (Exit {code})."))
-            print(dim("  Tipp: Menü [6] Diagnose zeigt, was fehlt."))
-    except Exception as e:
-        print(red(f"\n  Update fehlgeschlagen: {e.__class__.__name__}: {e}"))
+    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
+    _run_update_sync_step()
 
-    if sync_ok:
-        print()
-        if project_hook is not None:
-            print(green("  ✓ Update abgeschlossen — starte mit Menü [M] ZEITRISS spielen (Terminal)."))
-        else:
-            print(green(f"  ✓ Update abgeschlossen — starte mit Menü [3] {meta()['start_label']}."))
-
+    print()
+    print(yellow("  Update installiert. Bitte den Launcher neu starten."))
+    ans = _prompt("  Jetzt neu starten? (j/n) [j]: ").strip().lower()
+    if ans in ("", "j", "y", "ja", "yes"):
+        launcher_update_module.restart_launcher(REPO)
+        return
+    print(dim("  Ok — bitte vor [M]/[1]/[3] den Launcher neu starten, damit nichts Altes importiert bleibt."))
     _pause()
 
 
@@ -1838,14 +1814,14 @@ def action_diagnose() -> None:
                 if kb_id == KB_ID_MISSING:
                     print(red("   ✗  Preset hat keine KB verlinkt (meta.knowledge leer)."))
                     fixes.append((
-                        "Menü [4] Aktualisieren — verknüpft Preset und KB neu.",
+                        "Automatischer Sync — verknüpft Preset und KB neu.",
                         "sync",
                     ))
                     kb_id = None
                 elif kb_id == KB_ID_WEIRD:
                     print(yellow("   !  Preset gefunden, aber meta.knowledge hat unerwartetes Format."))
                     fixes.append((
-                        "Menü [4] Aktualisieren — Preset/KB werden dabei neu verknüpft.",
+                        "Automatischer Sync — Preset/KB werden dabei neu verknüpft.",
                         "sync",
                     ))
                     kb_id = None
@@ -1860,7 +1836,7 @@ def action_diagnose() -> None:
                         else:
                             print(red("   ✗  KB-Retrieval lieferte 0 Treffer — KB ist leer oder nicht indexiert."))
                             fixes.append((
-                                "Menü [4] Aktualisieren — triggert einen Sync, der die KB neu indexiert.",
+                                "Automatischer Sync — indexiert die KB neu.",
                                 "sync",
                             ))
         except Exception as e:
@@ -1949,7 +1925,11 @@ def action_diagnose() -> None:
             # der User nach dem Auto-Fix-"j" gleich den partial-Prompt nochmal.
             action_install(_skip_state_check=True)
         elif kind == "sync":
-            action_update()
+            # ZR-ALTAIR-UPDATER-SPIELTEST-20261118-r2: NICHT mehr action_update()
+            # (das ist jetzt der volle "Nach Updates suchen"-Ablauf inkl.
+            # Quellencheck/Installfrage/Neustart) -- die Diagnose will hier nur
+            # gezielt den Preset/KB-Sync nachholen, unabhängig vom Codestand.
+            _run_update_sync_step()
         elif kind == "litellm":
             # Minimaler Fix: nur den LiteLLM-Cache nachinstallieren.
             # Lässt Preset, KB und Embeddings völlig unangetastet (kein
@@ -2393,7 +2373,7 @@ def main() -> int:
         if has_mmo_sim:
             print("   [M]  ZEITRISS spielen (Terminal)")
         print(f"   [3]  {m['start_label']} (Browser öffnen)")
-        print("   [4]  Aktualisieren (git pull + Sync)")
+        print("   [4]  Nach Updates suchen")
         print("   [5]  API-Keys ändern")
         print("   [6]  Bei mir läuft was nicht (Diagnose)")
         print("   [7]  Reset — Neuinstallation (⚠ destruktiv)")

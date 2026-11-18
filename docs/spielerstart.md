@@ -81,6 +81,12 @@ du sie im Hauptmenü erneut öffnen. Das Terminal verwendet beim normalen
 Neustart die zuletzt für seine Datenablage verwendete Teilnehmeridentität.
 Eine abweichende `--participant`-Angabe ist ein bewusster Teilnehmerwechsel.
 
+Ob eine neuere Version vorliegt, prüfst du im Launcher-Menü (dort, wo auch
+`[1]`/`[M]`/`[3]` stehen) über **`[4] Nach Updates suchen`** — das gilt
+gleich für ZIP- und Git-Installationen und lässt deine Figuren, Saves und
+Keys unberührt. Details, Beispieltexte und was bei einem Abbruch passiert:
+[Setup-Guide, Updates und Wartung](setup-guide.md#updates-und-wartung).
+
 ## Dein Menü
 
 | Eingabe | Was du dort machst |

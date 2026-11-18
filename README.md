@@ -264,7 +264,9 @@ Kurz der ganze Weg von der Erstinstallation zum ersten Zug:
 5. **Nach fertiger Einrichtung `[M] ZEITRISS spielen (Terminal)`.** Ein
    späterer Start läuft über denselben `./zeitriss.sh`-Starter;
    Einrichtung und Keys werden automatisch wieder geladen, kein
-   erneutes Eintragen nötig.
+   erneutes Eintragen nötig. Neue Programmversionen holst du dir direkt im
+   Launcher über **`[4] Nach Updates suchen`** (ZIP- und Git-Installation
+   gleich) — Details: [Setup-Guide](docs/setup-guide.md#updates-und-wartung).
 
 Über **`charaktere`** wählst du eine Figur, erschaffst eine neue oder
 importierst einen vorhandenen Save. **`spielen`** führt dich zur

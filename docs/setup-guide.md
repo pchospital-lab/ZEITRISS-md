@@ -210,11 +210,14 @@ API-Key**.
 Der normale Weg ist der **ZIP-Download**: Auf GitHub "Code → Download ZIP"
 klicken, entpacken, Terminal im entpackten Ordner öffnen (siehe
 [Wie öffne ich ein Terminal?](terminal-help.md)). Updates holst du dir
-dann per erneutem ZIP-Download.
+danach direkt im Launcher über **[4] Nach Updates suchen** — ein erneuter
+manueller ZIP-Download ist dafür NICHT mehr nötig (s.
+[Updates und Wartung](#updates-und-wartung)).
 
 **Entwickleralternative — Git-Checkout:** Wer Git installiert hat und
-inkrementelle Updates via Launcher-Menüpunkt [4] (`git pull` + Sync)
-nutzen will, kann stattdessen klonen:
+lieber per `git pull` aktualisiert, kann stattdessen klonen — der
+Launcher nutzt in diesem Fall automatisch den Git-Fast-forward-Weg statt
+des ZIP-Wegs:
 
 ```bash
 git clone https://github.com/pchospital-lab/ZEITRISS-md.git
@@ -255,7 +258,7 @@ Keys als ✓ oder -) und ein Menü, gruppiert in *Einrichtung* und
   ── Im Betrieb ──────────────────────────────
    [M]  ZEITRISS spielen (Terminal)
    [3]  Regelwerk im Chat ausprobieren (Browser öffnen)
-   [4]  ZEITRISS aktualisieren (git pull + Sync)
+   [4]  Nach Updates suchen
    [5]  API-Keys ändern
    [6]  Bei mir läuft was nicht (Diagnose)
    [7]  Reset — Neuinstallation (⚠ destruktiv)
@@ -475,9 +478,13 @@ dabei nicht dupliziert.
 > 💡 **Cloud-Setup abgebrochen und Menüpunkt [1] später erneut gestartet?**
 > Im Cloud-Referenzweg leitet ein bereits erkannter Bestand
 > (Preset + verknüpfte Knowledge Base) dich zunächst auf
-> **[4] Aktualisieren** um — der Launcher
-> erreicht danach trotzdem automatisch denselben Verkabelungs-Check wie
-> hier in 6.5 (verknüpft/prüft OWUI↔LiteLLM erneut, idempotent). Dabei
+> **[4] Nach Updates suchen** um. Lehnst du dort ein evtl. angebotenes
+> Update ab (oder bist du ohnehin schon aktuell), erreicht der Launcher
+> danach trotzdem automatisch denselben Verkabelungs-Check wie
+> hier in 6.5 (verknüpft/prüft OWUI↔LiteLLM erneut, idempotent) — nur ein
+> tatsächlich bestätigter Neustart nach einem installierten Update
+> unterbricht das (dann einfach den Launcher neu starten, [1] zeigt den
+> Verkabelungs-Check danach wieder). Dabei
 > wird nichts an Preset oder Knowledge Base gelöscht. Lag der Abbruch
 > zwischen KB- und Preset-Anlage (eine KB ohne zugehöriges Preset),
 > ergänzt der Launcher nur den fehlenden Teil, statt die KB neu
@@ -700,28 +707,48 @@ optional über dessen Bereitstellung. Der Workflow veröffentlicht nichts automa
 
 ## Updates und Wartung
 
-### Der einfache Weg: Launcher-Menüpunkt [4]
+### Der einfache Weg: Launcher-Menüpunkt [4] "Nach Updates suchen"
 
 ```bash
 python scripts/zeitriss.py
 ```
 
-Dann **[4] ZEITRISS aktualisieren** wählen. Der Launcher macht
-automatisch:
+Dann **[4] Nach Updates suchen** wählen — egal ob du per ZIP oder per
+`git clone` installiert hast. Der Launcher:
 
-1. `git pull --ff-only` im Repo (bei lokalen Änderungen legt er sie
-   kurz auf den Stash-Stack und stellt sie danach wieder her).
-2. `~/.openwebui_env` laden (deine Keys).
-3. Inkrementellen Sync starten - überträgt nur, was sich geändert hat.
+1. **Prüft**, ohne irgendetwas zu verändern: zeigt deinen installierten
+   Stand, den zuletzt geprüften verfügbaren Stand und entweder "Aktuell",
+   "Update verfügbar" oder eine konkrete Fehlermeldung (z. B. keine
+   Internetverbindung). Ein nicht erreichbarer Server oder ein nicht
+   sicher bestimmbarer Stand (z. B. eine uralte, nie aktualisierte
+   ZIP-Installation) wird NIE stillschweigend als "Aktuell" angezeigt.
+2. **Installiert nur nach deiner ausdrücklichen Zustimmung** genau die
+   geprüfte Zielrevision — per `git fetch` + Fast-forward bei einem
+   Git-Checkout, oder per ZIP-Download + Sicherheitsprüfung + Übernahme
+   bei einer ZIP-Installation. Lokale Änderungen an Repo-Dateien oder ein
+   divergierter Branch stoppen den Vorgang mit einer konkreten Meldung,
+   statt etwas zu überschreiben oder zu verwerfen. Deine Saves,
+   Figuren, Config und Keys bleiben in jedem Fall unberührt.
+3. **Synct danach separat** (`setup.py --sync` in einem frischen
+   Python-Prozess) — Programmdateien und Backend-Sync sind getrennte
+   Ergebnisse. Scheitert der Sync (z. B. weil kein API-Key gesetzt ist),
+   bleibt das sichtbar "offen"; ein erneuter Check verdeckt das nicht als
+   "Aktuell".
+4. **Verlangt einen Neustart** nach einer erfolgreichen Installation und
+   bietet ihn direkt an — der Launcher spielt nie mit bereits importierten
+   alten Programmdateien weiter.
 
-Das ist der empfohlene Weg, weil du dir nichts merken musst.
+Das ist der empfohlene Weg für ZIP- UND Git-Nutzer, weil du dir nichts
+merken musst und nichts kaputtgehen kann, ohne dass du es ausdrücklich
+bestätigt hast.
 
 ### Für CLI-Fans: direkt via `setup.py --sync`
 
-Intern ruft der Launcher das Script `setup.py` auf - du kannst es auch
-direkt nutzen, brauchst du aber nicht. Der Launcher-Menüpunkt [4] macht
-genau das Gleiche und kümmert sich zusätzlich um `git pull` und das
-Laden deiner Keys. Direkt via CLI:
+Intern ruft der Launcher für den Sync-Schritt das Script `setup.py` auf -
+du kannst es auch direkt nutzen, brauchst du aber nicht. Das deckt NUR
+den Sync-Teil ab (Preset/KB) — den Download-/Installationsteil von
+**[4]** (Git-Fast-forward oder ZIP-Übernahme) gibt es auf der CLI nicht
+separat, dafür bleibt der Launcher der direkte Weg. Direkt via CLI:
 
 ```bash
 git pull
@@ -781,8 +808,11 @@ Richtig in folgenden Fällen:
 
 - **Erstinstallation** - `--sync` verlangt ein existierendes Preset.
 - **Nach OpenWebUI-Major-Upgrade** - Knowledge-Schema kann sich ändern.
-- **ZIP-Download-User** - ohne Git geht `--sync` nicht (Manifest wäre
-  bei jedem frischen ZIP-Entpacken wieder weg).
+- **ZIP neu entpackt statt über [4] aktualisiert** - ein manuell frisch
+  entpackter ZIP-Ordner hat noch kein Sync-Manifest; der ERSTE Lauf nach
+  so einem manuellen Entpacken behandelt automatisch alle Dateien als
+  "geneu" (s. oben) und legt das Manifest neu an. Über **[4]** aktualisierte
+  ZIP-Installationen haben ihr Manifest dagegen schon.
 - **Zerschossener Zustand** - wenn `--sync` mehrfach fehlschlägt und
   der Fehler unklar bleibt.
 
