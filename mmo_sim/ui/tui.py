@@ -3128,6 +3128,13 @@ class TuiSession:
         except core_admission.OperatorBudgetAlreadyGrantedError as e:
             self._print(f"  {e}")
             return False
+        except core_admission.OperatorBudgetCorruptedStatusError as e:
+            # R4-02-Fix: dieselbe fail-closed-Meldung wie bei
+            # `_offer_operator_budget_raise` -- eine beschaedigte
+            # lab.status.json wird auch hier NICHT stillschweigend als
+            # leeres Profil ueberschrieben.
+            self._print(f"  {e}")
+            return False
         self._print(
             f"  ✓ Freigabe eingerichtet: max. {max_turns} Anfragen, {max_seconds:.0f}s, {max_usd:.2f} USD."
         )
@@ -11648,8 +11655,28 @@ class TuiSession:
         Hochsetzen.' Zeigt die AKTUELLEN Werte zuerst, verlangt dann fuer
         JEDES Feld eine explizite neue Eingabe (kein Default-Weiterklicken
         auf einen höheren Wert) und bestaetigt den vollen neuen Rahmen
-        VOR dem Schreiben."""
-        from ..core.admission import OperatorBudgetAlreadyGrantedError, grant_operator_budget
+        VOR dem Schreiben.
+
+        R4-02-Fix (01_GENERAL_REVIEW.md R4-02, 02_NACHZUG_AUFTRAG.md Block
+        B): dieser Schreibweg wird ueber das allgemeine Einstellungen-
+        Kommando erreicht (`_cmd_settings`, von BEIDEN Dispatch-Eintraegen
+        `s`/`einstellungen` gerufen -- ein Gate hier deckt also jeden
+        Alias/Dispatcher, kein zweiter Einstieg) OHNE die bestehende
+        Rollengrenze (`_require_host`, s. dortiger Docstring: "JEDE
+        Hostaktion ... kategorisch gesperrt"). `_cmd_settings` selbst
+        bleibt fuer Gaeste LESBAR (Status/`_print_budget_breakdown`) -- NUR
+        dieser konkrete Schreibpfad (Mutation von `lab.status.json`)
+        bekommt jetzt denselben Gate-Aufruf wie jede andere Host-only-
+        Aktion in dieser Datei (erstes Statement der Methode, identisches
+        Muster zu `_cmd_table_offer`/`_cmd_new_or_switch_character` etc.) --
+        `run()` faengt die resultierende `GuestCapabilityError` bereits
+        zentral ab, kein neuer Fehlerpfad noetig."""
+        self._require_host("Betreiber-Budgetgrenze anheben (einstellungen budget erhoehen)")
+        from ..core.admission import (
+            OperatorBudgetAlreadyGrantedError,
+            OperatorBudgetCorruptedStatusError,
+            grant_operator_budget,
+        )
         from ..lab.runner import read_status
 
         status = read_status(run_dir)
@@ -11686,6 +11713,12 @@ class TuiSession:
                 run_dir, max_turns=new_turns, max_seconds=new_seconds, max_usd=new_usd, allow_overwrite=True,
             )
         except OperatorBudgetAlreadyGrantedError as e:  # pragma: no cover - sollte mit allow_overwrite nie auftreten
+            self._print(f"  {e}")
+            return
+        except OperatorBudgetCorruptedStatusError as e:
+            # R4-02-Fix: beschaedigte lab.status.json wird NICHT stillschweigend
+            # als leeres Profil mit Null-Zaehlern "reparieren" -- nichts
+            # geschrieben, Betreiber muss die Datei selbst pruefen.
             self._print(f"  {e}")
             return
         self._print("  ✓ Betreibergrenze aktualisiert.")

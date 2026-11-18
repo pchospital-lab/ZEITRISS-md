@@ -149,33 +149,84 @@ def _lock_path(repo: Path) -> Path:
     return repo / LOCK_FILENAME
 
 
+def _try_create_lock_exclusively(lp: Path, payload: str) -> bool:
+    """`True`, wenn DIESER Aufruf die Sperrdatei atomar NEU angelegt hat
+    (`O_CREAT|O_EXCL` -- ein einziger Kernel-Syscall, kein getrenntes
+    exists/write). `False`, wenn die Datei bereits existiert (von wem auch
+    immer)."""
+    try:
+        fd = os.open(str(lp), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+    except FileExistsError:
+        return False
+    with os.fdopen(fd, "w") as fh:
+        fh.write(payload)
+    return True
+
+
 def acquire_update_lock(repo: Path) -> Optional[str]:
     """`None` bei Erfolg, sonst ein Fehlertext (Lock bereits von einem
-    lebenden Prozess gehalten)."""
+    lebenden Prozess gehalten).
+
+    R4-05a-Fix (01_GENERAL_REVIEW.md R4-05a, 02_NACHZUG_AUFTRAG.md Block
+    C): vorher waren `exists()`/Lesen/Pruefen und das abschliessende
+    `write_text()` getrennte Schritte -- zwei Prozesse konnten beide die
+    Sperre als frei sehen und beide anschliessend schreiben (TOCTOU). Der
+    Normalfall (noch keine Sperrdatei, ODER eine Sperrdatei eines lebenden
+    fremden Prozesses) ist jetzt durch `O_CREAT|O_EXCL` in EINEM Syscall
+    atomar entschieden. Nur der enge Sonderfall "vorhandene Sperre ist
+    verwaist (toter PID)" braucht weiterhin ein `unlink()` + einen ZWEITEN
+    `O_EXCL`-Versuch -- dieser zweite Versuch bleibt fuer sich atomar:
+    gewinnt ein anderer Prozess das sehr kurze Fenster zwischen `unlink`
+    und dem neuen `open`, scheitert dieser zweite Versuch mit demselben
+    sichtbaren "laeuft bereits"-Fehlertext, KEIN stiller Doppelerfolg."""
     lp = _lock_path(repo)
-    if lp.exists():
+    payload = f"{os.getpid()} {_now_iso()}\n"
+    if _try_create_lock_exclusively(lp, payload):
+        return None
+
+    held_pid = None
+    try:
+        held_pid = int(lp.read_text("utf-8").strip().split()[0])
+    except (OSError, ValueError, IndexError):
         held_pid = None
+    if held_pid is not None and held_pid != os.getpid():
+        alive = True
         try:
-            held_pid = int(lp.read_text("utf-8").strip().split()[0])
-        except (OSError, ValueError, IndexError):
-            held_pid = None
-        if held_pid is not None and held_pid != os.getpid():
-            alive = True
-            try:
-                os.kill(held_pid, 0)
-            except ProcessLookupError:
-                alive = False
-            except OSError:
-                alive = True  # z. B. PermissionError -> existiert, gehört jemand anderem
-            if alive:
-                return f"Ein anderer Update-Vorgang läuft bereits (PID {held_pid}) — bitte warten oder abbrechen."
-    lp.write_text(f"{os.getpid()} {_now_iso()}\n", "utf-8")
-    return None
+            os.kill(held_pid, 0)
+        except ProcessLookupError:
+            alive = False
+        except OSError:
+            alive = True  # z. B. PermissionError -> existiert, gehört jemand anderem
+        if alive:
+            return f"Ein anderer Update-Vorgang läuft bereits (PID {held_pid}) — bitte warten oder abbrechen."
+
+    # Verwaist (toter PID) ODER unlesbar/beschädigt -- gezielt entfernen und
+    # ATOMAR neu anlegen (kein blindes `write_text` mehr an dieser Stelle).
+    try:
+        lp.unlink()
+    except OSError:
+        pass
+    if _try_create_lock_exclusively(lp, payload):
+        return None
+    return "Ein anderer Update-Vorgang hat die Sperre soeben übernommen — bitte erneut versuchen."
 
 
 def release_update_lock(repo: Path) -> None:
+    """R4-05a-Fix: entfernt NUR die EIGENE Sperre -- vorher `unlink()` ohne
+    Besitzervergleich, was eine inzwischen (z. B. nach verwaister
+    Übernahme durch einen ANDEREN, neu gestarteten Prozess) aktiv gehaltene
+    fremde Sperre gelöscht hätte. Unlesbare/fremde/fehlende Sperrdatei
+    bleibt unverändert (kein Raten, kein Löschen ohne bestätigtes
+    Eigentum)."""
+    lp = _lock_path(repo)
     try:
-        _lock_path(repo).unlink()
+        held_pid = int(lp.read_text("utf-8").strip().split()[0])
+    except (OSError, ValueError, IndexError):
+        return
+    if held_pid != os.getpid():
+        return
+    try:
+        lp.unlink()
     except OSError:
         pass
 
@@ -186,6 +237,61 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: fh.read(65536), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def _apply_executable_bits(src: Path, dst: Path) -> None:
+    """R4-03-Fix (01_GENERAL_REVIEW.md R4-03, 02_NACHZUG_AUFTRAG.md Block
+    C): SHA256-Gleichheit sagt NICHTS über Dateimodi -- die in
+    `validate_and_stage_zip` wiederhergestellten `0o111`-Bits kamen bei
+    identischen Bytes bisher NICHT am Ziel an (der Resume-Skip ließ `dst`
+    komplett unberührt, auch dessen Modus). Additiv NUR die ausführbaren
+    Bits (`0o111`) aus dem bereits geprüften Staging-Quellmode auf `dst`
+    übernehmen -- kein Folgen von Symlinks (Verteidigung in der Tiefe:
+    `dst` ist an diesem Punkt bereits über `_resolved_dst_escapes_repo`
+    als Nicht-Symlink bestätigt, hier zusätzlich erneut geprüft) und kein
+    Übernehmen irgendwelcher anderer Modusbits (SUID/SGID/Sticky/Gruppen-/
+    World-Schreibrechte aus dem Paket bleiben unberührt, nur die drei
+    Ausführen-Bits werden -- additiv ODER-verknüpft, nie ersetzend --
+    gesetzt)."""
+    if dst.is_symlink():
+        return
+    try:
+        wanted = src.stat().st_mode & 0o111
+        if not wanted:
+            return
+        dst_mode = dst.stat().st_mode
+        if (dst_mode & 0o111) != wanted:
+            os.chmod(dst, dst_mode | wanted)
+    except OSError:
+        pass
+
+
+def _atomic_copy_file(src: Path, dst: Path) -> None:
+    """R4-04-Fix (01_GENERAL_REVIEW.md R4-04, 02_NACHZUG_AUFTRAG.md Block
+    C): `shutil.copy2` schrieb bisher DIREKT in `dst` -- ein I/O-Fehler
+    mitten in einer einzelnen Kopie konnte `dst` bereits gekürzt/teilweise
+    überschrieben zurücklassen; ein Wiederanlauf, der nur Quell- ODER
+    vollen Zielhash kennt, wertete einen solchen Teilinhalt als FREMDE
+    Abweichung (`deviated`/`unverified`) statt als eigenen abgebrochenen
+    Schritt. Stattdessen: vollständige Kopie in eine TEMPORÄRE Datei im
+    GLEICHEN Zielverzeichnis (gleiches Dateisystem, `os.replace` ist dort
+    atomar) -- `dst` wird so NIE in einem Teilzustand sichtbar: ein Fehler
+    WÄHREND des Kopierens lässt `dst` unverändert (altes Original oder gar
+    nicht vorhanden), ein Fehler NACH dem Kopieren aber vor `os.replace`
+    hinterlässt höchstens eine verwaiste Temp-Datei (kein Produktpfad)."""
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{dst.name}.", suffix=".zrupd-tmp", dir=str(dst.parent))
+    os.close(fd)
+    tmp_path = Path(tmp_name)
+    try:
+        shutil.copy2(src, tmp_path)
+        os.replace(tmp_path, dst)
+    except OSError:
+        try:
+            tmp_path.unlink()
+        except OSError:
+            pass
+        raise
 
 
 # ── Git-IO (read-only wo möglich) ────────────────────────────────────────
@@ -627,6 +733,12 @@ class AdoptResult:
     files_copied: int = 0
     deviated: list = field(default_factory=list)
     unverified: list = field(default_factory=list)
+    # R4-05b-Fix: Altdateien, deren Löschung aus Pfad-/Symlink-
+    # Schutzgründen übersprungen wurde (bleiben als "weiterhin verwaltet"
+    # im Manifest stehen) -- getrennt von `removed`, damit der Aufrufer
+    # diesen Fall nicht mit einer normal entfernten entfallenen Datei
+    # verwechselt.
+    deletion_skipped: list = field(default_factory=list)
 
 
 def _resolved_dst_escapes_repo(repo_real: Path, dst: Path) -> bool:
@@ -788,14 +900,30 @@ def _adopt_staged_update_locked(
             if dst.exists():
                 try:
                     if _sha256_file(dst) == planned_hash:
+                        # R4-03-Fix: identische Bytes duerfen fehlende
+                        # 0o111-Bits nicht ueberspringen (s. _apply_
+                        # executable_bits-Docstring).
+                        _apply_executable_bits(src, dst)
                         new_manifest[rel.as_posix()] = planned_hash
+                        # R4-04-Fix (Zielbindung): das Manifest wird PRO
+                        # DATEI persistiert (nicht erst am Ende) -- ein
+                        # Abbruch an SPAETERER Stelle laesst den Fortschritt
+                        # bis hierher ehrlich im State stehen, statt ihn bei
+                        # einem naechsten Lauf (ggf. gegen eine inzwischen
+                        # NEUERE Remote-Revision) als fremde Abweichung
+                        # misszudeuten (s. Moduldoc-Verweis R4-04 oben).
+                        write_state(repo, managed_files=new_manifest)
                         continue  # R3-03: bereits auf Zielstand, nicht erneut schreiben
                 except OSError:
                     pass
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src, dst)
+            # R4-04-Fix: atomarer Austausch statt direkter `shutil.copy2`
+            # in `dst` -- ein Fehler WAEHREND dieser einen Datei kann `dst`
+            # dadurch nicht mehr in einem teilweise geschriebenen Zustand
+            # zuruecklassen (s. _atomic_copy_file-Docstring).
+            _atomic_copy_file(src, dst)
             new_manifest[rel.as_posix()] = planned_hash
             copied += 1
+            write_state(repo, managed_files=new_manifest)  # R4-04: pro Datei persistiert, s.o.
     except OSError as e:
         write_state(repo, sync_status="failed", install_error=f"{e.__class__.__name__}: {e}")
         return AdoptResult(False, (
@@ -811,11 +939,34 @@ def _adopt_staged_update_locked(
     # damit nie eine fremde/lokal veränderte Datei mitgelöscht wird).
     new_relposix = {rel.as_posix() for _src, rel, _h in planned}
     removed = []
+    deletion_skipped = []
     for relposix, old_hash in prior_manifest.items():
         if relposix in new_relposix:
             continue
         p = repo / relposix
+        # R4-05b-Fix (01_GENERAL_REVIEW.md R4-05b, 02_NACHZUG_AUFTRAG.md
+        # Block C): dieselbe Ziel-/Symlink-Schutzprüfung wie bei geplanten
+        # Kopien -- OHNE sie würde `p.unlink()` einem Symlink-Elternordner
+        # (oder einem selbst symlinkten `p`) folgen und außerhalb der
+        # Installation löschen. Eine so geschützte Datei bleibt bewusst
+        # als weiterhin "verwaltet" im Manifest stehen (kein Löschversuch)
+        # und wird dem Aufrufer getrennt von `removed` gemeldet -- die
+        # Dateiübernahme selbst ist zu diesem Zeitpunkt bereits
+        # abgeschlossen, ein Abbruch der GESAMTEN Übernahme wäre hier nicht
+        # verhältnismäßig.
+        if _resolved_dst_escapes_repo(repo_real, p):
+            deletion_skipped.append(relposix)
+            continue
         if not p.exists():
+            # R4-05c-Fix (01_GENERAL_REVIEW.md R4-05c): eine bereits VOR
+            # dieser Übernahme fehlende Altdatei war nie "soeben entfernt"
+            # -- sie wird trotzdem aus dem Manifest genommen (ein weiterhin
+            # gemeldeter "verwaltet"-Eintrag für eine nicht mehr
+            # existierende Datei würde den nächsten Lauf fälschlich als
+            # dirty/entfallen markieren), aber bewusst NICHT in `removed`
+            # gezählt (ehrliche Unterscheidung "von diesem Lauf entfernt"
+            # vs. "war schon vorher weg").
+            new_manifest.pop(relposix, None)
             continue
         try:
             if _sha256_file(p) != old_hash:
@@ -826,6 +977,10 @@ def _adopt_staged_update_locked(
             p.unlink()
             removed.append(relposix)
         except OSError:
+            # R4-05c-Fix: eine fehlgeschlagene Löschung bleibt bewusst im
+            # Manifest stehen (die Datei existiert unveraendert mit ihrem
+            # alten Hash weiter -- "weiterhin verwaltet" ist hier ehrlich,
+            # NICHT "erfolgreich entfernt").
             continue
         new_manifest.pop(relposix, None)
 
@@ -836,7 +991,14 @@ def _adopt_staged_update_locked(
     msg = "Programmdateien übernommen. Die Synchronisierung mit OpenWebUI steht noch aus."
     if removed:
         msg += f" ({len(removed)} entfallene Datei(en) entfernt.)"
-    return AdoptResult(True, msg, files_copied=copied)
+    if deletion_skipped:
+        shown = ", ".join(deletion_skipped[:5])
+        more = f" (+{len(deletion_skipped) - 5} weitere)" if len(deletion_skipped) > 5 else ""
+        msg += (
+            f" ACHTUNG: {len(deletion_skipped)} entfallene Datei(en) NICHT gelöscht (Pfad zeigt über "
+            f"einen Symlink aus der Installation heraus, bleiben als verwaltet stehen): {shown}{more}."
+        )
+    return AdoptResult(True, msg, files_copied=copied, deletion_skipped=deletion_skipped)
 
 
 @dataclass

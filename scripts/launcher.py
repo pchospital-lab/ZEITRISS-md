@@ -1451,17 +1451,15 @@ def _attempt_zip_install(target_rev: str) -> "launcher_update_module.ZipUpdateRe
     )
 
 
-def _finish_update_installation(result_message: str) -> None:
-    """Gemeinsamer Abschluss nach einer erfolgreichen Datei-Übernahme (Git
-    ODER ZIP): Sync als neuer Prozess, dann Neustart anbieten/verlangen
-    (R3-05). Lehnt der Nutzer den Neustart ab, bleibt [M]/[1]/[2]/[L]/[3]
-    gesperrt, bis ein echter neuer Prozess läuft."""
+def _offer_pending_restart_now() -> None:
+    """R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block
+    D): der tatsächliche "[4] erneut ausführen, um neu zu starten"-Weg,
+    den die Sperrmeldung verspricht UND den `_finish_update_installation`
+    bei einer frischen Installation anbietet. Ausgelagert, damit
+    `action_update()` ihn SOFORT (vor jedem neuen `check_for_update`)
+    anbieten kann, wenn `_update_restart_required` bereits aus einem
+    FRÜHEREN Aufruf steht (s. dortiger Aufrufer-Docstring)."""
     global _update_restart_required
-    print(green(f"  ✓ {result_message}"))
-    print()
-    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
-    _run_update_sync_step()
-
     print()
     print(yellow("  Update installiert. Bitte den Launcher neu starten."))
     ans = _prompt("  Jetzt neu starten? (j/n) [j]: ").strip().lower()
@@ -1474,6 +1472,29 @@ def _finish_update_installation(result_message: str) -> None:
     _pause()
 
 
+def _finish_update_installation(result_message: str) -> None:
+    """Gemeinsamer Abschluss nach einer erfolgreichen Datei-Übernahme (Git
+    ODER ZIP): Sync als neuer Prozess, dann Neustart anbieten/verlangen
+    (R3-05). Lehnt der Nutzer den Neustart ab, bleibt [M]/[1]/[2]/[L]/[3]
+    gesperrt, bis ein echter neuer Prozess läuft.
+
+    R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block D):
+    `_update_restart_required` wird jetzt BEREITS HIER (ab dem relevanten
+    Dateiwechsel, VOR dem Sync) gesetzt, nicht erst nach einem evtl.
+    abgelehnten Neustart am Ende -- ein unerwarteter Fehler/Abbruch
+    WÄHREND des nachgelagerten Syncs (`_run_update_sync_step`) darf die
+    Neustartpflicht nicht verschlucken; die bereits auf der Platte
+    liegenden neuen Dateien bleiben sonst unbemerkt mit alten, bereits
+    importierten Modulen vermischt."""
+    global _update_restart_required
+    _update_restart_required = True
+    print(green(f"  ✓ {result_message}"))
+    print()
+    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
+    _run_update_sync_step()
+    _offer_pending_restart_now()
+
+
 def action_update() -> None:
     """[4] Nach Updates suchen — U1-U6: fragt auf ausdrückliche Auswahl die
     offizielle Quelle (git ls-remote / GitHub-API), OHNE Dateien zu tauschen
@@ -1481,9 +1502,28 @@ def action_update() -> None:
     Zielrevision installiert (Git fast-forward ODER echter ZIP-Weg ohne
     Git), danach läuft der Sync getrennt als eigener Prozess, und zuletzt
     wird ein Neustart angeboten/verlangt — kein Weiterspielen mit bereits
-    importierten alten Modulen."""
+    importierten alten Modulen.
+
+    R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block D):
+    steht aus einem FRÜHEREN Aufruf bereits eine Neustartpflicht
+    (`_update_restart_required`, z. B. weil der Nutzer den Neustart beim
+    letzten Mal abgelehnt hat), bietet [4] den ausstehenden echten
+    Prozesswechsel JETZT SOFORT an -- VOR jedem neuen `check_for_update`.
+    Vorher konnte ein frischer Check "current" (Dateien bereits aktuell,
+    GENAU WEIL die letzte Installation schon erfolgreich war) oder
+    "current, Sync noch offen" melden und VORHER zurückkehren, OHNE je
+    wieder einen Neustart anzubieten -- das von der Sperrmeldung
+    versprochene "[4] erneut ausführen, um neu zu starten" hätte den
+    ausstehenden Prozesswechsel NIE eingelöst. Gilt unabhängig davon, ob
+    die Quelle aktuell erreichbar ist (keine Netzabfrage nötig, um eine
+    bereits lokal abgeschlossene Installation neu zu starten)."""
     global _update_restart_required
     print(bold("\n  [4] Nach Updates suchen\n"))
+
+    if _update_restart_required:
+        _offer_pending_restart_now()
+        return
+
     print(dim("  Ich frage die offizielle Quelle, ohne etwas zu verändern..."))
 
     result = launcher_update_module.check_for_update(REPO)

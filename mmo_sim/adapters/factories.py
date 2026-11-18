@@ -14,6 +14,8 @@ wiederverwenden")."""
 from __future__ import annotations
 
 import importlib
+import json
+import math
 import os
 from pathlib import Path
 
@@ -552,6 +554,81 @@ def _load_gm_transport_double(spec: str):
         ) from None
 
 
+def _resolve_cloud_gm_output_limit_tokens(repo_root: Path, sl_model: str | None) -> float:
+    """R4-01-Fix (01_GENERAL_REVIEW.md R4-01, 02_NACHZUG_AUFTRAG.md Block A):
+    leitet die wirksame GM-Ausgabegrenze fuer die Remote-/Cloud-Route
+    (`_gm_provider` 'legacy'/'cloud') aus der TATSAECHLICH konfigurierten
+    `setup.json` ab -- derselbe Dateipfad, den `scripts/mmo_sim.py:
+    _resolve_active_gm_route` bereits zum Lesen des Presets benutzt
+    (`repo_root / "setup.json"`, direkter JSON-Read). Bewusst NICHT
+    `setup.load_config()` -- das bricht bei Fehlern mit `sys.exit(1)` ab
+    statt eine abfangbare Exception zu werfen, ungeeignet fuer eine
+    Bibliotheksfunktion, die aus einem laufenden TUI/Lab-Prozess heraus
+    aufgerufen wird.
+
+    Bindet `params.max_tokens` an die Variante, deren `preset_id` dem
+    bereits live aufgeloesten `sl_model` entspricht (Resolver-/
+    Override-Prioritaet: ein variantenspezifisches `params`-Override, falls
+    vorhanden, vor dem setup.json-weiten `params`-Default -- identisches
+    Vorrangmuster zu `scripts/setup.py:variant_capabilities`/
+    `variant_reasoning_effort`). Faellt auf `default_variant` zurueck, wenn
+    kein `sl_model` uebergeben wurde oder keine Variante passt (z.B. ein
+    externer Test-Double). Fehlende Datei/fehlender Schluessel/ungueltiger
+    Wert haelt fail-closed (RuntimeError, GM-Route-Halt-Konvention dieser
+    Datei) -- kein stiller Fallback auf unbegrenzt, keine erfundene Zahl,
+    kein Nullkostenmarker. Die endgueltige Positiv-/Endlichkeits-/
+    Ganzzahlvalidierung bleibt an der EINEN bestehenden Stelle
+    (`gm_owui._validate_gm_output_limit_tokens`, B2) -- dieser Resolver
+    lehnt hier nur eindeutig unbrauchbare Rohwerte vorab ab, um eine klare
+    Fehlermeldung MIT Dateibezug zu liefern."""
+    setup_path = repo_root / "setup.json"
+    try:
+        raw_cfg = json.loads(setup_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"GM-Route haelt: '{setup_path}' nicht lesbar ({exc.__class__.__name__}: {exc}) -- "
+            "keine wirksame GM-Ausgabegrenze ableitbar, kein Versand ohne bekannte Grenze "
+            "(Q07 bleibt aktiv, kein stiller Fallback auf unbegrenzt)."
+        ) from exc
+    if not isinstance(raw_cfg, dict):
+        raise RuntimeError(
+            f"GM-Route haelt: '{setup_path}' hat keine gueltige Objektstruktur -- "
+            "keine wirksame GM-Ausgabegrenze ableitbar."
+        )
+    variants = raw_cfg.get("variants")
+    variants = variants if isinstance(variants, dict) else {}
+    variant: dict | None = None
+    if sl_model:
+        for candidate in variants.values():
+            if isinstance(candidate, dict) and candidate.get("preset_id") == sl_model:
+                variant = candidate
+                break
+    if variant is None:
+        default_variant_key = raw_cfg.get("default_variant")
+        candidate = variants.get(default_variant_key) if isinstance(default_variant_key, str) else None
+        variant = candidate if isinstance(candidate, dict) else None
+    params = None
+    if isinstance(variant, dict) and isinstance(variant.get("params"), dict):
+        params = variant["params"]
+    elif isinstance(raw_cfg.get("params"), dict):
+        params = raw_cfg["params"]
+    raw_value = params.get("max_tokens") if isinstance(params, dict) else None
+    if (
+        isinstance(raw_value, bool)
+        or not isinstance(raw_value, (int, float))
+        or not math.isfinite(raw_value)
+        or raw_value <= 0
+        or raw_value != int(raw_value)
+    ):
+        raise RuntimeError(
+            f"GM-Route haelt: '{setup_path}' params.max_tokens={raw_value!r} ist keine "
+            "positive endliche Ganzzahl -- keine wirksame GM-Ausgabegrenze ableitbar, kein "
+            "Versand ohne bekannte Grenze (Q07 bleibt aktiv). Naechster Schritt: setup.json "
+            "params.max_tokens korrigieren oder MMO_SIM_GM_OUTPUT_LIMIT_TOKENS explizit setzen."
+        )
+    return float(int(raw_value))
+
+
 def default_gm_transport_factory(
     data_dir: Path, repo_root: Path,
     sl_model: str | None = None, kb_id: str | None = None,
@@ -822,6 +899,28 @@ def default_gm_transport_factory(
             # Lokaler Startwert (02: 4096) statt stillem Fallback auf
             # unbegrenzt -- nur wirksam, wenn keine explizite Grenze gesetzt ist.
             gm_output_limit_tokens = float(local_gm_profile.gm_max_tokens)
+        else:
+            # R4-01-Fix (01_GENERAL_REVIEW.md R4-01, 02_NACHZUG_AUFTRAG.md
+            # Block A): fuer die Remote-/Cloud-Route (`_gm_provider` 'legacy'
+            # oder 'cloud', s. `setup.resolve_model_provider`-Docstring)
+            # blieb `gm_output_limit_tokens` bisher `None`, WENN keine
+            # explizite Env-Grenze gesetzt war -- admission.py:664ff blockt
+            # dann JEDEN dollar_billed-Call ungeachtet des realen bisherigen
+            # Verbrauchs (Konfig-Luecke, kein zu kleines Budget). Statt einer
+            # neu erfundenen Zahl wird dieselbe TATSAECHLICH ausgewaehlte
+            # `setup.json`-Konfiguration abgeleitet, die `scripts/mmo_sim.py:
+            # _resolve_active_gm_route` bereits zur Preset-Aufloesung liest
+            # (`_resolve_cloud_gm_output_limit_tokens` unten) -- derselbe
+            # Rueckgabewert dieser Factory erreicht anschliessend Reservierung
+            # (`creation_service.py` liest `gm_transport.output_limit_tokens`),
+            # Requestdatensatz (`request_ledger.begin(output_limit_tokens=...)`)
+            # UND den tatsaechlichen Transportparameter (`GmOwuiTransport.
+            # output_limit_tokens` -> `SLSession.turn(output_limit_tokens=...)`),
+            # weil alle drei denselben Wert lesen. Fehlend/ungueltig haelt
+            # fail-closed (RuntimeError), KEIN stiller Fallback auf
+            # unbegrenzt und KEIN hartkodiertes 64000 -- der Wert kommt aus
+            # der gelesenen Konfigurationsdatei, nicht aus dieser Funktion.
+            gm_output_limit_tokens = _resolve_cloud_gm_output_limit_tokens(repo_root, sl_model)
 
         def _optional_number(env_name: str, caster):
             raw = os.environ.get(env_name)

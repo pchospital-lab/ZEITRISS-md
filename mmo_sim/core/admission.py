@@ -443,6 +443,19 @@ class OperatorBudgetAlreadyGrantedError(RuntimeError):
     """s. `grant_operator_budget`-Docstring."""
 
 
+class OperatorBudgetCorruptedStatusError(RuntimeError):
+    """R4-02-Fix (01_GENERAL_REVIEW.md R4-02, 02_NACHZUG_AUFTRAG.md Block
+    B): eine VORHANDENE, aber beschaedigte/unlesbare `lab.status.json`
+    (kaputtes JSON ODER kein Objekt) wird von `grant_operator_budget` NICHT
+    stillschweigend als leeres Profil mit auf 0 zurueckgesetzten Zaehlern
+    behandelt -- ein moeglicher vorheriger Verbrauchsstand (turns_used/
+    usd_spent/usd_unknown_turns) darf nicht unbemerkt verschwinden. Der
+    Aufrufer (TUI) muss diesen Zustand sichtbar melden, OHNE zu schreiben;
+    ein ECHTES erstmaliges Fehlen der Datei bleibt davon unberuehrt (dieser
+    Fall synthetisiert weiterhin ganz normal ein frisches Profil, s.
+    unten)."""
+
+
 def grant_operator_budget(
     run_dir: str | Path, *, max_turns: int, max_seconds: float, max_usd: float | None = None,
     allow_overwrite: bool = False,
@@ -472,12 +485,27 @@ def grant_operator_budget(
     status_path = _status_path(run_dir)
     data: dict = {}
     if status_path.exists():
+        # R4-02-Fix: eine VORHANDENE, aber beschaedigte/unlesbare Datei ist
+        # NICHT dasselbe wie ein ECHTES erstmaliges Fehlen -- vorher wurde
+        # beides identisch zu `data = {}` kollabiert, wodurch ein etwaiger
+        # vorheriger Verbrauchsstand (turns_used/usd_spent) beim naechsten
+        # Schreiben stillschweigend auf 0 zurueckfiel ("als leeres Profil
+        # reparieren"). Fail-closed: sichtbar halten statt synthetisieren.
         try:
             data = json.loads(status_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            data = {}
-    if not isinstance(data, dict):
-        data = {}
+        except (OSError, json.JSONDecodeError) as exc:
+            raise OperatorBudgetCorruptedStatusError(
+                f"'{status_path}' ist vorhanden, aber beschaedigt/nicht lesbar "
+                f"({exc.__class__.__name__}: {exc}) -- KEIN automatisches Zuruecksetzen auf ein "
+                "leeres Profil mit Null-Zaehlern (ein moeglicher vorheriger Verbrauchsstand "
+                "bliebe sonst stillschweigend verloren). Datei pruefen/sichern, bevor eine neue "
+                "Betreibergrenze gesetzt wird."
+            ) from exc
+        if not isinstance(data, dict):
+            raise OperatorBudgetCorruptedStatusError(
+                f"'{status_path}' hat keine gueltige Objektstruktur (kein JSON-Objekt) -- KEIN "
+                "automatisches Zuruecksetzen auf ein leeres Profil mit Null-Zaehlern."
+            )
     if not allow_overwrite and any(
         _is_finite_number(data.get(k)) for k in ("max_turns", "max_seconds", "max_usd")
     ):
