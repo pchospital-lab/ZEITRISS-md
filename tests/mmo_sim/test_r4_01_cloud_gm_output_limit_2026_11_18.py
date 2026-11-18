@@ -187,6 +187,42 @@ def test_cloud_route_derives_bound_from_matching_setup_variant():
         _cleanup(repo_root, data_dir, tmp_home)
 
 
+def test_cloud_route_without_resolved_preset_does_not_derive_bound():
+    """R4-01b-Gegenfall (Kontrollpunkt Y-N3,
+    tests/mmo_sim/test_h02_vollreise_profiles_2026_09_28.py::test_y_n3_missing_
+    gm_output_bound_blocks_under_hard_budget): der synthetische Lab-/Testpfad
+    (`mmo_sim/lab/cli.py:489`) baut diese Factory OHNE `sl_model`. Dann gibt
+    es keine gewaehlte Cloud-Konfiguration -- die Factory darf KEINEN Bound
+    aus einer vorhandenen `setup.json` ableiten (auch nicht blind aus
+    `default_variant`/Top-Level-`params`), sondern muss `gm_output_limit_
+    tokens=None` lassen, damit `admission.py` den fehlenden GM-Outputbound
+    weiterhin fail-closed blockt ("Kein durchsetzbares Ausgabe-/Gesamtlimit
+    ...", 0 GM-Receipts). Vor der r4-Korrektur fiel der Resolver hier blind
+    auf `default_variant` zurueck und lieferte 64000 -> defeatete den
+    Kontrollpunkt (CI-Rot an genau diesem H02-Test)."""
+    repo_root, data_dir, tmp_home = _isolated_dirs()
+    saved_env = {k: os.environ.pop(k, None) for k in _ENV_KEYS_TO_CLEAR}
+    try:
+        (repo_root / "setup.json").write_text(json.dumps({
+            "default_variant": "sonnet",
+            "variants": {"sonnet": {"preset_id": "r4-01-preset"}},
+            "params": {"max_tokens": 64000},
+        }), encoding="utf-8")
+        transport = _run_cloud_factory(
+            repo_root, data_dir, tmp_home, sl_model=None, kb_id="r4-01-kb",
+        )
+        assert transport.gm_output_limit_tokens is None, (
+            f"ohne aufgeloestes Cloud-Preset haette KEIN Bound abgeleitet werden "
+            f"duerfen (Kontrollpunkt Y-N3 muss fail-closed bleiben), war "
+            f"{transport.gm_output_limit_tokens!r}."
+        )
+    finally:
+        for k, v in saved_env.items():
+            if v is not None:
+                os.environ[k] = v
+        _cleanup(repo_root, data_dir, tmp_home)
+
+
 def test_explicit_env_override_still_wins_over_setup_json():
     """Gegenfall (b): eine vorhandene EXPLIZITE `MMO_SIM_GM_OUTPUT_LIMIT_
     TOKENS` behaelt weiterhin Vorrang vor der aus `setup.json` abgeleiteten

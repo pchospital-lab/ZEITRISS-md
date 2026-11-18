@@ -573,7 +573,11 @@ def _resolve_cloud_gm_output_limit_tokens(repo_root: Path, sl_model: str | None)
     Vorrangmuster zu `scripts/setup.py:variant_capabilities`/
     `variant_reasoning_effort`). Faellt auf `default_variant` zurueck, wenn
     kein `sl_model` uebergeben wurde oder keine Variante passt (z.B. ein
-    externer Test-Double). Fehlende Datei/fehlender Schluessel/ungueltiger
+    externer Test-Double). Hinweis: der tatsaechliche Factory-Aufrufer
+    (`default_gm_transport_factory`) ruft diesen Resolver ab r4 NUR mit einem
+    konkret aufgeloesten `sl_model` auf -- der `sl_model=None`-Fall (der
+    synthetische Lab-/Testpfad) bleibt dort bewusst fail-closed (`None` ->
+    admission), s. R4-01b/Kontrollpunkt Y-N3. Fehlende Datei/fehlender Schluessel/ungueltiger
     Wert haelt fail-closed (RuntimeError, GM-Route-Halt-Konvention dieser
     Datei) -- kein stiller Fallback auf unbegrenzt, keine erfundene Zahl,
     kein Nullkostenmarker. Die endgueltige Positiv-/Endlichkeits-/
@@ -899,7 +903,7 @@ def default_gm_transport_factory(
             # Lokaler Startwert (02: 4096) statt stillem Fallback auf
             # unbegrenzt -- nur wirksam, wenn keine explizite Grenze gesetzt ist.
             gm_output_limit_tokens = float(local_gm_profile.gm_max_tokens)
-        else:
+        elif sl_model:
             # R4-01-Fix (01_GENERAL_REVIEW.md R4-01, 02_NACHZUG_AUFTRAG.md
             # Block A): fuer die Remote-/Cloud-Route (`_gm_provider` 'legacy'
             # oder 'cloud', s. `setup.resolve_model_provider`-Docstring)
@@ -921,6 +925,24 @@ def default_gm_transport_factory(
             # unbegrenzt und KEIN hartkodiertes 64000 -- der Wert kommt aus
             # der gelesenen Konfigurationsdatei, nicht aus dieser Funktion.
             gm_output_limit_tokens = _resolve_cloud_gm_output_limit_tokens(repo_root, sl_model)
+        else:
+            # R4-01b (Spieltest-Nachzug r4, Kontrollpunkt Y-N3 in
+            # tests/mmo_sim/test_h02_vollreise_profiles_2026_09_28.py): ohne
+            # KONKRET aufgeloeste Cloud-Preset-ID (`sl_model` None -- der
+            # synthetische Lab-/Testpfad `mmo_sim/lab/cli.py:489` baut diese
+            # Factory bewusst OHNE `sl_model`) existiert KEINE gewaehlte
+            # Cloud-Konfiguration, aus der eine wirksame Grenze abzuleiten
+            # waere. `gm_output_limit_tokens` bleibt `None` -> `admission.py`
+            # haelt mit der UNVERAENDERTEN Begruendung "Kein durchsetzbares
+            # Ausgabe-/Gesamtlimit fuer diesen Treiber ermittelbar"
+            # fail-closed (exakt das Pre-R4-01-Verhalten dieses Pfades) --
+            # KEIN Rueckfall auf `default_variant`, KEIN erfundener Wert, der
+            # fehlende GM-Outputbound bleibt ein scharfer Kontrollpunkt. Der
+            # ECHTE Spielerpfad (`scripts/mmo_sim.py:585` ->
+            # `_resolve_active_gm_route`) reicht IMMER die preset_id der
+            # setup.json-Default-Variante durch (truthy `sl_model`) und
+            # erreicht damit den `elif`-Zweig oben -- F1 unveraendert.
+            gm_output_limit_tokens = None
 
         def _optional_number(env_name: str, caster):
             raw = os.environ.get(env_name)
