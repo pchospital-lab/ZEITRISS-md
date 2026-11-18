@@ -203,27 +203,78 @@ def _acquire_lock_worker(repo_str: str, queue) -> None:
     queue.put((os.getpid(), err))
 
 
+def _acquire_lock_worker_wait_before_exit(repo_str: str, queue, start_barrier, release_event) -> None:
+    """Stage-1b-verschaerfter Race-Worker (D1, Praezisierung 3): beide
+    Prozesse starten ihren Erwerbsversuch so gleichzeitig wie moeglich
+    (Barrier) -- echter Wettlauf um die FRISCHE Sperre. Danach bleibt
+    JEDER Prozess (ob Gewinner oder Verlierer) aktiv am Leben, blockiert
+    auf `release_event`, bis der Testharness BEIDE PIDs als lebend
+    verifiziert hat. Damit kann ein etwaiger zweiter 'Erfolg' nicht mehr
+    damit erklaert werden, dass der eigentliche Gewinner zwischenzeitlich
+    beendet und seine Sperre vom Verlierer legitim als verwaist reklamiert
+    wurde -- zwei Erfolge wuerden dann zwingend echte ueberlappende
+    Eigentuemerschaft beweisen (02_NACHZUG_AUFTRAG.md D1, Praezisierung 3:
+    'zwei erfolgreiche Rueckmeldungen beweisen fuer sich allein noch keine
+    ueberlappenden Besitzer', solange der Worker sofort endet -- hier
+    endet er eben NICHT sofort)."""
+    from pathlib import Path as _Path
+    start_barrier.wait(timeout=10)
+    err = lu.acquire_update_lock(_Path(repo_str))
+    queue.put((os.getpid(), err))
+    release_event.wait(timeout=10)
+
+
 class TestR405aAtomicOwnedLock(_AdoptFixtureBase):
     def test_two_real_processes_racing_for_a_fresh_lock_exactly_one_wins(self):
-        """01_GENERAL_REVIEW.md R4-05a: vorher waren `exists()`/Lesen und
-        das abschliessende `write_text()` GETRENNTE Schritte -- zwei
-        Prozesse konnten beide die Sperre als frei sehen und beide
-        anschliessend schreiben (TOCTOU). Echter Mehrprozess-Wettlauf
-        (kein simulierter Singlethread-Ablauf): zwei UNABHAENGIGE
-        Betriebssystemprozesse rufen `acquire_update_lock` auf DIESELBE,
-        bisher nicht existierende Sperrdatei auf -- mit `O_CREAT|O_EXCL`
-        gewinnt GENAU einer, der andere bekommt einen Fehlertext, NIEMALS
-        beide Erfolg."""
+        """01_GENERAL_REVIEW.md R4-05a + Stage-1b-Verschaerfung (D1):
+        vorher waren `exists()`/Lesen und das abschliessende
+        `write_text()` GETRENNTE Schritte -- zwei Prozesse konnten beide
+        die Sperre als frei sehen und beide anschliessend schreiben
+        (TOCTOU). Echter Mehrprozess-Wettlauf (kein simulierter
+        Singlethread-Ablauf): zwei UNABHAENGIGE Betriebssystemprozesse
+        rufen `acquire_update_lock` ueber eine Barrier SYNCHRONISIERT auf
+        DIESELBE, bisher nicht existierende Sperrdatei auf.
+
+        Verschaerfung ggue. der urspruenglichen Fassung: BEIDE Prozesse
+        bleiben nach ihrem Erwerbsversuch aktiv am Leben (blockiert auf
+        einem Event), bis dieser Test BEIDE PIDs explizit per
+        `os.kill(pid, 0)` als lebend bestaetigt hat. Der bisherige Worker
+        endete SOFORT nach der Rueckmeldung -- ein zweiter Erfolg haette
+        sich damit theoretisch als 'Gewinner ist zwischenzeitlich bereits
+        beendet, Verlierer hat die dadurch wirklich verwaiste Sperre
+        rechtmaessig uebernommen' erklaeren lassen, OHNE dass echte
+        ueberlappende Eigentuemerschaft vorliegt. Mit der Lebend-Garantie
+        ist diese alternative Erklaerung ausgeschlossen: gewinnt mit
+        dieser Garantie trotzdem ein zweiter Prozess, MUSS das echte
+        ueberlappende Eigentuemerschaft im geschuetzten Abschnitt sein."""
         ctx = multiprocessing.get_context("fork")
         q = ctx.Queue()
-        procs = [ctx.Process(target=_acquire_lock_worker, args=(str(self.repo), q)) for _ in range(2)]
+        start_barrier = ctx.Barrier(2)
+        release_event = ctx.Event()
+        procs = [
+            ctx.Process(
+                target=_acquire_lock_worker_wait_before_exit,
+                args=(str(self.repo), q, start_barrier, release_event),
+            )
+            for _ in range(2)
+        ]
         for p in procs:
             p.start()
+
+        results = [q.get(timeout=10) for _ in range(2)]
+        for pid, _err in results:
+            alive = True
+            try:
+                os.kill(pid, 0)
+            except ProcessLookupError:
+                alive = False
+            self.assertTrue(alive, f"Prozess {pid} haette zu diesem Zeitpunkt noch leben muessen")
+
+        release_event.set()
         for p in procs:
             p.join(timeout=10)
             self.assertEqual(p.exitcode, 0, "Kindprozess ist abgestuerzt/haengt")
 
-        results = [q.get(timeout=5) for _ in range(2)]
         successes = [r for r in results if r[1] is None]
         failures = [r for r in results if r[1] is not None]
         self.assertEqual(len(successes), 1, f"genau EIN Prozess haette gewinnen muessen: {results}")
@@ -232,6 +283,90 @@ class TestR405aAtomicOwnedLock(_AdoptFixtureBase):
         # Die Sperrdatei zeigt am Ende die PID des GEWINNERS.
         held_pid = int(lu._lock_path(self.repo).read_text("utf-8").split()[0])
         self.assertEqual(held_pid, successes[0][0])
+
+    def test_pre_created_empty_lock_is_rejected_and_not_deleted(self):
+        """Stage-1b (D1, Praezisierung 1): deterministische Simulation des
+        Anlage->Payload-Fensters. Eine andere Instanz koennte ihre
+        Sperrdatei unter dem finalen Namen bereits sichtbar haben, deren
+        Inhalt aber noch nicht fertig geschrieben sein -- hier wird dieses
+        Fenster direkt nachgebildet: eine LEERE Lockdatei liegt bereits
+        vor dem Aufruf von `acquire_update_lock` bereit. VOR dem Fix waere
+        das als 'verwaist/unlesbar' fehlinterpretiert worden
+        (`"".split()[0]` -> `IndexError` -> `held_pid=None` -> blindes
+        `unlink()`). Mit dem Fix: leer ist KEIN Beleg fuer Verwaistheit --
+        abweisen, NICHT loeschen."""
+        lp = lu._lock_path(self.repo)
+        lp.write_text("", encoding="utf-8")
+
+        err = lu.acquire_update_lock(self.repo)
+
+        self.assertIsNotNone(err, "eine leer vorgefundene Sperre haette NICHT uebernommen werden duerfen")
+        self.assertTrue(lp.exists(), "die leere Sperre haette NICHT geloescht werden duerfen")
+        self.assertEqual(lp.read_text("utf-8"), "", "die vorgefundene Sperre haette unveraendert bleiben muessen")
+
+    def test_orphan_removal_helper_refuses_to_delete_a_meanwhile_reacquired_living_lock(self):
+        """Clobber-Schutz (D1, Praezisierung 2): eine WIRKLICH verwaiste
+        Sperre (toter PID) wurde zwischen dem Verwaistheits-Check und dem
+        geplanten `unlink()` bereits von einem DRITTEN Prozess legitim
+        uebernommen -- die Lockdatei zeigt jetzt einen LEBENDEN fremden
+        PID. Der injizierbare Helfer
+        `_remove_orphaned_lock_if_still_owned_by` muss diesen
+        zwischenzeitlichen Unterschied erkennen und NICHT loeschen (sonst
+        wuerde ein verspaeteter zweiter Uebernahmeversuch den frisch
+        erworbenen Lock klauen -- der eigentliche Clobber-Bug)."""
+        dead_pid = 999999  # praktisch garantiert nicht belegt
+        lp = lu._lock_path(self.repo)
+        lp.write_text(f"{dead_pid} 2020-01-01T00:00:00Z\n", encoding="utf-8")
+
+        # Zwischenzeitlich (nach dem Verwaistheits-Check, VOR dem geplanten
+        # unlink) hat ein Dritter die Sperre bereits legitim neu erworben --
+        # lebender PID (die eigene PID dieses Testprozesses ist garantiert lebend).
+        living_pid = os.getpid()
+        lp.write_text(f"{living_pid} {lu._now_iso()}\n", encoding="utf-8")
+
+        removed = lu._remove_orphaned_lock_if_still_owned_by(lp, dead_pid)
+
+        self.assertFalse(removed, "ein inzwischen neu erworbener lebender Lock haette NICHT entfernt werden duerfen")
+        self.assertTrue(lp.exists())
+        self.assertEqual(int(lp.read_text("utf-8").split()[0]), living_pid)
+
+    def test_acquire_refuses_and_does_not_delete_a_living_foreign_lock(self):
+        """Schutz einer lebenden fremden Sperre: PID 1 (init) simuliert
+        einen garantiert lebenden fremden Prozess -- `acquire_update_lock`
+        darf diese Sperre weder uebernehmen noch loeschen."""
+        lu._lock_path(self.repo).write_text(f"1 {lu._now_iso()}\n", encoding="utf-8")
+
+        err = lu.acquire_update_lock(self.repo)
+
+        self.assertIsNotNone(err)
+        self.assertIn("läuft bereits", err)
+        self.assertTrue(lu._lock_path(self.repo).exists())
+        self.assertEqual(lu._lock_path(self.repo).read_text("utf-8").split()[0], "1")
+
+    def test_legitimate_acquire_after_release_succeeds(self):
+        """Gegenprobe: nach regulaerer Freigabe (`release_update_lock`)
+        bleibt ein neuer Erwerb moeglich -- der Stage-1b-Fix sperrt nur
+        das Leer-Fenster und den Clobber-Pfad, nicht den Normalbetrieb."""
+        err1 = lu.acquire_update_lock(self.repo)
+        self.assertIsNone(err1, err1)
+        lu.release_update_lock(self.repo)
+        self.assertFalse(lu._lock_path(self.repo).exists())
+
+        err2 = lu.acquire_update_lock(self.repo)
+        self.assertIsNone(err2, "nach regulaerer Freigabe haette ein neuer Erwerb gelingen muessen")
+
+    def test_legitimate_acquire_after_real_owner_death_succeeds(self):
+        """Gegenprobe: eine Sperre mit einem TATSAECHLICH toten PID bleibt
+        nach dem Fix weiterhin rechtmaessig uebernehmbar (kein
+        Dauerausschluss durch den Clobber-Schutz)."""
+        dead_pid = 999999
+        lu._lock_path(self.repo).write_text(f"{dead_pid} 2020-01-01T00:00:00Z\n", encoding="utf-8")
+
+        err = lu.acquire_update_lock(self.repo)
+
+        self.assertIsNone(err, err)
+        held_pid = int(lu._lock_path(self.repo).read_text("utf-8").split()[0])
+        self.assertEqual(held_pid, os.getpid())
 
     def test_release_only_removes_own_lock_not_a_foreign_one(self):
         """01_GENERAL_REVIEW.md R4-05a: `release_update_lock` loeschte

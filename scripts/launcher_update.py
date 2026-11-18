@@ -150,22 +150,75 @@ def _lock_path(repo: Path) -> Path:
 
 
 def _try_create_lock_exclusively(lp: Path, payload: str) -> bool:
-    """`True`, wenn DIESER Aufruf die Sperrdatei atomar NEU angelegt hat
-    (`O_CREAT|O_EXCL` -- ein einziger Kernel-Syscall, kein getrenntes
-    exists/write). `False`, wenn die Datei bereits existiert (von wem auch
-    immer)."""
+    """`True`, wenn DIESER Aufruf die Sperrdatei unter ihrem finalen Namen
+    atomar MIT vollständigem Inhalt veröffentlicht hat. `False`, wenn `lp`
+    bereits existiert (von wem auch immer) -- in diesem Fall bleibt eine
+    eventuell schon vorhandene fremde Sperre UNBERÜHRT.
+
+    Stage-1b-TOCTOU-Fix (D1, 02_NACHZUG_AUFTRAG.md): vorher öffnete
+    `os.open(lp, O_CREAT|O_EXCL|O_WRONLY)` die Datei UNTER DEM FINALEN
+    NAMEN leer und schrieb das PID-Payload erst danach in einem
+    GETRENNTEN zweiten Schritt (`os.fdopen(fd, "w").write(...)`) --
+    zwischen Anlage und fertigem Schreiben war die Datei für jeden
+    anderen Prozess LEER SICHTBAR (ein zeitgleicher Leser sah
+    `"".split()[0]` -> `IndexError` -> fälschlich "verwaist" -> blindes
+    `unlink()` löschte die noch gar nicht fertige fremde Sperre). Jetzt
+    wird der Payload vollständig in eine prozess-eindeutige Temp-Datei IM
+    SELBEN Verzeichnis geschrieben (gleiches Dateisystem -- Voraussetzung
+    für `os.link`) und erst DANACH per `os.link(tmp, lp)` unter dem
+    finalen Namen veröffentlicht: `link()` ist ein einziger Kernel-
+    Syscall, der entweder (a) mit `FileExistsError` scheitert, wenn `lp`
+    bereits existiert -- OHNE sie anzufassen, erhält also Exklusivität
+    und überschreibt NIE eine fremde Sperre --, oder (b) sofort mit dem
+    KOMPLETTEN Inhalt erscheint. Eine leer sichtbare Zwischenstufe unter
+    dem finalen Namen gibt es dadurch nicht mehr."""
+    tmp_fd, tmp_name = tempfile.mkstemp(
+        dir=str(lp.parent), prefix=f".{lp.name}.{os.getpid()}.", suffix=".tmp",
+    )
+    tmp_path = Path(tmp_name)
     try:
-        fd = os.open(str(lp), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
-    except FileExistsError:
+        with os.fdopen(tmp_fd, "w") as fh:
+            fh.write(payload)
+        try:
+            os.link(str(tmp_path), str(lp))
+        except FileExistsError:
+            return False
+        return True
+    finally:
+        try:
+            tmp_path.unlink()
+        except OSError:
+            pass
+
+
+def _remove_orphaned_lock_if_still_owned_by(lp: Path, expected_dead_pid: int) -> bool:
+    """Entfernt `lp` NUR, wenn sie UNMITTELBAR vor dem Löschen noch exakt
+    denselben (bereits als tot bestätigten) PID trägt wie beim
+    Verwaistheits-Check -- verhindert, dass ein zwischenzeitlich von einem
+    DRITTEN Prozess legitim neu erworbener (jetzt lebender) Lock durch ein
+    blindes `unlink()` geklaut/gelöscht wird (Clobber-Schutz, Präzisierung
+    2 aus 02_NACHZUG_AUFTRAG.md D1). `True`, wenn tatsächlich entfernt;
+    `False`, wenn die Sperre inzwischen abweicht (fremd übernommen,
+    verändert oder bereits verschwunden) -- dann bleibt sie unberührt und
+    der Aufrufer muss die Übernahme abbrechen. Eigener kleiner, injizier-
+    barer Helfer (kein Test-only-Pfad), damit die Regression dieses enge
+    Zeitfenster deterministisch prüfen kann."""
+    try:
+        current_pid = int(lp.read_text("utf-8").strip().split()[0])
+    except (OSError, ValueError, IndexError):
         return False
-    with os.fdopen(fd, "w") as fh:
-        fh.write(payload)
+    if current_pid != expected_dead_pid:
+        return False
+    try:
+        lp.unlink()
+    except OSError:
+        return False
     return True
 
 
 def acquire_update_lock(repo: Path) -> Optional[str]:
     """`None` bei Erfolg, sonst ein Fehlertext (Lock bereits von einem
-    lebenden Prozess gehalten).
+    lebenden Prozess gehalten, soeben geschrieben oder beschädigt).
 
     R4-05a-Fix (01_GENERAL_REVIEW.md R4-05a, 02_NACHZUG_AUFTRAG.md Block
     C): vorher waren `exists()`/Lesen/Pruefen und das abschliessende
@@ -178,18 +231,36 @@ def acquire_update_lock(repo: Path) -> Optional[str]:
     `O_EXCL`-Versuch -- dieser zweite Versuch bleibt fuer sich atomar:
     gewinnt ein anderer Prozess das sehr kurze Fenster zwischen `unlink`
     und dem neuen `open`, scheitert dieser zweite Versuch mit demselben
-    sichtbaren "laeuft bereits"-Fehlertext, KEIN stiller Doppelerfolg."""
+    sichtbaren "laeuft bereits"-Fehlertext, KEIN stiller Doppelerfolg.
+
+    Stage-1b-TOCTOU-Fix (D1): dieser R4-05a-Fix allein schloss NICHT das
+    Leer-Fenster zwischen Dateianlage und fertigem Payload-Schreiben unter
+    dem FINALEN Namen (siehe `_try_create_lock_exclusively`). Zusätzlich
+    gilt jetzt (02_NACHZUG_AUFTRAG.md D1, Präzisierung 1): ein leer ODER
+    unlesbar/beschädigt vorgefundener Lock ist KEIN Beleg für Verwaistheit
+    und wird NICHT gelöscht, sondern nur abgewiesen -- nur ein ERFOLGREICH
+    gelesener PID, der sich per `os.kill(pid, 0)` als TOT bestätigt,
+    gilt als verwaist und wird (besitzgeprüft über
+    `_remove_orphaned_lock_if_still_owned_by`, Präzisierung 2) entfernt."""
     lp = _lock_path(repo)
     payload = f"{os.getpid()} {_now_iso()}\n"
     if _try_create_lock_exclusively(lp, payload):
         return None
 
-    held_pid = None
     try:
         held_pid = int(lp.read_text("utf-8").strip().split()[0])
     except (OSError, ValueError, IndexError):
-        held_pid = None
-    if held_pid is not None and held_pid != os.getpid():
+        # Leer ODER unlesbar/beschädigt ist seit Stage 1b KEIN Beleg mehr
+        # für Verwaistheit: ein anderer Prozess könnte GENAU JETZT seine
+        # Temp-Datei veröffentlichen, oder die Sperre ist tatsächlich
+        # beschädigt. In BEIDEN Fällen: NICHT löschen, nur abweisen --
+        # verständlicher Fehlertext statt blindem unlink().
+        return (
+            "Ein anderer Update-Vorgang läuft bereits (Sperre wird soeben "
+            "geschrieben oder ist beschädigt) — bitte erneut versuchen."
+        )
+
+    if held_pid != os.getpid():
         alive = True
         try:
             os.kill(held_pid, 0)
@@ -200,12 +271,12 @@ def acquire_update_lock(repo: Path) -> Optional[str]:
         if alive:
             return f"Ein anderer Update-Vorgang läuft bereits (PID {held_pid}) — bitte warten oder abbrechen."
 
-    # Verwaist (toter PID) ODER unlesbar/beschädigt -- gezielt entfernen und
-    # ATOMAR neu anlegen (kein blindes `write_text` mehr an dieser Stelle).
-    try:
-        lp.unlink()
-    except OSError:
-        pass
+    # Verwaist (bestätigt toter PID) -- besitzgeprüft entfernen: nur wenn
+    # UNMITTELBAR vor dem Löschen noch exakt derselbe tote PID dort steht
+    # (sonst hat ein Dritter die Sperre inzwischen legitim übernommen, s.
+    # `_remove_orphaned_lock_if_still_owned_by`), danach ATOMAR neu anlegen.
+    if not _remove_orphaned_lock_if_still_owned_by(lp, held_pid):
+        return "Ein anderer Update-Vorgang hat die Sperre soeben übernommen — bitte erneut versuchen."
     if _try_create_lock_exclusively(lp, payload):
         return None
     return "Ein anderer Update-Vorgang hat die Sperre soeben übernommen — bitte erneut versuchen."
