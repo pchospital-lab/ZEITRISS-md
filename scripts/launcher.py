@@ -1424,6 +1424,32 @@ def _block_if_restart_required(action_label: str) -> bool:
     return True
 
 
+# R5-01 (01_GENERAL_REVIEW.md R5-01, 02_NACHZUG_AUFTRAG.md §A): eine
+# unterbrochene ZIP-Übernahme (`_adopt_staged_update_locked` scheitert
+# nach mindestens einer erfolgreich ausgetauschten Datei an einem
+# `OSError`) hinterlässt einen gemischten Dateistand -- `ok=False`, die
+# Funktion kehrt zurück, OHNE je `_finish_update_installation` (und damit
+# `_update_restart_required`) zu erreichen. `_block_if_restart_required`
+# prüft NUR dieses flüchtige In-Memory-Attribut; ein frischer Prozess
+# startet mit `False` und würde den Mischstand nicht als eigene Sperre
+# erkennen. `launcher_update_module.incomplete_install()` liest den
+# PERSISTENTEN `install_phase`-Marker frisch von der Platte -- dieser
+# Guard hier ist das Gegenstück dazu, disk-gelesen und damit auch über
+# einen Prozessneustart hinweg wirksam.
+def _block_if_install_incomplete(action_label: str) -> bool:
+    incomplete = launcher_update_module.incomplete_install(REPO)
+    if not incomplete:
+        return False
+    rev_short = incomplete.target_rev[:10]
+    print(red(f"\n  ⛔ {action_label} ist jetzt gesperrt."))
+    print(yellow(f"  Eine vorherige Installation ist nicht vollständig abgeschlossen (Zielrevision {rev_short})."))
+    print(dim("  Programmdateien sind gemischt zwischen altem und neuem Stand — bitte zuerst [4]"))
+    print(dim("  ausführen und die Installation fertigstellen (oder bewusst auf eine neuere Revision"))
+    print(dim("  umlenken). Danach sind [M]/[1]/[L]/[2]/[3] wieder frei."))
+    _pause()
+    return True
+
+
 def _attempt_zip_install(target_rev: str) -> "launcher_update_module.ZipUpdateResult":
     """R3-02: ein erster Versuch ohne Freigabe deckt `unverified`-Dateien
     (existierende, nie verwaltete Dateien, die vom neuen Paketinhalt
@@ -1495,6 +1521,70 @@ def _finish_update_installation(result_message: str) -> None:
     _offer_pending_restart_now()
 
 
+def _offer_incomplete_install_recovery(incomplete: "launcher_update_module.IncompleteInstall") -> None:
+    """R5-01 (02_NACHZUG_AUFTRAG.md §A Punkt 3+4): der tatsächliche
+    Recovery-Weg, den `_block_if_install_incomplete` verspricht. Bietet
+    SOFORT (analog zu `_offer_pending_restart_now`, VOR jedem neuen
+    `check_for_update`) die vollständige Wiederaufnahme auf die GEBUNDENE
+    `target_rev` an -- Standardantwort ja, kein Netzzugriff nötig, um
+    diese Frage zu stellen.
+
+    Lehnt der Nutzer das ab, bietet ein getrennter zweiter Schritt
+    bewusst an, stattdessen zu prüfen, ob sich die Quelle inzwischen von
+    B auf eine neuere C bewegt hat, und — falls ja und bewusst bestätigt —
+    DARAUF wiederherzustellen (der Wechsel wird dabei ausdrücklich
+    kenntlich gemacht, s. Akzeptanzpunkt 4: keine automatische
+    Umdeutung). Nur eine vollständige Übernahme (auf B ODER bewusst
+    gewählt auf C) hebt die Sperre auf -- ein Abbruch an dieser Stelle
+    lässt sie unverändert bestehen."""
+    rev_short = incomplete.target_rev[:10]
+    print(red("\n  ⛔ Eine vorherige Installation wurde nicht vollständig abgeschlossen."))
+    print(yellow(f"  Gebundene Zielrevision: {rev_short}"))
+    if incomplete.install_error:
+        print(dim(f"  Letzter Fehler: {incomplete.install_error}"))
+    print(dim("  [M]/[1]/[L]/[2]/[3] bleiben gesperrt, bis die Installation fertiggestellt oder bewusst"))
+    print(dim("  auf eine neuere Revision umgelenkt wurde."))
+
+    ans = _prompt(f"  Installation jetzt vollständig auf {rev_short} fertigstellen? (j/n) [j]: ").strip().lower()
+    if ans in ("", "j", "y", "ja", "yes"):
+        resume_rev = incomplete.target_rev
+    else:
+        ans2 = _prompt(
+            "  Stattdessen prüfen, ob die Quelle inzwischen weiter ist, und bewusst darauf "
+            "wiederherstellen? (j/n) [n]: "
+        ).strip().lower()
+        if ans2 not in ("j", "y", "ja", "yes"):
+            print(dim("  Übersprungen. Die Installationssperre bleibt bestehen."))
+            _pause()
+            return
+        check = launcher_update_module.check_for_update(REPO)
+        if not check.remote_rev or check.remote_rev == incomplete.target_rev:
+            print(dim("  Keine neuere Revision gefunden — die Installationssperre bleibt bestehen,"))
+            print(dim("  bis die gebundene Revision fertiggestellt wird."))
+            _pause()
+            return
+        new_short = check.remote_rev[:10]
+        print(yellow(f"  Quelle ist jetzt bei {new_short} (gebunden war {rev_short})."))
+        ans3 = _prompt(
+            f"  Bewusst auf den NEUEN Stand ({new_short}) wiederherstellen statt auf die gebundene "
+            f"Revision ({rev_short})? (j/n) [n]: "
+        ).strip().lower()
+        if ans3 not in ("j", "y", "ja", "yes"):
+            print(dim("  Übersprungen. Die Installationssperre bleibt bestehen."))
+            _pause()
+            return
+        resume_rev = check.remote_rev
+        print(dim(f"  Wechsel bestätigt — Wiederherstellung läuft jetzt auf {new_short} statt auf die "
+                   f"ursprünglich gebundene Revision ({rev_short})."))
+
+    zres = _attempt_zip_install(resume_rev)
+    if not zres.ok:
+        print(red(f"  {zres.message}"))
+        _pause()
+        return
+    _finish_update_installation(zres.message)
+
+
 def action_update() -> None:
     """[4] Nach Updates suchen — U1-U6: fragt auf ausdrückliche Auswahl die
     offizielle Quelle (git ls-remote / GitHub-API), OHNE Dateien zu tauschen
@@ -1519,6 +1609,18 @@ def action_update() -> None:
     bereits lokal abgeschlossene Installation neu zu starten)."""
     global _update_restart_required
     print(bold("\n  [4] Nach Updates suchen\n"))
+
+    # R5-01: steht eine PERSISTENTE Teilinstallation an (disk-gelesen,
+    # überlebt einen Prozessneustart), hat ihre Wiederaufnahme Vorrang vor
+    # ALLEM anderen hier -- auch vor der flüchtigen Neustartpflicht unten
+    # (die ohnehin nie gesetzt werden konnte, wenn die Installation selbst
+    # nie erfolgreich durchgelaufen ist, s. `_finish_update_installation`-
+    # Aufrufer). Analog zum bestehenden pending-restart-Fastpath direkt
+    # darunter: SOFORT, vor jedem neuen `check_for_update`.
+    incomplete = launcher_update_module.incomplete_install(REPO)
+    if incomplete:
+        _offer_incomplete_install_recovery(incomplete)
+        return
 
     if _update_restart_required:
         _offer_pending_restart_now()
@@ -2524,7 +2626,15 @@ def main() -> int:
         # importierten, potenziell veralteten Module benutzen) nicht einfach
         # weiterlaufen -- [4] (erneut updaten/neu starten) und [X] bleiben
         # immer erreichbar, sonst wäre der Launcher blockiert.
-        if choice in ("1", "l", "2", "3", "m") and _block_if_restart_required(f"[{choice.upper()}]"):
+        # R5-01: der persistente Teilinstallations-Guard wird VOR dem
+        # flüchtigen Neustart-Guard geprüft -- ein gemischter Dateistand
+        # ist der schwerwiegendere Fall und bleibt auch über einen
+        # Prozessneustart hinweg gesperrt, ein pendender Neustart dagegen
+        # nur innerhalb desselben Prozesses relevant.
+        if choice in ("1", "l", "2", "3", "m") and (
+            _block_if_install_incomplete(f"[{choice.upper()}]")
+            or _block_if_restart_required(f"[{choice.upper()}]")
+        ):
             continue
 
         if choice == "1":

@@ -361,6 +361,72 @@ def detect_local_state(repo: Path) -> LocalState:
     return LocalState("unmanaged", None, False, "unverwaltete Installation (Herkunft nicht sicher bestimmbar)")
 
 
+@dataclass
+class IncompleteInstall:
+    target_rev: str
+    install_started_at: Optional[str]
+    install_error: Optional[str]
+    files_known: int
+
+
+def incomplete_install(repo: Path) -> Optional[IncompleteInstall]:
+    """R5-01: öffentliche Prüffunktion für einen PERSISTENTEN Teilinstal-
+    lationszustand -- liest `install_phase` FRISCH von der Platte (kein
+    In-Memory-Zustand wie `launcher._update_restart_required`), ist also
+    auch in einem frisch gestarteten Prozess wahr.
+
+    `_adopt_staged_update_locked` setzt `install_phase == "in_progress"`,
+    BEVOR die erste Datei eines Laufs angefasst wird, und erst auf
+    `"complete"`, wenn die GESAMTE Übernahme (inkl. Manifest-Update und
+    `installed_rev`) durchgelaufen ist. Scheitert der Lauf mitten im
+    Kopieren (`OSError`), bleibt `"in_progress"` stehen -- exakt der
+    Mischzustand, den diese Funktion melden soll. Dieser Marker ist ZIP-
+    spezifisch (`_adopt_staged_update_locked`); `mark_files_updated`
+    (Git-Pfad) setzt ihn bei einem erfolgreichen Git-Update explizit auf
+    `"complete"`, damit ein Git-Update nie fälschlich als Teilinstallation
+    gilt.
+
+    Liefert `None`, wenn KEINE Teilinstallation ansteht -- insbesondere
+    auch dann, wenn nur eine reine Neustartpflicht besteht
+    (`install_phase == "complete"`, aber `launcher._update_restart_
+    required` im selben oder einem anderen Prozess True ist): eine
+    abgeschlossene Übernahme, die nur noch auf ihren Neustart wartet, ist
+    KEINE Teilinstallation -- das bleibt weiterhin Sache von
+    `_block_if_restart_required`.
+
+    Liefert außerdem IMMER `None` für ein tatsächliches Git-Checkout
+    (`.git` vorhanden) -- der Marker ist ZIP-spezifisch; für ein
+    Git-Checkout ist Git selbst die Autorität über den installierten
+    Stand (s. `detect_local_state`), nicht diese Statusdatei. Das fängt
+    auch den (unrealistischen, aber defensiv behandelten) Fall ab, dass
+    ein VERWAISTER `"in_progress"`-Eintrag aus einer früheren ZIP-
+    Installation in der Statusdatei stehen bleibt, nachdem die
+    Installation anderweitig (z. B. manuell) auf ein Git-Checkout
+    umgestellt wurde -- so ein Leftover darf niemals einen ZIP-
+    Recovery-Versuch (`_attempt_zip_install`) auf einem Git-Checkout
+    auslösen."""
+    if (repo / ".git").exists():
+        return None
+    state = read_state(repo)
+    if state.get("install_phase") != "in_progress":
+        return None
+    target_rev = state.get("target_rev")
+    if not target_rev:
+        # Sollte durch den Schreiber oben nie vorkommen (target_rev wird
+        # IMMER zusammen mit install_phase="in_progress" geschrieben) --
+        # ohne eine gebundene Zielrevision ist aber keine sinnvolle,
+        # zielgebundene Wiederaufnahme möglich; ehrlich als "kein
+        # bestimmbarer Teilinstallationszustand" behandeln statt zu raten.
+        return None
+    managed = state.get("managed_files")
+    return IncompleteInstall(
+        target_rev=target_rev,
+        install_started_at=state.get("install_started_at"),
+        install_error=state.get("install_error"),
+        files_known=len(managed) if isinstance(managed, dict) else 0,
+    )
+
+
 def fetch_remote_head_via_git(
     repo: Path, *, remote: str = "origin", ref: str = "HEAD", timeout: float = 10.0,
 ) -> tuple[Optional[str], Optional[str]]:
@@ -590,8 +656,22 @@ def perform_git_update(
 
 def mark_files_updated(repo: Path, *, method: str, rev: str) -> None:
     """Hält den Dateistand fest, BEVOR der (separate) Sync-Schritt läuft —
-    U5: Dateistand und Backend-Sync sind getrennte Ergebnisse."""
-    write_state(repo, method=method, installed_rev=rev, installed_at=_now_iso(), sync_status="pending")
+    U5: Dateistand und Backend-Sync sind getrennte Ergebnisse.
+
+    R5-01: `install_phase` ist ein ZIP-spezifischer Teilinstallations-
+    marker (s. `_adopt_staged_update_locked`/`incomplete_install`). Der
+    Git-Pfad hier tauscht Dateien immer atomar über `git merge --ff-only`
+    aus (kein eigener Datei-für-Datei-Kopierschritt, der mittendrin
+    scheitern könnte) -- er setzt den Marker deshalb explizit auf
+    `"complete"`, statt ihn unberührt zu lassen. Ohne das könnte ein
+    FRÜHERER, unterbrochener ZIP-Teilstand (`"in_progress"`) fälschlich
+    weiter als offene Teilinstallation gelten, obwohl der tatsächliche
+    Dateistand bereits durch den Git-Pfad vollständig und konsistent neu
+    gesetzt wurde."""
+    write_state(
+        repo, method=method, installed_rev=rev, installed_at=_now_iso(),
+        sync_status="pending", install_phase="complete",
+    )
 
 
 # ── U3/U4 ZIP-Installationspfad ──────────────────────────────────────────
@@ -890,7 +970,21 @@ def _adopt_staged_update_locked(
             "sichern/entfernen, dann erneut versuchen."
         ), unverified=unverified)
 
-    write_state(repo, method="zip", sync_status="pending", install_started_at=_now_iso(), target_rev=target_rev)
+    # R5-01: `install_phase="in_progress"` ist der PERSISTENTE (disk-
+    # gelesene) Teilinstallationsmarker -- anders als `_update_
+    # restart_required` in launcher.py (ein In-Memory-Modulattribut, das
+    # ein frischer Prozess nie sieht) überlebt dieser hier einen
+    # Prozessneustart. Gesetzt BEVOR die erste Datei dieses Laufs
+    # tatsächlich angefasst wird (zusammen mit `target_rev`); bleibt bei
+    # einem `OSError` mitten im Kopieren unten unverändert stehen (der
+    # dortige `write_state`-Aufruf setzt dieses Feld bewusst NICHT erneut
+    # -- `write_state` merged nur die übergebenen Felder, lässt alles
+    # andere unberührt). Erst der Erfolgsfall am Ende dieser Funktion
+    # setzt ihn auf `"complete"`.
+    write_state(
+        repo, method="zip", sync_status="pending", install_started_at=_now_iso(),
+        target_rev=target_rev, install_phase="in_progress",
+    )
 
     copied = 0
     new_manifest = dict(prior_manifest)
@@ -986,7 +1080,7 @@ def _adopt_staged_update_locked(
 
     write_state(
         repo, method="zip", installed_rev=target_rev, installed_at=_now_iso(),
-        sync_status="pending", managed_files=new_manifest,
+        sync_status="pending", managed_files=new_manifest, install_phase="complete",
     )
     msg = "Programmdateien übernommen. Die Synchronisierung mit OpenWebUI steht noch aus."
     if removed:
