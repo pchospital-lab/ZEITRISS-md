@@ -1399,8 +1399,79 @@ def _describe_local_update_state(local: "launcher_update_module.LocalState") -> 
         return f"Git-Checkout, lokaler Stand {rev}" + ("  (lokale Änderungen vorhanden)" if local.dirty else "")
     if local.source == "zip":
         rev = local.rev[:10] if local.rev else "?"
-        return f"verwaltete ZIP-Installation, Stand {rev}"
+        return f"verwaltete ZIP-Installation, Stand {rev}" + ("  (lokale Änderungen vorhanden)" if local.dirty else "")
     return "unverwaltete Installation (Herkunft nicht sicher bestimmbar)"
+
+
+# R3-05: nach einer Dateiübernahme MUSS entweder ein echter neuer Prozess
+# entstehen, oder der produktive Weiterlauf mit den alten, bereits
+# importierten Modulen wird verständlich blockiert. Ein Modul-Attribut statt
+# einer lokalen Variable, weil `main()` (die Menüschleife) und
+# `action_update()` getrennte Funktionen sind; ein echter Neustart (U6,
+# `os.execv`) ersetzt den gesamten Prozess und damit auch dieses Attribut --
+# es kann sich also nie "von selbst" durch bloßes Weiterlaufen zurücksetzen.
+_update_restart_required = False
+
+
+def _block_if_restart_required(action_label: str) -> bool:
+    if not _update_restart_required:
+        return False
+    print(red(f"\n  ⛔ {action_label} ist jetzt gesperrt."))
+    print(yellow("  Ein Update wurde installiert, der Launcher wurde aber noch nicht neu gestartet."))
+    print(dim("  Bitte zuerst [4] erneut ausführen und den Neustart bestätigen (oder den Launcher"))
+    print(dim("  händisch neu starten) — sonst würden alte, bereits importierte Module weiterlaufen."))
+    _pause()
+    return True
+
+
+def _attempt_zip_install(target_rev: str) -> "launcher_update_module.ZipUpdateResult":
+    """R3-02: ein erster Versuch ohne Freigabe deckt `unverified`-Dateien
+    (existierende, nie verwaltete Dateien, die vom neuen Paketinhalt
+    abweichen) nur AUF, überschreibt sie aber nicht blind ("unverwaltet"
+    ist kein Beleg für "unverändert"). Die Liste wird dem Nutzer konkret
+    gezeigt; nur nach seiner ausdrücklichen, informierten Zustimmung läuft
+    ein zweiter Versuch mit `allow_unverified_overwrite=True`."""
+    zip_url = launcher_update_module.build_archive_url(target_rev)
+    zres = launcher_update_module.perform_zip_update(REPO, zip_url=zip_url, target_rev=target_rev)
+    if zres.ok or not zres.unverified:
+        return zres
+
+    print(yellow("  Folgende vorhandene, bisher NIE verwaltete Datei(en) weichen vom neuen"))
+    print(yellow("  Paketinhalt ab (Herkunft nicht verlässlich bestimmbar):"))
+    for relpath in zres.unverified[:10]:
+        print(dim(f"    - {relpath}"))
+    if len(zres.unverified) > 10:
+        print(dim(f"    (+{len(zres.unverified) - 10} weitere)"))
+    print(yellow("  Werden sie überschrieben, sind eigene Änderungen daran unwiderruflich weg."))
+    ans = _prompt("  Diese Dateien bewusst überschreiben? (j/n) [n]: ").strip().lower()
+    if ans not in ("j", "y", "ja", "yes"):
+        return zres
+    return launcher_update_module.perform_zip_update(
+        REPO, zip_url=zip_url, target_rev=target_rev, allow_unverified_overwrite=True,
+    )
+
+
+def _finish_update_installation(result_message: str) -> None:
+    """Gemeinsamer Abschluss nach einer erfolgreichen Datei-Übernahme (Git
+    ODER ZIP): Sync als neuer Prozess, dann Neustart anbieten/verlangen
+    (R3-05). Lehnt der Nutzer den Neustart ab, bleibt [M]/[1]/[2]/[L]/[3]
+    gesperrt, bis ein echter neuer Prozess läuft."""
+    global _update_restart_required
+    print(green(f"  ✓ {result_message}"))
+    print()
+    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
+    _run_update_sync_step()
+
+    print()
+    print(yellow("  Update installiert. Bitte den Launcher neu starten."))
+    ans = _prompt("  Jetzt neu starten? (j/n) [j]: ").strip().lower()
+    if ans in ("", "j", "y", "ja", "yes"):
+        launcher_update_module.restart_launcher(REPO)
+        return
+    _update_restart_required = True
+    print(red("  Ok — der Launcher BLOCKIERT jetzt [M]/[1]/[L]/[2]/[3], bis neu gestartet wurde,"))
+    print(dim("  damit nichts Altes importiert bleibt. [4] erneut ausführen, um neu zu starten."))
+    _pause()
 
 
 def action_update() -> None:
@@ -1411,6 +1482,7 @@ def action_update() -> None:
     Git), danach läuft der Sync getrennt als eigener Prozess, und zuletzt
     wird ein Neustart angeboten/verlangt — kein Weiterspielen mit bereits
     importierten alten Modulen."""
+    global _update_restart_required
     print(bold("\n  [4] Nach Updates suchen\n"))
     print(dim("  Ich frage die offizielle Quelle, ohne etwas zu verändern..."))
 
@@ -1422,13 +1494,52 @@ def action_update() -> None:
 
     if result.status == "unknown":
         print(yellow(f"  Updates konnten nicht geprüft werden: {result.reason}."))
-        print(dim("  Dein bisheriger Stand bleibt erhalten."))
+        # R3-01: eine unverwaltete Installation ohne eigene Statusdatei darf
+        # "unknown" NIE automatisch verdecken, aber eine erreichbare, geprüfte
+        # Zielrevision darf die sichere, BEWUSSTE Übernahme auch nicht
+        # blockieren -- vorher kehrte `action_update` hier immer sofort
+        # zurück, BEVOR überhaupt ein Installationsangebot erreicht wurde.
+        if local.source == "unmanaged" and result.remote_rev:
+            print(dim(f"  Die offizielle Quelle liefert einen bestimmten Stand ({result.remote_rev[:10]}),"))
+            print(dim("  aber dein eigener Stand ist nicht sicher bestimmbar (keine verwaltete Installation,"))
+            print(dim("  kein .git). Das kann eine unveränderte, bisher nur nie aktualisierte ZIP-Installation"))
+            print(dim("  sein -- oder eine Installation mit eigenen, nie erfassten Änderungen."))
+            ans = _prompt("  Trotzdem auf den geprüften Stand übernehmen? (j/n) [n]: ").strip().lower()
+            if ans in ("j", "y", "ja", "yes"):
+                zres = _attempt_zip_install(result.remote_rev)
+                if not zres.ok:
+                    print(red(f"  {zres.message}"))
+                    _pause()
+                    return
+                _finish_update_installation(zres.message)
+                return
+            print(dim("  Übersprungen. Dein bisheriger Stand bleibt erhalten."))
+        else:
+            print(dim("  Dein bisheriger Stand bleibt erhalten."))
+        _pause()
+        return
+
+    if result.status in ("ahead", "diverged"):
+        # R3-04/a: eine ungleiche Revision ist nicht automatisch "neuer" --
+        # weder automatisch anbieten noch als Fehler behandeln, sondern den
+        # tatsächlichen Stand konkret benennen. Kein Install-Angebot hier:
+        # ein Fast-forward auf eine ältere/divergierte Revision wäre ohnehin
+        # kein echtes Update.
+        if result.status == "ahead":
+            print(green(f"  ✓ Dein Stand ist der geprüften Quelle bereits voraus ({result.reason})."))
+        else:
+            print(yellow(f"  Dein Stand und die geprüfte Quelle sind divergiert: {result.reason}."))
+            print(dim("  Kein automatisches Update -- bitte Stand manuell prüfen (z. B. `git log --oneline -5`)."))
         _pause()
         return
 
     if result.status == "current":
+        if local.dirty:
+            print(yellow(f"  Revision entspricht der geprüften Quelle, ABER lokale Änderungen vorhanden."))
+            print(dim("  (Stand = Revision stimmt; das ist keine Aussage über eine unveränderte Installation.)"))
         if not result.sync_pending:
-            print(green(f"  ✓ Aktuell. Zuletzt geprüft: {result.checked_at}."))
+            if not local.dirty:
+                print(green(f"  ✓ Aktuell. Zuletzt geprüft: {result.checked_at}."))
             _pause()
             return
         print(yellow("  Programmdateien sind aktuell — die Synchronisierung mit OpenWebUI ist aber"))
@@ -1460,29 +1571,15 @@ def action_update() -> None:
             print(red(f"  {gres.message}"))
             _pause()
             return
-        print(green(f"  ✓ {gres.message}"))
         launcher_update_module.mark_files_updated(REPO, method="git", rev=gres.new_rev or target_rev)
+        _finish_update_installation(gres.message)
     else:
-        zip_url = launcher_update_module.build_archive_url(target_rev)
-        zres = launcher_update_module.perform_zip_update(REPO, zip_url=zip_url, target_rev=target_rev)
+        zres = _attempt_zip_install(target_rev)
         if not zres.ok:
             print(red(f"  {zres.message}"))
             _pause()
             return
-        print(green(f"  ✓ {zres.message}"))
-
-    print()
-    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
-    _run_update_sync_step()
-
-    print()
-    print(yellow("  Update installiert. Bitte den Launcher neu starten."))
-    ans = _prompt("  Jetzt neu starten? (j/n) [j]: ").strip().lower()
-    if ans in ("", "j", "y", "ja", "yes"):
-        launcher_update_module.restart_launcher(REPO)
-        return
-    print(dim("  Ok — bitte vor [M]/[1]/[3] den Launcher neu starten, damit nichts Altes importiert bleibt."))
-    _pause()
+        _finish_update_installation(zres.message)
 
 
 def _parse_env_file(path: Path) -> dict[str, str]:
@@ -2381,6 +2478,14 @@ def main() -> int:
         print("   [X]  Beenden")
         print()
         choice = _prompt("  Auswahl: ").strip().lower()
+
+        # R3-05: nach einer installierten, aber noch nicht neu gestarteten
+        # Aktualisierung dürfen die produktiven Aktionen (die die bereits
+        # importierten, potenziell veralteten Module benutzen) nicht einfach
+        # weiterlaufen -- [4] (erneut updaten/neu starten) und [X] bleiben
+        # immer erreichbar, sonst wäre der Launcher blockiert.
+        if choice in ("1", "l", "2", "3", "m") and _block_if_restart_required(f"[{choice.upper()}]"):
+            continue
 
         if choice == "1":
             action_install()

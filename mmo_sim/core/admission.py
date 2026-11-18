@@ -439,6 +439,68 @@ def write_test_profile(
     _atomic_write_json(status_path, data)
 
 
+class OperatorBudgetAlreadyGrantedError(RuntimeError):
+    """s. `grant_operator_budget`-Docstring."""
+
+
+def grant_operator_budget(
+    run_dir: str | Path, *, max_turns: int, max_seconds: float, max_usd: float | None = None,
+    allow_overwrite: bool = False,
+) -> None:
+    """R3-06 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261118-r3): die normale
+    Bedienoberflaeche (TUI) muss eine Betreiber-Live-/Budgetfreigabe
+    HERSTELLEN koennen, ohne `lab.status.json` von Hand anzulegen UND ohne
+    eine echte Cloud-/API-Route als `provider_free` zu kennzeichnen (das
+    Feld ist ausschliesslich fuer kontrollierte Test-Doubles reserviert,
+    s. `write_test_profile`). Schreibt dieselbe Autorisierungsform, die
+    `lab.runner.LabRunner.start()` fuer einen headless Lauf schreiben
+    wuerde (Variante (b) in `_has_recognized_authorization`: `max_turns`/
+    `max_seconds`/`max_usd`), OHNE dessen Singleton-Lock-/Laufschleifen-
+    Semantik zu uebernehmen -- eine interaktive TUI-Session ist kein
+    Lab-Lauf, sondern treibt `record_turn_usage` direkt (s. Moduldoc oben).
+
+    Ueberschreibt bewusst NICHT bereits vorhandene turns_used/usd_spent-
+    Zaehler (Resume-vertraeglich, wie `write_test_profile`). Ist BEREITS
+    eine Betreibergrenze gesetzt (`max_turns`/`max_seconds`/`max_usd` schon
+    vorhanden), wird NICHTS geaendert, es sei denn `allow_overwrite=True`
+    wird explizit gesetzt -- das verhindert ein heimliches Hochsetzen einer
+    bestehenden Grenze durch einen erneuten Aufruf mit anderen Werten; der
+    Aufrufer (TUI) muss ein Hochsetzen separat und sichtbar bestaetigen
+    lassen."""
+    run_dir = Path(run_dir)
+    run_dir.mkdir(parents=True, exist_ok=True)
+    status_path = _status_path(run_dir)
+    data: dict = {}
+    if status_path.exists():
+        try:
+            data = json.loads(status_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+    if not isinstance(data, dict):
+        data = {}
+    if not allow_overwrite and any(
+        _is_finite_number(data.get(k)) for k in ("max_turns", "max_seconds", "max_usd")
+    ):
+        raise OperatorBudgetAlreadyGrantedError(
+            "lab.status.json hat bereits eine Betreibergrenze -- grant_operator_budget() "
+            "ueberschreibt die NICHT implizit (allow_overwrite=True explizit setzen, falls "
+            "das Hochsetzen tatsaechlich gewollt und vom Betreiber sichtbar bestaetigt ist)."
+        )
+    data.setdefault("running", True)
+    data.setdefault("pid", None)
+    data.setdefault("turns_used", 0)
+    data.setdefault("seconds_elapsed", 0.0)
+    data.setdefault("usd_spent", 0.0)
+    data.setdefault("stop_requested", False)
+    data.setdefault("stop_reason", None)
+    data.setdefault("usd_unknown_turns", 0)
+    data["max_turns"] = max_turns
+    data["max_seconds"] = max_seconds
+    if max_usd is not None:
+        data["max_usd"] = max_usd
+    _atomic_write_json(status_path, data)
+
+
 def read_admission_block(
     run_dir: str | Path, reserved_usd: float | None = None, *,
     output_bound_known: bool = True, route: str | None = None, dollar_billed: bool = True,

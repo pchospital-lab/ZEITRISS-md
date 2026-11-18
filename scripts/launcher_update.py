@@ -60,6 +60,7 @@ from typing import Callable, Optional
 # ── Konstanten ─────────────────────────────────────────────────────────
 
 STATE_FILENAME = ".zeitriss-update-state.json"
+LOCK_FILENAME = ".zeitriss-update.lock"
 
 # Die offizielle Quelle (s. KICKOFF.md Baseline) — nur als Fallback für
 # Installationen OHNE eigenen Git-Remote (ZIP-Download). Ein Git-Checkout
@@ -76,7 +77,15 @@ GITHUB_API_COMMIT_URL = "https://api.github.com/repos/{owner}/{repo}/commits/{br
 # Bezugs-URL, nie den danach laufenden Sicherheitsweg (jedes Archiv
 # durchläuft weiterhin ungekürzt `validate_and_stage_zip`). Ein normaler
 # Spielerlauf setzt diese Variable nie.
+#
+# R3-04/e: der Kommentar allein war keine Durchsetzung -- war
+# ARCHIVE_URL_ENV_OVERRIDE gesetzt, griff er in JEDER Umgebung, auch bei
+# einem normalen Spieler. Jetzt braucht es ZUSÄTZLICH den expliziten
+# Dev-/Test-Freigabeschalter unten; ohne ihn ist der Override inert (die
+# offizielle GitHub-URL wird verwendet), egal was in der Override-Variable
+# selbst steht.
 ARCHIVE_URL_ENV_OVERRIDE = "LAUNCHER_UPDATE_ARCHIVE_URL"
+ARCHIVE_URL_OVERRIDE_ENABLE_FLAG = "LAUNCHER_UPDATE_ALLOW_ARCHIVE_OVERRIDE"
 _ALLOWED_ARCHIVE_SCHEMES = ("http", "https", "file")
 
 # Nie durch eine Dateiübernahme berührt — Nutzdaten, Secrets, private
@@ -90,6 +99,7 @@ PROTECTED_RELPATHS: tuple[str, ...] = (
     "scripts/litellm/.env",
     STATE_FILENAME,
     STATE_FILENAME + ".tmp",
+    LOCK_FILENAME,
 )
 
 MAX_ZIP_ENTRIES = 20_000
@@ -128,6 +138,46 @@ def write_state(repo: Path, **fields) -> dict:
 
 def _now_iso() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+
+# R3-03: Exklusivsperre gegen GLEICHZEITIGE Updateversuche -- kein neuer
+# Dienst/Daemon, nur eine PID-Lockdatei neben der Statusdatei. Eine
+# Lockdatei eines bereits beendeten Prozesses (z. B. nach einem Absturz)
+# gilt als verwaist und wird übernommen, statt den Nutzer dauerhaft
+# auszuschließen.
+def _lock_path(repo: Path) -> Path:
+    return repo / LOCK_FILENAME
+
+
+def acquire_update_lock(repo: Path) -> Optional[str]:
+    """`None` bei Erfolg, sonst ein Fehlertext (Lock bereits von einem
+    lebenden Prozess gehalten)."""
+    lp = _lock_path(repo)
+    if lp.exists():
+        held_pid = None
+        try:
+            held_pid = int(lp.read_text("utf-8").strip().split()[0])
+        except (OSError, ValueError, IndexError):
+            held_pid = None
+        if held_pid is not None and held_pid != os.getpid():
+            alive = True
+            try:
+                os.kill(held_pid, 0)
+            except ProcessLookupError:
+                alive = False
+            except OSError:
+                alive = True  # z. B. PermissionError -> existiert, gehört jemand anderem
+            if alive:
+                return f"Ein anderer Update-Vorgang läuft bereits (PID {held_pid}) — bitte warten oder abbrechen."
+    lp.write_text(f"{os.getpid()} {_now_iso()}\n", "utf-8")
+    return None
+
+
+def release_update_lock(repo: Path) -> None:
+    try:
+        _lock_path(repo).unlink()
+    except OSError:
+        pass
 
 
 def _sha256_file(path: Path) -> str:
@@ -179,7 +229,29 @@ def detect_local_state(repo: Path) -> LocalState:
 
     state = read_state(repo)
     if state.get("method") == "zip" and state.get("installed_rev"):
-        return LocalState("zip", state["installed_rev"], False, "verwaltete ZIP-Installation")
+        # R3-04/d: `installed_rev` kam bisher ungeprüft aus der Statusdatei --
+        # eine seither von Hand geänderte/entfernte verwaltete Datei blieb
+        # unsichtbar ("current" trotz lokaler Abweichung). Jetzt wird der
+        # tatsächliche Dateibestand gegen das zuletzt geschriebene SHA-256-
+        # Manifest geprüft; jede Abweichung setzt `dirty` -- exakt dasselbe
+        # Feld, das der Git-Zweig schon für "Revision stimmt, aber lokal
+        # verändert" nutzt.
+        managed = state.get("managed_files")
+        dirty = False
+        if isinstance(managed, dict):
+            for relpath, expected_hash in managed.items():
+                p = repo / relpath
+                if not p.exists():
+                    dirty = True
+                    break
+                try:
+                    if _sha256_file(p) != expected_hash:
+                        dirty = True
+                        break
+                except OSError:
+                    dirty = True
+                    break
+        return LocalState("zip", state["installed_rev"], dirty, "verwaltete ZIP-Installation")
     return LocalState("unmanaged", None, False, "unverwaltete Installation (Herkunft nicht sicher bestimmbar)")
 
 
@@ -239,13 +311,34 @@ def fetch_remote_head_via_api(
 
 @dataclass
 class UpdateCheckResult:
-    status: str                  # "current" | "update_available" | "unknown"
+    status: str                  # "current" | "update_available" | "ahead" | "diverged" | "unknown"
     reason: str
     local: LocalState
     remote_rev: Optional[str]
     checked_at: str
     sync_pending: bool = False
     sync_detail: str = ""
+
+
+def _git_object_present_locally(repo: Path, sha: str, *, timeout: float = 10.0) -> bool:
+    """Prüft NUR, ob das Objekt bereits im lokalen Object-Store liegt (z. B.
+    aus einem früheren `fetch`/`clone`) — ohne selbst zu fetchen. `check_for_
+    update` darf laut Vertrag nie fetchen; diese Prüfung ist reine lokale
+    Objekt-DB-Abfrage, kein Netzzugriff."""
+    r = run_git(repo, "cat-file", "-e", f"{sha}^{{commit}}", timeout=timeout)
+    return r.returncode == 0
+
+
+def _git_is_ancestor(repo: Path, maybe_ancestor: str, descendant: str, *, timeout: float = 10.0) -> Optional[bool]:
+    """`True`/`False` ob `maybe_ancestor` ein Vorfahre von `descendant` ist
+    (oder gleich), `None` wenn das nicht bestimmbar war (z. B. fehlende
+    Objekte nach einem reinen `ls-remote` ohne `fetch`). Nur lesend."""
+    r = run_git(repo, "merge-base", "--is-ancestor", maybe_ancestor, descendant, timeout=timeout)
+    if r.returncode == 0:
+        return True
+    if r.returncode == 1:
+        return False
+    return None
 
 
 def check_for_update(
@@ -290,6 +383,29 @@ def check_for_update(
     if local.rev == remote_rev:
         return UpdateCheckResult("current", "lokaler Stand entspricht der geprüften Quelle",
                                   local, remote_rev, checked_at, sync_pending, sync_detail)
+
+    # R3-04/a: eine ungleiche Revision ist NICHT automatisch "neuer" --
+    # ein lokaler Dev-Stand kann der geprüften Quelle bereits voraus sein,
+    # oder beide Stände können divergiert sein. `check_for_update` darf
+    # laut Vertrag nie fetchen (nur `ls-remote`), kann die Vorfahren-
+    # beziehung also nur dann prüfen, wenn das Zielobjekt schon lokal
+    # vorliegt (z. B. aus einem früheren Fetch/Clone). Liegt es nicht vor,
+    # bleibt die ehrliche Antwort "update_available" (Ordnung unbestimmt,
+    # aber neueres Objekt existiert nachweislich an der Quelle) -- siehe
+    # Doku-Hinweis in `reason` für diesen Grenzfall.
+    if local.source == "git" and _git_object_present_locally(repo, remote_rev, timeout=timeout):
+        local_ahead = _git_is_ancestor(repo, remote_rev, local.rev, timeout=timeout)
+        remote_ahead = _git_is_ancestor(repo, local.rev, remote_rev, timeout=timeout)
+        if local_ahead and not remote_ahead:
+            return UpdateCheckResult(
+                "ahead", "lokaler Stand ist der geprüften Quelle bereits voraus (eigene Commits)",
+                local, remote_rev, checked_at, sync_pending, sync_detail,
+            )
+        if local_ahead is False and remote_ahead is False:
+            return UpdateCheckResult(
+                "diverged", "lokaler Stand und geprüfte Quelle sind divergiert (kein gemeinsamer Fast-forward-Weg)",
+                local, remote_rev, checked_at, sync_pending, sync_detail,
+            )
 
     return UpdateCheckResult("update_available", "neuere Revision an der geprüften Quelle verfügbar",
                               local, remote_rev, checked_at, sync_pending, sync_detail)
@@ -348,7 +464,22 @@ def perform_git_update(
             f"Fast-forward nicht möglich ({last}) — dein lokaler Branch ist divergiert. "
             "Kein automatischer Reset/Force; bitte Stand manuell prüfen (z. B. `git log --oneline -5`)."
         ))
-    return GitUpdateResult(True, "Repo auf die geprüfte Zielrevision aktualisiert.", rev)
+    # R3-04/b: `git merge --ff-only <rev>` kann exit 0 melden, OHNE HEAD auf
+    # `rev` zu bewegen -- z. B. wenn `rev` bereits ein Vorfahre von HEAD ist
+    # (lokaler Stand ist der Zielrevision schon voraus): Git meldet dann
+    # "Already up to date.", HEAD bleibt unveraendert. Vorher wurde hier
+    # blind `rev` als `new_rev` zurueckgegeben, auch wenn HEAD etwas ganz
+    # anderes ist -- der tatsaechliche Stand nach dem Merge MUSS erneut
+    # gelesen werden, statt den angefragten Zielwert ungeprueft zu behaupten.
+    after = run_git(repo, "rev-parse", "HEAD", timeout=timeout).stdout.strip()
+    if after != rev:
+        after_short = after[:10] if after else "?"
+        return GitUpdateResult(False, (
+            f"Merge meldete Erfolg, aber HEAD ({after_short}) entspricht nicht der Zielrevision "
+            f"({rev[:10]}) — z. B. weil dein Stand der Zielrevision bereits voraus ist. Nichts wurde "
+            "zurückgesetzt; bitte Stand manuell prüfen (z. B. `git log --oneline -5`)."
+        ))
+    return GitUpdateResult(True, "Repo auf die geprüfte Zielrevision aktualisiert.", after)
 
 
 def mark_files_updated(repo: Path, *, method: str, rev: str) -> None:
@@ -365,8 +496,13 @@ def build_archive_url(rev: str, *, owner: str = OFFICIAL_REPO_OWNER, project: st
     Tests, analog zur bestehenden `LAUNCHER_GIT`-Konvention: ändert NUR die
     Bezugs-URL, NIE den danach laufenden Sicherheitsweg (jedes Archiv
     durchläuft weiterhin ungekürzt `validate_and_stage_zip`). Ein normaler
-    Spielerlauf setzt diese Variable nie; nur http/https/file erlaubt."""
+    Spielerlauf setzt diese Variable nie; nur http/https/file erlaubt.
+    Wirkt NUR, wenn zusätzlich `ARCHIVE_URL_OVERRIDE_ENABLE_FLAG` gesetzt
+    ist (R3-04/e) -- sonst inert, auch wenn die Override-Variable selbst
+    einen Wert hat (z. B. versehentlich aus einer alten Shell-Umgebung)."""
     override = os.environ.get(ARCHIVE_URL_ENV_OVERRIDE, "").strip()
+    if override and not os.environ.get(ARCHIVE_URL_OVERRIDE_ENABLE_FLAG, "").strip():
+        override = ""
     if override:
         url = override.format(rev=rev)
         scheme = url.split("://", 1)[0].lower() if "://" in url else ""
@@ -490,21 +626,64 @@ class AdoptResult:
     message: str
     files_copied: int = 0
     deviated: list = field(default_factory=list)
+    unverified: list = field(default_factory=list)
+
+
+def _resolved_dst_escapes_repo(repo_real: Path, dst: Path) -> bool:
+    """R3-02/b: `is_protected` prüft nur die Pfad-STRUKTUR gegen eine feste
+    Liste -- ein vorhandener ZIEL-Symlink (oder ein symlinkbasierter
+    übergeordneter Ordner) auf ein Ziel AUSSERHALB der Installation wird
+    davon nicht erfasst, und `shutil.copy2` würde dem Symlink folgen und
+    fremde Bytes außerhalb der Installation überschreiben. Deshalb hier
+    zusätzlich die tatsächlich aufgelöste (alle Symlinks augelöst) Zielseite
+    prüfen, nicht nur den nominellen relativen Pfad."""
+    if dst.is_symlink():
+        return True
+    # Eltern-Verzeichnis real auflösen (folgt Symlinks in Zwischenordnern);
+    # existiert es noch nicht, ist nichts umzuleiten -- sicher.
+    parent = dst.parent
+    try:
+        real_parent = Path(os.path.realpath(parent))
+    except OSError:
+        return True
+    if real_parent != repo_real and repo_real not in real_parent.parents:
+        return True
+    return False
 
 
 def adopt_staged_update(
     repo: Path, staging_root: Path, target_rev: str, *, protected: tuple = PROTECTED_RELPATHS,
+    allow_unverified_overwrite: bool = False,
 ) -> AdoptResult:
     """U3/U4/U5: übernimmt eine bereits von `validate_and_stage_zip`
     geprüfte Dateimenge in `repo`. Schützt `protected`-Pfade immer.
-    Erkennt lokale Abweichungen seit der letzten verwalteten Übernahme
-    über ein SHA-256-Manifest (`managed_files` in der Statusdatei); bei
-    JEDER Abweichung wird GAR NICHTS geschrieben (kein Teil-Mix), die
-    betroffenen Dateien werden konkret benannt. Eine bisher unverwaltete
-    Installation (kein Manifest) hat per Definition keine Abweichung —
-    die erste bewusst gewählte Aktualisierung überführt sie in den
-    verwalteten Stand, statt die Zielrevision blind als "schon
-    installiert" zu verbuchen."""
+
+    Drei getrennte Sicherheitsfragen (R3-02/R3-03/R3-04):
+    - `deviated`: eine VERWALTETE Datei (bekannter `baseline_hash` aus dem
+      letzten Manifest) hat sich seit der letzten Übernahme geändert --
+      IMMER ein Stopp, nie überschreibbar (das wäre Datenverlust an einer
+      Datei, die wir selbst zuletzt geschrieben haben).
+    - `unverified`: eine EXISTIERENDE Datei ohne bekannten `baseline_hash`
+      (nie verwaltet, z. B. erste Migration einer unverwalteten ZIP-
+      Installation) weicht vom neuen Paketinhalt ab. "Unverwaltet" ist kein
+      Beleg für "unverändert" oder "zum Überschreiben freigegeben" (R3-02) --
+      per Default ebenfalls ein Stopp, aber mit `allow_unverified_overwrite=
+      True` NACH einer informierten Zustimmung des Nutzers (der Caller zeigt
+      die Liste vorher an) überschreibbar. Stimmt der Dateiinhalt bereits
+      mit dem NEUEN Paketinhalt überein, ist das kein echter Unterschied und
+      wird nie als `unverified` gemeldet.
+    - Resumability (R3-03): eine Datei, deren aktueller Inhalt schon exakt
+      dem ZIEL-Inhalt entspricht (z. B. aus einem unterbrochenen vorherigen
+      Lauf mit demselben `target_rev`), gilt NIE als Abweichung -- sie wird
+      nur übersprungen (kein erneutes Schreiben nötig), nicht blockiert.
+
+    Bei jedem Stopp wird GAR NICHTS geschrieben (kein Teil-Mix). Nach
+    erfolgreicher Übernahme werden vormals verwaltete Dateien, die im neuen
+    Paket entfallen sind, entfernt -- aber NUR wenn ihr aktueller Inhalt noch
+    exakt dem letzten Manifest entspricht (sonst könnte eine lokale/fremde
+    Datei mitgelöscht werden, s. R3-03-Abnahme "unverwaltete fremde Dateien
+    nicht mitlöschen"). Eine PID-Lockdatei verhindert gleichzeitige
+    Updateversuche auf derselben Installation."""
     source_root = _effective_source_root(staging_root)
     if not (source_root / "setup.json").exists():
         return AdoptResult(False, (
@@ -512,18 +691,37 @@ def adopt_staged_update(
             "Übernahme abgebrochen, die bestehende Installation ist unverändert."
         ))
 
+    lock_err = acquire_update_lock(repo)
+    if lock_err:
+        return AdoptResult(False, lock_err)
+
+    try:
+        return _adopt_staged_update_locked(
+            repo, source_root, target_rev, protected=protected,
+            allow_unverified_overwrite=allow_unverified_overwrite,
+        )
+    finally:
+        release_update_lock(repo)
+
+
+def _adopt_staged_update_locked(
+    repo: Path, source_root: Path, target_rev: str, *, protected: tuple, allow_unverified_overwrite: bool,
+) -> AdoptResult:
     protected_abs = [(repo / p).resolve() for p in protected]
 
     def is_protected(rel: Path) -> bool:
         target = (repo / rel).resolve()
         return any(target == p or p in target.parents for p in protected_abs)
 
+    repo_real = Path(os.path.realpath(repo))
     prior_manifest = (read_state(repo).get("managed_files") or {})
     if not isinstance(prior_manifest, dict):
         prior_manifest = {}
 
-    planned: list[tuple[Path, Path]] = []
+    planned: list[tuple[Path, Path, str]] = []  # (src, rel, planned_hash)
     deviated: list[str] = []
+    unverified: list[str] = []
+    escaped: list[str] = []
     for root, _dirs, files in os.walk(source_root):
         rel_root = Path(root).relative_to(source_root)
         for fname in files:
@@ -531,16 +729,35 @@ def adopt_staged_update(
             if is_protected(rel):
                 continue
             relposix = rel.as_posix()
-            baseline_hash = prior_manifest.get(relposix)
+            src = Path(root) / fname
             dst = repo / rel
-            if baseline_hash is not None and dst.exists():
+            if _resolved_dst_escapes_repo(repo_real, dst):
+                escaped.append(relposix)
+                continue
+            baseline_hash = prior_manifest.get(relposix)
+            planned_hash = _sha256_file(src)
+            if dst.exists():
                 try:
                     current_hash = _sha256_file(dst)
                 except OSError:
                     current_hash = None
-                if current_hash != baseline_hash:
-                    deviated.append(relposix)
-            planned.append((Path(root) / fname, rel))
+                if current_hash != planned_hash:
+                    # Noch nicht auf dem Zielinhalt -- echte Abweichung?
+                    if baseline_hash is not None:
+                        if current_hash != baseline_hash:
+                            deviated.append(relposix)
+                    elif current_hash is not None and not allow_unverified_overwrite:
+                        unverified.append(relposix)
+                # current_hash == planned_hash: bereits auf Zielstand (z. B.
+                # Rest eines unterbrochenen Laufs) -- keine Abweichung.
+            planned.append((src, rel, planned_hash))
+
+    if escaped:
+        shown = ", ".join(escaped[:5])
+        return AdoptResult(False, (
+            f"Zielpfad zeigt über einen Symlink aus der Installation heraus: {shown} — "
+            "Übernahme gestoppt, NICHTS wurde verändert. Symlink entfernen/ersetzen, dann erneut versuchen."
+        ))
 
     if deviated:
         shown = ", ".join(deviated[:5])
@@ -551,31 +768,75 @@ def adopt_staged_update(
             "Dateien bewusst, dann [4] erneut versuchen."
         ), deviated=deviated)
 
+    if unverified:
+        shown = ", ".join(unverified[:5])
+        more = f" (+{len(unverified) - 5} weitere)" if len(unverified) > 5 else ""
+        return AdoptResult(False, (
+            f"Vorhandene, bisher NIE verwaltete Datei(en) weichen vom neuen Paketinhalt ab: "
+            f"{shown}{more}. Herkunft nicht verlässlich bestimmbar (unverwaltet ≠ unverändert) — "
+            "Übernahme gestoppt, NICHTS wurde verändert. Bewusst bestätigen oder diese Dateien vorher "
+            "sichern/entfernen, dann erneut versuchen."
+        ), unverified=unverified)
+
     write_state(repo, method="zip", sync_status="pending", install_started_at=_now_iso(), target_rev=target_rev)
 
     copied = 0
     new_manifest = dict(prior_manifest)
     try:
-        for src, rel in planned:
+        for src, rel, planned_hash in planned:
             dst = repo / rel
+            if dst.exists():
+                try:
+                    if _sha256_file(dst) == planned_hash:
+                        new_manifest[rel.as_posix()] = planned_hash
+                        continue  # R3-03: bereits auf Zielstand, nicht erneut schreiben
+                except OSError:
+                    pass
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dst)
-            new_manifest[rel.as_posix()] = _sha256_file(dst)
+            new_manifest[rel.as_posix()] = planned_hash
             copied += 1
     except OSError as e:
         write_state(repo, sync_status="failed", install_error=f"{e.__class__.__name__}: {e}")
         return AdoptResult(False, (
             f"Übernahme mitten im Kopieren abgebrochen: {e.__class__.__name__}: {e}. "
-            f"{copied} von {len(planned)} Datei(en) bereits übernommen — [4] erneut ausführen, "
-            "um gezielt weiterzumachen (nichts wird dabei als 'fertig' markiert, bis alles durch ist)."
+            f"{copied} von {len(planned)} Datei(en) in diesem Lauf übernommen — [4] erneut ausführen, "
+            "um gezielt weiterzumachen (bereits korrekt kopierte Dateien werden beim Wiederanlauf "
+            "erkannt und nicht erneut als Abweichung gewertet)."
         ), files_copied=copied)
+
+    # R3-03: vormals verwaltete Dateien, die im neuen Paket entfallen sind,
+    # werden entfernt -- NUR wenn ihr aktueller Inhalt noch exakt dem
+    # letzten Manifest entspricht (sonst bleiben sie unberührt liegen,
+    # damit nie eine fremde/lokal veränderte Datei mitgelöscht wird).
+    new_relposix = {rel.as_posix() for _src, rel, _h in planned}
+    removed = []
+    for relposix, old_hash in prior_manifest.items():
+        if relposix in new_relposix:
+            continue
+        p = repo / relposix
+        if not p.exists():
+            continue
+        try:
+            if _sha256_file(p) != old_hash:
+                continue  # lokal veraendert -- nicht automatisch entfernen
+        except OSError:
+            continue
+        try:
+            p.unlink()
+            removed.append(relposix)
+        except OSError:
+            continue
+        new_manifest.pop(relposix, None)
 
     write_state(
         repo, method="zip", installed_rev=target_rev, installed_at=_now_iso(),
         sync_status="pending", managed_files=new_manifest,
     )
-    return AdoptResult(True, "Programmdateien übernommen. Die Synchronisierung mit OpenWebUI steht noch aus.",
-                        files_copied=copied)
+    msg = "Programmdateien übernommen. Die Synchronisierung mit OpenWebUI steht noch aus."
+    if removed:
+        msg += f" ({len(removed)} entfallene Datei(en) entfernt.)"
+    return AdoptResult(True, msg, files_copied=copied)
 
 
 @dataclass
@@ -583,13 +844,19 @@ class ZipUpdateResult:
     ok: bool
     message: str
     installed_rev: Optional[str] = None
+    deviated: list = field(default_factory=list)
+    unverified: list = field(default_factory=list)
 
 
 def perform_zip_update(
     repo: Path, *, zip_url: str, target_rev: str, opener: Optional[Callable] = None, timeout: float = 120.0,
+    allow_unverified_overwrite: bool = False,
 ) -> ZipUpdateResult:
     """U3: kompletter ZIP-Weg ohne Git — Download in frisches Staging,
-    Sicherheitsprüfung, dann Übernahme. Räumt Staging/Download danach auf."""
+    Sicherheitsprüfung, dann Übernahme. Räumt Staging/Download danach auf.
+    `allow_unverified_overwrite` s. `adopt_staged_update` (R3-02): NUR nach
+    informierter Zustimmung des Nutzers setzen, der die `unverified`-Liste
+    aus einem vorherigen Versuch bereits gesehen hat."""
     tmp_dir = Path(tempfile.mkdtemp(prefix="zeitriss-update-dl-"))
     try:
         zip_path = tmp_dir / "update.zip"
@@ -603,9 +870,9 @@ def perform_zip_update(
         except ValueError as e:
             return ZipUpdateResult(False, str(e))
 
-        adopt = adopt_staged_update(repo, staging, target_rev)
+        adopt = adopt_staged_update(repo, staging, target_rev, allow_unverified_overwrite=allow_unverified_overwrite)
         if not adopt.ok:
-            return ZipUpdateResult(False, adopt.message)
+            return ZipUpdateResult(False, adopt.message, deviated=adopt.deviated, unverified=adopt.unverified)
         return ZipUpdateResult(True, adopt.message, installed_rev=target_rev)
     finally:
         shutil.rmtree(tmp_dir, ignore_errors=True)

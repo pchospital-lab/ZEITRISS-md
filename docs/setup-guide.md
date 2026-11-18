@@ -727,20 +727,29 @@ Dann **[4] Nach Updates suchen** wählen — egal ob du per ZIP oder per
    Git-Checkout, oder per ZIP-Download + Sicherheitsprüfung + Übernahme
    bei einer ZIP-Installation. Lokale Änderungen an Repo-Dateien oder ein
    divergierter Branch stoppen den Vorgang mit einer konkreten Meldung,
-   statt etwas zu überschreiben oder zu verwerfen. Deine Saves,
-   Figuren, Config und Keys bleiben in jedem Fall unberührt.
+   statt etwas zu überschreiben oder zu verwerfen. Deine Saves, Figuren
+   (`internal/mmo_sim_data`), dein OpenWebUI-Sync-Status und deine lokale
+   `.env`/Statusdatei sind **immer** ausgeschlossen (nie Teil der
+   Übernahme). Eine andere, bisher nie über [4] verwaltete Datei, die vom
+   neuen Paketinhalt abweicht, wird NICHT stillschweigend überschrieben —
+   der Launcher stoppt, zeigt dir genau diese Datei(en) und fragt erst
+   nach deiner ausdrücklichen Bestätigung, bevor er sie ersetzt. Zwei
+   gleichzeitige Updateversuche auf derselben Installation blockieren sich
+   gegenseitig (Sperrdatei), statt sich zu überschreiben.
 3. **Synct danach separat** (`setup.py --sync` in einem frischen
    Python-Prozess) — Programmdateien und Backend-Sync sind getrennte
    Ergebnisse. Scheitert der Sync (z. B. weil kein API-Key gesetzt ist),
    bleibt das sichtbar "offen"; ein erneuter Check verdeckt das nicht als
    "Aktuell".
-4. **Verlangt einen Neustart** nach einer erfolgreichen Installation und
-   bietet ihn direkt an — der Launcher spielt nie mit bereits importierten
-   alten Programmdateien weiter.
+4. **Verlangt einen Neustart** nach einer erfolgreichen Installation —
+   lehnst du ihn ab, sperrt der Launcher [M]/[1]/[L]/[2]/[3], bis du
+   tatsächlich neu gestartet hast (kein Weiterspielen mit bereits
+   importierten alten Programmdateien).
 
-Das ist der empfohlene Weg für ZIP- UND Git-Nutzer, weil du dir nichts
-merken musst und nichts kaputtgehen kann, ohne dass du es ausdrücklich
-bestätigt hast.
+Das ist der empfohlene Weg für ZIP- UND Git-Nutzer: Saves/Figuren/Config/
+Keys sind strukturell ausgeschlossen, und jede andere mögliche Kollision
+stoppt mit einer konkreten Nachfrage statt eines stillen Überschreibens —
+aber nur eine ausdrücklich bestätigte Übernahme ändert tatsächlich etwas.
 
 ### Für CLI-Fans: direkt via `setup.py --sync`
 

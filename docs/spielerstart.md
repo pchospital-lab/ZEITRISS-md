@@ -278,6 +278,14 @@ bei einem unklaren Ausgang nicht einfach Teilnehmer-ID, Generation oder
 Datenablage, um denselben offenen Vorgang neu zu starten. Halte den Zustand
 fest und nutze die [Betriebsdokumentation](mmo-sim.md).
 
+Vor dem allerersten echten Spielzug fragt das Terminal selbst nach einer
+begrenzten Betreiberfreigabe (max. Anfragen/Zeit/Dollar) — kein Handedit
+irgendeiner internen Datei nötig. Wer diesen Dialog ablehnt, bleibt ohne
+Freigabe; `einstellungen budget` zeigt jederzeit den aktuellen Stand
+(Reservierung/Verbrauch/Grenze getrennt), `einstellungen budget erhoehen`
+setzt eine bestehende, zu enge Grenze bewusst neu — beides nur nach
+ausdrücklicher Bestätigung, nie automatisch.
+
 ## Bekannte Grenzen
 
 Das Terminal ist ein lokales Spiel an einem Rechner, ohne Netzwerk-Lobby und

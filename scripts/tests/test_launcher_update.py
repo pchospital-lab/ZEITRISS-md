@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import io
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -118,6 +119,34 @@ class TestCheckForUpdateGit(GitFixtureTestCase):
         self.assertTrue(result.local.dirty)
         self.assertEqual(result.status, "current")  # Datei-Inhalt ist egal für den reinen Rev-Vergleich
 
+    def test_local_commits_ahead_of_remote_are_not_offered_as_update(self):
+        """R3-04/a: ein Dev-Stand, der der geprüften Quelle bereits voraus
+        ist, darf NICHT als 'update_available' auf die ÄLTERE Revision
+        gemeldet werden. Das Zielobjekt (alte Remote-Revision) liegt hier
+        schon lokal vor (aus dem initialen `clone`) -- ohne zusätzliches
+        `fetch` prüfbar, siehe `_git_object_present_locally`."""
+        remote_rev = _rev(self.remote)  # schon im Clone-Objektspeicher vorhanden
+        _write_files(self.clone, {"marker.txt": "local-only work\n"})
+        _commit_all(self.clone, "local ahead commit")  # remote bewegt sich NICHT
+
+        result = lu.check_for_update(self.clone)
+        self.assertEqual(result.status, "ahead")
+        self.assertEqual(result.remote_rev, remote_rev)
+
+    def test_diverged_local_and_remote_without_fetched_objects_stays_update_available(self):
+        """Dokumentierte Grenze: `check_for_update` darf laut Vertrag nie
+        fetchen. Ist das entfernte Zielobjekt lokal NICHT vorhanden (z. B.
+        weil die Quelle seit dem Clone neue Commits bekam), kann die
+        Vorfahrenbeziehung nicht geprüft werden -- die Antwort bleibt ehrlich
+        'update_available' statt eine falsche Sicherheit zu behaupten."""
+        _write_files(self.clone, {"marker.txt": "local-only work\n"})
+        _commit_all(self.clone, "local only commit")
+        _write_files(self.remote, {"marker.txt": "remote moved\n"})
+        _commit_all(self.remote, "remote only commit")  # Objekt existiert NICHT im Clone
+
+        result = lu.check_for_update(self.clone)
+        self.assertEqual(result.status, "update_available")
+
 
 class TestCheckForUpdateZipAndUnmanaged(unittest.TestCase):
     """Kein Git — ZIP-/unverwaltete Installation. Die offizielle Quelle wird
@@ -167,6 +196,30 @@ class TestCheckForUpdateZipAndUnmanaged(unittest.TestCase):
         result = lu.check_for_update(self.repo, http_get=raising_getter)
         self.assertEqual(result.status, "unknown")
         self.assertIn("OSError", result.reason)
+
+    def test_managed_zip_with_locally_modified_file_reports_dirty(self):
+        """R3-04/d: `installed_rev` kam bisher ungeprüft aus der Statusdatei
+        -- eine seither per Hand geänderte verwaltete Datei blieb unsichtbar.
+        Jetzt muss der tatsächliche Dateibestand gegen das SHA-256-Manifest
+        geprüft werden, genau wie der Git-Zweig schon `dirty` liefert."""
+        (self.repo / "scripts.py").write_text("original\n", encoding="utf-8")
+        managed_hash = lu._sha256_file(self.repo / "scripts.py")
+        lu.write_state(self.repo, method="zip", installed_rev="abc123", sync_status="ok",
+                        managed_files={"scripts.py": managed_hash})
+        (self.repo / "scripts.py").write_text("hand-edited after install\n", encoding="utf-8")
+
+        result = lu.check_for_update(self.repo, http_get=self._http_get("abc123"))
+        self.assertEqual(result.status, "current")  # Revision stimmt weiterhin
+        self.assertTrue(result.local.dirty)  # aber lokal veraendert -- sichtbar, nicht verdeckt
+
+    def test_managed_zip_unmodified_files_report_clean(self):
+        (self.repo / "scripts.py").write_text("original\n", encoding="utf-8")
+        managed_hash = lu._sha256_file(self.repo / "scripts.py")
+        lu.write_state(self.repo, method="zip", installed_rev="abc123", sync_status="ok",
+                        managed_files={"scripts.py": managed_hash})
+        result = lu.check_for_update(self.repo, http_get=self._http_get("abc123"))
+        self.assertEqual(result.status, "current")
+        self.assertFalse(result.local.dirty)
 
     def test_sync_pending_surfaced_even_when_files_current(self):
         """U5: 'Dateien aktuell, Sync offen' darf ein erneuter Check nicht
@@ -223,6 +276,22 @@ class TestPerformGitUpdate(GitFixtureTestCase):
         result = lu.perform_git_update(self.clone, target_rev=target)
         self.assertTrue(result.ok)
         self.assertEqual(result.new_rev, target)
+
+    def test_target_already_ancestor_of_head_does_not_claim_false_success(self):
+        """R3-04/b: `git merge --ff-only <alte_vorfahren-revision>` kann
+        exit 0 melden ('Already up to date'), OHNE HEAD zu bewegen, wenn der
+        lokale Stand der angeforderten Zielrevision schon voraus ist. Die
+        Funktion darf dann NICHT behaupten, `target_rev` sei jetzt installiert
+        -- das war vorher der Fall (gab `rev` blind als `new_rev` zurück)."""
+        old_target = _rev(self.remote)  # das ist das, was wir (veraltet) installieren wollen
+        _write_files(self.clone, {"marker.txt": "ahead work\n"})
+        ahead_rev = _commit_all(self.clone, "local ahead of old_target")
+
+        result = lu.perform_git_update(self.clone, target_rev=old_target)
+        self.assertFalse(result.ok)
+        self.assertIn("entspricht nicht der Zielrevision", result.message)
+        # Nichts zurückgesetzt -- HEAD bleibt beim voraus-Stand.
+        self.assertEqual(_rev(self.clone), ahead_rev)
 
 
 # ── U3/U4 ZIP-Sicherheitsprüfung (Matrix: "Download-/Archivfehler") ─────
@@ -341,11 +410,15 @@ class TestAdoptStagedUpdate(unittest.TestCase):
     def test_first_time_migration_of_unmanaged_install_establishes_manifest(self):
         """U3: eine bisher unverwaltete ZIP-Installation wird bei der ersten
         bewusst gewählten Aktualisierung in den verwalteten Stand überführt,
-        statt die Fernrevision blind als 'schon installiert' zu verbuchen."""
+        statt die Fernrevision blind als 'schon installiert' zu verbuchen.
+        R3-02: eine abweichende, nie verwaltete Datei wird dabei NICHT
+        stillschweigend überschrieben -- das muss (wie hier) explizit per
+        `allow_unverified_overwrite=True` (informierte Zustimmung, s. echter
+        Caller `launcher._attempt_zip_install`) freigegeben werden."""
         (self.repo / "setup.json").write_text('{"version": "old"}', encoding="utf-8")
         staging = self._staging({"setup.json": '{"version": "new"}', "scripts/x.py": "pass\n"})
 
-        result = lu.adopt_staged_update(self.repo, staging, "rev-new")
+        result = lu.adopt_staged_update(self.repo, staging, "rev-new", allow_unverified_overwrite=True)
         self.assertTrue(result.ok, result.message)
         self.assertEqual((self.repo / "setup.json").read_text(), '{"version": "new"}')
         state = lu.read_state(self.repo)
@@ -353,6 +426,32 @@ class TestAdoptStagedUpdate(unittest.TestCase):
         self.assertEqual(state["installed_rev"], "rev-new")
         self.assertEqual(state["sync_status"], "pending")
         self.assertIn("setup.json", state["managed_files"])
+
+    def test_unverified_existing_file_blocks_by_default_without_consent(self):
+        """R3-02: 'unverwaltet' (kein `baseline_hash`) ist KEIN Beleg für
+        'unverändert' oder 'zum Überschreiben freigegeben'. Ohne explizite
+        Freigabe (`allow_unverified_overwrite`) muss eine abweichende,
+        existierende, nie verwaltete Datei den gesamten Lauf stoppen --
+        NICHTS wird geschrieben, kein Teil-Mix."""
+        (self.repo / "setup.json").write_text('{"version": "old"}', encoding="utf-8")
+        staging = self._staging({"setup.json": '{"version": "new"}', "scripts/x.py": "pass\n"})
+
+        result = lu.adopt_staged_update(self.repo, staging, "rev-new")
+        self.assertFalse(result.ok)
+        self.assertIn("setup.json", result.unverified)
+        self.assertEqual((self.repo / "setup.json").read_text(), '{"version": "old"}')
+        self.assertFalse((self.repo / "scripts" / "x.py").exists())  # kein Teil-Mix
+        self.assertNotIn("installed_rev", lu.read_state(self.repo))
+
+    def test_unverified_file_already_matching_new_content_is_not_flagged(self):
+        """Ein Spezialfall ohne jede Unsicherheit: der lokale Inhalt
+        entspricht bereits exakt dem, was installiert würde -- das ist kein
+        echter Unterschied und darf nicht blockieren."""
+        (self.repo / "setup.json").write_text('{"version": "new"}', encoding="utf-8")
+        staging = self._staging({"setup.json": '{"version": "new"}', "scripts/x.py": "pass\n"})
+
+        result = lu.adopt_staged_update(self.repo, staging, "rev-new")
+        self.assertTrue(result.ok, result.message)
 
     def test_protected_paths_never_touched(self):
         protected_file = self.repo / "internal" / "mmo_sim_data" / "states" / "player.json"
@@ -417,6 +516,115 @@ class TestAdoptStagedUpdate(unittest.TestCase):
         self.assertEqual((self.repo / "scripts" / "a.py").read_text(), "A\n")
         self.assertEqual((self.repo / "scripts" / "b.py").read_text(), "B\n")
 
+    def test_interrupted_FOLLOWUP_update_does_not_misread_own_partial_write_as_deviation(self):
+        """R3-03: der vorhandene Unterbrechungstest oben startet mit einer
+        leeren, UNVERWALTETEN Installation (kein vorheriges Manifest) -- er
+        prüft NICHT den Folgeupdatefall. Hier: A ist bereits regulär
+        verwaltet installiert (Manifest vorhanden); A→B bricht NACH
+        mindestens einer tatsächlich kopierten Datei ab. Vorher wurde die
+        schon auf B gebrachte Datei beim Wiederanlauf gegen das ALTE
+        Manifest (A) verglichen und fälschlich als fremde lokale Abweichung
+        geblockt, statt als eigenen, bereits erledigten Teilschritt zu
+        erkennen."""
+        staging_a = self._staging({"setup.json": "{}", "scripts/a.py": "A1\n", "scripts/b.py": "B1\n"})
+        first = lu.adopt_staged_update(self.repo, staging_a, "rev-A")
+        self.assertTrue(first.ok, first.message)
+
+        staging_b = self._staging({"setup.json": "{}", "scripts/a.py": "A2\n", "scripts/b.py": "B2\n"})
+        real_copy2 = shutil.copy2
+        calls = {"n": 0}
+
+        def flaky_copy2(src, dst, *a, **kw):
+            calls["n"] += 1
+            if calls["n"] == 2:
+                raise OSError("disk full (simulated)")
+            return real_copy2(src, dst, *a, **kw)
+
+        with mock.patch.object(lu.shutil, "copy2", side_effect=flaky_copy2):
+            interrupted = lu.adopt_staged_update(self.repo, staging_b, "rev-B")
+        self.assertFalse(interrupted.ok)
+        self.assertEqual(lu.read_state(self.repo)["installed_rev"], "rev-A")  # noch nicht als fertig markiert
+
+        resumed = lu.adopt_staged_update(self.repo, staging_b, "rev-B")
+        self.assertTrue(resumed.ok, resumed.message)  # KEIN "deviated" trotz eigenem Teilschreiben
+        self.assertEqual(lu.read_state(self.repo)["installed_rev"], "rev-B")
+        self.assertEqual((self.repo / "scripts" / "a.py").read_text(), "A2\n")
+        self.assertEqual((self.repo / "scripts" / "b.py").read_text(), "B2\n")
+
+    def test_removed_upstream_file_deleted_when_still_matching_old_manifest(self):
+        """R3-03-Abnahme: der aktuelle Kopierweg entfernte bisher aus B
+        entfallene, vormals verwaltete alte Code-Dateien NICHT. Eine Datei,
+        die im neuen Paket fehlt UND lokal unverändert ist (Hash entspricht
+        noch dem letzten Manifest), muss jetzt entfernt werden."""
+        staging_a = self._staging({"setup.json": "{}", "scripts/old_module.py": "OLD\n", "scripts/keep.py": "K\n"})
+        first = lu.adopt_staged_update(self.repo, staging_a, "rev-A")
+        self.assertTrue(first.ok, first.message)
+        self.assertTrue((self.repo / "scripts" / "old_module.py").exists())
+
+        staging_b = self._staging({"setup.json": "{}", "scripts/keep.py": "K\n"})  # old_module.py entfaellt
+        second = lu.adopt_staged_update(self.repo, staging_b, "rev-B")
+        self.assertTrue(second.ok, second.message)
+        self.assertFalse((self.repo / "scripts" / "old_module.py").exists())
+        self.assertNotIn("scripts/old_module.py", lu.read_state(self.repo)["managed_files"])
+
+    def test_removed_upstream_file_kept_when_locally_modified(self):
+        """Gegenprobe: eine entfallene Datei, die lokal VERÄNDERT wurde,
+        darf nicht einfach mitgelöscht werden (R3-03-Abnahme: 'unverwaltete
+        fremde Dateien nicht mitlöschen' -- gilt analog für lokal
+        angepasste, vormals verwaltete Dateien)."""
+        staging_a = self._staging({"setup.json": "{}", "scripts/old_module.py": "OLD\n"})
+        first = lu.adopt_staged_update(self.repo, staging_a, "rev-A")
+        self.assertTrue(first.ok, first.message)
+        (self.repo / "scripts" / "old_module.py").write_text("HAND-EDITED\n", encoding="utf-8")
+
+        staging_b = self._staging({"setup.json": "{}"})
+        second = lu.adopt_staged_update(self.repo, staging_b, "rev-B")
+        self.assertTrue(second.ok, second.message)
+        self.assertTrue((self.repo / "scripts" / "old_module.py").exists())
+        self.assertEqual((self.repo / "scripts" / "old_module.py").read_text(), "HAND-EDITED\n")
+
+    def test_concurrent_adoption_attempt_is_rejected_while_lock_held(self):
+        """R3-03-Abnahme: gleichzeitige Updateversuche müssen denselben
+        Installationszustand schützen -- kein paralleles Kopieren. PID 1
+        (init) simuliert hier einen FREMDEN, garantiert lebenden Prozess --
+        die eigene PID würde `acquire_update_lock` (zu Recht) als
+        Reentry desselben Prozesses durchlassen, das testet also nicht den
+        'ein anderer Prozess hält die Sperre'-Fall."""
+        staging = self._staging({"setup.json": "{}", "scripts/a.py": "A\n"})
+        lu._lock_path(self.repo).write_text(f"1 {lu._now_iso()}\n", encoding="utf-8")
+        try:
+            result = lu.adopt_staged_update(self.repo, staging, "rev-1")
+            self.assertFalse(result.ok)
+            self.assertIn("läuft bereits", result.message)
+            self.assertEqual(list(self.repo.iterdir()), [lu._lock_path(self.repo)])
+        finally:
+            lu.release_update_lock(self.repo)
+
+    def test_stale_lock_from_dead_process_is_reclaimed(self):
+        """Ein Lock einer PID, die nicht mehr existiert (z. B. nach einem
+        Absturz), darf nicht dauerhaft blockieren."""
+        dead_pid = 999999  # praktisch garantiert nicht belegt
+        lu._lock_path(self.repo).write_text(f"{dead_pid} 2020-01-01T00:00:00Z\n", encoding="utf-8")
+        staging = self._staging({"setup.json": "{}", "scripts/a.py": "A\n"})
+        result = lu.adopt_staged_update(self.repo, staging, "rev-1")
+        self.assertTrue(result.ok, result.message)
+
+    def test_symlink_target_escape_is_rejected_without_following_it(self):
+        """R3-02/b: `is_protected` prüft nur Pfad-STRUKTUR -- ein Ziel-
+        Symlink auf eine Datei AUSSERHALB der Installation wird davon nicht
+        erfasst, und `shutil.copy2` würde ihm folgen. Muss abgelehnt werden,
+        BEVOR irgendetwas geschrieben wird."""
+        outside = self.tmp / "outside.txt"
+        outside.write_text("harmless original\n", encoding="utf-8")
+        (self.repo / "scripts").mkdir()
+        (self.repo / "scripts" / "a.py").symlink_to(outside)
+
+        staging = self._staging({"setup.json": "{}", "scripts/a.py": "MALICIOUS OVERWRITE\n"})
+        result = lu.adopt_staged_update(self.repo, staging, "rev-1")
+        self.assertFalse(result.ok)
+        self.assertIn("Symlink", result.message)
+        self.assertEqual(outside.read_text(), "harmless original\n")
+
 
 # ── U3 kompletter ZIP-Weg (Download + Stage + Adopt) ────────────────────
 
@@ -477,11 +685,22 @@ class TestBuildArchiveUrl(unittest.TestCase):
         self.assertEqual(url, "https://github.com/pchospital-lab/ZEITRISS-md/archive/deadbeef.zip")
 
     def test_override_env_allows_http_https_file_only(self):
-        with mock.patch.dict("os.environ", {lu.ARCHIVE_URL_ENV_OVERRIDE: "file:///tmp/{rev}.zip"}):
+        env = {lu.ARCHIVE_URL_ENV_OVERRIDE: "file:///tmp/{rev}.zip", lu.ARCHIVE_URL_OVERRIDE_ENABLE_FLAG: "1"}
+        with mock.patch.dict("os.environ", env):
             self.assertEqual(lu.build_archive_url("abc"), "file:///tmp/abc.zip")
-        with mock.patch.dict("os.environ", {lu.ARCHIVE_URL_ENV_OVERRIDE: "ftp://evil/{rev}.zip"}):
+        env = {lu.ARCHIVE_URL_ENV_OVERRIDE: "ftp://evil/{rev}.zip", lu.ARCHIVE_URL_OVERRIDE_ENABLE_FLAG: "1"}
+        with mock.patch.dict("os.environ", env):
             with self.assertRaises(ValueError):
                 lu.build_archive_url("abc")
+
+    def test_override_env_without_enable_flag_is_inert(self):
+        """R3-04/e: der Override darf in einer normalen Spielerumgebung NICHT
+        wirken, nur weil die Variable (z. B. aus einer alten Shell) gesetzt
+        ist -- erst der explizite Dev-/Test-Freigabeschalter aktiviert ihn."""
+        with mock.patch.dict("os.environ", {lu.ARCHIVE_URL_ENV_OVERRIDE: "file:///tmp/{rev}.zip"}, clear=False):
+            os.environ.pop(lu.ARCHIVE_URL_OVERRIDE_ENABLE_FLAG, None)
+            self.assertEqual(lu.build_archive_url("abc"),
+                              "https://github.com/pchospital-lab/ZEITRISS-md/archive/abc.zip")
 
 
 class TestDownloadZipArchive(unittest.TestCase):

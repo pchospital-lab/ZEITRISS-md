@@ -3046,6 +3046,93 @@ class TuiSession:
                 "Tische suchen/anfragen, spielen nach Annahme). Kein Modellaufruf, keine Aenderung."
             )
 
+    # R3-06 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261118-r3): normale
+    # Default-VORSCHLAEGE fuer den interaktiven Budget-Dialog unten --
+    # NUR Vorschlagswerte, die der Betreiber im Dialog sieht und bestaetigen/
+    # aendern muss (kein heimliches Hochsetzen, keine automatische
+    # Freigabe). Ueberschreibbar per Env, analog zu den `MMO_SIM_SYNTHETIC_
+    # *`-Tarifen in `core/admission.py` -- niemals stillschweigend ein
+    # anderer Vorschlag ohne Betreiberbestaetigung.
+    _DEFAULT_OPERATOR_BUDGET_MAX_TURNS = 200
+    _DEFAULT_OPERATOR_BUDGET_MAX_SECONDS = 4.0 * 3600.0
+    _DEFAULT_OPERATOR_BUDGET_MAX_USD = 5.0
+
+    def _offer_operator_budget_setup(self, run_dir: "str | Path", reason: str) -> bool:
+        """R3-06: der normale Solo-/Betreiberweg muss die erforderliche
+        Betreiber-Live-/Budgetfreigabe HERSTELLEN koennen, ohne `lab.
+        status.json` von Hand anzulegen (General-Befund: r2 brauchte dafuer
+        einen manuellen Dateieingriff). Wird NUR aufgerufen, wenn noch GAR
+        KEINE `lab.status.json` existiert (echter Erstfall) -- ist bereits
+        eine Betreibergrenze gesetzt und nur erschoepft, bietet dieser
+        Dialog NICHTS an (das ist R3-07s Zustaendigkeit, kein heimliches
+        Hochsetzen einer bestehenden Grenze durch diese Stelle). Der
+        Aufrufer ist an dieser Stelle garantiert bereits `_require_host`-
+        gegatet (dieselbe Methode wird nur NACH einem erfolgreichen
+        `_require_host`-Aufruf erreicht) -- ein Gast erreicht diesen Dialog
+        nicht und erhaelt daraus keine Betreiberrechte."""
+        from ..core import admission as core_admission
+
+        status_path = Path(run_dir) / "lab.status.json"
+        if status_path.exists():
+            return False
+
+        self._print(
+            "\n  Fuer den ersten Zug ist eine begrenzte Betreiber-/Budgetfreigabe noetig "
+            f"({reason})."
+        )
+        self._print(
+            "  Das ist eine bewusste, von dir gesetzte Obergrenze (Anfragen/Zeit/Dollar) -- "
+            "kein unbegrenzter Zugriff, jederzeit per Reset aenderbar."
+        )
+        ans = self._readline("  Jetzt eine begrenzte Freigabe einrichten? (j/n) [j]: ").strip().lower()
+        if ans not in ("", "j", "y", "ja", "yes"):
+            self._print("  Uebersprungen -- kein Modellaufruf ohne Freigabe.")
+            return False
+
+        def _ask_int(prompt: str, default: int) -> int:
+            raw = self._readline(f"  {prompt} [{default}]: ").strip()
+            if not raw:
+                return default
+            try:
+                value = int(raw)
+                if value <= 0:
+                    raise ValueError
+                return value
+            except ValueError:
+                self._print(f"  Ungueltig, verwende Vorschlag {default}.")
+                return default
+
+        def _ask_float(prompt: str, default: float) -> float:
+            raw = self._readline(f"  {prompt} [{default}]: ").strip()
+            if not raw:
+                return default
+            try:
+                value = float(raw)
+                if not (value > 0):
+                    raise ValueError
+                return value
+            except ValueError:
+                self._print(f"  Ungueltig, verwende Vorschlag {default}.")
+                return default
+
+        max_turns = _ask_int("Max. Anfragen (Turns) fuer diese Freigabe", self._DEFAULT_OPERATOR_BUDGET_MAX_TURNS)
+        max_seconds = _ask_float(
+            "Max. aufsummierte Anfragedauer (Sekunden)", self._DEFAULT_OPERATOR_BUDGET_MAX_SECONDS,
+        )
+        max_usd = _ask_float("Max. Dollar (USD, Providerwaehrung)", self._DEFAULT_OPERATOR_BUDGET_MAX_USD)
+
+        try:
+            core_admission.grant_operator_budget(
+                run_dir, max_turns=max_turns, max_seconds=max_seconds, max_usd=max_usd,
+            )
+        except core_admission.OperatorBudgetAlreadyGrantedError as e:
+            self._print(f"  {e}")
+            return False
+        self._print(
+            f"  ✓ Freigabe eingerichtet: max. {max_turns} Anfragen, {max_seconds:.0f}s, {max_usd:.2f} USD."
+        )
+        return True
+
     # R5P02 (ZEITRISS TERMINAL-UX1-R6-FERTIGSTELLUNG): die EINZIGEN
     # `PersonaCreationOutcome.reason`-Praefixe aus
     # `domain/zeitriss/community_creation.py`, die ein `error`-Outcome
@@ -3313,8 +3400,18 @@ class TuiSession:
         # `core/creation_service.run_admitted_creation_dialog` je erreicht wird.
         blocked, reason = read_admission_block(self.run_dir, dollar_billed=_tui_early_gate_dollar_billed())
         if blocked:
-            self._print(f"Erschaffungsdialog blockiert (Admission-Gate: {reason}) — kein Modellaufruf.")
-            return
+            # R3-06: der normale Solo-/Betreiberweg darf hier nicht nur
+            # abbrechen und auf einen externen Dateieingriff verweisen --
+            # der Host bekommt JETZT, im normalen Dialog, die Moeglichkeit,
+            # eine begrenzte Freigabe selbst einzurichten (nur beim echten
+            # Erstfall ohne jede `lab.status.json`, s. `_offer_operator_
+            # budget_setup`-Docstring). Gelingt das, wird NEU geprueft,
+            # statt blind weiterzulaufen.
+            if self._offer_operator_budget_setup(self.run_dir, reason):
+                blocked, reason = read_admission_block(self.run_dir, dollar_billed=_tui_early_gate_dollar_billed())
+            if blocked:
+                self._print(f"Erschaffungsdialog blockiert (Admission-Gate: {reason}) — kein Modellaufruf.")
+                return
         import inspect
         try:
             accepts_id = len(inspect.signature(self.gm_transport_factory).parameters) >= 1
@@ -9702,6 +9799,21 @@ class TuiSession:
         card = io._build_resume_card(participant_id=pid)
         has_character = card is not None and card.chrononaut_id is not None
         io._print(f"-- Abschlusskarte fuer '{pid}' --")
+        # BUG-R1-04 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261118-r3): der
+        # KI-SL-Hinweis "neuen Chat oeffnen, Save laden" (Chargen-Save-Gate/
+        # Abschnittswechsel, s. core/spieler-handbuch.md) ist fuer das
+        # Chat-basierte OpenWebUI-Produkt korrekt, aber im Terminal (dieses
+        # Kommando) irreleitend -- es gibt dort gar keinen "Chat" zu
+        # wechseln, der naechste Abschnitt laeuft im selben Prozess weiter.
+        # Bewusst HIER (an der echten, produktautoritativen Abschlusskarte)
+        # korrigiert statt per Text-Mustersuche im freien KI-SL-Narrativ
+        # (zu fragil/unzuverlaessig bei variabler Formulierung) UND OHNE den
+        # Masterprompt/die WS-Regel selbst anzufassen (die gilt weiterhin
+        # unveraendert fuer den Chat-basierten Weg).
+        io._print(
+            "(Hinweis: Im Terminal musst du dafuer KEINEN neuen Chat oeffnen -- "
+            "der naechste Abschnitt laeuft hier im selben Fenster weiter.)"
+        )
         if saved_now and has_character:
             io._print(
                 f"Gueltiger neuer Spielstand gespeichert ({card.last_valid_save_summary or card.chrononaut_id})."
@@ -11453,9 +11565,16 @@ class TuiSession:
                     "Zeitgedanken jetzt " + ("an" if self._zeitgedanken else "aus")
                     + " (bedienbar ueber 'einstellungen zeitgedanken an/aus', kein Shellwissen noetig)."
                 )
+            elif sub == "budget":
+                if self.run_dir is None:
+                    self._print("Laufumgebung (run_dir): nicht konfiguriert (kein Lab-Status verfuegbar).")
+                elif len(args) >= 2 and args[1].strip().lower() in ("erhoehen", "erhöhen", "raise"):
+                    self._offer_operator_budget_raise(self.run_dir)
+                else:
+                    self._print_budget_breakdown(self.run_dir)
             else:
                 self._print(
-                    f"Unbekannte Einstellung {args[0]!r} -- bekannt: 'zeitgedanken [an|aus]'."
+                    f"Unbekannte Einstellung {args[0]!r} -- bekannt: 'zeitgedanken [an|aus]', 'budget [erhoehen]'."
                 )
         # U4c: realer, lokal verfuegbarer Schalterzustand (analog zu den
         # uebrigen echten Angaben hier). Opt-out ueber Konstruktorparameter
@@ -11469,13 +11588,107 @@ class TuiSession:
         if self.run_dir is None:
             self._print("Laufumgebung (run_dir): nicht konfiguriert (kein Lab-Status verfuegbar).")
             return
+        self._print_budget_breakdown(self.run_dir)
+        self._print("(Details: 'einstellungen budget'. Grenze anheben: 'einstellungen budget erhoehen'.)")
+
+    # R3-07 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261118-r3, Code-Teil):
+    # Sicherheitsreservierung, geschaetzter/tatsaechlicher Verbrauch und
+    # unbekannte Werte GETRENNT sichtbar machen, statt nur den additiv
+    # verbuchten `usd_spent`-Gesamtbetrag zu zeigen -- "unbeobachtet ist
+    # nicht null" (Nachzugauftrag §C). Reine Anzeige, KEIN Refund, KEIN
+    # Gate-Eingriff; die Zahlen selbst (EUR/USD-Umrechnung, Zwischenbetrag)
+    # berichtigt Main getrennt (R3-07-Zahlenteil) -- das hier ist nur der
+    # bedienbare/ehrliche UI-Teil.
+    def _print_budget_breakdown(self, run_dir: "str | Path") -> None:
         from ..core.admission import read_admission_block
         from ..lab.runner import read_status
-        blocked, reason = read_admission_block(self.run_dir)
+
+        status_path = Path(run_dir) / "lab.status.json"
+        if not status_path.exists():
+            self._print("Betreiber-/Budgetfreigabe: noch keine vorhanden (s. 'neue Erschaffung').")
+            return
+        blocked, reason = read_admission_block(run_dir)
+        status = read_status(run_dir)
         self._print(f"Admission-Gate: {'blockiert (' + str(reason) + ')' if blocked else 'frei'}")
-        status = read_status(self.run_dir)
-        if status is not None:
-            self._print(f"Lab-Status: turns_used={status.turns_used} usd_spent={status.usd_spent:.4f} running={status.running}")
+        if status is None:
+            return
+        self._print(
+            f"Anfragen (Turns): {status.turns_used}" +
+            (f" / max. {status.max_turns}" if status.max_turns is not None else " (keine Obergrenze gesetzt)")
+        )
+        self._print(
+            f"Zeit: {status.seconds_elapsed:.0f}s" +
+            (f" / max. {status.max_seconds:.0f}s" if status.max_seconds is not None else " (keine Obergrenze gesetzt)")
+        )
+        # G2b: `max_usd=None` ist beim Hybrid-Profil normal (kein erfundenes
+        # Dollarbudget fuer einen Treiber ohne API-Abrechnung) -- NICHT als
+        # "0 USD verbraucht" missverstehbar machen.
+        if status.max_usd is not None:
+            remaining = status.max_usd - status.usd_spent
+            self._print(
+                f"Kosten (USD, additiv verbucht -- Sicherheitsreservierung + ggf. nachgebuchte "
+                f"tatsaechliche Mehrkosten, NIE erstattet bei Minderverbrauch): "
+                f"{status.usd_spent:.4f} / max. {status.max_usd:.4f} "
+                f"(verbleibend: {max(0.0, remaining):.4f})"
+            )
+        else:
+            self._print(
+                f"Kosten (USD, additiv verbucht, kein Dollar-Limit konfiguriert): {status.usd_spent:.4f}"
+            )
+        if status.usd_unknown_turns:
+            self._print(
+                f"  davon {status.usd_unknown_turns} Anfrage(n) mit NICHT vom Provider gemeldeten "
+                "Kosten -- konservativ geschaetzt verbucht, nicht als 0 behandelt (unbeobachtet ≠ null)."
+            )
+
+    def _offer_operator_budget_raise(self, run_dir: "str | Path") -> None:
+        """R3-07: 'eine interne Budgetgrenze kann konservativer als die
+        Rechnung sein -- ein dafuer noetiger Betreiberentscheid muss
+        Bedeutung + gueltigen Gesamtrahmen zeigen, kein heimliches
+        Hochsetzen.' Zeigt die AKTUELLEN Werte zuerst, verlangt dann fuer
+        JEDES Feld eine explizite neue Eingabe (kein Default-Weiterklicken
+        auf einen höheren Wert) und bestaetigt den vollen neuen Rahmen
+        VOR dem Schreiben."""
+        from ..core.admission import OperatorBudgetAlreadyGrantedError, grant_operator_budget
+        from ..lab.runner import read_status
+
+        status = read_status(run_dir)
+        if status is None:
+            self._print("Noch keine Betreiberfreigabe vorhanden -- s. 'neue Erschaffung' fuer den Ersteinrichtungsdialog.")
+            return
+        self._print(
+            f"  Aktuell: max. {status.max_turns} Anfragen, {status.max_seconds}s, "
+            f"{status.max_usd if status.max_usd is not None else 'kein Limit'} USD."
+        )
+        self._print("  Neue Obergrenze eingeben (leer = aktuellen Wert behalten):")
+        raw_turns = self._readline(f"  Max. Anfragen [{status.max_turns}]: ").strip()
+        raw_seconds = self._readline(f"  Max. Sekunden [{status.max_seconds}]: ").strip()
+        raw_usd = self._readline(f"  Max. USD [{status.max_usd}]: ").strip()
+        try:
+            new_turns = int(raw_turns) if raw_turns else status.max_turns
+            new_seconds = float(raw_seconds) if raw_seconds else status.max_seconds
+            new_usd = float(raw_usd) if raw_usd else status.max_usd
+        except ValueError:
+            self._print("  Ungueltige Zahl -- nichts geaendert.")
+            return
+        if new_turns is None or new_seconds is None:
+            self._print("  Max. Anfragen/Sekunden muessen gesetzt sein -- nichts geaendert.")
+            return
+        ans = self._readline(
+            f"  Neuer Gesamtrahmen: max. {new_turns} Anfragen, {new_seconds}s, "
+            f"{new_usd if new_usd is not None else 'kein Limit'} USD -- bestaetigen? (j/n) [n]: "
+        ).strip().lower()
+        if ans not in ("j", "y", "ja", "yes"):
+            self._print("  Uebersprungen -- bestehende Grenze unveraendert.")
+            return
+        try:
+            grant_operator_budget(
+                run_dir, max_turns=new_turns, max_seconds=new_seconds, max_usd=new_usd, allow_overwrite=True,
+            )
+        except OperatorBudgetAlreadyGrantedError as e:  # pragma: no cover - sollte mit allow_overwrite nie auftreten
+            self._print(f"  {e}")
+            return
+        self._print("  ✓ Betreibergrenze aktualisiert.")
 
     def run(self) -> int:
         self._maybe_show_first_run_intro()
