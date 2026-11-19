@@ -11615,7 +11615,19 @@ class TuiSession:
             self._print("Betreiber-/Budgetfreigabe: noch keine vorhanden (s. 'neue Erschaffung').")
             return
         blocked, reason = read_admission_block(run_dir)
-        status = read_status(run_dir)
+        try:
+            status = read_status(run_dir)
+        except (json.JSONDecodeError, OSError, TypeError, ValueError):
+            # R6-01 fail-closed (02_NACHZUG_AUFTRAG.md A "beschaedigter Status
+            # bleibt ein klarer Halt"): eine vorhandene, aber unlesbare
+            # lab.status.json darf die Statusanzeige nicht crashen lassen --
+            # klarer Halt statt rohem Parsefehler, kein Reset.
+            self._print(
+                "Betreiber-/Budgetstatus ist vorhanden, aber beschaedigt/"
+                "unlesbar -- kein automatischer Reset. Bitte lab.status.json "
+                "pruefen."
+            )
+            return
         self._print(f"Admission-Gate: {'blockiert (' + str(reason) + ')' if blocked else 'frei'}")
         if status is None:
             return
@@ -11679,9 +11691,51 @@ class TuiSession:
         )
         from ..lab.runner import read_status
 
-        status = read_status(run_dir)
+        try:
+            status = read_status(run_dir)
+        except (json.JSONDecodeError, OSError, TypeError, ValueError):
+            # R6-01/R4-02 fail-closed (02_NACHZUG_AUFTRAG.md A "beschaedigter
+            # Status bleibt ein klarer Halt"): eine VORHANDENE, aber
+            # unlesbare/beschaedigte lab.status.json ist WEDER ein Erstfall
+            # (nicht ueber den Setup-Dialog ueberschreiben) NOCH ein gueltiger
+            # Rahmen (nicht erhoehen). Vorher propagierte der rohe
+            # `read_status`-Parsefehler ungefangen und crashte den normalen
+            # Einstellungsweg; jetzt ein klarer, sichtbarer Halt ohne Reset,
+            # ohne Schreiben, ohne stille Null-Zaehler.
+            self._print(
+                "Betreiber-/Budgetstatus ist vorhanden, aber beschaedigt/"
+                "unlesbar -- kein automatischer Reset, keine Ersteinrichtung "
+                "darueber. Bitte lab.status.json pruefen."
+            )
+            return
         if status is None:
-            self._print("Noch keine Betreiberfreigabe vorhanden -- s. 'neue Erschaffung' fuer den Ersteinrichtungsdialog.")
+            # R6-01 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-r6,
+            # 01_GENERAL_REVIEW.md R6-01): echter Erstfall (gar keine lesbare
+            # lab.status.json). Bisher verwies dieser Zweig NUR auf 'neue
+            # Erschaffung' -- das half einem bereits fertig IMPORTIERTEN
+            # Charakter NICHT: dessen Erschaffung ist abgeschlossen und bietet
+            # den Setup-Dialog nicht mehr an, sodass beide r5-Laeufe nur ueber
+            # einen EXTERNEN `grant_operator_budget`-Python-Aufruf spielbar
+            # wurden. Jetzt stellt die normale Einstellungsoberflaeche
+            # ('einstellungen budget erhoehen') die erste endliche Freigabe
+            # selbst her -- derselbe Dialog/derselbe Vertrag wie im
+            # Erschaffungspfad (`_offer_operator_budget_setup`), bereits oben
+            # host-gegatet (`_require_host`). KEIN zweites Budgetprofil, KEIN
+            # externer Grant, KEIN `provider_free`. `_offer_operator_budget_
+            # setup` schreibt ausschliesslich beim echten Erstfall (prueft
+            # `status_path.exists()` selbst) -- eine vorhandene, aber nur
+            # unlesbar/beschaedigte Datei existiert und wird dort NICHT
+            # ueberschrieben (fail-closed, R4-02), sondern faellt hier auf den
+            # Hinweis zurueck. Verbrauchszaehler/Host-Gast-Grenze unberuehrt.
+            if self._offer_operator_budget_setup(
+                run_dir, "einstellungen: erste Betreiber-/Budgetfreigabe"
+            ):
+                return
+            self._print(
+                "Keine Betreiberfreigabe eingerichtet -- alternativ 'neue "
+                "Erschaffung' fuer den Ersteinrichtungsdialog (eine vorhandene, "
+                "aber beschaedigte Freigabe wird hier NICHT ueberschrieben)."
+            )
             return
         self._print(
             f"  Aktuell: max. {status.max_turns} Anfragen, {status.max_seconds}s, "
