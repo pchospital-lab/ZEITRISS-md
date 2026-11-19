@@ -89,6 +89,23 @@ ARCHIVE_URL_ENV_OVERRIDE = "LAUNCHER_UPDATE_ARCHIVE_URL"
 ARCHIVE_URL_OVERRIDE_ENABLE_FLAG = "LAUNCHER_UPDATE_ALLOW_ARCHIVE_OVERRIDE"
 _ALLOWED_ARCHIVE_SCHEMES = ("http", "https", "file")
 
+# R7-03 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §04): ein r6-Test
+# tauschte NUR die Archivbytes (`ARCHIVE_URL_ENV_OVERRIDE`) -- `check_for_
+# update` las weiter die OFFIZIELLE Quelle, der dort gelesene `remote_rev`
+# (offizielles `main`) wanderte unveraendert als `target_rev` bis zu
+# `mark_files_updated`/`adopt_staged_update`: der persistierte `installed_
+# rev` nannte danach eine ANDERE Revision als die tatsaechlich installierten
+# Kandidatenbytes. `CANDIDATE_REV_ENV_OVERRIDE` pinnt deshalb die von `check_
+# for_update` gemeldete Zielrevision an DENSELBEN expliziten Kandidaten --
+# bewusst HINTER demselben bereits bestehenden Freigabeschalter (`ARCHIVE_
+# URL_OVERRIDE_ENABLE_FLAG`), NICHT einem eigenen: ein kontrollierter Vor-
+# Merge-Test setzt beide Override-Variablen gemeinsam und bindet sie damit
+# IMMER an denselben gepinnten Endkandidaten, nie unabhaengig voneinander.
+# Ein normaler Spielerlauf setzt diese Variable nie; ohne den Freigabe-
+# schalter bleibt sie inert -- der offizielle Default-Check liest dann
+# weiterhin ausschliesslich die offizielle Quelle (read-only, unveraendert).
+CANDIDATE_REV_ENV_OVERRIDE = "LAUNCHER_UPDATE_CANDIDATE_REV"
+
 # Nie durch eine Dateiübernahme berührt — Nutzdaten, Secrets, private
 # Laufzeitumgebung, Sync-Zuordnung. Pfade relativ zum Repo-Root.
 PROTECTED_RELPATHS: tuple[str, ...] = (
@@ -664,6 +681,40 @@ def check_for_update(
     eine unbestimmte lokale Herkunft ergibt NIE `"current"`."""
     local = detect_local_state(repo)
     checked_at = _now_iso()
+
+    # R7-03 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §04): kontrollierter
+    # Vor-Merge-Kandidatenpfad -- NUR wirksam, wenn BEIDE Override-Variablen
+    # (dieselbe Freischaltung wie der Archiv-URL-Override) gesetzt sind, damit
+    # Zielrevision UND Archivbytes IMMER gemeinsam an denselben gepinnten
+    # Kandidaten gebunden sind (s. `CANDIDATE_REV_ENV_OVERRIDE`-Docstring). Der
+    # `reason`-Text nennt diesen Pfad ausdrücklich "kontrollierter Vor-Merge-
+    # Test" -- NIE "geprüfte/offizielle Quelle" -- ein ungeprüftes Archiv wird
+    # damit nicht als offizielles Main etikettiert. Ohne BEIDE Variablen bleibt
+    # dieser Zweig inert; der Default-Check unten liest unverändert read-only
+    # ausschließlich die offizielle Quelle.
+    candidate_rev = os.environ.get(CANDIDATE_REV_ENV_OVERRIDE, "").strip()
+    if candidate_rev and os.environ.get(ARCHIVE_URL_OVERRIDE_ENABLE_FLAG, "").strip():
+        prior_state = read_state(repo)
+        sync_pending = prior_state.get("sync_status") in ("pending", "failed")
+        sync_detail = prior_state.get("sync_error", "") if sync_pending else ""
+        write_state(repo, last_check_status="ok", last_check_at=checked_at, last_known_remote_rev=candidate_rev)
+        if local.rev is None:
+            return UpdateCheckResult(
+                "unknown", "lokaler Stand nicht sicher bestimmbar (unverwaltete Installation)",
+                local, candidate_rev, checked_at, sync_pending, sync_detail,
+            )
+        if local.rev == candidate_rev:
+            return UpdateCheckResult(
+                "current",
+                "lokaler Stand entspricht dem gepinnten Kandidaten (kontrollierter Vor-Merge-Test, "
+                "KEIN offizieller Check)",
+                local, candidate_rev, checked_at, sync_pending, sync_detail,
+            )
+        return UpdateCheckResult(
+            "update_available",
+            "gepinnter Kandidat (kontrollierter Vor-Merge-Test, KEIN offizieller Check)",
+            local, candidate_rev, checked_at, sync_pending, sync_detail,
+        )
 
     if local.source == "git":
         remote_rev, err = fetch_remote_head_via_git(repo, remote=remote, timeout=timeout)
