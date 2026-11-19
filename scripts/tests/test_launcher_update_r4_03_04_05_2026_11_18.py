@@ -304,44 +304,88 @@ class TestR405aAtomicOwnedLock(_AdoptFixtureBase):
         self.assertTrue(lp.exists(), "die leere Sperre haette NICHT geloescht werden duerfen")
         self.assertEqual(lp.read_text("utf-8"), "", "die vorgefundene Sperre haette unveraendert bleiben muessen")
 
-    def test_orphan_removal_helper_refuses_to_delete_a_meanwhile_reacquired_living_lock(self):
-        """Clobber-Schutz (D1, Praezisierung 2): eine WIRKLICH verwaiste
-        Sperre (toter PID) wurde zwischen dem Verwaistheits-Check und dem
-        geplanten `unlink()` bereits von einem DRITTEN Prozess legitim
-        uebernommen -- die Lockdatei zeigt jetzt einen LEBENDEN fremden
-        PID. Der injizierbare Helfer
-        `_remove_orphaned_lock_if_still_owned_by` muss diesen
-        zwischenzeitlichen Unterschied erkennen und NICHT loeschen (sonst
-        wuerde ein verspaeteter zweiter Uebernahmeversuch den frisch
-        erworbenen Lock klauen -- der eigentliche Clobber-Bug)."""
+    def test_a_late_reclaimer_cannot_clobber_a_meanwhile_reacquired_living_lock(self):
+        """R6-02 (01_GENERAL_REVIEW.md R6-02): deterministischer Gegenfall am
+        ECHTEN Erwerbsweg fuer das Fenster NACH dem letzten Besitzerlesen.
+        Alter Mechanismus: `_remove_orphaned_lock_if_still_owned_by` las den
+        toten PID und loeschte DANACH den Pfadnamen -- zwei getrennte
+        Schritte, kein atomares Compare-and-delete. Ein zweiter Prozess
+        konnte in der Luecke die verwaiste Sperre uebernehmen, lebend bleiben
+        und wurde dann vom verspaeteten `unlink()` des ersten geloescht ->
+        zwei gleichzeitige Schreiber. Dieser Test stellt die tatsaechliche
+        Schutzstelle scharf: eine WIRKLICH verwaiste Sperre (toter PID) liegt
+        vor; Prozess B uebernimmt sie ueber den realen `acquire_update_lock`
+        und bleibt LEBEND im geschuetzten Abschnitt (haelt den fcntl.flock).
+        Erst DANACH versucht A (dieser Testprozess) denselben realen Erwerb.
+        A darf B's frisch erworbene, lebende Sperre WEDER uebernehmen NOCH
+        loeschen -- flock serialisiert den Zugriff kernelseitig, es gibt kein
+        read->unlink-Fenster mehr."""
         dead_pid = 999999  # praktisch garantiert nicht belegt
         lp = lu._lock_path(self.repo)
         lp.write_text(f"{dead_pid} 2020-01-01T00:00:00Z\n", encoding="utf-8")
 
-        # Zwischenzeitlich (nach dem Verwaistheits-Check, VOR dem geplanten
-        # unlink) hat ein Dritter die Sperre bereits legitim neu erworben --
-        # lebender PID (die eigene PID dieses Testprozesses ist garantiert lebend).
-        living_pid = os.getpid()
-        lp.write_text(f"{living_pid} {lu._now_iso()}\n", encoding="utf-8")
+        ctx = multiprocessing.get_context("fork")
+        q = ctx.Queue()
+        start_barrier = ctx.Barrier(1)  # einzelner Worker: kein Wettlauf, gezielte Reihenfolge
+        release_event = ctx.Event()
+        b = ctx.Process(
+            target=_acquire_lock_worker_wait_before_exit,
+            args=(str(self.repo), q, start_barrier, release_event),
+        )
+        b.start()
+        try:
+            b_pid, b_err = q.get(timeout=10)
+            # B hat die verwaiste Sperre ueber den realen Weg uebernommen und
+            # lebt noch (blockiert auf release_event) -> haelt den flock.
+            self.assertIsNone(b_err, f"B haette die verwaiste Sperre uebernehmen muessen: {b_err}")
+            self.assertEqual(int(lp.read_text("utf-8").split()[0]), b_pid)
 
-        removed = lu._remove_orphaned_lock_if_still_owned_by(lp, dead_pid)
-
-        self.assertFalse(removed, "ein inzwischen neu erworbener lebender Lock haette NICHT entfernt werden duerfen")
-        self.assertTrue(lp.exists())
-        self.assertEqual(int(lp.read_text("utf-8").split()[0]), living_pid)
+            # A versucht JETZT denselben realen Erwerb -- B lebt und haelt.
+            a_err = lu.acquire_update_lock(self.repo)
+            self.assertIsNotNone(a_err, "A haette B's lebende Sperre NICHT erwerben duerfen")
+            self.assertIn("läuft bereits", a_err)
+            self.assertTrue(lp.exists(), "B's lebende Sperre haette NICHT geloescht werden duerfen")
+            self.assertEqual(
+                int(lp.read_text("utf-8").split()[0]), b_pid,
+                "die Sperre haette weiterhin B gehoeren muessen (kein Clobber)",
+            )
+            self.assertNotIn(lu._lock_registry_key(lp), lu._HELD_LOCK_FDS,
+                             "A haette keine eigene fd registrieren duerfen")
+        finally:
+            release_event.set()
+            b.join(timeout=10)
+        self.assertEqual(b.exitcode, 0, "B-Prozess ist abgestuerzt/haengt")
 
     def test_acquire_refuses_and_does_not_delete_a_living_foreign_lock(self):
-        """Schutz einer lebenden fremden Sperre: PID 1 (init) simuliert
-        einen garantiert lebenden fremden Prozess -- `acquire_update_lock`
-        darf diese Sperre weder uebernehmen noch loeschen."""
-        lu._lock_path(self.repo).write_text(f"1 {lu._now_iso()}\n", encoding="utf-8")
+        """R6-02: eine WIRKLICH lebende fremde Sperre (ein anderer Prozess
+        haelt den fcntl.flock tatsaechlich) darf weder uebernommen noch
+        geloescht werden. Vorher wurde Lebendigkeit ueber einen bloss
+        hingeschriebenen PID (`os.kill(pid,0)`) modelliert -- durch PID-
+        Wiederverwendung taeuschbar und am neuen Mechanismus nicht mehr die
+        massgebliche Schutzstelle. Jetzt realer Halter: Prozess B erwirbt
+        ueber `acquire_update_lock` und bleibt lebend, dann wird A abgewiesen."""
+        ctx = multiprocessing.get_context("fork")
+        q = ctx.Queue()
+        start_barrier = ctx.Barrier(1)
+        release_event = ctx.Event()
+        b = ctx.Process(
+            target=_acquire_lock_worker_wait_before_exit,
+            args=(str(self.repo), q, start_barrier, release_event),
+        )
+        b.start()
+        try:
+            b_pid, b_err = q.get(timeout=10)
+            self.assertIsNone(b_err, f"B haette frisch erwerben muessen: {b_err}")
 
-        err = lu.acquire_update_lock(self.repo)
-
-        self.assertIsNotNone(err)
-        self.assertIn("läuft bereits", err)
-        self.assertTrue(lu._lock_path(self.repo).exists())
-        self.assertEqual(lu._lock_path(self.repo).read_text("utf-8").split()[0], "1")
+            err = lu.acquire_update_lock(self.repo)
+            self.assertIsNotNone(err, "eine lebende fremde Sperre haette NICHT erworben werden duerfen")
+            self.assertIn("läuft bereits", err)
+            self.assertTrue(lu._lock_path(self.repo).exists())
+            self.assertEqual(int(lu._lock_path(self.repo).read_text("utf-8").split()[0]), b_pid)
+        finally:
+            release_event.set()
+            b.join(timeout=10)
+        self.assertEqual(b.exitcode, 0, "B-Prozess ist abgestuerzt/haengt")
 
     def test_legitimate_acquire_after_release_succeeds(self):
         """Gegenprobe: nach regulaerer Freigabe (`release_update_lock`)

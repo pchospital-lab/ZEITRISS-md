@@ -584,21 +584,29 @@ class TestAdoptStagedUpdate(unittest.TestCase):
         self.assertEqual((self.repo / "scripts" / "old_module.py").read_text(), "HAND-EDITED\n")
 
     def test_concurrent_adoption_attempt_is_rejected_while_lock_held(self):
-        """R3-03-Abnahme: gleichzeitige Updateversuche müssen denselben
-        Installationszustand schützen -- kein paralleles Kopieren. PID 1
-        (init) simuliert hier einen FREMDEN, garantiert lebenden Prozess --
-        die eigene PID würde `acquire_update_lock` (zu Recht) als
-        Reentry desselben Prozesses durchlassen, das testet also nicht den
-        'ein anderer Prozess hält die Sperre'-Fall."""
+        """R3-03-Abnahme, auf die R6-02-Schutzstelle angepasst: gleichzeitige
+        Updateversuche muessen denselben Installationszustand schuetzen --
+        kein paralleles Kopieren. Lebendigkeit wird jetzt ueber einen
+        TATSAECHLICH gehaltenen `fcntl.flock` modelliert (massgeblich), nicht
+        mehr ueber einen bloss hingeschriebenen PID (`os.kill(pid,0)` ist
+        durch PID-Wiederverwendung taeuschbar; der neue Mechanismus stuetzt
+        sich auf den kernelverwalteten OS-Lock). Ein separater fd haelt den
+        Lock real; `adopt_staged_update`s interner `acquire_update_lock`
+        scheitert daran mit 'läuft bereits' und kopiert NICHTS."""
+        import fcntl as _fcntl
         staging = self._staging({"setup.json": "{}", "scripts/a.py": "A\n"})
-        lu._lock_path(self.repo).write_text(f"1 {lu._now_iso()}\n", encoding="utf-8")
+        lp = lu._lock_path(self.repo)
+        holder_fd = os.open(str(lp), os.O_CREAT | os.O_WRONLY, 0o644)
+        _fcntl.flock(holder_fd, _fcntl.LOCK_EX | _fcntl.LOCK_NB)
+        os.write(holder_fd, b"1 fremder-flock-halter\n")
         try:
             result = lu.adopt_staged_update(self.repo, staging, "rev-1")
             self.assertFalse(result.ok)
             self.assertIn("läuft bereits", result.message)
-            self.assertEqual(list(self.repo.iterdir()), [lu._lock_path(self.repo)])
+            self.assertEqual(list(self.repo.iterdir()), [lp])
         finally:
-            lu.release_update_lock(self.repo)
+            _fcntl.flock(holder_fd, _fcntl.LOCK_UN)
+            os.close(holder_fd)
 
     def test_stale_lock_from_dead_process_is_reclaimed(self):
         """Ein Lock einer PID, die nicht mehr existiert (z. B. nach einem

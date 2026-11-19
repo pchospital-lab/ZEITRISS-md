@@ -41,6 +41,7 @@ Kernentscheidungen:
 Kein Modell-/GM-Aufruf, keine neuen Zugangsdaten, kein Zwangsupdate."""
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
 import os
@@ -149,157 +150,221 @@ def _lock_path(repo: Path) -> Path:
     return repo / LOCK_FILENAME
 
 
-def _try_create_lock_exclusively(lp: Path, payload: str) -> bool:
-    """`True`, wenn DIESER Aufruf die Sperrdatei unter ihrem finalen Namen
-    atomar MIT vollständigem Inhalt veröffentlicht hat. `False`, wenn `lp`
-    bereits existiert (von wem auch immer) -- in diesem Fall bleibt eine
-    eventuell schon vorhandene fremde Sperre UNBERÜHRT.
-
-    Stage-1b-TOCTOU-Fix (D1, 02_NACHZUG_AUFTRAG.md): vorher öffnete
-    `os.open(lp, O_CREAT|O_EXCL|O_WRONLY)` die Datei UNTER DEM FINALEN
-    NAMEN leer und schrieb das PID-Payload erst danach in einem
-    GETRENNTEN zweiten Schritt (`os.fdopen(fd, "w").write(...)`) --
-    zwischen Anlage und fertigem Schreiben war die Datei für jeden
-    anderen Prozess LEER SICHTBAR (ein zeitgleicher Leser sah
-    `"".split()[0]` -> `IndexError` -> fälschlich "verwaist" -> blindes
-    `unlink()` löschte die noch gar nicht fertige fremde Sperre). Jetzt
-    wird der Payload vollständig in eine prozess-eindeutige Temp-Datei IM
-    SELBEN Verzeichnis geschrieben (gleiches Dateisystem -- Voraussetzung
-    für `os.link`) und erst DANACH per `os.link(tmp, lp)` unter dem
-    finalen Namen veröffentlicht: `link()` ist ein einziger Kernel-
-    Syscall, der entweder (a) mit `FileExistsError` scheitert, wenn `lp`
-    bereits existiert -- OHNE sie anzufassen, erhält also Exklusivität
-    und überschreibt NIE eine fremde Sperre --, oder (b) sofort mit dem
-    KOMPLETTEN Inhalt erscheint. Eine leer sichtbare Zwischenstufe unter
-    dem finalen Namen gibt es dadurch nicht mehr."""
-    tmp_fd, tmp_name = tempfile.mkstemp(
-        dir=str(lp.parent), prefix=f".{lp.name}.{os.getpid()}.", suffix=".tmp",
-    )
-    tmp_path = Path(tmp_name)
+def _lock_registry_key(lp: Path) -> str:
+    """Stabiler Schluessel fuer die prozesslokale Registry gehaltener
+    Lock-fds (`_HELD_LOCK_FDS`). Aufgeloester absoluter Pfad, damit
+    `acquire`/`release` dieselbe Sperre ueber identische Repos erkennen."""
     try:
-        with os.fdopen(tmp_fd, "w") as fh:
-            fh.write(payload)
-        try:
-            os.link(str(tmp_path), str(lp))
-        except FileExistsError:
-            return False
-        return True
-    finally:
-        try:
-            tmp_path.unlink()
-        except OSError:
-            pass
+        return str(lp.resolve(strict=False))
+    except OSError:
+        return str(lp)
 
 
-def _remove_orphaned_lock_if_still_owned_by(lp: Path, expected_dead_pid: int) -> bool:
-    """Entfernt `lp` NUR, wenn sie UNMITTELBAR vor dem Löschen noch exakt
-    denselben (bereits als tot bestätigten) PID trägt wie beim
-    Verwaistheits-Check -- verhindert, dass ein zwischenzeitlich von einem
-    DRITTEN Prozess legitim neu erworbener (jetzt lebender) Lock durch ein
-    blindes `unlink()` geklaut/gelöscht wird (Clobber-Schutz, Präzisierung
-    2 aus 02_NACHZUG_AUFTRAG.md D1). `True`, wenn tatsächlich entfernt;
-    `False`, wenn die Sperre inzwischen abweicht (fremd übernommen,
-    verändert oder bereits verschwunden) -- dann bleibt sie unberührt und
-    der Aufrufer muss die Übernahme abbrechen. Eigener kleiner, injizier-
-    barer Helfer (kein Test-only-Pfad), damit die Regression dieses enge
-    Zeitfenster deterministisch prüfen kann."""
+def _fd_still_matches_path(fd: int, lp: Path) -> bool:
+    """`True`, wenn die offene `fd` und der AKTUELLE Verzeichniseintrag `lp`
+    dieselbe Datei sind (`st_dev`/`st_ino`). Schuetzt gegen einen Geist-fd:
+    ein gleichzeitiger Prozess kann `lp` zwischen `os.open` und dem eigenen
+    `flock`-Erwerb unlinkt/ersetzt haben -- dann haelt die eigene fd nur
+    noch eine verwaiste Inode, die nicht mehr dem Pfad entspricht, und ein
+    DRITTER Prozess koennte den (wieder freien) Pfad erneut frisch erwerben
+    (zwei gleichzeitige Owner). Muster uebernommen aus der bereits
+    virtiofs-geprueften `mmo_sim/lab/runner.py:_fd_still_matches_path`."""
     try:
-        current_pid = int(lp.read_text("utf-8").strip().split()[0])
-    except (OSError, ValueError, IndexError):
-        return False
-    if current_pid != expected_dead_pid:
-        return False
-    try:
-        lp.unlink()
+        fd_st = os.fstat(fd)
+        path_st = os.stat(lp)
     except OSError:
         return False
-    return True
+    return fd_st.st_dev == path_st.st_dev and fd_st.st_ino == path_st.st_ino
+
+
+def _peek_lock_pid(fd: int) -> Optional[int]:
+    """Liest den rein INFORMATIVEN PID-Eintrag aus der Lockdatei (erste
+    Whitespace-getrennte Zahl). `None`, wenn leer/unlesbar/unparsebar --
+    der Aufrufer behandelt das NICHT als 'frei', sondern als unklare
+    Sperre (G3a-Muster). Die massgebliche Autoritaet ist der `flock`, nie
+    dieser Wert (eine PID kann durch Wiederverwendung taeuschen)."""
+    try:
+        raw = os.pread(fd, 4096, 0)
+        return int(raw.decode("utf-8").strip().split()[0])
+    except (OSError, ValueError, IndexError, UnicodeDecodeError):
+        return None
+
+
+# R6-02 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-r6, 01_GENERAL_
+# REVIEW.md R6-02): die MASSGEBLICHE Mutual-Exclusion gegen gleichzeitige
+# Updateversuche ist jetzt ein kernelverwalteter `fcntl.flock(LOCK_EX|
+# LOCK_NB)` auf einer stabilen, fuer die gesamte Besitzdauer OFFEN
+# gehaltenen Lock-fd -- NICHT mehr die fruehere Folge "PID lesen + Pfad
+# per `unlink()` loeschen". Jene Folge hatte ein echtes TOCTOU-Fenster
+# INNERHALB des Verwaist-Helfers ZWISCHEN seinem letzten `read_text`
+# (PID == erwarteter toter Besitzer) und `unlink()`: ein zweiter Prozess B
+# konnte in dieser Luecke die tote Sperre uebernehmen, seinen eigenen Lock
+# veroeffentlichen und lebend bleiben -- worauf A's ausstehendes `unlink()`
+# nur noch den PFADNAMEN (jetzt B's lebenden Lock) traf und loeschte; A
+# legte danach seinen eigenen an und beide Installer schrieben gleichzeitig.
+# `unlink(path)` ist atomar, aber KEIN atomares Compare-and-delete: es
+# entfernt, was JETZT unter dem Namen liegt, nicht "nur, wenn Inhalt==X".
+# Der Fix ersetzt das Prinzip, statt nur einen weiteren Read einzufuegen:
+#  * Ein toter frueherer Besitzer verliert seinen `flock` automatisch durch
+#    den Kernel (fd-Schluss bei Prozessende) -- es gibt KEINE manuelle
+#    Verwaist-Loeschung mehr, also auch kein read->unlink-Fenster.
+#  * Ein lebender fremder Besitzer haelt den `flock` WIRKLICH -> unser
+#    `LOCK_NB` scheitert -> wir weisen ab und fassen die Datei NICHT an.
+#  * Der PID-Inhalt bleibt rein informativ (Fehlermeldung/Diagnose).
+# `fcntl.flock` ist POSIX (Linux/macOS); Muster + virtiofs-Eignung sind in
+# `mmo_sim/lab/runner.py:_acquire_lock` bereits belegt. Uebergangs-Caveat:
+# eine von PRE-R6-Code geschriebene Altsperre (PID ohne gehaltenen flock)
+# eines noch lebenden Prozesses wuerde hier als uebernahmefaehig gelten --
+# bounded, da die Sperre nur waehrend eines aktiven Updatelaufs existiert
+# und neuer Code durchgaengig flockt.
+_HELD_LOCK_FDS: dict[str, int] = {}
 
 
 def acquire_update_lock(repo: Path) -> Optional[str]:
-    """`None` bei Erfolg, sonst ein Fehlertext (Lock bereits von einem
-    lebenden Prozess gehalten, soeben geschrieben oder beschädigt).
+    """`None` bei Erfolg (DIESER Prozess haelt ab jetzt den OS-Lock, bis
+    `release_update_lock`), sonst ein Fehlertext (lebender fremder Besitzer
+    ODER unklare/beschaedigte Sperre). Siehe R6-02-Block oben.
 
-    R4-05a-Fix (01_GENERAL_REVIEW.md R4-05a, 02_NACHZUG_AUFTRAG.md Block
-    C): vorher waren `exists()`/Lesen/Pruefen und das abschliessende
-    `write_text()` getrennte Schritte -- zwei Prozesse konnten beide die
-    Sperre als frei sehen und beide anschliessend schreiben (TOCTOU). Der
-    Normalfall (noch keine Sperrdatei, ODER eine Sperrdatei eines lebenden
-    fremden Prozesses) ist jetzt durch `O_CREAT|O_EXCL` in EINEM Syscall
-    atomar entschieden. Nur der enge Sonderfall "vorhandene Sperre ist
-    verwaist (toter PID)" braucht weiterhin ein `unlink()` + einen ZWEITEN
-    `O_EXCL`-Versuch -- dieser zweite Versuch bleibt fuer sich atomar:
-    gewinnt ein anderer Prozess das sehr kurze Fenster zwischen `unlink`
-    und dem neuen `open`, scheitert dieser zweite Versuch mit demselben
-    sichtbaren "laeuft bereits"-Fehlertext, KEIN stiller Doppelerfolg.
-
-    Stage-1b-TOCTOU-Fix (D1): dieser R4-05a-Fix allein schloss NICHT das
-    Leer-Fenster zwischen Dateianlage und fertigem Payload-Schreiben unter
-    dem FINALEN Namen (siehe `_try_create_lock_exclusively`). Zusätzlich
-    gilt jetzt (02_NACHZUG_AUFTRAG.md D1, Präzisierung 1): ein leer ODER
-    unlesbar/beschädigt vorgefundener Lock ist KEIN Beleg für Verwaistheit
-    und wird NICHT gelöscht, sondern nur abgewiesen -- nur ein ERFOLGREICH
-    gelesener PID, der sich per `os.kill(pid, 0)` als TOT bestätigt,
-    gilt als verwaist und wird (besitzgeprüft über
-    `_remove_orphaned_lock_if_still_owned_by`, Präzisierung 2) entfernt."""
+    Reentrancy: haelt dieser Prozess die Sperre bereits (Eintrag in
+    `_HELD_LOCK_FDS`), ist ein zweiter Erwerb ein No-Op-Erfolg -- kein
+    zweiter `flock` auf einer neuen fd (POSIX: Lock haengt an der
+    open-file-description, ein zweiter unabhaengiger Erwerb im selben
+    Prozess wuerde sich sonst selbst blockieren)."""
     lp = _lock_path(repo)
-    payload = f"{os.getpid()} {_now_iso()}\n"
-    if _try_create_lock_exclusively(lp, payload):
+    key = _lock_registry_key(lp)
+    if key in _HELD_LOCK_FDS:
         return None
-
-    try:
-        held_pid = int(lp.read_text("utf-8").strip().split()[0])
-    except (OSError, ValueError, IndexError):
-        # Leer ODER unlesbar/beschädigt ist seit Stage 1b KEIN Beleg mehr
-        # für Verwaistheit: ein anderer Prozess könnte GENAU JETZT seine
-        # Temp-Datei veröffentlichen, oder die Sperre ist tatsächlich
-        # beschädigt. In BEIDEN Fällen: NICHT löschen, nur abweisen --
-        # verständlicher Fehlertext statt blindem unlink().
-        return (
-            "Ein anderer Update-Vorgang läuft bereits (Sperre wird soeben "
-            "geschrieben oder ist beschädigt) — bitte erneut versuchen."
-        )
-
-    if held_pid != os.getpid():
-        alive = True
+    payload = f"{os.getpid()} {_now_iso()}".encode("utf-8")
+    attempts = 0
+    while True:
+        attempts += 1
+        if attempts > 1000:
+            return (
+                "Ein anderer Update-Vorgang blockiert die Sperre dauerhaft "
+                "(staendige Neubelegung) — bitte erneut versuchen."
+            )
         try:
-            os.kill(held_pid, 0)
-        except ProcessLookupError:
-            alive = False
-        except OSError:
-            alive = True  # z. B. PermissionError -> existiert, gehört jemand anderem
-        if alive:
-            return f"Ein anderer Update-Vorgang läuft bereits (PID {held_pid}) — bitte warten oder abbrechen."
+            fd = os.open(str(lp), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+        except FileExistsError:
+            fd = None
+        if fd is not None:
+            # Frischer Erwerb: O_EXCL hat die Datei soeben exklusiv angelegt.
+            # Zusaetzlich den OS-Lock belegen und die fd fuer die gesamte
+            # Besitzdauer offen halten.
+            try:
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError:
+                # Ein gleichzeitiger Reklamierer hat unsere frische Datei
+                # bereits per O_RDWR geoeffnet und geflockt -- Datei stehen
+                # lassen (Reklamationspfad der naechsten Runde behandelt sie)
+                # und neu versuchen.
+                os.close(fd)
+                continue
+            try:
+                if not _fd_still_matches_path(fd, lp):
+                    fcntl.flock(fd, fcntl.LOCK_UN)
+                    os.close(fd)
+                    continue
+                os.pwrite(fd, payload, 0)
+            except BaseException:
+                try:
+                    fcntl.flock(fd, fcntl.LOCK_UN)
+                except OSError:
+                    pass
+                os.close(fd)
+                raise
+            _HELD_LOCK_FDS[key] = fd
+            return None
 
-    # Verwaist (bestätigt toter PID) -- besitzgeprüft entfernen: nur wenn
-    # UNMITTELBAR vor dem Löschen noch exakt derselbe tote PID dort steht
-    # (sonst hat ein Dritter die Sperre inzwischen legitim übernommen, s.
-    # `_remove_orphaned_lock_if_still_owned_by`), danach ATOMAR neu anlegen.
-    if not _remove_orphaned_lock_if_still_owned_by(lp, held_pid):
-        return "Ein anderer Update-Vorgang hat die Sperre soeben übernommen — bitte erneut versuchen."
-    if _try_create_lock_exclusively(lp, payload):
+        # Reklamationspfad: die Sperrdatei existiert bereits.
+        try:
+            fd = os.open(str(lp), os.O_RDWR)
+        except FileNotFoundError:
+            # Zwischen O_EXCL-Fehlschlag und hier verschwunden -> frisch neu.
+            continue
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            # Ein ANDERER Prozess haelt den OS-Lock WIRKLICH (lebend) -- der
+            # einzige Fall eines moeglichen Zweitschreibers, und genau den
+            # verhindert flock strukturell. Datei NICHT anfassen.
+            held = _peek_lock_pid(fd)
+            os.close(fd)
+            if held is not None and held != os.getpid():
+                return (
+                    f"Ein anderer Update-Vorgang läuft bereits (PID {held}) "
+                    "— bitte warten oder abbrechen."
+                )
+            return (
+                "Ein anderer Update-Vorgang läuft bereits — bitte warten "
+                "oder abbrechen."
+            )
+        # flock erworben: NIEMAND haelt den OS-Lock. Ein toter frueherer
+        # Besitzer hat ihn per Kernel verloren (keine manuelle Verwaist-
+        # Loeschung noetig). Geist-fd ausschliessen (Pfad zwischenzeitlich
+        # ersetzt?), dann Inhalt bewerten.
+        if not _fd_still_matches_path(fd, lp):
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            os.close(fd)
+            continue
+        existing = _peek_lock_pid(fd)
+        if existing is None:
+            # Leer/unlesbar/unparsebar ist KEIN Beleg fuer "frei": unklare
+            # Sperre kontrolliert HALTEN (G3a), NICHT ueberschreiben, NICHT
+            # loeschen -- erworbenen flock wieder freigeben, abweisen.
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            os.close(fd)
+            return (
+                "Ein anderer Update-Vorgang läuft bereits (Sperre wird "
+                "soeben geschrieben oder ist beschaedigt) — bitte erneut "
+                "versuchen."
+            )
+        # Parsebarer PID eines frueheren Besitzers; der gehaltene flock
+        # beweist, dass dieser NICHT mehr lebt. Besitz uebernehmen: nur den
+        # informativen Payload in-place ersetzen (KEIN unlink, KEINE
+        # Neuanlage -- der stabile Inode bleibt, es entsteht nie ein leer/
+        # frei sichtbarer Zwischenzustand).
+        try:
+            os.ftruncate(fd, 0)
+            os.pwrite(fd, payload, 0)
+        except BaseException:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+            except OSError:
+                pass
+            os.close(fd)
+            raise
+        _HELD_LOCK_FDS[key] = fd
         return None
-    return "Ein anderer Update-Vorgang hat die Sperre soeben übernommen — bitte erneut versuchen."
 
 
 def release_update_lock(repo: Path) -> None:
-    """R4-05a-Fix: entfernt NUR die EIGENE Sperre -- vorher `unlink()` ohne
-    Besitzervergleich, was eine inzwischen (z. B. nach verwaister
-    Übernahme durch einen ANDEREN, neu gestarteten Prozess) aktiv gehaltene
-    fremde Sperre gelöscht hätte. Unlesbare/fremde/fehlende Sperrdatei
-    bleibt unverändert (kein Raten, kein Löschen ohne bestätigtes
-    Eigentum)."""
+    """Gibt NUR die EIGENE, per `fcntl.flock` tatsaechlich gehaltene Sperre
+    frei. Ohne gehaltene fd (keine Registry-Eintragung: Fremdsperre oder nie
+    erworben) ist dies ein No-Op -- es wird NICHTS gelesen, nichts
+    verglichen, nichts geloescht. Die Datei wird nur entfernt, wenn ihr
+    AKTUELLER Verzeichniseintrag noch derselbe Inode wie die gehaltene fd
+    ist; danach flock freigeben und fd schliessen."""
     lp = _lock_path(repo)
-    try:
-        held_pid = int(lp.read_text("utf-8").strip().split()[0])
-    except (OSError, ValueError, IndexError):
-        return
-    if held_pid != os.getpid():
+    key = _lock_registry_key(lp)
+    fd = _HELD_LOCK_FDS.pop(key, None)
+    if fd is None:
         return
     try:
-        lp.unlink()
-    except OSError:
-        pass
+        if _fd_still_matches_path(fd, lp):
+            try:
+                lp.unlink()
+            except OSError:
+                pass
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        except OSError:
+            pass
+        try:
+            os.close(fd)
+        except OSError:
+            pass
 
 
 def _sha256_file(path: Path) -> str:
