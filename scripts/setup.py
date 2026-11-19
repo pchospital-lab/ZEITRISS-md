@@ -4529,6 +4529,33 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         target_fid = None
         if old_file_id:
             old_candidates = [old_file_id]
+            # R7-02 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §03):
+            # derselbe identitätsgebundene Hashabgleich wie im Namens-
+            # fallback unten (WP-F1-N8 R2) fehlte bisher GENAU für den
+            # getrackten Fall -- ein getrackter `old_file_id` wurde IMMER
+            # blind erneut hochgeladen, selbst wenn er am Backend
+            # NACHWEISLICH bereits den aktuellen lokalen Inhalt trägt (z.B.
+            # weil ein früherer Lauf erfolgreich hochgeladen+verlinkt hat,
+            # der periodische Manifest-Zwischen-Write — `if idx % 3 == 0`
+            # — den Fortschritt aber noch nicht persistiert hatte, bevor
+            # der Prozess abbrach: lokale MD5 im Manifest bleibt dadurch
+            # "stale", der Dateiname gilt beim nächsten Lauf fälschlich
+            # als "geändert"). Der blinde Re-Upload erzeugt dann eine
+            # ZWEITE Kopie desselben Inhalts; OWUIs collectionweiter
+            # Duplicate-Check (retrieval.py:1666-1685) weist den
+            # Vergleichs-Upload beim Link-Versuch zurück (400), OHNE dass
+            # `old_file_id` je als bereits korrekt bestätigt wird — GENAU
+            # die reale r6-Launcher-Ursache der 7 unbestätigten Dateien
+            # (0/7), NICHT ein Backend-/Preset-/KB-Bindungsdefekt. Kleinster
+            # kausaler Fix: denselben Content-Hash-Vergleich VORHER auch
+            # hier ausführen -- trägt `old_file_id` bereits den lokalen
+            # Inhalt, wird GENAU der bestehende `target_fid`-Zweig unten
+            # (idempotenter Abgleich, KEIN Upload) genutzt, unverändert wie
+            # im Namensfallback-Fall.
+            old_entry = next((f for f in client.list_files() if f.get("id") == old_file_id), None)
+            old_hash = ((old_entry.get("meta") or {}).get("file_hash") or old_entry.get("hash")) if old_entry else None
+            if old_hash and old_hash == _file_sha256(fp):
+                target_fid = old_file_id
         else:
             same_name = [
                 f for f in client.list_files()
