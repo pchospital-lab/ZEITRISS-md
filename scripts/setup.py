@@ -4589,7 +4589,25 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # würde die gleichnamige Datei eines ANDEREN Bausatzes mitlöschen
         # (Cross-KB-Datenverlust, beobachtet 2026-09-14).
         target_fid = None
-        if old_file_id:
+        # R8-01 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R8 §3): ein
+        # getrackter `old_file_id` darf die beiden Bestätigungspfade unten
+        # NUR betreten, wenn er nachweislich unter `fp.name` zur AKTIVEN KB
+        # gehört (geprüft gegen `kb_name_index`, bereits auf
+        # `collection_name == kb_id` gefiltert -- kein zusätzlicher
+        # `list_files()`-Call). Ohne dieses Gate bestätigte eine fremde,
+        # gleich benannte Datei-ID aus einer ANDEREN KB (Manifest zeigt
+        # noch auf sie) sich selbst per Metadaten- ODER Rohinhalts-Treffer
+        # als "aktuell", obwohl die aktive KB weiterhin nur eine alte
+        # gleichnamige Kopie trägt -- Coverage sah den Namen dort und
+        # meldete fälschlich grün. Fehlt die aktive Bindung, fällt der Fall
+        # in den bestehenden Namensfallback (unten), die fremde
+        # `old_file_id` bleibt dabei außen vor und wird dort folglich
+        # weder bestätigt noch entlinkt/gelöscht.
+        active_name_entries = kb_name_index.get(fp.name, [])
+        tracked_active = bool(old_file_id) and any(
+            e.get("id") == old_file_id for e in active_name_entries
+        )
+        if tracked_active:
             old_candidates = [old_file_id]
             # R7-02 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §03):
             # derselbe identitätsgebundene Hashabgleich wie im Namens-
@@ -4614,8 +4632,10 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             # Inhalt, wird GENAU der bestehende `target_fid`-Zweig unten
             # (idempotenter Abgleich, KEIN Upload) genutzt, unverändert wie
             # im Namensfallback-Fall.
-            old_entry = next((f for f in client.list_files() if f.get("id") == old_file_id), None)
-            old_hash = ((old_entry.get("meta") or {}).get("file_hash") or old_entry.get("hash")) if old_entry else None
+            old_hash = next(
+                (e.get("hash") for e in active_name_entries if e.get("id") == old_file_id),
+                None,
+            )
             if old_hash and old_hash == _file_sha256(fp):
                 target_fid = old_file_id
             if target_fid is None:
