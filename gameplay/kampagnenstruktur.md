@@ -1068,6 +1068,20 @@ hängenden Missionen springt die Handlung weiter. Je höher der Paradoxon-Index,
 desto mehr Rifts entstehen. Offene Leader-Rifts bestimmen den bereits
 geregelten SG-/CU-Snapshot des nächsten Core- oder Rift-Einsatzes.
 
+**Klarstellung — "dieselbe Epoche" meint denselben Hotspot, kein starres
+Kalenderjahr:** Der Epoch-Lock hält eine Episode in **einem zusammenhängenden
+historischen Setting/Hotspot** (z. B. "Kalter-Krieg-Prag") — er verhindert
+einen willkürlichen Sprung in ein **grundverschiedenes** Setting (z. B.
+Mittelalter → Jahr 3056), nicht Alterungs- oder Zeitreise-Erzählungen
+innerhalb desselben Hotspots. Innerhalb der zehn Missionen einer Episode
+dürfen die Protagonisten in unterschiedlichen Lebensaltern auftreten, und
+die Chronologie darf zwischen Missionen vor- und zurückspringen (z. B.
+Mission 2 Mitte-Zwanzig, Mission 5 gealtert, Mission 6 wieder etwas zurück)
+— passende Ortswechsel innerhalb desselben Hotspots gehören dazu. Der
+einzelne `campaign.epoch`-Wert bleibt dabei unverändert ein beschreibendes
+Setting-Label (Setting-Lock pro Episode, s. Save-Schema) — keine neue
+Jahreszahl-Mechanik, keine zusätzliche starre Zahl erlaubter Jahre.
+
 #### Grundablauf
 
 ```mermaid
