@@ -81,6 +81,12 @@ du sie im Hauptmenü erneut öffnen. Das Terminal verwendet beim normalen
 Neustart die zuletzt für seine Datenablage verwendete Teilnehmeridentität.
 Eine abweichende `--participant`-Angabe ist ein bewusster Teilnehmerwechsel.
 
+Ob eine neuere Version vorliegt, prüfst du im Launcher-Menü (dort, wo auch
+`[1]`/`[M]`/`[3]` stehen) über **`[4] Nach Updates suchen`** — das gilt
+gleich für ZIP- und Git-Installationen und lässt deine Figuren, Saves und
+Keys unberührt. Details, Beispieltexte und was bei einem Abbruch passiert:
+[Setup-Guide, Updates und Wartung](setup-guide.md#updates-und-wartung).
+
 ## Dein Menü
 
 | Eingabe | Was du dort machst |
@@ -271,6 +277,14 @@ Eine Budget- oder Zustandsgrenze ist kein abgeschlossener Spielzug. Ändere
 bei einem unklaren Ausgang nicht einfach Teilnehmer-ID, Generation oder
 Datenablage, um denselben offenen Vorgang neu zu starten. Halte den Zustand
 fest und nutze die [Betriebsdokumentation](mmo-sim.md).
+
+Vor dem allerersten echten Spielzug fragt das Terminal selbst nach einer
+begrenzten Betreiberfreigabe (max. Anfragen/Zeit/Dollar) — kein Handedit
+irgendeiner internen Datei nötig. Wer diesen Dialog ablehnt, bleibt ohne
+Freigabe; `einstellungen budget` zeigt jederzeit den aktuellen Stand
+(Reservierung/Verbrauch/Grenze getrennt), `einstellungen budget erhoehen`
+setzt eine bestehende, zu enge Grenze bewusst neu — beides nur nach
+ausdrücklicher Bestätigung, nie automatisch.
 
 ## Bekannte Grenzen
 

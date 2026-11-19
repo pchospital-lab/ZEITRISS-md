@@ -13,7 +13,7 @@ Menü-Launcher für Windows / macOS / Linux. Ein Script, ein Menü:
     [L] Lore-Setup — nur wenn scripts/rite.py existiert
     [2] Inhalt woanders nutzen (Export-Paket erzeugen)
     [3] Starten (Browser öffnen)
-    [4] Aktualisieren (git pull + Sync)
+    [4] Nach Updates suchen
     [5] API-Keys ändern
     [6] Bei mir läuft was nicht (Diagnose)
     [7] Reset — Neuinstallation (destruktiv)
@@ -97,6 +97,16 @@ try:
     import mmo_sim_launcher_hook as project_hook  # noqa: E402
 except ImportError:
     project_hook = None  # type: ignore[assignment]
+
+# ZR-ALTAIR-UPDATER-SPIELTEST-20261118-r2 (U1-U6): Update-Mechanik lebt in
+# einem eigenen, pur-funktional testbaren Modul -- kein optionaler Hook wie
+# rite/mmo_sim oben, sondern Pflichtbestandteil des Launchers (analog
+# setup_module/local_profile_module).
+try:
+    import launcher_update as launcher_update_module  # noqa: E402
+except ImportError as e:
+    print(f"FEHLER: scripts/launcher_update.py kann nicht importiert werden: {e}")
+    sys.exit(1)
 
 
 # ── Darstellung (Unicode-sparsam, Windows-cmd-kompatibel) ────────────
@@ -880,7 +890,7 @@ def action_install_lore() -> None:
         print(green(f"  ✓ {meta()['name']} ist bereits eingerichtet."))
         print()
         print(f"  Das Lore-Setup ist der {meta()['lore_moment']} — den gibt es nur einmal.")
-        print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um.")
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] Nach Updates suchen um.")
         print(dim("  Wenn du das Lore-Ritual neu erleben willst:"))
         print(dim("    → [7] Reset → [L] Lore-Setup"))
         print()
@@ -966,7 +976,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         if state == "installed":
             print(green(f"  ✓ {meta()['name']} ist bereits eingerichtet."))
             print()
-            print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um.")
+            print("  Für aktuelle Repo-Files leite ich dich auf [4] Nach Updates suchen um.")
             print(dim("  Wenn du wirklich alles neu willst (z.B. nach kaputtem Stand): [7] Reset."))
             print()
             ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
@@ -1240,7 +1250,7 @@ def action_install(*, _skip_state_check: bool = False) -> None:
         print()
         print(green(f"  ✓ {meta()['name']} ist in OpenWebUI bereits eingerichtet."))
         print(dim("  Das war beim ersten Check (ohne Key) noch nicht sichtbar."))
-        print("  Für aktuelle Repo-Files leite ich dich auf [4] Aktualisieren um — kein destruktiver Neuaufbau.")
+        print("  Für aktuelle Repo-Files leite ich dich auf [4] Nach Updates suchen um — kein destruktiver Neuaufbau.")
         print()
         ans = _prompt("  Update jetzt starten? (j/n) [j]: ").strip().lower()
         if ans in ("", "j", "y", "ja", "yes"):
@@ -1360,153 +1370,358 @@ def action_install(*, _skip_state_check: bool = False) -> None:
     _pause()
 
 
-def _git_cmd() -> list[str]:
-    """Basis-Git-Kommando — standardmäßig `git`, optional ueberschreibbar.
-
-    Der Enduser clont das Repo mit seinem eigenen Auth (HTTPS-Credential-
-    Manager oder SSH); fuer ihn funktioniert plain `git pull` ohne Zutun.
-
-    Wer einen eigenen Git-Wrapper braucht (z.B. ein Maintainer mit
-    Custom-Credential-Helper / Multi-Account-Setup), setzt die Umgebungs-
-    variable `LAUNCHER_GIT` auf den Wrapper-Namen oder -Pfad — dann laufen
-    alle Pull-/Stash-Operationen darueber. Beispiel: `LAUNCHER_GIT=ghrepo`.
-    Mehrteilige Kommandos werden per Whitespace gesplittet.
-    """
-    override = os.environ.get("LAUNCHER_GIT", "").strip()
-    return override.split() if override else ["git"]
-
-
-def _git(*args: str) -> subprocess.CompletedProcess:
-    """Thin wrapper: <git-cmd> -C REPO <args>, erfasst stdout+stderr.
-
-    Das Git-Kommando kommt aus `_git_cmd()` (Default `git`, per `LAUNCHER_GIT`
-    ueberschreibbar). `-C REPO` wirkt auch auf Wrapper, die git-Argumente
-    durchreichen.
-    """
-    return subprocess.run(
-        [*_git_cmd(), "-C", str(REPO), *args],
-        capture_output=True, text=True,
-    )
-
-
-def _update_repo_via_git() -> bool:
-    """Führt einen freundlichen git pull durch. Bei lokalen Änderungen bietet
-    das Script ``git stash`` an, zieht, und stasht dann wieder auf.
-
-    Ziel: Der Nutzer verliert **nie** seine Handgriffe, auch wenn er aus
-    Versehen eine Datei editiert hat. Aber er muss auch nichts mergen.
-
-    Returns:
-        True, wenn das Repo jetzt in einem konsistenten Zustand ist und
-        der nachfolgende Sync sinnvoll weiterlaufen kann.
-        False, wenn ein Konflikt/Fehler Aufmerksamkeit braucht (etwa
-        Stash-Pop-Konflikt mit Marker in Dateien) — Caller sollte
-        den Sync dann NICHT blind starten.
-    """
-    print(dim("  Hole neueste Änderungen von GitHub..."))
-
-    # Lokale Anpassungen (tracked only, untracked bleiben unberührt).
-    dirty = _git("status", "--porcelain", "--untracked-files=no").stdout.strip()
-    stashed = False
-    if dirty:
-        print(yellow("  ⚠  Du hast lokale Änderungen an Dateien aus dem Repo."))
-        print(dim("     Damit der Pull nicht kracht, lege ich sie kurz auf den Stash-Stack"))
-        print(dim("     und stelle sie danach wieder her (git stash)."))
-        ans = _prompt("  Fortfahren? (j/n): ").lower()
-        if ans not in ("j", "y", "ja", "yes", ""):
-            print(dim("  Pull übersprungen, Sync läuft mit lokalem Stand weiter."))
-            return True
-        r = _git("stash", "push", "-m", "launcher.py auto-stash")
-        if r.returncode != 0:
-            print(yellow("  ⚠  git stash fehlgeschlagen — überspringe Pull, behalte lokalen Stand."))
-            print(dim("    " + (r.stderr.strip().splitlines() or ["?"])[-1]))
-            return True
-        stashed = True
-
-    r = _git("pull", "--ff-only")
-    out = (r.stdout + r.stderr).strip()
-    if r.returncode == 0:
-        if "Bereits aktuell" in out or "Already up to date" in out:
-            print(green("  ✓  Repo war schon aktuell."))
-        else:
-            print(green("  ✓  Repo aktualisiert."))
-            print(dim("    " + "\n    ".join(out.splitlines()[-4:])))
+def _run_update_sync_step() -> bool:
+    """U5: der eigentlich noetige Sync (Preset/KB) NACH einer Datei-
+    Aktualisierung — oder gezielt alleine, wenn Dateien schon aktuell sind,
+    der Sync aber noch offen ist. Laeuft als NEUER Prozess (s. `launcher_
+    update.run_sync_subprocess`), damit ein frisch aktualisierter `setup.py`
+    nicht aus dem bereits im laufenden Launcher importierten alten Modul
+    angewendet wird. Gibt True zurueck, wenn der Sync erfolgreich war."""
+    if not _ensure_owui_env():
+        print(red("  OPENWEBUI_API_KEY fehlt — Sync übersprungen."))
+        print(dim("  Erst Menü [1] (Komplett-Setup) oder [5] (API-Keys ändern) ausführen, "
+                  "danach [4] erneut versuchen."))
+        return False
+    ok, tail = launcher_update_module.run_sync_subprocess(REPO)
+    if ok:
+        print(green("  ✓ Synchronisierung abgeschlossen (Preset/KB aktuell)."))
     else:
-        # Pull fehlgeschlagen (Netz, DNS, non-FF). Nach unserem Stash sollte
-        # non-FF eigentlich nicht mehr vorkommen, aber wir handhaben es trotzdem.
-        last_line = (out.splitlines() or ["?"])[-1]
-        print(yellow(f"  ⚠  git pull hat Probleme: {last_line}"))
-        print(dim("    Sync läuft trotzdem weiter mit dem lokalen Stand."))
+        print(red("  ✗ Synchronisierung fehlgeschlagen — Programmdateien sind neu, Sync bleibt offen."))
+        if tail:
+            print(dim("    " + tail.replace("\n", "\n    ")))
+        print(dim("  [4] Nach Updates suchen erneut — synct gezielt nach, ohne alles neu zu holen."))
+    return ok
 
-    if stashed:
-        r = _git("stash", "pop")
-        if r.returncode == 0:
-            print(dim("  ✓  Deine lokalen Änderungen sind zurück aus dem Stash."))
-        else:
-            # Heiß: stash pop hat einen Merge-Konflikt erzeugt. Die Arbeitsdateien
-            # enthalten jetzt <<<<<<< / ======= / >>>>>>> Marker, der Stash
-            # bleibt im Stack. Sync darf hier NICHT weiterlaufen — sonst
-            # syncen wir kaputte Dateien.
-            print()
-            print(red("  ✗  Deine Änderungen kollidieren mit dem Update von GitHub."))
-            print(yellow("     Die betroffenen Dateien enthalten jetzt Konflikt-Marker"))
-            print(yellow("     (<<<<<<< / ======= / >>>>>>>) und müssen manuell aufgelöst werden."))
-            print(dim(""))
-            print(dim("     Eine sichere Kopie deiner Änderungen liegt im Stash. Hilfreiche Kommandos:"))
-            print(dim("       git status               — zeigt die konflikt-Dateien"))
-            print(dim("       git stash list           — zeigt deinen Stash-Eintrag"))
-            print(dim("       git stash show -p        — zeigt deinen Original-Diff"))
-            print(dim("       git checkout -- <datei>  — verwirft deine lokale Variante"))
-            print(dim("       git stash drop           — entsorgt den Stash, wenn du fertig bist"))
-            print()
-            print(yellow("  Ich brich den Sync hier ab, damit nichts Kaputtes nach OpenWebUI wandert."))
-            return False
+
+def _describe_local_update_state(local: "launcher_update_module.LocalState") -> str:
+    if local.source == "git":
+        rev = local.rev[:10] if local.rev else "?"
+        return f"Git-Checkout, lokaler Stand {rev}" + ("  (lokale Änderungen vorhanden)" if local.dirty else "")
+    if local.source == "zip":
+        rev = local.rev[:10] if local.rev else "?"
+        return f"verwaltete ZIP-Installation, Stand {rev}" + ("  (lokale Änderungen vorhanden)" if local.dirty else "")
+    return "unverwaltete Installation (Herkunft nicht sicher bestimmbar)"
+
+
+# R3-05: nach einer Dateiübernahme MUSS entweder ein echter neuer Prozess
+# entstehen, oder der produktive Weiterlauf mit den alten, bereits
+# importierten Modulen wird verständlich blockiert. Ein Modul-Attribut statt
+# einer lokalen Variable, weil `main()` (die Menüschleife) und
+# `action_update()` getrennte Funktionen sind; ein echter Neustart (U6,
+# `os.execv`) ersetzt den gesamten Prozess und damit auch dieses Attribut --
+# es kann sich also nie "von selbst" durch bloßes Weiterlaufen zurücksetzen.
+_update_restart_required = False
+
+
+def _block_if_restart_required(action_label: str) -> bool:
+    if not _update_restart_required:
+        return False
+    print(red(f"\n  ⛔ {action_label} ist jetzt gesperrt."))
+    print(yellow("  Ein Update wurde installiert, der Launcher wurde aber noch nicht neu gestartet."))
+    print(dim("  Bitte zuerst [4] erneut ausführen und den Neustart bestätigen (oder den Launcher"))
+    print(dim("  händisch neu starten) — sonst würden alte, bereits importierte Module weiterlaufen."))
+    _pause()
     return True
 
 
-def action_update() -> None:
-    print(bold(f"\n  [4] {meta()['name']} aktualisieren\n"))
+# R5-01 (01_GENERAL_REVIEW.md R5-01, 02_NACHZUG_AUFTRAG.md §A): eine
+# unterbrochene ZIP-Übernahme (`_adopt_staged_update_locked` scheitert
+# nach mindestens einer erfolgreich ausgetauschten Datei an einem
+# `OSError`) hinterlässt einen gemischten Dateistand -- `ok=False`, die
+# Funktion kehrt zurück, OHNE je `_finish_update_installation` (und damit
+# `_update_restart_required`) zu erreichen. `_block_if_restart_required`
+# prüft NUR dieses flüchtige In-Memory-Attribut; ein frischer Prozess
+# startet mit `False` und würde den Mischstand nicht als eigene Sperre
+# erkennen. `launcher_update_module.incomplete_install()` liest den
+# PERSISTENTEN `install_phase`-Marker frisch von der Platte -- dieser
+# Guard hier ist das Gegenstück dazu, disk-gelesen und damit auch über
+# einen Prozessneustart hinweg wirksam.
+def _block_if_install_incomplete(action_label: str) -> bool:
+    incomplete = launcher_update_module.incomplete_install(REPO)
+    if not incomplete:
+        return False
+    rev_short = incomplete.target_rev[:10]
+    print(red(f"\n  ⛔ {action_label} ist jetzt gesperrt."))
+    print(yellow(f"  Eine vorherige Installation ist nicht vollständig abgeschlossen (Zielrevision {rev_short})."))
+    print(dim("  Programmdateien sind gemischt zwischen altem und neuem Stand — bitte zuerst [4]"))
+    print(dim("  ausführen und die Installation fertigstellen (oder bewusst auf eine neuere Revision"))
+    print(dim("  umlenken). Danach sind [M]/[1]/[L]/[2]/[3] wieder frei."))
+    _pause()
+    return True
 
-    # Git-Pull (nur wenn Repo git-versioniert)
-    if (REPO / ".git").exists() and _cmd_available("git"):
-        if not _update_repo_via_git():
-            # Stash-Pop-Konflikt o.ä. — Sync überspringen, damit wir nicht gegen
-            # konflikt-markierte Dateien pushen.
+
+def _attempt_zip_install(target_rev: str) -> "launcher_update_module.ZipUpdateResult":
+    """R3-02: ein erster Versuch ohne Freigabe deckt `unverified`-Dateien
+    (existierende, nie verwaltete Dateien, die vom neuen Paketinhalt
+    abweichen) nur AUF, überschreibt sie aber nicht blind ("unverwaltet"
+    ist kein Beleg für "unverändert"). Die Liste wird dem Nutzer konkret
+    gezeigt; nur nach seiner ausdrücklichen, informierten Zustimmung läuft
+    ein zweiter Versuch mit `allow_unverified_overwrite=True`."""
+    zip_url = launcher_update_module.build_archive_url(target_rev)
+    zres = launcher_update_module.perform_zip_update(REPO, zip_url=zip_url, target_rev=target_rev)
+    if zres.ok or not zres.unverified:
+        return zres
+
+    print(yellow("  Folgende vorhandene, bisher NIE verwaltete Datei(en) weichen vom neuen"))
+    print(yellow("  Paketinhalt ab (Herkunft nicht verlässlich bestimmbar):"))
+    for relpath in zres.unverified[:10]:
+        print(dim(f"    - {relpath}"))
+    if len(zres.unverified) > 10:
+        print(dim(f"    (+{len(zres.unverified) - 10} weitere)"))
+    print(yellow("  Werden sie überschrieben, sind eigene Änderungen daran unwiderruflich weg."))
+    ans = _prompt("  Diese Dateien bewusst überschreiben? (j/n) [n]: ").strip().lower()
+    if ans not in ("j", "y", "ja", "yes"):
+        return zres
+    return launcher_update_module.perform_zip_update(
+        REPO, zip_url=zip_url, target_rev=target_rev, allow_unverified_overwrite=True,
+    )
+
+
+def _offer_pending_restart_now() -> None:
+    """R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block
+    D): der tatsächliche "[4] erneut ausführen, um neu zu starten"-Weg,
+    den die Sperrmeldung verspricht UND den `_finish_update_installation`
+    bei einer frischen Installation anbietet. Ausgelagert, damit
+    `action_update()` ihn SOFORT (vor jedem neuen `check_for_update`)
+    anbieten kann, wenn `_update_restart_required` bereits aus einem
+    FRÜHEREN Aufruf steht (s. dortiger Aufrufer-Docstring)."""
+    global _update_restart_required
+    print()
+    print(yellow("  Update installiert. Bitte den Launcher neu starten."))
+    ans = _prompt("  Jetzt neu starten? (j/n) [j]: ").strip().lower()
+    if ans in ("", "j", "y", "ja", "yes"):
+        launcher_update_module.restart_launcher(REPO)
+        return
+    _update_restart_required = True
+    print(red("  Ok — der Launcher BLOCKIERT jetzt [M]/[1]/[L]/[2]/[3], bis neu gestartet wurde,"))
+    print(dim("  damit nichts Altes importiert bleibt. [4] erneut ausführen, um neu zu starten."))
+    _pause()
+
+
+def _finish_update_installation(result_message: str) -> None:
+    """Gemeinsamer Abschluss nach einer erfolgreichen Datei-Übernahme (Git
+    ODER ZIP): Sync als neuer Prozess, dann Neustart anbieten/verlangen
+    (R3-05). Lehnt der Nutzer den Neustart ab, bleibt [M]/[1]/[2]/[L]/[3]
+    gesperrt, bis ein echter neuer Prozess läuft.
+
+    R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block D):
+    `_update_restart_required` wird jetzt BEREITS HIER (ab dem relevanten
+    Dateiwechsel, VOR dem Sync) gesetzt, nicht erst nach einem evtl.
+    abgelehnten Neustart am Ende -- ein unerwarteter Fehler/Abbruch
+    WÄHREND des nachgelagerten Syncs (`_run_update_sync_step`) darf die
+    Neustartpflicht nicht verschlucken; die bereits auf der Platte
+    liegenden neuen Dateien bleiben sonst unbemerkt mit alten, bereits
+    importierten Modulen vermischt."""
+    global _update_restart_required
+    _update_restart_required = True
+    print(green(f"  ✓ {result_message}"))
+    print()
+    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
+    _run_update_sync_step()
+    _offer_pending_restart_now()
+
+
+def _offer_incomplete_install_recovery(incomplete: "launcher_update_module.IncompleteInstall") -> None:
+    """R5-01 (02_NACHZUG_AUFTRAG.md §A Punkt 3+4): der tatsächliche
+    Recovery-Weg, den `_block_if_install_incomplete` verspricht. Bietet
+    SOFORT (analog zu `_offer_pending_restart_now`, VOR jedem neuen
+    `check_for_update`) die vollständige Wiederaufnahme auf die GEBUNDENE
+    `target_rev` an -- Standardantwort ja, kein Netzzugriff nötig, um
+    diese Frage zu stellen.
+
+    Lehnt der Nutzer das ab, bietet ein getrennter zweiter Schritt
+    bewusst an, stattdessen zu prüfen, ob sich die Quelle inzwischen von
+    B auf eine neuere C bewegt hat, und — falls ja und bewusst bestätigt —
+    DARAUF wiederherzustellen (der Wechsel wird dabei ausdrücklich
+    kenntlich gemacht, s. Akzeptanzpunkt 4: keine automatische
+    Umdeutung). Nur eine vollständige Übernahme (auf B ODER bewusst
+    gewählt auf C) hebt die Sperre auf -- ein Abbruch an dieser Stelle
+    lässt sie unverändert bestehen."""
+    rev_short = incomplete.target_rev[:10]
+    print(red("\n  ⛔ Eine vorherige Installation wurde nicht vollständig abgeschlossen."))
+    print(yellow(f"  Gebundene Zielrevision: {rev_short}"))
+    if incomplete.install_error:
+        print(dim(f"  Letzter Fehler: {incomplete.install_error}"))
+    print(dim("  [M]/[1]/[L]/[2]/[3] bleiben gesperrt, bis die Installation fertiggestellt oder bewusst"))
+    print(dim("  auf eine neuere Revision umgelenkt wurde."))
+
+    ans = _prompt(f"  Installation jetzt vollständig auf {rev_short} fertigstellen? (j/n) [j]: ").strip().lower()
+    if ans in ("", "j", "y", "ja", "yes"):
+        resume_rev = incomplete.target_rev
+    else:
+        ans2 = _prompt(
+            "  Stattdessen prüfen, ob die Quelle inzwischen weiter ist, und bewusst darauf "
+            "wiederherstellen? (j/n) [n]: "
+        ).strip().lower()
+        if ans2 not in ("j", "y", "ja", "yes"):
+            print(dim("  Übersprungen. Die Installationssperre bleibt bestehen."))
             _pause()
             return
-    else:
-        print(dim("  Kein Git-Repo (vermutlich ZIP-Download) - überspringe git pull."))
+        check = launcher_update_module.check_for_update(REPO)
+        if not check.remote_rev or check.remote_rev == incomplete.target_rev:
+            print(dim("  Keine neuere Revision gefunden — die Installationssperre bleibt bestehen,"))
+            print(dim("  bis die gebundene Revision fertiggestellt wird."))
+            _pause()
+            return
+        new_short = check.remote_rev[:10]
+        print(yellow(f"  Quelle ist jetzt bei {new_short} (gebunden war {rev_short})."))
+        ans3 = _prompt(
+            f"  Bewusst auf den NEUEN Stand ({new_short}) wiederherstellen statt auf die gebundene "
+            f"Revision ({rev_short})? (j/n) [n]: "
+        ).strip().lower()
+        if ans3 not in ("j", "y", "ja", "yes"):
+            print(dim("  Übersprungen. Die Installationssperre bleibt bestehen."))
+            _pause()
+            return
+        resume_rev = check.remote_rev
+        print(dim(f"  Wechsel bestätigt — Wiederherstellung läuft jetzt auf {new_short} statt auf die "
+                   f"ursprünglich gebundene Revision ({rev_short})."))
 
-    # Env laden, dann Sync
-    if not _ensure_owui_env():
-        print(red("\n  OPENWEBUI_API_KEY fehlt — bitte erst Menüpunkt [1] (Komplett-Setup)"))
-        print(red("  oder [5] (API-Keys ändern) ausführen, damit ~/.openwebui_env existiert."))
+    zres = _attempt_zip_install(resume_rev)
+    if not zres.ok:
+        print(red(f"  {zres.message}"))
+        _pause()
+        return
+    _finish_update_installation(zres.message)
+
+
+def action_update() -> None:
+    """[4] Nach Updates suchen — U1-U6: fragt auf ausdrückliche Auswahl die
+    offizielle Quelle (git ls-remote / GitHub-API), OHNE Dateien zu tauschen
+    oder zu syncen. Erst nach bewusster Zustimmung wird exakt die geprüfte
+    Zielrevision installiert (Git fast-forward ODER echter ZIP-Weg ohne
+    Git), danach läuft der Sync getrennt als eigener Prozess, und zuletzt
+    wird ein Neustart angeboten/verlangt — kein Weiterspielen mit bereits
+    importierten alten Modulen.
+
+    R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block D):
+    steht aus einem FRÜHEREN Aufruf bereits eine Neustartpflicht
+    (`_update_restart_required`, z. B. weil der Nutzer den Neustart beim
+    letzten Mal abgelehnt hat), bietet [4] den ausstehenden echten
+    Prozesswechsel JETZT SOFORT an -- VOR jedem neuen `check_for_update`.
+    Vorher konnte ein frischer Check "current" (Dateien bereits aktuell,
+    GENAU WEIL die letzte Installation schon erfolgreich war) oder
+    "current, Sync noch offen" melden und VORHER zurückkehren, OHNE je
+    wieder einen Neustart anzubieten -- das von der Sperrmeldung
+    versprochene "[4] erneut ausführen, um neu zu starten" hätte den
+    ausstehenden Prozesswechsel NIE eingelöst. Gilt unabhängig davon, ob
+    die Quelle aktuell erreichbar ist (keine Netzabfrage nötig, um eine
+    bereits lokal abgeschlossene Installation neu zu starten)."""
+    global _update_restart_required
+    print(bold("\n  [4] Nach Updates suchen\n"))
+
+    # R5-01: steht eine PERSISTENTE Teilinstallation an (disk-gelesen,
+    # überlebt einen Prozessneustart), hat ihre Wiederaufnahme Vorrang vor
+    # ALLEM anderen hier -- auch vor der flüchtigen Neustartpflicht unten
+    # (die ohnehin nie gesetzt werden konnte, wenn die Installation selbst
+    # nie erfolgreich durchgelaufen ist, s. `_finish_update_installation`-
+    # Aufrufer). Analog zum bestehenden pending-restart-Fastpath direkt
+    # darunter: SOFORT, vor jedem neuen `check_for_update`.
+    incomplete = launcher_update_module.incomplete_install(REPO)
+    if incomplete:
+        _offer_incomplete_install_recovery(incomplete)
+        return
+
+    if _update_restart_required:
+        _offer_pending_restart_now()
+        return
+
+    print(dim("  Ich frage die offizielle Quelle, ohne etwas zu verändern..."))
+
+    result = launcher_update_module.check_for_update(REPO)
+    local = result.local
+
+    print(f"  Installierter Stand: {_describe_local_update_state(local)}")
+    print(dim(f"  Geprüft: {result.checked_at}"))
+
+    if result.status == "unknown":
+        print(yellow(f"  Updates konnten nicht geprüft werden: {result.reason}."))
+        # R3-01: eine unverwaltete Installation ohne eigene Statusdatei darf
+        # "unknown" NIE automatisch verdecken, aber eine erreichbare, geprüfte
+        # Zielrevision darf die sichere, BEWUSSTE Übernahme auch nicht
+        # blockieren -- vorher kehrte `action_update` hier immer sofort
+        # zurück, BEVOR überhaupt ein Installationsangebot erreicht wurde.
+        if local.source == "unmanaged" and result.remote_rev:
+            print(dim(f"  Die offizielle Quelle liefert einen bestimmten Stand ({result.remote_rev[:10]}),"))
+            print(dim("  aber dein eigener Stand ist nicht sicher bestimmbar (keine verwaltete Installation,"))
+            print(dim("  kein .git). Das kann eine unveränderte, bisher nur nie aktualisierte ZIP-Installation"))
+            print(dim("  sein -- oder eine Installation mit eigenen, nie erfassten Änderungen."))
+            ans = _prompt("  Trotzdem auf den geprüften Stand übernehmen? (j/n) [n]: ").strip().lower()
+            if ans in ("j", "y", "ja", "yes"):
+                zres = _attempt_zip_install(result.remote_rev)
+                if not zres.ok:
+                    print(red(f"  {zres.message}"))
+                    _pause()
+                    return
+                _finish_update_installation(zres.message)
+                return
+            print(dim("  Übersprungen. Dein bisheriger Stand bleibt erhalten."))
+        else:
+            print(dim("  Dein bisheriger Stand bleibt erhalten."))
         _pause()
         return
 
-    print()
-    sync_ok = False
-    try:
-        setup_module.run_sync(REPO, load_cfg())
-        sync_ok = True
-    except SystemExit as e:
-        code = e.code if isinstance(e.code, int) else 1
-        if code == 0:
-            sync_ok = True
+    if result.status in ("ahead", "diverged"):
+        # R3-04/a: eine ungleiche Revision ist nicht automatisch "neuer" --
+        # weder automatisch anbieten noch als Fehler behandeln, sondern den
+        # tatsächlichen Stand konkret benennen. Kein Install-Angebot hier:
+        # ein Fast-forward auf eine ältere/divergierte Revision wäre ohnehin
+        # kein echtes Update.
+        if result.status == "ahead":
+            print(green(f"  ✓ Dein Stand ist der geprüften Quelle bereits voraus ({result.reason})."))
         else:
-            print(red(f"\n  Sync abgebrochen (Exit {code})."))
-            print(dim("  Tipp: Menü [6] Diagnose zeigt, was fehlt."))
-    except Exception as e:
-        print(red(f"\n  Update fehlgeschlagen: {e.__class__.__name__}: {e}"))
+            print(yellow(f"  Dein Stand und die geprüfte Quelle sind divergiert: {result.reason}."))
+            print(dim("  Kein automatisches Update -- bitte Stand manuell prüfen (z. B. `git log --oneline -5`)."))
+        _pause()
+        return
 
-    if sync_ok:
-        print()
-        if project_hook is not None:
-            print(green("  ✓ Update abgeschlossen — starte mit Menü [M] ZEITRISS spielen (Terminal)."))
+    if result.status == "current":
+        if local.dirty:
+            print(yellow(f"  Revision entspricht der geprüften Quelle, ABER lokale Änderungen vorhanden."))
+            print(dim("  (Stand = Revision stimmt; das ist keine Aussage über eine unveränderte Installation.)"))
+        if not result.sync_pending:
+            if not local.dirty:
+                print(green(f"  ✓ Aktuell. Zuletzt geprüft: {result.checked_at}."))
+            _pause()
+            return
+        print(yellow("  Programmdateien sind aktuell — die Synchronisierung mit OpenWebUI ist aber"))
+        print(yellow("  noch offen (vorheriger Sync-Versuch unvollständig)."))
+        ans = _prompt("  Jetzt synchronisieren? (j/n) [j]: ").strip().lower()
+        if ans in ("", "j", "y", "ja", "yes"):
+            _run_update_sync_step()
         else:
-            print(green(f"  ✓ Update abgeschlossen — starte mit Menü [3] {meta()['start_label']}."))
+            print(dim("  Übersprungen — bleibt offen, ein erneuter Check verdeckt das nicht als 'Aktuell'."))
+        _pause()
+        return
 
-    _pause()
+    # result.status == "update_available"
+    local_rev = local.rev[:10] if local.rev else "?"
+    print(yellow(f"  Update verfügbar: {result.remote_rev[:10]} (dein Stand: {local_rev})."))
+    if local.dirty:
+        print(yellow("  Hinweis: Du hast lokale Änderungen an Repo-Dateien — die werden beim"))
+        print(yellow("  Update NICHT automatisch verworfen (s. Rückmeldung unten, falls das blockiert)."))
+    ans = _prompt("  Jetzt installieren? (j/n) [n]: ").strip().lower()
+    if ans not in ("j", "y", "ja", "yes"):
+        print(dim("  Kein Update installiert. Dein bisheriger Stand bleibt erhalten."))
+        _pause()
+        return
+
+    target_rev = result.remote_rev
+    if local.source == "git":
+        gres = launcher_update_module.perform_git_update(REPO, target_rev=target_rev)
+        if not gres.ok:
+            print(red(f"  {gres.message}"))
+            _pause()
+            return
+        launcher_update_module.mark_files_updated(REPO, method="git", rev=gres.new_rev or target_rev)
+        _finish_update_installation(gres.message)
+    else:
+        zres = _attempt_zip_install(target_rev)
+        if not zres.ok:
+            print(red(f"  {zres.message}"))
+            _pause()
+            return
+        _finish_update_installation(zres.message)
 
 
 def _parse_env_file(path: Path) -> dict[str, str]:
@@ -1838,14 +2053,14 @@ def action_diagnose() -> None:
                 if kb_id == KB_ID_MISSING:
                     print(red("   ✗  Preset hat keine KB verlinkt (meta.knowledge leer)."))
                     fixes.append((
-                        "Menü [4] Aktualisieren — verknüpft Preset und KB neu.",
+                        "Automatischer Sync — verknüpft Preset und KB neu.",
                         "sync",
                     ))
                     kb_id = None
                 elif kb_id == KB_ID_WEIRD:
                     print(yellow("   !  Preset gefunden, aber meta.knowledge hat unerwartetes Format."))
                     fixes.append((
-                        "Menü [4] Aktualisieren — Preset/KB werden dabei neu verknüpft.",
+                        "Automatischer Sync — Preset/KB werden dabei neu verknüpft.",
                         "sync",
                     ))
                     kb_id = None
@@ -1860,7 +2075,7 @@ def action_diagnose() -> None:
                         else:
                             print(red("   ✗  KB-Retrieval lieferte 0 Treffer — KB ist leer oder nicht indexiert."))
                             fixes.append((
-                                "Menü [4] Aktualisieren — triggert einen Sync, der die KB neu indexiert.",
+                                "Automatischer Sync — indexiert die KB neu.",
                                 "sync",
                             ))
         except Exception as e:
@@ -1949,7 +2164,11 @@ def action_diagnose() -> None:
             # der User nach dem Auto-Fix-"j" gleich den partial-Prompt nochmal.
             action_install(_skip_state_check=True)
         elif kind == "sync":
-            action_update()
+            # ZR-ALTAIR-UPDATER-SPIELTEST-20261118-r2: NICHT mehr action_update()
+            # (das ist jetzt der volle "Nach Updates suchen"-Ablauf inkl.
+            # Quellencheck/Installfrage/Neustart) -- die Diagnose will hier nur
+            # gezielt den Preset/KB-Sync nachholen, unabhängig vom Codestand.
+            _run_update_sync_step()
         elif kind == "litellm":
             # Minimaler Fix: nur den LiteLLM-Cache nachinstallieren.
             # Lässt Preset, KB und Embeddings völlig unangetastet (kein
@@ -2393,7 +2612,7 @@ def main() -> int:
         if has_mmo_sim:
             print("   [M]  ZEITRISS spielen (Terminal)")
         print(f"   [3]  {m['start_label']} (Browser öffnen)")
-        print("   [4]  Aktualisieren (git pull + Sync)")
+        print("   [4]  Nach Updates suchen")
         print("   [5]  API-Keys ändern")
         print("   [6]  Bei mir läuft was nicht (Diagnose)")
         print("   [7]  Reset — Neuinstallation (⚠ destruktiv)")
@@ -2401,6 +2620,22 @@ def main() -> int:
         print("   [X]  Beenden")
         print()
         choice = _prompt("  Auswahl: ").strip().lower()
+
+        # R3-05: nach einer installierten, aber noch nicht neu gestarteten
+        # Aktualisierung dürfen die produktiven Aktionen (die die bereits
+        # importierten, potenziell veralteten Module benutzen) nicht einfach
+        # weiterlaufen -- [4] (erneut updaten/neu starten) und [X] bleiben
+        # immer erreichbar, sonst wäre der Launcher blockiert.
+        # R5-01: der persistente Teilinstallations-Guard wird VOR dem
+        # flüchtigen Neustart-Guard geprüft -- ein gemischter Dateistand
+        # ist der schwerwiegendere Fall und bleibt auch über einen
+        # Prozessneustart hinweg gesperrt, ein pendender Neustart dagegen
+        # nur innerhalb desselben Prozesses relevant.
+        if choice in ("1", "l", "2", "3", "m") and (
+            _block_if_install_incomplete(f"[{choice.upper()}]")
+            or _block_if_restart_required(f"[{choice.upper()}]")
+        ):
+            continue
 
         if choice == "1":
             action_install()

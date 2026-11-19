@@ -98,6 +98,15 @@ python3 tests/mmo_sim/test_f1_n1_preserving_env_writer_2026_11_09.py
 python3 tests/mmo_sim/test_f1_n1_recheck_before_mutation_2026_11_09.py
 python3 tests/mmo_sim/test_f1_n1_terminal_m_completion_2026_11_09.py
 
+# ZR-ALTAIR-UPDATER-SPIELTEST-20261118-r2 (U1-U6, 02_UPDATE_VERHALTEN_UND_
+# ABNAHME.md): standalone Assert-Skript (python3 -m unittest -q findet die
+# Modulfunktion NICHT, s. Docstring) -- treibt den echten Launcher-Prozess
+# (scripts/zeitriss.py) gegen einen kontrollierten lokalen Git-Remote-
+# Fixture: Menüintegration [4] Nach Updates suchen, echter Fast-forward,
+# echter Neustart (os.execv) und sichtbar offen bleibender Sync-Status
+# nach dem Neustart, hier additiv direkt gestartet.
+python3 tests/mmo_sim/test_zr_updater_launcher_process_boundary_2026_11_18.py
+
 # Gear shop tiers deterministic
 mkdir -p out
 node tools/test_shop.js | tee out/shop.log

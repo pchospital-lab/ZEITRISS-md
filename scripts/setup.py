@@ -786,6 +786,25 @@ class APIClient:
         code, _ = self.delete(f"/api/v1/files/{file_id}")
         return code == 200
 
+    def get_file_content(self, file_id: str) -> Optional[bytes]:
+        """R7-02-N2 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7, Flo-
+        Direktive 2026-11-19): holt den ROHEN gespeicherten Inhalt einer
+        File-Entity (`GET /api/v1/files/{id}/content`) als Bytes -- fuer eine
+        inhalts-/identitaetsgebundene Bestaetigung, wenn `meta.file_hash`
+        NICHT als roher SHA-256 verlaesslich ist (OWUI 0.11.3 verifiziert:
+        `meta.file_hash` kann vom rohen Content-SHA-256 abweichen, OBWOHL der
+        gespeicherte Inhalt byte-identisch zum lokalen Kandidaten ist). Nutzt
+        `_request` direkt (Rohbytes, KEIN json-Decode). Liefert `None` bei
+        jeder Nicht-200-/unlesbaren Antwort -- der Aufrufer DARF `None` NIE
+        wie eine bestaetigte Uebereinstimmung behandeln."""
+        import urllib.parse
+        code, body = self._request(
+            "GET", f"/api/v1/files/{urllib.parse.quote(file_id, safe='')}/content"
+        )
+        if code != 200 or not isinstance(body, (bytes, bytearray)):
+            return None
+        return bytes(body)
+
     def do_upload_file(self, filepath: Path, *, retries: int = 2) -> Optional[str]:
         """Upload one file, mit Retry bei transienten Fehlern.
 
@@ -4083,6 +4102,49 @@ def _classify_kb_name_candidates(entries: list[dict], local_sha: str):
     return target_fid, stale_ids
 
 
+def _confirm_active_kb_file_by_content(client, candidate_ids, local_sha: str):
+    """R7-02-N2 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7, Flo-
+    Direktive 2026-11-19): inhalts-/identitaetsgebundene Rueckfall-
+    Bestaetigung, wenn der Metadaten-Hashvergleich (`_classify_kb_name_
+    candidates`, Quelle `meta.file_hash`/`hash`) KEINEN Treffer liefert,
+    OBWOHL der tatsaechlich in der aktiven KB gespeicherte Inhalt bereits
+    byte-identisch zum lokalen Kandidaten ist.
+
+    Beleg (OWUI 0.11.3, am laufenden Backend verifiziert): `meta.file_hash`
+    kann vom rohen SHA-256 DESSELBEN Inhalts abweichen -- die Metadaten-
+    Gleichsetzung ist daher KEIN verlaesslicher Identitaetsvertrag. Dieser
+    Helper holt je Kandidat den ROHEN Inhalt (`get_file_content`) und
+    vergleicht dessen SHA-256 mit `local_sha`. Liefert die ERSTE id mit
+    byte-identischem Inhalt, sonst `None`.
+
+    Enge Schutzgrenzen (Flo-Gegenfaelle):
+    - `candidate_ids` sind vom Aufrufer bereits auf Dateiname UND aktive KB
+      (`meta.collection_name == kb_id`) gefiltert -- ein NUR ausserhalb der
+      aktiven KB vorhandener identischer Inhalt wird hier gar nicht erst als
+      Kandidat uebergeben (keine Ableitung einer aktiven Bindung aus einer
+      fremden Kopie).
+    - Inhalt abweichend/aelter -> kein Treffer -> `None` -> Aufrufer nimmt
+      den sicheren regulaeren Upload-/Aktualisierungspfad (kein falsches
+      "aktuell").
+    - Inhalt nicht lesbar/unvollstaendig (`get_file_content` -> `None`) ->
+      KEINE Bestaetigung (uebersprungen) -> offen gelassen, kein erfundener
+      Erfolg.
+    Dies behandelt NICHT den 'duplicate'-Status als Erfolg, unterdrueckt
+    keine Fehlermeldung und erzwingt keinen Manifestwert -- es bestaetigt
+    ausschliesslich einen tatsaechlich byte-identischen, lesbaren Inhalt in
+    der aktiven KB."""
+    import hashlib
+    for fid in candidate_ids:
+        if not fid:
+            continue
+        content = client.get_file_content(fid)
+        if content is None:
+            continue
+        if hashlib.sha256(content).hexdigest() == local_sha:
+            return fid
+    return None
+
+
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Incremental sync mode: update only what changed since last setup/sync.
 
@@ -4527,8 +4589,65 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # würde die gleichnamige Datei eines ANDEREN Bausatzes mitlöschen
         # (Cross-KB-Datenverlust, beobachtet 2026-09-14).
         target_fid = None
-        if old_file_id:
+        # R8-01 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R8 §3): ein
+        # getrackter `old_file_id` darf die beiden Bestätigungspfade unten
+        # NUR betreten, wenn er nachweislich unter `fp.name` zur AKTIVEN KB
+        # gehört (geprüft gegen `kb_name_index`, bereits auf
+        # `collection_name == kb_id` gefiltert -- kein zusätzlicher
+        # `list_files()`-Call). Ohne dieses Gate bestätigte eine fremde,
+        # gleich benannte Datei-ID aus einer ANDEREN KB (Manifest zeigt
+        # noch auf sie) sich selbst per Metadaten- ODER Rohinhalts-Treffer
+        # als "aktuell", obwohl die aktive KB weiterhin nur eine alte
+        # gleichnamige Kopie trägt -- Coverage sah den Namen dort und
+        # meldete fälschlich grün. Fehlt die aktive Bindung, fällt der Fall
+        # in den bestehenden Namensfallback (unten), die fremde
+        # `old_file_id` bleibt dabei außen vor und wird dort folglich
+        # weder bestätigt noch entlinkt/gelöscht.
+        active_name_entries = kb_name_index.get(fp.name, [])
+        tracked_active = bool(old_file_id) and any(
+            e.get("id") == old_file_id for e in active_name_entries
+        )
+        if tracked_active:
             old_candidates = [old_file_id]
+            # R7-02 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §03):
+            # derselbe identitätsgebundene Hashabgleich wie im Namens-
+            # fallback unten (WP-F1-N8 R2) fehlte bisher GENAU für den
+            # getrackten Fall -- ein getrackter `old_file_id` wurde IMMER
+            # blind erneut hochgeladen, selbst wenn er am Backend
+            # NACHWEISLICH bereits den aktuellen lokalen Inhalt trägt (z.B.
+            # weil ein früherer Lauf erfolgreich hochgeladen+verlinkt hat,
+            # der periodische Manifest-Zwischen-Write — `if idx % 3 == 0`
+            # — den Fortschritt aber noch nicht persistiert hatte, bevor
+            # der Prozess abbrach: lokale MD5 im Manifest bleibt dadurch
+            # "stale", der Dateiname gilt beim nächsten Lauf fälschlich
+            # als "geändert"). Der blinde Re-Upload erzeugt dann eine
+            # ZWEITE Kopie desselben Inhalts; OWUIs collectionweiter
+            # Duplicate-Check (retrieval.py:1666-1685) weist den
+            # Vergleichs-Upload beim Link-Versuch zurück (400), OHNE dass
+            # `old_file_id` je als bereits korrekt bestätigt wird — GENAU
+            # die reale r6-Launcher-Ursache der 7 unbestätigten Dateien
+            # (0/7), NICHT ein Backend-/Preset-/KB-Bindungsdefekt. Kleinster
+            # kausaler Fix: denselben Content-Hash-Vergleich VORHER auch
+            # hier ausführen -- trägt `old_file_id` bereits den lokalen
+            # Inhalt, wird GENAU der bestehende `target_fid`-Zweig unten
+            # (idempotenter Abgleich, KEIN Upload) genutzt, unverändert wie
+            # im Namensfallback-Fall.
+            old_hash = next(
+                (e.get("hash") for e in active_name_entries if e.get("id") == old_file_id),
+                None,
+            )
+            if old_hash and old_hash == _file_sha256(fp):
+                target_fid = old_file_id
+            if target_fid is None:
+                # R7-02-N2 (Flo-Direktive 2026-11-19): `meta.file_hash` ist in
+                # OWUI 0.11.3 NICHT verlaesslich der rohe SHA-256 -- der
+                # Metadaten-Vergleich oben verfehlt sonst einen bereits korrekt
+                # getrackten, byte-identischen Altbestand (eingebetteter Inhalt
+                # identisch, meta.file_hash abweichend) und wuerde blind
+                # re-uploaden -> Duplicate-Dauerschleife. Content-gebunden
+                # bestaetigen (roher Inhaltsvergleich), bevor hochgeladen wird.
+                if _confirm_active_kb_file_by_content(client, [old_file_id], _file_sha256(fp)):
+                    target_fid = old_file_id
         else:
             same_name = [
                 f for f in client.list_files()
@@ -4555,6 +4674,26 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             target_fid, old_candidates = _classify_kb_name_candidates(
                 same_name_entries, _file_sha256(fp)
             )
+            if target_fid is None and same_name_entries:
+                # R7-02-N2 (Flo-Direktive 2026-11-19): die ungetrackten Module
+                # landen hier; `meta.file_hash` (OWUI 0.11.3) weicht vom rohen
+                # SHA-256 ab, OBWOHL der in DIESER KB gespeicherte Inhalt
+                # byte-identisch ist -> `_classify_kb_name_candidates` verfehlt
+                # ihn -> Vergleichs-Upload -> serverweite Duplicate-Kollision
+                # (gegen die 5 fremden gleichnamigen Kopien) -> falsches
+                # "fehlgeschlagen", obwohl der Inhalt bereits korrekt in DIESER
+                # KB gebunden ist. Content-gebunden bestaetigen (nur die bereits
+                # auf Dateiname UND aktive KB gefilterten Kandidaten), bevor
+                # erneut hochgeladen wird.
+                content_confirmed = _confirm_active_kb_file_by_content(
+                    client, [e.get("id") for e in same_name_entries], _file_sha256(fp)
+                )
+                if content_confirmed:
+                    target_fid = content_confirmed
+                    old_candidates = [
+                        e.get("id") for e in same_name_entries
+                        if e.get("id") and e.get("id") != content_confirmed
+                    ]
 
         if target_fid:
             # Y ist bereits identitätsgebunden verlinkt -- NICHT erneut

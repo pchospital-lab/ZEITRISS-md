@@ -381,6 +381,66 @@ def has_residual_structural_cap_overflow(block: dict, expected_chrononaut_id: st
     return any(e.check in STRUCTURAL_CAP_OVERFLOW_CHECKS for e in acceptance.structure.errors)
 
 
+def resume_hold_via_structural_best_effort(
+    run_dir: str | Path, repair_key: str, *, char_id: str, table_id: str, section_id: str,
+) -> dict | None:
+    """R7-01 Part C (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02 C):
+    enger, nachvollziehbarer Wiederaufnahmepfad fuer einen TERMINAL
+    `STATE_HOLD`-Datensatz mit `last_reason="unjustified_semantic_drift"` --
+    reicht das bereits VOR der gedrifteten Antwort driftfrei beobachtete
+    `best_candidate_block` (s. `update_best_candidate`s P2-Registrierung VOR
+    der ersten Nachbesserung) durch DENSELBEN bereits bestehenden Best-
+    effort-Strukturvertrag (`has_residual_structural_cap_overflow` +
+    `mark_adopted(best_effort=True)`), den `pursue_group_save_correction`s
+    erschoepfter-Budget-Zweig bereits fuer NICHT-gedriftete Kandidaten
+    verwendet (s. dort). Die tatsaechlich archivierte (gedriftete) Antwort
+    selbst wird dabei NIE herangezogen oder nachtraeglich fuer gueltig
+    erklaert -- NUR der zuvor unveraendert gebundene Entwurf.
+
+    Eng ABSICHTLICH NUR fuer genau diese Kombination zulaessig (KEINE
+    pauschale Entsperrung jedes `unjustified_semantic_drift`-Falls):
+      - Datensatz existiert, `state == STATE_HOLD`, `last_reason ==
+        "unjustified_semantic_drift"` -- jeder andere HOLD-Grund (Konflikt,
+        Blockade, fremde Bindung, ...) bleibt UNVERAENDERT terminal.
+      - Eigentuemer-/Figur-/Abschnittsbindung passt EXAKT: `char_id`/
+        `table_id`/`section_id` des Datensatzes == der vom Aufrufer bereits
+        gepruefte aktuelle Gruppenidentitaet (Provenienz-Check -- verhindert
+        eine Wiederaufnahme unter falscher/fremder Bindung).
+      - noch KEINE erfolgte Uebernahme (`adopted_block` ist noch nicht
+        gesetzt) -- schliesst Doppel-Adoption/-Buchung aus.
+      - ein tatsaechlich beobachteter `best_candidate_block` existiert UND
+        besteht GENAU dieselbe Best-effort-Pruefung wie der bestehende
+        erschoepfte-Budget-Pfad (nur ein reiner struktureller Cap-Ueberlauf,
+        keine Identitaets-/Bindungsabweichung).
+
+    Liefert bei erfolgreicher Wiederaufnahme den aktualisierten Datensatz
+    (jetzt `state=adopted`, `best_effort=True`) -- der Aufrufer behandelt
+    ihn danach ueber den bereits bestehenden `restored_from_adopted`-Zweig
+    exakt wie jeden anderen zurueckgespielten Best-effort-Kandidaten, KEIN
+    neuer Kontrollfluss dafuer. Liefert `None` (Datensatz bleibt dabei
+    UNVERAENDERT, kein Teil-Write), sobald irgendeine der Bedingungen oben
+    nicht zutrifft."""
+    record = load_record(run_dir, repair_key)
+    if record is None or record.get("state") != STATE_HOLD:
+        return None
+    if record.get("last_reason") != "unjustified_semantic_drift":
+        return None
+    if (
+        record.get("char_id") != char_id
+        or record.get("table_id") != table_id
+        or record.get("section_id") != section_id
+    ):
+        return None
+    if record.get("adopted_block") is not None:
+        return None
+    best_block = record.get("best_candidate_block")
+    if best_block is None:
+        return None
+    if not has_residual_structural_cap_overflow(best_block, char_id):
+        return None
+    return mark_adopted(run_dir, repair_key, adopted_block=best_block, best_effort=True)
+
+
 def mark_window_paused(run_dir: str | Path, repair_key: str, *, reason: str) -> dict:
     """R12-W73 (Invarianten 1/3/4/5): wie `mark_hold`, aber NICHT terminal --
     markiert einen NACHWEISLICH unversandten Deadline-vor-Versand-Block als
@@ -1728,6 +1788,27 @@ def pursue_group_save_correction(
     emit = emit or (lambda *_a, **_k: None)
     run_dir = lobby.run_dir
 
+    # R7-01 Part C (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02 C):
+    # Schnappschuss der repair_keys, die BEREITS VOR diesem Aufruf (einer
+    # fruehren, abgeschlossenen Prozessinstanz) terminal STATE_HOLD waren --
+    # NUR fuer DIESE darf der Wiederaufnahmeversuch unten greifen. Ein
+    # Datensatz, der ERST WAEHREND der eigenen Korrekturschleife DIESES
+    # Aufrufs (unten) neu in STATE_HOLD uebergeht, bleibt fuer den Rest
+    # GENAU DIESES Aufrufs terminal -- die Wiederaufnahme ist ausdruecklich
+    # ein SEPARATER, nachvollziehbarer Schritt am naechsten normalen
+    # Gruppenabschlussweg (z.B. nach einer erneuten normalen UI-
+    # Bestaetigung), NICHT ein automatisches Selbstheilen innerhalb
+    # DESSELBEN Korrekturversuchs, der den HOLD gerade erst ausgeloest hat.
+    _entry_hold_repair_keys: set[str] = set()
+    for _pk in harvest_completion.missing:
+        _char_id = table.chrononaut_ids.get(_pk)
+        if _char_id is None:
+            continue
+        _repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, _char_id)
+        _existing_record = load_record(run_dir, _repair_key)
+        if _existing_record is not None and _existing_record.get("state") == STATE_HOLD:
+            _entry_hold_repair_keys.add(_repair_key)
+
     while not harvest_completion.success and harvest_completion.missing:
         open_round = _load_open_round(run_dir, table.table_id, section_id)
         candidates: list[dict] = []
@@ -1871,6 +1952,21 @@ def pursue_group_save_correction(
                     run_dir, repair_key, persona_key=pk, char_id=char_id,
                     operation_key=ROLE_GROUP, table_id=table.table_id, section_id=section_id,
                 )
+                # R7-01 Part C (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-
+                # R7 §02 C): BEVOR ein terminaler STATE_HOLD unten unveraendert
+                # uebersprungen wird, einen engen, nachvollziehbaren
+                # Wiederaufnahmeversuch ueber den bestehenden Best-effort-
+                # Strukturvertrag unternehmen (s. `resume_hold_via_
+                # structural_best_effort`-Docstring fuer die vollstaendigen
+                # Vorbedingungen). Greift NICHT, bleibt `record` unveraendert
+                # STATE_HOLD und der bestehende Skip-Zweig unten verhaelt
+                # sich bytegleich zum Vor-Fix-Verhalten.
+                if record["state"] == STATE_HOLD and repair_key in _entry_hold_repair_keys:
+                    resumed_record = resume_hold_via_structural_best_effort(
+                        run_dir, repair_key, char_id=char_id, table_id=table.table_id, section_id=section_id,
+                    )
+                    if resumed_record is not None:
+                        record = resumed_record
                 # Restart-Sicherheit (analog SC07 im Einzelfigurpfad): ein
                 # bereits TERMINAL abgeschlossener Datensatz (HOLD -- Budget
                 # erschoepft, Drift, Blockade -- ODER bereits adoptiert) wird
@@ -2329,7 +2425,19 @@ def pursue_group_save_correction(
             old_block = c["original_block"]
             if old_block is not None:
                 error_paths = {e.path for e in c["acceptance"].structure.errors}
-                drift = save_correction_domain.detect_unjustified_drift(old_block, new_block, error_paths)
+                # R7-01 Part B (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7
+                # §02 B): die Teilmenge von `error_paths`, deren gemeldeter
+                # Fehler ein struktureller Cap-Overflow ist (maxItems/
+                # minItems) -- NUR fuer diese Pfade duerfen Blattnachfahren
+                # (z.B. `.../shared_echoes/0/text`) als nicht-driftende
+                # Strukturkorrektur gelten (s. `detect_unjustified_drift`).
+                structural_cap_paths = frozenset(
+                    e.path for e in c["acceptance"].structure.errors
+                    if e.check in STRUCTURAL_CAP_OVERFLOW_CHECKS
+                )
+                drift = save_correction_domain.detect_unjustified_drift(
+                    old_block, new_block, error_paths, structural_cap_paths=structural_cap_paths,
+                )
                 if drift:
                     mark_hold(run_dir, c["repair_key"], reason="unjustified_semantic_drift")
                     emit("save_correction_hold", {
