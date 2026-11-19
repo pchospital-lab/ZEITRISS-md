@@ -9745,6 +9745,59 @@ class TuiSession:
                 io._host_terminal_claimed.clear()
                 io._host_terminal_claim_owner = None
 
+    def _print_group_save_hold_status_lines(self, table, missing_pks: list[str], drivers: dict) -> None:
+        """R7-01 Part D (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02
+        D): additive Zusatzzeilen fuer `_run_table_round`s generische "kann
+        fortgesetzt werden"-Zeile (Aufrufer bleibt BYTEGLEICH, s. dort) --
+        NUR wenn fuer mindestens EIN noch fehlendes Mitglied der Save-
+        Korrekturdatensatz TATSAECHLICH terminal `STATE_HOLD` ist (ein
+        echter, unbehobener Speicherfehler -- NICHT jeder "kann fortgesetzt
+        werden"-Fall, z.B. eine noch offene SAVECOMPAT-Reparatur, ist das).
+
+        Zeigt je betroffenem Mitglied (nur echte menschliche Treiber, s.
+        `is_human_driver`, am JEWEILS EIGENEN Terminal -- dieselbe
+        `_table_guest_terminals`-Zuordnung wie die Erfolgskarte):
+        letzter bestaetigter Save (`_build_resume_card`, dieselbe Lese-
+        autoritaet wie 'fortsetzen'/'/stand', kein zweiter Save-Pfad),
+        Fehlergrund in verstaendlicher Kurzform (`public_hold_reason`, NIE
+        der rohe `last_reason`-Text -- Schutz vor Secret-/Innendetail-
+        Lecks) und die verfuegbare normale Wiederaufnahme. Ein GM-Satz
+        "Save gesichert" darf diesen tatsaechlich fehlgeschlagenen Save
+        NICHT als erfolgreich erscheinen lassen -- diese Zeile liest
+        ausschliesslich den echten Korrekturdatensatz, NIE das freie
+        KI-SL-Narrativ. Kein neues Menuesystem, keine generelle Story-
+        Unterdrueckung -- reine Zusatzzeilen auf demselben Terminalkanal."""
+        if self.run_dir is None:
+            return
+        from ..core import save_correction as core_save_correction
+        from ..domain.zeitriss import save_correction as domain_save_correction
+        hold_section_id = f"{table.table_id}-section"
+        for hold_pk in missing_pks:
+            hold_driver = drivers.get(hold_pk)
+            if not getattr(hold_driver, "is_human_driver", False):
+                continue
+            hold_char_id = table.chrononaut_ids.get(hold_pk)
+            if hold_char_id is None:
+                continue
+            hold_repair_key = domain_save_correction.group_repair_key(table.table_id, hold_section_id, hold_char_id)
+            hold_record = core_save_correction.load_record(self.run_dir, hold_repair_key)
+            if hold_record is None or hold_record.get("state") != core_save_correction.STATE_HOLD:
+                continue
+            hold_io = self._table_guest_terminals.get(hold_pk, self)
+            hold_card = hold_io._build_resume_card(participant_id=hold_pk)
+            hold_last_save = (
+                hold_card.last_valid_save_summary
+                if hold_card is not None and hold_card.last_valid_save_summary
+                else "kein frueherer bestaetigter Stand bekannt"
+            )
+            hold_io._print(
+                f"[Speicherstatus] Dieser Abschnittsabschluss ist NICHT gespeichert -- "
+                f"der letzte bestaetigte Stand bleibt: {hold_last_save}. Grund: "
+                f"{core_save_correction.public_hold_reason(hold_record.get('last_reason'))}. "
+                "Eine normale Wiederaufnahme (z.B. erneutes Fortsetzen/Bestaetigen) kann diesen "
+                "Abschnitt alternativ abschliessen, sobald dafuer ein zulaessiger Weg verfuegbar ist."
+            )
+
     def _print_section_completion_card(self, io, pid: str, saved_now: bool) -> None:
         """U3c (R3 Stage 2, 01_NACHZUG §U3c, docs/spielerstart.md 191-198
         "ob du weiterspielen oder zum Tisch zurueck willst" -- bisher von
@@ -10957,6 +11010,7 @@ class TuiSession:
                 )
             else:
                 self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
+                self._print_group_save_hold_status_lines(table, outcome.completion.missing, drivers)
         # U3c (R3 Stage 2, 01_NACHZUG §U3c): rein ADDITIV NACH dem oben
         # unveraenderten Erfolg/Stop/plan_committed/Pause-Block (der
         # bleibt bytegleich, NICHT angefasst) -- liest nur das dort

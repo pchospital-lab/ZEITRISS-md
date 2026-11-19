@@ -398,9 +398,24 @@ def _wallet_amount_values_equal(old_value: object, new_value: object) -> bool:
     return old_num == new_num
 
 
+def _is_structural_cap_descendant(path: str, structural_cap_paths: frozenset[str]) -> bool:
+    """R7-01 Part B (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02 B):
+    `True`, wenn `path` GENAU einer der gemeldeten `maxItems`/`minItems`-
+    Elternpfade ist ODER ein ECHTER Blattnachfahre davon (`.../0/text` unter
+    `.../shared_echoes`). Absichtlich ENG: nur Nachfahren eines Pfads, der
+    TATSAECHLICH einen Cap-Overflow-Fehler trug (s. `structural_cap_paths`,
+    vom Aufrufer bereits auf `SchemaError.check in STRUCTURAL_CAP_OVERFLOW_
+    CHECKS` gefiltert) -- NICHT "Elternkette fuer JEDEN Schemafehler"."""
+    for cap_path in structural_cap_paths:
+        if path == cap_path or path.startswith(cap_path + "/"):
+            return True
+    return False
+
+
 def detect_unjustified_drift(
     original: dict, corrected: dict, error_paths: set[str],
     *, restrict_to_core_identity: bool = False,
+    structural_cap_paths: frozenset[str] = frozenset(),
 ) -> list[tuple[str, object, object]]:
     """01_AUFTRAG_SAVEGATE.md §A: "Nur Fehlerpfade und nachweislich
     notwendige Strukturkorrekturen freigeben." Vergleicht `original` (der
@@ -466,7 +481,21 @@ def detect_unjustified_drift(
     einem BESTEHENDEN Spielerstand (A_R2/A_R3, `pursue_group_save_correction`)
     bleibt der Parameter `False` -- JEDE Abweichung ausserhalb der
     Fehlerpfade bleibt dort weiterhin terminal (01_AUFTRAG_SAVEGATE.md §A
-    unveraendert)."""
+    unveraendert).
+
+    R7-01 Part B (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02 B):
+    `structural_cap_paths` (additiv, Default leer -> unveraendertes Verhalten
+    jedes bestehenden Aufrufers/Tests, die diesen Parameter nicht kennen) ist
+    die Teilmenge von `error_paths`, deren gemeldeter Validatorfehler ein
+    struktureller Cap-Overflow ist (`maxItems`/`minItems`, s. `core.
+    save_correction.STRUCTURAL_CAP_OVERFLOW_CHECKS`). Ein Blattpfad, der
+    GENAU einem dieser Pfade entspricht ODER ein ECHTER Nachfahre davon ist
+    (z.B. `/continuity/shared_echoes/0/text` unter dem gemeldeten
+    `/continuity/shared_echoes`), zaehlt NICHT als Drift -- die Kuerzung/
+    Reorganisation GENAU dieser Liste IST die bestellte Strukturkorrektur.
+    Bleibt eng: Nachfahren eines ANDEREN gemeldeten Fehlerpfads (kein Cap-
+    Overflow) bleiben unberuehrt drift-pflichtig, der Wallet-/Identitaets-
+    schutz (`_is_wallet_amount_path`) greift unveraendert zuerst."""
     if not isinstance(original, dict) or not isinstance(corrected, dict):
         return [] if original == corrected else [("/", original, corrected)]
 
@@ -484,7 +513,9 @@ def detect_unjustified_drift(
             path, old_value, old_leaves, new_leaves, consumed_new, error_paths, original, corrected,
         ):
             continue
-        if path in error_paths and not _is_wallet_amount_path(path):
+        if (
+            path in error_paths or _is_structural_cap_descendant(path, structural_cap_paths)
+        ) and not _is_wallet_amount_path(path):
             continue  # Struktur wurde an genau dieser gemeldeten Stelle korrigiert (kein Geldbetrag).
         drift.append((path, old_value, "<entfernt/umstrukturiert>"))
 
@@ -498,14 +529,16 @@ def detect_unjustified_drift(
         if has_old and has_new:
             if old_leaves[path] == new_leaves[path]:
                 continue
-            if path in error_paths:
+            if path in error_paths or _is_structural_cap_descendant(path, structural_cap_paths):
                 if not _is_wallet_amount_path(path) or _wallet_amount_values_equal(
                     old_leaves[path], new_leaves[path],
                 ):
                     continue
             drift.append((path, old_leaves[path], new_leaves[path]))
         else:
-            if path in error_paths and not _is_wallet_amount_path(path):
+            if (
+                path in error_paths or _is_structural_cap_descendant(path, structural_cap_paths)
+            ) and not _is_wallet_amount_path(path):
                 continue
             drift.append((path, "<nicht vorhanden>", new_leaves[path]))
     if restrict_to_core_identity:
