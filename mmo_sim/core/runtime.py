@@ -850,6 +850,23 @@ class SectionRuntime:
             text: str, resume_section_id: str | None = None,
             prev_ref_override: dict[str, dict | None] | None = None,
         ) -> SectionOutcome:
+            # ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03 §4,
+            # Kernbug H1): NUR fuer den "frischer Turn"-Aufrufvertrag (kein
+            # `resume_section_id`/`prev_ref_override` vom Aufrufer gesetzt --
+            # die bestehenden Resume-/AUTORECOVERY-Zweige bringen beides
+            # bereits selbst mit und werden hier NICHT angefasst) ersetzt
+            # `_pending_export_candidate` bei Bedarf `text` durch den Inhalt
+            # eines bereits VOR diesem Turn vorliegenden, vollstaendig
+            # gueltigen eigenen Exports -- derselbe `finalize`-Weg wie jede
+            # andere Ernte, KEIN zweiter Code-Pfad, KEIN neuer GM-Call (der
+            # abgewiesene `!save`-Turn ist bereits geschehen).
+            if resume_section_id is None and prev_ref_override is None:
+                rescued, hold_reason = _pending_export_candidate(text)
+                if hold_reason is not None:
+                    self._status_fn(f"Speicherabschluss HOLD: {hold_reason}")
+                if rescued is not None:
+                    text = rescued["content"]
+                    prev_ref_override = rescued.get("expected_prev_ref_by_member")
             sid = resume_section_id if resume_section_id is not None else section_id
             cid_to_pk = self.table.chrononaut_id_to_persona()
             harvested = self.harvest_extractor(text, cid_to_pk) if text else {}
@@ -969,6 +986,64 @@ class SectionRuntime:
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": completion.reason})
             return SectionOutcome(completion=completion, harvested=harvested, debrief_text=text)
 
+        def _harvest_own_export(entry: dict) -> bool:
+            """ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03 §4):
+            dieselbe Autoritaet wie `ui/tui.py`s Pending-Gate (`_HumanDriver.
+            decide`s `_leader_unsaved_bindable_save_shown`-Schleife) -- EIN
+            `harvest_extractor`-Treffer gegen die EIGENE Figur des Leaders,
+            der vom tatsaechlich persistierten Current ABWEICHT (noch nicht
+            uebernommen). Ein unlesbarer/unresolvbarer Current gilt hier
+            -- ANDERS als die reine TUI-Warnanzeige, die bei Unsicherheit
+            lieber zu frueh warnt -- als NICHT gefunden: dieser Pfad
+            UEBERNIMMT wirklich (ueber `finalize`), ein unsicherer Current
+            darf dafuer keine Grundlage sein (keine versteckte Eskalation,
+            03 §4 letzter Punkt)."""
+            cid_to_pk = self.table.chrononaut_id_to_persona()
+            own_cid_to_pk = {cid: pk for cid, pk in cid_to_pk.items() if pk == leader}
+            if not own_cid_to_pk:
+                return False
+            hit = self.harvest_extractor(entry.get("content") or "", own_cid_to_pk).get(leader)
+            if hit is None:
+                return False
+            try:
+                current_save = store.load_current_save_or_raise(
+                    self.lobby.run_dir, leader, self.persona_state_store, self._states_dir,
+                )
+            except store.CurrentSaveUnavailableError:
+                return False
+            return current_save is None or current_save != hit
+
+        def _pending_export_candidate(text: str) -> tuple[dict | None, str | None]:
+            """ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3
+            (03_FIXAUFTRAG.md §4, Kernbug H1 aus `run/preserve/M12-BINDING-
+            MAP.md`): ein alleinstehender, expliziter Leader-Commitwunsch
+            (`!save`/`!speichern`), auf den die SL/SaveGuard DIESES Turns mit
+            einer ausdruecklichen Verweigerung antwortet (`save_guard_
+            rejection_detector`, P3 -- unveraendert der dritte Zweig von
+            `completion_hit` UNTERDRUECKT), darf trotzdem einen bereits
+            VOR diesem Turn in `sl_log` liegenden, vollstaendig gueltigen,
+            noch nicht uebernommenen eigenen Export uebernehmen -- OHNE
+            dafuer einen WEITEREN GM-/Correction-Call auszuloesen (der
+            gerade abgewiesene `!save`-Call ist bereits geschehen, dieser
+            Fund fuegt keinen NEUEN Call hinzu, 03 §5 "0 zusaetzliche
+            GM-/Correction-Calls"). `None, None`, wenn diese drei
+            Vorbedingungen (explizites eigenes Save-Kommando + SaveGuard-
+            Reject DIESES Turns + ein tatsaechlich auffindbarer Kandidat)
+            nicht ALLE zutreffen -- insbesondere bleibt ein GM, der auf
+            `!save` stattdessen einen FRISCHEN gueltigen Export liefert
+            (kein Reject), unveraendert ueber den bestehenden `completion_
+            fallback`-Zweig abgedeckt (bestehender Fix-D-Test mit zweitem
+            erfolgreichem Export, 03 §7 letzter Link) -- dieser Pfad wird
+            dafuer nie erreicht."""
+            if self.explicit_completion_attempt is None or not self.explicit_completion_attempt(last_leader_input):
+                return None, None
+            if self.save_guard_rejection_detector is None or not self.save_guard_rejection_detector(text):
+                return None, None
+            return _section_completion_recovery.find_pending_leader_export(
+                self.table.sl_log, section_id, leader, _harvest_own_export,
+                self.explicit_completion_attempt, request_binding_error=_request_binding_error,
+            )
+
         def marker_hit(text: str) -> bool:
             return completion_marker_matches(text, self.marker, self.table.table_id, section_id)
 
@@ -1008,7 +1083,17 @@ class SectionRuntime:
             Verweigerung UNTERDRUECKT NUR diesen dritten Zweig -- der
             positive Fall "zulaessige Speicherung, aber fehlender Export/
             'bereits gespeichert'" (KEINE SaveGuard-Ablehnung im Text)
-            bleibt unveraendert ueber dieselbe Bedingung abgedeckt."""
+            bleibt unveraendert ueber dieselbe Bedingung abgedeckt.
+
+            ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03 §4,
+            Kernbug H1): die SaveGuard-Verweigerung unterdrueckt weiterhin
+            NUR den dritten Zweig oben (unveraendert P3) -- sie schliesst
+            aber NICHT aus, dass bereits VOR diesem Turn ein vollstaendig
+            gueltiger eigener Export in dieser Section lag, der jetzt ueber
+            den vorhandenen `finalize`-Weg uebernommen werden darf (vierte,
+            eigene Bedingung, `_pending_export_candidate`). Kein neuer
+            GM-/Correction-Call: diese Pruefung ist reines Lesen von bereits
+            vorhandenem `sl_log`."""
             if marker_hit(text):
                 return True
             if self.completion_fallback is not None and self.completion_fallback(text, last_leader_input):
@@ -1021,6 +1106,9 @@ class SectionRuntime:
                     and self.save_guard_rejection_detector(text)
                 )
             ):
+                return True
+            candidate, _ = _pending_export_candidate(text)
+            if candidate is not None:
                 return True
             return False
 

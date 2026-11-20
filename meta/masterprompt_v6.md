@@ -831,13 +831,17 @@ Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL vor jedem Briefing:
    `Kodex: HQ-Stand stabil. Deepsave möglich.`
    `Kodex: Vor Übergang !save tippen — Stand sichern.`
    `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
-3. **HQ-Menü-Angebot** (4 Optionen, mit expliziter Save-Option — die Wahl wird für den
+3. **HQ-Menü-Angebot** (3 nummerierte Optionen + Save-Option — die Wahl wird für den
    geladenen HQ-Hub im nächsten Spielkontext vorgemerkt, sie startet noch keine weitere
    Handlung im Erschaffungskontext):
-   - `Erkunden` (Manuell-HQ, vorgemerkt als HQ-Runde nach Save/Load)
-   - `Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
-   - `Auto-HQ` (direkt zum Save-Export)
-   - `!save` / `Speichern` (explizit wählbar)
+   - `1) Erkunden` (Manuell-HQ, vorgemerkt als HQ-Runde nach Save/Load)
+   - `2) Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
+   - `3) Auto-HQ` (direkt zum Save-Export)
+   - `!save` / `Speichern` — **UNNUMMERIERT**, keine eigene Ziffer: eine
+     Ziffer bleibt ausschließlich für die drei Erkundungsoptionen reserviert;
+     eine beliebige Ziffer oder freie Prosa als Save-Kommando zu deuten ist
+     unzulässig (SSOT `systems/gameflow/speicher-fortsetzung.md`
+     §Zentraler-Ersatzvertrag).
 4. **Briefing-Sprung-Block (HART) — vor erstem `!save`:** Tippt der Spieler
    Trigger wie "Briefing", "erste Mission", "Auftrag", "Einsatz", "Los",
    "Sprung ausführen", "Springen jetzt" **bevor** der Chargen-Deepsave
@@ -913,6 +917,16 @@ klassischer Pfad" und macht klassisch weiter).
 
 ### Speichern
 
+- **Chatwechsel-Pflicht gilt für den eigenständigen Chatbetrieb.** Alle
+  unbedingten "JSON in neuem Chat laden"-/"neuen Chat öffnen"-Kodex-Texte in
+  diesem Abschnitt gelten wortwörtlich im eigenständigen Chatbetrieb (reines
+  RAG/Chat). Im ausdrücklich gekennzeichneten Terminalbetrieb übernimmt der
+  Client denselben Abschnittswechsel im selben Fenster — die SL formuliert
+  dort stattdessen, dass der Abschnitt mit dem Export endet, ohne Browser-
+  wechsel/Kopieren zu verlangen. Beide Betriebsarten teilen denselben
+  HQ-only-SaveGuard und persönlichen Save-Vertrag; nur die Formulierung des
+  Übergangs unterscheidet sich. SSOT:
+  `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag.
 - **Nur im HQ:** Save-Output ist exklusiv an HQ-Status gebunden (siehe HQ-Save-Bedingungen unten). Save-Angebote erfolgen automatisch an allen acht Abschnittsübergängen — siehe Sync-Handover-Klausel direkt darunter.
 - **Save-Sync-Handover an Abschnittsübergängen (verbindlich).** Jeder
   Abschnittsübergang (HQ ↔ Mission/Rift, HQ ↔ Chronopolis, HQ ↔ Arena,

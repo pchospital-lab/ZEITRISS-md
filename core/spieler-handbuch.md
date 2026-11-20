@@ -382,7 +382,9 @@ weil der Kodex den Sync vor jedem Übergang aktiv anbietet.
    Session-Anker.
 6. **HQ-Hub-Router.** Nach jedem Save-Load öffnet sich automatisch der
    HQ-Hub als **Abschnitt-Wähler** (HQ erkunden, Schnell-HQ, Core-Ops,
-   Rift-Op falls Episodenende, Arena, Chronopolis-Schleuse falls Lvl 10+).
+   Rift-Op falls eigene offene Leader-Rift-Instanz vorhanden — auch mitten in
+   einer Episode, kein Episodenabschluss nötig —, Arena, Chronopolis-Schleuse
+   falls Lvl 10+).
    Wählst du einen **Einsatz**, läuft die kurze Auto-HQ-Absegnung gefaltet im
    selben Chat und es geht **direkt** ins Briefing — kein Zwischen-Save, kein
    Chat-Wechsel. Wählst du **HQ erkunden**, ist das die ausgespielte HQ-Runde
@@ -1288,8 +1290,11 @@ zeitliches Motiv (Echo, Verzögerung, Deja-vu, Loop). Sobald die Agenten die
 Kreatur oder das Phänomen neutralisieren, schließt sich der Eintrag: Die Legende
 gilt als aufgeklärt, der "Riss" verschwindet von der Karte.
 
-**Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach der Episode.**
-Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
+**Offene eigene Rift-Seeds steigern Schwierigkeitsgrad und Loot-Multiplikator
+sofort, als fester Snapshot unmittelbar vor jedem Core-/Rift-Start — kein
+Warten auf ein Episodenende** (gedeckelt: SG-Bonus maximal +3, Loot-
+Multiplikator maximal ×1,6). Im **Covert-Ops-Modus** erscheinen sie lediglich
+als subtile Sensorstörungen.
 
 **Mandela-Effekte & temporale Rückstände:** Was die Zivilbevölkerung als
 "Mandela-Effekt" kennt - kollektive Fehl-Erinnerungen an Markennamen, historische

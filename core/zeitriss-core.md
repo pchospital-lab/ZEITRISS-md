@@ -749,23 +749,23 @@ SL-/Toolkit-Pflichten im
 
 [modul12-flow]: ../systems/gameflow/speicher-fortsetzung.md#save-sync-handover
 
-**Gruppen-Spielstände:** Alle Charaktere stehen in `characters[]`. Der
-Session-Anker (erster Eintrag) setzt den Einstiegspunkt der Runde
-(`campaign`/Mission/HQ), während pro `characters[].id` der neueste persönliche
-Stand gilt. Beim Split/Merge werden Characters einzeln aus dem Array entnommen
-oder zusammengeführt:
+**Gruppen-Spielstände (persönlicher Save-Vertrag):** Jede Spielerfigur besitzt
+einen vollständigen persönlichen v7-Save mit genau ihrer eigenen Figur in
+`characters[]`. Die gemeinsame Sitzung lädt diese persönlichen Saves; der
+erste gültige Import bestimmt die aktive Kampagne. Gäste behalten ihre
+pausierenden Kampagnen und erhalten nur tatsächlich erspielte persönliche
+Veränderungen und gemeinsame Erinnerungen. Nach dem legalen HQ-Abschluss
+entsteht je Figur ein eigener Save. Gewöhnliche Gruppenwechsel erfolgen
+zwischen abgeschlossenen Abschnitten über diese persönlichen Saves.
+Maßgeblich ist der persönliche Save-Vertrag im Modul
+[Speicherstand & Fortsetzung][modul12-flow].
 
-```json
-{
-  "characters": [
-    { "id": "CHR-1234", "name": "Alex", "rank": "Operator I", "lvl": 4, "wallet": 320 },
-    { "id": "CHR-5678", "name": "Nova", "rank": "Rekrut", "lvl": 2, "wallet": 100 }
-  ]
-}
-```
-
-Die Struktur pro Charakter bleibt identisch, sodass keine Informationen verloren
-gehen. Die KI erkennt anhand der Array-Länge, ob ein Solo- oder Gruppenspiel vorliegt.
+*Historisch (vor dem persönlichen Pro-Figur-Save-Vertrag):* ältere Stände
+zeigten mehrere Charaktere gesammelt in einem Array und sprachen von
+"Split/Merge durch Entnehmen/Zusammenführen von `characters[]`". Das ist
+reine Importkompatibilität für Altbestände, kein aktiver Mechanismus und
+keine Schemaänderung — neue Saves entstehen ausschließlich als vollständiger
+persönlicher Save je Figur (s. o.).
 
 Durch dieses Speicherstand-System bleibt der Fortschritt über viele Spielabende hinweg erhalten und
 abrufbar. Die Spieler können zu jedem neuen Einsatz mit genau den Werten, Erinnerungen und

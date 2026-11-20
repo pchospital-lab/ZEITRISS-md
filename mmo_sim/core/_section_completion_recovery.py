@@ -140,3 +140,121 @@ def find_recoverable_entry(
         if reason is not None:
             return None, reason
     return entry, None
+
+
+def find_pending_leader_export(
+    sl_log: list[dict], section_id: str, leader_pid: str,
+    harvest_own_export: EntryMatchCheck,
+    is_explicit_save_command: Callable[[str | None], bool],
+    *, request_binding_error: RequestBindingCheck | None = None,
+) -> tuple[dict | None, str | None]:
+    """ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03_FIXAUFTRAG.md
+    §4, M12-Kernbug): findet einen bereits VORHANDENEN, noch nicht
+    uebernommenen eigenen HQ-Export des Leaders IRGENDWO in `sl_log` DIESER
+    Section -- nicht nur im juengsten Eintrag wie `find_recoverable_entry`
+    (dessen AR2-Vertrag bewusst nur Crash-/Pause-Fenster VOR jeder Marker-
+    Pruefung abdeckt, s. Moduldocstring). Der belegte M12-Fall: die SL zeigt
+    den Export in EINEM Turn (z.B. auf eine freie Aktion), die ausdrueckliche
+    Leaderentscheidung `!save` kommt ERST einen oder mehrere Turns SPAETER
+    UND wird von der SL mit einer SaveGuard-Verweigerung beantwortet (KEIN
+    neuer Export in DIESER Antwort). Ohne diese Funktion bliebe der bereits
+    gueltige Export fuer immer unerreichbar -- die Section liefe mit
+    normalen (bezahlten) Folgeturns weiter oder haengt in der Reject-
+    Antwort fest (Kernbug H1, `run/ledger.md` STAGE 2).
+
+    Gleiche Drei-Ergebnis-Vertrag wie `find_recoverable_entry` (s.
+    Moduldocstring AR2): `(None, None)` kein Kandidat (normaler Weg,
+    unveraendert); `(entry, None)` ein eindeutig positiv gebundener Export
+    -- der Aufrufer darf GENAU `entry["content"]` wie eine frische SL-
+    Antwort ernten (`core.runtime.SectionRuntime.finalize`); `(None,
+    hold_reason)` ein erkannter, aber unzureichend gebundener/zu alter
+    Export -- kontrollierter HOLD, NIEMALS automatische Ernte.
+
+    Reine Suchfunktion (kein I/O, kein Call) -- ALLE domaenenspezifischen/
+    identitaetsbezogenen Entscheidungen kommen vom Aufrufer als injizierte
+    Praedikate (dieselbe Philosophie wie `find_recoverable_entry`s
+    `entry_matches`/`request_binding_error`, kein Spiegel-Drift):
+
+    - `harvest_own_export(entry) -> bool`: True, wenn `entry["content"]`
+      einen bindbaren, vom AKTUELLEN Current abweichenden eigenen Save des
+      Leaders traegt (identische Autoritaet wie `ui/tui.py`s Pending-Gate
+      -- `harvest_extractor` + Ingest-Abgleich gegen den echten Current,
+      s. `core.runtime`-Aufrufstelle).
+    - `is_explicit_save_command(raw_input) -> bool`: dieselbe Autoritaet
+      wie `SectionRuntime.explicit_completion_attempt`/`domain.zeitriss.
+      policy.is_save_command` -- hier NUR zum Ausschliessen von Save-
+      Kommando-Eintraegen selbst (die sind nie der Export) UND zur
+      Stufe-2-Pruefung unten.
+
+    Ablauf:
+
+    1. Kandidat = der JUENGSTE Eintrag dieser Section mit `origin_
+       persona_key == leader_pid`, dessen `origin_raw_input` KEIN Save-
+       Kommando ist (ein Save-Kommando-Eintrag ist selbst nie der Export,
+       sondern hoechstens der spaeter gepruefte Commitwunsch) UND dessen
+       `content` `harvest_own_export` erfuellt. Absichtlich der JUENGSTE
+       (nicht der aelteste wie `ui/tui.py`s Warn-Gate, das bewusst beim
+       ERSTEN Fund stehenbleibt, um eine Warnung nicht vorzeitig zu
+       entwaffnen) -- fuer die tatsaechliche UEBERNAHME gilt der
+       aktuellste gueltige Kandidat (03 §4 "unveraenderte Fortgeltung").
+    2. Keine versteckte Eskalation (03 §4): liegt NACH dem Kandidaten ein
+       WEITERER Leader-Eintrag mit einem NICHT-Save-Kommando-Rohinput
+       (= eine echte neue freie Aktion, zwischenzeitlicher Storyfortschritt,
+       03 §5 Negativfall), ist der Kandidat nicht mehr aktuell -- `(None,
+       None)`, unveraenderter normaler Weg (die aktuelle Eingabe geht wie
+       bisher weiter, KEIN Shortcut, aber auch KEINE neue Eskalation).
+       Weitere Save-Kommando-Versuche (z.B. ein frueherer abgelehnter
+       `!save`) ZWISCHEN Kandidat und Ende sind UNSCHAEDLICH (genau der
+       belegte M12-Fall: Kandidat turn7, Reject turn8).
+    3. Fehlende Section-Bindung oder fehlender Generations-Schnappschuss
+       (`expected_prev_ref_by_member`) -> `(None, hold_reason)`, dieselbe
+       Vorsicht wie `find_recoverable_entry` AR2 Teil C/AR11.
+    4. `request_binding_error(candidate)` (falls uebergeben) muss `None`
+       liefern -- dieselbe Originalprovenienz-Pruefung wie die bestehende
+       R12-AUTORECOVERY (`core.runtime.run_full_section:_request_binding_
+       error`), hier auf den gefundenen Kandidaten statt `sl_log[-1]`
+       angewandt."""
+    candidate: dict | None = None
+    candidate_idx = -1
+    for idx, entry in enumerate(sl_log):
+        if entry.get("origin_persona_key") != leader_pid:
+            continue
+        entry_section = entry.get("section_id")
+        if entry_section not in (section_id, None):
+            continue
+        raw_input = entry.get("origin_raw_input")
+        if raw_input is not None and is_explicit_save_command(raw_input):
+            continue
+        if not harvest_own_export(entry):
+            continue
+        candidate, candidate_idx = entry, idx
+    if candidate is None:
+        return None, None
+    for later in sl_log[candidate_idx + 1:]:
+        if later.get("origin_persona_key") != leader_pid:
+            continue
+        later_raw = later.get("origin_raw_input")
+        if later_raw is not None and not is_explicit_save_command(later_raw):
+            # Echte neue freie Aktion NACH dem Kandidaten -- zwischen-
+            # zeitlicher Storyfortschritt, der Kandidat gilt nicht mehr als
+            # unveraendert fortgeltend (03 §4/§5). Kein HOLD-Text hier
+            # (das ist kein erkannter-aber-unzureichender Export, sondern
+            # schlicht "kein aktueller Kandidat mehr") -- normaler Weg.
+            return None, None
+    if candidate.get("section_id") is None:
+        return None, (
+            "Gefundener Eigenexport traegt ueberhaupt keine Section-Bindung "
+            "(Legacy-Eintrag) -- unzureichend gebunden, kontrollierter HOLD statt "
+            "automatischer Uebernahme."
+        )
+    if candidate.get("expected_prev_ref_by_member") is None:
+        return None, (
+            "Gefundener Eigenexport ohne durabel gebundenen Generations-Schnappschuss "
+            "('expected_prev_ref_by_member' fehlt) -- unzureichende Bindung, "
+            "kontrollierter HOLD statt automatischer Uebernahme."
+        )
+    if request_binding_error is not None:
+        reason = request_binding_error(candidate)
+        if reason is not None:
+            return None, reason
+    return candidate, None

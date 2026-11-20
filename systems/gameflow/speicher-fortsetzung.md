@@ -39,6 +39,31 @@ tags: [system]
 >
 > _Technische Details für die KI-Spielleitung folgen unten._
 
+## Zentraler Ersatzvertrag: Abschnittswechsel und Bedienweg {#zentraler-ersatzvertrag}
+
+> Jeder abgeschlossene Abschnitt wird aus dem gültigen persönlichen Save in
+> einem frischen Spielkontext fortgesetzt. Im eigenständigen Chatbetrieb
+> öffnet der Spieler dafür einen neuen Chat und lädt seinen Save. Im
+> ausdrücklich gekennzeichneten Terminalbetrieb verwaltet der Client diesen
+> Kontextwechsel im selben Fenster. Dort fordert die KI-SL weder
+> Browserwechsel noch manuelles Kopieren oder Einfügen von JSON. Nach dem
+> vollständigen Save-Export beendet sie den Abschnitt und wartet auf den
+> verwalteten Anschluss. Die tatsächliche Speicherung bestätigt der Client.
+> HQ-only-SaveGuard, persönliche Save-Bindungen und der frische Spielkontext
+> gelten in beiden Betriebsarten unverändert.
+
+Diese Unterscheidung ist zentral für ALLE unbedingten "JSON in neuem Chat
+laden — Pflicht, kein Verzicht"-/"neuen Chat öffnen"-Kodex-Texte in diesem
+Modul und im Masterprompt (§I Start/Save/Sync): sie gelten wortwörtlich im
+**eigenständigen Chatbetrieb** (reines RAG/Chat, kein Terminalclient). Im
+**ausdrücklich gekennzeichneten Terminalbetrieb** übernimmt der Client den
+Abschnittswechsel selbst — die SL formuliert dort stattdessen, dass der
+Abschnitt mit dem Export endet, ohne eine Chatwechsel-/Kopieranweisung zu
+behaupten (s. Masterprompt §I, Terminal-Save-Angebot). Keine Vermischung:
+ein Terminalhinweis ändert nichts an SaveGuard, Provenienz oder dem
+persönlichen Save-Vertrag — er ändert nur die FORMULIERUNG des bereits
+bestehenden Übergangs, nicht den Übergang selbst.
+
 ## HQ-JSON-Save {#json-schluesselfelder}
 
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
