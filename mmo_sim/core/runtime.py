@@ -1175,6 +1175,25 @@ class SectionRuntime:
         if save_correction.has_open_group_round(self.lobby.run_dir, self.table.table_id, section_id):
             return finalize("", resume_section_id=section_id)
 
+        # Stage J, Lauf 3 (ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1, Entry-
+        # Recovery-Fix 20261120): drittes Entry-Gate, VOR jedem Anker-/
+        # Import-/Spielzug -- ein terminaler, an die AKTUELLEN Tischmitglieder
+        # gebundener Entry-HOLD mit adoptierbarem Kandidaten (s.
+        # `save_correction.has_resumable_group_hold`) wird hier ueber denselben
+        # idempotenten `finalize -> complete_section -> pursue`-Adopt-Vertrag
+        # abgeschlossen, BEVOR ein frischer Einstieg (`ongoing_round == 0`,
+        # also VOR dem Z.1420-Gate unten, das erst ab der zweiten
+        # Schleifenrunde greift) einen unnoetigen GM-/Story-Zug ausloest.
+        # Modellfrei: der HOLD-Member wird im else-Zweig von `pursue`
+        # unveraendert immer geskippt (kein `begin_attempt`/Send). Member-
+        # Bindung (`group_member_repair_keys`) verhindert, dass ein fremder
+        # (nicht mehr am Tisch sitzender) Record dieses Gate ausloest.
+        if save_correction.has_resumable_group_hold(
+            self.lobby.run_dir, self.table.table_id, section_id,
+            member_repair_keys=save_correction.group_member_repair_keys(self.table, section_id),
+        ):
+            return finalize("", resume_section_id=section_id)
+
         # R12-AUTORECOVERY (01_AUFTRAG_AUTORECOVERY.md, CASES AR02/AR03):
         # KEIN offener Abschluss-Auftrag (s.o.) heisst noch NICHT "kein
         # Abschluss faellig" -- das engste Crash-/Pause-Fenster liegt GENAU
@@ -1402,8 +1421,29 @@ class SectionRuntime:
                 # GM-Story-Transport). BEWUSST erst ab dem zweiten Durchlauf,
                 # damit der legitime erste Abschluss-/Compat-/Folgespielzug
                 # (z.B. `test_savecompat_*`) NICHT vorzeitig geblockt wird.
-                if ongoing_round > 0 and save_correction.has_unfinished_group_round(
-                    self.lobby.run_dir, self.table.table_id, section_id
+                #
+                # Stage J (ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1, Re-Entry-Fix
+                # 20261120, s. `run/ledger.md` Stage J Nachtrag "PRAEZISE
+                # URSACHE"): `has_unfinished_group_round` sieht NUR die drei
+                # OFFENEN Zwischenzustaende (`_OPEN_GROUP_CORRECTION_STATES`)
+                # -- ein TERMINALER Entry-HOLD-Record mit einem jetzt
+                # adoptierbaren `best_candidate_block` (s. `save_correction.
+                # has_resumable_group_hold`) wurde dadurch NIE erneut in
+                # `pursue_group_save_correction` getragen, obwohl der
+                # bestehende Adopt-Vertrag (`resume_hold_via_structural_
+                # best_effort`/`resume_hold_via_transport_error_best_effort`)
+                # ihn adoptieren wuerde. `has_resumable_group_hold` ist rein
+                # lesend (kein Mutation) -- ein unerfuellbarer terminaler
+                # HOLD bleibt weiterhin gesperrt (liefert `False`, kein
+                # Re-Entry).
+                if ongoing_round > 0 and (
+                    save_correction.has_unfinished_group_round(
+                        self.lobby.run_dir, self.table.table_id, section_id
+                    )
+                    or save_correction.has_resumable_group_hold(
+                        self.lobby.run_dir, self.table.table_id, section_id,
+                        member_repair_keys=save_correction.group_member_repair_keys(self.table, section_id),
+                    )
                 ):
                     return finalize("", resume_section_id=section_id)
                 if ongoing_round > 0:
