@@ -1402,8 +1402,28 @@ class SectionRuntime:
                 # GM-Story-Transport). BEWUSST erst ab dem zweiten Durchlauf,
                 # damit der legitime erste Abschluss-/Compat-/Folgespielzug
                 # (z.B. `test_savecompat_*`) NICHT vorzeitig geblockt wird.
-                if ongoing_round > 0 and save_correction.has_unfinished_group_round(
-                    self.lobby.run_dir, self.table.table_id, section_id
+                #
+                # Stage J (ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1, Re-Entry-Fix
+                # 20261120, s. `run/ledger.md` Stage J Nachtrag "PRAEZISE
+                # URSACHE"): `has_unfinished_group_round` sieht NUR die drei
+                # OFFENEN Zwischenzustaende (`_OPEN_GROUP_CORRECTION_STATES`)
+                # -- ein TERMINALER Entry-HOLD-Record mit einem jetzt
+                # adoptierbaren `best_candidate_block` (s. `save_correction.
+                # has_resumable_group_hold`) wurde dadurch NIE erneut in
+                # `pursue_group_save_correction` getragen, obwohl der
+                # bestehende Adopt-Vertrag (`resume_hold_via_structural_
+                # best_effort`/`resume_hold_via_transport_error_best_effort`)
+                # ihn adoptieren wuerde. `has_resumable_group_hold` ist rein
+                # lesend (kein Mutation) -- ein unerfuellbarer terminaler
+                # HOLD bleibt weiterhin gesperrt (liefert `False`, kein
+                # Re-Entry).
+                if ongoing_round > 0 and (
+                    save_correction.has_unfinished_group_round(
+                        self.lobby.run_dir, self.table.table_id, section_id
+                    )
+                    or save_correction.has_resumable_group_hold(
+                        self.lobby.run_dir, self.table.table_id, section_id
+                    )
                 ):
                     return finalize("", resume_section_id=section_id)
                 if ongoing_round > 0:

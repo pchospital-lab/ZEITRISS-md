@@ -1831,6 +1831,74 @@ def has_unfinished_group_round(
     return False
 
 
+def has_resumable_group_hold(
+    run_dir: str | Path, table_id: str, section_id: str, max_attempts: int = MAX_ADDITIONAL_REQUESTS,
+) -> bool:
+    """Stage J (ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1, Re-Entry-Fix
+    20261120): drittes, rein lesendes Runtime-Re-Entry-Praedikat neben
+    `has_open_group_round`/`has_unfinished_group_round` -- erkennt GENAU
+    das Fenster, das beide NICHT sehen (s. `run/ledger.md` Stage J
+    Nachtrag "PRAEZISE URSACHE"): ein TERMINALER Entry-HOLD-Gruppenrecord
+    fuer diese `table_id`/`section_id`, dessen bereits bestehender
+    Best-effort-Adopt-Vertrag (`resume_hold_via_structural_best_effort`
+    ODER `resume_hold_via_transport_error_best_effort`, s. dort) JETZT
+    greifen WUERDE, sobald `pursue_group_save_correction` erneut erreicht
+    wird.
+
+    Bildet deren Guards 1:1 lesend nach (KEINE Faktorisierung in eine
+    gemeinsame Funktion, um die beiden bereits bestehenden, unveraendert
+    getesteten Adopt-Funktionen NICHT anzufassen -- 0 Deletions am
+    bestehenden Adopt-Vertrag): `state == STATE_HOLD`; `adopted_block is
+    None` (noch keine Uebernahme -- schliesst Doppel-Adoption aus);
+    `best_candidate_block` vorhanden; `last_reason` ist entweder
+    `"unjustified_semantic_drift"` ODER beginnt mit `TRANSPORT_ERROR_
+    REASON_PREFIX` (GENAU die beiden von den Adopt-Funktionen anerkannten
+    Faelle, kein dritter); `has_residual_structural_cap_overflow` auf dem
+    Kandidaten (nur Cap-Ueberlauf, keine Bindungsfehler). Jede Abweichung
+    von diesen Guards ist ein Spiegel-Drift-Bug -- s. `test_j_resumable_
+    hold_reentry_20261120.py`s Cross-Check-Assertion, die dieses Praedikat
+    gegen die tatsaechliche Adoption haelt.
+
+    Rein lesend: kein `mkdir`, kein Write, kein `mark_*`. Terminal-HOLD
+    ohne erfuellbare Guards (falsche Bindung, kein Kandidat, reiner
+    Konflikt/Drift ohne Cap-Overflow, bereits adoptiert) -> `False`,
+    bleibt gesperrt -- `Adopt == None` ist KEINE Freigabe fuer einen neuen
+    Re-Entry (Flo-Vorgabe, s. Ledger)."""
+    records_dir = Path(run_dir) / "save_corrections"
+    if not records_dir.is_dir():
+        return False
+    for path in sorted(records_dir.glob("*.json")):
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if not isinstance(record, dict):
+            continue
+        if record.get("operation_key") != ROLE_GROUP:
+            continue
+        if record.get("table_id") != table_id or record.get("section_id") != section_id:
+            continue
+        if record.get("state") != STATE_HOLD:
+            continue
+        if record.get("adopted_block") is not None:
+            continue
+        last_reason = record.get("last_reason")
+        is_drift_case = last_reason == "unjustified_semantic_drift"
+        is_transport_case = isinstance(last_reason, str) and last_reason.startswith(TRANSPORT_ERROR_REASON_PREFIX)
+        if not (is_drift_case or is_transport_case):
+            continue
+        best_block = record.get("best_candidate_block")
+        if best_block is None:
+            continue
+        char_id = record.get("char_id")
+        if not isinstance(char_id, str):
+            continue
+        if not has_residual_structural_cap_overflow(best_block, char_id):
+            continue
+        return True
+    return False
+
+
 def pursue_group_save_correction(
     *, lobby, table, section_id: str, harvested: dict, harvest_completion,
     states_dir, today: str, harvest_validator, persona_state_store, gm_transport,
