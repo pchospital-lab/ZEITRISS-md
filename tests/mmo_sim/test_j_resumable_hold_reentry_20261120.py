@@ -401,13 +401,15 @@ def test_j2_real_caller_reenters_and_adopts_without_new_requests():
         assert record_after["state"] == "adopted" and record_after.get("best_effort") is True, record_after
         assert record_after["adopted_block"] == leader_old, record_after
 
-        # Null neue GM-/Korrektur-Requests: GENAU EIN GM-Call (die erste,
-        # legitime Fortsetzungs-Erzaehlung VOR dem Gate, s. FIX2-Docstring
-        # "BEWUSST erst ab dem zweiten Durchlauf") -- die Wiederaufnahme
-        # SELBST sendet nichts (HOLD-Mitglied wird im else-Zweig IMMER
-        # geskippt, kein begin_attempt/Send).
-        assert len(gm_resume.calls) == 1, (
-            f"die Wiederaufnahme darf KEINEN zusaetzlichen GM-/Korrektur-Call ausloesen: {gm_resume.calls}"
+        # Lauf 3 (Entry-Recovery-Fix 20261120): das dritte Entry-Gate (s.
+        # `runtime.py run_full_section`, VOR dem Leader-Anker) adoptiert den
+        # member-bound resumable HOLD JETZT bereits VOR jedem Erzaehlzug --
+        # GENAU NULL GM-/Korrektur-Calls (nicht mehr der eine legitime
+        # Fortsetzungszug aus Lauf 2, der hier nie mehr erreicht wird). Die
+        # Wiederaufnahme SELBST sendet nichts (HOLD-Mitglied wird im
+        # else-Zweig IMMER geskippt, kein begin_attempt/Send).
+        assert len(gm_resume.calls) == 0, (
+            f"die Lauf-3-Entry-Recovery darf GAR KEINEN GM-/Korrektur-Call ausloesen: {gm_resume.calls}"
         )
         assert record_after["attempts_used"] == record_before_resume["attempts_used"], (
             "best-effort-Adopt darf den Versuchszaehler NICHT veraendern (kein neuer Send)."

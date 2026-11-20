@@ -1831,8 +1831,25 @@ def has_unfinished_group_round(
     return False
 
 
+def group_member_repair_keys(table: "store.Table", section_id: str) -> set[str]:
+    """Stage J (Lauf 3, Entry-Recovery-Fix 20261120): kanonische Repair-Keys
+    der AKTUELLEN Tischmitglieder -- reine Live-Ableitung (reuse
+    `save_correction_domain.group_repair_key`, GENAU dieselbe Formel wie
+    `pursue_group_save_correction`, kein Mirror-Drift). Rein lesend, keine
+    Mutation. Dient `has_resumable_group_hold` als optionale Mitglieder-
+    Bindung, damit ein beliebiger, fremder (nicht mehr am Tisch sitzender)
+    HOLD-Record das Entry-Gate NICHT ausloesen kann."""
+    keys: set[str] = set()
+    for pk in table.members:
+        char_id = table.chrononaut_ids.get(pk)
+        if isinstance(char_id, str):
+            keys.add(save_correction_domain.group_repair_key(table.table_id, section_id, char_id))
+    return keys
+
+
 def has_resumable_group_hold(
     run_dir: str | Path, table_id: str, section_id: str, max_attempts: int = MAX_ADDITIONAL_REQUESTS,
+    member_repair_keys: set[str] | None = None,
 ) -> bool:
     """Stage J (ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1, Re-Entry-Fix
     20261120): drittes, rein lesendes Runtime-Re-Entry-Praedikat neben
@@ -1863,7 +1880,15 @@ def has_resumable_group_hold(
     ohne erfuellbare Guards (falsche Bindung, kein Kandidat, reiner
     Konflikt/Drift ohne Cap-Overflow, bereits adoptiert) -> `False`,
     bleibt gesperrt -- `Adopt == None` ist KEINE Freigabe fuer einen neuen
-    Re-Entry (Flo-Vorgabe, s. Ledger)."""
+    Re-Entry (Flo-Vorgabe, s. Ledger).
+
+    Lauf 3 (Entry-Recovery-Fix 20261120): optionales `member_repair_keys`
+    (s. `group_member_repair_keys`) -- wenn gesetzt, zusaetzlich zu ALLEN
+    obigen Guards verlangen, dass `record['repair_key']` zu einem AKTUELLEN
+    Tischmitglied gehoert. Reine Zusatzbedingung (UND), bisherige Guard-
+    Kette bleibt 1:1 bestehen. Ohne das kwarg (`None`, Default) unveraendert
+    -- Rueckwaertskompatibilitaet fuer den bestehenden Z.1420-Aufrufer +
+    die bestehenden Lauf-2-Tests."""
     records_dir = Path(run_dir) / "save_corrections"
     if not records_dir.is_dir():
         return False
@@ -1894,6 +1919,8 @@ def has_resumable_group_hold(
         if not isinstance(char_id, str):
             continue
         if not has_residual_structural_cap_overflow(best_block, char_id):
+            continue
+        if member_repair_keys is not None and record.get("repair_key") not in member_repair_keys:
             continue
         return True
     return False

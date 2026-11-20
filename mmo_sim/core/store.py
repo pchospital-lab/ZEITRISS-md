@@ -1668,6 +1668,96 @@ def current_save_ref_snapshot(
     return snapshot
 
 
+def _pending_valid_cache_dir(run_dir: str | Path) -> Path:
+    d = Path(run_dir) / "save_corrections" / "_pending_valid_cache"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def _pending_valid_cache_path(run_dir: str | Path, table_id: str, section_id: str, char_id: str) -> Path:
+    safe = f"{table_id}__{section_id}__{char_id}".replace("/", "_")
+    return _pending_valid_cache_dir(run_dir) / f"{safe}.json"
+
+
+def _load_pending_valid_block(
+    run_dir: str | Path, table_id: str, section_id: str, char_id: str,
+) -> dict | None:
+    """J4-ROOTFIX (ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1 Stage J Lauf 4,
+    Mischgruppen-Korrektheitsfehler): schliesst die Durabilitaetsluecke, die
+    Lauf 3 am Mischgruppen-Entry-Re-Entry aufgedeckt hat. Ein Mitglied B,
+    dessen Block in einem FRUEHEREN -- insgesamt NUR wegen eines ANDEREN
+    Mitglieds gescheiterten -- `complete_section`-Versuch bereits gueltig
+    war (`_validate_harvest` hat es NICHT in `missing` gelistet), wurde
+    bisher NIE durabel gepinnt (`__plan.json` entsteht erst, wenn ALLE
+    Mitglieder in EINEM Durchlauf valide sind) -- B's gueltiger Stand lebte
+    NUR im RAM des damaligen Prozesses. Ein spaeterer Resume/Entry-Re-Entry
+    mit leerem Harvest (`finalize("", resume_section_id=...)`, s.
+    `core/runtime.py`s Entry-Gates) sah B DADURCH faelschlich ebenfalls als
+    `missing` -- `pursue_group_save_correction` fragte B TROTZDEM bezahlt
+    nach, obwohl B's Save nie fehlerhaft war.
+
+    Dieser rein additive Seiten-Cache (s. `_store_pending_valid_block`
+    unten) schliesst GENAU diese Luecke: `complete_section` schreibt den
+    zuletzt validierten Block JEDES NICHT-`missing`-Mitglieds, sobald die
+    Gesamtrunde (wegen eines ANDEREN Mitglieds) scheitert, und liest ihn
+    HIER zurueck, um einen sonst leeren `harvested_saves[pk]`-Eintrag VOR
+    der naechsten `_validate_harvest`-Pruefung zu befuellen -- NUR fuer
+    Mitglieder, die der Aufrufer selbst GAR NICHT uebergeben hat (`None`),
+    NIE ein Ueberschreiben eines tatsaechlich frisch gelieferten Blocks (s.
+    Aufrufstelle unten). `validate_identity` bleibt fuer JEDES Mitglied --
+    auch ein aus diesem Cache befuelltes -- UNVERAENDERT scharf, da
+    `_validate_harvest` den zurueckgegebenen Block ganz normal durch die
+    bestehende Pruefkette laufen laesst.
+
+    Liefert `None`, wenn kein Cache-Eintrag existiert oder er nicht zu
+    `table_id`/`section_id`/`char_id` passt (Provenienz-Pruefung, kein
+    blindes Vertrauen auf die zufaellig passende Dateiposition -- analog
+    zur bestehenden Marker-/Memberrecord-Identitaetspruefung in
+    `save_correction.pursue_group_save_correction`)."""
+    p = _pending_valid_cache_path(run_dir, table_id, section_id, char_id)
+    if not p.exists():
+        return None
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if (
+        not isinstance(data, dict)
+        or data.get("table_id") != table_id
+        or data.get("section_id") != section_id
+        or data.get("char_id") != char_id
+    ):
+        return None
+    return data.get("block")
+
+
+def _store_pending_valid_block(
+    run_dir: str | Path, table_id: str, section_id: str, char_id: str, block: dict,
+) -> None:
+    """Gegenstueck zu `_load_pending_valid_block` oben -- reiner additiver
+    Seiten-Cache, ruehrt `save_corrections/<repair_key>.json` (den
+    tatsaechlichen Korrekturdatensatz, von `core.save_correction` verwaltet)
+    NICHT an und wird von diesem Modul selbst nie gelesen/interpretiert."""
+    p = _pending_valid_cache_path(run_dir, table_id, section_id, char_id)
+    p.write_text(
+        json.dumps(
+            {"table_id": table_id, "section_id": section_id, "char_id": char_id, "block": block},
+            ensure_ascii=False, indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+
+def _clear_pending_valid_block(run_dir: str | Path, table_id: str, section_id: str, char_id: str) -> None:
+    """Hygiene-Gegenstueck: geschrieben, sobald `section_id` fuer `table_id`
+    tatsaechlich einen Plan pinnt (danach uebernimmt der gepinnte Plan die
+    alleinige Autoritaet, s. `complete_section`s `plan_path.exists()`-Zweig
+    -- dieser Cache wird fuer diese `section_id` nie wieder gelesen)."""
+    p = _pending_valid_cache_path(run_dir, table_id, section_id, char_id)
+    if p.exists():
+        p.unlink()
+
+
 def _validate_harvest(
     table: Table, harvest: dict[str, dict], states_dir: str | Path,
     harvest_validator: HarvestValidator, persona_state_store: PersonaStateStore,
@@ -2119,11 +2209,35 @@ def complete_section(
             reason=f"Tisch {table.table_id} besitzt nicht mehr alle Chrononaut-Locks (veraltetes Tisch-Handle): {stale_members}.",
         )
 
+    # J4-ROOTFIX (Mischgruppen-Korrektheitsfehler, s. `_load_pending_valid_
+    # block`-Docstring): NUR Mitglieder befuellen, die der Aufrufer selbst
+    # GAR NICHT uebergeben hat (`None`, z.B. der leere Entry-Re-Entry-
+    # Harvest `finalize("", resume_section_id=...)`) -- ein tatsaechlich
+    # mitgegebener (auch ungueltiger) Block wird NIE durch den Cache
+    # ueberschrieben.
+    for pk in table.members:
+        if harvested_saves.get(pk) is not None:
+            continue
+        cached_block = _load_pending_valid_block(run_dir, table.table_id, section_id, table.chrononaut_ids[pk])
+        if cached_block is not None:
+            harvested_saves[pk] = cached_block
+
     missing, identity_states, best_effort_applied = _validate_harvest(
         table, harvested_saves, states_dir, harvest_validator, persona_state_store,
         best_effort_pks=frozenset(table.members) if best_effort else frozenset(),
     )
     if missing:
+        # J4-ROOTFIX: jedes NICHT-missing Mitglied hat `_validate_harvest`
+        # SOEBEN bestanden (gueltiger Block + Identitaet) -- sein Stand wird
+        # additiv durabel gecacht, BEVOR die Runde (wegen eines ANDEREN
+        # Mitglieds) als `missing` zurueckgegeben wird. Kein Plan wird hier
+        # gepinnt/veroeffentlicht -- reiner Lese-Cache fuer den naechsten
+        # `complete_section`-Aufruf (s. oben).
+        missing_set = set(missing)
+        for pk in table.members:
+            if pk in missing_set:
+                continue
+            _store_pending_valid_block(run_dir, table.table_id, section_id, table.chrononaut_ids[pk], harvested_saves[pk])
         return CompletionResult(
             success=False, already_completed=False, written=False,
             members_completed=[], missing=missing,
@@ -2199,6 +2313,12 @@ def complete_section(
             ),
         )
     plan_path.write_text(json.dumps(plan_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    # J4-ROOTFIX: ab hier ist der gepinnte Plan die alleinige Autoritaet
+    # fuer `section_id` (s. `plan_path.exists()`-Zweig oben) -- der
+    # Lese-Cache oben wird fuer diese `section_id` nie wieder gelesen,
+    # reine Hygiene (kein Korrektheitserfordernis).
+    for pk in table.members:
+        _clear_pending_valid_block(run_dir, table.table_id, section_id, table.chrononaut_ids[pk])
 
     return _resume_and_harvest(
         lobby, table, section_id, plan_data, states_dir, today, guard_paths,
