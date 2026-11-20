@@ -1090,11 +1090,14 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
    Fraktions-RP, Feilschen und ausführlichem Briefing und Quartier-Rollenspiel.
 3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
    HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
-   Briefing. Kodex bietet stattdessen einmal `!save` an und gibt nach Export den
-   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für den nächsten Abschnitt JSON in
-neuem Chat laden — Pflicht, kein Verzicht.` Nach vollständigem Export eröffnet das
-   HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Chat — die nächste
-   HQ-Runde beginnt erst im frisch geladenen Spielkontext.
+   Briefing. Kodex bietet stattdessen einmal `!save` an (unnummeriert,
+   getrennt von den drei nummerierten Optionen) und gibt nach Export den
+   Hinweis: `HQ-Stand stabil. Deepsave möglich. Mit !save den Abschnitt
+   abschließen.` (oberflächenneutral — SSOT
+   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag regelt
+   den Anschluss je Betriebsart). Nach vollständigem Export eröffnet das
+   HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Spielkontext — die
+   nächste HQ-Runde beginnt erst im frisch geladenen Spielkontext.
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 

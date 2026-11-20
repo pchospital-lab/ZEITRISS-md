@@ -730,19 +730,21 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v7, gekürzt):
 ```
 
 _Erläuterung:_ Das v7-Schema ist das Characterdatenblatt — wie ein P&P-Bogen, den
-man zum nächsten Spielleiter mitnimmt. `characters[]` enthält alle Agenten
-(Solo = 1 Eintrag, Gruppe = Array, Session-Anker = Index 0). Keine Laufzeit-Daten im Save
-(Exfil, Cooldowns, SYS_runtime sind Session-State). Details zur Vollstruktur
-im Modul **Speicherstand & Fortsetzung**.
+man zum nächsten Spielleiter mitnimmt. `characters[]` enthält genau die eigene
+Figur dieses persönlichen Saves (ein Eintrag; der persönliche Pro-Figur-
+Save-Vertrag unten ist maßgeblich — keine Sammelarray-Mechanik). Keine
+Laufzeit-Daten im Save (Exfil, Cooldowns, SYS_runtime sind Session-State).
+Details zur Vollstruktur im Modul **Speicherstand & Fortsetzung**.
 
 **Speichern & Laden in der Praxis:** Am Ende **jedes Spielabschnitts**
 (Charaktererschaffung, HQ-Runde, Mission, Chronopolis-Lauf, Arena-Match)
 erstellt die Spielleitung im HQ einen Save nach dem Schema im Masterprompt
-und schließt damit den Abschnitt ab. Vor dem nächsten Abschnitt öffnet man
-einen frischen Chat, fügt den JSON ein, die KI liest den Speicherstand ein
-und hat sofort alle Fakten — Attribute, Equipment, Reputation, Story-Hooks.
-Der Chat-Wechsel zwischen Abschnitten ist Pflicht-Hygiene, kein Komfort:
-Spieler-Devise im
+und schließt damit den Abschnitt ab. Vor dem nächsten Abschnitt wird aus
+diesem gültigen Save in einem frischen Spielkontext fortgesetzt — die KI
+liest den Speicherstand ein und hat sofort alle Fakten (Attribute,
+Equipment, Reputation, Story-Hooks). Der Bedienweg dorthin ist
+Pflicht-Hygiene, kein Komfort, aber oberflächenneutral (eigenständiger
+Chat vs. Terminal, s. u.): Spieler-Devise im
 [Spielerhandbuch](spieler-handbuch.md#gameflow-chat-wechsel),
 SL-/Toolkit-Pflichten im
 [Speicher- und Fortsetzungssystem][modul12-flow].
@@ -759,13 +761,6 @@ entsteht je Figur ein eigener Save. Gewöhnliche Gruppenwechsel erfolgen
 zwischen abgeschlossenen Abschnitten über diese persönlichen Saves.
 Maßgeblich ist der persönliche Save-Vertrag im Modul
 [Speicherstand & Fortsetzung][modul12-flow].
-
-*Historisch (vor dem persönlichen Pro-Figur-Save-Vertrag):* ältere Stände
-zeigten mehrere Charaktere gesammelt in einem Array und sprachen von
-"Split/Merge durch Entnehmen/Zusammenführen von `characters[]`". Das ist
-reine Importkompatibilität für Altbestände, kein aktiver Mechanismus und
-keine Schemaänderung — neue Saves entstehen ausschließlich als vollständiger
-persönlicher Save je Figur (s. o.).
 
 Durch dieses Speicherstand-System bleibt der Fortschritt über viele Spielabende hinweg erhalten und
 abrufbar. Die Spieler können zu jedem neuen Einsatz mit genau den Werten, Erinnerungen und

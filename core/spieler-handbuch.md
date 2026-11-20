@@ -177,7 +177,7 @@ Die ersten Schritte in unter zwei Minuten:
 1. **Startwunsch äußern** — neu starten oder Save laden (natürlichsprachlich oder per Kurzbefehl).
 2. **Bei Neustart:** solo / npc-team / gruppe wählen; Default ist klassisch.
 3. **Charakterweg wählen** — `generate`, `custom generate` oder selbst bauen.
-4. **Chargen-Save-Gate (Pflicht)** — nach der Erstellung erst Heimkehrbeat + `!save`-Angebot im HQ, dann **neuen Chat öffnen, Save laden, dort Briefing**. Im Chargen-Chat geht kein Sprung mehr ins Briefing.
+4. **Chargen-Save-Gate (Pflicht)** — nach der Erstellung erst Heimkehrbeat + `!save`-Angebot im HQ, dann **Anschluss aus dem gültigen Save im frischen Spielkontext, dort Briefing** (eigenständiger Chatbetrieb: neuer Chat + Save laden; Terminal: vom Client verwaltet, siehe [Gameflow](#gameflow-chat-wechsel)). Im Chargen-Abschnitt geht kein Sprung mehr ins Briefing.
 5. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
    W6 normal, W10 ab Attribut 11, Heldenwürfel ab 14. Exploding bei Maximum (Burst-Cap 1).
 6. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift) in der Einsatzzeit
@@ -817,13 +817,14 @@ Siehe auch:
 > sichtbares Dienstpersonal), dann **Chargen-Save-Gate**:
 >
 > - `Kodex: HQ-Stand stabil. Deepsave möglich.`
-> - `Kodex: Für den nächsten Abschnitt: JSON in neuem Chat laden — Pflicht, kein Verzicht.`
-> - Menü-Optionen: `Erkunden` / `Schnell-HQ` / `Auto-HQ` / **`!save`**
+> - `Kodex: Mit !save den Abschnitt abschließen.`
+> - Menü-Optionen: `Erkunden` / `Schnell-HQ` / `Auto-HQ` / **`!save`** (unnummeriert)
 >
 > **Kein automatischer Sprung ins Briefing** — die Wahl `Briefing`/`erste Mission`
-> allein startet es nicht: Nach `!save` öffnet der Spieler einen neuen Chat, lädt den
-> Save, landet im **HQ-Hub** (Abschnittswähler) und wählt dort direkt den gewünschten
-> Einsatz — Briefing für Mission 1 beginnt **direkt im selben neuen Chat**, ohne
+> allein startet es nicht: Nach `!save` folgt der Anschluss aus dem gültigen Save
+> (im eigenständigen Chatbetrieb: neuer Chat + Save laden) in den **HQ-Hub**
+> (Abschnittswähler), dort wird direkt der gewünschte Einsatz gewählt — Briefing
+> für Mission 1 beginnt **direkt im selben frischen Spielkontext**, ohne
 > weiteren Zwischen-Save. Wählt er statt eines Einsatzes bewusst **HQ-Runde**
 > (*HQ erkunden* — Equip, Klinik, RP), ist das ein eigener Abschnitt mit eigenem
 > Save/Load, bevor ein weiterer Chat das Briefing startet. Siehe

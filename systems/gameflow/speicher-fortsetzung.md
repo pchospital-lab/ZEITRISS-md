@@ -31,9 +31,9 @@ tags: [system]
 > - Befehl: `!save` - der Kodex erzeugt einen JSON-Block zum Kopieren.
 > - **Laden:** JSON-Block (oder mehrere JSON-Blöcke) in den Chat einfügen; `Spiel laden` ist optional.
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
-> - **Neuer Chat pro Abschnitt** ist Pflicht: Chargen → Save → neuer Chat → HQ-Hub → gewählten Abschnitt direkt spielen (Core/Rift/Chronopolis/PvP) oder bewusst eine HQ-Runde ausspielen → Save → neuer Chat. Jeder Abschnitt startet frisch; eine HQ-Zwischenrunde ist dabei keine Pflicht.
+> - **Jeder Abschnitt startet frisch** aus dem gültigen Save: Chargen → Save → frischer Spielkontext → HQ-Hub → gewählten Abschnitt direkt spielen (Core/Rift/Chronopolis/PvP) oder bewusst eine HQ-Runde ausspielen → Save → frischer Spielkontext. Eine HQ-Zwischenrunde ist dabei keine Pflicht. Den Bedienweg dorthin (eigenständiger Chat vs. Terminal) regelt §Zentraler-Ersatzvertrag unten — die SL verlangt dafür selbst keinen bestimmten Weg.
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Stand stabil. Deepsave möglich.`
-> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Für den nächsten Abschnitt: JSON in neuem Chat laden — Pflicht, kein Verzicht.`
+> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Mit !save den Abschnitt abschließen — der Anschluss folgt aus dem gültigen Save.`
 > - **Savebare HQ-Zustände:** Chargen-Ende, Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
 > - *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme (`solo schnell` / `gruppe schnell`), die direkt in den Briefingraum sprang und das Chargen-Save-Gate übersprang. Die Ausnahme wurde entfernt; das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 >
@@ -52,17 +52,17 @@ tags: [system]
 > HQ-only-SaveGuard, persönliche Save-Bindungen und der frische Spielkontext
 > gelten in beiden Betriebsarten unverändert.
 
-Diese Unterscheidung ist zentral für ALLE unbedingten "JSON in neuem Chat
-laden — Pflicht, kein Verzicht"-/"neuen Chat öffnen"-Kodex-Texte in diesem
-Modul und im Masterprompt (§I Start/Save/Sync): sie gelten wortwörtlich im
-**eigenständigen Chatbetrieb** (reines RAG/Chat, kein Terminalclient). Im
-**ausdrücklich gekennzeichneten Terminalbetrieb** übernimmt der Client den
-Abschnittswechsel selbst — die SL formuliert dort stattdessen, dass der
-Abschnitt mit dem Export endet, ohne eine Chatwechsel-/Kopieranweisung zu
-behaupten (s. Masterprompt §I, Terminal-Save-Angebot). Keine Vermischung:
-ein Terminalhinweis ändert nichts an SaveGuard, Provenienz oder dem
-persönlichen Save-Vertrag — er ändert nur die FORMULIERUNG des bereits
-bestehenden Übergangs, nicht den Übergang selbst.
+Dieser Vertrag ERSETZT die früheren unbedingten "JSON in neuem Chat laden —
+Pflicht, kein Verzicht"-/"neuen Chat öffnen"-Kodex-Texte in diesem Modul und
+im Masterprompt (§I Start/Save/Sync) — keine zusätzliche Ausnahmeschicht
+darüber. Die SL formuliert den Anschluss oberflächenneutral (Abschnitt
+endet mit dem Export, Anschluss folgt aus dem gültigen Save); den konkreten
+Bedienweg (eigenständiger Chat: neuer Chat + Save laden; Terminal: vom
+Client selbst verwaltet) bestimmt die jeweilige Betriebsart, nicht die SL.
+Der eigenständige RAG-/Chatweg bleibt dabei vollständig funktionsfähig und
+verständlich erklärt — nur die SL-Kodex-Texte verlangen selbst keinen
+bestimmten Weg mehr. SaveGuard, Provenienz und der persönliche Save-Vertrag
+gelten in beiden Betriebsarten unverändert scharf.
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 
@@ -81,8 +81,8 @@ Import-Validierung; der kanonische Exportpfad bleibt v7.
 Jeder Abschnittsübergang (HQ ↔ Mission, HQ ↔ Chronopolis, HQ ↔ Arena, Chargen → HQ)
 folgt demselben **Save-Sync-Handover-Pattern**. Aus Spielersicht ist es kein Block,
 sondern ein **Sync-Beat** in der ITI-Lore: vor jedem Sprung sichert die Nullzeit-
-Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Chat
-öffnet im HQ-Hub-Router.
+Datenbank den aktuellen Stand, danach endet der Abschnitt sauber, der Anschluss folgt im
+HQ-Hub-Router des frischen Spielkontexts.
 
 - **Grundregel:** Save-Outputs nur, wenn die Crew frei im HQ ist; niemals in
   Missionen, Arenawarteschlangen oder Chronopolis (siehe SaveGuards unten).
@@ -98,7 +98,7 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
      `save_sync_pre_rift()` mit Rift-Lore-Beat („Rift-Koordinate aktiviert").
      **Reihenfolge**: erst `chrono_can_launch_rift()`-Gate (freies HQ + eigene offene Leader-ID;
      kein Briefing/Debrief/Transfer/Exfil und keine Arena-Queue), bei `false` höflicher Refusal-Beat (kein Sync); bei
-     `true` Sync-Beat → Save → Chat-Wechsel. **Entfällt ebenfalls im frischen
+     `true` Sync-Beat → Save → Anschluss. **Entfällt ebenfalls im frischen
      Load-Chat** (Gate vorausgesetzt) — die Rift-Op startet dann direkt aus
      dem HQ-Hub im selben Chat (Frischer-Load-Chat-Regel unten).
   4. **HQ → Chronopolis-Schleuse**: Pre-Schleuse-Sync (atmosphärischer Beat,
@@ -122,17 +122,17 @@ Datenbank den aktuellen Stand, danach schließt der Chat sauber, der nächste Ch
      Arena-Lobby-Lock, Match-Recap-Andocken).
   2. **Kodex-Save-Angebot** (genau einmal pro Übergang):
      `Kodex: HQ-Stand stabil. Deepsave möglich.`
-     `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
+     `Kodex: Mit !save den Abschnitt abschließen.` (oberflächenneutral,
+     §Zentraler-Ersatzvertrag — keine Bedienweg-Annahme im Kodex-Text.)
   3. **`!save`-Pflicht-Output** (vollständiger v7-JSON-Block, siehe
      §HQ-JSON-Save unten).
-  4. **Verweis auf Chat-Wechsel**: `Kodex: Sync abgeschlossen. JSON in neuen
-     Chat einfügen, dort öffnet sich der HQ-Hub.`
-  5. **Im selben Chat ist nach Save kein Übergang mehr möglich**: Tippt der
-     Spieler trotzdem den Übergangsbefehl, antwortet die KI-SL mit einem
-     freundlichen Lore-Verweis (z. B.: „Sync ist abgeschlossen —
-     Sprungvorbereitung erfolgt im nächsten Chat. JSON einfügen, dann
-     öffnet sich der HQ-Hub."). Kein neues Briefing, kein Match-Start, keine
-     Schleuse im selben Chat nach Save.
+  4. **Abschlussbestätigung**: `Kodex: Sync abgeschlossen. Der Abschnitt
+     endet hier — der Anschluss folgt aus dem gültigen Save.`
+  5. **Im selben Abschnitt ist nach Save kein Übergang mehr möglich**:
+     Tippt der Spieler trotzdem den Übergangsbefehl, antwortet die KI-SL
+     mit einem freundlichen Lore-Verweis (z. B.: „Sync ist abgeschlossen —
+     Sprungvorbereitung erfolgt im Anschluss."). Kein neues Briefing, kein
+     Match-Start, keine Schleuse im selben Abschnitt nach Save.
 - **HQ-Hub-Router (Pflicht nach jedem Save-Load):** Der Router ist immer
   da, auch wenn der Spieler direkt einen Übergang anfordern würde. Der Hub ist
   ein **Abschnitt-Wähler** (HQ erkunden / Schnell-HQ / Core-Ops / Rift-Op falls
@@ -1513,7 +1513,7 @@ hq → briefing → core/rift/arena/chronopolis → debrief → hq
 
 `continuity.last_seen.mode` trägt den aktuellen Raum:
 
-- **`"hq"`** — **Speicherraum.** `!save` erlaubt; für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.
+- **`"hq"`** — **Speicherraum.** `!save` erlaubt; der Abschnitt endet mit dem Export, der Anschluss folgt aus dem gültigen Save (Bedienweg je Betriebsart, §Zentraler-Ersatzvertrag).
 - **`"briefing"`** — vordere Schleuse vor der Mission (Briefingraum). Kein Save. Der
   Briefingraum wird mit dem Missionsstart verlassen, `mode` wechselt auf den aktiven
   Missionsraum.
