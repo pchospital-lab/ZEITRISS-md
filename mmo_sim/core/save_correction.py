@@ -441,6 +441,91 @@ def resume_hold_via_structural_best_effort(
     return mark_adopted(run_dir, repair_key, adopted_block=best_block, best_effort=True)
 
 
+#: ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1 Stage I (M7-Save-Fix): derselbe
+#: interne Praefix, den `send_correction_turn`s generischer
+#: `except Exception`-Zweig (s.o., `reason=f"transport_error:{exc}"`) in
+#: `mark_hold`s `last_reason` schreibt, UND den `domain.zeitriss.
+#: save_correction._REASON_PREFIX_CATEGORY` auf die oeffentliche Kategorie
+#: `transport_error_after_attempt` abbildet. Modulkonstante statt
+#: wiederholtem Literal, damit Guard hier und Pruefung in Tests/anderen
+#: Aufrufern denselben String teilen.
+TRANSPORT_ERROR_REASON_PREFIX = "transport_error:"
+
+
+def resume_hold_via_transport_error_best_effort(
+    run_dir: str | Path, repair_key: str, *, char_id: str, table_id: str, section_id: str,
+) -> dict | None:
+    """ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1 Stage I (M7-Save-Fix): enger,
+    zu `resume_hold_via_structural_best_effort` (s.o.) analoger
+    Wiederaufnahmepfad -- GLEICHE Vorbedingungen, GLEICHER Best-effort-
+    Strukturvertrag (`has_residual_structural_cap_overflow` +
+    `mark_adopted(best_effort=True)`), NUR die terminale `last_reason`-
+    Bedingung unterscheidet sich: hier `last_reason` beginnt mit
+    `TRANSPORT_ERROR_REASON_PREFIX` (= derselbe interne Praefix, den
+    `send_correction_turn`s generischer `except Exception`-Zweig fuer JEDEN
+    Transportfehler nach einem tatsaechlich unternommenen Sendeversuch
+    schreibt, oeffentlich kategorisiert als `transport_error_after_attempt`)
+    statt `"unjustified_semantic_drift"`.
+
+    Ursache (belegt, s. I-A-Report): ein `send_correction_turn`-Versand fuer
+    EINE grosse Gruppen-Korrekturantwort kann am client-seitigen Transport-
+    Timeout (`OWUIChat`-Default 420s x 3 Versuche, `MMO_SIM_GM_TRANSPORT_
+    TIMEOUT` unkonfiguriert) scheitern, OHNE dass das Modell je geantwortet
+    hat (`find_durable_result`s Praedikat `error is None AND result_text is
+    not None` schliesst einen solchen Datensatz bewusst aus -- korrektes
+    Verhalten, keine stillschweigende Wiederverwendung eines Fehlschlags).
+    `update_best_candidate` hat VOR diesem Sendeversuch bereits die zuvor
+    tatsaechlich empfangene (nicht aus dem fehlgeschlagenen Versand
+    stammende) Antwort als `best_candidate_block` registriert -- ein
+    tatsaechlich beobachteter, NIE per Drift abgelehnter Kandidat, der
+    GENAUSO wie der Drift-Fall oben best-effort-faehig sein kann, wenn seine
+    einzigen Restfehler reine Cap-Ueberlaeufe sind.
+
+    Dieselben Schutzbedingungen wie oben (siehe dortige Docstring-Punkte 2-4
+    fuer die vollstaendige Begruendung jeder Bedingung):
+      - Datensatz existiert, `state == STATE_HOLD`, `last_reason` beginnt
+        mit `TRANSPORT_ERROR_REASON_PREFIX` -- jeder andere HOLD-Grund
+        bleibt UNVERAENDERT terminal (insbesondere `unjustified_semantic_
+        drift` bleibt exklusiv bei der Funktion oben).
+      - Eigentuemer-/Figur-/Abschnittsbindung passt EXAKT (`char_id`/
+        `table_id`/`section_id`).
+      - noch KEINE erfolgte Uebernahme (`adopted_block is None`) --
+        schliesst Doppel-Adoption/-Buchung aus (idempotent: ein zweiter
+        Aufruf fuer denselben Datensatz liefert `None`, weil `adopted_block`
+        dann bereits gesetzt ist).
+      - ein tatsaechlich beobachteter `best_candidate_block` existiert UND
+        besteht `has_residual_structural_cap_overflow` (nur Cap-Ueberlaeufe,
+        keine Bindungsfehler).
+
+    Liefert bei erfolgreicher Wiederaufnahme den aktualisierten Datensatz
+    (jetzt `state=adopted`, `best_effort=True`) -- der Aufrufer behandelt
+    ihn danach ueber denselben bereits bestehenden `restored_from_adopted`-
+    Zweig wie jeden anderen Best-effort-Kandidaten (s. `pursue_group_save_
+    correction`, kein neuer Kontrollfluss dafuer noetig). Liefert `None`
+    (Datensatz bleibt UNVERAENDERT), sobald irgendeine Bedingung oben nicht
+    zutrifft."""
+    record = load_record(run_dir, repair_key)
+    if record is None or record.get("state") != STATE_HOLD:
+        return None
+    last_reason = record.get("last_reason")
+    if not isinstance(last_reason, str) or not last_reason.startswith(TRANSPORT_ERROR_REASON_PREFIX):
+        return None
+    if (
+        record.get("char_id") != char_id
+        or record.get("table_id") != table_id
+        or record.get("section_id") != section_id
+    ):
+        return None
+    if record.get("adopted_block") is not None:
+        return None
+    best_block = record.get("best_candidate_block")
+    if best_block is None:
+        return None
+    if not has_residual_structural_cap_overflow(best_block, char_id):
+        return None
+    return mark_adopted(run_dir, repair_key, adopted_block=best_block, best_effort=True)
+
+
 def mark_window_paused(run_dir: str | Path, repair_key: str, *, reason: str) -> dict:
     """R12-W73 (Invarianten 1/3/4/5): wie `mark_hold`, aber NICHT terminal --
     markiert einen NACHWEISLICH unversandten Deadline-vor-Versand-Block als
@@ -1965,6 +2050,19 @@ def pursue_group_save_correction(
                     resumed_record = resume_hold_via_structural_best_effort(
                         run_dir, repair_key, char_id=char_id, table_id=table.table_id, section_id=section_id,
                     )
+                    if resumed_record is None:
+                        # ZR-R8-LIVESYNC-PALIMPSEST-20261119-R1 Stage I
+                        # (M7-Save-Fix): zweiter, zum Drift-Fall oben
+                        # paralleler Wiederaufnahmeversuch fuer GENAU den
+                        # `transport_error:`-Praefix-Fall (s. `resume_hold_
+                        # via_transport_error_best_effort`-Docstring) --
+                        # greift NICHT fuer `unjustified_semantic_drift`
+                        # (das hat die Funktion oben bereits behandelt) und
+                        # laesst jeden anderen HOLD-Grund unveraendert
+                        # terminal.
+                        resumed_record = resume_hold_via_transport_error_best_effort(
+                            run_dir, repair_key, char_id=char_id, table_id=table.table_id, section_id=section_id,
+                        )
                     if resumed_record is not None:
                         record = resumed_record
                 # Restart-Sicherheit (analog SC07 im Einzelfigurpfad): ein
