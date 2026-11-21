@@ -1024,6 +1024,75 @@ class SectionRuntime:
                 return False
             return current_save is None or current_save != hit
 
+        def _member_shows_own_progress(entry: dict) -> bool:
+            """Order §1 Nachzug (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt
+            1): dieselbe Autoritaet/Pruefung wie `_harvest_own_export` oben
+            -- nur generalisiert auf das Mitglied, dem `entry` selbst
+            zugeschrieben ist (`origin_persona_key`), statt hart auf den
+            Leader verdrahtet. Fuer `_section_completion_recovery.
+            find_pending_leader_export`s Post-Kandidat-Scan: ein NICHT-
+            Leader-Eintrag NACH dem Leader-Kandidaten invalidiert diesen nur,
+            wenn er fuer SEIN EIGENES Mitglied einen echten, vom Current
+            abweichenden Save traegt (echter Gastfortschritt) -- ein blosser
+            Recap/Echo eines UNVERAENDERTEN (ggf. sogar fremden) Currents
+            liefert bewusst `False` (kein stiller Fallback auf einen
+            Scheinbeleg, s. `test_zr_spiel_s1_fixd_save_integrity_gate_
+            2026_11_11.py:test_a2_unadopted_own_block_survives_later_recap_
+            of_old_current`, bereits abgenommene Pending-Commit-Baseline)."""
+            pk = entry.get("origin_persona_key")
+            if pk is None:
+                return False
+            cid_to_pk = self.table.chrononaut_id_to_persona()
+            own_cid_to_pk = {cid: owner for cid, owner in cid_to_pk.items() if owner == pk}
+            if not own_cid_to_pk:
+                return False
+            hit = self.harvest_extractor(entry.get("content") or "", own_cid_to_pk).get(pk)
+            if hit is None:
+                return False
+            try:
+                current_save = store.load_current_save_or_raise(
+                    self.lobby.run_dir, pk, self.persona_state_store, self._states_dir,
+                )
+            except store.CurrentSaveUnavailableError:
+                return False
+            return current_save is None or current_save != hit
+
+        def _candidate_hq_hold_reason(entry: dict) -> str | None:
+            """Order §2 (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt 2): das
+            PRE-SEND-Uebernahmepraedikat `_harvest_own_export` prueft nur
+            Schema-Validitaet + Abweichung vom Current -- NICHT, ob der
+            Kandidat ueberhaupt ein HQ-Stand ist. `continuity.last_seen.
+            mode` ist der kanonische, bereits in BEIDEN v7-Schemas
+            verankerte HQ-Marker (`systems/gameflow/saveGame.v7.schema.json`
+            UND `saveGame.v7.export.schema.json`, Enum `["hq", "briefing",
+            "core", "rift", "arena", "chronopolis", "debrief"]`, im Export-
+            Schema Pflichtfeld) -- NICHT `location` (das ist freier Text,
+            s. `tests/mmo_sim/_full_v7_fixture.py`, dort zufaellig
+            `"fixture"`, nicht `"HQ"`). Nur DIESER neue Uebernahmepfad wird
+            abgesichert -- keine globale Schemaaenderung, kein Eingriff in
+            `complete_section`/Importkompat/Final-Save.
+
+            Liefert `None` (= weiter uebernehmen), wenn der Kandidat
+            nachweislich ein HQ-Stand ist; sonst einen menschenlesbaren
+            HOLD-Grund. Ein (noch) fehlendes `mode`-Feld gilt bewusst NICHT
+            als HQ (derselbe Vorsicht wie ueberall in diesem Modul: fehlende
+            Bindung/Information ist kein Beweis FUER Zulaessigkeit)."""
+            cid_to_pk = self.table.chrononaut_id_to_persona()
+            own_cid_to_pk = {cid: pk for cid, pk in cid_to_pk.items() if pk == leader}
+            if not own_cid_to_pk:
+                return None
+            hit = self.harvest_extractor(entry.get("content") or "", own_cid_to_pk).get(leader)
+            if hit is None:
+                return None
+            mode = (hit.get("continuity") or {}).get("last_seen", {}).get("mode")
+            if mode == "hq":
+                return None
+            return (
+                "Eigener vollstaendig gueltiger Stand liegt vor, ist aber kein HQ-Stand "
+                f"(continuity.last_seen.mode={mode!r}) -- Speicherabschluss haelt, bis am "
+                "HQ gespeichert wird."
+            )
+
         def marker_hit(text: str) -> bool:
             return completion_marker_matches(text, self.marker, self.table.table_id, section_id)
 
@@ -1172,6 +1241,7 @@ class SectionRuntime:
                         _section_completion_recovery.find_pending_leader_export(
                             self.table.sl_log, section_id, leader, _harvest_own_export,
                             self.explicit_completion_attempt, request_binding_error=_request_binding_error,
+                            later_member_shows_own_progress=_member_shows_own_progress,
                         )
                     )
                     if pending_hold_reason is not None:
@@ -1188,6 +1258,27 @@ class SectionRuntime:
                             harvested={}, debrief_text="",
                         )
                     if pending_candidate is not None:
+                        # Order §2 (2026-11-21): positive HQ-Zulaessigkeits-
+                        # pruefung NUR fuer diesen PRE-SEND-Uebernahmepfad --
+                        # VOR `finalize(..., pre_send=True)`, also VOR jedem
+                        # Write/GM-Call. Ein vollstaendig gueltiger, aber
+                        # Nicht-HQ-Kandidat haelt mit Grund (kein Write,
+                        # kein neuer Call), GENAU wie der bestehende
+                        # `pending_hold_reason`-Zweig oben.
+                        hq_hold_reason = _candidate_hq_hold_reason(pending_candidate)
+                        if hq_hold_reason is not None:
+                            self._status_fn(f"Speicherabschluss HOLD: {hq_hold_reason}")
+                            self._emit(
+                                "section_completion_rejected", ts,
+                                payload={"section_id": section_id, "reason": hq_hold_reason},
+                            )
+                            return SectionOutcome(
+                                completion=store.CompletionResult(
+                                    success=False, already_completed=False, written=False,
+                                    members_completed=[], missing=[], reason=hq_hold_reason,
+                                ),
+                                harvested={}, debrief_text="",
+                            )
                         return finalize(
                             pending_candidate["content"],
                             prev_ref_override=pending_candidate.get("expected_prev_ref_by_member"),

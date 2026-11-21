@@ -33,7 +33,7 @@ tags: [system]
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
 > - **Jeder Abschnitt startet frisch** aus dem gültigen Save: Chargen → Save → frischer Spielkontext → HQ-Hub → gewählten Abschnitt direkt spielen (Core/Rift/Chronopolis/PvP) oder bewusst eine HQ-Runde ausspielen → Save → frischer Spielkontext. Eine HQ-Zwischenrunde ist dabei keine Pflicht. Den Bedienweg dorthin (eigenständiger Chat vs. Terminal) regelt §Zentraler-Ersatzvertrag unten — die SL verlangt dafür selbst keinen bestimmten Weg.
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Stand stabil. Deepsave möglich.`
-> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Mit !save den Abschnitt abschließen — der Anschluss folgt aus dem gültigen Save.`
+> - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Sync abgeschlossen. Der Abschnitt endet hier — der Anschluss folgt aus dem gültigen Save.`
 > - **Savebare HQ-Zustände:** Chargen-Ende, Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
 > - *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme (`solo schnell` / `gruppe schnell`), die direkt in den Briefingraum sprang und das Chargen-Save-Gate übersprang. Die Ausnahme wurde entfernt; das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 >

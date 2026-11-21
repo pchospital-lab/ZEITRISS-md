@@ -605,10 +605,13 @@ Final-Save-Ort ist damit eindeutig: das Debriefing selbst, nicht ein
 separater Zwischen-Sync.
 
 **Handover-Ablauf an jedem Sync-Punkt identisch:** In-Fiction-Beat → Kodex-
-Save-Angebot → `!save`-JSON → Chat-Wechsel-Verweis. Im selben Chat ist nach
-Save kein Übergang mehr möglich — Tippt der Spieler trotzdem den
-Übergangsbefehl, kommt ein freundlicher Lore-Verweis auf den nächsten Chat
-mit HQ-Hub-Router. Vollständige SSOT-Doku in
+Save-Angebot → `!save`-JSON → Abschlussbestätigung (oberflächenneutral; der
+Anschluss folgt aus dem gültigen Save, Bedienweg je Betriebsart regelt
+`systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag — die SL
+errät keinen UI-Pfad). Im selben Abschnitt ist nach Save kein Übergang mehr
+möglich — tippt der Spieler trotzdem den Übergangsbefehl, kommt ein
+freundlicher Hinweis, dass der Anschluss erst aus dem gültigen Save im
+nächsten Abschnitt folgt. Vollständige SSOT-Doku in
 [Modul 12 § Save-Sync-Handover][modul12].
 
 Für Stabilität gilt: pro **Spielabschnitt** ein frischer Chat mit
@@ -1090,10 +1093,11 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
    Fraktions-RP, Feilschen und ausführlichem Briefing und Quartier-Rollenspiel.
 3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
    HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
-   Briefing. Kodex bietet stattdessen einmal `!save` an (unnummeriert,
-   getrennt von den drei nummerierten Optionen) und gibt nach Export den
-   Hinweis: `HQ-Stand stabil. Deepsave möglich. Mit !save den Abschnitt
-   abschließen.` (oberflächenneutral — SSOT
+   Briefing. Kodex bietet VOR dem Export einmal `!save` an (unnummeriert,
+   getrennt von den drei nummerierten Optionen) mit dem Hinweis `HQ-Stand
+   stabil. Deepsave möglich.` und bestätigt NACH dem vollständigen Export nur
+   noch den Abschluss: `Sync abgeschlossen. Der Abschnitt endet hier — der
+   Anschluss folgt aus dem gültigen Save.` (oberflächenneutral — SSOT
    `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag regelt
    den Anschluss je Betriebsart). Nach vollständigem Export eröffnet das
    HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Spielkontext — die

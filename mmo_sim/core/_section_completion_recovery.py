@@ -147,6 +147,7 @@ def find_pending_leader_export(
     harvest_own_export: EntryMatchCheck,
     is_explicit_save_command: Callable[[str | None], bool],
     *, request_binding_error: RequestBindingCheck | None = None,
+    later_member_shows_own_progress: EntryMatchCheck | None = None,
 ) -> tuple[dict | None, str | None]:
     """ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03_FIXAUFTRAG.md
     §4, M12-Kernbug): findet einen bereits VORHANDENEN, noch nicht
@@ -185,6 +186,22 @@ def find_pending_leader_export(
       policy.is_save_command` -- hier NUR zum Ausschliessen von Save-
       Kommando-Eintraegen selbst (die sind nie der Export) UND zur
       Stufe-2-Pruefung unten.
+    - `later_member_shows_own_progress(entry) -> bool` (Order §1 Nachzug
+      2026-11-21, additiv, Default `None`): True, wenn ein NICHT-Leader-
+      Eintrag NACH dem Kandidaten `entry["content"]` einen bindbaren, vom
+      AKTUELLEN Current DIESES Mitglieds (`entry["origin_persona_key"]`)
+      abweichenden EIGENEN Save traegt -- dieselbe Autoritaet/Philosophie
+      wie `harvest_own_export` oben, nur generalisiert auf JEDES Mitglied
+      statt hart auf den Leader verdrahtet (`core.runtime`-Aufrufstelle).
+      Ein blosser Recap/Echo des UNVERAENDERTEN (bereits uebernommenen)
+      Currents -- gleich welches Mitglieds -- liefert bewusst `False` (kein
+      Beweis fuer echten Fortschritt, s. `test_zr_spiel_s1_fixd_save_
+      integrity_gate_2026_11_11.py:test_a2_unadopted_own_block_survives_
+      later_recap_of_old_current`, bereits abgenommene Pending-Commit-vor-
+      erneutem-GM-Versand-Baseline -- bleibt davon unberuehrt). Default
+      `None` -> kein Nicht-Leader-Eintrag invalidiert (altes Verhalten,
+      sicherer Fallback fuer einen hypothetischen Aufrufer ohne dieses
+      Praedikat).
 
     Ablauf:
 
@@ -205,7 +222,19 @@ def find_pending_leader_export(
        bisher weiter, KEIN Shortcut, aber auch KEINE neue Eskalation).
        Weitere Save-Kommando-Versuche (z.B. ein frueherer abgelehnter
        `!save`) ZWISCHEN Kandidat und Ende sind UNSCHAEDLICH (genau der
-       belegte M12-Fall: Kandidat turn7, Reject turn8).
+       belegte M12-Fall: Kandidat turn7, Reject turn8). Order §1 Nachzug
+       (2026-11-21): dieselbe Invalidierung gilt AUCH fuer einen Nicht-
+       Leader-Eintrag (Gast) NACH dem Kandidaten, WENN `later_member_shows_
+       own_progress(entry)` True liefert (das eigene, vom Current
+       abweichende Save-Signal DIESES Mitglieds -- s. Praedikat-Doku oben).
+       Ein blosser Recap/private Tischabsprache ohne dieses Signal (Gast-
+       Reflexionseintrag, der NUR das bereits bekannte/unveraenderte
+       Current eines Mitglieds zitiert, ODER -- strukturell ohnehin nie in
+       `sl_log` -- `table_messages`/`reflections.jsonl`) invalidiert NICHT.
+       Ein echter Gast-Turn MIT eigenem neuem Zustand darf den Gruppenstand
+       also ebenso nicht mehr fortgelten lassen wie ein zwischenzeitlicher
+       Leader-Turn (sonst ginge der Gastfortschritt bei einer Uebernahme
+       verloren).
     3. Fehlende Section-Bindung oder fehlender Generations-Schnappschuss
        (`expected_prev_ref_by_member`) -> `(None, hold_reason)`, dieselbe
        Vorsicht wie `find_recoverable_entry` AR2 Teil C/AR11.
@@ -231,15 +260,36 @@ def find_pending_leader_export(
     if candidate is None:
         return None, None
     for later in sl_log[candidate_idx + 1:]:
-        if later.get("origin_persona_key") != leader_pid:
+        if later.get("origin_persona_key") == leader_pid:
+            later_raw = later.get("origin_raw_input")
+            if later_raw is not None and not is_explicit_save_command(later_raw):
+                # Echte neue freie Aktion NACH dem Kandidaten -- zwischen-
+                # zeitlicher Storyfortschritt, der Kandidat gilt nicht mehr als
+                # unveraendert fortgeltend (03 §4/§5). Kein HOLD-Text hier
+                # (das ist kein erkannter-aber-unzureichender Export, sondern
+                # schlicht "kein aktueller Kandidat mehr") -- normaler Weg.
+                return None, None
             continue
-        later_raw = later.get("origin_raw_input")
-        if later_raw is not None and not is_explicit_save_command(later_raw):
-            # Echte neue freie Aktion NACH dem Kandidaten -- zwischen-
-            # zeitlicher Storyfortschritt, der Kandidat gilt nicht mehr als
-            # unveraendert fortgeltend (03 §4/§5). Kein HOLD-Text hier
-            # (das ist kein erkannter-aber-unzureichender Export, sondern
-            # schlicht "kein aktueller Kandidat mehr") -- normaler Weg.
+        # Order §1 Nachzug (2026-11-21): ein Nicht-Leader-Eintrag NACH dem
+        # Kandidaten wurde bisher UNGEPRUEFT uebersprungen -- das verlor
+        # echten zwischenzeitlichen Gastfortschritt (03 §4/§5 gilt
+        # unterschiedslos fuer JEDES Tischmitglied, nicht nur den Leader).
+        # Struktureller Marker (KEINE Prosa-Heuristik, injiziertes
+        # Praedikat -- dieselbe Philosophie wie `harvest_own_export` oben):
+        # `later_member_shows_own_progress(entry)` prueft, ob DIESER
+        # Eintrag ein eigenes, vom Current DIESES Mitglieds abweichendes
+        # bindbares Save traegt (Aufrufer: `core/runtime.py`, generalisierte
+        # `_harvest_own_export`-Logik ueber JEDES Mitglied statt nur den
+        # Leader). Ein blosser Recap/Echo des unveraenderten Currents --
+        # und erst recht reine private Tischabsprache (`store.
+        # post_table_message` -> `table_messages`) oder Pflicht-/
+        # Freiwilligen-Reflexion (`_collect_reflections` -> `reflections.
+        # jsonl`, erreichen `sl_log` ohnehin strukturell NIE) -- liefert
+        # bewusst `False` (kein Beweis FUER Fortschritt, s. Praedikat-Doku
+        # oben/`test_a2_unadopted_own_block_survives_later_recap_of_old_
+        # current`). Ohne injiziertes Praedikat (Default `None`) invalidiert
+        # kein Nicht-Leader-Eintrag (sicherer alter Fallback).
+        if later_member_shows_own_progress is not None and later_member_shows_own_progress(later):
             return None, None
     if candidate.get("section_id") is None:
         return None, (

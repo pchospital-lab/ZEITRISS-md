@@ -371,16 +371,30 @@ def test_m12_pre_send_mixed_group_adopts_full_group_zero_calls():
         assert not pre_seed.success and pre_seed.missing == ["leader_pk"], pre_seed
 
         leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-mixed-ok-leader")
+        # Order §1 Nachzug (2026-11-21): der Kandidat muss NACH dem bereits
+        # abgeschlossenen Gastimport liegen -- sonst testet die Reihenfolge
+        # nicht mehr "Gast ist bereits vollstaendig importiert, als der
+        # Leader seinen Export zeigt" (vorher zufaellig umgekehrt, weil die
+        # Runtime den Leader-Anker IMMER vor jedem Gastimport ausfuehrt,
+        # s. `core/runtime.py:run_full_section` "Leader-Anker"/"Gaeste
+        # einzeln (Import)"). Leader bekommt deshalb einen neutralen
+        # Anker-Turn OHNE Export, dann importiert der Gast, dann zeigt ein
+        # SEPARATER Leader-Folgeturn (`ongoing_round`-Schleife, deshalb
+        # `max_turns=3`: Anker+Import verbrauchen bereits 2) den Export.
         gm_setup = ScriptedGmTransport(scripted_contents=[
-            _fenced_save(leader_export),  # Leader-Anker-Turn (Export, kein Marker).
+            "Willkommen, Leader.",  # Leader-Anker-Turn (noch kein Export).
             "Normaler Gastimport, keine Besonderheit.",  # Gast-Import-Turn.
+            _fenced_save(leader_export),  # Leader-Folgeturn NACH Gastimport (Export, kein Marker).
         ])
         controller_setup = TableController(leader_key="leader_pk", drivers={
-            "leader_pk": ScriptedDriver([ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted")]),
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="Hallo, ich bin da.", origin_source="fake:scripted"),
+                ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted"),
+            ]),
             "guest_pk": ScriptedDriver([ParticipantDecision(text="Ich importiere meine Figur.", origin_source="fake:scripted")]),
         })
         setup_outcome = _duo_run_section(
-            lobby, table, ps_store, gm_setup, controller_setup, section_id, env.states_dir, max_turns=1,
+            lobby, table, ps_store, gm_setup, controller_setup, section_id, env.states_dir, max_turns=3,
         )
         assert not setup_outcome.completion.success, setup_outcome.completion  # kein Marker, Setup nur zum Export.
 
@@ -417,16 +431,25 @@ def test_m12_pre_send_mixed_group_holds_without_hidden_correction_call():
         section_id = "section-m12-mixed-hold"
 
         leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-mixed-hold-leader")
+        # Order §1 Nachzug (2026-11-21): dieselbe Reihenfolge-Korrektur wie
+        # im positiven Mischgruppen-Test oben -- der Kandidat muss NACH dem
+        # bereits abgeschlossenen Gastimport liegen (sonst invalidiert der
+        # jetzt verschaerfte Post-Kandidat-Scan den Leader-Export faelschlich
+        # ueber den unvermeidlich nachfolgenden Gast-Anker-Eintrag).
         gm_setup = ScriptedGmTransport(scripted_contents=[
-            _fenced_save(leader_export),
+            "Willkommen, Leader.",
             "Normaler Gastimport, keine Besonderheit.",
+            _fenced_save(leader_export),
         ])
         controller_setup = TableController(leader_key="leader_pk", drivers={
-            "leader_pk": ScriptedDriver([ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted")]),
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="Hallo, ich bin da.", origin_source="fake:scripted"),
+                ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted"),
+            ]),
             "guest_pk": ScriptedDriver([ParticipantDecision(text="Ich importiere meine Figur.", origin_source="fake:scripted")]),
         })
         setup_outcome = _duo_run_section(
-            lobby, table, ps_store, gm_setup, controller_setup, section_id, env.states_dir, max_turns=1,
+            lobby, table, ps_store, gm_setup, controller_setup, section_id, env.states_dir, max_turns=3,
         )
         assert not setup_outcome.completion.success, setup_outcome.completion
 
@@ -603,67 +626,256 @@ def test_m12_pre_send_idempotent_second_entry_no_double_write():
 
 
 def test_m12_pre_send_ignores_candidate_after_real_story_progress_end_to_end():
-    """Testmatrix (Order §5 "Zwischenzeitlicher Gast-/Gruppenfortschritt
-    nach dem Kandidaten -> Kandidat ungueltig, normaler Weg"), END-TO-END
-    (Ergaenzung zum bereits vorhandenen reinen Einheitentest
-    `test_unit_find_pending_leader_export_blocks_on_real_story_progress_
-    after_candidate`): eine ECHTE weitere freie Aktion NACH dem Export
-    macht den Kandidaten ungueltig -- `!save` geht wieder regulaer zum GM
-    (dessen dritter Eintrag hier eine ehrliche SaveGuard-Verweigerung ist,
-    weil kein neuer Export vorliegt). Auf `app_service.run_play_session`-
-    Ebene (wie die uebrigen Matrixtests) statt ueber `TuiSession`: das
-    bestehende Fix-D-UI-Gate (`ui/tui.py`, sperrt JEDE normale Folgeaktion
-    des MENSCHLICHEN Terminal-Leaders nach einem gezeigten unbindbaren
-    Export) wuerde die zweite freie Aktion hier sonst VOR dem echten
-    Call abfangen -- das ist eine reine UI-Schutzschicht, kein Teil des
-    hier getesteten Engine-Vertrags (`find_pending_leader_export` wird
-    unveraendert ueber einen nicht-menschlichen `ScriptedDriver` erreicht,
-    exakt wie bei den uebrigen Mischgruppen-/Neustart-Tests)."""
+    """Testmatrix (Order §1 Nachzug 2026-11-21, "echter Duo-Fall" --
+    ERSETZT den vorherigen Testaufbau): gueltiger Gruppenexport -> ECHTER
+    Gast-GM-Turn mit Zustandsaenderung NACH dem Export -> Leader-'!save'-
+    Commit. Der VORHERIGE Testaufbau behauptete im Docstring
+    "Zwischenzeitlicher Gast-/Gruppenfortschritt", baute aber nur einen
+    SOLOTISCH mit einer zweiten LEADER-Folgeaktion -- das deckte den
+    eigentlichen Order-§1-Fall (GAST-Fortschritt nach dem Kandidaten) nie
+    ab (jener Solo-Leader-Fall bleibt weiterhin durch den reinen
+    Einheitentest `test_unit_find_pending_leader_export_blocks_on_real_
+    story_progress_after_candidate` UND den unveraenderten Leader-Zweig
+    oben in `find_pending_leader_export` abgedeckt).
+
+    Jetzt END-TO-END mit `_duo_run_section` (Z.339), echtem Duo-Tisch: der
+    Leader zeigt seinen Export in seinem Anker-Turn (= Kandidat), UNMITTEL-
+    BAR danach importiert der Gast (sein eigener, einmaliger Anker-/
+    Importturn, s. `core/runtime.py:run_full_section` "Gaeste einzeln
+    (Import)") -- und zeigt DABEI SELBST einen echten, vom (noch leeren)
+    eigenen Current abweichenden bindbaren Save (`core/runtime.py:
+    _member_shows_own_progress`, generalisierte `_harvest_own_export`-
+    Logik -- kein blosser Recap/Reflexions-/Absprache-Artefakt, s.
+    `_section_completion_recovery.find_pending_leader_export` Docstring
+    Punkt 2, NEU). Der alte Leader-Kandidat darf danach NICHT mehr
+    uebernommen werden -- `!save` geht regulaer (dritter Call) zum GM,
+    dort eine ehrliche SaveGuard-Verweigerung (kein neuer Export vorliegt).
+    BEIDE Currents bleiben unveraendert, KEIN versteckter Correction-Call
+    (das gescriptete GM-Fake hat exakt 3 Eintraege, ein vierter wuerde mit
+    'Skript erschoepft' durchfallen)."""
     with tempfile.TemporaryDirectory() as td:
         env = make_env(Path(td))
-        schema_path = env.run_dir.parent / "schema.json"
-        ps_store = make_ps_store(schema_path)
-        seed_persona_state(ps_store, env.states_dir, "leader_pk", "chrono-leader")
-        lobby = store.Lobby(env.run_dir, table_size_policy=ZeitrissTableSizePolicy())
-        lobby.join("leader_pk")
-        table, derivation = store.create_table_from_offer_log(
-            lobby, "t-m12-superseded",
-            offer_log_events=[{"type": "offer", "id": "o1", "from": "leader_pk", "wants": []}],
-            chrononaut_ids={"leader_pk": "chrono-leader"},
-        )
-        assert table is not None, derivation
+        lobby, table, ps_store = build_two_member_table(env, table_id="t-m12-duo-superseded")
         write_test_profile(env.run_dir)
-        section_id = "section-m12-superseded"
+        section_id = "section-m12-duo-superseded"
 
-        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-superseded-candidate")
+        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-duo-superseded-candidate")
+        guest_progress = full_v7_save("chrono-guest", name="Guest", level=1, save_id="m12-duo-superseded-guest-progress")
         gm = ScriptedGmTransport(scripted_contents=[
-            _fenced_save(leader_export),  # Export-Turn (wird durch die naechste echte Aktion ungueltig).
-            "Ihr zieht weiter, nichts Besonderes passiert.",  # ECHTE neue freie Aktion danach.
+            _fenced_save(leader_export),  # Leader-Anker-Turn (Export) -- der Kandidat.
+            _fenced_save(guest_progress),  # ECHTER Gast-Anker-/Importturn NACH dem Kandidaten -- eigener neuer Zustand.
             _SAVEGUARD_REJECT,  # '!save' geht regulaer zum GM (kein Kandidat mehr) -> ehrlicher Reject.
         ])
         controller = TableController(leader_key="leader_pk", drivers={
             "leader_pk": ScriptedDriver([
                 ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted"),
-                ParticipantDecision(text="Ich gehe weiter zur naechsten Kreuzung.", origin_source="fake:scripted"),
                 ParticipantDecision(text="!save", origin_source="fake:scripted"),
             ]),
+            "guest_pk": ScriptedDriver([ParticipantDecision(text="Ich importiere meine Figur.", origin_source="fake:scripted")]),
         })
-        outcome = app_service.run_play_session(
-            lobby, table, gm, controller, section_id,
-            {"leader_pk": {"user": "ctx-leader_pk"}},
-            env.states_dir, "2026-11-20", "2026-11-20T09:30:00", COMPLETION_MARKER, ZeitrissHarvestValidator(),
-            ps_store, zeitriss_saves.harvest_from_debrief, max_turns=3,
-            completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
-            explicit_completion_attempt=is_save_command, save_guard_rejection_detector=is_saveguard_rejection,
+        outcome = _duo_run_section(
+            lobby, table, ps_store, gm, controller, section_id, env.states_dir, max_turns=3,
         )
         assert not outcome.completion.success, (
-            f"ein durch echten Storyfortschritt ueberholter Kandidat darf NICHT uebernommen werden: {outcome.completion}"
+            f"ein durch echten Gast-GM-Turn ueberholter Kandidat darf NICHT uebernommen werden: {outcome.completion}"
         )
         assert len(gm.calls) == 3, (
             f"'!save' muss regulaer (dritter Call) zum GM gehen, da kein aktueller Kandidat mehr vorliegt: {gm.calls}"
         )
         assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) is None, (
-            "Current darf unveraendert bleiben (kein stiller Fallback auf den ueberholten Kandidaten)."
+            "Leader-Current darf unveraendert bleiben (kein stiller Fallback auf den ueberholten Kandidaten)."
+        )
+        assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) is None, (
+            "Gast-Current darf ebenso unveraendert bleiben (kein stiller Fallback)."
+        )
+
+
+def test_m12_pre_send_table_talk_after_candidate_does_not_invalidate_duo():
+    """Order §1 Nachzug (2026-11-21), Gegen-Test zum Fix oben: reine
+    private Tischabsprache (`store.post_table_message` -> `table_messages`,
+    ausgeloest ueber `poll_guests_and_consolidate()`) NACH dem Export-
+    Kandidaten ist KEIN echter GM-dispatchter Zustand -- sie erreicht
+    `sl_log` strukturell NICHT (s. `_section_completion_recovery.
+    find_pending_leader_export` Docstring Punkt 2, NEU) und invalidiert den
+    Kandidaten deshalb NICHT. `!save` uebernimmt ihn weiterhin PRE-SEND,
+    der Gast ist dafuer bereits vorab vollstaendig gueltig gecacht (gleicher
+    J4-ROOTFIX-Seitencache wie in den Mischgruppentests oben).
+
+    Setup bewusst in ZWEI Phasen: Phase 1 ankert BEIDE Mitglieder mit
+    neutralem Text (noch kein Export) -- erst danach, in Phase 2, zeigt ein
+    SEPARATER Leader-Folgeturn den Export. Sonst wuerde der Gast-eigene
+    Anker-Turn direkt NACH dem Kandidaten liegen -- das ist genau der
+    ECHTE Invalidierungsfall aus dem Test oben, nicht der hier zu pruefende
+    Tischabsprache-Fall."""
+    with tempfile.TemporaryDirectory() as td:
+        env = make_env(Path(td))
+        lobby, table, ps_store = build_two_member_table(env, table_id="t-m12-duo-talk-ok")
+        write_test_profile(env.run_dir)
+        section_id = "section-m12-duo-talk-ok"
+
+        guest_good = full_v7_save("chrono-guest", name="Guest")
+        pre_seed = store.complete_section(
+            lobby, table, section_id, {"guest_pk": guest_good}, env.states_dir, "2026-11-20",
+            ZeitrissHarvestValidator(), ps_store,
+        )
+        assert not pre_seed.success and pre_seed.missing == ["leader_pk"], pre_seed
+
+        gm_anchor = ScriptedGmTransport(scripted_contents=[
+            "Willkommen, Leader.",  # Leader-Anker (noch kein Export).
+            "Normaler Gastimport, keine Besonderheit.",  # Gast-Import.
+        ])
+        controller_anchor = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([ParticipantDecision(text="Hallo, ich bin da.", origin_source="fake:scripted")]),
+            "guest_pk": ScriptedDriver([ParticipantDecision(text="Ich importiere meine Figur.", origin_source="fake:scripted")]),
+        })
+        anchor_outcome = _duo_run_section(
+            lobby, table, ps_store, gm_anchor, controller_anchor, section_id, env.states_dir, max_turns=1,
+        )
+        assert not anchor_outcome.completion.success, anchor_outcome.completion
+
+        table2 = store.Table.load(env.run_dir, table.table_id)
+        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-duo-talk-ok-leader")
+        gm_export = ScriptedGmTransport(scripted_contents=[_fenced_save(leader_export)])
+        controller_export = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted"),
+                ParticipantDecision(text="!save", origin_source="fake:scripted"),
+                ParticipantDecision(text="Kurzer Rueckblick Leader.", origin_source="fake:scripted"),  # Pflicht-Reflexion nach Abschluss.
+            ]),
+            "guest_pk": ScriptedDriver([
+                ParticipantDecision(text="Kurzes Statusupdate am Tisch.", origin_source="fake:scripted"),  # Tischabsprache (guest_poll).
+                ParticipantDecision(text="Kurzer Rueckblick Gast.", origin_source="fake:scripted"),  # Pflicht-Reflexion nach Abschluss.
+            ]),
+        })
+        outcome = _duo_run_section(
+            lobby, table2, ps_store, gm_export, controller_export, section_id, env.states_dir, max_turns=2,
+        )
+        assert outcome.completion.success, outcome.completion
+        assert len(gm_export.calls) == 1, (
+            f"NUR der Export-Turn darf den GM erreichen -- der Save-Turn muss PRE-SEND uebernehmen: {gm_export.calls}"
+        )
+        table3 = store.Table.load(env.run_dir, table.table_id)
+        assert any(m.get("from") == "guest_pk" for m in table3.table_messages), (
+            "die Gast-Wortmeldung muss als reine Tischabsprache (table_messages) verbucht sein."
+        )
+        assert not any(e.get("origin_persona_key") == "guest_pk" for e in table3.sl_log[2:]), (
+            f"die Gast-Wortmeldung darf NICHT im sl_log (als vermeintlicher GM-Turn) landen: {table3.sl_log}"
+        )
+        assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) == leader_export
+        assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) == guest_good
+
+
+def _run_solo_leader_section(lobby, table, gm, controller, section_id, states_dir, ps_store, max_turns):
+    return app_service.run_play_session(
+        lobby, table, gm, controller, section_id,
+        {"leader_pk": {"user": "ctx-leader_pk"}},
+        states_dir, "2026-11-20", "2026-11-20T09:30:00", COMPLETION_MARKER, ZeitrissHarvestValidator(),
+        ps_store, zeitriss_saves.harvest_from_debrief, max_turns=max_turns,
+        completion_fallback=build_save_command_completion_fallback(table, zeitriss_saves.harvest_from_debrief),
+        explicit_completion_attempt=is_save_command, save_guard_rejection_detector=is_saveguard_rejection,
+    )
+
+
+def _build_solo_leader_table(env, table_id: str):
+    schema_path = env.run_dir.parent / "schema.json"
+    ps_store = make_ps_store(schema_path)
+    seed_persona_state(ps_store, env.states_dir, "leader_pk", "chrono-leader")
+    lobby = store.Lobby(env.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    lobby.join("leader_pk")
+    table, derivation = store.create_table_from_offer_log(
+        lobby, table_id,
+        offer_log_events=[{"type": "offer", "id": "o1", "from": "leader_pk", "wants": []}],
+        chrononaut_ids={"leader_pk": "chrono-leader"},
+    )
+    assert table is not None, derivation
+    return lobby, table, ps_store
+
+
+def test_m12_pre_send_adopts_hq_candidate_zero_gm_calls():
+    """Order §2 Nachzug (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt 2),
+    Fall (a): ein vollstaendig gueltiger HQ-Kandidat (`continuity.last_seen.
+    mode == 'hq'`, Fixture-Default, s. `tests/mmo_sim/_full_v7_fixture.py`
+    Z.73) wird PRE-SEND weiterhin uebernommen -- die NEUE positive HQ-
+    Zulaessigkeitspruefung (`core/runtime.py:_candidate_hq_hold_reason`)
+    darf einen ECHTEN HQ-Stand nicht aussperren. `ExplodingGmTransport` fuer
+    den '!save'-Turn: jeder weitere Call waere ein Fehlschlag (0 GM-/
+    Korrektur-Calls), am echten Caller (`app_service.run_play_session`)."""
+    with tempfile.TemporaryDirectory() as td:
+        env = make_env(Path(td))
+        lobby, table, ps_store = _build_solo_leader_table(env, "t-m12-hq-ok")
+        write_test_profile(env.run_dir)
+        section_id = "section-m12-hq-ok"
+
+        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-hq-ok-candidate")
+        assert leader_export["continuity"]["last_seen"]["mode"] == "hq", leader_export  # Fixture-Default, Beleg.
+        gm_setup = ScriptedGmTransport(scripted_contents=[_fenced_save(leader_export)])
+        controller_setup = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted")]),
+        })
+        setup_outcome = _run_solo_leader_section(
+            lobby, table, gm_setup, controller_setup, section_id, env.states_dir, ps_store, max_turns=1,
+        )
+        assert not setup_outcome.completion.success, setup_outcome.completion  # kein Marker, Setup nur zum Export.
+
+        table2 = store.Table.load(env.run_dir, table.table_id)
+        gm_save = ExplodingGmTransport()
+        controller_save = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="!save", origin_source="fake:scripted"),
+                ParticipantDecision(text="Kurzer Rueckblick.", origin_source="fake:scripted"),  # Pflicht-Reflexion.
+            ]),
+        })
+        outcome = _run_solo_leader_section(
+            lobby, table2, gm_save, controller_save, section_id, env.states_dir, ps_store, max_turns=5,
+        )
+        assert outcome.completion.success, outcome.completion
+        assert gm_save.calls == 0, f"kein GM-Call fuer den '!save'-Turn erwartet: {gm_save.calls}"
+        assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) == leader_export
+
+
+def test_m12_pre_send_holds_on_non_hq_candidate_no_write_no_call():
+    """Order §2 Nachzug (2026-11-21), Fall (b): ein vollstaendig schema-
+    valider eigener NICHT-HQ-Kandidat (z.B. ein City-/Missionsstand,
+    `continuity.last_seen.mode == 'core'`, sonst identisch zum Fall (a))
+    wird PRE-SEND NICHT uebernommen -- echter HOLD mit verstaendlichem
+    Grund, KEIN Write, KEIN neuer GM-/Korrektur-Call (`ExplodingGmTransport`
+    fuer den '!save'-Turn wirft bei JEDEM Aufruf)."""
+    with tempfile.TemporaryDirectory() as td:
+        env = make_env(Path(td))
+        lobby, table, ps_store = _build_solo_leader_table(env, "t-m12-hq-hold")
+        write_test_profile(env.run_dir)
+        section_id = "section-m12-hq-hold"
+
+        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-hq-hold-candidate")
+        leader_export["continuity"]["last_seen"]["mode"] = "core"  # Nicht-HQ, sonst vollstaendig schema-valide.
+        gm_setup = ScriptedGmTransport(scripted_contents=[_fenced_save(leader_export)])
+        controller_setup = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted")]),
+        })
+        setup_outcome = _run_solo_leader_section(
+            lobby, table, gm_setup, controller_setup, section_id, env.states_dir, ps_store, max_turns=1,
+        )
+        assert not setup_outcome.completion.success, setup_outcome.completion
+
+        table2 = store.Table.load(env.run_dir, table.table_id)
+        gm_save = ExplodingGmTransport()
+        controller_save = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([ParticipantDecision(text="!save", origin_source="fake:scripted")]),
+        })
+        outcome = _run_solo_leader_section(
+            lobby, table2, gm_save, controller_save, section_id, env.states_dir, ps_store, max_turns=1,
+        )
+        assert not outcome.completion.success, (
+            f"ein schema-valider Nicht-HQ-Kandidat darf NICHT uebernommen werden: {outcome.completion}"
+        )
+        assert "hq" in (outcome.completion.reason or "").lower(), (
+            f"der HOLD-Grund muss den HQ-Bezug verstaendlich benennen: {outcome.completion.reason!r}"
+        )
+        assert gm_save.calls == 0, (
+            f"kein GM-/Korrektur-Call fuer den gehaltenen '!save'-Turn erwartet: {gm_save.calls}"
+        )
+        assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) is None, (
+            "ohne HQ-Zulaessigkeit darf der Nicht-HQ-Kandidat NICHT publiziert worden sein (kein Write)."
         )
 
 

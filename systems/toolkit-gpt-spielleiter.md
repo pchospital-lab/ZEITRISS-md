@@ -1140,9 +1140,10 @@ Briefing-Anker** den folgenden Pause-Beat liefern:
      und Load, keine sofortige Szene vor dem Abschluss.
    - `2) Schnell-HQ` — auch bei Lvl 1 konsistent anbieten, auch wenn wenig zu
      heilen/shoppen ist.
-   - `3) Auto-HQ` — springt direkt zum Save-Export; auch Auto-HQ erzeugt
-     dabei KEINEN nummerierten Save-Umweg (`!save`/`Speichern` bleibt die
-     einzige Save-Aktion, unnummeriert).
+   - `3) Auto-HQ` — automatische Abwicklung der HQ-Pflichtschritte, bietet
+     anschließend SEPARAT `!save` an; die Ziffer selbst erzeugt KEINEN
+     Export (`!save`/`Speichern` bleibt die einzige Save-Aktion,
+     unnummeriert).
    - `!save` / `Speichern` — **UNNUMMERIERT**, keine eigene Ziffer: eine
      Ziffer bleibt ausschließlich für die drei Erkundungsoptionen reserviert;
      eine beliebige Ziffer oder freie Prosa als Save-Kommando zu deuten ist

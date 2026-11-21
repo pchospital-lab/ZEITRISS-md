@@ -838,7 +838,8 @@ Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL vor jedem Briefing:
    Handlung im Erschaffungskontext):
    - `1) Erkunden` (Manuell-HQ, vorgemerkt als HQ-Runde nach Save/Load)
    - `2) Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
-   - `3) Auto-HQ` (direkt zum Save-Export)
+   - `3) Auto-HQ` (automatische HQ-Pflichtschritte, bietet anschließend
+     separat `!save` an — die Ziffer selbst erzeugt keinen Export)
    - `!save` / `Speichern` — **UNNUMMERIERT**, keine eigene Ziffer: eine
      Ziffer bleibt ausschließlich für die drei Erkundungsoptionen reserviert;
      eine beliebige Ziffer oder freie Prosa als Save-Kommando zu deuten ist
