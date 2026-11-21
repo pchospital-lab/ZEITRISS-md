@@ -1142,7 +1142,26 @@ class SectionRuntime:
                     # Kein content-/Cache-Beleg fuer dieses Mitglied -- Sache
                     # von `complete_section`s `missing`-Zweig, nicht dieses Gates.
                     continue
-                mode = (hit.get("continuity") or {}).get("last_seen", {}).get("mode")
+                # Robust gegen malformed/teil-gebundene Bloecke (Order §2-Nachzug
+                # 2026-11-21): `continuity` bzw. `continuity.last_seen` koennen
+                # fehlen, `null` oder vom falschen Containertyp sein. Der frueher
+                # verkettete `.get()`-Zugriff warf dann `AttributeError`
+                # (`.get("last_seen", {})` liefert bei explizitem `null` NICHT den
+                # Default, sondern `None`) statt eines kontrollierten HOLD. Vor dem
+                # Attributzugriff den Typ pruefen; bei ungueltiger Struktur einen
+                # mitglied-benannten HOLD liefern (fehlende/ungueltige Struktur ist
+                # KEIN HQ-Beweis -- dieselbe Vorsicht wie beim fehlenden `mode`).
+                # Save NICHT reparieren/normalisieren, KEIN pauschales except.
+                continuity = hit.get("continuity")
+                last_seen = continuity.get("last_seen") if isinstance(continuity, dict) else None
+                if not isinstance(last_seen, dict):
+                    return (
+                        f"Mitglied {pk!r}: uebernommener Stand hat keine gueltige "
+                        "continuity.last_seen-Struktur (fehlt, null oder falscher Typ) -- "
+                        "kein nachweisbarer HQ-Stand, Speicherabschluss haelt, bis am HQ "
+                        "gespeichert wird."
+                    )
+                mode = last_seen.get("mode")
                 if mode != "hq":
                     return (
                         f"Mitglied {pk!r}: vollstaendig gueltiger Stand liegt vor, ist aber kein "

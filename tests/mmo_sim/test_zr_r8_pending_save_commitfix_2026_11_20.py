@@ -1129,6 +1129,105 @@ def test_m12_pre_send_mixed_group_adopts_full_hq_group_zero_gm_calls():
         assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) == guest_good
 
 
+def test_m12_pre_send_hq_gate_holds_on_malformed_continuity_no_uncaught_exception():
+    """P2-Nachzug (Order §2, 2026-11-21): ein GEBUNDENER Gastblock kann eine
+    malformed `continuity.last_seen`-Struktur tragen -- fehlend, explizit
+    `null` oder vom falschen Containertyp. Der J4-Seitencache
+    (`store._load_pending_valid_block`, `store.py:1731`) gibt den gepinnten
+    Block REVALIDIERUNGSFREI zurueck, also erreicht ein solcher Block die
+    HQ-Pruefung `_candidate_hq_hold_reason` ueber den ECHTEN Caller (`!save`
+    -> `run_play_session` -> `run_full_section`). Der frueher verkettete
+    `.get()`-Zugriff (`(hit.get('continuity') or {}).get('last_seen', {}).
+    get('mode')`) warf dann `AttributeError` statt eines kontrollierten HOLD
+    (`.get('last_seen', {})` liefert bei explizitem `null` NICHT den Default,
+    sondern `None`; ein truthy Nicht-dict-`continuity` ueberlebt das `or {}`).
+
+    Parametrisch ueber die drei malformed Faelle. Erwartet je Fall:
+    kontrollierter HOLD (`success is False`, menschenlesbarer Grund), KEINE
+    ungefangene Exception, 0 zusaetzliche GM-/Korrektur-Calls (GM-Fake wirft
+    bei JEDEM Call), und KEIN Write (weder Leader- noch Gast-Current
+    publiziert). Der Save wird NICHT repariert/normalisiert. Positive HQ-
+    und Nicht-HQ-Faelle sind in `..._adopts_full_hq_group_zero_gm_calls`
+    bzw. `..._holds_on_guest_non_hq_via_j4_cache` abgedeckt."""
+    def _mk_malformed(variant: str) -> dict:
+        block = full_v7_save("chrono-guest", name="Guest", save_id=f"m12-hq-malformed-{variant}")
+        if variant == "last_seen_null":
+            block["continuity"]["last_seen"] = None
+        elif variant == "last_seen_wrong_type":
+            block["continuity"]["last_seen"] = "HQ"  # truthy Nicht-dict
+        elif variant == "continuity_wrong_type":
+            block["continuity"] = "nope"  # truthy Nicht-dict, ueberlebt `or {}`
+        else:  # pragma: no cover - Schutz vor Tippfehler in der Parametrisierung
+            raise AssertionError(f"unbekannte Variante {variant!r}")
+        return block
+
+    for variant in ("last_seen_null", "last_seen_wrong_type", "continuity_wrong_type"):
+        with tempfile.TemporaryDirectory() as td:
+            env = make_env(Path(td))
+            lobby, table, ps_store = build_two_member_table(env, table_id=f"t-m12-hq-malformed-{variant}")
+            write_test_profile(env.run_dir)
+            section_id = f"section-m12-hq-malformed-{variant}"
+
+            leader_export = full_v7_save(
+                "chrono-leader", name="Leader", level=5, save_id=f"m12-hq-malformed-{variant}-leader",
+            )
+            assert leader_export["continuity"]["last_seen"]["mode"] == "hq", leader_export
+            gm_setup = ScriptedGmTransport(scripted_contents=[
+                "Willkommen, Leader.",
+                "Normaler Gastimport, keine Besonderheit.",
+                _fenced_save(leader_export),
+            ])
+            controller_setup = TableController(leader_key="leader_pk", drivers={
+                "leader_pk": ScriptedDriver([
+                    ParticipantDecision(text="Hallo, ich bin da.", origin_source="fake:scripted"),
+                    ParticipantDecision(text="Ich frage Halvorsen nach dem Rift.", origin_source="fake:scripted"),
+                ]),
+                "guest_pk": ScriptedDriver([ParticipantDecision(text="Ich importiere meine Figur.", origin_source="fake:scripted")]),
+            })
+            setup_outcome = _duo_run_section(
+                lobby, table, ps_store, gm_setup, controller_setup, section_id, env.states_dir, max_turns=3,
+            )
+            assert not setup_outcome.completion.success, (variant, setup_outcome.completion)
+
+            # Gebundener-aber-malformter Gastblock DIREKT in den J4-Seitencache
+            # (store.complete_section wuerde eine malformed Struktur abweisen und
+            # nie pinnen -- der Cache gibt gepinnte Bloecke aber revalidierungsfrei
+            # zurueck; genau diese Luecke prueft das Gate). char_id 1:1 zum Member.
+            store._store_pending_valid_block(
+                env.run_dir, table.table_id, section_id,
+                table.chrononaut_ids["guest_pk"], _mk_malformed(variant),
+            )
+
+            table2 = store.Table.load(env.run_dir, table.table_id)
+            gm_save = ExplodingGmTransport()
+            controller_save = TableController(leader_key="leader_pk", drivers={
+                "leader_pk": ScriptedDriver([ParticipantDecision(text="!save", origin_source="fake:scripted")]),
+                "guest_pk": ExplodingDriverStub(),
+            })
+            # KEIN try/except: faellt der Fix weg, propagiert die AttributeError
+            # ungefangen aus run_play_session -> der Test bricht ab (fail-before).
+            outcome = _duo_run_section(
+                lobby, table2, ps_store, gm_save, controller_save, section_id, env.states_dir, max_turns=1,
+            )
+            assert not outcome.completion.success, (
+                f"[{variant}] malformed continuity darf NICHT als HQ-Abschluss uebernommen werden: "
+                f"{outcome.completion}"
+            )
+            assert (outcome.completion.reason or "").strip(), (
+                f"[{variant}] es muss ein menschenlesbarer HOLD-Grund geliefert werden, nicht leer/None"
+            )
+            assert "continuity.last_seen" in (outcome.completion.reason or ""), (
+                f"[{variant}] der HOLD-Grund soll die ungueltige Struktur benennen: {outcome.completion.reason!r}"
+            )
+            assert gm_save.calls == 0, f"[{variant}] kein GM-/Korrektur-Call erwartet: {gm_save.calls}"
+            assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) is None, (
+                f"[{variant}] ohne HQ-Zulaessigkeit darf der Leader-Anteil NICHT publiziert worden sein (kein Write)."
+            )
+            assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) is None, (
+                f"[{variant}] der Gast-Anteil darf NICHT publiziert worden sein (kein Write)."
+            )
+
+
 def _is_save_command(text: str | None) -> bool:
     return (text or "").strip().casefold() in {"!save", "!speichern"}
 
