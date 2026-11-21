@@ -309,8 +309,8 @@ bis 1000 dauerhaft Spielspaß zu gewährleisten — mit klaren Meilensteinen und
 horizontalen Erweiterungen. Es vermeidet entgleisenden _Power Creep_ und
 gliedert sich in zwei Phasen:
 
-- **Phase 1 (Level 1-10):** Schneller Einstieg — jede abgeschlossene Mission
-  bringt sofort ein Level-Up. So lernen Spieler die Mechaniken und bauen ihren
+- **Phase 1 (Level 1-10):** Schneller Einstieg — jede abgeschlossene **Core-Ops- oder Rift-Ops-Mission**
+  bringt sofort ein Level-Up (gewonnene PvP-BO3-Serien zählen wie eine Mission; Chronopolis gibt kein XP). So lernen Spieler die Mechaniken und bauen ihren
   Charakter auf, ohne auf Belohnungen warten zu müssen.
 - **Phase 2 (ab Level 11):** Gestaffelte Progression — der XP-Bedarf steigt
   moderat an, Fortschritt erfolgt zunehmend horizontal über Prestige-Perks,
@@ -319,7 +319,7 @@ gliedert sich in zwei Phasen:
 #### Erfahrungspunkte & Stufenaufstieg
 
 - **XP-Kurve:** Level 1–10 folgt dem vereinfachten System: Jede abgeschlossene
-  Mission bringt sofort ein Level-Up. Ab Level 11 steigen die XP-Anforderungen
+  **Core-Ops- oder Rift-Ops-Mission** — und jede gewonnene PvP-BO3-Serie — bringt sofort ein Level-Up. Ab Level 11 steigen die XP-Anforderungen
   pro Stufe moderat an. Die konkrete Tabelle:
 
   | Level  | XP pro Level       | Kumulativ |
@@ -334,7 +334,7 @@ gliedert sich in zwei Phasen:
   _Kumulativ_ beschreibt die **Gesamt-XP-Summe bis zum Phasenübergang** (z. B.
   "10 XP" = Summe der ersten 10 Level-Aufstiege in Phase 1). Sie ist **kein**
   10er-Füllbalken pro Level. In Phase 1 gibt es keinen XP-Füllstand `X/10`
-  — jede Mission = +1 Level, Punkt. Erst ab Level 11 wird XP zum Sammel-Wert,
+  — jede **Core-Ops- oder Rift-Ops-Mission** (und jede gewonnene PvP-BO3-Serie) = +1 Level, Punkt. Erst ab Level 11 wird XP zum Sammel-Wert,
   weil Schwellen > 1 sind (z. B. `1/2 XP` = 1 von 2 XP für den nächsten Lvl).
   Siehe Masterprompt §F XP-Regel-Anwendung und §G Ausgabeformat XP-Balken.
 

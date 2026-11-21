@@ -68,5 +68,26 @@ const master = read('meta/masterprompt_v6.md', /Rift-Horror-Pflichtgate/);
 assert.match(master, /Zeitursache ≠ Zeit-Skill/);
 assert.match(master, /TEMP-Wahrnehmungs-\/Widerstandsproben[\s\S]{0,180}has_psi=false/);
 assert.match(master, /Aktive Psi-Kräfte verlangen weiterhin[\s\S]{0,120}PP-\/SYS-Kosten/);
+assert.match(master, /ersetzt die Bosskonfrontation nicht/);
+assert.match(master, /muss \*\*angeboten\*\* und/);
+assert.match(master, /die Entscheidung \*\*real\*\* sein/);
+
+const campaignRift = section(
+  read('gameplay/kampagnenstruktur.md', /#### Rift-Side-Ops/),
+  /#### Rift-Side-Ops/,
+  /\*\*Px-Policy:\*\*/
+);
+assert.match(campaignRift, /Jede beendete Rift-Op geht[\s\S]{0,90}ins Debriefing; danach ist genau diese Instanz endgültig geschlossen/);
+assert.match(campaignRift, /keinen erfundenen Sieg/);
+assert.match(campaignRift, /Erfolg und Verfügbarkeit sind getrennte Aussagen/);
+assert.match(campaignRift, /angebotenen, spielbaren\*\* Bosskonfrontation/);
+assert.doesNotMatch(campaignRift, /Bloßes Verlassen, Rückzug oder Scheitern schließt den Riss NICHT/);
+assert.doesNotMatch(campaignRift, /schließt sich der Riss automatisch/);
+assert.doesNotMatch(campaignRift, /nur thematisch zur aktuellen Epoche passt/);
+assert.match(campaignRift, /nicht\b[\s\S]{0,40}an die Epoche der laufenden Core-Episode gebunden/);
+
+assert.match(builder, /angeboten und spielbar/);
+assert.match(builder, /kein Geräte-\/Anchor-\/Protokoll-Abschluss/);
+assert.match(builder, /Zeugenwahrheit konsistent halten/);
 
 console.log('rift-action-horror-watchguard-ok');

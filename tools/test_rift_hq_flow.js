@@ -122,6 +122,15 @@ assignRiftPayoff(guestProjection,{debriefId:'GUEST-ASSIGN',completionId:'CORE-GU
 projected = projectPersonalSaves(guestProjection,{hq:true,personal:{B:{roots:{campaign:staleGuestCampaign}}}});
 assert.ok(projected[1].campaign.rift_seeds.some(s=>s.id==='B-NEW'));
 
+// P6: ein VOR Session-Oeffnung bereits geschlossener Seed darf durch einen
+// aelteren Abschlussblock, der ihn noch offen zeigt, nicht reaktiviert werden.
+const alreadyClosed = save('A', 1, 0);
+alreadyClosed.campaign.rift_seeds[0].status = 'closed';
+const staleOpenRoot = JSON.parse(JSON.stringify(alreadyClosed.campaign));
+staleOpenRoot.rift_seeds[0].status = 'open';
+const closedProjection = projectPersonalSaves(openSession([alreadyClosed]), {hq:true, anchorRoots:{campaign:staleOpenRoot}});
+assert.equal(closedProjection[0].campaign.rift_seeds[0].status, 'closed');
+
 // Das Trace-Budget behält den jüngsten benötigten Nachweis.
 const budget = save('A',0,0); budget.logs.trace = Array.from({length:205},(_,i)=>({event:'note',debrief_id:`N-${i}`}));
 budget.logs.trace.push({event:'rift_payoff',payoff_id:'A:0:KEEP',debrief_id:'KEEP'});

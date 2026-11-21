@@ -653,7 +653,7 @@ HQ-Forschungen und auf Mission gesicherte Funde reifen nicht in Echtzeit, sonder
 |  31-50 |                               4 XP |    140 XP |
 | 51-100 |                               5 XP |    390 XP |
 
-> **XP = abgeschlossene Missionen.** Level 1-10: Jede Mission = Level-Up (kein XP-Balken nötig).
+> **XP = abgeschlossene Core-/Rift-Ops-Missionen und gewonnene PvP-BO3-Serien.** Level 1-10: Jede solche Mission bzw. Serie = Level-Up (kein XP-Balken nötig; Chronopolis: kein XP).
 > Ab Level 11: XP-Balken zeigt `aktuell/schwelle` (z.B. `Lvl 14 ▓▓░░░ 1/2 XP`).
 > Pro Level-Up genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`.
 > **Aufstieg ist ein Moment, keine Zeile:** Die SL spielt jedes Level-Up als kurzen Beat aus (was die neue Fähigkeit konkret im Feld bringt), gern als Mini-Szene in Werkstatt/Training. **Meilenstein-Schwellen für alle Klassen:** Attribut 11 schaltet **W10** frei, Attribut 14 den **Heldenwürfel** — das sind spürbare Sprünge, nicht nur +1. Psi-Kräfte steigen in Stufen (Basis → Fortgeschritten → Experte), Talente ebenso. So hat jeder Charakter echte Freischalt-Momente, nicht nur die Psi-Begabten.
@@ -1287,9 +1287,9 @@ Risse sind keine offenen Löcher im Gefüge, sondern **Marker für gescheiterte 
 fehlerhafte Eingriffe** - durch Fremdfraktionen, misslungene Chrono-Teams oder
 die eigene Crew. Sie schlagen als **urbane Legenden** oder folkloristische
 Spukmeldungen auf (Mothman, Nightcrawler, Schattenleute) und tragen stets ein
-zeitliches Motiv (Echo, Verzögerung, Deja-vu, Loop). Sobald die Agenten die
-Kreatur oder das Phänomen neutralisieren, schließt sich der Eintrag: Die Legende
-gilt als aufgeklärt, der "Riss" verschwindet von der Karte.
+zeitliches Motiv (Echo, Verzögerung, Deja-vu, Loop). Nach dem Debriefing einer
+beendeten Rift-Op verschwindet der Eintrag von der aktiven Karte — unabhängig
+vom Ausgang. Ein **geschlossener Karteneintrag bedeutet nicht automatisch „aufgeklärt“**: Als aufgeklärt gilt die Legende nur bei gelöstem Fall; Erfolg und Verfügbarkeit werden getrennt benannt.
 
 **Offene eigene Rift-Seeds steigern Schwierigkeitsgrad und Loot-Multiplikator
 sofort, als fester Snapshot unmittelbar vor jedem Core-/Rift-Start — kein

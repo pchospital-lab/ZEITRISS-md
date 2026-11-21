@@ -794,7 +794,7 @@ gesamten Rift-Fall weg.
 20 Blutfarbenes Mondlicht - Orbitale Linse fokussiert IR-Spektrum
 ```
 
-> Reminder: Urban-Myth-Seeds sind **Falschspuren**. Wenn die SL sie ausspielt, muss klar bleiben, dass der eigentliche Rift-Hook eine Para-Kreatur mit genau **einer** Weirdness enthält. Sobald Anchor/Marker neutralisiert sind, schließt der Seed.
+> Reminder: Urban-Myth-Seeds sind **Falschspuren**. Wenn die SL sie ausspielt, muss klar bleiben, dass der eigentliche Rift-Hook eine Para-Kreatur mit genau **einer** Weirdness enthält. Ein neutralisierter Anchor/Marker ist **kein** Fallabschluss und **kein** vorzeitiges formales Schließen: Der Seed wird erst nach dem Debriefing der beendeten Rift-Op geschlossen (dann unabhängig vom Ausgang).
 
 ### Stat-Block-Schablone
 

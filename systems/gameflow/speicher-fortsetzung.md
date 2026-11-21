@@ -1545,8 +1545,7 @@ Raumwechsel `mode: debrief → hq`:
   weil Chronopolis-Assets über `arc.hooks` und Funde gebucht werden.
 - **Arena/PvP-Debrief** (Match-Debrief): 4 Schritte Kurzform — Match-Recap →
   `arena.banked_rewards`-Buchung → ITI-Ruf-Delta (falls getriggert) → HQ-Menü.
-  Tür auf nach Schritt 3 (ITI-Ruf-Delta). Kein XP/Level-Up-Flow, weil PvP
-  außerhalb der Kampagnen-XP-Kurve läuft. Falls kein ITI-Ruf-Delta anfällt,
+  Tür auf nach Schritt 3 (ITI-Ruf-Delta). Kein separater XP/Level-Up-Flow im Match-Debrief; die PvP-XP läuft über die bestehende Pending/Cashout-Verbuchung auf der normalen XP-Kurve (§PvP-only Progression). Falls kein ITI-Ruf-Delta anfällt,
   reicht der Abschluss von Schritt 2.
 
 Alle drei Varianten schalten am Ende `mode="hq"` **und** `location="HQ"`. Erst
@@ -1638,8 +1637,7 @@ der Sequenz):
 4. **HQ-Menü** (bereits `mode="hq"`) — Spieler kehrt ins HQ-Router zurück, `!save`
    freigegeben. `arena.active=false`, `queue_state="idle"`, `previous_mode` geleert.
 
-Der Match-Debrief enthält **keine** Level-Up-Wahl, weil PvP nicht zur
-Kampagnen-XP-Kurve beiträgt. Ein Save während aktiver Queue/Match bleibt blockiert bis
+Der Match-Debrief enthält **keine** sofortige Level-Up-Wahl; die aus der Arena verdiente PvP-XP und die fällige Stufenwahl werden über die bestehende Pending/Cashout-Verbuchung vor der HQ-Save-Freigabe abgewickelt (§PvP-only Progression). Ein Save während aktiver Queue/Match bleibt blockiert bis
 zum Abschluss des Match-Debriefs.
 
 ### Gruppenregel bei Todesfällen (Core/Rift/Chronopolis)
@@ -1683,7 +1681,7 @@ Saves liefern Figurenstände, ohne Rifts oder Kampagnenblöcke zu vereinigen. Zw
 getrennte Rift-Gruppen benötigen daher zwei Leader mit jeweils eigenen Rifts.
 Zwei Rifts desselben Besitzers werden nicht kopiert.
 
-**Kleine v7-Ablage für den persönlichen Rift-Vertrag:** Eigentum, Instanz-ID und Zustand liegen ausschließlich in `campaign.rift_seeds[]` des jeweiligen persönlichen Saves (`id`, `status: open|closed`; eine Abgabe schreibt `closed` und ein `logs.trace[]`-Event `rift_handoff`). Der einmalige Px-5-Payoff wird als kompaktes `logs.trace[]`-Event `rift_payoff` mit `debrief_id`, persönlich zugewiesenen `assigned`-IDs und etwaiger `iti_handoff`-Liste belegt. Seine stabile `payoff_id` verbindet die Leader-ID mit der bereits beim Einsatz festgelegten Abschluss-/Trace-ID; sie entsteht nie aus Loglänge oder Arrayposition. Der letzte Beleg bleibt zusätzlich kompakt als `logs.flags.last_rift_payoff_id` über die Trace-Kürzung erhalten. Der gerade abgerechnete Leader-Payoff gilt als `px=0`, `px_state=consumed`; erst der nächste tatsächlich Px-berechtigte Core-Abschluss wechselt zu `stable` und bucht den regulären TEMP-Zuwachs. Historische Nachweise verhindern nur dieselbe Buchung, Gast-Nachweise verändern Leader-Px nicht. Bekannte Instanz- oder Abschluss-IDs werden nicht nochmals vergeben; gleiche Vorlage mit neuer Instanz-ID ist zulässig. Geschlossene Instanzen werden durch ältere Kopien nicht wieder geöffnet.
+**Kleine v7-Ablage für den persönlichen Rift-Vertrag:** Eigentum, Instanz-ID und Zustand liegen ausschließlich in `campaign.rift_seeds[]` des jeweiligen persönlichen Saves (`id`, `status: open|closed`; eine beendete Rift-Op schreibt nach ihrem Debrief **unabhängig vom Ausgang** `closed`, ebenso schreibt eine Abgabe `closed` und ein `logs.trace[]`-Event `rift_handoff`). Der einmalige Px-5-Payoff wird als kompaktes `logs.trace[]`-Event `rift_payoff` mit `debrief_id`, persönlich zugewiesenen `assigned`-IDs und etwaiger `iti_handoff`-Liste belegt. Seine stabile `payoff_id` verbindet die Leader-ID mit der bereits beim Einsatz festgelegten Abschluss-/Trace-ID; sie entsteht nie aus Loglänge oder Arrayposition. Der letzte Beleg bleibt zusätzlich kompakt als `logs.flags.last_rift_payoff_id` über die Trace-Kürzung erhalten. Der gerade abgerechnete Leader-Payoff gilt als `px=0`, `px_state=consumed`; erst der nächste tatsächlich Px-berechtigte Core-Abschluss wechselt zu `stable` und bucht den regulären TEMP-Zuwachs. Historische Nachweise verhindern nur dieselbe Buchung, Gast-Nachweise verändern Leader-Px nicht. Bekannte Instanz- oder Abschluss-IDs werden nicht nochmals vergeben; gleiche Vorlage mit neuer Instanz-ID ist zulässig. Geschlossene Instanzen werden durch ältere Kopien nicht wieder geöffnet.
 
 **Projektionsreihenfolge im vollständigen persönlichen HQ-Export:** (1) jeden persönlichen Eingangssave als Basis behalten, (2) abgeschlossene Core-Wurzeln nur auf den Leader und persönliche Figuren-/Wallet-/Begleiter-Deltas nur auf ihren Besitzer anwenden, (3) neue Rift-Zuweisungen und Statusänderungen auf dem jeweiligen persönlichen `campaign.rift_seeds[]` darüberlegen, (4) zuletzt Leader-Px-Reset und `rift_payoff`-Trace festschreiben. Dadurch überschreibt kein älterer Abschlussblock neue Seeds oder den Reset; Gast-Rifts können sich ändern, ohne Gast-Core oder Gast-Px vom Leader zu erben. Widersprüchliche Kopien derselben Figur werden abgewiesen statt addiert; der Vertrag verspricht keine globale Erkennung isolierter Kopien.
 

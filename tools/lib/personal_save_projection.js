@@ -133,6 +133,14 @@ function projectPersonalSaves(session, completion = {}) {
       const initial = initialById.get(current.id);
       if (!initial || canonical(initial) !== canonical(current)) projectedById.set(current.id, clone(current));
     }
+    // Eine bereits beim Oeffnen geschlossene Instanz bleibt geschlossen: ein
+    // aelterer Abschlussblock, der sie noch offen zeigt, reaktiviert sie nicht.
+    for (const [seedId, initial] of initialById) {
+      if (initial.status === 'closed') {
+        const entry = projectedById.get(seedId);
+        if (entry && entry.status !== 'closed') projectedById.set(seedId, { ...entry, status: 'closed' });
+      }
+    }
     out.campaign.rift_seeds = [...projectedById.values()];
     if (origin.save.campaign?.px !== origin.initialSave.campaign?.px || origin.save.campaign?.px_state !== origin.initialSave.campaign?.px_state) {
       out.campaign.px = origin.save.campaign.px; out.campaign.px_state = origin.save.campaign.px_state;

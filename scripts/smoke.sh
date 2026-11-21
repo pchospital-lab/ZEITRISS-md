@@ -258,6 +258,10 @@ grep "creator-export-watchguard-ok" out/creator_export_watchguard.log
 node tools/test_rift_action_horror_watchguard.js > out/rift_action_horror_watchguard.log
 grep "rift-action-horror-watchguard-ok" out/rift_action_horror_watchguard.log
 
+# Ops-XP-Scope-Watchguard (XP-Geltung Core-/Rift-Ops gleichermaßen, Chronopolis/Arena/Training keine XP)
+node tools/test_ops_xp_scope_watchguard.js > out/ops_xp_scope_watchguard.log
+grep "ops-xp-scope-watchguard-ok" out/ops_xp_scope_watchguard.log
+
 node tools/test_watchguard_loader_consistency.js > out/watchguard_loader_consistency.log
 grep "watchguard-loader-consistency-ok" out/watchguard_loader_consistency.log
 

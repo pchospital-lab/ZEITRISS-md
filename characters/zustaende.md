@@ -432,7 +432,7 @@ Raumzeitkarte ab. Diese sind erst nach vollständigem Debrief im nächsten freie
 
 Die **Raumzeitkarte** ist ein großflächiges Holodisplay im HQ. Sie zeigt alle bekannten Epochen als
 interaktive Knotenpunkte. Neue Seeds erscheinen dort automatisch, sobald `ClusterCreate()` aktiv
-wird. Aus dem HQ können die Chrononauten über ihr **ITI-Terminal** direkt ein Sprungziel auf der
+wird. Nur **offene** Instanzen erscheinen als aktive Knoten/Reiseziele; nach dem Debriefing einer beendeten Rift-Op wird die geschlossene Instanz von der aktiven Karte entfernt. Aus dem HQ können die Chrononauten über ihr **ITI-Terminal** direkt ein Sprungziel auf der
 Karte anwählen. Im Einsatz blendet die AR-Kontaktlinse verkleinerte Auszüge der Karte ein, um Risse
 oder Missionsziele zu lokalisieren.
 
