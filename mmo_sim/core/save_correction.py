@@ -526,6 +526,214 @@ def resume_hold_via_transport_error_best_effort(
     return mark_adopted(run_dir, repair_key, adopted_block=best_block, best_effort=True)
 
 
+def _pre_send_resumable_own_record(
+    run_dir: str | Path, table_id: str, section_id: str, record: dict, block: dict,
+) -> bool:
+    """ZR-R8-PR3314-Nachzug (F2, 2026-11-21): erkennt GENAU den eigenen,
+    originalgebundenen Nullversuchs-Zwischenstand, den `pursue_pre_send_
+    structural_best_effort` selbst in einem frueheren, unterbrochenen
+    Aufruf angelegt hat -- `validating`/`attempts_used=0` nach einem Abbruch
+    ZWISCHEN `load_or_init_record` und `mark_adopted`, ODER `adopted`/
+    `attempts_used=0,best_effort=True` nach einem Abbruch ZWISCHEN
+    `mark_adopted` und dem zweiten `store.complete_section`. NICHT jeder
+    beliebige Record mit `attempts_used==0` -- jede Abweichung (fremder/
+    laufender Record, ein ANDERER Kandidat, ein offener Gruppenrunden-
+    marker) liefert `False`. Der pauschale Guard im Aufrufer bleibt fuer
+    JEDEN anderen Fall (`attempts_used>=1`, `correction_pending`/
+    `correction_received`/`hold`/`aborted`/`window_paused`, `adopted` OHNE
+    `best_effort`, ein `.open.json`-Marker, oder ein an einen ANDEREN
+    Kandidaten gebundener Record) unveraendert wirksam -- diese Funktion
+    WEITET den Guard NICHT auf, sie erkennt nur den eigenen Zwischenstand
+    innerhalb des bereits bestehenden Guards."""
+    if record.get("operation_key") != ROLE_GROUP:
+        return False
+    if record.get("table_id") != table_id or record.get("section_id") != section_id:
+        return False
+    if record.get("attempts_used", 0) != 0:
+        return False
+    state = record.get("state")
+    if state == STATE_ADOPTED:
+        if not record.get("best_effort"):
+            return False
+        bound = record.get("adopted_block")
+    elif state == STATE_VALIDATING:
+        bound = record.get("bound_block")
+    else:
+        return False
+    if bound != block:
+        return False
+    if has_open_group_round(run_dir, table_id, section_id):
+        return False
+    return True
+
+
+def pursue_pre_send_structural_best_effort(
+    *, lobby, table, section_id: str, harvested: dict, harvest_completion,
+    states_dir, today: str, harvest_validator, persona_state_store, emit=None,
+    prev_ref_override: dict[str, dict | None] | None = None,
+):
+    """ZR-R8-M12 (Save-Correction-Reachability-Fix, 2026-11-21): macht den
+    BEREITS BESTEHENDEN Best-effort-Strukturvertrag (`has_residual_
+    structural_cap_overflow` + `mark_adopted(best_effort=True)`, s.
+    `resume_hold_via_structural_best_effort`/`resume_hold_via_transport_
+    error_best_effort` oben UND `pursue_group_save_correction`s erschoepfter-
+    Budget-Zweig) fuer eine PRE-SEND-Uebernahme (`core.runtime.act`s
+    `finalize(..., pre_send=True)`) erreichbar, OHNE jemals
+    `pursue_group_save_correction`s teuren, GM-Call-ausloesenden
+    Nachbesserungspfad zu betreten -- GENAU das war der kausale Grund, warum
+    `runtime.py`s `and not pre_send`-Gate diesen gesamten Korrekturweg fuer
+    PRE-SEND bisher blockte (s. dortiger Kommentar: verhindert eine
+    VERSTECKTE bezahlte Nachforderung fuer einen fehlenden/fremden Gast).
+    PRE-SEND verlangt dabei weiterhin HQ fuer JEDEN Kandidaten (unveraendert,
+    s. `act()`) -- "!save ausserhalb HQ" ist keine zutreffende Beschreibung
+    dieses Pfades. Ein eigener, bereits VOLLSTAENDIG gebundener PRE-SEND-
+    Kandidat, dessen Restfehler den bereits bestehenden, request-losen
+    Best-effort-Strukturvertrag erfuellt (`has_residual_structural_cap_
+    overflow`: mindestens EIN `maxItems`/`minItems`-Treffer, KEINE
+    Bindungsfehler -- `any(...)`, NICHT "ausschliesslich diese Fehlerklasse";
+    ein Kandidat mit einem Cap-Ueberlauf PLUS einem weiteren, davon
+    unabhaengigen Strukturfehler ist durch diesen Check NICHT automatisch
+    ausgeschlossen), braucht dafuer KEINEN einzigen neuen GM-/Correction-
+    Call: der bereits beobachtete Block selbst ist der best-moegliche
+    Kandidat.
+
+    Die unmittelbare Uebernahme bei `attempts_used==0` OHNE vorherigen
+    Korrekturdatensatz ist eine ZUSAETZLICHE Eintrittsregel dieses Pfades --
+    die historischen Pfade (`resume_hold_via_*`/`pursue_group_save_
+    correction`s erschoepfter-Budget-Zweig) setzen stets erschoepfte
+    Versuche oder einen bestimmten vorherigen HOLD-/Best-Kandidaten-Zustand
+    voraus. Dieser Pfad macht NICHT nur bestehende Voraussetzungen
+    erreichbar, sondern erlaubt zusaetzlich den Nullversuch-Fall.
+
+    All-oder-nichts (wie der bestehende erschoepfter-Budget-Zweig): NUR wenn
+    FUER JEDES `harvest_completion.missing`-Mitglied (a) ein tatsaechlich
+    uebergebener Block existiert, (b) dieser Block `has_residual_structural_
+    cap_overflow` erfuellt, (c) die Identitaet (`persona_state_store.
+    load_state` + `harvest_validator.validate_identity`) VORAB (vor jedem
+    Write) besteht -- exakt wie `store._validate_harvest`, nur frueher --
+    (d) ein mitgegebener `prev_ref_override` (ZR-R8-PR3314-Nachzug F1,
+    2026-11-21) seine Formpruefung besteht (`store._prev_ref_override_
+    hold_reason` -- dieselbe Store-Autoritaet, hier VOR jedem Write
+    aufgerufen, KEINE Zweitimplementierung der Formregeln) UND (e) das
+    Mitglied entweder noch GAR KEINEN Korrekturdatensatz traegt ODER sein
+    vorhandener Record der EIGENE, originalgebundene Nullversuchs-
+    Zwischenstand eines frueheren, unterbrochenen Aufrufs dieser Funktion
+    ist (`_pre_send_resumable_own_record` -- JEDER andere vorhandene Record,
+    auch die drei OFFENEN Zwischenzustaende aus `_OPEN_GROUP_CORRECTION_
+    STATES`, nicht nur die vier terminalen, laesst diesen schnellen Pfad
+    weiterhin abbrechen -- strenger als `pursue_group_save_correction`s
+    `member_fallback_eligible`, damit ein laufender/fremder/besserer Versuch
+    nie stillschweigend adoptiert wird), wird best-effort uebernommen.
+    Scheitert auch nur EIN Mitglied an einer dieser Bedingungen, bleibt
+    `harvested`/`harvest_completion` BYTEGLEICH unveraendert zurueck -- der
+    Aufrufer faellt auf den bestehenden, ehrlichen `missing`-HOLD oder den
+    regulaeren Resume-Pfad zurueck (kein Teil-Write, keine neue Semantik).
+
+    Legt fuer jedes tatsaechlich uebernommene Mitglied genau EINEN
+    Korrekturdatensatz an bzw. nimmt den eigenen Zwischenstand idempotent
+    wieder auf (`load_or_init_record(..., original_block=block)` + `mark_
+    adopted(best_effort=True)`, `attempts_used` bleibt dabei `0` -- ehrlich
+    sichtbar: NULL Zusatzversuche, NULL GM-Calls -- KEIN `begin_attempt`,
+    KEIN Zaehler-Inkrement/-Reset, KEINE Doppelversion) und ruft danach
+    `store.complete_section(..., best_effort=True, prev_ref_override=
+    prev_ref_override)` erneut auf, exakt wie der bestehende erschoepfter-
+    Budget-Zweig -- der mitgegebene `prev_ref_override` (ZR-R8-PR3314-
+    Nachzug F1) wird dabei additiv durchgereicht, damit der ORIGINALE,
+    durabel gebundene Vorgaenger-Snapshot (NICHT der beim Abschluss frisch
+    gelesene Current) als `expected_prev_ref` gepinnt wird."""
+    emit = emit or (lambda *_a, **_k: None)
+    run_dir = lobby.run_dir
+    missing_pks = list(harvest_completion.missing)
+    if not missing_pks:
+        return harvested, harvest_completion
+    adoptable: dict[str, tuple[str, str, dict]] = {}
+    for pk in missing_pks:
+        char_id = table.chrononaut_ids.get(pk)
+        if char_id is None:
+            return harvested, harvest_completion
+        block = harvested.get(pk)
+        if block is None:
+            return harvested, harvest_completion
+        if not has_residual_structural_cap_overflow(block, char_id):
+            return harvested, harvest_completion
+        # ZR-R8-M12 Nachzug (Vera-Critic, 2026-11-21): Identitaet VORAB pruefen,
+        # BEVOR irgendein `mark_adopted` schreibt. `store.complete_section`s
+        # ERSTER Aufruf (ohne `best_effort`, runtime.py vor dieser Funktion)
+        # bricht in `_validate_harvest` (store.py:1792-1795) bei einem
+        # fehlschlagenden `validate_block` sofort mit `continue` ab -- die
+        # Identitaetspruefung (store.py:1797-1804) lief fuer ein ueberlaufendes
+        # Mitglied also NIE. Ohne diese Vorabpruefung schriebe `mark_adopted`
+        # unten zuerst und `complete_section(best_effort=True)` scheiterte
+        # DANACH erst an der Identitaet -- der Korrekturdatensatz bliebe
+        # dauerhaft faelschlich `adopted` (neuer, schlimmerer Dead-End). Gleiche
+        # All-oder-nichts-Logik wie `store._validate_harvest`, nur VOR dem Write.
+        try:
+            identity_state = persona_state_store.load_state(pk, states_dir=states_dir)
+        except FileNotFoundError:
+            return harvested, harvest_completion
+        if not harvest_validator.validate_identity(identity_state, pk, char_id):
+            return harvested, harvest_completion
+        # ZR-R8-PR3314-Nachzug (F1, 2026-11-21): Override-FORMpruefung VOR
+        # jedem Write, neben der Identitaets-Vorabpruefung oben -- derselbe
+        # Fehlerklasse: `store.complete_section`s eigene `_prev_ref_
+        # override_hold_reason`-Pruefung (store.py:2252) liefe sonst erst
+        # NACH dem `mark_adopted`-Write unten, der Korrekturdatensatz bliebe
+        # bei einem unvollstaendigen/falsch getypten Override dann faelschlich
+        # `adopted`, obwohl der Abschluss selbst HOLD zurueckgibt. Dieselbe
+        # Store-Autoritaet (`store._prev_ref_override_hold_reason`), hier nur
+        # VOR jedem Write aufgerufen -- keine Zweitimplementierung der
+        # Formregeln.
+        if (
+            prev_ref_override is not None
+            and store._prev_ref_override_hold_reason(table, prev_ref_override) is not None
+        ):
+            return harvested, harvest_completion
+        repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, char_id)
+        existing_record = load_record(run_dir, repair_key)
+        # ZR-R8-M12 Nachzug (Vera-Critic, 2026-11-21): JEDER bereits bestehende
+        # Korrekturdatensatz bricht diesen schnellen PRE-SEND-Pfad ab -- nicht
+        # nur die 4 terminalen Zustaende, sondern AUCH die drei OFFENEN
+        # Zwischenzustaende (`_OPEN_GROUP_CORRECTION_STATES`:
+        # validating/correction_pending/correction_received, erreichbar nach
+        # Crash/Admission-Pause mitten in `pursue_group_save_correction`).
+        # Sonst biegt `mark_adopted` einen noch LAUFENDEN Versuch -- oder einen
+        # bereits von der SL gelieferten, besseren Kandidaten -- stillschweigend
+        # auf `adopted` um und umgeht die Zustandsmaschine. Fuer den
+        # diagnostizierten `__15`-Fall existiert KEIN Record -> `existing_record
+        # is None` -> no-op. Bei vorhandenem Record uebernimmt der bestehende,
+        # unveraenderte `pursue_group_save_correction`-/Resume-Pfad regulaer --
+        # AUSSER (ZR-R8-PR3314-Nachzug F2, 2026-11-21) der Record ist der
+        # EIGENE, originalgebundene Nullversuchs-Zwischenstand eines frueheren,
+        # durch genau DIESEN Pfad unterbrochenen Aufrufs (`_pre_send_
+        # resumable_own_record`) -- sonst sperrte dieser Pfad dauerhaft seine
+        # eigenen Zwischenstaende (`adopted`/0 bzw. `validating`/0 ohne
+        # `.open.json`-Marker), ohne dass eines der drei bestehenden Reentry-
+        # Praedikate (`has_unfinished_group_round`/`has_resumable_group_hold`/
+        # `has_open_group_round`) je greift -- der Guard selbst wird dadurch
+        # NICHT aufgeweicht, nur der eigene Fall innerhalb des Guards erkannt.
+        if existing_record is not None and not _pre_send_resumable_own_record(
+            run_dir, table.table_id, section_id, existing_record, block,
+        ):
+            return harvested, harvest_completion
+        adoptable[pk] = (repair_key, char_id, block)
+    for pk, (repair_key, char_id, block) in adoptable.items():
+        load_or_init_record(
+            run_dir, repair_key, persona_key=pk, char_id=char_id,
+            operation_key=ROLE_GROUP, table_id=table.table_id, section_id=section_id,
+            original_block=block,
+        )
+        mark_adopted(run_dir, repair_key, adopted_block=block, best_effort=True)
+        emit("save_correction_best_effort", {
+            "section_id": section_id, "table_id": table.table_id, "persona_key": pk,
+        })
+        harvested[pk] = block
+    harvest_completion = store.complete_section(
+        lobby, table, section_id, harvested, states_dir, today, harvest_validator, persona_state_store,
+        best_effort=True, prev_ref_override=prev_ref_override,
+    )
+    return harvested, harvest_completion
+
+
 def mark_window_paused(run_dir: str | Path, repair_key: str, *, reason: str) -> dict:
     """R12-W73 (Invarianten 1/3/4/5): wie `mark_hold`, aber NICHT terminal --
     markiert einen NACHWEISLICH unversandten Deadline-vor-Versand-Block als
