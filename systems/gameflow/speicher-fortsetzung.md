@@ -1554,6 +1554,16 @@ danach ist `!save` erlaubt. Die Missionstyp-Erkennung erfolgt über den
 `continuity.last_seen.mode`-Wert im Moment des Mission-Endes (`core`/`rift` →
 Standard, `chronopolis` → Schleusen-Debrief, `arena` → Match-Debrief).
 
+**Maßgeblich für die Save-Zulässigkeit auf v7-Export-Ebene ist
+`continuity.last_seen.mode == "hq"`** — nicht der literale `location`-String.
+Der exportierte `continuity.last_seen.location` ist eine **beschreibende**
+Ortsangabe: der Standard-Übergang setzt sie auf `"HQ"`, ein gültiger HQ-Stand
+darf aber ebenso eine belegte ITI-Bezeichnung wie `"ITI-HQ, Pre-City-Hub"`
+tragen. Es gilt hier **kein** `location`-Literalzwang; ein `mode="hq"`-Stand
+bleibt zulässig, unabhängig vom konkreten `location`-Text. (Der SaveGuard-
+Pseudocode oben prüft den internen Runtime-Bridge-Token `state.location` vor der
+v7-Normalisierung — eine andere Ebene als dieser Export-Marker.)
+
 ### Ausnahmen, die den Raumvertrag nicht brechen
 
 - **HQ-Verweilen / Quartier-Szenen** (Solo und Gruppe): bleibt `mode="hq"`, `!save`

@@ -1026,19 +1026,44 @@ class SectionRuntime:
 
         def _member_shows_own_progress(entry: dict) -> bool:
             """Order §1 Nachzug (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt
-            1): dieselbe Autoritaet/Pruefung wie `_harvest_own_export` oben
-            -- nur generalisiert auf das Mitglied, dem `entry` selbst
-            zugeschrieben ist (`origin_persona_key`), statt hart auf den
-            Leader verdrahtet. Fuer `_section_completion_recovery.
-            find_pending_leader_export`s Post-Kandidat-Scan: ein NICHT-
-            Leader-Eintrag NACH dem Leader-Kandidaten invalidiert diesen nur,
-            wenn er fuer SEIN EIGENES Mitglied einen echten, vom Current
-            abweichenden Save traegt (echter Gastfortschritt) -- ein blosser
-            Recap/Echo eines UNVERAENDERTEN (ggf. sogar fremden) Currents
-            liefert bewusst `False` (kein stiller Fallback auf einen
-            Scheinbeleg, s. `test_zr_spiel_s1_fixd_save_integrity_gate_
-            2026_11_11.py:test_a2_unadopted_own_block_survives_later_recap_
-            of_old_current`, bereits abgenommene Pending-Commit-Baseline)."""
+            1), Rueckschnitt 2026-11-21 (Flo-Entscheidung A, nach
+            unabhaengigem Critic + am Code nachgeprueftem Ablauf): ein
+            ZWISCHENSTAND dieses Rework hatte zusaetzlich jeden block-freien,
+            request-gebundenen Nicht-Leader-Eintrag invalidiert ("echte
+            Folgen ohne Save"). Diese pauschale Invalidierung ist ENTFERNT.
+
+            Korrigierte Order-Praemisse (General-Nachpruefung): der einzige
+            direkte Gast-`sl_log`-Eintrag ist sein EINMALIGER Import-/Anker-
+            Turn (`run_full_section` "Gaeste einzeln (Import)", `_guests_
+            imported`); jeder spaetere Gastbeitrag laeuft ueber
+            Tischabsprache (`poll_guests_and_consolidate` -> `table_messages`)
+            und wird erst durch eine TATSAECHLICHE Leaderentscheidung zum
+            SL-Spielzug. Ein "echter gespielter Gast-Turn mit Folgen, aber
+            ohne Save" kann als block-freier Gast-`sl_log`-Eintrag im realen
+            Control-Flow also gar nicht entstehen -- der block-freie Zweig
+            traf stattdessen den regulaeren Import-Handshake und invalidierte
+            einen gueltigen Leader-Kandidaten faelschlich (Fehlfire ->
+            zusaetzlicher GM-/Korrekturcall bei `!save`, s.
+            `test_m12_pre_send_adopts_hq_candidate_after_blockless_guest_
+            import_zero_gm_calls`). Echter SPAETERER Spielverlauf wird vom
+            bestehenden Leader-Guard in `_section_completion_recovery.
+            find_pending_leader_export` erfasst (realer Nicht-Save-Leader-
+            `origin_raw_input` nach dem Kandidaten), NICHT hier.
+
+            Es bleibt der enge Guard: dieselbe Autoritaet/Pruefung wie
+            `_harvest_own_export`, nur auf das Mitglied bezogen, dem `entry`
+            zugeschrieben ist (`origin_persona_key`) -- invalidiert NUR, wenn
+            `entry` fuer SEIN EIGENES Mitglied einen bindbaren, vom
+            persistierten Current ABWEICHENDEN Save traegt (echter neuer
+            Gast-Save). Ein blosser Recap/Echo eines unveraenderten (ggf.
+            fremden) Currents liefert `False` (kein Scheinbeleg, s.
+            `test_zr_spiel_s1_fixd_save_integrity_gate_2026_11_11.py:
+            test_a2_unadopted_own_block_survives_later_recap_of_old_current`:
+            der recapte Block gehoert nicht `entry`s Mitglied -> `hit is
+            None` -> `False`). Ein unlesbarer/unresolvbarer Current gilt --
+            wie bei `_harvest_own_export` -- als NICHT gefunden (Unsicherheit
+            ist kein Beweis fuer echten Fortschritt, keine stille
+            Invalidierung)."""
             pk = entry.get("origin_persona_key")
             if pk is None:
                 return False
@@ -1058,40 +1083,73 @@ class SectionRuntime:
             return current_save is None or current_save != hit
 
         def _candidate_hq_hold_reason(entry: dict) -> str | None:
-            """Order §2 (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt 2): das
-            PRE-SEND-Uebernahmepraedikat `_harvest_own_export` prueft nur
-            Schema-Validitaet + Abweichung vom Current -- NICHT, ob der
-            Kandidat ueberhaupt ein HQ-Stand ist. `continuity.last_seen.
-            mode` ist der kanonische, bereits in BEIDEN v7-Schemas
-            verankerte HQ-Marker (`systems/gameflow/saveGame.v7.schema.json`
-            UND `saveGame.v7.export.schema.json`, Enum `["hq", "briefing",
-            "core", "rift", "arena", "chronopolis", "debrief"]`, im Export-
-            Schema Pflichtfeld) -- NICHT `location` (das ist freier Text,
-            s. `tests/mmo_sim/_full_v7_fixture.py`, dort zufaellig
-            `"fixture"`, nicht `"HQ"`). Nur DIESER neue Uebernahmepfad wird
-            abgesichert -- keine globale Schemaaenderung, kein Eingriff in
-            `complete_section`/Importkompat/Final-Save.
+            """Order §2 (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt 2),
+            Rework 2026-11-21 (Generalisierung auf ALLE tatsaechlich
+            uebernommenen Saves): die VORHERIGE Fassung prueft NUR den
+            LEADER (`own_cid_to_pk` hart auf `leader` verdrahtet) --
+            `finalize` erntet aber ueber das VOLLE `cid_to_pk` (`runtime.py:
+            871-874`) UND `store.complete_section` ergaenzt fehlende
+            Mitglieder additiv aus dem J4-ROOTFIX-Seitencache (`store.py:
+            2218-2223`, `_load_pending_valid_block`) -- ein Gast-Save in
+            Chronopolis/Mission, direkt im Gruppenexport ODER aus dem
+            J4-Cache ergaenzt, wurde dadurch unbemerkt als HQ-Abschluss
+            mitgepinnt (belegt: `test_m12_pre_send_mixed_group_holds_on_
+            guest_non_hq_in_group_export`/`..._via_j4_cache`, VOR diesem Fix
+            `written=True` trotz Nicht-HQ-Gast).
 
-            Liefert `None` (= weiter uebernehmen), wenn der Kandidat
-            nachweislich ein HQ-Stand ist; sonst einen menschenlesbaren
-            HOLD-Grund. Ein (noch) fehlendes `mode`-Feld gilt bewusst NICHT
-            als HQ (derselbe Vorsicht wie ueberall in diesem Modul: fehlende
-            Bindung/Information ist kein Beweis FUER Zulaessigkeit)."""
-            cid_to_pk = self.table.chrononaut_id_to_persona()
-            own_cid_to_pk = {cid: pk for cid, pk in cid_to_pk.items() if pk == leader}
-            if not own_cid_to_pk:
-                return None
-            hit = self.harvest_extractor(entry.get("content") or "", own_cid_to_pk).get(leader)
-            if hit is None:
-                return None
-            mode = (hit.get("continuity") or {}).get("last_seen", {}).get("mode")
-            if mode == "hq":
-                return None
-            return (
-                "Eigener vollstaendig gueltiger Stand liegt vor, ist aber kein HQ-Stand "
-                f"(continuity.last_seen.mode={mode!r}) -- Speicherabschluss haelt, bis am "
-                "HQ gespeichert wird."
-            )
+            Prueft jetzt GENAU die Menge, die `complete_section`
+            tatsaechlich pinnen wuerde -- VOR dem Gate, rein lesend: fuer
+            JEDES `pk in self.table.members` zuerst `harvest_extractor
+            (entry['content'], cid_to_pk).get(pk)` (volles `cid_to_pk`,
+            deckt Fall (a) "direkt im Gruppenexport" ab), sonst EXAKT
+            denselben J4-Supplement-Pfad wie `store.py:2221` spiegeln
+            (`store._load_pending_valid_block`, deckt Fall (b) "nur im
+            Cache" ab) -- kein neuer Mechanismus, derselbe Helfer.
+
+            `continuity.last_seen.mode` bleibt der kanonische, bereits in
+            BEIDEN v7-Schemas verankerte HQ-Marker (`systems/gameflow/
+            saveGame.v7.schema.json` UND `saveGame.v7.export.schema.json`,
+            Enum `["hq", "briefing", "core", "rift", "arena", "chronopolis",
+            "debrief"]`, im Export-Schema Pflichtfeld) -- NICHT `location`
+            (freier Text, s. `tests/mmo_sim/_full_v7_fixture.py`, dort
+            zufaellig `"fixture"`; ein echter HQ-Stand darf z.B.
+            `location == "ITI-HQ, Pre-City-Hub"` tragen, s.
+            `test_m12_pre_send_mixed_group_adopts_full_hq_group_zero_gm_
+            calls`). Ein Mitglied OHNE jeden uebernommenen Save (weder
+            content noch Cache) ist NICHT Sache dieses Gates -- das meldet
+            `complete_section` unveraendert als `missing` (bestehender
+            Fall-2-HOLD, s. `test_m12_pre_send_mixed_group_holds_without_
+            hidden_correction_call`); dieses Gate HOLDet NUR auf einen
+            VORHANDENEN, aber Nicht-HQ-Save. Ein (noch) fehlendes
+            `mode`-Feld gilt bewusst NICHT als HQ (dieselbe Vorsicht wie
+            ueberall in diesem Modul: fehlende Bindung/Information ist kein
+            Beweis FUER Zulaessigkeit).
+
+            Liefert `None` (= weiter uebernehmen), wenn ALLE so ermittelten
+            Saves nachweislich HQ-Staende sind; sonst einen
+            menschenlesbaren, mitglied-benennenden HOLD-Grund fuer den
+            ERSTEN gefundenen Nicht-HQ-Fall."""
+            full_cid_to_pk = self.table.chrononaut_id_to_persona()
+            harvested = self.harvest_extractor(entry.get("content") or "", full_cid_to_pk)
+            for pk in self.table.members:
+                hit = harvested.get(pk)
+                if hit is None:
+                    hit = store._load_pending_valid_block(
+                        self.lobby.run_dir, self.table.table_id, section_id,
+                        self.table.chrononaut_ids[pk],
+                    )
+                if hit is None:
+                    # Kein content-/Cache-Beleg fuer dieses Mitglied -- Sache
+                    # von `complete_section`s `missing`-Zweig, nicht dieses Gates.
+                    continue
+                mode = (hit.get("continuity") or {}).get("last_seen", {}).get("mode")
+                if mode != "hq":
+                    return (
+                        f"Mitglied {pk!r}: vollstaendig gueltiger Stand liegt vor, ist aber kein "
+                        f"HQ-Stand (continuity.last_seen.mode={mode!r}) -- Speicherabschluss haelt, "
+                        "bis am HQ gespeichert wird."
+                    )
+            return None
 
         def marker_hit(text: str) -> bool:
             return completion_marker_matches(text, self.marker, self.table.table_id, section_id)
