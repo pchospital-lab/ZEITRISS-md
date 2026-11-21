@@ -92,7 +92,7 @@ const hqDocs = [
 
 let saveHintHits = 0;
 let noAutoBriefingHits = 0;
-let newChatHintHits = 0;
+let handoverHintHits = 0;
 
 for (const relPath of hqDocs) {
   const text = getDocText(relPath);
@@ -100,14 +100,14 @@ for (const relPath of hqDocs) {
   if (/(?:kein\s+automatisches?[^\n.]*briefing|kein\s+auto-weiterleitungsdruck[^\n.]*briefing|nicht\s+automatisch[^\n.]*briefing)/i.test(text)) {
     noAutoBriefingHits += 1;
   }
-  if (/(?:neue[nm]?\s+chat[^\n.]*(?:empfohlen|pflicht)|(?:empfohlen|pflicht)[^\n.]*neue[nm]?\s+chat)/i.test(text)) {
-    newChatHintHits += 1;
+  if (/den\s+Abschnitt\s+abschließen/i.test(text)) {
+    handoverHintHits += 1;
   }
 }
 
 assert.ok(saveHintHits >= 2, `HQ-Save-Hinweisdrift: 'Deepsave möglich' nur ${saveHintHits}/4 Treffer.`);
 assert.ok(noAutoBriefingHits >= 2, `HQ-Flow-Drift: 'kein Auto-Briefing' nur ${noAutoBriefingHits}/4 Treffer.`);
-assert.ok(newChatHintHits >= 2, `Chatwechsel-Hinweisdrift: 'neuer Chat empfohlen' nur ${newChatHintHits}/4 Treffer.`);
+assert.ok(handoverHintHits >= 2, `Save-Handover-Drift: oberflächenneutraler Anschluss ('den Abschnitt abschließen') nur ${handoverHintHits}/4 Treffer.`);
 
 const hqPerDocRuleMatrix = [
   {
@@ -129,11 +129,12 @@ const hqPerDocRuleMatrix = [
     ]
   },
   {
-    // N1 (2026-11-12): HQ-/Abschnittsvertrag verschaerft 'neuer Chat empfohlen'
-    // in MP + Save-SSOT zu 'Pflicht, kein Verzicht'. Anker akzeptiert daher die
-    // Pflicht-Formulierung gleichwertig zur frueheren Empfehlung.
-    label: 'hq-neuer-chat-empfohlen-anker',
-    regex: /(?:neue[nm]?\s+chat[^\n.]*(?:empfohlen|pflicht)|(?:empfohlen|pflicht)[^\n.]*neue[nm]?\s+chat)/i,
+    // R8 (2026-11-20, Flo-Order §1): Der oberflaechenneutrale Ersatzvertrag ERSETZT
+    // die frueheren unbedingten 'JSON in neuem Chat laden - Pflicht'-Anweisungen.
+    // Der Anker schuetzt jetzt den surface-neutralen Post-Save-Handover - jeder
+    // HQ-Doc muss den 'Abschnitt abschliessen'-Anschluss tragen (kein UI-Pfad).
+    label: 'hq-oberflaechenneutraler-anschluss-anker',
+    regex: /den\s+Abschnitt\s+abschließen/i,
     docs: hqDocs
   }
 ];

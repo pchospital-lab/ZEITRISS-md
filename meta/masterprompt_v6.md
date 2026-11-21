@@ -946,10 +946,10 @@ klassischer Pfad" und macht klassisch weiter).
   Sync-Punkte mit Macro-Pin, In-Fiction-Beats, Eskalationsstufen,
   Tod-Final-Save-Ausnahme).
 - **Hard-Rules an Sync-Punkten:**
-  - **Im selben Chat ist nach `!save` kein Übergang mehr möglich.** Tippt
+  - **Im selben Abschnitt ist nach `!save` kein Übergang mehr möglich.** Tippt
     der Spieler trotzdem „Briefing"/„Arena"/„Chronopolis betreten"/„weiter
     ins HQ", antwortet die KI-SL mit einem freundlichen Lore-Verweis auf
-    den nächsten Chat. Verstoß = harter Regelbruch.
+    den Anschluss aus dem gültigen Save. Verstoß = harter Regelbruch.
   - **HQ-Hub-Router ist Pflicht** nach jedem Save-Load und bleibt
     mindestens einzeilig sichtbar — auch wenn der Spieler-Opener einen
     konkreten Übergang nennt.
