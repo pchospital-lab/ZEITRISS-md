@@ -92,7 +92,15 @@ const hqDocs = [
 
 let saveHintHits = 0;
 let noAutoBriefingHits = 0;
-let newChatHintHits = 0;
+let handoverHintHits = 0;
+
+// Order §4 Nachzug (2026-11-21, 03_FIXAUFTRAG.md Restpunkt 4): die reine
+// Phrasenpraesenz-Pruefung ('den Abschnitt abschließen', gleich WO im Doc)
+// wuerde durch den Order-§3-Fix ROT, weil `core/sl-referenz.md` diese exakte
+// Phrase NUR noch an den beiden jetzt entfernten Widerspruchsstellen trug.
+// Erweitert (NICHT geschwaecht) um die gleichwertigen, jetzt verwendeten
+// Formulierungen derselben oberflaechenneutralen Anschluss-Zusage.
+const HANDOVER_ANCHOR_RE = /den\s+Abschnitt\s+abschließen|der\s+Abschnitt\s+endet\s+hier|Anschluss\s+folgt\s+aus\s+dem\s+g[uü]ltigen\s+Save/i;
 
 for (const relPath of hqDocs) {
   const text = getDocText(relPath);
@@ -100,14 +108,64 @@ for (const relPath of hqDocs) {
   if (/(?:kein\s+automatisches?[^\n.]*briefing|kein\s+auto-weiterleitungsdruck[^\n.]*briefing|nicht\s+automatisch[^\n.]*briefing)/i.test(text)) {
     noAutoBriefingHits += 1;
   }
-  if (/(?:neue[nm]?\s+chat[^\n.]*(?:empfohlen|pflicht)|(?:empfohlen|pflicht)[^\n.]*neue[nm]?\s+chat)/i.test(text)) {
-    newChatHintHits += 1;
+  if (HANDOVER_ANCHOR_RE.test(text)) {
+    handoverHintHits += 1;
   }
 }
 
 assert.ok(saveHintHits >= 2, `HQ-Save-Hinweisdrift: 'Deepsave möglich' nur ${saveHintHits}/4 Treffer.`);
 assert.ok(noAutoBriefingHits >= 2, `HQ-Flow-Drift: 'kein Auto-Briefing' nur ${noAutoBriefingHits}/4 Treffer.`);
-assert.ok(newChatHintHits >= 2, `Chatwechsel-Hinweisdrift: 'neuer Chat empfohlen' nur ${newChatHintHits}/4 Treffer.`);
+assert.ok(handoverHintHits >= 2, `Save-Handover-Drift: oberflächenneutraler Anschluss nur ${handoverHintHits}/4 Treffer.`);
+
+// Order §4 (2026-11-21): Save-Angebot VOR Export und Abschluss NACH Export
+// GETRENNT strukturell absichern (Reihenfolge, nicht nur Phrasenpraesenz) --
+// genau der Order-§3-Widerspruch war: einige Docs verlangten NACH dem
+// Export erneut `!save`. `EXPORT_CONCLUSION_RE` markiert eine Textstelle,
+// die einen bereits erfolgten Export/Abschluss beschreibt (deckt sowohl
+// 'nach Export ...' als auch 'nach Save folgt ...' ab, die beiden
+// tatsaechlich aufgetretenen Formulierungen). Je Fundstelle darf das
+// unmittelbare Umfeld (200 Zeichen, kein ganzes Dokument) KEINE erneute
+// `!save`-Aufforderung tragen -- eine Assertion pro Fundstelle, nicht nur
+// ein globaler Boolean (Order woertlich: "FEHLSCHLÄGT, wenn ... NACH dem
+// Export erneut `!save` verlangt").
+const EXPORT_CONCLUSION_RE = /nach\s+(?:dem\s+)?(?:vollst[aä]ndigen\s+)?(?:Save-)?Export|nach\s+Save\s+folgt|beendet\s+sie\s+den\s+Abschnitt|Sync\s+abgeschlossen/gi;
+const SAVE_OFFER_RE = /deepsave\s+möglich/gi;
+const REPEATS_SAVE_REQUEST_RE = /mit\s+`?!save|bietet[^\n]{0,80}`?!save[^\n]{0,20}an/i;
+
+function matchIndexes(text, globalRegex) {
+  const out = [];
+  let m;
+  globalRegex.lastIndex = 0;
+  while ((m = globalRegex.exec(text)) !== null) {
+    out.push(m.index);
+    if (m[0].length === 0) globalRegex.lastIndex += 1; // Endlosschleifenschutz bei Nulltreffern.
+  }
+  return out;
+}
+
+for (const relPath of hqDocs) {
+  const text = getDocText(relPath);
+  const conclusionIdx = matchIndexes(text, EXPORT_CONCLUSION_RE);
+  const offerIdx = matchIndexes(text, SAVE_OFFER_RE);
+
+  for (const idx of conclusionIdx) {
+    const window = text.slice(idx, idx + 200);
+    assert.ok(
+      !REPEATS_SAVE_REQUEST_RE.test(window),
+      `Save-Handover-Drift (Order §3/§4) in ${relPath}: NACH dem Export/Save wird erneut '!save' verlangt -- Ausschnitt: ${JSON.stringify(window.slice(0, 140))}`
+    );
+  }
+
+  // Save-Angebot VOR Export: nur pruefbar, wenn der Doc UEBERHAUPT einen
+  // Export-Abschluss beschreibt (s.o.) UND ein Save-Angebot zeigt -- sonst
+  // kein erzwingbarer Bezug (kein falscher Druck auf Docs ohne beides).
+  if (offerIdx.length > 0 && conclusionIdx.length > 0) {
+    assert.ok(
+      offerIdx.some((i) => i < conclusionIdx[0]),
+      `Save-Angebot-vor-Export-Drift (Order §4) in ${relPath}: 'Deepsave möglich' steht nicht vor dem ersten Export-/Save-Abschluss.`
+    );
+  }
+}
 
 const hqPerDocRuleMatrix = [
   {
@@ -129,11 +187,17 @@ const hqPerDocRuleMatrix = [
     ]
   },
   {
-    // N1 (2026-11-12): HQ-/Abschnittsvertrag verschaerft 'neuer Chat empfohlen'
-    // in MP + Save-SSOT zu 'Pflicht, kein Verzicht'. Anker akzeptiert daher die
-    // Pflicht-Formulierung gleichwertig zur frueheren Empfehlung.
-    label: 'hq-neuer-chat-empfohlen-anker',
-    regex: /(?:neue[nm]?\s+chat[^\n.]*(?:empfohlen|pflicht)|(?:empfohlen|pflicht)[^\n.]*neue[nm]?\s+chat)/i,
+    // R8 (2026-11-20, Flo-Order §1): Der oberflaechenneutrale Ersatzvertrag ERSETZT
+    // die frueheren unbedingten 'JSON in neuem Chat laden - Pflicht'-Anweisungen.
+    // Der Anker schuetzt jetzt den surface-neutralen Post-Save-Handover - jeder
+    // HQ-Doc muss den oberflaechenneutralen Anschluss tragen (kein UI-Pfad).
+    // Order §4 Nachzug (2026-11-21): Regex um die nach Order §3 jetzt
+    // verwendeten gleichwertigen Formulierungen erweitert (dieselbe
+    // `HANDOVER_ANCHOR_RE` wie oben, kein zweiter, driftender Ausdruck) --
+    // die eigentliche Reihenfolge (vor/nach Export) sichert der separate
+    // Block oben strukturell ab, nicht diese reine Praesenzpruefung.
+    label: 'hq-oberflaechenneutraler-anschluss-anker',
+    regex: HANDOVER_ANCHOR_RE,
     docs: hqDocs
   }
 ];

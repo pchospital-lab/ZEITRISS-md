@@ -830,31 +830,40 @@ Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL vor jedem Briefing:
    den anderen sieben Sync-Punkten):
    `Kodex: HQ-Stand stabil. Deepsave möglich.`
    `Kodex: Vor Übergang !save tippen — Stand sichern.`
-   `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
-3. **HQ-Menü-Angebot** (4 Optionen, mit expliziter Save-Option — die Wahl wird für den
+   `Kodex: Mit !save den Abschnitt abschließen.` (oberflächenneutral — SSOT
+   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag regelt
+   den Anschluss je Betriebsart; keine Bedienweg-Annahme hier im Kodex-Text.)
+3. **HQ-Menü-Angebot** (3 nummerierte Optionen + Save-Option — die Wahl wird für den
    geladenen HQ-Hub im nächsten Spielkontext vorgemerkt, sie startet noch keine weitere
    Handlung im Erschaffungskontext):
-   - `Erkunden` (Manuell-HQ, vorgemerkt als HQ-Runde nach Save/Load)
-   - `Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
-   - `Auto-HQ` (direkt zum Save-Export)
-   - `!save` / `Speichern` (explizit wählbar)
+   - `1) Erkunden` (Manuell-HQ, vorgemerkt als HQ-Runde nach Save/Load)
+   - `2) Schnell-HQ` (auch bei Lvl 1 konsistent anbieten, dient als Menü-Anker)
+   - `3) Auto-HQ` (automatische HQ-Pflichtschritte, bietet anschließend
+     separat `!save` an — die Ziffer selbst erzeugt keinen Export)
+   - `!save` / `Speichern` — **UNNUMMERIERT**, keine eigene Ziffer: eine
+     Ziffer bleibt ausschließlich für die drei Erkundungsoptionen reserviert;
+     eine beliebige Ziffer oder freie Prosa als Save-Kommando zu deuten ist
+     unzulässig (SSOT `systems/gameflow/speicher-fortsetzung.md`
+     §Zentraler-Ersatzvertrag).
 4. **Briefing-Sprung-Block (HART) — vor erstem `!save`:** Tippt der Spieler
    Trigger wie "Briefing", "erste Mission", "Auftrag", "Einsatz", "Los",
    "Sprung ausführen", "Springen jetzt" **bevor** der Chargen-Deepsave
    als JSON-Block ausgegeben wurde — **springt die KI-SL NICHT**.
    Stattdessen Kodex-Block:
    `Kodex: Sprung-Block — Chargen-Save-Gate noch nicht passiert.`
-   `Kodex: Bitte erst !save tippen, JSON kopieren, neuen Chat öffnen,`
-   `Kodex: JSON dort einfügen — Briefing startet im neuen Chat aus dem HQ-Hub.`
-   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener Chat.
-   Das Briefing gehört in den nächsten Chat, nicht in den Chargen-Chat.
-   Verstoss = harter Regelbruch.
+   `Kodex: Bitte erst !save tippen — der Abschnitt schließt ab, das Briefing`
+   `Kodex: folgt im Anschluss aus dem HQ-Hub.`
+   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener
+   Spielkontext. Das Briefing gehört in den nächsten Abschnitt, nicht in
+   den Chargen-Abschnitt. Verstoss = harter Regelbruch.
 5. **Briefing-Sprung nach erstem `!save`:** Sobald der Deepsave als JSON-Block
-   ausgegeben wurde, ist der Chargen-Chat zu Ende. Trigger-Wörter führen
-   im selben Chat **nicht** mehr ins Briefing — stattdessen Lore-Verweis
-   auf neuen Chat (analog Hard-Rule "nach `!save` kein Übergang im selben
-   Chat"). Briefing startet erst, wenn der Spieler den Save in einem neuen
-   Chat lädt und im HQ-Hub `Briefing` wählt.
+   ausgegeben wurde, ist der Chargen-Abschnitt zu Ende. Trigger-Wörter
+   führen in DIESEM Abschnitt **nicht** mehr ins Briefing — stattdessen
+   Lore-Verweis auf den Anschluss (analog Hard-Rule "nach `!save` kein
+   Übergang im selben Abschnitt"). Briefing startet erst nach dem
+   verwalteten Anschluss aus dem gültigen Save, wenn im HQ-Hub `Briefing`
+   gewählt wird (Bedienweg je Betriebsart: SSOT
+   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag).
 
 *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine "Fast-Lane"-Ausnahme
 (`solo schnell` / `gruppe schnell`), die Chargen-Save-Gate und HQ-Heimkehr
@@ -913,21 +922,35 @@ klassischer Pfad" und macht klassisch weiter).
 
 ### Speichern
 
+- **Abschnittswechsel und Bedienweg (oberflächenneutraler Vertrag, SSOT
+  `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag).**
+  Jeder abgeschlossene Abschnitt wird aus dem gültigen persönlichen Save in
+  einem frischen Spielkontext fortgesetzt. Im eigenständigen Chatbetrieb
+  öffnet der Spieler dafür einen neuen Chat und lädt seinen Save. Im
+  ausdrücklich gekennzeichneten Terminalbetrieb verwaltet der Client diesen
+  Kontextwechsel im selben Fenster. Die KI-SL fordert dabei **keinen**
+  Bedienweg an — kein Browserwechsel, kein manuelles Kopieren/Einfügen von
+  JSON als Anweisung an den Spieler. Nach dem vollständigen Save-Export
+  beendet sie den Abschnitt und wartet auf den Anschluss; die tatsächliche
+  Speicherung bestätigt der Client, nicht die SL-Aussage. HQ-only-SaveGuard,
+  persönliche Save-Bindungen und der frische Spielkontext gelten in beiden
+  Betriebsarten unverändert — keine wiederholte Technikbelehrung im
+  laufenden Spiel.
 - **Nur im HQ:** Save-Output ist exklusiv an HQ-Status gebunden (siehe HQ-Save-Bedingungen unten). Save-Angebote erfolgen automatisch an allen acht Abschnittsübergängen — siehe Sync-Handover-Klausel direkt darunter.
 - **Save-Sync-Handover an Abschnittsübergängen (verbindlich).** Jeder
   Abschnittsübergang (HQ ↔ Mission/Rift, HQ ↔ Chronopolis, HQ ↔ Arena,
   Chargen → HQ) folgt einem einheitlichen Sync-Handover-Pattern: kurzer
-  In-Fiction-Beat → Kodex-Save-Angebot → `!save`-JSON → Chat-Wechsel-
-  Verweis → HQ-Hub-Router im neuen Chat. Aus Spielersicht ein Lore-Beat,
+  In-Fiction-Beat → Kodex-Save-Angebot → `!save`-JSON → Anschluss-
+  Verweis → HQ-Hub-Router im frischen Spielkontext. Aus Spielersicht ein Lore-Beat,
   technisch ein Gate. **SSOT** in
   `systems/gameflow/speicher-fortsetzung.md` §Save-Sync-Handover (8
   Sync-Punkte mit Macro-Pin, In-Fiction-Beats, Eskalationsstufen,
   Tod-Final-Save-Ausnahme).
 - **Hard-Rules an Sync-Punkten:**
-  - **Im selben Chat ist nach `!save` kein Übergang mehr möglich.** Tippt
+  - **Im selben Abschnitt ist nach `!save` kein Übergang mehr möglich.** Tippt
     der Spieler trotzdem „Briefing"/„Arena"/„Chronopolis betreten"/„weiter
     ins HQ", antwortet die KI-SL mit einem freundlichen Lore-Verweis auf
-    den nächsten Chat. Verstoß = harter Regelbruch.
+    den Anschluss aus dem gültigen Save. Verstoß = harter Regelbruch.
   - **HQ-Hub-Router ist Pflicht** nach jedem Save-Load und bleibt
     mindestens einzeilig sichtbar — auch wenn der Spieler-Opener einen
     konkreten Übergang nennt.
@@ -942,7 +965,7 @@ klassischer Pfad" und macht klassisch weiter).
     wurde — unabhängig davon, ob dabei schon ein `!save` erfolgte.
   - **Pre-Rift-Reihenfolge:** erst `chrono_can_launch_rift()`-Gate (freies HQ, offene eigene Leader-Instanz, kein Briefing/
     Debrief/Transfer/Exfil und keine belegte Arena-Queue), bei `false` höflicher Refusal-Beat **ohne** Sync; bei
-    `true` Sync-Beat → `!save` → Chat-Wechsel.
+    `true` Sync-Beat → `!save` → Anschluss.
   - **Tod-Final-Save ist KEIN Sync-Punkt** — kein Sync-Beat vor Final-Save,
     das filmische Ende ist die Lore-Verankerung.
   - **Squad-Manöver innerhalb einer Mission sind KEIN Split:** Wenn die

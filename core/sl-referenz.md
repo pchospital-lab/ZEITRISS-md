@@ -605,10 +605,13 @@ Final-Save-Ort ist damit eindeutig: das Debriefing selbst, nicht ein
 separater Zwischen-Sync.
 
 **Handover-Ablauf an jedem Sync-Punkt identisch:** In-Fiction-Beat → Kodex-
-Save-Angebot → `!save`-JSON → Chat-Wechsel-Verweis. Im selben Chat ist nach
-Save kein Übergang mehr möglich — Tippt der Spieler trotzdem den
-Übergangsbefehl, kommt ein freundlicher Lore-Verweis auf den nächsten Chat
-mit HQ-Hub-Router. Vollständige SSOT-Doku in
+Save-Angebot → `!save`-JSON → Abschlussbestätigung (oberflächenneutral; der
+Anschluss folgt aus dem gültigen Save, Bedienweg je Betriebsart regelt
+`systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag — die SL
+errät keinen UI-Pfad). Im selben Abschnitt ist nach Save kein Übergang mehr
+möglich — tippt der Spieler trotzdem den Übergangsbefehl, kommt ein
+freundlicher Hinweis, dass der Anschluss erst aus dem gültigen Save im
+nächsten Abschnitt folgt. Vollständige SSOT-Doku in
 [Modul 12 § Save-Sync-Handover][modul12].
 
 Für Stabilität gilt: pro **Spielabschnitt** ein frischer Chat mit
@@ -683,25 +686,25 @@ Ausführliche Tabellen stehen in
 [core/zeitriss-core.md](zeitriss-core.md) und
 [core/wuerfelmechanik.md](wuerfelmechanik.md).
 
-Die **Riftstufe** entspricht der Anzahl offener Seeds. Erst nach der Episode
-erhöht jeder Seed den Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1
-Seed = ×1.2, 2 Seeds = ×1.4 usw.). Details findet ihr unter
-[Offene Rifts](../gameplay/kampagnenstruktur.md#offene-rifts).
-Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Episodenende anzeigen.
-Ein Seed entspricht einem Stern und erhöht die Schwelle um +1.
-Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
+Die **Riftstufe** entspricht der Anzahl offener Leader-Seeds. `apply_rift_mods_at_
+mission_start()` liest diese unmittelbar VOR jedem Core-/Rift-Start — ein fester
+Snapshot, kein Warten auf ein Episodenende — und setzt daraus den gedeckelten
+Schwierigkeits- und Belohnungszuschlag: `sg_bonus = min(3, offene Seeds)` sowie
+`cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`. Details findet ihr unter
+[Offene Rifts](../gameplay/kampagnenstruktur.md#offene-rifts) und in der SSOT
+[Paradoxon-Index](../systems/gameflow/speicher-fortsetzung.md#paradoxon-index).
+Rift-Missionen verwenden weiße Stern-Symbole (☆) für diesen bereits gedeckelten
+SG-Bonus. Ein Seed entspricht einem Stern; ab drei Sternen bleibt der Bonus bei
+`+3` stehen, egal wie viele weitere Seeds offen sind.
 [Kreative Generatoren](../gameplay/kreative-generatoren-missionen.md).
 
 ### Difficulty-Konverter
 
-| ☆-Symbole | SG-Zuschlag |
-| --------- | ----------- |
-| ☆         | +1          |
-| ☆☆        | +2          |
-| ☆☆☆       | +3          |
-| ☆☆☆☆      | +4          |
-| ☆☆☆☆☆     | +5          |
-| ☆☆☆☆☆+    | +6 und mehr |
+| ☆-Symbole | SG-Zuschlag (gedeckelt, `sg_bonus=min(3,n)`) |
+| --------- | --------------------------------------------- |
+| ☆         | +1                                             |
+| ☆☆        | +2                                             |
+| ☆☆☆ und mehr | +3 (Deckel, unabhängig von weiteren Seeds) |
 
 Paramonster und Bosse verwenden Totenkopf-Icons (💀) als eigenen
 Schwierigkeitswert. Das HUD blendet 💀 **kontextsensitiv bei Boss-Encounters**
@@ -718,12 +721,19 @@ den Abschnitt zum
 
 - `ClusterCreate()`
 - `ClusterDashboard()`
-- `launch_rift(id)` - startet nach der Episode eine eigenständige
-  Rift-Mission
+- `launch_rift(id)` - startet eine Rift-Mission aus einem Seed, sobald die
+  eigene offene Leader-Rift-Instanz im freien HQ gewählt wurde — auch mitten
+  in einer laufenden Episode, kein Episodenabschluss nötig. Erhöht
+  `campaign.episode` NICHT; der Einsatz läuft als `phase:"rift"` innerhalb
+  der laufenden Episode (bestehender Abschnittsrhythmus, SSOT
+  [speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)).
 - `scan_artifact()`
 - `seed_to_hook(id)`
 - `resolve_rifts(ids)`
-  - lässt ein ITI-Team Seeds nach einer Mission beseitigen (50/50 Bericht)
+  - gibt eigene offene Seeds im freien HQ kostenlos, endgültig und idempotent
+    ab und markiert sie als geschlossen (kein ITI-Team-Bericht, keine
+    50/50-Auslosung, keine zusätzliche Abrechnung — nur Bestand und
+    künftiger Rift-SG-/CU-Zusatz ändern sich)
 
 ### KPI-Cheat-Sheet pro Phase
 
@@ -1083,11 +1093,15 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
    Fraktions-RP, Feilschen und ausführlichem Briefing und Quartier-Rollenspiel.
 3. **Auto-HQ -> Save anbieten** - automatische Abwicklung der
    HQ-Pflichtschritte, danach folgt **kein** automatischer Sprung ins nächste
-   Briefing. Kodex bietet stattdessen einmal `!save` an und gibt nach Export den
-   Hinweis: `HQ-Stand stabil. Deepsave möglich. Für den nächsten Abschnitt JSON in
-neuem Chat laden — Pflicht, kein Verzicht.` Nach vollständigem Export eröffnet das
-   HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Chat — die nächste
-   HQ-Runde beginnt erst im frisch geladenen Spielkontext.
+   Briefing. Kodex bietet VOR dem Export einmal `!save` an (unnummeriert,
+   getrennt von den drei nummerierten Optionen) mit dem Hinweis `HQ-Stand
+   stabil. Deepsave möglich.` und bestätigt NACH dem vollständigen Export nur
+   noch den Abschluss: `Sync abgeschlossen. Der Abschnitt endet hier — der
+   Anschluss folgt aus dem gültigen Save.` (oberflächenneutral — SSOT
+   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag regelt
+   den Anschluss je Betriebsart). Nach vollständigem Export eröffnet das
+   HQ-Menü keine neue ausgespielte HQ-Runde mehr im selben Spielkontext — die
+   nächste HQ-Runde beginnt erst im frisch geladenen Spielkontext.
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 
@@ -1096,8 +1110,13 @@ bei **allen** folgenden Zuständen ausgelöst (einmal pro Zustand, kein Spam):
 
 1. **Chargen-Ende (klassischer Pfad)** - Charakterbogen vollständig ausgegeben,
    Spieler im HQ (kurzer atmosphärischer Heimkehrbeat, kein vollwertiges HQ-Spiel).
-   Das HQ-Menü wird um eine vierte Option erweitert: `!save` / `Speichern` als direkt
-   wählbaren Pfad. **Kein automatischer Sprung ins Briefing**, auch nicht auf
+   Zusätzlich zu den nummerierten HQ-Menüpunkten bietet die KI-SL `!save` /
+   `Speichern` als eigene, UNNUMMERIERTE ausführbare Aktion an — kein eigener
+   Menüpunkt mit einer Ziffer. Eine Ziffer bleibt ausschließlich für die
+   nummerierten Optionen reserviert; eine beliebige Ziffer oder freie Prosa
+   als Save-Kommando zu deuten ist unzulässig (SaveGuard/Provenienz bleiben
+   scharf, SSOT [speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md#zentraler-ersatzvertrag)).
+   **Kein automatischer Sprung ins Briefing**, auch nicht auf
    Dialog-Optionen wie *"Ins Briefing gehen"*; die bloße Spielerentscheidung überspringt
    den Übergang nicht — das Briefing beginnt erst nach Save und Load im frischen
    Spielkontext.

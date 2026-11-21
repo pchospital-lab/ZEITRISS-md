@@ -209,7 +209,13 @@ def test_b_real_save_command_at_the_gate_passes_through_to_completion():
     """(b) am Gate `!save` -> laeuft durch (completion/Ingest-Pfad erreicht).
     Ablauf: normale Aktion zeigt den unsavten Save (Gate aktiv) -> eine
     weitere normale Aktion wird ABGEWIESEN (echt 'am Gate') -> `!save`
-    kommt vorbei und loest den echten zweiten GM-Call + Abschluss aus."""
+    kommt am Gate vorbei.
+
+    REWORK (ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1, Order §2): `!save`
+    erreicht den GM danach GAR NICHT MEHR -- PRE-SEND uebernimmt den
+    bereits gezeigten Export (`fixture-b-001`) direkt (0 statt 1 Call);
+    der zweite gescriptete Eintrag (`fixture-b-002`) bleibt bewusst
+    unkonsumiert."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -218,6 +224,7 @@ def test_b_real_save_command_at_the_gate_passes_through_to_completion():
 
         gm = _ScriptedTableGm([
             _save_block_text("fixture-b-001"),
+            # KEIN zweiter Eintrag mehr konsumiert -- PRE-SEND haelt '!save' an.
             _save_block_text("fixture-b-002", level=3),
         ])
         printed: list[str] = []
@@ -238,11 +245,16 @@ def test_b_real_save_command_at_the_gate_passes_through_to_completion():
         except EndOfInput:
             pass  # nach Abschluss endet die Runde regulaer (naechster Abschnitt waere neu).
 
-        _assert_calls(gm.calls, ["Ich beobachte den Raum.", "!save"])
+        _assert_calls(gm.calls, ["Ich beobachte den Raum."])
         assert any(_GATE_CORE_LINE in p for p in printed), (
             "die abgewiesene Zwischenaktion muss die Gate-Kernzeile gezeigt haben", printed
         )
         assert any("Abschnitt abgeschlossen" in p for p in printed), printed
+        ps_store = PersonaStateStore(schema_path=_SCHEMA)
+        current_after = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
+        assert current_after is not None and current_after.get("save_id") == "fixture-b-001", (
+            "PRE-SEND muss GENAU den bereits gezeigten Export uebernehmen", current_after,
+        )
 
 
 def test_c_gm_response_without_save_block_does_not_gate_next_action():
@@ -300,7 +312,19 @@ def test_d_regression_open_section_resume_still_gates_first_action():
     Aufruf): die ERSTE Aktion nach dem Resume wird WEITERHIN abgewiesen
     (section-autoritativ gegen den persistierten `current_save` geprueft,
     NICHT gegen eine Pro-Lauf-Baseline) -- kein weiterer GM-Call fuer den
-    abgewiesenen Versuch; erst `!save` schliesst danach wirklich ab."""
+    abgewiesenen Versuch.
+
+    REWORK (ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1, Order §2): das
+    anschliessende `!save` erreicht den GM jetzt GAR NICHT MEHR. PRE-SEND
+    (`core/runtime.py:act()`) findet den aus Prozess 1 UEBER DEN NEUSTART
+    hinweg persistierten, noch nicht uebernommenen Export
+    (`fixture-d-001`) bereits VOR dem Dispatch und uebernimmt GENAU DIESEN
+    Inhalt -- `gm2` (das zweite, frische Transport-Fake) wird dafuer gar
+    nicht mehr konsultiert (0 statt vormals 1 Call), und `current_save`
+    trägt danach `fixture-d-001`, NICHT den vormals kuenstlich dafuer
+    erzeugten `fixture-d-002`. Exakt der belegte M12-Mechanismus (Order §2
+    Fall 1), hier am bereits bestehenden Resume-Regressionstest erneut
+    bestaetigt."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -330,8 +354,12 @@ def test_d_regression_open_section_resume_still_gates_first_action():
         # Prozess 2: NEUE TuiSession (frische Closures in
         # `_run_table_round`), DIESELBEN Verzeichnisse -- derselbe
         # Resume-Pfad wie `test_ux1_g03_same_authority_resume_2026_10_05.py`.
-        # Der erste Zug wird ABGEWIESEN (kein GM-Call); erst '!save' kommt
-        # durch und schliesst den Abschnitt wirklich ab.
+        # Der erste Zug wird ABGEWIESEN (kein GM-Call); '!save' kommt danach
+        # am Gate vorbei, erreicht den GM aber selbst NICHT MEHR -- PRE-SEND
+        # uebernimmt den aus Prozess 1 persistierten Export direkt (0 Calls,
+        # s. Klassendocstring). `gm2` bleibt bewusst mit NUR EINEM Eintrag
+        # bestueckt, der NIE konsumiert werden darf (ein Konsum waere ein
+        # Regressionsfund).
         gm2 = _ScriptedTableGm([_save_block_text("fixture-d-002", level=3)])
         printed2: list[str] = []
         session2 = TuiSession(
@@ -350,12 +378,18 @@ def test_d_regression_open_section_resume_still_gates_first_action():
         except EndOfInput:
             pass  # nach Abschluss endet die Runde regulaer.
 
-        _assert_calls(gm2.calls, ["!save"])
+        _assert_calls(gm2.calls, [])
         assert any(_GATE_CORE_LINE in p for p in printed2), (
             "Regression (Fehlfire): die erste Aktion nach Resume haette weiterhin "
             f"gegattet werden muessen (offener, un-ingesteter Eigen-Save): {printed2}"
         )
         assert any("Abschnitt abgeschlossen" in p for p in printed2), printed2
+        ps_store2 = PersonaStateStore(schema_path=_SCHEMA)
+        current_after = core_store.load_current_save(run_dir, "sniper", ps_store2, states_dir=states_dir)
+        assert current_after is not None and current_after.get("save_id") == "fixture-d-001", (
+            "PRE-SEND muss GENAU den aus Prozess 1 gezeigten (aelteren) Export uebernehmen, "
+            f"nicht einen fuer '!save' selbst kuenstlich erzeugten frischen Export: {current_after}"
+        )
 
 
 def test_d2_real_save_then_new_section_with_old_save_recap_does_not_gate():
@@ -457,7 +491,20 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
     5) TROTZDEM wird die naechste normale Leader-Aktion ohne weiteren
        GM-/Zugverbrauch abgewiesen -- die fachliche Erkennung ist jetzt
        section-autoritativ (ganzer `sl_log`/Ingest-Abgleich), NICHT mehr
-       vom Anzeige-Cursor abhaengig. Echtes `!save` bleibt danach moeglich."""
+       vom Anzeige-Cursor abhaengig.
+
+    REWORK (ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1, Order §2): das
+    anschliessende `!save` erreicht den GM jetzt GAR NICHT MEHR -- PRE-SEND
+    (`core/runtime.py:act()`) findet den unter 3) gezeigten, noch nicht
+    uebernommenen LEADER-eigenen Export (`fixture-r2-001`) bereits VOR dem
+    Dispatch. Da der Gast ('tech') dafuer KEINEN gueltigen Block beisteuert,
+    ist das ein Order-§2-Fall-2-Kandidat (unvollstaendige Gruppe) -- echter
+    HOLD, OHNE versteckte Korrekturnachforderung UND OHNE den vierten,
+    vormals "zufaellig rettenden" GM-Call, der frueher einen frischen
+    Gruppenabschluss geliefert hat. Das Skript haelt deshalb nur noch DREI
+    Eintraege bereit; ein vierter Call waere jetzt ein echter Regressionsfund
+    (siehe `test_a2_...` fuer den unveraenderten POSITIVEN Gruppenabschluss-
+    Fall ueber ein echtes `!save` OHNE vorherigen Leader-Solo-Kandidaten)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -469,9 +516,8 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
             "Leader-Anker: ruhige Szene, kein Save.",
             "Gast-Import: ruhige Szene, kein Save.",
             _save_block_text("fixture-r2-001"),  # Leader-Zug 2: bindbarer Save, KEIN Abschluss.
-            # '!save'-Zug: echter Gruppenabschluss -- braucht bindbare Saves
-            # fuer BEIDE Mitglieder (sonst Korrekturnachforderung fuer 'tech').
-            _group_closing_text("fixture-r2-002", "fixture-r2-tech-001", leader_level=3),
+            # KEIN vierter Eintrag mehr -- PRE-SEND haelt '!save' VOR dem
+            # Dispatch an (Order §2 Fall 2, fehlender Gast-Block).
         ])
         printed: list[str] = []
         session = TuiSession(
@@ -500,7 +546,6 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
             "Ich beobachte den Raum.",
             "Ich sichere die Flanke.",
             "Ich gehe vorsichtig weiter.",
-            "!save",
         ])
         gate_hits = [i for i, p in enumerate(printed) if _GATE_CORE_LINE in p]
         assert gate_hits, (
@@ -512,13 +557,18 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
         # Bildschirm angezeigt, BEVOR das Gate trotzdem greift) -- genau
         # drei [SL]-Bloecke VOR der Gate-Zeile (Anker/Import/der unsavte
         # Save), je EINMAL angezeigt (kein Doppel-Print am geteilten
-        # Cursor); der Abschluss-Debrief selbst zeigt spaeter einen eigenen
-        # vierten Block, NACH dem Gate -- unbetroffen von dieser Pruefung.
+        # Cursor).
         sl_markers_before_gate = [
             i for i, p in enumerate(printed) if p.startswith("[SL] ") and i < min(gate_hits)
         ]
         assert len(sl_markers_before_gate) == 3, printed
-        assert any("Abschnitt abgeschlossen" in p for p in printed), printed
+        # REWORK: '!save' erreicht PRE-SEND einen echten HOLD (unvollstaendige
+        # Gruppe, s. Klassendocstring oben) -- KEIN "Abschnitt abgeschlossen"
+        # mehr, aber auch KEIN unbehandelter Fehler/Traceback.
+        assert not any("Abschnitt abgeschlossen" in p for p in printed), printed
+        assert any(
+            "nicht abgeschlossen" in p and "tech" in p for p in printed
+        ), f"der HOLD-Grund (fehlender Gast-Block fuer 'tech') muss am realen Caller sichtbar sein: {printed}"
 
 
 def test_a1_same_save_id_different_level_still_gates_regression():
@@ -537,8 +587,14 @@ def test_a1_same_save_id_different_level_still_gates_regression():
     Prozess 1).
     Prozess 3 (neue TuiSession, DIESELBEN Verzeichnisse, `_cmd_menu_
     fortsetzen` -> derselbe Resume-Pfad wie test_d): dieselbe Sperre
-    greift weiterhin (section-autoritativ, kein Pro-Lauf-Zustand). Echtes
-    `!save` kommt danach vorbei und schliesst wirklich ab."""
+    greift weiterhin (section-autoritativ, kein Pro-Lauf-Zustand).
+
+    REWORK (ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1, Order §2): das
+    anschliessende `!save` erreicht `gm3` GAR NICHT MEHR -- PRE-SEND
+    uebernimmt den aus Prozess 2 persistierten, noch nicht uebernommenen
+    Export (`fixture-a1-closed-001`, Level 3) direkt (0 statt 1 Call).
+    `gm3`s einziger Eintrag (`fixture-a1-reopened-002`) bleibt bewusst
+    unkonsumiert -- ein Konsum waere ein Regressionsfund."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -626,7 +682,7 @@ def test_a1_same_save_id_different_level_still_gates_regression():
         except EndOfInput:
             pass  # nach Abschluss endet die Runde regulaer.
 
-        _assert_calls(gm3.calls, ["!save"])
+        _assert_calls(gm3.calls, [])
         assert any(_GATE_CORE_LINE in p for p in printed3), (
             "Regression: dieselbe Sperre haette auch nach Fortsetzen (neue TuiSession) "
             f"weiterhin greifen muessen: {printed3}"
@@ -634,9 +690,11 @@ def test_a1_same_save_id_different_level_still_gates_regression():
         assert any("Abschnitt abgeschlossen" in p for p in printed3), printed3
 
         current_after_real_save = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
-        assert current_after_real_save is not None and current_after_real_save.get("save_id") == "fixture-a1-reopened-002", (
-            "das echte '!save' muss den Current wirklich auf den neu ernteten Block setzen", current_after_real_save
+        assert current_after_real_save is not None and current_after_real_save.get("save_id") == "fixture-a1-closed-001", (
+            "PRE-SEND muss den aus Prozess 2 bereits gezeigten (aelteren) Export uebernehmen, "
+            "nicht einen fuer '!save' selbst kuenstlich erzeugten frischen Export", current_after_real_save,
         )
+        assert current_after_real_save["characters"][0].get("lvl") == 3, current_after_real_save
 
 
 def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
@@ -648,9 +706,15 @@ def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
     Eigenblock B; die nachfolgende Gast-Import-Antwort rekapituliert
     EXAKT den alten, bereits uebernommenen Leaderblock A (== Current).
     Die naechste normale Leader-Aktion muss TROTZDEM lokal halten (kein
-    normaler GM-Call, Current bleibt A); echtes `!save` bleibt danach
-    moeglich und schliesst mit den erforderlichen eigenen Gruppenbloecken
-    beider Mitglieder ab."""
+    normaler GM-Call, Current bleibt A).
+
+    REWORK (ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1, Order §2): das
+    anschliessende `!save` erreicht den GM jetzt GAR NICHT MEHR -- PRE-SEND
+    findet den LEADER-eigenen Block B direkt. Da 'tech' dafuer (wie in
+    test_f) keinen gueltigen Block beisteuert, ist das Order-§2-Fall-2
+    (unvollstaendige Gruppe) -- echter HOLD, OHNE versteckte
+    Korrekturnachforderung und OHNE den vormals "zufaellig rettenden"
+    dritten GM-Call, der frueher einen frischen Gruppenabschluss lieferte."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -666,7 +730,8 @@ def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
         gm = _ScriptedTableGm([
             _save_block_text("fixture-a2-block-b-001", level=5),  # Leader-Anker: unuebernommener Block B.
             a_recap_text,  # Gast-Import: rekapituliert EXAKT den alten, uebernommenen Current A.
-            _group_closing_text("fixture-a2-closing-leader-001", "fixture-a2-closing-tech-001"),  # !save: echter Abschluss.
+            # KEIN dritter Eintrag mehr -- PRE-SEND haelt '!save' VOR dem
+            # Dispatch an (Order §2 Fall 2, fehlender 'tech'-Block).
         ])
         printed: list[str] = []
         session = TuiSession(
@@ -692,18 +757,24 @@ def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
         _assert_calls(gm.calls, [
             "Ich beobachte den Raum.",
             "Ich sichere die Flanke.",
-            "!save",
         ])
         assert any(_GATE_CORE_LINE in p for p in printed), (
             "Regression (A2-Fehlfire): der spaetere Recap des alten Current A haette den "
             f"frueheren unuebernommenen Eigenblock B NICHT verdraengen duerfen: {printed}"
         )
-        assert any("Abschnitt abgeschlossen" in p for p in printed), printed
+        # REWORK: '!save' erreicht PRE-SEND einen echten HOLD (fehlender
+        # 'tech'-Block, s. Klassendocstring) -- KEIN "Abschnitt
+        # abgeschlossen" mehr, aber auch KEIN unberechtigter Abschluss nur
+        # mit dem Leaderblock B.
+        assert not any("Abschnitt abgeschlossen" in p for p in printed), printed
+        assert any(
+            "nicht abgeschlossen" in p and "tech" in p for p in printed
+        ), f"der HOLD-Grund (fehlender Gast-Block fuer 'tech') muss am realen Caller sichtbar sein: {printed}"
 
         current_after = core_store.load_current_save(run_dir, "sniper", ps_store, states_dir=states_dir)
-        assert current_after is not None and current_after.get("save_id") == "fixture-a2-closing-leader-001", (
-            "das echte '!save' muss den Current wirklich auf den neu ernteten Gruppenabschluss setzen",
-            current_after,
+        assert current_after == current_before, (
+            "ohne vollstaendige Gruppe darf auch der Leader-Anteil (Block B) NICHT publiziert "
+            f"worden sein: {current_after}"
         )
 
 

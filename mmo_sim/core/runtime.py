@@ -849,7 +849,26 @@ class SectionRuntime:
         def finalize(
             text: str, resume_section_id: str | None = None,
             prev_ref_override: dict[str, dict | None] | None = None,
+            *, pre_send: bool = False,
         ) -> SectionOutcome:
+            # ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Rework (Order §2,
+            # 03 §4): `pre_send=True` markiert einen Aufruf aus `act()`s
+            # NEUEM PRE-SEND-Pfad (ein bereits VOR diesem Turn in `sl_log`
+            # liegender, eigener Export des Leaders wird uebernommen, OHNE
+            # dass fuer den aktuellen `!save`-Turn je ein GM-Call entstand --
+            # s. `act()`). Wirkt NUR auf den `missing`-Zweig unten: eine
+            # PRE-SEND-Uebernahme, deren Kandidat NICHT alle aktuellen
+            # Mitglieder bindet (fehlender/fremder Gast), darf KEINE
+            # versteckte bezahlte Nachforderung ausloesen (Order §2 Fall 2,
+            # "ohne versteckte bezahlte Nachforderung") -- sie haelt
+            # kontrolliert mit dem bestehenden `missing`-Grund (unten, "if
+            # not harvest_completion.success"), GENAUSO wie ein Rohkonflikt
+            # bereits vorher haelt. Ein VOLLSTAENDIG gebundener Kandidat
+            # (Fall 1) ist von dieser Unterdrueckung nicht betroffen, weil
+            # er `harvest_completion.missing` erst gar nicht erreicht. Der
+            # normale Marker-/Save-Kommando-Weg (`pre_send=False`, Default)
+            # bleibt bytegleich -- er nutzt weiterhin den bestehenden
+            # `pursue_group_save_correction`-Nachforderpfad.
             sid = resume_section_id if resume_section_id is not None else section_id
             cid_to_pk = self.table.chrononaut_id_to_persona()
             harvested = self.harvest_extractor(text, cid_to_pk) if text else {}
@@ -913,6 +932,7 @@ class SectionRuntime:
             # Figur, admission-/ledger-gebunden, s. core.save_correction).
             if (
                 not harvest_completion.success and harvest_completion.missing
+                and not pre_send
                 and store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id) is None
             ):
                 # Kein eigener EventLog-Eintrag hier: `events.KNOWN_EVENT_TYPES`
@@ -923,6 +943,14 @@ class SectionRuntime:
                 # Korrekturschleife, s. `core.save_correction`). Der
                 # Korrekturdatensatz je Figur (`run_dir/save_corrections/`)
                 # bleibt die vollstaendige, nachpruefbare Spur.
+                #
+                # `not pre_send` (ZR-R8-...-R1 Rework, Order §2 Fall 2): eine
+                # PRE-SEND-Uebernahme (s. `act()`) mit fehlendem/fremdem Gast
+                # ist ein UNGEEIGNETER Kandidat -- sie haelt unten mit dem
+                # bestehenden `missing`-Grund, OHNE den teuren Korrekturweg
+                # (der NEUE GM-/Correction-Calls ausloesen wuerde) je zu
+                # erreichen. Der normale Marker-/Save-Kommando-Weg bleibt
+                # unveraendert (`pre_send=False`).
                 harvested, harvest_completion = save_correction.pursue_group_save_correction(
                     lobby=self.lobby, table=self.table, section_id=sid, harvested=harvested,
                     harvest_completion=harvest_completion, states_dir=states_dir, today=today,
@@ -969,6 +997,160 @@ class SectionRuntime:
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": completion.reason})
             return SectionOutcome(completion=completion, harvested=harvested, debrief_text=text)
 
+        def _harvest_own_export(entry: dict) -> bool:
+            """ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03 §4):
+            dieselbe Autoritaet wie `ui/tui.py`s Pending-Gate (`_HumanDriver.
+            decide`s `_leader_unsaved_bindable_save_shown`-Schleife) -- EIN
+            `harvest_extractor`-Treffer gegen die EIGENE Figur des Leaders,
+            der vom tatsaechlich persistierten Current ABWEICHT (noch nicht
+            uebernommen). Ein unlesbarer/unresolvbarer Current gilt hier
+            -- ANDERS als die reine TUI-Warnanzeige, die bei Unsicherheit
+            lieber zu frueh warnt -- als NICHT gefunden: dieser Pfad
+            UEBERNIMMT wirklich (ueber `finalize`), ein unsicherer Current
+            darf dafuer keine Grundlage sein (keine versteckte Eskalation,
+            03 §4 letzter Punkt)."""
+            cid_to_pk = self.table.chrononaut_id_to_persona()
+            own_cid_to_pk = {cid: pk for cid, pk in cid_to_pk.items() if pk == leader}
+            if not own_cid_to_pk:
+                return False
+            hit = self.harvest_extractor(entry.get("content") or "", own_cid_to_pk).get(leader)
+            if hit is None:
+                return False
+            try:
+                current_save = store.load_current_save_or_raise(
+                    self.lobby.run_dir, leader, self.persona_state_store, self._states_dir,
+                )
+            except store.CurrentSaveUnavailableError:
+                return False
+            return current_save is None or current_save != hit
+
+        def _member_shows_own_progress(entry: dict) -> bool:
+            """Order §1 Nachzug (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt
+            1), Rueckschnitt 2026-11-21 (Flo-Entscheidung A, nach
+            unabhaengigem Critic + am Code nachgeprueftem Ablauf): ein
+            ZWISCHENSTAND dieses Rework hatte zusaetzlich jeden block-freien,
+            request-gebundenen Nicht-Leader-Eintrag invalidiert ("echte
+            Folgen ohne Save"). Diese pauschale Invalidierung ist ENTFERNT.
+
+            Korrigierte Order-Praemisse (General-Nachpruefung): der einzige
+            direkte Gast-`sl_log`-Eintrag ist sein EINMALIGER Import-/Anker-
+            Turn (`run_full_section` "Gaeste einzeln (Import)", `_guests_
+            imported`); jeder spaetere Gastbeitrag laeuft ueber
+            Tischabsprache (`poll_guests_and_consolidate` -> `table_messages`)
+            und wird erst durch eine TATSAECHLICHE Leaderentscheidung zum
+            SL-Spielzug. Ein "echter gespielter Gast-Turn mit Folgen, aber
+            ohne Save" kann als block-freier Gast-`sl_log`-Eintrag im realen
+            Control-Flow also gar nicht entstehen -- der block-freie Zweig
+            traf stattdessen den regulaeren Import-Handshake und invalidierte
+            einen gueltigen Leader-Kandidaten faelschlich (Fehlfire ->
+            zusaetzlicher GM-/Korrekturcall bei `!save`, s.
+            `test_m12_pre_send_adopts_hq_candidate_after_blockless_guest_
+            import_zero_gm_calls`). Echter SPAETERER Spielverlauf wird vom
+            bestehenden Leader-Guard in `_section_completion_recovery.
+            find_pending_leader_export` erfasst (realer Nicht-Save-Leader-
+            `origin_raw_input` nach dem Kandidaten), NICHT hier.
+
+            Es bleibt der enge Guard: dieselbe Autoritaet/Pruefung wie
+            `_harvest_own_export`, nur auf das Mitglied bezogen, dem `entry`
+            zugeschrieben ist (`origin_persona_key`) -- invalidiert NUR, wenn
+            `entry` fuer SEIN EIGENES Mitglied einen bindbaren, vom
+            persistierten Current ABWEICHENDEN Save traegt (echter neuer
+            Gast-Save). Ein blosser Recap/Echo eines unveraenderten (ggf.
+            fremden) Currents liefert `False` (kein Scheinbeleg, s.
+            `test_zr_spiel_s1_fixd_save_integrity_gate_2026_11_11.py:
+            test_a2_unadopted_own_block_survives_later_recap_of_old_current`:
+            der recapte Block gehoert nicht `entry`s Mitglied -> `hit is
+            None` -> `False`). Ein unlesbarer/unresolvbarer Current gilt --
+            wie bei `_harvest_own_export` -- als NICHT gefunden (Unsicherheit
+            ist kein Beweis fuer echten Fortschritt, keine stille
+            Invalidierung)."""
+            pk = entry.get("origin_persona_key")
+            if pk is None:
+                return False
+            cid_to_pk = self.table.chrononaut_id_to_persona()
+            own_cid_to_pk = {cid: owner for cid, owner in cid_to_pk.items() if owner == pk}
+            if not own_cid_to_pk:
+                return False
+            hit = self.harvest_extractor(entry.get("content") or "", own_cid_to_pk).get(pk)
+            if hit is None:
+                return False
+            try:
+                current_save = store.load_current_save_or_raise(
+                    self.lobby.run_dir, pk, self.persona_state_store, self._states_dir,
+                )
+            except store.CurrentSaveUnavailableError:
+                return False
+            return current_save is None or current_save != hit
+
+        def _candidate_hq_hold_reason(entry: dict) -> str | None:
+            """Order §2 (2026-11-21, 03_FIXAUFTRAG.md §4 Restpunkt 2),
+            Rework 2026-11-21 (Generalisierung auf ALLE tatsaechlich
+            uebernommenen Saves): die VORHERIGE Fassung prueft NUR den
+            LEADER (`own_cid_to_pk` hart auf `leader` verdrahtet) --
+            `finalize` erntet aber ueber das VOLLE `cid_to_pk` (`runtime.py:
+            871-874`) UND `store.complete_section` ergaenzt fehlende
+            Mitglieder additiv aus dem J4-ROOTFIX-Seitencache (`store.py:
+            2218-2223`, `_load_pending_valid_block`) -- ein Gast-Save in
+            Chronopolis/Mission, direkt im Gruppenexport ODER aus dem
+            J4-Cache ergaenzt, wurde dadurch unbemerkt als HQ-Abschluss
+            mitgepinnt (belegt: `test_m12_pre_send_mixed_group_holds_on_
+            guest_non_hq_in_group_export`/`..._via_j4_cache`, VOR diesem Fix
+            `written=True` trotz Nicht-HQ-Gast).
+
+            Prueft jetzt GENAU die Menge, die `complete_section`
+            tatsaechlich pinnen wuerde -- VOR dem Gate, rein lesend: fuer
+            JEDES `pk in self.table.members` zuerst `harvest_extractor
+            (entry['content'], cid_to_pk).get(pk)` (volles `cid_to_pk`,
+            deckt Fall (a) "direkt im Gruppenexport" ab), sonst EXAKT
+            denselben J4-Supplement-Pfad wie `store.py:2221` spiegeln
+            (`store._load_pending_valid_block`, deckt Fall (b) "nur im
+            Cache" ab) -- kein neuer Mechanismus, derselbe Helfer.
+
+            `continuity.last_seen.mode` bleibt der kanonische, bereits in
+            BEIDEN v7-Schemas verankerte HQ-Marker (`systems/gameflow/
+            saveGame.v7.schema.json` UND `saveGame.v7.export.schema.json`,
+            Enum `["hq", "briefing", "core", "rift", "arena", "chronopolis",
+            "debrief"]`, im Export-Schema Pflichtfeld) -- NICHT `location`
+            (freier Text, s. `tests/mmo_sim/_full_v7_fixture.py`, dort
+            zufaellig `"fixture"`; ein echter HQ-Stand darf z.B.
+            `location == "ITI-HQ, Pre-City-Hub"` tragen, s.
+            `test_m12_pre_send_mixed_group_adopts_full_hq_group_zero_gm_
+            calls`). Ein Mitglied OHNE jeden uebernommenen Save (weder
+            content noch Cache) ist NICHT Sache dieses Gates -- das meldet
+            `complete_section` unveraendert als `missing` (bestehender
+            Fall-2-HOLD, s. `test_m12_pre_send_mixed_group_holds_without_
+            hidden_correction_call`); dieses Gate HOLDet NUR auf einen
+            VORHANDENEN, aber Nicht-HQ-Save. Ein (noch) fehlendes
+            `mode`-Feld gilt bewusst NICHT als HQ (dieselbe Vorsicht wie
+            ueberall in diesem Modul: fehlende Bindung/Information ist kein
+            Beweis FUER Zulaessigkeit).
+
+            Liefert `None` (= weiter uebernehmen), wenn ALLE so ermittelten
+            Saves nachweislich HQ-Staende sind; sonst einen
+            menschenlesbaren, mitglied-benennenden HOLD-Grund fuer den
+            ERSTEN gefundenen Nicht-HQ-Fall."""
+            full_cid_to_pk = self.table.chrononaut_id_to_persona()
+            harvested = self.harvest_extractor(entry.get("content") or "", full_cid_to_pk)
+            for pk in self.table.members:
+                hit = harvested.get(pk)
+                if hit is None:
+                    hit = store._load_pending_valid_block(
+                        self.lobby.run_dir, self.table.table_id, section_id,
+                        self.table.chrononaut_ids[pk],
+                    )
+                if hit is None:
+                    # Kein content-/Cache-Beleg fuer dieses Mitglied -- Sache
+                    # von `complete_section`s `missing`-Zweig, nicht dieses Gates.
+                    continue
+                mode = (hit.get("continuity") or {}).get("last_seen", {}).get("mode")
+                if mode != "hq":
+                    return (
+                        f"Mitglied {pk!r}: vollstaendig gueltiger Stand liegt vor, ist aber kein "
+                        f"HQ-Stand (continuity.last_seen.mode={mode!r}) -- Speicherabschluss haelt, "
+                        "bis am HQ gespeichert wird."
+                    )
+            return None
+
         def marker_hit(text: str) -> bool:
             return completion_marker_matches(text, self.marker, self.table.table_id, section_id)
 
@@ -1008,7 +1190,20 @@ class SectionRuntime:
             Verweigerung UNTERDRUECKT NUR diesen dritten Zweig -- der
             positive Fall "zulaessige Speicherung, aber fehlender Export/
             'bereits gespeichert'" (KEINE SaveGuard-Ablehnung im Text)
-            bleibt unveraendert ueber dieselbe Bedingung abgedeckt."""
+            bleibt unveraendert ueber dieselbe Bedingung abgedeckt.
+
+            ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Rework (Order §2,
+            03 §4): die vormalige REAKTIVE vierte Bedingung (ein Fund NACH
+            einer bereits versandten SaveGuard-Verweigerung DIESES Turns)
+            ist entfernt -- dieselbe Suche laeuft jetzt PRE-SEND in `act()`,
+            VOR jedem GM-Call fuer ein `!save` (s. dort). Diese Funktion
+            sieht fuer den `!save`-Fall deshalb nur noch die dritte
+            Bedingung (unveraendert P3); ein `!save`, fuer das `act()`
+            bereits VOR dem Call einen Kandidaten fand, erreicht
+            `completion_hit` fuer DIESEN Turn ueberhaupt nicht mehr (die
+            Uebernahme ist zu diesem Zeitpunkt schon ueber `finalize(...,
+            pre_send=True)` erfolgt, `act()` kehrt direkt mit dem Ergebnis
+            zurueck)."""
             if marker_hit(text):
                 return True
             if self.completion_fallback is not None and self.completion_fallback(text, last_leader_input):
@@ -1024,7 +1219,7 @@ class SectionRuntime:
                 return True
             return False
 
-        def act(pk: str, base_context: dict, attach_import_save: bool = False) -> None:
+        def act(pk: str, base_context: dict, attach_import_save: bool = False) -> SectionOutcome | None:
             nonlocal debrief_text, turns_taken, last_leader_input
             ctx = dict(base_context)
             ctx["table_view"] = store.persona_view(self.table, pk)
@@ -1056,6 +1251,97 @@ class SectionRuntime:
                 # v7-Save-Block anhaengen, der NICHT Teil des Leader-Inputs
                 # selbst ist.
                 last_leader_input = record.decision.text
+                # ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Rework (Flos
+                # Order §2, 03_FIXAUFTRAG.md §4, Kernbug H1): PRE-SEND --
+                # GENAU hier, VOR dem Bau von `wire_text`/der Reservierung/
+                # dem Versand an den GM-Transport unten (`self.submit`),
+                # ist der reale Dispatch-Punkt fuer den Leader-Turn (derselbe
+                # Punkt, den `ui/tui.py`s Pending-Gate am Ende seiner
+                # `_read_action_line`-Schleife verlaesst, sobald `!save`
+                # literal eingegeben wurde -- s. 03 §7 tui.py Z.10495-10539).
+                # Ersetzt die VORHERIGE, rein REAKTIVE Pruefung (die erst
+                # NACH einem bereits versandten, von der SL abgewiesenen
+                # `!save`-Call in `completion_hit`/`finalize` nachschaute,
+                # s. vorherige Fassung dieser Datei) -- 03 §4 fordert
+                # ausdruecklich "bevor ein weiterer GM-Saveaufruf entsteht",
+                # nicht nur "ohne DRITTEN Call". Funktioniert dadurch auch
+                # nach Neustart (`1) Fortsetzen`) und mit bereits
+                # vorhandener Reject-Historie, weil `find_pending_leader_
+                # export` den gesamten persistierten `sl_log` dieser Section
+                # durchsucht -- unabhaengig von einem laufenden Prozess.
+                #
+                # Drei getrennte Ergebnisse (Order §2, woertlich):
+                # 1. (entry, None) -- geeigneter, voll gebundener Kandidat:
+                #    Uebernahme ueber den VORHANDENEN `finalize`-Weg, OHNE
+                #    jemals `self.submit()` fuer DIESEN Turn zu erreichen
+                #    (0 GM-/Correction-Calls). `pre_send=True` sorgt
+                #    zusaetzlich dafuer, dass ein DABEI trotzdem fehlender/
+                #    fremder Gast NICHT in eine automatische Nachforderung
+                #    laeuft, sondern zu Fall 2 wird (s. `finalize`).
+                # 2. (None, hold_reason) -- ein gefundener, aber unzureichend
+                #    gebundener/veralteter Export: echter HOLD MIT Grund,
+                #    OHNE jeden GM-Call. `self._status_fn` + die ueber
+                #    `SectionOutcome.completion.reason` zum echten Caller
+                #    durchgereichte Begruendung (s. `ui/tui.py` Z.11012,
+                #    bestehender "Abschnitt nicht abgeschlossen (<reason>)"-
+                #    Druckpfad) -- nicht mehr wie im ersten Fix in
+                #    `completion_hit` STUMM verworfen.
+                # 3. (None, None) -- kein Kandidat (noch kein bindbarer
+                #    Export gezeigt): regulaerer Weg bleibt unberuehrt, das
+                #    `!save` geht normal weiter zum GM (z.B. fuer einen
+                #    FRISCHEN Export -- der bestehende Fix-D-Test bleibt
+                #    darueber unveraendert abgedeckt).
+                if (
+                    self.explicit_completion_attempt is not None
+                    and self.explicit_completion_attempt(last_leader_input)
+                ):
+                    pending_candidate, pending_hold_reason = (
+                        _section_completion_recovery.find_pending_leader_export(
+                            self.table.sl_log, section_id, leader, _harvest_own_export,
+                            self.explicit_completion_attempt, request_binding_error=_request_binding_error,
+                            later_member_shows_own_progress=_member_shows_own_progress,
+                        )
+                    )
+                    if pending_hold_reason is not None:
+                        self._status_fn(f"Speicherabschluss HOLD: {pending_hold_reason}")
+                        self._emit(
+                            "section_completion_rejected", ts,
+                            payload={"section_id": section_id, "reason": pending_hold_reason},
+                        )
+                        return SectionOutcome(
+                            completion=store.CompletionResult(
+                                success=False, already_completed=False, written=False,
+                                members_completed=[], missing=[], reason=pending_hold_reason,
+                            ),
+                            harvested={}, debrief_text="",
+                        )
+                    if pending_candidate is not None:
+                        # Order §2 (2026-11-21): positive HQ-Zulaessigkeits-
+                        # pruefung NUR fuer diesen PRE-SEND-Uebernahmepfad --
+                        # VOR `finalize(..., pre_send=True)`, also VOR jedem
+                        # Write/GM-Call. Ein vollstaendig gueltiger, aber
+                        # Nicht-HQ-Kandidat haelt mit Grund (kein Write,
+                        # kein neuer Call), GENAU wie der bestehende
+                        # `pending_hold_reason`-Zweig oben.
+                        hq_hold_reason = _candidate_hq_hold_reason(pending_candidate)
+                        if hq_hold_reason is not None:
+                            self._status_fn(f"Speicherabschluss HOLD: {hq_hold_reason}")
+                            self._emit(
+                                "section_completion_rejected", ts,
+                                payload={"section_id": section_id, "reason": hq_hold_reason},
+                            )
+                            return SectionOutcome(
+                                completion=store.CompletionResult(
+                                    success=False, already_completed=False, written=False,
+                                    members_completed=[], missing=[], reason=hq_hold_reason,
+                                ),
+                                harvested={}, debrief_text="",
+                            )
+                        return finalize(
+                            pending_candidate["content"],
+                            prev_ref_override=pending_candidate.get("expected_prev_ref_by_member"),
+                            pre_send=True,
+                        )
             else:
                 # OPTION2-CMD Haertung: ein Nicht-Leader-Turn (Gast-Import/
                 # -Poll) ist NIE ein Leader-Save-Kommando. `last_leader_input`
@@ -1119,6 +1405,7 @@ class SectionRuntime:
                 self._consolidated_message_count = len(self.table.table_messages)
             turns_taken += 1
             debrief_text = result["content"]
+            return None
 
         def poll_guests_and_consolidate() -> None:
             """F2 (K5, WEGKARTE §6 A3): Gaeste werden ueber denselben
@@ -1383,7 +1670,9 @@ class SectionRuntime:
             # Leader-Anker -- nur, wenn dieser Tisch (Resume, A8) noch keinen
             # Anker-Turn hat.
             if not self._leader_anchored:
-                act(leader, contexts_by_persona[leader], attach_import_save=True)
+                pre_send_outcome = act(leader, contexts_by_persona[leader], attach_import_save=True)
+                if pre_send_outcome is not None:
+                    return pre_send_outcome
                 self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))  # F3: vor Publish/Reflexion.
                 if completion_hit(debrief_text):
                     return finalize(debrief_text)
@@ -1448,7 +1737,9 @@ class SectionRuntime:
                     return finalize("", resume_section_id=section_id)
                 if ongoing_round > 0:
                     poll_guests_and_consolidate()
-                act(leader, debrief_ctx)
+                pre_send_outcome = act(leader, debrief_ctx)
+                if pre_send_outcome is not None:
+                    return pre_send_outcome
                 self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))  # F3: vor Publish/Reflexion.
                 if completion_hit(debrief_text):
                     return finalize(debrief_text)

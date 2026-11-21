@@ -1130,33 +1130,45 @@ Briefing-Anker** den folgenden Pause-Beat liefern:
    kleiner Lageanker. Analog zum Post-Mission-Heimkehr-Beat aus dem HQ-Menü-Kapitel.
 2. **Kodex-Save-Angebot** (genau einmal, wortwörtlich):
    - `Kodex: HQ-Stand stabil. Deepsave möglich.`
-   - `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
-3. **HQ-Menü-Angebot mit 4 Optionen**, sichtbar und explizit:
-   - `Erkunden` / `HQ manuell` — Vormerkung für den nächsten geladenen Hub; filmische
-     HQ-Szenen, Fraktions-RP, NSC-Dialoge beginnen erst nach Save und Load, keine
-     sofortige Szene vor dem Abschluss.
-   - `Schnell-HQ` — auch bei Lvl 1 konsistent anbieten, auch wenn wenig zu
+   - `Kodex: Mit !save den Abschnitt abschließen.` (oberflächenneutral — SSOT
+     `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag regelt
+     den Anschluss je Betriebsart.)
+3. **HQ-Menü-Angebot mit 3 nummerierten Optionen + `!save` UNNUMMERIERT**,
+   sichtbar und explizit:
+   - `1) Erkunden` / `HQ manuell` — Vormerkung für den nächsten geladenen Hub;
+     filmische HQ-Szenen, Fraktions-RP, NSC-Dialoge beginnen erst nach Save
+     und Load, keine sofortige Szene vor dem Abschluss.
+   - `2) Schnell-HQ` — auch bei Lvl 1 konsistent anbieten, auch wenn wenig zu
      heilen/shoppen ist.
-   - `Auto-HQ` — springt direkt zum Save-Export.
-   - `!save` / `Speichern` — explizit wählbare Option, nicht nur als Kodex-Hinweis.
+   - `3) Auto-HQ` — automatische Abwicklung der HQ-Pflichtschritte, bietet
+     anschließend SEPARAT `!save` an; die Ziffer selbst erzeugt KEINEN
+     Export (`!save`/`Speichern` bleibt die einzige Save-Aktion,
+     unnummeriert).
+   - `!save` / `Speichern` — **UNNUMMERIERT**, keine eigene Ziffer: eine
+     Ziffer bleibt ausschließlich für die drei Erkundungsoptionen reserviert;
+     eine beliebige Ziffer oder freie Prosa als Save-Kommando zu deuten ist
+     unzulässig (SSOT `systems/gameflow/speicher-fortsetzung.md`
+     §Zentraler-Ersatzvertrag).
 4. **Briefing-Sprung-Block (HART) — vor erstem `!save`:** Tippt der Spieler
    Trigger wie `Briefing`, `erste Mission`, `Auftrag`, `Einsatz`, `Los`,
    `Bereit`, `Sprung ausführen`, `Springen jetzt` **bevor** der
    Chargen-Deepsave als JSON-Block ausgegeben wurde — **springt die
    KI-SL NICHT**. Stattdessen Kodex-Block:
    - `Kodex: Sprung-Block — Chargen-Save-Gate noch nicht passiert.`
-   - `Kodex: Bitte erst !save tippen, JSON kopieren, neuen Chat öffnen,`
-   - `Kodex: JSON dort einfügen — Briefing startet im neuen Chat aus dem HQ-Hub.`
+   - `Kodex: Bitte erst !save tippen — der Abschnitt schließt ab, das`
+   - `Kodex: Briefing folgt im Anschluss aus dem HQ-Hub.`
 
-   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener Chat.
-   Das Briefing gehört in den nächsten Chat, nicht in den Chargen-Chat.
-   Verstoss = harter Regelbruch.
+   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener
+   Spielkontext. Das Briefing gehört in den nächsten Abschnitt, nicht in
+   den Chargen-Abschnitt. Verstoss = harter Regelbruch.
 5. **Briefing-Sprung nach erstem `!save`:** Sobald der Deepsave als JSON-Block
-   ausgegeben wurde, ist der Chargen-Chat zu Ende. Trigger-Wörter führen
-   im selben Chat **nicht** mehr ins Briefing — stattdessen Lore-Verweis
-   auf neuen Chat (analog Hard-Rule "nach `!save` kein Übergang im selben
-   Chat"). Briefing startet erst, wenn der Spieler den Save in einem neuen
-   Chat lädt und im HQ-Hub `Briefing` wählt.
+   ausgegeben wurde, ist der Chargen-Abschnitt zu Ende. Trigger-Wörter
+   führen in DIESEM Abschnitt **nicht** mehr ins Briefing — stattdessen
+   Lore-Verweis auf den Anschluss (analog Hard-Rule "nach `!save` kein
+   Übergang im selben Abschnitt"). Briefing startet erst nach dem
+   verwalteten Anschluss aus dem gültigen Save, wenn im HQ-Hub `Briefing`
+   gewählt wird (Bedienweg je Betriebsart: SSOT
+   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag).
 
 *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine "Fast-Lane"-Ausnahme
 (`solo schnell` / `gruppe schnell`), die Chargen-Save-Gate und HQ-Heimkehr
@@ -1625,10 +1637,11 @@ danach öffnet sich das HQ-Menü:
    _"ITI-Lage: Quarzatrium ruhig · Mira im Kodex-Archiv · Hangar-Axis Kalibrierung läuft."_
 8. Sobald ein savebarer HQ-Zustand erreicht ist, gibt Kodex genau einmal den
    Hinweis: `Kodex: HQ-Stand stabil. Deepsave möglich.` und
-   `Kodex: Für den nächsten Abschnitt JSON in neuem Chat laden — Pflicht, kein Verzicht.`
+   `Kodex: Mit !save den Abschnitt abschließen.` (oberflächenneutral — SSOT
+   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag).
    Danach **kein automatischer Sprung** ins nächste Briefing; Briefing startet
-   nur als bewusste Spielerentscheidung im nächsten geladenen Chat (kein Sprung
-   im selben Chat nach Save).
+   nur als bewusste Spielerentscheidung nach dem verwalteten Anschluss aus dem
+   gültigen Save (kein Sprung im selben Abschnitt nach Save).
 9. Direkt nach Debrief + HQ-Heimkehr wird bei Gruppen/Koop optional ein
    kurzer **Gruppenwechsel-Angebot-Block** gezeigt (z. B. „als Gruppe
    weiterspielen“, „persönlich speichern und Gruppe wechseln“, „solo weiter“).

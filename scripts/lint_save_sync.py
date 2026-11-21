@@ -181,8 +181,8 @@ def main() -> int:
             sv_text,
         )
         all_ok &= ok(
-            r"Im selben Chat ist nach Save kein \u00dcbergang mehr m\u00f6glich",
-            "Modul 12 enforces 'no transition after save in same chat'",
+            r"Im selben Abschnitt ist nach Save kein \u00dcbergang mehr m\u00f6glich",
+            "Modul 12 enforces 'no transition after save in same section'",
             sv_text,
         )
         # Fast-Lane entfernt (refactor/remove-fast-lane, 2026-05-28):
@@ -231,8 +231,8 @@ def main() -> int:
             mp_text,
         )
         all_ok &= ok(
-            r"Im selben Chat ist nach\s+`?!?save`?\s+kein \u00dcbergang mehr m\u00f6glich",
-            "Masterprompt enforces 'no transition after save in same chat'",
+            r"Im selben Abschnitt ist nach\s+`?!?save`?\s+kein \u00dcbergang mehr m\u00f6glich",
+            "Masterprompt enforces 'no transition after save in same section'",
             mp_text,
         )
         all_ok &= ok(
