@@ -959,6 +959,46 @@ class SectionRuntime:
                     harvest_extractor=self.harvest_extractor,
                     emit=self._group_correction_status_emit,
                 )
+            elif (
+                not harvest_completion.success and harvest_completion.missing
+                and pre_send
+                and store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id) is None
+            ):
+                # ZR-R8-M12 (Save-Correction-Reachability-Fix, 2026-11-21):
+                # `pre_send` schliesst ausdruecklich NUR den teuren,
+                # GM-Call-ausloesenden Nachforderpfad oben aus (s. dessen
+                # Kommentar/`finalize`-Docstring: schuetzt vor einer
+                # versteckten bezahlten Nachforderung bei fehlendem/fremdem
+                # Gast). PRE-SEND verlangt dabei weiterhin HQ fuer JEDEN
+                # Kandidaten (unveraendert, s. `act()`) -- "!save ausserhalb
+                # HQ" ist keine zutreffende Beschreibung dieses Zweigs. Ein
+                # eigener, bereits VOLLSTAENDIG gebundener PRE-SEND-Kandidat,
+                # dessen Restfehler den bereits bestehenden, request-losen
+                # Best-effort-Strukturvertrag erfuellt (mindestens EIN
+                # `maxItems`/`minItems`-Treffer, KEINE Bindungsfehler -- s.
+                # `save_correction.has_residual_structural_cap_overflow`;
+                # `any(...)`, NICHT "ausschliesslich diese Fehlerklasse" --
+                # ein zusaetzlicher, davon unabhaengiger Strukturfehler
+                # schliesst diesen Pfad NICHT automatisch aus), darf GENAU
+                # DIESEN bereits bestehenden Vertrag weiterhin erreichen (0
+                # neue GM-/Correction-Calls) -- das ist eine ZUSAETZLICHE
+                # Eintrittsregel (Nullversuch/kein Vorab-Record noetig), kein
+                # blosses Erreichbarmachen bereits bestehender
+                # Voraussetzungen. Scheitert auch nur EIN `missing`-Mitglied
+                # an dieser engen Pruefung, bleibt `harvested`/
+                # `harvest_completion` bytegleich unveraendert -- der
+                # bestehende `missing`-HOLD unten greift dann unveraendert
+                # (keine Guard-Aufweichung). `prev_ref_override` (ZR-R8-
+                # PR3314-Nachzug F1, 2026-11-21) wird additiv durchgereicht,
+                # damit der durabel gebundene ORIGINAL-Snapshot -- NICHT der
+                # beim Abschluss frisch gelesene Current -- auch auf diesem
+                # Best-effort-Weg die Generationserwartung bindet.
+                harvested, harvest_completion = save_correction.pursue_pre_send_structural_best_effort(
+                    lobby=self.lobby, table=self.table, section_id=sid, harvested=harvested,
+                    harvest_completion=harvest_completion, states_dir=states_dir, today=today,
+                    harvest_validator=self.harvest_validator, persona_state_store=self.persona_state_store,
+                    emit=self._group_correction_status_emit, prev_ref_override=prev_ref_override,
+                )
             if not harvest_completion.success:
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": harvest_completion.reason})
                 return SectionOutcome(completion=harvest_completion, harvested=harvested, debrief_text=text)
