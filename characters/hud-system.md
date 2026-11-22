@@ -457,8 +457,8 @@ verlangt aber eine erfolgreiche Probe und einen ruhigen Beat.
 
 `Paradoxon 3/5`
 Beispiel-Button-Bar: `1` `2` `3` `4` `5`
-Live-Anzeige: `Rifts offen x` `+SG +y` `CU-Multi z×`
-Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()`.
+Live-Anzeige: `Rifts offen x` `+SG +y` `CU-Multi z×` (zählt nur **offene** Instanzen)
+Diese Zähler aktualisieren sich nach jeder Szene, sofort nach `createRifts()` und nach dem Debrief einer beendeten Rift-Op (die geschlossene Instanz fällt aus dem Zähler).
 <span style="color:#f93">Regel: bei Px 5 folgt ClusterCreate()</span>
 
 [[RULE]] ClusterCreate() bei Px 5 [[/RULE]]

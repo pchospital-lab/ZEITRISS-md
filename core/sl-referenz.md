@@ -549,7 +549,7 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 | 51–100 | 5 XP               | 390 XP    |
 
 **Anti-Fehldeutung:** Spalte _Kumulativ_ = Gesamt-XP-Summe bis Phasenübergang, **kein** Level-Füllbalken. In Phase 1
-gibt es keinen `X/10`-XP-Stand — jede Mission = +1 Level. HUD-Darstellung: `Lvl 3 ▓▓▓░░░░░░░` (Level-Rang), **niemals**
+gibt es keinen `X/10`-XP-Stand — jede abgeschlossene Core-/Rift-Ops-Mission und jede gewonnene PvP-BO3-Serie = +1 Level (Chronopolis: kein XP). HUD-Darstellung: `Lvl 3 ▓▓▓░░░░░░░` (Level-Rang), **niemals**
 `3/10 XP`. Ab Lvl 11 dann `Lvl 14 ▓▓░░░ 1/2 XP` mit Suffix. Siehe Masterprompt §F XP-Regel-Anwendung + §G Ausgabeformat.
 
 **Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 schaltet Kodex den
@@ -1012,7 +1012,7 @@ Der Debriefingraum kennt drei Varianten, abhängig vom Herkunftsraum (Details in
   `gameplay/kampagnenstruktur.md` (*Schleusen-Debrief*).
 - **Arena-/PvP-Debrief** (Match-Debrief): Match-Recap → `banked_rewards`-Buchung →
   optional ITI-Ruf-Delta → HQ-Menü. **Tür auf** nach Schritt 3 (oder 2, falls kein
-  Ruf-Delta). Kein XP/Level-Up, weil PvP außerhalb der Kampagnen-XP-Kurve läuft.
+  Ruf-Delta). Kein XP/Level-Up **im Match-Debrief selbst** — die PvP-XP wird über die bestehende Arena-Pending/Cashout-Verbuchung auf der **normalen** Kampagnen-XP-Kurve gebucht (siehe `gameplay/kampagnenstruktur.md` §PvP-only Progression).
 
 In allen drei Varianten schaltet der Raumwechsel am Ende auf `mode="hq"` +
 `location="HQ"`. Erst dann ist `!save` erlaubt, und der nächste Abschnitt startet

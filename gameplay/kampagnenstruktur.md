@@ -404,8 +404,8 @@ Rift-Seeds sind **Narben früherer Fehlgriffe** - ob durch Fremdfraktionen,
 fehlgeleitete Chrono-Teams oder eigene Fehlentscheidungen. Sie erscheinen auf
 der Raumzeitkarte als urbane Legenden, deren Kern immer einen **Zeit-Marker**
 trägt: Echos, Loops, Deja-vus oder Verzögerungen, die zeigen, dass der
-Geschichtsfluss instabil ist. Sobald die Agenten das Phänomen neutralisieren,
-verschwindet der Seed: Die Legende ist aufgeklärt, der "Riss" schließt sich.
+Geschichtsfluss instabil ist. Nach dem Debriefing einer beendeten Rift-Op verschwindet der Seed von der
+aktiven Karte — **unabhängig vom Ausgang**. Als *aufgeklärt* gilt die Legende aber nur bei tatsächlich gelöstem Fall; ein gescheiterter oder abgebrochener Einsatz schließt den Riss ebenso, ohne einen Sieg zu behaupten.
 
 > **Spieler-Perspektive:** Rift-Ops sind Bonus-Content. Ihr habt sie euch durch
 > gutes Spielen verdient. Stellt euch das wie Freischalt-Missionen in einem
@@ -1233,12 +1233,9 @@ Eine Rift-Op umfasst eine **vollständige Mission**. Sie folgt dem
 üblichen Ablauf Briefing → Aufklärung → Konflikt → Auswertung.
 Meist bekämpfen die Agenten ein Paramonster, zerstören dessen Kern und
 schließen damit den Seed. Der Schwierigkeitsgrad der Rift-Mission orientiert
-sich an der zum Einsprung offenen Seed-Anzahl. Verlassen die Agenten den Rift,
-schließt sich der Riss automatisch - gelungen oder nicht. Der Seed verschwindet
-aus dem Pool, wodurch Schwelle und CU-Multi erneut sinken.
+sich an der zum Einsprung offenen Seed-Anzahl. **Jede beendete Rift-Op geht — erfolgreich oder erfolglos, auch bei endgültigem Rückzug — ins Debriefing; danach ist genau diese Instanz endgültig geschlossen und verschwindet aus dem aktiven Pool** (Schwelle und CU-Multi sinken dann erneut). Das Debriefing bilanziert das **echte** Ergebnis: Ein ungelöst verlassener oder gescheiterter Rift bleibt ein ehrlicher Misserfolg und löst **keinen erfundenen Sieg** aus — Erfolg und Verfügbarkeit sind getrennte Aussagen. Die verantwortliche Parakreatur wird in ihrer **angebotenen, spielbaren** Bosskonfrontation gestellt; ein Abbruch vor dem Boss wird als Abbruch dokumentiert und dennoch nach dem Debrief geschlossen. Eine geschlossene Instanz ist nicht erneut besuchbar; ältere Save-Kopien reaktivieren sie nicht.
 Während einer Rift-Op bleibt der Paradoxon-Index unverändert: Weder der
-Einsprung noch die Ereignisse im Riss erhöhen ihn. Die Handlung ist ein eigenständiges Mystery-Casefile,
-die nur thematisch zur aktuellen Epoche passt.
+Einsprung noch die Ereignisse im Riss erhöhen ihn. Die Handlung ist ein eigenständiges Mystery-Casefile über **eine beliebige Epoche des gesamten Zeitraums** — es ist **nicht** an die Epoche der laufenden Core-Episode gebunden und braucht deren Kenntnis nicht (konsistent mit §Rift-Ops „laufen außerhalb der aktuellen Episode“).
 
 **Px-Policy:** Kampagnen führen ausschließlich `campaign.px`; ein separates
 `rift_px` existiert nicht. Loader verwerfen abweichende Felder und spiegeln

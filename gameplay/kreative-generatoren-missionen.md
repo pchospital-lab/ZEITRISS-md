@@ -1955,7 +1955,7 @@ Sample`.
    `register_anomaly()` nur einmal.
 6. **TRUTH** - kurzer Absatz zum Fallkern und dazu, wie `time_marker` dessen
    Existenz erklärt; kein Zwang zu einem dauerhaft aktiven Effekt.
-7. **LEADS PRIVATE** - 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
+7. **LEADS PRIVATE** - 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness. **Zeugenwahrheit konsistent halten:** Zeugen dürfen irren/lügen, aber der Kodex bestätigt eine Aussage **nicht** als objektiv täuschungsfrei und verkehrt sie später ohne Erklärung ins Gegenteil; eine erforderliche Enthüllung nie allein durch einen alles erklärenden NPC-Monolog ersetzen.
 8. **BOSS PRIVATE** - Stat-Hinweis + **keine oder höchstens eine** begrenzte,
    erkennbare Zeit-Signaturfähigkeit; Weakness namentlich und ohne Psi-Pflicht.
    **Phasen-Pflicht (Bosskampf-Pflichtgate):** Rift-Bosse haben **3 Phasen** mit LP pro
@@ -1971,7 +1971,7 @@ Sample`.
 - **Leads (5-9):** Drei Würfel-Checks aus "Leads Private" in Rettung, Jagd,
   Umgehung oder Gefecht platzieren. Gemeinsam decken sie Weg/Nest, Fallanker und
   Weakness ab; temporale Analyse ist nicht verpflichtend; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
-- **Boss-Encounter (10):** Weakness spielbar machen; falls der Boss einen
+- **Boss-Encounter (10):** Weakness spielbar machen; der tatsächliche Bosskontakt mit der verantwortlichen Parakreatur wird **angeboten und spielbar** gemacht — kein Geräte-/Anchor-/Protokoll-Abschluss und kein Offscreen-NPC-Sieg als Ersatz; falls der Boss einen
   Zeittrick besitzt, dessen erkennbare Abwehrbedingung prüfen und ihn höchstens
   einmal pro Runde einsetzen. **Drei Phasen Pflicht**
   (siehe `gameplay/kampagnenstruktur.md` §Bossphasen-System): Phasen-Switch via narrativem Reveal,
