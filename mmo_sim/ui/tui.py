@@ -5643,9 +5643,20 @@ class TuiSession:
         wenn `_resolve_active_save` einen bekannten, gerade nicht
         lesbaren Current-Save meldet -- der Aufrufer MUSS den
         Spielstart dann kontrolliert ablehnen, statt den (moeglicherweise
-        veralteten) `member_state.final_save` an die SL zu senden."""
+        veralteten) `member_state.final_save` an die SL zu senden.
+
+        ZR-R8-A1 (2026-11-22, 01_FIXAUFTRAG.md §A Teil 1): DIES ist der
+        echte Admission-/Uebergangscaller fuer freien HQ-Spielzug (Shop/
+        Briefing/Mission/freies Erkunden) -- `_cmd_local_round`/
+        `_cmd_lobby_initiative`/Tischbeitritt admittieren NIEMALS ohne
+        einen `(active_save, chrononaut_id)`-Treffer von hier. Der Gate
+        `onboarding.is_regular_creation_save_committed` ist deterministisch
+        (reine Statuspruefung, kein GM-Textparsing -- ein erzaehlter Satz
+        wie 'Gate passiert' hat auf dieses Praedikat keinen Einfluss) und
+        bytegleich zur vorherigen `final_save is None`-Pruefung (beide
+        Felder werden strukturell immer gemeinsam gesetzt, s. dort)."""
         member_state = onboarding.peek(self.onboarding_dir, pid)
-        if member_state is None or member_state.final_save is None:
+        if not onboarding.is_regular_creation_save_committed(member_state):
             return None
         member_active_save, unresolved = self._resolve_active_save(pid, member_state.final_save)
         if unresolved:
@@ -11163,6 +11174,7 @@ class TuiSession:
         from ..domain.zeitriss.community_bootstrap import bootstrap_community
         from ..domain.zeitriss.community_bootstrap import peek as peek_bootstrap
         from ..domain.zeitriss.community_creation import advance_community_creation
+        from ..domain.zeitriss.community_creation import peek_publication_readiness
 
         ps_store = PersonaStateStore(schema_path=self.schema_path)
         today = datetime.date.today().isoformat()
@@ -11274,22 +11286,73 @@ class TuiSession:
         # Verhaltensaenderung fuer eine unkonfigurierte Laufumgebung
         # (Baseline-Beobachtung `observe_community_entry.py` bleibt
         # unveraendert: 8 Entwuerfe, 0 Current-Saves, ohne Live-Setup).
-        if live_configured:
-            self._print(
-                "Persona-getriebene Erschaffung: echte SL-/Persona-Anbindung konfiguriert -- "
-                "die geplanten Startprofile erhalten JETZT echte, budgetpflichtige Anfragen "
-                "(kein Offline-Demo mehr fuer den Erschaffungsdialog selbst)."
-            )
-        else:
+        #
+        # ZR-R8-B (2026-11-22, 01_FIXAUFTRAG §B / 02_REGRESSION_UND_ABNAHME
+        # C3): Ansicht/`c`/Zurueck bleiben IMMER 0 Inferenz -- VORHER rief
+        # dieser Zweig an dieser Stelle UNBEDINGT `advance_community_creation(
+        # planned_persona_keys=ALLE geplanten)` auf, sobald `live_configured`
+        # war. Da bereits `completed` Personas das `limit` nicht verbrauchen
+        # (`community_creation.py`s `needs_attempt`-Zaehlung), startete das
+        # automatisch die NAECHSTE offene Persona bei jedem `c` -- der native
+        # Oracle-Befund (CREATION-REVIEW.md §'Warum Community-Reentry Oracle
+        # startet'). Jetzt: zuerst rein lesend (`onboarding.peek`, 0 Requests)
+        # klassifizieren + anzeigen, DANACH ERST eine bewusste Auswahl EINER
+        # konkreten offenen Persona erfragen -- nur bei gueltiger Auswahl wird
+        # `advance_community_creation` MIT GENAU dieser einen Persona
+        # (`planned_persona_keys=[gewaehlte_pk]`) aufgerufen. Der bestehende
+        # `planned_persona_keys`-Parameter ist bereits der richtige Selektor
+        # -- keine Signaturaenderung an `community_creation.py` noetig.
+        # F3-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, COMMUNITY-
+        # REVIEW.md B1): `onboarding.status == "completed"` allein ist KEIN
+        # Readybeleg (derselbe bestehende Vertrag wie `community_creation.
+        # py:_publication_reconcile`, C1) -- `onboarding.complete_with_save`
+        # setzt den Status bereits VOR Current/Katalogeintrag/Figurablage/
+        # Persona-State/aktiver Bindung. Ein nur dialogseitig abgeschlossener,
+        # noch unvollstaendig publizierter Auftrag muss ehrlich als
+        # fortsetzbar sichtbar bleiben (ehrlich "offen"), NICHT faelschlich
+        # als tischbereit aus der Auswahl aussortiert werden -- sonst bleibt
+        # die bestehende kostenfreie Publikations-Nachholung ueber eine
+        # bewusste Auswahl unerreichbar. `peek_publication_readiness` ist ein
+        # reiner Lese-Peek (0 Requests, 0 Writes) -- Ansicht/Zurueck bleiben
+        # inferenzfrei. Ein unklarer Current ("blocked") gilt bewusst NICHT
+        # als tischbereit.
+        planned = list(result.personas_written)
+        status_by_pk: dict[str, str] = {}
+        for pk in planned:
+            prior = onboarding.peek(self.onboarding_dir, pk)
+            if prior is not None and prior.status == "completed":
+                readiness = peek_publication_readiness(
+                    run_dir=self.run_dir, states_dir=self.states_dir,
+                    onboarding_dir=self.onboarding_dir, catalog_dir=self.catalog_dir,
+                    persona_key=pk, final_save=prior.final_save, ps_store=ps_store,
+                )
+                status_by_pk[pk] = "completed" if readiness == "already_ready" else "offen"
+            else:
+                status_by_pk[pk] = "offen"
+        finished = [pk for pk in planned if status_by_pk[pk] == "completed"]
+        open_ = [pk for pk in planned if status_by_pk[pk] != "completed"]
+        self._print(f"Fertig/tischbereit: {finished}")
+        self._print(f"Noch offen/wartend: {open_}")
+        if not live_configured:
             self._print(
                 "Persona-getriebene Erschaffung: keine SL-/Persona-Anbindung konfiguriert -- "
                 "kein echter Modellaufruf moeglich (nur Profilentwuerfe, s. docs/mmo-sim.md)."
             )
+            return
+        if not open_:
+            self._print(
+                "Alle geplanten Personas sind bereits tischbereit -- keine Auswahl noetig, "
+                "KEIN Modellaufruf fuer diesen Aufruf."
+            )
+            return
         # C4 ('ein begrenzter Fortschrittsschritt ... erlaubt Rueckkehr,
         # ohne erst saemtliche acht Dialoge absolvieren zu muessen'):
         # Betreiber-/Startkonfiguration ueber ENV, Default `None` = bisheriges
-        # Verhalten (alle geplanten Personas in einem `c`-Aufruf), keine
-        # erzwungene Verhaltensaenderung ohne explizite Konfiguration.
+        # Verhalten (ein Fortsetzungsversuch fuer die gewaehlte Persona), keine
+        # erzwungene Verhaltensaenderung ohne explizite Konfiguration. Die
+        # Validierung laeuft bewusst VOR der Personaauswahl -- ein bereits
+        # ungueltig konfigurierter Betrieb soll nicht erst eine Auswahl
+        # erfragen, die ohnehin verworfen wuerde.
         step_limit, limit_rejected = self._community_step_limit()
         if limit_rejected is not None:
             # Korrektur (P2-Community-Ergebnisuebergabe 2026-09-25): ein
@@ -11305,11 +11368,25 @@ class TuiSession:
                 "oder entfernen (= unbegrenzt) und 'c' erneut aufrufen."
             )
             return
+        chosen_pk = self._ask_community_persona_start_choice(open_)
+        if chosen_pk is None:
+            self._print(
+                "Keine konkrete offene Persona ausgewaehlt (zurueck/ungueltig) -- Ansicht "
+                "bleibt inferenzfrei, KEIN Modellaufruf fuer diesen Aufruf. Erneut 'c' "
+                "aufrufen und eine offene Persona gezielt waehlen, um sie zu starten/"
+                "fortzusetzen."
+            )
+            return
+        self._print(
+            "Persona-getriebene Erschaffung: echte SL-/Persona-Anbindung konfiguriert -- "
+            f"{chosen_pk!r} erhaelt JETZT eine echte, budgetpflichtige Anfrage (nur diese "
+            "EINE ausgewaehlte Persona, kein Offline-Demo mehr fuer ihren Erschaffungsdialog)."
+        )
         creation_outcomes = advance_community_creation(
             run_dir=self.run_dir, states_dir=self.states_dir, schema_path=self.schema_path,
             onboarding_dir=self.onboarding_dir, catalog_dir=self.catalog_dir,
             community_id=community_id, generation=generation,
-            planned_persona_keys=list(result.personas_written),
+            planned_persona_keys=[chosen_pk],
             gm_transport_factory=self.gm_transport_factory,
             persona_driver_factory=self.persona_driver_factory,
             print_fn=self._print, limit=step_limit,
@@ -11374,9 +11451,13 @@ class TuiSession:
                 f"{len(creation_outcomes)} Personas tischbereit, {by_status.get('paused', 0)} "
                 f"pausiert, {by_status.get('blocked', 0)} blockiert (Admission-Gate blocked)."
             )
-        # C4 ('Bereits fertige und offene Mitglieder sichtbar'):
-        finished = [oc.persona_key for oc in creation_outcomes if oc.status in ("already_ready", "completed")]
-        open_ = [oc.persona_key for oc in creation_outcomes if oc.status not in ("already_ready", "completed")]
+        # C4 ('Bereits fertige und offene Mitglieder sichtbar'): nach dem
+        # EINEN Versuch fuer `chosen_pk` den Gesamtstand (alle geplanten
+        # Personas, nicht nur die gerade versuchte) erneut anzeigen.
+        for oc in creation_outcomes:
+            status_by_pk[oc.persona_key] = "completed" if oc.status in ("already_ready", "completed") else "offen"
+        finished = [pk for pk in planned if status_by_pk[pk] == "completed"]
+        open_ = [pk for pk in planned if status_by_pk[pk] != "completed"]
         self._print(f"Fertig/tischbereit: {finished}")
         self._print(f"Noch offen/wartend: {open_}")
 
@@ -11452,6 +11533,30 @@ class TuiSession:
         if choice in ("d", "demo"):
             return "demo"
         return None
+
+    def _ask_community_persona_start_choice(self, open_keys: list[str]) -> str | None:
+        """ZR-R8-B (2026-11-22, 01_FIXAUFTRAG §B / CREATION-REVIEW.md §3
+        'B -- Statusnavigation und bewussten Erschaffungsstart trennen'):
+        Ansicht/`c`/Zurueck bleiben inferenzfrei -- EIN bewusster Entscheid,
+        WELCHE konkrete offene Persona jetzt gestartet/fortgesetzt wird,
+        BEVOR der erste budgetpflichtige Request fuer sie ausgeloest wird.
+        Liefert den gewaehlten `persona_key` NUR bei exakter Uebereinstimmung
+        mit einem Eintrag aus `open_keys`; jede andere Eingabe (leer,
+        '/zurueck'/'/abbrechen'/'/pause', unbekannter Key, EOF) liefert
+        `None` -- der Aufrufer (`_cmd_community`) lehnt das kontrolliert ab
+        (KEIN Modellaufruf fuer diesen Aufruf), analog `_ask_live_starter_
+        origin_choice` oben. Diese Funktion selbst loest NIE einen
+        Modell-/Transportaufruf aus -- reine Eingabeabfrage."""
+        listing = ", ".join(open_keys)
+        choice, control = self._readline_with_controls(
+            f"Welche offene Persona jetzt starten/fortsetzen? [{listing}] "
+            "(oder /zurueck -- 0 Inferenz): ",
+            context="Community-Persona-Start",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            return None
+        choice = choice.strip()
+        return choice if choice in open_keys else None
 
     def _live_adoption_path(self, community_dir: Path) -> Path:
         return community_dir / "bootstrap__live_adoption.json"

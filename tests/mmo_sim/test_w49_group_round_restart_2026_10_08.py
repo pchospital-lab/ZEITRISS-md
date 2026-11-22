@@ -171,9 +171,16 @@ def test_w49a_crash_before_send_reuses_same_round_on_restart():
         )
         save_correction.begin_attempt(run_dir, repair_key)
         round_no = save_correction._next_round_no(run_dir, table.table_id, "section-w49a")
+        # F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122): seit diesem
+        # Nachzug bindet JEDER rundeneroeffnende Aufruf additiv den
+        # Original-Snapshot (`expected_prev_ref_by_member`) -- ein Resume
+        # ohne diese Bindung haelt jetzt bewusst (s. `pursue_group_save_
+        # correction`), damit dieser (hier unveraenderte) W49-Testfall
+        # weiterhin genau seine eigene Idempotenz-Garantie prueft.
+        snapshot = store.current_save_ref_snapshot(table, ps_store, states_dir)
         save_correction._write_open_round(run_dir, table.table_id, "section-w49a", round_no, [
             {"persona_key": "guest_pk", "char_id": "chrono-guest", "original_block": guest_invalid},
-        ])
+        ], expected_prev_ref_by_member=snapshot)
         assert round_no == 1
         before = save_correction.load_record(run_dir, repair_key)
         assert before["attempts_used"] == 1 and before["state"] == "correction_pending"
@@ -239,9 +246,11 @@ def test_w49b_crash_after_response_before_checkpoint_reuses_durable_result():
         )
         save_correction.begin_attempt(run_dir, repair_key)
         round_no = save_correction._next_round_no(run_dir, table.table_id, "section-w49b")
+        # F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122): s. w49a oben.
+        snapshot = store.current_save_ref_snapshot(table, ps_store, states_dir)
         save_correction._write_open_round(run_dir, table.table_id, "section-w49b", round_no, [
             {"persona_key": "guest_pk", "char_id": "chrono-guest", "original_block": guest_invalid},
-        ])
+        ], expected_prev_ref_by_member=snapshot)
 
         # Der tatsaechliche Versand laeuft VOLLSTAENDIG durch (Ledger bereits
         # `accounted`, Antwort durabel) -- DANACH "crasht" der Prozess, bevor
@@ -318,10 +327,12 @@ def test_w49c_partial_adoption_mid_round_resumes_both_members_without_resend():
             )
             save_correction.begin_attempt(run_dir, rk)
         round_no = save_correction._next_round_no(run_dir, table.table_id, "section-w49c")
+        # F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122): s. w49a oben.
+        snapshot = store.current_save_ref_snapshot(table, ps_store, states_dir)
         save_correction._write_open_round(run_dir, table.table_id, "section-w49c", round_no, [
             {"persona_key": "leader_pk", "char_id": "chrono-leader", "original_block": leader_invalid},
             {"persona_key": "guest_pk", "char_id": "chrono-guest", "original_block": guest_invalid},
-        ])
+        ], expected_prev_ref_by_member=snapshot)
 
         # F-WALLET-LOSS: wertgleicher Betrag (500) wie `leader_invalid`/`guest_invalid`.
         leader_valid = full_v7_save("chrono-leader", name="Leader")

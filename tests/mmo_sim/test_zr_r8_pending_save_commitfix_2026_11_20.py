@@ -416,32 +416,44 @@ def test_m12_pre_send_mixed_group_adopts_full_group_zero_calls():
         assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) == guest_good
 
 
-def test_m12_pre_send_mixed_group_holds_without_hidden_correction_call():
-    """Testmatrix (Order §5 "Volle Mischgruppe", negativ -- 03 §4 "ohne
-    versteckte bezahlte Nachforderung"): der Gast hat KEINEN gueltigen
-    gecachten Block -- der Leader-Kandidat allein deckt die Gruppe NICHT.
-    PRE-SEND darf den bestehenden `pursue_group_save_correction`-Weg NICHT
-    erreichen (`ExplodingGmTransport` wirft bei JEDEM Aufruf) -- der
-    Abschnitt haelt ehrlich mit dem bestehenden `missing`-Grund, kein
-    unberechtigter Gruppenabschluss, kein automatischer Correction-Call.
+def test_zr_r8_group_c1_active_leader_save_opens_corrector_for_missing_guest():
+    """ZR-R8-CHARGEN-GRUPPENABSCHLUSS-20261122 Ziel C / Regression G1
+    (02_REGRESSION_UND_ABNAHME.md "Aktiver realer Gruppenfall",
+    GROUP-CODE-REVIEW.md §4 "Aktive Autoritaet unterscheiden").
 
-    Flo-Entscheidung A (2026-11-21): UNVERAENDERTE Produktreihenfolge wie im
-    positiven Mischgruppen-Test (Leader-Pendingexport im Anker = Kandidat
-    sl_log[0], regulaerer block-freier Gastimport danach sl_log[1]) -- der
-    block-freie Gastimport invalidiert den Kandidaten NICHT; der Abschnitt
-    haelt hier allein deshalb, weil fuer den Gast KEIN gueltiger Stand
-    vorliegt (echtes `missing`, nicht der frueher reproduzierte Fehlfire)."""
+    PRAEZISIERUNG (offen, NICHT heimlich aufgeweicht) des vormaligen Tests
+    `test_m12_pre_send_mixed_group_holds_without_hidden_correction_call`
+    (01_FIXAUFTRAG.md §C zitiert ihn woertlich): VOR diesem Fix hielt
+    `core/runtime.py`s `and not pre_send`-Gate JEDE PRE-SEND-Uebernahme mit
+    fehlendem Gast vom bestehenden `pursue_group_save_correction`-Weg fern --
+    auch dann, wenn der aktuelle Leader-Turn selbst ein geprueftes, aktuelles
+    `!save`-Kommando war (GENAU der native G1-Befund: KI-Leader liefert nur
+    seinen eigenen HQ-Folgesave, Gast fehlt vollstaendig, der spaetere
+    explizite Leader-Abschluss erreichte den Corrector nie). Flos neuer
+    Auftrag verlangt ausdruecklich, dass ein AKTUELLER, TATSAECHLICHER
+    Leader-Abschlussauftrag genau diesen bestehenden, begrenzten Corrector
+    oeffnen darf -- NUR fuer die noch fehlenden berechtigten Mitglieder,
+    OHNE die Leaderrunde selbst neu zu spielen.
+
+    Fail-before (empirisch belegt, s. Report): am UNVERAENDERTEN Code dieser
+    Datei (vor der `pre_send_active_leader_authority`-Aenderung in
+    `core/runtime.py`/`core/save_correction.py`) wirft dieser exakte Ablauf
+    mit einem EXPLODING-GM fuer die Korrekturrunde `AssertionError`
+    ('unerwarteter GM-Call') -- der Corrector wurde nie erreicht. NACH dem
+    Fix: GENAU EIN zusaetzlicher GM-Call (die begrenzte Nachforderung fuer
+    `guest_pk`), der Leader-Anteil wird NICHT neu angefragt/neu gespielt,
+    die Gruppe schliesst danach regulaer mit beiden Pflichtreflexionen ab."""
     with tempfile.TemporaryDirectory() as td:
         env = make_env(Path(td))
-        lobby, table, ps_store = build_two_member_table(env, table_id="t-m12-mixed-hold")
+        lobby, table, ps_store = build_two_member_table(env, table_id="t-zr-r8-g1-active")
         write_test_profile(env.run_dir)
-        section_id = "section-m12-mixed-hold"
+        section_id = "section-zr-r8-g1-active"
 
-        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="m12-mixed-hold-leader")
-        # UNVERAENDERTE Produktreihenfolge (Flo A): Leader-Export im Anker
-        # (Kandidat sl_log[0]), regulaerer block-freier Gastimport danach
-        # (sl_log[1]). Reihenfolge NICHT umgestellt, um den frueheren Fehlfire
-        # zu umgehen (im Code zurueckgeschnitten).
+        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="zr-r8-g1-leader")
+        # UNVERAENDERTE Produktreihenfolge (Flo-Entscheidung A, 2026-11-21):
+        # Leader-Export im Anker (Kandidat sl_log[0]), regulaerer block-freier
+        # Gastimport danach (sl_log[1]) -- der block-freie Gastimport
+        # invalidiert den Kandidaten NICHT.
         gm_setup = ScriptedGmTransport(scripted_contents=[
             _fenced_save(leader_export),             # Leader-Anker = Export = Kandidat (sl_log[0]).
             "Herzlich willkommen am Tisch, Gast!",   # regulaerer Gastimport, block-frei (sl_log[1]).
@@ -458,7 +470,87 @@ def test_m12_pre_send_mixed_group_holds_without_hidden_correction_call():
         assert not setup_outcome.completion.success, setup_outcome.completion
 
         table2 = store.Table.load(env.run_dir, table.table_id)
-        gm_save = ExplodingGmTransport()
+        # Der Gast liefert erst JETZT, auf die begrenzte Nachforderung des
+        # bestehenden Correctors, seinen gueltigen Folgesave -- GENAU EIN
+        # Scriptinhalt: ein zweiter/weiterer Call waere ein Testversagen
+        # (`ScriptedGmTransport` liefert sonst leeren Inhalt, s. `.calls`-
+        # Laengenpruefung unten fuer den harten Beleg).
+        guest_export = full_v7_save("chrono-guest", name="Guest", level=1, save_id="zr-r8-g1-guest-corrected")
+        gm_save = ScriptedGmTransport(scripted_contents=[_fenced_save(guest_export)])
+        controller_save = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="!save", origin_source="fake:scripted"),
+                ParticipantDecision(text="Kurzer Rueckblick Leader.", origin_source="fake:scripted"),
+            ]),
+            "guest_pk": ReflectionOnlyDriver(reflection_text="Rueckblick Gast."),
+        })
+        outcome = _duo_run_section(
+            lobby, table2, ps_store, gm_save, controller_save, section_id, env.states_dir, max_turns=5,
+        )
+        assert outcome.completion.success, outcome.completion
+        assert len(gm_save.calls) == 1, (
+            "GENAU EIN zusaetzlicher GM-Call erwartet (die begrenzte Nachforderung fuer den "
+            f"fehlenden Gast) -- weder null (alte Sackgasse) noch mehr (keine Leader-Neurunde): {gm_save.calls}"
+        )
+        assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) == leader_export, (
+            "der Leader-Anteil muss GENAU der zuvor gezeigte Export bleiben -- keine Neurunde/"
+            "kein neuer Leader-Call durch die Gast-Nachforderung."
+        )
+        assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) == guest_export, (
+            "der Gast-Anteil muss GENAU der ueber den Corrector nachgeforderte Export sein."
+        )
+
+        from mmo_sim.core import save_correction as save_correction_core
+        from mmo_sim.domain.zeitriss import save_correction as save_correction_domain
+        guest_repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, "chrono-guest")
+        guest_record = save_correction_core.load_record(env.run_dir, guest_repair_key)
+        assert guest_record is not None and guest_record.get("state") == save_correction_core.STATE_ADOPTED, guest_record
+        assert guest_record.get("attempts_used") == 1, (
+            f"GENAU EIN gezaehlter Korrekturversuch fuer den Gast, kein Fake-DONE: {guest_record}"
+        )
+        leader_repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, "chrono-leader")
+        assert save_correction_core.load_record(env.run_dir, leader_repair_key) is None, (
+            "fuer den Leader (bereits gueltig gebunden, nie 'missing') darf GAR KEIN "
+            "Korrekturdatensatz entstanden sein."
+        )
+
+
+def test_zr_r8_group_c1_hold_when_guest_stays_genuinely_missing():
+    """Guard-Erhalt (direktes Gegenstueck zu G1, 03_FIXAUFTRAG.md §C
+    "nur fehlende berechtigte persoenliche Folgeblöcke nachfordern"): bleibt
+    der Gast AUCH nach der begrenzten Nachforderung ohne jeden bindbaren
+    Block (die SL antwortet block-frei), haelt der Abschnitt weiterhin ehrlich
+    `missing`/HOLD -- die aktive Leaderautoritaet erkauft KEINEN garantierten
+    Abschluss, nur die Erreichbarkeit des bestehenden, selbst weiterhin
+    scharfen Correctors (Budget/Identitaet/Drift bleiben unveraendert
+    wirksam)."""
+    with tempfile.TemporaryDirectory() as td:
+        env = make_env(Path(td))
+        lobby, table, ps_store = build_two_member_table(env, table_id="t-zr-r8-g1-hold")
+        write_test_profile(env.run_dir)
+        section_id = "section-zr-r8-g1-hold"
+
+        leader_export = full_v7_save("chrono-leader", name="Leader", level=5, save_id="zr-r8-g1-hold-leader")
+        gm_setup = ScriptedGmTransport(scripted_contents=[
+            _fenced_save(leader_export),
+            "Herzlich willkommen am Tisch, Gast!",
+        ])
+        controller_setup = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="Ich zeige meinen Stand.", origin_source="fake:scripted"),
+            ]),
+            "guest_pk": ScriptedDriver([ParticipantDecision(text="Ich importiere meine Figur.", origin_source="fake:scripted")]),
+        })
+        setup_outcome = _duo_run_section(
+            lobby, table, ps_store, gm_setup, controller_setup, section_id, env.states_dir, max_turns=2,
+        )
+        assert not setup_outcome.completion.success, setup_outcome.completion
+
+        table2 = store.Table.load(env.run_dir, table.table_id)
+        from mmo_sim.core.save_correction import MAX_ADDITIONAL_REQUESTS
+        gm_save = ScriptedGmTransport(scripted_contents=[
+            "Der Zeitriss flackert, kein verwertbarer Stand lesbar.",
+        ] * MAX_ADDITIONAL_REQUESTS)
         controller_save = TableController(leader_key="leader_pk", drivers={
             "leader_pk": ScriptedDriver([ParticipantDecision(text="!save", origin_source="fake:scripted")]),
             "guest_pk": ExplodingDriverStub(),
@@ -467,15 +559,66 @@ def test_m12_pre_send_mixed_group_holds_without_hidden_correction_call():
             lobby, table2, ps_store, gm_save, controller_save, section_id, env.states_dir, max_turns=1,
         )
         assert not outcome.completion.success, (
-            f"ein fehlender Gast darf NICHT zu einem unberechtigten Gruppenabschluss fuehren: {outcome.completion}"
+            f"ein AUCH nach Nachforderung weiterhin fehlender Gast darf NICHT zu einem "
+            f"unberechtigten Gruppenabschluss fuehren: {outcome.completion}"
         )
         assert "guest_pk" in outcome.completion.missing, outcome.completion
-        assert gm_save.calls == 0, (
-            f"kein versteckter Correction-Call fuer den fehlenden Gast erwartet: {gm_save.calls}"
+        assert len(gm_save.calls) == MAX_ADDITIONAL_REQUESTS, (
+            f"begrenzte Nachforderung bis Budgeterschoepfung, kein unbegrenztes Weiterfragen: {gm_save.calls}"
         )
         assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) is None, (
             "ohne vollstaendige Gruppe darf auch der Leader-Anteil NICHT publiziert worden sein."
         )
+
+
+def test_zr_r8_group_c1_g2_guest_save_command_is_not_leader_authority():
+    """Regression G2 (02_REGRESSION_UND_ABNAHME.md "Passive Schutzfaelle",
+    GROUP-CODE-REVIEW.md §4 "Ein bloßer ... Gastwunsch ... ist KEINE aktive
+    Autoritaet"): ein literales `!save` von einem GAST (nicht dem Leader)
+    darf die neue aktive Eintrittsregel NIE ausloesen -- `act()`s PRE-SEND-
+    Pfad und damit `pre_send_active_leader_authority` sind ausschliesslich an
+    `pk == leader` gebunden (UNVERAENDERT, s. `core/runtime.py`). Der Gast-
+    `!save` geht als gewoehnlicher Gastimport-Text zur SL; der Leader selbst
+    liefert in dieser Runde KEINEN eigenen Export -- der Abschnitt bleibt
+    ehrlich `missing`/HOLD fuer BEIDE Mitglieder, KEIN Correction-Call."""
+    with tempfile.TemporaryDirectory() as td:
+        env = make_env(Path(td))
+        lobby, table, ps_store = build_two_member_table(env, table_id="t-zr-r8-g2-guestsave")
+        write_test_profile(env.run_dir)
+        section_id = "section-zr-r8-g2-guestsave"
+
+        gm_normal = ScriptedGmTransport(scripted_contents=[
+            "Ihr blickt euch um. Noch kein Stand in Sicht.",  # Leader-Anker, block-frei.
+            "Der Tisch nimmt die Nachricht zur Kenntnis.",     # Gast-'!save' laeuft als gewoehnlicher Import-Text.
+        ])
+        controller = TableController(leader_key="leader_pk", drivers={
+            "leader_pk": ScriptedDriver([
+                ParticipantDecision(text="Ich schaue mich um.", origin_source="fake:scripted"),
+            ]),
+            "guest_pk": ScriptedDriver([
+                ParticipantDecision(text="!save", origin_source="fake:scripted"),
+            ]),
+        })
+        outcome = _duo_run_section(
+            lobby, table, ps_store, gm_normal, controller, section_id, env.states_dir, max_turns=1,
+        )
+        assert not outcome.completion.success, (
+            f"ein Gast-'!save' darf NIEMALS eine aktive Leaderautoritaet ersetzen: {outcome.completion}"
+        )
+        # `complete_section` wird hier (anders als bei G1) GAR NICHT erreicht
+        # -- weder Marker noch ein geprueftes Leader-Save-Kommando liegt vor,
+        # die Szene laeuft regulaer bis `max_turns` offen weiter. Genau DAS
+        # ist der Beleg: der Gast-'!save' hat KEINEN Abschlussversuch/keine
+        # Nachforderung ausgeloest (nur die zwei normal gescripteten Zuege,
+        # kein dritter/correction Call -- `ScriptedGmTransport` haette bei
+        # einem unerwarteten Ueberlauf leeren Inhalt zurueckgegeben, der dann
+        # nicht als gueltiger Save extrahierbar waere).
+        assert len(gm_normal.calls) == 2, (
+            f"GENAU die zwei gescripteten Normalzuege (Leader-Anker + Gast-Import-Text), "
+            f"KEIN zusaetzlicher Correction-/Abschluss-Call: {gm_normal.calls}"
+        )
+        assert store.load_current_save(env.run_dir, "leader_pk", ps_store, states_dir=env.states_dir) is None
+        assert store.load_current_save(env.run_dir, "guest_pk", ps_store, states_dir=env.states_dir) is None
 
 
 class ExplodingDriverStub:

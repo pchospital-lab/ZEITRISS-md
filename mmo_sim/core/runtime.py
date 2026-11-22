@@ -849,7 +849,7 @@ class SectionRuntime:
         def finalize(
             text: str, resume_section_id: str | None = None,
             prev_ref_override: dict[str, dict | None] | None = None,
-            *, pre_send: bool = False,
+            *, pre_send: bool = False, pre_send_active_leader_authority: bool = False,
         ) -> SectionOutcome:
             # ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Rework (Order §2,
             # 03 §4): `pre_send=True` markiert einen Aufruf aus `act()`s
@@ -869,6 +869,19 @@ class SectionRuntime:
             # normale Marker-/Save-Kommando-Weg (`pre_send=False`, Default)
             # bleibt bytegleich -- er nutzt weiterhin den bestehenden
             # `pursue_group_save_correction`-Nachforderpfad.
+            #
+            # ZR-R8-CHARGEN-GRUPPENABSCHLUSS-20261122 Ziel C: `pre_send_
+            # active_leader_authority=True` (additiv, Default `False` --
+            # JEDER bestehende Aufrufer bleibt bytegleich) wird AUSSCHLIESSLICH
+            # von `act()`s PRE-SEND-Pfad gesetzt, wenn der LAUFENDE Leader-Turn
+            # selbst ein geprueftes `!save`/`!speichern`-Kommando ist (s. dort).
+            # Das ist die "aktive Eintrittsregel": ein blosser Cachefund/Scan/
+            # Gastwunsch/fremde Antwort setzt dieses Flag NIE. Es oeffnet NICHT
+            # den obigen `not pre_send`-Zweig (der bleibt unveraendert zu),
+            # sondern erlaubt GENAU unten, NACH dem unveraenderten requestlosen
+            # Best-effort-Versuch, einen Rueckgriff auf den bestehenden
+            # begrenzten `pursue_group_save_correction`-Weg fuer NOCH fehlende
+            # Mitglieder (s. unten).
             sid = resume_section_id if resume_section_id is not None else section_id
             cid_to_pk = self.table.chrononaut_id_to_persona()
             harvested = self.harvest_extractor(text, cid_to_pk) if text else {}
@@ -957,7 +970,7 @@ class SectionRuntime:
                     harvest_validator=self.harvest_validator, persona_state_store=self.persona_state_store,
                     gm_transport=self.gm_transport, cid_to_pk=cid_to_pk,
                     harvest_extractor=self.harvest_extractor,
-                    emit=self._group_correction_status_emit,
+                    emit=self._group_correction_status_emit, prev_ref_override=prev_ref_override,
                 )
             elif (
                 not harvest_completion.success and harvest_completion.missing
@@ -999,6 +1012,54 @@ class SectionRuntime:
                     harvest_validator=self.harvest_validator, persona_state_store=self.persona_state_store,
                     emit=self._group_correction_status_emit, prev_ref_override=prev_ref_override,
                 )
+                # ZR-R8-CHARGEN-GRUPPENABSCHLUSS-20261122 Ziel C (01_FIXAUFTRAG.md
+                # §C "Verlangter kleinster Uebergang", GROUP-CODE-REVIEW.md §4
+                # "Aktive Autoritaet unterscheiden"): der requestlose Best-effort-
+                # Schritt oben bleibt UNVERAENDERT (er loest NIE einen GM-Call aus
+                # und bleibt damit die bestehende M12-Garantie fuer rein
+                # strukturelle Cap-Ueberlaeufe im EIGENEN bereits gezeigten
+                # Kandidaten). `and not pre_send` oben wird NICHT pauschal
+                # entfernt/umgangen -- diese Flagge ist eine ZUSAETZLICHE, eng
+                # gefasste Bedingung: NUR wenn der aktuelle Leader-Turn selbst ein
+                # literales, soeben GEPRUEFTES Save-Kommando ist UND `act()` dafuer
+                # bereits einen vollstaendig originalgebundenen eigenen Export
+                # gefunden hat (`pre_send_active_leader_authority`, s. `act()`
+                # unten -- die EINZIGE Stelle, die dieses Flag je setzt), darf der
+                # bestehende, bereits fuer den Normalpfad genutzte, pro-Figur
+                # begrenzte `pursue_group_save_correction`-Weg fuer die nach dem
+                # Best-effort-Schritt NOCH `missing` verbleibenden Mitglieder
+                # erreicht werden. Ein blosser Cachefund/Scan/Gastwunsch/fremde
+                # Antwort setzt dieses Flag NIE -- diese Faelle bleiben unter der
+                # unveraenderten `and not pre_send`-Bedingung oben requestlos. Der
+                # bestehende Corrector traegt seine eigenen Drift-/Bindungs-/
+                # Identitaets-/Budget-Haertungen unveraendert (keine neue Pruefung
+                # hier noetig); `prev_ref_override` wird additiv durchgereicht,
+                # damit der ORIGINAL-Snapshot auch auf diesem neuen Uebergang
+                # erhalten bleibt (F1).
+                if (
+                    not harvest_completion.success and harvest_completion.missing
+                    and pre_send_active_leader_authority
+                    and store.open_completion_order_for_table(self.lobby.run_dir, self.table.table_id) is None
+                ):
+                    # F2-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122,
+                    # GROUP-REVIEW.md F2): `require_hq=True` NUR auf diesem
+                    # aktiven PRE-SEND-Uebergang (s. Docstring dort) -- der
+                    # normale `not pre_send`-Nachforderweg oben (Z.~967)
+                    # bleibt unveraendert ohne diese Regel. Schliesst die
+                    # Luecke, dass ein beim HQ-Erstcheck (`_candidate_hq_
+                    # hold_reason`, der NUR vorhandene Bloecke prueft) noch
+                    # fehlender Gast ueber genau diesen Weg erreichbar wird,
+                    # ohne seinen spaeter gelieferten Block je gegen die
+                    # HQ-Zulaessigkeit zu pruefen.
+                    harvested, harvest_completion = save_correction.pursue_group_save_correction(
+                        lobby=self.lobby, table=self.table, section_id=sid, harvested=harvested,
+                        harvest_completion=harvest_completion, states_dir=states_dir, today=today,
+                        harvest_validator=self.harvest_validator, persona_state_store=self.persona_state_store,
+                        gm_transport=self.gm_transport, cid_to_pk=cid_to_pk,
+                        harvest_extractor=self.harvest_extractor,
+                        emit=self._group_correction_status_emit, prev_ref_override=prev_ref_override,
+                        require_hq=True,
+                    )
             if not harvest_completion.success:
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": harvest_completion.reason})
                 return SectionOutcome(completion=harvest_completion, harvested=harvested, debrief_text=text)
@@ -1400,6 +1461,12 @@ class SectionRuntime:
                             pending_candidate["content"],
                             prev_ref_override=pending_candidate.get("expected_prev_ref_by_member"),
                             pre_send=True,
+                            # Ziel C: GENAU hier, und NUR hier, ist der Leader-
+                            # Turn selbst gerade als geprueftes `!save`-Kommando
+                            # erkannt worden (`explicit_completion_attempt`
+                            # oben) UND ein vollstaendig originalgebundener
+                            # eigener Export gefunden -- die aktive Autorität.
+                            pre_send_active_leader_authority=True,
                         )
             else:
                 # OPTION2-CMD Haertung: ein Nicht-Leader-Turn (Gast-Import/

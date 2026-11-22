@@ -217,13 +217,24 @@ def test_ux19_admission_gate_closed_blocks_even_with_explicit_production_choice(
                     raise EOFError()
             return _fn
 
+        # ZR-R8-B-Nachzug (2026-11-22, 01_FIXAUFTRAG §B): seit der Ziel-B-
+        # Umstellung fragt `_cmd_community` nach der Herkunftsentscheidung
+        # zusaetzlich bewusst, WELCHE konkrete offene Persona gestartet
+        # werden soll -- deterministisch die erste produktive Persona
+        # (gleiche Formel wie `TuiSession._production_starter_pool`). Der
+        # Admission-Block greift danach INNERHALB des Erschaffungsversuchs,
+        # VOR jeder Transportkonstruktion -- die Auswahl selbst loest also
+        # weiterhin KEINEN Modellaufruf aus.
+        first_pk = next(iter(TuiSession.__new__(TuiSession)._production_starter_pool(
+            "community-human_caller_prod_closed_gate", size=8,
+        ).keys()))
         session = TuiSession(
             onboarding_dir, catalog_dir, "human_caller_prod_closed_gate",
             # 'p': ausdrueckliche PRODUKTIVE Herkunftsentscheidung -- die
             # Factories sind konfiguriert (sonst wuerde die [d/p]-Frage gar
             # nicht gestellt), werfen aber AssertionError, falls sie
             # tatsaechlich fuer einen Modellaufruf erreicht wuerden.
-            input_fn=_queue(["p"]),
+            input_fn=_queue(["p", first_pk]),
             print_fn=printed.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             gm_transport_factory=lambda *_a, **_kw: (_ for _ in ()).throw(

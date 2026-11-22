@@ -75,6 +75,35 @@ def peek(onboarding_dir: str | Path, participant_id: str) -> OnboardingState | N
     return _load(_path(Path(onboarding_dir), participant_id))
 
 
+def is_regular_creation_save_committed(state: OnboardingState | None) -> bool:
+    """ZR-R8-A1 (2026-11-22, 01_FIXAUFTRAG.md §A Teil 1, deterministischer
+    Controller-Zustandsgate -- NICHT Textfilter): reine Praedikatsfunktion
+    ohne I/O. Liefert `True` NUR, wenn fuer diesen Teilnehmer ein regulaerer
+    Erstsave bereits committet ist -- `status == 'completed'` UND
+    `final_save is not None`. Beide Felder werden IMMER gemeinsam gesetzt,
+    ausschliesslich von `complete_with_save`/`complete_with_save_best_
+    effort` (s. dort); diese Funktion liest/bewertet NIEMALS GM-/SL-
+    Freitext -- ein erzaehlter Satz wie 'Chargen-Save-Gate passiert' ist
+    KEIN Annahmebeleg und hat auf dieses Praedikat keinen Einfluss, da es
+    nur die beiden strukturellen Felder prueft."""
+    return state is not None and state.status == "completed" and state.final_save is not None
+
+
+def has_committed_regular_creation_save(onboarding_dir: str | Path, participant_id: str) -> bool:
+    """ZR-R8-A1: wie `is_regular_creation_save_committed`, aber liest den
+    Zustand selbst (`peek`, kein Write, kein Modellaufruf). Der echte
+    Admission-/Uebergangscaller fuer freien HQ-Spielzug (`ui/tui.py:
+    _resolve_member`, verwendet von `_cmd_local_round`/`_cmd_lobby_
+    initiative`/Tischbeitritt) nutzt GENAU dieses Praedikat: kein
+    Uebergang in freien HQ-Spielzug (Shop/Briefing/Mission/freies
+    Erkunden) vor einem gueltigen regulaeren Erstsave. Charakterkorrektur
+    und Save-Recovery (der laufende Erschaffungsdialog selbst,
+    `core/creation_service.py`) bleiben davon unberuehrt -- dieses
+    Praedikat wird NUR am Uebergang in die Spielphase geprueft, nie
+    innerhalb des Erschaffungsdialogs selbst."""
+    return is_regular_creation_save_committed(peek(onboarding_dir, participant_id))
+
+
 def start_or_resume(onboarding_dir: str | Path, participant_id: str, *, force_new: bool = False) -> OnboardingState:
     """Ein fehlender Charakter ist ein zulaessiger Onboardingzustand (11 §3)
     — legt bei erstem Aufruf einen leeren `in_progress`-Auftrag an, bei

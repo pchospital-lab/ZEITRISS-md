@@ -188,6 +188,45 @@ def group_repair_key(table_id: str, section_id: str, char_id: str) -> str:
     return f"group::{table_id}::{section_id}::{char_id}"
 
 
+def hq_mode_hold_reason(persona_key: str, block: dict | None) -> str | None:
+    """F2-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-REVIEW.md
+    F2): dieselbe HQ-Zulässigkeitsprüfung, die `core/runtime.py:
+    SectionRuntime.run_full_section._candidate_hq_hold_reason` bereits für
+    den aktiven PRE-SEND-Übernahmepfad anwendet (`continuity.last_seen.mode
+    == "hq"`, kanonischer HQ-Marker in beiden v7-Schemas) -- hier additiv
+    als reine, aufruferunabhängige Domänenfunktion, damit `core/save_
+    correction.py:pursue_group_save_correction` denselben Maßstab auch für
+    später nachgeforderte/wiederhergestellte/übernommene Blöcke anwenden
+    kann, OHNE die bestehende, bereits getestete `_candidate_hq_hold_
+    reason`-Logik anzufassen.
+
+    Liefert `None` (= HQ-zulässig), wenn `block` eine gültige
+    `continuity.last_seen.mode == "hq"`-Struktur trägt; sonst einen
+    mitglied-benannten HOLD-Grund. Ein fehlender Block (`None`) ist NICHT
+    Sache dieser Funktion (das meldet `complete_section` unverändert als
+    `missing`) -- liefert dafür `None` (kein HOLD), der Aufrufer prüft
+    Abwesenheit selbst."""
+    if block is None:
+        return None
+    continuity = block.get("continuity")
+    last_seen = continuity.get("last_seen") if isinstance(continuity, dict) else None
+    if not isinstance(last_seen, dict):
+        return (
+            f"Mitglied {persona_key!r}: uebernommener Stand hat keine gueltige "
+            "continuity.last_seen-Struktur (fehlt, null oder falscher Typ) -- "
+            "kein nachweisbarer HQ-Stand, Speicherabschluss haelt, bis am HQ "
+            "gespeichert wird."
+        )
+    mode = last_seen.get("mode")
+    if mode != "hq":
+        return (
+            f"Mitglied {persona_key!r}: vollstaendig gueltiger Stand liegt vor, ist aber kein "
+            f"HQ-Stand (continuity.last_seen.mode={mode!r}) -- Speicherabschluss haelt, "
+            "bis am HQ gespeichert wird."
+        )
+    return None
+
+
 def _flatten(obj: object, prefix: str = "") -> list[tuple[str, object]]:
     """Zerlegt ein JSON-Objekt in (Pfad, Blattwert)-Paare, Pfadformat
     identisch zu `save_validation.SchemaError.path` ('/a/b/0'). Ein LEERES

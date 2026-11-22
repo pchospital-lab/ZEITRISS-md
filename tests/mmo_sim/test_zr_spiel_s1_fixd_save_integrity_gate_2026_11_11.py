@@ -498,13 +498,20 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
     (`core/runtime.py:act()`) findet den unter 3) gezeigten, noch nicht
     uebernommenen LEADER-eigenen Export (`fixture-r2-001`) bereits VOR dem
     Dispatch. Da der Gast ('tech') dafuer KEINEN gueltigen Block beisteuert,
-    ist das ein Order-§2-Fall-2-Kandidat (unvollstaendige Gruppe) -- echter
-    HOLD, OHNE versteckte Korrekturnachforderung UND OHNE den vierten,
-    vormals "zufaellig rettenden" GM-Call, der frueher einen frischen
-    Gruppenabschluss geliefert hat. Das Skript haelt deshalb nur noch DREI
-    Eintraege bereit; ein vierter Call waere jetzt ein echter Regressionsfund
-    (siehe `test_a2_...` fuer den unveraenderten POSITIVEN Gruppenabschluss-
-    Fall ueber ein echtes `!save` OHNE vorherigen Leader-Solo-Kandidaten)."""
+    ist das ein Order-§2-Fall-2-Kandidat (unvollstaendige Gruppe).
+
+    PRAEZISIERUNG (ZR-R8-CHARGEN-GRUPPENABSCHLUSS-20261122 Ziel C, offen
+    angepasst -- NICHT heimlich aufgeweicht): das literale `!save` ist hier
+    ein geprueftes, AKTUELLES Leader-Kommando -- `pre_send_active_leader_
+    authority` greift jetzt zusaetzlich NACH dem unveraenderten requestlosen
+    Best-effort-Versuch (der fuer 'tech' nichts findet, da kein Kandidat
+    vorliegt) und oeffnet den bestehenden, begrenzten `pursue_group_save_
+    correction`-Weg fuer den fehlenden Gast-Block. Das Skript haelt deshalb
+    JETZT einen vierten Eintrag bereit: die SL antwortet auf GENAU diese eine
+    begrenzte Nachforderung weiterhin block-frei (Gast bleibt tatsaechlich
+    fehlend) -- der Abschnitt haelt am Ende UNVERAENDERT ehrlich HOLD, aber
+    jetzt NACHWEISLICH ueber den erreichten Corrector (ein fuenfter Call
+    waere ein echter Regressionsfund)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -516,8 +523,13 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
             "Leader-Anker: ruhige Szene, kein Save.",
             "Gast-Import: ruhige Szene, kein Save.",
             _save_block_text("fixture-r2-001"),  # Leader-Zug 2: bindbarer Save, KEIN Abschluss.
-            # KEIN vierter Eintrag mehr -- PRE-SEND haelt '!save' VOR dem
-            # Dispatch an (Order §2 Fall 2, fehlender Gast-Block).
+            # Ziel C: drei weitere Eintraege -- der bestehende Corrector
+            # fragt bis zum vollen Budget (MAX_ADDITIONAL_REQUESTS=3) nach,
+            # solange 'tech' weiterhin block-frei bleibt (echt fehlend).
+            # KEIN siebter Eintrag mehr -- das Budget ist dann erschoepft.
+            "Noch kein verwertbarer Stand fuer Kaede verfuegbar.",
+            "Noch kein verwertbarer Stand fuer Kaede verfuegbar.",
+            "Noch kein verwertbarer Stand fuer Kaede verfuegbar.",
         ])
         printed: list[str] = []
         session = TuiSession(
@@ -542,11 +554,22 @@ def test_f_shared_screen_guest_poll_does_not_bypass_leader_gate():
         except EndOfInput:
             pass  # nach Abschluss endet die Runde regulaer.
 
-        _assert_calls(gm.calls, [
+        _assert_calls(gm.calls[:3], [
             "Ich beobachte den Raum.",
             "Ich sichere die Flanke.",
             "Ich gehe vorsichtig weiter.",
         ])
+        # Ziel C: GENAU drei weitere Calls -- die jetzt erreichte begrenzte
+        # Gast-Nachforderung des bestehenden Correctors faehrt ihr volles
+        # Budget (MAX_ADDITIONAL_REQUESTS=3), da 'tech' weiterhin block-frei
+        # antwortet (kein roher Leader-Input mehr, sondern die strukturierte
+        # Korrekturmeldung) -- KEIN siebter Call.
+        assert len(gm.calls) == 6, (
+            f"GENAU drei zusaetzliche Correction-Calls (volles Budget) fuer den fehlenden "
+            f"Gast-Block erwartet: {gm.calls}"
+        )
+        for call_text in gm.calls[3:]:
+            assert "TECHNISCHE SPEICHERKORREKTUR" in call_text and "tech" in call_text, call_text
         gate_hits = [i for i, p in enumerate(printed) if _GATE_CORE_LINE in p]
         assert gate_hits, (
             "Regression (R2-Fehlfire): die Leader-Aktion nach dem Gast-Poll haette trotz "
@@ -712,9 +735,18 @@ def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
     anschliessende `!save` erreicht den GM jetzt GAR NICHT MEHR -- PRE-SEND
     findet den LEADER-eigenen Block B direkt. Da 'tech' dafuer (wie in
     test_f) keinen gueltigen Block beisteuert, ist das Order-§2-Fall-2
-    (unvollstaendige Gruppe) -- echter HOLD, OHNE versteckte
-    Korrekturnachforderung und OHNE den vormals "zufaellig rettenden"
-    dritten GM-Call, der frueher einen frischen Gruppenabschluss lieferte."""
+    (unvollstaendige Gruppe).
+
+    PRAEZISIERUNG (ZR-R8-CHARGEN-GRUPPENABSCHLUSS-20261122 Ziel C, offen
+    angepasst -- NICHT heimlich aufgeweicht): dasselbe literale `!save` ist
+    ein geprueftes, AKTUELLES Leader-Kommando -- `pre_send_active_leader_
+    authority` oeffnet jetzt zusaetzlich den bestehenden, begrenzten
+    `pursue_group_save_correction`-Weg fuer den fehlenden 'tech'-Block
+    (NACH dem unveraenderten requestlosen Best-effort-Versuch, der hier
+    nichts findet). Das Skript haelt deshalb einen dritten Eintrag bereit:
+    weiterhin block-frei (Gast bleibt echt fehlend) -- der Abschnitt haelt
+    am Ende UNVERAENDERT ehrlich HOLD, jetzt aber NACHWEISLICH ueber den
+    erreichten Corrector (ein vierter Call waere ein echter Regressionsfund)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         states_dir, run_dir, onboarding_dir, catalog_dir = _env(root)
@@ -730,8 +762,13 @@ def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
         gm = _ScriptedTableGm([
             _save_block_text("fixture-a2-block-b-001", level=5),  # Leader-Anker: unuebernommener Block B.
             a_recap_text,  # Gast-Import: rekapituliert EXAKT den alten, uebernommenen Current A.
-            # KEIN dritter Eintrag mehr -- PRE-SEND haelt '!save' VOR dem
-            # Dispatch an (Order §2 Fall 2, fehlender 'tech'-Block).
+            # Ziel C: drei weitere Eintraege -- der bestehende Corrector
+            # fragt bis zum vollen Budget (MAX_ADDITIONAL_REQUESTS=3) nach,
+            # solange 'tech' weiterhin block-frei bleibt. KEIN sechster
+            # Eintrag mehr.
+            "Noch kein verwertbarer Stand fuer Kaede verfuegbar.",
+            "Noch kein verwertbarer Stand fuer Kaede verfuegbar.",
+            "Noch kein verwertbarer Stand fuer Kaede verfuegbar.",
         ])
         printed: list[str] = []
         session = TuiSession(
@@ -754,10 +791,16 @@ def test_a2_unadopted_own_block_survives_later_recap_of_old_current():
         except EndOfInput:
             pass  # nach Abschluss endet die Runde regulaer.
 
-        _assert_calls(gm.calls, [
+        _assert_calls(gm.calls[:2], [
             "Ich beobachte den Raum.",
             "Ich sichere die Flanke.",
         ])
+        assert len(gm.calls) == 5, (
+            f"GENAU drei zusaetzliche Correction-Calls (volles Budget) fuer den fehlenden "
+            f"'tech'-Block erwartet: {gm.calls}"
+        )
+        for call_text in gm.calls[2:]:
+            assert "TECHNISCHE SPEICHERKORREKTUR" in call_text and "tech" in call_text, call_text
         assert any(_GATE_CORE_LINE in p for p in printed), (
             "Regression (A2-Fehlfire): der spaetere Recap des alten Current A haette den "
             f"frueheren unuebernommenen Eigenblock B NICHT verdraengen duerfen: {printed}"

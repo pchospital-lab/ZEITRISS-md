@@ -180,9 +180,18 @@ def test_a_ki_community_erstgeneration_error_leak_redacted_no_raw_dict_zero_call
         write_test_profile(run_dir)
         gm_factory = _RaisingFactory()
         printed: list[str] = []
+        # ZR-R8-B-Nachzug (2026-11-22, 01_FIXAUFTRAG §B): seit der Ziel-B-
+        # Umstellung verarbeitet EIN `c`-Aufruf nur noch GENAU EINE bewusst
+        # gewaehlte Persona -- nach 'd' (Herkunftsentscheidung) wird jetzt
+        # zusaetzlich eine konkrete offene Persona abgefragt, deterministisch
+        # `cqb_community_flo_human` (gleiche Formel wie
+        # `TuiSession._synthetic_starter_pool`).
+        first_pk = next(iter(TuiSession.__new__(TuiSession)._synthetic_starter_pool(
+            "community-flo_human", size=8,
+        ).keys()))
         session = TuiSession(
             onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id="flo_human",
-            input_fn=_scripted_input(["d"]),  # Herkunftsentscheidung: SIMULIERT/DEMO uebernehmen
+            input_fn=_scripted_input(["d", first_pk]),  # Herkunftsentscheidung + Persona-Auswahl
             print_fn=printed.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
             gm_transport_factory=gm_factory,
@@ -209,7 +218,10 @@ def test_a_ki_community_erstgeneration_error_leak_redacted_no_raw_dict_zero_call
         # (Netzwerk-Guard oben belegt zusaetzlich, dass kein echter Socket
         # erreichbar ist) -- sie WURDE aufgerufen (Fabrikbau-Versuch), aber
         # kein einziger Aufruf kam je ueber den lokalen RuntimeError hinaus.
-        assert gm_factory.calls == 8, gm_factory.calls
+        # ZR-R8-B: NUR die EINE ausgewaehlte Persona wird versucht, nicht
+        # mehr alle 8 (Ziel B: 'nur fuer DIESE Persona, nicht die ganze
+        # Liste').
+        assert gm_factory.calls == 1, gm_factory.calls
 
 
 # ---------------------------------------------------------------------------
