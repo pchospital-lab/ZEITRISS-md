@@ -20,8 +20,7 @@ tags: [core, reference, gm]
   verlangt eine Zahl `0-4` (NPC-Begleiter; Team gesamt 1-5), `gruppe` ignoriert
   Zahlen. Ungültige Kombinationen liefern die passenden Fehltexte.
   *Legacy-Trigger:* `schnell`/`fast` werden im Runtime still auf `klassisch`
-  gemappt (Bestandsschutz; bis v4.2.5 war das eine eigene Fast-Lane mit
-  Sprung direkt ins Briefing — die Variante wurde entfernt).
+  gemappt (Bestandsschutz).
 - **Zentrale Strings.** Start-/Fehlertexte liegen in
   `dispatcher_strings` (Runtime-Export).
 - **Syntax-Hinweis.** Bei echter Mehrdeutigkeit oder fehlerhaftem Muster
@@ -31,8 +30,7 @@ tags: [core, reference, gm]
 - **Briefing & Schnellstart.** `klassisch` ist als Standard der einzige
   Pfad. Der Dispatcher fragt im Standardpfad zuerst nach `generate`, `custom generate`
   oder manuellem Bau. Legacy-Trigger `schnell`/`fast` werden im Runtime
-  still auf `klassisch` gemappt (Bestandsschutz); die Fast-Lane als
-  eigener Pfad wurde entfernt (siehe Hinweis am Ende dieses Kapitels).
+  still auf `klassisch` gemappt (Bestandsschutz).
   Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
@@ -627,12 +625,6 @@ selben Chat** wie Briefing + Mission — das ist **keine** ausgespielte HQ-Runde
 sondern der HQ-Teil des Mission-Zyklus (Frischer-Load-Chat-Regel,
 §HQ-Load-Standard). Spieler-Devise im [Spieler-Handbuch][gameflow-spieler].
 
-*Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme
-(`solo schnell` / `gruppe schnell`), die aus der Charaktererschaffung
-direkt ins Briefing sprang — ohne Chargen-Sync, mit Save-Angebot erst
-nach Mission 1. Die Ausnahme wurde entfernt; siehe `meta/masterprompt_v6.md`
-§ Chargen-Save-Gate für den aktuellen Pflicht-Pfad.
-
 [gameflow-spieler]: spieler-handbuch.md#gameflow-chat-wechsel
 [modul12]: ../systems/gameflow/speicher-fortsetzung.md#save-sync-handover
 
@@ -1105,32 +1097,25 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 
-Das HQ-Menü und das Kodex-Save-Angebot werden nicht nur nach Mission, sondern
+Das Kodex-Save-Angebot wird nicht nur nach Mission, sondern
 bei **allen** folgenden Zuständen ausgelöst (einmal pro Zustand, kein Spam):
 
 1. **Chargen-Ende (klassischer Pfad)** - Charakterbogen vollständig ausgegeben,
-   Spieler im HQ (kurzer atmosphärischer Heimkehrbeat, kein vollwertiges HQ-Spiel).
-   Zusätzlich zu den nummerierten HQ-Menüpunkten bietet die KI-SL `!save` /
-   `Speichern` als eigene, UNNUMMERIERTE ausführbare Aktion an — kein eigener
-   Menüpunkt mit einer Ziffer. Eine Ziffer bleibt ausschließlich für die
-   nummerierten Optionen reserviert; eine beliebige Ziffer oder freie Prosa
-   als Save-Kommando zu deuten ist unzulässig (SaveGuard/Provenienz bleiben
-   scharf, SSOT [speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md#zentraler-ersatzvertrag)).
+   Spieler im HQ (kurzer atmosphärischer Heimkehrbeat, kein vollwertiges HQ-Spiel,
+   kein nummeriertes HQ-Aktivitätsmenü an dieser Stelle). Die KI-SL bietet `!save` /
+   `Speichern` als UNNUMMERIERTE ausführbare Aktion an; eine beliebige Ziffer oder
+   freie Prosa als Save-Kommando zu deuten ist unzulässig (SaveGuard/Provenienz
+   bleiben scharf, SSOT [speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md#zentraler-ersatzvertrag)).
    **Kein automatischer Sprung ins Briefing**, auch nicht auf
    Dialog-Optionen wie *"Ins Briefing gehen"*; die bloße Spielerentscheidung überspringt
-   den Übergang nicht — das Briefing beginnt erst nach Save und Load im frischen
-   Spielkontext.
+   den Übergang nicht. Die Aktivitätswahl (HQ-Menü) folgt erst im frisch geladenen
+   HQ-Hub nach Save und Load.
 2. **Mission-Debrief-Ende** - Score-Screen + HQ-Menü gezeigt, keine offene
    Mission (Regelwerk oben).
 3. **Load-Import** - `Spiel laden` erfolgreich verarbeitet, HQ-Zustand
    rekonstruiert.
 4. **HQ-Pause-Anker** - Spieler signalisiert Pause ("save", "pause",
    "später weiter", "für heute genug").
-
-*Hinweis für künftige Wartung:* Die alte **Fast-Lane** (`solo schnell` /
-`gruppe schnell`), die per Design direkt in den Briefingraum sprang und
-den Chargen-Save-Gate übersprang, wurde mit dem Fast-Lane-Rip entfernt.
-Das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 
 Vor dem HQ-Menü liefert die Spielleitung immer einen **Pflicht-Heimkehr-Beat**
 (2-4 Sätze):

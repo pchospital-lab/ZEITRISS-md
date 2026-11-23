@@ -407,12 +407,8 @@ neuer Save, kein neuer Chat, kein technischer Split. Splits mit getrennten
 Saves passieren nur an Abschnittsübergängen (z. B. nach Debrief geht einer
 nach Hause solo weiter, der Rest spielt als Gruppe weiter).
 
-*Hinweis für Tester aus älteren Patches:* Bis v4.2.5 gab es eine
-**Fast-Lane** (`solo schnell` / `gruppe schnell`), die aus der
-Charaktererschaffung direkt ins Briefing sprang — ohne Chargen-Save-Gate.
-Die Variante wurde entfernt. Legacy-Trigger `solo schnell` / `gruppe schnell`
-werden still auf den klassischen Pfad gemappt, damit alte Notizen weiter
-funktionieren.
+Legacy-Trigger `solo schnell` / `gruppe schnell`
+werden still auf den klassischen Pfad gemappt (Bestandsschutz).
 
 ### Mehr dazu
 
@@ -818,7 +814,6 @@ Siehe auch:
 >
 > - `Kodex: HQ-Stand stabil. Deepsave möglich.`
 > - `Kodex: Mit !save den Abschnitt abschließen.`
-> - Menü-Optionen: `Erkunden` / `Schnell-HQ` / `Auto-HQ` / **`!save`** (unnummeriert)
 >
 > **Kein automatischer Sprung ins Briefing** — die Wahl `Briefing`/`erste Mission`
 > allein startet es nicht: Nach `!save` folgt der Anschluss aus dem gültigen Save

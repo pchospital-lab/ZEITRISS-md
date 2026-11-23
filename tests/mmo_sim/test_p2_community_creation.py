@@ -843,9 +843,21 @@ def test_unrelated_human_and_other_community_untouched():
 def test_cmd_community_end_to_end_via_real_tui_c_command():
     """Beweist die tatsaechliche Verdrahtung (nicht nur die Domaenenfunktion
     isoliert): `TuiSession._cmd_community()` (derselbe Code, den `run()`
-    fuer die reale Auswahl `c` aufruft) fuehrt Bootstrap UND Persona-
-    Erschaffung in EINEM Aufruf durch, wenn gm_transport_factory/
-    persona_driver_factory konfiguriert sind."""
+    fuer die reale Auswahl `c` aufruft) fuehrt Bootstrap UND -- je nach
+    bewusster Auswahl -- Persona-Erschaffung durch, wenn gm_transport_
+    factory/persona_driver_factory konfiguriert sind.
+
+    ZR-R8-B (2026-11-22, 01_FIXAUFTRAG §B/CREATION-REVIEW.md §'Warum
+    Community-Reentry Oracle startet'): VORHER trieb EIN `c`-Aufruf
+    unbedingt ALLE 8 geplanten Personas durch (`limit=None` Default, keine
+    Auswahl) -- genau der native Mechanismus, der im Incident den
+    unbestellten dritten Oracle-Charakter startete. Flos jetziger Auftrag
+    praezisiert das bewusst: Ansicht/`c`/Zurueck bleiben 0 Inferenz, jeder
+    `c`-Aufruf verlangt danach GENAU EINE bewusste Auswahl EINER konkreten
+    offenen Persona ('dann nur fuer DIESE Persona, nicht die ganze Liste').
+    Dieser Test ist deshalb OFFEN auf 8 Aufrufe (je 1 Auswahl) umgestellt,
+    um weiterhin zu beweisen, dass ALLE 8 ueber den realen 'c'-Weg
+    spielbereit werden koennen -- kein heimliches Aufweichen des Vertrags."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _new_env(root)
@@ -861,27 +873,32 @@ def test_cmd_community_end_to_end_via_real_tui_c_command():
 
         session = TuiSession(
             onboarding_dir, catalog_dir, "human_caller",
-            # C4-Testanpassung (s. `_scripted_then_eof_input` Docstring):
-            # 'd' beantwortet die NEUE, bewusste Demo-/Produktiv-Entscheidung
-            # (SIMULIERT/DEMO-Uebernahme) -- unveraendert die bisherige
-            # Default-Erwartung dieses Tests (8 SIMULIERT/DEMO-Profile).
-            input_fn=_scripted_then_eof_input("d"),
+            input_fn=_scripted_then_eof_input(),
             print_fn=printed.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             gm_transport_factory=gm_factory, persona_driver_factory=persona_factory,
         )
-        session._cmd_community()
+        planned_keys = list(session._synthetic_starter_pool("community-human_caller", size=8).keys())
+        assert len(planned_keys) == 8, "Default-Startpopulation bleibt 8 (konfigurierbarer technischer Default)"
+        # C4-Testanpassung (s. `_scripted_then_eof_input` Docstring): 'd'
+        # beantwortet die Demo-/Produktiv-Entscheidung NUR beim ERSTEN
+        # Aufruf (danach gepinnt, s. `_read_live_adoption_origin`); jeder
+        # der 8 `c`-Aufrufe konsumiert danach GENAU EINE Persona-Auswahl
+        # (ZR-R8-B, `_ask_community_persona_start_choice`).
+        session._input = _scripted_then_eof_input("d", *planned_keys)
 
-        community_id = "community-human_caller"
+        for _ in planned_keys:
+            session._cmd_community()
+
         plan = (run_dir / "community" / "bootstrap__plan.json")
         assert plan.is_file()
         import json as _json
-        planned_keys = list(_json.loads(plan.read_text(encoding="utf-8"))["personas"].keys())
-        assert len(planned_keys) == 8, "Default-Startpopulation bleibt 8 (konfigurierbarer technischer Default)"
+        plan_keys = list(_json.loads(plan.read_text(encoding="utf-8"))["personas"].keys())
+        assert set(plan_keys) == set(planned_keys)
 
         ps_store = PersonaStateStore(schema_path=schema_path)
         ready = [pk for pk in planned_keys if core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir) is not None]
-        assert len(ready) == 8, f"ALLE geplanten Personas sollten ueber den realen 'c'-Weg spielbereit werden, war: {ready}"
+        assert len(ready) == 8, f"ALLE geplanten Personas sollten ueber 8 bewusste 'c'-Aufrufe spielbereit werden, war: {ready}"
         assert any("Persona-getriebene Erstgeneration" in line for line in printed)
 
         # Der aufrufende MENSCH bekommt hier KEINE eigene Stamm-Persona (02 §2).
@@ -896,7 +913,13 @@ def test_cmd_community_production_choice_creates_distinct_non_demo_pool():
     produktive Startpopulation -- weder Namen noch `_fixture_note`
     ueberschneiden sich mit `_synthetic_starter_pool`, keine SIMULIERT/
     DEMO-Kennzeichnung. Kein Loeschen/Umetikettieren vorhandener Daten (hier:
-    keine gibt es, frische Community)."""
+    keine gibt es, frische Community).
+
+    ZR-R8-B (2026-11-22): wie beim Demo-Pool-Test oben braucht die
+    vollstaendige Erschaffung aller 8 produktiven Personas jetzt 8 bewusste
+    `c`-Aufrufe (je 1 Auswahl) statt eines einzigen unbedingten Aufrufs --
+    offen umgestellt, s. Docstring von `test_cmd_community_end_to_end_via_
+    real_tui_c_command`."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _new_env(root)
@@ -912,12 +935,17 @@ def test_cmd_community_production_choice_creates_distinct_non_demo_pool():
 
         session = TuiSession(
             onboarding_dir, catalog_dir, "human_caller_prod",
-            input_fn=_scripted_then_eof_input("p"),
+            input_fn=_scripted_then_eof_input(),
             print_fn=printed.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             gm_transport_factory=gm_factory, persona_driver_factory=persona_factory,
         )
-        session._cmd_community()
+        planned_keys = list(session._production_starter_pool("community-human_caller_prod", size=8).keys())
+        assert len(planned_keys) == 8
+        session._input = _scripted_then_eof_input("p", *planned_keys)
+
+        for _ in planned_keys:
+            session._cmd_community()
 
         plan = run_dir / "community" / "bootstrap__plan.json"
         import json as _json
@@ -942,7 +970,16 @@ def test_cmd_community_without_model_config_stays_honest_partial_state_like_base
     """Test vs. Produkt (02_ABNAHME): Default `c` OHNE Modellfreigabe macht
     KEINE echte Anfrage und gibt KEINE Dummyfigur als echt aus -- identisch
     zur Bestandsbeobachtung (`observe_community_entry.py`: 8 Entwuerfe, 0
-    Current-Saves)."""
+    Current-Saves).
+
+    ZR-R8-B (2026-11-22): `live_configured` (Factories gesetzt) ist WAHR,
+    obwohl das Admission-Gate separat blockiert -- `_cmd_community` fragt
+    deshalb jetzt auch hier bewusst EINE offene Persona ab, bevor
+    `advance_community_creation` ueberhaupt aufgerufen wird (0 Inferenz auf
+    der Auswahl selbst; der Block passiert danach INNERHALB des
+    Erschaffungsversuchs, VOR jeder Transportkonstruktion -- die Factories
+    oben wuerden bei einem echten Modellaufruf sofort AssertionError werfen
+    und tun es hier nachweislich NICHT)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _new_env(root)
@@ -951,17 +988,19 @@ def test_cmd_community_without_model_config_stays_honest_partial_state_like_base
         printed: list[str] = []
         session = TuiSession(
             onboarding_dir, catalog_dir, "human_caller2",
-            # C4-Testanpassung (s. `_scripted_then_eof_input` Docstring): die
-            # neue Demo-/Produktiv-Entscheidungsfrage haengt NUR an
-            # konfigurierten Factories (hier gesetzt, um zu pruefen, dass sie
-            # NICHT aufgerufen werden) -- 'd' beantwortet sie, ohne dass ein
-            # Modellaufruf stattfindet (der faellt separat am Admission-Gate).
-            input_fn=_scripted_then_eof_input("d"),
+            input_fn=_scripted_then_eof_input(),
             print_fn=printed.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             gm_transport_factory=lambda *_a, **_kw: (_ for _ in ()).throw(AssertionError("kein Modellaufruf ohne Freigabe erwartet")),
             persona_driver_factory=lambda pk: (_ for _ in ()).throw(AssertionError("kein Modellaufruf ohne Freigabe erwartet")),
         )
+        planned_keys = list(session._synthetic_starter_pool("community-human_caller2", size=8).keys())
+        # C4-Testanpassung (s. `_scripted_then_eof_input` Docstring): die
+        # Demo-/Produktiv-Entscheidungsfrage haengt NUR an konfigurierten
+        # Factories (hier gesetzt) -- 'd' beantwortet sie, danach EINE
+        # bewusste Persona-Auswahl (ZR-R8-B); keines davon loest einen
+        # Modellaufruf aus (der faellt separat am Admission-Gate).
+        session._input = _scripted_then_eof_input("d", planned_keys[0])
         session._cmd_community()
         ps_store = PersonaStateStore(schema_path=schema_path)
         ready = [
@@ -1068,11 +1107,20 @@ def test_cmd_community_step_limit_env_var_wired_through_real_tui():
     positive Werte fallen sicher auf unbegrenztes Verhalten zurueck' war
     genau das verbotene Verhalten -- ein EXPLIZIT gesetzter ungueltiger Wert
     ('abc') darf NICHT ununterscheidbar vom bewusst unkonfigurierten Default
-    (unbegrenzt) sein. `_community_step_limit()` liefert dafuer jetzt eine
-    kontrollierte Ablehnung (s. `mmo_sim/ui/tui.py`); `_cmd_community()`
-    bricht die Erschaffungs-Fortsetzung fuer DIESEN Aufruf dann sichtbar ab,
-    OHNE weitere Personas voranzutreiben (kein Vollpool-Fallback). Original
-    dieser Testfunktion (vor dieser Korrektur) liegt unter
+    (unbegrenzt) sein. `_community_step_limit()` liefert dafuer eine
+    kontrollierte Ablehnung (s. `mmo_sim/ui/tui.py`).
+
+    ZR-R8-B-Nachzug (2026-11-22, 01_FIXAUFTRAG §B): seit der Ziel-B-
+    Umstellung verarbeitet EIN `c`-Aufruf nur noch GENAU EINE bewusst
+    gewaehlte Persona (`planned_persona_keys=[chosen_pk]`) -- `limit`s alte
+    Batch-Semantik ('begrenzt, wie viele DER ACHT Personas DIESER Aufruf
+    anfasst') ist damit obsolet, da ein Aufruf strukturell nie mehr als
+    eine Persona anfasst. Was bleibt UND hier weiter geprueft wird: (1) ein
+    gueltiges explizites Limit darf den EINEN gewaehlten Fortsetzungsversuch
+    nicht blockieren; (2) ein ungueltiger expliziter Wert wird weiterhin
+    kontrolliert abgelehnt -- UND zwar bereits VOR der Personaauswahl (kein
+    Prompt, kein Request, kein stiller Vollpool-/Unlimited-Fallback).
+    Original dieser Testfunktion (vor diesem Nachzug) liegt unter
     `worker/original-tests/test_p2_community_creation.py.original` (Diff
     ueber `git diff`/Reportbeilage)."""
     import os as _os
@@ -1092,16 +1140,21 @@ def test_cmd_community_step_limit_env_var_wired_through_real_tui():
 
         session = TuiSession(
             onboarding_dir, catalog_dir, "human_caller3",
-            # C4-Testanpassung (s. `_scripted_then_eof_input` Docstring):
-            # genau EINE Antwort fuer die neue Demo-/Produktiv-Entscheidung
-            # beim ERSTEN (frischen) `_cmd_community()`-Aufruf unten; beide
-            # nachfolgenden Aufrufe fuer DIESELBE Community fragen NICHT
-            # erneut (Fortsetzen, kein Doppelfragen).
-            input_fn=_scripted_then_eof_input("d"),
+            input_fn=_scripted_then_eof_input(),
             print_fn=printed.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
             gm_transport_factory=gm_factory, persona_driver_factory=persona_factory,
         )
+        planned_keys = list(session._synthetic_starter_pool("community-human_caller3", size=8).keys())
+        assert len(planned_keys) == 8
+        # C4-Testanpassung (s. `_scripted_then_eof_input` Docstring): 'd'
+        # beantwortet die Demo-/Produktiv-Entscheidung beim ERSTEN Aufruf;
+        # die EINE Persona-Auswahl gilt fuer den GUELTIGEN limit=2-Aufruf
+        # unten -- der nachfolgende ungueltige-Limit-Aufruf fragt wegen der
+        # Fail-Fast-Reihenfolge (Limit-Validierung VOR Auswahl) GAR KEINE
+        # Persona ab, verbraucht also keinen weiteren Eintrag.
+        session._input = _scripted_then_eof_input("d", planned_keys[0])
+
         prior = _os.environ.get("MMO_SIM_COMMUNITY_STEP_LIMIT")
         try:
             _os.environ["MMO_SIM_COMMUNITY_STEP_LIMIT"] = "2"
@@ -1112,21 +1165,22 @@ def test_cmd_community_step_limit_env_var_wired_through_real_tui():
             else:
                 _os.environ["MMO_SIM_COMMUNITY_STEP_LIMIT"] = prior
 
-        planned_keys = _json_persona_keys(run_dir)
-        assert len(planned_keys) == 8
         ps_store = PersonaStateStore(schema_path=schema_path)
         ready = [
             pk for pk in planned_keys
             if core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir) is not None
         ]
-        assert len(ready) == 2, f"limit=2 haette genau zwei Personas spielbereit machen duerfen, war: {ready}"
+        assert ready == [planned_keys[0]], (
+            f"ein gueltiges Limit darf den EINEN gewaehlten Fortsetzungsversuch nicht "
+            f"blockieren, war: {ready}"
+        )
         assert any("Noch offen/wartend" in line and "deferred" not in line for line in printed)
 
-        # C4-Korrektur: ein ungueltiger EXPLIZITER Wert ("abc") wird jetzt
-        # kontrolliert ABGELEHNT -- KEIN stiller Vollpool-Fallback mehr. Der
-        # bereits erreichte Zwischenstand (2 fertig) bleibt unangetastet,
-        # requestfrei (kein einziger neuer GM-/Persona-Call fuer diesen
-        # Aufruf).
+        # C4-Korrektur: ein ungueltiger EXPLIZITER Wert ("abc") wird
+        # kontrolliert ABGELEHNT -- KEIN stiller Vollpool-/Unlimited-
+        # Fallback. Der bereits erreichte Zwischenstand (1 fertig) bleibt
+        # unangetastet, requestfrei (kein einziger neuer GM-/Persona-Call
+        # fuer diesen Aufruf, keine Personaauswahl wird sogar erst erfragt).
         requests_before = list((run_dir / "requests").glob("*.json")) if (run_dir / "requests").is_dir() else []
         prior = _os.environ.get("MMO_SIM_COMMUNITY_STEP_LIMIT")
         try:
@@ -1142,9 +1196,9 @@ def test_cmd_community_step_limit_env_var_wired_through_real_tui():
             pk for pk in planned_keys
             if core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir) is not None
         ]
-        assert len(ready_after) == 2, (
+        assert ready_after == [planned_keys[0]], (
             f"ungueltiger expliziter ENV-Wert muss kontrolliert abgelehnt werden (KEIN "
-            f"Vollpool-Fallback) -- unveraendert bei den bereits fertigen 2 haette bleiben "
+            f"Vollpool-Fallback) -- unveraendert beim bereits fertigen EINEN haette bleiben "
             f"muessen, war: {ready_after}"
         )
         requests_after = list((run_dir / "requests").glob("*.json")) if (run_dir / "requests").is_dir() else []
@@ -1155,6 +1209,108 @@ def test_cmd_community_step_limit_env_var_wired_through_real_tui():
         assert any(
             "Begrenzter Fortschrittsschritt abgelehnt" in line and "abc" in line for line in printed
         ), "die Ablehnung muss sichtbar gemeldet werden (kontrolliert, nicht still)."
+
+
+# ---------------------------------------------------------------------------
+# ZR-R8-B (2026-11-22, 01_FIXAUFTRAG §B / 02_REGRESSION_UND_ABNAHME.md C3):
+# dedizierte Regression am ECHTEN `_cmd_community()`-Caller fuer exakt den
+# nativen Befund (CREATION-REVIEW.md §'Warum Community-Reentry Oracle
+# startet') -- 2 fertige Personas + weitere Drafts, Menue/`c`/Zurueck
+# erzeugen 0 Inferenz, eine bewusste Auswahl betrifft NUR die gewaehlte
+# Persona, Fertige bleiben bytegleich.
+# ---------------------------------------------------------------------------
+
+def test_cmd_community_view_and_back_zero_inference_with_finished_and_drafts_c3():
+    """Reproduziert den nativen Zustand 'C3' (02_REGRESSION_UND_ABNAHME.md):
+    2 Personas bereits tischbereit (RUSH/Dronov-aehnlich), die uebrigen 6
+    noch offene Drafts (Oracle-aehnlich). Ein Menue-Aufruf (`c`), der NUR
+    ansehen/zurueck will, darf 0 `advance_community_creation`-Inferenz
+    ausloesen -- VOR diesem Fix (s. Stage1-Report) rief `_cmd_community`
+    an dieser Stelle UNBEDINGT `advance_community_creation(planned_persona_
+    keys=ALLE)` auf, sobald `live_configured` war; da fertige Personas das
+    `limit` nicht verbrauchen, startete das automatisch die NAECHSTE offene
+    Persona (der reale Oracle-Incident). Eine bewusste Auswahl EINER
+    konkreten offenen Persona darf danach NUR fuer DIESE Persona einen
+    Request ausloesen, nicht fuer die ganze Liste."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        schema_path, states_dir, run_dir, onboarding_dir, catalog_dir = _new_env(root)
+        write_test_profile(run_dir)
+        printed: list[str] = []
+
+        def gm_factory(chat_id: str):
+            pk = chat_id.split("onboarding-", 1)[1]
+            return _GM([_v7_block(f"chrono-{pk}", pk)])
+
+        def persona_factory(pk: str):
+            return _FakePersonaDriver(pk, ["Bereit."])
+
+        session = TuiSession(
+            onboarding_dir, catalog_dir, "human_c3_caller",
+            input_fn=_scripted_then_eof_input(),
+            print_fn=printed.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
+            gm_transport_factory=gm_factory, persona_driver_factory=persona_factory,
+        )
+        planned_keys = list(session._synthetic_starter_pool("community-human_c3_caller", size=8).keys())
+        assert len(planned_keys) == 8
+        first_pk, second_pk, third_pk = planned_keys[0], planned_keys[1], planned_keys[2]
+
+        # Herstellen: GENAU 2 Personas fertig (echter Weg, 2 bewusste
+        # Aufrufe), die uebrigen 6 bleiben offene Drafts.
+        session._input = _scripted_then_eof_input("d", first_pk)
+        session._cmd_community()
+        session._input = _scripted_then_eof_input(second_pk)
+        session._cmd_community()
+
+        ps_store = PersonaStateStore(schema_path=schema_path)
+        ready_before = [
+            pk for pk in planned_keys
+            if core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir) is not None
+        ]
+        assert ready_before == [first_pk, second_pk], ready_before
+        requests_before = list((run_dir / "requests").glob("*.json")) if (run_dir / "requests").is_dir() else []
+
+        # FAIL-BEFORE-BEWEIS (s. Report): ein Zwischenstand mit diesem
+        # Zustand und einem reinen Zurueck/Ansicht-Aufruf musste VOR diesem
+        # Fix 1 zusaetzliche Persona automatisch anstossen (unbedingter
+        # `advance_community_creation(planned_persona_keys=ALLE)`-Aufruf).
+        # Jetzt: Menue/`c` + '/zurueck' an der Personaauswahl -> 0 neue
+        # Requests, Fertige bytegleich.
+        printed.clear()
+        session._input = _scripted_then_eof_input("/zurueck")
+        session._cmd_community()
+
+        requests_after_back = list((run_dir / "requests").glob("*.json")) if (run_dir / "requests").is_dir() else []
+        assert len(requests_after_back) == len(requests_before), (
+            "Ansicht/Zurueck darf KEINEN einzigen neuen Request reservieren/senden (0 Inferenz)."
+        )
+        ready_after_back = [
+            pk for pk in planned_keys
+            if core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir) is not None
+        ]
+        assert ready_after_back == ready_before, (
+            f"Fertige Personas muessen nach reiner Ansicht/Zurueck bytegleich bleiben, "
+            f"war: {ready_after_back}"
+        )
+        assert any("Fertig/tischbereit" in line and first_pk in line and second_pk in line for line in printed)
+        assert any("Noch offen/wartend" in line for line in printed)
+        assert any("Keine konkrete offene Persona ausgewaehlt" in line for line in printed)
+
+        # Bewusste Auswahl EINER konkreten offenen Persona (dritte, noch nie
+        # angefasste) -- betrifft NUR diese, nicht die ganze restliche Liste.
+        printed.clear()
+        session._input = _scripted_then_eof_input(third_pk)
+        session._cmd_community()
+
+        ready_after_select = [
+            pk for pk in planned_keys
+            if core_store.load_current_save_or_raise(run_dir, pk, ps_store, states_dir=states_dir) is not None
+        ]
+        assert ready_after_select == [first_pk, second_pk, third_pk], (
+            f"die bewusste Auswahl darf NUR die gewaehlte Persona ({third_pk!r}) spielbereit "
+            f"machen, nicht die uebrige Liste, war: {ready_after_select}"
+        )
 
 
 def main() -> int:

@@ -221,12 +221,23 @@ def test_r5p02_community_batch_error_truthful_attempted_no_leak():
         out: list[str] = []
         gm = _RaisingGm()
         pd = _DummyPersona()
-        s = _session(d, out, _scripted_input(["d"]), lambda *a: gm, lambda *a: pd)
+        # ZR-R8-B-Nachzug (2026-11-22, 01_FIXAUFTRAG §B): seit der Ziel-B-
+        # Umstellung verarbeitet EIN `c`-Aufruf nur noch GENAU EINE bewusst
+        # gewaehlte Persona -- nach 'd' wird jetzt zusaetzlich eine konkrete
+        # offene Persona abgefragt, deterministisch
+        # `cqb_community_review_human` (gleiche Formel wie
+        # `TuiSession._synthetic_starter_pool`).
+        first_pk = next(iter(TuiSession.__new__(TuiSession)._synthetic_starter_pool(
+            "community-review_human", size=8,
+        ).keys()))
+        s = _session(d, out, _scripted_input(["d", first_pk]), lambda *a: gm, lambda *a: pd)
         s._cmd_community()
 
-        # 8 versuchte (synchron fehlgeschlagene) Fake-GM-Turns -- derselbe
-        # Start-Pool wie `test_ux1_r5_error_surface_redaction_2026_10_06.py`.
-        assert gm.calls == 8, gm.calls
+        # 1 versuchter (synchron fehlgeschlagener) Fake-GM-Turn -- NUR die
+        # EINE bewusst ausgewaehlte Persona (ZR-R8-B: 'nur fuer DIESE
+        # Persona, nicht die ganze Liste'), nicht mehr alle 8 im Start-Pool
+        # (s. `test_ux1_r5_error_surface_redaction_2026_10_06.py`).
+        assert gm.calls == 1, gm.calls
         # Die zweite, unabhaengige Persona-Fabrik wird fuer DIESEN Fehlpfad
         # nie erreicht (bricht bereits am GM-Fabrikaufruf ab).
         assert pd.calls == 0, pd.calls
@@ -268,7 +279,14 @@ def test_r5p03_preflight_profile_help_local_no_exec():
         # fehlschlagende Fake-GM wie in R5P02 (0 Netzwerk-/Modellzugriff).
         gm = _RaisingGm()
         pd = _DummyPersona()
-        s = _session(d, out, _scripted_input(["d"]), lambda *a: gm, lambda *a: pd)
+        # ZR-R8-B-Nachzug (s. test_r5p02 oben): eine bewusste Persona-
+        # Auswahl ist jetzt auch hier noetig, bevor `_cmd_community` den
+        # (fuer diesen reinen Preflight-Hilfe-Test unerheblichen)
+        # Fake-GM-Fehlpfad ueberhaupt erreicht.
+        first_pk = next(iter(TuiSession.__new__(TuiSession)._synthetic_starter_pool(
+            "community-review_human", size=8,
+        ).keys()))
+        s = _session(d, out, _scripted_input(["d", first_pk]), lambda *a: gm, lambda *a: pd)
         s._cmd_community()
         calls_before_preflight = gm.calls
         persona_calls_before_preflight = pd.calls

@@ -165,8 +165,20 @@ def test_01_explicit_production_and_limited_resume():
     with tempfile.TemporaryDirectory() as td, _serving() as s:
         b = Path(td)
         write_test_profile(b / "run", max_turns=100)
-        x = _call(b, s, "c\np\nx\n")
-        y = _call(b, s, "c\nx\n")
+        # ZR-R8-B-Nachzug (2026-11-22, 01_FIXAUFTRAG §B): seit der Ziel-B-
+        # Umstellung verlangt `_cmd_community` nach der [d/p]-Entscheidung
+        # zusaetzlich eine bewusste Auswahl EINER konkreten offenen Persona
+        # (`_ask_community_persona_start_choice`) -- das vorherige Fuell-
+        # `x` nach `p` wuerde jetzt als "keine gueltige Auswahl" (0
+        # Requests) gelesen, nicht mehr als wirkungsloser Rest nach
+        # bereits abgeschlossener Batch-Erschaffung. Stdin braucht deshalb
+        # die ECHTEN, deterministischen produktiven Persona-Keys (gleiche
+        # Formel wie `TuiSession._production_starter_pool`, Reihenfolge
+        # `vanguard, shadow, oracle, forge, warden, rift, anchor, spark`).
+        vanguard_pk = "vanguard_community_synthetic_choice_caller"
+        shadow_pk = "shadow_community_synthetic_choice_caller"
+        x = _call(b, s, f"c\np\n{vanguard_pk}\n")
+        y = _call(b, s, f"c\n{shadow_pk}\n")
         assert x["exit"] == y["exit"] == 0, (x, y)
         assert x["counts"] == {"gm": 2, "persona": 1}, x
         assert y["counts"] == {"gm": 2, "persona": 1}, y

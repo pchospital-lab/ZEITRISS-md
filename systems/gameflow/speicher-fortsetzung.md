@@ -20,6 +20,10 @@ tags: [system]
 - **MUSS:** Jeder Spielabschnitt (Charaktererschaffung, ausgespielte HQ-Runde,
   CoreOps, RiftOps, Chronopolis, PvP) läuft in einem frischen KI-SL-Spielkontext;
   der Wechsel in einen anderen Abschnitt erfolgt erst nach eigenem abgeschlossenem Save.
+  Innerhalb der Charaktererschaffung selbst werden HQ-Aktivitäten (Erkunden/
+  Schnell-HQ/Auto-HQ) nicht vor dem Erstsave ausgespielt (Chargen-Save-Gate,
+  s. `meta/masterprompt_v6.md`) — sie gehören in den nächsten frischen
+  Spielkontext (HQ-Hub) nach dem Erstsave.
 - **KANN:** Optionale Trace-Felder dürfen ergänzt werden, sofern sie keine
   Kernregeln (SaveGuard, Px-Flow, Belohnungslogik) verändern.
 
@@ -35,7 +39,6 @@ tags: [system]
 > - **Kodex-Hinweis am savebaren HQ-Zustand (einmal):** `HQ-Stand stabil. Deepsave möglich.`
 > - Nach Save folgt **kein automatisches Briefing**; stattdessen: `Sync abgeschlossen. Der Abschnitt endet hier — der Anschluss folgt aus dem gültigen Save.`
 > - **Savebare HQ-Zustände:** Chargen-Ende, Mission-Debrief-Ende, Load-Import, HQ-Pause-Anker. Der Kodex-Hinweis erscheint bei allen vier Zuständen — einmal pro Zustand, kein Spam.
-> - *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme (`solo schnell` / `gruppe schnell`), die direkt in den Briefingraum sprang und das Chargen-Save-Gate übersprang. Die Ausnahme wurde entfernt; das Chargen-Save-Gate gilt jetzt ohne Ausnahme.
 >
 > _Technische Details für die KI-Spielleitung folgen unten._
 
@@ -163,12 +166,8 @@ HQ-Hub-Router des frischen Spielkontexts.
   greifen erst nach Rückkehr ins HQ bei `queue_state=idle|completed`. Das
   Save-Sync-Pattern unten blockiert *Übergänge*, nicht den Save selbst —
   beide Mechaniken sind komplementär.
-- *Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine **Fast-Lane**-Ausnahme
-  (`solo schnell` / `gruppe schnell`), die aus der Charaktererschaffung
-  direkt ins Briefing sprang — ohne Chargen-Sync, ohne HQ-Heimkehr-Beat.
-  Die Ausnahme wurde entfernt; das Chargen-Save-Gate ist jetzt Pflicht
-  auf jedem Onboarding-Pfad. Legacy-Trigger `solo schnell` / `gruppe schnell`
-  werden im Runtime still auf `klassisch` gemappt.
+- Legacy-Trigger `solo schnell` / `gruppe schnell` werden im Runtime still auf
+  `klassisch` gemappt (Bestandsschutz).
 - **Tod-Final-Save ist KEIN Sync-Punkt.** Der Legendenabschied (nur auf
   ausdrücklichen Wunsch der betroffenen Person) erzeugt einen **persönlichen,
   figurbezogenen** Final-Save (`"status":"deceased"`) als Sonderausnahme zur
@@ -1334,13 +1333,7 @@ Mission-ID identifiziert (Schema je Eintrag: `choice`, `detail`, `mission`).
   Save Lvl/SYS/XP-Änderungen aus dem letzten Debrief enthält, ist es
   **nicht erlaubt**, mit einem allgemeinen Briefing-Greeting zu beginnen,
   das den vorherigen Stand annimmt.
-- **Anti-Pattern aus Playtest (MS5 Budapest):** Spieler musste dreimal in
-  Folge korrigieren — *„ne, war schon abgeschlossen, hab +1 sys gewählt“*
-  / *„ne ich hab bereits sys von 2 auf 3 geskillt. 4 ist falsch“* /
-  *„ne ich bin auf lvl 6 gestiegen, Da ist dein Fehler“*. Der Save sagte
-  korrekt Lvl 6 + SYS 3, aber das Briefing-Greeting rekonstruierte aus
-  dem Episode-Kontext einen älteren Stand. Solche User-Korrekturen sind
-  ein direkter Bruch dieser Regel.
+- Solche User-Korrekturen sind ein direkter Bruch dieser Regel.
 - **Verifikations-Reflex der KI-SL vor jedem Briefing-Greeting:** Lies
   `state.character.lvl` und `state.character.sys_installed` *direkt aus
   dem aktiven Save-Objekt* und zitiere diese Werte unverändert. Wenn das

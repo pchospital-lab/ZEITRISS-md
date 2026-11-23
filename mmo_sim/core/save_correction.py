@@ -159,6 +159,8 @@ def load_or_init_record(
     run_dir: str | Path, repair_key: str, *, persona_key: str, char_id: str, operation_key: str,
     table_id: str | None = None, section_id: str | None = None, generation: int | None = None,
     errors: list[str] | None = None, original_block: dict | None = None,
+    expected_prev_ref_by_member: dict[str, dict | None] | None = None,
+    require_hq: bool = False,
 ) -> dict:
     """Restart-fest (01_AUFTRAG_SAVEGATE.md §C): existiert für `repair_key`
     bereits ein Datensatz, wird er UNVERÄNDERT zurückgegeben -- insbesondere
@@ -175,7 +177,28 @@ def load_or_init_record(
     Drift misst, STATT gegen einen (evtl. ausgetauschten) aktuellen
     Caller-Kandidaten (s. `pursue_single_figure_correction`). Ein bereits
     vorhandener Datensatz behaelt sein `bound_block` unveraendert (dieselbe
-    Restart-Festigkeit wie `attempts_used`)."""
+    Restart-Festigkeit wie `attempts_used`).
+
+    F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-REVIEW.md F1):
+    `expected_prev_ref_by_member` (additiv, Default `None`, bestehende direkte
+    Aufrufer bleiben unveraendert) wird GENAUSO wie `bound_block` NUR bei der
+    allerersten Anlage als `"bound_prev_ref_by_member"` mitpersistiert -- der
+    dauerhaft an diese Korrekturrunde gebundene ORIGINAL-Snapshot (alle
+    Tischmitglieder), gegen den ein spaeterer Resume (`has_unfinished_group_
+    round`/`has_resumable_group_hold`) die Generationserwartung bindet, STATT
+    einen beim Resume frisch gelesenen (potenziell schon gedrifteten) Current
+    zu uebernehmen. Ein bereits vorhandener Datensatz behaelt seine eigene
+    Bindung unveraendert.
+
+    F2-R-NACHZUG (ZR-R9-PR3316-HQ-RESUME-NACHZUG-20261123): `require_hq`
+    (additiv, Default `False`, bestehende direkte Aufrufer bleiben
+    unveraendert) wird GENAUSO wie `expected_prev_ref_by_member` NUR bei der
+    allerersten Anlage als `"bound_require_hq"` mitpersistiert -- die
+    dauerhaft an dieses Mitgliedsrecord gebundene PRE-SEND-HQ-Pflicht, gegen
+    die ein spaeterer Resume (`pursue_group_save_correction`s Eintritt) die
+    Policy wiederherstellt, STATT den beim Resume hereingereichten Default
+    `False` zu uebernehmen. Ein bereits vorhandener Datensatz behaelt seine
+    eigene Bindung unveraendert."""
     existing = load_record(run_dir, repair_key)
     if existing is not None:
         return existing
@@ -187,6 +210,8 @@ def load_or_init_record(
         "created_ts": time.time(), "updated_ts": time.time(),
         "last_request_id": None, "last_reason": None,
         "bound_block": original_block,
+        "bound_prev_ref_by_member": expected_prev_ref_by_member,
+        "bound_require_hq": require_hq,
     }
     _write_record(run_dir, repair_key, data)
     return data
@@ -1957,9 +1982,28 @@ def _load_open_round(run_dir: str | Path, table_id: str, section_id: str) -> dic
 
 def _write_open_round(
     run_dir: str | Path, table_id: str, section_id: str, round_no: int, members: list[dict],
+    expected_prev_ref_by_member: dict[str, dict | None] | None = None,
+    *, require_hq: bool = False,
 ) -> None:
+    # F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-REVIEW.md F1):
+    # additiv, Default `None` -- `expected_prev_ref_by_member` bindet den
+    # ORIGINAL-Snapshot (alle Tischmitglieder) durabel IN DIESEM Marker, damit
+    # ein Resume ueber `has_open_group_round` (core/runtime.py) genau DIESE
+    # Bindung wiederverwendet, STATT den beim Resume frisch gelesenen Current
+    # zu uebernehmen (AR06-Bruch, s. `pursue_group_save_correction`).
+    #
+    # F2-R-NACHZUG (ZR-R9-PR3316-HQ-RESUME-NACHZUG-20261123): additiv,
+    # KEYWORD-ONLY, Default `False` -- bestehende Aufrufer ohne dieses
+    # kwarg bleiben bytegleich (Feld fehlt/liest als `False`). `require_hq`
+    # bindet GENAUSO wie `expected_prev_ref_by_member` die aktive PRE-SEND-
+    # HQ-Pflicht durabel IN DIESEM Marker, damit ein Resume ueber
+    # `has_open_group_round` genau DIESE Bindung wiederherstellt, STATT den
+    # beim Resume hereingereichten Default `False` zu uebernehmen (s.
+    # `pursue_group_save_correction`s Eintritt).
     _atomic_write_json(_open_round_path(run_dir, table_id, section_id), {
         "table_id": table_id, "section_id": section_id, "round": round_no, "members": members,
+        "expected_prev_ref_by_member": expected_prev_ref_by_member,
+        "require_hq": require_hq,
     })
 
 
@@ -2138,9 +2182,30 @@ def pursue_group_save_correction(
     *, lobby, table, section_id: str, harvested: dict, harvest_completion,
     states_dir, today: str, harvest_validator, persona_state_store, gm_transport,
     cid_to_pk: dict, harvest_extractor, max_attempts: int = MAX_ADDITIONAL_REQUESTS,
-    emit=None,
+    emit=None, prev_ref_override: dict[str, dict | None] | None = None,
+    require_hq: bool = False,
 ):
-    """01_AUFTRAG_SAVEGATE.md §B: solange `store.complete_section(...)`
+    """F2-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-REVIEW.md
+    F2, additiv, KEYWORD-ONLY, Default `False` -- JEDER bestehende Aufrufer
+    bleibt bytegleich): `require_hq=True` wird AUSSCHLIESSLICH vom aktiven
+    PRE-SEND-Uebernahmepfad gesetzt (`core/runtime.py`s `pre_send_active_
+    leader_authority`-Zweig), NICHT vom normalen `not pre_send`-
+    Nachforderweg -- der neutrale Store und andere Normalpfade werden
+    dadurch NICHT pauschal mit dieser Regel belegt. Ist es gesetzt, wird
+    VOR JEDEM der drei `store.complete_section`-Aufrufe unten (Plan/
+    Publish) erneut dieselbe Domain-HQ-Pruefung (`save_correction_domain.
+    hq_mode_hold_reason`, identische Regel wie `_candidate_hq_hold_reason`s
+    Erstpruefung) gegen ALLE aktuell in `harvested` stehenden Bloecke
+    angewendet -- schliesst genau die Luecke, die der aktive PRE-SEND-
+    Eintritt oeffnet: ein beim Erstcheck noch FEHLENDER Gast wird von
+    `_candidate_hq_hold_reason` uebersprungen (Sache von `missing`), aber
+    sein SPAETER nachgeforderter/wiederhergestellter/uebernommener Block
+    durchlaeuft bisher NIE erneut die HQ-Pruefung. Ein Nicht-HQ-Block haelt
+    die GESAMTE Runde kontrolliert (kein Plan, keine Veroeffentlichung,
+    keine Lockfreigabe) -- bereits zuvor gueltig uebernommene HQ-Bloecke
+    bleiben unangetastet (reine Vorab-Pruefung, kein Schreibzugriff).
+
+    01_AUFTRAG_SAVEGATE.md §B: solange `store.complete_section(...)`
     `missing` Mitglieder meldet, werden GENAU diese (noch mit Budget)
     gezielt bei der SL nachgefordert -- über dieselbe Tisch-/SL-Session
     (`table.leader`-Kanal, `store.submit_to_sl`), bereits gültige Mitglieder
@@ -2170,11 +2235,39 @@ def pursue_group_save_correction(
     vom Aufrufer VOR diesem Call geprüft) -- ein bereits gepinnter Plan
     repräsentiert eine COMMITTETE Entscheidung und wird von dieser Funktion
     NICHT angefasst (keine neue Gruppen-Transaktionsengine, Kandidatenstadium
-    bleibt strikt vom validierten/gepinnten Stadium getrennt)."""
+    bleibt strikt vom validierten/gepinnten Stadium getrennt).
+
+    ZR-R8-CHARGEN-GRUPPENABSCHLUSS-20261122 Ziel C (F1, additiv, KEYWORD-ONLY,
+    Default `None` -- JEDER bestehende Aufrufer bleibt bytegleich):
+    `prev_ref_override` wird UNVERAENDERT an jeden der drei internen
+    `store.complete_section`-Aufrufe unten durchgereicht (vorher fehlte er dort
+    komplett, GROUP-CODE-REVIEW.md §2 Punkt 6/§4 "Originalsnapshot erhalten").
+    Ohne diese Weiterleitung wuerde ein von `core.runtime`s PRE-SEND-Pfad
+    durabel gebundener ORIGINAL-Snapshot durch den beim jeweiligen Abschluss
+    FRISCH gelesenen Current ersetzt (derselbe AR06-Bruch wie bei
+    `pursue_pre_send_structural_best_effort` vor dessen PR3314-Nachzug-Fix).
+    `prev_ref_override is None` (jeder bisherige Aufrufer) bleibt exakt
+    unveraendert -- `store.complete_section` liest dann wie bisher frisch."""
     from ..domain.zeitriss import saves as zeitriss_saves  # lokal: nur hier benoetigt (G02/SC06)
 
     emit = emit or (lambda *_a, **_k: None)
     run_dir = lobby.run_dir
+
+    def _hq_violation_hold_reason() -> str | None:
+        """F2-NACHZUG: reine Vorab-Pruefung (kein Schreibzugriff) -- nur
+        aktiv, wenn `require_hq=True` (s. Docstring oben). Prueft ALLE
+        aktuell in `harvested` stehenden Bloecke (bereits zuvor gueltig
+        uebernommene HQ-Bloecke bestehen dieselbe Pruefung erneut, aber
+        unveraendert -- kein falsches HOLD fuer bereits HQ-gueltige
+        Mitglieder; ein (noch) fehlender Block ist kein Fall dieser
+        Pruefung, s. `hq_mode_hold_reason`)."""
+        if not require_hq:
+            return None
+        for pk in table.members:
+            reason = save_correction_domain.hq_mode_hold_reason(pk, harvested.get(pk))
+            if reason is not None:
+                return reason
+        return None
 
     # R7-01 Part C (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02 C):
     # Schnappschuss der repair_keys, die BEREITS VOR diesem Aufruf (einer
@@ -2196,6 +2289,40 @@ def pursue_group_save_correction(
         _existing_record = load_record(run_dir, _repair_key)
         if _existing_record is not None and _existing_record.get("state") == STATE_HOLD:
             _entry_hold_repair_keys.add(_repair_key)
+
+    # F2-R-NACHZUG (ZR-R9-PR3316-HQ-RESUME-NACHZUG-20261123, 01_REVIEW.md
+    # "Ein verbleibender Blocker"): der normale Nachforderweg `finalize()`
+    # (core/runtime.py, `and not pre_send`) UND alle drei Resume-Gates in
+    # `run_full_section` (gepinnter Marker-Check, `has_open_group_round`,
+    # `has_resumable_group_hold`) rufen diese Funktion OHNE `require_hq`
+    # auf (Default `False`) -- auch dann, wenn die urspruenglich eroeffnete
+    # Operation unter der aktiven PRE-SEND-HQ-Pflicht lief
+    # (`pre_send_active_leader_authority`, `require_hq=True`). OHNE diese
+    # Wiederherstellung wuerde ein unterbrochener PRE-SEND-Abschluss durch
+    # den Default `False` beim naechsten Aufruf STILL zum Normalpfad
+    # umgedeutet (derselbe HQ-verbotene Nicht-HQ-Gast wird dann adoptiert/
+    # veroeffentlicht). Reiner Lesezugriff auf die bereits bestehende
+    # Bindung (s. `_write_open_round`/`load_or_init_record`) -- KEIN
+    # Schreibzugriff, KEINE neue Leader-Autoritaet, KEIN globales
+    # `require_hq=True`: eine Operation, die NIE unter `require_hq=True`
+    # lief, persistiert diese Bindung nirgends -> dieser Block bleibt fuer
+    # sie wirkungslos (Normalpfad bytegleich). Reicht der Aufrufer
+    # `require_hq=True` selbst herein (aktiver PRE-SEND-Eintritt), bleibt
+    # dieser Block komplett unerreicht (`if not require_hq`).
+    if not require_hq:
+        _bound_open_round = _load_open_round(run_dir, table.table_id, section_id)
+        if _bound_open_round is not None and _bound_open_round.get("require_hq"):
+            require_hq = True
+        else:
+            for _pk in harvest_completion.missing:
+                _char_id = table.chrononaut_ids.get(_pk)
+                if _char_id is None:
+                    continue
+                _repair_key = save_correction_domain.group_repair_key(table.table_id, section_id, _char_id)
+                _existing_record = load_record(run_dir, _repair_key)
+                if _existing_record is not None and _existing_record.get("bound_require_hq"):
+                    require_hq = True
+                    break
 
     while not harvest_completion.success and harvest_completion.missing:
         open_round = _load_open_round(run_dir, table.table_id, section_id)
@@ -2287,6 +2414,24 @@ def pursue_group_save_correction(
                     "reason": "invalid_resume_slot_shape",
                 })
                 break
+            # F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-
+            # REVIEW.md F1): die offene Runde bindet seit diesem Nachzug den
+            # ORIGINAL-Snapshot selbst (s. `_write_open_round`) -- ein
+            # Resume MUSS genau diese Bindung uebernehmen, NICHT den beim
+            # naechsten `complete_section`-Aufruf frisch gelesenen Current
+            # (AR06-Bruch, s. `repro_open_round_snapshot.py`). Ein Marker
+            # OHNE diese Bindung (Legacy, vor diesem Fix geschrieben) ist
+            # eine unzureichend gebundene Erwartung -- kontrollierter HOLD,
+            # Marker/Members/round_no bleiben unveraendert, KEIN Ersatzwert
+            # aus einem frisch gelesenen Current.
+            bound_prev_ref_by_member = open_round.get("expected_prev_ref_by_member")
+            if bound_prev_ref_by_member is None:
+                emit("save_correction_hold", {
+                    "section_id": section_id, "table_id": table.table_id,
+                    "reason": "group_round_missing_original_snapshot_binding",
+                })
+                break
+            prev_ref_override = bound_prev_ref_by_member
             round_no = open_round["round"]
             # R12-W74 (F01b Gruppen-Nachzug): VOR jedem Resume-Versand fuer
             # DIESE Rundenidentitaet (`table_id`/`section_id`/`ROLE_GROUP`/
@@ -2331,6 +2476,37 @@ def pursue_group_save_correction(
         else:
             restored_from_adopted = False
             restored_best_effort = False
+            # F1-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-
+            # REVIEW.md F1): die aktive Abschlussautorität bindet den
+            # ORIGINAL-Snapshot GENAU HIER -- beim allerersten Betreten
+            # dieses Zweigs fuer diese Rundenidentitaet, VOR dem Marker-
+            # Write/dem ersten Versand unten. Eine bereits vorhandene
+            # eindeutige Bindung (ein Mitgliedsrecord aus einer frueheren,
+            # dann gecrashten Prozessinstanz DIESER Runde, erkennbar z.B.
+            # ueber `has_unfinished_group_round`/`has_resumable_group_hold`)
+            # wird wiederverwendet, STATT erneut frisch zu lesen -- sonst
+            # genau derselbe AR06-Bruch wie beim markerbasierten Resume. Ein
+            # vom Aufrufer mitgegebener `prev_ref_override` (R12-AUTORECOVERY)
+            # ist die staerkste bereits bestehende Bindung und hat Vorrang.
+            _existing_round_records = [
+                load_record(run_dir, save_correction_domain.group_repair_key(table.table_id, section_id, char_id))
+                for char_id in (
+                    table.chrononaut_ids.get(pk) for pk in harvest_completion.missing
+                )
+                if char_id is not None
+            ]
+            bound_prev_ref_by_member = prev_ref_override
+            if bound_prev_ref_by_member is None:
+                bound_prev_ref_by_member = next(
+                    (
+                        r.get("bound_prev_ref_by_member") for r in _existing_round_records
+                        if r is not None and r.get("bound_prev_ref_by_member") is not None
+                    ),
+                    None,
+                )
+            if bound_prev_ref_by_member is None:
+                bound_prev_ref_by_member = store.current_save_ref_snapshot(table, persona_state_store, states_dir)
+            prev_ref_override = bound_prev_ref_by_member
             for pk in harvest_completion.missing:
                 char_id = table.chrononaut_ids.get(pk)
                 if char_id is None:
@@ -2339,6 +2515,8 @@ def pursue_group_save_correction(
                 record = load_or_init_record(
                     run_dir, repair_key, persona_key=pk, char_id=char_id,
                     operation_key=ROLE_GROUP, table_id=table.table_id, section_id=section_id,
+                    expected_prev_ref_by_member=bound_prev_ref_by_member,
+                    require_hq=require_hq,
                 )
                 # R7-01 Part C (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-
                 # R7 §02 C): BEVOR ein terminaler STATE_HOLD unten unveraendert
@@ -2488,6 +2666,21 @@ def pursue_group_save_correction(
 
             if not candidates:
                 if restored_from_adopted:
+                    # F2-NACHZUG: der eben zurueckgespielte Block ("wieder-
+                    # hergestellt") durchlief NIE die PRE-SEND-HQ-Erstpruefung
+                    # (er fehlte zu diesem Zeitpunkt noch komplett) -- hier,
+                    # VOR Plan/Publish, erneut pruefen.
+                    hq_violation = _hq_violation_hold_reason()
+                    if hq_violation is not None:
+                        emit("save_correction_hold", {
+                            "section_id": section_id, "table_id": table.table_id,
+                            "reason": hq_violation,
+                        })
+                        harvest_completion = store.CompletionResult(
+                            success=False, already_completed=False, written=False,
+                            members_completed=[], missing=[], reason=hq_violation,
+                        )
+                        break
                     # Mindestens ein bereits adoptierter Block wurde eben aus
                     # dem Corrector-Metadatum zurueckgespielt -- GENAU DESHALB
                     # jetzt (idempotent, unveraenderter Store) erneut
@@ -2496,7 +2689,7 @@ def pursue_group_save_correction(
                     # ungenutzt zu verwerfen (s. Modulkommentar oben).
                     harvest_completion = store.complete_section(
                         lobby, table, section_id, harvested, states_dir, today, harvest_validator, persona_state_store,
-                        best_effort=restored_best_effort,
+                        best_effort=restored_best_effort, prev_ref_override=prev_ref_override,
                     )
                     continue
                 # R4-STARTFRESH (Owner-Vertrag, 2026-10-28, ueberschreibt die
@@ -2640,6 +2833,26 @@ def pursue_group_save_correction(
                         continue
                     best_effort_candidates[pk] = (member_repair_key, best_block)
                 if all_missing_have_candidate and best_effort_candidates:
+                    # F2-NACHZUG: diese best-effort "uebernommenen" Bloecke
+                    # durchliefen NIE die PRE-SEND-HQ-Erstpruefung (sie
+                    # fehlten zu diesem Zeitpunkt noch komplett) -- hier,
+                    # VOR Adoption/Plan/Publish, erneut pruefen.
+                    hq_violation = None
+                    if require_hq:
+                        for pk, (_member_repair_key, best_block) in best_effort_candidates.items():
+                            hq_violation = save_correction_domain.hq_mode_hold_reason(pk, best_block)
+                            if hq_violation is not None:
+                                break
+                    if hq_violation is not None:
+                        emit("save_correction_hold", {
+                            "section_id": section_id, "table_id": table.table_id,
+                            "reason": hq_violation,
+                        })
+                        harvest_completion = store.CompletionResult(
+                            success=False, already_completed=False, written=False,
+                            members_completed=[], missing=[], reason=hq_violation,
+                        )
+                        break
                     for pk, (member_repair_key, best_block) in best_effort_candidates.items():
                         harvested[pk] = best_block
                         mark_adopted(run_dir, member_repair_key, adopted_block=best_block, best_effort=True)
@@ -2648,7 +2861,7 @@ def pursue_group_save_correction(
                         })
                     harvest_completion = store.complete_section(
                         lobby, table, section_id, harvested, states_dir, today, harvest_validator, persona_state_store,
-                        best_effort=True,
+                        best_effort=True, prev_ref_override=prev_ref_override,
                     )
                     continue
                 break  # Budget fuer jedes noch fehlende Mitglied erschoepft -- ehrliches HOLD beim Aufrufer
@@ -2664,7 +2877,7 @@ def pursue_group_save_correction(
             _write_open_round(run_dir, table.table_id, section_id, round_no, [
                 {"persona_key": c["persona_key"], "char_id": c["char_id"], "original_block": c["original_block"]}
                 for c in candidates
-            ])
+            ], expected_prev_ref_by_member=prev_ref_override, require_hq=require_hq)
 
         message = save_correction_domain.build_group_correction_message(
             table_id=table.table_id, section_id=section_id, requests=candidates, max_attempts=max_attempts,
@@ -2755,7 +2968,7 @@ def pursue_group_save_correction(
                 _write_open_round(run_dir, table.table_id, section_id, new_round_no, [
                     {"persona_key": c["persona_key"], "char_id": c["char_id"], "original_block": c["original_block"]}
                     for c in candidates
-                ])
+                ], expected_prev_ref_by_member=prev_ref_override, require_hq=require_hq)
                 emit("save_correction_hold", {
                     "section_id": section_id, "table_id": table.table_id, "reason": reason,
                 })
@@ -2846,6 +3059,27 @@ def pursue_group_save_correction(
                         "persona_key": pk, "reason": "unjustified_semantic_drift",
                     })
                     continue  # alten (ungueltigen) Stand NICHT durch die gedriftete Antwort ersetzen
+            # F2-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, GROUP-
+            # REVIEW.md F2): dieser nachgeforderte Block fehlte beim aktiven
+            # PRE-SEND-Erstcheck noch komplett (Sache von `missing`, s.
+            # `_candidate_hq_hold_reason`) -- erreicht ihn `require_hq`,
+            # muss er GENAU DIESELBE HQ-Zulaessigkeit bestehen, BEVOR er in
+            # `harvested` uebernommen wird. Schema-/Bindungsvalide, aber
+            # Nicht-HQ: derselbe retry-faehige Weg wie ein nicht akzeptierter
+            # Kandidat oben (`_reset_for_next_attempt`, verbleibendes Budget
+            # erlaubt einen weiteren Versuch -- der Gast koennte beim
+            # naechsten Versuch tatsaechlich am HQ gespeichert haben); KEIN
+            # terminaler Hold, der eine spaetere gueltige HQ-Korrektur
+            # ausschliessen wuerde.
+            if require_hq:
+                hq_violation = save_correction_domain.hq_mode_hold_reason(pk, new_block)
+                if hq_violation is not None:
+                    _reset_for_next_attempt(run_dir, c["repair_key"], errors=[hq_violation])
+                    emit("save_correction_hold", {
+                        "section_id": section_id, "table_id": table.table_id,
+                        "persona_key": pk, "reason": hq_violation,
+                    })
+                    continue  # Nicht-HQ-Block NICHT uebernehmen -- kein Plan/Publish fuer diesen Block.
             harvested[pk] = new_block
             # R4-STARTFRESH (Owner-Vertrag, best-effort Gruppenabschluss):
             # dieser Kandidat hat die Drift-/Konfliktpruefung oben
@@ -2864,6 +3098,31 @@ def pursue_group_save_correction(
             else:
                 _reset_for_next_attempt(run_dir, c["repair_key"], errors=new_acceptance.feedback_items)
 
+        # F2-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, Stage 2.5
+        # Critic-Fund): im GEMISCHTEN Fall (ein Mitglied via Zeile ~2563
+        # `restored_from_adopted` zurueckgespielt, ein ANDERES Mitglied mit
+        # frischem Kandidaten in `candidates`) ist `candidates` NICHT leer --
+        # der einzige restored-HQ-Re-Check oben (`if not candidates:`) wird
+        # dadurch uebersprungen, waehrend der Per-Kandidat-`require_hq`-Check
+        # im Loop oben NUR den jeweils FRISCHEN Block prueft, nie das
+        # zurueckgespielte `harvested[pk]`. Hier, VOR dem Marker-Clear,
+        # erneut ALLE aktuell in `harvested` stehenden Bloecke pruefen --
+        # byte-strukturgleich zu 2615-2625 (kein Clear vor dem HOLD: Marker +
+        # F1-`expected_prev_ref_by_member`-Bindung bleiben erhalten, ein
+        # spaeterer Resume HOLDet ueber den restored-Zweig oben idempotent
+        # erneut).
+        hq_violation = _hq_violation_hold_reason()
+        if hq_violation is not None:
+            emit("save_correction_hold", {
+                "section_id": section_id, "table_id": table.table_id,
+                "reason": hq_violation,
+            })
+            harvest_completion = store.CompletionResult(
+                success=False, already_completed=False, written=False,
+                members_completed=[], missing=[], reason=hq_violation,
+            )
+            break
+
         # Diese Runde ist jetzt vollstaendig verarbeitet (Antwort durabel
         # UND in harvested/Korrekturdatensaetze uebernommen) -- der Marker
         # wird GENAU HIER geloescht, VOR dem naechsten (bereits bestehenden,
@@ -2875,6 +3134,7 @@ def pursue_group_save_correction(
 
         harvest_completion = store.complete_section(
             lobby, table, section_id, harvested, states_dir, today, harvest_validator, persona_state_store,
+            prev_ref_override=prev_ref_override,
         )
 
     return harvested, harvest_completion

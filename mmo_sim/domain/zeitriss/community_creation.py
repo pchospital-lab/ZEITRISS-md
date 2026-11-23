@@ -292,12 +292,26 @@ def _persona_get_reply_factory(
         # kein verdeckter Ersatz') -- der eigentliche Personatext/own_context
         # bleibt unveraendert an die REALE `persona_key`-Identitaet gebunden.
         ordinal_hint = "ersten" if onboarding_participant_key == persona_key else "ZUSAETZLICHEN"
+        # ZR-R8-A2 (2026-11-22, 01_FIXAUFTRAG.md §A Teil 2): reiner Prompt-Text,
+        # keine Codelogik-/Vertragsaenderung an dieser Funktion -- Charakter-
+        # entscheidungen/Rueckfragen/Korrekturen/der bewusste Erstsave bleiben
+        # erlaubt, weitere Aktivitaeten folgen erst danach. Gespiegelt in
+        # `meta/masterprompt_v6.md` und `systems/toolkit-gpt-spielleiter.md`
+        # § Chargen-Save-Gate (SL-Seite) sowie
+        # `characters/charaktererschaffung-grundlagen.md` (Spieler-WS).
+        creation_phase_boundary_instruction = (
+            "Charakterentscheidungen, Rueckfragen, notwendige Korrekturen und die "
+            "bewusste Abschlussentscheidung sind Teil dieses Dialogs. Du bringst "
+            "deine Charaktererschaffung zum bewussten Erstsave (`!save`); weitere "
+            "Aktivitaeten folgen erst im Spielkontext nach diesem Abschluss."
+        )
         ctx = {
             "system": (
                 f"Du bist die Spieler-Persona '{persona_key}' der Community '{community_id}' "
                 f"(Generation {generation}). Du erschaffst gerade deinen eigenen {ordinal_hint} "
                 "Chrononauten in einem eigenen, privaten SL-Dialog -- beantworte die Fragen "
                 "der Spielleitung in deiner eigenen Stimme, konsistent zu deinem Profil.\n\n"
+                f"{creation_phase_boundary_instruction}\n\n"
                 f"{creation_pause_control_instruction()}"
             ),
             "user": sl_text,
@@ -357,6 +371,63 @@ def _persona_get_reply_factory(
         return _reply_for_text(decision.text, request_id)
 
     return _get_reply
+
+
+def peek_publication_readiness(
+    *,
+    run_dir: Path,
+    states_dir: Path,
+    onboarding_dir: Path,
+    catalog_dir: Path,
+    persona_key: str,
+    final_save: dict,
+    ps_store: PersonaStateStore,
+) -> str:
+    """F3-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, COMMUNITY-
+    REVIEW.md B1): reiner Lese-Peek derselben Bereitschaftspruefung wie
+    `_publication_reconcile` unten (I4-Current-Autoritaet UND Katalogeintrag
+    UND Figurablage UND Persona-State-Identitaet UND aktive Bindung) --
+    OHNE jeden Schreibzugriff (kein `catalog.register`/`store_figure_save`/
+    `publish_current_save`/`bind_for_section`, kein neuer Modellaufruf).
+    Fuer Anzeige-/Klassifikationszwecke (`ui/tui.py:_cmd_community`), die
+    `onboarding.completed` NICHT mehr pauschal mit tatsaechlicher
+    Tischbereitschaft verwechseln duerfen (W1-Regression) -- Ansehen/
+    Zurueck muessen dabei inferenzfrei bleiben (0 Requests, 0 Writes).
+
+    Liefert `"already_ready"`, wenn ALLE Publikationswirkungen bereits
+    vorliegen (tatsaechlich tischbereit); `"blocked"` bei einer gerade
+    nicht strengt lesbaren Current-Autoritaet ODER fehlender auswertbarer
+    Chrononaut-ID (unklar -- NIE 'fertig' und NIE 'fehlt/neu
+    veroeffentlichen'); sonst `"needs_reconcile"` (completed, aber noch
+    unvollstaendig publiziert -- der bestehende kostenfreie `_publication_
+    reconcile` kann das bei bewusster Auswahl nachholen)."""
+    try:
+        current = core_store.load_current_save_or_raise(run_dir, persona_key, ps_store, states_dir)
+    except core_store.CurrentSaveUnavailableError:
+        return "blocked"
+    if current is not None:
+        chrononaut_id = zeitriss_saves.block_char_id(current) or zeitriss_saves.block_char_id(final_save)
+    else:
+        chrononaut_id = zeitriss_saves.block_char_id(final_save)
+    if chrononaut_id is None:
+        return "blocked"
+
+    catalog_entries = catalog.list_for_participant(catalog_dir, persona_key)
+    has_catalog_entry = any(e.chrononaut_id == chrononaut_id for e in catalog_entries)
+    has_figure_save = catalog.load_figure_save(catalog_dir, persona_key, chrononaut_id) is not None
+    try:
+        persona_state = ps_store.load_state(persona_key, states_dir=states_dir)
+        has_persona_state = (
+            persona_state.get("persona_key") == persona_key
+            and (persona_state.get("plays_char") or {}).get("character_id") == chrononaut_id
+        )
+    except FileNotFoundError:
+        has_persona_state = False
+    has_binding = catalog.active_chrononaut_id(catalog_dir, persona_key) == chrononaut_id
+
+    if current is not None and has_catalog_entry and has_figure_save and has_persona_state and has_binding:
+        return "already_ready"
+    return "needs_reconcile"
 
 
 def _publication_reconcile(

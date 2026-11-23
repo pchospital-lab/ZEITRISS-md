@@ -31,6 +31,7 @@ from .admission import read_admission_block, reservation_for_wire_text
 from ..domain.zeitriss import onboarding as onboarding_lib
 from ..domain.zeitriss import saves as zeitriss_saves
 from ..domain.zeitriss import save_validation
+from ..domain.zeitriss.policy import is_save_command
 
 
 @dataclass
@@ -398,7 +399,31 @@ def run_admitted_creation_dialog(
             save_validation.extract_checked_single(sl_text, candidate_char_id)
             if candidate_char_id is not None else (None, [])
         )
-        if candidate_char_id is not None and (checked_block is not None or extraction_conflicts):
+        # A-NACHZUG (ZR-R9-PR3316-PREMERGE-NACHZUG-20261122, 01_REVIEW.txt
+        # Abschnitt 5 "A", GENERALREVIEW.md Ziel A): ein bereits bestehender
+        # ausdruecklicher `!save`/`!speichern`-Abschlusswunsch (`domain.
+        # zeitriss.policy.is_save_command`, derselbe Vertrag wie `core.
+        # runtime`s `explicit_completion_attempt`) bezieht sich auf
+        # `outgoing` -- den gerade an die SL gesendeten Text DIESES Turns,
+        # NICHT auf `sl_text` (die Antwort). Antwortet die SL darauf OHNE
+        # jeden extrahierbaren Save-Block (`candidate_char_id is None`),
+        # darf das NICHT stillschweigend als gewoehnlicher Dialogzug unten
+        # weiterlaufen (belegter Trace: normale Persona-Antworten + HQ-
+        # Einkaufsprosa werden unveraendert weitergeleitet, Onboarding
+        # bleibt `in_progress`). Bindet diesen Fall an dieselbe begrenzte
+        # Ablehnungsbehandlung wie ein gefundener, aber mehrdeutiger
+        # Rohblock (G02/SC06 unten, `_attempt_correction(None, ...)`) --
+        # KEINE automatische Charakterfertigstellung, KEINE Zahlenwahl als
+        # verstecktes `!save`, KEIN HQ-Wortfilter, KEINE kuenstliche
+        # Turngrenze, KEIN neu erfundener strukturierter "Bogen fertig"-
+        # Zustand. `record_step`/`record_pending_answer` (unten) werden fuer
+        # DIESEN Turn nicht erreicht -- eine Wiederaufnahme sendet ueber
+        # denselben `turn_idx`/`outgoing` erneut genau dieselbe Anfrage
+        # (idempotent ueber `request_ledger`) und trifft dieselbe
+        # Entscheidung erneut, statt sie zu vergessen.
+        explicit_save_without_export = candidate_char_id is None and is_save_command(outgoing)
+        if (candidate_char_id is not None and (checked_block is not None or extraction_conflicts)) \
+                or explicit_save_without_export:
             # W48 (01_AUFTRAG_SAVEGATE.md §C): ein ungueltiger Entwurf
             # beendet den Dialog NICHT mehr sofort -- bis zu 3
             # zusaetzliche SL-Ausgaben werden ueber DIESELBE Session
@@ -465,7 +490,7 @@ def run_admitted_creation_dialog(
                     return CreationDialogOutcome(
                         status="completed", save_block=checked_block, chrononaut_id=candidate_char_id,
                     )
-            else:
+            elif candidate_char_id is not None:
                 # G02/SC06: >=2 rohe Bloecke fuer `candidate_char_id` mit
                 # ABWEICHENDEM Inhalt in dieser EINEN Antwort -- KEINER
                 # davon darf als Kandidat gelten ('darf NIE als einer der
@@ -475,6 +500,25 @@ def run_admitted_creation_dialog(
                 # Mehrdeutigkeitsmeldung an die SL statt eines erfundenen
                 # 'fehlender Block'-Textes.
                 correction = _attempt_correction(None, forced_conflicts=extraction_conflicts)
+            else:
+                # A-NACHZUG: `explicit_save_without_export` -- ein `!save`
+                # ohne JEDEN extrahierbaren Rohblock hat keine Chrononaut-ID,
+                # an die eine Korrekturanfrage gebunden werden koennte (der
+                # bestehende `_attempt_correction`-Vertrag braucht eine
+                # `expected_chrononaut_id`, s. `creation_repair_key`/
+                # `save_correction_domain.evaluate`). KEIN erratener/
+                # fehlender Identitaetswert, KEIN neuer Korrekturmechanismus
+                # -- kontrollierter, fortsetzbarer HOLD. Weder `record_step`
+                # noch `turn_idx`/`outgoing` ruecken vor (s. Kommentar oben)
+                # -- eine Wiederaufnahme trifft ueber denselben `turn_idx`
+                # dieselbe Entscheidung erneut.
+                print_fn(
+                    "Explizites !save-Kommando ohne erkennbaren Speicherstand in der SL-Antwort "
+                    "— kein automatischer Abschluss, Dialog bleibt offen/wiederaufnehmbar. Zuerst "
+                    "einen vollstaendigen Charakterbogen als Export zeigen, dann erneut !save/"
+                    "!speichern."
+                )
+                return CreationDialogOutcome(status="paused", reason="explicit_save_without_export")
 
             # R5 A (01_NACHZUG.md §2, GUEST-OPERATOR.md §3): hat der adressierte
             # Betreiber-Stop die gemeinsame Entscheidung waehrend der Korrektur-

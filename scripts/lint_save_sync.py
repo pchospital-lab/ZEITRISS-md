@@ -185,11 +185,12 @@ def main() -> int:
             "Modul 12 enforces 'no transition after save in same section'",
             sv_text,
         )
-        # Fast-Lane entfernt (refactor/remove-fast-lane, 2026-05-28):
-        # Anker zeigt jetzt auf die Legacy-Notiz statt auf die aktive Ausnahme.
+        # Fast-Lane-Legacy-Notiz entfernt (r2 Chronik-Entfernung, PR #3316):
+        # Anker prüft jetzt die aktive Legacy-Trigger-Mapping-Regel statt der
+        # (entfernten) Wartungshistorie.
         all_ok &= ok(
-            r"Bis v4\.2\.5 gab es eine \*\*Fast-Lane\*\*-Ausnahme",
-            "Modul 12 trails the Fast-Lane removal note",
+            r"Legacy-Trigger `solo schnell` / `gruppe schnell` werden im Runtime still auf\s+`klassisch` gemappt",
+            "Modul 12 documents the Fast-Lane legacy mapping",
             sv_text,
         )
     else:

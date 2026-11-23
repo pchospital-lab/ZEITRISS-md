@@ -294,6 +294,14 @@ Jetzt seid ihr bereit für euren ersten HQ-Deepsave. Nach dem Laden dieses Saves
 frischen Spielkontext entscheidet ihr bewusst, ob ihr das HQ ausspielt, trainiert,
 die Arena betretet oder ins erste Briefing geht.
 
+**Wichtig (Chargen-Save-Gate):** Vor diesem Erstsave (`!save`) sind ausschließlich
+Charakterentscheidungen, Rückfragen, notwendige Korrekturen und die bewusste
+Abschlussentscheidung Teil des Dialogs — plus ein kurzer (2-4 Sätze) Ankunfts-/
+Heimkehrbeat. Freies HQ-Erkunden, Einkäufe, Training, Briefing oder Mission werden
+NICHT ausgespielt, solange der Erstsave noch nicht gespeichert ist — die
+Aktivitätswahl (HQ-Menü) folgt erst im nächsten, nach Save/Load folgenden
+Spielkontext. Details/Kodex-Wortlaut: `meta/masterprompt_v6.md` § Chargen-Save-Gate.
+
 ## Erste Schritte im ITI
 
 Entscheidet sich die Gruppe nach dem Laden ihres ersten Saves für die ausgespielte

@@ -46,6 +46,7 @@ from mmo_sim.adapters.fakes import FakeHTTPServer  # noqa: E402
 from mmo_sim.core import store  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
+from mmo_sim.ui.tui import TuiSession  # noqa: E402
 
 SCHEMA = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
 
@@ -152,14 +153,27 @@ def test_real_subprocess_c_command_creates_exactly_one_persona_within_budget():
             }
             # R3 (Community-Recovery 2026-09-25, REVIEW-COMMUNITY-RECOVERY.md
             # §5): eine NEUE Community mit konfigurierter Live-Anbindung
-            # verlangt jetzt eine explizite [d/p]-Herkunftsantwort VOR der
-            # ersten Modellanfrage -- Original-Stdin war `"c\nx\n"` (ein
-            # bewusst ungueltiges `x` fiel FRUEHER still auf DEMO zurueck,
-            # das ist genau der behobene Bug). Derivat: `"c\nd\nx\n"`
-            # (explizites `d` -- unveraendert DEMO/SIMULIERT-Herkunft, die
-            # dieser Test ohnehin nie inhaltlich prueft). Diff: eine
-            # zusaetzliche `d\n`-Zeile nach `c\n`.
-            proc = _run_process(data_dir, "caller_human", "c\nd\nx\n", env)
+            # verlangt eine explizite [d/p]-Herkunftsantwort VOR der ersten
+            # Modellanfrage -- Original-Stdin war `"c\nx\n"` (ein bewusst
+            # ungueltiges `x` fiel FRUEHER still auf DEMO zurueck, das ist
+            # genau der behobene Bug).
+            #
+            # ZR-R8-B-Nachzug (2026-11-22, 01_FIXAUFTRAG §B): seit der
+            # Ziel-B-Umstellung fragt `_cmd_community` NACH der Demo-/
+            # Produktiv-Entscheidung zusaetzlich bewusst, WELCHE konkrete
+            # offene Persona gestartet werden soll (`_ask_community_
+            # persona_start_choice`) -- ein frueheres `x` wuerde jetzt als
+            # "keine gueltige Auswahl" (0 Inferenz, GAR KEIN Request)
+            # interpretiert, nicht mehr als Fuellzeichen nach bereits
+            # abgeschlossener Batch-Erschaffung. Stdin braucht deshalb den
+            # ECHTEN, deterministischen ersten Demo-Persona-Key als
+            # Auswahl (`cqb_community_caller_human`, selbe Formel wie
+            # `TuiSession._synthetic_starter_pool`).
+            demo_pool_keys = list(TuiSession.__new__(TuiSession)._synthetic_starter_pool(
+                "community-caller_human", size=8,
+            ).keys())
+            first_pk = demo_pool_keys[0]
+            proc = _run_process(data_dir, "caller_human", f"c\nd\n{first_pk}\n", env)
             assert proc.returncode == 0, f"echter Subprozess fehlgeschlagen: {proc.stderr}\n{proc.stdout}"
             assert "Neue Spielgemeinschaft" in proc.stdout, proc.stdout
             assert "Persona-getriebene Erstgeneration" in proc.stdout, proc.stdout
@@ -193,8 +207,15 @@ def test_real_subprocess_c_command_creates_exactly_one_persona_within_budget():
 
             # ECHTER NEUER Interpreterprozess (Reentry): kein zusaetzlicher
             # Request fuer die bereits fertige Persona, Fortschritt bleibt.
+            # ZR-R8-B-Nachzug: Herkunft ist bereits gepinnt (keine erneute
+            # [d/p]-Frage); die Persona-Auswahl braucht trotzdem einen
+            # GUELTIGEN offenen Key (hier die zweite Demo-Persona) -- das
+            # bereits ausgeschoepfte Budget blockiert sie danach OHNE
+            # weiteren HTTP-Call (s.u.), unabhaengig davon, WELCHE offene
+            # Persona ausgewaehlt wird.
+            second_pk = demo_pool_keys[1]
             gm_calls_before, persona_calls_before = len(gm_srv.calls), len(persona_srv.calls)
-            proc2 = _run_process(data_dir, "caller_human", "c\nx\n", env)
+            proc2 = _run_process(data_dir, "caller_human", f"c\n{second_pk}\n", env)
             assert proc2.returncode == 0, proc2.stderr
             ready_after = [
                 pk for pk in planned_keys

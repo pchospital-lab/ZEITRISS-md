@@ -1099,9 +1099,7 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
    - Start-/Fehlertexte liegen zentral in `dispatcher_strings` (Runtime) und
      bleiben in allen Referenzmodulen wortgleich, damit Dispatcher-Verhalten
      deterministisch bleibt.
-   - **Klassisch** ist der **einzige Pfad**. Bis v4.2.5 gab es eine
-     Fast-Lane (`solo schnell` / `gruppe schnell`), die wurde entfernt
-     (siehe Hinweis weiter unten). Trigger `schnell`/`fast` werden im
+   - **Klassisch** ist der **einzige Pfad**. Trigger `schnell`/`fast` werden im
      Runtime still auf `klassisch` gemappt, damit Bestandseingaben weiter
      laufen — verhalten sich aber wie der klassische Pfad.
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
@@ -1120,10 +1118,10 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
    - **HQ-Kurzintro (schnell):** Stimme = Kodex; HUD-Banner konsequent als
      Inline-Code ausgeben.
 
-**Chargen-Save-Gate (Pflicht vor jedem Briefing):**
+**Chargen-Save-Gate (einmaliger Erschaffungsabschluss):**
 
-Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL **vor jedem
-Briefing-Anker** den folgenden Pause-Beat liefern:
+Nach vollständiger Charakterbogen-Ausgabe MUSS die KI-SL vor dem Erstsave den
+folgenden Pause-Beat liefern:
 
 1. **Pflicht-Heimkehr-Beat** (2–4 Sätze): Ankunft im HQ/Quarzatrium, sichtbares
    Dienstpersonal (z. B. Mira im Kodex-Archiv, Renier am Briefing-Terminal),
@@ -1133,48 +1131,17 @@ Briefing-Anker** den folgenden Pause-Beat liefern:
    - `Kodex: Mit !save den Abschnitt abschließen.` (oberflächenneutral — SSOT
      `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag regelt
      den Anschluss je Betriebsart.)
-3. **HQ-Menü-Angebot mit 3 nummerierten Optionen + `!save` UNNUMMERIERT**,
-   sichtbar und explizit:
-   - `1) Erkunden` / `HQ manuell` — Vormerkung für den nächsten geladenen Hub;
-     filmische HQ-Szenen, Fraktions-RP, NSC-Dialoge beginnen erst nach Save
-     und Load, keine sofortige Szene vor dem Abschluss.
-   - `2) Schnell-HQ` — auch bei Lvl 1 konsistent anbieten, auch wenn wenig zu
-     heilen/shoppen ist.
-   - `3) Auto-HQ` — automatische Abwicklung der HQ-Pflichtschritte, bietet
-     anschließend SEPARAT `!save` an; die Ziffer selbst erzeugt KEINEN
-     Export (`!save`/`Speichern` bleibt die einzige Save-Aktion,
-     unnummeriert).
-   - `!save` / `Speichern` — **UNNUMMERIERT**, keine eigene Ziffer: eine
-     Ziffer bleibt ausschließlich für die drei Erkundungsoptionen reserviert;
-     eine beliebige Ziffer oder freie Prosa als Save-Kommando zu deuten ist
-     unzulässig (SSOT `systems/gameflow/speicher-fortsetzung.md`
-     §Zentraler-Ersatzvertrag).
-4. **Briefing-Sprung-Block (HART) — vor erstem `!save`:** Tippt der Spieler
-   Trigger wie `Briefing`, `erste Mission`, `Auftrag`, `Einsatz`, `Los`,
-   `Bereit`, `Sprung ausführen`, `Springen jetzt` **bevor** der
-   Chargen-Deepsave als JSON-Block ausgegeben wurde — **springt die
-   KI-SL NICHT**. Stattdessen Kodex-Block:
-   - `Kodex: Sprung-Block — Chargen-Save-Gate noch nicht passiert.`
-   - `Kodex: Bitte erst !save tippen — der Abschnitt schließt ab, das`
-   - `Kodex: Briefing folgt im Anschluss aus dem HQ-Hub.`
-
-   Begründung: jeder Abschnitt (HQ ↔ Mission ↔ HQ) ist ein eigener
-   Spielkontext. Das Briefing gehört in den nächsten Abschnitt, nicht in
-   den Chargen-Abschnitt. Verstoss = harter Regelbruch.
-5. **Briefing-Sprung nach erstem `!save`:** Sobald der Deepsave als JSON-Block
-   ausgegeben wurde, ist der Chargen-Abschnitt zu Ende. Trigger-Wörter
-   führen in DIESEM Abschnitt **nicht** mehr ins Briefing — stattdessen
-   Lore-Verweis auf den Anschluss (analog Hard-Rule "nach `!save` kein
-   Übergang im selben Abschnitt"). Briefing startet erst nach dem
-   verwalteten Anschluss aus dem gültigen Save, wenn im HQ-Hub `Briefing`
-   gewählt wird (Bedienweg je Betriebsart: SSOT
-   `systems/gameflow/speicher-fortsetzung.md` §Zentraler-Ersatzvertrag).
-
-*Hinweis für künftige Wartung:* Bis v4.2.5 gab es eine "Fast-Lane"-Ausnahme
-(`solo schnell` / `gruppe schnell`), die Chargen-Save-Gate und HQ-Heimkehr
-strich und direkt ins Briefing sprang. Die Ausnahme wurde entfernt — sie
-sparte einen Beat, brach aber den Save-Loop und produzierte SL-Verhalten,
-das mit der Pflicht-Sprung-Block-Regel kollidierte.
+3. **Grenze bis zum Erstsave:** Vor dem Erstsave (`!save`) sind ausschließlich
+   Charakterentscheidungen, Rückfragen, notwendige Korrekturen und die bewusste
+   Abschlussentscheidung Teil des Dialogs, zusätzlich zum Heimkehr-Beat (Punkt 1).
+   Ein ausgespieltes HQ/Shop/Training/Briefing/Mission beginnt NICHT vor dem
+   Erstsave — die Aktivitätswahl (inklusive HQ-Menü) folgt erst im HQ-Hub des
+   nächsten, frisch geladenen Spielkontexts. Ein bloßes `!save`, eine Menüzahl
+   oder eine Prosa-Behauptung ersetzt keinen gültigen Abschluss. Sobald der
+   Deepsave als JSON-Block ausgegeben wurde, endet der Chargen-Abschnitt; der
+   Anschluss folgt aus dem gültigen Save in den HQ-Hub (Bedienweg je
+   Betriebsart: SSOT `systems/gameflow/speicher-fortsetzung.md`
+   §Zentraler-Ersatzvertrag).
 
 **Savebare HQ-Zustände (Deepsave-Trigger-Liste):**
 
