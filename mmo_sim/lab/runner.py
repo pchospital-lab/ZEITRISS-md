@@ -139,6 +139,29 @@ class LabStatus:
     # Optional (Default leere Liste) fuer Rueckwaertskompatibilitaet mit
     # alten Statusdateien.
     reconciled_seconds_request_ids: list[str] = field(default_factory=list)
+    # REC-2/BF-1 (PR #3317-Nachzug 2026-11-23, BUDGET_FLOW_REVIEW BF-1): schlanke
+    # Idempotenz-Kennung fuer bereits gebuchte EINMALIGE Retry-Reservierungen
+    # (`core.admission.record_turn_usage(once_request_id=...)`, nur vom crashfesten
+    # `core.request_ledger.commit_authorized_retry`-Weg gesetzt) -- dieselbe
+    # Fresh-von-der-Platte-Erhaltungsmechanik wie `reconciled_request_ids`, aber
+    # fuer die VOR-Versand-Buchung einer gebundenen Wiederholung statt der
+    # NACH-Versand-Delta-Korrektur. `core.admission.record_turn_usage` schreibt
+    # diese Liste direkt ins `lab.status.json`; ohne das Feld HIER scheiterte
+    # `read_status` (`LabStatus(**json)`) mit TypeError, sobald eine Retry-Buchung
+    # stattgefunden hatte (BF-1-Regression). Optional (Default leere Liste) fuer
+    # Rueckwaertskompatibilitaet mit alten Statusdateien ohne das Feld.
+    booked_reservation_request_ids: list[str] = field(default_factory=list)
+    # K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3): KUMULATIVER gebuchter
+    # Reservebetrag je request-id ({request_id: usd}), ATOMAR mit der Buchung
+    # neben `booked_reservation_request_ids` in `lab.status.json` festgehalten
+    # (`core.admission.record_turn_usage(booked_reservation_id/_usd=...)`,
+    # gelesen von `core.admission.booked_reservation_amount`). Exakt dieselbe
+    # BF-1-Falle wie oben: `core.admission` schreibt diesen Key direkt ins
+    # `lab.status.json`; ohne das Feld HIER scheiterte `read_status`
+    # (`LabStatus(**json)`) mit TypeError, sobald eine Retry-Buchung mit Betrag
+    # stattgefunden hatte. Optional (Default leeres Dict) fuer
+    # Rueckwaertskompatibilitaet mit alten Statusdateien ohne das Feld.
+    reservation_booked_usd: dict[str, float] = field(default_factory=dict)
 
 
 def _lock_path(run_dir: Path) -> Path:
@@ -206,6 +229,13 @@ class LabRunner:
             self._usd_unknown_turns = existing.usd_unknown_turns
             self._reconciled_request_ids = existing.reconciled_request_ids
             self._reconciled_seconds_request_ids = existing.reconciled_seconds_request_ids
+            self._booked_reservation_request_ids = existing.booked_reservation_request_ids
+            # K (PR #3317-Nachzug r3, STATUS_WRITER_REVIEW.md): dieselbe
+            # Resume-Uebernahme wie `_booked_reservation_request_ids` -- die
+            # kumulative Betragsmap ist genauso Verbrauch wie die Dedup-IDs
+            # und darf bei einer neuen `LabRunner`-Instanz fuer DASSELBE
+            # run_dir nicht auf {} zuruecksetzen.
+            self._reservation_booked_usd = existing.reservation_booked_usd
         else:
             self._turns_used = 0
             self._seconds_elapsed = 0.0
@@ -213,6 +243,10 @@ class LabRunner:
             self._usd_unknown_turns = 0
             self._reconciled_request_ids = []
             self._reconciled_seconds_request_ids = []
+            self._booked_reservation_request_ids = []
+            # K (PR #3317-Nachzug r3): echter Erstlauf -- leere Map, analog
+            # zu `_booked_reservation_request_ids`.
+            self._reservation_booked_usd = {}
         # R3 (MAIN-KORREKTUR I2-Nacharbeit 2026-09-24, REVIEW-I2.md §3 Fall
         # 04): diese Instanz darf `start()` nur EINMAL erfolgreich
         # durchlaufen -- s. `start()`-Docstring.
@@ -287,6 +321,14 @@ class LabRunner:
                 self._usd_unknown_turns = on_disk.usd_unknown_turns
                 self._reconciled_request_ids = on_disk.reconciled_request_ids
                 self._reconciled_seconds_request_ids = on_disk.reconciled_seconds_request_ids
+                self._booked_reservation_request_ids = on_disk.booked_reservation_request_ids
+                # K (PR #3317-Nachzug r3, STATUS_WRITER_REVIEW.md): dieselbe
+                # Frisch-von-der-Platte-Uebernahme wie
+                # `_booked_reservation_request_ids` -- zwischen Konstruktion
+                # und tatsaechlichem Lockerwerb kann ein anderer Besitzer die
+                # Betragsmap fortgeschrieben haben; der fruehe
+                # Konstruktor-Stand ist dann STALE.
+                self._reservation_booked_usd = on_disk.reservation_booked_usd
             # F2-Fix (Critic-Nacharbeit, Bau-GO 2026-09-27): ABSOLUTE `time.
             # time()`-Deadline EINMALIG hier berechnen (nicht in
             # `_write_status`, sonst wuerde jeder spaetere `record_turn()`-
@@ -777,6 +819,30 @@ class LabRunner:
             on_disk.reconciled_seconds_request_ids if on_disk is not None
             else self._reconciled_seconds_request_ids
         )
+        # BF-1 (PR #3317-Nachzug): dieselbe Frisch-von-der-Platte-Uebernahme wie
+        # `reconciled_request_ids` -- ein `LabRunner`-eigener Statuswrite darf die
+        # von `core.admission.record_turn_usage(once_request_id=...)` bereits
+        # vermerkten Retry-Buchungs-IDs nicht mit einem veralteten In-Memory-Stand
+        # ueberschreiben (sonst waere ein crashfester Retry NACH einem solchen
+        # Write nicht mehr gegen Doppelbuchung geschuetzt, s. BUDGET_FLOW_REVIEW
+        # BF-1 "kein pauschales Wegfiltern unbekannter Schluessel").
+        booked_reservation_request_ids = (
+            on_disk.booked_reservation_request_ids if on_disk is not None
+            else self._booked_reservation_request_ids
+        )
+        # K (PR #3317-Nachzug r3, STATUS_WRITER_REVIEW.md): dieselbe
+        # Frisch-von-der-Platte-Uebernahme wie `booked_reservation_request_ids`
+        # -- `core.admission.record_turn_usage` schreibt die kumulative
+        # Betragsmap atomar neben den Dedup-IDs; ohne diese Uebernahme
+        # ueberschrieb ein `LabRunner`-eigener Statuswrite (z.B. `start()`
+        # zwischen Crash und Retry) die Map stillschweigend mit dem
+        # Dataclass-Default `{}` und liess das Ledger auf den veralteten
+        # Childrecord zurueckfallen (Root-Gegenfall: .041 statt .031 nach
+        # echtem Runnerwrite).
+        reservation_booked_usd = (
+            on_disk.reservation_booked_usd if on_disk is not None
+            else self._reservation_booked_usd
+        )
         # G2c (Headless-/Lab-Lobbydurchstich, Bau-GO 2026-09-27, REVIEW-
         # HEADLESS-BETRIEBSGRENZEN.md Probe 04): `provider_free` ist eine
         # GETRENNTE, vertrauenswuerdige Testautoritaet (`core.admission.
@@ -801,6 +867,8 @@ class LabRunner:
             usd_unknown_turns=usd_unknown_turns,
             reconciled_request_ids=reconciled_request_ids,
             reconciled_seconds_request_ids=reconciled_seconds_request_ids,
+            booked_reservation_request_ids=booked_reservation_request_ids,
+            reservation_booked_usd=reservation_booked_usd,
             provider_free=provider_free,
         )
         # R2: atomarer Write (Temp-Datei + os.replace) statt direktem

@@ -1370,6 +1370,49 @@ def action_install(*, _skip_state_check: bool = False) -> None:
     _pause()
 
 
+def _describe_kb_sync_status(state: dict) -> str:
+    """UPD-2: trennt den Wissensstand von „Programm aktuell" -- `kb_total`/
+    `kb_confirmed`/`kb_failed` kommen aus der `SYNC_RESULT`-Zeile von
+    `setup.py --sync` (s. `launcher_update._parse_sync_result_line`), NICHT
+    aus einer fest verdrahteten Zahl. Fehlt die Aufschlüsselung (älterer
+    `setup.py`-Stand, oder noch nie gesynct), ist „aktuell nicht prüfbar"
+    die ehrliche Antwort — kein implizites Gesamtgrün aus fehlendem Feld."""
+    kb_total = state.get("kb_total")
+    kb_confirmed = state.get("kb_confirmed")
+    if not isinstance(kb_total, int) or not isinstance(kb_confirmed, int):
+        return "Wissensstand: aktuell nicht prüfbar (keine Sync-Aufschlüsselung vorhanden)."
+    kb_failed = state.get("kb_failed") or []
+    # U-R2/U3: eine gespeicherte Bestätigung ohne erkennbaren Prüfzeitpunkt darf
+    # nicht wie eine aktuelle Vollbestätigung wirken -- Geltungsstand dazu.
+    # `kb_checked_at` ist GENAU an denselben Lauf gebunden, der `kb_total`/
+    # `kb_confirmed`/`kb_failed` geliefert hat (s. `run_sync_subprocess`-Doku) --
+    # `sync_at`/`sync_failed_at` sind NUR Fallback für ältere Stände ohne dieses
+    # Feld; sie beschreiben sonst den GESAMTLAUF, nicht zwingend DIESE Zähler
+    # (ein Timeout/Fehlschlag ohne SYNC_RESULT-Zeile hätte sonst einen frischen
+    # Zeitstempel neben stehengebliebenen alten Zählern gezeigt).
+    checked_at = state.get("kb_checked_at") or state.get("sync_at") or state.get("sync_failed_at")
+    stamp = f" (Stand: {checked_at})" if checked_at else " (Prüfzeitpunkt unbekannt)"
+    if kb_failed:
+        # U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3): der
+        # von `setup.py` seit diesem Nachzug mitgelieferte Zusatzstatus
+        # unterscheidet hier "aktuell nicht abschließend prüfbar" (leere/
+        # unlesbare Coverageantwort, KEIN nachgewiesener Fehlbestand) von
+        # "noch offen" (belegter Fehlbestand) -- vorher endeten beide Fälle
+        # identisch als "noch offen". Beide bleiben Nicht-Erfolg; nur die
+        # Wortwahl unterscheidet den Grund.
+        if state.get("coverage_undetermined"):
+            return (
+                f"Wissensdateien: {kb_confirmed} von {kb_total} bestätigt; "
+                f"aktuell nicht abschließend prüfbar: {', '.join(kb_failed)} "
+                f"(bisherige Version bleibt erhalten).{stamp}"
+            )
+        return (
+            f"Wissensdateien: {kb_confirmed} von {kb_total} bestätigt; "
+            f"noch offen: {', '.join(kb_failed)} (bisherige Version bleibt erhalten).{stamp}"
+        )
+    return f"Wissensdateien: {kb_confirmed} von {kb_total} bestätigt.{stamp}"
+
+
 def _run_update_sync_step() -> bool:
     """U5: der eigentlich noetige Sync (Preset/KB) NACH einer Datei-
     Aktualisierung — oder gezielt alleine, wenn Dateien schon aktuell sind,
@@ -1383,10 +1426,13 @@ def _run_update_sync_step() -> bool:
                   "danach [4] erneut versuchen."))
         return False
     ok, tail = launcher_update_module.run_sync_subprocess(REPO)
+    state = launcher_update_module.read_state(REPO)
     if ok:
-        print(green("  ✓ Synchronisierung abgeschlossen (Preset/KB aktuell)."))
+        print(green("  ✓ Synchronisierung abgeschlossen."))
+        print(dim("  " + _describe_kb_sync_status(state)))
     else:
         print(red("  ✗ Synchronisierung fehlgeschlagen — Programmdateien sind neu, Sync bleibt offen."))
+        print(dim("  " + _describe_kb_sync_status(state)))
         if tail:
             print(dim("    " + tail.replace("\n", "\n    ")))
         print(dim("  [4] Nach Updates suchen erneut — synct gezielt nach, ohne alles neu zu holen."))
@@ -1477,17 +1523,34 @@ def _attempt_zip_install(target_rev: str) -> "launcher_update_module.ZipUpdateRe
     )
 
 
-def _offer_pending_restart_now() -> None:
+def _offer_pending_restart_now(sync_ok: Optional[bool] = None) -> None:
     """R4-06-Fix (01_GENERAL_REVIEW.md R4-06, 02_NACHZUG_AUFTRAG.md Block
     D): der tatsächliche "[4] erneut ausführen, um neu zu starten"-Weg,
     den die Sperrmeldung verspricht UND den `_finish_update_installation`
     bei einer frischen Installation anbietet. Ausgelagert, damit
     `action_update()` ihn SOFORT (vor jedem neuen `check_for_update`)
     anbieten kann, wenn `_update_restart_required` bereits aus einem
-    FRÜHEREN Aufruf steht (s. dortiger Aufrufer-Docstring)."""
+    FRÜHEREN Aufruf steht (s. dortiger Aufrufer-Docstring).
+
+    UPD-2-Fix: `sync_ok` entscheidet, OB dieser Abschluss ein uneingeschränktes
+    „Update installiert" meldet. Frueher ignorierte dieser Schritt den
+    tatsaechlichen Sync-Ausgang vollstaendig und bot IMMER denselben Text an
+    -- ein Teilfehler (Wissensdateien offen) wurde dadurch wie ein
+    Volltreffer dargestellt. `sync_ok=None` (Aufruf OHNE frischen Sync, z.B.
+    der Fastpath fuer eine aus einem frueheren Lauf bereits offene
+    Neustartpflicht) liest den zuletzt PERSISTIERTEN `sync_status` statt
+    optimistisch True anzunehmen."""
     global _update_restart_required
+    if sync_ok is None:
+        state = launcher_update_module.read_state(REPO)
+        sync_ok = state.get("sync_status") == "ok"
     print()
-    print(yellow("  Update installiert. Bitte den Launcher neu starten."))
+    if sync_ok:
+        print(yellow("  Update installiert. Bitte den Launcher neu starten."))
+    else:
+        print(yellow("  Programmdateien aktualisiert — der Wissensabgleich ist noch offen."))
+        print(dim("  Neustart lädt den neuen Programmstand; der Wissensabgleich bleibt offen."))
+        print(dim("  Danach mit [4] gezielt fortsetzen oder [6] Details prüfen."))
     ans = _prompt("  Jetzt neu starten? (j/n) [j]: ").strip().lower()
     if ans in ("", "j", "y", "ja", "yes"):
         launcher_update_module.restart_launcher(REPO)
@@ -1511,14 +1574,19 @@ def _finish_update_installation(result_message: str) -> None:
     WÄHREND des nachgelagerten Syncs (`_run_update_sync_step`) darf die
     Neustartpflicht nicht verschlucken; die bereits auf der Platte
     liegenden neuen Dateien bleiben sonst unbemerkt mit alten, bereits
-    importierten Modulen vermischt."""
+    importierten Modulen vermischt.
+
+    UPD-2-Fix: der Sync-Rückgabewert wird jetzt tatsächlich ausgewertet
+    (vorher verworfen) und an `_offer_pending_restart_now` weitergegeben --
+    „Update installiert" gilt nur noch bei WIRKLICH erfolgreichem Sync,
+    ein Teilfehler zeigt stattdessen den offenen Wissensabgleich."""
     global _update_restart_required
     _update_restart_required = True
     print(green(f"  ✓ {result_message}"))
     print()
-    print(dim("  Programm aktualisiert. Die Spielleitung wird noch synchronisiert..."))
-    _run_update_sync_step()
-    _offer_pending_restart_now()
+    print(dim("  Programmdateien aktualisiert. Preset/Wissensdateien werden noch synchronisiert..."))
+    sync_ok = _run_update_sync_step()
+    _offer_pending_restart_now(sync_ok=sync_ok)
 
 
 def _offer_incomplete_install_recovery(incomplete: "launcher_update_module.IncompleteInstall") -> None:
@@ -1994,6 +2062,260 @@ def _extract_kb_id(preset: dict) -> Optional[str]:
     return KB_ID_WEIRD
 
 
+def _preset_read_status_label(client) -> str:
+    """UPD-3: `get_model() is None` NICHT pauschal als "Preset fehlt"
+    interpretieren -- `last_model_status` unterscheidet bestätigte
+    Abwesenheit (404) von Auth-/Berechtigungsfehlern (401/403) und jeder
+    anderen unklaren Antwort (0/Timeout, 500, formfalscher Körper). Dieselbe
+    Klassifikationsidee wie `_detect_install_state` (setup.py:`get_model`-
+    Docstring), hier für die Diagnose wiederverwendet statt dupliziert."""
+    status = getattr(client, "last_model_status", None)
+    if status == 404:
+        return "absent"
+    if status in (401, 403):
+        return "auth_error"
+    return "unclear"
+
+
+def _check_masterprompt_content(cfg: dict, preset: dict) -> tuple[str, str]:
+    """U-R2 kleinster Nachzug: vergleicht den tatsächlich AKTIVEN Masterprompt
+    (``preset['params']['system']`` -- bereits per vorhandenem Preset-Read
+    geholt, kein neuer Request) mit dem konfigurierten Soll
+    (``cfg['masterprompt']``, lokale Datei). Reine Inhaltsprüfung aus
+    vorhandenen geprüften Reads; löst kein Re-Embedding/Re-Upload aus.
+    Rückgabe (status, detail) mit status in {"ok", "drift", "unbestimmt"}."""
+    mp_rel = cfg.get("masterprompt")
+    mp_path = REPO / mp_rel if mp_rel else None
+    if not mp_rel or not mp_path.exists():
+        return "unbestimmt", "Masterprompt-Datei nicht auffindbar — kein Soll-Vergleich möglich"
+    try:
+        mp_text = mp_path.read_text(encoding="utf-8")
+    except OSError:
+        return "unbestimmt", "Masterprompt-Datei nicht lesbar — kein Soll-Vergleich möglich"
+    mp_md5_local = setup_module._text_md5(mp_text)
+    remote_system = (preset.get("params") or {}).get("system", "") or ""
+    mp_md5_remote = setup_module._text_md5(remote_system)
+    if mp_md5_local == mp_md5_remote:
+        return "ok", f"Aktiver Masterprompt entspricht dem Soll (MD5 {mp_md5_local[:8]})"
+    return (
+        "drift",
+        f"Aktiver Masterprompt unterscheidet sich vom Soll (aktiv {mp_md5_remote[:8]} "
+        f"≠ Soll {mp_md5_local[:8]})",
+    )
+
+
+def _check_persisted_sync_status() -> tuple[str, str]:
+    """U-R2 kleinster Nachzug: der PERSISTIERTE Sync-Status
+    (``launcher_update_module.read_state``) durfte die Diagnoseentscheidung
+    bisher nicht beeinflussen -- genau das war der belegte Fehler. Ein alter
+    'failed'/offener Status bleibt hier bewusst 'offen' (keine automatische
+    Reconciliation ohne gegenprüften Inhalt); `_check_masterprompt_content`
+    liefert die unabhängige Inhaltsbestätigung dazu. Rückgabe (status, detail)
+    mit status in {"ok", "offen", "unbestimmt"}."""
+    state = launcher_update_module.read_state(REPO)
+    sync_status = state.get("sync_status")
+    kb_failed = state.get("kb_failed") or []
+    # U3: dieselbe Bindung wie `_describe_kb_sync_status` -- `kb_checked_at`
+    # gehört zu GENAU demselben Lauf wie `kb_failed`, `sync_at`/`sync_failed_at`
+    # beschreiben nur den Gesamtlauf und sind hier nur Fallback für ältere Stände.
+    checked_at = state.get("kb_checked_at") or state.get("sync_at") or state.get("sync_failed_at")
+    if sync_status is None:
+        return "unbestimmt", "noch kein Sync-Status gespeichert (nie gesynct oder Stand gelöscht)"
+    stamp = f"Stand: {checked_at}" if checked_at else "Prüfzeitpunkt unbekannt"
+    if sync_status == "ok" and not kb_failed:
+        return "ok", f"letzter Wissensabgleich bestätigt ({stamp})"
+    if kb_failed:
+        # U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3):
+        # derselbe Zusatzstatus wie in `_describe_kb_sync_status` -- der
+        # `status`-Rückgabewert bleibt bewusst "offen" (unveränderte
+        # Gate-/Fix-Vorschlag-Semantik an allen drei bestehenden
+        # Call-Sites), NUR der gespeicherte Anzeigetext unterscheidet
+        # "aktuell nicht abschließend prüfbar" von "offen".
+        if state.get("coverage_undetermined"):
+            return (
+                "offen",
+                f"Wissensdateien laut letztem Sync aktuell nicht abschließend "
+                f"prüfbar ({stamp}): {', '.join(kb_failed)}",
+            )
+        return "offen", f"Wissensdateien laut letztem Sync offen ({stamp}): {', '.join(kb_failed)}"
+    return "offen", f"letzter Wissensabgleich nicht bestätigt (Status '{sync_status}', {stamp})"
+
+
+def _check_kb_content_binding(cfg: dict, kb_id: str, client) -> tuple[str, str]:
+    """U-R2-Restnachzug (UPDATE_UX_REVIEW.md R1): Ein Retrievalhit
+    (KB-Retrieval-Check) UND ein historisches ``sync_status=ok``
+    (``_check_persisted_sync_status``) bestätigen laut Review KEINEN
+    aktuellen KB-INHALT -- beide können grün sein, obwohl die aktive KB
+    inzwischen veralteten Inhalt trägt. Dieser Helper führt den bereits
+    beauftragten tatsächlichen Inhalts-/Bindungsabgleich der konfigurierten
+    Wissensdateien gegen die aktive KB aus, OHNE etwas zu schreiben: er nutzt
+    exakt dieselben vorhandenen Content-Reads wie der produktive Sync-Pfad
+    (``client.list_files()`` + ``meta.file_hash``/``hash``-SHA-256-Vergleich,
+    s. ``complete_orphaned_kb_install`` und ``setup._file_sha256``-Doku) --
+    KEIN Upload, KEIN Unlink, KEINE neue Jobengine.
+
+    Rückgabe (status, detail) mit status in {"ok", "drift", "unbestimmt"}:
+      - "drift": mindestens eine konfigurierte Wissensdatei ist NACHWEISLICH
+        (Hash-Vergleich) in der aktiven KB veraltet/abweichend -- das ist der
+        belegte Inhaltsfehler aus R1, kein erfundener.
+      - "unbestimmt": der Abgleich konnte für mindestens eine Datei nicht
+        abschließend durchgeführt werden (Dateibestand nicht/unvollständig
+        lesbar, Datei nicht in der aktiven KB gebunden, kein Hash verfügbar).
+        Bewusst NICHT "drift" -- kein erfundener Inhaltsfehler ohne Beleg.
+      - "ok": jede konfigurierte Wissensdatei ist per Content-Hash in der
+        aktiven KB bestätigt aktuell.
+    """
+    try:
+        kb_files = setup_module.discover_knowledge_files(REPO, cfg)
+    except SystemExit:
+        return "unbestimmt", "konfigurierte Wissensdateien nicht auffindbar — kein Inhaltsabgleich möglich"
+    except OSError as e:
+        return "unbestimmt", f"Wissensdateien nicht lesbar ({e.__class__.__name__}) — kein Inhaltsabgleich möglich"
+    if not kb_files:
+        return "unbestimmt", "keine konfigurierten Wissensdateien gefunden — kein Inhaltsabgleich möglich"
+
+    try:
+        all_files = client.list_files()
+    except Exception as e:
+        return "unbestimmt", f"Dateibestand von OpenWebUI nicht lesbar ({e.__class__.__name__}) — kein Inhaltsabgleich möglich"
+    if not isinstance(all_files, list):
+        return "unbestimmt", "Dateibestand von OpenWebUI unklar — kein Inhaltsabgleich möglich"
+    if not getattr(client, "last_files_complete", True):
+        return "unbestimmt", "Dateibestand von OpenWebUI unvollständig gelesen — kein Inhaltsabgleich möglich"
+
+    # Gleicher Filter wie `complete_orphaned_kb_install`: NUR Dateien, die
+    # laut `meta.collection_name` tatsächlich an DIESE aktive KB gebunden
+    # sind -- eine gleichnamige Datei einer anderen KB zählt nicht als
+    # Bindung dieser KB.
+    hash_by_name: dict[str, Optional[str]] = {}
+    ids_by_name: dict[str, list[str]] = {}
+    for f in all_files:
+        if not isinstance(f, dict):
+            continue
+        if (f.get("meta") or {}).get("collection_name") != kb_id:
+            continue
+        fname = f.get("filename")
+        if not fname:
+            continue
+        fmeta = f.get("meta") or {}
+        hash_by_name[fname] = fmeta.get("file_hash") or f.get("hash")
+        fid = f.get("id")
+        if fid:
+            ids_by_name.setdefault(fname, []).append(fid)
+
+    drift_names: list[str] = []
+    unresolved_names: list[str] = []
+    for fp in kb_files:
+        if fp.name not in hash_by_name:
+            unresolved_names.append(fp.name)
+            continue
+        remote_hash = hash_by_name[fp.name]
+        if not remote_hash:
+            unresolved_names.append(fp.name)
+            continue
+        try:
+            local_sha = setup_module._file_sha256(fp)
+        except OSError:
+            unresolved_names.append(fp.name)
+            continue
+        if local_sha == remote_hash:
+            continue
+        # U1a (UPDATE_UX_REVIEW.md U1a, 02_RESTAUFTRAG.md §U1): derselbe
+        # bestehende identitaets-/KB-gebundene Content-Fallback wie der
+        # reguläre Sync (`_confirm_active_kb_file_by_content`,
+        # setup.py:4492-4531, reguläre Nutzung 5083-5102) -- ein
+        # abweichender Metadatenhash (`meta.file_hash`) ist laut R7-02-N2
+        # KEIN verlässlicher Identitätsvertrag; der Sync bestätigt genau
+        # diesen Fall bereits per tatsächlichem Byte-Inhalt. Nur wenn auch
+        # der rohe Inhalt abweicht, ist es nachweisliche Drift.
+        candidate_ids = ids_by_name.get(fp.name, [])
+        if setup_module._confirm_active_kb_file_by_content(client, candidate_ids, local_sha):
+            continue
+        # Content-Fallback hat NICHT bestätigt -- das kann "nachweislich
+        # abweichend" ODER "nicht lesbar" bedeuten; `_confirm_active_kb_
+        # file_by_content` liefert dafür bewusst nur ein None zurück. Ein
+        # eigener schlanker Lesbarkeits-Check (derselbe `get_file_content`,
+        # kein neuer Request-Typ) hält die vom Review geforderte Trennung
+        # ein: nur NACHWEISLICH abweichende Bytes gelten als Drift,
+        # unlesbarer Inhalt bleibt unbestimmt (kein erfundener Fehlbefund).
+        any_readable = False
+        for fid in candidate_ids:
+            if not fid:
+                continue
+            try:
+                content = client.get_file_content(fid)
+            except Exception:
+                content = None
+            if content is not None:
+                any_readable = True
+                break
+        if any_readable:
+            drift_names.append(fp.name)
+        else:
+            unresolved_names.append(fp.name)
+
+    if drift_names:
+        return "drift", f"Wissensdatei(en) in aktiver KB veraltet/abweichend: {', '.join(drift_names)}"
+    if unresolved_names:
+        return (
+            "unbestimmt",
+            f"Inhalts-/Bindungsabgleich für {len(unresolved_names)} Wissensdatei(en) nicht "
+            f"abschließend möglich (nicht gebunden/kein Hash/nicht lesbar): {', '.join(unresolved_names)}",
+        )
+    return "ok", f"Inhalt/Bindung aller {len(kb_files)} konfigurierten Wissensdatei(en) per SHA-256 bestätigt"
+
+
+def _write_diagnose_export(checks: list[dict], fixes: list[tuple]) -> Path:
+    """UPD-3: redigierter, lokaler Diagnoseexport (03_UPDATE_UND_KB.md
+    Implementierungsauftrag 4 / 06_ENDUSER_ABNAHME.md A6/U9).
+
+    Fasst NUR bereits oben in `action_diagnose` angezeigte, bereits
+    klassifizierte Ergebnisse zusammen (Status-Label, HTTP-Code, betroffener
+    Dateiname) -- löst selbst KEINEN neuen Upload/Request/Re-Link/Delete aus
+    (reines Formatieren von bereits vorliegenden Python-Werten). Enthält
+    bewusst KEINE Keys/Authorization-Header/vollständige Environmentdateien/
+    Chathistorien/Saves; Backendantworten fließen nur als bereits redigierte
+    Kurzwerte ein, nie als Rohkörper. Wird hier NUR lokal auf die Platte
+    geschrieben -- kein automatischer Upload/Versand."""
+    state = launcher_update_module.read_state(REPO)
+    kb_failed = state.get("kb_failed") or []
+    lines = [
+        "ZEITRISS Diagnosebericht (redigiert, lokal) — kein Upload/Versand.",
+        f"Prüfzeit: {launcher_update_module._now_iso()}",
+        f"Installierte Revision: {state.get('installed_rev', 'unbekannt')}",
+        f"Sync-Status: {state.get('sync_status', 'unbekannt')} "
+        f"(zuletzt: {state.get('sync_at') or state.get('sync_failed_at') or 'unbekannt'})",
+        f"Wissensdateien geprüft: "
+        f"{state.get('kb_checked_at') or state.get('sync_at') or state.get('sync_failed_at') or 'unbekannt'}",
+        "Wissensdateien: "
+        + (
+            f"{state.get('kb_confirmed')} von {state.get('kb_total')} bestätigt"
+            if isinstance(state.get("kb_total"), int) and isinstance(state.get("kb_confirmed"), int)
+            else "aktuell nicht prüfbar (keine Sync-Aufschlüsselung vorhanden)"
+        )
+        + (f"; offen: {', '.join(kb_failed)}" if kb_failed else ""),
+        "",
+        "Einzelprüfungen:",
+    ]
+    for c in checks:
+        code_part = f" (HTTP {c['http_code']})" if c.get("http_code") is not None else ""
+        lines.append(f"  [{c['status']}] {c['phase']}: {c['detail']}{code_part}")
+    lines.append("")
+    if fixes:
+        lines.append("Empfohlene nächste Schritte:")
+        for label, _kind in fixes:
+            lines.append(f"  - {label}")
+    else:
+        lines.append("Keine offenen Befunde.")
+    text = "\n".join(lines) + "\n"
+    out_dir = REPO / "scripts" / "diagnose-export"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stamp = launcher_update_module._now_iso().replace(":", "").replace("-", "")
+    out_path = out_dir / f"diagnose-{stamp}.txt"
+    out_path.write_text(text, encoding="utf-8")
+    return out_path
+
+
 def action_diagnose() -> None:
     print(bold("\n  [6] Bei mir läuft was nicht (Diagnose)\n"))
     print_status_block()
@@ -2009,12 +2331,17 @@ def action_diagnose() -> None:
     #   "sync"    → action_update()  (enthält Sync)
     #   "manual"  → keine Auto-Aktion, Hinweis bleibt Text
     fixes: list[tuple[str, str]] = []
+    # UPD-3: parallele, strukturierte Mitschrift derselben Befunde für den
+    # redigierten Export (`_write_diagnose_export`) -- reine Formatierung
+    # bereits oben ausgewerteter Werte, kein eigener Request.
+    checks: list[dict] = []
 
     # OpenWebUI-Smoke via API (nur wenn Env da)
     _ensure_owui_env()
     if not os.environ.get("OPENWEBUI_API_KEY"):
         print(yellow("   !  Kein OPENWEBUI_API_KEY — überspringe Preset- und KB-Check."))
         fixes.append(("Menü [5] API-Keys ändern — OpenWebUI-API-Key eintragen.", "rekeys"))
+        checks.append({"phase": "API-Key", "status": "fehlt", "detail": "OPENWEBUI_API_KEY nicht gesetzt"})
     else:
         try:
             client = setup_module.APIClient(
@@ -2026,8 +2353,10 @@ def action_diagnose() -> None:
                     "OpenWebUI-Container prüfen (Docker läuft? Port 8080 frei?) und Menü [1] neu starten.",
                     "manual",
                 ))
+                checks.append({"phase": "OpenWebUI /health", "status": "fehler", "detail": "nicht erreichbar"})
             else:
                 print(green("   ✓  OpenWebUI /health OK"))
+                checks.append({"phase": "OpenWebUI /health", "status": "ok", "detail": "erreichbar"})
 
             if not client.check_auth():
                 print(red("   ✗  API-Key ungültig oder ohne Rechte."))
@@ -2035,20 +2364,92 @@ def action_diagnose() -> None:
                     "Menü [5] API-Keys ändern — neuen OpenWebUI-API-Key in OpenWebUI erzeugen und eintragen.",
                     "rekeys",
                 ))
+                checks.append({"phase": "API-Auth", "status": "fehler", "detail": "Key ungültig oder ohne Rechte"})
             else:
                 print(green("   ✓  API-Key akzeptiert"))
+                checks.append({"phase": "API-Auth", "status": "ok", "detail": "Key akzeptiert"})
 
             cfg = load_cfg()
             preset_id = _default_preset_id(cfg)
             preset = client.get_model(preset_id)
             if preset is None:
-                print(red(f"   ✗  Preset '{preset_id}' existiert nicht (Install nötig?)"))
-                fixes.append((
-                    "Menü [1] Komplett-Setup — Preset + Knowledge Base neu anlegen.",
-                    "install",
-                ))
+                label = _preset_read_status_label(client)
+                if label == "absent":
+                    print(red(f"   ✗  Preset '{preset_id}' existiert nicht (Install nötig?)"))
+                    fixes.append((
+                        "Menü [1] Komplett-Setup — Preset + Knowledge Base neu anlegen.",
+                        "install",
+                    ))
+                    checks.append({
+                        "phase": "Preset", "status": "fehlt",
+                        "detail": f"'{preset_id}' existiert nicht", "http_code": client.last_model_status,
+                    })
+                elif label == "auth_error":
+                    print(red(
+                        f"   ✗  Preset-Lesung abgelehnt (Auth-/Berechtigungsfehler, "
+                        f"HTTP {client.last_model_status})."
+                    ))
+                    fixes.append((
+                        "Menü [5] API-Keys ändern — neuen OpenWebUI-API-Key in OpenWebUI erzeugen und eintragen.",
+                        "rekeys",
+                    ))
+                    checks.append({
+                        "phase": "Preset", "status": "auth_error",
+                        "detail": "Lesung abgelehnt", "http_code": client.last_model_status,
+                    })
+                else:
+                    print(yellow(
+                        f"   !  Preset '{preset_id}' nicht sicher lesbar (unklare Antwort, "
+                        f"HTTP {client.last_model_status}) — nicht prüfbar, kein Installationsschluss."
+                    ))
+                    fixes.append((
+                        "OpenWebUI-Erreichbarkeit prüfen (Docker, Port 8080) und Menü [6] erneut.",
+                        "manual",
+                    ))
+                    checks.append({
+                        "phase": "Preset", "status": "unbestimmt",
+                        "detail": "unklare Antwort, nicht prüfbar", "http_code": client.last_model_status,
+                    })
             else:
                 print(green(f"   ✓  Preset '{preset.get('name', preset_id)}' gefunden"))
+                checks.append({"phase": "Preset", "status": "ok", "detail": f"'{preset_id}' gefunden"})
+
+                # U-R2: Inhaltsabgleich statt reiner Existenzprüfung -- der
+                # aktive Masterprompt (bereits geholter Preset-Read) gegen das
+                # konfigurierte Soll, und der PERSISTIERTE Sync-Status (bisher
+                # ignoriert). Beide fließen in `fixes`/`checks`, damit "Alle
+                # Prüfungen grün" NICHT mehr trotz altem Masterprompt oder
+                # offenem Wissensabgleich erscheinen kann.
+                mp_status, mp_detail = _check_masterprompt_content(cfg, preset)
+                if mp_status == "ok":
+                    print(green(f"   ✓  {mp_detail}"))
+                    checks.append({"phase": "Masterprompt", "status": "ok", "detail": mp_detail})
+                elif mp_status == "drift":
+                    print(red(f"   ✗  {mp_detail}"))
+                    fixes.append((
+                        "Automatischer Sync — aktualisiert den aktiven Masterprompt auf das Soll.",
+                        "sync",
+                    ))
+                    checks.append({"phase": "Masterprompt", "status": "fehler", "detail": mp_detail})
+                else:
+                    print(yellow(f"   !  {mp_detail}"))
+                    checks.append({"phase": "Masterprompt", "status": "unbestimmt", "detail": mp_detail})
+
+                sync_state, sync_detail = _check_persisted_sync_status()
+                if sync_state == "ok":
+                    print(green(f"   ✓  {sync_detail}"))
+                    checks.append({"phase": "Wissensabgleich (gespeichert)", "status": "ok", "detail": sync_detail})
+                elif sync_state == "offen":
+                    print(red(f"   ✗  {sync_detail}"))
+                    fixes.append((
+                        "Automatischer Sync — holt den offenen Wissensabgleich nach.",
+                        "sync",
+                    ))
+                    checks.append({"phase": "Wissensabgleich (gespeichert)", "status": "fehler", "detail": sync_detail})
+                else:
+                    print(yellow(f"   !  {sync_detail}"))
+                    checks.append({"phase": "Wissensabgleich (gespeichert)", "status": "unbestimmt", "detail": sync_detail})
+
                 kb_id = _extract_kb_id(preset)
                 if kb_id == KB_ID_MISSING:
                     print(red("   ✗  Preset hat keine KB verlinkt (meta.knowledge leer)."))
@@ -2056,6 +2457,7 @@ def action_diagnose() -> None:
                         "Automatischer Sync — verknüpft Preset und KB neu.",
                         "sync",
                     ))
+                    checks.append({"phase": "KB-Bindung", "status": "fehlt", "detail": "meta.knowledge leer"})
                     kb_id = None
                 elif kb_id == KB_ID_WEIRD:
                     print(yellow("   !  Preset gefunden, aber meta.knowledge hat unerwartetes Format."))
@@ -2063,27 +2465,69 @@ def action_diagnose() -> None:
                         "Automatischer Sync — Preset/KB werden dabei neu verknüpft.",
                         "sync",
                     ))
+                    checks.append({"phase": "KB-Bindung", "status": "unbestimmt", "detail": "meta.knowledge unerwartetes Format"})
                     kb_id = None
                 if kb_id:
                     v_cfg = cfg.get("verify", {})
                     q = v_cfg.get("query", "")
                     if q:
                         result = client.query_kb(kb_id, q, k=v_cfg.get("top_k", 5))
-                        hits = result.get("hits", 0)
-                        if hits > 0:
-                            print(green(f"   ✓  KB-Retrieval OK ({hits} Treffer)"))
-                        else:
-                            print(red("   ✗  KB-Retrieval lieferte 0 Treffer — KB ist leer oder nicht indexiert."))
-                            fixes.append((
-                                "Automatischer Sync — indexiert die KB neu.",
-                                "sync",
+                        # UPD-3: ein HTTP-/Antwortfehler im Query-Client
+                        # ergibt ebenfalls `hits=0` (s. setup.py `query_kb`-
+                        # Docstring) -- das ist NICHT dasselbe wie eine
+                        # bestätigt leere KB. `result["code"]` trennt beide.
+                        if result.get("code") != 200:
+                            print(yellow(
+                                f"   !  KB-Prüfung nicht möglich (Backend-/Netzfehler, "
+                                f"HTTP {result.get('code')}) — nicht prüfbar, keine Aussage über den Inhalt."
                             ))
+                            fixes.append((
+                                "OpenWebUI-Erreichbarkeit prüfen (Docker, Port 8080) und Menü [6] erneut.",
+                                "manual",
+                            ))
+                            checks.append({
+                                "phase": "KB-Retrieval", "status": "unbestimmt",
+                                "detail": "nicht prüfbar (Backend-/Netzfehler)", "http_code": result.get("code"),
+                            })
+                        else:
+                            hits = result.get("hits", 0)
+                            if hits > 0:
+                                print(green(f"   ✓  KB-Retrieval OK ({hits} Treffer)"))
+                                checks.append({"phase": "KB-Retrieval", "status": "ok", "detail": f"{hits} Treffer"})
+                            else:
+                                print(red("   ✗  KB-Retrieval lieferte 0 Treffer — KB ist leer oder nicht indexiert."))
+                                fixes.append((
+                                    "Automatischer Sync — indexiert die KB neu.",
+                                    "sync",
+                                ))
+                                checks.append({"phase": "KB-Retrieval", "status": "fehler", "detail": "0 Treffer"})
+
+                    # U-R2-Restnachzug (UPDATE_UX_REVIEW.md R1): ein Retrievalhit
+                    # UND ein historisches `sync_status=ok` bestätigen laut Review
+                    # KEINEN aktuellen KB-Inhalt -- deshalb hier zusätzlich der
+                    # tatsächliche, schreibfreie Inhalts-/Bindungsabgleich der
+                    # konfigurierten Wissensdateien gegen die aktive KB.
+                    kb_content_status, kb_content_detail = _check_kb_content_binding(cfg, kb_id, client)
+                    if kb_content_status == "ok":
+                        print(green(f"   ✓  {kb_content_detail}"))
+                        checks.append({"phase": "KB-Inhalt/Bindung", "status": "ok", "detail": kb_content_detail})
+                    elif kb_content_status == "drift":
+                        print(red(f"   ✗  {kb_content_detail}"))
+                        fixes.append((
+                            "Automatischer Sync — aktualisiert die veraltete(n) Wissensdatei(en) in der KB.",
+                            "sync",
+                        ))
+                        checks.append({"phase": "KB-Inhalt/Bindung", "status": "fehler", "detail": kb_content_detail})
+                    else:
+                        print(yellow(f"   !  {kb_content_detail}"))
+                        checks.append({"phase": "KB-Inhalt/Bindung", "status": "unbestimmt", "detail": kb_content_detail})
         except Exception as e:
-            print(red(f"   ✗  Diagnose-Fehler: {e.__class__.__name__}: {e}"))
+            print(red(f"   ✗  Diagnose-Fehler: {e.__class__.__name__}"))
             fixes.append((
                 "OpenWebUI-Erreichbarkeit prüfen (Docker, Port 8080) und dann Menü [6] erneut.",
                 "manual",
             ))
+            checks.append({"phase": "Diagnose", "status": "fehler", "detail": f"{e.__class__.__name__}"})
 
     # LiteLLM: Wenn Status-Block ihn als fehlend zeigt, ist das nicht zwingend
     # ein Fehler (manche User wollen ohne Cache spielen), aber es gehört zum
@@ -2117,12 +2561,62 @@ def action_diagnose() -> None:
                 "install",
             ))
 
+    # UPD-3: redigierter lokaler Diagnoseexport -- rein lesend (formatiert
+    # nur die oben bereits erhobenen `checks`/`fixes`), unabhängig davon, ob
+    # Befunde vorliegen (A6: "Diagnose/Zurück/Bericht speichern" löst kein
+    # Upload/Unlink/Reindex/Modellrequest aus). Default "n", damit ein
+    # bloßes Ansehen der Diagnose nie ungefragt eine Datei anlegt.
     print()
-    if not fixes:
+    exp_ans = _prompt("  Redigierten Diagnosebericht lokal speichern? (j/n) [n]: ").strip().lower()
+    if exp_ans in ("j", "y", "ja", "yes"):
+        export_path = _write_diagnose_export(checks, fixes)
+        print(green(f"  ✓ Bericht gespeichert: {export_path}"))
+        print(dim("    Enthält keine Keys/Auth-Header/Environment/Chathistorien/Saves."))
+
+    # U-R2-Restnachzug (UPDATE_UX_REVIEW.md R1): eine `checks`-Prüfung mit
+    # Status "unbestimmt" (z.B. KB-Inhalt/Bindung nicht abschließend lesbar)
+    # darf den Abschluss NICHT als "Alle Prüfungen grün" durchlassen -- auch
+    # wenn `fixes` leer ist, weil es für "unbestimmt" keinen automatischen
+    # Fix gibt. Kein erfundener Fehler, aber auch kein stillschweigendes
+    # Gesamtgrün trotz offener Prüffrage.
+    #
+    # U1b (UPDATE_UX_REVIEW.md U1b, 02_RESTAUFTRAG.md §U1): EINE Ausnahme
+    # davon -- fehlender HISTORISCHER Sync-Status ("Wissensabgleich
+    # (gespeichert)" == "unbestimmt", s. `_check_persisted_sync_status`)
+    # darf eine bereits vollständig belegte AKTUELLE Inhalts-/Bindungs-
+    # prüfung ("KB-Inhalt/Bindung" == "ok") nicht überstimmen. Die
+    # historische Information bleibt oben als eigener Check sichtbar
+    # (getrennt angezeigt); nur ihr Einfluss auf die GESAMTbewertung
+    # entfällt, wenn der tatsächlich aktuelle Check bereits bestätigt hat.
+    # Eine wirklich offene Aufräum-/Syncoperation bleibt unberührt -- die
+    # landet als "fehler" (sync_state == "offen"), nicht als "unbestimmt".
+    kb_content_confirmed = any(
+        c.get("phase") == "KB-Inhalt/Bindung" and c.get("status") == "ok" for c in checks
+    )
+    undetermined = any(
+        c.get("status") == "unbestimmt"
+        and not (c.get("phase") == "Wissensabgleich (gespeichert)" and kb_content_confirmed)
+        for c in checks
+    )
+
+    print()
+    if not fixes and not undetermined:
         if project_hook is not None:
             print(green("  Alle Prüfungen grün. Mit Menü [M] ZEITRISS spielen (Terminal)."))
         else:
             print(green(f"  Alle Prüfungen grün. Mit Menü [3] {meta()['start_label']}."))
+        _pause()
+        return
+    if not fixes and undetermined:
+        # Kein bestätigter Fehler, aber auch kein Gesamtgrün -- mindestens
+        # eine Prüfung konnte nicht abschließend durchgeführt werden (s.
+        # `checks` oben für Details). Keine Auto-Fix-Kaskade, da kein
+        # konkreter automatischer Schritt dafür existiert.
+        print(yellow(
+            "  Nicht alle Prüfungen abschließend bestätigt (unbestimmt) — "
+            "kein Gesamtgrün, aber auch kein bestätigter Fehler."
+        ))
+        print(dim("  Details siehe Einzelprüfungen oben. Menü [6] erneut ausführen, wenn eine erneute Prüfung möglich ist."))
         _pause()
         return
 
@@ -2190,8 +2684,24 @@ def action_diagnose() -> None:
         else:
             print(green(f"  ✓ Alles grün. Mit Menü [3] {meta()['start_label']}."))
     else:
+        # U4 (UPDATE_UX_REVIEW.md R4, 02_RESTAUFTRAG.md §U4): VORHER war die
+        # einzige "Empfehlung" hier unbedingt Menü [7] Reset -- auch nach
+        # einem einzelnen, womöglich transienten Fehlschlag des gerade erst
+        # versuchten Auto-Fix. Stattdessen zuerst den vorhandenen gezielten
+        # Retry nennen (genau diese Diagnose/Sync erneut, kein Full-Rebuild/
+        # Reset-Automatismus); Reset bleibt als bewusste, zuletzt gewählte
+        # Option erwähnt, aber nicht mehr die Standardempfehlung.
         print(red("  ✗ Das reichte noch nicht."))
-        print(yellow("  Empfehlung: Menü [7] Reset — komplett neu aufsetzen (löscht OpenWebUI-State)."))
+        print(yellow(
+            "  Menü [6] (Diagnose) erneut ausführen, wenn OpenWebUI inzwischen "
+            "zuverlässiger antwortet — holt gezielt nur die noch offene(n) "
+            "Prüfung(en) nach, bisheriger Stand bleibt erhalten."
+        ))
+        print(dim(
+            "  Hilft das wiederholt nicht: Menü [7] Reset — komplett neu "
+            "aufsetzen (löscht OpenWebUI-State). Eine bewusste Wahl, kein "
+            "automatischer nächster Schritt."
+        ))
     _pause()
 
 
@@ -2210,6 +2720,26 @@ def _diagnose_has_errors() -> bool:
         preset = client.get_model(_default_preset_id(cfg))
         if preset is None:
             return True
+        # U-R2-Restnachzug (UPDATE_UX_REVIEW.md R1): derselbe belegte Status
+        # wie in `action_diagnose` muss den Re-Check bestimmen -- ein
+        # veralteter aktiver Masterprompt, ein persistiert offener
+        # Wissensabgleich ODER eine UNBESTIMMTE Prüfung darf den Re-Check
+        # nicht als "grün" durchlassen, nur weil Preset/KB-Retrieval für
+        # sich allein grün sind. "unbestimmt" bleibt bewusst unbestimmt
+        # (kein erfundener Fehler), blockiert aber genau wie im
+        # Gesamtergebnis oben das stillschweigende "alles grün".
+        if _check_masterprompt_content(cfg, preset)[0] != "ok":
+            return True
+        # U1b (UPDATE_UX_REVIEW.md U1b, 02_RESTAUFTRAG.md §U1): nur ein
+        # NACHWEISLICH offener historischer Sync-Status ("offen" --
+        # tatsächlicher `kb_failed`-Rest oder ein nicht-"ok"-Status) blockt
+        # hier -- fehlende historische Daten allein ("unbestimmt", z.B. nie
+        # gesynct) überstimmen NICHT die weiter unten tatsächlich aktuelle
+        # Prüfung (`_check_kb_content_binding`). Vorher verlangte dieser
+        # Re-Check für JEDES Nicht-"ok" (also auch "unbestimmt") sofort
+        # True, bevor die aktuelle KB überhaupt geprüft wurde.
+        if _check_persisted_sync_status()[0] == "offen":
+            return True
         kb_id = _extract_kb_id(preset)
         if not kb_id or kb_id in (KB_ID_MISSING, KB_ID_WEIRD):
             return True
@@ -2219,6 +2749,8 @@ def _diagnose_has_errors() -> bool:
             result = client.query_kb(kb_id, q, k=v_cfg.get("top_k", 5))
             if result.get("hits", 0) == 0:
                 return True
+        if _check_kb_content_binding(cfg, kb_id, client)[0] != "ok":
+            return True
     except Exception:
         return True
     return False

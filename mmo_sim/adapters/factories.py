@@ -956,7 +956,44 @@ def default_gm_transport_factory(
                     f"Fallback auf den Harness-Client-Default (W56)."
                 ) from None
 
+        # COST-2-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B2):
+        # vorher blieb `transport_max_retries` ohne gesetzte env-Variable
+        # `None` -> `GmOwuiTransport`/`SLSession` liessen dann den Harness-
+        # Client (`OWUIChat`) auf SEINEN eigenen Default `max_retries=3`
+        # zurueckfallen -- der fuer den produktiven, VOM LEDGER kontrollierten
+        # GM-Weg (jeder normale TUI-/Lab-Lauf dieser Factory) bestaetigte
+        # Befund: bis zu 3 physische POSTs je zugelassener Operation OHNE
+        # erneute Stop-/Budget-/Requestidentitaetspruefung zwischen den
+        # Versuchen (04/05 belegen 402/429/Transportfehler gehen unveraendert
+        # in die `OWUIChat._post`-Schleife). Die bisherige, nur dokumentierte
+        # "sichere Voreinstellung" (`MMO_SIM_GM_TRANSPORT_MAX_RETRIES=1`) griff
+        # bisher NUR, wenn ein Operator sie vor dem Start EXPLIZIT setzte
+        # (z.B. der separate LIVE3-Operator-Weg) -- fuer den gewoehnlichen
+        # TUI-/Lab-Start war sie NICHT der tatsaechliche Default. Jetzt: EIN
+        # physischer Versand je Operation ALS HARTE GRENZE fuer DIESE Factory.
+        # Die bestehende env-Variable `MMO_SIM_GM_TRANSPORT_MAX_RETRIES` bleibt
+        # lesbar, ein Wert >1 wird aber bewusst auf 1 gekappt (s. BF-2-Klammer
+        # unten) -- die ANZAHL physischer Versuche ist NICHT mehr nach oben
+        # ueberschreibbar; nur Backoff/Timeout bleiben frei (keine neue Variable,
+        # kein neues Format). Ledger-/Orphan-Recovery eines bereits unklaren Ausgangs
+        # bleibt beim gesonderten Recoveryweg (REC-1/REC-2) -- diese Aenderung
+        # loescht/sendet KEINEN bestehenden unklaren Request neu.
         transport_max_retries = _optional_number("MMO_SIM_GM_TRANSPORT_MAX_RETRIES", int)
+        if transport_max_retries is None:
+            transport_max_retries = 1
+        # BF-2 (PR #3317-Nachzug 2026-11-23, BUDGET_FLOW_REVIEW BF-2): im
+        # ledger-gebundenen GM-Produktweg ist EIN physischer Versand je Operation
+        # die harte Grenze. `OWUIChat._post` wiederholt einen Nicht-401/403/404-
+        # Fehler sonst ungegatet (`for attempt in range(max_retries)`) OHNE Stop-/
+        # Deadline-/Budget-/Requestidentitaetspruefung zwischen den POSTs -- ein
+        # Env-Override >1 ist KEINE requestgebundene Unknown-Freigabe (05 §B2/06
+        # C2). Bewusste Wiederholung eines unklaren Ausgangs laeuft ausschliesslich
+        # ueber den gebundenen Recovery-/Requestweg (REC-1/REC-2), nicht ueber
+        # ungegatete Transport-Retries. Backoff/Timeout-Overrides bleiben
+        # unveraendert nutzbar; nur die ANZAHL physischer Sendeversuche wird hier
+        # auf 1 begrenzt (kein zweiter POST hinter einem unklaren ersten).
+        if transport_max_retries > 1:
+            transport_max_retries = 1
         transport_backoff = _optional_number("MMO_SIM_GM_TRANSPORT_BACKOFF", float)
         transport_timeout = _optional_number("MMO_SIM_GM_TRANSPORT_TIMEOUT", int)
         return GmOwuiTransport(

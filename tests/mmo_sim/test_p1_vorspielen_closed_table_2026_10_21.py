@@ -281,6 +281,164 @@ def test_p1_catchup_still_excludes_currently_bound_table_members():
         )
 
 
+def test_flow1_vorspielen_empty_selection_starts_nothing():
+    """FLOW-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B3, 06 §C6):
+    VOR dem Fix waehlte eine leere Eingabe bei [5] (Vorspielen) ALLE
+    wahlbaren Kandidaten (`chosen = set(behind)`) -- ein ueberraschender
+    Start aller bereiten Personas samt moeglicher B1/B2-gegateter
+    Requests, obwohl der Spieler nur "Enter" gedrueckt hat. NACH dem Fix:
+    leere Eingabe bei [5] startet explizit NICHTS -- kein Fenster, kein
+    Treiberaufruf, keine Abschnittszahl-Aenderung. Catch-up [3] behaelt
+    bewusst sein bestehendes "leer = alle"-Verhalten (s.
+    test_r4_organic_player_flow_2026_10_21.py, dort NICHT angefasst)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        schema_path, states_dir, run_dir, onboarding_dir, catalog_dir, gm_transport_factory = _bootstrap(root)
+
+        drivers = {
+            "cqb": _NeverCalledDriver("cqb"), "face": _NeverCalledDriver("face"),
+            "tech": _NeverCalledDriver("tech"), "medic": _NeverCalledDriver("medic"),
+            "pyro": _NeverCalledDriver("pyro"),
+        }
+
+        def persona_driver_factory(pk: str):
+            return drivers[pk]
+
+        printed: list[str] = []
+
+        def human_responder(prompt: str = "") -> str:
+            if prompt.startswith("Welche jetzt spielen lassen?"):
+                assert "leer/zurueck = nichts ausfuehren" in prompt, (
+                    f"Prompt-Hinweistext fuer Vorspielen fehlt/weicht ab: {prompt!r}"
+                )
+                return ""  # bewusst leer -- muss NICHTS starten.
+            raise AssertionError(f"unerwarteter Prompt ohne Antwortregel: {prompt!r}")
+
+        session = TuiSession(
+            onboarding_dir, catalog_dir, HUMAN_PK,
+            input_fn=human_responder, print_fn=printed.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
+            gm_transport_factory=gm_transport_factory,
+            persona_driver_factory=persona_driver_factory,
+        )
+        counts_before = core_store.sections_played_by_participant(run_dir)
+
+        session._cmd_catch_up_personas(vorspielen=True)
+
+        out = "\n".join(printed)
+        assert "nichts ausgewaehlt -- kein Fenster gestartet" in out, (
+            f"FLOW-1 (vor dem Fix): leere Eingabe haette NICHTS starten sollen:\n{out}"
+        )
+        # `_NeverCalledDriver.decide()` wirft bei JEDEM Aufruf eine
+        # `AssertionError` -- dass dieser Test ueberhaupt hier ankommt,
+        # beweist bereits, dass kein Treiber (cqb/face/tech/medic/pyro)
+        # befragt wurde.
+        counts_after = core_store.sections_played_by_participant(run_dir)
+        assert counts_after == counts_before, (
+            f"leere Auswahl bei Vorspielen haette KEINE Abschnittszahl aendern duerfen: "
+            f"{counts_before} -> {counts_after}"
+        )
+
+
+class _SoloPauseDriver:
+    """Deterministischer Solo-Treiber: nimmt an keinem Gruppenangebot teil,
+    pausiert in jedem eigenen Lobby-Initiativfenster (`{"action": "pause"}`)
+    -- erzwingt `no_consensus`-Fenster ohne Fortschritt, damit das reale
+    `idle_safety_cap`/`max_windows`-Verhalten des Orchestrators (nicht nur
+    der Gruppenfall) belegt werden kann."""
+
+    def __init__(self, pk: str):
+        self.pk = pk
+        self.calls: list[dict] = []
+
+    def decide(self, ctx: dict) -> ParticipantDecision:
+        self.calls.append(ctx)
+        if "begrenztes eigenes Lobby-Initiativfenster" in ctx.get("user", ""):
+            return ParticipantDecision(text=json.dumps({"action": "pause"}), origin_source=f"solo:{self.pk}")
+        return ParticipantDecision(text="Ich beobachte allein die Lage.", origin_source=f"solo:{self.pk}")
+
+
+def test_flow1_vorspielen_max_windows_bounds_step_and_resumes():
+    """FLOW-1-Fix (05 §B3 'vorhandenes max_windows tatsaechlich setzen,
+    z.B. 1 Fenster/Schritt'): ECHTER Produktpfad ueber `TuiSession.
+    _cmd_catch_up_personas(vorspielen=True)` (Menuepunkt [5]) -- NICHT nur
+    `catchup.run_catch_up` direkt, sondern derselbe Aufruf, den die TUI
+    jetzt tatsaechlich mit `max_windows=1` fuettert (vorher gar keine
+    `max_windows`-Uebergabe, effektiv der verdeckte Default `catchup.
+    DEFAULT_MAX_WINDOWS=200`). Auswahl: cqb/face bilden einen Tisch
+    (schliesst in Fenster 1), `tech` ist solo und erreicht NIE einen
+    Konsens (`no_consensus` jedes Fenster).
+
+    Separat (nur lesend) gemessen, NICHT Teil dieses Tests: ohne jede
+    Fensterbegrenzung braucht genau dieses Szenario fuer EINEN [5]-Druck
+    9 echte Lobby-Fenster (1 fuer cqb/face + 8 bis zum alten `idle_safety_
+    cap`), s. Report fuer die rohe Messung. Dieser Test beweist die jetzt
+    wirksame TUI-Verdrahtung: GENAU EIN Fenster pro Druck auf [5]."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        schema_path, states_dir, run_dir, onboarding_dir, catalog_dir, gm_transport_factory = _bootstrap(root)
+
+        offer_id = "invite-sniper-cqb-face"
+        drivers = {
+            "cqb": _GroupGuestDriver("cqb", offer_id, partner="face"),
+            "face": _GroupGuestDriver("face", offer_id, partner="cqb"),
+            "tech": _SoloPauseDriver("tech"),
+            "medic": _NeverCalledDriver("medic"), "pyro": _NeverCalledDriver("pyro"),
+        }
+
+        def persona_driver_factory(pk: str):
+            return drivers[pk]
+
+        printed: list[str] = []
+        catchup_selection_queue: list[str] = []
+
+        def human_responder(prompt: str = "") -> str:
+            if prompt.startswith("Welche jetzt spielen lassen?"):
+                return catchup_selection_queue.pop(0) if catchup_selection_queue else ""
+            raise AssertionError(f"unerwarteter Prompt ohne Antwortregel: {prompt!r}")
+
+        session = TuiSession(
+            onboarding_dir, catalog_dir, HUMAN_PK,
+            input_fn=human_responder, print_fn=printed.append,
+            run_dir=run_dir, states_dir=states_dir, schema_path=schema_path,
+            gm_transport_factory=gm_transport_factory,
+            persona_driver_factory=persona_driver_factory,
+        )
+
+        catchup_selection_queue.append("cqb,face,tech")
+        session._cmd_catch_up_personas(vorspielen=True)  # Menuepunkt [5], 1. Druck.
+        out1 = "\n".join(printed)
+        assert "(Fenster: 1," in out1, (
+            f"FLOW-1 (vor dem Fix waere hier effektiv der verdeckte Default 200 wirksam "
+            f"gewesen -- echt gemessen braucht dieses Szenario ohne Grenze 9 Fenster): "
+            f"erwartete 'Fenster: 1' im Abschlussbericht, bekam:\n{out1}"
+        )
+        counts_mid = core_store.sections_played_by_participant(run_dir)
+        assert counts_mid.get("cqb", 0) == 1 and counts_mid.get("face", 0) == 1, (
+            f"cqb/face schliessen ihren Tisch bereits in Fenster 1 ab: {counts_mid}"
+        )
+        assert counts_mid.get("tech", 0) == 0, (
+            f"tech findet nie einen Konsens -- muss nach der Fenstergrenze ehrlich offen "
+            f"bleiben, nicht erfunden fortgeschritten werden: {counts_mid}"
+        )
+        assert len(drivers["tech"].calls) == 1, (
+            f"tech haette durch die Fenstergrenze nur EINMAL befragt werden duerfen, nicht "
+            f"bis zum alten Idle-Sicherheits-Cap (8): {len(drivers['tech'].calls)}"
+        )
+
+        # Zweiter bewusster Druck auf [5] -- wieder auf ein Fenster
+        # begrenzt, keine automatische Mehrfenster-Fortsetzung.
+        printed.clear()
+        catchup_selection_queue.append("cqb,face,tech")
+        session._cmd_catch_up_personas(vorspielen=True)
+        out2 = "\n".join(printed)
+        assert "(Fenster: 1," in out2, out2
+        assert len(drivers["tech"].calls) == 2, (
+            f"der zweite bewusste Schritt darf tech genau EIN weiteres Mal befragen, nicht "
+            f"mehrfach automatisch: {len(drivers['tech'].calls)}"
+        )
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failures = 0

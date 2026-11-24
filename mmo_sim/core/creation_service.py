@@ -309,7 +309,20 @@ def run_admitted_creation_dialog(
                 # Attribut. Vorher fehlte dieser Bezug hier komplett, beide
                 # Aufrufe blieben am Default `dollar_billed=True` haengen.
                 gm_dollar_billed = getattr(gm_transport, "is_dollar_billed", True)
-                gm_reserved = reservation_for_wire_text(outgoing, output_limit_tokens=gm_output_limit)
+                # BF-3 (PR #3317-Nachzug 2026-11-23, BUDGET_FLOW_REVIEW BF-3):
+                # derselbe tatsaechliche History-/RAG-Kostenbezug wie der normale
+                # Runtime-GM-Turn (`core.runtime` Z.1526-1531: `wire_history_chars`/
+                # `kb_configured`, FROZEN) -- `owui_client.say` sendet die GESAMTE
+                # angesammelte Konversation bei jedem Turn erneut, eine konfigurierte
+                # KB loest dem Client unsichtbares serverseitiges RAG aus. Beide
+                # duck-typed/optional (Default 0/False fuer Transporte ohne die
+                # Properties) -- vorher unterreservierte dieser GM-Caller.
+                gm_history_chars = getattr(gm_transport, "wire_history_chars", 0)
+                gm_kb_configured = getattr(gm_transport, "kb_configured", False)
+                gm_reserved = reservation_for_wire_text(
+                    outgoing, output_limit_tokens=gm_output_limit,
+                    additional_wire_chars=gm_history_chars, kb_configured=gm_kb_configured,
+                )
                 blocked, reason = read_admission_block(
                     run_dir, reserved_usd=gm_reserved,
                     output_bound_known=(gm_output_limit is not None), route=gm_route,
@@ -321,13 +334,62 @@ def run_admitted_creation_dialog(
                         "Modellaufruf, Fortschritt bleibt erhalten, spaeter fortsetzbar."
                     )
                     return CreationDialogOutcome(status="paused", reason=str(reason))
-                request_id = request_ledger.begin(
-                    run_dir, role=role, content=outgoing, reserved_usd=gm_reserved,
-                    route=gm_route, output_limit_tokens=gm_output_limit,
+                # REC-1 (04_REQUEST_RECOVERY.md §2A/§3, ZR-UPDATE-RESUME-
+                # REPARATUR 2026-11-23): `find_durable_result`/`find_answered_
+                # without_text` oben decken `state in ("received","accounted")`
+                # ab -- ein Record, der noch in `state in ("reserved","sent")`
+                # steht (S1-Befund: begin() hat Reservierung+Versandmarker
+                # committet, Transportabschluss nie erreicht), faellt bisher
+                # durch BEIDE Pruefungen und erreicht unten `begin()`, das
+                # dafuer `OpenReservationExistsError` UNBEHANDELT wirft (s.
+                # `test_s_typed_pause_and_request_identity.py::test_b_...`,
+                # S1-Befund nachgebaut). Derselbe Vorab-Lesecheck wie oben,
+                # NUR additiv -- kein Call, kein zweiter Record, Original
+                # unveraendert; `begin()`s eigene Pruefung bleibt als letzte
+                # Verteidigungslinie unveraendert bestehen.
+                open_orphan = request_ledger.find_open_orphan(
+                    run_dir, table_id=table_id, section_id=section_id, role=role,
                     turn_idx=turn_idx, participant=participant_id,
-                    table_id=table_id, section_id=section_id,
-                    dollar_billed=gm_dollar_billed,
                 )
+                # REC-2 (04 §2B/§2D): ein `open_orphan`, der additiv
+                # `recovery_of` traegt UND noch `state="reserved"` ist, ist
+                # GENAU der eine von `authorize_bound_retry` autorisierte,
+                # noch nicht versendete Folgeversuch -- dieser reguläre
+                # Caller verwendet ihn jetzt mit SEINER aktuellen
+                # Admission-/Budgetpruefung (04 §2C: 'aktuelle Admission/
+                # Route/Outputgrenze und eine eigene einmalige Reservierung'
+                # fuer den neuen Versuch), statt zu pausieren. Jeder andere
+                # offene Orphan (kein `recovery_of`, ODER bereits wieder
+                # `state="sent"` -- z.B. ein Absturz NACH dem commit unten,
+                # VOR dem Transport-Call) bleibt ein kontrollierter Stop wie
+                # zuvor; `begin()`s eigene Pruefung bleibt als letzte
+                # Verteidigungslinie unveraendert bestehen.
+                if open_orphan is not None and (
+                    not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+                ):
+                    print_fn(
+                        "Erschaffungsdialog blockiert (Recovery: ein frueherer Versandversuch fuer "
+                        "diese Operation ist noch offen, Ausgang unbekannt) — keine neue Anfrage, "
+                        "Fortschritt bleibt erhalten, spaeter fortsetzbar."
+                    )
+                    return CreationDialogOutcome(
+                        status="paused", reason="open_orphan_unresolved_sent_without_result",
+                    )
+                if open_orphan is not None:
+                    request_id = open_orphan["id"]
+                    request_ledger.commit_authorized_retry(
+                        run_dir, request_id, content=outgoing, reserved_usd=gm_reserved,
+                        route=gm_route, output_limit_tokens=gm_output_limit,
+                        dollar_billed=gm_dollar_billed,
+                    )
+                else:
+                    request_id = request_ledger.begin(
+                        run_dir, role=role, content=outgoing, reserved_usd=gm_reserved,
+                        route=gm_route, output_limit_tokens=gm_output_limit,
+                        turn_idx=turn_idx, participant=participant_id,
+                        table_id=table_id, section_id=section_id,
+                        dollar_billed=gm_dollar_billed,
+                    )
                 t0 = time.monotonic()
                 try:
                     if gm_output_limit is not None:
@@ -627,7 +689,25 @@ def run_admitted_creation_dialog(
                     status="paused", reason="altformat_unresolved_pending_settlement",
                 )
         else:
-            reply = get_reply(turn_idx, sl_text)
+            # R4 (RECOVERY_REVIEW R4 "creation_service 692 faengt den
+            # get_reply-Fehler an seiner Grenze nicht"): `get_reply` (fuer
+            # die Community-Persona `_get_reply`, s. `domain.zeitriss.
+            # community_creation._persona_get_reply_factory`) nutzt jetzt
+            # selbst den gemeinsamen Orphan-Dreischritt und kehrt fuer ein
+            # echtes Unknown kontrolliert als `ReplyResult(kind="paused")`
+            # zurueck -- `begin()`s eigene letzte Verteidigungslinie
+            # (`OpenReservationExistsError`) bleibt aber bestehen (s. deren
+            # Docstring); diese Grenze faengt sie zusaetzlich ab, statt den
+            # ganzen Dialog unkontrolliert abstuerzen zu lassen.
+            try:
+                reply = get_reply(turn_idx, sl_text)
+            except request_ledger.OpenReservationExistsError as e:
+                print_fn(
+                    "Erschaffungsdialog blockiert (Recovery: ein frueherer Versandversuch fuer "
+                    "diese Operation ist noch offen, Ausgang unbekannt) — keine neue Anfrage, "
+                    "Fortschritt bleibt erhalten, spaeter fortsetzbar."
+                )
+                return CreationDialogOutcome(status="paused", reason=str(e))
             if reply.kind != "answer":
                 return CreationDialogOutcome(status=reply.kind, reason=reply.reason)
             # C2: SOFORT persistieren -- BEVOR `record_step()` (der

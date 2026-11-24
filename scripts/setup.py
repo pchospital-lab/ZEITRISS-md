@@ -39,7 +39,7 @@ import zipfile
 from datetime import datetime
 from getpass import getpass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 # ZR-LOCAL-TOKENHOST-L1: lokaler Resolver liegt im selben scripts/-Verzeichnis.
 # Expliziter sys.path-Eintrag, damit `import local_model_profile` auch
@@ -430,6 +430,11 @@ class APIClient:
         self.last_files_complete: Optional[bool] = None
         # WP-N6-1b: Duplicate-Content-Orakel fuer `add_file_to_knowledge`.
         self.last_add_file_duplicate: Optional[bool] = None
+        # U4: roher HTTP-Code des letzten `add_file_to_knowledge`-Calls --
+        # `0` markiert einen reinen Transportfehler (keine Serverantwort,
+        # s. `_request`), NICHT dasselbe wie ein definitiver 4xx/5xx. None =
+        # noch kein Call.
+        self.last_add_file_code: Optional[int] = None
         # Allow self-signed certs for localhost
         self._ctx = ssl.create_default_context()
         if "localhost" in base_url or "127.0.0.1" in base_url:
@@ -460,7 +465,15 @@ class APIClient:
         req = urllib.request.Request(url, data=body, headers=headers, method=method)
         try:
             with urllib.request.urlopen(
-                req, timeout=timeout or self.timeout, context=self._ctx
+                # U4-Restnachzug (UPDATE_UX_REVIEW.md U4): `timeout` ist ein
+                # Optional[float]; ein auf exakt 0.0 geclampter aeusserer Rest
+                # (Budget erschoepft) ist ein GUELTIGER, vom Default
+                # verschiedener Wert. Das fruehere `timeout or self.timeout`
+                # liess das falsy `0.0` lautlos auf den vollen Default
+                # zurueckfallen -- genau im Erschoepfungsfall, den der
+                # Pro-Request-Clamp (get_file/add_file_to_knowledge/upload_file)
+                # abfangen soll. `is not None` ist die korrekte Optional-Pruefung.
+                req, timeout=timeout if timeout is not None else self.timeout, context=self._ctx
             ) as resp:
                 return resp.status, resp.read()
         except urllib.error.HTTPError as e:
@@ -489,13 +502,22 @@ class APIClient:
         except (json.JSONDecodeError, UnicodeDecodeError):
             return code, body
 
-    def upload_file(self, path: str, filepath: Path) -> tuple[int, Any]:
+    def upload_file(
+        self, path: str, filepath: Path, *, outer_remaining_s: Optional[float] = None,
+    ) -> tuple[int, Any]:
         """Multipart file upload using stdlib.
 
         Timeout länger als der 30-s-Default (via OWUI_UPLOAD_TIMEOUT, Default
         120 s): große Wissensdateien (>100 kB) plus langsame Hardware
         (Ollama-CPU, thermisch gedrosselte NUCs) können beim Upload den
         30-s-Default reßen und würden fälschlich als Fehler gezählt.
+
+        U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4):
+        `outer_remaining_s`, falls gesetzt, deckelt den tatsaechlich
+        uebergebenen HTTP-Timeout auf `min(konfigurierter_timeout,
+        outer_remaining_s)` -- fuer ein bereits (teilweise) verbrauchtes
+        aeusseres Prozessbudget. Ohne `outer_remaining_s` (Default None)
+        bleibt der konfigurierte Default unveraendert.
         """
         boundary = f"----PythonSetup{hashlib.md5(str(time.time()).encode()).hexdigest()}"
         filename = filepath.name
@@ -514,6 +536,8 @@ class APIClient:
             timeout = float(os.environ.get("OWUI_UPLOAD_TIMEOUT", "120"))
         except ValueError:
             timeout = 120.0
+        if outer_remaining_s is not None:
+            timeout = min(timeout, outer_remaining_s)
 
         return self._request(
             "POST",
@@ -574,7 +598,9 @@ class APIClient:
             return data.get("id")
         return None
 
-    def add_file_to_knowledge(self, kb_id: str, file_id: str) -> bool:
+    def add_file_to_knowledge(
+        self, kb_id: str, file_id: str, *, outer_remaining_s: Optional[float] = None,
+    ) -> bool:
         """Link a file to a KB. HTTP 200 is the primary success signal.
 
         Timeout deliberately long (360 s default): OpenWebUI runs the file's
@@ -600,11 +626,21 @@ class APIClient:
             timeout = float(os.environ.get("OWUI_ADD_FILE_TIMEOUT", "360"))
         except ValueError:
             timeout = 360.0
+        # U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4):
+        # `outer_remaining_s`, falls vom Caller gesetzt, deckelt den
+        # tatsaechlich uebergebenen HTTP-Timeout auf das Minimum aus dem
+        # konfigurierten Default und dem noch verbleibenden AEUSSEREN
+        # Prozessbudget -- ein kurzer positiver Rest darf NICHT wieder den
+        # vollen 360s-/konfigurierten Default erlauben. Ohne gesetzten
+        # Rest (Default None) bleibt der konfigurierte Default unveraendert.
+        if outer_remaining_s is not None:
+            timeout = min(timeout, outer_remaining_s)
         code, data = self.post_json(
             f"/api/v1/knowledge/{kb_id}/file/add",
             {"file_id": file_id},
             timeout=timeout,
         )
+        self.last_add_file_code = code
         detail = ""
         if isinstance(data, dict):
             detail = str(data.get("detail") or "")
@@ -612,6 +648,21 @@ class APIClient:
             detail = data.decode("utf-8", errors="replace")
         self.last_add_file_duplicate = code == 400 and "duplicate" in detail.lower()
         return code == 200
+
+    def get_file(self, file_id: str, *, outer_remaining_s: Optional[float] = None) -> tuple[int, Any]:
+        """UPD-1: rohe File-Entity (`GET /api/v1/files/{id}`) -- Grundlage
+        für `wait_for_file_ready`s Readiness-Polling. Reiner Passthrough
+        (code, body); der Aufrufer MUSS Form/Identität selbst prüfen (kein
+        implizites "leer heißt nicht gefunden").
+
+        U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4):
+        `outer_remaining_s`, falls gesetzt, deckelt den HTTP-Timeout dieses
+        einzelnen GETs auf `min(self.timeout, outer_remaining_s)` -- fuer
+        einen bereits geschrumpften aeusseren Rest, der den regulaeren 30s-
+        Default sonst unveraendert liesse. Ohne `outer_remaining_s` (Default
+        None) bleibt der reguläre Default unveraendert."""
+        kw = {} if outer_remaining_s is None else {"timeout": min(self.timeout, outer_remaining_s)}
+        return self.get(f"/api/v1/files/{urllib.parse.quote(file_id, safe='')}", **kw)
 
     def remove_file_from_knowledge(self, kb_id: str, file_id: str) -> bool:
         """Unlink a file from a KB (reverse of add_file_to_knowledge).
@@ -805,7 +856,9 @@ class APIClient:
             return None
         return bytes(body)
 
-    def do_upload_file(self, filepath: Path, *, retries: int = 2) -> Optional[str]:
+    def do_upload_file(
+        self, filepath: Path, *, retries: int = 2, outer_remaining_s: Optional[float] = None,
+    ) -> Optional[str]:
         """Upload one file, mit Retry bei transienten Fehlern.
 
         `retries` = Anzahl ZUSÄTZLICHER Versuche nach dem ersten (Default 2 →
@@ -813,19 +866,49 @@ class APIClient:
         Schluckaufe beim Hochladen waren die häufigste Ursache stiller
         Teil-Installationen — jede Wissensdatei MUSS hochkommen, ein fehlendes
         Modul macht ein anderes (kaputtes) Spiel.
-        """
+
+        U4-Restnachzug-r4 (ZR-PR3317-RESTNACHZUG-20261124-r4, "Rest U4"):
+        `outer_remaining_s` wird jetzt vor JEDEM Versuch frisch um die bereits
+        verstrichene Zeit (eigene Requests + Backoffs) reduziert, statt
+        unveraendert (derselbe Rest) an jeden Retry durchgereicht zu werden --
+        ein 2. Versuch nach einem 8s-Fehlversuch + 2s-Backoff bekam vorher
+        faelschlich wieder den vollen aeusseren Rahmen statt des tatsaechlich
+        noch verbleibenden Rests. Ist der Rest vor einem Versuch/Backoff
+        bereits <= 0, wird kontrolliert `None` zurueckgegeben statt einen
+        weiteren (zu langen) POST zu starten bzw. mit vollem Backoff zu
+        schlafen. Nur wenn `outer_remaining_s is not None`; ohne aeusseren
+        Rahmen (None) bleibt das Verhalten EXAKT unveraendert (voller
+        Default-Pfad, Backoff 2 s/4 s, volle `retries`-Anzahl)."""
+        start = time.monotonic()
         for attempt in range(retries + 1):
-            _code, body = self.upload_file("/api/v1/files/", filepath)
+            attempt_remaining_s = None
+            if outer_remaining_s is not None:
+                attempt_remaining_s = outer_remaining_s - (time.monotonic() - start)
+                if attempt_remaining_s <= 0:
+                    return None
+            _code, body = self.upload_file(
+                "/api/v1/files/", filepath, outer_remaining_s=attempt_remaining_s,
+            )
             try:
                 data = json.loads(body) if isinstance(body, bytes) else body
             except (json.JSONDecodeError, TypeError):
                 data = None
             if isinstance(data, dict) and data.get("id"):
                 return data.get("id")
-            # Fehlversuch — vor dem nächsten Versuch kurz warten (Backoff).
+            # Fehlversuch — vor dem nächsten Versuch kurz warten (Backoff),
+            # auf den noch verbleibenden aeusseren Rest begrenzt.
             if attempt < retries:
-                time.sleep(2 * (attempt + 1))
+                backoff_s = 2 * (attempt + 1)
+                if outer_remaining_s is not None:
+                    backoff_remaining_s = outer_remaining_s - (time.monotonic() - start)
+                    if backoff_remaining_s <= 0:
+                        return None
+                    backoff_s = min(backoff_s, backoff_remaining_s)
+                time.sleep(backoff_s)
         return None
+
+
+# ── UPD-1: Readiness am gemeinsam genutzten Upload→Link-Übergang ────
 
     def list_models(self) -> list[dict]:
         code, data = self.get("/api/models")
@@ -961,6 +1044,317 @@ class APIClient:
 
 # ── Export mode ─────────────────────────────────────────────────────
 
+class FileReadiness:
+    """Ergebnis eines `wait_for_file_ready`-Laufs. `ready=True` ist die
+    EINZIGE Bedingung, unter der ein Caller danach `add_file_to_knowledge`
+    feuern darf. Jeder andere `status` ist ein eigener, unterscheidbarer
+    Abbruchgrund -- kein Caller darf sie zu einem einzigen "fehlgeschlagen"
+    zusammenfassen (03_UPDATE_UND_KB.md, Implementierungsauftrag 1).
+
+    Bewusst eine PLAIN Klasse statt `@dataclasses.dataclass`: mehrere
+    Bestandstests laden `setup.py` über `importlib.util.spec_from_file_
+    location` + `exec_module`, OHNE das resultierende Modulobjekt vorher in
+    `sys.modules` einzutragen (bestehende Konvention, s. z.B. `tests/
+    mmo_sim/test_f1_n4_orphaned_kb_completion_2026_11_10.py`) -- `@dataclass`
+    löst unter Python 3.12 dabei einen `AttributeError` aus (`sys.modules.
+    get(cls.__module__)` liefert `None`). Eine simple `__init__` vermeidet
+    das, ohne die etablierte Testlade-Konvention in dutzenden bestehenden
+    Testdateien anzufassen."""
+
+    def __init__(self, ready: bool, status: str, detail: str, elapsed_s: float, attempts: int):
+        # status: "ready" | "pending_deadline" | "empty_content" |
+        #         "auth_error" | "unreachable" | "unknown_form"
+        self.ready = ready
+        self.status = status
+        self.detail = detail
+        self.elapsed_s = elapsed_s
+        self.attempts = attempts
+
+    def __repr__(self) -> str:
+        return (
+            f"FileReadiness(ready={self.ready!r}, status={self.status!r}, "
+            f"detail={self.detail!r}, elapsed_s={self.elapsed_s!r}, attempts={self.attempts!r})"
+        )
+
+
+def wait_for_file_ready(
+    client: "APIClient",
+    file_id: str,
+    *,
+    deadline_s: Optional[float] = None,
+    poll_interval_s: Optional[float] = None,
+    sleep_fn: Callable[[float], None] = time.sleep,
+    now_fn: Callable[[], float] = time.monotonic,
+) -> FileReadiness:
+    """UPD-1: wartet begrenzt + zustandsbasiert auf die Verarbeitung des
+    GENAU zugehörigen File-Objects (identitätsgebunden über `id` im
+    Antwortkörper), bevor ein Caller `add_file_to_knowledge` feuert. Löst
+    die Readiness am gemeinsam genutzten Übergang (jeder Upload→Link-
+    Caller ruft diese EINE Funktion), kein Sonderfall für eine einzelne
+    Datei.
+
+    Zustandsmodell (aus dem Auftragstext abgeleitet -- NICHT eine am
+    rohen OpenWebUI-Quellcode verifizierte exakte JSON-Form, siehe
+    Report/offene Annahmen):
+
+      1. `data` im File-Objekt fehlt / ist kein dict → Extraktion läuft
+         noch ("Verarbeitung läuft"). Es wird bis zur Deadline weiter
+         gepollt.
+      2. `data` ist ein dict (Extraktion ABGESCHLOSSEN):
+         - `data["content"]` ist ein nicht-leerer String → READY.
+         - sonst (fehlt/leer) → `empty_content`: ein ECHTER, TERMINALER
+           Fehler (kein weiteres Polling -- die Verarbeitung IST fertig,
+           das Ergebnis ist nur leer). Das ist exakt das vom Auftrag
+           verlangte "EMPTY_CONTENT nach nachgewiesener Bereitschaft
+           bleibt ein echter Fehler".
+
+    HTTP 401/403 → `auth_error` (sofort, terminal — kein Sinn, eine
+    Berechtigung wegzupollen). HTTP 0 (Netzfehler/Timeout, s. `_request`)
+    wird bis zur Deadline als transiente Störung behandelt; hält sie an,
+    endet der Lauf als `unreachable`. Jeder andere Status, ein 200 mit
+    unlesbarem Körper, oder eine Antwort auf eine ANDERE `id` ist
+    `unknown_form` (sofort, kein Raten über eine fremde Antwort).
+
+    `deadline_s`/`poll_interval_s` sind per `OWUI_FILE_READY_TIMEOUT` /
+    `OWUI_FILE_READY_POLL_INTERVAL` (Default 90 s / 3 s) überschreibbar —
+    analog zu `OWUI_UPLOAD_TIMEOUT`/`OWUI_ADD_FILE_TIMEOUT`. `sleep_fn`/
+    `now_fn` sind für Offline-Tests injizierbar (kontrollierte Uhr statt
+    echtem `time.sleep`/`time.monotonic`); kein blindes langes Sleep,
+    kein Endlospolling."""
+    # WP-UPD1-A: analog zu `getattr(client, "last_files_complete", True)`
+    # (bestehende Konvention, s. `list_files`) -- ein Caller mit einer
+    # ALTEN, rein methodenbasierten Testfixture ohne `get_file` (kein
+    # echter `APIClient`, kein HTTP-Double) bekommt das alte Verhalten
+    # (sofort "bereit"), statt mit `AttributeError` zu crashen. Ein echter
+    # `APIClient` hat `get_file` immer -- dieser Zweig greift NIE im
+    # Produktivbetrieb.
+    if not hasattr(client, "get_file"):
+        return FileReadiness(
+            True, "ready",
+            "Client ohne get_file-Unterstützung (Altfixture) — Readiness-Wait übersprungen.",
+            0.0, 0,
+        )
+    if deadline_s is None:
+        try:
+            deadline_s = float(os.environ.get("OWUI_FILE_READY_TIMEOUT", "90"))
+        except ValueError:
+            deadline_s = 90.0
+    if poll_interval_s is None:
+        try:
+            poll_interval_s = float(os.environ.get("OWUI_FILE_READY_POLL_INTERVAL", "3"))
+        except ValueError:
+            poll_interval_s = 3.0
+    poll_interval_s = max(poll_interval_s, 0.1)
+
+    start = now_fn()
+    attempts = 0
+    status = None
+    last_network_error: Optional[str] = None
+    while True:
+        # U4-Restnachzug-r4 (ZR-PR3317-RESTNACHZUG-20261124-r4, "Rest U4"):
+        # frischen Rest VOR jedem GET berechnen, statt in jeder Iteration das
+        # konstante `deadline_s` unveraendert durchzureichen -- vorher lief
+        # z.B. ein zweiter GET nach einer verstrichenen Pause mit dem vollen
+        # (laengst nicht mehr zutreffenden) `deadline_s` als Timeout-Deckel.
+        # Ist der Rest bereits <= 0, startet KEIN weiterer GET mehr -- der
+        # Ausgang ist derselbe `pending_deadline`-Zweig wie zuvor (gleiche
+        # Form/Message), bzw. nach einem vorangegangenen Netzfehler der
+        # `unreachable`-Zweig unten (bewusst, damit der bestehende Transient-
+        # Netzfehlertest `test_unreachable_is_transient_until_deadline_then_
+        # terminal` terminal `unreachable` statt `pending_deadline` behaelt);
+        # `attempts` wird fuer einen nicht ausgefuehrten GET NICHT hochgezaehlt.
+        elapsed = now_fn() - start
+        remaining = deadline_s - elapsed
+        if remaining <= 0:
+            if last_network_error is not None:
+                return FileReadiness(
+                    False, "unreachable",
+                    f"Backend beim Readiness-Check nicht erreichbar: {last_network_error}",
+                    elapsed, attempts,
+                )
+            return FileReadiness(
+                False, "pending_deadline",
+                f"Verarbeitung lief nach {elapsed:.1f}s noch nicht belegt "
+                f"abgeschlossen (Deadline {deadline_s:.0f}s erreicht, zuletzt "
+                f"status={status!r}).",
+                elapsed, attempts,
+            )
+        attempts += 1
+        # derselbe `deadline_s`, der diese Pollschleife selbst begrenzt,
+        # deckelt jetzt auch den einzelnen GET-Request -- vorher lief der
+        # GET mit dem vollen regulaeren HTTP-Default (30s), unabhaengig vom
+        # laengst geschrumpften aeusseren Budget. Ohne `deadline_s` (kein
+        # aeusserer Rahmen) bleibt der reguläre Default unveraendert.
+        code, body = _call_with_capped_timeout(client.get_file, file_id, outer_remaining_s=remaining)
+        elapsed = now_fn() - start
+        if code == 200:
+            last_network_error = None
+            if not isinstance(body, dict) or body.get("id") != file_id:
+                return FileReadiness(
+                    False, "unknown_form",
+                    f"Antwortform unerwartet oder ID-Mismatch (HTTP {code}).",
+                    elapsed, attempts,
+                )
+            # UPD-1/N02 (ZR-PR3317-Nachzug 2026-11-23, U-R1): am tatsaechlich
+            # unterstuetzten OWUI-v0.11.3-Status-/Content-Vertrag ausrichten statt
+            # "jedes data-dict == abgeschlossen". Offizielle Quelle (gebunden an
+            # Commit 2a960a59…): Upload legt die Datei SOFORT mit
+            # data={"status":"pending"} an (routers/files.py:399-408) und verarbeitet
+            # im Hintergrund; Status endet bei "completed"/"failed"
+            # (routers/files.py:637-662); Fehler schreiben status="failed"+error
+            # (250-259), evtl. neben stehengebliebenem Teilcontent
+            # (models/files.py:370-378). Ein Dictionary ODER ein fehlender Status
+            # beweist daher KEINEN Abschluss und keine abgeschlossene leere Extraktion.
+            data = body.get("data")
+            status = data.get("status") if isinstance(data, dict) else None
+            content = data.get("content") if isinstance(data, dict) else None
+            has_content = isinstance(content, str) and bool(content.strip())
+
+            # Explizites Scheitern ist terminal -- auch mit Teilcontent.
+            if isinstance(data, dict) and status == "failed":
+                err = data.get("error")
+                return FileReadiness(
+                    False, "failed",
+                    "Backend meldet fehlgeschlagene Verarbeitung (status=failed"
+                    + (f": {err}" if isinstance(err, str) and err.strip() else "")
+                    + ").",
+                    elapsed, attempts,
+                )
+            # Belegter Abschluss: NUR ein ausdrueckliches status="completed" erlaubt
+            # die Leer-Aussage; leerer Inhalt ist dann der echte terminale empty_content.
+            if isinstance(data, dict) and status == "completed":
+                if has_content:
+                    return FileReadiness(
+                        True, "ready",
+                        f"Inhalt bereit nach {elapsed:.1f}s ({attempts} Abfrage(n)).",
+                        elapsed, attempts,
+                    )
+                return FileReadiness(
+                    False, "empty_content",
+                    "Verarbeitung laut Backend abgeschlossen (status=completed), der "
+                    "extrahierte Inhalt ist aber leer.",
+                    elapsed, attempts,
+                )
+            # Legacy/aeltere unterstuetzte Form OHNE Statusfeld, aber mit bereits
+            # nicht-leerem Inhalt: positiver Abschlussbeleg -> ready (ausdruecklich
+            # gebunden, kein Raten aus einem fremden Schema).
+            if status is None and has_content:
+                return FileReadiness(
+                    True, "ready",
+                    f"Inhalt bereit nach {elapsed:.1f}s (Form ohne Status, "
+                    f"{attempts} Abfrage(n)).",
+                    elapsed, attempts,
+                )
+            # Alles andere -- fehlendes data, status pending/processing/unbekannt,
+            # oder fehlender Status ohne Inhalt -- ist NICHT belegter Abschluss:
+            # weiter pollen bis zur Deadline (kein voreiliges empty_content).
+            if elapsed >= deadline_s:
+                return FileReadiness(
+                    False, "pending_deadline",
+                    f"Verarbeitung lief nach {elapsed:.1f}s noch nicht belegt "
+                    f"abgeschlossen (Deadline {deadline_s:.0f}s erreicht, zuletzt "
+                    f"status={status!r}).",
+                    elapsed, attempts,
+                )
+            # U4-Restnachzug-r4: Pause nicht ueber den noch verbleibenden
+            # aeusseren Rest hinaus -- sonst koennte der naechste GET-Versuch
+            # (nach dem Aufwachen) bereits erschoepft sein, aber trotzdem
+            # erst nach dem VOLLEN Pollintervall gestartet werden.
+            sleep_fn(min(poll_interval_s, deadline_s - elapsed))
+            continue
+        if code in (401, 403):
+            return FileReadiness(
+                False, "auth_error",
+                f"Zugriff beim Readiness-Check verweigert (HTTP {code}).",
+                elapsed, attempts,
+            )
+        if code == 0:
+            # Netzfehler/Timeout (s. `APIClient._request`) -- bis zur
+            # Deadline als transient behandeln, kein sofortiger Abbruch.
+            network_detail = (
+                body.decode("utf-8", errors="replace")
+                if isinstance(body, (bytes, bytearray)) else str(body)
+            )
+            last_network_error = network_detail
+            if elapsed >= deadline_s:
+                return FileReadiness(
+                    False, "unreachable",
+                    f"Backend beim Readiness-Check nicht erreichbar: {network_detail}",
+                    elapsed, attempts,
+                )
+            sleep_fn(min(poll_interval_s, deadline_s - elapsed))
+            continue
+        return FileReadiness(
+            False, "unknown_form",
+            f"Unerwarteter HTTP-Status {code} beim Readiness-Check.",
+            elapsed, attempts,
+        )
+
+
+def _file_ready_deadline_s(elapsed_s: float, default_s: float) -> Optional[float]:
+    """U4 (UPDATE_UX_REVIEW.md R4, 02_RESTAUFTRAG.md §U4): deckelt den
+    PRO-DATEI-Readiness-Deadline (sonst unabhängig per `OWUI_FILE_READY_
+    TIMEOUT`, Default 90s) am noch verbleibenden ÄUSSEREN Prozessbudget, das
+    `launcher_update.run_sync_subprocess` dem Kindprozess über die Env-Var
+    `ZEITRISS_SYNC_OUTER_DEADLINE_S` mitgibt -- ohne diese Bindung laufen
+    äußerer (fester 600s-)Rahmen und innerer Rahmen unabhängig voneinander:
+    ein später Batch von Dateien in einem großen Sync kann den äußeren
+    Rahmen überlaufen, der Launcher killt dann den Kindprozess hart.
+
+    `elapsed_s`: bereits seit Sync-Start verstrichene Zeit (Caller misst via
+    `time.monotonic()`). Ohne bekannten äußeren Rahmen (z.B. direkter CLI-
+    Aufruf von `setup.py --sync` ohne Launcher, oder `run_setup`/
+    `complete_orphaned_kb_install`, die diese Env-Var nicht setzen) bleibt
+    das Verhalten unverändert (`None` -> `wait_for_file_ready` nutzt seinen
+    eigenen Default). Kleine Sicherheitsmarge (15s), damit nach dem letzten
+    Poll noch Zeit für Link/Cleanup/Coverage/Manifest-Write bleibt, statt
+    exakt an der äußeren Kante zu kappen."""
+    raw = os.environ.get("ZEITRISS_SYNC_OUTER_DEADLINE_S")
+    if not raw:
+        return None
+    try:
+        outer_deadline_s = float(raw)
+    except ValueError:
+        return None
+    remaining = outer_deadline_s - elapsed_s - 15.0
+    if remaining <= 0:
+        return 0.0
+    return min(default_s, remaining)
+
+
+def _remaining_outer_budget_s(elapsed_s: float) -> Optional[float]:
+    """U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4): roher
+    verbleibender AEUSSERER Prozessrest (ohne die 15s-Sicherheitsmarge aus
+    `_file_ready_deadline_s`, die fuer NACHFOLGENDE Schritte reserviert ist,
+    nicht fuer das Clampen EINES einzelnen Requests). `None` ohne gesetzten
+    aeusseren Rahmen (`ZEITRISS_SYNC_OUTER_DEADLINE_S`) -- derselbe Fall, der
+    `_file_ready_deadline_s` ebenfalls unveraendert laesst (30s/360s wie
+    gehabt). Dieselbe Env-Var, keine neue Policy."""
+    raw = os.environ.get("ZEITRISS_SYNC_OUTER_DEADLINE_S")
+    if not raw:
+        return None
+    try:
+        outer_deadline_s = float(raw)
+    except ValueError:
+        return None
+    return max(0.0, outer_deadline_s - elapsed_s)
+
+
+def _call_with_capped_timeout(bound_method, *args, outer_remaining_s):
+    """U4-Restnachzug: reicht `outer_remaining_s` nur weiter, wenn die
+    Methode den Parameter kennt -- Alt-/Test-Fixtures ohne Timeout-Kenntnis
+    (einfache Fakes in scripts/tests/) bleiben unveraendert aufrufbar. Python
+    bindet Keyword-Argumente VOR der Funktionsausfuehrung; ein TypeError bei
+    unbekanntem Kwarg passiert daher IMMER vor jedem Seiteneffekt, der
+    Fallback-Call unten ist kein zweiter echter Versuch."""
+    if outer_remaining_s is None:
+        return bound_method(*args)
+    try:
+        return bound_method(*args, outer_remaining_s=outer_remaining_s)
+    except TypeError:
+        return bound_method(*args)
+
+
 def run_export(
     repo: Path,
     cfg: dict,
@@ -1011,9 +1405,16 @@ def run_export(
     know_dir = dest / "knowledge"
     sys_dir = dest / "system"
 
+    # UPD-2: die Sollanzahl ist, was `discover_knowledge_files` aus der
+    # Projektkonfiguration (master-index.json `slot:true` bzw. `kb/`)
+    # tatsächlich liefert -- NICHT eine fest verdrahtete Zahl. Ein Vergleich
+    # der Liste gegen eine feste Konstante würde bei jeder legitimen
+    # Modul-Änderung (neues Wissensmodul, entferntes Modul) brechen, obwohl
+    # die Konfiguration selbst in sich konsistent ist. Einzige verbleibende
+    # Sanity-Prüfung: es muss überhaupt mindestens ein Modul geben.
     kb_files = discover_knowledge_files(repo, cfg)
-    if len(kb_files) != 19:
-        print_error(f"Export erwartet 19 eindeutige slot:true-Module, gefunden: {len(kb_files)}")
+    if not kb_files:
+        print_error("Export erwartet mindestens ein eindeutiges slot:true-Modul, gefunden: 0")
         sys.exit(1)
     mp_path = repo / cfg["masterprompt"]
 
@@ -1564,7 +1965,7 @@ def _run_coverage_check(
     expected_files: list[str],
     repo: Optional[Path] = None,
     manifest: Optional[dict] = None,
-) -> bool:
+) -> tuple[Optional[list[str]], bool]:
     """Prüft deterministisch, dass JEDE erwartete Wissensdatei wirklich in der
     KB liegt — nicht über das (verrauschte) Vektor-Ranking, sondern über die
     harte File-Zuordnung.
@@ -1581,13 +1982,31 @@ def _run_coverage_check(
     KB-Datei ein File-Entity mit `meta.collection_name == kb_id` an
     (`GET /api/v1/files/`). Diese Zuordnung ist exakt, kein Ranking.
 
-    Returns True, wenn jede erwartete Datei als File-Entity der KB existiert.
+    U3 (UPDATE_UX_REVIEW.md R3): Rückgabe JETZT `None` (bestätigt vollständig)
+    oder eine NICHT-leere Liste der betroffenen Dateinamen -- vorher ein
+    reines `bool`, das einen echten Fehlteil-Befund nicht an den Caller
+    weitergeben konnte (der musste `kb_failed`/die Summary separat aus
+    `link_failures` füllen, ohne von EINEM Coverage-Fehlteil zu wissen).
     Bricht nie hart ab — der Caller entscheidet über sys.exit.
+
+    U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3): die
+    Liste allein unterscheidet "nachweislich fehlend" nicht von "aktuell
+    nicht prüfbar" (z.B. `list_files()` leer/unauswertbar) -- Full-Setup
+    machte daraus pauschal "Wissensdateien fehlen". Rückgabe jetzt EIN
+    kleiner Zusatzstatus mehr: `(betroffene_namen_oder_None, unbestimmt)`.
+    `unbestimmt=True` heißt: KEIN nachgewiesener Fehlbestand, nur eine
+    nicht abschließend mögliche Prüfung (kein erfundener "fehlt wirklich"-
+    Befund). `unbestimmt=False` bei einer nicht-leeren Namensliste heißt:
+    nachweislich fehlend (Content-Beleg lag vor, der Name war trotzdem
+    nicht gebunden). Der Nicht-Erfolg bei `unbestimmt=True` bleibt (ein
+    Nicht-Erfolg für eine nicht abschließend prüfbare Installation ist
+    nicht an sich falsch) -- nur die WORTWAHL/Hilfe beim Caller darf
+    keinen Fehlbestand erfinden.
     """
     expected = {Path(f).name for f in expected_files}
     if not expected:
         print_info("Coverage-Check: keine erwarteten Dateien — übersprungen.")
-        return True
+        return None, False
 
     print_info(
         f"Coverage-Check: alle {len(expected)} Wissensdateien wirklich in der KB? "
@@ -1596,11 +2015,25 @@ def _run_coverage_check(
 
     files = client.list_files()
     if not files:
+        # U3 (UPDATE_UX_REVIEW.md R3, 02_RESTAUFTRAG.md §U3): eine unbestimmte
+        # Prüfung darf weder eine frische Bestätigung noch Gesamtgrün
+        # erzeugen -- VORHER wurde das hier stillschweigend als Erfolg (True)
+        # gewertet, obwohl /api/v1/files/ keine auswertbare Antwort lieferte.
+        # Kein erfundener "Datei fehlt wirklich"-Befund (deshalb eigener Text,
+        # NICHT die "Coverage-Check FEHLGESCHLAGEN"-Meldung unten), aber auch
+        # kein stilles "alles aktuell" ohne Beleg -- der Caller bricht den
+        # Lauf ab, Manifest/Bisherstand bleiben unangetastet.
         print_warn(
-            "Coverage-Check unbestimmt: /api/v1/files/ lieferte keine Liste. "
-            "Überspringe (kein Fehlalarm) — Retrieval-Check oben bleibt maßgeblich."
+            "Coverage-Check unbestimmt: /api/v1/files/ lieferte keine auswertbare "
+            "Liste — NICHT als bestätigt gewertet (kein stilles Gesamtgrün ohne Beleg). "
+            "Menü [4] im Launcher (oder `python setup.py --sync`) erneut ausführen, "
+            "wenn OpenWebUI wieder zuverlässig antwortet."
         )
-        return True
+        # Keine Datei nachweisbar -- ALLE erwarteten Dateien bleiben
+        # unbestätigt (ehrlich: wir haben für KEINE von ihnen einen Beleg,
+        # nicht nur für einen Teil). U3-Restnachzug: das ist "unbestimmt",
+        # KEIN nachgewiesener Fehlbestand.
+        return sorted(expected), True
 
     def _collect_in_kb(file_list: list) -> set[str]:
         acc: set[str] = set()
@@ -1657,13 +2090,18 @@ def _run_coverage_check(
             )
             healed: dict[str, str] = {}
             for base, fid in repairable.items():
-                ok = client.add_file_to_knowledge(kb_id, fid)
-                if not ok:
-                    time.sleep(1)
-                    ok = client.add_file_to_knowledge(kb_id, fid)
+                # UPD-1: Readiness VOR dem Link-Versuch statt blindem "1s
+                # warten, einmal retry".
+                readiness = wait_for_file_ready(client, fid)
+                ok = readiness.ready and client.add_file_to_knowledge(kb_id, fid)
                 if ok:
                     print_ok(f"     ↺ re-linked: {base}")
                     healed[base] = fid
+                elif not readiness.ready:
+                    print_warn(
+                        f"     ✗ Re-Link übersprungen ({base}): Inhalt nicht "
+                        f"rechtzeitig verarbeitungsbereit ({readiness.status})."
+                    )
                 else:
                     print_warn(f"     ✗ Re-Link fehlgeschlagen: {base}")
             # Manifest mitziehen: der Re-Link kann eine andere (frischere)
@@ -1700,17 +2138,18 @@ def _run_coverage_check(
             "     Der automatische Re-Link hat nicht gegriffen — die Datei fehlt "
             "also wirklich (nicht nur verwaist).\n"
             "     Reparatur (holt nur die fehlenden Dateien nach):\n"
-            "       python setup.py --sync\n"
-            "     Bei wiederholtem Fehler / langsamer Hardware:\n"
-            "       export OWUI_UPLOAD_TIMEOUT=300 && python setup.py"
+            "       Menü [4] im Launcher (oder `python setup.py --sync`)"
         )
-        return False
+        # U3-Restnachzug: Content-Beleg lag vor (`files` war auswertbar),
+        # der Name war trotzdem nicht gebunden -- nachweislich fehlend,
+        # KEIN "unbestimmt".
+        return list(missing), False
 
     print_ok(
         f"Coverage-Check grün — alle {len(expected)} Wissensdateien sind "
         "nachweisbar in der KB."
     )
-    return True
+    return None, False
 
 
 def _file_md5(path: Path) -> str:
@@ -1784,6 +2223,61 @@ def _save_sync_manifest(repo: Path, manifest: dict) -> None:
             json.dump(manifest, f, indent=2, sort_keys=True)
     except OSError as exc:
         print_warn(f"Sync-Manifest konnte nicht geschrieben werden: {exc}")
+
+
+def _print_sync_machine_summary(
+    kb_files: list[Path], files_manifest: dict, *,
+    kb_failed: Optional[list[str]] = None, preset_ok: bool = True,
+    coverage_undetermined: bool = False,
+) -> None:
+    """UPD-2: EINE maschinenlesbare Abschlusszeile je `--sync`-Lauf, die
+    `launcher_update.run_sync_subprocess` aus dem gepufferten Prozess-
+    Output parst (s. dortige Doku) -- keine neue Jobengine, nur ein
+    strukturiertes Zusatzfeld auf dem bereits bestehenden stdout-Kanal.
+
+    `kb_total` stammt aus den TATSÄCHLICH konfigurierten Wissensdateien
+    (`discover_knowledge_files`), NICHT aus einer fest verdrahteten Zahl.
+    Eine Datei gilt als `kb_failed`, wenn der Caller sie EXPLIZIT in
+    diesem Lauf als fehlgeschlagen meldet (`kb_failed`-Parameter, z.B.
+    `link_failures`) ODER wenn ihr Name im Manifest komplett fehlt --
+    NICHT allein danach, ob irgendein (ggf. veralteter) Manifest-Eintrag
+    aus einem FRÜHEREN Lauf noch dasteht. Ein in DIESEM Lauf erneut
+    gescheiterter, aber weiterhin stehender Alteintrag (UPD-2: „Manifest
+    erst nach Erfolg" je Dateischritt, kein Rollback) darf NICHT als
+    frisch bestätigt gezählt werden.
+
+    U3 (UPDATE_UX_REVIEW.md R3): ein Name in `kb_failed`, der NICHT mehr zu
+    `expected` gehört (z.B. ein aus dem Soll gestrichener Name, dessen
+    Entfernen/Unlink fehlschlug), fiel bisher durch `& expected` komplett aus
+    der gemeldeten Liste -- ein stiller Aufräumrest, den weder Launcher noch
+    Diagnose je sahen. `kb_total`/`kb_confirmed` bleiben bewusst NUR am
+    aktuellen Soll-Umfang (`expected`) gemessen (unverändert); der Aufräum-
+    rest erscheint zusätzlich, aber unabhängig, in `kb_failed`.
+
+    U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3):
+    `coverage_undetermined` reicht den von `_run_coverage_check` bereits
+    gelieferten Zusatzstatus (nicht nachgewiesen fehlend, sondern aktuell
+    nicht abschließend prüfbar) bis in diese Zeile weiter -- Parser/State/
+    Anzeige lesen ihn jetzt mit, statt dass beide `run_sync`-Caller ihn
+    verwerfen. Ändert `kb_total`/`kb_confirmed`/`kb_failed` NICHT -- nur ein
+    zusätzliches, rein lesendes Unterscheidungsfeld."""
+    expected = {fp.name for fp in kb_files}
+    all_failed = set(kb_failed or [])
+    explicit_failed_in_scope = all_failed & expected
+    cleanup_rest = all_failed - expected
+    missing_from_manifest = expected - set(files_manifest.keys())
+    failed_in_scope = sorted(explicit_failed_in_scope | missing_from_manifest)
+    confirmed_count = len(expected) - len(failed_in_scope)
+    failed_display = sorted(set(failed_in_scope) | cleanup_rest)
+    print(
+        "SYNC_RESULT "
+        f"preset_ok={1 if preset_ok else 0} "
+        f"kb_total={len(expected)} "
+        f"kb_confirmed={confirmed_count} "
+        f"kb_failed={','.join(failed_display)} "
+        f"coverage_undetermined={1 if coverage_undetermined else 0}",
+        flush=True,
+    )
 
 
 def _mask_secret(s: str, keep_prefix: int = 8, keep_suffix: int = 4) -> str:
@@ -3649,6 +4143,18 @@ def _auto_load_owui_env() -> bool:
     return loaded
 
 
+def _link_outcome_unclear(client) -> bool:
+    """U4: `add_file_to_knowledge` reduziert jeden Nicht-200-Ausgang auf
+    `False` -- bei `last_add_file_code == 0` kam aber gar KEINE Serverantwort
+    an (`APIClient._request` faengt nur `urllib.error.URLError`/`OSError` auf
+    0 ab, s. dort). Der Server kann den Link in diesem Fall bereits gesetzt
+    haben, bevor die Antwort verlorenging -- ein blinder Delete der neuen
+    File-Entity waere dann ein Delete auf bereits gebundenen Inhalt. Ein
+    definitiver HTTP-Fehlercode (4xx/5xx) ist dagegen eine echte, vom Server
+    bestaetigte Ablehnung -- dort bleibt der Delete weiterhin korrekt."""
+    return getattr(client, "last_add_file_code", None) == 0
+
+
 def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
     """WP-N3-1b: ERHALTENDE Fortführung für den orphaned-KB-Teilbestand --
     eine eindeutig namensgleiche Knowledge Base existiert bereits (typischer
@@ -3911,10 +4417,28 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
                 upload_failures.append(fp.name)
                 all_ok = False
                 continue
+            # UPD-1: Readiness VOR dem Link-Versuch -- ein blindes "1s warten,
+            # einmal retry" prüft keinen Zustand und reicht für die berichtete
+            # asynchrone Verarbeitung nicht. Nicht-Bereitschaft wird hier sofort
+            # und erhaltend behandelt (NIE existing_fid anfassen), bevor die
+            # unten folgende Duplicate-/Link-Fehler-Klassifikation überhaupt
+            # erreicht wird -- sonst würde ein stehengebliebenes
+            # `last_add_file_duplicate` aus einem früheren Call fälschlich
+            # mitgelesen.
+            readiness = wait_for_file_ready(client, new_file_id)
+            if not readiness.ready:
+                if new_file_id != existing_fid:
+                    client.delete_file(new_file_id)
+                print_error(
+                    f"{fp.name}: neuer Inhalt wurde nicht rechtzeitig verarbeitungsbereit "
+                    f"({readiness.status}: {readiness.detail}) — bereits verlinkter Altbestand "
+                    f"({existing_fid[:12]}…) bleibt unangetastet, aber unbestätigt. "
+                    "KB bleibt unvollständig."
+                )
+                upload_failures.append(fp.name)
+                all_ok = False
+                continue
             linked = client.add_file_to_knowledge(kb_id, new_file_id)
-            if not linked:
-                time.sleep(1)
-                linked = client.add_file_to_knowledge(kb_id, new_file_id)
             # WP-N6-1b (Defense-in-Depth): die erhaltende Reihenfolge setzt
             # voraus, dass `do_upload_file` eine FRISCHE File-ID liefert (nie
             # die bereits verlinkte `existing_fid`). Das gilt beim aktuellen
@@ -4015,6 +4539,19 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
                 # Echter Link-Fehler (keine Duplicate-Signatur) -- unklar, ob
                 # der alte Inhalt wirklich übereinstimmt. Alten Bestand NICHT
                 # anfassen, aber auch NICHT als bestätigt verbuchen.
+                if distinct and _link_outcome_unclear(client):
+                    # U4: Transportfehler, keine Serverantwort -- der Link
+                    # kann serverseitig trotzdem gesetzt worden sein. Neue
+                    # File-Entity NICHT blind löschen, als offen vermerken.
+                    print_error(
+                        f"Unklar: {fp.name} — Linkausgang ohne Serverantwort "
+                        f"(Transportfehler), neue File-Entity ({new_file_id[:12]}…) "
+                        f"NICHT gelöscht. Altbestand ({existing_fid[:12]}…) bleibt "
+                        "unangetastet, aber unbestätigt. KB bleibt unvollständig."
+                    )
+                    upload_failures.append(fp.name)
+                    all_ok = False
+                    continue
                 if distinct:
                     client.delete_file(new_file_id)
                 print_error(
@@ -4031,13 +4568,30 @@ def complete_orphaned_kb_install(repo: Path, cfg: dict, kb_id: str) -> bool:
             upload_failures.append(fp.name)
             all_ok = False
             continue
+        readiness = wait_for_file_ready(client, new_file_id)
+        if not readiness.ready:
+            client.delete_file(new_file_id)
+            print_error(
+                f"{fp.name}: neuer Inhalt wurde nicht rechtzeitig verarbeitungsbereit "
+                f"({readiness.status}: {readiness.detail}) — Upload verworfen, KB bleibt unvollständig."
+            )
+            upload_failures.append(fp.name)
+            all_ok = False
+            continue
         linked = client.add_file_to_knowledge(kb_id, new_file_id)
-        if not linked:
-            time.sleep(1)
-            linked = client.add_file_to_knowledge(kb_id, new_file_id)
         if linked:
             confirmed[fp.name] = {"md5": _file_md5(fp), "file_id": new_file_id}
             print_ok(f"Ergänzt: {fp.name} — hochgeladen und an KB verlinkt ({new_file_id[:12]}…).")
+        elif _link_outcome_unclear(client):
+            # U4: Transportfehler, keine Serverantwort -- Link kann serverseitig
+            # trotzdem gesetzt worden sein. Neue File-Entity NICHT blind löschen.
+            print_error(
+                f"Unklar: {fp.name} — Linkausgang ohne Serverantwort (Transportfehler), "
+                f"neue File-Entity ({new_file_id[:12]}…) NICHT gelöscht, aber unbestätigt. "
+                "KB bleibt unvollständig."
+            )
+            upload_failures.append(fp.name)
+            all_ok = False
         else:
             client.delete_file(new_file_id)
             print_error(f"KB-Link fehlgeschlagen für {fp.name} — Upload verworfen, KB bleibt unvollständig.")
@@ -4145,6 +4699,47 @@ def _confirm_active_kb_file_by_content(client, candidate_ids, local_sha: str):
     return None
 
 
+def _find_unbound_reuse_candidate(client, all_files_now: list, fp_name: str, local_sha: str):
+    """U2 (UPDATE_UX_REVIEW.md R2, 02_RESTAUFTRAG.md §U2): findet einen
+    sichtbaren, gleichnamigen Kandidaten, der NOCH NICHT an eine FREMDE
+    aktive KB gebunden ist -- weder per leerem `collection_name` (der
+    bereits akzeptierte Positivfall) NOCH per dem ursprünglichen rohen
+    Upload-Zustand, in dem OWUI `meta.collection_name` auf die EIGENE
+    Datei-ID setzt (exakt die Form aus dem Originalwitness,
+    `collection_name == file_id`, BEVOR die Datei an irgendeine KB
+    verlinkt wurde -- "keine Ziel-KB-Bindung" ist NICHT gleichbedeutend
+    mit einem leeren Metadatenfeld). Eine Bindung an eine ANDERE, echte
+    aktive KB bleibt außen vor -- keine Übernahme einer fremden Datei
+    (dieselbe Schutzgrenze wie `_confirm_active_kb_file_by_content`).
+
+    Rückgabe (candidate_id_or_None, has_visible_candidate): `has_visible_
+    candidate` ist True, sobald mindestens ein solcher Kandidat sichtbar
+    war -- auch wenn er NICHT bestätigt werden konnte. Der Aufrufer nutzt
+    das, um bei einer ungeklärten eigenen offenen Änderung offen zu
+    bleiben, statt blind einen zusätzlichen Upload zu starten."""
+    unbound_entries = [
+        f for f in all_files_now
+        if f.get("filename") == fp_name
+        and (
+            not (f.get("meta") or {}).get("collection_name")
+            or (f.get("meta") or {}).get("collection_name") == f.get("id")
+        )
+    ]
+    if not unbound_entries:
+        return None, False
+    for f in unbound_entries:
+        fid = f.get("id")
+        if not fid:
+            continue
+        fhash = (f.get("meta") or {}).get("file_hash") or f.get("hash")
+        if fhash and fhash == local_sha:
+            return fid, True
+    confirmed = _confirm_active_kb_file_by_content(
+        client, [f.get("id") for f in unbound_entries if f.get("id")], local_sha,
+    )
+    return confirmed, True
+
+
 def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     """Incremental sync mode: update only what changed since last setup/sync.
 
@@ -4165,6 +4760,14 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     opts = opts or {}
     project = cfg["project"]
     _auto_load_owui_env()
+    # U4: Startzeit für die äußere/innere Fristenbindung (s.
+    # `_file_ready_deadline_s`) -- rein lokal gemessen, kein neuer Prozess-
+    # übergreifender Zustand.
+    sync_start_ts = time.monotonic()
+    try:
+        _default_file_ready_s = float(os.environ.get("OWUI_FILE_READY_TIMEOUT", "90"))
+    except ValueError:
+        _default_file_ready_s = 90.0
 
     print_header(f"{project} – OpenWebUI Sync (inkrementell)")
 
@@ -4521,12 +5124,27 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # sonst meldet das Update "alles aktuell", während ein Modul fehlt.
         if not opts.get("no_verify"):
             print()
-            if not _run_coverage_check(
+            # U3-Restnachzug: die Unbestimmt/Fehlend-Unterscheidung wird
+            # bereits oben in `_run_coverage_check` selbst ausgegeben
+            # (eigener Text je Fall) -- dieser Caller reicht den Zusatzstatus
+            # jetzt zusätzlich an die Summary weiter, statt ihn zu verwerfen.
+            coverage_missing, coverage_undetermined = _run_coverage_check(
                 client, kb_id, [fp.name for fp in kb_files], repo, manifest
-            ):
+            )
+            if coverage_missing:
+                # U3: der Coverage-Fehlteil wird an die Summary weitergegeben,
+                # statt stillschweigend gar keine SYNC_RESULT-Zeile für diesen
+                # Lauf zu melden. U3-Restnachzug: `coverage_undetermined` geht
+                # jetzt mit, damit Parser/State/Anzeige unbestimmt von
+                # nachgewiesen fehlend unterscheiden können.
+                _print_sync_machine_summary(
+                    kb_files, files_manifest, kb_failed=coverage_missing,
+                    coverage_undetermined=coverage_undetermined,
+                )
                 sys.exit(1)
         print()
         print_header("Sync abgeschlossen — alles aktuell.")
+        _print_sync_machine_summary(kb_files, files_manifest)
         return
 
     print_info(
@@ -4589,6 +5207,18 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # würde die gleichnamige Datei eines ANDEREN Bausatzes mitlöschen
         # (Cross-KB-Datenverlust, beobachtet 2026-09-14).
         target_fid = None
+        # U2 (UPDATE_UX_REVIEW.md R2, 02_RESTAUFTRAG.md §U2): EIN
+        # `list_files()`-Call pro Datei, UNABHÄNGIG davon, ob ein
+        # getrackter `old_file_id` aktiv gebunden ist -- vorher lief der
+        # Suchpfad für einen sichtbaren, noch UNGEBUNDENEN Kandidaten NUR
+        # in der `else`-Verzweigung (kein getrackter Altbestand). Der
+        # normale Ersatz einer aktiv getrackten Altversion (`tracked_
+        # active` unten) erreichte diesen Suchpfad dadurch NIE, selbst
+        # wenn der eigene offene Kandidat sichtbar war (UPDATE_UX_REVIEW.md
+        # R2, Tabelle Zeile 3). `reused_candidate_id` wird nach BEIDEN
+        # Verzweigungen einheitlich ermittelt, s. unten.
+        all_files_now = client.list_files() or []
+        reused_candidate_id = None
         # R8-01 (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R8 §3): ein
         # getrackter `old_file_id` darf die beiden Bestätigungspfade unten
         # NUR betreten, wenn er nachweislich unter `fp.name` zur AKTIVEN KB
@@ -4650,7 +5280,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                     target_fid = old_file_id
         else:
             same_name = [
-                f for f in client.list_files()
+                f for f in all_files_now
                 if f.get("filename") == fp.name
                 and (f.get("meta") or {}).get("collection_name") == kb_id
             ]
@@ -4695,6 +5325,27 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                         if e.get("id") and e.get("id") != content_confirmed
                     ]
 
+        # U2 (UPDATE_UX_REVIEW.md R2, 02_RESTAUFTRAG.md §U2): kein bereits
+        # an DIESE KB gebundener Kandidat gefunden -- BEVOR neu hochgeladen
+        # wird, nach einem sichtbaren, NOCH UNGEBUNDENEN Kandidaten mit
+        # demselben Dateinamen und nachweislich identischem Inhalt suchen.
+        # Entsteht typisch, wenn ein voriger Lauf den Kandidaten per
+        # `_link_outcome_unclear`/Duplicate-Unklarheit erhalten (nicht
+        # gelöscht), aber nie gebunden hat. LÄUFT jetzt unabhängig davon,
+        # ob ein getrackter Altbestand aktiv gebunden war (s. Kommentar
+        # oben an `all_files_now`) -- auch der normale Ersatz einer aktiv
+        # getrackten Altversion erreicht diesen Suchpfad. Ein sichtbarer,
+        # aber NICHT bestätigter Kandidat (`visible_unresolved_candidate`)
+        # bleibt unten bewusst offen statt eines blinden Zweit-Uploads.
+        visible_unresolved_candidate = False
+        if target_fid is None:
+            local_sha = _file_sha256(fp)
+            reused_candidate_id, visible_unresolved_candidate = _find_unbound_reuse_candidate(
+                client, all_files_now, fp.name, local_sha,
+            )
+            if reused_candidate_id:
+                visible_unresolved_candidate = False
+
         if target_fid:
             # Y ist bereits identitätsgebunden verlinkt -- NICHT erneut
             # hochladen. Nur die übrigen gleichnamigen Kopien mit
@@ -4735,8 +5386,170 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 link_failures.append(fp.name)
             continue
 
+        if reused_candidate_id:
+            # U2 (UPDATE_UX_REVIEW.md R2, 02_RESTAUFTRAG.md §U2): derselbe
+            # bestehende Readiness-Vertrag wie beim frischen Upload -- ein
+            # Content-/Uploadhash allein ist KEIN Beleg abgeschlossener
+            # Extraktion. Bei Nicht-Bereitschaft bleibt der Kandidat
+            # UNANGETASTET (kein Delete, er ist ein erhaltener Rest, keine
+            # in DIESEM Lauf frisch erzeugte Orphan-Entity) -- derselbe
+            # Deadline-Vertrag wie unten (`_file_ready_deadline_s`).
+            file_ready_deadline_s = _file_ready_deadline_s(
+                time.monotonic() - sync_start_ts, _default_file_ready_s,
+            )
+            if file_ready_deadline_s == 0.0:
+                # U4 (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4): das
+                # äußere Prozessbudget ist bereits erschöpft -- selbst ein
+                # sofortiges "completed" darf JETZT keinen neuen GET/Link-
+                # Request mit vollem regulärem Timeout mehr starten (der
+                # äußere Prozess kann während eines bereits laufenden
+                # mutierenden Requests jederzeit hart beendet werden).
+                print_warn(
+                    f"[{idx}/{total_changed}] {fp.name}: erhaltener Kandidat "
+                    f"({reused_candidate_id[:12]}…) — äußeres Prozessbudget bereits "
+                    "erschöpft, kein neuer Link-Versuch mehr in diesem Lauf. NICHT "
+                    "gelöscht, NICHT erneut hochgeladen. Nächster `--sync` versucht "
+                    "erneut mit frischem Budget."
+                )
+                link_failures.append(fp.name)
+                continue
+            print_info(
+                f"[{idx}/{total_changed}] {fp.name}: warte auf Verarbeitungsbereitschaft "
+                f"des erhaltenen Kandidaten ({reused_candidate_id[:12]}…)…"
+            )
+            readiness = wait_for_file_ready(
+                client, reused_candidate_id, deadline_s=file_ready_deadline_s,
+            )
+            if not readiness.ready:
+                print_warn(
+                    f"[{idx}/{total_changed}] {fp.name}: erhaltener Kandidat "
+                    f"({reused_candidate_id[:12]}…) nicht rechtzeitig verarbeitungsbereit "
+                    f"({readiness.status}: {readiness.detail}) — NICHT gelöscht, NICHT "
+                    "erneut hochgeladen, Manifest NICHT aktualisiert. Nächster `--sync` "
+                    "prüft erneut."
+                )
+                link_failures.append(fp.name)
+                continue
+
+            # U2: der Kandidat ist bereits hochgeladen und inhaltlich
+            # bestätigt (nachweislich gleicher SHA-256) -- NUR noch verlinken,
+            # KEIN zweiter Upload. Bei jedem Nicht-Erfolg bleibt der Kandidat
+            # UNANGETASTET (kein Delete) -- er ist kein in DIESEM Lauf frisch
+            # erzeugter Orphan, sondern ein erhaltener Rest aus einem früheren
+            # Lauf; dieselbe erhaltende Grenze wie B2/`_link_outcome_unclear`
+            # gilt hier genauso, nur jetzt auch für den WIEDERHOLTEN Versuch.
+            print_info(
+                f"[{idx}/{total_changed}] {fp.name}: verknüpfe erhaltenen Kandidaten "
+                f"({reused_candidate_id[:12]}…) mit Knowledge Base…"
+            )
+            # U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4):
+            # die waehrend des Readiness-Waits verstrichene Zeit wird HIER,
+            # direkt vor dem Link (einer neuen Mutation), erneut eingerechnet
+            # -- vorher blieb der Rest nach dem Readiness-Read ungeprueft und
+            # der Link lief mit dem vollen 360s-/konfigurierten Default.
+            link_outer_remaining_s = _remaining_outer_budget_s(time.monotonic() - sync_start_ts)
+            linked = _call_with_capped_timeout(
+                client.add_file_to_knowledge, kb_id, reused_candidate_id,
+                outer_remaining_s=link_outer_remaining_s,
+            )
+            if linked:
+                # U2 (Tabelle Zeile 3, UPDATE_UX_REVIEW.md R2): eine bereits
+                # aktiv gebundene Altversion (`old_candidates`, z.B. aus dem
+                # getrackten `tracked_active`-Zweig) wird erst JETZT, nach
+                # erfolgreich bestätigtem Ersatz, bereinigt -- dieselbe A2-
+                # Semantik (Unlink prüfen, delete nur nach Erfolg) wie beim
+                # `target_fid`-Zweig oben. Bestätigte Altversion bleibt bis
+                # zum gültigen Ersatz erhalten.
+                distinct_old = [c for c in old_candidates if c and c != reused_candidate_id]
+                cleanup_ok = True
+                for old_id in distinct_old:
+                    unlinked = client.remove_file_from_knowledge(kb_id, old_id)
+                    if not unlinked:
+                        cleanup_ok = False
+                        print_error(
+                            f"{fp.name}: Alte Version ({old_id[:12]}…) konnte nicht "
+                            "entlinkt werden — alter UND neuer Inhalt bleiben "
+                            "gleichzeitig verlinkt."
+                        )
+                        continue
+                    deleted = client.delete_file(old_id)
+                    if not deleted:
+                        print_warn(
+                            f"{fp.name}: Alte File-Entity ({old_id[:12]}…) nach "
+                            "erfolgreichem Unlink nicht per delete_file bestätigt "
+                            "— laut Backend entweder bereits mitentfernt "
+                            "(Retention aus) oder bewusst zurückgehalten "
+                            "(Retention an). KB-Bindung ist in jedem Fall sicher "
+                            "beendet."
+                        )
+                if not cleanup_ok:
+                    link_failures.append(fp.name)
+                    continue
+                files_manifest[fp.name] = {"md5": md5_new, "file_id": reused_candidate_id}
+                if idx % 3 == 0:
+                    manifest["kb_files"] = files_manifest
+                    _save_sync_manifest(repo, manifest)
+                print_ok(
+                    f"[{idx}/{total_changed}] {fp.name} — erhaltener Kandidat "
+                    f"({reused_candidate_id[:12]}…) jetzt verlinkt, kein erneuter Upload."
+                )
+            elif getattr(client, "last_add_file_duplicate", False):
+                print_error(
+                    f"Unklar: {fp.name} — erhaltener Kandidat ({reused_candidate_id[:12]}…) "
+                    "kollidiert mit einem collection-weiten Duplicate-Content-Signal; das "
+                    "bestätigt NICHT, dass ausgerechnet dieser Kandidat schon gebunden ist. "
+                    "NICHT gelöscht, NICHT erneut hochgeladen, aber unbestätigt. Manifest "
+                    "NICHT aktualisiert."
+                )
+                link_failures.append(fp.name)
+            elif _link_outcome_unclear(client):
+                print_warn(
+                    f"[{idx}/{total_changed}] Unklar: {fp.name} — erhaltener Kandidat "
+                    f"({reused_candidate_id[:12]}…), Linkausgang erneut ohne Serverantwort "
+                    "(Transportfehler). NICHT gelöscht, NICHT erneut hochgeladen, aber "
+                    "weiterhin unbestätigt. Nächster `--sync` prüft erneut."
+                )
+                link_failures.append(fp.name)
+            else:
+                print_warn(
+                    f"[{idx}/{total_changed}] KB-Link erneut fehlgeschlagen für erhaltenen "
+                    f"Kandidaten {fp.name} ({reused_candidate_id[:12]}…) — NICHT gelöscht, "
+                    "NICHT erneut hochgeladen, Manifest NICHT aktualisiert. Nächster `--sync` "
+                    "versucht erneut."
+                )
+                link_failures.append(fp.name)
+            continue
+
+        if visible_unresolved_candidate:
+            # U2 (UPDATE_UX_REVIEW.md R2, 02_RESTAUFTRAG.md §U2): ein
+            # sichtbarer, gleichnamiger, noch ungebundener Kandidat konnte
+            # WEDER per Hash NOCH per Content-Fallback bestätigt werden --
+            # die Frage, ob das dieselbe eigene offene Änderung ist, bleibt
+            # ungeklärt. "Bei ungeklärter eigener offener Änderung offen
+            # bleiben" heißt hier: KEIN blinder Zweit-Upload der lokalen
+            # Solldatei, KEIN Delete des ungeklärten Kandidaten. Nächster
+            # `--sync` prüft erneut (z.B. wenn die Extraktion inzwischen
+            # abgeschlossen und damit per Content-Fallback lesbar ist).
+            print_warn(
+                f"[{idx}/{total_changed}] Unklar: {fp.name} — ein sichtbarer gleichnamiger, "
+                "noch ungebundener Kandidat konnte nicht als derselbe offene Änderung bestätigt "
+                "werden. NICHT gelöscht, KEIN zweiter Upload. Nächster `--sync` prüft erneut."
+            )
+            link_failures.append(fp.name)
+            continue
+
         # Neue Version hochladen, WÄHREND die alte(n) Version(en) noch hängen.
-        new_file_id = client.do_upload_file(fp)
+        # U4 (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4): echter
+        # Produkttext VOR dem langen Schritt, nicht erst nach dessen
+        # Ergebnis -- sichtbar im gestreamten Prozessoutput.
+        print_info(f"[{idx}/{total_changed}] {fp.name}: Upload startet…")
+        # U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4): die
+        # bis hierhin verstrichene Zeit wird VOR dieser Mutation eingerechnet
+        # -- derselbe Nachzug wie bei Readiness-GET/Link-POST oben.
+        upload_outer_remaining_s = _remaining_outer_budget_s(time.monotonic() - sync_start_ts)
+        new_file_id = _call_with_capped_timeout(
+            client.do_upload_file, fp, outer_remaining_s=upload_outer_remaining_s,
+        )
         if not new_file_id:
             print_error(f"Upload fehlgeschlagen: {fp.name} — überspringe, Altbestand unangetastet.")
             # WP-F1-N8 (R1): vorher KEIN link_failures-Append -- die Datei
@@ -4747,11 +5560,57 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             link_failures.append(fp.name)
             continue
 
-        # An KB anhängen (Retry einmal nach 1s — Indexierung asynchron)
-        linked = client.add_file_to_knowledge(kb_id, new_file_id)
-        if not linked:
-            time.sleep(1)
-            linked = client.add_file_to_knowledge(kb_id, new_file_id)
+        # UPD-1: Readiness VOR dem Link-Versuch -- siehe `wait_for_file_ready`-
+        # Docstring. Nicht-Bereitschaft wird hier sofort behandelt (vor jeder
+        # Unlink/Delete-Logik der alten Version(en)); `old_candidates` bleibt
+        # dabei vollständig unangetastet (kein `distinct_old` wird überhaupt
+        # berechnet).
+        # U4: Deadline am noch verbleibenden ÄUSSEREN Prozessbudget deckeln
+        # (s. `_file_ready_deadline_s`) -- ein später Batch in `changed`
+        # bekommt damit weniger Wartezeit zugestanden, statt den äußeren
+        # 600s-Rahmen zu überlaufen und den Prozess hart killen zu lassen.
+        file_ready_deadline_s = _file_ready_deadline_s(
+            time.monotonic() - sync_start_ts, _default_file_ready_s,
+        )
+        if file_ready_deadline_s == 0.0:
+            # U4-Restnachzug: äußeres Prozessbudget bereits erschöpft --
+            # KEIN neuer GET/Link-Request mehr mit vollem regulärem
+            # Timeout. Die verwaiste neue File-Entity wird trotzdem
+            # entfernt (derselbe Aufräumpfad wie bei `pending_deadline`
+            # unten) -- sie trägt noch keinen bestätigten Link.
+            client.delete_file(new_file_id)
+            print_warn(
+                f"[{idx}/{total_changed}] {fp.name}: äußeres Prozessbudget bereits "
+                "erschöpft, kein neuer Readiness-/Link-Versuch mehr in diesem Lauf. "
+                "Altbestand unangetastet, verwaiste neue File-Entity entfernt. "
+                "Nächster `--sync` wiederholt den Upload mit frischem Budget."
+            )
+            link_failures.append(fp.name)
+            continue
+        print_info(f"[{idx}/{total_changed}] {fp.name}: warte auf Verarbeitungsbereitschaft…")
+        readiness = wait_for_file_ready(client, new_file_id, deadline_s=file_ready_deadline_s)
+        if not readiness.ready:
+            client.delete_file(new_file_id)
+            print_warn(
+                f"[{idx}/{total_changed}] {fp.name}: neuer Inhalt wurde nicht rechtzeitig "
+                f"verarbeitungsbereit ({readiness.status}: {readiness.detail}) — Altbestand "
+                "unangetastet, verwaiste neue File-Entity entfernt. Nächster `--sync` "
+                "wiederholt den Upload."
+            )
+            link_failures.append(fp.name)
+            continue
+        print_info(f"[{idx}/{total_changed}] {fp.name}: verknüpfe mit Knowledge Base…")
+
+        # An KB anhängen (nach bestätigter Readiness).
+        # U4-Restnachzug (UPDATE_UX_REVIEW.md U4, 02_RESTAUFTRAG.md §U4): die
+        # waehrend des Readiness-Waits verstrichene Zeit wird HIER, direkt vor
+        # dieser Mutation, erneut eingerechnet -- derselbe Nachzug wie im
+        # Reuse-Pfad oben.
+        link_outer_remaining_s = _remaining_outer_budget_s(time.monotonic() - sync_start_ts)
+        linked = _call_with_capped_timeout(
+            client.add_file_to_knowledge, kb_id, new_file_id,
+            outer_remaining_s=link_outer_remaining_s,
+        )
 
         # No-Loss-Guard (wie complete_orphaned_kb_install): niemals eine
         # alte ID löschen, die zufällig mit der frischen new_file_id
@@ -4831,6 +5690,18 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
                 "NICHT aktualisiert."
             )
             link_failures.append(fp.name)
+        elif _link_outcome_unclear(client):
+            # U4: Transportfehler, keine Serverantwort -- der Link kann
+            # serverseitig bereits gesetzt worden sein, bevor die Antwort
+            # verlorenging. Neue File-Entity NICHT blind löschen (kein
+            # Delete auf Verdacht), Altbestand bleibt ebenfalls unangetastet.
+            print_warn(
+                f"[{idx}/{total_changed}] Unklar: {fp.name} — Linkausgang ohne "
+                f"Serverantwort (Transportfehler), neue File-Entity "
+                f"({new_file_id[:12]}…) NICHT gelöscht, aber unbestätigt. "
+                f"Manifest NICHT aktualisiert. Nächster `--sync` prüft erneut."
+            )
+            link_failures.append(fp.name)
         else:
             # WICHTIG: Kein Manifest-Update bei fehlgeschlagenem Link, echter
             # Link-Fehler (keine Duplicate-Signatur) -- Altbestand bleibt
@@ -4838,12 +5709,21 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
             # bestätigt. Nur die verwaiste (nie verlinkte) neue File-Entity
             # wird aufgeräumt.
             client.delete_file(new_file_id)
+            # U4 (UPDATE_UX_REVIEW.md R4, 02_RESTAUFTRAG.md §U4): ein
+            # einzelner Link-Fehler bei EINER Datei ist kein Full-Rebuild-
+            # Fall -- der bisherige Pauschalrat "Bei wiederholtem Fehler:
+            # python setup.py (Full-Rebuild)" erschien unbedingt, auch beim
+            # allerersten Fehlschlag. Stattdessen den konkreten erhaltenen
+            # Rest (GENAU diese Datei, Altbestand unangetastet) und den
+            # vorhandenen gezielten Menüretry nennen ([4] im Launcher ruft
+            # genau diesen `--sync` erneut, holt NUR die offenen Dateien
+            # nach).
             print_warn(
                 f"[{idx}/{total_changed}] KB-Link fehlgeschlagen für {fp.name} — "
                 f"Manifest NICHT aktualisiert, Altbestand unangetastet, "
-                f"verwaiste neue File-Entity entfernt. Nächster `--sync` "
-                f"wiederholt den Upload. Bei wiederholtem Fehler: "
-                f"`python setup.py` (Full-Rebuild)."
+                f"verwaiste neue File-Entity entfernt. Betrifft nur diese Datei; "
+                f"Menü [4] (oder `python setup.py --sync`) holt gezielt nur "
+                f"{fp.name} nach."
             )
             link_failures.append(fp.name)
 
@@ -4851,10 +5731,30 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     for name in removed_names:
         tracked = files_manifest.get(name) or {}
         fid = tracked.get("file_id")
-        if fid:
-            client.remove_file_from_knowledge(kb_id, fid)
-            client.delete_file(fid)
-            print_ok(f"Entfernt: {name}")
+        if not fid:
+            files_manifest.pop(name, None)
+            continue
+        # U6: dieselbe erhaltende Behandlung wie im Ersatzpfad oben --
+        # ein fehlgeschlagenes Unlink ist ein Halt, kein stilles Weiterlöschen.
+        # Manifesteintrag bleibt stehen, Entity bleibt verlinkt + sichtbar,
+        # naechster `--sync` versucht Unlink + Entfernen erneut.
+        unlinked = client.remove_file_from_knowledge(kb_id, fid)
+        if not unlinked:
+            print_error(
+                f"{name}: Unlink fehlgeschlagen — Datei bleibt in der KB "
+                "verlinkt und im Manifest, Entfernen NICHT bestätigt."
+            )
+            link_failures.append(name)
+            continue
+        deleted = client.delete_file(fid)
+        if not deleted:
+            print_warn(
+                f"{name}: File-Entity nach erfolgreichem Unlink nicht per "
+                "delete_file bestätigt — laut Backend entweder bereits "
+                "mitentfernt (Retention aus) oder bewusst zurückgehalten "
+                "(Retention an). KB-Bindung ist in jedem Fall sicher beendet."
+            )
+        print_ok(f"Entfernt: {name}")
         files_manifest.pop(name, None)
 
     manifest["kb_files"] = files_manifest
@@ -4874,15 +5774,20 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         # automatisch nach. Aber der Lauf darf nicht als Erfolg gelten — sonst
         # meldet der Launcher [4] "fertig", obwohl Module fehlen.
         print_error(
-            f"{len(link_failures)} Datei(en) nicht verknüpft: {', '.join(link_failures)}."
+            f"{len(link_failures)} Datei(en) nicht verknüpft/entfernt: {', '.join(link_failures)}."
         )
+        # U4 (UPDATE_UX_REVIEW.md R4, 02_RESTAUFTRAG.md §U4): statt einer
+        # unbedingten Shell-/Timeoutvariable-Empfehlung ("Bei wiederholtem
+        # Fehler / langsamer Hardware: export OWUI_ADD_FILE_TIMEOUT=600 ...")
+        # den bereits vorhandenen GEZIELTEN Menüretry nennen -- der holt
+        # exakt diese offen gebliebenen Dateien nach, kein globales
+        # Timeout-Hochsetzen und keine neue Pauschale.
         print_info(
-            "     Einfach erneut laufen lassen — holt automatisch nur die "
-            "fehlenden Dateien nach:\n"
-            "       python setup.py --sync\n"
-            "     Bei wiederholtem Fehler / langsamer Hardware:\n"
-            "       export OWUI_ADD_FILE_TIMEOUT=600 && python setup.py --sync"
+            "     Menü [4] im Launcher (oder `python setup.py --sync`) holt "
+            "gezielt nur die oben genannten offenen Dateien nach — bisherige "
+            "Version bleibt bis dahin erhalten."
         )
+        _print_sync_machine_summary(kb_files, files_manifest, kb_failed=link_failures)
         sys.exit(1)
 
     print_header("Sync abgeschlossen.")
@@ -4892,6 +5797,7 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         f"fehlgeschlagen: {len(link_failures)}, entfernt: {len(removed_names)}."
     )
     if opts.get("no_verify"):
+        _print_sync_machine_summary(kb_files, files_manifest, kb_failed=link_failures)
         return
     # Retrieval-Verify als Smoke-Check (wenn verify-Block vorhanden)
     verify_cfg = cfg.get("verify") or {}
@@ -4905,10 +5811,22 @@ def run_sync(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # abgebrochener Lauf). Fehlende Datei → harter Exit, damit Launcher [4]
     # nicht fälschlich "fertig" meldet.
     print()
-    if not _run_coverage_check(
+    coverage_missing, coverage_undetermined = _run_coverage_check(
         client, kb_id, [fp.name for fp in kb_files], repo, manifest
-    ):
+    )
+    if coverage_missing:
+        # U3 (UPDATE_UX_REVIEW.md R3, 02_RESTAUFTRAG.md §U3): der Coverage-
+        # Fehlteil gehört in DIESELBE Summary wie `link_failures` -- vorher
+        # verschwand er dort (die Summary kannte nur `link_failures`, nicht
+        # den Coverage-eigenen Fehlteil), ein Re-Check hätte "kb_confirmed"
+        # ggf. fälschlich hoch gezeigt. U3-Restnachzug: `coverage_undetermined`
+        # geht jetzt mit, statt am Caller verworfen zu werden.
+        _print_sync_machine_summary(
+            kb_files, files_manifest, kb_failed=list(link_failures) + coverage_missing,
+            coverage_undetermined=coverage_undetermined,
+        )
         sys.exit(1)
+    _print_sync_machine_summary(kb_files, files_manifest, kb_failed=link_failures)
 
 
 def run_reset(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
@@ -5818,15 +6736,19 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # uploaded_ids und uploaded_map sind gleich befüllt; Name für Reporting holen.
     id_to_name = {fid: name for name, (fid, _md5) in uploaded_map.items()}
     for fid in uploaded_ids:
-        if client.add_file_to_knowledge(kb_id, fid):
+        # UPD-1: Readiness VOR dem Link-Versuch statt blindem "1s warten,
+        # einmal retry" -- s. `wait_for_file_ready`-Docstring.
+        readiness = wait_for_file_ready(client, fid)
+        if readiness.ready and client.add_file_to_knowledge(kb_id, fid):
             api_ok += 1
         else:
-            # Retry once after short delay (indexing may still be running)
-            time.sleep(1)
-            if client.add_file_to_knowledge(kb_id, fid):
-                api_ok += 1
-            else:
-                link_failures.append(id_to_name.get(fid, fid))
+            name = id_to_name.get(fid, fid)
+            if not readiness.ready:
+                print_warn(
+                    f"{name}: Inhalt nicht rechtzeitig verarbeitungsbereit "
+                    f"({readiness.status}: {readiness.detail})."
+                )
+            link_failures.append(name)
 
     # Truth source: HTTP 200 on /file/add means the link was persisted.
     # `GET /knowledge/{id}.files` is null across several OpenWebUI versions,
@@ -6033,11 +6955,29 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     # Anders als der Retrieval-Phrasen-Check (weiche Warnung, Query-Tuning)
     # ist eine fehlende Datei ein HARTER Fehler.
     coverage_ok = True
+    # U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3):
+    # zusätzlich zu `coverage_ok` (Bool, Gate unveraendert) jetzt auch,
+    # OB der Nicht-Erfolg ein nachgewiesener Fehlbestand war oder nur eine
+    # aktuell nicht abschließend mögliche Prüfung -- Default False, damit
+    # ein übersprungener Check (`--no-verify`) nicht fälschlich "unbestimmt"
+    # suggeriert.
+    coverage_undetermined = False
     if not opts.get("no_verify"):
         print()
-        coverage_ok = _run_coverage_check(
+        # U3-Nachzug (PR #3317, ZR-PR3317-RESTNACHZUG-20261124-r1):
+        # `_run_coverage_check` liefert seit U3 `Optional[list[str]]`
+        # (None = alles belegt, nicht-leere Liste = fehlende/unbestimmte
+        # Module), NICHT mehr einen Bool. Dieser run_setup-Caller war der
+        # letzte, der noch die alte Bool-Semantik annahm -- `coverage_ok =
+        # <Liste|None>` haette bei Erfolg (None) faelschlich abgebrochen und
+        # bei echten Fehlteilen (nicht-leere Liste = truthy) faelschlich
+        # durchgewinkt. Dieselbe Umdeutung wie die beiden run_sync-Caller
+        # (None/[] -> erfuellt). Die vier Downstream-Nutzungen (Summary +
+        # Gate) bleiben unveraendert Bool.
+        coverage_missing, coverage_undetermined = _run_coverage_check(
             client, kb_id, [fp.name for fp in kb_files], repo, sync_manifest_out
         )
+        coverage_ok = not coverage_missing
 
     # ── Summary ──────────────────────────────────────────────────────
     # WP-N2-A-R1: ein fehlgeschlagener Sibling-Relink darf NICHT hinter dem
@@ -6050,6 +6990,10 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
     print_header(
         "Setup abgeschlossen!" if (verify_ok and coverage_ok and not sibling_relink_failures and not old_file_cleanup_failures)
         else "Setup abgeschlossen (mit Warnung)" if (coverage_ok and not sibling_relink_failures and not old_file_cleanup_failures)
+        # U3-Restnachzug: "fehlen" ist ein nachgewiesener Fehlbestand --
+        # eine nur aktuell nicht prüfbare Installation bekommt eine eigene,
+        # ehrliche Formulierung statt desselben erfundenen Fehlbestands.
+        else "Setup UNVOLLSTÄNDIG — Wissensdateien nicht prüfbar" if (not coverage_ok and coverage_undetermined)
         else "Setup UNVOLLSTÄNDIG — Wissensdateien fehlen" if not coverage_ok
         else "Setup TEILWEISE FEHLGESCHLAGEN — Datei-Cleanup unvollständig" if old_file_cleanup_failures
         else "Setup TEILWEISE FEHLGESCHLAGEN — KB-Link-Nachzug unvollständig"
@@ -6093,11 +7037,24 @@ def run_setup(repo: Path, cfg: dict, opts: Optional[dict] = None) -> None:
         sys.exit(1)
 
     if not coverage_ok:
-        print_error(
-            "Setup NICHT erfolgreich: Es fehlen Wissensdateien in der KB (siehe oben). "
-            f"{project} braucht alle Module — bitte erneut laufen lassen:\n"
-            "     python setup.py --sync"
-        )
+        # U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3):
+        # ein nicht abschließend prüfbarer Bestand ("unbestimmt") ist KEIN
+        # nachgewiesener Fehlbestand -- die Hilfe darf das nicht als
+        # "fehlen" behaupten. Beide Fälle bleiben ein ehrlicher Nicht-
+        # Erfolg (sys.exit(1)); nur die Wortwahl unterscheidet sich.
+        if coverage_undetermined:
+            print_error(
+                "Setup NICHT erfolgreich: Wissensdateien in der KB aktuell nicht "
+                "abschließend prüfbar (siehe oben) — kein nachgewiesener Fehlbestand, "
+                f"aber auch kein Beleg. {project} braucht alle Module bestätigt — "
+                "Menü [4] im Launcher (oder `python setup.py --sync`) erneut ausführen."
+            )
+        else:
+            print_error(
+                "Setup NICHT erfolgreich: Es fehlen Wissensdateien in der KB (siehe oben). "
+                f"{project} braucht alle Module — bitte erneut laufen lassen:\n"
+                "     python setup.py --sync"
+            )
         sys.exit(1)
 
     start_cmd = cfg.get("suggestions", ["Start"])[0]

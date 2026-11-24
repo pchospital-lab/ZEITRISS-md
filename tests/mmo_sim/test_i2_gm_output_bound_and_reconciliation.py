@@ -147,26 +147,41 @@ def test_gm_configured_output_limit_positive_path_sends_max_tokens_then_reconcil
     WEIT ueber der (limitbasierten) Vor-Versand-Reservierung liegt -- der
     reale Betrag wird NACH Erhalt korrekt nachgebucht (nicht bei der kleinen
     Reservierung gedeckelt), wodurch ein ZWEITER GM-Turn unter demselben
-    Budget korrekt blockiert wird (kein zweiter echter Request am Server)."""
+    Budget korrekt blockiert wird (kein zweiter echter Request am Server).
+
+    Kalibrierungshinweis (COST-1-Nachzug, ZR-UPDATE-RESUME-REPARATUR
+    2026-11-23): `max_usd`/`completion_tokens` wurden angehoben, NACHDEM der
+    echte Caller (`core/runtime.py`) begann, `kb_configured` tatsaechlich an
+    `reservation_for_wire_text` weiterzugeben (vorher stiller No-op). Dieser
+    reale Harness-Client (`sl_client.py:KB_ID`) faellt OHNE `kb_id`-Angabe
+    IMMER auf eine hartkodierte historische KB zurueck (`kb_id or KB_ID`) --
+    es gibt ueber die oeffentliche Konstruktor-Flaeche KEINEN Weg, eine
+    `GmOwuiTransport`/`SLSession` ganz ohne KB zu bauen. Die alte Annahme
+    dieses Tests ("ohne `kb_id`-Argument keine Margin") war bereits vor
+    COST-1 falsch kalibriert, nur bisher folgenlos, weil die Margin nie
+    gelesen wurde. Die Zahlen unten sind NUR an die jetzt korrekt
+    eingepreiste Margin angepasst -- die drei bewiesenen Eigenschaften
+    (Positivpfad trotz hartem Budget / `max_tokens` real im Body /
+    Reconciliation blockiert den naechsten Turn) bleiben unveraendert."""
     with tempfile.TemporaryDirectory() as td, FakeHTTPServer([
         (200, {
             "choices": [{"message": {"content": "Die Szene geht weiter, kein Abschlussmarker hier."}}],
-            "usage": {"prompt_tokens": 0, "completion_tokens": 2000},
+            "usage": {"prompt_tokens": 0, "completion_tokens": 4000},
         }),
     ]) as srv:
         root = Path(td)
         run_dir, states_dir, ps_store, lobby, table = _bootstrap_solo_run(root)
-        # max_usd gross genug, dass der generische Vor-Publish-Gate-Check
-        # (`_check_gate()` OHNE Argumente, Pauschale 0.015 USD) die erste
-        # Runde nicht selbst schon blockiert -- der eigentliche Gegenstand
-        # dieses Tests ist die GM-Ausgabegrenze/Reconciliation, nicht dieser
-        # unveraenderten generischen Zwischenpruefung.
-        write_test_profile(run_dir, max_turns=10, max_usd=0.02)
+        # max_usd gross genug, dass die jetzt korrekt eingepreiste KB-Margin
+        # (~0.031 USD, s. Docstring) die erste Runde NICHT schon blockiert --
+        # der eigentliche Gegenstand dieses Tests ist die GM-Ausgabegrenze/
+        # Reconciliation, nicht die KB-Margin selbst (eigener Test:
+        # `test_cost1_kb_configured_margin_must_block_send_under_tight_budget_before_real_call`).
+        write_test_profile(run_dir, max_turns=10, max_usd=0.04)
         env = {"OPENWEBUI_URL": srv.base_url, "OPENWEBUI_API_KEY": "SYNTHETIC", **_SYNTH_ENV}
         with patch.dict(os.environ, env):
             gm = GmOwuiTransport(
                 _SL_CLIENT_PATH, run_dir, table_id="t-gm-output",
-                sl_model="synthetic-model", kb_id="synthetic-kb", gm_output_limit_tokens=50,
+                sl_model="synthetic-model", gm_output_limit_tokens=50,
             )
         assert gm.output_limit_tokens == 50
         assert gm.base_url == srv.base_url, "E3: base_url muss real vom Transport durchgereicht werden"
@@ -181,20 +196,67 @@ def test_gm_configured_output_limit_positive_path_sends_max_tokens_then_reconcil
         assert body.get("max_tokens") == 50, f"E4: konfiguriertes Limit muss real im HTTP-Body stehen -- body={body}"
 
         status_after = json.loads((run_dir / "lab.status.json").read_text())
-        # real = 2000/1000*0.015 = 0.03 (E5) -- WEIT ueber der limitbasierten
-        # Reservierung (50 Ausgabe-Tokens ~ 0,00075 USD + winziger Inputanteil).
-        # Ohne Reconciliation bliebe usd_spent bei der winzigen Reservierung
+        # real = 4000/1000*0.015 = 0.06 (E5) -- WEIT ueber der limitbasierten
+        # Vor-Versand-Reservierung (~0.031 USD inkl. KB-Margin). Ohne
+        # Reconciliation bliebe usd_spent bei der kleinen Reservierung
         # haengen; hier MUSS der reale Betrag sichtbar sein.
-        assert status_after["usd_spent"] >= 0.03 - 1e-6, (
+        assert status_after["usd_spent"] >= 0.06 - 1e-6, (
             f"E5: reale GM-Usage muss nachgebucht werden, nicht bei der kleinen "
             f"Reservierung gedeckelt bleiben -- status={status_after}"
         )
-        assert status_after["usd_spent"] > 0.02, "Reconciliation muss das konfigurierte max_usd real ueberschreiten"
+        assert status_after["usd_spent"] > 0.04, "Reconciliation muss das konfigurierte max_usd real ueberschreiten"
 
         # Der bereits reconciled hohe Verbrauch muss den NAECHSTEN GM-Turn
         # unter demselben Budget verhindern -- kein zweiter echter Request.
         assert len(srv.calls) == 1, "Kein zweiter echter GM-Request nach reconciled Budget-Ueberschreitung"
         assert not outcome.completion.success
+
+
+def test_cost1_kb_configured_margin_must_block_send_under_tight_budget_before_real_call():
+    """COST-1 (05 §B1, ZR-UPDATE-RESUME-REPARATUR 2026-11-23): `GmOwuiTransport.
+    kb_configured` existiert (`gm_owui.py`) und `reservation_for_wire_text(...,
+    kb_configured=...)` kennt die konservative KB-RAG-Margin (`admission.py:
+    _kb_rag_conservative_margin_usd`, hier mit `_SYNTH_ENV` kalibriert auf
+    2000/1000*0.015 = 0.03 USD) -- ABER der reale Aufrufer (`core/runtime.py`,
+    GM-Turn kurz vor Versand) gab bisher NUR `additional_wire_chars=
+    gm_history_chars` an `reservation_for_wire_text` weiter, NIE `kb_configured`.
+    Ein konfigurierter `kb_id` loest am echten OWUI-Server serverseitiges RAG
+    aus (zusaetzlicher, dem Client unsichtbarer Kontext/Kosten) -- die
+    Admission-Reservierung bildete das bisher NICHT ab.
+
+    Testaufbau: `gm_output_limit_tokens=50` (bekannte Ausgabegrenze, damit NICHT
+    der separate Befund-A-Pfad aus `test_gm_missing_output_bound_...` greift,
+    sondern rein die Reservierungs-HOEHE entscheidet) + `kb_id="synthetic-kb"`
+    + `max_usd=0.02`. Reservierung OHNE Margin ist ~0.00076 USD (< 0.02, der
+    Call ginge durch); MIT Margin ~0.0308 USD (> 0.02, der Call MUSS vor
+    Versand blockiert werden). Vor dem Fix (`runtime.py` reicht `kb_configured`
+    nicht durch) geht der reale HTTP-Call durch, obwohl die KB konfiguriert
+    ist -- das ist der zu beweisende Befund."""
+    with tempfile.TemporaryDirectory() as td, FakeHTTPServer([
+        (200, {"choices": [{"message": {"content": "Antwort, die es nie geben darf."}}],
+               "usage": {"prompt_tokens": 1, "completion_tokens": 1}}),
+    ]) as srv:
+        root = Path(td)
+        run_dir, states_dir, ps_store, lobby, table = _bootstrap_solo_run(root)
+        write_test_profile(run_dir, max_turns=10, max_usd=0.02)
+        env = {"OPENWEBUI_URL": srv.base_url, "OPENWEBUI_API_KEY": "SYNTHETIC", **_SYNTH_ENV}
+        with patch.dict(os.environ, env):
+            gm = GmOwuiTransport(
+                _SL_CLIENT_PATH, run_dir, table_id="t-gm-output",
+                sl_model="synthetic-model", kb_id="synthetic-kb", gm_output_limit_tokens=50,
+            )
+        assert gm.output_limit_tokens == 50
+        assert gm.kb_configured is True, "Vorbedingung: KB real konfiguriert"
+
+        outcome = _run_one_leader_turn(run_dir, states_dir, ps_store, lobby, table, gm, ["Kurze Aktion."])
+
+        assert len(srv.calls) == 0, (
+            "COST-1: ein GM-Turn mit konfigurierter KB (serverseitiges RAG, dem "
+            "Client unsichtbare Zusatzkosten) darf unter engem max_usd NICHT real "
+            f"gesendet werden, solange die konservative Margin nicht eingepreist ist -- calls={srv.calls}"
+        )
+        assert not outcome.completion.success
+        assert "Admission-Gate" in outcome.completion.reason, outcome.completion.reason
 
 
 def test_gm_no_configured_limit_and_no_hard_budget_reconciles_real_overrun_beyond_flat_pauschale():

@@ -339,9 +339,21 @@ def test_c_resume_with_open_reservation_redacted_no_traceback():
         # Neustart) versucht ECHT fortzusetzen -- derselbe Turn kollidiert
         # mit der oben erzeugten offenen Reservierung.
         printed_2: list[str] = []
+        # R1-TUI-Nachzug (PR #3317, ZR-PR3317-RESTNACHZUG-20261124-r1): seit
+        # der direkte Tischweg (`_cmd_menu_fortsetzen` -> `_resume_bound_table`
+        # -> `_run_table_round`) `outcome.recovery_pause` NICHT mehr auf den
+        # Boden fallen laesst, sondern -- exakt wie der bereits akzeptierte
+        # Catch-up-Zwilling (`_cmd_catch_up_personas`, tui.py ~2229
+        # `if report.stopped and report.recovery_pause: _offer_orphan_
+        # recovery_menu()`) -- dasselbe kostenfreie Recoverymenue oeffnet,
+        # folgt NACH dem einen Turn-Input ("Zweiter Zug (kollidiert).") die
+        # bewusste Ja/Nein-Wahl fuer den EINEN unbekannten Orphan. 'n' = kein
+        # neuer Versuch autorisiert (kein Write, kein Transport), der Tisch
+        # bleibt unveraendert fortsetzbar. Das Menue selbst macht KEINEN
+        # Modellcall (gm.calls bleibt 1, s. Assert unten).
         session_2 = TuiSession(
             onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id=leader_id,
-            input_fn=_scripted_input(["Zweiter Zug (kollidiert)."]),
+            input_fn=_scripted_input(["Zweiter Zug (kollidiert).", "n"]),
             print_fn=printed_2.append,
             run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
             gm_transport_factory=lambda: gm,
@@ -351,26 +363,42 @@ def test_c_resume_with_open_reservation_redacted_no_traceback():
         assert not any("Traceback" in p for p in printed_2), printed_2
         assert not any("OpenReservationExistsError" in p for p in printed_2), printed_2
         assert not any("REVIEW-RESERVIERUNGSABSCHLUSS" in p for p in printed_2), printed_2
-        # W24b (BRIEF-W24b.md Punkt 1, geaenderter Test): die vorherige
-        # pauschale "Speichern/Anbindung gerade nicht moeglich"+"kein
-        # Datenverlust"-Zusage war fuer GENAU diesen Fall (bereits offene
-        # Requestreservierung) falsch -- ein erneuter Versuch loest die
-        # Reservierung NICHT auf, anders als beim reinen Schreibrechtefehler
-        # in Test (b) oben (dort bleibt die alte Zusage unveraendert
-        # korrekt). Ersetzt durch einen ehrlichen, explizit UNGELOESTEN HOLD
-        # ohne falschen Retry-Rat.
+        # REC-1-Nachzug (RECOVERY_REVIEW R1, ZR-PR3317-NACHZUG-20261123-R1,
+        # geaenderter Test): dieselbe Kollision wird jetzt VOR jedem
+        # `begin()`-Aufruf von `core.runtime.SectionRuntime.submit`s Orphan-
+        # Dreischritt erkannt (`request_ledger.find_open_orphan`, kein
+        # `recovery_of`) und als `_RecoveryPause` (Subklasse von
+        # `_GateBlocked`) geworfen -- `run_full_section`s bestehender
+        # aeusserer Catch wandelt sie in eine NORMALE, nicht-exceptionelle
+        # `SectionOutcome(success=False)` um. `OpenReservationExistsError`
+        # erreicht `ui/tui.py` dadurch ueberhaupt nicht mehr (s. Asserts
+        # oben, unveraendert gueltig) -- die vorherige, hier noch erwartete
+        # "Nicht aufgeloester HOLD"/"Keine Fehlerdetails in dieser Ansicht"-
+        # Redaction-Formulierung (W24b) war die Behandlung GENAU dieses
+        # unkontrolliert entkommenden Fehlers; seit R1 entkommt gar kein
+        # Fehler mehr, es gibt nichts mehr zu redigieren. Ersetzt durch die
+        # Pruefung der neuen, bewusst kontrollierten Pausenmeldung (ehrlich
+        # benannt: offener Vorversuch, Ausgang unbekannt, keine automatische
+        # Entscheidung, fortsetzbar).
         assert any(
-            "Nicht aufgeloester HOLD" in p
-            and "offene, nicht abgeschlossene Requestreservierung" in p
+            "noch offen, Ausgang unbekannt" in p
+            and "kein erneuter Versand ohne bewusste Recovery-Entscheidung" in p
             for p in printed_2
         ), printed_2
         assert not any(
             "Speichern/Anbindung gerade nicht moeglich" in p and "kein Datenverlust" in p
             for p in printed_2
         ), printed_2
-        assert any("Keine Fehlerdetails in dieser Ansicht" in p for p in printed_2), printed_2
-        # Kein zweiter echter GM-Turn fuer die kollidierende Anfrage --
-        # request_ledger.begin() wirft VOR jedem Transport-Call.
+        assert any("kann fortgesetzt werden" in p for p in printed_2), printed_2
+        # R1-TUI-Nachzug (s. Phase-3-Kommentar): das kostenfreie Recovery-
+        # menue wurde am direkten Tischweg TATSAECHLICH erreicht und die
+        # bewusste 'n'-Wahl sauber behandelt (Original bleibt Unknown, kein
+        # Write) -- beweist die geschlossene R1-TUI-Luecke, nicht nur die
+        # Abwesenheit eines Lecks.
+        assert any("Kein neuer Versuch autorisiert" in p for p in printed_2), printed_2
+        # Kein zweiter echter GM-Turn fuer die kollidierende Anfrage -- der
+        # Orphan-Dreischritt pausiert VOR jedem Transport-Call, und die 'n'-
+        # Wahl loest ebenfalls keinen Versand aus.
         assert gm.calls == 1, gm.calls
 
 

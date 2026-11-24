@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import unittest
 import zipfile
@@ -776,6 +777,59 @@ class TestRunSyncSubprocess(unittest.TestCase):
         self.assertFalse(ok)
         self.assertEqual(lu.read_state(self.repo)["sync_status"], "failed")
 
+    def test_successful_run_binds_kb_checked_at_to_the_same_sync_result_line(self):
+        """U3 (UPDATE_UX_REVIEW.md R3, ZR-PR3317-RESTNACHZUG-20261124): die
+        `kb_*`-Zähler brauchen einen EIGENEN Prüfzeitpunkt (`kb_checked_at`),
+        der NUR gesetzt wird, wenn dieser Lauf wirklich eine `SYNC_RESULT`-
+        Zeile geliefert hat -- nicht `sync_at`/`sync_failed_at` (die den
+        GESAMTLAUF datieren, unabhängig davon, ob er eine Aufschlüsselung
+        lieferte)."""
+        def fake_runner(cmd, **kwargs):
+            return _FakeCompleted(0, stdout="SYNC_RESULT preset_ok=1 kb_total=3 kb_confirmed=3 kb_failed=")
+
+        ok, _tail = lu.run_sync_subprocess(self.repo, runner=fake_runner)
+        self.assertTrue(ok)
+        state = lu.read_state(self.repo)
+        self.assertEqual(state["kb_total"], 3)
+        self.assertEqual(state["kb_confirmed"], 3)
+        self.assertIn("kb_checked_at", state)
+        self.assertEqual(state["kb_checked_at"], state["sync_at"])
+
+    def test_timeout_after_prior_confirmed_counters_does_not_restamp_stale_counters_as_fresh(self):
+        """Der belegte Fehler aus R3: ein Timeout OHNE lesbare SYNC_RESULT-
+        Zeile darf die ALTEN `kb_*`-Zähler NICHT mit einem FRISCHEN
+        Zeitstempel versehen -- das würde (bei `launcher._describe_kb_
+        sync_status`/`_check_persisted_sync_status`, die `kb_checked_at`
+        lesen) eine stehengebliebene Teilbestätigung als gerade frisch
+        bestätigt ausgeben, obwohl dieser Lauf NICHTS bestätigt hat."""
+        # Lauf 1: echter Teilerfolg, liefert eine auswertbare SYNC_RESULT-Zeile.
+        def ok_runner(cmd, **kwargs):
+            return _FakeCompleted(1, stdout="SYNC_RESULT preset_ok=1 kb_total=19 kb_confirmed=18 kb_failed=sl-referenz.md")
+
+        lu.run_sync_subprocess(self.repo, runner=ok_runner)
+        state_after_run1 = lu.read_state(self.repo)
+        self.assertEqual(state_after_run1["kb_confirmed"], 18)
+        kb_checked_at_run1 = state_after_run1["kb_checked_at"]
+        self.assertIsNotNone(kb_checked_at_run1)
+
+        # Lauf 2: Timeout -- keine SYNC_RESULT-Zeile, keine neuen Zähler.
+        def timing_out_runner(cmd, **kwargs):
+            raise subprocess.TimeoutExpired(cmd=cmd, timeout=kwargs.get("timeout", 1))
+
+        ok2, _tail2 = lu.run_sync_subprocess(self.repo, runner=timing_out_runner)
+        self.assertFalse(ok2)
+        state_after_run2 = lu.read_state(self.repo)
+        self.assertEqual(state_after_run2["sync_status"], "failed")
+        # Die alten Zähler UND ihr Prüfzeitpunkt bleiben unveraendert stehen --
+        # NICHT mit dem neuen Fehlerzeitpunkt des Timeouts versehen.
+        self.assertEqual(state_after_run2["kb_confirmed"], 18)
+        self.assertEqual(state_after_run2["kb_total"], 19)
+        self.assertEqual(state_after_run2["kb_checked_at"], kb_checked_at_run1)
+        # Der Gesamtlauf-Fehlerzeitpunkt ist dagegen frisch und DARF (muss
+        # nicht) vom alten kb_checked_at abweichen -- er beschreibt den
+        # Timeout, nicht die (unveraenderten) Zaehler.
+        self.assertIn("sync_failed_at", state_after_run2)
+
     def test_real_new_process_is_actually_spawned(self):
         """U5: beweist den Prozesswechsel MECHANISCH -- ein echter neuer
         Python-Interpreter laeuft, nicht nur eine In-Process-Funktion."""
@@ -789,6 +843,81 @@ class TestRunSyncSubprocess(unittest.TestCase):
         )
         self.assertTrue(ok, tail)
         self.assertIn("fixture-sync-ok", tail)
+
+    def test_u4_output_is_visible_line_by_line_during_the_run_not_only_after(self):
+        """U4 (UPDATE_UX_REVIEW.md R4): VORHER `subprocess.run(capture_
+        output=True)` -- puffert JEDE Ausgabe bis Prozessende, "Datei/Phase"
+        waren dem Launcher laut Review erst NACH Prozessende zugänglich.
+        Beweis am echten Kindprozess (kein injizierter `runner`, der würde
+        den neuen Streaming-Pfad umgehen): ein Fixture-Skript schreibt ZWEI
+        durch eine Pause getrennte Zeilen; der Haupt-Thread liest den
+        geteilten stdout-Puffer WÄHREND `run_sync_subprocess` noch läuft und
+        muss die ERSTE Zeile schon VOR der zweiten (und vor Prozessende)
+        sehen."""
+        fixture_script = self.tmp / "fixture_streaming_entry.py"
+        fixture_script.write_text(
+            "import sys, time\n"
+            "print('phase-1-datei-a.md', flush=True)\n"
+            "time.sleep(1.2)\n"
+            "print('phase-2-datei-b.md', flush=True)\n"
+            "sys.exit(0)\n",
+            encoding="utf-8",
+        )
+        buf = io.StringIO()
+        result: dict = {}
+
+        def _call():
+            with mock.patch("sys.stdout", buf):
+                ok, tail = lu.run_sync_subprocess(
+                    self.repo, argv_override=[sys.executable, str(fixture_script)],
+                )
+            result["ok"] = ok
+            result["tail"] = tail
+
+        t = threading.Thread(target=_call)
+        t.start()
+        try:
+            saw_phase1_before_phase2_or_exit = False
+            deadline = time.monotonic() + 5.0
+            while time.monotonic() < deadline:
+                snapshot = buf.getvalue()
+                if "phase-1-datei-a.md" in snapshot:
+                    saw_phase1_before_phase2_or_exit = "phase-2-datei-b.md" not in snapshot
+                    break
+                time.sleep(0.02)
+        finally:
+            t.join(timeout=5.0)
+
+        self.assertTrue(result.get("ok"), result.get("tail"))
+        self.assertTrue(
+            saw_phase1_before_phase2_or_exit,
+            "phase-1 muss sichtbar sein, WÄHREND der Kindprozess noch auf "
+            "phase-2 wartet -- nicht erst nach Prozessende (gepufferte Ausgabe).",
+        )
+        self.assertIn("phase-1-datei-a.md", buf.getvalue())
+        self.assertIn("phase-2-datei-b.md", buf.getvalue())
+
+    def test_u4_silent_hang_is_still_killed_at_the_outer_deadline(self):
+        """Gegenfall/Robustheit: ein Kindprozess, der GAR KEINE Zeile
+        schreibt (reiner Sleep), darf den äußeren `timeout` trotzdem nicht
+        überschreiten -- ein reines `for line in proc.stdout` ohne eigene
+        Fristprüfung würde das verpassen, weil `readline()` bis zur nächsten
+        Zeile blockiert. Kurzer `timeout`, bewusst lange Sleep-Dauer, damit
+        ein Fehlschlag hier nicht als 'zufällig noch durchgelaufen'
+        unentdeckt bliebe."""
+        fixture_script = self.tmp / "fixture_silent_hang_entry.py"
+        fixture_script.write_text(
+            "import time\ntime.sleep(5)\n",
+            encoding="utf-8",
+        )
+        started = time.monotonic()
+        ok, tail = lu.run_sync_subprocess(
+            self.repo, argv_override=[sys.executable, str(fixture_script)], timeout=1.0,
+        )
+        elapsed = time.monotonic() - started
+        self.assertFalse(ok)
+        self.assertEqual(lu.read_state(self.repo)["sync_status"], "failed")
+        self.assertLess(elapsed, 4.0, "der stille Kindprozess wurde nicht rechtzeitig gekillt")
 
 
 class TestRestartLauncher(unittest.TestCase):

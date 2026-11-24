@@ -44,7 +44,15 @@ import time
 import uuid
 from pathlib import Path
 
-from .admission import _atomic_write_json, add_seconds, compute_turn_usd, record_turn_usage, record_usd_delta
+from .admission import (
+    _atomic_write_json,
+    add_seconds,
+    booked_reservation_amount,
+    compute_turn_usd,
+    is_reservation_booked,
+    record_turn_usage,
+    record_usd_delta,
+)
 
 
 def _requests_dir(run_dir: str | Path) -> Path:
@@ -510,6 +518,48 @@ def find_answered_without_text(
     return matches[-1]
 
 
+def find_open_orphan(
+    run_dir: str | Path, *, table_id: str | None, section_id: str | None, role: str,
+    turn_idx: int | None, participant: str | None,
+) -> dict | None:
+    """REC-1 (04_REQUEST_RECOVERY.md §2A/§3, ZR-UPDATE-RESUME-REPARATUR
+    2026-11-23): Gegenstueck zu `find_durable_result`/`find_answered_
+    without_text` fuer den Zustand, den beide bewusst NICHT abdecken --
+    ein Requestdatensatz fuer GENAU DIESE Operationsidentitaet (s.
+    `_operation_identity`), der noch in `state in ("reserved", "sent")`
+    steht: `begin()` hat die Reservierung committet und (bei `sent`) den
+    Versandmarker gesetzt, aber `finish_received`/`finish_error` wurde nie
+    erreicht (S1-Befund: Prozessabsturz zwischen Versandmarker und
+    Transportantwort ODER der Provider hat tatsaechlich geantwortet, die
+    lokale Antwort ging aber verloren -- aus dem Zustand allein nicht
+    unterscheidbar, deshalb bewusst NICHT als Fehler/Erfolg behauptet).
+
+    `begin()` selbst wirft fuer denselben Treffer `OpenReservationExistsError`
+    (identische `open_requests()`+`_operation_identity`-Pruefung, s. dort) --
+    diese Funktion macht GENAU DENSELBEN Befund VOR dem Aufruf sichtbar und
+    rein LESEND, damit ein Aufrufer eine kontrollierte, typisierte Pause mit
+    verstaendlicher Begruendung (betroffene Requestdatensatz-ID, kein
+    Stacktrace) liefern kann, statt die rohe Ausnahme unbehandelt bis zum
+    Prozessende zu propagieren. KEIN Ersatz fuer `begin()`s eigene Pruefung
+    (bleibt als letzte Verteidigungslinie unveraendert bestehen, falls ein
+    Aufrufer diese Funktion nicht vorschaltet) -- reiner Lesevorgang, kein
+    Zustand wird hier veraendert, keine Reservierung/Sperre wird aufgehoben.
+
+    Liefert bei (praktisch nie auftretenden) mehreren offenen Treffern fuer
+    dieselbe Identitaet den zuletzt reservierten Datensatz (analog
+    `find_durable_result`/`find_answered_without_text`)."""
+    identity = (table_id, section_id, role, turn_idx, participant)
+    matches = [
+        data for data in _all_records(run_dir)
+        if data.get("state") in ("reserved", "sent")
+        and _operation_identity(data) == identity
+    ]
+    if not matches:
+        return None
+    matches.sort(key=lambda d: d.get("reserved_ts") or 0.0)
+    return matches[-1]
+
+
 def _write_request(run_dir: str | Path, request_id: str, data: dict) -> None:
     """G2-Fix (Requestdatensatz-I/O, I2-REVIEW-VOR-CLOSEOUT.md §4): schreibt
     ueber dieselbe atomare Dateihilfe wie `lab.status.json`
@@ -653,7 +703,14 @@ def begin(
     # lassen -- diese Anfrage ist strukturell nicht abgerechnet, nicht bloss
     # unbeobachtet).
     booked_usd = reserved_usd if dollar_billed else 0.0
-    record_turn_usage(run_dir, 0.0, booked_usd, require_authority=True)
+    # K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3): den initial gebuchten
+    # Reservebetrag crashfest je request-id in `lab.status.json`
+    # (`reservation_booked_usd`) festhalten -- `commit_authorized_retry`
+    # rechnet eine spaetere Nachbuchung gegen diesen autoritativen Stand.
+    record_turn_usage(
+        run_dir, 0.0, booked_usd, require_authority=True,
+        booked_reservation_id=request_id, booked_reservation_usd=booked_usd,
+    )
     data["state"] = "sent"
     data["sent_ts"] = time.time()
     _write_request(run_dir, request_id, data)
@@ -923,3 +980,561 @@ def finish_error(run_dir: str | Path, request_id: str, *, error: object, seconds
     add_seconds(run_dir, request_id, seconds)
     data["state"] = "accounted"
     _write_request(run_dir, request_id, data)
+
+
+# ---------------------------------------------------------------------------
+# REC-2 (04_REQUEST_RECOVERY.md §2B/§2C, ZR-UPDATE-RESUME-REPARATUR
+# 2026-11-23): additive Unknown-Disposition + EIN crashfest gebundener
+# neuer Versuch fuer einen echten `find_open_orphan()`-Treffer.
+# ---------------------------------------------------------------------------
+
+
+class StaleDispositionError(RuntimeError):
+    """REC-2 (04 §2C: 'veraenderte Zielbindung/Vorzustand VOR Wirkung
+    ablehnen'): der Originalrecord hat sich seit der Disposition veraendert
+    (anderer `state`/`content_sha256` -- z.B. inzwischen doch durabel
+    empfangen) -- die Disposition ist damit NICHT mehr an denselben
+    Vorzustand gebunden, den sie bei ihrer Erstellung bewertet hat.
+    Kontrollierte Ablehnung statt stillem Weiterverwenden eines veralteten
+    Befunds."""
+
+
+def _recovery_dispositions_dir(run_dir: str | Path) -> Path:
+    # BEWUSST ein eigenes Verzeichnis, NICHT `requests/` -- `_all_records()`
+    # globt `requests/*.json` und wuerde eine Dispositionsdatei dort als
+    # (nicht einordenbaren) Requestdatensatz fehlinterpretieren und damit
+    # `begin()`s Dedup/`open_requests()`/`find_durable_result()` fuer JEDEN
+    # Aufrufer verfaelschen. Additiv/getrennt vom Originalrecord (04 §2B:
+    # 'kann den Originalrecord unangetastet lassen').
+    #
+    # R4 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW R4): REINE Pfadberechnung,
+    # KEIN `mkdir` -- `_recovery_disposition_path`/`load_recovery_disposition`
+    # werden auch vom zugesagt rein lesenden Inspect/Plan/Zurueck-Weg aufgerufen
+    # und duerfen die Ablage NICHT anlegen (frueher erzeugte ein blosser
+    # `load_recovery_disposition(...)`-Aufruf `run/recovery_dispositions/`,
+    # obwohl er nur `None` lieferte). Die Verzeichnisanlage passiert jetzt
+    # ausschliesslich im bewussten Mutationspfad ueber
+    # `_ensure_recovery_dispositions_dir` (`dispose_open_orphan`/
+    # `authorize_bound_retry`, unmittelbar vor ihrem Write).
+    return Path(run_dir) / "recovery_dispositions"
+
+
+def _ensure_recovery_dispositions_dir(run_dir: str | Path) -> Path:
+    """R4: legt die Dispositionsablage an -- NUR im bewussten Mutationspfad
+    unmittelbar vor einem `_atomic_write_json` aufzurufen (dessen Temp-Datei
+    das Zielverzeichnis bereits braucht). Die reine Pfad-/Lesefunktion bleibt
+    schreibfrei."""
+    d = _recovery_dispositions_dir(run_dir)
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+def _recovery_disposition_path(run_dir: str | Path, original_request_id: str) -> Path:
+    return _recovery_dispositions_dir(run_dir) / f"{original_request_id}.json"
+
+
+def load_recovery_disposition(run_dir: str | Path, original_request_id: str) -> dict | None:
+    """Rein lesend -- `None` ohne vorhandene Disposition fuer diese
+    Original-Request-ID (kein erfundener Default)."""
+    path = _recovery_disposition_path(run_dir, original_request_id)
+    if not path.is_file():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _current_run_id(run_dir: str | Path) -> str | None:
+    """R5 (RECOVERY_REVIEW R5 "vollstaendige Grantbindung vor Nutzung"):
+    liest `run_id.json` (von `core.store._run_id` geschrieben) rein lesend,
+    OHNE sie bei Abwesenheit anzulegen -- fuer den Run-Bindungs-Re-Check in
+    `dispose_open_orphan`/`commit_authorized_retry`. `None` bei fehlender/
+    unlesbarer/unvollstaendiger Datei (kein erfundener Ersatzwert, kein
+    neuer strikter Lesevertrag -- `core.recovery_ops._run_binding` bleibt
+    die strengere Auditfassung fuer `plan_orphan_recovery`/`apply_orphan_
+    recovery`; dies hier ist nur der leichte Re-Check unmittelbar vor
+    Verbrauch an der gemeinsamen Low-Level-Naht, die `recovery_ops`
+    NICHT importieren darf, ohne einen Zirkelimport zu erzeugen)."""
+    path = Path(run_dir) / "run_id.json"
+    if not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    run_id = data.get("run_id") if isinstance(data, dict) else None
+    return run_id if isinstance(run_id, str) and run_id else None
+
+
+def dispose_open_orphan(run_dir: str | Path, original_request_id: str, *, reason: str) -> dict:
+    """REC-2 §2B: haelt additiv fest, dass der alte Ausgang von
+    `original_request_id` UNBEKANNT bleibt (weder Erfolg noch Fehlschlag
+    behauptet), die bisherige Reservierung BLEIBT (dieser Aufruf schreibt
+    den Originalrecord NICHT um), und bindet einen Entscheidungsgrund daran.
+    Der Originalrecord selbst (Usage/Dauer/Kosten/`result_text`/`state`)
+    bleibt bytegleich unveraendert -- diese Funktion schreibt ausschliesslich
+    in `recovery_dispositions/`.
+
+    Nur fuer einen ECHTEN offenen Orphan sinnvoll (`state in ("reserved",
+    "sent")`, s. `find_open_orphan`) -- ein bereits abgeschlossener Record
+    (`received`/`accounted`/`error`) hat einen bekannten Ausgang, den eine
+    Unknown-Disposition nicht ueberschreiben darf (04 §2A Tabelle: 'echte
+    beobachtete Fehlerantwort bereits korrekt verbucht -> bestehenden
+    Fehler-/Retryvertrag erhalten').
+
+    Idempotent: eine bereits vorhandene Disposition fuer DIESELBE Original-
+    ID wird NICHT durch eine zweite ersetzt, solange sie noch zum aktuellen
+    Originalzustand passt (`state`+`content_sha256` unveraendert) --
+    liefert dann die BESTEHENDE Disposition unveraendert zurueck (kein
+    zweiter Dispositionseintrag, kein verlorener `granted_request_id`,
+    falls bereits ein gebundener Versuch autorisiert wurde). Hat sich der
+    Originalrecord seitdem veraendert (z.B. doch noch durabel empfangen),
+    wirft dies `StaleDispositionError` -- keine stille Weiterverwendung
+    einer ueberholten Disposition (04 §2C).
+
+    R5 (RECOVERY_REVIEW R5/§6 "vollstaendige Grantbindung vor Nutzung"):
+    haelt additiv den VOLLEN Original-Dateihash (`original_request_sha256`,
+    staerker als der bereits vorhandene `original_content_sha256`, der nur
+    das `content`-Feld misst) UND die aktuelle Run-Bindung (`bound_run_id`,
+    s. `_current_run_id`) fest -- beide werden von `commit_authorized_
+    retry` unmittelbar VOR Verbrauch gegen den dann aktuellen Stand
+    geprueft (Apply prueft diese Werte zwar bereits VOR diesem Aufruf
+    gegen den Plan, reichte sie bisher aber nicht dauerhaft an den Grant
+    weiter). Keine zweite Recoverydatenbank -- beide Felder leben im
+    bereits bestehenden Dispositionsdokument."""
+    record = load_request(run_dir, original_request_id)
+    if record is None:
+        raise ValueError(
+            f"kein Requestdatensatz fuer id={original_request_id!r} -- Disposition braucht einen "
+            "real vorhandenen Originalrecord."
+        )
+    # Staleness-Check VOR dem Vorzustands-Guard unten: eine BEREITS
+    # vorhandene Disposition, deren Originalrecord sich seitdem veraendert
+    # hat (z.B. inzwischen `accounted`), ist IMMER ein Staleness-Befund
+    # (`StaleDispositionError`) -- unabhaengig davon, ob der NEUE Zustand
+    # selbst fuer eine FRISCHE Disposition gueltig waere. Nur wenn NOCH
+    # KEINE Disposition existiert, entscheidet der Vorzustands-Guard unten,
+    # ob ueberhaupt eine neue angelegt werden darf.
+    existing = load_recovery_disposition(run_dir, original_request_id)
+    if existing is not None:
+        if (
+            existing.get("original_state_at_disposition") == record.get("state")
+            and existing.get("original_content_sha256") == record.get("content_sha256")
+        ):
+            return existing
+        raise StaleDispositionError(
+            f"Disposition fuer id={original_request_id!r} existiert bereits, aber der "
+            f"Originalrecord hat sich seitdem veraendert (vorher state="
+            f"{existing.get('original_state_at_disposition')!r}, jetzt {record.get('state')!r}) -- "
+            "keine stille Neuerstellung einer veralteten Disposition."
+        )
+    if record.get("state") not in ("reserved", "sent"):
+        raise ValueError(
+            f"Requestdatensatz id={original_request_id!r} hat state={record.get('state')!r} -- "
+            "eine Unknown-Disposition ist nur fuer einen echten offenen Orphan (state in "
+            "('reserved','sent')) sinnvoll, nicht fuer einen bereits abgeschlossenen Record "
+            "(04 §2A: bestehenden Vertrag fuer received/accounted/error erhalten)."
+        )
+    disposition = {
+        "original_request_id": original_request_id,
+        "original_state_at_disposition": record.get("state"),
+        "original_content_sha256": record.get("content_sha256"),
+        # Liste statt Tupel: JSON kennt keine Tupel -- ein nach dem Schreiben
+        # neu von der Platte gelesenes Dict (`load_recovery_disposition`)
+        # haette sonst `list` statt `tuple`, obwohl inhaltlich identisch --
+        # `== ` auf dem direkt zurueckgegebenen Dict (dieser Aufruf) UND dem
+        # spaeter neu gelesenen (idempotenter zweiter Aufruf) soll bytegleich
+        # vergleichbar bleiben.
+        "original_identity": list(_operation_identity(record)),
+        # R5: voller Byte-Hash der Originaldatei (nicht nur `content`) --
+        # erkennt JEDE Drift des Originalrecords, nicht nur eine am
+        # gesendeten Inhalt.
+        "original_request_sha256": hashlib.sha256(
+            _request_path(run_dir, original_request_id).read_bytes()
+        ).hexdigest(),
+        "bound_run_id": _current_run_id(run_dir),
+        "reason": str(reason),
+        "disposed_ts": time.time(),
+        "granted_request_id": None,
+    }
+    _ensure_recovery_dispositions_dir(run_dir)
+    _atomic_write_json(_recovery_disposition_path(run_dir, original_request_id), disposition)
+    return disposition
+
+
+def authorize_bound_retry(run_dir: str | Path, original_request_id: str) -> str:
+    """REC-2 §2B/§2C: autorisiert GENAU EINEN neuen, an die Disposition
+    gebundenen Versuch fuer den disponierten Orphan -- liefert dessen NEUE
+    `request_id`. Der neue Record wird mit `state="reserved"` angelegt (NOCH
+    KEIN `sent`) und traegt additiv `recovery_of=original_request_id` +
+    `recovery_reason` -- der tatsaechliche Versand/Transport-Call bleibt
+    beim regulaeren Caller (04 §2D: 'Apply autorisiert/reconciliert NUR;
+    Versand erst ueber regulaeren Caller mit dessen Budget-/Spielregeln').
+    Dieser Aufruf selbst macht KEINEN Modell-/Transportcall.
+
+    Crashfeste Kopplung (04 §2C: 'Verbrauchsmarke der einmaligen
+    Autorisierung und die zugehoerige neue Request-ID muessen so dauerhaft
+    gekoppelt werden, dass ein Absturz keinen zweiten Nachfolger
+    ermoeglicht'): die neue Request-ID wird DETERMINISTISCH aus der
+    Original-ID abgeleitet (`sha256(original_id + ':rec2-retry')`), NICHT
+    zufaellig -- ein Absturz zwischen 'neuer Record geschrieben' und
+    'Disposition auf granted_request_id aktualisiert' UND ein anschliessender
+    Retry dieser Funktion berechnen/finden DIESELBE ID wieder (Idempotenz
+    ueber den Dateinamen selbst, kein zweiter Nachfolger moeglich). Bereits
+    gesetztes `granted_request_id` liefert dieselbe ID erneut zurueck
+    (wiederholtes Apply = No-op, 04 §2C)."""
+    disposition = load_recovery_disposition(run_dir, original_request_id)
+    if disposition is None:
+        raise ValueError(
+            f"keine Disposition fuer id={original_request_id!r} -- erst `dispose_open_orphan` "
+            "aufrufen, bevor ein gebundener Versuch autorisiert werden kann."
+        )
+    record = load_request(run_dir, original_request_id)
+    if (
+        record is None
+        or record.get("state") != disposition.get("original_state_at_disposition")
+        or record.get("content_sha256") != disposition.get("original_content_sha256")
+    ):
+        raise StaleDispositionError(
+            f"Originalrecord id={original_request_id!r} passt nicht mehr zur Disposition "
+            "(veraenderter Vorzustand) -- kein Apply auf einer veralteten Bindung (04 §2C)."
+        )
+    if disposition.get("granted_request_id"):
+        return disposition["granted_request_id"]
+    new_request_id = hashlib.sha256(f"{original_request_id}:rec2-retry".encode("utf-8")).hexdigest()
+    # Verteidigungslinie gegen genau den beschriebenen Crash: der neue
+    # Record koennte bereits existieren (vorheriger Absturz NACH diesem
+    # Write, VOR dem Disposition-Update unten) -- dann NICHT erneut
+    # anlegen, nur die Disposition nachziehen.
+    if load_request(run_dir, new_request_id) is None:
+        table_id, section_id, role, turn_idx, participant = disposition["original_identity"]
+        new_record = {
+            "id": new_request_id,
+            "role": role,
+            "route": record.get("route"),
+            "content_chars": record.get("content_chars"),
+            "content_sha256": record.get("content_sha256"),
+            "output_limit_tokens": record.get("output_limit_tokens"),
+            "reserved_usd": record.get("reserved_usd"),
+            "table_id": table_id,
+            "section_id": section_id,
+            "turn_idx": turn_idx,
+            "participant": participant,
+            "state": "reserved",
+            "reserved_ts": time.time(),
+            "sent_ts": None,
+            "settled_ts": None,
+            "usage": None,
+            "error": None,
+            "usd_reconciled": False,
+            "result_text": None,
+            "dollar_billed": record.get("dollar_billed", True),
+            "recovery_of": original_request_id,
+            "recovery_reason": disposition.get("reason"),
+        }
+        _write_request(run_dir, new_request_id, new_record)
+    disposition = dict(disposition)
+    disposition["granted_request_id"] = new_request_id
+    _ensure_recovery_dispositions_dir(run_dir)
+    _atomic_write_json(_recovery_disposition_path(run_dir, original_request_id), disposition)
+    return new_request_id
+
+
+def disposition_binding_intact(
+    run_dir: str | Path, follower_record: dict | None, original_record: dict | None,
+    disposition: dict | None,
+) -> bool:
+    """R5 (PR #3317-Nachzug r2, RECOVERY_REVIEW.md R5/§2 "denselben
+    vorhandenen vollstaendigen Bindungsentscheid vor jeder Grant-Ausnahme und
+    am Verbrauch anwenden"): REIN LESENDES Praedikat, das GENAU dieselben
+    fuenf Bindungspruefungen wie `commit_authorized_retry` zusammenfasst,
+    aber NICHTS wirft und NICHTS schreibt -- fuer die Grant-Ausnahmen in
+    `core.runtime._collect_reflections` und der Open-Plan-Vorsperre in
+    `core.lobby_flow`, die bisher nur truthy `recovery_of`/`state` bzw. allein
+    `original_identity` prueften. `follower_record` ist der gebundene Folger
+    (`recovery_of`), `original_record` sein referenziertes Original,
+    `disposition` die unter der Original-ID geladene Disposition.
+
+    True NUR wenn ALLE gelten (fehlende/`None` erwartete Dispositionsfelder
+    ueberspringen ihre jeweilige Pruefung -- identisch zu `commit_authorized_
+    retry`, das `expected_* is None`-Felder ebenfalls nicht erzwingt):
+    1. Disposition vorhanden UND ihr `granted_request_id` zeigt GENAU auf
+       diesen Folger (kein fremder/veralteter Grant).
+    2. Originalrecord vorhanden UND `state`/`content_sha256` unveraendert
+       seit der Disposition.
+    3. Volle Operationsidentitaet von Original UND Folger == gebundene
+       `original_identity`.
+    4. Voller Byte-Hash der Originaldatei == gebundener `original_request_
+       sha256`.
+    5. Aktuelle Run-Bindung == gebundene `bound_run_id`.
+    Jeder Lesefehler (fehlende Datei etc.) ergibt False -- kein erfundener
+    Treffer. Dies DUPLIZIERT die `commit_authorized_retry`-Entscheidung
+    bewusst als nebenwirkungsfreie Vorab-Pruefung (kein neuer Datenspeicher,
+    keine zweite Recoverylogik); `commit_authorized_retry` bleibt die
+    AUTORITATIVE werfende Fassung am tatsaechlichen Buchungseinstieg."""
+    if follower_record is None or disposition is None:
+        return False
+    if disposition.get("granted_request_id") != follower_record.get("id"):
+        return False
+    if (
+        original_record is None
+        or original_record.get("state") != disposition.get("original_state_at_disposition")
+        or original_record.get("content_sha256") != disposition.get("original_content_sha256")
+    ):
+        return False
+    expected_identity = disposition.get("original_identity")
+    if expected_identity is not None and (
+        list(_operation_identity(original_record)) != expected_identity
+        or list(_operation_identity(follower_record)) != expected_identity
+    ):
+        return False
+    original_request_id = disposition.get("original_request_id") or original_record.get("id")
+    expected_hash = disposition.get("original_request_sha256")
+    if expected_hash is not None:
+        try:
+            actual_hash = hashlib.sha256(
+                _request_path(run_dir, original_request_id).read_bytes()
+            ).hexdigest()
+        except OSError:
+            return False
+        if actual_hash != expected_hash:
+            return False
+    expected_run_id = disposition.get("bound_run_id")
+    if expected_run_id is not None and _current_run_id(run_dir) != expected_run_id:
+        return False
+    return True
+
+
+def commit_authorized_retry(
+    run_dir: str | Path, request_id: str, *, content: str, reserved_usd: float | None,
+    route: str | None = None, output_limit_tokens: float | None = None, dollar_billed: bool = True,
+) -> None:
+    """REC-2 §2B/§2D: der REGULAERE Caller (nicht `authorize_bound_retry`
+    selbst) ruft dies UNMITTELBAR VOR seinem eigenen Transport-`try` fuer
+    einen bereits per `authorize_bound_retry` reservierten Record auf --
+    exakt dieselben zwei Schritte wie `begin()` (Budget-Reservierung JETZT
+    buchen, dann `state="sent"`), aber auf der SCHON VORHANDENEN, deterministisch
+    gebundenen `request_id` statt einer neuen Zufalls-UUID (04 §2C: 'aktuelle
+    Admission/Route/Outputgrenze und eine eigene einmalige Reservierung').
+    `content`/`reserved_usd`/`route`/`output_limit_tokens` kommen vom
+    Aufrufer FRISCH aus dem tatsaechlich jetzt zu sendenden Kontext (04 §2B:
+    'der neue Request speichert seinen tatsaechlich verwendeten Input; ein
+    neu aufgebauter Kontext wird nicht als nachgewiesen bytegleicher
+    Altinput ausgegeben') -- koennen vom Autorisierungszeitpunkt abweichen.
+
+    Idempotent/crashfest: nur wirksam, wenn der Record noch `state=
+    "reserved"` ist (der Zustand, den `authorize_bound_retry` hinterlaesst).
+    Ein Record, der bereits `"sent"` oder weiter ist (z.B. nach einem Absturz
+    NACH einem vorherigen `commit_authorized_retry`-Aufruf, VOR dem
+    eigentlichen Transport-Call), wird NICHT erneut gebucht -- kein
+    Doppelbuchen, kein zweiter `record_turn_usage`-Aufruf fuer dieselbe ID."""
+    record = load_request(run_dir, request_id)
+    if record is None:
+        raise ValueError(f"kein Requestdatensatz fuer id={request_id!r} -- authorize_bound_retry zuerst aufrufen.")
+    if not record.get("recovery_of"):
+        raise ValueError(
+            f"Requestdatensatz id={request_id!r} traegt kein `recovery_of` -- commit_authorized_retry "
+            "ist nur fuer einen per `authorize_bound_retry` angelegten Record vorgesehen."
+        )
+    # R2 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW.md R2 Z.60-62): die
+    # beiden Checks oben pruefen nur die BEDEUTUNG des `recovery_of`-Feldes,
+    # nicht ob dieser Record tatsaechlich aus einer echten, ungebrochenen
+    # `dispose_open_orphan`->`authorize_bound_retry`-Kette stammt -- es
+    # fehlte jede `load_recovery_disposition`-Lesung UND ein Abgleich gegen
+    # die AKTUELLE Original-/Grantbindung ("Eine richtige Bedien-/
+    # Anwendungsschicht, die diese Anforderungen stattdessen garantiert,
+    # fehlt"). `core.recovery_ops` (die jetzt gebaute R2-Anwendungsschicht)
+    # garantiert Run-/Writer-/Plan-/Vorzustandsbindung bereits VOR dem
+    # `authorize_bound_retry`-Aufruf -- dies hier ist der laut Review
+    # geforderte Pflicht-Rest GENAU an diesem Low-Level-Einstieg: VOR jeder
+    # Buchung erneut lesen+pruefen, dass (a) eine Disposition fuer
+    # `original_request_id` existiert, (b) ihr `granted_request_id` GENAU
+    # auf DIESEN `request_id` zeigt (kein fremder/veralteter Folger), und
+    # (c) der referenzierte Originalrecord sich seit der Disposition NICHT
+    # veraendert hat (dieselbe Staleness-Pruefung wie `authorize_bound_
+    # retry` selbst, hier zusaetzlich unmittelbar am tatsaechlichen
+    # Buchungseinstieg wiederholt). Bewusst VOR dem `state != "reserved"`-
+    # Rueckgabepfad unten -- die Bindung gilt fuer JEDEN Aufruf, auch einen
+    # idempotenten Wiedereintritt, nicht nur den allerersten.
+    original_request_id = record.get("recovery_of")
+    disposition = load_recovery_disposition(run_dir, original_request_id)
+    if disposition is None or disposition.get("granted_request_id") != request_id:
+        raise ValueError(
+            f"Requestdatensatz id={request_id!r}: keine passende Disposition fuer "
+            f"recovery_of={original_request_id!r} (granted_request_id stimmt nicht oder fehlt) -- "
+            "commit_authorized_retry bucht nur einen tatsaechlich ueber dispose_open_orphan/"
+            "authorize_bound_retry gebundenen Folger."
+        )
+    original_record = load_request(run_dir, original_request_id)
+    if (
+        original_record is None
+        or original_record.get("state") != disposition.get("original_state_at_disposition")
+        or original_record.get("content_sha256") != disposition.get("original_content_sha256")
+    ):
+        raise StaleDispositionError(
+            f"Original id={original_request_id!r} hat sich seit der Disposition veraendert -- "
+            "commit_authorized_retry bucht nicht auf einer veralteten Original-/Grantbindung."
+        )
+    # R5 (RECOVERY_REVIEW R5/§6 "vollstaendige Grantbindung vor Nutzung"):
+    # der obige Check prueft nur `state`/`content_sha256` -- weder die
+    # volle Operationsidentitaet (Original UND der hier zu verbuchende
+    # Folger selbst) noch der volle Original-Dateihash noch die Run-
+    # Bindung wurden bisher gegen den aktuellen Stand wiederholt (Apply,
+    # `core.recovery_ops.apply_orphan_recovery`, prueft sie zwar VOR diesem
+    # Aufruf gegen den Plan, reicht sie aber nicht an den Grant weiter). Ein
+    # truthy `recovery_of` + passendes `granted_request_id` allein genuegt
+    # NICHT (Review-Wortlaut) -- bei JEDER Drift bricht dies TYPISIERT und
+    # OHNE Versand ab (noch VOR der Buchung unten).
+    expected_identity = disposition.get("original_identity")
+    if expected_identity is not None and (
+        list(_operation_identity(original_record)) != expected_identity
+        or list(_operation_identity(record)) != expected_identity
+    ):
+        raise StaleDispositionError(
+            f"Original id={original_request_id!r}: Operationsidentitaet von Original und/oder "
+            "Folger stimmt nicht (mehr) mit der bei der Disposition gebundenen Identitaet ueberein "
+            "-- commit_authorized_retry bucht nicht auf einer veralteten Identitaetsbindung."
+        )
+    expected_hash = disposition.get("original_request_sha256")
+    if expected_hash is not None and (
+        hashlib.sha256(_request_path(run_dir, original_request_id).read_bytes()).hexdigest() != expected_hash
+    ):
+        raise StaleDispositionError(
+            f"Original id={original_request_id!r}: voller Dateihash stimmt nicht (mehr) mit dem bei "
+            "der Disposition gebundenen Hash ueberein -- commit_authorized_retry bucht nicht auf "
+            "einer veralteten Dateibindung."
+        )
+    expected_run_id = disposition.get("bound_run_id")
+    if expected_run_id is not None and _current_run_id(run_dir) != expected_run_id:
+        raise StaleDispositionError(
+            f"Original id={original_request_id!r}: aktuelle Run-Bindung (run_id.json) stimmt nicht "
+            "(mehr) mit der bei der Disposition gebundenen Run-Identitaet ueberein -- "
+            "commit_authorized_retry bucht nicht auf einer fremden/veralteten Run-Bindung."
+        )
+    if record.get("state") != "reserved":
+        return
+    # R3 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW R3, RECOVERY_LEDGER_WITNESS):
+    # crashfester Wiedereintritt NACH erfolgreicher Buchung (`record_turn_usage`
+    # unten), aber VOR dem `state="sent"`-Write -- der Record blieb `reserved`,
+    # das Budget ist aber schon gebucht. Die bereits gebuchte Reservierung darf
+    # dann NICHT mit frisch berechneten (ggf. hoeheren) Versandparametern
+    # ueberschrieben werden: `record_turn_usage` waere per `once_request_id` ein
+    # No-op (keine zweite Buchung), waehrend `finish_received` das Delta spaeter
+    # gegen das hoehere `reserved_usd` rechnete und den bereits gebuchten Betrag
+    # unterschlueg (Witness: erhaltene Summe 0,011 statt erforderlicher 0,021 USD).
+    # Der VOR der Buchung geschriebene Record traegt bereits die tatsaechlich
+    # gebuchte BASIS (`reserved_usd`/`dollar_billed`) -- NUR diese bleibt
+    # eingefroren, weil `finish_received` das Delta gegen den gebuchten
+    # `reserved_usd` rechnet; ein Rewrite verursachte das Unterbuchen. Die rein
+    # DESKRIPTIVEN Audit-Felder (`content_sha256`/`content_chars`/`route`/
+    # `output_limit_tokens`) muessen dagegen den TATSAECHLICH jetzt physisch
+    # gesendeten Input widerspiegeln: der Caller ruft nach diesem Commit
+    # `gm_transport.turn(..., outgoing)` mit dem frischen (ggf. nach Crash-
+    # Neustart geaenderten) Kontext, nicht mit dem Alt-Text. Blieben die
+    # Content-Felder stale, behauptete der Record einen anderen Inhalt als
+    # physisch versendet und braeche stillschweigend die projektweite
+    # Hash-Integritaetsgarantie (AR3, `core/runtime.py`: content_sha256 ==
+    # UTF-8-Hash des Wire-Textes). `is_reservation_booked` ist fail-closed: eine
+    # fehlende/unlesbare `lab.status.json` propagiert HIER, bevor der Record
+    # mutiert wird (keine Zustandsaenderung bei unklarer Buchungsautoritaet).
+    if is_reservation_booked(run_dir, request_id):
+        # K (RECOVERY_REVIEW §5/N08 "geaenderte Versand-/Billingbasis vor
+        # sent konsistent buchen"): die oben beschriebene eingefrorene
+        # Basis (`reserved_usd`/`dollar_billed`, wie VOR diesem Record-
+        # Write bereits gebucht) bleibt fuer den unveraenderten Fall
+        # richtig. Zwei bestellte Restfaelle bleiben sonst offen, wenn der
+        # frische Caller jetzt (a) eine GROESSERE Reserve und/oder (b) eine
+        # geaenderte Billingklasse (False->True) einreicht: (a) die neue
+        # Mehrverpflichtung wuerde vor Versand nie gebucht, Ausgang bleibt
+        # unbekannt -> Gesamtverpflichtung bliebe bei der alten (niedrigeren)
+        # Buchung haengen; (b) `finish_received` ignoriert ein tatsaechliches
+        # `usage.usd` spaeter wegen des alten `dollar_billed=False`-Markers.
+        # FIX: nur wenn die NEUE Buchungsbasis tatsaechlich hoeher ist als
+        # die bereits gebuchte, wird GENAU die Differenz VOR dem `sent`-
+        # Marker idempotent nachgebucht -- ueber einen EIGENEN
+        # `once_request_id` (kollidiert nicht mit der bereits angewandten
+        # `request_id`-Buchung oben, dedupliziert sich selbst bei einem
+        # Retry NACH dieser Nachbuchung, VOR dem folgenden Write). `reserved_
+        # usd`/`dollar_billed` werden dann auf die NEUE Basis aktualisiert,
+        # damit `finish_received`/`settle_received` ihr Delta gegen die
+        # tatsaechlich volle Verpflichtung rechnen. Eine gleiche oder
+        # niedrigere neue Basis bleibt unveraendert eingefroren (keine
+        # pauschale Unveraenderlichkeitsforderung, aber auch kein Abbuchen).
+        # K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3 "feste Topup-ID
+        # verliert die zweite geaenderte Buchungsbasis"): die Nachbuchung
+        # rechnet gegen den KUMULATIV in `lab.status.json` festgehaltenen
+        # gebuchten Betrag (`booked_reservation_amount`, crashfest), NICHT
+        # gegen die ggf. nach einem Crash veraltete `reserved_usd` des
+        # Records. Der `once_request_id` wird nach der ZIELbasis gekeyt
+        # (`:rebook-topup:<ziel>`), damit eine zweite, hoehere Basis nach
+        # einem Crash ihre noch fehlende Differenz tatsaechlich nachbucht
+        # (die alte feste ID blockierte jede weitere Differenz) und ein
+        # echter Retry DERSELBEN Zielbasis idempotent bleibt. `count_turn=
+        # False`: eine reine Geldkorrektur ist kein neuer Modellversuch.
+        # `reservation_booked_usd` wird ATOMAR mit der Buchung auf die neue
+        # Zielbasis gehoben -- so entsteht nach jedem Crash nur die noch
+        # fehlende Verpflichtung und der Record behauptet keine ungebookte
+        # Basis. Rueckwaertskompatibel: fehlt der Statusbetrag (Altrecord vor
+        # diesem Feld), faellt der Vergleich auf den record-basierten Stand
+        # zurueck.
+        status_booked_usd = booked_reservation_amount(run_dir, request_id)
+        old_dollar_billed = record.get("dollar_billed", True)
+        old_reserved_usd = record.get("reserved_usd")
+        record_old_booked_usd = old_reserved_usd if old_dollar_billed else 0.0
+        if status_booked_usd is not None:
+            old_booked_usd = status_booked_usd
+        else:
+            old_booked_usd = record_old_booked_usd
+        new_booked_usd = reserved_usd if dollar_billed else 0.0
+        if (
+            old_booked_usd is not None and new_booked_usd is not None
+            and new_booked_usd > old_booked_usd
+        ):
+            record_turn_usage(
+                run_dir, 0.0, new_booked_usd - old_booked_usd, require_authority=True,
+                once_request_id=f"{request_id}:rebook-topup:{new_booked_usd!r}",
+                count_turn=False,
+                booked_reservation_id=request_id, booked_reservation_usd=new_booked_usd,
+            )
+            committed_usd = new_booked_usd
+        else:
+            # Gleiche/niedrigere neue Basis bleibt eingefroren (kein Abbuchen);
+            # die bereits gebuchte, crashfeste Basis bleibt die Verpflichtung.
+            committed_usd = old_booked_usd
+        # Der Record behauptet GENAU die (crashfest) gebuchte Basis -- nie mehr
+        # (keine ungebookte Basis nach einem Crash im Up-Booking), nie weniger
+        # (sonst unterschlueg `finish_received`/`settle_received` den bereits
+        # gebuchten Betrag beim Delta gegen `reserved_usd`). Nur fuer die
+        # dollarbepflichtete Rolle -- eine Nicht-Dollarrolle bucht immer 0.0
+        # und behaelt ihre deskriptive `reserved_usd`/`dollar_billed`
+        # unveraendert (keine erfundene Dollarabrechnung, G2b).
+        if dollar_billed and committed_usd is not None:
+            record["reserved_usd"] = committed_usd
+            record["dollar_billed"] = True
+        content = content or ""
+        record["content_chars"] = len(content)
+        record["content_sha256"] = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        record["route"] = route
+        record["output_limit_tokens"] = output_limit_tokens
+        record["state"] = "sent"
+        record["sent_ts"] = time.time()
+        _write_request(run_dir, request_id, record)
+        return
+    content = content or ""
+    record["content_chars"] = len(content)
+    record["content_sha256"] = hashlib.sha256(content.encode("utf-8")).hexdigest()
+    record["reserved_usd"] = reserved_usd
+    record["route"] = route
+    record["output_limit_tokens"] = output_limit_tokens
+    record["dollar_billed"] = dollar_billed
+    _write_request(run_dir, request_id, record)
+    booked_usd = reserved_usd if dollar_billed else 0.0
+    # K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3): erstmalige Buchung des
+    # Folgers -- den gebuchten Betrag crashfest je request-id festhalten
+    # (s. `begin`), damit eine spaetere Nachbuchung gegen den autoritativen
+    # Stand statt gegen eine ggf. veraltete `reserved_usd` rechnet.
+    record_turn_usage(
+        run_dir, 0.0, booked_usd, require_authority=True, once_request_id=request_id,
+        booked_reservation_id=request_id, booked_reservation_usd=booked_usd,
+    )
+    record["state"] = "sent"
+    record["sent_ts"] = time.time()
+    _write_request(run_dir, request_id, record)

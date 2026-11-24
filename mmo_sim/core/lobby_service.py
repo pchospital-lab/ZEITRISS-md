@@ -193,14 +193,49 @@ def request_admitted_decision(
     )
     if blocked:
         return None, reason
-    request_id = request_ledger.begin(
-        run_dir,
-        content=json.dumps(ctx, ensure_ascii=False, sort_keys=True, default=str),
-        reserved_usd=reserved_usd, route=route,
-        output_limit_tokens=getattr(getattr(driver, "config", None), "max_tokens", None),
-        dollar_billed=dollar_billed,
-        **identity_kwargs,
-    )
+    # REC-1 (04_REQUEST_RECOVERY.md §2A/§3, ZR-UPDATE-RESUME-REPARATUR
+    # 2026-11-23): `find_durable_result`/`find_answered_without_text` oben
+    # decken `state in ("received","accounted")` ab -- ein Record, der noch
+    # in `state in ("reserved","sent")` steht (S1-Befund: `begin()` hat
+    # Reservierung+Versandmarker committet, Transportabschluss nie erreicht),
+    # faellt bisher durch BEIDE Pruefungen und erreicht unten `begin()`, das
+    # dafuer `OpenReservationExistsError` UNBEHANDELT wirft. Derselbe
+    # Vorab-Lesecheck wie oben, NUR additiv -- kein Call, kein zweiter
+    # Record, Original unveraendert; `begin()`s eigene Pruefung bleibt als
+    # letzte Verteidigungslinie unveraendert bestehen.
+    content = json.dumps(ctx, ensure_ascii=False, sort_keys=True, default=str)
+    output_limit_tokens = getattr(getattr(driver, "config", None), "max_tokens", None)
+    open_orphan = request_ledger.find_open_orphan(run_dir, **identity_kwargs)
+    # REC-1-Nachzug (RECOVERY_REVIEW R1 §1, lobby_service.request_admitted_
+    # decision:193-230): vorher wurde HIER JEDER `find_open_orphan`-Treffer
+    # pausiert -- auch der ausdruecklich autorisierte `reserved/recovery_of`-
+    # Folger, der genau DESHALB nie konsumiert wurde. Ein Treffer MIT
+    # `recovery_of` UND `state=="reserved"` ist GENAU der von `authorize_
+    # bound_retry` freigegebene, noch nicht versendete Folgeversuch -- wird
+    # jetzt via `commit_authorized_retry` auf SEINER bestehenden
+    # `request_id` konsumiert (SELBE frische Reservierungsparameter wie der
+    # `begin()`-Aufruf unten). Jeder ANDERE offene Orphan bleibt ein
+    # kontrollierter Stop wie zuvor.
+    if open_orphan is not None and (
+        not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+    ):
+        return None, (
+            f"ein frueherer Versandversuch ({role}/{participant}) fuer dieselbe Operation ist "
+            "noch offen, Ausgang unbekannt -- kein erneuter Modellaufruf ohne bewusste "
+            "Recovery-Entscheidung."
+        )
+    if open_orphan is not None:
+        request_id = open_orphan["id"]
+        request_ledger.commit_authorized_retry(
+            run_dir, request_id, content=content, reserved_usd=reserved_usd,
+            route=route, output_limit_tokens=output_limit_tokens, dollar_billed=dollar_billed,
+        )
+    else:
+        request_id = request_ledger.begin(
+            run_dir, content=content, reserved_usd=reserved_usd, route=route,
+            output_limit_tokens=output_limit_tokens, dollar_billed=dollar_billed,
+            **identity_kwargs,
+        )
     t0 = time.monotonic()
     try:
         decision = driver.decide(ctx)

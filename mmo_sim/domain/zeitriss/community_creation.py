@@ -344,14 +344,51 @@ def _persona_get_reply_factory(
         )
         if blocked:
             return ReplyResult(kind="paused", reason=str(reason))
-        request_id = request_ledger.begin(
-            run_dir, role=persona_role, content=sl_text,
-            reserved_usd=reserved_usd, route=route,
-            output_limit_tokens=getattr(getattr(persona_driver, "config", None), "max_tokens", None),
-            table_id=community_id, section_id=section_id,
+        # R4 (RECOVERY_REVIEW R4 "Community-Persona _get_reply verbraucht
+        # keine Freigabe"): derselbe Orphan-Dreischritt wie jeder andere
+        # Produktaufrufer (`core.runtime._admitted_decision`/`core.
+        # creation_service.run_admitted_creation_dialog`) -- vorher rief
+        # dieser Weg direkt `begin()` auf; ein echtes Unknown (kein
+        # `recovery_of`, ODER bereits wieder `state="sent"`) liess dessen
+        # eigene Dedup-Pruefung `OpenReservationExistsError` UNBEHANDELT
+        # werfen (crasht `creation_service.run_admitted_creation_dialog`s
+        # ungefangenen `get_reply`-Aufruf), ein ausdruecklich autorisierter,
+        # noch `reserved`er Folger wurde NIE konsumiert. Jetzt: ein echtes
+        # Unknown bleibt eine kontrollierte Pause, ein autorisierter Folger
+        # wird ueber `commit_authorized_retry` MIT der aktuellen Admission/
+        # Route/Outputgrenze konsumiert.
+        output_limit_tokens = getattr(getattr(persona_driver, "config", None), "max_tokens", None)
+        open_orphan = request_ledger.find_open_orphan(
+            run_dir, table_id=community_id, section_id=section_id, role=persona_role,
             turn_idx=turn_idx, participant=onboarding_participant_key,
-            dollar_billed=dollar_billed,
         )
+        if open_orphan is not None and (
+            not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+        ):
+            return ReplyResult(
+                kind="paused",
+                reason=(
+                    f"Persona {persona_key!r}: ein frueherer Versandversuch fuer diese Operation "
+                    "ist noch offen, Ausgang unbekannt -- kein erneuter Modellaufruf ohne bewusste "
+                    "Recovery-Entscheidung."
+                ),
+                request_id=open_orphan.get("id"),
+            )
+        if open_orphan is not None:
+            request_id = open_orphan["id"]
+            request_ledger.commit_authorized_retry(
+                run_dir, request_id, content=sl_text, reserved_usd=reserved_usd,
+                route=route, output_limit_tokens=output_limit_tokens, dollar_billed=dollar_billed,
+            )
+        else:
+            request_id = request_ledger.begin(
+                run_dir, role=persona_role, content=sl_text,
+                reserved_usd=reserved_usd, route=route,
+                output_limit_tokens=output_limit_tokens,
+                table_id=community_id, section_id=section_id,
+                turn_idx=turn_idx, participant=onboarding_participant_key,
+                dollar_billed=dollar_billed,
+            )
         t0 = time.monotonic()
         try:
             decision = persona_driver.decide(ctx)

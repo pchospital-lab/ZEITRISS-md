@@ -20,6 +20,7 @@ am Abschnitts-/Order-Zustand vorbei entschieden."""
 from __future__ import annotations
 
 import importlib.util
+import json
 import math
 import re
 import sys
@@ -215,6 +216,35 @@ class GmOwuiTransport:
         tatsaechliche OWUI-Zieladresse durch, die sonst zwei Objektebenen
         tief in `self._session.chat.base` versteckt waere."""
         return getattr(getattr(self._session, "chat", None), "base", None)
+
+    @property
+    def wire_history_chars(self) -> int:
+        """COST-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B1):
+        duck-typed Groessenattribut (analog `base_url` oben) -- liefert die
+        Zeichenlaenge der bereits angesammelten Konversation
+        (`OWUIChat.history`, JSON-serialisiert wie sie tatsaechlich Teil
+        von `body["messages"]` wird, s. `owui_client.py:say`), die bei JEDEM
+        weiteren `.turn()`-Aufruf ERNEUT mitgesendet wird -- VOR dem naechsten
+        Versand abgefragt, also OHNE den noch nicht angehaengten aktuellen
+        Turn. `0`, wenn keine Historie existiert/die Session noch nicht
+        aufgebaut ist -- kein erfundener Wert, reale Leseabfrage."""
+        chat = getattr(self._session, "chat", None)
+        history = getattr(chat, "history", None)
+        if not history:
+            return 0
+        try:
+            return len(json.dumps(history, ensure_ascii=False))
+        except (TypeError, ValueError):
+            return 0
+
+    @property
+    def kb_configured(self) -> bool:
+        """COST-1-Fix (05 §B1): duck-typed Flag -- ein konfigurierter
+        `kb_id` loest serverseitiges OWUI-RAG aus (`files:[{"type":
+        "collection", ...}]` in `owui_client.py:say`), dessen zusaetzlicher
+        Kontext dem Client NIE sichtbar wird. Admission addiert dafuer NUR
+        dann die konservative Pauschale, wenn dieses Flag wahr ist."""
+        return bool(getattr(getattr(self._session, "chat", None), "kb_id", None))
 
     def turn(self, turn_idx: int, user_text: str, output_limit_tokens: float | None = None) -> dict:
         try:
