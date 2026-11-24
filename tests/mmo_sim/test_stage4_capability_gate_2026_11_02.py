@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
+import time
 import traceback
 from pathlib import Path
 from types import SimpleNamespace
@@ -32,6 +33,8 @@ if str(_REPO_ROOT) not in sys.path:
 
 from _full_v7_fixture import full_v7_save  # noqa: E402
 
+import mmo_sim.core.save_compatibility as save_compat_core  # noqa: E402
+import mmo_sim.core.save_correction as sc  # noqa: E402
 from mmo_sim.core import table_admission  # noqa: E402
 from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.core import store as core_store  # noqa: E402
@@ -407,6 +410,54 @@ def test_apply_pending_compat_load_guest_silent_no_spy_when_no_envelope():
         card = session._build_resume_card()
         assert card is not None
         assert spy_gm.calls == 0
+        assert not any("Traceback" in p for p in printed), printed
+
+
+def test_load1_resume_card_never_applies_pending_compat_envelope():
+    """LOAD-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B4/B5, 06
+    §D4): ergaenzt den obigen Test um den Fall, den er explizit NICHT
+    abdeckt ("ohne vorhandenen Kompatibilitaetsumschlag") -- HIER existiert
+    ein echter, noch nicht uebernommener Umschlag fuer `guest1`, UND die
+    Session ist `host_capable=True` mit konfigurierter SL-Factory (genau
+    die Kombination, unter der `_apply_pending_compat_load` laut eigenem
+    Docstring tatsaechlich reparieren/publizieren und einen echten
+    GM-Transport konstruieren koennte).
+
+    VOR dem Fix haette `_build_resume_card()` -> `_resolve_active_save()`
+    unbedingt `_apply_pending_compat_load()` aufgerufen -- bei diesem
+    Umschlag waere mindestens die GM-Transport-Konstruktion erreicht
+    worden (`spy_gm` wirft SOFORT bei Aufruf). NACH dem Fix (`_resolve_
+    active_save(..., apply_compat_load=False)` im Kartenaufbau): reiner
+    Lesecheck zeigt den Bedarf nur an (`card.pending_compat_load is True`),
+    `spy_gm` bleibt unberuehrt -- Ansehen loest keine Reparatur aus."""
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        char_id = _register_own_figure(d / "onboarding", d / "catalog", "guest1")
+        save = full_v7_save(char_id, name="guest1", save_id="fixture-guest1-001")
+        save_compat_core.build_and_write_compat_export(
+            d / "run", repair_key=f"repair-{char_id}", char_id=char_id, participant_id="guest1",
+            operation_key=sc.ROLE_CREATION, table_id=None, section_id=None,
+            best_view=save, last_valid=None, created_ts=time.time(),
+        )
+        spy_gm = _SpyFactory("gm")
+        printed: list[str] = []
+        session = TuiSession(
+            onboarding_dir=d / "onboarding", catalog_dir=d / "catalog", participant_id="guest1",
+            print_fn=printed.append,
+            run_dir=d / "run", states_dir=d / "states", schema_path=_SCHEMA_PATH,
+            gm_transport_factory=spy_gm,
+            host_capable=True,
+        )
+        card = session._build_resume_card()
+        assert card is not None
+        assert spy_gm.calls == 0, (
+            "LOAD-1 (vor dem Fix): blosser Kartenaufbau haette hier bereits die GM-Transport-"
+            "Konstruktion des Kompatibilitaetsladewegs erreicht."
+        )
+        assert card.pending_compat_load is True, (
+            "der vorhandene Umschlag muss als Hinweis sichtbar sein, auch wenn er nicht "
+            "automatisch angewandt wird."
+        )
         assert not any("Traceback" in p for p in printed), printed
 
 

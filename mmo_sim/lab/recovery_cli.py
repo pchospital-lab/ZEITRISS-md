@@ -116,6 +116,30 @@ def build_parser() -> argparse.ArgumentParser:
         "tatsaechlich zuvor freigegebenen Plan, kein blosses Hash-Echo)",
     )
 
+    # R2 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW.md R2): echter-Root-
+    # faehiger Orphan-Weg -- ANDERS als p3/p5 NICHT auf synthetische
+    # Testroots beschraenkt (kein `_require_synthetic_root`). Der bestellte
+    # Bedienweg ist die TUI; dies ist nur die Ergaenzung fuer einen
+    # Operator-CLI-Zugriff auf dieselbe Anwendungsschicht.
+    p_plan_orphan = sub.add_parser(
+        "plan-orphan", help="rein lesend/kostenfrei: alle echten offenen Orphan-Roots dieses Runs klassifizieren",
+    )
+    _add_data_dir_arg(p_plan_orphan)
+
+    p_apply_orphan = sub.add_parser(
+        "apply-orphan",
+        help="Apply R2 -- genau einen gebundenen Folgeversuch fuer einen echten UNKNOWN-Orphan autorisieren "
+        "(KEIN Modellcall; auch auf echten Roots erlaubt)",
+    )
+    _add_data_dir_arg(p_apply_orphan)
+    p_apply_orphan.add_argument("--request-id", required=True, help="request_id des zu disponierenden Orphan-Roots")
+    p_apply_orphan.add_argument("--reason", required=True, help="Begruendung der Dispositon (Pflicht, nichtleer)")
+    p_apply_orphan.add_argument(
+        "--plan-file", required=True,
+        help="Pfad zur JSON-Ausgabe eines vorherigen 'plan-orphan'-Aufrufs (Pflicht -- bindet Apply an einen "
+        "tatsaechlich zuvor freigegebenen Plan, kein blosses Hash-Echo)",
+    )
+
     return parser
 
 
@@ -134,6 +158,9 @@ def _cmd_inspect(args) -> int:
         "p3_audits": recovery_ops.list_p3_audits(run_dir),
         "p5_candidates": recovery_ops.inspect_p5_candidates(run_dir),
         "p5_grants": recovery_ops.list_p5_grants(run_dir),
+        # R2: dieselbe kostenfreie Uebersicht wie `plan-orphan`, zusaetzlich
+        # hier in der gemeinsamen Inspect-Ansicht (rein lesend).
+        "orphan_recovery": recovery_ops.plan_orphan_recovery(run_dir).get("orphans", []),
     })
     return 0
 
@@ -180,6 +207,38 @@ def _cmd_apply_p5(args) -> int:
     return 0
 
 
+def _cmd_plan_orphan(args) -> int:
+    _print(recovery_ops.plan_orphan_recovery(_run_dir(args)))
+    return 0
+
+
+def _extract_orphan_plan_item(plan_file_data: dict, request_id: str) -> dict:
+    """`--plan-file` ist dieselbe volle Ausgabe wie `plan-orphan` (ein Dict
+    mit einem `orphans`-Schluessel) -- extrahiert daraus genau den Treffer
+    fuer `request_id`, den `recovery_ops.apply_orphan_recovery` als `plan=`
+    erwartet. Fehlt `orphans` (z.B. ein bereits per Hand auf den einzelnen
+    Treffer reduziertes File), wird der Inhalt selbst als der Treffer
+    behandelt."""
+    if "orphans" not in plan_file_data:
+        return plan_file_data
+    for item in plan_file_data.get("orphans") or []:
+        if isinstance(item, dict) and item.get("request_id") == request_id:
+            return item
+    raise _PlanFileError(
+        f"--plan-file enthaelt keinen 'orphans'-Treffer fuer request_id={request_id!r}."
+    )
+
+
+def _cmd_apply_orphan(args) -> int:
+    plan_file_data = _load_plan_file(args.plan_file)
+    plan = _extract_orphan_plan_item(plan_file_data, args.request_id)
+    result = recovery_ops.apply_orphan_recovery(
+        _run_dir(args), request_id=args.request_id, reason=args.reason, plan=plan,
+    )
+    _print(result)
+    return 0
+
+
 def dispatch(args) -> int:
     """Aufgerufen von `mmo_sim.lab.cli.main` fuer `args.command == 'recovery'`
     -- `args.recovery_command` waehlt den konkreten Unterbefehl. Jeder
@@ -190,6 +249,7 @@ def dispatch(args) -> int:
     handlers = {
         "inspect": _cmd_inspect, "plan-p3": _cmd_plan_p3, "apply-p3": _cmd_apply_p3,
         "plan-p5": _cmd_plan_p5, "apply-p5": _cmd_apply_p5,
+        "plan-orphan": _cmd_plan_orphan, "apply-orphan": _cmd_apply_orphan,
     }
     handler = handlers.get(args.recovery_command)
     if handler is None:

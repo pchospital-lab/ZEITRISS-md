@@ -193,6 +193,13 @@ class _HttpDouble:
             file_id = (data or {}).get("file_id")
             self.unlinked.append((self.kb_id, file_id))
             return 200, b"{}"
+        # UPD-1: `wait_for_file_ready` fragt vor jedem Link-Versuch GENAU
+        # diesen Endpunkt ab -- dieser Double modelliert keine Verzögerung
+        # (nicht sein Testgegenstand), liefert also sofort "bereit" fuer
+        # jede bekannte file_id.
+        if method == "GET" and path.startswith("/api/v1/files/") and "?" not in path and path != "/api/v1/files/":
+            file_id = path.rsplit("/", 1)[-1]
+            return 200, json.dumps({"id": file_id, "data": {"content": "ready"}}).encode()
         if method == "DELETE" and path.startswith("/api/v1/files/"):
             file_id = path.rsplit("/", 1)[1]
             self.deleted.append(file_id)
@@ -408,6 +415,15 @@ class _ContentHttpDouble:
                 self.collection_of[file_id] = None
             self.unlinked_calls.append((self.kb_id, file_id))
             return 200, b"{}"
+        # UPD-1: `wait_for_file_ready` fragt vor jedem Link-Versuch GENAU
+        # diesen Endpunkt ab -- bereits im `store` liegender Inhalt gilt
+        # sofort als fertig extrahiert (dieser Double modelliert keine
+        # Verarbeitungsverzögerung, nicht sein Testgegenstand).
+        if method == "GET" and path.startswith("/api/v1/files/") and "?" not in path and path != "/api/v1/files/":
+            file_id = path.rsplit("/", 1)[-1]
+            if file_id in self.store:
+                return 200, json.dumps({"id": file_id, "data": {"content": "ready"}}).encode()
+            return 404, b'{"detail": "not found"}'
         if method == "DELETE" and path.startswith("/api/v1/files/"):
             file_id = path.rsplit("/", 1)[1]
             if file_id not in self.store:
@@ -763,10 +779,13 @@ def test_a3_followup_run_sync_upload_failure_preserves_lone_copy_then_resumes():
     Namensfallback (Manifest hat KEINEN `file_id`-Eintrag für a.md).
     VORHER (N7-A3-Bug): "file-a-old" würde HIER sofort entlinkt+gelöscht,
     VOR dem Upload von "NEU-Z". Simuliert wird ein echter (nicht
-    Duplicate-) Transientfehler beim anschließenden Link (zwei
-    fehlgeschlagene Versuche: Erstversuch + `run_sync`s interner
-    1s-Retry) -- NACH dem Fix darf "file-a-old" das NICHT vorher verloren
-    haben.
+    Duplicate-) Transientfehler beim anschließenden Link (ein
+    fehlgeschlagener Versuch -- UPD-1 ersetzt den früheren blinden
+    "1s warten, einmal retry" durch eine readiness-gestützte Wartephase
+    VOR dem Link, danach GENAU EIN begründeter Link-Versuch pro Lauf;
+    `fail_add_file_times=1` ist also auf GENAU einen Versuch pro
+    `run_sync`-Aufruf kalibriert) -- NACH dem Fix darf "file-a-old" das
+    NICHT vorher verloren haben.
 
     Stufe 2b (`run_sync`, ECHT, weiterer Lauf, KEIN Rebuild): der
     Transientfehler ist vorbei, der Link gelingt -- derselbe Zustand
@@ -806,8 +825,10 @@ def test_a3_followup_run_sync_upload_failure_preserves_lone_copy_then_resumes():
         # Normaler Weiterbetrieb: lokaler Inhalt ändert sich erneut.
         (tmp / "kb" / "a.md").write_text("NEU-Z", encoding="utf-8")
 
-        # Stufe 2a: echtes run_sync, zwei echte Link-Fehlschläge (kein Duplicate).
-        http.fail_add_file_times["a.md"] = 2
+        # Stufe 2a: echtes run_sync, ein echter Link-Fehlschlag (kein Duplicate) --
+        # UPD-1: GENAU EIN Link-Versuch pro Lauf (readiness-gestützt statt
+        # blindem Doppelversuch, s. Docstring oben).
+        http.fail_add_file_times["a.md"] = 1
         ok2, out2, _client2 = _run_sync(tmp, http)
         assert ok2 is False, "ein echter Upload-/Linkfehler bei der Fortsetzung ist KEIN vollständiger Erfolg"
         assert "file-a-old" in http.store, (

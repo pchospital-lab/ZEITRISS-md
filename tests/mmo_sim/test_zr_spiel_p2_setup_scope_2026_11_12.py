@@ -352,6 +352,14 @@ class _SetupHttpDouble:
             existed = model_id in self.models
             self.models.pop(model_id, None)
             return (200, b"{}") if existed else (404, b'{"detail": "not found"}')
+        # UPD-1: `wait_for_file_ready` fragt vor jedem Link-Versuch
+        # `GET /api/v1/files/{id}` ab (kein `?page=`, kein Mutationsrisiko --
+        # bleibt wie die anderen lesenden GETs hier bewusst generisch/
+        # permissiv) -- immer sofort "bereit", dieser Double modelliert
+        # keine Verarbeitungsverzögerung.
+        if method == "GET" and path.startswith("/api/v1/files/") and "?" not in path and path != "/api/v1/files/":
+            fid = path.rsplit("/", 1)[-1]
+            return 200, json.dumps({"id": fid, "data": {"content": "ready"}}).encode()
         # WP-N2-A-T1/WP-N4-A2: ab hier unbekannte/nicht explizit modellierte
         # Pfade -- SCHREIBENDE Methoden (POST/PUT/PATCH/DELETE) werden
         # erfasst UND sofort sichtbar abgelehnt, statt unbeobachtet (WP-N2)

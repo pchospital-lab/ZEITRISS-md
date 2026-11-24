@@ -425,6 +425,54 @@ def test_k4_settle_received_gate_blocks_unaccounted_result_and_allows_accounted(
         assert reason2 is None and decision2.text == '{"action":"pause"}', (decision2, reason2)
 
 
+def test_rec1_open_sent_orphan_refuses_new_request_no_resend():
+    """REC-1 (04_REQUEST_RECOVERY.md §2A/§3, ZR-UPDATE-RESUME-REPARATUR
+    2026-11-23): S1-Befund nachgebaut -- ein `request_ledger.begin()`-Aufruf
+    fuer DIESELBE Operationsidentitaet, die `request_admitted_decision`
+    gleich anfragen wuerde, bleibt in `state=sent` haengen (Reservierung+
+    Versandmarker committet, Transportabschluss nie erreicht; kein
+    `finish_received`/`finish_error`). `find_durable_result` (verlangt
+    `result_text is not None`) UND `find_answered_without_text` (verlangt
+    `state in ('received','accounted')`) decken diesen Fall BEIDE NICHT ab --
+    vor diesem Fix erreichte der Aufruf `request_ledger.begin()` und bekam
+    dafuer `OpenReservationExistsError` UNBEHANDELT. Jetzt: `find_open_orphan`
+    faengt denselben Befund VOR `begin()` ab und liefert `(None, reason)` --
+    GENAU dieselbe typisierte Oberflaeche wie der K4-Admission-/Settlement-
+    Block oben, kein unbehandelter Crash."""
+    with tempfile.TemporaryDirectory() as td:
+        run_dir = Path(td) / "run"
+        write_test_profile(run_dir, max_turns=10, max_usd=10.0)
+
+        stuck_id = request_ledger.begin(
+            run_dir, role="lobby_initiative", participant="sniper", content="SYNTHETIC: alter Versuch.",
+            reserved_usd=0.001, table_id=None, section_id="lobby-community-op-0", turn_idx=0,
+        )
+        stuck_before = request_ledger.load_request(run_dir, stuck_id)
+        assert stuck_before["state"] == "sent" and stuck_before["result_text"] is None
+
+        raising_driver = l01._RaisingDriver("sniper")
+        decision, reason = lobby_service.request_admitted_decision(
+            run_dir, raising_driver, {"system": "s", "user": "u"},
+            role="lobby_initiative", participant="sniper", section_id="lobby-community-op-0", turn_idx=0,
+        )
+
+        assert decision is None and reason, (
+            "ein offener Vorversuch unbekannten Ausgangs darf NICHT stillschweigend als "
+            "abgeschlossen/adoptierbar behandelt UND NICHT unbehandelt crashen -- "
+            f"kontrollierte Ablehnung erwartet, bekam decision={decision!r}, reason={reason!r}"
+        )
+
+        on_disk = sorted(f.name for f in (run_dir / "requests").glob("*.json"))
+        assert on_disk == [f"{stuck_id}.json"], (
+            f"es darf KEIN zweiter Requestdatensatz fuer dieselbe Operationsidentitaet entstehen: {on_disk}"
+        )
+        stuck_after = request_ledger.load_request(run_dir, stuck_id)
+        assert stuck_after == stuck_before, (
+            "der urspruengliche, unbekannte Record darf durch den verweigerten Reentry-Versuch "
+            "nicht veraendert werden"
+        )
+
+
 if __name__ == "__main__":
     import traceback
 
@@ -435,6 +483,7 @@ if __name__ == "__main__":
         test_k3_leader_nomination_accepted_creates_table_with_nominee_as_leader,
         test_k3_leader_nomination_rejected_no_table_no_silent_self_leader,
         test_k4_settle_received_gate_blocks_unaccounted_result_and_allows_accounted,
+        test_rec1_open_sent_orphan_refuses_new_request_no_resend,
     ]
     passed = 0
     failed = 0

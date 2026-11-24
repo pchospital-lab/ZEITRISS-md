@@ -235,7 +235,16 @@ def test_real_git_update_restart_and_sync_pending_survives_check() -> None:
         assert "OPENWEBUI_API_KEY fehlt — Sync übersprungen." in out, (
             "Sync-Schritt sollte wegen fehlendem Key sichtbar ausgelassen worden sein"
         )
-        assert "Update installiert. Bitte den Launcher neu starten." in out
+        # UPD-2 (ZR-UPDATE-RESUME-REPARATUR-20261123-r1): der Abschluss darf
+        # den tatsächlichen (hier: fehlgeschlagenen) Sync-Ausgang NICHT mehr
+        # ignorieren und unbedingt "Update installiert" anbieten -- bei
+        # offenem Wissensabgleich zeigt er stattdessen den getrennten, ehrlichen
+        # Hinweis (s. `_offer_pending_restart_now`/`_finish_update_installation`).
+        assert "Update installiert. Bitte den Launcher neu starten." not in out, (
+            "Bei offenem Sync darf NICHT mehr unbedingt 'Update installiert' erscheinen (UPD-2)"
+        )
+        assert "Programmdateien aktualisiert — der Wissensabgleich ist noch offen." in out
+        assert "Neustart lädt den neuen Programmstand; der Wissensabgleich bleibt offen." in out
 
         second_banner_start = out.index("Launcher (Setup + Betrieb)", first_banner_end + 1)
         tail_after_restart = out[second_banner_start:]

@@ -909,7 +909,16 @@ def send_correction_turn(
     # `max_usd=0` nicht am Cloud-Dollarbudget haengen -- gilt fuer diesen
     # Korrektur-Sendepfad genauso wie fuer jeden regulaeren GM-Turn.
     dollar_billed = getattr(gm_transport, "is_dollar_billed", True)
-    reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
+    # BF-3 (PR #3317-Nachzug 2026-11-23): derselbe History-/RAG-Kostenbezug wie
+    # der normale Runtime-GM-Turn (`core.runtime` Z.1526-1531, FROZEN) --
+    # duck-typed/optional (Default 0/False); vorher unterreservierte dieser
+    # Savekorrektur-Sendepfad denselben GM-Transport.
+    gm_history_chars = getattr(gm_transport, "wire_history_chars", 0)
+    gm_kb_configured = getattr(gm_transport, "kb_configured", False)
+    reserved = reservation_for_wire_text(
+        outgoing_text, output_limit_tokens=gm_output_limit,
+        additional_wire_chars=gm_history_chars, kb_configured=gm_kb_configured,
+    )
     blocked, reason = read_admission_block(
         run_dir, reserved_usd=reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
         table_id=table_id, dollar_billed=dollar_billed,
@@ -917,20 +926,48 @@ def send_correction_turn(
     if blocked:
         return SendOutcome(blocked=True, reason=f"admission_blocked:{reason}")
 
-    try:
-        request_id = request_ledger.begin(
-            run_dir, role=role, content=outgoing_text, reserved_usd=reserved, route=gm_route,
-            output_limit_tokens=gm_output_limit, turn_idx=turn_idx, participant=participant,
-            table_id=table_id, section_id=section_id, dollar_billed=dollar_billed,
+    # R4 (RECOVERY_REVIEW R4 "save_correction.send_correction_turn
+    # verbraucht keine Freigabe"): derselbe Orphan-Dreischritt wie jeder
+    # andere Produktaufrufer -- vorher ging dieser Weg direkt in `begin()`
+    # und fing dessen `OpenReservationExistsError` pauschal als
+    # `unclear_sent_in_flight` ab; ein ausdruecklich via `dispose_open_
+    # orphan`/`authorize_bound_retry` autorisierter, noch `reserved`er
+    # Folger wurde dadurch NIE verbraucht (sicher kein Zweitversand, aber
+    # dauerhaft HOLD trotz Freigabe). Ein echtes Unknown (kein
+    # `recovery_of`, ODER bereits wieder `state="sent"`) bleibt UNVERAENDERT
+    # derselbe `unclear_sent_in_flight`-Grund (Rueckgabevertrag erhalten).
+    open_orphan = request_ledger.find_open_orphan(
+        run_dir, table_id=table_id, section_id=section_id, role=role,
+        turn_idx=turn_idx, participant=participant,
+    )
+    if open_orphan is not None and (
+        not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+    ):
+        return SendOutcome(
+            blocked=True,
+            reason=(
+                f"unclear_sent_in_flight:ein frueherer Versandversuch (id={open_orphan.get('id')!r}) "
+                "fuer dieselbe Operation ist noch offen, Ausgang unbekannt."
+            ),
         )
+    try:
+        if open_orphan is not None:
+            request_id = open_orphan["id"]
+            request_ledger.commit_authorized_retry(
+                run_dir, request_id, content=outgoing_text, reserved_usd=reserved, route=gm_route,
+                output_limit_tokens=gm_output_limit, dollar_billed=dollar_billed,
+            )
+        else:
+            request_id = request_ledger.begin(
+                run_dir, role=role, content=outgoing_text, reserved_usd=reserved, route=gm_route,
+                output_limit_tokens=gm_output_limit, turn_idx=turn_idx, participant=participant,
+                table_id=table_id, section_id=section_id, dollar_billed=dollar_billed,
+            )
     except request_ledger.OpenReservationExistsError as exc:
-        # SC10 (01_AUFTRAG_SAVEGATE.md §D): fuer GENAU diese Operationsidentitaet
-        # existiert bereits ein offener (nicht abgeschlossener) Requestdatensatz
-        # -- eine unklare sent-Ausfuehrung (Crash zwischen Versand und
-        # Antwort/Fehlerabschluss). NIE retryen/neu nummerieren -- kontrolliert
-        # blockiert melden, der Aufrufer haelt HOLD (alte gueltige Saves bleiben
-        # unangetastet), statt einen zweiten Request fuer denselben Slot zu
-        # versenden oder stillschweigend auf den naechsten Slot zu springen.
+        # SC10 (01_AUFTRAG_SAVEGATE.md §D): `begin()`s eigene letzte
+        # Verteidigungslinie -- bleibt bestehen fuer den (nach dem obigen
+        # Vorab-Lesecheck praktisch nie auftretenden) Fall eines
+        # zwischenzeitlich NEU entstandenen offenen Requestdatensatzes.
         return SendOutcome(blocked=True, reason=f"unclear_sent_in_flight:{exc}")
     t0 = time.monotonic()
     try:
@@ -1421,7 +1458,16 @@ def pursue_single_figure_correction(
                 operation_label=f"{role}:{participant_id}", acceptance=pending_acceptance,
                 original_block=pending_block, attempt_no=pending_attempt_no, max_attempts=max_attempts,
             )
-            pending_reserved_usd = reservation_for_wire_text(pending_message, output_limit_tokens=gm_output_limit)
+            # BF-3 (PR #3317-Nachzug 2026-11-23): dasselbe History-/RAG-Vorabmass
+            # wie der Sendepfad oben und der Runtime-GM-Turn (FROZEN) -- das
+            # Vorabgate muss mit demselben Kostenbezug pruefen, mit dem gleich
+            # danach reserviert/gebucht wird. Duck-typed/optional (Default 0/False).
+            pending_history_chars = getattr(gm_transport, "wire_history_chars", 0)
+            pending_kb_configured = getattr(gm_transport, "kb_configured", False)
+            pending_reserved_usd = reservation_for_wire_text(
+                pending_message, output_limit_tokens=gm_output_limit,
+                additional_wire_chars=pending_history_chars, kb_configured=pending_kb_configured,
+            )
             # P5-Marker (N3, 01 §"Materielle Restfehler", 02 Block E): dieses
             # Vorabgate prüfte bislang IMMER mit `dollar_billed=True` (Default) --
             # derselbe tatsächliche Instanzmarker wie bei `send_correction_turn`

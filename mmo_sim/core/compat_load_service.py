@@ -169,7 +169,16 @@ def _sl_backed_repair(
         # `core.runtime.SectionRuntime._admitted_decision` -- Default `True`
         # fuer jeden Alt-/Cloudtransport ohne diesen Marker.
         dollar_billed = getattr(gm_transport, "is_dollar_billed", True)
-        reserved = reservation_for_wire_text(outgoing_text, output_limit_tokens=gm_output_limit)
+        # BF-3 (PR #3317-Nachzug 2026-11-23): derselbe History-/RAG-Kostenbezug
+        # wie der normale Runtime-GM-Turn (`core.runtime` Z.1526-1531, FROZEN) --
+        # duck-typed/optional (Default 0/False); vorher unterreservierte das
+        # Kompatibilitaetsladen denselben GM-Transport.
+        gm_history_chars = getattr(gm_transport, "wire_history_chars", 0)
+        gm_kb_configured = getattr(gm_transport, "kb_configured", False)
+        reserved = reservation_for_wire_text(
+            outgoing_text, output_limit_tokens=gm_output_limit,
+            additional_wire_chars=gm_history_chars, kb_configured=gm_kb_configured,
+        )
         blocked, _reason = read_admission_block(
             run_dir, reserved_usd=reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
             dollar_billed=dollar_billed,
@@ -177,14 +186,37 @@ def _sl_backed_repair(
         if blocked:
             return None  # Budget/Zeit/Stop VOR jeder physischen Anfrage -- kein Call, kontrolliertes HOLD oben.
 
-        try:
-            request_id = request_ledger.begin(
-                run_dir, role=role, content=outgoing_text, reserved_usd=reserved, route=gm_route,
-                output_limit_tokens=gm_output_limit, turn_idx=turn_idx, participant=participant_id,
-                table_id=table_id, section_id=section_id, dollar_billed=dollar_billed,
-            )
-        except request_ledger.OpenReservationExistsError:
+        # R4 (RECOVERY_REVIEW R4 "Kompatibilitaets-Load verbraucht keine
+        # Freigabe"): derselbe Orphan-Dreischritt wie jeder andere
+        # Produktaufrufer -- vorher ging dieser Weg direkt in `begin()` und
+        # fing dessen `OpenReservationExistsError` pauschal als `None`
+        # (kontrolliertes HOLD) ab; ein ausdruecklich autorisierter, noch
+        # `reserved`er Folger wurde dadurch NIE verbraucht. Ein echtes
+        # Unknown (kein `recovery_of`, ODER bereits wieder `state="sent"`)
+        # liefert UNVERAENDERT `None` (derselbe Rueckgabevertrag).
+        open_orphan = request_ledger.find_open_orphan(
+            run_dir, table_id=table_id, section_id=section_id, role=role, turn_idx=turn_idx,
+            participant=participant_id,
+        )
+        if open_orphan is not None and (
+            not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+        ):
             return None  # unklarer Versand in flight fuer GENAU diese Runde -- kein zweiter Request.
+        try:
+            if open_orphan is not None:
+                request_id = open_orphan["id"]
+                request_ledger.commit_authorized_retry(
+                    run_dir, request_id, content=outgoing_text, reserved_usd=reserved, route=gm_route,
+                    output_limit_tokens=gm_output_limit, dollar_billed=dollar_billed,
+                )
+            else:
+                request_id = request_ledger.begin(
+                    run_dir, role=role, content=outgoing_text, reserved_usd=reserved, route=gm_route,
+                    output_limit_tokens=gm_output_limit, turn_idx=turn_idx, participant=participant_id,
+                    table_id=table_id, section_id=section_id, dollar_billed=dollar_billed,
+                )
+        except request_ledger.OpenReservationExistsError:
+            return None  # begin()s letzte Verteidigungslinie -- unklarer Versand in flight.
 
         t0 = time.monotonic()
         try:

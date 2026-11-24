@@ -139,6 +139,69 @@ def test_factory_without_sl_model_kb_id_keeps_old_default_none_behavior():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def test_factory_defaults_to_one_physical_post_retry_without_env_override():
+    """COST-2-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B2):
+    VORHER blieb `transport_max_retries` ohne gesetzte
+    `MMO_SIM_GM_TRANSPORT_MAX_RETRIES`-Variable `None` -- `GmOwuiTransport`/
+    `SLSession` liessen den Harness-Client (`OWUIChat`) dann auf SEINEN
+    eigenen Default `max_retries=3` zurueckfallen (bis zu 3 physische POSTs
+    je zugelassener Operation OHNE erneute Stop-/Budget-/Requestidentitaets-
+    pruefung zwischen den Versuchen, belegt in `owui_client.py:_post`).
+    NACHHER: dieselbe Factory (derselbe Aufruf wie jeder normale TUI-/Lab-
+    Start) uebergibt bei NICHT gesetzter env-Variable jetzt explizit `1` --
+    EIN physischer Versand je Operation als sichere Voreinstellung. Die
+    env-Variable bleibt fuer Backoff/Timeout nutzbar, aber die ANZAHL
+    physischer Sendeversuche wird im ledger-gebundenen GM-Weg hart auf 1
+    begrenzt (BF-2, PR #3317-Nachzug 2026-11-23, zweiter Teil dieses Tests)."""
+    captured: dict = {}
+
+    class _FakeTransport:
+        def __init__(self, sl_client_path, run_dir, table_id=None,
+                     sl_model=None, kb_id=None, transport_max_retries=None, **kw):
+            captured["transport_max_retries"] = transport_max_retries
+
+    real_transport = gm_owui_mod.GmOwuiTransport
+    gm_owui_mod.GmOwuiTransport = _FakeTransport
+    saved_env = os.environ.get("MMO_SIM_GM_TRANSPORT_MAX_RETRIES")
+    tmp = Path(tempfile.mkdtemp(prefix="f1-gm-route-cost2-"))
+    try:
+        os.environ.pop("MMO_SIM_GM_TRANSPORT_MAX_RETRIES", None)
+        factory = default_gm_transport_factory(tmp, _REPO_ROOT)
+        factory("table-1")
+        assert captured["transport_max_retries"] == 1, (
+            f"COST-2 (vor dem Fix): ohne gesetzte env-Variable haette dies None geliefert "
+            f"(-> Harness-Client-Default 3 physische Versuche), bekam "
+            f"{captured['transport_max_retries']!r}"
+        )
+
+        # BF-2 (PR #3317-Nachzug 2026-11-23, BUDGET_FLOW_REVIEW BF-2): ein
+        # Env-Override >1 ist im ledger-gebundenen GM-Produktweg KEINE
+        # requestgebundene Unknown-Freigabe -- `OWUIChat._post` wiederholte einen
+        # Nicht-401/403/404-Fehler sonst ungegatet (`for attempt in range(
+        # max_retries)`) OHNE Stop-/Budget-/Requestidentitaetspruefung zwischen
+        # den POSTs. Die Factory begrenzt die ANZAHL physischer Sendeversuche
+        # daher hart auf 1; bewusste Wiederholung eines unklaren Ausgangs laeuft
+        # ueber den gebundenen Recovery-/Requestweg (REC-1/REC-2), nicht ueber
+        # ungegatete Transport-Retries. (Vor dem Fix reichte die Factory die 3
+        # ungeprueft durch -- genau der von BF-2 belegte Mehrfach-POST.)
+        os.environ["MMO_SIM_GM_TRANSPORT_MAX_RETRIES"] = "3"
+        captured.clear()
+        factory2 = default_gm_transport_factory(tmp, _REPO_ROOT)
+        factory2("table-2")
+        assert captured["transport_max_retries"] == 1, (
+            "BF-2: ein Override >1 muss im ledger-gebundenen GM-Weg auf genau EINEN "
+            f"physischen Versand begrenzt werden, bekam {captured['transport_max_retries']!r}"
+        )
+    finally:
+        gm_owui_mod.GmOwuiTransport = real_transport
+        if saved_env is None:
+            os.environ.pop("MMO_SIM_GM_TRANSPORT_MAX_RETRIES", None)
+        else:
+            os.environ["MMO_SIM_GM_TRANSPORT_MAX_RETRIES"] = saved_env
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def _load_mmo_sim_entrypoint():
     """Laedt `scripts/mmo_sim.py` per explizitem Dateipfad (identische
     Technik wie `scripts/mmo_sim_launcher_hook.py:launch()`) -- ein

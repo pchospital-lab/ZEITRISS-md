@@ -65,6 +65,13 @@ class LobbyWindowOutcome:
     section_id: str | None = None
     window_id: str | None = None
     request_id: str | None = None
+    # N06-R (RECOVERY_REVIEW R2 Z.68, specialist-team-chain 2026-11-23):
+    # additiv, Default False -- bricht keinen bestehenden Konstruktionsaufruf.
+    # Transportiert `SectionOutcome.recovery_pause` (s. unten, Z.~309) weiter
+    # bis zu `catchup.CatchUpReport`, damit der haeufige R1-Vorsperre-Pfad
+    # (nicht nur der seltene `OpenReservationExistsError`-except in tui.py)
+    # das bereits gebaute Recovery-Menue erreichen kann.
+    recovery_pause: bool = False
 
 
 def resume_consistency_hold_reason(
@@ -293,6 +300,25 @@ def play_bound_table(
         )
     reason = f"Lobby-Tisch nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden."
     session._print(reason)
+    # REC-1 (RECOVERY_REVIEW R1 §1 "play_bound_table hat keinen Orphan-
+    # Catch"): `outcome.recovery_pause` (additiv, `core.runtime.
+    # SectionOutcome`) ist NUR `True`, wenn `run_full_section`s bestehende
+    # aeussere `except _GateBlocked`-Stelle tatsaechlich einen
+    # `_RecoveryPause` (ungeklaerter/bereits beantworteter offener
+    # Requestdatensatz, kein gewoehnlicher Admission-/Budget-Stop) gefangen
+    # hat -- ein blindes `OPEN_WITH_REASON` wuerde `catchup.py`s aeussere
+    # Schleife (ungeaendert) einfach denselben Orphan erneut anfragen
+    # lassen, ohne eine bewusste Recovery-Entscheidung. `LobbyOutcomeKind.
+    # STOPPED` ist das bereits bestehende, von `catchup.py:255-263`
+    # erkannte kontrollierte Stop-Signal dieser Schicht (s. dort) -- kein
+    # neues Signal/Exception-Schema, nur dieselbe Unterscheidung einen
+    # Layer hoeher durchgereicht.
+    if outcome.recovery_pause:
+        return LobbyWindowOutcome(
+            kind=LobbyOutcomeKind.STOPPED, reason=reason,
+            table_id=table.table_id, section_id=section_id,
+            recovery_pause=True,
+        )
     return LobbyWindowOutcome(
         kind=LobbyOutcomeKind.OPEN_WITH_REASON, reason=reason,
         table_id=table.table_id, section_id=section_id,
@@ -419,6 +445,11 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
     steps_taken = 0
     stop_kind: LobbyOutcomeKind | None = None
     stop_reason: str | None = None
+    # R1/R4 (RECOVERY_REVIEW R1/R4): additiv, Default `False` -- nur STEP 1s
+    # `decision is None`-Zweig (s.u.) kann dies auf `True` setzen, GENAU wenn
+    # der Block ein echter ungeklaerter Recovery-Fund war (nicht ein
+    # gewoehnlicher Admission-/Budget-Stop oder ein Transportfehler).
+    stop_recovery_pause = False
 
     if confirmed_derivation is None:
         def _resume_bound_table(resumable: "core_store.Table") -> LobbyWindowOutcome:
@@ -625,11 +656,100 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
                 open_section_id = core_store.open_completion_order_for_table(
                     session.run_dir, open_plan_resumable.table_id,
                 )
-                has_ambiguous_request = open_section_id is not None and any(
-                    existing.get("table_id") == open_plan_resumable.table_id
-                    and existing.get("section_id") == open_section_id
-                    for existing in _request_ledger.open_requests(session.run_dir)
-                )
+                _open_now = _request_ledger.open_requests(session.run_dir)
+                # REC-1 (RECOVERY_REVIEW R1 §3, run_lobby_window:602-634):
+                # ein autorisierter Folger (`recovery_of` UND noch
+                # `state=="reserved"`) ist GENAU die ausdruecklich
+                # freigegebene, noch nicht versendete Recovery -- er darf
+                # diesen Open-Plan-Resume NICHT mehr sperren, sonst erreicht
+                # ihn `_admitted_decision`s/`submit()`s Orphan-Dreischritt
+                # (core.runtime) nie, um ihn zu konsumieren. `dispose_open_
+                # orphan` schreibt den ORIGINALrecord NICHT um (bleibt
+                # `state="sent"`, bytegleich) -- der bleibt deshalb OHNE
+                # diese zweite Ausnahme als eigener `open_requests()`-
+                # Eintrag weiterhin eine Sperre, selbst NACH der
+                # Autorisierung. Beide (der Folger UND das `recovery_of`-
+                # Original, das er ersetzt) sind deshalb ausgenommen -- jeder
+                # ANDERE offene fremde Request bleibt eine Sperre wie zuvor.
+                # R5/R3 (PR #3317-Nachzug r2, RECOVERY_REVIEW.md R5/§2 +
+                # "Dieselbe Reihenfolge in der Open-Plan-Vorsperre"): die
+                # reserved- UND die accounted-Ausnahme pruefen jetzt GENAU
+                # dieselbe fuenffache Bindung wie `commit_authorized_retry`
+                # (`_request_ledger.disposition_binding_intact`, rein lesend)
+                # -- nicht mehr truthy `recovery_of`/`state` bzw. allein
+                # `original_identity`. Run-/Dateihash-/Identitaetsdrift eines
+                # sonst gebundenen Folgers haelt den Request damit mehrdeutig.
+                def _lobby_exempt(records):
+                    exempt: set = set()
+                    for r in records:
+                        if not (r.get("recovery_of") and r.get("state") == "reserved"):
+                            continue
+                        _oid = r.get("recovery_of")
+                        _disp = _request_ledger.load_recovery_disposition(session.run_dir, _oid)
+                        _orig = _request_ledger.load_request(session.run_dir, _oid)
+                        if _request_ledger.disposition_binding_intact(session.run_dir, r, _orig, _disp):
+                            exempt.add(r.get("id"))
+                            exempt.add(_oid)
+                    for _existing in records:
+                        if _existing.get("recovery_of") or _existing.get("id") in exempt:
+                            continue
+                        _disp = _request_ledger.load_recovery_disposition(session.run_dir, _existing.get("id"))
+                        if _disp is None:
+                            continue
+                        _granted_request_id = _disp.get("granted_request_id")
+                        if not _granted_request_id:
+                            continue
+                        _granted_record = _request_ledger.load_request(session.run_dir, _granted_request_id)
+                        if (
+                            _granted_record is not None
+                            and _granted_record.get("state") == "accounted"
+                            and _request_ledger.disposition_binding_intact(
+                                session.run_dir, _granted_record, _existing, _disp,
+                            )
+                        ):
+                            exempt.add(_existing.get("id"))
+                    return exempt
+
+                def _lobby_ambiguous(records, exempt):
+                    if open_section_id is None:
+                        return []
+                    return [
+                        existing for existing in records
+                        if existing.get("table_id") == open_plan_resumable.table_id
+                        and existing.get("section_id") == open_section_id
+                        and existing.get("id") not in exempt
+                    ]
+
+                _exempt_ids = _lobby_exempt(_open_now)
+                _ambiguous = _lobby_ambiguous(_open_now, _exempt_ids)
+                if _ambiguous:
+                    # R1/R3 (RECOVERY_REVIEW.md §1, Open-Plan-Vorsperre): ein
+                    # VOLL gebundener `received`-Folger, dessen abschliessender
+                    # `accounted`-Markerwrite unterbrochen wurde, wird ZUERST
+                    # ueber den vorhandenen idempotenten `settle_received`
+                    # (keine Modellcalls, keine neue Reservierung)
+                    # abgeschlossen -- danach raeumt die accounted-Ausnahme
+                    # sein Original aus der Mehrdeutigkeit. Fehlt die
+                    # Originaldauer, bleibt der Record ehrlich `received` und
+                    # haelt den Resume weiterhin kontrolliert offen (keine
+                    # Schaetzung, keine pauschale Ausnahme fuer received).
+                    _settled_any = False
+                    for _rec in _ambiguous:
+                        if _rec.get("state") != "received" or not _rec.get("recovery_of"):
+                            continue
+                        _oid = _rec.get("recovery_of")
+                        _disp = _request_ledger.load_recovery_disposition(session.run_dir, _oid)
+                        _orig = _request_ledger.load_request(session.run_dir, _oid)
+                        if not _request_ledger.disposition_binding_intact(session.run_dir, _rec, _orig, _disp):
+                            continue
+                        _settled = _request_ledger.settle_received(session.run_dir, _rec)
+                        if _settled.get("state") == "accounted":
+                            _settled_any = True
+                    if _settled_any:
+                        _open_now = _request_ledger.open_requests(session.run_dir)
+                        _exempt_ids = _lobby_exempt(_open_now)
+                        _ambiguous = _lobby_ambiguous(_open_now, _exempt_ids)
+                has_ambiguous_request = bool(_ambiguous)
                 if not has_ambiguous_request:
                     return _resume_bound_table(open_plan_resumable)
 
@@ -704,6 +824,7 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
 
             turn_counts: dict[str, int] = {}
             candidate_ids: list[str] = []
+            from . import request_ledger as _request_ledger
 
             for _ in range(limit):
                 pk = scheduler.next_initiative()
@@ -765,6 +886,28 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
                             session.run_dir, driver, ctx, role="lobby_initiative", participant=pk,
                             section_id=window_section_id, turn_idx=turn_idx,
                         )
+                except _request_ledger.StaleDispositionError as e:
+                    # R5 (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §2 "Im Lobby-
+                    # Exceptionpfad bleibt stop_recovery_pause=False; dessen
+                    # allgemeiner Abschluss raeumt dann die Windowbindung"):
+                    # `request_admitted_decision` ruft `commit_authorized_retry`
+                    # VOR seinem Transport-try auf -- eine dort erkannte
+                    # Grant-/Bindungsdrift ist KEIN gewoehnlicher
+                    # Transportfehler. Sie wird als echter Recovery-Unknown
+                    # eingeordnet (`stop_recovery_pause=True`), damit der
+                    # Abschluss unten `clear_window_open` UEBERSPRINGT und die
+                    # offene Fenster-/Operationsbindung bis zu Flos Recovery-
+                    # Entscheidung erhalten bleibt (statt eine genuin neue
+                    # window_id zu ziehen, die den offenen Request nie wieder
+                    # findet). Keine Buchung, kein Auto-Accept.
+                    msg = (
+                        f"Lobby-Initiative: Grant-/Bindungsdrift fuer '{pk}' vor Versand "
+                        f"abgelehnt ({e}) — kontrolliert offen fuer Recovery."
+                    )
+                    session._print(msg)
+                    stop_kind, stop_reason = LobbyOutcomeKind.STOPPED, msg
+                    stop_recovery_pause = True
+                    break
                 except Exception as e:  # Transportfehler -- kein Auto-Accept, kontrollierter Stop.
                     msg = f"Lobby-Initiative: Anfrage an '{pk}' fehlgeschlagen ({e}) — Initiative gestoppt."
                     session._print(msg)
@@ -774,6 +917,31 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
                     msg = f"Lobby-Initiative gestoppt (Admission-Gate: {block_reason}) — kein weiterer Request."
                     session._print(msg)
                     stop_kind, stop_reason = LobbyOutcomeKind.STOPPED, msg
+                    # R1/R4 (RECOVERY_REVIEW R1 "Lobby-Unknown verliert
+                    # Signal", R4 "Lobby-Fenster vor dem ersten Offer"):
+                    # `lobby_service.request_admitted_decision` liefert bei
+                    # JEDEM Block nur `(None, reason)` -- derselbe reine
+                    # Lesecheck gegen DIESELBE Operationsidentitaet wie dort
+                    # selbst (`find_open_orphan`/`find_answered_without_
+                    # text`) unterscheidet hier einen echten ungeklaerten
+                    # Recovery-Fund von einem gewoehnlichen Admission-/
+                    # Budget-Stop -- OHNE die auch von `ui/tui.py` genutzte
+                    # Rueckgabeform von `request_admitted_decision` selbst zu
+                    # aendern (Cross-Worker-Vertrag bleibt ausschliesslich
+                    # `SectionOutcome.recovery_pause`).
+                    _role_used = "lobby_offer_response" if pending is not None else "lobby_initiative"
+                    _identity_kwargs = dict(
+                        table_id=None, section_id=window_section_id, role=_role_used,
+                        turn_idx=turn_idx, participant=pk,
+                    )
+                    stop_recovery_pause = (
+                        _request_ledger.find_answered_without_text(session.run_dir, **_identity_kwargs) is not None
+                    )
+                    if not stop_recovery_pause:
+                        _open_orphan = _request_ledger.find_open_orphan(session.run_dir, **_identity_kwargs)
+                        stop_recovery_pause = _open_orphan is not None and (
+                            not _open_orphan.get("recovery_of") or _open_orphan.get("state") != "reserved"
+                        )
                     break
 
                 if pending is not None:
@@ -853,8 +1021,23 @@ def run_lobby_window(session, ai_personas: frozenset[str] | None = None) -> Lobb
         # Aufrufer bekam `SECTION_COMPLETED` statt `STOPPED`, der Fehler war
         # fuer ihn unsichtbar).
         if stop_kind is not None:
-            lobby_service.clear_window_open(session.run_dir, community_id, window_section_id)
-            return LobbyWindowOutcome(kind=stop_kind, reason=stop_reason or "", window_id=window_section_id)
+            # R4 (RECOVERY_REVIEW R4 "Lobby-Initiative vor dem ersten Offer
+            # verliert Fensterbindung"): ein echter Recovery-Unknown ist KEIN
+            # abgeschlossener Schritt -- `clear_window_open` wuerde die
+            # `pending`-Markierung loeschen, sodass der naechste Aufruf
+            # `resolve_window_id`/`_next_window_id` eine GENUIN NEUE
+            # `window_id` zieht und die ungeloeste Operation nie wieder
+            # findet (die naechste section_id umgeht den offenen Request).
+            # Nur in diesem Fall bleibt das Fenster bewusst offen/gebunden,
+            # bis Flo die Recovery-Entscheidung trifft -- ein gewoehnlicher
+            # Admission-/Budget-Stop oder Transportfehler (`stop_recovery_
+            # pause=False`) schliesst das Fenster unveraendert wie bisher.
+            if not stop_recovery_pause:
+                lobby_service.clear_window_open(session.run_dir, community_id, window_section_id)
+            return LobbyWindowOutcome(
+                kind=stop_kind, reason=stop_reason or "", window_id=window_section_id,
+                recovery_pause=stop_recovery_pause,
+            )
 
         # STEP 2 -- gebundenen Tisch wiederaufnehmen/fortsetzen, NUR wenn
         # STEP 1 (falls gelaufen) keinen neuen Tisch gebildet hat. Der

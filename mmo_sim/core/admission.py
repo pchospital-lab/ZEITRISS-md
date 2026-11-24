@@ -348,7 +348,53 @@ def reservation_for_request(
     return (out_usd or 0.0) + (in_usd or 0.0), output_bound_known
 
 
-def reservation_for_wire_text(wire_text: str, output_limit_tokens: float | None = None) -> float:
+def _kb_rag_conservative_margin_usd() -> float:
+    """COST-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B1): fuer
+    OWUI-serverseitig NACH dem Client-Body hinzukommenden RAG-Kontext
+    (`files:[{"type":"collection", ...}]` in `owui_client.py:say`, OWUI
+    fuehrt das Retrieval SELBST aus -- der Client sieht die eingefuegten
+    Chunks nie) gibt es HIER keine am realen Retrieval gemessene Groesse
+    (`setup.json`s `top_k` ist die Chunk-ANZAHL, keine Chunk-GROESSE).
+    Fehlende Kenntnis wird NICHT als 0/'guenstig' behandelt (Q07-Prinzip) --
+    stattdessen ein konservativer, ausdruecklich NICHT gemessener Pauschal-
+    aufschlag in derselben Grossenordnung wie die bestehenden `_synthetic_
+    prices()`-Testtarife (ebenfalls explizit als synthetisch gekennzeichnet,
+    kein neues Abrechnungssystem). additiv/optional per env ueberschreibbar
+    (gleiches Muster wie `MMO_SIM_GM_TRANSPORT_MAX_RETRIES`) -- ein Operator
+    mit echten Retrieval-Messwerten kalibriert hier, ohne Codeaenderung."""
+    raw = os.environ.get("MMO_SIM_GM_KB_RAG_MARGIN_USD")
+    if raw is not None and raw.strip():
+        try:
+            value = float(raw.strip())
+        except ValueError:
+            raise ValueError(
+                f"MMO_SIM_GM_KB_RAG_MARGIN_USD={raw!r} ist nicht lesbar -- fail-closed, "
+                "kein stiller Fallback."
+            ) from None
+        # BF-3 (PR #3317-Nachzug 2026-11-23, BUDGET_FLOW_REVIEW BF-3): `float(raw)`
+        # allein akzeptierte `nan`/`inf`/negative Werte -- eine nicht endliche
+        # oder negative Margin ist keine konservative Obergrenze (nan vergiftet
+        # jede Reservierungssumme, inf blockiert jeden Request, negativ
+        # unterlaeuft die Grenze). Endlich UND nichtnegativ erzwingen, sonst
+        # fail-closed (kein stiller Fallback auf die Pauschale).
+        if not math.isfinite(value) or value < 0:
+            raise ValueError(
+                f"MMO_SIM_GM_KB_RAG_MARGIN_USD={raw!r} muss endlich und nichtnegativ sein "
+                "-- fail-closed, kein stiller Fallback."
+            )
+        return value
+    # Konservativer, ausdruecklich UNGEMESSENER Standard: dieselbe
+    # Outputpauschale wie `_synthetic_prices()`s price_out fuer ~2000
+    # zusaetzliche Tokens (grobe Named-top_k=5-Chunk-Annahme) -- siehe
+    # Docstring oben, kein belegter Messwert.
+    _, price_out = _synthetic_prices()
+    return (2000.0 / 1000.0) * price_out
+
+
+def reservation_for_wire_text(
+    wire_text: str, output_limit_tokens: float | None = None, *,
+    additional_wire_chars: int = 0, kb_configured: bool = False,
+) -> float:
     """I2 (Case 06, PLAN-CRITIC F2/F3, Auflage 1): Reservierung AUS DEM
     TATSAECHLICH zu sendenden Text (Body-Groesse, inkl. Historie/Save/
     Huelle) -- nicht der starren 0,015-USD-Pauschale. Schliesst den Fall, in
@@ -359,10 +405,22 @@ def reservation_for_wire_text(wire_text: str, output_limit_tokens: float | None 
     `driver.config.max_tokens`-Grenze existiert (GM-Transport,
     Erschaffungsdialog) -- `output_limit_tokens` optional, faellt ohne
     bekannte Grenze auf dieselbe Pauschale wie bisher zurueck (NICHT auf 0,
-    Q07-Prinzip)."""
+    Q07-Prinzip).
+
+    COST-1-Fix (05 §B1): `additional_wire_chars` (NEU, additiv/optional,
+    Default `0` -- KEIN Verhaltenswechsel fuer bestehende Aufrufer ohne
+    dieses Argument) traegt bereits TATSAECHLICH angesammelten, bei diesem
+    Versand ERNEUT mitgesendeten Kontext (z.B. `OWUIChat.history` --
+    `owui_client.py:say` schickt bei JEDEM Turn die GESAMTE bisherige
+    Konversation erneut, nicht nur den aktuellen `wire_text`; belegte
+    Luecke: Admission bildete bisher NUR `len(wire_text)` ab). `kb_configured`
+    (NEU, additiv/optional, Default `False`) addiert `_kb_rag_conservative_
+    margin_usd()` fuer serverseitig nachtraeglich eingefuegten RAG-Kontext,
+    den der Client nie sieht -- NUR wenn eine KB tatsaechlich konfiguriert
+    ist (kein pauschaler Aufschlag fuer KB-freie Transporte)."""
     price_in, price_out = _synthetic_prices()
     chars_per_token = _synthetic_chars_per_token()
-    total_chars = len(wire_text or "")
+    total_chars = len(wire_text or "") + max(0, int(additional_wire_chars))
     est_tokens = total_chars / chars_per_token if chars_per_token > 0 else 0.0
     in_usd = (est_tokens / 1000.0) * price_in
     out_usd = (
@@ -370,7 +428,8 @@ def reservation_for_wire_text(wire_text: str, output_limit_tokens: float | None 
         if isinstance(output_limit_tokens, (int, float)) and output_limit_tokens > 0
         else price_out
     )
-    return in_usd + out_usd
+    kb_margin_usd = _kb_rag_conservative_margin_usd() if kb_configured else 0.0
+    return in_usd + out_usd + kb_margin_usd
 
 
 def _has_recognized_authorization(data: dict) -> bool:
@@ -746,6 +805,8 @@ def read_admission_block(
 
 def record_turn_usage(
     run_dir: str | Path, seconds: float, usd: float | None, *, require_authority: bool = False,
+    once_request_id: str | None = None, count_turn: bool = True,
+    booked_reservation_id: str | None = None, booked_reservation_usd: float | None = None,
 ) -> None:
     """Nach einem ECHTEN GM-Turn aufzurufen (`core/runtime.py:submit`, ueber
     `request_ledger.begin()`). Rein dateibasiert (A1-Konsistenz).
@@ -762,9 +823,10 @@ def record_turn_usage(
     sonst den tatsaechlichen GM-/Persona-Transport, OBWOHL keine
     Reservierung gebucht wurde. `require_authority=False` (Default) bleibt
     fuer einen etwaigen zukuenftigen reinen Offline-Telemetrie-Aufrufer
-    OHNE vorgelagertes Gate ein legitimer No-op -- diese Funktion hat
-    aktuell aber NUR EINEN Aufrufer (`request_ledger.begin()`), der immer
-    `require_authority=True` setzt.
+    OHNE vorgelagertes Gate ein legitimer No-op -- alle aktuellen Aufrufer
+    liegen aber ausschliesslich in `request_ledger` (buchungspflichtige
+    Reservierungs-/Settlement-/K-Rebook-Topup-Wege) und setzen immer
+    `require_authority=True`.
 
     B-Fix (MAIN-KORREKTUR I2-Nacharbeit 2026-09-24, REVIEW-BUCHUNGSGRENZEN.md
     §4 Fall 04): ein Read-/Parsefehler einer VORHANDENEN `lab.status.json`
@@ -781,7 +843,21 @@ def record_turn_usage(
     stattdessen konservativ der synthetische Completion-Tarif fuer eine
     Referenzmenge Output-Tokens (kein Unterlaufen der Obergrenze durch
     unbeobachtbare Kosten); `usd_unknown_turns` macht die Schaetzung
-    getrennt sichtbar (kein stiller "0.0 USD"-Bluff)."""
+    getrennt sichtbar (kein stiller "0.0 USD"-Bluff).
+
+    REC-2-Idempotenz (Vera-BLOCKER 2026-11-23): `once_request_id` (nur von
+    `request_ledger.commit_authorized_retry` gesetzt) bindet die Buchung an
+    eine request-id und schreibt Pruefung+Buchung+Marke in EINEM atomaren
+    `lab.status.json`-Write (`booked_reservation_request_ids`, analog
+    `record_usd_delta`s `reconciled_request_ids`). Steht die ID bereits in
+    der Liste, ist der Aufruf ein No-op -- ein Absturz GENAU ZWISCHEN dieser
+    Buchung und dem `state="sent"`-Write in `commit_authorized_retry`
+    (Record bleibt `reserved`, Budget ist schon gebucht) fuehrt beim
+    deterministischen Caller-Retry NICHT zu einer zweiten Buchung. Der
+    regulaere `begin()`-Weg setzt `once_request_id` NICHT (jeder Aufruf
+    traegt eine frische Zufalls-id und bucht genau einmal; ein Absturz dort
+    fuehrt zu einer kontrollierten Pause des Callers, nicht zu einem
+    Re-Commit derselben id)."""
     run_dir = Path(run_dir)
     status_path = _status_path(run_dir)
     if not status_path.exists():
@@ -794,7 +870,22 @@ def record_turn_usage(
             )
         return
     data = json.loads(status_path.read_text(encoding="utf-8"))
-    data["turns_used"] = data.get("turns_used", 0) + 1
+    if once_request_id is not None:
+        booked = data.get("booked_reservation_request_ids")
+        if not isinstance(booked, list):
+            booked = []
+        if once_request_id in booked:
+            return
+        booked.append(once_request_id)
+        data["booked_reservation_request_ids"] = booked
+    # K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3 "monetaere Korrektur
+    # zaehlt einen weiteren Turn"): eine REINE Geldnachbuchung (K-Rebook-
+    # Topup) ist KEIN neuer Modellversuch -- `count_turn=False` haelt den
+    # Turnzaehler korrekt (ein Original + ein Child = zwei Turns, die
+    # Betragskorrektur dazwischen zaehlt nicht). Reservierung/Settlement
+    # (Default `count_turn=True`) bleiben unveraendert.
+    if count_turn:
+        data["turns_used"] = data.get("turns_used", 0) + 1
     data["seconds_elapsed"] = data.get("seconds_elapsed", 0.0) + seconds
     if usd is None:
         data["usd_unknown_turns"] = data.get("usd_unknown_turns", 0) + 1
@@ -802,7 +893,62 @@ def record_turn_usage(
         data["usd_spent"] = data.get("usd_spent", 0.0) + price_out
     else:
         data["usd_spent"] = data.get("usd_spent", 0.0) + usd
+    # K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3 "den tatsaechlich
+    # nachgebuchten Betrag/aktuellen Buchungsstand an den Child binden"): der
+    # KUMULATIVE gebuchte Reservebetrag je request-id wird ATOMAR mit der
+    # Buchung in `lab.status.json` festgehalten (parallel zur bestehenden
+    # `booked_reservation_request_ids`-Liste -- derselbe statusseitige
+    # Buchungsnachweis, jetzt mit Betrag). `commit_authorized_retry` rechnet
+    # eine Nachbuchung gegen DIESEN autoritativen, crashfesten Stand statt
+    # gegen die ggf. nach einem Crash veraltete `reserved_usd` des Records --
+    # so entsteht nach jedem Crash nur die noch fehlende Verpflichtung, und
+    # der Record behauptet keine ungebookte Basis. Keine neue Budgetengine.
+    if booked_reservation_id is not None and booked_reservation_usd is not None:
+        booked_usd_map = data.get("reservation_booked_usd")
+        if not isinstance(booked_usd_map, dict):
+            booked_usd_map = {}
+        booked_usd_map[booked_reservation_id] = booked_reservation_usd
+        data["reservation_booked_usd"] = booked_usd_map
     _atomic_write_json(status_path, data)
+
+
+def is_reservation_booked(run_dir: str | Path, once_request_id: str) -> bool:
+    """REC-2/R3 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW R3): rein lesende
+    Pruefung, ob die EINMALIGE Retry-Reservierung `once_request_id` in
+    `lab.status.json` BEREITS gebucht wurde (`booked_reservation_request_ids`,
+    s. `record_turn_usage`). `core.request_ledger.commit_authorized_retry` nutzt
+    dies, um einen crashfesten Wiedereintritt (Record noch `reserved`, Buchung
+    aber schon erfolgt) zu erkennen und die bereits gebuchten Versandparameter
+    NICHT mit frisch berechneten (ggf. hoeheren) Werten zu ueberschreiben --
+    sonst rechnete `finish_received` das spaetere Delta gegen eine nie gebuchte
+    hoehere `reserved_usd`-Basis und unterschlueg den bereits gebuchten Betrag.
+
+    Fail-closed: eine fehlende/nicht lesbare/nicht parsebare `lab.status.json`
+    propagiert ungefangen (analog `record_turn_usage(require_authority=True)`) --
+    der Aufrufer darf bei unklarer Buchungsautoritaet KEINE frischen
+    Versandparameter in den Record schreiben. Rein lesend, kein Write."""
+    status_path = _status_path(Path(run_dir))
+    data = json.loads(status_path.read_text(encoding="utf-8"))
+    booked = data.get("booked_reservation_request_ids")
+    return isinstance(booked, list) and once_request_id in booked
+
+
+def booked_reservation_amount(run_dir: str | Path, request_id: str) -> float | None:
+    """K (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §3): rein lesender Zugriff
+    auf den KUMULATIVEN, crashfest in `lab.status.json` festgehaltenen
+    gebuchten Reservebetrag fuer `request_id` (`reservation_booked_usd`, s.
+    `record_turn_usage`). `None`, wenn kein Eintrag existiert (z.B. ein vor
+    diesem Feld gebuchter Altrecord) -- der Aufrufer faellt dann auf den
+    bisherigen record-basierten Vergleich zurueck (Rueckwaertskompatibilitaet,
+    kein erfundener Nullstand). Fail-closed wie `is_reservation_booked`: eine
+    fehlende/unlesbare Statusdatei propagiert ungefangen. Rein lesend."""
+    status_path = _status_path(Path(run_dir))
+    data = json.loads(status_path.read_text(encoding="utf-8"))
+    booked_usd_map = data.get("reservation_booked_usd")
+    if not isinstance(booked_usd_map, dict):
+        return None
+    value = booked_usd_map.get(request_id)
+    return value if isinstance(value, (int, float)) and not isinstance(value, bool) else None
 
 
 def record_usd_delta(run_dir: str | Path, request_id: str, delta: float) -> None:

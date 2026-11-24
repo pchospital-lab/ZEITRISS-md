@@ -27,10 +27,10 @@ from dataclasses import dataclass, field
 from typing import Callable
 
 from . import _section_completion_recovery, request_ledger, save_correction, store
-from ..adapters.base import ProviderQuotaPausedError
+from ..adapters.base import ParticipantDecision, ProviderQuotaPausedError
 from .admission import read_admission_block, reservation_for_request, reservation_for_wire_text
 from .completion_marker import completion_marker_matches
-from .controller import TableController
+from .controller import TableController, TurnRecord
 from .events import EventLog
 from .persona_state import PersonaStateStore
 from .store import HarvestValidator, TableSizePolicy
@@ -50,6 +50,21 @@ class SectionOutcome:
     completion: store.CompletionResult
     harvested: dict = field(default_factory=dict)
     debrief_text: str = ""
+    # REC-1-Nachzug (RECOVERY_REVIEW R1, ZR-PR3317-NACHZUG 2026-11-23):
+    # additiv, Default `False` -- unveraendert fuer jeden bestehenden
+    # Aufrufer/Test, der dieses Feld nicht setzt. Wird NUR von
+    # `blocked_outcome()` auf `True` gesetzt, wenn der zugrunde liegende
+    # `_GateBlocked` tatsaechlich ein `_RecoveryPause` ist (ungeklaerter/
+    # bereits beantworteter offener Requestdatensatz derselben Identitaet,
+    # kein gewoehnlicher Admission-/Budget-Stop). `lobby_flow.
+    # play_bound_table` liest dieses Feld, um GENAU diesen Fall als
+    # `LobbyOutcomeKind.STOPPED` (statt `OPEN_WITH_REASON`) durchzureichen
+    # -- der bereits bestehende `catchup.py`-Aussenschleifen-Stop auf
+    # `STOPPED` (Zeile ~260-263) greift dadurch, OHNE `catchup.py` selbst
+    # anzufassen: ein blindes Weiterversuchen ohne bewusste Recovery-
+    # Entscheidung wuerde denselben ungeklaerten Orphan nur wiederholt
+    # anfragen, kein Fortschritt.
+    recovery_pause: bool = False
 
 
 class _GateBlocked(Exception):
@@ -61,6 +76,21 @@ class _GateBlocked(Exception):
     def __init__(self, reason):
         super().__init__(reason)
         self.reason = reason
+
+
+class _RecoveryPause(_GateBlocked):
+    """REC-1-Nachzug (RECOVERY_REVIEW R1 "Kleinster vollstaendiger
+    Nachzug"): getypte Subklasse von `_GateBlocked` fuer GENAU "unbekannter
+    Ausgang / bereits beantwortet" -- ein offener Requestdatensatz
+    (`request_ledger.find_open_orphan`) ohne (oder mit nicht mehr
+    `reserved`) `recovery_of`, ODER ein bereits beantworteter Datensatz ohne
+    rekonstruierbaren Text (`find_answered_without_text`). Weil sie
+    `_GateBlocked` erbt, fangen ALLE bestehenden `except _GateBlocked`-
+    Stellen (z.B. `run_full_section`s aeussere Schleife, `_collect_
+    reflections`) sie automatisch als kontrollierte, fortsetzbare Pause --
+    `isinstance(e, _RecoveryPause)` bleibt fuer `blocked_outcome()` zusaetzlich
+    unterscheidbar von einem gewoehnlichen Admission-/Budget-`_GateBlocked`
+    (s. `SectionOutcome.recovery_pause`)."""
 
 
 def _embed_json_block(text: str, payload: dict) -> str:
@@ -100,6 +130,53 @@ def save_command_entry_matches(entry: dict, leader: str, completion_fallback) ->
     if raw_input is None:
         raw_input = entry.get("leader_message", "")
     return completion_fallback(entry.get("content", ""), raw_input)
+
+
+_DECISION_LEDGER_MARKER = "__participant_decision_v1__"
+"""REC-1-Nachzug (RECOVERY_REVIEW R2): Marker-Schluessel im serialisierten
+`result_text`, damit `_decision_from_ledger_text` einen eigenen Rekonstruk-
+tionsbeleg sicher von irgendeinem anderen, nicht JSON-kompatiblen Alttext
+(z.B. GM-Klartext ueber `submit()`) unterscheiden kann -- ein Treffer ohne
+diesen Marker gilt NICHT als rekonstruierbare Decision (ehrliche Pause statt
+erfundener Rekonstruktion)."""
+
+
+def _decision_to_ledger_text(decision: ParticipantDecision) -> str:
+    """REC-1-Nachzug (RECOVERY_REVIEW R2 "erhaltene Personaantwort wirklich
+    wiederverwenden"): serialisiert GENAU die Felder, die ein frischer
+    Runtime-Eintritt braucht, um dieselbe `ParticipantDecision` eindeutig
+    nachzubauen (`text`/`save_payload`/`origin_source`/`decision` -- NICHT
+    `meta`, das nur fluechtige Aufruferdaten wie `usage` traegt, die bereits
+    separat ueber `finish_received(usage=...)` verbucht werden)."""
+    return json.dumps({
+        _DECISION_LEDGER_MARKER: True,
+        "text": decision.text,
+        "save_payload": decision.save_payload,
+        "origin_source": decision.origin_source,
+        "decision": decision.decision,
+    }, ensure_ascii=False, sort_keys=True)
+
+
+def _decision_from_ledger_text(result_text: str | None) -> ParticipantDecision | None:
+    """Gegenstueck zu `_decision_to_ledger_text`. Liefert `None` (keine
+    erfundene Rekonstruktion), wenn `result_text` fehlt, kein JSON ist, oder
+    nicht den eigenen Marker traegt (z.B. ein Altrecord/fremder Text) -- der
+    Aufrufer haelt dann ehrlich offen (`_RecoveryPause`), statt eine
+    strukturierte Entscheidung aus blossem Fliesstext zu erraten."""
+    if not result_text:
+        return None
+    try:
+        payload = json.loads(result_text)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(payload, dict) or not payload.get(_DECISION_LEDGER_MARKER) or "text" not in payload:
+        return None
+    return ParticipantDecision(
+        text=payload.get("text") or "",
+        save_payload=payload.get("save_payload"),
+        origin_source=payload.get("origin_source") or "",
+        decision=payload.get("decision"),
+    )
 
 
 class SectionRuntime:
@@ -308,21 +385,106 @@ class SectionRuntime:
         request_id = None
         if not is_human:
             cfg = getattr(driver, "config", None)
-            request_id = request_ledger.begin(
-                self.lobby.run_dir, role=role,
-                content=json.dumps(ctx, ensure_ascii=False, sort_keys=True, default=str),
-                reserved_usd=reserved_usd, route=route,
-                output_limit_tokens=getattr(cfg, "max_tokens", None),
-                table_id=self.table.table_id,
-                section_id=section_id if section_id is not None else self._current_section_id,
-                # G2 (MAIN-KORREKTUR I2-Reservierungsabschluss 2026-09-24):
-                # Operationsidentitaet zusaetzlich ueber Turn/Teilnehmer --
-                # derselbe `pk` kann in DERSELBEN Sektion mehrere Rollen
-                # (persona_decision/guest_poll/reflection) durchlaufen, `role`
-                # traegt bereits die Phasenunterscheidung.
-                turn_idx=self._turn_idx, participant=pk,
-                dollar_billed=dollar_billed,
+            # G2 (MAIN-KORREKTUR I2-Reservierungsabschluss 2026-09-24):
+            # Operationsidentitaet zusaetzlich ueber Turn/Teilnehmer --
+            # derselbe `pk` kann in DERSELBEN Sektion mehrere Rollen
+            # (persona_decision/guest_poll/reflection) durchlaufen, `role`
+            # traegt bereits die Phasenunterscheidung.
+            identity_section_id = section_id if section_id is not None else self._current_section_id
+            identity_kwargs = dict(
+                table_id=self.table.table_id, section_id=identity_section_id,
+                role=role, turn_idx=self._turn_idx, participant=pk,
             )
+            content = json.dumps(ctx, ensure_ascii=False, sort_keys=True, default=str)
+            output_limit_tokens = getattr(cfg, "max_tokens", None)
+            # R2 (RECOVERY_REVIEW R2 "erfolgreiche Personaantwort geht beim
+            # frischen Eintritt weiterhin verloren"): dieser Weg persistiert
+            # `result_text` jetzt (s. Erfolgspfad unten) -- ein `find_durable_
+            # result`-Treffer ist deshalb eine ECHTE, eindeutig rekonstruier-
+            # bare frueher empfangene Antwort fuer GENAU diese Identitaet.
+            # GENAU EINMAL `settle_received` (idempotent), dann die Decision
+            # aus den persistierten Feldern rekonstruieren und als TurnRecord
+            # zurueckgeben -- KEIN zweiter Modellaufruf. Bleibt der Datensatz
+            # nach `settle_received` nicht `accounted` (Kosten-/Latenzbuchung
+            # noch offen) ODER laesst sich `result_text` nicht eindeutig
+            # rekonstruieren (kein eigener Marker, s. `_decision_from_ledger_
+            # text`), bleibt es bei der ehrlichen typisierten Pause -- die
+            # bloße Anwesenheit von Text erzeugt KEINE erfundene Decision.
+            durable = request_ledger.find_durable_result(self.lobby.run_dir, **identity_kwargs)
+            if durable is not None:
+                if durable.get("state") == "received":
+                    durable = request_ledger.settle_received(self.lobby.run_dir, durable)
+                if durable.get("state") != "accounted":
+                    raise _RecoveryPause(
+                        f"bereits empfangene Entscheidung ({role}/{pk}) mit noch ungeklaerter "
+                        "Wirkung (settle_received bleibt 'received') -- kontrolliert offen, kein "
+                        "erneuter Modellaufruf."
+                    )
+                reused_decision = _decision_from_ledger_text(durable.get("result_text"))
+                if reused_decision is None:
+                    raise _RecoveryPause(
+                        f"bereits abgerechnete Entscheidung ({role}/{pk}) ohne verwendbare "
+                        "Decision-Rekonstruktion -- kein erneuter Modellaufruf fuer dieselbe Identitaet."
+                    )
+                return TurnRecord(persona_key=pk, decision=reused_decision)
+            lost = request_ledger.find_answered_without_text(self.lobby.run_dir, **identity_kwargs)
+            if lost is not None:
+                raise _RecoveryPause(
+                    f"bereits beantwortete Entscheidung ({role}/{pk}) ohne rekonstruierbaren "
+                    "Decision-Text -- kein erneuter Modellaufruf fuer dieselbe Identitaet."
+                )
+            # REC-1/REC-2: ein Record fuer GENAU diese Identitaet, der noch
+            # in state in (reserved, sent) steht, erreicht sonst unten
+            # `begin()`s eigene Dedup-Pruefung, die dafuer
+            # `OpenReservationExistsError` UNBEHANDELT wirft (S1-Befund, der
+            # gemeldete turn-45-Persona-Fall). Ein Treffer MIT `recovery_of`
+            # UND `state=="reserved"` ist GENAU der von `authorize_bound_
+            # retry` autorisierte, noch nicht versendete Folgeversuch --
+            # wird jetzt via `commit_authorized_retry` auf SEINER bestehenden
+            # `request_id` konsumiert (SELBE Reservierungsparameter wie der
+            # heutige `begin()`-Aufruf unten). Jeder ANDERE offene Orphan
+            # (kein `recovery_of`, ODER bereits wieder `state="sent"`) bleibt
+            # ein kontrollierter Stop; `begin()`s eigene Pruefung bleibt als
+            # letzte Verteidigungslinie unveraendert bestehen.
+            open_orphan = request_ledger.find_open_orphan(self.lobby.run_dir, **identity_kwargs)
+            if open_orphan is not None and (
+                not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+            ):
+                raise _RecoveryPause(
+                    f"ein frueherer Versandversuch ({role}/{pk}) fuer dieselbe Operation ist "
+                    "noch offen, Ausgang unbekannt -- kein erneuter Modellaufruf ohne bewusste "
+                    "Recovery-Entscheidung."
+                )
+            if open_orphan is not None:
+                request_id = open_orphan["id"]
+                # R5 (PR #3317-Nachzug r3, RECOVERY_REVIEW.md §1): `commit_
+                # authorized_retry` laeuft VOR dem Transport-try unten --
+                # eine dort erkannte Run-Bindungsdrift wirft die eigene
+                # `request_ledger.StaleDispositionError` (eine `RuntimeError`,
+                # KEIN `_GateBlocked`), die sonst roh bis in die TUI
+                # durchliefe (kein passender Catch dort). Als `_RecoveryPause`
+                # re-raisen -- deren `_GateBlocked`-Basisklasse wird vom
+                # bestehenden `run_full_section`-Catch gefangen und ergibt
+                # `recovery_pause=True`, GENAU wie der `open_orphan`-Stop
+                # oben. Keine Bindungspruefung gelockert, kein neuer Grant,
+                # kein erneuter Versand (Ausnahme wirft VOR jedem Transport).
+                try:
+                    request_ledger.commit_authorized_retry(
+                        self.lobby.run_dir, request_id, content=content, reserved_usd=reserved_usd,
+                        route=route, output_limit_tokens=output_limit_tokens, dollar_billed=dollar_billed,
+                    )
+                except request_ledger.StaleDispositionError as exc:
+                    raise _RecoveryPause(
+                        f"Run-Bindungsdrift beim Retry-Commit ({role}/{pk}) -- kein erneuter "
+                        f"Modellaufruf ohne bewusste Recovery-Entscheidung: {exc}"
+                    ) from exc
+            else:
+                request_id = request_ledger.begin(
+                    self.lobby.run_dir, role=role, content=content,
+                    reserved_usd=reserved_usd, route=route, output_limit_tokens=output_limit_tokens,
+                    table_id=self.table.table_id, section_id=identity_section_id,
+                    turn_idx=self._turn_idx, participant=pk, dollar_billed=dollar_billed,
+                )
         t0 = time.monotonic()
         try:
             record = controller.collect_decision(pk, ctx)
@@ -332,7 +494,16 @@ class SectionRuntime:
             raise
         if request_id is not None:
             usage = (record.decision.meta or {}).get("usage")
-            request_ledger.finish_received(self.lobby.run_dir, request_id, usage=usage, seconds=time.monotonic() - t0)
+            # R2 (RECOVERY_REVIEW R2): die tatsaechlich empfangene Decision
+            # dauerhaft binden (s. `_decision_to_ledger_text`), damit ein
+            # spaeterer frischer Eintritt fuer DIESELBE Identitaet oben
+            # (`find_durable_result`) sie wiederverwenden kann statt dauerhaft
+            # zu pausieren.
+            result_text = _decision_to_ledger_text(record.decision)
+            request_ledger.finish_received(
+                self.lobby.run_dir, request_id, usage=usage, seconds=time.monotonic() - t0,
+                result_text=result_text,
+            )
         return record
 
     def _check_gate(
@@ -365,11 +536,11 @@ class SectionRuntime:
     def _collect_reflections(
         self, controller: TableController, section_id: str, ts: str,
         contexts_by_persona: dict, states_dir,
-    ) -> tuple[bool, str | None]:
-        """Rueckgabe `(ok, pause_reason)`: `pause_reason` ist NUR gesetzt,
-        wenn ein getypter Admission-Stop (`_GateBlocked`) die Runde beendet
-        hat -- der Aufrufer (`finalize`) nutzt das, um diesen Fall von der
-        allgemeinen "mindestens eine Pflichtreflexion fehlgeschlagen"-
+    ) -> tuple[bool, str | None, bool]:
+        """Rueckgabe `(ok, pause_reason, recovery_pause)`: `pause_reason` ist
+        NUR gesetzt, wenn ein getypter Admission-Stop (`_GateBlocked`) die
+        Runde beendet hat -- der Aufrufer (`finalize`) nutzt das, um diesen
+        Fall von der allgemeinen "mindestens eine Pflichtreflexion fehlgeschlagen"-
         Meldung zu unterscheiden (P1, R4-Rundenabschluss: eine bestaetigte
         Kontingent-/Admission-Pause darf NICHT im generischen Fehlerpfad
         kollabieren). Eine `ProviderQuotaPausedError` wird HIER NICHT
@@ -381,6 +552,19 @@ class SectionRuntime:
         verschwinden. Beide Pausentypen beenden die Runde SOFORT (kein
         weiteres Mitglied wird mehr angefragt); bereits empfangene/
         committete Reflexionen bleiben unangetastet.
+
+        R1 (RECOVERY_REVIEW R1 "normale Reflexionspause erreicht den
+        Recoveryweg nicht durchgaengig"): `recovery_pause` ist NUR `True`,
+        wenn der `_GateBlocked`, der die Runde beendet hat, tatsaechlich ein
+        `_RecoveryPause` war (ungeklaerter/bereits beantworteter offener
+        Requestdatensatz via `_admitted_decision`, KEIN gewoehnlicher
+        Admission-/Budget-Stop) -- `finalize()` setzt `SectionOutcome.
+        recovery_pause` entsprechend, statt es (wie vorher) implizit bei
+        `False` zu belassen. Der dritte Gate-Check unten (`self._check_gate`
+        NACH der letzten Reflexion) kann `recovery_pause` NIE auf `True`
+        setzen -- `_check_gate` wirft ausschliesslich den gewoehnlichen
+        `_GateBlocked`, nie `_RecoveryPause` (reiner Budget-/Admission-Check,
+        kein Ledger-Lookup).
 
         Plan §1 Punkt 6: 'bei explizitem gueltigem Abschluss: private
         (Persona-)Reflexion bzw. freiwillige menschliche Notiz' — KEIN
@@ -440,15 +624,117 @@ class SectionRuntime:
         # Reflexionsrunde kontrolliert offen, OHNE auch nur EIN Mitglied neu
         # zu befragen -- der naechste Aufruf (nach Aufloesung der
         # Mehrdeutigkeit) sieht denselben Zustand erneut.
-        for existing in request_ledger.open_requests(self.lobby.run_dir):
-            if (
-                existing.get("role") == "reflection"
+        open_now = request_ledger.open_requests(self.lobby.run_dir)
+        # REC-1 (RECOVERY_REVIEW R1 §2): ein autorisierter Folger (`recovery_
+        # of` UND noch `state=="reserved"`) ist GENAU der von `authorize_
+        # bound_retry` freigegebene, noch nicht versendete Retry fuer EIN
+        # Mitglied -- er darf die GESAMTE Runde nicht mehr blockieren, sonst
+        # erreicht `_admitted_decision`s Orphan-Dreischritt (oben) ihn nie,
+        # um ihn zu konsumieren. `dispose_open_orphan` schreibt den
+        # ORIGINALrecord NICHT um (bleibt `state="sent"`, bytegleich) -- der
+        # bleibt deshalb OHNE diese zweite Ausnahme als eigener `open_
+        # requests()`-Eintrag weiterhin ein Blocker, selbst NACH der
+        # Autorisierung. Beide (der Folger UND das `recovery_of`-Original,
+        # das er ersetzt) sind deshalb ausgenommen -- jeder ANDERE offene
+        # fremde Request (kein `recovery_of`, kein als Original ersetzter
+        # Datensatz) bleibt ein Blocker wie zuvor.
+        # R5 (PR #3317-Nachzug r2, RECOVERY_REVIEW.md R5/§2 "denselben
+        # vorhandenen vollstaendigen Bindungsentscheid vor jeder Grant-
+        # Ausnahme und am Verbrauch anwenden"): die reserved- UND die
+        # accounted-Ausnahme pruefen jetzt GENAU dieselbe fuenffache Bindung
+        # wie `commit_authorized_retry` (`request_ledger.disposition_binding_
+        # intact`, rein lesend) -- nicht mehr nur truthy `recovery_of`/`state`
+        # bzw. allein `original_identity`. Run-/Dateihash-/Identitaetsdrift
+        # eines sonst gebundenen Folgers hebt die Ausnahme damit auf; der
+        # Blocker bleibt und wird unten zum kontrollierten Recovery-Ausgang.
+        def _compute_exempt(records):
+            exempt: set = set()
+            for r in records:
+                if not (r.get("recovery_of") and r.get("state") == "reserved"):
+                    continue
+                orig_id = r.get("recovery_of")
+                disp = request_ledger.load_recovery_disposition(self.lobby.run_dir, orig_id)
+                orig_rec = request_ledger.load_request(self.lobby.run_dir, orig_id)
+                if request_ledger.disposition_binding_intact(self.lobby.run_dir, r, orig_rec, disp):
+                    exempt.add(r.get("id"))
+                    exempt.add(orig_id)
+            # R3: sobald der autorisierte Folger `accounted` ist, verschwindet
+            # er aus `open_now` -- sein bytegleiches `sent`-Original wuerde
+            # sonst faelschlich wieder Blocker. Es wird nur dann ausgenommen,
+            # wenn die VOLLE Bindung (R5) zu seinem accounteten Folger intakt
+            # ist (nicht mehr identity-only).
+            for existing in records:
+                if existing.get("recovery_of") or existing.get("id") in exempt:
+                    continue
+                disp = request_ledger.load_recovery_disposition(self.lobby.run_dir, existing.get("id"))
+                if disp is None:
+                    continue
+                granted_request_id = disp.get("granted_request_id")
+                if not granted_request_id:
+                    continue
+                granted_record = request_ledger.load_request(self.lobby.run_dir, granted_request_id)
+                if (
+                    granted_record is not None
+                    and granted_record.get("state") == "accounted"
+                    and request_ledger.disposition_binding_intact(
+                        self.lobby.run_dir, granted_record, existing, disp,
+                    )
+                ):
+                    exempt.add(existing.get("id"))
+            return exempt
+
+        def _blocking(records, exempt):
+            return [
+                existing for existing in records
+                if existing.get("role") == "reflection"
                 and existing.get("table_id") == self.table.table_id
                 and existing.get("section_id") == section_id
-            ):
-                return False, None
+                and existing.get("id") not in exempt
+            ]
+
+        exempt_ids = _compute_exempt(open_now)
+        blocking = _blocking(open_now, exempt_ids)
+        if blocking:
+            # R1/R3 (RECOVERY_REVIEW.md §1 "received-Folger zuerst kostenfrei
+            # settlebar machen"): ein VOLL gebundener `received`-Folger, dessen
+            # abschliessender `accounted`-Markerwrite unterbrochen wurde, wird
+            # ZUERST ueber den vorhandenen idempotenten `settle_received`
+            # (keine Modellcalls, keine neue Reservierung) abgeschlossen --
+            # danach raeumt die accounted-Ausnahme sein Original aus der
+            # Sperre. KEINE pauschale Ausnahme fuer received: nur bei intakter
+            # Fuenffach-Bindung UND bekannter Originaldauer settlet `settle_
+            # received` tatsaechlich nach `accounted`; fehlt die Dauer, bleibt
+            # der Record ehrlich bei `received` (kontrolliert offen, keine
+            # Schaetzung) und faellt unten in den Recovery-Ausgang.
+            settled_any = False
+            for rec in blocking:
+                if rec.get("state") != "received" or not rec.get("recovery_of"):
+                    continue
+                orig_id = rec.get("recovery_of")
+                disp = request_ledger.load_recovery_disposition(self.lobby.run_dir, orig_id)
+                orig_rec = request_ledger.load_request(self.lobby.run_dir, orig_id)
+                if not request_ledger.disposition_binding_intact(self.lobby.run_dir, rec, orig_rec, disp):
+                    continue
+                settled = request_ledger.settle_received(self.lobby.run_dir, rec)
+                if settled.get("state") == "accounted":
+                    settled_any = True
+            if settled_any:
+                open_now = request_ledger.open_requests(self.lobby.run_dir)
+                exempt_ids = _compute_exempt(open_now)
+                blocking = _blocking(open_now, exempt_ids)
+        if blocking:
+            # R1 (RECOVERY_REVIEW.md §1 "die fruehe Unknown-Sperre als
+            # Recoveryausgang weiterreichen"): ein echter offener Reflection-
+            # Unknown -- oder ein received-Folger mit unbekannter Dauer bzw.
+            # aufgehobener Bindung (Drift) -- traegt jetzt das Recovery-Signal
+            # (dritter Wert True) statt stillem `(False, None, False)`.
+            # `finalize`/TUI erreichen damit das bestehende Recovery-Menue,
+            # statt den Fall zu verschlucken. Solange so blockiert: KEINE
+            # abhaengigen neuen Modellcalls/Finalisierung (ok=False).
+            return False, None, True
         ok = True
         pause_reason: str | None = None
+        recovery_pause = False
         path = self.lobby.run_dir / "reflections.jsonl"
         already_reflected: set[str] = set()
         # A4/R08-Restintegrationsfix (WEGKARTE §7 A4, REVIEW-P2R.md R-D):
@@ -511,8 +797,13 @@ class SectionRuntime:
                     # anfragen). `pause_reason` gesetzt signalisiert dem
                     # Aufrufer (`finalize`), die spezifische Meldung statt
                     # der allgemeinen Reflexionsfehler-Meldung zu zeigen.
+                    # R1: `recovery_pause` haelt zusaetzlich fest, OB dieser
+                    # `_GateBlocked` tatsaechlich ein `_RecoveryPause` war --
+                    # `finalize()` braucht das fuer `SectionOutcome.
+                    # recovery_pause` (s. Docstring oben).
                     ok = False
                     pause_reason = e.reason
+                    recovery_pause = isinstance(e, _RecoveryPause)
                     with path.open("a", encoding="utf-8") as fh:
                         fh.write(json.dumps({
                             "persona_key": pk, "section_id": section_id, "ts": ts,
@@ -540,6 +831,29 @@ class SectionRuntime:
                             "error": f"Kontingent-/Budgetpause erkannt: {exc}",
                         }, ensure_ascii=False) + "\n")
                     raise
+                except request_ledger.StaleDispositionError as exc:
+                    # R5 (PR #3317-Nachzug r2, RECOVERY_REVIEW.md §2 "Drift
+                    # ueber den vorhandenen Recovery-Rueckweg statt als
+                    # Transportfehler/ungefangene Ausnahme fuehren"):
+                    # `_admitted_decision` ruft `commit_authorized_retry` VOR
+                    # seinem Transport-try auf -- eine dort erkannte
+                    # Grant-/Bindungsdrift darf NICHT im generischen
+                    # `except Exception ... continue` landen (das verloere das
+                    # Recovery-Signal und fragte das naechste Mitglied an).
+                    # Getypt wie ein `_RecoveryPause`: Runde SOFORT beenden,
+                    # `recovery_pause=True` fuer `SectionOutcome.recovery_pause`,
+                    # KEINE Buchung/Finalisierung. Die offene Operation bleibt
+                    # unaufgeloest (keine Loeschung), bis Flo entscheidet.
+                    ok = False
+                    pause_reason = str(exc)
+                    recovery_pause = True
+                    with path.open("a", encoding="utf-8") as fh:
+                        fh.write(json.dumps({
+                            "persona_key": pk, "section_id": section_id, "ts": ts,
+                            "status": "pending_recovery",
+                            "error": f"Grant-/Bindungsdrift vor Versand abgelehnt: {exc}",
+                        }, ensure_ascii=False) + "\n")
+                    break
                 except Exception as exc:
                     ok = False
                     with path.open("a", encoding="utf-8") as fh:
@@ -660,7 +974,7 @@ class SectionRuntime:
                         "status": "pending_recovery",
                         "error": f"Admission-Gate blockiert nach letzter Reflexion: {e.reason}",
                     }, ensure_ascii=False) + "\n")
-        return ok, pause_reason
+        return ok, pause_reason, recovery_pause
 
     def submit(
         self, controller: TableController, actor_persona_key: str, text: str, ts: str,
@@ -690,10 +1004,8 @@ class SectionRuntime:
         # Transport ohne diesen Marker unveraendert. Vorher wurde hier IMMER
         # `dollar_billed=True` angenommen (Parameter fehlte ganz).
         gm_dollar_billed = getattr(self.gm_transport, "is_dollar_billed", True)
-        request_id = request_ledger.begin(
-            self.lobby.run_dir, role="gm_turn", content=text, reserved_usd=reserved_usd,
-            route=gm_route, output_limit_tokens=gm_output_limit,
-            table_id=self.table.table_id, section_id=self._current_section_id,
+        identity_kwargs = dict(
+            table_id=self.table.table_id, section_id=self._current_section_id, role="gm_turn",
             # G2 (MAIN-KORREKTUR I2-Reservierungsabschluss 2026-09-24):
             # `self._turn_idx` erhoeht sich erst NACH einem erfolgreichen
             # Abschluss dieser Methode (s.u.) -- ein lokaler Retry DERSELBEN
@@ -703,8 +1015,70 @@ class SectionRuntime:
             # ist derselbe Teilnehmerbezug wie im `sl_turn`-Event unten.
             turn_idx=self._turn_idx,
             participant=origin_persona_key if origin_persona_key is not None else actor_persona_key,
-            dollar_billed=gm_dollar_billed,
         )
+        # REC-1 (RECOVERY_REVIEW R1 §2, submit:665-763): anders als
+        # `_admitted_decision` persistiert dieser Weg unten (`finish_
+        # received(..., result_text=result.get("content"))`) tatsaechlich
+        # einen Text -- ein `find_durable_result`-Treffer hier bedeutet
+        # also eine FRUEHER bereits vollstaendig abgerechnete Operation
+        # fuer GENAU diese Identitaet. Ihre Wiederverwendung wuerde die
+        # eigentlichen Transport-Seiteneffekte (`store.submit_to_sl`:
+        # `sl_log`-Write, Tischnachricht) ohne neuen Versand nachbilden
+        # muessen -- das liegt in `store.py` (ausserhalb der fuer diesen
+        # Nachzug erlaubten Dateien) und wird hier NICHT nachgebaut/
+        # erfunden. Konservativ: typisierte Pause statt Doppelversand ODER
+        # erfundener Seiteneffekt-Rekonstruktion; dasselbe fuer einen
+        # bereits beantworteten Datensatz ohne Text (`find_answered_
+        # without_text`, hier praktisch nie, da `result_text` bei Erfolg
+        # immer gesetzt wird -- additiv fuer Symmetrie).
+        if request_ledger.find_durable_result(self.lobby.run_dir, **identity_kwargs) is not None:
+            raise _RecoveryPause(
+                f"bereits abgerechneter GM-Turn (gm_turn/{identity_kwargs['participant']}) ohne "
+                "nachbaubare Transport-Seiteneffekte -- kein erneuter Versand fuer dieselbe Identitaet."
+            )
+        if request_ledger.find_answered_without_text(self.lobby.run_dir, **identity_kwargs) is not None:
+            raise _RecoveryPause(
+                f"bereits beantworteter GM-Turn (gm_turn/{identity_kwargs['participant']}) ohne "
+                "rekonstruierbaren Text -- kein erneuter Versand fuer dieselbe Identitaet."
+            )
+        # REC-1/REC-2: derselbe Orphan-Dreischritt wie `_admitted_decision`
+        # -- ein autorisierter Folger (`recovery_of` UND `state=="reserved"`)
+        # wird ueber seine bestehende `request_id` konsumiert, statt unten
+        # `begin()`s `OpenReservationExistsError` auszuloesen (R1, submit
+        # ruft bisher direkt `begin` vor dem Transport-`try`). Jeder andere
+        # offene Orphan bleibt eine kontrollierte Pause.
+        open_orphan = request_ledger.find_open_orphan(self.lobby.run_dir, **identity_kwargs)
+        if open_orphan is not None and (
+            not open_orphan.get("recovery_of") or open_orphan.get("state") != "reserved"
+        ):
+            raise _RecoveryPause(
+                f"ein frueherer Versandversuch (gm_turn/{identity_kwargs['participant']}) fuer "
+                "dieselbe Operation ist noch offen, Ausgang unbekannt -- kein erneuter Versand "
+                "ohne bewusste Recovery-Entscheidung."
+            )
+        if open_orphan is not None:
+            request_id = open_orphan["id"]
+            # R5 (PR #3317-Nachzug r3, RECOVERY_REVIEW.md §1): derselbe
+            # StaleDispositionError-zu-_RecoveryPause-Uebersetzer wie
+            # `_admitted_decision` -- `commit_authorized_retry` laeuft hier
+            # ebenfalls VOR dem Transport-try, eine Run-Bindungsdrift darf
+            # also auch im GM-Pfad nicht roh bis in die TUI durchlaufen.
+            try:
+                request_ledger.commit_authorized_retry(
+                    self.lobby.run_dir, request_id, content=text, reserved_usd=reserved_usd,
+                    route=gm_route, output_limit_tokens=gm_output_limit, dollar_billed=gm_dollar_billed,
+                )
+            except request_ledger.StaleDispositionError as exc:
+                raise _RecoveryPause(
+                    f"Run-Bindungsdrift beim Retry-Commit (gm_turn/{identity_kwargs['participant']}) "
+                    f"-- kein erneuter Versand ohne bewusste Recovery-Entscheidung: {exc}"
+                ) from exc
+        else:
+            request_id = request_ledger.begin(
+                self.lobby.run_dir, content=text, reserved_usd=reserved_usd,
+                route=gm_route, output_limit_tokens=gm_output_limit,
+                dollar_billed=gm_dollar_billed, **identity_kwargs,
+            )
         # R12-AUTORECOVERY: der additive Generations-Schnappschuss wird HIER
         # erhoben -- VOR dem Versand, BEVOR irgendjemand weiss, ob DIESE
         # Antwort den Abschluss-Marker tragen wird -- und unten in GENAU
@@ -837,14 +1211,17 @@ class SectionRuntime:
         # `completion_hit`/`entry_matches` ihn lesen.
         last_leader_input: str | None = None
 
-        def blocked_outcome(reason: str | None) -> SectionOutcome:
+        def blocked_outcome(reason: str | None, *, recovery_pause: bool = False) -> SectionOutcome:
             completion = store.CompletionResult(
                 success=False, already_completed=False, written=False,
                 members_completed=[], missing=[],
                 reason=f"Admission-Gate blockiert: {reason}",
             )
             self._emit("play_paused", ts, payload={"section_id": section_id, "reason": reason})
-            return SectionOutcome(completion=completion, harvested={}, debrief_text=debrief_text)
+            return SectionOutcome(
+                completion=completion, harvested={}, debrief_text=debrief_text,
+                recovery_pause=recovery_pause,
+            )
 
         def finalize(
             text: str, resume_section_id: str | None = None,
@@ -1065,7 +1442,7 @@ class SectionRuntime:
                 return SectionOutcome(completion=harvest_completion, harvested=harvested, debrief_text=text)
 
             store.return_to_lobby(self.lobby, self.table)
-            reflections_ok, reflections_pause_reason = self._collect_reflections(
+            reflections_ok, reflections_pause_reason, reflections_recovery_pause = self._collect_reflections(
                 controller, sid, ts, contexts_by_persona, states_dir,
             )
             if reflections_ok:
@@ -1096,7 +1473,16 @@ class SectionRuntime:
                     reason=reason,
                 )
                 self._emit("section_completion_rejected", ts, payload={"section_id": sid, "reason": completion.reason})
-            return SectionOutcome(completion=completion, harvested=harvested, debrief_text=text)
+            # R1 (RECOVERY_REVIEW R1 "finalize baut SectionOutcome mit
+            # Default recovery_pause=False"): `reflections_recovery_pause`
+            # ist NUR True, wenn `_collect_reflections` tatsaechlich an
+            # einem `_RecoveryPause` (nicht gewoehnlichem Budget-/Admission-
+            # Stop) haengen blieb -- `reflections_ok=True` laesst es
+            # unveraendert bei seinem Default `False`.
+            return SectionOutcome(
+                completion=completion, harvested=harvested, debrief_text=text,
+                recovery_pause=reflections_recovery_pause,
+            )
 
         def _harvest_own_export(entry: dict) -> bool:
             """ZR-R8-STRUKTURTEST-TERMINAL-RAG-20261120-R1 Stage 3 (03 §4):
@@ -1513,7 +1899,22 @@ class SectionRuntime:
             # koennte ein lokaler GM-Transport (max_usd=0) hier an einem
             # Cloud-Default haengenbleiben, der nie zutraf.
             gm_dollar_billed = getattr(self.gm_transport, "is_dollar_billed", True)
-            gm_reserved = reservation_for_wire_text(wire_text, output_limit_tokens=gm_output_limit)
+            # COST-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B1):
+            # `wire_text` allein ist NICHT der tatsaechlich gesendete Body --
+            # `owui_client.py:say` sendet bei JEDEM Turn die GESAMTE bisher
+            # angesammelte Konversation (`OWUIChat.history`) erneut; eine
+            # konfigurierte KB loest zusaetzliches, dem Client unsichtbares
+            # serverseitiges RAG aus. Beide duck-typed Groessenattribute
+            # (analog `base_url`/`output_limit_tokens` oben) sind additiv/
+            # optional (Default 0/False bei jedem Transport ohne diese
+            # Attribute) -- kein Verhaltenswechsel fuer einen Double/Fake
+            # ohne diese Properties.
+            gm_history_chars = getattr(self.gm_transport, "wire_history_chars", 0)
+            gm_kb_configured = getattr(self.gm_transport, "kb_configured", False)
+            gm_reserved = reservation_for_wire_text(
+                wire_text, output_limit_tokens=gm_output_limit,
+                additional_wire_chars=gm_history_chars, kb_configured=gm_kb_configured,
+            )
             self._check_gate(  # F3/Q06/Q07/Q03: GM-Body-Reservierung vor Versand.
                 gm_reserved, output_bound_known=(gm_output_limit is not None), route=gm_route,
                 dollar_billed=gm_dollar_billed,
@@ -1786,7 +2187,7 @@ class SectionRuntime:
                 # dieser Zweig dann beim naechsten Aufruf erneut.
                 self._check_gate(dollar_billed=getattr(self.gm_transport, "is_dollar_billed", True))
             except _GateBlocked as e:
-                return blocked_outcome(e.reason)
+                return blocked_outcome(e.reason, recovery_pause=isinstance(e, _RecoveryPause))
             return finalize(
                 recoverable["content"], resume_section_id=section_id,
                 prev_ref_override=recoverable.get("expected_prev_ref_by_member"),
@@ -1871,7 +2272,18 @@ class SectionRuntime:
                     return finalize(debrief_text)
                 ongoing_round += 1
         except _GateBlocked as e:
-            return blocked_outcome(e.reason)
+            # REC-1-Nachzug (RECOVERY_REVIEW R1): verifiziert -- dieser
+            # bereits bestehende Catch fuer JEDEN `_GateBlocked` faengt
+            # automatisch auch `_RecoveryPause` (Subklasse, s. dort), weil
+            # `act()`/`poll_guests_and_consolidate()` (beide rufen
+            # `_admitted_decision`/`submit` innerhalb DIESES `try` auf, s.
+            # Z.1814/1880/1881) jede Pause ausschliesslich ueber diese
+            # Exception signalisieren. `blocked_outcome` liefert eine
+            # normale `SectionOutcome` zurueck (`success=False`, bereits
+            # geerntete Saves/States/`debrief_text` bleiben erhalten, kein
+            # Statewrite wird zurueckgenommen) -- kontrollierte Pause,
+            # fortsetzbar beim naechsten Aufruf, KEIN harter Abbruch.
+            return blocked_outcome(e.reason, recovery_pause=isinstance(e, _RecoveryPause))
 
         completion = store.CompletionResult(
             success=False, already_completed=False, written=False,

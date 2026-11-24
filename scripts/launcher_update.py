@@ -45,11 +45,13 @@ import fcntl
 import hashlib
 import json
 import os
+import queue
 import shutil
 import stat
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -1323,6 +1325,117 @@ def perform_zip_update(
 
 # ── U5: Sync im NEUEN Prozess ────────────────────────────────────────────
 
+def _parse_sync_result_line(output: str) -> Optional[dict]:
+    """UPD-2: parst die EINE maschinenlesbare `SYNC_RESULT ...`-Zeile, die
+    `setup.py --sync` am Ende jedes Laufs auf stdout schreibt (s. dortiges
+    `_print_sync_machine_summary`). Keine neue Jobengine/IPC -- nur ein
+    strukturiertes Feld auf dem bereits bestehenden, vollständig
+    gepufferten Prozess-Output. `None`, wenn keine (oder keine lesbare)
+    Zeile gefunden wurde -- ein älterer/fremder `setup.py`-Stand ohne
+    diese Zeile darf NICHT als "0 Dateien" fehlinterpretiert werden.
+
+    U3-Restnachzug (UPDATE_UX_REVIEW.md U3, 02_RESTAUFTRAG.md §U3):
+    `coverage_undetermined` ist ein zusätzliches, rein lesendes Feld --
+    fehlt es (älterer `setup.py`-Stand ohne diesen Nachzug), bleibt der
+    Default `False` (identisch zum bisherigen, impliziten Verhalten: ein
+    nicht-leeres `kb_failed` galt bislang IMMER als nachgewiesen fehlend)."""
+    for line in reversed(output.splitlines()):
+        line = line.strip()
+        if not line.startswith("SYNC_RESULT "):
+            continue
+        fields: dict[str, str] = {}
+        for tok in line[len("SYNC_RESULT "):].split(" "):
+            if "=" not in tok:
+                continue
+            key, _, val = tok.partition("=")
+            fields[key] = val
+        try:
+            kb_total = int(fields.get("kb_total", ""))
+            kb_confirmed = int(fields.get("kb_confirmed", ""))
+        except ValueError:
+            return None
+        kb_failed_raw = fields.get("kb_failed", "")
+        kb_failed = [n for n in kb_failed_raw.split(",") if n]
+        preset_ok = fields.get("preset_ok") == "1"
+        coverage_undetermined = fields.get("coverage_undetermined") == "1"
+        return {
+            "kb_total": kb_total, "kb_confirmed": kb_confirmed,
+            "kb_failed": kb_failed, "preset_ok": preset_ok,
+            "coverage_undetermined": coverage_undetermined,
+        }
+    return None
+
+
+class _StreamedCompleted:
+    """Minimaler Ersatz für `subprocess.CompletedProcess` -- liefert
+    `returncode`/`stdout`/`stderr` in derselben Form, die `run_sync_
+    subprocess` unten bereits erwartet (`r.returncode`, `r.stdout + r.
+    stderr`). `stderr` bleibt leer, da `_run_sync_streaming` stdout/stderr
+    des Kindprozesses bereits zu EINEM chronologischen Strom zusammenführt
+    (sonst müsste die Zeilenreihenfolge beim Zusammenführen rekonstruiert
+    werden, ohne echten Mehrwert für Tail/`SYNC_RESULT`-Parsing)."""
+
+    def __init__(self, returncode: int, stdout: str):
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = ""
+
+
+def _run_sync_streaming(cmd: list[str], *, cwd: str, timeout: float, env: dict) -> _StreamedCompleted:
+    """U4 (UPDATE_UX_REVIEW.md R4, 02_RESTAUFTRAG.md §U4): ersetzt den
+    bisherigen `subprocess.run(..., capture_output=True)` -- der puffert
+    JEDE Ausgabe vollständig bis Prozessende, das Launcher-Menü [4] zeigte
+    während eines laufenden Syncs deshalb WEDER aktuelle Datei noch Phase
+    an (erst nach Abschluss/Abbruch). Liest stattdessen über einen
+    Reader-Thread + Queue zeilenweise UND gibt jede Zeile sofort auf
+    stdout aus, während derselbe äußere `timeout` durchgängig gegen die
+    verstrichene Zeit geprüft wird (max. 1 s Polling-Granularität) --
+    funktioniert auch bei einem Kindprozess, der für eine Weile GAR KEINE
+    Zeile schreibt (reiner `readline()`-Blockierung ohne Timeout würde das
+    verpassen). Bei Überschreiten: `proc.kill()` + dieselbe `subprocess.
+    TimeoutExpired`, die der bisherige `subprocess.run`-Pfad auch warf --
+    der Caller unterscheidet beide Pfade nicht."""
+    proc = subprocess.Popen(
+        cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        text=True, bufsize=1, env=env,
+    )
+    line_queue: "queue.Queue[Optional[str]]" = queue.Queue()
+
+    def _reader() -> None:
+        try:
+            assert proc.stdout is not None
+            for line in proc.stdout:
+                line_queue.put(line)
+        finally:
+            line_queue.put(None)  # Sentinel: Pipe geschlossen (Prozessende).
+
+    reader_thread = threading.Thread(target=_reader, daemon=True)
+    reader_thread.start()
+
+    lines: list[str] = []
+    start = time.monotonic()
+    while True:
+        remaining = timeout - (time.monotonic() - start)
+        if remaining <= 0:
+            proc.kill()
+            proc.wait()
+            if proc.stdout is not None:
+                proc.stdout.close()
+            raise subprocess.TimeoutExpired(cmd=cmd, timeout=timeout, output="".join(lines))
+        try:
+            line = line_queue.get(timeout=min(remaining, 1.0))
+        except queue.Empty:
+            continue
+        if line is None:
+            break
+        print(line, end="", flush=True)
+        lines.append(line)
+    proc.wait()
+    if proc.stdout is not None:
+        proc.stdout.close()
+    return _StreamedCompleted(proc.returncode, "".join(lines))
+
+
 def run_sync_subprocess(
     repo: Path, *, variant: Optional[str] = None, all_variants: bool = False, timeout: float = 600.0,
     argv_override: Optional[list[str]] = None, runner: Optional[Callable] = None,
@@ -1334,7 +1447,33 @@ def run_sync_subprocess(
     garantiert durch frisch geladenen Code behandelt. `argv_override`/
     `runner` sind für Tests injizierbar (kontrollierte Fixture statt eines
     echten Backend-Aufrufs). Schreibt das Sync-Ergebnis GETRENNT vom
-    Dateistand in die Statusdatei."""
+    Dateistand in die Statusdatei -- inkl. der UPD-2-Aufschlüsselung
+    (`kb_total`/`kb_confirmed`/`kb_failed`/`preset_ok`), wenn der
+    Kindprozess die `SYNC_RESULT`-Zeile liefert (s. `_parse_sync_result_
+    line`); ohne sie bleiben diese Felder unverändert/unbestimmt.
+
+    U3 (UPDATE_UX_REVIEW.md R3): `kb_checked_at` wird NUR gemeinsam MIT den
+    `kb_*`-Feldern geschrieben -- also GENAU dann, wenn dieser Lauf wirklich
+    eine `SYNC_RESULT`-Zeile geliefert hat. Ein Timeout oder ein Fehlschlag
+    OHNE lesbare Zeile (`kb_summary is None`) lässt `kb_checked_at` UND die
+    `kb_*`-Zähler vollständig unangetastet (`write_state`-Merge) -- VORHER
+    bekam `sync_failed_at` bei jedem Lauf einen frischen Zeitstempel, auch
+    wenn die `kb_*`-Zähler aus einem GANZ ANDEREN, älteren Lauf stammten
+    (`_describe_kb_sync_status`/`_check_persisted_sync_status` las dann
+    `sync_at or sync_failed_at`, zeigte also einen falschen "Stand:" neben
+    stehengebliebenen Zählern an). `sync_at`/`sync_failed_at` bleiben
+    unverändert die Zeit des GESAMTLAUFS (Erfolg/Fehlschlag des Kommandos),
+    unabhängig davon, ob dieser Lauf überhaupt eine KB-Aufschlüsselung
+    geliefert hat.
+
+    U4 (UPDATE_UX_REVIEW.md R4): ohne injizierten `runner` läuft der Kind-
+    prozess jetzt über `_run_sync_streaming` -- zeilenweise gelesen UND
+    sofort ausgegeben, statt vollständig gepuffert erst nach Prozessende
+    (`subprocess.run(capture_output=True)`). `ZEITRISS_SYNC_OUTER_DEADLINE_S`
+    (= `timeout`) wird dem Kindprozess als Env-Var mitgegeben, damit `setup.
+    py --sync` seine PRO-DATEI-Readiness-Deadlines am selben äußeren Rahmen
+    deckeln kann (s. dort `_file_ready_deadline_s`), statt unabhängig davon
+    bis zu 90 s PRO Datei zu pollen und den äußeren Rahmen zu überlaufen."""
     cmd = list(argv_override) if argv_override is not None else [
         sys.executable, str(repo / "scripts" / "setup.py"), "--sync", "--yes",
     ]
@@ -1344,18 +1483,29 @@ def run_sync_subprocess(
         elif variant:
             cmd.extend(["--variant", variant])
 
-    run = runner or subprocess.run
+    env = dict(os.environ)
+    env["ZEITRISS_SYNC_OUTER_DEADLINE_S"] = str(timeout)
+
     try:
-        r = run(cmd, cwd=str(repo), capture_output=True, text=True, timeout=timeout)
+        if runner is not None:
+            r = runner(cmd, cwd=str(repo), capture_output=True, text=True, timeout=timeout, env=env)
+        else:
+            r = _run_sync_streaming(cmd, cwd=str(repo), timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
         write_state(repo, sync_status="failed", sync_error="Sync-Zeitüberschreitung", sync_failed_at=_now_iso())
         return False, "Sync-Zeitüberschreitung."
 
-    tail = "\n".join((r.stdout + r.stderr).strip().splitlines()[-12:])
+    combined = r.stdout + r.stderr
+    tail = "\n".join(combined.strip().splitlines()[-12:])
+    kb_summary = _parse_sync_result_line(combined)
+    extra_fields = dict(kb_summary) if kb_summary else {}
+    if kb_summary:
+        extra_fields["kb_checked_at"] = _now_iso()
+
     if r.returncode == 0:
-        write_state(repo, sync_status="ok", sync_at=_now_iso(), sync_error=None)
+        write_state(repo, sync_status="ok", sync_at=_now_iso(), sync_error=None, **extra_fields)
         return True, tail
-    write_state(repo, sync_status="failed", sync_error=tail, sync_failed_at=_now_iso())
+    write_state(repo, sync_status="failed", sync_error=tail, sync_failed_at=_now_iso(), **extra_fields)
     return False, tail
 
 

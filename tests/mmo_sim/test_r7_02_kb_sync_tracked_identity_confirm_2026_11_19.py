@@ -177,6 +177,15 @@ class _ContentHttpDouble:
                 self.collection_of[file_id] = None
             self.unlinked_calls.append((self.kb_id, file_id))
             return 200, b"{}"
+        # UPD-1: `wait_for_file_ready` fragt vor jedem Link-Versuch GENAU
+        # diesen Endpunkt ab -- bereits im `store` liegender Inhalt gilt
+        # sofort als fertig extrahiert (dieser Double modelliert keine
+        # Verarbeitungsverzögerung, nicht sein Testgegenstand).
+        if method == "GET" and path.startswith("/api/v1/files/") and "?" not in path and path != "/api/v1/files/":
+            file_id = path.rsplit("/", 1)[-1]
+            if file_id in self.store:
+                return 200, json.dumps({"id": file_id, "data": {"content": "ready"}}).encode()
+            return 404, b'{"detail": "not found"}'
         if method == "DELETE" and path.startswith("/api/v1/files/"):
             file_id = path.rsplit("/", 1)[1]
             if file_id not in self.store:

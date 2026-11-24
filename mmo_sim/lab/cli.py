@@ -185,7 +185,15 @@ def _status_payload(run_dir: Path) -> dict:
     try:
         open_reqs = [
             {
-                "request_id": r.get("request_id"), "table_id": r.get("table_id"),
+                # REC-3-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 04 §2A/§3):
+                # das Ledger schreibt den Requestschluessel als `"id"`
+                # (`request_ledger.begin:617`), nicht als `"request_id"` --
+                # `r.get("request_id")` lieferte hier immer `None`. Projizierte
+                # Ausgabeschluessel ("request_id") bleiben unveraendert fuer
+                # bestehende Konsumenten; nur der LESEZUGRIFF auf den Record
+                # wird korrigiert. Keine neue ID wird erzeugt, nur die
+                # vorhandene echte angezeigt.
+                "request_id": r.get("id"), "table_id": r.get("table_id"),
                 "section_id": r.get("section_id"), "role": r.get("role"),
                 "participant": r.get("participant"), "state": r.get("state"),
             }

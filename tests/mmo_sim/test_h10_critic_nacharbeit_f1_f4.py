@@ -15,7 +15,12 @@ F3 `lab status` muss `stop_requested`/`stop_reason` FRISCH berechnen, nicht
    spiegeln (`LabRunner.stop()`/`request_stop()` schreiben NUR die separate
    Stop-Flag-Datei).
 F4 `_cmd_lobby_initiative` muss wie `_cmd_local_round` `exclude_pid=
-   os.getpid()` an `active_lock_pid` uebergeben (Selbstblockade-Konsistenz)."""
+   os.getpid()` an `active_lock_pid` uebergeben (Selbstblockade-Konsistenz).
+
+REC-3 (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 04 §2A/§3) `_status_payload`s
+   offene Requestliste muss die ECHTE Ledger-ID zeigen (Record-Schluessel
+   `"id"`, `request_ledger.begin:617`), nicht `None` durch Lesen des
+   nicht existierenden Schluessels `"request_id"`."""
 from __future__ import annotations
 
 import json
@@ -32,6 +37,7 @@ if str(_REPO_ROOT) not in sys.path:
 if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
+from mmo_sim.core import request_ledger  # noqa: E402
 from mmo_sim.core.admission import read_admission_block  # noqa: E402
 from mmo_sim.lab import cli as lab_cli  # noqa: E402
 from mmo_sim.lab import runner as lab_runner  # noqa: E402
@@ -195,6 +201,36 @@ def test_f4_lobby_initiative_guard_excludes_own_pid_like_local_round():
             lab.release()
 
 
+def test_rec3_status_payload_shows_real_ledger_id_not_none():
+    """Rot vor Fix: `open_reqs[i]["request_id"]` war immer `None`
+    (`r.get("request_id")` auf einen Record, der nur `"id"` kennt). Gruen
+    nach Fix: die ECHTE, von `begin()` erzeugte Request-ID erscheint; keine
+    neue ID wird erfunden, nur der Lesezugriff korrigiert."""
+    with tempfile.TemporaryDirectory() as td:
+        run_dir = Path(td) / "run"
+        lab = lab_runner.LabRunner(
+            run_dir, lab_runner.LabBudget(max_turns=100, max_seconds=1000.0, max_usd=10.0),
+        )
+        lab.start()
+        try:
+            request_id = request_ledger.begin(
+                run_dir, role="gm_turn", content="wire-text", reserved_usd=0.01,
+                table_id="table-1", section_id="section-1", turn_idx=45, participant="vanguard",
+            )
+            payload = lab_cli._status_payload(run_dir)
+            open_reqs = payload["open_requests"]
+            assert len(open_reqs) == 1, open_reqs
+            assert open_reqs[0]["request_id"] == request_id, (
+                f"erwartete echte Ledger-ID {request_id!r}, bekam "
+                f"{open_reqs[0]['request_id']!r} (vor REC-3-Fix immer None)"
+            )
+            assert open_reqs[0]["table_id"] == "table-1"
+            assert open_reqs[0]["participant"] == "vanguard"
+            assert open_reqs[0]["state"] == "sent"
+        finally:
+            lab.release()
+
+
 if __name__ == "__main__":
     import traceback
 
@@ -204,6 +240,7 @@ if __name__ == "__main__":
         test_f2_no_wall_seconds_configured_never_blocks_on_wall_clock,
         test_f3_stop_requested_reflects_external_request_stop_freshly,
         test_f4_lobby_initiative_guard_excludes_own_pid_like_local_round,
+        test_rec3_status_payload_shows_real_ledger_id_not_none,
     ]
     passed = 0
     failed = 0

@@ -94,6 +94,13 @@ class CatchUpReport:
     blocked: list[str]
     notes: list[str] = field(default_factory=list)
     unready: list[str] = field(default_factory=list)
+    # N06-R (RECOVERY_REVIEW R2 Z.68): additiv, Default False -- bestehende
+    # Positionsargument-/Keyword-Konstruktionen bleiben unveraendert aufrufbar.
+    # Nimmt `LobbyWindowOutcome.recovery_pause` vom STOPPED-break (s. unten)
+    # mit, damit die TUI den haeufigen R1-Vorsperre-Pfad vom seltenen
+    # Operator-/Fenstergrenzen-Stop unterscheiden und gezielt das Recovery-
+    # Menue anbieten kann.
+    recovery_pause: bool = False
 
     @property
     def reached_target(self) -> bool:
@@ -223,6 +230,7 @@ def run_catch_up(
     windows_run = 0
     stopped = False
     stopped_reason: str | None = None
+    recovery_pause = False
     idle = 0
     blocked_this_run: set[str] = set()
     # BL1-FIX (sekundaer, Ehrlichkeit): Tische, die PRE-STEP in einem Fenster
@@ -260,6 +268,7 @@ def run_catch_up(
         if outcome.kind == lobby_flow.LobbyOutcomeKind.STOPPED:
             stopped = True
             stopped_reason = outcome.reason
+            recovery_pause = outcome.recovery_pause
             break
 
         if outcome.kind == lobby_flow.LobbyOutcomeKind.SECTION_COMPLETED:
@@ -349,4 +358,5 @@ def run_catch_up(
         candidates=candidates, start_counts=start_counts, end_counts=end_counts,
         per_target=per_target, windows_run=windows_run, stopped=stopped,
         stopped_reason=stopped_reason, blocked=blocked, notes=notes, unready=unready,
+        recovery_pause=recovery_pause,
     )

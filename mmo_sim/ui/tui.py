@@ -123,6 +123,26 @@ class ResumeCard:
     # "kein Stand" (das waere ein stiller Rueckfall auf den evtl. veralteten
     # Onboarding-Stand).
     authority_unresolved: bool = False
+    # LOAD-1-Fix (05 §B4/B5, 06 §D4): rein lesend erkannter offener
+    # Kompatibilitaetsumschlag (`_find_latest_pending_compat_export`,
+    # KEIN `_apply_pending_compat_load`-Aufruf) -- die Karte ZEIGT einen
+    # vorhandenen Reparaturbedarf an, LOEST ihn aber nicht mehr selbst aus.
+    pending_compat_load: bool = False
+
+
+@dataclass
+class _OpenKiTableCandidate:
+    """L2 (BUDGET_FLOW_REVIEW.md R2-BF-4): EIN nummerierbarer Eintrag der
+    lesend ermittelten offenen KI-Tisch-/Sectionbindungen (s.
+    `TuiSession._open_ki_table_resume_candidates`) -- `member_names` traegt
+    verstaendliche Figurennamen (`ResumeCard.last_valid_save_summary`),
+    NICHT interne `pk`s; mehrere Mitglieder am selben `open_section_id`
+    teilen sich GENAU EINEN Eintrag."""
+
+    open_section_id: str
+    chrononaut_id: str
+    member_names: list[str]
+    member_pks: list[str]
 
 
 def _boot_has_resume(resume: "ResumeCard | None") -> bool:
@@ -262,6 +282,23 @@ def render_boot_menu(
             # real `None` sein -- kein literales "None" in der Anzeige (UX22).
             community_display = resume.community_id if resume.community_id else "keine Community"
             lines.append(f"     Fortsetzen: {community_display} · {resume.participant_id} · {chrono_display} — {stand}{offen}")
+            # LOAD-1-Fix (05 §B4/B5, 06 §D4): rein lesender Hinweis -- diese
+            # Anzeige LOEST die Reparatur nicht aus (das tut erst ein
+            # bewusster Spielzug oder der Ladepunkt im Charakter-Untermenue,
+            # s. `_resolve_active_save`s `apply_compat_load`-Default). Kein
+            # Stacktrace, kein interner Pfad, nur der naechste bedienbare
+            # Schritt.
+            # BF-5-Fix (BUDGET_FLOW_REVIEW.md BF-4/BF-5): "Export" stand hier
+            # bisher faelschlich als Reparaturweg -- `_cmd_export` liest
+            # direkt ueber `load_current_save_or_raise` und nutzt
+            # `_resolve_active_save` NICHT (s. dort), ist also kein
+            # erreichbarer Reparaturweg fuer diesen Hinweis.
+            if resume.pending_compat_load:
+                lines.append(
+                    "     Hinweis: ein gesicherter Kompatibilitaetsstand wartet auf Uebernahme "
+                    "(wird erst bei einem bewussten Spielzug oder ueber '[charaktere]' -> Laden/"
+                    "Kontext aufbauen geprueft, nicht durch dieses Ansehen)."
+                )
     # WP-P2-B: zusaetzlicher, bewusst UNNUMMERIERTER Eintrag (analog '?'/
     # '/stand' unten) -- zeigt den letzten gespeicherten Charakterbogen rein
     # lokal, kein GM-/Backend-Zugriff, verbraucht keine Nummer aus
@@ -1064,6 +1101,16 @@ class TuiSession:
         self.states_dir = Path(states_dir) if states_dir is not None else None
         self.schema_path = Path(schema_path) if schema_path is not None else None
         self.gm_transport_factory = gm_transport_factory
+        # L1 (BUDGET_FLOW_REVIEW.md R2-BF-5, 02_RESTAUFTRAG.md §L L1): rein
+        # In-Memory, NUR Anzeige-/Beobachtungszustand dieser Sitzung (keine
+        # neue Autoritaet, kein Store) -- `_cmd_load_context_checkpoint`
+        # bindet hier den tatsaechlich AUSGEFUEHRTEN Kontextaufbau
+        # (`_own_system_context`-Ergebnis + eigener Save-Inhalt/Owner) an
+        # die Sitzung, statt NUR eine Erfolgsmeldung zu drucken. Bleibt
+        # `None`, solange dieser Ladepunkt nie bewusst aufgerufen wurde ODER
+        # der letzte Aufruf an einem unlesbaren Current/fehlenden Save
+        # gehalten hat (kein erfundener Platzhalterinhalt).
+        self._loaded_context_checkpoint: dict | None = None
         self.exports_dir = Path(exports_dir) if exports_dir is not None else self.onboarding_dir.parent / "exports"
         # F2/K5 (WEGKARTE BLOCKER 2): optionaler Treiber-Baukasten fuer
         # eingeladene KI-Personas in der lokalen Runde ('l persona:<id>') --
@@ -1925,11 +1972,29 @@ class TuiSession:
             )
             return
         while True:
+            # BF-4-Fix (BUDGET_FLOW_REVIEW.md BF-4, Umsetzungsform Punkt 2):
+            # dieselbe Bedingung wie `_cmd_resume_or_continue`s Tischzweig
+            # (`card.chrononaut_id is not None and card.open_section_id is
+            # not None`) -- NUR dann ist "diesen offenen Abschnitt
+            # fortsetzen" ueberhaupt real moeglich. [6] kollidiert mit
+            # keinem bestehenden Eintrag (feste [1]-[5] oben).
+            #
+            # L2-Nachzug (BUDGET_FLOW_REVIEW.md R2-BF-4): `or` mit den
+            # lesend ermittelten offenen KI-Tisch-/Sectionbindungen --
+            # kurzschliesst (keine zusaetzliche Kandidatenermittlung), wenn
+            # die eigene Karte bereits eine offene Bindung liefert.
+            card = self._build_resume_card()
+            has_open_section = (
+                card is not None and card.chrononaut_id is not None and card.open_section_id is not None
+            ) or bool(self._open_ki_table_resume_candidates())
+            extra_line = (
+                "  [6] Diesen offenen Abschnitt fortsetzen" if has_open_section else ""
+            )
             self._print(
                 "Spielen -- [1] Runde zusammenstellen  [2] Meine KI-Spielgemeinschaft  "
                 "[3] Personas spielen lassen (Catch-up)  [4] Aktive Gruppe/Ausschluss  "
-                "[5] Personas vorspielen lassen (1 Abschnitt vor -- du spielst danach deinen) "
-                "(/zurueck fuer Hauptmenue)"
+                "[5] Personas vorspielen lassen (1 Abschnitt vor -- du spielst danach deinen)"
+                + extra_line + " (/zurueck fuer Hauptmenue)"
             )
             text, control = self._readline_with_controls(
                 "Auswahl: ", context="Spielen-Untermenue",
@@ -1946,6 +2011,8 @@ class TuiSession:
                 self._cmd_catch_up_personas()
             elif choice == "4":
                 self._cmd_active_group_settings()
+            elif choice == "6" and has_open_section:
+                self._cmd_resume_open_section()
             elif choice == "5":
                 self._cmd_catch_up_personas(vorspielen=True)
             else:
@@ -2043,12 +2110,35 @@ class TuiSession:
                 return
             action_label = f"Catch-up (bis zu deiner Abschnittszahl {my_count})"
 
+        # FLOW-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B3/06 §C6):
+        # fuer Vorspielen ([5]) zeigt die Prompt-Zeile zusaetzlich die
+        # vorhandene Tischbindung (`current_table`, s.o. -- fuer Vorspielen
+        # IMMER leer, da `current_active_table_members` abgezogen wurde;
+        # bleibt die Information trotzdem sichtbar statt implizit). Fuer
+        # Catch-up ([3]) bleibt die Anzeige unveraendert (eigener, bereits
+        # bestehender und durch test_r4_organic_player_flow_2026_10_21.py
+        # ausdruecklich geschuetzter "leer = alle wahlbaren Kandidaten"-
+        # Vertrag -- NICHT Gegenstand dieses Befunds).
+        if vorspielen and current_table:
+            self._print(f"Hinweis: dein eigener Tisch ({sorted(current_table)}) ist von Vorspielen ausgenommen.")
+        # BF-4-Fix (BUDGET_FLOW_REVIEW.md BF-4, "Kleinster Nachzug"
+        # Z.105/Umsetzungsform Punkt 1): zusaetzlich zu den bisherigen
+        # Persona-Keys zeigt die Kandidatenzeile jetzt eine laufende
+        # 1-basierte Nummer je Kandidat -- die Eingabe unten akzeptiert
+        # BEIDE Formen gleichzeitig (kommagetrennt gemischt moeglich),
+        # bestehende Key-Eingaben (`test_p1_vorspielen_closed_table_
+        # 2026_10_21.py`, `test_r4_organic_player_flow_2026_10_21.py`)
+        # bleiben dadurch unveraendert gueltig.
         self._print(
             f"Wahlbare Kandidaten fuer {action_label} (Abschnitte bisher): "
-            + ", ".join(f"{pk}({counts.get(pk, 0)})" for pk in behind)
+            + ", ".join(f"{i}) {pk}({counts.get(pk, 0)})" for i, pk in enumerate(behind, start=1))
+        )
+        empty_hint = (
+            "leer/zurueck = nichts ausfuehren" if vorspielen else f"leer = alle {behind}"
         )
         raw, control = self._readline_with_controls(
-            f"Welche jetzt spielen lassen? (kommagetrennt, leer = alle {behind}): ",
+            f"Welche jetzt spielen lassen? (kommagetrennt, Namen oder Nummern 1-{len(behind)}, "
+            f"{empty_hint}): ",
             context="Personas-spielen-lassen-Auswahl",
         )
         if control in ("zurueck", "abbrechen", "pause"):
@@ -2056,17 +2146,36 @@ class TuiSession:
             return
         raw = raw.strip()
         if not raw:
+            if vorspielen:
+                # FLOW-1-Fix (05 §B3 "leer/Zurueck startet nichts", 06 §C6
+                # "kein ueberraschender Start aller Personas"): [5] ist eine
+                # bewusste Einzelaktion ("du spielst danach deinen
+                # [Abschnitt]"), kein impliziter "starte fuer alle"-Default
+                # wie beim breiteren Catch-up [3] -- vor dem Fix waehlte
+                # leere Eingabe hier ALLE wahlbaren Kandidaten, was fuer ein
+                # absichtlich begrenztes "ich muss mal weg"-Vorspielen eine
+                # ueberraschend grosse, ungewollte Wirkung (und Kosten durch
+                # B1/B2 gegatete Requests) ausloesen konnte.
+                self._print("Personas vorspielen lassen: nichts ausgewaehlt -- kein Fenster gestartet.")
+                return
             chosen = set(behind)
         else:
-            requested = {p.strip() for p in raw.split(",") if p.strip()}
-            unknown = requested - set(behind)
+            requested_tokens = {p.strip() for p in raw.split(",") if p.strip()}
+            chosen = set()
+            unknown = set()
+            for tok in requested_tokens:
+                if tok in behind:
+                    chosen.add(tok)
+                elif tok.isdigit() and 1 <= int(tok) <= len(behind):
+                    chosen.add(behind[int(tok) - 1])
+                else:
+                    unknown.add(tok)
             if unknown:
                 self._print(
                     f"Personas spielen lassen: {sorted(unknown)} sind keine wahlbaren Kandidaten "
-                    f"(wahlbar: {behind}) -- kein Fenster gestartet."
+                    f"(wahlbar: {behind}, Nummern 1-{len(behind)}) -- kein Fenster gestartet."
                 )
                 return
-            chosen = requested
 
         self._print(
             f"⏳ Das spielt jetzt den/die Abschnitt(e) von {sorted(chosen)} -- du wartest "
@@ -2079,9 +2188,25 @@ class TuiSession:
         _zg = self._zeitgedanke()
         if _zg:
             self._print(_zg)
+        # FLOW-1-Fix (05 §B3 "vorhandenes max_windows tatsaechlich setzen,
+        # z.B. 1 Fenster/Schritt"): vor dem Fix erhielt `run_catch_up` weder
+        # `max_windows` noch `on_window` -- der verdeckte Default
+        # (`catchup.DEFAULT_MAX_WINDOWS == 200`) war die tatsaechlich
+        # wirksame Grenze fuer [5], obwohl die Anzeige "1 Abschnitt vor"
+        # verspricht. `max_rounds=1` begrenzt nur das ABSCHNITTSZIEL je
+        # Persona (NICHT die Anzahl interner Lobby-Fenster/Requests, s.
+        # Modulvertrag oben) -- `max_windows=1` macht den Schritt wirklich
+        # kurz: hoechstens EIN `run_lobby_window`-Aufruf, danach Bedien-
+        # kontrolle zurueck; "noch offen" bleibt ehrlich offen und kann
+        # durch erneutes Waehlen von [5] fortgesetzt werden (kein
+        # automatisches Weiterlaufen, keine zweite Recoverylogik). Catch-up
+        # ([3]) behaelt den bisherigen grosszuegigen Sicherheits-Cap
+        # unveraendert (kein in diesem Befund belegter Bedarf, Risiko fuer
+        # bestehende Mehrfenster-Catch-up-Regressionen vermeiden).
         report = catchup.run_catch_up(
             self, selected=chosen, current_table_members=current_table,
             target=None, max_rounds=1 if vorspielen else None,
+            max_windows=1 if vorspielen else catchup.DEFAULT_MAX_WINDOWS,
         )
         for note in report.notes:
             self._print(f"  {note}")
@@ -2091,6 +2216,163 @@ class TuiSession:
             f"{' (' + report.stopped_reason + ')' if report.stopped_reason else ''}, "
             f"blockiert/kein Fortschritt: {report.blocked or '(keine)'})."
         )
+        # N06-R (RECOVERY_REVIEW R2 Z.68): der haeufige R1-Vorsperre-Stop
+        # (`report.recovery_pause`, additiv ueber lobby_flow/catchup
+        # durchgereicht) erreichte bisher NIE das bereits gebaute Recovery-
+        # Menue -- nur der seltene `OpenReservationExistsError`-except weiter
+        # unten rief `_offer_orphan_recovery_menu` auf. Gilt fuer BEIDE
+        # Ausloeser dieser Methode (Catch-up `vorspielen=False` UND
+        # Vorspielen `vorspielen=True`), da beide denselben `report =
+        # catchup.run_catch_up(...)`-Aufruf oben teilen. Andere STOPPED-
+        # Gruende (z.B. Sicherheits-Fenstergrenze) lassen `recovery_pause`
+        # auf dem Default `False` -- kein Menue, keine Verhaltensaenderung.
+        if report.stopped and report.recovery_pause:
+            self._offer_orphan_recovery_menu()
+
+    def _open_ki_table_resume_candidates(self) -> list["_OpenKiTableCandidate"]:
+        """L2 (BUDGET_FLOW_REVIEW.md R2-BF-4, 02_RESTAUFTRAG.md §L L2):
+        lesend ermittelte, NUMMERIERBARE Liste tatsaechlich offener KI-
+        Tisch-/Sectionbindungen -- schliesst die Luecke, dass ein Operator
+        OHNE eigenen offenen Tisch (`_build_resume_card()` liefert dann
+        `open_section_id=None`) seine gewaehlten KI-Personas dort bisher
+        NICHT fortsetzen konnte, weil `[6]`/`_cmd_resume_open_section`
+        bisher ausschliesslich an `self.participant_id` band.
+
+        Scope/Filter: DIESELBE bereits bestehende Kandidatenmenge wie
+        Catch-up/Vorspielen (`catchup.ready_persona_keys(self)` minus
+        `self._excluded_personas`, 'bestehende Zustaendigkeit/Filter') --
+        KEIN ungefilterter Lobby-/Tischweg, keine Oracle-/RUSH-/Dronov-
+        Sonderfaelle. Fuer jeden Kandidaten wird `_build_resume_card(
+        participant_id=pk)` (bereits bestehend, additiv seit G04/UX20)
+        wiederverwendet -- KEINE eigene Bindungslogik hier. Ein bekannter,
+        gerade nicht lesbarer Current (`authority_unresolved`) wird NICHT
+        als Kandidat angeboten (kein Resume auf ungeklaerter Grundlage).
+        Mehrere Personas am SELBEN Tisch (`open_section_id` gleich) ergeben
+        GENAU EINEN nummerierten Eintrag mit allen verstaendlichen
+        Figurennamen (`last_valid_save_summary`, dieselbe Quelle wie die
+        Karte selbst) statt interner `pk`s."""
+        if self.run_dir is None:
+            return []
+        from ..core import catchup
+        try:
+            ready_keys = catchup.ready_persona_keys(self)
+        except (OSError, ValueError, KeyError):
+            return []
+        candidate_pks = sorted(ready_keys - self._excluded_personas)
+        by_section: dict[str, _OpenKiTableCandidate] = {}
+        for pk in candidate_pks:
+            card = self._build_resume_card(participant_id=pk)
+            if card is None or card.chrononaut_id is None or card.open_section_id is None:
+                continue
+            if card.authority_unresolved:
+                continue
+            display_name = card.last_valid_save_summary or pk
+            existing = by_section.get(card.open_section_id)
+            if existing is None:
+                by_section[card.open_section_id] = _OpenKiTableCandidate(
+                    open_section_id=card.open_section_id, chrononaut_id=card.chrononaut_id,
+                    member_names=[display_name], member_pks=[pk],
+                )
+            else:
+                existing.member_names.append(display_name)
+                existing.member_pks.append(pk)
+        return [by_section[section_id] for section_id in sorted(by_section)]
+
+    def _cmd_resume_open_section(self) -> None:
+        """BF-4 (BUDGET_FLOW_REVIEW.md Abschnitt BF-4, Umsetzungsform
+        Punkt 2): gezieltes Wiederaufnehmen der bereits bestehenden Tisch-/
+        Sectionbindung -- WIEDERVERWENDET dieselbe bereits bestehende
+        Autoritaet wie `_cmd_resume_or_continue`s Tischzweig
+        (`_resolve_bound_table_for_resume` -> `_resume_bound_table`),
+        NICHT `catchup.run_catch_up`. Dadurch bekommen bereits
+        abgeschlossene Mitspieler KEINE neue Catch-up-Zielzaehlung/
+        Einladung, eine ungewaehlte Persona KEINEN Driver/Request/Lock --
+        genau der in BF-4 geforderte, von [3]/[5] (Catch-up/neues
+        Vorspielen) unterscheidbare zweite Weg. Kein neuer Dienst, keine
+        neue Spielschleife.
+
+        L2-Nachzug (BUDGET_FLOW_REVIEW.md R2-BF-4): die eigene Karte bleibt
+        die ERSTE Autoritaet (unveraendertes Verhalten fuer JEDEN Operator
+        mit eigenem offenen Tisch). NUR wenn die eigene Karte KEINE offene
+        Bindung liefert, bietet dieser Weg ZUSAETZLICH eine lesend
+        ermittelte, nummerierte Auswahl der tatsaechlich offenen KI-Tisch-/
+        Sectionbindungen an (`_open_ki_table_resume_candidates`) -- der
+        Operator muss dafuer KEIN Mitglied des KI-Tisches sein. Dieselbe
+        gebundene Autoritaet (`_resolve_bound_table_for_resume`/
+        `_resume_bound_table`) fuehrt danach fort, keine zweite Hierarchie."""
+        card = self._build_resume_card()
+        if card is not None and card.chrononaut_id is not None and card.open_section_id is not None:
+            table = self._resolve_bound_table_for_resume(card.chrononaut_id, card.open_section_id)
+            if table is None:
+                self._print(
+                    f"Diesen offenen Abschnitt fortsetzen nicht moeglich: die gebundene "
+                    f"Tischzuordnung ('{card.open_section_id}') ist gerade nicht eindeutig lesbar -- "
+                    "kein automatischer Solo-/Ersatztisch, kein Fenster gestartet (sicherer Stopp)."
+                )
+                return
+            self._resume_bound_table(table)
+            return
+        candidates = self._open_ki_table_resume_candidates()
+        if not candidates:
+            self._print(
+                "Diesen offenen Abschnitt fortsetzen: aktuell keine real gebundene offene "
+                "Tisch-/Sectionbindung -- keine Aktion."
+            )
+            return
+        self._print(
+            "Diesen offenen Abschnitt fortsetzen: kein eigener offener Tisch, aber offene KI-"
+            "Tisch-/Sectionbindungen gefunden -- nummerierte Auswahl:"
+        )
+        for i, cand in enumerate(candidates, start=1):
+            self._print(f"  {i}) {', '.join(cand.member_names)} (Section {cand.open_section_id})")
+        raw, control = self._readline_with_controls(
+            f"Welche Bindung fortsetzen? (Nummer 1-{len(candidates)}, leer/zurueck = nichts "
+            "ausfuehren): ",
+            context="Offene-KI-Tischbindung-Auswahl",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Diesen offenen Abschnitt fortsetzen abgebrochen -- keine Aktion.")
+            return
+        raw = raw.strip()
+        if not raw:
+            self._print("Diesen offenen Abschnitt fortsetzen: nichts ausgewaehlt -- keine Aktion.")
+            return
+        if not raw.isdigit() or not (1 <= int(raw) <= len(candidates)):
+            self._print(
+                f"Diesen offenen Abschnitt fortsetzen: '{raw}' ist keine gueltige Nummer "
+                f"(1-{len(candidates)}) -- keine Aktion."
+            )
+            return
+        chosen = candidates[int(raw) - 1]
+        table = self._resolve_bound_table_for_resume(chosen.chrononaut_id, chosen.open_section_id)
+        if table is None:
+            self._print(
+                f"Diesen offenen Abschnitt fortsetzen nicht moeglich: die gewaehlte "
+                f"Tischzuordnung ('{chosen.open_section_id}') ist gerade nicht eindeutig lesbar -- "
+                "kein automatischer Solo-/Ersatztisch, kein Fenster gestartet (sicherer Stopp)."
+            )
+            return
+        # L2-Nachzug (BUDGET_FLOW_REVIEW.md "Verbleibender konkreter Fehler"):
+        # `candidates`/`chosen.member_*` zeigen NUR die bereits um
+        # `self._excluded_personas` gefilterte Teilmenge -- die tatsaechliche
+        # Tischbindung (`table.members`) kann trotzdem einen ausgeschlossenen,
+        # in der Auswahl unsichtbaren Partner enthalten (derselbe Table, z.B.
+        # Alpha erlaubt + Beta ausgeschlossen). VOR jedem Driverbau wird die
+        # vollstaendige reale Besetzung gegen die bestehende Ausschlussmenge
+        # gegengeprueft -- ein Treffer ist ein sicherer Stopp (kein stilles
+        # Entfernen des Partners, keine Alpha-only-Ersatzfortsetzung, kein
+        # implizites Ueberschreiben des Ausschlusses). Eine vollstaendig
+        # erlaubte Tischbesetzung (kein Treffer) laeuft unveraendert weiter.
+        blocked_members = sorted(set(table.members) & self._excluded_personas)
+        if blocked_members:
+            self._print(
+                f"Diesen offenen Abschnitt fortsetzen nicht moeglich: die gewaehlte "
+                f"Tischzuordnung ('{chosen.open_section_id}') bindet mindestens ein ausgeschlossenes "
+                f"Mitglied ({', '.join(blocked_members)}) -- kein Driver/Request fuer ausgeschlossene "
+                "Mitglieder, keine partielle Ersatzfortsetzung (sicherer Stopp)."
+            )
+            return
+        self._resume_bound_table(table)
 
     def _cmd_active_group_settings(self) -> None:
         """SPIELFLUSS-SPEC.md Abschnitt 3 ("aktive Gruppe/Ausschluss"):
@@ -2186,7 +2468,8 @@ class TuiSession:
                 extra_lines = "  [4] Gast-Erschaffungsanfragen entscheiden (annehmen/ablehnen)"
             self._print(
                 "Charaktere -- [1] Auswaehlen/neu erstellen  [2] Importieren  "
-                "[3] Exportieren/ansehen  [6] Bogen anzeigen – letzter Speicherstand"
+                "[3] Exportieren/ansehen  [6] Bogen anzeigen – letzter Speicherstand  "
+                "[7] Laden/Kontext aufbauen (Halt vor erstem Zug)"
                 + extra_lines + " (/zurueck fuer Hauptmenue)"
             )
             text, control = self._readline_with_controls(
@@ -2211,6 +2494,12 @@ class TuiSession:
             elif choice in ("6", "bogen", "!bogen"):
                 self._cmd_show_bogen()
                 return
+            # BF-5-Fix (BUDGET_FLOW_REVIEW.md BF-5): [7] fest (nie durch die
+            # bedingten [4]/[5] oben belegt, s. Docstring oben) -- bewusster
+            # Lade-/Kontextaufbau mit Halt vor dem ersten Spielzug.
+            elif choice == "7":
+                self._cmd_load_context_checkpoint()
+                return
             elif choice == "4" and not self._host_capable:
                 self._cmd_gast_erschaffung_anfragen_menu()
                 return
@@ -2226,6 +2515,80 @@ class TuiSession:
             else:
                 self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
                 continue
+
+    def _cmd_load_context_checkpoint(self) -> None:
+        """BF-5 (BUDGET_FLOW_REVIEW.md Abschnitt BF-5/R2-BF-5): bewusster
+        Lade-/Kontextaufbau fuer die aktuelle Figur -- nutzt DENSELBEN
+        bereits bestehenden Kompatibilitaets-Ladeweg wie jeder andere echte
+        Spielaufrufer (`_resolve_active_save` mit dem unveraenderten
+        Default `apply_compat_load=True`, KEIN neuer Mechanismus, keine
+        Save-Neuerzeugung). `_apply_pending_compat_load` meldet einen real
+        gefundenen offenen Kompatibilitaetsfall bereits selbst ehrlich
+        ('adopted'/'hold').
+
+        L1-Nachzug (RECOVERY_REVIEW/BUDGET_FLOW_REVIEW R2-BF-5, 02_RESTAUFTRAG
+        §L L1): die VORHERIGE Fassung pruefte `final_save` nur auf `None` und
+        meldete DANACH unbedingt "Kontext aufgebaut", OHNE den vorhandenen
+        Persona-/Runtime-Kontextbuilder `_own_system_context` je auszufuehren
+        -- ein normaler Budgetstop/Gegenfall waere fuer den Test ununterscheidbar
+        von einem echten Aufbau gewesen. Jetzt wird `_own_system_context`
+        TATSAECHLICH aufgerufen und ihr Ergebnis (Persona-State-Render + der
+        bereits oben aufgeloeste eigene Current) an `self._loaded_context_
+        checkpoint` gebunden -- beobachtbar fuer Aufrufer/Tests, NICHT nur
+        die Erfolgsmeldung. `resolved_active_save=(final_save, unresolved)`
+        reicht den HIER bereits aufgeloesten Stand durch, damit `_own_system_
+        context` NICHT selbst ein zweites Mal `_resolve_active_save` (und
+        damit potenziell `_apply_pending_compat_load`) aufruft -- derselbe
+        geladene Stand wird konsistent weiterverwendet, keine doppelte
+        Kompatreparatur.
+
+        Unterscheidet sich von der reinen Bogen-Anzeige (`_cmd_show_bogen`,
+        nutzt NUR `load_current_save_or_raise` OHNE Kompat-Adoption) --
+        dieser Ladepunkt ist deshalb kein als SL-Fresh-Load-PASS getarnter
+        Bogen-/Karten-Read (BF-5 Z.125). Stoppt bewusst NACH dem Laden:
+        kein neuer Abschnitt, keine Einladung, kein Missionsfortschritt
+        allein durch diesen Schritt -- aktive Fortsetzung bleibt eine
+        weitere bewusste Aktion ('spielen'/[charaktere] [1])."""
+        participant_id = self.participant_id
+        state = onboarding.peek(self.onboarding_dir, participant_id)
+        onboarding_final_save = state.final_save if state is not None else None
+        final_save, unresolved = self._resolve_active_save(
+            participant_id, onboarding_final_save, apply_compat_load=True,
+        )
+        if unresolved:
+            self._loaded_context_checkpoint = None
+            self._print(
+                "Laden/Kontext aufbauen nicht moeglich: der veroeffentlichte Spielstand ist "
+                "gerade nicht lesbar -- kein Ersatzstand uebernommen (sicherer Stopp)."
+            )
+            return
+        if final_save is None:
+            self._loaded_context_checkpoint = None
+            self._print(
+                "Laden/Kontext aufbauen: noch kein gespeicherter Spielstand fuer diese Figur "
+                "vorhanden -- nichts zu laden."
+            )
+            return
+        context_text = self._own_system_context(
+            participant_id, resolved_active_save=(final_save, unresolved),
+        )
+        self._loaded_context_checkpoint = {
+            "persona_key": participant_id, "context": context_text, "save": final_save,
+        }
+        own_characters = final_save.get("characters") if isinstance(final_save, dict) else None
+        own_character = own_characters[0] if isinstance(own_characters, list) and own_characters else {}
+        identity_hint = (own_character or {}).get("name") or (own_character or {}).get("id") or participant_id
+        save_id_hint = final_save.get("save_id") if isinstance(final_save, dict) else None
+        self._print(
+            f"Laden/Kontext aufbauen: Kontext fuer '{participant_id}' aus dem persoenlichen "
+            f"Current aufgebaut (Save-ID {save_id_hint!r}, Figur {identity_hint!r}; dieselbe "
+            "Autoritaet wie ein echter Spielstart)."
+        )
+        self._print(
+            "Laden/Kontext aufbauen: Halt vor dem ersten Spielzug -- kein neuer Abschnitt, keine "
+            "Einladung, kein Missionsfortschritt allein durch dieses Laden. Aktive Fortsetzung "
+            "ist ein weiterer bewusster Schritt (z.B. 'spielen' oder '[charaktere]' -> [1])."
+        )
 
     def _print_tisch_submenu_header(self, show_host_line: bool) -> None:
         """Gemeinsame Kopfzeile des Tisch-Untermenues -- extrahiert aus
@@ -2894,7 +3257,24 @@ class TuiSession:
         chrononaut_id = catalog.last_selected(self.catalog_dir, participant_id)
         state = onboarding.peek(self.onboarding_dir, participant_id)
         onboarding_final_save = state.final_save if state is not None else None
-        final_save, unresolved = self._resolve_active_save(participant_id, onboarding_final_save)
+        # LOAD-1-Fix (05 §B4/B5, 06 §D4): Kartenaufbau ist reine Anzeige --
+        # `apply_compat_load=False` unterdrueckt den bisher UNBEDINGTEN
+        # `_apply_pending_compat_load`-Aufruf (kann reparieren/publizieren
+        # und bei konfigurierter SL einen echten GM-Transport konstruieren/
+        # aufrufen, s. dessen Docstring). Separater reiner Lesecheck
+        # darunter zeigt einen GEFUNDENEN Bedarf nur an, loest ihn nicht
+        # aus -- der bewusste Lade-/Reparaturweg (echter Spielzug/Export/
+        # Import) nutzt `_resolve_active_save` weiterhin mit Default
+        # `apply_compat_load=True`, unveraendert.
+        final_save, unresolved = self._resolve_active_save(
+            participant_id, onboarding_final_save, apply_compat_load=False,
+        )
+        pending_compat_load = False
+        if self.run_dir is not None and self.states_dir is not None and self.schema_path is not None:
+            try:
+                pending_compat_load = self._find_latest_pending_compat_export(participant_id) is not None
+            except (OSError, ValueError, KeyError):
+                pending_compat_load = False
         pending_creation = state is not None and state.status == "in_progress"
         community_id: str | None = None
         open_section_id: str | None = None
@@ -2982,7 +3362,7 @@ class TuiSession:
             community_id=community_id, participant_id=participant_id,
             chrononaut_id=chrononaut_id, last_valid_save_summary=summary,
             open_section_id=open_section_id, pending_creation=pending_creation,
-            authority_unresolved=unresolved,
+            authority_unresolved=unresolved, pending_compat_load=pending_compat_load,
         )
 
     def _opaque_boundary_error(self, context: str, *, attempted: bool = False) -> str:
@@ -5362,8 +5742,30 @@ class TuiSession:
 
     def _resolve_active_save(
         self, persona_key: str, onboarding_final_save: dict | None,
+        *, apply_compat_load: bool = True,
     ) -> tuple[dict | None, bool]:
-        """A7/D1 (WEGKARTE §8, Plan-Critic A7, Tests 05/06): EINHEITLICHE
+        """LOAD-1-Fix (ZR-UPDATE-RESUME-REPARATUR 2026-11-23, 05 §B4/B5,
+        06 §D4): `apply_compat_load=False` (NEU, Default bleibt `True` --
+        KEIN Verhaltenswechsel fuer irgendeinen bestehenden Aufrufer ausser
+        dem unten explizit umgestellten `_build_resume_card`) unterdrueckt
+        `self._apply_pending_compat_load(persona_key)` -- jenen Aufruf, der
+        bei einem passenden offenen Kompatibilitaetsumschlag TATSAECHLICH
+        reparieren/uebernehmen und (host-faehig + konfigurierte SL) sogar
+        einen echten GM-Transport konstruieren/aufrufen kann (s. dessen
+        Docstring). Reine Anzeige-/Kartenaufbau-Aufrufer wollen NUR den
+        aktuellen Stand LESEN, keine Migration/Publikation/Modellanfrage
+        ausloesen (quellbestaetigter Befund: der bisherige Docstring-Satz
+        'Kein Schreibzugriff beim blossen Kartenaufbau' an
+        `_build_resume_card` stimmte nicht mit `_resolve_active_save`s
+        TATSAECHLICH unbedingtem `_apply_pending_compat_load`-Aufruf
+        zusammen). Der bewusst ausgeloeste Lade-/Reparaturweg (jeder andere
+        bestehende Aufrufer: `_cmd_local_round`/`_resolve_member`/
+        `_own_system_context`/Export/Import/`_cmd_new_or_switch_character`)
+        bleibt UNVERAENDERT -- Migration/Gates werden nicht global
+        abgeschaltet, nur fuer reine Anzeige nicht mehr automatisch
+        ausgeloest.
+
+        A7/D1 (WEGKARTE §8, Plan-Critic A7, Tests 05/06): EINHEITLICHE
         Autoritaet fuer den 'aktuellen' Save eines Teilnehmers -- IMMER
         zuerst der real veroeffentlichte Stand; NUR wenn dafuer (noch) KEINE
         Version existiert (z.B. direkt nach Erschaffung, vor der ersten
@@ -5419,9 +5821,10 @@ class TuiSession:
             # `onboarding_final_save`-Rueckfall unten unveraendert
             # bestehen ("App bleibt benutzbar, letzter valider Stand
             # bleibt erhalten", 02.D).
-            compat_block = self._apply_pending_compat_load(persona_key)
-            if compat_block is not None:
-                return compat_block, False
+            if apply_compat_load:
+                compat_block = self._apply_pending_compat_load(persona_key)
+                if compat_block is not None:
+                    return compat_block, False
             if current is not None:
                 return current, False
         return onboarding_final_save, False
@@ -5556,7 +5959,9 @@ class TuiSession:
             )
         return None
 
-    def _own_system_context(self, persona_key: str) -> str:
+    def _own_system_context(
+        self, persona_key: str, *, resolved_active_save: tuple[dict | None, bool] | None = None,
+    ) -> str:
         """D3/A7 (K7, WEGKARTE §6, PLAN-CRITIC-ABSCHLUSS.md HINWEIS):
         gemeinsamer Context-Builder -- baut den `system`-Kontext ueber die
         bereits vorhandene `PersonaStateStore.render_for_prompt` (nicht neu
@@ -5589,7 +5994,17 @@ class TuiSession:
         ist ausschliesslich der EIGENE Spielstand von `persona_key` (ueber
         `_resolve_active_save(persona_key, ...)`) -- fremde Privatreflex-
         ionen/Fremdtische/Operator-/Devdaten sind darin strukturell nicht
-        enthalten (kein zusaetzlicher Filter noetig)."""
+        enthalten (kein zusaetzlicher Filter noetig).
+
+        L1-Nachzug (BUDGET_FLOW_REVIEW.md R2-BF-5): `resolved_active_save`,
+        additiv und OPTIONAL (Default `None` -> unveraendertes Verhalten fuer
+        JEDEN bestehenden Aufrufer, der diesen bereits selbst aufgeloesten
+        `(current, unresolved)`-Tupel wiederverwenden will, statt einen
+        ZWEITEN `_resolve_active_save`-Aufruf auszuloesen (der bei einem
+        offenen Kompatibilitaetsumschlag denselben Umschlag ein zweites Mal
+        bearbeiten koennte, s. `_apply_pending_compat_load`). NUR `_cmd_
+        load_context_checkpoint` setzt dies bisher; jeder andere Aufrufer
+        laesst es weg und bekommt bytegleich den bisherigen eigenen Resolve."""
         if self.run_dir is None or self.states_dir is None or self.schema_path is None:
             return ""
         from ..core.persona_state import PersonaStateStore
@@ -5599,7 +6014,10 @@ class TuiSession:
         except FileNotFoundError:
             return ""
         text = ps_store.render_for_prompt(state)
-        current, unresolved = self._resolve_active_save(persona_key, None)
+        if resolved_active_save is not None:
+            current, unresolved = resolved_active_save
+        else:
+            current, unresolved = self._resolve_active_save(persona_key, None)
         if not unresolved and current is not None and isinstance(current, dict):
             text = (
                 f"{text}\nEigener aktueller Spielstand (Current, vollstaendig): "
@@ -10086,6 +10504,99 @@ class TuiSession:
             self._print(f"  {i}) {label}")
         self._dispatch_completion_card_choice(self, actions)
 
+    def _offer_orphan_recovery_menu(self) -> None:
+        """R2 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW.md R2 "Es gibt
+        keinen normalen Recoveryweg fuer echte Roots"): der bestellte
+        End-User-Bedienweg fuer den `request_ledger.OpenReservationExistsError`-
+        HOLD oben -- ruft AUSSCHLIESSLICH die bereits gehaertete
+        Anwendungsschicht `core.recovery_ops.plan_orphan_recovery`/
+        `apply_orphan_recovery` auf (keine eigene Bindungslogik hier, kein
+        Dubletten-Apparat in `request_ledger`).
+
+        Ablauf: (1) kostenfreie, lesende Pruefung -- 0 Kosten, kein Versand
+        (R2 Punkt 1). (2) Originalresultate (`durable_result`/`lost_
+        without_text`) werden NUR angezeigt, nie erneut versucht -- sie
+        loesen sich beim naechsten regulaeren Fortsetzen automatisch/gar
+        nicht auf (R2 Punkt 2). (3) fuer jeden echten `unknown`-Ausgang EINE
+        bewusste Ja/Nein-Wahl (R2 Punkt 3) -- 'nein' ODER
+        '/zurueck'/'/abbrechen'/'/pause' bleiben wirkungslos (kein Write,
+        R2 Punkt 7); 'ja' ruft `apply_orphan_recovery` auf, die SELBST
+        KEINEN Modellcall macht (R2 Punkt 6) und nur einen gebundenen
+        Folgeversuch autorisiert. Der tatsaechliche Versand passiert erst
+        beim naechsten regulaeren 'n'/[fortsetzen] ueber denselben
+        regulaeren Caller (`core.runtime.SectionRuntime._admitted_decision`/
+        `submit`, bereits verdrahtet -- konsumiert den Folger via
+        `request_ledger.commit_authorized_retry`, R2 Punkt 7). Keine
+        technischen Fehlerdetails in dieser Ansicht (dieselbe Schutzzusage
+        wie der bisherige Dead-End-Text, s. Aufrufer)."""
+        from ..core import recovery_ops
+        if self.run_dir is None:
+            return
+        run_dir = Path(self.run_dir).resolve()
+        try:
+            plan = recovery_ops.plan_orphan_recovery(run_dir)
+        except recovery_ops.RecoveryError as exc:
+            self._print(f"Kostenfreie Pruefung gerade nicht moeglich ({type(exc).__name__}) -- zurueck ins Hauptmenue.")
+            return
+        orphans = plan.get("orphans", [])
+        if not orphans:
+            self._print(
+                "Kostenfreie Pruefung: keine offenen Orphan-Requestdatensaetze fuer diesen Run "
+                "gefunden. Der HOLD bleibt unveraendert bestehen."
+            )
+            return
+        self._print("Kostenfreie Pruefung offener Requestdatensaetze dieses Runs (0 Kosten, kein Versand):")
+        for item in orphans:
+            classification = item.get("classification")
+            head = f"  - request_id={item.get('request_id')} (table={item.get('table_id')!r}, turn={item.get('turn_idx')!r}): "
+            if classification == "durable_result":
+                self._print(head + "Originalresultat liegt bereits durabel vor -- wird beim naechsten "
+                             "Fortsetzen automatisch verwendet, KEIN neuer Versuch noetig.")
+            elif classification == "lost_without_text":
+                self._print(head + "bereits abgeschlossen, Text nicht rekonstruierbar -- KEIN neuer "
+                             "Versuch zulaessig.")
+            else:
+                self._print(head + "echter unbekannter Ausgang -- eine bewusste Entscheidung folgt.")
+        unknown_items = [item for item in orphans if item.get("classification") == "unknown"]
+        if not unknown_items:
+            self._print(
+                "Fuer alle offenen Requestdatensaetze liegt bereits ein Originalresultat vor oder "
+                "ein neuer Versuch ist nicht zulaessig -- einfach erneut ueber 'n'/[fortsetzen] "
+                "versuchen, zurueck ins Hauptmenue."
+            )
+            return
+        for item in unknown_items:
+            request_id = item.get("request_id")
+            text, control = self._readline_with_controls(
+                f"Request {request_id}: echter unbekannter Ausgang (weder Erfolg noch Fehlschlag "
+                "bekannt). Genau EINEN zusaetzlichen, gebundenen neuen Versuch autorisieren -- das "
+                "Original bleibt dabei Unknown, es wird KEIN Ergebnis erfunden? [j/n]: ",
+                context="Orphan-Recovery",
+            )
+            if control in ("zurueck", "abbrechen", "pause"):
+                self._print("Abgebrochen -- keine Aenderung vorgenommen, zurueck ins Hauptmenue.")
+                return
+            if text.strip().lower() not in ("j", "ja", "y", "yes"):
+                self._print("Kein neuer Versuch autorisiert -- das Original bleibt unveraendert Unknown.")
+                continue
+            try:
+                result = recovery_ops.apply_orphan_recovery(
+                    run_dir, request_id=request_id,
+                    reason="end_user_tui_orphan_recovery_menu", plan=item,
+                )
+            except recovery_ops.RecoveryError as exc:
+                self._print(
+                    f"Autorisierung abgelehnt ({type(exc).__name__}) -- kein Zustand wurde "
+                    "veraendert, zurueck ins Hauptmenue."
+                )
+                continue
+            self._print(
+                f"Ein einziger gebundener neuer Versuch wurde autorisiert (Folger-ID "
+                f"{result.get('granted_request_id')}). Dieser Schritt selbst hat KEINEN Modellaufruf "
+                "ausgeloest -- der tatsaechliche Versand erfolgt erst beim naechsten regulaeren "
+                "Fortsetzen ('n'/[fortsetzen])."
+            )
+
     def _run_table_round(
         self, table, lobby, ps_store, leader_id: str, leader_persona_id: str | None,
         leader_driver, active_save: dict | None,
@@ -10852,16 +11363,23 @@ class TuiSession:
             # request_ledger-Umbau hier -- der tiefe Recoveryfall bleibt ein
             # bewusst OFFENER Befund (s. W-REPORT.md), kein falscher
             # UI-Retryrat.
+            #
+            # R2 (PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW.md R2): die
+            # fruehere Fassung endete hier mit "keine Reparatur in dieser
+            # Ansicht" -- genau das war der gemeldete Befund (kein normaler
+            # Recoveryweg fuer echte Roots). `_offer_orphan_recovery_menu`
+            # ersetzt NUR den Schluss (kostenfreie Pruefung + bewusste Wahl
+            # fuer einen echten UNKNOWN-Ausgang ueber `core.recovery_ops`);
+            # der erklaerende Text oben bleibt, Abbruch/Zurueck bleiben
+            # wirkungslos (kein Write in dieser Ansicht).
             self._print(
                 "Nicht aufgeloester HOLD: fuer diesen Abschnitt existiert noch eine offene, nicht "
                 "abgeschlossene Requestreservierung aus einem frueheren Abbruch. Der letzte bestaetigte, "
                 "gespeicherte Stand ist die verbindliche Grenze -- nicht der zuletzt versuchte Zug. "
-                "Diese Reservierung wird HIER NICHT automatisch aufgehoben; ein erneuter Versuch ueber "
-                "'n'/[fortsetzen] fuehrt zu demselben HOLD, solange die Reservierung offen bleibt -- das "
-                "ist KEIN Vorschlag, es trotzdem zu versuchen. Dies ist ein bekannter, noch ungeloester "
-                "Befund (keine Reparatur in dieser Ansicht), zurueck ins Hauptmenue. Keine Fehlerdetails "
-                "in dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
+                "Diese Reservierung wird HIER NICHT automatisch aufgehoben. Keine Fehlerdetails in "
+                "dieser Ansicht (Schutz vor Secret-/Innendetail-Lecks)."
             )
+            self._offer_orphan_recovery_menu()
             return
         except OSError:
             # W24b (Storage-HOLD Ehrlichkeit, BRIEF-W24b.md Punkt 1): reiner
@@ -11022,6 +11540,38 @@ class TuiSession:
             else:
                 self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
                 self._print_group_save_hold_status_lines(table, outcome.completion.missing, drivers)
+            # R1-TUI-Nachzug (RECOVERY_REVIEW.md §1, 02_RESTAUFTRAG.md §R R1):
+            # derselbe additive Reuse wie `_cmd_catch_up_personas`s bereits
+            # bestehende Pruefung (`report.recovery_pause`, tui.py ~2199) --
+            # dieser direkte Tischweg (UND der darueber zurueckflie-ssende
+            # Reflexions-Unknown-vor-Modellcall-Fall aus `_collect_
+            # reflections`/`finalize`, der NUR ueber dieses eine
+            # `outcome.recovery_pause`-Feld bis hierher durchgereicht wird)
+            # erreichte das bereits bestehende kostenfreie Recoverymenue
+            # bisher NIE -- nur der alte `except OpenReservationExistsError`
+            # oben rief `_offer_orphan_recovery_menu()` auf. Ein gewoehnlicher
+            # Budgetstop laesst `recovery_pause` auf dem Default `False`
+            # (`SectionRuntime.blocked_outcome`) -- kein Menue, keine
+            # Verhaltensaenderung, keine falsche Recoverywahl. GENAU EINMAL
+            # hier (nicht zusaetzlich im Erfolgszweig oben, der dieses Feld
+            # strukturell nie `True` liefert, s. `blocked_outcome`). `_offer_
+            # orphan_recovery_menu` selbst macht 'zurueck'/'nein' bereits
+            # wirkungslos (kein Write) -- keine zweite Menuehierarchie, kein
+            # Text-Parsing hier.
+            # Gegenfall (Gegenpruefung 2026-11-24, 02_RESTAUFTRAG.md §R
+            # "gueltige Disposition nach abgeschlossenem Settlement beachten"):
+            # ein bereits oben als `decided == "stopped"` gelesener,
+            # BEWUSSTER Betreiber-Stop ist eine abgeschlossene Disposition --
+            # `_finalize_genuine_table_abort` lief, "ENDGUELTIG beendet
+            # (verworfen)" wurde gedruckt. Ein zusaetzliches Recoverymenue
+            # widerspraeche dieser bewussten Endentscheidung (und koennte
+            # einen auf dem verworfenen Tisch nie konsumierten Folger
+            # autorisieren). `decided` wird oben (~11429) auf ALLEN Pfaden
+            # gebunden; die drei R1-Pflichtfaelle (Tisch-Resume-Unknown,
+            # Reflexions-Unknown) haben `decided is None` -> Menue bleibt
+            # erhalten. NUR der ausdrueckliche Stop unterdrueckt es.
+            if outcome.recovery_pause and decided != "stopped":
+                self._offer_orphan_recovery_menu()
         # U3c (R3 Stage 2, 01_NACHZUG §U3c): rein ADDITIV NACH dem oben
         # unveraenderten Erfolg/Stop/plan_committed/Pause-Block (der
         # bleibt bytegleich, NICHT angefasst) -- liest nur das dort
@@ -11636,11 +12186,12 @@ class TuiSession:
         Lab-Lobbydurchstich, Bau-GO 2026-09-27, H-A) -- die vollstaendige
         Orchestrierung (vorher hier inline) wurde UI-neutral extrahiert, s.
         `mmo_sim/core/lobby_flow.py`-Moduldocstring fuer die volle
-        Begruendung. TUI formatiert/druckt bereits waehrend des Ablaufs
-        (`self._print`, `session` ist hier `self`) -- das zurueckgegebene
-        `LobbyWindowOutcome` traegt keine zusaetzliche Information, die TUI
-        noch drucken muesste (Headless wertet es dagegen aus, um zu
-        entscheiden, ob ein weiteres Fenster folgt).
+        Begruendung. TUI formatiert/druckt den normalen Ablauf bereits
+        waehrend des Laufs (`self._print`, `session` ist hier `self`);
+        das zurueckgegebene `LobbyWindowOutcome` wird hier NUR noch wegen
+        EINER einzigen Zusatzinformation ausgewertet: `recovery_pause` (s.
+        R1-TUI-Nachzug unten). Headless wertet das Outcome darueber hinaus
+        aus, um zu entscheiden, ob ein weiteres Fenster folgt.
 
         H-D/H06 (EIN Writer pro Daten-/run-Bereich): ist fuer dieses
         `run_dir` gerade ein Lab-Lauf aktiv (lebender `lab.lock.json`-
@@ -11664,7 +12215,20 @@ class TuiSession:
                 )
                 return
         from ..core import lobby_flow
-        lobby_flow.run_lobby_window(self)
+        outcome = lobby_flow.run_lobby_window(self)
+        # R1-TUI-Nachzug (02_RESTAUFTRAG.md §R R1 woertlich: "Dasselbe gilt
+        # fuer einen Unknown in der Lobby-Initiative"; RECOVERY_REVIEW.md §1):
+        # derselbe additive Reuse wie `_run_table_round` (~11541) und
+        # `_cmd_catch_up_personas` (~2230) -- DIESELBE Formel, kein neuer
+        # Mechanismus. Die Signalberechnung (`lobby_flow` ~884, stop_recovery_
+        # pause) UND die R4-Fensterbindung sind bereits korrekt gebaut; nur
+        # dieser TUI-Konsument verwarf das `LobbyWindowOutcome` bisher
+        # vollstaendig, sodass ein Lobby-Unknown das vorhandene kostenfreie
+        # Recoverymenue NIE erreichte. `recovery_pause` ist NUR beim orphanen-
+        # den Resume `True` (sonst Default `False`, s. `LobbyWindowOutcome`) --
+        # gewoehnliche Lobby-Ausgaenge/Stops/No-Consensus oeffnen kein Menue.
+        if outcome.recovery_pause:
+            self._offer_orphan_recovery_menu()
 
     # U4c (R3 Stage 2, 01_NACHZUG §U4c): finale Produktprosa (Main/Opus).
     # Ein kleiner, deterministisch durchlaufener Pool kurzer Zeit-Atmosphaere-

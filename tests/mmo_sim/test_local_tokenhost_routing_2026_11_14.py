@@ -1793,6 +1793,15 @@ class _StatefulOwuiDouble:
             self.collection_of.pop(fid, None)
             self.linked.discard(fid)
             return 200, {}
+        # UPD-1: `wait_for_file_ready` fragt vor jedem Link-Versuch
+        # `GET /api/v1/files/{id}` ab (kein `?page=`) -- bereits in `self.
+        # files` liegender Inhalt gilt sofort als fertig extrahiert (dieser
+        # Double modelliert keine Verarbeitungsverzögerung).
+        if method == "GET" and path.startswith("/api/v1/files/") and "?" not in path and path != "/api/v1/files/":
+            fid = path.rsplit("/", 1)[-1]
+            if fid in self.files:
+                return 200, {"id": fid, "data": {"content": "ready"}}
+            return 404, {"detail": "not found"}
         return 404, {"detail": f"O2A-Double: unbehandelt {method} {path}"}
 
 

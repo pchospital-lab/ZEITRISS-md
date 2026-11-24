@@ -1283,3 +1283,186 @@ def try_consume_p5_allowance(run_dir, *, repair_key: str, record: dict) -> bool:
         consumed["consumed_ts"] = time.time()
         _atomic_write_json(_p5_grant_path(resolved, token), consumed)
     return True
+
+
+# ═══════════════════════ R2 — echter-Root-Orphan-Recovery ═══════════════════
+#
+# PR #3317-Nachzug 2026-11-23, RECOVERY_REVIEW.md R2 ("Es gibt keinen
+# normalen Recoveryweg fuer echte Roots"): anders als R-P3/R-P5 oben ist
+# dieser Weg AUSDRUECKLICH fuer einen echten Root gedacht, nicht nur fuer
+# einen ausdruecklich markierten synthetischen Testroot -- `apply_orphan_
+# recovery` ruft deshalb BEWUSST NICHT `_require_synthetic_root` auf. Die
+# Low-Level-Primitiven (`request_ledger.find_durable_result`/`find_
+# answered_without_text`/`find_open_orphan`/`dispose_open_orphan`/
+# `authorize_bound_retry`) existieren bereits (REC-1/REC-2); diese Fassung
+# ist die geforderte "richtige Bedien-/Anwendungsschicht" (Review Z.62)
+# darueber, die dieselbe Bindungsmechanik (Writer-Exklusivitaet, Run-
+# Bindung, Plan->Apply-Hashbindung, Vorzustands-Re-Check) wie R-P3/R-P5
+# wiederverwendet, OHNE sie in `request_ledger` zu duplizieren.
+#
+# `plan_orphan_recovery` ist REIN LESEND/kostenfrei und klassifiziert jeden
+# echten offenen Root (state in reserved/sent OHNE eigenes `recovery_of` --
+# ein bereits autorisierter Folger ist selbst kein eigener Root) nach R2
+# Punkt 2 ("Originalresultate vorrangig aufloesen"): `durable_result`
+# (bereits durabel beantwortet -- der reguläre Caller loest das beim
+# naechsten Eintritt automatisch OHNE Retry auf, s. `runtime.
+# SectionRuntime._admitted_decision`/`submit`), `lost_without_text`
+# (bereits verbucht, Text nicht rekonstruierbar -- KEIN Retry zulaessig) und
+# `unknown` (R2 Punkt 3: echter unbekannter Ausgang -- hierfuer, und NUR
+# hierfuer, bietet `apply_orphan_recovery` eine bewusste Wahl).
+ORPHAN_ACTION = "RECOVER_OPEN_ORPHAN_SINGLE_BOUND_RETRY"
+
+#: R2 Punkt 4/5 ("bestaetigte Entscheidung binden an echten Run, vollstaendige
+#: Request-/Operationsidentitaet, frisch geprueften Vorzustand" -- "dieselbe
+#: Bindung vor der tatsaechlichen Nutzung erneut pruefen"): dieselbe
+#: Bound-Keys-Idempotenz-/Konfliktpruefung wie `_P3_BOUND_KEYS`/
+#: `_P5_BOUND_KEYS` oben, angewandt in `apply_orphan_recovery` gegen einen
+#: FRISCH von Platte neu berechneten Plan desselben Requests.
+_ORPHAN_BOUND_KEYS = (
+    "action", "request_id", "table_id", "section_id", "role", "turn_idx",
+    "participant", "original_request_sha256", "run_binding",
+)
+
+
+def plan_orphan_recovery(run_dir) -> dict:
+    """REIN LESEND, kostenfrei (R2 Punkt 1: "ueber die normale TUI
+    kostenfrei anzeigen/pruefen lassen"). Zaehlt JEDEN echten offenen
+    Orphan-Root (state in ('reserved','sent'), OHNE eigenes `recovery_of`)
+    fuer diesen Run auf und klassifiziert ihn ueber die bestehenden
+    Low-Level-Primitiven (s. Modulabschnitts-Docstring oben). Fuer jeden
+    `unknown`-Treffer wird zusaetzlich die VOLLE Operationsidentitaet, der
+    frisch gelesene Vorzustandshash der Originaldatei UND die aktuelle
+    Run-Bindung mitgeliefert (dieselbe Mechanik wie `plan_p3`/`plan_p5`) --
+    genau dieses Dict ist der spaetere `plan=`-Parameter fuer `apply_
+    orphan_recovery`."""
+    resolved = _validate_run_dir_path(run_dir)
+    # Dieselbe Symlink-Pruefung wie `plan_p3`/`inspect_p3_candidates` --
+    # `requests/` wird ueber `request_ledger` gelesen, nicht direkt hier.
+    _safe_resolved_subpath(resolved, "requests")
+    run_binding = _run_binding(resolved)
+    orphans = []
+    for record in request_ledger.open_requests(resolved):
+        if record.get("state") not in ("reserved", "sent"):
+            continue
+        if record.get("recovery_of"):
+            # Das ist selbst schon ein per `authorize_bound_retry`
+            # angelegter, gebundener Folger -- kein eigener Root, den R2
+            # hier nochmal zur Wahl stellen wuerde (der reguläre Caller
+            # konsumiert ihn ueber `commit_authorized_retry`).
+            continue
+        request_id = record.get("id")
+        identity_kwargs = {
+            "table_id": record.get("table_id"), "section_id": record.get("section_id"),
+            "role": record.get("role"), "turn_idx": record.get("turn_idx"),
+            "participant": record.get("participant"),
+        }
+        if request_ledger.find_durable_result(resolved, **identity_kwargs) is not None:
+            orphans.append({
+                "request_id": request_id, **identity_kwargs, "classification": "durable_result",
+                "recommendation": (
+                    "Originalresultat liegt bereits durabel vor -- der reguläre Fortsetzen-Weg "
+                    "loest es automatisch OHNE neuen Versuch auf (R2 Punkt 2: Originalresultate "
+                    "vorrangig aufloesen)."
+                ),
+            })
+            continue
+        if request_ledger.find_answered_without_text(resolved, **identity_kwargs) is not None:
+            orphans.append({
+                "request_id": request_id, **identity_kwargs, "classification": "lost_without_text",
+                "recommendation": (
+                    "Bereits verbuchte Antwort ohne rekonstruierbaren Text -- kein neuer Versuch "
+                    "zulaessig (die Operation ist bereits abgeschlossen)."
+                ),
+            })
+            continue
+        original_hash = _sha256_bytes(request_ledger._request_path(resolved, request_id).read_bytes())
+        orphans.append({
+            "request_id": request_id, **identity_kwargs, "classification": "unknown",
+            "recommendation": (
+                "Echter unbekannter Ausgang -- bewusste Wahl: Original bleibt Unknown (keine "
+                "Aktion) ODER ein einziger gebundener neuer Versuch wird autorisiert "
+                "(apply_orphan_recovery)."
+            ),
+            "action": ORPHAN_ACTION, "original_request_sha256": original_hash,
+            "run_binding": run_binding,
+            "existing_disposition": request_ledger.load_recovery_disposition(resolved, request_id),
+        })
+    return {"run_dir": str(resolved), "run_binding": run_binding, "orphans": orphans}
+
+
+def apply_orphan_recovery(run_dir, *, request_id: str, reason: str, plan: dict | None = None) -> dict:
+    """Bewusste Operatoraktion -- macht SELBST KEINEN Modellcall (R2 Punkt
+    6). Disponiert additiv (`request_ledger.dispose_open_orphan`) und
+    autorisiert GENAU EINEN gebundenen Folgeversuch (`request_ledger.
+    authorize_bound_retry`) fuer den referenzierten echten Orphan-Root; der
+    tatsaechliche Versand/Modellcall passiert SPAETER am regulaeren Caller
+    (`runtime.SectionRuntime._admitted_decision`/`submit`, bereits
+    verdrahtet -- konsumiert den autorisierten Folger ueber `request_ledger.
+    commit_authorized_retry`). KEIN `_require_synthetic_root` -- dies ist
+    ausdruecklich der echte-Root-faehige R2-Weg, nicht der synthetische
+    P3/P5-Altpfad (dessen Schutzabsicht bleibt durch die unveraenderten
+    `apply_p3`/`apply_p5` oben vollstaendig erhalten)."""
+    if not isinstance(reason, str) or not reason.strip():
+        raise RecoveryError("reason ist Pflicht und darf nicht leer sein.")
+    # R2 analog `apply_p3`/`apply_p5` (CONTROL.json `core_plan_
+    # clarification`): `plan=None` appliziert NICHT stillschweigend neu
+    # geplant -- kontrollierte Ablehnung VOR jeder Wirkung.
+    if plan is None:
+        raise RecoveryPlanRequiredError(
+            "apply_orphan_recovery erfordert einen vom Aufrufer gelieferten vorherigen "
+            "plan_orphan_recovery(...)-Treffer (core_plan_clarification) -- plan=None wird "
+            "NICHT mehr stillschweigend neu geplant und angewandt."
+        )
+    resolved = _validate_run_dir_path(run_dir)
+    with _SharedWriterExclusivity(resolved):
+        fresh_plan = plan_orphan_recovery(resolved)
+        fresh = next((o for o in fresh_plan["orphans"] if o.get("request_id") == request_id), None)
+        if fresh is None or fresh.get("classification") != "unknown":
+            raise RecoveryPreconditionChangedError(
+                f"request_id={request_id!r} ist nicht (mehr) ein echter unbekannter Orphan-Root "
+                "fuer diesen Run (bereits durabel/verloren/abgeschlossen oder nicht mehr offen) -- "
+                "kontrollierter Abbruch statt Apply auf veraltetem oder unzutreffendem Plan."
+            )
+        # R2 Punkt 4 ("binden an echten Run"): `apply_*` selbst ist
+        # fail-closed fuer eine fehlende/ungueltige Run-Identitaet, analog
+        # `apply_p3`/`apply_p5` (`inspect`/`plan_orphan_recovery` duerfen die
+        # Abwesenheit weiterhin rein lesend melden, s. `_run_binding`).
+        if fresh["run_binding"].get("run_id") is None:
+            raise RecoveryMissingRunIdentityError(
+                f"run_dir {resolved} hat keine lesbare run_id.json (run_binding.run_id ist "
+                "None) -- apply_orphan_recovery appliziert NICHT mit einer fehlenden/"
+                "ungueltigen Run-Identitaet (fail-closed)."
+            )
+        candidate = {k: fresh.get(k) for k in _ORPHAN_BOUND_KEYS}
+        if plan.get("action") != ORPHAN_ACTION or any(
+            plan.get(k) != candidate.get(k) for k in _ORPHAN_BOUND_KEYS
+        ):
+            raise RecoveryPreconditionChangedError(
+                "Der Vorzustand hat sich zwischen plan und apply veraendert (Requestdatei/"
+                "Identitaet/Run-Bindung nicht mehr identisch, oder der vorgelegte Plan passt "
+                "nicht zu diesem Request) -- kontrollierter Abbruch statt Apply auf veraltetem "
+                "oder fremdem Plan."
+            )
+        # `dispose_open_orphan`/`authorize_bound_retry` bleiben selbst die
+        # Autoritaet fuer Idempotenz/Staleness auf Low-Level-Ebene (04 §2C)
+        # -- dieser Plan-Hash-Abgleich oben ist eine ZUSAETZLICHE, fruehere
+        # Bindungspruefung auf derselben Ebene wie `apply_p3`/`apply_p5`,
+        # keine Dopplung ihrer Semantik.
+        # `request_ledger.StaleDispositionError` ist bewusst KEINE
+        # `RecoveryError`-Unterklasse (eigenstaendiger Low-Level-Vertrag,
+        # s. dort) -- wird hier an der Schichtgrenze in die kontrollierte
+        # `RecoveryError`-Familie uebersetzt, damit JEDER Aufrufer dieser
+        # Anwendungsschicht (TUI/CLI) weiterhin NUR `RecoveryError` fangen
+        # muss (fail-closed, keine zweite Fehlerfamilie an dieser Grenze).
+        try:
+            disposition = request_ledger.dispose_open_orphan(resolved, request_id, reason=reason)
+            granted_request_id = request_ledger.authorize_bound_retry(resolved, request_id)
+        except request_ledger.StaleDispositionError as exc:
+            raise RecoveryPreconditionChangedError(
+                f"Vorzustand/Disposition fuer request_id={request_id!r} ist veraltet ({exc}) -- "
+                "kontrollierter Abbruch statt Apply auf einer ueberholten Bindung."
+            ) from exc
+        return {
+            "status": "applied", "request_id": request_id,
+            "granted_request_id": granted_request_id, "disposition": disposition,
+        }
