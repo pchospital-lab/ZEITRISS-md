@@ -551,6 +551,98 @@ def resume_hold_via_transport_error_best_effort(
     return mark_adopted(run_dir, repair_key, adopted_block=best_block, best_effort=True)
 
 
+def authorize_transport_error_fresh_resend(
+    run_dir: str | Path, repair_key: str, *, char_id: str, table_id: str, section_id: str,
+    max_attempts: int = MAX_ADDITIONAL_REQUESTS,
+) -> dict | None:
+    """ZR-PLAYTEST-ANSCHLUSS-20261125 (Linus-Fix): bedienbarer, NUR vom
+    Betreiber/Spielleiter ausgeloester Recoverypfad fuer GENAU den
+    `transport_error:`-HOLD, fuer den weder `resume_hold_via_transport_
+    error_best_effort` NOCH `resume_hold_via_structural_best_effort` je
+    greifen -- weil KEIN `best_candidate_block` existiert (das Mitglied war
+    bei JEDEM bisherigen Versand vollstaendig abwesend, s. `pursue_group_
+    save_correction`s `update_best_candidate`-Aufruf: der setzt NUR, wenn
+    `original_block is not None`). Ohne diesen Pfad bleibt ein solcher
+    Datensatz TERMINAL HOLD -- die beiden bestehenden Best-effort-Funktionen
+    liefern `best_block is None -> return None`, und der normale Re-Send-
+    Zweig in `pursue_group_save_correction` sendet nur fuer `state==
+    STATE_VALIDATING` (ein terminaler `STATE_HOLD` wird dort NIE automatisch
+    zurueckgesetzt, s. Modulkommentar/Docstring dort).
+
+    NICHT automatisch: diese Funktion wird NIRGENDS innerhalb von
+    `pursue_group_save_correction` selbst aufgerufen (anders als die beiden
+    bestehenden `resume_hold_via_*_best_effort`-Funktionen) -- NUR ein
+    expliziter Betreiber-Aufrufer (TUI-Menue, s. `ui.tui.TuiSession._offer_
+    group_save_transport_resend_menu`) darf sie erreichen. Macht selbst
+    KEINEN Modellaufruf: setzt NUR `state` von `STATE_HOLD` zurueck auf
+    `STATE_VALIDATING` -- derselbe Normalzustand, den `pursue_group_save_
+    correction`s regulaerer Versandzweig fuer ein noch fehlendes Mitglied
+    ohnehin erwartet. Der tatsaechliche Versand (inkl. `begin_attempt`, also
+    regulaerem Attempt-Budget-Verbrauch, UND Ledger-Reservierung ueber
+    `send_correction_turn`) passiert ERST beim naechsten regulaeren Aufruf
+    von `pursue_group_save_correction` (naechstes 'fortsetzen') -- kein
+    neuer Transport-/Sendecode hier, reine Zustandsfreigabe.
+
+    `attempts_used`/`bound_prev_ref_by_member`/`bound_block`/
+    `bound_require_hq` bleiben UNVERAENDERT -- derselbe bereits gebundene
+    Originalvorgang (`bound_prev_ref_by_member`) traegt den naechsten
+    Versand, NICHT ein frisch gelesener (evtl. gedrifteter) Current.
+
+    Guards (ALLE muessen gelten, sonst `None`, Datensatz UNVERAENDERT --
+    kein Teil-Write):
+      - Datensatz existiert, `state == STATE_HOLD` -- insbesondere macht
+        das IDEMPOTENT: ein zweiter Aufruf nach einer bereits erfolgten
+        Freigabe (Zustand jetzt `STATE_VALIDATING`/`STATE_CORRECTION_
+        PENDING`/...) liefert `None`, OHNE einen zweiten Versand
+        auszuloesen -- die Freigabe selbst geschieht GENAU EINMAL pro
+        HOLD-Episode (HOLD -> VALIDATING), ein laufender Folgezustand wird
+        nur erneut gelesen, nie ein zweites Mal geschrieben.
+      - `last_reason` beginnt mit `TRANSPORT_ERROR_REASON_PREFIX` -- jeder
+        andere HOLD-Grund (Drift, Konflikt, fremde Bindung, ...) bleibt
+        UNVERAENDERT terminal, GENAUSO wie bei den beiden bestehenden
+        Best-effort-Funktionen.
+      - Eigentuemer-/Figur-/Abschnittsbindung passt EXAKT (`char_id`/
+        `table_id`/`section_id`).
+      - `adopted_block is None` -- schliesst eine Freigabe NACH bereits
+        erfolgter (Best-effort-)Uebernahme aus.
+      - `best_candidate_block is None` -- GENAU die Abgrenzung zu den
+        beiden bestehenden Best-effort-Pfaden: existiert bereits ein
+        beobachteter Kandidat, ist `resume_hold_via_transport_error_best_
+        effort`/`resume_hold_via_structural_best_effort` der zustaendige,
+        kostenlose (kein neuer Versand) Weg -- dieser hier bleibt NUR fuer
+        den Fall ohne jeden Kandidaten.
+      - NICHT `attempts_exhausted(record, max_attempts)` -- kein Budget
+        mehr bedeutet den bestehenden SAVECOMPAT-/Best-effort-Abschlussweg
+        (s. `pursue_group_save_correction`s erschoepfter-Budget-Zweig),
+        NICHT einen weiteren Versand.
+
+    Liefert bei erfolgreicher Freigabe den aktualisierten Datensatz (jetzt
+    `state=validating`)."""
+    record = load_record(run_dir, repair_key)
+    if record is None or record.get("state") != STATE_HOLD:
+        return None
+    last_reason = record.get("last_reason")
+    if not isinstance(last_reason, str) or not last_reason.startswith(TRANSPORT_ERROR_REASON_PREFIX):
+        return None
+    if (
+        record.get("char_id") != char_id
+        or record.get("table_id") != table_id
+        or record.get("section_id") != section_id
+    ):
+        return None
+    if record.get("adopted_block") is not None:
+        return None
+    if record.get("best_candidate_block") is not None:
+        return None
+    if attempts_exhausted(record, max_attempts):
+        return None
+    record = dict(record)
+    record["state"] = STATE_VALIDATING
+    record["updated_ts"] = time.time()
+    _write_record(run_dir, repair_key, record)
+    return record
+
+
 def _pre_send_resumable_own_record(
     run_dir: str | Path, table_id: str, section_id: str, record: dict, block: dict,
 ) -> bool:
