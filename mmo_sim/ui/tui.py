@@ -3718,6 +3718,20 @@ class TuiSession:
                 # Hauptmenue), weil nur Punkt 2 explizit `/zurueck` betrifft.
                 return control == "zurueck"
             choice = choice.strip()
+            # ZR-PR3317-NACHZUG-20261124 §B (REVIEW.md Abschnitt 4): Leerstring/
+            # Whitespace (blosses Enter) ist bei VORHANDENEN Figuren weder eine
+            # Auswahl noch das ausdrueckliche 'neu' -- fiel vorher mangels
+            # Treffer in BEIDEN folgenden Zweigen bis zu `force_new = True`
+            # durch und loeste damit ungefragt einen kostenpflichtigen
+            # Erschaffungsdialog aus. Abfangen VOR jeder Generationsbindung,
+            # derselbe Rueckweg (Hinweis + `return`) wie bei einer ungueltigen
+            # Auswahl unten (`selection_error`) -- keine neue Bestaetigungsschicht.
+            if not choice:
+                self._print(
+                    "Keine Eingabe erkannt -- bitte Nummer/Name einer vorhandenen Figur "
+                    "oder 'neu' fuer eine weitere Erschaffung eingeben."
+                )
+                return
             if resumable and choice.lower().split(":", 1)[0] == "fortsetzen":
                 self._resume_additional_persona_creation(choice, resumable)
                 return False
