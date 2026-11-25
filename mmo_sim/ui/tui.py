@@ -2491,14 +2491,46 @@ class TuiSession:
             # WP-P2-B: [6] fest (nie durch die bedingten [4]/[5] oben belegt)
             # -- dieselbe Methode wie der Hauptmenue-Alias 'bogen'/'!bogen'
             # und '/bogen' an jedem anderen Prompt, kein zweiter Lesepfad.
+            #
+            # 02_ANSCHLUSS.md §2/REVIEW.md §6 (Stage D): VOR dem eigentlichen
+            # Bogen-Aufruf steht jetzt additiv `_select_managed_persona_or_
+            # self()` -- OHNE eigenen bereits bestaetigten Bestand
+            # (`_known_ai_overview()` leer, der heute ueberwiegende
+            # Default-Fall) liefert sie SOFORT `self.participant_id` zurueck,
+            # OHNE einen zusaetzlichen Prompt zu lesen -- bytegleiches
+            # Verhalten zu vorher fuer jede Session ohne Bestand. Erst bei
+            # einem nicht-leeren eigenen Bestand erscheint die zusaetzliche,
+            # auf GENAU diese Liste begrenzte Auswahl; Leer-/Zurueck-/
+            # ungueltige Eingabe dort bleibt folgenlos (`None`, `continue`
+            # zeigt dieses Untermenue erneut).
             elif choice in ("6", "bogen", "!bogen"):
-                self._cmd_show_bogen()
+                target = self._select_managed_persona_or_self()
+                if target is None:
+                    continue
+                if target == self.participant_id:
+                    self._cmd_show_bogen()
+                else:
+                    self._cmd_show_bogen(speaker_pid=target)
                 return
             # BF-5-Fix (BUDGET_FLOW_REVIEW.md BF-5): [7] fest (nie durch die
             # bedingten [4]/[5] oben belegt, s. Docstring oben) -- bewusster
             # Lade-/Kontextaufbau mit Halt vor dem ersten Spielzug.
+            #
+            # 02_ANSCHLUSS.md §2/REVIEW.md §6 (Stage D): dieselbe additive
+            # Auswahl wie bei [6] oben -- ohne eigenen Bestand bytegleich
+            # `self._cmd_load_context_checkpoint()` (kein neues Argument),
+            # erst mit nicht-leerem Bestand wirkt die Auswahl auf den
+            # persoenlichen Current der GEWAEHLTEN verwalteten Persona
+            # (`persona_key=target`), NICHT auf einen Identitaetswechsel
+            # dieser Sitzung.
             elif choice == "7":
-                self._cmd_load_context_checkpoint()
+                target = self._select_managed_persona_or_self()
+                if target is None:
+                    continue
+                if target == self.participant_id:
+                    self._cmd_load_context_checkpoint()
+                else:
+                    self._cmd_load_context_checkpoint(persona_key=target)
                 return
             elif choice == "4" and not self._host_capable:
                 self._cmd_gast_erschaffung_anfragen_menu()
@@ -2516,7 +2548,59 @@ class TuiSession:
                 self._print(f"Unbekannte Auswahl: {choice!r} -- bitte erneut waehlen.")
                 continue
 
-    def _cmd_load_context_checkpoint(self) -> None:
+    def _select_managed_persona_or_self(self) -> str | None:
+        """Stage D (02_ANSCHLUSS.md §2, REVIEW.md §6): additiver Auswahl-
+        schritt vor [6]/[7] im Charaktere-Untermenue -- macht eine bereits
+        BERECHTIGT VERWALTETE Persona aus dem eigenen bestaetigten Bestand
+        (`_known_ai_overview()`, dieselbe Lesequelle wie `_cmd_community`/
+        die KI-Auswahl in `_local_round_select_ai`, 0 Calls, kein Bootstrap)
+        fuer [6]/[7] erreichbar, OHNE eine freie Owner-ID-Eingabe zuzulassen
+        -- die Auswahl ist strikt auf die Positionen dieser einen Liste
+        begrenzt (jede andere Eingabe ist unbekannt/abgelehnt, s. unten),
+        kein neuer Freitext-ID-Pfad.
+
+        Bleibt der eigene Bestand leer (der heute ueberwiegende Default-
+        Fall, z.B. keine Community bestaetigt), liefert dies SOFORT
+        `self.participant_id` zurueck, OHNE `_readline_with_controls`
+        aufzurufen -- bytegleiches Verhalten/kein zusaetzlicher Lesevorgang
+        fuer jeden bestehenden Aufrufer/Test ohne Bestand.
+
+        Liefert `None` bei Zurueck/Abbrechen/Pause, bei leerer Eingabe und
+        bei jeder nicht zuordenbaren Eingabe (Zahl ausserhalb der Liste,
+        nicht-numerischer Text) -- GENAU das macht die Auswahl selbst
+        folgenlos (02_ANSCHLUSS.md §2 'Leere/Zurueck-/ungueltige/fremde
+        Auswahl bleibt folgenlos'): der Aufrufer loest in all diesen
+        Faellen KEINE Aktion aus. '0' waehlt explizit die eigene Figur
+        (`self.participant_id`) -- KEIN Identitaetswechsel, nur der
+        Rueckgabewert dieser reinen Auswahlfunktion."""
+        own_overview = self._known_ai_overview()
+        if not own_overview:
+            return self.participant_id
+        numbered = "  ".join(
+            f"[{i}] {label}" for i, (_pk, label) in enumerate(own_overview, start=1)
+        )
+        self._print(
+            f"Figur fuer Bogen/Laden waehlen -- [0] Eigene Figur ({self.participant_id})  "
+            + numbered + "  (/zurueck fuer Abbrechen)"
+        )
+        text, control = self._readline_with_controls(
+            "Auswahl: ", context="Charaktere-Figurauswahl",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            return None
+        choice = text.strip()
+        if choice == "":
+            return None
+        if choice == "0":
+            return self.participant_id
+        if choice.isascii() and choice.isdigit():
+            idx = int(choice) - 1
+            if 0 <= idx < len(own_overview):
+                return own_overview[idx][0]
+        self._print(f"Unbekannte Auswahl: {choice!r} -- Figurauswahl abgebrochen.")
+        return None
+
+    def _cmd_load_context_checkpoint(self, *, persona_key: str | None = None) -> None:
         """BF-5 (BUDGET_FLOW_REVIEW.md Abschnitt BF-5/R2-BF-5): bewusster
         Lade-/Kontextaufbau fuer die aktuelle Figur -- nutzt DENSELBEN
         bereits bestehenden Kompatibilitaets-Ladeweg wie jeder andere echte
@@ -2525,6 +2609,18 @@ class TuiSession:
         Save-Neuerzeugung). `_apply_pending_compat_load` meldet einen real
         gefundenen offenen Kompatibilitaetsfall bereits selbst ehrlich
         ('adopted'/'hold').
+
+        Stage D (02_ANSCHLUSS.md §2): `persona_key` (additiv, Default
+        `None` -> `self.participant_id`, bytegleiches Verhalten fuer JEDEN
+        bestehenden Aufrufer ohne dieses Argument) laesst diesen Ladepunkt
+        wahlweise fuer eine ANDERE, aus dem eigenen bestaetigten Bestand
+        AUSGEWAEHLTE verwaltete Persona wirken (`_select_managed_persona_
+        or_self()` im Charaktere-Untermenue) -- GENAU derselbe Lade-/
+        Kompatweg, nur mit einem anderen `persona_key`, KEIN zweiter
+        Mechanismus. `self.participant_id`/`last_participant.json`/
+        Registrierung/Kampagne dieser Sitzung bleiben davon unberuehrt --
+        dies waehlt/laedt nur den persoenlichen Current der GENANNTEN
+        Persona, kein Identitaetswechsel der handelnden Session.
 
         L1-Nachzug (RECOVERY_REVIEW/BUDGET_FLOW_REVIEW R2-BF-5, 02_RESTAUFTRAG
         §L L1): die VORHERIGE Fassung pruefte `final_save` nur auf `None` und
@@ -2549,11 +2645,13 @@ class TuiSession:
         kein neuer Abschnitt, keine Einladung, kein Missionsfortschritt
         allein durch diesen Schritt -- aktive Fortsetzung bleibt eine
         weitere bewusste Aktion ('spielen'/[charaktere] [1])."""
-        participant_id = self.participant_id
+        participant_id = persona_key if persona_key is not None else self.participant_id
         state = onboarding.peek(self.onboarding_dir, participant_id)
         onboarding_final_save = state.final_save if state is not None else None
+        is_managed_target = persona_key is not None
+        onboarding_fallback = None if is_managed_target else onboarding_final_save
         final_save, unresolved = self._resolve_active_save(
-            participant_id, onboarding_final_save, apply_compat_load=True,
+            participant_id, onboarding_fallback, apply_compat_load=True,
         )
         if unresolved:
             self._loaded_context_checkpoint = None
