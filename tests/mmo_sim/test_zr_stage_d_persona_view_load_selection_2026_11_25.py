@@ -62,6 +62,31 @@ def _scripted_input(lines: list[str]):
     return _fn
 
 
+def _make_onboarding_completed_without_publish(onboarding_dir: Path, states_dir: Path, persona_key: str) -> dict:
+    """R1-Nachzug (02_NACHZUG.md/REVIEW.md §2, Kette Pkt 1-5): repliziert
+    GENAU den Zwischenstand, den `community_creation.advance_one_persona_
+    creation` durchlaeuft, BEVOR die `_publication_reconcile`-Stufe den
+    Current tatsaechlich veroeffentlicht -- derselbe Produktweg wie
+    `sup.make_ready`/`stage4._make_ready_persona` (`onboarding.start_or_
+    resume` -> `onboarding.complete_with_save` -> `onboarding.ensure_
+    participant_persona_state`), aber OHNE den abschliessenden
+    `core_store.publish_current_save`-Aufruf: Onboarding ist `completed`
+    mit gesetztem `final_save`, der Persona-State existiert (notwendig fuer
+    `_known_ai_overview()`s Lesezugriff), aber es existiert KEINE
+    `current_saves/<persona_key>__versions/`-Spur und keine Current-Save-
+    Ref -- exakt der von R1 beschriebene Zwischenstand (abgeschlossenes
+    Onboarding, kein publizierter Current, kein Kompatumschlag)."""
+    save = sup.upgrade_narrow_save(sup.load_fixture_save(persona_key))
+    chrono_id = save["characters"][0]["id"]
+    ps_store = sup.PersonaStateStore(schema_path=sup.SCHEMA)
+    sup.onboarding.start_or_resume(onboarding_dir, persona_key)
+    sup.onboarding.complete_with_save(
+        onboarding_dir, persona_key, save, sup.ZeitrissHarvestValidator(), chrono_id,
+    )
+    sup.onboarding.ensure_participant_persona_state(ps_store, states_dir, persona_key, chrono_id, save)
+    return save
+
+
 def _build_session(root: Path, pid: str, *, input_fn, printed: list[str], completed_personas=("cqb", "face")):
     """Baut EINE isolierte Session mit einem nicht-leeren eigenen Bestand
     (sechs KI-Personas, `_a24_local_support.bootstrap_six_persona_
@@ -231,6 +256,17 @@ class TestStageDSelectionItselfIsConsequenceFree(unittest.TestCase):
     def test_non_numeric_text_stays_without_effect(self):
         self._assert_no_action_for("keine-gueltige-id", expect_message=True)
 
+    def test_unicode_superscript_digit_stays_without_effect_no_exception(self):
+        """R2-Nachzug (REVIEW.md §3): `"²".isdigit()` ist `True`, aber
+        `int("²")` wirft `ValueError` -- VOR dem Fix propagiert diese
+        Exception unbehandelt aus `_cmd_menu_charaktere` (der run()-
+        Dispatcher faengt nur `EndOfInput`/`GuestCapabilityError`), der Test
+        wird dann als ERROR statt PASS/FAIL ausgefuehrt. NACH dem Fix
+        (`choice.isascii() and choice.isdigit()`) faellt die ungueltige
+        Ziffer folgenlos auf 'Unbekannte Auswahl' durch, wie jede andere
+        nicht zuordenbare Eingabe."""
+        self._assert_no_action_for("²", expect_message=True)
+
 
 class TestStageDExistingEntriesWithoutBestandStayByteIdentical(unittest.TestCase):
     """Bullet 'vorhandene eigene [6]/[7]-Wege ... bleiben intakt
@@ -310,6 +346,98 @@ class TestStageDExplicitSelfSelectionWithBestand(unittest.TestCase):
             self.assertIn("Name: selfpid", sheet, sheet)
             self.assertNotIn("Krag", sheet, sheet)
             self.assertNotIn("Elias", sheet, sheet)
+
+
+class TestStageDManagedLoadWithoutPublishedCurrentRefusesOnboardingFallback(unittest.TestCase):
+    """R1-Nachzug (REVIEW.md §2, 02_NACHZUG.md §1): das VERWALTETE Ziel
+    (`persona_key is not None`) darf beim Laden/Kontextaufbau KEINEN
+    Onboarding-Ersatz adoptieren, wenn fuer die gewaehlte Persona zwar das
+    Onboarding abgeschlossen ist (`final_save` gesetzt), aber noch kein
+    Current veroeffentlicht wurde und auch kein Kompatumschlag vorliegt.
+    VOR dem Fix faellt `_resolve_active_save` auf `onboarding_final_save`
+    zurueck und `_cmd_load_context_checkpoint` meldet faelschlich 'Kontext
+    ... aufgebaut' + setzt einen Checkpoint mit der Onboarding-Save-ID.
+    NACH dem Fix (`onboarding_fallback = None` fuer `is_managed_target`)
+    greift der vorhandene `final_save is None`-Zweig: kein Checkpoint,
+    'nichts zu laden'. Der eigene Pfad (`persona_key is None`, Bullet
+    'vorhandene eigene [6]/[7]-Wege ... bytegleich') bleibt unberuehrt --
+    `TestStageDExistingEntriesWithoutBestandStayByteIdentical` deckt das
+    weiterhin ab."""
+
+    def test_entry_7_on_managed_persona_without_published_current_reports_nothing_to_load(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            printed: list[str] = []
+            # sortierter eigener Bestand (SIX_PERSONAS): cqb(1) face(2)
+            # medic(3) pyro(4) sniper(5) tech(6) -- "medic" (Position 3)
+            # bekommt bewusst NUR das abgeschlossene Onboarding, OHNE
+            # publizierten Current (s. `_make_onboarding_completed_
+            # without_publish`); "cqb"/"face" bleiben als vollstaendig
+            # publizierter Positivfall-Gegenprobe erhalten.
+            session, env = _build_session(
+                root, "selfpid", input_fn=_scripted_input(["7", "3"]), printed=printed,
+            )
+            medic_final_save = _make_onboarding_completed_without_publish(
+                env["onboarding_dir"], env["states_dir"], "medic",
+            )
+            self.assertEqual(
+                medic_final_save["save_id"], "fixture-medic-initial-001",
+                "Testvoraussetzung: Onboarding-Save muss sich vom (hier nicht existierenden) "
+                "Current unterscheiden koennen.",
+            )
+
+            overview = session._known_ai_overview()
+            self.assertEqual(
+                [pk for pk, _l in overview], ["cqb", "face", "medic", "pyro", "sniper", "tech"],
+                "Testvoraussetzung: Positionsannahme [3] = 'medic'.",
+            )
+
+            session._cmd_menu_charaktere()
+
+            out = "\n".join(printed)
+            self.assertNotIn(
+                "Kontext fuer", out,
+                f"KEIN Onboarding-Ersatz erwartet (kein publizierter Current fuer 'medic'):\n{out}",
+            )
+            self.assertIn("nichts zu laden", out, out)
+            self.assertIsNone(
+                session._loaded_context_checkpoint,
+                "kein Checkpoint erwartet, solange fuer die verwaltete Persona kein Current existiert.",
+            )
+
+            # kein Request/Publikation/Tischstart als Nebenwirkung des
+            # (korrekt abgelehnten) Ladeversuchs.
+            self.assertFalse(list((env["run_dir"] / "tables").glob("*.json")), "kein neuer Tisch erwartet.")
+            self.assertFalse(
+                (env["run_dir"] / "current_saves" / "medic__versions").exists(),
+                "der abgelehnte Ladeversuch darf KEINE Current-Version fuer 'medic' anlegen.",
+            )
+
+            # self.participant_id/last_participant.json bleiben unberuehrt.
+            self.assertEqual(session.participant_id, "selfpid")
+            self.assertFalse((root / "last_participant.json").exists())
+
+    def test_entry_7_on_managed_persona_with_published_current_still_loads_correctly(self):
+        """Positivfall-Gegenprobe (muss sowohl vor als auch nach dem Fix
+        gruen bleiben): ein publizierter, vom Onboarding-Save klar
+        unterscheidbarer Current (`cqb`, via `sup.make_ready` in
+        `_build_session`) wird weiterhin korrekt geladen/als Checkpoint
+        gebunden -- derselbe Pfad wie die bestehende
+        `TestStageDLoadBuildsTargetedCheckpointNoTableStart`, hier nur
+        zusaetzlich NEBEN der neu eingefuehrten 'medic'-Ablehnung in
+        derselben Testklasse verankert."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            printed: list[str] = []
+            session, env = _build_session(
+                root, "selfpid", input_fn=_scripted_input(["7", "1"]), printed=printed,
+            )
+            session._cmd_menu_charaktere()
+            out = "\n".join(printed)
+            self.assertIn("Kontext fuer 'cqb' aus dem persoenlichen Current aufgebaut", out, out)
+            checkpoint = session._loaded_context_checkpoint
+            self.assertIsNotNone(checkpoint)
+            self.assertEqual(checkpoint["save"]["save_id"], "fixture-cqb-initial-001")
 
 
 if __name__ == "__main__":

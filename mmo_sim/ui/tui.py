@@ -2593,7 +2593,7 @@ class TuiSession:
             return None
         if choice == "0":
             return self.participant_id
-        if choice.isdigit():
+        if choice.isascii() and choice.isdigit():
             idx = int(choice) - 1
             if 0 <= idx < len(own_overview):
                 return own_overview[idx][0]
@@ -2648,8 +2648,10 @@ class TuiSession:
         participant_id = persona_key if persona_key is not None else self.participant_id
         state = onboarding.peek(self.onboarding_dir, participant_id)
         onboarding_final_save = state.final_save if state is not None else None
+        is_managed_target = persona_key is not None
+        onboarding_fallback = None if is_managed_target else onboarding_final_save
         final_save, unresolved = self._resolve_active_save(
-            participant_id, onboarding_final_save, apply_compat_load=True,
+            participant_id, onboarding_fallback, apply_compat_load=True,
         )
         if unresolved:
             self._loaded_context_checkpoint = None
