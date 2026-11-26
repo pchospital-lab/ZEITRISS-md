@@ -566,7 +566,7 @@ def _decide_participant_save_intake(
     genau das: Entscheidung VOR `accept_request`, Schreiben NACH
     `accept_request`, s. dort)."""
     preview = import_export.preview_import_tolerant(raw_save_text)
-    incoming_block = json.loads(raw_save_text)
+    incoming_block = preview.canonical_block if preview.canonical_block is not None else json.loads(raw_save_text)
     known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(catalog_dir, participant_id)}
     # Konfliktbasis wie `_cmd_import`s `_resolve_active_save`: zuerst der
     # real veroeffentlichte Stand, NUR wenn dafuer (noch) keine Version
@@ -5057,7 +5057,7 @@ class TuiSession:
         # F5/K4 (WEGKARTE BLOCKER 1): Vorschau allein uebernimmt nichts --
         # ab hier tatsaechliche Uebernahme ueber `import_export.resolve_import`
         # (11 §5, vier Zielzuordnungsfaelle) + `onboarding.complete_with_save`.
-        incoming_block = json.loads(raw)
+        incoming_block = preview.canonical_block if preview.canonical_block is not None else json.loads(raw)
         known_char_ids = {e.chrononaut_id for e in catalog.list_for_participant(self.catalog_dir, self.participant_id)}
         existing_state = onboarding.peek(self.onboarding_dir, self.participant_id)
         existing_onboarding_save = existing_state.final_save if existing_state is not None else None

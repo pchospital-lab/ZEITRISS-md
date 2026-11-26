@@ -38,6 +38,11 @@ class ImportPreview:
     # `preview_import_tolerant` erreichbar, NIE ueber `preview_import`.
     tolerated: bool = False
     warnings: tuple[str, ...] = ()
+    # Stage 3 (Arena-Gast Wallet-Intake-Normalisierung, 2026-11-26): additives
+    # Feld, Default None haelt JEDEN bestehenden Aufrufer bytegleich. Wird NUR
+    # vom Normalisierungszweig unten gesetzt (wertgleicher, schema-gueltiger
+    # Kandidat) -- `tolerated` bleibt in diesem Fall False (kein Cap-Rest).
+    canonical_block: dict | None = None
 
 
 def preview_import(raw_text: str) -> ImportPreview:
@@ -139,6 +144,27 @@ def preview_import_tolerant(raw_text: str) -> ImportPreview:
         raise original_error from None
 
     cid = save_lib.block_char_id(obj)
+
+    # Stage 3 (Arena-Gast Wallet-Intake-Normalisierung, 2026-11-26): VOR dem
+    # Cap-Ueberlauf-Gate pruefen, ob die wertgleiche Wallet-Projektion
+    # (`save_compatibility.evaluate_with_wallet_projection`) den Block
+    # vollstaendig gueltig macht. Der Owner-/Identity-Guard steckt IN dieser
+    # Funktion (`validate_save_block`) -- ein fremd/falsch gebundener
+    # Envelope scheitert dort und wird NICHT gerettet. Lazy-Import wie der
+    # bestehende `core.save_correction`-Import unten (kein Zyklus: `domain.
+    # zeitriss.save_compatibility` importiert nur `save_validation`).
+    from . import save_compatibility
+
+    projection_outcome = save_compatibility.evaluate_with_wallet_projection(obj, cid)
+    if projection_outcome.accepted and projection_outcome.used_projection:
+        proj_level = None
+        proj_chars = obj.get("characters")
+        if isinstance(proj_chars, list) and proj_chars and isinstance(proj_chars[0], dict):
+            proj_level = proj_chars[0].get("lvl", proj_chars[0].get("level"))
+        return ImportPreview(
+            char_id=cid, level=proj_level, n_characters=n, single_char_ok=True,
+            canonical_block=projection_outcome.canonical_block,
+        )
 
     # Importzyklus-Entscheidung (belegt im Report): `core.save_correction`
     # importiert bereits `domain.zeitriss.{save_correction,save_
