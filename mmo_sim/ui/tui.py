@@ -10339,6 +10339,83 @@ class TuiSession:
                 "Abschnitt alternativ abschliessen, sobald dafuer ein zulaessiger Weg verfuegbar ist."
             )
 
+    def _offer_group_save_transport_resend_menu(self, table, missing_pks: list[str]) -> None:
+        """ZR-PLAYTEST-ANSCHLUSS-20261125 (Linus-Fix): der bestellte, NUR vom
+        Betreiber/Tischleiter ausgeloeste Bedienweg fuer GENAU den Gruppen-
+        Save-HOLD, fuer den weder ein `best_candidate_block` existiert NOCH
+        `_print_group_save_hold_status_lines` oben (die NUR echte menschliche
+        Treiber betrachtet -- ein betroffenes NPC-Tischmitglied hat dort
+        KEINE eigene Anzeige) einen bedienbaren Weg anbietet. Aufgerufen auf
+        `self` (dem Terminal des Tischleiters, der diese Runde gerade spielt)
+        NACH der bestehenden, bytegleich belassenen "kann fortgesetzt
+        werden"-Zeile -- unabhaengig von `is_human_driver` (NPC-Mitglieder
+        betroffen `table.chrononaut_ids`, nicht `drivers`).
+
+        Ruft AUSSCHLIESSLICH die bereits gehaertete Core-Funktion
+        `core.save_correction.authorize_transport_error_fresh_resend` auf
+        (keine eigene Bindungs-/Guard-Logik hier, analog `_offer_orphan_
+        recovery_menu` -> `core.recovery_ops`). Macht selbst KEINEN
+        Modellaufruf: die Freigabe setzt NUR `state` von `hold` auf
+        `validating` zurueck, der tatsaechliche Versand passiert erst beim
+        naechsten regulaeren Fortsetzen ueber denselben bestehenden
+        `pursue_group_save_correction`-Aufrufer. 'nein'/'/zurueck'/
+        '/abbrechen'/'/pause' bleiben wirkungslos (kein Write)."""
+        if self.run_dir is None or not missing_pks:
+            return
+        from ..core import save_correction as core_save_correction
+        from ..domain.zeitriss import save_correction as domain_save_correction
+        section_id = f"{table.table_id}-section"
+        eligible: list[tuple[str, str, str]] = []
+        for pk in missing_pks:
+            char_id = table.chrononaut_ids.get(pk)
+            if char_id is None:
+                continue
+            repair_key = domain_save_correction.group_repair_key(table.table_id, section_id, char_id)
+            record = core_save_correction.load_record(self.run_dir, repair_key)
+            if record is None or record.get("state") != core_save_correction.STATE_HOLD:
+                continue
+            last_reason = record.get("last_reason")
+            if not isinstance(last_reason, str) or not last_reason.startswith(
+                core_save_correction.TRANSPORT_ERROR_REASON_PREFIX,
+            ):
+                continue
+            if record.get("adopted_block") is not None or record.get("best_candidate_block") is not None:
+                continue
+            if core_save_correction.attempts_exhausted(record):
+                continue
+            eligible.append((pk, char_id, repair_key))
+        if not eligible:
+            return
+        text, control = self._readline_with_controls(
+            "Fuer mindestens ein Tischmitglied ist der letzte Speicher-Korrekturversand an einem "
+            "Verbindungsfehler gescheitert, OHNE dass bereits eine verwendbare Antwort vorliegt. Jetzt "
+            "GENAU EINEN neuen, an den urspruenglichen Vorgang gebundenen Korrekturversand autorisieren "
+            "-- der bereits verbuchte fehlgeschlagene Versand bleibt davon unveraendert, es wird KEIN "
+            "Ergebnis erfunden? [j/n]: ",
+            context="Speicher-Verbindungsfehler-Resend",
+        )
+        if control in ("zurueck", "abbrechen", "pause"):
+            self._print("Abgebrochen -- keine Aenderung vorgenommen.")
+            return
+        if text.strip().lower() not in ("j", "ja", "y", "yes"):
+            self._print("Kein neuer Versand autorisiert -- der Abschnitt bleibt unveraendert offen.")
+            return
+        authorized_any = False
+        for pk, char_id, repair_key in eligible:
+            resumed = core_save_correction.authorize_transport_error_fresh_resend(
+                self.run_dir, repair_key, char_id=char_id, table_id=table.table_id, section_id=section_id,
+            )
+            if resumed is not None:
+                authorized_any = True
+        if authorized_any:
+            self._print(
+                "Ein neuer, gebundener Korrekturversand wurde autorisiert. Dieser Schritt selbst hat "
+                "KEINEN Modellaufruf ausgeloest -- der tatsaechliche Versand erfolgt erst beim naechsten "
+                "regulaeren Fortsetzen (Wortkommando 'fortsetzen' bzw. Menuepunkt Fortsetzen)."
+            )
+        else:
+            self._print("Kein zulaessiger neuer Versand mehr verfuegbar -- der Abschnitt bleibt unveraendert offen.")
+
     def _print_section_completion_card(self, io, pid: str, saved_now: bool) -> None:
         """U3c (R3 Stage 2, 01_NACHZUG §U3c, docs/spielerstart.md 191-198
         "ob du weiterspielen oder zum Tisch zurueck willst" -- bisher von
@@ -11652,6 +11729,13 @@ class TuiSession:
             else:
                 self._print(f"Abschnitt nicht abgeschlossen ({outcome.completion.reason}) — kann fortgesetzt werden.")
                 self._print_group_save_hold_status_lines(table, outcome.completion.missing, drivers)
+                # ZR-PLAYTEST-ANSCHLUSS-20261125 (Linus-Fix): additiv NACH der
+                # bestehenden Statuszeile -- deckt GENAU den Fall ab, den
+                # `_print_group_save_hold_status_lines` (nur `is_human_
+                # driver`) nicht anzeigt: ein betroffenes NPC-Tischmitglied
+                # ohne eigenes Terminal. Operator-initiiert (y/n), KEIN
+                # automatisches Freischalten.
+                self._offer_group_save_transport_resend_menu(table, outcome.completion.missing)
             # R1-TUI-Nachzug (RECOVERY_REVIEW.md §1, 02_RESTAUFTRAG.md §R R1):
             # derselbe additive Reuse wie `_cmd_catch_up_personas`s bereits
             # bestehende Pruefung (`report.recovery_pause`, tui.py ~2199) --
