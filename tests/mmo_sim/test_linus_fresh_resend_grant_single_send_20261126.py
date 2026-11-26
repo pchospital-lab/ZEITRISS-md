@@ -46,6 +46,7 @@ from __future__ import annotations
 
 import inspect
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -235,10 +236,17 @@ def test_g1_c_reopening_menu_and_continuing_after_exhausted_grant_sends_nothing_
 
 _G1D_CHILD_SCRIPT = textwrap.dedent("""
     import json
+    import os
     import sys
     sys.path.insert(0, sys.argv[5])
+    sys.path.insert(0, os.path.join(sys.argv[5], "tests", "mmo_sim"))
     import mmo_sim.core.save_correction as sc
+    import mmo_sim.core.store as store
+    from _full_v7_fixture import full_v7_save
+    from mmo_sim.core.persona_state import PersonaStateStore
     from mmo_sim.domain.zeitriss import save_correction as domain
+    from mmo_sim.domain.zeitriss import saves as zeitriss_saves
+    from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator, ZeitrissTableSizePolicy
 
     run_dir, char_id, table_id, section_id = sys.argv[1:5]
     repair_key = domain.group_repair_key(table_id, section_id, char_id)
@@ -246,13 +254,70 @@ _G1D_CHILD_SCRIPT = textwrap.dedent("""
     reauthorized = sc.authorize_transport_error_fresh_resend(
         run_dir, repair_key, char_id=char_id, table_id=table_id, section_id=section_id,
     )
-    after = sc.load_record(run_dir, repair_key)
+    after_reauth = sc.load_record(run_dir, repair_key)
+
+    # Minimales Re-Hydrat (reiner Testcode, kein Produktpfad): Lobby/Tisch/
+    # Personastore aus dem bereits persistierten `run_dir` DESSELBEN Laufs
+    # wiederherstellen. `Lobby.join`/`create_table_from_offer_log` sind
+    # idempotent (Resume des bereits offenen Tisches, s. store.py-Docstring
+    # "F5/K12/A6") -- es entsteht hier KEIN neuer Lobby-/Tischzustand.
+    _LEADER_CID = "chrono-leader"
+    schema_path = os.path.join(os.path.dirname(run_dir), "schema.json")
+    states_dir = os.path.join(os.path.dirname(run_dir), "states")
+    ps_store = PersonaStateStore(schema_path=schema_path, default_states_dir=None)
+    lobby = store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    lobby.join("leader_pk")
+    lobby.join("guest_pk")
+    table, _derivation = store.create_table_from_offer_log(
+        lobby, table_id,
+        offer_log_events=[
+            {"type": "offer", "id": "o1", "from": "leader_pk", "wants": ["guest_pk"]},
+            {"type": "consent", "offer_id": "o1", "from": "guest_pk", "accept": True},
+        ],
+        chrononaut_ids={"leader_pk": _LEADER_CID, "guest_pk": char_id},
+    )
+    assert table is not None and table.table_id == table_id, (
+        "Resume des bestehenden, bereits offenen Tisches erwartet -- kein Neuanlegen."
+    )
+
+    class _ExplodingGmTransport:
+        \"\"\"Zaehlender UND explodierender Fake-Transport: jeder Aufruf
+        waere bereits der belegte Defekt -- die Ausnahme macht eine
+        Verletzung im Kindprozess sofort sichtbar statt stumm durchzureichen.\"\"\"
+
+        def __init__(self):
+            self.calls = 0
+
+        def turn(self, turn_idx, user_text, **kwargs):
+            self.calls += 1
+            raise AssertionError(
+                "kein neuer physischer Versand erwartet -- der Grant ist bereits verbraucht."
+            )
+
+    leader_save = full_v7_save(_LEADER_CID, name="Leader")
+    harvested = {"leader_pk": leader_save}
+    completion = store.complete_section(
+        lobby, table, section_id, harvested, states_dir, "2026-11-25",
+        ZeitrissHarvestValidator(), ps_store,
+    )
+    exploding = _ExplodingGmTransport()
+    harvested_out, outcome = sc.pursue_group_save_correction(
+        lobby=lobby, table=table, section_id=section_id, harvested=dict(harvested),
+        harvest_completion=completion, states_dir=states_dir, today="2026-11-25",
+        harvest_validator=ZeitrissHarvestValidator(), persona_state_store=ps_store,
+        gm_transport=exploding, cid_to_pk={_LEADER_CID: "leader_pk", char_id: "guest_pk"},
+        harvest_extractor=zeitriss_saves.harvest_from_debrief,
+    )
+    after_pursue = sc.load_record(run_dir, repair_key)
     print(json.dumps({
-        "pid": sys.argv[0],
+        "pid": os.getpid(),
         "before_state": before["state"],
         "before_consumed": bool(before.get("fresh_resend_grant_consumed")),
         "reauthorized_is_none": reauthorized is None,
-        "record_unchanged": after == before,
+        "record_unchanged_after_reauth": after_reauth == before,
+        "pursue_exploding_calls": exploding.calls,
+        "pursue_outcome_success": outcome.success,
+        "record_unchanged_after_pursue": after_pursue == before,
         "has_open_round": sc.has_open_group_round(run_dir, table_id, section_id),
     }))
 """)
@@ -282,8 +347,23 @@ def test_g1_d_new_process_same_persisted_state_grant_consumption_stays_effective
         assert result["before_state"] == "hold"
         assert result["before_consumed"] is True
         assert result["reauthorized_is_none"] is True, "ein echter zweiter Prozess darf den Grant nicht erneuern."
-        assert result["record_unchanged"] is True
+        assert result["record_unchanged_after_reauth"] is True
+        # Der ECHTE gebundene Korrektur-/Fortsetzenpfad (`pursue_group_save_
+        # correction`) laeuft im echten zweiten Prozess mit einem
+        # zaehlenden/explodierenden Fake-Transport -- GAR KEIN physischer
+        # Versand, Zustand bleibt terminal HOLD (G1-KONFLIKT-Nachzug, Beleg
+        # des bisher nur indirekt (ueber die Freigabe allein) gepruefte
+        # Pfad).
+        assert result["pursue_exploding_calls"] == 0, (
+            "der echte Korrekturcaller darf im zweiten Prozess GAR KEINEN physischen Versand ausloesen."
+        )
+        assert result["pursue_outcome_success"] is False
+        assert result["record_unchanged_after_pursue"] is True
         assert result["has_open_round"] is False, "kein dauerhaft offener Rundenmarker nach dem verbrauchten Grant."
+        assert isinstance(result["pid"], int) and result["pid"] != os.getpid(), (
+            "echte Prozessidentitaet (os.getpid() im Kind), nicht nur der Scriptpfad -- "
+            "und verschieden von der Eltern-PID."
+        )
 
         # Der Elternprozess sieht denselben, unveraenderten Datensatz wieder.
         assert sc.load_record(env.run_dir, repair_key) == held_before_child
@@ -635,6 +715,60 @@ def test_g1_i_regular_correction_without_any_grant_keeps_normal_multi_attempt_bu
         rec = sc.load_record(env.run_dir, repair_key)
         assert rec["state"] == sc.STATE_ADOPTED and rec["attempts_used"] == 3, rec
         assert not rec.get("fresh_resend_grant_consumed")
+
+
+# ---------------------------------------------------------------------------
+# G1-KONFLIKT -- eine Freigabe, Antwort mit ZWEI widersprechenden Rohbloecken
+# fuer GENAU diese char_id (gleiche save_id, abweichender Inhalt): derselbe
+# Einmalvertrag wie bei "weiterhin fehlend"/HQ-Verstoss/nicht akzeptiert --
+# hoechstens EIN physischer Versand, terminaler HOLD, KEIN Save still
+# adoptiert/geharvestet (ZEITRISS-ALTAIR-G1-KONFLIKT-NACHZUG-20261126-r1,
+# Vorbild `tools/repro_g1_conflicting_saves.py`).
+# ---------------------------------------------------------------------------
+
+
+def test_g1_conflicting_saves_single_authorized_send_holds_without_second_transport():
+    with tempfile.TemporaryDirectory() as td:
+        env, lobby, table, ps_store, section_id, repair_key, leader_save = _setup_one_authorized_grant(
+            Path(td), "t-g1konflikt",
+        )
+        before = sc.load_record(env.run_dir, repair_key)
+        original_requests = {p.name: p.read_bytes() for p in (env.run_dir / "requests").glob("*.json")}
+        harvested = {"leader_pk": leader_save}
+        completion = _complete_section(lobby, table, section_id, harvested, env, ps_store)
+        response = debrief_with_marker({
+            "first": full_v7_save(_GUEST_CID, wallet=0),
+            "conflicting": full_v7_save(_GUEST_CID, wallet=1),
+        })
+        blocks = zeitriss_saves.extract_all_saves_raw(response)
+        conflicts = domain.find_duplicate_save_ids(blocks)
+        assert len(blocks) == 2 and conflicts, (
+            "Vorbedingung: zwei widersprechende Rohbloecke mit gleicher save_id/char_id."
+        )
+        gm = ScriptedGmTransport([response, _NO_SAVE_TEXT, _NO_SAVE_TEXT])  # >1 gescriptet -- ein zweiter Call waere sonst stumm, nicht sichtbar falsch
+
+        harvested_out, outcome = _pursue(lobby, table, section_id, harvested, completion, env, ps_store, gm)
+
+        assert len(gm.calls) == 1, f"hoechstens EIN physischer Versand aus dem einen autorisierten Grant erlaubt: {gm.calls}"
+        assert outcome.success is False
+        after = sc.load_record(env.run_dir, repair_key)
+        assert after["state"] == sc.STATE_HOLD, after
+        assert after["last_reason"] == sc.FRESH_RESEND_GRANT_EXHAUSTED_REASON, after
+        assert after["attempts_used"] == 2, after  # 1 (Timeout) + 1 (der eine Grant-Versand), NICHT 1->3
+        assert after.get("fresh_resend_grant_consumed") is True
+        assert after.get("fresh_resend_grant_pending") is False
+        assert after["bound_prev_ref_by_member"] == before["bound_prev_ref_by_member"], (
+            "Originalvorgang bleibt gebunden -- unveraendert gegenueber dem Stand vor dem Konfliktversand."
+        )
+        assert "guest_pk" not in harvested_out, (
+            "keiner der widersprechenden Rohbloecke darf still adoptiert/geharvestet werden."
+        )
+        new_request_names = {
+            p.name for p in (env.run_dir / "requests").glob("*.json") if p.name not in original_requests
+        }
+        assert len(new_request_names) == 1, new_request_names
+        for name, data in original_requests.items():
+            assert (env.run_dir / "requests" / name).read_bytes() == data, "Originalrequest darf unveraendert bleiben."
 
 
 # ---------------------------------------------------------------------------

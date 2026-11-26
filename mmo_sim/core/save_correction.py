@@ -2482,8 +2482,8 @@ def pursue_group_save_correction(
         Aufruf von `pursue_group_save_correction`) physisch verbraucht
         wurde (`c["fresh_resend_grant"]`, s. Kandidatenaufbau oben) und
         KEINEN annehmbaren persoenlichen Save ergab -- ersetzt an jeder der
-        drei betroffenen Stellen unten (weiterhin fehlend/HQ-Verstoss/nicht
-        akzeptiert) den sonst dort greifenden retry-faehigen Pfad
+        vier betroffenen Stellen unten (weiterhin fehlend/Save-Konflikt/
+        HQ-Verstoss/nicht akzeptiert) den sonst dort greifenden retry-faehigen Pfad
         (`continue` ohne Zustandswechsel bzw. `_reset_for_next_attempt`)
         durch ein kontrolliert terminales HOLD -- GENAU der vom Auftrag
         geforderte "kontrolliert offene Abschluss" statt einer weiteren
@@ -3306,6 +3306,15 @@ def pursue_group_save_correction(
                 # oben) fordert erneut an. Die SL erhaelt dabei die
                 # tatsaechliche Mehrdeutigkeitsmeldung statt eines
                 # generischen Fehlerkatalogs.
+                if c.get("fresh_resend_grant"):
+                    # G1-KONFLIKT-Nachzug: dieselbe Einmalvertrags-Semantik wie
+                    # weiterhin-fehlend/HQ-Verstoss/nicht-akzeptiert -- zwei widerspruechliche
+                    # Rohbloecke aus dem EINEN autorisierten Versand duerfen KEINEN
+                    # automatischen zweiten Versand ausloesen. Konflikt bleibt kontrolliert
+                    # offen (terminal HOLD via _hold_fresh_resend_grant_exhausted); KEIN
+                    # Save wird still adoptiert/geharvestet.
+                    _hold_fresh_resend_grant_exhausted(c["repair_key"], pk)
+                    continue
                 _reset_for_next_attempt(run_dir, c["repair_key"], errors=[e.message for e in char_conflicts])
                 continue
             new_acceptance = save_correction_domain.evaluate(new_block, char_id)
