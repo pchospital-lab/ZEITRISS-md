@@ -230,7 +230,10 @@ def attempts_exhausted(record: dict, max_attempts: int = MAX_ADDITIONAL_REQUESTS
     return record.get("attempts_used", 0) >= max_attempts
 
 
-def begin_attempt(run_dir: str | Path, repair_key: str, *, original_block=_UNSET_ORIGINAL_BLOCK) -> dict:
+def begin_attempt(
+    run_dir: str | Path, repair_key: str, *, original_block=_UNSET_ORIGINAL_BLOCK,
+    consume_fresh_resend_grant: bool = False,
+) -> dict:
     """Erhöht den Versuchszähler SOFORT und persistiert ihn, BEVOR die
     Nachricht tatsächlich gesendet wird -- "jede gesendete Nachricht zählt,
     auch ohne passende Antwort" (01_AUFTRAG_SAVEGATE.md §C). Muss NACH
@@ -245,7 +248,24 @@ def begin_attempt(run_dir: str | Path, repair_key: str, *, original_block=_UNSET
     Crash GENAU zwischen diesem Aufruf und der Antwortauswertung, sodass ein
     Resume (`pursue_single_figure_correction`) denselben Baseline-Entwurf
     wiederfindet, STATT den (evtl. zwischenzeitlich ausgetauschten)
-    `candidate_block`-Parameter eines spaeteren Aufrufs zu uebernehmen."""
+    `candidate_block`-Parameter eines spaeteren Aufrufs zu uebernehmen.
+
+    ZR-PLAYTEST-ANSCHLUSS-20261125 (Linus-Fix, G1-Nachzug): `consume_fresh_
+    resend_grant` (additiv, KEYWORD-ONLY, Default `False` -- JEDER bestehende
+    Aufrufer bleibt bytegleich) klappt `fresh_resend_grant_pending` auf
+    `False` und `fresh_resend_grant_consumed` auf `True`, ATOMAR in
+    DERSELBEN Persistenz wie der Attemptzaehler. Nur der Gruppenpfad
+    (`pursue_group_save_correction`) uebergibt hier `True`, und NUR fuer
+    einen Kandidaten, dessen Datensatz GENAU JETZT (dieser `begin_attempt`-
+    Aufruf oeffnet den physischen Sendeversuch) den von `authorize_
+    transport_error_fresh_resend` gesetzten, noch unverbrauchten
+    `fresh_resend_grant_pending` traegt -- der Versand selbst (`send_
+    correction_turn`) kann DANACH noch admission-/transportseitig
+    scheitern, OHNE dass dieser Flag zurueckgesetzt wird (bewusst: ein
+    nachweislich NIE physisch versandter Block, s. `mark_window_paused`/
+    `quota_paused`-Zweig, verbraucht weder Attemptbudget noch diesen
+    Marker erneut -- derselbe bereits verbrauchte Marker bleibt fuer den
+    Resume einfach bestehen, kein zweites Mal gesetzt)."""
     record = load_record(run_dir, repair_key)
     if record is None:
         raise ValueError(f"kein Korrekturdatensatz für repair_key={repair_key!r} -- load_or_init_record zuerst.")
@@ -254,6 +274,9 @@ def begin_attempt(run_dir: str | Path, repair_key: str, *, original_block=_UNSET
     record["state"] = STATE_CORRECTION_PENDING
     if original_block is not _UNSET_ORIGINAL_BLOCK:
         record["bound_block"] = original_block
+    if consume_fresh_resend_grant:
+        record["fresh_resend_grant_pending"] = False
+        record["fresh_resend_grant_consumed"] = True
     record["updated_ts"] = time.time()
     _write_record(run_dir, repair_key, record)
     return record
@@ -477,6 +500,22 @@ def resume_hold_via_structural_best_effort(
 TRANSPORT_ERROR_REASON_PREFIX = "transport_error:"
 
 
+#: ZR-PLAYTEST-ANSCHLUSS-20261125 (Linus-Fix, G1-Nachzug): terminaler
+#: `last_reason`, sobald der EINE physische Versand, den eine Freigabe von
+#: `authorize_transport_error_fresh_resend` erlaubt hat, tatsaechlich
+#: verbraucht wurde UND dabei kein annehmbarer persoenlicher Save
+#: ankam (weiterhin fehlend, HQ-Verstoss oder nicht akzeptiert -- s.
+#: `pursue_group_save_correction`s Antwortverarbeitung). Bewusst OHNE das
+#: `TRANSPORT_ERROR_REASON_PREFIX`/`"unjustified_semantic_drift"`: keiner
+#: der beiden bestehenden `resume_hold_via_*_best_effort`-Pfade und KEIN
+#: zweiter Aufruf von `authorize_transport_error_fresh_resend` (s. dessen
+#: `fresh_resend_grant_consumed`-Guard) darf diesen Datensatz je wieder
+#: automatisch sendefaehig machen -- "ein spaeterer weiterer Versuch
+#: braucht einen passenden NEUEN bewussten Produktentscheid", nicht eine
+#: wiederholte Bedienung desselben Menuepunkts.
+FRESH_RESEND_GRANT_EXHAUSTED_REASON = "fresh_resend_grant_exhausted:single_authorized_resend_already_used"
+
+
 def resume_hold_via_transport_error_best_effort(
     run_dir: str | Path, repair_key: str, *, char_id: str, table_id: str, section_id: str,
 ) -> dict | None:
@@ -615,9 +654,18 @@ def authorize_transport_error_fresh_resend(
         mehr bedeutet den bestehenden SAVECOMPAT-/Best-effort-Abschlussweg
         (s. `pursue_group_save_correction`s erschoepfter-Budget-Zweig),
         NICHT einen weiteren Versand.
+      - NICHT `fresh_resend_grant_consumed` (G1-Nachzug, ZR-PLAYTEST-
+        ANSCHLUSS-20261125): eine FRUEHERE Freigabe hat ihren EINEN
+        physischen Versand bereits verbraucht -- selbst wenn der
+        Datensatz danach erneut mit einem `transport_error:`-Praefix HOLD
+        ist, darf diese Funktion ihn NICHT ein zweites Mal freigeben
+        (G1-C: "keine implizite Neufreigabe" durch erneutes Oeffnen
+        desselben Bedienwegs).
 
     Liefert bei erfolgreicher Freigabe den aktualisierten Datensatz (jetzt
-    `state=validating`)."""
+    `state=validating`, `fresh_resend_grant_pending=True` -- der naechste
+    physische Versandversuch fuer DIESEN Datensatz verbraucht die Freigabe,
+    s. `begin_attempt`/`pursue_group_save_correction`)."""
     record = load_record(run_dir, repair_key)
     if record is None or record.get("state") != STATE_HOLD:
         return None
@@ -636,8 +684,29 @@ def authorize_transport_error_fresh_resend(
         return None
     if attempts_exhausted(record, max_attempts):
         return None
+    # ZR-PLAYTEST-ANSCHLUSS-20261125 (Linus-Fix, G1-Nachzug): ein bereits
+    # DURCH EINE FRUEHERE Freigabe verbrauchter Datensatz (`fresh_resend_
+    # grant_consumed`, s. `begin_attempt`) bleibt gesperrt, UNABHAENGIG
+    # davon, ob sein aktueller `last_reason` erneut mit `TRANSPORT_ERROR_
+    # REASON_PREFIX` beginnt (z.B. weil GENAU der eine autorisierte Versand
+    # selbst wieder an einem Transportfehler scheiterte, s. `pursue_group_
+    # save_correction`s generischer `outcome.blocked`-Zweig). Ohne diesen
+    # Guard wuerde ein erneutes Oeffnen desselben TUI-Menues (G1-C: "keine
+    # implizite Neufreigabe") automatisch einen ZWEITEN physischen Versand
+    # aus demselben Grant erlauben -- genau der vom Auftrag ausgeschlossene
+    # Fall. Ein tatsaechlich NEUER, bewusster Produktentscheid (ausserhalb
+    # dieser Funktion) bleibt davon unberuehrt.
+    if record.get("fresh_resend_grant_consumed"):
+        return None
     record = dict(record)
     record["state"] = STATE_VALIDATING
+    # G1-Nachzug: durabel, an GENAU diesen Datensatz gebundene Markierung
+    # "ein Grant ist aktiv und noch nicht verbraucht" -- `pursue_group_save_
+    # correction` liest sie beim Aufbau des naechsten Kandidaten (s. dort)
+    # und uebergibt sie an `begin_attempt(consume_fresh_resend_grant=True)`,
+    # GENAU im Moment des naechsten physischen Sendeversuchs fuer diesen
+    # Datensatz -- NICHT hier, dieser Aufruf selbst sendet nichts.
+    record["fresh_resend_grant_pending"] = True
     record["updated_ts"] = time.time()
     _write_record(run_dir, repair_key, record)
     return record
@@ -2407,6 +2476,24 @@ def pursue_group_save_correction(
                 return reason
         return None
 
+    def _hold_fresh_resend_grant_exhausted(repair_key: str, persona_key: str) -> None:
+        """G1-Nachzug (ZR-PLAYTEST-ANSCHLUSS-20261125): fuer EXAKT die
+        Kandidaten, deren einziger erlaubter Grant-Versand soeben (dieser
+        Aufruf von `pursue_group_save_correction`) physisch verbraucht
+        wurde (`c["fresh_resend_grant"]`, s. Kandidatenaufbau oben) und
+        KEINEN annehmbaren persoenlichen Save ergab -- ersetzt an jeder der
+        drei betroffenen Stellen unten (weiterhin fehlend/HQ-Verstoss/nicht
+        akzeptiert) den sonst dort greifenden retry-faehigen Pfad
+        (`continue` ohne Zustandswechsel bzw. `_reset_for_next_attempt`)
+        durch ein kontrolliert terminales HOLD -- GENAU der vom Auftrag
+        geforderte "kontrolliert offene Abschluss" statt einer weiteren
+        automatischen Runde aus demselben Grant."""
+        mark_hold(run_dir, repair_key, reason=FRESH_RESEND_GRANT_EXHAUSTED_REASON)
+        emit("save_correction_hold", {
+            "section_id": section_id, "table_id": table.table_id,
+            "persona_key": persona_key, "reason": FRESH_RESEND_GRANT_EXHAUSTED_REASON,
+        })
+
     # R7-01 Part C (ZR-ALTAIR-UPDATER-SPIELTEST-NACHZUG-20261119-R7 §02 C):
     # Schnappschuss der repair_keys, die BEREITS VOR diesem Aufruf (einer
     # fruehren, abgeschlossenen Prozessinstanz) terminal STATE_HOLD waren --
@@ -2610,6 +2697,13 @@ def pursue_group_save_correction(
                     "persona_key": pk, "char_id": char_id, "repair_key": repair_key,
                     "acceptance": acceptance, "original_block": original_block,
                     "attempt_no": record["attempts_used"] if record is not None else 1,
+                    # G1-Nachzug: ein Resume uebernimmt die bereits VOR dem
+                    # Crash durabel gesetzte `fresh_resend_grant_consumed`-
+                    # Markierung (s. `begin_attempt`) unveraendert -- diese
+                    # Runde selbst ruft `begin_attempt` NICHT erneut auf
+                    # (s.o.), die Markierung stammt also IMMER aus dem
+                    # urspruenglichen, hier fortgesetzten Sendeversuch.
+                    "fresh_resend_grant": bool(record.get("fresh_resend_grant_consumed")) if record is not None else False,
                 })
         else:
             restored_from_adopted = False
@@ -2800,6 +2894,17 @@ def pursue_group_save_correction(
                     "persona_key": pk, "char_id": char_id, "repair_key": repair_key,
                     "acceptance": acceptance, "original_block": original_block,
                     "attempt_no": record["attempts_used"] + 1,
+                    # G1-Nachzug (ZR-PLAYTEST-ANSCHLUSS-20261125): dieser
+                    # frische Kandidat loest GLEICH unten den naechsten
+                    # physischen Sendeversuch aus (`begin_attempt`). Traegt
+                    # der Datensatz einen noch unverbrauchten Grant
+                    # (`fresh_resend_grant_pending`, s. `authorize_
+                    # transport_error_fresh_resend`), ist DIESER Versand
+                    # GENAU der eine, den die Freigabe erlaubt -- markiert
+                    # fuer die Antwortverarbeitung unten, die den Grant bei
+                    # jedem Nicht-Erfolg terminal HOLDet statt automatisch
+                    # erneut anzufragen.
+                    "fresh_resend_grant": bool(record.get("fresh_resend_grant_pending")),
                 })
 
             if not candidates:
@@ -3005,7 +3110,7 @@ def pursue_group_save_correction(
                 break  # Budget fuer jedes noch fehlende Mitglied erschoepft -- ehrliches HOLD beim Aufrufer
 
             for c in candidates:
-                begin_attempt(run_dir, c["repair_key"])
+                begin_attempt(run_dir, c["repair_key"], consume_fresh_resend_grant=c.get("fresh_resend_grant", False))
             round_no = _next_round_no(run_dir, table.table_id, section_id)
             # Marker VOR dem Versand persistieren (Crash-Fenster "vor Send"
             # UND "nach Response vor Checkpoint" werden dadurch identisch
@@ -3102,11 +3207,31 @@ def pursue_group_save_correction(
             # (`ui/tui.py`) -- dieselbe ruhige Spielermeldung wie jede
             # andere Kontingentpause, kein stilles "nicht abgeschlossen".
             if reason.startswith("quota_paused:"):
-                new_round_no = _next_round_no(run_dir, table.table_id, section_id)
-                _write_open_round(run_dir, table.table_id, section_id, new_round_no, [
-                    {"persona_key": c["persona_key"], "char_id": c["char_id"], "original_block": c["original_block"]}
-                    for c in candidates
-                ], expected_prev_ref_by_member=prev_ref_override, require_hq=require_hq)
+                # G1-Nachzug (ZR-PLAYTEST-ANSCHLUSS-20261125): der Transport
+                # wurde hier bereits tatsaechlich aufgerufen (der Provider
+                # hat mit einer Kontingentpause reagiert, s. `send_
+                # correction_turn`s `except ProviderQuotaPausedError`-Zweig
+                # oben) -- fuer einen Kandidaten mit einem noch unverbrauchten
+                # Grant IST DAS bereits der eine erlaubte physische Versand.
+                # Der bestehende Retry-Mechanismus unten (neuer `round_no`,
+                # erneut sendefaehig OHNE `begin_attempt`) bleibt NUR fuer
+                # Kandidaten OHNE Grant unveraendert bestehen -- sonst wuerde
+                # der naechste reguläre Aufruf ueber den markergebundenen
+                # Resume-Zweig GENAU DENSELBEN Grant ein zweites Mal physisch
+                # senden ("derselbe verbrauchte Grant darf durch neue
+                # round_no nicht wieder sendefaehig werden").
+                grant_candidates = [c for c in candidates if c.get("fresh_resend_grant")]
+                retry_candidates = [c for c in candidates if not c.get("fresh_resend_grant")]
+                for c in grant_candidates:
+                    _hold_fresh_resend_grant_exhausted(c["repair_key"], c["persona_key"])
+                if retry_candidates:
+                    new_round_no = _next_round_no(run_dir, table.table_id, section_id)
+                    _write_open_round(run_dir, table.table_id, section_id, new_round_no, [
+                        {"persona_key": c["persona_key"], "char_id": c["char_id"], "original_block": c["original_block"]}
+                        for c in retry_candidates
+                    ], expected_prev_ref_by_member=prev_ref_override, require_hq=require_hq)
+                else:
+                    _clear_open_round(run_dir, table.table_id, section_id)
                 emit("save_correction_hold", {
                     "section_id": section_id, "table_id": table.table_id, "reason": reason,
                 })
@@ -3156,6 +3281,16 @@ def pursue_group_save_correction(
             char_id = c["char_id"]
             new_block = new_saves.get(pk)
             if new_block is None:
+                if c.get("fresh_resend_grant"):
+                    # G1-A (Kernfall): der eine autorisierte Versand kam
+                    # durch, enthielt aber KEINEN persoenlichen Save --
+                    # OHNE diesen Zweig wuerde die naechste Schleifenrunde
+                    # (unveraendertes `harvest_completion.missing`) diesen
+                    # Datensatz sofort wieder als frischen Kandidaten
+                    # aufgreifen und ein ZWEITES Mal `begin_attempt`/senden
+                    # (der belegte Defekt, observed_new_transport_calls=2).
+                    _hold_fresh_resend_grant_exhausted(c["repair_key"], pk)
+                    continue
                 continue  # weiterhin fehlend -- naechste complete_section-Pruefung meldet das erneut
             char_group = raw_blocks_by_char.get(char_id) or []
             char_conflicts = save_correction_domain.find_duplicate_save_ids(char_group) if len(char_group) > 1 else []
@@ -3212,6 +3347,13 @@ def pursue_group_save_correction(
             if require_hq:
                 hq_violation = save_correction_domain.hq_mode_hold_reason(pk, new_block)
                 if hq_violation is not None:
+                    if c.get("fresh_resend_grant"):
+                        # G1-Nachzug: derselbe Grant-Einmalvertrag wie beim
+                        # "weiterhin fehlend"-Zweig oben -- ein Nicht-HQ-
+                        # Block aus dem EINEN autorisierten Versand darf
+                        # KEINEN automatischen zweiten Versand ausloesen.
+                        _hold_fresh_resend_grant_exhausted(c["repair_key"], pk)
+                        continue
                     _reset_for_next_attempt(run_dir, c["repair_key"], errors=[hq_violation])
                     emit("save_correction_hold", {
                         "section_id": section_id, "table_id": table.table_id,
@@ -3233,6 +3375,13 @@ def pursue_group_save_correction(
             )
             if new_acceptance.accepted:
                 mark_adopted(run_dir, c["repair_key"], adopted_block=new_block)
+            elif c.get("fresh_resend_grant"):
+                # G1-Nachzug: ein empfangener, aber NICHT akzeptierter Block
+                # aus dem EINEN autorisierten Versand bleibt terminal HOLD --
+                # derselbe Einmalvertrag wie oben, KEIN `_reset_for_next_
+                # attempt` (das wuerde einen automatischen dritten Versand
+                # ermoeglichen, solange Restbudget vorhanden ist).
+                _hold_fresh_resend_grant_exhausted(c["repair_key"], pk)
             else:
                 _reset_for_next_attempt(run_dir, c["repair_key"], errors=new_acceptance.feedback_items)
 

@@ -10411,7 +10411,7 @@ class TuiSession:
             self._print(
                 "Ein neuer, gebundener Korrekturversand wurde autorisiert. Dieser Schritt selbst hat "
                 "KEINEN Modellaufruf ausgeloest -- der tatsaechliche Versand erfolgt erst beim naechsten "
-                "regulaeren Fortsetzen ('n'/[fortsetzen])."
+                "regulaeren Fortsetzen (Wortkommando 'fortsetzen' bzw. Menuepunkt Fortsetzen)."
             )
         else:
             self._print("Kein zulaessiger neuer Versand mehr verfuegbar -- der Abschnitt bleibt unveraendert offen.")
