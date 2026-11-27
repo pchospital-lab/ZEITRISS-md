@@ -3298,20 +3298,29 @@ class TuiSession:
         Finalizer, Crash/Absturz-Fenster VOR `_finalize_genuine_table_abort`)
         und diesem spaeteren Resume kann ein separater OS-Prozess unter
         echter `_SharedWriterExclusivity` (z.B. ein GM-Request-Writer) einen
-        diesem Tisch zugeordneten Requestdatensatz angelegt haben (`state`
-        `reserved`/`sent`, noch nicht `received`/`accounted`), ODER ein
+        diesem Tisch zugeordneten Requestdatensatz angelegt haben, ODER ein
         zielgebundenes Artefakt (Plan/Final/Correction/Raw) kann gerade
-        unklar/unlesbar sein (`_discard_unclear_blocking_reason`). Beides
-        waere bei blindem Finalize verloren/ueberschrieben bzw. als
-        unlesbar=abwesend fehlinterpretiert worden. Deshalb FRISCH unter der
-        Exclusivity (NACH `fresh = Table.load(...)`, VOR dem Finalize)
-        geprueft: liegt vorliegende Arbeit/Unklarheit vor, geschuetzter Halt
+        unklar/unlesbar sein. Beides waere bei blindem Finalize verloren/
+        ueberschrieben bzw. als unlesbar=abwesend fehlinterpretiert worden.
+        Deshalb FRISCH unter der Exclusivity (NACH `fresh = Table.load(...)`,
+        VOR dem Finalize) geprueft ueber den gemeinsamen Helfer
+        `core.recovery_ops.discard_recovery_blocking_reason` (r5-Nachzug,
+        General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r5,
+        Fall `bound_window1_with_received`): kanonisch offen nach Ledger-SSOT
+        ist `state != "accounted"` (`request_ledger.open_requests_for_table`)
+        -- das schliesst `reserved`, `sent` UND `received` ein (`received`
+        ist offen, weil `finish_received()` seinen durablen Checkpoint
+        bereits im ERSTEN Write schreibt; die nachgelagerte Buchung kann
+        danach abbrechen, der Datensatz bleibt ehrlich bei `received`
+        haengen). Liegt vorliegende Arbeit/Unklarheit vor, geschuetzter Halt
         -- KEIN `_finalize_genuine_table_abort`, KEIN Lock-Release, der
         Request bleibt vollstaendig unangetastet (nicht geloescht/
         abgerechnet/disponiert), der `stopped`-Entscheid wird NICHT
         zurueckgedreht. Nur im konsistenten Fall (kein offener/unklarer
         Request, nichts unklar an den Zielartefakten) wird wie bisher
-        finalisiert."""
+        finalisiert. Derselbe Helfer wird von Window2 (`core/store.py`s
+        `create_table_from_offer_log`) verwendet -- EIN gemeinsamer
+        Bewertungsvertrag, keine Duplikat-Teilmenge an zwei Stellen."""
         if self.run_dir is None:
             return False
         from ..core import admission as core_admission
@@ -3321,25 +3330,32 @@ class TuiSession:
         if not self._discard_candidate_identity_match(table, chrononaut_id):
             return False
         from ..core import store as core_store
-        from ..core import request_ledger as core_request_ledger
-        from ..core.recovery_ops import _SharedWriterExclusivity, RecoveryExclusivityUnavailableError
+        from ..core.recovery_ops import (
+            _SharedWriterExclusivity,
+            RecoveryExclusivityUnavailableError,
+            discard_recovery_blocking_reason,
+        )
         lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
         try:
             with _SharedWriterExclusivity(self.run_dir):
                 fresh = core_store.Table.load(self.run_dir, table.table_id)
-                try:
-                    pending_records = core_request_ledger.records_for_table(self.run_dir, fresh.table_id)
-                    pending_request = any(
-                        r.get("state") in ("reserved", "sent") for r in pending_records
-                    )
-                except core_request_ledger.IndeterminateRequestRecordError:
-                    # G2-Lesevertrag (wie an den bestehenden Eligibility-Checks oben):
-                    # ein nicht einordenbarer Requestdatensatz ist "unklar", nicht
-                    # "abwesend" -- derselbe geschuetzte Halt wie bei einem echten
-                    # offenen Request, kein stiller Finalize auf unsicherer Lesung.
-                    pending_request = True
-                unclear_reason = self._discard_unclear_blocking_reason(fresh, chrononaut_id)
-                if pending_request or unclear_reason is not None:
+                # r5-Nachzug (General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-
+                # RECOVERY-20261127-r4/r5, Fall `bound_window1_with_
+                # received`): der gemeinsame Helfer (`core.recovery_ops.
+                # discard_recovery_blocking_reason`) ersetzt die vorherige
+                # hartcodierte Teilmenge `state in ("reserved","sent")` --
+                # `received` fehlte dort, obwohl `finish_received()` seinen
+                # durablen Checkpoint bereits im ERSTEN Write schreibt
+                # (s. dort/`request_ledger.open_requests_for_table`). Der
+                # Helfer prueft jetzt die Ledger-SSOT (`state !=
+                # "accounted"`, inkl. `received`) UND dieselbe Unklar-
+                # Artefaktpruefung wie bisher -- Window2 (`core/store.py`s
+                # `create_table_from_offer_log`) verwendet DENSELBEN Helfer,
+                # keine Duplikat-Teilmenge mehr an zwei Stellen.
+                blocking_reason = discard_recovery_blocking_reason(
+                    self.run_dir, fresh, chrononaut_id
+                )
+                if blocking_reason is not None:
                     self._print(
                         "Fortsetzen: ein bereits autorisierter Verwurf dieses Abschnitts kann gerade "
                         "nicht abgeschlossen werden -- es liegt noch nicht abgeschlossene Arbeit an "
@@ -3389,63 +3405,26 @@ class TuiSession:
 
         Scope: NUR fuer den eigenen gebundenen Solo-Kandidaten (`_discard_
         candidate_identity_match`) -- eindeutig fremde/historische
-        Vorgaenge anderer Tische sind kein Sperrgrund."""
+        Vorgaenge anderer Tische sind kein Sperrgrund.
+
+        r5-Nachzug (General-Nachzug r5): die eigentliche Artefaktpruefung
+        ist jetzt nach `core.recovery_ops.discard_unclear_blocking_reason`
+        extrahiert (derselbe gemeinsame Helfer, den auch Window2 ueber
+        `discard_recovery_blocking_reason` verwendet) -- diese Methode
+        bleibt nur noch das Identitaets-Gate + die Fortsetzen/Verwerfen-
+        spezifische Nachrichtenform der beiden bestehenden Aufrufer
+        (`_cmd_menu_fortsetzen`-Vorab-Check, `_discard_unplayed_solo_
+        section`s N1/N3-Recheck), byte-identisch zur vorherigen inline
+        Fassung."""
         if not self._discard_candidate_identity_match(table, chrononaut_id):
             return None
-        from ..core import save_compatibility as core_save_compatibility
-        from ..core import save_correction as core_save_correction
-        from ..domain.zeitriss.save_correction import group_repair_key
-
-        run_dir = Path(self.run_dir)
-        section_id = f"{table.table_id}-section"
-        repair_key = group_repair_key(table.table_id, section_id, chrononaut_id)
-
-        def _unclear(path: Path, *, kind: str) -> bool:
-            if not path.exists():
-                return False
-            try:
-                text = path.read_text(encoding="utf-8")
-            except (OSError, UnicodeDecodeError):
-                return True
-            try:
-                data = json.loads(text)
-            except json.JSONDecodeError:
-                return True
-            if kind == "list":
-                return not isinstance(data, list)
-            if kind == "table_dict":
-                return not (isinstance(data, dict) and data.get("table_id") == table.table_id)
-            return not isinstance(data, dict)
-
-        plan_path = run_dir / "completion" / f"{section_id}__plan.json"
-        if _unclear(plan_path, kind="table_dict"):
-            return (
-                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandener Abschluss-Plan dieses "
-                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
-                "automatischer Weiterzug)."
-            )
-        final_path = run_dir / "completion" / f"{section_id}__final.json"
-        if _unclear(final_path, kind="table_dict"):
-            return (
-                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandenes Abschluss-Ergebnis dieses "
-                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
-                "automatischer Weiterzug)."
-            )
-        raw_path = core_save_compatibility._raw_archive_path(run_dir, repair_key)
-        if _unclear(raw_path, kind="list"):
-            return (
-                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandenes Korrektur-Roharchiv dieses "
-                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
-                "automatischer Weiterzug)."
-            )
-        record_path = core_save_correction._record_path(run_dir, repair_key)
-        if _unclear(record_path, kind="dict"):
-            return (
-                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandener Korrekturdatensatz dieses "
-                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
-                "automatischer Weiterzug)."
-            )
-        return None
+        from ..core.recovery_ops import (
+            discard_unclear_blocking_reason as _shared_discard_unclear_blocking_reason,
+        )
+        reason = _shared_discard_unclear_blocking_reason(self.run_dir, table, chrononaut_id)
+        if reason is None:
+            return None
+        return f"Fortsetzen/Verwerfen nicht moeglich -- {reason}"
 
     def _discard_unplayed_solo_section(self, table, chrononaut_id: str) -> None:
         """ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix): wird NUR NACH

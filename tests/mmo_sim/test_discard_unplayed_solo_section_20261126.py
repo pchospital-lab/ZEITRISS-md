@@ -1238,6 +1238,299 @@ def test_r4_r2_lockfree_window2_blocked_while_other_os_writer_holds_exclusivity(
         assert request_ledger.records_for_table(run_dir, table_id) == []
 
 
+def test_r5_window1_bound_with_received_request_blocks_with_protected_halt():
+    """r5-Nachzug (General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-
+    20261127-r5, Fall `bound_window1_with_received`): wie `test_r4_r1_
+    pending_real_ledger_request_blocks_follow_through_with_protected_halt`,
+    aber der vorliegende Requestdatensatz erreicht echten `state=received`
+    (nicht `sent`). VOR dem r5-Fix pruefte `_follow_through_authorized_
+    discard` nur die hartcodierte Teilmenge `state in ("reserved", "sent")`
+    -- `received` fehlte komplett, obwohl `finish_received()` seinen
+    durablen Checkpoint bereits im ERSTEN Write schreibt (die nachgelagerte
+    Buchung kann danach abbrechen, der Datensatz bleibt ehrlich bei
+    `received` haengen; die bloosse Moeglichkeit, spaeter `settle_received`
+    aufzurufen, ist KEIN Beleg fuer Abschluss).
+
+    RED ohne FIX r5 (hartcodierte Teilmenge ohne `received`): der dritte
+    Prozess wuerde den Tisch trotz des vorliegenden `received`-Requests
+    blind finalisieren (`status='closed'`, Lock freigegeben) -- dieser Test
+    schlaegt dann auf `table_status=='active'` (tatsaechlich 'closed') und
+    `lock==table_id` (tatsaechlich `None`) fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("r5/Window1-received: nach echtem stopped-Commit, vor Finalize")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision_mid = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_mid is not None and decision_mid.get("decision") == "stopped", decision_mid
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) == table_id
+
+        writer_result = _run_child(root, "writer_received", root / "r5-w1-writer.json", table=table_id)
+        assert writer_result["acquired"] is True, writer_result
+        assert writer_result["request_state"] == "received", writer_result
+        assert writer_result["durable_result_present"] is True, writer_result
+
+        result_path = root / "r5-w1-resume.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], r2
+
+        table_final = core_store.Table.load(run_dir, table_id)
+        assert table_final.status == "active", (
+            "ein vorliegender echter 'received'-Request darf den Nachzug-Abschluss NICHT "
+            "blind finalisieren.", table_final,
+        )
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) == table_id, (
+            "Lock darf bei vorliegender Arbeit NICHT geloest werden."
+        )
+        decision_final = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_final is not None and decision_final.get("decision") == "stopped", decision_final
+        records_final = request_ledger.records_for_table(run_dir, table_id)
+        assert [r.get("state") for r in records_final] == ["received"], (
+            "der vorliegende Request muss unangetastet bleiben (nicht geloescht/abgerechnet).",
+            records_final,
+        )
+
+
+def test_r5_window1_bound_with_unclear_artifact_blocks_with_protected_halt():
+    """r5-Nachzug (General-Nachzug r5): wie `test_r5_window1_bound_with_
+    received_request_...`, aber statt eines offenen Requests wird NACH dem
+    echten 'stopped'-Commit (Crash vor Finalize, Lock noch gebunden) ein
+    zielgebundenes Artefakt (hier: kaputtes `__plan.json`) angelegt -- der
+    gemeinsame Helfer (`core.recovery_ops.discard_recovery_blocking_
+    reason`) MUSS auch diesen Fall VOR jedem Finalize erkennen, nicht nur
+    offene Requests. Vorher deckte kein Test die Kombination 'Entscheid
+    bereits stopped, Resume-Fenster noch offen, Artefakt wird GENAU in
+    diesem Fenster unklar' ab (die bestehenden N3/r3-Artefakttests pruefen
+    nur VOR dem 'stopped'-Commit, waehrend der Bestaetigungs-Prompts)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("r5/Window1-unclear: nach echtem stopped-Commit, vor Finalize")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision_mid = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_mid is not None and decision_mid.get("decision") == "stopped", decision_mid
+
+        _write_n3_artifact(run_dir, table_id, "broken_plan")
+
+        result_path = root / "r5-w1-unclear-resume.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], r2
+
+        table_final = core_store.Table.load(run_dir, table_id)
+        assert table_final.status == "active", (
+            "ein unklares zielgebundenes Artefakt darf den Nachzug-Abschluss NICHT blind "
+            "finalisieren.", table_final,
+        )
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) == table_id, (
+            "Lock darf bei unklarem Artefakt NICHT geloest werden."
+        )
+        decision_final = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_final is not None and decision_final.get("decision") == "stopped", decision_final
+
+
+def _assert_r5_window2_lockfree_with_open_request_blocks_closed_persist(mode: str, expected_state: str) -> None:
+    """r5-Nachzug (General-Nachzug r5): gemeinsamer Koerper fuer
+    `lockfree_window2_with_sent`/`lockfree_window2_with_received` --
+    dieselbe echte Crash-Injektion (Lock bereits frei, 'closed'-Persist
+    noch offen) wie `test_r4_r2_lockfree_window2_blocked_while_other_os_
+    writer_holds_exclusivity`, aber statt eines Peers, der die Exklusivitaet
+    haelt, legt ein ECHTER, frischer OS-Kindprozess (Mode `writer`/`writer_
+    received`) einen dem Tisch zugeordneten Request an. Der anschliessende
+    Resume (dritter frischer OS-Prozess, `_cmd_menu_fortsetzen` ->
+    kein gebundenes Lock mehr -> Solo-Fallback `_cmd_local_round([])` ->
+    `core.store.create_table_from_offer_log`, Window 2) darf diesen nicht
+    blind uebersehen.
+
+    RED ohne FIX r5 (Window2 prueft GAR KEINE Open-Request-/Unklarheits-
+    Lage vor dem `closed`-Persist): der dritte Prozess wuerde
+    `status='closed'` persistieren und eine NEUE Generation (`__2`)
+    anlegen -- dieser Test schlaegt dann auf `table_status=='active'`
+    (tatsaechlich 'closed') und `table_ids==[table_id]` (tatsaechlich
+    inkl. einer zweiten Generation) fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash(f"r5/Window2-{mode}: nach Lock-Freigabe, vor closed-Persist")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision_mid = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_mid is not None and decision_mid.get("decision") == "stopped", decision_mid
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None
+
+        writer_result = _run_child(root, mode, root / f"r5-w2-{mode}-writer.json", table=table_id)
+        assert writer_result["acquired"] is True, writer_result
+        assert writer_result["request_state"] == expected_state, writer_result
+
+        result_path = root / f"r5-w2-{mode}-resume.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], r2
+
+        table_final = core_store.Table.load(run_dir, table_id)
+        assert table_final.status == "active", (
+            f"ein vorliegender echter '{expected_state}'-Request darf den Store-Resume-Pfad "
+            "(create_table_from_offer_log) NICHT blind 'closed' persistieren lassen.",
+            table_final,
+        )
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) is None, (
+            "Lock war in diesem Fenster bereits frei -- ein geschuetzter Halt darf ihn NICHT "
+            "rekonstruieren."
+        )
+        decision_final = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_final is not None and decision_final.get("decision") == "stopped", decision_final
+        records_final = request_ledger.records_for_table(run_dir, table_id)
+        assert [r.get("state") for r in records_final] == [expected_state], (
+            "der vorliegende Request muss unangetastet bleiben (nicht geloescht/abgerechnet).",
+            records_final,
+        )
+
+
+def test_r5_window2_lockfree_with_sent_request_blocks_closed_persist():
+    """r5-Nachzug (General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-
+    20261127-r5, Fall `lockfree_window2_with_sent`): s. `_assert_r5_
+    window2_lockfree_with_open_request_blocks_closed_persist`-Docstring."""
+    _assert_r5_window2_lockfree_with_open_request_blocks_closed_persist("writer", "sent")
+
+
+def test_r5_window2_lockfree_with_received_request_blocks_closed_persist():
+    """r5-Nachzug (General-Nachzug r5): wie `test_r5_window2_lockfree_
+    with_sent_request_...`, aber mit einem Request, der echten
+    `state=received` erreicht (s. `_child_writer_received`-Docstring fuer
+    die durable-Checkpoint-vor-Buchung-Semantik)."""
+    _assert_r5_window2_lockfree_with_open_request_blocks_closed_persist("writer_received", "received")
+
+
+def test_r5_window2_lockfree_with_unclear_artifact_blocks_closed_persist():
+    """r5-Nachzug (General-Nachzug r5): wie `test_r5_window2_lockfree_
+    with_sent_request_...`, aber statt eines offenen Requests wird NACH
+    dem echten Crash (Lock bereits frei, 'closed'-Persist noch offen) ein
+    zielgebundenes Artefakt (kaputtes `__final.json`) angelegt --
+    `create_table_from_offer_log` (Window 2, store.py) MUSS ueber denselben
+    gemeinsamen Helfer auch diesen Fall erkennen, bevor es `closed`
+    persistiert. Vorher gab es fuer Window 2 GAR KEINE Unklarheits-
+    Bewertung -- dieser Test deckt die zuvor komplett fehlende Pruefung
+    ab."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r5/Window2-unclear: nach Lock-Freigabe, vor closed-Persist")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision_mid = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_mid is not None and decision_mid.get("decision") == "stopped", decision_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None
+
+        _write_n3_artifact(run_dir, table_id, "broken_final")
+
+        result_path = root / "r5-w2-unclear-resume.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], r2
+
+        table_final = core_store.Table.load(run_dir, table_id)
+        assert table_final.status == "active", (
+            "ein unklares zielgebundenes Artefakt darf den Store-Resume-Pfad "
+            "(create_table_from_offer_log) NICHT blind 'closed' persistieren lassen.",
+            table_final,
+        )
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) is None
+        decision_final = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_final is not None and decision_final.get("decision") == "stopped", decision_final
+
+
 def _write_n3_artifact(run_dir: Path, table_id: str, kind: str) -> Path:
     repair = group_repair_key(table_id, f"{table_id}-section", "CHR-OWNER1")
     if kind == "broken_plan":
@@ -1350,6 +1643,53 @@ def _child_writer(args) -> None:
                 turn_idx=0, participant="owner1", dollar_billed=False,
             )
             result["request_state"] = request_ledger.load_request(run_dir, rid)["state"]
+    except RecoveryExclusivityUnavailableError:
+        result["acquired"] = False
+        result["request_state"] = None
+    Path(args.result).write_text(json.dumps(result), encoding="utf-8")
+
+
+def _child_writer_received(args) -> None:
+    """r5-Nachzug (General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-
+    20261127-r5): wie `_child_writer`, aber der Request erreicht echten
+    `state=received` (nicht `sent`) -- derselbe Trick wie
+    `general_discard_r4_state_matrix.py`s `prepare_received`-Kindmodus:
+    `finish_received()` schreibt seinen durablen Checkpoint (inkl.
+    `result_text`) bereits im ERSTEN Write; die nachgelagerte Buchung
+    (`add_seconds`) wird GENAU danach unterbrochen (injizierter `OSError`),
+    der Datensatz bleibt deshalb ehrlich bei `received` haengen, nicht
+    `accounted`."""
+    from mmo_sim.core.recovery_ops import RecoveryExclusivityUnavailableError, _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir = root / "run"
+    result: dict = {}
+    try:
+        with _SharedWriterExclusivity(run_dir):
+            result["acquired"] = True
+            rid = request_ledger.begin(
+                run_dir, role="gm",
+                content="r5-Nachzug kooperierender Schreiber (received-Fixture).",
+                reserved_usd=0.0, table_id=args.table, section_id=f"{args.table}-section",
+                turn_idx=0, participant="owner1", dollar_billed=False,
+            )
+
+            def _fail_accounting(*a, **kw):
+                raise OSError("injected r5-fixture accounting interruption")
+
+            interrupted = False
+            try:
+                with patch.object(request_ledger, "add_seconds", _fail_accounting):
+                    request_ledger.finish_received(
+                        run_dir, rid, usage=None, seconds=0.0,
+                        result_text="Isolierte Fixture-Antwort; kein echter Provider.",
+                    )
+            except OSError:
+                interrupted = True
+            assert interrupted, "Buchungsunterbrechung hat nicht gegriffen -- Testaufbau defekt."
+            record = request_ledger.load_request(run_dir, rid)
+            result["request_state"] = record["state"]
+            result["durable_result_present"] = isinstance(record.get("result_text"), str)
     except RecoveryExclusivityUnavailableError:
         result["acquired"] = False
         result["request_state"] = None
@@ -1685,7 +2025,7 @@ if __name__ == "__main__":
             "--mode", required=True,
             choices=[
                 "setup", "discard", "resume_after_crash",
-                "spielen", "local_then_fortsetzen", "writer", "hold",
+                "spielen", "local_then_fortsetzen", "writer", "writer_received", "hold",
             ],
         )
         ap.add_argument("--root", required=True)
@@ -1700,6 +2040,8 @@ if __name__ == "__main__":
             _child_resume_after_crash(ns)
         elif ns.mode == "writer":
             _child_writer(ns)
+        elif ns.mode == "writer_received":
+            _child_writer_received(ns)
         elif ns.mode == "hold":
             _child_hold_exclusivity(ns)
         else:

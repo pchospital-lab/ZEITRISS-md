@@ -424,11 +424,56 @@ def create_table_from_offer_log(
                     from .recovery_ops import (
                         RecoveryExclusivityUnavailableError,
                         _SharedWriterExclusivity,
+                        discard_recovery_blocking_reason,
                     )
                     try:
                         with _SharedWriterExclusivity(lobby.run_dir):
                             fresh_existing = Table.load(lobby.run_dir, candidate_id)
                             if fresh_existing.status != "closed":
+                                # r5-Nachzug (General-Nachzug r5,
+                                # ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r5,
+                                # Fall `lockfree_window2_with_sent`): dieser
+                                # Store-Pfad pruefte bisher NUR
+                                # `decision=="stopped"` und persistierte
+                                # danach blind `closed` -- KEINE Open-
+                                # Request-/Unklarheits-Bewertung, obwohl
+                                # genau wie an Window1 (`ui/tui.py`s
+                                # `_follow_through_authorized_discard`) ein
+                                # separater OS-Prozess unter echter
+                                # `_SharedWriterExclusivity` zwischen dem
+                                # durablen 'stopped'-Commit und diesem
+                                # Resume einen Requestdatensatz angelegt
+                                # haben kann, ODER ein zielgebundenes
+                                # Artefakt gerade unklar/unlesbar sein kann.
+                                # DERSELBE gemeinsame Helfer wie Window1
+                                # (`discard_recovery_blocking_reason`, keine
+                                # Duplikat-Teilmenge) wird HIER jetzt unter
+                                # der bereits gehaltenen Exclusivity, VOR
+                                # dem `closed`-Persist, ausgewertet. Der
+                                # Lock ist in diesem Fenster bereits frei
+                                # (s. Funktions-Docstring oben, Absturz
+                                # zwischen `release_chrononaut` und dem
+                                # `closed`-Persist) -- dieser Zweig ruehrt
+                                # KEINEN Lock an, ein geschuetzter Halt
+                                # laesst ihn deshalb unveraendert frei
+                                # (keine Rekonstruktion).
+                                owner_chrononaut_id = fresh_existing.chrononaut_ids.get(
+                                    fresh_existing.leader
+                                )
+                                blocking_reason = discard_recovery_blocking_reason(
+                                    lobby.run_dir, fresh_existing, owner_chrononaut_id,
+                                )
+                                if blocking_reason is not None:
+                                    return None, GroupDerivation(
+                                        leader=fresh_existing.leader,
+                                        members=list(fresh_existing.members),
+                                        dissenters={}, source_offer_id=None,
+                                        reason=(
+                                            f"Tisch {candidate_id!r}: ein bereits autorisierter "
+                                            "Verwurf kann gerade nicht abgeschlossen werden -- "
+                                            f"{blocking_reason}"
+                                        ),
+                                    )
                                 fresh_existing.status = "closed"
                                 fresh_existing.persist()
                             existing_table = fresh_existing

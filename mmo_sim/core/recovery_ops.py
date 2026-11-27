@@ -55,8 +55,10 @@ import uuid
 from pathlib import Path
 
 from . import request_ledger
+from . import save_compatibility as _save_compatibility
 from . import save_correction as _save_correction
 from .admission import _atomic_write_json
+from ..domain.zeitriss.save_correction import group_repair_key as _group_repair_key
 
 #: 03_RECOVERY_VERTRAG.md §R-P3/§R-P5 -- exakte Aktionskennungen, auch im
 #: persistierten Auditdatensatz/der Autorisierung gebunden.
@@ -1466,3 +1468,140 @@ def apply_orphan_recovery(run_dir, *, request_id: str, reason: str, plan: dict |
             "status": "applied", "request_id": request_id,
             "granted_request_id": granted_request_id, "disposition": disposition,
         }
+
+
+def discard_unclear_blocking_reason(run_dir, table, chrononaut_id: str) -> str | None:
+    """Gemeinsamer Kernbaustein (ZR-DISCARD-UNPLAYED-SOLO-20261126-r5,
+    General-Nachzug r5, extrahiert aus `ui/tui.py`s vormals Window1-
+    lokaler `_discard_unclear_blocking_reason`): zielgebundene strikte
+    Zweitpruefung NUR fuer die vier zielgebundenen Artefakte des
+    Abschnitts/Figur (`section_id = <table_id>-section`, `repair_key =
+    group_repair_key(table_id, section_id, chrononaut_id)`):
+    `completion/<section_id>__plan.json`, `completion/<section_id>__final.
+    json`, `save_corrections_raw/<repair_key>.json`, `save_corrections/
+    <repair_key>.json`.
+
+    Je Artefakt drei Faelle: abwesend -> neutral (`None`, weiter wie
+    bisher); konsistent benutzt (parst sauber im erwarteten Typ mit
+    passender Bindung) -> ebenfalls `None`; UNKLAR (JSON-Parsefehler,
+    falscher Wurzeltyp, `dict` ohne passende `table_id`, oder OSError/
+    UnicodeDecodeError beim Lesen einer vorhandenen Datei) -> eine
+    menschenlesbare Halt-Begruendung (sicherer Stopp: kein Verwurf-
+    Abschluss, kein automatisches Resume/Modellcall -- 'unlesbar/unklar'
+    darf NIE durch die tolerante Default-Behandlung der bestehenden Reader
+    (`read_raw_archive`/`load_record`/`_open_completion_order_for_table`/
+    `_table_has_final`, die unklare Treffer bewusst grosszuegig als
+    'abwesend' lesen) in einen stillen Auto-Resume kippen -- dieser Check
+    haertet NUR diese eine, zielgebundene Freigabe, OHNE die tolerante
+    Semantik dieser Reader fuer ihre eigentlichen, bereits bestehenden
+    Aufrufer zu veraendern).
+
+    KEIN Identitaets-/Kandidaten-Gate hier (anders als die vormals Window1-
+    lokale Methode) -- der Aufrufer liefert bereits den tatsaechlich
+    betroffenen `table`/`chrononaut_id`: Window1 (`ui/tui.py`s
+    `_discard_unclear_blocking_reason`-Wrapper) gated selbst weiterhin vor
+    dem Delegieren auf `_discard_candidate_identity_match`; Window2
+    (`core/store.py`s `create_table_from_offer_log`) adressiert `table`
+    bereits eindeutig ueber die angefragte `table_id` -- keine zweite
+    Kandidatenwahl noetig."""
+    run_dir = Path(run_dir)
+    section_id = f"{table.table_id}-section"
+    repair_key = _group_repair_key(table.table_id, section_id, chrononaut_id)
+
+    def _unclear(path: Path, *, kind: str) -> bool:
+        if not path.exists():
+            return False
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            return True
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            return True
+        if kind == "list":
+            return not isinstance(data, list)
+        if kind == "table_dict":
+            return not (isinstance(data, dict) and data.get("table_id") == table.table_id)
+        return not isinstance(data, dict)
+
+    plan_path = run_dir / "completion" / f"{section_id}__plan.json"
+    if _unclear(plan_path, kind="table_dict"):
+        return (
+            "ein vorhandener Abschluss-Plan dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    final_path = run_dir / "completion" / f"{section_id}__final.json"
+    if _unclear(final_path, kind="table_dict"):
+        return (
+            "ein vorhandenes Abschluss-Ergebnis dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    raw_path = _save_compatibility._raw_archive_path(run_dir, repair_key)
+    if _unclear(raw_path, kind="list"):
+        return (
+            "ein vorhandenes Korrektur-Roharchiv dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    record_path = _save_correction._record_path(run_dir, repair_key)
+    if _unclear(record_path, kind="dict"):
+        return (
+            "ein vorhandener Korrekturdatensatz dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    return None
+
+
+def discard_recovery_blocking_reason(run_dir, table, chrononaut_id: str) -> str | None:
+    """Gemeinsamer Recovery-Vertrag (ZR-DISCARD-UNPLAYED-SOLO-20261126-r5,
+    General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4/r5):
+    die VOLLSTAENDIGE frische Zustandsbewertung, die JEDES echte Resume-
+    Fenster nach einem autorisierten Verwurf eines ungespielten Solo-
+    Abschnitts VOR jedem Finalize/Persist/Lock-Release durchfuehren MUSS,
+    unter der TATSAECHLICH vom Aufrufer gehaltenen
+    `_SharedWriterExclusivity` (diese Funktion erwirbt selbst KEINE
+    Exclusivity -- reiner Lesepfad auf einen bereits frisch geladenen
+    `table`).
+
+    Vereint beide zuvor getrennt (und je Fenster unvollstaendig)
+    bewerteten Luecken unter EINEM Helfer statt einer Duplikat-Teilmenge:
+    vorher pruefte Window1 (`ui/tui.py`s `_follow_through_authorized_
+    discard`) nur eine hartcodierte Teilmenge `state in ("reserved",
+    "sent")` -- `received` fehlte, obwohl `finish_received()` seinen
+    durablen Checkpoint bereits im ERSTEN Write schreibt und die
+    nachgelagerte Buchung danach abbrechen kann (Record bleibt `received`
+    = offen, s. `request_ledger.open_requests_for_table`-Docstring);
+    Window2 (`core/store.py`s `create_table_from_offer_log`) fuehrte GAR
+    KEINE Open-Request-/Unklarheits-Bewertung durch, bevor es blind
+    `closed` persistierte.
+
+    1. Offene zielgebundene Requests nach Ledger-SSOT
+       (`request_ledger.open_requests_for_table`, kanonisch `state !=
+       "accounted"` -- schliesst `reserved`, `sent` UND `received` ein).
+       Ein nicht einordenbarer Datensatz (`IndeterminateRequestRecordError`)
+       zaehlt wie ein echter offener Request (G2-Lesevertrag: unklar, NIE
+       als abwesend umgedeutet).
+    2. Unklare zielgebundene Artefakte (`discard_unclear_blocking_reason`):
+       Plan/Final/Correction/Raw unklar/unlesbar -> Halt.
+
+    Liegt (1) oder (2) vor: menschenlesbare Halt-Begruendung -- der
+    Aufrufer MUSS dann: KEIN `_finalize_genuine_table_abort`, KEIN
+    `closed`-Persist, KEIN Lock-Release/-Reconstruct, KEINE Modellanfrage
+    (`gm_calls==0`), Request/Bindung VOLLSTAENDIG unangetastet lassen
+    (nicht geloescht/abgerechnet/disponiert), den `stopped`-Entscheid NICHT
+    zurueckdrehen. Beides leer/konsistent: `None` -- der Aufrufer darf wie
+    bisher finalisieren (idempotent, kein Doppel-Write bei bereits
+    `closed`; positive konsistente Recovery bleibt kostenlos und
+    idempotent)."""
+    try:
+        pending_request = bool(request_ledger.open_requests_for_table(run_dir, table.table_id))
+    except request_ledger.IndeterminateRequestRecordError:
+        pending_request = True
+    unclear_reason = discard_unclear_blocking_reason(run_dir, table, chrononaut_id)
+    if pending_request or unclear_reason is not None:
+        return (
+            "es liegt noch nicht abgeschlossene Arbeit an diesem Abschnitt vor (sicherer "
+            "Stopp, kein Verwurf-Abschluss, kein Resume, keine Modellanfrage; Anfrage/"
+            "Bindung unangetastet)."
+        )
+    return None
