@@ -3278,18 +3278,40 @@ class TuiSession:
         return lobby.is_locked(chrononaut_id) == table.table_id
 
     def _follow_through_authorized_discard(self, table, chrononaut_id) -> bool:
-        """General-Nachzug r3 (N2): gemeinsamer terminaler Abschluss eines
-        bereits durabel 'stopped' entschiedenen EIGENEN Solo-Verwurfs,
-        aufrufbar an JEDEM echten Resume-Wiedereinstieg (zentrales
-        Fortsetzen, Spielen->6 / `_resume_bound_table`, oeffentliches l /
-        `_cmd_local_round`). Gibt True zurueck, wenn ein terminal
-        verworfener eigener Solo-Tisch JETZT idempotent finalisiert wurde
-        (Lock geloest + closed) -- der Aufrufer darf dann NICHT weiter
-        resumen/erzeugen. False -> normaler Weg. Die Nachfuehrung ist ein
-        schreibender Pfad und laeuft deshalb unter derselben gemeinsamen
-        `_SharedWriterExclusivity` wie der frische Verwurf. `plan_
-        committed`/fremde oder mehrdeutige Bindung faellt durch (identity_
-        match False)."""
+        """General-Nachzug r3 (N2), geschaerft General-Nachzug r4 (N2-R1,
+        ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4, Fall
+        `stopped_recovery_with_pending_real_ledger_request`): gemeinsamer
+        terminaler Abschluss eines bereits durabel 'stopped' entschiedenen
+        EIGENEN Solo-Verwurfs, aufrufbar an JEDEM echten Resume-
+        Wiedereinstieg (zentrales Fortsetzen, Spielen->6 /
+        `_resume_bound_table`, oeffentliches l / `_cmd_local_round`). Gibt
+        True zurueck, wenn ein terminal verworfener eigener Solo-Tisch JETZT
+        idempotent finalisiert wurde (Lock geloest + closed) ODER ein
+        geschuetzter Halt ausgeloest wurde -- der Aufrufer darf dann NICHT
+        weiter resumen/erzeugen. False -> normaler Weg. Die Nachfuehrung ist
+        ein schreibender Pfad und laeuft deshalb unter derselben
+        gemeinsamen `_SharedWriterExclusivity` wie der frische Verwurf.
+        `plan_committed`/fremde oder mehrdeutige Bindung faellt durch
+        (identity_match False).
+
+        r4-N2-R1-Haertung: zwischen dem durablen 'stopped'-Commit (vor
+        Finalizer, Crash/Absturz-Fenster VOR `_finalize_genuine_table_abort`)
+        und diesem spaeteren Resume kann ein separater OS-Prozess unter
+        echter `_SharedWriterExclusivity` (z.B. ein GM-Request-Writer) einen
+        diesem Tisch zugeordneten Requestdatensatz angelegt haben (`state`
+        `reserved`/`sent`, noch nicht `received`/`accounted`), ODER ein
+        zielgebundenes Artefakt (Plan/Final/Correction/Raw) kann gerade
+        unklar/unlesbar sein (`_discard_unclear_blocking_reason`). Beides
+        waere bei blindem Finalize verloren/ueberschrieben bzw. als
+        unlesbar=abwesend fehlinterpretiert worden. Deshalb FRISCH unter der
+        Exclusivity (NACH `fresh = Table.load(...)`, VOR dem Finalize)
+        geprueft: liegt vorliegende Arbeit/Unklarheit vor, geschuetzter Halt
+        -- KEIN `_finalize_genuine_table_abort`, KEIN Lock-Release, der
+        Request bleibt vollstaendig unangetastet (nicht geloescht/
+        abgerechnet/disponiert), der `stopped`-Entscheid wird NICHT
+        zurueckgedreht. Nur im konsistenten Fall (kein offener/unklarer
+        Request, nichts unklar an den Zielartefakten) wird wie bisher
+        finalisiert."""
         if self.run_dir is None:
             return False
         from ..core import admission as core_admission
@@ -3299,11 +3321,32 @@ class TuiSession:
         if not self._discard_candidate_identity_match(table, chrononaut_id):
             return False
         from ..core import store as core_store
+        from ..core import request_ledger as core_request_ledger
         from ..core.recovery_ops import _SharedWriterExclusivity, RecoveryExclusivityUnavailableError
         lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
         try:
             with _SharedWriterExclusivity(self.run_dir):
                 fresh = core_store.Table.load(self.run_dir, table.table_id)
+                try:
+                    pending_records = core_request_ledger.records_for_table(self.run_dir, fresh.table_id)
+                    pending_request = any(
+                        r.get("state") in ("reserved", "sent") for r in pending_records
+                    )
+                except core_request_ledger.IndeterminateRequestRecordError:
+                    # G2-Lesevertrag (wie an den bestehenden Eligibility-Checks oben):
+                    # ein nicht einordenbarer Requestdatensatz ist "unklar", nicht
+                    # "abwesend" -- derselbe geschuetzte Halt wie bei einem echten
+                    # offenen Request, kein stiller Finalize auf unsicherer Lesung.
+                    pending_request = True
+                unclear_reason = self._discard_unclear_blocking_reason(fresh, chrononaut_id)
+                if pending_request or unclear_reason is not None:
+                    self._print(
+                        "Fortsetzen: ein bereits autorisierter Verwurf dieses Abschnitts kann gerade "
+                        "nicht abgeschlossen werden -- es liegt noch nicht abgeschlossene Arbeit an "
+                        "diesem Abschnitt vor (sicherer Stopp, kein Verwurf-Abschluss, kein Resume, "
+                        "keine Modellanfrage; Anfrage/Bindung unangetastet)."
+                    )
+                    return True
                 self._finalize_genuine_table_abort(lobby, fresh, None)
         except RecoveryExclusivityUnavailableError:
             self._print(

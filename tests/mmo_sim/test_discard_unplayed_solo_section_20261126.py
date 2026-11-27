@@ -1031,6 +1031,213 @@ def test_n2_window2_stopped_decision_terminal_after_crash_after_release_before_p
         assert lobby_new.is_locked(char_id) == new_tables[0]
 
 
+# --------------------------------------------------------------------------
+# General-Nachzug r4 (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4): zwei
+# geschuetzte Haelte unter echter OS-Zweiprozess-Nachstellung -- R1
+# (vorliegender echter Ledger-Request blockiert den terminalen Nachzug-
+# Abschluss in `_follow_through_authorized_discard`) und R2 (der
+# `closed`-Persist im Store-Resume-Zweig mutiert NIE unter fremd gehaltener
+# `_SharedWriterExclusivity`). RED-Gegenprobe: `git stash` NUR auf
+# `mmo_sim/ui/tui.py`/`mmo_sim/core/store.py` (die beiden r4-Fixdateien)
+# laesst GENAU diese beiden Tests fehlschlagen, alle uebrigen (inkl. der
+# r3-Vorgaenger) bleiben gruen -- s. worker/linus-nachzug-r4-report.md.
+# --------------------------------------------------------------------------
+
+def test_r4_r1_pending_real_ledger_request_blocks_follow_through_with_protected_halt():
+    """R1 (`stopped_recovery_with_pending_real_ledger_request`, General-
+    Nachzug r4 N2-R1): echte Schreibunterbrechung GENAU zwischen dem
+    atomaren 'stopped'-Commit und `_finalize_genuine_table_abort` (Window
+    1, Lock noch gebunden) wie `test_n2_window1_...` -- ABER danach legt
+    ein ECHTER, frischer OS-Kindprozess (Mode `writer`, derselbe wie r3s
+    `test_r3_cooperating_writer_...`) unter echter
+    `_SharedWriterExclusivity` einen dem Tisch zugeordneten Request an
+    (state `sent`). Ein danach frischer, dritter OS-Prozess (Mode
+    `resume_after_crash`) darf diese vorliegende Arbeit NICHT durch einen
+    blinden Nachzug-Abschluss verschlucken.
+
+    RED ohne FIX R1 (`_follow_through_authorized_discard` prueft keine
+    vorliegende Arbeit): der dritte Prozess wuerde den Tisch trotz des
+    vorliegenden `sent`-Requests blind finalisieren (`status='closed'`,
+    Lock freigegeben, Request bleibt verwaist unter einem bereits toten
+    Tisch) -- dieser Test schlaegt dann auf `table_status=='active'`
+    (tatsaechlich 'closed') und `lock==table_id` (tatsaechlich `None`)
+    fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("r4/R1: nach echtem stopped-Commit, vor Finalize")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision_mid = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_mid is not None and decision_mid.get("decision") == "stopped", decision_mid
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) == table_id
+
+        writer_result = _run_child(root, "writer", root / "r4-r1-writer.json", table=table_id)
+        assert writer_result["acquired"] is True, writer_result
+        assert writer_result["request_state"] == "sent", writer_result
+
+        result_path = root / "r4-r1-resume.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], r2
+
+        table_final = core_store.Table.load(run_dir, table_id)
+        assert table_final.status == "active", (
+            "ein vorliegender echter Request darf den Nachzug-Abschluss NICHT blind "
+            "finalisieren.", table_final,
+        )
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) == table_id, (
+            "Lock darf bei vorliegender Arbeit NICHT geloest werden."
+        )
+        decision_final = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_final is not None and decision_final.get("decision") == "stopped", decision_final
+        records_final = request_ledger.records_for_table(run_dir, table_id)
+        assert [r.get("state") for r in records_final] == ["sent"], (
+            "der vorliegende Request muss unangetastet bleiben (nicht geloescht/abgerechnet).",
+            records_final,
+        )
+
+
+def _child_hold_exclusivity(args) -> None:
+    """r4-Nachzug (N2-R2): echter, frischer OS-Kindprozess, der
+    `_SharedWriterExclusivity` erwirbt, seine Bereitschaft ueber stdout
+    meldet und sie DANACH, bis zum ausdruecklichen `release`-Kommando ueber
+    stdin, durchgehend haelt -- derselbe Trick wie `general_discard_r3_
+    recovery.py`s `hold`-Kindmodus."""
+    from mmo_sim.core.recovery_ops import _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir = root / "run"
+    with _SharedWriterExclusivity(run_dir):
+        print(json.dumps({"acquired": True}), flush=True)
+        line = sys.stdin.readline()
+        assert line == "release\n", repr(line)
+    Path(args.result).write_text(json.dumps({"released": True}), encoding="utf-8")
+
+
+def test_r4_r2_lockfree_window2_blocked_while_other_os_writer_holds_exclusivity():
+    """R2 (`lockfree_window2_while_other_os_writer_holds_exclusivity`,
+    General-Nachzug r4 N2-R2): echte Schreibunterbrechung GENAU NACH
+    `release_chrononaut` (Lock bereits frei) aber VOR dem `status=
+    "closed"`-Persist (Window 2), wie `test_n2_window2_...`. Ein ECHTES,
+    frisches OS-Kind haelt waehrenddessen DURCHGEHEND die echte
+    `_SharedWriterExclusivity` (Mode `hold`). Ein dritter, frischer
+    OS-Prozess (Mode `resume_after_crash`) laeuft waehrend dieser Haltung
+    bis zum Store-Resume-Zweig (`create_table_from_offer_log`) durch --
+    DARF den `closed`-Persist NICHT gegen die fremd gehaltene Exklusivitaet
+    ausfuehren.
+
+    RED ohne FIX R2 (store.py:399-411 persistiert `closed` ungeschuetzt):
+    der dritte Prozess wuerde `existing_table.status="closed"` + `persist()`
+    OHNE Ruecksicht auf den haltenden Peer schreiben -- die Tisch-Bytes
+    aendern sich WAEHREND der Peer die Exklusivitaet haelt. Dieser Test
+    schlaegt dann auf `bytes_after == bytes_before` (tatsaechlich
+    veraendert) und `table_status=='active'` (tatsaechlich 'closed')
+    fehl."""
+    import subprocess
+
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r4/R2: nach Lock-Freigabe, vor closed-Persist")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision_mid = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_mid is not None and decision_mid.get("decision") == "stopped", decision_mid
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None
+
+        table_path = run_dir / "tables" / f"{table_id}.json"
+        bytes_before = table_path.read_bytes()
+
+        hold_result_path = root / "r4-r2-hold.json"
+        cmd = [
+            sys.executable, str(Path(__file__).resolve()), "--child", "--mode", "hold",
+            "--root", str(root), "--result", str(hold_result_path),
+        ]
+        peer = subprocess.Popen(
+            cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        )
+        try:
+            ready = json.loads(peer.stdout.readline())
+            assert ready.get("acquired") is True, ready
+            assert peer.poll() is None, "Peer darf die Exklusivitaet nicht sofort wieder freigeben."
+
+            result_path = root / "r4-r2-resume.json"
+            r2 = _run_child(root, "resume_after_crash", result_path)
+            peer_still_holds = peer.poll() is None
+            bytes_after = table_path.read_bytes()
+        finally:
+            _out, stderr = peer.communicate("release\n", timeout=30)
+            assert peer.returncode == 0, stderr
+
+        hold_result = json.loads(hold_result_path.read_text(encoding="utf-8"))
+        assert hold_result.get("released") is True, hold_result
+        assert peer_still_holds, (
+            "der Peer musste die Exklusivitaet waehrend des GESAMTEN Resumes gehalten haben "
+            "-- sonst belegt dieser Test nicht den Konfliktfall."
+        )
+        assert bytes_after == bytes_before, (
+            "Tisch-Bytes duerfen sich WAEHREND ein fremder Schreiber die Exklusivitaet haelt "
+            "NIE aendern."
+        )
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], r2
+
+        table_final = core_store.Table.load(run_dir, table_id)
+        assert table_final.status == "active", table_final
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) is None, lobby_final
+        decision_final = core_admission.read_table_decision(run_dir, table_id)
+        assert decision_final is not None and decision_final.get("decision") == "stopped", decision_final
+        assert request_ledger.records_for_table(run_dir, table_id) == []
+
+
 def _write_n3_artifact(run_dir: Path, table_id: str, kind: str) -> Path:
     repair = group_repair_key(table_id, f"{table_id}-section", "CHR-OWNER1")
     if kind == "broken_plan":
@@ -1478,7 +1685,7 @@ if __name__ == "__main__":
             "--mode", required=True,
             choices=[
                 "setup", "discard", "resume_after_crash",
-                "spielen", "local_then_fortsetzen", "writer",
+                "spielen", "local_then_fortsetzen", "writer", "hold",
             ],
         )
         ap.add_argument("--root", required=True)
@@ -1493,6 +1700,8 @@ if __name__ == "__main__":
             _child_resume_after_crash(ns)
         elif ns.mode == "writer":
             _child_writer(ns)
+        elif ns.mode == "hold":
+            _child_hold_exclusivity(ns)
         else:
             _child_follow_through(ns)
         sys.exit(0)

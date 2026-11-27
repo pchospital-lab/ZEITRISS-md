@@ -386,21 +386,63 @@ def create_table_from_offer_log(
         existing_table = Table.load(lobby.run_dir, candidate_id)
         if existing_table.status != "closed" and not _table_has_final(lobby.run_dir, candidate_id):
             # ZR-DISCARD-UNPLAYED-SOLO-20261126-N2-WINDOW2 (General-Nachzug
-            # 2026-11-27): der Lock kann hier bereits freigegeben sein,
-            # OBWOHL der durable Entscheid-Slot dieses Tisches laengst auf
-            # "stopped" gefallen ist (Absturz zwischen `release_chrononaut`
-            # und dem `status="closed"`-Persist in `_finalize_genuine_
-            # table_abort`, Window 2). Ohne diesen Check wuerde der
-            # laengst verworfene Tisch HIER als offener Resume
-            # zurueckgegeben -- der laengst gefallene Entscheid wird
-            # deshalb VOR jedem Resume konsultiert und terminal nachgefuehrt
-            # (idempotent, kein erneuter Write wenn bereits `closed`), KEINE
-            # neue Generation, KEIN Resume.
+            # 2026-11-27, geschaerft General-Nachzug r4 N2-R2,
+            # ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4, Fall
+            # `lockfree_window2_while_other_os_writer_holds_exclusivity`):
+            # der Lock kann hier bereits freigegeben sein, OBWOHL der
+            # durable Entscheid-Slot dieses Tisches laengst auf "stopped"
+            # gefallen ist (Absturz zwischen `release_chrononaut` und dem
+            # `status="closed"`-Persist in `_finalize_genuine_table_abort`,
+            # Window 2). Ohne diesen Check wuerde der laengst verworfene
+            # Tisch HIER als offener Resume zurueckgegeben -- der laengst
+            # gefallene Entscheid wird deshalb VOR jedem Resume konsultiert
+            # und terminal nachgefuehrt (idempotent, kein erneuter Write
+            # wenn bereits `closed`), KEINE neue Generation, KEIN Resume.
             decision = read_table_decision(lobby.run_dir, candidate_id)
             if decision is not None and decision.get("decision") == "stopped":
                 if existing_table.status != "closed":
-                    existing_table.status = "closed"
-                    existing_table.persist()
+                    # r4-N2-R2-Haertung: dieser Nachzug-Persist ist selbst
+                    # ein schreibender Pfad (status active->closed) und lief
+                    # bisher OHNE gemeinsame Schreiber-Exklusivitaet -- ein
+                    # echtes zweites OS-Kind, das waehrenddessen
+                    # `_SharedWriterExclusivity` haelt (z.B. ein aktiver
+                    # `LabRunner`), konnte so unter gehaltener fremder Sperre
+                    # ueberschrieben werden. Deferred Import (NICHT
+                    # top-level) -- `recovery_ops` importiert `store` nicht,
+                    # aber der Import bleibt hier bewusst function-local, um
+                    # jede Ladeordnungsabhaengigkeit auszuschliessen.
+                    # Re-Entrancy: `create_table_from_offer_log` wird an
+                    # KEINER bestehenden Aufrufstelle (lobby_flow.py,
+                    # tui.py, Testharness) aus einem im selben Prozess
+                    # bereits gehaltenen `_SharedWriterExclusivity`-Block
+                    # heraus aufgerufen (die einzigen bestehenden Erwerbs-
+                    # stellen -- tui.py `_follow_through_authorized_discard`/
+                    # `_discard_unplayed_solo_section`, recovery_ops.py
+                    # `apply_p3`/`apply_p5`/`apply_orphan_recovery` --
+                    # rufen diese Funktion nicht auf); ein verschachtelter
+                    # Erwerb im selben Prozess ist damit ausgeschlossen.
+                    from .recovery_ops import (
+                        RecoveryExclusivityUnavailableError,
+                        _SharedWriterExclusivity,
+                    )
+                    try:
+                        with _SharedWriterExclusivity(lobby.run_dir):
+                            fresh_existing = Table.load(lobby.run_dir, candidate_id)
+                            if fresh_existing.status != "closed":
+                                fresh_existing.status = "closed"
+                                fresh_existing.persist()
+                            existing_table = fresh_existing
+                    except RecoveryExclusivityUnavailableError:
+                        return None, GroupDerivation(
+                            leader=existing_table.leader, members=list(existing_table.members),
+                            dissenters={}, source_offer_id=None,
+                            reason=(
+                                f"Tisch {candidate_id!r}: ein bereits autorisierter Verwurf kann "
+                                "gerade nicht abgeschlossen werden -- ein anderer aktiver Schreiber "
+                                "haelt die gemeinsame Schreibsperre (kein Abschluss, kein Resume, "
+                                "keine neue Generation)."
+                            ),
+                        )
                 return None, GroupDerivation(
                     leader=existing_table.leader, members=list(existing_table.members),
                     dissenters={}, source_offer_id=None,
