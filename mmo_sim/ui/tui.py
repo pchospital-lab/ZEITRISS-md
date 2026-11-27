@@ -3388,9 +3388,21 @@ class TuiSession:
         frueher geschuetzter Halt, NOCH VOR Exclusivity-Erwerb, Fresh-Load,
         `discard_recovery_blocking_reason` und Finalize -- kein neuer
         Request, kein GM-/Persona-Call, der alte `stopped`-Entscheid und
-        alle bestehenden Locks bleiben unangetastet. Nur bei Lock `None`
-        oder `== table.table_id` geht es wie bisher in die Exclusivity/
-        Fresh-Load/Blocking-Reason-Pruefung."""
+        alle bestehenden Locks bleiben unangetastet.
+
+        r8-Nachzug (General-Review R8, Fall `window1_real_group_rebind_
+        between_precheck_and_writer_acquisition`): dieser fruehe Lockread
+        ist NUR NOCH eine schnelle sichere Ablehnung, NICHT mehr die
+        autoritative Freigabe -- zwischen ihm und dem tatsaechlichen
+        Erwerb von `_SharedWriterExclusivity` kann ein separater OS-
+        Schreiber unter DERSELBEN Sicherung die Figur regulaer neu binden
+        (echte Boundary-Probe, kein theoretisches Fenster). Die Lock-Lage
+        wird deshalb INNERHALB der gehaltenen Exclusivity, NACH `fresh =
+        Table.load(...)` und VOR `discard_recovery_blocking_reason`/
+        Finalize, ERNEUT gelesen -- derselbe Dreifall-Vertrag wie in
+        `core/store.py` (Window 2). Nur wenn auch dieser frische Read
+        `None` oder `== fresh.table_id` ist, geht es wie bisher in
+        Blocking-Reason-Pruefung/Finalize weiter."""
         if self.run_dir is None:
             return False
         from ..core import admission as core_admission
@@ -3425,6 +3437,31 @@ class TuiSession:
         try:
             with _SharedWriterExclusivity(self.run_dir):
                 fresh = core_store.Table.load(self.run_dir, table.table_id)
+                # r8-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r8,
+                # Fall `window1_real_group_rebind_between_precheck_and_
+                # writer_acquisition`): der Lockcheck oben (vor Exclusivity-
+                # Erwerb, Zeile ~3404) ist nur eine FRUEHE sichere Ablehnung,
+                # NICHT mehr die autoritative Freigabe -- zwischen jenem Read
+                # und hier kann ein separater OS-Schreiber unter DERSELBEN
+                # `_SharedWriterExclusivity` die Figur regulaer an einen
+                # ANDEREN eigenen Tisch gebunden haben (General-Review R8,
+                # belegt ueber `evidence/general_discard_r7_fresh_boundary_
+                # probe.py`). Deshalb wird der Lock HIER, innerhalb der
+                # tatsaechlich gehaltenen Exclusivity und NACH dem frischen
+                # `Table.load`, ERNEUT gelesen -- derselbe Dreifall-Vertrag
+                # wie in `core/store.py` (Window 2, Zeile ~463-482). Fall 3:
+                # geschuetzter Halt, KEIN Finalize, KEINE Bindungsaenderung,
+                # KEINE Requestanlage; der alte `stopped`-Entscheid, die neue
+                # Bindung und alle bestehenden Locks bleiben unangetastet.
+                fresh_locked_table_id = lobby.is_locked(chrononaut_id)
+                if fresh_locked_table_id is not None and fresh_locked_table_id != fresh.table_id:
+                    self._print(
+                        "Fortsetzen: der bereits autorisierte Verwurf dieses Abschnitts bleibt "
+                        "geschuetzt -- die Figur ist inzwischen regulaer an eine andere Bindung "
+                        "uebergegangen (kein Abschluss, kein Resume, keine Modellanfrage; neue "
+                        "Bindung und bestehende Locks unangetastet)."
+                    )
+                    return True
                 # r5-Nachzug (General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-
                 # RECOVERY-20261127-r4/r5, Fall `bound_window1_with_
                 # received`): der gemeinsame Helfer (`core.recovery_ops.

@@ -1779,6 +1779,127 @@ def _child_follow_through(args) -> None:
     Path(args.result).write_text(json.dumps(row), encoding="utf-8")
 
 
+def _child_group_writer(args) -> None:
+    """r8-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r8, Fall
+    `window1_real_group_rebind_between_precheck_and_writer_acquisition`,
+    derselbe Trick wie `evidence/general_discard_r7_fresh_boundary_
+    probe.py`s `writer()`-Kindmodus): echter, dritter OS-Prozess, der
+    unter der ORIGINALEN `_SharedWriterExclusivity` eine regulaere neue
+    Zweipersonen-Gruppe anlegt (`_cmd_local_round(['owner2'])`,
+    menschliche Zustimmung 'j', Pause '/abbrechen' VOR jedem Modellcall)
+    und die Sicherung danach wieder freigibt -- keine Lock-/Datei-
+    Handedits, derselbe Mechanismus wie der echte Produktweg."""
+    from mmo_sim.core.recovery_ops import _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    printed: list[str] = []
+    session, gm_spy = _fresh_session(
+        run_dir, states_dir, onboarding_dir, catalog_dir, "owner1", ["j", "/abbrechen"], printed,
+    )
+    with _SharedWriterExclusivity(run_dir):
+        try:
+            session._cmd_local_round(["owner2"])
+        except EndOfInput:
+            pass
+        new_table = core_store.Table.load(run_dir, "local-owner1-owner2")
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert gm_spy.calls == 0 and new_table.status == "active", new_table
+        assert sorted(new_table.members) == ["owner1", "owner2"], new_table
+        assert lobby.is_locked("CHR-OWNER1") == new_table.table_id
+        assert lobby.is_locked("CHR-OWNER2") == new_table.table_id
+    result = {"new_table_id": new_table.table_id, "gm_calls": gm_spy.calls, "printed": printed}
+    Path(args.result).write_text(json.dumps(result), encoding="utf-8")
+
+
+def _child_rebind_tisch_start(args) -> None:
+    """r8-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r8, Fall
+    `window1_real_group_rebind_between_precheck_and_writer_acquisition`,
+    derselbe wie `evidence/general_discard_r7_fresh_boundary_probe.py`s
+    `child()`-Kindmodus): echter, frischer OS-Reader ruft GENAU den
+    admissionsgebundenen Reconcile-Caller `_cmd_table_start([table_key])`
+    auf (-> `_resume_bound_table` -> `_follow_through_authorized_
+    discard`). Der fruehe Lockcheck dort (tui.py ~3404, VOR Exclusivity-
+    Erwerb) sieht die Figur frei; GENAU an der echten `_SharedWriter
+    Exclusivity.__enter__`-Grenze -- NACH jenem fruehen Read, VOR dem
+    tatsaechlichen Erwerb -- spawnt dieser Prozess einen ECHTEN dritten
+    OS-Prozess (`_child_group_writer`), der unter der ORIGINALEN
+    Sicherung eine regulaere neue Gruppe anlegt und die Sicherung danach
+    freigibt. Erst DANACH erwirbt dieser Reader die echte Sicherung und
+    faehrt fort -- derselbe TOCTOU-Rand wie im R8-Auftrag, keine Mock der
+    eigentlichen Mutation, nur der Erwerbsreihenfolge-Beweis."""
+    import subprocess
+
+    from mmo_sim.core.recovery_ops import _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    pid, char_id = "owner1", "CHR-OWNER1"
+    existing_tables = sorted(p.stem for p in (run_dir / "tables").glob("*.json"))
+    assert len(existing_tables) == 1, existing_tables
+    table_id = existing_tables[0]
+    printed: list[str] = []
+    gm_spy = _ExplodingGm()
+    session = TuiSession(
+        onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id=pid,
+        input_fn=_eof_input, print_fn=printed.append,
+        run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
+        gm_transport_factory=lambda *a, **kw: gm_spy, host_capable=True,
+    )
+    gate_reads: list = []
+    boundary: dict = {}
+    real_read = core_store.Lobby.is_locked
+    real_enter = _SharedWriterExclusivity.__enter__
+
+    def _observe_lock(lobby, lookup_char_id):
+        value = real_read(lobby, lookup_char_id)
+        gate_reads.append({"char_id": lookup_char_id, "lock": value})
+        return value
+
+    def _intervene_before_acquisition(guard):
+        assert not boundary, "nur die eine echte Erwerbsgrenze darf hier eingreifen."
+        assert gate_reads and gate_reads[-1] == {"char_id": char_id, "lock": None}, gate_reads
+        writer_result = root / "r8-group-writer-result.json"
+        peer = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve()), "--child", "--mode", "group_writer",
+             "--root", str(root), "--result", str(writer_result)],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert peer.returncode == 0, peer.stderr
+        boundary["writer"] = json.loads(writer_result.read_text(encoding="utf-8"))
+        entered = real_enter(guard)
+        boundary["reader_real_exclusivity_entered_after_writer"] = True
+        boundary["fresh_lock_under_exclusivity"] = real_read(
+            core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy()), char_id,
+        )
+        return entered
+
+    error = None
+    try:
+        with patch.object(core_store.Lobby, "is_locked", _observe_lock), patch.object(
+            _SharedWriterExclusivity, "__enter__", _intervene_before_acquisition,
+        ):
+            session._cmd_table_start([args.table])
+    except (EndOfInput, Exception) as e:
+        error = type(e).__name__
+    assert boundary.get("reader_real_exclusivity_entered_after_writer"), boundary
+    lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    decision = core_admission.read_table_decision(run_dir, table_id)
+    row = {
+        "printed": printed, "gm_calls": gm_spy.calls, "error": error, "boundary": boundary,
+        "table_status": core_store.Table.load(run_dir, table_id).status,
+        "lock": lobby.is_locked(char_id),
+        "decision": decision.get("decision") if decision else None,
+        "request_states": [r.get("state") for r in request_ledger.records_for_table(run_dir, table_id)],
+        "table_ids": sorted(p.stem for p in (run_dir / "tables").glob("*.json")),
+    }
+    Path(args.result).write_text(json.dumps(row), encoding="utf-8")
+
+
 def _assert_r3_artifact_during_confirmation_blocks_at_mutation_edge(kind: str) -> None:
     """A-Vertrag r3 (N3 am Mutationsrand): dasselbe unklare Artefakt wie
     `_assert_n3_halt_not_discard_or_resume`, aber ERST waehrend des
@@ -2542,6 +2663,119 @@ def test_r7_window2_create_table_from_offer_log_halts_on_real_group_rebind_witho
             )
 
 
+def test_r8_window1_tisch_start_halts_protected_on_real_group_rebind_at_writer_acquisition_boundary():
+    """r8-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r8, Fall
+    `window1_real_group_rebind_between_precheck_and_writer_acquisition`,
+    derselbe wie `evidence/general_discard_r7_fresh_boundary_probe.py`):
+    anders als `test_r7_resume_bound_table_halts_on_real_group_rebind_
+    without_new_request` (dort ist die neue Bindung bereits VOR dem
+    Aufruf vollstaendig abgeschlossen -- der fruehe Lockcheck in tui.py
+    ~3404 sieht die fremde Bindung schon VOR Exclusivity-Erwerb und haelt
+    dort bereits sicher an, UNABHAENGIG vom r8-Fix) prueft dieser Test
+    GENAU die Erwerbsgrenze selbst: ein ECHTER zweiter OS-Prozess bindet
+    die Figur regulaer an eine neue Gruppe GENAU zwischen jenem fruehen
+    Read (sieht noch `None`) und dem tatsaechlichen Erwerb der
+    ORIGINALEN `_SharedWriterExclusivity` durch den wartenden Leser --
+    derselbe TOCTOU-Rand, den `general_discard_r7_fresh_boundary_
+    probe.py` belegt.
+
+    Aufbau wie `test_r6_lockfree_resume_via_tisch_start_is_terminal`:
+    echter admissionsgebundener Solo-Tisch (`_cmd_table_offer`+`_cmd_
+    table_start`), echte Schreibunterbrechung GENAU NACH `release_
+    chrononaut` (Lock frei), ABER VOR dem `status='closed'`-Persist --
+    decision bereits durabel 'stopped'. Der frische Leser-OS-Prozess ruft
+    danach GENAU den echten admissionsgebundenen Reconcile-Caller
+    `_cmd_table_start([table_key])` auf; GENAU an der echten `_Shared
+    WriterExclusivity.__enter__`-Grenze spawnt er einen ECHTEN dritten
+    OS-Prozess, der unter der ORIGINALEN Sicherung eine regulaere neue
+    Zweipersonen-Gruppe anlegt (`_cmd_local_round(['owner2'])`, Konsens
+    'j', Pause '/abbrechen' vor jedem Modellcall) und die Sicherung
+    danach freigibt -- erst DANACH erwirbt der Leser die echte Sicherung.
+
+    RED ohne r8-Fix: der fruehe Lockcheck (vor Exclusivity-Erwerb) sah
+    den Lock noch frei (`None`) und ist die einzige Lockpruefung im
+    gesamten Pfad -- innerhalb der Exclusivity wird der Lock NIE erneut
+    gelesen. `_finalize_genuine_table_abort` schliesst den alten Tisch
+    (`closed`), obwohl die Figur inzwischen real an `local-owner1-
+    owner2` gebunden ist -- dieser Test schlaegt dann auf
+    `r2['table_status'] == 'active'` fehl (tatsaechlich `'closed'`)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        table_key = "fixture-discard-admission"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, "owner2", "CHR-OWNER2")
+        table_id = _create_admission_bound_unplayed_solo_table(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, table_key,
+        )
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r8: nach Lock-Freigabe, vor closed-Persist (tisch-start-Grenze)")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None, (
+            "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+        )
+        request_before = [r.get("state") for r in request_ledger.records_for_table(run_dir, table_id)]
+
+        result_path = root / "r8-rebind-tisch-start-result.json"
+        r2 = _run_child(root, "rebind_tisch_start", result_path, table=table_key)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, "Fall 3 darf NIE einen GM-/Modellcall ausloesen."
+        boundary = r2["boundary"]
+        assert boundary["reader_real_exclusivity_entered_after_writer"], boundary
+        new_table_id = boundary["writer"]["new_table_id"]
+        assert new_table_id == "local-owner1-owner2", boundary
+        assert boundary["fresh_lock_under_exclusivity"] == new_table_id, (
+            "die echte Sicherung sah die neue Bindung bereits beim Erwerb -- der Fix muss sie "
+            "ERNEUT lesen, nicht den fruehen (jetzt veralteten) Read von davor weiterverwenden.",
+            boundary,
+        )
+
+        assert r2["table_status"] == "active", (
+            "r8-Fix: der alte stopped-Abschnitt darf bei einer echten Rebind-Grenze zwischen "
+            "Vorabcheck und Exclusivity-Erwerb NICHT finalisiert werden.", r2,
+        )
+        assert r2["decision"] == "stopped", (
+            "der alte stopped-Entscheid darf NICHT zurueckgedreht werden.", r2,
+        )
+        assert r2["lock"] == new_table_id, (
+            "die neue reale Bindung darf durch den alten Abschnitt NICHT aufgeweicht werden.", r2,
+        )
+        assert r2["request_states"] == request_before, (
+            "Fall 3 darf keine neue Anfrage fuer den alten Abschnitt anlegen.", r2,
+        )
+        assert r2["table_ids"] == sorted([table_id, new_table_id]), (
+            "kein Doppelstart -- genau der alte und der neue Tisch existieren.", r2,
+        )
+        assert r2["printed"], "es muss eine verstaendliche Bindungsdiagnose ausgegeben werden."
+        message = r2["printed"][-1]
+        assert "andere" in message and "Bindung" in message, message
+        for forbidden in ("Recht", "recht", "Retry", "retry", "Storage", "storage", "wiederhol"):
+            assert forbidden not in message, (forbidden, message)
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
@@ -2571,7 +2805,7 @@ if __name__ == "__main__":
             choices=[
                 "setup", "discard", "resume_after_crash",
                 "spielen", "local_then_fortsetzen", "writer", "writer_received", "hold",
-                "tisch_start",
+                "tisch_start", "group_writer", "rebind_tisch_start",
             ],
         )
         ap.add_argument("--root", required=True)
@@ -2592,6 +2826,10 @@ if __name__ == "__main__":
             _child_hold_exclusivity(ns)
         elif ns.mode == "tisch_start":
             _child_tisch_start(ns)
+        elif ns.mode == "group_writer":
+            _child_group_writer(ns)
+        elif ns.mode == "rebind_tisch_start":
+            _child_rebind_tisch_start(ns)
         else:
             _child_follow_through(ns)
         sys.exit(0)
