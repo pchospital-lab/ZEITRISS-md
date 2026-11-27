@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Callable, Protocol
 
 from . import _section_completion_recovery
-from .admission import try_commit_table_decision
+from .admission import read_table_decision, try_commit_table_decision
 from .persona_state import PersonaStateStore
 
 # K1/K1-Nachzug: additives Current-Save-Ref-Feld im Persona-State — traegt EIN
@@ -385,6 +385,30 @@ def create_table_from_offer_log(
             break
         existing_table = Table.load(lobby.run_dir, candidate_id)
         if existing_table.status != "closed" and not _table_has_final(lobby.run_dir, candidate_id):
+            # ZR-DISCARD-UNPLAYED-SOLO-20261126-N2-WINDOW2 (General-Nachzug
+            # 2026-11-27): der Lock kann hier bereits freigegeben sein,
+            # OBWOHL der durable Entscheid-Slot dieses Tisches laengst auf
+            # "stopped" gefallen ist (Absturz zwischen `release_chrononaut`
+            # und dem `status="closed"`-Persist in `_finalize_genuine_
+            # table_abort`, Window 2). Ohne diesen Check wuerde der
+            # laengst verworfene Tisch HIER als offener Resume
+            # zurueckgegeben -- der laengst gefallene Entscheid wird
+            # deshalb VOR jedem Resume konsultiert und terminal nachgefuehrt
+            # (idempotent, kein erneuter Write wenn bereits `closed`), KEINE
+            # neue Generation, KEIN Resume.
+            decision = read_table_decision(lobby.run_dir, candidate_id)
+            if decision is not None and decision.get("decision") == "stopped":
+                if existing_table.status != "closed":
+                    existing_table.status = "closed"
+                    existing_table.persist()
+                return None, GroupDerivation(
+                    leader=existing_table.leader, members=list(existing_table.members),
+                    dissenters={}, source_offer_id=None,
+                    reason=(
+                        f"Tisch {candidate_id!r} wurde dauerhaft verworfen (Discard) -- Bindung "
+                        "frei, kein Resume, keine neue Generation."
+                    ),
+                )
             return existing_table, GroupDerivation(
                 leader=existing_table.leader, members=list(existing_table.members),
                 dissenters={}, source_offer_id=None,

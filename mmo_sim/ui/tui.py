@@ -3011,6 +3011,33 @@ class TuiSession:
                     "alte Save-Uebernahme (sicherer Stopp)."
                 )
                 return
+            # ZR-DISCARD-UNPLAYED-SOLO-20261126-N2-WINDOW1 (General-Nachzug
+            # 2026-11-27): der atomare Entscheid-Slot (`admission.try_
+            # commit_table_decision`) ist durabel geschrieben, sobald EIN
+            # Verwurf gewonnen hat -- ein Absturz zwischen diesem Commit und
+            # `_finalize_genuine_table_abort` (Lock noch gebunden) darf den
+            # laengst gefallenen Entscheid nicht verschlucken: HIER, GLEICH
+            # nach dem Aufloesen des gebundenen Tisches, zuerst lesen und den
+            # eigenen Verwurf idempotent zu Ende fuehren -- KEIN Resume, KEIN
+            # Discard-Offer, KEINE erneute Bestaetigung, KEIN Modellcall.
+            # `plan_committed`/fremde oder mehrdeutige Bindung faellt bewusst
+            # durch (normaler Weg, schuetzt gewonnenen Abschluss bzw. fremde
+            # Locks).
+            from ..core import admission as core_admission
+
+            decision = core_admission.read_table_decision(self.run_dir, table.table_id)
+            if decision is not None and decision.get("decision") == "stopped" and (
+                self._discard_candidate_identity_match(table, card.chrononaut_id)
+            ):
+                from ..core import store as core_store
+
+                lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+                self._finalize_genuine_table_abort(lobby, table, None)
+                self._print(
+                    "Fortsetzen: ein bereits autorisierter Verwurf dieses Abschnitts wird jetzt "
+                    "abgeschlossen -- keine neue Runde, keine erneute Bestaetigung."
+                )
+                return
             # ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix, PR3321-Stage-5-
             # Nachzug): ein beweisbar-unbenutzter eigener Solo-Abschnitt
             # (s. `_discard_unplayed_solo_eligible`-Docstring fuer die
@@ -3031,6 +3058,16 @@ class TuiSession:
             # aktiv (Normalfall), liefert der Guard `False` -> Ablauf
             # bytegleich wie bisher.
             if self._lab_active_guard("Verwerfen (ungespielter Solo-Abschnitt)"):
+                return
+            # ZR-DISCARD-UNPLAYED-SOLO-20261126-N3 (General-Nachzug
+            # 2026-11-27): ein zielgebundenes Artefakt des eigenen Abschnitts
+            # (Plan/Final/Correction/Raw-Archiv), das NICHT eindeutig als
+            # 'benutzt' oder 'abwesend' lesbar ist, ist ein sicherer Halt --
+            # weder Verwurf noch automatisches Resume (s. `_discard_
+            # unclear_blocking_reason`-Docstring).
+            unclear_reason = self._discard_unclear_blocking_reason(table, card.chrononaut_id)
+            if unclear_reason is not None:
+                self._print(unclear_reason)
                 return
             if self._discard_unplayed_solo_eligible(table, card.chrononaut_id):
                 choice_text, choice_control = self._readline_with_controls(
@@ -3225,6 +3262,118 @@ class TuiSession:
             return False
         return True
 
+    def _discard_candidate_identity_match(self, table, chrononaut_id: str) -> bool:
+        """ZR-DISCARD-UNPLAYED-SOLO-20261126-NACHZUG (General-Befund N2/N3,
+        2026-11-27): gemeinsamer Identitaets-/Lock-Scope-Filter fuer den N2-
+        Window-1-Check (oben in `_cmd_menu_fortsetzen`) UND die N3-
+        Klassifikation (`_discard_unclear_blocking_reason`) -- dieselben
+        Bindungsfelder wie `_discard_unplayed_solo_eligible` (Leader/
+        einziges Mitglied/Chrononaut/kein Betreiber/Lock-Exact-Match), aber
+        OHNE dessen Benutzt-Pruefung (sl_log/Requests/Plan/Final/Correction/
+        Raw). Reiner Scope-Filter: 'ist das ueberhaupt der eigene gebundene
+        Solo-Tisch dieses Teilnehmers', unabhaengig davon, ob er gerade
+        benutzt/bereits entschieden/unklar ist -- beide Aufrufer liegen
+        bereits im `card.open_section_id`-Bound-Zweig (Tisch strukturell
+        `active`, s. `_resolve_bound_table_for_resume`)."""
+        if self.run_dir is None:
+            return False
+        owner = self.participant_id
+        if table.leader != owner or list(table.members) != [owner]:
+            return False
+        if table.chrononaut_ids.get(owner) != chrononaut_id:
+            return False
+        if (table.operator_meta or {}).get("operator_id") is not None:
+            return False
+        from ..core import store as core_store
+        lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        return lobby.is_locked(chrononaut_id) == table.table_id
+
+    def _discard_unclear_blocking_reason(self, table, chrononaut_id: str) -> str | None:
+        """ZR-DISCARD-UNPLAYED-SOLO-20261126-N3 (General-Befund N3,
+        2026-11-27): zielgebundene strikte Zweitpruefung NUR fuer die vier
+        zielgebundenen Artefakte des eigenen Abschnitts/Figur (`section_id
+        = <table_id>-section`, `repair_key = group_repair_key(table_id,
+        section_id, chrononaut_id)`): `completion/<section_id>__plan.json`,
+        `completion/<section_id>__final.json`, `save_corrections_raw/
+        <repair_key>.json`, `save_corrections/<repair_key>.json`.
+
+        Je Artefakt drei Faelle: abwesend -> neutral (`None`, weiter so wie
+        bisher); konsistent benutzt (parst sauber im erwarteten Typ mit
+        passender Bindung) -> ebenfalls `None` (die bestehende Eligibility-
+        Pruefung oben entwertet den Verwurf darueber bereits regulaer, kein
+        zweiter Guard hier noetig); UNKLAR (JSON-Parsefehler, falscher
+        Wurzeltyp, `dict` ohne passende `table_id`, oder OSError/
+        UnicodeDecodeError beim Lesen einer vorhandenen Datei) -> eine
+        menschenlesbare Halt-Begruendung (sicherer Stopp: kein Verwurf, kein
+        automatisches Resume/Modellcall -- 'unlesbar/unklar' darf NIE durch
+        die tolerante Default-Behandlung der bestehenden Reader
+        (`read_raw_archive`/`load_record`/`_open_completion_order_for_
+        table`/`_table_has_final`, die unklare Treffer bewusst grosszuegig
+        als 'abwesend' lesen) in einen stillen Auto-Resume kippen -- GENAU
+        dieser Nachzug haertet NUR diese eine, zielgebundene Freigabe, OHNE
+        die tolerante Semantik dieser Reader fuer ihre eigentlichen,
+        bereits bestehenden Aufrufer zu veraendern.
+
+        Scope: NUR fuer den eigenen gebundenen Solo-Kandidaten (`_discard_
+        candidate_identity_match`) -- eindeutig fremde/historische
+        Vorgaenge anderer Tische sind kein Sperrgrund."""
+        if not self._discard_candidate_identity_match(table, chrononaut_id):
+            return None
+        from ..core import save_compatibility as core_save_compatibility
+        from ..core import save_correction as core_save_correction
+        from ..domain.zeitriss.save_correction import group_repair_key
+
+        run_dir = Path(self.run_dir)
+        section_id = f"{table.table_id}-section"
+        repair_key = group_repair_key(table.table_id, section_id, chrononaut_id)
+
+        def _unclear(path: Path, *, kind: str) -> bool:
+            if not path.exists():
+                return False
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                return True
+            try:
+                data = json.loads(text)
+            except json.JSONDecodeError:
+                return True
+            if kind == "list":
+                return not isinstance(data, list)
+            if kind == "table_dict":
+                return not (isinstance(data, dict) and data.get("table_id") == table.table_id)
+            return not isinstance(data, dict)
+
+        plan_path = run_dir / "completion" / f"{section_id}__plan.json"
+        if _unclear(plan_path, kind="table_dict"):
+            return (
+                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandener Abschluss-Plan dieses "
+                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
+                "automatischer Weiterzug)."
+            )
+        final_path = run_dir / "completion" / f"{section_id}__final.json"
+        if _unclear(final_path, kind="table_dict"):
+            return (
+                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandenes Abschluss-Ergebnis dieses "
+                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
+                "automatischer Weiterzug)."
+            )
+        raw_path = core_save_compatibility._raw_archive_path(run_dir, repair_key)
+        if _unclear(raw_path, kind="list"):
+            return (
+                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandenes Korrektur-Roharchiv dieses "
+                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
+                "automatischer Weiterzug)."
+            )
+        record_path = core_save_correction._record_path(run_dir, repair_key)
+        if _unclear(record_path, kind="dict"):
+            return (
+                "Fortsetzen/Verwerfen nicht moeglich -- ein vorhandener Korrekturdatensatz dieses "
+                "Abschnitts ist gerade nicht eindeutig lesbar (sicherer Stopp, kein Verwurf, kein "
+                "automatischer Weiterzug)."
+            )
+        return None
+
     def _discard_unplayed_solo_section(self, table, chrononaut_id: str) -> None:
         """ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix): wird NUR NACH
         ausdruecklicher Bestaetigung (s. `_cmd_menu_fortsetzen`) UND NACH
@@ -3269,7 +3418,26 @@ class TuiSession:
         geschlossener Tisch kann durch den erneuten Durchlauf nicht mehr
         ueberschrieben werden. Ab hier wird AUSSCHLIESSLICH `fresh` weiter-
         verwendet (Commit-`table_id` UND `_finalize_genuine_table_abort`),
-        nie mehr der Stale-Parameter `table`."""
+        nie mehr der Stale-Parameter `table`.
+
+        N1-Nachzug (General-Befund N1, 2026-11-27): der obige Fresh-Reload-
+        Re-Check pruefte bisher NUR `sl_log`/`table_messages` erneut -- ein
+        waehrend der zwei unbegrenzten Prompts konkurrierend ANGELEGTER
+        Request (`request_ledger.begin`, z.B. ein paralleler Join-/Preis-
+        Check) oder ein frisch aktiv gewordener Lab-Lauf blieb dabei
+        unsichtbar (keiner von beiden veraendert `sl_log`). Statt des
+        schmalen Checks laeuft HIER jetzt die VOLLE `_discard_unplayed_
+        solo_eligible`-Pruefung auf `fresh` -- dieselbe Matrix wie der
+        Erstcheck in `_cmd_menu_fortsetzen`, aber unmittelbar vor dem Commit
+        neu gebunden an Identitaet/Besetzung/Lock/Requests/Plan/Final/
+        Correction/Raw. Davor zusaetzlich ein zweiter, frischer Lab-Guard
+        (der einmalige Guard vor dem ersten Prompt deckt die beiden
+        nachfolgenden unbegrenzten Prompts nicht ab). Gilt NUR fuer den
+        frischen Verwurf (`fresh.status == "active"`) -- die idempotente
+        Nachfuehrung eines bereits `stopped` entschiedenen (ggf. noch
+        `active`, Finalize aber nie erreichten) Tisches laeuft unveraendert
+        weiter in den Commit-Versuch unten (der Decision-Commit selbst
+        aendert keines der hier geprueften Felder)."""
         from ..core import admission as core_admission
         from ..core import store as core_store
         owner = self.participant_id
@@ -3281,12 +3449,16 @@ class TuiSession:
                 "kein Entscheid committet)."
             )
             return
-        if fresh.status == "active" and (fresh.sl_log != [] or fresh.table_messages != []):
-            self._print(
-                "Verwurf nicht moeglich -- der Abschnitt wurde zwischenzeitlich bespielt/"
-                "veraendert; nichts angetastet."
-            )
-            return
+        if fresh.status == "active":
+            if self._lab_active_guard("Verwerfen (ungespielter Solo-Abschnitt)"):
+                return
+            if not self._discard_unplayed_solo_eligible(fresh, chrononaut_id):
+                self._print(
+                    "Verwurf nicht moeglich -- der Abschnitt ist zwischenzeitlich nicht mehr "
+                    "beweisbar-unbenutzt (frische Vollpruefung unmittelbar vor dem Commit); "
+                    "nichts angetastet, kein Entscheid committet."
+                )
+                return
         won, decision = core_admission.try_commit_table_decision(
             self.run_dir, fresh.table_id, "stopped",
             participant_id=owner, chrononaut_id=chrononaut_id,

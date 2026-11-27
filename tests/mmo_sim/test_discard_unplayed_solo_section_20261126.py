@@ -42,6 +42,7 @@ import sys
 import tempfile
 import traceback
 from pathlib import Path
+from unittest.mock import patch
 
 _HERE = Path(__file__).resolve().parent
 _REPO_ROOT = _HERE.parents[1]
@@ -59,6 +60,7 @@ from mmo_sim.core.admission import write_test_profile  # noqa: E402
 from mmo_sim.core.persona_state import PersonaStateStore  # noqa: E402
 from mmo_sim.domain.zeitriss import catalog, onboarding  # noqa: E402
 from mmo_sim.domain.zeitriss.policy import ZeitrissHarvestValidator, ZeitrissTableSizePolicy  # noqa: E402
+from mmo_sim.domain.zeitriss.save_correction import group_repair_key  # noqa: E402
 from mmo_sim.ui.tui import EndOfInput, TuiSession  # noqa: E402
 
 _SCHEMA_PATH = _REPO_ROOT / "internal" / "qa" / "fixtures" / "persona-state.schema.json"
@@ -609,6 +611,46 @@ def _child_discard(args) -> None:
     Path(args.result).write_text(json.dumps(row), encoding="utf-8")
 
 
+class _InjectedCrash(RuntimeError):
+    """Nachzug N2 (General-Befund, 2026-11-27): simuliert eine echte
+    Schreibunterbrechung GENAU an einer benannten Stelle im realen
+    `_cmd_menu_fortsetzen`/`_finalize_genuine_table_abort`-Ablauf (dasselbe
+    Muster wie `general_discard_probe.py`s `InjectedCrash`), NICHT ueber
+    einen direkten Mutator-Aufruf wie `test_crash_between_stopped_commit_
+    and_finalize_resumes_safely`."""
+
+
+def _child_resume_after_crash(args) -> None:
+    """Nachzug N2: ECHTER, frischer OS-Prozess (kein In-Process-Fake) ruft
+    GENAU den realen Caller `_cmd_menu_fortsetzen()` nach einer zuvor im
+    Elternprozess injizierten Schreibunterbrechung auf -- fuer Window 1
+    (Lock noch gebunden) UND Window 2 (Lock bereits frei) identisch, der
+    Unterschied liegt ausschliesslich im Zustand auf Platte."""
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    pid = "owner1"
+    printed: list[str] = []
+    gm_spy = _ExplodingGm()
+    session = TuiSession(
+        onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id=pid,
+        input_fn=_eof_input, print_fn=printed.append,
+        run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
+        gm_transport_factory=lambda *a, **kw: gm_spy, host_capable=True,
+    )
+    error = None
+    try:
+        session._cmd_menu_fortsetzen()
+    except (EndOfInput, Exception) as e:
+        error = type(e).__name__
+    row = {
+        "printed": printed, "gm_calls": gm_spy.calls, "error": error,
+        "table_ids": sorted(p.stem for p in (run_dir / "tables").glob("*.json")),
+    }
+    Path(args.result).write_text(json.dumps(row), encoding="utf-8")
+
+
 def test_fresh_os_process_can_discover_and_discard_unused_solo_table():
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
@@ -755,6 +797,318 @@ def test_lab_guard_blocks_discard_offer_during_active_lab_run():
                 foreign.wait(timeout=5)
 
 
+# --------------------------------------------------------------------------
+# Nachzug-Regressionen (General-Befunde N1/N2/N3, 2026-11-27, PR #3322
+# MERGE NO-GO -> Nachzug). RED-Beleg je Fall direkt im Docstring/Kommentar;
+# zusaetzlich unabhaengig belegt ueber `general_discard_probe.py` (8/8 PASS
+# erst MIT diesen drei Fixes, 7 FAIL ohne sie, s. worker/linus-nachzug-
+# report.md).
+# --------------------------------------------------------------------------
+
+
+def test_n1_fresh_recheck_blocks_discard_when_request_begins_during_confirmation():
+    """N1 (General-Befund N1): der bestehende TOCTOU-Fresh-Reload-Re-Check
+    in `_discard_unplayed_solo_section` prueft NUR `sl_log`/`table_messages`
+    erneut. Ein waehrend der zwei unbegrenzten Bestaetigungsprompts
+    konkurrierend ueber `request_ledger.begin` angelegter Request (z.B. ein
+    paralleler Join-/Preis-Check) veraendert `sl_log` NICHT -- blieb daher
+    unsichtbar. Patcht `session._input` so, dass GENAU beim zweiten
+    Callback (Antwort auf die Bestaetigungsfrage) ZUERST ein echter
+    Request-Datensatz entsteht und DANN 'j' geliefert wird -- derselbe
+    Trick wie `general_discard_probe.py`s `request_during_confirmation`-
+    Fixture.
+
+    RED ohne FIX N1: der schmale Re-Check sieht `sl_log == []` weiterhin,
+    committet 'stopped' und finalisiert -- dieser Test schlaegt dann auf
+    `table_status == 'active'` (tatsaechlich 'closed') und `decision is
+    None` (tatsaechlich 'stopped') fehl; der injizierte Request bliebe
+    zusaetzlich verwaist an einem geschlossenen Tisch reserviert."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+        save_before = _current_save_bytes(run_dir, pid)
+
+        printed: list[str] = []
+        session, gm_spy = _fresh_session(run_dir, states_dir, onboarding_dir, catalog_dir, pid, [], printed)
+        calls = 0
+        injected_request_id = None
+
+        def _concurrent_input(prompt: str = "") -> str:
+            nonlocal calls, injected_request_id
+            calls += 1
+            if calls == 1:
+                return "2"
+            if calls == 2:
+                injected_request_id = request_ledger.begin(
+                    run_dir, role="gm", content="konkurrierende Anfrage (N1-Nachzug-Probe).",
+                    reserved_usd=0.0, table_id=table_id, section_id=f"{table_id}-section",
+                    turn_idx=0, participant=pid, dollar_billed=False,
+                )
+                return "j"
+            raise EOFError()
+
+        session._input = _concurrent_input
+        session._cmd_menu_fortsetzen()
+
+        out = "\n".join(printed)
+        assert "nicht moeglich" in out, out
+        assert "wirklich verworfen" not in out, out
+        assert injected_request_id is not None, "Testaufbau defekt -- Request wurde nie injiziert."
+
+        table_data = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        assert table_data["status"] == "active", table_data
+        assert core_admission.read_table_decision(run_dir, table_id) is None
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby.is_locked(char_id) == table_id
+        assert gm_spy.calls == 0
+        assert _current_save_bytes(run_dir, pid) == save_before
+        records = request_ledger.records_for_table(run_dir, table_id)
+        assert len(records) == 1 and records[0]["id"] == injected_request_id, records
+
+
+def test_n2_window1_stopped_decision_terminal_after_crash_before_finalize():
+    """N2 Window 1 (General-Befund N2): echte Schreibunterbrechung GENAU
+    zwischen dem atomaren 'stopped'-Commit und `_finalize_genuine_table_
+    abort`, ausgeloest DURCH den realen `_cmd_menu_fortsetzen()`-Aufruf
+    (Eingaben '2'/'j', nicht per direktem Mutator-Aufruf wie `test_crash_
+    between_stopped_commit_and_finalize_resumes_safely`) -- derselbe Trick
+    wie `general_discard_probe.py`s `after_decision_before_finalize`-Fall.
+    Danach ein ECHTER, frischer OS-Kindprozess (`subprocess`, kein In-
+    Process-Fake) mit normalem 'fortsetzen' (Lock noch gebunden, Window 1).
+
+    RED ohne FIX N2/Window1: `_cmd_menu_fortsetzen` liest den Entscheid-
+    Slot im Bound-Zweig nie -- der Kindprozess wuerde den noch-`active`
+    Tisch klassisch resumen (`_resume_bound_table`, GM-Call) statt den
+    laengst gefallenen 'stopped'-Entscheid idempotent nachzufuehren. Dieser
+    Test schlaegt dann auf `gm_calls == 0` (tatsaechlich 1) und
+    `table_status == 'closed'` (tatsaechlich weiterhin 'active') fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("nach echtem stopped-Commit, vor Finalize")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) == table_id
+
+        result_path = root / "n2w1-result.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], (
+            "kein Doppelstart -- keine neue Tischanlage waehrend der idempotenten Nachfuehrung.", r2,
+        )
+
+        table_final = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        assert table_final["status"] == "closed", table_final
+        lobby_final = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_final.is_locked(char_id) is None
+        assert request_ledger.records_for_table(run_dir, table_id) == []
+
+
+def test_n2_window2_stopped_decision_terminal_after_crash_after_release_before_persist():
+    """N2 Window 2 (General-Befund N2): echte Schreibunterbrechung GENAU
+    NACH `release_chrononaut` (Lock bereits frei) aber VOR dem `status=
+    "closed"`-Persist in `_finalize_genuine_table_abort` -- Patch auf
+    `core_store.Table.persist` (nur fuer GENAU diesen Tisch/Status, jeder
+    andere Persist-Aufruf laeuft unveraendert durch), derselbe Trick wie
+    `general_discard_probe.py`s `after_release_before_table_persist`-Fall.
+    Danach ein ECHTER, frischer OS-Kindprozess mit normalem 'fortsetzen'
+    (Lock bereits frei, Window 2 -> Solo-Fallback -> `_cmd_local_round([])`
+    -> `create_table_from_offer_log`-Resume-Branch).
+
+    Zusaetzlich (Produktweg-Nachweis gegen den General-Einwand, die
+    bisherige Probe eroeffne nur 'eine weitere Solo-Generation' ohne den
+    alten Tisch sauber ruhen zu lassen): ein DRITTER, ebenfalls frischer
+    Aufruf bindet danach ERFOLGREICH eine NEUE Generation an dieselbe
+    Figur -- GENAU eine neue aktive Tischanlage, der alte Tisch bleibt
+    endgueltig `closed`, kein Doppelstart.
+
+    RED ohne FIX N2/Window2: der Store-Resume-Branch gibt den noch-`active`
+    Tisch unveraendert als Resume zurueck -- `_cmd_local_round([])` wuerde
+    den laengst entschiedenen Tisch wiederbeleben/fortfuehren statt ihn
+    terminal zu schliessen. Dieser Test schlaegt dann auf `table_ids ==
+    [table_id]` (tatsaechlich weiterhin genau `[table_id]`, ABER
+    `table_status` bliebe 'active' statt 'closed', s. Zwischen-Assert) und
+    auf dem Folge-Resume-Check fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("nach Lock-Freigabe, vor closed-Persist")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", (
+            "Crash muss GENAU vor dem closed-Persist greifen -- Status auf Platte bleibt active.",
+            table_mid,
+        )
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None, (
+            "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+        )
+
+        result_path = root / "n2w2-result.json"
+        r2 = _run_child(root, "resume_after_crash", result_path)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], (
+            "kein Doppelstart -- keine neue Generation (__2) darf fuer den laengst entschiedenen "
+            "Tisch angelegt werden.", r2,
+        )
+
+        table_final = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        assert table_final["status"] == "closed", table_final
+        assert request_ledger.records_for_table(run_dir, table_id) == []
+
+        # Produktweg-Nachweis: ein dritter, ebenfalls frischer Resume-
+        # Versuch bindet danach erfolgreich eine NEUE Generation -- die
+        # Tischanlage selbst ist (wie in `_create_unplayed_solo_table`)
+        # bereits VOR jedem Eingabe-/GM-Request abgeschlossen; `_eof_input`
+        # liefert fuer den tatsaechlichen ERSTEN Spielzug der neuen Runde
+        # danach erwartungsgemaess 'EndOfInput' (derselbe Fall wie
+        # `test_discard_then_allows_new_round_with_same_figure`s zweite
+        # Session) -- das ist KEIN Fix-Defekt, nur eine erschoepfte
+        # Eingabequeue fuer einen hier gar nicht beabsichtigten echten Zug.
+        result_path2 = root / "n2w2-result-newgen.json"
+        r3 = _run_child(root, "resume_after_crash", result_path2)
+        assert r3["error"] in (None, "EndOfInput"), r3
+        assert r3["gm_calls"] == 0, r3
+        new_tables = [tid for tid in r3["table_ids"] if tid != table_id]
+        assert len(new_tables) == 1, (
+            "GENAU eine neue Generation erwartet -- kein Doppelstart des alten Tisches.", r3,
+        )
+        new_table_data = json.loads((run_dir / "tables" / f"{new_tables[0]}.json").read_text(encoding="utf-8"))
+        assert new_table_data["status"] == "active" and new_table_data["members"] == [pid], new_table_data
+        lobby_new = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_new.is_locked(char_id) == new_tables[0]
+
+
+def _write_n3_artifact(run_dir: Path, table_id: str, kind: str) -> Path:
+    repair = group_repair_key(table_id, f"{table_id}-section", "CHR-OWNER1")
+    if kind == "broken_plan":
+        p, text = run_dir / "completion" / f"{table_id}-section__plan.json", "{broken"
+    elif kind == "broken_final":
+        p, text = run_dir / "completion" / f"{table_id}-section__final.json", "{broken"
+    elif kind == "wrong_type_raw_archive":
+        p, text = run_dir / "save_corrections_raw" / f"{repair}.json", "{}"
+    else:
+        p, text = run_dir / "save_corrections" / f"{repair}.json", "null"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(text, encoding="utf-8")
+    return p
+
+
+def _assert_n3_halt_not_discard_or_resume(kind: str) -> None:
+    """N3 (General-Befund N3): je EIN zielgebundenes Artefakt des eigenen
+    Abschnitts (`broken_plan`/`broken_final`/`wrong_type_raw_archive`/
+    `null_repair_record`) existiert, ist aber unklar (Parsefehler, falscher
+    Wurzeltyp, `null` statt `dict`) -- muss zu einem verstaendlichen HALT
+    fuehren: KEIN Verwurf (sonst wuerde ein moeglicherweise benutzter
+    Abschnitt unwiderruflich entwertet), aber auch KEIN automatisches
+    Resume/Modellcall (sonst waere 'unklar' leise als 'abwesend'
+    behandelt worden) -- derselbe Trick wie `general_discard_probe.py`s
+    gleichnamiger Fixture-Fall.
+
+    RED ohne FIX N3: die tolerante Default-Behandlung der bestehenden
+    Reader (`_open_completion_order_for_table`/`_table_has_final` skippen
+    kaputtes JSON via `continue`, `read_raw_archive` liefert `[]` fuer
+    falschen Wurzeltyp, `load_record` liefert `None` fuer `null`) macht
+    `_discard_unplayed_solo_eligible` HIER faelschlich `True` -- der
+    Offer-Flow wuerde die Prompts '2'/'j' konsumieren und tatsaechlich
+    verwerfen. Dieser Test schlaegt dann auf `table_status == 'active'`
+    (tatsaechlich 'closed') und `decision is None` (tatsaechlich
+    'stopped') fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+        artifact_path = _write_n3_artifact(run_dir, table_id, kind)
+
+        printed: list[str] = []
+        session, gm_spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        try:
+            session._cmd_menu_fortsetzen()
+        except EndOfInput:
+            pass
+
+        out = "\n".join(printed)
+        assert "nicht eindeutig lesbar" in out, out
+        assert "wirklich verworfen" not in out, out
+
+        table_data = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        assert table_data["status"] == "active", (table_data, artifact_path)
+        assert core_admission.read_table_decision(run_dir, table_id) is None
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby.is_locked(char_id) == table_id
+        assert gm_spy.calls == 0, "kein Modell-/Transportcall bei unklarem Zustand erwartet."
+
+
+def test_n3_broken_plan_json_blocks_with_halt_not_discard_or_resume():
+    _assert_n3_halt_not_discard_or_resume("broken_plan")
+
+
+def test_n3_broken_final_json_blocks_with_halt_not_discard_or_resume():
+    _assert_n3_halt_not_discard_or_resume("broken_final")
+
+
+def test_n3_wrong_type_raw_archive_blocks_with_halt_not_discard_or_resume():
+    _assert_n3_halt_not_discard_or_resume("wrong_type_raw_archive")
+
+
+def test_n3_null_repair_record_blocks_with_halt_not_discard_or_resume():
+    _assert_n3_halt_not_discard_or_resume("null_repair_record")
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
@@ -779,13 +1133,15 @@ if __name__ == "__main__":
 
         ap = argparse.ArgumentParser()
         ap.add_argument("--child", action="store_true")
-        ap.add_argument("--mode", required=True, choices=["setup", "discard"])
+        ap.add_argument("--mode", required=True, choices=["setup", "discard", "resume_after_crash"])
         ap.add_argument("--root", required=True)
         ap.add_argument("--result", required=True)
         ns = ap.parse_args()
         if ns.mode == "setup":
             _child_setup(ns)
-        else:
+        elif ns.mode == "discard":
             _child_discard(ns)
+        else:
+            _child_resume_after_crash(ns)
         sys.exit(0)
     raise SystemExit(main())
