@@ -3253,17 +3253,45 @@ class TuiSession:
 
     def _discard_candidate_identity_match(self, table, chrononaut_id: str) -> bool:
         """ZR-DISCARD-UNPLAYED-SOLO-20261126-NACHZUG (General-Befund N2/N3,
-        2026-11-27): gemeinsamer Identitaets-/Lock-Scope-Filter fuer den N2-
-        Window-1-Check (oben in `_cmd_menu_fortsetzen`) UND die N3-
-        Klassifikation (`_discard_unclear_blocking_reason`) -- dieselben
-        Bindungsfelder wie `_discard_unplayed_solo_eligible` (Leader/
-        einziges Mitglied/Chrononaut/kein Betreiber/Lock-Exact-Match), aber
-        OHNE dessen Benutzt-Pruefung (sl_log/Requests/Plan/Final/Correction/
-        Raw). Reiner Scope-Filter: 'ist das ueberhaupt der eigene gebundene
+        2026-11-27; Lock-Zustand verallgemeinert General-Nachzug r6,
+        ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r6): gemeinsamer
+        Identitaets-/Lock-Scope-Filter fuer den N2-Window-1-Check (oben in
+        `_cmd_menu_fortsetzen`, ueber `_follow_through_authorized_discard`)
+        UND die N3-Klassifikation (`_discard_unclear_blocking_reason`) --
+        dieselben Bindungsfelder wie `_discard_unplayed_solo_eligible`
+        (Leader/einziges Mitglied/Chrononaut/kein Betreiber), aber OHNE
+        dessen Benutzt-Pruefung (sl_log/Requests/Plan/Final/Correction/Raw).
+        Reiner Scope-Filter: 'ist das ueberhaupt der eigene gebundene
         Solo-Tisch dieses Teilnehmers', unabhaengig davon, ob er gerade
         benutzt/bereits entschieden/unklar ist -- beide Aufrufer liegen
         bereits im `card.open_section_id`-Bound-Zweig (Tisch strukturell
-        `active`, s. `_resolve_bound_table_for_resume`)."""
+        `active`, s. `_resolve_bound_table_for_resume`).
+
+        r6-Nachzug (Fall `general_discard_r5_caller_probe`): der Lock-Teil
+        dieses Filters war bisher ein Exact-Match
+        (`lobby.is_locked(chrononaut_id) == table.table_id`) und diente
+        damit GLEICHZEITIG als Identitaets-Scope UND als vollstaendige
+        Anwendbarkeitsentscheidung. Fuer einen NEUEN Verwurf
+        (`_discard_unplayed_solo_eligible`, das den Exact-Match weiterhin
+        unveraendert selbst prueft) ist das richtig -- ein frischer Verwurf
+        braucht den tatsaechlich noch gehaltenen Lock. Fuer die
+        RECOVERY-Anwendbarkeit (Aufrufer: `_follow_through_authorized_
+        discard`, IMMER erst NACH `decision.get("decision")=="stopped"`)
+        ist der Exact-Match zu eng: nach echter Teilfinalisierung (Crash
+        zwischen `release_chrononaut` und dem `closed`-Persist, s. `core.
+        store.create_table_from_offer_log`s Window-2-Kommentar) ist der Lock
+        bereits legitim frei (`None`), OHNE dass das etwas an Identitaet
+        oder Eigentuemerschaft aendert -- derselbe Fall, den Window2 schon
+        trug (dort gibt es diesen Filter gar nicht erst, weil Window2 ohne
+        Lock-Pruefung direkt auf den durablen Entscheid geht). Deshalb jetzt:
+        anwendbar bei Lock `== table.table_id` (noch gebunden) ODER Lock
+        `is None` (legitim frei) -- ein Lock, der tatsaechlich auf eine
+        ANDERE `table_id` zeigt (echter Konflikt, z.B. eine inzwischen neu
+        begonnene Bindung desselben Chrononauten), bleibt weiterhin
+        ABLEHNEND. Identitaet (Leader/Mitglieder/Chrononaut-Match/kein
+        Betreiber oben) bleibt unveraendert hart; nur die Lock-ZUSTANDS-
+        Pruefung wurde von 'genau dieser Tisch haelt den Lock' zu 'kein
+        FREMDER Tisch haelt den Lock' erweitert."""
         if self.run_dir is None:
             return False
         owner = self.participant_id
@@ -3275,7 +3303,8 @@ class TuiSession:
             return False
         from ..core import store as core_store
         lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
-        return lobby.is_locked(chrononaut_id) == table.table_id
+        locked_table_id = lobby.is_locked(chrononaut_id)
+        return locked_table_id is None or locked_table_id == table.table_id
 
     def _follow_through_authorized_discard(self, table, chrononaut_id) -> bool:
         """General-Nachzug r3 (N2), geschaerft General-Nachzug r4 (N2-R1,

@@ -140,6 +140,37 @@ def _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir
     return tables[0].stem
 
 
+def _create_admission_bound_unplayed_solo_table(
+    run_dir, states_dir, onboarding_dir, catalog_dir, pid: str, table_key: str,
+) -> str:
+    """General-Nachzug r6 (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r6):
+    baut ueber den ECHTEN admissionsgebundenen Produktweg
+    (`_cmd_table_offer([table_key])` + `_cmd_table_start([table_key])`,
+    derselbe Caller wie `evidence/general_discard_r5_caller_probe.py`)
+    einen unbenutzten Solo-Tisch, dessen `table_admission`-Record danach
+    `state='started'` und `section_id=<table_id>` an einen noch `active`
+    Tisch bindet -- diese Bindung ist UNABHAENGIG vom Chrononaut-Lock und
+    bleibt auch nach dessen Freigabe bestehen (anders als `card.
+    open_section_id`, s. `TuiSession._build_resume_card`-Docstring
+    'core.store.locked_table_id'). Eingabequeue ist bereits VOR dem ersten
+    Zug erschoepft (`/abbrechen` fuer den Start-Dialog, danach EOF)."""
+    printed: list[str] = []
+    session, gm_spy = _fresh_session(
+        run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["/abbrechen"], printed,
+    )
+    session._cmd_table_offer([table_key])
+    try:
+        session._cmd_table_start([table_key])
+    except EndOfInput:
+        pass
+    assert gm_spy.calls == 0, "Admissionsgebundene Tischanlage allein darf keinen GM-Call ausloesen."
+    tables = list((run_dir / "tables").glob("*.json"))
+    assert len(tables) == 1, tables
+    data = json.loads(tables[0].read_text(encoding="utf-8"))
+    assert data["status"] == "active" and data["sl_log"] == [] and data["members"] == [pid], data
+    return tables[0].stem
+
+
 def _fresh_session(run_dir, states_dir, onboarding_dir, catalog_dir, pid, input_values, printed, gm_spy=None):
     gm_spy = gm_spy if gm_spy is not None else _ExplodingGm()
     return TuiSession(
@@ -1997,6 +2028,218 @@ def test_r3_stopped_window1_resume_via_public_l_then_fortsetzen_is_terminal():
         assert len(r2["table_ids"]) <= 2, r2
 
 
+# --------------------------------------------------------------------------
+# General-Nachzug r6 (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r6): der
+# Lock-Teil von `_discard_candidate_identity_match` war bisher ein Exact-
+# Match (`lobby.is_locked(chrononaut_id) == table.table_id`) und diente
+# damit GLEICHZEITIG als Identitaets-Scope UND als vollstaendige Recovery-
+# Anwendbarkeit. `_cmd_menu_fortsetzen`/`_cmd_menu_spielen`/oeffentliches
+# 'l' loesen ihren Resume-Kandidaten alle ueber `core.store.locked_
+# table_id` auf (s. `_build_resume_card`-Docstring) -- bei bereits freiem
+# Lock faellt dort NIE `_follow_through_authorized_discard` mit freiem
+# Lock an, sondern bereits VORHER der (laengst gehaertete) Window2-Store-
+# Pfad. `_cmd_table_start`s Reconcile-Zweig (tui.py:7901-7958) laedt den
+# gebundenen Tisch dagegen ueber den Admission-Record-`section_id` --
+# VOELLIG UNABHAENGIG vom Lock -- und ruft `_resume_bound_table` darauf
+# direkt auf. GENAU dieser Caller war die verbleibende Luecke (s.
+# `evidence/general_discard_r5_caller_probe.py`, am Head 1edeca6b
+# `contract_pass=false`/`fake_gm_calls=1`).
+# --------------------------------------------------------------------------
+
+def _child_tisch_start(args) -> None:
+    """r6-Nachzug: echter, frischer OS-Prozess ruft GENAU den admissions-
+    gebundenen Caller `_cmd_table_start([table_key])` auf -- der einzige
+    bestehende Resume-Einstieg, der den gebundenen Abschnitt NICHT ueber
+    den Chrononaut-Lock (`core.store.locked_table_id`), sondern ueber den
+    `table_admission`-Record-`section_id` findet (tui.py:7901-7907)."""
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    pid, char_id = "owner1", "CHR-OWNER1"
+    printed: list[str] = []
+    gm_spy = _ExplodingGm()
+    session = TuiSession(
+        onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id=pid,
+        input_fn=_eof_input, print_fn=printed.append,
+        run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
+        gm_transport_factory=lambda *a, **kw: gm_spy, host_capable=True,
+    )
+    error = None
+    try:
+        session._cmd_table_start([args.table])
+    except (EndOfInput, Exception) as e:
+        error = type(e).__name__
+    lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    row = {
+        "printed": printed, "gm_calls": gm_spy.calls, "error": error,
+        "lock": lobby.is_locked(char_id),
+        "table_ids": sorted(p.stem for p in (run_dir / "tables").glob("*.json")),
+    }
+    Path(args.result).write_text(json.dumps(row), encoding="utf-8")
+
+
+def test_r6_lockfree_resume_via_tisch_start_is_terminal():
+    """r6-Nachzug (Fall `lockfree_window2_via_real_tisch_start`, derselbe
+    wie `general_discard_r5_caller_probe.py`): echte Schreibunterbrechung
+    GENAU NACH `release_chrononaut` (Lock bereits frei) aber VOR dem
+    `status="closed"`-Persist -- wie `test_n2_window2_stopped_decision_
+    terminal_after_crash_after_release_before_persist` -- ABER der Tisch
+    ist hier ueber den ECHTEN admissionsgebundenen Weg angelegt
+    (`_cmd_table_offer`/`_cmd_table_start`) und der frische OS-Kindprozess
+    kehrt HIER ueber `tisch-start` (`_cmd_table_start`) zurueck, NICHT
+    ueber 'fortsetzen'/'Spielen'/'l'.
+
+    RED ohne r6-Fix: `_discard_candidate_identity_match`s Exact-Lock-
+    Filter liefert bei freiem Lock `False` -> `_follow_through_authorized_
+    discard` faellt durch -> `_resume_bound_table` resumt den laengst
+    'stopped' entschiedenen Abschnitt klassisch -- dieser Test schlaegt
+    dann auf `r2["gm_calls"] == 0` (tatsaechlich 1) fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        table_key = "fixture-discard-admission"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_admission_bound_unplayed_solo_table(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, table_key,
+        )
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("nach Lock-Freigabe, vor closed-Persist (r6/tisch-start)")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        table_mid = core_store.Table.load(run_dir, table_id)
+        assert table_mid.status == "active", table_mid
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None, (
+            "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+        )
+
+        result_path = root / "r6-tisch-start-result.json"
+        r2 = _run_child(root, "tisch_start", result_path, table=table_key)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["table_ids"] == [table_id], (
+            "kein Doppelstart/Fake-GM -- der laengst 'stopped' entschiedene Abschnitt wird nur "
+            "idempotent nachgefuehrt, kein Ersatzstart.", r2,
+        )
+        assert r2["lock"] is None, r2
+
+        table_final = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        assert table_final["status"] == "closed", table_final
+        assert request_ledger.records_for_table(run_dir, table_id) == []
+
+
+def _assert_follow_through_discard_lock_state(lock_state: str, *, expect_applicable: bool) -> None:
+    """r6-Nachzug: direkter Vertragsnachweis fuer `_discard_candidate_
+    identity_match`s Lock-ZUSTANDS-Teil (von der Identitaet getrennt),
+    aufgerufen ueber den gemeinsamen Helfer `_follow_through_authorized_
+    discard` -- DENSELBEN Helfer, den alle drei echten Resume-Caller
+    (zentrales Fortsetzen tui.py:3028, `_resume_bound_table` tui.py:3614,
+    oeffentliches 'l' tui.py:9841) teilen. Baut einen eigenen, bereits
+    'stopped' entschiedenen, noch `active` Solo-Tisch (echte Schreib-
+    unterbrechung VOR Finalize, Lock noch exakt gebunden -- wie `test_n2_
+    window1_...`), versetzt den Lock danach GEZIELT ueber die ECHTEN
+    `Lobby`-APIs (`release_chrononaut`/`lock_chrononaut`, keine rohen
+    Datei-Handedits) in den angeforderten Zustand und ruft den Helfer
+    direkt auf:
+    - `'exact'`: Lock unveraendert == table_id (bestehendes Verhalten).
+    - `'free'`: Lock legitim frei (r6-Fix) -- JETZT ebenfalls anwendbar.
+    - `'foreign'`: Lock zeigt echt auf eine ANDERE table_id (z.B. eine
+      inzwischen neu begonnene Bindung desselben Chrononauten) -- bleibt
+      ABGELEHNT, keine Mutation an der fremden Bindung.
+
+    RED ohne r6-Fix: `'free'` schlaegt auf `result is True` fehl
+    (tatsaechlich `False`)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("nach echtem stopped-Commit, vor Finalize (r6 lock-state matrix)")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        table = core_store.Table.load(run_dir, table_id)
+        assert table.status == "active", table
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby.is_locked(char_id) == table_id, "Lock muss hier noch exakt gebunden sein (Window1)."
+
+        foreign_table_id = f"{table_id}__foreign-owner"
+        if lock_state == "free":
+            lobby.release_chrononaut(char_id, table_id)
+            assert lobby.is_locked(char_id) is None
+        elif lock_state == "foreign":
+            lobby.release_chrononaut(char_id, table_id)
+            lobby.lock_chrononaut(char_id, foreign_table_id)
+            assert lobby.is_locked(char_id) == foreign_table_id
+        elif lock_state != "exact":
+            raise AssertionError(lock_state)
+
+        result = session._follow_through_authorized_discard(table, char_id)
+        assert result is expect_applicable, (lock_state, result)
+
+        final_table = core_store.Table.load(run_dir, table_id)
+        final_lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        if expect_applicable:
+            assert final_table.status == "closed", final_table
+            assert final_lobby.is_locked(char_id) is None
+        else:
+            assert final_table.status == "active", (
+                "nicht-anwendbarer Fall darf den eigenen Tisch NICHT finalisieren.", final_table,
+            )
+            if lock_state == "foreign":
+                assert final_lobby.is_locked(char_id) == foreign_table_id, (
+                    "fremde/neuere Bindung darf durch den eigenen Nachzug NICHT aufgeweicht werden."
+                )
+
+
+def test_r6_follow_through_discard_still_applies_with_exact_lock_unchanged_behavior():
+    _assert_follow_through_discard_lock_state("exact", expect_applicable=True)
+
+
+def test_r6_follow_through_discard_now_applies_with_legit_free_lock():
+    _assert_follow_through_discard_lock_state("free", expect_applicable=True)
+
+
+def test_r6_follow_through_discard_still_rejects_foreign_lock_on_different_table():
+    _assert_follow_through_discard_lock_state("foreign", expect_applicable=False)
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
@@ -2026,6 +2269,7 @@ if __name__ == "__main__":
             choices=[
                 "setup", "discard", "resume_after_crash",
                 "spielen", "local_then_fortsetzen", "writer", "writer_received", "hold",
+                "tisch_start",
             ],
         )
         ap.add_argument("--root", required=True)
@@ -2044,6 +2288,8 @@ if __name__ == "__main__":
             _child_writer_received(ns)
         elif ns.mode == "hold":
             _child_hold_exclusivity(ns)
+        elif ns.mode == "tisch_start":
+            _child_tisch_start(ns)
         else:
             _child_follow_through(ns)
         sys.exit(0)
