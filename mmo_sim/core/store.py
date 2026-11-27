@@ -460,6 +460,26 @@ def create_table_from_offer_log(
                                 owner_chrononaut_id = fresh_existing.chrononaut_ids.get(
                                     fresh_existing.leader
                                 )
+                                locked_table_id = lobby.is_locked(owner_chrononaut_id)
+                                if locked_table_id is not None and locked_table_id != candidate_id:
+                                    # r7-Nachzug Window-2-Spiegel (Fall `stopped_solo_tisch_start_after_
+                                    # real_group_rebind`, Befund E): der durable 'stopped'-Entscheid liegt
+                                    # vor, aber die Figur ist inzwischen regulaer an einen ANDEREN eigenen
+                                    # Tisch gebunden -- Fall 3. Geschuetzter Halt VOR dem `closed`-Persist:
+                                    # kein Finalize, keine Requestanlage, der alte Entscheid, die neue
+                                    # Bindung und alle bestehenden Locks bleiben unangetastet. Spiegelt die
+                                    # bereits angenommene Window-1-Logik (`ui/tui.py`
+                                    # `_follow_through_authorized_discard`), damit beide Fenster denselben
+                                    # Dreifall-Vertrag teilen (keine Teilmenge an zwei Stellen).
+                                    return None, GroupDerivation(
+                                        leader=fresh_existing.leader, members=list(fresh_existing.members),
+                                        dissenters={}, source_offer_id=None,
+                                        reason=(
+                                            f"Tisch {candidate_id!r}: der bereits autorisierte Verwurf bleibt geschuetzt -- "
+                                            "die Figur ist inzwischen regulaer an eine andere Bindung uebergegangen (kein "
+                                            "Abschluss, keine Requestanlage; neue Bindung und bestehende Locks unangetastet)."
+                                        ),
+                                    )
                                 blocking_reason = discard_recovery_blocking_reason(
                                     lobby.run_dir, fresh_existing, owner_chrononaut_id,
                                 )

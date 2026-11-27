@@ -2148,27 +2148,38 @@ def test_r6_lockfree_resume_via_tisch_start_is_terminal():
         assert request_ledger.records_for_table(run_dir, table_id) == []
 
 
-def _assert_follow_through_discard_lock_state(lock_state: str, *, expect_applicable: bool) -> None:
-    """r6-Nachzug: direkter Vertragsnachweis fuer `_discard_candidate_
-    identity_match`s Lock-ZUSTANDS-Teil (von der Identitaet getrennt),
-    aufgerufen ueber den gemeinsamen Helfer `_follow_through_authorized_
-    discard` -- DENSELBEN Helfer, den alle drei echten Resume-Caller
-    (zentrales Fortsetzen tui.py:3028, `_resume_bound_table` tui.py:3614,
-    oeffentliches 'l' tui.py:9841) teilen. Baut einen eigenen, bereits
-    'stopped' entschiedenen, noch `active` Solo-Tisch (echte Schreib-
-    unterbrechung VOR Finalize, Lock noch exakt gebunden -- wie `test_n2_
-    window1_...`), versetzt den Lock danach GEZIELT ueber die ECHTEN
-    `Lobby`-APIs (`release_chrononaut`/`lock_chrononaut`, keine rohen
-    Datei-Handedits) in den angeforderten Zustand und ruft den Helfer
-    direkt auf:
-    - `'exact'`: Lock unveraendert == table_id (bestehendes Verhalten).
-    - `'free'`: Lock legitim frei (r6-Fix) -- JETZT ebenfalls anwendbar.
+def _assert_follow_through_discard_lock_state(lock_state: str, *, expect_finalized: bool) -> None:
+    """r6-Nachzug, r7-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r7,
+    Fall `stopped_solo_tisch_start_after_real_group_rebind`): direkter
+    Vertragsnachweis fuer die jetzt getrennten Bausteine `_discard_
+    candidate_hard_identity_match` (reine Identitaet) und die Lock-
+    ANWENDBARKEIT, aufgerufen ueber den gemeinsamen Helfer `_follow_
+    through_authorized_discard` -- DENSELBEN Helfer, den alle drei echten
+    Resume-Caller (zentrales Fortsetzen tui.py:3028, `_resume_bound_table`
+    tui.py:3614, oeffentliches 'l' tui.py:9841) teilen. Baut einen eigenen,
+    bereits 'stopped' entschiedenen, noch `active` Solo-Tisch (echte
+    Schreibunterbrechung VOR Finalize, Lock noch exakt gebunden -- wie
+    `test_n2_window1_...`), versetzt den Lock danach GEZIELT ueber die
+    ECHTEN `Lobby`-APIs (`release_chrononaut`/`lock_chrononaut`, keine
+    rohen Datei-Handedits) in den angeforderten Zustand und ruft den
+    Helfer direkt auf:
+    - `'exact'`: Lock unveraendert == table_id -- Fall 2, finalisiert.
+    - `'free'`: Lock legitim frei (r6-Fix) -- Fall 2, finalisiert.
     - `'foreign'`: Lock zeigt echt auf eine ANDERE table_id (z.B. eine
-      inzwischen neu begonnene Bindung desselben Chrononauten) -- bleibt
-      ABGELEHNT, keine Mutation an der fremden Bindung.
+      inzwischen regulaer neu begonnene Bindung desselben Chrononauten) --
+      Fall 3 (r7-Fix): `_follow_through_authorized_discard` gibt JETZT
+      `True` zurueck (geschuetzter Halt, der Aufrufer darf nicht weiter
+      resumen), ABER finalisiert NICHT -- der alte Tisch bleibt `active`,
+      der `stopped`-Entscheid steht, die fremde/neuere Bindung bleibt
+      unangetastet. `expect_finalized` unterscheidet deshalb von der
+      reinen Rueckgabe: Fall 2 UND Fall 3 liefern beide `True`, nur Fall 2
+      finalisiert wirklich.
 
     RED ohne r6-Fix: `'free'` schlaegt auf `result is True` fehl
-    (tatsaechlich `False`)."""
+    (tatsaechlich `False`). RED ohne r7-Fix: `'foreign'` schlaegt auf
+    `result is True` fehl (tatsaechlich `False` -- genau das nackte False,
+    das Fall 3 faelschlich wie Fall 1 behandelt und in den normalen Resume
+    durchfallen liesse, s. GENERAL-REVIEW)."""
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
@@ -2210,34 +2221,325 @@ def _assert_follow_through_discard_lock_state(lock_state: str, *, expect_applica
         elif lock_state != "exact":
             raise AssertionError(lock_state)
 
+        printed.clear()
         result = session._follow_through_authorized_discard(table, char_id)
+        expect_applicable = expect_finalized or lock_state == "foreign"
         assert result is expect_applicable, (lock_state, result)
 
         final_table = core_store.Table.load(run_dir, table_id)
         final_lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
-        if expect_applicable:
+        if expect_finalized:
             assert final_table.status == "closed", final_table
             assert final_lobby.is_locked(char_id) is None
         else:
             assert final_table.status == "active", (
-                "nicht-anwendbarer Fall darf den eigenen Tisch NICHT finalisieren.", final_table,
+                "nicht-finalisierter Fall darf den eigenen Tisch NICHT finalisieren.", final_table,
             )
             if lock_state == "foreign":
                 assert final_lobby.is_locked(char_id) == foreign_table_id, (
                     "fremde/neuere Bindung darf durch den eigenen Nachzug NICHT aufgeweicht werden."
                 )
+                decision_after = core_admission.read_table_decision(run_dir, table_id)
+                assert decision_after is not None and decision_after.get("decision") == "stopped", (
+                    "der stopped-Entscheid darf durch den geschuetzten Halt NICHT zurueckgedreht werden.",
+                    decision_after,
+                )
+                assert printed, "Fall 3 muss eine verstaendliche Bindungsdiagnose ausgeben."
+                message = printed[-1]
+                assert "andere" in message and "Bindung" in message, message
+                for forbidden in ("Recht", "recht", "Retry", "retry", "Storage", "storage", "wiederhol"):
+                    assert forbidden not in message, (forbidden, message)
 
 
 def test_r6_follow_through_discard_still_applies_with_exact_lock_unchanged_behavior():
-    _assert_follow_through_discard_lock_state("exact", expect_applicable=True)
+    _assert_follow_through_discard_lock_state("exact", expect_finalized=True)
 
 
 def test_r6_follow_through_discard_now_applies_with_legit_free_lock():
-    _assert_follow_through_discard_lock_state("free", expect_applicable=True)
+    _assert_follow_through_discard_lock_state("free", expect_finalized=True)
 
 
-def test_r6_follow_through_discard_still_rejects_foreign_lock_on_different_table():
-    _assert_follow_through_discard_lock_state("foreign", expect_applicable=False)
+def test_r7_follow_through_discard_halts_protected_on_foreign_lock_without_finalize():
+    """r7-Nachzug (ersetzt die fruehere r6-Annahme, ein nacktes `False`
+    sei bei einer fremden/neueren Bindung bereits vollstaendiger Schutz --
+    s. `_assert_follow_through_discard_lock_state`-Docstring und
+    GENERAL-REVIEW Zeile 78-80: ein `False` allein ist KEIN Nachweis eines
+    terminalen Halts, weil der Aufrufer dann in den normalen Resume
+    faellt)."""
+    _assert_follow_through_discard_lock_state("foreign", expect_finalized=False)
+
+
+def test_r7_resume_bound_table_halts_on_real_group_rebind_without_new_request():
+    """r7-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r7, Fall
+    `stopped_solo_tisch_start_after_real_group_rebind`, derselbe wie
+    `evidence/general_discard_r6_rebind_probe.py`): anders als die
+    Lock-State-Matrix oben (die den gemeinsamen Helfer `_follow_through_
+    authorized_discard` direkt aufruft) geht dieser Test ueber einen der
+    drei tatsaechlichen produktiven Resume-Caller selbst
+    (`_resume_bound_table`, tui.py:3643) -- ein gruener Test auf den
+    Helfer-Rueckgabewert allein ist KEIN Nachweis des terminalen Halts am
+    echten Aufrufer (GENERAL-REVIEW Zeile 78-80).
+
+    Aufbau: echter eigener unbenutzter Solo-Tisch, echte Schreib-
+    unterbrechung GENAU NACH `release_chrononaut` (Lock frei) ABER VOR dem
+    `status='closed'`-Persist (identisch zu `test_r6_lockfree_resume_via_
+    tisch_start_is_terminal`), decision bereits durabel 'stopped'. Danach
+    NICHT der alte Tisch, sondern ein ECHTER neuer Zweipersonen-Tisch
+    ueber `_cmd_local_round(['owner2'])` mit menschlicher Zustimmung
+    ('j') und Pause VOR jedem Modellcall ('/abbrechen') -- keine Lock-
+    Handedits, derselbe Mechanismus wie im R7-Briefing Schritt 2. Die
+    Figur `CHR-OWNER1` ist danach real an den NEUEN Gruppentisch gebunden
+    (Fall 3), der alte Solo-Tisch bleibt im Crash-Zustand.
+
+    Ein frischer `TuiSession` (simuliert den frischen OS-Prozess aus dem
+    Briefing) ruft DANACH direkt `_resume_bound_table(alter_tisch)` auf --
+    derselbe Einstieg, den die Admission-`tisch-start`-Reconcile
+    (`_cmd_table_start`) tatsaechlich erreicht. Erwartet: 0 GM-/Transport-
+    Calls, 0 neue Requestdatensaetze fuer den alten Tisch, alter Tisch
+    bleibt `active` (NICHT finalisiert), alter `stopped`-Entscheid
+    unveraendert, NEUE Bindung/NEUER Tisch bleiben unangetastet, eine
+    verstaendliche Bindungsdiagnose ohne Rechte-/Retry-/Storage-Sprache.
+
+    RED ohne r7-Fix: `_resume_bound_table` resumt den alten Abschnitt
+    klassisch -- dieser Test schlaegt dann auf `resume_gm.calls == 0`
+    fehl (tatsaechlich 1)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, "owner2", "CHR-OWNER2")
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r7: nach Lock-Freigabe, vor closed-Persist (rebind)")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby.is_locked(char_id) is None, (
+            "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+        )
+
+        # Echter neuer Gruppentisch ueber den tatsaechlichen UI-Befehl, mit
+        # menschlicher Zustimmung, Pause vor jedem Modellcall ueber
+        # '/abbrechen' -- keine Lock-/Datei-Handedits.
+        group_printed: list[str] = []
+        group_session, group_gm = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["j", "/abbrechen"], group_printed,
+        )
+        try:
+            group_session._cmd_local_round(["owner2"])
+        except EndOfInput:
+            pass
+        assert group_gm.calls == 0, "Gruppenaufbau allein darf keinen GM-Call ausloesen."
+        new_table_id = f"local-{pid}-owner2"
+        new_table = core_store.Table.load(run_dir, new_table_id)
+        assert new_table.status == "active" and sorted(new_table.members) == [pid, "owner2"], new_table
+        lobby_after_rebind = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_after_rebind.is_locked(char_id) == new_table_id, (
+            "Figur muss nach dem echten Gruppenaufbau real an die neue Gruppe gebunden sein."
+        )
+        rebound_decision = core_admission.read_table_decision(run_dir, table_id)
+        assert rebound_decision is not None and rebound_decision.get("decision") == "stopped"
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+
+        request_before = request_ledger.records_for_table(run_dir, table_id)
+        new_table_bytes_before = (run_dir / "tables" / f"{new_table_id}.json").read_bytes()
+        locks_before = (run_dir / "locks.json").read_bytes()
+
+        # Frischer OS-Prozess (hier: frische Session) erreicht den echten
+        # produktiven Resume-Einstieg direkt mit dem ALTEN Tisch.
+        resume_printed: list[str] = []
+        resume_session, resume_gm = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, [], resume_printed,
+        )
+        stale_table = core_store.Table.load(run_dir, table_id)
+        resume_session._resume_bound_table(stale_table)
+
+        assert resume_gm.calls == 0, "Fall 3 darf NIE einen GM-/Modellcall ausloesen."
+        assert request_ledger.records_for_table(run_dir, table_id) == request_before, (
+            "Fall 3 darf keine neue Anfrage fuer den alten Abschnitt anlegen."
+        )
+        final_old_table = core_store.Table.load(run_dir, table_id)
+        assert final_old_table.status == "active", (
+            "Fall 3: der alte stopped-Abschnitt darf NICHT finalisiert werden.", final_old_table,
+        )
+        final_decision = core_admission.read_table_decision(run_dir, table_id)
+        assert final_decision is not None and final_decision.get("decision") == "stopped", (
+            "der alte stopped-Entscheid darf NICHT zurueckgedreht werden.", final_decision,
+        )
+        final_lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert final_lobby.is_locked(char_id) == new_table_id, (
+            "die neue reale Bindung darf durch den alten Abschnitt NICHT aufgeweicht werden."
+        )
+        assert (run_dir / "tables" / f"{new_table_id}.json").read_bytes() == new_table_bytes_before, (
+            "die neue Gruppe/ihr Tischstand darf unangetastet bleiben."
+        )
+        assert (run_dir / "locks.json").read_bytes() == locks_before, (
+            "bestehende Locks (inkl. neuer Gruppenbindung) duerfen unangetastet bleiben."
+        )
+        assert resume_printed, "es muss eine verstaendliche Bindungsdiagnose ausgegeben werden."
+        message = resume_printed[-1]
+        assert "andere" in message and "Bindung" in message, message
+        for forbidden in ("Recht", "recht", "Retry", "retry", "Storage", "storage", "wiederhol"):
+            assert forbidden not in message, (forbidden, message)
+
+
+def test_r7_window2_create_table_from_offer_log_halts_on_real_group_rebind_without_finalize():
+    """r7-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r7, Befund E
+    des unabhaengigen Critics): anders als `test_r7_resume_bound_table_
+    halts_on_real_group_rebind_without_new_request` oben (das den
+    Window-1-Caller `_resume_bound_table` isoliert) prueft dieser Test
+    `store.py::create_table_from_offer_log`s eigenen Window-2-Reuse-Zweig
+    ueber dessen tatsaechlichen oeffentlichen Caller: das frei getippte
+    'l' (`_cmd_local_round([], allow_operator_mode=True)`). Dessen frueher
+    Live-Lock-Check (tui.py:9916-9930) loest NACH einem echten Rebind
+    bereits auf den NEUEN Tisch auf -- `_follow_through_authorized_
+    discard` sieht fuer den neuen Tisch keinen 'stopped'-Entscheid und
+    schuetzt den alten Solo NICHT -- der Aufruf faellt bis zu
+    `create_table_from_offer_log(lobby, f"local-{pid}", ...)` durch,
+    demselben `table_id` wie der alte Solo-Alias.
+
+    Aufbau identisch zum Test oben: echter eigener unbenutzter Solo-
+    Tisch, echte Schreibunterbrechung GENAU NACH `release_chrononaut`
+    (Lock frei), ABER VOR dem `status='closed'`-Persist, decision bereits
+    durabel 'stopped'. Danach ein ECHTER neuer Zweipersonen-Tisch ueber
+    `_cmd_local_round(['owner2'])` (keine Lock-/Datei-Handedits) -- die
+    Figur ist danach real an den neuen Gruppentisch gebunden (Fall 3).
+
+    Erwartet: 0 GM-/Transport-Calls, 0 neue Requestdatensaetze fuer den
+    alten Tisch, alter Tisch bleibt `active` (NICHT finalisiert), alter
+    `stopped`-Entscheid unveraendert, neue Bindung/neuer Tisch/Locks
+    bleiben byteidentisch, KEINE faelschliche 'Bindung frei'-Meldung.
+
+    RED ohne diesen Fix: Window 2 prueft nur `decision=='stopped'` +
+    `discard_recovery_blocking_reason` (keine Lock-Divergenz-Pruefung) --
+    `fresh_existing.status='closed'; fresh_existing.persist()` finalisiert
+    den alten Tisch UNBEFUGT und druckt „... wurde dauerhaft verworfen
+    (Discard) -- Bindung frei ...", OBWOHL die Figur real an den neuen
+    Tisch gebunden ist. Dieser Test schlaegt dann auf
+    `final_old_table.status == 'active'` (tatsaechlich 'closed') fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, "owner2", "CHR-OWNER2")
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r7/window2: nach Lock-Freigabe, vor closed-Persist (rebind)")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby.is_locked(char_id) is None, (
+            "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+        )
+
+        # Echter neuer Gruppentisch ueber den tatsaechlichen UI-Befehl, mit
+        # menschlicher Zustimmung, Pause vor jedem Modellcall ueber
+        # '/abbrechen' -- keine Lock-/Datei-Handedits.
+        group_printed: list[str] = []
+        group_session, group_gm = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["j", "/abbrechen"], group_printed,
+        )
+        try:
+            group_session._cmd_local_round(["owner2"])
+        except EndOfInput:
+            pass
+        assert group_gm.calls == 0, "Gruppenaufbau allein darf keinen GM-Call ausloesen."
+        new_table_id = f"local-{pid}-owner2"
+        new_table = core_store.Table.load(run_dir, new_table_id)
+        assert new_table.status == "active" and sorted(new_table.members) == [pid, "owner2"], new_table
+        lobby_after_rebind = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_after_rebind.is_locked(char_id) == new_table_id, (
+            "Figur muss nach dem echten Gruppenaufbau real an die neue Gruppe gebunden sein."
+        )
+        rebound_decision = core_admission.read_table_decision(run_dir, table_id)
+        assert rebound_decision is not None and rebound_decision.get("decision") == "stopped"
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+
+        request_before = request_ledger.records_for_table(run_dir, table_id)
+        new_table_bytes_before = (run_dir / "tables" / f"{new_table_id}.json").read_bytes()
+        locks_before = (run_dir / "locks.json").read_bytes()
+
+        # Frischer OS-Prozess (hier: frische Session) erreicht den echten
+        # OEFFENTLICHEN 'l'-Dispatch direkt -- fuer den unveraenderten
+        # Solo-Alias-Weg (keine guest_tokens) landet das bei
+        # `create_table_from_offer_log(lobby, f"local-{pid}", ...)`,
+        # demselben `table_id` wie der alte Solo-Tisch.
+        resume_printed: list[str] = []
+        resume_session, resume_gm = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, [], resume_printed,
+        )
+        try:
+            resume_session._cmd_local_round([], allow_operator_mode=True)
+        except EndOfInput:
+            pass
+
+        assert resume_gm.calls == 0, "Fall 3 (Window 2) darf NIE einen GM-/Modellcall ausloesen."
+        assert request_ledger.records_for_table(run_dir, table_id) == request_before, (
+            "Fall 3 (Window 2) darf keine neue Anfrage fuer den alten Abschnitt anlegen."
+        )
+        final_old_table = core_store.Table.load(run_dir, table_id)
+        assert final_old_table.status == "active", (
+            "Fall 3 (Window 2): der alte stopped-Abschnitt darf NICHT finalisiert werden.", final_old_table,
+        )
+        final_decision = core_admission.read_table_decision(run_dir, table_id)
+        assert final_decision is not None and final_decision.get("decision") == "stopped", (
+            "der alte stopped-Entscheid darf NICHT zurueckgedreht werden.", final_decision,
+        )
+        final_lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert final_lobby.is_locked(char_id) == new_table_id, (
+            "die neue reale Bindung darf durch den alten Abschnitt (Window 2) NICHT aufgeweicht werden."
+        )
+        assert (run_dir / "tables" / f"{new_table_id}.json").read_bytes() == new_table_bytes_before, (
+            "die neue Gruppe/ihr Tischstand darf unangetastet bleiben (Window 2)."
+        )
+        assert (run_dir / "locks.json").read_bytes() == locks_before, (
+            "bestehende Locks (inkl. neuer Gruppenbindung) duerfen unangetastet bleiben (Window 2)."
+        )
+        for emitted in resume_printed:
+            assert "Bindung frei" not in emitted, (
+                "keine faelschliche 'Bindung frei'-Meldung -- die Figur ist real an die neue "
+                "Gruppe gebunden.", emitted,
+            )
 
 
 def main() -> int:

@@ -3251,6 +3251,32 @@ class TuiSession:
             return False
         return True
 
+    def _discard_candidate_hard_identity_match(self, table, chrononaut_id: str) -> bool:
+        """General-Nachzug r7 (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r7,
+        Fall `stopped_solo_tisch_start_after_real_group_rebind`): reiner
+        Identitaets-Scope-Filter (Leader/einziges Mitglied/Chrononaut-Match/
+        kein Betreiber), OHNE jede Lock-ZUSTANDS-Pruefung -- aus
+        `_discard_candidate_identity_match` extrahiert, damit
+        `_follow_through_authorized_discard` die harte Identitaet von der
+        Lock-ANWENDBARKEIT trennen kann. Grund: ein eigener bereits
+        'stopped' entschiedener Verwurf, dessen Figur inzwischen regulaer
+        an einen ANDEREN eigenen Tisch gebunden ist (Lock zeigt auf einen
+        fremden table_id, Identitaet unveraendert dieselbe), ist ein
+        geschuetzter Halt (Fall 3 der Vertragsmatrix), kein 'hier nicht
+        zustaendig' (Fall 1) -- ein nacktes `_discard_candidate_identity_
+        match`-False wuerde beide Faelle gleich behandeln und Fall 3
+        faelschlich in den normalen Resume durchfallen lassen."""
+        if self.run_dir is None:
+            return False
+        owner = self.participant_id
+        if table.leader != owner or list(table.members) != [owner]:
+            return False
+        if table.chrononaut_ids.get(owner) != chrononaut_id:
+            return False
+        if (table.operator_meta or {}).get("operator_id") is not None:
+            return False
+        return True
+
     def _discard_candidate_identity_match(self, table, chrononaut_id: str) -> bool:
         """ZR-DISCARD-UNPLAYED-SOLO-20261126-NACHZUG (General-Befund N2/N3,
         2026-11-27; Lock-Zustand verallgemeinert General-Nachzug r6,
@@ -3291,15 +3317,17 @@ class TuiSession:
         ABLEHNEND. Identitaet (Leader/Mitglieder/Chrononaut-Match/kein
         Betreiber oben) bleibt unveraendert hart; nur die Lock-ZUSTANDS-
         Pruefung wurde von 'genau dieser Tisch haelt den Lock' zu 'kein
-        FREMDER Tisch haelt den Lock' erweitert."""
-        if self.run_dir is None:
-            return False
-        owner = self.participant_id
-        if table.leader != owner or list(table.members) != [owner]:
-            return False
-        if table.chrononaut_ids.get(owner) != chrononaut_id:
-            return False
-        if (table.operator_meta or {}).get("operator_id") is not None:
+        FREMDER Tisch haelt den Lock' erweitert.
+
+        r7-Nachzug: die harte Identitaetspruefung ist jetzt nach
+        `_discard_candidate_hard_identity_match` extrahiert (Verhalten hier
+        unveraendert); diese Methode bleibt fuer ihre bestehenden Aufrufer
+        (`_discard_unclear_blocking_reason`, N2-Window-1-Check) weiterhin
+        der kombinierte Identitaets-+Lock-Zustands-Filter. `_follow_through_
+        authorized_discard` ruft stattdessen den reinen Identitaets-Helfer
+        direkt, um Fall 3 (andere eigene Bindung) von Fall 1 (fremd/
+        mehrdeutig) unterscheiden zu koennen."""
+        if not self._discard_candidate_hard_identity_match(table, chrononaut_id):
             return False
         from ..core import store as core_store
         lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
@@ -3349,22 +3377,51 @@ class TuiSession:
         Request, nichts unklar an den Zielartefakten) wird wie bisher
         finalisiert. Derselbe Helfer wird von Window2 (`core/store.py`s
         `create_table_from_offer_log`) verwendet -- EIN gemeinsamer
-        Bewertungsvertrag, keine Duplikat-Teilmenge an zwei Stellen."""
+        Bewertungsvertrag, keine Duplikat-Teilmenge an zwei Stellen.
+
+        r7-Nachzug (Fall `stopped_solo_tisch_start_after_real_group_
+        rebind`): nach der harten Identitaetspruefung (jetzt `_discard_
+        candidate_hard_identity_match`, OHNE Lock-Zustand) wird die
+        Lock-Lage HIER direkt ausgewertet, getrennt von der Identitaet.
+        Zeigt der Lock auf eine ANDERE eigene `table_id` (dieselbe
+        Identitaet, aber inzwischen regulaer umgebunden), ist das Fall 3:
+        frueher geschuetzter Halt, NOCH VOR Exclusivity-Erwerb, Fresh-Load,
+        `discard_recovery_blocking_reason` und Finalize -- kein neuer
+        Request, kein GM-/Persona-Call, der alte `stopped`-Entscheid und
+        alle bestehenden Locks bleiben unangetastet. Nur bei Lock `None`
+        oder `== table.table_id` geht es wie bisher in die Exclusivity/
+        Fresh-Load/Blocking-Reason-Pruefung."""
         if self.run_dir is None:
             return False
         from ..core import admission as core_admission
         decision = core_admission.read_table_decision(self.run_dir, table.table_id)
         if decision is None or decision.get("decision") != "stopped":
             return False
-        if not self._discard_candidate_identity_match(table, chrononaut_id):
+        if not self._discard_candidate_hard_identity_match(table, chrononaut_id):
             return False
         from ..core import store as core_store
+        lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        locked_table_id = lobby.is_locked(chrononaut_id)
+        if locked_table_id is not None and locked_table_id != table.table_id:
+            # r7-Nachzug (Fall `stopped_solo_tisch_start_after_real_group_
+            # rebind`): Identitaet passt (hart, oben), aber die Figur ist
+            # inzwischen regulaer an einen ANDEREN eigenen Tisch gebunden --
+            # Fall 3 der Vertragsmatrix, kein Fall 1. Frueher geschuetzter
+            # Halt VOR Exclusivity-Erwerb, Fresh-Load, Requestanlage und
+            # Finalize; der alte `stopped`-Entscheid, die neue Bindung und
+            # alle bestehenden Locks bleiben unangetastet.
+            self._print(
+                "Fortsetzen: der bereits autorisierte Verwurf dieses Abschnitts bleibt geschuetzt -- "
+                "die Figur ist inzwischen regulaer an eine andere Bindung uebergegangen (kein "
+                "Abschluss, kein Resume, keine Modellanfrage; neue Bindung und bestehende Locks "
+                "unangetastet)."
+            )
+            return True
         from ..core.recovery_ops import (
             _SharedWriterExclusivity,
             RecoveryExclusivityUnavailableError,
             discard_recovery_blocking_reason,
         )
-        lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
         try:
             with _SharedWriterExclusivity(self.run_dir):
                 fresh = core_store.Table.load(self.run_dir, table.table_id)
