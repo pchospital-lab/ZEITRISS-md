@@ -370,6 +370,18 @@ def _all_records(run_dir: str | Path) -> list[dict]:
     return [_classify_or_raise(d / name) for name in names]
 
 
+def records_for_table(run_dir: str | Path, table_id: str) -> list[dict]:
+    """Oeffentlicher Lesewrapper (ZR-DISCARD-UNPLAYED-SOLO-20261126): ALLE
+    Requestdatensaetze fuer `table_id`, in JEDEM Zustand (auch `accounted`)
+    -- anders als `open_requests()`, das nur die noch nicht abgerechnete
+    Teilmenge liefert. Fuer Aufrufer, die pruefen muessen, ob fuer einen
+    Tisch JEMALS ein Request existierte (z.B. ui/tui.py's Precondition fuer
+    einen beweisbar-unbenutzten Solo-Abschnitt). Dieselbe G2-Sperrsemantik
+    wie `_all_records()`: ein nicht lesbarer/einordenbarer Datensatz
+    propagiert `IndeterminateRequestRecordError` ungefangen."""
+    return [r for r in _all_records(run_dir) if r.get("table_id") == table_id]
+
+
 def find_durable_result(
     run_dir: str | Path, *, table_id: str | None, section_id: str | None, role: str,
     turn_idx: int | None, participant: str | None,

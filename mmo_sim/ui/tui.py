@@ -3011,6 +3011,54 @@ class TuiSession:
                     "alte Save-Uebernahme (sicherer Stopp)."
                 )
                 return
+            # ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix, PR3321-Stage-5-
+            # Nachzug): ein beweisbar-unbenutzter eigener Solo-Abschnitt
+            # (s. `_discard_unplayed_solo_eligible`-Docstring fuer die
+            # vollstaendige Matrix) bindet die Figur sonst dauerhaft fest --
+            # `/abbrechen` existiert an dieser Stelle noch nicht (der
+            # Rundenaufruf unten hat noch nicht begonnen), VOR jedem Modell-/
+            # Persona-/Reflexionscall bietet der normale Fortsetzen-Weg hier
+            # deshalb zusaetzlich die ausdrueckliche Wahl, den Abschnitt
+            # dauerhaft zu verwerfen. JEDER andere Fall (benutzt, Mehrperson,
+            # fremder Owner, unlesbar) faellt durch -- `_resume_bound_table`
+            # unten bleibt bytegleich das einzige Verhalten.
+            #
+            # ZR-DISCARD-UNPLAYED-SOLO-20261126-REWORK (TOCTOU/Concurrency-
+            # Haertung): derselbe Lab-Guard wie `_resume_bound_table`
+            # (tui.py:3294) -- ohne ihn blieb dieser Zweig der EINZIGE
+            # schreibende Fortsetzen-Pfad ohne Schutz vor einem zweiten
+            # schreibenden Controller (aktiver Lab-Lauf). Ist kein Lab-Lauf
+            # aktiv (Normalfall), liefert der Guard `False` -> Ablauf
+            # bytegleich wie bisher.
+            if self._lab_active_guard("Verwerfen (ungespielter Solo-Abschnitt)"):
+                return
+            if self._discard_unplayed_solo_eligible(table, card.chrononaut_id):
+                choice_text, choice_control = self._readline_with_controls(
+                    "Dieser Abschnitt wurde noch NICHT gespielt (kein Zug, keine SL-Antwort). "
+                    "[1] Fortsetzen  [2] Ungespielten Abschnitt verwerfen -- letzten Spielstand "
+                    "behalten  (/zurueck fuer keine Aenderung): ",
+                    context="Fortsetzen (ungespielter Solo-Abschnitt)",
+                )
+                if choice_control in ("zurueck", "abbrechen", "pause"):
+                    self._print("Abgebrochen -- keine Aenderung, der gebundene Abschnitt bleibt wie er ist.")
+                    return
+                if choice_text.strip() == "2":
+                    confirm_text, confirm_control = self._readline_with_controls(
+                        "Wirklich diesen ungespielten Abschnitt ENDGUELTIG verwerfen? Dein letzter "
+                        "Spielstand bleibt unveraendert erhalten, es wird NICHTS gespeichert/geerntet. "
+                        "[j/n]: ",
+                        context="Ungespielten Abschnitt verwerfen -- Bestaetigung",
+                    )
+                    if confirm_control in ("zurueck", "abbrechen", "pause") or confirm_text.strip().lower() not in (
+                        "j", "ja", "y", "yes",
+                    ):
+                        self._print(
+                            "Kein Verwurf -- keine Aenderung vorgenommen. Der Abschnitt bleibt "
+                            "gebunden; 'fortsetzen' startet ihn weiterhin regulaer."
+                        )
+                        return
+                    self._discard_unplayed_solo_section(table, card.chrononaut_id)
+                    return
             self._resume_bound_table(table)
             return
         if card.chrononaut_id is None and card.pending_creation:
@@ -3082,6 +3130,192 @@ class TuiSession:
         if chrononaut_id not in table.chrononaut_ids.values():
             return None
         return table
+
+    def _discard_unplayed_solo_eligible(self, table, chrononaut_id: str) -> bool:
+        """ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix, PR3321-Stage-5-
+        Nachzug): True NUR fuer einen beweisbar-unbenutzten EIGENEN Solo-
+        Abschnitt -- jede andere Konstellation (benutzt, Mehrperson, fremder
+        Owner, unlesbar) liefert `False` (sicherer Default: `_cmd_menu_
+        fortsetzen` bietet dann KEINEN Verwurf an, heutiges Resume-Verhalten
+        unveraendert). "Beweisbar-unbenutzt" ist mehr als `sl_log == []`:
+
+        - der Tisch ist `active`, hat GENAU den aufrufenden Teilnehmer als
+          einziges Mitglied UND Leader, OHNE `operator_meta.operator_id`
+          (kein Betreibertisch) -- `create_table_from_offer_log` schreibt
+          `operator_meta` IMMER (Ableitungs-Metadaten), nur `operator_id`
+          selbst markiert einen Betreiberlauf (s. `_cmd_local_round`s
+          `operator_mode`-Zweig).
+        - der Lock bindet GENAU diese Figur an GENAU diesen Tisch
+          (`Lobby.is_locked`) -- kein Raten bei einer bereits verschobenen/
+          fremden Bindung.
+        - `table.sl_log`/`table.table_messages` sind leer UND die SL-
+          Historiendatei dieses Tisches (`gm_sessions/<table_id>/sl_
+          history.jsonl`, von `GmOwuiTransport.__init__` bereits beim
+          Konstruieren angelegt, NICHT erst beim ersten Turn) ist entweder
+          abwesend oder inhaltlich leer -- die bloße Verzeichnis-/
+          Dateiexistenz allein ist KEIN Benutzt-Beweis.
+        - KEIN Requestdatensatz (`request_ledger`, jeder Zustand) traegt
+          diese `table_id` -- 0 jemals reservierte/versandte Anfragen.
+        - KEIN offener Completion-Plan UND KEIN `__final.json` fuer diesen
+          Tisch (`core_store.has_open_completion_plan`/`has_final_record`)
+          -- ein bereits gewonnener Abschlussplan wird NIE durch "leer
+          verwerfen" entwertet. (Der chrononaut-gebundene Completion-Guard
+          wird bewusst NICHT separat geprueft: er wird ausschliesslich
+          WAEHREND der Ernte NACH echtem Spiel geschrieben, s. `store.
+          finalize_section_after_reflection` -- bei leerem `sl_log` kann er
+          strukturell nie existieren.)
+        - KEIN `save_corrections`-Datensatz UND KEIN `save_corrections_raw`-
+          Archiv fuer den deterministischen Gruppen-Repair-Key dieses
+          Tisches/Abschnitts/Chrononauten.
+
+        "Unlesbar != leer" (02_NACHZUG-Vertrag): jeder Lesefehler auf einer
+        tatsaechlich vorhandenen, fuer diese Pruefung relevanten Datei
+        liefert hier `False` (sicherer Stopp), NIE eine stille Behandlung
+        als abwesend."""
+        if self.run_dir is None:
+            return False
+        owner = self.participant_id
+        if table.status != "active":
+            return False
+        if table.leader != owner or list(table.members) != [owner]:
+            return False
+        if table.chrononaut_ids.get(owner) != chrononaut_id:
+            return False
+        if (table.operator_meta or {}).get("operator_id") is not None:
+            return False
+        if table.sl_log or table.table_messages:
+            return False
+        from ..core import store as core_store
+        lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        if lobby.is_locked(chrononaut_id) != table.table_id:
+            return False
+        safe_table_component = table.table_id.replace("/", "_").replace("\\", "_")
+        history_path = Path(self.run_dir) / "gm_sessions" / safe_table_component / "sl_history.jsonl"
+        if history_path.exists():
+            try:
+                history_text = history_path.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                return False
+            if history_text.strip():
+                return False
+        from ..core import request_ledger
+        try:
+            if request_ledger.records_for_table(self.run_dir, table.table_id):
+                return False
+        except request_ledger.IndeterminateRequestRecordError:
+            return False
+        if core_store.has_open_completion_plan(self.run_dir, table.table_id):
+            return False
+        if core_store.has_final_record(self.run_dir, table.table_id):
+            return False
+        from ..core import save_compatibility as core_save_compatibility
+        from ..core import save_correction as core_save_correction
+        from ..domain.zeitriss import save_correction as domain_save_correction
+        section_id = f"{table.table_id}-section"
+        repair_key = domain_save_correction.group_repair_key(table.table_id, section_id, chrononaut_id)
+        try:
+            if core_save_correction.load_record(self.run_dir, repair_key) is not None:
+                return False
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        try:
+            if core_save_compatibility.read_raw_archive(self.run_dir, repair_key):
+                return False
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        return True
+
+    def _discard_unplayed_solo_section(self, table, chrononaut_id: str) -> None:
+        """ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix): wird NUR NACH
+        ausdruecklicher Bestaetigung (s. `_cmd_menu_fortsetzen`) UND NACH
+        `_discard_unplayed_solo_eligible() is True` aufgerufen. Committet
+        denselben gemeinsamen atomaren Entscheid-Slot wie `table_admission.
+        request_table_stop` (`admission.try_commit_table_decision(...,
+        "stopped")`) und finalisiert danach ueber den bestehenden
+        `_finalize_genuine_table_abort` (`operator_table_key=None` -- ad-hoc
+        Solo-Tisch ohne Admission-Bindung, s. dessen Docstring: No-op fuer
+        `table_admission.close_table` ohne Bindung).
+
+        Reihenfolge Precondition->Bestaetigung->atomarer Commit->Finalize
+        ist crash-/retry-sicher: gewinnt ein ANDERER Entscheid (z.B. ein
+        inzwischen regulaer gewonnener Abschluss) den Slot zuerst, wird HIER
+        NICHT finalisiert (kein Entwerten eines gewonnenen Abschlusses).
+        Liegt bereits `"stopped"` von einem frueheren eigenen (z.B.
+        abgebrochenen) Versuch, ist das Finalisieren ein idempotenter
+        No-op-Erfolg (`release_chrononaut`/`status`-Check pruefen das
+        bereits selbst).
+
+        TOCTOU/Concurrency-Rework (2026-11-27): zwischen der Eligibility-
+        Pruefung in `_cmd_menu_fortsetzen` und diesem Commit liegen ZWEI
+        unbegrenzte j/n-Prompts -- genug Zeit, dass ein konkurrierender
+        Lab-Batch-Writer echten `sl_log`/`table_messages`-Fortschritt auf
+        denselben Tisch schreibt. `table.persist()` ist ein Wholesale-Write
+        ALLER Felder (store.py:299-310, kein Merge); wuerde HIER weiterhin
+        der vor den Prompts geladene Stale-`table` an `_finalize_genuine_
+        table_abort` durchgereicht, wuerde dessen `persist()` den
+        zwischenzeitlich echten Fortschritt mit dem leeren Stale-Snapshot
+        ueberschreiben. Deshalb UNMITTELBAR vor dem Commit: frisch von
+        Platte laden (`fresh`), bei Lesefehler/fehlender Datei sicherer
+        Stopp OHNE Commit ("unlesbar != leer", wie `_discard_unplayed_solo_
+        eligible`). Ist der Tisch noch `active` (die Entscheidung dieses
+        Aufrufs stuende noch aus) aber `sl_log`/`table_messages` sind NICHT
+        mehr leer, hat genau dieser Wettlauf stattgefunden -- sicherer
+        Abbruch OHNE Commit, nichts angetastet, der konkurrent geschriebene
+        Fortschritt bleibt unberuehrt auf Platte. Ist der Tisch dagegen
+        bereits `closed` (idempotenter Retry/Crash-Resume -- der Entscheid
+        ist laengst gefallen, dieser Aufruf finalisiert nur nach), greift
+        dieser Zusatz-Gate bewusst NICHT: `_finalize_genuine_table_abort`
+        persistiert ohnehin nur bei `status != "closed"`, ein bereits
+        geschlossener Tisch kann durch den erneuten Durchlauf nicht mehr
+        ueberschrieben werden. Ab hier wird AUSSCHLIESSLICH `fresh` weiter-
+        verwendet (Commit-`table_id` UND `_finalize_genuine_table_abort`),
+        nie mehr der Stale-Parameter `table`."""
+        from ..core import admission as core_admission
+        from ..core import store as core_store
+        owner = self.participant_id
+        try:
+            fresh = core_store.Table.load(self.run_dir, table.table_id)
+        except Exception:
+            self._print(
+                "Verwurf nicht moeglich -- Tischzustand nicht frisch lesbar (sicherer Stopp, "
+                "kein Entscheid committet)."
+            )
+            return
+        if fresh.status == "active" and (fresh.sl_log != [] or fresh.table_messages != []):
+            self._print(
+                "Verwurf nicht moeglich -- der Abschnitt wurde zwischenzeitlich bespielt/"
+                "veraendert; nichts angetastet."
+            )
+            return
+        won, decision = core_admission.try_commit_table_decision(
+            self.run_dir, fresh.table_id, "stopped",
+            participant_id=owner, chrononaut_id=chrononaut_id,
+            reason=(
+                f"'{owner}' hat ueber 'fortsetzen' einen beweisbar-unbenutzten eigenen "
+                "Solo-Abschnitt verworfen (Discard-unplayed-solo-section)."
+            ),
+        )
+        decided = "stopped" if won else str(decision.get("decision", "unknown"))
+        if decided == "stopped":
+            lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+            self._finalize_genuine_table_abort(lobby, fresh, None)
+            self._print(
+                "Abschnitt wirklich verworfen -- ENDGUELTIG, kein Fortsetzen moeglich, kein "
+                "neuer Fortschritt uebernommen. Dein letzter Spielstand bleibt unveraendert "
+                "erhalten; die betroffene Figurenbindung ist jetzt frei fuer eine neue "
+                "Gruppenbildung/Solo-Runde ueber den normalen Produktweg."
+            )
+        elif decided == "plan_committed":
+            self._print(
+                "Verwurf nicht moeglich -- dieser Abschnitt wurde inzwischen regulaer "
+                "abgeschlossen (Abschluss hat den gemeinsamen Entscheid gewonnen), kein "
+                "Entwerten eines bereits gewonnenen Abschlusses."
+            )
+        else:
+            self._print(
+                f"Verwurf nicht moeglich -- der gemeinsame Entscheid fuer diesen Abschnitt ist "
+                f"bereits auf {decided!r} gefallen, kein erneuter Verwurf."
+            )
 
     def _resume_bound_table(self, table) -> None:
         """G03/P09 (ZEITRISS Terminal UX-1, Korrekturzyklus 2, General-

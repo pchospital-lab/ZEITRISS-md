@@ -825,6 +825,22 @@ def _open_completion_order_for_table(
     return None
 
 
+def has_open_completion_plan(run_dir: str | Path, table_id: str) -> bool:
+    """Oeffentlicher Lesewrapper um `_open_completion_order_for_table` fuer
+    Aufrufer ausserhalb dieses Moduls (ZR-DISCARD-UNPLAYED-SOLO-20261126,
+    ui/tui.py's Precondition fuer einen beweisbar-unbenutzten Solo-
+    Abschnitt): True, wenn fuer `table_id` bereits IRGENDEIN Completion-Plan
+    OHNE passendes `__final.json` existiert -- ein bereits gewonnener
+    Abschlussplan darf NIE durch 'leer verwerfen' entwertet werden."""
+    return _open_completion_order_for_table(Path(run_dir), table_id) is not None
+
+
+def has_final_record(run_dir: str | Path, table_id: str) -> bool:
+    """Oeffentlicher Lesewrapper um `_table_has_final` -- s. `has_open_
+    completion_plan`-Docstring fuer den Verwendungszweck."""
+    return _table_has_final(run_dir, table_id)
+
+
 def _member_bound_by_open_order(run_dir: str | Path, chrononaut_id: str) -> bool:
     run_dir = Path(run_dir)
     completion_dir = run_dir / "completion"
