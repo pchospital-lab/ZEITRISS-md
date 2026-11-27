@@ -569,11 +569,13 @@ def test_gegenprobe_lock_pointing_at_different_table_blocks_discard():
 # unbenutzten Solo-Abschnitt weiterhin erkennen und verwerfen.
 # --------------------------------------------------------------------------
 
-def _run_child(root: Path, mode: str, result_path: Path) -> dict:
+def _run_child(root: Path, mode: str, result_path: Path, *, table: str | None = None) -> dict:
     import subprocess
 
     cmd = [sys.executable, str(Path(__file__).resolve()), "--child", "--mode", mode,
            "--root", str(root), "--result", str(result_path)]
+    if table is not None:
+        cmd += ["--table", table]
     cp = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     if cp.returncode != 0:
         raise RuntimeError(f"child(mode={mode!r}) exit={cp.returncode}:\n{cp.stderr[-4000:]}")
@@ -1109,6 +1111,345 @@ def test_n3_null_repair_record_blocks_with_halt_not_discard_or_resume():
     _assert_n3_halt_not_discard_or_resume("null_repair_record")
 
 
+# --------------------------------------------------------------------------
+# Nachzug r3 (General-Befunde N1/N2/N3 weiterhin offen, 2026-11-27, PR
+# #3321 Head 8cf64b7c weiterhin MERGE NO-GO -> Nachzug r3). Vertrag A:
+# `_discard_unclear_blocking_reason` jetzt auch am Mutationsrand +
+# gemeinsame `_SharedWriterExclusivity` ueber Pruefung+Commit+Finalize.
+# Vertrag B: gemeinsamer `_follow_through_authorized_discard`-Helper an
+# allen drei echten Wiedereinstiegen. RED-Beleg je Fall direkt im
+# Docstring; zusaetzlich unabhaengig belegt ueber `general_discard_r2_
+# edges.py` (7/7 PASS erst MIT diesen Fixes, s. worker/linus-nachzug-r3-
+# report.md).
+# --------------------------------------------------------------------------
+
+def _child_writer(args) -> None:
+    """r3-Nachzug (A-Vertrag, N1 erweitert): echter, frischer OS-
+    Kindprozess, der versucht, dieselbe `_SharedWriterExclusivity` wie der
+    Elternprozess zu erwerben und -- bei Erfolg -- eine echte Request-
+    Reservierung vorzunehmen. Derselbe Trick wie `general_discard_r2_
+    edges.py`s `writer`-Kindmodus."""
+    from mmo_sim.core.recovery_ops import RecoveryExclusivityUnavailableError, _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir = root / "run"
+    result: dict = {}
+    try:
+        with _SharedWriterExclusivity(run_dir):
+            result["acquired"] = True
+            rid = request_ledger.begin(
+                run_dir, role="gm", content="r3-Nachzug kooperierender Schreiber (Writer-Fixture).",
+                reserved_usd=0.0, table_id=args.table, section_id=f"{args.table}-section",
+                turn_idx=0, participant="owner1", dollar_billed=False,
+            )
+            result["request_state"] = request_ledger.load_request(run_dir, rid)["state"]
+    except RecoveryExclusivityUnavailableError:
+        result["acquired"] = False
+        result["request_state"] = None
+    Path(args.result).write_text(json.dumps(result), encoding="utf-8")
+
+
+def _child_follow_through(args) -> None:
+    """r3-Nachzug (B-Vertrag, N2): echter, frischer OS-Prozess ruft GENAU
+    den jeweiligen echten Wiedereinstiegs-Caller nach einer zuvor im
+    Elternprozess injizierten Schreibunterbrechung NACH dem echten
+    'stopped'-Commit auf -- 'spielen' (Spielen->[6], `_cmd_menu_spielen`
+    -> `_cmd_resume_open_section` -> `_resume_bound_table`) UND
+    'local_then_fortsetzen' (oeffentliches 'l', `_cmd_local_round`, danach
+    ein Folgeaufruf 'fortsetzen' im SELBEN Prozess) identisch strukturiert,
+    nur der Einstiegscaller unterscheidet sich."""
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    pid, char_id = "owner1", "CHR-OWNER1"
+    printed: list[str] = []
+    gm_spy = _ExplodingGm()
+    inputs = ["6", "Ich warte im HQ."] if args.mode == "spielen" else []
+    session = TuiSession(
+        onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id=pid,
+        input_fn=_queued_input(inputs), print_fn=printed.append,
+        run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
+        gm_transport_factory=lambda *a, **kw: gm_spy, host_capable=True,
+    )
+    row: dict = {}
+    error = None
+    try:
+        if args.mode == "spielen":
+            session._cmd_menu_spielen()
+        else:
+            session._cmd_local_round([], allow_operator_mode=True)
+            lobby_after_local = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+            row["after_local_status"] = core_store.Table.load(run_dir, args.table).status
+            row["after_local_lock"] = lobby_after_local.is_locked(char_id)
+            row["after_local_table_ids"] = sorted(p.stem for p in (run_dir / "tables").glob("*.json"))
+            row["after_local_gm_calls"] = gm_spy.calls
+            row["after_local_request_states"] = [
+                r.get("state") for r in request_ledger.records_for_table(run_dir, args.table)
+            ]
+            session._cmd_menu_fortsetzen()
+    except (EndOfInput, Exception) as e:
+        error = type(e).__name__
+    lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    row.update(
+        printed=printed, gm_calls=gm_spy.calls, error=error,
+        table_status=core_store.Table.load(run_dir, args.table).status,
+        lock=lobby.is_locked(char_id),
+        request_states=[r.get("state") for r in request_ledger.records_for_table(run_dir, args.table)],
+        table_ids=sorted(p.stem for p in (run_dir / "tables").glob("*.json")),
+    )
+    Path(args.result).write_text(json.dumps(row), encoding="utf-8")
+
+
+def _assert_r3_artifact_during_confirmation_blocks_at_mutation_edge(kind: str) -> None:
+    """A-Vertrag r3 (N3 am Mutationsrand): dasselbe unklare Artefakt wie
+    `_assert_n3_halt_not_discard_or_resume`, aber ERST waehrend des
+    ZWEITEN Bestaetigungscallbacks angelegt (nach '2', vor 'j', per
+    direktem Patch auf `session._input`) -- der ERSTE Unklar-Check in
+    `_cmd_menu_fortsetzen` sieht noch gar kein Artefakt; der Fresh-Reload-
+    Re-Check in `_discard_unplayed_solo_section` prueft bisher NUR
+    `_discard_unplayed_solo_eligible` (die tolerant-lesenden `has_open_
+    completion_plan`/`has_final_record`/`load_record`/`read_raw_archive`-
+    Pfade klassifizieren ein kaputtes/falsch typisiertes Artefakt NICHT
+    als 'unklar'), NICHT die strenge Unklar-Klassifikation selbst --
+    derselbe Trick wie `general_discard_r2_edges.py`s `artifact_during_
+    confirmation:<kind>`-Fixture.
+
+    RED ohne FIX A (Unklar-Check am Mutationsrand): der Verwurf liefe
+    durch das kaputte/falsch typisierte Artefakt unbemerkt hindurch --
+    dieser Test schlaegt dann auf `table_status == 'active'` (tatsaechlich
+    'closed') und `decision is None` (tatsaechlich 'stopped') fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, gm_spy = _fresh_session(run_dir, states_dir, onboarding_dir, catalog_dir, pid, [], printed)
+        calls = 0
+
+        def _input_during_confirmation(prompt: str = "") -> str:
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                return "2"
+            if calls == 2:
+                _write_n3_artifact(run_dir, table_id, kind)
+                return "j"
+            raise EOFError()
+
+        session._input = _input_during_confirmation
+        try:
+            session._cmd_menu_fortsetzen()
+        except EndOfInput:
+            pass
+
+        out = "\n".join(printed)
+        assert "wirklich verworfen" not in out, out
+
+        table_data = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        assert table_data["status"] == "active", table_data
+        assert core_admission.read_table_decision(run_dir, table_id) is None
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby.is_locked(char_id) == table_id
+        assert gm_spy.calls == 0
+        assert request_ledger.records_for_table(run_dir, table_id) == []
+
+
+def test_r3_artifact_during_confirmation_broken_plan_blocks_at_mutation_edge():
+    _assert_r3_artifact_during_confirmation_blocks_at_mutation_edge("broken_plan")
+
+
+def test_r3_artifact_during_confirmation_broken_final_blocks_at_mutation_edge():
+    _assert_r3_artifact_during_confirmation_blocks_at_mutation_edge("broken_final")
+
+
+def test_r3_artifact_during_confirmation_wrong_type_raw_archive_blocks_at_mutation_edge():
+    _assert_r3_artifact_during_confirmation_blocks_at_mutation_edge("wrong_type_raw_archive")
+
+
+def test_r3_artifact_during_confirmation_null_repair_record_blocks_at_mutation_edge():
+    _assert_r3_artifact_during_confirmation_blocks_at_mutation_edge("null_repair_record")
+
+
+def test_r3_cooperating_writer_after_last_successful_eligibility_read():
+    """A-Vertrag r3 (N1 erweitert, gemeinsame Exclusivity): das Fresh-
+    Reload-Eligibility-Recheck in `_discard_unplayed_solo_section` UND der
+    anschliessende Commit laufen jetzt gemeinsam innerhalb EINER
+    `_SharedWriterExclusivity`-Haltung (bereits erworben, BEVOR `fresh`
+    geladen wird). Patcht `_discard_unplayed_solo_eligible` so, dass GENAU
+    NACH dem zweiten (erfolgreichen) Aufruf -- also dem Fresh-Reload-
+    Recheck INNERHALB der bereits gehaltenen Exclusivity -- ein echter,
+    frischer OS-Kindprozess versucht, dieselbe Exclusivity zu erwerben und
+    eine echte Request-Reservierung vorzunehmen. Derselbe Trick wie
+    `general_discard_r2_edges.py`s `cooperating_writer_after_last_
+    successful_read`-Fixture.
+
+    Die deterministische Aufrufreihenfolge dieses Tests ergibt immer
+    `writer_won=False` (der Elternprozess haelt die Exclusivity zu diesem
+    Zeitpunkt bereits) -- RED ohne FIX A (Exclusivity): der Elternprozess
+    haelt zu diesem Zeitpunkt noch KEINEN Lock, der Kindprozess erwirbt
+    IMMER, der Elternprozess committet TROTZDEM weiter (kein Scope-
+    Schutz) -- dieser Test schlaegt dann auf dem exklusiven Entweder-Oder
+    (nie beide Seiten gleichzeitig) fehl: `request_states == []` UND
+    `table_status == 'closed'` waeren verletzt, waehrend der Kindschreiber
+    zusaetzlich faelschlich erfolgreich reserviert haette."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, gm_spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_eligible = session._discard_unplayed_solo_eligible
+        count = 0
+        writer_result = None
+
+        def _scheduled_eligible(table, cid):
+            nonlocal count, writer_result
+            answer = original_eligible(table, cid)
+            count += 1
+            if count == 2 and answer:
+                result_path = root / "writer-result.json"
+                writer_result = _run_child(root, "writer", result_path, table=table_id)
+            return answer
+
+        session._discard_unplayed_solo_eligible = _scheduled_eligible
+        session._cmd_menu_fortsetzen()
+
+        assert writer_result is not None, "Testaufbau defekt -- Scheduling-Hook wurde nie erreicht."
+        writer_won = writer_result["acquired"]
+
+        table_data = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        records = request_ledger.records_for_table(run_dir, table_id)
+
+        if writer_won:
+            assert decision is None, decision
+            assert table_data["status"] == "active", table_data
+            assert lobby.is_locked(char_id) == table_id
+        else:
+            assert records == [], records
+            assert table_data["status"] == "closed", table_data
+            assert lobby.is_locked(char_id) is None
+        assert gm_spy.calls == 0
+
+
+def test_r3_stopped_window1_resume_via_spielen_menu_is_terminal():
+    """B-Vertrag r3 (N2, gemeinsamer Helper an echtem Wiedereinstieg):
+    echte Schreibunterbrechung GENAU zwischen dem atomaren 'stopped'-
+    Commit und `_finalize_genuine_table_abort` (Window 1, Lock noch
+    gebunden), wie `test_n2_window1_stopped_decision_terminal_after_
+    crash_before_finalize` -- ABER der echte, frische OS-Kindprozess kehrt
+    HIER NICHT ueber 'fortsetzen' zurueck, sondern ueber 'Spielen' -> [6]
+    (`_cmd_menu_spielen` -> `_cmd_resume_open_section` ->
+    `_resume_bound_table`) -- derselbe echte Caller wie `general_discard_
+    r2_edges.py`s `stopped_window1_via:spielen`-Fixture.
+
+    RED ohne FIX B: `_resume_bound_table` liest den Entscheid-Slot
+    nirgends -- der Kindprozess wuerde den noch-'active' Tisch klassisch
+    resumen (echter GM-Call) statt den laengst gefallenen 'stopped'-
+    Entscheid idempotent nachzufuehren. Dieser Test schlaegt dann auf
+    `gm_calls == 0` (tatsaechlich 1) fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("nach echtem stopped-Commit, vor Finalize (r3/spielen)")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+
+        result_path = root / "r3-spielen-result.json"
+        r2 = _run_child(root, "spielen", result_path, table=table_id)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, r2
+        assert r2["request_states"] == [], r2
+        assert r2["table_status"] == "closed", r2
+        assert r2["lock"] is None, r2
+        assert r2["table_ids"] == [table_id], r2
+
+
+def test_r3_stopped_window1_resume_via_public_l_then_fortsetzen_is_terminal():
+    """B-Vertrag r3 (N2, gemeinsamer Helper am dritten echten
+    Wiedereinstieg): wie oben, aber der Kindprozess kehrt ueber das
+    OEFFENTLICHE 'l' zurueck (`_cmd_local_round([], allow_operator_
+    mode=True)`), danach -- im selben Prozess -- ein Folgeaufruf
+    'fortsetzen'. Der ERSTE Aufruf darf AUSSCHLIESSLICH den alten Verwurf
+    idempotent abschliessen (kein Ersatzstart); der anschliessende
+    'fortsetzen' darf DANACH legitim eine neue Generation binden --
+    derselbe echte Caller wie `general_discard_r2_edges.py`s `stopped_
+    window1_via:local_then_fortsetzen`-Fixture.
+
+    RED ohne FIX B: der neue Check in `_cmd_local_round` existiert nicht --
+    `create_table_from_offer_log` wuerde den laengst entschiedenen Tisch
+    entweder resumen oder einen Ersatztisch anlegen, OHNE ihn terminal
+    abzuschliessen. Dieser Test schlaegt dann auf `after_local_status ==
+    'closed'` (tatsaechlich weiterhin 'active') fehl."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+
+        def _crash(*a, **kw):
+            raise _InjectedCrash("nach echtem stopped-Commit, vor Finalize (r3/local)")
+
+        interrupted = False
+        try:
+            with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+
+        result_path = root / "r3-local-result.json"
+        r2 = _run_child(root, "local_then_fortsetzen", result_path, table=table_id)
+
+        assert r2.get("after_local_status") == "closed", r2
+        assert r2.get("after_local_lock") is None, r2
+        assert r2.get("after_local_table_ids") == [table_id], r2
+        assert r2.get("after_local_gm_calls") == 0, r2
+        assert r2.get("after_local_request_states") == [], r2
+
+        assert r2["error"] in (None, "EndOfInput"), r2
+        assert r2["lock"] != table_id, r2
+        assert len(r2["table_ids"]) <= 2, r2
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
@@ -1133,15 +1474,26 @@ if __name__ == "__main__":
 
         ap = argparse.ArgumentParser()
         ap.add_argument("--child", action="store_true")
-        ap.add_argument("--mode", required=True, choices=["setup", "discard", "resume_after_crash"])
+        ap.add_argument(
+            "--mode", required=True,
+            choices=[
+                "setup", "discard", "resume_after_crash",
+                "spielen", "local_then_fortsetzen", "writer",
+            ],
+        )
         ap.add_argument("--root", required=True)
         ap.add_argument("--result", required=True)
+        ap.add_argument("--table")
         ns = ap.parse_args()
         if ns.mode == "setup":
             _child_setup(ns)
         elif ns.mode == "discard":
             _child_discard(ns)
-        else:
+        elif ns.mode == "resume_after_crash":
             _child_resume_after_crash(ns)
+        elif ns.mode == "writer":
+            _child_writer(ns)
+        else:
+            _child_follow_through(ns)
         sys.exit(0)
     raise SystemExit(main())

@@ -3012,31 +3012,20 @@ class TuiSession:
                 )
                 return
             # ZR-DISCARD-UNPLAYED-SOLO-20261126-N2-WINDOW1 (General-Nachzug
-            # 2026-11-27): der atomare Entscheid-Slot (`admission.try_
+            # r3, 2026-11-27): der atomare Entscheid-Slot (`admission.try_
             # commit_table_decision`) ist durabel geschrieben, sobald EIN
             # Verwurf gewonnen hat -- ein Absturz zwischen diesem Commit und
             # `_finalize_genuine_table_abort` (Lock noch gebunden) darf den
             # laengst gefallenen Entscheid nicht verschlucken: HIER, GLEICH
-            # nach dem Aufloesen des gebundenen Tisches, zuerst lesen und den
+            # nach dem Aufloesen des gebundenen Tisches, zuerst den
             # eigenen Verwurf idempotent zu Ende fuehren -- KEIN Resume, KEIN
             # Discard-Offer, KEINE erneute Bestaetigung, KEIN Modellcall.
             # `plan_committed`/fremde oder mehrdeutige Bindung faellt bewusst
             # durch (normaler Weg, schuetzt gewonnenen Abschluss bzw. fremde
-            # Locks).
-            from ..core import admission as core_admission
-
-            decision = core_admission.read_table_decision(self.run_dir, table.table_id)
-            if decision is not None and decision.get("decision") == "stopped" and (
-                self._discard_candidate_identity_match(table, card.chrononaut_id)
-            ):
-                from ..core import store as core_store
-
-                lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
-                self._finalize_genuine_table_abort(lobby, table, None)
-                self._print(
-                    "Fortsetzen: ein bereits autorisierter Verwurf dieses Abschnitts wird jetzt "
-                    "abgeschlossen -- keine neue Runde, keine erneute Bestaetigung."
-                )
+            # Locks). Gemeinsamer Helper `_follow_through_authorized_discard`
+            # (N2-Nachzug r3): derselbe terminale Abschluss ist JETZT an
+            # jedem echten Resume-Wiedereinstieg erreichbar, nicht nur hier.
+            if self._follow_through_authorized_discard(table, card.chrononaut_id):
                 return
             # ZR-DISCARD-UNPLAYED-SOLO-20261126 (Linus-Fix, PR3321-Stage-5-
             # Nachzug): ein beweisbar-unbenutzter eigener Solo-Abschnitt
@@ -3288,6 +3277,47 @@ class TuiSession:
         lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
         return lobby.is_locked(chrononaut_id) == table.table_id
 
+    def _follow_through_authorized_discard(self, table, chrononaut_id) -> bool:
+        """General-Nachzug r3 (N2): gemeinsamer terminaler Abschluss eines
+        bereits durabel 'stopped' entschiedenen EIGENEN Solo-Verwurfs,
+        aufrufbar an JEDEM echten Resume-Wiedereinstieg (zentrales
+        Fortsetzen, Spielen->6 / `_resume_bound_table`, oeffentliches l /
+        `_cmd_local_round`). Gibt True zurueck, wenn ein terminal
+        verworfener eigener Solo-Tisch JETZT idempotent finalisiert wurde
+        (Lock geloest + closed) -- der Aufrufer darf dann NICHT weiter
+        resumen/erzeugen. False -> normaler Weg. Die Nachfuehrung ist ein
+        schreibender Pfad und laeuft deshalb unter derselben gemeinsamen
+        `_SharedWriterExclusivity` wie der frische Verwurf. `plan_
+        committed`/fremde oder mehrdeutige Bindung faellt durch (identity_
+        match False)."""
+        if self.run_dir is None:
+            return False
+        from ..core import admission as core_admission
+        decision = core_admission.read_table_decision(self.run_dir, table.table_id)
+        if decision is None or decision.get("decision") != "stopped":
+            return False
+        if not self._discard_candidate_identity_match(table, chrononaut_id):
+            return False
+        from ..core import store as core_store
+        from ..core.recovery_ops import _SharedWriterExclusivity, RecoveryExclusivityUnavailableError
+        lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        try:
+            with _SharedWriterExclusivity(self.run_dir):
+                fresh = core_store.Table.load(self.run_dir, table.table_id)
+                self._finalize_genuine_table_abort(lobby, fresh, None)
+        except RecoveryExclusivityUnavailableError:
+            self._print(
+                "Fortsetzen: ein bereits autorisierter Verwurf dieses Abschnitts kann gerade "
+                "nicht abgeschlossen werden -- ein anderer aktiver Schreiber haelt die "
+                "gemeinsame Schreibsperre (sicherer Stopp, kein Resume)."
+            )
+            return True
+        self._print(
+            "Fortsetzen: ein bereits autorisierter Verwurf dieses Abschnitts wird jetzt "
+            "abgeschlossen -- keine neue Runde, keine erneute Bestaetigung."
+        )
+        return True
+
     def _discard_unclear_blocking_reason(self, table, chrononaut_id: str) -> str | None:
         """ZR-DISCARD-UNPLAYED-SOLO-20261126-N3 (General-Befund N3,
         2026-11-27): zielgebundene strikte Zweitpruefung NUR fuer die vier
@@ -3437,57 +3467,99 @@ class TuiSession:
         Nachfuehrung eines bereits `stopped` entschiedenen (ggf. noch
         `active`, Finalize aber nie erreichten) Tisches laeuft unveraendert
         weiter in den Commit-Versuch unten (der Decision-Commit selbst
-        aendert keines der hier geprueften Felder)."""
+        aendert keines der hier geprueften Felder).
+
+        N1/N3-Nachzug r3 (General-Befund N1+N3, 2026-11-27): ZWEI weitere
+        Haertungen am selben Mutationsrand. Erstens laeuft der strenge
+        Unklar-Check (`_discard_unclear_blocking_reason`, bisher NUR einmal
+        VOR den beiden unbegrenzten Prompts im Menue) HIER ein zweites Mal
+        auf `fresh` -- eines der vier klassifizierten Artefakte (Plan/
+        Final/Correction/Raw) kann GENAU waehrend der zwei Prompts entstehen
+        und war bisher am Mutationsrand unsichtbar (der schmalere `_discard_
+        unplayed_solo_eligible`-Recheck klassifiziert diese Artefakte nicht
+        als 'unklar', sondern als schlicht 'benutzt'/'nicht eligible' --
+        beides faellt bereits auf denselben sicheren Stopp zurueck, ABER mit
+        der falschen, zu generischen Meldung; der Unklar-Check HIER liefert
+        die korrekte, spezifische). Zweitens laeuft der gesamte Mutations-
+        koerper (Fresh-Reload->Lab-Guard->Unklar-Check->Re-Eligibility->
+        Commit->Finalize) jetzt INNERHALB von `_SharedWriterExclusivity`
+        (`core.recovery_ops`, derselbe nicht-blockierende `fcntl.flock` auf
+        `lab.lock.json` wie ein aktiver `LabRunner`) -- bisher produktseitig
+        nirgends genutzt, also ohne bestehende Re-Entrancy; `active_lock_
+        pid`/`try_commit_table_decision`/die Store-Pfade/`_finalize_
+        genuine_table_abort` fassen diesen Lock NICHT an (rein lesend bzw.
+        ungenutzt), ein Deadlock ist damit ausgeschlossen. Ein konkurrierender
+        zweiter Schreiber (z.B. ein kooperierender Erwerbsversuch GENAU
+        zwischen letztem erfolgreichem Re-Eligibility-Read und Commit)
+        scheitert jetzt am Erwerb selbst (`RecoveryExclusivityUnavailableError`,
+        sicherer Stopp, kein Entscheid committet) STATT auf einer veralteten
+        Zwischenlesung weiterzulaufen. Die Exclusivity wird erst HIER, NACH
+        der Bestaetigung im Menue, erworben -- es wird NIE auf eine
+        Benutzereingabe unter gehaltener Exclusivity gewartet."""
         from ..core import admission as core_admission
         from ..core import store as core_store
+        from ..core.recovery_ops import _SharedWriterExclusivity, RecoveryExclusivityUnavailableError
         owner = self.participant_id
         try:
-            fresh = core_store.Table.load(self.run_dir, table.table_id)
-        except Exception:
+            with _SharedWriterExclusivity(self.run_dir):
+                try:
+                    fresh = core_store.Table.load(self.run_dir, table.table_id)
+                except Exception:
+                    self._print(
+                        "Verwurf nicht moeglich -- Tischzustand nicht frisch lesbar (sicherer Stopp, "
+                        "kein Entscheid committet)."
+                    )
+                    return
+                if fresh.status == "active":
+                    if self._lab_active_guard("Verwerfen (ungespielter Solo-Abschnitt)"):
+                        return
+                    unclear_reason = self._discard_unclear_blocking_reason(fresh, chrononaut_id)
+                    if unclear_reason is not None:
+                        self._print(unclear_reason)
+                        return
+                    if not self._discard_unplayed_solo_eligible(fresh, chrononaut_id):
+                        self._print(
+                            "Verwurf nicht moeglich -- der Abschnitt ist zwischenzeitlich nicht mehr "
+                            "beweisbar-unbenutzt (frische Vollpruefung unmittelbar vor dem Commit); "
+                            "nichts angetastet, kein Entscheid committet."
+                        )
+                        return
+                won, decision = core_admission.try_commit_table_decision(
+                    self.run_dir, fresh.table_id, "stopped",
+                    participant_id=owner, chrononaut_id=chrononaut_id,
+                    reason=(
+                        f"'{owner}' hat ueber 'fortsetzen' einen beweisbar-unbenutzten eigenen "
+                        "Solo-Abschnitt verworfen (Discard-unplayed-solo-section)."
+                    ),
+                )
+                decided = "stopped" if won else str(decision.get("decision", "unknown"))
+                if decided == "stopped":
+                    lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
+                    self._finalize_genuine_table_abort(lobby, fresh, None)
+                    self._print(
+                        "Abschnitt wirklich verworfen -- ENDGUELTIG, kein Fortsetzen moeglich, kein "
+                        "neuer Fortschritt uebernommen. Dein letzter Spielstand bleibt unveraendert "
+                        "erhalten; die betroffene Figurenbindung ist jetzt frei fuer eine neue "
+                        "Gruppenbildung/Solo-Runde ueber den normalen Produktweg."
+                    )
+                elif decided == "plan_committed":
+                    self._print(
+                        "Verwurf nicht moeglich -- dieser Abschnitt wurde inzwischen regulaer "
+                        "abgeschlossen (Abschluss hat den gemeinsamen Entscheid gewonnen), kein "
+                        "Entwerten eines bereits gewonnenen Abschlusses."
+                    )
+                else:
+                    self._print(
+                        f"Verwurf nicht moeglich -- der gemeinsame Entscheid fuer diesen Abschnitt ist "
+                        f"bereits auf {decided!r} gefallen, kein erneuter Verwurf."
+                    )
+        except RecoveryExclusivityUnavailableError:
             self._print(
-                "Verwurf nicht moeglich -- Tischzustand nicht frisch lesbar (sicherer Stopp, "
-                "kein Entscheid committet)."
+                "Verwurf nicht moeglich -- ein anderer aktiver Schreiber (Lab-/Recovery-Lauf) "
+                "haelt gerade die gemeinsame Schreibsperre; sicherer Stopp, kein Entscheid "
+                "committet."
             )
             return
-        if fresh.status == "active":
-            if self._lab_active_guard("Verwerfen (ungespielter Solo-Abschnitt)"):
-                return
-            if not self._discard_unplayed_solo_eligible(fresh, chrononaut_id):
-                self._print(
-                    "Verwurf nicht moeglich -- der Abschnitt ist zwischenzeitlich nicht mehr "
-                    "beweisbar-unbenutzt (frische Vollpruefung unmittelbar vor dem Commit); "
-                    "nichts angetastet, kein Entscheid committet."
-                )
-                return
-        won, decision = core_admission.try_commit_table_decision(
-            self.run_dir, fresh.table_id, "stopped",
-            participant_id=owner, chrononaut_id=chrononaut_id,
-            reason=(
-                f"'{owner}' hat ueber 'fortsetzen' einen beweisbar-unbenutzten eigenen "
-                "Solo-Abschnitt verworfen (Discard-unplayed-solo-section)."
-            ),
-        )
-        decided = "stopped" if won else str(decision.get("decision", "unknown"))
-        if decided == "stopped":
-            lobby = core_store.Lobby(self.run_dir, table_size_policy=ZeitrissTableSizePolicy())
-            self._finalize_genuine_table_abort(lobby, fresh, None)
-            self._print(
-                "Abschnitt wirklich verworfen -- ENDGUELTIG, kein Fortsetzen moeglich, kein "
-                "neuer Fortschritt uebernommen. Dein letzter Spielstand bleibt unveraendert "
-                "erhalten; die betroffene Figurenbindung ist jetzt frei fuer eine neue "
-                "Gruppenbildung/Solo-Runde ueber den normalen Produktweg."
-            )
-        elif decided == "plan_committed":
-            self._print(
-                "Verwurf nicht moeglich -- dieser Abschnitt wurde inzwischen regulaer "
-                "abgeschlossen (Abschluss hat den gemeinsamen Entscheid gewonnen), kein "
-                "Entwerten eines bereits gewonnenen Abschlusses."
-            )
-        else:
-            self._print(
-                f"Verwurf nicht moeglich -- der gemeinsame Entscheid fuer diesen Abschnitt ist "
-                f"bereits auf {decided!r} gefallen, kein erneuter Verwurf."
-            )
 
     def _resume_bound_table(self, table) -> None:
         """G03/P09 (ZEITRISS Terminal UX-1, Korrekturzyklus 2, General-
@@ -3505,7 +3577,20 @@ class TuiSession:
         Schreiber. `table.leader`/`table.members`/`table.chrononaut_ids`
         bleiben unveraendert (kein Write hier, `_run_table_round` schreibt
         ausschliesslich ueber den bestehenden `app_service.run_play_session`-
-        Pfad, identisch zum frischen Einladungsweg)."""
+        Pfad, identisch zum frischen Einladungsweg).
+
+        N2-Nachzug r3 (General-Befund N2, 2026-11-27): GANZ am Anfang,
+        VOR jeder Leader-/Konfigurationsaufloesung -- derselbe terminale
+        Verwurfsabschluss wie im `_cmd_menu_fortsetzen`-Bound-Zweig
+        (`_follow_through_authorized_discard`) ist HIER genauso faellig,
+        weil dieser Einstieg (Spielen->6 / `tisch-start`-Resume / KI-
+        Kandidaten-Resume) einen bereits durabel 'stopped' entschiedenen
+        eigenen Tisch sonst erneut resumen wuerde -- GM-/Persona-Calls
+        eingeschlossen."""
+        if self.run_dir is not None:
+            owner_cid = table.chrononaut_ids.get(self.participant_id)
+            if owner_cid is not None and self._follow_through_authorized_discard(table, owner_cid):
+                return
         if self.run_dir is None or self.states_dir is None or self.schema_path is None or self.gm_transport_factory is None:
             self._print(
                 "Fortsetzen (gebundener Tisch) erfordert eine konfigurierte Laufumgebung (run_dir/"
@@ -9698,6 +9783,43 @@ class TuiSession:
                 "konfiguriert, kein Spielstart (Live-Setup, s. docs/mmo-sim.md)."
             )
             return
+        # N2-Nachzug r3 (General-Befund N2, 2026-11-27): das oeffentliche
+        # 'l' (`_cmd_local_round([], allow_operator_mode=True)`) ist der
+        # dritte echte Resume-Wiedereinstieg -- ein bereits durabel
+        # 'stopped' entschiedener eigener gebundener Solo-Tisch muss HIER,
+        # VOR jeder Tischerzeugung (`create_table_from_offer_log` weiter
+        # unten), idempotent abgeschlossen statt durch einen Ersatzstart
+        # verschluckt werden. NUR fuer den unveraenderten Solo-Alias-Weg
+        # (kein `guest_tokens`, kein erzwungener Betreibermodus, kein
+        # Operator-Leader) -- jede andere Kombination bleibt bytegleich.
+        #
+        # R3-Fixup (test_i4_current_readpaths.py:test_local_round_leader_
+        # blocks_on_known_current_version_read_error): bewusst NICHT
+        # `self._build_resume_card()` -- dessen `_resolve_active_save`-Read
+        # auf den Current-Versionspfad wuerde HIER VORAB laufen und eine
+        # einmalige, gezielt auf GENAU EINEN spaeteren Lesezugriff
+        # (`_resolve_member` in `_run_table_round`) injizierte Leseunfaehig-
+        # keit bereits hier verbrauchen -- der eigentliche, bereits
+        # bestehende Autoritaetscheck weiter unten saehe den Fehler dann
+        # nie mehr (stiller zweiter Leseversuch). Nur die fuer DIESEN Check
+        # tatsaechlich noetigen zwei reinen Lesewerte (Chrononaut-Auswahl +
+        # Lock-Tisch-ID) -- dieselben Primitiven, die auch `_build_resume_
+        # card` selbst dafuer nutzt, OHNE deren zusaetzlichen Save-Read.
+        if not guest_tokens and not force_operator_mode and operator_leader_id is None:
+            resume_chrononaut_id = catalog.last_selected(self.catalog_dir, self.participant_id)
+            if resume_chrononaut_id is not None:
+                from ..core import store as core_store
+
+                try:
+                    resume_open_section_id = core_store.locked_table_id(self.run_dir, resume_chrononaut_id)
+                except (OSError, ValueError):
+                    resume_open_section_id = None
+                if resume_open_section_id is not None:
+                    bound = self._resolve_bound_table_for_resume(resume_chrononaut_id, resume_open_section_id)
+                    if bound is not None and self._follow_through_authorized_discard(
+                        bound, resume_chrononaut_id,
+                    ):
+                        return
         # H-D/H06 (Headless-/Lab-Lobbydurchstich, Bau-GO 2026-09-27): ein
         # aktiver Lab-Lauf ist der alleinige Schreiber fuer dieses `run_dir`
         # -- die lokale Runde lehnt kontrolliert ab, statt heimlich zum
