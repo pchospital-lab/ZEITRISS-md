@@ -207,6 +207,31 @@ def _pid_alive(pid: int) -> bool:
     return True
 
 
+# R9-Nachzug (B1, Critic-Pruefung PID-only-Bypass, PR #3322): modul-lokales
+# Register der real gehaltenen Lab-flock-Besitze DIESES Prozesses, gekeyt auf
+# den kanonisierten run_dir-Pfad. Reine In-Prozess-Buchhaltung des echten
+# flock-Besitzes -- ersetzt die taeuschbare PID-Datei-Nachlesung
+# (`active_lock_pid` ohne exclude_pid) fuer die Selbst-Verschachtelungs-
+# Entscheidung in `ui/tui.py:_cmd_local_round`. KEIN zweites Lockprotokoll:
+# der flock in `_acquire_lock`/`release` bleibt die einzige Autoritaet,
+# dieses Register spiegelt nur, ob DIESER Prozess ihn gerade selbst haelt.
+_in_process_lab_lock_holders: set[str] = set()
+
+
+def _lab_lock_register_key(run_dir: str | Path) -> str:
+    return str(Path(run_dir).resolve(strict=False))
+
+
+def process_holds_lab_lock(run_dir: str | Path) -> bool:
+    """Reiner Register-Membership-Check: haelt DIESER Prozess den echten
+    Lab-flock fuer `run_dir` gerade selbst (ueber eine `LabRunner`-Instanz
+    in diesem Prozess)? Keine Datei-E/A, keine `LabRunner`-Konstruktion --
+    im Gegensatz zu `active_lock_pid` kann PID-Wiederverwendung dieses
+    Ergebnis nicht taeuschen (Besitz = offene, geflockte fd dieses
+    Prozesses, stirbt mit dem Prozess)."""
+    return _lab_lock_register_key(run_dir) in _in_process_lab_lock_holders
+
+
 class LabRunner:
     """EIN Lab-Lauf pro `run_dir`. `pid` ist injizierbar (Test-Determinismus);
     Default ist der echte `os.getpid()`."""
@@ -214,6 +239,18 @@ class LabRunner:
     def __init__(self, run_dir: str | Path, budget: LabBudget, pid: int | None = None):
         self.run_dir = Path(run_dir)
         self.run_dir.mkdir(parents=True, exist_ok=True)
+        # R9-Nachzug (S2d, Critic-Pruefung S2c, PR #3322): Register-Key
+        # EINMALIG hier beim Konstruieren aufloesen und cachen -- NICHT bei
+        # jedem add/discard neu ueber `Path.resolve` (die bei Symlink-Loop
+        # oder FS-Fehler wirft, in Py3.12 `RuntimeError: Symlink loop`). Ein
+        # Wurf im `release()`/`_release_lock_after_failed_start()`-finally
+        # wuerde sonst einen veralteten True-Eintrag im Register hinterlassen
+        # (Fail-Open: `process_holds_lab_lock` meldet Besitz, obwohl der
+        # flock frei ist) bzw. am add-Pfad den OS-Lock leaken. Die
+        # Aufloesung wird so vor jeden echten Lock-Erwerb gezogen; wirft sie,
+        # schlaegt die Konstruktion fehl, bevor ueberhaupt ein Lock gehalten
+        # wird. Der Key ist fuer die Lebensdauer der Instanz stabil.
+        self._lock_register_key = _lab_lock_register_key(self.run_dir)
         self.budget = budget
         self.pid = pid if pid is not None else os.getpid()
         # I5-Fix (Gegentest 09): ein Resume (neue LabRunner-Instanz fuer
@@ -399,6 +436,7 @@ class LabRunner:
             fcntl.flock(fd, fcntl.LOCK_UN)
             os.close(fd)
             self._lock_fd = None
+            _in_process_lab_lock_holders.discard(self._lock_register_key)
 
     def _acquire_lock(self, lock_path: Path) -> None:
         """ERGAENZUNG 4 (F2-Leaseabschluss, Bau-GO 2026-09-27, REVIEW-
@@ -548,6 +586,7 @@ class LabRunner:
                     os.close(fd)
                     raise
                 self._lock_fd = fd
+                _in_process_lab_lock_holders.add(self._lock_register_key)
                 return
 
             fd = os.open(lock_path, os.O_RDWR)
@@ -661,6 +700,7 @@ class LabRunner:
                 os.close(fd)
                 raise
             self._lock_fd = fd
+            _in_process_lab_lock_holders.add(self._lock_register_key)
             return
 
     @staticmethod
@@ -951,6 +991,7 @@ class LabRunner:
             fcntl.flock(fd, fcntl.LOCK_UN)
             os.close(fd)
             self._lock_fd = None
+            _in_process_lab_lock_holders.discard(self._lock_register_key)
 
 
 def read_status(run_dir: str | Path) -> LabStatus | None:

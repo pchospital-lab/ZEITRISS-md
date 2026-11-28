@@ -50,6 +50,7 @@ import hashlib
 import json
 import os
 import stat
+import threading
 import time
 import uuid
 from pathlib import Path
@@ -57,7 +58,7 @@ from pathlib import Path
 from . import request_ledger
 from . import save_compatibility as _save_compatibility
 from . import save_correction as _save_correction
-from .admission import _atomic_write_json
+from .admission import _atomic_write_json, read_table_decision
 from ..domain.zeitriss.save_correction import group_repair_key as _group_repair_key
 
 #: 03_RECOVERY_VERTRAG.md §R-P3/§R-P5 -- exakte Aktionskennungen, auch im
@@ -441,6 +442,40 @@ def _lab_lock_path(run_dir) -> Path:
     return _safe_resolved_subpath(Path(run_dir), "lab.lock.json")
 
 
+_reentrancy_depth = threading.local()
+# R9-Nachzug (B1, in-process Selbst-Verschachtelung): rein lokale
+# Nachverfolgung "haelt DIESER Thread bereits selbst eine `_SharedWriter
+# Exclusivity` auf GENAU diesem Pfad" -- ANALOG zu `threading.RLock`
+# (reentrant NUR fuer den eigenen Thread/Call-Stack, unveraendert exklusiv
+# gegenueber jedem ANDEREN Thread/Prozess). Siehe Docstring der Klasse
+# unten fuer die konkrete Motivation (bestehende Test-/Probenfixtures, die
+# `_cmd_local_round` bereits MANUELL in ein eigenes `with
+# _SharedWriterExclusivity(...):` wrappen, um den -- vor R9 noch fehlenden
+# -- echten Erwerb durch den Produktcode zu SIMULIEREN; jetzt, wo
+# `_cmd_local_round` ihn SELBST erwirbt, waere eine solche Verschachtelung
+# ohne diese Nachverfolgung ein falscher Selbstkonflikt).
+
+
+def _resolved_lock_depth(path: Path) -> int:
+    held = getattr(_reentrancy_depth, "held", None)
+    if held is None:
+        return 0
+    return held.get(str(path), 0)
+
+
+def _adjust_resolved_lock_depth(path: Path, delta: int) -> None:
+    held = getattr(_reentrancy_depth, "held", None)
+    if held is None:
+        held = {}
+        _reentrancy_depth.held = held
+    key = str(path)
+    depth = held.get(key, 0) + delta
+    if depth <= 0:
+        held.pop(key, None)
+    else:
+        held[key] = depth
+
+
 class _SharedWriterExclusivity:
     """Erwirbt NICHT-BLOCKIEREND denselben OS-Lock wie ein aktiver
     `LabRunner` fuer die Dauer EINES `apply_*`-Aufrufs -- belegt/prueft
@@ -451,6 +486,25 @@ class _SharedWriterExclusivity:
     Ausgang `RecoveryExclusivityUnavailableError` -- NIE ein stiller
     Weiterbetrieb ohne Exklusivitaet (03 §Haltbarkeit: 'ohne gesicherte
     Exklusivitaet HOLD').
+
+    R9-Nachzug (B1, in-process Reentrancy, `_resolved_lock_depth`/
+    `_adjust_resolved_lock_depth` oben): ein verschachtelter Erwerb
+    DESSELBEN Threads auf GENAU demselben Pfad ist seit R9 ein billiger
+    Pass-Through (kein zweiter `os.open`/`fcntl.flock`) -- analog
+    `threading.RLock`, NICHT analog einer entschaerften Sperre: gegenueber
+    JEDEM ANDEREN Thread/Prozess (einschliesslich einem echten LabRunner,
+    der seinen EIGENEN, unabhaengigen `fcntl.flock` auf derselben Datei
+    haelt, s. `lab/runner.py:_acquire_lock` -- DORT wird NICHT ueber diese
+    Klasse erworben, die In-Process-Nachverfolgung hier kennt diesen Fall
+    folglich nicht und bleibt gegen ihn weiterhin echt exklusiv) bleibt die
+    echte OS-Sperre unveraendert. Grund: `ui/tui.py`s `_cmd_local_round`
+    erwirbt diese Exklusivitaet seit R9 SELBST um seine Tischneuanlage
+    (B1); mehrere bestehende Test-/Probenfixtures (z.B. `probes/general_
+    discard_r7_fresh_boundary_probe.py`s `writer()`) wrappen denselben
+    Aufruf zusaetzlich MANUELL in einen eigenen `with`-Block -- eine vor R9
+    gebaute Simulation des damals noch fehlenden echten Erwerbs. Ohne diese
+    Nachverfolgung waere das jetzt ein falscher Selbstkonflikt (derselbe
+    Prozess/Thread lehnt sich selbst ab), kein echter Schreiberkonflikt.
 
     Rework-Fix (writer_exclusivity_unlink_race, Critic-Beleg
     `race_labrunner_sim.py`/`race_recovery_acquire.py`) -- ZWEI Teile, nicht nur
@@ -513,8 +567,21 @@ class _SharedWriterExclusivity:
     def __init__(self, run_dir):
         self._path = _lab_lock_path(run_dir)
         self._fd: int | None = None
+        self._reentrant = False
 
     def __enter__(self) -> "_SharedWriterExclusivity":
+        # R9-Nachzug (B1): haelt DIESER Thread auf GENAU diesem Pfad schon
+        # eine vorherige, noch nicht wieder verlassene `_SharedWriter
+        # Exclusivity`, ist das ein verschachtelter Erwerb im SELBEN
+        # Call-Stack -- kein echter zweiter Schreiber, kein OS-Lock-Neuerwerb
+        # (der zwingend fehlschlaegt, `fcntl.flock` ist pro offener
+        # Dateibeschreibung, nicht pro Prozess/Thread). Reiner In-Process-
+        # Pass-Through, analog `threading.RLock`: gegenueber JEDEM anderen
+        # Thread/Prozess bleibt die echte OS-Sperre unveraendert exklusiv.
+        if _resolved_lock_depth(self._path) > 0:
+            self._reentrant = True
+            _adjust_resolved_lock_depth(self._path, 1)
+            return self
         self._path.parent.mkdir(parents=True, exist_ok=True)
         for _attempt in range(self._MAX_ACQUIRE_ATTEMPTS):
             if not self._path.exists():
@@ -629,6 +696,7 @@ class _SharedWriterExclusivity:
                             "Sicht wie LabRunner._acquire_lock)."
                         )
                 self._fd = fd
+                _adjust_resolved_lock_depth(self._path, 1)
                 return self
             except BaseException:
                 if flock_acquired:
@@ -659,6 +727,13 @@ class _SharedWriterExclusivity:
         # unveraendert weiter, kein Scheinerfolg. Es werden ausschliesslich
         # die EIGENE, bereits erworbene fd geschlossen -- keine fremden
         # fds/Prozesse.
+        # R9-Nachzug (B1): ein reentranter Pass-Through (s. `__enter__`
+        # oben) hat NIE eine eigene fd erworben -- nur die Tiefe wieder
+        # zuruecknehmen, kein `flock`/`close` auf eine fremde, vom
+        # AEUSSEREN `__enter__` gehaltene fd.
+        if self._reentrant:
+            _adjust_resolved_lock_depth(self._path, -1)
+            return
         if self._fd is not None:
             fd = self._fd
             self._fd = None
@@ -666,6 +741,7 @@ class _SharedWriterExclusivity:
                 fcntl.flock(fd, fcntl.LOCK_UN)
             finally:
                 os.close(fd)
+                _adjust_resolved_lock_depth(self._path, -1)
 
     @staticmethod
     def _fd_still_matches_path(fd: int, path: Path) -> bool:
@@ -1550,6 +1626,32 @@ def discard_unclear_blocking_reason(run_dir, table, chrononaut_id: str) -> str |
             "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
         )
     return None
+
+
+def discard_recovery_fresh_decision_confirmed(run_dir, table_id: str) -> bool:
+    """R9-Nachzug (B2, General-Review R8 §5, AUFTRAG-UND-ABNAHME.md §2
+    "frisch und gemeinsam gebundenem Zustand ... bilden"): BEIDE Fenster
+    (Window1 `ui/tui.py`s `_follow_through_authorized_discard`, Window2
+    `core/store.py`s `create_table_from_offer_log`) lesen den durablen
+    Entscheid, der sie ueberhaupt erst in ihren jeweiligen
+    `_SharedWriterExclusivity`-Block hineinfuehrt, bisher NUR EINMAL VOR dem
+    Erwerb. Ein frueher POSITIVER Treffer ist nach Vertrag aber KEINE
+    spaetere Mutationsautoritaet (nur eine frueh NEGATIVE Ablehnung darf vor
+    dem Erwerb bleiben) -- die vollstaendige positive Freigabe muss FRISCH
+    UNTER der tatsaechlich gehaltenen Sicherung gebildet werden.
+
+    Diese Funktion liest den Entscheid deshalb ERNEUT, waehrend der Aufrufer
+    die Exclusivity bereits haelt, und bestaetigt ihn eigenstaendig --
+    derselbe gemeinsame Pfad fuer beide Fenster (keine Duplikat-Teilmenge an
+    zwei Stellen, analog zu `discard_recovery_blocking_reason` oben). Gibt
+    `True` nur bei einem weiterhin exakt `'stopped'`-Entscheid zurueck; jede
+    Abweichung (kein Entscheid mehr lesbar, abweichender Wert, `'unknown'`
+    bei defektem Record) ist ein geschuetzter Halt am Aufrufer, NIE ein
+    stilles Weiterfinalisieren auf Basis des alten Vor-Guard-Reads. Reiner
+    Lesepfad -- erwirbt selbst KEINE Exclusivity (wie
+    `discard_recovery_blocking_reason`)."""
+    decision = read_table_decision(run_dir, table_id)
+    return decision is not None and decision.get("decision") == "stopped"
 
 
 def discard_recovery_blocking_reason(run_dir, table, chrononaut_id: str) -> str | None:

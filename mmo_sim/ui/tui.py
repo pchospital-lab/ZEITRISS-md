@@ -3433,10 +3433,34 @@ class TuiSession:
             _SharedWriterExclusivity,
             RecoveryExclusivityUnavailableError,
             discard_recovery_blocking_reason,
+            discard_recovery_fresh_decision_confirmed,
         )
         try:
             with _SharedWriterExclusivity(self.run_dir):
                 fresh = core_store.Table.load(self.run_dir, table.table_id)
+                # R9-Nachzug (B2, General-Review R8 §5): der Entscheid (oben,
+                # Zeile ~3409) UND die harte Identitaet (oben, Zeile ~3412)
+                # wurden bisher nur VOR dem Exclusivity-Erwerb gelesen -- ein
+                # frueher positiver Treffer ist nach Vertrag KEINE spaetere
+                # Mutationsautoritaet. Beide werden deshalb HIER, FRISCH
+                # unter der tatsaechlich gehaltenen Exclusivity und gegen
+                # `fresh` (nicht das aeltere `table`-Argument), ERNEUT
+                # bestaetigt -- derselbe gemeinsame Helfer wie Window 2
+                # (`core/store.py`, keine Duplikat-Teilmenge). Eine erst
+                # JETZT entstandene Abweichung faellt NICHT in den normalen
+                # Resume (das waere eine vermeintliche Unzustaendigkeit),
+                # sondern ist ein geschuetzter Halt wie Fall 3 unten: KEIN
+                # Finalize, KEINE Bindungsaenderung, KEINE Requestanlage.
+                if not discard_recovery_fresh_decision_confirmed(
+                    self.run_dir, fresh.table_id
+                ) or not self._discard_candidate_hard_identity_match(fresh, chrononaut_id):
+                    self._print(
+                        "Fortsetzen: der vor dem Sperrenerwerb erkannte autorisierte Verwurf "
+                        "bestaetigt sich unter der tatsaechlich gehaltenen Schreibsperre nicht "
+                        "mehr frisch (Entscheid/Identitaet) -- geschuetzter Halt, kein Abschluss, "
+                        "kein Resume, keine Modellanfrage; bestehende Bindung/Entscheid unangetastet."
+                    )
+                    return True
                 # r8-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r8,
                 # Fall `window1_real_group_rebind_between_precheck_and_
                 # writer_acquisition`): der Lockcheck oben (vor Exclusivity-
@@ -9970,7 +9994,7 @@ class TuiSession:
         # -- die lokale Runde lehnt kontrolliert ab, statt heimlich zum
         # zweiten Simulationscontroller zu werden (s. `_cmd_lobby_initiative`,
         # identischer Guard).
-        from ..lab.runner import active_lock_pid
+        from ..lab.runner import active_lock_pid, process_holds_lab_lock
         pid = active_lock_pid(self.run_dir, exclude_pid=os.getpid())
         if pid is not None:
             self._print(
@@ -10693,10 +10717,59 @@ class TuiSession:
         table_id = f"local-{leader_id}"
         if invited_ids:
             table_id += "-" + "-".join(sorted(invited_ids))
+        # R9-Nachzug (B1, General-Review R8 §4, CALLER-STATE-REVIEW.md §17):
+        # dieser reale Gruppenwriter muss sich jetzt gegen einen
+        # gleichzeitigen Recovery-Reader serialisieren (dieselbe
+        # `_SharedWriterExclusivity` wie `_follow_through_authorized_discard`
+        # oben in dieser Methode, kein zweites Lockprotokoll) -- kein
+        # ungeschuetztes Neubinden, waehrend eine Readersperre bereits haelt.
+        # Platzierung bewusst HIER (am menschlichen `_cmd_local_round`-Pfad),
+        # NICHT im geteilten Neuanlage-Tail von `create_table_from_offer_log`
+        # selbst: der LabRunner erreicht diese Funktion ueber
+        # `core/catchup.py`->`core/lobby_flow.py` DIREKT, WAEHREND er seinen
+        # eigenen echten `fcntl.flock` auf GENAU derselben Datei
+        # (`lab.lock.json`) haelt (`lab/runner.py:_acquire_lock`,
+        # `lab/cli.py:504->652`) -- eine Acquisition DORT waere
+        # verschachtelter Erwerb im selben Prozess (Deadlock/falsche
+        # Ablehnung des legitimen Laufs). `_cmd_local_round` wird an KEINER
+        # Stelle aus dem LabRunner-Prozessablauf heraus aufgerufen (grep
+        # bestaetigt: `core/catchup.py`/`core/lobby_flow.py` rufen
+        # `lobby_flow.run_lobby_window`/`create_table_from_offer_log` direkt,
+        # nie ein `ui.tui`-Kommando) -- hier ist die Acquisition
+        # reentrancy-frei gegenueber dem LabRunner.
+        #
+        # Eine einzige dokumentierte Ausnahme bleibt der SAME-PROCESS-
+        # Testaufbau (`tests/mmo_sim/test_i1_i2_i3_worker_matrix.py:
+        # test_i2_solo_play_blocked_when_lab_budget_exhausted`, LabRunner+
+        # TuiSession absichtlich in DERSELBEN Testinstanz/demselben
+        # Prozess): dort haelt DIESER Prozess selbst bereits den echten
+        # Lab-flock -- eine zweite Acquisition HIER waere Selbst-
+        # Verschachtelung (derselbe Prozess, andere fd), kein echter
+        # Konflikt mit einem ANDEREN Schreiber.
+        #
+        # R9-Nacharbeit (Critic-Pruefung PID-only-Bypass, PR #3322): dieser
+        # Same-Process-Fall wird NICHT mehr ueber denselben Lesecheck wie
+        # der H-D-Guard oben (Zeile ~9998) ohne `exclude_pid` erkannt -- eine
+        # PERSISTIERTE PID in `lab.lock.json`, verglichen gegen
+        # `os.getpid()`, ist durch PID-Wiederverwendung taeuschbar (LabRunner
+        # crasht hart, `release()` laeuft nie, Datei bleibt mit der alten PID
+        # stehen; nach PID-Wraparound bekommt ein FREMDER TUI-Prozess
+        # zufaellig dieselbe PID und wuerde sich faelschlich als Same-Process
+        # erkennen -- die echte `_SharedWriterExclusivity` bliebe fail-open
+        # unbetreten). Statt dessen `process_holds_lab_lock(self.run_dir)`
+        # (`lab/runner.py`): ein echter In-Prozess-Besitznachweis (modul-
+        # lokales Register, gepflegt von jedem erfolgreichen `_lock_fd`-
+        # Erwerb/jeder Freigabe in `_acquire_lock`/`release`), der GENAU
+        # den dokumentierten Same-Process-Testaufbau (LabRunner+TuiSession
+        # im selben Prozess) von jedem fremden/toten Lauf unterscheidet --
+        # PID-Wiederverwendung kann ihn nicht taeuschen (Besitz = offene,
+        # geflockte fd dieses Prozesses, stirbt mit dem Prozess, keine
+        # persistierte Datei).
         table, derivation = core_store.create_table_from_offer_log(
             lobby, table_id,
             offer_log_events=offer_events,
             chrononaut_ids=chrononaut_ids,
+            require_writer_exclusivity=not process_holds_lab_lock(self.run_dir),
         )
         if table is None:
             size = len(derivation.members)

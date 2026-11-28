@@ -1783,14 +1783,32 @@ def _child_group_writer(args) -> None:
     """r8-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r8, Fall
     `window1_real_group_rebind_between_precheck_and_writer_acquisition`,
     derselbe Trick wie `evidence/general_discard_r7_fresh_boundary_
-    probe.py`s `writer()`-Kindmodus): echter, dritter OS-Prozess, der
-    unter der ORIGINALEN `_SharedWriterExclusivity` eine regulaere neue
-    Zweipersonen-Gruppe anlegt (`_cmd_local_round(['owner2'])`,
-    menschliche Zustimmung 'j', Pause '/abbrechen' VOR jedem Modellcall)
-    und die Sicherung danach wieder freigibt -- keine Lock-/Datei-
-    Handedits, derselbe Mechanismus wie der echte Produktweg."""
-    from mmo_sim.core.recovery_ops import _SharedWriterExclusivity
+    probe.py`s `writer()`-Kindmodus): echter, dritter OS-Prozess, der eine
+    regulaere neue Zweipersonen-Gruppe anlegt (`_cmd_local_round(['owner2'])`,
+    menschliche Zustimmung 'j', Pause '/abbrechen' VOR jedem Modellcall) --
+    keine Lock-/Datei-Handedits, derselbe Mechanismus wie der echte
+    Produktweg.
 
+    R9-Nachzug (Fixture-Anpassung, B1): VORHER (R8) wrappte dieser Test
+    `_cmd_local_round` noch MANUELL in ein externes
+    `with _SharedWriterExclusivity(run_dir):`, weil `_cmd_local_round`
+    selbst die Sicherung damals noch NICHT erwarb (genau die Luecke, die
+    R9 schliesst) -- der manuelle Wrap war eine Simulation des noch
+    fehlenden echten Fixes. Jetzt, wo `_cmd_local_round` die Sicherung
+    SELBST erwirbt/freigibt (`ui/tui.py`, Aufruf von
+    `core_store.create_table_from_offer_log(..., require_writer_
+    exclusivity=True)`), waere der zusaetzliche externe Wrap hier eine
+    Selbst-Verschachtelung IM SELBEN Prozess (zwei `_SharedWriterExclusivity`-
+    Erwerbe auf denselben `lab.lock.json`-flock, verschiedene fds, nicht
+    reentrant) -- `_cmd_local_round` wuerde die Neuanlage dann faelschlich
+    als 'ein anderer aktiver Schreiber haelt die Sperre' ablehnen, OBWOHL es
+    derselbe Prozess/derselbe logische Schreiboperation ist. Der Wrap entfaellt
+    deshalb hier ersatzlos -- `_cmd_local_round` haelt die Sicherung jetzt
+    INTERN waehrend genau des gleichen Fensters (Member-Lock-Check +
+    `Table`-Konstruktion + `lock_chrononaut` + `persist()`), das vorher nur
+    durch den externen Wrap abgedeckt war. Verhalten/Assertions unten
+    unveraendert (derselbe Endzustand: Gruppe gebunden, Locks gesetzt, 0
+    GM-Calls)."""
     root = Path(args.root)
     run_dir, states_dir, onboarding_dir, catalog_dir = (
         root / "run", root / "states", root / "onboarding", root / "catalog",
@@ -1799,19 +1817,133 @@ def _child_group_writer(args) -> None:
     session, gm_spy = _fresh_session(
         run_dir, states_dir, onboarding_dir, catalog_dir, "owner1", ["j", "/abbrechen"], printed,
     )
-    with _SharedWriterExclusivity(run_dir):
-        try:
-            session._cmd_local_round(["owner2"])
-        except EndOfInput:
-            pass
-        new_table = core_store.Table.load(run_dir, "local-owner1-owner2")
-        lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
-        assert gm_spy.calls == 0 and new_table.status == "active", new_table
-        assert sorted(new_table.members) == ["owner1", "owner2"], new_table
-        assert lobby.is_locked("CHR-OWNER1") == new_table.table_id
-        assert lobby.is_locked("CHR-OWNER2") == new_table.table_id
+    try:
+        session._cmd_local_round(["owner2"])
+    except EndOfInput:
+        pass
+    new_table = core_store.Table.load(run_dir, "local-owner1-owner2")
+    lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    assert gm_spy.calls == 0 and new_table.status == "active", new_table
+    assert sorted(new_table.members) == ["owner1", "owner2"], new_table
+    assert lobby.is_locked("CHR-OWNER1") == new_table.table_id
+    assert lobby.is_locked("CHR-OWNER2") == new_table.table_id
     result = {"new_table_id": new_table.table_id, "gm_calls": gm_spy.calls, "printed": printed}
     Path(args.result).write_text(json.dumps(result), encoding="utf-8")
+
+
+def _child_group_writer_expect_held(args) -> None:
+    """R9-Nachzug (B1, dauerhafte Regression, Fall 2 'Recoveryreader haelt
+    die gemeinsame Sicherung zuerst' -- Gegenstueck zu `_child_group_
+    writer` oben): derselbe echte Gruppen-Erzeugungsversuch
+    (`_cmd_local_round(['owner2'])`, menschliche Zustimmung 'j', Pause
+    '/abbrechen' VOR jedem Modellcall) -- diesmal AUSDRUECKLICH WAEHREND
+    ein ANDERER echter OS-Prozess die gemeinsame `_SharedWriterExclusivity`
+    bereits haelt. Im Gegensatz zu `_child_group_writer` wird hier KEIN
+    Erfolg erwartet/erzwungen -- ein kontrollierter Halt (keine neue
+    Tabelle, keine Figuren-Lockvergabe) ist hier der korrekte, erwartete
+    Ausgang, kein Testfehler. Meldet das tatsaechliche Ergebnis rein
+    beobachtend zurueck (kein Crash bei Normalfall 'gehalten')."""
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    printed: list[str] = []
+    session, gm_spy = _fresh_session(
+        run_dir, states_dir, onboarding_dir, catalog_dir, "owner1", ["j", "/abbrechen"], printed,
+    )
+    try:
+        session._cmd_local_round(["owner2"])
+    except EndOfInput:
+        pass
+    new_table_path = run_dir / "tables" / "local-owner1-owner2.json"
+    lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    result = {
+        "gm_calls": gm_spy.calls, "printed": printed,
+        "new_table_created": new_table_path.exists(),
+        "owner1_lock": lobby.is_locked("CHR-OWNER1"),
+        "owner2_lock": lobby.is_locked("CHR-OWNER2"),
+    }
+    Path(args.result).write_text(json.dumps(result), encoding="utf-8")
+
+
+def _child_recovery_first_reader(args) -> None:
+    """R9-Nachzug (B1, dauerhafte Regression, Fall 2 'Recoveryreader haelt
+    die gemeinsame Sicherung zuerst', AUFTRAG-UND-ABNAHME.md §2
+    Vertragsmatrix): echter, frischer OS-Reader ruft GENAU den
+    admissionsgebundenen Reconcile-Caller `_cmd_table_start([table_key])`
+    auf (-> `_resume_bound_table` -> `_follow_through_authorized_
+    discard`). Anders als `_child_rebind_tisch_start` oben (die VOR dem
+    echten Erwerb eingreift, um die ALTE R8-TOCTOU-Luecke zu belegen)
+    greift dieser Test ERST NACHDEM der Reader die ECHTE
+    `_SharedWriterExclusivity` bereits erworben hat: GENAU WAEHREND dieser
+    gehaltenen Sperre spawnt er einen echten dritten OS-Prozess
+    (`group_writer_expect_held`-Modus), der versucht, eine normale neue
+    Gruppe anzulegen. Erwartet (R9-Fix, B1): dieser Schreiber wird
+    kontrolliert gehalten (keine neue Tabelle, keine Lockvergabe) -- der
+    Reader faehrt danach normal fort und finalisiert den konsistenten
+    Alttisch (`closed`)."""
+    import subprocess
+
+    from mmo_sim.core.recovery_ops import _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir, states_dir, onboarding_dir, catalog_dir = (
+        root / "run", root / "states", root / "onboarding", root / "catalog",
+    )
+    pid, char_id = "owner1", "CHR-OWNER1"
+    # `args.table` ist der Admissions-Schluessel (`table_key`), NICHT die
+    # tatsaechliche Tabellen-ID -- dieselbe Aufloesung wie in
+    # `_child_rebind_tisch_start` oben (genau ein Tisch existiert an
+    # dieser Stelle des Aufbaus).
+    existing_tables = sorted(p.stem for p in (run_dir / "tables").glob("*.json"))
+    assert len(existing_tables) == 1, existing_tables
+    table_id = existing_tables[0]
+    printed: list[str] = []
+    gm_spy = _ExplodingGm()
+    session = TuiSession(
+        onboarding_dir=onboarding_dir, catalog_dir=catalog_dir, participant_id=pid,
+        input_fn=_eof_input, print_fn=printed.append,
+        run_dir=run_dir, states_dir=states_dir, schema_path=_SCHEMA_PATH,
+        gm_transport_factory=lambda *a, **kw: gm_spy, host_capable=True,
+    )
+    real_enter = _SharedWriterExclusivity.__enter__
+    boundary: dict = {}
+
+    def _spawn_writer_while_held(guard):
+        assert not boundary, "nur die eine echte Erwerbsgrenze darf hier eingreifen."
+        # Der Reader erwirbt die ECHTE Sperre JETZT zuerst (anders als die
+        # TOCTOU-Proben oben) -- der Writer unten laeuft nachweislich
+        # WAEHREND dieser Reader sie bereits haelt, nicht davor.
+        entered = real_enter(guard)
+        boundary["reader_real_exclusivity_entered"] = True
+        writer_output = root / "r9-recovery-first-writer-result.json"
+        peer = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve()), "--child", "--mode",
+             "group_writer_expect_held", "--root", str(root), "--result", str(writer_output)],
+            capture_output=True, text=True, timeout=30,
+        )
+        assert peer.returncode == 0, peer.stderr
+        boundary["writer"] = json.loads(writer_output.read_text(encoding="utf-8"))
+        return entered
+
+    error = None
+    try:
+        with patch.object(_SharedWriterExclusivity, "__enter__", _spawn_writer_while_held):
+            session._cmd_table_start([args.table])
+    except (EndOfInput, Exception) as e:
+        error = type(e).__name__
+    assert boundary.get("reader_real_exclusivity_entered") and "writer" in boundary, boundary
+    lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+    decision = core_admission.read_table_decision(run_dir, table_id)
+    row = {
+        "printed": printed, "gm_calls": gm_spy.calls, "error": error, "boundary": boundary,
+        "table_status": core_store.Table.load(run_dir, table_id).status,
+        "lock": lobby.is_locked(char_id),
+        "decision": decision.get("decision") if decision else None,
+        "request_states": [r.get("state") for r in request_ledger.records_for_table(run_dir, table_id)],
+        "table_ids": sorted(p.stem for p in (run_dir / "tables").glob("*.json")),
+    }
+    Path(args.result).write_text(json.dumps(row), encoding="utf-8")
 
 
 def _child_rebind_tisch_start(args) -> None:
@@ -2776,6 +2908,253 @@ def test_r8_window1_tisch_start_halts_protected_on_real_group_rebind_at_writer_a
             assert forbidden not in message, (forbidden, message)
 
 
+def test_r9_writer_first_real_group_bind_completes_before_reader_protects_old_table():
+    """R9-Nachzug (B1, dauerhafte Regression, Fall 1 der Vertragsmatrix
+    'Gruppenwriter hat vorher regulaer neu gebunden' -> 'Alter Tisch
+    geschuetzt active/stopped; neue Gruppe/Locks erhalten; kein Finalize/
+    Resume/Request'): echte admissionsgebundene Unterbrechung GENAU NACH
+    `release_chrononaut` (Lock frei), ABER VOR dem `status='closed'`-
+    Persist -- decision bereits durabel 'stopped' (identischer Aufbau wie
+    `test_r8_window1_...boundary` oben). Ein ECHTER zweiter OS-Prozess
+    (`group_writer`-Modus) bindet die Figur DANACH VOLLSTAENDIG an eine
+    neue Zweipersonen-Gruppe -- erwirbt die ECHTE `_SharedWriterExclusivity`
+    SELBST (R9 B1-Fix, `ui/tui.py`s `_cmd_local_round` ->
+    `core_store.create_table_from_offer_log(..., require_writer_
+    exclusivity=True)`), bindet, persistiert, gibt die Sicherung wieder
+    frei -- und ist VOLLSTAENDIG FERTIG, bevor der Reader ueberhaupt
+    startet (kein Mock der Erwerbsgrenze, echte Prozessreihenfolge). Erst
+    DANACH laeuft ein dritter, frischer OS-Reader (`tisch_start`-Modus,
+    GENAU derselbe admissionsgebundene Reconcile-Caller wie oben) auf dem
+    ALTEN Tisch. Erwartet: der Reader sieht die neue Bindung frisch (Fall
+    3) -- der alte Tisch bleibt `active`/`stopped` geschuetzt, NEUE
+    Gruppe/Locks bleiben unangetastet, 0 GM-Calls, keine neue Anfrage.
+
+    RED ohne B1-Fix: identisch zu dieser Reihenfolge bereits GRUEN (der
+    fruehe Lockcheck in `_follow_through_authorized_discard` sieht die
+    fremde Bindung bereits VOR Exclusivity-Erwerb, s. `test_r7_resume_
+    bound_table_...`-Docstring) -- dieser Test belegt deshalb zusaetzlich
+    explizit, dass der jetzt SELBST schreibersicherende `_cmd_local_round`
+    (anders als vor R9) sich nicht gegen SICH SELBST verschachtelt (keine
+    `RecoveryExclusivityUnavailableError` beim echten Gruppenaufbau,
+    `boundary['writer']['gm_calls'] == 0`, Tabelle tatsaechlich angelegt)."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        table_key = "fixture-discard-admission"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, "owner2", "CHR-OWNER2")
+        table_id = _create_admission_bound_unplayed_solo_table(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, table_key,
+        )
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r9-writer-first: nach Lock-Freigabe, vor closed-Persist")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None, (
+            "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+        )
+        request_before = [r.get("state") for r in request_ledger.records_for_table(run_dir, table_id)]
+
+        # Schritt 1 (Writer-first, ECHTER OS-Prozess): der Schreiber bindet
+        # vollstaendig, inklusive eigenem Erwerb/Freigabe der echten
+        # Sicherung, und ist fertig, BEVOR der Reader unten ueberhaupt
+        # startet.
+        writer_result_path = root / "r9-writer-first-group-writer-result.json"
+        wr = _run_child(root, "group_writer", writer_result_path)
+        assert wr["gm_calls"] == 0, "Gruppenaufbau allein darf keinen GM-Call ausloesen."
+        new_table_id = wr["new_table_id"]
+        assert new_table_id == "local-owner1-owner2", wr
+        new_table = core_store.Table.load(run_dir, new_table_id)
+        assert new_table.status == "active" and sorted(new_table.members) == [pid, "owner2"], new_table
+        new_table_bytes_before = (run_dir / "tables" / f"{new_table_id}.json").read_bytes()
+        locks_before = (run_dir / "locks.json").read_bytes()
+
+        # Schritt 2 (Reader, ECHTER dritter OS-Prozess, danach): derselbe
+        # admissionsgebundene Reconcile-Caller wie in der Erwerbsgrenzen-
+        # Probe oben, diesmal OHNE jede Interzeption -- der Schreiber ist
+        # zu diesem Zeitpunkt bereits vollstaendig fertig und hat die
+        # Sicherung wieder freigegeben.
+        reader_result_path = root / "r9-writer-first-reader-result.json"
+        r2 = _run_child(root, "tisch_start", reader_result_path, table=table_key)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, "Fall 3 darf NIE einen GM-/Modellcall ausloesen."
+        assert r2["lock"] == new_table_id, (
+            "die neue reale Bindung darf durch den alten Abschnitt NICHT aufgeweicht werden.", r2,
+        )
+        assert r2["table_ids"] == sorted([table_id, new_table_id]), (
+            "kein Doppelstart -- genau der alte und der neue Tisch existieren.", r2,
+        )
+
+        # Direkter Diskplattenbeleg (derselbe run_dir, nach beiden echten
+        # Kindprozessen): Fall 3 vollstaendig erfuellt.
+        assert core_store.Table.load(run_dir, table_id).status == "active", (
+            "Fall 1/3 (Writer-first): der alte stopped-Abschnitt darf NICHT finalisiert werden."
+        )
+        final_decision = core_admission.read_table_decision(run_dir, table_id)
+        assert final_decision is not None and final_decision.get("decision") == "stopped", (
+            "der alte stopped-Entscheid darf NICHT zurueckgedreht werden.", final_decision,
+        )
+        assert [r.get("state") for r in request_ledger.records_for_table(run_dir, table_id)] == request_before, (
+            "Fall 3 darf keine neue Anfrage fuer den alten Abschnitt anlegen."
+        )
+        assert (run_dir / "tables" / f"{new_table_id}.json").read_bytes() == new_table_bytes_before, (
+            "die neue Gruppe/ihr Tischstand darf unangetastet bleiben."
+        )
+        assert (run_dir / "locks.json").read_bytes() == locks_before, (
+            "bestehende Locks (inkl. neuer Gruppenbindung) duerfen unangetastet bleiben."
+        )
+
+
+def test_r9_recovery_first_reader_holds_guard_and_group_writer_is_controlled_held():
+    """R9-Nachzug (B1, dauerhafte Regression, Fall 2 der Vertragsmatrix
+    'Recoveryreader haelt die gemeinsame Sicherung zuerst' -> 'Konkurrenz-
+    writer vor betroffener Mutation halten ... konsistenter Alttisch darf
+    closed werden; spaeterer normaler Gruppenstart bleibt moeglich'):
+    derselbe admissionsgebundene Aufbau wie oben (Crash GENAU NACH `release_
+    chrononaut`, VOR `closed`-Persist, decision bereits 'stopped'). Ein
+    echter, frischer OS-Reader (`recovery_first_reader`-Modus) ruft GENAU
+    den admissionsgebundenen Reconcile-Caller `_cmd_table_start([table_
+    key])` auf. GENAU NACHDEM dieser Reader die ECHTE `_SharedWriter
+    Exclusivity` bereits erworben hat (anders als die TOCTOU-Proben, die
+    VOR dem Erwerb eingreifen), spawnt er einen echten dritten OS-Prozess
+    (`group_writer_expect_held`-Modus), der WAEHREND dieser gehaltenen
+    Sperre versucht, eine normale neue Gruppe anzulegen.
+
+    Erwartet (R9-Fix, B1): der konkurrierende Schreiber wird kontrolliert
+    gehalten (keine neue Tabelle, keine Figuren-Lockvergabe, 0 GM-Calls) --
+    NICHT stillschweigend durchgelassen. Der Reader faehrt danach normal
+    fort und finalisiert den konsistenten Alttisch (`closed`). Ein
+    DANACH gestarteter normaler Gruppenaufbau (vierter, frischer OS-
+    Prozess, erneut `group_writer`-Modus, diesmal OHNE gehaltene Sperre)
+    MUSS erfolgreich sein -- 'der spaetere normale Gruppenstart bleibt
+    moeglich' ist Teil des Vertrags, kein Dauer-HOLD.
+
+    Fixture-Anpassung ggueber der Raw-Probe (offen ausgewiesen, s. auch
+    Report): `probes/general_discard_r8_real_writer_boundary_probe.py`s
+    `writer()` asserted (Z.91-96 dort) noch, dass die Gruppe TROTZ
+    gehaltener Readersperre entsteht -- genau das verhindert der B1-Fix
+    jetzt korrekt. Diese dauerhafte Regression asserted deshalb das
+    GEGENTEIL (kontrollierter Halt statt stiller Neubindung) und ist KEIN
+    Abschwaechen des fachlichen Vertrags, sondern dessen eigentliche
+    Erfuellung -- die Raw-Probe bleibt bewusst unveraendert als reiner
+    historischer Fehlernachweis (R8) stehen, s. Pflichtlaeufe im Report."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        pid, char_id = "owner1", "CHR-OWNER1"
+        table_key = "fixture-discard-admission"
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, "owner2", "CHR-OWNER2")
+        table_id = _create_admission_bound_unplayed_solo_table(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, table_key,
+        )
+
+        printed: list[str] = []
+        session, _spy = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+        )
+        original_persist = core_store.Table.persist
+
+        def _crash_before_closed_persist(table):
+            if table.table_id == table_id and table.status == "closed":
+                raise _InjectedCrash("r9-recovery-first: nach Lock-Freigabe, vor closed-Persist")
+            return original_persist(table)
+
+        interrupted = False
+        try:
+            with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision.get("decision") == "stopped", decision
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+        lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_mid.is_locked(char_id) is None
+        request_before = [r.get("state") for r in request_ledger.records_for_table(run_dir, table_id)]
+
+        # Schritt 1 (Recovery-first, ECHTE Prozesse): der Reader erwirbt
+        # die echte Sicherung ZUERST und spawnt den konkurrierenden
+        # Schreiber ERST WAEHREND er sie bereits haelt.
+        reader_result_path = root / "r9-recovery-first-reader-result.json"
+        r2 = _run_child(root, "recovery_first_reader", reader_result_path, table=table_key)
+        assert r2["error"] is None, r2
+        assert r2["gm_calls"] == 0, "Fall 2 darf NIE einen GM-/Modellcall am ALTEN Abschnitt ausloesen."
+        boundary = r2["boundary"]
+        assert boundary["reader_real_exclusivity_entered"], boundary
+        writer = boundary["writer"]
+        # Kernbehauptung B1: der konkurrierende Schreiber WAEHREND der
+        # gehaltenen Sperre hat NICHTS mutiert -- kontrolliert gehalten,
+        # nicht stillschweigend durchgelassen (anders als die Raw-Probe
+        # vor dem Fix belegte).
+        assert writer["new_table_created"] is False, (
+            "B1-Fix: der konkurrierende Gruppenwriter darf WAEHREND der gehaltenen "
+            "Readersperre KEINE neue Tabelle anlegen.", writer,
+        )
+        assert writer["owner1_lock"] is None and writer["owner2_lock"] is None, (
+            "B1-Fix: KEINE Figuren-Lockvergabe durch den gehaltenen Schreiber.", writer,
+        )
+        assert writer["gm_calls"] == 0, "auch der gehaltene Schreiber darf keinen GM-Call ausloesen."
+        assert writer["printed"], "der gehaltene Schreiber muss eine verstaendliche Ablehnung ausgeben."
+        writer_message = writer["printed"][-1]
+        assert "nicht gestartet werden" in writer_message and "Schreibsperre" in writer_message, writer_message
+
+        # Der Reader selbst durfte NACH dem kontrolliert gehaltenen
+        # Konkurrenten normal fortfahren: konsistenter Alttisch wird
+        # `closed`, Entscheid bleibt `stopped`, kein neuer Request.
+        assert r2["table_status"] == "closed", (
+            "Fall 2: ein konsistenter Alttisch darf finalisiert (closed) werden, sobald der "
+            "konkurrierende Schreiber kontrolliert gehalten wurde.", r2,
+        )
+        assert r2["decision"] == "stopped", r2
+        assert r2["lock"] is None, "kein Dauerlock -- der alte, jetzt geschlossene Tisch bindet nichts mehr."
+        assert r2["request_states"] == request_before, (
+            "Fall 2 darf keine neue Anfrage fuer den alten Abschnitt anlegen.", r2,
+        )
+        assert r2["table_ids"] == [table_id], (
+            "waehrend der gehaltenen Sperre darf KEINE zweite Tabelle entstanden sein.", r2,
+        )
+
+        # Schritt 2 (Pflichtteil des Vertrags: 'spaeterer normaler
+        # Gruppenstart bleibt moeglich', ECHTER vierter OS-Prozess, OHNE
+        # gehaltene Sperre): kein Dauer-HOLD -- derselbe Gruppenaufbau
+        # muss jetzt normal gelingen.
+        followup_result_path = root / "r9-recovery-first-followup-writer-result.json"
+        followup = _run_child(root, "group_writer", followup_result_path)
+        assert followup["gm_calls"] == 0
+        assert followup["new_table_id"] == "local-owner1-owner2", followup
+        followup_table = core_store.Table.load(run_dir, "local-owner1-owner2")
+        assert followup_table.status == "active" and sorted(followup_table.members) == [pid, "owner2"], (
+            followup_table
+        )
+        followup_lobby = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert followup_lobby.is_locked(char_id) == "local-owner1-owner2"
+        assert followup_lobby.is_locked("CHR-OWNER2") == "local-owner1-owner2"
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
@@ -2806,6 +3185,7 @@ if __name__ == "__main__":
                 "setup", "discard", "resume_after_crash",
                 "spielen", "local_then_fortsetzen", "writer", "writer_received", "hold",
                 "tisch_start", "group_writer", "rebind_tisch_start",
+                "group_writer_expect_held", "recovery_first_reader",
             ],
         )
         ap.add_argument("--root", required=True)
@@ -2830,6 +3210,10 @@ if __name__ == "__main__":
             _child_group_writer(ns)
         elif ns.mode == "rebind_tisch_start":
             _child_rebind_tisch_start(ns)
+        elif ns.mode == "group_writer_expect_held":
+            _child_group_writer_expect_held(ns)
+        elif ns.mode == "recovery_first_reader":
+            _child_recovery_first_reader(ns)
         else:
             _child_follow_through(ns)
         sys.exit(0)
