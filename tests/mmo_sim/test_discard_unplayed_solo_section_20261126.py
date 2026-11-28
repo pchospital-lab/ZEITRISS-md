@@ -3155,6 +3155,367 @@ def test_r9_recovery_first_reader_holds_guard_and_group_writer_is_controlled_hel
         assert followup_lobby.is_locked("CHR-OWNER2") == "local-owner1-owner2"
 
 
+# --------------------------------------------------------------------------
+# R10-Nachzug (ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261128-r10, verbleibender
+# R9-Vertrag): B2-Rest (NEU entstandene relevante Abschnittsarbeit nach
+# autorisiertem Verwurf+Crash -> geschuetzter Halt an BEIDEN Fenstern, Belege
+# `B1-B2-CRITIC.md`/`critic_b2_relevant_history_probe.py`) und C1-Rest (echter
+# eigener Lab-Caller am Store-stopped-Reuse-Zweig darf sich nicht als
+# Fremdwriter fehldiagnostizieren, Belege `C1-CRITIC.md`/
+# `c1_regular_caller_probe.py`).
+# --------------------------------------------------------------------------
+
+_R10_B2_MESSAGE = "R10 B2: neue Arbeit am alten Abschnitt nach autorisiertem Verwurf."
+
+
+def _child_r10_b2_post_section_work(args) -> None:
+    """R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2, derselbe Trick wie
+    `critic_b2_relevant_history_probe.py`s `writer()`): echter, frischer
+    OS-Prozess haengt unter der ECHTEN gemeinsamen Schreiber-Exklusivitaet
+    (`core.recovery_ops._SharedWriterExclusivity`, derselbe Guard wie
+    Window1/Window2 selbst) GENAU EINE neue Nachricht an exakt den
+    betroffenen, bereits durabel 'stopped' entschiedenen alten Abschnitt --
+    ueber die reale persistierende Produkt-API `store.post_table_message`
+    (dieselbe API wie `core.runtime.py:1953`)."""
+    from mmo_sim.core.recovery_ops import _SharedWriterExclusivity
+
+    root = Path(args.root)
+    run_dir = root / "run"
+    table_id = args.table
+    with _SharedWriterExclusivity(run_dir):
+        table = core_store.Table.load(run_dir, table_id)
+        record = core_store.post_table_message(table, "owner1", _R10_B2_MESSAGE)
+    Path(args.result).write_text(json.dumps({"record": record}), encoding="utf-8")
+
+
+def test_r10_b2_window1_new_section_work_after_crash_is_protected_halt_clean_control_closes():
+    """R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2): derselbe N2-
+    Window1-Aufbau wie `test_n2_window1_stopped_decision_terminal_after_
+    crash_before_finalize` (Crash GENAU VOR `_finalize_genuine_table_
+    abort` -- der gesamte Finalizer wird gemockt, der Lock bleibt
+    deshalb noch gebunden; Resume laeuft ueber `_cmd_menu_fortsetzen` ->
+    `_follow_through_authorized_discard`, tui.py, Window1). Zusaetzlich
+    schreibt dazwischen ein echter, frischer OS-Prozess unter der ECHTEN
+    `_SharedWriterExclusivity` GENAU EINE neue Nachricht in exakt den
+    betroffenen Abschnitt (`store.post_table_message`).
+
+    RED ohne R10-FIX: `discard_recovery_blocking_reason` klassifizierte
+    `table_messages`/`sl_log`/`sl_history.jsonl` bisher nicht -- der
+    Kindprozess wuerde den Tisch trotz der neuen Nachricht blind `closed`
+    nachfuehren (Beleg verloren/ueberschrieben, s. `critic_b2_relevant_
+    history_probe.py`-Befund `overall_contract_pass=false`). Nach Fix:
+    geschuetzter Halt (`active`), Nachricht/Entscheid/Lock/Save
+    unveraendert erhalten. Derselbe Durchlauf prueft zusaetzlich den
+    sauberen Kontrollfall (keine neue Arbeit) -- der bleibt weiterhin
+    kostenlos/idempotent `closed`."""
+    for add_work in (False, True):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+            pid, char_id = "owner1", "CHR-OWNER1"
+            _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+            table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+            printed: list[str] = []
+            session, _spy = _fresh_session(
+                run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+            )
+
+            def _crash(*a, **kw):
+                raise _InjectedCrash("r10-b2-window1: nach echtem stopped-Commit, vor Finalize")
+
+            interrupted = False
+            try:
+                with patch.object(session, "_finalize_genuine_table_abort", _crash):
+                    session._cmd_menu_fortsetzen()
+            except _InjectedCrash:
+                interrupted = True
+            assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+            decision = core_admission.read_table_decision(run_dir, table_id)
+            assert decision is not None and decision.get("decision") == "stopped", decision
+            table_mid = core_store.Table.load(run_dir, table_id)
+            assert table_mid.status == "active" and table_mid.table_messages == [], table_mid
+            lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+            assert lobby_mid.is_locked(char_id) == table_id
+
+            locks_before = (run_dir / "locks.json").read_bytes()
+            saves_before = _current_save_bytes(run_dir, pid)
+            decision_path = core_admission._table_decision_path(run_dir, table_id)
+            decision_bytes_before = decision_path.read_bytes()
+
+            if add_work:
+                work_result_path = root / "r10-b2-w1-work.json"
+                r_work = _run_child(root, "r10_b2_post_section_work", work_result_path, table=table_id)
+                assert r_work["record"] == {"from": pid, "text": _R10_B2_MESSAGE}, r_work
+
+            result_path = root / ("r10-b2-w1-work-resume.json" if add_work else "r10-b2-w1-control-resume.json")
+            r2 = _run_child(root, "resume_after_crash", result_path)
+            assert r2["error"] is None, r2
+            assert r2["gm_calls"] == 0, r2
+            assert r2["table_ids"] == [table_id], (
+                "kein Doppelstart -- keine neue Tischanlage, weder im Kontrollfall noch beim "
+                "geschuetzten Halt.", r2,
+            )
+
+            table_final = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+            decision_after = core_admission.read_table_decision(run_dir, table_id)
+            lobby_after = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+            if add_work:
+                assert table_final["status"] == "active", (
+                    "R10-B2-Fix (Window1): neue Abschnittsarbeit nach autorisiertem Verwurf muss "
+                    "einen geschuetzten Halt ausloesen, kein blindes closed.", table_final,
+                )
+                assert table_final["table_messages"] == [{"from": pid, "text": _R10_B2_MESSAGE}], table_final
+                assert decision_after == decision, "Entscheid darf beim geschuetzten Halt nicht zurueckgedreht werden."
+                assert decision_path.read_bytes() == decision_bytes_before
+                assert lobby_after.is_locked(char_id) == table_id, (
+                    "Window1: der Lock war beim Crash noch gebunden und bleibt beim geschuetzten "
+                    "Halt unangetastet."
+                )
+                assert (run_dir / "locks.json").read_bytes() == locks_before
+                assert _current_save_bytes(run_dir, pid) == saves_before
+                assert request_ledger.records_for_table(run_dir, table_id) == []
+            else:
+                assert table_final["status"] == "closed", (
+                    "Sauberer Kontrollfall ohne neue Arbeit muss weiterhin kostenlos/idempotent "
+                    "closed werden.", table_final,
+                )
+                assert table_final["table_messages"] == []
+                assert lobby_after.is_locked(char_id) is None
+                assert request_ledger.records_for_table(run_dir, table_id) == []
+
+
+def test_r10_b2_window2_new_section_work_after_crash_is_protected_halt_clean_control_closes():
+    """R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2): derselbe N2-
+    Window2-Aufbau wie `test_n2_window2_stopped_decision_terminal_after_
+    crash_after_release_before_persist` (Crash GENAU NACH `release_
+    chrononaut`, VOR dem `closed`-Persist -- Lock bereits frei, Resume
+    faellt ueber `_cmd_menu_fortsetzen`s Solo-Fallback in `core.store.
+    create_table_from_offer_log`s stopped-Reuse-Zweig, store.py ~Z.457,
+    Window2). Zusaetzlich schreibt dazwischen ein echter, frischer
+    OS-Prozess unter der ECHTEN `_SharedWriterExclusivity` GENAU EINE
+    neue Nachricht in exakt diesen Abschnitt.
+
+    RED ohne R10-FIX: derselbe `discard_recovery_blocking_reason`-Helfer
+    wird von Window2 verwendet (store.py:541, keine Duplikat-Teilmenge) --
+    vor dem Fix klassifiziert er `table_messages`/`sl_log`/`sl_history.
+    jsonl` nicht, der Store-Zweig persistiert trotzdem blind `closed`.
+    Nach Fix: geschuetzter Halt (`active`), Nachricht/Entscheid
+    unveraendert. Der saubere Kontrollfall bleibt kostenlos/idempotent
+    `closed` -- derselbe Durchlauf prueft beide Seiten des Kontrasts."""
+    for add_work in (False, True):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+            pid, char_id = "owner1", "CHR-OWNER1"
+            _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, pid, char_id)
+            table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, pid)
+
+            printed: list[str] = []
+            session, _spy = _fresh_session(
+                run_dir, states_dir, onboarding_dir, catalog_dir, pid, ["2", "j"], printed,
+            )
+            original_persist = core_store.Table.persist
+
+            def _crash_before_closed_persist(table):
+                if table.table_id == table_id and table.status == "closed":
+                    raise _InjectedCrash("r10-b2-window2: nach Lock-Freigabe, vor closed-Persist")
+                return original_persist(table)
+
+            interrupted = False
+            try:
+                with patch.object(core_store.Table, "persist", _crash_before_closed_persist):
+                    session._cmd_menu_fortsetzen()
+            except _InjectedCrash:
+                interrupted = True
+            assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+            decision = core_admission.read_table_decision(run_dir, table_id)
+            assert decision is not None and decision.get("decision") == "stopped", decision
+            table_mid = core_store.Table.load(run_dir, table_id)
+            assert table_mid.status == "active" and table_mid.table_messages == [], table_mid
+            lobby_mid = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+            assert lobby_mid.is_locked(char_id) is None, (
+                "release_chrononaut laeuft VOR dem closed-Persist -- Lock muss hier bereits frei sein."
+            )
+
+            saves_before = _current_save_bytes(run_dir, pid)
+            decision_path = core_admission._table_decision_path(run_dir, table_id)
+            decision_bytes_before = decision_path.read_bytes()
+
+            if add_work:
+                work_result_path = root / "r10-b2-w2-work.json"
+                r_work = _run_child(root, "r10_b2_post_section_work", work_result_path, table=table_id)
+                assert r_work["record"] == {"from": pid, "text": _R10_B2_MESSAGE}, r_work
+
+            result_path = root / ("r10-b2-w2-work-resume.json" if add_work else "r10-b2-w2-control-resume.json")
+            r2 = _run_child(root, "resume_after_crash", result_path)
+            assert r2["error"] is None, r2
+            assert r2["gm_calls"] == 0, r2
+            assert r2["table_ids"] == [table_id], (
+                "kein Doppelstart -- keine neue Generation, weder im Kontrollfall noch beim "
+                "geschuetzten Halt.", r2,
+            )
+
+            table_final = json.loads((run_dir / "tables" / f"{table_id}.json").read_text(encoding="utf-8"))
+            decision_after = core_admission.read_table_decision(run_dir, table_id)
+            lobby_after = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+            if add_work:
+                assert table_final["status"] == "active", (
+                    "R10-B2-Fix (Window2): neue Abschnittsarbeit nach autorisiertem Verwurf muss "
+                    "einen geschuetzten Halt ausloesen, kein blindes closed.", table_final,
+                )
+                assert table_final["table_messages"] == [{"from": pid, "text": _R10_B2_MESSAGE}], table_final
+                assert decision_after == decision
+                assert decision_path.read_bytes() == decision_bytes_before
+                assert lobby_after.is_locked(char_id) is None, "Window2: der Lock war bereits frei und bleibt frei."
+                assert _current_save_bytes(run_dir, pid) == saves_before
+                assert request_ledger.records_for_table(run_dir, table_id) == []
+            else:
+                assert table_final["status"] == "closed", (
+                    "Sauberer Kontrollfall ohne neue Arbeit muss weiterhin kostenlos/idempotent "
+                    "closed werden.", table_final,
+                )
+                assert table_final["table_messages"] == []
+                assert lobby_after.is_locked(char_id) is None
+                assert request_ledger.records_for_table(run_dir, table_id) == []
+
+
+def test_r10_c1_genuine_own_lab_caller_not_misdiagnosed_as_foreign_writer():
+    """R10-Nachzug (C1-Rest, AUFTRAG-UND-ABNAHME.md §3, belegt durch
+    `probes/c1_regular_caller_probe.py`/`C1-CRITIC.md`): derselbe reale
+    Kandidatenweg `lab/cli.py lab.start()` -> `catchup.run_catch_up` ->
+    `lobby_flow... create_table_from_offer_log` (stopped-Recovery) mit
+    GENUINE noch gehaltenem LabRunner-flock -- hier als dokumentierte
+    Same-Process-Ausnahme (wie `test_i2_solo_play_blocked_when_lab_
+    budget_exhausted`), kein zweiter OS-Prozess noetig, weil DIESER
+    Prozess selbst den echten Lab-flock haelt.
+
+    RED ohne R10-FIX: der stopped-Reuse-Zweig (`store.py` ~Z.457) erwirbt
+    `_SharedWriterExclusivity` bisher UNBEDINGT -- ein zweiter `os.open`+
+    `flock(LOCK_EX|LOCK_NB)` auf GENAU derselben Datei (`lab.lock.json`)
+    schlaegt auch im EIGENEN Prozess fehl, solange die erste fd (die des
+    LabRunner) den Lock noch haelt (`fcntl.flock` ist PRO offener
+    Dateibeschreibung, NICHT pro Prozess) -- Selbst-Fehldiagnose "anderer
+    aktiver Schreiber", der Tisch bleibt faelschlich `active`. Nach Fix:
+    `process_holds_lab_lock` erkennt den echten Eigenbesitz (dasselbe
+    In-Prozess-Register wie `tui.py:10772`), die Exklusivitaet wird NICHT
+    doppelt erworben -- der Tisch wird korrekt `closed`. Kein
+    `release_chrononaut` im Reuse-Erfolgszweig (store.py:~555) -- der
+    Chrononaut-Lock bleibt vertraglich unangetastet gehalten (C1-CRITIC.md
+    §4 'Keine blinde Abkuerzung': aus Eigenbesitz allein folgt keine
+    Freigabeberechtigung)."""
+    from mmo_sim.core import catchup
+    from mmo_sim.lab.runner import LabBudget, LabRunner, process_holds_lab_lock
+
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        run_dir, states_dir, onboarding_dir, catalog_dir = _make_env(root)
+        host, persona, char_id = "labhost", "tech_community_labhost", "CHR-C1-OWN"
+        from test_i1_i2_i3_worker_matrix import _bootstrap_own_persona
+
+        _bootstrap_own_persona(run_dir, states_dir, host, persona)
+        _register_owner(run_dir, states_dir, onboarding_dir, catalog_dir, persona, char_id)
+        table_id = _create_unplayed_solo_table(run_dir, states_dir, onboarding_dir, catalog_dir, persona)
+
+        printed: list[str] = []
+        owner_session, owner_gm = _fresh_session(
+            run_dir, states_dir, onboarding_dir, catalog_dir, persona, ["2", "j"], printed,
+        )
+
+        def _interrupt(*a, **kw):
+            raise _InjectedCrash("r10-c1: nach echtem stopped-Commit, vor Finalize")
+
+        interrupted = False
+        try:
+            with patch.object(owner_session, "_finalize_genuine_table_abort", _interrupt):
+                owner_session._cmd_menu_fortsetzen()
+        except _InjectedCrash:
+            interrupted = True
+        assert interrupted, "Crash-Injektion hat nicht gegriffen -- Testaufbau defekt."
+
+        decision = core_admission.read_table_decision(run_dir, table_id)
+        assert decision is not None and decision["decision"] == "stopped", decision
+        assert core_store.Table.load(run_dir, table_id).status == "active"
+        before_locks = (run_dir / "locks.json").read_bytes()
+        before_current = _current_save_bytes(run_dir, persona)
+
+        gm = _ExplodingGm()
+        persona_calls: list = []
+
+        def _no_persona_call(*a, **kw):
+            persona_calls.append((a, kw))
+            raise AssertionError("unerwarteter Persona-Factory-Call")
+
+        session = TuiSession(
+            onboarding_dir, catalog_dir, host, input_fn=_eof_input,
+            print_fn=printed.append, run_dir=run_dir, states_dir=states_dir,
+            schema_path=_SCHEMA_PATH,
+            gm_transport_factory=lambda *a, **kw: gm,
+            persona_driver_factory=_no_persona_call,
+        )
+        lab = LabRunner(run_dir, LabBudget(max_turns=10, max_seconds=60, max_usd=None))
+        before_start = process_holds_lab_lock(run_dir)
+        lab.start()
+        during_start = process_holds_lab_lock(run_dir)
+        try:
+            catchup.run_catch_up(
+                session, selected={persona}, current_table_members=set(),
+                target=1, max_windows=1, idle_safety_cap=1,
+            )
+            status_under_lab = core_store.Table.load(run_dir, table_id).status
+            locks_unchanged = before_locks == (run_dir / "locks.json").read_bytes()
+            current_unchanged = before_current == _current_save_bytes(run_dir, persona)
+        finally:
+            lab.release()
+        after_release = process_holds_lab_lock(run_dir)
+
+        assert (before_start, during_start, after_release) == (False, True, False)
+        assert status_under_lab == "closed", (
+            "R10-C1-Fix: der EIGENE, genuine gehaltene Lab-flock darf den stopped-Reuse-Zweig "
+            "nicht als Fremdwriter fehldiagnostizieren -- der laengst entschiedene Abschnitt muss "
+            "unter der bereits gehaltenen Grenze korrekt abgeschlossen werden.", status_under_lab,
+        )
+        assert locks_unchanged, "Reuse-Erfolgszweig fuehrt KEIN release_chrononaut aus -- Lockbytes unveraendert."
+        assert current_unchanged
+        assert gm.calls == owner_gm.calls == 0 and not persona_calls
+        lobby_after = core_store.Lobby(run_dir, table_size_policy=ZeitrissTableSizePolicy())
+        assert lobby_after.is_locked(char_id) == table_id, (
+            "Der Chrononaut-Lock bleibt beim Reuse-Erfolgszweig unangetastet gehalten (kein "
+            "release_chrononaut) -- aus Eigenbesitz allein folgt keine Freigabeberechtigung."
+        )
+
+
+def test_r10_b2_operator_stopped_played_table_not_classified_as_new_solo_work():
+    """R10-Nachzug B2.2 (unabhaengiger Critic-Befund, AUFTRAG-UND-ABNAHME.md
+    §2): `_discard_recovery_new_section_work_present` (recovery_ops.py) ist
+    solo-praemissiert -- sein Sicherheitsargument ("nicht-leer hier kann NUR
+    neue Solo-Abschnittsarbeit sein") gilt NUR, weil ein Solo-Discard den
+    durablen 'stopped'-Entscheid ausschliesslich ueber
+    `_discard_unplayed_solo_eligible`-gated (kein Betreiber) committet. Ein
+    Betreiber-Tisch mit echter gespielter Historie (`sl_log` nicht-leer)
+    darf deshalb NIE als 'neue Solo-Abschnittsarbeit' klassifiziert werden.
+    Spiegel von `ui/tui.py`s `_discard_candidate_hard_identity_match`
+    (tui.py:3276-3277)."""
+    from mmo_sim.core.recovery_ops import _discard_recovery_new_section_work_present
+
+    with tempfile.TemporaryDirectory() as td:
+        run_dir = Path(td)
+        operator_table = core_store.Table(
+            table_id="op-table-1", leader="op1", members=["op1"],
+            chrononaut_ids={"op1": "CHR-OP1"}, run_dir=run_dir,
+            sl_log=[{"from": "op1", "text": "echte gespielte Historie"}],
+            table_messages=[], operator_meta={"operator_id": "op1"},
+            status="active",
+        )
+        assert _discard_recovery_new_section_work_present(run_dir, operator_table) is False, (
+            "Betreiber-Tisch mit echter Historie darf nicht als neue Solo-Abschnittsarbeit "
+            "klassifiziert werden -- der solo-praemissierte Check ist auf Nicht-Betreiber-"
+            "Tische beschraenkt (Spiegel tui.py:3276-3277)."
+        )
+
+
 def main() -> int:
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     failed = 0
@@ -3186,6 +3547,7 @@ if __name__ == "__main__":
                 "spielen", "local_then_fortsetzen", "writer", "writer_received", "hold",
                 "tisch_start", "group_writer", "rebind_tisch_start",
                 "group_writer_expect_held", "recovery_first_reader",
+                "r10_b2_post_section_work",
             ],
         )
         ap.add_argument("--root", required=True)
@@ -3214,6 +3576,8 @@ if __name__ == "__main__":
             _child_group_writer_expect_held(ns)
         elif ns.mode == "recovery_first_reader":
             _child_recovery_first_reader(ns)
+        elif ns.mode == "r10_b2_post_section_work":
+            _child_r10_b2_post_section_work(ns)
         else:
             _child_follow_through(ns)
         sys.exit(0)

@@ -24,6 +24,7 @@ implizites, stehengelassenes Testdatum darf nie unbemerkt greifen.
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import os
@@ -453,8 +454,51 @@ def create_table_from_offer_log(
                         discard_recovery_blocking_reason,
                         discard_recovery_fresh_decision_confirmed,
                     )
+                    # R10-Nachzug (C1-Rest, AUFTRAG-UND-ABNAHME.md §3,
+                    # C1-CRITIC.md): dieser Zweig erwarb die Exklusivitaet
+                    # bisher UNBEDINGT -- unabhaengig davon, ob DIESER
+                    # Prozess den echten Lab-flock auf GENAU demselben Pfad
+                    # (`lab.lock.json`, s. `_lab_lock_path`) bereits selbst
+                    # haelt (z.B. `lab/cli.py`s `lab.start()` ->
+                    # `core/catchup.py`s `run_catch_up` ->
+                    # `core/lobby_flow.py` -> hierher, mit noch offenem
+                    # LabRunner-flock). `fcntl.flock` ist PRO offener
+                    # Dateibeschreibung, NICHT pro Prozess (s. `_SharedWriter
+                    # Exclusivity`-Docstring) -- ein zweiter `os.open`+
+                    # `flock(LOCK_EX|LOCK_NB)` auf GENAU dieser Datei
+                    # schlaegt deshalb auch im EIGENEN Prozess fehl, solange
+                    # die erste fd (die des LabRunner) den Lock noch haelt.
+                    # Das fuehrte zur Selbst-Fehldiagnose "anderer aktiver
+                    # Schreiber" fuer den eigenen, bereits gehaltenen Lock
+                    # (derselbe Fail-Open-GEGENTEIL-Fehler, den der
+                    # TUI-Neuanlagepfad -- `ui/tui.py:10772`s
+                    # `require_writer_exclusivity=not process_holds_lab_lock
+                    # (self.run_dir)` -- fuer die Gruppenneuanlage bereits
+                    # loest). Deferred Import wie `_SharedWriterExclusivity`
+                    # oben (keine neue top-level Abhaengigkeit `core.store`->
+                    # `lab.runner`; `lab/runner.py` importiert `core.store`
+                    # nicht, kein Zirkel). `process_holds_lab_lock` ist
+                    # dasselbe In-Prozess-Register (KEIN PID-Bypass, KEINE
+                    # PID-Datei-Vertrauensannahme) -- haelt DIESER Prozess
+                    # den Lab-flock genuine, serialisiert dessen bereits
+                    # gehaltene echte Sperre schon gegen JEDEN ANDEREN
+                    # Prozess; eine zweite Erwerbsrunde hier ist dann
+                    # unnoetig und selbstschaedigend, der Guard wird analog
+                    # zum TUI-Pfad als billiger No-op durchlaufen (KEIN
+                    # zweites Lockprotokoll, KEIN Ueberspringen einer
+                    # tatsaechlich fremden Sperre: haelt ein ANDERER Prozess
+                    # den Lab-flock, meldet das Register hier False -- die
+                    # echte `_SharedWriterExclusivity` wird dann wie bisher
+                    # erworben bzw. bei echtem Konflikt kontrolliert
+                    # gehalten).
+                    from ..lab.runner import process_holds_lab_lock
+                    exclusivity_guard = (
+                        contextlib.nullcontext()
+                        if process_holds_lab_lock(lobby.run_dir)
+                        else _SharedWriterExclusivity(lobby.run_dir)
+                    )
                     try:
-                        with _SharedWriterExclusivity(lobby.run_dir):
+                        with exclusivity_guard:
                             fresh_existing = Table.load(lobby.run_dir, candidate_id)
                             if fresh_existing.status != "closed":
                                 # R9-Nachzug (B2, General-Review R8 §5): der

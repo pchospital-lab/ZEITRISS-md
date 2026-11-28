@@ -1654,28 +1654,78 @@ def discard_recovery_fresh_decision_confirmed(run_dir, table_id: str) -> bool:
     return decision is not None and decision.get("decision") == "stopped"
 
 
+def _discard_recovery_new_section_work_present(run_dir, table) -> bool:
+    """R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2, General-Review-R9
+    B1-B2-CRITIC.md §2 'Relevante History/Arbeit'): `table.sl_log`/
+    `table.table_messages` sowie die SL-Historiendatei dieses Tisches
+    (`gm_sessions/<table_id>/sl_history.jsonl`) sind EXAKT dieselben drei
+    Belege, die `ui/tui.py`s `_discard_unplayed_solo_eligible` bereits VOR
+    jedem Verwurf als 'beweisbar unbenutzt' verlangt (alle drei leer/
+    abwesend) -- ein Solo-Abschnitt erreicht den durablen 'stopped'-
+    Entscheid also NUR, wenn sie zum Autorisierungszeitpunkt leer waren.
+    Erscheint HIER, FRISCH unter der tatsaechlich gehaltenen
+    `_SharedWriterExclusivity` (nach dem erneuten `Table.load`), eines der
+    drei dennoch nicht-leer, kann das NUR neue, NACH der Autorisierung
+    entstandene Abschnittsarbeit sein (ein separater OS-Schreiber unter
+    derselben Sicherung, s. `critic_b2_relevant_history_probe.py`) -- NIE
+    alte konsistente Historie, die es an diesem Abschnitt strukturell nie
+    geben konnte. Deshalb ist dieser Check eng auf GENAU diesen Vertrag
+    (bereits 'stopped' entschiedener, vormals unbenutzter Solo-Abschnitt)
+    beschraenkt und sperrt KEINE History/accounted-Requests anderer
+    Aufrufer pauschal.
+
+    'Unlesbar != leer' (wie `_discard_unplayed_solo_eligible` selbst): ein
+    Lesefehler auf einer tatsaechlich vorhandenen `sl_history.jsonl` gilt
+    als vorhanden/unklar (sicherer Halt), NIE als abwesend.
+
+    R10-Nachzug B2.2 (unabhaengiger Critic-Befund): die Solo-Vorbedingung
+    oben wird jetzt IM CODE erzwungen, nicht nur behauptet -- ein Betreiber-
+    Tisch erreicht den durablen 'stopped'-Entscheid AUCH ueber den
+    Betreiber-Stop (`table_admission.request_table_stop`, ohne Solo-Gate),
+    das obige Sicherheitsargument gilt dort nicht. Byte-genauer Spiegel von
+    `ui/tui.py`s `_discard_candidate_hard_identity_match`
+    (tui.py:3276-3277)."""
+    # Solo-praemissiert: das Sicherheitsargument oben gilt nur fuer den
+    # Aufrufertyp, fuer den dieser Check entworfen wurde (kein Betreiber).
+    # Betreiber-Tische werden unveraendert von Check #1/#2 und dem
+    # bestehenden Finalize behandelt -- exakt wie vor R10.
+    if (table.operator_meta or {}).get("operator_id") is not None:
+        return False
+    if table.sl_log or table.table_messages:
+        return True
+    safe_component = table.table_id.replace("/", "_").replace("\\", "_")
+    history_path = Path(run_dir) / "gm_sessions" / safe_component / "sl_history.jsonl"
+    if not history_path.exists():
+        return False
+    try:
+        history_text = history_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return True
+    return bool(history_text.strip())
+
+
 def discard_recovery_blocking_reason(run_dir, table, chrononaut_id: str) -> str | None:
     """Gemeinsamer Recovery-Vertrag (ZR-DISCARD-UNPLAYED-SOLO-20261126-r5,
-    General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4/r5):
-    die VOLLSTAENDIGE frische Zustandsbewertung, die JEDES echte Resume-
-    Fenster nach einem autorisierten Verwurf eines ungespielten Solo-
-    Abschnitts VOR jedem Finalize/Persist/Lock-Release durchfuehren MUSS,
-    unter der TATSAECHLICH vom Aufrufer gehaltenen
+    General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4/r5,
+    R10-Nachzug B2-Rest): die VOLLSTAENDIGE frische Zustandsbewertung, die
+    JEDES echte Resume-Fenster nach einem autorisierten Verwurf eines
+    ungespielten Solo-Abschnitts VOR jedem Finalize/Persist/Lock-Release
+    durchfuehren MUSS, unter der TATSAECHLICH vom Aufrufer gehaltenen
     `_SharedWriterExclusivity` (diese Funktion erwirbt selbst KEINE
     Exclusivity -- reiner Lesepfad auf einen bereits frisch geladenen
     `table`).
 
-    Vereint beide zuvor getrennt (und je Fenster unvollstaendig)
-    bewerteten Luecken unter EINEM Helfer statt einer Duplikat-Teilmenge:
-    vorher pruefte Window1 (`ui/tui.py`s `_follow_through_authorized_
-    discard`) nur eine hartcodierte Teilmenge `state in ("reserved",
-    "sent")` -- `received` fehlte, obwohl `finish_received()` seinen
-    durablen Checkpoint bereits im ERSTEN Write schreibt und die
-    nachgelagerte Buchung danach abbrechen kann (Record bleibt `received`
-    = offen, s. `request_ledger.open_requests_for_table`-Docstring);
-    Window2 (`core/store.py`s `create_table_from_offer_log`) fuehrte GAR
-    KEINE Open-Request-/Unklarheits-Bewertung durch, bevor es blind
-    `closed` persistierte.
+    Vereint zuvor getrennt (und je Fenster unvollstaendig) bewertete
+    Luecken unter EINEM Helfer statt einer Duplikat-Teilmenge: vorher
+    pruefte Window1 (`ui/tui.py`s `_follow_through_authorized_discard`)
+    nur eine hartcodierte Teilmenge `state in ("reserved", "sent")` --
+    `received` fehlte, obwohl `finish_received()` seinen durablen
+    Checkpoint bereits im ERSTEN Write schreibt und die nachgelagerte
+    Buchung danach abbrechen kann (Record bleibt `received` = offen, s.
+    `request_ledger.open_requests_for_table`-Docstring); Window2
+    (`core/store.py`s `create_table_from_offer_log`) fuehrte GAR KEINE
+    Open-Request-/Unklarheits-Bewertung durch, bevor es blind `closed`
+    persistierte.
 
     1. Offene zielgebundene Requests nach Ledger-SSOT
        (`request_ledger.open_requests_for_table`, kanonisch `state !=
@@ -1685,13 +1735,20 @@ def discard_recovery_blocking_reason(run_dir, table, chrononaut_id: str) -> str 
        als abwesend umgedeutet).
     2. Unklare zielgebundene Artefakte (`discard_unclear_blocking_reason`):
        Plan/Final/Correction/Raw unklar/unlesbar -> Halt.
+    3. R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2, Fall 'critic_b2_
+       relevant_history_probe'): NEU entstandene relevante Abschnitts-
+       arbeit (`_discard_recovery_new_section_work_present` -- sl_log/
+       table_messages/sl_history.jsonl dieses zuvor beweisbar-unbenutzten
+       Abschnitts) -> Halt. KEINE pauschale Sperre von History/accounted-
+       Requests anderer Aufrufer; dieser dritte Fall ist eng auf GENAU
+       diesen Vertrag beschraenkt (s. Helfer-Docstring).
 
-    Liegt (1) oder (2) vor: menschenlesbare Halt-Begruendung -- der
+    Liegt (1), (2) oder (3) vor: menschenlesbare Halt-Begruendung -- der
     Aufrufer MUSS dann: KEIN `_finalize_genuine_table_abort`, KEIN
     `closed`-Persist, KEIN Lock-Release/-Reconstruct, KEINE Modellanfrage
     (`gm_calls==0`), Request/Bindung VOLLSTAENDIG unangetastet lassen
     (nicht geloescht/abgerechnet/disponiert), den `stopped`-Entscheid NICHT
-    zurueckdrehen. Beides leer/konsistent: `None` -- der Aufrufer darf wie
+    zurueckdrehen. Alles leer/konsistent: `None` -- der Aufrufer darf wie
     bisher finalisieren (idempotent, kein Doppel-Write bei bereits
     `closed`; positive konsistente Recovery bleibt kostenlos und
     idempotent)."""
@@ -1700,7 +1757,8 @@ def discard_recovery_blocking_reason(run_dir, table, chrononaut_id: str) -> str 
     except request_ledger.IndeterminateRequestRecordError:
         pending_request = True
     unclear_reason = discard_unclear_blocking_reason(run_dir, table, chrononaut_id)
-    if pending_request or unclear_reason is not None:
+    new_section_work = _discard_recovery_new_section_work_present(run_dir, table)
+    if pending_request or unclear_reason is not None or new_section_work:
         return (
             "es liegt noch nicht abgeschlossene Arbeit an diesem Abschnitt vor (sicherer "
             "Stopp, kein Verwurf-Abschluss, kein Resume, keine Modellanfrage; Anfrage/"
