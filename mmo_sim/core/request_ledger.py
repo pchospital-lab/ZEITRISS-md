@@ -370,6 +370,38 @@ def _all_records(run_dir: str | Path) -> list[dict]:
     return [_classify_or_raise(d / name) for name in names]
 
 
+def records_for_table(run_dir: str | Path, table_id: str) -> list[dict]:
+    """Oeffentlicher Lesewrapper (ZR-DISCARD-UNPLAYED-SOLO-20261126): ALLE
+    Requestdatensaetze fuer `table_id`, in JEDEM Zustand (auch `accounted`)
+    -- anders als `open_requests()`, das nur die noch nicht abgerechnete
+    Teilmenge liefert. Fuer Aufrufer, die pruefen muessen, ob fuer einen
+    Tisch JEMALS ein Request existierte (z.B. ui/tui.py's Precondition fuer
+    einen beweisbar-unbenutzten Solo-Abschnitt). Dieselbe G2-Sperrsemantik
+    wie `_all_records()`: ein nicht lesbarer/einordenbarer Datensatz
+    propagiert `IndeterminateRequestRecordError` ungefangen."""
+    return [r for r in _all_records(run_dir) if r.get("table_id") == table_id]
+
+
+def open_requests_for_table(run_dir: str | Path, table_id: str) -> list[dict]:
+    """Kanonisch offene (`state != "accounted"`) Requestdatensaetze fuer
+    GENAU `table_id` -- dieselbe Ledger-SSOT-Definition wie `open_requests()`
+    (I2), auf einen Tisch eingegrenzt (ZR-DISCARD-UNPLAYED-SOLO-20261126-r5:
+    gemeinsamer Recovery-Vertrag beider Fenster,
+    `core.recovery_ops.discard_recovery_blocking_reason`). Schliesst
+    `reserved`, `sent` UND `received` ein -- `received` ist offen, weil
+    `finish_received()` den durablen Checkpoint bereits im ERSTEN Write
+    schreibt (Uebergang nach `state=received`), die nachgelagerte Buchung
+    (`add_seconds`/`record_usd_delta`, zweiter Write nach `accounted`) aber
+    an einem gewoehnlichen `OSError` scheitern kann -- der Datensatz bleibt
+    dann ehrlich bei `received` haengen (s. `find_durable_result()`-
+    Docstring). Die bloosse Moeglichkeit, spaeter `settle_received`
+    aufzurufen, ist KEIN Beleg fuer Abschluss. Dieselbe G2-Sperrsemantik wie
+    `records_for_table()`/`_all_records()`: ein nicht lesbarer/
+    einordenbarer Datensatz propagiert `IndeterminateRequestRecordError`
+    ungefangen."""
+    return [r for r in records_for_table(run_dir, table_id) if r.get("state") != "accounted"]
+
+
 def find_durable_result(
     run_dir: str | Path, *, table_id: str | None, section_id: str | None, role: str,
     turn_idx: int | None, participant: str | None,

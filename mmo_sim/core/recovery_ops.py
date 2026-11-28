@@ -50,13 +50,16 @@ import hashlib
 import json
 import os
 import stat
+import threading
 import time
 import uuid
 from pathlib import Path
 
 from . import request_ledger
+from . import save_compatibility as _save_compatibility
 from . import save_correction as _save_correction
-from .admission import _atomic_write_json
+from .admission import _atomic_write_json, read_table_decision
+from ..domain.zeitriss.save_correction import group_repair_key as _group_repair_key
 
 #: 03_RECOVERY_VERTRAG.md §R-P3/§R-P5 -- exakte Aktionskennungen, auch im
 #: persistierten Auditdatensatz/der Autorisierung gebunden.
@@ -439,6 +442,40 @@ def _lab_lock_path(run_dir) -> Path:
     return _safe_resolved_subpath(Path(run_dir), "lab.lock.json")
 
 
+_reentrancy_depth = threading.local()
+# R9-Nachzug (B1, in-process Selbst-Verschachtelung): rein lokale
+# Nachverfolgung "haelt DIESER Thread bereits selbst eine `_SharedWriter
+# Exclusivity` auf GENAU diesem Pfad" -- ANALOG zu `threading.RLock`
+# (reentrant NUR fuer den eigenen Thread/Call-Stack, unveraendert exklusiv
+# gegenueber jedem ANDEREN Thread/Prozess). Siehe Docstring der Klasse
+# unten fuer die konkrete Motivation (bestehende Test-/Probenfixtures, die
+# `_cmd_local_round` bereits MANUELL in ein eigenes `with
+# _SharedWriterExclusivity(...):` wrappen, um den -- vor R9 noch fehlenden
+# -- echten Erwerb durch den Produktcode zu SIMULIEREN; jetzt, wo
+# `_cmd_local_round` ihn SELBST erwirbt, waere eine solche Verschachtelung
+# ohne diese Nachverfolgung ein falscher Selbstkonflikt).
+
+
+def _resolved_lock_depth(path: Path) -> int:
+    held = getattr(_reentrancy_depth, "held", None)
+    if held is None:
+        return 0
+    return held.get(str(path), 0)
+
+
+def _adjust_resolved_lock_depth(path: Path, delta: int) -> None:
+    held = getattr(_reentrancy_depth, "held", None)
+    if held is None:
+        held = {}
+        _reentrancy_depth.held = held
+    key = str(path)
+    depth = held.get(key, 0) + delta
+    if depth <= 0:
+        held.pop(key, None)
+    else:
+        held[key] = depth
+
+
 class _SharedWriterExclusivity:
     """Erwirbt NICHT-BLOCKIEREND denselben OS-Lock wie ein aktiver
     `LabRunner` fuer die Dauer EINES `apply_*`-Aufrufs -- belegt/prueft
@@ -449,6 +486,25 @@ class _SharedWriterExclusivity:
     Ausgang `RecoveryExclusivityUnavailableError` -- NIE ein stiller
     Weiterbetrieb ohne Exklusivitaet (03 §Haltbarkeit: 'ohne gesicherte
     Exklusivitaet HOLD').
+
+    R9-Nachzug (B1, in-process Reentrancy, `_resolved_lock_depth`/
+    `_adjust_resolved_lock_depth` oben): ein verschachtelter Erwerb
+    DESSELBEN Threads auf GENAU demselben Pfad ist seit R9 ein billiger
+    Pass-Through (kein zweiter `os.open`/`fcntl.flock`) -- analog
+    `threading.RLock`, NICHT analog einer entschaerften Sperre: gegenueber
+    JEDEM ANDEREN Thread/Prozess (einschliesslich einem echten LabRunner,
+    der seinen EIGENEN, unabhaengigen `fcntl.flock` auf derselben Datei
+    haelt, s. `lab/runner.py:_acquire_lock` -- DORT wird NICHT ueber diese
+    Klasse erworben, die In-Process-Nachverfolgung hier kennt diesen Fall
+    folglich nicht und bleibt gegen ihn weiterhin echt exklusiv) bleibt die
+    echte OS-Sperre unveraendert. Grund: `ui/tui.py`s `_cmd_local_round`
+    erwirbt diese Exklusivitaet seit R9 SELBST um seine Tischneuanlage
+    (B1); mehrere bestehende Test-/Probenfixtures (z.B. `probes/general_
+    discard_r7_fresh_boundary_probe.py`s `writer()`) wrappen denselben
+    Aufruf zusaetzlich MANUELL in einen eigenen `with`-Block -- eine vor R9
+    gebaute Simulation des damals noch fehlenden echten Erwerbs. Ohne diese
+    Nachverfolgung waere das jetzt ein falscher Selbstkonflikt (derselbe
+    Prozess/Thread lehnt sich selbst ab), kein echter Schreiberkonflikt.
 
     Rework-Fix (writer_exclusivity_unlink_race, Critic-Beleg
     `race_labrunner_sim.py`/`race_recovery_acquire.py`) -- ZWEI Teile, nicht nur
@@ -511,8 +567,21 @@ class _SharedWriterExclusivity:
     def __init__(self, run_dir):
         self._path = _lab_lock_path(run_dir)
         self._fd: int | None = None
+        self._reentrant = False
 
     def __enter__(self) -> "_SharedWriterExclusivity":
+        # R9-Nachzug (B1): haelt DIESER Thread auf GENAU diesem Pfad schon
+        # eine vorherige, noch nicht wieder verlassene `_SharedWriter
+        # Exclusivity`, ist das ein verschachtelter Erwerb im SELBEN
+        # Call-Stack -- kein echter zweiter Schreiber, kein OS-Lock-Neuerwerb
+        # (der zwingend fehlschlaegt, `fcntl.flock` ist pro offener
+        # Dateibeschreibung, nicht pro Prozess/Thread). Reiner In-Process-
+        # Pass-Through, analog `threading.RLock`: gegenueber JEDEM anderen
+        # Thread/Prozess bleibt die echte OS-Sperre unveraendert exklusiv.
+        if _resolved_lock_depth(self._path) > 0:
+            self._reentrant = True
+            _adjust_resolved_lock_depth(self._path, 1)
+            return self
         self._path.parent.mkdir(parents=True, exist_ok=True)
         for _attempt in range(self._MAX_ACQUIRE_ATTEMPTS):
             if not self._path.exists():
@@ -627,6 +696,7 @@ class _SharedWriterExclusivity:
                             "Sicht wie LabRunner._acquire_lock)."
                         )
                 self._fd = fd
+                _adjust_resolved_lock_depth(self._path, 1)
                 return self
             except BaseException:
                 if flock_acquired:
@@ -657,6 +727,13 @@ class _SharedWriterExclusivity:
         # unveraendert weiter, kein Scheinerfolg. Es werden ausschliesslich
         # die EIGENE, bereits erworbene fd geschlossen -- keine fremden
         # fds/Prozesse.
+        # R9-Nachzug (B1): ein reentranter Pass-Through (s. `__enter__`
+        # oben) hat NIE eine eigene fd erworben -- nur die Tiefe wieder
+        # zuruecknehmen, kein `flock`/`close` auf eine fremde, vom
+        # AEUSSEREN `__enter__` gehaltene fd.
+        if self._reentrant:
+            _adjust_resolved_lock_depth(self._path, -1)
+            return
         if self._fd is not None:
             fd = self._fd
             self._fd = None
@@ -664,6 +741,7 @@ class _SharedWriterExclusivity:
                 fcntl.flock(fd, fcntl.LOCK_UN)
             finally:
                 os.close(fd)
+                _adjust_resolved_lock_depth(self._path, -1)
 
     @staticmethod
     def _fd_still_matches_path(fd: int, path: Path) -> bool:
@@ -1466,3 +1544,224 @@ def apply_orphan_recovery(run_dir, *, request_id: str, reason: str, plan: dict |
             "status": "applied", "request_id": request_id,
             "granted_request_id": granted_request_id, "disposition": disposition,
         }
+
+
+def discard_unclear_blocking_reason(run_dir, table, chrononaut_id: str) -> str | None:
+    """Gemeinsamer Kernbaustein (ZR-DISCARD-UNPLAYED-SOLO-20261126-r5,
+    General-Nachzug r5, extrahiert aus `ui/tui.py`s vormals Window1-
+    lokaler `_discard_unclear_blocking_reason`): zielgebundene strikte
+    Zweitpruefung NUR fuer die vier zielgebundenen Artefakte des
+    Abschnitts/Figur (`section_id = <table_id>-section`, `repair_key =
+    group_repair_key(table_id, section_id, chrononaut_id)`):
+    `completion/<section_id>__plan.json`, `completion/<section_id>__final.
+    json`, `save_corrections_raw/<repair_key>.json`, `save_corrections/
+    <repair_key>.json`.
+
+    Je Artefakt drei Faelle: abwesend -> neutral (`None`, weiter wie
+    bisher); konsistent benutzt (parst sauber im erwarteten Typ mit
+    passender Bindung) -> ebenfalls `None`; UNKLAR (JSON-Parsefehler,
+    falscher Wurzeltyp, `dict` ohne passende `table_id`, oder OSError/
+    UnicodeDecodeError beim Lesen einer vorhandenen Datei) -> eine
+    menschenlesbare Halt-Begruendung (sicherer Stopp: kein Verwurf-
+    Abschluss, kein automatisches Resume/Modellcall -- 'unlesbar/unklar'
+    darf NIE durch die tolerante Default-Behandlung der bestehenden Reader
+    (`read_raw_archive`/`load_record`/`_open_completion_order_for_table`/
+    `_table_has_final`, die unklare Treffer bewusst grosszuegig als
+    'abwesend' lesen) in einen stillen Auto-Resume kippen -- dieser Check
+    haertet NUR diese eine, zielgebundene Freigabe, OHNE die tolerante
+    Semantik dieser Reader fuer ihre eigentlichen, bereits bestehenden
+    Aufrufer zu veraendern).
+
+    KEIN Identitaets-/Kandidaten-Gate hier (anders als die vormals Window1-
+    lokale Methode) -- der Aufrufer liefert bereits den tatsaechlich
+    betroffenen `table`/`chrononaut_id`: Window1 (`ui/tui.py`s
+    `_discard_unclear_blocking_reason`-Wrapper) gated selbst weiterhin vor
+    dem Delegieren auf `_discard_candidate_identity_match`; Window2
+    (`core/store.py`s `create_table_from_offer_log`) adressiert `table`
+    bereits eindeutig ueber die angefragte `table_id` -- keine zweite
+    Kandidatenwahl noetig."""
+    run_dir = Path(run_dir)
+    section_id = f"{table.table_id}-section"
+    repair_key = _group_repair_key(table.table_id, section_id, chrononaut_id)
+
+    def _unclear(path: Path, *, kind: str) -> bool:
+        if not path.exists():
+            return False
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            return True
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            return True
+        if kind == "list":
+            return not isinstance(data, list)
+        if kind == "table_dict":
+            return not (isinstance(data, dict) and data.get("table_id") == table.table_id)
+        return not isinstance(data, dict)
+
+    plan_path = run_dir / "completion" / f"{section_id}__plan.json"
+    if _unclear(plan_path, kind="table_dict"):
+        return (
+            "ein vorhandener Abschluss-Plan dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    final_path = run_dir / "completion" / f"{section_id}__final.json"
+    if _unclear(final_path, kind="table_dict"):
+        return (
+            "ein vorhandenes Abschluss-Ergebnis dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    raw_path = _save_compatibility._raw_archive_path(run_dir, repair_key)
+    if _unclear(raw_path, kind="list"):
+        return (
+            "ein vorhandenes Korrektur-Roharchiv dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    record_path = _save_correction._record_path(run_dir, repair_key)
+    if _unclear(record_path, kind="dict"):
+        return (
+            "ein vorhandener Korrekturdatensatz dieses Abschnitts ist gerade nicht eindeutig "
+            "lesbar (sicherer Stopp, kein Verwurf, kein automatischer Weiterzug)."
+        )
+    return None
+
+
+def discard_recovery_fresh_decision_confirmed(run_dir, table_id: str) -> bool:
+    """R9-Nachzug (B2, General-Review R8 §5, AUFTRAG-UND-ABNAHME.md §2
+    "frisch und gemeinsam gebundenem Zustand ... bilden"): BEIDE Fenster
+    (Window1 `ui/tui.py`s `_follow_through_authorized_discard`, Window2
+    `core/store.py`s `create_table_from_offer_log`) lesen den durablen
+    Entscheid, der sie ueberhaupt erst in ihren jeweiligen
+    `_SharedWriterExclusivity`-Block hineinfuehrt, bisher NUR EINMAL VOR dem
+    Erwerb. Ein frueher POSITIVER Treffer ist nach Vertrag aber KEINE
+    spaetere Mutationsautoritaet (nur eine frueh NEGATIVE Ablehnung darf vor
+    dem Erwerb bleiben) -- die vollstaendige positive Freigabe muss FRISCH
+    UNTER der tatsaechlich gehaltenen Sicherung gebildet werden.
+
+    Diese Funktion liest den Entscheid deshalb ERNEUT, waehrend der Aufrufer
+    die Exclusivity bereits haelt, und bestaetigt ihn eigenstaendig --
+    derselbe gemeinsame Pfad fuer beide Fenster (keine Duplikat-Teilmenge an
+    zwei Stellen, analog zu `discard_recovery_blocking_reason` oben). Gibt
+    `True` nur bei einem weiterhin exakt `'stopped'`-Entscheid zurueck; jede
+    Abweichung (kein Entscheid mehr lesbar, abweichender Wert, `'unknown'`
+    bei defektem Record) ist ein geschuetzter Halt am Aufrufer, NIE ein
+    stilles Weiterfinalisieren auf Basis des alten Vor-Guard-Reads. Reiner
+    Lesepfad -- erwirbt selbst KEINE Exclusivity (wie
+    `discard_recovery_blocking_reason`)."""
+    decision = read_table_decision(run_dir, table_id)
+    return decision is not None and decision.get("decision") == "stopped"
+
+
+def _discard_recovery_new_section_work_present(run_dir, table) -> bool:
+    """R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2, General-Review-R9
+    B1-B2-CRITIC.md §2 'Relevante History/Arbeit'): `table.sl_log`/
+    `table.table_messages` sowie die SL-Historiendatei dieses Tisches
+    (`gm_sessions/<table_id>/sl_history.jsonl`) sind EXAKT dieselben drei
+    Belege, die `ui/tui.py`s `_discard_unplayed_solo_eligible` bereits VOR
+    jedem Verwurf als 'beweisbar unbenutzt' verlangt (alle drei leer/
+    abwesend) -- ein Solo-Abschnitt erreicht den durablen 'stopped'-
+    Entscheid also NUR, wenn sie zum Autorisierungszeitpunkt leer waren.
+    Erscheint HIER, FRISCH unter der tatsaechlich gehaltenen
+    `_SharedWriterExclusivity` (nach dem erneuten `Table.load`), eines der
+    drei dennoch nicht-leer, kann das NUR neue, NACH der Autorisierung
+    entstandene Abschnittsarbeit sein (ein separater OS-Schreiber unter
+    derselben Sicherung, s. `critic_b2_relevant_history_probe.py`) -- NIE
+    alte konsistente Historie, die es an diesem Abschnitt strukturell nie
+    geben konnte. Deshalb ist dieser Check eng auf GENAU diesen Vertrag
+    (bereits 'stopped' entschiedener, vormals unbenutzter Solo-Abschnitt)
+    beschraenkt und sperrt KEINE History/accounted-Requests anderer
+    Aufrufer pauschal.
+
+    'Unlesbar != leer' (wie `_discard_unplayed_solo_eligible` selbst): ein
+    Lesefehler auf einer tatsaechlich vorhandenen `sl_history.jsonl` gilt
+    als vorhanden/unklar (sicherer Halt), NIE als abwesend.
+
+    R10-Nachzug B2.2 (unabhaengiger Critic-Befund): die Solo-Vorbedingung
+    oben wird jetzt IM CODE erzwungen, nicht nur behauptet -- ein Betreiber-
+    Tisch erreicht den durablen 'stopped'-Entscheid AUCH ueber den
+    Betreiber-Stop (`table_admission.request_table_stop`, ohne Solo-Gate),
+    das obige Sicherheitsargument gilt dort nicht. Byte-genauer Spiegel von
+    `ui/tui.py`s `_discard_candidate_hard_identity_match`
+    (tui.py:3276-3277)."""
+    # Solo-praemissiert: das Sicherheitsargument oben gilt nur fuer den
+    # Aufrufertyp, fuer den dieser Check entworfen wurde (kein Betreiber).
+    # Betreiber-Tische werden unveraendert von Check #1/#2 und dem
+    # bestehenden Finalize behandelt -- exakt wie vor R10.
+    if (table.operator_meta or {}).get("operator_id") is not None:
+        return False
+    if table.sl_log or table.table_messages:
+        return True
+    safe_component = table.table_id.replace("/", "_").replace("\\", "_")
+    history_path = Path(run_dir) / "gm_sessions" / safe_component / "sl_history.jsonl"
+    if not history_path.exists():
+        return False
+    try:
+        history_text = history_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return True
+    return bool(history_text.strip())
+
+
+def discard_recovery_blocking_reason(run_dir, table, chrononaut_id: str) -> str | None:
+    """Gemeinsamer Recovery-Vertrag (ZR-DISCARD-UNPLAYED-SOLO-20261126-r5,
+    General-Nachzug r5, ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4/r5,
+    R10-Nachzug B2-Rest): die VOLLSTAENDIGE frische Zustandsbewertung, die
+    JEDES echte Resume-Fenster nach einem autorisierten Verwurf eines
+    ungespielten Solo-Abschnitts VOR jedem Finalize/Persist/Lock-Release
+    durchfuehren MUSS, unter der TATSAECHLICH vom Aufrufer gehaltenen
+    `_SharedWriterExclusivity` (diese Funktion erwirbt selbst KEINE
+    Exclusivity -- reiner Lesepfad auf einen bereits frisch geladenen
+    `table`).
+
+    Vereint zuvor getrennt (und je Fenster unvollstaendig) bewertete
+    Luecken unter EINEM Helfer statt einer Duplikat-Teilmenge: vorher
+    pruefte Window1 (`ui/tui.py`s `_follow_through_authorized_discard`)
+    nur eine hartcodierte Teilmenge `state in ("reserved", "sent")` --
+    `received` fehlte, obwohl `finish_received()` seinen durablen
+    Checkpoint bereits im ERSTEN Write schreibt und die nachgelagerte
+    Buchung danach abbrechen kann (Record bleibt `received` = offen, s.
+    `request_ledger.open_requests_for_table`-Docstring); Window2
+    (`core/store.py`s `create_table_from_offer_log`) fuehrte GAR KEINE
+    Open-Request-/Unklarheits-Bewertung durch, bevor es blind `closed`
+    persistierte.
+
+    1. Offene zielgebundene Requests nach Ledger-SSOT
+       (`request_ledger.open_requests_for_table`, kanonisch `state !=
+       "accounted"` -- schliesst `reserved`, `sent` UND `received` ein).
+       Ein nicht einordenbarer Datensatz (`IndeterminateRequestRecordError`)
+       zaehlt wie ein echter offener Request (G2-Lesevertrag: unklar, NIE
+       als abwesend umgedeutet).
+    2. Unklare zielgebundene Artefakte (`discard_unclear_blocking_reason`):
+       Plan/Final/Correction/Raw unklar/unlesbar -> Halt.
+    3. R10-Nachzug (B2-Rest, AUFTRAG-UND-ABNAHME.md §2, Fall 'critic_b2_
+       relevant_history_probe'): NEU entstandene relevante Abschnitts-
+       arbeit (`_discard_recovery_new_section_work_present` -- sl_log/
+       table_messages/sl_history.jsonl dieses zuvor beweisbar-unbenutzten
+       Abschnitts) -> Halt. KEINE pauschale Sperre von History/accounted-
+       Requests anderer Aufrufer; dieser dritte Fall ist eng auf GENAU
+       diesen Vertrag beschraenkt (s. Helfer-Docstring).
+
+    Liegt (1), (2) oder (3) vor: menschenlesbare Halt-Begruendung -- der
+    Aufrufer MUSS dann: KEIN `_finalize_genuine_table_abort`, KEIN
+    `closed`-Persist, KEIN Lock-Release/-Reconstruct, KEINE Modellanfrage
+    (`gm_calls==0`), Request/Bindung VOLLSTAENDIG unangetastet lassen
+    (nicht geloescht/abgerechnet/disponiert), den `stopped`-Entscheid NICHT
+    zurueckdrehen. Alles leer/konsistent: `None` -- der Aufrufer darf wie
+    bisher finalisieren (idempotent, kein Doppel-Write bei bereits
+    `closed`; positive konsistente Recovery bleibt kostenlos und
+    idempotent)."""
+    try:
+        pending_request = bool(request_ledger.open_requests_for_table(run_dir, table.table_id))
+    except request_ledger.IndeterminateRequestRecordError:
+        pending_request = True
+    unclear_reason = discard_unclear_blocking_reason(run_dir, table, chrononaut_id)
+    new_section_work = _discard_recovery_new_section_work_present(run_dir, table)
+    if pending_request or unclear_reason is not None or new_section_work:
+        return (
+            "es liegt noch nicht abgeschlossene Arbeit an diesem Abschnitt vor (sicherer "
+            "Stopp, kein Verwurf-Abschluss, kein Resume, keine Modellanfrage; Anfrage/"
+            "Bindung unangetastet)."
+        )
+    return None

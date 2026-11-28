@@ -24,6 +24,7 @@ implizites, stehengelassenes Testdatum darf nie unbemerkt greifen.
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import os
@@ -35,7 +36,7 @@ from pathlib import Path
 from typing import Callable, Protocol
 
 from . import _section_completion_recovery
-from .admission import try_commit_table_decision
+from .admission import read_table_decision, try_commit_table_decision
 from .persona_state import PersonaStateStore
 
 # K1/K1-Nachzug: additives Current-Save-Ref-Feld im Persona-State — traegt EIN
@@ -344,7 +345,7 @@ class Table:
 
 def create_table_from_offer_log(
     lobby: Lobby, table_id: str, offer_log_events: list[dict],
-    chrononaut_ids: dict[str, str],
+    chrononaut_ids: dict[str, str], *, require_writer_exclusivity: bool = False,
 ) -> tuple[Table | None, GroupDerivation]:
     """Leitet Gruppe/Leader aus dem Offer-Log ab und erzeugt bei Erfolg einen
     Tisch. Tischgroesse wird gegen `lobby.table_size_policy` geprueft (A1) —
@@ -374,7 +375,33 @@ def create_table_from_offer_log(
     Folgeoperationen (z.B. `section_id`) verwenden.
 
     Eine WIRKLICH gescheiterte Ableitung (keine vollstaendig angenommene
-    Offer) bleibt weiterhin `None` mit der Ableitungs-`reason`."""
+    Offer) bleibt weiterhin `None` mit der Ableitungs-`reason`.
+
+    `require_writer_exclusivity` (R9-Nachzug, B1, General-Review R8 §4 +
+    AUFTRAG-UND-ABNAHME.md §2 "der normale Gruppen-Erzeuger darf ... nicht
+    ungeschuetzt neu binden"): Default `False` -- ALLE bestehenden Aufrufer
+    (`core/lobby_flow.py:542`/`:1164`, also der komplette LabRunner-Pfad, und
+    jede bestehende Testfixture) bleiben dadurch bytegleich unveraendert.
+    NUR `ui/tui.py`s `_cmd_local_round` (der einzige reale, menschliche
+    Gruppen-Neuanlagepfad) setzt `True` und erzwingt damit, dass die
+    eigentliche Neuanlage dieser Funktion (Member-Lock-Vorabcheck + `Table`-
+    Konstruktion + `lobby.lock_chrononaut` + `table.persist()`, NICHT der
+    bereits bestehende `stopped`-Nachzugzweig weiter oben in dieser Funktion)
+    unter derselben `_SharedWriterExclusivity` laeuft wie ein gleichzeitiger
+    Recovery-Reader -- kein ungeschuetztes Neubinden waehrend eine
+    Readersperre bereits haelt. Bewusst NICHT fuer den `stopped`-Nachzugzweig
+    (der erwirbt die Exclusivity bereits selbst, eigener `with`-Block weiter
+    oben): beide Zweige sind innerhalb EINES Aufrufs strukturell gegenseitig
+    exklusiv (der `stopped`-Zweig GIBT IMMER zurueck, bevor die Neuanlage
+    weiter unten je erreicht wird) -- ein verschachtelter Erwerb im selben
+    Prozess ist damit ausgeschlossen, auch wenn ein Aufrufer `True` setzt.
+    NICHT im LabRunner-Pfad verwendet (bliebe dort Default `False`), weil der
+    LabRunner ueber `lab/cli.py:504->652` bereits einen ECHTEN eigenen
+    `fcntl.flock` auf GENAU derselben Datei (`lab.lock.json`) haelt, waehrend
+    er diese Funktion erreicht (`core/catchup.py:263`->`core/lobby_flow.py:
+    542/1164`) -- eine zweite Acquisition DORT waere verschachtelter Erwerb
+    im selben Prozess (Deadlock/falsche Ablehnung des legitimen Laufs, s.
+    CALLER-STATE-REVIEW.md §17)."""
     base_table_id = table_id
     generation = 1
     while True:
@@ -385,6 +412,212 @@ def create_table_from_offer_log(
             break
         existing_table = Table.load(lobby.run_dir, candidate_id)
         if existing_table.status != "closed" and not _table_has_final(lobby.run_dir, candidate_id):
+            # ZR-DISCARD-UNPLAYED-SOLO-20261126-N2-WINDOW2 (General-Nachzug
+            # 2026-11-27, geschaerft General-Nachzug r4 N2-R2,
+            # ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r4, Fall
+            # `lockfree_window2_while_other_os_writer_holds_exclusivity`):
+            # der Lock kann hier bereits freigegeben sein, OBWOHL der
+            # durable Entscheid-Slot dieses Tisches laengst auf "stopped"
+            # gefallen ist (Absturz zwischen `release_chrononaut` und dem
+            # `status="closed"`-Persist in `_finalize_genuine_table_abort`,
+            # Window 2). Ohne diesen Check wuerde der laengst verworfene
+            # Tisch HIER als offener Resume zurueckgegeben -- der laengst
+            # gefallene Entscheid wird deshalb VOR jedem Resume konsultiert
+            # und terminal nachgefuehrt (idempotent, kein erneuter Write
+            # wenn bereits `closed`), KEINE neue Generation, KEIN Resume.
+            decision = read_table_decision(lobby.run_dir, candidate_id)
+            if decision is not None and decision.get("decision") == "stopped":
+                if existing_table.status != "closed":
+                    # r4-N2-R2-Haertung: dieser Nachzug-Persist ist selbst
+                    # ein schreibender Pfad (status active->closed) und lief
+                    # bisher OHNE gemeinsame Schreiber-Exklusivitaet -- ein
+                    # echtes zweites OS-Kind, das waehrenddessen
+                    # `_SharedWriterExclusivity` haelt (z.B. ein aktiver
+                    # `LabRunner`), konnte so unter gehaltener fremder Sperre
+                    # ueberschrieben werden. Deferred Import (NICHT
+                    # top-level) -- `recovery_ops` importiert `store` nicht,
+                    # aber der Import bleibt hier bewusst function-local, um
+                    # jede Ladeordnungsabhaengigkeit auszuschliessen.
+                    # Re-Entrancy: `create_table_from_offer_log` wird an
+                    # KEINER bestehenden Aufrufstelle (lobby_flow.py,
+                    # tui.py, Testharness) aus einem im selben Prozess
+                    # bereits gehaltenen `_SharedWriterExclusivity`-Block
+                    # heraus aufgerufen (die einzigen bestehenden Erwerbs-
+                    # stellen -- tui.py `_follow_through_authorized_discard`/
+                    # `_discard_unplayed_solo_section`, recovery_ops.py
+                    # `apply_p3`/`apply_p5`/`apply_orphan_recovery` --
+                    # rufen diese Funktion nicht auf); ein verschachtelter
+                    # Erwerb im selben Prozess ist damit ausgeschlossen.
+                    from .recovery_ops import (
+                        RecoveryExclusivityUnavailableError,
+                        _SharedWriterExclusivity,
+                        discard_recovery_blocking_reason,
+                        discard_recovery_fresh_decision_confirmed,
+                    )
+                    # R10-Nachzug (C1-Rest, AUFTRAG-UND-ABNAHME.md §3,
+                    # C1-CRITIC.md): dieser Zweig erwarb die Exklusivitaet
+                    # bisher UNBEDINGT -- unabhaengig davon, ob DIESER
+                    # Prozess den echten Lab-flock auf GENAU demselben Pfad
+                    # (`lab.lock.json`, s. `_lab_lock_path`) bereits selbst
+                    # haelt (z.B. `lab/cli.py`s `lab.start()` ->
+                    # `core/catchup.py`s `run_catch_up` ->
+                    # `core/lobby_flow.py` -> hierher, mit noch offenem
+                    # LabRunner-flock). `fcntl.flock` ist PRO offener
+                    # Dateibeschreibung, NICHT pro Prozess (s. `_SharedWriter
+                    # Exclusivity`-Docstring) -- ein zweiter `os.open`+
+                    # `flock(LOCK_EX|LOCK_NB)` auf GENAU dieser Datei
+                    # schlaegt deshalb auch im EIGENEN Prozess fehl, solange
+                    # die erste fd (die des LabRunner) den Lock noch haelt.
+                    # Das fuehrte zur Selbst-Fehldiagnose "anderer aktiver
+                    # Schreiber" fuer den eigenen, bereits gehaltenen Lock
+                    # (derselbe Fail-Open-GEGENTEIL-Fehler, den der
+                    # TUI-Neuanlagepfad -- `ui/tui.py:10772`s
+                    # `require_writer_exclusivity=not process_holds_lab_lock
+                    # (self.run_dir)` -- fuer die Gruppenneuanlage bereits
+                    # loest). Deferred Import wie `_SharedWriterExclusivity`
+                    # oben (keine neue top-level Abhaengigkeit `core.store`->
+                    # `lab.runner`; `lab/runner.py` importiert `core.store`
+                    # nicht, kein Zirkel). `process_holds_lab_lock` ist
+                    # dasselbe In-Prozess-Register (KEIN PID-Bypass, KEINE
+                    # PID-Datei-Vertrauensannahme) -- haelt DIESER Prozess
+                    # den Lab-flock genuine, serialisiert dessen bereits
+                    # gehaltene echte Sperre schon gegen JEDEN ANDEREN
+                    # Prozess; eine zweite Erwerbsrunde hier ist dann
+                    # unnoetig und selbstschaedigend, der Guard wird analog
+                    # zum TUI-Pfad als billiger No-op durchlaufen (KEIN
+                    # zweites Lockprotokoll, KEIN Ueberspringen einer
+                    # tatsaechlich fremden Sperre: haelt ein ANDERER Prozess
+                    # den Lab-flock, meldet das Register hier False -- die
+                    # echte `_SharedWriterExclusivity` wird dann wie bisher
+                    # erworben bzw. bei echtem Konflikt kontrolliert
+                    # gehalten).
+                    from ..lab.runner import process_holds_lab_lock
+                    exclusivity_guard = (
+                        contextlib.nullcontext()
+                        if process_holds_lab_lock(lobby.run_dir)
+                        else _SharedWriterExclusivity(lobby.run_dir)
+                    )
+                    try:
+                        with exclusivity_guard:
+                            fresh_existing = Table.load(lobby.run_dir, candidate_id)
+                            if fresh_existing.status != "closed":
+                                # R9-Nachzug (B2, General-Review R8 §5): der
+                                # `decision=="stopped"`-Read, der diesen
+                                # Zweig ueberhaupt erst betritt, geschah
+                                # WEITER OBEN (vor dem Exclusivity-Erwerb) --
+                                # ein frueher positiver Treffer ist nach
+                                # Vertrag KEINE spaetere Mutationsautoritaet.
+                                # Derselbe gemeinsame Helfer wie Window 1
+                                # (`ui/tui.py`, keine Duplikat-Teilmenge)
+                                # bestaetigt den Entscheid deshalb HIER,
+                                # FRISCH unter der tatsaechlich gehaltenen
+                                # Exclusivity und VOR jedem `closed`-Persist,
+                                # ERNEUT. Eine erst JETZT entstandene
+                                # Abweichung ist ein geschuetzter Halt
+                                # (dieselbe Form wie Fall 3 unten): KEIN
+                                # `closed`-Persist, KEINE Requestanlage, der
+                                # alte Entscheid und alle bestehenden Locks
+                                # bleiben unangetastet.
+                                if not discard_recovery_fresh_decision_confirmed(
+                                    lobby.run_dir, candidate_id
+                                ):
+                                    return None, GroupDerivation(
+                                        leader=fresh_existing.leader, members=list(fresh_existing.members),
+                                        dissenters={}, source_offer_id=None,
+                                        reason=(
+                                            f"Tisch {candidate_id!r}: der vor dem Sperrenerwerb erkannte "
+                                            "bereits autorisierte Verwurf bestaetigt sich unter der "
+                                            "tatsaechlich gehaltenen Schreibsperre nicht mehr frisch "
+                                            "(Entscheid) -- geschuetzter Halt, kein Abschluss, kein "
+                                            "Resume, keine neue Generation."
+                                        ),
+                                    )
+                                # r5-Nachzug (General-Nachzug r5,
+                                # ZEITRISS-ALTAIR-DISCARD-RECOVERY-20261127-r5,
+                                # Fall `lockfree_window2_with_sent`): dieser
+                                # Store-Pfad pruefte bisher NUR
+                                # `decision=="stopped"` und persistierte
+                                # danach blind `closed` -- KEINE Open-
+                                # Request-/Unklarheits-Bewertung, obwohl
+                                # genau wie an Window1 (`ui/tui.py`s
+                                # `_follow_through_authorized_discard`) ein
+                                # separater OS-Prozess unter echter
+                                # `_SharedWriterExclusivity` zwischen dem
+                                # durablen 'stopped'-Commit und diesem
+                                # Resume einen Requestdatensatz angelegt
+                                # haben kann, ODER ein zielgebundenes
+                                # Artefakt gerade unklar/unlesbar sein kann.
+                                # DERSELBE gemeinsame Helfer wie Window1
+                                # (`discard_recovery_blocking_reason`, keine
+                                # Duplikat-Teilmenge) wird HIER jetzt unter
+                                # der bereits gehaltenen Exclusivity, VOR
+                                # dem `closed`-Persist, ausgewertet. Der
+                                # Lock ist in diesem Fenster bereits frei
+                                # (s. Funktions-Docstring oben, Absturz
+                                # zwischen `release_chrononaut` und dem
+                                # `closed`-Persist) -- dieser Zweig ruehrt
+                                # KEINEN Lock an, ein geschuetzter Halt
+                                # laesst ihn deshalb unveraendert frei
+                                # (keine Rekonstruktion).
+                                owner_chrononaut_id = fresh_existing.chrononaut_ids.get(
+                                    fresh_existing.leader
+                                )
+                                locked_table_id = lobby.is_locked(owner_chrononaut_id)
+                                if locked_table_id is not None and locked_table_id != candidate_id:
+                                    # r7-Nachzug Window-2-Spiegel (Fall `stopped_solo_tisch_start_after_
+                                    # real_group_rebind`, Befund E): der durable 'stopped'-Entscheid liegt
+                                    # vor, aber die Figur ist inzwischen regulaer an einen ANDEREN eigenen
+                                    # Tisch gebunden -- Fall 3. Geschuetzter Halt VOR dem `closed`-Persist:
+                                    # kein Finalize, keine Requestanlage, der alte Entscheid, die neue
+                                    # Bindung und alle bestehenden Locks bleiben unangetastet. Spiegelt die
+                                    # bereits angenommene Window-1-Logik (`ui/tui.py`
+                                    # `_follow_through_authorized_discard`), damit beide Fenster denselben
+                                    # Dreifall-Vertrag teilen (keine Teilmenge an zwei Stellen).
+                                    return None, GroupDerivation(
+                                        leader=fresh_existing.leader, members=list(fresh_existing.members),
+                                        dissenters={}, source_offer_id=None,
+                                        reason=(
+                                            f"Tisch {candidate_id!r}: der bereits autorisierte Verwurf bleibt geschuetzt -- "
+                                            "die Figur ist inzwischen regulaer an eine andere Bindung uebergegangen (kein "
+                                            "Abschluss, keine Requestanlage; neue Bindung und bestehende Locks unangetastet)."
+                                        ),
+                                    )
+                                blocking_reason = discard_recovery_blocking_reason(
+                                    lobby.run_dir, fresh_existing, owner_chrononaut_id,
+                                )
+                                if blocking_reason is not None:
+                                    return None, GroupDerivation(
+                                        leader=fresh_existing.leader,
+                                        members=list(fresh_existing.members),
+                                        dissenters={}, source_offer_id=None,
+                                        reason=(
+                                            f"Tisch {candidate_id!r}: ein bereits autorisierter "
+                                            "Verwurf kann gerade nicht abgeschlossen werden -- "
+                                            f"{blocking_reason}"
+                                        ),
+                                    )
+                                fresh_existing.status = "closed"
+                                fresh_existing.persist()
+                            existing_table = fresh_existing
+                    except RecoveryExclusivityUnavailableError:
+                        return None, GroupDerivation(
+                            leader=existing_table.leader, members=list(existing_table.members),
+                            dissenters={}, source_offer_id=None,
+                            reason=(
+                                f"Tisch {candidate_id!r}: ein bereits autorisierter Verwurf kann "
+                                "gerade nicht abgeschlossen werden -- ein anderer aktiver Schreiber "
+                                "haelt die gemeinsame Schreibsperre (kein Abschluss, kein Resume, "
+                                "keine neue Generation)."
+                            ),
+                        )
+                return None, GroupDerivation(
+                    leader=existing_table.leader, members=list(existing_table.members),
+                    dissenters={}, source_offer_id=None,
+                    reason=(
+                        f"Tisch {candidate_id!r} wurde dauerhaft verworfen (Discard) -- Bindung "
+                        "frei, kein Resume, keine neue Generation."
+                    ),
+                )
             return existing_table, GroupDerivation(
                 leader=existing_table.leader, members=list(existing_table.members),
                 dissenters={}, source_offer_id=None,
@@ -398,29 +631,62 @@ def create_table_from_offer_log(
     if not lobby.table_size_policy.validate_size(size):
         return None, derivation
 
-    for pk in derivation.members:
-        cid = chrononaut_ids.get(pk)
-        held_by = lobby.is_locked(cid) if cid else None
-        if held_by is not None:
-            return None, derivation
-        if cid is not None and _member_bound_by_open_order(lobby.run_dir, cid):
-            return None, derivation
+    def _bind_new_table() -> tuple[Table | None, GroupDerivation]:
+        # R9-Nachzug (B1): die eigentliche Mutation (Member-Lock-Vorabcheck
+        # + `Table`-Konstruktion + `lock_chrononaut` + `persist()`) bleibt
+        # EIN zusammenhaengender Block -- bei `require_writer_exclusivity`
+        # laeuft er unten GESCHLOSSEN unter derselben `_SharedWriterExclusivity`
+        # wie ein gleichzeitiger Recovery-Reader (fresh reads UND der
+        # schreibende Abschluss unter derselben gehaltenen Sperre, kein
+        # TOCTOU-Fenster zwischen Lock-Vorabcheck und `lock_chrononaut`).
+        for pk in derivation.members:
+            cid = chrononaut_ids.get(pk)
+            held_by = lobby.is_locked(cid) if cid else None
+            if held_by is not None:
+                return None, derivation
+            if cid is not None and _member_bound_by_open_order(lobby.run_dir, cid):
+                return None, derivation
 
-    table = Table(
-        table_id=table_id, leader=derivation.leader, members=list(derivation.members),
-        chrononaut_ids={pk: chrononaut_ids[pk] for pk in derivation.members},
-        run_dir=lobby.run_dir,
-        operator_meta={
-            "offer_log": offer_log_events,
-            "derivation_reason": derivation.reason,
-            "source_offer_id": derivation.source_offer_id,
-            "dissenters": derivation.dissenters,
-        },
-    )
-    for pk in derivation.members:
-        lobby.lock_chrononaut(table.chrononaut_ids[pk], table_id)
-    table.persist()
-    return table, derivation
+        table = Table(
+            table_id=table_id, leader=derivation.leader, members=list(derivation.members),
+            chrononaut_ids={pk: chrononaut_ids[pk] for pk in derivation.members},
+            run_dir=lobby.run_dir,
+            operator_meta={
+                "offer_log": offer_log_events,
+                "derivation_reason": derivation.reason,
+                "source_offer_id": derivation.source_offer_id,
+                "dissenters": derivation.dissenters,
+            },
+        )
+        for pk in derivation.members:
+            lobby.lock_chrononaut(table.chrononaut_ids[pk], table_id)
+        table.persist()
+        return table, derivation
+
+    if not require_writer_exclusivity:
+        return _bind_new_table()
+
+    # R9-Nachzug (B1): Deferred Import wie beim bestehenden `stopped`-
+    # Nachzugzweig oben (keine top-level Abhaengigkeit `recovery_ops`->
+    # `store`). Dieser Zweig wird NIE erreicht, waehrend der obige
+    # `stopped`-Nachzugzweig seine EIGENE Exclusivity haelt (beide Zweige
+    # sind innerhalb EINES Aufrufs strukturell gegenseitig exklusiv, s.
+    # Docstring oben) -- ein verschachtelter Erwerb im selben Prozess ist
+    # damit ausgeschlossen.
+    from .recovery_ops import RecoveryExclusivityUnavailableError, _SharedWriterExclusivity
+    try:
+        with _SharedWriterExclusivity(lobby.run_dir):
+            return _bind_new_table()
+    except RecoveryExclusivityUnavailableError:
+        return None, GroupDerivation(
+            leader=derivation.leader, members=list(derivation.members),
+            dissenters={}, source_offer_id=None,
+            reason=(
+                f"Neue Gruppe ({table_id!r}) kann gerade nicht gebunden werden -- ein anderer "
+                "aktiver Schreiber haelt die gemeinsame Schreibsperre (kein Erzeugen, keine "
+                "Figuren-Lockvergabe, kontrollierter Halt statt ungeschuetzter Neubindung)."
+            ),
+        )
 
 
 # ── Leader-only-Send ─────────────────────────────────────────────────────────
@@ -823,6 +1089,22 @@ def _open_completion_order_for_table(
         if not _completion_final_path(run_dir, section_id).exists():
             return section_id
     return None
+
+
+def has_open_completion_plan(run_dir: str | Path, table_id: str) -> bool:
+    """Oeffentlicher Lesewrapper um `_open_completion_order_for_table` fuer
+    Aufrufer ausserhalb dieses Moduls (ZR-DISCARD-UNPLAYED-SOLO-20261126,
+    ui/tui.py's Precondition fuer einen beweisbar-unbenutzten Solo-
+    Abschnitt): True, wenn fuer `table_id` bereits IRGENDEIN Completion-Plan
+    OHNE passendes `__final.json` existiert -- ein bereits gewonnener
+    Abschlussplan darf NIE durch 'leer verwerfen' entwertet werden."""
+    return _open_completion_order_for_table(Path(run_dir), table_id) is not None
+
+
+def has_final_record(run_dir: str | Path, table_id: str) -> bool:
+    """Oeffentlicher Lesewrapper um `_table_has_final` -- s. `has_open_
+    completion_plan`-Docstring fuer den Verwendungszweck."""
+    return _table_has_final(run_dir, table_id)
 
 
 def _member_bound_by_open_order(run_dir: str | Path, chrononaut_id: str) -> bool:
